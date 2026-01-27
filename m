@@ -1,148 +1,1201 @@
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC4E30EF85
-	for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 23:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769471248; cv=pass; b=mgQ9PdVSYR1FFk9cCR3u87viWTklBUIPEs5VgAHi+tAlBM0H9b3z/IyTUALf8NkS839s5i5pZYPW++dTAZMCF7RMzvWMu/G9tNY6L0Ka4cgPm2lkBYikI/L7gG9qKreMkWtziBrKrVd8yCFVCu+fWDikOUVn/dmmUZjux+99tUA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769471248; c=relaxed/simple;
-	bh=fG2Ruh+rMXy8HECrlWrSGEzE9JMwnw/wcqEcRF2te3c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BwiCOQPgrGdkyWmzc6HTfE4klzQV4OoEFpFruAGE5JdtMb/e1o49e/SR9NaYma3Sz9z8Q6sYq+AmPhCWzGark6M1QmHFRsDljWc/xyyR55UTemPRwzNggnoyXafhQS5ZJQstaUMIAzO0rXWrl4bM2UpC1J7IHM+zQSoiewLEM+w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QPyFHk96; arc=pass smtp.client-ip=74.125.82.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E680D8F49
+	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 00:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769472499; cv=none; b=BV9g2QIf4JcceZq49ZvNblORravVYV8LCvtcHF0nWmqDu/7rL7BfP3F1ayOn0kqMwGs2/OeWhthaD44YcGnsW3oh35EAgWnKCuI+Q2ZUrHo1XRxiAy7AQiIq5M35cXJYikNywEkFvATOA4I8fdaC5ztRhU0UgfhyTYPF1ojuLcs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769472499; c=relaxed/simple;
+	bh=HrZhXPBJqusSvFM4NG+y5hsJEOaeoArg4y7NqW6wmi4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c4doNqj6/HZeKBOXf6r3KUC+IjbqOzInt2OKN0AFK3SIfIy5zaJtXSOtIr3h5IslV81UFZ6aOKN50hQMJK0pvqpgN5mhZ5PVAdTg2utQZROX+g7apXYeFg7SsfAN7B/jP/BWiwWB8M2vUsF8FoF+ivvcqZXalPQPfcS56L8erjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YalmSr6d; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QPyFHk96"
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-12460a7caa2so7228640c88.1
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 15:47:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769471245; cv=none;
-        d=google.com; s=arc-20240605;
-        b=loC5/vWV2yluXaZpwy8V5iARGQdmzi+cYr/hCxKZdpQr5Crsn+OlzBxzt4DG1Qze4j
-         Kxmja1ZCwLtnVxgXOJtGURsdBVXYmKR06zWvd9lj0B5Z4TYpmsq4DSIrlGcms89uTi14
-         iIZFQqiV2aPQIjWPfYtq5U7XuD1m5ffWKgaktrdnl4R4WyK/G6OJ8d/cru0eej6fIXUS
-         rOH+G60DJU2ulyBtTJ2rH8740gb3CvML0NDIpzaD28ZTPl97myCwivEf5wGCSf9OvfW0
-         E1wpnEct52UWiyngu4mR4ctf+MPQmtOgExkyyLcgBtTT5jO0eijJSTPtD7HydM/Ko7S5
-         l/uQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=X34tjfxPPMupW8WHmEJAIsWdH0Oem6uch60iKqedEdc=;
-        fh=Y/usLPjqbip/bceAG5GeGhSPXtoxE4RdctNMsqlnGLw=;
-        b=HVnt+ihIgxtOJ+3yW4BWmnR1fvPh2kizYU7lSzrLqC4mVHJU4wQrwI5mlxPnEeIxns
-         m7jccTJND6iNNbdayNly3UIkVRGgok0aqUU+sTG9YV0+zNrG00G0JKS0tw2BWdiBAPWZ
-         wpcxFlCOXxok39xL0RlyakZosUmBySuWzzcRE1Mi0Pit/uLFXPW1TwT7/sn1xjj28/2i
-         6mX84SltpukAEZu9JGgqgY7ScGTKYUU/hQ3UmV9SzMx+r9eFIFn23AkVLfmKh4s+Niem
-         iCTNv/r8+IQxn1gcYGIt/LL+f4IXik8c08abv6Gtdn/Tm1JmCjmQpD0KSeAxOPKws/M6
-         tiBw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YalmSr6d"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a7bced39cfso55945145ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 16:08:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769471245; x=1770076045; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=X34tjfxPPMupW8WHmEJAIsWdH0Oem6uch60iKqedEdc=;
-        b=QPyFHk96UvMrpMwkoIa7K76IVIsyFEnfZylNFV5QMW6rzMt1q1yhPRJPbtVPkVYr37
-         QQih6C5oGngtDrT2O6TJ/NmalrhezMNkb25dAEFdF2KrioK3GhDmedvDZGFMwEh3ihqY
-         JVQlTZ1GsSZw62zjipX4WnEYc1xlFLHZ/rBXw+v03T9uvrvWmt9jJfxjhDBTrivMhecH
-         xY5XiTzs4FuuW3ITTswqPixr9Dy8rk2WBhWOlxNNBc7UF3/u5o1AfjHwCch4TOYbauT2
-         KWPjRIH+OaDaBKqKOStCJSGsldadRt4KZBNG7dUZlgqW5w7DYgS30qdNee0ahFDUD1nl
-         VIHA==
+        d=gmail.com; s=20230601; t=1769472494; x=1770077294; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=peBax/13lluz8BPuDFwUqkR/3/p6bAWL1WF8pnhruFE=;
+        b=YalmSr6dOLE7tcpYWB3Et2RIMrvzI3GXtSN4hgOFv5bcafzrRe6rxCqIWvHEKV88Rd
+         unXLlAsgdRQAAcE4Nu4jughwZgm1i8bO/hmBjCElctRjlQN2eNsp+BaSg1tIpbw3nbqT
+         Z9s2CbH+tFVO0iiiOHBHdBXVgfHcwgksHUa9HSORI6mEtV9o5Uz9Iv88tHIZsTn5rkQx
+         33K8c5vCcb6MVcqU/D6eg1IieAQw2aq7ac3sESBFd+Ddn3d8KQrq6z39BHiEGTAe10So
+         1cE/AFXxMh1EWOIHhyg5OGwC5siYI8ofOLFeSWRX2N9fCj/8NX9uCEM2MHXZyMvpB0z0
+         XPjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769471245; x=1770076045;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X34tjfxPPMupW8WHmEJAIsWdH0Oem6uch60iKqedEdc=;
-        b=JiPwxQZS4+SK2DSQbSll7hSaVAlO376vxou/79qy/BLnkbYkU/CCcgsv5SaGSEGxpU
-         X+wzw7DNMylRmZDKNlFlEUjxjm0MSuuvkSQ9Lt63iDzFM+w+K2ejavF7r5p1kzW4pAxl
-         t+Ys+L0+MzEW58tZXwpYVOU22n0TuI6mPO082rWk2Fh0HvzZBwqFSoRXhclbtJ0Zv7S4
-         pCNTwo2YeZ5eL1qtO+WvB3KeI2F1VGGPtbUjvTcAzAIMA+OuAa4PU1/Ksi1ThYecqe5L
-         Xu0HSQMdUNjdco60KXmlRvQPPM6+OMUclOBhvrcOUVRVjvA+VCrLAsJNicuVMFq/iHnn
-         8scw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmbDd+37JJ0Ao4ZSa8MErr3SH+NAWKBf0KLNPeol+EPDdgcJz2wWh1nVpuCSK6B+A8kVYgl8MwmSg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSBfH3gE0WQAHPUoGFNmhGlep8URo0f3dQ+Cl/ERKE2A0D9MPj
-	GDRCxrZLGe8KfC++b7VUEy5gtmeL/YTXO7QPGu/MG/J58LUzVm6R/hAdbk60ClH2nXiPbDhZaKG
-	00D8dgeNf/+9B46efgAoHwSnnC6zP4xn84OAtKijA
-X-Gm-Gg: AZuq6aLjcO50nKt0bzsRjFjOkW3MlMlAJ5xnGOnvKVXBFyx0W7cgnhFnS/eqeG4Y+Aj
-	BA7w41aZGt3acSSwWe2RFoylGY8g5cpoofrWRl0AxgvBC9CmjgHXrWeunPUq2as0JuoIWAxyTYu
-	zcVujN/4+Uw0c3rkWWvTx+AU4YFgFA/N3zR8wK7Lw1ckE95NNY5V1tgdCzEHiYeC3V43xlg1bPm
-	8XKG4TI6WfsBUL7c0hvCwMKch62nprk/gY2gpOI0tt9VV32G0053Nv/lGtkgUqNR4ihm9LZi+c2
-	E22WJQELxhXCwCZqMmFaaCinaOo26lWsprH+sQ==
-X-Received: by 2002:a05:7022:eb46:20b0:124:9e46:82fb with SMTP id
- a92af1059eb24-1249e468815mr157327c88.38.1769471245289; Mon, 26 Jan 2026
- 15:47:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769472494; x=1770077294;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=peBax/13lluz8BPuDFwUqkR/3/p6bAWL1WF8pnhruFE=;
+        b=UautZi04u96EJbohDKSw2Sq6dZc2h1hH8beYmMhpI8VWF7y11uII4ZVvfQhWZAFejb
+         OtrkkD5xBPL9IGR+heEbyLEBRaSSPcYoK/b9yQEKh0q2qisl8MdO21wp5Szl6QwuS/La
+         rCkedr9LrpvnI7ClMyw5yyHbQkGO9H8QeJUGI1iqvuLjz/KxtGFHyU5ddVE41QDsvhP9
+         R+D8/89s3LgLGfIj4DTKiglEdbNVx3lOAkwHZmwshSZ3bj7JAr+9gcfEXj9m5EEu/njK
+         lhY/YrQN75lBNO2gT0DusL+4F665tbKk/oLOSuxrl5S2Lq2qB69j7gi/JBoN5lI2bf4N
+         vflA==
+X-Forwarded-Encrypted: i=1; AJvYcCWNTavJWqJ6AEKJIVYst5FwVdWGTPSRG8JpnSiy3vG6SjgjVjFexDHakgrnr3QuW8jpqHwLErsHAF8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzcebQAEHFNK9+ZJNFSdzpPMg0QIXKbo/aDwXzCxTuimabAB5hg
+	aVI5UCn3vj/3mw1rFmW4zDuxShGst+hquDwdTWRj+cvl4EznOw8AmLZldaEunFlC
+X-Gm-Gg: AZuq6aIoqulHw3HQRfA7EmARP+zrPn52gc/n0Z3qrybxmM7ORfOMjpJkm+SkHNVwnTv
+	OhAc2+vSPfBvO1uiV1UiOkYNdZuOko7X4nozoTnq85KTDaTs2262nzF1HXklZ71Y9UJT/I2oGEK
+	3k5P6yX70c9oqNpGSa8fCB1mlO1sToK41WaIqvpzfJ38dcQa7hNHj/AVe5yXOCcPQHq5K2DDHW7
+	iHTjCe0JSHK2awY1yvovhRZ2OvwTEVpT+qwW2ohBvDOLh9QZhx1pot06pVTR4g8PL5DVQoEPToA
+	0i4V91c8YAEp2POGJEhdasitjM4w1Do8hh/L4RO2EWWX8jyCxwRKYFcXPmRdKNVdb4Ps94Qkzn0
+	pdBJIjYeFYYGe822YlNbZuPjmHu+46oOZlHAaf1AbULp8yLzSMqvhmod1j4cOoaQO5Q5hCDaxrS
+	6vT/BpNBCVR09K67ALh6M+00VI
+X-Received: by 2002:a17:902:e78f:b0:2a5:8c95:d823 with SMTP id d9443c01a7336-2a8451f927cmr58221555ad.10.1769472493763;
+        Mon, 26 Jan 2026 16:08:13 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a802daa84esm97363875ad.2.2026.01.26.16.08.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jan 2026 16:08:12 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 26 Jan 2026 16:08:11 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Almog Ben Shaul <almogbs@amazon.com>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	itamark@amazon.com, talel@amazon.com, farbere@amazon.com,
+	ayalstei@amazon.com, dwmw@amazon.com
+Subject: Re: [PATCH 2/2] hwmon: Add JEDEC PMIC50x0 driver
+Message-ID: <746fd0e2-3d3c-4db0-b257-fc61c76a59a3@roeck-us.net>
+References: <20260121151947.37719-1-almogbs@amazon.com>
+ <20260121151947.37719-3-almogbs@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251219154418.3592607-1-elver@google.com> <20251219154418.3592607-16-elver@google.com>
- <dd65bb7b-0dac-437a-a370-38efeb4737ba@acm.org> <aXez9fSxdfu5-Boo@elver.google.com>
- <8c1bbab4-4615-4518-b773-a006d1402b8b@acm.org> <20260126213556.GQ171111@noisy.programming.kicks-ass.net>
-In-Reply-To: <20260126213556.GQ171111@noisy.programming.kicks-ass.net>
-From: Marco Elver <elver@google.com>
-Date: Tue, 27 Jan 2026 00:46:49 +0100
-X-Gm-Features: AZwV_QgcknJe0PlLV-z7bksgFQT7uSnaZ1B5QvyI9tPRocr5FzcCAIEUg9yCt-Y
-Message-ID: <CANpmjNPs9CtY1w1-MqL1-CnHVFLxXoA2rbd6d2w4wfxT8AP0ew@mail.gmail.com>
-Subject: Re: [PATCH v5 15/36] srcu: Support Clang's context analysis
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Bart Van Assche <bvanassche@acm.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Ingo Molnar <mingo@kernel.org>, Will Deacon <will@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Luc Van Oostenryck <luc.vanoostenryck@gmail.com>, 
-	Chris Li <sparse@chrisli.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Alexander Potapenko <glider@google.com>, Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Frederic Weisbecker <frederic@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ian Rogers <irogers@google.com>, 
-	Jann Horn <jannh@google.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
-	Johannes Berg <johannes.berg@intel.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Triplett <josh@joshtriplett.org>, Justin Stitt <justinstitt@google.com>, 
-	Kees Cook <kees@kernel.org>, Kentaro Takeda <takedakn@nttdata.co.jp>, 
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, Thomas Gleixner <tglx@linutronix.de>, 
-	Thomas Graf <tgraf@suug.ch>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	kasan-dev@googlegroups.com, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, linux-sparse@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, llvm@lists.linux.dev, rcu@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260121151947.37719-3-almogbs@amazon.com>
 
-On Mon, 26 Jan 2026 at 22:36, Peter Zijlstra <peterz@infradead.org> wrote:
->
-> On Mon, Jan 26, 2026 at 10:54:56AM -0800, Bart Van Assche wrote:
->
-> > Has it ever been considered to add support in the clang compiler for a
-> > variant of __must_hold() that expresses that one of two capabilities
-> > must be held by the caller? I think that would remove the need to
-> > annotate SRCU update-side code with __acquire_shared(ssp) and
-> > __release_shared(ssp).
->
-> Right, I think I've asked for logical operators like that. Although I
-> think it was in the __guarded_by() clause rather than the __must_hold().
-> Both || and && would be nice to have ;-)
+On Wed, Jan 21, 2026 at 03:19:47PM +0000, Almog Ben Shaul wrote:
+> Add hardware monitoring driver for JEDEC PMIC50x0 compliant I2C DDR5
+> PMICs.
+> 
+> The driver provides monitoring for voltage, current, power, and
+> temperature across multiple channels, along with comprehensive error
+> reporting.
+> 
+> Signed-off-by: Almog Ben Shaul <almogbs@amazon.com>
+> Tested-by: Almog Ben Shaul <almogbs@amazon.com>
 
-Some attributes take multiple arguments (__must_hold does), though
-__guarded_by doesn't. Yet, && can still be had with adding it multiple
-times e.g. '__guarded_by(pi_lock) __guarded_by(rq->__lock)'.
+Drop Tested-by:.
 
-Only thing that doesn't exist is ||. I think the syntax you ask for
-won't fly, but I can add it to the backlog to investigate an _any
-variant of these attributes. Don't hold your breath though, given the
-time it takes to land all that in a released Clang version.
+Please provide a register map (generated using i2dump or similar)
+for the chip.
 
-> Specifically, I think I asked for something like:
->
->         cpumask_t       cpus_allowed __guarded_by(pi_lock && rq->__lock)
->                                      __guarded_shared_by(pi_lock || rq->__lock);
->
->
-> I think Marco's suggestion was to use 'fake' locks to mimic those
-> semantics.
+> ---
+>  Documentation/hwmon/index.rst    |   1 +
+>  Documentation/hwmon/pmic50x0.rst | 113 +++++
+>  MAINTAINERS                      |   6 +
+>  drivers/hwmon/Kconfig            |  10 +
+>  drivers/hwmon/Makefile           |   1 +
+>  drivers/hwmon/pmic50x0.c         | 839 +++++++++++++++++++++++++++++++
+>  6 files changed, 970 insertions(+)
+>  create mode 100644 Documentation/hwmon/pmic50x0.rst
+>  create mode 100644 drivers/hwmon/pmic50x0.c
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 85d7a686883e..a08ef61c9cda 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -210,6 +210,7 @@ Hardware Monitoring Kernel Drivers
+>     peci-cputemp
+>     peci-dimmtemp
+>     pmbus
+> +   pmic50x0
+>     powerz
+>     powr1220
+>     pt5161l
+> diff --git a/Documentation/hwmon/pmic50x0.rst b/Documentation/hwmon/pmic50x0.rst
+> new file mode 100644
+> index 000000000000..2a0a6be2a3b1
+> --- /dev/null
+> +++ b/Documentation/hwmon/pmic50x0.rst
+> @@ -0,0 +1,113 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver pmic50x0
+> +======================
+> +
+> +Supported chips:
+> +
+> +  * JEDEC PMIC50X0 (JESD301) compliant DDR5 PMICs
+> +
+> +    JEDEC standard download:
+> +	https://www.jedec.org/standards-documents/docs/jesd301-1a03
+> +
+> +    Prefix: 'pmic50x0'
+> +
+> +    Addresses scanned: ~
+> +
+> +Author:
+> +	Almog Ben Shaul <almogbs@amazon.com>
+> +
+> +
+> +Description
+> +-----------
+> +
+> +This driver implements support for hardware monitoring of JEDEC PMIC50X0
+
+It is really PMIC5000/PMIC5010, not PMIC50X0. PMIC50[2-9]0 are not covered.
+Please be explicit.
+
+> +compliant DDR5 Power Management ICs. These devices are I2C-based power
+> +management controllers designed specifically for DDR5 memory modules.
+> +
+> +The driver provides monitoring for:
+> +
+> +  * Voltage measurements across 4 switch nodes (A, B, C, D)
+> +  * Current measurements for each switch node
+> +  * Power consumption per switch node and total power
+> +  * PMIC die temperature
+> +  * Comprehensive error status reporting
+> +
+> +The PMIC50X0 specification defines a standard interface for DDR5 power
+> +management, including telemetry and error reporting capabilities.
+> +
+> +
+> +Usage Notes
+> +-----------
+> +
+> +Error monitoring is performed via a delayed work queue that polls error
+> +registers at a configurable interval (default 1000ms). The polling interval
+> +can be adjusted via the module parameter ``error_polling_ms``.
+> +
+
+This is a no-go. Please no such polling in hardware monitoring drivers.
+More on that below.
+
+> +
+> +Hardware monitoring sysfs entries
+> +---------------------------------
+> +
+> +======================= ========================================================
+> +temp1_input		PMIC die temperature in millidegrees Celsius
+> +
+> +in0_input		Switch Node A output voltage in millivolts
+> +in1_input		Switch Node B output voltage in millivolts
+> +in2_input		Switch Node C output voltage in millivolts
+> +in3_input		Switch Node D output voltage in millivolts
+> +
+> +curr1_input		Switch Node A output current in milliamperes
+> +curr2_input		Switch Node B output current in milliamperes
+> +curr3_input		Switch Node C output current in milliamperes
+> +curr4_input		Switch Node D output current in milliamperes
+> +
+> +power1_input		Switch Node A power consumption in microwatts
+> +power2_input		Switch Node B power consumption in microwatts
+> +power3_input		Switch Node C power consumption in microwatts
+> +power4_input		Switch Node D power consumption in microwatts
+> +power5_input		Total power consumption (sum of all nodes) in microwatts
+> +======================= ========================================================
+> +
+> +
+> +Error Status Counters
+> +---------------------
+> +
+> +The driver maintains counters for various error conditions. Each counter
+> +increments when the corresponding error condition is detected during polling.
+> +All error attributes are read-only and return the number of times the error
+> +has been detected since driver load or counter reset.
+> +
+> +====================================== =========================================
+> +err_global_log_vin_bulk_over_vol       VIN_Bulk input over-voltage error count
+> +err_global_log_crit_temp               Critical temperature error count
+> +err_global_log_buck_ov_or_uv           Buck converter over/under-voltage count
+> +err_vin_bulk_input_over_vol_stat       VIN_Bulk over-voltage status count
+> +err_vin_mgmt_input_over_vol_stat       VIN_Mgmt over-voltage status count
+> +err_vin_bulk_input_pow_good_stat       VIN_Bulk power good status count
+> +err_vin_mgmt_to_vin_bulk_stat          VIN_Mgmt to VIN_Bulk switchover count
+> +err_swa_out_pow_good_stat              Switch Node A power good status count
+> +err_swb_out_pow_good_stat              Switch Node B power good status count
+> +err_swc_out_pow_good_stat              Switch Node C power good status count
+> +err_swd_out_pow_good_stat              Switch Node D power good status count
+> +err_swa_out_over_vol_stat              Switch Node A over-voltage count
+> +err_swb_out_over_vol_stat              Switch Node B over-voltage count
+> +err_swc_out_over_vol_stat              Switch Node C over-voltage count
+> +err_swd_out_over_vol_stat              Switch Node D over-voltage count
+> +err_swa_out_under_vol_lockout_stat     Switch Node A under-voltage lockout count
+> +err_swb_out_under_vol_lockout_stat     Switch Node B under-voltage lockout count
+> +err_swc_out_under_vol_lockout_stat     Switch Node C under-voltage lockout count
+> +err_swd_out_under_vol_lockout_stat     Switch Node D under-voltage lockout count
+> +err_swa_high_out_curr_consump_stat     Switch Node A high current warning count
+> +err_swb_high_out_curr_consump_stat     Switch Node B high current warning count
+> +err_swc_high_out_curr_consump_stat     Switch Node C high current warning count
+> +err_swd_high_out_curr_consump_stat     Switch Node D high current warning count
+> +err_swa_out_curr_limiter_warn_stat     Switch Node A current limiter count
+> +err_swb_out_curr_limiter_warn_stat     Switch Node B current limiter count
+> +err_swc_out_curr_limiter_warn_stat     Switch Node C current limiter count
+> +err_swd_out_curr_limiter_warn_stat     Switch Node D current limiter count
+> +err_crit_temp_shutdown_stat            Critical temperature shutdown count
+> +err_pmic_high_temp_warn_stat           High temperature warning count
+> +err_vout_1v_out_power_good_stat        VOUT_1.0V LDO power good status count
+> +err_vout_1_8v_out_power_good_stat      VOUT_1.8V LDO power good status count
+> +err_vbias_power_good_stat              VBias power good status count
+
+Implement in debugfs.
+
+> +====================================== =========================================
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ebc2f1bc0ade..f179bccb992b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13515,6 +13515,12 @@ S:	Maintained
+>  F:	arch/x86/include/asm/jailhouse_para.h
+>  F:	arch/x86/kernel/jailhouse.c
+>  
+> +JEDEC PMIC50X0 HARDWARE MONITOR DRIVER
+> +M:	Almog Ben Shaul <almogbs@amazon.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/hwmon/pmic50x0.c
+> +
+>  JFS FILESYSTEM
+>  M:	Dave Kleikamp <shaggy@kernel.org>
+>  L:	jfs-discussion@lists.sourceforge.net
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 157678b821fc..7100866ca444 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1905,6 +1905,16 @@ config SENSORS_PWM_FAN
+>  	  This driver can also be built as a module. If so, the module
+>  	  will be called pwm-fan.
+>  
+> +config SENSORS_PMIC50X0
+> +	tristate "JEDEC PMIC50x0 compliant DDR5 PMICs"
+> +	depends on I2C
+> +	select REGMAP_I2C
+> +	help
+> +	  If you say yes here you get support for JEDEC PMIC50x0 compliant
+> +	  DDR5 PMIC sensor chips.
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called pmic50x0.
+> +
+>  config SENSORS_QNAP_MCU_HWMON
+>  	tristate "QNAP MCU hardware monitoring"
+>  	depends on MFD_QNAP_MCU
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index eade8e3b1bde..f831aacc5791 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -197,6 +197,7 @@ obj-$(CONFIG_SENSORS_POWERZ)	+= powerz.o
+>  obj-$(CONFIG_SENSORS_POWR1220)  += powr1220.o
+>  obj-$(CONFIG_SENSORS_PT5161L)	+= pt5161l.o
+>  obj-$(CONFIG_SENSORS_PWM_FAN)	+= pwm-fan.o
+> +obj-$(CONFIG_SENSORS_PMIC50X0)	+= pmic50x0.o
+>  obj-$(CONFIG_SENSORS_QNAP_MCU_HWMON)	+= qnap-mcu-hwmon.o
+>  obj-$(CONFIG_SENSORS_RASPBERRYPI_HWMON)	+= raspberrypi-hwmon.o
+>  obj-$(CONFIG_SENSORS_SA67MCU)	+= sa67mcu-hwmon.o
+> diff --git a/drivers/hwmon/pmic50x0.c b/drivers/hwmon/pmic50x0.c
+> new file mode 100644
+> index 000000000000..14a336d64a5b
+> --- /dev/null
+> +++ b/drivers/hwmon/pmic50x0.c
+> @@ -0,0 +1,839 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Hardware monitoring driver for JEDEC PMIC50x0 compliant DDR5 PMICs
+> + *
+> + * Specification: https://www.jedec.org/standards-documents/docs/jesd301-1a03
+> + *
+> + * Copyright (C) 2026 Almog Ben Shaul <almogbs@amazon.com>
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/hwmon-sysfs.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/panic_notifier.h>
+> +#include <linux/regmap.h>
+> +
+> +/* PMIC50X0 Register Mapping */
+> +#define PMIC50X0_REG_CURR_POW		0x0C
+> +#define PMIC50X0_REG_NODE_A_SUM_SELECT	0x1A
+> +#define PMIC50X0_REG_CURR_POW_SELECT	0x1B
+> +#define PMIC50X0_REG_VOL_NODE_SELECT	0x30
+> +#define PMIC50X0_REG_VOL		0x31
+> +#define PMIC50X0_REG_TEMP		0x33
+> +#define PMIC50X0_MAX_REG_ADDR		0xFF
+> +
+> +/* PMIC50X0 Error Registers & Bits Mapping */
+> +#define PMIC50X0_ERR_REG0_ADDR	0x04
+> +#define PMIC50X0_ERR_REG1_ADDR	0x08
+> +#define PMIC50X0_ERR_REG2_ADDR	0x09
+> +#define PMIC50X0_ERR_REG3_ADDR	0x0A
+> +#define PMIC50X0_ERR_REG4_ADDR	0x0B
+> +#define PMIC50X0_ERR_REG5_ADDR	0x33
+> +
+> +#define PMIC50X0_ERR_REG0_SBIT	4
+> +#define PMIC50X0_ERR_REG1_SBIT	0
+> +#define PMIC50X0_ERR_REG2_SBIT	0
+> +#define PMIC50X0_ERR_REG3_SBIT	4
+> +#define PMIC50X0_ERR_REG4_SBIT	0
+> +#define PMIC50X0_ERR_REG5_SBIT	2
+> +
+> +#define PMIC50X0_ERR_REG0_EBIT	6
+> +#define PMIC50X0_ERR_REG1_EBIT	7
+> +#define PMIC50X0_ERR_REG2_EBIT	7
+> +#define PMIC50X0_ERR_REG3_EBIT	7
+> +#define PMIC50X0_ERR_REG4_EBIT	7
+> +#define PMIC50X0_ERR_REG5_EBIT	2
+> +
+> +#define ERR_REG_NUM_BITS(bit)	(PMIC50X0_ERR_REG##bit##_EBIT - PMIC50X0_ERR_REG##bit##_SBIT + 1)
+> +#define PMIC50X0_ERR_REG0_NUM_BITS ERR_REG_NUM_BITS(0)
+> +#define PMIC50X0_ERR_REG1_NUM_BITS ERR_REG_NUM_BITS(1)
+> +#define PMIC50X0_ERR_REG2_NUM_BITS ERR_REG_NUM_BITS(2)
+> +#define PMIC50X0_ERR_REG3_NUM_BITS ERR_REG_NUM_BITS(3)
+> +#define PMIC50X0_ERR_REG4_NUM_BITS ERR_REG_NUM_BITS(4)
+> +#define PMIC50X0_ERR_REG5_NUM_BITS ERR_REG_NUM_BITS(5)
+> +
+> +/* PMIC50X0 Masks and offsets etc. */
+> +#define PMIC50X0_VOL_SELECT_MASK	GENMASK(6, 3)
+> +#define PMIC50X0_VOL_MASK		GENMASK(7, 0)
+> +#define PMIC50X0_TEMP_MASK		GENMASK(7, 5)
+> +#define PMIC50X0_CURR_POW_A_MASK	GENMASK(7, 0)
+> +#define PMIC50X0_CURR_POW_SUM_MASK	GENMASK(7, 0)
+> +#define PMIC50X0_CURR_POW_BCD_MASK	GENMASK(5, 0)
+> +#define PMIC50X0_CURR_POW_SELECT	BIT(6)
+> +#define PMIC50X0_CURR_POW_A_SUM_SELECT	BIT(1)
+> +#define PMIC50X0_VOL_OFFSET		3
+> +#define PMIC50X0_CURR_POW_SELECT_OFFSET	6
+> +#define PMIC50X0_CURR_POW_A_SUM_OFFSET	1
+> +#define	PMIC50X0_SELECT_POWER_A		0
+> +#define	PMIC50X0_SELECT_POWER_SUM	BIT(PMIC50X0_CURR_POW_A_SUM_OFFSET)
+> +#define PMIC50X0_VOL_SELECT_DELAY	9
+> +
+> +/* PMIC50X0 consts etc. */
+> +#define PMIC50X0_DRIVER_NAME		"pmic50x0"
+> +#define PMIC50X0_REG_BITS		8
+> +#define PMIC50X0_VAL_BITS		8
+> +#define PMIC50X0_VOL_FACTOR		15
+> +#define PMIC50X0_TEMP_FACTOR		10
+> +#define PMIC50X0_TEMP_BASE		75
+> +#define PMIC50X0_CURR_POWER_FACTOR	125
+> +#define PMIC50X0_ERR_POLL_INTERVAL_MSEC	1000
+> +#define PMIC50X0_VOLTAGE_CHANNELS	4
+> +#define PMIC50X0_PASS0_UNLOCK_VAL	0x73
+> +#define PMIC50X0_PASS1_UNLOCK_VAL	0x94
+> +#define PMIC50X0_PROT_UNLOCK_VAL	0x40
+> +#define PMIC50X0_PROT_LOCK_VAL		0x0
+> +
+
+Please only provide definitions if actually used.
+
+> +#define MILLIDEGREE_PER_DEGREE          1000
+
+MILLIDEGREE_PER_DEGREE is defined in include/linux/units.h. Use it.
+
+> +#define PMIC50X0_DEV_ATTR(name, index)	\
+> +	static SENSOR_DEVICE_ATTR(name, 0444, pmic50x0_err_show, 0, (index))
+> +
+> +enum pmic50x0_curr_pow_node {
+> +	PMIC50X0_CURR_POW_NODE_A,
+> +	PMIC50X0_CURR_POW_NODE_B,
+> +	PMIC50X0_CURR_POW_NODE_C,
+> +	PMIC50X0_CURR_POW_NODE_D,
+> +	PMIC50X0_CURR_POW_SUM
+> +};
+> +
+> +enum pmic50x0_select_current_power {
+> +	PMIC50X0_SELECT_CURRENT,
+> +	PMIC50X0_SELECT_POWER,
+> +};
+> +
+> +enum pmic50x0_error_list {
+> +	PMIC50X0_ERR_GLOBAL_LOG_VIN_BULK_OVER_VOL,
+> +	PMIC50X0_ERR_GLOBAL_LOG_CRIT_TEMP,
+> +	PMIC50X0_ERR_GLOBAL_LOG_BUCK_OV_OR_UV,
+> +	PMIC50X0_ERR_VIN_BULK_INPUT_OVER_VOL_STAT,
+> +	PMIC50X0_ERR_VIN_MGMT_INPUT_OVER_VOL_STAT,
+> +	PMIC50X0_ERR_SWD_OUT_POW_GOOD_STAT,
+> +	PMIC50X0_ERR_SWC_OUT_POW_GOOD_STAT,
+> +	PMIC50X0_ERR_SWB_OUT_POW_GOOD_STAT,
+> +	PMIC50X0_ERR_SWA_OUT_POW_GOOD_STAT,
+> +	PMIC50X0_ERR_CRIT_TEMP_SHUTDOWN_STAT,
+> +	PMIC50X0_ERR_VIN_BULK_INPUT_POW_GOOD_STAT,
+> +	PMIC50X0_ERR_SWD_HIGH_OUT_CURR_CONSUMP_STAT,
+> +	PMIC50X0_ERR_SWC_HIGH_OUT_CURR_CONSUMP_STAT,
+> +	PMIC50X0_ERR_SWB_HIGH_OUT_CURR_CONSUMP_STAT,
+> +	PMIC50X0_ERR_SWA_HIGH_OUT_CURR_CONSUMP_STAT,
+> +	PMIC50X0_ERR_VIN_MGMT_TO_VIN_BULK_STAT,
+> +	PMIC50X0_ERR_VOUT_1_8V_OUT_POWER_GOOD_STAT,
+> +	PMIC50X0_ERR_VBIAS_POWER_GOOD_STAT,
+> +	PMIC50X0_ERR_PMIC_HIGH_TEMP_WARN_STAT,
+> +	PMIC50X0_ERR_SWD_OUT_OVER_VOL_STAT,
+> +	PMIC50X0_ERR_SWC_OUT_OVER_VOL_STAT,
+> +	PMIC50X0_ERR_SWB_OUT_OVER_VOL_STAT,
+> +	PMIC50X0_ERR_SWA_OUT_OVER_VOL_STAT,
+> +	PMIC50X0_ERR_SWD_OUT_UNDER_VOL_LOCKOUT_STAT,
+> +	PMIC50X0_ERR_SWC_OUT_UNDER_VOL_LOCKOUT_STAT,
+> +	PMIC50X0_ERR_SWB_OUT_UNDER_VOL_LOCKOUT_STAT,
+> +	PMIC50X0_ERR_SWA_OUT_UNDER_VOL_LOCKOUT_STAT,
+> +	PMIC50X0_ERR_SWD_OUT_CURR_LIMITER_WARN_STAT,
+> +	PMIC50X0_ERR_SWC_OUT_CURR_LIMITER_WARN_STAT,
+> +	PMIC50X0_ERR_SWB_OUT_CURR_LIMITER_WARN_STAT,
+> +	PMIC50X0_ERR_SWA_OUT_CURR_LIMITER_WARN_STAT,
+> +	PMIC50X0_ERR_VOUT_1V_OUT_POWER_GOOD_STAT,
+> +	PMIC50X0_ERR_MAX
+> +};
+> +
+> +struct pmic50x0_error {
+> +	u8 reg;
+> +	u8 bit;
+> +};
+> +
+> +static const struct pmic50x0_error pmic50x0_error_reg[PMIC50X0_ERR_MAX] = {
+> +	[PMIC50X0_ERR_GLOBAL_LOG_VIN_BULK_OVER_VOL] =	{.reg = 0, .bit = 4},
+> +	[PMIC50X0_ERR_GLOBAL_LOG_CRIT_TEMP] =		{.reg = 0, .bit = 5},
+> +	[PMIC50X0_ERR_GLOBAL_LOG_BUCK_OV_OR_UV] =	{.reg = 0, .bit = 6},
+> +	[PMIC50X0_ERR_VIN_BULK_INPUT_OVER_VOL_STAT] =   {.reg = 1, .bit = 0},
+> +	[PMIC50X0_ERR_VIN_MGMT_INPUT_OVER_VOL_STAT] =   {.reg = 1, .bit = 1},
+> +	[PMIC50X0_ERR_SWD_OUT_POW_GOOD_STAT] =          {.reg = 1, .bit = 2},
+> +	[PMIC50X0_ERR_SWC_OUT_POW_GOOD_STAT] =          {.reg = 1, .bit = 3},
+> +	[PMIC50X0_ERR_SWB_OUT_POW_GOOD_STAT] =          {.reg = 1, .bit = 4},
+> +	[PMIC50X0_ERR_SWA_OUT_POW_GOOD_STAT] =          {.reg = 1, .bit = 5},
+> +	[PMIC50X0_ERR_CRIT_TEMP_SHUTDOWN_STAT] =        {.reg = 1, .bit = 6},
+> +	[PMIC50X0_ERR_VIN_BULK_INPUT_POW_GOOD_STAT] =   {.reg = 1, .bit = 7},
+> +	[PMIC50X0_ERR_SWD_HIGH_OUT_CURR_CONSUMP_STAT] = {.reg = 2, .bit = 0},
+> +	[PMIC50X0_ERR_SWC_HIGH_OUT_CURR_CONSUMP_STAT] = {.reg = 2, .bit = 1},
+> +	[PMIC50X0_ERR_SWB_HIGH_OUT_CURR_CONSUMP_STAT] = {.reg = 2, .bit = 2},
+> +	[PMIC50X0_ERR_SWA_HIGH_OUT_CURR_CONSUMP_STAT] = {.reg = 2, .bit = 3},
+> +	[PMIC50X0_ERR_VIN_MGMT_TO_VIN_BULK_STAT] =      {.reg = 2, .bit = 4},
+> +	[PMIC50X0_ERR_VOUT_1_8V_OUT_POWER_GOOD_STAT] =  {.reg = 2, .bit = 5},
+> +	[PMIC50X0_ERR_VBIAS_POWER_GOOD_STAT] =          {.reg = 2, .bit = 6},
+> +	[PMIC50X0_ERR_PMIC_HIGH_TEMP_WARN_STAT] =       {.reg = 2, .bit = 7},
+> +	[PMIC50X0_ERR_SWD_OUT_OVER_VOL_STAT] =          {.reg = 3, .bit = 4},
+> +	[PMIC50X0_ERR_SWC_OUT_OVER_VOL_STAT] =          {.reg = 3, .bit = 5},
+> +	[PMIC50X0_ERR_SWB_OUT_OVER_VOL_STAT] =          {.reg = 3, .bit = 6},
+> +	[PMIC50X0_ERR_SWA_OUT_OVER_VOL_STAT] =          {.reg = 3, .bit = 7},
+> +	[PMIC50X0_ERR_SWD_OUT_UNDER_VOL_LOCKOUT_STAT] = {.reg = 4, .bit = 0},
+> +	[PMIC50X0_ERR_SWC_OUT_UNDER_VOL_LOCKOUT_STAT] = {.reg = 4, .bit = 1},
+> +	[PMIC50X0_ERR_SWB_OUT_UNDER_VOL_LOCKOUT_STAT] = {.reg = 4, .bit = 2},
+> +	[PMIC50X0_ERR_SWA_OUT_UNDER_VOL_LOCKOUT_STAT] = {.reg = 4, .bit = 3},
+> +	[PMIC50X0_ERR_SWD_OUT_CURR_LIMITER_WARN_STAT] = {.reg = 4, .bit = 4},
+> +	[PMIC50X0_ERR_SWC_OUT_CURR_LIMITER_WARN_STAT] = {.reg = 4, .bit = 5},
+> +	[PMIC50X0_ERR_SWB_OUT_CURR_LIMITER_WARN_STAT] = {.reg = 4, .bit = 6},
+> +	[PMIC50X0_ERR_SWA_OUT_CURR_LIMITER_WARN_STAT] = {.reg = 4, .bit = 7},
+> +	[PMIC50X0_ERR_VOUT_1V_OUT_POWER_GOOD_STAT]    = {.reg = 5, .bit = 2},
+> +};
+> +
+> +static const char *pmic50x0_reg0_err_msgs[PMIC50X0_ERR_REG0_NUM_BITS] = {
+> +	"Global Error Log History for Critical Temperature",
+> +	"Global Error Log History for VIN_Bulk Over",
+> +	"Global Error Log History for Buck Regulator Output O/U Voltage",
+> +};
+> +
+> +static const char *pmic50x0_reg1_err_msgs[PMIC50X0_ERR_REG1_NUM_BITS] = {
+> +	"VIN_Bulk Input Supply Over Voltage Status",
+> +	"VIN_Mgmt Input Supply Over Voltage Status",
+> +	"Switch Node D Output Power Good Status",
+> +	"Switch Node C Output Power Good Status",
+> +	"Switch Node B Output Power Good Status",
+> +	"Switch Node A Output Power Good Status",
+> +	"Critical Temperature Shutdown Status",
+> +	"VIN_Bulk Input Power Good Status"
+> +};
+> +
+> +static const char *pmic50x0_reg2_err_msgs[PMIC50X0_ERR_REG2_NUM_BITS] = {
+> +	"Switch Node D High Output Current Consumption Warning Status",
+> +	"Switch Node C High Output Current Consumption Warning Status",
+> +	"Switch Node B High Output Current Consumption Warning Status",
+> +	"Switch Node A High Output Current Consumption Warning Status",
+> +	"VIN_Mgmt to VIN_Bulk Input Supply Automatic Switchover Status",
+> +	"VOUT_1.8V LDO Output Power Good Status",
+> +	"VBias Power Good Status",
+> +	"PMIC High Temperature Warning Status"
+> +};
+> +
+> +static const char *pmic50x0_reg3_err_msgs[PMIC50X0_ERR_REG3_NUM_BITS] = {
+> +	"Switch Node D Output Over Voltage Status",
+> +	"Switch Node C Output Over Voltage Status",
+> +	"Switch Node B Output Over Voltage Status",
+> +	"Switch Node A Output Over Voltage Status"
+> +};
+> +
+> +static const char *pmic50x0_reg4_err_msgs[PMIC50X0_ERR_REG4_NUM_BITS] = {
+> +	"Switch Node D Output Under Voltage Lockout Status",
+> +	"Switch Node C Output Under Voltage Lockout Status",
+> +	"Switch Node B Output Under Voltage Lockout Status",
+> +	"Switch Node A Output Under Voltage Lockout Status",
+> +	"Switch Node D Output Current Limiter Warning Status",
+> +	"Switch Node C Output Current Limiter Warning Status",
+> +	"Switch Node B Output Current Limiter Warning Status",
+> +	"Switch Node A Output Current Limiter Warning Status"
+> +};
+> +
+> +static const char *pmic50x0_reg5_err_msgs[PMIC50X0_ERR_REG5_NUM_BITS] = {
+> +	"VOUT_1.0V LDO Output Power Good"
+> +};
+> +
+> +struct pmic50x0_err_reg {
+> +	unsigned int addr;
+> +	unsigned int *counters;
+> +	const char **err_msgs;
+> +	u8 sbit;
+> +	u8 ebit;
+> +	u8 size;
+> +	u8 err_active;
+> +};
+> +
+> +/* Main driver struct */
+> +struct pmic50x0 {
+> +	struct device *dev;
+> +	struct regmap *regmap;
+> +	struct delayed_work work;
+> +	struct pmic50x0_err_reg *err_regs;
+> +	struct notifier_block panic_notifier;
+> +	long last_voltage[PMIC50X0_VOLTAGE_CHANNELS];
+> +	/* Mutex for reading the voltage registers */
+> +	struct mutex voltage_mutex;
+> +	/* Mutex for reading the current and power registers */
+> +	struct mutex curr_power_mutex;
+
+The hwmon core already implements locking.
+
+> +
+> +};
+> +
+> +static unsigned int error_polling_ms = PMIC50X0_ERR_POLL_INTERVAL_MSEC;
+> +module_param(error_polling_ms, uint, 0644);
+> +MODULE_PARM_DESC(error_polling_ms, "PMIC error polling interval in msec, default = 1000");
+
+This is a no-go. If some kind of error attribute/register polling is wanted,
+implement it from userspace. For the kernel it is unnecessary burden and costly
+for everyone not wanting/needing it.
+
+> +
+> +static ssize_t pmic50x0_err_show(struct device *dev,
+> +				 struct device_attribute *da, char *buf)
+> +{
+> +	struct sensor_device_attribute *attr = to_sensor_dev_attr(da);
+> +	struct pmic50x0 *pmic50x0 = dev_get_drvdata(dev);
+> +	unsigned int idx = attr->index;
+> +	struct pmic50x0_error err = pmic50x0_error_reg[idx];
+> +	u8 reg, bit;
+> +
+> +	reg = err.reg;
+> +	bit = err.bit - pmic50x0->err_regs[reg].sbit;
+> +
+> +	return scnprintf(buf, PAGE_SIZE, "%u\n", pmic50x0->err_regs[reg].counters[bit]);
+> +}
+> +
+> +/* Error Sysfs group */
+> +PMIC50X0_DEV_ATTR(err_global_log_vin_bulk_over_vol, PMIC50X0_ERR_GLOBAL_LOG_VIN_BULK_OVER_VOL);
+> +PMIC50X0_DEV_ATTR(err_global_log_crit_temp, PMIC50X0_ERR_GLOBAL_LOG_CRIT_TEMP);
+> +PMIC50X0_DEV_ATTR(err_global_log_buck_ov_or_uv, PMIC50X0_ERR_GLOBAL_LOG_BUCK_OV_OR_UV);
+> +PMIC50X0_DEV_ATTR(err_vin_bulk_input_over_vol_stat, PMIC50X0_ERR_VIN_BULK_INPUT_OVER_VOL_STAT);
+> +PMIC50X0_DEV_ATTR(err_vin_mgmt_input_over_vol_stat, PMIC50X0_ERR_VIN_MGMT_INPUT_OVER_VOL_STAT);
+> +PMIC50X0_DEV_ATTR(err_swd_out_pow_good_stat, PMIC50X0_ERR_SWD_OUT_POW_GOOD_STAT);
+> +PMIC50X0_DEV_ATTR(err_swc_out_pow_good_stat, PMIC50X0_ERR_SWC_OUT_POW_GOOD_STAT);
+> +PMIC50X0_DEV_ATTR(err_swb_out_pow_good_stat, PMIC50X0_ERR_SWB_OUT_POW_GOOD_STAT);
+> +PMIC50X0_DEV_ATTR(err_swa_out_pow_good_stat, PMIC50X0_ERR_SWA_OUT_POW_GOOD_STAT);
+> +PMIC50X0_DEV_ATTR(err_crit_temp_shutdown_stat, PMIC50X0_ERR_CRIT_TEMP_SHUTDOWN_STAT);
+> +PMIC50X0_DEV_ATTR(err_vin_bulk_input_pow_good_stat, PMIC50X0_ERR_VIN_BULK_INPUT_POW_GOOD_STAT);
+> +PMIC50X0_DEV_ATTR(err_swd_high_out_curr_consump_stat, PMIC50X0_ERR_SWD_HIGH_OUT_CURR_CONSUMP_STAT);
+> +PMIC50X0_DEV_ATTR(err_swc_high_out_curr_consump_stat, PMIC50X0_ERR_SWC_HIGH_OUT_CURR_CONSUMP_STAT);
+> +PMIC50X0_DEV_ATTR(err_swb_high_out_curr_consump_stat, PMIC50X0_ERR_SWB_HIGH_OUT_CURR_CONSUMP_STAT);
+> +PMIC50X0_DEV_ATTR(err_swa_high_out_curr_consump_stat, PMIC50X0_ERR_SWA_HIGH_OUT_CURR_CONSUMP_STAT);
+> +PMIC50X0_DEV_ATTR(err_vin_mgmt_to_vin_bulk_stat, PMIC50X0_ERR_VIN_MGMT_TO_VIN_BULK_STAT);
+> +PMIC50X0_DEV_ATTR(err_vout_1_8v_out_power_good_stat, PMIC50X0_ERR_VOUT_1_8V_OUT_POWER_GOOD_STAT);
+> +PMIC50X0_DEV_ATTR(err_vbias_power_good_stat, PMIC50X0_ERR_VBIAS_POWER_GOOD_STAT);
+> +PMIC50X0_DEV_ATTR(err_pmic_high_temp_warn_stat, PMIC50X0_ERR_PMIC_HIGH_TEMP_WARN_STAT);
+> +PMIC50X0_DEV_ATTR(err_swd_out_over_vol_stat, PMIC50X0_ERR_SWD_OUT_OVER_VOL_STAT);
+> +PMIC50X0_DEV_ATTR(err_swc_out_over_vol_stat, PMIC50X0_ERR_SWC_OUT_OVER_VOL_STAT);
+> +PMIC50X0_DEV_ATTR(err_swb_out_over_vol_stat, PMIC50X0_ERR_SWB_OUT_OVER_VOL_STAT);
+> +PMIC50X0_DEV_ATTR(err_swa_out_over_vol_stat, PMIC50X0_ERR_SWA_OUT_OVER_VOL_STAT);
+> +PMIC50X0_DEV_ATTR(err_swd_out_under_vol_lockout_stat, PMIC50X0_ERR_SWD_OUT_UNDER_VOL_LOCKOUT_STAT);
+> +PMIC50X0_DEV_ATTR(err_swc_out_under_vol_lockout_stat, PMIC50X0_ERR_SWC_OUT_UNDER_VOL_LOCKOUT_STAT);
+> +PMIC50X0_DEV_ATTR(err_swb_out_under_vol_lockout_stat, PMIC50X0_ERR_SWB_OUT_UNDER_VOL_LOCKOUT_STAT);
+> +PMIC50X0_DEV_ATTR(err_swa_out_under_vol_lockout_stat, PMIC50X0_ERR_SWA_OUT_UNDER_VOL_LOCKOUT_STAT);
+> +PMIC50X0_DEV_ATTR(err_swd_out_curr_limiter_warn_stat, PMIC50X0_ERR_SWD_OUT_CURR_LIMITER_WARN_STAT);
+> +PMIC50X0_DEV_ATTR(err_swc_out_curr_limiter_warn_stat, PMIC50X0_ERR_SWC_OUT_CURR_LIMITER_WARN_STAT);
+> +PMIC50X0_DEV_ATTR(err_swb_out_curr_limiter_warn_stat, PMIC50X0_ERR_SWB_OUT_CURR_LIMITER_WARN_STAT);
+> +PMIC50X0_DEV_ATTR(err_swa_out_curr_limiter_warn_stat, PMIC50X0_ERR_SWA_OUT_CURR_LIMITER_WARN_STAT);
+> +PMIC50X0_DEV_ATTR(err_vout_1v_out_power_good_stat, PMIC50X0_ERR_VOUT_1V_OUT_POWER_GOOD_STAT);
+> +
+> +static struct attribute *pmic50x0_err_attrs[] = {
+> +	&sensor_dev_attr_err_global_log_vin_bulk_over_vol.dev_attr.attr,
+> +	&sensor_dev_attr_err_global_log_crit_temp.dev_attr.attr,
+> +	&sensor_dev_attr_err_global_log_buck_ov_or_uv.dev_attr.attr,
+> +	&sensor_dev_attr_err_vin_bulk_input_over_vol_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_vin_mgmt_input_over_vol_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swd_out_pow_good_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swc_out_pow_good_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swb_out_pow_good_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swa_out_pow_good_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_crit_temp_shutdown_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_vin_bulk_input_pow_good_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swd_high_out_curr_consump_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swc_high_out_curr_consump_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swb_high_out_curr_consump_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swa_high_out_curr_consump_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_vin_mgmt_to_vin_bulk_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_vout_1_8v_out_power_good_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_vbias_power_good_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_pmic_high_temp_warn_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swd_out_over_vol_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swc_out_over_vol_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swb_out_over_vol_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swa_out_over_vol_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swd_out_under_vol_lockout_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swc_out_under_vol_lockout_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swb_out_under_vol_lockout_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swa_out_under_vol_lockout_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swd_out_curr_limiter_warn_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swc_out_curr_limiter_warn_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swb_out_curr_limiter_warn_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_swa_out_curr_limiter_warn_stat.dev_attr.attr,
+> +	&sensor_dev_attr_err_vout_1v_out_power_good_stat.dev_attr.attr,
+> +	NULL,
+> +};
+> +
+> +ATTRIBUTE_GROUPS(pmic50x0_err);
+
+Not acceptable as hardware monitoring attributes. Follow the ABI;
+it supports various alarm attributes. For those not covered by
+the ABI, implement using debugfs.
+
+> +
+> +static struct pmic50x0_err_reg pmic50x0_err_regs[] = {
+> +	{
+> +		.addr = PMIC50X0_ERR_REG0_ADDR,
+> +		.err_msgs = pmic50x0_reg0_err_msgs,
+> +		.sbit = PMIC50X0_ERR_REG0_SBIT,
+> +		.ebit = PMIC50X0_ERR_REG0_EBIT,
+> +		.size = PMIC50X0_ERR_REG0_NUM_BITS,
+> +	},
+> +	{
+> +		.addr = PMIC50X0_ERR_REG1_ADDR,
+> +		.err_msgs = pmic50x0_reg1_err_msgs,
+> +		.sbit = PMIC50X0_ERR_REG1_SBIT,
+> +		.ebit = PMIC50X0_ERR_REG1_EBIT,
+> +		.size = PMIC50X0_ERR_REG1_NUM_BITS,
+> +	},
+> +	{
+> +		.addr = PMIC50X0_ERR_REG2_ADDR,
+> +		.err_msgs = pmic50x0_reg2_err_msgs,
+> +		.sbit = PMIC50X0_ERR_REG2_SBIT,
+> +		.ebit = PMIC50X0_ERR_REG2_EBIT,
+> +		.size = PMIC50X0_ERR_REG2_NUM_BITS,
+> +	},
+> +	{
+> +		.addr = PMIC50X0_ERR_REG3_ADDR,
+> +		.err_msgs = pmic50x0_reg3_err_msgs,
+> +		.sbit = PMIC50X0_ERR_REG3_SBIT,
+> +		.ebit = PMIC50X0_ERR_REG3_EBIT,
+> +		.size = PMIC50X0_ERR_REG3_NUM_BITS,
+> +	},
+> +	{
+> +		.addr = PMIC50X0_ERR_REG4_ADDR,
+> +		.err_msgs = pmic50x0_reg4_err_msgs,
+> +		.sbit = PMIC50X0_ERR_REG4_SBIT,
+> +		.ebit = PMIC50X0_ERR_REG4_EBIT,
+> +		.size = PMIC50X0_ERR_REG4_NUM_BITS,
+> +	},
+> +	{
+> +		.addr = PMIC50X0_ERR_REG5_ADDR,
+> +		.err_msgs = pmic50x0_reg5_err_msgs,
+> +		.sbit = PMIC50X0_ERR_REG5_SBIT,
+> +		.ebit = PMIC50X0_ERR_REG5_EBIT,
+> +		.size = PMIC50X0_ERR_REG5_NUM_BITS,
+> +	},
+> +};
+> +
+> +static int pmic50x0_temp_read(struct device *dev, long *val)
+> +{
+> +	struct pmic50x0 *pmic50x0 = dev_get_drvdata(dev);
+> +	unsigned int regval;
+> +	long temp;
+> +	int err;
+> +
+> +	err = regmap_read(pmic50x0->regmap, PMIC50X0_REG_TEMP, &regval);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	temp = FIELD_GET(PMIC50X0_TEMP_MASK, regval) * PMIC50X0_TEMP_FACTOR;
+> +	*val = MILLIDEGREE_PER_DEGREE * (PMIC50X0_TEMP_BASE + temp);
+> +
+> +	return 0;
+> +}
+> +
+> +static int pmic50x0_in_read(struct device *dev, long *val, int channel)
+> +{
+> +	struct pmic50x0 *pmic50x0 = dev_get_drvdata(dev);
+> +	unsigned int regval;
+> +	int err;
+> +
+> +	mutex_lock(&pmic50x0->voltage_mutex);
+> +
+> +	/* Select the node */
+> +	err = regmap_update_bits(pmic50x0->regmap, PMIC50X0_REG_VOL_NODE_SELECT,
+> +				 PMIC50X0_VOL_SELECT_MASK, channel << PMIC50X0_VOL_OFFSET);
+> +	if (err < 0)
+> +		goto ret_unlock;
+> +
+> +	/* The spec requires 9ms delay between the node selection and the reading */
+> +	msleep(PMIC50X0_VOL_SELECT_DELAY);
+
+Use usleep_range() or better fsleep().
+
+> +
+> +	/* Read the voltage register after selecting the node */
+> +	err = regmap_read(pmic50x0->regmap, PMIC50X0_REG_VOL, &regval);
+> +	if (err < 0)
+> +		goto ret_unlock;
+> +
+> +	*val = FIELD_GET(PMIC50X0_VOL_MASK, regval) * PMIC50X0_VOL_FACTOR;
+> +	pmic50x0->last_voltage[channel] = *val;
+> +
+> +ret_unlock:
+> +	mutex_unlock(&pmic50x0->voltage_mutex);
+> +
+> +	return err;
+> +}
+> +
+> +static int pmic50x0_curr_power_read(struct device *dev, long *val, int channel,
+> +				    enum pmic50x0_select_current_power node)
+> +{
+> +	struct pmic50x0 *pmic50x0 = dev_get_drvdata(dev);
+> +	unsigned int regval, reg;
+> +	long mask;
+> +	int err;
+> +
+> +	mutex_lock(&pmic50x0->curr_power_mutex);
+> +
+> +	/* Select power/current mode */
+> +	err = regmap_update_bits(pmic50x0->regmap, PMIC50X0_REG_CURR_POW_SELECT,
+> +				 PMIC50X0_CURR_POW_SELECT, node << PMIC50X0_CURR_POW_SELECT_OFFSET);
+> +	if (err < 0)
+> +		goto ret_unlock;
+> +
+> +	switch (channel) {
+> +	case PMIC50X0_CURR_POW_NODE_A:
+> +		mask = PMIC50X0_CURR_POW_A_MASK;
+> +		reg = PMIC50X0_REG_CURR_POW;
+> +
+> +		/* Select node A */
+> +		err = regmap_update_bits(pmic50x0->regmap, PMIC50X0_REG_NODE_A_SUM_SELECT,
+> +					 PMIC50X0_CURR_POW_A_SUM_SELECT, PMIC50X0_SELECT_POWER_A);
+> +		if (err < 0)
+> +			goto ret_unlock;
+> +		break;
+> +	case PMIC50X0_CURR_POW_NODE_B:
+> +	case PMIC50X0_CURR_POW_NODE_C:
+> +	case PMIC50X0_CURR_POW_NODE_D:
+> +		mask = PMIC50X0_CURR_POW_BCD_MASK;
+> +		reg = PMIC50X0_REG_CURR_POW + channel;
+> +		break;
+> +	case PMIC50X0_CURR_POW_SUM:
+> +		mask = PMIC50X0_CURR_POW_SUM_MASK;
+> +		reg = PMIC50X0_REG_CURR_POW;
+> +
+> +		/* Select the sum of A,B,C and D nodes */
+> +		err = regmap_update_bits(pmic50x0->regmap, PMIC50X0_REG_NODE_A_SUM_SELECT,
+> +					 PMIC50X0_CURR_POW_A_SUM_SELECT, PMIC50X0_SELECT_POWER_SUM);
+> +		if (err < 0)
+> +			goto ret_unlock;
+> +		break;
+> +	default:
+> +		err = -EOPNOTSUPP;
+> +		goto ret_unlock;
+> +	}
+> +
+> +	err = regmap_read(pmic50x0->regmap, reg, &regval);
+> +	if (err < 0)
+> +		goto ret_unlock;
+> +
+> +	*val = (regval & mask) * PMIC50X0_CURR_POWER_FACTOR;
+
+Power is reported in uW per ABI. The registers report power in steps of 125mW.
+PMIC50X0_CURR_POWER_FACTOR is 125, so this calculation seems off by a factor
+of 1,000 for power readings.
+
+> +
+> +ret_unlock:
+> +	mutex_unlock(&pmic50x0->curr_power_mutex);
+> +
+> +	return err;
+> +}
+> +
+> +static int pmic50x0_read(struct device *dev, enum hwmon_sensor_types type, u32 attr, int channel,
+> +			 long *val)
+> +{
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		if (attr != hwmon_temp_input)
+> +			return -EOPNOTSUPP;
+> +		return pmic50x0_temp_read(dev, val);
+> +	case hwmon_in:
+> +		if (attr != hwmon_in_input)
+> +			return -EOPNOTSUPP;
+> +		return pmic50x0_in_read(dev, val, channel);
+> +	case hwmon_curr:
+> +		if (attr != hwmon_curr_input)
+> +			return -EOPNOTSUPP;
+> +		return pmic50x0_curr_power_read(dev, val, channel, PMIC50X0_SELECT_CURRENT);
+> +	case hwmon_power:
+> +		if (attr != hwmon_power_input)
+> +			return -EOPNOTSUPP;
+> +		return pmic50x0_curr_power_read(dev, val, channel, PMIC50X0_SELECT_POWER);
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static umode_t pmic50x0_is_visible(const void *data, enum hwmon_sensor_types type, u32 attr,
+> +				   int channel)
+> +{
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		return (attr == hwmon_temp_input) ? 0444 : 0;
+> +	case hwmon_in:
+> +		return (attr == hwmon_in_input) ? 0444 : 0;
+> +	case hwmon_curr:
+> +		return (attr == hwmon_curr_input) ? 0444 : 0;
+> +	case hwmon_power:
+> +		return (attr == hwmon_power_input) ? 0444 : 0;
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+> +static const u32 pmic50x0_temp_config[] = {
+> +	HWMON_T_INPUT,
+> +	0
+> +};
+> +
+> +static const struct hwmon_channel_info pmic50x0_temp = {
+> +	.type = hwmon_temp,
+> +	.config = pmic50x0_temp_config,
+> +};
+> +
+> +static const u32 pmic50x0_in_config[] = {
+> +	HWMON_I_INPUT,
+> +	HWMON_I_INPUT,
+> +	HWMON_I_INPUT,
+> +	HWMON_I_INPUT,
+
+The chips support measuring a total of 9 different voltages.
+Why only support SWA..SWD ?
+
+> +	0
+> +};
+> +
+> +static const struct hwmon_channel_info pmic50x0_in = {
+> +	.type = hwmon_in,
+> +	.config = pmic50x0_in_config,
+> +};
+> +
+> +static const u32 pmic50x0_curr_config[] = {
+> +	HWMON_C_INPUT,
+> +	HWMON_C_INPUT,
+> +	HWMON_C_INPUT,
+> +	HWMON_C_INPUT,
+> +	0
+> +};
+> +
+> +static const struct hwmon_channel_info pmic50x0_curr = {
+> +	.type = hwmon_curr,
+> +	.config = pmic50x0_curr_config,
+> +};
+> +
+> +static const u32 pmic50x0_power_config[] = {
+> +	HWMON_P_INPUT,
+> +	HWMON_P_INPUT,
+> +	HWMON_P_INPUT,
+> +	HWMON_P_INPUT,
+> +	HWMON_P_INPUT,
+> +	0
+> +};
+> +
+> +static const struct hwmon_channel_info pmic50x0_power = {
+> +	.type = hwmon_power,
+> +	.config = pmic50x0_power_config,
+> +};
+> +
+> +static const struct hwmon_channel_info *pmic50x0_info[] = {
+> +	&pmic50x0_temp,
+> +	&pmic50x0_in,
+> +	&pmic50x0_curr,
+> +	&pmic50x0_power,
+> +	NULL
+> +};
+
+Use the HWMON_CHANNEL_INFO() macro.
+
+Why are limits not supported ?
+
+> +
+> +static const struct hwmon_ops pmic50x0_ops = {
+> +	.is_visible = pmic50x0_is_visible,
+> +	.read = pmic50x0_read,
+> +};
+> +
+> +static const struct hwmon_chip_info pmic50x0_chip_info = {
+> +	.ops = &pmic50x0_ops,
+> +	.info = pmic50x0_info
+> +};
+> +
+> +static const struct regmap_config pmic50x0_regmap_config = {
+> +	.reg_bits = PMIC50X0_REG_BITS,
+> +	.val_bits = PMIC50X0_VAL_BITS,
+> +	.max_register = PMIC50X0_MAX_REG_ADDR
+> +};
+> +
+> +static void pmic50x0_update_last_volt(struct pmic50x0 *pmic50x0)
+> +{
+> +	struct device *dev = pmic50x0->dev;
+> +	int i, err;
+> +
+> +	for (i = 0; i < PMIC50X0_VOLTAGE_CHANNELS; i++) {
+> +		err = pmic50x0_in_read(dev, &pmic50x0->last_voltage[i], i);
+> +		if (err < 0)
+> +			dev_err(dev, "Failed to read voltage (%d)\n", err);
+> +	}
+> +}
+
+Not acceptable. Implement history like this from userspace.
+
+> +
+> +static void pmic50x0_work_callback(struct work_struct *work)
+> +{
+> +	struct delayed_work *delayed_work = to_delayed_work(work);
+> +	struct pmic50x0 *pmic50x0 = container_of(delayed_work, struct pmic50x0, work);
+> +	struct pmic50x0_err_reg *reg;
+> +	u8 bit, sbit, ebit, i, idx;
+> +	unsigned int err_reg;
+> +	int err;
+> +
+> +	pmic50x0_update_last_volt(pmic50x0);
+> +
+> +	for (i = 0; i < ARRAY_SIZE(pmic50x0_err_regs); i++) {
+> +		reg = &pmic50x0->err_regs[i];
+> +		err = regmap_read(pmic50x0->regmap, reg->addr, &err_reg);
+> +		if (err < 0) {
+> +			dev_err(pmic50x0->dev, "Could not read Error Register at %x\n", reg->addr);
+> +			continue;
+> +		}
+> +
+> +		/* Checks if error bits changed since last polling interval */
+> +		if (err_reg == reg->err_active)
+> +			continue;
+> +
+> +		sbit = reg->sbit;
+> +		ebit = reg->ebit;
+> +
+> +		for (bit = sbit; bit <= ebit; bit++) {
+> +			idx = bit - sbit;
+> +
+> +			if (err_reg & BIT(bit)) {
+> +				/* Continue if error is not new */
+> +				if (reg->err_active & BIT(bit))
+> +					continue;
+> +
+> +				/* Mark the error bit as active */
+> +				reg->err_active |= BIT(bit);
+> +				reg->counters[idx]++;
+> +
+> +				dev_err(pmic50x0->dev, "%s (cnt=%u)\n", reg->err_msgs[idx],
+> +					reg->counters[idx]);
+> +			} else if (reg->err_active & BIT(bit)) {
+> +				/* Error cleared since last polling interval. */
+> +				dev_info(pmic50x0->dev, "Error (%s) cleared\n", reg->err_msgs[idx]);
+> +
+> +				reg->err_active &= ~BIT(bit);
+> +			}
+> +		}
+> +	}
+> +
+> +	schedule_delayed_work(&pmic50x0->work, msecs_to_jiffies(error_polling_ms));
+> +}
+> +
+> +static void pmic50x0_cancel_work(void *work)
+> +{
+> +	cancel_delayed_work_sync(work);
+> +}
+> +
+> +static int pmic50x0_work_init(struct device *dev)
+> +{
+> +	struct pmic50x0 *pmic50x0 = dev_get_drvdata(dev);
+> +
+> +	INIT_DELAYED_WORK(&pmic50x0->work, pmic50x0_work_callback);
+> +	schedule_delayed_work(&pmic50x0->work, msecs_to_jiffies(error_polling_ms));
+> +
+> +	return devm_add_action_or_reset(dev, pmic50x0_cancel_work, &pmic50x0->work);
+> +}
+
+As said before, this is unacceptable. Implement such tracking from userspace.
+
+> +
+> +static int pmic50x0_error_init(struct device *dev)
+> +{
+> +	struct pmic50x0 *pmic50x0 = dev_get_drvdata(dev);
+> +	int reg;
+> +
+> +	pmic50x0->err_regs = devm_kcalloc(dev, ARRAY_SIZE(pmic50x0_err_regs),
+> +					  sizeof(*pmic50x0->err_regs), GFP_KERNEL);
+> +	if (!pmic50x0->err_regs)
+> +		return -ENOMEM;
+> +
+> +	for (reg = 0; reg < ARRAY_SIZE(pmic50x0_err_regs); reg++) {
+> +		pmic50x0->err_regs[reg] = pmic50x0_err_regs[reg];
+> +		pmic50x0->err_regs[reg].counters =
+> +			devm_kcalloc(dev, pmic50x0->err_regs[reg].size,
+> +				     sizeof(*pmic50x0->err_regs[reg].counters), GFP_KERNEL);
+> +		if (!pmic50x0->err_regs[reg].counters)
+> +			return -ENOMEM;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void pmic50x0_mutexes_destroy(void *arg)
+> +{
+> +	struct pmic50x0 *pmic50x0 = arg;
+> +
+> +	mutex_destroy(&pmic50x0->curr_power_mutex);
+> +	mutex_destroy(&pmic50x0->voltage_mutex);
+> +}
+> +
+> +static int pmic50x0_mutexes_init(struct pmic50x0 *pmic50x0)
+> +{
+> +	mutex_init(&pmic50x0->voltage_mutex);
+> +	mutex_init(&pmic50x0->curr_power_mutex);
+> +
+> +	return devm_add_action_or_reset(pmic50x0->dev, pmic50x0_mutexes_destroy, pmic50x0);
+> +}
+
+Those mutexes are unnecessary.
+
+> +
+> +static int pmic50x0_panic_callback(struct notifier_block *nb,
+> +				   unsigned long action, void *data)
+> +{
+> +	struct pmic50x0 *pmic50x0 = container_of(nb, struct pmic50x0, panic_notifier);
+> +
+> +	dev_emerg(pmic50x0->dev, "volt(mV): A=%ld, B=%ld, C=%ld, D=%ld\n",
+> +		  pmic50x0->last_voltage[0], pmic50x0->last_voltage[1],
+> +		  pmic50x0->last_voltage[2], pmic50x0->last_voltage[3]);
+> +
+> +	return NOTIFY_DONE;
+> +}
+
+This is a no-go. If you want to keep track of historic voltages, do it from userspace,
+and I don't want to see such panic notifiers in hardware monitoring drivers.
+
+> +
+> +static void pmic50x0_panic_notifier_unregister(void *data)
+> +{
+> +	struct pmic50x0 *pmic50x0 = data;
+> +
+> +	atomic_notifier_chain_unregister(&panic_notifier_list, &pmic50x0->panic_notifier);
+> +}
+> +
+> +static int pmic50x0_panic_notifier_register(struct pmic50x0 *pmic50x0)
+> +{
+> +	struct notifier_block *panic_notifier = &pmic50x0->panic_notifier;
+> +	struct device *dev = pmic50x0->dev;
+> +	int ret;
+> +
+> +	panic_notifier->notifier_call = pmic50x0_panic_callback;
+> +	panic_notifier->priority = 0;
+> +
+> +	ret = atomic_notifier_chain_register(&panic_notifier_list, panic_notifier);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register panic notifier (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	return devm_add_action_or_reset(dev, pmic50x0_panic_notifier_unregister, pmic50x0);
+> +}
+> +
+> +static int pmic50x0_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct pmic50x0 *pmic50x0;
+> +	struct device *hwmon_dev;
+> +	int err;
+> +
+> +	pmic50x0 = devm_kzalloc(dev, sizeof(*pmic50x0), GFP_KERNEL);
+> +	if (!pmic50x0)
+> +		return -ENOMEM;
+> +
+> +	dev_set_drvdata(dev, pmic50x0);
+> +
+> +	pmic50x0->dev = dev;
+> +	pmic50x0->regmap = devm_regmap_init_i2c(client, &pmic50x0_regmap_config);
+> +	if (IS_ERR(pmic50x0->regmap)) {
+> +		dev_err(dev, "init regmap failed!\n");
+> +		return PTR_ERR(pmic50x0->regmap);
+
+Use dev_err_probe().
+
+> +	}
+> +
+> +	err = pmic50x0_error_init(dev);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	err = pmic50x0_mutexes_init(pmic50x0);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name, pmic50x0,
+> +							 &pmic50x0_chip_info, pmic50x0_err_groups);
+> +	if (IS_ERR(hwmon_dev))
+> +		return PTR_ERR(hwmon_dev);
+> +
+> +	err = pmic50x0_panic_notifier_register(pmic50x0);
+> +	if (err < 0)
+> +		return err;
+> +
+> +	return pmic50x0_work_init(dev);
+> +}
+> +
+> +static const struct i2c_device_id pmic50x0_ids[] = {
+> +	{ PMIC50X0_DRIVER_NAME },
+> +	{ }
+> +};
+> +
+> +MODULE_DEVICE_TABLE(i2c, pmic50x0_ids);
+> +
+> +static const struct of_device_id pmic50x0_of_match[] = {
+> +	{ .compatible = "jedec,pmic50x0" },
+> +	{ },
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, pmic50x0_of_match);
+> +
+> +static struct i2c_driver pmic50x0_driver = {
+> +	.class		= I2C_CLASS_HWMON,
+
+There is no detect function, so this is pointless.
+
+> +	.driver		= {
+> +				.name = PMIC50X0_DRIVER_NAME,
+> +				.of_match_table = pmic50x0_of_match,
+> +			},
+> +	.probe		= pmic50x0_probe,
+> +	.id_table	= pmic50x0_ids,
+> +};
+> +
+> +module_i2c_driver(pmic50x0_driver);
+> +
+> +MODULE_AUTHOR("Almog Ben Shaul <almogbs@amazon.com>");
+> +MODULE_DESCRIPTION("JEDEC PMIC50x0 Hardware Monitoring Driver");
+> +MODULE_LICENSE("GPL");
