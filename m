@@ -1,349 +1,90 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB02035DD13
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 15:20:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45AF28AAEE;
+	Tue, 27 Jan 2026 15:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769527223; cv=none; b=Idt3KN71piBscTBSG4AsIVXLx1qNrJq8W26abR9JGCor3yS9RFs+BnbL/gACSCz89CYkS7mPGSOpf7NEE3UthplGCLqZGDGbvT9b9kb/haPf6vnqSk8M9UynPeHCo+V/VwDzwznyzKsETUYZttfjgtp5ESDx2O0yJnuPQglqWuI=
+	t=1769529404; cv=none; b=UJp6faAhXQrGiPP6wIZ2qhvPEgHFebbJbg2Kunzx1JpchGpXLOEL+h1zCFWQ2LPWGj46KpfdpOuUHRnoqtkukcWq4W/CrglyWs2B8fqr2vikHapcZhgIM9G6bgmNmP5kjfTCw00q6vOZIDzbIMSizSOvH+auh7hS82q5LryhJeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769527223; c=relaxed/simple;
-	bh=ablOwMKQd22Q+KZBq9y4BMZVnNaLiD0FFqi08v9XFCk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PJELlHwPi29plor0963F4bNm9q8cFu6hmBm8i5ZgldRsHhUgPSM1jXkArkrSziRvu75G5UtGsgJwQapuNzUUsr0NtBve5EwqBCclivWSP/apF0pRjf9ZJuN3azrahwgu27UOTg1pCW1f7o1MITrxgj6TPjBigVxgFfWn5Ydrp3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=PS49/Xt+; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1769529404; c=relaxed/simple;
+	bh=Ew7hCSheEXnd37I1gPTsKYpC9BbT8MdweTT2b/6Hmz4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c7PmK5TupPKpNZT0GioD955ejD5cS9WDNpWa3oBfdd/szX512+yGjpASK2pOZDy6aBl+JZeVwlLsYL5llibYhXwQDAxBZqStU/4zrIk3S6g3FhYeMLyZNq/CkXcatRHUTOKpleoSNZVX47ywk4SPeGPq6o0Hi6DP6l+oD0axu8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tdbkFkTU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="PS49/Xt+"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4801d7c72a5so45417475e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 07:20:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1769527219; x=1770132019; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TpVju2z52ieKZ9g+UW8bQZ3qR3Ja1fAXqmPTBm/6Msg=;
-        b=PS49/Xt+XBkvPmyiu7HuoN/+FQbWne3GuGTRt8FAgjemU+g0VSDoY5YDNkCt6aPhh8
-         +YUL+8WHWYyYN+Bfzf6Pb0YJ/eJTEXSMMLpfDcGqiMJjA5X18sig1ycBF1++bPuhOW0j
-         +06gCjnCrxJDM2e5OOUp/H47tgjuQ4ybDtjc7grIkF0qtmGWnhXBmUc88b/8E4BowpFq
-         sDFKtZ0UGspdRgOnkYrDNKpiBX6UZA9bVhZgKyXsU9wLNmWgEr7+FzeQJYFFU4gqwTr5
-         QbDKPSeDpC4WeQHTkReLy7m2xU4YFUCmweL0PWjLUqMn3CMaftJBwZwhsAGRenzh51WC
-         biVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769527219; x=1770132019;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TpVju2z52ieKZ9g+UW8bQZ3qR3Ja1fAXqmPTBm/6Msg=;
-        b=AcFUOTJcRhjna6OiTnjqhSwg+9xiMIzr4MNaDxQOoKr2GuakUh6BgpD0JSLumTu79H
-         vTRiUvQaM2Gm0DdC/9v5qaiA5zMz7T4ybExop5a+hM3Oxk6u2LuMKAY4yFYCWmCeCtNb
-         2oESgs6Md93TdnXCHJGjW2qGEgQSxeHLOGwWACnPYU5hadCH85x9CiDqyGTpuIi0Ls02
-         G1BiQSYJEorGjc+q0wf7USoXBkNmgeu5NoyxZTueUopH10A9uz97GsfsjMPFNkweQmOr
-         j416VaYGsdaMVebiznSIUN7aChTrswjYVUQ+mFCfWqjjk6NoFPs4w47nUWCUK+cuf+2s
-         o3og==
-X-Forwarded-Encrypted: i=1; AJvYcCWy+rZzW1sRLnVI0/O7/TfZALFgixgfnfXaQBV4QzprHF3V7t5i94AtyuF2gWRRw4F0UmWhJ0ZJmTo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOPwBNHYs3T+rISXH5gI0Nfuw9Bdg48lUthXOLCjIqmX06gjzO
-	kRc/+glQZqygtQPbWYoXQqENK37sjd0KteEZSYvZwkZ7xVUmUeNc/IgkTw+kCC2Seig=
-X-Gm-Gg: AZuq6aJb8Dq04+J+Cd65qnhJ3ppzWyoPtoM/Tl0QI0B0BieUQPIjMf7TWjkramsCQal
-	obpLCiNMnmcG70TSxM+9hjdfnriEsBCv6SnFJPH2709cfmvajq3CPjXTLg8QbnW2GqeewbzhA01
-	xH6TnfqBrvOCUC5N0m1w1YBnlnJx0WMMfLkHDlO4l33Ho8ICmz/Ndaqc5Y46IRcqhIIMk2XfV6Y
-	DWDWJPVElhAjlPQBpBU1j9LTGy5bI+xhyfeqINScvuiMyATbnhtBDSmgPtAFwkOB7aaiQZeQfLx
-	i2f8OuyYNdnK3dBeDXXwqvImh+rXozxNw4VBKvCXTZUxgAFv1vIMzp/uuWZqZuWFEBXKlI1lMTk
-	E4it4U6u9rLQMfASDNPY8qN9Y6DU673krHWhgkV6inVxa6OY+sjbv7FVr0SBrQur412hFSunJy6
-	GgcOnBSMIUoQ+gT8UFCilad8KiCDTWsuhk2vleoJLo
-X-Received: by 2002:a05:600c:5553:b0:480:1c53:2085 with SMTP id 5b1f17b1804b1-4806a313f35mr20307595e9.19.1769527219144;
-        Tue, 27 Jan 2026 07:20:19 -0800 (PST)
-Received: from [10.0.1.22] (109-81-1-107.rct.o2.cz. [109.81.1.107])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c034dfsm67200105e9.10.2026.01.27.07.20.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Jan 2026 07:20:18 -0800 (PST)
-Message-ID: <52cbbccf-d5b6-4a33-b16a-4a09fe5e64d3@suse.com>
-Date: Tue, 27 Jan 2026 16:20:15 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tdbkFkTU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94484C116C6;
+	Tue, 27 Jan 2026 15:56:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769529404;
+	bh=Ew7hCSheEXnd37I1gPTsKYpC9BbT8MdweTT2b/6Hmz4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tdbkFkTU5CRN3W5LhfCQ6KICm6LpdRFet4vLhYTuDg5eEgNodBEeMrvTClp0PNhkE
+	 H2V4eC82r0Y2zu0Tg29osuH/wQTnUy665zj71XvljOyrx0WyT201cMuOl5fDLOzA9D
+	 0ZGkEQDF0u9bYYanSqD5WTkN3++ymB99/e/UDcdh+DcHIPQ19mw2GtiJb6F2LJ5RD5
+	 mfOZcGZHNLfd5JcUQ2tBPf4Thfd4dYudFPKNuktq6daUaCDfYFaNwWPdV/5Bu97pjW
+	 kialUZ5b7GnOTPfi7udoQOGplOI2jbWCZzc/0c/16FMVn/ADJUgSFcBT4KX7Cis7WH
+	 X9DJUMRK4yFKw==
+Date: Tue, 27 Jan 2026 15:56:39 +0000
+From: Tzung-Bi Shih <tzungbi@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	linux-kselftest@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 22/23] gpiolib: Leverage revocable for other independent
+ lifecycle instances
+Message-ID: <aXjgN2jGsaNQgP9o@google.com>
+References: <20260116081036.352286-1-tzungbi@kernel.org>
+ <20260116081036.352286-23-tzungbi@kernel.org>
+ <aXT45B6vLf9R3Pbf@hovoldconsulting.com>
+ <aXdy-b3GOJkzGqYo@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/17] module: Deduplicate signature extraction
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen
- <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
- Roberto Sassu <roberto.sassu@huawei.com>,
- Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
- Eric Snowberg <eric.snowberg@oracle.com>,
- Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez
- <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
- "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
- Nicolas Schier <nsc@kernel.org>,
- Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
- Xiu Jianfeng <xiujianfeng@huawei.com>,
- =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
- Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>,
- kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>,
- =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-8-0b932db9b56b@weissschuh.net>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260113-module-hashes-v4-8-0b932db9b56b@weissschuh.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aXdy-b3GOJkzGqYo@hovoldconsulting.com>
 
-On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
-> The logic to extract the signature bits from a module file are
-> duplicated between the module core and IMA modsig appraisal.
+On Mon, Jan 26, 2026 at 02:58:17PM +0100, Johan Hovold wrote:
+> On Sat, Jan 24, 2026 at 05:52:53PM +0100, Johan Hovold wrote:
+> > On Fri, Jan 16, 2026 at 08:10:35AM +0000, Tzung-Bi Shih wrote:
+> > > There are independent lifecycle instances (e.g., other drivers) can save
+> > > a raw pointer to the struct gpio_device (e.g., via gpio_device_find())
+> > > or struct gpio_desc (e.g., via gpio_to_desc()).  In some operations,
+> > > they have to access the underlying struct gpio_chip.
+> > > 
+> > > Leverage revocable for them so that they don't need to handle the
+> > > synchronization by accessing the SRCU explicitly.
+> > > 
+> > > Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> > 
+> > >  static int gpiod_get_raw_value_commit(const struct gpio_desc *desc)
+> > >  {
+> > > -	struct gpio_device *gdev;
+> > >  	struct gpio_chip *gc;
+> > >  	int value;
+> > > +	DEFINE_REVOCABLE(rev, desc->gdev->chip_rp);
+> > 
+> > DEFINE_REVOCABLE() is racy and can lead to use-after-free since nothing
+> > prevents chip_rp from being revoked and freed while the
+> > revocable_alloc() hidden in DEFINE_REVOCABLE() is running.
 > 
-> Unify the implementation.
-> 
-> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> ---
->  include/linux/module_signature.h    |  4 +--
->  kernel/module/signing.c             | 52 +++++++------------------------------
->  kernel/module_signature.c           | 41 +++++++++++++++++++++++++++--
->  security/integrity/ima/ima_modsig.c | 24 ++++-------------
->  4 files changed, 56 insertions(+), 65 deletions(-)
-> 
-> diff --git a/include/linux/module_signature.h b/include/linux/module_signature.h
-> index 7eb4b00381ac..186a55effa30 100644
-> --- a/include/linux/module_signature.h
-> +++ b/include/linux/module_signature.h
-> @@ -40,7 +40,7 @@ struct module_signature {
->  	__be32	sig_len;	/* Length of signature data */
->  };
->  
-> -int mod_check_sig(const struct module_signature *ms, size_t file_len,
-> -		  const char *name);
-> +int mod_split_sig(const void *buf, size_t *buf_len, bool mangled,
-> +		  size_t *sig_len, const u8 **sig, const char *name);
->  
->  #endif /* _LINUX_MODULE_SIGNATURE_H */
-> diff --git a/kernel/module/signing.c b/kernel/module/signing.c
-> index fe3f51ac6199..6d64c0d18d0a 100644
-> --- a/kernel/module/signing.c
-> +++ b/kernel/module/signing.c
-> @@ -37,54 +37,22 @@ void set_module_sig_enforced(void)
->  	sig_enforce = true;
->  }
->  
-> -/*
-> - * Verify the signature on a module.
-> - */
-> -static int mod_verify_sig(const void *mod, struct load_info *info)
-> -{
-> -	struct module_signature ms;
-> -	size_t sig_len, modlen = info->len;
-> -	int ret;
-> -
-> -	pr_devel("==>%s(,%zu)\n", __func__, modlen);
-> -
-> -	if (modlen <= sizeof(ms))
-> -		return -EBADMSG;
-> -
-> -	memcpy(&ms, mod + (modlen - sizeof(ms)), sizeof(ms));
-> -
-> -	ret = mod_check_sig(&ms, modlen, "module");
-> -	if (ret)
-> -		return ret;
-> -
-> -	sig_len = be32_to_cpu(ms.sig_len);
-> -	modlen -= sig_len + sizeof(ms);
-> -	info->len = modlen;
-> -
-> -	return verify_pkcs7_signature(mod, modlen, mod + modlen, sig_len,
-> -				      VERIFY_USE_SECONDARY_KEYRING,
-> -				      VERIFYING_MODULE_SIGNATURE,
-> -				      NULL, NULL);
-> -}
-> -
->  int module_sig_check(struct load_info *info, int flags)
->  {
-> -	int err = -ENODATA;
-> -	const unsigned long markerlen = sizeof(MODULE_SIG_STRING) - 1;
-> +	int err;
->  	const char *reason;
->  	const void *mod = info->hdr;
-> +	size_t sig_len;
-> +	const u8 *sig;
->  	bool mangled_module = flags & (MODULE_INIT_IGNORE_MODVERSIONS |
->  				       MODULE_INIT_IGNORE_VERMAGIC);
-> -	/*
-> -	 * Do not allow mangled modules as a module with version information
-> -	 * removed is no longer the module that was signed.
-> -	 */
-> -	if (!mangled_module &&
-> -	    info->len > markerlen &&
-> -	    memcmp(mod + info->len - markerlen, MODULE_SIG_STRING, markerlen) == 0) {
-> -		/* We truncate the module to discard the signature */
-> -		info->len -= markerlen;
-> -		err = mod_verify_sig(mod, info);
-> +
-> +	err = mod_split_sig(info->hdr, &info->len, mangled_module, &sig_len, &sig, "module");
-> +	if (!err) {
-> +		err = verify_pkcs7_signature(mod, info->len, sig, sig_len,
-> +					     VERIFY_USE_SECONDARY_KEYRING,
-> +					     VERIFYING_MODULE_SIGNATURE,
-> +					     NULL, NULL);
->  		if (!err) {
->  			info->sig_ok = true;
->  			return 0;
+> This was supposed to say "revocable_init()" (i.e. revocable_alloc()
+> without the memory allocation).
 
-The patch looks to modify the behavior when mangled_module is true.
-
-Previously, module_sig_check() didn't attempt to extract the signature
-in such a case and treated the module as unsigned. The err remained set
-to -ENODATA and the function subsequently consulted module_sig_check()
-and security_locked_down() to determine an appropriate result.
-
-Newly, module_sig_check() calls mod_split_sig(), which skips the
-extraction of the marker ("~Module signature appended~\n") from the end
-of the module and instead attempts to read it as an actual
-module_signature. The value is then passed to mod_check_sig() which
-should return -EBADMSG. The error is propagated to module_sig_check()
-and treated as fatal, without consulting module_sig_check() and
-security_locked_down().
-
-I think the mangled_module flag should not be passed to mod_split_sig()
-and it should be handled solely by module_sig_check().
-
-> diff --git a/kernel/module_signature.c b/kernel/module_signature.c
-> index 00132d12487c..b2384a73524c 100644
-> --- a/kernel/module_signature.c
-> +++ b/kernel/module_signature.c
-> @@ -8,6 +8,7 @@
->  
->  #include <linux/errno.h>
->  #include <linux/printk.h>
-> +#include <linux/string.h>
->  #include <linux/module_signature.h>
->  #include <asm/byteorder.h>
->  
-> @@ -18,8 +19,8 @@
->   * @file_len:	Size of the file to which @ms is appended.
->   * @name:	What is being checked. Used for error messages.
->   */
-> -int mod_check_sig(const struct module_signature *ms, size_t file_len,
-> -		  const char *name)
-> +static int mod_check_sig(const struct module_signature *ms, size_t file_len,
-> +			 const char *name)
->  {
->  	if (be32_to_cpu(ms->sig_len) >= file_len - sizeof(*ms))
->  		return -EBADMSG;
-> @@ -44,3 +45,39 @@ int mod_check_sig(const struct module_signature *ms, size_t file_len,
->  
->  	return 0;
->  }
-> +
-> +int mod_split_sig(const void *buf, size_t *buf_len, bool mangled,
-> +		  size_t *sig_len, const u8 **sig, const char *name)
-> +{
-> +	const unsigned long markerlen = sizeof(MODULE_SIG_STRING) - 1;
-> +	struct module_signature ms;
-> +	size_t modlen = *buf_len;
-> +	int ret;
-> +
-> +	/*
-> +	 * Do not allow mangled modules as a module with version information
-> +	 * removed is no longer the module that was signed.
-> +	 */
-> +	if (!mangled &&
-> +	    *buf_len > markerlen &&
-> +	    memcmp(buf + modlen - markerlen, MODULE_SIG_STRING, markerlen) == 0) {
-> +		/* We truncate the module to discard the signature */
-> +		modlen -= markerlen;
-> +	}
-> +
-> +	if (modlen <= sizeof(ms))
-> +		return -EBADMSG;
-> +
-> +	memcpy(&ms, buf + (modlen - sizeof(ms)), sizeof(ms));
-> +
-> +	ret = mod_check_sig(&ms, modlen, name);
-> +	if (ret)
-> +		return ret;
-> +
-> +	*sig_len = be32_to_cpu(ms.sig_len);
-> +	modlen -= *sig_len + sizeof(ms);
-> +	*buf_len = modlen;
-> +	*sig = buf + modlen;
-> +
-> +	return 0;
-> +}
-> diff --git a/security/integrity/ima/ima_modsig.c b/security/integrity/ima/ima_modsig.c
-> index 3265d744d5ce..a57342d39b07 100644
-> --- a/security/integrity/ima/ima_modsig.c
-> +++ b/security/integrity/ima/ima_modsig.c
-> @@ -40,44 +40,30 @@ struct modsig {
->  int ima_read_modsig(enum ima_hooks func, const void *buf, loff_t buf_len,
->  		    struct modsig **modsig)
->  {
-> -	const size_t marker_len = strlen(MODULE_SIG_STRING);
-> -	const struct module_signature *sig;
-> +	size_t buf_len_sz = buf_len;
->  	struct modsig *hdr;
->  	size_t sig_len;
-> -	const void *p;
-> +	const u8 *sig;
->  	int rc;
->  
-> -	if (buf_len <= marker_len + sizeof(*sig))
-> -		return -ENOENT;
-> -
-> -	p = buf + buf_len - marker_len;
-> -	if (memcmp(p, MODULE_SIG_STRING, marker_len))
-> -		return -ENOENT;
-> -
-> -	buf_len -= marker_len;
-> -	sig = (const struct module_signature *)(p - sizeof(*sig));
-> -
-> -	rc = mod_check_sig(sig, buf_len, func_tokens[func]);
-> +	rc = mod_split_sig(buf, &buf_len_sz, true, &sig_len, &sig, func_tokens[func]);
-
-Passing mangled=true to mod_split_sig() seems incorrect here. It causes
-that the function doesn't properly extract the signature marker at the
-end of the module, no?
-
->  	if (rc)
->  		return rc;
->  
-> -	sig_len = be32_to_cpu(sig->sig_len);
-> -	buf_len -= sig_len + sizeof(*sig);
-> -
->  	/* Allocate sig_len additional bytes to hold the raw PKCS#7 data. */
->  	hdr = kzalloc(struct_size(hdr, raw_pkcs7, sig_len), GFP_KERNEL);
->  	if (!hdr)
->  		return -ENOMEM;
->  
->  	hdr->raw_pkcs7_len = sig_len;
-> -	hdr->pkcs7_msg = pkcs7_parse_message(buf + buf_len, sig_len);
-> +	hdr->pkcs7_msg = pkcs7_parse_message(sig, sig_len);
->  	if (IS_ERR(hdr->pkcs7_msg)) {
->  		rc = PTR_ERR(hdr->pkcs7_msg);
->  		kfree(hdr);
->  		return rc;
->  	}
->  
-> -	memcpy(hdr->raw_pkcs7, buf + buf_len, sig_len);
-> +	memcpy(hdr->raw_pkcs7, sig, sig_len);
->  
->  	/* We don't know the hash algorithm yet. */
->  	hdr->hash_algo = HASH_ALGO__LAST;
-> 
-
--- 
-Thanks,
-Petr
+I see the issue.  Thanks for identifying this.
