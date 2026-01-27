@@ -1,114 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A448A35CBB8;
-	Tue, 27 Jan 2026 14:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EFF1EF0B0;
+	Tue, 27 Jan 2026 15:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769525512; cv=none; b=Pp2pc7REb5UsKFK8Hnk1cH0XJYk56PX9xLZnzH6XyphHOo8m+klbi5kpgGsL754p1LaV6EYW3v9B7Hv3OaD/uyObGqlF1s27BTov/RJQO9JLZGfMBEMCdO6c4P9A1bOy2BaL+kkKLEAGLV3dCHiF/l66GHRJc9SUKROBPvGT30I=
+	t=1769526350; cv=none; b=nYaT0kJnmt7m3VS84pWY9ikiYMBN69OcJIyFeA2CF9meXBP+GCVwPQ2u1MixsrijQYpSPxmwjV00uMoCOtV3ObKu+JgWe8QRcXo5jJzlWwaezpYi377pCVVVxbeiwsRXutpzcdAenHCHm6mdr3ub56XJFA5XANqXIWoxbkn9DAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769525512; c=relaxed/simple;
-	bh=5QkDTL6egAnUB1nGC9oZeltVJm7ADFUMjzrh7J9CPm0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=crkYHokVIJTb9ihnak/aNsaHC8nddV58lvHnHl3/Wsx+uRvn5zQkKkjgT3v1YMBYPYjhDl/Hl9TwI6WBbwYRTWqrZGmE2xtfVhU2cdsDaxDXVpBbHXa3HuhjnKWgIFX7vCDk8iQiOeEDGcAwOyomCQiSFdZASeh7xbqRkh0YfEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qdcig6Dm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769526350; c=relaxed/simple;
+	bh=50juojVCOXpFQivcxyJdwms36HjenBrCxnhk/FwJvS0=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=Kct8nw8MbHpavjBr7IDniNvYoip3U9kP975O+AkATH008CTUfCdFnmzpZyNiwOXQKU6ZWutDTbaolCv1G695EhJVBxiSpCRn0JRCAWZl/MXI6OBmsMuZtbfxK16y3WkgsAA7xJFRUOK1zG3azgMUcTZPh5p9bxZX+nrPq1G3W9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=wYMRZjzQ; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qdcig6Dm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D726FC19422;
-	Tue, 27 Jan 2026 14:51:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769525512;
-	bh=5QkDTL6egAnUB1nGC9oZeltVJm7ADFUMjzrh7J9CPm0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qdcig6Dm2T7kkQUYhrTQEhj/vQIsZok6gZ5kAyNcIppTfVTZvUMEM6Odge7NHZ4AR
-	 W6wDPaOjR/hXuuOw0oacWd+48Q7WkMoxQqvnpC7NF3Ik7P27KVq+rwUumfeo3HeNE6
-	 F90zs7LTS6s1lD6jfm9g26Tvigbbci8t1++dKB+9aN7AMG3mU/EVcx+9k2MVfl53z7
-	 EQ46/P7pXvhoPW3y/oQlQazC24wvOr5ua01xhT6ibuwTZfP6Y3Wcgt2stpz3SxxwyZ
-	 Z+evKf+2aYpCcpxvnBrntdUQEj7/DwAWuqkfpzLg3NwtW5sbnCYEFltfCFNavHTW2s
-	 OU6wj0460ZYuQ==
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfauth.phl.internal (Postfix) with ESMTP id DF9ECF4006A;
-	Tue, 27 Jan 2026 09:51:50 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Tue, 27 Jan 2026 09:51:50 -0500
-X-ME-Sender: <xms:BtF4aZX7ZGvL60aSOai63pDHfU-w0OOc0qiHKoFnwzE96cRkQXXFYA>
-    <xme:BtF4aU8borUUIgTSMCu75bhRo807gqcrK3kDr3UTPHAmBRZsUR9jf4Xpol8LO_3xl
-    XMbkQ57PvIDKE5TgOuI6AgWWjur1jN1Mv1C8EjK6IhPMhyyzRbfEr4>
-X-ME-Received: <xmr:BtF4aeygE9YPhnLQCzWM7vpz9RMu5WOw_L9MKlQnmdlYG8tcBnb5XTo4cOh9Aw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduiedtkeduucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepmfhirhihlhcu
-    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepueeijeeiffekheeffffftdekleefleehhfefhfduheejhedvffeluedvudefgfek
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
-    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
-    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
-    hnrghmvgdpnhgspghrtghpthhtohepfeekpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehmuhgthhhunhdrshhonhhgsehlihhnuhigrdguvghvpdhrtghpthhtohepohhsrg
-    hlvhgrughorhesshhushgvrdguvgdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepvhgsrggskhgrsehsuhhsvgdrtgiipdhrtghpthhtoheplhhorh
-    gvnhiiohdrshhtohgrkhgvshesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepiihihies
-    nhhvihguihgrrdgtohhmpdhrtghpthhtohepsghhvgesrhgvughhrghtrdgtohhmpdhrtg
-    hpthhtohepmhhhohgtkhhosehsuhhsvgdrtghomhdprhgtphhtthhopehhrghnnhgvshes
-    tghmphigtghhghdrohhrgh
-X-ME-Proxy: <xmx:BtF4aUHU6j0lgE0w0xbQ1DS3XW57Jy6NPAYThyEByjs8bgTEcO2Rkw>
-    <xmx:BtF4afKwQ2c7u2-NxxXOBr6iK0-mP1Rt3CvZpGGFi405w2V2e31U-A>
-    <xmx:BtF4af7sSGKl5Sl0uGoJTAIqslThNJxjOeixVhXomvAq2ELC5d-IvQ>
-    <xmx:BtF4aXTmQuSjg9HPM5kKkE_iCu7gYHojZT0N4n6zqvH1qXEa24q8IQ>
-    <xmx:BtF4aRCy3CmU27FBHhnA2ROT2GBD1KPdwnAL7q09pdyo5F-BQlznYvxT>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 27 Jan 2026 09:51:48 -0500 (EST)
-Date: Tue, 27 Jan 2026 14:51:43 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Muchun Song <muchun.song@linux.dev>
-Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
-	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>, 
-	Frank van der Linden <fvdl@google.com>
-Subject: Re: [PATCHv4 09/14] mm/hugetlb: Remove fake head pages
-Message-ID: <aXjPf_fIWX74YVWD@thinkstation>
-References: <20260121162253.2216580-1-kas@kernel.org>
- <20260121162253.2216580-10-kas@kernel.org>
- <ffe9811b-d7f8-4924-9ad6-96057a16b693@linux.dev>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="wYMRZjzQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1769526349; x=1801062349;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:to:cc;
+  bh=50juojVCOXpFQivcxyJdwms36HjenBrCxnhk/FwJvS0=;
+  b=wYMRZjzQ7Q+g075dQnqFNe8t2nabZ0mrp3/y0E/+s5MCq5QXkzGaOV5w
+   s5dUI04Iwkwy4vYCxdvh4ExL/htaeChaa++pGl3+iTup5PgwEEu2F/zV7
+   pUlIQlqmPN+BBrHobfmfGdHkoqG9M3e+9o1yCktqKp9FHvLLki6s2iHF7
+   uySASsMtvHd4NwoK2vVR09gv4812eJsvfNoaqoqr+KIxtfQwT7lCi/HcL
+   xhf8PsWl0A/mpCDs871uyqZVU+V4q9IJouaslK0kJ4ir4689RRdR3wIEu
+   C18Q23LiKn5WHBYuwBfcv3jHDO9PsRdG7cWJqQKYbE2wvk9jHgdlmU/r8
+   A==;
+X-CSE-ConnectionGUID: uHcYOJ7UQAOjT/81Yu0oMA==
+X-CSE-MsgGUID: 33YpRk15T3KHZzrgbezGow==
+X-IronPort-AV: E=Sophos;i="6.21,257,1763449200"; 
+   d="scan'208";a="283876202"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 08:05:43 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex1.mchp-main.com (10.10.87.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.29; Tue, 27 Jan 2026 08:05:31 -0700
+Received: from marius-VM.mshome.net (10.10.85.11) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Tue, 27 Jan 2026 08:05:29 -0700
+From: Marius Cristea <marius.cristea@microchip.com>
+Subject: [PATCH v4 0/2] Add support for Microchip EMC1812
+Date: Tue, 27 Jan 2026 17:05:23 +0200
+Message-ID: <20260127-hw_mon-emc1812-v4-0-6bf636b54847@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ffe9811b-d7f8-4924-9ad6-96057a16b693@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADPUeGkC/23M0QqCMBTG8VeJXbc456htddV7RMQ2t9yFTmZYI
+ b57UwJBu/x/8P0G1tnobcfOu4FF2/vOhyZFvt8xU6nmYbkvUzMCKhCAePW616HhtjYokbhDLeG
+ YS1EisHRqo3X+PYPXW+rKd88QP7Pf47T+KDqtqR45cG1zV0rlAI/qUnsTg6l8ezChZhPX00Ig4
+ YagRBSaQICTWgj5j8gWglBuiCwRCilTpRJaFqc1MY7jFy8gPr82AQAA
+X-Change-ID: 20251002-hw_mon-emc1812-f1b806487d10
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Marius Cristea
+	<marius.cristea@microchip.com>, Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2262;
+ i=marius.cristea@microchip.com; h=from:subject:message-id;
+ bh=50juojVCOXpFQivcxyJdwms36HjenBrCxnhk/FwJvS0=;
+ b=owGbwMvMwCW2tbSTZa7u0x2Mp9WSGDIrrlh4/VV2t11ixRHS8G2v5KK05QEbjJlnrz+417bbb
+ srVNZ/3dZSyMIhxMciKKbKseOunVrX2w2UlsUwdmDmsTCBDGLg4BWAikzoY/hmul1xskcq9QmC6
+ RGyI5ddL/bZHjPsy9j98v3+itI9bijnD/+RPe87p2/XOje7ZMq065Ffsk7AT+oaTj90XYFcoYvn
+ oxggA
+X-Developer-Key: i=marius.cristea@microchip.com; a=openpgp;
+ fpr=E32F8D4396E72E463E8CCD91446DE0ABD9140C3E
 
-On Thu, Jan 22, 2026 at 03:00:03PM +0800, Muchun Song wrote:
-> > +	if (pfn)
-> > +		return pfn_to_page(pfn);
-> > +
-> > +	tail = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, 0);
-> > +	if (!tail)
-> > +		return NULL;
-> > +
-> > +	p = page_to_virt(tail);
-> > +	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
-> > +		prep_compound_tail(p + i, NULL, order);
-> > +
-> > +	spin_lock(&hugetlb_lock);
-> 
-> hugetlb_lock is considered a contended lock, better not to abuse it.
-> cmpxchg() is enought in this case.
+This is the hwmon driver for EMC1812/13/14/15/33 multichannel Low-Voltage
+Remote Diode Sensor Family. The chips in the family have one internal
+and different numbers of external channels, ranging from 1 (EMC1812) to
+4 channels (EMC1815).
+Reading diodes in anti-parallel connection is supported by EMC1814, EMC1815
+and EMC1833.
 
-We hit the lock once per node (excluding races). Its contribution to the
-lock contention is negligible. spin_lock() is easier to follow. I will
-keep it.
+Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+---
+Changes in v4:
+- fix file permissions for read only properties
+- fix calculation when the limits are written
+- remove the temp_min_hyst because the part doesn't support it
+- Link to v3: https://lore.kernel.org/r/20251218-hw_mon-emc1812-v3-0-a123ada7b859@microchip.com
 
-Ack for the rest of your comments.
+Changes in v3:
+- remove mesages that are not helpfull
+- fix an issue related to NULL labels
+- fix sign/unsign calculation
+- replace E2BIG with EINVAL
+- use BIT() to create mask
+- Link to v2: https://lore.kernel.org/r/20251121-hw_mon-emc1812-v2-0-5b2070f8b778@microchip.com
 
+Changes in v2:
+- update the interrupt section from yaml file
+- update index.rst
+- remove fault condition from internal sensor
+- remove unused members from structures
+- update the driver to work on systems without device tree or
+  firmware nodes
+- add missing include files
+- make NULL labels to be not visible
+- corect sign/unsign calculations
+- corect possible underflow for limits
+- Link to v1: https://lore.kernel.org/r/20251029-hw_mon-emc1812-v1-0-be4fd8af016a@microchip.com
 
+---
+Marius Cristea (2):
+      dt-bindings: hwmon: temperature: add support for EMC1812
+      hwmon: temperature: add support for EMC1812
+
+ .../bindings/hwmon/microchip,emc1812.yaml          | 182 ++++
+ Documentation/hwmon/emc1812.rst                    |  68 ++
+ Documentation/hwmon/index.rst                      |   1 +
+ MAINTAINERS                                        |   8 +
+ drivers/hwmon/Kconfig                              |  11 +
+ drivers/hwmon/Makefile                             |   1 +
+ drivers/hwmon/emc1812.c                            | 963 +++++++++++++++++++++
+ 7 files changed, 1234 insertions(+)
+---
+base-commit: d2b2fea3503e5e12b2e28784152937e48bcca6ff
+change-id: 20251002-hw_mon-emc1812-f1b806487d10
+
+Best regards,
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Marius Cristea <marius.cristea@microchip.com>
+
