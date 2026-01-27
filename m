@@ -1,145 +1,90 @@
-Received: from mail-yw1-f193.google.com (mail-yw1-f193.google.com [209.85.128.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B05C2EC0B0
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 03:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFB730EF85;
+	Tue, 27 Jan 2026 03:44:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769483213; cv=none; b=bX+4KFH2fW382yZtvG5WplOYhMaLLPui27Dmp/aocpW7+Piyk10WHwHVfjS7JcyNAE/mhvTH14O2AADHEnE5XFbYZhH+vxLfPSBDTywNue00RizpJ4HeDqCpV/RdfF9GfGNatanYE8yyR4rK6wG/29J7IKnHJvPPakDVaJbJJyE=
+	t=1769485441; cv=none; b=oKMlXP74HgP/1Q5Y5vl1mWKqdDprpAHXF//h9JhatUklPRDipCpFKFxlUwq2cSyinzCKMxgEB+3kyu9Zs6yejq+kSKTYntzv8vQIktLK1kohIpPm6KrVfW3WPlXH79fyGFlgmgFc/MjlJOnqEGqkZUYEIIQIkF0XI+EHt/9ZphA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769483213; c=relaxed/simple;
-	bh=wYEcUgNuD+lPf2tV7/btjfFjqrI60S+N7nj/8yNW7Xo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cb8PfMvaAQnfOXbBjFq2kNNpnekv1JuNs3Svg7op0cMZATEn1kqGPM42YGT/DMrsSA+UeDHLPuutXreEz/195bPBGbtdWpqmwYQydim8pw51TjXiupNixhZZhtoGEdLTEVlOuoc4aMgo/zLq3y+tdzx/7eyaqArLKETQ5LR0F8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IU47TRk1; arc=none smtp.client-ip=209.85.128.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769485441; c=relaxed/simple;
+	bh=psMAziqlxDZVzb5Uk+I3z12K0GYTEbRIPCJLgCvJfyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rRQPzzhWzU8VyMrqkUytrImeM8ltJmIapdq421bJEsEobcsRyDQllwP26nOqSgvC0ZhYnCrEJ78+JG2DHRIwqQwBrEEAGUSSsf0VDi1+NJlxP6CRyeeYiNmQN1/cjdPhNTjayQKkygtAGmhly46qXrySth2q5Uot9+xKffwUGRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GO34MJc3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IU47TRk1"
-Received: by mail-yw1-f193.google.com with SMTP id 00721157ae682-78fc3572431so51184857b3.0
-        for <linux-doc@vger.kernel.org>; Mon, 26 Jan 2026 19:06:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769483211; x=1770088011; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XtcTamun/anyrF+4xJBkkNRqAbEPEhjvU9VCmmVXBeM=;
-        b=IU47TRk1K97pPGLqScYNmy4ieeG4lxxAnlN6s9T5ZO8WFpCbaJanHJru4scZJ/CbVl
-         SmKDr9/06OWQzItbsOcZI+uuqTGVB015Uq996Jb2kNYlwbiOMYACKf7wpL7on99kakp8
-         H415wOaurydKRZ4sP9l2enHfr+aDhBIQLMuW4lazcPnGyJSzVcerSo7WtZbSYgxzA2Oa
-         QO4OHhOH+mGDtYKpF+GBlnJl7CLwjkiQn5iSJ+HXjjPExlu8ajNLuurTzkaoirbPsbtK
-         DlHwskRWVw1SXw5/65rCtlEOiLMAt1gKOqNEs+NzjdM4s9c5TnNXAnoeWZKbrmDCYpXH
-         NxdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769483211; x=1770088011;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XtcTamun/anyrF+4xJBkkNRqAbEPEhjvU9VCmmVXBeM=;
-        b=eXKP3fhyxTSo1q+RRUqQHifEYMen4y6aAucu5LC2zXXAelQ8eARmdWizNqySR3qObm
-         unv8v+8ljWnIr4aANxEwIwgdidWKpZ1ebPHoLRN2Cyllhx0ijgFhSmW5du8dE/LLmMwy
-         ykpWv3gHIt/viii3NA+8V0UH4xiR7wnpb52/9EJwVHs2DxAFzngD0U8Y3fVGbpmJiqcp
-         oFbcX7yro5CAXISvkq3XzAshqvC3zV0IQGPjQdPAN+4RTEUAK4pr2cBNLgOCUVXPFgpP
-         rz0+pKuhCWBdMpFiGdbKAye2HP3ke25YdbkawKZaxIOEBN7PZchB/sfCndk6Ct1W3Y/L
-         hPWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU8QeSwqbD3bFgo5zA/znkR20ffP3VB0Mp16j2dApf6A+Ymkdu0pejqL2R5Q88ndQ87M9n8J/BN+Xs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqOfiWjH3U9usMnBTcEp/2mDVzVvU9sPzxdAVqesst7xwlXgp+
-	Dmb2DoYJ8Y3wjEMRJRaso9Auptasaomet82eDuhX7P+Wkn+OqGYS9lLO
-X-Gm-Gg: AZuq6aIQ+quJfUWGpFojvIyHki+q7+hqTaJlcdl3dOctFK9suw7M1VTaJbe/sLJVdgy
-	kEtu0GCkjGmo0YAwW4Yy4JbX2NYpTcq+dY4Xu8bqNM4+PHrgn3MMvUGpiV1RipZ5AcqqmkTMEnk
-	F6A5CdWGHzV4VhO4v1ED/G/VsxbG7pdMBJ3B6SvNuTSHZbkQaP7qtp9I4lDKTpwq4jdrgt5ByJW
-	IWLJBNypbMGdXMmZhEgb1NFpR0XdM5TgX2QblPHx6niwU0xo/hnKWsQSrmJNCOZHyoVngrhPzC3
-	QucmFPNeOyrookmFIGbHrvFOk+EHR4r0kczoPLUkpRuch5FYwWewVQpygKMBebqalOPpgksMrYI
-	S0ScQLpYcGbFk1mT+96bEssKkX4eWPPAiD4p7HheNzGU21Mg6qjnDOMCZnzDcsoFL9ZCvFuZHmU
-	tDZDiE0UEAHF9M6D20ZsIVVJCLqF/z2Xbrag==
-X-Received: by 2002:a05:690c:f02:b0:786:7a54:4635 with SMTP id 00721157ae682-7947ab3c172mr1656687b3.21.1769483211400;
-        Mon, 26 Jan 2026 19:06:51 -0800 (PST)
-Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:5::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79475c0212asm5994517b3.2.2026.01.26.19.06.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Jan 2026 19:06:51 -0800 (PST)
-Date: Mon, 26 Jan 2026 19:06:49 -0800
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Stanislav Fomichev <stfomichev@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	David Ahern <dsahern@kernel.org>,
-	Mina Almasry <almasrymina@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan <shuah@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com,
-	Bobby Eshleman <bobbyeshleman@meta.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GO34MJc3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A8D9C116C6;
+	Tue, 27 Jan 2026 03:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769485441;
+	bh=psMAziqlxDZVzb5Uk+I3z12K0GYTEbRIPCJLgCvJfyk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GO34MJc3QrTM9RTmQLg60gwEOa2nf9DAetvsmTUhy7DCAmTc9syqWiXzDJ0RxqAeR
+	 bDo1V/IabA3/zj10YoPSlQ/u7/cZgxbgwkfSrFmhRKsA02m41IMGw7j97a1pqN+C8x
+	 M+9Mcv/K/9I72omasTgSxqRYAcOybpaPBhxcitoLYR8sTA+hL2gIyAhtUBXNt+NHaf
+	 5ddW7tTNjehwk4A6llU8APiqS5MMBg4gFJQkV0VbkAGeeaH2Jnnoh7ibfrcByCFk+O
+	 cxTSvFNp4HH+lB2DtyZtmj5n9yeVh3SPLJgjCDNbSvFX3FdX+C94CWDWHNf6PP2+Xh
+	 jlYDnuO4UP5Nw==
+Date: Mon, 26 Jan 2026 19:43:59 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: Stanislav Fomichev <stfomichev@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Kuniyuki Iwashima
+ <kuniyu@google.com>, Willem de Bruijn <willemb@google.com>, Neal Cardwell
+ <ncardwell@google.com>, David Ahern <dsahern@kernel.org>, Mina Almasry
+ <almasrymina@google.com>, Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet
+ <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Shuah Khan
+ <shuah@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, Stanislav
+ Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ asml.silence@gmail.com, matttbe@kernel.org, skhawaja@google.com, Bobby
+ Eshleman <bobbyeshleman@meta.com>
 Subject: Re: [PATCH net-next v10 4/5] net: devmem: document
  NETDEV_A_DMABUF_AUTORELEASE netlink attribute
-Message-ID: <aXgryaSx9CzFR7kv@devvm11784.nha0.facebook.com>
+Message-ID: <20260126194359.461f908b@kernel.org>
+In-Reply-To: <aXgryaSx9CzFR7kv@devvm11784.nha0.facebook.com>
 References: <aXBnqYQdomzH9bT/@devvm11784.nha0.facebook.com>
- <20260121173512.748e2155@kernel.org>
- <aXGNhEKOhkTHbJvw@devvm11784.nha0.facebook.com>
- <20260121185021.446b00e8@kernel.org>
- <CAKB00G2xNvfiV6J3RzKDs=GHMGZ7L16+VKUYLGjpZdOrLnSYKA@mail.gmail.com>
- <20260121194615.33dc0812@kernel.org>
- <aXGib0OcNdHTLyZN@mini-arch>
- <20260126172646.2e5af2d4@kernel.org>
- <aXgjVb5PVqdPM10J@devvm11784.nha0.facebook.com>
- <20260126184440.755a55b2@kernel.org>
+	<20260121173512.748e2155@kernel.org>
+	<aXGNhEKOhkTHbJvw@devvm11784.nha0.facebook.com>
+	<20260121185021.446b00e8@kernel.org>
+	<CAKB00G2xNvfiV6J3RzKDs=GHMGZ7L16+VKUYLGjpZdOrLnSYKA@mail.gmail.com>
+	<20260121194615.33dc0812@kernel.org>
+	<aXGib0OcNdHTLyZN@mini-arch>
+	<20260126172646.2e5af2d4@kernel.org>
+	<aXgjVb5PVqdPM10J@devvm11784.nha0.facebook.com>
+	<20260126184440.755a55b2@kernel.org>
+	<aXgryaSx9CzFR7kv@devvm11784.nha0.facebook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260126184440.755a55b2@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 26, 2026 at 06:44:40PM -0800, Jakub Kicinski wrote:
-> On Mon, 26 Jan 2026 18:30:45 -0800 Bobby Eshleman wrote:
-> > > > I'm not a fan of the existing cmsg scheme, but we already have userspace
-> > > > using it, so getting more performance out of it seems like an easy win?  
+On Mon, 26 Jan 2026 19:06:49 -0800 Bobby Eshleman wrote:
+> > > Then, if the dmabuf count encoding space is exhausted, the socket would
+> > > have to wait until the user returns all of the tokens from one of the
+> > > dmabufs and frees the ID (or err out is another option).
 > > > 
-> > > I don't like:
-> > >  - the fact that we have to add the binding to a socket (extra field)
-> > >    - single socket can only serve single binding, there's no technical
-> > >      reason for this really, AFAICT, just the fact that we have a single
-> > >      pointer in the sock struct  
+> > > This wouldn't change adding a field to the socket, we'd have to add one
+> > > or two more for allocating the dmabuf ID and fetching the dmabuf with
+> > > it. But it does fix the single binding thing.  
 > > 
-> > The core reason is that sockets lose the ability to map a given token to
-> > a given binding by no longer storing the niov ptr.
-> > 
-> > One proposal I had was to encode some number of bits in the token that
-> > can be used to lookup the binding in an array, I could reboot that
-> > approach.
-> > 
-> > With 32 bits, we can represent:
-> > 
-> > dmabuf max size = 512 GB, max dmabuf count = 8
-> > dmabuf max size = 256 GB, max dmabuf count = 16
-> > dmabuf max size = 128 GB, max dmabuf count = 32
-> > 
-> > etc...
-> > 
-> > Then, if the dmabuf count encoding space is exhausted, the socket would
-> > have to wait until the user returns all of the tokens from one of the
-> > dmabufs and frees the ID (or err out is another option).
-> > 
-> > This wouldn't change adding a field to the socket, we'd have to add one
-> > or two more for allocating the dmabuf ID and fetching the dmabuf with
-> > it. But it does fix the single binding thing.
+> > I think the bigger problem (than space exhaustion) is that we'd also
+> > have some understanding of permissions. If an application guesses 
+> > the binding ID of another app it can mess up its buffers. ENOBUENO..  
 > 
-> I think the bigger problem (than space exhaustion) is that we'd also
-> have some understanding of permissions. If an application guesses 
-> the binding ID of another app it can mess up its buffers. ENOBUENO..
+> I was thinking it would be per-socket, effectively:
+> 
+> sk->sk_devmem_info.bindings[binding_id_from_token(token)]
+> 
+> So sockets could only access those that they have already recv'd on.
 
-I was thinking it would be per-socket, effectively:
-
-sk->sk_devmem_info.bindings[binding_id_from_token(token)]
-
-So sockets could only access those that they have already recv'd on.
+Ah, missed that the array would be per socket. I guess it'd have to be
+reusing the token xarray otherwise we're taking up even more space in
+the socket struct? Dunno.
