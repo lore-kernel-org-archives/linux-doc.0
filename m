@@ -1,118 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D974328B71
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 18:51:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFE03271FB;
+	Tue, 27 Jan 2026 18:53:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769539864; cv=none; b=NLJjOmEtkcaL3DAV6Q4wsVP2mg1LJGgTQOFG7HPMURLpA9N+osErB7FzCQDRFHCVeB0kxlfm9C011pDzV+38lS4E7SPkjGyqrbS+rwzfxM4we8FluJt0/p/ak99ir0479yMPadvPMU73X1BXV51oR5IKXvBBbSHYWWh0y978BIM=
+	t=1769539987; cv=none; b=tdxHkStX8DdqlmWZEB8V1qiNWs/+i/a6An+w0hIUlPIuFFaDvR9WojOenmW7x57Ta7B8B3eifPWdstekRkmfb0GV9HSPZSrfHGhYAICHu62ku080bg1mm3Y6OoQGih5KFOiW++0BYQCOevmVm4mYxuwDOAxFw/26FMk6ymRfKOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769539864; c=relaxed/simple;
-	bh=5fCSYs3cjWXNj6kD6uXFDIhla+bxW6w8hXBfqk6eHrs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZHSgpnu6sTZN9gXobXCSsG4xB5xmiN+Uee+QpJb6rK9djO0bhBtgYjydP9EuiDEe4GTKfKeqqscJVw/tWetA360S3wJPZ4ZjkKdSNY2/oP9VVBCzXhmmblBiYtzc4erjzbW3TS37u5wTQtUHX8qIvnD4xHvoazCneoukJYxhgXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rO/fVk9K; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769539987; c=relaxed/simple;
+	bh=GZCoMlfvieIY4SnhDAPojfug9cNjrcmF3L7heUTj1DI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UGy/+aMw74o9Kjhm5596uWledORquAKLAwlpvHq15Y2e69LBvZgcvecy8yuQQxWeC0UcJhGDVd7UmU9cwNr5eg0esKP2J80IslF8fx9/vZcKTytnAr/Kf3i0BYXqLTVcznYqEtRXznx8TH6kwVSO+pqJZ0a0uewc+wC18ZQbqIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pCil7Av/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rO/fVk9K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EFA2C2BC86
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 18:51:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pCil7Av/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3AF7C116C6;
+	Tue, 27 Jan 2026 18:53:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769539864;
-	bh=5fCSYs3cjWXNj6kD6uXFDIhla+bxW6w8hXBfqk6eHrs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=rO/fVk9KGOIQL3qj9zN8GwXwvNOtSBr1xxy+CIrUR83dXroBccPza54wycaffC/3V
-	 QNSuK8/wRgmyJChwXoett1m0vsu9yc5a9tAW68Nu+OCg7iEjauaP784XOjOGU22qlt
-	 ATxskFX4anozd4Ez/lqhpViS8/NSris7/FnHzkRtJkHAxbHDpC0r/Jw+z3MZaCsQfM
-	 RvfoSQFd8uH9MqUc2p1yE3ezViWVUJPa/Ng3ff8fzrbLGgEj5I6eOhZ5wG4Ze8aXwV
-	 7t+KB124YLWkwsX3YseO6GOYHFcTvjmycuS4TTlswJ9614jLHq14AcBIw1/wA/rT1+
-	 CFpvqeIwYonvw==
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-40438e0cba6so3614566fac.1
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 10:51:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVCqN7hiAuqhGw62VNLHka1SvfHRwtd8a27u27ek54iW6nkgKMa3OU/PCz4Ny6Ynys4AgpUPy2mYow=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzB1Jr6QSi4AD2jrd8EM9FuQNeXAeZKy9y6BspkpqedfZBNpAYg
-	c0zkXC7UPpz8n7LDk4kLA6lsH9pxh1pWVI1Auhf8qnmSRThH239O3vsebn6qdmG+6Nd39KpiLJZ
-	WeVhnWfDHH2vxY29zqPOE0zzFPQPI0i0=
-X-Received: by 2002:a05:6820:218:b0:65f:1012:68aa with SMTP id
- 006d021491bc7-662f203a2c0mr1500222eaf.1.1769539863186; Tue, 27 Jan 2026
- 10:51:03 -0800 (PST)
+	s=k20201202; t=1769539986;
+	bh=GZCoMlfvieIY4SnhDAPojfug9cNjrcmF3L7heUTj1DI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pCil7Av/fGrXIwk9h4hyuqdSM8Bkai+2iwCbsg8y+oPHlRfkLrjKMWkB11l98bZWc
+	 4eiAB2dlblxjeg0URw2IrRj/ehBhXVjcKlg6GzbSpYxSoN3kJGS7JjOltdnfP3Qta3
+	 oRsNFDVlrDLO0WroiRu+xoge5CTkyq0TF/DT+r9Bf5gsrKiWAmxDv9dxNCCYKE0gE5
+	 VZ0n3r6ReFd6UvW8wMGGuIWhMUht62kOqS1/MiJgdYsaMazlCPFMkI4d5+LTT202pu
+	 2FPyeJhTUHIY4V8qababczKm4kqMGFdeUOetkTvkCoxaHbV3eW4jlS11S7Tcm2Pdn8
+	 XGyDxBk37oBvA==
+Date: Tue, 27 Jan 2026 10:53:04 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Simon Horman <horms@kernel.org>, "illusion.wang"
+ <illusion.wang@nebula-matrix.com>
+Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+ sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
+ corbet@lwn.net, linux-doc@vger.kernel.org, lorenzo@kernel.org,
+ pabeni@redhat.com, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
+ hawk@kernel.org, ast@kernel.org, bpf@vger.kernel.org, sdf@fomichev.me,
+ daniel@iogearbox.net, john.fastabend@gmail.com, edumazet@google.com, open
+ list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 net-next 00/15] nbl driver for Nebulamatrix NICs
+Message-ID: <20260127105304.21279cc2@kernel.org>
+In-Reply-To: <aXj-uam1HodC0851@horms.kernel.org>
+References: <20260123011804.31263-1-illusion.wang@nebula-matrix.com>
+	<aXj-uam1HodC0851@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <2396510.ElGaqSPkdT@rafael.j.wysocki> <DFHK7ZS7H7LJ.1POCUDPSLC3CP@kernel.org>
- <CAJZ5v0gDXSdAy9wJYUc_yyHD-Y_tPk0eVzWTyMLe7uHm30_Ncw@mail.gmail.com>
-In-Reply-To: <CAJZ5v0gDXSdAy9wJYUc_yyHD-Y_tPk0eVzWTyMLe7uHm30_Ncw@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 27 Jan 2026 19:50:51 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0h+xwRJg9=-FYnHy5O=o=YzX_u6Qpt3WQ-3XCbnJyh=vA@mail.gmail.com>
-X-Gm-Features: AZwV_QgEp63WWSibz14NNzgyCI6vuljeFyyemM8eKWk7bs1261BvkPJEzNDPnKU
-Message-ID: <CAJZ5v0h+xwRJg9=-FYnHy5O=o=YzX_u6Qpt3WQ-3XCbnJyh=vA@mail.gmail.com>
-Subject: Re: [PATCH v2] ACPI: Documentation: driver-api: Disapprove of using
- ACPI drivers
-To: Linux ACPI <linux-acpi@vger.kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Bjorn Helgaas <helgaas@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hansg@kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Zhang Rui <rui.zhang@intel.com>, 
-	Armin Wolf <w_armin@gmx.de>, Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, 
-	Mario Limonciello <mario.limonciello@amd.com>, Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 7, 2026 at 1:14=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.org=
-> wrote:
->
-> On Tue, Jan 6, 2026 at 3:01=E2=80=AFPM Danilo Krummrich <dakr@kernel.org>=
- wrote:
-> >
-> > On Tue Jan 6, 2026 at 1:27 PM CET, Rafael J. Wysocki wrote:
-> > > +This means that it really should never be necessary to bind a driver=
- directly to
-> > > +an ACPI device node because there is a "proper" device object repres=
-enting the
-> > > +corresponding piece of hardware that can be bound to by a "proper" d=
-river using
-> > > +the given ACPI device node as the device's ACPI companion.  Thus, in=
- principle,
-> > > +there is no reason to use ACPI drivers and if they all were replaced=
- with other
-> > > +driver types (for example, platform drivers), some code could be dro=
-pped and
-> > > +some complexity would go away.
-> >
-> > I think it would be good to explicitly encourage people to convert exis=
-ting
-> > drivers (maybe even list some of those) and rephrase the last sentence =
-to list
-> > what exact infrastructure, complexity, etc. can go away once that happe=
-ned.
->
-> I can rephrase the last sentence, but the purpose of this document is
-> to explain the motivation for the change rather than to make a call to
-> action.
->
-> > I think this would make it more likely to receive some contributions to=
-wards
-> > this goal.
->
-> I have prototype driver conversion patches for almost 50% of the cases
-> right now and I'm expecting to have them for all of the cases by the
-> end of the current development cycle, so I'm not sure how much there
-> is to gain.
->
-> I want people to not be surprised when they see those patches though.
+On Tue, 27 Jan 2026 18:06:49 +0000 Simon Horman wrote:
+> As per Jakub's advice in his review of v1 [*],
+> Please try to create a minimal driver in the order of ~5kLoC.
 
-Actually, all of this work is almost ready to be submitted, but in the
-meantime I put the patches on an experimental branch here:
+Perhaps other maintainers will disagree, but for ease of review
+and to avoid the huge reposts perhaps we should consider merging
+something like patches 1 and 3* first, as the initial series.
+And then you can build up the driver from there in reasonable,
+5kLoC-at-a-time series?
 
-https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/log/?h=
-=3Dexperimental/acpi-driver-conversion
-
-It includes some material already queued up for 6.20/7.0 and a fix
-that has been posted.
-
-The changelogs are a bit rudimentary and need some more work, but the
-code changes should be complete (famous last words).
+ * patch 3 currently includes things which do not seem machine
+   generated / like register descriptors like structs added to
+   nbl_def_channel.h and nbl_include.h
