@@ -1,111 +1,162 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3E1366826
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 19:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04DB28489E;
+	Tue, 27 Jan 2026 20:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769541126; cv=none; b=ur9wfRtYQgxQQum+GUd8yre6uoYicyqRh7zpeS0aiVGcAAmZ5ujzEu8m0Zi+9qAljS2N++/Vd5EcvQumbSeM5yBUzdLDYehhp0m6aWi/lQLt5itM5Z/hsEh+vTBFD6W9T0/xbjbdelrITjJ3ot7fFw5Ky+pVvI7zYb3NNSWzb+4=
+	t=1769544599; cv=none; b=PxZrYOuAk5P/oXQrf/eukVKU1H+ullfQPVLyLUOhH4T5M/2vyFG7QMesxLL6e9Sxi6miUjxZ3f1FcqFjW7KgHYwCCD6fkzglNVVxM3YhY7+7DkMv+i+6IREkAeGg81RPfgSnj2s68ZwqllTndRzvuYd/VxICXQLJCrnuGXBzEKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769541126; c=relaxed/simple;
-	bh=XwkACK+iKw7oI/5o/Gv8sfELgLAgj1JR8qRdX4LMvYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WFY4WPXR8udEBVUqAZCQ7y7kTi9UCWZPSt1ZX3J5bLUa2KV1ONC9BDwnJcxXF3JPhXSiUzZTVhPbobY733tEQlFZE9IyghzkI6JnFoIHQpWqh9578JXB4hYnFgmoS+khFNNVwwfU9DybgkUdusAjAwkvntS1jcBocfVhHGs4Ylo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WCMr9i09; arc=none smtp.client-ip=209.85.167.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769544599; c=relaxed/simple;
+	bh=WJHgbRzk+nm2ozhgo4Pc1OQr2YTFqZyBdg7StnRy7CA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L1u2nVdegDFznd1+1N5dH/RGxP+31NW0DI2vJQmETiWG+aZK03+Rg1pna7EyzE07rDJcuttwLOmc0GVr6ykk+NncsakYMpVrVFDUdcYMUKC7ErXK7iIj5F3ut60wUjXzMjxAh9G5gwEzpqexetdttoUDg1Jdl/l7IC7XBUoMVxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cWvWJBWj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WCMr9i09"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-45c715116dbso3970888b6e.3
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 11:12:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769541119; x=1770145919; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3ZfqLGIvRpFE/gnKzE3sUmBILX80gzyy9OqTW4jmzZU=;
-        b=WCMr9i09ggZMRal/3mNs2uXPZHE6g/OHCNOXiuG/1jIjblcMJqQiyjgg2Uz4SWPBTp
-         PiUPPmCSDv7lXkmpollwjJD+dhUj1Q6KVxqqcRoQyjBgmtLw+XHbpsIBNsOCPzN0kOzI
-         purzzQK2NMIsKmuehL3gY/asV2h+BewhCfh253FZLSKYjPfeu46WAHwElK9dYfnk/7KB
-         QyU5KOfFqH5BUyrtBhuETMuT13NHXGt+hrjeBZJURSNDDxHsxIq1gKHl79Nd+6A1QA42
-         Nj2k+8CF5WaCgx5KOlJnMBw4S9rGzVU7pr0QMBVh0bpBZhNVLYsYKqDahTwEEmJwlgdk
-         ULFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769541119; x=1770145919;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3ZfqLGIvRpFE/gnKzE3sUmBILX80gzyy9OqTW4jmzZU=;
-        b=TlXINZPywlYplly/RPQapHxgRmKSkSvftgIKFmE/Wr1Bku/Ih0BnAdtpaiQGbbkWhN
-         OGZaEyUKNXgCrUevxvUDU0jWl/iHBeMsP7wd64VbOXTPICacAtM39H83FfbJ9ZcDPzia
-         +kx8wf6acri+tLnUoc0mLHtWzTz5qIHNrp3ujVlu9f4kAIr1gqrF2fztU2l08h6p4/Lm
-         uktOrFzd/hY7jn+/UO9YZfM99VNipVdhPFH2W534rBMIP+bmi46XQpZwUZHgEt5MVfjy
-         pCkqTvkTUcSxUIYZiEIBNJ1fFOoechi/AX6mItjJ2zdi/lIGcfk3aawj3JBqSxlbigfI
-         Eyug==
-X-Forwarded-Encrypted: i=1; AJvYcCWr/zg52NV0TzsW/9TI7BVbg+s+TvcGweNaJGR3+32fSKMWxLWbyUiQPW0EJ5tUJtJKKuUANzGfeq4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKYW4CW5XejPUSxj0wyk/nLhffcZLxcO3redR2oC8ZtXO8D0vE
-	exx/qRnDaBqUq83VJCqvsr1/m6SgU33xJBOtSNxOvSOCRllYiUSEbLco2DbibK2y
-X-Gm-Gg: AZuq6aJJ+FbbnIwSjRSNfH6ot8ws59nG1XAQjPH2z4JwJ7C2Cj7GnodcG3OQzjrkxAD
-	yrlPPtJxkWKPlWUCjSzcRa2ti+nu9HTKiYYT3Zg4yE+GxuegXY9lJ+CuXHOXNn2lMoVFpywVpUu
-	6cIVlaspUUlVgTkVAnHmnJhXOogy+i/ct5p7gC7BXhwQFvPsa0ay2nhIwc7boCHmE7pqxVhNtsI
-	M0HRO+/DKZZy/tnGoupn9CK2fHhhpPaqigvmsPerHNbduhUm8L7fchyoeCd4DQMdNpEE26l0PeH
-	9zxqMFyqvsX0VxZvZaOlaksfxxE/br2FatQ/1VKDqWxuuNjjU2shLh78/ttNZaUEGCkuGS2LHHP
-	2UK02metQ1lHGMX96JyhTZ8aLaI9RGlpj+4KT6SYv7oKPX0cEhE82euKBXJldb+XhP+Mo1ztV0T
-	w9ENSqpZgDCVsndAconipHlUbg
-X-Received: by 2002:a05:7300:2382:b0:2b0:4f34:eed6 with SMTP id 5a478bee46e88-2b78d9d75acmr1505750eec.26.1769533958980;
-        Tue, 27 Jan 2026 09:12:38 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b79c3aa364sm33692eec.11.2026.01.27.09.12.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Jan 2026 09:12:38 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 27 Jan 2026 09:12:37 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Almog Ben Shaul <almogbs@amazon.com>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	itamark@amazon.com, talel@amazon.com, farbere@amazon.com,
-	ayalstei@amazon.com, dwmw@amazon.com
-Subject: Re: [PATCH 1/2] dt-bindings: trivial-devices: Add jedec,pmic50x0
-Message-ID: <13b492a0-db2e-4e44-b145-cf99f1975fd8@roeck-us.net>
-References: <20260121151947.37719-1-almogbs@amazon.com>
- <20260121151947.37719-2-almogbs@amazon.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cWvWJBWj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E833CC116C6;
+	Tue, 27 Jan 2026 20:09:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769544599;
+	bh=WJHgbRzk+nm2ozhgo4Pc1OQr2YTFqZyBdg7StnRy7CA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cWvWJBWjLej5U/XidMpk0CHSRUPbMf6CASETSQphNAImXnnzilNNG77yYQOHduz+C
+	 VUpCUAVIRyQsykkwpBeMGD8bHXyTyOZ6saVt3e7DX2KglYbPHobVn5m/tUxH9d53WZ
+	 QQUeSsNasg6ZUWyDuLJBkCWYdf+y+dULLxsVnc/ibOtjejr67uzvmQuegPGamT7CNQ
+	 NEt4+NkB042+qSFIlnoN67TslSkuqaKMjkhbhxOHM0xubDHyRlwLt3EjP1jSMI/8Re
+	 YwzNXvvzGc4Y8AFWokbJye0RjmbySohEbNqTscde4O0J+VjtUG51LomQWzR6dX0nkB
+	 1A63wlBws4qrw==
+Date: Tue, 27 Jan 2026 12:09:57 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: chia-yu.chang@nokia-bell-labs.com
+Cc: pabeni@redhat.com, edumazet@google.com, parav@nvidia.com,
+ linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
+ dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
+ stephen@networkplumber.org, xiyou.wangcong@gmail.com, jiri@resnulli.us,
+ davem@davemloft.net, andrew+netdev@lunn.ch, donald.hunter@gmail.com,
+ ast@fiberby.net, liuhangbin@gmail.com, shuah@kernel.org,
+ linux-kselftest@vger.kernel.org, ij@kernel.org, ncardwell@google.com,
+ koen.de_schepper@nokia-bell-labs.com, g.white@cablelabs.com,
+ ingemar.s.johansson@ericsson.com, mirja.kuehlewind@ericsson.com,
+ cheshire@apple.com, rs.ietf@gmx.at, Jason_Livingood@comcast.com,
+ vidhi_goel@apple.com
+Subject: Re: [PATCH v11 net-next 10/15] tcp: accecn: unset ECT if receive or
+ send ACE=0 in AccECN negotiaion
+Message-ID: <20260127120957.76e52cc5@kernel.org>
+In-Reply-To: <20260123100721.42451-11-chia-yu.chang@nokia-bell-labs.com>
+References: <20260123100721.42451-1-chia-yu.chang@nokia-bell-labs.com>
+	<20260123100721.42451-11-chia-yu.chang@nokia-bell-labs.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260121151947.37719-2-almogbs@amazon.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jan 21, 2026 at 03:19:46PM +0000, Almog Ben Shaul wrote:
-> Add devicetree binding for JEDEC PMIC50x0 compliant I2C DDR5 PMICs.
-> https://www.jedec.org/standards-documents/docs/jesd301-1a03
+On Fri, 23 Jan 2026 11:07:16 +0100 chia-yu.chang@nokia-bell-labs.com
+wrote:
+> Based on specification:
+>   https://tools.ietf.org/id/draft-ietf-tcpm-accurate-ecn-28.txt
 > 
-> Signed-off-by: Almog Ben Shaul <almogbs@amazon.com>
-> ---
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> Based on Section 3.1.5 of AccECN spec (RFC9768), a TCP Server in
+> AccECN mode MUST NOT set ECT on any packet for the rest of the connection,
+> if it has received or sent at least one valid SYN or Acceptable SYN/ACK
+> with (AE,CWR,ECE) = (0,0,0) during the handshake.
 > 
-> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-> index d0f7dbf15d6f..fb16bd91c76c 100644
-> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> @@ -171,6 +171,8 @@ properties:
->            - isil,isl76682
->              # JEDEC JESD300 (SPD5118) Hub and Serial Presence Detect
->            - jedec,spd5118
-> +            # JEDEC PMIC50X0 DDR5 Power Management ICs
-> +          - jedec,pmic50x0
+> In addition, a host in AccECN mode that is feeding back the IP-ECN
+> field on a SYN or SYN/ACK MUST feed back the IP-ECN field on the
+> latest valid SYN or acceptable SYN/ACK to arrive.
 
-This should probably refer to the standard (JEDEC JESD301). Also, I am not
-sure if pmic50x0 is appropriate, since the standard refers to pmic5000 and
-pmic5010, but does not cover pmic50[2-9]0.
+FWIW this series is marked as Changes Requested in patchwork. 
+I don't think I did that, IDK why it's in that state :S
+I see these warnings when I try to apply it:
 
-Guenter
+Applying: selftests/net: packetdrill: add TCP Accurate ECN cases
+.git/rebase-apply/patch:325: new blank line at EOF.
++
+.git/rebase-apply/patch:1550: new blank line at EOF.
++
+.git/rebase-apply/patch:1641: new blank line at EOF.
++
+warning: 3 lines add whitespace errors.
 
->              # Linear Technology LTC2488
->            - lineartechnology,ltc2488
->              # 5 Bit Programmable, Pulse-Width Modulator
+
+Other than that the AI code review made the following comment,
+I haven't investigated the expected behavior. Could you TAL?
+
+> @@ -1103,6 +1104,8 @@ static void reqsk_timer_handler(struct timer_list *t)
+>  	    (!resend ||
+>  	     !tcp_rtx_synack(sk_listener, req) ||
+>  	     inet_rsk(req)->acked)) {
+> +		if (req->num_retrans > 1 && tcp_rsk(req)->accecn_ok)
+> +			tcp_rsk(req)->accecn_fail_mode |= TCP_ACCECN_ACE_FAIL_SEND;
+
+Note: This correctly sets the flag on tcp_rsk(req)->accecn_fail_mode,
+which will be propagated to the child socket via tcp_ecn_openreq_child().
+
+> diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+
+[ ... ]
+
+> @@ -481,6 +481,8 @@ static void tcp_ecn_openreq_child(struct sock *sk,
+>  		tp->syn_ect_snt = treq->syn_ect_snt;
+>  		tcp_accecn_third_ack(sk, skb, treq->syn_ect_snt);
+>  		tp->saw_accecn_opt = treq->saw_accecn_opt;
+> +		if (treq->accecn_fail_mode & TCP_ACCECN_ACE_FAIL_SEND)
+> +			tcp_accecn_fail_mode_set(tp, TCP_ACCECN_ACE_FAIL_SEND);
+
+This propagates TCP_ACCECN_ACE_FAIL_SEND from the request socket to the
+child, but TCP_ACCECN_ACE_FAIL_RECV is not propagated here.
+
+> @@ -749,16 +751,32 @@ struct sock *tcp_check_req(struct sock *sk, struct sk_buff *skb,
+>  		 */
+>  		if (!tcp_oow_rate_limited(sock_net(sk), skb,
+>  					  LINUX_MIB_TCPACKSKIPPEDSYNRECV,
+> -					  &tcp_rsk(req)->last_oow_ack_time) &&
+> -
+> -		    !tcp_rtx_synack(sk, req)) {
+> -			unsigned long expires = jiffies;
+> -
+> -			expires += tcp_reqsk_timeout(req);
+> -			if (!fastopen)
+> -				mod_timer_pending(&req->rsk_timer, expires);
+> -			else
+> -				req->rsk_timer.expires = expires;
+> +					  &tcp_rsk(req)->last_oow_ack_time)) {
+> +			if (tcp_rsk(req)->accecn_ok) {
+> +				u8 ect_rcv = TCP_SKB_CB(skb)->ip_dsfield &
+> +					     INET_ECN_MASK;
+> +
+> +				tcp_rsk(req)->syn_ect_rcv = ect_rcv;
+> +				if (tcp_accecn_ace(tcp_hdr(skb)) == 0x0) {
+> +					u8 fail_mode = TCP_ACCECN_ACE_FAIL_RECV;
+> +
+> +					tcp_accecn_fail_mode_set(tcp_sk(sk),
+> +								 fail_mode);
+
+Should this be setting the flag on the request socket instead of the
+listener socket? Here tcp_sk(sk) is the listener, but reqsk_timer_handler()
+uses tcp_rsk(req)->accecn_fail_mode for the same purpose. The flag set
+on the listener socket will not be propagated to the child socket, so
+the child may incorrectly set ECT on outgoing packets even after receiving
+a SYN with ACE=0.
+
+For consistency with reqsk_timer_handler() and to ensure the flag reaches
+the child socket, this might need to be:
+
+    tcp_rsk(req)->accecn_fail_mode |= fail_mode;
+
+> +				}
+> +			}
+> +			if (!tcp_rtx_synack(sk, req)) {
+> +				unsigned long expires = jiffies;
+> +
+> +				tcp_accecn_ace_fail_send_set_retrans(req,
+> +								     tcp_sk(sk));
+
+Similar question here: tcp_accecn_ace_fail_send_set_retrans() sets the
+flag on tcp_sk(sk) (the listener), while reqsk_timer_handler() sets it
+on tcp_rsk(req). Is this intentional?
