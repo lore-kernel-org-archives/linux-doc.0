@@ -1,170 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8991D32F747
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 21:51:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769550703; cv=none; b=IfJJFDfcdNRQujXFeZwoCMIMxMQ68dkiGFMYTpDEHcYnikFZtJ7Aaf88Oc8GNVO++1C6nJ8VoRx49xT7r3ZHvRbbWW0+bsn4Nmsane9qlHrJM+KwdQWgYtTixs2iDK0QxuFDe2raRSgFaQnt7a3MmwGTX35e4dBOjq0hpca21g0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769550703; c=relaxed/simple;
-	bh=dtIffU36g8FmQEzwROroB7gOkf5mKnNp6PxM5/4MYo0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=G1TR0GeJoZ+C6YiLsI7rKQ+695hZ2DqtoCSBt6IBwzt9GbAqXb4QmhxggrctCcq05spuD0wPN7WL6fWg1JhgAv+Jde60rQHAt9PxwkmEIFiTo4nrTr+Qh9XR588V4gKo3YXGVCe0eQLTAsJWIUk903Fp6I81PB6L26Q6wCOKPj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krw1tRNM; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171652264C0
+	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 21:55:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769550960; cv=pass; b=fTNLfManwX/TEF5yzQJG9ZVyjfQVYL5AnWAS53SvEemvH5Ys/if/KsnwWVaAYB93RRFvIfYtKpIo3KofGSs+pTV8TR79x9agN81z8a/Zr7NzAoBdjfMp3+xSybEsgqwS8X3491SxPPL7jczr3ewBVAGaPbbeAgCjH4acIYPCsfM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769550960; c=relaxed/simple;
+	bh=8m6SHPVdIWrcyh2aRGiyHcnuhF1GhzjV4UbqBqvwtjQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DUVZD1ooIbjSHqqbLJDEnfaCecnGEG9BrDsY4Lza6Ipcj/4bqdAAU6qqct/wZIgBHMDQ+CMAMSBS3Ev9UZe2906k8qW5daGSbD4geUVcAIKSdzOU7osOV3LieWSpYW6sGpTqnHAyO1QAw2jgDLoaudoTgT7GkZGvtl75BY0sGAA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ix+lNivl; arc=pass smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krw1tRNM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769550701; x=1801086701;
-  h=date:from:to:cc:subject:message-id;
-  bh=dtIffU36g8FmQEzwROroB7gOkf5mKnNp6PxM5/4MYo0=;
-  b=krw1tRNMEWR+BDnNytUAdh28sCGQxGtpzEGfrWgm+iOsjMZDtvsNoR9w
-   MaVRnLuy173N9SW6I08awyt/BSM0kzbNYrx6v5O3LDYbGZO3GUQDueESI
-   OYY7TYFADlQy5nvE8al45IcIltdjWamGWaH5CFaZYDpIbDlei87dmVPiG
-   W4ewiHOkhecP2Y5BC9Wa7zyizeQ7OtcxSejpkwWM7+2kPyQAWBaKrlZL+
-   RoOEKhy+BV5ToOphvMygY8oO+jwtZ+os7ehV8qJn2QXuUvudAl/BZBg8e
-   3dzxnQxc4rJMXFXsLC9yV0L93JQx6Z+rtN3FTqk+VJ65Pn7hKxi7bq2ck
-   g==;
-X-CSE-ConnectionGUID: DaXlAjhHSqOuuv7RSIf0Tw==
-X-CSE-MsgGUID: KEC/x/TERdO4J7yqqs5DVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11684"; a="96222207"
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="96222207"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 13:51:41 -0800
-X-CSE-ConnectionGUID: hMeoLc9lSlmBrlW815kNag==
-X-CSE-MsgGUID: vm608pI8SpG8/aDzyPdtMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,257,1763452800"; 
-   d="scan'208";a="207986972"
-Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Jan 2026 13:51:39 -0800
-Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vkqyH-000000001wF-2wYV;
-	Tue, 27 Jan 2026 21:51:37 +0000
-Date: Tue, 27 Jan 2026 22:51:27 +0100
-From: kernel test robot <lkp@intel.com>
-To: Victor Duicu <victor.duicu@microchip.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/hwmon/mcp9982.rst:2: WARNING:
- Explicit markup ends without a blank line; unexpected unindent. [docutils]
-Message-ID: <202601272257.CLCmXvcW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ix+lNivl"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5018ec2ae21so68532001cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 13:55:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769550957; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GAtbAGEywF9HC9rHQg5QqQO7CQbSa1ALzHS+f403NerTcjFohxU9bFCNizWdJ2j0Mb
+         o1OBtwFWN85fMVLGsrUJKOg3F/BXcnSG3GtdO6PTwfEttWfhTmrewjW0q76nvhEwUAzi
+         0mwkMZCmQl+l+eKTtLwAZDCHDIun7r3+enpabpqADq4Dc0ygmcYVkC7ub6XzXqIlE+hH
+         mKFXXGeC5GijpQrbrGBvav22hKmBqNogCV/kfyIoFZm2+0olP2bMMO7JxxYrxz/Shufn
+         lQHyiGY+4t700CDXebEBgXy0mIS6s1sr9qK1TfnxhN/ZNfJ+GOK3YCGtxSSV1cjUjgYF
+         6IvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=NKlFs0mQTNIoeYHTCe8czttQkA2EuwhIv5BND87JXOY=;
+        fh=DDgS7+pmn69paRSpbLVeZs36msjefayz4fOH7AukNng=;
+        b=KvDYsxBh5y3UdOeWzpbgd6gntYhK01Wre/Ma6PrQCGMKFcBL/0gYhSp7BuyxlirXeX
+         B4rBZnrbjUVs/kZA0kau1PibfWMfS6HNozc2Q0X49bNr3YpnjiavQ/ACjeltU83TAij+
+         3zEj45REewyd33vDYgB0M660iwBdp6BlvTvOJCV9mh/6H44gBXwN6WEwx1FN0+Jrjgjc
+         ZpqVo//hpuLv4i0iefiKJ0yJ0NWXevvjvrGQ5EKOAcu12Zho/ngRDU3Rmde8o25wBejt
+         JHXf5K0rISnYVDYN1kuYZztWzArG31dgsvfrVcMLQdW2aRJI40D2vBngtWIcMJ19HgiN
+         Cv6A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769550957; x=1770155757; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NKlFs0mQTNIoeYHTCe8czttQkA2EuwhIv5BND87JXOY=;
+        b=ix+lNivlr3lyDXAuHr9H0DGq1g3Qt/dJxnKBg+40FddaJGs4dWOKK1/OlODc5ZqYJB
+         k/ni//D0zoZGihJmfE+OX2T7mPfdv8jwxYW/VuqzpghxwH8urb2UoF20+fifIFcnFlwY
+         dYRuDywReXrDcVEvYRbCm2IV6r87jPb/zga/nbF/Yz5Cj/iI0w6glXt5qSUghAwy45RP
+         R6HDS0B3lCT8fI7owiMBkmYuZ2Fl8ik7lOtC3mdng4Eb86bEKOs67t+8aI6e17wJ9Ncl
+         lahXUPAgkUh6615b/DYUpz+XK98/Mov5xF8DGilVRD+KnhRdF+FCuLPS69nm+6mg4xaP
+         h2JA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769550957; x=1770155757;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NKlFs0mQTNIoeYHTCe8czttQkA2EuwhIv5BND87JXOY=;
+        b=YYiWD4lbEDosNDba2c7csmhhZUmAIbPzvRJLHFPU7XiqsclbbChqw21Gwx6BUUyO+v
+         j4ZFX4+EuvSdpqR8q90y+VfEwXFastCQwGbzdU1TtD/w0PAFFHsIclQp8wMhsvrs20Dp
+         xDMZIO7IRvH65GabO0BpxZAZ3y90LU/EWYW3EYgHqAO25XqpoglpTKRpcaHcgN/gHsx2
+         xt/ZbJ8i8sfUaRPrC5nCpyMr+3kHmqndyxQjysjKHnJS09QTtqvKy0EEvv0YxBrlTsm7
+         QZsGsPed4jSbs2e2PL6ysLqw2CNlfmOuHog98S9qLaMyTpX6t3q317VWXPPmcadenPC3
+         +cjg==
+X-Forwarded-Encrypted: i=1; AJvYcCUdIARj4VRFECG7mSAXEWNb4p88HNCKoNpZdHSPYCmmPuterAx2b6dMkJ8C/77YQ7ulPsDLp5bvTfc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjPas5GRcUESZ735Nw39/RPvJ5oSb9MchL0LFCsan9nUYgq+JR
+	1joNt0pAc3qNikk972Vow/FFQC1dmoUAW5/rwXBdfDZv99Srboae/SBnOOa6MiF/mxXB3zILWxo
+	Uy+Nl+Aq5Sic2uILs9JW089fM0Y9waro=
+X-Gm-Gg: AZuq6aLOM2Q/O+3sQfXMUUbn9wqp4Om7DJvhJbP1nwLdQC3GFJZ8CkEETc4UshK/o9M
+	2MQDDDz2T0ZHkJpVFDS9a4qf4ZpdsHDq6JH/eS/u5ekovVQo3EgWFGmr4F3b5J+gWBbJzLtDB0x
+	9cUA612BB9qyzrfWcZjNg4peyhA1Enlc/ofDC1z+VHA0nl2gBwKXHL0Adq2290i+BW2gGZTOHX0
+	yTWiiFeCCGZQhiwTmv9hyGrLn8fWnYBV5C0RnNBrr9XOAqq3w5jpV/HLW5K9Xfo4WL+Iw==
+X-Received: by 2002:a05:622a:311:b0:4ed:a6b0:5c39 with SMTP id
+ d75a77b69052e-5032fc1341emr35550071cf.63.1769550956926; Tue, 27 Jan 2026
+ 13:55:56 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260116125831.953.compound@groves.net> <20260116185911.1005-10-john@jagalactic.com>
+ <20260116185911.1005-1-john@jagalactic.com> <0100019bc831c807-bc90f4c0-d112-4c14-be08-d16839a7bcb6-000000@email.amazonses.com>
+In-Reply-To: <0100019bc831c807-bc90f4c0-d112-4c14-be08-d16839a7bcb6-000000@email.amazonses.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 27 Jan 2026 13:55:44 -0800
+X-Gm-Features: AZwV_QhPL9Sj6DMGNjDww4OFl9nGLOsm6aFs6t6n1KrqwkFwyhPAYsBkmAeTikQ
+Message-ID: <CAJnrk1bvomN7_MZOO8hwf85qLztZys4LfCjfcs_ZUq8+YBk5Wg@mail.gmail.com>
+Subject: Re: [PATCH V5 09/19] famfs_fuse: magic.h: Add famfs magic numbers
+To: john@jagalactic.com
+Cc: John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	John Groves <jgroves@fastmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/victor-duicu-microchip-com/dt-bindings-hwmon-add-support-for-MCP998X/20260127-234206
-head:   0baaf837477ebfcec7499ca315778155b2688e5d
-commit: 0baaf837477ebfcec7499ca315778155b2688e5d hwmon: add support for MCP998X
-date:   6 hours ago
-reproduce: (https://download.01.org/0day-ci/archive/20260127/202601272257.CLCmXvcW-lkp@intel.com/reproduce)
+On Fri, Jan 16, 2026 at 11:52=E2=80=AFAM John Groves <john@jagalactic.com> =
+wrote:
+>
+> From: John Groves <john@groves.net>
+>
+> Famfs distinguishes between its on-media and in-memory superblocks. This
+> reserves the numbers, but they are only used by the user space
+> components of famfs.
+>
+> Signed-off-by: John Groves <john@groves.net>
+> ---
+>  include/uapi/linux/magic.h | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+> index 638ca21b7a90..712b097bf2a5 100644
+> --- a/include/uapi/linux/magic.h
+> +++ b/include/uapi/linux/magic.h
+> @@ -38,6 +38,8 @@
+>  #define OVERLAYFS_SUPER_MAGIC  0x794c7630
+>  #define FUSE_SUPER_MAGIC       0x65735546
+>  #define BCACHEFS_SUPER_MAGIC   0xca451a4e
+> +#define FAMFS_SUPER_MAGIC      0x87b282ff
+> +#define FAMFS_STATFS_MAGIC      0x87b282fd
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202601272257.CLCmXvcW-lkp@intel.com/
+Could you explain why this needs to be added to uapi? If they are used
+only by userspace, does it make more sense for these constants to live
+in the userspace code instead?
 
-All warnings (new ones prefixed by >>):
+Thanks,
+Joanne
 
-   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
-   ERROR: Cannot find file ./include/linux/hid_bpf.h
-   WARNING: No kernel-doc for file ./include/linux/hid_bpf.h
-   ERROR: Cannot find file ./include/linux/hid.h
-   WARNING: No kernel-doc for file ./include/linux/hid.h
->> Documentation/hwmon/mcp9982.rst:2: WARNING: Explicit markup ends without a blank line; unexpected unindent. [docutils]
-   Documentation/hwmon/mcp9982.rst:70: ERROR: Unexpected indentation. [docutils]
->> Documentation/hwmon/mcp9982.rst:71: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/hwmon/mcp9982.rst:72: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
-   ERROR: Cannot find file ./include/linux/i2c-atr.h
-   WARNING: No kernel-doc for file ./include/linux/i2c-atr.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   ERROR: Cannot find file ./include/linux/mutex.h
-   WARNING: No kernel-doc for file ./include/linux/mutex.h
-
-
-vim +2 Documentation/hwmon/mcp9982.rst
-
-   > 2	Kernel driver MCP998X
-     3	=====================
-     4	
-     5	Supported chips:
-     6	
-     7	  * Microchip Technology MCP998X/MCP9933 and MCP998XD/MCP9933D
-     8	
-     9	    Prefix: 'mcp9982'
-    10	
-    11	    Datasheet:
-    12	    https://ww1.microchip.com/downloads/aemDocuments/documents/MSLD/ProductDocuments/DataSheets/MCP998X-Family-Data-Sheet-DS20006827.pdf
-    13	
-    14	Authors:
-    15	
-    16	   - Victor Duicu <victor.duicu@microchip.com>
-    17	
-    18	Description
-    19	-----------
-    20	
-    21	This driver implements support for the MCP998X family containing: MCP9982,
-    22	MCP9982D, MCP9983, MCP9983D, MCP9984, MCP9984D, MCP9985, MCP9985D,
-    23	MCP9933 and MCP9933D.
-    24	
-    25	The MCP998X Family is a high accuracy 2-wire multichannel automotive
-    26	temperature monitor.
-    27	
-    28	The chips in the family have different numbers of external channels,
-    29	ranging from 1 (MCP9982) to 4 channels (MCP9985). Reading diodes in
-    30	anti-parallel connection is supported by MCP9984/85/33 and
-    31	MCP9984D/85D/33D. Dedicated hardware shutdown circuitry is present
-    32	only in MCP998XD and MCP9933D.
-    33	
-    34	Temperatures are read in millidegrees Celsius, ranging from -64 to
-    35	191.875 with 0.125 precision.
-    36	
-    37	Each channel has a minimum, maximum, and critical limit alongside associated alarms.
-    38	The chips also implement a hysteresis mechanism which applies only to the maximum
-    39	and critical limits. The relative difference between a limit and its hysteresis
-    40	is the same for both and the value is kept in a single register.
-    41	
-    42	The chips measure temperatures with a variable conversion rate.
-    43	Update_interval = Conversion/Second, so the available options are:
-    44	- 16000 (ms) = 1 conv/16 sec
-    45	- 8000 (ms) = 1 conv/8 sec
-    46	- 4000 (ms) = 1 conv/4 sec
-    47	- 2000 (ms) = 1 conv/2 sec
-    48	- 1000 (ms) = 1 conv/sec
-    49	- 500 (ms) = 2 conv/sec
-    50	- 250 (ms) = 4 conv/sec
-    51	- 125 (ms) = 8 conv/sec
-    52	- 64 (ms) = 16 conv/sec
-    53	- 32 (ms) = 32 conv/sec
-    54	- 16 (ms) = 64 conv/sec
-    55	
-    56	Usage Notes
-    57	-----------
-    58	
-    59	Parameters that can be configured in devicetree:
-    60	- anti-parallel diode mode operation
-    61	- resistance error correction on channels 1 and 2
-    62	- resistance error correction on channels 3 and 4
-    63	Chips 82/83 and 82D/83D do not support anti-parallel diode mode.
-    64	For chips with "D" in the name resistance error correction must be on.
-    65	Please see Documentation/devicetree/bindings/hwmon/microchip,mcp9982.yaml
-    66	for details.
-    67	
-    68	There are two power states:
-    69	- Active state: in which the chip is converting on all channels at the
-    70	  programmed rate.
-  > 71	- Standby state: in which the host must initiate a conversion cycle.
-  > 72	Chips with "D" in the name work in Active state only and those without
-    73	can work in either state.
-    74	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>  #define MINIX_SUPER_MAGIC      0x137F          /* minix v1 fs, 14 char n=
+ames */
+>  #define MINIX_SUPER_MAGIC2     0x138F          /* minix v1 fs, 30 char n=
+ames */
+> --
+> 2.52.0
+>
+>
