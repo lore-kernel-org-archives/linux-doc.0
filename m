@@ -1,70 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB72330594F;
-	Tue, 27 Jan 2026 10:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2D8342507
+	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 10:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769510067; cv=none; b=leGZA4zum3ODzt9DtmSNs0NNia7YFj7oCMWiqnhp2fZ3N+PFjMBx2Jud11qSNqx25+IfhFROKiDGF2yF/n6bvCHnmHvE0eWvj5pH3d9DlJIttWDOvS3+llfUubRn3tgkrwz+qG0HNV3heerbFBvY34quMa7ABXMB56pYS4V92g8=
+	t=1769510419; cv=none; b=EOLVL5kjsd8BKWUK4vRlBLN+aXaRsOm5C3CMhsWVcZWWSbwh0SV98ENmT/PeGj674TDB7jttMOmTLiAAXerv5XXKoFevQTyWhyAZpvLid83e3ubroQ9SKJ2NU51qP0Msapja9CXlBF2unZ/JMdovRpFt10CGcEK/nueTDtZ3ybw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769510067; c=relaxed/simple;
-	bh=yp6cq73p/uk1O1TFJ6RmBr3+yKelBL1anGwU/ljcG6o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=myYBNXg74fkyo506ImjN3ScmwgJvSh0Uvlz2Kv8EI9a93KAagOMWa5TlipYUveSPKr01gZh9fbBq4S+yHSII+dUMiDq/GKhi6LXg30R17IGIGJEMMt/h7pbiRZ4mMsLYtiXSv4FNJagnApweyCiqnEkZJcANALjZ5QmuBEHbXMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JMpEQGpu; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1769510419; c=relaxed/simple;
+	bh=P9g5e/OuAoGiuTqQFV/COqX22+aRYbcTZ9ZxgA8VVto=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Sfsh5kucXB5tQFpLI8CCKn2/yFJX37LwnO4iselEpe389dBrCyovULeEoNR+XIVC6bPwVXKwR9cQOwflNvwlJ2DA1UbNSwxzipqEP6PNRzp0k1Txx6S3oGVi1NKgR8hwKSlKGtyuewjFZJCT/OsngXmlCSEJmB8Ko/vC36gINag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ts8K3hqd; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JMpEQGpu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769510066; x=1801046066;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yp6cq73p/uk1O1TFJ6RmBr3+yKelBL1anGwU/ljcG6o=;
-  b=JMpEQGpu3HWrQUCdDRbXOZgNPSv+CJm50bMKAHsLlQiJdeA6eS3+KfeO
-   XdQdRmg0iro2OGgesnVyKdpVAk+wDEC8zznCIzqM6eROkMiLSFnz6oGBM
-   xNP3Iq82oaicG0iv6nLX78FKN3bemVpHHyzbeNADg50eNi8zAsHvIESIl
-   IBKHAPkrXhvCc34iNLBt/+j8+IJgKy/tzn38E3BRaIxWw3BNv9qb0C5pI
-   Qsf523eJsonDYUtEBSBLwWhCgtD50nAOjQPEfW/1RqCa/RrWDvJkn55c0
-   4XlQLsC1hp3kr8ZNbkDP4y4HvkY6Ofrqv8G1bViw9TrJlA7Wk1ucHPe6G
-   g==;
-X-CSE-ConnectionGUID: QQELSTuyQVWlFVpv/l9XBg==
-X-CSE-MsgGUID: PaUKmJbxQbarkEpPUHq+cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11683"; a="88117951"
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="88117951"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2026 02:34:26 -0800
-X-CSE-ConnectionGUID: wpXaZd6zQ2acKug1vMjGgg==
-X-CSE-MsgGUID: d5ofc/8MQlSgLTZZozAtjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,256,1763452800"; 
-   d="scan'208";a="207069724"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa006.jf.intel.com with ESMTP; 27 Jan 2026 02:33:28 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 9DDA89D; Tue, 27 Jan 2026 11:33:26 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ts8K3hqd"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-81f4ba336b4so5362092b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 02:40:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769510416; x=1770115216; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a4iJWQpRhO1oWXfwOzDLew+HQSAfx5T/zlqt/osxBI4=;
+        b=Ts8K3hqdaYDGgU15AFQgKXg79ULuhVhMMThlWVDPc5ft6vGrr7WzTDQ0EbXAvCdgJw
+         8h8XrFU9009WSns9Wuv68eX6YOpuhe4JoFqgWQKzJEwW8HFsv2IJ/xd+0x8y+T/mq2yW
+         ZLBN2IOYF0zwHe9J3frrItf2ybOT7otk9Qq/dKDYerWo/c8sJ/44mbdnWObPAGu/1444
+         g5t/CfvJ2KTF93vDWmUrvbAWZ7YxeOAcy1mt2YEttROsr9IBYRF5+Bx3T/YPb1ICUoh3
+         OFzG0zHTU485PQGxKOArQ8EfQ0BqCZhjpp1/s6hrL+4w6pMy9prBMefbt0SA2tpXzyvU
+         G6SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769510416; x=1770115216;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a4iJWQpRhO1oWXfwOzDLew+HQSAfx5T/zlqt/osxBI4=;
+        b=TPaDbfFIzpFMphoBzGf9Ktx02YSVyd3o6Yt7EJsG2kIM93GKdfyU+lguGyAJ7Kxmy4
+         G7IhyIFsoQsET8ubnQKyqwDdT7Gft+aDf1559PDcCOWDVx8F5DC+v8Gyw9selCdfbflX
+         5+nQflvCZX+KlYgGZ8hbhUWoBcNKmkUS7DzhiRnFxOo8DeNPWxj41SigJMkLbrMTTibs
+         KQwLnahNh+eO5kmFFLhRacuA/mQktjCwYC+OQrlSrYXtRikyqw55lMnp+QcgPuusea03
+         g8Tgl53ucWrNZcsMIXgsWQhPY0t5q7dCExSpP8irE/58J3LyPvk6P+HYxlzPNJ/uFRNA
+         eJhg==
+X-Forwarded-Encrypted: i=1; AJvYcCXjqdFBa/XCs9o60omQFcSCNdcOfNFwp3XfKUo+Nxjg6oqtlngcYJilYCcophYLVAtnFKw9BJSZ4Y4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyB8U9kDrA2Hz2VRKBEc1OkqtGCxFwerDM9TPiqnFEoYpDQjWV2
+	UeG5AGRU9wXem68prampVCUJfTMO5yxXy7ju50uMckob9yjKPzoT+k4A
+X-Gm-Gg: AZuq6aItDoWZtrcBTQHuZmgby43lA4SjN3RgkO9FMB5RISy1PwGM3Kaqhdbbx6NERKj
+	YeUfvMloYytgVXjzA8LnzziBwvmSqufkbXjQMVmniy4TPQYToDFzYyHif1d5g7Es6fnIG0tKG2L
+	atipeaecWLkJd1zWzd+S7B86/P+q74vj0541D85s6SGzk4kCznTVtrNud9lrvNiaLyGdy3Gqsqq
+	/uk5DsdLXCoWFsYhT2DxexZRam5KrKSrDkeqXUyKRSf9meP2GMkxC/nA2jRor5RY8bQmEAYHCh6
+	sLpLKw2rAMqwMbIpHqPbwtA3+JK3VzF4LNOLipbpBHMid4D0BXW4I3aPvPJOdEFjjVGilxK7GkM
+	jrqQGptU/ALAjy2i0wTtxxMJF72DdC64XCEzw07QrZyT6zajqt2pPdwroiE0eYaOTatVBzL8u7O
+	m9A9Kpwul6OR1dA9Xjwf4x0GKlb2g4QBy2dPXatw==
+X-Received: by 2002:a05:6a00:1f0f:b0:81f:4dc7:d39 with SMTP id d2e1a72fcca58-823692a3787mr1400668b3a.45.1769510416317;
+        Tue, 27 Jan 2026 02:40:16 -0800 (PST)
+Received: from c12-ThinkPad-X1-Carbon-Gen-12 ([2400:2410:5f2b:700:38fe:3edc:7f99:7e99])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82339095c85sm7218907b3a.67.2026.01.27.02.40.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jan 2026 02:40:15 -0800 (PST)
+From: Vishnu Sankar <vishnuocv@gmail.com>
+To: mpearson-lenovo@squebb.ca,
+	dmitry.torokhov@gmail.com,
+	hmh@hmh.eng.br,
+	hansg@kernel.org,
+	corbet@lwn.net,
+	derekjohn.clark@gmail.com,
+	ilpo.jarvinen@linux.intel.com
+Cc: linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v1 3/3] pinctrl: core: Remove duplicate error messages
-Date: Tue, 27 Jan 2026 11:32:08 +0100
-Message-ID: <20260127103325.3925173-4-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com>
-References: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com>
+	ibm-acpi-devel@lists.sourceforge.net,
+	linux-doc@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org,
+	vsankar@lenovo.com,
+	Vishnu Sankar <vishnuocv@gmail.com>
+Subject: [PATCH v6 0/3] TrackPoint doubletap enablement and user control
+Date: Tue, 27 Jan 2026 19:39:04 +0900
+Message-ID: <20260127103907.20269-1-vishnuocv@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,30 +83,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pinctrl_claim_hogs() is covered to report any error via message.
-Since that it's not needed in the callers.
+This patch series adds support for TrackPoint doubletap with a clear and
+simple separation of responsibilities between drivers:
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/pinctrl/core.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+1. Firmware enablement (trackpoint.c):
+   Automatically enables doubletap on capable hardware during device
+   detection.
 
-diff --git a/drivers/pinctrl/core.c b/drivers/pinctrl/core.c
-index ebf803bff867..342bda2a1bd6 100644
---- a/drivers/pinctrl/core.c
-+++ b/drivers/pinctrl/core.c
-@@ -2187,10 +2187,8 @@ int pinctrl_enable(struct pinctrl_dev *pctldev)
- 	int error;
- 
- 	error = pinctrl_claim_hogs(pctldev);
--	if (error) {
--		dev_err(pctldev->dev, "could not claim hogs: %i\n", error);
-+	if (error)
- 		return error;
--	}
- 
- 	mutex_lock(&pinctrldev_list_mutex);
- 	list_add_tail(&pctldev->node, &pinctrldev_list);
+2. User control (thinkpad_acpi.c):
+   Provides a sysfs interface to enable or disable delivery of doubletap
+   events to userspace.
+
+The approach follows the KISS principle:
+- The TrackPoint driver enables hardware functionality by default.
+- The thinkpad_acpi driver controls whether ACPI doubletap events are
+  delivered, using existing hotkey filtering infrastructure.
+- No cross-driver APIs or dual filtering paths are introduced.
+
+Changes in v6:
+- Documentation: fix formatting of the doubletap_enable sysfs attribute
+  description (separate "Values" list)
+
+Changes in v5:
+- Rename sysfs attribute from doubletap_filter to doubletap_enable to
+  reflect actual behavior.
+- Fix inverted logic so events are delivered only when doubletap is
+  enabled.
+- Suppress ACPI hotkey delivery instead of injecting or filtering input
+  events.
+- Register the sysfs attribute via hotkey_attributes[] instead of
+  device_create_file().
+- Drop unnecessary helper wrappers and debug logging.
+- Update Documentation to reflect the new naming and semantics.
+
+Changes in v4:
+- Complete redesign based on reviewer feedback.
+- trackpoint.c: Simplified to only enable doubletap by default.
+- trackpoint.c: Removed all sysfs attributes and global variables.
+- trackpoint.c: Uses firmware ID detection with deny list.
+- thinkpad_acpi.c: Added sysfs interface for kernel-level event control.
+- thinkpad_acpi.c: No cross-driver dependencies.
+- Documentation: Updated to reflect simplified sysfs approach.
+
+Changes in v3:
+- No changes.
+
+Changes in v2:
+- Improved commit messages.
+- Removed unnecessary comments and debug messages.
+- Switched to strstarts() usage.
+- Simplified firmware capability detection logic.
+
+This version addresses the remaining review feedback by correcting the
+naming and logic inversion, aligning sysfs semantics with behavior, and
+fully integrating with existing thinkpad_acpi hotkey handling.
+
+Vishnu Sankar (3):
+  input: trackpoint - Enable doubletap by default on capable devices
+  platform/x86: thinkpad_acpi: Add sysfs control for TrackPoint
+    double-tap
+  Documentation: thinkpad-acpi - Document doubletap_enable attribute
+
+ .../admin-guide/laptops/thinkpad-acpi.rst     | 21 +++++++++
+ drivers/input/mouse/trackpoint.c              | 47 +++++++++++++++++++
+ drivers/input/mouse/trackpoint.h              |  5 ++
+ drivers/platform/x86/lenovo/thinkpad_acpi.c   | 42 ++++++++++++++---
+ 4 files changed, 108 insertions(+), 7 deletions(-)
+
 -- 
-2.50.1
+2.51.0
 
