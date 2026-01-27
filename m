@@ -1,108 +1,149 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A71E34A795
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 11:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6073346766
+	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 11:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769514100; cv=none; b=okKwek+KQjYT7FLx6KlO7ResTIQkyks6Hcz7LVf+9IXacMcKENJbfNtNWmJkQjEcOHSr0BjmFBKpzGstWzz0H+x9BuMTv4RurEY1wECRU3bLPv/JFXScPKcMCahemn2b8aroGncc/FeR60tcmtJ2q6ow0KDilhgpYC4zfSNeLO8=
+	t=1769514998; cv=none; b=jP/jMnbockQ7DqY4su9pfd3HMfUfDiMre6SO6xBaZcAwZslZaGXzkBKdq5yM6tU6XpbMijema8fi2iHe2t4L86C4njUj5X30w2Sj6O6BaL/urGwCDDlK5zc48/CtoU13UwgrstH5oExHVKIkPRUWflz9JxLAd12rVl5i+VWEgeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769514100; c=relaxed/simple;
-	bh=68UIz997v/QQuZTcsHzoMjMrK8CsIhjT+rj9uii+aXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lumPblOsy7uI2e0wMdoDg8uPjYPbqGYRhyNcfyujdpV7C+LWD2ehgRn3/8MoyZ0yNecz01tbYvEq0LI28SyFnk0rZT4SotEWAMTAt8NgpYgiPJwgP4EkihEWjF1aIVY/qfb9+8U0SgnfjWrDROO183NO//fkE34gtckmMiIWvpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=HMKf9MJH; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1769514998; c=relaxed/simple;
+	bh=P//LiY94F1OlajpnNRKwWd+Yg9mN1R13LADpxgyomIo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QnjgeWRUzktfSydV4fNR8vs1XVurSvmH1+5YzAe9kVEZ97GlJo+xZe2BiEaaEFPqaucpGuATcMWxOG6kQdsIxCA7QKW+66cfndW7JXAAMpKl1Ar3e4AWli3sBFoaULueMZY2yGSUtNn4UBtXHEsRCCZn676dIbvH7thr8Yu0BeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZsAyR8iL; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="HMKf9MJH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=jjft
-	8BNeQcJsJ7Q11OQxvOD2FcnLqb+zVi7vsmsrKrA=; b=HMKf9MJHWxg4cDoC0MI5
-	PucL2VvzlUC0YI8iulenVBfr4MKGN1Ebz/YS1t187Hww6Lia4sqg0KTw3F3qaA8d
-	fVpnblfy4xEeohABEyTM7oqNa6BOGfLVxxr8rmkvMhfQK1nrI0ib+mawvB2j67eb
-	escveoPg+49prmLwiAVDxa5Olq9jqrb6Oy2VLTS9slta+ejYZ8tAxILuEUEqjzd2
-	B497UTAZnMHLfG99P4I4tAefPug2NI2ICiFMumiJtdHcDFX8eRFkkgXPgVb3IwCd
-	FkzdQ2TxXtfOYU07f71N22Yc46fbmeUV+2jRLzGsvUZzhJUb6Bnj7QG1Sfroih7i
-	Vg==
-Received: (qmail 3194881 invoked from network); 27 Jan 2026 12:41:27 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Jan 2026 12:41:27 +0100
-X-UD-Smtp-Session: l3s3148p1@x4iaGl1JPqYujnvZ
-Date: Tue, 27 Jan 2026 12:41:27 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: linux-renesas-soc@vger.kernel.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [RFC PATCH 0/4] hwspinlock: refactor headers into public
- provider/consumer pair
-Message-ID: <aXikZ5wc6bvgRqF6@ninjato>
-References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
- <aXc7DxsqiCGdfzxi@smile.fi.intel.com>
- <aXc-Zxw05XQLb1Dy@ninjato>
- <aXdAB2bLTy6u8G8c@smile.fi.intel.com>
- <aXdCBu6kzdw1NWay@ninjato>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZsAyR8iL"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c46d68f2b4eso3573136a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 03:56:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769514995; x=1770119795; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3W6WXYNr5yH/w2G1r8MoJgASz6OzmJb8vRibzAMBBAA=;
+        b=ZsAyR8iLla4tPrlRoqn31n5NJHecGm52qrJ42nOR6J82ycvIY3WNzvvTx/cyrrslgB
+         tlAnlx6CN5FEYGnA4ebYumPbNtvYB1HnX7TVqJ4UxTJKMtEMYsboSicVyIsdm3JT6BHZ
+         CQSdK9QCFdfjKeiXI6XJeYHOQvDYBI7HcDuaAqvLCTnUhJ6F4YBkvBsUSs7KG9FOIDCd
+         GWdi+7Xn1+vEmg9NWThKfgIJf48L6r4dEhGoIInObRBa7waUUZQcU0j90kFc5sFQrw8B
+         evjSxKmJlXokclUEYBbAIA48ri5UwkYt2ko+VzFjcPTDa/Ov/CGe7pITNoyF1IuR6arB
+         mJ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769514995; x=1770119795;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3W6WXYNr5yH/w2G1r8MoJgASz6OzmJb8vRibzAMBBAA=;
+        b=KNP4NEcRiSLs3bvMfqi5alJsC8RBib/8sxTOM/uLCUeUk2FlSPyZ7sj4meGlnMTDCa
+         yoeXFqNZEXZ6zxRcCOeWCQasxbQ9LHUg/Ll/yTJI7q33l2u0lu08yDVUzFAj7Cuxy+yE
+         xmm+DlnAOugLyoyBVyLhyMgC8k5FoJe3j28DHdqhkvrl2YTkqGJcelY96s+CpqFXhLRe
+         ZABjDf8wnGDbgZ34PaOkt1+uG3LFb4jC8njxI3iEbPNRAB2Zr9I92XOeqWkypqKiubkD
+         oRGtyCqqF+XT/ni5lxal9rrvsLeOmCkEhCjLyvWuOM2qkxmarl9gRKAJnJXHrvQcRomq
+         jXWA==
+X-Gm-Message-State: AOJu0YzdVYT8MR3hWSdc3jYEM7PjR2rdSbnC3AjL1Kl8uKO7bWZVkyGY
+	++WMB4Y0ie8aSRQFVY+SrDEv1caKe6r0e5qs+29SMDXOg9fH6TI8+taj
+X-Gm-Gg: AZuq6aKrNIp2/5vvAcx1WaWLs8zKO616cPechc9p2x/FdjZmbiQGekY7KSThQku/Be+
+	bkju9pX9KKuNRwHDlUdPixkST0HxBQ0Y7WkggwBKk1IaA6wLKD+v8XVPPNPsEIaoAxCQewv1LUp
+	LQoaL1X4gk4GCBWz43ic+rwvEEd6svThYkVzavYtfwhogfBpUI96wpQJLuDxtmxaZzJ3eUlvPYg
+	ZZOimBNciiAPR67TflQiQq2YWclfUZWarD8uUwE40V98bTeBS5UJNkePu2YfmlC/2U9tAI2vg3e
+	uHmUB7Mzg0UImlOLaNPENl5wNplvD/oYR+FGGxU/8cFDGXUquuADM8q1IfZ8wwCnsOM6UazvbRq
+	2tZZ1FzciERULdSLFt/YSv4AbTjQ69CVp2hAyXkMH3m4WnmaZSL+tjcdu3BMFGXp6plqQFjLgrE
+	WjM8wy2ntzFGCiZkjeaOtPfKkUppKuQW1EWffmXPTL18aEYhvMTN37jIcI
+X-Received: by 2002:a17:90b:528e:b0:33e:2d0f:479b with SMTP id 98e67ed59e1d1-353fecdcfbemr1682065a91.6.1769514995302;
+        Tue, 27 Jan 2026 03:56:35 -0800 (PST)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3536f35e51fsm4706932a91.11.2026.01.27.03.56.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Jan 2026 03:56:34 -0800 (PST)
+Message-ID: <47aeff66-28f7-44b4-b546-46168a07eb8b@gmail.com>
+Date: Tue, 27 Jan 2026 20:56:32 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aXdCBu6kzdw1NWay@ninjato>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: ja_JP: process: translate 'Obtain a current
+ source tree'
+To: Akiyoshi Kurita <weibu@redadmin.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <20260126141931.3222463-1-weibu@redadmin.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20260126141931.3222463-1-weibu@redadmin.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+Hi,
 
-> > > Providers need it, especially the 'priv' member. Consumers won't see it.
-> > 
-> > But can't we make it opaque?
-> > 
-> > We may have getters and setters for the priv member...
+On Mon, 26 Jan 2026 23:19:31 +0900, Akiyoshi Kurita wrote:
+> Translate the "Obtain a current source tree" section in
+> Documentation/translations/ja_JP/process/submitting-patches.rst.
 > 
-> I think we could do that.
+> Use a jp_ label (.. _jp_describe_changes:) to avoid a duplicate label.
 > 
-> Two drivers use the bank member, but only for the device
-> (lock->bank->dev). That can probably be refactored away, I'd guess.
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+> ---
+>  .../ja_JP/process/submitting-patches.rst      | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+> 
+> diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rst b/Documentation/translations/ja_JP/process/submitting-patches.rst
+> index 2ff887c86b2a..def262367055 100644
+> --- a/Documentation/translations/ja_JP/process/submitting-patches.rst
+> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+> @@ -36,3 +36,23 @@ Documentation/devicetree/bindings/submitting-patches.rst を読んでくださ
+>  いくつかのサブシステムやメンテナツリーには、各々のワークフローや
+>  期待事項に関する追加情報があります。次を参照してください:
+>  :ref:`Documentation/process/maintainer-handbooks.rst <maintainer_handbooks_main>`.
+> +
+> +現在のソースツリーを入手する
+> +----------------------------
+> +
+> +もし手元に最新のカーネルソースのリポジトリがなければ、``git`` を使って取得して
+> +ください。まずは mainline のリポジトリから始めるのがよいでしょう。これは
+> +次のようにして取得できます::
+> +
+> +  git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> +
+> +ただし、mainline のツリーを直接対象にして開発したくない場合もあることに注意
+> +してください。多くのサブシステムのメンテナはそれぞれ独自のツリーを運用しており、
+> +そのツリーに対して作成したパッチを見たいと考えています。
 
-I am willing to develop this series in the above direction. Before
-though, I'd like to know from hwspinlock maintainers if they agree to
-this refactoring in general.
+Well, the original sentence reads:
 
-Thanks and happy hacking,
+    Note, however, that you may not want to develop against the mainline
+    tree directly.  Most subsystem maintainers run their own trees and
+    want to see patches prepared against those trees.
 
-   Wolfram
+Your translation of 1st sentence would be good enough if there were no
+2nd sentence.  But in this case, it would be better to reflect it.
 
+How about something like:
+
+    ただし、直接 mainline のツリーを対象に作業すればよいとは限らないことに注意
+    してください。多くのサブシステムのメンテナはそれぞれ独自のツリーを運用しており、
+    そのツリーに対して作成されたパッチを見たいと考えています。
+
+?  Might sound too non-literal to you, though.
+
+>                                                      該当サブシステムの
+> +ツリーは MAINTAINERS ファイル内の **T:** エントリを参照して見つけてください。
+> +そこに掲載されていない場合は、メンテナに問い合わせてください。
+> +
+> +.. _jp_describe_changes:
+
+Labels should be added only when it has references to it.
+This is premature, I have to say.
+
+Thanks, Akira
+
+> +
+> +変更内容を説明する
+> +------------------
+> 
+> base-commit: a592a36e49372172d7c7551ec19ed18184c935e1
