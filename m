@@ -1,268 +1,118 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F358E23EAB8;
-	Tue, 27 Jan 2026 18:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D974328B71
+	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 18:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769538775; cv=none; b=RvcB3mzuf6w4lHBIWMEYuiVaVtMXrjApVXqSjAt0p2FZKmtpkp6xxBPoD9HGdDadPejfuJ7Fs4L5qcLqvLA0pEHNX5MMPyCNq9Guya+uLhpk2oaXNVcrcIUXtXe3dK6E9BSjpk/14mElZzFCiYbnmQ/ooW4fW90Iny6iZjWlcaU=
+	t=1769539864; cv=none; b=NLJjOmEtkcaL3DAV6Q4wsVP2mg1LJGgTQOFG7HPMURLpA9N+osErB7FzCQDRFHCVeB0kxlfm9C011pDzV+38lS4E7SPkjGyqrbS+rwzfxM4we8FluJt0/p/ak99ir0479yMPadvPMU73X1BXV51oR5IKXvBBbSHYWWh0y978BIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769538775; c=relaxed/simple;
-	bh=0GjKgsBfe/7at6w6QEmAwXPwLGTILTm0SaVUxhGMgX4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YarsEHsr70XqEY3MfxbDMdngm7xBaWvQT6f3H2P2lxCNaxptCsgWB3wZ4p4GbhZAPf6g9bcjaElqpkKm7psi+Pq37oFFXC+20W38idHumY43+O9zLLeY4/ASWYhfD6Du3nACnCwQ7YScDCTd2x49IcdA4k71jH9dgOp8OVhrMK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ymH4b7yV; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1769539864; c=relaxed/simple;
+	bh=5fCSYs3cjWXNj6kD6uXFDIhla+bxW6w8hXBfqk6eHrs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZHSgpnu6sTZN9gXobXCSsG4xB5xmiN+Uee+QpJb6rK9djO0bhBtgYjydP9EuiDEe4GTKfKeqqscJVw/tWetA360S3wJPZ4ZjkKdSNY2/oP9VVBCzXhmmblBiYtzc4erjzbW3TS37u5wTQtUHX8qIvnD4xHvoazCneoukJYxhgXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rO/fVk9K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ymH4b7yV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=FifP6Ih6cJBFoWQfgXG1pllp8GkSYlM1pQ5MGEtgoFs=; b=ymH4b7yV/fqg6RjMqINGq1+PzF
-	4PxhOErnK1KTSxwF8u7q0q9nS9Ta6XQGUC8jEr8y5/WR+q+OWv9yj7qdM8ww58a4sijTPOVmwUqWr
-	lg8noxMTsBMYunecFXUWIfYy0UXBhTbQKDxcXtBBVDmDJRzrUBGqhoNMxLTGIWkcXZ/PplhFuwD5+
-	dtdDq1t9U23+4PlXuzLXB+vCNyqcGePPqdwXF/4Pp3Ci6xJfoGHZfD17ShutmDP5Hx3FFwXC44yaf
-	NpJRvEMLOTXdHhLFIZViy4dLLOKN+XBXzT+EaKuhyI13k0iOXdqBQboETRwkgzfcx1Ar/YDdxdStY
-	rekV/XqQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vknrq-0000000EpAq-0lcU;
-	Tue, 27 Jan 2026 18:32:46 +0000
-Message-ID: <aabb78a6-aea2-4080-89fe-8e00c593b607@infradead.org>
-Date: Tue, 27 Jan 2026 10:32:44 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rO/fVk9K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EFA2C2BC86
+	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 18:51:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769539864;
+	bh=5fCSYs3cjWXNj6kD6uXFDIhla+bxW6w8hXBfqk6eHrs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=rO/fVk9KGOIQL3qj9zN8GwXwvNOtSBr1xxy+CIrUR83dXroBccPza54wycaffC/3V
+	 QNSuK8/wRgmyJChwXoett1m0vsu9yc5a9tAW68Nu+OCg7iEjauaP784XOjOGU22qlt
+	 ATxskFX4anozd4Ez/lqhpViS8/NSris7/FnHzkRtJkHAxbHDpC0r/Jw+z3MZaCsQfM
+	 RvfoSQFd8uH9MqUc2p1yE3ezViWVUJPa/Ng3ff8fzrbLGgEj5I6eOhZ5wG4Ze8aXwV
+	 7t+KB124YLWkwsX3YseO6GOYHFcTvjmycuS4TTlswJ9614jLHq14AcBIw1/wA/rT1+
+	 CFpvqeIwYonvw==
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-40438e0cba6so3614566fac.1
+        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 10:51:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVCqN7hiAuqhGw62VNLHka1SvfHRwtd8a27u27ek54iW6nkgKMa3OU/PCz4Ny6Ynys4AgpUPy2mYow=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzB1Jr6QSi4AD2jrd8EM9FuQNeXAeZKy9y6BspkpqedfZBNpAYg
+	c0zkXC7UPpz8n7LDk4kLA6lsH9pxh1pWVI1Auhf8qnmSRThH239O3vsebn6qdmG+6Nd39KpiLJZ
+	WeVhnWfDHH2vxY29zqPOE0zzFPQPI0i0=
+X-Received: by 2002:a05:6820:218:b0:65f:1012:68aa with SMTP id
+ 006d021491bc7-662f203a2c0mr1500222eaf.1.1769539863186; Tue, 27 Jan 2026
+ 10:51:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: iio: adxl345: Fix typos, units, and grammatical
- errors
-To: Taha Ed-Dafili <0rayn.dev@gmail.com>, jic23@kernel.org
-Cc: me@brighamcampbell.com, skhan@linuxfoundation.org,
- linux-kernel-mentees-archive@lists.linuxfoundation.org,
- dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net,
- linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260127173543.72423-1-0rayn.dev@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260127173543.72423-1-0rayn.dev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <2396510.ElGaqSPkdT@rafael.j.wysocki> <DFHK7ZS7H7LJ.1POCUDPSLC3CP@kernel.org>
+ <CAJZ5v0gDXSdAy9wJYUc_yyHD-Y_tPk0eVzWTyMLe7uHm30_Ncw@mail.gmail.com>
+In-Reply-To: <CAJZ5v0gDXSdAy9wJYUc_yyHD-Y_tPk0eVzWTyMLe7uHm30_Ncw@mail.gmail.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 27 Jan 2026 19:50:51 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0h+xwRJg9=-FYnHy5O=o=YzX_u6Qpt3WQ-3XCbnJyh=vA@mail.gmail.com>
+X-Gm-Features: AZwV_QgEp63WWSibz14NNzgyCI6vuljeFyyemM8eKWk7bs1261BvkPJEzNDPnKU
+Message-ID: <CAJZ5v0h+xwRJg9=-FYnHy5O=o=YzX_u6Qpt3WQ-3XCbnJyh=vA@mail.gmail.com>
+Subject: Re: [PATCH v2] ACPI: Documentation: driver-api: Disapprove of using
+ ACPI drivers
+To: Linux ACPI <linux-acpi@vger.kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Bjorn Helgaas <helgaas@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans de Goede <hansg@kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, 
+	Mika Westerberg <mika.westerberg@linux.intel.com>, Zhang Rui <rui.zhang@intel.com>, 
+	Armin Wolf <w_armin@gmx.de>, Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jan 7, 2026 at 1:14=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.org=
+> wrote:
+>
+> On Tue, Jan 6, 2026 at 3:01=E2=80=AFPM Danilo Krummrich <dakr@kernel.org>=
+ wrote:
+> >
+> > On Tue Jan 6, 2026 at 1:27 PM CET, Rafael J. Wysocki wrote:
+> > > +This means that it really should never be necessary to bind a driver=
+ directly to
+> > > +an ACPI device node because there is a "proper" device object repres=
+enting the
+> > > +corresponding piece of hardware that can be bound to by a "proper" d=
+river using
+> > > +the given ACPI device node as the device's ACPI companion.  Thus, in=
+ principle,
+> > > +there is no reason to use ACPI drivers and if they all were replaced=
+ with other
+> > > +driver types (for example, platform drivers), some code could be dro=
+pped and
+> > > +some complexity would go away.
+> >
+> > I think it would be good to explicitly encourage people to convert exis=
+ting
+> > drivers (maybe even list some of those) and rephrase the last sentence =
+to list
+> > what exact infrastructure, complexity, etc. can go away once that happe=
+ned.
+>
+> I can rephrase the last sentence, but the purpose of this document is
+> to explain the motivation for the change rather than to make a call to
+> action.
+>
+> > I think this would make it more likely to receive some contributions to=
+wards
+> > this goal.
+>
+> I have prototype driver conversion patches for almost 50% of the cases
+> right now and I'm expecting to have them for all of the cases by the
+> end of the current development cycle, so I'm not sure how much there
+> is to gain.
+>
+> I want people to not be surprised when they see those patches though.
 
+Actually, all of this work is almost ready to be submitted, but in the
+meantime I put the patches on an experimental branch here:
 
-On 1/27/26 9:34 AM, Taha Ed-Dafili wrote:
-> Clean up the ADXL345 documentation to improve technical accuracy
-> and readability:
-> - Fix "latent" to "latency" in double tap descriptions.
-> - Correct the threshold unit from "g/LSB" to "mg/LSB"
->   to match the datasheet.
-> - Standardize "axis" to "axes" for plural references.
-> - Change "generic purpose" to "general purpose".
-> - Fix minor subject-verb agreement and punctuation errors.
-> 
-> Signed-off-by: Taha Ed-Dafili <0rayn.dev@gmail.com>
+https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/log/?h=
+=3Dexperimental/acpi-driver-conversion
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+It includes some material already queued up for 6.20/7.0 and a fix
+that has been posted.
 
-Thanks.
-
-> ---
->  Documentation/iio/adxl345.rst | 104 +++++++++++++++++-----------------
->  1 file changed, 52 insertions(+), 52 deletions(-)
-> 
-> diff --git a/Documentation/iio/adxl345.rst b/Documentation/iio/adxl345.rst
-> index bb19d64f67c3..020b512cdb74 100644
-> --- a/Documentation/iio/adxl345.rst
-> +++ b/Documentation/iio/adxl345.rst
-> @@ -12,16 +12,16 @@ This driver supports Analog Device's ADXL345/375 on SPI/I2C bus.
->  * `ADXL345 <https://www.analog.com/ADXL345>`_
->  * `ADXL375 <https://www.analog.com/ADXL375>`_
->  
-> -The ADXL345 is a generic purpose low power, 3-axis accelerometer with selectable
-> +The ADXL345 is a general purpose low power, 3-axis accelerometer with selectable
->  measurement ranges. The ADXL345 supports the ±2 g, ±4 g, ±8 g, and ±16 g ranges.
->  
->  2. Device Attributes
->  ====================
->  
-> -Each IIO device, has a device folder under ``/sys/bus/iio/devices/iio:deviceX``,
-> +Each IIO device has a device folder under ``/sys/bus/iio/devices/iio:deviceX``,
->  where X is the IIO index of the device. Under these folders reside a set of
->  device files, depending on the characteristics and features of the hardware
-> -device in questions. These files are consistently generalized and documented in
-> +device in question. These files are consistently generalized and documented in
->  the IIO ABI documentation.
->  
->  The following table shows the ADXL345 related device files, found in the
-> @@ -42,7 +42,7 @@ specific device folder path ``/sys/bus/iio/devices/iio:deviceX``.
->  +-------------------------------------------+----------------------------------------------------------+
->  | in_accel_x_raw                            | Raw X-axis accelerometer channel value.                  |
->  +-------------------------------------------+----------------------------------------------------------+
-> -| in_accel_y_calibbias                      | y-axis acceleration offset correction                    |
-> +| in_accel_y_calibbias                      | Y-axis acceleration offset correction                    |
->  +-------------------------------------------+----------------------------------------------------------+
->  | in_accel_y_raw                            | Raw Y-axis accelerometer channel value.                  |
->  +-------------------------------------------+----------------------------------------------------------+
-> @@ -68,7 +68,7 @@ present, simply assume its value is 0.
->  +-------------------------------------+---------------------------+
->  | Channel type                        | Measurement unit          |
->  +-------------------------------------+---------------------------+
-> -| Acceleration on X, Y, and Z axis    | Meters per second squared |
-> +| Acceleration on X, Y, and Z axes    | Meters per second squared |
->  +-------------------------------------+---------------------------+
->  
->  Sensor Events
-> @@ -78,8 +78,8 @@ Specific IIO events are triggered by their corresponding interrupts. The sensor
->  driver supports either none or a single active interrupt (INT) line, selectable
->  from the two available options: INT1 or INT2. The active INT line should be
->  specified in the device tree. If no INT line is configured, the sensor defaults
-> -to FIFO bypass mode, where event detection is disabled and only X, Y, and Z axis
-> -measurements are available.
-> +to FIFO bypass mode, where event detection is disabled and only individual
-> +X, Y, and Z axes measurements are available.
->  
->  The table below lists the ADXL345-related device files located in the
->  device-specific path: ``/sys/bus/iio/devices/iio:deviceX/events``.
-> @@ -87,45 +87,45 @@ Note that activity and inactivity detection are DC-coupled by default;
->  therefore, only the AC-coupled activity and inactivity events are explicitly
->  listed.
->  
-> -+---------------------------------------------+---------------------------------------------+
-> -| Event handle                                | Description                                 |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_gesture_doubletap_en               | Enable double tap detection on all axis     |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_gesture_doubletap_reset_timeout    | Double tap window in [us]                   |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_gesture_doubletap_tap2_min_delay   | Double tap latent in [us]                   |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_gesture_singletap_timeout          | Single tap duration in [us]                 |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_gesture_singletap_value            | Single tap threshold value in 62.5/LSB      |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_mag_falling_period                 | Inactivity time in seconds                  |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_mag_falling_value                  | Inactivity threshold value in 62.5/LSB      |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_mag_adaptive_rising_en             | Enable AC coupled activity on X axis        |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_mag_adaptive_falling_period        | AC coupled inactivity time in seconds       |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_mag_adaptive_falling_value         | AC coupled inactivity threshold in 62.5/LSB |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_mag_adaptive_rising_value          | AC coupled activity threshold in 62.5/LSB   |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_mag_rising_en                      | Enable activity detection on X axis         |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_mag_rising_value                   | Activity threshold value in 62.5/LSB        |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_x_gesture_singletap_en             | Enable single tap detection on X axis       |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_x&y&z_mag_falling_en               | Enable inactivity detection on all axis     |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_x&y&z_mag_adaptive_falling_en      | Enable AC coupled inactivity on all axis    |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_y_gesture_singletap_en             | Enable single tap detection on Y axis       |
-> -+---------------------------------------------+---------------------------------------------+
-> -| in_accel_z_gesture_singletap_en             | Enable single tap detection on Z axis       |
-> -+---------------------------------------------+---------------------------------------------+
-> ++---------------------------------------------+------------------------------------------------+
-> +| Event handle                                | Description                                    |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_gesture_doubletap_en               | Enable double tap detection on all axes        |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_gesture_doubletap_reset_timeout    | Double tap window in [us]                      |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_gesture_doubletap_tap2_min_delay   | Double tap latency in [us]                     |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_gesture_singletap_timeout          | Single tap duration in [us]                    |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_gesture_singletap_value            | Single tap threshold value in 62.5 mg/LSB      |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_mag_falling_period                 | Inactivity time in seconds                     |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_mag_falling_value                  | Inactivity threshold value in 62.5 mg/LSB      |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_mag_adaptive_rising_en             | Enable AC coupled activity on X axis           |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_mag_adaptive_falling_period        | AC coupled inactivity time in seconds          |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_mag_adaptive_falling_value         | AC coupled inactivity threshold in 62.5 mg/LSB |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_mag_adaptive_rising_value          | AC coupled activity threshold in 62.5 mg/LSB   |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_mag_rising_en                      | Enable activity detection on X axis            |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_mag_rising_value                   | Activity threshold value in 62.5 mg/LSB        |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_x_gesture_singletap_en             | Enable single tap detection on X axis          |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_x&y&z_mag_falling_en               | Enable inactivity detection on all axes        |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_x&y&z_mag_adaptive_falling_en      | Enable AC coupled inactivity on all axes       |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_y_gesture_singletap_en             | Enable single tap detection on Y axis          |
-> ++---------------------------------------------+------------------------------------------------+
-> +| in_accel_z_gesture_singletap_en             | Enable single tap detection on Z axis          |
-> ++---------------------------------------------+------------------------------------------------+
->  
->  Please refer to the sensor's datasheet for a detailed description of this
->  functionality.
-> @@ -133,14 +133,14 @@ functionality.
->  Manually setting the **ODR** will cause the driver to estimate default values
->  for inactivity detection timing, where higher ODR values correspond to longer
->  default wait times, and lower ODR values to shorter ones. If these defaults do
-> -not meet your application’s needs, you can explicitly configure the inactivity
-> +not meet your application's needs, you can explicitly configure the inactivity
->  wait time. Setting this value to 0 will revert to the default behavior.
->  
->  When changing the **g range** configuration, the driver attempts to estimate
->  appropriate activity and inactivity thresholds by scaling the default values
->  based on the ratio of the previous range to the new one. The resulting threshold
->  will never be zero and will always fall between 1 and 255, corresponding to up
-> -to 62.5 g/LSB as specified in the datasheet. However, you can override these
-> +to 62.5 mg/LSB as specified in the datasheet. However, you can override these
->  estimated thresholds by setting explicit values.
->  
->  When **activity** and **inactivity** events are enabled, the driver
-> @@ -148,7 +148,7 @@ automatically manages hysteresis behavior by setting the **link** and
->  **auto-sleep** bits. The link bit connects the activity and inactivity
->  functions, so that one follows the other. The auto-sleep function puts the
->  sensor into sleep mode when inactivity is detected, reducing power consumption
-> -to the sub-12.5 Hz rate.
-> +to the sub-12.5 Hz rate.
->  
->  The inactivity time is configurable between 1 and 255 seconds. In addition to
->  inactivity detection, the sensor also supports free-fall detection, which, from
-> @@ -312,10 +312,10 @@ Configure one or several events:
->  
->          root:/sys/bus/iio/devices/iio:device0> echo 24 > ./buffer0/length
->  
-> -        ## AC coupled activity, threshold [62.5/LSB]
-> +        ## AC coupled activity, threshold [62.5 mg/LSB]
->          root:/sys/bus/iio/devices/iio:device0> echo 6 > ./events/in_accel_mag_adaptive_rising_value
->  
-> -        ## AC coupled inactivity, threshold, [62.5/LSB]
-> +        ## AC coupled inactivity, threshold, [62.5 mg/LSB]
->          root:/sys/bus/iio/devices/iio:device0> echo 4 > ./events/in_accel_mag_adaptive_falling_value
->  
->          ## AC coupled inactivity, time [s]
-> @@ -330,7 +330,7 @@ Configure one or several events:
->          ## doubletap, window [us]
->          root:/sys/bus/iio/devices/iio:device0> echo 0.025 > ./events/in_accel_gesture_doubletap_reset_timeout
->  
-> -        ## doubletap, latent [us]
-> +        ## doubletap, latency [us]
->          root:/sys/bus/iio/devices/iio:device0> echo 0.025 > ./events/in_accel_gesture_doubletap_tap2_min_delay
->  
->          ## AC coupled activity, enable
-
--- 
-~Randy
+The changelogs are a bit rudimentary and need some more work, but the
+code changes should be complete (famous last words).
