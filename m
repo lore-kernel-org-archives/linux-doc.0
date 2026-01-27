@@ -1,104 +1,69 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B407322A7E4;
-	Tue, 27 Jan 2026 17:42:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DC4324712;
+	Tue, 27 Jan 2026 18:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769535759; cv=none; b=FQqvAS+uVM7zCC0zoBvIvSI+PrOhzEwnY7GekBuVO1D5PmGfJoniNVwhQTyQJi8tv0s9fKzDD9MccRHEFheJcElnK0RixyXvqTkOpVJ6qCcRhpCpftm7TMxdqMkk1Px223zmu6EKp8atrQeKu5P1gPHHUSqj87Cv2JrbnQfWeOI=
+	t=1769537215; cv=none; b=XezNNdG7JnldvW90AqIiPKt4AmDOQa0Bo6ZMCn8L4/nhoGXHRiNoj/WY9eqd12o3Pg6qiQA27Vg9mHsC3i+Zx5gXIoIqrXhGZkd9Z2Om+h/SE/94c/uoCWt+rOU6Z0Xc3y8Ss76pDPpoC4kpyP0LcqwNNLJMk1HZwDrkSIcOHyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769535759; c=relaxed/simple;
-	bh=zc/hv4dCXONl8lO4oWGtWxq+gVpBJejN0xeDztly9PA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=it67fBUIdxJ4HsNjAnWEjNAFLpzQWN9wumSwx2AqcafknIpYJYJV0X9s3pM2C7CLUGSSBrHNNdvybjfkmAEloKzRMwzoUxXvruUOLaZiHLyBco9JoqHiC3EymJHbMSf1HHiHYEGAKTcidj0iPM+O1jKjg/j7mwHOi/RGY5cKf5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qno1sYk6; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1769537215; c=relaxed/simple;
+	bh=xBwxZeG2PpLihNUtFGynbrnnONyfeENxZd6gKfTyx2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tQxjG9sIum+kuuZo4FOk5lMgUEcKXcqD+rd7AvIQZ7rEAXL775W8vp60gWpQk8XMcm9chmte2HkoUQLNeqGPtstkWreWZXLQxOduAQFSnPwcpZg73hLlbxhV87JjyEHwjD9roUIElqjyO0w+L744AzQItKU/K7eG1to/ZvXujxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NlIVTTC+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qno1sYk6"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ED84840423
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1769535757; bh=M8pc3tMwtRC1rDCkiBE6oyQxTGOp5hD53MyRGXJE5JE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=qno1sYk6nIjynyYymDCUGtatlj0PY1eMckERsnO4zM/XfqvDeiF3ifl9V33Z7HkJS
-	 1SDej4rXxUIMSGssQJNqboM9otvkU4hxEs1cv/zs+oIPgYonHCR8jMpNZGVM5Ee1wk
-	 GtZgvDbImRAkugRjFYThWJMYjRqUoNtQUH6Y2AOCQENSduCsY9lmmQaDSBTyV6xm2P
-	 5P+KemGqupUjLBjQlCR1t5bliXW04HM8ETRC7pVh1CHLKENSk3NNO4Kju8r6cjcxp+
-	 MmIUVMbiK3daMjaponFWL+jocChw+Kcn8uMGUF9BrDRfANSNSh/pyPYe2xnPa/UWU0
-	 jg23uuUfz/NTg==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id ED84840423;
-	Tue, 27 Jan 2026 17:42:36 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Yulong Han <wheatfox17@icloud.com>, mchehab@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, wheatfox
- <wheatfox17@icloud.com>
-Subject: Re: [PATCH] docs: automarkup.py: Skip common English words as C
- identifiers
-In-Reply-To: <20260125124450.2005006-1-wheatfox17@icloud.com>
-References: <20260125124450.2005006-1-wheatfox17@icloud.com>
-Date: Tue, 27 Jan 2026 10:42:36 -0700
-Message-ID: <87cy2v9ckz.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NlIVTTC+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19A84C116C6;
+	Tue, 27 Jan 2026 18:06:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769537214;
+	bh=xBwxZeG2PpLihNUtFGynbrnnONyfeENxZd6gKfTyx2c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NlIVTTC+0rq7q3J9Q9AKmsq/I0LMBSgnR4E4ktDEKIB5UszmlhSrertt4pYrN/Zco
+	 wM9ekqEBc2hLUCQKQTRacR7dDmBxmA/vHmt9phhM3E3UKc0XNNJ93uMrCUjfdjLG4k
+	 +w3Nl+X9kh4CPIYN6ZEEmgkooVWiljGnyPTR+wmPuu3hhh80Z6ebCPDglbntwJQkRE
+	 k8yqbnzcuNNXQ5R6bcI4jknoesd/2QyAJoX/IGYY3ACFgtqSv5p5bSJZCCbCDBAFG4
+	 Uagqa9e9L1oxghbtkWF6CQXcYUU+81fzjGv13/0fF/4hhjM1bKv56a6ykAGpkK5DPd
+	 Zht7emb7T7Rxw==
+Date: Tue, 27 Jan 2026 18:06:49 +0000
+From: Simon Horman <horms@kernel.org>
+To: "illusion.wang" <illusion.wang@nebula-matrix.com>
+Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com, netdev@vger.kernel.org,
+	andrew+netdev@lunn.ch, corbet@lwn.net, kuba@kernel.org,
+	linux-doc@vger.kernel.org, lorenzo@kernel.org, pabeni@redhat.com,
+	vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
+	hawk@kernel.org, ast@kernel.org, bpf@vger.kernel.org,
+	sdf@fomichev.me, daniel@iogearbox.net, john.fastabend@gmail.com,
+	edumazet@google.com, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 net-next 00/15] nbl driver for Nebulamatrix NICs
+Message-ID: <aXj-uam1HodC0851@horms.kernel.org>
+References: <20260123011804.31263-1-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260123011804.31263-1-illusion.wang@nebula-matrix.com>
 
-Yulong Han <wheatfox17@icloud.com> writes:
+...
 
-> From: wheatfox <wheatfox17@icloud.com>
->
-> The automarkup extension incorrectly recognizes common English words
-> as C identifiers when they follow struct/union/enum/typedef keywords,
-> causing normal text like "... (a simple) struct that" (in `workqueue.rst`)
-> to be rendered as code blocks.
->
-> This patch adds Skipidentifiers list to filter out these words.
->
-> Signed-off-by: Yulong Han <wheatfox17@icloud.com>
-> ---
->  Documentation/sphinx/automarkup.py | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
-> index 1d9dada40a74..c2227ab0a891 100644
-> --- a/Documentation/sphinx/automarkup.py
-> +++ b/Documentation/sphinx/automarkup.py
-> @@ -46,6 +46,12 @@ RE_namespace = re.compile(r'^\s*..\s*c:namespace::\s*(\S+)\s*$')
->  #
->  Skipnames = [ 'for', 'if', 'register', 'sizeof', 'struct', 'unsigned' ]
->  
-> +#
-> +# Common English words that should not be recognized as C identifiers
-> +# when following struct/union/enum/typedef keywords.
-> +# Example: "a simple struct that" in workqueue.rst should not be marked as code.
-> +#
-> +Skipidentifiers = [ 'that', 'which', 'where', 'whose' ]
->  
->  #
->  # Many places in the docs refer to common system calls.  It is
-> @@ -163,6 +169,10 @@ def markup_c_ref(docname, app, match):
->      if c_namespace:
->          possible_targets.insert(0, c_namespace + "." + base_target)
->  
-> +    # Skip common English words that match identifier pattern but are not C code.
-> +    if base_target in Skipidentifiers:
-> +        return target_text
-> +
->      if base_target not in Skipnames:
->          for target in possible_targets:
->              if not (match.re == RE_function and target in Skipfuncs):
+>  55 files changed, 26753 insertions(+)
 
-I've applied this as an obvious improvement.  I do suspect, though, that
-a better fix would be to have the automarkup code just not do markup for
-"struct" references that don't exist.
+Hi,
 
-Thanks,
+I realise this is down from the 45kLoC in v1,
+but 26kLoC is still too much for a patchset.
 
-jon
+As per Jakub's advice in his review of v1 [*],
+Please try to create a minimal driver in the order of ~5kLoC.
+
+Thanks!
+
+[*] https://lore.kernel.org/netdev/20260109162051.42f71451@kernel.org/
+
+...
