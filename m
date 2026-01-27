@@ -1,107 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 731CE36166C
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 16:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79268298CB7;
+	Tue, 27 Jan 2026 17:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769531239; cv=none; b=Ks78Si18pvBI973C5SbphqRczS3ZM0DwoDsJ3Mx/beEfUM9iqJLmLWpY4y0JFKJesRliEKH2A69Ec9X/JAPI32G9csj8qLGxwNfOWEBuUIuv9oIfNbM3gL0AIjCZZK641dBaPmjkzacV6tepFVjRASSbNKwfoOmlOjhluyhW4Y4=
+	t=1769535277; cv=none; b=h1KbCW9Hqx/Bt949Wy4USbh2ApjroEjJB89g8RDuIXhp3UIJ96iRaUGu75yoNRLJwQtNlNhjcAyJM9JHP9tfPJR42ATvP+6k2JI2gRNQPV46o3LjUSKo7+3kesNC4u2q2eohw2uXNasO7JKsWAT8qBWm7ZEqX/bzYi/IsPwLP1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769531239; c=relaxed/simple;
-	bh=BWXp9go9XfwSeW0YCc/iImV8Xt/lH6uEAIKNCqQ8bHk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LagQtgjwImPZCo/mlDeIP+ODB3/Y6Nl9jvAKPCXUZ6sFgd358E+MmwEHhlunfgymxKisra5YP4KSp/Xi17FrZwOZsU58MI2OomQDextbqc0CaXlGdD0cCiC0bKgMtUzJ/3PpXbV9G1vlosDZT/sjnt/HXVvWHlbVzr40cjGwjhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tbPfsQ0j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769535277; c=relaxed/simple;
+	bh=MQPv8mRDarbFVrfScLyJ9gJx+3srgzjmsJZyQYZZFZg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Pj2LQDSBNuYN4Nv7xF7WK2Qs2qel7GtmjyUNb0IxzlijJNarrMIL6kz3gK9jqDApIwqlFhmVeOJDo8dWDldxmZweRs40dOXySxduUq8H+edYtioxnefhhHK1z4NUVEj/ywIYDMLlttTdHwpGYKIst3WP/mN4QjoQF10MHz6zFcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JODI+b58; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tbPfsQ0j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E875C2BCAF
-	for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 16:27:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769531239;
-	bh=BWXp9go9XfwSeW0YCc/iImV8Xt/lH6uEAIKNCqQ8bHk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tbPfsQ0jvKjqDadmAxnw4cxgLq2iOgtsopUYjRsZYeDlmgS0HemYTrxL4xcrC6hzP
-	 5aqJ4bB+ivCwlfZuEtb81LDNxCaKctH+A6DFxVczaUWDMJruOCASRthGTQh+XuUI6e
-	 eGg+3Bhm+ktRpQ3lm/49C6P5lbHHc5RMnwP6UKQU7crHz53hdL41VfO9Hz+TSJ7bBs
-	 cj6yEkM4H5hoJhVGUVaddK1243RiErhqPRkhNXY0Rwlf+LWVRabEjVzoyLYD7keyVR
-	 DvXgrx+BSUSPUV4v/OWBwL2GrzqjwoHbYrBr56s0uaCAj1Vg1OhBFzqQQLwmmePAHF
-	 mAnux6qepiv0Q==
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-662f91bba0fso38740eaf.0
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 08:27:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCV7TYdga2K/7M11HXHZnYBanHvbPdTIBNb7wc6MBldHob/B2Qmmem3zubQ4qSbMS79+7H3N99EFuq8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIEcJhWUq9tbsWSDsFvSN3pOiD0fwV63G6+6pyz0GdLR3ezy7r
-	lEaZaqgdLc6bjZ5Rn1jmUf0Mu+57azy3o9Q0mXfh9KoWttQdEyEWqQKdk8vM6MSvNF3O/DtGkYm
-	lf+hqMZgrBjQ/8HU2RB4xGPnHyd2sE0U=
-X-Received: by 2002:a05:6820:440f:b0:659:9a49:8edc with SMTP id
- 006d021491bc7-662f205e135mr934882eaf.16.1769531238024; Tue, 27 Jan 2026
- 08:27:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JODI+b58"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3C0F740423
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1769535269; bh=I9tbAzh9+2so6qDG2ZSkdL8M4KlDJ3COlQw/r2mGVYk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JODI+b58ClMA+wvwrXQEi1a6j8LHZ9RQMo/vVyjAb/anFlQvrPPc6i1Hwu5282jM5
+	 YLHEp/RGy1cY+zDA3Ro4sEWh8lldBcyJQvfYa3woqF6Z/sTWYkJzipT46R74zh2LAR
+	 3q6FMaUrwHBeEI4LnpLUF/lqk/s1GPQ39OAPuJtSLkEp4O4lPCL0oQqhj8T4aIHE3t
+	 fPP5pJvUc2waXEo73rSnQLxD+1d58ihIiNA24QThy8CUpa8RCKnRB0p21wFYmJOOBk
+	 CsgNW47D63mlWWBeIdgq4WrTZHAXAunBVWsBIbJ7FrtgRqb94HFvsXnHUF/xEMMB8P
+	 8+ko0hdh/6AMQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3C0F740423;
+	Tue, 27 Jan 2026 17:34:29 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Randy Dunlap
+ <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 0/3] Some kernel-doc fixes
+In-Reply-To: <cover.1769500383.git.mchehab+huawei@kernel.org>
+References: <cover.1769500383.git.mchehab+huawei@kernel.org>
+Date: Tue, 27 Jan 2026 10:34:28 -0700
+Message-ID: <87h5s79cyj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260120145623.2959636-1-sumitg@nvidia.com> <20260120145623.2959636-3-sumitg@nvidia.com>
-In-Reply-To: <20260120145623.2959636-3-sumitg@nvidia.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 27 Jan 2026 17:27:07 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0i-fgbpfd-iHcNNtnFU79Whs+Maknx3ou4oNOADzAZmxg@mail.gmail.com>
-X-Gm-Features: AZwV_QjSIa14EzdtQMBjWmzIWxgVIX9AlsvjWJH35lHYiUt_r6wvkA4ONqxelYY
-Message-ID: <CAJZ5v0i-fgbpfd-iHcNNtnFU79Whs+Maknx3ou4oNOADzAZmxg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/9] ACPI: CPPC: Clean up cppc_perf_caps and
- cppc_perf_ctrls structs
-To: Sumit Gupta <sumitg@nvidia.com>
-Cc: rafael@kernel.org, viresh.kumar@linaro.org, pierre.gondois@arm.com, 
-	zhenglifeng1@huawei.com, ionela.voinescu@arm.com, lenb@kernel.org, 
-	robert.moore@intel.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com, 
-	perry.yuan@amd.com, zhanjie9@hisilicon.com, linux-pm@vger.kernel.org, 
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, 
-	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com, 
-	vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com, 
-	nhartman@nvidia.com, bbasu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Jan 20, 2026 at 3:57=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com> wro=
-te:
->
-> - Remove redundant energy_perf field from 'struct cppc_perf_caps' as
->   the same is available in 'struct cppc_perf_ctrls' which is used.
-> - Move the 'auto_sel' field from 'struct cppc_perf_caps' to
->   'struct cppc_perf_ctrls' as it represents a control register.
->
-> Reviewed-by: Pierre Gondois <pierre.gondois@arm.com>
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  include/acpi/cppc_acpi.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
-> index 4bcdcaf8bf2c..6573a759eb8d 100644
-> --- a/include/acpi/cppc_acpi.h
-> +++ b/include/acpi/cppc_acpi.h
-> @@ -119,8 +119,6 @@ struct cppc_perf_caps {
->         u32 lowest_nonlinear_perf;
->         u32 lowest_freq;
->         u32 nominal_freq;
-> -       u32 energy_perf;
-> -       bool auto_sel;
->  };
->
->  struct cppc_perf_ctrls {
-> @@ -128,6 +126,7 @@ struct cppc_perf_ctrls {
->         u32 min_perf;
->         u32 desired_perf;
->         u32 energy_perf;
-> +       bool auto_sel;
->  };
->
->  struct cppc_perf_fb_ctrs {
-> --
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-It looks like this patch and the next one can be applied independently
-of the other patches in the series.
+> Hi Jon,
+>
+> This small series contain 3 patches:
+> - patch 1 fixes PDF docs build, as reported by Akira;
+>   (I'm resending this one as-is from its v2)
+> - patch 2 addresses a complain from Jani about not being able
+>   of disabling "-q" flag when building docs with V=0;
+> - patch 3 addresses an issue indirectly reported by Jani that
+>   it the env vars that affects the wrapper aren't documented.
+>
+> With regards to patch 2, docs build honours V=0 by adding a
+> "-q" flag.
+>
+> When V=1 is set, there are two effects in place:
+>
+> 1. sphix-build will be called without "-q";
+> 2. Sphinx extensions will increase their verbosity levels.
+>
+> Sometimes, it is desired to just remove "-q" without increasing
+> extensions verbosity. That's what patch 2 does.
+>
+> IMO, at least patch 1 should be merged during Kernel v6.21
+> development cycle.
 
-Do you want me to do that?
+6.21?  I'm kind of assuming you mean the *next* cycle, which will be
+7.0?
+
+Thanks,
+
+jon
