@@ -1,333 +1,335 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D343A342CB1
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 22:03:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.67
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769637785; cv=none; b=OAj5kDWrhCHE4HemaC3m0t/1zAVygnheDXrGJiMysa7A6EkWs5qJV+L60ejruCSYhJl2hZV9Ci+LyIgwDd6+Den/RLaH6HjpBuGGXyqkVtlUATW4zoyM35UK2avIPg4uxL4P30R7Ymi2zVWAsgXiRWcyP015+rG0j1fGaAahRUQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769637785; c=relaxed/simple;
-	bh=ZtbU3D1WDUFk8SZGtEKE3SbItI5Z16+d0UMDKB0fQNg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ZmrPH3GwimhZKt4G+HqfY5JMiqUZzAT+Kf+e3kxDG6JMMdLj2xJi88BW8ncuw6qGctFmjRH+tcWF2SvphQAS5VS6GaEscQUiSIjOe0KijBS6KCRf1zX89eob9k7/RPLVpp8mA9JZGDxaMt3mCpGodiaX2v/0itadd0UyQf1ZvlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tumelty.co.uk; spf=none smtp.mailfrom=tumelty.co.uk; dkim=pass (2048-bit key) header.d=tumelty-co-uk.20230601.gappssmtp.com header.i=@tumelty-co-uk.20230601.gappssmtp.com header.b=V79pTx1g; arc=none smtp.client-ip=209.85.221.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tumelty.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=tumelty.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709F72F2607;
+	Wed, 28 Jan 2026 22:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769637850; cv=fail; b=fh/VolNWcuyW2KzyevC+5QmnEIgF0rv+u7sq4yx9qhp8aOrRG+42RxB4Qwpg6Hk/5j9ocCTX4ev+YRg2hGilCEpM9szsfJp61l0R/dt2dwxwPK3IAU77jvoGCHj15DyT9iq36GGoZelSWRBSov0thX/oRAMXVNErDgcjlEavWds=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769637850; c=relaxed/simple;
+	bh=fxn1hPAsnN5SE6WQqn55kNSi/o/iMSgFMGQwqyzD1zo=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=rCGu6Yo7QosaQxm0Zu3n6iC1LqAL7t4//7U33uGpmqGNee6dYoAVCia1qbKvqEHVwbiapIQv3YcA2E9fPa60KZp3ltifJTFm1/TY96KoOru2KMJt3/RhGTlhNiLaXnlZ+u/GV7rvbVsVWYvm/pmiHzQGA2w61+HfqvfekjbuqXA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TSDosQMa; arc=fail smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tumelty-co-uk.20230601.gappssmtp.com header.i=@tumelty-co-uk.20230601.gappssmtp.com header.b="V79pTx1g"
-Received: by mail-wr1-f67.google.com with SMTP id ffacd0b85a97d-4358fb60802so173645f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 14:03:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tumelty-co-uk.20230601.gappssmtp.com; s=20230601; t=1769637781; x=1770242581; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QzTZT7Yv0iT/f2RZU13M5yG6g7XquRO98kCEWaM5wiQ=;
-        b=V79pTx1gT2jsIzbNqIqoRDhZ5WplykwiIReD4WYNov8Zt8rZov0wA7F6tc9Y5bGLQg
-         RFHPoXE1IcNX2ShX2lhOy1fsKXWtCg37/xc19X8ZNwE+1VIk6VW4h/h8zrWUCr3BWFEf
-         F0QMUfXvY4QN3Idkyxll7hst217BjjNZhO/RrE/lW4scsRrUugy72tOI8X0eN6mKV0tc
-         o4Rwiu/SoJq1K83jYoSbO0MTJwu9TJzduwyc/+41FhAGF3nI0eEnYIisLOHx1YQB/gkQ
-         lsxZHa+IdCeTW4HTmzK0ZMzjoxmJg6FSiMW7YqnATCb7OHFk1hBfCA/lL06uA6ieSsvN
-         MoKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769637781; x=1770242581;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QzTZT7Yv0iT/f2RZU13M5yG6g7XquRO98kCEWaM5wiQ=;
-        b=F6I4WyZEkIb9GzLRCpIqmhUcxJq9bNDHchO7NjiC2eOgwEcDb2bIwgREZy+ReUW4Sg
-         miShnsWjCOPVqRAPhV60a5P3uB5N7MkUOzT+vp7xRq8alSND1VANZmbzlikAUasM92Tc
-         1r9MJY1igBruwfoUtp/NoCLAJDfrURwM2i80zPZTWE/gcEWQHnzpTIOp82Pp69qShluD
-         Mpep0Z3WHTg2LSnh32WENx/wkEGyCY2eiUVNzasrwg74zLKJyHlXvaxFboxL40cD4erI
-         CFeKWHXUMvjn4L0tR9pOxl6TfYN7QivPjSBQYyTDLi307r/ZVFVW5sAc+aaZtdfzZosU
-         v69A==
-X-Gm-Message-State: AOJu0YzU0Kadx3m1Q5ASjLF0f3WqyReDdhxhsmMGyZw5xqOKFIEZ75ac
-	PkXYq3vDlZOazXMKKtBf4HmhYJAB1WBZtMARJiHWiG7eGRZFEHcVriiY8B860QcXRwgNWTBSnJW
-	e0TMVm7Y=
-X-Gm-Gg: AZuq6aJBnSJZyfry08yq3vr5B7KiKImUmvZ0GPtCMwzYAIbKsD6ZnqexpzSn6IikaaP
-	CqZhcfySgOIYffDhd2dB5LJEeElAGnQKEAgdP3lncPNzV8B2AP1LupfUu3i3vrw7k1V7K9CGBs+
-	ZbmgRnbPRMpjPtLODxAmFBTQQHx0yciOo1djeZ2TwZAoUJmSNnX0BsAddqlcUG7QfwtioTNnb66
-	V4ffD/WJUby57qGNufpDLQR1EokkAyWzFKwcBslTqJp6m+4NaHFnNOF9/nwggbu/owlRxwLOVaE
-	WF+WkgePKvgRhDN9FWDOGXYU2NhSXhBlhRiCv3q7ZZeab6gB/mFkzgTusI21CpKerTBRnc3JPXS
-	ia19CqB2gai7OIkAIn7X/AbRzCA4JWN8nN5TfWXRkEQvtoqcDpEgdV9svbHyN8j8Spt8ScIy5tc
-	0HqATBEk+qCf17WkZ9baAwBkumIaMQVCY8CW1yske+6/hkt7gj4tGIhqunGJ74Kc1eJumF12U=
-X-Received: by 2002:a5d:584e:0:b0:435:96b3:68d0 with SMTP id ffacd0b85a97d-435ea064631mr1281880f8f.5.1769637780843;
-        Wed, 28 Jan 2026 14:03:00 -0800 (PST)
-Received: from glacier (cpc103552-stkn17-2-0-cust928.11-2.cable.virginm.net. [82.2.171.161])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e132368csm9047488f8f.31.2026.01.28.14.02.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 14:03:00 -0800 (PST)
-From: Rhys Tumelty <rhys@tumelty.co.uk>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	trivial@kernel.org,
-	Rhys Tumelty <rhys@tumelty.co.uk>
-Subject: [PATCH] docs: fix 're-use' -> 'reuse' in documentation
-Date: Wed, 28 Jan 2026 22:02:31 +0000
-Message-ID: <20260128220233.179439-1-rhys@tumelty.co.uk>
-X-Mailer: git-send-email 2.51.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TSDosQMa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769637848; x=1801173848;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=fxn1hPAsnN5SE6WQqn55kNSi/o/iMSgFMGQwqyzD1zo=;
+  b=TSDosQMaxUoi7CZD8wRBpBSXI/H2e8O5KpfWbRIPrkW1ncwtTk/FVm0z
+   wramvv5bThLPVgPN0D/RP0Tsd+7hNsGWAFiyd3QnZAdbBS6/foMUWu7Lo
+   /HCqlBQ+gp92ABAsEC/sjTjM2LtUlXYc+Gc9Tu61Lx+q+t4aWQNft9VU1
+   IEwRJe1EnYlxncpXFTLjMPPuqN/NPFx7NZCjqj8pSWzD3m6HR8m6HQ8V3
+   UF3cSJUY58cyuxiVlNVTLI4h15+4CdMuk/GBxFaQFctkT2udFQ9Sesdqi
+   Xo5VvnzmJW250OHc8z7i0/AOKXDbrVaEJgzsOpoz2Le+PGuTm7kvwoIk6
+   w==;
+X-CSE-ConnectionGUID: Qg+ICA4nQ2Oe43QUdusGOA==
+X-CSE-MsgGUID: 9quRNUf4S9yn1kas44VY4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="69878792"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="69878792"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 14:04:08 -0800
+X-CSE-ConnectionGUID: ZK1+FFSCQZWFDmDsXaWNgg==
+X-CSE-MsgGUID: elQUZ9vkRCuhNrq77h3yHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="208815970"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 14:04:07 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Wed, 28 Jan 2026 14:04:00 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Wed, 28 Jan 2026 14:04:00 -0800
+Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.5) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Wed, 28 Jan 2026 14:03:59 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=R/W27I5gS85MFD06KMK6PlWhQMFHjmDVBiNINfJ5ki76Dad37E8t64kQjTDNcOVf/4OsF9ZfOj3+0QEJG7Cw4FogCmA+kJfuIbjniaU5S7USYpzOgwl+3s3viB51EaroKlx/yYRASa/UfI/yhd2In8Xsl2gNeKEGiGXrgYJ6wyX4m/lYl+UAHqWCvEtEKJSQ3ToLf3NqBJR7gxxdg1hKwcLfWe6qtF5++eDKOMSTSsFfbv2dg0DunS0lhLgXnWcYb5KWYJJx9Mv69WynQqJdWTXXfyn/ijBJWbgZtYyDgQp4/gmlMCcmWOS91tviUGX7xQm9fMdTLrjexXwDr3E2UA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4QcLrGV4uhZHTGO104/+f1bKbrTDVhKq4aMhk9Evd2c=;
+ b=VnYak2fEU+Pzfpkr7Sy3F2QBtD02uEzt2+T69MKiOAg6SI/go4hL1E4H6Ugq8PrAYZv7lzPsq/tr8fH+Bwt5nmgK6ncGbv8HNodd71SlrMH/OSbzDR7TYMwK9uMcXZi4dFsZ2OWiRfnq9VKevPZHKwrlxH1nrdu4XTBLyCbr7qnXhUKX01MCYOzlDaHHJ4Z6t4G1aPCjTNnhzu6waCy/iP9YFUQuC4aaVaZPobwT+3XzgPvRbnwABPQkl7xTTF5QM7i1q09a9eiQvT8NN7yPZr4COYj6ahTUEvmuTN1uWNkCxPqa5xEo53iTDVdcmY58SvdTl495j+arwHeucdh+2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by CH3PR11MB7866.namprd11.prod.outlook.com (2603:10b6:610:124::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.8; Wed, 28 Jan
+ 2026 22:03:33 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6%3]) with mapi id 15.20.9564.006; Wed, 28 Jan 2026
+ 22:03:33 +0000
+Date: Wed, 28 Jan 2026 14:03:31 -0800
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Babu Moger <babu.moger@amd.com>
+CC: <corbet@lwn.net>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<peterz@infradead.org>, <juri.lelli@redhat.com>,
+	<vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
+	<rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
+	<vschneid@redhat.com>, <akpm@linux-foundation.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <pmladek@suse.com>,
+	<feng.tang@linux.alibaba.com>, <kees@kernel.org>, <arnd@arndb.de>,
+	<fvdl@google.com>, <lirongqing@baidu.com>, <bhelgaas@google.com>,
+	<seanjc@google.com>, <xin@zytor.com>, <manali.shukla@amd.com>,
+	<dapeng1.mi@linux.intel.com>, <chang.seok.bae@intel.com>,
+	<mario.limonciello@amd.com>, <naveen@kernel.org>,
+	<elena.reshetova@intel.com>, <thomas.lendacky@amd.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<kvm@vger.kernel.org>, <peternewman@google.com>, <eranian@google.com>,
+	<gautham.shenoy@amd.com>
+Subject: Re: [RFC PATCH 16/19] fs/resctrl: Implement rdtgroup_plza_write() to
+ configure PLZA in a group
+Message-ID: <aXqHs0Mm5F9_R4Q6@agluck-desk3>
+References: <cover.1769029977.git.babu.moger@amd.com>
+ <a54bb4c58ee1bf44284af0a9f50ce32dd15383b0.1769029977.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <a54bb4c58ee1bf44284af0a9f50ce32dd15383b0.1769029977.git.babu.moger@amd.com>
+X-ClientProxiedBy: SJ0PR03CA0349.namprd03.prod.outlook.com
+ (2603:10b6:a03:39c::24) To SJ1PR11MB6083.namprd11.prod.outlook.com
+ (2603:10b6:a03:48a::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|CH3PR11MB7866:EE_
+X-MS-Office365-Filtering-Correlation-Id: b6d8a3e0-bceb-4a1e-d56a-08de5eb91422
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Y78UJsPrrV1fM29Dm0fMLAbkdWsEwazSW5NE4pKpILH0MUGv4rzRnGyrbicY?=
+ =?us-ascii?Q?eqm3rjuhFdYVop6kxj2H0WNPYlMPZ4uzYA796NkMRYQHmFgY+TggmifSXsk1?=
+ =?us-ascii?Q?9JmjZ9u84bXMf6ZOP/gx4F1HMWWJpp7aOY3ZpfzYTdgmtZnTCCfcIGgstuGM?=
+ =?us-ascii?Q?fkB2/sVTTcgYLbFXgYIXa2g4Sp/lBSz0pNORLT0xwzEMJhiZpwQlANu17t4H?=
+ =?us-ascii?Q?cMyEDS8sbF5MDyeIU11920U8buMxIt5eyvCxQJV3CLGHcTRj1iffLGFHY7S9?=
+ =?us-ascii?Q?3jcv6NaflqjZA6Y2CoWogHnjlhx9Kwt5A3Oa1gkYnJuXsTESlwSiDXPve4cC?=
+ =?us-ascii?Q?TgYS0/r7datCi1k9yA3CftL5MJOKrV+zIJKKstvxFc90Z0F3s2Ow4t4o6Snm?=
+ =?us-ascii?Q?PTC3IL9GpmyH5kNjr0W5OiK+mh6ysLyjdRpyVJZZFFEc5yqcQcyPUCRzyIwh?=
+ =?us-ascii?Q?FDPGYZb9fdsTjD7M148vqMTgtFlo9YuXPfg8/+ntdZWtDxEgKT8m7K2okJcd?=
+ =?us-ascii?Q?BmXfsNF38iCdVvYtvuYOgRypo+QxGGk6exs/TRoaZd9EUUBA+L/zxwvy/Fh4?=
+ =?us-ascii?Q?vz1PZRHyLUccj0rjTrFOV0uXhxSH5g75wlgvd8Fima/SBba/xrr8kL1ywdPv?=
+ =?us-ascii?Q?15rnoUPkfkEH7ts/BrzdDd69upKIilcAdVADE/Eu1YGxei1OyQ14EwaJ4gi3?=
+ =?us-ascii?Q?hnujkUVK9q/pK6i+pCcZEyNYPeYN2dsxcFvYBLbBC2LeCNT0q1ndH3JVyZ+8?=
+ =?us-ascii?Q?6nPYtfyu1DWIZaJbUowx9xcU5KftCs858JKUB6aXSLBa9BL7mFwLpQIynwfN?=
+ =?us-ascii?Q?Z3//maBkTaSVSNbfJ8KaQ8AAZ/hzIkJCCPA1FW387gBfD7/9dqmLfJGvfiil?=
+ =?us-ascii?Q?2v0Bl56fCr9HdtEJ/ze06sQcV5S2DrrnWwY0ecameezRZXyZw5hkQ51eNS2T?=
+ =?us-ascii?Q?jaYa7RLsWdKDSxocY4TjQBZauzTmG3W+cVFgbQ/tBGB2uLFC4nrCrT1tFv7i?=
+ =?us-ascii?Q?2+3s9CrzYNUHN0smENoNTt8EK9t2YRocZ50xB8+xjpITyMyUMcO6KAP/5INt?=
+ =?us-ascii?Q?Bf0TjhL11CUywS42K2r+UreaxCi2/ntXhVOVkMY/zdG8UXEzvlV4VkJSuUNy?=
+ =?us-ascii?Q?dPBHuKYX/IM/m5G2NOx8yuhmcrWrcvXNJHGWKV/Fm/A57RqDVANTrU1Hl2VJ?=
+ =?us-ascii?Q?tpKT59D0i30Xv2MUg4jUFtkoYzas1Z4+HuDNWqJ/8+p9U6HiHbtvKxbunScI?=
+ =?us-ascii?Q?iQzRxmfv5LaSUS+mvB5irWvIBpld82L37EgGVMh1FK+hsDaV+skM1/yrWWpL?=
+ =?us-ascii?Q?linczGKOfK1gBZ4SwPN6wd371sX26Bt2cdvndYu6ko6vQULQKOC9qe9HUpU7?=
+ =?us-ascii?Q?gvuV7VrnKo6IQ3/rK8c/gIzcdpM1yxtVEH1JCbssUUIWGy1qlT68fliQDE12?=
+ =?us-ascii?Q?UaH06eAFv6YeDR8J4lByiMMo2yBH5EBw3IzXI16nbHBrmoRob/wsJ2wGq7q2?=
+ =?us-ascii?Q?hRxTGbec8M1BQgqjR2ESj9PJyOx1ubP0gNnkjL5G974pH0gWMsJgR+PXio7c?=
+ =?us-ascii?Q?vuRmRhZJCkPQX9o+iPE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QWFMVRDeWe8mpZ7jqvhEVbAqkRTNdgBme1iRkEXNX/Pp/BdquxpDVuokExP9?=
+ =?us-ascii?Q?zTB+T2IfwaAqOiCGU+M/RHXtPQa6zOsxe25S5Cy95NQX1JflakuqOcSdq5QC?=
+ =?us-ascii?Q?6SihUirjsWQVR5fqvGNWiemR4WsVCjZ/mPfA/ik3F08hSnAuJN3V2k8rK37D?=
+ =?us-ascii?Q?xOCftPzbqMG5G2kLi8uI37GgSv0Q/kkUmo9pHNIcVZNHdHzsxh5cwoVoJaAv?=
+ =?us-ascii?Q?OLuRYl6aPBNEbVurLXvnhE6/MID7hXus/nwgvGEi0yYAvlN1G1KVgvqcOeHc?=
+ =?us-ascii?Q?0UWGpoFfxxHstJIpeR6CG57bttlMMdWF3x/FB8Tj6vmo/ccNMXPMitn95S/f?=
+ =?us-ascii?Q?lIb8qV+oZJxi7KWRhIdQnsWa+ghS/BvZVsmmQT9cLQncEBv2Cn9kicZFyEZ8?=
+ =?us-ascii?Q?dxO+RCUk1FHr1d+SyQZ4KED6WDj2wOYmysFVAZ40G+m9oxoG/Q0bYC21vESG?=
+ =?us-ascii?Q?EG16Idmaj8YNeY4u3l1RjN8t7sHhJLKeQpCaOVGe/z1vcSOVI5RCGETDyFAu?=
+ =?us-ascii?Q?JEcYkhLgGLqqrqeJZE7c9JPiS6T4tOEWA36nsS5i1P8BTsNPc3yA1+qFgRJf?=
+ =?us-ascii?Q?101lDnbW28KMlPlPEkXn01+hHkTwWR6lrbyDuweJlqCqoCuln/vpau8TRWI8?=
+ =?us-ascii?Q?lAPBpUN4FilBzsVbmMy+ZBt7yLxXFGwh2irKGBY5cldASRrjd26JY1Tyk+lN?=
+ =?us-ascii?Q?wxI6cBRjcxks5y49CNhYXoZ8r2zxo2Lxxvjiklrsrhfjdcb8xDyVdVmpgTOY?=
+ =?us-ascii?Q?ZLUOTAwKxANiMPACzcxr1mM1Ywk16Rum3ckXtWJBlCmWdy+mrHl+remhY5yf?=
+ =?us-ascii?Q?KffyW/vIdI9vPrPLHyG6d6mA5i1sGnvrbSlsvLawmQ5Pm2TDRk3d0E470VKf?=
+ =?us-ascii?Q?tJV4VYSbBJvE5GchcIj5w7uGR1C+cVINXaU5RP2mbTCxAMQZniVJLCHKLGnU?=
+ =?us-ascii?Q?ax6to2MymKboXbjIed4Kp9XTVdsGRvOWk8WXd95DNS4w0Snw+Nz8xkigi2VN?=
+ =?us-ascii?Q?GQsYklFk0IYr2Ov0T+Bm/4eBIXCP7jAKPsV2tNldBBj2VM9F2eqO96sA1PBf?=
+ =?us-ascii?Q?byODIQk6wdti7selHBGYKqoHZmW5CRhE/lYHVY7feNiNfswaynVB4WRuMJXw?=
+ =?us-ascii?Q?kDRQ0vdanBK+3rAzO0Wt1nZck6hGKTMOS7oCC4o9jvV1Q8rd4VFFSapuuVDd?=
+ =?us-ascii?Q?RmnpxvZnmuZRHEpX7t9o4JMFJvH+26rhNXi+v9Zg7GjNHovbglJYsWNTJHkS?=
+ =?us-ascii?Q?opoPRqJmfYb3MrNg+AZdeeKQIqP5ltUiK4yNJIvXkNX/dDsmce+L0ME82Kh5?=
+ =?us-ascii?Q?UG5shxztjVE6Bqgitq8CD5lwR+G//h5jr+GHzci7XlwyXS38T6J9S1za0imX?=
+ =?us-ascii?Q?kWXulXR0xfEykrFSPUS2G+oWp181N9mX58sFRs+PiplMdRz+864uCZNhJDMK?=
+ =?us-ascii?Q?mEy46BBwFOGx4IE+dkh+w1MTCsYiEbJFXYbk2u7c3x1z7JzBXi7v+MRA7yeB?=
+ =?us-ascii?Q?vdM8PRBlE1N7W7dvK/djii6r/SyL+jH3euKl0t/JglcaVUTuUt/r4Noqmduw?=
+ =?us-ascii?Q?fWjnROTT4jQL5rjyEsBTGMW2Ffamj5iAFTYAa29xMl7ZM10/KXbB601cLt+U?=
+ =?us-ascii?Q?Q7GNreNRr5QkDohOlPV10R/hK+NQcsSGgMR0A9LRAGqiXEBPsPgUcgyK+Slz?=
+ =?us-ascii?Q?PVkw2I4foJl0wzPMD/EpH50RT9MfB5CZHl/qAIMxC/lvkQ65a8rRIJij2Q4/?=
+ =?us-ascii?Q?aMQ0UWaMpw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6d8a3e0-bceb-4a1e-d56a-08de5eb91422
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 22:03:33.5310
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xO08UmU137FTNZ4DyO8lbRAQxY5j2VfLQeX4jZkyjlOVzV0WxpgHnEwbTcQNMDC3S94DmY/qffvO3vieOwwAzg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7866
+X-OriginatorOrg: intel.com
 
-Signed-off-by: Rhys Tumelty <rhys@tumelty.co.uk>
+On Wed, Jan 21, 2026 at 03:12:54PM -0600, Babu Moger wrote:
+> Introduce rdtgroup_plza_write() group which enables per group control of
+> PLZA through the resctrl filesystem and ensure that enabling or disabling
+> PLZA is propagated consistently across all CPUs belonging to the group.
+> 
+> Enforce the capability checks, exclude default, pseudo-locked and CTRL_MON
+> groups with sub monitors. Also, ensure that only one group can have PLZA
+> enabled at a time.
+> 
+...
+
+> +static ssize_t rdtgroup_plza_write(struct kernfs_open_file *of, char *buf,
+> +				   size_t nbytes, loff_t off)
+> +{
+> +	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
+> +	struct rdtgroup *rdtgrp, *prgrp;
+> +	int cpu, ret = 0;
+> +	bool enable;
+
+...
+
+> +	/* Enable or disable PLZA state and update per CPU state if there is a change */
+> +	if (enable != rdtgrp->plza) {
+> +		resctrl_arch_plza_setup(r, rdtgrp->closid, rdtgrp->mon.rmid);
+
+What is this for? If I've just created a group with no tasks, and empty
+CPU mask ... it seems that this writes the MSR_IA32_PQR_PLZA_ASSOC on
+every CPU in every domain.
+
+> +		for_each_cpu(cpu, &rdtgrp->cpu_mask)
+> +			resctrl_arch_set_cpu_plza(cpu, rdtgrp->closid,
+> +						  rdtgrp->mon.rmid, enable);
+> +		rdtgrp->plza = enable;
+> +	}
+> +
+> +unlock:
+> +	rdtgroup_kn_unlock(of->kn);
+> +
+> +	return ret ?: nbytes;
+> +}
+
+It also appears that marking a task as PLZA is permanent. Moving it to
+another group doesn't unmark it. Is this intentional?
+
+# mkdir group1 group2 plza_group
+# echo 1 > plza_group/plza
+# echo $$ > group1/tasks
+# echo $$ > plza_group/tasks
+
+My shell is now in group1 and in the plza_group
+# grep $$ */tasks
+group1/tasks:4125
+plza_group/tasks:4125
+
+Move shell to group2
+# echo $$ > group2/tasks
+# grep $$ */tasks
+group2/tasks:4125
+plza_group/tasks:4125
+
+Succcess in moving to group2, but still in plza_group
+
+-Tony
+
+N.B. I don't have a PLZA enabled system. So I faked it with this
+patch.
+
+From 1655fea0049947218fa5400916d57109be8521ef Mon Sep 17 00:00:00 2001
+From: Tony Luck <tony.luck@intel.com>
+Date: Wed, 28 Jan 2026 13:02:51 -0800
+Subject: [PATCH] fake PLZA
+
 ---
- Documentation/ABI/testing/pstore                           | 2 +-
- Documentation/admin-guide/initrd.rst                       | 2 +-
- Documentation/admin-guide/kdump/kdump.rst                  | 2 +-
- Documentation/admin-guide/mm/nommu-mmap.rst                | 2 +-
- Documentation/arch/arm64/arm-acpi.rst                      | 4 ++--
- Documentation/arch/s390/driver-model.rst                   | 2 +-
- Documentation/arch/x86/shstk.rst                           | 2 +-
- Documentation/driver-api/phy/phy.rst                       | 2 +-
- Documentation/driver-api/tty/tty_ldisc.rst                 | 2 +-
- Documentation/driver-api/usb/gadget.rst                    | 2 +-
- Documentation/filesystems/relay.rst                        | 2 +-
- Documentation/filesystems/resctrl.rst                      | 2 +-
- Documentation/firmware-guide/acpi/DSD-properties-rules.rst | 2 +-
- Documentation/firmware-guide/acpi/enumeration.rst          | 2 +-
- Documentation/input/gamepad.rst                            | 2 +-
- Documentation/process/adding-syscalls.rst                  | 4 ++--
- Documentation/sound/hd-audio/notes.rst                     | 2 +-
- 17 files changed, 19 insertions(+), 19 deletions(-)
+ arch/x86/include/asm/resctrl.h            | 10 ++++++----
+ arch/x86/kernel/cpu/resctrl/core.c        |  4 ++--
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c |  3 ++-
+ 3 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/ABI/testing/pstore b/Documentation/ABI/testing/pstore
-index d3cff4a7e..dfe2d9801 100644
---- a/Documentation/ABI/testing/pstore
-+++ b/Documentation/ABI/testing/pstore
-@@ -26,7 +26,7 @@ Description:	Generic interface to platform dependent persistent storage.
+diff --git a/arch/x86/include/asm/resctrl.h b/arch/x86/include/asm/resctrl.h
+index 2c11787c5253..7ee35bebb64c 100644
+--- a/arch/x86/include/asm/resctrl.h
++++ b/arch/x86/include/asm/resctrl.h
+@@ -90,14 +90,16 @@ static inline void resctrl_arch_disable_mon(void)
  
- 		Once the information in a file has been read, removing
- 		the file will signal to the underlying persistent storage
--		device that it can reclaim the space for later re-use::
-+		device that it can reclaim the space for later reuse::
+ static inline void resctrl_arch_enable_plza(void)
+ {
+-	static_branch_enable_cpuslocked(&rdt_plza_enable_key);
+-	static_branch_inc_cpuslocked(&rdt_enable_key);
++	pr_info("resctrl_arch_enable_plza\n");
++	//static_branch_enable_cpuslocked(&rdt_plza_enable_key);
++	//static_branch_inc_cpuslocked(&rdt_enable_key);
+ }
  
- 		    $ rm /sys/fs/pstore/dmesg-erst-1
+ static inline void resctrl_arch_disable_plza(void)
+ {
+-	static_branch_disable_cpuslocked(&rdt_plza_enable_key);
+-	static_branch_dec_cpuslocked(&rdt_enable_key);
++	pr_info("resctrl_arch_disable_plza\n");
++	//static_branch_disable_cpuslocked(&rdt_plza_enable_key);
++	//static_branch_dec_cpuslocked(&rdt_enable_key);
+ }
  
-diff --git a/Documentation/admin-guide/initrd.rst b/Documentation/admin-guide/initrd.rst
-index 67bbad880..6c1660a4c 100644
---- a/Documentation/admin-guide/initrd.rst
-+++ b/Documentation/admin-guide/initrd.rst
-@@ -297,7 +297,7 @@ as follows:
-   8) now the system is bootable and additional installation tasks can be
-      performed
+ /*
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+index e41fe5fa3f30..780cdfb0e7cd 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -295,7 +295,7 @@ static __init bool __rdt_get_mem_config_amd(struct rdt_resource *r)
  
--The key role of initrd here is to re-use the configuration data during
-+The key role of initrd here is to reuse the configuration data during
- normal system operation without requiring the use of a bloated "generic"
- kernel or re-compiling or re-linking the kernel.
+ 	r->alloc_capable = true;
  
-diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-index 7b011eb11..7587caadb 100644
---- a/Documentation/admin-guide/kdump/kdump.rst
-+++ b/Documentation/admin-guide/kdump/kdump.rst
-@@ -591,7 +591,7 @@ with /sys/kernel/config/crash_dm_crypt_keys for setup,
-     cat /sys/kernel/config/crash_dm_crypt_keys/count
-     2
+-	if (rdt_cpu_has(X86_FEATURE_PLZA))
++	if (1 || rdt_cpu_has(X86_FEATURE_PLZA))
+ 		r->plza_capable = true;
  
--    # To support CPU/memory hot-plugging, re-use keys already saved to reserved
-+    # To support CPU/memory hot-plugging, reuse keys already saved to reserved
-     # memory
-     echo true > /sys/kernel/config/crash_dm_crypt_key/reuse
+ 	return true;
+@@ -318,7 +318,7 @@ static void rdt_get_cache_alloc_cfg(int idx, struct rdt_resource *r)
+ 		r->cache.arch_has_sparse_bitmasks = ecx.split.noncont;
+ 	r->alloc_capable = true;
  
-diff --git a/Documentation/admin-guide/mm/nommu-mmap.rst b/Documentation/admin-guide/mm/nommu-mmap.rst
-index 530fed08d..8a1949b36 100644
---- a/Documentation/admin-guide/mm/nommu-mmap.rst
-+++ b/Documentation/admin-guide/mm/nommu-mmap.rst
-@@ -38,7 +38,7 @@ and it's also much more restricted in the latter case:
+-	if (rdt_cpu_has(X86_FEATURE_PLZA))
++	if (1 || rdt_cpu_has(X86_FEATURE_PLZA))
+ 		r->plza_capable = true;
+ }
  
- 	In the no-MMU case:
+diff --git a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+index 79ed41bde810..24a37ebed13a 100644
+--- a/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
++++ b/arch/x86/kernel/cpu/resctrl/ctrlmondata.c
+@@ -136,7 +136,8 @@ static void resctrl_plza_set_one_amd(void *arg)
+ {
+ 	union qos_pqr_plza_assoc *plza = arg;
  
--         - If one exists, the kernel will re-use an existing mapping to the
-+         - If one exists, the kernel will reuse an existing mapping to the
-            same segment of the same file if that has compatible permissions,
-            even if this was created by another process.
+-	wrmsrl(MSR_IA32_PQR_PLZA_ASSOC, plza->full);
++	pr_info("wrmsr(MSR_IA32_PQR_PLZA_ASSOC, 0x%lx)\n", plza->full);
++	//wrmsrl(MSR_IA32_PQR_PLZA_ASSOC, plza->full);
+ }
  
-diff --git a/Documentation/arch/arm64/arm-acpi.rst b/Documentation/arch/arm64/arm-acpi.rst
-index e59e4505d..e74c8ab71 100644
---- a/Documentation/arch/arm64/arm-acpi.rst
-+++ b/Documentation/arch/arm64/arm-acpi.rst
-@@ -306,9 +306,9 @@ that looks like this: Name(KEY0, "value0").  An ACPI device driver would
- then retrieve the value of the property by evaluating the KEY0 object.
- However, using Name() this way has multiple problems: (1) ACPI limits
- names ("KEY0") to four characters unlike DT; (2) there is no industry
--wide registry that maintains a list of names, minimizing re-use; (3)
-+wide registry that maintains a list of names, minimizing reuse; (3)
- there is also no registry for the definition of property values ("value0"),
--again making re-use difficult; and (4) how does one maintain backward
-+again making reuse difficult; and (4) how does one maintain backward
- compatibility as new hardware comes out?  The _DSD method was created
- to solve precisely these sorts of problems; Linux drivers should ALWAYS
- use the _DSD method for device properties and nothing else.
-diff --git a/Documentation/arch/s390/driver-model.rst b/Documentation/arch/s390/driver-model.rst
-index e7488f02b..14f801e0d 100644
---- a/Documentation/arch/s390/driver-model.rst
-+++ b/Documentation/arch/s390/driver-model.rst
-@@ -279,7 +279,7 @@ status
-        - Can be 'online' or 'offline'.
- 	 Piping 'on' or 'off' sets the chpid logically online/offline.
- 	 Piping 'on' to an online chpid triggers path reprobing for all devices
--	 the chpid connects to. This can be used to force the kernel to re-use
-+	 the chpid connects to. This can be used to force the kernel to reuse
- 	 a channel path the user knows to be online, but the machine hasn't
- 	 created a machine check for.
- 
-diff --git a/Documentation/arch/x86/shstk.rst b/Documentation/arch/x86/shstk.rst
-index 60260e809..30b4e4f36 100644
---- a/Documentation/arch/x86/shstk.rst
-+++ b/Documentation/arch/x86/shstk.rst
-@@ -165,7 +165,7 @@ in the page fault error code.
- When a task forks a child, its shadow stack PTEs are copied and both the
- parent's and the child's shadow stack PTEs are cleared of the dirty bit.
- Upon the next shadow stack access, the resulting shadow stack page fault
--is handled by page copy/re-use.
-+is handled by page copy/reuse.
- 
- When a pthread child is created, the kernel allocates a new shadow stack
- for the new thread. New shadow stack creation behaves like mmap() with respect
-diff --git a/Documentation/driver-api/phy/phy.rst b/Documentation/driver-api/phy/phy.rst
-index 719a2b3fd..0865c2e94 100644
---- a/Documentation/driver-api/phy/phy.rst
-+++ b/Documentation/driver-api/phy/phy.rst
-@@ -19,7 +19,7 @@ PHY. Other peripherals that use PHY include Wireless LAN, Ethernet,
- SATA etc.
- 
- The intention of creating this framework is to bring the PHY drivers spread
--all over the Linux kernel to drivers/phy to increase code re-use and for
-+all over the Linux kernel to drivers/phy to increase code reuse and for
- better code maintainability.
- 
- This framework will be of use only to devices that use external PHY (PHY
-diff --git a/Documentation/driver-api/tty/tty_ldisc.rst b/Documentation/driver-api/tty/tty_ldisc.rst
-index 5144751be..d034e117c 100644
---- a/Documentation/driver-api/tty/tty_ldisc.rst
-+++ b/Documentation/driver-api/tty/tty_ldisc.rst
-@@ -18,7 +18,7 @@ Registration
- Line disciplines are registered with tty_register_ldisc() passing the ldisc
- structure. At the point of registration the discipline must be ready to use and
- it is possible it will get used before the call returns success. If the call
--returns an error then it won’t get called. Do not re-use ldisc numbers as they
-+returns an error then it won’t get called. Do not reuse ldisc numbers as they
- are part of the userspace ABI and writing over an existing ldisc will cause
- demons to eat your computer. You must not re-register over the top of the line
- discipline even with the same data or your computer again will be eaten by
-diff --git a/Documentation/driver-api/usb/gadget.rst b/Documentation/driver-api/usb/gadget.rst
-index 09396edd6..6f0c67885 100644
---- a/Documentation/driver-api/usb/gadget.rst
-+++ b/Documentation/driver-api/usb/gadget.rst
-@@ -459,7 +459,7 @@ Linux-USB host side driver stack, or as a peripheral, using this
- ``gadget`` framework. To do that, the system software relies on small
- additions to those programming interfaces, and on a new internal
- component (here called an "OTG Controller") affecting which driver stack
--connects to the OTG port. In each role, the system can re-use the
-+connects to the OTG port. In each role, the system can reuse the
- existing pool of hardware-neutral drivers, layered on top of the
- controller driver interfaces (:c:type:`usb_bus` or :c:type:`usb_gadget`).
- Such drivers need at most minor changes, and most of the calls added to
-diff --git a/Documentation/filesystems/relay.rst b/Documentation/filesystems/relay.rst
-index 301ff4c6e..dd6b52612 100644
---- a/Documentation/filesystems/relay.rst
-+++ b/Documentation/filesystems/relay.rst
-@@ -452,7 +452,7 @@ closed.
- Misc
- ----
- 
--Some applications may want to keep a channel around and re-use it
-+Some applications may want to keep a channel around and reuse it
- rather than open and close a new channel for each use.  relay_reset()
- can be used for this purpose - it resets a channel to its initial
- state without reallocating channel buffer memory or destroying
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index 8c8ce6781..5b27321f2 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -482,7 +482,7 @@ with the following files:
- "max_threshold_occupancy":
- 		Read/write file provides the largest value (in
- 		bytes) at which a previously used LLC_occupancy
--		counter can be considered for re-use.
-+		counter can be considered for reuse.
- 
- Finally, in the top level of the "info" directory there is a file
- named "last_cmd_status". This is reset with every "command" issued
-diff --git a/Documentation/firmware-guide/acpi/DSD-properties-rules.rst b/Documentation/firmware-guide/acpi/DSD-properties-rules.rst
-index 70442bc25..98a350250 100644
---- a/Documentation/firmware-guide/acpi/DSD-properties-rules.rst
-+++ b/Documentation/firmware-guide/acpi/DSD-properties-rules.rst
-@@ -89,7 +89,7 @@ In those cases, however, the above validity considerations must be taken into
- account in the first place and returning invalid property sets from _DSD must be
- avoided.  For this reason, it may not be possible to make _DSD return a property
- set following the given DT binding literally and completely.  Still, for the
--sake of code re-use, it may make sense to provide as much of the configuration
-+sake of code reuse, it may make sense to provide as much of the configuration
- data as possible in the form of device properties and complement that with an
- ACPI-specific mechanism suitable for the use case at hand.
- 
-diff --git a/Documentation/firmware-guide/acpi/enumeration.rst b/Documentation/firmware-guide/acpi/enumeration.rst
-index 0165b09c0..168c43012 100644
---- a/Documentation/firmware-guide/acpi/enumeration.rst
-+++ b/Documentation/firmware-guide/acpi/enumeration.rst
-@@ -12,7 +12,7 @@ In addition we are starting to see peripherals integrated in the
- SoC/Chipset to appear only in ACPI namespace. These are typically devices
- that are accessed through memory-mapped registers.
- 
--In order to support this and re-use the existing drivers as much as
-+In order to support this and reuse the existing drivers as much as
- possible we decided to do following:
- 
-   - Devices that have no bus connector resource are represented as
-diff --git a/Documentation/input/gamepad.rst b/Documentation/input/gamepad.rst
-index 0c918b6f2..ddc65fa36 100644
---- a/Documentation/input/gamepad.rst
-+++ b/Documentation/input/gamepad.rst
-@@ -79,7 +79,7 @@ change the mappings so you can advise users to set these.
- All new gamepads are supposed to comply with this mapping. Please report any
- bugs, if they don't.
- 
--There are a lot of less-featured/less-powerful devices out there, which re-use
-+There are a lot of less-featured/less-powerful devices out there, which reuse
- the buttons from this protocol. However, they try to do this in a compatible
- fashion. For example, the "Nintendo Wii Nunchuk" provides two trigger buttons
- and one analog stick. It reports them as if it were a gamepad with only one
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index fc0b0bbcd..f41f36ce8 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -117,7 +117,7 @@ then the flags argument should include a value that is equivalent to setting
- the timing window between ``xyzzy()`` and calling
- ``fcntl(fd, F_SETFD, FD_CLOEXEC)``, where an unexpected ``fork()`` and
- ``execve()`` in another thread could leak a descriptor to
--the exec'ed program. (However, resist the temptation to re-use the actual value
-+the exec'ed program. (However, resist the temptation to reuse the actual value
- of the ``O_CLOEXEC`` constant, as it is architecture-specific and is part of a
- numbering space of ``O_*`` flags that is fairly full.)
- 
-@@ -459,7 +459,7 @@ the compatibility wrapper::
-     ...
-     555   x32      xyzzy     __x32_compat_sys_xyzzy
- 
--If no pointers are involved, then it is preferable to re-use the 64-bit system
-+If no pointers are involved, then it is preferable to reuse the 64-bit system
- call for the x32 ABI (and consequently the entry in
- arch/x86/entry/syscalls/syscall_64.tbl is unchanged).
- 
-diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
-index f81e94d8f..6993bfa15 100644
---- a/Documentation/sound/hd-audio/notes.rst
-+++ b/Documentation/sound/hd-audio/notes.rst
-@@ -191,7 +191,7 @@ model is found in the white-list, the driver assumes the static
- configuration of that preset with the correct pin setup, etc.
- Thus, if you have a newer machine with a slightly different PCI SSID
- (or codec SSID) from the existing one, you may have a good chance to
--re-use the same model.  You can pass the ``model`` option to specify the
-+reuse the same model.  You can pass the ``model`` option to specify the
- preset model instead of PCI (and codec-) SSID look-up.
- 
- What ``model`` option values are available depends on the codec chip.
+ void resctrl_arch_plza_setup(struct rdt_resource *r, u32 closid, u32 rmid)
 -- 
-2.51.2
+2.52.0
 
