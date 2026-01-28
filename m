@@ -1,150 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DBF372B57;
-	Wed, 28 Jan 2026 18:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA5D2737E0
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 19:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769626772; cv=none; b=Mc/980N0gQPc+YAZz5Ysz0HG0Ge9PJvCKDd9topTBD7gepMjGqUpZhwgLG//zjSqO6x/cQxtrXdWrvpwlIURf/Tq+4t0JpzkneZ58o4aOL1CFz+eoSBFxHEGdzCZLNOjwWR61FtoroApQIE/hFzkFv7/zGcuylBE2nWE/Jzw+r4=
+	t=1769627129; cv=none; b=FMwf3Ycqf8X+TWy2BTKGrEG89Y0E7K8FALSRqIJN7YV+VTklZq1GD3YqH71JjIwHXgJRMXg5nsuvQnBOQCZNiv2hwiTdJXtLzxNh3aoi8M6hn0K9AZ1MKQTvUiWWA2mK+L/Uivdr1tyt6mPsZ8k7GY56/x0nVJn2ldQUbm48PT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769626772; c=relaxed/simple;
-	bh=lAfWIXhDNPgKhfl+kFWnR4iuAVud1Cd3EevJcegc4Gc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GqTvpUP7/8OYwXWN4OAUxonAcMcMaBD7g8qqCCWFVPX1yGTs+u2ppC7bGiCZi6JqlEfDmxnNmnRLS+21rdWQtw5BM7eLA0/cgP3Qzr0Yz8lmf/KS0QDS3cZFoRYYcqS3fH3pOS0mkU1KDsooIzoaph2K8pep92AaSoDLN/mGJlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oof5qRSQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769627129; c=relaxed/simple;
+	bh=HHUFN5MQ+j9kptAJiCh2rv+ffNUWwtnq5vUMbxhX+vo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=GkZ4AyrtD8rSGPugymDz2QQL/EpGAJ+aBaa6XvDEeGMG1urqt1SmB1GaRS+e3KDsscC7G6jjm6suDL10uMsTfV3IzGdxo3Lp+TpBMDe16brlNhp9yFlCL3CgFkfGqCCjFym9Y+JJ8U5Zzgt370YcMtugMBzy/fvCAqogf2WDyvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com; spf=pass smtp.mailfrom=mihalicyn.com; dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b=eff8kwSl; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mihalicyn.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mihalicyn.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oof5qRSQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF09C4CEF1;
-	Wed, 28 Jan 2026 18:59:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769626772;
-	bh=lAfWIXhDNPgKhfl+kFWnR4iuAVud1Cd3EevJcegc4Gc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Oof5qRSQqzkmWl0gjp70a+zLjMywhlphIg+tNbYl3T1Y1IcGNsy/pMSCi/tDmQwtJ
-	 PGzDlGdZC0ycy7781Q5W4H5C24SMxX3CZlmGBgByrrjzbEipy9S+zJ5XDQMKpjwkFO
-	 w6btjZSjVkiSFT4SlS3GxI4MM9UdDbNthsjvhgZ0Vk7c+KK2BoQfpIQtg+6ekEYMmM
-	 czPPVWFUclMvglvkNiEqDw3ODkGqqhUO8u2icaBrZQ8GKAWn4vfr1KKbIOz4mcZTYq
-	 EwTJy2j5qwWUkJnJCqQyUVPGigSqLpNRUVjWaaErsxskkk3Y+y42DXUSlgDAfCrOV0
-	 r5fXe19H5dLsg==
-Date: Wed, 28 Jan 2026 19:59:27 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Frank.Li@nxp.com,
-	dlemoal@kernel.org, Koichiro Den <den@valinux.co.jp>,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Allow overriding default
- BAR sizes
-Message-ID: <aXpcj8MfxsbrKl4O@ryzen>
-References: <20260123180747.827357-2-cassel@kernel.org>
- <yowgralxd7i55p63wqc7jxffwz5iqtrlztndpqu5yqeavhtscn@ajwd6r27ra6a>
- <aXo6w4AM-UgoyICd@ryzen>
+	dkim=pass (1024-bit key) header.d=mihalicyn.com header.i=@mihalicyn.com header.b="eff8kwSl"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-42fbc305914so224170f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 11:05:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mihalicyn.com; s=mihalicyn; t=1769627126; x=1770231926; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HHUFN5MQ+j9kptAJiCh2rv+ffNUWwtnq5vUMbxhX+vo=;
+        b=eff8kwSlilBNPwGTkNZWXhMmbfXHkSGUcbO5tlSUqZGIrnVmeqQNLiv32f4qjNnXR9
+         T85y3iqSiAIgGxr8skqAiv3CdavmPHcsu1WULTRs78vpzJqH3rbrYqvj8EeFcNfUFNJe
+         uNsTmIgRrDkXtzDXqJGAZhm4FfQR0amyC0+D0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769627126; x=1770231926;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HHUFN5MQ+j9kptAJiCh2rv+ffNUWwtnq5vUMbxhX+vo=;
+        b=QyWHsBaoQvIuRd2zY04NRcdWTTrDFyuhk2WKcyIM1ngMy4RpWkVK/GkiHDTp+0Lat4
+         I3aAVSW7nzSvCLmkB3cf9QbrSmchKPUcAasy7yP8HRofbEUXSfRMzubU7w+RRAP2p6Yd
+         qyU0FaQb7pl9HcOleuVq9MohFMaQNX53qLO0nExiK32S8aKr0l+MER5UfImKbr+u7eTw
+         acaRLogv8lZ3OPbciDe9+PxZX4OajMwPP5sdJ1+5mJeLbFXcLv6nEJ0PZ5kMWmS8DaSK
+         OlFiJdGPPud4rQRapkDCdgW5C6EPzEpfM1DKIVKu1SowYrru+wBDUemECnSS/ADMQxWP
+         dE3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWey2yZ7FfsXfhlKxZe6hqOG0Yw3z2lZu0UZFjEZgioe8fWcAblVShRzM1ORN8V2bcTSNI9B9p2Bl8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxju3+lEW9VU+gmOCPbwsZW1fV8M9z4hGjbvfsYCUVMA3JyV77Q
+	q7RMHeqMQPeVddGZI5sgqMmmdgObuyYDEJIe/MWnXtgjEJCeZNWDLQIYIM/pSu8PvLE=
+X-Gm-Gg: AZuq6aJivx7KvnR9E+MjSOf6axPH+Si7YGQ6QzNCVXF5sx1/2Qlw806tkfAXqfptfLH
+	xt/88XGivI1oSoaZiBL5UiLgB3oAC3ZXVZry32Kv3u1JHgGePu8xfQHHKoWAE1FXN0+58pfw83/
+	jpHt0gWGr2hr6/KxYRYCcrv8IRqdbbq2wPgx/P+lx+338eIjD/Hw+waArMFJTmDvHDgvSQZ7oUF
+	yqEHiew5MMBJR9zD9Yfer2gp461Qu0b7t5VM5S3WbsBF090JBuTF2SY2GQ+mQXwJhOXiGTTcSDD
+	DxsF8BcZNBroFkvErKraAfE0Kt88FAC2ZpzQh0M6FV7N1qRuLXKeKaGmIE8UwC5Ie7S/RguGlaI
+	pgrBHb4LxItFbfOmlkR0HK0Zv2l5Q7qYEbiVR/WMBjKYpGEY8cyykKy44CgJ5ROS4NNRRLuS7OW
+	6M41tnTJ3x/YOoijssbgGY3ZIULKbi9cyKbLK12KNC2csitlhCAWEiKeOT1EZDxBzPz9EvFRG47
+	h6+sjLajjAxr2jqDdegaR3bbHGaq7VSRJMJCf3MF2C4xGZUgQ==
+X-Received: by 2002:a05:6000:2c08:b0:431:32f:3140 with SMTP id ffacd0b85a97d-435dd02be47mr9465896f8f.12.1769627126523;
+        Wed, 28 Jan 2026 11:05:26 -0800 (PST)
+Received: from ?IPv6:2003:cf:574b:cf00:f62e:8cab:c07c:593e? (p200300cf574bcf00f62e8cabc07c593e.dip0.t-ipconnect.de. [2003:cf:574b:cf00:f62e:8cab:c07c:593e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e46cesm8825497f8f.7.2026.01.28.11.05.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 11:05:26 -0800 (PST)
+Message-ID: <a54303d478e4492977f8760b0f2d22894bfe604a.camel@mihalicyn.com>
+Subject: Re: [PATCH v3 4/7] seccomp: mark first listener in the tree
+From: Alexander Mikhalitsyn <alexander@mihalicyn.com>
+To: Aleksa Sarai <cyphar@cyphar.com>, Alexander Mikhalitsyn
+	 <alexander@mihalicyn.com>
+Cc: kees@kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  Andy Lutomirski <luto@amacapital.net>, Will
+ Drewry <wad@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan	
+ <shuah@kernel.org>, Tycho Andersen <tycho@tycho.pizza>, Andrei Vagin	
+ <avagin@gmail.com>, Christian Brauner <brauner@kernel.org>, 
+ =?ISO-8859-1?Q?St=E9phane?= Graber	 <stgraber@stgraber.org>
+Date: Wed, 28 Jan 2026 20:05:25 +0100
+In-Reply-To: <2026-01-21-hectic-wriggly-dips-flags-EE541h@cyphar.com>
+References: <20251211124614.161900-1-aleksandr.mikhalitsyn@canonical.com>
+	 <20251211124614.161900-5-aleksandr.mikhalitsyn@canonical.com>
+	 <2026-01-21-hectic-wriggly-dips-flags-EE541h@cyphar.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aXo6w4AM-UgoyICd@ryzen>
 
-On Wed, Jan 28, 2026 at 05:35:15PM +0100, Niklas Cassel wrote:
-> On Wed, Jan 28, 2026 at 01:47:45PM +0530, Manivannan Sadhasivam wrote:
+On Wed, 2026-01-21 at 13:22 +0100, Aleksa Sarai wrote:
+> On 2025-12-11, Alexander Mikhalitsyn
+> <aleksandr.mikhalitsyn@canonical.com> wrote:
+> > Let's note if listener was a first one installed in the seccomp
+> > filters tree. We will need this information to retain old
+> > quirk behavior (as before seccomp nesting introduced).
+> >=20
+> > Also, rename has_duplicate_listener() to
+> > check_duplicate_listener(),
+> > cause now this function is not read-only, but also modifies a state
+> > of a new_child seccomp_filter.
+> >=20
+> > No functional change intended at this point.
+>=20
+> Ah sorry, I didn't notice the date of the mails -- this was sent
+> before
+> the LPC discussion! I'll wait for the v4 before reviewing further.
 
-(snip)
+Hi Aleksa,
 
-> But I am slightly worried of the complexity it brings...
-> Because we already have an .epc_init callback in an EPF driver.
-> If we also bring add a ".pre_start_link" callback in an EPF driver,
-> how should an EPF driver developer know what to put in each callback?
-> 
-> I guess in that case we would want to remove the .epc_init callback?
-> 
-> (Because calling .set_bar() etc. should work to be called in a
-> .pre_start_link for both those driver relying on external refclock and
-> for those that don't.
-> 
-> If you do
-> # echo 1 > controllers/a40000000.pcie-ep/start
-> on a platform that requires an external reflock, before the external
-> refclock is available, that is your own fault.
-> 
-> I guess we could detect that and give a nice error.)
-
-pci_epf_test_alloc_space() is called by pci_epf_test_bind().
-
-pci_epc_set_bar() is called by pci_epf_test_epc_init().
-
-On platforms that do not require an external reference clock to do
-register writes to their own config space, i.e. all drivers except
-(pcie-qcom and pcie-tegra194), a single configfs link command will cause
-both both of these callback to be called directly after each other:
-
-# ln -s functions/pci_epf_test/func1 controllers/a40000000.pcie-ep/
-[  578.073152] pci_epf_test_bind
-[  578.075614] pci_epf_test_epc_init
-
-
-So, unless we want to change the design of pci-epf-test to:
-1) Move the allocation of BARs from .bind() to a new
-   .pre_start_link() callback.
-2) Move the call to pci_epc_set_bar() from epc_init() to a new
-   .pre_start_link() callback.
-3) Remove the now unused .epc_init() callback.
-
-...and for consistency, we would also need to do these steps for all
-the other existing EPF drivers...
-
-I am not convinced that it is worth reworking the EPF callbacks for this
-(test driver) feature, which will only used for PCI endpoint developers,
-especially given the complexity it would require.
-
-For platforms drivers that require external reference clock, is it possible
-to call
-echo 1 > start
-
-before we get refclock?
-
-If so the design would probably need to be changed even more drastically...
-
-
-
-When we introduce .epc_init, one of the reasons why we decided to have
-alloc_space() and set_bar() in two different callbacks, was if a host driver
-toggled PERST, the EPF driver would not need to call free() on the backing
-memory it has allocated, e.g. I can see that pci_epf_test_epc_deinit() calls
-clear_bar(), but the only place that actually frees the memory backing the
-BARs is pci_epf_test_unbind().
-
-
-What if the user wants to do:
-
-# echo 1024 > functions/pci_epf_test/func1/pci_epf_test.0/bar1_size
-# echo 0 > controllers/a40000000.pcie-ep/start
-# echo 2048 > functions/pci_epf_test/func1/pci_epf_test.0/bar1_size
-# echo 1 > controllers/a40000000.pcie-ep/start
-
-Do we want to make the allocation each time we echo 1 > start... ?
-
-If someone stops the link.. is it really wrong to free the memory?
-
-I'm not against this design, but with the complexity that we want
-.epc_init() to only call set_bar(), and we probably want .pre_start_link()
-to call alloc_space()...
-
-I don't think that the small feature in this patch is enough
-justification to modify how all EPF driver to their backing memory
-allocations just for this...
-
-Instead I will just send a new version such that if the user get -EINVAL
-if trying to change bar*_size in configfs AFTER the EPF has been bound to
-an EPC (i.e. it can only be done before binding to an EPC.), as that seems
-like the most pragmatic compromise that will avoid (another) redesign of
-the EPF callbacks.
-
+Yeah, I'm thinking about preparing a separate patches to address
+a quirky seccomp behavior we discussed during LPC and then resend this
+series.
 
 Kind regards,
-Niklas
+Alex
