@@ -1,296 +1,258 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F18630F94D;
-	Wed, 28 Jan 2026 17:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769620354; cv=fail; b=JsIy0LZWZ5WYXr3BC82BdtJ2lHR2i/LdmiLLCdn0R109ytAI5NUMfveWo2qJ7cliHpTL4Xfi9xsGj3EMa5I7CEN7hblAsWJuiB66n6x193nAD//nFUEkZDcIecnawwjpuYSJmOAV5g/NYPIixu0TmKRnUV1evHxkB/eD/uleTgU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769620354; c=relaxed/simple;
-	bh=GVhdg8sk+WgAkGYt6Nw9Jo+0oJ4jC+TmxnqP4Z378Gg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Ur30IsAfwz6zZo1dyFertmlM25iOuDplpA5F53lVLBWJ0XEg3M2OFF/rCIUiGepl1FadZCBxJdfILVfnf9Xho8z6g531ryJ7F/ZfZ96L29S9CE9V3uNBayCAJbO0yxPWdM1mmqTaFi4msKHxCxzIa3jFDV3jcBqiodEv/AEX8z8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a26+wCNM; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629A9487BE;
+	Wed, 28 Jan 2026 17:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769620383; cv=none; b=PVdfjPp44avIcv2sFa1jSZcA/Sb81jFdrE0tBapgSKgWG4EdAZmS+1sLZmZS6+lh/0jdNDbIojZ5OL5233kDImUMxFrzEdJoF5XxvaSFDXO59K6sYx5TTsatK1d+GMy9rNIContdyHppQpiDNb/jM6TULhHJ+nL4ID3nqVrcycw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769620383; c=relaxed/simple;
+	bh=JVS5mAhybJmpS6sDahaQJbUWKOx4qO/x7GUI9lF9ueU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PxoCYiZO2+0pr1pioA+q84LOi0JoePpxsM15nNgKZNHLW7DHe9YfvLxuzfUSK0B5K0SnRNIB7DZBKeMS3E6/+rXU9vWUAO3vtd0F0L37ebzSoRhIaT4m691KReDKWrR5moeDVQjMXpPPp4Y2iytuWNv68sFge4pR+JHHOLgmHSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UG1aWbtj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a26+wCNM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769620350; x=1801156350;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=GVhdg8sk+WgAkGYt6Nw9Jo+0oJ4jC+TmxnqP4Z378Gg=;
-  b=a26+wCNMWALNl/h82nlo2E0antREd5GaauO7A56jpr/6nBOid1paeEMF
-   Jvmv7sgiRQdKyOrWrbgRXlqdmksZRPjH68i+qdotUpdGUm102lxVbtYh8
-   Tp/Isyw8B+fPONxzm7L0xbcitKIJBIUZQD4afCgtm6ophQpb10YUqxVuM
-   3PXcc6BcT0LDKYlFODGVQe+tI1MdqeccnLEMJ3Kun1LDwq2JuCgX29ppu
-   1wM2i/W97GukraSQgf32KG5jtD74WplNRzMrBJfuat4b7JIc4tzd2xvDn
-   fbJcxX//wLbmlZ36v4Cgm+XkhmGk4w0NWrkwIjWVMzhx1CjwlrzhhTwNp
-   g==;
-X-CSE-ConnectionGUID: 7Pl+U666TBmoLu8vZPmQ6Q==
-X-CSE-MsgGUID: letgBHGeT+aMmSKHh7eHEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="81156217"
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="81156217"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 09:12:29 -0800
-X-CSE-ConnectionGUID: PwT7/e/uQlKKi0fRl6D+Yg==
-X-CSE-MsgGUID: vj6X644NSPmqZ6Vrq9u1aQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
-   d="scan'208";a="207557852"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 09:12:28 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Wed, 28 Jan 2026 09:12:27 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Wed, 28 Jan 2026 09:12:27 -0800
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.49) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Wed, 28 Jan 2026 09:12:27 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZVcZVv2buX6IW0Actd/wL2KpHw1azfrrXPkjw9dSC6YkXN9NRAz5sg9g8Hhf5ybT8j2ZpGMtBwPoS6sT/609lpCTkikae43xqkuLYpJnMz+UnmvjQdxjbNWUXGvMWT9hcif+hTeyB8tIhs4Oq6Y9J5rOneCH/Z9FPcqtKgXKDGAZb1uMRUrSg4hbSIAIcOsulahrxxnOCik83f4uh4Y+BQnhHQPfOqjxeRRYA84if28nD6eypi0sgAv7PgEwHVMFRwlVxbYj4kv2H3pF93QLKP1rxibwVdXH5hrzJ90hD5rlpw4pHB0C4bxonq6O//HkZ6/nMajAWs7d+l9SUE5UHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3VTjRAihKCO5xUyzM67ckRhXq4KdXy6i+t+Nm5X0PLk=;
- b=NCTxBdWT3Mv7dpjRSe6VmgwdFPCqkeQs6HFsCmQ7R8EJF5SifYM4ndKi+5cwYD5b4t1uLiVZpI6W5i5tNMcsOuy0PdYbpn5Fj3LXfY973JfjrWOHfIFJWFknW3j7yVaLMHN/0MDtR1buyPShQU7qd9iVI2xMfrnNXnxl1c63yLMOZuUGsVvz+NkspGI4lWLdxsXOyi78hxivb5a0+ktV2E92BH4W4i1TTdLhPBbmjnKiOcdv18lFESKYWqOcaL3c5jxILJcXX/cfpVcTtB37BCh1DfBEp4b9ES7XHi3oJ2a7PYtg5w9fDnOvR9zg5MlqXIyzFy7RdHDzcn6ib8LZjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by CYXPR11MB8690.namprd11.prod.outlook.com (2603:10b6:930:e5::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Wed, 28 Jan
- 2026 17:12:23 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%3]) with mapi id 15.20.9564.006; Wed, 28 Jan 2026
- 17:12:23 +0000
-Date: Wed, 28 Jan 2026 09:12:21 -0800
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "Moger, Babu" <bmoger@amd.com>
-CC: Babu Moger <babu.moger@amd.com>, <corbet@lwn.net>,
-	<reinette.chatre@intel.com>, <Dave.Martin@arm.com>, <james.morse@arm.com>,
-	<tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
-	<peterz@infradead.org>, <juri.lelli@redhat.com>,
-	<vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
-	<rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
-	<vschneid@redhat.com>, <akpm@linux-foundation.org>,
-	<pawan.kumar.gupta@linux.intel.com>, <pmladek@suse.com>,
-	<feng.tang@linux.alibaba.com>, <kees@kernel.org>, <arnd@arndb.de>,
-	<fvdl@google.com>, <lirongqing@baidu.com>, <bhelgaas@google.com>,
-	<seanjc@google.com>, <xin@zytor.com>, <manali.shukla@amd.com>,
-	<dapeng1.mi@linux.intel.com>, <chang.seok.bae@intel.com>,
-	<mario.limonciello@amd.com>, <naveen@kernel.org>,
-	<elena.reshetova@intel.com>, <thomas.lendacky@amd.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<kvm@vger.kernel.org>, <peternewman@google.com>, <eranian@google.com>,
-	<gautham.shenoy@amd.com>
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-Message-ID: <aXpDdUQHCnQyhcL3@agluck-desk3>
-References: <cover.1769029977.git.babu.moger@amd.com>
- <17c9c0c252dcfe707dffe5986e7c98cd121f7cef.1769029977.git.babu.moger@amd.com>
- <aXk8hRtv6ATEjW8A@agluck-desk3>
- <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
-X-ClientProxiedBy: BY1P220CA0009.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:59d::7) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UG1aWbtj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC476C4CEF1;
+	Wed, 28 Jan 2026 17:13:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769620383;
+	bh=JVS5mAhybJmpS6sDahaQJbUWKOx4qO/x7GUI9lF9ueU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=UG1aWbtjj63UBMTVUskU5TMOoAg/8aU1xfj9NXcqzqUHzx7scO+0ZJzNCUBceFgiI
+	 wyDzqCM1webvq656iwRCyXURwFuvKWOa5XNKL1DbfbJamnxDDZ2JT8eQEm8jU58BGp
+	 3Uj1xILNugDnvJR7qgwqBAk6Q3rDy3ok0vOx+dEGvflnRlRhnXquazdphV820byeBH
+	 tJZMpKGV9v+FsZesf1O8jMTg9PacSqDwffy3NZKqBVLPH3R68b1HH0Q5y4lentXqf6
+	 0shAGSdP8XnVPGa3DQdKtTjXZpfzWh6lllA+lT9YTtNyOJ7g3oFTUQvll7zMQO6Vgw
+	 0gpzMNIBrVCww==
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Frank.Li@nxp.com,
+	dlemoal@kernel.org,
+	Koichiro Den <den@valinux.co.jp>,
+	Niklas Cassel <cassel@kernel.org>,
+	linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2] PCI: endpoint: pci-epf-test: Allow overriding default BAR sizes
+Date: Wed, 28 Jan 2026 18:11:57 +0100
+Message-ID: <20260128171157.1795146-2-cassel@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|CYXPR11MB8690:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a176700-8efc-4795-b28c-08de5e906755
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?hbFDlvbA7RauilVqmXzXPpF+XzC/NzsHRsgmjCny7NyIuPaGDK8lA3EzEu/9?=
- =?us-ascii?Q?xKulaS7e21oHZfGq92FjXPkyXs3S0wAyqVL836ybBcQs73thOJeVaCjcTb/G?=
- =?us-ascii?Q?rHRIWIjQqfgZxbDtG2NPSdMhnzw+3GyGTsFTpjdcDRuMPwYk4xVJrviatzni?=
- =?us-ascii?Q?UAcgw9Zt8PgbavXmmM5z7sH+Lh6qqrgybvJMVmKS5kJ/OecynCPVwhG63YOp?=
- =?us-ascii?Q?4V1Bvq3e0XUj8+w0s2trBvuonTToWxIW90qFy3Kk/vW/qi8OuGq6KPjNwUTA?=
- =?us-ascii?Q?NSmwppA0M0pDk2KK/jlVTh02PfcJgBnqTlTMDxhwwG5TVNIr0PSEJGTI2rOE?=
- =?us-ascii?Q?CFhGrIvuiuNcni9juLrRw3xn3gP3uDBbuH8xxcdlBBiaX1slrseR6yxHt9ml?=
- =?us-ascii?Q?ZinZ/uY7MWjHH2+Qadrx8iz5cBX+Et/dJJw6nkqCN7Mkyb7oHtQwF4YuQlHn?=
- =?us-ascii?Q?WZ0foRUTOPz3Z8Pu+TmplrSivYsvVWXSCCHqi2zQf4fNYWHPkqnlfmpkFDeG?=
- =?us-ascii?Q?Pvn1Dz5wzDwm0ki3i2Y3PgpfAonORfqRS5b4l9zJhiRcLBwBgGm6CXUGkB0Y?=
- =?us-ascii?Q?Ga/HNFwvlDGjLGmmO+ntlGay9yHYXY74jtKoeKjVXoRZjL+O3L9X6cRwI7JZ?=
- =?us-ascii?Q?z98qu5JEJi9HsMJu8/YvhST6dPv1qZVbps8YEohDLs9eTqNgAqiEvWwVMSeP?=
- =?us-ascii?Q?j3hnmWb7uZXaPurk4J5f+h8tu3vH1mr9d/1YFBa5dB5Pwp2ngqAMXpOeR5ZW?=
- =?us-ascii?Q?3HA/hxcXQyiV5E58BosyxakaIf3ykPzYDi21IRC/2lGH3FKQCFIEII9kQTcW?=
- =?us-ascii?Q?tkYIWVh9+wPLtZGWyn7+N8X0Eeewz1Wzpe8iWQcfuZv/NGjZNHTHqoOQ2ClH?=
- =?us-ascii?Q?xMxRfrFeq3FBXNJDByoR/q5QpCaRnAx70go/UW7kjdnGGTCRVTECb4leu7HE?=
- =?us-ascii?Q?skWTkQu+MCqde7oifYrwm6TzlsDfhFWGc/qW6ByJ9Rg894ZXu+EzY0OHShoe?=
- =?us-ascii?Q?7gGgzt357C6amnbTZOgtb4QfvUbQv3sHD8nDe151DUHQPUmrYj3HFvioxhts?=
- =?us-ascii?Q?BeiZfN5/+p137nVgqNGeyUaZMhLCPOCp6UtjY9/9lQOJppPAKayRXeCB1sFN?=
- =?us-ascii?Q?Ar47fDrC0d0c6Il81/9d2grreLxi1QRPlGtIO7Emys43SG6rUeF0wx9XQIzM?=
- =?us-ascii?Q?UkTMSjttcPZQdk1foZxYnbSDgNFSF7/FBAKGzriqomvJYxVNspB+R3LWCCFt?=
- =?us-ascii?Q?UQD44shSfxUg2n4I7mDdGiJBiWLvkRXj87aaIXIG1MggirthbVK5YYFUNnJE?=
- =?us-ascii?Q?LFiGb6Ej2pM9VDwsRCv9/CQBqKOedVlRJqHmyR7C6THol4J/zIsnhnyfHqwS?=
- =?us-ascii?Q?P99/o4xYOtDrWcdXxuonElumrbjQfIEYREBcXowkxVlYd/Lizz3VRbZDJCpc?=
- =?us-ascii?Q?IRHcBlJ6Jo8g6GFv1WhjSz9/oMYdMxBQYaXsxTW6KJgrXu1eqAVTw4p3UEKY?=
- =?us-ascii?Q?iAWKUdJdQXGx8vJY3o221au23Ig79K9s2tTmWnRrWLZz/d4mmfW9wc5wSWmL?=
- =?us-ascii?Q?N7UPRyOOHipbeJGMUpI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6GKGfsEaI2mEDVPU7BL6/8gXwnS5wzDKWDpbpvzw7vxrf2s/74ROZnxO69Ku?=
- =?us-ascii?Q?r222JzIV2/jWEgUOqiemHbXa1Dil3Pi6eP9wQPE/MGHDYKduRmfKcvBfKCLY?=
- =?us-ascii?Q?TB5GIK37nt4MA53lSZPSJtYflpy/+dETtJyUYlTLvR8Tj0EqHOoEdKmgFjE1?=
- =?us-ascii?Q?xIfosaUElmNwdeGddZca3mCHcgZbso93D2yisJvtxTnwF5vMEFzX86FSQMYa?=
- =?us-ascii?Q?oOgecMjDZSbQ9RNc5RHK0OT7DDCGX2eTk4rM+T4HAMt+cq0cJYdDRkjR2S5d?=
- =?us-ascii?Q?e5Ym7fBPdizJWsU3MusnT+KjRnGNGieyXnMIrv/vMsyuwZW4PLu5wyBaTPYK?=
- =?us-ascii?Q?/+2QH5629ofuLU6QE376Ue5pPnjfMskb6KwKF4GtVchbLn55xz5xctN/uV77?=
- =?us-ascii?Q?MalPERPLSiqgwMcpJYG0uzusf01kG40+bOdvDzMnf4iof2kjc1/JuQAGsk4+?=
- =?us-ascii?Q?7XbVdfgse9hyZ2SyF5Io7uXluiJSz5MdjLKl27EtVuYlSZTTF4pP+eq8M9/3?=
- =?us-ascii?Q?J50fe9nleVhD853o+6MknCesqhoXa3ixrYor20MgDIlbi7NQ/TwYz9U20p9c?=
- =?us-ascii?Q?v1wHql5Zhv27uxKpnRKRiQkTlGX9QC9dYvvMqNG++cqm7+EvPRZgkvyDupJ4?=
- =?us-ascii?Q?xLqetzwCZIsVEzgZ1tixgYdGlCrdEPd1fep6Eb7jnKmaW//ko3EwxuPHBcjU?=
- =?us-ascii?Q?Kbg0Gsps1w9Dl9wB/QRbhnhNsNK9OmNxrYpG264bbeAE41UB7LLIAVNDkISY?=
- =?us-ascii?Q?xeDTdsYGB07c09VSuN92vA0jBUh8hLNrdnnV98+2RotpDN0tXfXoC0lri0jg?=
- =?us-ascii?Q?KCVlEMpfbpAKRDW5Bj3Y4Y3nmXUsKpdSw9PYBkRWjwZ2QWFFjaB0RFD97r4q?=
- =?us-ascii?Q?QdV5iinONZMDBJDfJGKcR341NXO1uLmedjhpcRAruhRgA2prmsqnKUaoa+cS?=
- =?us-ascii?Q?PBQvrgBljtPu7TnIul6+ZnSuRjEfFPBbeOnZHndVjNIC5t2A40+xKiHoPp0s?=
- =?us-ascii?Q?97uoguT5Wg5dgsSzU4WnHbBYpUlSgHIs6xHpbWmNUgYrAvEGssC8Zg9UGhBO?=
- =?us-ascii?Q?Lbb7KGrlOsX++WLTA2bv80lhXegoQe+uqRmIJCcgbOuRFsExoZSR1Qzfp0Xo?=
- =?us-ascii?Q?e7nMXtepTWCekoyuvHfaSG6KqY0C7CD+I7Qc/QBCxk22B8C9l8cwe2zKR4XC?=
- =?us-ascii?Q?oVtc0mI2F8z3qOpVpz8cymoYgJeTflHPHBM1NeAhXKB4PjPyU16MemUWRaNR?=
- =?us-ascii?Q?3bP6erre1CfFz8XRzS9+o0s+AnBCRxwdc2M+0gqZpgJZJ3TxL5UOnUOX/MU4?=
- =?us-ascii?Q?iLye0BEJem9+8EUAvuZLzUZxLL6n1+oTO+6iTuAQEDd4uq1rBI6udQFbq9Gj?=
- =?us-ascii?Q?9JMI7C8n00sM1bI0pcBLvGxjOYTAc+OvI73+Jbc4EzJzvlbFoypRIASBFMTd?=
- =?us-ascii?Q?r/wIz6kCJfk4saxMTY6lyJugZAkJdlc/uLfosDw5e3Ho4dauHk5cSqsMh2o6?=
- =?us-ascii?Q?S7Wu7zTn+H/Ut5iVoyatiE7eGySBVsMIXB4w5NPjbMuHkc+Edbsbp9SRmjjn?=
- =?us-ascii?Q?Vf3+U4wba/yBb5N2oVi0sLUYEynwdLYBzzcLZ+VCBlipOh+OAZ49iW0eMYTE?=
- =?us-ascii?Q?3E0uVqagpVJOIj8oAjRlzmgR2WDSjTNvYcmk2eSiXJ32jFQnHySJmSxCUdeX?=
- =?us-ascii?Q?vAhBArpiUtCMcPKcgwDzk77PKwOxNzCVW88IKH3PdxtTT4J6oZsL0BO/z01/?=
- =?us-ascii?Q?zDYaJ8tDwA=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a176700-8efc-4795-b28c-08de5e906755
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 17:12:23.6831
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u1c1h1OHd/ek7wr7YgN0EEX+QxG3eM+CwxlcDzi6MgpmFQwYorMULFILTkPutxsso3BaHIaG4eG7KkIHDVvfKw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8690
-X-OriginatorOrg: intel.com
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7529; i=cassel@kernel.org; h=from:subject; bh=JVS5mAhybJmpS6sDahaQJbUWKOx4qO/x7GUI9lF9ueU=; b=owGbwMvMwCV2MsVw8cxjvkWMp9WSGDKrnGNnx61M2ao8YTYD23sdlfcJ/y4mXJ5zr/wda1j0f vm/Mv3dHaUsDGJcDLJiiiy+P1z2F3e7TzmueMcGZg4rE8gQBi5OAZjI4leMDDOnTzjrp18pGdYy 4ej64PxFU1b5x/xk5CuqWFpT9ma2XSLD//JV74WU1ty+FZszkX37pdaj1klORzpkHs95+nP27ma eLB4A
+X-Developer-Key: i=cassel@kernel.org; a=openpgp; fpr=5ADE635C0E631CBBD5BE065A352FE6582ED9B5DA
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 28, 2026 at 10:01:39AM -0600, Moger, Babu wrote:
-> Hi Tony,
-> 
-> Thanks for the comment.
-> 
-> On 1/27/2026 4:30 PM, Luck, Tony wrote:
-> > On Wed, Jan 21, 2026 at 03:12:51PM -0600, Babu Moger wrote:
-> > > @@ -138,6 +143,20 @@ static inline void __resctrl_sched_in(struct task_struct *tsk)
-> > >   		state->cur_rmid = rmid;
-> > >   		wrmsr(MSR_IA32_PQR_ASSOC, rmid, closid);
-> > >   	}
-> > > +
-> > > +	if (static_branch_likely(&rdt_plza_enable_key)) {
-> > > +		tmp = READ_ONCE(tsk->plza);
-> > > +		if (tmp)
-> > > +			plza = tmp;
-> > > +
-> > > +		if (plza != state->cur_plza) {
-> > > +			state->cur_plza = plza;
-> > > +			wrmsr(MSR_IA32_PQR_PLZA_ASSOC,
-> > > +			      RMID_EN | state->plza_rmid,
-> > > +			      (plza ? PLZA_EN : 0) | CLOSID_EN | state->plza_closid);
-> > > +		}
-> > > +	}
-> > > +
-> > 
-> > Babu,
-> > 
-> > This addition to the context switch code surprised me. After your talk
-> > at LPC I had imagined that PLZA would be a single global setting so that
-> > every syscall/page-fault/interrupt would run with a different CLOSID
-> > (presumably one configured with more cache and memory bandwidth).
-> > 
-> > But this patch series looks like things are more flexible with the
-> > ability to set different values (of RMID as well as CLOSID) per group.
-> 
-> Yes. this similar what we have with MSR_IA32_PQR_ASSOC. The association can
-> be done either thru CPUs (just one MSR write) or task based association(more
-> MSR write as task moves around).
-> > 
-> > It looks like it is possible to have some resctrl group with very
-> > limited resources just bump up a bit when in ring0, while other
-> > groups may get some different amount.
-> > 
-> > The additions for plza to the Documentation aren't helping me
-> > understand how users will apply this.
-> > 
-> > Do you have some more examples?
-> 
-> Group creation is similar to what we have currently.
-> 
-> 1. create a regular group and setup the limits.
->    # mkdir /sys/fs/resctrl/group
-> 
-> 2. Assign tasks or CPUs.
->    # echo 1234 > /sys/fs/resctrl/group/tasks
-> 
->    This is a regular group.
-> 
-> 3. Now you figured that you need to change things in CPL0 for this task.
-> 
-> 4. Now create a PLZA group now and tweek the limits,
-> 
->    # mkdir /sys/fs/resctrl/group1
-> 
->    # echo 1 > /sys/fs/resctrl/group1/plza
-> 
->    # echo "MB:0=100" > /sys/fs/resctrl/group1/schemata
-> 
-> 5. Assign the same task to the plza group.
-> 
->    # echo 1234 > /sys/fs/resctrl/group1/tasks
-> 
-> 
-> Now the task 1234 will be using the limits from group1 when running in CPL0.
-> 
-> I will add few more details in my next revision.
-> 
+Add bar{0,1,2,3,4,5}_size attributes in configfs, so that the user is not
+restricted to run pci-epf-test with the hardcoded BAR size values defined
+in pci-epf-test.c.
 
-Babu,
+This code is shamelessly more or less copy pasted from pci-epf-vntb.c
 
-I've read a bit more of the code now and I think I understand more.
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Tested-by: Koichiro Den <den@valinux.co.jp>
+Signed-off-by: Niklas Cassel <cassel@kernel.org>
+---
+Changes since v1:
+-Rebased on branch controller/dwc since this branch contains changes
+ to pci-epf-test.c which conflicted with V1 of this patch.
+-Updated the documentation to show the current BAR sizes after other
+ changes on branch controller/dwc.
+-Picked up tags.
 
-Some useful additions to your explanation.
+ Documentation/PCI/endpoint/pci-test-howto.rst | 16 ++++
+ drivers/pci/endpoint/functions/pci-epf-test.c | 92 ++++++++++++++++++-
+ 2 files changed, 106 insertions(+), 2 deletions(-)
 
-1) Only one CTRL group can be marked as PLZA
-2) It can't be the root/default group
-3) It can't have sub monitor groups
-4) It can't be pseudo-locked
+diff --git a/Documentation/PCI/endpoint/pci-test-howto.rst b/Documentation/PCI/endpoint/pci-test-howto.rst
+index dd66858cde46..497251d53b12 100644
+--- a/Documentation/PCI/endpoint/pci-test-howto.rst
++++ b/Documentation/PCI/endpoint/pci-test-howto.rst
+@@ -84,6 +84,22 @@ device, the following commands can be used::
+ 	# echo 32 > functions/pci_epf_test/func1/msi_interrupts
+ 	# echo 2048 > functions/pci_epf_test/func1/msix_interrupts
+ 
++By default, pci-epf-test uses the following BAR sizes::
++
++	# grep . functions/pci_epf_test/func1/pci_epf_test.0/bar?_size
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar0_size:131072
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar1_size:131072
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar2_size:131072
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar3_size:131072
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar4_size:131072
++	  functions/pci_epf_test/func1/pci_epf_test.0/bar5_size:1048576
++
++The user can override a default value using e.g.::
++	# echo 1048576 > functions/pci_epf_test/func1/pci_epf_test.0/bar1_size
++
++Note: Some endpoint controllers might have fixed size BARs, or reserved BARs,
++for such controllers, the corresponding BAR size in configfs will be ignored.
++
+ 
+ Binding pci-epf-test Device to EP Controller
+ --------------------------------------------
+diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+index 1cc630a2ee75..e8dff291f116 100644
+--- a/drivers/pci/endpoint/functions/pci-epf-test.c
++++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+@@ -72,6 +72,7 @@ static struct workqueue_struct *kpcitest_workqueue;
+ struct pci_epf_test {
+ 	void			*reg[PCI_STD_NUM_BARS];
+ 	struct pci_epf		*epf;
++	struct config_group	group;
+ 	enum pci_barno		test_reg_bar;
+ 	size_t			msix_table_offset;
+ 	struct delayed_work	cmd_handler;
+@@ -85,6 +86,7 @@ struct pci_epf_test {
+ 	bool			dma_private;
+ 	const struct pci_epc_features *epc_features;
+ 	struct pci_epf_bar	db_bar;
++	size_t			bar_size[PCI_STD_NUM_BARS];
+ };
+ 
+ struct pci_epf_test_reg {
+@@ -111,7 +113,8 @@ static struct pci_epf_header test_header = {
+ 	.interrupt_pin	= PCI_INTERRUPT_INTA,
+ };
+ 
+-static size_t bar_size[] = { 131072, 131072, 131072, 131072, 131072, 1048576 };
++/* default BAR sizes, can be overridden by the user using configfs */
++static size_t default_bar_size[] = { 131072, 131072, 131072, 131072, 131072, 1048576 };
+ 
+ static void pci_epf_test_dma_callback(void *param)
+ {
+@@ -1240,7 +1243,7 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
+ 		if (epc_features->bar[bar].type == BAR_FIXED)
+ 			test_reg_size = epc_features->bar[bar].fixed_size;
+ 		else
+-			test_reg_size = bar_size[bar];
++			test_reg_size = epf_test->bar_size[bar];
+ 
+ 		base = pci_epf_alloc_space(epf, test_reg_size, bar,
+ 					   epc_features, PRIMARY_INTERFACE);
+@@ -1312,6 +1315,87 @@ static void pci_epf_test_unbind(struct pci_epf *epf)
+ 	pci_epf_test_free_space(epf);
+ }
+ 
++#define PCI_EPF_TEST_BAR_SIZE_R(_name, _id)				\
++	static ssize_t pci_epf_test_##_name##_show(struct config_item *item,	\
++						   char *page)		\
++	{								\
++		struct config_group *group = to_config_group(item);	\
++		struct pci_epf_test *epf_test = container_of(group,	\
++					struct pci_epf_test, group);	\
++									\
++		return sprintf(page, "%zu\n", epf_test->bar_size[_id]);	\
++	}
++
++#define PCI_EPF_TEST_BAR_SIZE_W(_name, _id)				\
++	static ssize_t pci_epf_test_##_name##_store(struct config_item *item, \
++						    const char *page, size_t len) \
++	{								\
++		struct config_group *group = to_config_group(item);	\
++		struct pci_epf_test *epf_test = container_of(group,	\
++					struct pci_epf_test, group);	\
++		int val;						\
++		int ret;						\
++									\
++		ret = kstrtouint(page, 0, &val);			\
++		if (ret)						\
++			return ret;					\
++									\
++		if (!is_power_of_2(val))				\
++			return -EINVAL;					\
++									\
++		epf_test->bar_size[_id] = val;				\
++									\
++		return len;						\
++	}
++
++PCI_EPF_TEST_BAR_SIZE_R(bar0_size, BAR_0)
++PCI_EPF_TEST_BAR_SIZE_W(bar0_size, BAR_0)
++PCI_EPF_TEST_BAR_SIZE_R(bar1_size, BAR_1)
++PCI_EPF_TEST_BAR_SIZE_W(bar1_size, BAR_1)
++PCI_EPF_TEST_BAR_SIZE_R(bar2_size, BAR_2)
++PCI_EPF_TEST_BAR_SIZE_W(bar2_size, BAR_2)
++PCI_EPF_TEST_BAR_SIZE_R(bar3_size, BAR_3)
++PCI_EPF_TEST_BAR_SIZE_W(bar3_size, BAR_3)
++PCI_EPF_TEST_BAR_SIZE_R(bar4_size, BAR_4)
++PCI_EPF_TEST_BAR_SIZE_W(bar4_size, BAR_4)
++PCI_EPF_TEST_BAR_SIZE_R(bar5_size, BAR_5)
++PCI_EPF_TEST_BAR_SIZE_W(bar5_size, BAR_5)
++
++CONFIGFS_ATTR(pci_epf_test_, bar0_size);
++CONFIGFS_ATTR(pci_epf_test_, bar1_size);
++CONFIGFS_ATTR(pci_epf_test_, bar2_size);
++CONFIGFS_ATTR(pci_epf_test_, bar3_size);
++CONFIGFS_ATTR(pci_epf_test_, bar4_size);
++CONFIGFS_ATTR(pci_epf_test_, bar5_size);
++
++static struct configfs_attribute *pci_epf_test_attrs[] = {
++	&pci_epf_test_attr_bar0_size,
++	&pci_epf_test_attr_bar1_size,
++	&pci_epf_test_attr_bar2_size,
++	&pci_epf_test_attr_bar3_size,
++	&pci_epf_test_attr_bar4_size,
++	&pci_epf_test_attr_bar5_size,
++	NULL,
++};
++
++static const struct config_item_type pci_epf_test_group_type = {
++	.ct_attrs	= pci_epf_test_attrs,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct config_group *pci_epf_test_add_cfs(struct pci_epf *epf,
++						 struct config_group *group)
++{
++	struct pci_epf_test *epf_test = epf_get_drvdata(epf);
++	struct config_group *epf_group = &epf_test->group;
++	struct device *dev = &epf->dev;
++
++	config_group_init_type_name(epf_group, dev_name(dev),
++				    &pci_epf_test_group_type);
++
++	return epf_group;
++}
++
+ static const struct pci_epf_device_id pci_epf_test_ids[] = {
+ 	{
+ 		.name = "pci_epf_test",
+@@ -1324,6 +1408,7 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+ {
+ 	struct pci_epf_test *epf_test;
+ 	struct device *dev = &epf->dev;
++	enum pci_barno bar;
+ 
+ 	epf_test = devm_kzalloc(dev, sizeof(*epf_test), GFP_KERNEL);
+ 	if (!epf_test)
+@@ -1331,6 +1416,8 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+ 
+ 	epf->header = &test_header;
+ 	epf_test->epf = epf;
++	for (bar = BAR_0; bar < PCI_STD_NUM_BARS; bar++)
++		epf_test->bar_size[bar] = default_bar_size[bar];
+ 
+ 	INIT_DELAYED_WORK(&epf_test->cmd_handler, pci_epf_test_cmd_handler);
+ 
+@@ -1343,6 +1430,7 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+ static const struct pci_epf_ops ops = {
+ 	.unbind	= pci_epf_test_unbind,
+ 	.bind	= pci_epf_test_bind,
++	.add_cfs = pci_epf_test_add_cfs,
+ };
+ 
+ static struct pci_epf_driver test_driver = {
 
-Would a potential use case involve putting *all* tasks into the PLZA
-group? That would avoid any additional context switch overhead as the
-PLZA MSR would never need to change.
+base-commit: 0ebf8e7943e01b2c38c199228f51adbb89c02425
+-- 
+2.52.0
 
-If that is the case, maybe for the PLZA group we should allow user to
-do:
-
-# echo '*' > tasks
-
--Tony
