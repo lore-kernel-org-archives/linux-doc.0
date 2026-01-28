@@ -1,218 +1,117 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6976C31B825
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 16:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4993112BC
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 16:59:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769619360; cv=none; b=pKUDcckV4vEFZu97RKIbdz9b0zbIbi6MWppfqx6jPdYc0AqoSgp9a1qXk69CTTwycLUrVzZOvEO1QSNNQzU8tfND4TVCllmlhI4ggwzxTUrpHsVZRvxPj89B8t58tbdMSGp1aE1PLC2HAUeU2esDIj979hYpeqCQpMDsQL7t604=
+	t=1769619544; cv=none; b=Q8YYLpvs1hHfcYxKRG9bun9DK7lz1gBG1Z9ZMkrQOVJFk7LbFk+yKXNVQwHTrUsJ7usWIeAZgdGVWYQUx68ps+tjPk9W5pcOC4JNq5jth6q3nC8eAVSojPBdSmckkO+rWfZ6x31Ncvy8oh5LB/+LvoP6HAkpk59tSs6E6bD8478=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769619360; c=relaxed/simple;
-	bh=+PrAcvg+5OdtTUavt01TFD/L57Tt7DDcfpHsvpOvros=;
+	s=arc-20240116; t=1769619544; c=relaxed/simple;
+	bh=8xe77tuZ8Z5QtCXy8sZIKurU0DRJyhmN/i54idfyKuw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QBq2zNDM0+uTc+pRc7JRb3advQPyCXj3rd1L0ls851nMNUHjM/t7KKDuXOsW4bVM8UeQ6aBmTBdGp55pTeMP6FlZTBzWzZSNFECFH1IaLp/A6/L/LImrExJOVV37gGLc1+DuXNLvq9BraI9XY98rA7CuZJF0nw2xQCxgYxaSS8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nQY0pLE0; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=k6aFPpjlT9R/D7EegTPJnJar2jz7vvJ1GCIQ9Un2EoUtbKRnbWyN8p2v74g7r4hrn638FOT7PZ2Z5fr1FEuTxKWaBmqWQYJyl2lOll1SZZJ2dHCS4HFkWO8NCNRY7vgjZRa9NClq98F7k6TiZJZ5iRUf01og8a4bZB49QrJ40K0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Tlsto9CF; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQY0pLE0"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a7786d7895so48466175ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 08:55:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769619358; x=1770224158; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CJ5JUPDgasrNDJPGG/r08vgxAhhTjKNkbpybrz3kURc=;
-        b=nQY0pLE0nnde7DiGZvmZOge8Fv9Bt3YfyARhrE4FS1rnTDXxfADbPQW8y/lhNihN6z
-         CFxctGBPjiKUEWycMhxhOkHQ0DbggfLPLDPQLXMJf8Zv/ZDlfsOE0KZqPhD9QEEeODln
-         c6GzmIi5PtrhS/x70JwvXsaVfVNw1D+P3XekWFjsVvk5tiCu1okBSkODuhyDioGD7/Q6
-         EPT1VC/570ACiDHeUrvjqgkyx9fc+dMSERGmIk3QO1KPxHDcrkUfPmtu/eXM93wuIy1u
-         Lh0vAvwJWXzbgpThyRu7cMCYuMWdrsxceVzj4i3Mkqu1dZDkXaPx2oscz+CpGAbbajUh
-         frpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769619358; x=1770224158;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CJ5JUPDgasrNDJPGG/r08vgxAhhTjKNkbpybrz3kURc=;
-        b=iCWLRgj5szH6jTQGiB5zr8Pu+XMNzkAfDld01StaPoaHzVI8uCkpZuTcsudkg4fvZL
-         Axsws9aVeSF5JZd7mkvKYSXfCB5oWOgvanHAhY07c08qgX01cKIPkWrAhcgklcOrI4sP
-         Jp34NUn5/UOpw/L9/Pu3XzBi6aIU46NI1V4b093LGyj+YY+nSjNHw0G9hhSDTx9/4naS
-         /52p7gW+eXa3gcgfMhnLEz6qdVyFDgAGEWd+RZYu3rdCgAWvCCcnX4YspTwywSt4f+Wx
-         RBxUUsfLg+poU2QRrPKZrHdwk6gAWtg0OD1MzKidL9EPZy5ETTzr5JKx9MppeGq7U0C7
-         /wFg==
-X-Forwarded-Encrypted: i=1; AJvYcCUltJ28PtQtIBP/oaKOMqWqQTZjZ4KocPWlR1VWhhtSo0gOGw0KddR+2IR1vELCJA41xK9+4jElJDI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YztR6qVHgiUatmN3pcRMHArCIELzOyG5Kh3rnjS1TL5o8DDzLwM
-	VtHaGRwkYST2FmlmoF9tOm7r75O6wvRp7YXuFOt+KrgwDs3w5YXZUAIM
-X-Gm-Gg: AZuq6aJffqgNZMOjo6o+Hml3BYoQO9DmBZ3f4c8s1+98Ve2auc5lQWYvTHVJhRYWepf
-	V/PX3wY2nnTIfDNTADYQWTZdJtD5QFVGhZhwRmh42SSjpwvfVvyepvoFhjOd8hXVagWi62Nc9dP
-	Nx7PZr/ugg97WqBPanqju7aqKtK4KqV4T3yWf8z7elXnBQ/f60Py94IkFFS/ePsr/CnhLRRK4F2
-	b6T59HzXqKZSAv+iNGKk3bg6KUwtTW1PWZZPRbDqSLhgkuIM0ZlGgQk2I09g2+FcAmqlmWADaP3
-	iWJwHlu0e/fGRJT5Rn/FUBFF35hqAj//CjGXTKww845dOj5BdWBTcKU5M0eViqreG0RnfC9ysLG
-	8f5Uk1TVzlllgpjZOUUssaVm6/+yJVp30qV53L+ScDtL2SDv6U7I2LL4Suy4+HRGDnxbbXbD6vi
-	mVkYVak3xoTSGQx4wzwt4u2ro1
-X-Received: by 2002:a17:903:2291:b0:29f:2ec4:83e5 with SMTP id d9443c01a7336-2a870d55636mr50468865ad.12.1769619357703;
-        Wed, 28 Jan 2026 08:55:57 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b7f32bfsm29327505ad.96.2026.01.28.08.55.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 08:55:57 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 28 Jan 2026 08:55:55 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>, nuno.sa@analog.com,
-	linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>
-Subject: Re: [PATCH v5 0/3] hwmon: Add support for the LTC4283 Hot Swap
- Controller
-Message-ID: <02b7cf63-4f87-4cdd-8d9e-53a7d0e808a6@roeck-us.net>
-References: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
- <eed64bf1-93af-4b36-adf5-1476cb40edbb@roeck-us.net>
- <382e259ea3835ffbd2be9c36b529875f5a43f38b.camel@gmail.com>
- <8efa188b-8b91-479c-ac10-3fba5b0cbb5f@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Tlsto9CF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=8xe7
+	7tuZ8Z5QtCXy8sZIKurU0DRJyhmN/i54idfyKuw=; b=Tlsto9CFJcuQffi5Si3q
+	OrU+28+6CiwxtcDAHFoiG/xRkYw5R95+xrv2gyB7KiTucDiY/YxQDEqIaoA28FRL
+	TECvKTFAYUqjFoALyA4vj1BxKCluNL1EamB0IFVao2QP5ogYSdtdmHL0TsAJRR/E
+	Dz5IjRcoyezNWeIhLBcGBc9Sq83NQ6/nTwVpJINHD0FNX5nxLVN2259fWDczaXY2
+	WNy4x/sfrgT/bMo4A/uIkZ9JzLi/cLDPSUJ09ePEwVR8DnD+SIykhgqT1AMrS1yQ
+	UGpoEhiaVvtH/s48qatScLBNqikOwqHHdk+H3cj1m5/qIH76HXBGgVZny0XfCtR6
+	/w==
+Received: (qmail 3706657 invoked from network); 28 Jan 2026 17:58:51 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Jan 2026 17:58:51 +0100
+X-UD-Smtp-Session: l3s3148p1@4XWHp3VJKMsgAQnoAHyCAPmmylPb6eQR
+Date: Wed, 28 Jan 2026 17:58:49 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Message-ID: <aXpAScyRUuI3bH13@shikoro>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh>
+ <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
+ <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com>
+ <20260127235232.GS1134360@nvidia.com>
+ <CAMRc=MfP1_fH91AVjerbnwVfhA0oqBKV+CTX0_1n32g1t-Pvuw@mail.gmail.com>
+ <aXneX-aZofvuk8gl@ninjato>
+ <20260128150538.GA1134360@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6cHdxSyimAu6pOEp"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8efa188b-8b91-479c-ac10-3fba5b0cbb5f@roeck-us.net>
+In-Reply-To: <20260128150538.GA1134360@nvidia.com>
 
-On Wed, Jan 28, 2026 at 02:04:35AM -0800, Guenter Roeck wrote:
-> On 1/28/26 01:44, Nuno Sá wrote:
-> > Hi Guenter,
-> > 
-> > On Tue, 2026-01-27 at 09:39 -0800, Guenter Roeck wrote:
-> > > Hi Nuno,
-> > > 
-> > > On 12/23/25 04:21, Nuno Sá via B4 Relay wrote:
-> > > > This is v3 for the LTC4283 how swap controller. Main change is that I'm
-> > > > now using the auxiliary bus for adding the GPIO device (done depending
-> > > > on FW properties).
-> > > > 
-> > > > Similar to the LTC4282 device, we're clearing some fault logs in the
-> > > > reset_history attributes.
-> > > > 
-> > > 
-> > > I ran the patch series through an AI review. Results are below.
-> > > Please take a look.
-> > > 
 
-Another run through AI below. Please let me know if there are further inaccuracies.
+--6cHdxSyimAu6pOEp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Guenter
 
----
-commit 82433332ce165903d56fae327ced975aeef30475
-Author:     Nuno Sá <nuno.sa@analog.com>
+> I would just gently advise again that SRCU is not a pancea and should
+> only be used if the read side sections are super performance
+> critical. I'm not sure that describes I2C. rwsem is often a simpler
+> and better choice.
 
-hwmon: ltc4283: Add support for the LTC4283 Swap Controller
+You might be totally right. But in any case, we need to prepare the
+subsystem first. That is where I am now. Next steps come after that.
 
-Adds support for the LTC4283 Hot Swap Controller I2C interface.
+> > [1] https://lkml.org/lkml/2021/1/20/999
+>=20
+> Yeah, this was brought up a couple drafts of possible options were
+> exchanged already but nothing was really focused on and polished.
+>=20
+> It is a tricky problem to find a storage location for the lock and
+> revoke so that the fops shim can access it while not disturbing the
+> actual driver.
 
-> diff --git a/drivers/hwmon/ltc4283.c b/drivers/hwmon/ltc4283.c
-> new file mode 100644
-> index 000000000000..402b53f81548
-> --- /dev/null
-> +++ b/drivers/hwmon/ltc4283.c
+I can imagine. Thanks for the heads up, nice to see it was not
+forgotten!
 
-[ ... ]
 
-> +static int ltc4283_read_power_word(const struct ltc4283_hwmon *st,
-> +				   u32 reg, long *val)
-> +{
-> +	u64 temp = (u64)LTC4283_ADC1_FS_uV * LTC4283_ADC2_FS_mV * DECA * MILLI;
-> +	unsigned int __raw;
-> +	int ret;
-> +
-> +	ret = regmap_read(st->map_word, reg, &__raw);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * Power is given by:
-> +	 *     P = CODE(16b) * 32.768mV * 2.048V / (2^16 * Rsense)
-> +	 */
-> +	*val = DIV64_U64_ROUND_CLOSEST(temp * __raw, BIT_ULL(16) * st->rsense);
+--6cHdxSyimAu6pOEp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Does this overflow *val on 32-bit systems if the calculated power exceeds
-2000 Watts (approx 2^31 microWatts)?  The intermediate calculation is
-u64, but the result is assigned to a signed long.
+-----BEGIN PGP SIGNATURE-----
 
-[ ... ]
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAml6QEYACgkQFA3kzBSg
+Kbbj0xAAkaDeXFCCHTU7NY0Rw3u+RaVU99ifjHelaJUW0iwsoWaNzeZCknyeVvE7
+C22PQ7haovuKIFdXimwEwH33cQahCIoDYD3xYZfFFsqfFykG9Eo354Lav7/tLY0f
+qN06wD+OBn6SBrMCAv2n0c+ubuayI4VWi7fRpoJ1e3m6QvOXxkIaEFNkK9GZE1Mt
+2T/4B6WdIe+SuZohqZF5oSYZvtu7LdxZ2vs6KjKm9tBeEU5SFYzHdc0Aab+am4Kj
+PmPsGSwr+c6K42ssFUl3lda2ngLJNDy/j2+cO4Ho5vV7k9aRAoK/92ZLuZjzk5Ql
+fjvcgu2Kdti/2EdYC695S3K2xtwW3xYhhNHTRqrtjr78UWvPtv8noUdjYZCpgKNl
+Ty7F7hTJRDh42tKDv/aeFUDOFjrwTpM0TcO8rJE7LTcoQTXnwx6kSYpmDCuU02R7
+wu17xckgYdzpYOX0K6UGurXVdToxqLs0k1Jk1HES+4iAeC2p6k8EVXAjDHP6OUpL
+amtQmzg8dxjW/jWxyY4nEUptcsTbXubIy04pfpwWhgOVILL7upRhFwmKYN+L5OYv
+ivLQu74AwPzsKamas/nSYQ+GK4i2lFZ27vF93YmoPQ40VBtK5XA4i/ci9bXgBZEv
+sACRNCVYDcxKbAa6u3EbX6EH6sU7vJsrXfUjwgl+CBi9y7ndlJY=
+=XcM1
+-----END PGP SIGNATURE-----
 
-> +static bool ltc4283_word_reg(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	case LTC4283_SENSE ... LTC4283_ADIO34_MAX:
-> +		return true;
-> +	default:
-> +		return false;
-> +	}
-> +}
-
-LTC4283_SENSE is 0x41 and LTC4283_ADIO34_MAX is 0x40.  Does this invalid
-range (start > end) effectively disable access to the word registers
-via st->map_word?
-
-> +static const struct regmap_config ltc4283_word_regmap_config = {
-> +	.name = "ltc4283-16",
-> +	.reg_bits = 8,
-> +	.val_bits = 16,
-> +	.max_register = LTC4283_ADIO34_MAX,
-> +	.val_format_endian = REGMAP_ENDIAN_BIG,
-> +	.writeable_reg = ltc4283_word_reg,
-> +	.readable_reg = ltc4283_word_reg,
-> +};
-
-Does max_register = 0x40 prevent access to the sensor value registers
-(LTC4283_SENSE at 0x41 and above) which are intended to be read as
-words?
-
-commit 5998c620fbd8915340a4b92635c9489a91fae567
-Author:     Nuno Sá <nuno.sa@analog.com>
-
-gpio: gpio-ltc4283: Add support for the LTC4283 Swap Controller
-
-Adds GPIO support for the LTC4283.
-
-> diff --git a/drivers/gpio/gpio-ltc4283.c b/drivers/gpio/gpio-ltc4283.c
-> new file mode 100644
-> index 000000000000..fa0c106d4fac
-> --- /dev/null
-> +++ b/drivers/gpio/gpio-ltc4283.c
-
-[ ... ]
-
-> +#define LTC4283_PINS_MAX			8
-> +#define LTC4283_PGIOX_START_NR			4
-> +#define LTC4283_INPUT_STATUS			0x02
-> +#define LTC4283_PGIO_CONFIG			0x10
-> +#define   LTC4283_PGIO_CFG_MASK(pin) 
-> +	GENMASK(((pin) - LTC4283_PGIOX_START_NR) * 2 + 1, (((pin) - LTC4283_PGIOX_START_NR) * 2))
-> +#define LTC4283_PGIO_CONFIG_2			0x11
-> +
-> +#define LTC42823_ADIO_CONFIG			0x12
-
-This isn't a bug, but should this be LTC4283_ADIO_CONFIG instead of
-LTC42823?
-
-> +/* starts at bit 4 */
-> +#define   LTC4283_ADIOX_CONFIG_MASK(pin)	BIT((pin) + 4)
-> +#define LTC4283_PGIO_DIR_IN			3
-> +#define LTC4283_PGIO_DIR_OUT			2
-
+--6cHdxSyimAu6pOEp--
