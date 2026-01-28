@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0B536922C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAED30C626;
 	Wed, 28 Jan 2026 16:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769619033; cv=none; b=gnxl7OYLK1Cfka48IQuR4FyMYY3dpcI0c91JIdnV7DvwRw3SbGA+/rJHNBUSmx9+pvvTuCiRqyFCIB3wM9Og7IHOl8OL6OZltc7FGf8jayXTguagYuZ64iQ9jiJZNC1p5+GWKVCphpzv3HlH2xdikyopno/nTTkIYqHBhyB5eUE=
+	t=1769619034; cv=none; b=fK/+ZPMDYxtoMzqg80K7Ju28Si5NwOlHB09yLzlyGmoiS3cPRAKYBiRmSvSm6gx6LwjmtCtyPDk/OOkwPr6fhcK58o22vpfEIVs8D7j7A3Mza7yBSCNFYmUmE89RPdFnVFy80WGwcr/NiryLGv5BS59UFmcSfHHnEIO0mSzzeY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769619033; c=relaxed/simple;
-	bh=Fd24Q1nDNP9DgJx33rkWp9Vbgr/MiR1kgk0MwpCT/0I=;
+	s=arc-20240116; t=1769619034; c=relaxed/simple;
+	bh=+PHSHQk42n1s2eoXmKBeCEHsRg0AhUmcVaeG8R0cpiE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oV4OWY3UsfVWOD7EOPghbtUp5mOamoik4zq3dWQCG1Bs37yNTaKtGDgbwSaNy5zk+ElPuyXjgCPbOgDiMnFrBjSEh7FLQInuUxGPUMMwRCW+hfqJk/HPSYL0JutmEIUbOVzBg9/VTbrHZa47oydtfG2E3arHfghSnJCIf6b3WQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M2WzK3GK; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=fjJUIF/9gGguv+OenGW+FgsjZC4Sbh70ANqStDr7/YZ+IK5rRLAn9pr5S6H+lugR3SxW0WZOZ31O/nVn/D+3lBiN/Dfs8+RKCPDmttAyqusAC5m1mR65hoa588jMrispr37kSplfb47VN3MrfiL0lhRjM6MlMHh2CZgFDuGyZhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fUDxbWwU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M2WzK3GK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 236B2C4CEF7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fUDxbWwU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0229C2BC9E;
 	Wed, 28 Jan 2026 16:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1769619033;
-	bh=Fd24Q1nDNP9DgJx33rkWp9Vbgr/MiR1kgk0MwpCT/0I=;
+	bh=+PHSHQk42n1s2eoXmKBeCEHsRg0AhUmcVaeG8R0cpiE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=M2WzK3GKPpX6XNswPV1tPHmLNUbg0OoYFItmwL8+7+H6wVJrI+lTkcz92KUplj3uo
-	 qqb/TjkCg2jsEj8QjU3xBu/t0s3NsL7EB19gLflwyRQGFzZp4LxbTzzaDvOgP50Uhu
-	 t+t5exuqf4ePQNJRtpPYUYrbAMg7PH6UXqHGQuhLWAUzhtCuQkqoJvaLhbqMzf8Wq+
-	 Bfo+/Fqw57BSC89VafMf7EffxH2nnazulOFegJz7I1119FYNEPvq3gCCJDh+r6LIuG
-	 Rf19q6F3kSPTem4QIwfWaikg0owW4ys++2/UidymKkpHT1zJOJuz6Q9E5paHeZbLZZ
-	 /OMzFVKAjGyEg==
+	b=fUDxbWwUpvODFtK7Bn0IDVqUo4wRl4FZ2y9tMSl8n6OmeL6FaTaJaETZ5HletL/27
+	 u8zCMurLOPRvtO/7H7AQe96Wf8qEBLTNx0Aw36SaM+fzSuEMHw5ZCQhwyBXtywuX2E
+	 ufdxiWhrr5oS2RxdPl1QJlXpIHzMqbDUpLV+WhA1dTiPyuq+nHo088Q0At0522ASsm
+	 Ts6u1Lw7NlGhW7jxOvGMK7DM6rvGvPdUC/qyPO1+N294RvCj7H7W9lapR7ZCd4ciSi
+	 wHdhYOHvfvIYkRUJsrqDaLONAREIdqxtJMQE3N86mlUzpNSfM/2pfGVddAZI8cJ4Ry
+	 xCQHCMdaN32JQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vl8kQ-0000000DAt2-45tn;
-	Wed, 28 Jan 2026 17:50:30 +0100
+	id 1vl8kR-0000000DAwc-3XJq;
+	Wed, 28 Jan 2026 17:50:31 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -41,9 +41,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v2 08/25] docs: kdoc_parser: fix the default_value logic for variables
-Date: Wed, 28 Jan 2026 17:50:06 +0100
-Message-ID: <a16e78e794b01b68355d472f9e6a4a1d42591846.1769617841.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 11/25] docs: kdoc_parser: fix parser to support multi-word types
+Date: Wed, 28 Jan 2026 17:50:09 +0100
+Message-ID: <ab5e7c447c49dd000d7bb32788e434d23569c46d.1769617841.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1769617841.git.mchehab+huawei@kernel.org>
 References: <cover.1769617841.git.mchehab+huawei@kernel.org>
@@ -57,8 +57,10 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The indentation is wrong for the second regex, which causes
-problems on variables with defaults.
+The regular expression currently expects a single word for the
+type, but it may be something like  "struct foo".
+
+Add support for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Acked-by: Randy Dunlap <rdunlap@infradead.org>
@@ -68,21 +70,27 @@ Tested-by: Randy Dunlap <rdunlap@infradead.org>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index 201c4f7298d7..cbfdaba39494 100644
+index 0b6cba442d72..21cc4e19a1e8 100644
 --- a/tools/lib/python/kdoc/kdoc_parser.py
 +++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -1035,9 +1035,9 @@ class KernelDoc:
-             default_val = r.group(2)
-         else:
-             r= KernRe(OPTIONAL_VAR_ATTR + r"(?:[\w_]*)?\s+(?:\*+)?(?:[\w_]+)\s*[\d\]\[]*\s*(=.*)?")
--        if r.match(proto):
--            default_val = r.group(1)
+@@ -1026,7 +1026,7 @@ class KernelDoc:
  
-+            if r.match(proto):
-+                default_val = r.group(1)
-         if not declaration_name:
-            self.emit_msg(ln,f"{proto}: can't parse variable")
-            return
+         default_val = None
+ 
+-        r= KernRe(OPTIONAL_VAR_ATTR + r"[\w_]*\s+(?:\*+)?([\w_]+)\s*[\d\]\[]*\s*(=.*)?")
++        r= KernRe(OPTIONAL_VAR_ATTR + r"\s*[\w_\s]*\s+(?:\*+)?([\w_]+)\s*[\d\]\[]*\s*(=.*)?")
+         if r.match(proto):
+             if not declaration_name:
+                 declaration_name = r.group(1)
+@@ -1037,7 +1037,7 @@ class KernelDoc:
+                                   r.groups(), proto)
+ 
+         else:
+-            r= KernRe(OPTIONAL_VAR_ATTR + r"(?:[\w_]*)?\s+(?:\*+)?(?:[\w_]+)\s*[\d\]\[]*\s*(=.*)?")
++            r= KernRe(OPTIONAL_VAR_ATTR + r"(?:[\w_\s]*)?\s+(?:\*+)?(?:[\w_]+)\s*[\d\]\[]*\s*(=.*)?")
+ 
+             if r.match(proto):
+                 default_val = r.group(1)
 -- 
 2.52.0
 
