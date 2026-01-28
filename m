@@ -1,123 +1,172 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046FF344D9C
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 22:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E3E625;
+	Wed, 28 Jan 2026 23:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769639605; cv=none; b=PduGqfQqby7GD8PoBPoyUiyuwr/U9q59wii2dhOwBScStROMeAIhlsa3yjcPwGr4IZd7zHyQEOMW3htv9+CIpG2qIbcN98dqOiSFC8THpM1fhkJl6p0CGmlQJ4tLkjqn7gayIKYXa2pkYL3e8xVi+7LnQX8raPLp7yTkegfNjOw=
+	t=1769642940; cv=none; b=FwW0KQXSEVgjd6d1Lqy7UcuuSmigcAW9X6BcjB4WyQYQ0N3jL1P0zfzpHWhGyW1ZBiIxPhac4VDNSSFOFCOoRFgzIdwFhQ5IyH5Hj8wyM+En1AJ9PXJtYadGoqLIznJnwEuRyzqVc4M/3N9Op6xhKlKMRWbxZM/ynlRttfqdOec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769639605; c=relaxed/simple;
-	bh=/tBnQTjEep2ws12SiZlf0MTyXA2SNfUMQKmSH5r54mQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=baSTNf4mSUokOiIBFIxKg3PH6bMSyDxOd8dQ7zE3OHSvOMiDdTjK+3vMb11bBWj/VDQegByv69jnDdoxvgGu0M44mpYx9FUHbqJwkzo0A8NeBX8V7d1gmK+7dnMaTL4cspDP4j0Obb6bNSSrkRwFbMuNXBMKj1RHRR9FiKDQgec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DjOcwbZ3; arc=none smtp.client-ip=209.85.219.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769642940; c=relaxed/simple;
+	bh=Re30vfT7J/lhmfCWiC6tfWOspLn8FWQy0Ol+r3MBeHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=shkrHqU9iQtG0MIvJfl7AcYP4yBekFhC34uyCQJ325ZzwbUVO8M61BnEUu7kn/bKP017fXx3u/9WzTwtaJdoRFqy9gHVK2y2D5FWNz9HF7E/yT+65SaJfbdo2ABBoJfO75HQx8Oi+5WPf6G8Z3H9iOmYrziadhSwl1NR9hALXhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CstViLfg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DjOcwbZ3"
-Received: by mail-qv1-f65.google.com with SMTP id 6a1803df08f44-89469143ebcso2900486d6.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 14:33:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769639603; x=1770244403; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Twb2Mn6eFSbnhF2U8WEvYnbtdTbNFMWzq+PnSQfsHzM=;
-        b=DjOcwbZ35dEqtdcnY2MIvRdP1i9OAzh6+Z1ZJwQ3XhNaOp/Ffg5JRiTxZNN+NhAhjj
-         KEjaPm2XYakS7uGazCodEtZ4xqNmhMFXZBeQ3Cs/JcXmjBGGU7sBOevn+2Fe8tQf+6ZR
-         xnCpyf2UUxNh1yM+8dhGzTg8NllaU56nfC7WQu3o+rlbS8uodl6EuwTySI64B/5O55ML
-         j2euDpqriIjufIbjB21N/Zun7tCDWHpPG+ncllnnoegS4/gIGkyLFt9mNkZFBtIjqrH0
-         b+z2hwuAcombqyeH8NIbAKUVB8Q+Igr28VGWzlRchoLImoI9Co86q7UouwaS8eZCHYij
-         2yOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769639603; x=1770244403;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Twb2Mn6eFSbnhF2U8WEvYnbtdTbNFMWzq+PnSQfsHzM=;
-        b=rhb3fneB4jFEq3XANjafLg6KTg4cb3vzwJBbjk+VJd5umcM8QxEwkcKMSwSTIkM67T
-         aWksvv/9oaIOfAr1NFZBG/J5+ndsBE/yIB8SMiGfzQ8H3uvTQuwCft58QTZmAia94CYA
-         VBiUH3zpZl1uuxLYdw0AQuQ/QN3ZmyywRIeH/4s1pvC82q9Dw48l87Au8jX/sD4Ic+Bq
-         kc2nGxhGu1lkMgDPfvLyRo1nzCx8q+K9Bocs90rWGUTsfHijIbzJD6+E93aJbhBZWSvS
-         BPQ48g++288d4qun0uDH2Hc6duo9YWmAYk2A2Lz8byIQHSopdPw3vdcng75z2aMu3WY9
-         wEvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7EBMCIYCrDGnkC7DCKw3jZ5YmycBHHUfyiQ+31uE8uOwudCkKPEZpa4tzJBAPug6Uy2e101V/aos=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyL9X1Rg+4oQSCY+3RBgWtzdjprNo0PjrGM58XjQUxD7pJCja01
-	Wn3UNiYX50nHWAnIF+ryxUf8ytWlJMZkrzPFX9nnXdacNJUxlT9DPBMz
-X-Gm-Gg: AZuq6aKBCGcoGO+IG3mNNH2JKyA+BhKgWAi7uaPlo9C4iN+fna5LTZvip6q3g4Ocf4W
-	z4lc52GGn8qfkyenznYKjAQqtrrwQr06DGgmo3gZ+pvMuEsdm3ydsG8CA3HRf6duQEaQw8ROmQt
-	T0oCaxkIOPx0Oe7m/0Z1AWhnApVuGz7mr3dhTEbdCjr+YJphINc3mC2+ZfqtSnVZhPw9m9ixA2A
-	EzHjZJuQ2N4cqMx2+sr7viVBkoOElPh+7mH296E1yVR0id7uCOurNmyvWRkHQX0iK7sS9wTgt8T
-	4TkgLPLOk7AMHswATW7qoDgdq6MCKCG55rOImDpBKfZgpXznQ1UHygU9oEOcfS9+K/9w3CgZclw
-	18fkLy9qqE4TVJYfVqa+JUQnQpFBjmPnmwEe+RuRANfn8NO02L4BZ3Uf0MCusJNPT9UbB+FhDFw
-	cATJ/PEWpeElg6DF7zRLPcX8r3m/EYJ+Y=
-X-Received: by 2002:a05:6214:2a8b:b0:88f:ca79:844a with SMTP id 6a1803df08f44-894cc910231mr107230816d6.48.1769639602822;
-        Wed, 28 Jan 2026 14:33:22 -0800 (PST)
-Received: from [127.0.0.1] ([154.7.78.65])
-        by smtp.googlemail.com with ESMTPSA id af79cd13be357-8c711b95e4esm304528085a.15.2026.01.28.14.33.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 14:33:22 -0800 (PST)
-From: Patrick Little <plittle@gmail.com>
-Date: Wed, 28 Jan 2026 16:33:12 -0600
-Subject: [PATCH 2/2] Documentation: Fix bug in example code snippet
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CstViLfg"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 01BC0581;
+	Thu, 29 Jan 2026 00:28:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1769642899;
+	bh=Re30vfT7J/lhmfCWiC6tfWOspLn8FWQy0Ol+r3MBeHs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CstViLfgetq2FaIg/mUC97M5Iyxav/KrqLbxl3ZuiZG0lDMFmSFX2V4J2LYa+MIi/
+	 /gW4Hs6M+qoCxqxTxCDaqAnXY5m4za8zTB9DXKLM+gdiwqO64yyCKdF3SVoAMuVIoy
+	 zo7ffLSFX56h534/gbMCZIce5Nx/oQHSzN4lD/9M=
+Date: Thu, 29 Jan 2026 01:28:54 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Tzung-Bi Shih <tzungbi@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Message-ID: <20260128232854.GB3275574@killaraus>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <aXjgeNY-jf9rIw09@google.com>
+ <aXobzoeooJqxMkEj@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260128-documentation-fix-grammar-v1-2-39238dc471f9@gmail.com>
-References: <20260128-documentation-fix-grammar-v1-0-39238dc471f9@gmail.com>
-In-Reply-To: <20260128-documentation-fix-grammar-v1-0-39238dc471f9@gmail.com>
-To: Joseph Kogut <joseph.kogut@gmail.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Patrick Little <plittle@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1104; i=plittle@gmail.com;
- h=from:subject:message-id; bh=/tBnQTjEep2ws12SiZlf0MTyXA2SNfUMQKmSH5r54mQ=;
- b=owGbwMvMwCW2/Ptzn70V3ucZT6slMWRW9a3bV+92Sdl4Zklt+tuss3xGD3W8vQ5f/BoSfL65z
- vZt+m2RjlIWBjEuBlkxRZadbmKFWc7Tc2d6rZ4EM4eVCWQIAxenAEwk9w4jw0mBK7lfOjqbVW3V
- 532VO9Au1sed1fOjh181cKad/NWt8gz/403qhaeZn/pw+fa+7Njl99sTP+r2fHl0PHud8UTehTN
- MeAE=
-X-Developer-Key: i=plittle@gmail.com; a=openpgp;
- fpr=B94616716A43976D994AAB92A7F7E74CBD784BCF
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aXobzoeooJqxMkEj@hovoldconsulting.com>
 
-A semicolon was mistakenly placed at the end of 'if' statements.
-If example is copied as-is, it would lead to the subsequent return
-being executed unconditionally, which is incorrect, and the rest of the
-function would never be reached.
+On Wed, Jan 28, 2026 at 03:23:10PM +0100, Johan Hovold wrote:
+> On Tue, Jan 27, 2026 at 03:57:44PM +0000, Tzung-Bi Shih wrote:
+> > On Sat, Jan 24, 2026 at 06:05:32PM +0100, Johan Hovold wrote:
+> > > I was surprised to learn that the revocable functionality was merged last week
+> > > given the community feedback on list and at LPC, but not least since there are
+> > > no users of it, which we are supposed to require to be able to evaluate it
+> > > properly.
+> > > 
+> > > The chromeos ec driver issue which motivated this work turned out not to need
+> > > it as was found during review. And the example gpiolib conversion was posted
+> 
+> > Regarding cros_ec_chardev, my last attempt [2] to solve its hot-plug issue by
+> > synchronizing misc_{de,}register() with file operations using a global lock
+> > highlighted the difficulty of alternatives: that approach serialized all file
+> > operations and could easily lead to hung tasks if any file operation slept.
+> 
+> Yeah, fixing it at the chardev (or miscdevice) level would still require
+> some changes at the driver level (e.g. to wakeup sleeping tasks).
 
-Signed-off-by: Patrick Little <plittle@gmail.com>
----
- Documentation/power/energy-model.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Waking up sleeping tasks is a core part of the fix. Drivers will need to
+do so explicitly in their .remove() operation, through a
+subsystem-specific wrapper around a cdev helper function.
 
-diff --git a/Documentation/power/energy-model.rst b/Documentation/power/energy-model.rst
-index 65133187f2ad..0d4644d72767 100644
---- a/Documentation/power/energy-model.rst
-+++ b/Documentation/power/energy-model.rst
-@@ -308,12 +308,12 @@ EM framework::
-   05
-   06		/* Use the 'foo' protocol to ceil the frequency */
-   07		freq = foo_get_freq_ceil(dev, *KHz);
--  08		if (freq < 0);
-+  08		if (freq < 0)
-   09			return freq;
-   10
-   11		/* Estimate the power cost for the dev at the relevant freq. */
-   12		power = foo_estimate_power(dev, freq);
--  13		if (power < 0);
-+  13		if (power < 0)
-   14			return power;
-   15
-   16		/* Return the values to the EM framework */
+> > Given the drawbacks of [2], I believe cros_ec_chardev remains a valid use
+> > case for revocable.
+> 
+> Yes, possibly. 
+> 
+> Miscdevice is a bit of a special case however since you cannot tie the
+> lifetime of your driver data to that of the miscdev, but there are ways
+> to address that. And some drivers already handle this (i.e. without any
+> changes to miscdevice).
+> 
+> But notably the revocable design seems to derive from this quirk of
+> miscdevice.
+> 
+> [ Side note for completeness: Looking at the cros_ec driver it doesn't
+>   seem to involve any hotpluggable buses so this looks like a mostly
+>   theoretical issue of a developer with root access actively unbinding
+>   an ec-driver while in use. ]
+> 
+> > > the very same morning that this was merged which hardly provides enough time
+> > > for evaluation (even if Bartosz quickly reported a performance regression).
+> > 
+> > The gpiolib conversion was provided as the first concrete user to enable
+> > this evaluation process.  The performance regression Bartosz identified is
+> > valuable feedback, and I believe it is addressed by [3].  I plan to send the
+> > next version of the series after v7.0-rc1 and revisit the issue.
+> > 
+> > [3] https://lore.kernel.org/all/20260121040204.2699886-1-tzungbi@kernel.org/
+> >
+> > > Turns out there are correctness issues with both the gpiolib conversion and
+> > > the revocable design itself that can lead to use-after-free and hung tasks (see
+> > > [1] and patch 3/3).
+> > 
+> > I appreciate you identifying the issues where multiple threads share a file
+> > descriptor; this is a case I overlooked.  I see these kinds of findings as a
+> > positive outcome of having wider review and a concrete user, allowing us to
+> > identify and fix issues in the design.
+> 
+> Yes, that's exactly why we always require a user *before* merging
+> something like this. To be able to determine that the interface is sane.
+> 
+> Now the user showed up on the same day as the merge, which is obviously
+> not enough time for proper review and discussion.
+> 
+> [ And by short-circuiting the normal process you probably reduce the
+> motivation for people to spend time on the example conversion too. ]
+> 
+> > > And as was pointed out repeatedly during review, and again at the day of the
+> > > merge, this does not look like the right interface for the chardev unplug
+> > > issue.
+> > 
+> > My focus has been on miscdevice [2], but I suspect cdev solutions for device
+> > hot-plug would face similar synchronization challenges between device removal
+> > and in-flight file operations.
+> 
+> But we need to look at that before throwing up our hands and saying that
+> it's not possible and that each driver should take care of this itself.
+
+There has been previous attempts, including a functional patch series,
+that didn't get merge due to the sole reason that it duplicated a small
+amount of logic also present in debugfs. I'll reply to Danilo somewhere
+else in this mail thread with more information.
+
+> > > Revert the revocable implementation until a redesign has been proposed and
+> > > evaluated properly.
+> > 
+> > I'll work on addressing the discovered issues and send follow-up fixes.  I
+> > believe keeping the current series in linux-next would be beneficial, as it
+> > allows for easier testing and wider evaluation by others, rather than
+> > reverting at this stage.
+> 
+> To the contrary, now is right time to do the revert as there are
+> fundamental problems with the current interface that will require a
+> redesign. That's not the kind of work that should be done during an rc
+> stabilisation cycle.
+> 
+> Give people a chance to see for themselves what the gpiolib conversion
+> looks like, determine whether this abstraction makes the code more or
+> less readable, and think about possible further uses of a mechanism like
+> this.
+
+fully agreed. Follow-up fixes is not the right way forward. As Johan
+said, the quick merge despite the open issues, circumventing the normal
+review process, damages trust, and reduces my motivation to review your
+work and help shaping a good API to solve this problem.
+
+> > > [1] https://lore.kernel.org/all/aXT45B6vLf9R3Pbf@hovoldconsulting.com/
 
 -- 
-2.51.0
+Regards,
 
+Laurent Pinchart
