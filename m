@@ -1,245 +1,251 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911AE374733
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 18:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769623605; cv=none; b=qlPrL3I+FhZkor9m601pJ9LRDCbpRQgkuIHfXIWUgnpfHHtgQNLQMIk/6hRaRhmcbOyvY2hd7kxDOiFRXLQLV9TzxeXgBRefKWIclYbdod+QaY0MEWjZI1EEQurhJwW0JDK3QdGS6SlZ142sTKxARZ4lKLLsgJ1VpP1fI5RsBRs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769623605; c=relaxed/simple;
-	bh=8wTbKFDxZbZCQ1Q7yTsRV4W/LC5P/5on3cRlcOF4pOA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Suebm1KZShy3RsFB88zUGvoB3KVxbMRB2vHebY8MSab1nI4vI8IwMhOQKK7E1aAOI9T2yNEvyH+/Z1JDQSQvGBTij51sWzipRra2GqbglTqQdhnQC96Zs1Hchz8B/D6y1OXEi3+BT9Qpf2xqqdAI3N4WYYUQJTLtjXJAiXttzng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4aosgMO; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868AF371078;
+	Wed, 28 Jan 2026 18:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769623766; cv=fail; b=MZyfDPDsm2zMp00yK4BAEe7KuUa2xEyo+PL2uIq6z9I9jKDalPwH34cyALDa22iVwd3BuRs72UZ+JpqwS5Chz7Q4j8XYS18f40G4N0PE3x93xG9/y3xYQoecrBY9LcW8PDE2ETC6cTd6l692iNvlWyQIUytADzbOcXVgPXJ4KLA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769623766; c=relaxed/simple;
+	bh=mKSix3Bj1TpfC0CYg0LTD2eRs4bKPQMxTj7UNg/qnz8=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=oD2X5u9DPC37dTKP1gETo5V+GT5R2EhjS7BfJZigttVryxyJ9KQ6JQMOYLJMBjhOYcFM/Wg3G6X42ivv3Rmal43TvK8nfHTwpnH+RmGgubu9RoigE3RnA8KQRdcMoHC6B4mAZJK5Pl809otabEaQQk+Um3kJ6hO7rJnsbs0CUuo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JSJ04H/8; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4aosgMO"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42fbc305882so133051f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 10:06:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769623602; x=1770228402; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bv3Ru//yBMPMzCGxGlXC/tIcSHnEGcKaRRDL4KweM6Y=;
-        b=X4aosgMOpCId7mxCyyIUchG1tEuXzQpw4a3QLA+6VElOqpuclOFzwvIgT4YsHLRTrl
-         TwuJct3SkVHpVjAPgEe8AuB+pVUJUqpCVS8izcyozuXHNN2Yw5u+tepoVBMYOOYNGhVe
-         2+R2xOCQ0hmiBCIsxeY0AW+IhOljZ8P47icwjgngB2XhhNMVzSDl24+uh50j1xrMeI5W
-         3mSpFFtV/mL3uKV4Ed5CvA/cVSJ5NiZlEBRsG0MzXwuvRUwV0tAAN820NgApt7P5uEYB
-         FpluslxaGxykQwmgPU5jvdNcGo5jzCt4d9Tk3MkI/XriiE5R5/aPxjCAMm/mnWx5OhxZ
-         x8Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769623602; x=1770228402;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bv3Ru//yBMPMzCGxGlXC/tIcSHnEGcKaRRDL4KweM6Y=;
-        b=Viurl2UlssY8CYP7o9FD2EWYr7Ng5W6X5e+133n4BBxhEQpVQFonHmhQvWmgcxwbcG
-         ErB5O4JzdJErwrYZURkmDGqksxFW684PTBNb0M7sGmxTLEA24CfZ7IT03xLZaiYmOClw
-         RmICWWax6i37I8d/mAaJRaPJ7gKLgncg9UzIb6Y0bSEiD7RbkWnptqmzz1Z6D/xCz+NI
-         NbS/QKua0Ncdv5A1MLXC4VvCwQuFZAbap3U+Bv2m+z/zAjNAHey7A6LV3JDKIzO62t0V
-         mle5c+tLeRMjA+Jmx2cxqIdarzSh0rhGHvOPPbXyUe611xA9T8UxdWlZ5rj+j0csMWFQ
-         mxcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXLd0FT6whkX32iBbNxdjdUzqkEBxrDOTWmWKiENT/E1VD0ASoHf/Q6gqglIfLM0GFQ/IyyFvzADv0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVHyioJQ3JPyQiUpLaBzdKlFcUcCotdP7EAEVaiCBxza5Eh1bN
-	dbd4jTuJIv3HOqMcjn9+mlCh2cDEzyirQD28BUQZ9NJ/ei3dRq9gE5d8
-X-Gm-Gg: AZuq6aKkpZt9xRCVHqTLdbjvPKyY1I10n7NJoEJ5hiOrZnbI/Gt5Nrynur1TGsLJkd6
-	qQD/zIdZrdOgrj4jCMl6kt8IXiQ13uqQbG38h/UsclsIPG9zrphbaVZwOsCZ4AefblJbATcsnor
-	Nl6PwwQqdIn1Oam1eYLjGWCqFcGIxHzMGnQPvKHHbanzj8AEqZy5goNkEsdaMQO6TDDRGkUERfm
-	spFH26R9WLDdS/ShGAvvPjoZsCTvi4F8YwWfPmNJzOE7gah8QpIujggmX9HTsIfjsktsETFXm/w
-	1SnFXLcuLMfeMC2Pkwfimw3VfkgIJ6nyzuMXPTnWEJeb0fTndYHZW9UtRYZ+UhbaYxatH7rzOp0
-	yc+lAcxc5Bp+v6rYavb3IrOxR144eFnJ6Sp0H+AH83C+451jJKpWXTgUIldKsoGxebYctnWCMVP
-	2sKFg4EObnSWEjFvp9KjhGeUfITVDcgA==
-X-Received: by 2002:a05:6000:2001:b0:435:9f41:d54 with SMTP id ffacd0b85a97d-435dd1d8e78mr8748442f8f.60.1769623601691;
-        Wed, 28 Jan 2026 10:06:41 -0800 (PST)
-Received: from [192.168.1.187] ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e132356dsm9024567f8f.33.2026.01.28.10.06.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 10:06:41 -0800 (PST)
-Message-ID: <e5b775065b92cada730f42a3d60546700ec46db9.camel@gmail.com>
-Subject: Re: [PATCH v5 0/3] hwmon: Add support for the LTC4283 Hot Swap
- Controller
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, nuno.sa@analog.com, 
-	linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,  Jean Delvare <jdelvare@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>,  Bartosz
- Golaszewski	 <brgl@bgdev.pl>, "Rob Herring (Arm)" <robh@kernel.org>, Linus
- Walleij	 <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 28 Jan 2026 18:07:24 +0000
-In-Reply-To: <02b7cf63-4f87-4cdd-8d9e-53a7d0e808a6@roeck-us.net>
-References: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
-	 <eed64bf1-93af-4b36-adf5-1476cb40edbb@roeck-us.net>
-	 <382e259ea3835ffbd2be9c36b529875f5a43f38b.camel@gmail.com>
-	 <8efa188b-8b91-479c-ac10-3fba5b0cbb5f@roeck-us.net>
-	 <02b7cf63-4f87-4cdd-8d9e-53a7d0e808a6@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JSJ04H/8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769623765; x=1801159765;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=mKSix3Bj1TpfC0CYg0LTD2eRs4bKPQMxTj7UNg/qnz8=;
+  b=JSJ04H/8qq+ULnnri15JC879tBMXJDw4QQyiFMge/RJ8DkpA0wNAYWCV
+   XFuz4RRO1ba/kNKpVWfVtQfZOnHU41I6iP4CAewT2dFI7H3kEq+NEJias
+   CDq+BUYTlVMbnDCZdcDHIphYssRNK7g78IhthcTxhg1RagYFFQy1vzTxU
+   9NTwFfJ4T1D3OhkBOODJTRCCTr34N8faFEvvg946ilwS4Cpqj8KbmZ5K0
+   Ks26QHiIjY8kPgfHmTvLFcmC5+7m6Bu4G3emm9xZ+t4wwZZb3JI6Cw9+f
+   vjutlAo5dG6V9MD0mrnSKnERfRIME7nIBwN/OIAyNoyazA5zo5b98ySGR
+   w==;
+X-CSE-ConnectionGUID: BnzMRMj1QrmQx0HBlUWIlg==
+X-CSE-MsgGUID: l95sn8AASr+DSjuwYvCyjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11685"; a="81162877"
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="81162877"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 10:09:24 -0800
+X-CSE-ConnectionGUID: MoUxQXlYSjOLqfpODMwcjA==
+X-CSE-MsgGUID: l9M9oyErRV2GFyojhOTXwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,258,1763452800"; 
+   d="scan'208";a="207572821"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2026 10:09:23 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Wed, 28 Jan 2026 10:09:22 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Wed, 28 Jan 2026 10:09:22 -0800
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.2) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Wed, 28 Jan 2026 10:09:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bTzCCObcreVhqf1OApRRBF1rNlaeRoZyfiqN96jKZK/0uXZv5dUPwf4qmQWf7hTXc7lLlnVGDsWO4aGM10lIJQm/JXOEg6MA1qHYvX0Cs1MxOXSp6mU+JPVPqGEeeB8cC0j5rFeimmomisp/4FabCvc5auBmHVsE0SbIuLnGTg+EHBRsa0Q7ufXlbcIG7jvbiMKuH2QGmzMV+oGETPV++sNRA9GmOTcigNrUF8TejPuHTa8+eGlUZTSViX0IbHz8SOQL5uWxbVLJzp0z2+HThkATFOWVILL3BdFCZhZNURr/ZtClATfRjQtY+psEKGSwlACVin2mQ3lbQ7OwGNdYqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DLZDvvcwFss5V2bscl19XTCtTLpDWusabvu8+KhXidg=;
+ b=b6FvERCv3ueu5crMX9whcaOSdPjZzkRCE2+J1/kFj2/Bw4+AbhbE0/kNFYFLpyCoXvQB60r1D1xW0k1tU8vIx7wXnUsMpojTNa0QfmoEaVKUqNMpNJ7fUN33jDISMjVU3/MAhBPsyXsz+fDm2URsRcRpDOwXEYME4uEY0E0vbLhy2HF5HWDJ2pHjy247pSJo506cY3X2UyPxFHKor15p3AjGinEPeaEYwK14dyxfT6Jtv9Wl+JOgRzg8g0cJGsSZWa6GgYhVuE9uD8SlCmH4FT+hYs+R4j5Nh2q5L5+ZG5fbPaQzmd6FPZbYdBQQvQRKtSI9l9Zv2+e74wFZyYsshA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB5089.namprd11.prod.outlook.com (2603:10b6:303:9b::16)
+ by SJ0PR11MB5039.namprd11.prod.outlook.com (2603:10b6:a03:2da::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Wed, 28 Jan
+ 2026 18:09:19 +0000
+Received: from CO1PR11MB5089.namprd11.prod.outlook.com
+ ([fe80::81f7:c6c0:ca43:11c3]) by CO1PR11MB5089.namprd11.prod.outlook.com
+ ([fe80::81f7:c6c0:ca43:11c3%3]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
+ 18:09:19 +0000
+Message-ID: <5b8fe4ae-25a2-4967-bb83-a52dd5907951@intel.com>
+Date: Wed, 28 Jan 2026 10:09:18 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Intel-wired-lan] [PATCH v2 23/25]
+ tools/lib/python/unittest_helper.py
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, "Mauro
+ Carvalho Chehab" <mchehab@kernel.org>
+CC: <bpf@vger.kernel.org>, <intel-wired-lan@lists.osuosl.org>,
+	<linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>, Peter Zijlstra
+	<peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+	<skhan@linuxfoundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>
+References: <cover.1769617841.git.mchehab+huawei@kernel.org>
+ <f370f2a0dfcaa679c9969488c908eaac82026031.1769617841.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+From: Jacob Keller <jacob.e.keller@intel.com>
+In-Reply-To: <f370f2a0dfcaa679c9969488c908eaac82026031.1769617841.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0236.namprd03.prod.outlook.com
+ (2603:10b6:303:b9::31) To CO1PR11MB5089.namprd11.prod.outlook.com
+ (2603:10b6:303:9b::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5089:EE_|SJ0PR11MB5039:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf2a4396-37f1-4b63-3265-08de5e985b6f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?M1pEWnFZZTdtWC9WZDJwRVNib0dibmhqdlk1OWUzaUQ0SnBuZmpQNW02a0pD?=
+ =?utf-8?B?OUZld3A0ckl1Z2lONUFybUtmK3Z0QnNHUEZaMFFpU2hvNUVzR3N1MXA3OFlz?=
+ =?utf-8?B?WWtJcTBDUVZZOHA4UlJWT3ZqMkNsZ0x6dzMwRDFsUklJOUVaS0lzbWtLdXd4?=
+ =?utf-8?B?Nkx6RGlVNE1kWTJTM0U5eEljOG5zaUM2VEsyZXRTTHBvMm0xeHIyRlZhNmNW?=
+ =?utf-8?B?S291RndFcVRaMnJDR3lwNUFzV3Y1bnlZaS8zMzZ0aHh4YzVUSDlQUzNWanZT?=
+ =?utf-8?B?alZmZ2NPZHBCODV4bW1yTjIyR1R2WjhSc3lvdzA4YmZpSk9ibUhtenZmamZW?=
+ =?utf-8?B?N3FrcHl3Rzd5UmlwaTQ3V2ppbkh0Q2pDTWNBbTNpQXpib1AyWXYwNjBzWGlx?=
+ =?utf-8?B?VTVKblB1dU9GV09ORnluTC9ZMkJOWWtCUkpxL210UDZQK2lvNy9ubERQaGR5?=
+ =?utf-8?B?bVdPSEpaVkhaWkR2bTZmSjlPQVR0eHZ5cmdxTEVtYlNtYlM1c01vSy8zYzdk?=
+ =?utf-8?B?Z3NaT3FPWk15RVZxRURHS0IxaFh2bXFSTGxONk9ZQkJpM3VGZ3dtM3RMeEhP?=
+ =?utf-8?B?QnVNazRYWFk2R01OQkF3amlpNnRxU3B3SiszQUh4WGQ2WENWZE1ud0hrTnox?=
+ =?utf-8?B?NjBzZnArOXFTQjNwSmFKU0RSZ2ErZldRU29iYmRKQmt5MEQvOXZTVGFQdll0?=
+ =?utf-8?B?UWM1U3FyNTZJUXl4SjNtWW1LYnFBQjd6Ly9YVEVjemNOYUozK0VyZWwwZlRh?=
+ =?utf-8?B?K1dnT01sTVBOM21GRlJoSzFaMzdFbG5qK21saEEybERUQzNkN01jRE9uN3JY?=
+ =?utf-8?B?SkplWDFrS2FVYnhMS1JXOFRFbEtUb3BNZkFrd09OYjVNRWpZbHQ5QUp6SW9h?=
+ =?utf-8?B?b0VFUmZ3V0pZWXJnT2N1TTF3cWZIZTNERXRic21iWVRSN3Q5OXZmQTIzcys0?=
+ =?utf-8?B?bDN2dmtKSllKYlZDWmVnTlNKMTJCNlp5VU9OMTBzcXhYOTdWZ05iNGNLTXBm?=
+ =?utf-8?B?dWhjbVdpekdEVVdrVDREenU4QkxIYW5HczRidG9jT3hsS3N1WWRkUmRKeGVK?=
+ =?utf-8?B?TnFrejVidUZnajlsaldlRVk3ZEFBb3VQZGxvTHRDYm9HdVpMV1h6MzB6UXEx?=
+ =?utf-8?B?NFR6VkEwOHVndDNMVzE5MWJTY2djTGNDdk5pQ1JTZnRrZWxWS0V1ekxsUko4?=
+ =?utf-8?B?NGFJcVlRU3VsMDFNTklPbXlGNFhuNlo1ZFJ6K3NRVEU3RUFPR2dXZjVFRG04?=
+ =?utf-8?B?TmV1LzJFdVFKMlU2Q3RhcHZ2dHRaUGFHcmVvamEwZEJYQnJ6RUZJNG9ISFlB?=
+ =?utf-8?B?bFk4MzVOOFl0UmRIR2QzVjN3ZXMwY1BlZjBrc2Jaa0xQY1I5Rk1TSUdscWhV?=
+ =?utf-8?B?VHZ1NEpqcEtWbHhRS0x0U1lqTG5pc0swUHc1V1VMNjlzblNKZWRXZTVqWkR1?=
+ =?utf-8?B?R0xFSHFOZzRhL2RDenhtRXB2UEZkdzUrRWdFcHAwVVd3ZWJVVVd1T1kzMEpi?=
+ =?utf-8?B?MkRVNHhVMS9leldaTDdyZGh6UG1XendVZHRGdFo1c29kU2xHd1dzMTh3cEps?=
+ =?utf-8?B?YkdTUGFycHMxd0g0NzFmbUZzMkgyenBYMVBiaGFMZExaQ2Z4NDQvdmkrblJp?=
+ =?utf-8?B?UmZzM1VmUTFrUUVlcFA0Y0VKbzRVZ3JnaGk4MVgxcnRRZ2Vvd0ZnaWJBeGhV?=
+ =?utf-8?B?YUJPbUJxWjhWSVdkNnVvb2xGWm42UEdDMUdFeEY1MVYxdjVsWnlnWGR2cVVU?=
+ =?utf-8?B?VE51bC9VVnRORlJFSUY1K3VDaUdJcEJxY05ZV0lZT2hsWlFwVWdsUWRIdC9J?=
+ =?utf-8?B?OTBKQzJodGU3K1h6ajF6QXlScjNiczc3NjY2a3RDbUZ3R2lVM05ZOHdGYURm?=
+ =?utf-8?B?ZFZHZHNhb3dOcHI2eVl0RVZjSjRaRlFPNzFGbGNqUUhqSVNwcUtiaU9GcmYw?=
+ =?utf-8?B?WGgwOFFwZGJsdUNHZEUrb1pJS1MrVmRaYWNmS0pjYTlCaWJ1RWVhUGREUFI3?=
+ =?utf-8?B?dEowSGIrTytOV2FFRXBrVGEyR2JIK21yME9MaWEydXRNeEE0cFJ4Y3B1K20v?=
+ =?utf-8?B?Y0VGYzFvSlo5S0Rxdnhld0pyaHZZYlpxK3lXNU5XWmpUWGxWNkhUZjQ2MVNh?=
+ =?utf-8?Q?K6ZY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5089.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TnY1OW9Wam1nYXduSitZeVQrd3pXSzhSSDRBS2c4WFRlR0RoNE1WVWdMdkky?=
+ =?utf-8?B?aTVaM05MWkZkMTBKR3habmZaeTNJeHZYa2ZmVjN4VWh4eDh5eTJ3TlZaNGt2?=
+ =?utf-8?B?SnYxYkdDVmtZL0sxY0hFWkZNcm90RU9sbmF2djBwWFBvZFkvbmdIUUZjSkxN?=
+ =?utf-8?B?RUJTcXJxVkszR3VsWVRqV2dCb2JFb1NMNUp4aWFBUlJxMDJ1dDN3M2pzWEFj?=
+ =?utf-8?B?Nm5HbERLUTMyT1hraVY1TTRGT2V6UnVBNDJLeENGeEtuaml4MTkxVk1TSmdo?=
+ =?utf-8?B?T2FaelFkK05QbmwxQzlhVCtLUXl2VjF3NXNPa3ZLdmJ4YUNGU0tJdEhkVjZn?=
+ =?utf-8?B?M0FMT0Z2c2F3TjlYRHMweHV6TFh3SUhsK21RR2pnQzBwM3ZiR1BLUFVEMnMx?=
+ =?utf-8?B?V2h3ZnRmSEVJNWhUY2w0dmdkMndlNW5PR0RMYlQxeFJNMFR5TExmb0pXeU4y?=
+ =?utf-8?B?MnN2Z01RWDR3NExpNWJ4QmsyajBDNzQvZjlMclVZbGZscm5TczcvKzdwcy9y?=
+ =?utf-8?B?c1hHZktnYWlCdlZCc3g0Yi9rVUV5U1cza1pyRUxhcjFOTVhoMExuVmxiNmFS?=
+ =?utf-8?B?OE9Kcm1nZUhZTUVUU3FJOSswU1UweUExdHhOWTBiblptakdQYk9BTkVxdkky?=
+ =?utf-8?B?MS94VnZHSUJxQU5zSDIwdlI1cUZJRExRMUlEYmxKZ1l6WGJuYmNyVmFNRWFz?=
+ =?utf-8?B?VFZZNHZJNGkveXY3bEQxR3gvMjg2azJpU0FoRUlaL3ZRNEhQR1JIM3NJa3ov?=
+ =?utf-8?B?eEgrM3p4TUJVb1lmLzdTcVBlL29BazNOWW9xeVFEUjZlelBKN0JaWnRyQmt5?=
+ =?utf-8?B?QzJoVjRMd0tWUW14bnFSRmxPU0krQ0EvZmp2REtJUzVPeDRyV3A0SXd0bytO?=
+ =?utf-8?B?QWVVUmg3SE44a3JPcWFNRnpHUTQrYnRyVW5XK29WZHpOVm04RnlIMkoxZytX?=
+ =?utf-8?B?U0w5QmlIN3pMUDN5TEJkLy9kVmNVdWw2WjdTU3hodFlrRGw1d01QbDBVNGFZ?=
+ =?utf-8?B?cjlFQnpTWkNSeURoREFzYTJHUEJtSGpxbWd5b1djUXcvSlNqMnFvVzB6VFdT?=
+ =?utf-8?B?bHFmcHJzWjRQcWNVVEpTMjRIM3BPZFBtVUhPMkg2UTBqemtzYXcva1I1T1ZY?=
+ =?utf-8?B?MnhSRHBMbHVEeXRwZUdHZWppQXlKYm9vcnZiNlF1cXh4ZkZyczhVVGlqellx?=
+ =?utf-8?B?bkZhbmw3a1JWYXhuUktmMDhVUXFMa3ZnWEtjUXZ4ZHlHY0ZtYzNyMDdORGJ6?=
+ =?utf-8?B?d01GaDA3bi85SC9jSVpDU2JQY0pHeGpTeW1wb3MrYXRwQ25JVUJsb1BlZXo3?=
+ =?utf-8?B?V0NzTkV0UmpWdHhnaHVVYWF4aXFFN2pYeDA2K2V3WmRiWUVJVXhOWWFwakN1?=
+ =?utf-8?B?TjdlYTVOc0drZ2hFSGlVQkZqdUtWVUhLdXpVaFdTRUJDVlI1dVpvM0ZucnIw?=
+ =?utf-8?B?dWZ2U0xmQnBhTHdxdWFBK2xzOXJaZmE2QVUvcFkxRjRoWVlMU1RmaHowWDl1?=
+ =?utf-8?B?K0tCdGxveU11MVdva0tzQmRTa28zWmYxdzVROUlmU1QyZFZxZ2ZEbnpMcGd1?=
+ =?utf-8?B?R2RFWVVlV1A4VzJBMktsdmJ5eEJNQm9LRHk2VlhNNVlmWk4xaSs4ekUvdjFr?=
+ =?utf-8?B?NDBEZUU2TE4vQzZpY1FkWnVzbTB2UG5VRTErKzgzNkFHakkwa3dHU1RjTnZM?=
+ =?utf-8?B?Y0ZhYmMzNDhqaUoxQXNBaDM4cjU4Vzh6VkpHa2JpcGtnS0llUWxKMXZXRG93?=
+ =?utf-8?B?c1V2aXBRcWVFWnVIYXZJU1k1Y3JaeFRRQnI4QWxSb1hlejdFUXRzMFhYd0c5?=
+ =?utf-8?B?NTltcFBmamM1M2pQS3B3Nm1oTk1YV3FuUmFXTjNYKzdWUUlOVVYxU1Nzazlp?=
+ =?utf-8?B?cS9yWXdpa1p2eHEyS2tJQ2VaRFVNM3JKWGVzTVdJSUxJL2Q2cW5EMGdhdUxG?=
+ =?utf-8?B?MTFwbVpjMnR2a1VQYnRXcGJjbk9HaGIrK08rY1pzN1JGdWw3NEY4N2hVZ3Zs?=
+ =?utf-8?B?QllKRXgzTmZHaEpmUTRVMzd1b2VyR0NTL05PKzJrMzFheS9VZ0tNZVcwZDV6?=
+ =?utf-8?B?c0QvdjdPZ0JZU3MyUmhPdDVZWi90Sk5GbXFHc2dwLzlzeTZHM1NlbFRmbjdk?=
+ =?utf-8?B?c2dnRWVzdVhIdFByU2t3Sk1NdVc2ZjNOZjdrR1h0T01PKzZzSnBxekpjN2l4?=
+ =?utf-8?B?aG9CanBoY3kyN2M1TUFYYlp4V1dMNkROZW1hT215M1BlUHB2bHdhZlowakRZ?=
+ =?utf-8?B?dkI1ZUtNKzZndHZpY1Zsei9tR1B3TzVtaW5NTWhEL01USWtEbHFCNTZBaGhE?=
+ =?utf-8?B?cTlJVUhucTNIU0lnOEFxaWlKdjNFQmtMMTdKYjgrOWo3SkttZDlINFdYYlE3?=
+ =?utf-8?Q?kqZthGa1ee9qlFH8=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf2a4396-37f1-4b63-3265-08de5e985b6f
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5089.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 18:09:19.7768
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RtlYfe9ehkxWqWnIl4Fe84Uus7w/3qDUBs1FRrspL0cL0/HK25Wg8Wa9hVbgTYMsEMiMRNBBbLTLUt9+MmoOCdQAF9fREqMNm9ANE6GQM14=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5039
+X-OriginatorOrg: intel.com
 
-On Wed, 2026-01-28 at 08:55 -0800, Guenter Roeck wrote:
-> On Wed, Jan 28, 2026 at 02:04:35AM -0800, Guenter Roeck wrote:
-> > On 1/28/26 01:44, Nuno S=C3=A1 wrote:
-> > > Hi Guenter,
-> > >=20
-> > > On Tue, 2026-01-27 at 09:39 -0800, Guenter Roeck wrote:
-> > > > Hi Nuno,
-> > > >=20
-> > > > On 12/23/25 04:21, Nuno S=C3=A1 via B4 Relay wrote:
-> > > > > This is v3 for the LTC4283 how swap controller. Main change is th=
-at I'm
-> > > > > now using the auxiliary bus for adding the GPIO device (done depe=
-nding
-> > > > > on FW properties).
-> > > > >=20
-> > > > > Similar to the LTC4282 device, we're clearing some fault logs in =
-the
-> > > > > reset_history attributes.
-> > > > >=20
-> > > >=20
-> > > > I ran the patch series through an AI review. Results are below.
-> > > > Please take a look.
-> > > >=20
->=20
-> Another run through AI below. Please let me know if there are further ina=
-ccuracies.
->=20
-> Thanks,
-> Guenter
->=20
+
+
+On 1/28/2026 8:50 AM, Mauro Carvalho Chehab wrote:
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
-> commit 82433332ce165903d56fae327ced975aeef30475
-> Author:=C2=A0=C2=A0=C2=A0=C2=A0 Nuno S=C3=A1 <nuno.sa@analog.com>
->=20
-> hwmon: ltc4283: Add support for the LTC4283 Swap Controller
->=20
-> Adds support for the LTC4283 Hot Swap Controller I2C interface.
->=20
-> > diff --git a/drivers/hwmon/ltc4283.c b/drivers/hwmon/ltc4283.c
-> > new file mode 100644
-> > index 000000000000..402b53f81548
-> > --- /dev/null
-> > +++ b/drivers/hwmon/ltc4283.c
->=20
-> [ ... ]
->=20
-> > +static int ltc4283_read_power_word(const struct ltc4283_hwmon *st,
-> > +				=C2=A0=C2=A0 u32 reg, long *val)
-> > +{
-> > +	u64 temp =3D (u64)LTC4283_ADC1_FS_uV * LTC4283_ADC2_FS_mV * DECA * MI=
-LLI;
-> > +	unsigned int __raw;
-> > +	int ret;
-> > +
-> > +	ret =3D regmap_read(st->map_word, reg, &__raw);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	/*
-> > +	 * Power is given by:
-> > +	 *=C2=A0=C2=A0=C2=A0=C2=A0 P =3D CODE(16b) * 32.768mV * 2.048V / (2^1=
-6 * Rsense)
-> > +	 */
-> > +	*val =3D DIV64_U64_ROUND_CLOSEST(temp * __raw, BIT_ULL(16) * st->rsen=
-se);
->=20
-> Does this overflow *val on 32-bit systems if the calculated power exceeds
-> 2000 Watts (approx 2^31 microWatts)?=C2=A0 The intermediate calculation i=
-s
-> u64, but the result is assigned to a signed long.
->=20
 
-I'll have to double check this one but IIRC 2000W is not a realistic value =
-for
-these applications. One thing that could overflow is power_max given that t=
-he default
-register value is 0xff but we do write the proper max value depending on
-rsense (I actually need to check how will this behave in case we use a defa=
-ult
-rsense value - ie with no DT property).
+What is this patch trying to do? the title is not descriptive, and its 
+contents don't make sense.
 
-> [ ... ]
->=20
-> > +static bool ltc4283_word_reg(struct device *dev, unsigned int reg)
-> > +{
-> > +	switch (reg) {
-> > +	case LTC4283_SENSE ... LTC4283_ADIO34_MAX:
-> > +		return true;
-> > +	default:
-> > +		return false;
-> > +	}
-> > +}
->=20
-> LTC4283_SENSE is 0x41 and LTC4283_ADIO34_MAX is 0x40.=C2=A0 Does this inv=
-alid
-> range (start > end) effectively disable access to the word registers
-> via st->map_word?
+>   tools/lib/python/unittest_helper.py | 16 +---------------
+>   1 file changed, 1 insertion(+), 15 deletions(-)
+> 
+> diff --git a/tools/lib/python/unittest_helper.py b/tools/lib/python/unittest_helper.py
+> index e438472fa704..3cf1075b1de4 100755
+> --- a/tools/lib/python/unittest_helper.py
+> +++ b/tools/lib/python/unittest_helper.py
+> @@ -8,21 +8,7 @@
+>   Helper class to better display unittest results.
+>   
+>   Those help functions provide a nice colored output summary of each
+> -executed test and, when a test fails, it shows the different in diff
+> -format when running in verbose mode, like::
+> -
+> -    $ tools/unittests/nested_match.py -v
+> -    ...
+> -    Traceback (most recent call last):
+> -    File "/new_devel/docs/tools/unittests/nested_match.py", line 69, in test_count_limit
+> -        self.assertEqual(replaced, "bar(a); bar(b); foo(c)")
+> -        ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> -    AssertionError: 'bar(a) foo(b); foo(c)' != 'bar(a); bar(b); foo(c)'
+> -    - bar(a) foo(b); foo(c)
+> -    ?       ^^^^
+> -    + bar(a); bar(b); foo(c)
+> -    ?       ^^^^^
+> -    ...
+> +executed test.
+>   
 
-The above is odd ad I'm pretty sure I ran sensors on this but could be some=
- late edit
-mistake. Anyways irrelevant for the next version as you prefer the custom b=
-us regmap
-approach.
+You delete a bunch of the output here, but don't explain why. If this 
+part of the doc is no longer valid this should be squashed into whatever 
+patch made it invalid. I suspect this is the result of the new wrapper 
+you added?
 
->=20
-> > +static const struct regmap_config ltc4283_word_regmap_config =3D {
-> > +	.name =3D "ltc4283-16",
-> > +	.reg_bits =3D 8,
-> > +	.val_bits =3D 16,
-> > +	.max_register =3D LTC4283_ADIO34_MAX,
-> > +	.val_format_endian =3D REGMAP_ENDIAN_BIG,
-> > +	.writeable_reg =3D ltc4283_word_reg,
-> > +	.readable_reg =3D ltc4283_word_reg,
-> > +};
->=20
-> Does max_register =3D 0x40 prevent access to the sensor value registers
-> (LTC4283_SENSE at 0x41 and above) which are intended to be read as
-> words?
+Thanks,
+Jake
 
-ditto
+>   It also allows filtering what tests will be executed via ``-k`` parameter.
+>   
 
->=20
-> commit 5998c620fbd8915340a4b92635c9489a91fae567
-> Author:=C2=A0=C2=A0=C2=A0=C2=A0 Nuno S=C3=A1 <nuno.sa@analog.com>
->=20
-> gpio: gpio-ltc4283: Add support for the LTC4283 Swap Controller
->=20
-> Adds GPIO support for the LTC4283.
->=20
-> > diff --git a/drivers/gpio/gpio-ltc4283.c b/drivers/gpio/gpio-ltc4283.c
-> > new file mode 100644
-> > index 000000000000..fa0c106d4fac
-> > --- /dev/null
-> > +++ b/drivers/gpio/gpio-ltc4283.c
->=20
-> [ ... ]
->=20
-> > +#define LTC4283_PINS_MAX			8
-> > +#define LTC4283_PGIOX_START_NR			4
-> > +#define LTC4283_INPUT_STATUS			0x02
-> > +#define LTC4283_PGIO_CONFIG			0x10
-> > +#define=C2=A0=C2=A0 LTC4283_PGIO_CFG_MASK(pin)=20
-> > +	GENMASK(((pin) - LTC4283_PGIOX_START_NR) * 2 + 1, (((pin) - LTC4283_P=
-GIOX_START_NR) *
-> > 2))
-> > +#define LTC4283_PGIO_CONFIG_2			0x11
-> > +
-> > +#define LTC42823_ADIO_CONFIG			0x12
->=20
-> This isn't a bug, but should this be LTC4283_ADIO_CONFIG instead of
-> LTC42823?
-
-Indeed!
-
-- Nuno S=C3=A1
-		2
