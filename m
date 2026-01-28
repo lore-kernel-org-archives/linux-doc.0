@@ -1,108 +1,97 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from out28-169.mail.aliyun.com (out28-169.mail.aliyun.com [115.124.28.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4680A29D27A
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 02:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7DF279917;
+	Wed, 28 Jan 2026 02:47:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769568238; cv=none; b=V+mKrC1vgY1c3XarLQm8adEHz+eICvYXgM/ujeOJBS2vaS7QQGt8LDmYVCp3ZZXvZpL3FZGJnKBJ/0LdF3J5kdka+Djxs4JEbkjwmcr5IGKpT/+PDjVQo0EWe879l2j375Tr8y2eA3hWNK06sJFHpBO9nkvNOcikqZjij7DOMGA=
+	t=1769568426; cv=none; b=Sv4tP42kUrL3wlgMJmUrZT2Rz83Mc3dlGLEFqNW++bMCuPt63SbwpBWNp1H5vUG4csGli4xvd+k9EGAG/mgF6eqEPaWK4PtiuGq57ELXKqgOjjes3V9H/7JqGGAOTkwkUnAIJcjNjKR60rjzcXauoKIdjvs7heF/rx/oId5BJUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769568238; c=relaxed/simple;
-	bh=rmlBWbrpLJmuGyDEJz4UqJEQ2w0YUoxYuDKSKgdVkng=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=dXNrjx6bbEu6IqSwGY+tOqxVzrJ8P08SAS27EaVBmeXbZQM+Vfe93p+QMxjpmQNk4YRM47lB4Unnj0b9iaAE37o7EcgtZkH6vHC3QQb63EBpjrT0QMSRF0ZGE1vWZiog52oplEltFJVIbQwJ9AZgOT56G0vYR4CSgp7uo2O4ga8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=AwSz2b3e; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="AwSz2b3e"
-Content-Type: text/plain;
-	charset=utf-8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1769568235;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I3hcu+djTXiL86WSU47ccNO5VGh/Ab4OkQ+kc4ZUgqM=;
-	b=AwSz2b3eZt+OrN40xQ2hPCXZjqKMFP4j6YuyJdyfettfaftqWvuFEN/iY9ks5CzOKdOoA9
-	Iclm9/h8yjrGsQNL6rs8nKgDY7NuyBQySNnuzqpgQScwCeNVFwihRh4cgpR0ijobcxTogB
-	AJBZ+EY+WnFDqY9Pih0rAefDsVBcOVo=
+	s=arc-20240116; t=1769568426; c=relaxed/simple;
+	bh=P5BHOGekwZzlYDtEGgu0HdjH4GgUy82l02WJdkLG3Ik=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
+	 In-Reply-To:Content-Type; b=kfwfdbDWQGc/M2/Ibj1LyEXl760YsDRTjUPXxlox0VfQBihzcEmrIazDW5fAMd2i1ytGltFYh3bVnKMSMKVaVMCBkQCusLBDguONS4eackP4p+a+1q+kkw5O6oQcsa+DDwlpqg2xxEk7v8T3X5JvCgIZWZNw/v0tl35B1FiPB1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07953744|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.00691617-0.00073375-0.99235;FP=7305816914113108162|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033045220102;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=21;RT=21;SR=0;TI=W4_0.2.3_211683ED_1769567779326_o7001c1223;
+Received: from WS-web (illusion.wang@nebula-matrix.com[W4_0.2.3_211683ED_1769567779326_o7001c1223] cluster:ay29) at Wed, 28 Jan 2026 10:46:51 +0800
+Date: Wed, 28 Jan 2026 10:46:51 +0800
+From: "Illusion Wang" <illusion.wang@nebula-matrix.com>
+To: "Jakub Kicinski" <kuba@kernel.org>,
+  "Simon Horman" <horms@kernel.org>
+Cc: "Dimon" <dimon.zhao@nebula-matrix.com>,
+  "Alvin" <alvin.wang@nebula-matrix.com>,
+  "Sam" <sam.chen@nebula-matrix.com>,
+  "netdev" <netdev@vger.kernel.org>,
+  "andrew+netdev" <andrew+netdev@lunn.ch>,
+  "corbet" <corbet@lwn.net>,
+  "linux-doc" <linux-doc@vger.kernel.org>,
+  "lorenzo" <lorenzo@kernel.org>,
+  "pabeni" <pabeni@redhat.com>,
+  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
+  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
+  "hawk" <hawk@kernel.org>,
+  "ast" <ast@kernel.org>,
+  "bpf" <bpf@vger.kernel.org>,
+  "sdf" <sdf@fomichev.me>,
+  "daniel" <daniel@iogearbox.net>,
+  "john.fastabend" <john.fastabend@gmail.com>,
+  "edumazet" <edumazet@google.com>,
+  "open list" <linux-kernel@vger.kernel.org>
+Reply-To: "Illusion Wang" <illusion.wang@nebula-matrix.com>
+Message-ID: <17b1ca50-a9e4-499c-b84b-b8223c313491.illusion.wang@nebula-matrix.com>
+Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHYzIG5ldC1uZXh0IDAwLzE1XSBuYmwgZHJpdmVyIGZvciBOZWJ1?=
+  =?UTF-8?B?bGFtYXRyaXggTklDcw==?=
+X-Mailer: [Alimail-Mailagent revision 24734][W4_0.2.3][null][Chrome]
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCHv4 09/14] mm/hugetlb: Remove fake head pages
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <aXjPf_fIWX74YVWD@thinkstation>
-Date: Wed, 28 Jan 2026 10:43:13 +0800
-Cc: Oscar Salvador <osalvador@suse.de>,
- Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>,
- Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>,
- Jonathan Corbet <corbet@lwn.net>,
- kernel-team@meta.com,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>,
- Matthew Wilcox <willy@infradead.org>,
- Usama Arif <usamaarif642@gmail.com>,
- Frank van der Linden <fvdl@google.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <25C01EB2-FC77-43A5-A737-7BD3D2D98EDE@linux.dev>
-References: <20260121162253.2216580-1-kas@kernel.org>
- <20260121162253.2216580-10-kas@kernel.org>
- <ffe9811b-d7f8-4924-9ad6-96057a16b693@linux.dev>
- <aXjPf_fIWX74YVWD@thinkstation>
-To: Kiryl Shutsemau <kas@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+x-aliyun-im-through: {"version":"v1.0"}
+References: <20260123011804.31263-1-illusion.wang@nebula-matrix.com>	<aXj-uam1HodC0851@horms.kernel.org>,<20260127105304.21279cc2@kernel.org>
+x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjAtUmVsZWFzZS4yNTEyMjIwMTkpIE1vam8vMS4wLjAgTmF0aXZlIEFwcFR5cGUocmVsZWFzZSkgQ2hhbm5lbC8yMDEyMDAgQXJjaGl0ZWN0dXJlL3g4Nl82NCB3ZWJEdC9QQw==uL
+In-Reply-To: <20260127105304.21279cc2@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-
-
-> On Jan 27, 2026, at 22:51, Kiryl Shutsemau <kas@kernel.org> wrote:
->=20
-> On Thu, Jan 22, 2026 at 03:00:03PM +0800, Muchun Song wrote:
->>> + if (pfn)
->>> + 	return pfn_to_page(pfn);
->>> +
->>> + tail =3D alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, 0);
->>> + if (!tail)
->>> + 	return NULL;
->>> +
->>> + p =3D page_to_virt(tail);
->>> + for (int i =3D 0; i < PAGE_SIZE / sizeof(struct page); i++)
->>> + 	prep_compound_tail(p + i, NULL, order);
->>> +
->>> + spin_lock(&hugetlb_lock);
->>=20
->> hugetlb_lock is considered a contended lock, better not to abuse it.
->> cmpxchg() is enought in this case.
->=20
-> We hit the lock once per node (excluding races). Its contribution to =
-the
-> lock contention is negligible. spin_lock() is easier to follow. I will
-> keep it.
-
-I don't think cmpxchg() is hard to follow. It=E2=80=99s precisely =
-because of
-your abuse that interrupts still have to be disabled here=E2=80=94hugetlb_=
-lock
-must be an irq-off lock. Are you really going to use spin_lock_irq just
-because =E2=80=9Cit feels simpler=E2=80=9D to you?
-
->=20
-> Ack for the rest of your comments.
->=20
->=20
-> --=20
->  Kiryl Shutsemau / Kirill A. Shutemov
-
+ClRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFjawoKcGF0Y2gzIHByaW1hcmlseSBpbmNsdWRlcyBj
+b2RlIHRoYXQgZG9lcyBub3QgcmVxdWlyZSBleHRlbnNpdmUgcmV2aWV3LApzdWNoIGFzIHRoZSBt
+ZXNzYWdlIGNvZGVzIGFuZCBtZXNzYWdlIGJvZHkgc3RydWN0dXJlcyBkZWZpbmVkIGluCm5ibF9k
+ZWZfY2hhbm5lbC5oLiBUaGVzZSBjb21wb25lbnRzIGFyZSBnZW5lcmFsbHkgc3RhYmxlIGFuZAp1
+c2VkIGZvciBQRi9WRiBjb21tdW5pY2F0aW9uLCB3aGljaCBpcyB3aHkgdGhleSB3ZXJlIGluaXRp
+YWxseQppbmNsdWRlZCBpbiBQYXRjaCAzLiBIb3dldmVyLCBiYXNlZCBvbiByZXZpZXcgZmVlZGJh
+Y2ssIEkgd2lsbApleHRyYWN0IHRoZXNlIG1hbnVhbGx5IHdyaXR0ZW4gY29tbXVuaWNhdGlvbiBw
+cm90b2NvbCBkZWZpbml0aW9ucy4KCkFkZGl0aW9uYWxseSwgSSB3aWxsIG1ha2UgYW5vdGhlciBy
+b3VuZCBvZiBjb21wcmVoZW5zaXZlIGNvZGUKcmVkdWN0aW9uIHRvIG1lZXQgdGhlIHN1Ym1pc3Np
+b24gcmVxdWlyZW1lbnRzIGFzIG11Y2ggYXMgcG9zc2libGUuCgoKLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCuWPkeS7tuS6
+uu+8mkpha3ViIEtpY2luc2tpIDxrdWJhQGtlcm5lbC5vcmc+CuWPkemAgeaXtumXtO+8mjIwMjbl
+ubQx5pyIMjjml6Uo5ZGo5LiJKSAwMjo1MwrmlLbku7bkurrvvJpTaW1vbiBIb3JtYW48aG9ybXNA
+a2VybmVsLm9yZz47IElsbHVzaW9uIFdhbmc8aWxsdXNpb24ud2FuZ0BuZWJ1bGEtbWF0cml4LmNv
+bT4K5oqE44CA6YCB77yaRGltb248ZGltb24uemhhb0BuZWJ1bGEtbWF0cml4LmNvbT47IEFsdmlu
+PGFsdmluLndhbmdAbmVidWxhLW1hdHJpeC5jb20+OyBTYW08c2FtLmNoZW5AbmVidWxhLW1hdHJp
+eC5jb20+OyBuZXRkZXY8bmV0ZGV2QHZnZXIua2VybmVsLm9yZz47ICJhbmRyZXcrbmV0ZGV2Ijxh
+bmRyZXcrbmV0ZGV2QGx1bm4uY2g+OyBjb3JiZXQ8Y29yYmV0QGx3bi5uZXQ+OyAibGludXgtZG9j
+IjxsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnPjsgbG9yZW56bzxsb3JlbnpvQGtlcm5lbC5vcmc+
+OyBwYWJlbmk8cGFiZW5pQHJlZGhhdC5jb20+OyAidmFkaW0uZmVkb3JlbmtvIjx2YWRpbS5mZWRv
+cmVua29AbGludXguZGV2PjsgImx1a2FzLmJ1bHdhaG4iPGx1a2FzLmJ1bHdhaG5AcmVkaGF0LmNv
+bT47IGhhd2s8aGF3a0BrZXJuZWwub3JnPjsgYXN0PGFzdEBrZXJuZWwub3JnPjsgYnBmPGJwZkB2
+Z2VyLmtlcm5lbC5vcmc+OyBzZGY8c2RmQGZvbWljaGV2Lm1lPjsgZGFuaWVsPGRhbmllbEBpb2dl
+YXJib3gubmV0PjsgImpvaG4uZmFzdGFiZW5kIjxqb2huLmZhc3RhYmVuZEBnbWFpbC5jb20+OyBl
+ZHVtYXpldDxlZHVtYXpldEBnb29nbGUuY29tPjsgb3BlbiBsaXN0PGxpbnV4LWtlcm5lbEB2Z2Vy
+Lmtlcm5lbC5vcmc+CuS4u+OAgOmimO+8mlJlOiBbUEFUQ0ggdjMgbmV0LW5leHQgMDAvMTVdIG5i
+bCBkcml2ZXIgZm9yIE5lYnVsYW1hdHJpeCBOSUNzCgoKT24gVHVlLCAyNyBKYW4gMjAyNiAxODow
+Njo0OSArMDAwMCBTaW1vbiBIb3JtYW4gd3JvdGU6Cj4gQXMgcGVyIEpha3ViJ3MgYWR2aWNlIGlu
+IGhpcyByZXZpZXcgb2YgdjEgWypdLAo+IFBsZWFzZSB0cnkgdG8gY3JlYXRlIGEgbWluaW1hbCBk
+cml2ZXIgaW4gdGhlIG9yZGVyIG9mIH41a0xvQy4KClBlcmhhcHMgb3RoZXIgbWFpbnRhaW5lcnMg
+d2lsbCBkaXNhZ3JlZSwgYnV0IGZvciBlYXNlIG9mIHJldmlldwphbmQgdG8gYXZvaWQgdGhlIGh1
+Z2UgcmVwb3N0cyBwZXJoYXBzIHdlIHNob3VsZCBjb25zaWRlciBtZXJnaW5nCnNvbWV0aGluZyBs
+aWtlIHBhdGNoZXMgMSBhbmQgMyogZmlyc3QsIGFzIHRoZSBpbml0aWFsIHNlcmllcy4KQW5kIHRo
+ZW4geW91IGNhbiBidWlsZCB1cCB0aGUgZHJpdmVyIGZyb20gdGhlcmUgaW4gcmVhc29uYWJsZSwK
+NWtMb0MtYXQtYS10aW1lIHNlcmllcz8KCiAqIHBhdGNoIDMgY3VycmVudGx5IGluY2x1ZGVzIHRo
+aW5ncyB3aGljaCBkbyBub3Qgc2VlbSBtYWNoaW5lCiDCoCBnZW5lcmF0ZWQgLyBsaWtlIHJlZ2lz
+dGVyIGRlc2NyaXB0b3JzIGxpa2Ugc3RydWN0cyBhZGRlZCB0bwogwqAgbmJsX2RlZl9jaGFubmVs
+LmggYW5kIG5ibF9pbmNsdWRlLmgK
