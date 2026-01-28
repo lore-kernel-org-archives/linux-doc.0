@@ -1,42 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B3431355C;
-	Wed, 28 Jan 2026 08:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E92B72D249E;
+	Wed, 28 Jan 2026 08:32:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769588273; cv=none; b=pcyByaKfdtng4TMtlKlSYGGHCuq82ZZQ/+N1vRnEQfcF6RH8+K2C7q8Pvm2m2jp+5jaGWsgD5b0WPxgVV+Zeh9Z449WEocD2GOpf6oZiDo3/8OEyDUOgV/MfxGAoh5IoExg9YkLl51iUXXJpU/KkPqtJUK5lK4TD6TxRP0FyNIY=
+	t=1769589124; cv=none; b=GzYg8O0wVlxm/wYdJyeysBUPxeHcLunyHlg9RzSyrvlmxsZvP0G5/KtxOMFFXcX1BIii4tJkJabnCPsBSP5UDwZn2Okpm6lj8gVDuc69XHOHVNpEyCAdZUalNSVf2iUrqoBhpG9eMbnPNftQfTS3OOnMIs0FUaOeI4WXXnvCul8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769588273; c=relaxed/simple;
-	bh=K0FeF9iPFMFzFjQ+tL2zZqd0dx77Jc2+0JD3rKgVoyY=;
+	s=arc-20240116; t=1769589124; c=relaxed/simple;
+	bh=MIu53TNJT0oYRJMg60HbP3DOZ0cZyH4Xd+NMgQs6Nec=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tyQt9HGW2bl/enrodmt0dSGsD7qMZAPEKl4xOq8nY2y80Zexe6HByXFQmAPR5nw4PJ6BHIdQKBvGxhvuz9JvAncuNa6nTpS3dLf3a8eH+FzSbZAHNqeQwy2YsCkpBSU14Ut7nwLqXBpdOIGh2iqb3TzcxGWWscUrnnHO8LPJzGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SdQQ9c/F; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=H4lItjoJmAT+KoqFTgYH5hE7lbJM1n84uSREDIVx+GeDRXV8tm8E3pXnutwedg2Z1xqWCLerqoR7pHL+PrtZiiPqKg8DvgDO8hEjJYTLnCtKksBdgXB2mrYJ5SdHbvgXNL4A/e6QumQBf/sQDQdFNaWvjlECL2Kz4ldP9CKRETo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bw/oUTvh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SdQQ9c/F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0170AC4CEF1;
-	Wed, 28 Jan 2026 08:17:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bw/oUTvh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00DD4C4CEF1;
+	Wed, 28 Jan 2026 08:31:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769588273;
-	bh=K0FeF9iPFMFzFjQ+tL2zZqd0dx77Jc2+0JD3rKgVoyY=;
+	s=k20201202; t=1769589123;
+	bh=MIu53TNJT0oYRJMg60HbP3DOZ0cZyH4Xd+NMgQs6Nec=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SdQQ9c/FQyoR57zZT+mi6lqW0bctqYwwppuWwwFz0nP/uo4JPatawtKTy7P8eOrld
-	 6ahXIvg5V10yW7SVzlD230lC1iOO7WyL9Gq8XR8wvw5Pl46AtkbHp0vxy9yTuiUB1G
-	 Hshjx+RZwON4ECFnvcn01b+oVfBdQ1ZLbVHqxBprw5x8JVVEwep56vJUO2b1kBraoL
-	 jhTLg9Gb3KxC5et/QH93PYgg6tnnRpXLkBFKwPOe1Vxoe55/5MJiTD5QS0WaeJwffo
-	 zgAT/Mpac1f193urgzovMPtdvLaAVov+4Qz0Zw95/8G2zYKaTL02xN6g5MZ9fe0UfH
-	 8igjQ3GGMix6A==
-Date: Wed, 28 Jan 2026 13:47:45 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Frank.Li@nxp.com, dlemoal@kernel.org, 
-	Koichiro Den <den@valinux.co.jp>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Allow overriding default
- BAR sizes
-Message-ID: <yowgralxd7i55p63wqc7jxffwz5iqtrlztndpqu5yqeavhtscn@ajwd6r27ra6a>
-References: <20260123180747.827357-2-cassel@kernel.org>
+	b=bw/oUTvhB6gWXSudQa1AB0m+S9WAXgkPU6Njvqa4zFpA23y9kpL8zHHiXOOelOIuj
+	 Wrwdx5cmCXxnvnBe9jGMNxWBZ+tMMVAkXuL6xoblNIfeQVy+h2ujR3bCqqjZEkheWb
+	 TbviHdHpUdYiuSyCqAEYkFOnTVKFrRejH3+BBFuEOauCgYpiVM+ynpCT5njyqaPCSR
+	 zdiy6aUHyDTeA4SlhajejnJDWljHJ8Mv+kpD6Ebf53Jh+SJQcuvFMMMWRd/csBMYxE
+	 E0nxvWdxUbtfAnTpKYwZEp9lUiNfgdl4F7NvgH27OUXiVGasrmu31TrM/SQwi5e+Xt
+	 Fnxac7mac9+UQ==
+Date: Wed, 28 Jan 2026 10:31:51 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: ardb@kernel.org, leitao@debian.org, corbet@lwn.net,
+	catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org,
+	bp@alien8.de, mingo@kernel.org, pawan.kumar.gupta@linux.intel.com,
+	feng.tang@linux.alibaba.com, kees@kernel.org, elver@google.com,
+	arnd@arndb.de, fvdl@google.com, lirongqing@baidu.com,
+	bhelgaas@google.com, bhe@redhat.com, dave.hansen@linux.intel.com,
+	cfsworks@gmail.com, osandov@fb.com, sourabhjain@linux.ibm.com,
+	jbohac@suse.cz, ryan.roberts@arm.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] arm64: kexec: Add support for crashkernel CMA
+ reservation
+Message-ID: <aXnJd_Xghj9JLsnK@kernel.org>
+References: <20260126081334.699147-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,201 +51,139 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260123180747.827357-2-cassel@kernel.org>
+In-Reply-To: <20260126081334.699147-1-ruanjinjie@huawei.com>
 
-On Fri, Jan 23, 2026 at 07:07:48PM +0100, Niklas Cassel wrote:
-> Add bar{0,1,2,3,4,5}_size attributes in configfs, so that the user is not
-> restricted to run pci-epf-test with the hardcoded BAR size values defined
-> in pci-epf-test.c.
+On Mon, Jan 26, 2026 at 04:13:34PM +0800, Jinjie Ruan wrote:
+> Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
+> crashkernel= command line option") and commit ab475510e042 ("kdump:
+> implement reserve_crashkernel_cma") added CMA support for kdump
+> crashkernel reservation.
 > 
-> This code is shamelessly more or less copy pasted from pci-epf-vntb.c
+> Crash kernel memory reservation wastes production resources if too
+> large, risks kdump failure if too small, and faces allocation difficulties
+> on fragmented systems due to contiguous block constraints. The new
+> CMA-based crashkernel reservation scheme splits the "large fixed
+> reservation" into a "small fixed region + large CMA dynamic region": the
+> CMA memory is available to userspace during normal operation to avoid
+> waste, and is reclaimed for kdump upon crash—saving memory while
+> improving reliability.
 > 
-> Signed-off-by: Niklas Cassel <cassel@kernel.org>
+> So extend crashkernel CMA reservation support to arm64. The following
+> changes are made to enable CMA reservation:
+> 
+> - Parse and obtain the CMA reservation size along with other crashkernel
+>   parameters.
+> - Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
+> - Include the CMA-reserved ranges for kdump kernel to use.
+> - Exclude the CMA-reserved ranges from the crash kernel memory to
+>   prevent them from being exported through /proc/vmcore.
+> 
+> Update kernel-parameters.txt to document CMA support for crashkernel on
+> arm64 architecture.
+
+I'm looking at this and at almost identical patch for riscv 
+https://lore.kernel.org/all/20260126080738.696723-1-ruanjinjie@huawei.com
+and it feels wrong that we have duplicate the code that excludes cma
+ranges.
+CMA ranges are known to the crash_core and I don't see why we cannot
+exclude them there.
+ 
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 > ---
->  Documentation/PCI/endpoint/pci-test-howto.rst | 16 ++++
->  drivers/pci/endpoint/functions/pci-epf-test.c | 92 ++++++++++++++++++-
->  2 files changed, 106 insertions(+), 2 deletions(-)
+> v2:
+> - Free cmem in prepare_elf_headers()
+> - Add the mtivation.
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  2 +-
+>  arch/arm64/kernel/machine_kexec_file.c          | 15 ++++++++++++++-
+>  arch/arm64/mm/init.c                            |  5 +++--
+>  3 files changed, 18 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/PCI/endpoint/pci-test-howto.rst b/Documentation/PCI/endpoint/pci-test-howto.rst
-> index dd66858cde46..71975721cfd5 100644
-> --- a/Documentation/PCI/endpoint/pci-test-howto.rst
-> +++ b/Documentation/PCI/endpoint/pci-test-howto.rst
-> @@ -84,6 +84,22 @@ device, the following commands can be used::
->  	# echo 32 > functions/pci_epf_test/func1/msi_interrupts
->  	# echo 2048 > functions/pci_epf_test/func1/msix_interrupts
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 1058f2a6d6a8..36bb642a7edd 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1119,7 +1119,7 @@ Kernel parameters
+>  			It will be ignored when crashkernel=X,high is not used
+>  			or memory reserved is below 4G.
+>  	crashkernel=size[KMG],cma
+> -			[KNL, X86, ppc] Reserve additional crash kernel memory from
+> +			[KNL, X86, ARM64, ppc] Reserve additional crash kernel memory from
+>  			CMA. This reservation is usable by the first system's
+>  			userspace memory and kernel movable allocations (memory
+>  			balloon, zswap). Pages allocated from this memory range
+> diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
+> index 410060ebd86d..ef6ce9aaba80 100644
+> --- a/arch/arm64/kernel/machine_kexec_file.c
+> +++ b/arch/arm64/kernel/machine_kexec_file.c
+> @@ -48,7 +48,7 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+>  	u64 i;
+>  	phys_addr_t start, end;
 >  
-> +By default, pci-epf-test uses the following BAR sizes::
+> -	nr_ranges = 2; /* for exclusion of crashkernel region */
+> +	nr_ranges = 2 + crashk_cma_cnt; /* for exclusion of crashkernel region */
+>  	for_each_mem_range(i, &start, &end)
+>  		nr_ranges++;
+>  
+> @@ -64,6 +64,12 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+>  		cmem->nr_ranges++;
+>  	}
+>  
+> +	for (i = 0; i < crashk_cma_cnt; i++) {
+> +		cmem->ranges[cmem->nr_ranges].start = crashk_cma_ranges[i].start;
+> +		cmem->ranges[cmem->nr_ranges].end = crashk_cma_ranges[i].end;
+> +		cmem->nr_ranges++;
+> +	}
 > +
-> +	# grep . functions/pci_epf_test/func1/pci_epf_test.0/bar?_size
-> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar0_size:512
-> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar1_size:512
-> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar2_size:1024
-> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar3_size:16384
-> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar4_size:131072
-> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar5_size:1048576
+>  	/* Exclude crashkernel region */
+>  	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+>  	if (ret)
+> @@ -75,6 +81,13 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+>  			goto out;
+>  	}
+>  
+> +	for (i = 0; i < crashk_cma_cnt; ++i) {
+> +		ret = crash_exclude_mem_range(cmem, crashk_cma_ranges[i].start,
+> +					      crashk_cma_ranges[i].end);
+> +		if (ret)
+> +			goto out;
+> +	}
 > +
-> +The user can override a default value using e.g.::
-> +	# echo 1048576 > functions/pci_epf_test/func1/pci_epf_test.0/bar1_size
-> +
-> +Note: Some endpoint controllers might have fixed size BARs, or reserved BARs,
-> +for such controllers, the corresponding BAR size in configfs will be ignored.
-> +
-
-Silently ignoring the BAR size would create confusion. We should error out with
--EOPNOTSUPP if the BAR is a fixed size BAR.
-
+>  	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
 >  
->  Binding pci-epf-test Device to EP Controller
->  --------------------------------------------
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-> index b785d488c284..fda257e46920 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-> @@ -63,6 +63,7 @@ static struct workqueue_struct *kpcitest_workqueue;
->  struct pci_epf_test {
->  	void			*reg[PCI_STD_NUM_BARS];
->  	struct pci_epf		*epf;
-> +	struct config_group	group;
->  	enum pci_barno		test_reg_bar;
->  	size_t			msix_table_offset;
->  	struct delayed_work	cmd_handler;
-> @@ -76,6 +77,7 @@ struct pci_epf_test {
->  	bool			dma_private;
->  	const struct pci_epc_features *epc_features;
->  	struct pci_epf_bar	db_bar;
-> +	size_t			bar_size[PCI_STD_NUM_BARS];
->  };
+>  out:
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 524d34a0e921..28165d94af08 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -96,8 +96,8 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit;
 >  
->  struct pci_epf_test_reg {
-> @@ -102,7 +104,8 @@ static struct pci_epf_header test_header = {
->  	.interrupt_pin	= PCI_INTERRUPT_INTA,
->  };
->  
-> -static size_t bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 };
-> +/* default BAR sizes, can be overridden by the user using configfs */
-> +static size_t default_bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 };
->  
->  static void pci_epf_test_dma_callback(void *param)
+>  static void __init arch_reserve_crashkernel(void)
 >  {
-> @@ -1070,7 +1073,7 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
->  		if (epc_features->bar[bar].type == BAR_FIXED)
->  			test_reg_size = epc_features->bar[bar].fixed_size;
->  		else
-> -			test_reg_size = bar_size[bar];
-> +			test_reg_size = epf_test->bar_size[bar];
+> +	unsigned long long crash_base, crash_size, cma_size = 0;
+>  	unsigned long long low_size = 0;
+> -	unsigned long long crash_base, crash_size;
+>  	bool high = false;
+>  	int ret;
 >  
->  		base = pci_epf_alloc_space(epf, test_reg_size, bar,
->  					   epc_features, PRIMARY_INTERFACE);
-> @@ -1142,6 +1145,87 @@ static void pci_epf_test_unbind(struct pci_epf *epf)
->  	pci_epf_test_free_space(epf);
+> @@ -106,11 +106,12 @@ static void __init arch_reserve_crashkernel(void)
+>  
+>  	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
+>  				&crash_size, &crash_base,
+> -				&low_size, NULL, &high);
+> +				&low_size, &cma_size, &high);
+>  	if (ret)
+>  		return;
+>  
+>  	reserve_crashkernel_generic(crash_size, crash_base, low_size, high);
+> +	reserve_crashkernel_cma(cma_size);
 >  }
 >  
-> +#define PCI_EPF_TEST_BAR_SIZE_R(_name, _id)				\
-> +	static ssize_t pci_epf_test_##_name##_show(struct config_item *item,	\
-> +						   char *page)		\
-> +	{								\
-> +		struct config_group *group = to_config_group(item);	\
-> +		struct pci_epf_test *epf_test = container_of(group,	\
-> +					struct pci_epf_test, group);	\
-> +									\
-> +		return sprintf(page, "%zu\n", epf_test->bar_size[_id]);	\
-> +	}
-> +
-> +#define PCI_EPF_TEST_BAR_SIZE_W(_name, _id)				\
-> +	static ssize_t pci_epf_test_##_name##_store(struct config_item *item, \
-> +						    const char *page, size_t len) \
-> +	{								\
-> +		struct config_group *group = to_config_group(item);	\
-> +		struct pci_epf_test *epf_test = container_of(group,	\
-> +					struct pci_epf_test, group);	\
-> +		int val;						\
-> +		int ret;						\
-> +									\
-> +		ret = kstrtouint(page, 0, &val);			\
-> +		if (ret)						\
-> +			return ret;					\
-> +									\
-> +		if (!is_power_of_2(val))				\
-> +			return -EINVAL;					\
-> +									\
-> +		epf_test->bar_size[_id] = val;				\
-> +									\
-> +		return len;						\
-> +	}
-> +
-> +PCI_EPF_TEST_BAR_SIZE_R(bar0_size, BAR_0)
-> +PCI_EPF_TEST_BAR_SIZE_W(bar0_size, BAR_0)
-> +PCI_EPF_TEST_BAR_SIZE_R(bar1_size, BAR_1)
-> +PCI_EPF_TEST_BAR_SIZE_W(bar1_size, BAR_1)
-> +PCI_EPF_TEST_BAR_SIZE_R(bar2_size, BAR_2)
-> +PCI_EPF_TEST_BAR_SIZE_W(bar2_size, BAR_2)
-> +PCI_EPF_TEST_BAR_SIZE_R(bar3_size, BAR_3)
-> +PCI_EPF_TEST_BAR_SIZE_W(bar3_size, BAR_3)
-> +PCI_EPF_TEST_BAR_SIZE_R(bar4_size, BAR_4)
-> +PCI_EPF_TEST_BAR_SIZE_W(bar4_size, BAR_4)
-> +PCI_EPF_TEST_BAR_SIZE_R(bar5_size, BAR_5)
-> +PCI_EPF_TEST_BAR_SIZE_W(bar5_size, BAR_5)
-> +
-> +CONFIGFS_ATTR(pci_epf_test_, bar0_size);
-> +CONFIGFS_ATTR(pci_epf_test_, bar1_size);
-> +CONFIGFS_ATTR(pci_epf_test_, bar2_size);
-> +CONFIGFS_ATTR(pci_epf_test_, bar3_size);
-> +CONFIGFS_ATTR(pci_epf_test_, bar4_size);
-> +CONFIGFS_ATTR(pci_epf_test_, bar5_size);
-> +
-> +static struct configfs_attribute *pci_epf_test_attrs[] = {
-> +	&pci_epf_test_attr_bar0_size,
-> +	&pci_epf_test_attr_bar1_size,
-> +	&pci_epf_test_attr_bar2_size,
-> +	&pci_epf_test_attr_bar3_size,
-> +	&pci_epf_test_attr_bar4_size,
-> +	&pci_epf_test_attr_bar5_size,
-> +	NULL,
-> +};
-> +
-> +static const struct config_item_type pci_epf_test_group_type = {
-> +	.ct_attrs	= pci_epf_test_attrs,
-> +	.ct_owner	= THIS_MODULE,
-> +};
-> +
-> +static struct config_group *pci_epf_test_add_cfs(struct pci_epf *epf,
-> +						 struct config_group *group)
-> +{
-> +	struct pci_epf_test *epf_test = epf_get_drvdata(epf);
-> +	struct config_group *epf_group = &epf_test->group;
-> +	struct device *dev = &epf->dev;
-> +
-> +	config_group_init_type_name(epf_group, dev_name(dev),
-> +				    &pci_epf_test_group_type);
-> +
-> +	return epf_group;
-> +}
-> +
->  static const struct pci_epf_device_id pci_epf_test_ids[] = {
->  	{
->  		.name = "pci_epf_test",
-> @@ -1154,6 +1238,7 @@ static int pci_epf_test_probe(struct pci_epf *epf,
->  {
->  	struct pci_epf_test *epf_test;
->  	struct device *dev = &epf->dev;
-> +	enum pci_barno bar;
->  
->  	epf_test = devm_kzalloc(dev, sizeof(*epf_test), GFP_KERNEL);
->  	if (!epf_test)
-> @@ -1161,6 +1246,8 @@ static int pci_epf_test_probe(struct pci_epf *epf,
->  
->  	epf->header = &test_header;
->  	epf_test->epf = epf;
-> +	for (bar = BAR_0; bar < PCI_STD_NUM_BARS; bar++)
-> +		epf_test->bar_size[bar] = default_bar_size[bar];
->  
-
-It'd be more clean if 'epf_test->bar_size[bar]' always holds the actual BAR size
-i.e., one of default/user configured/fixed size. This will allow us to print the
-actual BAR size used for testing. For this, the initial size setting should
-happen in pci_epf_test_bind().
-
-- Mani
+>  static phys_addr_t __init max_zone_phys(phys_addr_t zone_limit)
+> -- 
+> 2.34.1
+> 
 
 -- 
-மணிவண்ணன் சதாசிவம்
+Sincerely yours,
+Mike.
