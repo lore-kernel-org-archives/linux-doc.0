@@ -1,123 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31113793A7;
-	Wed, 28 Jan 2026 16:50:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6976C31B825
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 16:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769619038; cv=none; b=Cfytg16PfFkyr91HmUUjvWKPoZu9YrwEL8lFri53F4IzH42Sgee5yx5m1osFXa6KJk8FfoJxDsDIwz2qKZ/gmd5SFO94pEuRXIis14AInJQkg7l0S45klSMGM87bWmljVP+LZNrI0Kxa1LczsFztQ+XdFWQj5eah1wZDs+vgPhs=
+	t=1769619360; cv=none; b=pKUDcckV4vEFZu97RKIbdz9b0zbIbi6MWppfqx6jPdYc0AqoSgp9a1qXk69CTTwycLUrVzZOvEO1QSNNQzU8tfND4TVCllmlhI4ggwzxTUrpHsVZRvxPj89B8t58tbdMSGp1aE1PLC2HAUeU2esDIj979hYpeqCQpMDsQL7t604=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769619038; c=relaxed/simple;
-	bh=yKLcYi21z0S4G3m+JtOZZ58rdI04u1dgDTVjrPTBONM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tSp4vV7nMjH9jXVXE+sffc6NqyUBQSkI+LsxecXpm6D4dlVjMJeiVaBdNmlpbeIyB6Mu4guCu+EfcXDc4vnpNy3Wu8PSkm92tAvdVfWEznx9zle2FX+QqKodm6UKgX4etXYhvsIAXLU+s/zrjaPzExNkVu6BYBDr1IxN1dfTbmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QNYwL1Ll; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769619360; c=relaxed/simple;
+	bh=+PrAcvg+5OdtTUavt01TFD/L57Tt7DDcfpHsvpOvros=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QBq2zNDM0+uTc+pRc7JRb3advQPyCXj3rd1L0ls851nMNUHjM/t7KKDuXOsW4bVM8UeQ6aBmTBdGp55pTeMP6FlZTBzWzZSNFECFH1IaLp/A6/L/LImrExJOVV37gGLc1+DuXNLvq9BraI9XY98rA7CuZJF0nw2xQCxgYxaSS8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nQY0pLE0; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QNYwL1Ll"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94F5AC116C6;
-	Wed, 28 Jan 2026 16:50:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769619038;
-	bh=yKLcYi21z0S4G3m+JtOZZ58rdI04u1dgDTVjrPTBONM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QNYwL1LloL0tgc/bNbJ4eTY7SP6VRNYxS21BwoJeOsGGSveE04ClXL0HOZ/+PDRnX
-	 FCf2Eg4BOqbx+rQ/c7VcgGslBcOlePMq7GI5oSPnfg7OgxUfFJvOVZWnEaS/vZ2Xb0
-	 iA8YYy7c8KI8IH9FHszPoQ2+0hoUZP4hE4+gn69yB//YUgiCiYlRtiPZZ4h+CZ9CSs
-	 8IUbbvq8LNjEwpFzj63GeIm7toBEilk6XFGTLdms7NmdMlBF5Zny79vYw4NoWikm9A
-	 jIAFIA34uV+sF9pHgazcC7oJm1x7EnJtAah71fcCrzD4MFumRQFoho9+5bzUGpNS92
-	 5NCEx/7eluGJQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vl8kW-0000000DBDS-33rZ;
-	Wed, 28 Jan 2026 17:50:36 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	bpf@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v2 25/25] docs: kdoc_re: fix a parse bug on struct page_pool_params
-Date: Wed, 28 Jan 2026 17:50:23 +0100
-Message-ID: <beef1362dbec07d025ce1fafa5d32b69cf30d705.1769617841.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1769617841.git.mchehab+huawei@kernel.org>
-References: <cover.1769617841.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQY0pLE0"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a7786d7895so48466175ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 08:55:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769619358; x=1770224158; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CJ5JUPDgasrNDJPGG/r08vgxAhhTjKNkbpybrz3kURc=;
+        b=nQY0pLE0nnde7DiGZvmZOge8Fv9Bt3YfyARhrE4FS1rnTDXxfADbPQW8y/lhNihN6z
+         CFxctGBPjiKUEWycMhxhOkHQ0DbggfLPLDPQLXMJf8Zv/ZDlfsOE0KZqPhD9QEEeODln
+         c6GzmIi5PtrhS/x70JwvXsaVfVNw1D+P3XekWFjsVvk5tiCu1okBSkODuhyDioGD7/Q6
+         EPT1VC/570ACiDHeUrvjqgkyx9fc+dMSERGmIk3QO1KPxHDcrkUfPmtu/eXM93wuIy1u
+         Lh0vAvwJWXzbgpThyRu7cMCYuMWdrsxceVzj4i3Mkqu1dZDkXaPx2oscz+CpGAbbajUh
+         frpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769619358; x=1770224158;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CJ5JUPDgasrNDJPGG/r08vgxAhhTjKNkbpybrz3kURc=;
+        b=iCWLRgj5szH6jTQGiB5zr8Pu+XMNzkAfDld01StaPoaHzVI8uCkpZuTcsudkg4fvZL
+         Axsws9aVeSF5JZd7mkvKYSXfCB5oWOgvanHAhY07c08qgX01cKIPkWrAhcgklcOrI4sP
+         Jp34NUn5/UOpw/L9/Pu3XzBi6aIU46NI1V4b093LGyj+YY+nSjNHw0G9hhSDTx9/4naS
+         /52p7gW+eXa3gcgfMhnLEz6qdVyFDgAGEWd+RZYu3rdCgAWvCCcnX4YspTwywSt4f+Wx
+         RBxUUsfLg+poU2QRrPKZrHdwk6gAWtg0OD1MzKidL9EPZy5ETTzr5JKx9MppeGq7U0C7
+         /wFg==
+X-Forwarded-Encrypted: i=1; AJvYcCUltJ28PtQtIBP/oaKOMqWqQTZjZ4KocPWlR1VWhhtSo0gOGw0KddR+2IR1vELCJA41xK9+4jElJDI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztR6qVHgiUatmN3pcRMHArCIELzOyG5Kh3rnjS1TL5o8DDzLwM
+	VtHaGRwkYST2FmlmoF9tOm7r75O6wvRp7YXuFOt+KrgwDs3w5YXZUAIM
+X-Gm-Gg: AZuq6aJffqgNZMOjo6o+Hml3BYoQO9DmBZ3f4c8s1+98Ve2auc5lQWYvTHVJhRYWepf
+	V/PX3wY2nnTIfDNTADYQWTZdJtD5QFVGhZhwRmh42SSjpwvfVvyepvoFhjOd8hXVagWi62Nc9dP
+	Nx7PZr/ugg97WqBPanqju7aqKtK4KqV4T3yWf8z7elXnBQ/f60Py94IkFFS/ePsr/CnhLRRK4F2
+	b6T59HzXqKZSAv+iNGKk3bg6KUwtTW1PWZZPRbDqSLhgkuIM0ZlGgQk2I09g2+FcAmqlmWADaP3
+	iWJwHlu0e/fGRJT5Rn/FUBFF35hqAj//CjGXTKww845dOj5BdWBTcKU5M0eViqreG0RnfC9ysLG
+	8f5Uk1TVzlllgpjZOUUssaVm6/+yJVp30qV53L+ScDtL2SDv6U7I2LL4Suy4+HRGDnxbbXbD6vi
+	mVkYVak3xoTSGQx4wzwt4u2ro1
+X-Received: by 2002:a17:903:2291:b0:29f:2ec4:83e5 with SMTP id d9443c01a7336-2a870d55636mr50468865ad.12.1769619357703;
+        Wed, 28 Jan 2026 08:55:57 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b7f32bfsm29327505ad.96.2026.01.28.08.55.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 08:55:57 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Wed, 28 Jan 2026 08:55:55 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>, nuno.sa@analog.com,
+	linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>
+Subject: Re: [PATCH v5 0/3] hwmon: Add support for the LTC4283 Hot Swap
+ Controller
+Message-ID: <02b7cf63-4f87-4cdd-8d9e-53a7d0e808a6@roeck-us.net>
+References: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
+ <eed64bf1-93af-4b36-adf5-1476cb40edbb@roeck-us.net>
+ <382e259ea3835ffbd2be9c36b529875f5a43f38b.camel@gmail.com>
+ <8efa188b-8b91-479c-ac10-3fba5b0cbb5f@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <8efa188b-8b91-479c-ac10-3fba5b0cbb5f@roeck-us.net>
 
-The struct page_pool_params definition has a private
-definition on it:
+On Wed, Jan 28, 2026 at 02:04:35AM -0800, Guenter Roeck wrote:
+> On 1/28/26 01:44, Nuno Sá wrote:
+> > Hi Guenter,
+> > 
+> > On Tue, 2026-01-27 at 09:39 -0800, Guenter Roeck wrote:
+> > > Hi Nuno,
+> > > 
+> > > On 12/23/25 04:21, Nuno Sá via B4 Relay wrote:
+> > > > This is v3 for the LTC4283 how swap controller. Main change is that I'm
+> > > > now using the auxiliary bus for adding the GPIO device (done depending
+> > > > on FW properties).
+> > > > 
+> > > > Similar to the LTC4282 device, we're clearing some fault logs in the
+> > > > reset_history attributes.
+> > > > 
+> > > 
+> > > I ran the patch series through an AI review. Results are below.
+> > > Please take a look.
+> > > 
 
-    struct page_pool_params {
-	struct_group_tagged(page_pool_params_fast, fast,
-		unsigned int	order;
-		unsigned int	pool_size;
-		int		nid;
-		struct device	*dev;
-		struct napi_struct *napi;
-		enum dma_data_direction dma_dir;
-		unsigned int	max_len;
-		unsigned int	offset;
-	);
-	struct_group_tagged(page_pool_params_slow, slow,
-		struct net_device *netdev;
-		unsigned int queue_idx;
-		unsigned int	flags;
-    /* private: used by test code only */
-		void (*init_callback)(netmem_ref netmem, void *arg);
-		void *init_arg;
-	);
-   };
+Another run through AI below. Please let me know if there are further inaccuracies.
 
-This makes kernel-doc parser to miss the end parenthesis of
-the second struct_group_tagged, causing documentation issues.
+Thanks,
+Guenter
 
-Address it by ensuring that, if are there anything at the stack,
-it will be placed as the last part of the argument.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_re.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+commit 82433332ce165903d56fae327ced975aeef30475
+Author:     Nuno Sá <nuno.sa@analog.com>
 
-diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
-index f49a568b9155..8d4cfdf8f479 100644
---- a/tools/lib/python/kdoc/kdoc_re.py
-+++ b/tools/lib/python/kdoc/kdoc_re.py
-@@ -206,6 +206,9 @@ class NestedMatch:
-         """
- 
-         stack = []
-+        start = 0
-+        offset = 0
-+        pos = 0
- 
-         for match_re in self.regex.finditer(line):
-             start = match_re.start()
-@@ -255,6 +258,11 @@ class NestedMatch:
-                         yield start, offset, pos + 1
-                         break
- 
-+        # When /* private */ is used, it may end the end delimiterq
-+        if stack:
-+            stack.pop()
-+            yield start, offset, len(line) + 1
-+
-     def search(self, line):
-         """
-         This is similar to re.search:
--- 
-2.52.0
+hwmon: ltc4283: Add support for the LTC4283 Swap Controller
+
+Adds support for the LTC4283 Hot Swap Controller I2C interface.
+
+> diff --git a/drivers/hwmon/ltc4283.c b/drivers/hwmon/ltc4283.c
+> new file mode 100644
+> index 000000000000..402b53f81548
+> --- /dev/null
+> +++ b/drivers/hwmon/ltc4283.c
+
+[ ... ]
+
+> +static int ltc4283_read_power_word(const struct ltc4283_hwmon *st,
+> +				   u32 reg, long *val)
+> +{
+> +	u64 temp = (u64)LTC4283_ADC1_FS_uV * LTC4283_ADC2_FS_mV * DECA * MILLI;
+> +	unsigned int __raw;
+> +	int ret;
+> +
+> +	ret = regmap_read(st->map_word, reg, &__raw);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * Power is given by:
+> +	 *     P = CODE(16b) * 32.768mV * 2.048V / (2^16 * Rsense)
+> +	 */
+> +	*val = DIV64_U64_ROUND_CLOSEST(temp * __raw, BIT_ULL(16) * st->rsense);
+
+Does this overflow *val on 32-bit systems if the calculated power exceeds
+2000 Watts (approx 2^31 microWatts)?  The intermediate calculation is
+u64, but the result is assigned to a signed long.
+
+[ ... ]
+
+> +static bool ltc4283_word_reg(struct device *dev, unsigned int reg)
+> +{
+> +	switch (reg) {
+> +	case LTC4283_SENSE ... LTC4283_ADIO34_MAX:
+> +		return true;
+> +	default:
+> +		return false;
+> +	}
+> +}
+
+LTC4283_SENSE is 0x41 and LTC4283_ADIO34_MAX is 0x40.  Does this invalid
+range (start > end) effectively disable access to the word registers
+via st->map_word?
+
+> +static const struct regmap_config ltc4283_word_regmap_config = {
+> +	.name = "ltc4283-16",
+> +	.reg_bits = 8,
+> +	.val_bits = 16,
+> +	.max_register = LTC4283_ADIO34_MAX,
+> +	.val_format_endian = REGMAP_ENDIAN_BIG,
+> +	.writeable_reg = ltc4283_word_reg,
+> +	.readable_reg = ltc4283_word_reg,
+> +};
+
+Does max_register = 0x40 prevent access to the sensor value registers
+(LTC4283_SENSE at 0x41 and above) which are intended to be read as
+words?
+
+commit 5998c620fbd8915340a4b92635c9489a91fae567
+Author:     Nuno Sá <nuno.sa@analog.com>
+
+gpio: gpio-ltc4283: Add support for the LTC4283 Swap Controller
+
+Adds GPIO support for the LTC4283.
+
+> diff --git a/drivers/gpio/gpio-ltc4283.c b/drivers/gpio/gpio-ltc4283.c
+> new file mode 100644
+> index 000000000000..fa0c106d4fac
+> --- /dev/null
+> +++ b/drivers/gpio/gpio-ltc4283.c
+
+[ ... ]
+
+> +#define LTC4283_PINS_MAX			8
+> +#define LTC4283_PGIOX_START_NR			4
+> +#define LTC4283_INPUT_STATUS			0x02
+> +#define LTC4283_PGIO_CONFIG			0x10
+> +#define   LTC4283_PGIO_CFG_MASK(pin) 
+> +	GENMASK(((pin) - LTC4283_PGIOX_START_NR) * 2 + 1, (((pin) - LTC4283_PGIOX_START_NR) * 2))
+> +#define LTC4283_PGIO_CONFIG_2			0x11
+> +
+> +#define LTC42823_ADIO_CONFIG			0x12
+
+This isn't a bug, but should this be LTC4283_ADIO_CONFIG instead of
+LTC42823?
+
+> +/* starts at bit 4 */
+> +#define   LTC4283_ADIOX_CONFIG_MASK(pin)	BIT((pin) + 4)
+> +#define LTC4283_PGIO_DIR_IN			3
+> +#define LTC4283_PGIO_DIR_OUT			2
 
