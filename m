@@ -1,132 +1,206 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6ECE34F48C
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 18:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769624539; cv=none; b=chXjb0jdgjs6uDJ5p8yxOwQEv7Xzy8ZSEY+xMjoTlbYGwsJObgy7FPCmEarhpuTX1zlEZ34y99QAVUdZZctEhBaNUILE+c3CQfxfAE7aD2b64pi+38YugLPeVO7in/pb1BfN5lx7gJWD6JBXDrVj2flBu29xvTnDLVbVlawYRBY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769624539; c=relaxed/simple;
-	bh=RJR1H+iu/kZxlNPuw++tzsBqS5Zwmg3D1lpiK9TTT90=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XC8hkpXivkVz9LxMObL6mKaoMzacaj1JveT5bhpDhB83NGKW5SYCiz+7DXz8s1hKov8jOFMEnhtbi6XISkD/lDMOLcNpC1m3xHeWWamBLdWmLiG+SGKOLGe8TYRw8HK2r4CnO1cdGlnt8nWyi5k+hpQ2on7MCx4xpfOkJIAuxqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V+YfU063; arc=none smtp.client-ip=74.125.82.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F72372B32
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 18:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769626481; cv=pass; b=NugXXhrYTrl+e6g0E+4Ngq8hJCR4PpsQGlz34f6wjvYf4+HgbQ1PwbZ3CPo5zLfYLedtNlnfiThavNpIF4vgi5xzkdDrqDSXABbQDohv0oBD4b5Y/ysyujEFiSDIzutibie5ovr+ET1659kJofEF/Ktful7pOhe85QN5jrpyab8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769626481; c=relaxed/simple;
+	bh=Iv/R1VrCmh7DPMnIVbKr+xqiK5DjA15w78PbjXQO200=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jfHraDtvhYQuuhwHnaMBbZXbh6Uoq8LNLwUzI9XvZWePEiiQR0e340WxI5PirHqUfcx+RREGQ/VQMeT2EXpjetQGawJrDJ3xIjCmnmbnA+AHhDvuJIcpGiS9yqPgwU0E1d3uaoxVpytCdhtH3U5djyes5qZtYDL51GQN7sJwMBk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMqWeIwI; arc=pass smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V+YfU063"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2b6b0500e06so233836eec.1
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 10:22:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMqWeIwI"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-501506f448bso789301cf.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 10:54:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769626479; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gB3VlDYxdPp9eORsUKBCH1c7D2f73A04pvWzg3BVVyO8v1LkTVlO828zth5H/1o/Dh
+         n3RgzgPsa1QrqPJNu1bUb/MXuYk20u7d0hkWXveJyb/4PKzzEtD5Dlf1tNyxjp8ryu2e
+         RO1A//B2Ts34dlm3gQQQfvFgswDdW1871Xkfah6rwgD91JWaL/g+to/rntvQgH/a2v9r
+         aLXMcYTMW7p9S8amr90grgT2CeRMw/yA1TEMw+PJBBD8a1ikngPp76HbTI1+wFZyjEla
+         ljuKTrqVEAgeP25jeKP+3CdcEnhs08JPkGBDkBDAzYtjYSncJN9PJ96DWn94AtoECvpA
+         jHoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=EQD+zhNe2TBSVN4C+gGjdPZJybKoBQIJM5cDvqByP90=;
+        fh=rDf0HYeK/A0sGdKwqydD4TiScfxfu42Wtz0WboZiXDU=;
+        b=TRO5+8pcE8YQCKhQeOvGmYl5ZOkDiMSxuSSjJk/cyGWQ05WsNNBR43OIaZP2fqK/ug
+         yvJNWf3cslq+zCdLZDEkRWU0LxvzO9WVlIoRnSJMly9DK/DPqj7b8QB9wVZoHJDtvZUW
+         7/6x/EqD/xsl2iqgwW1UFprzStHCpDdvlm0pNYwzkE67/ABea1e0GkgT6O935xDkH14l
+         RCIvjscRugEuZascpu+z6syW151gdApo7BZtSzr39FuKmV5oiZ33NSFVPy3uLlnCtWw9
+         U974X9YpX4KuKQ50pKcSd7Pg/6D3us8h6Ogqggiz9nxCDGe8vU95Yl9v5F2Ux+Yk/8NH
+         boAg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769624537; x=1770229337; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mcVqp2rUpPp/VVSCM0w6MWN1dKIoJLmI0hVnpk6TA9U=;
-        b=V+YfU0638w7bUQ6iueg7defpOlgyBmFFgB8fjzOl7BYashOZ92kuqWX+GinYtb0Ggw
-         +/nVqDKPSPSiLP+DAdbm4fHBPSmFI9duQJAIk3K0EMibkUukFpqIPXuPn7832rxlN/9L
-         U8hX4miVIAwUbwXmiQGwryjWdX5fMgGPKsT1uJ3VJ4lMKt8gwyEzqP7x2u6eITX5dEQo
-         ZDjz0WmeO5Ajk//zlgz0kIn5Z1r+eHLMdZ6nLxIOIKZdIMu06WpsnxP37EkeJx/bT0Pc
-         hPGo3FfDRz1RiFWXwLu1Q/oU+jE3j11xu0OEx7fuqWX7g8GrLap7OoQdYIAVN6wlkeFt
-         9K9g==
+        d=gmail.com; s=20230601; t=1769626479; x=1770231279; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EQD+zhNe2TBSVN4C+gGjdPZJybKoBQIJM5cDvqByP90=;
+        b=nMqWeIwIAlKYcQIFhefA7zNtavrmv2uZ1Rq3jpT/gQrF4rV7DhVyyMlHiMWHWjMLBC
+         dkXaLYPg57lLfsY3ZY8e0H8v4bvI/UCaEew+WU/YHJQuVZF5765U3AN+toFuivAuYhYy
+         yblY7vDQ50Q4nsFIpY9Mto3Ehw0CGGg1kQwpiyJp73rAHafr+u4GfnCSYTsAxeA9bZPE
+         dN2GVo80uQViIUaIyHRJPeoMblJGhyzc6DmkWyFCXcXY1PjPTOH26nV3AokrrDa5y679
+         oE5oj4IfSJ65MBZ1Y2iPt/1OrlufxJRgRk13ygoW1CzpqiV07uTW5U+vrfgsIbits/cX
+         StSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769624537; x=1770229337;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mcVqp2rUpPp/VVSCM0w6MWN1dKIoJLmI0hVnpk6TA9U=;
-        b=StS9J1/8ROiP/2JqPGs12LeKPGZL8nm7UCqhuwbl0FtkRfcta/eAF2GrQvVuJt+9xc
-         yCpPZU6zW4jzgt3+IBhEr1jBr/RkyFL3QIJ45ygRkTJ5vwY6q35BzVzA70ogwghWeC2o
-         5LRIe5EsXBOHIbSbGUE96M5+s/mlPsIpdqZrC2HhWM2PAvYzUkX9jrg1ojySYmc7Mqu1
-         TTHIYC5USM1u2HmzUy5neS+XIQsavXVic5ypcq8XBj/GQn7Q7nMI7Dj2BepR7vje+rxj
-         nR6C8rWA4gdkwB7eUTGZyzJ0h8+7ZhgojjMwsQp4wf+FZfMZRDelqVhcfipHrlO++lDr
-         UjMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWSZtLSmtOUvBttVjFu8eKqCMEqg5TWQthCN1Q+TapqBg+FIXonPL3xT4n+/3biIhdDTidU+yvIXpU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynaSvCqa3OUHXwtMX0gADY1xw6MjponL1dVANsurrC+4p4qCJA
-	dgatDdKjq58QLAMlBAy3etdM+PZt4pW67qr3+rt906e6I4m5B7QJAt4W
-X-Gm-Gg: AZuq6aIrn8WO2SEQjbxltXbq5gXmy4tcdxjvfOFu3cNrYcpc1WMN3aLN20BxrztpvSF
-	Ca5YOPfaH19zI4M4J6V4I6MnFi4tkq7hIV3BqFQWXNWW8sG56XqUH6Zh+m4Zy6hnjtSXQq3fkEH
-	l7GfjrfocBkbm15ytL+6ULXIQZQMS4V2IoFnnmH9YBqrZeqoz72P3TGxRBemC+FZOaUP6fUJ0MX
-	QCHtQqttsoZQP9QoTrnpsy8tTCZBKVHwZ7fNZ5uK5bm3L+TGOT0nW5YxBgl+fsMKRKnbVxpfgHI
-	qNrU+0vaOIcrL9gp0adCGZlwiyGV7lqBzcr6iLpmL4/mGLA1arFEJ4hXV/HoP+e/yH5Vy8ylm0n
-	Gd6UyDAvwd7gJ8bgRvOLBc+X9X0YvwsPbPdPlG56swJwZq6ToxjiK0uP+O24w1UTuEziqHQma9U
-	PG851fZJW/j4tHGx1U1b4J0kAs
-X-Received: by 2002:a05:7300:2314:b0:2ae:59d3:46d3 with SMTP id 5a478bee46e88-2b78d9d54ccmr4405093eec.25.1769624536911;
-        Wed, 28 Jan 2026 10:22:16 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a16cfaa8sm3543912eec.4.2026.01.28.10.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 10:22:16 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 28 Jan 2026 10:22:15 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Nuno =?iso-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>
-Subject: Re: [PATCH v5 0/3] hwmon: Add support for the LTC4283 Hot Swap
- Controller
-Message-ID: <e2208717-0f47-48d6-9cf2-20196e13a3d0@roeck-us.net>
-References: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
- <eed64bf1-93af-4b36-adf5-1476cb40edbb@roeck-us.net>
- <382e259ea3835ffbd2be9c36b529875f5a43f38b.camel@gmail.com>
- <8efa188b-8b91-479c-ac10-3fba5b0cbb5f@roeck-us.net>
- <02b7cf63-4f87-4cdd-8d9e-53a7d0e808a6@roeck-us.net>
- <e5b775065b92cada730f42a3d60546700ec46db9.camel@gmail.com>
+        d=1e100.net; s=20230601; t=1769626479; x=1770231279;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EQD+zhNe2TBSVN4C+gGjdPZJybKoBQIJM5cDvqByP90=;
+        b=EMe+5nRuxAQn6TzWS8o/J0uESJ0u1LBPc/oowjnVTb51xwBX22bz+ckqRvwV8VNBQn
+         U6EXDyaURvix7h1YJqR6PHDOECXZYxNqZuL9mkQgSwbn5C/oKbbAsue6cq4w059EYd4/
+         3SRKIGxhDDL7jXOYU1VT8xnZqq3SCIsjFi9mLy9NuNLMYtFmpixJ02iSVyMPtyQnjCgJ
+         YwsI7ebQT9+ubuX6PtqSeQvRdnBjh24dlc5WuJhspxIJdXBtYtZnNAwrk15T9FWdlM3/
+         DIhNv5rORnkib/40CHnAtpPrdQsFqAYNhxKwdXzKgRYVYleRgVX4sBrUzAgfEoXM3k0X
+         +dqw==
+X-Forwarded-Encrypted: i=1; AJvYcCV46sLSgTc1Za0XCMD5Huy0RJoJ7RnY33/0ycDrwb33l+ce9PsAJf8EWyIuv0NHZWa2vhcsawhoea4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUd9+RaYxKND9yhJGwuWcIw2AI+U/NBJY7v3MXRnjP77iSw3DW
+	DLqBuM9Bb0O2Zd7bRbST9oors2HP0p5ezVRPBwP7EVG4eQIq7wfSlvCIrecjrnE/OezPdMqSUOW
+	3EAnnwUNZ3EHXJ8ioDqVd8yAzzrtz6fo=
+X-Gm-Gg: AZuq6aJjTj/U0fyHHFJczdL/pn9ZaIE+YlkD6xRV+ZiOwiAITb1Od3PvfPKoqI8KRky
+	BANDLN/fGYFWSc4Eje1MM1tii8mv+Kp/Nyfo6VADN5XbwoDOIlo/3oWb9SJsiJ+g9FROoTcr5Ga
+	k8lHnGQ2LD04LuVYnO6LNk3ElNkIU8o+feOsCg/6EoH6iw17BrWNq8oBcYOV/o3Mpwr/Fi7o/SB
+	q/0XhZ1hvpBEcJGpd24T9VWVqn4bAul08yEturi8la8zksP3VuxPCAv78rPIenPh3rWBw==
+X-Received: by 2002:a05:622a:1b91:b0:502:9b1f:ca4f with SMTP id
+ d75a77b69052e-5032fc14d15mr83239651cf.84.1769626478464; Wed, 28 Jan 2026
+ 10:54:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e5b775065b92cada730f42a3d60546700ec46db9.camel@gmail.com>
+References: <20260116125831.953.compound@groves.net> <20260116185911.1005-10-john@jagalactic.com>
+ <20260116185911.1005-1-john@jagalactic.com> <0100019bc831c807-bc90f4c0-d112-4c14-be08-d16839a7bcb6-000000@email.amazonses.com>
+ <aXoarMgfbL6rh6xi@groves.net> <CAJnrk1bvomN7_MZOO8hwf85qLztZys4LfCjfcs_ZUq8+YBk5Wg@mail.gmail.com>
+ <0100019c05067b3b-b9ab2963-ace5-481f-8969-c11f80a74423-000000@email.amazonses.com>
+In-Reply-To: <0100019c05067b3b-b9ab2963-ace5-481f-8969-c11f80a74423-000000@email.amazonses.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 28 Jan 2026 10:54:26 -0800
+X-Gm-Features: AZwV_QgXH_eGEFbh8Ufwurz5i77r71GDNcEX490YVb0oLl5TmaOznNxDkpKSA1U
+Message-ID: <CAJnrk1Y6HayeS-C3sOEOc_CgaS_K=SedZNpHASAXAkgZyp3Xsg@mail.gmail.com>
+Subject: Re: [PATCH V5 09/19] famfs_fuse: magic.h: Add famfs magic numbers
+To: john@groves.net
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 28, 2026 at 06:07:24PM +0000, Nuno Sá wrote:
-> > [ ... ]
-> > 
-> > > +static int ltc4283_read_power_word(const struct ltc4283_hwmon *st,
-> > > +				   u32 reg, long *val)
-> > > +{
-> > > +	u64 temp = (u64)LTC4283_ADC1_FS_uV * LTC4283_ADC2_FS_mV * DECA * MILLI;
-> > > +	unsigned int __raw;
-> > > +	int ret;
-> > > +
-> > > +	ret = regmap_read(st->map_word, reg, &__raw);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	/*
-> > > +	 * Power is given by:
-> > > +	 *     P = CODE(16b) * 32.768mV * 2.048V / (2^16 * Rsense)
-> > > +	 */
-> > > +	*val = DIV64_U64_ROUND_CLOSEST(temp * __raw, BIT_ULL(16) * st->rsense);
-> > 
-> > Does this overflow *val on 32-bit systems if the calculated power exceeds
-> > 2000 Watts (approx 2^31 microWatts)?  The intermediate calculation is
-> > u64, but the result is assigned to a signed long.
-> > 
-> 
-> I'll have to double check this one but IIRC 2000W is not a realistic value for
-> these applications. One thing that could overflow is power_max given that the default
-> register value is 0xff but we do write the proper max value depending on
-> rsense (I actually need to check how will this behave in case we use a default
-> rsense value - ie with no DT property).
-> 
+On Wed, Jan 28, 2026 at 6:33=E2=80=AFAM John Groves <john@jagalactic.com> w=
+rote:
+>
+> On 26/01/27 01:55PM, Joanne Koong wrote:
+> > On Fri, Jan 16, 2026 at 11:52=E2=80=AFAM John Groves <john@jagalactic.c=
+om> wrote:
+> > >
+> > > From: John Groves <john@groves.net>
+> > >
+> > > Famfs distinguishes between its on-media and in-memory superblocks. T=
+his
+> > > reserves the numbers, but they are only used by the user space
+> > > components of famfs.
+> > >
+> > > Signed-off-by: John Groves <john@groves.net>
+> > > ---
+> > >  include/uapi/linux/magic.h | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+> > > index 638ca21b7a90..712b097bf2a5 100644
+> > > --- a/include/uapi/linux/magic.h
+> > > +++ b/include/uapi/linux/magic.h
+> > > @@ -38,6 +38,8 @@
+> > >  #define OVERLAYFS_SUPER_MAGIC  0x794c7630
+> > >  #define FUSE_SUPER_MAGIC       0x65735546
+> > >  #define BCACHEFS_SUPER_MAGIC   0xca451a4e
+> > > +#define FAMFS_SUPER_MAGIC      0x87b282ff
+> > > +#define FAMFS_STATFS_MAGIC      0x87b282fd
+> >
+> > Could you explain why this needs to be added to uapi? If they are used
+> > only by userspace, does it make more sense for these constants to live
+> > in the userspace code instead?
+> >
+> > Thanks,
+> > Joanne
+>
+> Hi Joanne,
+>
+> I think this is where it belongs; one function of uapi/linux/magic.h is a=
+s
+> a "registry" of magic numbers, which do need to be unique because they're
+> the first step of recognizing what is on a device.
+>
+> This is a well-established ecosystem with block devices. Blkid / libblkid
+> scan block devices and keep a database of what devices exist and what
+> appears to be on them. When one adds a magic number that applies to block
+> devices, one sends a patch to util-linux (where blkid lives) to add abili=
+ty
+> to recognize your media format (which IIRC includes the second recognitio=
+n
+> step - if the magic # matches, verify the superblock checksum).
+>
+> For character dax devices the ecosystem isn't really there yet, but the
+> pattern is the same - and still makes sense.
+>
+> Also, 2 years ago in the very first public famfs patch set (pre-fuse),
+> Christian Brauner told me they belong here [1].
 
-I have been wondering if I should introduce a hwmon_power64 sensor type, similar to
-hwmon_energy64. WDYT ?
+Hi John,
+
+Thanks for the context. I was under the impression include/uapi/ was
+only for constants the kernel exposes as part of its ABI. If I'm
+understanding it correctly, FAMFS_SUPER_MAGIC is used purely as an
+on-disk format marker for identification by userspace tools. Why
+doesn't having the magic number defined in the equivalent of
+blkid/libblkid for dax devices and defined/used in the famfs
+server-side implementation suffice for that purpose? I'm asking in
+part because it seems like a slippery slope to me where any fuse
+server could make the same argument in the future that their magic
+constant should be added to uapi.
+
+For Christian's comment, my understanding was that with the pre-fuse
+patchset, it did need to be in uapi because the kernel explicitly set
+sb->s_magic to it, but with famfs now going through fuse, sb->s_magic
+uses FUSE_SUPER_MAGIC.
 
 Thanks,
-Guenter
+Joanne
+
+>
+> But if the consensus happens to have moved since then, NP...
+>
+> Regards,
+> John
+>
+> [1] https://lore.kernel.org/linux-fsdevel/20240227-kiesgrube-couch-77ee2f=
+6917c7@brauner/
+>
+>
