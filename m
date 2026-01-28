@@ -1,326 +1,372 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2747C25A2B4;
-	Wed, 28 Jan 2026 16:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DC0309F1B
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 16:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769618121; cv=none; b=G/o+DimRpjTuAtxHmA83DySWQA6txuAzwY1pVd88ZJ4ndni5F1uiIoDUsiH7o7cynsunYOciigaxWg/PpDS9Kl0OO16vKM+0RpTr5RypbmaBR53PBFsVbeYAxaRCw5P0MJUQUGjQVowzUvwyp4sFAtPBuzBWOWwa+472yRIywn0=
+	t=1769618327; cv=none; b=BH883rFQFGIi+/s+U9f1HWcD9bqrhiQG95qxG7qE6p+dz5ze1P9Oqzt3oh5gz7B/CkcLknAgPBqAdSQDZwLj2/uFxXHA1ruzwxTuXovlt7PhDuXHN0S8Q39sCDgRf7y5vADgS1Wz3DoFgm3UVGpttiUbTdzmypLAar+gyxXI27A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769618121; c=relaxed/simple;
-	bh=U01bh091G9PLI+JuRdjQCRyOdlCQOW6XHF7fSgDDJgs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iSwmbxJjzwivG2Nt8AERDOu8LTo0fWyl6oAqr17KjwqleBfMNOGr/GO+rDzobSq5HsKl8ZvpwY6DhgphUZmdAFEBNe7pzbB5/DRfWO65WGNLOlRCAUTZlqhyGEeuAvPaDiw+v3P68jpRo5hMsmXkBYZTtKkbOIxRlxpHBM0bTqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e1B+nrsG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769618327; c=relaxed/simple;
+	bh=oYpywg6wSKKfqKMO9drAZK+XQSP+GwNWRgfyOXjs4ME=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PbHh2Rb2qxENQA35wM2DHmzd3/Ik8g+D6WAW4kINAwFxY1906hToyEr493ohh/89Ry53Mm86W9KtIYcAnDn8VsYss+8tZGj5vXyezI5yoXpTlNdJtMiUn84i2pvi9YqebYG5P/VvvuywJXpUvnaGKLtl6ZIio92T+3Mw5I4vlKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ARRu21ty; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=XmAY1Iju; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e1B+nrsG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90CF6C4CEF1;
-	Wed, 28 Jan 2026 16:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769618120;
-	bh=U01bh091G9PLI+JuRdjQCRyOdlCQOW6XHF7fSgDDJgs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e1B+nrsG3vVlVJnHV+I3V0o5U9JnlE2GaTjQDUYAkYvIW8LyVmausieXdfIOcruaR
-	 24XD5xNIYnFHarj2EWroU2BuKjGk8Fbzqi2QpNRX+9tn262gIbe1LanT+DmHfSg+BY
-	 jBrsPow7QNK6K/NLaqeDQfVuhfimGKewsWNMZM4yLdIV4IvDK47tWXj1qiaURyUm+x
-	 869On/fz5Sc3+YbGLlNRi0WjBxsfLcP+1cHriTDzXFwCdvYrereUFh8n3AMrpl2aQ8
-	 ORHa3RrH+ZYWdFyUItsLant1FcOTMKY9jsy8WrVMPoD8VR10jJZ4uVyPprCwQBk64v
-	 sl7E3Pc0Sp+Lw==
-Date: Wed, 28 Jan 2026 17:35:15 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Frank.Li@nxp.com,
-	dlemoal@kernel.org, Koichiro Den <den@valinux.co.jp>,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Allow overriding default
- BAR sizes
-Message-ID: <aXo6w4AM-UgoyICd@ryzen>
-References: <20260123180747.827357-2-cassel@kernel.org>
- <yowgralxd7i55p63wqc7jxffwz5iqtrlztndpqu5yqeavhtscn@ajwd6r27ra6a>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ARRu21ty";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="XmAY1Iju"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1769618325;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vvwUtKzwHdNf28qH621RfDijiiFJTykMerMvhScCt2E=;
+	b=ARRu21tyqu5DOTFbFXrvmWpky3yzHdNxZtAJLJJmXMF60E84wCF7PsyJnDHIf3tDKocwpm
+	ISSjSVEJNYr0j96GuO0DwFv1NYlgY3T7AvHiS+q1/YerdRHxt6bd2unABLJZio8eJsN9Jl
+	OX943DxrOmMEIfb/pP1slBxkAYqPduU=
+Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
+ [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-202-uXUmA3hMOCKmX1o6isJLHQ-1; Wed, 28 Jan 2026 11:38:43 -0500
+X-MC-Unique: uXUmA3hMOCKmX1o6isJLHQ-1
+X-Mimecast-MFC-AGG-ID: uXUmA3hMOCKmX1o6isJLHQ_1769618323
+Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-4046864f5e7so29905fac.0
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 08:38:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1769618322; x=1770223122; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vvwUtKzwHdNf28qH621RfDijiiFJTykMerMvhScCt2E=;
+        b=XmAY1IjuKA9IaI8BQaXAdj2QtlWaeyod/ftYka/ANmqGO3kgKmtQaqqCRGoDrdStJw
+         CsEFsuPMJLA/g2VFpYMfKVYcnIHxMtU25+YK9H+TqtXIg40y5C2vbq9B8g0eVlensS6O
+         o1Bh+0SDCU0xQcTUMavTlDD/GeVUg1yEw3sSO8rkIy94gsawxXyVYugE7hR+sk48CA9e
+         7KdvCXfcq3eWvzAH7ByTyCA5jubRteUYW4LExVUUyMf6bugLdLP0BTKkqSlVYTQhryVs
+         1bfplfWfm2JHxMHcrYwgOHslczBg/zUcZEHo4OdJ38lqd2iE9O96raguCkhxpzUYMoes
+         v9ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769618322; x=1770223122;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vvwUtKzwHdNf28qH621RfDijiiFJTykMerMvhScCt2E=;
+        b=kPjf0SFqaJpYzgNm+71vgvpxs0Y7k1Kgnoubc9d18E6o0cFd6JJGC82emL48jd5TBN
+         4wR5XZnhFyEq60K3tEd9Pd18IKNIIqBJdlKfSDkQ6wa4mA+07VjDVJFQwRZvQdVfQQuU
+         aeKWKanSIFQqxRFkawjc7FQMUXi+DHQCH8yH/lHFIrl4od9SA7Nfkfn2aNEVLZCFAGfg
+         b9sTNqpzScfsUs4B4Or4Emge2NoaHoSiBiecwh+3n5BKb/eQeD6CCHd1a6qBoDxNTBdU
+         DTpgcCWmINqD51Ijj5F/Nx45qS1ni+067t68/kKeYh22BEQxR9RaZnsCXsQYytPwIMWH
+         +5TA==
+X-Forwarded-Encrypted: i=1; AJvYcCWnATH5CcpMNmg4Z1VY1u6Fe6eykPs9D4kRsMgo/96fFkdhHsIwfyKa5nPeuVb+1YCgJTxaf9uqMC4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxipy3xJRfc+mDOOOusPwQSVnayvpR4gIv1vVtpm/kR0OQ2yPWA
+	w4oGhgxcwbQaA2pRIkNPBZsGVLL4AN8L7smRz2YUG5xukNOkYgwUs8VTJ2CsyJgM7mP0T94kgj9
+	bOK3jd1BVK8fxWMfebV5WQqZKCQ60EZ/fW2oFvCR8q1xOJFjosyHuDb+OhE9OnQ==
+X-Gm-Gg: AZuq6aL5zYqwm6hg87fnbsgN7IbbaHvs4qdpLh2ctN55zg/wGYHOi4EfYSeCsW+GeId
+	2/fBL1EYu9w/knggoqQcj2/pv/R1oNBkMsNteMhmOBVzBBgIbt7lypiBCGBE7igrH5jUepXn0Zw
+	uctb7e46ZPXbRUKFtrfg7f7/yQhhV+t+4Aob339MBLHLiIyoPKNfX4y9W+PlBmBCeGMJ+z+lXxB
+	fSZ02qzOR7TGzyMMadazJKSKObWLXX9Yp3rlVyojmOwjsbdskt8iO6/tBWg07ibBAD6erFuF91i
+	UCztjAAJSjMWS7MaOFOA8Vcurr4eGEG1muRp0v/v7nfg4RSSjyHk/OHRIJ8YftpSl7dj5d0UX9Y
+	RfCgTq4Emg/n2tKrD3Q==
+X-Received: by 2002:a05:6870:6f03:b0:3ec:3aa1:84d2 with SMTP id 586e51a60fabf-4093fc716demr3763717fac.11.1769618322460;
+        Wed, 28 Jan 2026 08:38:42 -0800 (PST)
+X-Received: by 2002:a05:6870:6f03:b0:3ec:3aa1:84d2 with SMTP id 586e51a60fabf-4093fc716demr3763682fac.11.1769618320931;
+        Wed, 28 Jan 2026 08:38:40 -0800 (PST)
+Received: from ?IPV6:2601:282:1c83:9aa0::56cf? ([2601:282:1c83:9aa0::56cf])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-409570f63b4sm2077985fac.3.2026.01.28.08.38.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Jan 2026 08:38:40 -0800 (PST)
+Message-ID: <b824f131-3e51-422c-9e98-044b0a2928a6@redhat.com>
+Date: Wed, 28 Jan 2026 09:38:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yowgralxd7i55p63wqc7jxffwz5iqtrlztndpqu5yqeavhtscn@ajwd6r27ra6a>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-unstable v14 03/16] introduce collapse_single_pmd to
+ unify khugepaged and madvise_collapse
+To: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ akpm@linux-foundation.org
+Cc: david@kernel.org, lorenzo.stoakes@oracle.com, ziy@nvidia.com,
+ baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+ ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
+ lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, surenb@google.com,
+ mhocko@suse.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
+ joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+ gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
+ jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org,
+ willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com,
+ usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
+ anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+ will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
+ jglisse@google.com, zokeefe@google.com, rientjes@google.com,
+ rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
+ David Hildenbrand <david@redhat.com>, shivankg@amd.com
+References: <20260122192841.128719-1-npache@redhat.com>
+ <20260122192841.128719-4-npache@redhat.com>
+From: Nico Pache <npache@redhat.com>
+Content-Language: en-US, en-ZM
+In-Reply-To: <20260122192841.128719-4-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello Mani,
+Hi Andrew,
 
-On Wed, Jan 28, 2026 at 01:47:45PM +0530, Manivannan Sadhasivam wrote:
-> > +
-> > +	# grep . functions/pci_epf_test/func1/pci_epf_test.0/bar?_size
-> > +	  functions/pci_epf_test/func1/pci_epf_test.0/bar0_size:512
-> > +	  functions/pci_epf_test/func1/pci_epf_test.0/bar1_size:512
-> > +	  functions/pci_epf_test/func1/pci_epf_test.0/bar2_size:1024
-> > +	  functions/pci_epf_test/func1/pci_epf_test.0/bar3_size:16384
-> > +	  functions/pci_epf_test/func1/pci_epf_test.0/bar4_size:131072
-> > +	  functions/pci_epf_test/func1/pci_epf_test.0/bar5_size:1048576
-> > +
-> > +The user can override a default value using e.g.::
-> > +	# echo 1048576 > functions/pci_epf_test/func1/pci_epf_test.0/bar1_size
-> > +
-> > +Note: Some endpoint controllers might have fixed size BARs, or reserved BARs,
-> > +for such controllers, the corresponding BAR size in configfs will be ignored.
-> > +
-> 
-> Silently ignoring the BAR size would create confusion. We should error out with
-> -EOPNOTSUPP if the BAR is a fixed size BAR.
+could you please apply the following fixup to avoid potentially using a stale
+VMA in the new writeback-retry logic for madvise collapse.
 
-My initial idea was indeed to return -EOPNOTSUPP if the BAR is a fixed size BAR.
-The problem however is that the information if a BAR is FIXED or not is in
-epf->epc->features. epf->epc is NULL until the EPF has been bound to an EPC via
-configfs.
+Thank you!
+-- Nico
 
+----8<----
+commit a9ac3b1bfa926dd707ac3a785583f8d7a0579578
+Author: Nico Pache <npache@redhat.com>
+Date:   Fri Jan 23 16:32:42 2026 -0700
 
-> 
-> >  
-> >  Binding pci-epf-test Device to EP Controller
-> >  --------------------------------------------
-> > diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-> > index b785d488c284..fda257e46920 100644
-> > --- a/drivers/pci/endpoint/functions/pci-epf-test.c
-> > +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-> > @@ -63,6 +63,7 @@ static struct workqueue_struct *kpcitest_workqueue;
-> >  struct pci_epf_test {
-> >  	void			*reg[PCI_STD_NUM_BARS];
-> >  	struct pci_epf		*epf;
-> > +	struct config_group	group;
-> >  	enum pci_barno		test_reg_bar;
-> >  	size_t			msix_table_offset;
-> >  	struct delayed_work	cmd_handler;
-> > @@ -76,6 +77,7 @@ struct pci_epf_test {
-> >  	bool			dma_private;
-> >  	const struct pci_epc_features *epc_features;
-> >  	struct pci_epf_bar	db_bar;
-> > +	size_t			bar_size[PCI_STD_NUM_BARS];
-> >  };
-> >  
-> >  struct pci_epf_test_reg {
-> > @@ -102,7 +104,8 @@ static struct pci_epf_header test_header = {
-> >  	.interrupt_pin	= PCI_INTERRUPT_INTA,
-> >  };
-> >  
-> > -static size_t bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 };
-> > +/* default BAR sizes, can be overridden by the user using configfs */
-> > +static size_t default_bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 };
-> >  
-> >  static void pci_epf_test_dma_callback(void *param)
-> >  {
-> > @@ -1070,7 +1073,7 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
-> >  		if (epc_features->bar[bar].type == BAR_FIXED)
-> >  			test_reg_size = epc_features->bar[bar].fixed_size;
-> >  		else
-> > -			test_reg_size = bar_size[bar];
-> > +			test_reg_size = epf_test->bar_size[bar];
-> >  
-> >  		base = pci_epf_alloc_space(epf, test_reg_size, bar,
-> >  					   epc_features, PRIMARY_INTERFACE);
-> > @@ -1142,6 +1145,87 @@ static void pci_epf_test_unbind(struct pci_epf *epf)
-> >  	pci_epf_test_free_space(epf);
-> >  }
-> >  
-> > +#define PCI_EPF_TEST_BAR_SIZE_R(_name, _id)				\
-> > +	static ssize_t pci_epf_test_##_name##_show(struct config_item *item,	\
-> > +						   char *page)		\
-> > +	{								\
-> > +		struct config_group *group = to_config_group(item);	\
-> > +		struct pci_epf_test *epf_test = container_of(group,	\
-> > +					struct pci_epf_test, group);	\
-> > +									\
-> > +		return sprintf(page, "%zu\n", epf_test->bar_size[_id]);	\
-> > +	}
-> > +
-> > +#define PCI_EPF_TEST_BAR_SIZE_W(_name, _id)				\
-> > +	static ssize_t pci_epf_test_##_name##_store(struct config_item *item, \
-> > +						    const char *page, size_t len) \
-> > +	{								\
-> > +		struct config_group *group = to_config_group(item);	\
-> > +		struct pci_epf_test *epf_test = container_of(group,	\
-> > +					struct pci_epf_test, group);	\
-> > +		int val;						\
-> > +		int ret;						\
-> > +									\
-> > +		ret = kstrtouint(page, 0, &val);			\
-> > +		if (ret)						\
-> > +			return ret;					\
-> > +									\
-> > +		if (!is_power_of_2(val))				\
-> > +			return -EINVAL;					\
-> > +									\
-> > +		epf_test->bar_size[_id] = val;				\
-> > +									\
-> > +		return len;						\
-> > +	}
-> > +
-> > +PCI_EPF_TEST_BAR_SIZE_R(bar0_size, BAR_0)
-> > +PCI_EPF_TEST_BAR_SIZE_W(bar0_size, BAR_0)
-> > +PCI_EPF_TEST_BAR_SIZE_R(bar1_size, BAR_1)
-> > +PCI_EPF_TEST_BAR_SIZE_W(bar1_size, BAR_1)
-> > +PCI_EPF_TEST_BAR_SIZE_R(bar2_size, BAR_2)
-> > +PCI_EPF_TEST_BAR_SIZE_W(bar2_size, BAR_2)
-> > +PCI_EPF_TEST_BAR_SIZE_R(bar3_size, BAR_3)
-> > +PCI_EPF_TEST_BAR_SIZE_W(bar3_size, BAR_3)
-> > +PCI_EPF_TEST_BAR_SIZE_R(bar4_size, BAR_4)
-> > +PCI_EPF_TEST_BAR_SIZE_W(bar4_size, BAR_4)
-> > +PCI_EPF_TEST_BAR_SIZE_R(bar5_size, BAR_5)
-> > +PCI_EPF_TEST_BAR_SIZE_W(bar5_size, BAR_5)
-> > +
-> > +CONFIGFS_ATTR(pci_epf_test_, bar0_size);
-> > +CONFIGFS_ATTR(pci_epf_test_, bar1_size);
-> > +CONFIGFS_ATTR(pci_epf_test_, bar2_size);
-> > +CONFIGFS_ATTR(pci_epf_test_, bar3_size);
-> > +CONFIGFS_ATTR(pci_epf_test_, bar4_size);
-> > +CONFIGFS_ATTR(pci_epf_test_, bar5_size);
-> > +
-> > +static struct configfs_attribute *pci_epf_test_attrs[] = {
-> > +	&pci_epf_test_attr_bar0_size,
-> > +	&pci_epf_test_attr_bar1_size,
-> > +	&pci_epf_test_attr_bar2_size,
-> > +	&pci_epf_test_attr_bar3_size,
-> > +	&pci_epf_test_attr_bar4_size,
-> > +	&pci_epf_test_attr_bar5_size,
-> > +	NULL,
-> > +};
-> > +
-> > +static const struct config_item_type pci_epf_test_group_type = {
-> > +	.ct_attrs	= pci_epf_test_attrs,
-> > +	.ct_owner	= THIS_MODULE,
-> > +};
-> > +
-> > +static struct config_group *pci_epf_test_add_cfs(struct pci_epf *epf,
-> > +						 struct config_group *group)
-> > +{
-> > +	struct pci_epf_test *epf_test = epf_get_drvdata(epf);
-> > +	struct config_group *epf_group = &epf_test->group;
-> > +	struct device *dev = &epf->dev;
-> > +
-> > +	config_group_init_type_name(epf_group, dev_name(dev),
-> > +				    &pci_epf_test_group_type);
-> > +
-> > +	return epf_group;
-> > +}
-> > +
-> >  static const struct pci_epf_device_id pci_epf_test_ids[] = {
-> >  	{
-> >  		.name = "pci_epf_test",
-> > @@ -1154,6 +1238,7 @@ static int pci_epf_test_probe(struct pci_epf *epf,
-> >  {
-> >  	struct pci_epf_test *epf_test;
-> >  	struct device *dev = &epf->dev;
-> > +	enum pci_barno bar;
-> >  
-> >  	epf_test = devm_kzalloc(dev, sizeof(*epf_test), GFP_KERNEL);
-> >  	if (!epf_test)
-> > @@ -1161,6 +1246,8 @@ static int pci_epf_test_probe(struct pci_epf *epf,
-> >  
-> >  	epf->header = &test_header;
-> >  	epf_test->epf = epf;
-> > +	for (bar = BAR_0; bar < PCI_STD_NUM_BARS; bar++)
-> > +		epf_test->bar_size[bar] = default_bar_size[bar];
-> >  
-> 
-> It'd be more clean if 'epf_test->bar_size[bar]' always holds the actual BAR size
-> i.e., one of default/user configured/fixed size. This will allow us to print the
-> actual BAR size used for testing. For this, the initial size setting should
-> happen in pci_epf_test_bind().
+    madvise writeback retry logic fix
 
-# mkdir functions/pci_epf_test/func1
-will cause pci_epf_test_probe() to be called.
+    Signed-off-by: Nico Pache <npache@redhat.com>
 
-At this point, when the EPF has been created, but not bound to an EPC,
-the user could still do:
-
-# grep . functions/pci_epf_test/func1/pci_epf_test.0/bar?_size
-
-If we want this to show something other than e.g. size 0 for all BAR
-before binding to and EPC, then we thus need to initialize it in probe().
-
-If you are happy with showing sizes as zero, and that the configfs writes
-that a user made to bar*_size before binding to a EPC will be overwritten
-(I guess we could also return -EINVAL if bar*_size is written before an EPC
-has been bound to the EPF), the next problem is that:
-
-# ln -s functions/pci_epf_test/func1 controllers/a40000000.pcie-ep/
-[  578.073152] pci_epf_test_bind
-[  578.075614] pci_epf_test_epc_init
-
-will cause both pci_epf_test_bind and pci_epf_test_epc_init to be called.
-(for all platforms expect those that can only work with external reference
-clock).
-
-As you know, pci_epf_test_epc_init() will call set_bar().
-
-So, the suggestion in this patch is the most pragmatic way I could think of.
-
-
-The only better solution would be to move all the set_bar() code (and probably
-all code) from pci_epf_test_epc_init() to
-
-# echo 1 > controllers/a40000000.pcie-ep/start
-
-time.
-
-But AFAICT, we do not have any callback in an EPF driver that gets called
-before the link is started.
-
-I guess we could theoretically add a new EPF callback which pci-epc-core.c
-calls for each EPF driver, before calling epc->ops->start(epc); :
-
-diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index 068155819c57..dc717c5fd195 100644
---- a/drivers/pci/endpoint/pci-epc-core.c
-+++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -180,6 +180,7 @@ EXPORT_SYMBOL_GPL(pci_epc_stop);
-  */
- int pci_epc_start(struct pci_epc *epc)
- {
-+       struct pci_epf *epf;
-        int ret;
- 
-        if (IS_ERR(epc))
-@@ -188,6 +189,14 @@ int pci_epc_start(struct pci_epc *epc)
-        if (!epc->ops->start)
-                return 0;
- 
-+       mutex_lock(&epc->list_lock);
-+       list_for_each_entry(epf, &epc->pci_epf, list) {
-+               mutex_lock(&epf->lock);
-+               if (epf->event_ops && epf->event_ops->epc_start_link)
-+                       epf->event_ops->epc_start_link(epf);
-+               mutex_unlock(&epf->lock);
-+       }
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 59e5a5588d85..2b054f7d9753 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -2418,6 +2418,14 @@ static enum scan_result collapse_single_pmd(unsigned long
+addr,
+ 	mmap_read_unlock(mm);
+ 	*mmap_locked = false;
+ 	result = collapse_scan_file(mm, addr, file, pgoff, cc);
 +
-        mutex_lock(&epc->lock);
-        ret = epc->ops->start(epc);
-        mutex_unlock(&epc->lock);
++	if (!cc->is_khugepaged && result == SCAN_PAGE_DIRTY_OR_WRITEBACK &&
++	    mapping_can_writeback(file->f_mapping)) {
++		const loff_t lstart = (loff_t)pgoff << PAGE_SHIFT;
++		const loff_t lend = lstart + HPAGE_PMD_SIZE - 1;
++
++		filemap_write_and_wait_range(file->f_mapping, lstart, lend);
++	}
+ 	fput(file);
 
+ 	if (result != SCAN_PTE_MAPPED_HUGEPAGE)
+@@ -2840,19 +2848,8 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned
+long start,
+ 			*lock_dropped = true;
 
-I guess it should work.
+ 		if (result == SCAN_PAGE_DIRTY_OR_WRITEBACK && !triggered_wb) {
+-			struct file *file = get_file(vma->vm_file);
+-			pgoff_t pgoff = linear_page_index(vma, addr);
+-
+-			if (mapping_can_writeback(file->f_mapping)) {
+-				loff_t lstart = (loff_t)pgoff << PAGE_SHIFT;
+-				loff_t lend = lstart + HPAGE_PMD_SIZE - 1;
+-
+-				filemap_write_and_wait_range(file->f_mapping, lstart, lend);
+-				triggered_wb = true;
+-				fput(file);
+-				goto retry;
+-			}
+-			fput(file);
++			triggered_wb = true;
++			goto retry;
+ 		}
 
-But I am slightly worried of the complexity it brings...
-Because we already have an .epc_init callback in an EPF driver.
-If we also bring add a ".pre_start_link" callback in an EPF driver,
-how should an EPF driver developer know what to put in each callback?
+ 		switch (result) {
+--
+2.52.0
 
-I guess in that case we would want to remove the .epc_init callback?
+On 1/22/26 12:28 PM, Nico Pache wrote:
+> The khugepaged daemon and madvise_collapse have two different
+> implementations that do almost the same thing.
+> 
+> Create collapse_single_pmd to increase code reuse and create an entry
+> point to these two users.
+> 
+> Refactor madvise_collapse and collapse_scan_mm_slot to use the new
+> collapse_single_pmd function. This introduces a minor behavioral change
+> that is most likely an undiscovered bug. The current implementation of
+> khugepaged tests collapse_test_exit_or_disable before calling
+> collapse_pte_mapped_thp, but we weren't doing it in the madvise_collapse
+> case. By unifying these two callers madvise_collapse now also performs
+> this check. We also modify the return value to be SCAN_ANY_PROCESS which
+> properly indicates that this process is no longer valid to operate on.
+> 
+> We also guard the khugepaged_pages_collapsed variable to ensure its only
+> incremented for khugepaged.
+> 
+> Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  mm/khugepaged.c | 106 +++++++++++++++++++++++++++---------------------
+>  1 file changed, 60 insertions(+), 46 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index fefcbdca4510..59e5a5588d85 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -2394,6 +2394,54 @@ static enum scan_result collapse_scan_file(struct mm_struct *mm, unsigned long a
+>  	return result;
+>  }
+>  
+> +/*
+> + * Try to collapse a single PMD starting at a PMD aligned addr, and return
+> + * the results.
+> + */
+> +static enum scan_result collapse_single_pmd(unsigned long addr,
+> +		struct vm_area_struct *vma, bool *mmap_locked,
+> +		struct collapse_control *cc)
+> +{
+> +	struct mm_struct *mm = vma->vm_mm;
+> +	enum scan_result result;
+> +	struct file *file;
+> +	pgoff_t pgoff;
+> +
+> +	if (vma_is_anonymous(vma)) {
+> +		result = collapse_scan_pmd(mm, vma, addr, mmap_locked, cc);
+> +		goto end;
+> +	}
+> +
+> +	file = get_file(vma->vm_file);
+> +	pgoff = linear_page_index(vma, addr);
+> +
+> +	mmap_read_unlock(mm);
+> +	*mmap_locked = false;
+> +	result = collapse_scan_file(mm, addr, file, pgoff, cc);
+> +	fput(file);
+> +
+> +	if (result != SCAN_PTE_MAPPED_HUGEPAGE)
+> +		goto end;
+> +
+> +	mmap_read_lock(mm);
+> +	*mmap_locked = true;
+> +	if (collapse_test_exit_or_disable(mm)) {
+> +		mmap_read_unlock(mm);
+> +		*mmap_locked = false;
+> +		return SCAN_ANY_PROCESS;
+> +	}
+> +	result = try_collapse_pte_mapped_thp(mm, addr, !cc->is_khugepaged);
+> +	if (result == SCAN_PMD_MAPPED)
+> +		result = SCAN_SUCCEED;
+> +	mmap_read_unlock(mm);
+> +	*mmap_locked = false;
+> +
+> +end:
+> +	if (cc->is_khugepaged && result == SCAN_SUCCEED)
+> +		++khugepaged_pages_collapsed;
+> +	return result;
+> +}
+> +
+>  static unsigned int collapse_scan_mm_slot(unsigned int pages, enum scan_result *result,
+>  					    struct collapse_control *cc)
+>  	__releases(&khugepaged_mm_lock)
+> @@ -2466,34 +2514,9 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, enum scan_result *
+>  			VM_BUG_ON(khugepaged_scan.address < hstart ||
+>  				  khugepaged_scan.address + HPAGE_PMD_SIZE >
+>  				  hend);
+> -			if (!vma_is_anonymous(vma)) {
+> -				struct file *file = get_file(vma->vm_file);
+> -				pgoff_t pgoff = linear_page_index(vma,
+> -						khugepaged_scan.address);
+> -
+> -				mmap_read_unlock(mm);
+> -				mmap_locked = false;
+> -				*result = collapse_scan_file(mm,
+> -					khugepaged_scan.address, file, pgoff, cc);
+> -				fput(file);
+> -				if (*result == SCAN_PTE_MAPPED_HUGEPAGE) {
+> -					mmap_read_lock(mm);
+> -					if (collapse_test_exit_or_disable(mm))
+> -						goto breakouterloop;
+> -					*result = try_collapse_pte_mapped_thp(mm,
+> -						khugepaged_scan.address, false);
+> -					if (*result == SCAN_PMD_MAPPED)
+> -						*result = SCAN_SUCCEED;
+> -					mmap_read_unlock(mm);
+> -				}
+> -			} else {
+> -				*result = collapse_scan_pmd(mm, vma,
+> -					khugepaged_scan.address, &mmap_locked, cc);
+> -			}
+> -
+> -			if (*result == SCAN_SUCCEED)
+> -				++khugepaged_pages_collapsed;
+>  
+> +			*result = collapse_single_pmd(khugepaged_scan.address,
+> +						      vma, &mmap_locked, cc);
+>  			/* move to next address */
+>  			khugepaged_scan.address += HPAGE_PMD_SIZE;
+>  			progress += HPAGE_PMD_NR;
+> @@ -2799,6 +2822,7 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+>  			cond_resched();
+>  			mmap_read_lock(mm);
+>  			mmap_locked = true;
+> +			*lock_dropped = true;
+>  			result = hugepage_vma_revalidate(mm, addr, false, &vma,
+>  							 cc);
+>  			if (result  != SCAN_SUCCEED) {
+> @@ -2809,17 +2833,17 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+>  			hend = min(hend, vma->vm_end & HPAGE_PMD_MASK);
+>  		}
+>  		mmap_assert_locked(mm);
+> -		if (!vma_is_anonymous(vma)) {
+> -			struct file *file = get_file(vma->vm_file);
+> -			pgoff_t pgoff = linear_page_index(vma, addr);
+>  
+> -			mmap_read_unlock(mm);
+> -			mmap_locked = false;
+> +		result = collapse_single_pmd(addr, vma, &mmap_locked, cc);
+> +
+> +		if (!mmap_locked)
+>  			*lock_dropped = true;
+> -			result = collapse_scan_file(mm, addr, file, pgoff, cc);
+>  
+> -			if (result == SCAN_PAGE_DIRTY_OR_WRITEBACK && !triggered_wb &&
+> -			    mapping_can_writeback(file->f_mapping)) {
+> +		if (result == SCAN_PAGE_DIRTY_OR_WRITEBACK && !triggered_wb) {
+> +			struct file *file = get_file(vma->vm_file);
+> +			pgoff_t pgoff = linear_page_index(vma, addr);
+> +
+> +			if (mapping_can_writeback(file->f_mapping)) {
+>  				loff_t lstart = (loff_t)pgoff << PAGE_SHIFT;
+>  				loff_t lend = lstart + HPAGE_PMD_SIZE - 1;
+>  
+> @@ -2829,26 +2853,16 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
+>  				goto retry;
+>  			}
+>  			fput(file);
+> -		} else {
+> -			result = collapse_scan_pmd(mm, vma, addr, &mmap_locked, cc);
+>  		}
+> -		if (!mmap_locked)
+> -			*lock_dropped = true;
+>  
+> -handle_result:
+>  		switch (result) {
+>  		case SCAN_SUCCEED:
+>  		case SCAN_PMD_MAPPED:
+>  			++thps;
+>  			break;
+> -		case SCAN_PTE_MAPPED_HUGEPAGE:
+> -			BUG_ON(mmap_locked);
+> -			mmap_read_lock(mm);
+> -			result = try_collapse_pte_mapped_thp(mm, addr, true);
+> -			mmap_read_unlock(mm);
+> -			goto handle_result;
+>  		/* Whitelisted set of results where continuing OK */
+>  		case SCAN_NO_PTE_TABLE:
+> +		case SCAN_PTE_MAPPED_HUGEPAGE:
+>  		case SCAN_PTE_NON_PRESENT:
+>  		case SCAN_PTE_UFFD_WP:
+>  		case SCAN_LACK_REFERENCED_PAGE:
 
-(Because calling .set_bar() etc. should work to be called in a
-.pre_start_link for both those driver relying on external refclock and
-for those that don't.
-
-If you do
-# echo 1 > controllers/a40000000.pcie-ep/start
-on a platform that requires an external reflock, before the external
-refclock is available, that is your own fault.
-
-I guess we could detect that and give a nice error.)
-
-
-Kind regards,
-Niklas
