@@ -1,281 +1,275 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012063.outbound.protection.outlook.com [40.93.195.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6539227EA8;
-	Wed, 28 Jan 2026 01:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769563546; cv=none; b=lfBN2vbDK2Immyc2qsF+WRJrs5Bm9CQlXIuV97ApJqUFoRm8ym9yrMAKLyC8lWx13nnDx5XlLh/17DYtOhO8TP1f830AHwJNaLMRMYVx9FrutTdutDIP5y8SBiQrcgAu5n6DuRzGMkBWGEOXHZ4FSe2wsdvIV2Wy9rD3krYmZok=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769563546; c=relaxed/simple;
-	bh=e0W8b/lJMt8akxgb08koUYI+7WMv1CQDwZ7pqzCYq+E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RqUnfvHvclo7GIR8vjkakUvApJSpXZcSmfGl1X3v2QBPhLx1k1IgRwjh339LnKm8J2i++Wp7IFNuN51wJhf9NwHL0/O5K07aCdYSkODJHB553KkmDfJkFbjUBLLyJWt5qX3kf41gJsr4CwzB2TU3DHFBY3pJnIx5dysXcHHmezc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X3l+vILW; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2AA618B0A;
+	Wed, 28 Jan 2026 01:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769564623; cv=fail; b=oWTYmi3gxBvTTAsxNZbMBNjXah9XzmWpdeQWH7Jd4tcL5KxS1batyM932492M3CHPOpV3MQXbyyK7SaA9+CO8ja4uPTjkg8HMElVoEs8/NzxWrUbt5Ut0WHL1MhJ2N2iEXH5+NFQnew79aFmOk58tXmUBNfBNqk4FIi0tifgDGs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769564623; c=relaxed/simple;
+	bh=9n/J9hnB7yVhs6dIYXR+2mbSeVwrvhsvNF5S+R+g328=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=U2if6izEftXfgz/fPZRij/yisKnpaD5O6lfB/pngJa/Sa+MARzrVIlzXljLXqNoElHYmiTDBQbFfFCA3h1An+g4oIyZVUk2vXeYGT6C98/SSA6EzGnCglyRhIjXhfw0dhPeJhHGIGIN/eYjS4ABlJkubuDGJLVAzLLcfsBJ8Txo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fsd8sE6w; arc=fail smtp.client-ip=40.93.195.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X3l+vILW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22E5DC116C6;
-	Wed, 28 Jan 2026 01:25:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769563546;
-	bh=e0W8b/lJMt8akxgb08koUYI+7WMv1CQDwZ7pqzCYq+E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=X3l+vILWzCwLTGPzcFHOMrhXMzBS2ehHyHZijgbcNTZme/C1fcdnaz3E8yx0haBfY
-	 kq8Ii/3BH3ciKInZOK1qs/aZmDONw2WxG3hGuq3v9VExXV2tfGSdI9wQXCaxhSw4x8
-	 FzWML7wzZvVOEc2wReYY0AShnmYFTUngIu+0DyeVp6fUEFAHVu4OFZh6PEe6xxqpxZ
-	 4wYZ5cc5+IcU5q3xOvQ0MFNlbMcFXi0govjucAWLHDNyBixplRImvn4vGiBCkQUJAJ
-	 PAAWc2tAt9dOGPL+1mTR6+S9aJfULMd4IoeKbeukjfvKNC/rmiYqtquMTlIi4oCI2j
-	 QK6K+b1OggHsQ==
-From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	Honggyu Kim <honggyu.kim@sk.com>,
-	Yunjeong Mun <yunjeong.mun@sk.com>
-Subject: Re: [RFC PATCH 0/5] mm/damon: Add node_sys_bp quota goal metric for PA-based migration control
-Date: Tue, 27 Jan 2026 17:25:37 -0800
-Message-ID: <20260128012539.72119-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CALa+Y17__d=ZsM1yX+MXx0ozVdsXnFqF4p0g+kATEitrWyZFfg@mail.gmail.com>
-References: 
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fsd8sE6w"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uBvM1cbjXnp1W7TAE/ZtXPsJbzl3ZDYFtWZ9H+/06QVlsb6NAWNpAdWIHYGVK6O9T/TbjNvXtEje2/EoOQv50q9G3eSQQ30s5UY15tb8AtWdDjpn+UG8i9/IGE5PNrEnMXEBbmGnwz4u+fbLUFTsbsp1zurN14jk3zVA0gMb56WEVaq5E6X0JzDS5bUAGLCOMRMGAwyrh41qGQmXnAtU0ibOdS5iNoVl0YDobH7Aa3ioLdqIIKn3y4yGcI6e5SHWuyUr1dF1PKy9mkFtwtt34tvbnkrcfs9aXGFZgxo81QvwIFk0D4pPn83EhIComn+o3yS0czBZK63vl15+AhKjeA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fBdNms3tRhDmyjMiwyE/6xPyZlxwwqJGCjmAw0lJ3N4=;
+ b=pbyN3zCjmsNONdkAdRHnuRertGQknRIiwlNqucUhmMbf3o9Lbtoo0WkqdEyvl78oEW1Ii4FAFlzL6VnYuSoQUSykweRrF6BBmVwTetLC7hpQb246zXhM0RpEvYGi6YVTgRG6tFPLM2cLsErzFUDATn+j/k6gAi8M1rG7ukacRFN8fRYHJE38DX5X6fZAuhEdsWuY1WkAdNtyJ/XuKfF1UmGEGGYVCub69wpeO9GJlcVSmXhs3bX4jnSAFaekKrsMb5rbTLxohsWhcZlk1WiZxtEpVY4wUyTxH3YbCkMOIK9iyknnZ5/cQh8rKcejuJis4ws4ckbhkVSmvzrh5XlstQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fBdNms3tRhDmyjMiwyE/6xPyZlxwwqJGCjmAw0lJ3N4=;
+ b=fsd8sE6w1no/zccysBdYMWhiDTFXw+7QtA864lDcfyXM3EhAece1/M10KOKxpfi6o6PI+VvFOmmycYsSt7OmHA4jd+oKQjhCnqi9UDDeysZV7CORLHmISX1vhNyYyFlCRMY1fTqZDeSP6uvn3U5+rW2ftv9wFg/1Vey0Xk5vZsA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com (2603:10b6:610:19f::7)
+ by DS0PR12MB6462.namprd12.prod.outlook.com (2603:10b6:8:c6::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Wed, 28 Jan
+ 2026 01:43:38 +0000
+Received: from CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::1e6b:ca8b:7715:6fee]) by CH3PR12MB9194.namprd12.prod.outlook.com
+ ([fe80::1e6b:ca8b:7715:6fee%4]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
+ 01:43:37 +0000
+Message-ID: <cd7a2d11-bf65-4445-8eec-df9ba7950128@amd.com>
+Date: Wed, 28 Jan 2026 12:42:08 +1100
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v8 07/15] iommupt: Add map_pages op
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alexandre Ghiti <alex@ghiti.fr>, Anup Patel <anup@brainfault.org>,
+ Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+ iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
+ Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org,
+ llvm@lists.linux.dev, Bill Wendling <morbo@google.com>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <pjw@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Shuah Khan <shuah@kernel.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Will Deacon <will@kernel.org>,
+ Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+ James Gowans <jgowans@amazon.com>, Kevin Tian <kevin.tian@intel.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
+ Samiullah Khawaja <skhawaja@google.com>, Vasant Hegde <vasant.hegde@amd.com>
+References: <20260117154347.GF1134360@nvidia.com>
+ <e0514ec6-b428-4367-9e0d-cfb53cc64379@amd.com>
+ <20260119173734.GL1134360@nvidia.com>
+ <e8cb2549-6a17-47ce-8e9f-96c576890262@amd.com>
+ <20260121170931.GG1134360@nvidia.com>
+ <5a3dfc0a-eca4-4de1-96cd-b4034f0b8e06@amd.com>
+ <20260122141240.GM1134360@nvidia.com>
+ <0295a5bb-2567-48f8-9806-0467907143d5@amd.com>
+ <20260123141413.GY1134360@nvidia.com>
+ <ddeb2bc8-5088-4d16-bea3-91d58a4403e8@amd.com>
+ <20260127142512.GD1134360@nvidia.com>
+From: Alexey Kardashevskiy <aik@amd.com>
+Content-Language: en-US
+In-Reply-To: <20260127142512.GD1134360@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SYBPR01CA0169.ausprd01.prod.outlook.com
+ (2603:10c6:10:52::13) To CH3PR12MB9194.namprd12.prod.outlook.com
+ (2603:10b6:610:19f::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB9194:EE_|DS0PR12MB6462:EE_
+X-MS-Office365-Filtering-Correlation-Id: 95495762-1f3a-4dfb-3575-08de5e0ea7f9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Q2Fibzlwa0NzVWF1ZE9RbU5TUExCK3I5Vk5jTGc1Vnd4dmMzVmYwSVV3ZER3?=
+ =?utf-8?B?UGxXL0plbkhZbmNuaTZ4UTgrOXArREU3bjlYa0ZDQ3dxTVNsOENCT01yZStk?=
+ =?utf-8?B?YkNnRnVNTldGVjVXWnVTY0NVRjlYZkNPMkhJQnZrLzEzbGxIRkVDdFk3aUF5?=
+ =?utf-8?B?U080TERMbXcvQUxOMFd2N2hheWF6aUpucVRjM0dnQ3o4VXIxVHNJMVlDSERS?=
+ =?utf-8?B?a3FKU3BuNXQ1K2Z6a0JHYUlmOHowbTJ0MGRvVnVMK3llb3M1K2NteEpPNzNE?=
+ =?utf-8?B?TjZkU2hYWkFCSkZwZDJBcW9oaTArK3RnZzcvd1o3TGNNbHBoK1lmVjJzWk1I?=
+ =?utf-8?B?Vkh5VzZiMzdxQmFEa01DTHNuUlh5QjQrenJqNlJ6Z2k1cExwVGd3OUJoQkky?=
+ =?utf-8?B?VHVYVW8wMVo1L0traGFCMnlSQ3VST2tnL3A5K3VHSU5RNkRMeWJsakRITG5L?=
+ =?utf-8?B?a2dwR3ZZK3lPNmZ4dFU4ejlUU1pMUFZtb0ZJM1hGSTJjNTdxZWpkRFU0c09i?=
+ =?utf-8?B?Q21zZFVVZEJpRlZVYk9wTldPdlh1WEtZQkxMRmZhenh2OG90SEQ0ZWIvSDJu?=
+ =?utf-8?B?ZWRyVnlJRWRqRFQxUkNpeWJ2TzBhNHpvOVVwSktiR3hsZ1J1ZTBVQ2swYkpR?=
+ =?utf-8?B?aVFiUUtRbmRET2pzR3BHc1lpc3ozK1N4aE92aFg5eWdyMk5iYkVMSHBhakR2?=
+ =?utf-8?B?MGZzLzMvaXV3MUxseDZXeXlYTlpKaFJ6ZFdxMEE2T3c3NTVNNCtsM2hKQ09O?=
+ =?utf-8?B?OWhGckc3RXBubFJ1d1EyTUV0RjgrY2doMHc5YzBobjFUUWowdzNmM1Rod1lr?=
+ =?utf-8?B?Mkkwc0w4ZWJqdnhBYTZnWjFEQnpDWkFJQ3U1OEVxRTQ4MDN5d3VJSkdvTy92?=
+ =?utf-8?B?Qmp6NndJc20yK1lqZG9EMDIzaGs3MDJFRzlCZmIydmZCOExmSEFoRkJGUlU3?=
+ =?utf-8?B?Y3QxTkV0N2g4bjQ4eVZ5Q3JiSVYvd01zRmNPWHFGdVVkVTNBc1ZJMWljdWZx?=
+ =?utf-8?B?VFVseURERlJYc2lNSjhza0hJODVScThjSDh1YUN4Z3JBcG1TSmxDdFNJOTNi?=
+ =?utf-8?B?bTVCbHNneGtYTWVwdmw4RXlqck01ZWpVVWdxYW5NZ1hyMHN0eWRJNTkrL3ll?=
+ =?utf-8?B?TUljZG5waGxTUWxHYUlTR3p4cEdDemt0RWRpTTRaT0VrOE41aFM2bWhkMzd3?=
+ =?utf-8?B?OUpKaHhXdWpNcFZFOVE0RS9mY3AxSmFqaE4rUzZxbUVWS3dRRFo5bTJHTjZn?=
+ =?utf-8?B?ZWdFc0NLMFlIcEgvVThJTW01OWh0R2x4bzUvc2YrN1Y5RTM3ZTQwNklWSGxR?=
+ =?utf-8?B?MGVZRGtRR3NEZ0FqUDRMZ2dNN0pVaDBSRGJza3dLeHg1cElLV1FHMWl3N3RV?=
+ =?utf-8?B?VXVNZUJUWlQ0VGZUdkxVdWJ3OE9sTUtTSThGTGdsOUFKc0Y1N3pCVjkwT1pI?=
+ =?utf-8?B?ZlF5ZTdjam55ajNRUFR4K2NyYjcxUEQ5OHA0bzhyM1N5UDZwWDlKT1ZYRktV?=
+ =?utf-8?B?YTRNRzcvUmthdzhPS2UzcHVDNkViZVlXNFJoVzVsWWlzclBhdk03OHVybkxK?=
+ =?utf-8?B?eWZBVWsrSzBoUVNtYUhsRk4wUFN4V082MXlQMFloNDEyMEZ4bTRjRDI5RjBZ?=
+ =?utf-8?B?d1lsOG02V2pXdVliN3VNR1YzbHl5UzFtYjNmdXFiNlltYndsTE00QjZSdlM1?=
+ =?utf-8?B?czhUdDJ3OGtmc0ZGNzZXVjd6WGVGTC81UU9JRFNXbDBzUmF4VzVMMFhWWkFo?=
+ =?utf-8?B?UG5HSjBOYlNaSEVOTW1IZGZkVVBVV2FRY1FubFA3NGx6Q1ltWCszdTV2SUN6?=
+ =?utf-8?B?WWlNOWFYN2pPMkhWVDFLTEFuMWMzQnRPVnpqNExXeHFJZlFWVEFPV2NkMzlM?=
+ =?utf-8?B?Q25aUEpaaEU1Zms4L0l3anFXZEFRTE4ycmJlOThqZVhIcTFvQTBRckdEWHN4?=
+ =?utf-8?B?ZENTTlNOemlSTXlXRkJLUzIwelNXYXk5WE1WT3dZOU1NQ1gzd2h5RnllZnRp?=
+ =?utf-8?B?UGNwODNDWHIzOHdRMUNmV0p5TnhtWHJhWFF6ZmFLejRZTHpMR3pVaStmRmpU?=
+ =?utf-8?B?WThhSlprTVFNdUdRU29HbW94VWE1LzVhR2RDL1NlMUp3S0VqZ3liWHpoNVdi?=
+ =?utf-8?Q?qT7c=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB9194.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YXNFa1Z5MG1rQ3oxZVVETlBJMURBWGwxaUloUEJBUHgrMVRXYkxhQjA0ZUNp?=
+ =?utf-8?B?OHo4YnVlT2RFRGpjUFRqUWF0NEJuUlRlMFo1ZFJLUUhXWGVSak5QeHh5Y3pv?=
+ =?utf-8?B?L1J6MnVONE16N05UcnA1K2R0UnF3NlIyTzNkaDV2c1JCam5NNVRTeng4eitB?=
+ =?utf-8?B?ZUxDWGtHKytTZGxOQ2U5YlhMRytKUC9PWmd5UGlobGZzOWd2akdLSTFoQjh5?=
+ =?utf-8?B?T1VFRjJTa1Q5bnU1THNCTWVoa0pYMHYvSDlDVDFGNUxnaGNkUlV4TStwSnhi?=
+ =?utf-8?B?VGsxTG1NWW04elQ5eHphZ3VvNUwzYXpTOVViTjNYdngzN2wyZTZkT3ZPWGZM?=
+ =?utf-8?B?R05DT3RwTGRseWgrNEdpMkZqL0piZk0wa0ZWelF6MmJTZW1EOVdmcGxTTk9H?=
+ =?utf-8?B?ODNobWRzUmMvbmNMMUN5NC9CRkZObjd1ODBNaGx0eG9tZFJqK0lDQ3hzWnZJ?=
+ =?utf-8?B?YjNJckc3aXRNMVFmaXJmdVlIK2J5UjdyMnoyamFHZ0xpR2VBazl3S0d5R1kx?=
+ =?utf-8?B?L093bjBSUlZWaFdzbmRubFA3cEo0OWpSRGdOaTV0RHJ0SWlVQmYvZVhzZjVC?=
+ =?utf-8?B?Y3ZrRXJEbVo5d2ZLN2U3REJMOUVtLzU0ZkJPZERjMWhLSDBXNVY3eERXanpL?=
+ =?utf-8?B?eXlhSEFKenJKNm0waG8vNEsyZG5zSlFrSWxSSnJyVDlZRnZBMVo0Q2IvWnJR?=
+ =?utf-8?B?OXk2RVpVay9JYWZFd1pKaXlLVnZ1aTBXb1dITm5zM0ZWMlpNSjE2Qml1bnVM?=
+ =?utf-8?B?SDdVNlVNaTF2MEtEU2tWcmorQVRPWnNTQ09rM1NSQUZKZVlvNjk5ZzdVdWg2?=
+ =?utf-8?B?RzhHU0VvVUFCdTVNd2RpY2szaTA2MXEzNEw2c1RqbExML0JJckpRajNUd0M3?=
+ =?utf-8?B?RUdBN0k3MmFEYXhpR09rSW9OWkt2cDJ1SEdiZVd6UjFINk51c1I0bW1uQXpE?=
+ =?utf-8?B?V1FRVnRDdnZGejc2OS9ZVVBxVFdyS3orMjRiTnJqbldNK3pIMzF3RlRhNmpC?=
+ =?utf-8?B?RndTWGdnQkNQQndMb2dXdnpORjVZNFEzM3NaaTRZUGs2bWhGRzA0VTR0b3FR?=
+ =?utf-8?B?VWRHS1lWdStvMStHZmlpRHhxZ2VYNDd5K1hDTlpWclc3WGtSeGdCTDljZW91?=
+ =?utf-8?B?Mnk4YzR0ZUtPci9TU0k5NUF3bzRwdk1RaFdVVzgwc0pOQ1ZNZkFqdE9ZWHhh?=
+ =?utf-8?B?QzZpa29XTCs5TzgxU3o0bVdhOVdQUU9wZXhhN01OMXhVRjNUR283TmlydHU0?=
+ =?utf-8?B?YlVCMWpQZFY5RWRxVFFobXlqNjBJS1ovVWNwRllrdW9jbUpPWlE2dVk3T1A5?=
+ =?utf-8?B?dkx2V2NYd1oxaVVCQVpWNFloR1p1TGs2SEFXMFBtaEpScFpPV2dWcEpkQ0dC?=
+ =?utf-8?B?cGdLU3FOZTluMDRUd0VTSEROVFV1NGtzbmVWeDJQRGYzSmdSYVN6VmhaK2p6?=
+ =?utf-8?B?VDRqQ0FSQlF3OXZ4N3hTQjRaVjEwZC93Mk5SZDBYa01wVVpSTGZoRTV5UHRi?=
+ =?utf-8?B?VWJBdy9DNXJvUE1zU0ptYXpPM1o5NWw3VUs4V0ExelpSK1hpdnlWb2pORUg3?=
+ =?utf-8?B?d1lQYy9CaDVPQWt2RUVFNitoNGZDcVNETFd2ZjNpem9EclpVVCtkTjNkQVVZ?=
+ =?utf-8?B?RlE5anA2VTJ2M1ZOeUM1WlZpNzNCbHlMMXo4YjFLUytmU0FtODVrUytaa2tl?=
+ =?utf-8?B?WG1ERkluQkF5b0V5ek9sbnBxbFRxQ3dUUmlYc0kwTlQxRGI4d3lncmk0ektF?=
+ =?utf-8?B?cDJFQkNOV0xSMzhRRFZ0dEN1Misxd3BBb0FMWGR3YWVqdk1vbW8xT1FMMzVN?=
+ =?utf-8?B?cHNtWWQ1R3N6UXFMVGpEZk5TVXZWSndtUnkwT1BCUDBpZVBodkRuN1F0MkJv?=
+ =?utf-8?B?UnlUdnZNV0hWUW13dHVpRko2bnI5MkVkZlF0bWhEeitaMXNtdHVkSDNZN3h6?=
+ =?utf-8?B?NllSTnkyOTdPRDlqcGdyS0NEV0VyVURmVDRSY1JvNmNMd3lyeDZrb253NWVF?=
+ =?utf-8?B?VDB1a3NleGlzYk1TWDFKOGVNR2xwZ3dkNGJ6MFJZeTA1MFVldkhxYlk2VFlw?=
+ =?utf-8?B?TWMrN1RXOUtxcVlUa05LK2p4dk96cHZOMEpGSVVqZ1hOaHNFUFVlNjlpMDBn?=
+ =?utf-8?B?VGNGcTFzM25uclVPOUJDbjRCTTFCR2Q3eC9mN0I3ZndQL3JhdERzUk5XWERD?=
+ =?utf-8?B?KzdvRWdnS01UUGErTmpBbVA1RHRtVTBlVzF4Q2tUU2NIbWRIbzRzQVZwR3Fk?=
+ =?utf-8?B?clAxOFFBRWx4V3R0TVBzZ1ZhRFoxUGpaM1lzdGxjMTNOcmZiUkJCRzJSNFJI?=
+ =?utf-8?Q?6Ao5ihDlzMC+FbkxW6?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95495762-1f3a-4dfb-3575-08de5e0ea7f9
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9194.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 01:43:37.7172
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LN+WvBs+PTHqYHCay7PVEf/NokEAJFO3AlvcrFkl7xLN1N+v+UNelWNZSNBBTZcfH/ThKqVv0Twb4qIkD9OdVg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6462
 
-On Tue, 27 Jan 2026 10:52:53 -0800 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
 
-> On Fri, Jan 23, 2026 at 5:50 PM SeongJae Park <sj@kernel.org> wrote:
-> >
-> > Cc-ing SK hynix folks (Honggyu and Yunjeong) for quota auto-tuning behavior
-> > confusion (not stop immediately after satisfying the goal) I discuss below.
-> >
-> > Hello Ravi,
-> >
+
+On 28/1/26 01:25, Jason Gunthorpe wrote:
+> On Tue, Jan 27, 2026 at 07:08:39PM +1100, Alexey Kardashevskiy wrote:
+>>> Oh so it doesn't actually check the RMP, it is just rounding down to
+>>> two fixed sizes?
+>>
+>> No, it does check RMP.
+>>
+>> If the IOMMU page walk ends at a >=2MB page - it will round down to
+>> 2MB (to the nearest supported RMP size) and check for 2MB RMP and if
+>> that check fails because of the page size - it won't try 4K (even
+>> though it could theoretically).
+>>
+>> The expectation is that the host OS makes sure the IOMMU uses page
+>> sizes equal or bigger than closest smaller RMP page size so there is
+>> no need in two RMP checks.
 > 
->  Hi SJ,
+> Seems dynfunctional to me.
+>>>>>> ARM is pushing a thing where encrypt/decrypt has to work on certain aligned
+>>>>> granual sizes > PAGE_SIZE, you could use that mechanism to select a 2M
+>>>>> size for AMD too and avoid this.
+>>>>
+>>>> 2M minimum on every DMA map?
+>>> On every swiotlb allocation pool chunk, yeah.
+>>
+>> Nah, it is quite easy to force 2MB on swiotlb (just do it once and
+>> forget) but currently any guest page can be converted to shared and
+>> DMA-mapped and this skips swiotlb.
 > 
->   Thank you for the detailed review and for Cc'ing SK hynix folks.
-> 
-> >
-> > Thank you for sharing this great RFC!
-> >
-> > I had a chance to be involved in a high level design of this series, off the
-> > mailing list.  I'm disclosing the fact for others' context, since a few of my
-> > comments below are based on the previous off-list discussion.
-> >
-> > On Thu, 22 Jan 2026 20:57:23 -0800 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-> >
-> > > This series introduces a new DAMON quota goal metric,
-> >
-> > As I discussed off the list, I believe the new goal can be useful.  Thank you
-> > again for making this!
-> >
-> > > `node_sys_bp`, designed
-> > > for controlling memory migration in heterogeneous memory systems (e.g.,
-> > > DRAM↔CXL tiering). These patches are provided as an initial RFC and have
-> > > not been tested on actual hardware.
-> >
-> > I feel like the name is not very self explaining what it is, though.  I'm also
-> > bit confused about what it does is what we discussed off list.  I'll add more
-> > details below, on more detailed explanation about the new goal.
-> >
-> 
-> Will change the name to damos_target_mem_node_sys_bp in v2.
+> Upstream Linux doesn't support that, only SWIOTLB or special DMA
+> coherent memory can be DMA mapped in CC systems. You can't take a
+> random page, make it shared and then DMA map it.
 
-Sounds good name.  But, could it be more consistent with existing node-related
-quota goal metrics such as 'node_mem_used_bp' and 'node_mem_free_bp'?  What
-about... say... 'node_target_mem_bp'?  Please feel free to suggest a better
-one.
+Well, my test device driver calls dma_alloc_coherent() which does that - alloc + convert 4K.
 
-[...]
-> > > Solution: bp-Based Target State Goals
-> > > =====================================
-> > >
-> > > Instead of specifying action rates, `node_sys_bp` specifies a TARGET STATE:
-> > >
-> > >     "Node N should contain X basis points (X/10000) of system memory"
-> >
-> > I'm not sure if this is exactly what we discussed off list.  What I expected
-> > the goal would be based on our discussion is, what the first patch is saying.
-> > To quote the part,
-> >
-> >     @@ -155,6 +155,7 @@ enum damos_action {
-> >       * @DAMOS_QUOTA_NODE_MEM_FREE_BP:      MemFree ratio of a node.
-> >       * @DAMOS_QUOTA_NODE_MEMCG_USED_BP:    MemUsed ratio of a node for a cgroup.
-> >       * @DAMOS_QUOTA_NODE_MEMCG_FREE_BP:    MemFree ratio of a node for a cgroup.
-> >     + * @DAMOS_QUOTA_NODE_SYS_BP:           Scheme-eligible bytes ratio of a node.
-> >       * @NR_DAMOS_QUOTA_GOAL_METRICS:       Number of DAMOS quota goal metrics.
-> >
-> > That is, my understanding of what we want to achive with the new goal is,
-> > letting users to ask DAMON "migrate hot pages of node A to node B, aiming
-> > X % of node B becomes hot, as a result of the migrations".
-> >
+>>>>> What happens if the guest puts 4K pages into it's AMDv2 table and RMP
+>>>>> is 2M?
+>>>>
+>>>> Is this AMDv2 - an NPT (then it is going to fail)? or nested IOMMU (never tried, in the works, I suspect failure)?
+>>>
+>>> Yes, some future nested vIOMMU
+>>>
+>>> If guest can't have a 4K page in it's vIOMMU while the host is using
+>>> 2M RMP then the whole architecture is broken, sorry.
+>>
+>> I re-read what I wrote and I think I was wrong, the S2 table (guest
+>> physical -> host physical) has to match RMP, not the S1.
 > 
-> Yes, this is the intent. Looking back at my implementation, I see the
-> mismatch:
-> 
-> 1. **Numerator**: Should count only scheme-eligible bytes.
-> 
-> 2. **Denominator**: Should use node capacity, but I used total system
->    memory.
-> 
-> > But your above description is not saying about the "scheme-eligibility".  Also,
-> > the goal metric is the ratio of the memory to the entire system memory, not
-> > just a given node.  My quick read of damon_pa_get_node_sys_bp() on the second
-> > patch of this series confirms the implementation is following your description,
-> > not what I imagined.
-> >
-> 
-> You're right. The implementation diverged from what we discussed. I'll
-> fix both the numerator and denominator in v2.
+> Really? So the HW can fix the 4k/2M mismatch for the S1 but doesn't
+> bother for the S2? Seems like a crazy design to me.
 
-Thank you for clarifying it and sharing the next plan, all sounds good!
+S2 is controlled by the HV and RMP protects against wrong mapping of the guest physical memory in that S2, RMP is a HW firewall.
 
-[...]
-> > Please note that the goal-based quota auto-tuning works in proportional way,
-> > preferring small steps and "eventual" goal convergence.  As a result, migration
-> > will occur a few more times until it is completely stopped after the goal is
-> > satisfied.  Unless there is another scheme that migrates pages into node 0, you
-> > may end up having node 0 having a bit less than the 40% memory.
-> >
-> > >
-> > >     No oscillation - migration stops when target state is reached.
-> >
-> > So, little bit of oscillation could still happen.  Hopefully that shouldn't be
-> > significant, though.
-> >
-> 
-> Yes, As we discussed offline, for a two-context approach:
-> 
->       Context 0: monitors node 0, migrate_hot → node 1
->         goal: damos_target_mem_node_sys_bp, nid=1, target=4000
->         "Stop when node 1 is 40% hot"
-> 
->       Context 1: monitors node 1, migrate_hot → node 0
->         goal: damos_target_mem_node_sys_bp, nid=0, target=6000
->         "Stop when node 0 is 60% hot"
-> 
-> Each context eventually stops when its target node reaches the desired
-> threshold,
-> and the reverse direction is handled by the other context. For my use
-> case, eventual convergence with this setup could be acceptable.
+> What happens if you don't have a VIOMMU, have a single translation
+> stage and only use the S1 (AMDv2) page table in the hypervisor? Then
+> does the HW fix it? Or does it only fix it with two stages enabled?
 
-Thank you for clarifying this!  I'm relieved we don't have a concern here.
+The HW translates a DMA handle to a host pfn, and then RMP checks if that [pfn..pfn+size] is assigned to the correct ASID and the page size matches and the gfn matches.
 
-> An immediate-stop feature could still be useful for the broader community.
-
-Thank you for the feedback.  I will take more time on thinking about how to
-implement this.
-
-> Will test and post results after the next iteration.
-> 
-> > IIRC, SK hynix people also confused with the behavior when they experimented
-> > migrate_{hot,cold} action with NODE_MEM_USED_BP goal based quota auto-tuning,
-> > but using only a single scheme that does migration in a single direction.
-> > Because this is at least second time it made confusion, if you need, maybe I
-> > can try to add a feature for making DAMOS immediately stops after the goal is
-> > satisfied.  Let me know if such new feature can be useful for you.  Cc-ing SK
-> > hynix people (Honggyu and Yunjeong) so that they can correct me if my memory is
-> > broken, or answer if the new feature I described here can be useful for them.
-[...]
-> > > Why get_goal_metric() Ops Callback
-> > > ==================================
-> > >
-> > > The bp calculation requires iterating over monitored PA regions:
-> > >
-> > >     for (pfn = start_pfn; pfn < end_pfn; pfn++) {
-> > >         if (page_to_nid(pfn_to_page(pfn)) == nid)
-> > >             node_bytes += PAGE_SIZE;
-> > >     }
-> > >     bp = node_bytes * 10000 / system_total;
-> > >
-> > > This requires address-space knowledge that only the ops provider has.
-> > > Existing goal metrics (PSI, node_mem_*, node_memcg_*) are computed in
-> > > core using system-wide data that doesn't require iterating monitored
-> > > regions.
-> > >
-> > > The new `get_goal_metric()` callback in `damon_operations` allows:
-> > >
-> > >   1. Core to remain generic - handles all common metrics
-> >
-> > I agree this is indeed making the design clean.  But, we already having such
-> > exception, like core.c code using 'damon_target_has_pid().  Having just one
-> > more exception seems ok to me, unless it makes code too ugly.
-> >
-> > >   2. Ops providers to implement metrics requiring region iteration
-> > >   3. Clean separation - PA implements node_sys_bp, VA could add
-> > >      different metrics in future
-> >
-> > I agree it could be useful for clean support of virtual address mode in future.
-> > But, I'd prefer making this as simple and small as possible for the support we
-> > will use at the moment.
-> >
-> > >   4. Optional implementation - ops return 0 if metric unsupported
-> >
-> > Again, letting core logic having a bit of ops layer information is not a big
-> > problem to my humble perspective.
-> >
-> > So, I'd more prefer not adding the Ops callback, unless you have some other
-> > concerns.
-> >
-> 
-> Agreed. I'll remove the get_goal_metric() ops callback in v2
-
-Thank you for flexibly accepting my suggestion.
-
-[...]
-> > > Advantages of PA-Based Migration
-> > > ================================
-> > >
-> > > PA-based migration with DAMON enables integration of multiple hotness
-> > > sources for migration decisions:
-> > >
-> > >   1. DAMON's native access pattern monitoring
-> > >   2. Fault-based information (similar to NUMA Balancing)
-> > >   3. Future: Hardware monitoring units (e.g., CXL CHMU)
-> > >   4. Future: Instruction-Based Sampling (AMD IBS, Intel PEBS)
-> > >
-> > > Unlike VA-based approaches tied to individual process address spaces, PA
-> > > monitoring can aggregate hotness information from multiple sources to make
-> > > system-wide migration decisions across the entire physical memory space.
-> >
-> > Maybe you are saying about the damon_report_access() based DAMON extension
-> > project [1]?  Since it is not yet upstreamed, and the long term plan is to
-> > support not only physical address but also virtual address space, I think this
-> > section is better to be removed, unless the DAMON extension project is merged
-> > before this patch series.  I expect this patch series will be merged much
-> > earlier than the extension project.
-> >
-> 
-> Agreed. I'll remove the references to future hotness sources.
-
-Thank you!
-
-[...]
-> > > Feedback on the overall approach and design is appreciated.
-> >
-> > I hope my above comments helps the forward progress of this nice series.
-> >
-> 
-> They are very helpful. Thanks a lot.
-
-The pleasure is mine, looking forward to the next version of this patch series
-:)
+RMP does not check S1 translations inside the guest, only S2. RMP is not fixing page sizes or anything, it says yes/no to the access.
 
 
-Thanks,
-SJ
+>>> iommufd won't deal with memory maps for IO, the secure world will
+>>> handle that through KVM.
+>>
+>> Is QEMU going to skip on IOMMU mapping entirely? So when the device
+>> is transitioned from untrusted (when everything mapped via VFIO or
+>> IOMMU) to trusted - QEMU will unmap everything and then the guest
+>> will map everything but this time via KVM and bypassing QEMU
+>> entirely? Thanks,
+> 
+> On ARM there are different S2s for the IOMMU, one for T=1 and one for
+> T=0 traffic. The T=1 is fully controlled by the secure world is equal
+> to the CPU S2. The T=0 one is fully controlled by qemu and acts like a
+> normal system. The T=0 can only access guest shared memory.
 
-[...]
+Does the T=0 table still have all the guest memory mapped (with the expectation that what is not allowed - won't be accessed using that table)? Thanks,
+
+
+> 
+> Jason
+
+-- 
+Alexey
+
