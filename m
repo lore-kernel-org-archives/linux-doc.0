@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DDBC2FE56A;
-	Wed, 28 Jan 2026 11:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB28238D54;
+	Wed, 28 Jan 2026 12:04:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769600277; cv=none; b=kHTY2gsyFLMenv5qKRL8XQ+SmSXiB29vrz31PXC94vRaKetL6yN1aBrpws6aCOCiUSv9uSNtLzIxh1eMJ6pmSLab6RoS2lJ0z4s3A6ACGsDO/r9LXz4ax2YA9KABvqEq2U9hk0rzxCr2iMXW8qZP6LS1aOknxaFW8teU8cz9Q/Y=
+	t=1769601854; cv=none; b=pH9Qse2jD7iz3N/Kn/uGyt2t8WBXU3zEXFiBNHsy8slKU/X/y2WJ4Hv5l3yMgF/7nqWO6TPkjvsJUNPcRq9Pv3IkOa19/DQ7UOJZhiH8iVoBgGxmXV0BFYfyai4lltsTw1HvBPhtQsvCF+iZLFSeCK79m4N1YRM32ktxTVL35wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769600277; c=relaxed/simple;
-	bh=Q84GU8xgsjGXyT/viKhB7wVI26KgRvvwxmD1gNRdy8M=;
+	s=arc-20240116; t=1769601854; c=relaxed/simple;
+	bh=ZmWp47hdVxyqv1Ds+2Hq8SoLybTurOLu+L6KbG5zDis=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=u5LzkUqDtNn3OFjchTCm0JW0TTHxfZrJcqaV8BpdG2muoiOWCm39yt04UemmKE2U62HTHI/x2q3oMnDgT1wOTf0mXZ2BP7FVIvtikvohOEWjjFv950KuhPtF480Y1jOWPJp6COjBvaW58cEYT4A6TgW+Ccnk/IQgRNycmgWurws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VEC26QRf; arc=none smtp.client-ip=10.30.226.201
+	 References:In-Reply-To; b=uyvQz1nesuLugqVfxcbUArLkuArvjdIEeb6gogshqUwIbFh5XAcSZMfSqhe3w0oBPe3KGRflAkTogF3es5QvNO0pYrJaGbKYIdfxrxjLT4hgQkkJf7F9QhGoV11t/PnMIz/PaOHjU8jWASfUPCn0IYYUEf+GKigQseAFbObYtQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hx8cf+jz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VEC26QRf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23404C4CEF1;
-	Wed, 28 Jan 2026 11:37:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hx8cf+jz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DA89C4CEF1;
+	Wed, 28 Jan 2026 12:04:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769600277;
-	bh=Q84GU8xgsjGXyT/viKhB7wVI26KgRvvwxmD1gNRdy8M=;
+	s=k20201202; t=1769601854;
+	bh=ZmWp47hdVxyqv1Ds+2Hq8SoLybTurOLu+L6KbG5zDis=;
 	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=VEC26QRf+0VxV8vqSHDh+7/n7HJgr9VHxk0DfXO02krOr0HKGpHnslA8xQM7F/Sfx
-	 uvgpjvKWl80Jt2NzzrP5Vf4WzZEKkgkCutpfrCte31cGJ0oyWexjKhZZJaw9iMT5Kr
-	 MRJ659ORGYlPWX98JxGlDIa2zLTppGEXexk40IyQd06aW2Z0u1J2et46X9rBROXCpr
-	 3Eu1ofi7CTwfE7MEJTfTYl337ZPaHDbJf5Fxu+NXyXcRqGvGFSqH2uIoULyZTrma/o
-	 gNvMYUWfo1U6149cpZkMVGRsGAZLiRYJ5I0009kg+Guok8oyVcMNOqbgdra/drRR6I
-	 tev/SXp8kLopQ==
+	b=Hx8cf+jzc7ub0hEm2EJD7hjBM5GYjypHZfOvHh9LRFTILWZObQdgV/HK/IWv+uLPy
+	 QzwMaPaZwA+V+WErhedeik+QeYs1j80V+8P+jOhgKApsZ1s79rGFAC6RUq4+D5Ardn
+	 n62+ipYg5+OX6sXbx9BsgWCbDyUkOOSoZW9EPkqcJk4sUK+fsaoJcXefEI/9RvlHNC
+	 eqkqF2D98GiwsjvyxkKugFrsM93/vx/v/+zhBRaGrlGsp/aOZuQGevj0bw7jmsrvBG
+	 cv+blyDHbdlOGVFLw2q2+VMmk/cjQy252+jpZJPmDd65c5tggySUXW4QONEzl5E3Ao
+	 RqgAJXywJWoUw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -34,35 +34,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 28 Jan 2026 12:37:44 +0100
-Message-Id: <DG06XUWOJLO5.1ESB8ES6A6081@kernel.org>
-Subject: Re: [PATCH RFC v6 00/26] nova-core: Memory management
- infrastructure (v6)
-Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
- <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
+Date: Wed, 28 Jan 2026 13:04:02 +0100
+Message-Id: <DG07HZN0PL87.X5MKDCVVYIRE@kernel.org>
+Subject: Re: [PATCH RFC v6 05/26] nova-core: mm: Add support to use PRAMIN
+ windows to write to VRAM
+Cc: "Zhi Wang" <zhiw@nvidia.com>, <linux-kernel@vger.kernel.org>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
+ "Christian Koenig" <christian.koenig@amd.com>, "Jani Nikula"
  <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
  <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
  "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
  "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
  <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "John Hubbard" <jhubbard@nvidia.com>, "Alistair
- Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
+ "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>, "Helge Deller"
+ <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>, "Bjorn Roy Baron"
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
  <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Alexey Ivanov" <alexeyi@nvidia.com>, "Balbir Singh"
- <balbirs@nvidia.com>, "Philipp Stanner" <phasta@kernel.org>, "Elle Rhumsaa"
- <elle@weathered-steel.dev>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, <joel@joelfernandes.org>,
+ Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Alexey
+ Ivanov" <alexeyi@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp
+ Stanner" <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
+ "Daniel Almeida" <daniel.almeida@collabora.com>,
  <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
  <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
@@ -70,110 +69,101 @@ Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
 To: "Joel Fernandes" <joelagnelf@nvidia.com>
 From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
-In-Reply-To: <20260120204303.3229303-1-joelagnelf@nvidia.com>
+ <20260120204303.3229303-6-joelagnelf@nvidia.com>
+ <20260121100745.2b5a58e5.zhiw@nvidia.com>
+ <e186973c-ce31-405a-8bfa-dc647737a666@nvidia.com>
+ <DS0PR12MB6486717785F6DD14EE1F1C46A397A@DS0PR12MB6486.namprd12.prod.outlook.com>
+In-Reply-To: <DS0PR12MB6486717785F6DD14EE1F1C46A397A@DS0PR12MB6486.namprd12.prod.outlook.com>
 
-On Tue Jan 20, 2026 at 9:42 PM CET, Joel Fernandes wrote:
-> This series is rebased on drm-rust-kernel/drm-rust-next and provides memo=
-ry
-> management infrastructure for the nova-core GPU driver. It combines sever=
-al
-> previous series and provides a foundation for nova GPU memory management
-> including page tables, virtual memory management, and BAR mapping. All th=
-ese
-> are critical nova-core features.
-
-Thanks for this work, I will go through the series soon. (Although it would=
- also
-be nice to have what I mention below addressed first.)
-
-> The series includes:
-> - A Rust module (CList) to interface with C circular linked lists, requir=
-ed
->   for iterating over buddy allocator blocks.
-> - Movement of the DRM buddy allocator up to drivers/gpu/ level, renamed t=
-o GPU buddy.
-> - Rust bindings for the GPU buddy allocator.
-> - PRAMIN aperture support for direct VRAM access.
-> - Page table types for MMU v2 and v3 formats.
-> - Virtual Memory Manager (VMM) for GPU virtual address space management.
-> - BAR1 user interface for mapping access GPU via virtual memory.
-> - Selftests for PRAMIN and BAR1 user interface (disabled by default).
+On Fri Jan 23, 2026 at 12:16 AM CET, Joel Fernandes wrote:
+> My plan is to make TLB and PRAMIN use immutable references in their funct=
+ion
+> calls and then implement internal locking. I've already done this for the=
+ GPU
+> buddy functions, so it should be doable, and we'll keep it consistent. As=
+ a
+> result, we will have finer-grain locking on the memory management objects
+> instead of requiring to globally lock a common GpuMm object. I'll plan on
+> doing this for v7.
 >
-> Changes from v5 to v6:
-> - Rebased on drm-rust-kernel/drm-rust-next
-> - Added page table types and page table walker infrastructure
-> - Added Virtual Memory Manager (VMM)
-> - Added BAR1 user interface
-> - Added TLB flush support
-> - Added GpuMm memory manager
-> - Extended to 26 patches from 6 (full mm infrastructure now included)
+> Also, the PTE allocation race you mentioned is already handled by PRAMIN
+> serialization. Since threads must hold the PRAMIN lock to write page tabl=
+e
+> entries, concurrent writers are not possible:
 >
-> The git tree with all patches can be found at:
-> git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (tag: nova-=
-mm-v6-20260120)
+>   Thread A: acquire PRAMIN lock
+>   Thread A: read PDE (via PRAMIN) -> NULL
+>   Thread A: alloc PT page, write PDE
+>   Thread A: release PRAMIN lock
 >
-> Link to v5: https://lore.kernel.org/all/20251219203805.1246586-1-joelagne=
-lf@nvidia.com/
->
-> Previous series that are combined:
-> - v4 (clist + buddy): https://lore.kernel.org/all/20251204215129.2357292-=
-1-joelagnelf@nvidia.com/
-> - v3 (clist only): https://lore.kernel.org/all/20251129213056.4021375-1-j=
-oelagnelf@nvidia.com/
-> - v2 (clist only): https://lore.kernel.org/all/20251111171315.2196103-4-j=
-oelagnelf@nvidia.com/
-> - clist RFC (original with buddy): https://lore.kernel.org/all/2025103019=
-0613.1224287-1-joelagnelf@nvidia.com/
-> - DRM buddy move: https://lore.kernel.org/all/20251124234432.1988476-1-jo=
-elagnelf@nvidia.com/
-> - PRAMIN series: https://lore.kernel.org/all/20251020185539.49986-1-joela=
-gnelf@nvidia.com/
+>   Thread B: acquire PRAMIN lock
+>   Thread B: read PDE (via PRAMIN) -> sees A's pointer
+>   Thread B: uses existing PT page, no allocation needed
 
-I'm not overly happy with this version history. I understand that you are
-building things on top of each other, but going back and forth with adding =
-and
-removing features from a series is confusing and makes it hard to keep trac=
-k of
-things.
+This won't work unfortunately.
 
-(In the worst case it may even result in reviewers skipping over it leaving=
- you
-with no progress eventually.)
+We have to separate allocations and modifications of the page tabe. Or in o=
+ther
+words, we must not allocate new PDEs or PTEs while holding the lock protect=
+ing
+the page table from modifications.
 
-I.e. you stared with a CList and DRM buddy RFC, then DRM buddy disappeared =
-for a
-few versions and came back eventually. Then, in the next version, the PRAMI=
-N
-stuff came back in, which also had a predecessor series already and now you
-added lots of MM stuff on top of it.
+Once we have VM_BIND in nova-drm, we will have the situation that userspace
+passes jobs to modify the GPUs virtual address space and hence the page tab=
+les.
 
-The whole version history is about what features and patches were added and
-removed to/from the series, rather than about what actually changed design =
-wise
-and code wise between the iterations (which is the important part for revie=
-wers
-and maintainers).
+Such a jobs has mainly three stages.
 
-I also think it is confusing that a lot of the patches in this series have =
-never
-been posted before, yet they are labeled as v6 of this RFC.
+  (1) The submit stage.
 
-Hence, please separate the features from each other in separate patch serie=
-s,
-with their own proper version history and changelog. In order to account fo=
-r the
-dependencies, you can just mention them in the cover letter and add a link =
-to
-the other related patch series, which should be sufficient for people inter=
-ested
-in the full picture.
+      This is where the job is initialized, dependencies are set up and the
+      driver has to pre-allocate all kinds of structures that are required
+      throughout the subsequent stages of the job.
 
-I think the most clean approach would probably be a split with CList, DRM b=
-uddy
-and Nova MM stuff.
+  (2) The run stage.
 
-And just to clarify, in the end I do not care too much about whether it's a=
-ll in
-a single series or split up, but going back and forth with combining things=
- that
-once have been separate and have a separate history doesn't work out well.
+      This is the stage where the job is staged for execution and its DMA f=
+ence
+      has been made public (i.e. it is accessible by userspace).
+
+      This is the stage where we are in the DMA fence signalling critical
+      section, hence we can't do any non-atomic allocations, since otherwis=
+e we
+      could deadlock in MMU notifier callbacks for instance.
+
+      This is the stage where the page table is actually modified. Hence, w=
+e
+      can't acquire any locks that might be held elsewhere while doing
+      non-atomic allocations. Also note that this is transitive, e.g. if yo=
+u
+      take lock A and somewhere else a lock B is taked while A is already h=
+eld
+      and we do non-atomic allocations while holding B, then A can't be hel=
+d in
+      the DMA fence signalling critical path either.
+
+      It is also worth noting that this is the stage where we know the exac=
+t
+      operations we have to execute based on the VM_BIND request from users=
+pace.
+
+      For instance, in the submit stage we may only know that userspace wan=
+ts
+      that we map a BO with a certain offset in the GPUs virtual address sp=
+ace
+      at [0x0, 0x1000000]. What we don't know is what exact operations this=
+ does
+      require, i.e. "What do we have to unmap first?", "Are there any
+      overlapping mappings that we have to truncate?", etc.
+
+      So, we have to consider this when we pre-allocate in the submit stage=
+.
+
+  (3) The cleanup stage.
+
+      This is where the job has been signaled and hence left the DMA fence
+      signalling critical section.
+
+      In this stage the job is cleaned up, which includes freeing data that=
+ is
+      not required anymore, such as PTEs and PDEs.
