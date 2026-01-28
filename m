@@ -1,231 +1,72 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF7133D514;
-	Wed, 28 Jan 2026 09:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728114502A;
+	Wed, 28 Jan 2026 09:16:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769591427; cv=none; b=EhpmmdW0n00FblErhxHbQekUm3vvdZP8zGunQlCm+iiDUdwSoMyCTY0VegL/TZa2IRDrZt1NF3mIpGWoKco3FrQVbnbnjXnBL4/TS0sfgTBI6zvDFmHE9PollcWvgqSBl5gW3usUDvQnl3gklx6ncF10uxG1S14mV7Vc1MEWpPE=
+	t=1769591772; cv=none; b=HJq0Hd6MiBL1YnX0DKEVRVAfVS+oV5+/b91f8qntmkN1jzpqFX9WbE8elmagpv3195BZiGE5r0V++AQf4CFXACn6LItEqs3JEqWcEPfLSr24zipu1uQu9EkxEQ/951RA88eqikgVeZuV3zmgnriyF+YEVSR2wWX35cpHXaIQQFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769591427; c=relaxed/simple;
-	bh=qkpHozPeFPLN8x4TopItyC5GRyx5XiqEkmU/4joUB/s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=dEBvcR0A42jy5l0ga1HB3haz83ECtwUpWe28B2THPsB1/pnEfUtho8ELP2m/5P/V8O8bdqRGYAhECLj641q3+XWwZrCcU0XRT79a2dIl23B/31O6NmijOUFmqvlST/EYTSY87J+/7pgxZw70TdQ4hi9ETc5nhuzIwffsOhTiRw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=e6oNIkiu; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1769591772; c=relaxed/simple;
+	bh=g2RmX6bqLfvTJKb1XBSuNHFWcL34fxltXzbmfoDuBFk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dFJvvyeFSkyyI/nuMl3YJsKbAlNbijlSCa8/OMx1DPUkzpkvvFJlGAdHJPvPkvj9haucVc/bOwnyQSTv0s/r8IUN2dbGr5owBwks+mPNG9aaUsFsll8HCLIPAlfqPtdKmNWRcje/WcFUMCinWVJ2axNmeemvUMwBDqtlbsFakhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fbtuW43N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="e6oNIkiu"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=O+XrW4k5epiAxYyQWxolP9CdYG+5jWSB8YXfa97drgM=;
-	b=e6oNIkiu1+7o3lFWO1HaNNSCyiA9PhM2YNveAbVUWynnqCJRglfmHjFoqNRsbH+54mri71ZXR
-	jW8JDBCqY+mSXg0mdD5k00imBuDu+t1g3oV7zf1GzIXKUCDUO4sOiRMlLZ6p6x7BEQ9w2PwLsAI
-	cGplGXAGefuNlLkNXacWJv4=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4f1GcD2n8HzmV7H;
-	Wed, 28 Jan 2026 17:06:52 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 046094056B;
-	Wed, 28 Jan 2026 17:10:21 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 28 Jan 2026 17:10:17 +0800
-Message-ID: <3407c779-9e7e-8f90-353f-c2b58992aae2@huawei.com>
-Date: Wed, 28 Jan 2026 17:10:15 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fbtuW43N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A4FAC4CEF1;
+	Wed, 28 Jan 2026 09:16:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769591772;
+	bh=g2RmX6bqLfvTJKb1XBSuNHFWcL34fxltXzbmfoDuBFk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fbtuW43NBiVucn6TftPq9S2xEQt5TSdheliJ73/4a3UA9t6rMcPi9C1PJssAWjrPm
+	 qbZKcFCcIk7k/snSCaKmHopenA2C7NJfowuAgqLbHeErTxVO3/Ne0FJM0DkdGVXFLZ
+	 1/GN38pz/K6itRaY523SNNW9td6fm+dS1EhCOaJihPrAiyIshoq5wEephaPJ+UPK4T
+	 dRzUQWEEE79vpf/wvtaTBY+rIh/U3IHO86boj7Md05hMWHihhZwLZgk36kYGsDTD/F
+	 GRkpr0Kpx82/bTvgF/iT1s0ZOlTHEb803agX5B2ZO4f6GEgE/ogPZsHiyq/R0Fv6yQ
+	 KHDGROz8FVDiQ==
+Date: Wed, 28 Jan 2026 09:16:06 +0000
+From: Simon Horman <horms@kernel.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: "illusion.wang" <illusion.wang@nebula-matrix.com>,
+	dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com, netdev@vger.kernel.org,
+	andrew+netdev@lunn.ch, corbet@lwn.net, linux-doc@vger.kernel.org,
+	lorenzo@kernel.org, pabeni@redhat.com, vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com, hawk@kernel.org, ast@kernel.org,
+	bpf@vger.kernel.org, sdf@fomichev.me, daniel@iogearbox.net,
+	john.fastabend@gmail.com, edumazet@google.com,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 net-next 00/15] nbl driver for Nebulamatrix NICs
+Message-ID: <aXnT1juyBbMkiykg@horms.kernel.org>
+References: <20260123011804.31263-1-illusion.wang@nebula-matrix.com>
+ <aXj-uam1HodC0851@horms.kernel.org>
+ <20260127105304.21279cc2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v2] arm64: kexec: Add support for crashkernel CMA
- reservation
-Content-Language: en-US
-To: Mike Rapoport <rppt@kernel.org>
-CC: <ardb@kernel.org>, <leitao@debian.org>, <corbet@lwn.net>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <akpm@linux-foundation.org>,
-	<bp@alien8.de>, <mingo@kernel.org>, <pawan.kumar.gupta@linux.intel.com>,
-	<feng.tang@linux.alibaba.com>, <kees@kernel.org>, <elver@google.com>,
-	<arnd@arndb.de>, <fvdl@google.com>, <lirongqing@baidu.com>,
-	<bhelgaas@google.com>, <bhe@redhat.com>, <dave.hansen@linux.intel.com>,
-	<cfsworks@gmail.com>, <osandov@fb.com>, <sourabhjain@linux.ibm.com>,
-	<jbohac@suse.cz>, <ryan.roberts@arm.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-References: <20260126081334.699147-1-ruanjinjie@huawei.com>
- <aXnJd_Xghj9JLsnK@kernel.org>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <aXnJd_Xghj9JLsnK@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127105304.21279cc2@kernel.org>
 
-
-
-On 2026/1/28 16:31, Mike Rapoport wrote:
-> On Mon, Jan 26, 2026 at 04:13:34PM +0800, Jinjie Ruan wrote:
->> Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
->> crashkernel= command line option") and commit ab475510e042 ("kdump:
->> implement reserve_crashkernel_cma") added CMA support for kdump
->> crashkernel reservation.
->>
->> Crash kernel memory reservation wastes production resources if too
->> large, risks kdump failure if too small, and faces allocation difficulties
->> on fragmented systems due to contiguous block constraints. The new
->> CMA-based crashkernel reservation scheme splits the "large fixed
->> reservation" into a "small fixed region + large CMA dynamic region": the
->> CMA memory is available to userspace during normal operation to avoid
->> waste, and is reclaimed for kdump upon crash—saving memory while
->> improving reliability.
->>
->> So extend crashkernel CMA reservation support to arm64. The following
->> changes are made to enable CMA reservation:
->>
->> - Parse and obtain the CMA reservation size along with other crashkernel
->>   parameters.
->> - Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
->> - Include the CMA-reserved ranges for kdump kernel to use.
->> - Exclude the CMA-reserved ranges from the crash kernel memory to
->>   prevent them from being exported through /proc/vmcore.
->>
->> Update kernel-parameters.txt to document CMA support for crashkernel on
->> arm64 architecture.
+On Tue, Jan 27, 2026 at 10:53:04AM -0800, Jakub Kicinski wrote:
+> On Tue, 27 Jan 2026 18:06:49 +0000 Simon Horman wrote:
+> > As per Jakub's advice in his review of v1 [*],
+> > Please try to create a minimal driver in the order of ~5kLoC.
 > 
-> I'm looking at this and at almost identical patch for riscv 
-> https://lore.kernel.org/all/20260126080738.696723-1-ruanjinjie@huawei.com
-> and it feels wrong that we have duplicate the code that excludes cma
-> ranges.
-> CMA ranges are known to the crash_core and I don't see why we cannot
-> exclude them there.
-
-Youa are right, x86 and powerpc has similar implementations that
-excludes crashkernel cma ranges.
-
-x86 [1]
-
-+	for (i = 0; i < crashk_cma_cnt; ++i) {
-+		ret = crash_exclude_mem_range(cmem, crashk_cma_ranges[i].start,
-+					      crashk_cma_ranges[i].end);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-
-But powerpc [2] is a little different which uses a wrapper for
-crash_exclude_mem_range() and more check and realloc_mem_ranges().
-
-+	for (i = 0; i < crashk_cma_cnt; ++i) {
-+		ret = crash_exclude_mem_range_guarded(mem_ranges,
-crashk_cma_ranges[i].start,
-+					      crashk_cma_ranges[i].end);
-+		if (ret)
-+			goto out;
-+	}
-
-[1]: https://lore.kernel.org/all/ZWEAWMJtesa3O9M5@dwarf.suse.cz/
-[2]:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b4a96ab50f368afc2360ff539a20254ca2c9a889
-
->  
->> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->> ---
->> v2:
->> - Free cmem in prepare_elf_headers()
->> - Add the mtivation.
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt |  2 +-
->>  arch/arm64/kernel/machine_kexec_file.c          | 15 ++++++++++++++-
->>  arch/arm64/mm/init.c                            |  5 +++--
->>  3 files changed, 18 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 1058f2a6d6a8..36bb642a7edd 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -1119,7 +1119,7 @@ Kernel parameters
->>  			It will be ignored when crashkernel=X,high is not used
->>  			or memory reserved is below 4G.
->>  	crashkernel=size[KMG],cma
->> -			[KNL, X86, ppc] Reserve additional crash kernel memory from
->> +			[KNL, X86, ARM64, ppc] Reserve additional crash kernel memory from
->>  			CMA. This reservation is usable by the first system's
->>  			userspace memory and kernel movable allocations (memory
->>  			balloon, zswap). Pages allocated from this memory range
->> diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
->> index 410060ebd86d..ef6ce9aaba80 100644
->> --- a/arch/arm64/kernel/machine_kexec_file.c
->> +++ b/arch/arm64/kernel/machine_kexec_file.c
->> @@ -48,7 +48,7 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
->>  	u64 i;
->>  	phys_addr_t start, end;
->>  
->> -	nr_ranges = 2; /* for exclusion of crashkernel region */
->> +	nr_ranges = 2 + crashk_cma_cnt; /* for exclusion of crashkernel region */
->>  	for_each_mem_range(i, &start, &end)
->>  		nr_ranges++;
->>  
->> @@ -64,6 +64,12 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
->>  		cmem->nr_ranges++;
->>  	}
->>  
->> +	for (i = 0; i < crashk_cma_cnt; i++) {
->> +		cmem->ranges[cmem->nr_ranges].start = crashk_cma_ranges[i].start;
->> +		cmem->ranges[cmem->nr_ranges].end = crashk_cma_ranges[i].end;
->> +		cmem->nr_ranges++;
->> +	}
->> +
->>  	/* Exclude crashkernel region */
->>  	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
->>  	if (ret)
->> @@ -75,6 +81,13 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
->>  			goto out;
->>  	}
->>  
->> +	for (i = 0; i < crashk_cma_cnt; ++i) {
->> +		ret = crash_exclude_mem_range(cmem, crashk_cma_ranges[i].start,
->> +					      crashk_cma_ranges[i].end);
->> +		if (ret)
->> +			goto out;
->> +	}
->> +
->>  	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
->>  
->>  out:
->> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->> index 524d34a0e921..28165d94af08 100644
->> --- a/arch/arm64/mm/init.c
->> +++ b/arch/arm64/mm/init.c
->> @@ -96,8 +96,8 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit;
->>  
->>  static void __init arch_reserve_crashkernel(void)
->>  {
->> +	unsigned long long crash_base, crash_size, cma_size = 0;
->>  	unsigned long long low_size = 0;
->> -	unsigned long long crash_base, crash_size;
->>  	bool high = false;
->>  	int ret;
->>  
->> @@ -106,11 +106,12 @@ static void __init arch_reserve_crashkernel(void)
->>  
->>  	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
->>  				&crash_size, &crash_base,
->> -				&low_size, NULL, &high);
->> +				&low_size, &cma_size, &high);
->>  	if (ret)
->>  		return;
->>  
->>  	reserve_crashkernel_generic(crash_size, crash_base, low_size, high);
->> +	reserve_crashkernel_cma(cma_size);
->>  }
->>  
->>  static phys_addr_t __init max_zone_phys(phys_addr_t zone_limit)
->> -- 
->> 2.34.1
->>
+> Perhaps other maintainers will disagree, but for ease of review
+> and to avoid the huge reposts perhaps we should consider merging
+> something like patches 1 and 3* first, as the initial series.
+> And then you can build up the driver from there in reasonable,
+> 5kLoC-at-a-time series?
 > 
+>  * patch 3 currently includes things which do not seem machine
+>    generated / like register descriptors like structs added to
+>    nbl_def_channel.h and nbl_include.h
+
+Without having looked into the details: yes, I think some
+sort of staged approached could help here.
