@@ -1,372 +1,164 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DC0309F1B
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 16:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7801E318B91;
+	Wed, 28 Jan 2026 16:40:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769618327; cv=none; b=BH883rFQFGIi+/s+U9f1HWcD9bqrhiQG95qxG7qE6p+dz5ze1P9Oqzt3oh5gz7B/CkcLknAgPBqAdSQDZwLj2/uFxXHA1ruzwxTuXovlt7PhDuXHN0S8Q39sCDgRf7y5vADgS1Wz3DoFgm3UVGpttiUbTdzmypLAar+gyxXI27A=
+	t=1769618434; cv=none; b=QJpQGKH5I6SXKpJYF45ZJRK2uTGupwYmhZV0EaL6x5qOfh8E20v/+ZgXG3Ufo3D8aDk38NOfyuLr5amnn/ybdZk72A17o3eZH49YZxk99PPfCPE/Ivoh643/S+j2ziyK4NdYPGoZYGDSAlvG/rcoFL6L3PB13n/x6C/99p23fW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769618327; c=relaxed/simple;
-	bh=oYpywg6wSKKfqKMO9drAZK+XQSP+GwNWRgfyOXjs4ME=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PbHh2Rb2qxENQA35wM2DHmzd3/Ik8g+D6WAW4kINAwFxY1906hToyEr493ohh/89Ry53Mm86W9KtIYcAnDn8VsYss+8tZGj5vXyezI5yoXpTlNdJtMiUn84i2pvi9YqebYG5P/VvvuywJXpUvnaGKLtl6ZIio92T+3Mw5I4vlKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ARRu21ty; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=XmAY1Iju; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ARRu21ty";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="XmAY1Iju"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769618325;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vvwUtKzwHdNf28qH621RfDijiiFJTykMerMvhScCt2E=;
-	b=ARRu21tyqu5DOTFbFXrvmWpky3yzHdNxZtAJLJJmXMF60E84wCF7PsyJnDHIf3tDKocwpm
-	ISSjSVEJNYr0j96GuO0DwFv1NYlgY3T7AvHiS+q1/YerdRHxt6bd2unABLJZio8eJsN9Jl
-	OX943DxrOmMEIfb/pP1slBxkAYqPduU=
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-202-uXUmA3hMOCKmX1o6isJLHQ-1; Wed, 28 Jan 2026 11:38:43 -0500
-X-MC-Unique: uXUmA3hMOCKmX1o6isJLHQ-1
-X-Mimecast-MFC-AGG-ID: uXUmA3hMOCKmX1o6isJLHQ_1769618323
-Received: by mail-oa1-f70.google.com with SMTP id 586e51a60fabf-4046864f5e7so29905fac.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 08:38:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1769618322; x=1770223122; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vvwUtKzwHdNf28qH621RfDijiiFJTykMerMvhScCt2E=;
-        b=XmAY1IjuKA9IaI8BQaXAdj2QtlWaeyod/ftYka/ANmqGO3kgKmtQaqqCRGoDrdStJw
-         CsEFsuPMJLA/g2VFpYMfKVYcnIHxMtU25+YK9H+TqtXIg40y5C2vbq9B8g0eVlensS6O
-         o1Bh+0SDCU0xQcTUMavTlDD/GeVUg1yEw3sSO8rkIy94gsawxXyVYugE7hR+sk48CA9e
-         7KdvCXfcq3eWvzAH7ByTyCA5jubRteUYW4LExVUUyMf6bugLdLP0BTKkqSlVYTQhryVs
-         1bfplfWfm2JHxMHcrYwgOHslczBg/zUcZEHo4OdJ38lqd2iE9O96raguCkhxpzUYMoes
-         v9ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769618322; x=1770223122;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vvwUtKzwHdNf28qH621RfDijiiFJTykMerMvhScCt2E=;
-        b=kPjf0SFqaJpYzgNm+71vgvpxs0Y7k1Kgnoubc9d18E6o0cFd6JJGC82emL48jd5TBN
-         4wR5XZnhFyEq60K3tEd9Pd18IKNIIqBJdlKfSDkQ6wa4mA+07VjDVJFQwRZvQdVfQQuU
-         aeKWKanSIFQqxRFkawjc7FQMUXi+DHQCH8yH/lHFIrl4od9SA7Nfkfn2aNEVLZCFAGfg
-         b9sTNqpzScfsUs4B4Or4Emge2NoaHoSiBiecwh+3n5BKb/eQeD6CCHd1a6qBoDxNTBdU
-         DTpgcCWmINqD51Ijj5F/Nx45qS1ni+067t68/kKeYh22BEQxR9RaZnsCXsQYytPwIMWH
-         +5TA==
-X-Forwarded-Encrypted: i=1; AJvYcCWnATH5CcpMNmg4Z1VY1u6Fe6eykPs9D4kRsMgo/96fFkdhHsIwfyKa5nPeuVb+1YCgJTxaf9uqMC4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxipy3xJRfc+mDOOOusPwQSVnayvpR4gIv1vVtpm/kR0OQ2yPWA
-	w4oGhgxcwbQaA2pRIkNPBZsGVLL4AN8L7smRz2YUG5xukNOkYgwUs8VTJ2CsyJgM7mP0T94kgj9
-	bOK3jd1BVK8fxWMfebV5WQqZKCQ60EZ/fW2oFvCR8q1xOJFjosyHuDb+OhE9OnQ==
-X-Gm-Gg: AZuq6aL5zYqwm6hg87fnbsgN7IbbaHvs4qdpLh2ctN55zg/wGYHOi4EfYSeCsW+GeId
-	2/fBL1EYu9w/knggoqQcj2/pv/R1oNBkMsNteMhmOBVzBBgIbt7lypiBCGBE7igrH5jUepXn0Zw
-	uctb7e46ZPXbRUKFtrfg7f7/yQhhV+t+4Aob339MBLHLiIyoPKNfX4y9W+PlBmBCeGMJ+z+lXxB
-	fSZ02qzOR7TGzyMMadazJKSKObWLXX9Yp3rlVyojmOwjsbdskt8iO6/tBWg07ibBAD6erFuF91i
-	UCztjAAJSjMWS7MaOFOA8Vcurr4eGEG1muRp0v/v7nfg4RSSjyHk/OHRIJ8YftpSl7dj5d0UX9Y
-	RfCgTq4Emg/n2tKrD3Q==
-X-Received: by 2002:a05:6870:6f03:b0:3ec:3aa1:84d2 with SMTP id 586e51a60fabf-4093fc716demr3763717fac.11.1769618322460;
-        Wed, 28 Jan 2026 08:38:42 -0800 (PST)
-X-Received: by 2002:a05:6870:6f03:b0:3ec:3aa1:84d2 with SMTP id 586e51a60fabf-4093fc716demr3763682fac.11.1769618320931;
-        Wed, 28 Jan 2026 08:38:40 -0800 (PST)
-Received: from ?IPV6:2601:282:1c83:9aa0::56cf? ([2601:282:1c83:9aa0::56cf])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-409570f63b4sm2077985fac.3.2026.01.28.08.38.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jan 2026 08:38:40 -0800 (PST)
-Message-ID: <b824f131-3e51-422c-9e98-044b0a2928a6@redhat.com>
-Date: Wed, 28 Jan 2026 09:38:37 -0700
+	s=arc-20240116; t=1769618434; c=relaxed/simple;
+	bh=KN0RWmM/E0PJw5+tacIVqLz8j2grF2gZqhBSbSiV+TM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=R6mjnwNoPMkfN7dX/pu5a/aa+fdx/XvsKzoSuuV9ZDdEORcwe+c4VPhWESNv1vsSBDlB6Mibe5mA9OoNzNEHLZeCyHyMymBnqm8EJpMb4ox2ayYxAdtGh39rP1+crRfec/doSbsMSIPt1Z3xEkZ8GYx6OHiUJfYb276/af22N3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4f1Sft4CpNzJ46ZP;
+	Thu, 29 Jan 2026 00:39:50 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6628540086;
+	Thu, 29 Jan 2026 00:40:28 +0800 (CST)
+Received: from dubpeml500008.china.huawei.com (7.214.146.94) by
+ dubpeml500005.china.huawei.com (7.214.145.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 28 Jan 2026 16:40:27 +0000
+Received: from dubpeml500008.china.huawei.com ([7.214.146.94]) by
+ dubpeml500008.china.huawei.com ([7.214.146.94]) with mapi id 15.02.1544.011;
+ Wed, 28 Jan 2026 16:40:27 +0000
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Borislav Petkov <bp@alien8.de>
+CC: "rafael@kernel.org" <rafael@kernel.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "rppt@kernel.org" <rppt@kernel.org>,
+	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>,
+	"lenb@kernel.org" <lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Linuxarm <linuxarm@huawei.com>, "rientjes@google.com" <rientjes@google.com>,
+	"jiaqiyan@google.com" <jiaqiyan@google.com>, "Jon.Grimm@amd.com"
+	<Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
+	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
+	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
+	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
+	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
+	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
+	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
+	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
+ Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: RE: [PATCH v16 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Thread-Topic: [PATCH v16 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Thread-Index: AQHcjJF8dezXiKYfZEmczjDGAWEGLrVktbUAgAMVYQA=
+Date: Wed, 28 Jan 2026 16:40:27 +0000
+Message-ID: <863e6f6f7d15466397948ce8e920a04c@huawei.com>
+References: <20260123175512.2066-1-shiju.jose@huawei.com>
+ <20260123175512.2066-2-shiju.jose@huawei.com>
+ <20260126171552.GJaXehSJp33nFnpvVd@fat_crate.local>
+In-Reply-To: <20260126171552.GJaXehSJp33nFnpvVd@fat_crate.local>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v14 03/16] introduce collapse_single_pmd to
- unify khugepaged and madvise_collapse
-To: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- akpm@linux-foundation.org
-Cc: david@kernel.org, lorenzo.stoakes@oracle.com, ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
- ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
- lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
- joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
- gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
- jannh@google.com, pfalcato@suse.de, jackmanb@google.com, hannes@cmpxchg.org,
- willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com,
- usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
- anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
- will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, zokeefe@google.com, rientjes@google.com,
- rdunlap@infradead.org, hughd@google.com, richard.weiyang@gmail.com,
- David Hildenbrand <david@redhat.com>, shivankg@amd.com
-References: <20260122192841.128719-1-npache@redhat.com>
- <20260122192841.128719-4-npache@redhat.com>
-From: Nico Pache <npache@redhat.com>
-Content-Language: en-US, en-ZM
-In-Reply-To: <20260122192841.128719-4-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi Andrew,
-
-could you please apply the following fixup to avoid potentially using a stale
-VMA in the new writeback-retry logic for madvise collapse.
-
-Thank you!
--- Nico
-
-----8<----
-commit a9ac3b1bfa926dd707ac3a785583f8d7a0579578
-Author: Nico Pache <npache@redhat.com>
-Date:   Fri Jan 23 16:32:42 2026 -0700
-
-    madvise writeback retry logic fix
-
-    Signed-off-by: Nico Pache <npache@redhat.com>
-
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index 59e5a5588d85..2b054f7d9753 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -2418,6 +2418,14 @@ static enum scan_result collapse_single_pmd(unsigned long
-addr,
- 	mmap_read_unlock(mm);
- 	*mmap_locked = false;
- 	result = collapse_scan_file(mm, addr, file, pgoff, cc);
-+
-+	if (!cc->is_khugepaged && result == SCAN_PAGE_DIRTY_OR_WRITEBACK &&
-+	    mapping_can_writeback(file->f_mapping)) {
-+		const loff_t lstart = (loff_t)pgoff << PAGE_SHIFT;
-+		const loff_t lend = lstart + HPAGE_PMD_SIZE - 1;
-+
-+		filemap_write_and_wait_range(file->f_mapping, lstart, lend);
-+	}
- 	fput(file);
-
- 	if (result != SCAN_PTE_MAPPED_HUGEPAGE)
-@@ -2840,19 +2848,8 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned
-long start,
- 			*lock_dropped = true;
-
- 		if (result == SCAN_PAGE_DIRTY_OR_WRITEBACK && !triggered_wb) {
--			struct file *file = get_file(vma->vm_file);
--			pgoff_t pgoff = linear_page_index(vma, addr);
--
--			if (mapping_can_writeback(file->f_mapping)) {
--				loff_t lstart = (loff_t)pgoff << PAGE_SHIFT;
--				loff_t lend = lstart + HPAGE_PMD_SIZE - 1;
--
--				filemap_write_and_wait_range(file->f_mapping, lstart, lend);
--				triggered_wb = true;
--				fput(file);
--				goto retry;
--			}
--			fput(file);
-+			triggered_wb = true;
-+			goto retry;
- 		}
-
- 		switch (result) {
---
-2.52.0
-
-On 1/22/26 12:28 PM, Nico Pache wrote:
-> The khugepaged daemon and madvise_collapse have two different
-> implementations that do almost the same thing.
-> 
-> Create collapse_single_pmd to increase code reuse and create an entry
-> point to these two users.
-> 
-> Refactor madvise_collapse and collapse_scan_mm_slot to use the new
-> collapse_single_pmd function. This introduces a minor behavioral change
-> that is most likely an undiscovered bug. The current implementation of
-> khugepaged tests collapse_test_exit_or_disable before calling
-> collapse_pte_mapped_thp, but we weren't doing it in the madvise_collapse
-> case. By unifying these two callers madvise_collapse now also performs
-> this check. We also modify the return value to be SCAN_ANY_PROCESS which
-> properly indicates that this process is no longer valid to operate on.
-> 
-> We also guard the khugepaged_pages_collapsed variable to ensure its only
-> incremented for khugepaged.
-> 
-> Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
-> Reviewed-by: Lance Yang <lance.yang@linux.dev>
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 106 +++++++++++++++++++++++++++---------------------
->  1 file changed, 60 insertions(+), 46 deletions(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index fefcbdca4510..59e5a5588d85 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -2394,6 +2394,54 @@ static enum scan_result collapse_scan_file(struct mm_struct *mm, unsigned long a
->  	return result;
->  }
->  
-> +/*
-> + * Try to collapse a single PMD starting at a PMD aligned addr, and return
-> + * the results.
-> + */
-> +static enum scan_result collapse_single_pmd(unsigned long addr,
-> +		struct vm_area_struct *vma, bool *mmap_locked,
-> +		struct collapse_control *cc)
-> +{
-> +	struct mm_struct *mm = vma->vm_mm;
-> +	enum scan_result result;
-> +	struct file *file;
-> +	pgoff_t pgoff;
-> +
-> +	if (vma_is_anonymous(vma)) {
-> +		result = collapse_scan_pmd(mm, vma, addr, mmap_locked, cc);
-> +		goto end;
-> +	}
-> +
-> +	file = get_file(vma->vm_file);
-> +	pgoff = linear_page_index(vma, addr);
-> +
-> +	mmap_read_unlock(mm);
-> +	*mmap_locked = false;
-> +	result = collapse_scan_file(mm, addr, file, pgoff, cc);
-> +	fput(file);
-> +
-> +	if (result != SCAN_PTE_MAPPED_HUGEPAGE)
-> +		goto end;
-> +
-> +	mmap_read_lock(mm);
-> +	*mmap_locked = true;
-> +	if (collapse_test_exit_or_disable(mm)) {
-> +		mmap_read_unlock(mm);
-> +		*mmap_locked = false;
-> +		return SCAN_ANY_PROCESS;
-> +	}
-> +	result = try_collapse_pte_mapped_thp(mm, addr, !cc->is_khugepaged);
-> +	if (result == SCAN_PMD_MAPPED)
-> +		result = SCAN_SUCCEED;
-> +	mmap_read_unlock(mm);
-> +	*mmap_locked = false;
-> +
-> +end:
-> +	if (cc->is_khugepaged && result == SCAN_SUCCEED)
-> +		++khugepaged_pages_collapsed;
-> +	return result;
-> +}
-> +
->  static unsigned int collapse_scan_mm_slot(unsigned int pages, enum scan_result *result,
->  					    struct collapse_control *cc)
->  	__releases(&khugepaged_mm_lock)
-> @@ -2466,34 +2514,9 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, enum scan_result *
->  			VM_BUG_ON(khugepaged_scan.address < hstart ||
->  				  khugepaged_scan.address + HPAGE_PMD_SIZE >
->  				  hend);
-> -			if (!vma_is_anonymous(vma)) {
-> -				struct file *file = get_file(vma->vm_file);
-> -				pgoff_t pgoff = linear_page_index(vma,
-> -						khugepaged_scan.address);
-> -
-> -				mmap_read_unlock(mm);
-> -				mmap_locked = false;
-> -				*result = collapse_scan_file(mm,
-> -					khugepaged_scan.address, file, pgoff, cc);
-> -				fput(file);
-> -				if (*result == SCAN_PTE_MAPPED_HUGEPAGE) {
-> -					mmap_read_lock(mm);
-> -					if (collapse_test_exit_or_disable(mm))
-> -						goto breakouterloop;
-> -					*result = try_collapse_pte_mapped_thp(mm,
-> -						khugepaged_scan.address, false);
-> -					if (*result == SCAN_PMD_MAPPED)
-> -						*result = SCAN_SUCCEED;
-> -					mmap_read_unlock(mm);
-> -				}
-> -			} else {
-> -				*result = collapse_scan_pmd(mm, vma,
-> -					khugepaged_scan.address, &mmap_locked, cc);
-> -			}
-> -
-> -			if (*result == SCAN_SUCCEED)
-> -				++khugepaged_pages_collapsed;
->  
-> +			*result = collapse_single_pmd(khugepaged_scan.address,
-> +						      vma, &mmap_locked, cc);
->  			/* move to next address */
->  			khugepaged_scan.address += HPAGE_PMD_SIZE;
->  			progress += HPAGE_PMD_NR;
-> @@ -2799,6 +2822,7 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
->  			cond_resched();
->  			mmap_read_lock(mm);
->  			mmap_locked = true;
-> +			*lock_dropped = true;
->  			result = hugepage_vma_revalidate(mm, addr, false, &vma,
->  							 cc);
->  			if (result  != SCAN_SUCCEED) {
-> @@ -2809,17 +2833,17 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
->  			hend = min(hend, vma->vm_end & HPAGE_PMD_MASK);
->  		}
->  		mmap_assert_locked(mm);
-> -		if (!vma_is_anonymous(vma)) {
-> -			struct file *file = get_file(vma->vm_file);
-> -			pgoff_t pgoff = linear_page_index(vma, addr);
->  
-> -			mmap_read_unlock(mm);
-> -			mmap_locked = false;
-> +		result = collapse_single_pmd(addr, vma, &mmap_locked, cc);
-> +
-> +		if (!mmap_locked)
->  			*lock_dropped = true;
-> -			result = collapse_scan_file(mm, addr, file, pgoff, cc);
->  
-> -			if (result == SCAN_PAGE_DIRTY_OR_WRITEBACK && !triggered_wb &&
-> -			    mapping_can_writeback(file->f_mapping)) {
-> +		if (result == SCAN_PAGE_DIRTY_OR_WRITEBACK && !triggered_wb) {
-> +			struct file *file = get_file(vma->vm_file);
-> +			pgoff_t pgoff = linear_page_index(vma, addr);
-> +
-> +			if (mapping_can_writeback(file->f_mapping)) {
->  				loff_t lstart = (loff_t)pgoff << PAGE_SHIFT;
->  				loff_t lend = lstart + HPAGE_PMD_SIZE - 1;
->  
-> @@ -2829,26 +2853,16 @@ int madvise_collapse(struct vm_area_struct *vma, unsigned long start,
->  				goto retry;
->  			}
->  			fput(file);
-> -		} else {
-> -			result = collapse_scan_pmd(mm, vma, addr, &mmap_locked, cc);
->  		}
-> -		if (!mmap_locked)
-> -			*lock_dropped = true;
->  
-> -handle_result:
->  		switch (result) {
->  		case SCAN_SUCCEED:
->  		case SCAN_PMD_MAPPED:
->  			++thps;
->  			break;
-> -		case SCAN_PTE_MAPPED_HUGEPAGE:
-> -			BUG_ON(mmap_locked);
-> -			mmap_read_lock(mm);
-> -			result = try_collapse_pte_mapped_thp(mm, addr, true);
-> -			mmap_read_unlock(mm);
-> -			goto handle_result;
->  		/* Whitelisted set of results where continuing OK */
->  		case SCAN_NO_PTE_TABLE:
-> +		case SCAN_PTE_MAPPED_HUGEPAGE:
->  		case SCAN_PTE_NON_PRESENT:
->  		case SCAN_PTE_UFFD_WP:
->  		case SCAN_LACK_REFERENCED_PAGE:
-
+DQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9tOiBCb3Jpc2xhdiBQZXRrb3YgPGJw
+QGFsaWVuOC5kZT4NCj5TZW50OiAyNiBKYW51YXJ5IDIwMjYgMTc6MTYNCj5UbzogU2hpanUgSm9z
+ZSA8c2hpanUuam9zZUBodWF3ZWkuY29tPg0KPkNjOiByYWZhZWxAa2VybmVsLm9yZzsgYWtwbUBs
+aW51eC1mb3VuZGF0aW9uLm9yZzsgcnBwdEBrZXJuZWwub3JnOw0KPmRmZXJndXNvbkBhbXBlcmVj
+b21wdXRpbmcuY29tOyBsaW51eC1lZGFjQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+YWNwaUB2
+Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LW1tQGt2YWNrLm9yZzsgbGludXgtZG9jQHZnZXIua2VybmVs
+Lm9yZzsNCj50b255Lmx1Y2tAaW50ZWwuY29tOyBsZW5iQGtlcm5lbC5vcmc7IGxlby5kdXJhbkBh
+bWQuY29tOw0KPllhemVuLkdoYW5uYW1AYW1kLmNvbTsgbWNoZWhhYkBrZXJuZWwub3JnOyBKb25h
+dGhhbiBDYW1lcm9uDQo+PGpvbmF0aGFuLmNhbWVyb25AaHVhd2VpLmNvbT47IExpbnV4YXJtIDxs
+aW51eGFybUBodWF3ZWkuY29tPjsNCj5yaWVudGplc0Bnb29nbGUuY29tOyBqaWFxaXlhbkBnb29n
+bGUuY29tOyBKb24uR3JpbW1AYW1kLmNvbTsNCj5kYXZlLmhhbnNlbkBsaW51eC5pbnRlbC5jb207
+IG5hb3lhLmhvcmlndWNoaUBuZWMuY29tOw0KPmphbWVzLm1vcnNlQGFybS5jb207IGp0aG91Z2h0
+b25AZ29vZ2xlLmNvbTsgc29tYXN1bmRhcmFtLmFAaHBlLmNvbTsNCj5lcmRlbWFrdGFzQGdvb2ds
+ZS5jb207IHBnb25kYUBnb29nbGUuY29tOyBkdWVud2VuQGdvb2dsZS5jb207DQo+Z3RoZWxlbkBn
+b29nbGUuY29tOyB3c2Nod2FydHpAYW1wZXJlY29tcHV0aW5nLmNvbTsNCj53YnNAb3MuYW1wZXJl
+Y29tcHV0aW5nLmNvbTsgbmlmYW4uY3hsQGdtYWlsLmNvbTsgdGFueGlhb2ZlaQ0KPjx0YW54aWFv
+ZmVpQGh1YXdlaS5jb20+OyBaZW5ndGFvIChCKSA8cHJpbWUuemVuZ0BoaXNpbGljb24uY29tPjsg
+Um9iZXJ0bw0KPlNhc3N1IDxyb2JlcnRvLnNhc3N1QGh1YXdlaS5jb20+OyBrYW5na2FuZy5zaGVu
+QGZ1dHVyZXdlaS5jb207DQo+d2FuZ2h1aXFpYW5nIDx3YW5naHVpcWlhbmdAaHVhd2VpLmNvbT4N
+Cj5TdWJqZWN0OiBSZTogW1BBVENIIHYxNiAxLzJdIEFDUEk6UkFTMjogQWRkIGRyaXZlciBmb3Ig
+dGhlIEFDUEkgUkFTMiBmZWF0dXJlDQo+dGFibGUNCj4NCj5PbiBGcmksIEphbiAyMywgMjAyNiBh
+dCAwNTo1NTowN1BNICswMDAwLCBzaGlqdS5qb3NlQGh1YXdlaS5jb20gd3JvdGU6DQo+PiArc3Rh
+dGljIGludCBwYXJzZV9yYXMyX3RhYmxlKHN0cnVjdCBhY3BpX3RhYmxlX3JhczIgKnJhczJfdGFi
+KSB7DQo+PiArCXN0cnVjdCBhY3BpX3JhczJfcGNjX2Rlc2MgKnBjY19kZXNjX2xpc3Q7DQo+PiAr
+CXN0cnVjdCByYXMyX21lbV9jdHggKipwY3R4X2xpc3Q7DQo+PiArCXN0cnVjdCByYXMyX21lbV9j
+dHggKnJhczJfY3R4Ow0KPj4gKwl1MTYgaTsNCj4+ICsNCj4+ICsJaWYgKHJhczJfdGFiLT5oZWFk
+ZXIubGVuZ3RoIDwgc2l6ZW9mKCpyYXMyX3RhYikpIHsNCj4+ICsJCXByX3dhcm4oRldfV0FSTiAi
+QUNQSSBSQVMyIHRhYmxlIHByZXNlbnQgYnV0IGJyb2tlbiAodG9vDQo+c2hvcnQsIHNpemU9JXUp
+XG4iLA0KPj4gKwkJCXJhczJfdGFiLT5oZWFkZXIubGVuZ3RoKTsNCj4+ICsJCXJldHVybiAtRUlO
+VkFMOw0KPj4gKwl9DQo+PiArDQo+PiArCWlmICghcmFzMl90YWItPm51bV9wY2NfZGVzY3MgfHwg
+cmFzMl90YWItPm51bV9wY2NfZGVzY3MgPg0KPlJBUzJfTUFYX05VTV9QQ0NfREVTQ1MpIHsNCj4+
+ICsJCXByX3dhcm4oRldfV0FSTiAiTm8vSW52YWxpZCBudW1iZXIgb2YgUENDIGRlc2NzKCVkKSBp
+bg0KPkFDUEkgUkFTMiB0YWJsZVxuIiwNCj4+ICsJCQlyYXMyX3RhYi0+bnVtX3BjY19kZXNjcyk7
+DQo+PiArCQlyZXR1cm4gLUVJTlZBTDsNCj4+ICsJfQ0KPj4gKw0KPj4gKwlwY3R4X2xpc3QgPSBr
+Y2FsbG9jKHJhczJfdGFiLT5udW1fcGNjX2Rlc2NzLCBzaXplb2YoKnBjdHhfbGlzdCksDQo+R0ZQ
+X0tFUk5FTCk7DQo+PiArCWlmICghcGN0eF9saXN0KQ0KPj4gKwkJcmV0dXJuIC1FTk9NRU07DQo+
+PiArDQo+PiArCXBjY19kZXNjX2xpc3QgPSAoc3RydWN0IGFjcGlfcmFzMl9wY2NfZGVzYyAqKShy
+YXMyX3RhYiArIDEpOw0KPj4gKwlmb3IgKGkgPSAwOyBpIDwgcmFzMl90YWItPm51bV9wY2NfZGVz
+Y3M7IGkrKywgcGNjX2Rlc2NfbGlzdCsrKSB7DQo+PiArCQlpZiAocGNjX2Rlc2NfbGlzdC0+ZmVh
+dHVyZV90eXBlICE9IFJBUzJfRkVBVF9UWVBFX01FTU9SWSkNCj4+ICsJCQljb250aW51ZTsNCj4+
+ICsNCj4+ICsJCXJhczJfY3R4ID0gYWRkX2F1eF9kZXZpY2UoUkFTMl9NRU1fREVWX0lEX05BTUUs
+DQo+cGNjX2Rlc2NfbGlzdC0+Y2hhbm5lbF9pZCwNCj4+ICsJCQkJCSAgcGNjX2Rlc2NfbGlzdC0+
+aW5zdGFuY2UpOw0KPj4gKwkJaWYgKElTX0VSUihyYXMyX2N0eCkpIHsNCj4+ICsJCQlwcl93YXJu
+KCJGYWlsZWQgdG8gYWRkIFJBUzIgYXV4aWxpYXJ5IGRldmljZSByYz0lbGRcbiIsDQo+UFRSX0VS
+UihyYXMyX2N0eCkpOw0KPj4gKwkJCWZvciAoOyBpID4gMDsgaS0tKSB7DQo+PiArCQkJCWlmIChw
+Y3R4X2xpc3RbaSAtIDFdKQ0KPj4gKwkJCQkJYXV4aWxpYXJ5X2RldmljZV91bmluaXQoJnBjdHhf
+bGlzdFtpIC0gMV0tDQo+PmFkZXYpOw0KPg0KPlRoaXMgaXMgd3JvbmcgLSB0aGVyZSBzaG91bGQg
+YmUgYSBmdW5jdGlvbiBjYWxsZWQgcmVtb3ZlX2F1eF9kZXZpY2UoKSB3aGljaA0KPnVud2luZHMg
+ZXZlcnl0aGluZyBhZGRfYXV4X2RldmljZSgpIGRvZXMgZm9yIGFsbCB0aG9zZSBkZXZpY2VzLg0K
+DQpIaSBCb3Jpc2xhdiwNCg0KVGhhbmtzIGZvciBjb21tZW50cyBhbmQgY2hhbmdlcy4NCg0KSSBh
+ZGRlZCByZW1vdmVfYXV4X2RldmljZSgpICBhcyBiZWxvdywgd2hpY2ggd291bGQgY2FsbCByYXMy
+X3JlbGVhc2UoKSBhbmQgZnJlZQ0KYWRkX2F1eF9kZXZpY2UoKSBkb2VzIGZvciB0aGF0IGF1eGls
+aWFyeSBkZXZpY2UuIEhvcGUgaXQgaXMgYWNjZXB0YWJsZT8NCg0KK3N0YXRpYyB2b2lkIHJlbW92
+ZV9hdXhfZGV2aWNlKHN0cnVjdCByYXMyX21lbV9jdHggKnJhczJfY3R4KSB7DQorICAgIGlmICgh
+cmFzMl9jdHgpDQorICAgICAgICByZXR1cm47DQorDQorICAgIGF1eGlsaWFyeV9kZXZpY2VfZGVs
+ZXRlKCZyYXMyX2N0eC0+YWRldik7DQorICAgIGF1eGlsaWFyeV9kZXZpY2VfdW5pbml0KCZyYXMy
+X2N0eC0+YWRldik7DQorfQ0KKw0KPg0KPkluIGFkZGl0aW9uLCBJIGRpZCBhIGJ1bmNoIG9mIGNs
+ZWFudXBzIG9udG9wLCBzZWUgYmVsb3cuIEkgY2FuJ3QgdGVzdCB0aGVtIHNvIHBscw0KPmhhdmUg
+YSBsb29rIGFuZCBydW4gdGhlbSBvbiB5b3VyIGh3IGFuZCBpZiBhbGwgZ29vZCwgbWVyZ2UgdGhl
+bSB3aXRoIHlvdXINCj5wYXRjaC4NCg0KSSB0ZXN0ZWQgeW91ciBjaGFuZ2VzIGFuZCBtZXJnZWQu
+DQpJIGdvdCBhIGNoZWNrcGF0Y2ggd2FybmluZyBmb3IgYmVsb3cgY2hhbmdlLg0KDQpUaGFua3Ms
+DQpTaGlqdQ0KDQo+DQo+VGh4Lg0KPg0KPi0tLQ0KPg0KPmRpZmYgLS1naXQgYS9kcml2ZXJzL2Fj
+cGkvS2NvbmZpZyBiL2RyaXZlcnMvYWNwaS9LY29uZmlnIGluZGV4DQo+N2Y4NDZjMjJmYzMwLi4w
+MDEwYjM4ZThmODEgMTAwNjQ0DQo+LS0tIGEvZHJpdmVycy9hY3BpL0tjb25maWcNCj4rKysgYi9k
+cml2ZXJzL2FjcGkvS2NvbmZpZw0KPkBAIC0yOTksOSArMjk5LDEwIEBAIGNvbmZpZyBBQ1BJX1JB
+UzINCj4gCWRlcGVuZHMgb24gTUFJTEJPWA0KPiAJZGVwZW5kcyBvbiBQQ0MNCj5AQCAtMTg3LDIy
+ICsxOTcsMjQgQEAgaW50IHJhczJfc2VuZF9wY2NfY21kKHN0cnVjdCByYXMyX21lbV9jdHgNCj4q
+cmFzMl9jdHgsIHUxNiBjbWQpDQo+DQo+IAkvKiBSaW5nIGRvb3JiZWxsICovDQo+IAlyYyA9IG1i
+b3hfc2VuZF9tZXNzYWdlKHBjY19jaGFubmVsLCAmY21kKTsNCj4rDQo+IAkvKg0KPi0JICogbWJv
+eF9zZW5kX21lc3NhZ2UoKSByZXR1cm4gbm9uLW5lZ2F0aXZlIGludGVnZXIgZm9yIHN1Y2Nlc3Nm
+dWwNCj5zdWJtaXNzaW9uDQo+LQkgKiBhbmQgbmVnYXRpdmUgdmFsdWUgb24gZmFpbHVyZS4NCj4r
+CSAqIG1ib3hfc2VuZF9tZXNzYWdlKCkgcmV0dXJucyBhIG5vbi1uZWdhdGl2ZSBpbnRlZ2VyIGZv
+ciBzdWNjZXNzZnVsDQo+c3VibWlzc2lvbg0KPisJICogYW5kIGEgbmVnYXRpdmUgdmFsdWUgb24g
+ZmFpbHVyZS4NCj4gCSAqLw0KPi0JcmMgPSByYyA8IDAgPyByYyA6IDA7DQo+IAlpZiAocmMgPCAw
+KSB7DQo+IAkJZGV2X3dhcm4ocmFzMl9jdHgtPmRldiwNCj4gCQkJICJFcnJvciBzZW5kaW5nIFBD
+QyBtYm94IG1lc3NhZ2UgY29tbWFuZDogMHgleCwNCj5yYzolZFxuIiwgY21kLCByYyk7DQo+IAkJ
+cmV0dXJuIHJjOw0KPisJfSBlbHNlIHsNCj4rCQlyYyA9IDA7DQo+IAl9DQo+DQpDaGVja3BhdGNo
+IHdhcm5pbmc6DQoNCldBUk5JTkc6IGVsc2UgaXMgbm90IGdlbmVyYWxseSB1c2VmdWwgYWZ0ZXIg
+YSBicmVhayBvciByZXR1cm4NCiMyMDc6IEZJTEU6IGRyaXZlcnMvYWNwaS9yYXMyLmM6MjA3Og0K
+KyAgICAgICAgcmV0dXJuIHJjOw0KKyAgICB9IGVsc2Ugew0KDQphbmQgbm8gd2FybmluZyB3aXRo
+IGFzIGJlbG93LA0KDQoraWYgKHJjID49IDApIHsNCisJcmMgPSAwOw0KK30gZWxzZSB7DQorCWRl
+dl93YXJuKHJhczJfY3R4LT5kZXYsDQorCQkgICAgICJFcnJvciBzZW5kaW5nIFBDQyBtYm94IG1l
+c3NhZ2UgY29tbWFuZDogMHgleCwgcmM6JWRcbiIsIGNtZCwgcmMpOw0KKwlyZXR1cm4gcmM7DQor
+fQ0KDQo=
