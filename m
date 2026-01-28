@@ -1,136 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D35202BE03D;
-	Wed, 28 Jan 2026 23:38:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC901531C1;
+	Wed, 28 Jan 2026 23:40:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769643500; cv=none; b=K+T1JGO622KhCnSG4pXkV5nwTCJnriDMrYUhD+TzNxyU2KDKyc4DSPF6ihiAZaHxMVNB1mL2vexXY0DwdW8iHMIHibRZxYXwYDC9E2tvElHSyNMd7hpl0PlPxd2Hn7XboiXFJIXdc+rOxap0sGovhlN5sDTnNsWfcoGSyj8fhyw=
+	t=1769643644; cv=none; b=ux2M3C74FZ71xf2SX6kple50hrhzH1vOF7y6WngKONDYH3390NuLtZZXAvx6EnJC1JsiicB/Fxlz17T23wC9KZh0eVfKZEjjMoqluIFuSmDVEuaBnJJBdR1vb4T2s71ZosfPK7zjpdfF0lEzTmqfFbbkbFteD4wyOhmbx05VLlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769643500; c=relaxed/simple;
-	bh=F0SGT1zA7nJrKcds9k2gzkJL1tql6F1LMQ2X/R9SLXU=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=TkHGM5aiyCg/YwMZfYh158+Hl4AYaCYos4jXrIbNsaobwwLnp5nGb/g9ku6d98wtrEnfDtnDalQmr/Vlt1x9+og8tulgOu+gz4YMsNWvu/3LPBlABlI/uuTuEc/XN9fJQVWejpArtbPAmSkTLI1leW5CozkgTq2AL3lZM90cHBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u5Z8pkQs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769643644; c=relaxed/simple;
+	bh=BVCcFC/P3eYHZqp3dB7Pn3Yh9dSiO5hqJmi1gbbnkdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D/Uihmo6RaC6vtOPoNOkEUuQ+Ud1oufKFuPARuqjDzePZRqgZg9Sq11UtrqcxklR8iU0l8yrRPtDDU7hoEDsqfZPnvchBbkdLqZ2TYYrV023JNdOj96lq3ykKeEXgXtHgu0U8Qw0QQD8y++Ui+rcCUVlDfQaPkC7wrMPqJJkvG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QAxp3sRR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u5Z8pkQs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10D22C4CEF1;
-	Wed, 28 Jan 2026 23:38:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769643500;
-	bh=F0SGT1zA7nJrKcds9k2gzkJL1tql6F1LMQ2X/R9SLXU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=u5Z8pkQsCsASHBAWQsH9T1G5ZcaqbryygrnEcq1600aasgTUAnDh3GNvGpgJ0D9lv
-	 xPa4jgCIpnpMBjCBuYljQSCb60qJCO9igRU8Hp/RKs6EkVei4Fc+8AKOle+vuQPysG
-	 FWSJ/pvJC62A1eD8OrsjajN7ic4SgGkD/mWkderuV0tsgEuL9xwUPS7oFw9Ad+w3Vc
-	 t0v9qojp+LNw+AkWJskfFTGxq+uNrg1X8mhv4VeYCk9Ea0zUrphX5DFqvLBMDRdOyS
-	 OOHfmQ2upHuEMDALuFfFT+J2swjVrLdqNxZpYA3UqiWc/fnrZTNHOXbLxp+v4jrLMp
-	 yP/X61KGrVeKQ==
-Date: Thu, 29 Jan 2026 08:38:17 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Yaxiong Tian <tianyaxiong@kylinos.cn>
-Cc: rostedt@goodmis.org, axboe@kernel.dk, mathieu.desnoyers@efficios.com,
- corbet@lwn.net, skhan@linuxfoundation.org,
- linux-trace-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 0/5] Tracing: Accelerate Kernel Boot by
- Asynchronizing
-Message-Id: <20260129083817.d26c61da3cf274bf37e1b2a0@kernel.org>
-In-Reply-To: <20260128125117.1704853-1-tianyaxiong@kylinos.cn>
-References: <20260128125117.1704853-1-tianyaxiong@kylinos.cn>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QAxp3sRR"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2B93B581;
+	Thu, 29 Jan 2026 00:40:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1769643604;
+	bh=BVCcFC/P3eYHZqp3dB7Pn3Yh9dSiO5hqJmi1gbbnkdQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QAxp3sRRADR2mI5xyl0/sCqt4idZASopXlwbjaQ25+wyirr8XEA8mz6lUvAwwOQx8
+	 aPaQtDEZl18sI+Fp5v5urx65mRemxu+IXj1vKfU4PzfCQyuCxFPAA5/kW+MhJLWPrH
+	 lOYCGM8WsUuF3tb9229rBAmEQLQV4oMf8y1QkjWs=
+Date: Thu, 29 Jan 2026 01:40:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Johan Hovold <johan@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Message-ID: <20260128234040.GC3275574@killaraus>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh>
+ <DFXV1QMQMTRK.2W8SWGVHS2K69@kernel.org>
+ <20260126000730.GI1134360@nvidia.com>
+ <DFYNFXYTXBIW.314K249BPTA1Z@kernel.org>
+ <20260126170720.GN1134360@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260126170720.GN1134360@nvidia.com>
 
-On Wed, 28 Jan 2026 20:51:17 +0800
-Yaxiong Tian <tianyaxiong@kylinos.cn> wrote:
+On Mon, Jan 26, 2026 at 01:07:20PM -0400, Jason Gunthorpe wrote:
+> On Mon, Jan 26, 2026 at 05:08:20PM +0100, Danilo Krummrich wrote:
+> > On Mon Jan 26, 2026 at 1:07 AM CET, Jason Gunthorpe wrote:
+> > > That's the whole issue with DRM right there - allowing driver code to
+> > > run after the driver has unregistered from the subsystem is
+> > > *dangerous* and creates all these bugs.
+> > 
+> > Unfortunately, it is necessary (at least to a certain extend) in DRM. I think
+> > there is space for improvements, but I don't think we can get rid of this
+> > entirely, especially on the KMS side AFAIK.
+> 
+> From what I saw alot of the issue with DRM was how it works the fops,
+> instead of the core subsytem managing the fops and calling the driver,
+> the driver managed its own fops and called back to the core.
+> 
+> Sure, the issues may be very hard to fix in existing code, but I find
+> it hard to swallow the idea that a subsystem couldn't own all the
+> fops/etc and guard every driver callback with a lock to generate the
+> right kind of fence..
 
-> On my ARM64 platform, I observed that certain tracing module
-> initializations run for up to 200ms—for example, init_kprobe_trace().
-> Analysis reveals the root cause: the execution flow eval_map_work_func()
-> →trace_event_update_with_eval_map()→trace_event_update_all()
-> is highly time-consuming. Although this flow is placed in eval_map_wq
-> for asynchronous execution, it holds the trace_event_sem lock, causing
-> other modules to be blocked either directly or indirectly. Also in
-> init_blk_tracer(), this functions require trace_event_sem device_initcall.
-> 
-> To resolve this issue, I rename `eval_map_wq` and make it global and moved
-> other initialization functions under the tracing subsystem that are
-> related to this lock to run asynchronously on this workqueue. After this
-> optimization, boot time is reduced by approximately 200ms.
-> 
-> Given that asynchronous initialization makes it indeterminate when tracing
-> will begin, we introduce the trace_async_init kernel parameter.Asynchronous
-> behavior is enabled only when this parameter is explicitly provided.
-> 
-> Based on my analysis and testing, I've identified that only these two
-> locations significantly impact timing. Other initcall_* functions do not
-> exhibit relevant lock contention.
-> 
-> A brief summary of the test results is as follows:
-> Before this PATCHS:
-> [    0.224933] calling  init_kprobe_trace+0x0/0xe0 @ 1
-> [    0.455016] initcall init_kprobe_trace+0x0/0xe0 returned 0 after 230080 usecs
-> 
-> Only opt setup_boot_kprobe_events() can see:
-> [    0.258609] calling  init_blk_tracer+0x0/0x68 @ 1
-> [    0.454991] initcall init_blk_tracer+0x0/0x68 returned 0 after 196377 usecs
-> 
-> After this PATCHS:
-> [    0.224940] calling  init_kprobe_trace+0x0/0xe0 @ 1
-> [    0.224946] initcall init_kprobe_trace+0x0/0xe0 returned 0 after 3 usecs
-> skip --------
-> [    0.264835] calling  init_blk_tracer+0x0/0x68 @ 1
-> [    0.264841] initcall init_blk_tracer+0x0/0x68 returned 0 after 2 usecs
+I also don't see a real technical reason. Retrofitting the right
+solution in all existing drivers wouldn't be for the faint-hearted
+though, so I understand the appeal for subsystems of a quick and easy
+suboptimal implementation.
 
-OK, this series looks good to me.
-
-Acked-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-
-for this series.
-
-Thank you,
-
-
+> > > IMHO since rust has the Device<Bound> stuff the revocable should have used
+> > > rwsem, because the expectation should be that the majority uses access, not
+> > > try_access.
+> > 
+> > Yes, the majority of uses is access(), not try_access(); not sure if rwsem is
+> > the better solution though.
 > 
-> ---
-> Changes in v2:
-> - Rename eval_map_wq to trace_init_wq.
-> Changes in v3:
-> - Opt PATCH 1/3 commit
-> Changes in v4:
-> - add trace_async_init boot parameter in patch2
-> - add init_kprobe_trace's skip logic in patch3
-> - add Suggested-by tag 
-> - Other synchronous optimizations related to trace_async_init
-> 
-> Yaxiong Tian (5):
->   tracing: Rename `eval_map_wq` and allow other parts of tracing use it
->   tracing: add trace_async_init boot parameter
->   tracing/kprobes: Skip setup_boot_kprobe_events() when no cmdline event
->   tracing/kprobes: Make setup_boot_kprobe_events() asynchronous when
->     trace_async_init set
->   blktrace: Make init_blk_tracer() asynchronous when trace_async_init
->     set
-> 
->  .../admin-guide/kernel-parameters.txt         |  8 ++++++
->  kernel/trace/blktrace.c                       | 23 +++++++++++++++-
->  kernel/trace/trace.c                          | 27 ++++++++++++-------
->  kernel/trace/trace.h                          |  2 ++
->  kernel/trace/trace_kprobe.c                   | 18 ++++++++++++-
->  5 files changed, 67 insertions(+), 11 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
-> 
-
+> rwsem is much faster on destroy and somewhat slower on read. Which
+> sounds to match the use case here. Ie you wouldn't need to do special
+> effort to bundle the synchronize_srcu()
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Regards,
+
+Laurent Pinchart
