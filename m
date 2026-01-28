@@ -1,173 +1,116 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BC4323ED5B
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 20:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C477528642D;
+	Wed, 28 Jan 2026 21:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769632291; cv=none; b=GoFeXDzjPFHrWrHU1LnkmHbLjYTOEdIJ0It+mTF5MbUCT3K3iafkdI9KEGN4zMCV6AND3yNPi6KcLjD5zhN8czP0SDLPiAbWY4MfeTQV+BzgWSYW0SxiQvCiHEMzOyYKeCphSzruOUIo5DQuupc0Y6XJKeK9rDzcUAs+jYtyTm0=
+	t=1769634173; cv=none; b=M22KiEoWX8hFjA9+TydzQnNPCG5fZaDRvJnXZNFnFqDTQ8YfQG4MDgiYPlwf6la02jj4hXsaoDP3uIP2k4qdST9gytLdwqHZyZUp7fO7nzEpD8NqUcayo5iEynAl2TeSan6F2FiLJdNcM5XCsvutv40hPa22cOKwZ4k2BARaZR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769632291; c=relaxed/simple;
-	bh=2qvxf/62yttfNIZNAODh63qlXVSL99Ksrx5/ufwbejY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=spWucQeEZPdp7UK+KxSI6ZoQOBGAbRpIHGgcb9Gr0IgpplNp611/Jp+D3hgWRqtLoCArVjQsProuiI/E0Tngj2EQ2FJAwJCkr5uDVf2+7fpbQNJoxeEdaN1cpgCKuvxTsstz3T+alKPu9rcxbLvcL54eo2wUDb3Y5DaE7YevUUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XUXXe7xE; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=fwcBGGuw; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1769634173; c=relaxed/simple;
+	bh=Em+1CFVsGAsUe/PMauooL4Cb4HFJrPLZWLtlAhkW/CA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=elDRcheAB02fdeW0Fhcreqb1CmlEGHJcpdkeaCekyu1oIZRpbibeizHjTAhoIdo3GGwRhsN/Wb9Q2G1DXW4+q91MQ+8Nq7Yi+Bg4irPKmFfF7U7UkTelX12Oy7zHXh8Am0UV7SgsPOExl8AwJOmJ86YPQClpFKWPrG7bgmFuFg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L9sud/Oj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XUXXe7xE";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="fwcBGGuw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769632288;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to; bh=6AqTWTOgRm78zpGWundx5DPK3QN0XJ8tGQTS1p8e64k=;
-	b=XUXXe7xETErab3wRuyukJ0+lVBhbKkaCcNv8QLKZwc4IIIOHcz3YCrmR6f3vNH/wlZJpjk
-	RnC4h+hm/NmAXYcWToR0nweZcgFZTxuS7xUNA6G2dCk/ERzre7e1N9gkt+KnsEx7+IwE5O
-	OR9QHTRzknUlppVd6rQJVsvP5dNvT5I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-190-8mLl2vZgNhenj-kR-6gd4A-1; Wed, 28 Jan 2026 15:31:26 -0500
-X-MC-Unique: 8mLl2vZgNhenj-kR-6gd4A-1
-X-Mimecast-MFC-AGG-ID: 8mLl2vZgNhenj-kR-6gd4A_1769632285
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-48079ae1001so1417295e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 12:31:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1769632285; x=1770237085; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6AqTWTOgRm78zpGWundx5DPK3QN0XJ8tGQTS1p8e64k=;
-        b=fwcBGGuw7IqQDPevelrNI5mPPr97koUxkOdPBeevIRXEdn2WQmQxRqzM4vbWV5CQ1K
-         GzG9MFQtT4t1UxM8me4DW4lGDGZMEMK2FdX8SYol2akxmRNKL/MKMwIty3VtcOZAXl9Y
-         wWS67ozLZW0GAsRqnPn39uwB0neig513SYS7rQ4feyTLBzJhhqABshCSXW7vNqJZmDFf
-         A4TdMWerNpSOIlJWmzAwR31lzurm2R3U59p0qiXMV54wKq1LH3nxg60LZ94v/n0WM/10
-         YOFMpQJ7sMCG/fIm2pvP57/YDw7JqNTudoYipg0ZAcyARnfbopdd6agIeA4ATotjkCEM
-         Kigg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769632285; x=1770237085;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6AqTWTOgRm78zpGWundx5DPK3QN0XJ8tGQTS1p8e64k=;
-        b=jJ7ojNhDJgRsZfiETE+WuD0gNPxmMd0ci1+zEznNF1u5pMfiU8HG4U1Bi6VSQrsqhl
-         tYqNHvKjsIddi3SsHOKeIYivWJj0CcYKwnSvW7UxVqQ7nOHl6ef+DbWIi2qdZFns/2jj
-         k64023S7PIGW4K7LvYMTB5s2giFlnv6SA1wEQ4HlEkE5UCYNxJ5IgYmW0HCyZhThJ+1k
-         azUjCjRRMN9cqBIYNOUA/TwTLp/dBBGxgvwvOvXtA0vQWcIx41uEMMaVXVZ96mzhCTdd
-         0MKY0UHotGQNrgS08iQk6eUhY4rT4GlD4wDRAZLhK8L4Q6dSZhkLVPubAJ1/pYD/X8Pk
-         t7ig==
-X-Forwarded-Encrypted: i=1; AJvYcCWnvdtWeMdKUhJU6kc2XcJTOB4fqD67f1vo4gGI4X1G4Un6rOPADJIA0U12yOlhsugkidBxYCounJY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzW4CevGCollznb3l9PaAqYym8F8PYOKdoJrwVnAE0/TSHg9j4Q
-	JSabY9mUHw0gh8nkgw3P/UIAHF8JztppIg7Xsyy+o3/rA8oSpwqVLY6Bf9LG8+KeJGFIKVR6vhn
-	jkjfv419pjmWB04gbC+f+Be5E5wJ3X3gEIMLd/gMFnBFjstYMIJngML9I+z+zEA==
-X-Gm-Gg: AZuq6aJUeTX3oVHm3t+nns+szUgiIYyRUnbookHhqw0D9iZqtdKfVpWHyq6rJAa8djc
-	FVUI5FFytR08BT7A2/yiRaOkFkBrpGjFW7PGQ1fW/cbZglONMkIaZdhNEi7o73TONtmPtKpz1V6
-	z2F5OSg12FZ/Iihep/W8pfvK5fDNrZ14FvTt5izfSxlFVVP+95HE+YQBA/LVvReeGR7g02wSpd+
-	l3PKSvSyfc/grgXYr9Cbn3ehE4EdHG/3wVUjE1ofURqf+PhmxR+jBaqBLjj3R3gp+BlRL4AeSzO
-	5CBg+4pj7dXUMOCW07knlv1FNoNQ8/xjcPVEcopUWizZe+/8hTQ5T+NGyPHtrmnB37MT4oS34yK
-	VEQFlf188nSm4jqnlbdIhrMMSOK2AL89WhA==
-X-Received: by 2002:a05:600c:6995:b0:477:7af8:c8ad with SMTP id 5b1f17b1804b1-48069c92c03mr93433905e9.31.1769632285345;
-        Wed, 28 Jan 2026 12:31:25 -0800 (PST)
-X-Received: by 2002:a05:600c:6995:b0:477:7af8:c8ad with SMTP id 5b1f17b1804b1-48069c92c03mr93433305e9.31.1769632284808;
-        Wed, 28 Jan 2026 12:31:24 -0800 (PST)
-Received: from redhat.com (IGLD-80-230-34-155.inter.net.il. [80.230.34.155])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066beeaf9sm161529595e9.6.2026.01.28.12.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 12:31:24 -0800 (PST)
-Date: Wed, 28 Jan 2026 15:31:21 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Cong Wang <xiyou.wangcong@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Jason Wang <jasowang@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Petr Tesarik <ptesarik@suse.com>,
-	Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Bartosz Golaszewski <brgl@kernel.org>, linux-doc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-scsi@vger.kernel.org, iommu@lists.linux.dev,
-	kvm@vger.kernel.org, netdev@vger.kernel.org
-Subject: [PATCH v3 15/15] vsock/virtio: reorder fields to reduce padding
-Message-ID: <ce44f61af415521e00ab7492aa16d3d19f00bd5e.1769632071.git.mst@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L9sud/Oj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9049C4CEF1;
+	Wed, 28 Jan 2026 21:02:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769634173;
+	bh=Em+1CFVsGAsUe/PMauooL4Cb4HFJrPLZWLtlAhkW/CA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=L9sud/OjQlo/A8mfYVJG4RYoCHr0nhu15eOZV8viCBJwMyvP70iv5PR2+yhazk3UH
+	 8r9nOrBDvFeEtCKI0Pxd7lB4HmSf9Y4kCqCaF2uyICd/VipWRTepNSW3SVTtgmKRSg
+	 9jlyZD3nNL/djj9ed/Ic1JMP32OVh/NddE/JTxt5zzrSOsRiWA1XugXm8DYPde+73e
+	 4HgePSHGO0Peu97Z1U/vMnJ6/KZs5aKjw3G5m9oM/GnRs8f1Yu/1la43tFdlHnevBp
+	 FPLBMoFxCIFt2CJuj7me5PshlVjXA+mGBCyQfySrEZjO3R9ZeqLzGIRwjXAG1ZLNu1
+	 mNF9JwPDdqq7A==
+Date: Wed, 28 Jan 2026 22:02:48 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ <bpf@vger.kernel.org>, <intel-wired-lan@lists.osuosl.org>,
+ <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [Intel-wired-lan] [PATCH v2 23/25]
+ tools/lib/python/unittest_helper.py
+Message-ID: <20260128220248.7a0d5b9f@foz.lan>
+In-Reply-To: <5b8fe4ae-25a2-4967-bb83-a52dd5907951@intel.com>
+References: <cover.1769617841.git.mchehab+huawei@kernel.org>
+	<f370f2a0dfcaa679c9969488c908eaac82026031.1769617841.git.mchehab+huawei@kernel.org>
+	<5b8fe4ae-25a2-4967-bb83-a52dd5907951@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f1221bbc120df6adaba9006710a517f1e84a10b2.1767601130.git.mst@redhat.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Reorder struct virtio_vsock fields to place the DMA buffer (event_list)
-last. This eliminates the padding from aligning the struct size on
-ARCH_DMA_MINALIGN.
+Hi Jacob,
 
-Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
+On Wed, 28 Jan 2026 10:09:18 -0800
+Jacob Keller <jacob.e.keller@intel.com> wrote:
 
-changes from v2:
-	move event_lock and event_run too, to keep
-	event things logically together, as suggested by
-	Stefano Garzarella.
+> On 1/28/2026 8:50 AM, Mauro Carvalho Chehab wrote:
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---  
+> 
+> What is this patch trying to do? the title is not descriptive, and its 
+> contents don't make sense.
+> 
+> >   tools/lib/python/unittest_helper.py | 16 +---------------
+> >   1 file changed, 1 insertion(+), 15 deletions(-)
+> > 
+> > diff --git a/tools/lib/python/unittest_helper.py b/tools/lib/python/unittest_helper.py
+> > index e438472fa704..3cf1075b1de4 100755
+> > --- a/tools/lib/python/unittest_helper.py
+> > +++ b/tools/lib/python/unittest_helper.py
+> > @@ -8,21 +8,7 @@
+> >   Helper class to better display unittest results.
+> >   
+> >   Those help functions provide a nice colored output summary of each
+> > -executed test and, when a test fails, it shows the different in diff
+> > -format when running in verbose mode, like::
+> > -
+> > -    $ tools/unittests/nested_match.py -v
+> > -    ...
+> > -    Traceback (most recent call last):
+> > -    File "/new_devel/docs/tools/unittests/nested_match.py", line 69, in test_count_limit
+> > -        self.assertEqual(replaced, "bar(a); bar(b); foo(c)")
+> > -        ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > -    AssertionError: 'bar(a) foo(b); foo(c)' != 'bar(a); bar(b); foo(c)'
+> > -    - bar(a) foo(b); foo(c)
+> > -    ?       ^^^^
+> > -    + bar(a); bar(b); foo(c)
+> > -    ?       ^^^^^
+> > -    ...
+> > +executed test.
+> >     
+> 
+> You delete a bunch of the output here, but don't explain why. If this 
+> part of the doc is no longer valid this should be squashed into whatever 
+> patch made it invalid. I suspect this is the result of the new wrapper 
+> you added?
 
-Note: this is the only change in v3 and it's cosmetic, so I am
-not reposting the whole patchset.
+This patch came from a tool I wrote about one year ago for my own
+personal usage. 
 
+It was meant to be merged with patch 21/25, as it cleans up
+the module description. I ended removing a function that was
+requiring:
 
- net/vmw_vsock/virtio_transport.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+	from difflib import unified_diff
 
-diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
-index 999a0839726a..b333a7591b26 100644
---- a/net/vmw_vsock/virtio_transport.c
-+++ b/net/vmw_vsock/virtio_transport.c
-@@ -55,15 +55,6 @@ struct virtio_vsock {
- 	int rx_buf_nr;
- 	int rx_buf_max_nr;
- 
--	/* The following fields are protected by event_lock.
--	 * vqs[VSOCK_VQ_EVENT] must be accessed with event_lock held.
--	 */
--	struct mutex event_lock;
--	bool event_run;
--	__dma_from_device_group_begin();
--	struct virtio_vsock_event event_list[8];
--	__dma_from_device_group_end();
--
- 	u32 guest_cid;
- 	bool seqpacket_allow;
- 
-@@ -77,6 +68,15 @@ struct virtio_vsock {
- 	 */
- 	struct scatterlist *out_sgs[MAX_SKB_FRAGS + 1];
- 	struct scatterlist out_bufs[MAX_SKB_FRAGS + 1];
-+
-+	/* The following fields are protected by event_lock.
-+	 * vqs[VSOCK_VQ_EVENT] must be accessed with event_lock held.
-+	 */
-+	struct mutex event_lock;
-+	bool event_run;
-+	__dma_from_device_group_begin();
-+	struct virtio_vsock_event event_list[8];
-+	__dma_from_device_group_end();
- };
- 
- static u32 virtio_transport_get_local_cid(void)
--- 
-MST
+as it was unused, but, a second look at it, I guess we can just
+drop this patch, as this is plain unittest output.
 
+Anyway, I'll handle it either way at the next version.
+
+Thanks,
+Mauro
