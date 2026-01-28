@@ -1,356 +1,198 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013010.outbound.protection.outlook.com [40.107.159.10])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012006.outbound.protection.outlook.com [52.101.43.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D48361DA7;
-	Wed, 28 Jan 2026 14:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8581335A933;
+	Wed, 28 Jan 2026 15:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.6
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769611491; cv=fail; b=ljrdkZGDonC/EW4jmh/DaPnoQYbNd1vLJUQ+XNYF9Uw5rDd9pzzyGL1U8zTpX0hbR05S7JGEsMHoCryAzakgcI876NrMGFFeWur7LfttjIe2qt7euc+I1rxBToz/IGaYuCCv1cVPI8adSLJ6rjo7q32d0e8b5UBt1XhdRWk1Lcw=
+	t=1769612748; cv=fail; b=d/mVXo3rVpOPcN846te5ujv6ceUDB4ru2arQ/m327+0v86EGkHG/Zm7w+0BjxP/K+jidggJu8JYZig4ivPob4/mNyemGpjXNpUO2EucLSw+bH8FwzlVZXZwEg4qz2CZJE0i4AtoSto2HbA6aUDuR6aYy+46XNHm/siyFhD8zp40=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769611491; c=relaxed/simple;
-	bh=KVqH9baNfJcxxOKBmrhVwBsytfdkub67wQ/rnwUxTto=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hzRcNj9BF4GZVUdse4PFiIMVSSL+BA76MmePRATjulSbLdbYzV15C8kQNSBThJK5kEcyjYcIVN1rpaN63X+jE62Mk6zMZYWxQktpd7Nf5o9mgTOJbhnDPzuBCnjTzcNeelMrvG9u1SHN8adVv0e0UgZ5062y3l5OGgGpdsR+kZk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com; spf=fail smtp.mailfrom=nokia-bell-labs.com; dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b=WhkXGyqH; arc=fail smtp.client-ip=40.107.159.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nokia-bell-labs.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nokia-bell-labs.com
+	s=arc-20240116; t=1769612748; c=relaxed/simple;
+	bh=xXxR52F8A3dBEA+7FIt2bineXVzPDGr1J1GLbk2x40g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=QAHJ8yb7BduipSgGxf1pogdjXaimCcF+nEeLEv68BGYQLcAoujYfBOLsh6t8v82GhFLi95M65ZQ5sdQ+xw/5TLtlHEcRTvLwJfGRFxSKpZKpz8dbGJaapv/oH/wioK+cI7xcS93SWFux5K2IiD7PkEBEpINnH+wQQPmVgWIl5Bs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ejNF4Ss2; arc=fail smtp.client-ip=52.101.43.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nokia-bell-labs.com header.i=@nokia-bell-labs.com header.b="WhkXGyqH"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ejNF4Ss2"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=linVsnboBUWLj/9ne85PgBwvZEsoPqa+yCLwCeVJLHYpOATwm/5dM7VrLejCvplQTKdMQKI+lw7zphQp/kZkrH7PzkyykLR/WGBX4GWxGC/KDBK6AyINZj2qSMYfjdbnfHHsyOruxptt0faJ/lQL6Hu07dG6iJWdClpKiDmbLUPmOoWgCWXFuxj6Vs+v3sZURFW/s5pfo7p10O5rECaD9Zz63tl1chn/kDHTpelp2tghT1kpL9y225g38eTKaUJzsorTkV+a7NzTyQGd9V1YexaGbjMP7jANAdyv1XHqRdMqP/VktM6wJ5a/romnCGWjqqXiIuyrjDrkfh60WLAMXA==
+ b=QbRsoQqAJ+vcdZr0muLcTq0TFSNTElPj4egUiiUXCJ5j6etjz347HYy/JSOVag6zFd2Y9FcO0w97Bhd19fHVchDszZeoRYzZ4OvZmdLHFpcA6lUDhA5dqDBjtjwdVmhHBSY5VabiE7NjN+rlnhrO7sAdjqSf+i2lpP/6VK4yQen4eFtEFnCa5AGktCAEuyTxvwAd7q90vzaD73hfw0a9Nulj9XyVz5c5z1iJYyO67qL0qKav7mSGkwe+d3j+DrQV1FAxyM0TUm8gXtM0sMKTa5gRc07acfkMbxZ8a8Bbo8vuoBI4qkGWCxiNCOdWQXPmHSY2JbSbRpeMuWyXrB68Rw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f+RXSyAkgIraAhc/97tVhNHajm+iZ3GOhMi5SV4phUE=;
- b=ynbN9ygjtLNOj4ZvizhfQ1TxUilj2SRNbIec2Uuy7p3O1XBuZ380TaGKEDGlUVckMBvUcXaKLXuXGpkcGH+1r1ajQLSLmDVuKccbFyfiGEfbxBm8THwHfVbAybxJFJPMgb6UwxZ07/Zt6p7w8CgJA/so5BzUffTVYBoyu0kZuCDAtChfmIz+zdlfXTfQxTQI1UpKwuQhne38I7IqxYZ/AdXnMrPguB4P76sU+Agjkiw5nKhPoTsPrJs2d6DAjqKsg7y1nwhXYRDveg+jVXutCSmro82bbkzrALg9jyXeOYOsrzGp2DZZtGzhDEyz7JQ+CWSSaGOSKVq7cRvK9WW3Qg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 131.228.2.241) smtp.rcpttodomain=apple.com smtp.mailfrom=nokia-bell-labs.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nokia-bell-labs.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia-bell-labs.com;
+ bh=26hylySgMlsiEHRqyWvQyON44Iyx9QtUyOo2LGQvxko=;
+ b=ZfbyRibbgSmHiYR03iOi4reeCfmdMreGKWzEpFQhdwu8auXvPjK3jtvo3RSOQLEOlbglDzyclAZ8i/O6XF74HMU7Szz10wmiG94j8jMADz3Cp4kioND+P7h0NLrEsmrRAdlSEJtAHRce/yK+Pn7QLO/e/c1/rs1Acw8wKS+hHXjAs9EwWa46V5I6oKoHX30kdj+ZRNWZDDtV18n2J+SEJWKZkP2QJrgyoSJEkGxm4Wa3JhZH3wV+JLknOoM4UDyMxhVB7xv72U4HgldwnVRoaC+1fZOILWC3PL3uHfne+VuJVdnlhn1erwxTY0UbnsdC6UzdPFl8SNfuxfXxQOBmZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f+RXSyAkgIraAhc/97tVhNHajm+iZ3GOhMi5SV4phUE=;
- b=WhkXGyqHaIMSknUU582or5AzryUUhlZtQ/a7NsAwsZvgYxec4S05nJloT/VkRiWw2V48QPb277QJU5KtmcGzTcDlCpS0/l2BbePX29k3S6mF49QGcsz6+Z5Pstx+KHQPBjAeBz9zmvxqKKBJxqiC6otodQ0vjHaqvjN/CelDEM/6jkf/9rxWXJASu80R7ffVwXSJWWw+3y3zN7S5dyKLJecFq8aGVpIWh7R2qh1+rbuOwvqV0a12dDqD4I4aMtpKf5iX5aIP4gNeHPaXkpYymena6kia78tLx7xyfwKfJOkkhpkBP50mMvPMqq3tWfGymZtnB2n1aMZy9dRfM3D9Pg==
-Received: from AM0PR02CA0120.eurprd02.prod.outlook.com (2603:10a6:20b:28c::17)
- by VI0PR07MB11578.eurprd07.prod.outlook.com (2603:10a6:800:307::17) with
+ bh=26hylySgMlsiEHRqyWvQyON44Iyx9QtUyOo2LGQvxko=;
+ b=ejNF4Ss2zgS9JD8H6PsZrND7aq/EWxqI2ZE0ZACElQRleJ3tWYZGV4GMZMOahD5y08aDBuUDjKLBpD8Cvu/Teb770V4a5pIimZttPvBcng3y6+sm7luIUFVGCTmjvvYS4xCywC1/DTZ45wOSiZxNAzp25Pc0/Ip/wJWLjAcPrfe3iJ7+ZQ57R98N8Qf1cfO9+uuZjsyZTKh26TJrRMBzAJKc6UApZxMzUxVOisgyh9rBtTxobdZonWtYHPzIQN8AyAOXN16Q89fd0XIN963bqCVNXvdshr+kKwNG5S3h0yFyoEQ2zXVcrkXurr6sQrUCnCRjMRThX2m4Spgm+we2jQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by BN3PR12MB9569.namprd12.prod.outlook.com (2603:10b6:408:2ca::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Wed, 28 Jan
- 2026 14:44:39 +0000
-Received: from AMS0EPF000001AE.eurprd05.prod.outlook.com
- (2603:10a6:20b:28c:cafe::d2) by AM0PR02CA0120.outlook.office365.com
- (2603:10a6:20b:28c::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.7 via Frontend Transport; Wed,
- 28 Jan 2026 14:44:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 131.228.2.241)
- smtp.mailfrom=nokia-bell-labs.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nokia-bell-labs.com;
-Received-SPF: Pass (protection.outlook.com: domain of nokia-bell-labs.com
- designates 131.228.2.241 as permitted sender)
- receiver=protection.outlook.com; client-ip=131.228.2.241;
- helo=fihe3nok0734.emea.nsn-net.net; pr=C
-Received: from fihe3nok0734.emea.nsn-net.net (131.228.2.241) by
- AMS0EPF000001AE.mail.protection.outlook.com (10.167.16.154) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.3
- via Frontend Transport; Wed, 28 Jan 2026 14:44:38 +0000
-Received: from sarah.nbl.nsn-rdnet.net (sarah.nbl.nsn-rdnet.net [10.0.73.150])
-	by fihe3nok0734.emea.nsn-net.net (Postfix) with ESMTP id 18E8A203D6;
-	Wed, 28 Jan 2026 16:44:37 +0200 (EET)
-From: chia-yu.chang@nokia-bell-labs.com
-To: pabeni@redhat.com,
-	edumazet@google.com,
-	parav@nvidia.com,
-	linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	horms@kernel.org,
-	dsahern@kernel.org,
-	kuniyu@google.com,
-	bpf@vger.kernel.org,
-	netdev@vger.kernel.org,
-	dave.taht@gmail.com,
-	jhs@mojatatu.com,
-	kuba@kernel.org,
-	stephen@networkplumber.org,
-	xiyou.wangcong@gmail.com,
-	jiri@resnulli.us,
-	davem@davemloft.net,
-	andrew+netdev@lunn.ch,
-	donald.hunter@gmail.com,
-	ast@fiberby.net,
-	liuhangbin@gmail.com,
-	shuah@kernel.org,
-	linux-kselftest@vger.kernel.org,
-	ij@kernel.org,
-	ncardwell@google.com,
-	koen.de_schepper@nokia-bell-labs.com,
-	g.white@cablelabs.com,
-	ingemar.s.johansson@ericsson.com,
-	mirja.kuehlewind@ericsson.com,
-	cheshire@apple.com,
-	rs.ietf@gmx.at,
-	Jason_Livingood@comcast.com,
-	vidhi_goel@apple.com
-Cc: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-Subject: [PATCH v1 net-next 3/3] virtio_net: Accurate ECN flag in virtio_net_hdr
-Date: Wed, 28 Jan 2026 15:44:26 +0100
-Message-Id: <20260128144426.15870-4-chia-yu.chang@nokia-bell-labs.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260128144426.15870-1-chia-yu.chang@nokia-bell-labs.com>
-References: <20260128144426.15870-1-chia-yu.chang@nokia-bell-labs.com>
+ 2026 15:05:39 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::1b59:c8a2:4c00:8a2c]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::1b59:c8a2:4c00:8a2c%3]) with mapi id 15.20.9542.015; Wed, 28 Jan 2026
+ 15:05:38 +0000
+Date: Wed, 28 Jan 2026 11:05:38 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Message-ID: <20260128150538.GA1134360@nvidia.com>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh>
+ <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
+ <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com>
+ <20260127235232.GS1134360@nvidia.com>
+ <CAMRc=MfP1_fH91AVjerbnwVfhA0oqBKV+CTX0_1n32g1t-Pvuw@mail.gmail.com>
+ <aXneX-aZofvuk8gl@ninjato>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aXneX-aZofvuk8gl@ninjato>
+X-ClientProxiedBy: BL1P222CA0024.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:208:2c7::29) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001AE:EE_|VI0PR07MB11578:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 2d22aa25-0361-4692-123f-08de5e7bc377
-X-LD-Processed: 5d471751-9675-428d-917b-70f44f9630b0,ExtAddr
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|BN3PR12MB9569:EE_
+X-MS-Office365-Filtering-Correlation-Id: 77a576f4-2ef1-43a8-69c0-08de5e7eb283
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|7416014|921020;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
 X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?qU3Eh1sR5UoCYNqZjpwdKqd6e71f0rtF0eA47S666yN4dla0TGhbdjxO5p+B?=
- =?us-ascii?Q?lsGHykDDqIh8TAds4z49SpfpYYvsXuKI0lEU6yVCk8BwKGLnQDEXpHImN9ST?=
- =?us-ascii?Q?LHWhwjBP8IHSfGyGG20o1E+kJeML3Wk3bI/6up4Quk5rVxJn5SV6bYEQtuIB?=
- =?us-ascii?Q?PvlHjvhNONBKWDCLlf6Lm8u3PDhSXNppdyqN3y0xL+kfNeDcbYSs+d4b5XQe?=
- =?us-ascii?Q?b9kKmX2QrGsyO/bPyFM2Hpxcxc8Om1yJiPfDO1TwcOYgNRD/caTVpkzdafGX?=
- =?us-ascii?Q?n5zNwHgxFdEYevY9bk5Y8Bpc8CAY9PjRVhrfJ2Gcr7ZM4KSTm25PV6cZLB7J?=
- =?us-ascii?Q?WUhn1kvlR2FVUr9kxp3KHRB8hpQVMjmrqYfaR9j8gllDwI/YaR/AVvYBP5Gp?=
- =?us-ascii?Q?1ols00rsirKYaYqRXpYr2KYmSQ7bSkrmcSj4HpwJKUBCKFSF3S2smSTRi0VH?=
- =?us-ascii?Q?wocaUqRkfxnBIoukKfW8PXH7ILleI1OwThFCJoSScAu2/uDZqN1TpxxvmG2r?=
- =?us-ascii?Q?hIlTiN24NEgE8Fy5Rkd8BbvrhE5gXLFyJFkY2dwXOyOzHAIBOixDBfi8w8cs?=
- =?us-ascii?Q?vdTRPwN/kE0m1W2a+IXjakajgdrsq1plgqA8hBbqkMrlify38Gs0ekdHdeoO?=
- =?us-ascii?Q?26Hto5NGDo6cONWsPJOV7OzpVMz5oKn5WBIfz6JPI+zRPDzHSF1PTbdP17El?=
- =?us-ascii?Q?3wwPBoQArUpGTzWFmJviP/0JtwrIIKIg4Pxn8xd4O865HHRY8lp2I4xPe0Ky?=
- =?us-ascii?Q?pDn26jb4xQckDWqo6oycrF6Duv+M6XE1/tSHInv0IA4BlRk2Iy1vDCWCevpN?=
- =?us-ascii?Q?1yUmqkav0a2kBN0878Q2wy9t4UUogVOdkZCcPCY1o3XhzF30/lZXQi0Et4sr?=
- =?us-ascii?Q?rVxkYBpnqrO3vQuLSCZn+bux69EHdDUmPRmipD/5cXSn/ZQBScSKKjsdgY/Y?=
- =?us-ascii?Q?hEX0VzmI9uueCYkKz8etST1PseWEtJt5BnfzlGpb0t39aFHmawx+LoKL64N5?=
- =?us-ascii?Q?9KDla0yVlGDrfibQoqkizh0A95IySHim2xZ6MTs2fqGRkinn1ompySMRZmkp?=
- =?us-ascii?Q?cw8y4+OFC1BUCNiD+lN+OjsWmGKwsrxFqrSPr4QZlAr0vawJOjjThK5lK0+f?=
- =?us-ascii?Q?dnD7UFmKbc2Dyla++f9c1RFc8xQ8eXx7IENhrWwClfn+iw+7HtutR4a+hde3?=
- =?us-ascii?Q?CVCGl2PlDOyUuqu1765IVU6xqP99DYyw6uNCTPTlwWSs9Oucqa2kSzcHEI0o?=
- =?us-ascii?Q?35udL9d9Rpi+TjkvPZpwzIKPGe+Vq5WKsrotJiO60GpBlNfwpQ0OHyTaP4ou?=
- =?us-ascii?Q?D2jHPD7uTV0u0JiX3ZhEiJxUoSboA39eYY6GnZD5DHZc/oV6Osf6IDhTG4vG?=
- =?us-ascii?Q?2hZZgbfv7RFGPVjOAaFXjAWPIC2bxs+2ZlLcctdAcuExj117KnL8x00NKWWy?=
- =?us-ascii?Q?PWTkZJ/ksbN1vbuH4EeIduXUcTwou7Vybl/6XpoF1guZCLwiYkOSgzyqDK7I?=
- =?us-ascii?Q?aV+1ipTR6HhnF+3wRo+rlzRWr6DpXVOukvLi/yHbfertNX6kk/ZVk80+fUL6?=
- =?us-ascii?Q?rLqPjoj8+ARGY0aYEx7KvX97GaaNO6bTqNqOQLEP/w3Zg7lx7+2nAxB1fZ3b?=
- =?us-ascii?Q?1Iy0ugYffPypY0QYArxAUhAw6oOUbuG3Kno7IOWEVxLW1rQqpZaMy84CBZ0e?=
- =?us-ascii?Q?BSiis3K9P9iKw2BqcHfdx/f7go4=3D?=
+	=?us-ascii?Q?10IUf2k4Es9FIO3PVBoMekMveFg4ykQdOR16T3lwb0KIk+5sySU56cHoX3+t?=
+ =?us-ascii?Q?sYajfFHuaAA6HxySJ+8pNPUyexGK7ipNa3KXLuI4naKPrar5ya5UHCw8KYRV?=
+ =?us-ascii?Q?VKkPt4Y0om0e2yQUzZLvunZvaIX9TfF13q9GER7tNuT/njnkwJMEs0jqpjOS?=
+ =?us-ascii?Q?Tc3tv2K0zA39lH9sOPxwgAxJfYkuaZPRgeOvxe931JZc3XigfZ5nODaUHJNU?=
+ =?us-ascii?Q?Yx+lwz/jR7v7fSVqu4ow4mPDzH0waZkn79iFZ2GuKgkPt9WEKdRMt8or9cVL?=
+ =?us-ascii?Q?+lDxubNZdD9ssVfvAoGFBtyxI9xxShxVtt87mQ20JrUizyPpFp25I8uokWaJ?=
+ =?us-ascii?Q?9kOAgwnvkcHv+wInnRT88+QkRXZusY9pPLlAtCRQ99uS/ARWQGLXND55JMpy?=
+ =?us-ascii?Q?gQ+KWqyY8j7cEOjIoiDQvCDyHXRprb5uG6H2LCC/zeqIgltCK/FFfLLQhLOp?=
+ =?us-ascii?Q?f8oKDkSNXLuvOHaMlFDPHAGUvC2mby6cWwGj70vLPC/eUHb3GMXP+RqxeyeP?=
+ =?us-ascii?Q?3wifJahh6/NNqRMSipaWU2Ez+auHLwfdeZptcXAUwpXEmp8rfIKKxIbjHMQX?=
+ =?us-ascii?Q?2SnAWBughDS1praNQWmoj3c25B3bho7cOF3LtyrRY2XAX2sQxFsizQokOaAY?=
+ =?us-ascii?Q?N0RJsseBc8C5RXNG/+nOvuA9w1ES5YX5YVDWCZoaOcO9h/+E8ZKH4udG3UUo?=
+ =?us-ascii?Q?O71vLT56RF447faIToeCinGpTlCSo39P3xkM/qm2olH95AE5mqtZ630rLAyo?=
+ =?us-ascii?Q?Z7Qzo0Rl566318sG89+uDHb2Nt/zSBsgJdSd3NVgBChIDNPxq7a+6YB8ow5W?=
+ =?us-ascii?Q?LMgSdBxig4I022/i4FCNEMEiDJrjtlla+LdqEQ1bbjVG2PVnuuvkT6Nw3JHz?=
+ =?us-ascii?Q?Wr8/DEgUDEOCuz6kMxf9GvNP2pwO/J9L23spBSGVe3JiCIRdnKozoK33Yilz?=
+ =?us-ascii?Q?OqHs+aikfFhnNdX70BqT/yjCPPO3ec/BlUJUzp4ABU/KC7Kobi2FzyeFMLSg?=
+ =?us-ascii?Q?SV6Cf86Clr6V7kB1gJWEz2sBJQeuP8sL5PPwqFaibtqfIzKOwbtCyZd05T/R?=
+ =?us-ascii?Q?ECJQdUziJDmBX0+ZKV/Azagry7Eo2zdRs+N41Iyh60vYrv5Unk73HJwSeMbw?=
+ =?us-ascii?Q?YaMKBDNGYo5/8AbQxgHPgjC/q83o8R3JELWImpyaKPv1/Qlr8E4eV9DtJLpC?=
+ =?us-ascii?Q?xvs3non7eNkwP4cWzhT02DN4JhGh1p7MJM3P+Wx2IYkdD11bWIR8NwamdXsx?=
+ =?us-ascii?Q?D15ZaEFLlpKWRbqfAuwWnU0jW6EUsHa/oQY2dPrUOwqmrVllLCgz6/fmflHV?=
+ =?us-ascii?Q?gkBdlS2hoUHWixLO78EgoDVW9m+GGJ+vm3Jdfx/1yIMRUGEaEH9rj91787CL?=
+ =?us-ascii?Q?pblrTmaifbJfrSSKgrnpHKBytv+3+iN2v6a3LEEhQ+UPEkoRbAKVxJ4ubyAr?=
+ =?us-ascii?Q?6UFuDQMjEVP9gp2viH33N0K3nAdS5HwMkHkJj6IVs3eCUY1B55hf2LJ1RGb1?=
+ =?us-ascii?Q?wWZbtJyRh5QS6Z+X9RwhrzD9ZVoW2BqYwT1oh2Bjx6VB9lBUbe1+6c13whHP?=
+ =?us-ascii?Q?/SJal/QcJBYkWZ12ZzY=3D?=
 X-Forefront-Antispam-Report:
- CIP:131.228.2.241;CTRY:FI;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:fihe3nok0734.emea.nsn-net.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- G0FADuej1NBs9IiTBMNj0QUh4CAq7Kg4G3+m8vjB5p0R6wNd2i7XjMMiK0cuXVEn8i98ELceknPcghtdDUYo+iUxsZxNCxXl1J6Wl8QX33nnM7RXY36F1bXcdTb2GxuNMcJNwqYvSigBNGphD6t0hZNupbyunPxUovTzC77/GTEwLA4H1nqR4phcZwEfznNqXtEoDoriDpbqWqz+UdvwzgSVPOZR5LVbPKUvYpfkWrXvbKBT0DW5D3sfrrq7IB7jkvQcentoUW8F/DJiKn6LCQofBt+wTcutftB8vYo9YyZiYGr3fJVNsRYsqYPKIgPJu4QInuB770wE94HXQRgHCvrrubyl4eEY3Oj97IHjptc1X23YVjrmJCWWhczL8Lnmr/LP9l5dPaNanXCiw0LJSi6Y2U0rrg70/QwzVXs8XzT85Zky8iFPBr/QBhcqOcfT
-X-OriginatorOrg: nokia-bell-labs.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 14:44:38.5811
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d22aa25-0361-4692-123f-08de5e7bc377
-X-MS-Exchange-CrossTenant-Id: 5d471751-9675-428d-917b-70f44f9630b0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5d471751-9675-428d-917b-70f44f9630b0;Ip=[131.228.2.241];Helo=[fihe3nok0734.emea.nsn-net.net]
+	=?us-ascii?Q?pgTWqg1mtwTLIvRY5jF6rRzsYreqrTlEFhclXrDlmhhyqmjJN9sHKk21KEeu?=
+ =?us-ascii?Q?8aha7yREY6nGJv0xkSjzkANCFNYz34DKhjGokCM/bMt6DYtt3siUrRHb4Ax2?=
+ =?us-ascii?Q?lngI3oc4N3K2iw3Lc2dAZHmZYcDEYs7LoUZaJf4Sjq0hNkTsjIiS+9DXF1dU?=
+ =?us-ascii?Q?X7gf+e1gFeKYzkmjAl12ABWEDrrGpIgj+F6YvMpyWSiKRJQBZqCldL4kggQD?=
+ =?us-ascii?Q?VW8AZD3ZjYMPNzdzpvxaH15jCaEkCVEOTfiSTf8F/uoUctrdglZIMhDrmzvV?=
+ =?us-ascii?Q?/7N/KrVpiVFF36lggkX2G4ydQowWFLDqXeaLAV9zvfqQmMmy8b5hiiHQXw7j?=
+ =?us-ascii?Q?ZV/T9X36DBsv1ytxxdgKSa6llD0sx75BrbFPpOZM2XPzShQJfU2uZUai/3u/?=
+ =?us-ascii?Q?XUSKzEToiO+sodei+6DLNzsNvpY5emcFAouhsgEoAAGP0Rpp+y/QyZ4mfsEy?=
+ =?us-ascii?Q?AO4k0EXz9b6D6RHE4O7D04lbLUleJZ0zyDOLgnwdPhmzh+QKMDT+LB909Glz?=
+ =?us-ascii?Q?A8CayNGP+LCYYKzuw+IQFD+E3AY7zI6+tHgaBRdw8aUts//vyyYS3pm0oTeZ?=
+ =?us-ascii?Q?AfD6BRqnQgk4hFfRH+NsnzVjG1AksLOCEigjPOxfiY4mq2IkGTFf2TPnzX++?=
+ =?us-ascii?Q?mJPko2N4CFGBTMb/AMz8ctxiKdK1ITGgnzFEelFMMl1Emao1R2DVJbMDmXis?=
+ =?us-ascii?Q?PIKKsn3UeADx2vRZ5d7uiALnPIQXn0cjOYdl2vmZeqp+8EC+bIIyr0zonASW?=
+ =?us-ascii?Q?MKqK1Keg2z795aqtBMteUwDn1LRUjbx1EG8uxIm/TdSePJ6faNVMCYmJ0vfW?=
+ =?us-ascii?Q?XlqCmFrGBwxYQVZhv2PETyyAq1HNfw+er3DtaRfy6ypB+gvNyBve72sV7OAg?=
+ =?us-ascii?Q?V/CXTKHkXVXcR5o3+wIF/WHYYxG0/O/rqINLVZFYxNWrJHLRvtV2cHTYZQQx?=
+ =?us-ascii?Q?/sgrF9T91+nVUxgDW2nuckPjnAvA/E3id5GGRTtX2OogoKDJs8bM7vmH4j76?=
+ =?us-ascii?Q?eMsKMNEML/O8FGW9eFVO87Va1zswQZVGRJsFNBSBvm+LzQR7oZccKa62zSDi?=
+ =?us-ascii?Q?10MWAMBqwcKDy3BSO+oWWfDnXSe1Iskjl30Au4XRvxurEhiCQtzDlUw10aQL?=
+ =?us-ascii?Q?Bpw0ds1xOHULgFG81C7gFmwl+erznoc2d5QWBzPhw6ifrITrYxW1ynLz9p+q?=
+ =?us-ascii?Q?yS1cdFCjecBKi9ECoG9IkuHf8Ii7TV80OyFjT5NNYs99QtFOkthDw+WpqiMP?=
+ =?us-ascii?Q?KclnA9U3YQ0y28ReCXqPUkarRPRWes8HoZlx9hhumC/qRlFQt26j66NxFVyQ?=
+ =?us-ascii?Q?mgJts1PBj2qYO/btVt3xqmwI1dYpR8bbXD9aCqXe+Z+PCi+FziHMTjVWfFik?=
+ =?us-ascii?Q?fO/8+VsRQ0ZayIAdFrVcG3c4EnHdPqEyMWEvJ5QMtGi6OZXvjcZiW8Rx/P4u?=
+ =?us-ascii?Q?f9AOvOQdkyxD8GB97eo4NOMXIcGLxagr71/6BlpY6TSgwCO9I1DZ0pL7H1qp?=
+ =?us-ascii?Q?HNOP9TRbCE68bYT2dIGOAewJA178Gk0vQavtRvjsaMeMMvIcM+cKAt5Fpg2o?=
+ =?us-ascii?Q?b46A6gHYpua+HH+rDzd0IcsUj5TxI2D3S5cDiZnZRTb03Nj/s0Pb30C8PVko?=
+ =?us-ascii?Q?ol7Og/99I4D6+EjXGCJkwuuWHeFnPSXJtJEkf6aSfHLFV08zx1BuVSOQ9dBd?=
+ =?us-ascii?Q?JysUcfjmYwFnx7mvARvR6DAOxSpHYzXvfgZnXaI2u5bHYUf5jphUGPD6j2Z9?=
+ =?us-ascii?Q?8gYnwUJWIg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77a576f4-2ef1-43a8-69c0-08de5e7eb283
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-AMS0EPF000001AE.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR07MB11578
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 15:05:38.8715
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AwiyUBjbbf4bBQELxt1litUyPgzGA7R3Ax2/XgrnFkmL2qdo+Cn4GsYxUvF86EHl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR12MB9569
 
-From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+On Wed, Jan 28, 2026 at 11:01:03AM +0100, Wolfram Sang wrote:
+> 
+> > One exception is I2C where the logic is so broken we need to first
+> > rework a lot of drivers.
+> 
+> Let's say "bitrotten" instead of broken. People used what was available
+> at that time and they prevented the kernel from crashing, at least. And
+> up to now, nobody had the bandwidth to improve that part in I2C.
+> 
+> > Wolfram is on board with that though.
+> 
+> Ack. I want to emphasize here that for I2C the SRCU part goes into the
+> subsystem, not into the drivers.
 
-Unlike RFC 3168 ECN, accurate ECN uses the CWR flag as part of the ACE
-field to count new packets with CE mark; however, it will be corrupted
-by the RFC 3168 ECN-aware TSO. Therefore, fallback shall be applied by
-seting NETIF_F_GSO_ACCECN to ensure that the CWR flag should not be
-changed within a super-skb.
+I would just gently advise again that SRCU is not a pancea and should
+only be used if the read side sections are super performance
+critical. I'm not sure that describes I2C. rwsem is often a simpler
+and better choice.
 
-To apply the aforementieond new AccECN GSO for virtio, new featue bits
-for host and guest are added for feature negotiation between driver and
-device. And the translation of Accurate ECN GSO flag between
-virtio_net_hdr and skb header for NETIF_F_GSO_ACCECN is also added to
-avoid CWR flag corruption due to RFC3168 ECN TSO.
+> > > The reason cdev keeps coming up is because there are few common ways a
+> > > typical driver can actually generate concurrent operations during and
+> > > after remove that would be problematic.
+> 
+> Let me point out again that Dan Williams already had a PoC-patch for
+> handling the cdev issue generically [1]. Dunno if this fact is present
+> in the current discussion.
+> 
+> [1] https://lkml.org/lkml/2021/1/20/999
 
-Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
----
- drivers/net/virtio_net.c        | 14 +++++++++++---
- drivers/vdpa/pds/debugfs.c      |  6 ++++++
- include/linux/virtio_net.h      | 16 ++++++++++------
- include/uapi/linux/virtio_net.h |  5 +++++
- 4 files changed, 32 insertions(+), 9 deletions(-)
+Yeah, this was brought up a couple drafts of possible options were
+exchanged already but nothing was really focused on and polished.
 
-diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
-index db88dcaefb20..103fb87c690e 100644
---- a/drivers/net/virtio_net.c
-+++ b/drivers/net/virtio_net.c
-@@ -75,6 +75,7 @@ static const unsigned long guest_offloads[] = {
- 	VIRTIO_NET_F_GUEST_TSO4,
- 	VIRTIO_NET_F_GUEST_TSO6,
- 	VIRTIO_NET_F_GUEST_ECN,
-+	VIRTIO_NET_F_GUEST_ACCECN,
- 	VIRTIO_NET_F_GUEST_UFO,
- 	VIRTIO_NET_F_GUEST_CSUM,
- 	VIRTIO_NET_F_GUEST_USO4,
-@@ -87,6 +88,7 @@ static const unsigned long guest_offloads[] = {
- #define GUEST_OFFLOAD_GRO_HW_MASK ((1ULL << VIRTIO_NET_F_GUEST_TSO4) | \
- 			(1ULL << VIRTIO_NET_F_GUEST_TSO6) | \
- 			(1ULL << VIRTIO_NET_F_GUEST_ECN)  | \
-+			(1ULL << VIRTIO_NET_F_GUEST_ACCECN) | \
- 			(1ULL << VIRTIO_NET_F_GUEST_UFO)  | \
- 			(1ULL << VIRTIO_NET_F_GUEST_USO4) | \
- 			(1ULL << VIRTIO_NET_F_GUEST_USO6) | \
-@@ -5976,6 +5978,7 @@ static int virtnet_xdp_set(struct net_device *dev, struct bpf_prog *prog,
- 	    && (virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_TSO4) ||
- 	        virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_TSO6) ||
- 	        virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_ECN) ||
-+		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_ACCECN) ||
- 		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_UFO) ||
- 		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_CSUM) ||
- 		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_USO4) ||
-@@ -6635,6 +6638,7 @@ static bool virtnet_check_guest_gso(const struct virtnet_info *vi)
- 	return virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_TSO4) ||
- 		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_TSO6) ||
- 		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_ECN) ||
-+		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_ACCECN) ||
- 		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_UFO) ||
- 		(virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_USO4) &&
- 		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_USO6));
-@@ -6749,6 +6753,8 @@ static int virtnet_probe(struct virtio_device *vdev)
- 			dev->hw_features |= NETIF_F_TSO6;
- 		if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_ECN))
- 			dev->hw_features |= NETIF_F_TSO_ECN;
-+		if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_ACCECN))
-+			dev->hw_features |= NETIF_F_GSO_ACCECN;
- 		if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_USO))
- 			dev->hw_features |= NETIF_F_GSO_UDP_L4;
- 
-@@ -7169,9 +7175,11 @@ static struct virtio_device_id id_table[] = {
- 	VIRTIO_NET_F_CSUM, VIRTIO_NET_F_GUEST_CSUM, \
- 	VIRTIO_NET_F_MAC, \
- 	VIRTIO_NET_F_HOST_TSO4, VIRTIO_NET_F_HOST_UFO, VIRTIO_NET_F_HOST_TSO6, \
--	VIRTIO_NET_F_HOST_ECN, VIRTIO_NET_F_GUEST_TSO4, VIRTIO_NET_F_GUEST_TSO6, \
--	VIRTIO_NET_F_GUEST_ECN, VIRTIO_NET_F_GUEST_UFO, \
--	VIRTIO_NET_F_HOST_USO, VIRTIO_NET_F_GUEST_USO4, VIRTIO_NET_F_GUEST_USO6, \
-+	VIRTIO_NET_F_HOST_ECN, VIRTIO_NET_F_HOST_ACCECN, \
-+	VIRTIO_NET_F_GUEST_TSO4, VIRTIO_NET_F_GUEST_TSO6, \
-+	VIRTIO_NET_F_GUEST_ECN, VIRTIO_NET_F_GUEST_ACCECN, \
-+	VIRTIO_NET_F_GUEST_UFO, VIRTIO_NET_F_HOST_USO, \
-+	VIRTIO_NET_F_GUEST_USO4, VIRTIO_NET_F_GUEST_USO6, \
- 	VIRTIO_NET_F_MRG_RXBUF, VIRTIO_NET_F_STATUS, VIRTIO_NET_F_CTRL_VQ, \
- 	VIRTIO_NET_F_CTRL_RX, VIRTIO_NET_F_CTRL_VLAN, \
- 	VIRTIO_NET_F_GUEST_ANNOUNCE, VIRTIO_NET_F_MQ, \
-diff --git a/drivers/vdpa/pds/debugfs.c b/drivers/vdpa/pds/debugfs.c
-index c328e694f6e7..90bd95db0245 100644
---- a/drivers/vdpa/pds/debugfs.c
-+++ b/drivers/vdpa/pds/debugfs.c
-@@ -78,6 +78,9 @@ static void print_feature_bits_all(struct seq_file *seq, u64 features)
- 		case BIT_ULL(VIRTIO_NET_F_GUEST_ECN):
- 			seq_puts(seq, " VIRTIO_NET_F_GUEST_ECN");
- 			break;
-+		case BIT_ULL(VIRTIO_NET_F_GUEST_ACCECN):
-+			seq_puts(seq, " VIRTIO_NET_F_GUEST_ACCECN");
-+			break;
- 		case BIT_ULL(VIRTIO_NET_F_GUEST_UFO):
- 			seq_puts(seq, " VIRTIO_NET_F_GUEST_UFO");
- 			break;
-@@ -90,6 +93,9 @@ static void print_feature_bits_all(struct seq_file *seq, u64 features)
- 		case BIT_ULL(VIRTIO_NET_F_HOST_ECN):
- 			seq_puts(seq, " VIRTIO_NET_F_HOST_ECN");
- 			break;
-+		case BIT_ULL(VIRTIO_NET_F_HOST_ACCECN):
-+			seq_puts(seq, " VIRTIO_NET_F_HOST_ACCECN");
-+			break;
- 		case BIT_ULL(VIRTIO_NET_F_HOST_UFO):
- 			seq_puts(seq, " VIRTIO_NET_F_HOST_UFO");
- 			break;
-diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
-index 75dabb763c65..bbf6fc212259 100644
---- a/include/linux/virtio_net.h
-+++ b/include/linux/virtio_net.h
-@@ -11,7 +11,7 @@
- 
- static inline bool virtio_net_hdr_match_proto(__be16 protocol, __u8 gso_type)
- {
--	switch (gso_type & ~VIRTIO_NET_HDR_GSO_ECN) {
-+	switch (gso_type & ~VIRTIO_NET_HDR_GSO_ECN_FLAGS) {
- 	case VIRTIO_NET_HDR_GSO_TCPV4:
- 		return protocol == cpu_to_be16(ETH_P_IP);
- 	case VIRTIO_NET_HDR_GSO_TCPV6:
-@@ -31,7 +31,7 @@ static inline int virtio_net_hdr_set_proto(struct sk_buff *skb,
- 	if (skb->protocol)
- 		return 0;
- 
--	switch (hdr->gso_type & ~VIRTIO_NET_HDR_GSO_ECN) {
-+	switch (hdr->gso_type & ~VIRTIO_NET_HDR_GSO_ECN_FLAGS) {
- 	case VIRTIO_NET_HDR_GSO_TCPV4:
- 	case VIRTIO_NET_HDR_GSO_UDP:
- 	case VIRTIO_NET_HDR_GSO_UDP_L4:
-@@ -58,7 +58,7 @@ static inline int __virtio_net_hdr_to_skb(struct sk_buff *skb,
- 	unsigned int ip_proto;
- 
- 	if (hdr_gso_type != VIRTIO_NET_HDR_GSO_NONE) {
--		switch (hdr_gso_type & ~VIRTIO_NET_HDR_GSO_ECN) {
-+		switch (hdr_gso_type & ~VIRTIO_NET_HDR_GSO_ECN_FLAGS) {
- 		case VIRTIO_NET_HDR_GSO_TCPV4:
- 			gso_type = SKB_GSO_TCPV4;
- 			ip_proto = IPPROTO_TCP;
-@@ -84,7 +84,9 @@ static inline int __virtio_net_hdr_to_skb(struct sk_buff *skb,
- 			return -EINVAL;
- 		}
- 
--		if (hdr_gso_type & VIRTIO_NET_HDR_GSO_ECN)
-+		if (hdr_gso_type & VIRTIO_NET_HDR_GSO_ACCECN)
-+			gso_type |= SKB_GSO_TCP_ACCECN;
-+		else if (hdr_gso_type & VIRTIO_NET_HDR_GSO_ECN)
- 			gso_type |= SKB_GSO_TCP_ECN;
- 
- 		if (hdr->gso_size == 0)
-@@ -159,7 +161,7 @@ static inline int __virtio_net_hdr_to_skb(struct sk_buff *skb,
- 		unsigned int nh_off = p_off;
- 		struct skb_shared_info *shinfo = skb_shinfo(skb);
- 
--		switch (gso_type & ~SKB_GSO_TCP_ECN) {
-+		switch (gso_type & ~(SKB_GSO_TCP_ECN | SKB_GSO_TCP_ACCECN)) {
- 		case SKB_GSO_UDP:
- 			/* UFO may not include transport header in gso_size. */
- 			nh_off -= thlen;
-@@ -231,7 +233,9 @@ static inline int virtio_net_hdr_from_skb(const struct sk_buff *skb,
- 			hdr->gso_type = VIRTIO_NET_HDR_GSO_UDP_L4;
- 		else
- 			return -EINVAL;
--		if (sinfo->gso_type & SKB_GSO_TCP_ECN)
-+		if (sinfo->gso_type & SKB_GSO_TCP_ACCECN)
-+			hdr->gso_type |= VIRTIO_NET_HDR_GSO_ACCECN;
-+		else if (sinfo->gso_type & SKB_GSO_TCP_ECN)
- 			hdr->gso_type |= VIRTIO_NET_HDR_GSO_ECN;
- 	} else
- 		hdr->gso_type = VIRTIO_NET_HDR_GSO_NONE;
-diff --git a/include/uapi/linux/virtio_net.h b/include/uapi/linux/virtio_net.h
-index 1db45b01532b..af5bfe45aa1f 100644
---- a/include/uapi/linux/virtio_net.h
-+++ b/include/uapi/linux/virtio_net.h
-@@ -56,6 +56,8 @@
- #define VIRTIO_NET_F_MQ	22	/* Device supports Receive Flow
- 					 * Steering */
- #define VIRTIO_NET_F_CTRL_MAC_ADDR 23	/* Set MAC address */
-+#define VIRTIO_NET_F_HOST_ACCECN 25	/* Host can handle GSO of AccECN */
-+#define VIRTIO_NET_F_GUEST_ACCECN 26	/* Guest can handle GSO of AccECN */
- #define VIRTIO_NET_F_DEVICE_STATS 50	/* Device can provide device-level statistics. */
- #define VIRTIO_NET_F_VQ_NOTF_COAL 52	/* Device supports virtqueue notification coalescing */
- #define VIRTIO_NET_F_NOTF_COAL	53	/* Device supports notifications coalescing */
-@@ -165,6 +167,9 @@ struct virtio_net_hdr_v1 {
- #define VIRTIO_NET_HDR_GSO_UDP_TUNNEL (VIRTIO_NET_HDR_GSO_UDP_TUNNEL_IPV4 | \
- 				       VIRTIO_NET_HDR_GSO_UDP_TUNNEL_IPV6)
- #define VIRTIO_NET_HDR_GSO_ECN		0x80	/* TCP has ECN set */
-+#define VIRTIO_NET_HDR_GSO_ACCECN	0x10	/* TCP AccECN segmentation */
-+#define VIRTIO_NET_HDR_GSO_ECN_FLAGS	(VIRTIO_NET_HDR_GSO_ECN | \
-+					 VIRTIO_NET_HDR_GSO_ACCECN)
- 	__u8 gso_type;
- 	__virtio16 hdr_len;	/* Ethernet + IP + tcp/udp hdrs */
- 	__virtio16 gso_size;	/* Bytes to append to hdr_len per frame */
--- 
-2.34.1
+It is a tricky problem to find a storage location for the lock and
+revoke so that the fops shim can access it while not disturbing the
+actual driver.
 
+Jason
