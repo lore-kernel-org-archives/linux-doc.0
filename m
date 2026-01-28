@@ -1,76 +1,66 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022125.outbound.protection.outlook.com [52.101.96.125])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11020135.outbound.protection.outlook.com [52.101.228.135])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AAF30AACA;
-	Wed, 28 Jan 2026 03:31:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.125
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2539B2874FE;
+	Wed, 28 Jan 2026 05:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.135
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769571115; cv=fail; b=uBulcZKiCcIsYS9MNLfovBsg2nV3AMRI5YSDWhlpqO6qwcEa8mGwLumAW0PHgIhXaMU4ZpJx5iUXAmFQFR4TUPSUsZme7Bp8TnckK+2clHUf7oj8gXhArZKJUYRxs7r2E4T76aqKxqyWayzuoDZFRC5ZYpgyz/aDOxmX08kO8Fs=
+	t=1769577692; cv=fail; b=LxtW2gr1Y0a/wgyoHS8cuTHVbBINUJlf3iOgREzJ7X0fNolTG9tGe1FAiFkElHZ5rYVpmh0B/4D6PQiMy7qAw9vDNZ3eZOuhYeRyh5O+5FfXAgbOMEaWbtpkKwkZq/3vyFUBJ/mAf6HXd8W3WyRStAxolb/L0uhuqrlV8Aci9AU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769571115; c=relaxed/simple;
-	bh=1Q6u0KHYl2iAlnf0VO3BHYtxQif/xdvC/JrBzPiEPfY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UHf5o9PqvjR5eAh5lNHCQaqn2tdZ5YpimJPk3t7qXsxKSSHMPJNjmLfRMURWAd2kglvjvRVwq9beZXOduQ1YVpGCqBMybI6O1VKvgIPtVnJwX0Fpaw/W5OOuP0J7rp0XtjYN37jIw8++iRyHtHjIgUJYN9xbxxzVh9ED8xDANC4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.96.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+	s=arc-20240116; t=1769577692; c=relaxed/simple;
+	bh=ibIOKZ/zn/tYRtvNjxCOIDfMt71suJT38lnGKU4z3Z8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=RRM+PzapOkio3QF9+275cTt5ufqA+YxhVQhBjQK9kbc0dRBrcfjhtruetnU40r90hRllOCcYgQxmg2XAtEBXfNw9Mz+ct7SPJYMIHzugCb2Vl3KBVI2ypAhTogOXv8mQzRpwY8mbrDVevKJ4dYe7SIpNhWfP5PFtUO4DU3pqMfM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=iCoU+r4b; arc=fail smtp.client-ip=52.101.228.135
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="iCoU+r4b"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=miDBho8XxpzAwc53tJCa1dfBFu4Ws7sPCjQ6usOzLDbGnE54kDx7seCsVtIrDI3p53vK8DBDBJoqazFZAX4ASkjW735cUiENrH6fN9lhXGaigRuFErhK41uDHDoitgKO7clb7MfmlwyNDCkjdeBxIP1RnGh554Rz+A7CTO4OsX3nw+2HtcMPTtUfgPNgjFsoDRZy5xSDhFcaN4mkzWgh/pbBf7MmorLGSLAINbvXa9esN/Z8TmLbRhjr279XmVHRycqeq0VRcpP5lwhiqgYXMSQGrRs7gqpeuB2kvQMH0Im3jsHfdnXL+W74YViGMJaN/6UiKiFrH7s1PphGBMKqFg==
+ b=RoaIM/KERiPsf39/JZYjzbXQCVqZP9Rqxuai52LQ5oAdnUP4xe6a7bX4w1XBQyA+xHvI7xDf6EWjLMSLIQwijeV+ijXa99aEsjW0qSykTB9uM0tI/MGuHdFx8ehVqJTSAeKc2wF2KeekmiopLD+9Ev1ank10gk/jENMb5hQHFnGL0/E4Ow1vVuiNG/U3cMx3iHYChAyqM1J3jXgERzNUvmmTunaIw5mC+GbBbY+QuZgCFLomMUwzTNh9634aNosl+gvkCyd9R4bgDwWxH3h6gvIf/iOLy0x6s6syyySE+UEUNwBWWQc8ORrqdpdc+GTWXumE2hKAXUYQvJvSaAsCoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7QnFQD2jpl8wtuiox+4rEavhIZjDr6zW6FKUks+aags=;
- b=tKfX1v4wKtd3x5cpW5VrgDP27E4THZ7PBucY9nZrRETawuvg0sr4whIuuLOErVAyJeaBkNR/tovVM7Pkd6GjM3SAcTKdYIm0Q5QCEFMnDAEqAX7t7Hg/1EAi9sGhOjvysFfcLpT3OdztFTSnGIhLZWk+pzs/pffySV0iybd3jzm6SSMpRC6fnIHK3CEOpm5dOJSVl5xdqEN6pPLn7ZQVkfIQbSmz0VizwmS99j1jahlpbz3r798KVm8D0K6cnUr7YeIobu8L6gdUB/WLoefVaT+Sc3jI8lay+zE7zjvPQrGeVK6SiEU60t3wi2nm8cBGBaaWsOv69STyXRlLYRldHg==
+ bh=p8geDrSPJxROhKeF4iC8SnfDprWUZ5GdvhlZZhpW+uQ=;
+ b=x5chVNDA3IeDBgarwvxLADrn38ywS2LmmyJCcwPzvdk9wk8yKdQqwJlNPACTrdpCVHQIbc2sr6j+ThUdywVd9+t7drsirXsJbjKMragMP0kd6WmK+NsVkd5FMsrc7+sQkCAzBWlr0KawhSMgo/rCalj0uD/cbUf8BhJ+38zu1hlMCBuG+F8KjJENpon0uLkdTZnI7TangKAUlbj7qUbaTTDwpZm4729WMggxwpNPRCaTwERMPh8mPVUUAgc4pczTHcMZwXlBr5BbnRVk2tI5raYDlR2KZWlIdEa+JkWNqhjoHO3f6giP5hx4HZXd8fDU4WxUXAhzbWQm8K6DemkS5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
+ smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
+ header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=p8geDrSPJxROhKeF4iC8SnfDprWUZ5GdvhlZZhpW+uQ=;
+ b=iCoU+r4bCDpd3YbHhBd2RJuvJLXfZ9SuoQ6V/OhZw6tYnyBch3QJhbzXN4YU5xCe2oUQuzRi8dCdQ9JAxSauGx1qw5cNtj/k6WJGdL2wt2LVwVkBE/oUUwDxt8F4u3GneKeElrhlNktqIcEAD8l96ko8z5piJmYKdpJjteNruXY=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by CWXP123MB3222.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:39::16) with
+ header.d=none;dmarc=none action=none header.from=valinux.co.jp;
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
+ by TY6P286MB7578.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:346::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Wed, 28 Jan
- 2026 03:31:52 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%5]) with mapi id 15.20.9542.015; Wed, 28 Jan 2026
- 03:31:52 +0000
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: rafael@kernel.org,
-	dakr@kernel.org,
-	pavel@kernel.org,
-	lenb@kernel.org
-Cc: akpm@linux-foundation.org,
-	bp@alien8.de,
-	pmladek@suse.com,
-	rdunlap@infradead.org,
-	feng.tang@linux.alibaba.com,
-	pawan.kumar.gupta@linux.intel.com,
-	kees@kernel.org,
-	elver@google.com,
-	arnd@arndb.de,
-	fvdl@google.com,
-	lirongqing@baidu.com,
-	bhelgaas@google.com,
-	neelx@suse.com,
-	sean@ashe.io,
-	mproche@gmail.com,
-	chjohnst@gmail.com,
-	nick.lange@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [v2 PATCH 1/1] PM: QoS: Introduce boot parameter pm_qos_resume_latency_us
-Date: Tue, 27 Jan 2026 22:31:43 -0500
-Message-ID: <20260128033143.3456074-2-atomlin@atomlin.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260128033143.3456074-1-atomlin@atomlin.com>
-References: <20260128033143.3456074-1-atomlin@atomlin.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BN1PR14CA0001.namprd14.prod.outlook.com
- (2603:10b6:408:e3::6) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.11; Wed, 28 Jan
+ 2026 05:21:28 +0000
+Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9542.010; Wed, 28 Jan 2026
+ 05:21:28 +0000
+Date: Wed, 28 Jan 2026 14:21:26 +0900
+From: Koichiro Den <den@valinux.co.jp>
+To: Niklas Cassel <cassel@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, 
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>, Frank.Li@nxp.com, 
+	dlemoal@kernel.org, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Allow overriding default
+ BAR sizes
+Message-ID: <w4dzwnip6dhuxgvs4xdgrwsq3drztpdmezfpy2yjqvcxmpdcps@y755eamf54ng>
+References: <20260123180747.827357-2-cassel@kernel.org>
+ <23lxq2hvynxqmothnkhjtarpklin3prv7tvjlvy3xjnzpn5kdj@ks2qay2tgzc2>
+ <aXiJyDUSj68MLQaa@fedora>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aXiJyDUSj68MLQaa@fedora>
+X-ClientProxiedBy: TYCP286CA0189.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:382::15) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:38f::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,396 +68,144 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWXP123MB3222:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0f338ea1-0b95-441f-b670-08de5e1dc6f9
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY6P286MB7578:EE_
+X-MS-Office365-Filtering-Correlation-Id: 35a70113-aae5-47c9-c726-08de5e2d169d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7142099003;
+	BCL:0;ARA:13230040|10070799003|366016|7416014|376014|1800799024|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LRlUoN+armdWy/9N031o4IuJTWjun6fYjOUkBAjpdGOfrTOdblUARWprDJ6X?=
- =?us-ascii?Q?BY1yrrjQjnPgtqfSnNi7sN8zk1ndFtIx6V7H9bIhPkR0Iq50BSLIlge+X1Lw?=
- =?us-ascii?Q?AGbiidAU7LC/wLfRA/aTlP6hhMfZPPvbmCNVT8ck5CE+N2VKmzVAVkQcrjDo?=
- =?us-ascii?Q?wypjFaQe7XnK+5TVMqlRKn/xk+q3HNGLDjXuJ1rpk58dvxz6Yo2sadf1k5sf?=
- =?us-ascii?Q?pu92lReouWXhwvXWqbf6AcLMSfJE3Bmpcgsm2F1LN2HnOLHDTR0sqW3IYTdE?=
- =?us-ascii?Q?2wl5uWHCucFxAw67tZpMYYs3sEZDNp6muwznLdGX2ZCuMc1L58KJgTKGSy1d?=
- =?us-ascii?Q?DLp4Cce2U79ZKk15UXcwvhUtj2CNAk23xUuV/EbaElVc1itljrHuUmhCpmNt?=
- =?us-ascii?Q?Nw5H91fShlwA1zfwUhi4cpFPjCe9CIWLolYBegwwX6zTWiiXwTvTUzXFHtbV?=
- =?us-ascii?Q?+03xsE2gDmkqDI5HGjNIKjkzJpmUlG5D1IEFMTMs8yy4UeWSleQCv1LeFHsw?=
- =?us-ascii?Q?3kvOM4niSzyQtzsKygDSHImF93O0Iki1BBaWFI2hFjQ3JQNVs/gW91SUARAg?=
- =?us-ascii?Q?p+U9/4NHWHzQp7ECxCaGNcKhN+si/QbLfjQBEQ75XOvOlFaaymiuCSKm0TRI?=
- =?us-ascii?Q?wck+DK6IYHn2KEybBvNWkDYWgLuEZGfiZGeelZDvlW7YIIhWc+Kw7f3l9GHv?=
- =?us-ascii?Q?yBDgpJbEQ89D4LpkcRJ4CU8hdoQ9kCKFpBa4lMpcVkcaZFU5KPMz/3YwwASX?=
- =?us-ascii?Q?Da4NoXCjddMoyNYt/ubZimbkHhnlB+aDhIyxpUoIrOU4bg806nCDi5OIG6fn?=
- =?us-ascii?Q?a65FkhiaPDtKoqY4mokKe4zpHJcdcf9JZq3u70hhgDmN/Z+yyIEYUgqOAVIN?=
- =?us-ascii?Q?84Es4szSC3O9UNghrMkKW1NNVGMW0BQ7Xj+TSEfjW32/XI+xYIH+Z4Nz0lPj?=
- =?us-ascii?Q?cSFWmmBob99ZS8ypbu3NedUMSVqA0dgWgAnmqCPCQtUki62iPHlS9C6Be/ER?=
- =?us-ascii?Q?XKqOnX6ETI6escwPs+Dzo1xVjQLLBWtZYdM7BhfLmGDZXsSYfFshTNEj315I?=
- =?us-ascii?Q?wnQfzaoZM43kIOzSnxEySwxQZXDGg1v18Ag6X8LyRUVkiLiDxUYOLJhNKhCf?=
- =?us-ascii?Q?jIIMEdhXnOu1F2akHLa4Oglly39532DMrfGikrWr9stIGaXQCiR8+HbSCB9l?=
- =?us-ascii?Q?eqbJ2pWMKYmrP3DElMtZ8vhzOf8O+XiyWJT+sXpWYAvuots2OiOwV8Q/rHIx?=
- =?us-ascii?Q?P61X+FSKXKZt/AoJo4NRKDFx+mSzWPwqzWTG6FpnwqlIKjLVJLxrbZLixVQ+?=
- =?us-ascii?Q?F5sNx/4mdu4PKJCqMgqjrd+VbbKkoRY/eYyiS4fhVJTPv63nHOlelLqts1JW?=
- =?us-ascii?Q?yyNDHSYUUStJ/MBjqjW7NbhFL5tnjfecLpJOP7CbApBnn7neV88GJaMjesNr?=
- =?us-ascii?Q?dSkJK73vH7Jh0gdpShubprEy0azUUwJSFTRg3JnppdcH96RLth0147ZIbhCZ?=
- =?us-ascii?Q?O+onBulp/Ez0Um0AccwV4z75oanVcqYTM0Gl1/lTkZFghAtcUYSn3hr8mkav?=
- =?us-ascii?Q?H8vr6Rq9dpeUbcvnb+Q=3D?=
+	=?us-ascii?Q?mgiTwqxKtfIIfWHZZY/ChxFLYvfqhjbFvZmyLi+UfiAwvtJa8mjBiFDlcm2L?=
+ =?us-ascii?Q?Q4wzjxfT4b1udt1rnhNcmssekg5VmhArmu+N9vHS5awAdborPjwCCULML7gT?=
+ =?us-ascii?Q?Sc+4ZEz1etbvZjHO/EntuCeLOECGATryZCWFvkzMMec9cAEyEn1VLhggQlBX?=
+ =?us-ascii?Q?HVCpUgWyUJvjjy35brUu0yXsg28vrjJ3pAM1ZTzRFZKr2qCUiZSKUnTg260E?=
+ =?us-ascii?Q?+JqxJYNBKUGmH/ZpZ4qdekeQWz46SOhS7FbKHd2FekRBloYto/OfqLmsHmtu?=
+ =?us-ascii?Q?L1peA+t521pilYJU556KfbPl5qytYXA3LKneo432erkd0Lj3AjAAbfYbylC2?=
+ =?us-ascii?Q?y/eEk+yxUqzjjNNRbPvvIfAZv7J1UpSgG0uMmcjbVkft9zTeN92xNiiQ2mdL?=
+ =?us-ascii?Q?+VHVdUrTasqtITbNy9XF/3vtkK2aEoHcf7YhHH+4JYBCueAgoZZJ5TFGClWm?=
+ =?us-ascii?Q?tWgfucelpbwhON/eOAyqcbsIpcOZimTlfLbLOE5UWc+c/FPu/l69RaJjcm2b?=
+ =?us-ascii?Q?U3ujf9dO1PqK9/Jh0qSDV85u2Gj4VIH2uaSabA378UVC3XOQf8kKiXyG4nH+?=
+ =?us-ascii?Q?mjJKTMMPuHaC3kSegoRhFNoHHBgSVVhG7ipX30ULfa+rywRiqmyXaITrHJ+P?=
+ =?us-ascii?Q?wC4o+Cnjt88PsembBgSjWv1Ei5iFiybdFpeMtYDFpbqFigBaJGrdWpDJbdFW?=
+ =?us-ascii?Q?NW7vDRzIceb+OzqWCvc/jP2RgKj3dlkK9ykCzDAaEmAiRk21o/fi5Gv8MeiS?=
+ =?us-ascii?Q?uVNg/tN99ipgOgnmO8s/wNimbf7NhioSlNElfRs3E5qgwD5I+AO2rSvUu/9x?=
+ =?us-ascii?Q?2z119utVXtbx6/xlyxU012h9ezis5rYtDj+xTbLK2zGe0JsKRZ+P53yYVDbK?=
+ =?us-ascii?Q?7NftZeV1y9G+8c5mh0z3timKOjs8GJBhtv7FjYj6cOR6/gdwERV6zU0SOeRL?=
+ =?us-ascii?Q?W9yeWsnY5AQKZb8pm/xEa8LbvIfZ9nQtoKfYW3M27TpD58sIhixXnZK9I4CC?=
+ =?us-ascii?Q?QEawaz+KkZBoZditr8zcLokGB44ZiTy3g3l8viqGyJIkLE5MNtjEYJPinWY/?=
+ =?us-ascii?Q?8nctpFqmcUOualnqW6amibjZpQ6bI9YBK/dKyEHpoGkWKbIAfH13Nehk0QTl?=
+ =?us-ascii?Q?X5t0DXdCZpB+3XkCq6A3N65UK4XXCJgTQSllajhd3+HoGaEPqjXcUPn08QK9?=
+ =?us-ascii?Q?uo361nqebo+HFIGOn1sIWVKMD/msdPysJu+93UI5K6vsYAmfFD7oah2JA58R?=
+ =?us-ascii?Q?eTmzaQ97eLXWfzKK7u1e5k5nZclROOD/xKY22Jecq7hylGNAy99JtKas0MQF?=
+ =?us-ascii?Q?YXTDYUowQwXX/JZg0EYpmCudwKYlXrSeGSC1vL8Iel2BFmRk9b7MVhjWiox4?=
+ =?us-ascii?Q?JxYfGe4ofcCAmAOat8fcB/lUSjiRxx4QDMgj3rEpaxNU+x6CPjQhhqtSNS3E?=
+ =?us-ascii?Q?jFSqGWNcBz4gQqLgCQedlcP1ETkBrhBjZCeEW8Psdpt6WMCLDJawWoN6ZZpP?=
+ =?us-ascii?Q?P+lNlz0ixPbuce0QJJVqf6sehl6KCSrpDAoixAA00KOkKyX3+njKMAflEQVr?=
+ =?us-ascii?Q?nueOy1ldAh5MgZzDJ9E=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7142099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?/Q+S+xiwuGbj/861Pk8eeIdMLizUj75AD1aR74QQSd0lT6TSVf8TjUIeQ3WW?=
- =?us-ascii?Q?/EiWL2PDczvB5NCSMWEZ72QqQ4Sj8VSnl52FjxLqiTGBLii5DXsCLV/H+2a0?=
- =?us-ascii?Q?G5usI5++OT+/0KpIbyX5Zeqzmu4rDTG6YmsmgT+yg4BG6XR1zyCItVLkUO/k?=
- =?us-ascii?Q?BmyiYCETxTkjo4c31m5kAB2VScBIQd8qLEc9RLpJXGcZeAUNuVFfzxbTIRfE?=
- =?us-ascii?Q?97PZPG6n/CPZ/N66l7dMVZC8fVumBjattesxSb1ToVxgSspZOc2SHUnk8GrE?=
- =?us-ascii?Q?vyPS/P0PqvecEnLd8NWV78+2IXLNDlo3+/0U4A9LA6aDbi/HxsvDQzB8hxeQ?=
- =?us-ascii?Q?hCZCSSV2pf1G81PhLKk4elUW4Ya+WZEB/VG8GWc2BPrKoJX/5VPSwJhzYqS7?=
- =?us-ascii?Q?S/iUiPUwoBMIsqvlu0Xr9Mib3LLasKMc+KPve5XEZmCQZHEAs6aO8X+jKJkH?=
- =?us-ascii?Q?8FPGmbbT2j2yc9pZrXsqBmG3AKrUv5x9EWp2EOchHnWrBY2U8KBETkQwmzCj?=
- =?us-ascii?Q?5pzBz4+nZm9UbWD+FAHSXz9TT67YxLH4fTVJC0qf+DmpCjfFfZvn5SBUk7+7?=
- =?us-ascii?Q?iO5kusPplNCAtSJXYCAqMmDbvDAA4VQSyhNnoxGmNStVqec7cnLFSj8ibWCx?=
- =?us-ascii?Q?i7JBXyZIWibSAFPwKOrrdeq010Of1mkP/KeDaaBPJMzvrffY7dhD2lflZp0A?=
- =?us-ascii?Q?kxtt6zyP25utKiQYaCocaO+251MOAQqhGaG9n5Mig9eQMpI57DnyCkatj8Ym?=
- =?us-ascii?Q?JWWJvpvVPj7R96tein8YpZgN4iIs7KbC+9bHYT0xHOkZbz+J/UxvMe1DCerm?=
- =?us-ascii?Q?t5iyXRMK0Z63ZG8aNdq/H/uJtiIQ7MKzBppd/lyEXbuFUAy7aCq690Y29lbo?=
- =?us-ascii?Q?3j9c+N2t4b8kN+S+RGvNs/gQQ9luJDOVGthKSZaCGFKmWejwWkxr7Mg8VH3g?=
- =?us-ascii?Q?7nmXU7QWxq0m50Q9QFInf4lsoXDrFw0xmv1hxdGs9vLxn9ZLq/Xi9SG9YZ9q?=
- =?us-ascii?Q?Dl7vow4ULxUDz5Hgb+sUufnU4tqvUToKJLe/ow0TYSbAosZ2nQ0J+uD7+3L0?=
- =?us-ascii?Q?PHdU9i1fMvLX1h9qeHNPDn1yQLvQDrJ2zWLH8/kbM4hrBf/jHJUf55UQv6MK?=
- =?us-ascii?Q?ezdXzNA7eiDah0crf0LvEWVVFZr3Psbkav56Bm+BySa932w3rWdMzvdpnEZ/?=
- =?us-ascii?Q?5jS4WjmltPTXU/KI+xeMoikeAdLi5zojl1NgtW29mc2OVw7KvndSStrbWYZv?=
- =?us-ascii?Q?SKvxIeDNWwYHDNN/4zXtKhqFvO58fPo0iRlljg6UIWO/Ui3EsXKZArrGhlmq?=
- =?us-ascii?Q?v6auIqcgPjc8upLb3VRE/fJEA17xDHmz3n5N5Z9y/Rcty83iVQXoExHQ6k8j?=
- =?us-ascii?Q?BLIzx76TZPVIS+nFlMyZWT3AA3OJfxDPnQ9/+m9SQ/L2uvzkWLEhiwWvYfrM?=
- =?us-ascii?Q?A3o3Ka9Mc2lueivc2JdzaAFgXmHlBLBtkKXv4IvDjJcFcfOk7VHDaOW3JUc0?=
- =?us-ascii?Q?A2huyjYtC5K76s/66GgN1pMjIJLglPrMB4n6SPXfBhmwwiGvAztpBQZHXFoI?=
- =?us-ascii?Q?gmzPl2sMXCVqsC8VTtxbNwla7Z1+5CBB3IoqbVTsDpI7rdpg7ZyrrZIXI3tK?=
- =?us-ascii?Q?rRrNQTCkS7vmK0FHK6FqRh8Fvm6UdsDIhuNU6OcuQRj3bzzaBjRj7NFIL/PG?=
- =?us-ascii?Q?1z2WI+D2sL1b88eDKB2VgDMqOwQpexJfhm0xI87ni5oPKaC9RhtC1WAQzwBW?=
- =?us-ascii?Q?NWVH4dD2ig=3D=3D?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f338ea1-0b95-441f-b670-08de5e1dc6f9
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+	=?us-ascii?Q?OZRNucnbwKrA63OsVzh7IKLblKk95eUsO2Ne3Kz/laaCu3G7XP340cMY8nvX?=
+ =?us-ascii?Q?RD6LjYYM2cYhJ5xxdCzhI8wsOhogKRbLdszwQcFLUkTW2ou3GKiqd9uMSA16?=
+ =?us-ascii?Q?/0gVqZp8rMYHDK3mFUEibZp+sDQ+duFPethq8EBUwCV5bygJYXvJ0piWQt8g?=
+ =?us-ascii?Q?+rvJT+klC+vWtHFjdvSENtIoZmP0G0ausB3xIdgGML9a5grYq8LXDodSsIJQ?=
+ =?us-ascii?Q?qX/yKfbp83NngCiYxa5oCeuNRhd1eNDUkNpkd8MdGgneXnVr0BAAFPiKvi1a?=
+ =?us-ascii?Q?lhQ873679HEc4HpjGWkXbSULkyLpNZAIcUullYDvb8aeJzqCwmG9OOuh9ehN?=
+ =?us-ascii?Q?aqRKI4qA+gTezKpOaZLqRZReG3D7mel+L+kE599xa8hPUK1epiDYEpw5EX3O?=
+ =?us-ascii?Q?XbJzux7aekKQyH2gHVp46K6TOBTzXvVOVXsxyVwjbc8eK+m8U2OjkeX2ZTck?=
+ =?us-ascii?Q?UDmkGTDI4Wg5ctUy9zZisdDy8FRX8ZOD9HqktUMrxToUR7RxAjF0q9Kwa1fw?=
+ =?us-ascii?Q?UkIxKBhf7jTNrJ2Z3Rz0FhS4ZWtGZovVUOXTHARedePqBMZUicsz7DvqibS/?=
+ =?us-ascii?Q?C7G+JTvOGxQcbl6WDZ+fwTvOyq79CR4n3nxtTo3E7cyokR/Oh7lNKljINB7z?=
+ =?us-ascii?Q?2U8yREhvizWhskOlKlLhCrL2nhFDiN2kQ03//GAH4Pr8DNSd69dwLKn+fhKL?=
+ =?us-ascii?Q?pAQdIDzekNzRpXbezpXaNWTyKkmiMJRxEIHEJCIkFAZnEhI4F2AkXTiobB2v?=
+ =?us-ascii?Q?7fber9b6SnXR9aKRJTyCTW2GSlJXILWDJmX7Y5gal4d++Ef7prCnK3WYNFZE?=
+ =?us-ascii?Q?K4Pt9rVRfdZ0ge+cUIyYhe8InsqnjbOv6Qzez3fYPzdCsbRbrpSx36AnAxeb?=
+ =?us-ascii?Q?lJo/cj4g0IKdqecCBF2X13aj+8yHKIgRoiLFw2Qo8jhCpLSYGRtgsqYT2eC5?=
+ =?us-ascii?Q?++nsroYz6Wuu0V2hFwDrLmrtsGiZs33sZeP25eLXMVECkG4m/pDSrvz7Rm3l?=
+ =?us-ascii?Q?s/zFlT/OOXxHjlW4lshp+QRbNDhkRTWKrMhCc1tAKLzhNg8vxsqsyAicQuyn?=
+ =?us-ascii?Q?6BQESUasFfwB8Mq7TjesTEdGrDgpDLBNtfOAiSYIY8SFAqrbTvKB3Dpg9CqK?=
+ =?us-ascii?Q?LVbs1jLplqMNMe/PovrtrODiaGW0zJ75MgUOisD9iDG4G+vYnS6eaG5Kzaig?=
+ =?us-ascii?Q?u5wkx0DcFRI5Y4rMb52s8oTnE72tbfuHZLN66TBRtfX+f2TTszxStgp+PhdU?=
+ =?us-ascii?Q?TEkw3FmUdJjquYjYyUKFa0O0+HjR51xRsmsOOMHNjVA1cQWTp0tRk2aho4ur?=
+ =?us-ascii?Q?H04lkbN53pcrQCXZuDHc5Vj2Yl6gW/gJ195HaHVfXsMPtmx5osnvSFGKjewN?=
+ =?us-ascii?Q?OkUe4uhVPWGfZEyI7Qy2OBAD948CVcIffo3DrqvVhHQ4ATwCjf7L9MoFcTaZ?=
+ =?us-ascii?Q?Y31KtlnBFrRjYaE1/mxcrewIyL3HXsZDnTbPNdRzhtIWaq9GZIE6xpIlJOWW?=
+ =?us-ascii?Q?eD8Qy+wQ7O+PfQo8GdPX6Ny10Y2P32riMKVL7zPDKK8CRQzxGIfp185v0Wao?=
+ =?us-ascii?Q?Neq9LEBUWbelM2zq7JmM/pSV9fEXAUGhQBKggysd7BzSF+hK715qezLbBo6j?=
+ =?us-ascii?Q?E5Gvk4RG29FfU8THvDq2yW9s9JzlsxN326DwP2N+yq5Dof2Qo+hVcIkX5RaR?=
+ =?us-ascii?Q?1r8Z3isjhtH5hHy982dwKNnXXQDtbqP0Q0m7fPw7qb2ecQ6Z9rbmQHW858bM?=
+ =?us-ascii?Q?4FkhatV3YG5HvLOUN2Iv6PC4j3AC60vKQcrrbwARm1H3LWSDmWNQ?=
+X-OriginatorOrg: valinux.co.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35a70113-aae5-47c9-c726-08de5e2d169d
+X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 03:31:52.1756
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 05:21:27.9952
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RL/hl7/82p35cjc/6K9yJWI/MhF7SoJlFHXUPa8j3aWcDCiu2kQJc8e9rSGoenFB3YQvrO+JUieiOqwjcQ8/zw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP123MB3222
+X-MS-Exchange-CrossTenant-UserPrincipalName: dhr3N13UxbG8MHikBeKZYtci+jH/rx3LIkxPskTNr02UHoagBUJxQ7wPrGqRVhI70uWjYCMzy4wi8F4fEl3pbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY6P286MB7578
 
-Users currently lack a mechanism to define granular, per-CPU PM QoS
-resume latency constraints during the early boot phase.
+On Tue, Jan 27, 2026 at 10:47:52AM +0100, Niklas Cassel wrote:
+> On Tue, Jan 27, 2026 at 12:44:13PM +0900, Koichiro Den wrote:
+> > On Fri, Jan 23, 2026 at 07:07:48PM +0100, Niklas Cassel wrote:
+> > > Add bar{0,1,2,3,4,5}_size attributes in configfs, so that the user is not
+> > > restricted to run pci-epf-test with the hardcoded BAR size values defined
+> > > in pci-epf-test.c.
+> > > 
+> > > This code is shamelessly more or less copy pasted from pci-epf-vntb.c
+> > > 
+> > > Signed-off-by: Niklas Cassel <cassel@kernel.org>
+> > 
+> > This is useful, thanks!
+> > I've used this patch as a dependency for my series [1], and it works fine.
+> > 
+> > Tested-by: Koichiro Den <den@valinux.co.jp>
+> > 
+> > [1] https://lore.kernel.org/linux-pci/20260124145012.2794108-1-den@valinux.co.jp/
+> 
+> 
+> Thank you for testing!
+> 
+> Just to clarify:
+> Your series is currently not depending on this patch, and neither do I think
+> that it should.
+> 
+> There will be a trivial conflict when PCI maintainers will try to merge them.
+> 
+> But the solution is to use your new values:
+> 
+> -static size_t bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 };
+> +static size_t bar_size[] = { 131072, 131072, 131072, 131072, 131072, 1048576 };
+> 
+> 
+> With my new variable name (default_bar_size):
+> 
+> -static size_t bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 };
+> +/* default BAR sizes, can be overridden by the user using configfs */
+> +static size_t default_bar_size[] = { 512, 512, 1024, 16384, 131072, 1048576 };
+> 
+> 
+> So AFAICT, it should a one line conflict resolution.
+> 
+> Since it is so trivial, it would be nice if the PCI maintainers could
+> handle that when applying, but I guess in worst case, one of us will
+> need to respin.
 
-While the idle=poll boot parameter exists, it enforces a global
-override, forcing all CPUs in the system to "poll". This global approach
-is not suitable for asymmetric workloads where strict latency guarantees
-are required only on specific critical CPUs, while housekeeping or
-non-critical CPUs should be allowed to enter deeper idle states to save
-energy.
+Yes, agreed, it's a trivial one-line conflict.
 
-Additionally, the existing sysfs interface
-(/sys/devices/system/cpu/cpuN/power/pm_qos_resume_latency_us) becomes
-available only after userspace initialisation. This is too late to
-prevent deep C-state entry during the early kernel boot phase, which may
-be required for debugging early boot hangs related to C-state
-transitions or for workloads requiring strict latency guarantees
-immediately upon system start.
+As for my series [1] v10, patches [6/8]-[8/8] (new test code) haven't
+received any review feedback yet, so I suspect there's a good chance I'll
+need to respin anyway. If I do a v11, I'll also resolve this conflict as
+appropriate at that point. Even if it turns out no respin is needed for the
+test code, I'll post v11 if the maitainers asks for resolving the conflict.
 
-This patch introduces the pm_qos_resume_latency_us kernel boot
-parameter, which allows users to specify distinct resume latency
-constraints for specific CPU ranges.
+Kind regards,
+Koichiro
 
-	Syntax: pm_qos_resume_latency_us=range:value,range:value...
-
-Unlike the sysfs interface which accepts the special string "n/a" to
-remove a constraint, this boot parameter strictly requires integer
-values. The special value "n/a" is not supported; the integer 0 must be
-used to represent a 0 us latency constraint (polling).
-
-For example:
-
-	"pm_qos_resume_latency_us=0:0,1-15:20"
-
-Forces CPU 0 to poll on idle; constrains CPUs 1-15 to not enter a sleep
-state that takes longer than 20 us to wake up. All other CPUs will have
-the default (no resume latency) applied.
-
-Implementation Details:
-
-	- The parameter string is captured via __setup() and parsed in
-	  an early_initcall() to ensure suitable memory allocators are
-	  available.
-
-	- Constraints are stored in a read-only linked list.
-
-	- The constraints are queried and applied in register_cpu().
-	  This ensures the latency requirement is active immediately
-	  upon CPU registration, effectively acting as a "birth"
-	  constraint before the cpuidle governor takes over.
-
-	- The parsing logic enforces a "First Match Wins" policy: if a
-	  CPU falls into multiple specified ranges, the latency value
-	  from the first matching entry is used.
-
-	- The constraints persist across CPU hotplug events.
-
-Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
----
- .../admin-guide/kernel-parameters.txt         |  23 +++
- drivers/base/cpu.c                            |   5 +-
- include/linux/pm_qos.h                        |   5 +
- kernel/power/qos.c                            | 141 ++++++++++++++++++
- 4 files changed, 172 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 6a3d6bd0746c..afba39ecfdee 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2238,6 +2238,29 @@ Kernel parameters
- 	icn=		[HW,ISDN]
- 			Format: <io>[,<membase>[,<icn_id>[,<icn_id2>]]]
- 
-+	pm_qos_resume_latency_us=	[KNL,EARLY]
-+			Format: <cpu-list>:<value>[,<cpu-list>:<value>...]
-+
-+			Establish per-CPU resume latency constraints. These constraints
-+			are applied immediately upon CPU registration and persist
-+			across CPU hotplug events.
-+
-+			For example:
-+				"pm_qos_resume_latency_us=0:0,1-15:20"
-+
-+			This restricts CPU 0 to a 0us resume latency (effectively
-+			forcing polling) and limits CPUs 1-15 to C-states with a
-+			maximum exit latency of 20us. All other CPUs remain
-+			unconstrained by this parameter.
-+
-+			Unlike the sysfs interface, which accepts the string "n/a" to
-+			remove a constraint, this boot parameter strictly requires
-+			integer values. To specify a 0us latency constraint (polling),
-+			the integer 0 must be used.
-+
-+			NOTE: The parsing logic enforces a "First Match Wins" policy.
-+			If a CPU is included in multiple specified ranges, the latency
-+			value from the first matching entry takes precedence.
- 
- 	idle=		[X86,EARLY]
- 			Format: idle=poll, idle=halt, idle=nomwait
-diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
-index c6c57b6f61c6..1dea5bcd76a0 100644
---- a/drivers/base/cpu.c
-+++ b/drivers/base/cpu.c
-@@ -416,6 +416,7 @@ EXPORT_SYMBOL_GPL(cpu_subsys);
- int register_cpu(struct cpu *cpu, int num)
- {
- 	int error;
-+	s32 resume_latency;
- 
- 	cpu->node_id = cpu_to_node(num);
- 	memset(&cpu->dev, 0x00, sizeof(struct device));
-@@ -436,8 +437,8 @@ int register_cpu(struct cpu *cpu, int num)
- 
- 	per_cpu(cpu_sys_devices, num) = &cpu->dev;
- 	register_cpu_under_node(num, cpu_to_node(num));
--	dev_pm_qos_expose_latency_limit(&cpu->dev,
--					PM_QOS_RESUME_LATENCY_NO_CONSTRAINT);
-+	resume_latency = pm_qos_get_boot_cpu_latency_limit(num);
-+	dev_pm_qos_expose_latency_limit(&cpu->dev, resume_latency);
- 	set_cpu_enabled(num, true);
- 
- 	return 0;
-diff --git a/include/linux/pm_qos.h b/include/linux/pm_qos.h
-index 6cea4455f867..556a7dff1419 100644
---- a/include/linux/pm_qos.h
-+++ b/include/linux/pm_qos.h
-@@ -174,6 +174,7 @@ static inline s32 cpu_wakeup_latency_qos_limit(void)
- #ifdef CONFIG_PM
- enum pm_qos_flags_status __dev_pm_qos_flags(struct device *dev, s32 mask);
- enum pm_qos_flags_status dev_pm_qos_flags(struct device *dev, s32 mask);
-+s32 pm_qos_get_boot_cpu_latency_limit(unsigned int cpu);
- s32 __dev_pm_qos_resume_latency(struct device *dev);
- s32 dev_pm_qos_read_value(struct device *dev, enum dev_pm_qos_req_type type);
- int dev_pm_qos_add_request(struct device *dev, struct dev_pm_qos_request *req,
-@@ -218,6 +219,10 @@ static inline s32 dev_pm_qos_raw_resume_latency(struct device *dev)
- 		pm_qos_read_value(&dev->power.qos->resume_latency);
- }
- #else
-+static inline s32 pm_qos_get_boot_cpu_latency_limit(unsigned int cpu)
-+{
-+	return PM_QOS_RESUME_LATENCY_NO_CONSTRAINT;
-+}
- static inline enum pm_qos_flags_status __dev_pm_qos_flags(struct device *dev,
- 							  s32 mask)
- 			{ return PM_QOS_FLAGS_UNDEFINED; }
-diff --git a/kernel/power/qos.c b/kernel/power/qos.c
-index f7d8064e9adc..e23223e3c7e8 100644
---- a/kernel/power/qos.c
-+++ b/kernel/power/qos.c
-@@ -34,6 +34,11 @@
- #include <linux/kernel.h>
- #include <linux/debugfs.h>
- #include <linux/seq_file.h>
-+#include <linux/cpumask.h>
-+#include <linux/cpu.h>
-+#include <linux/list.h>
-+
-+#include <asm/setup.h>
- 
- #include <linux/uaccess.h>
- #include <linux/export.h>
-@@ -46,6 +51,10 @@
-  */
- static DEFINE_SPINLOCK(pm_qos_lock);
- 
-+static LIST_HEAD(pm_qos_boot_list);
-+
-+static char pm_qos_resume_latency_cmdline[COMMAND_LINE_SIZE] __initdata;
-+
- /**
-  * pm_qos_read_value - Return the current effective constraint value.
-  * @c: List of PM QoS constraint requests.
-@@ -209,6 +218,138 @@ bool pm_qos_update_flags(struct pm_qos_flags *pqf,
- 	return prev_value != curr_value;
- }
- 
-+struct pm_qos_boot_entry {
-+	struct list_head node;
-+	struct cpumask mask;
-+	s32 latency;
-+};
-+
-+static int __init pm_qos_resume_latency_us_setup(char *str)
-+{
-+	strscpy(pm_qos_resume_latency_cmdline, str,
-+		sizeof(pm_qos_resume_latency_cmdline));
-+	return 1;
-+}
-+__setup("pm_qos_resume_latency_us=", pm_qos_resume_latency_us_setup);
-+
-+/* init_pm_qos_resume_latency_us_setup - Parse the pm_qos_resume_latency_us boot parameter.
-+ *
-+ * Parses the kernel command line option "pm_qos_resume_resume_latency_us=" to establish
-+ * per-CPU resume latency constraints. These constraints are applied
-+ * immediately when a CPU is registered.
-+ *
-+ * Syntax: pm_qos_resume_latency_us=<cpu-list>:<value>[,<cpu-list>:<value>...]
-+ * Example: pm_qos_resume_latency_us=0-3:0,4-7:20
-+ *
-+ * The parsing logic enforces a "First Match Wins" policy. If a CPU is
-+ * covered by multiple entries in the list, only the first valid entry
-+ * applies. Any subsequent overlapping ranges for that CPU are ignored.
-+ *
-+ * Return: 0 on success, or a negative error code on failure.
-+ */
-+static int __init init_pm_qos_resume_latency_us_setup(void)
-+{
-+	char *token, *cmd = pm_qos_resume_latency_cmdline;
-+	struct pm_qos_boot_entry *entry, *tentry;
-+	cpumask_var_t covered;
-+
-+	if (!zalloc_cpumask_var(&covered, GFP_KERNEL)) {
-+		pr_warn("pm_qos: Failed to allocate memory for parsing boot parameter\n");
-+		return -ENOMEM;
-+	}
-+
-+	while ((token = strsep(&cmd, ",")) != NULL) {
-+		char *str_range, *str_val;
-+
-+		str_range = strsep(&token, ":");
-+		str_val = token;
-+
-+		if (!str_val) {
-+			pr_warn("pm_qos: Missing value range %s\n",
-+				str_range);
-+			continue;
-+		}
-+
-+		entry = kzalloc(sizeof(*entry), GFP_KERNEL);
-+		if (!entry) {
-+			pr_warn("pm_qos: Failed to allocate memory for boot entry\n");
-+			goto cleanup;
-+		}
-+
-+		if (cpulist_parse(str_range, &entry->mask)) {
-+			pr_warn("pm_qos: Failed to parse cpulist range %s\n",
-+				str_range);
-+			kfree(entry);
-+			continue;
-+		}
-+
-+		cpumask_andnot(&entry->mask, &entry->mask, covered);
-+		if (cpumask_empty(&entry->mask)) {
-+			pr_warn("pm_qos: Entry %s already covered, ignoring\n",
-+				str_range);
-+			kfree(entry);
-+			continue;
-+		}
-+		cpumask_or(covered, covered, &entry->mask);
-+
-+		if (kstrtos32(str_val, 0, &entry->latency)) {
-+			pr_warn("pm_qos: Invalid latency requirement value %s\n",
-+				str_val);
-+			kfree(entry);
-+			continue;
-+		}
-+
-+		if (entry->latency < 0) {
-+			pr_warn("pm_qos: Latency requirement cannot be negative: %d\n",
-+				entry->latency);
-+			kfree(entry);
-+			continue;
-+		}
-+
-+		list_add_tail(&entry->node, &pm_qos_boot_list);
-+	}
-+
-+	free_cpumask_var(covered);
-+	return 0;
-+
-+cleanup:
-+	list_for_each_entry_safe(entry, tentry, &pm_qos_boot_list, node) {
-+		list_del(&entry->node);
-+		kfree(entry);
-+	}
-+
-+	free_cpumask_var(covered);
-+	return 0;
-+}
-+early_initcall(init_pm_qos_resume_latency_us_setup);
-+
-+/**
-+ * pm_qos_get_boot_cpu_latency_limit - Get boot-time latency limit for a CPU.
-+ * @cpu: Logical CPU number to check.
-+ *
-+ * Checks the read-only boot-time constraints list to see if a specific
-+ * PM QoS latency override was requested for this CPU via the kernel
-+ * command line.
-+ *
-+ * Return: The latency limit in microseconds if a constraint exists,
-+ * or PM_QOS_RESUME_LATENCY_NO_CONSTRAINT if no boot override applies.
-+ */
-+s32 pm_qos_get_boot_cpu_latency_limit(unsigned int cpu)
-+{
-+	struct pm_qos_boot_entry *entry;
-+
-+	if (list_empty(&pm_qos_boot_list))
-+		return PM_QOS_RESUME_LATENCY_NO_CONSTRAINT;
-+
-+	list_for_each_entry(entry, &pm_qos_boot_list, node) {
-+		if (cpumask_test_cpu(cpu, &entry->mask))
-+			return entry->latency;
-+	}
-+
-+	return PM_QOS_RESUME_LATENCY_NO_CONSTRAINT;
-+}
-+EXPORT_SYMBOL_GPL(pm_qos_get_boot_cpu_latency_limit);
-+
- #ifdef CONFIG_CPU_IDLE
- /* Definitions related to the CPU latency QoS. */
- 
--- 
-2.51.0
-
+> 
+> 
+> Kind regards,
+> Niklas
