@@ -1,58 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6789533B6F9
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 08:57:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD65C2D249E
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 08:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769590649; cv=none; b=Kgd6AcTcReYgjcrMYNrI/R0tqpYEcb95m0JxYtP2wKruDM9COZiHv9X06/Wr5zrtK7gEhd8rxyGAQ/DFF0HBG5PbQiqLyXDlr60DxIifsfPSgsxeV11JRyTiE+0FBTWOoTjClKnhPzedzdYEDWvEf4ZSk05ZOwABrCYvdD32q4M=
+	t=1769590765; cv=none; b=cmSljyJLmkMs4TyXxRRtDEEMz14+BiEKqmF36s2MCjCZtzOMdZLgF0YcgdP9516wACnMWy0mhzkoQOLqX/7lguqdBSQdcioFG2PONrl0n2w8DEFojCCbOUiAkACGil3ASrQtV47VVDNtBAh4Qz1l2TNkJGtXxfkN2gjGAoIv+Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769590649; c=relaxed/simple;
-	bh=ZghCFjy5Vl4uM4uCuKuBt6WpSu0c9RUlE86wYJFHhdU=;
+	s=arc-20240116; t=1769590765; c=relaxed/simple;
+	bh=wtvDd4MG/vh5GJn296e4lYBpyntlnwuO2E7usxFRFEg=;
 	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=URDvFvDTe2DPgIleVJeIv1/FP65pCzcZyUV1s12nQSwN/EuNsxtWC2Pv1qIKJm3FhS3JQ4w4Z5tRtDRS8SqeOcpplimy+fwXM3I9DxxdaIQPU/RcLDJWfX1pp4SKbacYJh203Ob6ovRoOfn2MAkDeJn6JQ6y31RWtPehGJJU40E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DumXYqcR; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=EhUHUexsCRObY3qZPjr9sO7NXfHqHCC51XGXtLbZisRU1iafXm7BVk4sruPLNcjGDj5TqHgWPnJZYQEJyGb9kNIK5NYgnWVUVbnb6Nne1ju8CsKZl2iaGV6+Up5KgEFsz/hHLt72K7lo9Zs4jV1sg1ezir7uUEsdBmg8PrTHb04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=avByFv9h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DumXYqcR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22603C2BCAF
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 08:57:29 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="avByFv9h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D386C4AF09
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 08:59:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769590649;
-	bh=ZghCFjy5Vl4uM4uCuKuBt6WpSu0c9RUlE86wYJFHhdU=;
+	s=k20201202; t=1769590765;
+	bh=wtvDd4MG/vh5GJn296e4lYBpyntlnwuO2E7usxFRFEg=;
 	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=DumXYqcR9zXUektKQP9grbUMZImpoZcfCL1qap4xXtzk3yVE+QBmkRukEovAPjGrG
-	 lEHgGzEZPC19e1aSyUpkYqW+TuSOVWmggWkhTZrx485oXQQpG+niwdWA4HE2Wxhj2F
-	 Jk7x9fK0NN3hG/oLTtZCkt7490FUqDf69NJETxDgVgOvkwA3IG9ZaQ8MdW18nLxF/8
-	 gw1Y/lEaBmyXJbxS1VAqSnF3rDJTYyu3Qxk6CAEYVJDREPPpUFHzDv6VzhrODL48n6
-	 rrtFVBj87j09V9FqkYLCZjjWqf8e7KTXaeL9FxqdT8w5zPhe6Xx8FhoDskCr6oo2UL
-	 eEQ5ZdwFRl8cQ==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-385e7cafef9so37602051fa.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 00:57:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUG8rbQw0uVoUpD6Cc9IKIsNUNORGZMCXc93b7rY40ANR/JEzdWuetjU3AsiX0Z2lOj3OEgW5PVEyM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyG4DY4HUe8wzjmweg+dnApUFW3WFEaVtQkJImosRNUzZ9fsKx9
-	OFUzkmnrX/0My+n/EMppv1iNjCsbVW9mNQehTXSIJDK/EqW4pmnmN3gCBdDSzItw+7Udu2uvlCA
-	3ewvYD7RF6Od54vs3DCOtpRxSGmO1/wET3Zi2WePADw==
-X-Received: by 2002:a05:6512:3e02:b0:577:6e42:3718 with SMTP id
- 2adb3069b0e04-59e04015376mr1851496e87.7.1769590647815; Wed, 28 Jan 2026
- 00:57:27 -0800 (PST)
+	b=avByFv9h76VnvwxsQUhTkFn1M4gxKh/ZJLDu+7ZjlBeULoa7R/fGLkdfTR/4mjP+d
+	 gCDd5ACf5HbebyTD3edQVTjRfqzQyJaXhJlKHcA8U3TyZVOypSMEXU7J6Y/kBmHal9
+	 55q6KM1TGbQRsQUiQAgTMGvM9i49fvW2R1MyKZFj228QPYALmRc9qL5W8LzidAKKgl
+	 cTb80S9iOdJ2vksskUeJrfJzGBKNP3gljf6s0DJ72dKrKsxihGjEKZ+gLaVHCDGeQP
+	 L1jA6Rv4SK+zINXGD15pYaXZmHsXbZP2fT5Xx02McoZyShnXnYckWbn/3uXMPjXEsd
+	 lI97tNJqZ+UNQ==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59dd22b9895so833831e87.0
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 00:59:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUK6Nk8CtmiRH6AjVUFB8aoJrObiiuFuVuneqzkPj6cL9zfhwYticdlVsI1TK1o/CO5ag1DesSg0lg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYxI7jmaDnjqrezpZKtCrgcbA5asNvFPRVSqmswxkiSJkVwRch
+	JprMiluUxg/o7tbwoXYOpPkeo9XAZzZRFW1QWnCqDzJwIndnOVWvcnkjvqysqOPUm2dq9lacdl0
+	6DXMpWq7eSnRRMXRBwRZ+Wzwhlj6cgWjCDv7ha2elnA==
+X-Received: by 2002:a05:6512:3f1c:b0:59d:e304:e2b8 with SMTP id
+ 2adb3069b0e04-59e04131834mr1970520e87.19.1769590764296; Wed, 28 Jan 2026
+ 00:59:24 -0800 (PST)
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 28 Jan 2026 00:57:26 -0800
+ HTTPREST; Wed, 28 Jan 2026 03:59:23 -0500
 Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 28 Jan 2026 00:57:26 -0800
+ HTTPREST; Wed, 28 Jan 2026 03:59:23 -0500
 From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260127103325.3925173-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20260127103325.3925173-3-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com> <20260127103325.3925173-2-andriy.shevchenko@linux.intel.com>
-Date: Wed, 28 Jan 2026 00:57:26 -0800
-X-Gmail-Original-Message-ID: <CAMRc=MeNOX8ob0y89Gx9u3U3G7jmhmdvv-u3vqnFqv04EOEFGA@mail.gmail.com>
-X-Gm-Features: AZwV_QiaWF6S2zXsXWU5GAAmA9-LLTqcfAROoyRkpsJQMqGVH1YJzm0KMfvQkck
-Message-ID: <CAMRc=MeNOX8ob0y89Gx9u3U3G7jmhmdvv-u3vqnFqv04EOEFGA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/3] pinctrl: core: Remove unused devm_pinctrl_unregister()
+References: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com> <20260127103325.3925173-3-andriy.shevchenko@linux.intel.com>
+Date: Wed, 28 Jan 2026 03:59:23 -0500
+X-Gmail-Original-Message-ID: <CAMRc=Mdub_CPeSCZPBNFQ0DMsnA6M2dcqvak9Ti6zU2aGsE-aA@mail.gmail.com>
+X-Gm-Features: AZwV_Qipf9Bp4DggIomqpSFspQZHJWvAFfy5uZW0t7mARTIvjyslg0Y9hWMsW5s
+Message-ID: <CAMRc=Mdub_CPeSCZPBNFQ0DMsnA6M2dcqvak9Ti6zU2aGsE-aA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] pinctrl: core: Simplify devm_pinctrl_*()
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
 	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
@@ -61,11 +61,15 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael
 	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 27 Jan 2026 11:32:06 +0100, Andy Shevchenko
+On Tue, 27 Jan 2026 11:32:07 +0100, Andy Shevchenko
 <andriy.shevchenko@linux.intel.com> said:
-> There are no users, drop it for good.
+> Use devm_add_action_or_reset() instead of devres_alloc() and
+> devres_add(), which works the same. This will simplify the
+> code. There is no functional changes.
 >
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
+
+Makes sense, we don't have a custom struct here.
 
 Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
