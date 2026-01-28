@@ -1,65 +1,66 @@
 Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9051DE3A4
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 22:33:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7814934106D
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 22:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769639603; cv=none; b=sjQEJu3D+vB9oVEvdLsh0QnDs2zRYTWcH1hpbAVUM9+YjLcKkQNsqHvD4JgYGKhFePqcIyRe4BfSS2XxXMnpS4Yr09AznlHoKIb3x+L2NcRzk1uZr/9To4NquhKljaK59H16Zcwfi41NizUzGF5tVemXNko7pnCm7oOGQZt+4RA=
+	t=1769639604; cv=none; b=P1jprU/AZMVFfcf6pkmMmJtGcptyNuzbICeQURCAn7yweTCAfyddjasL/GK0frjkVSp1B7vmeMPduMYQ8LMYwVy1qYJsx7Gfs2VJQGX/SJmszCTDKOeRgoIiRy0ub5tuNblY0w+0uak/YiA8ECaiVhRG3vDgkpw5epSyhDgFgyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769639603; c=relaxed/simple;
-	bh=W0dpzkY31LWTDwRu4wDVYre+5cqJ/knXQKg0SbghrOs=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Dr1G4cTMIliXGuqGXqBb47kkVjS0QYliZgyUHt04vL1+6Q3/VLcGCnhWoTSfK0u1dquOhIpvNBAgaKUBHIFLgmviCZ5C2P0ccFkqhNeLWuALprEL8cEo949L1ZSBHRMplMKk1aiUINkp13c3uWRmc3mv7YBx/V/BTT0IoXTx5Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y0A1RO+N; arc=none smtp.client-ip=209.85.222.194
+	s=arc-20240116; t=1769639604; c=relaxed/simple;
+	bh=D9uKfpeWHNBio5oH1DcAL26H2VLljL1egsD4t2eIGUM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=bu8+8M9yAryIWDXN3Yo3E/PFC5tHhyqEr0p2LcTaHU9CcIi5sDlrf2kAnOcxI3MFqt9Unm6PUtmmKC+pc1JXgJCCut3tqiuPQ1e9ZXhxiEv8G3EG/a54G3/wLf3DYaWZyadYNBN8uYpDo5eVEjrhUfUtfan1l/tbvA7obRDxnyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ihjnMdmz; arc=none smtp.client-ip=209.85.222.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y0A1RO+N"
-Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-8c07bc2ad13so32092885a.2
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 14:33:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ihjnMdmz"
+Received: by mail-qk1-f194.google.com with SMTP id af79cd13be357-8c532d8be8cso42118485a.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 14:33:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769639600; x=1770244400; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oThOkEs4Bt35iidNFvfsXAeU6jJXTeE+JreK8ol4aUk=;
-        b=Y0A1RO+NwdBp5AD9YbXYbshQ6/ZpOfg1n8wyvNsiucbA9KNv8mPMlXgoNVovuGPd/S
-         2+u9eNVxER3RNDcvDeC+INb1Ahe+3MFP09qyxylnKA3gRJhL3nPuMhuMdmlDYHIG2ydx
-         +/k3WLkgfPTRY/ueW8w3afksohC2Fni/WXghXJQkF6Dehz8jN5ijFQMaZ2hHn0aZr1Xp
-         7i6AhKWH6xmH6SLPYNgFT9zP5LirCeJebqvQ5fKdPXE2yt6+mSMYTu1HBRZ3Cdlx5AaL
-         7LjKEURmATu5oSaIKpKWrn4hB1vngTcpOjbWv0gSYQdzHzDFE5xzOnMs4q2tgT1L1uFw
-         WMXw==
+        d=gmail.com; s=20230601; t=1769639601; x=1770244401; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=njPB1RSPP56Oj1b/hlNI9WV3wRfeQUwqPZNJy/r65hY=;
+        b=ihjnMdmzyIAu36TmcwXhKfVzu3JjtyqTU8iGLxqe+j52JdUQtBgR4fxQQ8HgPgYUCj
+         TX1FG9z88Z7epVgKC1wzP3om7sUjDCdCrVGzxHtzv012pkfnbu4yhY2+mwwG3Tj+KWqF
+         VR4FOKgDw37MdnL/xupwdjmKxaBfnvH565DoyXWgDDPeHhoFr1wKM9092ceVFXRLHfC7
+         hWUX/6oyif8iNrJcPVRgqEtczK/iW27bO+jBhcxsqCKMb4AjxrNsIQ1xM/PWhMRLmXME
+         X14gPh+Vqr8xNxt1aJubx3A0B3JVgE3oaHe5sD6dJ9+6oaTfHWR1ZUiEoVl5zR8gw55R
+         S48A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769639600; x=1770244400;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oThOkEs4Bt35iidNFvfsXAeU6jJXTeE+JreK8ol4aUk=;
-        b=J2Ozn1jF3MZKXVlDPH+toScbqCM/yJEYjRPJVU9TgSAz3zo1LwVeupZg/pSU1Qc43L
-         6Kv0LXvAUfHM31VXGz0/kS3J7hs7pt0Zxqod4vAEP+xGXZ9klhEpbau0BYsjPGmgNzrd
-         qY81BSnjwsi9D7MVjY9oTaUmJ8wzLLzEZ8FseRjDBfu0tzU72/Q+fukXMA7z9rDLg6Ww
-         J6DJzTPgFbtEdNo6Gdo7a5p7IBG3lRNtabr/wy8Qfo6u5jt4R4yUmId14Tsr35Ld7obv
-         3aBSJGVOv8Kb7sa1mM74w23l8m4hBkO7BeyJqPO2xbsB0p2yqBHIHfYxSRze/SBprq5Q
-         bUpg==
-X-Forwarded-Encrypted: i=1; AJvYcCUrz0nZggrCTic2DghDfjkDVSXj+mkUYnz9bhIyjjt+29gnpUYHtiAcaI7Y7MUYdc2+WrMunxhdxuU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxE3EnrcM8U2SOFsbL1H1P6HSA56RSPY6nGm5IfwU32X1meICl2
-	AKJJgVGm752QjZAEtJsRxv/vF2YBAwsB996SiDzsEmEwjZScVB8ysi1D
-X-Gm-Gg: AZuq6aLFkA2fcDoZLWInOvoxVg6d9fdCjBgzBKvewpUGndf9RsJEKZuhXmhGvzughXX
-	vZrY513OsQ7cuNTxD91OykzRFDMOVdfFWczZhm+PBN7BERjLoczKV10mMrG9SlC0ErXzc+yfXDe
-	1VUm4UA8MFi41p6w/8JCZJgoabQI3GhpkmgEzMhDnpA0P1nhn2tNKVAU31aSK2/Z9X7MGpEDtpN
-	644fQPFIsPnGYvnjUf/0h6sDjb23Ifwev0WjUN3nKPzEgI1SfIR89pnW5H3cqK6T21DYkdkz17G
-	uPasNuJEX/lCwiOc+CxWIuBBytQoj9MmLC3lY+d3ZHOZpiRdk0F37vOyHcsoCQpU5B5xdWEbsfb
-	XQlArvhPhOyeUhRNqKEAO9WyPlNFxuq3tA6RJ7EI94DrnxBFahvNA9MslaSNkNR9oDYZjeflJxG
-	OD1vge54mZqON0laO3d2SV
-X-Received: by 2002:a05:620a:408c:b0:8c0:e5ac:af12 with SMTP id af79cd13be357-8c70b856874mr825295385a.5.1769639600127;
-        Wed, 28 Jan 2026 14:33:20 -0800 (PST)
+        d=1e100.net; s=20230601; t=1769639601; x=1770244401;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=njPB1RSPP56Oj1b/hlNI9WV3wRfeQUwqPZNJy/r65hY=;
+        b=bY5K6LOpcdTBd4BxZJ7g96nxWBNuYuaD/933w7at1GVQwdMiuXH9WVKeE7IlIQQqn0
+         fl6VOgekEL9GycqeGJObtpsArqFj4SRssqAvtmsNSrH3Et2ppWj5QePfMUxpqKBOASRm
+         oWvOo5ZG1tqy3tIcD4SLz3k59Oz5xVappRv6FYrxreb1ktP2GhfmhifqvGrTpBsg1Hem
+         ztQktSLEbwBeY3lJccTF8wok8pgic+qlG1H1i8+3osZaxBxK98kyVNDksyGRFAJhcl33
+         H+Z2EzvibGsifl3nTp0fqSFWK/DkPlPDrBJWnjmrdbHGlhWlsm7LjN6XUgRKVVIbjrwy
+         xDhw==
+X-Forwarded-Encrypted: i=1; AJvYcCWF5cx/jay7Xk8MTlidYjnNpa3HyzkOaSlsKVgi3khZTHc91Jh0XZtVe9kJa2jkJyDiEmtdoBl7GGk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxvfoh9aT5bS2rv0xOGZ6eihIj2cU+fKrzJXZr+9ukdyFAO+8EG
+	WrEQ6LfyI/ilRYgvn4t473HjHCUZMDpyUmQzJOS758+LTrtv6BnNFzW8
+X-Gm-Gg: AZuq6aK8mPni6+XZrriGrgMWyIDjDlmdfnopRyKnrOIdl1OhgXVZdGbo4x00iMAzXwU
+	taYXMRrlXlQ0bEdtNv3aoSB0lwMWkXbZR6NCPR2Y+BPgfqw4IiN7baeD4hlo18noi9era/WVZqY
+	HeOKhno5VU0nBGDIerMFQgOW5XaOLnO+fZM91B9F65zWjsFp1M9wduMGxKBBP3rw22gzllQntEM
+	APBmWsAX63Mp8gUPfpkASQ961u7sQTK0RVRHRAV6ZIZY91frfOXImN9I8AjNhwxSR2wgRiKQGhX
+	1RI66MkgtoqJAdRy2v/FPgcEY0h+00ANqloEg6YBW6Xzaw3Iwu1oPeiKmywITh++PiJe+s6hFpN
+	Tsyc1M/9GByNXUfDVRI8z9kXAylY6QRvrRMXF0pa121c0GSboYSa2/6PfxqEIJJtC4/dycMtOy1
+	/w2wt8ko192PejEtL4+ijDHfykEMCMrAc=
+X-Received: by 2002:a05:620a:3942:b0:8c6:af5b:d50a with SMTP id af79cd13be357-8c70b8f2f76mr850329385a.43.1769639601472;
+        Wed, 28 Jan 2026 14:33:21 -0800 (PST)
 Received: from [127.0.0.1] ([154.7.78.65])
-        by smtp.googlemail.com with ESMTPSA id af79cd13be357-8c711b95e4esm304528085a.15.2026.01.28.14.33.18
+        by smtp.googlemail.com with ESMTPSA id af79cd13be357-8c711b95e4esm304528085a.15.2026.01.28.14.33.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 14:33:19 -0800 (PST)
+        Wed, 28 Jan 2026 14:33:21 -0800 (PST)
 From: Patrick Little <plittle@gmail.com>
-Subject: [PATCH 0/2] Fix grammar and example code in Documentation.
-Date: Wed, 28 Jan 2026 16:33:10 -0600
-Message-Id: <20260128-documentation-fix-grammar-v1-0-39238dc471f9@gmail.com>
+Date: Wed, 28 Jan 2026 16:33:11 -0600
+Subject: [PATCH 1/2] Documentation: Fix typos
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,10 +69,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqEMAxFryJZT6CtKOJVBhfBpppF65DqIIh3N
- 7h8/PffBZVVuMLYXKD8lypbMfCfBuaVysIo0RiCC73zYcC4zUfmstNuJiY5cVHKmRTbFIaOkne
- pi2D/n7LNb/s73fcDn3/wSWsAAAA=
-X-Change-ID: 20260128-documentation-fix-grammar-3f285af10f5d
+Message-Id: <20260128-documentation-fix-grammar-v1-1-39238dc471f9@gmail.com>
+References: <20260128-documentation-fix-grammar-v1-0-39238dc471f9@gmail.com>
+In-Reply-To: <20260128-documentation-fix-grammar-v1-0-39238dc471f9@gmail.com>
 To: Joseph Kogut <joseph.kogut@gmail.com>, 
  Lukasz Luba <lukasz.luba@arm.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
  Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
@@ -79,35 +79,124 @@ To: Joseph Kogut <joseph.kogut@gmail.com>,
 Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-doc@vger.kernel.org, Patrick Little <plittle@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=669; i=plittle@gmail.com;
- h=from:subject:message-id; bh=W0dpzkY31LWTDwRu4wDVYre+5cqJ/knXQKg0SbghrOs=;
- b=owGbwMvMwCW2/Ptzn70V3ucZT6slMWRW9a0qOSatYFTx4M78Zd6LdY5bMvH2zMnK5VeJjt3Sa
- XlaMnJ6RykLgxgXg6yYIstON7HCLOfpuTO9Vk+CmcPKBDKEgYtTACYS+ojhryznt8M3NkZc+mPT
- 9YFjRcj7KLGaBpdNOQmX5n1vPfDT9Bcjw8RcNdN0n2uTeTWZLi3083oS4PjgSJDTjPNCXTHnTvg
- d4gUA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6507; i=plittle@gmail.com;
+ h=from:subject:message-id; bh=D9uKfpeWHNBio5oH1DcAL26H2VLljL1egsD4t2eIGUM=;
+ b=owGbwMvMwCW2/Ptzn70V3ucZT6slMWRW9a3b4iUrOlnJm/t5xOekCcvdK75GCrT9sTh9UnOuZ
+ NeqhVrLOkpZGMS4GGTFFFl2uokVZjlPz53ptXoSzBxWJpAhDFycAjCRUxsZGc4qzdhbFmt8uWrt
+ 0XT93JeVHUnBGbs2MjyUWb9v4cntiwMZ/qkruO+xbVkgXhF6rabD5pt4jf++r/48d+7X9MgLeZo
+ v5AUA
 X-Developer-Key: i=plittle@gmail.com; a=openpgp;
  fpr=B94616716A43976D994AAB92A7F7E74CBD784BCF
 
-I split these into:
-  Text updates
-  Example code updates
+Fix typos in Documentation.
 
-If it would be better split more or differently, I'm happy to do that.
-These are strictly typo fixes, no clarification or rewording.
-
+Signed-off-by: Patrick Little <plittle@gmail.com>
 ---
-Patrick Little (2):
-      Documentation: Fix typos
-      Documentation: Fix bug in example code snippet
-
- Documentation/power/energy-model.rst     | 18 +++++++++---------
+ Documentation/power/energy-model.rst     | 14 +++++++-------
  Documentation/scheduler/sched-energy.rst |  8 ++++----
- 2 files changed, 13 insertions(+), 13 deletions(-)
----
-base-commit: 63804fed149a6750ffd28610c5c1c98cce6bd377
-change-id: 20260128-documentation-fix-grammar-3f285af10f5d
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
-Best regards,
+diff --git a/Documentation/power/energy-model.rst b/Documentation/power/energy-model.rst
+index cbdf7520aaa6..65133187f2ad 100644
+--- a/Documentation/power/energy-model.rst
++++ b/Documentation/power/energy-model.rst
+@@ -14,8 +14,8 @@ subsystems willing to use that information to make energy-aware decisions.
+ The source of the information about the power consumed by devices can vary greatly
+ from one platform to another. These power costs can be estimated using
+ devicetree data in some cases. In others, the firmware will know better.
+-Alternatively, userspace might be best positioned. And so on. In order to avoid
+-each and every client subsystem to re-implement support for each and every
++Alternatively, userspace might be best positioned. In order to avoid
++having each and every client subsystem re-implement support for each and every
+ possible source of information on its own, the EM framework intervenes as an
+ abstraction layer which standardizes the format of power cost tables in the
+ kernel, hence enabling to avoid redundant work.
+@@ -32,7 +32,7 @@ be found in the Intelligent Power Allocation in
+ Documentation/driver-api/thermal/power_allocator.rst.
+ Kernel subsystems might implement automatic detection to check whether EM
+ registered devices have inconsistent scale (based on EM internal flag).
+-Important thing to keep in mind is that when the power values are expressed in
++An important thing to keep in mind is that when the power values are expressed in
+ an 'abstract scale' deriving real energy in micro-Joules would not be possible.
+ 
+ The figure below depicts an example of drivers (Arm-specific here, but the
+@@ -82,7 +82,7 @@ using kref mechanism. The device driver which provided the new EM at runtime,
+ should call EM API to free it safely when it's no longer needed. The EM
+ framework will handle the clean-up when it's possible.
+ 
+-The kernel code which want to modify the EM values is protected from concurrent
++The kernel code which wants to modify the EM values is protected from concurrent
+ access using a mutex. Therefore, the device driver code must run in sleeping
+ context when it tries to modify the EM.
+ 
+@@ -113,7 +113,7 @@ Registration of 'advanced' EM
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ The 'advanced' EM gets its name due to the fact that the driver is allowed
+-to provide more precised power model. It's not limited to some implemented math
++to provide a more precise power model. It's not limited to some implemented math
+ formula in the framework (like it is in 'simple' EM case). It can better reflect
+ the real power measurements performed for each performance state. Thus, this
+ registration method should be preferred in case considering EM static power
+@@ -172,7 +172,7 @@ Registration of 'simple' EM
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ The 'simple' EM is registered using the framework helper function
+-cpufreq_register_em_with_opp(). It implements a power model which is tight to
++cpufreq_register_em_with_opp(). It implements a power model which is tied to a
+ math formula::
+ 
+ 	Power = C * V^2 * f
+@@ -251,7 +251,7 @@ It returns the 'struct em_perf_state' pointer which is an array of performance
+ states in ascending order.
+ This function must be called in the RCU read lock section (after the
+ rcu_read_lock()). When the EM table is not needed anymore there is a need to
+-call rcu_real_unlock(). In this way the EM safely uses the RCU read section
++call rcu_read_unlock(). In this way the EM safely uses the RCU read section
+ and protects the users. It also allows the EM framework to manage the memory
+ and free it. More details how to use it can be found in Section 3.2 in the
+ example driver.
+diff --git a/Documentation/scheduler/sched-energy.rst b/Documentation/scheduler/sched-energy.rst
+index 70e2921ef725..4e47aaf103eb 100644
+--- a/Documentation/scheduler/sched-energy.rst
++++ b/Documentation/scheduler/sched-energy.rst
+@@ -244,7 +244,7 @@ Example 2.
+ 
+ 
+     From these calculations, the Case 1 has the lowest total energy. So CPU 1
+-    is be the best candidate from an energy-efficiency standpoint.
++    is the best candidate from an energy-efficiency standpoint.
+ 
+ Big CPUs are generally more power hungry than the little ones and are thus used
+ mainly when a task doesn't fit the littles. However, little CPUs aren't always
+@@ -252,7 +252,7 @@ necessarily more energy-efficient than big CPUs. For some systems, the high OPPs
+ of the little CPUs can be less energy-efficient than the lowest OPPs of the
+ bigs, for example. So, if the little CPUs happen to have enough utilization at
+ a specific point in time, a small task waking up at that moment could be better
+-of executing on the big side in order to save energy, even though it would fit
++off executing on the big side in order to save energy, even though it would fit
+ on the little side.
+ 
+ And even in the case where all OPPs of the big CPUs are less energy-efficient
+@@ -285,7 +285,7 @@ much that can be done by the scheduler to save energy without severely harming
+ throughput. In order to avoid hurting performance with EAS, CPUs are flagged as
+ 'over-utilized' as soon as they are used at more than 80% of their compute
+ capacity. As long as no CPUs are over-utilized in a root domain, load balancing
+-is disabled and EAS overridess the wake-up balancing code. EAS is likely to load
++is disabled and EAS overrides the wake-up balancing code. EAS is likely to load
+ the most energy efficient CPUs of the system more than the others if that can be
+ done without harming throughput. So, the load-balancer is disabled to prevent
+ it from breaking the energy-efficient task placement found by EAS. It is safe to
+@@ -385,7 +385,7 @@ Using EAS with any other governor than schedutil is not supported.
+ 6.5 Scale-invariant utilization signals
+ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+-In order to make accurate prediction across CPUs and for all performance
++In order to make accurate predictions across CPUs and for all performance
+ states, EAS needs frequency-invariant and CPU-invariant PELT signals. These can
+ be obtained using the architecture-defined arch_scale{cpu,freq}_capacity()
+ callbacks.
+
 -- 
-Patrick Little <plittle@gmail.com>
+2.51.0
 
