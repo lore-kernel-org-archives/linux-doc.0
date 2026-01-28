@@ -1,183 +1,122 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00FFC31062C
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 09:43:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C392C0268
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 10:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769593403; cv=none; b=gNyUthRWCaQPATjWynUY3z7Y+TA2x22TIRUgpLUDUhu3laVT6Jjjn0W3Eu24PcXubAVfYUZ+Z/a9RzfRC2VxxY42i7MLQK4/5gS1+X6YzRFGHhS0ZkCdaz+4z0Y//Rsl53m9jQvAaMRKB88z8YfNwy2WE9NsObvS+UNiuNAOGn8=
+	t=1769594471; cv=none; b=f+OU+zV2yO4tJHzMCPfb12cws6WOTIdzUS+CyrH0uG0it6eu5GJBvKQS1L5zdoGsnpm+JP3KG+mIfqtEgcctPErBfXBCrGhZuYqTHsDPxhwQPuTHrQVBt560IaW9kn+5Ir9KGmJib6cZMQYLud0h2bhybSH5YOzwG1n/5KL/AF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769593403; c=relaxed/simple;
-	bh=nMrCEc2j5DclRR0VL3fs98R4zeyzXJH4AdEhgbDC6pY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Wlyx+Vx7CklYkTzRhSlNMfQgyU174bTdwR7K6P9C5ZjYBlhkGXcRPJA/9bQpPMMLN6pXnQgEmzlSqgbSpWa031iJrjkn03fBoonEVwP3qBu8x3iviaH0qzmh7mPmIOxwobUzNvG22nwAzYciqHDQNEjAW/7t8hERFMX79Uo6www=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jADakhnf; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769594471; c=relaxed/simple;
+	bh=U4hxo0P0wLLb4tcsdP3vh7lnsHn2SNsS2hcjR7uGGoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AQRhLZTzi8e7jw00/zVDrQ82H4n0oTihs1VCALttUlZSB/VcH0YMC2fmR1X2J3SaGF5Ban5WqQbhov3GV0NMk9DwgvLhcEKUvi84tkFUg6uNQ0AzhF3nVRMkkLk5VFqunKEPptM+ooDnU6KMC8aS6jKlbFM3rFdj/g3dNkEHC+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=LEsGQ/jM; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jADakhnf"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-432d28870ddso3549829f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 01:43:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769593400; x=1770198200; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nMrCEc2j5DclRR0VL3fs98R4zeyzXJH4AdEhgbDC6pY=;
-        b=jADakhnfc0qcVxohGd46xY/Hp3hxsOp+AMTPJdcbVZTEzMusz072E4fkW/elIVKuE8
-         HyhslAvF0zxzucX3+ZvLd0sVZCKtHhKvSG5qlx41BiKtLEALZ4pR6e8YFAUEKxm/3B/s
-         dj2MVfJeKwoYo3vGr45VJBmpcCB6W/fPkYD54Wup2hMNJ7RTq7px2pfBfwqJfgp/JE3W
-         g/HAQETM4oxzKC7xyqHB3HJCHERYfQwZFb6diKni+rS98BF9ZUswwq7Mwj1lKYxo3dIb
-         H9GyzTaLjeyLa5/+LNQozO1Q44xOlB1/R3kxTNvJwHZZs8tiQHOgn1JmAdPWUFeGKe3Q
-         4hLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769593400; x=1770198200;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nMrCEc2j5DclRR0VL3fs98R4zeyzXJH4AdEhgbDC6pY=;
-        b=lqdMqYeZgXSl6xxlFK1duNzqByq9/BoDHHI3o5czhctcR6VzekO3ill3c8KvZ/BpMR
-         UsdVXteAvZfooqbVm1MgFOypQvujmwWbjtMCFeHynjU5aaKfOeyXyPNAANXPEnB7kfBO
-         3/WzZNKMzvEBGb1SVX8g8YnkQN6Mk1NpazD5Ms/L5hP1fvoERA6wr3ur/xwItus0XV27
-         hNz+P/dtgC4B45nUx7lct8BCQaKpwtwyQbEAE/Vb4ghxHVbzSnbgRENK0s4iVxAmIlBC
-         lEsLobJUBZKcSgIFoFKjixaTQ9FckXjA68jyOQnLOONeMGs8pGTIfy0FXnKkV9GyL8Ld
-         MEIw==
-X-Forwarded-Encrypted: i=1; AJvYcCVsDuSubGalvmPpf8XsWiHUkHOxSjlsy8y6f6PQLJVnC0im3+5jL58HlRWnW9GQk4JVnT6RoX5FYwM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywer3kiA2Nlqak1cmsIsXxy72qLhGrtjuuRwd4vytDQzJ98AvQJ
-	3CE4IgxbN/0r8k4pM/JZUm+xqwHRSYq5IwkKhcOfBkZhjxmjUELfv3Dk
-X-Gm-Gg: AZuq6aJZe40lCbbG7u0hpJGZxoH4tUjnHrECDHz5H21Ly3w5BXy1gIKmp0Aae9kKeNM
-	gKHxc/tsx6lK89Zc+ywgp8Lyp6f8dLehu2U4M5OCEK+b5MG6d9+VPAQ31iVPQyvJrFoT3DS05Py
-	pTRTPdf9IVwHmKk10BGrIQv413MpDXjbajW/3/2Cyz2vbvScDtPY34YAKPwal+DEg3/dZNZwThi
-	kh1RGNp+T0sU2zXUofjIDzwdGUo73UEDxxTvS2U3uJXTozSeQgus5vYm6lCz0NjKwlwRmWPPTAe
-	CnnTX+tK28FK0o+pEQt5Xg3E2eAOtKygiIiiwRq5+Vy5HAcaywsk0StT0tU+o9xrAe0/b3nACok
-	C72Q+Q9JP7Qc+o30SdhtNjXaDuEybgZceIB9UOk0ikcxsWeRAeu2YvcqGVQrVLcVuPBO6D98GBn
-	nteUwbzdQ9NxI8Rq0Oxq0=
-X-Received: by 2002:a05:6000:2084:b0:435:8d02:b9cd with SMTP id ffacd0b85a97d-435dd05f1c5mr7512803f8f.26.1769593400162;
-        Wed, 28 Jan 2026 01:43:20 -0800 (PST)
-Received: from [192.168.1.187] ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e1048a54sm5346836f8f.0.2026.01.28.01.43.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 01:43:19 -0800 (PST)
-Message-ID: <382e259ea3835ffbd2be9c36b529875f5a43f38b.camel@gmail.com>
-Subject: Re: [PATCH v5 0/3] hwmon: Add support for the LTC4283 Hot Swap
- Controller
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, nuno.sa@analog.com, 
-	linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>,  Jean Delvare <jdelvare@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>,  Bartosz
- Golaszewski	 <brgl@bgdev.pl>, "Rob Herring (Arm)" <robh@kernel.org>, Linus
- Walleij	 <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 28 Jan 2026 09:44:03 +0000
-In-Reply-To: <eed64bf1-93af-4b36-adf5-1476cb40edbb@roeck-us.net>
-References: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
-	 <eed64bf1-93af-4b36-adf5-1476cb40edbb@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="LEsGQ/jM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=U4hx
+	o0P0wLLb4tcsdP3vh7lnsHn2SNsS2hcjR7uGGoM=; b=LEsGQ/jMMDvYadSCQdCk
+	5JgtQAiaHCKsGfUJd16sgVFXOoCnfE5m2RJNyPdO1VPLnvusl1aZR4OL3oP0P8OB
+	I5dfR/PBirtZdpEUPCrXf3bQZ97iHsKKzd20ooVE0/ZpSZIhmkhE/xOExykt4JB2
+	4mmSIqcqWfMQH9JyguH0Yqol5RgjOM+oT07SZNsgsMX2AwShCzg4yySOsflGKXbi
+	uWUYVq0GkxDy/CbIqU7zycBTbqTOqZPUH2pEIMh2ZB678Xgeai5Eekf9BpN7G3os
+	yvEknrtmP7B8MoYHwEYmoTZABLoqVSRaaS63gjVSIIJrG/e9xCD9hpW6rpz2X835
+	YA==
+Received: (qmail 3579376 invoked from network); 28 Jan 2026 11:01:04 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 28 Jan 2026 11:01:04 +0100
+X-UD-Smtp-Session: l3s3148p1@cFtt0W9JPOgujns0
+Date: Wed, 28 Jan 2026 11:01:03 +0100
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Message-ID: <aXneX-aZofvuk8gl@ninjato>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh>
+ <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
+ <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com>
+ <20260127235232.GS1134360@nvidia.com>
+ <CAMRc=MfP1_fH91AVjerbnwVfhA0oqBKV+CTX0_1n32g1t-Pvuw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4tvbrEKQRMYzmolo"
+Content-Disposition: inline
+In-Reply-To: <CAMRc=MfP1_fH91AVjerbnwVfhA0oqBKV+CTX0_1n32g1t-Pvuw@mail.gmail.com>
 
-Hi Guenter,
 
-On Tue, 2026-01-27 at 09:39 -0800, Guenter Roeck wrote:
-> Hi Nuno,
->=20
-> On 12/23/25 04:21, Nuno S=C3=A1 via B4 Relay wrote:
-> > This is v3 for the LTC4283 how swap controller. Main change is that I'm
-> > now using the auxiliary bus for adding the GPIO device (done depending
-> > on FW properties).
-> >=20
-> > Similar to the LTC4282 device, we're clearing some fault logs in the
-> > reset_history attributes.
-> >=20
->=20
-> I ran the patch series through an AI review. Results are below.
-> Please take a look.
->=20
-> Thanks,
-> Guenter
->=20
-> ---
-> # Deep Dive Regression Analysis Log
-> Date: 2026-01-27
->=20
-> ## Commit 5998c620fbd8: gpio: gpio-ltc4283: Add support for the LTC4283 S=
-wap Controller
->=20
-> **Context**:
-> - Adds a new GPIO driver `drivers/gpio/gpio-ltc4283.c`.
-> - Depends on `drivers/hwmon/ltc4283.c` for regmap and MFD instantiation.
->=20
-> **Findings**:
-> 1.=C2=A0 **Typo/Naming Issue**:
-> =C2=A0=C2=A0=C2=A0=C2=A0 - File `drivers/gpio/gpio-ltc4283.c` uses `LTC42=
-823_ADIO_CONFIG` definition.
-> =C2=A0=C2=A0=C2=A0=C2=A0 - `LTC42823` appears to be a typo for `LTC4283`.
-> =C2=A0=C2=A0=C2=A0=C2=A0 - `drivers/gpio/gpio-ltc4283.c:26`: `#define LTC=
-42823_ADIO_CONFIG 0x12`
->=20
-> 2.=C2=A0 **Logic Verification**:
-> =C2=A0=C2=A0=C2=A0=C2=A0 - GPIO direction and value setting logic appears=
- consistent with bitmasks provided, assuming
-> register `0x12` and `0x11` layout is correct as inferred.
->=20
-> 3.=C2=A0 **Regressions**:
-> =C2=A0=C2=A0=C2=A0=C2=A0 - No critical functional regressions found in th=
-is commit alone.
-> =C2=A0=C2=A0=C2=A0=C2=A0 - Code quality: Typo in macro name.
->=20
-> ## Commit 82433332ce16: hwmon: ltc4283: Add support for the LTC4283 Swap =
-Controller
->=20
-> **Context**:
-> - Adds core HWMON driver `drivers/hwmon/ltc4283.c`.
-> - Handles I2C communication, regmap initialization, and MFD child creatio=
-n.
->=20
-> **Findings**:
-> 1.=C2=A0 **Critical Regression: DebugFS Use-After-Free**:
-> =C2=A0=C2=A0=C2=A0=C2=A0 - `ltc4283_probe` calls `ltc4283_debugfs_init`.
-> =C2=A0=C2=A0=C2=A0=C2=A0 - `ltc4283_debugfs_init` calls `debugfs_create_f=
-ile_unsafe` creating files associated with
-> `st`.
-> =C2=A0=C2=A0=C2=A0=C2=A0 - `st` is allocated with `devm_kzalloc`.
-> =C2=A0=C2=A0=C2=A0=C2=A0 - **Issue**: There is no explicit cleanup of deb=
-ugfs entries (e.g.,
-> `debugfs_remove_recursive`) and no `devm_add_action` to handle it.
-> =C2=A0=C2=A0=C2=A0=C2=A0 - **Consequence**: When the driver is unbound/un=
-loaded, `st` is freed by devm. The debugfs
-> entries remain. Accessing them triggers a Use-After-Free on `st`.
-> =C2=A0=C2=A0=C2=A0=C2=A0 - **Fix Required**: Use `devm_add_action_or_rese=
-t` to remove debugfs directory/entries on
-> driver detach.
+--4tvbrEKQRMYzmolo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-So actually a nice deduction from the agent but not accurate given that all=
- the entries should be
-removed in [1]. If you want it to be explicit, I can add the action but giv=
-en that the dentry is
-given by i2c, I would argue it's fair to assume i2c will take care of the r=
-emoval. Thoughts?
 
-I'm also planning to pick this up again but was caught by something else. S=
-o hopefully next week.=C2=A0
+> One exception is I2C where the logic is so broken we need to first
+> rework a lot of drivers.
 
-On another topic, I also (you questioned it in another thread) looked aroun=
-d and I do have a ltc4282
-board with me. Given that I just need to power up the digital parts to acce=
-ss the i2c bus, it should
-be pretty straight to get a register dump. So if you're still interested on=
- that, I should be able
-to do it.
+Let's say "bitrotten" instead of broken. People used what was available
+at that time and they prevented the kernel from crashing, at least. And
+up to now, nobody had the bandwidth to improve that part in I2C.
 
-[1]: https://elixir.bootlin.com/linux/v6.19-rc5/source/drivers/i2c/i2c-core=
--base.c#L634
+> Wolfram is on board with that though.
 
-- Nuno S=C3=A1
->=20
+Ack. I want to emphasize here that for I2C the SRCU part goes into the
+subsystem, not into the drivers.
+
+(Disclaimer: I don't have the time to even read all the mails discussing
+'revocable' despite it maybe being used in I2C. I am busy enough
+handling the preparations needed to improve the I2C core to handle the
+lifecycle issues. If 'revocable' is the final piece or not is a second
+step for me. Maybe even a third.)
+
+> > The reason cdev keeps coming up is because there are few common ways a
+> > typical driver can actually generate concurrent operations during and
+> > after remove that would be problematic.
+
+Let me point out again that Dan Williams already had a PoC-patch for
+handling the cdev issue generically [1]. Dunno if this fact is present
+in the current discussion.
+
+[1] https://lkml.org/lkml/2021/1/20/999
+
+
+--4tvbrEKQRMYzmolo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAml53lwACgkQFA3kzBSg
+KbaDKA//f0CIM1RNWSco1prrtoj4LYZvyS2BaiYJL1AFcpgvmwUL0WXxTrJIMO0B
+vBbr8NRqCjI37T3MlR6FACKtELlAdfE4gB+Rg/YLiD33kZHV3vsN3bRfsVLU+veI
+Kr5IM/K01xDJGirqN9xX6dZohQ4O6vPMN+l2khEjKd5qszT1AaEXV19mVCVMQJ/Z
+qSA5veeLKHUV9HfzbkVFzRjOrSjZFY/kpgnTwiEwfDIpCHNTDEEzz7XE2B01yq2J
+p1zvNQYGEYMZ3AV6aeMUxCtj3O8imeZ4k/EuTapkSN5K/ckTWlzjJALD2EdPxUZV
+vOiAn8sZuWGGfy59svX/Be5pHcEQ9Em/UNUADxESQePXcNZGnIqGw34Erpm24Lze
+KNq1ANkfD6voAwfM+bxN44WeC2wao/o88X0TB/EbKZk6uPCPIPUdBfZTtWQXw9rR
+x+btXyg8MrOty5EYnaCxXiiCeZqZlpSuI1ASFfXYpBw56dZTaJAhFthP3msvVHfB
+yONtbnpgGPypxlWUkVx1GOOgv5wKptCw6w002FAdm2tUUwEIar2yqV9IQ0IQDIiq
+tcRrz3M7zej+8qQ3/h/gWmBBFRJZuxQfitvSFnDCj239ODPmL7y/DlV2bR1ilQmL
+di7LNsaTEHLa9SyOCS4OaJpf55XTQzt9uVcTpDR7C+k8p6RvBJ8=
+=eI/U
+-----END PGP SIGNATURE-----
+
+--4tvbrEKQRMYzmolo--
