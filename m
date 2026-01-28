@@ -1,136 +1,172 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788F027A45C;
-	Wed, 28 Jan 2026 09:25:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC3233E372
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 09:40:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769592316; cv=none; b=agvVfglKSSDEFMKwuRLrRz0MKk7vGsma0Qw4dqkGe3uLYCdwjEw5z7DRzDU9aFecBbw/0No0riTtnfWFabInQWIB1uUhgwZFz41hgft8WqqOBju1jHog4sbPrN+EFMxHwrFTMbrLc+IqwGiigbB5v5GriSjkNPTIw9gvUgDeEV0=
+	t=1769593206; cv=none; b=qt2OnP1iLRaaPel+JKIAMjBOBmJftYEeg2eubDRegzrfwCJXJ7LWAdcRrzNtXgO3I6APw6WLLnB3bqnzFpJ32TufnzBeSUTgJnLRqy+LZ33Awr1dSG/6VwuQf7ZByUSLX/rXwgGCMPLVyAZY5clFjfKuVW2oLzjlu8lnxzsZVFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769592316; c=relaxed/simple;
-	bh=NOYUzAYOaQDLTtBB91+2pLZKvr04FAxNg/6BUtcW8aU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bct3lUcJ7v6wahUKD6bH9JVcMEnO69dulElWASpE4CW1gRgvBQaxrRC7ravtoYVI+H+/6bQgU1ajjB389GA4jYSgLbifrDxe7nZSDT5RWz9Mvvr1LB8FT8TPUZXfpCaMmdU+Yo0Ok82DwXweNI2f2jG47YL2WiT1jfBtmic8bAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EpTbuYAL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769593206; c=relaxed/simple;
+	bh=8FAywcVwqaR6yySTpdg7lvCpc9PKJmZi+hCkUBisJxU=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SpCXYTU4YlwaZhmFoG6aEAfOt79CK81qh7lhyiNFAaoOBryswtTXKQHOClOf8RbqSYTV09B5tW/RARSzptmv2VDdM3CDGT5KnH68IpbAeQHogSE34fEWLK58Vo0YuWclA/TGc/2R33HtMnSjzhzHYeOhxgTDkrcQtFNKfYLezyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d3Sy3fka; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EpTbuYAL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9D00C4CEF1;
-	Wed, 28 Jan 2026 09:25:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d3Sy3fka"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22F76C2BCAF
+	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 09:40:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769592316;
-	bh=NOYUzAYOaQDLTtBB91+2pLZKvr04FAxNg/6BUtcW8aU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EpTbuYAL5IAPWPvdsK/lVylxFhuznKwArTPCxaxNlbm6TeghX4LEUY2EY8Tr40fgZ
-	 s3y/+08DEkG7+VltextLP64GqASv9orzxSqgu79+Z89MUwcr/Gy+5l24Jq0ESZIYjd
-	 Yyw7X64kgIoHd1wO/v92yKqV4W94UQoAmNRg+TTgbhI1fRcbL4d3qIY4nOV/5M4Z+K
-	 MBOq3DFvjVyFiXUv7mJiiFwHqfEXT2gG3FZd6IjFzw7UplYzVFUFI23dPOMyd+iDsZ
-	 iKMJdsYztI8EgAZktEpm7J0pedv99v9o3HMQ03me2UT1XLcGXXGJt2rixME8r5PCRA
-	 H7sxJy+jTPjPA==
-Date: Wed, 28 Jan 2026 11:25:04 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: ardb@kernel.org, leitao@debian.org, corbet@lwn.net,
-	catalin.marinas@arm.com, will@kernel.org, akpm@linux-foundation.org,
-	bp@alien8.de, mingo@kernel.org, pawan.kumar.gupta@linux.intel.com,
-	feng.tang@linux.alibaba.com, kees@kernel.org, elver@google.com,
-	arnd@arndb.de, fvdl@google.com, lirongqing@baidu.com,
-	bhelgaas@google.com, bhe@redhat.com, dave.hansen@linux.intel.com,
-	cfsworks@gmail.com, osandov@fb.com, sourabhjain@linux.ibm.com,
-	jbohac@suse.cz, ryan.roberts@arm.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] arm64: kexec: Add support for crashkernel CMA
- reservation
-Message-ID: <aXnV8HBOzTTWBbsI@kernel.org>
-References: <20260126081334.699147-1-ruanjinjie@huawei.com>
- <aXnJd_Xghj9JLsnK@kernel.org>
- <3407c779-9e7e-8f90-353f-c2b58992aae2@huawei.com>
+	s=k20201202; t=1769593206;
+	bh=8FAywcVwqaR6yySTpdg7lvCpc9PKJmZi+hCkUBisJxU=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=d3Sy3fkalMhzo88v5CLr/kAV/3H9qy4BGNAa0y4vi/d46usjDKen/jR6KhvvoZ622
+	 /wRLOxkgNe65hjeDol5SqxfZhU9ihhGU0yVfyNU139c2Oo3de0gqgC1HPc+V4oGNNf
+	 KrRiZZNZQiP+KsfiE2DHNTr2sH8kdy4HFonCkQx4DzMt3dfnOlFivglzj60lilZvBF
+	 7l3XMERusV7C6hrIQeZH3ByiGqm8sUicKLSGTBCEcDP/Q6F58pWQTAttih1L8596V8
+	 sZiGah7cuxnBoriLDrJXWBEeG7ZaFtKoP/RmIUn8jGIALoPysRGvevQ+oFn8RlW+KW
+	 wyBrPUzrbVd9A==
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59dcd9b89ecso1067676e87.1
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 01:40:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWtx4+dYkL9lK72TVP2SLQjdCRoenrQZN5itLVOuwLBe/EdMhF962wfLgZKa7O2lVM0HqEr1fj/SZc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8ocUPJYZ4JXos6y4CDzTCb0Asq+op2wvKWO6aDKHh861lYV6E
+	FadVJZfY1dMM4Pc/CG4hLKbzoposn84eMfj6oKNVXdyticBhPt3oZuZhgvYUe0ZiNx/8spckd5P
+	6k3CXJHKuIpCHrG/5uFyJybK4QfMOnkmRt1XRBDLOHA==
+X-Received: by 2002:a05:6512:3ca8:b0:59e:a46:ebdf with SMTP id
+ 2adb3069b0e04-59e0a46ed1dmr387776e87.11.1769593204724; Wed, 28 Jan 2026
+ 01:40:04 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 28 Jan 2026 01:40:02 -0800
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 28 Jan 2026 01:40:02 -0800
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260127235232.GS1134360@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3407c779-9e7e-8f90-353f-c2b58992aae2@huawei.com>
+References: <20260124170535.11756-1-johan@kernel.org> <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh> <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
+ <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com> <20260127235232.GS1134360@nvidia.com>
+Date: Wed, 28 Jan 2026 01:40:02 -0800
+X-Gmail-Original-Message-ID: <CAMRc=MfP1_fH91AVjerbnwVfhA0oqBKV+CTX0_1n32g1t-Pvuw@mail.gmail.com>
+X-Gm-Features: AZwV_QgQPyhxTjguD36n-D-3KzP9JI7pQykXZNXE0y0Nvldh9Ywex4wJRJirHxk
+Message-ID: <CAMRc=MfP1_fH91AVjerbnwVfhA0oqBKV+CTX0_1n32g1t-Pvuw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Danilo Krummrich <dakr@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Bartosz Golaszewski <brgl@kernel.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 28, 2026 at 05:10:15PM +0800, Jinjie Ruan wrote:
-> 
-> 
-> On 2026/1/28 16:31, Mike Rapoport wrote:
-> > On Mon, Jan 26, 2026 at 04:13:34PM +0800, Jinjie Ruan wrote:
-> >> Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
-> >> crashkernel= command line option") and commit ab475510e042 ("kdump:
-> >> implement reserve_crashkernel_cma") added CMA support for kdump
-> >> crashkernel reservation.
-> >>
-> >> Crash kernel memory reservation wastes production resources if too
-> >> large, risks kdump failure if too small, and faces allocation difficulties
-> >> on fragmented systems due to contiguous block constraints. The new
-> >> CMA-based crashkernel reservation scheme splits the "large fixed
-> >> reservation" into a "small fixed region + large CMA dynamic region": the
-> >> CMA memory is available to userspace during normal operation to avoid
-> >> waste, and is reclaimed for kdump upon crash—saving memory while
-> >> improving reliability.
-> >>
-> >> So extend crashkernel CMA reservation support to arm64. The following
-> >> changes are made to enable CMA reservation:
-> >>
-> >> - Parse and obtain the CMA reservation size along with other crashkernel
-> >>   parameters.
-> >> - Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
-> >> - Include the CMA-reserved ranges for kdump kernel to use.
-> >> - Exclude the CMA-reserved ranges from the crash kernel memory to
-> >>   prevent them from being exported through /proc/vmcore.
-> >>
-> >> Update kernel-parameters.txt to document CMA support for crashkernel on
-> >> arm64 architecture.
-> > 
-> > I'm looking at this and at almost identical patch for riscv 
-> > https://lore.kernel.org/all/20260126080738.696723-1-ruanjinjie@huawei.com
-> > and it feels wrong that we have duplicate the code that excludes cma
-> > ranges.
-> > CMA ranges are known to the crash_core and I don't see why we cannot
-> > exclude them there.
-> 
-> Youa are right, x86 and powerpc has similar implementations that
-> excludes crashkernel cma ranges.
-> 
-> x86 [1]
-> 
-> +	for (i = 0; i < crashk_cma_cnt; ++i) {
-> +		ret = crash_exclude_mem_range(cmem, crashk_cma_ranges[i].start,
-> +					      crashk_cma_ranges[i].end);
-> +		if (ret)
-> +			return ret;
-> +	}
+On Wed, 28 Jan 2026 00:52:32 +0100, Jason Gunthorpe <jgg@nvidia.com> said:
+> On Tue, Jan 27, 2026 at 10:18:27PM +0100, Bartosz Golaszewski wrote:
+>> maintainers to settle an important question. It seems there are two
+>> camps in this discussion: one whose perception of the problem is
+>> limited to character devices being referenced from user-space at the
+>> time of the driver unbind (favoring fixing the issues at the vfs
+>> level) and another extending the problem to any driver unbinding where
+>> we cannot ensure a proper ordering of the teardown (for whatever
+>> reason:
+>
+> I don't think you can defend any position where the user can do
+>
+>   echo XYZ > /sys/.../YY
+>
+> and the kernel has an oops.
+>
+> Meaing in this discussion if the user does
+>    echo ".." > /sys/bus/XX/drivers/YY/unbind
+>
+> The kernel shouldn't oops or warn.
+>
+> I've seen many kinds of bogus arguments over the years (especially
+> misunderstanding what the module refcount does!!), but ultimately I
+> think this is the generally agreed expectation.
+>
+> However, in practice this isn't a common work flow, it is quite alot
+> of tricky work to understand how a subsystem works and put in the
+> necessary protections, and frankly many subsystems have had these bugs
+> for their entire existance. It isn't urgent.
+>
 
-So if this loop was in crash_prepare_elf64_headers() it would work for
-arm64, riscv and x86, right?
+In general, that's true. However I have first bumped into this can of worms
+at work when a client's custom device using a USB-to-I2C adapter and creating
+devices dynamically from user-space would crash the kernel or freeze a thread
+when the device would be disconnected with processes still referencing file
+descriptors. It may not be common but I hope we do care about corner-cases
+too.
 
-> +
-> +	return 0;
-> 
-> But powerpc [2] is a little different which uses a wrapper for
-> crash_exclude_mem_range() and more check and realloc_mem_ranges().
-> 
-> +	for (i = 0; i < crashk_cma_cnt; ++i) {
-> +		ret = crash_exclude_mem_range_guarded(mem_ranges,
-> crashk_cma_ranges[i].start,
-> +					      crashk_cma_ranges[i].end);
-> +		if (ret)
-> +			goto out;
-> +	}
+So I'd say: it's fine as is until it isn't. :)
 
-As for powerpc crash_exclude_mem_range_guarded() could only check if
-mem_ranges is large enough and reallocate and then actual exclusion in
-crash_prepare_elf64_headers() should also work.
+> Several subsystems do get it right, it is very possible and the best
+> practices are much more aligned with the Device<Bound> stuff in
+> Rust. ie guarantee in most contexts that remove() can't run.
+>
+> I'm not surprised to hear pushback on trying to fix it, especially if
+> the proposed fixes are not subsystem comphrenesive in
+> nature. Sprinkling SRCU around as partial patches, especially in
+> drivers, is not a good idea, IMHO.
+>
 
-> [1]: https://lore.kernel.org/all/ZWEAWMJtesa3O9M5@dwarf.suse.cz/
-> [2]:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b4a96ab50f368afc2360ff539a20254ca2c9a889
+For sure. I've been trying to address it exclusively in subsystem code, where
+this kind of logic belongs. After all, subsystem code is where we do complex
+things to make drivers simpler. One exception is I2C where the logic is so
+broken we need to first rework a lot of drivers. Wolfram is on board with that
+though.
 
--- 
-Sincerely yours,
-Mike.
+> The reason cdev keeps coming up is because there are few common ways a
+> typical driver can actually generate concurrent operations during and
+> after remove that would be problematic.
+>
+> File descriptors, subsystem callbacks, work queues, timers,
+> interrupts, and notifiers.
+>
+> The latter already have robust schemes to help the driver shutdown and
+> end the concurrent operations. ie cancel_work_sync(),
+> del_timer_sync(), free_irq(), and *notifier_unregister().
+>
+> Many wrappered file descriptors are safe. For example the sysfs usage
+> in a driver is sync stopped during device_del's calls to sysfs remove
+> functions.
+>
+> IMHO the largest systemic issue in this space is people making their
+> own fops without understanding the lifecycle model and without
+> hand-rolling a special a "_sync" kind of shutdown around it.
+>
+> A managed fops with a sync destruction operation would go a long way
+> to closing these issues.
+>
+> ie the gpiolib example was basically all fops, one work and a bunch of
+> places where the protection was redundant.
+>
+> Yes there are other cases, and certainly I've commonly seen cases of
+> drivers reaching into other drivers, and subsystem non-file ops, but
+> these cases usualy have other more fundamental issues with remove
+> races :(
+>
+> So I would probably also take a strong position that introducing
+> something like DevRes where you try to wrapper MMIO or other device
+> resources is adamently not something we want to do. Not because I
+> don't care about these removal races, but because I want the drivers
+> to run in a Device<Bound> context with very few exceptions.
+>
+> Jason
+>
+
+Rust makes it very clear who owns what. That's something that we struggle
+a lot with in C, where we have drivers that create objects and then pass
+them on to the subsystem for management but the latter still references
+objects that are destroyed when the driver is unbound. Devres when used
+right is great and the lifetime is very clear: from binding to unbinding.
+The using right is the hard part though. :)
+
+Bartosz
