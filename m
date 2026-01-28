@@ -1,97 +1,237 @@
-Received: from out28-169.mail.aliyun.com (out28-169.mail.aliyun.com [115.124.28.169])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022125.outbound.protection.outlook.com [52.101.96.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7DF279917;
-	Wed, 28 Jan 2026 02:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769568426; cv=none; b=Sv4tP42kUrL3wlgMJmUrZT2Rz83Mc3dlGLEFqNW++bMCuPt63SbwpBWNp1H5vUG4csGli4xvd+k9EGAG/mgF6eqEPaWK4PtiuGq57ELXKqgOjjes3V9H/7JqGGAOTkwkUnAIJcjNjKR60rjzcXauoKIdjvs7heF/rx/oId5BJUk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769568426; c=relaxed/simple;
-	bh=P5BHOGekwZzlYDtEGgu0HdjH4GgUy82l02WJdkLG3Ik=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=kfwfdbDWQGc/M2/Ibj1LyEXl760YsDRTjUPXxlox0VfQBihzcEmrIazDW5fAMd2i1ytGltFYh3bVnKMSMKVaVMCBkQCusLBDguONS4eackP4p+a+1q+kkw5O6oQcsa+DDwlpqg2xxEk7v8T3X5JvCgIZWZNw/v0tl35B1FiPB1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07953744|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.00691617-0.00073375-0.99235;FP=7305816914113108162|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033045220102;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=21;RT=21;SR=0;TI=W4_0.2.3_211683ED_1769567779326_o7001c1223;
-Received: from WS-web (illusion.wang@nebula-matrix.com[W4_0.2.3_211683ED_1769567779326_o7001c1223] cluster:ay29) at Wed, 28 Jan 2026 10:46:51 +0800
-Date: Wed, 28 Jan 2026 10:46:51 +0800
-From: "Illusion Wang" <illusion.wang@nebula-matrix.com>
-To: "Jakub Kicinski" <kuba@kernel.org>,
-  "Simon Horman" <horms@kernel.org>
-Cc: "Dimon" <dimon.zhao@nebula-matrix.com>,
-  "Alvin" <alvin.wang@nebula-matrix.com>,
-  "Sam" <sam.chen@nebula-matrix.com>,
-  "netdev" <netdev@vger.kernel.org>,
-  "andrew+netdev" <andrew+netdev@lunn.ch>,
-  "corbet" <corbet@lwn.net>,
-  "linux-doc" <linux-doc@vger.kernel.org>,
-  "lorenzo" <lorenzo@kernel.org>,
-  "pabeni" <pabeni@redhat.com>,
-  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-  "hawk" <hawk@kernel.org>,
-  "ast" <ast@kernel.org>,
-  "bpf" <bpf@vger.kernel.org>,
-  "sdf" <sdf@fomichev.me>,
-  "daniel" <daniel@iogearbox.net>,
-  "john.fastabend" <john.fastabend@gmail.com>,
-  "edumazet" <edumazet@google.com>,
-  "open list" <linux-kernel@vger.kernel.org>
-Reply-To: "Illusion Wang" <illusion.wang@nebula-matrix.com>
-Message-ID: <17b1ca50-a9e4-499c-b84b-b8223c313491.illusion.wang@nebula-matrix.com>
-Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHYzIG5ldC1uZXh0IDAwLzE1XSBuYmwgZHJpdmVyIGZvciBOZWJ1?=
-  =?UTF-8?B?bGFtYXRyaXggTklDcw==?=
-X-Mailer: [Alimail-Mailagent revision 24734][W4_0.2.3][null][Chrome]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CA31F4181;
+	Wed, 28 Jan 2026 03:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.125
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769571113; cv=fail; b=Jc01Nduf3X7/iiY+dcJ9/Diz4lmQlczJJNUPnKGtIk9lgPBdJXhbgoz9OiFVURX373EIj5NVSJrq4EHQDiaKQcE61R1YarjNlUBH1T+5FUep8psqcgznrt/o/mGCNUjbUlNdXF7aCxVu7Vi+nGlGMxN+2p2+l5md3CZnzoy//3c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769571113; c=relaxed/simple;
+	bh=NNUqsA9W30VhvsUUwkNgkbfGIsKsBwz0DjkJKpdsh84=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=lJa67iZtmv2/1sCwOfdkC/byTOAEvBJM0ubELXA3mS79aTcbHdJeJZMiGsOV5s0iHScNGsl9AmHHlILQ1GQJeUNhxgGcgIl4I4y+Z0RrHA4jTHPP9gtEgHJ1X7eBUfGcpUrVUwkNaxFbn0sLxbMkV/vo3uow3VymMx8uC+KFuIk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.96.125
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VtnVbR4tTHhl1ntM9BvmsBRh9Hoo0nMgo27F/7kX26YUttOJysK8rd1osfDfwzPBFlZJfjZDrYjbuSE28kgKRKB+E6pkDMSVCU0LNMNZpjfEllsLPZhMut04c92y+ukCIOgqm9zf0VDjYm/Q3zhT1v2Bq+fj+7KVn1pBNFz5osR4MWjzZJONXjFxZotIN95IYDSHtb3M6epBJLXRPMfMkakNX11k4graWpGlJfZAJgvk49GI4dUmGY7d/3e1de/J9PTdZIrcjFzSOcjwfIyutj1sDbx02pDk8tKNUUg0P3NlfFkpAmzyLpTYcON6F65JT9YOhGXiRgxUzVfnVUcrXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UiszUIf5dQ/JAWBu0LqRgG2tMo2Ej4vxTgn5JliBgVQ=;
+ b=LnbcC2wy1LrMrea0cSuAaWhm8mWa/Pvc5UXoWM6iP5jpsYGgC4FdqyJNWANy8D/2+0GauUGrde2VuAPBmdla54jT1Mek5l61VH9E5NPRds0rmZU1VpFL4EEb6dpnOqbasZVkikzmRT9iXa4tLx2D0UOrc8Mi3Bu8A8zJMrfPBPSUjONSelokmJLsXNxHjuC+ZE317kEGKihTtrTCVwwcuFOSjEhAbSfRjNhO6q37rqQwgNBncdI/9cMSkuzTrSJ2EV/m8XfRiweyN9/dJFqraWZ0UodWaFs/rAF97vJJQCcOTrcqDzJm5NOMrfFPvaFehwO2OiouloW3kwxFbIkAkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by CWXP123MB3222.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:39::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.16; Wed, 28 Jan
+ 2026 03:31:48 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%5]) with mapi id 15.20.9542.015; Wed, 28 Jan 2026
+ 03:31:48 +0000
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: rafael@kernel.org,
+	dakr@kernel.org,
+	pavel@kernel.org,
+	lenb@kernel.org
+Cc: akpm@linux-foundation.org,
+	bp@alien8.de,
+	pmladek@suse.com,
+	rdunlap@infradead.org,
+	feng.tang@linux.alibaba.com,
+	pawan.kumar.gupta@linux.intel.com,
+	kees@kernel.org,
+	elver@google.com,
+	arnd@arndb.de,
+	fvdl@google.com,
+	lirongqing@baidu.com,
+	bhelgaas@google.com,
+	neelx@suse.com,
+	sean@ashe.io,
+	mproche@gmail.com,
+	chjohnst@gmail.com,
+	nick.lange@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [v2 PATCH 0/1] PM: QoS: Introduce boot parameter pm_qos_resume_latency_us
+Date: Tue, 27 Jan 2026 22:31:42 -0500
+Message-ID: <20260128033143.3456074-1-atomlin@atomlin.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BN9P221CA0027.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:408:10a::21) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-x-aliyun-im-through: {"version":"v1.0"}
-References: <20260123011804.31263-1-illusion.wang@nebula-matrix.com>	<aXj-uam1HodC0851@horms.kernel.org>,<20260127105304.21279cc2@kernel.org>
-x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjAtUmVsZWFzZS4yNTEyMjIwMTkpIE1vam8vMS4wLjAgTmF0aXZlIEFwcFR5cGUocmVsZWFzZSkgQ2hhbm5lbC8yMDEyMDAgQXJjaGl0ZWN0dXJlL3g4Nl82NCB3ZWJEdC9QQw==uL
-In-Reply-To: <20260127105304.21279cc2@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWXP123MB3222:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49ebb15c-f737-4677-6056-08de5e1dc472
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?HE8NF1oJDEV0gPv4/FZZqyckPHbLHV0R0lTlJnb8luwWlSy28kxoXDDBh1TD?=
+ =?us-ascii?Q?EzSBXt6qWNqsfgwRnidVV178mwC6SJTxEpNiHWlQq4QUPqwOgaLasyQbaMYB?=
+ =?us-ascii?Q?bUZ9OHQadI8lTMV9R/iY/qw3vyr+Hcxna1qryt0EQrxnchNw4Huro8nbXFvE?=
+ =?us-ascii?Q?NmOMrmEdYXbYFEWYMAWmfnEICrZbSuzKVHc0BrPtrHgKYI3lpYbfb8sMYTnJ?=
+ =?us-ascii?Q?JsxzBM7+qnwlQ1/U30+i0ETBCn9P8j1yrsO+b5cEeLuwPJaZTAVOaPH2m7Ix?=
+ =?us-ascii?Q?SRMb8vwQATfkMkMJQwzukJEpP9+kq8K67kRkIM247Gj8dkteSpo+GRmJKPzC?=
+ =?us-ascii?Q?G0B3JvWJKIhLrrujY2PoFZ4AmMiyXuZmuvUnJFZbdXV3xD+0cv/ayMMhUhtw?=
+ =?us-ascii?Q?r/AdrIEYNFVT2mjY3vzsHzbGrKUSpmILXwsy9LxtXLNGwdScyzom+S3j2Y4a?=
+ =?us-ascii?Q?494E0TYuDskDsoPWUxf0+0nqxRaCwGdWjrLOpUT+EQ1CrxyqWzSsMoR0C8RR?=
+ =?us-ascii?Q?0NlwDQePga43vImFF1I+ikRkttjuuI+yaB5Anivp8nSh1iMKyl5N2oroyDGv?=
+ =?us-ascii?Q?sUq6zouyR0d+mham4zIgOuIMpp9mHF864TSbycb2iCCTiYjfhGq8UdY7G0si?=
+ =?us-ascii?Q?kQbDib4K4ltGlSUOQld6mQVzYOZ7ZM/9/JbUiQ7FRP5CINABamjvrpCJ7FOH?=
+ =?us-ascii?Q?0hOLPEwMACf1xmJJzlrlLd9+0+rWJ51VXseK4Y88k7OBqSyWuJK3/PsMxK5D?=
+ =?us-ascii?Q?7L8AIrCGxvFEMQeWW//N2HVvJPd03yfM5ULIq9Rh13cFYX1sB9fAJ5fCacEy?=
+ =?us-ascii?Q?DFoCk4MN+6o/qMV/I1pwGqX6+83RUm5Vvxc5BjMgZFcu+rdJw4x6NNl1v7RL?=
+ =?us-ascii?Q?bdSyg/34MGAonbrMrOm2I/juzmOHR/BWdB5EFc/c6KKSYa9xVwA9vgUQvxjX?=
+ =?us-ascii?Q?zew9kkhZnSkpDoKZPdbt8jjoUynFqiK3/nliGCL6aW7Wrc5I60ufIiA6dAWt?=
+ =?us-ascii?Q?pIzwaURlZcquhEqV1YCHbihi7LudWJaZuJBpk6FdCNaYL9OvkvYKLDZCfhMI?=
+ =?us-ascii?Q?5gGwKu241A7hwQA0+eGUAA1hduXjmI5OnLWWj/ZHGYIjCL7jgEszM+Hg5+Id?=
+ =?us-ascii?Q?DucGvHIoUnNMq4wFJy1ZjLBhuFUi2zR8k3r5iCoxMGrGvRrPDjTUShUgvP01?=
+ =?us-ascii?Q?aCnoaElXo1xv6xlUU5uBWApWSGT9gFZvB8eiZdNX42YzrgIpfNKOZQ17pjUR?=
+ =?us-ascii?Q?xufkSb6sn8pLxjqvIC3ddzy6j5NMzmIUOH5GNyEMBE8uHxEggwli6a//+lHw?=
+ =?us-ascii?Q?9iginNKKEKAZs5zadJYXsdsGkpYaTaj10bzn33+d+l7+MzapWLdK0rnmLfCR?=
+ =?us-ascii?Q?fwiCgd11XiB7g4Q9RLC1oAOWzFQTPLrYIfQ6hEkmTG2RJu7ArEvQ37p5cc0m?=
+ =?us-ascii?Q?MucKto1a8SFAHpRTT7zqwsbTP0Mmef+WMuGx5qkkRIt9TCWGmam54kmy/+6s?=
+ =?us-ascii?Q?f6+SlWKA2aG55zMykaRbEpPL09/qd5kjn3wasOz11sIY6+VMdVPOBQsPHW3g?=
+ =?us-ascii?Q?FkbnU2YAOYTPfIU8DOw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?DapTuhOLmJY9EO5sEXSc+n8EWKiiHHsMaMH9fpZCZoCVR88PMm2xq2KReMgT?=
+ =?us-ascii?Q?itcmZz02Srx4xYsGncszr0zHDTBLTx+qs22LNyCdHsVAzAjfLzEZs/CrZy9K?=
+ =?us-ascii?Q?DcNYFXNObNfDL2GjvK66sooU3RllxBJiw1+VdwU4ZpTHyEz5ZHU8LOfZJt0r?=
+ =?us-ascii?Q?uVLmUl59fUD+wULsoCKu/XPrnzjXTZgHMbsgyqY7q1AzqAtfXcOCI8fyRsJ4?=
+ =?us-ascii?Q?QWEghuvhfvWyq3H9XKsXlhSrm3dwlNFL1FjJK6qWqiOImGN45wizDmqh2RKF?=
+ =?us-ascii?Q?bFpHq1kiU2+1ORG/AYpAAXa2ceZdlgrgCMUZWoYcnDTpuj8DE7GNT9OocLWr?=
+ =?us-ascii?Q?i1SQors+0ah44WBMqMG6Zq4HlPYyx6DEWnlItySlRQYrfmH6iAp+u/edJ4QF?=
+ =?us-ascii?Q?3Tj4gfe8jGuVR50rDHyNOtM6ftzB/d60n7D/neqtLeGWa7yrUsv58kBDVbtn?=
+ =?us-ascii?Q?HrkYBBVtumY34YFNPMy5TetZC+rJwtP3PRnFw7QITlpvfMHFDQS1eolwjZBr?=
+ =?us-ascii?Q?iVrRO5TuX9IDfbFSyXGB4jz6KdHBgb9/yNhvmirHoP3icIySWxBseRhqCepp?=
+ =?us-ascii?Q?GHIcr+D684O1H8v1W5OxbO2vI7gwXQA59QaRvjjoiqZddudhvSMfCnR1AMjz?=
+ =?us-ascii?Q?yxEvTLrybf6JGadF7R2D9uDC1gwhI33ysKS04ImKbqr4xtvgYN7Pbuw8sLEA?=
+ =?us-ascii?Q?0iCB9ZD7W5YZkMl6lyTr7gZGHa6JjiFPF1TxfP16JeNX75WlxV2N1GKCKWcN?=
+ =?us-ascii?Q?SMVZHIaMkLOdUQcsqP6rCfjK6jnZi2anPQ+RNR0PiO7x0Hgpw0pOQu0ZTtBd?=
+ =?us-ascii?Q?YyOpjyqhQ9lk6s8bKGbF0vFYvWuXkye4U/RXY65BOllWKxzM804gysYNOoRF?=
+ =?us-ascii?Q?dC1cOjltWQM1tmmkvDTbkxQm1H68uKB4x0WMg8Zs7/NqEHL7dgfcspYbU0lP?=
+ =?us-ascii?Q?5GJpPL3YR0iWXpgID9xvEmEKUiWn15flapuB7t6502rMNrOeO4I1RIT6yq6/?=
+ =?us-ascii?Q?/BKdstqOFKZGpTC7EjjvSTyKCpxYNAHu57/YBS5lb4YMkIQZD27CQOeebQQ/?=
+ =?us-ascii?Q?SMcw182IXfXXoIA6k79fuD8mU/p03UUdo21oF8pQmOs2LaatDtH3j2Cqeqbf?=
+ =?us-ascii?Q?8nqp1TnZ8IWJgr0BypCIXjGC4JaGUTgy1AGo/DKHgoaDCsbAGZEgweotNTIi?=
+ =?us-ascii?Q?FIkWGJEqvoAxFnxLIGMo8MDKFQ6OdaBxF3KfYAJuDga88aeTbLs99kVA/4yc?=
+ =?us-ascii?Q?XBjTKgkLmkeEMSdeQewOuLcS38FGWGZ9If9foj8aL77BkXmKcXPWizUpXvdi?=
+ =?us-ascii?Q?Tfeg+qmkunYJ6JTIYyPd/06eEQcdAsTXopixX1Pif+lZPYZGmL3P9K62tatQ?=
+ =?us-ascii?Q?LMccwSovUdC0KkU4mFt0xZhLCR+q1/MQYZ6CrkuGzz0g0m+lPJhIjQZQ9G7o?=
+ =?us-ascii?Q?2dW72ohs95b4CbFDF3DgBv63XgxNIVGXzvObGzOmaVyjDdJkfdfk8xWTm3Wd?=
+ =?us-ascii?Q?7gqbf++ljkr7Vg1qaL6+UZsDOBVh2Kc2sizGf3r4YwPVvoZxLhNmC2Vgbiuf?=
+ =?us-ascii?Q?1Qv9NsGk25EIqdCnFgJ1LaAFKBknc6crskg5DJwRHnrDUxKODbjR1zICWpDQ?=
+ =?us-ascii?Q?bxD/DhRbfzqpfmw4IhdSFVikofx2eElaC/XXRYTh4gmlCGZTopvgHOKupQSe?=
+ =?us-ascii?Q?2bGE9jpaSmObmUgp7dJeFd6uh2ME5tstOy6kIq1CLQROD4M3bUw7moRaxVUR?=
+ =?us-ascii?Q?VDepCuS6/Q=3D=3D?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49ebb15c-f737-4677-6056-08de5e1dc472
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2026 03:31:47.9469
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /SC7ZZkkrw7yp7SsHOZH0D7zVB8tx/YO577f1OUmsgPguia7nupiC00ihrLOdiQ0lTpTvbRM2+O6s3OnGDOBcA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP123MB3222
 
-ClRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFjawoKcGF0Y2gzIHByaW1hcmlseSBpbmNsdWRlcyBj
-b2RlIHRoYXQgZG9lcyBub3QgcmVxdWlyZSBleHRlbnNpdmUgcmV2aWV3LApzdWNoIGFzIHRoZSBt
-ZXNzYWdlIGNvZGVzIGFuZCBtZXNzYWdlIGJvZHkgc3RydWN0dXJlcyBkZWZpbmVkIGluCm5ibF9k
-ZWZfY2hhbm5lbC5oLiBUaGVzZSBjb21wb25lbnRzIGFyZSBnZW5lcmFsbHkgc3RhYmxlIGFuZAp1
-c2VkIGZvciBQRi9WRiBjb21tdW5pY2F0aW9uLCB3aGljaCBpcyB3aHkgdGhleSB3ZXJlIGluaXRp
-YWxseQppbmNsdWRlZCBpbiBQYXRjaCAzLiBIb3dldmVyLCBiYXNlZCBvbiByZXZpZXcgZmVlZGJh
-Y2ssIEkgd2lsbApleHRyYWN0IHRoZXNlIG1hbnVhbGx5IHdyaXR0ZW4gY29tbXVuaWNhdGlvbiBw
-cm90b2NvbCBkZWZpbml0aW9ucy4KCkFkZGl0aW9uYWxseSwgSSB3aWxsIG1ha2UgYW5vdGhlciBy
-b3VuZCBvZiBjb21wcmVoZW5zaXZlIGNvZGUKcmVkdWN0aW9uIHRvIG1lZXQgdGhlIHN1Ym1pc3Np
-b24gcmVxdWlyZW1lbnRzIGFzIG11Y2ggYXMgcG9zc2libGUuCgoKLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCuWPkeS7tuS6
-uu+8mkpha3ViIEtpY2luc2tpIDxrdWJhQGtlcm5lbC5vcmc+CuWPkemAgeaXtumXtO+8mjIwMjbl
-ubQx5pyIMjjml6Uo5ZGo5LiJKSAwMjo1MwrmlLbku7bkurrvvJpTaW1vbiBIb3JtYW48aG9ybXNA
-a2VybmVsLm9yZz47IElsbHVzaW9uIFdhbmc8aWxsdXNpb24ud2FuZ0BuZWJ1bGEtbWF0cml4LmNv
-bT4K5oqE44CA6YCB77yaRGltb248ZGltb24uemhhb0BuZWJ1bGEtbWF0cml4LmNvbT47IEFsdmlu
-PGFsdmluLndhbmdAbmVidWxhLW1hdHJpeC5jb20+OyBTYW08c2FtLmNoZW5AbmVidWxhLW1hdHJp
-eC5jb20+OyBuZXRkZXY8bmV0ZGV2QHZnZXIua2VybmVsLm9yZz47ICJhbmRyZXcrbmV0ZGV2Ijxh
-bmRyZXcrbmV0ZGV2QGx1bm4uY2g+OyBjb3JiZXQ8Y29yYmV0QGx3bi5uZXQ+OyAibGludXgtZG9j
-IjxsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnPjsgbG9yZW56bzxsb3JlbnpvQGtlcm5lbC5vcmc+
-OyBwYWJlbmk8cGFiZW5pQHJlZGhhdC5jb20+OyAidmFkaW0uZmVkb3JlbmtvIjx2YWRpbS5mZWRv
-cmVua29AbGludXguZGV2PjsgImx1a2FzLmJ1bHdhaG4iPGx1a2FzLmJ1bHdhaG5AcmVkaGF0LmNv
-bT47IGhhd2s8aGF3a0BrZXJuZWwub3JnPjsgYXN0PGFzdEBrZXJuZWwub3JnPjsgYnBmPGJwZkB2
-Z2VyLmtlcm5lbC5vcmc+OyBzZGY8c2RmQGZvbWljaGV2Lm1lPjsgZGFuaWVsPGRhbmllbEBpb2dl
-YXJib3gubmV0PjsgImpvaG4uZmFzdGFiZW5kIjxqb2huLmZhc3RhYmVuZEBnbWFpbC5jb20+OyBl
-ZHVtYXpldDxlZHVtYXpldEBnb29nbGUuY29tPjsgb3BlbiBsaXN0PGxpbnV4LWtlcm5lbEB2Z2Vy
-Lmtlcm5lbC5vcmc+CuS4u+OAgOmimO+8mlJlOiBbUEFUQ0ggdjMgbmV0LW5leHQgMDAvMTVdIG5i
-bCBkcml2ZXIgZm9yIE5lYnVsYW1hdHJpeCBOSUNzCgoKT24gVHVlLCAyNyBKYW4gMjAyNiAxODow
-Njo0OSArMDAwMCBTaW1vbiBIb3JtYW4gd3JvdGU6Cj4gQXMgcGVyIEpha3ViJ3MgYWR2aWNlIGlu
-IGhpcyByZXZpZXcgb2YgdjEgWypdLAo+IFBsZWFzZSB0cnkgdG8gY3JlYXRlIGEgbWluaW1hbCBk
-cml2ZXIgaW4gdGhlIG9yZGVyIG9mIH41a0xvQy4KClBlcmhhcHMgb3RoZXIgbWFpbnRhaW5lcnMg
-d2lsbCBkaXNhZ3JlZSwgYnV0IGZvciBlYXNlIG9mIHJldmlldwphbmQgdG8gYXZvaWQgdGhlIGh1
-Z2UgcmVwb3N0cyBwZXJoYXBzIHdlIHNob3VsZCBjb25zaWRlciBtZXJnaW5nCnNvbWV0aGluZyBs
-aWtlIHBhdGNoZXMgMSBhbmQgMyogZmlyc3QsIGFzIHRoZSBpbml0aWFsIHNlcmllcy4KQW5kIHRo
-ZW4geW91IGNhbiBidWlsZCB1cCB0aGUgZHJpdmVyIGZyb20gdGhlcmUgaW4gcmVhc29uYWJsZSwK
-NWtMb0MtYXQtYS10aW1lIHNlcmllcz8KCiAqIHBhdGNoIDMgY3VycmVudGx5IGluY2x1ZGVzIHRo
-aW5ncyB3aGljaCBkbyBub3Qgc2VlbSBtYWNoaW5lCiDCoCBnZW5lcmF0ZWQgLyBsaWtlIHJlZ2lz
-dGVyIGRlc2NyaXB0b3JzIGxpa2Ugc3RydWN0cyBhZGRlZCB0bwogwqAgbmJsX2RlZl9jaGFubmVs
-LmggYW5kIG5ibF9pbmNsdWRlLmgK
+Hi Rafael, Danilo, Pavel, Len,
+
+Users currently lack a mechanism to define granular, per-CPU PM QoS
+resume latency constraints during the early boot phase.
+
+While the "idle=poll" boot parameter exists, it enforces a global
+override, forcing all CPUs in the system to "poll". This global approach
+is not suitable for asymmetric workloads where strict latency guarantees
+are required only on specific critical CPUs, while housekeeping or
+non-critical CPUs should be allowed to enter deeper power states to save
+energy.
+
+Additionally, the existing sysfs interface
+(/sys/devices/system/cpu/cpuN/power/pm_qos_resume_latency_us) becomes
+available only after userspace initialisation. This is too late to
+prevent deep C-state entry during the early kernel boot phase, which may
+be required for debugging early boot hangs related to C-state
+transitions or for workloads requiring strict latency guarantees
+immediately upon system start.
+
+This patch introduces the pm_qos_resume_latency_us kernel boot
+parameter, which allows users to specify distinct resume latency
+constraints for specific CPU ranges.
+
+	Syntax: pm_qos_resume_latency_us=range:value,range:value...
+
+Unlike the sysfs interface which accepts the special string "n/a" to
+remove a constraint, this boot parameter strictly requires integer
+values. The special value "n/a" is not supported; the integer 0 must be
+used to represent a 0 us latency constraint (polling).
+
+For example:
+
+	"pm_qos_resume_latency_us=0:0,1-15:20"
+
+Forces CPU 0 to poll on idle; constrains CPUs 1-15 to not enter a sleep
+state that takes longer than 20 us to wake up. All other CPUs will have
+the default (no resume latency) applied.
+
+Implementation Details:
+
+	- The parameter string is captured via __setup() and parsed in
+	  an early_initcall() to ensure suitable memory allocators are
+	  available.
+
+	- Constraints are stored in a read-only linked list.
+
+	- The constraints are queried and applied in register_cpu().
+	  This ensures the latency requirement is active immediately
+	  upon CPU registration, effectively acting as a "birth"
+	  constraint before the cpuidle governor takes over.
+
+	- The parsing logic enforces a "First Match Wins" policy: if a
+	  CPU falls into multiple specified ranges, the latency value
+	  from the first matching entry is used.
+
+	- The constraints persist across CPU hotplug events.
+
+Please let me know your thoughts.
+
+
+Changes since v1 [1]:
+ - Removed boot_option_idle_override == IDLE_POLL check
+ - Decoupled implementation from CONFIG_CPU_IDLE
+ - Added kernel-parameters.txt documentation
+ - Renamed internal setup functions for consistency
+
+[1]: https://lore.kernel.org/lkml/20260123010024.3301276-1-atomlin@atomlin.com/
+
+Aaron Tomlin (1):
+  PM: QoS: Introduce boot parameter pm_qos_resume_latency_us
+
+ .../admin-guide/kernel-parameters.txt         |  23 +++
+ drivers/base/cpu.c                            |   5 +-
+ include/linux/pm_qos.h                        |   5 +
+ kernel/power/qos.c                            | 141 ++++++++++++++++++
+ 4 files changed, 172 insertions(+), 2 deletions(-)
+
+-- 
+2.51.0
+
