@@ -1,206 +1,150 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F72372B32
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 18:54:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769626481; cv=pass; b=NugXXhrYTrl+e6g0E+4Ngq8hJCR4PpsQGlz34f6wjvYf4+HgbQ1PwbZ3CPo5zLfYLedtNlnfiThavNpIF4vgi5xzkdDrqDSXABbQDohv0oBD4b5Y/ysyujEFiSDIzutibie5ovr+ET1659kJofEF/Ktful7pOhe85QN5jrpyab8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769626481; c=relaxed/simple;
-	bh=Iv/R1VrCmh7DPMnIVbKr+xqiK5DjA15w78PbjXQO200=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jfHraDtvhYQuuhwHnaMBbZXbh6Uoq8LNLwUzI9XvZWePEiiQR0e340WxI5PirHqUfcx+RREGQ/VQMeT2EXpjetQGawJrDJ3xIjCmnmbnA+AHhDvuJIcpGiS9yqPgwU0E1d3uaoxVpytCdhtH3U5djyes5qZtYDL51GQN7sJwMBk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMqWeIwI; arc=pass smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6DBF372B57;
+	Wed, 28 Jan 2026 18:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769626772; cv=none; b=Mc/980N0gQPc+YAZz5Ysz0HG0Ge9PJvCKDd9topTBD7gepMjGqUpZhwgLG//zjSqO6x/cQxtrXdWrvpwlIURf/Tq+4t0JpzkneZ58o4aOL1CFz+eoSBFxHEGdzCZLNOjwWR61FtoroApQIE/hFzkFv7/zGcuylBE2nWE/Jzw+r4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769626772; c=relaxed/simple;
+	bh=lAfWIXhDNPgKhfl+kFWnR4iuAVud1Cd3EevJcegc4Gc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GqTvpUP7/8OYwXWN4OAUxonAcMcMaBD7g8qqCCWFVPX1yGTs+u2ppC7bGiCZi6JqlEfDmxnNmnRLS+21rdWQtw5BM7eLA0/cgP3Qzr0Yz8lmf/KS0QDS3cZFoRYYcqS3fH3pOS0mkU1KDsooIzoaph2K8pep92AaSoDLN/mGJlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oof5qRSQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMqWeIwI"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-501506f448bso789301cf.3
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 10:54:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769626479; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gB3VlDYxdPp9eORsUKBCH1c7D2f73A04pvWzg3BVVyO8v1LkTVlO828zth5H/1o/Dh
-         n3RgzgPsa1QrqPJNu1bUb/MXuYk20u7d0hkWXveJyb/4PKzzEtD5Dlf1tNyxjp8ryu2e
-         RO1A//B2Ts34dlm3gQQQfvFgswDdW1871Xkfah6rwgD91JWaL/g+to/rntvQgH/a2v9r
-         aLXMcYTMW7p9S8amr90grgT2CeRMw/yA1TEMw+PJBBD8a1ikngPp76HbTI1+wFZyjEla
-         ljuKTrqVEAgeP25jeKP+3CdcEnhs08JPkGBDkBDAzYtjYSncJN9PJ96DWn94AtoECvpA
-         jHoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EQD+zhNe2TBSVN4C+gGjdPZJybKoBQIJM5cDvqByP90=;
-        fh=rDf0HYeK/A0sGdKwqydD4TiScfxfu42Wtz0WboZiXDU=;
-        b=TRO5+8pcE8YQCKhQeOvGmYl5ZOkDiMSxuSSjJk/cyGWQ05WsNNBR43OIaZP2fqK/ug
-         yvJNWf3cslq+zCdLZDEkRWU0LxvzO9WVlIoRnSJMly9DK/DPqj7b8QB9wVZoHJDtvZUW
-         7/6x/EqD/xsl2iqgwW1UFprzStHCpDdvlm0pNYwzkE67/ABea1e0GkgT6O935xDkH14l
-         RCIvjscRugEuZascpu+z6syW151gdApo7BZtSzr39FuKmV5oiZ33NSFVPy3uLlnCtWw9
-         U974X9YpX4KuKQ50pKcSd7Pg/6D3us8h6Ogqggiz9nxCDGe8vU95Yl9v5F2Ux+Yk/8NH
-         boAg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769626479; x=1770231279; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EQD+zhNe2TBSVN4C+gGjdPZJybKoBQIJM5cDvqByP90=;
-        b=nMqWeIwIAlKYcQIFhefA7zNtavrmv2uZ1Rq3jpT/gQrF4rV7DhVyyMlHiMWHWjMLBC
-         dkXaLYPg57lLfsY3ZY8e0H8v4bvI/UCaEew+WU/YHJQuVZF5765U3AN+toFuivAuYhYy
-         yblY7vDQ50Q4nsFIpY9Mto3Ehw0CGGg1kQwpiyJp73rAHafr+u4GfnCSYTsAxeA9bZPE
-         dN2GVo80uQViIUaIyHRJPeoMblJGhyzc6DmkWyFCXcXY1PjPTOH26nV3AokrrDa5y679
-         oE5oj4IfSJ65MBZ1Y2iPt/1OrlufxJRgRk13ygoW1CzpqiV07uTW5U+vrfgsIbits/cX
-         StSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769626479; x=1770231279;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EQD+zhNe2TBSVN4C+gGjdPZJybKoBQIJM5cDvqByP90=;
-        b=EMe+5nRuxAQn6TzWS8o/J0uESJ0u1LBPc/oowjnVTb51xwBX22bz+ckqRvwV8VNBQn
-         U6EXDyaURvix7h1YJqR6PHDOECXZYxNqZuL9mkQgSwbn5C/oKbbAsue6cq4w059EYd4/
-         3SRKIGxhDDL7jXOYU1VT8xnZqq3SCIsjFi9mLy9NuNLMYtFmpixJ02iSVyMPtyQnjCgJ
-         YwsI7ebQT9+ubuX6PtqSeQvRdnBjh24dlc5WuJhspxIJdXBtYtZnNAwrk15T9FWdlM3/
-         DIhNv5rORnkib/40CHnAtpPrdQsFqAYNhxKwdXzKgRYVYleRgVX4sBrUzAgfEoXM3k0X
-         +dqw==
-X-Forwarded-Encrypted: i=1; AJvYcCV46sLSgTc1Za0XCMD5Huy0RJoJ7RnY33/0ycDrwb33l+ce9PsAJf8EWyIuv0NHZWa2vhcsawhoea4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUd9+RaYxKND9yhJGwuWcIw2AI+U/NBJY7v3MXRnjP77iSw3DW
-	DLqBuM9Bb0O2Zd7bRbST9oors2HP0p5ezVRPBwP7EVG4eQIq7wfSlvCIrecjrnE/OezPdMqSUOW
-	3EAnnwUNZ3EHXJ8ioDqVd8yAzzrtz6fo=
-X-Gm-Gg: AZuq6aJjTj/U0fyHHFJczdL/pn9ZaIE+YlkD6xRV+ZiOwiAITb1Od3PvfPKoqI8KRky
-	BANDLN/fGYFWSc4Eje1MM1tii8mv+Kp/Nyfo6VADN5XbwoDOIlo/3oWb9SJsiJ+g9FROoTcr5Ga
-	k8lHnGQ2LD04LuVYnO6LNk3ElNkIU8o+feOsCg/6EoH6iw17BrWNq8oBcYOV/o3Mpwr/Fi7o/SB
-	q/0XhZ1hvpBEcJGpd24T9VWVqn4bAul08yEturi8la8zksP3VuxPCAv78rPIenPh3rWBw==
-X-Received: by 2002:a05:622a:1b91:b0:502:9b1f:ca4f with SMTP id
- d75a77b69052e-5032fc14d15mr83239651cf.84.1769626478464; Wed, 28 Jan 2026
- 10:54:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oof5qRSQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF09C4CEF1;
+	Wed, 28 Jan 2026 18:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769626772;
+	bh=lAfWIXhDNPgKhfl+kFWnR4iuAVud1Cd3EevJcegc4Gc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Oof5qRSQqzkmWl0gjp70a+zLjMywhlphIg+tNbYl3T1Y1IcGNsy/pMSCi/tDmQwtJ
+	 PGzDlGdZC0ycy7781Q5W4H5C24SMxX3CZlmGBgByrrjzbEipy9S+zJ5XDQMKpjwkFO
+	 w6btjZSjVkiSFT4SlS3GxI4MM9UdDbNthsjvhgZ0Vk7c+KK2BoQfpIQtg+6ekEYMmM
+	 czPPVWFUclMvglvkNiEqDw3ODkGqqhUO8u2icaBrZQ8GKAWn4vfr1KKbIOz4mcZTYq
+	 EwTJy2j5qwWUkJnJCqQyUVPGigSqLpNRUVjWaaErsxskkk3Y+y42DXUSlgDAfCrOV0
+	 r5fXe19H5dLsg==
+Date: Wed, 28 Jan 2026 19:59:27 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Frank.Li@nxp.com,
+	dlemoal@kernel.org, Koichiro Den <den@valinux.co.jp>,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] PCI: endpoint: pci-epf-test: Allow overriding default
+ BAR sizes
+Message-ID: <aXpcj8MfxsbrKl4O@ryzen>
+References: <20260123180747.827357-2-cassel@kernel.org>
+ <yowgralxd7i55p63wqc7jxffwz5iqtrlztndpqu5yqeavhtscn@ajwd6r27ra6a>
+ <aXo6w4AM-UgoyICd@ryzen>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260116125831.953.compound@groves.net> <20260116185911.1005-10-john@jagalactic.com>
- <20260116185911.1005-1-john@jagalactic.com> <0100019bc831c807-bc90f4c0-d112-4c14-be08-d16839a7bcb6-000000@email.amazonses.com>
- <aXoarMgfbL6rh6xi@groves.net> <CAJnrk1bvomN7_MZOO8hwf85qLztZys4LfCjfcs_ZUq8+YBk5Wg@mail.gmail.com>
- <0100019c05067b3b-b9ab2963-ace5-481f-8969-c11f80a74423-000000@email.amazonses.com>
-In-Reply-To: <0100019c05067b3b-b9ab2963-ace5-481f-8969-c11f80a74423-000000@email.amazonses.com>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Wed, 28 Jan 2026 10:54:26 -0800
-X-Gm-Features: AZwV_QgXH_eGEFbh8Ufwurz5i77r71GDNcEX490YVb0oLl5TmaOznNxDkpKSA1U
-Message-ID: <CAJnrk1Y6HayeS-C3sOEOc_CgaS_K=SedZNpHASAXAkgZyp3Xsg@mail.gmail.com>
-Subject: Re: [PATCH V5 09/19] famfs_fuse: magic.h: Add famfs magic numbers
-To: john@groves.net
-Cc: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aXo6w4AM-UgoyICd@ryzen>
 
-On Wed, Jan 28, 2026 at 6:33=E2=80=AFAM John Groves <john@jagalactic.com> w=
-rote:
->
-> On 26/01/27 01:55PM, Joanne Koong wrote:
-> > On Fri, Jan 16, 2026 at 11:52=E2=80=AFAM John Groves <john@jagalactic.c=
-om> wrote:
-> > >
-> > > From: John Groves <john@groves.net>
-> > >
-> > > Famfs distinguishes between its on-media and in-memory superblocks. T=
-his
-> > > reserves the numbers, but they are only used by the user space
-> > > components of famfs.
-> > >
-> > > Signed-off-by: John Groves <john@groves.net>
-> > > ---
-> > >  include/uapi/linux/magic.h | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > >
-> > > diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
-> > > index 638ca21b7a90..712b097bf2a5 100644
-> > > --- a/include/uapi/linux/magic.h
-> > > +++ b/include/uapi/linux/magic.h
-> > > @@ -38,6 +38,8 @@
-> > >  #define OVERLAYFS_SUPER_MAGIC  0x794c7630
-> > >  #define FUSE_SUPER_MAGIC       0x65735546
-> > >  #define BCACHEFS_SUPER_MAGIC   0xca451a4e
-> > > +#define FAMFS_SUPER_MAGIC      0x87b282ff
-> > > +#define FAMFS_STATFS_MAGIC      0x87b282fd
-> >
-> > Could you explain why this needs to be added to uapi? If they are used
-> > only by userspace, does it make more sense for these constants to live
-> > in the userspace code instead?
-> >
-> > Thanks,
-> > Joanne
->
-> Hi Joanne,
->
-> I think this is where it belongs; one function of uapi/linux/magic.h is a=
-s
-> a "registry" of magic numbers, which do need to be unique because they're
-> the first step of recognizing what is on a device.
->
-> This is a well-established ecosystem with block devices. Blkid / libblkid
-> scan block devices and keep a database of what devices exist and what
-> appears to be on them. When one adds a magic number that applies to block
-> devices, one sends a patch to util-linux (where blkid lives) to add abili=
-ty
-> to recognize your media format (which IIRC includes the second recognitio=
-n
-> step - if the magic # matches, verify the superblock checksum).
->
-> For character dax devices the ecosystem isn't really there yet, but the
-> pattern is the same - and still makes sense.
->
-> Also, 2 years ago in the very first public famfs patch set (pre-fuse),
-> Christian Brauner told me they belong here [1].
+On Wed, Jan 28, 2026 at 05:35:15PM +0100, Niklas Cassel wrote:
+> On Wed, Jan 28, 2026 at 01:47:45PM +0530, Manivannan Sadhasivam wrote:
 
-Hi John,
+(snip)
 
-Thanks for the context. I was under the impression include/uapi/ was
-only for constants the kernel exposes as part of its ABI. If I'm
-understanding it correctly, FAMFS_SUPER_MAGIC is used purely as an
-on-disk format marker for identification by userspace tools. Why
-doesn't having the magic number defined in the equivalent of
-blkid/libblkid for dax devices and defined/used in the famfs
-server-side implementation suffice for that purpose? I'm asking in
-part because it seems like a slippery slope to me where any fuse
-server could make the same argument in the future that their magic
-constant should be added to uapi.
+> But I am slightly worried of the complexity it brings...
+> Because we already have an .epc_init callback in an EPF driver.
+> If we also bring add a ".pre_start_link" callback in an EPF driver,
+> how should an EPF driver developer know what to put in each callback?
+> 
+> I guess in that case we would want to remove the .epc_init callback?
+> 
+> (Because calling .set_bar() etc. should work to be called in a
+> .pre_start_link for both those driver relying on external refclock and
+> for those that don't.
+> 
+> If you do
+> # echo 1 > controllers/a40000000.pcie-ep/start
+> on a platform that requires an external reflock, before the external
+> refclock is available, that is your own fault.
+> 
+> I guess we could detect that and give a nice error.)
 
-For Christian's comment, my understanding was that with the pre-fuse
-patchset, it did need to be in uapi because the kernel explicitly set
-sb->s_magic to it, but with famfs now going through fuse, sb->s_magic
-uses FUSE_SUPER_MAGIC.
+pci_epf_test_alloc_space() is called by pci_epf_test_bind().
 
-Thanks,
-Joanne
+pci_epc_set_bar() is called by pci_epf_test_epc_init().
 
->
-> But if the consensus happens to have moved since then, NP...
->
-> Regards,
-> John
->
-> [1] https://lore.kernel.org/linux-fsdevel/20240227-kiesgrube-couch-77ee2f=
-6917c7@brauner/
->
->
+On platforms that do not require an external reference clock to do
+register writes to their own config space, i.e. all drivers except
+(pcie-qcom and pcie-tegra194), a single configfs link command will cause
+both both of these callback to be called directly after each other:
+
+# ln -s functions/pci_epf_test/func1 controllers/a40000000.pcie-ep/
+[  578.073152] pci_epf_test_bind
+[  578.075614] pci_epf_test_epc_init
+
+
+So, unless we want to change the design of pci-epf-test to:
+1) Move the allocation of BARs from .bind() to a new
+   .pre_start_link() callback.
+2) Move the call to pci_epc_set_bar() from epc_init() to a new
+   .pre_start_link() callback.
+3) Remove the now unused .epc_init() callback.
+
+...and for consistency, we would also need to do these steps for all
+the other existing EPF drivers...
+
+I am not convinced that it is worth reworking the EPF callbacks for this
+(test driver) feature, which will only used for PCI endpoint developers,
+especially given the complexity it would require.
+
+For platforms drivers that require external reference clock, is it possible
+to call
+echo 1 > start
+
+before we get refclock?
+
+If so the design would probably need to be changed even more drastically...
+
+
+
+When we introduce .epc_init, one of the reasons why we decided to have
+alloc_space() and set_bar() in two different callbacks, was if a host driver
+toggled PERST, the EPF driver would not need to call free() on the backing
+memory it has allocated, e.g. I can see that pci_epf_test_epc_deinit() calls
+clear_bar(), but the only place that actually frees the memory backing the
+BARs is pci_epf_test_unbind().
+
+
+What if the user wants to do:
+
+# echo 1024 > functions/pci_epf_test/func1/pci_epf_test.0/bar1_size
+# echo 0 > controllers/a40000000.pcie-ep/start
+# echo 2048 > functions/pci_epf_test/func1/pci_epf_test.0/bar1_size
+# echo 1 > controllers/a40000000.pcie-ep/start
+
+Do we want to make the allocation each time we echo 1 > start... ?
+
+If someone stops the link.. is it really wrong to free the memory?
+
+I'm not against this design, but with the complexity that we want
+.epc_init() to only call set_bar(), and we probably want .pre_start_link()
+to call alloc_space()...
+
+I don't think that the small feature in this patch is enough
+justification to modify how all EPF driver to their backing memory
+allocations just for this...
+
+Instead I will just send a new version such that if the user get -EINVAL
+if trying to change bar*_size in configfs AFTER the EPF has been bound to
+an EPC (i.e. it can only be done before binding to an EPC.), as that seems
+like the most pragmatic compromise that will avoid (another) redesign of
+the EPF callbacks.
+
+
+Kind regards,
+Niklas
