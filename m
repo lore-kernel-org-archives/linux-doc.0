@@ -1,134 +1,157 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E1234FF59;
-	Wed, 28 Jan 2026 12:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5F12FB0B4;
+	Wed, 28 Jan 2026 12:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769604975; cv=none; b=fFSDbLa6lF61EaiK9o959gRv8uNJd7m42VhidtssBZ3bSVoRg5jm++kbkscvypEf6GlFF7cHi5+MXJpVJTrHQiR0XC5DpkkKMl64+BKqVG95junSJkv5o7unSG/jlsFk1wMTntn8fGTpwbN/3FROuRkezC1dzdCyuOJzmRz3mWU=
+	t=1769605176; cv=none; b=RjlAbDmE1Y3sewD382cPlea5VrmOdJfjhDJ8K7b6FjzHdi+ifxmfMRHBXkv53pxRO2e9FsUu8O8HsEi9mJXklBq8kJZmNavbvb0rYqEb5X3E8FUwWu8rDFCSrd8mORHL080cxw/x+FjwXB9jkUlaC9oKGiNgUj/tYiMU2mpL3pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769604975; c=relaxed/simple;
-	bh=9IJ4CsI3azrt2akw/y/viNEErdy5VYNOL4a3Nwm3XmY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=tvXc8xtCjhSHy3xEir52ccNpt3yrSWAvbpxis3a1eOtH/gW9IzWt05tJJr44tHVt8+KmAVbd1X4jm4qSF7G+tnwNXbG+sVJQ5dPDckBOt43YtXEJRGdw+v56IGvmV/oUztiGyZrT+usTV/vMr/4rS+PvDD7ddcI//qUxIV+dx3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: b64d3e4afc4811f0b0f03b4cfa9209d1-20260128
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_UNTRUSTED, SRC_UNTRUSTED, IP_UNFAMILIAR, SRC_UNFAMILIAR
-	DN_TRUSTED, SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_TRUSTED
-	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_GOOD_SPF
-	CIE_UNKNOWN, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD
-	ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:92eb13ed-6a87-41e9-ad00-44c723de46b5,IP:10,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:-20
-X-CID-INFO: VERSION:1.3.6,REQID:92eb13ed-6a87-41e9-ad00-44c723de46b5,IP:10,URL
-	:0,TC:0,Content:-25,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-20
-X-CID-META: VersionHash:a9d874c,CLOUDID:3c76fa077e3e311b2dc2ad8b2ae08010,BulkI
-	D:2601282056087V6MGO1B,BulkQuantity:0,Recheck:0,SF:17|19|38|66|78|81|82|10
-	2|127|850|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bu
-	lk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:
-	0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: b64d3e4afc4811f0b0f03b4cfa9209d1-20260128
-X-User: tianyaxiong@kylinos.cn
-Received: from localhost.localdomain [(175.2.149.138)] by mailgw.kylinos.cn
-	(envelope-from <tianyaxiong@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 1998762990; Wed, 28 Jan 2026 20:56:07 +0800
-From: Yaxiong Tian <tianyaxiong@kylinos.cn>
-To: mhiramat@kernel.org,
-	rostedt@goodmis.org,
-	axboe@kernel.dk,
-	mathieu.desnoyers@efficios.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-trace-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Yaxiong Tian <tianyaxiong@kylinos.cn>
-Subject: [PATCH v4 5/5] blktrace: Make init_blk_tracer() asynchronous when trace_async_init set
-Date: Wed, 28 Jan 2026 20:55:54 +0800
-Message-Id: <20260128125554.1717261-1-tianyaxiong@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260128125117.1704853-1-tianyaxiong@kylinos.cn>
-References: <20260128125117.1704853-1-tianyaxiong@kylinos.cn>
+	s=arc-20240116; t=1769605176; c=relaxed/simple;
+	bh=MWbIAfBchoyoNYFkExtCSdFr3OpWnWDSLBb7n5YyyiM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UlljmokXIY00UibLI66uMqkgXB1X6ERvjpo+cHes8DCnvmXcmboMyzhVZrmRx0Lw8OfCQ5Dk77I0KscVddZCKxhCbc4iMaDguUHjXARh24y+KTDXQS4mdZhseRRwwnNq65NZc7MKByUJCqWU05ZMZbSWJyszZgINGGAuyJ2Qvak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NBTfHOg/; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NBTfHOg/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEC5FC116C6;
+	Wed, 28 Jan 2026 12:59:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769605175;
+	bh=MWbIAfBchoyoNYFkExtCSdFr3OpWnWDSLBb7n5YyyiM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NBTfHOg/whqQDUteF39OH1O7ZJV51aj1KWZNMqn2BlAwriZqvU9IoZ/jZGACQeOOs
+	 RY7LMe0UJOen4cmLwQBNrDcMDy56MPDWJ7np7Ikasy4kHva3n0BUX8hR6aL9EOi9YE
+	 mlXIwUdNS4qAm74KUFZ20w3K6tOlCi4sVloSu+xt0crpAue8ir9NQbWD8IwuLWwc+h
+	 YMBsDW8aw/h+cIyR4oLjLbBpX7mBlzGfiasa67G+soyR4d3nNiMo977M0sdrh3WSiy
+	 yj6QsWFFsFGfkkF0mMHShiviwCxiDvGQSKWEm2oUnrF5vN+s9IOjnJboogs7pY7RaV
+	 DiaYPOiCYs61w==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id BCE41F40077;
+	Wed, 28 Jan 2026 07:59:33 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Wed, 28 Jan 2026 07:59:33 -0500
+X-ME-Sender: <xms:NQh6afJ7LEqqoM5OQSBBhs1ZhRV5cTf9wzuYgk14848G84yEUL4JXg>
+    <xme:NQh6aehQo8l2ezJmorIdL7M6yzV1beZOHBIYpcHHCn0MjO6m28O33o2rlRu4WKY-g
+    BGFt2JyJ-htIcu3PBsrEpT6BkAbnyKg3-y_Cf0KpHY90_DvZIxNBg>
+X-ME-Received: <xmr:NQh6aRHpyody9eTimhv_gyGyZe_jgAV4SdZQpmXiadWipdjHg7ntDgmQQtOrEg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduieefgeefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefmihhrhihl
+    ucfuhhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtth
+    gvrhhnpeeigfdvtdekveejhfehtdduueeuieekjeekvdfggfdtkeegieevjedvgeetvdeh
+    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkih
+    hrihhllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieeh
+    hedqvdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovh
+    drnhgrmhgvpdhnsggprhgtphhtthhopeefkedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepmhhutghhuhhnrdhsohhngheslhhinhhugidruggvvhdprhgtphhtthhopehosh
+    grlhhvrgguohhrsehsuhhsvgdruggvpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehvsggrsghkrgesshhushgvrdgtiidprhgtphhtthhopehloh
+    hrvghniihordhsthhorghkvghssehorhgrtghlvgdrtghomhdprhgtphhtthhopeiiihih
+    sehnvhhiughirgdrtghomhdprhgtphhtthhopegshhgvsehrvgguhhgrthdrtghomhdprh
+    gtphhtthhopehmhhhotghkohesshhushgvrdgtohhmpdhrtghpthhtohephhgrnhhnvghs
+    segtmhhpgigthhhgrdhorhhg
+X-ME-Proxy: <xmx:NQh6aQLK4Svpd37QFpMIaymOrWp1qX2ZTSoVI1al2iVT_IfrNGYaTQ>
+    <xmx:NQh6aR-6IYa0nfLGKvBuinoM9HaZ1f-cbZ_w4jpQlSYZA0loNeZtCw>
+    <xmx:NQh6aSdDjX6urIZ_w9RfeIvmxqcCdOAVohyQ46LpJhQWyc_Q0uqfmg>
+    <xmx:NQh6aelrkE7J2Oj3AEWTG9Sesr0fqbLAaX-QIFQtaGLKQVLLHSqMcg>
+    <xmx:NQh6aeGioZD_gZGiZgG1YG8MLXwUDabCbuNEzFIW8SNHV1PjIH2Lh723>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 28 Jan 2026 07:59:32 -0500 (EST)
+Date: Wed, 28 Jan 2026 12:59:26 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Muchun Song <muchun.song@linux.dev>
+Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>, 
+	Frank van der Linden <fvdl@google.com>
+Subject: Re: [PATCHv4 09/14] mm/hugetlb: Remove fake head pages
+Message-ID: <aXoHb5fYfZNQxmMe@thinkstation>
+References: <20260121162253.2216580-1-kas@kernel.org>
+ <20260121162253.2216580-10-kas@kernel.org>
+ <ffe9811b-d7f8-4924-9ad6-96057a16b693@linux.dev>
+ <aXjPf_fIWX74YVWD@thinkstation>
+ <25C01EB2-FC77-43A5-A737-7BD3D2D98EDE@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <25C01EB2-FC77-43A5-A737-7BD3D2D98EDE@linux.dev>
 
-The init_blk_tracer() function causes significant boot delay as it
-waits for the trace_event_sem lock held by trace_event_update_all().
-Specifically, its child function register_trace_event() requires
-this lock, which is occupied for an extended period during boot.
+On Wed, Jan 28, 2026 at 10:43:13AM +0800, Muchun Song wrote:
+> 
+> 
+> > On Jan 27, 2026, at 22:51, Kiryl Shutsemau <kas@kernel.org> wrote:
+> > 
+> > On Thu, Jan 22, 2026 at 03:00:03PM +0800, Muchun Song wrote:
+> >>> + if (pfn)
+> >>> + 	return pfn_to_page(pfn);
+> >>> +
+> >>> + tail = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, 0);
+> >>> + if (!tail)
+> >>> + 	return NULL;
+> >>> +
+> >>> + p = page_to_virt(tail);
+> >>> + for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+> >>> + 	prep_compound_tail(p + i, NULL, order);
+> >>> +
+> >>> + spin_lock(&hugetlb_lock);
+> >> 
+> >> hugetlb_lock is considered a contended lock, better not to abuse it.
+> >> cmpxchg() is enought in this case.
+> > 
+> > We hit the lock once per node (excluding races). Its contribution to the
+> > lock contention is negligible. spin_lock() is easier to follow. I will
+> > keep it.
+> 
+> I don't think cmpxchg() is hard to follow. It’s precisely because of
+> your abuse that interrupts still have to be disabled here—hugetlb_lock
+> must be an irq-off lock. Are you really going to use spin_lock_irq just
+> because “it feels simpler” to you?
 
-To resolve this, when the trace_async_init parameter is enabled, the
-execution of primary init_blk_tracer() is moved to the trace_init_wq
-workqueue, allowing it to run asynchronously. and prevent blocking
-the main boot thread.
+I looked again at it and reconsidered. I will use cmpxchg(), but mostly
+because hugetlb_lock is a bad fit to protect anything in pg_data_t.
+vmemmap_tails can be used by code outside hugetlb.
 
-Signed-off-by: Yaxiong Tian <tianyaxiong@kylinos.cn>
----
- kernel/trace/blktrace.c | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+Here's the fixup.
 
-diff --git a/kernel/trace/blktrace.c b/kernel/trace/blktrace.c
-index d031c8d80be4..56c7270ec447 100644
---- a/kernel/trace/blktrace.c
-+++ b/kernel/trace/blktrace.c
-@@ -1832,7 +1832,9 @@ static struct trace_event trace_blk_event = {
- 	.funcs		= &trace_blk_event_funcs,
- };
+diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+index 29e9bbb43178..63e7ca85c8c9 100644
+--- a/mm/hugetlb_vmemmap.c
++++ b/mm/hugetlb_vmemmap.c
+@@ -512,18 +512,11 @@ static struct page *vmemmap_get_tail(unsigned int order, int node)
+ 	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+ 		prep_compound_tail(p + i, NULL, order);
  
--static int __init init_blk_tracer(void)
-+static struct work_struct blktrace_works __initdata;
-+
-+static int __init __init_blk_tracer(void)
- {
- 	if (!register_trace_event(&trace_blk_event)) {
- 		pr_warn("Warning: could not register block events\n");
-@@ -1852,6 +1854,25 @@ static int __init init_blk_tracer(void)
- 	return 0;
- }
- 
-+static void __init blktrace_works_func(struct work_struct *work)
-+{
-+	__init_blk_tracer();
-+}
-+
-+static int __init init_blk_tracer(void)
-+{
-+	int ret = 0;
-+
-+	if (trace_init_wq && trace_async_init) {
-+		INIT_WORK(&blktrace_works, blktrace_works_func);
-+		queue_work(trace_init_wq, &blktrace_works);
-+	} else {
-+		ret = __init_blk_tracer();
+-	spin_lock(&hugetlb_lock);
+-	if (!NODE_DATA(node)->vmemmap_tails[idx]) {
+-		pfn = PHYS_PFN(virt_to_phys(p));
+-		NODE_DATA(node)->vmemmap_tails[idx] = pfn;
+-		tail = NULL;
+-	} else {
+-		pfn = NODE_DATA(node)->vmemmap_tails[idx];
+-	}
+-	spin_unlock(&hugetlb_lock);
+-
+-	if (tail)
++	pfn = PHYS_PFN(virt_to_phys(p));
++	if (cmpxchg(&NODE_DATA(node)->vmemmap_tails[idx], 0, pfn)) {
+ 		__free_page(tail);
++		pfn = READ_ONCE(NODE_DATA(node)->vmemmap_tails[idx]);
 +	}
-+
-+	return ret;
-+}
-+
- device_initcall(init_blk_tracer);
  
- static int blk_trace_remove_queue(struct request_queue *q)
+ 	return pfn_to_page(pfn);
+ }
 -- 
-2.25.1
-
+  Kiryl Shutsemau / Kirill A. Shutemov
