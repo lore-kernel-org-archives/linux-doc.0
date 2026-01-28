@@ -1,235 +1,108 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6892A1A3164
-	for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 00:21:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769559676; cv=pass; b=aUsDOPho6FsdwuPq3GU+XKjLRvDnobsNW4lOaFHuZTwrv47JTXLsltQI3CQS4lnnpxXFxcV39urKb/oVmlVOHk5QpjER3Bv85uOXdt+vKV9rN+BGqrMsnoBXYB8uxyFfLWCyfOu4GzOGVZlmvN+ytDaCM2jRllQZmpEkr0zD3tw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769559676; c=relaxed/simple;
-	bh=/kA8M2mqA273+dmaL09+/9pRCOJMn38c8HSeLt8VdYo=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mJqpBLpRTaFRkIZPHD8H3vwYOO/zWWJqjE8bsQO63IoCzk2gJvTEYuI9NMPpCtLMekQkqtZOf9Z6QeKu0SJR5NRnYa0L6ozVuxAoyYLOuj9BzE5J8mG6hpxU+WyKP1HGY3XlTISweQa945Kvn2x97LG5PLvphzMN6P8zQTOmTns=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=zLxVLiLw; arc=pass smtp.client-ip=209.85.222.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA7919AD8B;
+	Wed, 28 Jan 2026 00:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769559726; cv=none; b=jZ0Ti7yhFqVlD/IGQxJdaxowmGkZTpwIkn5VdfxCEynyiTykOCngvTTFevTJfs1OLmA/9HDaLtgN1GVeVUB2m09114TO7FukFwfTmSLpPHcPm1z5WbV83luxBAJK9SC9szRgjoJdIHiIWdTsCikyvG8hOBJZ+bKfSwmx09CyndQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769559726; c=relaxed/simple;
+	bh=tHZRbBKdrQ24TTCeKB/FKmWwUU7znePxzR9d7riih50=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YLSZ0brelEoOl+2VbKmhd9DlFaPaOBGeboN98qESIQrhHKxDXXagvwgjYNPQXdYwfram3j1zT12s5nxm6bqM+dCPfny7dCwJezH+o9CPiXvTgd+1vPagFtDQ94SJUAjcO9EVASdes43V/SYN/Pxg3/GDUxwc+Nh0q5GhdXMnKi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=v48nL1sF; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="zLxVLiLw"
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-94801cf4bb8so1813564241.3
-        for <linux-doc@vger.kernel.org>; Tue, 27 Jan 2026 16:21:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769559673; cv=none;
-        d=google.com; s=arc-20240605;
-        b=L9U+LN0hHt2p4VKb/N/8Bd1q1AV+d+G7D5hTYI/rugFb+qrTRUAiV0z+pupDewSxJI
-         0vA8uLa0nJDv9QGwdOLYigft824vqDpm2fWDaEf3cx0iHuSKBA6QlejcZAoLVfChvwep
-         hUIFTPDIsF0DnXwrRiH4NdZoIFou+NyiJRCYOkS8yEWNi17OebS01hf4Aui60A8YggUt
-         eQUWvGbcrfaekDxDIN/kBs9sXQ5ELTqtQ0JHiTdJQjGwCHWjASzMj3HeCKFUZ86jxWkW
-         3JHvUYhoT4qjJaT5X/WFnkaawfAKrShoKA/mLHftYLhjQz29phMaoVWorkv+qZeUY73v
-         MHcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=dtv6l5aP4r9bRMzqX9oNvs3QGYC/8h1s4fLDq3qnO1s=;
-        fh=pTxjTDgqsZZfy31B/tMgNLinD50VjUieMHcJtdHcJxY=;
-        b=LLrTOl25esxP5K1dMmET5y87vh5ARGRNEC+Hi93SX74fLoFmGupHB3n/ohCM4L/ebY
-         FpzalEvZMhxI+XHSk3lMYGYIY91gbpexsQP6PUBDDncGLWUtM83itGigPjfplYmIPUkC
-         a61ip5LGfY6KihO9hxg7YOHp0ayWe5BkQ7UdEoNUBp16am7C+oqCo3Yrox9hX7Q1XL9w
-         r7hseF0BRXck3YLtiLDN0NJ9IVgj8cayhqmjeQdd26AkJhgvtwMUO+aBnNr7OeIBUvl3
-         K2J/xpRyN0/aSZ4Nhh/gesyNuJJ4z0B8rTGaha8+0z+qRIcMtKWUtCW7fBhaBkUsYkOn
-         qyWw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769559673; x=1770164473; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dtv6l5aP4r9bRMzqX9oNvs3QGYC/8h1s4fLDq3qnO1s=;
-        b=zLxVLiLwCl5TKZ5w6lbIQfLz95YzQ9rWelKRMBVskh1IgN7IUZ8J905zocwnkYbB12
-         9IU3w5q8ykIbETiMbYDppF4hkTGp5dovsYCfaTHfWxGp8uzY5bPUz2tlynmhUdtQJv8g
-         f0VIG5tCeMpqSwtNoOU4C1uoE/62uPwPPxImfNlXRHraU30DSQXQoR7lBjwCmPOu3f/f
-         b36LINQUU6r2jPZCumEMEduX+RkzSd/6zn4EDfmJl5j94rYPh08sDC5JymGyJkEPDkrq
-         7fHX+/BL2kTemKMa8JuCcxvLlTs46VgX32V4qAue126JYDenFRLX+3HXBmPdvqkpwcTB
-         VQog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769559673; x=1770164473;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dtv6l5aP4r9bRMzqX9oNvs3QGYC/8h1s4fLDq3qnO1s=;
-        b=X/P3WEKG75Bfu18UMk54YJzfI2PHqNIiNzShXDjSkrafN8Qf8kDrckO/HUnt3Qh0t3
-         VRtAX2KHUEHw3wxxjS4EWMsELN/Ti+TG2GPxpxgiOlh8OOArwPLBxuxrXtV/Na2aX7mb
-         KR1dxqSbvw08bBarP5aWgYxqfX/AnZNpSleeD7TOQAxEAQu4IDG4CDpyFp5ajUMTwTl9
-         tuKtV7GfaCOg6Hdhq22b8QaNSTEupSvc7aByhTlHMSuYsLRPvOyAb9eGQcmEiF9xxD1X
-         UTvOyd3rRNlIQ5qbfzqk547t5sOD2C4gXfvb5tJ8UIHMUFK11XLLdmvhHq6gjVKKLL/o
-         AAZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPQv0pyyT78Xn8Qp/hkAGWyYOjjMPPmR3Q4NvWqopByJf1wreMBllZaL3iElowxtutmIYWvVRVrQk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2lrBcbyGBhFtsZbLt+uzMc5Vq9fAohniDsZb/Ua1NghRMO94S
-	0YKnk6MYccQAn6EX04poqWq7d6QRRPu3L4DqyzFoj+LDuxNjGDkBnX4RPPa9zjLy6Ecx3QmgeYZ
-	4dY+wkCeYF7OhCWhWLkl/G3luoJ+Srvrr4xO+tXJ4
-X-Gm-Gg: AZuq6aIoGDTCgd5WpPdIW08IhCdZDp8t88gXEEDK9Q+d3KMZa2IFiqZspkitnxfj542
-	o3OAwp5gKX4sfVOOds8FHH3CoMOo+xT8Ff+LXyrrZZ1kUm1WQBQiNpenBtVnIsOqPJELyNaaI+o
-	s8F9mOSd7AcDu4GGVsk2Vo+DrBuphe/PzkpvhaTj9UMcaCpxE56MZQo5WjVjG2AjAEh6M+BLcHW
-	cJEQsdhSUcvDMW6CV1FHyxZU3hCshjBNKRTgFDirhoYBZCYb5Mh3fO27+uragrlCfQlNfgUtYE+
-	PW+tP4b1hpeNmj6fabjSTN4IXg==
-X-Received: by 2002:a05:6102:2926:b0:5f5:2ab7:cef4 with SMTP id
- ada2fe7eead31-5f7236280c7mr1308564137.12.1769559672438; Tue, 27 Jan 2026
- 16:21:12 -0800 (PST)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 27 Jan 2026 16:21:11 -0800
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 27 Jan 2026 16:21:11 -0800
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <afddc163-4b1e-46ee-920a-85de3b347291@amazon.com>
-References: <20260114134510.1835-1-kalyazin@amazon.com> <20260114134510.1835-8-kalyazin@amazon.com>
- <e619ded526a2f9a4cec4f74383cef31519624935.camel@intel.com>
- <294bca75-2f3e-46db-bb24-7c471a779cc1@amazon.com> <CAEvNRgEvd9tSwrkaYrQyibO2DP99vgVj6_zr=jBH5+zMnJwYbA@mail.gmail.com>
- <afddc163-4b1e-46ee-920a-85de3b347291@amazon.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="v48nL1sF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=LdHZia+Ngfng4o3avS7DoPsoS1YMGswmRXLDVdplu/Q=; b=v48nL1sF8gTq+Uw5/juXkHp8TM
+	l2Kqn3B6grLKSdp1zVlWKkm789Vc6SszEbAGinaHe3N+FtQgeSagIChWrxBqatOGu7Smr53je3v3N
+	6t1ZGwagiko8pRow5bdHMJ+3vgNVS+6QynNWZF5HtamIO+DVsS8WteSajHf//SCDCPQ60yaqL3+Zr
+	IJzXiLOXTsV7Z+Ery1b+rfTrZnSUOYawXme8TZCsDe/3v7BalSryJ0iiWc8lMdjcu/PR+ApRreA4B
+	kKrpa5Ljr04z+3fa9Vm6TdOXujltaoBolOUnIXTxsNMXrGHh3YSJd8XMA5RedU4r6kfTXmOx7eOLK
+	a4mHoHUg==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vktJp-0000000FCXT-2mb0;
+	Wed, 28 Jan 2026 00:22:01 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Charles Hsu <hsu.yungteng@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	linux-hwmon@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] hwmon: pmbus: fix table in STEF48H28 documentation
+Date: Tue, 27 Jan 2026 16:22:00 -0800
+Message-ID: <20260128002200.1665941-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 27 Jan 2026 16:21:11 -0800
-X-Gm-Features: AZwV_QgCVtca03XgnQCypNXAbjgX301aeAGuQByaW4GAjqTre8UeoPpevsc7bzA
-Message-ID: <CAEvNRgFCwU7ezDV4Spj=H1JZohG9CSQRKMh_h1OGY1GrR2=7Eg@mail.gmail.com>
-Subject: Re: [PATCH v9 07/13] KVM: guest_memfd: Add flag to remove from direct map
-To: kalyazin@amazon.com, "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, 
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, 
-	"kalyazin@amazon.co.uk" <kalyazin@amazon.co.uk>, "kernel@xen0n.name" <kernel@xen0n.name>, 
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>, 
-	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "bpf@vger.kernel.org" <bpf@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"loongarch@lists.linux.dev" <loongarch@lists.linux.dev>
-Cc: "david@kernel.org" <david@kernel.org>, "palmer@dabbelt.com" <palmer@dabbelt.com>, 
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "svens@linux.ibm.com" <svens@linux.ibm.com>, 
-	"jgross@suse.com" <jgross@suse.com>, "surenb@google.com" <surenb@google.com>, 
-	"riel@surriel.com" <riel@surriel.com>, "pfalcato@suse.de" <pfalcato@suse.de>, 
-	"peterx@redhat.com" <peterx@redhat.com>, "x86@kernel.org" <x86@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>, 
-	"thuth@redhat.com" <thuth@redhat.com>, "maz@kernel.org" <maz@kernel.org>, 
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "ast@kernel.org" <ast@kernel.org>, 
-	"vbabka@suse.cz" <vbabka@suse.cz>, "Annapurve, Vishal" <vannapurve@google.com>, 
-	"borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>, 
-	"pjw@kernel.org" <pjw@kernel.org>, "tglx@linutronix.de" <tglx@linutronix.de>, 
-	"willy@infradead.org" <willy@infradead.org>, "hca@linux.ibm.com" <hca@linux.ibm.com>, 
-	"wyihan@google.com" <wyihan@google.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>, 
-	"jolsa@kernel.org" <jolsa@kernel.org>, 
-	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>, "jmattson@google.com" <jmattson@google.com>, 
-	"luto@kernel.org" <luto@kernel.org>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>, 
-	"haoluo@google.com" <haoluo@google.com>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>, 
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "coxu@redhat.com" <coxu@redhat.com>, 
-	"mhocko@suse.com" <mhocko@suse.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>, "jgg@ziepe.ca" <jgg@ziepe.ca>, 
-	"hpa@zytor.com" <hpa@zytor.com>, "song@kernel.org" <song@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>, 
-	"peterz@infradead.org" <peterz@infradead.org>, "maobibo@loongson.cn" <maobibo@loongson.cn>, 
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>, 
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "jthoughton@google.com" <jthoughton@google.com>, 
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "jhubbard@nvidia.com" <jhubbard@nvidia.com>, 
-	"Yu, Yu-cheng" <yu-cheng.yu@intel.com>, 
-	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>, "eddyz87@gmail.com" <eddyz87@gmail.com>, 
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>, 
-	"shuah@kernel.org" <shuah@kernel.org>, "prsampat@amd.com" <prsampat@amd.com>, 
-	"kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, 
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>, 
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "itazur@amazon.co.uk" <itazur@amazon.co.uk>, 
-	"pbonzini@redhat.com" <pbonzini@redhat.com>, "yuzenghui@huawei.com" <yuzenghui@huawei.com>, 
-	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>, 
-	"jackabt@amazon.co.uk" <jackabt@amazon.co.uk>, "daniel@iogearbox.net" <daniel@iogearbox.net>, 
-	"agordeev@linux.ibm.com" <agordeev@linux.ibm.com>, "andrii@kernel.org" <andrii@kernel.org>, 
-	"mingo@redhat.com" <mingo@redhat.com>, "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, 
-	"joey.gouly@arm.com" <joey.gouly@arm.com>, "derekmn@amazon.com" <derekmn@amazon.com>, 
-	"xmarcalx@amazon.co.uk" <xmarcalx@amazon.co.uk>, "kpsingh@kernel.org" <kpsingh@kernel.org>, 
-	"sdf@fomichev.me" <sdf@fomichev.me>, "jackmanb@google.com" <jackmanb@google.com>, "bp@alien8.de" <bp@alien8.de>, 
-	"corbet@lwn.net" <corbet@lwn.net>, "jannh@google.com" <jannh@google.com>, 
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kas@kernel.org" <kas@kernel.org>, 
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Nikita Kalyazin <kalyazin@amazon.com> writes:
+"make htmldocs" reports build errors/warnings:
 
-> On 22/01/2026 18:37, Ackerley Tng wrote:
->> Nikita Kalyazin <kalyazin@amazon.com> writes:
->>
->>> On 16/01/2026 00:00, Edgecombe, Rick P wrote:
->>>> On Wed, 2026-01-14 at 13:46 +0000, Kalyazin, Nikita wrote:
->>>>> +static void kvm_gmem_folio_restore_direct_map(struct folio *folio)
->>>>> +{
->>>>> +     /*
->>>>> +      * Direct map restoration cannot fail, as the only error condition
->>>>> +      * for direct map manipulation is failure to allocate page tables
->>>>> +      * when splitting huge pages, but this split would have already
->>>>> +      * happened in folio_zap_direct_map() in kvm_gmem_folio_zap_direct_map().
->>
->> Do you know if folio_restore_direct_map() will also end up merging page
->> table entries to a higher level?
->>
->>>>> +      * Thus folio_restore_direct_map() here only updates prot bits.
->>>>> +      */
->>>>> +     if (kvm_gmem_folio_no_direct_map(folio)) {
->>>>> +             WARN_ON_ONCE(folio_restore_direct_map(folio));
->>>>> +             folio->private = (void *)((u64)folio->private & ~KVM_GMEM_FOLIO_NO_DIRECT_MAP);
->>>>> +     }
->>>>> +}
->>>>> +
->>>>
->>>> Does this assume the folio would not have been split after it was zapped? As in,
->>>> if it was zapped at 2MB granularity (no 4KB direct map split required) but then
->>>> restored at 4KB (split required)? Or it gets merged somehow before this?
->>
->> I agree with the rest of the discussion that this will probably land
->> before huge page support, so I will have to figure out the intersection
->> of the two later.
->>
->>>
->>> AFAIK it can't be zapped at 2MB granularity as the zapping code will
->>> inevitably cause splitting because guest_memfd faults occur at the base
->>> page granularity as of now.
->>
->> Here's what I'm thinking for now:
->>
->> [HugeTLB, no conversions]
->> With initial HugeTLB support (no conversions), host userspace
->> guest_memfd faults will be:
->>
->> + For guest_memfd with PUD-sized pages
->>      + At PUD level or PTE level
->> + For guest_memfd with PMD-sized pages
->>      + At PMD level or PTE level
->>
->> Since this guest_memfd doesn't support conversions, the folio is never
->> split/merged, so the direct map is restored at whatever level it was
->> zapped. I think this works out well.
->>
->> [HugeTLB + conversions]
->> For a guest_memfd with HugeTLB support and conversions, host userspace
->> guest_memfd faults will always be at PTE level, so the direct map will
->> be split and the faulted pages have the direct map zapped in 4K chunks
->> as they are faulted.
->>
->> On conversion back to private, put those back into the direct map
->> (putting aside whether to merge the direct map PTEs for now).
->
-> Makes sense to me.
->
->>
->>
->> Unfortunately there's no unmapping callback for guest_memfd to use, so
->> perhaps the principle should be to put the folios back into the direct
->> map ASAP - at unmapping if guest_memfd is doing the unmapping, otherwise
->> at freeing time?
->
-> I'm not sure I fully understand what you mean here.  What would be the
-> purpose for hooking up to unmapping?  Why would making sure we put
-> folios back into the direct map whenever they are freed or converted to
-> private not be sufficient?
+Documentation/hwmon/stef48h28.rst:45: ERROR: Missing matching underline for section title overline.
+=========================================================
+in1_label               "vin".
+in1_input               Measured voltage. From READ_VIN register. [docutils]
+Documentation/hwmon/stef48h28.rst:73: WARNING: Title underline too short.
+temp2_input             Measured temperature. From READ_TEMPERATURE_2 register.
+========================================================= [docutils]
 
-I think putting the folios back into the direct map when the folios are
-freed or converted to private should cover all cases.
+Fix the table overline/underline line lengths and convert it to
+a 2-column table.
 
-I was just thinking that being able to hook up to unmapping is nice
-since unmapping is the counterpart to mapping when the folios are
-removed from the direct map.
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Charles Hsu <hsu.yungteng@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-hwmon@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
+
+ Documentation/hwmon/stef48h28.rst |   10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+--- linux-next-20260126.orig/Documentation/hwmon/stef48h28.rst
++++ linux-next-20260126/Documentation/hwmon/stef48h28.rst
+@@ -42,7 +42,7 @@ The driver supports standard PMBus drive
+ Sysfs entries
+ -------------
+ 
+-=========================================================
++======================  ========================================================
+ in1_label		"vin".
+ in1_input		Measured voltage. From READ_VIN register.
+ in1_min			Minimum Voltage. From VIN_UV_WARN_LIMIT register.
+@@ -53,11 +53,9 @@ in2_input		Measured voltage. From READ_V
+ in2_min			Minimum Voltage. From VOUT_UV_WARN_LIMIT register.
+ in2_max			Maximum voltage. From VOUT_OV_WARN_LIMIT register.
+ 
+-curr1_label "iin".
+-curr1_input Measured current. From READ_IIN register.
++curr1_label "iin".      curr1_input Measured current. From READ_IIN register.
+ 
+-curr2_label "iout1".
+-curr2_input Measured current. From READ_IOUT register.
++curr2_label "iout1".    curr2_input Measured current. From READ_IOUT register.
+ 
+ power1_label		"pin"
+ power1_input		Measured input power. From READ_PIN register.
+@@ -70,4 +68,4 @@ temp1_max		Maximum temperature. From OT_
+ temp1_crit		Critical high temperature. From OT_FAULT_LIMIT register.
+ 
+ temp2_input		Measured temperature. From READ_TEMPERATURE_2 register.
+-=========================================================
++======================  ========================================================
