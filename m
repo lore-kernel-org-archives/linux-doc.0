@@ -1,139 +1,143 @@
-Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669AD367F50
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 21:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C02326D69;
+	Thu, 29 Jan 2026 22:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769723905; cv=none; b=hVUMqbveqzrSqmR7yCcJoqzyOlUKjtVy/x0Dj1WBW3fX8EXhenJlrxwH/4gvmx6YS6C+MDgkcvIr/jkeuFAr0dIZcR66ZSm99unFnrMRsUxM0aOhW/9Kj2dwPtgiHVwI78SUdbeiRncgHCZM7B0NNpIaSSMnMtLLaRf67vFaIBM=
+	t=1769724027; cv=none; b=eKC9grERQD+g5Lgqr+2cpFa2Sh3vKF/FrGGyOo8s2o8G9R9wXMHAzTS2EwqsQJrWERnMPpSry3vBAM1lVX+rpsOl6KdPhZQeDfu/XwtsIxNrC3KZfQBGbtkmK1A0arsvx74q1lqlZO6bJbGKVnLHax3OyrzyujVDdyyIylBGZpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769723905; c=relaxed/simple;
-	bh=MmVKleijncFNV3VTWlVTPh9Yt+NHsjAHFsJeZAvuy5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bbLjauOLbt/7vP22msLY6bb5n/4FAo0XuZ4dd6mmxmBeKy5fBMt9+1WFh/Z6vus3A4vKRDxoN5v/+7tOhAoDDXMOGA/1mkjH+/OZlvy3chkMfZY0CsVG52DJ6bBCSjD08teJFDqZx8g0usx0l9FSoPLRbEjp+df1uHGNMeO7sZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S1EyKUdm; arc=none smtp.client-ip=74.125.82.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769724027; c=relaxed/simple;
+	bh=Ft+3zSwMAmTsSgy8oyxsbijh1RzStnobzv6PRBzfa+I=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=n1pl5KSELxtnZ+ng/lXwvJkWTR932Zkf0j3wkd69ENcOMkw2vY7otPIXAdOcjSxJA9D+/YoUPiZPnSYishkO9QXg6we6sqmSVnExgBuUVID3R+Q8ieQMTbINpbtuibVAzXM5hAh5cPLxQVAAXLQMRDCrwQeuMkGa3C4QEwInlro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sfqmIq/M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S1EyKUdm"
-Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-1249b9f5703so2222603c88.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:58:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769723904; x=1770328704; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nmNgqwiRPaM50yoR4bSwou2vHJzKZmxQW0OFYL7FLjQ=;
-        b=S1EyKUdmk+gJvCtyvML8FSLY+7zEcHBFLJ4KyUjUU0wz/PmIL2ju5Mo0Lz6NG5eTk1
-         GHQEPGFaSTNmH/xUq/ybEU0AQMtrLGPLdG9698i8XDPB1+3YCDqf7z+//oU0FQvrhElH
-         RZwMV5+kNQTA1HuqRWIhpcoMF/ooMDQ+FdG534GDzO1WWFnKywBB0FRbfnrM8AqhVqIv
-         AtVCOmkYG+nNacYAifD7yQYJ7VnpfaT/+x+HuwEukfBQrEDBW3PjusYF4zultxDBWtTd
-         CRnfE80oUyEOi9sFmsw0kRj8+0RPX0HtG18sYXuAnGYnQn3vX+hR8jX44e8Csuxvzv9i
-         uQhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769723904; x=1770328704;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nmNgqwiRPaM50yoR4bSwou2vHJzKZmxQW0OFYL7FLjQ=;
-        b=InCr57UTGBah1xq4COBnrZoZM6s86dY9J/F/OsrAA6pSlOK0OKfJabvrLRcI88NYUk
-         GQeu9yTAh+RiC3gZjOPX00R3EMyUeXM/IOJQNWbKTZl+Stf81vcJsoBzwnAcgPioNYIU
-         93q9CDCMi7s9UdgAdwnJKmwzu3cthWVK60Iheby1U7ngdqcuYx6bT8qEJyQgX16Cwkq0
-         zvLWy7M3UEMPGbE9wExScYqyd1OI68Ls0aPJWR33hzhdayasL7FPJwnXelZ+AMwB9dnP
-         ozlgBD5YmECm5GlSENTnV318TYDdIYIMieI05NCWS6PtzPmTjkQ6tBCs8ySYEygYPa8t
-         gsrw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Gejxo/PVwVpbbPicZwrZoy3x1ZhP4oL1ECiuRw5/WWZK4aMg8OP2g1ajm89XQBLqAHRz/buCSWc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRB2pEEJ3lc7WP7mjhYRMtwEnmKdMf0y04yCCZner4SrCE0b2i
-	8uhMmRGEpt0WlvrwQjbmH/ZCiOoBiv2B3wZ1L17V4dpnOOqc2y+ILvHioNHzCAo=
-X-Gm-Gg: AZuq6aJNwNnXFtgTwMzuRuRdf2nDrPRwSDAGWrX8nXt3+8lMIF2/XlHP3vnLYcQ62i8
-	+U3ey5vmfIEsAPre5OzDMwjGKkXk4niI2qGROacBQbKAvtOLFvagIB3l0aQldw4wm/8Gnpd1ksq
-	RucAZehFtCuc5Ct77URkXFJYceZCz4bnc3gJIMrbG75F92gC3JPZqVTXyFCk3OE8OWBAenHJdTy
-	BRxQPNcaNI6HqeUnOcdhdJmiygzST0By+zY3OkKy/mkdd/9RJQGOf3WjwQI+7RIOdleOxEEGhMf
-	b5U0H0xnLHsEHMERIwcjK6Ep4U1+C+FwC7zv7DfSK4axyqDrtZKAb6ndwtpjZJseqaKPu01zq/j
-	fKxNcHinzEGuy1tiDj1iKNA+a64hcKSMOOBpHZ8hpSJQ0V/JNmVgQWYZjLT8ftBYkxDThOIg3Vm
-	IZ9Dctd8TMew==
-X-Received: by 2002:a05:7300:a984:b0:2ac:21b5:f43c with SMTP id 5a478bee46e88-2b7c86db7e2mr415692eec.20.1769723903529;
-        Thu, 29 Jan 2026 13:58:23 -0800 (PST)
-Received: from localhost ([137.201.204.52])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a16cf8f2sm9659960eec.7.2026.01.29.13.58.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 13:58:23 -0800 (PST)
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-To: sj@kernel.org,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com,
-	Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Subject: [PATCH 3/3] mm/damon/sysfs-schemes: expose NODE_TARGET_MEM_BP metric
-Date: Thu, 29 Jan 2026 13:58:14 -0800
-Message-ID: <20260129215814.1618-4-ravis.opensrc@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260129215814.1618-1-ravis.opensrc@gmail.com>
-References: <20260129215814.1618-1-ravis.opensrc@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sfqmIq/M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D3E7C4CEF7;
+	Thu, 29 Jan 2026 22:00:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769724027;
+	bh=Ft+3zSwMAmTsSgy8oyxsbijh1RzStnobzv6PRBzfa+I=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=sfqmIq/M25hauNyHN5KCfy/XgRs+bVpeMLss8LQqyDLBqvzgwKYCrX+iR02Qgt28d
+	 LXIyZUc6UGpvihh7aaUQ+6C0SZmAxkxH/zxSgPIARxczJ7imaLdaQ554NqiMbLPdFm
+	 BbG+gpvN2XpJlInORYna7yd69eEkjKyYWm9OkRvAivCV8y8E7Q/moaKOVi/26R3QiT
+	 47HpWrR9PzQVKhSUyFZSfUzh+qpHWPueQdPUwPgd+/px7/tYwwJwDEWqUkRvNLsAB5
+	 mJ1iq8X+JqO1cJOntjD9U5j/WNhRcHIvkzmt4mRKSEtOUTzmEOTSK8EUJNZYuPiB7d
+	 07J+KrxK68fvw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 29 Jan 2026 23:00:21 +0100
+Message-Id: <DG1ET3ZMX3LK.QKKLPFK1424M@kernel.org>
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Cc: "Bartosz Golaszewski" <brgl@kernel.org>, "Johan Hovold"
+ <johan@kernel.org>, "Bartosz Golaszewski"
+ <bartosz.golaszewski@oss.qualcomm.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
+ "Tzung-Bi Shih" <tzungbi@kernel.org>, "Linus Walleij" <linusw@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>,
+ "Wolfram Sang" <wsa+renesas@sang-engineering.com>, "Simona Vetter"
+ <simona.vetter@ffwll.ch>, "Dan Williams" <dan.j.williams@intel.com>, "Jason
+ Gunthorpe" <jgg@nvidia.com>, <linux-doc@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh>
+ <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
+ <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com>
+ <aXovtrAM1r1UyWxA@hovoldconsulting.com>
+ <CAMRc=MeMW4g5em_b9qGBR9OmQZNzyQp-S=zKDCPFu506ixy-cQ@mail.gmail.com>
+ <20260129105634.GC3317328@killaraus>
+ <CAMRc=MfzByLPJ0FKySmG7b79Ah63Mtk1hs1N=6kv8pTDydrcGg@mail.gmail.com>
+ <20260129144906.GE3327197@killaraus>
+In-Reply-To: <20260129144906.GE3327197@killaraus>
 
-Add sysfs support for the new NODE_TARGET_MEM_BP quota goal metric.
-This exposes the metric as 'node_target_mem_bp' under the quota goal's
-target_metric attribute.
+On Thu Jan 29, 2026 at 3:49 PM CET, Laurent Pinchart wrote:
+> On Thu, Jan 29, 2026 at 08:50:30AM -0500, Bartosz Golaszewski wrote:
+>> On Thu, 29 Jan 2026 11:56:34 +0100, Laurent Pinchart said:
+>> > On Thu, Jan 29, 2026 at 10:11:46AM +0100, Bartosz Golaszewski wrote:
+>> >>
+>> >> For I2C both the problem is different (subsystem waiting forever for
+>> >> consumers to release all references) and the culprit: memory used to
+>> >> hold the reference-counted struct device is released the supplier
+>> >> unbind unconditionally. Unfortunately there's no way around it other
+>> >> than to first move it into a separate chunk managed by i2c core.
+>> >
+>> > Isn't there ? Can't the driver-specific data structure be
+>> > reference-counted instead of unconditionally freed at unbind time ?
+>>=20
+>> Oh, for sure, if we did from the start. But we did not and there are now
+>> hundreds of i2c drivers that do:
+>>=20
+>> struct my_i2c_drv_data {
+>> 	struct i2c_adapter adap;
+>> 	int my_other_drv_data;
+>> };
+>>=20
+>> and in probe:
+>>=20
+>> struct my_i2c_drv_data *data =3D devm_kzalloc(dev, sizeof(*data), GFP_KE=
+RNEL);
+>>=20
+>> (or just kzalloc() with kfree() in remove, it doesn't matter)
+>>=20
+>> and the ownership of that data belongs to the driver. There's no way we =
+could
+>> address it now so the next best thing is to work towards moving the owne=
+rship
+>> of struct i2c_adapter to the i2c core and make it reference counted usin=
+g the
+>> internal kobject of the associated struct device.
+>
+> What I'm reading here is essentially that we rolled out devm_kzalloc() to=
+o
+> quickly without understanding the consequences, and it has spread so much=
+ that
+> it can't be fixed properly now, so we need to find a workaround.
 
-The metric measures the ratio of scheme-eligible memory (regions matching
-the scheme's access pattern) on a specified NUMA node to the node's total
-capacity, expressed in basis points (bp, 1/10000).
+I'm pretty sure I don't have all the details about the problem with the
+i2c_adapter, but from what I read here briefly the problem simply seems to =
+be
+that currently the driver providing the i2c_adapter frees the i2c_adapter o=
+n
+driver unbind unconditionally.
 
-Users can configure this metric by:
-1. Setting target_metric to 'node_target_mem_bp'
-2. Setting nid to the target NUMA node
-3. Setting target_value to the desired ratio in basis points
+I would argue that this is a violation of the driver core design anyways. I
+mean, in the end an i2c_adapter is the same type of device as any other bus
+device (platform, PCI, etc.).
 
-The current_value attribute shows the measured ratio, which can be used
-by userspace to compute the actual bytes of scheme-eligible memory on
-the node: bytes = current_value * node_capacity / 10000.
+For instance, when the physical device that is represented by a PCI device =
+is
+removed from the machine, the corresponding struct pci_dev is not forcefull=
+y
+freed either, it stays around as long as there are references to the device=
+.
 
-This is particularly useful for tiered memory systems to monitor and
-control the distribution of hot pages across NUMA nodes.
+So, I fail to see how devm_kmalloc() and frieds are the root cause of the
+i2c_adapter lifetime problem?
 
-Suggested-by: SeongJae Park <sj@kernel.org>
-Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
----
- mm/damon/sysfs-schemes.c | 5 +++++
- 1 file changed, 5 insertions(+)
+> And now we're trying to work around the problem by rolling out a revocabl=
+e API
+> that has barely seen any testing, and is known to have design issues. Doe=
+s any
+> one else see the irony ? :-)
 
-diff --git a/mm/damon/sysfs-schemes.c b/mm/damon/sysfs-schemes.c
-index 3a699dcd5a7f..50133263c592 100644
---- a/mm/damon/sysfs-schemes.c
-+++ b/mm/damon/sysfs-schemes.c
-@@ -1038,6 +1038,10 @@ struct damos_sysfs_qgoal_metric_name damos_sysfs_qgoal_metric_names[] = {
- 		.metric = DAMOS_QUOTA_NODE_MEMCG_FREE_BP,
- 		.name = "node_memcg_free_bp",
- 	},
-+	{
-+		.metric = DAMOS_QUOTA_NODE_TARGET_MEM_BP,
-+		.name = "node_target_mem_bp",
-+	},
- };
- 
- static ssize_t target_metric_show(struct kobject *kobj,
-@@ -2554,6 +2558,7 @@ static int damos_sysfs_add_quota_score(
- 			break;
- 		case DAMOS_QUOTA_NODE_MEM_USED_BP:
- 		case DAMOS_QUOTA_NODE_MEM_FREE_BP:
-+		case DAMOS_QUOTA_NODE_TARGET_MEM_BP:
- 			goal->nid = sysfs_goal->nid;
- 			break;
- 		case DAMOS_QUOTA_NODE_MEMCG_USED_BP:
--- 
-2.43.0
-
+I don't think anyone is trying to work around problems with devm_kmalloc() =
+and
+friends. It's just system memory, i.e. nothing that needs to be revoked. We=
+ can
+just not use devm_kmalloc() and friends if we need the memory to outlive dr=
+iver
+unbind for some reason. The problem is about real device resources, such as=
+ I/O
+memory mappings that *must* be released when a driver is unbound from its
+device. So, revocable is clearly not a fix for devm_kmalloc() et al.
