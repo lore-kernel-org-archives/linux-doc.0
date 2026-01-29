@@ -1,152 +1,139 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48A823009C1;
-	Thu, 29 Jan 2026 17:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD3B3314C4;
+	Thu, 29 Jan 2026 17:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769706177; cv=none; b=LFwON2AqtG1DbsGNo/NHPM7ww4Ia2fCKvSx42CMTmMOtnIN8bChO6Za3IbTkl90jes6eGmSHrmSgk2LO6+BUD4hQxvP7mIX3OO8nxEJbL6zBw/wdpc9QFkjH2jXcpCUiGJVXK0tZjWJ2iXdC+N95xkjKIzPVixbuC+hSv8KXEC8=
+	t=1769706811; cv=none; b=Nibjya41fgtLlS6g0olDvJWFWjAVczhkx+dkBhzKnS/Itwi0EVpxnbl17RmKd2dlvwP12kie/uqp7klKMdr6Brx5FH4/fvnM/LXm54fSS9DgmLT9CfnsL820J1a155ihk+0NmNRwKmKtyJTEZitoQqTendNQtEWqdxV9n344cd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769706177; c=relaxed/simple;
-	bh=q1gQCviJCAe+AZSj756VfNj4A1hZWH1AR6+aLsFTsRI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=cTdhVAFTYvBARfNlcMwcgNDtJevA2jpsrIOLnk53XNP7lYjiVX7Gr9oFN5oeZG374p9Eq13Vzi1ls+vQ0ay+JrpL8ESu0QYptxSUSIW2XOOHbpsxKNarbN9lFyVS+5gsREXkg/U6VnmZisZuw738+qgkMYiLJPnXKrigNnA3PeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E7529153B;
-	Thu, 29 Jan 2026 09:02:46 -0800 (PST)
-Received: from devkitleo.cambridge.arm.com (devkitleo.cambridge.arm.com [10.1.196.90])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 070FB3F73F;
-	Thu, 29 Jan 2026 09:02:50 -0800 (PST)
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	maz@kernel.org,
-	oliver.upton@linux.dev,
-	catalin.marinas@arm.com,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	will@kernel.org,
-	linux-kernel@vger.kernel.org,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	yezhenyu2@huawei.com,
-	xiexiangyou@huawei.com,
-	zhengchuan@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	suzuki.poulose@arm.com
-Subject: Re: [PATCH v2 2/5] KVM: arm64: Support set the DBM attr during memory abort
-Date: Thu, 29 Jan 2026 17:02:41 +0000
-Message-ID: <aXuSsVKtXBcffzo2@devkitleo>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20251121092342.3393318-3-zhengtian10@huawei.com>
-References: <20251121092342.3393318-1-zhengtian10@huawei.com> <20251121092342.3393318-3-zhengtian10@huawei.com>
+	s=arc-20240116; t=1769706811; c=relaxed/simple;
+	bh=wfmd5TygDnWuNh7atnI1L66vLy96JcLCy+2CqYgZcYA=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=BKi0Pkt+FB2La41v8R/nTvBS/uxYJq9bdPabBANubecForEmZnULK7tjQt9i4N4U4LpxR/VgzRyviqMkuSSSVaSCQ1IvQSNMUHE+arYz3FiIYVvV9ySBhXYc6YAB4YM61UuviwJQT3XApnKc9w1yJ65JfbWjyc7RiisfUp/YaEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=ydDEOhoM; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="ydDEOhoM"
+Received: from smtpclient.apple ([192.19.161.250])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60THCITI760106
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 29 Jan 2026 09:12:18 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60THCITI760106
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026012301; t=1769706740;
+	bh=QIyDvQ8ozjjtQ0qFg/hKPuh0+BnC9DM6EKOxMJUk0I4=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
+	b=ydDEOhoM/sDFyXanc+Qgg70WtpoD0LI636/mI1iXstHVV1Vop223o8x9iKinqXrNu
+	 gDlmn0Hhdm0Y3blqyD1p6Y053HBvmN2N4+rCg+Wvb7XcGJSVY1gTC6fmusLWcCGuTl
+	 63Y529/DA9ww9IcA5POu4h8+Z50WBDZsmBZ5mVfzhWikEsGOPun/q+Eq4es2mUfjL4
+	 +BI7jN3vZTnZq01HL8G3PWLBsZt1znF8AknTF02rJ4yYrlr2m8Ck/j41Fzb7Lcj3O5
+	 tTh52vjIgoW/vWz8cyeMB6eXqK1TEzeOMGIpfW2hkRYf6tYGmGc7laewBcMCJdyKyh
+	 YJE3qXzDHpp8A==
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-On Fri, Nov 21, 2025 at 05:23:39PM +0800, Tian Zheng wrote:
-> From: eillon <yezhenyu2@huawei.com>
-> 
-> Add DBM support to automatically promote write-clean pages to
-> write-dirty, preventing users from being trapped in EL2 due to
-> missing write permissions.
-> 
-> Since the DBM attribute was introduced in ARMv8.1 and remains
-> optional in later architecture revisions, including ARMv9.5.
-> 
-> Support set the DBM attr during user_mem_abort().
-> 
-> Signed-off-by: eillon <yezhenyu2@huawei.com>
-> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
-> ---
->  arch/arm64/include/asm/kvm_pgtable.h | 4 ++++
->  arch/arm64/kvm/hyp/pgtable.c         | 6 ++++++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/arch/arm64/include/asm/kvm_pgtable.h b/arch/arm64/include/asm/kvm_pgtable.h
-> index 2888b5d03757..2fa24953d1a6 100644
-> --- a/arch/arm64/include/asm/kvm_pgtable.h
-> +++ b/arch/arm64/include/asm/kvm_pgtable.h
-> @@ -91,6 +91,8 @@ typedef u64 kvm_pte_t;
-> 
->  #define KVM_PTE_LEAF_ATTR_HI_S2_XN	BIT(54)
-> 
-> +#define KVM_PTE_LEAF_ATTR_HI_S2_DBM	BIT(51)
-> +
->  #define KVM_PTE_LEAF_ATTR_HI_S1_GP	BIT(50)
-> 
->  #define KVM_PTE_LEAF_ATTR_S2_PERMS	(KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R | \
-> @@ -245,6 +247,7 @@ enum kvm_pgtable_stage2_flags {
->   * @KVM_PGTABLE_PROT_R:		Read permission.
->   * @KVM_PGTABLE_PROT_DEVICE:	Device attributes.
->   * @KVM_PGTABLE_PROT_NORMAL_NC:	Normal noncacheable attributes.
-> + * @KVM_PGTABLE_PROT_DBM:	Dirty bit management attribute.
->   * @KVM_PGTABLE_PROT_SW0:	Software bit 0.
->   * @KVM_PGTABLE_PROT_SW1:	Software bit 1.
->   * @KVM_PGTABLE_PROT_SW2:	Software bit 2.
-> @@ -257,6 +260,7 @@ enum kvm_pgtable_prot {
-> 
->  	KVM_PGTABLE_PROT_DEVICE			= BIT(3),
->  	KVM_PGTABLE_PROT_NORMAL_NC		= BIT(4),
-> +	KVM_PGTABLE_PROT_DBM			= BIT(5),
-> 
->  	KVM_PGTABLE_PROT_SW0			= BIT(55),
->  	KVM_PGTABLE_PROT_SW1			= BIT(56),
-> diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.c
-> index c351b4abd5db..ce41c6924ebe 100644
-> --- a/arch/arm64/kvm/hyp/pgtable.c
-> +++ b/arch/arm64/kvm/hyp/pgtable.c
-> @@ -694,6 +694,9 @@ static int stage2_set_prot_attr(struct kvm_pgtable *pgt, enum kvm_pgtable_prot p
->  	if (prot & KVM_PGTABLE_PROT_W)
->  		attr |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
-> 
-> +	if (prot & KVM_PGTABLE_PROT_DBM)
-> +		attr |= KVM_PTE_LEAF_ATTR_HI_S2_DBM;
-> +
->  	if (!kvm_lpa2_is_enabled())
->  		attr |= FIELD_PREP(KVM_PTE_LEAF_ATTR_LO_S2_SH, sh);
-> 
-> @@ -1303,6 +1306,9 @@ int kvm_pgtable_stage2_relax_perms(struct kvm_pgtable *pgt, u64 addr,
->  	if (prot & KVM_PGTABLE_PROT_W)
->  		set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
-> 
-> +	if (prot & KVM_PGTABLE_PROT_DBM)
-> +		set |= KVM_PTE_LEAF_ATTR_HI_S2_DBM;
-> +
->  	if (prot & KVM_PGTABLE_PROT_X)
->  		clr |= KVM_PTE_LEAF_ATTR_HI_S2_XN;
-> 
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCH v9 12/22] KVM: VMX: Virtualize FRED event_data
+From: Xin Li <xin@zytor.com>
+In-Reply-To: <aR04V4VVg+p4RsdT@intel.com>
+Date: Thu, 29 Jan 2026 09:12:02 -0800
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
+        hch@infradead.org, sohil.mehta@intel.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <60C180BF-AD13-48EF-9BA8-CEACF57965EF@zytor.com>
+References: <20251026201911.505204-1-xin@zytor.com>
+ <20251026201911.505204-13-xin@zytor.com> <aR04V4VVg+p4RsdT@intel.com>
+To: Chao Gao <chao.gao@intel.com>
+X-Mailer: Apple Mail (2.3864.300.41.1.7)
 
 
-Hi Tian,
+> On Nov 18, 2025, at 7:24=E2=80=AFPM, Chao Gao <chao.gao@intel.com> =
+wrote:
+>=20
+>> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+>> index 4a74c9f64f90..0b5d04c863a8 100644
+>> --- a/arch/x86/kvm/vmx/vmx.c
+>> +++ b/arch/x86/kvm/vmx/vmx.c
+>> @@ -1860,6 +1860,9 @@ void vmx_inject_exception(struct kvm_vcpu =
+*vcpu)
+>>=20
+>> vmcs_write32(VM_ENTRY_INTR_INFO_FIELD, intr_info);
+>>=20
+>> + if (is_fred_enabled(vcpu))
+>> + vmcs_write64(INJECTED_EVENT_DATA, ex->event_data);
+>=20
+> I think event_data should be reset to 0 in =
+kvm_clear_exception_queue().
+> Otherwise, ex->event_data may be stale here, i.e., the event_data from =
+the
+> previous event may be injected along with the next event.
 
-I was re-reading this series while planning the other feature I am working 
-on top of this one.
+It=E2=80=99s no harm to reset it, although it shouldn=E2=80=99t be stale =
+when an event that
+uses event data is being injected (otherwise it=E2=80=99s a bug).
 
-This patch, IMHO, is unrelated to the HDBSS feature.
-I get that HDBSS feature needs this bit being set in the page descriptor
-but it was not introduced in this feature.
 
-It was actually introduced in HAFDBS.
+>=20
+>> +
+>> vmx_clear_hlt(vcpu);
+>> }
+>>=20
+>=20
+>> /*
+>> @@ -950,6 +963,7 @@ void kvm_requeue_exception(struct kvm_vcpu *vcpu, =
+unsigned int nr,
+>> vcpu->arch.exception.error_code =3D error_code;
+>> vcpu->arch.exception.has_payload =3D false;
+>> vcpu->arch.exception.payload =3D 0;
+>> + vcpu->arch.exception.event_data =3D event_data;
+>=20
+> If userspace saves guest events (via =
+kvm_vcpu_ioctl_x86_get_vcpu_events())
+> right after an event is requeued, event_data will be lost (as that =
+uAPI only
+> saves the payload and KVM doesn't convert the event_data back to a =
+payload
+> there). So this event will be delivered with incorrect event_data if =
+the
+> event is restored on another system after migration.
 
-So maybe it's worth to split this series in:
-- Enable HAFDBS for KVM, and
-- Enable HDBSS
+Nice catch!
 
-I have something here that could serve as a base for that, will clean that 
-up and send as an example.
+Just to confirm, you are referring to requeueing an original event
+via vmx_complete_interrupts(), right?
 
-Thanks!
-Leo
+Regardless of whether FRED or IDT is in use, the event payload is =
+delivered
+into the appropriate guest state and then invalidated in
+kvm_deliver_exception_payload():
+
+        1) CR2 for #PF
+
+        2) DR6 for #DB
+
+        3) guest_fpu.xfd_err for #NM (in handle_nm_fault_irqoff())
+
+We should be able to recover the FRED event data from there.
+
+Alternatively, we could drop the original event and allow the hardware =
+to
+regenerate it upon resuming the guest.  However, this breaks #DB =
+delivery,
+as debug exceptions sometimes are triggered post-instruction.
+
+
+Sean, does it make sense to recover the FRED event data from guest CPU =
+state?
+
+
