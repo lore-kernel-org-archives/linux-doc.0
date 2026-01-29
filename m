@@ -1,145 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5AD23148B7;
-	Thu, 29 Jan 2026 16:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31B433BBB8
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 16:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769703201; cv=none; b=myJcuqgDm8wlowDPN0OxvxcTLa5bXqfzfopkdQ2KtvDv4ljSzy2p/5dg4vwg9sFyB2JzvMpG/NjGTopH9JOjBxEEf/4MqJiF+wW7TPNJntpK59nXjU9GHP51JwEuHQduQ5V3o31lSqq9Nssa7Ns9G12RSpup+QquSDi/t9ciasw=
+	t=1769704778; cv=none; b=D2Ia20CCya0pHq4eif+5ORDgeXTJVgbthLN2je29bE8g5EIabfT049V3t/AcW86JrJ3vfbxiXzVmRJffI2bLehmkDQUzSooAkln8J23epqRTHwfoBup/Gk6yrWaYeZsUxP7gxGpT4QxIRYoGzQyb/B4nAufk0C4Y1IPKXsuIE7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769703201; c=relaxed/simple;
-	bh=aF7LY7dAuJ/blzhBcSzB6uOPM4Zsfv2E6ATGYFERWWA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Cmgc+dEu+QxBM/qIsXBFBNbT115ySKzNpFAillKQYkyrxFF7+EHHK7SfOmDiDLyFM0QPlqkd+fbA9fKoPxv507Gi4PThwMZ4VKW/T77bMOTgLz8sEBmgOJvmV1fLqnaYEtgxnO775Bkc5Z8PRo3kEqNqQaBY5ACzGQyAfKTXrPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8VljspQ; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1769704778; c=relaxed/simple;
+	bh=B/VHJ92gUrkCQ08cznGlZPMEjHU0vpIWoo2Ylnqd+/4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZIKaS/Uz3+NXoLupJr6ce6348PVNDRrRTM4Dpio2+y+1uqw35auMJjl8Z52Vg7QdXyCLBkbCIWvyBZZ47aGNbrk6Sa11mZkPPTUNGPARWyQ86kq2sXlFBHfJT/gcYk+BeiIWMEA/TRoILijJjUEr1gxuyEwZ/LFm/t3mCtWBrFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XPYYX1fN; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8VljspQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1769703200; x=1801239200;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=aF7LY7dAuJ/blzhBcSzB6uOPM4Zsfv2E6ATGYFERWWA=;
-  b=m8VljspQLmYw4inJVz9I7jPZCQrY4PCz1PrMt0LIFV5l1upYDpi97vK6
-   OKE5maRKjtbXUJnCOjt9+nVQuRNC7zXBYRrJY7yWGhRy0FAPCBgNIjYoZ
-   AnDqpdUJYoqIgBpx8JP8CZ9VOVIFdsokx1eN6Lk3VSCbWR1WCpYgldIWj
-   hsxMQiaCkZEL6M5N5OcyC5itM+5Bq7cRIS2CYlHXNcHGXEnGs2SZJedKt
-   +vMgB4aROiezzT4v1ARsZFFUMqz0GcO1IWbLQI2o9sKLMVP8m5+fANUBN
-   wTdvvzCsGZ2EMDfv1A6yGcoMlBKBrOkk167Jk2elbDJajc5skZ5uqK8wi
-   w==;
-X-CSE-ConnectionGUID: hl96g+3zSqaEunpRKXUeww==
-X-CSE-MsgGUID: LA4bjp/XSKu2V1ZIFED2xg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="70841985"
-X-IronPort-AV: E=Sophos;i="6.21,261,1763452800"; 
-   d="scan'208";a="70841985"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 08:13:20 -0800
-X-CSE-ConnectionGUID: p6sZR8/1SE6TImktBa0kIQ==
-X-CSE-MsgGUID: MpZuwtSLQdO3gKHmXEenjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,261,1763452800"; 
-   d="scan'208";a="231533956"
-Received: from rchatre-mobl4.amr.corp.intel.com (HELO [10.125.110.10]) ([10.125.110.10])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jan 2026 08:13:17 -0800
-Message-ID: <29030d41-3044-4e90-8054-7bf23d12d868@intel.com>
-Date: Thu, 29 Jan 2026 09:13:16 -0700
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XPYYX1fN"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4806dffc64cso9308715e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 08:39:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1769704775; x=1770309575; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:user-agent:message-id:date
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=twFvpc0i3TryasBkxK98iJJPXOi65K0zMxpJo29cyB0=;
+        b=XPYYX1fNq1dgLxdSTF1N1yUorRWvWx5EkK+2Kuggn1NUHsQcWi6kp0TNUsxMDB+Qj/
+         q0fShi7qygpWlXHgi69hsgcy8ZtbF9wfItkUznZxHwXX4uex4P2YONiobHI4rrqqNLv2
+         Gm0pfk7Xb07ViNIDhdmS2zbQgKdU5HPQgZu6He3kVhyoa18Z0ogLlR+1CotAc2ETDyPL
+         UKTPtcRzxRt1AACkZ2losHDEGlzNIx6vPlHmOYvNXG6Kbh0MS1ZbHK4YbHEzlLz0438+
+         12KO0UMTZwtc3wboiTKDjSyNEcPV3KkkgtLBL/8Li74N+BcO32d3VQYEsd+s/euFvgHG
+         NMSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769704775; x=1770309575;
+        h=content-transfer-encoding:mime-version:user-agent:message-id:date
+         :references:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=twFvpc0i3TryasBkxK98iJJPXOi65K0zMxpJo29cyB0=;
+        b=gaIRZmpnVkRTZiBG1byVuA1nCoVFDw0Cv2Mmr5mDIjYbiZbSJ7d2gajWPSUdBOo6YR
+         XW3i/51dyV560VBXrq4x+oUVByvrEmy9H4GegfPEY4zdSHlUJVtduaEKVeUM56pVWz+t
+         RqZIar7bcP8dVAqLMeITxOVb1iCaAq+xfgzpbIHm3+mWH/t4gaIJFLem9+Caiz8GT1q4
+         56F7PY8RShjgXZMVZ7jyIyzLuWZ9eSZt0zL7eHwnc/4czhF62XPcscrBJ3U5yp2DMffB
+         bbf4jiUXoXK+fUzJLEc1cu9X4Tn/eJrXY/aLU77KORCcIhdwWFC6VcMckQJYvkR+umly
+         30HQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWTUDCsBHBQxPRsCvsfa0OwrhIoAWkno+zM9JI5tfd3GK1/txEuQXNQ8SIpkdQYJSMNoCYQlihJUjw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJs0Rynmb2JCLpr6eXpuXF+8hJG/1mRiao7GfRmqXk2C/QbHHH
+	rqqIgpeXjUCLHPWklQqQIBFCsdgpsjWhCTPhMkOY8itr+jTAQPwbcJFRu+YaUu5llsY=
+X-Gm-Gg: AZuq6aJgX9PHPUwm3p6SSNDlA9I6qsy14fTJCcMlpSsrr+h+69smg8EXvi+s7WSiWah
+	Y+BbQ48YtxyTDJObn/BkRHh2gkow2F5+szLFWzZAbkcB09OBp6QLk2IakkW7oaoc0/1Yqhu/Tko
+	CxsLrGM+D6eyXQslLXBlVF7BYsojCvgAr2NhXUrx7yflnMznrBy1AUeQ/VQwS8qX9TBSt/5qDuf
+	4IS4w2yRz9z/Lg/KbhMxdcUKf2D5WXQ3wA86ykFm288h5kpd1MO9OWsSySuOxsPF8nOUbPcVuD/
+	eRIkViGFNmEBIsCL1CPQucwu/D1whEZBVhwyiSSwF6CZJpEAnEHq+pXTS6B6mt2X1nk8DeCgSoi
+	jm8XwX3+y3vir4E7wNyyNWbPoLKfGSJdN/2zwwrkR2Z6bnJfWjvaJ2yKEYpxfeBFQOGOsV+unzh
+	Vef+6N6mN4csc=
+X-Received: by 2002:a05:6000:184e:b0:432:5b81:48b with SMTP id ffacd0b85a97d-435f3ad5c6dmr249217f8f.61.1769704775134;
+        Thu, 29 Jan 2026 08:39:35 -0800 (PST)
+Received: from draig.lan ([185.124.0.126])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131cfd4sm14914838f8f.25.2026.01.29.08.39.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jan 2026 08:39:34 -0800 (PST)
+Received: from draig (localhost [IPv6:::1])
+	by draig.lan (Postfix) with ESMTP id A5D885F878;
+	Thu, 29 Jan 2026 16:39:33 +0000 (GMT)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>,  Joey Gouly <joey.gouly@arm.com>,
+  Catalin Marinas <catalin.marinas@arm.com>,  Suzuki K Poulose
+ <suzuki.poulose@arm.com>,  Will Deacon <will@kernel.org>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
+ <shuah@kernel.org>,  Oliver Upton <oupton@kernel.org>,  Dave Martin
+ <Dave.Martin@arm.com>,  Fuad Tabba <tabba@google.com>,  Mark Rutland
+ <mark.rutland@arm.com>,  Ben Horgan <ben.horgan@arm.com>,
+  linux-arm-kernel@lists.infradead.org,  kvmarm@lists.linux.dev,
+  linux-kernel@vger.kernel.org,  kvm@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-kselftest@vger.kernel.org,  Peter
+ Maydell <peter.maydell@linaro.org>,  Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v9 04/30] arm64/fpsimd: Check enable bit for FA64 when
+ saving EFI state
+In-Reply-To: <20251223-kvm-arm64-sme-v9-4-8be3867cb883@kernel.org> (Mark
+	Brown's message of "Tue, 23 Dec 2025 01:20:58 +0000")
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+	<20251223-kvm-arm64-sme-v9-4-8be3867cb883@kernel.org>
+Date: Thu, 29 Jan 2026 16:39:33 +0000
+Message-ID: <87343o8jay.fsf@draig.linaro.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] Documentation/driver-api/cxl: ACPI PRM Address
- Translation Support and AMD Zen5 enablement
-To: Robert Richter <rrichter@amd.com>, dan.j.williams@intel.com
-Cc: Alison Schofield <alison.schofield@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>,
- Davidlohr Bueso <dave@stgolabs.net>, Jonathan Corbet <corbet@lwn.net>,
- linux-cxl@vger.kernel.org, linux-kernel@vger.kernel.org,
- Gregory Price <gourry@gourry.net>,
- "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
- Terry Bowman <terry.bowman@amd.com>, Joshua Hahn <joshua.hahnjy@gmail.com>,
- linux-doc@vger.kernel.org
-References: <20260122172432.369215-1-rrichter@amd.com>
- <20260122172432.369215-3-rrichter@amd.com>
- <69790b8ff40bd_1d6f100c5@dwillia2-mobl4.notmuch>
- <aXoJPP00R7qblx-o@rric.localdomain>
- <697a6236185dd_3095100d2@dwillia2-mobl4.notmuch>
- <aXs0jW3dK6IwtXwZ@rric.localdomain>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <aXs0jW3dK6IwtXwZ@rric.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+Mark Brown <broonie@kernel.org> writes:
 
+> Currently when deciding if we need to save FFR when in streaming mode pri=
+or
+> to EFI calls we check if FA64 is supported by the system. Since KVM guest
+> support will mean that FA64 might be enabled and disabled at runtime swit=
+ch
+> to checking if traps for FA64 are enabled in SMCR_EL1 instead.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/kernel/fpsimd.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/arm64/kernel/fpsimd.c b/arch/arm64/kernel/fpsimd.c
+> index 887fce177c92..f4e8cee00198 100644
+> --- a/arch/arm64/kernel/fpsimd.c
+> +++ b/arch/arm64/kernel/fpsimd.c
+> @@ -1948,6 +1948,11 @@ static bool efi_sm_state;
+>   * either doing something wrong or you need to propose some refactoring.
+>   */
+>=20=20
+> +static bool fa64_enabled(void)
+> +{
+> +	return read_sysreg_s(SYS_SMCR_EL1) & SMCR_ELx_FA64;
+> +}
+> +
+>  /*
+>   * __efi_fpsimd_begin(): prepare FPSIMD for making an EFI runtime servic=
+es call
+>   */
+> @@ -1980,7 +1985,7 @@ void __efi_fpsimd_begin(void)
+>  				 * Unless we have FA64 FFR does not
+>  				 * exist in streaming mode.
+>  				 */
+> -				if (!system_supports_fa64())
+> +				if (!fa64_enabled())
+>  					ffr =3D !(svcr & SVCR_SM_MASK);
+>  			}
+>=20=20
+> @@ -2028,7 +2033,7 @@ void __efi_fpsimd_end(void)
+>  					 * Unless we have FA64 FFR does not
+>  					 * exist in streaming mode.
+>  					 */
+> -					if (!system_supports_fa64())
+> +					if (!fa64_enabled())
+>  						ffr =3D false;
+>  				}
+>  			}
 
-On 1/29/26 3:21 AM, Robert Richter wrote:
-> On 28.01.26 11:23:34, dan.j.williams@intel.com wrote:
->> Robert Richter wrote:
->> [..]
->>> the Zen5 machines only use the PRM method as described. They have been
->>> out for more than a year now with stable firmware. Moving to _DSM
->>> would require a new firmware release and force all of them to run a
->>> firmware update.
->>
->> Ok, so then do not document _DSM as an option in the convention
->> document. Only document what has been shipped and require anything that
->> follows to not deviate from that de facto "standard".
-> 
-> Ok, thanks, will update the documentation.
-> 
->>
->> I was confused by this convention document offering optionality (direct
->> PRM or _DSM) and then requiring that the kernel accommodate the less
->> preferred option (direct PRM). If there are no plans for the only
->> existing implementation in the ecosystem to support _DSM then simply
->> require direct PRM forevermore.
-> 
-> Oh, I thought you were aware of the existing PRM implementation and
-> then wanted me to specify _DSM in the spec, so I started with that.
-> 
->>
->>>> ...and for the implementation can you update it to only invoke a _DSM
->>>> and hide the fact that it might be implemented by PRM on the backend?
->>>
->>> Additionally, a kernel implementation change is needed including
->>> another test and review cycle. As you described, the implementation on
->>> the BIOS side would probably be a _DSM wrapper in AML added to the
->>> SSDT that calls the actual PRM handler. An alternative is an ACPI
->>> quirk injecting that as AML code, but that makes things worse. IMO,
->>> all this is not worth the effort just to define the interface as _DSM
->>> only, and then use a wrapper to call it. Plus, there will probably be
->>> no platforms that adopt this.
->>>
->>> I really would like to see PRM and _DSM coexist in the spec to avoid
->>> all that. We could restrict the PRM GUID to the one currently used to
->>> avoid other PRM handlers coming up (if platforms adopt this at all).
->>> Please consider that.
->>
->> No, please no coexistence of alternatives. Direct PRM is shipping, catch
->> Linux up with this singular reality, close the door on future changes in
->> this space.
-> 
-> Understood.
-> 
->>
->> If there is ever a "next time" for a different platform concept,
->> strongly prefer a static table + native driver enabling approach.
-> 
-> The translation algorithms are not trivial, see around AMD_ATL and in
-> drivers/ras/amd/atl/. For CXL, PCIe comes into play in addition to
-> handle that.
-> 
-> Anyway, thanks for your quick response. Will send a v5.
+This is conflicting with the now merged 63de2b3859ba1 (arm64/efi: Remove
+unneeded SVE/SME fallback preserve/store handling) so I think this patch
+can now be dropped?
 
-Hi Robert, if you can get that sent out by tomorrow, lets get your series merged and call it done. Thanks.
-
-> 
-> -Robert
-> 
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
