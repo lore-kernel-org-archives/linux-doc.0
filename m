@@ -1,88 +1,74 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE15135CB7E
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 21:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A9B2EE268
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 21:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769720711; cv=none; b=IeZsMIug3v1WPGgM1f5h25MJzzYuT3uecZmXIGrn2BLSl8t9OUr85EXpDl9PRp/YM3ko1uJqzAAmL00lC1YZ/V41E+2kpE6HGeY4nY5N6hLqZbgy8cgcQ8gNisppDCJ3KH8pWdSMxAOR8k+dLGsEaKPiJoL/O+NTJucwzHiulbM=
+	t=1769721480; cv=none; b=Yda65YKEV28PrjPiJ9+x/ihrOhaesAFiUD5YOHhYjyNqpEaJdIKdlNkM7yoZ2AivAO/QZV5DQd6W8mswt/WAc2Dx9a89/6h+P14as2bkdRLTQe/kfqOMiovjnSo+uK3UcO4LxgIPfDnlOZ0z+kjyxcMxdfuFvmOO6L5+XZoNXDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769720711; c=relaxed/simple;
-	bh=QNsY4J+Tc0rw1kzVfyOgqVGbBo/47Sd9HfuK48nkDOE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vr6TcAPrgU5+j1NeI/MD7sud0K9Gur5hJkGmhP6SvyTtehj44FzT7Pjyj07o2wWkP7vAKI1YnHeg5Ad685xM+ytq16KtoZlMxt7+yQNxWtP7lhqbphFL+4hvpy2mTI5lTw+0PeAN5Skb0SY7OvMfK2RmmjwNAbIUH2jAHGzsUmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=XGOgVsGE; arc=none smtp.client-ip=209.85.222.181
+	s=arc-20240116; t=1769721480; c=relaxed/simple;
+	bh=l9xIkbZKM30zA9x2QI+alFDGiuf8CP4pmINW3Kx7q0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mNIWJx1IIht02bkrwPLfmThNae1gXhC/HKEjkRiHQDj7QE3z2hvwFH+koslZca3ty9APfABOmuz1x4YfQpCnawy/VVSvJl/6n0eQLPQPAse+Xt1iZx4HXWem6PySnj+o/hcl/cPqdPk7LRoBKD2dOQszVIxwPNWyI8ApnG58OTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=OzrkhGqF; arc=none smtp.client-ip=209.85.219.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="XGOgVsGE"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c52c67f64cso137003185a.0
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:04:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="OzrkhGqF"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8946a794e4fso16776256d6.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:17:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1769720697; x=1770325497; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=alwv4SGOFS63mWmVzbrgd9Xf0He8PRBJ686/YkdtOI4=;
-        b=XGOgVsGE7lEH2jvTzMPTXM6VTcQCg0Fg1rN6+diAOZtBaxaAOARbZhqQQ6OqVTORFM
-         u6tk6WVBLAPnaGrIC9yLob0RiedBLUU/acXRCKjpZbNlp9IiDInS0k6WJ5jwq3bfM5H8
-         TBXMHljBw+bbfmoSAsHHMnV4gZLdAIsnNuIjYJuOI0MtCeY4IOn2S+4GwB0GP0C4HJfq
-         8ee0hrWR2NifSyj7NiNZzWgko8u+1EyXK/J108U/LfXkMEqMm4cRroaB6ga2BvaXLQcT
-         scFuuwo/PKMwy/snL/fvWEC7rqm992HmD28II3GxdtfS8V3LwfitDnXnR9W9GoVeKV2k
-         XkTA==
+        d=gourry.net; s=google; t=1769721478; x=1770326278; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l9xIkbZKM30zA9x2QI+alFDGiuf8CP4pmINW3Kx7q0w=;
+        b=OzrkhGqFaNFbcrvM7g0osWSQziuBpkIMijxxE5yuoXwUH64v1YQlRXRpS4eR2V0NB3
+         ETTgSrHxAniIfkIxxbqhavTtU8tj/CtKW7XGIyj7D5LLXC9z2jnd4bqwlLPSgCQpE28e
+         xU+6NkggMaN3OvjPjHZTJgUzqufnDxxVGbz5XHcOEGi42kC2RohF6tEdciVlPLrcQYDJ
+         qRjmqKDReOX6bFYn0vuCpxjbLuXYMh6t4FTZmLyCyDINc2awm++RFe0yLaIr14NifjVT
+         2Q5jS+FdjZTa5AJB7iuz4gE7DA/2hZhyMgmJbM4jEx7pwU/h0HbokNyOVZ1yKKZEo87w
+         Qu3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769720697; x=1770325497;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=alwv4SGOFS63mWmVzbrgd9Xf0He8PRBJ686/YkdtOI4=;
-        b=SsBu4uemIEMF8k1VvwLC8NtfDF0CXDrZuEEJXKGosK+OhopHRoTsokPRTvtd9/7Rum
-         IGFQLTDCO9OSDO9Sg7nDiF5VSjjpGBM750SzI1ZryMdBEK+fQPsQ939chk87xL4kOZJx
-         gG8bHQSAGpUUIqrc8nnIS6kRYnzD5/nnYZ01VxNKnK//fp3k+pJ/K1oBX/Nawoj9cQUD
-         k5tEkrZcFR2CYGumMvmZXMUoccB6FpOZrLyHH2FJabzR70CMpLcv9Bervu93DoxlrcnA
-         y0c2YtY+W2uECGgrtexF8kmrOW4lAf/HWAAl9E6pFZAaydgwEwEXW/ExAFuA8qYYOeiD
-         2PyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtlDtQTWmKxG5L5CmPtMNGrswz+V/9vN96SQZNpBgZuBMPq3ULXu/0g0PybLbib6mc9v0AUQRgn8k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFtbGVB0gXMA+lTZjl+TgZQdNuJnFWyxagSU9i/wEuGEWAq2oJ
-	AO+e6hQgo9RvF3No6VPuMmikSZS/24RRrYoYGItS+eOWHNE2nEgnTlu++Dc25uEobRw=
-X-Gm-Gg: AZuq6aIwiJQOd/sbRsYI5vuBs1JngJAU9bl2X++5JtsNxB1Z2w9LilpXdZyo9Q5skRn
-	KvoCF8h6s7cpBWvfi/CgfMUO8WGkVvhq9ScOs0LWlfxkLUsgZ8JXc9+EoT1Mt2uCkKU6WxXe6Bp
-	4Ilb+Ptp5BWVC4PO9rTpKeJ7emwF8LUYHzBLhSZRLeSlAfsgqirUPvzcN4x3RGaGWAHaEkSrGbb
-	OnW17NUp4KGbuipy/wRhGyQmqH5QrSIqmgyOQBXOJPBpP6lBzXARmkvsB0cZjjs7wQAvMq6utBm
-	vl9kyu8LMkEkjH8qsjJHT3k6Wqqae0+VszzXdnE2oQeEeWH7ZFKtIKxWVpcxRvBsda2//P/UTx3
-	sCj1cNyF5Jjcaz6vpwxa2J3tIjvVugw1P4FJAqBogtjpvrrsvkaPq11Z+tlpWnYghFvg07w2P0c
-	5etTv4OYjO2XFVTvcu1LhpNDKm+gG0pZa6RqJ+ub1e2mnC6zjtI5xx19BwR5dH+f+kniywG7qXz
-	cM=
-X-Received: by 2002:a05:620a:254e:b0:8c2:faed:ded3 with SMTP id af79cd13be357-8c9eb349005mr136193485a.89.1769720697462;
-        Thu, 29 Jan 2026 13:04:57 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c71b859eaesm282041685a.46.2026.01.29.13.04.56
+        d=1e100.net; s=20230601; t=1769721478; x=1770326278;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l9xIkbZKM30zA9x2QI+alFDGiuf8CP4pmINW3Kx7q0w=;
+        b=BrXhX2dBAKLD05ZSMXLrgal39o+I4356kDsVQF9iSKP5Gjcxo2AN5Trhy9Y9QiRNlP
+         Gu9r9unIa24GEPhcLA2f6365Ag4iBfhi2ZrsqyNY+va8/ztvIzl2eYdqhPc9721mVS9u
+         f/mp37ZrwMEnjEtbvCps4drXeJo8cIvVrGGngBenKmByRhYPLBrZJvdOjVHPw6PFx2jb
+         tQgZvJAPuXZ9p9CIdtMcwYSXxogaGW5F3bIdSUa4CAD8yWx1RH3aj9N0g5Ws2f6/+oYn
+         s8Pm0n6reLaX0IsfwhRcXtfe7Rcefv/cvEEy5a0xVe4DXmL3ebFLbXagfZcinbyJP/QY
+         ArqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVtGU918PAcpXeWE/SstnfwlnCnN5ukCYVmfnL4ZMoPHRnCK9YkNGyJ0xnAxJzaxsdSMUfVLV7IkpM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4fJgVmhwlM53YmSKQvokKIeBbV892Tdb6lX717IPVUrY+uIZw
+	8tJsUo7XSDldTigTO7aRo4+A9xj/ffyaMYkBIQOngWQud/qQ0wTxHkvyhvm1DJLnPtM=
+X-Gm-Gg: AZuq6aJLoDquvEwqak6y7T6ELFhLhY/E5lFkoWwZSKaLGKSo8YrqcWQiLx4QdJbs6vT
+	7+SfVlYSZYGpNR8/Q+mwmw6TBEp873dwNWAtaoRo7l95lqgAT0L9+FxELZUHx9b1oztZ9pBAM0l
+	dN8T3DyJg53k5R1q0bu51jwlo0MvWk/VaJDDuuRCROGCc9BYMjeLvl6pL7aC4agjH+iRE/HYA0i
+	m8TOx/mLjMJy/Z+i23osbWo6XJVumqgSuWLhZaec/7T74/Shw1CkPQ6WBjl8pPmk0bGyD7RNzaP
+	w9Rj+8gx6ewovqFvtvLGE7MlOTNlTiRc1h68rqNRfQcEkaIn+0SiJyOkZ9ErPXnuvsdh0rO0xpf
+	JKlCyIQpTG9AKzrZdq+NphfDIdTEaG5YiLAwcADsdyF3ZHq0b6YdDYVUqOYfaEJZ8fmyoFpSLzh
+	wbYkrpjL3xa+iUEL3TZbAZyhm2JHHphinkrSjBUQ+0Q6w+WSf6RNdheVEGfSBmQMPpFAhJyg==
+X-Received: by 2002:a05:6214:401d:b0:894:71c0:6fc with SMTP id 6a1803df08f44-894ea1170b8mr13110576d6.57.1769721477709;
+        Thu, 29 Jan 2026 13:17:57 -0800 (PST)
+Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894d36a5ca2sm44936276d6.7.2026.01.29.13.17.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 13:04:57 -0800 (PST)
+        Thu, 29 Jan 2026 13:17:57 -0800 (PST)
+Date: Thu, 29 Jan 2026 16:17:55 -0500
 From: Gregory Price <gourry@gourry.net>
 To: linux-mm@kvack.org
-Cc: linux-cxl@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kernel-team@meta.com,
-	dave@stgolabs.net,
-	jonathan.cameron@huawei.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	vishal.l.verma@intel.com,
-	ira.weiny@intel.com,
-	dan.j.williams@intel.com,
-	willy@infradead.org,
-	jack@suse.cz,
-	terry.bowman@amd.com,
-	john@jagalactic.com
-Subject: [PATCH 4/9] drivers/cxl,dax: add dax driver mode selection for dax regions
-Date: Thu, 29 Jan 2026 16:04:37 -0500
-Message-ID: <20260129210442.3951412-5-gourry@gourry.net>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260129210442.3951412-1-gourry@gourry.net>
+Cc: linux-cxl@vger.kernel.org, nvdimm@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kernel-team@meta.com, dave@stgolabs.net,
+	jonathan.cameron@huawei.com, dave.jiang@intel.com,
+	alison.schofield@intel.com, vishal.l.verma@intel.com,
+	ira.weiny@intel.com, dan.j.williams@intel.com, willy@infradead.org,
+	jack@suse.cz, terry.bowman@amd.com, john@jagalactic.com
+Subject: Re: [PATCH 0/9] cxl: explicit DAX driver selection and hotplug
+Message-ID: <aXvOgw2rc8X7Cqxa@gourry-fedora-PF4VCD3F>
 References: <20260129210442.3951412-1-gourry@gourry.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -90,164 +76,13 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260129210442.3951412-1-gourry@gourry.net>
 
-CXL regions may wish not to auto-configure their memory as dax kmem,
-but the current plumbing defaults all cxl-created dax devices to the
-kmem driver.  This exposes them to hotplug policy, even if the user
-intends to use the memory as a dax device.
 
-Add plumbing to allow CXL drivers to select whether a DAX region should
-default to kmem (DAXDRV_KMEM_TYPE) or device (DAXDRV_DEVICE_TYPE).
+Annoyingly, my email client has been truncating my titles:
 
-Add a 'dax_driver' field to struct cxl_dax_region and update
-devm_cxl_add_dax_region() to take a dax_driver_type parameter.
+cxl: explicit DAX driver selection and hotplug policy for CXL regions
 
-In drivers/dax/cxl.c, the IORESOURCE_DAX_KMEM flag used by dax driver
-matching code is now set conditionally based on dax_region->dax_driver.
-
-Exports `enum dax_driver_type` to linux/dax.h for use in the cxl driver.
-
-All current callers pass DAXDRV_KMEM_TYPE for backward compatibility.
-
-Cc: John Groves <john@jagalactic.com>
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
- drivers/cxl/core/core.h   | 1 +
- drivers/cxl/core/region.c | 6 ++++--
- drivers/cxl/cxl.h         | 2 ++
- drivers/dax/bus.h         | 6 +-----
- drivers/dax/cxl.c         | 6 +++++-
- include/linux/dax.h       | 5 +++++
- 6 files changed, 18 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
-index 1fb66132b777..dd987ef2def5 100644
---- a/drivers/cxl/core/core.h
-+++ b/drivers/cxl/core/core.h
-@@ -6,6 +6,7 @@
- 
- #include <cxl/mailbox.h>
- #include <linux/rwsem.h>
-+#include <linux/dax.h>
- 
- extern const struct device_type cxl_nvdimm_bridge_type;
- extern const struct device_type cxl_nvdimm_type;
-diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
-index eef5d5fe3f95..e4097c464ed3 100644
---- a/drivers/cxl/core/region.c
-+++ b/drivers/cxl/core/region.c
-@@ -3450,7 +3450,8 @@ static void cxlr_dax_unregister(void *_cxlr_dax)
- 	device_unregister(&cxlr_dax->dev);
- }
- 
--static int devm_cxl_add_dax_region(struct cxl_region *cxlr)
-+static int devm_cxl_add_dax_region(struct cxl_region *cxlr,
-+				   enum dax_driver_type dax_driver)
- {
- 	struct cxl_dax_region *cxlr_dax;
- 	struct device *dev;
-@@ -3461,6 +3462,7 @@ static int devm_cxl_add_dax_region(struct cxl_region *cxlr)
- 		return PTR_ERR(cxlr_dax);
- 
- 	cxlr_dax->online_type = mhp_get_default_online_type();
-+	cxlr_dax->dax_driver = dax_driver;
- 	dev = &cxlr_dax->dev;
- 	rc = dev_set_name(dev, "dax_region%d", cxlr->id);
- 	if (rc)
-@@ -3994,7 +3996,7 @@ static int cxl_region_probe(struct device *dev)
- 					p->res->start, p->res->end, cxlr,
- 					is_system_ram) > 0)
- 			return 0;
--		return devm_cxl_add_dax_region(cxlr);
-+		return devm_cxl_add_dax_region(cxlr, DAXDRV_KMEM_TYPE);
- 	default:
- 		dev_dbg(&cxlr->dev, "unsupported region mode: %d\n",
- 			cxlr->mode);
-diff --git a/drivers/cxl/cxl.h b/drivers/cxl/cxl.h
-index 07d57d13f4c7..c06a239c0008 100644
---- a/drivers/cxl/cxl.h
-+++ b/drivers/cxl/cxl.h
-@@ -12,6 +12,7 @@
- #include <linux/node.h>
- #include <linux/io.h>
- #include <linux/range.h>
-+#include <linux/dax.h>
- 
- extern const struct nvdimm_security_ops *cxl_security_ops;
- 
-@@ -592,6 +593,7 @@ struct cxl_dax_region {
- 	struct cxl_region *cxlr;
- 	struct range hpa_range;
- 	int online_type; /* MMOP_ value for kmem driver */
-+	enum dax_driver_type dax_driver;
- };
- 
- /**
-diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
-index 4ac92a4edfe7..9144593b4029 100644
---- a/drivers/dax/bus.h
-+++ b/drivers/dax/bus.h
-@@ -2,6 +2,7 @@
- /* Copyright(c) 2016 - 2018 Intel Corporation. All rights reserved. */
- #ifndef __DAX_BUS_H__
- #define __DAX_BUS_H__
-+#include <linux/dax.h>
- #include <linux/device.h>
- #include <linux/range.h>
- 
-@@ -29,11 +30,6 @@ struct dev_dax_data {
- 
- struct dev_dax *devm_create_dev_dax(struct dev_dax_data *data);
- 
--enum dax_driver_type {
--	DAXDRV_KMEM_TYPE,
--	DAXDRV_DEVICE_TYPE,
--};
--
- struct dax_device_driver {
- 	struct device_driver drv;
- 	struct list_head ids;
-diff --git a/drivers/dax/cxl.c b/drivers/dax/cxl.c
-index 856a0cd24f3b..b13ecc2f9806 100644
---- a/drivers/dax/cxl.c
-+++ b/drivers/dax/cxl.c
-@@ -11,14 +11,18 @@ static int cxl_dax_region_probe(struct device *dev)
- 	struct cxl_dax_region *cxlr_dax = to_cxl_dax_region(dev);
- 	int nid = phys_to_target_node(cxlr_dax->hpa_range.start);
- 	struct cxl_region *cxlr = cxlr_dax->cxlr;
-+	unsigned long flags = 0;
- 	struct dax_region *dax_region;
- 	struct dev_dax_data data;
- 
-+	if (cxlr_dax->dax_driver == DAXDRV_KMEM_TYPE)
-+		flags |= IORESOURCE_DAX_KMEM;
-+
- 	if (nid == NUMA_NO_NODE)
- 		nid = memory_add_physaddr_to_nid(cxlr_dax->hpa_range.start);
- 
- 	dax_region = alloc_dax_region(dev, cxlr->id, &cxlr_dax->hpa_range, nid,
--				      PMD_SIZE, IORESOURCE_DAX_KMEM);
-+				      PMD_SIZE, flags);
- 	if (!dax_region)
- 		return -ENOMEM;
- 
-diff --git a/include/linux/dax.h b/include/linux/dax.h
-index bf103f317cac..e62f92d0ace1 100644
---- a/include/linux/dax.h
-+++ b/include/linux/dax.h
-@@ -19,6 +19,11 @@ enum dax_access_mode {
- 	DAX_RECOVERY_WRITE,
- };
- 
-+enum dax_driver_type {
-+	DAXDRV_KMEM_TYPE,
-+	DAXDRV_DEVICE_TYPE,
-+};
-+
- struct dax_operations {
- 	/*
- 	 * direct_access: translate a device-relative
--- 
-2.52.0
-
+~Gregory
