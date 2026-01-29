@@ -1,66 +1,66 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7946531A54E
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 14:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A640E3128BA
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 14:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769697709; cv=none; b=BRkesWJ2FIHuknKhQhY0vVNKMcGPHOPGlxDe9DKHstE5GNhWhgc1E8b4cTQBkt9tCT9VPTSA+dSFgOCmX/o+h/cWso7zl7qm0Dv/vKCMfoZRdANyCpJa8Dj0XKTH+E4HZHVtgJHVp/mElCzsYRh7lK2qs0mqoTF0xj3lHd0OrVU=
+	t=1769697877; cv=none; b=NyDVJICsoRXcOnt9+Wdrz7zQGeGEvppgBUWRACsB1FGTndYmICTZCOIsH55Y53MqL1Kf8EnMbhIgPKmtwRNsyWibA2lUp7KVtPTHASjFyXlWjkbKdYvnQR+f7c8vQa+Vwwb0vWnndg/44pYni/riaoRoV5V+fcL7CnvM0XNaowo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769697709; c=relaxed/simple;
-	bh=F0b8hnfWHbsOvhccuNKow2wnsDEWWek2mfssz8GMxsU=;
+	s=arc-20240116; t=1769697877; c=relaxed/simple;
+	bh=0cfpgEZxAtHlg92XqcFn2b1AgT2Rux9sr9odOOPM6rc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lLrS96cdAz2Jnx3JuLVVJ1kv2tykVa17383i42FABykbMvv9UuWdIEfaex4NVdmNbRHXFoadwZxhyeyAoeh/oiwTcYc9o3U8McRAoTwYHqnNxY5DwWYiz6v3QGac9UMzZehquCRLjoI61GTIqwRuFNKf3H7br0qDC7DUNLM2e/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DCdmfDvY; arc=none smtp.client-ip=209.85.128.52
+	 In-Reply-To:Content-Type; b=CAEWYnGrUrr4uxw9A7AzxZ8kvhf8nwcsL2gEU77ZqoVt/oO4Qjge8FhkmFFWUJkjJCinY0kzQNDe6/xJuYRsZoHjhfM7EnpfJMgzfpsZSqY8g/04UpEUE5L7o37V9bX7j/9iF7qNWbANq01/y/RJVrNsWg8EX5WbNd75ZXadN2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=b/IlH4hS; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DCdmfDvY"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4801c2fae63so8428145e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 06:41:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="b/IlH4hS"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47ee937ecf2so8924205e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 06:44:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1769697706; x=1770302506; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1769697873; x=1770302673; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=RiXqWFBbTqasdWh8G25vCefiMtu7P/aKonwdz1Q+QEk=;
-        b=DCdmfDvYjNE7C1O2jiZtSAx5VFyXp7kD/Q7BI5euaOR+Aece3eGzUKs2VWuSK81cFV
-         1GFRfcCRI5Gukv0bp9TizXNuyZfwsTpyqy5P+VkNyNxkRnws1AEIYl2hhEUd8UPa0/PW
-         y+3TgGZgtrKtkyDwNhatNcP1EY9CAYjT70lD1b7Fs8UyFAO/WOJh+HnBMwFvQxOZlZBz
-         QuNuFBwZImsqcYQ1MDZ/A8alCPRdprBiX4rjuvwJ24bIc5V0PHY1wJV1+QrbSDS7TFwP
-         0REI1tXsfsQnH7ryQMfgAhS9va5/2Ax1ONsbMHGzdnpe132FZc+P1kz/N4aylIk7XgMh
-         TwAQ==
+        bh=aP9REXm6r045bgV7SMsbpSrPiKfypwCy9eB8rfdPdvU=;
+        b=b/IlH4hSx+B+6rP5XO+ZCDrdqIqZNwRvFmk3IzNbmVeUc+S3/VL/Q5SYN5ja/Dqh6j
+         COyyMc4qNfR93w8mVZzfHB7aPkwrvmsmYNZuatgAFU7PZ2Syv7MPZbndco7ydj7+30D2
+         vz0NOGBbj8GqWuNQ2UvQHk5mPn2LY46vylYlbMpdeXXyplDvYLNjggXVxcnfYaanAvTr
+         H/yw+UBIWwHlvJKPzSyIWnhBaaXYm7/MQznVaP1yJsh7ut1ecphrx6aHukIyBbKQW1ix
+         2ppFJr3Rk2uWM22v+p/ag9GslNOlj7dExRrweweudR+1g0BnHFHKuA30BEcjkLT1ZrSu
+         YSZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769697706; x=1770302506;
+        d=1e100.net; s=20230601; t=1769697873; x=1770302673;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RiXqWFBbTqasdWh8G25vCefiMtu7P/aKonwdz1Q+QEk=;
-        b=Fy5fBQGBKnx/RRQnGF3DDE1d456EB+76CZRq1Vj1YUZWJh52wKvT5c5S5wFnRgJYgy
-         KU8IA0zK1Nz6Ta/zf55gv2mOrkjrOndnIqqidwuWcXuy/42oT83hEiQ32aHlYVs7MA9w
-         bvfR/hsz/l7ZdFo9owRCAtHL7Umhb5j15t89Lxe0hq3MBPF2ORFVd0sESGu/50PYHXIy
-         CNCrzNH4S7K3EBcyX6bQfiyr6LV+MzoWYOcSrS02LasiCU0qh3m8JY61BnqU5AcZgzuj
-         mY23MEKCZpx3QsUPC1TGmsH91IhODy9GIHPln80BOfU8jlgM32sn+f9Si8xfOHYXnzEj
-         G8Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCWIcn3dw064/iDl3vhbAd9UnNgHcy5rpvaOJSjLmCUVyxbQ0CFuv/4rCqhePIfmdj/EoTDxPX+IUCA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5mBj02Pn11eExXb28V711vjlGYvev7NlPAvNBPZVyFsaYkI7s
-	lLYN1TROlyzNJbDcG62KOKE2zPP2ONF73ezqsarae4+uW/Wea2lwV2snNR8rKijijYg=
-X-Gm-Gg: AZuq6aLbLIL8FuHp8yYDasZuPKq0bZfCws2VoT9Kv4bPHl33ZOOckyFqpTOf2hIQxN3
-	NcDkHpfmKLQyCljrT6po5swqCWIutvpcAH+J6YiUhU/nMSeqWQ0blDXDraRlLs8GIHCsfwF+UAS
-	qbKeurS2TLDLmHa28HW5J0MEPSoiBC/FqaN8oKFGsCTt0dR9aqgHf/Ieo9D4syad0x6QmcijUhI
-	LJTmzdGE7nIt+8iOXwdMaPt/3i+0IRyRx6cqZZHdDMNLQ7bxYfrP1zcnx54249eIKEzmxl9N73g
-	E3ySzUQd695KO4OHJRfq6jJ/3oH7l/IU3qYps+LNS4eHFjBGtR8LWixGX0okaxQFkCmkwDRS4QC
-	tQGO8Hc2KBxgctBssJ3NiSMlUm67XS2CsCwd/eaaqZBYym2hZPeFXzLT/5S/En5cbbaf3AeLhcD
-	95tgLzCze832un7aVfMeHg/5mHRbcXXQ==
-X-Received: by 2002:a05:600c:8b76:b0:480:2521:4d92 with SMTP id 5b1f17b1804b1-48069c49d54mr120114805e9.24.1769697705735;
-        Thu, 29 Jan 2026 06:41:45 -0800 (PST)
+        bh=aP9REXm6r045bgV7SMsbpSrPiKfypwCy9eB8rfdPdvU=;
+        b=e9ybUZeen01x+GXLnWqt8g9Oznj7XioUxlUnSI0+cOkZPwbg/6zxMVMhp6fpmsn2dM
+         i06pHlwKMTA27nI3ciZsItbdSjoJwEY3w8jPvUw/tQGiFI+jHoIjbwx/Z9Yq9M+31fyS
+         qaMw+p4Lnpux8vEmNglphIYJfuhuoZhdIrZP+kwjgZYtgFq7QTTunPSnClZWYgw39Kg9
+         CITRwni1ArEIk0RzNFH0iyfIBP3E1uKJESZUsvYpAMMx/RwGNjK+76E2Tdgr5fJ7fvvI
+         VTxR32r/lYbc5M3UhNX2UI7cYSuoogWhgAiwJNPqs0KCor8bwnN0dE5jKmqgwkyxNXs6
+         Yufg==
+X-Forwarded-Encrypted: i=1; AJvYcCXMLc1w+gRm12PyUZ42S7CTXkhhn2mTQBz1oU7UKz4rvBk0gsqeyLkQMIPB4sI6BR4I5HjyQUadDH0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxieF2YrGcAEusq6B24X8iLeAubmbXBK+MWYamKb2KEgXmzS9Fk
+	XYNZZPLHJNCpc6M3aND5trMdM2iu6d+hV/vPyPtJTQvmQ02RZMuhQ5mnlL2cDjSjdC8=
+X-Gm-Gg: AZuq6aIZGtWqYRqmBw+JJTO5Nwm6IuPHJienKRRvnUgfwmHp7e4kYKWc1ZDKTYRS7Xq
+	1KpEb3kaRpN3NQwNmW4H1KMSwKHc12986XfKEREgHV3Ses+fgJh0HjlSFpDejYop6zjWQYqQJ/d
+	kqdcPLOEnyV3k6RL94a+3vFNQ9DADhT3khDcapY1hhI2BMGv6tFrEoOXPcvIaeQTagxMe+4vLzr
+	vMv6eqZKplNZi5Z6qdgjpPC/i7fGRrBs/yXhzAibEHPnwZJRk5qBADUnz/iLqxuQBQspBVn8VmN
+	yXT7IJLSesk9lesMx4czWvXWNm3nEKtnjn+gBxx2cifunPWBW6deNM1r2rQyUN9AZ+xqgt5rQzJ
+	wyNQ0l7GxcjCoLFz0pncUclNUPdxdyUhjb3mxK0FU4U8K7ByISnKi4YQGv/H2WcAbHH+sD7WPaE
+	3yZBHt5D+43Rhhf4i/h7aXw5R/r5xB8A==
+X-Received: by 2002:a05:600c:c8d:b0:46e:59bd:f7e2 with SMTP id 5b1f17b1804b1-480828ad89emr46795915e9.11.1769697873050;
+        Thu, 29 Jan 2026 06:44:33 -0800 (PST)
 Received: from [10.0.1.22] (109-81-1-107.rct.o2.cz. [109.81.1.107])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c37433sm182396725e9.10.2026.01.29.06.41.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4806cddffc0sm166871115e9.5.2026.01.29.06.44.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jan 2026 06:41:45 -0800 (PST)
-Message-ID: <aa92ce4a-d336-4d03-b87d-1c39b1c553da@suse.com>
-Date: Thu, 29 Jan 2026 15:41:43 +0100
+        Thu, 29 Jan 2026 06:44:32 -0800 (PST)
+Message-ID: <fd19f9d3-b01c-4cc8-9fd5-642350e7b36b@suse.com>
+Date: Thu, 29 Jan 2026 15:44:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 12/17] module: Move signature splitting up
+Subject: Re: [PATCH v4 13/17] module: Report signature type to users
 To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
 Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen
@@ -97,65 +97,56 @@ Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
  linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
  linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
 References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-12-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-13-0b932db9b56b@weissschuh.net>
 Content-Language: en-US
 From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260113-module-hashes-v4-12-0b932db9b56b@weissschuh.net>
+In-Reply-To: <20260113-module-hashes-v4-13-0b932db9b56b@weissschuh.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
-> The signature splitting will also be used by CONFIG_MODULE_HASHES.
+> The upcoming CONFIG_MODULE_HASHES will introduce a signature type.
+> This needs to be handled by callers differently than PKCS7 signatures.
 > 
-> Move it up the callchain, so the result can be reused.
+> Report the signature type to the caller and let them verify it.
 > 
 > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 > ---
 > [...]
 > diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index c09b25c0166a..d65bc300a78c 100644
+> index d65bc300a78c..2a28a0ece809 100644
 > --- a/kernel/module/main.c
 > +++ b/kernel/module/main.c
-> @@ -3346,10 +3346,21 @@ static int early_mod_check(struct load_info *info, int flags)
->  
->  static int module_integrity_check(struct load_info *info, int flags)
+> @@ -3348,19 +3348,24 @@ static int module_integrity_check(struct load_info *info, int flags)
 >  {
-> +	bool mangled_module = flags & (MODULE_INIT_IGNORE_MODVERSIONS |
-> +				       MODULE_INIT_IGNORE_VERMAGIC);
-> +	size_t sig_len;
-> +	const u8 *sig;
+>  	bool mangled_module = flags & (MODULE_INIT_IGNORE_MODVERSIONS |
+>  				       MODULE_INIT_IGNORE_VERMAGIC);
+> +	enum pkey_id_type sig_type;
+>  	size_t sig_len;
+>  	const u8 *sig;
 >  	int err = 0;
 >  
-> +	if (IS_ENABLED(CONFIG_MODULE_SIG_POLICY)) {
-> +		err = mod_split_sig(info->hdr, &info->len, mangled_module,
-> +				    &sig_len, &sig, "module");
-> +		if (err)
-> +			return err;
-> +	}
-> +
->  	if (IS_ENABLED(CONFIG_MODULE_SIG))
-> -		err = module_sig_check(info, flags);
-> +		err = module_sig_check(info, sig, sig_len);
+>  	if (IS_ENABLED(CONFIG_MODULE_SIG_POLICY)) {
+>  		err = mod_split_sig(info->hdr, &info->len, mangled_module,
+> -				    &sig_len, &sig, "module");
+> +				    &sig_type, &sig_len, &sig, "module");
+>  		if (err)
+>  			return err;
+>  	}
 >  
->  	if (err)
->  		return err;
+> -	if (IS_ENABLED(CONFIG_MODULE_SIG))
+> +	if (IS_ENABLED(CONFIG_MODULE_SIG) && sig_type == PKEY_ID_PKCS7) {
+>  		err = module_sig_check(info, sig, sig_len);
+> +	} else {
+> +		pr_err("module: not signed with expected PKCS#7 message\n");
+> +		err = -ENOPKG;
+> +	}
 
-I suggest moving the IS_ENABLED(CONFIG_MODULE_SIG) block under the
-new IS_ENABLED(CONFIG_MODULE_SIG_POLICY) section. I realize that
-CONFIG_MODULE_SIG implies CONFIG_MODULE_SIG_POLICY, but I believe this
-change makes it more apparent that this it the case. Otherwise, one
-might for example wonder if sig_len in the module_sig_check() call can
-be undefined.
-
-	if (IS_ENABLED(CONFIG_MODULE_SIG_POLICY)) {
-		err = mod_split_sig(info->hdr, &info->len, mangled_module,
-				    &sig_len, &sig, "module");
-		if (err)
-			return err;
-
-		if (IS_ENABLED(CONFIG_MODULE_SIG))
-			err = module_sig_check(info, sig, sig_len);
-	}
+The new else branch means that if the user chooses not to configure any
+module integrity policy, they will no longer be able to load any
+modules. I think this entire if-else part should be moved under the
+IS_ENABLED(CONFIG_MODULE_SIG_POLICY) block above, as I'm mentioning on
+patch #12.
 
 -- 
 Thanks,
