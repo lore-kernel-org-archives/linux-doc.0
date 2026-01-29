@@ -1,85 +1,160 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8583112B4;
-	Thu, 29 Jan 2026 01:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC6734F24A
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 01:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769648992; cv=none; b=GUr/0pdGA7WvicwPASDJfLwx+m9dvm+fGVJf5+jiGpzVCfJm3hrdK+h3Z9l2oBkSQWUamTTDmafcnwKRVNGYEaAEk8GdhqGu4xweged+os0eH1ixko8bkSgh6/hJCEJG5kHAae7R33+B5zUfhKzWkmH3AfaS1NCtC3eXXc4BiRA=
+	t=1769649383; cv=none; b=sxT3J2PtIpfJdtmyzIfdcetWOLkroGfwwcNlvzE73u4shW5KSgEdtFBmssIdjUIpwNoZhiSHODF7Pt/bnIBPcJuuOW7ersv3V/2H+OHCFbjcOLupRe15mUdUyO0og423hmPg9jmoLvI6zlYd5U6x1Gp2iGenfyadl5NXcYZZ0ic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769648992; c=relaxed/simple;
-	bh=1NZ7Q0fzMrKycm9djpADcZBie3m0VuDp/W9FsV9ep7M=;
+	s=arc-20240116; t=1769649383; c=relaxed/simple;
+	bh=nHJ7z1F0QJ+ff3YYPLezHicV71ohVDGuIQUyQzSTkzQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nw4AY5oiIYWgdEBhPZdMSVmBjE3z4nmQIfBjJA5KS2q1bqw7/6kVO92/KoJBeOzotf7r6d9ZadNJj0cDqaCb7YbkfAS0PD6tUHACMV2QueQg5AWxweGQjh2X+1HhHa7Ie+6pXe6jZWf8I8wpPz5KcyoW7kW2qygkRAkAVmHKqV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eWhhkOsi; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=NbnrojcSQMMWolc5G4jDX6UwcJ14ondqRD/gGaNiCFRKeSSIM/vtdg67s8GXYBHYN3lRhWeHEOpjUZ8sevOoM0ENHn9VagrhdI8ttHVYHlk4mWZiiJuOP5N0jPqHKokouUQNt3tyKcfXG2gjupAp1nqwO/r9Wc4OWl1PI03dxpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=JimtEvw/; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eWhhkOsi"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D5FBB6A6;
-	Thu, 29 Jan 2026 02:09:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769648953;
-	bh=1NZ7Q0fzMrKycm9djpADcZBie3m0VuDp/W9FsV9ep7M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eWhhkOsieAgsOXXz+SRW7PyuigZ1jlygJpdFiLbCtAO8TlsyUXSqSvF8stT8BuG33
-	 1HmZNnU9auHGv8LCx96zwryvopwg0YeTKGbqxB+zXzwFyoXAzHcnkZk0W/XtVzWeVQ
-	 nEYxbJ1iV5zhRtQ2d5h3L/Z0+FGEd8bUdh2PICMQ=
-Date: Thu, 29 Jan 2026 03:09:48 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
-Message-ID: <20260129010948.GD3275574@killaraus>
-References: <20260124170535.11756-1-johan@kernel.org>
- <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
- <2026012554-chatty-policy-42a1@gregkh>
- <20260125132250.GP215800@killaraus>
- <DFXQ915MAG5K.2KYVQOTF056N5@kernel.org>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="JimtEvw/"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8c6a822068eso67214385a.3
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 17:16:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1769649380; x=1770254180; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WReYS7VDfIh+dvxdrk0biwhaBbpxlirvLLAI4b8c7GA=;
+        b=JimtEvw/M9s1zQiNQoK5XBOJVKAPBC0ZPH+Ww+nhg7HM120zXzPPDFQ66dxw3qVIkh
+         41KFAv5+ldYueku3BLZMrAHudLNNK/pjzR325IvCVYgAjfezrdFp+Ypjnmcs8Z2WWpms
+         Hnkz7ru3rUgn6MmQTBlVKZp0y6quJVwOYGhjcKcvZIbHB6f3VZF4HrJ7ENAeKE+2Ukuy
+         zFMq8IZPJX1HkYQk1TQQorMGWwZZ6+bCDV3o+M0HD2kYBy6jefimyqAQy7F5U5BqRVtD
+         kUo6mdW+EKWp7Wa5NI1ztftQRXc17I8/6KEDYfze9hhVxHgoa/rcyB0qcWZAHLRDjYK9
+         vixQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769649380; x=1770254180;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WReYS7VDfIh+dvxdrk0biwhaBbpxlirvLLAI4b8c7GA=;
+        b=NH5NiIilIj5HNyAvy4ZPbEYCwTvHkyhl2m74ALrimLCscjxASzCTL5GnIXij7soXF8
+         KeP133pGBrVFIvsJzKQiTaIeNvIfQqHO5Z43ikl/lvUtm2TilBrTB9FBMSFcwSFt7tzs
+         fwZ0C2Yg+DrVKq9ZOAZRCNPMZxsLiwnbF1YBUoMF8o7m9gpdBDYS2/34oorp2WA5UHT6
+         CzKkPqcMllldcbAQNRXB/1FKiT41aDJEi3gwGWXGxUeAqqRIHXL9WUySl/pFkE+qhcPB
+         hbauDE1d/7517GdNu3KnMcktkmbkf6EQSocLkSXZZ6rWDMHXcmoLwMupizT+ct4p//16
+         dEYg==
+X-Forwarded-Encrypted: i=1; AJvYcCU63Ngita3MgDBWlyPpKrWgr0c0Dn5ghHKY2E+U6gIz0t8KEuLDkFS07EZB32l+m5O4Yqz5y8fgUZ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylFEpmBbEafODStROzaUmhob7h/B4QvWRHRDy7If5MnNimohTl
+	sR3Aw3Pv9HLRX/bGIlM2ouqD6rWyf0dANC25L0n6i4uWnm7HsdjKeLrrKjJJMdhORBk=
+X-Gm-Gg: AZuq6aJaAZbEcvDCfcOpp7g7bX8sHNN3mLJbVve6g0LOyrbF/oozC/mt70Lj7dmCzGy
+	sAFkKySFVvMbBYY4lIN1n12Wf5cIez8h2bdYeW90Ak6vrkekYsrc/FXnVgzQI/S4Xzg0HchfEiy
+	T2paky0Yp2fk/8jNVpRmV7qobolND6Bc9SGU9QyZmgQ4GsEtQXmv7Lbvj+b7bBZYalfRCoouS97
+	9gSlBfsgGqO0YVcqUQKllGtHhyk8/IhEZ/Ctt8SxxO+OSBmrviuJLRJt8wTknoni8Uw2GGtAHP9
+	zvT/mw/WGfrfwoM7tZnUycqVykPpFXGV/7Kvpmb4KR3jn99dfuTOK6T8nSPGg7rs1dCj0r6d+/9
+	Km4mZLQ1xlW7BmY1jpkmD3/bUJSD9XniKV3HspKZhRmJgIVUfdsySSgK8fdAJ/BsoS331gZqnna
+	lVifsj363vegIqaK8BYl/nyHtDJjD/M4mDXlTB/FGHgGSiVCO05VijKhVN+1/LysAu56g=
+X-Received: by 2002:a05:620a:d88:b0:8c5:2ce6:dca with SMTP id af79cd13be357-8c70b841159mr939733985a.6.1769649380018;
+        Wed, 28 Jan 2026 17:16:20 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711d2ab04sm283038485a.25.2026.01.28.17.16.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Jan 2026 17:16:19 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vlGdu-00000009gKo-3mMh;
+	Wed, 28 Jan 2026 21:16:18 -0400
+Date: Wed, 28 Jan 2026 21:16:18 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Ackerley Tng <ackerleytng@google.com>,
+	Alexey Kardashevskiy <aik@amd.com>, cgroups@vger.kernel.org,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org,
+	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de,
+	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org,
+	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com,
+	david@redhat.com, dmatlack@google.com, erdemaktas@google.com,
+	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com,
+	hannes@cmpxchg.org, hch@infradead.org, hpa@zytor.com,
+	hughd@google.com, ira.weiny@intel.com, isaku.yamahata@intel.com,
+	jack@suse.cz, james.morse@arm.com, jarkko@kernel.org,
+	jgowans@amazon.com, jhubbard@nvidia.com, jroedel@suse.de,
+	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com,
+	keirf@google.com, kent.overstreet@linux.dev,
+	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com,
+	mail@maciej.szmigiero.name, maobibo@loongson.cn,
+	mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org,
+	mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com,
+	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au,
+	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es,
+	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com,
+	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com,
+	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz,
+	qperret@google.com, richard.weiyang@gmail.com,
+	rick.p.edgecombe@intel.com, rientjes@google.com,
+	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org,
+	shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com,
+	steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com,
+	tglx@linutronix.de, thomas.lendacky@amd.com, vannapurve@google.com,
+	vbabka@suse.cz, viro@zeniv.linux.org.uk, vkuznets@redhat.com,
+	wei.w.wang@intel.com, will@kernel.org, willy@infradead.org,
+	wyihan@google.com, xiaoyao.li@intel.com, yan.y.zhao@intel.com,
+	yilun.xu@intel.com, yuzenghui@huawei.com, zhiquan1.li@intel.com
+Subject: Re: [RFC PATCH v1 05/37] KVM: guest_memfd: Wire up
+ kvm_get_memory_attributes() to per-gmem attributes
+Message-ID: <20260129011618.GA2307128@ziepe.ca>
+References: <cover.1760731772.git.ackerleytng@google.com>
+ <071a3c6603809186e914fe5fed939edee4e11988.1760731772.git.ackerleytng@google.com>
+ <07836b1d-d0d8-40f2-8f7b-7805beca31d0@amd.com>
+ <CAEvNRgEuez=JbArRf2SApLAL0usv5-Q6q=nBPOFMHrHGaKAtMw@mail.gmail.com>
+ <20260129003753.GZ1641016@ziepe.ca>
+ <aXqx3_eE0rNh6nP0@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DFXQ915MAG5K.2KYVQOTF056N5@kernel.org>
+In-Reply-To: <aXqx3_eE0rNh6nP0@google.com>
 
-On Sun, Jan 25, 2026 at 03:07:41PM +0100, Danilo Krummrich wrote:
-> On Sun Jan 25, 2026 at 2:22 PM CET, Laurent Pinchart wrote:
-> > It's the wrong solution for most cases, if not all. It will spread in drivers
-> > and then become another big piece of technical debt we'll wish we had never
-> > merged.
-> 
-> It is a matter of how the revocable pattern is adopted. I.e. I don't think
-> drivers should create instances of revocable (device) resources by themselves.
-> Instead, I think it should be up to the corresponding subsystems to adopt the
-> pattern in the way necessary and make it accessible to drivers instead.
-> 
-> > We know what the right solution to the cdev race is
-> 
-> So, what is it? Assuming that this is what you are referring to, how do you
-> prevent accesses to (potentially freed) device resources after the bus device
-> has been unbound from the driver for subsystems that may still call back into
-> the driver after device unbind?
+On Wed, Jan 28, 2026 at 05:03:27PM -0800, Sean Christopherson wrote:
 
-I've answered this question in another e-mail in this thread, see
-https://lore.kernel.org/all/20260129010822.GA3310904@killaraus/
+> For a dmabuf fd, the story is the same as guest_memfd.  Unless private vs. shared
+> is all or nothing, and can never change, then the only entity that can track that
+> info is the owner of the dmabuf.  And even if the private vs. shared attributes
+> are constant, tracking it external to KVM makes sense, because then the provider
+> can simply hardcode %true/%false.
 
--- 
-Regards,
+Oh my I had not given that bit any thought. My remarks were just about
+normal non-CC systems.
 
-Laurent Pinchart
+So MMIO starts out shared, and then converts to private when the guest
+triggers it. It is not all or nothing, there are permanent shared
+holes in the MMIO ranges too.
+
+Beyond that I don't know what people are thinking.
+
+Clearly VFIO has to revoke and disable the DMABUF once any of it
+becomes private. VFIO will somehow have to know when it changes modes
+from the TSM subsystem.
+
+I guess we could have a special channel for KVM to learn the
+shared/private page by page from VFIO as some kind of "aware of CC"
+importer.
+
+I suppose AMD needs to mangle the RMP when it changes, and KVM has to
+do that.
+
+I forget what ARM does, but I seem to recall there is a call to create
+a vPCI function and that is what stuffs the S2? So maybe KVM isn't
+even involved? (IIRC people were talking that something else would
+call the vPCI function but I haven't seen patches)
+
+No idea what x86 does beyond it has to unmap all the MMIO otherwise
+the machine crashes :P
+
+Oh man, what a horrible mess to even contemplate. I'm going to bed.
+
+Jason
