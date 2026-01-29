@@ -1,120 +1,140 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA0533A715
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 17:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E426434D385;
+	Thu, 29 Jan 2026 17:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769707788; cv=none; b=piqvJDS1MycohNcbWREt6Xs0Zvv6S6PpFtNO9GwB5H2F8ONXlQJG/BN8RfkoK1JvEuobr5wyHM1JK02zyuWaEV9eavLyiSp5A4jrIoieaCx0HqBxuwOSzhEAd8vpEWoeFiePK11MlQrOC7blW19EI5PBKqBbczTKbe3eEmd92/c=
+	t=1769708028; cv=none; b=Bsa53CqtXJotibrXuuZrUDSuZ6LsMgroJUYDgBHHT3YnE6Cm6CN2fg1mw/XFFhfs6Me7+wbrLkx92AZPq7EJuShloFfniUvc0YdGbNWE63/YAgfVApz2OmnuUVXSkc+aLG0hTD1S4TsLMSTv+mjGR3B/uUoCopSKqWDy7tu3c/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769707788; c=relaxed/simple;
-	bh=be866/Yp5BAQJMoBK98y8dBJLQ2gHvccZfOQ5Qw+jAY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=EDDVQ062v2VILgQDux2vqgwkFL8lJWv5nAizMa0CqHlO/hENeVvl+eCPJLHNP34oNcoJrkfFFYooOu6l6emkbGZT+7E+ipE6xY7rJOfrSlA5InpMb26knU4oI2n1zagMaTyA40PFIOIZ35m7IHf4ZOpcFSaoFpG8V1ChFH+QNg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wHwIu2Vl; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1769708028; c=relaxed/simple;
+	bh=Iz+3NGhX06Wa2TiCElqxja/M3e8BS4ZNFXfaat14t9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KQNF34IcbczXRonPAhQ6G/pniwcOb52sAR5utTn1yZxAZlXVXNqCtxSwJcChrEmJZHqcf4m4DTuZY/admNwTdw2LgWpF4ACB2a3cdUYR9FEWM1ZcUo3Z5U7HN7unC46ZAe6BAYBAke2g8KeKCESG1JWqKBZ1qOQ1/CzTOTgP8+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZR3VVSbK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wHwIu2Vl"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so11294575e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 09:29:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1769707785; x=1770312585; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=be866/Yp5BAQJMoBK98y8dBJLQ2gHvccZfOQ5Qw+jAY=;
-        b=wHwIu2VlC51zeYSWrFup//yLPuyf8rJC3TBNiTTLUi0VzqQrupIgBaCJ/AzM2VxAmw
-         Zg1Xi0BlHaY/jdGN8iIeD2Rydh/xwPBTyM/STgtUm8+90oPOJJNXvvG72yJfnKVUB5nE
-         p8ZOBFbd34St+Ip0pfYaPSUEpFxBTY9pdfhF3+XBsB1amjfdtVK/8UjhRPue+rnh51ur
-         FflmD70zt4F2+5ZZBcN163zATMyhb8zTFn47J1Zok6xknh1nHlH/WjTZ2S4b2leHxWLM
-         bM4dLlD92K6ZDAdLyNddhrbwye141vcvymhr7mqc3BrBJPy3km2AfQNFEBJaZBTY9ypa
-         bKqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769707785; x=1770312585;
-        h=content-transfer-encoding:mime-version:message-id:date:user-agent
-         :references:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=be866/Yp5BAQJMoBK98y8dBJLQ2gHvccZfOQ5Qw+jAY=;
-        b=llKG0WItxnq9nze5uwcf51TxAzNCuFvqknwKNzVK87VeYTBMlT35aWfiuBxcxuZcel
-         ToMnDhpbhk+mlYdOLsT6tk3eMs6b6JY2KSrvmzJJz33Ig1T5J0a4DhQbrP0HO79gHlrF
-         Ig1Y1o/6//zMvfFUowhFcUh3lLDbzmgR8tQFOP/srqneIrBhW0c9gAnAgUS1O6axWMlK
-         rjNxJbXzaPzbA45C/d4XFrQ4XzA04MOrc0V3PbRYa4rnOpFh6oQ9IvZ/6gNBEcZ1QAA/
-         s+hYuQ3IDXkMRYU0hQ+rED4dVhmWsbmMGXrJlaHqYB4eXP33etyNRzTurN/MVb4Q2MDa
-         /jFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXYqTo6sbpLU6eWknmnp5HSzLz7XThYoWzOom+7k+4ip4yunKY8XJdDIIhRkmLlot5AXKtIfNray0A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrItkmY357sAU88M7WFQEFgmPrEb2EWwktaPHPWGiP8LHEVBv5
-	JocFw4y8XTCbZYJT8DRPA5W7S5/uepWUQmiG7Ptfybe412RnuSFUiU0pCfAGYsOxACM=
-X-Gm-Gg: AZuq6aKBrEZLKWpCsDuyEdNLiAsa4b8o7UJq5mibfDbTbFjTCAr3xJJRyyLaLqTwVEd
-	9xefHeGlv2Zdh6T41IVGwing2f0e56CR9TBV0m+K2biFWFf7S2yrltDkbKLc9Fupa7pjYo7ZtuV
-	6a4ItlBtbFYcse0hBgkUPWINwJDj8fT3a3TZXDU06E7JExnDxQ8CPXBHzI4YFRzU6Dfh9UvBLjd
-	9RFden7lEcsFdqpoYZIZj0Aj/NiqGCSeZJvltCcweKhF9IO37fx65CgheY4/HuWB9IaTpLdTzMm
-	Wh+Xgn/Jm+nXY0dBTiqSB4uhbD9YoTNV+u46QS+tVw5awgjNPAYZsqWzcWVP1iEOQX5kh/03bGB
-	rszDfYo7JspXqfTPQVFZA4+Bo+a/YH0Gi1gWLu5AxHTdobrd7Epf+N3IO6rZTDf6uXrJz+n7KXZ
-	pC53PLd0Q0sCc=
-X-Received: by 2002:a05:600c:350b:b0:47a:935f:61a0 with SMTP id 5b1f17b1804b1-48069b9a017mr121874905e9.0.1769707784613;
-        Thu, 29 Jan 2026 09:29:44 -0800 (PST)
-Received: from draig.lan ([185.124.0.126])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-482da8eba27sm66755e9.6.2026.01.29.09.29.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 09:29:43 -0800 (PST)
-Received: from draig (localhost [IPv6:::1])
-	by draig.lan (Postfix) with ESMTP id 067175F878;
-	Thu, 29 Jan 2026 17:29:43 +0000 (GMT)
-From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>,  Joey Gouly <joey.gouly@arm.com>,
-  Catalin Marinas <catalin.marinas@arm.com>,  Suzuki K Poulose
- <suzuki.poulose@arm.com>,  Will Deacon <will@kernel.org>,  Paolo Bonzini
- <pbonzini@redhat.com>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
- <shuah@kernel.org>,  Oliver Upton <oupton@kernel.org>,  Dave Martin
- <Dave.Martin@arm.com>,  Fuad Tabba <tabba@google.com>,  Mark Rutland
- <mark.rutland@arm.com>,  Ben Horgan <ben.horgan@arm.com>,
-  linux-arm-kernel@lists.infradead.org,  kvmarm@lists.linux.dev,
-  linux-kernel@vger.kernel.org,  kvm@vger.kernel.org,
-  linux-doc@vger.kernel.org,  linux-kselftest@vger.kernel.org,  Peter
- Maydell <peter.maydell@linaro.org>,  Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v9 04/30] arm64/fpsimd: Check enable bit for FA64 when
- saving EFI state
-In-Reply-To: <76bf33a0-968d-4b99-a157-3eef076af69d@sirena.org.uk> (Mark
-	Brown's message of "Thu, 29 Jan 2026 16:41:05 +0000")
-References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
-	<20251223-kvm-arm64-sme-v9-4-8be3867cb883@kernel.org>
-	<87343o8jay.fsf@draig.linaro.org>
-	<76bf33a0-968d-4b99-a157-3eef076af69d@sirena.org.uk>
-User-Agent: mu4e 1.14.0-pre1; emacs 30.1
-Date: Thu, 29 Jan 2026 17:29:42 +0000
-Message-ID: <87wm1072ex.fsf@draig.linaro.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZR3VVSbK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BB2DC19425;
+	Thu, 29 Jan 2026 17:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769708027;
+	bh=Iz+3NGhX06Wa2TiCElqxja/M3e8BS4ZNFXfaat14t9A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZR3VVSbKOEzNAsN9UEhed/S60d+y7WERiINMEChlMi/ZxfcHM9G5L740EUguRTGLX
+	 jVVGU/FKa5L7FkrKeValjh3H+AR9QK/9tx1+zhmLY6++OAoGWHRdymQD3cbyAuibZM
+	 1OiTD8apZhEPPiyu1Qe6C4P5ZwQ9L8p5syWCn3nayps+kY23PtY1f/PEbsq8KvRYgu
+	 1f43+MqB/V/Z3pShBxRixFU1FaR0ymRVnHPrTkFyas8PvOARuSxYzohQG04tPLxa/Q
+	 TsO4Gp/7ohOfQ8S5WngZfd2gGR8ie4iX/LVSVGVht9QhuuYOtTcuYvjFoAtXFdG3LG
+	 99Dn5EJXD3Rug==
+Date: Thu, 29 Jan 2026 17:33:37 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Taha Ed-Dafili <0rayn.dev@gmail.com>
+Cc: me@brighamcampbell.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees-archive@lists.linuxfoundation.org,
+ dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net,
+ linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: iio: adxl345: Fix typos, units, and grammatical
+ errors
+Message-ID: <20260129173337.7fc2a4ad@jic23-huawei>
+In-Reply-To: <20260127173543.72423-1-0rayn.dev@gmail.com>
+References: <20260127173543.72423-1-0rayn.dev@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Mark Brown <broonie@kernel.org> writes:
+On Tue, 27 Jan 2026 12:34:51 -0500
+Taha Ed-Dafili <0rayn.dev@gmail.com> wrote:
 
-> On Thu, Jan 29, 2026 at 04:39:33PM +0000, Alex Benn=C3=A9e wrote:
->> Mark Brown <broonie@kernel.org> writes:
->
->> > Currently when deciding if we need to save FFR when in streaming mode =
-prior
->> > to EFI calls we check if FA64 is supported by the system. Since KVM gu=
-est
->> > support will mean that FA64 might be enabled and disabled at runtime s=
-witch
->> > to checking if traps for FA64 are enabled in SMCR_EL1 instead.
->
->> This is conflicting with the now merged 63de2b3859ba1 (arm64/efi: Remove
->> unneeded SVE/SME fallback preserve/store handling) so I think this patch
->> can now be dropped?
->
-> Yes, this should go away in the next rebase.
+> Clean up the ADXL345 documentation to improve technical accuracy
+> and readability:
+> - Fix "latent" to "latency" in double tap descriptions.
+> - Correct the threshold unit from "g/LSB" to "mg/LSB"
+>   to match the datasheet.
+> - Standardize "axis" to "axes" for plural references.
+> - Change "generic purpose" to "general purpose".
+> - Fix minor subject-verb agreement and punctuation errors.
+> 
+> Signed-off-by: Taha Ed-Dafili <0rayn.dev@gmail.com>
+Hi Taha,
 
-Everything else applies cleanly though so thats good ;-)
+Thanks for looking at this.  Unfortunately you are the victim of making
+people read it again and spot other issues :(
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+Not sure we can easily answer them but I have some concerns having
+looked at this doc again. Seems at minimum the scaling presented by the driver
+is wrong. Also the listing in this file for in_accel_scale_available is incorrect as well.
+
+> ++---------------------------------------------+------------------------------------------------+
+> +| Event handle                                | Description                                    |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_gesture_doubletap_en               | Enable double tap detection on all axes        |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_gesture_doubletap_reset_timeout    | Double tap window in [us]                      |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_gesture_doubletap_tap2_min_delay   | Double tap latency in [us]                     |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_gesture_singletap_timeout          | Single tap duration in [us]                    |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_gesture_singletap_value            | Single tap threshold value in 62.5 mg/LSB      |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_mag_falling_period                 | Inactivity time in seconds                     |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_mag_falling_value                  | Inactivity threshold value in 62.5 mg/LSB      |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_mag_adaptive_rising_en             | Enable AC coupled activity on X axis           |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_mag_adaptive_falling_period        | AC coupled inactivity time in seconds          |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_mag_adaptive_falling_value         | AC coupled inactivity threshold in 62.5 mg/LSB |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_mag_adaptive_rising_value          | AC coupled activity threshold in 62.5 mg/LSB   |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_mag_rising_en                      | Enable activity detection on X axis            |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_mag_rising_value                   | Activity threshold value in 62.5 mg/LSB        |
+
+To be compliant with the ABI these should be in whatever is provided by in_accel_scale
+which according to elsewhere in this doc is any of 0.478899 0.957798 1.915595 3.831190
+which are in m/s^2 / LSB
+None of those look like they are 62.5 mg
+
+Given there is no other way of establishing scale, if the thresholds really don't change their
+scaling with the sensor scale (which would be unusual) then we'd need to compensate the values
+in these attributes so that they are still value * _scale ends up in m/s^2.
+
+Those numbers for in_accel_scale are also wrong.  They should be as per the comment
+in the driver
+0.004789, 0.009578, 0.019156 and 0.038312
+
+(so please fix that whilst you are here - probably in a separate patch as it's a fix
+rather than tidying up.
+
+As to what to do about the units.  Firstly, express them all in m/s^2 / LSB so we can more
+easily spot the miss match.  Secondly looks like the driver needs a fix to have the right
+scaling for these and that runs the risk of causing problems for anyone using it. 
+
+We do have a fairly rarely used ABI option of adding ../events/in_accel_scale
+(see Documentation/ABI/testing/sysfs-bus-iio) which allows us to indicate a different
+scale factor from the main channel scaling.  That is probably the best approach here.
+That would then reflect the scale in m/s^2 for each LSB which correpsonds to this 62.5 mg/LSB.
+
+
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_x_gesture_singletap_en             | Enable single tap detection on X axis          |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_x&y&z_mag_falling_en               | Enable inactivity detection on all axes        |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_x&y&z_mag_adaptive_falling_en      | Enable AC coupled inactivity on all axes       |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_y_gesture_singletap_en             | Enable single tap detection on Y axis          |
+> ++---------------------------------------------+------------------------------------------------+
+> +| in_accel_z_gesture_singletap_en             | Enable single tap detection on Z axis          |
+> ++---------------------------------------------+------------------------------------------------+
+
