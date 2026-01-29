@@ -1,102 +1,94 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC901531C1;
-	Wed, 28 Jan 2026 23:40:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24488186A;
+	Thu, 29 Jan 2026 00:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769643644; cv=none; b=ux2M3C74FZ71xf2SX6kple50hrhzH1vOF7y6WngKONDYH3390NuLtZZXAvx6EnJC1JsiicB/Fxlz17T23wC9KZh0eVfKZEjjMoqluIFuSmDVEuaBnJJBdR1vb4T2s71ZosfPK7zjpdfF0lEzTmqfFbbkbFteD4wyOhmbx05VLlw=
+	t=1769644923; cv=none; b=f3SUQ5v1aPJ4BwSa/EfD6DHPx2B8OmoUqWa/RR3/DBkRDzCI3xBm4R/ZsG6hlfOM9kg5KxGBb1sdFrEt4S1jOyQwnxVF0iV2g4AUGpFHG6gXrQ6PGjOgq/X4FwHTfpGLxs/j1rjzu34HPIwTa5yQGPAcf/zRRM8GQDQ+hi5kBpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769643644; c=relaxed/simple;
-	bh=BVCcFC/P3eYHZqp3dB7Pn3Yh9dSiO5hqJmi1gbbnkdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D/Uihmo6RaC6vtOPoNOkEUuQ+Ud1oufKFuPARuqjDzePZRqgZg9Sq11UtrqcxklR8iU0l8yrRPtDDU7hoEDsqfZPnvchBbkdLqZ2TYYrV023JNdOj96lq3ykKeEXgXtHgu0U8Qw0QQD8y++Ui+rcCUVlDfQaPkC7wrMPqJJkvG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QAxp3sRR; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1769644923; c=relaxed/simple;
+	bh=J/qTG4pGilyGtjcne9Wna5dgdSlO8aWgnStkPw5cJ5s=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=Bonzi2+CYbQa3I6JGYbaQpwA8yymncipW8qGYwZ/ebuD9Yf1Jpm+iSqemmiLwcavWkh0nbyVVf1uQdHdZtQjQKEQUqLpjnXPaM48+jVrbXD+1aYFNlLLwJJIOOQXAJJXl+RFl1mjPcVW1ZIgmaEW3f+8wJ0e252M7nUX2bbJE+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uyzN/XNr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QAxp3sRR"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2B93B581;
-	Thu, 29 Jan 2026 00:40:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769643604;
-	bh=BVCcFC/P3eYHZqp3dB7Pn3Yh9dSiO5hqJmi1gbbnkdQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QAxp3sRRADR2mI5xyl0/sCqt4idZASopXlwbjaQ25+wyirr8XEA8mz6lUvAwwOQx8
-	 aPaQtDEZl18sI+Fp5v5urx65mRemxu+IXj1vKfU4PzfCQyuCxFPAA5/kW+MhJLWPrH
-	 lOYCGM8WsUuF3tb9229rBAmEQLQV4oMf8y1QkjWs=
-Date: Thu, 29 Jan 2026 01:40:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
-Message-ID: <20260128234040.GC3275574@killaraus>
-References: <20260124170535.11756-1-johan@kernel.org>
- <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
- <2026012554-chatty-policy-42a1@gregkh>
- <DFXV1QMQMTRK.2W8SWGVHS2K69@kernel.org>
- <20260126000730.GI1134360@nvidia.com>
- <DFYNFXYTXBIW.314K249BPTA1Z@kernel.org>
- <20260126170720.GN1134360@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uyzN/XNr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65D92C4CEF1;
+	Thu, 29 Jan 2026 00:01:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769644922;
+	bh=J/qTG4pGilyGtjcne9Wna5dgdSlO8aWgnStkPw5cJ5s=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=uyzN/XNryhWrkcwztJ1WDKwN2hRmBTjqVOAbay5Pscnv+XQjxVH9M6+HD/FyMGR3K
+	 TaHM9mmkVsQZcgRFbQStI4OOiB17+Pc+1XtzMZaameGAmZoU19Ew4kHWBmraxKbs9M
+	 wJWQAzCywbHH8zz+cBXS5jx+ozMnDrqk90az1LyFCu6iTt0o0tHpr0DZgRyRLYa9//
+	 6+lNbiu3M/msZ7e/cB9u6XpAJJgV/yTK9VVM4FJPIl43xDuVeHACpSTUX6CGD+s5WP
+	 HjycssjkDZgJZTrOO9ArKose7tzewQYeNivbhVsN62lQzGPKv0YuDTITCXQP7zUwzW
+	 aqiQRk2BQY3sA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260126170720.GN1134360@nvidia.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 29 Jan 2026 01:01:51 +0100
+Message-Id: <DG0MRL6T7ACW.25G3GLJMP7PN1@kernel.org>
+Subject: Re: [PATCH RFC v6 00/26] nova-core: Memory management
+ infrastructure (v6)
+Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>, "Christian
+ Koenig" <christian.koenig@amd.com>, "Jani Nikula"
+ <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
+ <joonas.lahtinen@linux.intel.com>, "Vivi Rodrigo" <rodrigo.vivi@intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>, "Rui Huang" <ray.huang@amd.com>,
+ "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>, "Helge Deller"
+ <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>, "Bjorn Roy Baron"
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
+ <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
+ Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
+ <zhiw@nvidia.com>, "Alexey Ivanov" <alexeyi@nvidia.com>, "Balbir Singh"
+ <balbirs@nvidia.com>, "Philipp Stanner" <phasta@kernel.org>, "Elle Rhumsaa"
+ <elle@weathered-steel.dev>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <linux-fbdev@vger.kernel.org>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <DG06XUWOJLO5.1ESB8ES6A6081@kernel.org>
+ <4540DD73-77BA-45F0-B686-32EB96402717@nvidia.com>
+In-Reply-To: <4540DD73-77BA-45F0-B686-32EB96402717@nvidia.com>
 
-On Mon, Jan 26, 2026 at 01:07:20PM -0400, Jason Gunthorpe wrote:
-> On Mon, Jan 26, 2026 at 05:08:20PM +0100, Danilo Krummrich wrote:
-> > On Mon Jan 26, 2026 at 1:07 AM CET, Jason Gunthorpe wrote:
-> > > That's the whole issue with DRM right there - allowing driver code to
-> > > run after the driver has unregistered from the subsystem is
-> > > *dangerous* and creates all these bugs.
-> > 
-> > Unfortunately, it is necessary (at least to a certain extend) in DRM. I think
-> > there is space for improvements, but I don't think we can get rid of this
-> > entirely, especially on the KMS side AFAIK.
-> 
-> From what I saw alot of the issue with DRM was how it works the fops,
-> instead of the core subsytem managing the fops and calling the driver,
-> the driver managed its own fops and called back to the core.
-> 
-> Sure, the issues may be very hard to fix in existing code, but I find
-> it hard to swallow the idea that a subsystem couldn't own all the
-> fops/etc and guard every driver callback with a lock to generate the
-> right kind of fence..
+On Wed Jan 28, 2026 at 1:44 PM CET, Joel Fernandes wrote:
+> I will split into CList, GPU buddy, and Nova MM as you suggest.
 
-I also don't see a real technical reason. Retrofitting the right
-solution in all existing drivers wouldn't be for the faint-hearted
-though, so I understand the appeal for subsystems of a quick and easy
-suboptimal implementation.
+Thanks, together with a proper changelog this will help a lot.
 
-> > > IMHO since rust has the Device<Bound> stuff the revocable should have used
-> > > rwsem, because the expectation should be that the majority uses access, not
-> > > try_access.
-> > 
-> > Yes, the majority of uses is access(), not try_access(); not sure if rwsem is
-> > the better solution though.
-> 
-> rwsem is much faster on destroy and somewhat slower on read. Which
-> sounds to match the use case here. Ie you wouldn't need to do special
-> effort to bundle the synchronize_srcu()
+> One question: what version numbers should each split series use? CList wa=
+s at
+> v3 before being combined, and similar story for GPU buddy and Nova MM. Sh=
+ould
+> I continue from the last version number they were posted with, or continu=
+e
+> from v6?
 
--- 
-Regards,
+I'd say from the last version is probably best. Maybe you also want to move=
+ out
+of the RFC stage for some of them.
 
-Laurent Pinchart
+Thanks,
+Danilo
