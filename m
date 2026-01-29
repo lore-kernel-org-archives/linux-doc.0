@@ -1,102 +1,98 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFDB33557E
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 02:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074DE3EBF04
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 02:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769653565; cv=none; b=nejZB/kP1O4F8b0cxfvoXsh2WhUstHXvWaJQU5su4TEtDp9w7FeLzC0UMtDranIJl8BwKhlGbJu0Ppr1h8wVfZpWsiwIFqrZyu+GuwxYBpUYCn6Ie6wtqmhe57R15zX2hvNzcFgdGihH4G7nuldC543vobDtVeBArtcn0ns9Z4M=
+	t=1769655172; cv=none; b=e4P7Hi7fsZpUp6ejHCvHV++dOhtdUaT1JPmxei+2GQxqA4jLzIdNofsKa4z52U/jztYkO8/Px9cxr8mJvqLYEcuNqaJdf79zcaX+BOWymHRqxU24x5qimK9aZvfEaEfzLCVE6TNhPOVZBm68HdHOKwsYPVBEOp7wMalA9Zo8WVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769653565; c=relaxed/simple;
-	bh=rQMG62klzk7My02okdNZGZ5OJ2y6Qu0CKZDTi7zTjZA=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=GHCJh+/GXMCnamliy4RkPLAbkrCuvzjCyqHTVnSNWF9UcOltmNKCEtUru5P63wgyUTT5TNYtUJv79gup1eq2dD+MK4qlvhU2qUvmRSu6bJxqrXB/2y3gKdeRntRw3pSwirMlMwxWjRLn8qdToPGtROXyQwwa0YXW1YYy6mhJa1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=n15ShtoL; arc=none smtp.client-ip=209.85.167.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1769655172; c=relaxed/simple;
+	bh=mfj64IcwXKuAswN64BKy+GaRzOkqTPEFZRcVNE7fDg0=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=dFr8j3cip0Vmu5SQRKa/P35UKgE7TodVOqo30Mmvwwh5fMWMC+0skTHBE4UPJ7tlRV/2Wb/c3KnDSyiDo5SQ2Ch5c9OFGNqPD6hnvV9zWzr1SYhcSqM5De7FOtN97JHjAK1v/u5riLtT85uGibGaBJ6ifVx7w42emoDRYmMqxI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Zsd8oPGy; arc=none smtp.client-ip=95.215.58.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="n15ShtoL"
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-45c7a71ba20so237099b6e.2
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 18:26:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1769653562; x=1770258362; darn=vger.kernel.org;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rQMG62klzk7My02okdNZGZ5OJ2y6Qu0CKZDTi7zTjZA=;
-        b=n15ShtoLOVPomZIIvAoOSK9mhJ607lf0UQlFSX5mf9yGtXwuGtGHYNBguwxU6oGmew
-         4fNpf2kOQQL4u3hAN1uI8xKceb7/emRRJh1fBIBkm70+u0SNJp75Cfv/hRY7wsEeq8QJ
-         4kNUwKrW1YeLCtbKJuUygaPqcyZSD4hW2OnaxsMDbQCYuldgBbSW7JrCDOhJYmzj6AM8
-         2Zp6CWqI3Dbbv5zYcGRN9YpcDyiU7nP78Bkxv+l0WbtK/zdJkWYnr8OlOm8MOibJNV3i
-         fXVU0bFzrqiKb82Gy2SToHpBK8Lq/yjuoeIm3ylLu5dEIaQg6btL7ZBuzlpULVvrNFbL
-         VGXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769653562; x=1770258362;
-        h=to:in-reply-to:cc:references:message-id:date:subject:mime-version
-         :from:content-transfer-encoding:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rQMG62klzk7My02okdNZGZ5OJ2y6Qu0CKZDTi7zTjZA=;
-        b=C/JoVokr4AucNpWXE2t1foDnLyXoI7WIU4jIKao6199Fv/knOq91/IMAOjeAgJ7J/N
-         8Yy20G88v7h7qAo1I64WtJ3xRhnBQsOqCEzjvM3hpD9x3c7vPkIDFUS487rchgS2HpKu
-         ig46wtzZM/KSt0pv9y7lFptkCwZxFO+KsVQ6+ntdWgyp24Sn3TfkW/4BoNcG0T/QFSED
-         xYsCrOR2PHZSNHb9jSyzx7t0jX9uXY7+oWTGrB8M8W28YBy/BxMVJ0LLhRmeLIFCuY3R
-         VPcv+jq2X1xUDC2tWwbWBepPjvm0vgJ1c8K2xW6QAJ9B1HCQsfQHrsNgd7m709DG1PvG
-         DVTw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7/eyNwxAyce9a0fD0im9R+L9IhcYheB4lt4bwMX1ghk0HGkHrt7CDiub7NvenaVCncQq7OxW7XRw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1cJRF/q1jxnbOFDE+Vir16U0g6e1MDjBy6HVnxqrzHkVhqLTW
-	UIJ9+aXgS9Bo24opF+qWtl18AUJb7sNsPm0sshL9u/Pna5DKkRNI/IHIqlzazOa5O4Y=
-X-Gm-Gg: AZuq6aJtdPrg5euyCHMEaF4R4kvdesAmiXaWSwQ5arzcPO4d078OB7HHFU9OuDMZ1cM
-	FQ4xMPhps0WWeQ6duseSh2m5gfqPmgsB6l/v4x5yxwK1X2P42RAsoL0V81frceB7qjTmDvr7w32
-	XvIbm36rMpgtQf8I6K1wOx/DlNV90yyKN9f8u0dNUlfRuvBtYEO/vMokjSTv3IOII5knavW4V8V
-	KrONFGVoyz4NUpRYB1+h5AXmDEwnchcvA1ScXrjH2lBlhcsDJdVJUi4+6TfA7ksM9D0Vmu8JND8
-	RAeuyr5Zxg+qMBP/8RVyIohHcBCVwVKHa2IFIb9DWN5z/uFMFUKjHjpgyL/ASubT0IdFAxWrKB9
-	jsdPfAHIIcAPx+FaWqK9E9LZuJHHwq6cUtdmlAZD6rdwGrBE15nbL59o2XWiBCBjbeOmII59Aw3
-	jMBbhpvIryQfY02QdSiL/MbCVF/fZF75VnlMjEoI0mTw==
-X-Received: by 2002:a05:6808:221c:b0:45e:801c:a0ea with SMTP id 5614622812f47-45efc6d0628mr3467328b6e.32.1769653562137;
-        Wed, 28 Jan 2026 18:26:02 -0800 (PST)
-Received: from smtpclient.apple ([99.196.128.181])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-45f22b4e676sm483963b6e.3.2026.01.28.18.26.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 18:26:01 -0800 (PST)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Jens Axboe <axboe@kernel.dk>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Zsd8oPGy"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769655155;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zUUCdyLNfxqZr/JB01jIM2hS9AGiun290KshO5xiDNo=;
+	b=Zsd8oPGyu5Uk7qrMcCaR8as8UdOPm0CloBX4g8v2jaMMG87yYzKAcVcuJedg4e4kWo99Sa
+	NPGVL+lCQu5BYDf4/XNR/VoyJqvKO5RNqOfvzWLYF1jd7rZlr/qOld56WiPELa5NB9KUBH
+	hkDYJGOnOocrlW7Cn5jC7PQp16cezk4=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v4 5/5] blktrace: Make init_blk_tracer() asynchronous when trace_async_init set
-Date: Wed, 28 Jan 2026 19:25:46 -0700
-Message-Id: <56C8934E-3D17-4467-93E6-D813770BF577@kernel.dk>
-References: <20260128194104.30051be1@gandalf.local.home>
-Cc: Yaxiong Tian <tianyaxiong@kylinos.cn>, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-trace-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-In-Reply-To: <20260128194104.30051be1@gandalf.local.home>
-To: Steven Rostedt <rostedt@goodmis.org>
-X-Mailer: iPhone Mail (23C71)
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCHv5 10/17] mm/hugetlb: Refactor code around vmemmap_walk
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20260128135500.22121-11-kas@kernel.org>
+Date: Thu, 29 Jan 2026 10:51:48 +0800
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>,
+ Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>,
+ Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>,
+ Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>,
+ kernel-team@meta.com,
+ linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org,
+ loongarch@lists.linux.dev,
+ linux-riscv@lists.infradead.org
+Content-Transfer-Encoding: 7bit
+Message-Id: <1E5F65B7-59C0-463D-95EA-808520C14B85@linux.dev>
+References: <20260128135500.22121-1-kas@kernel.org>
+ <20260128135500.22121-11-kas@kernel.org>
+To: Kiryl Shutsemau <kas@kernel.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Jan 28, 2026, at 5:40=E2=80=AFPM, Steven Rostedt <rostedt@goodmis.org> wr=
-ote:
->=20
-> =EF=BB=BF
-> Jens,
->=20
-> Can you give me an acked-by on this patch and I can take the series throug=
-h
-> my tree.
 
-On phone, hope this works:
 
-Acked-by: Jens Axboe <axboe@kernel.dk>
+> On Jan 28, 2026, at 21:54, Kiryl Shutsemau <kas@kernel.org> wrote:
+> 
+> To prepare for removing fake head pages, the vmemmap_walk code is being
+> reworked.
+> 
+> The reuse_page and reuse_addr variables are being eliminated. There will
+> no longer be an expectation regarding the reuse address in relation to
+> the operated range. Instead, the caller will provide head and tail
+> vmemmap pages.
+> 
+> Currently, vmemmap_head and vmemmap_tail are set to the same page, but
+> this will change in the future.
+> 
+> The only functional change is that __hugetlb_vmemmap_optimize_folio()
+> will abandon optimization if memory allocation fails.
+> 
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
 
-> Or perhaps this doesn't even need to test the trace_async_init flag and ca=
-n
-> always do the work queue? Does blk_trace ever do tracing at boot up? That
-> is, before user space starts?
+Reviewed-by: Muchun Song <muchun.song@linux.dev>
 
-Not via the traditonal way of running blktrace.
+Thanks.
 
