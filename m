@@ -1,163 +1,150 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB9936683A
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 22:33:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416E0352C51;
+	Thu, 29 Jan 2026 22:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769726002; cv=none; b=RAAcYQZKt3DmGGPfQNNoTCbIxzSkcKSYAyPNL9oM0D5Ws9104UfMImpzc99mii3/8P6m+MfSd01+xeKoKNSivwpKLB7qA9ZkBQWJ91dP2MpYuI1x5Xqd1yv5SJBv4GgLuyAlOSL2xdZdFOZTA6yJN7fUVSgYvMLfoN9AByu8PCo=
+	t=1769726139; cv=none; b=OxhfAjQJAd4zyRUYiehnu2Z86cwP/NCjMOTCoHbDTV6jYSBlW2HfrzG/jdvVjzQb+DV1CYSyve43XwQWqUzWN5UW1Q3rqjDjo/LAVSwgDUydZfv/kmpIufJb2eGNZc3AYq7t8Jk6MnL+oDqGMk52dOO90nN3v25vLa0/OQdRpbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769726002; c=relaxed/simple;
-	bh=v63/Q89R1FZp3eIace6yEluQWPmCvUnvUR/7uDkLuXk=;
+	s=arc-20240116; t=1769726139; c=relaxed/simple;
+	bh=UkNX32KZtTbiUWsoCAvLwtloIiF3hbhWHYIeoQpDme8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ASTEl6m6ZuRswvv195LtduE8dsoKKpWkjsyVRKjON50bjkcsrRqK603h5NzrgGBNVsxUeqzMUVU5RRbNtX52BIR5y1sWhoBmH8vsALmwVYY9VTFiXLzLt6oFPOMgvGVJgtdBkaCQdMIAs0sQ/aWrX3CDbwAgdZU/YKcycSy32IQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ByDLftJw; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nyvlf2d7fzgkYYcn88d/NiV+zWDJ9EH3SLgns6NkdlG/gSzAWgaTFO4QLtkGQs1HgRxVo1FDyuZJG98V2vMV/s9nzW6B5OcWhbVUWjyowGJn4AP9fvlQUI6JLPdCQE2KP/bPBIP+s/wSaTIDLtJibvHyvpzUs5K4+gWodEzHmFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k09VX/to; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ByDLftJw"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8230d228372so774467b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 14:33:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769726000; x=1770330800; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dBZ3PFz9KqTT7KdM5e4cMtXwD446xZIZixlzxugjwak=;
-        b=ByDLftJwm+ggKAtpqCU9sPZffMWsEUrPGlXYxLmcxXvEW2byFmmvqfi2d01fyEQEMb
-         MwhFVh3cp4Y5o0bKokJMPdnGLYqEXcrActt5hjA6Zte2xnVh0jf/E3MPQ2Z6fRih8t1m
-         lxR4LUyDfzoBoC5OH0lWEf6RuUHQpGHPtiHoOiZpgaWlOfdFQZ3hiJoXZ0VsorP7VNwt
-         zbXj9JvDROjUvSKfSMLwr9R0sIDSR1JipmmZRm5xbVwZnNbvyQYg9vZt4NRHkezN3bEs
-         qm9OC7jqRQeTcAdtpZgNSTOUzwAwWzJgmACaT4toFUT5eFZrRiThC4MtKcUDKYWSt7we
-         VK/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769726000; x=1770330800;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dBZ3PFz9KqTT7KdM5e4cMtXwD446xZIZixlzxugjwak=;
-        b=F2l646evA14C1admJP8cM1b+sClk8759gXUYbUiZcEW3SMftI2VpAhS8li8gWr5WDm
-         Hd0H8QWV3A4l5FHhWWVSJbPIcZiqso3YJW4XzsPiGP8GiDymo2+4QyJs37imW4xT8FAC
-         AVhtpEIHIT5prurLQO00213H2j9NKiYqs1wq7TYdk8+4zr3hphjETuZ2W5fcFPEe2cXH
-         Zcr1/ri4fqLDRJae37BtlX5x9mL9a9dh3IFElWPz6HDckAeoO4/cXAPkx3iHo0Ipb5V9
-         zn4tugISk2a1YkvTDFwrWz1Op5V9jVqI9NUJwlRsXz/qv9hrrRMKYXfGoZwRY0ocmZm1
-         ADNA==
-X-Forwarded-Encrypted: i=1; AJvYcCXjsM+nA+2ymLmmperQ9Cqg7Gng4QAeAhh3AEoM/OfSBzsXCMTzsNmv2v9Q3tuM4O9eb5jBeGcI+JY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyN9pYEEE3CCZOacPbNa1yUOxkEv4SbqigVV0e1DHNId/t2L2t9
-	tSrqz8uBm0XiVsM1I6OxrSyqdV0xj88RzvTKZLkXXYO6GE9Djh+V1RJ5s1gUoGHM6Q==
-X-Gm-Gg: AZuq6aLcZJrW12ij5b6C+2zUwnJJ8MuBHzx0ihXBxbyMEc+XBu/USIjDE5DELlkwOeW
-	/c3QphEtX/+T55q4f5BFlSrSbQTN6W7Kp2GkX9V71xD2pqiCen/xKr5CfPKYEzLnAXQVj87UX0B
-	Sks4ryoRo204fWayG4JIneRGMPVtx03HxmQpHi7NJK3sMRteXZHTTp9NsG7t0pRoQlJRT8EZbaW
-	kHu2739B77OJp0agDrLq8Zl/RWobFtrp1BCf+CsbnLF8Ky383dMeNlQuRdSZNyu+xni1go2N8FE
-	nV9btkSKX3I21ijSFR7ZxjtQJuhcwZ5H3S1hONFw5HrGpRBEuOlwBzJ79zoDHisJ6tbbamA5RoI
-	tUpQmVNQZeW0onL5X8kKnjkoRTSRzsh1pyJwQl0u9MS/zyzidje47ks5Ki/ReYn1ghAzXFA7+9/
-	12q5xJWfZRpRcw2acHGsrm5thdsSPL7vaT9u6HciHUYPpHQpdYAw==
-X-Received: by 2002:a05:6a00:1f0d:b0:81f:5ec1:8bcd with SMTP id d2e1a72fcca58-823ab684bffmr621422b3a.20.1769726000049;
-        Thu, 29 Jan 2026 14:33:20 -0800 (PST)
-Received: from google.com (79.217.168.34.bc.googleusercontent.com. [34.168.217.79])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379bfd797sm6165100b3a.43.2026.01.29.14.33.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 14:33:17 -0800 (PST)
-Date: Thu, 29 Jan 2026 22:33:13 +0000
-From: David Matlack <dmatlack@google.com>
-To: Jacob Pan <jacob.pan@linux.microsoft.com>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
-	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Lukas Wunner <lukas@wunner.de>,
-	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Tomita Moeko <tomitamoeko@gmail.com>,
-	Vipin Sharma <vipinsh@google.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
- Live Update
-Message-ID: <aXvgKRrbfymW5NKb@google.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
- <20260129212510.967611-11-dmatlack@google.com>
- <20260129142158.00004cdc@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k09VX/to"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76475C4CEF7;
+	Thu, 29 Jan 2026 22:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769726138;
+	bh=UkNX32KZtTbiUWsoCAvLwtloIiF3hbhWHYIeoQpDme8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k09VX/toJdFybVhpIQRAo1f8y9CbBEYErGzzsMQjRzVbSqvNBcSEBAVY8oPUivtXX
+	 eopkMR1CT43PMYuUpbsjZMN3YVmv7zqh5JkSq4BOVI80zjWQORYC7tLqj0m79kS8IS
+	 SzNVpo0JtqO2mLkbucoyiQUqAf+oKRagkGxOsaQM/EmF/5r19t1wc8ZiEjoDFO4MDr
+	 Et19cFV2FQoGPxFYsm/v7jsdJtr92j3dJuhva40AFYk1ksrIj3yDj+tChSZWx97B9R
+	 gv9yqQfF/lEwYGy4KjUPSoLy5uY1HLwj9WqcCv9Bo+HiegXEmV+6ZRPHA2WrjnlZU/
+	 X2X+fxmCsMGAg==
+Date: Thu, 29 Jan 2026 15:35:28 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Asuna Yang <xinrui.riscv@isrc.iscas.ac.cn>
+Cc: Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor@kernel.org>,
+	Mingcong Bai <jeffbai@aosc.io>, Han Gao <rabenda.cn@gmail.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Jason Montleon <jmontleo@redhat.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 1/4] rust: export BINDGEN_TARGET from a separate
+ Makefile
+Message-ID: <20260129223528.GA844102@ax162>
+References: <20251230-gcc-rust-v5-v6-0-2ac86ba728c8@isrc.iscas.ac.cn>
+ <20251230-gcc-rust-v5-v6-1-2ac86ba728c8@isrc.iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260129142158.00004cdc@linux.microsoft.com>
+In-Reply-To: <20251230-gcc-rust-v5-v6-1-2ac86ba728c8@isrc.iscas.ac.cn>
 
-On 2026-01-29 02:21 PM, Jacob Pan wrote:
-> On Thu, 29 Jan 2026 21:24:57 +0000 David Matlack <dmatlack@google.com> wrote:
+On Tue, Dec 30, 2025 at 05:47:54PM +0100, Asuna Yang wrote:
+> A subsequent commit will add a new function `bindgen-option` to
+> `scripts/Kconfig.include`. The bindgen backend requires the `--target`
+> option for cross compiling, but variable `BINDGEN_TARGET` in
+> `rust/Makefile` cannot be exported to `scripts/Kconfig.include`.
+> 
+> Therefore, move this variable to a separate new `Makefile.rust` file and
+> include it from `scripts/Makefile` to make the exported variable
+> available for use in Kconfig. Place the include in the `need-compiler`
+> branch to avoid including it in irrelevant make targets.
+> 
+> Since the new file name is `Makefile.rust`, it matches an existing
+> MAINTAINERS rule `scripts/*rust*`, so no modification to the MAINTAINERS
+> file is needed.
+> 
+> Signed-off-by: Asuna Yang <xinrui.riscv@isrc.iscas.ac.cn>
 
-> > diff --git a/drivers/vfio/pci/vfio_pci_core.c
-> > b/drivers/vfio/pci/vfio_pci_core.c index b01b94d81e28..c9f73f597797
-> > 100644 --- a/drivers/vfio/pci/vfio_pci_core.c
-> > +++ b/drivers/vfio/pci/vfio_pci_core.c
-> > @@ -515,12 +515,24 @@ int vfio_pci_core_enable(struct
-> > vfio_pci_core_device *vdev) if (ret)
-> >  		goto out_power;
-> >  
-> > -	/* If reset fails because of the device lock, fail this path
-> > entirely */
-> > -	ret = pci_try_reset_function(pdev);
-> > -	if (ret == -EAGAIN)
-> > -		goto out_disable_device;
-> > +	if (vdev->liveupdate_incoming_state) {
-> > +		/*
-> > +		 * This device was preserved by the previous kernel
-> > across a
-> > +		 * Live Update, so it does not need to be reset.
-> > +		 */
-> > +		vdev->reset_works =
-> > vdev->liveupdate_incoming_state->reset_works;
->
-> Just wondering what happened to skipping the bus master clearing. I
-> understand this version does not preserve the device itself yet; I’m
-> just curious whether there were specific difficulties that led to
-> dropping the earlier patch which skipped clearing bus master.
+Acked-by: Nathan Chancellor <nathan@kernel.org>
 
-Hi Jacob,
+> ---
+>  Makefile              | 3 ++-
+>  rust/Makefile         | 8 --------
+>  scripts/Makefile.rust | 9 +++++++++
+>  3 files changed, 11 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Makefile b/Makefile
+> index 27ce077520fe..9754d7add947 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -718,9 +718,10 @@ ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
+>  include $(srctree)/scripts/Makefile.clang
+>  endif
+>  
+> +ifdef need-compiler
+> +include $(srctree)/scripts/Makefile.rust
+>  # Include this also for config targets because some architectures need
+>  # cc-cross-prefix to determine CROSS_COMPILE.
+> -ifdef need-compiler
+>  include $(srctree)/scripts/Makefile.compiler
 
-There's several places where bus master gets cleared that we need to
-eventually eliminate to fully preserve the device.
+Not that it is a big deal but it would make the diff simpler if the Rust
+makefile was added after the compiler one, both for alphabetical reasons
+and it would not necessitate moving the comment (even if it mostly
+applies just to the compiler include).
 
- 1. vfio_pci_liveupdate_freeze() clears it during shutdown when it
-    restores vdev->pci_saved_state.
- 2. pci_device_shutdown() clears it during shutdown.
- 3. vfio_pci_core_enable() clears it when the preserved device file
-    is bound to an iommufd after the Live Update (in
-    vfio_pci_core_enable()).
-
-I think it would be safe to skip (3) in this series, since that's very
-similar to how this series skips resets during vfio_pci_core_enable()
-for preserved devices.
-
-But I don't think it would be safe to skip (1) or (2) until the attached
-iommufd is fully preserved.
-
-If you are just asking about (3) then I agree it could be skipped and I
-can include that in the next version.
+>  endif
+>  
+> diff --git a/rust/Makefile b/rust/Makefile
+> index 5d357dce1704..2603b34f9833 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -385,14 +385,6 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
+>  	-fzero-init-padding-bits=% -mno-fdpic \
+>  	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference
+>  
+> -# Derived from `scripts/Makefile.clang`.
+> -BINDGEN_TARGET_x86	:= x86_64-linux-gnu
+> -BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
+> -BINDGEN_TARGET_arm	:= arm-linux-gnueabi
+> -BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
+> -BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
+> -BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
+> -
+>  # All warnings are inhibited since GCC builds are very experimental,
+>  # many GCC warnings are not supported by Clang, they may only appear in
+>  # some configurations, with new GCC versions, etc.
+> diff --git a/scripts/Makefile.rust b/scripts/Makefile.rust
+> new file mode 100644
+> index 000000000000..5c12b4b8c8b6
+> --- /dev/null
+> +++ b/scripts/Makefile.rust
+> @@ -0,0 +1,9 @@
+> +# Derived from `scripts/Makefile.clang`.
+> +BINDGEN_TARGET_x86	:= x86_64-linux-gnu
+> +BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
+> +BINDGEN_TARGET_arm	:= arm-linux-gnueabi
+> +BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
+> +BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
+> +BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
+> +
+> +export BINDGEN_TARGET
+> 
+> -- 
+> 2.51.1
+> 
