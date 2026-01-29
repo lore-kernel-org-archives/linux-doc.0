@@ -1,149 +1,208 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011069.outbound.protection.outlook.com [40.93.194.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E6633CE85;
-	Thu, 29 Jan 2026 10:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769683442; cv=none; b=pED2f6FEag6qmp+QhwXHfygJeJLdtyvMnGodw0Xr9rsHmxE26C8Tsh77l3qdWTRDTVp50xYfddco5CBNfIijJzuzbnKUrndnTFm9/UJidGlAtmZkVvGfMyZgCwvXup0mcFsE1P71qfnG7OpI10FNNetnnRpvwM8DA56uLSiNKh4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769683442; c=relaxed/simple;
-	bh=fGYnk2Wsl/iClv2PW9DITnc+e8ObvsPI8ETPAZdS5HM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cwBwv5zvsV+omj967svZoezIpgCgvHyJkmKhCCJPXfM9wqHNun/+W0YszsKzUj76vta9P+DtULj8CQEx8ie0ICAE0kAu45x3xtAnhbfsqGUIgzeXrI+uyJ2HtyfibedUOE0vobwvHgHQesTDY1+ekb4hJPPod92T2dZpMFeDa/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ONwaO5EY; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D1D37FF49;
+	Thu, 29 Jan 2026 10:48:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769683730; cv=fail; b=hpqCvaqiFhnCSQk68SFFSDHmXwB+Dpe3iJXgB6tDzPbP7uQt3FmBSf+qjZI9XdZYUxMoMqUN57wfC2QIXSQOYjnRWzBGQNBPlTp42n8O36q7efGN8cZysCknBxt2MVE9UtCEFO5BDBeEYuq4+UEQ8sIDU4q/RlW6uzzjU/m1Qms=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769683730; c=relaxed/simple;
+	bh=c2Ds/rIXpDPA5NDXsbIPUG8+3wm7c2p3cx4Jd+zU/+k=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JoOFP12Mzc/iSgrvsyrXYkQCw0i5qE3mFcHQ3DVeEyR8CPVJ9r6r3vIjeNy/e1NOrtYM6URb2bWXyPO5FhaOkS+YR+9OFIHF9w8tbx0Uh/+3symSwV3E6f3AUQevXQrMiyKr6eHGqh3MXOLJWwBXcjM3GYCklnFZmSDNBD5qnts=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=RjKzHjwm; arc=fail smtp.client-ip=40.93.194.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ONwaO5EY"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CE48F6A6;
-	Thu, 29 Jan 2026 11:43:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769683402;
-	bh=fGYnk2Wsl/iClv2PW9DITnc+e8ObvsPI8ETPAZdS5HM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ONwaO5EYzj78++dowH9xINB9PbdXSdfAsZ4GUdxmqyHe7y8sieieW6Y0erVZ2ubHR
-	 MW+p/gYX8r10Z3ST9e2/2/COkQc3s3C15BGPKQIIfj/3qrgkq8nPfWIHglnemjDfAD
-	 cywdgYQEAr+K4l/9ynRL6EWV4i1qj53F/NoYKWGA=
-Date: Thu, 29 Jan 2026 12:43:57 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: dan.j.williams@intel.com, Jason Gunthorpe <jgg@nvidia.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Bartosz Golaszewski <brgl@kernel.org>
-Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
-Message-ID: <20260129104357.GB3317328@killaraus>
-References: <20260124170535.11756-1-johan@kernel.org>
- <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
- <2026012554-chatty-policy-42a1@gregkh>
- <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
- <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com>
- <20260127235232.GS1134360@nvidia.com>
- <20260129010822.GA3310904@killaraus>
- <20260129012322.GC2223369@nvidia.com>
- <697ad713ea124_3095100ee@dwillia2-mobl4.notmuch>
- <DG0ZES9SRSKD.11UBH7B75WNSX@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RjKzHjwm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rNvslVy6OsgF0SnFsVx9//1xs8+/DQwDyHf/2hUw57DeNDtSyWTibCYQpR4MmOhZguw7a4rk1cS4eis+i/fjHZ/wazGTsuCh/ViLub+enCYm47vyuLnhbJV/wtpnJaT9bk6BD5MeYO1/r/s8MhIcrQpIX6hS493ivNvRgCVuUDvWmPZPbg4lqwl9te1zLX2WChjPIq9ioWedmL3cqYL9/gA8oa9/4vymucGbIQnxzNEMyUv1X1hQJnrTKyglg7C4ujRDrV0qW+2hVrUVqArak87xH7mIA3F4O0a5hhl5r0MramFdtreZFMoeoy7Wlby7efHTm9VNGz2xDxcS55VT8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YDjkvDqcBfn/7Wmpbew5GlhamzH3bjQ/b5Nx9nk/190=;
+ b=Ns6vyd8K6+xLnVw0gSEni7rG+kNOjLj0yK+1XBjZ/ZRu19q49ZtPozEVsQQRHq9OkIucv6+mMipNlarc505IPR1T0NerKirH/slkCGOAMCg2d6L7+9br4ajz+ZQ47+i8MrLJxy9wu1i/9vA1j0YbtFk4oPsDVPkQNLaKrcmUAkN/ddQKQhi6YQOChvSDIT0D1IZgwmMhUTTB+cXAEoHeO7+3SQlqmGk4ZA+amTowaKvLZW020jRpMMxMMUfeihQPFnNTENgwbcltEqlNeDbZLot+FAa61Bf7gpLvkwcGogzZuq5MNGZqitFM0F7F18BIQf9yvxoVrYkOtOef8yMWkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YDjkvDqcBfn/7Wmpbew5GlhamzH3bjQ/b5Nx9nk/190=;
+ b=RjKzHjwmnmIupDsVSOMRx29meGLVI2wnh82RFD5Ohi4VYQbKmKthMJ5+eJiat3Um/RQnk5C2V3rMfKFYB0bBdh4H7jD09mUkb7JJLmqklSgMqzgNz6GVFiHAvB3a3AV3XfVxwiplDLbvx+cMsczIllKzsnzUru+kYpNbgQ7CxtNAA8CQLaRvi0fkeZWLErrpltNOijxvvs6rXnfdL4mn3+AirTBBfkhGQjCGULtrWVMjPfisZxbMck6sieFfjwEYZG6Yjrp9whmN0O+RX3oN5vXozC3QgKp3ylVVKRQQMu4fxjyG11w/e+BUlIz7YKu53PFp3ADrjUiHMlCq3onAxQ==
+Received: from BL0PR02CA0035.namprd02.prod.outlook.com (2603:10b6:207:3c::48)
+ by BY5PR12MB4148.namprd12.prod.outlook.com (2603:10b6:a03:208::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.7; Thu, 29 Jan
+ 2026 10:48:43 +0000
+Received: from BL02EPF00029927.namprd02.prod.outlook.com
+ (2603:10b6:207:3c:cafe::77) by BL0PR02CA0035.outlook.office365.com
+ (2603:10b6:207:3c::48) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9542.14 via Frontend Transport; Thu,
+ 29 Jan 2026 10:48:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ BL02EPF00029927.mail.protection.outlook.com (10.167.249.52) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Thu, 29 Jan 2026 10:48:42 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 29 Jan
+ 2026 02:48:27 -0800
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Thu, 29 Jan 2026 02:48:26 -0800
+Received: from sumitg-l4t.nvidia.com (10.127.8.14) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Thu, 29 Jan 2026 02:48:19 -0800
+From: Sumit Gupta <sumitg@nvidia.com>
+To: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
+	<zhenglifeng1@huawei.com>, <ionela.voinescu@arm.com>, <lenb@kernel.org>,
+	<robert.moore@intel.com>, <corbet@lwn.net>, <rdunlap@infradead.org>,
+	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
+	<perry.yuan@amd.com>, <zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
+	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
+	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>,
+	<sumitg@nvidia.com>
+Subject: [PATCH v7 0/7] Enhanced autonomous selection and improvements
+Date: Thu, 29 Jan 2026 16:18:10 +0530
+Message-ID: <20260129104817.3752340-1-sumitg@nvidia.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DG0ZES9SRSKD.11UBH7B75WNSX@kernel.org>
+X-NVConfidentiality: public
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF00029927:EE_|BY5PR12MB4148:EE_
+X-MS-Office365-Filtering-Correlation-Id: d6f2c6ed-b8e1-4909-c6e0-08de5f23f84b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|36860700013|1800799024|82310400026|13003099007|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?73Gd5Rs22pZW6TWatzsiZh61lPp6MnuINjQSLsSQzzZZ4av0Kg0Xf1pxP7NL?=
+ =?us-ascii?Q?6CGhamIbJM8/oipSmA6zJrM/W1bQZckfmPbS9Do/Dvhl16b67Cfj4az7Gpqb?=
+ =?us-ascii?Q?J5ygo/eARJSAWnlbwg/y8Hc7bRLjnVngZ8obtAD+VQsYhSynrr8TlThm0E+Z?=
+ =?us-ascii?Q?bb0ThTDbSvBZeXzxE7BS+mKt1qXBnwIVKAuDMbv6szXGBQZEiibLnj5QPqKB?=
+ =?us-ascii?Q?HyhXoDGkqgfsGbX0tKoU76oLT4vT5l5OIqfyoub2BzXbOG5ffZ6VFV2qNoJX?=
+ =?us-ascii?Q?SmNinsXE8rGDcCJlSfpQR/+3+UZxQrHzT3KGs75UrqHxO2VXMgMAG2NPo8Gp?=
+ =?us-ascii?Q?TUXzHGAb1wOIPZWBYXCfbsLyt4fM9tFxBsUTynrgGICIrVJW7tEfSzyNJSFq?=
+ =?us-ascii?Q?9E3Hi4ikFIl3kI68s4FJf9O30OZyOsI2P9E/y38ZkMD0zmx3V8CLbQPSIrgO?=
+ =?us-ascii?Q?5ppm2atJfWUz4BpyypFfliqsww1+/E/19urGYzS2bQ2CHrZ1Y4I2iIyelEc+?=
+ =?us-ascii?Q?A08a2UwKsiDif1tW8crxKtK+Abxz7nMPh1tA7aDU1TOwGvx9lGiS5cJ/xa0P?=
+ =?us-ascii?Q?xqQ8S3IoFEVaiLbVXBc+rR4+1rCDnorkhQpqINTBzRqJy0ShAOHVHbM+Zfxy?=
+ =?us-ascii?Q?GHwJM22luBtFOuD623iRS0AyK2TECvNfdMp+pIikwOobiCRZVWZfeM5K88Kh?=
+ =?us-ascii?Q?rkUNaN8ceYA7aKCnqdAm9yg6JEFrPNPyY3N/1d4obT6vDWya6AhfgsX2mfvF?=
+ =?us-ascii?Q?BqSCZO9oN3GPpxye3d4c745NmfwksNhYSW3YgKybJ71OLufwySFsl7Exemz+?=
+ =?us-ascii?Q?y+gQXcGN5u+ebkzmevnUj5XrU5w2v0fyoCjZdcB28QnbX/e2hNaZM+jn8cXj?=
+ =?us-ascii?Q?1YcEKqUzrsD444IRdlmqIpo36o7QDEkeD3SMiAf9DAIFVNJ3AIgubiusIXsb?=
+ =?us-ascii?Q?KxB4THBMdWxRWyJVPHMaNKYEAFYC7FXFIbA80YybQhhW8Hd9CFIeXSb6m7RK?=
+ =?us-ascii?Q?sgHiv8xmPUFKM2mkJa/O2ES0H3acqr9SgngLiXL7nIt4T700XNFucMu9xhVh?=
+ =?us-ascii?Q?dncr2mN8rt+3aR+6lN71DT9V5RyIH6XkUyRS0c5334hdQO2QawuLfWvJC0PT?=
+ =?us-ascii?Q?bM6pKmGDg5fzFvv3R0ADTA2RyvQlfik0t6YMCEayTf6QWq5600i0PEzxKQhE?=
+ =?us-ascii?Q?bcS4yC+5RVMBCqJZmxizGcq9udbXcb7FUcElDayvvxq3rEuKzj9ZraUlzW4q?=
+ =?us-ascii?Q?tM31cdoS3RN1QNt2OEAhu+2MiUy+pRxiKWABR6vexo3gbDdIvtnQSVMWWiHO?=
+ =?us-ascii?Q?jKlwOwPm+ZE2L6XaHRZb+5RUyNR9w480Jw2M0S/QS7mTLeYTiW+/+g2Luh69?=
+ =?us-ascii?Q?HIxe1pr3dRdAGLxkKcjVXJ5b9xB84mljSD/7Shb+aod68f5weqbo2m668UFr?=
+ =?us-ascii?Q?sQRNyAuJnsq//9+gHmJdspFis1ClogHxsNbb6DJE6G8uOqUf9lJEINhyIqTc?=
+ =?us-ascii?Q?EHtq+qp6m8KGRsuAWHTwhUH27XcvxiLBEzgpScqywzYRD1vDZ4MSv0WSsnxQ?=
+ =?us-ascii?Q?jppPnrvH4tjUHv1UUGPf2humtiIGPwmn5OBuOTJcoLYbJiPWvUksJKs4mtFs?=
+ =?us-ascii?Q?el6eqqVUIBW6GDYUdvUm1KUU2jVqEtbo0e2N/R3izSxZdHOJY3Y1EFVvicRl?=
+ =?us-ascii?Q?kHaX71LNMgfRPn2aE28jqv7mE5U=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700013)(1800799024)(82310400026)(13003099007)(921020);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 10:48:42.5776
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6f2c6ed-b8e1-4909-c6e0-08de5f23f84b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF00029927.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4148
 
-On Thu, Jan 29, 2026 at 10:56:22AM +0100, Danilo Krummrich wrote:
-> On Thu Jan 29, 2026 at 4:42 AM CET, dan.j.williams wrote:
-> > Jason Gunthorpe wrote:
-> >> On Thu, Jan 29, 2026 at 03:08:22AM +0200, Laurent Pinchart wrote:
-> >> > > The latter already have robust schemes to help the driver shutdown and
-> >> > > end the concurrent operations. ie cancel_work_sync(),
-> >> > > del_timer_sync(), free_irq(), and *notifier_unregister().
-> >> > 
-> >> > One a side note, devm_request_irq() is another of the devm_* helpers
-> >> > that cause race conditions, as interrupt handlers can run right after
-> >> > .remove() returns, which drivers will most likely not handle correctly.
-> >> 
-> >> Yes! You *cannot* intermix devm and non-devm approaches without
-> >> creating very subtle bugs exactly like this. If your subsystem does
-> >> not provide a "devm register" helper its drivers shouldn't use devm.
-> >
-> > I wonder if we should have a proactive debug mode that checks for
-> > idiomatic devres usage and flags:
-> >
-> > - registering devres actions while the driver is detached
-> 
-> In Rust we already enforce this through the type system, i.e. we even fail to
-> compile the code when this is violated. (I.e. for all scopes that guarantee that
-> a device is bound (and will remain throughout) we give out a &Device<Bound>,
-> which serves as a cookie.)
-> 
-> In C I don't really see how that would be possible without additional locking,
-> as the only thing we could check is dev->driver, which obviously is racy.
-> 
-> > - registering devres actions for a device with a driver that has a
-> >   .remove() method
-> 
-> This is perfectly valid, drivers might still be performing teardown operations
-> on the device (if it did not get hot unplugged).
-> 
-> > - passing a devres allocation to a kobject API
-> 
-> Well, this is an ownership violation. Technically, devres owns this allocation
-> and devres releases the allocation when the device is unbound. Which makes this
-> allocation only ever valid to access from a scope that is guaranteed that the
-> device is (and remains) bound.
-> 
-> > - invoking devres release actions from a kobject release API
-> 
-> This is similar to "registering devres actions while the driver is detached" and
-> falls into the boarder problem class of "messing with devres objects outside of
-> a Device<Bound> scope".
-> 
-> Again, I think in C we can't properly protect against this. While we could also
-> give out a "Device<Bound>" token for scopes where we can guarantee that the
-> device is actually bound to a driver in C, we can't control the lifetime of the
-> token as we can in Rust, which makes it pointless.
-> 
-> So, the best thing we can probably do is document that "This must only be called
-> from a scope that guarantees that the device remains bound throughout." for all
-> the devres accessors.
-> 
-> There may be one thing that comes to my mind that we could do though. While we
-> can't catch those at compile time, we might be able to catch those on runtime.
+As discussed in [7], v5 was split into two parts. This is part 1.
+- Patch 1-3 from v6: Applied by Rafael for 6.20.
+- Remaining patches: Included in this v7 with review comments addressed.
+Part 2 (v5 patches 8-11) will follow separately.
 
-C will not allow catching as many things as compile time as rust, that's
-for sure, but I don't think it's the main issue here. The core of the
-problem, in my opinion, is that we have seen a proliferation of devres
-and similar helpers that were quickly adopted by drivers as it made
-their life easier, *but* without any documentation of the caveats and
-correct usage patterns. We have APIs that don't tell how to use them
-correctly, so we can hardly blame driver developers for not doing it
-right. In many cases we haven't even thought about what the right (and
-wrong) usage patterns are, and in some cases the APIs have been
-developed with so little awareness of these issues that there's no
-correct usage pattern. Fixing this is the first step, then we can see
-how to use the features provided by the programming language to minimize
-the risk of incorrect usage.
+This patch series adds sysfs interfaces for CPPC min_perf, max_perf,
+and perf_limited registers, along with supporting ACPI APIs and
+improvements for the cppc_cpufreq driver.
 
-> For instance, we could "abuse" lockdep and register a fake lock for a
-> Device<Bound> scope and put a lockdep assert into all the devres accessors.
-> 
-> However, fixing up all the violations that come up when introducing this sounds
-> like a huge pain. :)
+CPPC autonomous mode (auto_sel) enables hardware-driven CPU performance
+scaling using Energy Performance Preference (EPP) hints. Currently,
+there's limited runtime control and visibility into CPPC performance
+registers.
+
+This series addresses these gaps by:
+1. Exposing min_perf/max_perf registers via sysfs (as frequency in kHz)
+   to allow fine-grained performance bounds control in autonomous mode.
+2. Exposing perf_limited register to detect and clear throttling events.
+
+It also includes code improvements: new APIs for reading performance
+controls, a warning for missing mandatory DESIRED_PERF register, and
+extended epp_perf support.
+
+The patches are grouped as below:
+- Patch 1: Add cppc_get_perf() API (independent).
+- Patch 2: Warn on missing mandatory DESIRED_PERF (independent).
+- Patch 3: Extend cppc_set_epp_perf for FFH/SystemMemory (independent)
+- Patch 4-5: APIs, sysfs for min/max_perf, perf_limited (independent)
+- Patch 6: Doc for min/max_perf and perf_limited (depends on 4-5)
+- Patch 7: Update cached perf_ctrls on sysfs write (independent).
+
+---
+v6[7] -> v7:
+- patch 1-3 (v6): Dropped as they were applied by Rafael for 6.20.
+- patch 2 (v7): Added new patch to warn on missing DESIRED_PERF as
+  suggested by Pierre.
+- patch 4, 7 (v7): Removed mutex from sysfs store functions as
+  policy->rwsem already provides synchronization.
+- patch 4 (v7): Added validation checks in store_min/max_perf.
+
+Sumit Gupta (7):
+  ACPI: CPPC: Add cppc_get_perf() API to read performance controls
+  ACPI: CPPC: Warn on missing mandatory DESIRED_PERF register
+  ACPI: CPPC: Extend cppc_set_epp_perf() for FFH/SystemMemory
+  ACPI: CPPC: add APIs and sysfs interface for min/max_perf
+  ACPI: CPPC: add APIs and sysfs interface for perf_limited
+  cpufreq: CPPC: Add sysfs for min/max_perf and perf_limited
+  cpufreq: CPPC: Update cached perf_ctrls on sysfs write
+
+ .../ABI/testing/sysfs-devices-system-cpu      |  44 ++++
+ drivers/acpi/cppc_acpi.c                      | 214 +++++++++++++++++-
+ drivers/cpufreq/cppc_cpufreq.c                | 207 ++++++++++++++++-
+ include/acpi/cppc_acpi.h                      |  40 ++++
+ 4 files changed, 500 insertions(+), 5 deletions(-)
+
+[1] https://lore.kernel.org/lkml/20250211103737.447704-1-sumitg@nvidia.com/
+[2] https://lore.kernel.org/lkml/20250823200121.1320197-1-sumitg@nvidia.com/
+[3] https://lore.kernel.org/lkml/20251001150104.1275188-1-sumitg@nvidia.com/
+[4] https://lore.kernel.org/lkml/20251105113844.4086250-1-sumitg@nvidia.com/
+[5] https://lore.kernel.org/lkml/20251223121307.711773-1-sumitg@nvidia.com/
+[6] https://lore.kernel.org/lkml/20260120145623.2959636-1-sumitg@nvidia.com/
+[7] https://lore.kernel.org/lkml/66f58f43-631b-40a0-8d42-4e90cd24b757@arm.com/
 
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
