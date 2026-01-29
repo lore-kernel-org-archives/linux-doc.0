@@ -1,167 +1,108 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED2927FD4B
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96A533A1CD;
+	Thu, 29 Jan 2026 13:43:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769694170; cv=none; b=ArmgAep6pEoIMXanhJjWdg5LRVly6XLV3y+phQ+5fXIdSFbTu3dSKmXARr91qCDspBH91NLoCXM8JodFnNgaaqGgG8ODWWAf0B6C/U33YWCD58NUs06Ew9FcNYS0VnmTng6wknCBpJ42MO9GaeHdO21CoXm62RfQeYYrPjM9QWg=
+	t=1769694185; cv=none; b=HBSL6QnzSAWIk/T5qQC2Nh8HIM/VtOtX+ceu76LRjZBHpFDj7lFp11IQAqp7rjduFaxgznYGF/HXD7qjIhdJWGkJoJzlXgU2Fc0B30m9lEs7y/58Yt+3UnpS8VnhfH+D2oUtW2xO/mZlhN4RlSDFgrEb4KtH+CupfxprPlKbmOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769694170; c=relaxed/simple;
-	bh=YBVpWb/wKpo5te9DXuKTTTurBJ7eElV5O2X8q6nV584=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P/A0FsQOrMa0u7YjE5c0B97E2LDlqSaKr7szONNRDe19ZX+nrYAuEK3923q99wKASz1Ewhq6bY5Qd01DWnSbPQeBi6wYhNWZZVxNsrLGmWgFxk04qTToMU0R7yHPRk3Xq6tgJIr6CIgVJXuZxKk9Wf1VlbPifbMw+O4kIEu/7xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=bMTWVosz; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="bMTWVosz"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-502acd495feso10009991cf.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 05:42:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1769694166; x=1770298966; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GDzgMbZmK6TIECiS2445LXqg7oI2wOpfTfzYF6w3p+0=;
-        b=bMTWVoszFlR7I632RUufRMqVojdaC+/4lJM+18oYWO2OEIvo+Fz3NXgLHTK2xOoRpv
-         3Ok3eNEsuKSipD7jdgqRjlAqSB0cNyBjjYxpfWaJ0kO/OESfoKuEJxqioDOVOdVqzquW
-         Ij8/KMc7p0hL5q6bQLHfDs0croHM2hS5qI9aHbn09GGG1cRUGt64Y3M3pAME9myasaSr
-         o5Tvj8xDiqgwpMKvoQwBMukFa1Tt1hE8bJJ2xuq1T1r58WRV9/7iy6tiN6eAX4LsEVa8
-         ul7lvO/7R2GTOhrIcc1r4spgOc+EMqGpMw/d3gsVefCFcnLxXPhlecRX2DvHuxeyPSgc
-         6DZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769694166; x=1770298966;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GDzgMbZmK6TIECiS2445LXqg7oI2wOpfTfzYF6w3p+0=;
-        b=Pd+lgDEQjV6qJhHnezFAtO0cAwa3IORu29Ku3g0wQWjZm/6aKp2KGKEIU6gcftS8um
-         QYDgtUQ69lAFsXu5Q4RtidK0mDNA58gs8pcwNC2/llzOTnADQ2Xa4RTuwtqxc599q3cK
-         roCkbSpYDwgBrPyAmVT3cEXhKZlOwHFGU6JpEexUt9eSipvuH04oFA9EsO7QDB3VaJKz
-         qMxsqvr2z0BKZL17cBLBQ1lkDwbwU3wUt+VIHbck8i/NvVPZ0zJoQZC8b6UOqktPLUzL
-         wEFHZPoyj4lIU0rtLMY6w0PqGS4i+5XQScRxF8QfxqcxKscGktb++coykuZQLtjyTo9y
-         yX9w==
-X-Forwarded-Encrypted: i=1; AJvYcCXxK1wd8V4xAmxejkSOZm5Tdv+Un4JrDvEBZ+w92U35u1D3+xx6Mmkg88VE+29aRaIysUOeKvF+OKU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyG7O8n3brjEGv7GPV7vuVJRo2PfP6m+AjLMTu0d+2bHJBK7BwP
-	TIZeBQi0Co2QrF2Jfne3lIkcrWZsLqG75/GtrOMg8U7n4QT4yJCSJqg9PG0fCghC0eU=
-X-Gm-Gg: AZuq6aKIGFbFnXCfi2UlXaDBIl4z90PgcrOi8JShrrthgJglCXdI2Phh6vPufgetfXs
-	vFdUC6hOfGW9rfZlSUSNN4ZwN9eQO+AepOd0Vhalmq7zzV3v3iqMMv/KHBzuo5kDKm9/1/ucUi9
-	XSipulOGdvmCD8maaWJE8n2MhSJbr6/detjJcFJMaKWsPC9JqMgva4w1RILii54ZxA3nHrMRvQS
-	F6CSu6m3uoBXMnT7vaBeydeS1NZjJfhsg13Xs6GDqfzCV7KB5ikPGVg+4nkFnk8fIM8B7xkwI0m
-	gYKW3P2KlSM6Wkd9jw2laFCa85Uyd/hyfGBJspzDjd+z2eSteO0kAElzYQm3NBnYQK9CW2vTSPL
-	DWUOSVYsHuEa6/lMLNItOnFjAldwH/hzM/Uq5eI5tvglmDMb7FFke7kED9BYeI0Cg9wkAWFPjy0
-	TVzvCuIenXdbeO+irqcbKmuhaLwLDgX6uk5lIDJGu0qt7ecwae+0Crq8gerSERbtowYYE=
-X-Received: by 2002:a05:622a:15c6:b0:4ee:1563:2829 with SMTP id d75a77b69052e-5032fa1cc0fmr108491201cf.72.1769694166378;
-        Thu, 29 Jan 2026 05:42:46 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894d3764eb6sm37167556d6.49.2026.01.29.05.42.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 05:42:45 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vlSIH-00000009jxt-1Mph;
-	Thu, 29 Jan 2026 09:42:45 -0400
-Date: Thu, 29 Jan 2026 09:42:45 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Quentin Perret <qperret@google.com>
-Cc: Sean Christopherson <seanjc@google.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Alexey Kardashevskiy <aik@amd.com>, cgroups@vger.kernel.org,
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org,
-	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de,
-	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org,
-	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com,
-	david@redhat.com, dmatlack@google.com, erdemaktas@google.com,
-	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com,
-	hannes@cmpxchg.org, hch@infradead.org, hpa@zytor.com,
-	hughd@google.com, ira.weiny@intel.com, isaku.yamahata@intel.com,
-	jack@suse.cz, james.morse@arm.com, jarkko@kernel.org,
-	jgowans@amazon.com, jhubbard@nvidia.com, jroedel@suse.de,
-	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com,
-	keirf@google.com, kent.overstreet@linux.dev,
-	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com,
-	mail@maciej.szmigiero.name, maobibo@loongson.cn,
-	mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org,
-	mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com,
-	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au,
-	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es,
-	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com,
-	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com,
-	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz,
-	richard.weiyang@gmail.com, rick.p.edgecombe@intel.com,
-	rientjes@google.com, rostedt@goodmis.org, roypat@amazon.co.uk,
-	rppt@kernel.org, shakeel.butt@linux.dev, shuah@kernel.org,
-	steven.price@arm.com, steven.sistare@oracle.com,
-	suzuki.poulose@arm.com, tabba@google.com, tglx@linutronix.de,
-	thomas.lendacky@amd.com, vannapurve@google.com, vbabka@suse.cz,
-	viro@zeniv.linux.org.uk, vkuznets@redhat.com, wei.w.wang@intel.com,
-	will@kernel.org, willy@infradead.org, wyihan@google.com,
-	xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com,
-	yuzenghui@huawei.com, zhiquan1.li@intel.com
-Subject: Re: [RFC PATCH v1 05/37] KVM: guest_memfd: Wire up
- kvm_get_memory_attributes() to per-gmem attributes
-Message-ID: <20260129134245.GD2307128@ziepe.ca>
-References: <cover.1760731772.git.ackerleytng@google.com>
- <071a3c6603809186e914fe5fed939edee4e11988.1760731772.git.ackerleytng@google.com>
- <07836b1d-d0d8-40f2-8f7b-7805beca31d0@amd.com>
- <CAEvNRgEuez=JbArRf2SApLAL0usv5-Q6q=nBPOFMHrHGaKAtMw@mail.gmail.com>
- <20260129003753.GZ1641016@ziepe.ca>
- <aXqx3_eE0rNh6nP0@google.com>
- <20260129011618.GA2307128@ziepe.ca>
- <i22yykvttpc2e4expluuzucczqnetdnpee2wx2fzqwg7cnt45x@ovx7e7hok5iz>
+	s=arc-20240116; t=1769694185; c=relaxed/simple;
+	bh=ibKK0IcqWngoOXa8EwyaZZK2r6ZumQd3dGbnqk2e2VM=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=RJVs3l0/HRnYT/1YLW8/RBfpuPYqDbpByeE91Iql2jTv8r9GcyAssuxk+zLfYs0cZAfdtPhzdyxnEF89vAmwV/3e5R/iGWmyvNDhAWFs2klVa2/yud5GochRilzupX5d18IZEIfnxJfnUgLDC+r5B6h59UnUQm53Qk4dRcAaoIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id C51D492009C; Thu, 29 Jan 2026 14:42:53 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id C152692009B;
+	Thu, 29 Jan 2026 13:42:53 +0000 (GMT)
+Date: Thu, 29 Jan 2026 13:42:53 +0000 (GMT)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: Jakub Kicinski <kuba@kernel.org>
+cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>, netdev@vger.kernel.org, 
+    linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, 
+    linux-mips@vger.kernel.org, linux-s390@vger.kernel.org, 
+    Jonathan Corbet <corbet@lwn.net>, Linas Vepstas <linasvepstas@gmail.com>, 
+    Mahesh J Salgaonkar <mahesh@linux.ibm.com>, 
+    Oliver O'Halloran <oohall@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+    "David S. Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+    Simon Horman <horms@kernel.org>, 
+    Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+    Madhavan Srinivasan <maddy@linux.ibm.com>, 
+    Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+    "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+    Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+    Alexander Gordeev <agordeev@linux.ibm.com>, 
+    Christian Borntraeger <borntraeger@linux.ibm.com>, 
+    Sven Schnelle <svens@linux.ibm.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+    Andrew Morton <akpm@linux-foundation.org>, 
+    =?UTF-8?Q?Martin_Kepplinger-Novakovi=C4=87?= <martink@posteo.de>, 
+    Pavel Machek <pavel@ucw.cz>, MD Danish Anwar <danishanwar@ti.com>, 
+    Mengyuan Lou <mengyuanlou@net-swift.com>, 
+    Pablo Neira Ayuso <pablo@netfilter.org>, Takashi Iwai <tiwai@suse.de>, 
+    Huacai Chen <chenhuacai@kernel.org>, Theodore Ts'o <tytso@mit.edu>, 
+    Eric Biggers <ebiggers@google.com>, 
+    Madadi Vineeth Reddy <vineethr@linux.ibm.com>, 
+    Shrikanth Hegde <sshegde@linux.ibm.com>, 
+    Geert Uytterhoeven <geert@linux-m68k.org>, 
+    Ard Biesheuvel <ardb@kernel.org>, 
+    "Martin K. Petersen" <martin.petersen@oracle.com>, 
+    Frederic Barrat <fbarrat@linux.ibm.com>, 
+    Andrew Donnellan <ajd@linux.ibm.com>, 
+    Herbert Xu <herbert@gondor.apana.org.au>, 
+    Konstantin Shkolnyy <kshk@linux.ibm.com>, 
+    Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+    Lorenzo Bianconi <lorenzo@kernel.org>, 
+    Lukas Bulwahn <lukas.bulwahn@redhat.com>, Dong Yibo <dong100@mucse.com>, 
+    Heiner Kallweit <hkallweit1@gmail.com>, Thomas Gleixner <tglx@kernel.org>, 
+    Ingo Molnar <mingo@kernel.org>, Lukas Wunner <lukas@wunner.de>, 
+    Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+Subject: Re: [PATCH net-next v2] net: ethernet: neterion: s2io: remove unused
+ driver
+In-Reply-To: <20260127155607.3f80ec99@kernel.org>
+Message-ID: <alpine.DEB.2.21.2601290525150.40317@angie.orcam.me.uk>
+References: <20260126031352.22997-1-enelsonmoore@gmail.com> <alpine.DEB.2.21.2601270110590.40317@angie.orcam.me.uk> <20260127155607.3f80ec99@kernel.org>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <i22yykvttpc2e4expluuzucczqnetdnpee2wx2fzqwg7cnt45x@ovx7e7hok5iz>
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Jan 29, 2026 at 11:10:12AM +0000, Quentin Perret wrote:
+On Tue, 27 Jan 2026, Jakub Kicinski wrote:
 
-> A not-fully-thought-through-and-possibly-ridiculous idea that crossed
-> my mind some time ago was to make KVM itself a proper dmabuf
-> importer. 
+> > > highly unlikely that this driver is still being used. Remove the
+> > > driver, and move the former maintainer to the CREDITS file (restoring
+> > > credit for the vxge driver, which was removed in commit f05643a0f60b
+> > > ("eth: remove neterion/vxge").  
+> > 
+> >  How do you know it's not used? 
+> 
+> Hard to prove a negative and whatnot.
+> 
+> We deleted the vxge which I think(?) was for a newer version of this HW
+> 3+ years ago and nobody complained. 
 
-AFAIK this is already the plan. Since Intel cannot tolerate having the
-private MMIO mapped into a VMA *at all* there is no other choice.
+ It may or may not mean anything.  Overall I think it would be fair to 
+have a deprecation period of say a year with the affected code guarded 
+with CONFIG_DEPRECATED, giving a chance for people downstream to notice 
+and act.  That seems to work for the other projects I've been involved 
+with (GNU toolchain components and the policy for target removal).
 
-Since Intel has to build it it I figured everyone would want to use it
-because it is probably going to be much faster than reading VMAs.
+> > What's the gain from removing a driver unless say it's broken and
+> > does not build?
+> 
+> People keep sending cleanups and fixes for these old drivers.
+> It takes time to review that stuff.
 
-Especially in the modern world of MMIO BARs in the 512GB range.
+ Fair point, however the driver has a maintainer listed who should be 
+taking care of that.  I can see he was cc'd on v1 but not this revision, 
+so does that mean the address bounces?  If so, it should be stated in an
+updated change description, and that would certainly be a good reason to 
+first deprecate a driver and if no one steps up, then discard it.
 
-> You'd essentially see a guest as a 'device' (probably with an
-> actual struct dev representing it), and the stage-2 MMU in front of it
-> as its IOMMU. That could potentially allow KVM to implement dma_map_ops
-> for that guest 'device' by mapping/unmapping pages into its stage-2 and
-> such. 
-
-The plan isn't something so wild..
-
-https://github.com/jgunthorpe/linux/commits/dmabuf_map_type/
-
-The "Physical Address List" mapping type will let KVM just get a
-normal phys_addr_t list and do its normal stuff with it. No need for
-hacky DMA API things.
-
-Probably what will be hard for KVM is that it gets the entire 512GB in
-one shot and will have to chop it up to install the whole thing into
-the PTE sizes available in the S2. I don't think it even has logic
-like that right now??
-
-> It gets really funny when a CoCo guest decides to share back a subset of
-> that dmabuf with the host, and I'm still wrapping my head around how
-> we'd make that work, but at this point I'm ready to be told how all the
-> above already doesn't work and that I should go back to the peanut
-> gallery :-)
-
-Oh, I don't actually know how that ends up working but I suppose it
-could be meaningfully done :\
-
-Jason
+  Maciej
