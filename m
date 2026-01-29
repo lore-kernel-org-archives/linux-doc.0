@@ -1,30 +1,33 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC87387367;
-	Thu, 29 Jan 2026 11:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E2926CE39;
+	Thu, 29 Jan 2026 11:41:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769685914; cv=none; b=ccNNKYIwBWgGDUSBMEUZle2MrwTfjK2CNkwrgVfeBemjt7BOesAk7MxQ/m00oMIo2GlmqvgkTnhHpgupLMqSbhZiwjoJwi3s5dhLVffZAXUBZKaPzhHS72jLQ31ilmeEeiYrwpZAi0J7smcnqtJLdTqfnQuvLciONesIYRz20Jc=
+	t=1769686870; cv=none; b=pnWSb9eeqdIqan9OJmfhe41E+y5UaSDYmgEHvomZpyAEGPTJXwDWeJcQIZbfd3ToRn8Z4YDzBmSJn4NEkbj/EPsNJY2dzHfKb3lS59znzaEJ0lsJILm2KfG0Y+0sqrcDxEoTM3P9nDLZVtgbX2kip1sY6DVfP91aPgJ+Sl4XfLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769685914; c=relaxed/simple;
-	bh=gSlM5fKODS3EGnzlc//cLksKqzPV5YOhNmRuCzjzjOE=;
+	s=arc-20240116; t=1769686870; c=relaxed/simple;
+	bh=GxMf/5mp8QjYk8b0oivIjo05Zaj5YW+DCUftJ/YqvNM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kXyDsD9bCRRLFuO6N/+bEmzoJYUfxDAJLM4aINaAr7TukYr7OIxJ3Ok5QEXinxC807UKeKYxg8NVJlfPkSYw7onbtpZaGdyVObFcvR0Lqh5rOUm5uuicM0Ee76X+F6nW8D4rlDSniN54yHtaAbSrrNPb0r0usBtbtzL+YluE/RA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4f1xcX14V0zYQv1Q;
-	Thu, 29 Jan 2026 19:24:28 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 049854056B;
-	Thu, 29 Jan 2026 19:25:07 +0800 (CST)
-Received: from [10.67.111.176] (unknown [10.67.111.176])
-	by APP4 (Coremail) with SMTP id gCh0CgDXhfaOQ3tp9fodFg--.5236S2;
-	Thu, 29 Jan 2026 19:25:03 +0800 (CST)
-Message-ID: <bfba09cf-89d8-4ec1-9299-7128d79569ff@huaweicloud.com>
-Date: Thu, 29 Jan 2026 19:25:01 +0800
+	 In-Reply-To:Content-Type; b=pxAdogfWVpw736g4zpl6czHA8O4KzMvJa05t1G1vyz7uPYmj6ytiStHYm9BdNddMVfUF8yS0BiGxZlzyRad+SOMiJeeVgiW8uRmfso2C6iAAfiQczARF2h4HP9QoRE4uxedWRlCqiDqWtEz+c4DaGjX5y+E3zXCsQnfFmFtBKAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hhFtYdDg; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hhFtYdDg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 057BEC4CEF7;
+	Thu, 29 Jan 2026 11:41:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769686869;
+	bh=GxMf/5mp8QjYk8b0oivIjo05Zaj5YW+DCUftJ/YqvNM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hhFtYdDgi04FrQb5oG6WU8WJT4pW/Ad6DqcjX3kcqWfoeCoUWWlUTa6fEjrKjjgNK
+	 Ny5NJ8XnpEARZaj7GCmoGiijjtYfNLHEn/MQYPvkfALCH4OyNO9VBy/AN75ciNVtXy
+	 1/DWf/378vO5qA9itsnqFsNxJtXhgDa825aZFwQzucY2BWQzaXTLQLCE6ZxGZJG1To
+	 1zL9oj4Ffpqkzu6ephruC4criEO4DC6NlaiO4kgdN0UTJHk7DSN7nkMoZwc0B+Pjy0
+	 /Ji2JuMWSbeb57Wzf4AJBJ0xaRdacitwyC33idjkx5m7qtlSejYsIfBvvk/sid2ymE
+	 NV+TlEt7VlsSQ==
+Message-ID: <24935907-76b8-4369-a221-f408c9747642@kernel.org>
+Date: Thu, 29 Jan 2026 12:41:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -32,115 +35,137 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH -next 0/7] Introduce heat-level memcg reclaim
-To: akpm@linux-foundation.org, axelrasmussen@google.com, yuanchu@google.com,
- weixugc@google.com, david@kernel.org, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
- hannes@cmpxchg.org, roman.gushchin@linux.dev, shakeel.butt@linux.dev,
- muchun.song@linux.dev, zhengqi.arch@bytedance.com
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, lujialin4@huawei.com,
- ryncsn@gmail.com
-References: <20260120134256.2271710-1-chenridong@huaweicloud.com>
+Subject: Re: [PATCH] tty: synclink_gt: remove broken driver
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ linux-serial@vger.kernel.org, linux-doc@vger.kernel.org,
+ netdev@vger.kernel.org
+Cc: linux-api@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Haren Myneni <haren@linux.ibm.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Simon Horman <horms@kernel.org>, Eric Biggers <ebiggers@google.com>
+References: <20260129075200.38060-1-enelsonmoore@gmail.com>
 Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <20260120134256.2271710-1-chenridong@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20260129075200.38060-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgDXhfaOQ3tp9fodFg--.5236S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXFy7WF18tFykKryfCw1ftFb_yoW5ZF4Upa
-	93Wasxtan5AF15Aan7ZayUWr4fZrn7Gw13XF90gry8ArnxAFyvqr1Ikw4rZFWDCrWxJry7
-	XrW293WDWF1DAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I
-	0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
-	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
-	0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AF
-	wI0_GFv_Wryl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-	xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5
-	MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-	0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWU
-	JVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IU0
-	s2-5UUUUU==
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
+On 29. 01. 26, 8:51, Ethan Nelson-Moore wrote:
+> The synclink_gt driver was marked as broken in commit 426263d5fb40
+> ("tty: synclink_gt: mark as BROKEN") in July 2023 because it had severe
+> structural problems and there had been no evidence of users since 2016.
+> Since then, no meaningful improvements have been made to the driver,
+> and it is unlikely that will ever happen due to the lack of interest.
+> Drop the driver and references to it in comments and documentation.
 
+Overall, I am all for it, but a few remarks:
 
-On 2026/1/20 21:42, Chen Ridong wrote:
-> From: Chen Ridong <chenridong@huawei.com>
-> 
-> The memcg LRU was originally introduced to improve scalability during
-> global reclaim, but it only supports gen lru global reclaim and its
-> implementation has become complex. Moreover, it has caused performance
-> regressions when dealing with a large number of memory cgroups [1].
-> 
-> Previous attempts to remove memcg LRU by switching back to iteration
-> implementation brought performance regression [3].
-> 
-> This series introduces a per-memcg heat level mechanism for reclaim,
-> aiming to unify gen lru and traditional LRU global reclaim. The core
-> idea is to track per-node per-memcg reclaim state, including heat,
-> last_decay, and last_refault. Three reclaim heat levels are defined:
-> cold, warm, and hot. Cold memcgs are reclaimed first; only if cold
-> memcgs cannot reclaim enough pages, warm memcgs become eligible for
-> reclaim. Hot memcgs are reclaimed last.
-> 
-> While the heat level design can be applied to all memcg reclaim scenarios,
-> this series takes a conservative approach and initially applies it only
-> to global reclaim. The first few patches introduce the heat level
-> infrastructure and apply it to traditional LRU global reclaim. The
-> subsequent patches gradually migrate gen lru global reclaim to the
-> heat-level-based approach, with the final patch combining shrink_many
-> into shrink_node_memcgs to complete the transition.
-> 
-> Performance results show significant improvements:
-> 
-> Traditional LRU results (2-hour run of test [2]):
-> Throughput (number of requests)         before     after        Change
-> Total                                   1,734,169  2,353,717    +35%
-> 
-> Gen LRU results (24-hour run of test [2]):
-> Throughput (number of requests)         before     after        Change
-> Total                                   22,879,701 25,331,956   +10%
-> 
-> The performance tests are based on next branch commit:
-> commit ef0d146624b0 ("Add linux-next specific files for 20251219")
-> 
-> This series has been rebased on next-20260119:
-> commit d08c85ac8894 ("Add linux-next specific files for 20260119")
-> 
-> [1] https://lore.kernel.org/r/20251126171513.GC135004@cmpxchg.org
-> [2] https://lore.kernel.org/r/20221222041905.2431096-7-yuzhao@google.com
-> [3] https://lore.kernel.org/lkml/20251224073032.161911-1-chenridong@huaweicloud.com/
-> 
-> Chen Ridong (7):
->   vmscan: add memcg heat level for reclaim
->   mm/mglru: make calls to flush_reclaim_state() similar for MGLRU and
->     non-MGLRU
->   mm/mglru: rename should_abort_scan to lru_gen_should_abort_scan
->   mm/mglru: extend lru_gen_shrink_lruvec to support root reclaim
->   mm/mglru: combine shrink_many into shrink_node_memcgs
->   mm/mglru: remove memcg disable handling from lru_gen_shrink_node
->   mm/mglru: remove memcg lru
-> 
->  Documentation/mm/multigen_lru.rst |  30 --
->  include/linux/memcontrol.h        |   7 +
->  include/linux/mmzone.h            |  89 -----
->  mm/memcontrol-v1.c                |   6 -
->  mm/memcontrol.c                   |   7 +-
->  mm/mm_init.c                      |   1 -
->  mm/vmscan.c                       | 547 ++++++++++++------------------
->  7 files changed, 231 insertions(+), 456 deletions(-)
-> 
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> ---
+>   .../userspace-api/ioctl/ioctl-number.rst      |    2 +-
+>   arch/powerpc/configs/ppc6xx_defconfig         |    1 -
+>   drivers/net/ppp/Kconfig                       |    4 +-
+>   drivers/tty/Kconfig                           |   11 +-
+>   drivers/tty/Makefile                          |    1 -
+>   drivers/tty/n_hdlc.c                          |    7 -
+>   drivers/tty/synclink_gt.c                     | 5038 -----------------
+>   include/linux/synclink.h                      |   37 -
 
-Hi, Johannes and Shakeel,
+     vvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-I would appreciate it if you could share your thoughts on this series.
+>   include/uapi/linux/synclink.h                 |  301 -
 
+Have you checked this is not included in any relevant userspace? How? 
+Hints: debian code search, github...
+
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index 7232b3544cec..8abedab9fea7 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -271,7 +271,7 @@ Code  Seq#    Include File                                             Comments
+>   'm'   00-09  linux/mmtimer.h                                           conflict!
+>   'm'   all    linux/mtio.h                                              conflict!
+>   'm'   all    linux/soundcard.h                                         conflict!
+> -'m'   all    linux/synclink.h                                          conflict!
+> +'m'   all    linux/synclink.h                                          Dead since 2026
+
+I would just drop the line, removing one conflicting entry. The letter 
+is not going to be dead.
+
+Or is this Dead note some ioctl-number's policy?
+
+> --- a/drivers/tty/n_hdlc.c
+> +++ b/drivers/tty/n_hdlc.c
+> @@ -4,8 +4,6 @@
+>    * Written by Paul Fulghum paulkf@microgate.com
+>    * for Microgate Corporation
+>    *
+> - * Microgate and SyncLink are registered trademarks of Microgate Corporation
+> - *
+>    * Adapted from ppp.c, written by Michael Callahan <callahan@maths.ox.ac.uk>,
+>    *	Al Longyear <longyear@netcom.com>,
+>    *	Paul Mackerras <Paul.Mackerras@cs.anu.edu.au>
+> @@ -54,11 +52,6 @@
+>    * this line discipline (or another line discipline that is frame
+>    * oriented such as N_PPP).
+>    *
+> - * The SyncLink driver (synclink.c) implements both asynchronous
+> - * (using standard line discipline N_TTY) and synchronous HDLC
+> - * (using N_HDLC) communications, with the latter using the above
+> - * conventions.
+
+This paragraph actually talks about long removed synclink.c, removed in:
+   a1f714b44e34 tty: Remove redundant synclink driver
+But OK, let's kick all the remaining traces of synclinks.
+thanks,
 -- 
-Best regards,
-Ridong
-
+js
+suse labs
