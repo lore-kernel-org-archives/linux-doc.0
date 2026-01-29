@@ -1,54 +1,54 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962A736606D
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 21:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC8535DD19
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 21:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769721961; cv=none; b=Km51v4cjEtgZRVstiEamB8LR2vzzaFFYoAsWafcJIRW+uIK3Pkniw+ORRuaWF4xHeCxncWT/HysRVsb5i20WMSj9g7JGsVmZqMQNVwXt/Rg0HQHgPSlAvNn/YgtgKj7CvV8m7SLCr+ipufPLgk3aWbWiab0MQrGJK5pWkev9llM=
+	t=1769721965; cv=none; b=iyNT/ARzqsFqU4QUnO5gaPoEpUfQLyOqvatcALe4NicCo8n4K669BgLg7TnzWgqCdMVjIZLX//bQamibkRrY5UA5BtR/3we+Jw5u0V6FhlFCl5s2qxOktvE3+mzZYTJsNi4x27i0lOFSsB7xMxhp3wrFVY1bR2fUOGKXRfN9LBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769721961; c=relaxed/simple;
-	bh=FPm4HNnNzdGsASTEmXYmmsAPSB4aul9GWDReAyxeCCY=;
+	s=arc-20240116; t=1769721965; c=relaxed/simple;
+	bh=Cb9Y8KWzYaZZbnWLogkDgrwZwr7o6CbuJ0QS3Pv10oU=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=R1h8MWs0ZkMFOKY3mVm67BiqhwGv+At9oNanuA0N6V5ZUeqi3VjRpwHCg8vwTXzpQGPUB54+YZMnn7S3+zXtEhqtMWgRzh2o2wQeXBpaCJ0jcnbjGCC7IZFT8/LKtY+oO3I9tOFSeCij/yEPAYzxucaOrMVf0YXxnlIbgJ5j08E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jeUpRM1U; arc=none smtp.client-ip=209.85.215.202
+	 To:Cc:Content-Type; b=llVFpUvYgaBYCq2xj90j2g3Xoi5rFJg3f3XrdGc6MxD45eT2t4RYr3Comk20L3Is35/X5LDOKHzxA3nK/QD7e37vfQ07FElyHenv97sstXrEETUESIBHX/822tFbs2L93UMqE+2LXgBMaOj3f+SLmVw6MtG+U+oXpTk61wd7uZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=y1MvxdcS; arc=none smtp.client-ip=209.85.214.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jeUpRM1U"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c634b862fcfso895215a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:25:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="y1MvxdcS"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2a377e15716so35010255ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:26:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769721959; x=1770326759; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1769721962; x=1770326762; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=idHpW3SDccKJdv6+7GcWw8jBEpKmDKEMPgP0EwwfxqU=;
-        b=jeUpRM1UNmTsBxYdioDrYyaaBwCFGiaoczwyCBJZM67st2YYKUK208OKLs7RYsr+D1
-         BJBExVhnR5YILu3UlQ3Ik9nU/V3io0yTjFysavSShZS6Zi83Moo6S/iiOg9okaftHKTG
-         /OCM7VqwrAJ1caIGChnC1gcg4HOBFTLLhphWpuY3BACjk3dqIz/7O6mFsy/A6PPjLunC
-         ObFwNqzIUX+EtQiMLStK0f3Zvp+ugXw9XHCOG10iSBdzrs/04Mf0Pl994mDUK0jvpWBt
-         kA1Dh67dlTNA3ioHsoQdQlnsjWivaZ3NzH7oihtDOml5t+98mMjV8eXnd9FeNtdw6B7p
-         xneA==
+        bh=BqEhbyqURPyKNgE6Ne2XGuBboHLh1jY5l9yG8cIgxTg=;
+        b=y1MvxdcSHAA2tv1IsyzFmRw57KM/wXj1R1ZdYWaSIzlN1RSmx2DZC/lY7CimLxCBCS
+         0vK9SoPcz8XrCFytWn1qKRZdDSdeZ2t6R/Z91DQq/Tpgpc7vbc8pNHwoXbibrUy4JtUd
+         XRvw/ZkDVaWbdWDB8xoDlo+9pCWweFVIIAB9EwHkW1wCjh98cRA9acf88FsvMfg6F7V4
+         eOA4JZ1Xwkh9rCClweXAF4K4BDHCeLPr55MISxcyzWjgfkaiXXuW4QyrTxZChFoFlnTe
+         u8lC+qyEk85GD92i475reauTgqevO+KpL/a6ENkj51ChBaphwulFIdpnaq0r957wLCDr
+         8FGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769721959; x=1770326759;
+        d=1e100.net; s=20230601; t=1769721962; x=1770326762;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=idHpW3SDccKJdv6+7GcWw8jBEpKmDKEMPgP0EwwfxqU=;
-        b=nyGejYtb635SIGi40Z69vWozF1Up1vP072SxQT7ERQDB92oT3yuKQFQKscb6m7yETj
-         oxXsRkJex40sK7Sgg/xNd7sWnWllHPOdU9FZQEMDVwsuMeyxZlQjXoqzfHazylyJ74Fq
-         9+kHWl5yP49u48sD+mlHaJ2pLm0hgkWHl+EWrrcd0fVENkMIuMc/4fgdAvtkWHbjjn+w
-         vmLg5he8/3o2/eCLnb5LLtTgez5VlDRVgzhPfIZUbtUIS0/BBM2U31F0gWgxtMSB2dRD
-         2aHSjowpR+ZGQ8TQpJhWVf65FFmY8KKhDWNVOrpBsokeXP0N0kYZJDzHjH9po2/O3cod
-         dH4w==
-X-Forwarded-Encrypted: i=1; AJvYcCXt6ftEkdUatNSJQTvn3HXuCGpVLIbBt9kDz15yPNdmDo+bm9DkD/9P95NuhINx1hcflTycIoYdoYc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxXJF54fQbCC+20fR7RC1zEyI0BjTaAhVHq97NsvlDruu+iSTZk
-	13awf6RJ8bvfHcJdm1A06ONkPbus5qwUZPbAS66hknmZX6aGHv77zpFTH68S/saQ5+ww+on7yyF
-	LV/lZUWs1wI1ZJQ==
-X-Received: from pgdj29.prod.google.com ([2002:a05:6a02:521d:b0:c5e:d16c:917e])
+        bh=BqEhbyqURPyKNgE6Ne2XGuBboHLh1jY5l9yG8cIgxTg=;
+        b=JSO/Le5LC/0F5kPJbw+XvcFAB8vCMsC5C2NtqOoxVUJFA3M89SKHQOgQCISozhmg9b
+         A1rh9luOpfjPaif8P+wXgxF7ymJjpmn9bMv0Xf04SUHNBZ8nhaZQRnGL2S3qqKMro2XF
+         3IDeYH1U14ZmqVGNwuoE7RDY7eBznbQotfZROFA+o9gtQppvTqLjxCaaunAKsXzO6fyd
+         FPMVFo7jSD4+fvBPsF5t7rYljthn4fPIvtJg8EcXDQYXos8TfKWlgT62WGzk++CLpZON
+         VdmYNlC9mncQpIEvUBW/gH0LE7QWztTeT3J/UGWKgyYYjZuP/F0nd8KLN8XZ/mRw9qik
+         lecA==
+X-Forwarded-Encrypted: i=1; AJvYcCU99HGz2f9ZukAbhM3EQaKIUxw+E3OSIPTGUvwAEGOtvpvc5uG+lfaGbBxT8SAic3wyRilxaZ4UZzk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDe4uOk7tCB+VaLlm63maqPnTLHQlkLF17v2xEd1IpnWP+ITja
+	/+NaLeCaWAKA4iVyHK7n90w5GaNlsNZJt7XVUCM/bIsRqh0n7glKEmwOrEsksqXbFhVXNdaQ01E
+	6wcDQCF/81e/cUg==
+X-Received: from plot3.prod.google.com ([2002:a17:902:8c83:b0:2a7:78b9:f962])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:3392:b0:366:581e:1a11 with SMTP id adf61e73a8af0-392e0148145mr472290637.57.1769721958852;
- Thu, 29 Jan 2026 13:25:58 -0800 (PST)
-Date: Thu, 29 Jan 2026 21:25:00 +0000
+ 2002:a17:902:bd03:b0:2a7:a9b8:ebb0 with SMTP id d9443c01a7336-2a8d96a7ff3mr3875585ad.19.1769721962280;
+ Thu, 29 Jan 2026 13:26:02 -0800 (PST)
+Date: Thu, 29 Jan 2026 21:25:02 +0000
 In-Reply-To: <20260129212510.967611-1-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,9 +58,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260129212510.967611-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.53.0.rc1.225.gd81095ad13-goog
-Message-ID: <20260129212510.967611-14-dmatlack@google.com>
-Subject: [PATCH v2 13/22] selftests/liveupdate: Add helpers to
- preserve/retrieve FDs
+Message-ID: <20260129212510.967611-16-dmatlack@google.com>
+Subject: [PATCH v2 15/22] vfio: selftests: Add Makefile support for TEST_GEN_PROGS_EXTENDED
 From: David Matlack <dmatlack@google.com>
 To: Alex Williamson <alex@shazbot.org>
 Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
@@ -85,108 +84,43 @@ Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.
 	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 
-From: Vipin Sharma <vipinsh@google.com>
+Add Makefile support for TEST_GEN_PROGS_EXTENDED targets. These tests
+are not run by default.
 
-Add helper functions to preserve and retrieve file descriptors from an
-LUO session. These will be used be used in subsequent commits to
-preserve FDs other than memfd.
+TEST_GEN_PROGS_EXTENDED will be used for Live Update selftests in
+subsequent commits. These selftests must be run manually because they
+require the user/runner to perform additional actions, such as kexec,
+during the test.
 
-No functional change intended.
-
-Signed-off-by: Vipin Sharma <vipinsh@google.com>
-Co-developed-by: David Matlack <dmatlack@google.com>
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- .../liveupdate/lib/include/libliveupdate.h    |  3 ++
- .../selftests/liveupdate/lib/liveupdate.c     | 41 +++++++++++++++----
- 2 files changed, 35 insertions(+), 9 deletions(-)
+ tools/testing/selftests/vfio/Makefile | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h b/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h
-index 4390a2737930..4c93d043d2b3 100644
---- a/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h
-+++ b/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h
-@@ -26,6 +26,9 @@ int luo_create_session(int luo_fd, const char *name);
- int luo_retrieve_session(int luo_fd, const char *name);
- int luo_session_finish(int session_fd);
+diff --git a/tools/testing/selftests/vfio/Makefile b/tools/testing/selftests/vfio/Makefile
+index 1e50998529fd..f9c040094d4a 100644
+--- a/tools/testing/selftests/vfio/Makefile
++++ b/tools/testing/selftests/vfio/Makefile
+@@ -23,12 +23,15 @@ LDFLAGS += -pthread
+ LIBS_O := $(LIBVFIO_O)
+ LIBS_O += $(LIBLIVEUPDATE_O)
  
-+int luo_session_preserve_fd(int session_fd, int fd, int token);
-+int luo_session_retrieve_fd(int session_fd, int token);
-+
- int create_and_preserve_memfd(int session_fd, int token, const char *data);
- int restore_and_verify_memfd(int session_fd, int token, const char *expected_data);
+-$(TEST_GEN_PROGS): %: %.o $(LIBS_O)
++$(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED): %: %.o $(LIBS_O)
+ 	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH) $< $(LIBS_O) $(LDLIBS) -o $@
  
-diff --git a/tools/testing/selftests/liveupdate/lib/liveupdate.c b/tools/testing/selftests/liveupdate/lib/liveupdate.c
-index 60121873f685..9bf4f16ca0a4 100644
---- a/tools/testing/selftests/liveupdate/lib/liveupdate.c
-+++ b/tools/testing/selftests/liveupdate/lib/liveupdate.c
-@@ -54,9 +54,35 @@ int luo_retrieve_session(int luo_fd, const char *name)
- 	return arg.fd;
- }
+-TEST_GEN_PROGS_O = $(patsubst %, %.o, $(TEST_GEN_PROGS))
+-TEST_DEP_FILES := $(patsubst %.o, %.d, $(TEST_GEN_PROGS_O))
++TESTS_O := $(patsubst %, %.o, $(TEST_GEN_PROGS))
++TESTS_O += $(patsubst %, %.o, $(TEST_GEN_PROGS_EXTENDED))
++
++TEST_DEP_FILES := $(patsubst %.o, %.d, $(TESTS_O))
+ TEST_DEP_FILES += $(patsubst %.o, %.d, $(LIBS_O))
+ -include $(TEST_DEP_FILES)
  
-+int luo_session_preserve_fd(int session_fd, int fd, int token)
-+{
-+	struct liveupdate_session_preserve_fd arg = {
-+		.size = sizeof(arg),
-+		.fd = fd,
-+		.token = token,
-+	};
-+
-+	if (ioctl(session_fd, LIVEUPDATE_SESSION_PRESERVE_FD, &arg))
-+		return -errno;
-+
-+	return 0;
-+}
-+
-+int luo_session_retrieve_fd(int session_fd, int token)
-+{
-+	struct liveupdate_session_retrieve_fd arg = {
-+		.size = sizeof(arg),
-+		.token = token,
-+	};
-+
-+	if (ioctl(session_fd, LIVEUPDATE_SESSION_RETRIEVE_FD, &arg))
-+		return -errno;
-+
-+	return arg.fd;
-+}
-+
- int create_and_preserve_memfd(int session_fd, int token, const char *data)
- {
--	struct liveupdate_session_preserve_fd arg = { .size = sizeof(arg) };
- 	long page_size = sysconf(_SC_PAGE_SIZE);
- 	void *map = MAP_FAILED;
- 	int mfd = -1, ret = -1;
-@@ -75,9 +101,8 @@ int create_and_preserve_memfd(int session_fd, int token, const char *data)
- 	snprintf(map, page_size, "%s", data);
- 	munmap(map, page_size);
- 
--	arg.fd = mfd;
--	arg.token = token;
--	if (ioctl(session_fd, LIVEUPDATE_SESSION_PRESERVE_FD, &arg) < 0)
-+	ret = luo_session_preserve_fd(session_fd, mfd, token);
-+	if (ret)
- 		goto out;
- 
- 	ret = 0;
-@@ -92,15 +117,13 @@ int create_and_preserve_memfd(int session_fd, int token, const char *data)
- int restore_and_verify_memfd(int session_fd, int token,
- 			     const char *expected_data)
- {
--	struct liveupdate_session_retrieve_fd arg = { .size = sizeof(arg) };
- 	long page_size = sysconf(_SC_PAGE_SIZE);
- 	void *map = MAP_FAILED;
- 	int mfd = -1, ret = -1;
- 
--	arg.token = token;
--	if (ioctl(session_fd, LIVEUPDATE_SESSION_RETRIEVE_FD, &arg) < 0)
--		return -errno;
--	mfd = arg.fd;
-+	mfd = luo_session_retrieve_fd(session_fd, token);
-+	if (mfd < 0)
-+		return mfd;
- 
- 	map = mmap(NULL, page_size, PROT_READ, MAP_SHARED, mfd, 0);
- 	if (map == MAP_FAILED)
+-EXTRA_CLEAN += $(TEST_GEN_PROGS_O) $(TEST_DEP_FILES)
++EXTRA_CLEAN += $(TESTS_O)
++EXTRA_CLEAN += $(TEST_DEP_FILES)
 -- 
 2.53.0.rc1.225.gd81095ad13-goog
 
