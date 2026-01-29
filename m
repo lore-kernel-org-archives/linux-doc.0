@@ -1,44 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB3D26560D;
-	Thu, 29 Jan 2026 14:29:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3EBD2FE05B
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 14:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769696994; cv=none; b=W8XsGjalEwrTf+ndGUnFSNPbxZXTuyCBQpQA35NW7mwvEH3gsgNw3TlGZHWzlfCa26mLlA84PXl6+t/Rm7h0j+Vy6vplfR2W2bOTyQUbNgOKFlOCPnES9GhYUauQYDQQXorkfZjtdZoX0UfxPgPxikRAg8gCU3tHF0Ouqs0rbPE=
+	t=1769697383; cv=none; b=MsBi58eKsezOiAvAEUM1uCJKvoXJ5SApog9ujxuq246BTMCKAETg3KsGP8DNO25AUKbGOC+fh5cmarBSuajp8pHbtXtQh1WhCsh+J4YY0W6Qs95o07+bhCYFQohtZcePcMuhxdMDYTCbc9McmSjtDP4AG8YnZj5PH0sxVRJdVSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769696994; c=relaxed/simple;
-	bh=UKA9R4qgln1sqxh0CDdml8eimmbHOY4bqjY2l05sqLs=;
+	s=arc-20240116; t=1769697383; c=relaxed/simple;
+	bh=ANQwl8weniEr3yhzdlhVQGQZ449UNTL3DKFoQ/EudaI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=stum65tcDTD0jNIOeapZQTQzADIB17pOl01MK1BHZrAlBThv0toRB6QDBQH5KuTIql/qXHJBRJnrZscS/6E32Ujt4156NXg91rd92nbkHBg9JPhGfMK1mr7ZPSh3TyIeMRL/ZhZJCOmMl5TlQqQ3Zp7Z9ZcEyUKKIfbWQRTEFP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ic5CY6Ww; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ajwbNahT67wcnk/2iJNx3khvNIaEW/DhL87gI8qiFlOfysn2LB4AHdbgBmg+IoDeM21Vtrd09W559z4UQBh0Yk23YTdT2CgCahaUOKQkU9EgDF7TssiqG1z+whf/ye3rM0FZHsivyI5IAHXfgPhjHxfmmBH77gNw9J05+GTCMq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZxwqYsgc; arc=none smtp.client-ip=209.85.167.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ic5CY6Ww"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C3C3C4CEF7;
-	Thu, 29 Jan 2026 14:29:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769696994;
-	bh=UKA9R4qgln1sqxh0CDdml8eimmbHOY4bqjY2l05sqLs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ic5CY6WwC/ybILmnkH/6mEKftE+LYvh4QSENQkWZU7f0T6EVKgHkyRnks/nxD1Sym
-	 67SyuxgtIIXLg41OP+ujmRQ5eiMQ2dJNu2YDBhT82lMFBboz5YWgCuEtEkAbqozFok
-	 EpDwzue6WYXuii27BSmLW1qDyN7nqZpK0s/GQG1tKatz9dq4Sng2nlc8KtQEHjnKe0
-	 Kb9SELa/OIiwRWWHluizAdo/Y65BOGvRYEBzQus3zp6BTp08WO2NA8oMyARbTlLnwy
-	 yVDL6kVny0Xqweyjr8BITdU1TBDglZeayF8GX0nNwh0NBi4Wtu1dWnVCE5DB3iRhCv
-	 /TRLMp0NdPVkQ==
-Date: Thu, 29 Jan 2026 15:29:49 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Frank.Li@nxp.com, dlemoal@kernel.org, Koichiro Den <den@valinux.co.jp>,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] PCI: endpoint: pci-epf-test: Allow overriding default
- BAR sizes
-Message-ID: <aXtu3eDffk5nsDx0@ryzen>
-References: <20260129132324.2036310-2-cassel@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZxwqYsgc"
+Received: by mail-lf1-f66.google.com with SMTP id 2adb3069b0e04-59b7c2614f7so987690e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 06:36:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769697379; x=1770302179; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GCBf85o7m+LpjtZO2vby61ve+5QD+ZPBxgo311Kvx5c=;
+        b=ZxwqYsgcsRDpg8P+2CkVnKIa97Uuw8sHfUjPyK68xS1ikxzYlgpEErT5jowzRYVqFV
+         bOnW3UrliNORNnOSTzYOkB0XBdj4BDSCFDd1KJQimcesEZkaU4luEzsncxgxUJBzly37
+         G8iOaMW8VaoAi/DQNkj/FNgz9cP8/ueEsIbrzXdXzGO9dhO6LVH7eW2iPMIEs7tX3EJg
+         4IPh5xmLvIYUEbrIZ0oPl45abJRk2h/k70ogrQ5+H2/3/eH9qTG4jztKc0eC96oKtrWT
+         AdT9SZUC3336ycSg+WnHuwhoqwvYtgnwxDbbem+CiWZe+UyzfzoM64QgdcjZfDatX8cx
+         4JZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769697379; x=1770302179;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GCBf85o7m+LpjtZO2vby61ve+5QD+ZPBxgo311Kvx5c=;
+        b=kd3nAZ4UfZNZjpAUP2X9mzcuUGtLlOrJXG8DKKUVt/EV43OAbkErxhAb/Ud3E2XPNR
+         wS4k3rVHC9KrcvmCk+V0suU3XCueStVzftVg4EQYypAbve8wUOPdqoJrumlk+BBOwvpG
+         hTQak9mvR37GJgc6y1xTGIqlqUXntmVn/3005/1rARwZFePRJLJ2G5F6XOvmTsHEeax0
+         046L7fygkN9Rj0CsNPsmPfauJpbXW5glazr6U9xuas2K/elmBdcknd7ZRPUF/wCOfx/U
+         5KxlLEgohGbLNtj5IAfSvhPtijnBU9pfq/6tg+aeK1EkwtzAEufclzSlYDPg2rohSxZ/
+         tOSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVtSySjQNHv5AbeUHacPht4pGpxUaPCErkCkiaHYHWC2pFKzB/JuKifWuXbcrL5S4O6Bv6mWXsBDkc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCkGmm1fqrJ92DzwdzLyriIdGULKxvd0nCH0nST/dXIqWBNgQS
+	dsAhRnabu9mXlQl9c908TYaOAMAIqIKwvtGwJHNPi+SoUAX2oIk44CFoFkEpL/gNPw==
+X-Gm-Gg: AZuq6aK2pVmzHhUPWc855tKzdwl9gmncZt9ssDoLnx9tcqGLGr1xx13UDYtXPOi+Cic
+	w0PgSzMMv8tyZBskUqBiKcrXEgOxdCfxvMDFrEq/8VBxXtGdWltFeVHPSZM6f6AXx32ylnsNUwi
+	cNRazYp3Ov/co/kQ0ofjrD+IPqwsEiDaFn3EpHdx57inucFGicd8Tw0OzR3+nuGq0psWAE8gab0
+	uuaR31ivJnBSlP0llhxlLeun94yAVmdJuqmqjza54+TMl8RI4KRjs0TKNkGWwwiUO+ukpEktyqv
+	HlKQS1uV3N884ThC7u2FbAx0iaNjEh2TU+phh65TgxrXyleLFD8FgYINJOixgN4FJaDsvNQirBo
+	+VVf32uMPh5zAU7qZqbPHZd9BvyZ+tW7QMIQAG3i+BpJJXisgbBgJWZLj9reZswyi29FURUaxwW
+	vCiLtmq3LbqXJGihGEbpLIjoNNz2Lgr2+G2P2DmQP+EyUbOQ==
+X-Received: by 2002:a05:6512:10c1:b0:59d:f4b8:c3ac with SMTP id 2adb3069b0e04-59e0401702cmr4088944e87.18.1769697378667;
+        Thu, 29 Jan 2026 06:36:18 -0800 (PST)
+Received: from google.com (133.23.88.34.bc.googleusercontent.com. [34.88.23.133])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e074bbe0bsm1156180e87.83.2026.01.29.06.36.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jan 2026 06:36:17 -0800 (PST)
+Date: Thu, 29 Jan 2026 14:36:14 +0000
+From: Quentin Perret <qperret@google.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Sean Christopherson <seanjc@google.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Alexey Kardashevskiy <aik@amd.com>, cgroups@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org, akpm@linux-foundation.org, 
+	binbin.wu@linux.intel.com, bp@alien8.de, brauner@kernel.org, chao.p.peng@intel.com, 
+	chenhuacai@kernel.org, corbet@lwn.net, dave.hansen@intel.com, 
+	dave.hansen@linux.intel.com, david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
+	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
+	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
+	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, jarkko@kernel.org, 
+	jgowans@amazon.com, jhubbard@nvidia.com, jroedel@suse.de, jthoughton@google.com, 
+	jun.miao@intel.com, kai.huang@intel.com, keirf@google.com, kent.overstreet@linux.dev, 
+	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com, mail@maciej.szmigiero.name, 
+	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
+	mhiramat@kernel.org, mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, 
+	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au, muchun.song@linux.dev, 
+	nikunj@amd.com, nsaenz@amazon.es, oliver.upton@linux.dev, palmer@dabbelt.com, 
+	pankaj.gupta@amd.com, paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com, 
+	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, richard.weiyang@gmail.com, 
+	rick.p.edgecombe@intel.com, rientjes@google.com, rostedt@goodmis.org, roypat@amazon.co.uk, 
+	rppt@kernel.org, shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com, 
+	steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com, tglx@linutronix.de, 
+	thomas.lendacky@amd.com, vannapurve@google.com, vbabka@suse.cz, viro@zeniv.linux.org.uk, 
+	vkuznets@redhat.com, wei.w.wang@intel.com, will@kernel.org, willy@infradead.org, 
+	wyihan@google.com, xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com, 
+	yuzenghui@huawei.com, zhiquan1.li@intel.com
+Subject: Re: [RFC PATCH v1 05/37] KVM: guest_memfd: Wire up
+ kvm_get_memory_attributes() to per-gmem attributes
+Message-ID: <od4dx6snqsl2qiocgf3jxm4dndxhrlvsfr22eveuno6nskgfdj@mxsywvku2jk5>
+References: <cover.1760731772.git.ackerleytng@google.com>
+ <071a3c6603809186e914fe5fed939edee4e11988.1760731772.git.ackerleytng@google.com>
+ <07836b1d-d0d8-40f2-8f7b-7805beca31d0@amd.com>
+ <CAEvNRgEuez=JbArRf2SApLAL0usv5-Q6q=nBPOFMHrHGaKAtMw@mail.gmail.com>
+ <20260129003753.GZ1641016@ziepe.ca>
+ <aXqx3_eE0rNh6nP0@google.com>
+ <20260129011618.GA2307128@ziepe.ca>
+ <i22yykvttpc2e4expluuzucczqnetdnpee2wx2fzqwg7cnt45x@ovx7e7hok5iz>
+ <20260129134245.GD2307128@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,53 +107,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260129132324.2036310-2-cassel@kernel.org>
+In-Reply-To: <20260129134245.GD2307128@ziepe.ca>
 
-On Thu, Jan 29, 2026 at 02:23:25PM +0100, Niklas Cassel wrote:
-> +#define PCI_EPF_TEST_BAR_SIZE_W(_name, _id)				\
-> +static ssize_t pci_epf_test_##_name##_store(struct config_item *item,	\
-> +					    const char *page,		\
-> +					    size_t len)			\
-> +{									\
-> +	struct config_group *group = to_config_group(item);		\
-> +	struct pci_epf_test *epf_test =					\
-> +		container_of(group, struct pci_epf_test, group);	\
-> +	int val;							\
-> +	int ret;							\
-> +									\
-> +	/*								\
-> +	 * BAR sizes can only be modified before binding to an EPC,	\
-> +	 * pci_epf_test_alloc_space() is called in .bind().		\
+On Thursday 29 Jan 2026 at 09:42:45 (-0400), Jason Gunthorpe wrote:
+> On Thu, Jan 29, 2026 at 11:10:12AM +0000, Quentin Perret wrote:
+> 
+> > A not-fully-thought-through-and-possibly-ridiculous idea that crossed
+> > my mind some time ago was to make KVM itself a proper dmabuf
+> > importer. 
+> 
+> AFAIK this is already the plan. Since Intel cannot tolerate having the
+> private MMIO mapped into a VMA *at all* there is no other choice.
+> 
+> Since Intel has to build it it I figured everyone would want to use it
+> because it is probably going to be much faster than reading VMAs.
 
-Argh...
+Ack.
 
-This comment was supposed to be:
-... EPC,
-as pci_epf_test_alloc_space() is called in .bind().
+> Especially in the modern world of MMIO BARs in the 512GB range.
+> 
+> > You'd essentially see a guest as a 'device' (probably with an
+> > actual struct dev representing it), and the stage-2 MMU in front of it
+> > as its IOMMU. That could potentially allow KVM to implement dma_map_ops
+> > for that guest 'device' by mapping/unmapping pages into its stage-2 and
+> > such. 
+> 
+> The plan isn't something so wild..
 
-(I forgot to readd the word "as" when rewrapping the comment...)
+I'll take that as a compliment ;-)
 
-Mani, if no other comments, perhaps you could fixup while applying?
+Not dying on that hill, but it didn't feel _that_ horrible after
+thinking about it for a little while. From the host's PoV, a guest is
+just another thing that can address memory, which has its own address
+space and a page-table that we control in front. If you squint hard
+enough it doesn't look _that_ different from a device from that angle.
+Oh well.
 
-(Sorry for the trouble...)
+> https://github.com/jgunthorpe/linux/commits/dmabuf_map_type/
+> 
+> The "Physical Address List" mapping type will let KVM just get a
+> normal phys_addr_t list and do its normal stuff with it. No need for
+> hacky DMA API things.
 
+Thanks, I'll read up.
 
-Kind regards,
-Niklas
+> Probably what will be hard for KVM is that it gets the entire 512GB in
+> one shot and will have to chop it up to install the whole thing into
+> the PTE sizes available in the S2. I don't think it even has logic
+> like that right now??
 
+The closest thing I can think of is the KVM_PRE_FAULT_MEMORY stuff in
+the KVM API that forces it to fault in an arbitrarily range of guest
+IPA space. There should at least be bits of infrastructure that can be
+re-used for that I guess.
 
-> +	 */								\
-> +	if (epf_test->epf->epc)						\
-> +		return -EINVAL;						\
-> +									\
-> +	ret = kstrtouint(page, 0, &val);				\
-> +	if (ret)							\
-> +		return ret;						\
-> +									\
-> +	if (!is_power_of_2(val))					\
-> +		return -EINVAL;						\
-> +									\
-> +	epf_test->bar_size[_id] = val;					\
-> +									\
-> +	return len;							\
-> +}
+> > It gets really funny when a CoCo guest decides to share back a subset of
+> > that dmabuf with the host, and I'm still wrapping my head around how
+> > we'd make that work, but at this point I'm ready to be told how all the
+> > above already doesn't work and that I should go back to the peanut
+> > gallery :-)
+> 
+> Oh, I don't actually know how that ends up working but I suppose it
+> could be meaningfully done :\
+
+For mobile/pKVM we'll want to use dmabufs for more than just passing
+MMIO to guests FWIW, it'll likely be used for memory in certain cases
+too. There are examples in the KVM Forum talk I linked in the previous
+email, but being able to feed guests with dmabuf-backed memory regions
+is very helpful. That's useful to e.g. get physically contiguous memory
+allocated from a CMA-backed dmabuf heap on systems that don't tolerate
+scattered private memory well for example (either for functional or
+performance reasons). I certainly wish we could ignore this type of
+hardware, but we don't have that luxury sadly.
+
+In cases like that, we certainly expect that the guest will be sharing
+back parts of memory it's been given (at least a swiotlb bounce buffer
+so it can do virtio etc), and that may very well be in the middle of a
+dmabuf-backed memslot. In fact the guest has no clue what is backing
+it's memory region, so we can't really expect it _not_ to do that :/
