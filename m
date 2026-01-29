@@ -1,424 +1,271 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0BA199FBA;
-	Thu, 29 Jan 2026 04:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63DA323C4F4;
+	Thu, 29 Jan 2026 04:33:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769660655; cv=none; b=WVHsq/aTQjH7HnSGksKBelCHvR6iYm7WBGoQt+COADVDkwbH4qjp3XD9Uxit0l/f1TzhvhyTd84LPZyRYPS4/dmqTOjwZa6VeBJ4q3daTMEtufzb/B95sSn4/x4sQgXfTOhL10aykJyIH2na+BZlqZ1uUj9HyeUtq5tnQB6tkP8=
+	t=1769661228; cv=none; b=T9caxfcrHpk5kSBaD+AxQIA/JT4+XS0G/gIVP1v2c8XVykoTyCk+Fh+4vaEu7m0Uh9G5FDmcaiPUe1f0Yh99jmAgZoPs1JMh52PiCpbweiuWKKha/XbrbYRTkx80v3QTKMFm32l2uIg33qr9rkA1RbSR7q+OjMbOm2PTgbFDhOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769660655; c=relaxed/simple;
-	bh=t9xnxpQK9RLSI5mJrEEcX/s/HlA2IQ0v/xE6C33zm04=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=LW6jHpbYKZOu+QURM3bAZuj9swtliOIZOHvwL/JJBopY65XE/AQN02Qx4jXQISPYpeldaj3JKKQGElZmbKF6z+zbShDJagljEQS/1fJ0n3aBcVZ5+dvBoWMgxyAZ/4u0eD9FYsPpCmxqIAyQjKna0bGtRh9VieK+Yw5WO/VcyDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D2uXLMWn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769661228; c=relaxed/simple;
+	bh=4+DiUJn3sQ7OzwTbYE1622pe/KYupOEu+6bdseH86Ok=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AbsA18ifL9uOTVv9J7HIqLBQNeGtLnNSBSaCKyY8tsx/J1MgM0UxG/yp98F3JeHxwPAFn/YKugEVyZvsYwKWo5RSEElH9ysHC1v+/FWZz6LYqxySLJD8Wvste7NUaouxH6vqIcGAyh7UMZOFkMUoeWEngLqf5yfb8OAi2/BTunU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a/P081Du; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D2uXLMWn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 972ABC116D0;
-	Thu, 29 Jan 2026 04:24:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a/P081Du"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 479EFC116D0;
+	Thu, 29 Jan 2026 04:33:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769660654;
-	bh=t9xnxpQK9RLSI5mJrEEcX/s/HlA2IQ0v/xE6C33zm04=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D2uXLMWnmVVYhhfIvx5vzJnnoEp7BhFv5nqLOWrcsn/1dy3tw73eFHNNFlseDJVnf
-	 CQsAJC2e0f9LpaAXH/F2P0drZfTwvQqKE9F/GuHMNTwJbLSlppSqHpmChCmHQk+L/S
-	 GsUvTugytATMcnpSl5nEZJi6ulWD6cUVpGFpk+iK4PV4ncHKYoc4HhS8L9WO61/oxW
-	 YC7cifwRfRIYKEKWda4pmwcqnZuViHFR2XAfwf8ME/pP8gvXHd/O6wmSo/U9ckImKn
-	 bIuzwD2RzisLaek4ivaZKkHNfVI9whSkSjHRRxpGfCuuZApSgBQQsUtnacfr8k40bC
-	 rYsPOoch7BA1Q==
-Date: Thu, 29 Jan 2026 13:24:12 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-Cc: rostedt@goodmis.org, corbet@lwn.net, shuah@kernel.org,
- mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 v5 2/3] tracing/fprobe: Support comma-separated
- symbols and :entry/:exit
-Message-Id: <20260129132412.babdf9a72e72f0d8b6273510@kernel.org>
-In-Reply-To: <20260118011815.56516-3-seokwoo.chung130@gmail.com>
-References: <20260118011815.56516-1-seokwoo.chung130@gmail.com>
-	<20260118011815.56516-3-seokwoo.chung130@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=k20201202; t=1769661227;
+	bh=4+DiUJn3sQ7OzwTbYE1622pe/KYupOEu+6bdseH86Ok=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=a/P081DufMplUwoWxestflu1piRJKbtzIRBkPyuAivcpDFsbzd/+FDAy5+qCKxR+9
+	 MWLk4/nLfRxrI5JDgNbDPyv866yEJka1zsvl/vgLU9DLrx1d6U7owGBnbiV2qy+/3T
+	 X9Ogk1aEu1oE/OiEjBZU4kbiiuRlPhUUKyGG4xJEnRmY4qkdr3U16sD3a0dLtNKoK+
+	 psMNhX65DI9SUyBG76Ju9xPJM1rEL1oZqYJkdOoo+5tLM+TuDzbFM077WtmvSfyJal
+	 JaUDXNnZ16g5ngzfL8aEwhre8fFgK0H7wXuXVuqYZJ/JXBLrRZohpPyoN+9J7ybuch
+	 QaDY/sV+rjIKw==
+Message-ID: <a802b522-5084-41de-9ecd-cfcc9c6eebcf@kernel.org>
+Date: Thu, 29 Jan 2026 13:33:45 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] PCI: endpoint: pci-epf-test: Allow overriding default
+ BAR sizes
+To: Niklas Cassel <cassel@kernel.org>, Manivannan Sadhasivam
+ <mani@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Frank.Li@nxp.com, Koichiro Den <den@valinux.co.jp>,
+ linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260128171157.1795146-2-cassel@kernel.org>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260128171157.1795146-2-cassel@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Sat, 17 Jan 2026 20:18:14 -0500
-"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com> wrote:
-
-> - Update DEFINE_FREE to use standard __free()
-> - Extend fprobe to support multiple symbols per event. Add parsing logic for
->   lists, ! exclusions, and explicit suffixes. Update tracefs/README to reflect
->   the new syntax
+On 1/29/26 02:11, Niklas Cassel wrote:
+> Add bar{0,1,2,3,4,5}_size attributes in configfs, so that the user is not
+> restricted to run pci-epf-test with the hardcoded BAR size values defined
+> in pci-epf-test.c.
 > 
-> Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
+> This code is shamelessly more or less copy pasted from pci-epf-vntb.c
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Tested-by: Koichiro Den <den@valinux.co.jp>
+> Signed-off-by: Niklas Cassel <cassel@kernel.org>
 > ---
->  kernel/trace/trace.c        |   3 +-
->  kernel/trace/trace_fprobe.c | 209 +++++++++++++++++++++++++++---------
->  2 files changed, 163 insertions(+), 49 deletions(-)
+> Changes since v1:
+> -Rebased on branch controller/dwc since this branch contains changes
+>  to pci-epf-test.c which conflicted with V1 of this patch.
+> -Updated the documentation to show the current BAR sizes after other
+>  changes on branch controller/dwc.
+> -Picked up tags.
 > 
-> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
-> index baec63134ab6..10cdcc7b194e 100644
-> --- a/kernel/trace/trace.c
-> +++ b/kernel/trace/trace.c
-> @@ -5578,7 +5578,8 @@ static const char readme_msg[] =
->  	"\t           r[maxactive][:[<group>/][<event>]] <place> [<args>]\n"
->  #endif
->  #ifdef CONFIG_FPROBE_EVENTS
-> -	"\t           f[:[<group>/][<event>]] <func-name>[%return] [<args>]\n"
-> +	"\t           f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]\n"
-> +	"\t		(single symbols still accept %return)\n"
->  	"\t           t[:[<group>/][<event>]] <tracepoint> [<args>]\n"
->  #endif
->  #ifdef CONFIG_HIST_TRIGGERS
-> diff --git a/kernel/trace/trace_fprobe.c b/kernel/trace/trace_fprobe.c
-> index 262c0556e4af..5a2a41eea603 100644
-> --- a/kernel/trace/trace_fprobe.c
-> +++ b/kernel/trace/trace_fprobe.c
-> @@ -187,11 +187,14 @@ DEFINE_FREE(tuser_put, struct tracepoint_user *,
->   */
->  struct trace_fprobe {
->  	struct dyn_event	devent;
-> +	char			*filter;
->  	struct fprobe		fp;
-> +	bool			list_mode;
-> +	char			*nofilter;
->  	const char		*symbol;
-> +	struct trace_probe	tp;
->  	bool			tprobe;
->  	struct tracepoint_user	*tuser;
-> -	struct trace_probe	tp;
+>  Documentation/PCI/endpoint/pci-test-howto.rst | 16 ++++
+>  drivers/pci/endpoint/functions/pci-epf-test.c | 92 ++++++++++++++++++-
+>  2 files changed, 106 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/PCI/endpoint/pci-test-howto.rst b/Documentation/PCI/endpoint/pci-test-howto.rst
+> index dd66858cde46..497251d53b12 100644
+> --- a/Documentation/PCI/endpoint/pci-test-howto.rst
+> +++ b/Documentation/PCI/endpoint/pci-test-howto.rst
+> @@ -84,6 +84,22 @@ device, the following commands can be used::
+>  	# echo 32 > functions/pci_epf_test/func1/msi_interrupts
+>  	# echo 2048 > functions/pci_epf_test/func1/msix_interrupts
+>  
+> +By default, pci-epf-test uses the following BAR sizes::
+> +
+> +	# grep . functions/pci_epf_test/func1/pci_epf_test.0/bar?_size
+> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar0_size:131072
+> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar1_size:131072
+> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar2_size:131072
+> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar3_size:131072
+> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar4_size:131072
+> +	  functions/pci_epf_test/func1/pci_epf_test.0/bar5_size:1048576
+> +
+> +The user can override a default value using e.g.::
+> +	# echo 1048576 > functions/pci_epf_test/func1/pci_epf_test.0/bar1_size
+> +
+> +Note: Some endpoint controllers might have fixed size BARs, or reserved BARs,
+> +for such controllers, the corresponding BAR size in configfs will be ignored.
+> +
+>  
+>  Binding pci-epf-test Device to EP Controller
+>  --------------------------------------------
+> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
+> index 1cc630a2ee75..e8dff291f116 100644
+> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
+> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
+> @@ -72,6 +72,7 @@ static struct workqueue_struct *kpcitest_workqueue;
+>  struct pci_epf_test {
+>  	void			*reg[PCI_STD_NUM_BARS];
+>  	struct pci_epf		*epf;
+> +	struct config_group	group;
+>  	enum pci_barno		test_reg_bar;
+>  	size_t			msix_table_offset;
+>  	struct delayed_work	cmd_handler;
+> @@ -85,6 +86,7 @@ struct pci_epf_test {
+>  	bool			dma_private;
+>  	const struct pci_epc_features *epc_features;
+>  	struct pci_epf_bar	db_bar;
+> +	size_t			bar_size[PCI_STD_NUM_BARS];
 >  };
 >  
->  static bool is_trace_fprobe(struct dyn_event *ev)
-> @@ -559,6 +562,8 @@ static void free_trace_fprobe(struct trace_fprobe *tf)
->  		trace_probe_cleanup(&tf->tp);
->  		if (tf->tuser)
->  			tracepoint_user_put(tf->tuser);
-> +		kfree(tf->filter);
-> +		kfree(tf->nofilter);
->  		kfree(tf->symbol);
->  		kfree(tf);
->  	}
-> @@ -838,7 +843,12 @@ static int __register_trace_fprobe(struct trace_fprobe *tf)
->  	if (trace_fprobe_is_tracepoint(tf))
->  		return __regsiter_tracepoint_fprobe(tf);
->  
-> -	/* TODO: handle filter, nofilter or symbol list */
-> +	/* Registration path:
-> +	 * - list_mode: pass filter/nofilter
-> +	 * - single: pass symbol only (legacy)
-> +	 */
-> +	if (tf->list_mode)
-> +		return register_fprobe(&tf->fp, tf->filter, tf->nofilter);
->  	return register_fprobe(&tf->fp, tf->symbol, NULL);
->  }
->  
-> @@ -1154,60 +1164,119 @@ static struct notifier_block tprobe_event_module_nb = {
+>  struct pci_epf_test_reg {
+> @@ -111,7 +113,8 @@ static struct pci_epf_header test_header = {
+>  	.interrupt_pin	= PCI_INTERRUPT_INTA,
 >  };
->  #endif /* CONFIG_MODULES */
 >  
-> -static int parse_symbol_and_return(int argc, const char *argv[],
-> -				   char **symbol, bool *is_return,
-> -				   bool is_tracepoint)
-> +static bool has_wildcard(const char *s)
+> -static size_t bar_size[] = { 131072, 131072, 131072, 131072, 131072, 1048576 };
+> +/* default BAR sizes, can be overridden by the user using configfs */
+> +static size_t default_bar_size[] = { 131072, 131072, 131072, 131072, 131072, 1048576 };
+>  
+>  static void pci_epf_test_dma_callback(void *param)
 >  {
-> -	char *tmp = strchr(argv[1], '%');
-> -	int i;
-> +	return s && (strchr(s, '*') || strchr(s, '?'));
-> +}
+> @@ -1240,7 +1243,7 @@ static int pci_epf_test_alloc_space(struct pci_epf *epf)
+>  		if (epc_features->bar[bar].type == BAR_FIXED)
+>  			test_reg_size = epc_features->bar[bar].fixed_size;
+>  		else
+> -			test_reg_size = bar_size[bar];
+> +			test_reg_size = epf_test->bar_size[bar];
 >  
-> -	if (tmp) {
-> -		int len = tmp - argv[1];
-> +static int parse_fprobe_spec(const char *in, bool is_tracepoint,
-> +		char **base, bool *is_return, bool *list_mode,
-> +		char **filter, char **nofilter)
-> +{
-> +	char *work __free(kfree) = NULL;
-> +	char *b __free(kfree) = NULL;
-> +	char *f __free(kfree) = NULL;
-> +	char *nf __free(kfree) = NULL;
-> +	bool legacy_ret = false;
-> +	bool list = false;
-> +	const char *p;
-> +	int ret = 0;
->  
-> -		if (!is_tracepoint && !strcmp(tmp, "%return")) {
-> -			*is_return = true;
-> -		} else {
-> -			trace_probe_log_err(len, BAD_ADDR_SUFFIX);
-> -			return -EINVAL;
-> -		}
-> -		*symbol = kmemdup_nul(argv[1], len, GFP_KERNEL);
-> -	} else
-> -		*symbol = kstrdup(argv[1], GFP_KERNEL);
-> -	if (!*symbol)
-> -		return -ENOMEM;
-> +	if (!in || !base || !is_return || !list_mode || !filter || !nofilter)
-> +		return -EINVAL;
->  
-> -	if (*is_return)
-> -		return 0;
-> +	*base = NULL; *filter = NULL; *nofilter = NULL;
-> +	*is_return = false; *list_mode = false;
->  
->  	if (is_tracepoint) {
-> -		tmp = *symbol;
-> -		while (*tmp && (isalnum(*tmp) || *tmp == '_'))
-> -			tmp++;
-> -		if (*tmp) {
-> -			/* find a wrong character. */
-> -			trace_probe_log_err(tmp - *symbol, BAD_TP_NAME);
-> -			kfree(*symbol);
-> -			*symbol = NULL;
-> +		if (strchr(in, ',') || strchr(in, ':'))
->  			return -EINVAL;
-> -		}
-> +		if (strstr(in, "%return"))
-> +			return -EINVAL;
-
-These checks look redundant. because below ensures there is no
-',', '/' and '%'.
-
-> +		for (p = in; *p; p++)
-> +			if (!isalnum(*p) && *p != '_')
-> +				return -EINVAL;
-
-Please report parse error via trace_probe_log_err() function so that
-user can check what was wrong via tracefs/error_log file. E.g.
-
-	trace_probe_log_err(p - in, BAD_TP_NAME);
-
-
-> +		b = kstrdup(in, GFP_KERNEL);
-> +		if (!b)
-> +			return -ENOMEM;
-
-Note: ENOMEM does not need to report via error_log.
-
-> +		*base = no_free_ptr(b);
-> +		return 0;
->  	}
->  
-> -	/* If there is $retval, this should be a return fprobe. */
-> -	for (i = 2; i < argc; i++) {
-> -		tmp = strstr(argv[i], "$retval");
-> -		if (tmp && !isalnum(tmp[7]) && tmp[7] != '_') {
-> -			if (is_tracepoint) {
-> -				trace_probe_log_set_index(i);
-> -				trace_probe_log_err(tmp - argv[i], RETVAL_ON_PROBE);
-> -				kfree(*symbol);
-> -				*symbol = NULL;
-> +	work = kstrdup(in, GFP_KERNEL);
-> +	if (!work)
-> +		return -ENOMEM;
-> +
-> +	p = strstr(work, "%return");
-> +	if (p && p[7] == '\0') {
-> +		*is_return = true;
-> +		legacy_ret = true;
-> +		*(char *)p = '\0';
-> +	} else {
-> +		/*
-> +		 * If "symbol:entry" or "symbol:exit" is given, it is new
-> +		 * style probe.
-> +		 */
-> +		p = strrchr(work, ':');
-> +		if (p) {
-> +			if (!strcmp(p, ":exit")) {
-> +				*is_return = true;
-> +				*(char *)p = '\0';
-> +			} else if (!strcmp(p, ":entry")) {
-> +				*(char *)p = '\0';
-> +			} else {
->  				return -EINVAL;
->  			}
-> -			*is_return = true;
-> -			break;
->  		}
->  	}
-> -	return 0;
-> +
-> +	list = !!strchr(work, ',');
-> +	
-> +	if (list && legacy_ret) {
-> +		return -EINVAL;
-> +	}
-
-You don't need braces for the above block.
-
-> +
-> +	if (legacy_ret)
-> +		*is_return = true;
-> +
-> +	b = kstrdup(work, GFP_KERNEL);
-> +	if (!b)
-> +		return -ENOMEM;
-> +
-> +	if (list) {
-
-Could you make this block as an independent function?
-
-> +		char *tmp = b, *tok;
-> +		size_t fsz, nfsz;
-> +
-> +		fsz = nfsz = strlen(b) + 1;
-> +
-> +		f = kzalloc(fsz, GFP_KERNEL);
-> +		nf = kzalloc(nfsz, GFP_KERNEL);
-> +		if (!f || !nf)
-> +			return -ENOMEM;
-> +
-> +		while ((tok = strsep(&tmp, ",")) != NULL) {
-> +			char *dst;
-> +			bool neg = (*tok == '!');
-> +
-> +			if (*tok == '\0') {
-> +				trace_probe_log_err(tmp - b - 1, BAD_TP_NAME);
-> +				return -EINVAL;
-
-You missed close brace '}' here. And that makes the build failure.
-Can you fix it and run all tests under tools/testing/selftests/ftrace/
-with your change?
-
-Thank you,
-
-
-> +
-> +			if (neg)
-> +				tok++;
-> +			dst = neg ? nf : f;
-> +			if (dst[0] != '\0')
-> +				strcat(dst, ",");
-> +			strcat(dst, tok);
-> +		}
-> +		*list_mode = true;
-> +	}
-> +
-> +	*base = no_free_ptr(b);
-> +	*filter = no_free_ptr(f);
-> +	*nofilter = no_free_ptr(nf);
-> +
-> +	return ret;
+>  		base = pci_epf_alloc_space(epf, test_reg_size, bar,
+>  					   epc_features, PRIMARY_INTERFACE);
+> @@ -1312,6 +1315,87 @@ static void pci_epf_test_unbind(struct pci_epf *epf)
+>  	pci_epf_test_free_space(epf);
 >  }
 >  
->  static int trace_fprobe_create_internal(int argc, const char *argv[],
-> @@ -1241,6 +1310,8 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
->  	const char *event = NULL, *group = FPROBE_EVENT_SYSTEM;
->  	struct module *mod __free(module_put) = NULL;
->  	const char **new_argv __free(kfree) = NULL;
-> +	char *parsed_nofilter __free(kfree) = NULL;
-> +	char *parsed_filter __free(kfree) = NULL;
->  	char *symbol __free(kfree) = NULL;
->  	char *ebuf __free(kfree) = NULL;
->  	char *gbuf __free(kfree) = NULL;
-> @@ -1249,6 +1320,7 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
->  	char *dbuf __free(kfree) = NULL;
->  	int i, new_argc = 0, ret = 0;
->  	bool is_tracepoint = false;
-> +	bool list_mode = false;
->  	bool is_return = false;
->  
->  	if ((argv[0][0] != 'f' && argv[0][0] != 't') || argc < 2)
-> @@ -1270,11 +1342,26 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
->  
->  	trace_probe_log_set_index(1);
->  
-> -	/* a symbol(or tracepoint) must be specified */
-> -	ret = parse_symbol_and_return(argc, argv, &symbol, &is_return, is_tracepoint);
-> +	/* Parse spec early (single vs list, suffix, base symbol) */
-> +	ret = parse_fprobe_spec(argv[1], is_tracepoint, &symbol, &is_return,
-> +			&list_mode, &parsed_filter, &parsed_nofilter);
->  	if (ret < 0)
->  		return -EINVAL;
->  
-> +	for (i = 2; i < argc; i++) {
-> +		char *tmp = strstr(argv[i], "$retval");
-> +
-> +		if (tmp && !isalnum(tmp[7]) && tmp[7] != '_') {
-> +			if (is_tracepoint) {
-> +				trace_probe_log_set_index(i);
-> +				trace_probe_log_err(tmp - argv[i], RETVAL_ON_PROBE);
-> +				return -EINVAL;
-> +			}
-> +			is_return = true;
-> +			break;
-> +		}
+> +#define PCI_EPF_TEST_BAR_SIZE_R(_name, _id)				\
+> +	static ssize_t pci_epf_test_##_name##_show(struct config_item *item,	\
+
+Drop the extra indentation at the beginning of the ligne. Many Macro defined
+functions use that style.
+
+> +						   char *page)		\
+> +	{								\
+> +		struct config_group *group = to_config_group(item);	\
+> +		struct pci_epf_test *epf_test = container_of(group,	\
+> +					struct pci_epf_test, group);	\
+
+Splitting this line after the "=" would be nicer.
+
+> +									\
+> +		return sprintf(page, "%zu\n", epf_test->bar_size[_id]);	\
+
+sysfs_emit() ?
+
 > +	}
 > +
->  	trace_probe_log_set_index(0);
->  	if (event) {
->  		gbuf = kmalloc(MAX_EVENT_NAME_LEN, GFP_KERNEL);
-> @@ -1287,6 +1374,15 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
->  	}
->  
->  	if (!event) {
-> +		/*
-> +		 * Event name rules:
-> +		 * - For list/wildcard: require explicit [GROUP/]EVENT
-> +		 * - For single literal: autogenerate symbol__entry/symbol__exit
-> +		 */
-> +		if (list_mode || has_wildcard(symbol)) {
-> +			trace_probe_log_err(0, NO_GROUP_NAME);
-> +			return -EINVAL;
-> +		}
->  		ebuf = kmalloc(MAX_EVENT_NAME_LEN, GFP_KERNEL);
->  		if (!ebuf)
->  			return -ENOMEM;
-> @@ -1322,7 +1418,8 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
->  							NULL, NULL, NULL, sbuf);
->  		}
->  	}
-> -	if (!ctx->funcname)
-> +
-> +	if (!list_mode && !has_wildcard(symbol) && !is_tracepoint)
->  		ctx->funcname = symbol;
->  
->  	abuf = kmalloc(MAX_BTF_ARGS_LEN, GFP_KERNEL);
-> @@ -1356,6 +1453,21 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
->  		return ret;
->  	}
->  
-> +	/* carry list parsing result into tf */
-> +	if (!is_tracepoint) {
-> +		tf->list_mode = list_mode;
-> +		if (parsed_filter) {
-> +			tf->filter = kstrdup(parsed_filter, GFP_KERNEL);
-> +			if (!tf->filter)
-> +				return -ENOMEM;
-> +		}
-> +		if (parsed_nofilter) {
-> +			tf->nofilter = kstrdup(parsed_nofilter, GFP_KERNEL);
-> +			if (!tf->nofilter)
-> +				return -ENOMEM;
-> +		}
+> +#define PCI_EPF_TEST_BAR_SIZE_W(_name, _id)				\
+> +	static ssize_t pci_epf_test_##_name##_store(struct config_item *item, \
+> +						    const char *page, size_t len) \
+> +	{								\
+> +		struct config_group *group = to_config_group(item);	\
+> +		struct pci_epf_test *epf_test = container_of(group,	\
+> +					struct pci_epf_test, group);	\
+> +		int val;						\
+> +		int ret;						\
+> +									\
+> +		ret = kstrtouint(page, 0, &val);			\
+> +		if (ret)						\
+> +			return ret;					\
+> +									\
+> +		if (!is_power_of_2(val))				\
+> +			return -EINVAL;					\
+> +									\
+> +		epf_test->bar_size[_id] = val;				\
+> +									\
+> +		return len;						\
 > +	}
 > +
->  	/* parse arguments */
->  	for (i = 0; i < argc; i++) {
->  		trace_probe_log_set_index(i + 2);
-> @@ -1442,8 +1554,9 @@ static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
->  	seq_printf(m, ":%s/%s", trace_probe_group_name(&tf->tp),
->  				trace_probe_name(&tf->tp));
+> +PCI_EPF_TEST_BAR_SIZE_R(bar0_size, BAR_0)
+> +PCI_EPF_TEST_BAR_SIZE_W(bar0_size, BAR_0)
+> +PCI_EPF_TEST_BAR_SIZE_R(bar1_size, BAR_1)
+> +PCI_EPF_TEST_BAR_SIZE_W(bar1_size, BAR_1)
+> +PCI_EPF_TEST_BAR_SIZE_R(bar2_size, BAR_2)
+> +PCI_EPF_TEST_BAR_SIZE_W(bar2_size, BAR_2)
+> +PCI_EPF_TEST_BAR_SIZE_R(bar3_size, BAR_3)
+> +PCI_EPF_TEST_BAR_SIZE_W(bar3_size, BAR_3)
+> +PCI_EPF_TEST_BAR_SIZE_R(bar4_size, BAR_4)
+> +PCI_EPF_TEST_BAR_SIZE_W(bar4_size, BAR_4)
+> +PCI_EPF_TEST_BAR_SIZE_R(bar5_size, BAR_5)
+> +PCI_EPF_TEST_BAR_SIZE_W(bar5_size, BAR_5)
+> +
+> +CONFIGFS_ATTR(pci_epf_test_, bar0_size);
+> +CONFIGFS_ATTR(pci_epf_test_, bar1_size);
+> +CONFIGFS_ATTR(pci_epf_test_, bar2_size);
+> +CONFIGFS_ATTR(pci_epf_test_, bar3_size);
+> +CONFIGFS_ATTR(pci_epf_test_, bar4_size);
+> +CONFIGFS_ATTR(pci_epf_test_, bar5_size);
+> +
+> +static struct configfs_attribute *pci_epf_test_attrs[] = {
+> +	&pci_epf_test_attr_bar0_size,
+> +	&pci_epf_test_attr_bar1_size,
+> +	&pci_epf_test_attr_bar2_size,
+> +	&pci_epf_test_attr_bar3_size,
+> +	&pci_epf_test_attr_bar4_size,
+> +	&pci_epf_test_attr_bar5_size,
+> +	NULL,
+> +};
+> +
+> +static const struct config_item_type pci_epf_test_group_type = {
+> +	.ct_attrs	= pci_epf_test_attrs,
+> +	.ct_owner	= THIS_MODULE,
+> +};
+> +
+> +static struct config_group *pci_epf_test_add_cfs(struct pci_epf *epf,
+> +						 struct config_group *group)
+> +{
+> +	struct pci_epf_test *epf_test = epf_get_drvdata(epf);
+> +	struct config_group *epf_group = &epf_test->group;
+> +	struct device *dev = &epf->dev;
+> +
+> +	config_group_init_type_name(epf_group, dev_name(dev),
+> +				    &pci_epf_test_group_type);
+> +
+> +	return epf_group;
+> +}
+> +
+>  static const struct pci_epf_device_id pci_epf_test_ids[] = {
+>  	{
+>  		.name = "pci_epf_test",
+> @@ -1324,6 +1408,7 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+>  {
+>  	struct pci_epf_test *epf_test;
+>  	struct device *dev = &epf->dev;
+> +	enum pci_barno bar;
 >  
-> -	seq_printf(m, " %s%s", trace_fprobe_symbol(tf),
-> -			       trace_fprobe_is_return(tf) ? "%return" : "");
-> +	seq_printf(m, " %s", trace_fprobe_symbol(tf));
-> +	if (!trace_fprobe_is_tracepoint(tf) && trace_fprobe_is_return(tf))
-> +		seq_puts(m, ":exit");
+>  	epf_test = devm_kzalloc(dev, sizeof(*epf_test), GFP_KERNEL);
+>  	if (!epf_test)
+> @@ -1331,6 +1416,8 @@ static int pci_epf_test_probe(struct pci_epf *epf,
 >  
->  	for (i = 0; i < tf->tp.nr_args; i++)
->  		seq_printf(m, " %s=%s", tf->tp.args[i].name, tf->tp.args[i].comm);
-> -- 
-> 2.43.0
+>  	epf->header = &test_header;
+>  	epf_test->epf = epf;
+> +	for (bar = BAR_0; bar < PCI_STD_NUM_BARS; bar++)
+> +		epf_test->bar_size[bar] = default_bar_size[bar];
+>  
+>  	INIT_DELAYED_WORK(&epf_test->cmd_handler, pci_epf_test_cmd_handler);
+>  
+> @@ -1343,6 +1430,7 @@ static int pci_epf_test_probe(struct pci_epf *epf,
+>  static const struct pci_epf_ops ops = {
+>  	.unbind	= pci_epf_test_unbind,
+>  	.bind	= pci_epf_test_bind,
+> +	.add_cfs = pci_epf_test_add_cfs,
+>  };
+>  
+>  static struct pci_epf_driver test_driver = {
 > 
+> base-commit: 0ebf8e7943e01b2c38c199228f51adbb89c02425
 
 
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Damien Le Moal
+Western Digital Research
