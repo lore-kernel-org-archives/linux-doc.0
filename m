@@ -1,187 +1,162 @@
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3EBD2FE05B
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 14:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7946531A54E
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 14:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769697383; cv=none; b=MsBi58eKsezOiAvAEUM1uCJKvoXJ5SApog9ujxuq246BTMCKAETg3KsGP8DNO25AUKbGOC+fh5cmarBSuajp8pHbtXtQh1WhCsh+J4YY0W6Qs95o07+bhCYFQohtZcePcMuhxdMDYTCbc9McmSjtDP4AG8YnZj5PH0sxVRJdVSs=
+	t=1769697709; cv=none; b=BRkesWJ2FIHuknKhQhY0vVNKMcGPHOPGlxDe9DKHstE5GNhWhgc1E8b4cTQBkt9tCT9VPTSA+dSFgOCmX/o+h/cWso7zl7qm0Dv/vKCMfoZRdANyCpJa8Dj0XKTH+E4HZHVtgJHVp/mElCzsYRh7lK2qs0mqoTF0xj3lHd0OrVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769697383; c=relaxed/simple;
-	bh=ANQwl8weniEr3yhzdlhVQGQZ449UNTL3DKFoQ/EudaI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ajwbNahT67wcnk/2iJNx3khvNIaEW/DhL87gI8qiFlOfysn2LB4AHdbgBmg+IoDeM21Vtrd09W559z4UQBh0Yk23YTdT2CgCahaUOKQkU9EgDF7TssiqG1z+whf/ye3rM0FZHsivyI5IAHXfgPhjHxfmmBH77gNw9J05+GTCMq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZxwqYsgc; arc=none smtp.client-ip=209.85.167.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1769697709; c=relaxed/simple;
+	bh=F0b8hnfWHbsOvhccuNKow2wnsDEWWek2mfssz8GMxsU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lLrS96cdAz2Jnx3JuLVVJ1kv2tykVa17383i42FABykbMvv9UuWdIEfaex4NVdmNbRHXFoadwZxhyeyAoeh/oiwTcYc9o3U8McRAoTwYHqnNxY5DwWYiz6v3QGac9UMzZehquCRLjoI61GTIqwRuFNKf3H7br0qDC7DUNLM2e/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DCdmfDvY; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZxwqYsgc"
-Received: by mail-lf1-f66.google.com with SMTP id 2adb3069b0e04-59b7c2614f7so987690e87.3
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 06:36:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DCdmfDvY"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4801c2fae63so8428145e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 06:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769697379; x=1770302179; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GCBf85o7m+LpjtZO2vby61ve+5QD+ZPBxgo311Kvx5c=;
-        b=ZxwqYsgcsRDpg8P+2CkVnKIa97Uuw8sHfUjPyK68xS1ikxzYlgpEErT5jowzRYVqFV
-         bOnW3UrliNORNnOSTzYOkB0XBdj4BDSCFDd1KJQimcesEZkaU4luEzsncxgxUJBzly37
-         G8iOaMW8VaoAi/DQNkj/FNgz9cP8/ueEsIbrzXdXzGO9dhO6LVH7eW2iPMIEs7tX3EJg
-         4IPh5xmLvIYUEbrIZ0oPl45abJRk2h/k70ogrQ5+H2/3/eH9qTG4jztKc0eC96oKtrWT
-         AdT9SZUC3336ycSg+WnHuwhoqwvYtgnwxDbbem+CiWZe+UyzfzoM64QgdcjZfDatX8cx
-         4JZg==
+        d=suse.com; s=google; t=1769697706; x=1770302506; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RiXqWFBbTqasdWh8G25vCefiMtu7P/aKonwdz1Q+QEk=;
+        b=DCdmfDvYjNE7C1O2jiZtSAx5VFyXp7kD/Q7BI5euaOR+Aece3eGzUKs2VWuSK81cFV
+         1GFRfcCRI5Gukv0bp9TizXNuyZfwsTpyqy5P+VkNyNxkRnws1AEIYl2hhEUd8UPa0/PW
+         y+3TgGZgtrKtkyDwNhatNcP1EY9CAYjT70lD1b7Fs8UyFAO/WOJh+HnBMwFvQxOZlZBz
+         QuNuFBwZImsqcYQ1MDZ/A8alCPRdprBiX4rjuvwJ24bIc5V0PHY1wJV1+QrbSDS7TFwP
+         0REI1tXsfsQnH7ryQMfgAhS9va5/2Ax1ONsbMHGzdnpe132FZc+P1kz/N4aylIk7XgMh
+         TwAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769697379; x=1770302179;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GCBf85o7m+LpjtZO2vby61ve+5QD+ZPBxgo311Kvx5c=;
-        b=kd3nAZ4UfZNZjpAUP2X9mzcuUGtLlOrJXG8DKKUVt/EV43OAbkErxhAb/Ud3E2XPNR
-         wS4k3rVHC9KrcvmCk+V0suU3XCueStVzftVg4EQYypAbve8wUOPdqoJrumlk+BBOwvpG
-         hTQak9mvR37GJgc6y1xTGIqlqUXntmVn/3005/1rARwZFePRJLJ2G5F6XOvmTsHEeax0
-         046L7fygkN9Rj0CsNPsmPfauJpbXW5glazr6U9xuas2K/elmBdcknd7ZRPUF/wCOfx/U
-         5KxlLEgohGbLNtj5IAfSvhPtijnBU9pfq/6tg+aeK1EkwtzAEufclzSlYDPg2rohSxZ/
-         tOSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVtSySjQNHv5AbeUHacPht4pGpxUaPCErkCkiaHYHWC2pFKzB/JuKifWuXbcrL5S4O6Bv6mWXsBDkc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCkGmm1fqrJ92DzwdzLyriIdGULKxvd0nCH0nST/dXIqWBNgQS
-	dsAhRnabu9mXlQl9c908TYaOAMAIqIKwvtGwJHNPi+SoUAX2oIk44CFoFkEpL/gNPw==
-X-Gm-Gg: AZuq6aK2pVmzHhUPWc855tKzdwl9gmncZt9ssDoLnx9tcqGLGr1xx13UDYtXPOi+Cic
-	w0PgSzMMv8tyZBskUqBiKcrXEgOxdCfxvMDFrEq/8VBxXtGdWltFeVHPSZM6f6AXx32ylnsNUwi
-	cNRazYp3Ov/co/kQ0ofjrD+IPqwsEiDaFn3EpHdx57inucFGicd8Tw0OzR3+nuGq0psWAE8gab0
-	uuaR31ivJnBSlP0llhxlLeun94yAVmdJuqmqjza54+TMl8RI4KRjs0TKNkGWwwiUO+ukpEktyqv
-	HlKQS1uV3N884ThC7u2FbAx0iaNjEh2TU+phh65TgxrXyleLFD8FgYINJOixgN4FJaDsvNQirBo
-	+VVf32uMPh5zAU7qZqbPHZd9BvyZ+tW7QMIQAG3i+BpJJXisgbBgJWZLj9reZswyi29FURUaxwW
-	vCiLtmq3LbqXJGihGEbpLIjoNNz2Lgr2+G2P2DmQP+EyUbOQ==
-X-Received: by 2002:a05:6512:10c1:b0:59d:f4b8:c3ac with SMTP id 2adb3069b0e04-59e0401702cmr4088944e87.18.1769697378667;
-        Thu, 29 Jan 2026 06:36:18 -0800 (PST)
-Received: from google.com (133.23.88.34.bc.googleusercontent.com. [34.88.23.133])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e074bbe0bsm1156180e87.83.2026.01.29.06.36.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Jan 2026 06:36:17 -0800 (PST)
-Date: Thu, 29 Jan 2026 14:36:14 +0000
-From: Quentin Perret <qperret@google.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Sean Christopherson <seanjc@google.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Alexey Kardashevskiy <aik@amd.com>, cgroups@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org, akpm@linux-foundation.org, 
-	binbin.wu@linux.intel.com, bp@alien8.de, brauner@kernel.org, chao.p.peng@intel.com, 
-	chenhuacai@kernel.org, corbet@lwn.net, dave.hansen@intel.com, 
-	dave.hansen@linux.intel.com, david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
-	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
-	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
-	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, jarkko@kernel.org, 
-	jgowans@amazon.com, jhubbard@nvidia.com, jroedel@suse.de, jthoughton@google.com, 
-	jun.miao@intel.com, kai.huang@intel.com, keirf@google.com, kent.overstreet@linux.dev, 
-	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com, mail@maciej.szmigiero.name, 
-	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
-	mhiramat@kernel.org, mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, 
-	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au, muchun.song@linux.dev, 
-	nikunj@amd.com, nsaenz@amazon.es, oliver.upton@linux.dev, palmer@dabbelt.com, 
-	pankaj.gupta@amd.com, paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com, 
-	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, richard.weiyang@gmail.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, rostedt@goodmis.org, roypat@amazon.co.uk, 
-	rppt@kernel.org, shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com, 
-	steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com, tglx@linutronix.de, 
-	thomas.lendacky@amd.com, vannapurve@google.com, vbabka@suse.cz, viro@zeniv.linux.org.uk, 
-	vkuznets@redhat.com, wei.w.wang@intel.com, will@kernel.org, willy@infradead.org, 
-	wyihan@google.com, xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com, 
-	yuzenghui@huawei.com, zhiquan1.li@intel.com
-Subject: Re: [RFC PATCH v1 05/37] KVM: guest_memfd: Wire up
- kvm_get_memory_attributes() to per-gmem attributes
-Message-ID: <od4dx6snqsl2qiocgf3jxm4dndxhrlvsfr22eveuno6nskgfdj@mxsywvku2jk5>
-References: <cover.1760731772.git.ackerleytng@google.com>
- <071a3c6603809186e914fe5fed939edee4e11988.1760731772.git.ackerleytng@google.com>
- <07836b1d-d0d8-40f2-8f7b-7805beca31d0@amd.com>
- <CAEvNRgEuez=JbArRf2SApLAL0usv5-Q6q=nBPOFMHrHGaKAtMw@mail.gmail.com>
- <20260129003753.GZ1641016@ziepe.ca>
- <aXqx3_eE0rNh6nP0@google.com>
- <20260129011618.GA2307128@ziepe.ca>
- <i22yykvttpc2e4expluuzucczqnetdnpee2wx2fzqwg7cnt45x@ovx7e7hok5iz>
- <20260129134245.GD2307128@ziepe.ca>
+        d=1e100.net; s=20230601; t=1769697706; x=1770302506;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RiXqWFBbTqasdWh8G25vCefiMtu7P/aKonwdz1Q+QEk=;
+        b=Fy5fBQGBKnx/RRQnGF3DDE1d456EB+76CZRq1Vj1YUZWJh52wKvT5c5S5wFnRgJYgy
+         KU8IA0zK1Nz6Ta/zf55gv2mOrkjrOndnIqqidwuWcXuy/42oT83hEiQ32aHlYVs7MA9w
+         bvfR/hsz/l7ZdFo9owRCAtHL7Umhb5j15t89Lxe0hq3MBPF2ORFVd0sESGu/50PYHXIy
+         CNCrzNH4S7K3EBcyX6bQfiyr6LV+MzoWYOcSrS02LasiCU0qh3m8JY61BnqU5AcZgzuj
+         mY23MEKCZpx3QsUPC1TGmsH91IhODy9GIHPln80BOfU8jlgM32sn+f9Si8xfOHYXnzEj
+         G8Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCWIcn3dw064/iDl3vhbAd9UnNgHcy5rpvaOJSjLmCUVyxbQ0CFuv/4rCqhePIfmdj/EoTDxPX+IUCA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5mBj02Pn11eExXb28V711vjlGYvev7NlPAvNBPZVyFsaYkI7s
+	lLYN1TROlyzNJbDcG62KOKE2zPP2ONF73ezqsarae4+uW/Wea2lwV2snNR8rKijijYg=
+X-Gm-Gg: AZuq6aLbLIL8FuHp8yYDasZuPKq0bZfCws2VoT9Kv4bPHl33ZOOckyFqpTOf2hIQxN3
+	NcDkHpfmKLQyCljrT6po5swqCWIutvpcAH+J6YiUhU/nMSeqWQ0blDXDraRlLs8GIHCsfwF+UAS
+	qbKeurS2TLDLmHa28HW5J0MEPSoiBC/FqaN8oKFGsCTt0dR9aqgHf/Ieo9D4syad0x6QmcijUhI
+	LJTmzdGE7nIt+8iOXwdMaPt/3i+0IRyRx6cqZZHdDMNLQ7bxYfrP1zcnx54249eIKEzmxl9N73g
+	E3ySzUQd695KO4OHJRfq6jJ/3oH7l/IU3qYps+LNS4eHFjBGtR8LWixGX0okaxQFkCmkwDRS4QC
+	tQGO8Hc2KBxgctBssJ3NiSMlUm67XS2CsCwd/eaaqZBYym2hZPeFXzLT/5S/En5cbbaf3AeLhcD
+	95tgLzCze832un7aVfMeHg/5mHRbcXXQ==
+X-Received: by 2002:a05:600c:8b76:b0:480:2521:4d92 with SMTP id 5b1f17b1804b1-48069c49d54mr120114805e9.24.1769697705735;
+        Thu, 29 Jan 2026 06:41:45 -0800 (PST)
+Received: from [10.0.1.22] (109-81-1-107.rct.o2.cz. [109.81.1.107])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48066c37433sm182396725e9.10.2026.01.29.06.41.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 29 Jan 2026 06:41:45 -0800 (PST)
+Message-ID: <aa92ce4a-d336-4d03-b87d-1c39b1c553da@suse.com>
+Date: Thu, 29 Jan 2026 15:41:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260129134245.GD2307128@ziepe.ca>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 12/17] module: Move signature splitting up
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen
+ <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez
+ <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>,
+ Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+ Xiu Jianfeng <xiujianfeng@huawei.com>,
+ =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
+ Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>,
+ kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>,
+ =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-12-0b932db9b56b@weissschuh.net>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260113-module-hashes-v4-12-0b932db9b56b@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thursday 29 Jan 2026 at 09:42:45 (-0400), Jason Gunthorpe wrote:
-> On Thu, Jan 29, 2026 at 11:10:12AM +0000, Quentin Perret wrote:
+On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
+> The signature splitting will also be used by CONFIG_MODULE_HASHES.
 > 
-> > A not-fully-thought-through-and-possibly-ridiculous idea that crossed
-> > my mind some time ago was to make KVM itself a proper dmabuf
-> > importer. 
+> Move it up the callchain, so the result can be reused.
 > 
-> AFAIK this is already the plan. Since Intel cannot tolerate having the
-> private MMIO mapped into a VMA *at all* there is no other choice.
-> 
-> Since Intel has to build it it I figured everyone would want to use it
-> because it is probably going to be much faster than reading VMAs.
+> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> ---
+> [...]
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index c09b25c0166a..d65bc300a78c 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -3346,10 +3346,21 @@ static int early_mod_check(struct load_info *info, int flags)
+>  
+>  static int module_integrity_check(struct load_info *info, int flags)
+>  {
+> +	bool mangled_module = flags & (MODULE_INIT_IGNORE_MODVERSIONS |
+> +				       MODULE_INIT_IGNORE_VERMAGIC);
+> +	size_t sig_len;
+> +	const u8 *sig;
+>  	int err = 0;
+>  
+> +	if (IS_ENABLED(CONFIG_MODULE_SIG_POLICY)) {
+> +		err = mod_split_sig(info->hdr, &info->len, mangled_module,
+> +				    &sig_len, &sig, "module");
+> +		if (err)
+> +			return err;
+> +	}
+> +
+>  	if (IS_ENABLED(CONFIG_MODULE_SIG))
+> -		err = module_sig_check(info, flags);
+> +		err = module_sig_check(info, sig, sig_len);
+>  
+>  	if (err)
+>  		return err;
 
-Ack.
+I suggest moving the IS_ENABLED(CONFIG_MODULE_SIG) block under the
+new IS_ENABLED(CONFIG_MODULE_SIG_POLICY) section. I realize that
+CONFIG_MODULE_SIG implies CONFIG_MODULE_SIG_POLICY, but I believe this
+change makes it more apparent that this it the case. Otherwise, one
+might for example wonder if sig_len in the module_sig_check() call can
+be undefined.
 
-> Especially in the modern world of MMIO BARs in the 512GB range.
-> 
-> > You'd essentially see a guest as a 'device' (probably with an
-> > actual struct dev representing it), and the stage-2 MMU in front of it
-> > as its IOMMU. That could potentially allow KVM to implement dma_map_ops
-> > for that guest 'device' by mapping/unmapping pages into its stage-2 and
-> > such. 
-> 
-> The plan isn't something so wild..
+	if (IS_ENABLED(CONFIG_MODULE_SIG_POLICY)) {
+		err = mod_split_sig(info->hdr, &info->len, mangled_module,
+				    &sig_len, &sig, "module");
+		if (err)
+			return err;
 
-I'll take that as a compliment ;-)
+		if (IS_ENABLED(CONFIG_MODULE_SIG))
+			err = module_sig_check(info, sig, sig_len);
+	}
 
-Not dying on that hill, but it didn't feel _that_ horrible after
-thinking about it for a little while. From the host's PoV, a guest is
-just another thing that can address memory, which has its own address
-space and a page-table that we control in front. If you squint hard
-enough it doesn't look _that_ different from a device from that angle.
-Oh well.
-
-> https://github.com/jgunthorpe/linux/commits/dmabuf_map_type/
-> 
-> The "Physical Address List" mapping type will let KVM just get a
-> normal phys_addr_t list and do its normal stuff with it. No need for
-> hacky DMA API things.
-
-Thanks, I'll read up.
-
-> Probably what will be hard for KVM is that it gets the entire 512GB in
-> one shot and will have to chop it up to install the whole thing into
-> the PTE sizes available in the S2. I don't think it even has logic
-> like that right now??
-
-The closest thing I can think of is the KVM_PRE_FAULT_MEMORY stuff in
-the KVM API that forces it to fault in an arbitrarily range of guest
-IPA space. There should at least be bits of infrastructure that can be
-re-used for that I guess.
-
-> > It gets really funny when a CoCo guest decides to share back a subset of
-> > that dmabuf with the host, and I'm still wrapping my head around how
-> > we'd make that work, but at this point I'm ready to be told how all the
-> > above already doesn't work and that I should go back to the peanut
-> > gallery :-)
-> 
-> Oh, I don't actually know how that ends up working but I suppose it
-> could be meaningfully done :\
-
-For mobile/pKVM we'll want to use dmabufs for more than just passing
-MMIO to guests FWIW, it'll likely be used for memory in certain cases
-too. There are examples in the KVM Forum talk I linked in the previous
-email, but being able to feed guests with dmabuf-backed memory regions
-is very helpful. That's useful to e.g. get physically contiguous memory
-allocated from a CMA-backed dmabuf heap on systems that don't tolerate
-scattered private memory well for example (either for functional or
-performance reasons). I certainly wish we could ignore this type of
-hardware, but we don't have that luxury sadly.
-
-In cases like that, we certainly expect that the guest will be sharing
-back parts of memory it's been given (at least a swiotlb bounce buffer
-so it can do virtio etc), and that may very well be in the middle of a
-dmabuf-backed memslot. In fact the guest has no clue what is backing
-it's memory region, so we can't really expect it _not_ to do that :/
+-- 
+Thanks,
+Petr
