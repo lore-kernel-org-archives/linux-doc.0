@@ -1,98 +1,424 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E316F288C96;
-	Thu, 29 Jan 2026 04:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0BA199FBA;
+	Thu, 29 Jan 2026 04:24:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769659296; cv=none; b=OJRmcwjKMASZBr6cBvB+/mRvj7WOgdNlJjLWsZZ4CzPo0Erdui6Qs7cHkizwq7LzWRD1Ym8dwGlb2BgUImtAp15GghSGdcQSx03yRXRB6l5N81DDdI0r5UzZ+oPJl3K8SgKUxLOWAUSjM3LVHry+QRy0kbjxxIbcDhHhK1rgGfA=
+	t=1769660655; cv=none; b=WVHsq/aTQjH7HnSGksKBelCHvR6iYm7WBGoQt+COADVDkwbH4qjp3XD9Uxit0l/f1TzhvhyTd84LPZyRYPS4/dmqTOjwZa6VeBJ4q3daTMEtufzb/B95sSn4/x4sQgXfTOhL10aykJyIH2na+BZlqZ1uUj9HyeUtq5tnQB6tkP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769659296; c=relaxed/simple;
-	bh=kCqO2ZJkcDyyuTwrrkKrfVhZlwsoYyDv6tsJCP9WnZ0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bghjQm3kJdvxhtotdAFf8Y+js8ORrqu8QUF9WXQ6KBKKMiZVJziOs9f2aJFgEX1syWqlEN5C30knqxRdKyNLXCXjRjYmbbbt/629QhxaHe03ST/54xjlHwFnwnaxMOepksrS/snYZn4GKikbKK3/9Qj3zsCVzo6l/sbcNH/z4wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=jFYrdIlD; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1769660655; c=relaxed/simple;
+	bh=t9xnxpQK9RLSI5mJrEEcX/s/HlA2IQ0v/xE6C33zm04=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=LW6jHpbYKZOu+QURM3bAZuj9swtliOIZOHvwL/JJBopY65XE/AQN02Qx4jXQISPYpeldaj3JKKQGElZmbKF6z+zbShDJagljEQS/1fJ0n3aBcVZ5+dvBoWMgxyAZ/4u0eD9FYsPpCmxqIAyQjKna0bGtRh9VieK+Yw5WO/VcyDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D2uXLMWn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="jFYrdIlD"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=oTXEVLgDumVCBFxpbO8s07ckXDCKC5Us7m6vOmueETk=;
-	b=jFYrdIlD6scNu1lCaG+lOb4ovAPAm3AE9S1DxjPS7XzWJTmJ91siw+9jJyf+J11uZU12gG9yH
-	LrnTfdTLhSwbMToijlqDkRUVizKzS3vHaCZhmU4HQ65F+hNejkdJvNhi2AWqUghbMyFPrVX1hO0
-	jCqW7GUZ1Ef7kIbZk0dcWgE=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4f1ljJ3XL2zmV95;
-	Thu, 29 Jan 2026 11:57:56 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8EA6440565;
-	Thu, 29 Jan 2026 12:01:25 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.188.120) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 29 Jan 2026 12:01:24 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>
-Subject: [PATCH net-next v03 4/4] hinic3: RQ use RQ_CTXT_PREF_CI_HI instead of SQ_CTXT_PREF_CI_HI
-Date: Thu, 29 Jan 2026 12:01:11 +0800
-Message-ID: <7b34bf318c64398f34048c823c15b2eec5a679bc.1769656467.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1769656467.git.zhuyikai1@h-partners.com>
-References: <cover.1769656467.git.zhuyikai1@h-partners.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D2uXLMWn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 972ABC116D0;
+	Thu, 29 Jan 2026 04:24:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769660654;
+	bh=t9xnxpQK9RLSI5mJrEEcX/s/HlA2IQ0v/xE6C33zm04=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=D2uXLMWnmVVYhhfIvx5vzJnnoEp7BhFv5nqLOWrcsn/1dy3tw73eFHNNFlseDJVnf
+	 CQsAJC2e0f9LpaAXH/F2P0drZfTwvQqKE9F/GuHMNTwJbLSlppSqHpmChCmHQk+L/S
+	 GsUvTugytATMcnpSl5nEZJi6ulWD6cUVpGFpk+iK4PV4ncHKYoc4HhS8L9WO61/oxW
+	 YC7cifwRfRIYKEKWda4pmwcqnZuViHFR2XAfwf8ME/pP8gvXHd/O6wmSo/U9ckImKn
+	 bIuzwD2RzisLaek4ivaZKkHNfVI9whSkSjHRRxpGfCuuZApSgBQQsUtnacfr8k40bC
+	 rYsPOoch7BA1Q==
+Date: Thu, 29 Jan 2026 13:24:12 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+Cc: rostedt@goodmis.org, corbet@lwn.net, shuah@kernel.org,
+ mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v5 v5 2/3] tracing/fprobe: Support comma-separated
+ symbols and :entry/:exit
+Message-Id: <20260129132412.babdf9a72e72f0d8b6273510@kernel.org>
+In-Reply-To: <20260118011815.56516-3-seokwoo.chung130@gmail.com>
+References: <20260118011815.56516-1-seokwoo.chung130@gmail.com>
+	<20260118011815.56516-3-seokwoo.chung130@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Separate the CTX_PREF_CI_HI of rq and sq to improve readability.
+On Sat, 17 Jan 2026 20:18:14 -0500
+"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com> wrote:
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> - Update DEFINE_FREE to use standard __free()
+> - Extend fprobe to support multiple symbols per event. Add parsing logic for
+>   lists, ! exclusions, and explicit suffixes. Update tracefs/README to reflect
+>   the new syntax
+> 
+> Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
+> ---
+>  kernel/trace/trace.c        |   3 +-
+>  kernel/trace/trace_fprobe.c | 209 +++++++++++++++++++++++++++---------
+>  2 files changed, 163 insertions(+), 49 deletions(-)
+> 
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index baec63134ab6..10cdcc7b194e 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -5578,7 +5578,8 @@ static const char readme_msg[] =
+>  	"\t           r[maxactive][:[<group>/][<event>]] <place> [<args>]\n"
+>  #endif
+>  #ifdef CONFIG_FPROBE_EVENTS
+> -	"\t           f[:[<group>/][<event>]] <func-name>[%return] [<args>]\n"
+> +	"\t           f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]\n"
+> +	"\t		(single symbols still accept %return)\n"
+>  	"\t           t[:[<group>/][<event>]] <tracepoint> [<args>]\n"
+>  #endif
+>  #ifdef CONFIG_HIST_TRIGGERS
+> diff --git a/kernel/trace/trace_fprobe.c b/kernel/trace/trace_fprobe.c
+> index 262c0556e4af..5a2a41eea603 100644
+> --- a/kernel/trace/trace_fprobe.c
+> +++ b/kernel/trace/trace_fprobe.c
+> @@ -187,11 +187,14 @@ DEFINE_FREE(tuser_put, struct tracepoint_user *,
+>   */
+>  struct trace_fprobe {
+>  	struct dyn_event	devent;
+> +	char			*filter;
+>  	struct fprobe		fp;
+> +	bool			list_mode;
+> +	char			*nofilter;
+>  	const char		*symbol;
+> +	struct trace_probe	tp;
+>  	bool			tprobe;
+>  	struct tracepoint_user	*tuser;
+> -	struct trace_probe	tp;
+>  };
+>  
+>  static bool is_trace_fprobe(struct dyn_event *ev)
+> @@ -559,6 +562,8 @@ static void free_trace_fprobe(struct trace_fprobe *tf)
+>  		trace_probe_cleanup(&tf->tp);
+>  		if (tf->tuser)
+>  			tracepoint_user_put(tf->tuser);
+> +		kfree(tf->filter);
+> +		kfree(tf->nofilter);
+>  		kfree(tf->symbol);
+>  		kfree(tf);
+>  	}
+> @@ -838,7 +843,12 @@ static int __register_trace_fprobe(struct trace_fprobe *tf)
+>  	if (trace_fprobe_is_tracepoint(tf))
+>  		return __regsiter_tracepoint_fprobe(tf);
+>  
+> -	/* TODO: handle filter, nofilter or symbol list */
+> +	/* Registration path:
+> +	 * - list_mode: pass filter/nofilter
+> +	 * - single: pass symbol only (legacy)
+> +	 */
+> +	if (tf->list_mode)
+> +		return register_fprobe(&tf->fp, tf->filter, tf->nofilter);
+>  	return register_fprobe(&tf->fp, tf->symbol, NULL);
+>  }
+>  
+> @@ -1154,60 +1164,119 @@ static struct notifier_block tprobe_event_module_nb = {
+>  };
+>  #endif /* CONFIG_MODULES */
+>  
+> -static int parse_symbol_and_return(int argc, const char *argv[],
+> -				   char **symbol, bool *is_return,
+> -				   bool is_tracepoint)
+> +static bool has_wildcard(const char *s)
+>  {
+> -	char *tmp = strchr(argv[1], '%');
+> -	int i;
+> +	return s && (strchr(s, '*') || strchr(s, '?'));
+> +}
+>  
+> -	if (tmp) {
+> -		int len = tmp - argv[1];
+> +static int parse_fprobe_spec(const char *in, bool is_tracepoint,
+> +		char **base, bool *is_return, bool *list_mode,
+> +		char **filter, char **nofilter)
+> +{
+> +	char *work __free(kfree) = NULL;
+> +	char *b __free(kfree) = NULL;
+> +	char *f __free(kfree) = NULL;
+> +	char *nf __free(kfree) = NULL;
+> +	bool legacy_ret = false;
+> +	bool list = false;
+> +	const char *p;
+> +	int ret = 0;
+>  
+> -		if (!is_tracepoint && !strcmp(tmp, "%return")) {
+> -			*is_return = true;
+> -		} else {
+> -			trace_probe_log_err(len, BAD_ADDR_SUFFIX);
+> -			return -EINVAL;
+> -		}
+> -		*symbol = kmemdup_nul(argv[1], len, GFP_KERNEL);
+> -	} else
+> -		*symbol = kstrdup(argv[1], GFP_KERNEL);
+> -	if (!*symbol)
+> -		return -ENOMEM;
+> +	if (!in || !base || !is_return || !list_mode || !filter || !nofilter)
+> +		return -EINVAL;
+>  
+> -	if (*is_return)
+> -		return 0;
+> +	*base = NULL; *filter = NULL; *nofilter = NULL;
+> +	*is_return = false; *list_mode = false;
+>  
+>  	if (is_tracepoint) {
+> -		tmp = *symbol;
+> -		while (*tmp && (isalnum(*tmp) || *tmp == '_'))
+> -			tmp++;
+> -		if (*tmp) {
+> -			/* find a wrong character. */
+> -			trace_probe_log_err(tmp - *symbol, BAD_TP_NAME);
+> -			kfree(*symbol);
+> -			*symbol = NULL;
+> +		if (strchr(in, ',') || strchr(in, ':'))
+>  			return -EINVAL;
+> -		}
+> +		if (strstr(in, "%return"))
+> +			return -EINVAL;
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-index d86cd1ba4605..90887d2bb127 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-@@ -162,6 +162,9 @@ struct hinic3_clean_queue_ctxt {
- #define SQ_CTXT_WQ_BLOCK_SET(val, member)  \
- 	FIELD_PREP(SQ_CTXT_WQ_BLOCK_##member##_MASK, val)
- 
-+/* reuse SQ macro for RQ because the hardware format is identical */
-+#define RQ_CTXT_PREF_CI_HI(val)            SQ_CTXT_PREF_CI_HI(val)
-+
- #define RQ_CTXT_PI_IDX_MASK                GENMASK(15, 0)
- #define RQ_CTXT_CI_IDX_MASK                GENMASK(31, 16)
- #define RQ_CTXT_CI_PI_SET(val, member)  \
-@@ -629,7 +632,8 @@ static void hinic3_rq_prepare_ctxt(struct hinic3_io_queue *rq,
- 			    RQ_CTXT_PREF_SET(RQ_WQ_PREFETCH_THRESHOLD, CACHE_THRESHOLD));
- 
- 	rq_ctxt->pref_ci_owner =
--		cpu_to_le32(RQ_CTXT_PREF_SET(SQ_CTXT_PREF_CI_HI(ci_start), CI_HI) |
-+		cpu_to_le32(RQ_CTXT_PREF_SET(RQ_CTXT_PREF_CI_HI(ci_start),
-+					     CI_HI) |
- 			    RQ_CTXT_PREF_SET(1, OWNER));
- 
- 	rq_ctxt->pref_wq_pfn_hi_ci =
+These checks look redundant. because below ensures there is no
+',', '/' and '%'.
+
+> +		for (p = in; *p; p++)
+> +			if (!isalnum(*p) && *p != '_')
+> +				return -EINVAL;
+
+Please report parse error via trace_probe_log_err() function so that
+user can check what was wrong via tracefs/error_log file. E.g.
+
+	trace_probe_log_err(p - in, BAD_TP_NAME);
+
+
+> +		b = kstrdup(in, GFP_KERNEL);
+> +		if (!b)
+> +			return -ENOMEM;
+
+Note: ENOMEM does not need to report via error_log.
+
+> +		*base = no_free_ptr(b);
+> +		return 0;
+>  	}
+>  
+> -	/* If there is $retval, this should be a return fprobe. */
+> -	for (i = 2; i < argc; i++) {
+> -		tmp = strstr(argv[i], "$retval");
+> -		if (tmp && !isalnum(tmp[7]) && tmp[7] != '_') {
+> -			if (is_tracepoint) {
+> -				trace_probe_log_set_index(i);
+> -				trace_probe_log_err(tmp - argv[i], RETVAL_ON_PROBE);
+> -				kfree(*symbol);
+> -				*symbol = NULL;
+> +	work = kstrdup(in, GFP_KERNEL);
+> +	if (!work)
+> +		return -ENOMEM;
+> +
+> +	p = strstr(work, "%return");
+> +	if (p && p[7] == '\0') {
+> +		*is_return = true;
+> +		legacy_ret = true;
+> +		*(char *)p = '\0';
+> +	} else {
+> +		/*
+> +		 * If "symbol:entry" or "symbol:exit" is given, it is new
+> +		 * style probe.
+> +		 */
+> +		p = strrchr(work, ':');
+> +		if (p) {
+> +			if (!strcmp(p, ":exit")) {
+> +				*is_return = true;
+> +				*(char *)p = '\0';
+> +			} else if (!strcmp(p, ":entry")) {
+> +				*(char *)p = '\0';
+> +			} else {
+>  				return -EINVAL;
+>  			}
+> -			*is_return = true;
+> -			break;
+>  		}
+>  	}
+> -	return 0;
+> +
+> +	list = !!strchr(work, ',');
+> +	
+> +	if (list && legacy_ret) {
+> +		return -EINVAL;
+> +	}
+
+You don't need braces for the above block.
+
+> +
+> +	if (legacy_ret)
+> +		*is_return = true;
+> +
+> +	b = kstrdup(work, GFP_KERNEL);
+> +	if (!b)
+> +		return -ENOMEM;
+> +
+> +	if (list) {
+
+Could you make this block as an independent function?
+
+> +		char *tmp = b, *tok;
+> +		size_t fsz, nfsz;
+> +
+> +		fsz = nfsz = strlen(b) + 1;
+> +
+> +		f = kzalloc(fsz, GFP_KERNEL);
+> +		nf = kzalloc(nfsz, GFP_KERNEL);
+> +		if (!f || !nf)
+> +			return -ENOMEM;
+> +
+> +		while ((tok = strsep(&tmp, ",")) != NULL) {
+> +			char *dst;
+> +			bool neg = (*tok == '!');
+> +
+> +			if (*tok == '\0') {
+> +				trace_probe_log_err(tmp - b - 1, BAD_TP_NAME);
+> +				return -EINVAL;
+
+You missed close brace '}' here. And that makes the build failure.
+Can you fix it and run all tests under tools/testing/selftests/ftrace/
+with your change?
+
+Thank you,
+
+
+> +
+> +			if (neg)
+> +				tok++;
+> +			dst = neg ? nf : f;
+> +			if (dst[0] != '\0')
+> +				strcat(dst, ",");
+> +			strcat(dst, tok);
+> +		}
+> +		*list_mode = true;
+> +	}
+> +
+> +	*base = no_free_ptr(b);
+> +	*filter = no_free_ptr(f);
+> +	*nofilter = no_free_ptr(nf);
+> +
+> +	return ret;
+>  }
+>  
+>  static int trace_fprobe_create_internal(int argc, const char *argv[],
+> @@ -1241,6 +1310,8 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
+>  	const char *event = NULL, *group = FPROBE_EVENT_SYSTEM;
+>  	struct module *mod __free(module_put) = NULL;
+>  	const char **new_argv __free(kfree) = NULL;
+> +	char *parsed_nofilter __free(kfree) = NULL;
+> +	char *parsed_filter __free(kfree) = NULL;
+>  	char *symbol __free(kfree) = NULL;
+>  	char *ebuf __free(kfree) = NULL;
+>  	char *gbuf __free(kfree) = NULL;
+> @@ -1249,6 +1320,7 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
+>  	char *dbuf __free(kfree) = NULL;
+>  	int i, new_argc = 0, ret = 0;
+>  	bool is_tracepoint = false;
+> +	bool list_mode = false;
+>  	bool is_return = false;
+>  
+>  	if ((argv[0][0] != 'f' && argv[0][0] != 't') || argc < 2)
+> @@ -1270,11 +1342,26 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
+>  
+>  	trace_probe_log_set_index(1);
+>  
+> -	/* a symbol(or tracepoint) must be specified */
+> -	ret = parse_symbol_and_return(argc, argv, &symbol, &is_return, is_tracepoint);
+> +	/* Parse spec early (single vs list, suffix, base symbol) */
+> +	ret = parse_fprobe_spec(argv[1], is_tracepoint, &symbol, &is_return,
+> +			&list_mode, &parsed_filter, &parsed_nofilter);
+>  	if (ret < 0)
+>  		return -EINVAL;
+>  
+> +	for (i = 2; i < argc; i++) {
+> +		char *tmp = strstr(argv[i], "$retval");
+> +
+> +		if (tmp && !isalnum(tmp[7]) && tmp[7] != '_') {
+> +			if (is_tracepoint) {
+> +				trace_probe_log_set_index(i);
+> +				trace_probe_log_err(tmp - argv[i], RETVAL_ON_PROBE);
+> +				return -EINVAL;
+> +			}
+> +			is_return = true;
+> +			break;
+> +		}
+> +	}
+> +
+>  	trace_probe_log_set_index(0);
+>  	if (event) {
+>  		gbuf = kmalloc(MAX_EVENT_NAME_LEN, GFP_KERNEL);
+> @@ -1287,6 +1374,15 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
+>  	}
+>  
+>  	if (!event) {
+> +		/*
+> +		 * Event name rules:
+> +		 * - For list/wildcard: require explicit [GROUP/]EVENT
+> +		 * - For single literal: autogenerate symbol__entry/symbol__exit
+> +		 */
+> +		if (list_mode || has_wildcard(symbol)) {
+> +			trace_probe_log_err(0, NO_GROUP_NAME);
+> +			return -EINVAL;
+> +		}
+>  		ebuf = kmalloc(MAX_EVENT_NAME_LEN, GFP_KERNEL);
+>  		if (!ebuf)
+>  			return -ENOMEM;
+> @@ -1322,7 +1418,8 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
+>  							NULL, NULL, NULL, sbuf);
+>  		}
+>  	}
+> -	if (!ctx->funcname)
+> +
+> +	if (!list_mode && !has_wildcard(symbol) && !is_tracepoint)
+>  		ctx->funcname = symbol;
+>  
+>  	abuf = kmalloc(MAX_BTF_ARGS_LEN, GFP_KERNEL);
+> @@ -1356,6 +1453,21 @@ static int trace_fprobe_create_internal(int argc, const char *argv[],
+>  		return ret;
+>  	}
+>  
+> +	/* carry list parsing result into tf */
+> +	if (!is_tracepoint) {
+> +		tf->list_mode = list_mode;
+> +		if (parsed_filter) {
+> +			tf->filter = kstrdup(parsed_filter, GFP_KERNEL);
+> +			if (!tf->filter)
+> +				return -ENOMEM;
+> +		}
+> +		if (parsed_nofilter) {
+> +			tf->nofilter = kstrdup(parsed_nofilter, GFP_KERNEL);
+> +			if (!tf->nofilter)
+> +				return -ENOMEM;
+> +		}
+> +	}
+> +
+>  	/* parse arguments */
+>  	for (i = 0; i < argc; i++) {
+>  		trace_probe_log_set_index(i + 2);
+> @@ -1442,8 +1554,9 @@ static int trace_fprobe_show(struct seq_file *m, struct dyn_event *ev)
+>  	seq_printf(m, ":%s/%s", trace_probe_group_name(&tf->tp),
+>  				trace_probe_name(&tf->tp));
+>  
+> -	seq_printf(m, " %s%s", trace_fprobe_symbol(tf),
+> -			       trace_fprobe_is_return(tf) ? "%return" : "");
+> +	seq_printf(m, " %s", trace_fprobe_symbol(tf));
+> +	if (!trace_fprobe_is_tracepoint(tf) && trace_fprobe_is_return(tf))
+> +		seq_puts(m, ":exit");
+>  
+>  	for (i = 0; i < tf->tp.nr_args; i++)
+>  		seq_printf(m, " %s=%s", tf->tp.args[i].name, tf->tp.args[i].comm);
+> -- 
+> 2.43.0
+> 
+
+
 -- 
-2.43.0
-
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
