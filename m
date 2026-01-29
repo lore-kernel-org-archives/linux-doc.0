@@ -1,157 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA6D37B3EC
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 09:12:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF9F37FF52;
+	Thu, 29 Jan 2026 09:30:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769677920; cv=none; b=OYBkjr/F4pQbr93JftaJEafYMjEA843GmBq76mSXZlGizyUdYtgnnwFuEnQxoAOQ/gmGgIkeb9yfDW1PAM65wQFg9X3xzhF+wDT/pSGZycYJTcMgw8e3EXRd8QPZsLZxPDtGEwzgnhiyTPaB2fEgv40WMKeD9GMez5Ubp/jzF4E=
+	t=1769679012; cv=none; b=oM4lmgkTlrPGPW0ZJeNHZ79g97lN4zLMibrAmnu47awN9ItUHmszUV1JugVqlppv2/2vDUPgYQSyMns5EHM5uw8q1gj1jcrDc3peaNEpXLs8lkmYHZkoOaTCuZr0UDDpTSNU2Q65cvfrQ7AY4zFCuqIXLgu/IPCX+oWmZNF4JdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769677920; c=relaxed/simple;
-	bh=IM27Sa2k/oXCkhqkpD7vIY+H3Y0dwKhibURulmNjI8M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ALEmMyr3pG0tIlYWjEY1dlyeKSH2Xu9NQhuQoXZTeF9m4qsq4e04XdvgvcbYqd49HcaB+22raIBKsDKU0MPMvknOtXbw+gFD3n8sNq9Vjl+WvAIBKMTRp040O8EeJaqzwi0CxWooOQRO2B5FF8P+eDPoTL2uN7LPjEHs/IXKvWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fEhfIlA8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769679012; c=relaxed/simple;
+	bh=xemk5R9c0XBMFkfsqFG6Q4L/gjGhsjDRn0zzEzSMa90=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RpeUAlB9GP43ZTdgyNGvbHtazbhFQ4/3UlvUqHAYRoFaXzFGACOULhA/8rsf0jR4nv7Qiye9/ifW+7lVSfNEFHQuXGojiqhhkfvhiJ9WxSz+w6P+KcRWVUjwM07W+ETs4tVrv8f7/recIN+NlIa6wGCrAuE0yWldCFjW+ctp5sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nUwz+LnH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fEhfIlA8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2473C4CEF7
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 09:11:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nUwz+LnH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEAAAC4CEF7;
+	Thu, 29 Jan 2026 09:30:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769677919;
-	bh=IM27Sa2k/oXCkhqkpD7vIY+H3Y0dwKhibURulmNjI8M=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fEhfIlA8GjEhpqYncmVrvK6AsvJ3pD6/y/EdqpyREafb4c5GeSNK0JWJqe5n2Kvjh
-	 hcnRBv9geUcbMILsHtTTc7uEWvMyWmmx+ddOEmr8MSjyXasnWIc6j3/qjqNERYRNZE
-	 PrU5lbZAyFCy2qBUOu6z+zuEhBXFTllOiVRo1EN9GVMk8r7O2P8jwjUby88R7HbFyi
-	 +YASj4GrleAqysBzdN8gtxj6NbeDkzj++95WkcYZGTJ0dTRULZspHjjujcH6ak4r39
-	 K++6/ETwx1WqEkWP8+fBeL9Dk5XPYZuBa5h7fwnNJGy3kTUc7H3Hr9MwUeyg7CvG9i
-	 BP3YCuxNCr4/g==
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59b6f267721so644830e87.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 01:11:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUp83e2MXdDScdAK/p/9ckWINApWhQ5vG3NqT6wx1cNfWFx/WC2EhGLJjmIofp06VD8EC4EG+55VtM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtHG4LvaoyFC0rqSzlMuPoM19jy1S1Vbp0MqyyjZFcxi937X7s
-	Ikkw9AySl0bTVRfjqm1bNTJLOBgnVI9qJYe2U6/J9NJuDETZRzGEP4ZbYh3Vkcnyy+LjcwqjXRy
-	aQ29QY+0h1ZDhMl0pWauX+smalvU8brAHCvc3RKNK3g==
-X-Received: by 2002:a05:6512:239a:b0:59d:f451:2484 with SMTP id
- 2adb3069b0e04-59e04012db3mr3401848e87.3.1769677918508; Thu, 29 Jan 2026
- 01:11:58 -0800 (PST)
+	s=k20201202; t=1769679012;
+	bh=xemk5R9c0XBMFkfsqFG6Q4L/gjGhsjDRn0zzEzSMa90=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nUwz+LnHgUcVFtoo0b2HEzsOSMgcxbMhQzc+/zvvZEIA85eNlDA4e/1bXcoUFnZ3L
+	 EAC83mru8G+SExtGFKPL8i0BEtAmxq1bUCjxFtAC74PaXqEyapWu4bl2B/AKkEQec4
+	 FFbWv5qEOEUJcyXLs07Tf+iFdievMNhdXex2Cj5csKLTAAsrHwEtSTq0tUA/UwZzX+
+	 zY62haKBZPe/WuXWy942+xg7Fn6N8daAdJKismKdiN/EnPC03ZjsKDzBSDJCTOZhdl
+	 +ykBscp+UdHi9Hg/v4g9ciPjzXsrr4saxJiSNwSg8cMmUb+UIp21fvarqR6s/qylfV
+	 Wkppu5eOrXNlg==
+Date: Thu, 29 Jan 2026 09:30:04 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Paul Walmsley <pjw@kernel.org>
+Cc: Asuna Yang <xinrui.riscv@isrc.iscas.ac.cn>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Jonathan Corbet <corbet@lwn.net>, Mingcong Bai <jeffbai@aosc.io>,
+	Han Gao <rabenda.cn@gmail.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Jason Montleon <jmontleo@redhat.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 0/4] RISC-V: re-enable gcc + rust builds
+Message-ID: <20260129-removed-audacity-398bc9363728@spud>
+References: <20251230-gcc-rust-v5-v6-0-2ac86ba728c8@isrc.iscas.ac.cn>
+ <1b0943c4-b1c5-460a-8944-c8d9c868b085@isrc.iscas.ac.cn>
+ <47d1dab9-a379-7b3a-d06c-03d674cfbb76@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260124170535.11756-1-johan@kernel.org> <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
- <2026012554-chatty-policy-42a1@gregkh> <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
- <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com> <aXovtrAM1r1UyWxA@hovoldconsulting.com>
-In-Reply-To: <aXovtrAM1r1UyWxA@hovoldconsulting.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Thu, 29 Jan 2026 10:11:46 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MeMW4g5em_b9qGBR9OmQZNzyQp-S=zKDCPFu506ixy-cQ@mail.gmail.com>
-X-Gm-Features: AZwV_QhhSLr8YAIXF7lJ_123cqit1s77klpkJVNwzMvoknu_qUS3sKQBknj_Hjk
-Message-ID: <CAMRc=MeMW4g5em_b9qGBR9OmQZNzyQp-S=zKDCPFu506ixy-cQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
-To: Johan Hovold <johan@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="QKMJgd/nBci7YAcW"
+Content-Disposition: inline
+In-Reply-To: <47d1dab9-a379-7b3a-d06c-03d674cfbb76@kernel.org>
+
+
+--QKMJgd/nBci7YAcW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 28, 2026 at 4:48=E2=80=AFPM Johan Hovold <johan@kernel.org> wro=
-te:
->
-> On Tue, Jan 27, 2026 at 10:18:27PM +0100, Bartosz Golaszewski wrote:
-> > On Mon, Jan 26, 2026 at 2:50=E2=80=AFPM Johan Hovold <johan@kernel.org>=
- wrote:
->
-> > > It's certainly possible to handle the chardev unplug issue without
-> > > revocable as several subsystems already do. All you need is a refcoun=
-t,
-> > > a lock and a flag.
-> > >
-> > > It may be possible to provide a generic solutions at the chardev leve=
-l
-> > > or some kind of helper implementation (similar to revocable) for
-> > > subsystems to use directly.
-> >
-> > This echoes the heated exchange I recently had with Johan elsewhere so
-> > I would like to chime in and use the wider forum of driver core
-> > maintainers to settle an important question. It seems there are two
-> > camps in this discussion: one whose perception of the problem is
-> > limited to character devices being referenced from user-space at the
-> > time of the driver unbind (favoring fixing the issues at the vfs
-> > level) and another extending the problem to any driver unbinding where
-> > we cannot ensure a proper ordering of the teardown (for whatever
-> > reason: fw_devlink=3Doff, helper auxiliary devices acting as
-> > intermediates, or even user-space unbinding a driver manually with
-> > bus-level sysfs attributes) leaving consumers of resources exposed by
-> > providers that are gone with dangling references (focusing the
-> > solutions on the subsystem level).
->
-> What I've been trying to get across is that the chardev hot-unplug issue
-> is real and needs to be fixed where it still exists, while the manual
-> unbinding of drivers by root is a corner case which does not need to be
-> addressed at *any* cost.
->
-> If addressing the latter by wrapping every resource access in code that
-> adds enough runtime overhead and makes drivers harder to write and
-> maintain it *may* not be worth it and we should instead explore
-> alternatives.
->
+On Sat, Jan 24, 2026 at 12:47:26AM -0700, Paul Walmsley wrote:
+> Hi Asuna,
+>=20
+> On Thu, 22 Jan 2026, Asuna Yang wrote:
+>=20
+> > Gently ping. I think this patch is ready for review. Is there anything =
+else I
+> > need to do before merging?
+>=20
+> I guess this should probably go in via the arch/riscv tree?  If you agree=
+,=20
+> then from a maintenance point of view, it would be good to get some acks=
+=20
+> for the first and third patches from the relevant maintainers.
 
-Alright, so we *do* agree at least on some parts. :)
+Not a rust maintainer of course, but from a "I was involved in this and
+haven't replied in a while to the versions" point of view:
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
-I agree that any such change should not affect drivers. If you look at
-the GPIO changes I did or the proposed nvmem rework - it never touched
-drivers, only the subsystem level code. The latter especially is
-really tiny, in fact:
+I've just not had the time to test this and so I've been putting off
+replying, but the idea is what I wanted to have done and I appreciate
+the work done on it by Asuna, so I'm acking it now rather than stalling
+until I can test and give an r-b. It's the right thing to do for a !gcc
+point of view too in my opinion, even if the possible issues are
+unlikely to manifest.
 
-  drivers/nvmem/core.c      | 172 +++++++++++++++++++++++---------------
-  drivers/nvmem/internals.h |  17 +++-
+Cheers,
+Conor.
 
-is all you need to make it not crash in the situations I described
-under that series. Runtime overhead in read-sections with SRCU or
-read-write semaphores is negligible and typically we only have to
-write on driver unbind. So that "wrapping every resource access"
-sounds scary but really is not.
+--QKMJgd/nBci7YAcW
+Content-Type: application/pgp-signature; name="signature.asc"
 
-GPIO work was bigger but it addressed way more synchronization issues
-than just supplier unbinding.
+-----BEGIN PGP SIGNATURE-----
 
-For I2C both the problem is different (subsystem waiting forever for
-consumers to release all references) and the culprit: memory used to
-hold the reference-counted struct device is released the supplier
-unbind unconditionally. Unfortunately there's no way around it other
-than to first move it into a separate chunk managed by i2c core. But
-that's not the synchronization part that leaks into the drivers, just
-the need to move struct device out of struct i2c_adapter.
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaXsonAAKCRB4tDGHoIJi
+0kF2AP93HfQl4GXLKv+F+l7CHk71pVcDlMAwzxs2+idjHHx6dgD+L2F5hZImjg6F
+g44c/V/wgIz/uLfWhDq4WhEI0ZuJMAQ=
+=BvJH
+-----END PGP SIGNATURE-----
 
-> This may involve tracking consumers like fw_devlink already does today
-> so that they are unbound before their dependencies are.
->
-
-During Saravana's talk at LPC we did briefly speak about whether it
-would be possible to enforce devlinks for ALL devices linked in a
-consumer-supplier fashion. I did in fact look into it for a bit on my
-way back and it too would require at least subsystem-level changes
-across all subsystems because you need to add that entry point at the
-time of the resource being requested so it's not a no-cost operation.
-But it is an alternative, yes though it'll require a comparable amount
-of gap-plugging IMO.
-
-> Because in the end, how sound is a model where we allow critical
-> resources to silently go away while a device is still in use (e.g. you
-> won't discover that your emergency shutdown gpio is gone until you
-> actually need it)?
->
-
-Well, we do allow it at the moment. It doesn't seem like devlink will
-be able to cover 100% of use-cases anytime soon.
-
-Bartosz
+--QKMJgd/nBci7YAcW--
