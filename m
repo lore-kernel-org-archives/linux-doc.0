@@ -1,217 +1,175 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012024.outbound.protection.outlook.com [52.101.43.24])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9A1381716;
-	Thu, 29 Jan 2026 10:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.24
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769683803; cv=fail; b=N+RxEU9FwWbqTX87xabFzUurQgP4995uYGIdiPXEZnT/7Bgu9Qm9iFzTJ919bFUnax4lyBg7172aID835YmPdrxJITsraop13c8NiKtON6SCX+TbBKV0m/5QeGruWX8V1jljysmDhXJLFkAw03yDr99p+ruhHx4dai5mfZ7tNJs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769683803; c=relaxed/simple;
-	bh=f4PeCbXPuZADxYvX4LaSiGIZXstreMrfIbkZu7ZUw1Y=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dCDbZ91Eold2n7lRsxxjSrktnNB3y8RyKVsWBZWb3+7dFmV9XkfvYEsGEuMA0VK/q2M2G5wqNLSMLnkQjZCa6I2qcXMVD/4NvXsVvwRuO86reHIXOl8lqjaZMHee7J2+YkiuBg5Owb0sgbl0k4/7z0ssLCE1qwySAsysfx70yz4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=E0/Ric2J; arc=fail smtp.client-ip=52.101.43.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BF6381708;
+	Thu, 29 Jan 2026 10:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769684200; cv=none; b=g2W/CI8+hGYLHzi4y4Mz0C5warewtbW6Dek2rXoe4ff+bUUzD2LtzZsX7seSjJ8L5KSDX7tzRd5+F4N9Zdbp69nOb2TQihfStQx0HuI7gVun7RsPWObMF0iuA0Fq6zQe2Q7Fjy+/KpQxIuEEc4mWov5KC8KZhrUc9njzIPGnKe8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769684200; c=relaxed/simple;
+	bh=D7I8EfWd7ND+QvFM1o9ANyCbcetpqlyES+/JHz6LKo8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cjkyRBXybN3BOdSD7WcraAwOAmoE6bjq5MAef3hxR5Ouj10YEfyDzR2qKXlJ12vk6HmvCY9NwLoQ4RUbQo2rdW6bOAIwIaMXSKzL031JALdBE8H2524CzmJRCZXEQRVuPcxKiYqnvhf1DXZJpCFPMLX4dGkMuPoX4xRlstgXZuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mD56/ZSo; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="E0/Ric2J"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D4RJoVvgBDoJtmkbg+u7KAhACPDJ5NCfFxOEpS02n3lLc8rPGDtj/0RkBhRB2rdi10GwvbQYY/zTTYSdw4JjriHoHu2iD/aM4Ks4ZNGAQmxfy5By6/QWzclUlHnzxNLfsgXNwU5YRSZevl79H84oAgIDatjB3TcZcc/yJp5VHNUHCOO8DoDJkvvuFU6oxIQgMKSb4bpIdZDVkKjTR2pcynUQxXgVgiGCqcavP3HHe35PcGGujXqRSZkwb+PgZPM5OQyUn9TdselAjrTdTFO5tXaFDRjDpPn7OQeYZ5YMWcWX0XuxgwQrbtMvXCJFJPZO7WVq+LO27Jf5MDjYp5eH2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2eU2DblhssRM3xSVX0lZgFSi+LYQd6J6LbFLFiH4bSU=;
- b=TcBm/5EHgZo7M10bwypFQ1YhoDa6WJ3/S/050kz//w+tdS7bHZdEtNKlx1L0O4ku28pS9xjbzHV9fO1oXrnuyV8Fo7Ag3llYkHyQmA0E1Ono3nAZoO6c34h+XTecud85MQixuuLcd2UPau+bPn1JyGODVWpzMK36kkem/MVFP4n2Fhcd06EHAArkS8uxCKJsMo9EpZV0S75+j4TLjSKVo2XXgw3LXRYAQt6MNqJJ3P5fl+Hx32p59fvTs7/WSPEIxstrSxulk+3lJzT73L4CWFfoi/FYoGNIOKOUNhSGvyQN39rbG0kKgc/ElZ0+be+OXtg6lAR+yRgHUSt+1p9joQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2eU2DblhssRM3xSVX0lZgFSi+LYQd6J6LbFLFiH4bSU=;
- b=E0/Ric2JKBgEq5WVGjhMfSR8OInHr2H76UXQJiq4kq95+7i6fdoKiOwHlu6jak2vI8eB5n0dTC/StBqWV6ufWJcCGUp7waRAEbjGilrE6xsnMGQCkpCYCD7Zt5O/Zq+KQuYjnBf8p67l59Jxe9aYxF0fYSVHyFLQ8mPbrveRK0kxO5+ikNBNqwFjj7JmBtDWImoRG/YTaih1DD639zZhry7jU5aqP3U7mmVzThr+Au+rYHETVmlN1NeIYJZ3ZkhD74ZP8PqN5H52YxLlhPNxDAMPyKW+/a90nNTuePCaf9IpCGz13WRT+QzFCJ+LFi+783r+jMtXYU4Mr/mGu4SPlA==
-Received: from SN7PR04CA0055.namprd04.prod.outlook.com (2603:10b6:806:120::30)
- by BY5PR12MB4242.namprd12.prod.outlook.com (2603:10b6:a03:203::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Thu, 29 Jan
- 2026 10:49:55 +0000
-Received: from SN1PEPF000397B3.namprd05.prod.outlook.com
- (2603:10b6:806:120:cafe::d8) by SN7PR04CA0055.outlook.office365.com
- (2603:10b6:806:120::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.10 via Frontend Transport; Thu,
- 29 Jan 2026 10:49:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- SN1PEPF000397B3.mail.protection.outlook.com (10.167.248.57) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9564.3 via Frontend Transport; Thu, 29 Jan 2026 10:49:55 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 29 Jan
- 2026 02:49:48 -0800
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Thu, 29 Jan 2026 02:49:47 -0800
-Received: from sumitg-l4t.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Thu, 29 Jan 2026 02:49:40 -0800
-From: Sumit Gupta <sumitg@nvidia.com>
-To: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
-	<zhenglifeng1@huawei.com>, <ionela.voinescu@arm.com>, <lenb@kernel.org>,
-	<robert.moore@intel.com>, <corbet@lwn.net>, <rdunlap@infradead.org>,
-	<ray.huang@amd.com>, <gautham.shenoy@amd.com>, <mario.limonciello@amd.com>,
-	<perry.yuan@amd.com>, <zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <bbasu@nvidia.com>,
-	<sumitg@nvidia.com>
-Subject: [PATCH v7 7/7] cpufreq: CPPC: Update cached perf_ctrls on sysfs write
-Date: Thu, 29 Jan 2026 16:18:17 +0530
-Message-ID: <20260129104817.3752340-8-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260129104817.3752340-1-sumitg@nvidia.com>
-References: <20260129104817.3752340-1-sumitg@nvidia.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mD56/ZSo"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C41321AED;
+	Thu, 29 Jan 2026 11:55:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1769684158;
+	bh=D7I8EfWd7ND+QvFM1o9ANyCbcetpqlyES+/JHz6LKo8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mD56/ZSo3NVyNmCC7IxS6vn5SUGHcztlWtaV89okTlis+T4VLvNXPtWZmA5M1JCug
+	 Cel9cG+jA9Nqiqb39rwheIaPha3wQOIRTYyJG9TnDR8i0VKTsoikSt9W6tk+CEcpL9
+	 yeV5+18o/eMS0VO2OPA+3ZMR86GzKZR3Hncy2rgc=
+Date: Thu, 29 Jan 2026 12:56:34 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+Message-ID: <20260129105634.GC3317328@killaraus>
+References: <20260124170535.11756-1-johan@kernel.org>
+ <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh>
+ <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
+ <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com>
+ <aXovtrAM1r1UyWxA@hovoldconsulting.com>
+ <CAMRc=MeMW4g5em_b9qGBR9OmQZNzyQp-S=zKDCPFu506ixy-cQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-NVConfidentiality: public
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000397B3:EE_|BY5PR12MB4242:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42fdd028-cee9-49a8-61fc-08de5f24238e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|36860700013|376014|1800799024|82310400026|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?0cWpVpn1uZbewexyxzPQs8aIwmTKyVS2pgze4nWkzcuxjJWEpusB3v3Bc8HF?=
- =?us-ascii?Q?TwSK1pGP+f3K/qUv5wXighpDXiJN0C4FSdnPSaJ6f4hO1o/9tSoEftANKDzt?=
- =?us-ascii?Q?nW5pdgyEU2HayyZdsgWjV+db2JIjAh+riyQVfczl6a4k9TeCTV1hRhI81Uzj?=
- =?us-ascii?Q?ER7nAxxP6XDb432Q4noswfm9EvwSvoKCLktK7dMwKB1QpskM+ygrglFEnVS2?=
- =?us-ascii?Q?J/PKs+QjSqq+1+fX0K0NTo8jEwp3k16yUVBtVJsE5ZaiYgaeehXt6Cam6lOo?=
- =?us-ascii?Q?VICr5PSovCjQ5eg+kf43zE3Csh9KyOVr2Mv75PUX1c7LNvpGZ9AfxF1cDgVe?=
- =?us-ascii?Q?M68JS1epMa/nCqdnvogFci707kmYwTlJnuRHoYr5QRhgO3Uk/Ft8qYiFTiFy?=
- =?us-ascii?Q?Du7TAggZICdUxwfUd2Y27fLI4rKRq6aLSi2EujjrXV1Xp/qgs5m5Wc6loC2W?=
- =?us-ascii?Q?1lrRMBf9ikdchKeaR5Po0rZSQ5lW1zuIvM30wgfNmH1iM3MhEWXVatIRlDjO?=
- =?us-ascii?Q?IQrxHLS0iO+32Tl8BhePLqufPRqNLeLJqIcu58mxirfuHFibaoARZ7QELqam?=
- =?us-ascii?Q?s6piRiQ3+52TZjW6DiXqMsFJ8i2T5J618cUPquGg66BumgaCk7XGr17PZ/O/?=
- =?us-ascii?Q?7pec7sXrxYQbiZ2oarsGvQBSJRm9ipLq8t5RF+HHnggXalK1YGmKtU82m4NV?=
- =?us-ascii?Q?FqEHwelRmADDjSXiWTn7bM1ePQPYrCviT2QRjomUOTeS/8mKquc/pjy0nOt4?=
- =?us-ascii?Q?vH4/lD66OYs1jbxa6Sr2yUYjA3qBGJR7qiPl1lqxRs2eOVAjfzVDl/2T1b5w?=
- =?us-ascii?Q?dWc19nbGViJOueO573vg7UHpq3gDuPbYI8RmeZsVWaZln2LQ0Su6qlMzmXxu?=
- =?us-ascii?Q?z3zPke4NrEWHCAm/X1FpQGmsMBm1CORmLm2h4uRE2Lle9IAxuxx3pWCord+T?=
- =?us-ascii?Q?f4OuD2KaX5Dw4p3I+uVrT1trM85IIG8NQgw7WNSYPXxCCNjl1C3k8tN3S9pH?=
- =?us-ascii?Q?cVtyFArBbxaFKeVXZfFKZZ+vmTWjVFdgeo2SOeBzURO+kLGWrSdgWGRo3l8t?=
- =?us-ascii?Q?uKQhglYO6ObdNb1sR3iC93R71vi82s4lJNE7kwtRRiLUWopNAHXnLkmKuCXN?=
- =?us-ascii?Q?B0aIybWUWBk1skFlGrK2/Prgalhy+09YfqnEiA7i/z/xx0Qm2ZfbdBNk5gUO?=
- =?us-ascii?Q?8hKlq5AVscglSHL08X15CEr2ed8noqp3iKcoX0ocSno0LS3TzgULfBv6gZsv?=
- =?us-ascii?Q?l5jHhmEWS3mMPJk7czvNI/n7Aag1vt4pyw/mOxaN/uQ0DMe2t4NV8if5fbgm?=
- =?us-ascii?Q?kqEy5OyK6FbzYUtSj/VIzhNTI2r4G1hJxwRioM7hEvjHI38qH8gyftOI9kNQ?=
- =?us-ascii?Q?drgFb4Ns6yK6KixMc2zgrNxFvNBQwDjQJo48QQdkkCq0RyH3M6/vOPIm2Qv+?=
- =?us-ascii?Q?4hXFWC2OdlCfIBMmqNDe9OUxBxsv9pyf9hd8DSei/fsSgt/i9OR+56cl/R4o?=
- =?us-ascii?Q?RaHRqdJ0rP2MiEHC5mdy9p8/RGPIkhnB1CFLZyEL88tWJtxO3OTxEoRl4QvI?=
- =?us-ascii?Q?rJwRSYJM2H/iA5E8q+OH+Oed3wdBV4Q7SVx83sFOaSUtyNJzOnMXzyNlML7V?=
- =?us-ascii?Q?woLgEbAeWd0iUZ146NrYk5BXre32RzI9MYrd22GRFRqaiX+MDWv4AlISbPQj?=
- =?us-ascii?Q?A17vJmv2Y7lZH3vnB7GFrqJppDc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(36860700013)(376014)(1800799024)(82310400026)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 10:49:55.1935
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42fdd028-cee9-49a8-61fc-08de5f24238e
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF000397B3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4242
+In-Reply-To: <CAMRc=MeMW4g5em_b9qGBR9OmQZNzyQp-S=zKDCPFu506ixy-cQ@mail.gmail.com>
 
-Update the cached perf_ctrls values when writing via sysfs to keep
-them in sync with hardware registers:
-- store_auto_select(): update perf_ctrls.auto_sel
-- store_energy_performance_preference_val(): update perf_ctrls.energy_perf
+On Thu, Jan 29, 2026 at 10:11:46AM +0100, Bartosz Golaszewski wrote:
+> On Wed, Jan 28, 2026 at 4:48 PM Johan Hovold <johan@kernel.org> wrote:
+> > On Tue, Jan 27, 2026 at 10:18:27PM +0100, Bartosz Golaszewski wrote:
+> > > On Mon, Jan 26, 2026 at 2:50 PM Johan Hovold <johan@kernel.org> wrote:
+> >
+> > > > It's certainly possible to handle the chardev unplug issue without
+> > > > revocable as several subsystems already do. All you need is a refcount,
+> > > > a lock and a flag.
+> > > >
+> > > > It may be possible to provide a generic solutions at the chardev level
+> > > > or some kind of helper implementation (similar to revocable) for
+> > > > subsystems to use directly.
+> > >
+> > > This echoes the heated exchange I recently had with Johan elsewhere so
+> > > I would like to chime in and use the wider forum of driver core
+> > > maintainers to settle an important question. It seems there are two
+> > > camps in this discussion: one whose perception of the problem is
+> > > limited to character devices being referenced from user-space at the
+> > > time of the driver unbind (favoring fixing the issues at the vfs
+> > > level) and another extending the problem to any driver unbinding where
+> > > we cannot ensure a proper ordering of the teardown (for whatever
+> > > reason: fw_devlink=off, helper auxiliary devices acting as
+> > > intermediates, or even user-space unbinding a driver manually with
+> > > bus-level sysfs attributes) leaving consumers of resources exposed by
+> > > providers that are gone with dangling references (focusing the
+> > > solutions on the subsystem level).
+> >
+> > What I've been trying to get across is that the chardev hot-unplug issue
+> > is real and needs to be fixed where it still exists, while the manual
+> > unbinding of drivers by root is a corner case which does not need to be
+> > addressed at *any* cost.
+> >
+> > If addressing the latter by wrapping every resource access in code that
+> > adds enough runtime overhead and makes drivers harder to write and
+> > maintain it *may* not be worth it and we should instead explore
+> > alternatives.
+> 
+> Alright, so we *do* agree at least on some parts. :)
+> 
+> I agree that any such change should not affect drivers. If you look at
+> the GPIO changes I did or the proposed nvmem rework - it never touched
+> drivers, only the subsystem level code. The latter especially is
+> really tiny, in fact:
+> 
+>   drivers/nvmem/core.c      | 172 +++++++++++++++++++++++---------------
+>   drivers/nvmem/internals.h |  17 +++-
+> 
+> is all you need to make it not crash in the situations I described
+> under that series. Runtime overhead in read-sections with SRCU or
+> read-write semaphores is negligible and typically we only have to
+> write on driver unbind. So that "wrapping every resource access"
+> sounds scary but really is not.
+> 
+> GPIO work was bigger but it addressed way more synchronization issues
+> than just supplier unbinding.
+> 
+> For I2C both the problem is different (subsystem waiting forever for
+> consumers to release all references) and the culprit: memory used to
+> hold the reference-counted struct device is released the supplier
+> unbind unconditionally. Unfortunately there's no way around it other
+> than to first move it into a separate chunk managed by i2c core.
 
-This ensures consistent cached values after sysfs writes, which
-complements the cppc_get_perf() initialization during policy setup.
+Isn't there ? Can't the driver-specific data structure be
+reference-counted instead of unconditionally freed at unbind time ?
 
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
----
- drivers/cpufreq/cppc_cpufreq.c | 31 +++++++++++++++++++++++++++++--
- 1 file changed, 29 insertions(+), 2 deletions(-)
+> But
+> that's not the synchronization part that leaks into the drivers, just
+> the need to move struct device out of struct i2c_adapter.
+> 
+> > This may involve tracking consumers like fw_devlink already does today
+> > so that they are unbound before their dependencies are.
+> 
+> During Saravana's talk at LPC we did briefly speak about whether it
+> would be possible to enforce devlinks for ALL devices linked in a
+> consumer-supplier fashion. I did in fact look into it for a bit on my
+> way back and it too would require at least subsystem-level changes
+> across all subsystems because you need to add that entry point at the
+> time of the resource being requested so it's not a no-cost operation.
+> But it is an alternative, yes though it'll require a comparable amount
+> of gap-plugging IMO.
 
-diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-index ca49e25aba5d..cc04d91bb795 100644
---- a/drivers/cpufreq/cppc_cpufreq.c
-+++ b/drivers/cpufreq/cppc_cpufreq.c
-@@ -884,6 +884,7 @@ static ssize_t show_auto_select(struct cpufreq_policy *policy, char *buf)
- static ssize_t store_auto_select(struct cpufreq_policy *policy,
- 				 const char *buf, size_t count)
- {
-+	struct cppc_cpudata *cpu_data = policy->driver_data;
- 	bool val;
- 	int ret;
- 
-@@ -895,6 +896,8 @@ static ssize_t store_auto_select(struct cpufreq_policy *policy,
- 	if (ret)
- 		return ret;
- 
-+	cpu_data->perf_ctrls.auto_sel = val;
-+
- 	return count;
- }
- 
-@@ -945,8 +948,32 @@ static ssize_t store_##_name(struct cpufreq_policy *policy,		\
- CPPC_CPUFREQ_ATTR_RW_U64(auto_act_window, cppc_get_auto_act_window,
- 			 cppc_set_auto_act_window)
- 
--CPPC_CPUFREQ_ATTR_RW_U64(energy_performance_preference_val,
--			 cppc_get_epp_perf, cppc_set_epp)
-+static ssize_t
-+show_energy_performance_preference_val(struct cpufreq_policy *policy, char *buf)
-+{
-+	return cppc_cpufreq_sysfs_show_u64(policy->cpu, cppc_get_epp_perf, buf);
-+}
-+
-+static ssize_t
-+store_energy_performance_preference_val(struct cpufreq_policy *policy,
-+					const char *buf, size_t count)
-+{
-+	struct cppc_cpudata *cpu_data = policy->driver_data;
-+	u64 val;
-+	int ret;
-+
-+	ret = kstrtou64(buf, 0, &val);
-+	if (ret)
-+		return ret;
-+
-+	ret = cppc_set_epp(policy->cpu, val);
-+	if (ret)
-+		return ret;
-+
-+	cpu_data->perf_ctrls.energy_perf = val;
-+
-+	return count;
-+}
- 
- /**
-  * show_min_perf - Show minimum performance as frequency (kHz)
+I recall at least one driver (omap3isp) having a circular resource
+issue. The ISP hardware block has the ability to produce a clock for the
+camera sensor, and the camera sensor is a resource acquired by the ISP
+driver. It's quite rare, but it happens. I would however not reject a
+solution that would solve the 99.99% of the problem without addressing
+this.
+
+> > Because in the end, how sound is a model where we allow critical
+> > resources to silently go away while a device is still in use (e.g. you
+> > won't discover that your emergency shutdown gpio is gone until you
+> > actually need it)?
+> 
+> Well, we do allow it at the moment. It doesn't seem like devlink will
+> be able to cover 100% of use-cases anytime soon.
+
+We have this issue because designing resource management is hard. The
+decision we made not to pay that cost has now turned into a huge
+technical debt. There's no easy way around it, it won't be easier to
+solve it correctly today than it was years ago. I don't know when we
+will be able to fix the issue, but I know it will happen only when we
+decide to face the situation and stop with band-aids.
+
+What I think is the biggest issue at the moment is the lack of
+motivation/time/money to address this huge, but I'm hopeful because I
+trust the technical expertise of the community.
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
