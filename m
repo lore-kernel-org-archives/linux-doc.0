@@ -1,125 +1,80 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464B0233149;
-	Thu, 29 Jan 2026 14:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316A519E97B
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 15:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769698333; cv=none; b=GCz67yigAQqBKQ2WdO8ZerxzBCxV1qHMTBPZn6fRWygOVR8AF0twyjuUPNK7TpvgKyqNgkDhxuxMSuvEZ6ZrZ/ObtZGUyiYphByI7nkVCbfKnNM1PXassch21neb2IxJex7WdTFuLjVANiE7nv2EIA3ZVm+PuMvnqGEPQaTO+qo=
+	t=1769698836; cv=none; b=CIwX9cGq0Ko8iIV0bIzudh+vTICRz3U1ac/ktFO91Ry38fwOSCM5BwSI4F+20G0PoLxEz09eM8XKR4zqfqzrIACqdJ3M6n+HaxZs6bIejTZKT+0tPpxD6GKYmPb2BmC72CR1WzraXIqNZ4Ca66/lKfiY7UEYwtdz67L2WuiiNMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769698333; c=relaxed/simple;
-	bh=XLw9HsiRUEyMcmNVzph1Ja/+pVebiZFHCU7yDCVtZmg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mLmhAIuhxOwCr08S79PtL6WlKPjjf/euyZG9Zwu+I33SeO1WjBAdLRROnX8qYaiZ+EYTO2UeKyr6UX5P7O11MOG4QLU1AQh/dLSJdJo76lN9IxonkfwOHKBTr8tJPlJCyOdzvthsyvorQjTWW6OmsEJPP82CpBhZS9kr8vXdOVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mToF1p5g; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1769698836; c=relaxed/simple;
+	bh=Lr0gRlWXmJSBfvv/mHBNT2m9wjy59gkDa6uMR53IbXk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=idGIAnqGMZi9+ZkldmYgw2wC5zIFQVqeR7tyLO/bmXMURtYvOObpkBwGZg+eHvZFAbL6uwszW36XAfHBpFFwzrPhcrN2imBMrQP5QUNsMcfGXOwBswXqk1rGVXiY3/z9OnqnLQeftHe8jlvMgEku7buRcevZNZusAshjFS3GZCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B1dNvkHO; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mToF1p5g"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 620661661;
-	Thu, 29 Jan 2026 15:51:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769698292;
-	bh=XLw9HsiRUEyMcmNVzph1Ja/+pVebiZFHCU7yDCVtZmg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mToF1p5g8WGHh+oCERhXZth9pgjWxVIDoJOSaTiakw6sfjOF84tx3++8GwDKvjLWd
-	 /ZYPormlAZhkNoJhqKa1Nh5OU7Bitu7ar5SRKBE70ilLA8d39nSasT6cPmq55DDM8W
-	 klIlOFU9OsJKQmbYLTggIySWkICnGLe87D8IGn5Y=
-Date: Thu, 29 Jan 2026 16:52:08 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Bartosz Golaszewski <brgl@kernel.org>
-Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
-Message-ID: <20260129145208.GF3327197@killaraus>
-References: <20260124170535.11756-1-johan@kernel.org>
- <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
- <2026012554-chatty-policy-42a1@gregkh>
- <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
- <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com>
- <20260127235232.GS1134360@nvidia.com>
- <20260129010822.GA3310904@killaraus>
- <20260129012322.GC2223369@nvidia.com>
- <20260129103850.GA3317328@killaraus>
- <20260129133440.GD2223369@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B1dNvkHO"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a07fac8aa1so7410655ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 07:00:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769698834; x=1770303634; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lr0gRlWXmJSBfvv/mHBNT2m9wjy59gkDa6uMR53IbXk=;
+        b=B1dNvkHO0uevgLCKTUotm2DUZzcj7ULm6uUa1kTtA4TPS3PmpqfmuOjOEPOyXHBl3c
+         2ovry6WfWwSDJL5JZSDrEU1Np4+/JYUHWJX8bOgdiriN4tjCjJm5mtLHveReKvvVmfax
+         5DDODBlsp7mYuqRSNZBLYjfiITizJz7KG/R0uIVrVQ48FxIrCGCT/Y+SXccdsOyyhgOX
+         Nm8nBOhZFWhaQGjbuYO+aKaDwcDZ3ribLn/5oBKjGHf5N8fOSJvLuEm0sdpVrN3q5is8
+         Fd6kh3Kz9goeABqNSLg7n4ihHxJaypsHiH+uv3eOe4WGFbFvwb3JXh2SnqK09XozUnkr
+         5TzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769698834; x=1770303634;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Lr0gRlWXmJSBfvv/mHBNT2m9wjy59gkDa6uMR53IbXk=;
+        b=wjKRdSKAmtNU07+xdLpaPxYK408+aqP/BnkRVOI+TTJSZyenL7otdtNFBSgxlVC4hH
+         V5eGU/GKe1NBzpYZiFNzbyTGaTg9MyXLJYoDFfYeJa2ebaiQRVbx7sAJELy/JXA8tU/F
+         S/jYwAOCVD1M0O0hauf0DHV6bBHCi8gX5GSSnnO6vzOfTo8LQJBWUDqj20GlkBTmgxnV
+         2whVmRab9c7lFJsyv9yzb3JkYtT5q9zr2QUp4mU4j3WWXkXUxsMa7EiOnfaYwFSIKeAL
+         wxX4WgoD2Rxk1i7+8FLFjJOT3kWnJ4YxqqUoNCU/v44v6A3irLujRMlcjjeJcfiM568i
+         8hQg==
+X-Forwarded-Encrypted: i=1; AJvYcCWX2YSkp9Dt3SiBD+ohP3pKV3I3emU6aS1dWHk0e5OnRA2MYxYybRFZndCKu3Kwvs0vWWKAnIJcdFg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYFdNxYtGNoqgkqTI8Ra8KQD5bACsF5q0z00ySW75sWnsUIhuW
+	XRy+Dwf5uVMzrvUgSujBBZYUfY0e0cjGnpIldAbXEVYogM/LR+FTYMI0
+X-Gm-Gg: AZuq6aLSYzUWbYi6FYDWb7B4XhhmWatcCgnJlGbuOXRkLqDQVKy41yZsrpb2ex4paY5
+	IioNfjM8qsXvsry7FmaziNAzF7ys7J1vkKfLHXQLhpAo/edIryGSidPwTwtdDmsdid6d+JO8k4r
+	9mbHJZdeLPqvFlpZku20LfDVkIvEs5DjWtRhTrBPDtyJXSAHKg37eoeqtTbC0Fxalv/zfpj6Kp1
+	qWtb/DsYJsh1m+U3EnousxzoMSngkAsZLMccIQuoPtOJqyZkysRmVrur88TZ4qjRi78AC11/7fu
+	dfQYLDU2ivKkXfOO4HsQ2EQT483rxHfQ1NamAVI7M6ReTijEYKKa0xv+tHwjqlEZ4IzLJIgaI+u
+	7wbWvlGgiMVJOx2M6xbPvyKT0PHn9tdAkpTBjm0t2WZvALje3hysmXxaMetNGAv8BuslL+UdIu1
+	EMukOibbm/QSjuc1kMo5hbkj1gbDZg
+X-Received: by 2002:a17:903:2ecf:b0:2a0:d05c:7de3 with SMTP id d9443c01a7336-2a870d5a588mr85878625ad.15.1769698834168;
+        Thu, 29 Jan 2026 07:00:34 -0800 (PST)
+Received: from fedora ([2401:4900:88b9:4745:b6a7:8b73:65c5:8fa4])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a88b426e3csm56182695ad.44.2026.01.29.07.00.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jan 2026 07:00:33 -0800 (PST)
+From: harshdaniel66356@gmail.com
+To: gregkh@linuxfoundation.org
+Cc: devel@driverdev.osuosl.org,
+	harshdaniel66356@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: media: Add bindings for dim2 compatible strings.
+Date: Thu, 29 Jan 2026 20:30:21 +0530
+Message-ID: <20260129150021.40817-1-harshdaniel66356@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <2026012906-gristle-junkyard-0c96@gregkh>
+References: <2026012906-gristle-junkyard-0c96@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260129133440.GD2223369@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 29, 2026 at 09:34:40AM -0400, Jason Gunthorpe wrote:
-> On Thu, Jan 29, 2026 at 12:38:50PM +0200, Laurent Pinchart wrote:
-> > On Wed, Jan 28, 2026 at 09:23:22PM -0400, Jason Gunthorpe wrote:
-> > > On Thu, Jan 29, 2026 at 03:08:22AM +0200, Laurent Pinchart wrote:
-> > > > > The latter already have robust schemes to help the driver shutdown and
-> > > > > end the concurrent operations. ie cancel_work_sync(),
-> > > > > del_timer_sync(), free_irq(), and *notifier_unregister().
-> > > > 
-> > > > One a side note, devm_request_irq() is another of the devm_* helpers
-> > > > that cause race conditions, as interrupt handlers can run right after
-> > > > .remove() returns, which drivers will most likely not handle correctly.
-> > > 
-> > > Yes! You *cannot* intermix devm and non-devm approaches without
-> > > creating very subtle bugs exactly like this. If your subsystem does
-> > > not provide a "devm register" helper its drivers shouldn't use devm.
-> > 
-> > I'd relax that rule a bit. There are resources that drivers must never,
-> > ever access after .remove(), such as MMIO. Using devm_ioremap* should
-> > therefore be safe in all cases.
-> 
-> Yeah, probably, but I've seen driver using devm before & after
-> non-devm and it is just too hard to tell if things are going to
-> even work right.
-> 
-> To be fair the IRQ issue is always more involved. The subsystem should
-> provide a state after unregistration where the memory is still around
-> and the IRQ path into the subsystem becomes a NOP. The driver then
-> frees the IRQ, fences work and releases the driver memory.
-> 
-> It is hard to do this sequence with devm..
-> 
-> I think a lot of places manage without this because seeing interrupts
-> after unregister is probably a rare race condition in their HW.
-> 
-> > > But sure, it is all easy once you figure out how to give the fops shim
-> > > some place to store all this state since people would not agree to
-> > > make this a universal cost to all fops.
-> > 
-> > I didn't see any push back against Dan's proposal to store that
-> > information in struct cdev, did I miss something ? 
-> 
-> I also don't see an issue with that, especially if we can stack misc
-> on top of cdev to share the same logic.
-> 
-> I think if you take that idea and the other proposal to shim the fops
-> with ones that use the cdev data then we can see some
-> cdev_unregister_sync() primitive.
-
-I think we'll need to split that primitive in two (or add a second
-primitive), as drivers need to wake up thread sleeping in fops between
-flagging the cdev as being unregistered and completing the
-unregistration with cdev_unregister_sync(). How to wake those threads up
-is highly driver-specific (or at least subsystem-specific), so we need
-two functions. Other than that, I think we're on the same page.
-
--- 
-Regards,
-
-Laurent Pinchart
+Sorry about that, this was my first time sending an email via git send-email.
