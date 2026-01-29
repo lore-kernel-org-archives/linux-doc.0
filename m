@@ -1,111 +1,142 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271EC36BCE3;
-	Thu, 29 Jan 2026 22:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73AB36CDF1;
+	Thu, 29 Jan 2026 23:25:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769727098; cv=none; b=kaFM/ioKMUQTUeVCKsID8lhwztKZ3LRWtams7iM7PGqVRbTqNM838mQbPtXQBJW8/rsyzhQREHFc3b74VeGr35MMblUY9WR2n2yuK62RVBDJbdjZ8tn+siNr+OcVmymCQVH/AAEfqID/eoYBLdxTUSNFbbmWSHh+pxQ7oEZ33RA=
+	t=1769729143; cv=none; b=C5G2eWXmfUXhIoSojHZFUB6fZrj7pum4g4unAbycXs1cpEkw7v9Nd7gMSDkeG2ox24XnugXzjUE6NUjewNzRKX61yy8RVhqlCBvHWFi7NxpmO068YvcZKFj9UGRTAaUgO0KIMcxH45oiFUctN+9+AU3EW/7H9y9xYNzFLdi61Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769727098; c=relaxed/simple;
-	bh=nGDvJD/CKc/+BlfQqsxsUNWAMykt9q15wyKWGTdDR1g=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=UTcvYPp9wgmLmLbfFwxJb2vX10tE41/5SSSl3fEjHGDGQ5zrRav82fxB9+MQkRLWF+PCqoYezbtK5YyXAMa5dKWnCEj1DJ6EF9Efu2tB+PE/+jxvgxsocz/rajjrBIyOZlU77H+OfXUPGFMoKx031ZgQwpGiVVlKkNXVE8XSDKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=bxXukKfa; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1769729143; c=relaxed/simple;
+	bh=3+xik+/x6pFcQMFxG5QqN5mR1gL6yX1jrYgnP2VQ1dA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nQyLzx/gc8apUh2qyvqScKVE0ECkEwUOfVwn87Ktm8hyebJ/gsx8yIapm+heI8+IOxIDfwRcAPdKk7YOvnjxscRltjIOJJ/+Y+epvt3il8hDjL/KHN/KZXgK3UO+ApgLnaN+Es/mDlZJ7WtRQ8r4iLtQqoIoexrzGpHbdia/XN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LgXJgQCd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="bxXukKfa"
-Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60TMp1dr891091
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Thu, 29 Jan 2026 14:51:01 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60TMp1dr891091
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026012301; t=1769727063;
-	bh=V35m3uJr+qtPItiMY5+oBFo6446F8J07UnVFcXTewF0=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=bxXukKfaep9E5ECw99NAnmWOLFR7SSJvfuslyC6if9quMiO/l55k0wBEqa5f9Lqar
-	 p6TivolDQUhRlqTOpL1ZFuL0vWWhT8kivN1V9aGA1drT3VKyiNkfCXZ0SN8vycVAaF
-	 AxrJ4wT/nZzmvvOlYXMBlx4GgCIMT/L/VLqOrLJaAFVPrcEEBec4fYVvA107oxpLk5
-	 mK/0vmEgcs0toALsKWGMBLFZPptnL093L53D06VGeql5RcpsT/b5tTzJqzK8sfp4wj
-	 7XpMt8SOeM79eiVPq8wAuLrYo9/AYbmj3xndsIpDpKYs7LmtX4MR0AsFc0+LA3kHFW
-	 BTY3wASYz6PAQ==
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LgXJgQCd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C9AC4CEF7;
+	Thu, 29 Jan 2026 23:25:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769729143;
+	bh=3+xik+/x6pFcQMFxG5QqN5mR1gL6yX1jrYgnP2VQ1dA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LgXJgQCduBviX6Pf5XMfcb9aW6ykHIkhl0Z6Zjlkw96jyKTrpGQwQA8tuDCuq6bmL
+	 rZ9RavnLNAyBE2rnhO1yAIoE7K0XaC3jPEBLk6gqw2A9HkBV1oZ7x/hijwzaR5urQE
+	 qVwBpVXIp00grEZzG0WdscxJ+dtgADy1weesMNqVq2q07mYMrMScyQzvoBYt1FbVQK
+	 tb/MuuVq58SjwOeMt+nsTJRB+V/oAeYWkZpxwgM4xegcVT4tQIftjzWCtRqC/0Aj7b
+	 Eqn2khyMx/cJdgbqR3TWoXRiRKLOywiAQETfK/IPsskVw3VSiw9tz2rE2cSS9vyR9n
+	 6QCROt0qaTMfQ==
+Date: Thu, 29 Jan 2026 16:25:35 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Charalampos Mitrodimas <charmitro@posteo.net>
+Cc: Asuna Yang <xinrui.riscv@isrc.iscas.ac.cn>,
+	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor@kernel.org>,
+	Mingcong Bai <jeffbai@aosc.io>, Han Gao <rabenda.cn@gmail.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Jason Montleon <jmontleo@redhat.com>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	llvm@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 4/4] RISC-V: handle extension configs for bindgen,
+ re-enable gcc + rust builds
+Message-ID: <20260129232535.GD844102@ax162>
+References: <20251230-gcc-rust-v5-v6-0-2ac86ba728c8@isrc.iscas.ac.cn>
+ <20251230-gcc-rust-v5-v6-4-2ac86ba728c8@isrc.iscas.ac.cn>
+ <87v7gk8r5x.fsf@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v9 12/22] KVM: VMX: Virtualize FRED event_data
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <1EA97017-82D2-4C43-B617-D39C68D7BC6F@zytor.com>
-Date: Thu, 29 Jan 2026 14:50:51 -0800
-Cc: Chao Gao <chao.gao@intel.com>, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com,
-        seanjc@google.com, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-        x86@kernel.org, luto@kernel.org, peterz@infradead.org,
-        andrew.cooper3@citrix.com, hch@infradead.org, sohil.mehta@intel.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A7B34157-A5CA-430C-A459-E8E142951ECB@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-13-xin@zytor.com> <aR04V4VVg+p4RsdT@intel.com>
- <60C180BF-AD13-48EF-9BA8-CEACF57965EF@zytor.com>
- <1EA97017-82D2-4C43-B617-D39C68D7BC6F@zytor.com>
-To: "H. Peter Anvin" <hpa@zytor.com>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87v7gk8r5x.fsf@posteo.net>
 
+On Thu, Jan 29, 2026 at 01:49:56PM +0000, Charalampos Mitrodimas wrote:
+> I'm under the impression that the `!RUST ||` guard here doesn't
+> actually prevent the `$(bindgen-backend-option,...)` call from being
+> executed. `$(...)` shell expansions should happen during the textual
+> substitution phase, before symbol dependency evaluation occurs, check
+> documentation at kconfig-macro-language.rst lines 228-229.
+> 
+> I did this test:
+>   $ cat /tmp/fake_bindgen
+>     #!/bin/bash
+>     echo "[BINDGEN INVOKED] $(date '+%H:%M:%S') args: $@" >> /tmp/bindgen_calls.log
+>     # Call real bindgen
+>     exec /home/charmitro/.cargo/bin/bindgen "$@"
+> 
+>   $ make ARCH=riscv CROSS_COMPILE=riscv64-linux-gnu- BINDGEN=/tmp/fake_bindgen defconfig
+>     HOSTCC  scripts/basic/fixdep
+>     ...
+>   *** Default configuration is based on 'defconfig'
+>   #
+>   # configuration written to .config
+>   #
+> 
+>   $ linux git:(master) rg CONFIG_RUST .config
+>   ...
+>   283:# CONFIG_RUST is not set
+>   ...
+> 
+>   $ cat /tmp/bindgen_calls.log
+>   [BINDGEN INVOKED] 15:44:44 args: --version workaround-for-0.69.0
+>   [BINDGEN INVOKED] 15:44:44 args: ./scripts/rust_is_available_bindgen_libclang.h
+>   [BINDGEN INVOKED] 15:44:44 args: --version workaround-for-0.69.0
+>   [BINDGEN INVOKED] 15:44:44 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=lp64 -march=rv64imv
+>   [BINDGEN INVOKED] 15:44:44 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=ilp32 -march=rv32imv
+>   [BINDGEN INVOKED] 15:44:44 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=lp64 -march=rv64ima_zabha
+>   [BINDGEN INVOKED] 15:44:44 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=ilp32 -march=rv32ima_zabha
+>   [BINDGEN INVOKED] 15:44:45 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=lp64 -march=rv64ima_zacas
+>   [BINDGEN INVOKED] 15:44:45 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=ilp32 -march=rv32ima_zacas
+>   [BINDGEN INVOKED] 15:44:45 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=lp64 -march=rv64ima_zbb
+>   [BINDGEN INVOKED] 15:44:45 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=ilp32 -march=rv32ima_zbb
+>   [BINDGEN INVOKED] 15:44:45 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=lp64 -march=rv64ima_zba
+>   [BINDGEN INVOKED] 15:44:45 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=ilp32 -march=rv32ima_zba
+>   [BINDGEN INVOKED] 15:44:45 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=lp64 -march=rv64ima_zbc
+>   [BINDGEN INVOKED] 15:44:46 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=ilp32 -march=rv32ima_zbc
+>   [BINDGEN INVOKED] 15:44:46 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=lp64 -march=rv64ima_zbkb
+>   [BINDGEN INVOKED] 15:44:46 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=ilp32 -march=rv32ima_zbkb
+>   [BINDGEN INVOKED] 15:44:46 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=lp64 -march=rv64ima_zicsr_zifencei
+>   [BINDGEN INVOKED] 15:44:46 args: /dev/null -- -x c --target=riscv64-linux-gnu -mabi=ilp32 -march=rv32ima_zicsr_zifencei
+> 
+> So, CONFIG_RUST not set, yet bindgen was invoked. Not sure if that is
+> intentional though.
 
+While I have only recently adopted Kconfig, the section you pointed to
+in kconfig-macro-language.rst makes it seem like this is expected. I
+read that to mean all shell commands are going to be evaluated and
+effectively turned into "y" and "n" before dependencies are evaluated.
+You can test this with something like:
 
-> On Jan 29, 2026, at 9:21=E2=80=AFAM, H. Peter Anvin <hpa@zytor.com> =
-wrote:
->=20
->> Just to confirm, you are referring to requeueing an original event
->> via vmx_complete_interrupts(), right?
->>=20
->> Regardless of whether FRED or IDT is in use, the event payload is =
-delivered
->> into the appropriate guest state and then invalidated in
->> kvm_deliver_exception_payload():
->>=20
->>       1) CR2 for #PF
->>=20
->>       2) DR6 for #DB
->>=20
->>       3) guest_fpu.xfd_err for #NM (in handle_nm_fault_irqoff())
->>=20
->> We should be able to recover the FRED event data from there.
->>=20
->> Alternatively, we could drop the original event and allow the =
-hardware to
->> regenerate it upon resuming the guest.  However, this breaks #DB =
-delivery,
->> as debug exceptions sometimes are triggered post-instruction.
->>=20
->>=20
->> Sean, does it make sense to recover the FRED event data from guest =
-CPU state?
->=20
-> I think some bits in DR6 are "sticky", and so unless the guest has =
-explicitly cleared DR6 the event data isn't necessarily derivable from =
-DR6. However, the FRED event data for #DB is directly based on the data =
-already reported by VTx (for exactly the same reason =E2=80=93 knowing =
-what the *currently taken* trap represents.)
+if RUST
 
-Yeah, it's important to keep in mind that DR6 bits are 'sticky'.
+config RUST_FOOBAR
+    def_bool $(bindgen-backend-option,-obviously-not-supported)
 
-Regarding vmx_complete_interrupts(), when a VM migration occurs =
-immediately
-following a VM exit with a valid original event saved in the VMCS, we =
-can
-safely assume the guest DR6 state remains consistent with the original =
-event
-data because there is no chance for guest OS to modify DR6.
+endif
 
+added in init/Kconfig and running your fake bindgen.
 
+While this is obviously a little wasteful, I suspect this drastically
+simplifies the shell commands part of Kconfig for no change in runtime
+behavior.  The way that the dependency is currently written ensures that
+either the result of bindgen-backend-option matters for the sake of
+saying an extension is fully supported by the toolchain (when Rust is
+enabled) or it does not matter (because Rust is not enabled).
 
-
+Cheers,
+Nathan
