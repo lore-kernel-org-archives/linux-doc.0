@@ -1,128 +1,183 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89782FB0B9;
-	Thu, 29 Jan 2026 18:38:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860862C11ED;
+	Thu, 29 Jan 2026 18:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769711937; cv=none; b=ibXfoXmv2Kv+nz2t0sW5ZV2dBa06h8PEhokSypLxZXxydKCIC3HT7ManV2dtMASFXsTn63CzDp+m9pYUQv7s4wJcTmMN9ypMVXTZcteJg7+x2wJ1bwf3Pd5FCoup3zGxltHWWWEpn8yCc3I0G7alHRnpwUHC2d2UfPglC9umD2o=
+	t=1769712535; cv=none; b=JvKdZAOUfWGgsXI/K/TYcyxZojJBcRR2rJxkMYV223lZwPE1zXiv7uwSSDX5NVuTA45LJmdtR4Dymr67cm266peLbtFKiYgAqE18zPnZgZy8JXONwosIQ4QrLmP9yrVyNHR2eMqrzE6+90KdUKaewNyBxuVxKMoB8I0PZaYOA9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769711937; c=relaxed/simple;
-	bh=ny9Gvuf/Gb/jBlAs2bPrNRuoaNCb/eTRmOUJABQlRN8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=GYysBt0itOruHIAMXJfTYG1KbpCsvb4Hcbm0BfxqsDPKpkkTQNSgKQpMjG3tYVkrVR+VIESOOeTUe9IH3TtIVKy3kA+tYXSbQPVHTo+3hNITxCLbfTpR77Q9TJPGnrfAhB+g52z62ou1Tm/VX+wSAKyIhqm1Lf9ig5pOZTlLUsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yW2gX0WG; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1769712535; c=relaxed/simple;
+	bh=LUYBJJ3lyDfHxOh1C1isUaHVHRqXOl1euZswCzoh/5Q=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TeGWH68ezt+EWfql0AFCefH4dp+pHfgShX4XvDBmBITN+QDggn49//JOj17xVj89smykYavNb3JqI4LBpuqblqblHpvIOTDUHHT3t88RR2xbXpY9RV+iydITlSistSSd4KN1PlSaZKUQbKnnJP7x9hhQB0ebFtMZuoGWstvKVho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dMjgQdwz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yW2gX0WG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=yZm7KO5pw9/R6i1YoD9nUCzfryvpA/gVSTAcmV7o7jY=; b=yW2gX0WGPYwXSQBveO5NIwlLMW
-	nN2w7zkgq+zWEn6MgNKPDk6yMrZlyZtyKt04z3eWnHTXVu9/V+rp0dYxgxu/n+1o+2Vs39s1oxn+A
-	npA/2DOS0bnqsilWSRwD0cQdf1h65e8VAKw+oVmLAyO/I28zp0ogSe+l7cBbo4AqHZYAtG7QrCZSc
-	EFfOQ9G/RZNN/cUuD0uIeGTg+BIJ+khBmsLROnZPKurM1eNpKRsHfmoEbWtMBI8XRnAySo7WYznZw
-	8pTd4EW8M2HEuQwDgD/qM+yVBx3hXMqr3pMdtvl+2cK6mCzMWasAcqHBZnsP+r2cgfXsy2qumlOv+
-	7yXzfiMg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlWup-00000000WYl-1efr;
-	Thu, 29 Jan 2026 18:38:51 +0000
-Message-ID: <9ed4124e-a6f4-4994-a80e-860a1123c8ba@infradead.org>
-Date: Thu, 29 Jan 2026 10:38:50 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dMjgQdwz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F5ECC4CEF7;
+	Thu, 29 Jan 2026 18:48:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769712535;
+	bh=LUYBJJ3lyDfHxOh1C1isUaHVHRqXOl1euZswCzoh/5Q=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=dMjgQdwzQoA1Jbom8FiLnA8jIzHd1e5VrhfcrERSmABIaGsxDi6xSYWLFXTk8ldI8
+	 b+D36Oj9UTwRaO9bWRfLXZxpWWdB/8BkBLhfUhGbCITh8Lnsu4xGiTC27/zUVQadQ9
+	 kD38fkRSP48UEUGZhUZo60xBacKZJt0WbGvoNpuFK7z4pV2Edl98lrKUVdkhFMO+7e
+	 LYkf4j0q95KGTB3+cx8BeTZz8WW48pAT0VUfRFv5stMzSCWAFVbWLklCI1CyYnng7R
+	 XoH/pklZOaaYUB0MeL0Ptl94YRpXB8Aig/QGPgubp6NKsFb0n1jbICrUf829UU0GAQ
+	 yheTI/bAMUkUA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vlX4W-00000006r7k-0y5v;
+	Thu, 29 Jan 2026 18:48:52 +0000
+Date: Thu, 29 Jan 2026 18:48:51 +0000
+Message-ID: <867bt0b6gc.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Leonardo Bras <leo.bras@arm.com>
+Cc: Tian Zheng <zhengtian10@huawei.com>,
+	oliver.upton@linux.dev,
+	catalin.marinas@arm.com,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	will@kernel.org,
+	linux-kernel@vger.kernel.org,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	yezhenyu2@huawei.com,
+	xiexiangyou@huawei.com,
+	zhengchuan@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	suzuki.poulose@arm.com
+Subject: Re: [PATCH v2 2/5] KVM: arm64: Support set the DBM attr during memory abort
+In-Reply-To: <aXuSsVKtXBcffzo2@devkitleo>
+References: <20251121092342.3393318-1-zhengtian10@huawei.com>
+	<20251121092342.3393318-3-zhengtian10@huawei.com>
+	<aXuSsVKtXBcffzo2@devkitleo>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] stm: class: Add MIPI OST protocol support
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Yingchao Deng <yingchao.deng@oss.qualcomm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, quic_yingdeng@quicinc.com,
- Tingwei Zhang <tingwei.zhang@oss.qualcomm.com>,
- Yuanfang Zhang <yuanfang.zhang@oss.qualcomm.com>,
- Jinlong Mao <jinlong.mao@oss.qualcomm.com>
-References: <20260129-p_ost-v5-1-2b14fff39428@oss.qualcomm.com>
- <0ed08d07-5736-4874-9a0f-0f848e8419b6@infradead.org>
-Content-Language: en-US
-In-Reply-To: <0ed08d07-5736-4874-9a0f-0f848e8419b6@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: leo.bras@arm.com, zhengtian10@huawei.com, oliver.upton@linux.dev, catalin.marinas@arm.com, corbet@lwn.net, pbonzini@redhat.com, will@kernel.org, linux-kernel@vger.kernel.org, yuzenghui@huawei.com, wangzhou1@hisilicon.com, yezhenyu2@huawei.com, xiexiangyou@huawei.com, zhengchuan@huawei.com, linuxarm@huawei.com, joey.gouly@arm.com, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, suzuki.poulose@arm.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
+On Thu, 29 Jan 2026 17:02:41 +0000,
+Leonardo Bras <leo.bras@arm.com> wrote:
+> 
+> On Fri, Nov 21, 2025 at 05:23:39PM +0800, Tian Zheng wrote:
+> > From: eillon <yezhenyu2@huawei.com>
+> > 
+> > Add DBM support to automatically promote write-clean pages to
+> > write-dirty, preventing users from being trapped in EL2 due to
+> > missing write permissions.
+> > 
+> > Since the DBM attribute was introduced in ARMv8.1 and remains
+> > optional in later architecture revisions, including ARMv9.5.
+> > 
+> > Support set the DBM attr during user_mem_abort().
+> > 
+> > Signed-off-by: eillon <yezhenyu2@huawei.com>
+> > Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+> > ---
+> >  arch/arm64/include/asm/kvm_pgtable.h | 4 ++++
+> >  arch/arm64/kvm/hyp/pgtable.c         | 6 ++++++
+> >  2 files changed, 10 insertions(+)
+> > 
+> > diff --git a/arch/arm64/include/asm/kvm_pgtable.h b/arch/arm64/include/asm/kvm_pgtable.h
+> > index 2888b5d03757..2fa24953d1a6 100644
+> > --- a/arch/arm64/include/asm/kvm_pgtable.h
+> > +++ b/arch/arm64/include/asm/kvm_pgtable.h
+> > @@ -91,6 +91,8 @@ typedef u64 kvm_pte_t;
+> > 
+> >  #define KVM_PTE_LEAF_ATTR_HI_S2_XN	BIT(54)
+> > 
+> > +#define KVM_PTE_LEAF_ATTR_HI_S2_DBM	BIT(51)
+> > +
+> >  #define KVM_PTE_LEAF_ATTR_HI_S1_GP	BIT(50)
+> > 
+> >  #define KVM_PTE_LEAF_ATTR_S2_PERMS	(KVM_PTE_LEAF_ATTR_LO_S2_S2AP_R | \
+> > @@ -245,6 +247,7 @@ enum kvm_pgtable_stage2_flags {
+> >   * @KVM_PGTABLE_PROT_R:		Read permission.
+> >   * @KVM_PGTABLE_PROT_DEVICE:	Device attributes.
+> >   * @KVM_PGTABLE_PROT_NORMAL_NC:	Normal noncacheable attributes.
+> > + * @KVM_PGTABLE_PROT_DBM:	Dirty bit management attribute.
+> >   * @KVM_PGTABLE_PROT_SW0:	Software bit 0.
+> >   * @KVM_PGTABLE_PROT_SW1:	Software bit 1.
+> >   * @KVM_PGTABLE_PROT_SW2:	Software bit 2.
+> > @@ -257,6 +260,7 @@ enum kvm_pgtable_prot {
+> > 
+> >  	KVM_PGTABLE_PROT_DEVICE			= BIT(3),
+> >  	KVM_PGTABLE_PROT_NORMAL_NC		= BIT(4),
+> > +	KVM_PGTABLE_PROT_DBM			= BIT(5),
+> > 
+> >  	KVM_PGTABLE_PROT_SW0			= BIT(55),
+> >  	KVM_PGTABLE_PROT_SW1			= BIT(56),
+> > diff --git a/arch/arm64/kvm/hyp/pgtable.c b/arch/arm64/kvm/hyp/pgtable.c
+> > index c351b4abd5db..ce41c6924ebe 100644
+> > --- a/arch/arm64/kvm/hyp/pgtable.c
+> > +++ b/arch/arm64/kvm/hyp/pgtable.c
+> > @@ -694,6 +694,9 @@ static int stage2_set_prot_attr(struct kvm_pgtable *pgt, enum kvm_pgtable_prot p
+> >  	if (prot & KVM_PGTABLE_PROT_W)
+> >  		attr |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+> > 
+> > +	if (prot & KVM_PGTABLE_PROT_DBM)
+> > +		attr |= KVM_PTE_LEAF_ATTR_HI_S2_DBM;
+> > +
+> >  	if (!kvm_lpa2_is_enabled())
+> >  		attr |= FIELD_PREP(KVM_PTE_LEAF_ATTR_LO_S2_SH, sh);
+> > 
+> > @@ -1303,6 +1306,9 @@ int kvm_pgtable_stage2_relax_perms(struct kvm_pgtable *pgt, u64 addr,
+> >  	if (prot & KVM_PGTABLE_PROT_W)
+> >  		set |= KVM_PTE_LEAF_ATTR_LO_S2_S2AP_W;
+> > 
+> > +	if (prot & KVM_PGTABLE_PROT_DBM)
+> > +		set |= KVM_PTE_LEAF_ATTR_HI_S2_DBM;
+> > +
+> >  	if (prot & KVM_PGTABLE_PROT_X)
+> >  		clr |= KVM_PTE_LEAF_ATTR_HI_S2_XN;
+> > 
+> 
+> 
+> Hi Tian,
+> 
+> I was re-reading this series while planning the other feature I am working 
+> on top of this one.
+> 
+> This patch, IMHO, is unrelated to the HDBSS feature.
+> I get that HDBSS feature needs this bit being set in the page descriptor
+> but it was not introduced in this feature.
+> 
+> It was actually introduced in HAFDBS.
+> 
+> So maybe it's worth to split this series in:
+> - Enable HAFDBS for KVM, and
 
+TBH, just enabling the dirty bit at S2 is pretty pointless for KVM. It
+would require scanning the S2 PTs looking for a dirty bit, and
+transfer that to whatever userspace is using, be it dirty bitmap or
+ring.
 
-On 1/29/26 10:31 AM, Randy Dunlap wrote:
-> diff --git a/Documentation/trace/p_ost.rst b/Documentation/trace/p_ost.rst
-> new file mode 100644
-> index 000000000000..df93b889eb4c
-> --- /dev/null
-> +++ b/Documentation/trace/p_ost.rst
-> @@ -0,0 +1,36 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===================
-> +MIPI OST over STP
-> +===================
-> +
-> +The OST(Open System Trace) driver is used with STM class devices to
+It has been tried before, and it was absolutely disgusting. So let's
+not enable this standalone, this is a dead end. It only makes sense
+with HDBSS (that's why we have this extension the first place).
 
-   The OST (Open System Trace) driver
+Thanks,
 
-> +generate standardized trace stream. Trace sources can be identified
-> +by different entity ids.
-> +
-> +CONFIG_STM_PROTO_OST is for p_ost driver enablement. Once this config
-> +is enabled, you can select the p_ost protocol by command below:
-> +
-> +# mkdir /sys/kernel/config/stp-policy/stm0:p_ost.policy
-> +
-> +The policy name format is extended like this:
-> +    <device_name>:<protocol_name>.<policy_name>
-> +
-> +With coresight-stm device, it will be look like "stm0:p_ost.policy".
-
-   With {a | the} coresight-stm device,
-
-> +
-> +With MIPI OST protocol driver, the attributes for each protocol node is:
-
-   With the MIPI OST protocol driver,                                   are:
-
-> +# mkdir /sys/kernel/config/stp-policy/stm0:p_ost.policy/default
-> +# ls /sys/kernel/config/stp-policy/stm0:p_ost.policy/default
-> +channels  entity    masters
-> +
-> +The entity here is the set the entity that p_ost supports. Currently
-
-                   is the set of {entities | features} that p_ost supports. Currently
-
-> +p_ost supports ftrace, console and diag entity.
-
-                                           entities.
-
-> +
-> +Set entity:
-> +# echo 'ftrace' > /sys/kernel/config/stp-policy/stm0:p_ost.policy/default/entity
-> +
-> +Get available and currently selected (shown in square brackets) entity that p_ost supports:
-> +# cat /sys/kernel/config/stp-policy/stm0:p_ost.policy/default/entity
-> +[ftrace] console diag
-> +
-> +See Documentation/ABI/testing/configfs-stp-policy-p_ost for more details.
-
+	M.
 
 -- 
-~Randy
-
+Without deviation from the norm, progress is not possible.
