@@ -1,139 +1,144 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD3B3314C4;
-	Thu, 29 Jan 2026 17:13:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE0C346ACB;
+	Thu, 29 Jan 2026 17:21:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769706811; cv=none; b=Nibjya41fgtLlS6g0olDvJWFWjAVczhkx+dkBhzKnS/Itwi0EVpxnbl17RmKd2dlvwP12kie/uqp7klKMdr6Brx5FH4/fvnM/LXm54fSS9DgmLT9CfnsL820J1a155ihk+0NmNRwKmKtyJTEZitoQqTendNQtEWqdxV9n344cd8=
+	t=1769707308; cv=none; b=PU/ZIKCw19BMFv1CXRMPqpGfT14mPEIoIVBbh1YL56uXKIO1+K3eYbCbKN1ddsMbpDwx0nzbQEQsQH6jv0BMogGohebMpDpkqmai/y1ZQRmM/AhdHiqS6AYHKntiN7yrLAey1YrffCveDbtgNildmVaXeZjO4pxftIjlCLirohk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769706811; c=relaxed/simple;
-	bh=wfmd5TygDnWuNh7atnI1L66vLy96JcLCy+2CqYgZcYA=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=BKi0Pkt+FB2La41v8R/nTvBS/uxYJq9bdPabBANubecForEmZnULK7tjQt9i4N4U4LpxR/VgzRyviqMkuSSSVaSCQ1IvQSNMUHE+arYz3FiIYVvV9ySBhXYc6YAB4YM61UuviwJQT3XApnKc9w1yJ65JfbWjyc7RiisfUp/YaEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=ydDEOhoM; arc=none smtp.client-ip=198.137.202.136
+	s=arc-20240116; t=1769707308; c=relaxed/simple;
+	bh=KCsvuJ4268xvvg8O2Y/qGpJlqbGioEqbrDMyCCszPoo=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=kGxGMB1IRu/+jN6Ep/qzhzB1TQfYOAnTbDzHpMmg7yKoYt+BP5yZFX2ayrOZjbMDo724HqwVNGVmja66m2fc3sYBGp3WZWZU70wL9ODq3YlsT0ctInurmasEfYUY+q97nu6X6BIaRxur7o7yeQ/LD1sjc0JNVerNqwP3dHlLTYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=LHzqE9T1; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="ydDEOhoM"
-Received: from smtpclient.apple ([192.19.161.250])
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="LHzqE9T1"
+Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60THCITI760106
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Thu, 29 Jan 2026 09:12:18 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60THCITI760106
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60THL9sn764745
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Thu, 29 Jan 2026 09:21:09 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60THL9sn764745
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026012301; t=1769706740;
-	bh=QIyDvQ8ozjjtQ0qFg/hKPuh0+BnC9DM6EKOxMJUk0I4=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=ydDEOhoM/sDFyXanc+Qgg70WtpoD0LI636/mI1iXstHVV1Vop223o8x9iKinqXrNu
-	 gDlmn0Hhdm0Y3blqyD1p6Y053HBvmN2N4+rCg+Wvb7XcGJSVY1gTC6fmusLWcCGuTl
-	 63Y529/DA9ww9IcA5POu4h8+Z50WBDZsmBZ5mVfzhWikEsGOPun/q+Eq4es2mUfjL4
-	 +BI7jN3vZTnZq01HL8G3PWLBsZt1znF8AknTF02rJ4yYrlr2m8Ck/j41Fzb7Lcj3O5
-	 tTh52vjIgoW/vWz8cyeMB6eXqK1TEzeOMGIpfW2hkRYf6tYGmGc7laewBcMCJdyKyh
-	 YJE3qXzDHpp8A==
-Content-Type: text/plain;
-	charset=utf-8
+	s=2026012301; t=1769707270;
+	bh=tRqvK8QwDvRngEmRElZ+1rKciD8GlRfJYTefwoLXjE0=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=LHzqE9T1ZpYBmpxxWjpYQYMxD60ixIka/spIvn6gIPyItlXrgXrxVy2zsTnqLu4J5
+	 ieZc1hbjTRwwINbLk2GNyAsNfEsFOCGlt4nDqSeEQ3ObaKBf+KOwMbcOIzv9iU3gmD
+	 6Q8HfJHthxWftE8E/nXThcmVqNCHE7di2IdjMgs9Z8vMRoqDoD78CwechPjW8AtUFN
+	 6rQ0Az7KSUILOsGdw835CcD/+J5q+WSXqsXYAeWnycPyBPJoWvesjlqeDseYHDONFL
+	 o4J1QHacllxkonbIcQ8eu1cBSJ348RNNsupP9sx8bEOxr2sUNkJgFd+qFDcau5WyPh
+	 EhGMxgPu6Ea4w==
+Date: Thu, 29 Jan 2026 09:21:02 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Xin Li <xin@zytor.com>, Chao Gao <chao.gao@intel.com>
+CC: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, luto@kernel.org,
+        peterz@infradead.org, andrew.cooper3@citrix.com, hch@infradead.org,
+        sohil.mehta@intel.com
+Subject: Re: [PATCH v9 12/22] KVM: VMX: Virtualize FRED event_data
+User-Agent: K-9 Mail for Android
+In-Reply-To: <60C180BF-AD13-48EF-9BA8-CEACF57965EF@zytor.com>
+References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-13-xin@zytor.com> <aR04V4VVg+p4RsdT@intel.com> <60C180BF-AD13-48EF-9BA8-CEACF57965EF@zytor.com>
+Message-ID: <1EA97017-82D2-4C43-B617-D39C68D7BC6F@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v9 12/22] KVM: VMX: Virtualize FRED event_data
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <aR04V4VVg+p4RsdT@intel.com>
-Date: Thu, 29 Jan 2026 09:12:02 -0800
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        hch@infradead.org, sohil.mehta@intel.com
+MIME-Version: 1.0
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <60C180BF-AD13-48EF-9BA8-CEACF57965EF@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-13-xin@zytor.com> <aR04V4VVg+p4RsdT@intel.com>
-To: Chao Gao <chao.gao@intel.com>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
 
-
-> On Nov 18, 2025, at 7:24=E2=80=AFPM, Chao Gao <chao.gao@intel.com> =
+On January 29, 2026 9:12:02 AM PST, Xin Li <xin@zytor=2Ecom> wrote:
+>
+>> On Nov 18, 2025, at 7:24=E2=80=AFPM, Chao Gao <chao=2Egao@intel=2Ecom> =
 wrote:
->=20
->> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
->> index 4a74c9f64f90..0b5d04c863a8 100644
->> --- a/arch/x86/kvm/vmx/vmx.c
->> +++ b/arch/x86/kvm/vmx/vmx.c
->> @@ -1860,6 +1860,9 @@ void vmx_inject_exception(struct kvm_vcpu =
-*vcpu)
 >>=20
->> vmcs_write32(VM_ENTRY_INTR_INFO_FIELD, intr_info);
+>>> diff --git a/arch/x86/kvm/vmx/vmx=2Ec b/arch/x86/kvm/vmx/vmx=2Ec
+>>> index 4a74c9f64f90=2E=2E0b5d04c863a8 100644
+>>> --- a/arch/x86/kvm/vmx/vmx=2Ec
+>>> +++ b/arch/x86/kvm/vmx/vmx=2Ec
+>>> @@ -1860,6 +1860,9 @@ void vmx_inject_exception(struct kvm_vcpu *vcpu)
+>>>=20
+>>> vmcs_write32(VM_ENTRY_INTR_INFO_FIELD, intr_info);
+>>>=20
+>>> + if (is_fred_enabled(vcpu))
+>>> + vmcs_write64(INJECTED_EVENT_DATA, ex->event_data);
 >>=20
->> + if (is_fred_enabled(vcpu))
->> + vmcs_write64(INJECTED_EVENT_DATA, ex->event_data);
->=20
-> I think event_data should be reset to 0 in =
-kvm_clear_exception_queue().
-> Otherwise, ex->event_data may be stale here, i.e., the event_data from =
-the
-> previous event may be injected along with the next event.
-
-It=E2=80=99s no harm to reset it, although it shouldn=E2=80=99t be stale =
+>> I think event_data should be reset to 0 in kvm_clear_exception_queue()=
+=2E
+>> Otherwise, ex->event_data may be stale here, i=2Ee=2E, the event_data f=
+rom the
+>> previous event may be injected along with the next event=2E
+>
+>It=E2=80=99s no harm to reset it, although it shouldn=E2=80=99t be stale =
 when an event that
-uses event data is being injected (otherwise it=E2=80=99s a bug).
-
-
->=20
->> +
->> vmx_clear_hlt(vcpu);
->> }
+>uses event data is being injected (otherwise it=E2=80=99s a bug)=2E
+>
+>
 >>=20
->=20
->> /*
->> @@ -950,6 +963,7 @@ void kvm_requeue_exception(struct kvm_vcpu *vcpu, =
+>>> +
+>>> vmx_clear_hlt(vcpu);
+>>> }
+>>>=20
+>>=20
+>>> /*
+>>> @@ -950,6 +963,7 @@ void kvm_requeue_exception(struct kvm_vcpu *vcpu, =
 unsigned int nr,
->> vcpu->arch.exception.error_code =3D error_code;
->> vcpu->arch.exception.has_payload =3D false;
->> vcpu->arch.exception.payload =3D 0;
->> + vcpu->arch.exception.event_data =3D event_data;
->=20
-> If userspace saves guest events (via =
-kvm_vcpu_ioctl_x86_get_vcpu_events())
-> right after an event is requeued, event_data will be lost (as that =
-uAPI only
-> saves the payload and KVM doesn't convert the event_data back to a =
-payload
-> there). So this event will be delivered with incorrect event_data if =
+>>> vcpu->arch=2Eexception=2Eerror_code =3D error_code;
+>>> vcpu->arch=2Eexception=2Ehas_payload =3D false;
+>>> vcpu->arch=2Eexception=2Epayload =3D 0;
+>>> + vcpu->arch=2Eexception=2Eevent_data =3D event_data;
+>>=20
+>> If userspace saves guest events (via kvm_vcpu_ioctl_x86_get_vcpu_events=
+())
+>> right after an event is requeued, event_data will be lost (as that uAPI=
+ only
+>> saves the payload and KVM doesn't convert the event_data back to a payl=
+oad
+>> there)=2E So this event will be delivered with incorrect event_data if =
 the
-> event is restored on another system after migration.
+>> event is restored on another system after migration=2E
+>
+>Nice catch!
+>
+>Just to confirm, you are referring to requeueing an original event
+>via vmx_complete_interrupts(), right?
+>
+>Regardless of whether FRED or IDT is in use, the event payload is deliver=
+ed
+>into the appropriate guest state and then invalidated in
+>kvm_deliver_exception_payload():
+>
+>        1) CR2 for #PF
+>
+>        2) DR6 for #DB
+>
+>        3) guest_fpu=2Exfd_err for #NM (in handle_nm_fault_irqoff())
+>
+>We should be able to recover the FRED event data from there=2E
+>
+>Alternatively, we could drop the original event and allow the hardware to
+>regenerate it upon resuming the guest=2E  However, this breaks #DB delive=
+ry,
+>as debug exceptions sometimes are triggered post-instruction=2E
+>
+>
+>Sean, does it make sense to recover the FRED event data from guest CPU st=
+ate?
+>
+>
+>
 
-Nice catch!
-
-Just to confirm, you are referring to requeueing an original event
-via vmx_complete_interrupts(), right?
-
-Regardless of whether FRED or IDT is in use, the event payload is =
-delivered
-into the appropriate guest state and then invalidated in
-kvm_deliver_exception_payload():
-
-        1) CR2 for #PF
-
-        2) DR6 for #DB
-
-        3) guest_fpu.xfd_err for #NM (in handle_nm_fault_irqoff())
-
-We should be able to recover the FRED event data from there.
-
-Alternatively, we could drop the original event and allow the hardware =
-to
-regenerate it upon resuming the guest.  However, this breaks #DB =
-delivery,
-as debug exceptions sometimes are triggered post-instruction.
-
-
-Sean, does it make sense to recover the FRED event data from guest CPU =
-state?
-
-
+I think some bits in DR6 are "sticky", and so unless the guest has explici=
+tly cleared DR6 the event data isn't necessarily derivable from DR6=2E Howe=
+ver, the FRED event data for #DB is directly based on the data already repo=
+rted by VTx (for exactly the same reason =E2=80=93 knowing what the *curren=
+tly taken* trap represents=2E)
