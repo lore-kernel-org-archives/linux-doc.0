@@ -1,101 +1,303 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91D7299928
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 05:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EC336EAB2
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 06:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769662825; cv=none; b=jvQYIggpc4Ayvb1YyM2Yl6iqfcHWfG4etTvKKyEWY1kVgYukfpaxQ3N3GQ85zL2qUuR+JCEY1nd17BnWpD8wPEDopF9lUod/M+w613N3a8dtXZbWUQxcWbSKA94uvvMPlxggsJ0SW0gMvReVE6YPUgzGLql+0BK094Sk9CqSvf8=
+	t=1769669677; cv=none; b=Z6lq2gNFFlyMHagsU5Yifg1hXTofBTSgh41C/rhcdXePj+6UUNQPS+HIVbAAIIKLpsHwmO8oJusdbDqhhHGJoRiLpN02j6XmLqJK2BtnMp0FjER1bx1e4T+70dN/4RJw2rrvvRiHYi2iRD1SSwERgAAiE2YzxXzrDAd1I1szLKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769662825; c=relaxed/simple;
-	bh=U9ISJ2KDjOyPzPKwTm6AD9pt7euDC4veAsPtcj8Du54=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=WoeqW4ZdMzaUSQqvArfCYFuLa8CBVndgrxCnLl7f7Z7nB5+wvi5aMfcLni7Ljgi27VmWAkpG78/M2YU5DrnRjqJk/IxaM2Bn0rbhdQT7mfEUUWLUNiyWpgLDflGxxbvGJJKyKUjUNn0E86BzNsF3LejyxyAVrr6kRMYnWA2/DnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=da88MNC9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769669677; c=relaxed/simple;
+	bh=RbsUYwMnVebVInSib7GA/5OJfo9x/STjQcP0XPPt4mA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ksJBVYSCao1URxbhHrgUfoaw+VzlE/XnQQteE+98OXKpuL2foEPLzAhUyLRilBcIWVt/Aic0AaW0+1YPrIwbhzgG1UQp37XExNZZBJC3tHEHagmYHMEcvh4q8vHrrB2cluxGAmIjSelbIXgiz85uZqWVPkpoLhBN7Wfd4JBeBvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=n5geKtvs; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="da88MNC9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 616EFC19422;
-	Thu, 29 Jan 2026 05:00:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769662825;
-	bh=U9ISJ2KDjOyPzPKwTm6AD9pt7euDC4veAsPtcj8Du54=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=da88MNC9sKTq68aX+hdCzQbV7WEIc/oJPndbWzWJbGhOMCmKEsU/MkyVLPl9Z0FTx
-	 nQvKUs1Y+JVmAdVmoNoQsHj6WeLv4XzjCS4L4Q2O9evTj9oZPjeFkgbbzt4oJGLypA
-	 C7BgDdirTJFNSjpPJNURqh7xSko4RKom22yUHVb+6epWHdGgtaxqij8nQku1PowpFM
-	 dwrce6ITTtU9hBCJ/NmFwUMsv8oMlQ5tUGJyQzXiiI8rG7KQopQvWcXk/JT+SZ9bhP
-	 EJt6zcPXX08BeTd7xvmNKACuFFYapRimMFMUMqoIJwQLaLNoAuMcdVyYb8EmWfLE4+
-	 sbDxglOu2XInA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id C8DAF380AA69;
-	Thu, 29 Jan 2026 05:00:19 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="n5geKtvs"
+Message-ID: <0db8c993-a525-438f-9d7b-94f63bfa0aa4@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769669662;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=i4JRgDeBr4jab+v0AQMoJMPJjVR8MkEaj+rH1zUeTz4=;
+	b=n5geKtvskBt5UeHtUN3tjKwhwYQQWLClgpDulimgfAcl+2JC++CzR0HifKg5bhU1Jcjsp5
+	j+4xd+xIwQHvnZDELrYAHClQ62HxwFa6zJbY2EgtbaVxX5Rlrx3nJYrdjqq/V5wJ1C7J8N
+	aKBzpwi/wUAI7cpkGYqzoCq6dJaN4Ys=
+Date: Thu, 29 Jan 2026 14:54:07 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Subject: Re: [PATCHv5 11/17] mm/hugetlb: Remove fake head pages
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
+References: <20260128135500.22121-1-kas@kernel.org>
+ <20260128135500.22121-12-kas@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20260128135500.22121-12-kas@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] net: ethernet: neterion: s2io: remove unused
- driver
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176966281835.2353118.1929748319198442783.git-patchwork-notify@kernel.org>
-Date: Thu, 29 Jan 2026 05:00:18 +0000
-References: <20260126031352.22997-1-enelsonmoore@gmail.com>
-In-Reply-To: <20260126031352.22997-1-enelsonmoore@gmail.com>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-s390@vger.kernel.org, corbet@lwn.net, linasvepstas@gmail.com,
- mahesh@linux.ibm.com, oohall@gmail.com, bhelgaas@google.com,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- horms@kernel.org, tsbogend@alpha.franken.de, maddy@linux.ibm.com,
- mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org, hca@linux.ibm.com,
- gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
- svens@linux.ibm.com, andrew+netdev@lunn.ch, akpm@linux-foundation.org,
- martink@posteo.de, pavel@ucw.cz, danishanwar@ti.com,
- mengyuanlou@net-swift.com, pablo@netfilter.org, tiwai@suse.de,
- chenhuacai@kernel.org, tytso@mit.edu, ebiggers@google.com,
- vineethr@linux.ibm.com, sshegde@linux.ibm.com, geert@linux-m68k.org,
- ardb@kernel.org, martin.petersen@oracle.com, fbarrat@linux.ibm.com,
- ajd@linux.ibm.com, herbert@gondor.apana.org.au, kshk@linux.ibm.com,
- vadim.fedorenko@linux.dev, lorenzo@kernel.org, lukas.bulwahn@redhat.com,
- dong100@mucse.com, hkallweit1@gmail.com, tglx@kernel.org, mingo@kernel.org,
- lukas@wunner.de, giovanni.cabiddu@intel.com
+X-Migadu-Flow: FLOW_OUT
 
-Hello:
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
 
-On Sun, 25 Jan 2026 19:08:07 -0800 you wrote:
-> The s2io driver supports Exar (formerly Neterion and S2io) PCI-X 10
-> Gigabit Ethernet cards. Hardware supporting PCI-X has not been
-> manufactured in years. On x86, it was quickly replaced by PCIe. While
-> it stuck around longer on POWER hardware, the last POWER hardware to
-> support it was POWER7, which is not supported by ppc64le Linux
-> distributions. The last supported mainstream ppc64 Linux distribution
-> was RHEL 7; while it is still supported under ELS, ELS is only
-> available for x86 and IBM Z. It is possible to use many PCI-X cards in
-> standard PCI slots (which are still available on new motherboards), but
-> it does not make sense to do so for 10 Gigabit Ethernet because the
-> maximum bandwidth of standard PCI is only 1067 Mbps. It is therefore
-> highly unlikely that this driver is still being used. Remove the
-> driver, and move the former maintainer to the CREDITS file (restoring
-> credit for the vxge driver, which was removed in commit f05643a0f60b
-> ("eth: remove neterion/vxge").
-> 
-> [...]
+On 2026/1/28 21:54, Kiryl Shutsemau wrote:
+> HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing most
+> vmemmap pages for huge pages and remapping the freed range to a single
+> page containing the struct page metadata.
+>
+> With the new mask-based compound_info encoding (for power-of-2 struct
+> page sizes), all tail pages of the same order are now identical
+> regardless of which compound page they belong to. This means the tail
+> pages can be truly shared without fake heads.
+>
+> Allocate a single page of initialized tail struct pages per NUMA node
+> per order in the vmemmap_tails[] array in pglist_data. All huge pages of
+> that order on the node share this tail page, mapped read-only into their
+> vmemmap. The head page remains unique per huge page.
+>
+> Redefine MAX_FOLIO_ORDER using ilog2(). The define has to produce a
+> compile-constant as it is used to specify vmemmap_tail array size.
+> For some reason, compiler is not able to solve get_order() at
+> compile-time, but ilog2() works.
+>
+> Avoid PUD_ORDER to define MAX_FOLIO_ORDER as it adds dependency to
+> <linux/pgtable.h> which generates hard-to-break include loop.
+>
+> This eliminates fake heads while maintaining the same memory savings,
+> and simplifies compound_head() by removing fake head detection.
+>
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> ---
+>   include/linux/mmzone.h | 18 +++++++++++++++--
+>   mm/hugetlb_vmemmap.c   | 36 ++++++++++++++++++++++++++++++++--
+>   mm/sparse-vmemmap.c    | 44 ++++++++++++++++++++++++++++++++++--------
+>   3 files changed, 86 insertions(+), 12 deletions(-)
+>
+> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> index 192143b5cdc0..698091c74dbb 100644
+> --- a/include/linux/mmzone.h
+> +++ b/include/linux/mmzone.h
+> @@ -81,13 +81,17 @@
+>    * currently expect (see CONFIG_HAVE_GIGANTIC_FOLIOS): with hugetlb, we expect
+>    * no folios larger than 16 GiB on 64bit and 1 GiB on 32bit.
+>    */
+> -#define MAX_FOLIO_ORDER		get_order(IS_ENABLED(CONFIG_64BIT) ? SZ_16G : SZ_1G)
+> +#ifdef CONFIG_64BIT
+> +#define MAX_FOLIO_ORDER		(ilog2(SZ_16G) - PAGE_SHIFT)
+> +#else
+> +#define MAX_FOLIO_ORDER		(ilog2(SZ_1G) - PAGE_SHIFT)
+> +#endif
+>   #else
+>   /*
+>    * Without hugetlb, gigantic folios that are bigger than a single PUD are
+>    * currently impossible.
+>    */
+> -#define MAX_FOLIO_ORDER		PUD_ORDER
+> +#define MAX_FOLIO_ORDER		(PUD_SHIFT - PAGE_SHIFT)
+>   #endif
+>   
+>   #define MAX_FOLIO_NR_PAGES	(1UL << MAX_FOLIO_ORDER)
+> @@ -1402,6 +1406,13 @@ struct memory_failure_stats {
+>   };
+>   #endif
+>   
+> +/*
+> + * vmemmap optimization (like HVO) is only possible for page orders that fill
+> + * two or more pages with struct pages.
+> + */
+> +#define VMEMMAP_TAIL_MIN_ORDER (ilog2(2 * PAGE_SIZE / sizeof(struct page)))
+> +#define NR_VMEMMAP_TAILS (MAX_FOLIO_ORDER - VMEMMAP_TAIL_MIN_ORDER + 1)
+> +
+>   /*
+>    * On NUMA machines, each NUMA node would have a pg_data_t to describe
+>    * it's memory layout. On UMA machines there is a single pglist_data which
+> @@ -1550,6 +1561,9 @@ typedef struct pglist_data {
+>   #ifdef CONFIG_MEMORY_FAILURE
+>   	struct memory_failure_stats mf_stats;
+>   #endif
+> +#ifdef CONFIG_SPARSEMEM_VMEMMAP
+> +	unsigned long vmemmap_tails[NR_VMEMMAP_TAILS];
 
-Here is the summary with links:
-  - [net-next,v2] net: ethernet: neterion: s2io: remove unused driver
-    https://git.kernel.org/netdev/net-next/c/aba0138eb7d7
+We should record "struct page" instead of pfn, I'll explain below.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+> +#endif
+>   } pg_data_t;
+>   
+>   #define node_present_pages(nid)	(NODE_DATA(nid)->node_present_pages)
+> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> index a39a301e08b9..f5f42b92dd7d 100644
+> --- a/mm/hugetlb_vmemmap.c
+> +++ b/mm/hugetlb_vmemmap.c
+> @@ -19,6 +19,7 @@
+>   
+>   #include <asm/tlbflush.h>
+>   #include "hugetlb_vmemmap.h"
+> +#include "internal.h"
+>   
+>   /**
+>    * struct vmemmap_remap_walk - walk vmemmap page table
+> @@ -505,6 +506,34 @@ static bool vmemmap_should_optimize_folio(const struct hstate *h, struct folio *
+>   	return true;
+>   }
+>   
+> +static struct page *vmemmap_get_tail(unsigned int order, int node)
+> +{
+> +	unsigned long pfn;
+> +	unsigned int idx;
+> +	struct page *tail, *p;
+> +
+> +	idx = order - VMEMMAP_TAIL_MIN_ORDER;
+> +	pfn = READ_ONCE(NODE_DATA(node)->vmemmap_tails[idx]);
+> +	if (pfn)
 
+You’ve assumed that a valid PFN can never be zero, but that
+isn’t guaranteed.  If we store the `struct page` pointer
+instead, the issue disappears: its virtual address is never
+NULL.
+
+Moreover, we only convert back and forth with pfn_to_page()/page_to_pfn();
+we never dereference any member of the structure, so we don’t
+have to care whether `struct page` has been initialized yet
+during early boot (it is safe for us to get page in sparse-vmemmap.c).
+
+> +		return pfn_to_page(pfn);
+> +
+> +	tail = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, 0);
+> +	if (!tail)
+> +		return NULL;
+> +
+> +	p = page_to_virt(tail);
+> +	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+> +		prep_compound_tail(p + i, NULL, order);
+> +
+> +	pfn = PHYS_PFN(virt_to_phys(p));
+> +	if (cmpxchg(&NODE_DATA(node)->vmemmap_tails[idx], 0, pfn)) {
+> +		__free_page(tail);
+> +		pfn = READ_ONCE(NODE_DATA(node)->vmemmap_tails[idx]);
+> +	}
+> +
+> +	return pfn_to_page(pfn);
+> +}
+> +
+>   static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+>   					    struct folio *folio,
+>   					    struct list_head *vmemmap_pages,
+> @@ -520,6 +549,11 @@ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+>   	if (!vmemmap_should_optimize_folio(h, folio))
+>   		return ret;
+>   
+> +	nid = folio_nid(folio);
+> +	vmemmap_tail = vmemmap_get_tail(h->order, nid);
+> +	if (!vmemmap_tail)
+> +		return -ENOMEM;
+> +
+>   	static_branch_inc(&hugetlb_optimize_vmemmap_key);
+>   
+>   	if (flags & VMEMMAP_SYNCHRONIZE_RCU)
+> @@ -537,7 +571,6 @@ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+>   	 */
+>   	folio_set_hugetlb_vmemmap_optimized(folio);
+>   
+> -	nid = folio_nid(folio);
+>   	vmemmap_head = alloc_pages_node(nid, GFP_KERNEL, 0);
+>   	if (!vmemmap_head) {
+>   		ret = -ENOMEM;
+> @@ -548,7 +581,6 @@ static int __hugetlb_vmemmap_optimize_folio(const struct hstate *h,
+>   	list_add(&vmemmap_head->lru, vmemmap_pages);
+>   	memmap_pages_add(1);
+>   
+> -	vmemmap_tail	= vmemmap_head;
+>   	vmemmap_start	= (unsigned long)&folio->page;
+>   	vmemmap_end	= vmemmap_start + hugetlb_vmemmap_size(h);
+>   
+> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+> index 37522d6cb398..23abd06f1a4e 100644
+> --- a/mm/sparse-vmemmap.c
+> +++ b/mm/sparse-vmemmap.c
+> @@ -378,16 +378,45 @@ void vmemmap_wrprotect_hvo(unsigned long addr, unsigned long end,
+>   	}
+>   }
+>   
+> -/*
+> - * Populate vmemmap pages HVO-style. The first page contains the head
+> - * page and needed tail pages, the other ones are mirrors of the first
+> - * page.
+> - */
+> +static __meminit unsigned long vmemmap_get_tail(unsigned int order, int node)
+> +{
+> +	unsigned long pfn;
+> +	unsigned int idx;
+> +	struct page *p;
+> +
+> +	BUG_ON(order < VMEMMAP_TAIL_MIN_ORDER);
+> +	BUG_ON(order > MAX_FOLIO_ORDER);
+> +
+> +	idx = order - VMEMMAP_TAIL_MIN_ORDER;
+> +	pfn =  NODE_DATA(node)->vmemmap_tails[idx];
+              ^
+Why you added a space here?
+
+> +	if (pfn)
+> +		return pfn;
+> +
+> +	p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
+> +	if (!p)
+> +		return 0;
+> +
+> +	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+> +		prep_compound_tail(p + i, NULL, order);
+> +
+> +	pfn = PHYS_PFN(virt_to_phys(p));
+> +	NODE_DATA(node)->vmemmap_tails[idx] = pfn;
+> +
+> +	return pfn;
+> +}
+> +
+>   int __meminit vmemmap_populate_hvo(unsigned long addr, unsigned long end,
+>   				       int node, unsigned long headsize)
+>   {
+> +	unsigned long maddr, len, tail_pfn;
+> +	unsigned int order;
+>   	pte_t *pte;
+> -	unsigned long maddr;
+> +
+> +	len = end - addr;
+> +	order = ilog2(len * sizeof(struct page) / PAGE_SIZE);
+> +	tail_pfn = vmemmap_get_tail(order, node);
+> +	if (!tail_pfn)
+> +		return -ENOMEM;
+>   
+>   	for (maddr = addr; maddr < addr + headsize; maddr += PAGE_SIZE) {
+>   		pte = vmemmap_populate_address(maddr, node, NULL, -1, 0);
+> @@ -398,8 +427,7 @@ int __meminit vmemmap_populate_hvo(unsigned long addr, unsigned long end,
+>   	/*
+>   	 * Reuse the last page struct page mapped above for the rest.
+>   	 */
+> -	return vmemmap_populate_range(maddr, end, node, NULL,
+> -					pte_pfn(ptep_get(pte)), 0);
+> +	return vmemmap_populate_range(maddr, end, node, NULL, tail_pfn, 0);
+>   }
+>   
+>   void __weak __meminit vmemmap_set_pmd(pmd_t *pmd, void *p, int node,
 
