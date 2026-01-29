@@ -1,233 +1,182 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011065.outbound.protection.outlook.com [52.101.62.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCCE25485A;
-	Thu, 29 Jan 2026 01:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769648573; cv=fail; b=MhEeud79xnKPM72acPqdK8u0LCvLIEUCJgWKO15/jc0NkuFA4kRSTxQGj008jLKfUzOy1rz5Ri4MamcdIN5mm2HnCi6AWbPHsAGe44oB4g850SQaJjEJk0q81xWZmP8+HitJOIhev1U0DyUGzRRZjurXh6DJ/dNyH2VDv5aUIDI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769648573; c=relaxed/simple;
-	bh=4nheNll6DHKEnOfaQp6YponBJ9oqm0O6E3GAh3ItB2A=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=REFo5VVd1VHBZLslXPJ773IOT0e42Ne3rSRRDY298toPOADiMy2FEMOJEBTPB7YpHHc0p2WX9GPpFDYjP7LO3m1vOMMQfx2SPxrh/DHLwl7mRwPs7oAcuA9UCZlzFPU2O/CCIpSGquwFTKD4jOIxsubg/iU8NTTTX+eIuFDpMKE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=so7hXBch; arc=fail smtp.client-ip=52.101.62.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE71219E819
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 01:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769648611; cv=none; b=mz6Pz7DLC4SmEBTB4rnIAmVWm4S+aIN99sJ9GPaiRj7BrQVTzJk8ZN46tYWvgpiJ74miapTQamDdETDPwvTqTUCehJCHcH8kysZQB+V9nCkGuW53Co9OaldF++uYxVJcoEnTyeMWn4BE2io3LdWt+7ZYf4IP8KttwZ5cqfGPYIM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769648611; c=relaxed/simple;
+	bh=LycvwrEt9FiYCojoBJvkidjYu1wB89lVriZlQuiRjLU=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=jO35ShUQC6/gHgC6Tc1z2cHaEUqcRP7EVflBESgAgOgOn2i6IHZiBEhpr7FyYQFd5v4UftrMVYS+TLR6AslqhZwW45Zzih6NKLApjMrUFteRaUaHa7v9v2tclI3ksCjiY7tRVzLK+vfoodxUuqHSPVDer/o1oJH5R50SQnJXmzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SxM9HG+X; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="so7hXBch"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mnm877zByl+J32w7eqbEqxBR+dPPQbb0Nwk4SjDdO+YBKtWxZAU3Kf/yKWOwy5E9CarTCDcRUTFq1SpBgpdDBxyEGlZ21595O/1k12ax8/NCpH9LDjyyv5yFy/zNfiiaSkqatMZ3TumzYR8qPV8ihaEi+La4hmZ7Dl4UNVTU9JKjkbzEi5J8R9szNX2QdZVgt0PYbM6kk3r1uXosCle64qV3e1M+WtdXvu1+cWjQ5D914pbsC1XdHttATnGar47KIQgSNd1jlVLesZ0r6ODHA1tB8UJ9BiI1KEhQ/TgYjAXvkXcetlXdxuRlmZtmSdaJxjw8pzuJvJOtJCjP7/fLuw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=weAUWs0WdH0BOha+UMrOauKm5aFvrFCncD0sX+WVUK4=;
- b=VL1x/tGAPuQgHIT/RIPzVqHfL9sq5wBhH/guzusNek4Kw0EvRjvDUWD92OuhCfD1cY4SUQUNBAbt/iimfrFRIxLuXLvrgr48MIfqwVkY/U/CGdA+d0VrE3jYpoM4YVuV4rwgDXRBah4tQM4RA6jsuJabjKWIQIq6ZriRgG82ajBeVh0nmLO83BsW7KwCGdEMQE5FNyITcTm6rAHdr85XlHC/NN1/dkRzuBUhmvOBhhRvBS7rUMPrK3irXqoxI5eiIXc7pUoUHDEa6eBudyXZ66C+EaJPXJXZYr/OSKHjtwzZlZPXB2IF+kR8fGdHMwXDHWnqJIBdAe/WJv8GgS578A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=weAUWs0WdH0BOha+UMrOauKm5aFvrFCncD0sX+WVUK4=;
- b=so7hXBchkQOEltYhsvPxTWcBgvbAS5ehIpnpQQNjR5oW9NXqVeSC99uCXWC/1d1yCejcCDur7WRoC5tfZZaRJCrVw4ASJJRa5fNWEXirH0AVYnzNgc0AlpYIOA4gjcsr42txkRnHv3LgMudJBO7sODyt0lmpUPNDSa7ZtKp2TwDW3TQjxNnjlkq5D278DUafYhMZYVjUfhir/tyWpBgcaJFKgCf8Ku/GWZQk9WSNZRs3IPYy3ygcG+xkbm4XVJn/cuROAY9AEGAeEYapArqVXGFf8OZ0Nll4nDKxjPpXTAhFDW5TEl+9YF40siTHsePlzT8bV+KUD3zaI6D7lnGQDA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9412.namprd12.prod.outlook.com (2603:10b6:408:211::18)
- by IA1PR12MB8556.namprd12.prod.outlook.com (2603:10b6:208:452::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9542.15; Thu, 29 Jan
- 2026 01:02:44 +0000
-Received: from LV3PR12MB9412.namprd12.prod.outlook.com
- ([fe80::c319:33b5:293:6ec4]) by LV3PR12MB9412.namprd12.prod.outlook.com
- ([fe80::c319:33b5:293:6ec4%5]) with mapi id 15.20.9542.010; Thu, 29 Jan 2026
- 01:02:44 +0000
-Message-ID: <bd6fcda9-0d76-4208-b6c1-8df6f9f4616e@nvidia.com>
-Date: Wed, 28 Jan 2026 17:02:33 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v6 05/26] nova-core: mm: Add support to use PRAMIN
- windows to write to VRAM
-To: Danilo Krummrich <dakr@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Zhi Wang <zhiw@nvidia.com>, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alice Ryhl <aliceryhl@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Alistair Popple <apopple@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
- Andy Ritger <aritger@nvidia.com>, Alexey Ivanov <alexeyi@nvidia.com>,
- Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
- <20260120204303.3229303-6-joelagnelf@nvidia.com>
- <20260121100745.2b5a58e5.zhiw@nvidia.com>
- <e186973c-ce31-405a-8bfa-dc647737a666@nvidia.com>
- <DS0PR12MB6486717785F6DD14EE1F1C46A397A@DS0PR12MB6486.namprd12.prod.outlook.com>
- <DG07HZN0PL87.X5MKDCVVYIRE@kernel.org>
- <c0a3ac65-e2e5-4b62-bc75-49b1599e160f@nvidia.com>
- <DG0MXC1R8IRS.Y5X6XDUBOGR5@kernel.org>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <DG0MXC1R8IRS.Y5X6XDUBOGR5@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0022.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::27) To LV3PR12MB9412.namprd12.prod.outlook.com
- (2603:10b6:408:211::18)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SxM9HG+X"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2a76b0673dcso3762825ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 17:03:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1769648609; x=1770253409; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=19yGyDu7FA79ZAJBhihksbqQH2oSVrmD3QatKOHHT0Q=;
+        b=SxM9HG+XCbluVUI9hhaJPoAGO9A4weGXrDN1WkEGXQkijuxtuAjaNEYFx+SLCqf0Vc
+         DKo+wzbFJwA6yw7xBSyJwqQpAsDR6yb7FZU74TcmQYFFTPOeEhgrhdR6MUWIFp7qAG3f
+         jS6sEPMQU+UK3viVxx6z7fZ+5qAIL8KBye4cTl21BAAmPZKUYXNqeHrwxKvvRjD3dSBb
+         wBk8pa2mDMfo9JnWph33h5v8eIxV9BJIuCrP+bVCeNYlC4GG3+fX4/NgZnKzBPhJJpGu
+         2J5KSfLSi5sExTVcHHRzagEuMknn+FWrhRQKbztN3EF1NO9VCtOojet9vcwtssGjZ0mv
+         B/Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769648609; x=1770253409;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=19yGyDu7FA79ZAJBhihksbqQH2oSVrmD3QatKOHHT0Q=;
+        b=qVDOSDthWwSpWWkkIEH/q5RWuvjTm0eOdYdj88GC0XgE/9TdNgWMpIDeucz5Z9t0kA
+         h8xIzHPxveU3TINo1W92KORKRKaUpmgc4jraLO3rEfJbBvhRVM6RxjUFJ/prmz4O/GO5
+         0yoUW+pvgBSC1OaRvuIYnOVR1Q6ylUvO6r37FvEvRcj6Gen9gNceoXf0u4zbJo5nRC+P
+         Bg2jVOAG1y5wtGDVTtD/M85dq9tjbSau3dczrIk6K6wKbjy+ExizERVYE27DR3Qv4WEF
+         +a+JAYrtRuDMQYBCQ7NEarJjfhCbx33rilkNKTHYJoHDYVJP1xdXqju9uGHuI43PciYi
+         W3fQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCagrtB+tHF5y5XzcvGqoGD1vGvOlxb9XqDz3rg46jgb7BTNOzwIPnHDwEZQuGYeMiLF2nOmQ7UkQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZQoTCmgjzaqoLM2CyRqTx6GdTOrDDKAuzD1curyN+8qN0FPEa
+	cbfDNfKfq4ofk95QfnDVfPgguoYw0SfH1IyFo3FThVrsQo0IO2h/nGgBlr9s2LnERyBJcFS2oJD
+	DboxWaw==
+X-Received: from plbky6.prod.google.com ([2002:a17:902:f986:b0:2a0:84dc:a82f])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:d4cf:b0:2a7:dd37:6e20
+ with SMTP id d9443c01a7336-2a870e34d04mr70308785ad.30.1769648609015; Wed, 28
+ Jan 2026 17:03:29 -0800 (PST)
+Date: Wed, 28 Jan 2026 17:03:27 -0800
+In-Reply-To: <20260129003753.GZ1641016@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9412:EE_|IA1PR12MB8556:EE_
-X-MS-Office365-Filtering-Correlation-Id: beb0cf1c-5734-4127-5f37-08de5ed21bf4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bDBQTVNnTWd0VU5YSC85SU9WRGcrWHIvQXhoZktaK1ZxL0cyVzFEdUJQNnlt?=
- =?utf-8?B?akYwanRpODNWUzNqUm11YWdMQXh1U1U3K256bGVSY0xTM3c1L0R6Vy9lQ1N4?=
- =?utf-8?B?b0FqYTdwSlBDR2RyM1MyRTRPS0hibVZpRzlIa0hJYXBGWG0yL2RnMTBSYjV1?=
- =?utf-8?B?Sy93NUF2SVFBRlVrTlc0Ri9YOUNkY3hoNzRBZnhEVmU2b3NXazBXT0N5Y2hX?=
- =?utf-8?B?NnBHeENvVE5xb0V4SDVabFNCL0xRZDVVbis1SUVIT3FGR2lZaXF3QUJkdDlS?=
- =?utf-8?B?S043clA1MTc2OWRWa0FSMUcwaW5FZWEzeDRkUk1TaWxqV1Ewa294SFpBb0dP?=
- =?utf-8?B?TG9XZTBWL1pjUmo4TnVSWHJFbFBTYmQ5cWRoc3J1YWVTUkpnUStiTDlSSktV?=
- =?utf-8?B?VjVFejU1c000dElLTG5mSWw1eStBNHFCNmN6azRhd1BjaGE2QzU5UWlMY29R?=
- =?utf-8?B?OWNpK1BWbHZhL1I3TTlLQjNaa3BrK0tTVk1pWGoxRUR0WUcvNEU4dHJhQXpn?=
- =?utf-8?B?dTF4eVRzKzYwMnd1MVFYblE4QURld1ZMTldsM2dGR2FRZ2JiODBaWGQ0Mm5Q?=
- =?utf-8?B?YkVWWVFyeUk2aStUd0lDU2tKNFFrbTFlYzBDOFI4UWlvWUN4MC9UbGNPL1FD?=
- =?utf-8?B?UG5mMlJxMmlKeXRYSThkU2NMQnJicDhWa3pFZ2RnOEc3THB4Um5zY3hlYUxt?=
- =?utf-8?B?bkgrSmx3VTlSMWwvZUpMOEwxQjdpZW43bWhmM3gvQ2F5NS9rS2lZRE9aMm4w?=
- =?utf-8?B?V2c5NERIWEFHaTMzb1VYeHFuMkc0bENDK3hqMnN2ZGh1WDFRb2lhQ1d5M1Mx?=
- =?utf-8?B?UElNdUEreDFyenlrQm1hQ1krazROYlFTK1laWWh1Tmk3NllPM3VmaEtHQlEw?=
- =?utf-8?B?VkZ5bllyV2VTd0dxeC8xWjlWc0N4bGlnR09JYUZLdnFxUXV6V2ZQc00xdGYx?=
- =?utf-8?B?QzBFcG5rMVJDK3lNa0lYT000NXhCMi85NE9TcW81RDJxbUhWdTZabFAwL0dk?=
- =?utf-8?B?eEUzV3oyblQrVEUrb0JubXluUE5ncmlRMTJzQmxSclhVdThlU0IvNVplNTZz?=
- =?utf-8?B?aURxeFM4K3NQZDAyNVRrWDMvOFRUeFNOVmhPY2ZxbHpqM3dXTi85UXZyakZn?=
- =?utf-8?B?MFBaMWdBdkh6Q1NydkdXVWZDYU1YaUx1NDhjWnlWaFJSaDhXRTh0ZG5sNDdO?=
- =?utf-8?B?WlhLQ0FpS0FTeERLcU0zc0FFN2FQdFk5SVlPNTBKQldrTTNEVjlYSUdibWd3?=
- =?utf-8?B?dTFkcm9IVVhZMi9ZWVJmQW9nQmN5WHkxbGsvVGxBYzJxdHd2TklOeWRzMytx?=
- =?utf-8?B?VTRDWThYejNBV3dOMTFHd3pOcC9NakJId042blRLQktGdHpyMlBybGl2VmlQ?=
- =?utf-8?B?S2lwQXV4MWxBSlRreDNNa1hJR1V4cVNpTFpUdWNYUVgzemxyUjUwc1NBVFJX?=
- =?utf-8?B?OHh3QTBDU1lrZE1xc1lnTnY5NzNTV1FNOTRSODJpdWJ5MmlYcUJraHhmQ3Q5?=
- =?utf-8?B?cVVLU3Z5ZVJ5Z3J5a25aWjRHZU9iTFBLOE9LRHJuT2Q1ZytNOG5VY0JiTnp5?=
- =?utf-8?B?bWFVTGxxRWdNazA5aWVkZU9lbUU1NXhxME9URnVXd2JqcFNQSVdLazFGazJW?=
- =?utf-8?B?YXY4c3Z0U3JLTWhxZ28rVCtTNExJNE96QmxsaExFWFI5eFRqalZ2d3BrZ291?=
- =?utf-8?B?TWY3Mk9zRFNlM1ZZelJ1MnQ3anNFZFl6Z0RnL21LNFVXKzZOQXZuQi9rS1NG?=
- =?utf-8?B?Vmd1SGtPU0xETUFESU9PMWZBV25lTVEzamowWUdiVmpROVZ2MkNkc3RDUFRP?=
- =?utf-8?B?V0VEMERBQldjcDJIOC9XVmxmQ09HdFhKdnFYNm4zSktHUVV5bVphOXhoK3hR?=
- =?utf-8?B?anpuam9EZEtNOUxweVE2WFhYT3NobHk3UC9uYUxyTm9oZDNhZXM0aGhjWm90?=
- =?utf-8?B?RHRBZnY4ekNiRGpOaWphUHllM0ozckJDNzk1WFc2amVnalYzU2s5TkhrS2Q0?=
- =?utf-8?B?WjNBZHl3cEJ6VnNySEx5WnNsS2s0U3luVHVqTnNlVUVMNUUrdkkxNEROekpk?=
- =?utf-8?B?ZGpzZG5pU2tYc01oV3Q1dlVLN3AwYjVUK1hSWVRrSi9pOXFMZjlzMWhpK0ZQ?=
- =?utf-8?Q?77fw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9412.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MHhGNW44TmVialEvZjBNV1YrSDFaQUdkcVY0STNjYnN2L1JZV2hrQmlnT05K?=
- =?utf-8?B?VWNyVGw3WEJXak9XOVlNV1RVbXJ3QUt0RXU0eTRSRnY3cEJERm96NHQxWkVy?=
- =?utf-8?B?N3RLNytnODdCblBGLzdyM3FkbTkxcTV5K05yVDRNMEgvb0ozdm1TclovNDVs?=
- =?utf-8?B?R2U3S245RldFUnVwY3hXQmFRMHZuS0E0cnhJckxVVmxVcGwzWlVic2RmNXkv?=
- =?utf-8?B?Sis4blNZVVBCMm4xa3FpREFKWnZyaUFNQjVaQ1JxL05VNWw1Z3hkZm1PR3Z2?=
- =?utf-8?B?cVJGenFva0sySWoxRll0Z2tISVNmYThMT0pSNk9NMlpjaVB3NlhwNFgrK1ZE?=
- =?utf-8?B?V3RKNkdNYlhxcTB4czNCL2kzbWJId2xvdCt4WjNQZVZDNi90M0xkd20xUmV1?=
- =?utf-8?B?OWM4VmEyOXhvMGRzT0ZrY0dtWm9LeHZuM3U3MFp5VW9aaUM5UlE5VmpCZnJM?=
- =?utf-8?B?UmJMaXlFUm4vZVFFMDZ1dmhZQUsxM3RucENRL0w2TDV0R3J4cVBGa3NEeWUx?=
- =?utf-8?B?ekZGU2dvbWhMbHpkNzFUUzV5TkpYVmV0Um5XRmdRZWptanlGUTRweFUvSXRm?=
- =?utf-8?B?V2RZOUhQZkYrZmEyeEFrOTJzbDFPcWRLSmNVVHZZTFJ0d01ZM3dIRlBqYWNr?=
- =?utf-8?B?K0dhOUxmTWZUdnE1UW5WS2U2U2pQa0ZvRUpmQWp1QmxUb2ZJTXMzV0FDcmVK?=
- =?utf-8?B?d0NCY0E0bExIYWwrbWNzVVdVMmFJMFZZOGZ3SUVKenpVVU01SGU4L25JMVZF?=
- =?utf-8?B?QWtYTWZyQXZ5UTVpNytBR002MnNtcFhYT0FwV0VjZ2J6dlRISzdKL3lZbE54?=
- =?utf-8?B?Q1JVQ1BORHJZNURZSWorNEhsUEE4L2l0S0FmMzJ2b1hWaWVKb1RxT1RsdW9O?=
- =?utf-8?B?eDZFQk1odS9VKytzY0Q0VDEwcW9rVWVsVzIxNHpRUUNUUmV5WFZpVitVbmhG?=
- =?utf-8?B?SjBuUlZCdnJwblV0K3padC9LY1FPWDZvZytBZXluZkRHWDg3ZzZuaG1paWNE?=
- =?utf-8?B?NThzVW5WUHoxWExvNitmcmhvVjJuVXJ6Z1JlcGNlbUFIeVFqNzhJRzBsankz?=
- =?utf-8?B?OWdNMEJ4VG5Fank5SzVtWmMrR3Z5cE5rc2cwYVZKWEpEeVNaNWxSUldQNHFZ?=
- =?utf-8?B?NlB2SDg5dkIyMWZtaVFlNHhaNlFPZEkvcUpOT3J4Q1RXOFY2cmtaeHdEZWZM?=
- =?utf-8?B?aUgxbEt4M1ZkWjI0TjQyekVBbHBKZXJzbDdOdmQrMFVLWFhtVjM1ekNmMlZ5?=
- =?utf-8?B?ZU1KLzFQL0hYNEpUSldJNi9VVXR3T014bVQwN1FzNDFVblFGUytZZyt4R3Vq?=
- =?utf-8?B?SXlBL3BTdTNldzJ6VDV6ZHlscHNmNU4vTTlYN00rWHBUVm9lanNab3pkODNp?=
- =?utf-8?B?ODFlMUZmYzlNMFR2YmxpdldFMENJUTI0WEx6b2R4Y0JVcGJqMUV2eTAvUUM3?=
- =?utf-8?B?dUxTeHJvUlB0YUJqUUZhazNGNnJDR2lFNFNFOTV5YmRXTUNBd3dKR1dDbDgv?=
- =?utf-8?B?WThQWkUyMEVUeGFJZjAwWHNjeE5WYVJFSURXQm5hbFBvZmZUb2ZxbDRhbDFz?=
- =?utf-8?B?TVJuZ2J4cngvMnNGZzdVVUp2NS9VcS9MRnVHKzJtYy9HL0l5Sy9DYy9ZTXVB?=
- =?utf-8?B?bjdmQ3hUTytFUTBnaG5YSS9vY3U1dDN1Z0ZFVGtPNERtQWpBNTNLYXNpQ3ZP?=
- =?utf-8?B?Nnk5a3R3UkRrUjg2cWhWQVNja2xjOGhWWWpIN0lxcTF6N2hxa0E1NGVwQjFv?=
- =?utf-8?B?Q1NyWXhyVVgzemtLU0x1SkZycGlqMUVmUXkzNE1HWEtVV1FTU0pCMzJ1TFgz?=
- =?utf-8?B?R1FVY2lmK2F3SVNUckhXWWptYlVoTFlhZzh2MDFBc3E1bHZPU1UyVlRST3Rn?=
- =?utf-8?B?Si9PZWZ0RmhjbGhVbDk3Q3Y0UFd2Rk11VDdSTGRUbTdBWjV2TVMvaE9BbWk5?=
- =?utf-8?B?NW1zbnFZV3QwSCt6c3Z4NG9SS0tvVmEzK2JvU0dpc3lEYlhrQUJ1M0czNnN3?=
- =?utf-8?B?M0NidzQ5QXk0WFk3MGRWS01SWWVTK2VRb0NRSllMSmV6eHZyU1B0N0o3RDNR?=
- =?utf-8?B?TGcraElEOWtBVjZnM0N4ZzJFUUlqaDh6Y3hLTG40QkRTVm9maEljQVFhem5j?=
- =?utf-8?B?dUczSGxnZjFlc2dzWWMyb3Y3OU8veHIrMm82UTJObnRWMmlyWEFuZUUxL0M0?=
- =?utf-8?B?UnJqTlUxTFlCelpzaWtENkFVZWFrY2dReGsxVXBYOEgwcytzdnM1cWorbTUz?=
- =?utf-8?B?a3Q0Q0dTOEdGUkFNMExkSFRVaG5JcEg5QjNVd053akNURnBuSUpWZzVwRFFr?=
- =?utf-8?B?dHhMSWZLbXpFNWtKUTFGUUMzd3dUM3k4RjNUanMxZG5WcDhJemZiUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: beb0cf1c-5734-4127-5f37-08de5ed21bf4
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9412.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2026 01:02:43.9813
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Rs4JnQ7TM6LWPg7qJOYHfVdItS+CjmC4Ixo3wbfYp/YaTNW0RtE/crDrm0sCbeg9JctOPR/zU9ULfY8/0x5nMQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8556
+Mime-Version: 1.0
+References: <cover.1760731772.git.ackerleytng@google.com> <071a3c6603809186e914fe5fed939edee4e11988.1760731772.git.ackerleytng@google.com>
+ <07836b1d-d0d8-40f2-8f7b-7805beca31d0@amd.com> <CAEvNRgEuez=JbArRf2SApLAL0usv5-Q6q=nBPOFMHrHGaKAtMw@mail.gmail.com>
+ <20260129003753.GZ1641016@ziepe.ca>
+Message-ID: <aXqx3_eE0rNh6nP0@google.com>
+Subject: Re: [RFC PATCH v1 05/37] KVM: guest_memfd: Wire up
+ kvm_get_memory_attributes() to per-gmem attributes
+From: Sean Christopherson <seanjc@google.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Ackerley Tng <ackerleytng@google.com>, Alexey Kardashevskiy <aik@amd.com>, cgroups@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, x86@kernel.org, 
+	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de, 
+	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org, 
+	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com, 
+	david@redhat.com, dmatlack@google.com, erdemaktas@google.com, 
+	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com, hannes@cmpxchg.org, 
+	hch@infradead.org, hpa@zytor.com, hughd@google.com, ira.weiny@intel.com, 
+	isaku.yamahata@intel.com, jack@suse.cz, james.morse@arm.com, 
+	jarkko@kernel.org, jgowans@amazon.com, jhubbard@nvidia.com, jroedel@suse.de, 
+	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com, 
+	keirf@google.com, kent.overstreet@linux.dev, liam.merwick@oracle.com, 
+	maciej.wieczor-retman@intel.com, mail@maciej.szmigiero.name, 
+	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
+	mhiramat@kernel.org, mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com, 
+	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au, 
+	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es, 
+	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com, 
+	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com, 
+	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz, qperret@google.com, 
+	richard.weiyang@gmail.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org, 
+	shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com, 
+	steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com, 
+	tglx@linutronix.de, thomas.lendacky@amd.com, vannapurve@google.com, 
+	vbabka@suse.cz, viro@zeniv.linux.org.uk, vkuznets@redhat.com, 
+	wei.w.wang@intel.com, will@kernel.org, willy@infradead.org, wyihan@google.com, 
+	xiaoyao.li@intel.com, yan.y.zhao@intel.com, yilun.xu@intel.com, 
+	yuzenghui@huawei.com, zhiquan1.li@intel.com
+Content-Type: text/plain; charset="us-ascii"
 
-On 1/28/26 4:09 PM, Danilo Krummrich wrote:
-> On Wed Jan 28, 2026 at 4:27 PM CET, Joel Fernandes wrote:
->> I will go over these concerns, just to clarify - do you mean forbidding
->> *any* lock or do you mean only forbidding non-atomic locks? I believe we
->> can avoid non-atomic locks completely - actually I just wrote a patch
->> before I read this email to do just. If we are to forbid any locking at
->> all, that might require some careful redesign to handle the above race
->> afaics.
+On Wed, Jan 28, 2026, Jason Gunthorpe wrote:
+> On Wed, Jan 28, 2026 at 01:47:50PM -0800, Ackerley Tng wrote:
+> > Alexey Kardashevskiy <aik@amd.com> writes:
+> > 
+> > >
+> > > [...snip...]
+> > >
+> > >
+> > 
+> > Thanks for bringing this up!
+> > 
+> > > I am trying to make it work with TEE-IO where fd of VFIO MMIO is a dmabuf
+> > > fd while the rest (guest RAM) is gmemfd. The above suggests that if there
+> > > is gmemfd - then the memory attributes are handled by gmemfd which is...
+> > > expected?
+> > >
+> > 
+> > I think this is not expected.
+> > 
+> > IIUC MMIO guest physical addresses don't have an associated memslot, but
+> > if you managed to get to that line in kvm_gmem_get_memory_attributes(),
+> > then there is an associated memslot (slot != NULL)?
 > 
-> It's not about the locks themselves, sleeping locks are fine too. It's about
-> holding locks that are held elsewhere when doing memory allocations that can
-> call back into MMU notifiers or the shrinker.
+> I think they should have a memslot, shouldn't they? I imagine creating
+> a memslot from a FD and the FD can be memfd, guestmemfd, dmabuf, etc,
+> etc ?
 
-If you look at core kernel mm, you'll find a similar constraint: avoid
-holding any locks while allocating--unless you are in the reclaim code
-itself.
+Yeah, there are two flavors of MMIO for KVM guests.  Emulated MMIO, which is
+what Ackerley is thinking of, and "host" MMIO (for lack of a better term), which
+is what I assume "fd of VFIO MMIO" is referring to.
 
-Especially when dealing with page tables.
+Emulated MMIO does NOT have memslots[*].  There are some wrinkles and technical
+exceptions, e.g. read-only memslots for emulating option ROMs, but by and large,
+lack of a memslot means Emulated MMIO.
 
-So this is looking familiar to me and I agree with the constraint, fwiw.
+Host MMIO isn't something KVM really cares about, in the sense that, for the most
+part, it's "just another memslot".  KVM x86 does need to identify host MMIO for
+vendor specific reasons, e.g. to ensure UC memory stays UC when using EPT (MTRRs
+are ignored), to create shared mappings when SME is enabled, and to mitigate the
+lovely MMIO Stale Data vulnerability.
 
+But those Host MMIO edge cases are almost entirely contained to make_spte() (see
+the kvm_is_mmio_pfn() calls).  And so the vast, vast majority of "MMIO" code in
+KVM is dealing with Emulated MMIO, and when most people talk about MMIO in KVM,
+they're also talking about Emulated MMIO.
+
+> > Either way, guest_memfd shouldn't store attributes for guest physical
+> > addresses that don't belong to some guest_memfd memslot.
+> > 
+> > I think we need a broader discussion for this on where to store memory
+> > attributes for MMIO addresses.
+> > 
+> > I think we should at least have line of sight to storing memory
+> > attributes for MMIO addresses, in case we want to design something else,
+> > since we're putting vm_memory_attributes on a deprecation path with this
+> > series.
 > 
-> I.e. if in the fence signalling critical path you wait for a mutex that is held
-> elsewhere while allocating memory and the memory allocation calls back into the
-> shrinker, you may end up waiting for your own DMA fence to be signaled, which
-> causes a deadlock.
+> I don't know where you want to store them in KVM long term, but they
+> need to come from the dmabuf itself (probably via a struct
+> p2pdma_provider) and currently it is OK to assume all DMABUFs are
+> uncachable MMIO that is safe for the VM to convert into "write
+> combining" (eg Normal-NC on ARM)
 
-Right, and the list of pitfalls such as this is basically limited only
-by your imagination--it's long. :)
++1.  For guest_memfd, we initially defined per-VM memory attributes to track
+private vs. shared.  But as Ackerley noted, we are in the process of deprecating
+that support, e.g. by making it incompatible with various guest_memfd features,
+in favor of having each guest_memfd instance track the state of a given page.
 
-thanks,
--- 
-John Hubbard
+The original guest_memfd design was that it would _only_ hold private pages, and
+so tracking private vs. shared in guest_memfd didn't make any sense.  As we've
+pivoted to in-place conversion, tracking private vs. shared in the guest_memfd
+has basically become mandatory.  We could maaaaaybe make it work with per-VM
+attributes, but it would be insanely complex.
+
+For a dmabuf fd, the story is the same as guest_memfd.  Unless private vs. shared
+is all or nothing, and can never change, then the only entity that can track that
+info is the owner of the dmabuf.  And even if the private vs. shared attributes
+are constant, tracking it external to KVM makes sense, because then the provider
+can simply hardcode %true/%false.
+
+As for _how_ to do that, no matter where the attributes are stored, we're going
+to have to teach KVM to play nice with a non-guest_memfd provider of private
+memory.
