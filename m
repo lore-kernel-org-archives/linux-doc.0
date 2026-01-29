@@ -1,288 +1,213 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5609A36AB68
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 21:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B36C328B47
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 21:58:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769721976; cv=none; b=i/9OhaMIu/VEKnJu7l5SZHtEHZa1pRZIqJmeLXFqNJIi+lXPnplg2vVrfIxySzBebckx87XaflR8DQFXLMhUQNJe/HPBdj09l+gG3/zi8VZuDurQy4W9Wh8L9ZOKUWJwfr6UA4DoLrQrIFNA/11QIeC+EwUOfmKuvN5Rg1W1hBU=
+	t=1769723902; cv=none; b=exJqrJodGH6E6hDuImpKcsU/VKX4b0JYEV0WxQEP18y+VjrlqvnSppVtMdB2mqd09q8b/tv3xCwmOVnqY5qtKXdJQI0LyQibI+FsEM9WIQ/9lrH/yCIv1bROqe/+lSqesmp/v5ibpFQxOyzbpalOFa9isMqXREjedMI2ePi8kT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769721976; c=relaxed/simple;
-	bh=4vdFi/BbAfJQTKROKUar1N5nU267nS3mfoR9iF/kNJs=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=CEiCWP870DlSt5esI0lSGBvpEV71LJk8SJBBJ8nHphQnADAqfinE6rvK/NjHJEQujlNYeW4oE11Ir+Yv1YmrVOy+HiCWDBqwETbL4dgJ2Vxbf1ioBLARvj4E7nhBxh1c+9uCW2kt3ewNstYBNXAi+r6ruYe+XYFejd3bYa5beVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wJuGZjYU; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
+	s=arc-20240116; t=1769723902; c=relaxed/simple;
+	bh=fy8EK8PWQZsqSffsYil7YART3hXT+T+mHqmJlgR9iak=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OHtoJt5Fwq5UWJ1ZZPGqUkkCiLMvO4/ec7DaN+ld2khedat/j2VJNwJ5B8G7WPE8tf8OIJNakSdWjNZuUHatwIjGL1/yyOcbCPgGODkTeOK8sblmv7u9rblHTanfEcG4HilXK9YnCqf3K28YrFfw2sXcEuIcoYxlrrldM/Ydzb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S92czNi+; arc=none smtp.client-ip=74.125.82.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wJuGZjYU"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-34ec823527eso2332138a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:26:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S92czNi+"
+Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-124b117776fso1210448c88.0
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:58:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1769721974; x=1770326774; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J/muCk34u9aT1IY2gVvKiXcNAAUfYmiU08gi1alRQns=;
-        b=wJuGZjYUDpntIpqNm67JSx7AXQVZvedOBAi30DCcDwz3H6VxkXHMpLoyIsw9a1l/Fj
-         v/Jtj7S2xqL0ILKsYytxRfmRO32KIBlzBaOsjKEuDV+BzfmvHMCgq42TAd0ij3aSRW8A
-         UR4l+mkOjW+xqw6H7XM2zrPs/fRO6rtpzs8bTEHsBHYlAwD8UKvK3tDPVXHEgVQRL9Wa
-         Fg/xts26AMgJxMBOXpTaP+/Hq4j5Dkm9uUm6LkRIoTUqKr3i9ye5Qf0w2IqE2eIBZIFs
-         0D4h05TsLATZJOEYOmZ7vVtqIygO7xWgGJA76OzZk/8+bK9orV8F8cobQSeRX3FU3SdI
-         cQnw==
+        d=gmail.com; s=20230601; t=1769723899; x=1770328699; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=C7ZtJvE3dpFWqwjZMa9omEQRwNhNuc19ZVJnJ8avCkY=;
+        b=S92czNi+H451hgemOy+W5F1/y4kf5iqH5bpIibV/Ej1PVo4uXenK5tG0hcZp9Qtb57
+         4fowGgde1H6EdC3GgaIFUvnmqRxMVNDFXTGmFYaRftUR9iOid7e2Sn56UHKiXnerPVqz
+         8nQeEZTZP4Uso9D/8Gf+Ds5JQ3uW/PHH4ENdYKm/ReTujTAkg4Gkyt2Y/Pav4XucxhnX
+         MxFxBL8AR8uRkdxFwOuUNqZdAxD09PmJe68Bk8XMXwIr7/o2I6gKNJpSpQh6y5+BZktY
+         J4Moxf6m/WZqLVfPTgtTT9/ZN8vrtZ8le5I+4KGRC+XHn+eR9S7nuvuvF6cWFW0MFrVg
+         Buww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769721974; x=1770326774;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J/muCk34u9aT1IY2gVvKiXcNAAUfYmiU08gi1alRQns=;
-        b=sRyydGC+gAgdWlsagIsQEcsn/uuRb+AEg5Gp21L4K/Xf2iIn40kJBmZCzVmw0op2xq
-         ivn/bMCfhJUgAgQiFOtPaXsJucTomVSYSsIyQ5n3Tc3vltY0C35Qd7ooSHtKHXP9nwmD
-         0PIr1AYYosmePY0E08cSo18UA7cxKhVl1UQjoRavxcMhcCSmsXfZbqXiteICXBPExPZ6
-         qVsUE8GwJxHAwRxjtbDK82631cGduQcynJZVAW9qMhQBFn7yFrWBC/G2TWCmcULBZ9FO
-         +SPX/QZRrPGETS4ZUE0k4LDtvnN4ccynty3hvOfr+Q4ZVggW4WXYT7VGvM6vAalNYWjb
-         bAXg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJcVgPuAUpVeVZUqX8PRs/8pYmvegBC0hQIsBVqfCUgOhCSG4qzZCoRoSCFXbsPN/d1y+djXpk/Qw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVzPRylo3Z9VsQNkpAU+sVE8GQhNzllmR108AaPSWJHesC8Q97
-	K5H0ebL3PZOp0ZlZKy0+AdsPAA31XbxUnNBIG7NJMBTJssqRcfLzyKUESNi1k7TiUdmFozLlEUr
-	nS23qN5Swv6wdnQ==
-X-Received: from pjbso3.prod.google.com ([2002:a17:90b:1f83:b0:33b:c211:1fa9])
- (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90a:d60d:b0:32e:38b0:15f4 with SMTP id 98e67ed59e1d1-3543b2dc1c9mr828054a91.7.1769721973868;
- Thu, 29 Jan 2026 13:26:13 -0800 (PST)
-Date: Thu, 29 Jan 2026 21:25:09 +0000
-In-Reply-To: <20260129212510.967611-1-dmatlack@google.com>
+        d=1e100.net; s=20230601; t=1769723899; x=1770328699;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C7ZtJvE3dpFWqwjZMa9omEQRwNhNuc19ZVJnJ8avCkY=;
+        b=jeDkVMzqC3BxDU5C4YpZoAylUnCTIbQj2JfJVEiodtA6eJe+UQKKfciJimqf5wmyQk
+         ejGIBi4ORlzgzQEHAZubD3RncCSOuGrUtsuR+evlQhLzP+6ZILNzNDnaM4HlNRxrNP/Q
+         k162NF50kT3RZ0oFeJK24jWH9Nb3GeD/5HlUwE7bdWLfQgCs4ltUUo10QzLAoczApU02
+         ymLtaMpUVK0NLXEXiJEsF4JI4e3TdIldomdAmIwsBYnRrxuqX9r4WwYOirUHsIsCnjhd
+         u4feBSxTttJfz3sEPsiZ2Kr7gnguoo0QbXfuKxrrJrr3yCGi4uLaf1eLIzpaZBBY8k4B
+         nbqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVODKZCaka95RnubQ58veZPGs7qNJ9KEiSm0+oYN5naDXrpqPo2xl8jzDVQLLWswyIu96sf/boGJeI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSiZ0HVAhrYQOqqvmRMoOA72uMuVmdaH4sF8ufLTPtvnxUwF24
+	ewOmyxOwB1TAAHN4wCkeWDKCtLN9uHpRo7aHSgB/UNruMEIBMmw9OcQ=
+X-Gm-Gg: AZuq6aLqrQN9woagAIfK/Fqz072V4vBXttI9jHS74uI/QnE8uBv7L4Q5gmnNVrWbrnI
+	Jni2uIPBJWof6PIUv5rDGVFwedNwYIqpo8r1JrjhoxaKraoDzrQr0FKzyoxzhTq+a3GBRCcDmWj
+	m7neLrW2OoOthKqIT6k07Np1mnDTPzoeWFfQaKW5mHS+ZrajINFCJCWaWizcnZLQCfGD8oGtjdb
+	okt/w8qFfDKcpR5sgVx84UuoXhsKcBxGibjZZaCeNauSEn5hN2Fusf3ycYG2qP5iNx9Wd1NBpmU
+	moM7labfBs7qFMMFOlhOHtWYvkKNFFTbW91AwBQG1nyKRUu5gV22KYMCr54Xi97euncB1i7Fi4u
+	A6GESgC0D7F9hncmIwQ7vE3WOqx5B4xUV+10GqC5rD3+ffdVnqvh0SKglLcBK+My80Qfl0RiRDg
+	12jhjjrCZXAw==
+X-Received: by 2002:a05:7022:68aa:b0:124:a610:62f6 with SMTP id a92af1059eb24-125c1006e73mr427951c88.44.1769723899034;
+        Thu, 29 Jan 2026 13:58:19 -0800 (PST)
+Received: from localhost ([137.201.204.52])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a1af8a7bsm8593035eec.34.2026.01.29.13.58.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jan 2026 13:58:18 -0800 (PST)
+From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+To: sj@kernel.org,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com,
+	Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Subject: [RFC PATCH v2 0/3] mm/damon: Introduce node_target_mem_bp Quota Goal Metric
+Date: Thu, 29 Jan 2026 13:58:11 -0800
+Message-ID: <20260129215814.1618-1-ravis.opensrc@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260129212510.967611-1-dmatlack@google.com>
-X-Mailer: git-send-email 2.53.0.rc1.225.gd81095ad13-goog
-Message-ID: <20260129212510.967611-23-dmatlack@google.com>
-Subject: [PATCH v2 22/22] vfio: selftests: Add continuous DMA to vfio_pci_liveupdate_kexec_test
-From: David Matlack <dmatlack@google.com>
-To: Alex Williamson <alex@shazbot.org>
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, kvm@vger.kernel.org, 
-	Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
-	"=?UTF-8?q?Micha=C5=82=20Winiarski?=" <michal.winiarski@intel.com>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, 
-	"=?UTF-8?q?Thomas=20Hellstr=C3=B6m?=" <thomas.hellstrom@linux.intel.com>, Tomita Moeko <tomitamoeko@gmail.com>, 
-	Vipin Sharma <vipinsh@google.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Add a long-running DMA memcpy operation to
-vfio_pci_liveupdate_kexec_test so that the device attempts to perform
-DMAs continuously during the Live Update.
+This series introduces a new DAMON quota goal metric, `node_target_mem_bp`,
+designed for controlling memory migration in heterogeneous memory systems
+(e.g., DRAM and CXL memory tiering).
 
-At this point iommufd preservation is not supported and bus mastering is
-not kept enabled on the device during across the kexec, so most of these
-DMAs will be dropped. However this test ensures that the current device
-preservation support does not lead to system instability or crashes if
-the device is active. And once iommufd and bus mastering are preserved,
-this test can be relaxed to check that the DMA operations completed
-successfully.
+v1: https://lore.kernel.org/linux-mm/20260123045733.6954-1-ravis.opensrc@gmail.com/T/#u
 
-Signed-off-by: David Matlack <dmatlack@google.com>
----
- .../vfio/vfio_pci_liveupdate_kexec_test.c     | 129 ++++++++++++++++++
- 1 file changed, 129 insertions(+)
+Changes since v1:
+=================
 
-diff --git a/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c b/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-index 65c48196e44e..36bddfbb88ed 100644
---- a/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-+++ b/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-@@ -1,8 +1,16 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
-+#include <linux/sizes.h>
-+#include <sys/mman.h>
-+
- #include <libliveupdate.h>
- #include <libvfio.h>
- 
-+#define MEMCPY_SIZE SZ_1G
-+#define DRIVER_SIZE SZ_1M
-+#define MEMFD_SIZE (MEMCPY_SIZE + DRIVER_SIZE)
-+
-+static struct dma_region memcpy_region;
- static const char *device_bdf;
- 
- static char state_session[LIVEUPDATE_SESSION_NAME_LENGTH];
-@@ -11,8 +19,89 @@ static char device_session[LIVEUPDATE_SESSION_NAME_LENGTH];
- enum {
- 	STATE_TOKEN,
- 	DEVICE_TOKEN,
-+	MEMFD_TOKEN,
- };
- 
-+static void dma_memcpy_one(struct vfio_pci_device *device)
-+{
-+	void *src = memcpy_region.vaddr, *dst;
-+	u64 size;
-+
-+	size = min_t(u64, memcpy_region.size / 2, device->driver.max_memcpy_size);
-+	dst = src + size;
-+
-+	memset(src, 1, size);
-+	memset(dst, 0, size);
-+
-+	printf("Kicking off 1 DMA memcpy operations of size 0x%lx...\n", size);
-+	vfio_pci_driver_memcpy(device,
-+			       to_iova(device, src),
-+			       to_iova(device, dst),
-+			       size);
-+
-+	VFIO_ASSERT_EQ(memcmp(src, dst, size), 0);
-+}
-+
-+static void dma_memcpy_start(struct vfio_pci_device *device)
-+{
-+	void *src = memcpy_region.vaddr, *dst;
-+	u64 count, size;
-+
-+	size = min_t(u64, memcpy_region.size / 2, device->driver.max_memcpy_size);
-+	dst = src + size;
-+
-+	/*
-+	 * Rough Math: If we assume the device will perform memcpy at a rate of
-+	 * 30GB/s then 7200GB of transfers will run for about 4 minutes.
-+	 */
-+	count = (u64)7200 * SZ_1G / size;
-+	count = min_t(u64, count, device->driver.max_memcpy_count);
-+
-+	memset(src, 1, size / 2);
-+	memset(dst, 0, size / 2);
-+
-+	printf("Kicking off %lu DMA memcpy operations of size 0x%lx...\n", count, size);
-+	vfio_pci_driver_memcpy_start(device,
-+				     to_iova(device, src),
-+				     to_iova(device, dst),
-+				     size, count);
-+}
-+
-+static void dma_memfd_map(struct vfio_pci_device *device, int fd)
-+{
-+	void *vaddr;
-+
-+	vaddr = mmap(NULL, MEMFD_SIZE, PROT_WRITE, MAP_SHARED, fd, 0);
-+	VFIO_ASSERT_NE(vaddr, MAP_FAILED);
-+
-+	memcpy_region.iova = SZ_4G;
-+	memcpy_region.size = MEMCPY_SIZE;
-+	memcpy_region.vaddr = vaddr;
-+	iommu_map(device->iommu, &memcpy_region);
-+
-+	device->driver.region.iova = memcpy_region.iova + memcpy_region.size;
-+	device->driver.region.size = DRIVER_SIZE;
-+	device->driver.region.vaddr = vaddr + memcpy_region.size;
-+	iommu_map(device->iommu, &device->driver.region);
-+}
-+
-+static void dma_memfd_setup(struct vfio_pci_device *device, int session_fd)
-+{
-+	int fd, ret;
-+
-+	fd = memfd_create("dma-buffer", 0);
-+	VFIO_ASSERT_GE(fd, 0);
-+
-+	ret = fallocate(fd, 0, 0, MEMFD_SIZE);
-+	VFIO_ASSERT_EQ(ret, 0);
-+
-+	printf("Preserving memfd of size 0x%x in session\n", MEMFD_SIZE);
-+	ret = luo_session_preserve_fd(session_fd, fd, MEMFD_TOKEN);
-+	VFIO_ASSERT_EQ(ret, 0);
-+
-+	dma_memfd_map(device, fd);
-+}
-+
- static void before_kexec(int luo_fd)
- {
- 	struct vfio_pci_device *device;
-@@ -32,6 +121,27 @@ static void before_kexec(int luo_fd)
- 	ret = luo_session_preserve_fd(session_fd, device->fd, DEVICE_TOKEN);
- 	VFIO_ASSERT_EQ(ret, 0);
- 
-+	dma_memfd_setup(device, session_fd);
-+
-+	/*
-+	 * If the device has a selftests driver, kick off a long-running DMA
-+	 * operation to exercise the device trying to DMA during a Live Update.
-+	 * Since iommufd preservation is not supported yet, these DMAs should be
-+	 * dropped. So this is just looking to verify that the system does not
-+	 * fall over and crash as a result of a busy device being preserved.
-+	 */
-+	if (device->driver.ops) {
-+		vfio_pci_driver_init(device);
-+		dma_memcpy_start(device);
-+
-+		/*
-+		 * Disable interrupts on the device or freeze() will fail.
-+		 * Unfortunately there isn't a way to easily have a test for
-+		 * that here since the check happens during shutdown.
-+		 */
-+		vfio_pci_msix_disable(device);
-+	}
-+
- 	close(luo_fd);
- 	daemonize_and_wait();
- }
-@@ -78,6 +188,7 @@ static void after_kexec(int luo_fd, int state_session_fd)
- 	struct iommu *iommu;
- 	int session_fd;
- 	int device_fd;
-+	int memfd;
- 	int stage;
- 
- 	check_open_vfio_device_fails();
-@@ -88,6 +199,10 @@ static void after_kexec(int luo_fd, int state_session_fd)
- 	session_fd = luo_retrieve_session(luo_fd, device_session);
- 	VFIO_ASSERT_GE(session_fd, 0);
- 
-+	printf("Retrieving memfd from LUO\n");
-+	memfd = luo_session_retrieve_fd(session_fd, MEMFD_TOKEN);
-+	VFIO_ASSERT_GE(memfd, 0);
-+
- 	printf("Finishing the session before retrieving the device (should fail)\n");
- 	VFIO_ASSERT_NE(luo_session_finish(session_fd), 0);
- 
-@@ -109,9 +224,23 @@ static void after_kexec(int luo_fd, int state_session_fd)
- 	 */
- 	device = __vfio_pci_device_init(device_bdf, iommu, device_fd);
- 
-+	dma_memfd_map(device, memfd);
-+
- 	printf("Finishing the session\n");
- 	VFIO_ASSERT_EQ(luo_session_finish(session_fd), 0);
- 
-+	/*
-+	 * Once iommufd preservation is supported and the device is kept fully
-+	 * running across the Live Update, this should wait for the long-
-+	 * running DMA memcpy operation kicked off in before_kexec() to
-+	 * complete. But for now we expect the device to be reset so just
-+	 * trigger a single memcpy to make sure it's still functional.
-+	 */
-+	if (device->driver.ops) {
-+		vfio_pci_driver_init(device);
-+		dma_memcpy_one(device);
-+	}
-+
- 	vfio_pci_device_cleanup(device);
- 	iommu_cleanup(iommu);
- }
+- Renamed metric from `node_sys_bp` to `node_target_mem_bp` for consistency
+  with existing node-related quota goal metrics (node_mem_used_bp,
+  node_mem_free_bp) as suggested by SJ.
+
+- Fixed the metric calculation:
+  * Numerator: Now correctly counts only scheme-eligible bytes (regions
+    matching the scheme's access pattern criteria).
+  * Denominator: Now uses node capacity instead of total system memory.
+
+- Removed the get_goal_metric() ops callback. The implementation now
+  resides in core.c, following the existing pattern for other metrics
+  that have ops-layer dependencies.
+
+- Removed the early-exit optimization patch. As SJ noted, this would
+  introduce a behavioral change for existing users and should be an
+  opt-in feature with a properly designed interface. This can be
+  addressed in a separate follow-up series.
+
+- Removed capacity clamping logic (was tied to early-exit behavior).
+
+Background and Motivation
+=========================
+
+A previous patch series [1] added weighted interleave support for DAMON
+migrate_{hot,cold} actions for vaddr schemes. That approach requires VMA
+offset information to determine target nodes, which for paddr schemes
+would require costly rmap walks.
+
+This series takes a different approach for PA-based migration control
+using basis points (bp) target-state goals instead of weight-based
+action rates, avoiding the need for rmap walks entirely.
+
+What This Metric Does
+=====================
+
+The `node_target_mem_bp` metric measures:
+
+    scheme_eligible_bytes_on_node / node_capacity
+
+expressed in basis points (bp, 1/10000).
+
+"Scheme-eligible bytes" are regions that match the scheme's access pattern
+criteria (size, nr_accesses, age). This allows users to specify goals like:
+
+    "Migrate hot pages until node N contains X% hot memory"
+
+Unlike weight-based approaches that specify ACTION RATES, this metric
+specifies a TARGET STATE, which naturally prevents oscillation issues
+that would occur with weight-based PA migration without rmap.
+
+Two-Context Setup for Hot Page Distribution
+===========================================
+
+For distributing hot pages between two NUMA nodes (e.g., DRAM node 0 and
+CXL node 1), two DAMON contexts work together:
+
+    Context 0: monitors node 0, migrate_hot -> node 1
+      goal: node_target_mem_bp, nid=0, target=6000
+      "Migrate hot pages out when node 0 exceeds 60% hot"
+
+    Context 1: monitors node 1, migrate_hot -> node 0
+      goal: node_target_mem_bp, nid=1, target=4000
+      "Migrate hot pages out when node 1 exceeds 40% hot"
+
+Each context migrates excess hot pages to the other node. The system
+converges when both nodes reach their target hot memory ratios.
+
+Complementary to Existing vaddr Migration
+=========================================
+
+This series complements rather than replaces the vaddr weighted interleave
+migration:
+
+  vaddr migration (weight-based):
+    - Per-process control
+    - Fine-grained interleave patterns via VMA offset
+    - Deterministic placement based on weights
+
+  paddr migration (bp-based, this series):
+    - System-wide control
+    - Target-state goals for node capacity management
+    - No rmap overhead
+
+Patch Organization
+==================
+
+1. mm/damon/core: add DAMOS_QUOTA_NODE_TARGET_MEM_BP metric
+   - Adds new enum value and documentation
+
+2. mm/damon/core: implement NODE_TARGET_MEM_BP metric calculation
+   - Adds damos_get_node_target_mem_bp() function
+   - Updates function signatures to pass ctx and scheme through call chain
+
+3. mm/damon/sysfs-schemes: expose NODE_TARGET_MEM_BP metric
+   - Exposes metric as 'node_target_mem_bp' in sysfs
+
+Status
+======
+
+These patches have been compile-tested but have NOT been tested on actual
+hardware. Feedback on the design and approach is appreciated.
+
+References
+==========
+
+[1] mm/damon/vaddr: Allow interleaving in migrate_{hot,cold} actions
+    https://lore.kernel.org/linux-mm/20250709005952.17776-1-bijan311@gmail.com/
+
+Ravi Jonnalagadda (3):
+  mm/damon/core: add DAMOS_QUOTA_NODE_TARGET_MEM_BP metric
+  mm/damon/core: implement NODE_TARGET_MEM_BP metric calculation
+  mm/damon/sysfs-schemes: expose NODE_TARGET_MEM_BP metric
+
+ include/linux/damon.h    |  5 +++
+ mm/damon/core.c          | 66 +++++++++++++++++++++++++++++++++++-----
+ mm/damon/sysfs-schemes.c |  5 +++
+ 3 files changed, 69 insertions(+), 7 deletions(-)
+
 -- 
-2.53.0.rc1.225.gd81095ad13-goog
+2.43.0
 
