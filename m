@@ -1,61 +1,63 @@
-Received: from mail-oa1-f67.google.com (mail-oa1-f67.google.com [209.85.160.67])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9837E37A481
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 07:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7F037A490
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 07:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769671795; cv=none; b=rERjikiZYMhJp8TEHrjSAoydaXaz4ic9Q8PmGRk3iJfHEeMhjKFvalKeHxvlQ7qcnLjemhre7z13RuvL34KJwSUB47cJEQ/+45YdNcjwOb5J2LNHC0kGUE8AxADRVOkMfns5m7Tj2XIz3D5zPV6XBh2jDeYAQYPb6otOtto0GcY=
+	t=1769671801; cv=none; b=myYwnNREXLa7GjWAVq+tLt/N52XrH3rH9FMjm+iPp1x0uQUFAewNsTqNDgb13N4B3MUKVtqIpo063Q06C1YU0qI9sJOY4Lbc3NMzIlsHad1wH5MovmgT3uSfpuE9hmg0/APrpfexo115WUqy1G3H6OEP+ECEvqyulyghTMxiaeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769671795; c=relaxed/simple;
-	bh=x90qC8LaybvLC+qwA76UKpOgS9j/YY3MJ/cGbittCGQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Wm6qQxkHmklQFklO1JgpxJv+DJqOhUJdZSfwNkCqkndm0g53Jwfa69nJjIoqxgbZUGO6S8yb0wBxAwh5tR1F2943Y6+zATSu9ZJX6+jwjVES6Ko6KRTxCmyZTRNiQ+60pgEplJfDfApDAMIpYUeI2nE3gSfns3iRfv0qGvSXuRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pz4gZkiN; arc=none smtp.client-ip=209.85.160.67
+	s=arc-20240116; t=1769671801; c=relaxed/simple;
+	bh=2jDt6YqP3a+1aVh/FNMF9Opi3r8HiPtSmUoSz9PHaeY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hlRqWzMOqZ7JQgMZbmNXySqGe5CvFlaCl4uQvj08kxOSW1nDIzjIQfgz5OqZzHhnzZOj+ga2tEJT7gZAoUPb+QD3Tc4DnxvfVWzIXu67pAJJClQ4sewJi3kaHNThDf1xgcxDuFwGGzuNgLCsEamIxj5KW4NMjLv7y8qKJi5JKhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOMX8F7X; arc=none smtp.client-ip=209.85.167.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pz4gZkiN"
-Received: by mail-oa1-f67.google.com with SMTP id 586e51a60fabf-4042905015cso427409fac.0
-        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 23:29:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOMX8F7X"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-45c93313721so440454b6e.2
+        for <linux-doc@vger.kernel.org>; Wed, 28 Jan 2026 23:29:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769671792; x=1770276592; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5k22CUWxoDCFWg5lgOlNQDS0dCgTANphXGWpbOhMltU=;
-        b=Pz4gZkiNBNdn/ENE5hPLoxmzbxPoPJwLvZ0qrSJvmaUgN7o/qKj+6wf8PykDTCc2bg
-         Q7rX5cQJjXmDiN7B0KFrR+/3Ht57uv510/WLnryjdCDwirxqZtQElzfp0XlkzhSGiiF7
-         wqn49yyZN3OAQrDPdJiyajZ7Z1PRZ9nV7CifUoubMvAXKtHtb0g/SURSVO+fmnJw05WL
-         42yH7iKgkzJJLRALc2iYVNID2HWQkLtH/qk6s/4lr4mjIrNolLrp1UcSglsEZQzuEArM
-         juK8WiGSQP1TdBP0lBGqEBUI4gULCFANhzkIq9JIvBFUtbin/Pet3vcPOsZDMBJL9nHt
-         VPfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769671792; x=1770276592;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1769671797; x=1770276597; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5k22CUWxoDCFWg5lgOlNQDS0dCgTANphXGWpbOhMltU=;
-        b=JNHfmHBo7R3rgSKZgiD5Az6lgm6BZduHGU3eymj4456qnxUFKxpJ3VYkU4MYkmc94W
-         KV1e3OOciF6cgXFJ0E3z7PQxE3VkuFPMbgM2l8YoCLybeKv5S6ZiH7sD+wdcOADvpHU7
-         /DHEwn9bWqltkXrDhN+7egDVvxXmRHUisnF/Y2YdRnWUDznV+5ptidnrMfjcLe75HOSn
-         RV8dmazH4wfsPjXCTGhi7y7IUL1Xg7UVg84adQluPYQ1xpWaggJ6YCCnEIr6V7IoAyL9
-         +05d9N/p3UQkQKJINmJefpRfb+Bl7xm/D8TLybq99AmrzNFCKH/MbMFnmZ8yXSCaRbqr
-         lsGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWRkwYL/0xIZxGPkvpr72Q8mXXxtTEtUX9D//xwt9FKafRExlNR0ZwEgtSzm1/YnFBSouxb/tWf0js=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiybU68gYoh8DGD8XkwuSZSfORFiD0AlCCwk2OaFHnhrhvyoxM
-	d3tdFQHryXVhb1+1+in9kFtaNDTAq0Zyqg8O4wIDlOouIA8iFQxsQgHs
-X-Gm-Gg: AZuq6aLY664ZS6vremfDTG3BLGwg7nGWYH55Z6tetNKAU/rXMbMuxqrKHAIY/GpUoGN
-	IB8lE7ooeterKe4Cv/E2Pk7MQFKzLH1sQ/WPdBSBQm1sL5BkQw60jHRFVI/2Nhg2oJHLiuG9QXX
-	SHc4fm6HCNQeThLypxLtp3qmS+FA6oZPge+6hOUtE14crV1IhyCsBqJC6giysqdwmUiOw8SxSyE
-	eyflNK1VYj65UUL9io6gogqZWLOzcgmDN36ziX5960O6PWud5fBg7xS3p5FMPLdhPevSJy2FMZr
-	83SnA8vnJB9aNZBdn+FVoGMleQm0wcZ2JqCblLm4HkLhzeiJU9sa1SrXH8KvM7PK7t+dqRW1tt9
-	QxK6vXLAR5xw/e5SJdA/1JFXQRdbBTI/emY0x+pOnHmEHsWh+TIjOSm/6nSjpyfu2YXreb+Jxwe
-	PGHZM7gWS3Z8+jFmxogGvmi3o6KggKA5H1PhBjWoG6
-X-Received: by 2002:a05:6871:2e89:b0:3ec:4f31:42a with SMTP id 586e51a60fabf-4093fc36735mr4474416fac.7.1769671792291;
-        Wed, 28 Jan 2026 23:29:52 -0800 (PST)
+        bh=mEl8972ECcp8sqKxvk2A+g1VyC8mDuDWjsB9ih2/jOg=;
+        b=LOMX8F7X42GHZrcCfUt1OXQQcjK/SeM0UDLi3tJfoT5qh4s113oUYIJjlbQ9VbbbXZ
+         xPwAFxHhHU8ykSCrP48wgROK2oBIV7sjfFh85yYWMPnbBboJQDZRc5OyFjwY2sa7H2eG
+         OQiFYNSjvrTBJqtxu7788wie6Rfdnt8W1GeqWk1TDR5NRPdTwpmRozxq2G4sEgBd9Ikh
+         meRWzrfZnU62Qt0elNAd2KpAuSp3vVQNG0FhwIwnNnDlzN9ms1H0H4/SB3l5O1kiPK2N
+         ERrv05c0nyR9v4mMMuHw9aJLZ6EY4vURS/Ojaimi4HjWHBP99hCjFluUNpgVgrhevcT+
+         DuxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769671797; x=1770276597;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mEl8972ECcp8sqKxvk2A+g1VyC8mDuDWjsB9ih2/jOg=;
+        b=awsMT2Eard+YgV6DjFHzC3nLmZITQrpKbkG3fnndNdN3vFbQ4K+ckVDQcKDFUxz8Z4
+         i2D9z/34BCcEZyMDLGROAwtqb53SEpehWgZia+z9ACEnUTJ19+43bCS4GmTMdo7a7z6L
+         F3gHinlngg+ebn3VnZ3EzJsiiMHY4Sv7DrZ0xpixYD8FRXPAs5Z6aAwWCjB44btLScXd
+         3PQ+6xA7xbbJQrflreOBG6pqEIRd4rWgLw68c2tNOK3I+EglJ+nu0yMa+1VS69w5q5AI
+         dlgNSFeDj57j4wHKPkY04wjUa+MtpXzSl8mPrO8rc1hq4tkZ2tWHIMPIZ2c3htNJsBLd
+         T0wA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVUml+ShjocmwJ82lAHRzFux5LaXxGJYnOVWZAqnnUXYyjCeBRNWbiUBUuFNAvjG48B4v6oWJK0u0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWHalHibFLg//FBokyDFFb6dAYTszcmKpe57a1BEkv6lRpU+fV
+	jP1ExBNBZ4jQbt2izHx0fU4dY5IJThQ5VIFrQ+jeLCcFINKYvO5QlBrn
+X-Gm-Gg: AZuq6aJbRO/2EiW9H1xzfWvCIzZzSP/lTic4btDGZckJntTRRqPGJRihEUpVUzMSvAs
+	4rgTDqHkhVlLCz0sfMDu0iaQrjqqHbfx/WtwfBiz5M0gZqTDQExoYuFIX5aJKGPx0PATx8xi9FW
+	WcfCn8ZjE8HJcQvJ2uQlzxqsx9gh+6kChNT8SmU9xyyIXQJJ9RhXq1KzSFDhOQgPfugNppt+eUZ
+	TMwSzx1mzNtCtB2s5XnTw5CFTnTI0h66cvOCi4y44fKhb/OXX2c4MQm+Kvrd/1IBZzOjNiqvF0E
+	QwAl52oGVuDCmHa1kVNACsgXHndNwt+rAWlnDi82yhPgvVU8ePHT4hlj4gj2yBpWzLk1UagYIgA
+	YzBUIdW/mVgLYCp5U6CekQiC8TqUHiQ/nuW1oZwd5wAFc1c/bGcluRdDYOrPMcJUor1DIdg3L+X
+	Qg7goUdafjrvZ1HQ34QK1SLgHyCaa2daJC/TVv6QFx
+X-Received: by 2002:a05:6820:1612:b0:65f:335d:e2ed with SMTP id 006d021491bc7-662f216fe00mr4222030eaf.74.1769671795811;
+        Wed, 28 Jan 2026 23:29:55 -0800 (PST)
 Received: from godzilla (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-4095749f332sm3238493fac.11.2026.01.28.23.29.51
+        by smtp.googlemail.com with ESMTPSA id 006d021491bc7-662f9a18776sm2798249eaf.12.2026.01.28.23.29.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jan 2026 23:29:51 -0800 (PST)
+        Wed, 28 Jan 2026 23:29:55 -0800 (PST)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Jim Cromie <jim.cromie@gmail.com>,
@@ -71,147 +73,106 @@ Cc: Jim Cromie <jim.cromie@gmail.com>,
 	dri-devel@lists.freedesktop.org,
 	Petr Mladek <pmladek@suse.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v9 00/32] fix dynamic debug classmaps
-Date: Thu, 29 Jan 2026 00:28:46 -0700
-Message-ID: <20260129072932.2190803-1-jim.cromie@gmail.com>
+	linux-doc@vger.kernel.org,
+	kernel test robot <oliver.sang@intel.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-arch@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v9 01/32] dyndbg: fix NULL ptr on i386 due to section alignment
+Date: Thu, 29 Jan 2026 00:28:47 -0700
+Message-ID: <20260129072932.2190803-2-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20260129072932.2190803-1-jim.cromie@gmail.com>
+References: <20260129072932.2190803-1-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-commit aad0214f302 ("dyndbg: add DECLARE_DYNDBG_CLASSMAP macro")
+When dyndbg classmaps get used (later in this series), the
+__dyndbg_classes section (which has 28 byte structs on i386), causes
+mis-alignment of the following __dyndbg section, resulting in a NULL
+pointer deref in dynamic_debug_init().
 
-added dyndbg's "classmaps" feature, which brought dyndbg's 0-off-cost
-debug to DRM.  Dyndbg wired to /sys/module/drm/parameters/debug,
-mapped its bits to classes named "DRM_UT_*", and effected the callsite
-enablements only on updates to the sys-node (and underlying >control).
+To fix this, employ belt + suspenders:
 
-Sadly, it hit a CI failure, resulting in:
-commit bb2ff6c27bc9 ("drm: Disable dynamic debug as broken")
+1. move __dyndbg section above __dyndbg_classes.  This restores it to
+its original position directly after the ALIGN(8), and fixes the
+immediate problem.
 
-The regression was that drivers, when modprobed, did not get the
-drm.debug=0xff turn-on action, because that had already been done for
-drm.ko itself.
+2. add ALIGN(8) to the BOUNDED_SECTION* macros.  This aligns all
+existing sections using the macro, and also fixes a future
+dyndbg_class_* addition which would suffer the same misalignment on
+i386.  Many of the existing macro uses already have a preceding ALIGN,
+these are now redundant, but are harmless, so are left to avoid churn.
 
-The core design bug is in the DECLARE_DYNDBG_CLASSMAP macro.  Its use
-in both drm.ko (ie core) and all drivers.ko meant that they couldn't
-fundamentally distinguish their respective roles.  They each
-"re-defined" the classmap separately, breaking K&R-101.
+3. remove BOUNDED_SECTION* uses in ORC_UNWINDER sections.  These have
+smaller alignments, *and* scripts/sorttable.c does not tolerate the
+added ALIGN(8) padding.
 
-My ad-hoc test scripting helped to hide the error from me, by 1st
-testing various combos of boot-time module.dyndbg=... and
-drm.debug=... configurations, and then inadvertently relying upon
-those initializations.
+Reported-by: kernel test robot <oliver.sang@intel.com>
+Closes: https://lore.kernel.org/oe-lkp/202601211325.7e1f336-lkp@intel.com
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ include/asm-generic/vmlinux.lds.h | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-This series addresses both failings:
-
-It replaces DECLARE_DYNDBG_CLASSMAP with
-
-- `DYNAMIC_DEBUG_CLASSMAP_DEFINE`: Used by core modules (e.g.,
-  `drm.ko`) to define their classmaps.  Based upon DECLARE, it exports
-  the classmap so USE can use it.
-
-- `DYNAMIC_DEBUG_CLASSMAP_USE`: this lets other "subsystem" users
-  create a linkage to the classmap defined elsewhere (ie drm.ko).
-  These users can then find their "parent" and apply its settings.
-
-It adds a selftest script, and a 2nd "sub-module" to recapitulate
-DRM's multi-module "subsystem" use-case, including the specific
-failure scenario.
-
-It also adds minor parsing enhancements, allowing easier construction
-of multi-part debug configurations.  These enhancements are used to
-test classmaps in particular, but are not otherwize required.
-
-v9: fixes for lkp-robot reports
-. fix warning on WARN in another arch
-. fix section mis-ALIGN causing NULL ptr on i386
-
-v8:
-. CC's for tools/testing, DRM, others
-. p22: change _ddebug_class_user.base name to offset, for p31
-. p31: amend commit-msg to explain untested, speculative nature
-
-v7:
-. WARN_ONCE when classmap isn't found for a class'd callsite, JBaron
-. reorder macro args to match kdoc, JBaron
-. Doc formatting fixes, by Bagas
-
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jason Baron <jbaron@akamai.com>
-Cc: Łukasz Bartosik <ukaszb@chromium.org>
-Cc: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Dave Airlie <airlied@gmail.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-
-Jim Cromie (32):
-  dyndbg: fix NULL ptr on i386 due to section alignment
-  dyndbg: factor ddebug_match_desc out from ddebug_change
-  dyndbg: add stub macro for DECLARE_DYNDBG_CLASSMAP
-  docs/dyndbg: update examples \012 to \n
-  docs/dyndbg: explain flags parse 1st
-  test-dyndbg: fixup CLASSMAP usage error
-  dyndbg: reword "class unknown," to "class:_UNKNOWN_"
-  dyndbg: make ddebug_class_param union members same size
-  dyndbg: drop NUM_TYPE_ARRAY
-  dyndbg: tweak pr_fmt to avoid expansion conflicts
-  dyndbg: reduce verbose/debug clutter
-  dyndbg: refactor param_set_dyndbg_classes and below
-  dyndbg: tighten fn-sig of ddebug_apply_class_bitmap
-  dyndbg: replace classmap list with a vector
-  dyndbg: macrofy a 2-index for-loop pattern
-  dyndbg,module: make proper substructs in _ddebug_info
-  dyndbg: hoist classmap-filter-by-modname up to ddebug_add_module
-  dyndbg: move mod_name down from struct ddebug_table to _ddebug_info
-  dyndbg-API: remove DD_CLASS_TYPE_(DISJOINT|LEVEL)_NAMES and code
-  selftests-dyndbg: add a dynamic_debug run_tests target
-  dyndbg: change __dynamic_func_call_cls* macros into expressions
-  dyndbg-API: replace DECLARE_DYNDBG_CLASSMAP
-  dyndbg: detect class_id reservation conflicts
-  dyndbg: check DYNAMIC_DEBUG_CLASSMAP_DEFINE args at compile-time
-  dyndbg-test: change do_prints testpoint to accept a loopct
-  dyndbg-API: promote DYNAMIC_DEBUG_CLASSMAP_PARAM to API
-  dyndbg: treat comma as a token separator
-  dyndbg: split multi-query strings with %
-  selftests-dyndbg: add test_mod_submod
-  dyndbg: resolve "protection" of class'd pr_debug
-  dyndbg: add DYNAMIC_DEBUG_CLASSMAP_USE_(dd_class_name, offset)
-  docs/dyndbg: add classmap info to howto
-
- .../admin-guide/dynamic-debug-howto.rst       | 184 ++++-
- MAINTAINERS                                   |   3 +-
- include/asm-generic/vmlinux.lds.h             |  19 +-
- include/linux/dynamic_debug.h                 | 302 +++++--
- kernel/module/main.c                          |  15 +-
- lib/Kconfig.debug                             |  24 +-
- lib/Makefile                                  |   5 +
- lib/dynamic_debug.c                           | 776 +++++++++++-------
- lib/test_dynamic_debug.c                      | 198 +++--
- lib/test_dynamic_debug_submod.c               |  21 +
- tools/testing/selftests/Makefile              |   1 +
- .../testing/selftests/dynamic_debug/Makefile  |   9 +
- tools/testing/selftests/dynamic_debug/config  |   7 +
- .../dynamic_debug/dyndbg_selftest.sh          | 373 +++++++++
- 14 files changed, 1475 insertions(+), 462 deletions(-)
- create mode 100644 lib/test_dynamic_debug_submod.c
- create mode 100644 tools/testing/selftests/dynamic_debug/Makefile
- create mode 100644 tools/testing/selftests/dynamic_debug/config
- create mode 100755 tools/testing/selftests/dynamic_debug/dyndbg_selftest.sh
-
+diff --git a/include/asm-generic/vmlinux.lds.h b/include/asm-generic/vmlinux.lds.h
+index 8ca130af301f..4b4d2773aa22 100644
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -212,11 +212,13 @@
+ #endif
+ 
+ #define BOUNDED_SECTION_PRE_LABEL(_sec_, _label_, _BEGIN_, _END_)	\
++	. = ALIGN(8);							\
+ 	_BEGIN_##_label_ = .;						\
+ 	KEEP(*(_sec_))							\
+ 	_END_##_label_ = .;
+ 
+ #define BOUNDED_SECTION_POST_LABEL(_sec_, _label_, _BEGIN_, _END_)	\
++	. = ALIGN(8);							\
+ 	_label_##_BEGIN_ = .;						\
+ 	KEEP(*(_sec_))							\
+ 	_label_##_END_ = .;
+@@ -383,8 +385,8 @@
+ 	*(__tracepoints)						\
+ 	/* implement dynamic printk debug */				\
+ 	. = ALIGN(8);							\
+-	BOUNDED_SECTION_BY(__dyndbg_classes, ___dyndbg_classes)		\
+ 	BOUNDED_SECTION_BY(__dyndbg, ___dyndbg)				\
++	BOUNDED_SECTION_BY(__dyndbg_classes, ___dyndbg_classes)		\
+ 	CODETAG_SECTIONS()						\
+ 	LIKELY_PROFILE()		       				\
+ 	BRANCH_PROFILE()						\
+@@ -867,15 +869,21 @@
+ #ifdef CONFIG_UNWINDER_ORC
+ #define ORC_UNWIND_TABLE						\
+ 	.orc_header : AT(ADDR(.orc_header) - LOAD_OFFSET) {		\
+-		BOUNDED_SECTION_BY(.orc_header, _orc_header)		\
++		__start_orc_header = .;					\
++		KEEP(*(.orc_header))					\
++		__stop_orc_header = .;					\
+ 	}								\
+ 	. = ALIGN(4);							\
+ 	.orc_unwind_ip : AT(ADDR(.orc_unwind_ip) - LOAD_OFFSET) {	\
+-		BOUNDED_SECTION_BY(.orc_unwind_ip, _orc_unwind_ip)	\
++		__start_orc_unwind_ip = .;				\
++		KEEP(*(.orc_unwind_ip))					\
++		__stop_orc_unwind_ip = .;				\
+ 	}								\
+ 	. = ALIGN(2);							\
+ 	.orc_unwind : AT(ADDR(.orc_unwind) - LOAD_OFFSET) {		\
+-		BOUNDED_SECTION_BY(.orc_unwind, _orc_unwind)		\
++		__start_orc_unwind = .;					\
++		KEEP(*(.orc_unwind))					\
++		__stop_orc_unwind = .;					\
+ 	}								\
+ 	text_size = _etext - _stext;					\
+ 	. = ALIGN(4);							\
 -- 
 2.52.0
 
