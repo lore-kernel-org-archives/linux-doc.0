@@ -1,105 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F619325498
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5869625771
+	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 14:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769694634; cv=none; b=ZQiqpI/8QOVE6PAKiCT+yVu6WILnSy/ssJAOCjyfshhwAm753DZKTa3DHjoNNx1VAZJqV0Jscg5diwUelfyRGXhwIMbodTtklzqJLjLICi0E3j0x6CHLjfJwN8dSyCi7cn/wMSlnhZMF8DduiwM3WxLyA4KoBnrus8vxqxKFvg0=
+	t=1769695979; cv=none; b=Y1p2fyMPz8lthANxJ0JkfhADGVQOtiqIfWEohzEJVLcZjwoI3NzDZGYa0oIL+D3WAT/tLk00C63Z73l6r/xHm//e8DnK4VJCdWryk4rdYsobo5I3bgkyS6hU2bx08opk9MxP2hYwdLevBZQz1wWZpp4X5XPgVnIqv6z9NHdzr5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769694634; c=relaxed/simple;
-	bh=GyDLU+pxiVbfK3HmawBgeoXh/3J+Q1LigJrF0nwWp+U=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jQK2698OVLLqi/CYbub03lj+WKMBsXrML+HS6c2oIMVns5smSI+HkwJVCR7Vi9w+Lq6mF3YY+gvGCeWAt9hHQaWhM0Vld6yZ5iyFHlHmdh7hNXEknSmvRrQmzEfU1MClI4LUkCknQgA5/tEU0a1jRhOobyPxxo/clQohblRqicA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vIvBJJcw; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769695979; c=relaxed/simple;
+	bh=zcL7JK7B06/KNJU+J1fCNj0lXsVpt5cbT9t99SOxBQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fE0szTf8vG+S9H/pVXF4gAC8KYzPzUrDcDN0ODfSpObK6Yivx7CSbp3OAI6EotJCWavz5PsB51YRsdII1/2ukYzDZrcysnxa/MNPb8EJyyhv8pf6SYTJRMdo+eZ/1558uOpYosyYcdfUL2OboysZJzPrTVA+7Sn+0KUBe2HK5v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YUXtNC6q; arc=none smtp.client-ip=209.85.210.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vIvBJJcw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6A7C2BCB2
-	for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 13:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769694634;
-	bh=GyDLU+pxiVbfK3HmawBgeoXh/3J+Q1LigJrF0nwWp+U=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=vIvBJJcwbtb9THKy3h6B3gOUkmiIT05yybZB/vGNm71HNgQwsHaeccjd6IhlRfL7s
-	 xs6IDxmKH5BXx74YtrVVB+5F3Z0JySBaKQHMDBwIuj0H7QpUboyLeFv8mgP2gwqhqI
-	 c0Crtb2YW+w12sqe7kNbMb4I5aHNNfGBxNwMRhfkEisug5Bv2b2cNy3iOFrMCKJfRT
-	 eZfNSv/x7vddeDA6Fj3MXMrGJeKcoBrXzQmuVWT3vHIqLr4hu85sijn7GLQDwuIOmO
-	 VUs1GTosOEHQaU24P3nBmTp8dAXC4cqtY6b5GD6s+suToVTcPPCyn8a+MBKDOP4iY6
-	 FRd49L+3KM8eg==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-382fea4a160so8843841fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 05:50:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVLajxL8EbH7t4+PEVNao2W2q02h7zGcs3HZcwuluJVQyhKCQB49BKQpqDjJZkjXzIL3ov7TRZRhBs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAqSVjsd9w8IwuUBpgaOOORQL6fBwCBmdUXtLDWL7q3PHuwRnL
-	cc1u+43kMjykGssgacSHDHN4gLvoLnCFgBOVnw6iAUkUk0i+9vBDcfUthDm8a8zf7Y0evglHFcR
-	8qutHB1TaMjdkunT5NcFr+6AEY5OBdZc1SpDPZ7CabA==
-X-Received: by 2002:a05:6512:3b91:b0:59d:fd1e:50da with SMTP id
- 2adb3069b0e04-59e040308e5mr3356331e87.36.1769694632521; Thu, 29 Jan 2026
- 05:50:32 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 29 Jan 2026 08:50:30 -0500
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 29 Jan 2026 08:50:30 -0500
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260129105634.GC3317328@killaraus>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YUXtNC6q"
+Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-82307c6902eso490966b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 06:12:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769695978; x=1770300778; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yJaU3p5+sCbpbc8wHPLaxJF4pZ9l5/Cuj2w32o/JnfQ=;
+        b=YUXtNC6qdd20A2pQ4SH///GADevVAsga5k3vZDvOpK4jvDHHk8LFOOgM0C0J7rc/Pk
+         SDPG0PNdt7edqVpOthKeUcfBC5HrBcGEWsgtpj/oKrQKrH8O5wykYvPrcjNt9C9eaxFS
+         JhAmgrsqZeVWU0Sp2jAECpt+tBcE+uyZ1cZzCrrGR4qKGvWCx1QgfUSWezehZi5CefwK
+         dkE8m7dD1CK0B/u27hoDwz+dXLPM+GMgVHdsA1D+aNX4DBUaIZY0J+rsXIZjQNtspVRC
+         xdqiqyWWFEFfT31x7ivlVsKR2kiUW3H0PMZ96ihPGrzeeF2adQ11oF7vzdQGjPEZuauc
+         4pNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769695978; x=1770300778;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yJaU3p5+sCbpbc8wHPLaxJF4pZ9l5/Cuj2w32o/JnfQ=;
+        b=Ong911roxw7vI4M6AYFna6HUAK8e1BQHgFcnNLBR4LNW4LcH1gUdj1lOrlYkjuOTO5
+         y8upr6jXzOR2CLrABh0C6y2xthSxkyP1e8yyBxblyLTLUokReQkXBq6gZ4aZ9FVSAcv/
+         eVpGEM93R0jSk8WyF5rccmku7FwykcMjJHOA+9jA2zuyEx4+bVs/h7JZ2VuFrPK//SP5
+         AlLlxAiRtXFaSTYNeXZp+XQShCeLF/kZETjMtB4Mjx/Tbq19AW5OY4i3oIFtlR8JYHlL
+         BUHxiIZU9/AAuF1DMexnQvFID8Dl8aWVi3EHci3EqDDr7Gy8t4Bue2/wsFESvKWuiEUM
+         porA==
+X-Forwarded-Encrypted: i=1; AJvYcCWlGADjYmL4wt5NQxewN0yBggtOgL5AOkfaAnV5DoJvNzjLa0mtI4Dd7/OPiMCPaPfpQl0Ub8wXxks=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiUMdilqLm9hQY0z4QzAaGlhX0pAUN1GF1WEH2iMR85HhSljSQ
+	HwjR8nnCHEpgOL+4RvS0VYIVwoHCIITcrwITMGgWTjlJ+QgrnVZdQ+Paazq2G8q5uLc=
+X-Gm-Gg: AZuq6aJt7Bz7tdZ7Bo97GmeixZbPxMCh0FTRq69jEUcUYeyrMf22H1q2rlYPrkpH0jT
+	tUeb6xz01WzDWH7ytka8ttSrBEUX9ojMnKgHSXZl0LD6OgHQd4yO/mcEp/HJKnrSQtj2YtNh15n
+	Gpaftg1YzBJyG9sJAhjMnNeqwCya6HcH2dx6ntWcF8aQ1Fbhj4CEgf7prADLZrQ52SI7X3+F+yE
+	PkhpkpT5IeqMMoeC+O+lK7tABOpzhBJrgjDDNJOwxRvycG1CcayKy4zXDtwpDkMrBKi3K7WKd8D
+	fVQct5o3o2zY33662ULZ9tgW8Ceyr1C2SaLL7siTfVYuSCCO+ugwp5LnDhRdrDJCixtixSN4GeK
+	xV0Obl5y/l0wtAjzfxJzqqjaxM/a7hPtXKTNAfWaOzGuvopNh3PKzIzHQpm6xBQSz1ndD4H+y5P
+	BImkiYrn2RhEm56NW/XTGAIb3jUE/sKtlYZeo=
+X-Received: by 2002:a05:6a21:3a83:b0:38e:99a0:105b with SMTP id adf61e73a8af0-38ec6406beamr9583107637.51.1769695977734;
+        Thu, 29 Jan 2026 06:12:57 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c642add55adsm4871419a12.32.2026.01.29.06.12.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jan 2026 06:12:56 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 29 Jan 2026 06:12:54 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Charles Hsu <hsu.yungteng@gmail.com>,
+	linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] hwmon: pmbus: fix table in STEF48H28 documentation
+Message-ID: <82e89c98-b51b-40c1-85c9-b8e3723a3088@roeck-us.net>
+References: <20260128002200.1665941-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260124170535.11756-1-johan@kernel.org> <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
- <2026012554-chatty-policy-42a1@gregkh> <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
- <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com>
- <aXovtrAM1r1UyWxA@hovoldconsulting.com> <CAMRc=MeMW4g5em_b9qGBR9OmQZNzyQp-S=zKDCPFu506ixy-cQ@mail.gmail.com>
- <20260129105634.GC3317328@killaraus>
-Date: Thu, 29 Jan 2026 08:50:30 -0500
-X-Gmail-Original-Message-ID: <CAMRc=MfzByLPJ0FKySmG7b79Ah63Mtk1hs1N=6kv8pTDydrcGg@mail.gmail.com>
-X-Gm-Features: AZwV_QjpXdX3Ru-gJaLnf59FQ94or1nANjD-GNCf2j-Nn3Da57dWcF9kfnGd2g0
-Message-ID: <CAMRc=MfzByLPJ0FKySmG7b79Ah63Mtk1hs1N=6kv8pTDydrcGg@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Johan Hovold <johan@kernel.org>, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
-	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260128002200.1665941-1-rdunlap@infradead.org>
 
-On Thu, 29 Jan 2026 11:56:34 +0100, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> said:
-> On Thu, Jan 29, 2026 at 10:11:46AM +0100, Bartosz Golaszewski wrote:
->>
->> For I2C both the problem is different (subsystem waiting forever for
->> consumers to release all references) and the culprit: memory used to
->> hold the reference-counted struct device is released the supplier
->> unbind unconditionally. Unfortunately there's no way around it other
->> than to first move it into a separate chunk managed by i2c core.
->
-> Isn't there ? Can't the driver-specific data structure be
-> reference-counted instead of unconditionally freed at unbind time ?
->
+On Tue, Jan 27, 2026 at 04:22:00PM -0800, Randy Dunlap wrote:
+> "make htmldocs" reports build errors/warnings:
+> 
+> Documentation/hwmon/stef48h28.rst:45: ERROR: Missing matching underline for section title overline.
+> =========================================================
+> in1_label               "vin".
+> in1_input               Measured voltage. From READ_VIN register. [docutils]
+> Documentation/hwmon/stef48h28.rst:73: WARNING: Title underline too short.
+> temp2_input             Measured temperature. From READ_TEMPERATURE_2 register.
+> ========================================================= [docutils]
+> 
+> Fix the table overline/underline line lengths and convert it to
+> a 2-column table.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
-Oh, for sure, if we did from the start. But we did not and there are now
-hundreds of i2c drivers that do:
+Applied.
 
-struct my_i2c_drv_data {
-	struct i2c_adapter adap;
-	int my_other_drv_data;
-};
-
-and in probe:
-
-struct my_i2c_drv_data *data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
-
-(or just kzalloc() with kfree() in remove, it doesn't matter)
-
-and the ownership of that data belongs to the driver. There's no way we could
-address it now so the next best thing is to work towards moving the ownership
-of struct i2c_adapter to the i2c core and make it reference counted using the
-internal kobject of the associated struct device.
-
-Bartosz
+Thanks,
+Guenter
