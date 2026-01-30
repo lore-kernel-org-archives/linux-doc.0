@@ -1,91 +1,178 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B513191A7;
-	Fri, 30 Jan 2026 16:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AE37260A;
+	Fri, 30 Jan 2026 16:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769791253; cv=none; b=Wzh+cvIv42JQ4/UmnDZDVUYL0F9MkEWi72qyPJZZDM1fK5lZeywWUiB22Jil/l9PFBI/obGUgPfvyd+shF9wvtPN274G+FH7Fw6k0KRAt09xHhzJDgKFY/YJ0e+5JjkK1X1kWPg7q995OhGpShzPMXd4gRnfZ6B9GHFwRNeUzRk=
+	t=1769792345; cv=none; b=hT1K+/7X2LPPxJ6cJGpf1nZ0l4PMiJBK9v8E5ejkH1FQDUfc5LjHNS1RBOvPKDmBQ2wwMQiMFBq0VNHjqa1+gi/XcVonTzPznEIJmT6AvR9xDRF0+EBTLOXgKWO58X89aFzSu2bX1LSIhQY6ZWhAwcesbZE76+MG3RFNC4MqtUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769791253; c=relaxed/simple;
-	bh=vpJXD317knBCL/SE4Ub7u6OeUY6pLWubZxsDRe2QciM=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=sbpzebKGnkE1shITI/yYfp1qUrcwqiE6yUYxc7eDhmiT12DidyQ1FH7E6ahE7ZhrOUVHv4KBvjfRv/VRxjGxgzyednjxbovwRxHm6+OA8L4Gyv8ehI0H40MceYQMIuOd5PMZeJoUGTBl403Rvcqo6WkkLEuQHh00/cr4MrlCicE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=FE5fEpYs; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1769792345; c=relaxed/simple;
+	bh=cUrkIzDDTezjkboeBKyDgO0TKRNuDY51DVikFFzM37c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bGSE6H9fZjgaxTcqeydq4ySaCGctfewc9uciT5oBpzb4IqLUC6XCE1rMIE6+g0VoyUgn2PV0sFFfxDeaVuyRKHy4sIWQ+dgV0luWWdUmd349aVsvtWUk6PQ5rGftLMhcVnqQuD+YQqI9jjRoI7ssxUswqjIf04/ba8626SR8esA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bxYbheue; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="FE5fEpYs"
-Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 60UGa0Uu1292331
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 30 Jan 2026 08:36:00 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 60UGa0Uu1292331
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026012301; t=1769790962;
-	bh=vpJXD317knBCL/SE4Ub7u6OeUY6pLWubZxsDRe2QciM=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=FE5fEpYs1PMDcN61m8J1kS58+tcQ7XY81Pqs69dbYHPuRLaEOjWvVKkvVWINsQR/I
-	 UbgdY49ccJlwpNaG+bvlE2QlFRvZBdaUZVlmy+TMp/QenUe2bTP3DUeUk1E6TRSNKj
-	 CLieYd77BDxdgYrW5ojqmHwVspMULemQBTlpvpTb2RQNm6DZtC8x4LQQRJ58tWGhhp
-	 c2FKqFUhuuSAqOAvKKzKn2Omr0l3+PHwJ1xQPpEklM+KFUyot/YPUKoZQ9uIHzh5zQ
-	 n2wXZcfpr/HPymDaY9DC6yfIPo8ZRy+IcCs5L5XX1Bc15CrDpLydkBwpkvYb5AxZ0T
-	 wZFex+CmbWDoA==
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bxYbheue"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76471C4CEF7;
+	Fri, 30 Jan 2026 16:59:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769792345;
+	bh=cUrkIzDDTezjkboeBKyDgO0TKRNuDY51DVikFFzM37c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bxYbheueQ4CDJFteeoaGoo6eDu7Tl1YabtkO2Ke7hUQo1oyMc+tWu9Wh5ThCzo5oP
+	 F+f7Lz7PuUq8qHxirTI+FYmnf9Y97SWfDC5lNHGVSJQu9On6kkiIGCNsmEzu+4Xpiw
+	 S4tzjDBtD4uUOjaf0WEaTie2mGtYNvlrfGgr4nYfLd+RVR+DClzNJVghMbewE03CvS
+	 SuDy8sG48SrMLT5SSZfyTJy+pJ3L+IUEMur2ls2WJjl8BwV+U79K9q28vaRQ5FqCfV
+	 EY2Z8rGTK/xuN3ABHfkg9nJfEBDpABC6Vqgr95A1vliZsi9HFvBWGIMUIq1AMCH/uh
+	 VVqJuWvD4z4UQ==
+Date: Fri, 30 Jan 2026 17:59:00 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: kernel test robot <oliver.sang@intel.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, 
+	Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [linux-next:master] [fs]  313c47f4fe:
+ BUG:kernel_hang_in_test_stage
+Message-ID: <20260130-badeunfall-flaggen-d4df12bcb501@brauner>
+References: <202601270735.29b7c33e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v9 06/22] x86/cea: Export __this_cpu_ist_top_va() to KVM
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <20260130134644.GUaXy2RNbwEaRSgLUN@fat_crate.local>
-Date: Fri, 30 Jan 2026 08:35:50 -0800
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <78858200-FE67-491E-89C6-5906233C860D@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-7-xin@zytor.com>
- <20260130134644.GUaXy2RNbwEaRSgLUN@fat_crate.local>
-To: Borislav Petkov <bp@alien8.de>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
+In-Reply-To: <202601270735.29b7c33e-lkp@intel.com>
 
-
-
-> On Jan 30, 2026, at 5:46=E2=80=AFAM, Borislav Petkov <bp@alien8.de> =
-wrote:
+On Tue, Jan 27, 2026 at 02:26:09PM +0800, kernel test robot wrote:
 >=20
-> On Sun, Oct 26, 2025 at 01:18:54PM -0700, Xin Li (Intel) wrote:
->> @@ -36,6 +41,7 @@ noinstr unsigned long __this_cpu_ist_top_va(enum =
-exception_stack_ordering stack)
->> {
->> return __this_cpu_ist_bottom_va(stack) + EXCEPTION_STKSZ;
->> }
->> +EXPORT_SYMBOL_FOR_MODULES(__this_cpu_ist_top_va, "kvm-intel");
 >=20
-> Why is this function name still kept with the "__" prefix but it is =
-being
-> exported at the same time?
+> Hello,
 >=20
-> It looks to me like we're exporting the wrong thing as the "__" kinda =
-says it
-> is an internal helper.
+> kernel test robot noticed "BUG:kernel_hang_in_test_stage" on:
 >=20
-> Just drop the prefix and call it something more sensible please. The =
-caller
-> couldn't care less about "ist_top_va".
+> commit: 313c47f4fe4d07eb2969f429a66ad331fe2b3b6f ("fs: use nullfs uncondi=
+tionally as the real rootfs")
+> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
+>=20
+> [test failed on linux-next/master ca3a02fda4da8e2c1cb6baee5d72352e9e2cfae=
+a]
+>=20
+> in testcase: trinity
+> version:=20
+> with following parameters:
+>=20
+> 	runtime: 300s
+> 	group: group-00
+> 	nr_groups: 5
+>=20
+>=20
+>=20
+> config: x86_64-kexec
+> compiler: clang-20
+> test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 3=
+2G
+>=20
+> (please refer to attached dmesg/kmsg for entire log/backtrace)
 
-Right, the =E2=80=9C__=E2=80=9D prefix no longer makes sense.
+The reproducer doesn't work:
 
-What is the right order of rename and refactor?
+ubuntu@pengar:~/data/kernel/linux/MODULES/lkp-tests$ sudo bin/lkp qemu -k .=
+=2E/../vmlinux -m ./modules.cgz job-script # job-script
+result_root: /home/ubuntu/.lkp//result/trinity/group-00-5-300s/vm-snb/yocto=
+-x86_64-minimal-20190520.cgz/x86_64-kexec/clang-20/313c47f4fe4d07eb2969f429=
+a66ad331fe2b3b6f/15
+downloading initrds ...
+skip downloading /home/ubuntu/.lkp/cache/osimage/yocto/yocto-x86_64-minimal=
+-20190520.cgz
+19270 blocks
+/usr/bin/wget -q --timeout=3D3600 --tries=3D1 --local-encoding=3DUTF-8 http=
+s://download.01.org/0day-ci/lkp-qemu/osimage/pkg/debian-x86_64-20180403.cgz=
+/trinity-static-x86_64-x86_64-1c734c75-1_2020-01-06.cgz -N -P /home/ubuntu/=
+=2Elkp/cache/osimage/pkg/debian-x86_64-20180403.cgz
+Failed to download osimage/pkg/debian-x86_64-20180403.cgz/trinity-static-x8=
+6_64-x86_64-1c734c75-1_2020-01-06.cgz
+cat: '': No such file or directory
+exec command: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -fsdev local,=
+id=3Dtest_dev,path=3D/home/ubuntu/.lkp//result/trinity/group-00-5-300s/vm-s=
+nb/yocto-x86_64-minimal-20190520.cgz/x86_64-kexec/clang-20/313c47f4fe4d07eb=
+2969f429a66ad331fe2b3b6f/15,security_model=3Dnone -device virtio-9p-pci,fsd=
+ev=3Dtest_dev,mount_tag=3D9p/virtfs_mount -kernel ../../vmlinux -append roo=
+t=3D/dev/ram0 RESULT_ROOT=3D/result/trinity/group-00-5-300s/vm-snb/yocto-x8=
+6_64-minimal-20190520.cgz/x86_64-kexec/clang-20/313c47f4fe4d07eb2969f429a66=
+ad331fe2b3b6f/0 BOOT_IMAGE=3D/pkg/linux/x86_64-kexec/clang-20/313c47f4fe4d0=
+7eb2969f429a66ad331fe2b3b6f/vmlinuz-6.19.0-rc1-00006-g313c47f4fe4d branch=
+=3Dinternal-devel/devel-hourly-20260124-050739 job=3D/lkp/jobs/scheduled/vm=
+-meta-17/trinity-group-00-5-300s-yocto-x86_64-minimal-20190520.cgz-313c47f4=
+fe4d-20260126-53110-19zhjsh-2.yaml user=3Dlkp ARCH=3Dx86_64 kconfig=3Dx86_6=
+4-kexec commit=3D313c47f4fe4d07eb2969f429a66ad331fe2b3b6f intremap=3Dposted=
+_msi watchdog_thresh=3D240 rcuperf.shutdown=3D0 rcuscale.shutdown=3D0 refsc=
+ale.shutdown=3D0 audit=3D0 kunit.enable=3D0 ia32_emulation=3Don max_uptime=
+=3D7200 LKP_LOCAL_RUN=3D1 selinux=3D0 debug apic=3Ddebug sysrq_always_enabl=
+ed rcupdate.rcu_cpu_stall_timeout=3D100 net.ifnames=3D0 printk.devkmsg=3Don=
+ panic=3D-1 softlockup_panic=3D1 nmi_watchdog=3Dpanic oops=3Dpanic load_ram=
+disk=3D2 prompt_ramdisk=3D0 drbd.minor_count=3D8 systemd.log_level=3Derr ig=
+nore_loglevel console=3Dtty0 earlyprintk=3DttyS0,115200 console=3DttyS0,115=
+200 vga=3Dnormal rw  ip=3Ddhcp result_service=3D9p/virtfs_mount -initrd /ho=
+me/ubuntu/.lkp/cache/final_initrd -smp 2 -m 12872M -no-reboot -device i6300=
+esb -rtc base=3Dlocaltime -device e1000,netdev=3Dnet0 -netdev user,id=3Dnet=
+0 -display none -monitor null -serial stdio
+qemu-system-x86_64: Error loading uncompressed kernel without PVH ELF Note
 
-I think we usually do renames in the first patch and then refactor in a =
-following patch.=
+The paths for the downloads in the job script are wrong or don't work.
+Even if I manually modify the above path I still get in the next step:
+
+/usr/bin/wget -q --timeout=3D3600 --tries=3D1 --local-encoding=3DUTF-8 http=
+s://download.01.org/0day-ci/lkp-qemu/modules.cgz -N -P /home/ubuntu/.lkp/ca=
+che
+Failed to download modules.cgz
+cat: '': No such file or directory
+
+I need a way to reproduce the issue to figure out exactly what is
+happening.
+
+>=20
+>=20
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <oliver.sang@intel.com>
+> | Closes: https://lore.kernel.org/oe-lkp/202601270735.29b7c33e-lkp@intel.=
+com
+>=20
+>=20
+>=20
+> [   27.746952][ T1793] /lkp/lkp/src/monitors/meminfo: line 25: /lkp/lkp/s=
+rc/bin/event/wait: not found
+> [   31.757224][ T1793] /lkp/lkp/src/monitors/oom-killer: line 94: dmesg: =
+not found
+> [   31.757224][ T1793] /lkp/lkp/src/monitors/oom-killer: line 94: grep: n=
+ot found
+> [   31.757224][ T1793] /lkp/lkp/src/monitors/oom-killer: line 25: /lkp/lk=
+p/src/bin/event/wait: not found
+> [   65.744824][ T4974] trinity-main[4974]: segfault at 0 ip 0000000000000=
+000 sp 00007ffe08d2ec08 error 15 likely on CPU 0 (core 0, socket 0)
+> [   65.746308][ T4974] Code: Unable to access opcode bytes at 0xfffffffff=
+fffffd6.
+>=20
+> Code starting with the faulting instruction
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> /etc/rc5.d/S77lkp-bootstrap: line 79: sleep: not found
+> BUG: kernel hang in test stage
+>=20
+>=20
+>=20
+> The kernel config and materials to reproduce are available at:
+> https://download.01.org/0day-ci/archive/20260127/202601270735.29b7c33e-lk=
+p@intel.com
+>=20
+>=20
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>=20
