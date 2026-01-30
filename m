@@ -1,380 +1,174 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013026.outbound.protection.outlook.com [40.93.201.26])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865811E5718;
-	Fri, 30 Jan 2026 01:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769737560; cv=fail; b=datqQqD6hSoXpMda2XndkEz1PlwaOjIUmXfG41lVP6xDE2zUk/3CjQhy6/OhXM0oGq7Bf7012k3QbGwV76cEnA5TarjCwaXeOEpuqNWOFkyGC4gxUTzptyrbclvmVj1nKq+/Mk9muUiRJcWYSIZtE9VNnZlZtBGSkNzcr2g7wYA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769737560; c=relaxed/simple;
-	bh=+4dYRCTzEMIDOur+nuIFl0Mj7SJNPz1TFNp6vYKsMK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=UhCgsarDrGvBzuGIARz3gYPKuHgr16bEQmIssPPnFUxryZtTQVT3K/HN4rHhp62N7rrC3v/NJBMwC1JVJoUBGFREqGZScD5nic4qDKubRm9qW5AF6/l8Q5dvyStjDJSbFuQMy9k+7j9gnot/Jdc8HhESDB9uUpr8pTDKW0SgP8U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=RfXlfAQs; arc=fail smtp.client-ip=40.93.201.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895772BEC52;
+	Fri, 30 Jan 2026 01:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769737689; cv=none; b=aVrj3xT4oGtFwkLtDhXPrHsuX1+WDQHL+3MYVVmHTQcMFfcLuPkU0/swrDfGgq6xFDqa6bJV/SxTy/OKBiSnkikC+eyzUG1a2/3o7pOeUWRCVtGIAUMGV0eDneNFKHH3yRwA4g4BZblyupZZI8dgBr7asgsEikGNWfTp2Djzu14=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769737689; c=relaxed/simple;
+	bh=Qp2XJsJSzR2HivcPBisgAW6pcIdQNbhAEoYuN3tXdWY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PiUFOFBN8YOvf5wHxUg4FTqsB4aYLxtDNswSmvkh3289w07qe/V2NGenyZb6STlcxVn5gfQjT27DDSrAm9lmvyjFHB5BWDy5oxCm1NDPe5JXEwaP17m5JuBJuBU/UphOOHLxGiYtChC2Y+18RlOxqu8YOmMVX2UCjWWJxxXdNtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HX91BYHK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RfXlfAQs"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hkrcecpAKRN/pcJfkJir/NOnsC25oVQvjHIel5dc/XND+OphAq8M15U3AbhmMkaLEvzjRUIxEo7JnlS1jqy0/0HEH7fyP0M1p2wWqOVIKwrX6BbW5N3v4GuLFq1YaWfcpLCSvc31eZrhsZU/3parlFR5ztaCdaFyzVocdZrTZjWmOstrBstgTPGE/HjsolDtowpu1QPBSm8Dr6pVDmqtVCRMJqJDXb4gfyVJfrnWAufrZdtQIgDJj5Wh38tDVcy6fu5VG7Y99+GDddPF3ToRNL9MS+Jl775Hmus1W8XmlLMJlZWOXZqW55kHpkedRnTC/3rGlYjf06Qde+c2NCbOEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9BMBc88TCoTVBqA9JyV/AA99hZkHF9Xxsdkz1NYrl6E=;
- b=UyfgT1Wr8Uxx65mqJkgikc239b0cbYbDzXjHkl01Q1UceYsa3hKP5Cs9flNWzcRxea9MP606iii89oc9mRTe8oqIu+ISpzZNYzzzpIbCT4qqT9ewpwzbxVXVJak7V+/LXoFfur6pMuNTxLx8J24qWueDo4m3TSQmS0CW/fLdo8k8IwMkHHkPC6xZqcQzCtPsWXM4qooE9Q7E5iU48C6DoCJ2XiAQ6d1sHer+sbjTUzoIj83QUn8hRkmS9BaWfqDD5p2clexdqJJKWGONyB2/XdZyE+XsqlE9m5Kju2piOWMUINvjbH3JAms8hOlkfLrDA/qpfq7jEO+rDpMwCsnhzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9BMBc88TCoTVBqA9JyV/AA99hZkHF9Xxsdkz1NYrl6E=;
- b=RfXlfAQs4kOusskdiKcS0OGdaspEgQIVsahNQCuouwq43vI1YlNFjWbfpqaO5Qei2SMirA8EmUDw3smgIWPabMAiMGmJHNthMPotQSOO8Kcwncv74UMqigokDbt3IIBUOoNZ2obk4RT+MXS3fbmTNvyhSURfk9LEQ+vmSGRIoU42ctQxZZ0paVUd8gwhnFanxk9CUwHmS4dOTgkjo/aGqxOXqrd6dynuocTrbFzHxcjnEqEnTKWe+0uEakr8NQV5oA/9riHzb0WaXAj+S5c+a4nmhLNTZmBeha0USnx0dsosb17X09V7McvsA78z9nJxLr6yqlb3Qc/I8/T2QUgMpw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- BY5PR12MB4307.namprd12.prod.outlook.com (2603:10b6:a03:20c::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.11; Fri, 30 Jan
- 2026 01:45:53 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9564.007; Fri, 30 Jan 2026
- 01:45:53 +0000
-Date: Thu, 29 Jan 2026 20:45:51 -0500
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: Gary Guo <gary@garyguo.net>
-Cc: Danilo Krummrich <dakr@kernel.org>, Zhi Wang <zhiw@nvidia.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HX91BYHK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E24C6C4CEF7;
+	Fri, 30 Jan 2026 01:48:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769737689;
+	bh=Qp2XJsJSzR2HivcPBisgAW6pcIdQNbhAEoYuN3tXdWY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HX91BYHKqza58LPQh+8Noaz73VeKmnqk7ZH8OWntuzqueow/LiO8XZ2iInOfpOKsu
+	 OHtGiYJzEWcLEFTAwLe8bLhETHiRjT3R2R+TqrcBChFR1sFNbnAQeIMJL5QG0cKbWW
+	 RoA2gxzsGQbw9ILCTNjK/pl1izyLQ4anOi9CHhvMpUd6lvl7QQVPFOBtgr8YFkmBUx
+	 BYHC/n/6bozMuRjn3+vGTXY7XTlojHGQj1+ENJf8l5V96LjWvqlJHJyeulptACeDMu
+	 juhneVGupDYOQIG8owouYTQHKquiKdItqHRimW02gbjceL+X/dlOwSNKH21s7ivKri
+	 z2Uuq/yNjSgDA==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian Koenig <christian.koenig@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Vivi Rodrigo <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Rui Huang <ray.huang@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
-	Helge Deller <deller@gmx.de>, Alice Ryhl <aliceryhl@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
-	Edwin Peer <epeer@nvidia.com>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
-	Alexey Ivanov <alexeyi@nvidia.com>,
-	Balbir Singh <balbirs@nvidia.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Elle Rhumsaa <elle@weathered-steel.dev>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	Gary Guo <gary@garyguo.net>
-Subject: Re: [PATCH RFC v6 05/26] nova-core: mm: Add support to use PRAMIN
- windows to write to VRAM
-Message-ID: <1769737351.3442.2180@nvidia.com>
-References: <DG1IZ8T0FFM2.2WTUZ3AESF9RD@garyguo.net>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DG1IZ8T0FFM2.2WTUZ3AESF9RD@garyguo.net>
-X-ClientProxiedBy: MN2PR17CA0019.namprd17.prod.outlook.com
- (2603:10b6:208:15e::32) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [RFC PATCH v2 0/3] mm/damon: Introduce node_target_mem_bp Quota Goal Metric
+Date: Thu, 29 Jan 2026 17:48:06 -0800
+Message-ID: <20260130014807.51302-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260129215814.1618-1-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|BY5PR12MB4307:EE_
-X-MS-Office365-Filtering-Correlation-Id: 07792530-52ed-4ed1-3799-08de5fa14d6c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RERuc3c0STJMdTYrcnFoZ1MyMUgvUWRaaFNISjgyY1pwcisvS0pmb1E0NEY4?=
- =?utf-8?B?WGV6VlhPSTN2Q2xpR2laUkxrY3BDTWxDRXZyMU1XalpxeElTcTIrZkNpTGZV?=
- =?utf-8?B?dUtDR0FSMUd2aFk2WWowdUoxL2FDWncwWmRIdW5rOXZGUERFdTVCa1FNei81?=
- =?utf-8?B?Ui96eUFidDZFeGxuRzlWWWhEWFBsUHppbi9tR2pRSndveWFQMUhFQlNuSjVM?=
- =?utf-8?B?dHBEOGY4Z0c2eXNZcE5kVWdJNll3TnZTSmtyZm1LVXNXRmZBVWVVRVAzNjhy?=
- =?utf-8?B?UzYzbCt5UGJCRnlQdTl1RG1kRlRyelhOZVJSQjdtM0FPTldGU3pJZTBXeDNL?=
- =?utf-8?B?UmdSdWdJVVo0ci9Vbzk0QWd6a0VCQmVmVW9QVExDUEJpdjJzai9pZk1OTUVt?=
- =?utf-8?B?ejZGL3pmU01FNEhBZVR5UGwxVHkwU3lRTjBRNkYwSE14UWlXcjBGRU9wY1d5?=
- =?utf-8?B?OUo5aTdEWnNFRDd2cHJrQnJqN0pnK28rQ2RsWWlXbndWOGRiVVp3NjYyNzBT?=
- =?utf-8?B?MEpmRUFrbWtJeGF2bXV1SEN2N0twellDbndtMVVpSUNpWjhkdWxXSldTZnBW?=
- =?utf-8?B?cTByMFBOT0ZOeVA3ei9BSUVtSUxuMnNYaVYyL0RHZlF0bHE5S09wRGx6R0U1?=
- =?utf-8?B?cjRNNytYQ2hBd0plNXViNjBCa3J5WDdBQWI5RVQrdmlWK3g4N29ZNWRteTk0?=
- =?utf-8?B?QXJ5MEZQUDZ1bzAwQU0xVklSK1RSNHo3TUVWTGVBUmdWdGJwaVROQlk0dno4?=
- =?utf-8?B?SkQyQnArYklEeTNEUnZkRUF0d0FZREFzM0VpREVuZ2IxVjZEUHRGQ3RjMmFm?=
- =?utf-8?B?ZE5xdmsrcDgzU3lsTFNQMVhRRW9EOUgvbkFLZU52NmY2Rld4Z0ZGOVJnMkNr?=
- =?utf-8?B?RS9ER0t5d2QxT1JIbDkrbWFjUXlmd3hyeDBQTGVjbXM1Qm91SXJxUFZQL05O?=
- =?utf-8?B?Z0poOVFJVVk5U1N1dzBjZ3VJZFY0SE1rRDhaeEt4WURsYk16NzR5T1BHaEJp?=
- =?utf-8?B?ZzI5Tit6TWlSWGphaUk5UjRZNlVOVXc4SUFhMWtYVno4RUl3aEtRdzMrSThu?=
- =?utf-8?B?MC82M1RDVTlwV2pzdWlaQnNTVzMyWFdVMjRSWjRNSjliMERzVGpPWlR4Mlov?=
- =?utf-8?B?dGN2NXJLaE52dUFYU3ZKaElrajZaUm5zUDhiaFBHbmFhRnVHNlNhTHBWajE2?=
- =?utf-8?B?cnIvK1pJbDFmTkcwODBENlZOb3pFdHpiMVNnT1RaVXFRbmd5WVpzb2g3djNR?=
- =?utf-8?B?R3pVY0lIVGFaZUwvdkNLS0VOcG1YbTZSTmJGdkdUb1pKQnQrNGRKOTYxNDhZ?=
- =?utf-8?B?bmFod2Y1TUwzUnQ1d1NaZmQrRXVwKzdNd3RIOGZLNFAxZnlWcHo5a2k2RnR6?=
- =?utf-8?B?bXpWTnlUTWVpelJETWxUNytZYnF3RWpieWsxcUwxejcyK0VjQ000Z1ZiWWcw?=
- =?utf-8?B?Nkd5Mm9pWXcvU1VBdHJ3dkdCQmZIRGJSNHJ2ODBxdnJoSVBRaHhsM3p0cmtz?=
- =?utf-8?B?Ny9lVlNNZldiSzNobTF3amp4bWRxS0YwYnV2bFNJZTBIMCtHb0xUMU1QRWx4?=
- =?utf-8?B?aUFzTGplTk4yQlkvZDNyMEdjcEtpRWJidVpJVithd2hJWWFaVnM4ZVk1eEdx?=
- =?utf-8?B?WmhrWkJvR0lwTVVuTjR5Qk1XLzE2UWg2ZkNBNTlFKzQyOGhJS1lIZFVHUGNr?=
- =?utf-8?B?SzFjYUdoYUl4UFloMWpFckJ6S2o1ZzRBOFBlUWtnZzhVbndma3hWbzg1RjdG?=
- =?utf-8?B?Rk5hR2dTUjhYM0w4NW1yKy94eWY3a002K3krU3orTEpMSTg1QlFKUS9ONE1M?=
- =?utf-8?B?R21NMHYwamd2UXZYNUJXOVcvTDljR2c0L2ZHOTRLWGtwQ24xWDJyaENmNXVh?=
- =?utf-8?B?d2J4NEpwcTNWTUtiQm9CemdEbFgvdUc4c0gyamdmS1NzcUZpbFM0bnhRc2RY?=
- =?utf-8?B?c0FRR2dSMWs3RGgybnp6QzJNbks5NHNadjFlakVUemIzSXRLNVZnTDYxSlBy?=
- =?utf-8?B?bzY2NFd4TUdsMUlCMW5OYXJ1eDNXVU9JZVJ4T3JEdFNrUk1LUExlVm8xL0NF?=
- =?utf-8?B?bXBUYUQya3dkRnRiam9JNUU5U2ZpWC9zZG1LLzdHS2ZtNTZHbnQ1YjNFY2Nu?=
- =?utf-8?Q?9VxQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?clo2cjZkL3BVZzlVeTZlTTBsdmc5eS91dDhiU1dpaUJIN1pLZm9oRkJKSFpq?=
- =?utf-8?B?Uk1hU20yQWhVT2lPWWE3VlY3VnJDWjJLOXV5TVljZ3hYVjVBejZSbXdMdjNC?=
- =?utf-8?B?MXloSklvVWUzMXVteEl5OEE2S25vUFlZZ2lKR2lPSHE2R3BvdDBTMTZsSmJ4?=
- =?utf-8?B?aWFrUnprakgyK1RyNHpmaE1IQzl3cEhRaG9oRjU3YW1FY1Nub0VJOGxqdFRy?=
- =?utf-8?B?YWIrUHpnckt3Wjc3aHBjRTlCbHNKMkFacDkwSUp3d0RHNUpjdjU5T0x6Szcz?=
- =?utf-8?B?NUVCaFBPalV4dFVHZ2pWYUlzenVBZ0V6NXhiNEphWXFTTDVJMWVEWXFoTlV1?=
- =?utf-8?B?b1JBTWZTajZiREo2TnVWQVlMelpldTJuck9lUlhJMU91SnlaalVsczNOcTdS?=
- =?utf-8?B?VjlQZzFrYVlQbkprSkN3RlNUUlF3dC9Hb3l6ZzRZb2txaFBENEpUaHdzdXly?=
- =?utf-8?B?eFRjWEdiVFlkdEhidGhjRlV0NzRsY0JTMUhrU0IvYmZ2MnZPVTJKWDJMWmFh?=
- =?utf-8?B?M0JBTXNIMkdvbEl2dkdtL25YM3gwc1huMk8yQU4wbTE5N1NQenFLVjZ0a1Fp?=
- =?utf-8?B?UDArcmlPZ1lSK2ltWEFzNVRZTjZkYW5lK2FtZDBFeDVibGRkcG5DUTZYTHRl?=
- =?utf-8?B?Y0pkUDkyb2ZxdWF2UlRJVmRlZjJJUzdzL3RCZldicXRaVko4TGo5MUlhRUNU?=
- =?utf-8?B?SmtSQXJuOFRpR2Rab2hLWUFDQ2RCUUxIK1Y5RTFIMnlVVnp2UktpVEdiaW1G?=
- =?utf-8?B?eHlPUjdVWnJGNUdNalQwRFhRMnUwMzRWanBiTWhUVzN3QXc0cmh0Snc1YVZY?=
- =?utf-8?B?b0IzOXkxbkh1MWlqRWJMNVNHR0V2MTJkck9hMTJ0M1VGOGRobFdDNTN2dWRG?=
- =?utf-8?B?QkRNMWo0NFgzS2xrVjZlNktYVTNlMEhkdWNOQjBwYlNTbDVlZis4emxSWTFh?=
- =?utf-8?B?c3d0MzV4UFQ5c2hOU2wvYzk2SlR3cktIblhYaXhrdFlrZVo2eWQvMFZoTGlF?=
- =?utf-8?B?QUN0WlhhcVUvdzVXaHk3ZTZ6K1k3cWVFSkJhT1IxazByUjUwMXpZV3pvRTdt?=
- =?utf-8?B?OThkSHExcVBRL3FFK2RYRzhHaXV5cDAvRGMveVZCSkdxZFlGQThENjdrMXQy?=
- =?utf-8?B?NzY0YUo5Qm9YZTRjZGh6TVp0TmdhZms1bWNOVVp0UzlXLzBMQllTTGNlVlRj?=
- =?utf-8?B?RUJUOGRCN21IWjVyUjdjRnhRTmlIbngzVmpVb1NnUUhpWldtL2pLcHpiMm8x?=
- =?utf-8?B?VU1RREhtMnA4alNoYXZMMy9yN0NMeWYxUzRUbVUrM0tTQm90NWdNTmRWV1V1?=
- =?utf-8?B?clkrVWNuelhkb1JnamFYYmZCeXQyZFlVbmpLTzBqMERiUUFzOWc2V2pLWkho?=
- =?utf-8?B?b1VhOG5HQWF6Lys5VU1SRVJLVHh0STN2OVFlc0VOOEp1M0VXbUQvaHh0di95?=
- =?utf-8?B?QXdXa0hCNjlzMG1ZMjl1NFpEMEFXZVNZeXpDZkV0bFkwODdiUTgzYlZsb1Bn?=
- =?utf-8?B?Qk1aKzA4RWVKL01DZmFCY3d6L1NRR1dPTU84enNaTEt0cGFyNjg1R05ZTWdT?=
- =?utf-8?B?WWZlYmhtcVVMTXZ0cWdlQkhtZnpaRGgrL2Z2OHY3TWV3djJ3elh5cDdvYWpI?=
- =?utf-8?B?c2UyNytrNFNwN3k2T1RHRlRwejZsK1gyc1E0ZWZuUXZRdzhHanM0SzRjbGU1?=
- =?utf-8?B?RDlkUGgxS094UStoUTZOdCsrSStHRUcvNTE4dHYwUEtFZHZ2VldhZkUrSTlG?=
- =?utf-8?B?Z2V6ZU5hdXQrMC9vR1NKckhUM1RDUGIvQ21PUW02cHVTeUF4aTlXVCt2ZE94?=
- =?utf-8?B?M0pIdkgxdlJuK1N5WStEb21JVGlSNmpXbkd3eUVUd1YwSG9Pei8rZHlkaHNz?=
- =?utf-8?B?WGU4UUdmM2RQdUlJZWlBbm5OeWJJSUlvUWdWbGxpVm5TV01sbzAxTmtnRmQz?=
- =?utf-8?B?OTdOTmlyeGtvQm1KeXg5enpyN0hRUU94M25uNWhBQ3dhajdVSGtYRHFQZUx5?=
- =?utf-8?B?MlJsdFFHSDdGaVgyQUljOElvTCtnKzl2TFlZa0pNRS9NVGYyOUJhMlM0OXo2?=
- =?utf-8?B?U3A1TVk0ZUc3SWx2Qy9pc3REMXUrQkwwV0haR3hIeGh1UTdBeGlmYyt6cWRV?=
- =?utf-8?B?eDJiQ3U3aFROOFpMQlMzWGJCWlNHVC95QjJuMUNGUWt3ZzlqNHlYQ3hsQmcy?=
- =?utf-8?B?ZUMyZzNTaHJSbTZGWm82RkhZT0wyMzcyYk9WRWNMd1ZIRlhNQlkxaW4rSmI5?=
- =?utf-8?B?S2hUdElrRlplYTg5blNyZ1VOREVUNkg1RWlZbTBGd3FqRXZNN2pCK1hoeUdm?=
- =?utf-8?B?aUVYaE5zQTQvRkxrZDZZdkQxb0daZEtRZXNsTDUrWXp2Q0k2Wkc0Zz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07792530-52ed-4ed1-3799-08de5fa14d6c
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 01:45:52.9225
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sz9+J6Wv4/rLAPubATKEahypZqkQbs+AaB/qQBChDt2bKe10adfADCYlWgHIlV7wf5hi5RB6qUb6U71niewaew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4307
+Content-Transfer-Encoding: 8bit
 
-> On Jan 29, 2026, at 8:16 PM, Gary Guo <gary@garyguo.net> wrote:
->
-> ﻿On Fri Jan 30, 2026 at 12:26 AM GMT, Joel Fernandes wrote:
->> Hi, Danilo, all,
->>
->> Based on the below discussion and research, I came up with some deadlock
->> scenarios that we need to handle in the v6 series of these patches. Please let
->> me know if I missed something below. At the moment, off the top I identified
->> that we are doing GFP_KERNEL memory allocations inside GPU buddy allocator
->> during map/unmap. I will work on solutions for that. Thanks.
->>
->> All deadlock scenarios
->> ----------------------
->> The gist is, in the DMA fence signaling critical path we cannot acquire
->> resources (locks or memory allocation etc) that are already acquired when a
->> fence is being waited on to be signaled. So we have to careful which resources
->> we acquire, and also we need to be careful which paths in the driver we do any
->> memory allocations under locks that we need in the dma-fence signaling critical
->> path (when doing the virtual memory map/unmap)
->
-> When thinking about deadlocks it usually helps if you think without detailed
-> scenarios (which would be hard to enumerate and easy to miss), but rather in
-> terms of relative order of resource acquisition. All resources that you wait on
-> would need to form a partial order. Any violation could result in deadlocks.
-> This is also how lockdep checks.
->
-> So to me all cases you listed are all the same...
+On Thu, 29 Jan 2026 13:58:11 -0800 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
 
-Hmm, I am quite familiar with lockdep internals, but I don’t see how all cases
-are the same one when there are different resources being acquired (locks versus
-memory allocation, for instance). I think it helps to visualize different cases
-based on different scenarios for a complete understanding of issues and mild
-repetition is a good thing IMO - the goal is to not miss anything. But agreed on
-that is how lockdep works. Lockdep just needs those relationships in its graph
-to know that ordering enough to flag issues. Speaking of lockdep, I have not
-checked but we should probably add support for fence signal/wait and resource
-dependencies, to catch any potential issues as well.
+> This series introduces a new DAMON quota goal metric, `node_target_mem_bp`,
+> designed for controlling memory migration in heterogeneous memory systems
+> (e.g., DRAM and CXL memory tiering).
+> 
+> v1: https://lore.kernel.org/linux-mm/20260123045733.6954-1-ravis.opensrc@gmail.com/T/#u
+> 
+[...]
+> Two-Context Setup for Hot Page Distribution
+> ===========================================
+> 
+> For distributing hot pages between two NUMA nodes (e.g., DRAM node 0 and
+> CXL node 1), two DAMON contexts work together:
+> 
+>     Context 0: monitors node 0, migrate_hot -> node 1
+>       goal: node_target_mem_bp, nid=0, target=6000
+>       "Migrate hot pages out when node 0 exceeds 60% hot"
+> 
+>     Context 1: monitors node 1, migrate_hot -> node 0
+>       goal: node_target_mem_bp, nid=1, target=4000
+>       "Migrate hot pages out when node 1 exceeds 40% hot"
+> 
+> Each context migrates excess hot pages to the other node. The system
+> converges when both nodes reach their target hot memory ratios.
 
-Thanks for taking a look,
+Thank you for adding this example use case!  This is very helpful for
+understanding how people can use this feature, and if there is a wrong
+assumption.
 
---
-Joel Fernandes
+I think the use case idea is nice and making sense to me.  Nonetheless, I find
+a DAMON's devil in the detail.
+
+DAMOS quota autotuning assumes applying the given scheme action more
+aggressively (increasing quota) will help increasing the quota goal metric.  In
+other words, it believes the aggressiveness (tuned quota size) and the metric
+value are proportional.  Hence, for the first context, DAMON will migrate hot
+pages of node 0 to node 1, when the hot pages in node 0 is less than 60%, and
+start gradually decreasing and eventually stop the migration after hot memory
+portion on node 0 reaches and exceeds 60%.  A human readable interpretation of
+it would be, "Migrate hot pages out when node 0 not exceeds 60% hot", which
+makes no sense for your use case.
+
+To make it work as you described, you may implement another metric representing
+the ratio of scheme-uneligible memory on the given node.  Say,
+'node_ineligible_mem_bp'?  To borrow your above nice notation, it could be
+calculated as below:
+
+    (node_capacity - scheme_eligible_bytes_on_node) / node_capacity
+
+Using this, your above use case could implemented like below:
+
+    Context 0: monitors node 0, migrate_hot -> node 1
+      goal: node_ineligible_mem_bp, nid=0, target=4000
+
+    Context 1: monitors node 1, migrate_hot -> node 0
+      goal: node_ineligible_mem_bp, nid=1, target=6000
+
+And I'm not very sure if that is really what you want.  For example, if node 0
+has 30% hot memory and node 1 has 20% hot memory, no migration will happen.
+
+I think you might want node 0 to have more hot memory, but no more than 60% of
+the node.  DAMON-based auto-tuned memory tiering [1], for example, use this
+kind of approach.  If that's what you want, you could use node_target_mem_bp
+together, like below.
+
+    Context 0: monitors node 0, migrate_hot -> node 1
+      goal: node_ineligible_mem_bp, nid=0, target=4000
+
+    Context 1: monitors node 1, migrate_hot -> node 0
+      goal: node_target_mem_bp, nid=0, target=6000
+
+I'm not still very confident if I understand what you want, because you
+mentioned dynamic weighted interleaving was the major motivation of this
+project.  In the case, you might want only hot memory be distributed across
+NUMA nodes in a specific ratio.  In the case, you may want the denominator be
+"scheme-eligible memory of the system" instead of "node capacity".  To borrow
+your notation again,
+
+    scheme_eligible_bytes_on_node / scheme_eligible_bytes_on_system
+
+Let's call this just node_target_mem_bp2.  Then, if you want node 0 and 1 to
+have 60% and 40% of hot memory, you could setup DAMOS as below:
+
+    Context 0: monitors node 0, migrate_hot -> node 1
+      goal: node_target_mem_bp2, nid=1, target=4000
+
+    Context 1: monitors node 1, migrate_hot -> node 0
+      goal: node_target_mem_bp2, nid=0, target=6000
+
+[...]
+> Status
+> ======
+> 
+> These patches have been compile-tested but have NOT been tested on actual
+> hardware.
+
+It will be very helpful!
+
+> Feedback on the design and approach is appreciated.
+
+So you might need to change the definition and name of the metric, and/or add
+new metrics.  But the basic theory of the requirements, the design and the
+implementation approach of this patch series looks good to me!
+
+> 
+> References
+> ==========
+> 
+> [1] mm/damon/vaddr: Allow interleaving in migrate_{hot,cold} actions
+>     https://lore.kernel.org/linux-mm/20250709005952.17776-1-bijan311@gmail.com/
+
+[1] https://github.com/damonitor/damo/blob/next/scripts/mem_tier.sh
 
 
+Thanks,
+SJ
 
->
-> Best,
-> Gary
->
->>
->> 1. deadlock scenario 1: allocator deadlock (no locking needed to trigger it)
->>
->> Fence Signal start (A) -> Alloc -> MMU notifier/Shrinker (B) -> Fence Wait (A)
->>
->> ABA deadlock.
->>
->> 2. deadlock scenario 2: Same as 1, but ABBA scenario (2 CPUs).
->>
->> CPU 0: Fence Signal start (A) -> Alloc (B)
->>
->> CPU 1: Alloc -> MMU notifier or Shrinker (B) -> Fence Wait (A)
->>
->> 3. deadlock scenario 3: When locking: ABBA (and similarly) deadlock but locking.
->>
->> CPU 0: Fence Signal start (A) -> Lock (B)
->>
->> CPU 1: Lock (B) -> Fence Wait (A)
->>
->> 4. deadlock scenario 4: Same as scenario 3, but the fence wait comes from
->> allocation path.
->>
->> rule: We cannot try to acquire locks in the DMA fence signaling critical path if
->> those locks were already acquire in paths that do reclaimable memory allocations.
->>
->> CPU 0: Fence Signal (A) -> Lock (B)
->>
->> CPU 1: Lock (B) -> Alloc -> Fence Wait (A)
->>
->> 5. deadlock scenario 5: Transitive locking:
->>
->> rule: We cannot try to acquire locks in the DMA fence signaling critical path
->> that are transitively waiting on the same DMA fence.
->>
->> Fence Signal (A) -> Lock (B)
->>
->> Lock (B) -> Lock(C)
->>
->> Lock (C) -> Alloc -> Fence Wait (A)
->>
->> ABBCCA deadlock.
->>
->>
->> --
->> Joel Fernandes
->>
->>> On 1/28/2026 7:04 AM, Danilo Krummrich wrote:
->>> On Fri Jan 23, 2026 at 12:16 AM CET, Joel Fernandes wrote:
->>>> My plan is to make TLB and PRAMIN use immutable references in their function
->>>> calls and then implement internal locking. I've already done this for the GPU
->>>> buddy functions, so it should be doable, and we'll keep it consistent. As a
->>>> result, we will have finer-grain locking on the memory management objects
->>>> instead of requiring to globally lock a common GpuMm object. I'll plan on
->>>> doing this for v7.
->>>>
->>>> Also, the PTE allocation race you mentioned is already handled by PRAMIN
->>>> serialization. Since threads must hold the PRAMIN lock to write page table
->>>> entries, concurrent writers are not possible:
->>>>
->>>>  Thread A: acquire PRAMIN lock
->>>>  Thread A: read PDE (via PRAMIN) -> NULL
->>>>  Thread A: alloc PT page, write PDE
->>>>  Thread A: release PRAMIN lock
->>>>
->>>>  Thread B: acquire PRAMIN lock
->>>>  Thread B: read PDE (via PRAMIN) -> sees A's pointer
->>>>  Thread B: uses existing PT page, no allocation needed
->>>
->>> This won't work unfortunately.
->>>
->>> We have to separate allocations and modifications of the page tabe. Or in other
->>> words, we must not allocate new PDEs or PTEs while holding the lock protecting
->>> the page table from modifications.
->>>
->>> Once we have VM_BIND in nova-drm, we will have the situation that userspace
->>> passes jobs to modify the GPUs virtual address space and hence the page tables.
->>>
->>> Such a jobs has mainly three stages.
->>>
->>>  (1) The submit stage.
->>>
->>>      This is where the job is initialized, dependencies are set up and the
->>>      driver has to pre-allocate all kinds of structures that are required
->>>      throughout the subsequent stages of the job.
->>>
->>>  (2) The run stage.
->>>
->>>      This is the stage where the job is staged for execution and its DMA fence
->>>      has been made public (i.e. it is accessible by userspace).
->>>
->>>      This is the stage where we are in the DMA fence signalling critical
->>>      section, hence we can't do any non-atomic allocations, since otherwise we
->>>      could deadlock in MMU notifier callbacks for instance.
->>>
->>>      This is the stage where the page table is actually modified. Hence, we
->>>      can't acquire any locks that might be held elsewhere while doing
->>>      non-atomic allocations. Also note that this is transitive, e.g. if you
->>>      take lock A and somewhere else a lock B is taked while A is already held
->>>      and we do non-atomic allocations while holding B, then A can't be held in
->>>      the DMA fence signalling critical path either.
->>>
->>>      It is also worth noting that this is the stage where we know the exact
->>>      operations we have to execute based on the VM_BIND request from userspace.
->>>
->>>      For instance, in the submit stage we may only know that userspace wants
->>>      that we map a BO with a certain offset in the GPUs virtual address space
->>>      at [0x0, 0x1000000]. What we don't know is what exact operations this does
->>>      require, i.e. "What do we have to unmap first?", "Are there any
->>>      overlapping mappings that we have to truncate?", etc.
->>>
->>>      So, we have to consider this when we pre-allocate in the submit stage.
->>>
->>>  (3) The cleanup stage.
->>>
->>>      This is where the job has been signaled and hence left the DMA fence
->>>      signalling critical section.
->>>
->>>      In this stage the job is cleaned up, which includes freeing data that is
->>>      not required anymore, such as PTEs and PDEs.
->
-
--- 
-Joel Fernandes
-
--- 
--- 
-Joel Fernandes
+[...]
