@@ -1,95 +1,96 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884373659F0;
-	Fri, 30 Jan 2026 04:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6392222B2
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 04:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769746233; cv=none; b=ShHUH+k1OhGiU6q+6iZ/3o8keYLbItZelnh6MdG/sWB07SN+JjTgIEOCu1pok7KxMVmfFsKCe7Ufv4GpXuknuDGZ9XLpC4RDOPCfqLkD6QhLyYC3wOMSIe7TibkUQuKOjviJF7gKgPsQFEJsRG/vkCZX3BECR1FsaCm/ze5glMk=
+	t=1769746906; cv=none; b=o2Qz3a60lwVKlLMCzixUQuFYLQx4b4HkvTG16iCkxDu7VU4Szuc2f0ll+O7bwxMMGoxtDfK5mjCatTM9Odpe52uko6w5Fa65zTV2Sd6+iofj+/vyiJk1s8BZYQcDCFill45IAphj8zdTv7V5LIJWG+xajClWqHLVusgV6tb6OOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769746233; c=relaxed/simple;
-	bh=WcqOXi51SLaCHI8JsAHkKOX3stPsziuTNF7QsGKhIeY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s6u/3B8CApKb1ds3ypA4cgb67HXREVPp2dxroZjz74WzwEzuPdHkYSxb0gRIjNLzvopcrnOnw/5bpsYf0tBkkpUzqclXIY6HJOvs3Vg+/Ai/SHZKeM9QXqCXqy6Gejhu+1dUPOoxqFVOdTgRCc3a6dbocjKf5g+njHoMhKoXB7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 9947ebfcfd9111f0b0f03b4cfa9209d1-20260130
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:9be15533-7bc8-4271-9ddf-f7e04d5300a2,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:a9d874c,CLOUDID:d7c5fa5842f10626ae13cb4617c6ad9a,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
-	52,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
-	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 9947ebfcfd9111f0b0f03b4cfa9209d1-20260130
-X-User: tianyaxiong@kylinos.cn
-Received: from [10.42.13.21] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <tianyaxiong@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 460452061; Fri, 30 Jan 2026 12:10:23 +0800
-Message-ID: <9f3a26b1-0bcc-47d9-b3ca-645b24a800bd@kylinos.cn>
-Date: Fri, 30 Jan 2026 12:10:20 +0800
+	s=arc-20240116; t=1769746906; c=relaxed/simple;
+	bh=CYL4AfP5NIYabfXAY3UHwSusYN/W7j0M4uqwhQBmPS4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JMfiAveKBkKkyW6FAbD07O4H43inP8sGdZrGulhN/6cs6yrPmsw6yx1uMaLK381x58udNK9atjCNd9/4Q8KeH34zcoktTFmu7sMmHUvFMSsJ0R+QkSqdvAQH/O8rtrciWY5hrd/Ig9r/7NDNp33EbDMwYp98MN0D12Qx+xFSjsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cIdaWqR8; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cIdaWqR8"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7cfcb5b1e2fso967922a34.3
+        for <linux-doc@vger.kernel.org>; Thu, 29 Jan 2026 20:21:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769746903; x=1770351703; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Gki1vS8bTtNa/7DENC2lltOwIakLJODhHuPRufCBB6E=;
+        b=cIdaWqR8aIr1Gxwx/x4ZeIF5Bb+2w97AGUBUFVr8LXhza2KNM97S9QdrOHyeKkcvPH
+         twfI5dYaifh445zCWVdCkHWT+dgi6j0tw87gBjINW7cDbstf7E/1qZcZQiPQH0Ai7K1y
+         PJ81hPYpPclwQyIAtixq0zBh5vftXdPc839NnpFcxx5xFMEE700JO113aKeb3JpIE6Vj
+         zQDzTLsTPSBMXsa4KVyOSd4+b08PMbJJxb+lIyKjBdhScYb0cmEcGboAWUSxXwtWdl6O
+         4izWR9WAKcntiibS1C50+goXMlnyFyJm5FMFgEFeDF0UnR0laEMLKVwOgrnKBFXlsKch
+         fDLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769746903; x=1770351703;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gki1vS8bTtNa/7DENC2lltOwIakLJODhHuPRufCBB6E=;
+        b=EPk1C861rCxhLVq1oHqe3A8s5DZkFm1wUuA52tfk0RItV8ofVfIuwS6qgd4X5kPSBP
+         rqD5Bp9QON1w1kpE1A+hzCB33yjStwm+kDp+K73ziRZ5WR5Uqzpd42grU+BhxOGWyL8I
+         OBqrmYtZk/DjLm/2CoX0+pOD/oldigZEHGwufAg/pHHgUDjn6piDcZ5kBm069JtqCV0n
+         8YjhPkJQejtN8TMpdkd3gkAwkkgk1QTtKRu/RwNTwFXHBWAvOFPfknmB0DfYdOHQIJc8
+         GANs7xU2GVep4i/ZK/5AJDeZb7Q0LZo4IR742/LCo180kfDrKsP5nbavXP82mg5SacoD
+         sajg==
+X-Gm-Message-State: AOJu0YyqgH3fwaykW/s/Ve5m9gMwYlx48CeuDo/6vuLuouP0AgWr1rCJ
+	KtAG4DNV2LSD+yBqmf2ogeP4OVCuXV3n1t9JoUgJIGhvbbJystcZRb7dMzrl6Q==
+X-Gm-Gg: AZuq6aLwb7ylnniZV3yrEisawn1WLuqfvu3hqwo63njNAUI/5nk//gCiGqYmmIBO/Dn
+	iJ3ZitNWp+WZDWBkoVGRLxhHZngW3/UX/tOEX6BfVmvdtSzMebyyH/4bw6Twue4yqZ4bUjpynVX
+	ePXy2NGD5zue2yWOXLGkICRthfYJq2qlZV4AWfONOoGPEre9TsMDafMZo8b5QzGN+/Ishp34Vm8
+	jscBWiSERRNanehsf5F486bswYBP8ovjYeZINKYjAQWcTAYKMwKxNqgcmhVhk6VEl+IBRk6WH49
+	aXXLQUxAsWdoOWGvDaDDpdBsn1SPV3dLucbTYWghr25UNCYXyPZD5FSylJxGcBeLU8hEwwOUURL
+	JCZV1qszNxtVbHAXIlZ8qKbHGeUqJuJEnvPsyGsFYwrqTtN927eEACSgSveRBfQubDP+OWme59a
+	7QgWv2EXUy56i2ESlZ72c5RCN216TneIaKOUf4AfXlEF3rjJBO5hOyhnd1XwA=
+X-Received: by 2002:a05:6830:6abc:b0:7cf:e60a:f67d with SMTP id 46e09a7af769-7d1a52e1c8bmr963157a34.7.1769746903221;
+        Thu, 29 Jan 2026 20:21:43 -0800 (PST)
+Received: from gabes-framework.lan ([2607:fb90:cf21:856f:6fcf:9837:4067:b678])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d18c67100fsm4995020a34.3.2026.01.29.20.21.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jan 2026 20:21:42 -0800 (PST)
+From: Gabriel Whigham <gabewhigham@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: corbet@lwn.net,
+	Gabriel Whigham <gabewhigham@gmail.com>
+Subject: [PATCH] docs: ioctl-number: fix a typo in ioctl-number.rst
+Date: Thu, 29 Jan 2026 22:21:31 -0600
+Message-ID: <20260130042131.51975-1-gabewhigham@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/5] blktrace: Make init_blk_tracer() asynchronous when
- trace_async_init set
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jens Axboe <axboe@kernel.dk>, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-trace-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260128194104.30051be1@gandalf.local.home>
- <56C8934E-3D17-4467-93E6-D813770BF577@kernel.dk>
- <20260129152958.05c1ca46@gandalf.local.home>
- <bb29a10c-6130-4040-8521-0b5375c017ef@kylinos.cn>
- <a61e6bc0-58d1-46f0-8a4f-17f02503fe17@kylinos.cn>
- <20260129222608.7000bffd@robin> <20260129223116.489a01fd@robin>
- <20260129224520.7f043338@robin>
-Content-Language: en-US
-From: Yaxiong Tian <tianyaxiong@kylinos.cn>
-In-Reply-To: <20260129224520.7f043338@robin>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+"userspace" was misspelled as "userpace".
 
-在 2026/1/30 11:45, Steven Rostedt 写道:
-> On Thu, 29 Jan 2026 22:31:16 -0500
-> Steven Rostedt <rostedt@goodmis.org> wrote:
->
->> I added the below patch and have this result:
->>
->>     kworker/u33:1-79      [002] .....     1.840855: trace_event_update_all: Start syncing
->>         swapper/0-1       [005] .....     6.045742: trace_eval_sync: sync maps
->>     kworker/u33:1-79      [002] .....    12.289296: trace_event_update_all: Finish syncing
->>         swapper/0-1       [005] .....    12.289387: trace_eval_sync: sync maps complete
->>
->> Which shows that the final initcall waited for the work queue to complete:
-> Switching to printk() gives me the same results:
->
-> # dmesg |grep sync
-> [    1.117856] Start syncing
-> [    4.498360] sync maps
-> [   11.173304] Finish syncing
-> [   11.175660] sync maps complete
->
-> -- Steve
+Signed-off-by: Gabriel Whigham <gabewhigham@gmail.com>
+---
+ Documentation/userspace-api/ioctl/ioctl-number.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sorry, yes, no problem. I confirmed that init_blk_tracer() is running 
-properly (when executed sequentially) — if there were an issue, it would 
-have already gotten stuck in a lock. It seems like this might be related 
-to the print buffer. I’ll look into this issue myself.
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index 7232b3544cec..b5c6447455fd 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -15,7 +15,7 @@ macros defined in <linux/ioctl.h>:
+     ====== ===========================
+     _IO    none
+     _IOW   write (read from userspace)
+-    _IOR   read (write to userpace)
++    _IOR   read (write to userspace)
+     _IOWR  write and read
+     ====== ===========================
+ 
+-- 
+2.43.0
 
-
-Back to this topic — I don’t object to that proposal.
-I think each has its own advantages. Let’s see what others think.
