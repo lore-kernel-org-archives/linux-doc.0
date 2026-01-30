@@ -1,146 +1,126 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F74F378820
-	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 11:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DAE35FF72
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 11:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769771629; cv=none; b=FkdzH3c/JHh8GttOuAi41aXZDI3+CZe5t/ajPBLIpp5SbN3JDGOxAmTsBtuj3j2gQ0Nrk+dvOoKFB6LR5EiG6DRdt6znbFi8CJnUNk1rDrEoKN7DIrGr9bha1roW3qnDoDRLFxTnHoajoCwKyXI8OjS2JN8PEQwxPF7t+cDFOWI=
+	t=1769772016; cv=none; b=ZNyVn85dDZMEvDnBn2SRwtx3Wxr7G8YfQ0PqPy2DPMVo7TSZY6SAm0iwUkVPQsaqb4I8/GPDbZ8mAD7u2M0sJnj273cHGYLN7vOG8mIgbGm17Kqx6xjgMb1esfBH2qFnzwkEh+vcyncxY4w0TIm4k0WGesaj1VmhdnA++SaSmK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769771629; c=relaxed/simple;
-	bh=TCis+rQCC6z7XYAkYemlUIoHru5jgaTIrUqt6t+FWY4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nwiimgnbhE9zvgSNO2MLkJ0qwNMmTva03Hv2d45AkRCuRZmCV2EH6KSR0t8l5SJj8kOqY3/qhOOo9S4bsOklDuF19E1NeoIET8hqUnIeFHuqmBK/eL4CFfEm5nn+vio6e7/+Cyv/dwJp9L/xFb+m2zgTgN5PhEBWdmrFUIWzADQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bijCiHCD; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769772016; c=relaxed/simple;
+	bh=TbpwvIB/ykZIuzImUFLin/BO6kcdCaNFZ+AaICv33Kw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DpeWqwFPUwqu4flSK6F3GaAWGuaxDQfww18qBjzkWL2Ouyq9SQBWUojkN95PdqBxdOXnFm8kMozfl1nFxcxfYkHn1VMHbRulrjqER1EhnCb0IgXdSqQCGE0xO7ieAGasvAUk9Cup9nIjMSU6ViRewoy8XEmJsFbh439v8MAVtTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHu0G+s1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bijCiHCD"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-430f2ee2f00so1312629f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 03:13:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769771627; x=1770376427; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=w+yjYwZ7RDCJlqlGtt5ChUntZSWDd8aPFqDlY3AniEk=;
-        b=bijCiHCDiDsrfYSkVIjAqtFdXK0pP3y5v8itW4VnLqZB29KGa2STuu35LNttVG3FeD
-         3c42LD0VN3OVZl0OwXHeg2zrB8V3YNvwyL0HXxsDzB1qcEZ+YwhJ7CMckfyeQ+x5xU72
-         s2CrtAtfxPINwcj5teHNx/VBE9F7lnSx4sGwHfirvj88paMTt7kmu14fQ0auD7MuVxvX
-         8DnEgXkyvEy22rxA+B3tXASXH4HcS+Nki6mWmlmUFHjtWbY57ac9OYUKL90KW9PJMiLN
-         AunrO3J9F9L/zmEkvl+41y/JuzskrpStPTww79WkogBJh0QU+QarB0Sj1xg+1k9NaeNx
-         ZBRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769771627; x=1770376427;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w+yjYwZ7RDCJlqlGtt5ChUntZSWDd8aPFqDlY3AniEk=;
-        b=uwYVJqtb15gDTm70PoMufeBWzlcv9HvDrtmLti0ozgu+Z79P7+U6oMvxeM1NyZrvHt
-         lPDy/fR18L4TIIrLAxwnJ5SHYzOeB7nqJ2U2DcpMxjheAeCMzzzTi2WmnUJCLQB7+z5t
-         5P+ys8rMze+t3gxeDDAOywXdrZaVxNOzn/fRKSL74gIRP8+gnTmgFACDRN7P05RVxQAV
-         /o/PnzUwAXnZXFwr5k0T+FLwOo4ZV8mQ7t1FfrGFGp7hxi+ZcOOwsIkP1fOlHLnZgBqH
-         cuZAXjJzrEOE4Lz0dildbfGSlW32eugKkXHGDk/u2s4SporSSCwYnjIDuvvajnp0076o
-         yPgg==
-X-Forwarded-Encrypted: i=1; AJvYcCWCbIQhe9t0JKFw5CWVY58B4QeSKPJ7cPwnCKE97qGHg9h2wgBgMQ/P5Ak+M3iQhUUmFNbfG5zXT/U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuxrkpA4bgLIsKSv89iUySMjRf96wAwbRwAkMSxmtdHKLOHGA/
-	W/DcFtCQ4T1TAW/Hox0yTq1I+7Ubp0Rf1WjWkYjlvKS4nI/Jd50M4/pE
-X-Gm-Gg: AZuq6aLLBwNnmnecJyzSNcfTVZtMJISBLKvbhcJAMcTp0laZG+ZRAGZsfQc46pG39PK
-	0EWa5p47NTujCLhfBrIre1S+wSU7l3IXIZuPUK42BaQsBjYyhi/uSbepOobX7l1f86BDdssBUBi
-	GQUXShX3ItoivJcrGqMXmysi/vJULegZZ3qQbC+JLgL6okMu8lNXnlCuUwAzPfZ9ECHzdeafJPp
-	PYCIfXEB5Yn1SXzm25VcprldGcqSMhe450ThpXKqSyAZVzzPgj2YGIU1rjfpPmgSnHHq7/MtTQ5
-	84phs2lRhBUC7ofDXSCvFwXfzlcpV2VqiR84d5H6LYSuOrR1gwDc+q+h3kU8frx0pFwymDEGSjp
-	go0qZCAiOEefnr72LYTb5Prw03yEod0wD43B7j3c0ajUELFnfJ4kwAaVG99LyES5jSXNWOb4zn3
-	2KbKWO5cLNLcukOpy/G1QQYYZ/wI4KEYv1tcoYvLnz2qSUmjNVp1jldLZWmjmi+Ii5M81ieMypX
-	67RS+17kwJAWWo7dQ8eLdYqmXt9bNUPv98RDhEDbw0T69w=
-X-Received: by 2002:a05:6000:2905:b0:431:16d:63d1 with SMTP id ffacd0b85a97d-435f3aaf59dmr4092783f8f.44.1769771626677;
-        Fri, 30 Jan 2026 03:13:46 -0800 (PST)
-Received: from ?IPV6:2620:10d:c096:325:77fd:1068:74c8:af87? ([2620:10d:c092:600::1:99eb])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131cfc9sm21437487f8f.21.2026.01.30.03.13.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Jan 2026 03:13:46 -0800 (PST)
-Message-ID: <c37ae03d-2b0e-4179-ac22-7d0c01ff601d@gmail.com>
-Date: Fri, 30 Jan 2026 11:13:35 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHu0G+s1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC7BAC2BCB0
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 11:20:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769772015;
+	bh=TbpwvIB/ykZIuzImUFLin/BO6kcdCaNFZ+AaICv33Kw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jHu0G+s1Kq1r3vqAlHpydVd5Px4YGVjmD914RWGrkCLd+XaYWzQ4FmUrQ4879Dtl6
+	 BOrMC1wh7Smf196WhexeRiBiLm4TcRUqRQbGAHJ69VdqLHdwtsZBJXA6K5vyQBnwR5
+	 ve7uIT3YgJMu4VOUIkIa83XWRFM23XTHeEy3pVlpk625ZESv38pZxOQdc5TB6I2SxI
+	 7/nHUEA/A3ieY0x5d4UqXw6lNlsZVVx7nZK6+wbtTjDgTD8wNWu4sW1oU8MeV4tXK2
+	 LwI6+tdX41lYl78K7DWX9TBnQxWaV5LIaODMGI3Q4njD0YEzVua+mAUFV2bdsz1ihd
+	 SP0v9FvGy+HhA==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-382fe06aa94so17380211fa.0
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 03:20:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUyvHNN8EJD+Jg9l87ZtThpx30lrKGLh8m4s+29ywabJmT6qNew9hFsP/x3lQg+gKlO1YtyFT6SQVo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpGFROFm/q3GqbfU2DSKnmS4I4IRDQ5JozQwnTUvAJfwUzawKw
+	YYp8H2YUzT/KSKRJS+6C45+5KdXtufjfCN/jLcAREdzTsyYncHKApbk16YDFciD0JzOXuo/nJeH
+	L2vJCKjEbex58eggOMY8wDfkK2yN9bjIyOs1HfX63gw==
+X-Received: by 2002:a2e:be9e:0:b0:37b:a30e:fe1e with SMTP id
+ 38308e7fff4ca-38646594a39mr10350221fa.18.1769772014175; Fri, 30 Jan 2026
+ 03:20:14 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v10 0/5] net: devmem: improve cpu cost of RX
- token management
-To: Bobby Eshleman <bobbyeshleman@gmail.com>,
- Stanislav Fomichev <stfomichev@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Mina Almasry <almasrymina@google.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Kuniyuki Iwashima <kuniyu@google.com>, Willem de Bruijn
- <willemb@google.com>, Neal Cardwell <ncardwell@google.com>,
- David Ahern <dsahern@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Shuah Khan <shuah@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- matttbe@kernel.org, skhawaja@google.com,
- Bobby Eshleman <bobbyeshleman@meta.com>
-References: <20260115-scratch-bobbyeshleman-devmem-tcp-token-upstream-v10-0-686d0af71978@meta.com>
- <20260120170749.101e8bcc@kernel.org>
- <CAHS8izMZxM6rcF+7Lfw=KFv4dmbHGSUrQBPmxO+sYj=V3TRuwQ@mail.gmail.com>
- <aXe2QhzL4DoVbesQ@devvm11784.nha0.facebook.com>
- <20260126173124.1f0bb98e@kernel.org> <aXhUfC7ZyYge1jti@mini-arch>
- <CAKB00G3p9_VUTEW_KQvS1JAd+Ju_pjrU5r-v_p+K8Y=vH__mTQ@mail.gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAKB00G3p9_VUTEW_KQvS1JAd+Ju_pjrU5r-v_p+K8Y=vH__mTQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260124170535.11756-1-johan@kernel.org> <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
+ <2026012554-chatty-policy-42a1@gregkh> <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
+ <CAESzEGiA2DSp79pkjxBA5X-DWmSAAgyAF7usKn253jkGpYJMew@mail.gmail.com>
+ <aXovtrAM1r1UyWxA@hovoldconsulting.com> <CAMRc=MeMW4g5em_b9qGBR9OmQZNzyQp-S=zKDCPFu506ixy-cQ@mail.gmail.com>
+ <20260129105634.GC3317328@killaraus> <CAMRc=MfzByLPJ0FKySmG7b79Ah63Mtk1hs1N=6kv8pTDydrcGg@mail.gmail.com>
+ <20260129144906.GE3327197@killaraus>
+In-Reply-To: <20260129144906.GE3327197@killaraus>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Fri, 30 Jan 2026 12:19:59 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McXfSOt4b3AHRcOZoKhkQQsYDt=yWGgS_doO7HC69R2rg@mail.gmail.com>
+X-Gm-Features: AZwV_Qj5xfuk3GOKjPkJG1J_aiopbJnwKIOtc32rNHZAgV4bR-fuRe1_A0LU5o0
+Message-ID: <CAMRc=McXfSOt4b3AHRcOZoKhkQQsYDt=yWGgS_doO7HC69R2rg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Johan Hovold <johan@kernel.org>, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/27/26 06:48, Bobby Eshleman wrote:
-> On Mon, Jan 26, 2026 at 10:00 PM Stanislav Fomichev
-> <stfomichev@gmail.com> wrote:
->>
->> On 01/26, Jakub Kicinski wrote:
->>> On Mon, 26 Jan 2026 10:45:22 -0800 Bobby Eshleman wrote:
->>>> I'm onboard with improving what we have since it helps all of us
->>>> currently using this API, though I'm not opposed to discussing a
->>>> redesign in another thread/RFC. I do see the attraction to locating the
->>>> core logic in one place and possibly reducing some complexity around
->>>> socket/binding relationships.
->>>>
->>>> FWIW regarding nl, I do see it supports rtnl lock-free operations via
->>>> '62256f98f244 rtnetlink: add RTNL_FLAG_DOIT_UNLOCKED' and routing was
->>>> recently made lockless with that. I don't see / know of any fast path
->>>> precedent. I'm aware there are some things I'm not sure about being
->>>> relevant performance-wise, like hitting skb alloc an additional time
->>>> every release batch. I'd want to do some minimal latency comparisons
->>>> between that path and sockopt before diving head-first.
->>>
->>> FTR I'm not really pushing Netlink specifically, it may work it
->>> may not. Perhaps some other ioctl-y thing exists. Just in general
->>> setsockopt() on a specific socket feels increasingly awkward for
->>> buffer flow. Maybe y'all disagree.
->>>
->>> I thought I'd clarify since I may be seen as "Mr Netlink Everywhere" :)
->>
->>  From my side, if we do a completely new uapi, my preference would be on
->> an af_xdp like mapped rings (presumably on a netlink socket?) to completely
->> avoid the user-kernel copies.
-> 
-> I second liking that approach. No put_cmsg() and or token alloc overhead (both
-> jump up in my profiling).
+On Thu, Jan 29, 2026 at 3:49=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Thu, Jan 29, 2026 at 08:50:30AM -0500, Bartosz Golaszewski wrote:
+> > On Thu, 29 Jan 2026 11:56:34 +0100, Laurent Pinchart said:
+> > > On Thu, Jan 29, 2026 at 10:11:46AM +0100, Bartosz Golaszewski wrote:
+> > >>
+> > >> For I2C both the problem is different (subsystem waiting forever for
+> > >> consumers to release all references) and the culprit: memory used to
+> > >> hold the reference-counted struct device is released the supplier
+> > >> unbind unconditionally. Unfortunately there's no way around it other
+> > >> than to first move it into a separate chunk managed by i2c core.
+> > >
+> > > Isn't there ? Can't the driver-specific data structure be
+> > > reference-counted instead of unconditionally freed at unbind time ?
+> >
+> > Oh, for sure, if we did from the start. But we did not and there are no=
+w
+> > hundreds of i2c drivers that do:
+> >
+> > struct my_i2c_drv_data {
+> >       struct i2c_adapter adap;
+> >       int my_other_drv_data;
+> > };
+> >
+> > and in probe:
+> >
+> > struct my_i2c_drv_data *data =3D devm_kzalloc(dev, sizeof(*data), GFP_K=
+ERNEL);
+> >
+> > (or just kzalloc() with kfree() in remove, it doesn't matter)
+> >
+> > and the ownership of that data belongs to the driver. There's no way we=
+ could
+> > address it now so the next best thing is to work towards moving the own=
+ership
+> > of struct i2c_adapter to the i2c core and make it reference counted usi=
+ng the
+> > internal kobject of the associated struct device.
+>
+> What I'm reading here is essentially that we rolled out devm_kzalloc()
+> too quickly without understanding the consequences, and it has spread so
+> much that it can't be fixed properly now, so we need to find a
+> workaround. And now we're trying to work around the problem by rolling
+> out a revocable API that has barely seen any testing, and is known to
+> have design issues. Does any one else see the irony ? :-)
+>
 
-Hmm, makes me wonder why not use zcrx instead of reinventing it? It
-doesn't bind net_iov to sockets just as you do in this series. And it
-also returns buffers back via a shared ring. Otherwise you'll be facing
-same issues, like rings running out of space, and so you will need to
-have a fallback path. And user space will need to synchronise the ring
-if it's shared with other threads, and there will be a question of how
-to scale it next, possibly by creating multiple rings as I'll likely to
-do soon for zcrx.
+No, this has nothing to do with devm_anything(). It's resource
+ownership. What driver creates at probe(), the driver should destroy
+at remove(). I really hate with a passion the pattern where a driver
+creates something in probe() and then tosses it over to the subsystem
+for management. If an entity registers the struct device, it should
+also be the one who allocates and manages the memory for it. Devres
+just made it a bit easier to commit this kind of errors but they would
+exist nevertheless.
 
--- 
-Pavel Begunkov
-
+Bartosz
