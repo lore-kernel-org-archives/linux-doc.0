@@ -1,23 +1,22 @@
 Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 549632459E5;
-	Fri, 30 Jan 2026 02:59:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BBA13346B9;
+	Fri, 30 Jan 2026 02:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769741998; cv=none; b=hia7Z2qVmS2oh6TXkDZkQBWSMau5NxBGApqp3P+6+1rR46nGfMdtXVxBFINcHQmmVMvyN+WVFLp31gd4273MZI7dzLA5bVmVdSvMpph6PkgTxrb52xjryneSgd5nXkC9XSE9a7D0RqobHWuISEkNT5doEMt43+iTfOIxnO0V1jI=
+	t=1769742000; cv=none; b=OIRyReApkcDLWw6+h6myZZXRn2Drypww+SP8iQKYoimjGk5K1H6a8R7Tnizh7ploIKnUW24MqtsD5LNV95AOYbfTcbVzpECUceUmjJbv9PUVObVhDjM68Q3Ic6nbjy+5KoWdms5uD33+ctFTWuUuTwn5yOJgEbflqU5fZ4TLGPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769741998; c=relaxed/simple;
-	bh=a9O2wu6g+zyhpMf66SIUAErNX2YYt0+X+wWqcH+JlOw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V/A3IdCBt1VWR4C9D7wbVa5Pvzfim1Z1AIcXJkKkVxxXEqZ3l991ZNNo+v8yDORo89xt3obEIIPsESzMkSZU/YsZWSDevMsFP+G2+c7Jc+fFAWgrJCY25fL7b2GgMZQNHLHZB2RGJniJwdsVnIACP16Bb1vjAtc5XjKRMD6KH8g=
+	s=arc-20240116; t=1769742000; c=relaxed/simple;
+	bh=1CoTAwVnAdJzTCMVTY8D3AXdGTsE+x1yRXkX5wJQ4/w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WXqNIUC7TyIeVqtzrzQphOLS8XET6lbepGg8/xufF2z0inKXoocSXPxt+z8JKX4hXNznDrtFrhproCZ9iDxbPLfR5YkGGfRXBecxx0a77ha2eejfzArISystbLsxX8tAfuvcHaYNvvICejzdYkyI+ji2NBNIu4hlbsUwWhAA8XU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
 Received: from loongson.cn (unknown [10.40.57.136])
-	by gateway (Coremail) with SMTP id _____8CxLMOoHnxp+SQOAA--.46556S3;
-	Fri, 30 Jan 2026 10:59:52 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.40.57.136])
-	by front1 (Coremail) with SMTP id qMiowJDxaeCfHnxpR_Q5AA--.45699S5;
+	by gateway (Coremail) with SMTP id _____8Cx68KnHnxp8SQOAA--.46042S3;
 	Fri, 30 Jan 2026 10:59:51 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.40.57.136])
+	by front1 (Coremail) with SMTP id qMiowJDxaeCfHnxpR_Q5AA--.45699S2;
+	Fri, 30 Jan 2026 10:59:43 +0800 (CST)
 From: Tianyang Zhang <zhangtianyang@loongson.cn>
 To: chenhuacai@kernel.org,
 	kernel@xen0n.name,
@@ -31,12 +30,10 @@ Cc: loongarch@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Tianyang Zhang <zhangtianyang@loongson.cn>
-Subject: [PATCH v9 3/4] irqchip/loongarch-avec.c:return IRQ_SET_MASK_OK_DONE when keep affinity
-Date: Fri, 30 Jan 2026 10:59:38 +0800
-Message-ID: <20260130025941.2140582-4-zhangtianyang@loongson.cn>
+Subject: [PATCH v9 0/4] Loongarch irq-redirect support
+Date: Fri, 30 Jan 2026 10:59:35 +0800
+Message-ID: <20260130025941.2140582-1-zhangtianyang@loongson.cn>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20260130025941.2140582-1-zhangtianyang@loongson.cn>
-References: <20260130025941.2140582-1-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,64 +41,145 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJDxaeCfHnxpR_Q5AA--.45699S5
+X-CM-TRANSID:qMiowJDxaeCfHnxpR_Q5AA--.45699S2
 X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj93XoW7tF4UCF4rKF4fAryfuryrXwc_yoW8CF4rpF
-	W7Ca4qyr4ktF1UWF4DWa18ZryUCr93W3y7K3WSk343ZrZ8G3yqgr1ay34F9FyrCr4kC3W2
-	vrsFqrW5uas8AagCm3ZEXasCq-sJn29KB7ZKAUJUUUU3529EdanIXcx71UUUUU7KY7ZEXa
+X-Coremail-Antispam: 1Uk129KBj93XoWxGF4UKr1DZry5Cr1UJF1rXwc_yoW7JFyfpF
+	W7uas8trsYkrWxG3Z7ua18uFy3uryfGrW3Xa1fCw1a93s8ur1q9F1xKF98XFy8Grs5K3W2
+	qr4qq3yUua4DAagCm3ZEXasCq-sJn29KB7ZKAUJUUUj8529EdanIXcx71UUUUU7KY7ZEXa
 	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
 	0xBIdaVrnRJUUUm0b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1q6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
 	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
 	0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_Cr1j6rxdM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	wI0_Cr1j6rxdM2kKe7AKxVW8ZVWrXwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
 	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWr
 	XVW3AwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
-	Ij64vIr41lF7xvrVCFI7AF6II2Y40_Zr0_Gr1UMxkF7I0En4kS14v26r126r1DMxAIw28I
-	cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I
+	Ij64vIr41lF7xvrVCFI7AF6II2Y40_Zr0_Gr1UMxkF7I0En4kS14v26r4a6rW5MxAIw28I
+	cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r4a6rW5MI8I3I
 	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
 	tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26F1j6w1UMIIF0xvE2Ix0cI8IcV
 	CY1x0267AKxVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE
 	14v26r4UJVWxJr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0x
-	ZFpf9x07bUfHUUUUUU=
+	ZFpf9x07by5l8UUUUU=
 
-When it is detected in avecintc_set_affinity that the current affinity
-remains valid, the return value is modified to IRQ_SET_MASK_OK_DONE.
+This series of patches introduces support for interrupt-redirect
+controllers, and this hardware feature will be supported on 3C6000
+for the first time
 
-After the introduction of redirect-domain, for each interrupt source,
-avecintc-domain only provides the CPU/interrupt vector, while redirect-domain
-provides other operations to synchronize interrupt affinity information
-among multiple cores. The original intention is to notify the cascaded
-redirect_set_affinity that multi-core synchronization is not required.
+change log:
+        v0->v1:
+        1.Rename the model names in the document.
+        2.Adjust the code format.
+        3.Remove architecture - specific prefixes.
+        4.Refactor the initialization logic, and IR driver no longer set 
+	  AVEC_ENABLE.
+        5.Enhance compatibility under certain configurations.
 
-However, this introduces some compatibility issues, such as the new return
-value causing msi_domain_set_affinity to no longer perform irq_chip_write_msi_msg.
-  1) When redirect exist in the system, the msi msg_address and msg_data no
-longer changes after the allocation phase, so it does not actually require updating
-the MSI message info.
-  2) When only avecintc exists in the system, the irq_domain_activate_irq
-interface will be responsible for the initial configuration of the MSI message,
-which is unconditional. After that, if unnecessary, no modification to the MSI
-message is alse correctly.
+        v1->v2:
+        1.Fixed an erroneous enabling issue.
 
-Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
----
- drivers/irqchip/irq-loongarch-avec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+        v2->v3
+        1.Replace smp_call with address mapping to access registers
+        2.Fix some code style issues
 
-diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
-index 70aa34439370..7bdf3f678db4 100644
---- a/drivers/irqchip/irq-loongarch-avec.c
-+++ b/drivers/irqchip/irq-loongarch-avec.c
-@@ -99,7 +99,7 @@ static int avecintc_set_affinity(struct irq_data *data, const struct cpumask *de
- 			return -EBUSY;
- 
- 		if (cpu_online(adata->cpu) && cpumask_test_cpu(adata->cpu, dest))
--			return 0;
-+			return IRQ_SET_MASK_OK_DONE;
- 
- 		cpumask_and(&intersect_mask, dest, cpu_online_mask);
- 
+        v3->v4
+        1.Provide reasonable comments on the modifications made to
+	  IRQ_SET_MASK_OK_DONE
+        2.Replace meaningless empty functions with parent_mask/unmask/ack
+        3.Added and indeed released resources
+        4.Added judgment for data structure initialization completion to 
+          avoid duplicate creation during cpuhotplug
+        5.Fixed the code style and some unnecessary troubles
+
+        v4->v5
+	1.when it is detected in avecintc_set_affinity that the current affinity
+	remains valid, the return value is modified to IRQ_SET_MASK_OK_DONE.
+	  After the introduction of redirect-domain, for each interrupt source, 
+	avecintc-domain only provides the CPU/interrupt vector, while redirect-domain 
+	provides other operations to synchronize interrupt affinity information 
+	among multiple cores. 	  The original intention is to notify the cascaded
+	redirect_set_affinity that multi-core synchronization is not required. 
+	  However, this introduces some compatibility issues, such as the new return
+	value causing msi_domain_set_affinity to no longer perform irq_chip_write_msi_msg.
+	  1) When redirect exist in the system, the msi msg_address and msg_data no 
+	longer changes after the allocation phase, so it does not actually require updating
+	the MSI message info.
+	  2) When only avecintc exists in the system, the irq_domain_activate_irq
+	interface will be responsible for the initial configuration of the MSI message,
+	which is unconditional. After that, if unnecessary, no modification to the MSI
+	message is alse correctly.
+
+	2.Restructured the macro definitions to make them appear more logical.
+
+	3.Adjusted the layout of members struct redirect_queue\struct redirect_table and 
+	struct redirect_item, making redirect_item the primary interface for accessing
+	other members.
+
+	4.The method of accessing registers has been standardized to MMIO.
+
+	5.Initialize variables at declaration whenever possible.
+
+	6.Replaced the the "struct page" in redirect_table and redirect_queue with "struct folio".
+
+	7.Adjusted the initialization process so that all irq_desc configurations are completed
+	during driver initialization, no longer relying on specific CPUs being online.
+
+	8.Refactored portions of the code to make them more concise and logical.
+
+	v5->v6
+	Fix the warning messages reported by the test bot.
+
+	v6->v7:
+	1 Split patch:
+ 	 1) Docs/LoongArch: Add Advanced Extended-Redirect IRQ model description
+	 2) LoongArch: Architectural preparation for Redirect irqchip
+	 3) irqchip/irq-loongson.h:irq-loongson.h preparation for Redirect irqchip
+	 4) irqchip/loongarch-avec.c:return IRQ_SET_MASK_OK_DONE when keep affinity
+	 5) irqchip/irq-loongarch-ir:Add Redirect irqchip support
+
+	2 Use sizeof() to replace fixed-size macro definitions.
+
+	3 Unify the data types of the parameters for redirect_write/read_reg*.
+
+	4 rename irde_invalid_entry_node to irde_invalid_entry and add comments 
+	  explaining the 'raddr'.
+
+	5 Fix the critical condition check bug in redirect_table_alloc.
+
+	6 Use clear_bit to replace bitmap_release_region
+
+	7 Delete some goto and handle the failure when it occurs.
+
+	8 Removed the check for the `CONFIG_ACPI` macro, as CONFIG_ACPI 
+          is selected by the arch/loongarch/Kconfig.
+
+	9 Fixed the incorrect error flow in redirect_acpi_init.
+
+	v7->v8:
+	1 Apologies for the chaotic email delivery due to some network issues earlier.
+
+	2 redirect_table_alloc now allocates nr_irqs consecutive redirect table entries to 
+	  support multiple MSI devices.
+
+	v8->v9:
+	1 Rebased and reorganized the patches on the latest irq/core branch.
+
+Tianyang Zhang (4):
+  Docs/LoongArch: Add Advanced Extended-Redirect IRQ model description
+  irqchip/irq-loongson.h:irq-loongson.h preparation for Redirect irqchip
+  irqchip/loongarch-avec.c:return IRQ_SET_MASK_OK_DONE when keep
+    affinity
+  irqchip/irq-loongarch-ir:Add Redirect irqchip support
+
+ .../arch/loongarch/irq-chip-model.rst         |  38 ++
+ .../zh_CN/arch/loongarch/irq-chip-model.rst   |  37 ++
+ drivers/irqchip/Makefile                      |   2 +-
+ drivers/irqchip/irq-loongarch-avec.c          |  20 +-
+ drivers/irqchip/irq-loongarch-ir.c            | 534 ++++++++++++++++++
+ drivers/irqchip/irq-loongson.h                |  19 +
+ 6 files changed, 636 insertions(+), 14 deletions(-)
+ create mode 100644 drivers/irqchip/irq-loongarch-ir.c
+
 -- 
 2.41.0
 
