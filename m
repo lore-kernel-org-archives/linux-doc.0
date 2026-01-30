@@ -1,148 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADF1219EB;
-	Fri, 30 Jan 2026 08:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A7C2DEA94;
+	Fri, 30 Jan 2026 08:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769761929; cv=none; b=VMoC8nJYOh0xpf0sMs80sDs3TTwDnwN+JN5+AprmpPmyWQ4rAz47PuI99lTM74LoTMHFL+5OGqr6cc9LoEb49EzFX978NVKBHQxq/GSzGRNtfLsPVDXFoH++Gz9rwQRccuwl9qtsJF2w5JQSuJQBUq3130RuxUfx8zgHN+U9Bm4=
+	t=1769762028; cv=none; b=lHWG15JJqRMcer4c09G/+Mqk9PJl+zEYi5fDffRZv0eEp5nOw8b2hZwaYeJpSpRpHLeUqe66pWBsqlwEdoxP0/ykAGgYKHK9pTMR7s39S1nY6/w5c70cTrsYcJYJOnglAzFrZcCSStgvSkmLjUKczRr3PJw0Z/81MukuFcLRNOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769761929; c=relaxed/simple;
-	bh=kqZupq81AGCTC9o5NgnD/B6fOlW+S7Ww8dnDkQ5so2k=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Bg/nkoTuzHME06YlDdXoH0oTG+bgEsOqMLXA2Y+LMtTGrMGTN+4/qgLW45ppZEe7IkSWgZWMAVkhNC2RbT6s8IW2+aCwCDptkjauxRsRm2NVtUnHCl4HyrdKrGyfE//RKGkaE1eucSGayN3jueTmxsutluonfSveIQjvUvqs3Qo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cPQaCTMx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769762028; c=relaxed/simple;
+	bh=QN+OPSonoef9UutoCXs4rECIiEyhiNWsf+fuEBAlWS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e1Aqs6SVlswKvA5GiKW0Ym1L+GzOwWHUDJJtFLe4jh2DEtZt73hJGpjyRJYem2gNrdDKPyfvK3pzkHQ70o4DOxVwLxkWYQP74MHSuQllCb74KQ6c7pv78YI0BiqlUbFnax61rIvWuQe9H2kAz/h9bCcOih4ahkD2t7GHm+UtHqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=etquA7O0; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cPQaCTMx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C69C4CEF7;
-	Fri, 30 Jan 2026 08:32:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769761928;
-	bh=kqZupq81AGCTC9o5NgnD/B6fOlW+S7Ww8dnDkQ5so2k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cPQaCTMxmlOC6aaFjOPPAXpTuu+OhyzacVlpb5sL5WaTeFueXYv8cn2gnU+JwVR2I
-	 +pRVAQm6mnl00ljEPyU18bQCwN9knd0e073dZfDY/TInGRkWeEZrwlzow2dc+uV+nr
-	 sZ8yP9S9s/E87wAaAcvn8VoGtwfJszGL4bdmpV68mwVGGyAuee9GjQhcUsV8vs7Aff
-	 BhBLO+ByfdBNqImhaPV7fkNcSCuniMdmTu1RjjB0W7f3tXi08V55Ah/9WVpcuHXwWp
-	 QlghnmgW4trO7xODrDmjRsGCq10m/aVmSXAWh7aCHeFPt8eL4CZdy/QnePLbKgJJPC
-	 eAhqIisjqw4YQ==
-Date: Fri, 30 Jan 2026 09:32:03 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Rong Zhang <i@rong.moe>, Jonathan Corbet <corbet@lwn.net>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] kbuild: install-extmod-build: Add missing python
- libraries
-Message-ID: <20260130092816.162a48fe@foz.lan>
-In-Reply-To: <20260130064011.GA2981809@ax162>
-References: <20260129175321.415295-1-i@rong.moe>
-	<20260130011106.GA359714@ax162>
-	<20260130063056.72fbe458@foz.lan>
-	<20260130064011.GA2981809@ax162>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="etquA7O0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769762027; x=1801298027;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QN+OPSonoef9UutoCXs4rECIiEyhiNWsf+fuEBAlWS8=;
+  b=etquA7O08RUIQV/vCQO7T1cI0AvVlrVzKU8z1Fn1dtvwYWsna1WFKP37
+   iFkr/qfi5bwq6uOiCpBoX+/E61FkOU5nSaSZJ44bxxv6jWFn1doca9jpb
+   OfLiWnHA4DAWl1kJQNKRnk/apgm3wGRyu+rpz38O2Vs1rjAH+midxESN9
+   Pjxcmtttb+ElKl3PraUe7jZ9d7r9eKozNYlAIkJ3uQwYc0zxDkke4uhwj
+   rn7WA/aT5x+G4XkA3PHSpUdPTTL25k3M/uKwaF2lq/q00utUGYN/DKiul
+   BRirM9CvTbj/LaI6G5M+3VXAKERQqgIjbOTM6kwfNbItmhIKM7RvXLyfZ
+   g==;
+X-CSE-ConnectionGUID: DNH2dKRHTQSh/sXvrwiAqg==
+X-CSE-MsgGUID: yC7ZqKJBSf+p297ZFc/utw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11686"; a="71047020"
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="71047020"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 00:33:46 -0800
+X-CSE-ConnectionGUID: O7AUWrRjQIa2S9bgfJ80aQ==
+X-CSE-MsgGUID: oj7A5hQSSBant5Y7HErgxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,262,1763452800"; 
+   d="scan'208";a="239526989"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 30 Jan 2026 00:33:43 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vljwh-00000000cNc-2QQQ;
+	Fri, 30 Jan 2026 08:33:39 +0000
+Date: Fri, 30 Jan 2026 16:33:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+	kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
+	si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
+	maobibo@loongson.cn
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>,
+	Liupu Wang <wangliupu@loongson.cn>
+Subject: Re: [PATCH v9 4/4] irqchip/irq-loongarch-ir:Add Redirect irqchip
+ support
+Message-ID: <202601301601.EonMu52D-lkp@intel.com>
+References: <20260130025941.2140582-5-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260130025941.2140582-5-zhangtianyang@loongson.cn>
 
-On Thu, 29 Jan 2026 23:40:11 -0700
-Nathan Chancellor <nathan@kernel.org> wrote:
+Hi Tianyang,
 
-> On Fri, Jan 30, 2026 at 06:30:56AM +0100, Mauro Carvalho Chehab wrote:
-> > On Thu, 29 Jan 2026 18:11:06 -0700
-> > Nathan Chancellor <nathan@kernel.org> wrote:  
-> > > On Fri, Jan 30, 2026 at 01:49:55AM +0800, Rong Zhang wrote:  
-> ...
-> > > >   $ make -C /lib/modules/6.19.0-rc6/build/ M="$(pwd)" modules V=1 W=1
-> > > >   [...]
-> > > >   make -f /usr/src/linux-headers-6.19.0-rc6/scripts/Makefile.build obj=. need-builtin=1 need-modorder=1
-> > > >   # CC [M]  mod.o
-> > > >   [...]
-> > > >   # cmd_checkdoc mod.o
-> > > >   PYTHONDONTWRITEBYTECODE=1 python3 /usr/src/linux-headers-6.19.0-rc6/scripts/kernel-doc.py -none mod.c  
-> > 
-> > This sounds really weird, as it is trying to run scripts/kernel-doc.py
-> > instead of tools/docs/kernel-doc. Does the out-of-tree Makefile
-> > override KERNELDOC variable? The current version contains:
-> > 	
-> > 	KERNELDOC       = $(srctree)/tools/docs/kernel-doc
-> > 
-> > But somehow it is using the old version before the renames:
-> > 
-> > 	KERNELDOC       = $(srctree)/scripts/kernel-doc.py  
-> 
-> Well I think based on the "6.19.0-rc6" in the path above, this is
-> mainline, not -next, so the rename has has not happend there yet.
+kernel test robot noticed the following build warnings:
 
-Ah, ok. On your e-mail you mentioned the renaming patch, so I
-ended assuming that was the case.
+[auto build test WARNING on tip/irq/core]
+[also build test WARNING on linus/master v6.19-rc7 next-20260129]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> > Btw, I did a very quick test here, using an old OOT project I have
-> > at github:
-> > 
-> > 	https://github.com/mchehab/xr_serial  
-> ...
-> > It sounds to me that Rong may be using a Makefile on his OOT project
-> > that was not updated to pick the right kernel-doc tool.  
-> 
-> If I use that project with Rong's original command, the
-> linux-upstream-headers package from the pacman-pkg target (which uses
-> install-extmod-build), and the following fix up for a more modern kernel
-> version, I see the following error:
-> 
->   $ make -C /usr/lib/modules/6.19.0-rc7-next-20260129/build M=/tmp/xr_serial modules V=1 W=1
->   ...
->   # CC [M]  xr_serial.o
->     gcc ...
->   # cmd_checkdoc xr_serial.o
->     PYTHONDONTWRITEBYTECODE=1 python3 /usr/lib/modules/6.19.0-rc7-next-20260129/build/tools/docs/kernel-doc -none   xr_serial.c
->   python3: can't open file '/usr/lib/modules/6.19.0-rc7-next-20260129/build/tools/docs/kernel-doc': [Errno 2] No such file or directory
->   make[3]: *** [/usr/lib/modules/6.19.0-rc7-next-20260129/build/scripts/Makefile.build:287: xr_serial.o] Error 2
-> 
-> If it is not expected that kernel-doc runs for external modules, then
-> maybe cmd_checkdoc should also be wrapped in a check for KBUILD_EXTMOD?
+url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/Docs-LoongArch-Add-Advanced-Extended-Redirect-IRQ-model-description/20260130-110249
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20260130025941.2140582-5-zhangtianyang%40loongson.cn
+patch subject: [PATCH v9 4/4] irqchip/irq-loongarch-ir:Add Redirect irqchip support
+config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20260130/202601301601.EonMu52D-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260130/202601301601.EonMu52D-lkp@intel.com/reproduce)
 
-I don't particularly see any reason why running kernel-doc for external
-modules, as the goal of running it there (outside make htmldocs) is to
-detect early problems at linux-next and other CIs.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601301601.EonMu52D-lkp@intel.com/
 
-On the other hand, I also don't see any problem on encapsulating
-kernel-doc at the tarball created by install-extmod-build with something
-like:
+All warnings (new ones prefixed by >>):
 
-	ifeq ($(KBUILD_EXTMOD),)
-		ifneq ($(KBUILD_EXTRA_WARN),)
-		  cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
-	        	$(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
-		        $<
-		endif
-	endif
-
-at scripts/Makefile.build.
+>> drivers/irqchip/irq-loongarch-ir.c:203:6: warning: variable 'order' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     203 |         if (nr_irqs > 1) {
+         |             ^~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:211:19: note: uninitialized use occurs here
+     211 |                                         IRD_ENTRIES, order);
+         |                                                      ^~~~~
+   drivers/irqchip/irq-loongarch-ir.c:203:2: note: remove the 'if' if its condition is always true
+     203 |         if (nr_irqs > 1) {
+         |         ^~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-loongarch-ir.c:201:27: note: initialize the variable 'order' to silence this warning
+     201 |         unsigned int index, order;
+         |                                  ^
+         |                                   = 0
+   1 warning generated.
 
 
-So, feel free to add to either one of the approaches:
+vim +203 drivers/irqchip/irq-loongarch-ir.c
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+   197	
+   198	static int redirect_table_alloc(int node, u32 nr_irqs)
+   199	{
+   200		struct redirect_table *ird_table = &irde_descs[node].ird_table;
+   201		unsigned int index, order;
+   202	
+ > 203		if (nr_irqs > 1) {
+   204			nr_irqs = __roundup_pow_of_two(nr_irqs);
+   205			order = ilog2(nr_irqs);
+   206		}
+   207	
+   208		guard(raw_spinlock_irqsave)(&ird_table->lock);
+   209	
+   210		index = bitmap_find_free_region(ird_table->bitmap,
+   211						IRD_ENTRIES, order);
+   212		if (index < 0) {
+   213			pr_err("No redirect entry to use\n");
+   214			return -ENOMEM;
+   215		}
+   216	
+   217		return index;
+   218	}
+   219	
 
-That's said, it should be noticed that the DRM subsystem also has
-some similar code:
-
-	drivers/gpu/drm/Makefile:                PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-	drivers/gpu/drm/i915/Makefile:    cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none -Werror $<
-	drivers/gpu/drm/i915/Makefile:          $(KERNELDOC) -none -Werror $<; touch $@
-	include/drm/Makefile:           PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-	scripts/Makefile.build:  cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
-
-but I suspect that only scripts/Makefile.build probably need
-such check.
-
-Regards,
-Mauro
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
