@@ -1,108 +1,185 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600802F99AD;
-	Fri, 30 Jan 2026 02:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEF121E1024;
+	Fri, 30 Jan 2026 02:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769741601; cv=none; b=gi8GeyL+gyt2DXnrIiznh1oGJJ0gLtjQHYizeeYJtV0VLQu8y29JD6gODdC2Md8WDzHZgHpEMW3aQYvtGDG8GkD5xdDJX/7FThGp+iG/bk+7U9eJW2kFKZ5V4Swzp6aG9FwQ5B3YpEkDaJYQd7xl7qf6bdx72MGi7whauAdnMP8=
+	t=1769741763; cv=none; b=rW16hEne6CjBTdA6m+zBzauc2xyFa/Kl6wQu2hw3Bih3plQpBnSKm4qx42dMo7RRBUq7zQqecc87Dw48l/3OPWGu8hlKnEyigWsp3sLDQUD/N9LDmft1grwLCEWVafpcdXPthFwLbjxCkp6f11bYoexwNViFfoZNHGTk82HqHsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769741601; c=relaxed/simple;
-	bh=p5JasSD4IQZuvox2fyRIr9Gdi5bOXFkGxTunRvaq0dk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z7FMG6O/V5U4OHbTFYwpEtt+L5eSOoWsIy4E16AfwvDP8ZNPkjRuuQCLjfAkNF5s/Ij+4eW4MsHgJ8cxIUuLV7PYTLnLgTCXPK+uzyzpjYsl2qH8ygSyCCqRSlmFxYSkY2yMjJx/Xh2uNCTYsqzO7/r7d4NB0Z12/KAfCcxMchQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EvvRrFs3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EvvRrFs3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 779E7C4CEF7;
-	Fri, 30 Jan 2026 02:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769741601;
-	bh=p5JasSD4IQZuvox2fyRIr9Gdi5bOXFkGxTunRvaq0dk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EvvRrFs3ulBjln6SQAeoTYBfblkJtE8Ft66bzBN5CpREKQTt16GqeXsiMiCUY31gP
-	 536GE0exuOME9T7riuuZsxLJIt2XroiRS4HgiYW+nocIEwmcx8lz48IiWL0YUFWt7k
-	 kaFc3uQmiJh7WO1olnSm2NikZA4Dnt6bDgDuGWarmGG6cO3/3RuLSqqiOMunq0brqj
-	 2eSx1iNSiX3Iz/ace80skveTmF0Dwsk1iyQ0lkNHQ/FlJLoeuzF+OSYjM0lDIuAVz/
-	 JrZoJ8zfjSsNMcv01wMs5Fd2daIjM9GzBOfvc/JmVsFEGXOXBHxN2wCs9aeMnB3Bd/
-	 WOG6eo1WZ7oiA==
-Message-ID: <feabcb08-bbc1-4d99-8529-7f3a7a442fcf@kernel.org>
-Date: Fri, 30 Jan 2026 11:53:17 +0900
+	s=arc-20240116; t=1769741763; c=relaxed/simple;
+	bh=JN4QEE6cA+wjvXfAgLTYEW/F5c17/Co8nCG7VE4Or+c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pPabUscL0uRK2OHW82aDLwDEnIlfMblrwsQX1ZhYxjz4z3RZkzM30a1y9jyRotzn/bVRYm31VCyKuLCKn8Bdw60abpSxl2g9jMEIkzQgOXEjiVvgCfBNmT53dr9m5hKUZ68SpR3qv362WKsSBe+vmoGg73ngCsc7pdKzwlfB018=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.40.57.136])
+	by gateway (Coremail) with SMTP id _____8Axy8K+HXxpZSQOAA--.45890S3;
+	Fri, 30 Jan 2026 10:55:58 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.40.57.136])
+	by front1 (Coremail) with SMTP id qMiowJCxHOGzHXxpRvM5AA--.45456S3;
+	Fri, 30 Jan 2026 10:55:48 +0800 (CST)
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+To: chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	corbet@lwn.net,
+	alexs@kernel.org,
+	si.yanteng@linux.dev,
+	tglx@linutronix.de,
+	jiaxun.yang@flygoat.com,
+	peterz@infradead.org,
+	wangliupu@loongson.cn,
+	lvjianmin@loongson.cn,
+	maobibo@loongson.cn,
+	siyanteng@cqsoftware.com.cn,
+	gaosong@loongson.cn,
+	yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: [PATCH v9 1/4] Docs/LoongArch: Add Advanced Extended-Redirect IRQ model description
+Date: Fri, 30 Jan 2026 10:55:40 +0800
+Message-ID: <20260130025545.2140543-2-zhangtianyang@loongson.cn>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20260130025545.2140543-1-zhangtianyang@loongson.cn>
+References: <20260130025545.2140543-1-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] PCI: endpoint: pci-epf-test: Allow overriding default
- BAR sizes
-To: Niklas Cassel <cassel@kernel.org>, Manivannan Sadhasivam
- <mani@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
- <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Frank.Li@nxp.com, Koichiro Den <den@valinux.co.jp>,
- linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260129132324.2036310-2-cassel@kernel.org>
-Content-Language: en-US
-From: Damien Le Moal <dlemoal@kernel.org>
-Organization: Western Digital Research
-In-Reply-To: <20260129132324.2036310-2-cassel@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJCxHOGzHXxpRvM5AA--.45456S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxAryfuw1rKw1kKFyUuw45Jwc_yoWrXr4fpr
+	Z3GryxXF18Jry5Xr17Jr4UXr13Gwn3Ja1DtF1xKry8Xr4kAr1ktr1UJrykJFy7G34rAr1U
+	XFWrJw4UJr1UJwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUD529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUmjb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	tVWrXwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
+	Ij64vIr41lF7xvrVCFI7AF6II2Y40_Zr0_Gr1UMxkF7I0En4kS14v26r1q6r43MxAIw28I
+	cxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I
+	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8
+	ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26ryj6F1UMIIF0xvE2Ix0cI8IcV
+	CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+	wI0_Gr1j6F4UJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43
+	ZEXa7IU5Ul1PUUUUU==
 
-On 1/29/26 22:23, Niklas Cassel wrote:
-> Add bar{0,1,2,3,4,5}_size attributes in configfs, so that the user is not
-> restricted to run pci-epf-test with the hardcoded BAR size values defined
-> in pci-epf-test.c.
-> 
-> This code is shamelessly more or less copy pasted from pci-epf-vntb.c
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> Tested-by: Koichiro Den <den@valinux.co.jp>
-> Signed-off-by: Niklas Cassel <cassel@kernel.org>
+Introduce the redirect interrupt controllers.When the redirect interrupt
+controller is enabled, the routing target of MSI interrupts is no longer
+a specific CPU and vector number, but a specific redirect entry. The
+actual CPU and vector number used are described by the redirect entry.
 
-Looks OK to me.
+Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+---
+ .../arch/loongarch/irq-chip-model.rst         | 38 +++++++++++++++++++
+ .../zh_CN/arch/loongarch/irq-chip-model.rst   | 37 ++++++++++++++++++
+ 2 files changed, 75 insertions(+)
 
-Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
-
-One nit below.
-
-
-> +#define PCI_EPF_TEST_BAR_SIZE_W(_name, _id)				\
-> +static ssize_t pci_epf_test_##_name##_store(struct config_item *item,	\
-> +					    const char *page,		\
-> +					    size_t len)			\
-> +{									\
-> +	struct config_group *group = to_config_group(item);		\
-> +	struct pci_epf_test *epf_test =					\
-> +		container_of(group, struct pci_epf_test, group);	\
-> +	int val;							\
-> +	int ret;							\
-
-You can use one line to declare both variables.
-
-> +									\
-> +	/*								\
-> +	 * BAR sizes can only be modified before binding to an EPC,	\
-> +	 * pci_epf_test_alloc_space() is called in .bind().		\
-> +	 */								\
-> +	if (epf_test->epf->epc)						\
-> +		return -EINVAL;						\
-> +									\
-> +	ret = kstrtouint(page, 0, &val);				\
-> +	if (ret)							\
-> +		return ret;						\
-> +									\
-> +	if (!is_power_of_2(val))					\
-> +		return -EINVAL;						\
-> +									\
-> +	epf_test->bar_size[_id] = val;					\
-> +									\
-> +	return len;							\
-> +}
-
-
+diff --git a/Documentation/arch/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+index 8f5c3345109e..88474edcea48 100644
+--- a/Documentation/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/arch/loongarch/irq-chip-model.rst
+@@ -181,6 +181,44 @@ go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then go to CPUINTC directly::
+              | Devices |
+              +---------+
+ 
++Advanced Extended IRQ model (with redirection)
++==============================================
++
++In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
++to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, PCH-MSI interrupts go
++to REDIRECT for remapping it to AVEC, and then go to CPUINTC directly, while all
++other devices interrupts go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then
++go to CPUINTC directly::
++
++ +-----+     +-----------------------+     +-------+
++ | IPI | --> |        CPUINTC        | <-- | Timer |
++ +-----+     +-----------------------+     +-------+
++              ^          ^          ^
++              |          |          |
++       +---------+ +----------+ +---------+     +-------+
++       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
++       +---------+ +----------+ +---------+     +-------+
++            ^            ^
++            |            |
++            |      +----------+
++            |      | REDIRECT |
++            |      +----------+
++            |            ^
++            |            |
++       +---------+  +---------+
++       | PCH-PIC |  | PCH-MSI |
++       +---------+  +---------+
++         ^     ^           ^
++         |     |           |
++ +---------+ +---------+ +---------+
++ | Devices | | PCH-LPC | | Devices |
++ +---------+ +---------+ +---------+
++                  ^
++                  |
++             +---------+
++             | Devices |
++             +---------+
++
+ ACPI-related definitions
+ ========================
+ 
+diff --git a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+index d4ff80de47b6..7e4e3e55c7ad 100644
+--- a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+@@ -174,6 +174,43 @@ CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断发送到AVECINTC，
+              | Devices |
+              +---------+
+ 
++高级扩展IRQ模型 (带重定向)
++==========================
++
++在这种模型里面，IPI（Inter-Processor Interrupt）和CPU本地时钟中断直接发送到CPUINTC，
++CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断首先发送到REDIRECT模块,完成重定向后发
++送到AVECINTC，而后通过AVECINTC直接送达CPUINTC，而其他所有设备的中断则分别发送到所连
++接的PCH-PIC/PCH-LPC，然后由EIOINTC统一收集，再直接到达CPUINTC::
++
++ +-----+     +-----------------------+     +-------+
++ | IPI | --> |        CPUINTC        | <-- | Timer |
++ +-----+     +-----------------------+     +-------+
++              ^          ^          ^
++              |          |          |
++       +---------+ +----------+ +---------+     +-------+
++       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
++       +---------+ +----------+ +---------+     +-------+
++            ^            ^
++            |            |
++            |      +----------+
++            |      | REDIRECT |
++            |      +----------+
++            |            ^
++            |            |
++       +---------+  +---------+
++       | PCH-PIC |  | PCH-MSI |
++       +---------+  +---------+
++         ^     ^           ^
++         |     |           |
++ +---------+ +---------+ +---------+
++ | Devices | | PCH-LPC | | Devices |
++ +---------+ +---------+ +---------+
++                  ^
++                  |
++             +---------+
++             | Devices |
++             +---------+
++
+ ACPI相关的定义
+ ==============
+ 
 -- 
-Damien Le Moal
-Western Digital Research
+2.41.0
+
