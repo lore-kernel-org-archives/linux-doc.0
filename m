@@ -1,119 +1,108 @@
-Received: from out28-145.mail.aliyun.com (out28-145.mail.aliyun.com [115.124.28.145])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C34A28750A;
-	Fri, 30 Jan 2026 02:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600802F99AD;
+	Fri, 30 Jan 2026 02:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769739844; cv=none; b=gAXlypxTSuIvp3xPHQUqk3qy9iPiVJvu4WgB58zgc+c+V6FphwK+uZM86X2Iy/lXDW2+kp2jOSjmJe6qLVEtU3A4VHtsAfGOQzhwNguyFgXPWGADMqzA9OlTItHmCZ8pbE6Ea5wgzy7VblIUvxFbVrt6VvwqiP2HXlNNONac7y8=
+	t=1769741601; cv=none; b=gi8GeyL+gyt2DXnrIiznh1oGJJ0gLtjQHYizeeYJtV0VLQu8y29JD6gODdC2Md8WDzHZgHpEMW3aQYvtGDG8GkD5xdDJX/7FThGp+iG/bk+7U9eJW2kFKZ5V4Swzp6aG9FwQ5B3YpEkDaJYQd7xl7qf6bdx72MGi7whauAdnMP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769739844; c=relaxed/simple;
-	bh=jf/RBGXHlw1fH394VTvjOKslnicC+u5E8BFY30ps4e8=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=BOXMJajlpbbcspAQ+wovRT9kvjbiqPJmYkI8tVgk3AFndnWwu/A7dECESx+ibNWwQ21+AHA3T2ijiHItSe/c1E1GPNjar6xt6gnK98kpaoupEr09eY2XT6bPGo9T2JQlGO8AEW5alQdLF9gdc/0/f+rrkQRznWjBfCHgYhUNCu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.5274864|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.0688948-0.0276571-0.903448;FP=4752486971615204742|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037071049;MF=sam.chen@nebula-matrix.com;NM=1;PH=DW;RN=23;RT=23;SR=0;TI=W4_0.2.3_2125062F_1769739830224_o7001c211g;
-Received: from WS-web (sam.chen@nebula-matrix.com[W4_0.2.3_2125062F_1769739830224_o7001c211g] cluster:ay29) at Fri, 30 Jan 2026 10:23:50 +0800
-Date: Fri, 30 Jan 2026 10:23:50 +0800
-From: "Sam" <sam.chen@nebula-matrix.com>
-To: "Andrew Lunn" <andrew@lunn.ch>,
-  "Illusion Wang" <illusion.wang@nebula-matrix.com>
-Cc: "y" <y@lunn.ch>,
-  "Dimon" <dimon.zhao@nebula-matrix.com>,
-  "Alvin" <alvin.wang@nebula-matrix.com>,
-  "netdev" <netdev@vger.kernel.org>,
-  "andrew+netdev" <andrew+netdev@lunn.ch>,
-  "corbet" <corbet@lwn.net>,
-  "kuba" <kuba@kernel.org>,
-  "linux-doc" <linux-doc@vger.kernel.org>,
-  "lorenzo" <lorenzo@kernel.org>,
-  "pabeni" <pabeni@redhat.com>,
-  "horms" <horms@kernel.org>,
-  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-  "hawk" <hawk@kernel.org>,
-  "ast" <ast@kernel.org>,
-  "bpf" <bpf@vger.kernel.org>,
-  "sdf" <sdf@fomichev.me>,
-  "daniel" <daniel@iogearbox.net>,
-  "john.fastabend" <john.fastabend@gmail.com>,
-  "edumazet" <edumazet@google.com>,
-  "open list" <linux-kernel@vger.kernel.org>
-Reply-To: "Sam" <sam.chen@nebula-matrix.com>
-Message-ID: <152750cb-ab8c-4f08-9c6a-6b69ec185f30.sam.chen@nebula-matrix.com>
-Subject: =?UTF-8?B?5Zue5aSN77ya5Zue5aSN77yaW1BBVENIIHYzIG5ldC1uZXh0IDAxLzE1XSBuZXQvbmVidWxh?=
-  =?UTF-8?B?LW1hdHJpeDogYWRkIG1pbmltdW0gbmJsIGJ1aWxkIGZyYW1ld29yaw==?=
-X-Mailer: [Alimail-Mailagent][W4_0.2.3][null][Chrome]
+	s=arc-20240116; t=1769741601; c=relaxed/simple;
+	bh=p5JasSD4IQZuvox2fyRIr9Gdi5bOXFkGxTunRvaq0dk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z7FMG6O/V5U4OHbTFYwpEtt+L5eSOoWsIy4E16AfwvDP8ZNPkjRuuQCLjfAkNF5s/Ij+4eW4MsHgJ8cxIUuLV7PYTLnLgTCXPK+uzyzpjYsl2qH8ygSyCCqRSlmFxYSkY2yMjJx/Xh2uNCTYsqzO7/r7d4NB0Z12/KAfCcxMchQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EvvRrFs3; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EvvRrFs3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 779E7C4CEF7;
+	Fri, 30 Jan 2026 02:53:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769741601;
+	bh=p5JasSD4IQZuvox2fyRIr9Gdi5bOXFkGxTunRvaq0dk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EvvRrFs3ulBjln6SQAeoTYBfblkJtE8Ft66bzBN5CpREKQTt16GqeXsiMiCUY31gP
+	 536GE0exuOME9T7riuuZsxLJIt2XroiRS4HgiYW+nocIEwmcx8lz48IiWL0YUFWt7k
+	 kaFc3uQmiJh7WO1olnSm2NikZA4Dnt6bDgDuGWarmGG6cO3/3RuLSqqiOMunq0brqj
+	 2eSx1iNSiX3Iz/ace80skveTmF0Dwsk1iyQ0lkNHQ/FlJLoeuzF+OSYjM0lDIuAVz/
+	 JrZoJ8zfjSsNMcv01wMs5Fd2daIjM9GzBOfvc/JmVsFEGXOXBHxN2wCs9aeMnB3Bd/
+	 WOG6eo1WZ7oiA==
+Message-ID: <feabcb08-bbc1-4d99-8529-7f3a7a442fcf@kernel.org>
+Date: Fri, 30 Jan 2026 11:53:17 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-x-aliyun-im-through: {"version":"v1.0"}
-References: <20260123011804.31263-1-illusion.wang@nebula-matrix.com> <20260123011804.31263-2-illusion.wang@nebula-matrix.com> <88c7e349-f941-4216-89ca-70a49e82b378@lunn.ch> <ad0a6f0f-3ce3-4f38-b27d-2f121511d6e3.illusion.wang@nebula-matrix.com>,<c1536b51-f441-45ca-8bfb-d5f7d8230713@lunn.ch>
-x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjUtUmVsZWFzZS4yNjAxMTMwMDYpIE1vam8vMS4wLjAgTmF0aXZlIEFwcFR5cGUocmVsZWFzZSkgQ2hhbm5lbC8yMDEyMDAgQXJjaGl0ZWN0dXJlL3g4Nl82NCB3ZWJEdC9QQw==uL
-In-Reply-To: <c1536b51-f441-45ca-8bfb-d5f7d8230713@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] PCI: endpoint: pci-epf-test: Allow overriding default
+ BAR sizes
+To: Niklas Cassel <cassel@kernel.org>, Manivannan Sadhasivam
+ <mani@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Frank.Li@nxp.com, Koichiro Den <den@valinux.co.jp>,
+ linux-pci@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260129132324.2036310-2-cassel@kernel.org>
+Content-Language: en-US
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260129132324.2036310-2-cassel@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-VGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrLiBJIHVuZGVyc3RhbmQgd2hhdCB5b3UgbWVhbi5U
-aGUgcmVhc29ucyB3aHkKd2UgY2Fubm90IGNoYW5nZSB0aGUgbW9kdWxlIG5hbWUgbm93IGFyZSBh
-cyBmb2xsb3dzOgpPdXIgZHJpdmVyIGhhcyBhbHJlYWR5IGJlZW4gaW50ZWdyYXRlZCBpbnRvIG11
-bHRpcGxlIGNvbW11bml0aWVzLCBhbmQKdGhlIG1vZHVsZSBuYW1lIGlzIG5ibF9jb3JlLiBNYW55
-IGN1c3RvbWVycyBoYXZlIGFscmVhZHkgZGVwbG95ZWQgaXQuIElmCndlIGNoYW5nZSB0aGUgbmFt
-ZSwgdGhlcmUgd2lsbCBiZSBhIGNyaXRpY2FsIHByb2JsZW0gb2YgY29uZmxpY3QgYmV0d2Vlbgp0
-aGUgdHdvIG1vZHVsZXMgZHVyaW5nIHN1YnNlcXVlbnQgb25saW5lIGRyaXZlciB1cGdyYWRlcy4K
-ClBTOiBPdXIgY2FyZCdzIGZ1bmN0aW9uYWxpdHkgaXMgY29tcGFyYWJsZSB0byBNZWxsYW5veCBD
-WCwgYW5kIHRoZSBkZXNpZ24Kb2YgbmJsX2NvcmUgd2FzIGluaXRpYWxseSBiYXNlZCBvbiB0aGVp
-ciBkZXNpZ24gcHJpbmNpcGxlcy4KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCuWPkeS7tuS6uu+8mkFuZHJldyBMdW5uIDxh
-bmRyZXdAbHVubi5jaD4K5Y+R6YCB5pe26Ze077yaMjAyNuW5tDHmnIgyOeaXpSjlkajlm5spIDIx
-OjE4CuaUtuS7tuS6uu+8mklsbHVzaW9uIFdhbmc8aWxsdXNpb24ud2FuZ0BuZWJ1bGEtbWF0cml4
-LmNvbT4K5oqE44CA6YCB77yaeTx5QGx1bm4uY2g+OyBEaW1vbjxkaW1vbi56aGFvQG5lYnVsYS1t
-YXRyaXguY29tPjsgQWx2aW48YWx2aW4ud2FuZ0BuZWJ1bGEtbWF0cml4LmNvbT47IFNhbTxzYW0u
-Y2hlbkBuZWJ1bGEtbWF0cml4LmNvbT47IG5ldGRldjxuZXRkZXZAdmdlci5rZXJuZWwub3JnPjsg
-ImFuZHJldytuZXRkZXYiPGFuZHJldytuZXRkZXZAbHVubi5jaD47IGNvcmJldDxjb3JiZXRAbHdu
-Lm5ldD47IGt1YmE8a3ViYUBrZXJuZWwub3JnPjsgImxpbnV4LWRvYyI8bGludXgtZG9jQHZnZXIu
-a2VybmVsLm9yZz47IGxvcmVuem88bG9yZW56b0BrZXJuZWwub3JnPjsgcGFiZW5pPHBhYmVuaUBy
-ZWRoYXQuY29tPjsgaG9ybXM8aG9ybXNAa2VybmVsLm9yZz47ICJ2YWRpbS5mZWRvcmVua28iPHZh
-ZGltLmZlZG9yZW5rb0BsaW51eC5kZXY+OyAibHVrYXMuYnVsd2FobiI8bHVrYXMuYnVsd2FobkBy
-ZWRoYXQuY29tPjsgaGF3azxoYXdrQGtlcm5lbC5vcmc+OyBhc3Q8YXN0QGtlcm5lbC5vcmc+OyBi
-cGY8YnBmQHZnZXIua2VybmVsLm9yZz47IHNkZjxzZGZAZm9taWNoZXYubWU+OyBkYW5pZWw8ZGFu
-aWVsQGlvZ2VhcmJveC5uZXQ+OyAiam9obi5mYXN0YWJlbmQiPGpvaG4uZmFzdGFiZW5kQGdtYWls
-LmNvbT47IGVkdW1hemV0PGVkdW1hemV0QGdvb2dsZS5jb20+OyBvcGVuIGxpc3Q8bGludXgta2Vy
-bmVsQHZnZXIua2VybmVsLm9yZz4K5Li744CA6aKY77yaUmU6IOWbnuWkje+8mltQQVRDSCB2MyBu
-ZXQtbmV4dCAwMS8xNV0gbmV0L25lYnVsYS1tYXRyaXg6IGFkZCBtaW5pbXVtIG5ibCBidWlsZCBm
-cmFtZXdvcmsKCgpPbiBNb24sIEphbiAyNiwgMjAyNiBhdCAxMDoxODo1MkFNICswODAwLCBJbGx1
-c2lvbiBXYW5nIHdyb3RlOgo+IAo+ID5fQ09SRSBpcyBhIGJpdCB1bnVzdWFsIGZvciBhIGRyaXZl
-ci4gQ09SRSBpcyBnZW5lcmFsbHkgYSBsaWJyYXJ5IHdoaWNoCj4gPmlzIHNoYXJlZCBieSBhIG51
-bWJlciBvZiBkcml2ZXJzLiBJdCBkb2VzIG5vdCBoYXZlIGEgdHJpc3RhdGUgc3RyaW5nLAo+ID5p
-dCBpcyBqdXN0IHNlbGVjdGVkIGJ5IHRoZSBkcml2ZXJzIHdoaWNoIG5lZWQgaXQuCj4gCj4gVGhh
-bmsgeW91IGZvciB5b3VyIGZlZWRiYWNrIG9uIHRoZSBOQkxfQ09SRSBjb25maWd1cmF0aW9uIG9w
-dGlvbi4gV2UgYXBwcmVjaWF0ZQo+IHlvdXIgZ3VpZGFuY2Ugb24gYWRoZXJpbmcgdG8gTGludXgg
-a2VybmVsIG5hbWluZyBjb252ZW50aW9ucy4KPiAKPiBXaHkgTkJMX0NPUkU/Cj4gVGhlIGRyaXZl
-ciBpcyBkZXNpZ25lZCB0byBzdXBwb3J0IHR3byBkaXN0aW5jdCBmdW5jdGlvbmFsaXRpZXMgZm9y
-IHRoZQo+IE5lYnVsYS1tYXRyaXggbTE4MTAwIEV0aGVybmV0IGNvbnRyb2xsZXI6Cj4gCj4gMS5T
-dGFuZGFyZCBFdGhlcm5ldC9OSUMgZnVuY3Rpb25hbGl0eSAodmlhIHRoZSBtYWluIGRyaXZlciBt
-b2R1bGUpLgo+IDIuQXV4aWxpYXJ5IGRldmljZSAoYXV4aWxpYXJ5IGRyaXZlcikgZm9yIFJETUEg
-KGV4cG9zZWQgdGhyb3VnaAo+IGF1eGlsaWFyeV9kZXZpY2UpLgo+IDQuTURFVi1iYXNlZCBTUi1J
-T1YvVkYgZW11bGF0aW9uIChmb3IgbmF0aXZlIGRldmljZSBzcGxpdHRpbmcpLgo+IFNpbmNlIHNo
-YXJlZCBsb2dpYyAoZS5nLiwgUENJZSByZXNvdXJjZSBtYW5hZ2VtZW50LCBNTUlPIGFjY2Vzcywg
-aW50ZXJydXB0Cj4gaGFuZGxpbmcsIGFuZCBjb21tb24gaGFyZHdhcmUgYWJzdHJhY3Rpb25zKSBp
-cyByZXF1aXJlZCBhY3Jvc3MgYm90aCB0aGUgbWFpbgo+IGRyaXZlciBhbmQgYXV4aWxpYXJ5L1JE
-TUEgZHJpdmVyLCB3ZSBvcHRlZCBmb3IgYSBfQ09SRSBzdWZmaXggdG8gaW5kaWNhdGU6CgpZb3Ug
-Y2FuIHNwbGl0IHRoaXMgdHdvIHdheXM6CgpBIHRydWUgY29yZSwgd2hpY2ggZG9lcyBub3QgcHJv
-dmlkZSBhbnkgZGV2aWNlcywganVzdCBjb3JlIGZ1bmN0aW9ucwp0byBhY2Nlc3MgdGhlIGhhcmR3
-YXJlLiBUaGVuIGxheWVyZWQgb24gdG9wIGlmIHRoaXMgeW91IGhhdmUga2VybmVsCm1vZHVsZXMg
-d2l0aCBwcm92aWRlIEV0aGVybmV0LCBSRE1BLCBNREVWIGV0Yy4gU3VjaCBrZXJuZWwgbW9kdWxl
-cwp3b3VsZCB0aGVuIGRlcGVuZCBvbiB0aGUgY29yZSwgdXNpbmcgS2NvbmZpZyBwcmltaXRpdmVz
-LiBBbmQgdGhlIGNvcmUKaXRzZWxmIHdvdWxkIG5vdCBoYXZlIGEgdHJpLXN0YXRlIHN0cmluZywg
-c2luY2Ugb24gaXRzIG93biBpdCBpcwp1c2VsZXNzLgoKT3IKCklmIHRoZSBjb3JlIGFsd2F5cyBw
-cm92aWRlcyBFdGhlcm5ldCwgY2FsbCBpdCBhbiBFdGhlcm5ldCBkcml2ZXIsIG5vdApjb3JlLiBU
-aGUgb3RoZXIga2VybmVsIG1vZHVsZXMgd291bGQgdGhlbiBkZXBlbmRzIG9uIGhhdmluZyB0aGUK
-RXRoZXJuZXQgZHJpdmVyLCB1c2luZyBLY29uZmlnIHByaW1pdGl2ZXMuCgpUaGlzIGFsbCBhYm91
-dCBuYW1pbmcsIG5vdCBhcmNoaXRlY3R1cmUuIFNwbGl0dGluZyBpdCB1cCBpbnRvIG11bHRpcGxl
-Cmtlcm5lbCBtb2R1bGVzIGlzIGdvb2QsIGJ1dCB5b3VyIG5hbWluZyBhbmQgZGVzY3JpcHRpb25z
-IG9mIHdoYXQgdGhlc2UKbW9kdWxlcyBkbyBtYXR0ZXJzLgoKIEFuZHJldwo=
+On 1/29/26 22:23, Niklas Cassel wrote:
+> Add bar{0,1,2,3,4,5}_size attributes in configfs, so that the user is not
+> restricted to run pci-epf-test with the hardcoded BAR size values defined
+> in pci-epf-test.c.
+> 
+> This code is shamelessly more or less copy pasted from pci-epf-vntb.c
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Tested-by: Koichiro Den <den@valinux.co.jp>
+> Signed-off-by: Niklas Cassel <cassel@kernel.org>
+
+Looks OK to me.
+
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+
+One nit below.
+
+
+> +#define PCI_EPF_TEST_BAR_SIZE_W(_name, _id)				\
+> +static ssize_t pci_epf_test_##_name##_store(struct config_item *item,	\
+> +					    const char *page,		\
+> +					    size_t len)			\
+> +{									\
+> +	struct config_group *group = to_config_group(item);		\
+> +	struct pci_epf_test *epf_test =					\
+> +		container_of(group, struct pci_epf_test, group);	\
+> +	int val;							\
+> +	int ret;							\
+
+You can use one line to declare both variables.
+
+> +									\
+> +	/*								\
+> +	 * BAR sizes can only be modified before binding to an EPC,	\
+> +	 * pci_epf_test_alloc_space() is called in .bind().		\
+> +	 */								\
+> +	if (epf_test->epf->epc)						\
+> +		return -EINVAL;						\
+> +									\
+> +	ret = kstrtouint(page, 0, &val);				\
+> +	if (ret)							\
+> +		return ret;						\
+> +									\
+> +	if (!is_power_of_2(val))					\
+> +		return -EINVAL;						\
+> +									\
+> +	epf_test->bar_size[_id] = val;					\
+> +									\
+> +	return len;							\
+> +}
+
+
+-- 
+Damien Le Moal
+Western Digital Research
