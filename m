@@ -1,95 +1,134 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C282D7384;
-	Fri, 30 Jan 2026 03:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E502FD1CF;
+	Fri, 30 Jan 2026 03:09:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769742310; cv=none; b=r/KmPB9YKNmKH14qGIBONGAxlHrcO7ail4EzpS438PwRY5c1/Cx1rvhlz3eZhbs5B1gKIMreHe4qaLaiPL7qva2N57bubf7PFUZYLG+TybPzEyJy/Nc1hGjNM3bOno2cajarpR6vitFEFWXqldRcCRFK4I6eMULaxTmWXiNtP5A=
+	t=1769742577; cv=none; b=CBIAiOHqVhDBR6Bal0b9jW3IYmrfMcS1uc/ccE2+2/5jqXjSnnGi3wYiLGB7l3bjgc/0/hN+U+NZpaz83SqN1IXrzOhYcD6PKBeKh565dNo9PThJSxnXOYDJzosqEZm8p9FxMOQwF+bPJOpBaAimUCCF8V/aE1Nh9vJJbodKyiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769742310; c=relaxed/simple;
-	bh=fIrJc6V38Gm1Xzp831y0qUcjo7su1xHPtmVZvEaRb+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D65v80qK5uOFpMFmRYaUrMS6/EuOmfR8chODL7jMrR9DOMA/U+0xh5ZShZbGRy8WcF/Vdeej1750ki9lWWqVRXuIJa6XQKgOjlTcT9Y9gQbaiTmq+QESEit2r+ZUSg86ZaXG+8ULsrl6Y0xc8VvqS/B+8IT78kpSIQMRxzY2KW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=KlwQV+TS; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="KlwQV+TS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=1B1BFi/8fLCjDIghQMyCqBsdwfNOBaYQ5QhAovF8jkQ=; b=KlwQV+TSwfw4pV4qL7mbq8CuOo
-	E97ZOuJxvR6aaj3Apx8scwubXOzPpgAToaQFhGDPEtDaLLRzz7tjj5KjEpTH7gRmFZ6jqZikW3OT6
-	LEnMLwGSzKWW0XquTB8mJQNH+jcFayqYyCMhuOG1J+nZ8kwiT/U/gu3aoyocewI16B/A=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vleoB-005R2o-6Z; Fri, 30 Jan 2026 04:04:31 +0100
-Date: Fri, 30 Jan 2026 04:04:31 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Sam <sam.chen@nebula-matrix.com>
-Cc: Illusion Wang <illusion.wang@nebula-matrix.com>,
-	Dimon <dimon.zhao@nebula-matrix.com>,
-	Alvin <alvin.wang@nebula-matrix.com>,
-	netdev <netdev@vger.kernel.org>,
-	andrew+netdev <andrew+netdev@lunn.ch>, corbet <corbet@lwn.net>,
-	kuba <kuba@kernel.org>, linux-doc <linux-doc@vger.kernel.org>,
-	lorenzo <lorenzo@kernel.org>, pabeni <pabeni@redhat.com>,
-	horms <horms@kernel.org>,
-	"vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-	"lukas.bulwahn" <lukas.bulwahn@redhat.com>, hawk <hawk@kernel.org>,
-	ast <ast@kernel.org>, bpf <bpf@vger.kernel.org>,
-	sdf <sdf@fomichev.me>, daniel <daniel@iogearbox.net>,
-	"john.fastabend" <john.fastabend@gmail.com>,
-	edumazet <edumazet@google.com>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: =?utf-8?B?5Zue5aSN77ya5Zue5aSN77yaW1BB?=
- =?utf-8?Q?TCH_v3_net-nex?= =?utf-8?Q?t?= 01/15] net/nebula-matrix: add
- minimum nbl build framework
-Message-ID: <ecbf1ba5-6ef9-4d94-8240-518852050f03@lunn.ch>
-References: <20260123011804.31263-1-illusion.wang@nebula-matrix.com>
- <20260123011804.31263-2-illusion.wang@nebula-matrix.com>
- <88c7e349-f941-4216-89ca-70a49e82b378@lunn.ch>
- <ad0a6f0f-3ce3-4f38-b27d-2f121511d6e3.illusion.wang@nebula-matrix.com>
- <c1536b51-f441-45ca-8bfb-d5f7d8230713@lunn.ch>
- <152750cb-ab8c-4f08-9c6a-6b69ec185f30.sam.chen@nebula-matrix.com>
+	s=arc-20240116; t=1769742577; c=relaxed/simple;
+	bh=ivk12fCPB4AZDfbvbI/JAr/3pIQLl4I1fnC8cnY62Hg=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=u6G4Z+4DrJSIRke0R9zDXikHJX6wFtUE7jYQHBYNtXg9cnd0Hx+Tmlg7d57EjQNLuieI7pvksLwvSiV7f60J5K3VOZnJx3jBfQ7ke3/h/zWkZA7E0R0JfaA8vhIzyT5UQ34edzVhuNOhG8B+wJ/DoaNYqAkGF8OWmJn9mj2vz+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 173c34e0fd8911f0b0f03b4cfa9209d1-20260130
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:3293df93-80af-4451-9e8e-309ba420c3f2,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:740cfd24e9cd9c0545e4654a31070357,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|898,TC:nil,Content:0|15|
+	52,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 173c34e0fd8911f0b0f03b4cfa9209d1-20260130
+X-User: tianyaxiong@kylinos.cn
+Received: from [10.42.13.21] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <tianyaxiong@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 950376002; Fri, 30 Jan 2026 11:09:29 +0800
+Message-ID: <a61e6bc0-58d1-46f0-8a4f-17f02503fe17@kylinos.cn>
+Date: Fri, 30 Jan 2026 11:09:26 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <152750cb-ab8c-4f08-9c6a-6b69ec185f30.sam.chen@nebula-matrix.com>
-
-On Fri, Jan 30, 2026 at 10:23:50AM +0800, Sam wrote:
-> Thank you for your feedback. I understand what you mean.The reasons why
-> we cannot change the module name now are as follows:
-> Our driver has already been integrated into multiple communities, and
-> the module name is nbl_core. Many customers have already deployed it. If
-> we change the name, there will be a critical problem of conflict between
-> the two modules during subsequent online driver upgrades.
-
-To a large extent, mainline does not care about your vendor driver,
-and it does not care about any compatibility issues between your
-vendor driver and mainline.
-
-I've not looked at your driver in detail yet so i cannot comment on
-your driver in particular. But we often see vendor drivers do things
-mainline does not allow. Custom ioctl handlers, files in /sys, write
-APIs in debugfs, statistic counters wrongly grouped, etc. In a vendor
-driver this is O.K, this is all open source, you are free to do what
-you want. But when it comes to mainline, you have to keep to the
-mainline rules. Such code will need to be removed, or reworked,
-breaking compatibility with your vendor driver.
-
-So it can be advantages to have different names, it then become clear
-if a customer is using the vendor driver, or is using mainline.
-
-   Andrew
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/5] blktrace: Make init_blk_tracer() asynchronous when
+ trace_async_init set
+From: Yaxiong Tian <tianyaxiong@kylinos.cn>
+To: Steven Rostedt <rostedt@goodmis.org>, Jens Axboe <axboe@kernel.dk>
+Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, linux-trace-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260128194104.30051be1@gandalf.local.home>
+ <56C8934E-3D17-4467-93E6-D813770BF577@kernel.dk>
+ <20260129152958.05c1ca46@gandalf.local.home>
+ <bb29a10c-6130-4040-8521-0b5375c017ef@kylinos.cn>
+Content-Language: en-US
+In-Reply-To: <bb29a10c-6130-4040-8521-0b5375c017ef@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-
+在 2026/1/30 09:35, Yaxiong Tian 写道:
+>
+> 在 2026/1/30 04:29, Steven Rostedt 写道:
+>> On Wed, 28 Jan 2026 19:25:46 -0700
+>> Jens Axboe <axboe@kernel.dk> wrote:
+>>
+>>> On Jan 28, 2026, at 5:40 PM, Steven Rostedt <rostedt@goodmis.org> 
+>>> wrote:
+>>>> ﻿
+>>>> Jens,
+>>>>
+>>>> Can you give me an acked-by on this patch and I can take the series 
+>>>> through
+>>>> my tree.
+>>> On phone, hope this works:
+>>>
+>>> Acked-by: Jens Axboe <axboe@kernel.dk>
+>> Thanks!
+>>
+>>>> Or perhaps this doesn't even need to test the trace_async_init flag 
+>>>> and can
+>>>> always do the work queue? Does blk_trace ever do tracing at boot 
+>>>> up? That
+>>>> is, before user space starts?
+>>> Not via the traditonal way of running blktrace.
+>> Masami and Yaxiong,
+>>
+>> I've been thinking about this more and I'm not sure we need the
+>> trace_async_init kernel parameter at all. As blktrace should only be
+>> enabled by user space, it can always use the work queue.
+>>
+>> For kprobes, if someone is adding a kprobe on the kernel command 
+>> line, then
+>> they are already specifying that tracing is more important.
+>>
+>> Patch 3 already keeps kprobes from being an issue with contention of the
+>> tracing locks, so I don't think it ever needs to use the work queue.
+>>
+>> Wouldn't it just be better to remove the trace_async_init and make 
+>> blktrace
+>> always use the work queue and kprobes never do it (but exit out early if
+>> there were no kprobes registered)?
+>>
+>> That is, remove patch 2 and 4 and make this patch always use the work 
+>> queue.
+>
+> Yesterday, I was curious about|trace_event_update_all()|, so I 
+> added|pr_err(xx)|prints within the function's loop. I discovered that 
+> these prints appeared as late as 14 seconds later (printing is 
+> time-consuming), by which time the desktop had already been up for 
+> quite a while. However,|trace_eval_sync()|had already finished running 
+> at 0.6 seconds.
+>
+> This implies that I originally 
+> thought|trace_eval_sync()|'s|destroy_workqueue()|would wait for all 
+> tasks to complete, but it seems that might not be the case. From this, 
+> if the above conclusion is true, then strictly speaking, tasks 
+> using|queue_work(xx)|cannot be guaranteed to finish before the init 
+> process executes. If it's necessary to strictly ensure initialization 
+> completes before user space starts, 
+> using|async_synchronize_full()|or|async_synchronize_full_domain()|would 
+> be better in such scenarios.
+I need to double-check this issue—theoretically, it shouldn't exist. But 
+I'm not sure why the print appeared at the 14-second mark.
+>
+> Of course, the situation described above is an extreme case. I don't 
+> oppose this approach; I only hope to make the startup faster for 
+> ordinary users who don’t use trace, while minimizing the impact on 
+> others as much as possible.
+>
+>>
+>> -- Steve
