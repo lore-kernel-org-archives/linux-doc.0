@@ -1,85 +1,102 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862852DB788;
-	Fri, 30 Jan 2026 17:56:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC882D2390;
+	Fri, 30 Jan 2026 18:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769795812; cv=none; b=U3zSz+rqXSEough/0SgtMg4S7oCm9nmcqZJsccHnd2bq4wInmMFs9CNlIcFmWnoU0puHCVd8WsCoNiBfL79eB6YYBsQIHG3hoCCO410tLf6x7sfISTG3AC7mMQ6PNVeXEWGKcMxu5MObfoCnYyVaq2kBXx8zCan7D9E1t2hS/HA=
+	t=1769798727; cv=none; b=m+GpZ8/bYSb5muM7qcIONNJHs1lXO6ivpYJ6OYUTEvaQw8420+3L++ywjrNKn0uYTvcJYGHrKIG6mt+Y1dmuZHrqDlfgaQEzYMvftMPjDQzjTtCwzdUueJUZtb/50eEupOFYteAcHY7pmUJidq2gYaJonId758Y6zfU3gutUnSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769795812; c=relaxed/simple;
-	bh=9Ha2py9eyOE42PnrBMlY9K3gPpWDc4Z4f0VHi5d8NPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J2hrXp23WolFohtnTMQ0YPCeEGcGXMJOc74siAya4gE2WLZJcXDcpiwMVoiF/TczZMWeT6NA8kYNx1/hxHUnot+Ix9Crw9dsShlVmLyqdVyOXM2bAOn1j6PzsD9JTQknxJkGnY428aY5MpVJfwYfYVz3T8BTP20FOj9AnrycHDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=AiV0L1WT; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1769798727; c=relaxed/simple;
+	bh=GV1EDzSVnR14uH0ML62kANZdik6ElsHLicNglYyVUE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Gk0bspX4ZUVqKIgOPCeZr+wPMkltw7UlI2TQ5XGayDnP8lNleKfvyNeNyw6sQ4uz1ZuJ8Ic2thEqJ1ACgj7qjwZk0AIL7BP9NwcyxlkmqhqRTZCds0f1fAFYpTF34L5dy0kfjCIhXUvZR8HdY6XQ8saG7YLFUCHzDx93OuawWqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=b/hp4WsF; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="AiV0L1WT"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id DA3D640E01AC;
-	Fri, 30 Jan 2026 17:56:41 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id d_pxrSNcwjuh; Fri, 30 Jan 2026 17:56:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1769795798; bh=H4xGvJGf5D3xbkk6wzbtP23A/WwQ3L7MV4zJsXF6XJI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AiV0L1WTO2JU3zVDpzrDHNq2XUP6oO2X8wfqLOAUu5OSJR6MCG4J8FtDuo2Pkye0M
-	 ugI2BkvRjUfe3BN7qHR6QlVdIsWs4wIQyt75xVD3vaBH+HXiaVRqsspZRnwvNN2pTJ
-	 4GvgNxTXlscP7GOT2MRg2wLgCMwBTv2V8bjlMoNtOewW4ZQ1H8lQWfK6OX+jvbe+c4
-	 pFDxCvqvikawC4Nka1WiDo/DvoyUB9Q/yfQnVHfxmRTn7x1C6oVtHIaRjRPyfCMBWX
-	 ZMzxa1UEd/y3c9gijLsUdiU8/Em3wu5afl7cKCgPsYAfDvkNfGNPu0Hvy/XhGlwqBo
-	 YZu4I1cvfPwlyqMrLi5XTAJeYDfhAZ90EbpL+7F2bQnREk2fAx18M8jaBSIg7JwXxt
-	 LiQVjyYjmopaNNR63lnz0yMGpzjSCTg18Wah8PMZ6xXLhDMbRwNJBiOrdDfvaev1ZV
-	 54R5Ai3Q89QcxQP3Bh0eZYYBpgk6WnnNH9i9Q/6gSKy2s6Hvj3fwHIhZ6K+tNWdYFT
-	 pt6tj+rucqraVd0i988p32y4vtYOEdQLnggSnPFFarlz8PG0EBxsenHkQWERtr7Lz3
-	 3ZIGa1LH2BBZgFcpyX88mBUGA/cY+xP5YzgN6sBsLezBELCdIUtuAvgQfryus1V4fm
-	 cU4UmSshJ2PDtGVWhgxyGtSU=
-Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id A194640E0028;
-	Fri, 30 Jan 2026 17:56:19 +0000 (UTC)
-Date: Fri, 30 Jan 2026 18:56:13 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Xin Li <xin@zytor.com>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
-	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-	chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
-Subject: Re: [PATCH v9 06/22] x86/cea: Export __this_cpu_ist_top_va() to KVM
-Message-ID: <20260130175613.GDaXzwvZob7k5UAel_@fat_crate.local>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-7-xin@zytor.com>
- <20260130134644.GUaXy2RNbwEaRSgLUN@fat_crate.local>
- <78858200-FE67-491E-89C6-5906233C860D@zytor.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="b/hp4WsF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OUUR4v1IqP1ZGcGCcmEMkan62AxQPG+ILCLFSj4KfZs=; b=b/hp4WsFoBHaxdPIVr4tMGdI77
+	fnEo2nNJTw40VH/mtv4ccBLGybaVqvKiPJ8f36La/lLLP6m5qO9RfT6BZstx4Wy+CqLpYnRtEFQzR
+	AOid2Vd9X0K7lyz8Vxn7sKl9CWl45hi6eXb5b1hv8hnTh8q9yEv1v2PeQmuFh8A+qx2hxBldwXdb/
+	S430MkWcTCpL3FIsIjb+a4QPeinZD+H9KqjU53Do0Vs0Jn7F80Bb9COaLDLPcnbIHGHqZ6NbkKK/5
+	d4TmvdQnbO62OQRNKcomu2x/H35rr46JGBN4WNyX2Vc0pgCM7zowDeS81/ZIq/mk3ikjRXjp7NodW
+	AyCBt5Pw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vltUZ-00000001r5K-31E3;
+	Fri, 30 Jan 2026 18:45:15 +0000
+Message-ID: <5917d82f-742e-4c19-993e-182551153c6d@infradead.org>
+Date: Fri, 30 Jan 2026 10:45:14 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <78858200-FE67-491E-89C6-5906233C860D@zytor.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: filesystems: ensure proc pid substitutable is
+ complete
+To: =?UTF-8?Q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260130-ksm_stat-v1-1-a6aa0da78de6@wiredspace.de>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260130-ksm_stat-v1-1-a6aa0da78de6@wiredspace.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 30, 2026 at 08:35:50AM -0800, Xin Li wrote:
-> What is the right order of rename and refactor?
 
-You can rename it when you do the export. The name should be more sensible, as
-said.
 
-Thx.
+On 1/30/26 7:25 AM, Thomas Böhler wrote:
+> The entry in proc.rst for 3.14 is missing the closing ">" of the "pid"
+> field for the ksm_stat file. Add this for both the table of contents and
+> the actual header for the "ksm_stat" file.
+> 
+> Signed-off-by: Thomas Böhler <witcher@wiredspace.de>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> ---
+>  Documentation/filesystems/proc.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 8256e857e2d7..346816b02bac 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -48,7 +48,7 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+>    3.11	/proc/<pid>/patch_state - Livepatch patch operation state
+>    3.12	/proc/<pid>/arch_status - Task architecture specific information
+>    3.13  /proc/<pid>/fd - List of symlinks to open files
+> -  3.14  /proc/<pid/ksm_stat - Information about the process's ksm status.
+> +  3.14  /proc/<pid>/ksm_stat - Information about the process's ksm status.
+>  
+>    4	Configuring procfs
+>    4.1	Mount options
+> @@ -2289,7 +2289,7 @@ The number of open files for the process is stored in 'size' member
+>  of stat() output for /proc/<pid>/fd for fast access.
+>  -------------------------------------------------------
+>  
+> -3.14 /proc/<pid/ksm_stat - Information about the process's ksm status
+> +3.14 /proc/<pid>/ksm_stat - Information about the process's ksm status
+>  ---------------------------------------------------------------------
+>  When CONFIG_KSM is enabled, each process has this file which displays
+>  the information of ksm merging status.
+> 
+> ---
+> base-commit: 6b8edfcd661b569f077cc1ea1f7463ec38547779
+> change-id: 20260130-ksm_stat-4d14366630ea
+> 
+> Best regards,
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+~Randy
