@@ -1,205 +1,169 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9329432FA1E
-	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 15:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0ACF33A9D3
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 15:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769787869; cv=none; b=fDCrdrl+P3a3HMiETGuTDSrIj+bgI5l7g0KIIYobW4VlszV+xjKOOigznKbSnJ/vAxdwwGHvl4UmDMCauitDaobvljp8CehBfcSuRyfnyefHl5rqS3boqKCoZKAaH/+tbJwDhLpbkGb6c2oKwM0Zr6RBvKVPNagvi8MgpWumKGI=
+	t=1769788720; cv=none; b=YjO2cvff/cr7nsw+NxcwfArA8QfzQQaBn58Ft+cKIvGxVjuyQzGXXieRpbAmIxQHqAmDas3Cc5NymNowA7Rl2qjewpWcMEY9IFFznXx+6OKTqcLTKZxvZFg29sgETG7Rg4QWBKsoiZCjYxo0pGXbZDMGNZmoUZIs+nsx+t3qOWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769787869; c=relaxed/simple;
-	bh=tWMoCq/TVKZX/ZEK6i8GI3uCfaa9NF997h3oA9U0APQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s5B9oNNADPzGfdJZ1ya9NluR6Z/NwTn4m2yrlCFo+GHafMk7JGEKf0HcFOJP0sudC/kHP5GgshG+x2W20IfcNEpyY3/7i4wDK2iQA4QYBuJUv4IsV0AdXX/SiF37lslSUeI1MTZR7gZwZ10bb3pvIo0eRn/d3P5RIZymj+IDGZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gSoRsY2+; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769788720; c=relaxed/simple;
+	bh=JHNaQF/tDX4f6NrSy7kAELk8akXPiqvpv6QvjBz8r8I=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=Fp1cybmaEL7RZaPhPJVaJdPU7vrLrvDyKOyN3ZJ028UudKQ5wceiJLUTqc/EPRJJUHEJqSmTWuflmn17b4dyw2wAcs0Iys+Nrp007ZmBKFv98WBqUZusj1pk8Qbd4BLj3I+kdnU7Mf2jzQuxDH6lvBxxjLuR0BhQRTqKOSAHg5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WrHHYB5I; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Q605g9Sl; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gSoRsY2+"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8230d228372so1207855b3a.1
-        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 07:44:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WrHHYB5I";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Q605g9Sl"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 60UB8NL91485339
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 15:58:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	lQNZhRVTVABmpgTnG4Zg3cj198URaNvQKUlnGCClzJk=; b=WrHHYB5IUzWk3xSd
+	mLrptX3mVqYwutQLOSwiXhQDrtxyCqpRwXE7pmXSQIcVZbUQ3UZqG95BoFl1cLUD
+	HTgyb5Rjht5SrPoMzWK9ewSHsHjSjBxrHAtRCurs3zg9qAZU4ykYiTOmXSM2BR9W
+	dsFgwrbdg3Rs59TzFLEzQ4HcXl9cwwG7SVPQM3FfrHgGAHs5TRWJd5a49dFZpbhy
+	giU/zPpIAMQKCggL8MRs/Y713kfc8P/ZMn28fVUqbY/RZkFS4IX8jyHaupnarTPP
+	SYDvZec8LT6XzlVCY7kDchqY9m5f8rIndL3rQle4aDC3HcshG19AQr8Q2/cnUe+y
+	jpyktA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c0nsfa085-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 15:58:36 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c71655aa11so679338985a.3
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 07:58:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769787867; x=1770392667; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=tKYnk6Q0VHb2F316NAJG3Y7DCI41HuS4pf69ucGBkr8=;
-        b=gSoRsY2+t76+cStcdWbSzpCDfi4LVOpP/2qgcOFclmsQqvPvmAIrQMDJ4J5vWvaIlK
-         BTc+3CL6XhDnUUw3FbXG2ZPrRZJXG83QNYELmmb4FHBggxrSUhBOMNsZUig9WqfhCAg1
-         RBvnDaYBWjynkWc8JXRcFLVkQPJnnRlR280H7OMGfkIR3tr90O+MTPXVCjDkmjqZmp6p
-         FUvyVIhqZ1LB2mNoIuq6NEvthkeuo7jnPoICO/2/+gz5JYfRusCgLOjx/4Bhw2K+Q5Q6
-         VOGRXuSPD/4yyuvfQaW+0c0qERcmVWkhoId+Sz/RSRfaXag0xk/TBgDHdXAYSb53eA1o
-         T2bQ==
+        d=oss.qualcomm.com; s=google; t=1769788716; x=1770393516; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:subject:from:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lQNZhRVTVABmpgTnG4Zg3cj198URaNvQKUlnGCClzJk=;
+        b=Q605g9Sli7o3GQC1T05Ku+k47c42bcuQhd9g8zqJqpevLD9hKhWW1fDSB11ZXpi26K
+         1NQes3V4DkTnhciHEguIpPUnU+heEx+N3JFoAAm3DJ+8T2VkDtCrm1uugsmNJs8aREnK
+         06PgJR0W+q57TV0CZEdnicxnrQZgnaBqbatbJxOIA2fMV9zJne0JxHmCW7FMiIetWvt4
+         OR55hk/QPrflZsJJM7ZXFFqVIcrRW/6deu085XCXFY/zZ9Yg3XzYiePhZFR+eWRYCXPa
+         bzSCkq/kXXDZyTZGjk4ZKXouJ2QLLVoVM9KTRlhyMBZyrs1cNTmGzv/V7+oVrG93Pcuq
+         ifWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769787867; x=1770392667;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tKYnk6Q0VHb2F316NAJG3Y7DCI41HuS4pf69ucGBkr8=;
-        b=kHQYzxYs03k7z+mIPBC3K/BG65SvI49eZeBymd3NtMR9ZQ8aVidryVsJEA2ADdp+Cq
-         S1UkC1DO4wK5gkmC7OUHdnkaKCG3CRyjfQtH4G1lWzWQimdBpUr292N4TmMoEteOdRv4
-         HwUp9MIvni1DSkXc0uPPbm1rz/1W6iyqLao2bz20mpfEbo4IDjTP4ll7acXnUxj6zssZ
-         6k1S8gwW2TNZJH6wLJ/ht21pLLt9tPB19AhjCE2yTW0fclFDGN6pfcZuXJgwRplCpzBx
-         i66XN0bhaM9EaSwOKn9/SvLSOpIe9AYwg+mugvtdVhaeDtrAGq4+iSKklQPQraQgpBLd
-         CoFg==
-X-Gm-Message-State: AOJu0Yz8RHF3Gg16jfqgA8gw9nPX27iumX+NGmpyN27NMzWigIBEnoUV
-	SV5Hzig2hIZ2JwAOJlZIK4gnIP0f8oNL+dHPDPXaLMFjNYWkfPV8OnUk
-X-Gm-Gg: AZuq6aIxNypA6oKYItImlE0khILhkm2DpRScf2O8hGLt8BBKiUXRnrXZbFJ5Zapuc4P
-	ybccOfhdfguUP+VTVDKdoLziRshbEShlbnPJMEMBqg3yvigrX2MD6GOSBul8XVRmg8Pwj5k4pBx
-	VeMGCt4wbTnrwxejIaZRlXPJNc5TXIV4DX1ckXoLT1YxGCH8agoJNIe3hlo+kIK8sF9fpYkh6N8
-	HFRNTlEh/KXYmatMHCYjGz5SSlhwXCapsx+UpyQrPsNIDIPQ5qOG06TmuWZGxV336rEk5ebb7DJ
-	rhKfAQPYT9vuKljcjMmT8U7tCIjdGDAgLrBFQDXs8zpb8mYgmGikf3PVyvnPSDOcYZ002betusd
-	L51q8Z3FDWCKC9xNqrYSLOJx/IRBcelwECI7VpLI4rVnb5/ZXu7u6LcKflKam+Yu7Q/phMHi5OL
-	LXNN9Kd2y/yV0e6Tdln4sXMTo7rSP+kMioKmqIyQF+4GErIXoHAf5YuBFhiYTF
-X-Received: by 2002:a05:6a00:9288:b0:81e:372c:b02e with SMTP id d2e1a72fcca58-823ab873c4fmr4013251b3a.47.1769787866900;
-        Fri, 30 Jan 2026 07:44:26 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379bfcab8sm8005207b3a.36.2026.01.30.07.44.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Jan 2026 07:44:25 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <ae5f1ab3-cd0e-4831-9a11-30dc75f16da0@roeck-us.net>
-Date: Fri, 30 Jan 2026 07:44:24 -0800
+        d=1e100.net; s=20230601; t=1769788716; x=1770393516;
+        h=in-reply-to:references:cc:subject:from:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lQNZhRVTVABmpgTnG4Zg3cj198URaNvQKUlnGCClzJk=;
+        b=mU8ipcCotxHMZtfTjjz22OH2mklA1kX/RzvoV9B8OPpMZP/2ebaS/nuEBJvkYPHs4v
+         fSX5aFKnaaBCN+zBRaao0+d7PE7SasmVnbaWzeB7G5Vgfa9cobGrHgXyVu8B5b5Oc/cU
+         kYR13wmbHZpNWLIbc4MLUEGqt1EAqVkAHDqttzE+PM+kEp+gFtDUrZNg+vkYkPJMcMFk
+         hEPkGsoxofO6pcWjSptoVZPP7Om3dZQ+a3FF3yXk9BL83HvpQ+6OcZvJl18Bg0HbaE5t
+         kt3x0GhWBU4eKaE6E5RIz89JPHVbg85QVlFh7XvSmGGzxQkxVyoIVTQQ4Cvmyj5yWJUb
+         d8nw==
+X-Forwarded-Encrypted: i=1; AJvYcCVmO3aJviP0sqIT6Axj8mH3GxOY7VLAhlKN3+NaozIcft4fVc9O4FXWBsUbEkXvusWTEyFDlGu9tZI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YziqLHdV8lkzzR08vvVYomy15g+39upqKJDU7i358xCM1fYLPAG
+	m27cn3dPfZlhFW1+dHAd4ms35XluvKfyCT+w9jhH6gt9hC9M0/BCnDqKuHEcbfdSdp4yNO90ObB
+	qYW/eNo/S0prtuNU5ENTw9F6G0VclhxGYHQKSzZO+o/9kIARoEQbTeDv6qcWLDxA=
+X-Gm-Gg: AZuq6aK/Ffa8FskI5J2gQozz26moDY0ef0lTrpCdxhQZcm48fSjnx3aZQiyv+3OBqtb
+	DbvhXGSLdAfLduqF2/MnaxCdt7avk85Li/DhO+BzhVK9cquK4cvZzAiCHH96CMDVdbMlcTkY5tH
+	5C6LQAfktj035dTGpOa3/QiD8tnq2lET9HcR9G1Pxcno4Mvomt+ksEK7t94l8g63zLvq7u6fnQt
+	3/InuN8PEAhs/esA1grEUcHP1Pn+5RL6Hq2ph5iJUeK257NDkBD2hO2FX/G/5JzxE0O6dRdSo4N
+	1v5L14YKeSO9fR75El3KveWNXZVAZLXL32Y4P9xysYntKfHt95h3tR9slU1SctRq3A9dyG6Feux
+	62Lc/KfoG0msC0TZpSfbDJHjDJJONDN7o9icLLxo6niK3uF1j
+X-Received: by 2002:a05:620a:29d2:b0:8c5:36be:41fe with SMTP id af79cd13be357-8c9eb32be89mr429757585a.60.1769788715904;
+        Fri, 30 Jan 2026 07:58:35 -0800 (PST)
+X-Received: by 2002:a05:620a:29d2:b0:8c5:36be:41fe with SMTP id af79cd13be357-8c9eb32be89mr429754485a.60.1769788715467;
+        Fri, 30 Jan 2026 07:58:35 -0800 (PST)
+Received: from localhost (ip-86-49-253-11.bb.vodafone.cz. [86.49.253.11])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-482dbd4a5b8sm27030845e9.5.2026.01.30.07.58.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jan 2026 07:58:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFT 3/5] hwmon: Add support for updating thermal zones
-To: linux-hwmon@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jaroslav Pulchart <jaroslav.pulchart@gooddata.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>, lihuisong <lihuisong@huawei.com>
-References: <20260123182208.2229670-1-linux@roeck-us.net>
- <20260123182208.2229670-4-linux@roeck-us.net>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
- RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
- nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
- 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
- gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
- IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
- kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
- VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
- jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
- BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
- ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
- CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
- oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
- VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
- 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
- onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
- DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
- rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
- WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
- qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
- 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
- qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
- 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
- pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
- J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
- pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
- 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
- ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
- I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
- nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
- HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
- JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
- H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
- njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
- dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
- j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
- scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
- zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
- RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
- F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
- FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260123182208.2229670-4-linux@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 30 Jan 2026 15:58:32 +0000
+Message-Id: <DG21QMIKJS7W.1OUK0OFL8S3A8@oss.qualcomm.com>
+To: <fangyu.yu@linux.alibaba.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?=
+ <radim.krcmar@oss.qualcomm.com>
+Subject: Re: [PATCH v3 1/2] RISC-V: KVM: Support runtime configuration for
+ per-VM's HGATP mode
+Cc: <ajones@ventanamicro.com>, <alex@ghiti.fr>,
+        <andrew.jones@oss.qualcomm.com>, <anup@brainfault.org>,
+        <aou@eecs.berkeley.edu>, <atish.patra@linux.dev>, <corbet@lwn.net>,
+        <guoren@kernel.org>, <kvm-riscv@lists.infradead.org>,
+        <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+        <palmer@dabbelt.com>, <pbonzini@redhat.com>, <pjw@kernel.org>
+References: <DG16GDMKZOBM.2QH3ZYM2WH7RO@oss.qualcomm.com>
+ <20260130132458.16367-1-fangyu.yu@linux.alibaba.com>
+In-Reply-To: <20260130132458.16367-1-fangyu.yu@linux.alibaba.com>
+X-Proofpoint-ORIG-GUID: QxRT7zZ2qNnFo8kSHO3mdiMG310H3sRQ
+X-Authority-Analysis: v=2.4 cv=EvjfbCcA c=1 sm=1 tr=0 ts=697cd52d cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=HFCiZzTCIv7qJCpyeE1rag==:17
+ a=IkcTkHD0fZMA:10 a=vUbySO9Y5rIA:10 a=M51BFTxLslgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=NEAV23lmAAAA:8 a=SRrdq9N9AAAA:8
+ a=655hpoqrAi3NGJe9dLIA:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: QxRT7zZ2qNnFo8kSHO3mdiMG310H3sRQ
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMTMwMDEyOSBTYWx0ZWRfX1800An4dSRZt
+ PcfkqPMVNjg7hZuuGX0z/oz/cBskn4IoP6q6fk/qvgApeSQP3pkkp04GrzlVQkHof82eN2WfN+8
+ hooFVSfi/B2bx7K/KTMVrRwAUNeLbhX3cEn5fnQuDnCFWczwZiGo+VVth62QCuhYt/dmHNbHdZh
+ NvH/53vMViugJwI7ijadMDcsVCe9SZxTBlApJMVY3mQq17KK1zguRep7+ZZcn+Gtdt2fOh+mvMj
+ xVjbH88A4s/CBTsVb7mShyxO3PV1MnhdBhAy8k+TSMyAVxQNizoZJpXMLZ5eRlU8Yxkf5jY1n26
+ oXS1suYdJo48Y3KcU9ZBfXngqzJg0i4XDVeXhbTuZDD4qZr0Xdo+SYVQvGqpitFhXvXabOvcksI
+ EcNTm2jHuzfbLh79lwtoHBPhAJ1f2potg7DVbcKlP94QBHT1c/gBnzAe9H8PqUcBTQWH9bu7kPm
+ VV6N4cUcyC4+AvaB7uQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-01-30_02,2026-01-30_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2601300129
 
-On 1/23/26 10:22, Guenter Roeck wrote:
-> Implement support for updating thermal zones. This is necessary
-> to be able to handle updates to sysfs attribute visibility.
-> 
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+2026-01-30T21:24:58+08:00, <fangyu.yu@linux.alibaba.com>:
+>>> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>>> -	kvm_info("using %s G-stage page table format\n", str);
+>>> +	kvm_info("Max G-stage page table format %s\n", str);
+>>
+>>Fun fact: the ISA doesn't define the same hierarchy for hgatp modes as
+>>it does for satp modes, so we could have just Sv57x4 and nothing below.
+>>
+>>We could do just with a code comment that we're assuming vendors will do
+>>better, but I'd rather not introduce more assumptions...
+>>I think the easiest would be to kvm_riscv_gstage_mode_detect() levels in
+>>reverse and stop on the first one that is not supported.
+>>(I'll reply with a patch later.)
+>
+> Please refer to the discussion here:
+> https://github.com/riscv/riscv-isa-manual/issues/2208
+> If Sv57x4 is implemented, then Sv48x4 and Sv39x4 must also be implemented=
+.
 
-This patch is both racy because it doesn't protect the list of thermal
-zones, and it leaks tzdata until the device is removed. SO it will need
-(much) more work.
+I don't think so, sadly, but we're mostly dealing with technicalities
+here.  As Andrew pointed out:
 
-Guenter
+  "The H extension itself does not impose this requirement, so
+  technically Sv57x4 without Sv48x4 conforms to the H extension spec."
 
-> ---
->   drivers/hwmon/hwmon.c | 34 +++++++++++++++++++++++++++-------
->   1 file changed, 27 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
-> index 1f35285ca7a0..cb89218a0b6a 100644
-> --- a/drivers/hwmon/hwmon.c
-> +++ b/drivers/hwmon/hwmon.c
-> @@ -276,7 +276,7 @@ static struct hwmon_thermal_data *hwmon_thermal_find_tz(struct device *dev, int
->   	return NULL;
->   }
->   
-> -static int hwmon_thermal_register_sensors(struct device *dev)
-> +static int hwmon_thermal_handle_sensors(struct device *dev, bool update)
->   {
->   	struct hwmon_device *hwdev = to_hwmon_device(dev);
->   	const struct hwmon_chip_info *chip = hwdev->chip;
-> @@ -294,22 +294,42 @@ static int hwmon_thermal_register_sensors(struct device *dev)
->   			continue;
->   
->   		for (j = 0; info[i]->config[j]; j++) {
-> +			umode_t mode;
->   			int err;
->   
-> -			if (!(info[i]->config[j] & HWMON_T_INPUT) ||
-> -			    !hwmon_is_visible(chip->ops, drvdata, hwmon_temp,
-> -					      hwmon_temp_input, j))
-> +			if (!(info[i]->config[j] & HWMON_T_INPUT))
->   				continue;
-> +			mode = hwmon_is_visible(chip->ops, drvdata, hwmon_temp,
-> +						hwmon_temp_input, j);
-> +			if (!mode) {
-> +				struct hwmon_thermal_data *tzdata;
->   
-> -			err = hwmon_thermal_add_sensor(dev, j);
-> -			if (err)
-> -				return err;
-> +				if (!update)
-> +					continue;
-> +				tzdata = hwmon_thermal_find_tz(dev, j);
-> +				if (tzdata) {
-> +					devm_thermal_of_zone_unregister(dev, tzdata->tzd);
-> +					devm_release_action(dev, hwmon_thermal_remove_sensor,
-> +							    &tzdata->node);
-> +				}
-> +			} else {
-> +				if (!update || !hwmon_thermal_find_tz(dev, j)) {
-> +					err = hwmon_thermal_add_sensor(dev, j);
-> +					if (err)
-> +						return err;
-> +				}
-> +			}
->   		}
->   	}
->   
->   	return 0;
->   }
->   
-> +static int hwmon_thermal_register_sensors(struct device *dev)
-> +{
-> +	return hwmon_thermal_handle_sensors(dev, false);
-> +}
-> +
->   static void hwmon_thermal_notify(struct device *dev, int index)
->   {
->   	struct hwmon_thermal_data *tzdata = hwmon_thermal_find_tz(dev, index);
+This means it's completely valid to support {Bare, Sv39x4, Sv57x4}.
+The RVA23 profile imposes additional constraints via Shgatpa:
 
+  "For each supported virtual memory scheme SvNN supported in satp, the
+  corresponding hgatp SvNNx4 mode must be supported.
+  The hgatp mode Bare must also be supported."
+
+The requirement only goes one way, so an RVA23 implementation with just
+{Bare, Sv39} in satp could support {Bare, Sv39x4, Sv57x4} in hgatp,
+because RVA23 nor ISA prevent Sv57x4 to be there.
+Not that I expect any sensible implementation to do this...
+
+Btw. do we target only RVA23 with KVM?
+
+Thanks.
