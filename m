@@ -1,101 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54683559C3;
-	Fri, 30 Jan 2026 17:41:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBAAD335090;
+	Fri, 30 Jan 2026 17:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769794883; cv=none; b=HNXkQmKgioXsHTBQJnzGGIM/2RfRFvHqitAD1GyepWsphqI3ivDtU6ImTNlkTXY//LRCbT1kwkoyV3oK4+NbBnjpnA4kMkdz5FdCfbqUUevLmnDmsL/qgeSsqi787rFpMvUMiOYo+qAgf3Iab5F6aA+L2/16h5XABm5gdqykm4Q=
+	t=1769794959; cv=none; b=nCrp4dPhNghbd3CU6/kERBGfrEIqKUGN5Mj7SXoxT+fW8gqFXhwQ091FzPxWVzUImBXipesJzjAm6JpnHqjUxM1A4mWBeWVe7yjukAxlvM4fAu3pQhk0Vpxdz+SwGfdsdJLy5AF5Jbh6n80cH7NAh45GuH9nyochS9kiIooPKXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769794883; c=relaxed/simple;
-	bh=/yDYVv/HLVixY2p0RO7gQXURbbrWkT6rJH2CWhjhsXY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=Qoa5CRXkNHYtSyMaO8YqLs+cxBb6OnKwhs3jmKMZt/gL/dcrLYmcqu2Cp7b9Zvxqs2qFbdEY8/yhWidQUlKdaQFh6YepJCciQNpUfQgFZ7th2gXOPy+AZeMBH/1aqHuFY4s2Cd9xvCQruxp781kmT7pZs0iniSOMcLlV4dS64nY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jS/qdE7r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769794959; c=relaxed/simple;
+	bh=33CSKcawZBCnIPP+EaHAiuOkVTRWbzLkZ0rTTWQPnyw=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=pXFXRwtnl77RrbVxc58vTQYTh7ilF5ZOYqVq2cic30OPyUyhvGRuECVUNj6TNe+mJlYPLuenjp+IJxQoUtwsxHNt292rErRUwiSq7hmD+PvpKL+4UxhbBmPGi807h9s8gIydi+wFRgyUfDXzEGOupufPYAD47CU4fvXks0YK2QI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Fkrhr35K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jS/qdE7r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 520ECC4CEF7;
-	Fri, 30 Jan 2026 17:41:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769794883;
-	bh=/yDYVv/HLVixY2p0RO7gQXURbbrWkT6rJH2CWhjhsXY=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
-	b=jS/qdE7r+KH8/pi2caOBa7WnBDBDSk1PJ8W4S/7S9QX15+LiQYWJOM/BjHpYR35pm
-	 hYesA3D+PTFnmwUqCplajw3/OMjL/Iz3REFPqMz21G3vekm0vFEabDsT3zkbvkJkke
-	 U6Gof3aWNy5Va1Lj7Dr5zN/tq2R8ENj4i25LuoNBDZt/WFLg2fATZ7ii7lpexTMb1h
-	 djN2aauLCWOygddFvNjUkAtPbXKFnuWQSrVyY3WVJHHJ5XIEjbAKDh9aTsYKSSFNse
-	 3xWZDifXps3WXN2zGe9W1uIdJjx+pjoV5rzGnC3jz6HFlPNps+uLUbs1JEq2DWRlVl
-	 S9iTbBggXlHwQ==
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Fkrhr35K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CF28C4CEF7;
+	Fri, 30 Jan 2026 17:42:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1769794958;
+	bh=33CSKcawZBCnIPP+EaHAiuOkVTRWbzLkZ0rTTWQPnyw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Fkrhr35KAUSisdC86CCcISMY3CFguduSD7TH0Ni2jIkAP7LEOyZlKGIpl2bjP4L9C
+	 cD0X8hvn2yKNbMg9i1UrimB75vrHuk3bW5h/kgdmonrV1nDeGGtSuGE7AOFL7x51LM
+	 IqZ/cv+ispaQgjdDuEuvLIiK9qNyVUPxdFo2wdHI=
+Date: Fri, 30 Jan 2026 09:42:37 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Li Chen <me@linux.beauty>
+Cc: Jonathan Corbet <corbet@lwn.net>, "Borislav Petkov (AMD)"
+ <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>, Ingo Molnar
+ <mingo@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Feng
+ Tang <feng.tang@linux.alibaba.com>, Kees Cook <kees@kernel.org>, Li
+ RongQing <lirongqing@baidu.com>, Arnd Bergmann <arnd@arndb.de>, Frank van
+ der Linden <fvdl@google.com>, Askar Safin <safinaskar@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Pratyush Yadav
+ <ptyadav@amazon.de>, Pasha Tatashin <pasha.tatashin@soleen.com>, Mike
+ Rapoport (Microsoft) <rppt@kernel.org>
+Subject: Re: [PATCH] Documentation: document liveupdate cmdline parameter
+Message-Id: <20260130094237.6f86e3c5c45e2d3443bcce8f@linux-foundation.org>
+In-Reply-To: <20260130112036.359806-1-me@linux.beauty>
+References: <20260130112036.359806-1-me@linux.beauty>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 30 Jan 2026 18:41:18 +0100
-Message-Id: <DG23XB4M0MLS.1ZHTFHJAUJSTH@kernel.org>
-To: "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
-Cc: "Tzung-Bi Shih" <tzungbi@kernel.org>, "Johan Hovold" <johan@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J . Wysocki"
- <rafael@kernel.org>, "Bartosz Golaszewski"
- <bartosz.golaszewski@oss.qualcomm.com>, "Linus Walleij"
- <linusw@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <shuah@kernel.org>, "Wolfram Sang" <wsa+renesas@sang-engineering.com>,
- "Simona Vetter" <simona.vetter@ffwll.ch>, "Dan Williams"
- <dan.j.williams@intel.com>, "Jason Gunthorpe" <jgg@nvidia.com>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-References: <20260124170535.11756-1-johan@kernel.org>
- <aXjgeNY-jf9rIw09@google.com> <aXt2XqRnBjb25f81@google.com>
- <20260130091205.GI3374091@killaraus>
-In-Reply-To: <20260130091205.GI3374091@killaraus>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri Jan 30, 2026 at 10:12 AM CET, Laurent Pinchart wrote:
-> On Thu, Jan 29, 2026 at 03:01:50PM +0000, Tzung-Bi Shih wrote:
->> FWIW: https://lore.kernel.org/all/20260129143733.45618-2-tzungbi@kernel.=
-org/
->> and https://lore.kernel.org/all/20260129143733.45618-4-tzungbi@kernel.or=
-g/
->> are the proposed fixes.
->
-> I won't review that, sorry. As multiple people said in this mail thread,
-> the API needs to go back to the design board.
+On Fri, 30 Jan 2026 19:20:33 +0800 Li Chen <me@linux.beauty> wrote:
 
-Of course, you are entirely free to choose what you want to review, but I t=
-hink
-the justification you give is not entirely fair.
+> liveupdate is used to enable Live Update Orchestrator (LUO) early during
+> boot. Add it to kernel-parameters.txt so users can discover and use it.
+> 
 
-The patch series was on the list since August, you were explicitly Cc'd fro=
-m the
-get-go.
+Thanks,
 
-In v3 you said:
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -3442,6 +3442,11 @@ Kernel parameters
+>  			If there are multiple matching configurations changing
+>  			the same attribute, the last one is used.
+>  
+> +	liveupdate=	[KNL,EARLY]
+> +			Format: <bool>
+> +			Enable Live Update Orchestrator (LUO).
+> +			Default: off.
+> +
+>  	lockd.nlm_grace_period=P  [NFS] Assign grace period.
+>  			Format: <integer>
 
-"To be clear, I'm not against the API being merged for the use cases that w=
-ould
-benefit from it, but I don't want to see drivers using it to protect from t=
-he
-cdev/unregistration race."
+but let's cc the developers:
 
-This was a reply to Bartosz saying:
+LIVE UPDATE
+M:	Pasha Tatashin <pasha.tatashin@soleen.com>
+M:	Mike Rapoport <rppt@kernel.org>
+R:	Pratyush Yadav <pratyush@kernel.org>
 
-"Yeah, I'm not against this going upstream. If more development is needed f=
-or
-this to be usable in other parts of the kernel, that can be done gradually.
-Literally no subsystem ever was perfect on day 1."
-
-Just to be clear, I'm not saying there are no issues to be addressed. And I=
-'m
-also not saying that you never raised concerns, you clearly did.
-
-But, given the above, I don't think it's fair to request a revert as a
-precondition to give constructive feedback for improvements and fixes.
-
-- Danilo
-
-Link: https://lore.kernel.org/chrome-platform/20250912145416.GL31682@pendra=
-gon.ideasonboard.com/
