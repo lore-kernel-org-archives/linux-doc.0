@@ -1,261 +1,689 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011046.outbound.protection.outlook.com [40.107.208.46])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010068.outbound.protection.outlook.com [52.101.193.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBF2387358;
-	Fri, 30 Jan 2026 21:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD55F30275E;
+	Fri, 30 Jan 2026 21:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.68
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769807665; cv=fail; b=e1kaxyqv9NtJoqKw1ATtc7lIyFz3T8Ss8C5ZqowREO90Bbmol18kKclNWGRI2pdpME3u/cN9qWkhgeYLBScnpffBezzgEkyX/NQLhB9FoqTsCuwypesC1f57AMreC/TZoKEVaftKgr7ADPYE9KPldQUNUzNTBcwVi9iK4KR9rFU=
+	t=1769808444; cv=fail; b=h+m9UDf2lbquaTrHJpF4VltfjBahPDRhKLnK41T5ngFq9KgquKJYrsLWmsb/DDTGoECeO7od/QlHWWDy8dLa7zGVcxuooBGcfoP/dvOn/JU9T5HeVJsmf75S8CkV5lY9FgbxcQBgYVtvhyD5MwWuiFL0q8gIGDL1YZ6CC8q3LL4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769807665; c=relaxed/simple;
-	bh=cJdPKpnr9dt3sRnhU1hKiTfZOKC5YU0/DUL5DV6PoRg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=VEut2L0tlNNGR8s1rAN1C/8dfz79unwOhSASFK4bgaM05f4v3y6o92LlLbDIozuzQG4zRsnrUNp9KU7kZQ2VcqL7XNQ1m/K/ZeBDqVmR20tFKmk5YUTIT5y9g6X71UXMWPN1cF4SpzJWWdqM3Uuvqn4hZXkvY6gLPWIXhgDdmQE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=NFAd2r0z; arc=fail smtp.client-ip=40.107.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1769808444; c=relaxed/simple;
+	bh=iHCt8ZDZEV+YhFzBwfAaDzEBhFF5AO3FydMjqrpF6rU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=tELu4P9XTjv69QsEwwjh0+PEKr75sDIbOrvwYXZr/5OYSnBEhorN978jj0sqpRS9AFYEF7v5detyfoA4iG4htW4AhL5Uj6Wv/fZal4iFVJ4CjSfIroTbmLbtPsYULgh8UAOUSXOGwLhScLjJGbnf42wh4/6hYunmMW9q8d+uJzc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=A6Dcx9+N; arc=fail smtp.client-ip=52.101.193.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="NFAd2r0z"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="A6Dcx9+N"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N2RS0Q/DI8Ksc/NRQuqMPsrOjkusko5XT4YdQb4Bo1BhiUFEP6VeVeSKfTr470LFgBHqj9t4U+ogtsSq/rs/4+xL5/SdumdfjI/8TTc+4ekhD3vyzGRPcIMNd0A85QEjA8ure2gSf0Qe8umPdRESRxdFPTg/MZQxx38V0jNlHeZapSM44UlZfo1TNhHid+2MN4QY7FaZObEgspSbIZkQnXsFag+lUABZBpJt9A8n9PffwCGHJw3+TemxiS/jJR9dqqogzvVypxteSrZFNhpB4T2vFmMsFI9S7hLS1GxiPMNn9hMV6+cumvK9F7P6zOI3duWD9B2SYwBdX5231R13uA==
+ b=FzPRFlCclvSd4SiQLdNFKRG+BLSw8TY9kKI8jDgBXSLUh+36IZsmLP7qBLkuTCRGv3o0yAZBksnUovrYHFswDap1KPJgU2Ys7RvTNI42pZAOFjdghXzr3lYQDr6mTWbJWdsoK3Q81IHn1NK+Hw6ibxIdYG1HZJKi/E8i5pAbKGxUSFAF3Omu0eSl4qQa5o5Kc/6yMPHCkvtaluMBDJVOfXyNUKtXEp9GhT03oohht0By89MMXHOt+y5IeYvW6fhTn+vgdy7uOz+4tabcMdHE8WV38NXEYPUo5uBEpo3l+aDlUIRnTbbkVr+EUqbYVICp3mUSh8/0xJNEL0+j18QURA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HGZlb0sc7tb23SakznYhv9XHsEaHih7CMv9psv2Y/3w=;
- b=fnew/VQwrTdI5O+83EkMORoLH+tEsLeVWl+ENpy0YkMH/yTywkgA3wwnXUun57CrwfezEkQ81+HMczu/nxwjrcEgR0b+G2LeQrzmnuU7VCMBdYhur5xXe3tKcqM3rzENwgUM/NZtFx5aJZWfemeblLsYF86CCuWk0CG72FL5tLje0ScNLzT6zBI69Aggj5WZJaiMM8+LvFpZGejl73F2BQvF3e/BeitJBgjLTLaKPaYEamaDhJDEwOSPQ7gJPenU6+VaGWaF9EgYD7GTNTHu6ta/ENCcv2BebMMa9Mm2yNOnuzZycwbdKMQsJd1FsjRj24SEpkX9ULK7xsD/uS7XXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=TeE5xBdpqkvYUrIwUVkEr8YVjkH/UKlkvp2aSwkXq7s=;
+ b=Y3C7rvsoazYT/HGeyKflbP/cgJya6FHPFhZLWzp8t3GHzLfiKQSgfjUmfimAClFhuoYyDycEf7ZLDdIB07hjdFiyJOq3Eoqrn1uYA8eJetCj/ty87hvhaFgPcgEY+nZerDlWlPGzIwl4DsjpBhdLAj20tk3BfGzLDq5WHBQ256gARQWruPjSE/3Au0DqnoDozkYX/aXGdfLjhXDM0lc5i8RFK8gwa6uxPYrL3nQcxRVJffHD2bUU0wV4H/NqA0fcW3qMOS6klNho6qDlYIC5j8bGsOGmGVVrCuAoZBNJZCblaEJhg7/5jjXJU/IXZTlzc+yl0igYhqtwZDHQgUIS2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gourry.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HGZlb0sc7tb23SakznYhv9XHsEaHih7CMv9psv2Y/3w=;
- b=NFAd2r0zYkwQLuia/cx7YVwyVPrakshzd7Q0IP/hzLNuR3rczWCUsSHvTWZzRom4XvyDKO2L7dDcq9Hh99P78qhDkx9FPrEckiwdtP3zUD66hNTxPHzv5WXzvbpTpeClHANEa45Q1cQ/HFrldfZWlgmzaqZ4oSO5Bvo8WkY43oaDqEaphPDtkwKUqIPzqRdZmGBgAtqXJdHee+sZ+U7befIxqgQcYcDztAsqh4WthaCKT52XdSqG48LkfjFa4nsgNG7lc2TRbZl5npViYSF4C99iZMspjD4h7pF/koHQYUNzoCQlUF8etuewkWNwq5PEoWG+V1Bz7WRTSa4npn32MA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- IA0PR12MB8932.namprd12.prod.outlook.com (2603:10b6:208:492::18) with
+ bh=TeE5xBdpqkvYUrIwUVkEr8YVjkH/UKlkvp2aSwkXq7s=;
+ b=A6Dcx9+NMXmCUtYBi5M0xO8p0nXe1BmBuGqpcSjelageGOg4ymbKqfy+3CQoGFuJlD0bM4iPnCV2CBETUchXycw3DkKUuNMyPa/yB2pE4pF3+Xl1vvAf/OwcYBxYs5JPUmpGD6bm5ZQdOmd8hiiMdD/Gg+46Y6OBH260mabY4Us=
+Received: from BY3PR05CA0013.namprd05.prod.outlook.com (2603:10b6:a03:254::18)
+ by PH7PR12MB6588.namprd12.prod.outlook.com (2603:10b6:510:210::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.10; Fri, 30 Jan
- 2026 21:14:19 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9564.007; Fri, 30 Jan 2026
- 21:14:19 +0000
-Message-ID: <70d88203-2fe1-4bde-b254-51e8107744eb@nvidia.com>
-Date: Fri, 30 Jan 2026 16:14:14 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v6 05/26] nova-core: mm: Add support to use PRAMIN
- windows to write to VRAM
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Zhi Wang <zhiw@nvidia.com>,
- linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Rui Huang <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alice Ryhl <aliceryhl@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Alistair Popple <apopple@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
- Andy Ritger <aritger@nvidia.com>, Alexey Ivanov <alexeyi@nvidia.com>,
- Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <97af2d85-a905-44d4-951f-e56a40f4312e@nvidia.com>
- <20260130015901.GA301119@joelbox2>
- <c064fbdc-9202-437d-80ff-6134d2a33778@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <c064fbdc-9202-437d-80ff-6134d2a33778@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0383.namprd13.prod.outlook.com
- (2603:10b6:208:2c0::28) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+ 2026 21:27:14 +0000
+Received: from SJ1PEPF0000231F.namprd03.prod.outlook.com
+ (2603:10b6:a03:254:cafe::ed) by BY3PR05CA0013.outlook.office365.com
+ (2603:10b6:a03:254::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.5 via Frontend Transport; Fri,
+ 30 Jan 2026 21:27:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ1PEPF0000231F.mail.protection.outlook.com (10.167.242.235) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Fri, 30 Jan 2026 21:27:14 +0000
+Received: from [10.236.189.18] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Fri, 30 Jan
+ 2026 15:27:13 -0600
+Message-ID: <c1d7d137-b7c2-4713-8ca4-33b6bc2bea2b@amd.com>
+Date: Fri, 30 Jan 2026 15:27:12 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: "Cheatham, Benjamin" <benjamin.cheatham@amd.com>
+Subject: Re: [PATCH 8/9] cxl/core: Add dax_kmem_region and sysram_region
+ drivers
+To: Gregory Price <gourry@gourry.net>, <linux-mm@kvack.org>
+CC: <linux-cxl@vger.kernel.org>, <nvdimm@lists.linux.dev>,
+	<linux-fsdevel@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, <dave@stgolabs.net>,
+	<jonathan.cameron@huawei.com>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>, <dan.j.williams@intel.com>, <willy@infradead.org>,
+	<jack@suse.cz>, <terry.bowman@amd.com>, <john@jagalactic.com>
+References: <20260129210442.3951412-1-gourry@gourry.net>
+ <20260129210442.3951412-9-gourry@gourry.net>
+Content-Language: en-US
+In-Reply-To: <20260129210442.3951412-9-gourry@gourry.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|IA0PR12MB8932:EE_
-X-MS-Office365-Filtering-Correlation-Id: d09637fe-9f97-401e-e29a-08de6044879f
+X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231F:EE_|PH7PR12MB6588:EE_
+X-MS-Office365-Filtering-Correlation-Id: 39c5cc20-89b4-4bb9-1d6b-08de60465631
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700013|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?a2x4bW1OTENTeWlDTkp5NXlGeVI4QnIwU0YxNkJVN21VekRRT2QwOUJWZU0w?=
- =?utf-8?B?Q3BXYm4xdkZMUGw1MHhzOVhKR1U1UTRCeXIyOFFEZlNTMnV0YVh1ekJXc0lN?=
- =?utf-8?B?eHN1QWp1aFpsYUt5TjRzNEJsZWppS1liTUJXU28rTm1Ddy9sMkVKZXBZZ3Ry?=
- =?utf-8?B?d3JnbkQvYVQ4bkorZDJBbzZHOCtVanlPTDYvS1lTWENpYjVCbFNnMFN0U3Z4?=
- =?utf-8?B?c1ZKNVcxeEFvWHZxanRMNnpsZG9WK1R3UEx6Z0FMZ1hMT3RCU3Z1YWgzcnls?=
- =?utf-8?B?ZFh4RE5kYnYrczJFSzUxNzZIbkxRMDg3dFNVQjJELy8wSnlRcHllRmQrSmhl?=
- =?utf-8?B?NjJkTzdxN0hCZnRseWxXaWs0ZW84ZGZqYUJ2NDU2V0xUNHd6QkpFTFdBZi9E?=
- =?utf-8?B?OE5SeGwyV0EzbUpmanZLNHlTcGpQWTl1NW1HTW1kNFl1RlZpR0NPS3hrRDJO?=
- =?utf-8?B?VUJOVDNSazJHMjBTRjVrdWF2M3FVSHhWSjhWUXhzY2dhVlhHWWEvTnMwZFJj?=
- =?utf-8?B?eDUrTS9TUmdvcU9tKzRUb3ZTUlhVUjJiak9zNjVMS1B5dUpldTdqR1ZubHQ2?=
- =?utf-8?B?aUhILzZMUFVmWXhrVGFVdnJONlJDUjRIaytLMVlDK0VQSndRekJhZVpybHow?=
- =?utf-8?B?cmk2Nldiamg5aDlRd0s5K2JmTlgybmVMVklTNUNGOGJRcnRzYklSRGpud21z?=
- =?utf-8?B?YmZJUUdFd2hpUVZRM3Vwb1gzTFlvSElpNzdIL2tpbFJpd05wd1g5WlExeG0v?=
- =?utf-8?B?RDFjMW1INVlyNGdlNVUxdzB4ZEdiN01ZUmUweVlTM1RqQ2NLRXowampiSWlQ?=
- =?utf-8?B?aTlYWFpWOWRsM0NSN2NYWjc2MTI4SmlablBpdGdLdGR1Wk56TjFjQVVwRmNK?=
- =?utf-8?B?VTlNS3dxSUhjczBBVUxTMHc0TkhmcDNpYlhUY1BCL0E4bWczZTNwZkM3ckkv?=
- =?utf-8?B?dWJNc1l5VnFTNDR6b01Fd3RHS2xDRUFTWnI3YXFKYWZBT2pEZzFiMFpNQ2Qw?=
- =?utf-8?B?MUxRQ2JrUDNBdS9HWW45eVFUNzBOS3MwejBrcjBuUHhma2lpSlZFVW5mZEYz?=
- =?utf-8?B?eVoyRXc0a1ZsZXdnWmc0VXMrRGJ6TnI1eGwxZFRTa3JOZzErYU5qN3FweGpy?=
- =?utf-8?B?dUZjSlVkNGVEZ2hRYUhOWGJuS0pFVlQ3alVuaDh2SW9OQjdjamFKUlNjU3pK?=
- =?utf-8?B?Z1BXK01NcU8ya1lCT284VDY5N241WXVORHNsdUJ5Y1Rwdk0zNmppTXVBTlpw?=
- =?utf-8?B?Z2lzSTk2NktzQUhNd0hSbmc2cnUyWll0eTVyRmJrS2hnWEY1eFAyOFl0Vk1v?=
- =?utf-8?B?WXQzY3ZOTmZmdDU5Wi9OQkVQWjRDdUdEZEFrU0pKN1dwUlg1ckc1K2lLdEo2?=
- =?utf-8?B?WXBLREkrWWZNV0xlRjFWT2QwQTBvRzdoYUErQU9jVkFpREpZOUlGQllRYXZF?=
- =?utf-8?B?WGhMZkg5bGFldVJsOHlOVjFxQXpXcWs0SlBrQlQyYkkzendtWk4vVkI5UUVq?=
- =?utf-8?B?eGJ3ZWNiOCtDTnVaY1JLb2dZODRRRVdUbmNaSXF1cHhNcFBQMWloWWcrTngw?=
- =?utf-8?B?S0hYbWpLZFpQY1pnbFJyeG55NmEyYy9QNGd5ZlA5eTZqbGk5djFKSlBXMlpx?=
- =?utf-8?B?Qlp1bEg3OVNhSXZVSUNyT2hNWXFiNGE5WVVab2lrYXdqakk2eHEzbGZKN005?=
- =?utf-8?B?QzFYV0xxK0hwODZ6bWplbnBGQktwUThiOVVIdER0WTQ0bDBweXhjTERFQy8x?=
- =?utf-8?B?MHNBNVQvSDBSaVYzREZBRVRhK1l2VFhtZVhXOTVTcGZ5VUVCZjJDQ3I3VlJI?=
- =?utf-8?B?ZVBhTlB1dkJpRXlVN2xLN3VpTWdwazV5ME5yNGRKQmE4WjRWQ3FUcE5DdlYx?=
- =?utf-8?B?LzZGbEJkVVRNdGZ6N09JbHBXQmRRU3JlZmlNckRLV0l5bElGQ3A2VEpOK1k1?=
- =?utf-8?B?N1NPNG5rMGZxcE1PR3N1b2p0eG1Nd2hSblFzMWpzM1pUS3V0MndZZWtwTVpp?=
- =?utf-8?B?S0I0blNFNzBQWnl0Q2hyNWxCb0N1VFhtMG10d3JyYTRIMFB4d2U0R1BTaHRw?=
- =?utf-8?B?cTNkNkM0ZWxQODV5TC9Xek5uSTh6Mjk0RWZqY050UDh1M0w5RjJ0bFFjenF4?=
- =?utf-8?Q?vl3Y=3D?=
+	=?utf-8?B?NG5DM1VLbzlWV0JJS3BuVFB1Z0czRjlCaTJyNjExYUNodTJRRmtWRzIvcmJk?=
+ =?utf-8?B?NlNSK0RUNmI1aE8rdEhpOEo3VjM4TkRIaytOWnN5RFlPTm9kbHNYQ1lId21Y?=
+ =?utf-8?B?VTR2REo3WjhqWGVuNzJ0K2kvSSs2Q3hVM01vS091aFU0MUhIQ2IvQmtmb2ZB?=
+ =?utf-8?B?eVV0LzhTN2s0ZXdyeDd1by9KeWlkV3ZnSzVvSmtsMnRnRWxIanNNTDN6NFdz?=
+ =?utf-8?B?ZXJib0R5Qmp2SkVRSVY1aW4xWnVDUW05dzV2N3JGbVFzUU1USmxLTjNaRlVl?=
+ =?utf-8?B?WEUxY2JLYWZRYXVvNk8vbkUxNHRmNmZvTlhOLzdHSURDUnBxaTYvdXY0dVVa?=
+ =?utf-8?B?NDlBVjM3cDhUUHNkMDE4bFpQQ25WbTdMLzhaekhuOGE3U3Vxckl0cGgrYWF1?=
+ =?utf-8?B?VE5wWldITjFBK0cvQmZwS1hDN3BxSVdHRU9iTk9NaGp3c3l2RWI5dkpHMG9V?=
+ =?utf-8?B?SngrWjRnNWZUSkVoSnh5cDRFcWVUd0NPVXAxZ3lORTZKdTNmdmlyRHduMmxl?=
+ =?utf-8?B?dGFmVHpIZVBQdGFRdzlMVjNnc1FMS2lkajIwNVYwS1UxTHYzbjQrTXlQWi9M?=
+ =?utf-8?B?c3FiQXhyMjh5aGdxbkZnUmluSVMwZkZ5ZWp1bWk3ZWpSZHJQQXYrMXpEMWpE?=
+ =?utf-8?B?aW4zcm5JOWlOSUFWbXFiSEttbXYrakFyZTMvYTMvbmpWRjhpT3MwVFJubHR4?=
+ =?utf-8?B?MmFEMzUydnlKMzJQMjJaUERPTC9YMG55dmpDRlorRG9PQ2FkS203Yi92SHll?=
+ =?utf-8?B?dkpkSVA4c0FLclFGMXpNbTVWbHllVk1qWURuQzUzSmlEU0p6SHI3YXJsK29m?=
+ =?utf-8?B?Um5ncEt3REZ6RGt2dXFJeXVtT0NlVW9kRWYySGoraERBSlIwdnhRMU0rUTRp?=
+ =?utf-8?B?cmFnZE5ucENBRmRBZHBWV0VlbmU4OGdIZXVRUFp6UzNaV0x6ZVN6QWd6Qmd6?=
+ =?utf-8?B?RlNhZnhKUHhPY0pLZE9mbVJFdWlPSXk2d2VLMmV4SS9CNVJQUkpNNFRHN254?=
+ =?utf-8?B?NC9YSDZlalZXaDdSeVNCU3kvdU9ITUs3d1ZBOGpORXB3RWsybmNCUDg5TDJM?=
+ =?utf-8?B?N1VKbFR4bEJpUGVnMElFdm1qOXk0aExQb1pRMDVHRXhHVnpTU1N1b0pHZi9D?=
+ =?utf-8?B?V2RYRE05UVdLS0NrTFU2MDlITytUZDc4VWFLcksvRGpNYUp4NjdURVRCbUhy?=
+ =?utf-8?B?QkRXbUloSUx3OW1GbW9RYktvZ1lReDIrendncDhkc25Na0UrbUNBbXptOWtD?=
+ =?utf-8?B?RUhwWjF4bkNpZTg5T2ZQVUNwUElkUUV6eUdONWhQellMczZRWE5sZ2hSV2Fw?=
+ =?utf-8?B?UXNxMC9KQ2lMSVVxa2laY2NZUFVaSlIwOUoySmIxOGpmeFltZk5ESkJ3Rm5H?=
+ =?utf-8?B?bjVKb3FJTUtJYm92UHZTVTB1ckRrbC9ERjFZMEh0Q0kyYkxSTFRkT2NGbDdi?=
+ =?utf-8?B?RlR2RWttMzBQejhqc3F2OVQ5dHlqQmU2SnJWeEJpMDMzYW5ld3dESVhRbEZ6?=
+ =?utf-8?B?Y3pvb0pzdHlLQjVOZmtPVitRd3gwZGxNMWxLWmJ2MWV1b1d6S25EZnh3Y3RM?=
+ =?utf-8?B?N0hFS3lkSm9HK3dHYTlmQ05jNVIva0pFb2FDUlJkOWV4TmVHbzhaNWFVN1VM?=
+ =?utf-8?B?SVQ2bmdMbFFpK09mVUc1Q0grd2JlazNhK2pzdVBIaW9VNVg5bnZJUThwQkpw?=
+ =?utf-8?B?SjNyNHc4RDJwTE5tNzZBcUpBSGtOSlFvQW54dzFJaHpYdDFuZ2p6QmRNeXF6?=
+ =?utf-8?B?L2xpcDJoT0pRZEtleDVvMEhJWEJySmxiTmcrRE1uRmxJbnNPc3F4MnZyeDJC?=
+ =?utf-8?B?bElRT1RKZ09xRTBma0o1SG5RM0liVll3N3FzY0Y0eUlsVXRWM25McUpKK3Bt?=
+ =?utf-8?B?MEUreVo5d3M1alhwRTRvWHRCcFZ5MFFMb0ZZc1VWZUpwYVVpNnFmMmFqNnl5?=
+ =?utf-8?B?c0pCNzZTLzZEZGpDTkZzL3lTODN6Qzl5Tjh2dnloMlVjVnhSellyNE1YMDli?=
+ =?utf-8?B?VzRPZlNrd3AvTHY2RDFHd2Q4Q2lmNE5hWDYvY3RwWDV4WC9uQ3RYRnhhMllu?=
+ =?utf-8?B?cEtFZEp3MEdpUjN6ODQ5USs4R1k1dk9Kc2VQVzU4U0VOU0I2MWhMU29XbVlI?=
+ =?utf-8?B?a05Kd24vdXRzdWxHQ3VpM29wYk5nQkcwbVFZenpRTDNpdHNHbHg0UEpCUU53?=
+ =?utf-8?B?Zm42NXAwSkw5WStqMjRSYTBmbTh1Y2xwek1tam9mRjNkZ1NnaVhHb1FWcXo2?=
+ =?utf-8?B?Zzk0MitpK05XQ1hvcGNaVys5Mm9nPT0=?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MFBCVEd5TUw5SjFwNTJOb05xNGRVamNQUDZtVFNLOTUyOUc3OGtCa2xOZ0JO?=
- =?utf-8?B?VXI5aWNURk85S1lXQ0c0VVF6bnVOeFprRnp0dFJWTHY2ZmxvUWV2NlpVZHU0?=
- =?utf-8?B?Z0dHVklua0NjL1BackxhMThNeGl5QW9pQnV5OHBPSlBtUVA5d1hHdW53OXI5?=
- =?utf-8?B?Ri9oaEtFeHkwTXpVM05GMDN4WGE1L2pWQTV0MklFb2FKOCt6czJqUzRPZ3Z1?=
- =?utf-8?B?eXZVTnlSTk5IdGNZbVBCcEc4S3JNamJrUjRyV1BhT20rRHc4S3ptTEM0VjZq?=
- =?utf-8?B?VU9UeDBLak1vaFpqQ3dwTklJdGdjajlyQ3VwcnZ0V2p1cEFPK05yWmJoWE9q?=
- =?utf-8?B?azdBRFNYdFA2TEpnbXZmZWM2UC82Qjh6KzFpMUxWZCtCVUhhZTJDWmJaNm9z?=
- =?utf-8?B?RWgySndWRDJKZEViRHU2R3RuUnNUVU9Hb0liNUZHeXQ1MkZoYWV3TlA3Y0tp?=
- =?utf-8?B?NFhiSEhpWUJieG41NXVoZzZkSW5DN2wwY3p3NWR0NTFxamU0ekU3VzQ5YkdO?=
- =?utf-8?B?N1E5MXh0RlBWWDVhQXZPaVorSnhNYWhCZ1VlN0k3M2VibVU5eFlJSkhKTDhS?=
- =?utf-8?B?bXV4TTRxUVpKdDBhNHp0Q1ZMWGs5dmw4UUs1TEM0RmFIOC9KeWFnVTAvQTZE?=
- =?utf-8?B?dkV0RTJhaGVwMnBjL1pxbUtLa3dDejFrdTRTZlJBQ2FkRnpDdFZkZ2JQdEtL?=
- =?utf-8?B?ZTMwSHlsOGRnRFoyWExWTUh1NGI2NmxmVkE2SWRtYVpuODFQZGxYM200a2RQ?=
- =?utf-8?B?N0Nab2N1RTkxNjlEMkNuYWh3U2xPUFQxNXNsd0RzZlRTT2lJR3BuOUx5bkhj?=
- =?utf-8?B?dE4rVHc4NVBsZGp5TUpBZWM5bnFwRC80cjN2VndyNU1mOGo3bVNob1FlNnJa?=
- =?utf-8?B?NmJ6NXRiVklqeFJtVmRQNlRRVGZmaGRMcE5xbkloQS9BTVk2OGJIUGdLYWZj?=
- =?utf-8?B?NDBHNDQ0ZUZ6RUgxaE1TbFF1WlhuVFJMMkd5dFZzL0FGMWk0Z0dqaWpBMk1t?=
- =?utf-8?B?ZGg4MnJXK1N3S0xTSFNjNGRNVlhhYmttR3k1cmpyV2RQbzU2M3ZQRnB1bzhq?=
- =?utf-8?B?SkNQbDZxUlhaa2F2VzdiamtvdzBuY0R3MEk1eUI2SHMyNmdaeldRaEVuazlM?=
- =?utf-8?B?Z054UTQ5ZVZaQmtMZEU5Tlg2Rk9pZUtLQ2Q5SitlN2hMTGhsMTZqd3o3aUJo?=
- =?utf-8?B?WmtEbjA5R1RhTHl0aFBTY3ZUSW5aY2FCdzBJL21JWldRK2xlRjRZamlTbDBI?=
- =?utf-8?B?SUN2Y0RIUkNxby9tdkZVRHZHd1dKZGZRMFpvdEFDakRzalZGbEpoWXNLY1Jq?=
- =?utf-8?B?MVFlem9CNm1Ga0xBWW5IdThFeksvSGY0bkh6bFJ2NkNBaFcweGxxc1NmNlBw?=
- =?utf-8?B?ZEdhL0t4NTlpZDZJWjZ0VExxZUxYSnp2L0xadm9KMUNxTzZQMFY1WElwSEFU?=
- =?utf-8?B?OWU3WnZaeW5scFR0eXRtMk84VjliQUcyWXJFR0JiUTdaMFFTaStyWGJqUkx2?=
- =?utf-8?B?ZnZFOEpyZzdhMno0Rllia1RwbUhEQzBQRGJ1NElpNEFPdHNqM004a0NMUVJC?=
- =?utf-8?B?NDE5alo5enVlSmpmTHdPUlRPejZwRG45bVNIbUtnWFRnbTc1V3YrYXpaK0Ju?=
- =?utf-8?B?NXRzRStRU3dkRmhWUDhjYTcyRDdDRTVReTd0VTU5d2RyajliVjgzUzdYY08w?=
- =?utf-8?B?TkdNZEpHcWJJb0NibGZlbWNaTWhTU212c1VjaXRsRzBTMmNjM3BqcmlKWTlq?=
- =?utf-8?B?bGxreURGRElZQkRjajN3MHdsRWlZekQwU01jc09UM0xCYm1QdFFZUkZGemFv?=
- =?utf-8?B?V2RSeEVOMXc0R2ZBVjZ6QVlDU1FpWjhQYmdFc0VxNGFFL3JqNml5MndlMGpl?=
- =?utf-8?B?amhsNjhua290ZGwyNWVxekREcWRiNDFTaXRFMkhnZmZzUzhybFQ3cFN1MmE5?=
- =?utf-8?B?b0RyWTNueDJWbmU2eWkzTkliVUtBUWJUY0JoUEN2QytHSFQzUGh5RWpVN3N5?=
- =?utf-8?B?Njd5RGJ4ajAxTzNDb3pObHlhYnJvTTFGUWhvK3hsQUZZL1pvczAreGprOUda?=
- =?utf-8?B?N3BFWjg3ZGRZVkF2OU1JU0paWWdJbXg2N0R0ME9LLzcraS9oMDRqUVJqNXdz?=
- =?utf-8?B?Vzd1b1liMnRMeDFKK3dOMW1IMjlDRVpZcFRkRUIvZS9SbkJsbk1yZGRWa1Nt?=
- =?utf-8?B?bE55UGNkTGQxK2pZMDhEbjFzOEx0QVAxVUtlL21GSTFQYUZ1Wkd3cVBNeUZj?=
- =?utf-8?B?dU4za01ZUWNreURnamRlR0FvOVR4dDgwNElYeTdlcmlkbkJrL0hLU0ltdno3?=
- =?utf-8?B?Uk1CdHRKRnBjK3VHRzVCaHVrMHh0S20vY3l2bkVVMmt0SENiYUFpUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d09637fe-9f97-401e-e29a-08de6044879f
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 21:14:18.6528
+	7LGzZh3W7vcDDvHD6msv73PypWRz6XkDJEhE3TJ2IrTKn9vEM/0xPHgSz3R8gWBLCeTtOyz7gpsMRa0x+F1z7b/MiO3vsF4lMKQ+PGb9Y7jDQOl1zS4jaynrgxIpQYS8YVDQsM1hmKihU78/ynUcoW3A1BzX/g/wHJY2bbNY6G3F9/7iuQbXHmp493u0D4pKSisvve8XMfUi/n47toLPLhNz3+c7BQYBwbEL0YSMyniNBUR0mq+4zduNKyGhrxojQenau5GWXlD2Mce7HF/74Lv3HH81VTBYcsztesnZn+vmWrMsviWfu20fQYlOVMubPpFmLJ5EYEe6/w4PpZZLL5+pBPLj35vqiPQNNaEnErX/SxQ2nBxbGZ8EafBkSIBa2S2PvZD6s+O86Rr2G3XvCxzRjVA4rFAgQrEbK1Bg/FD2A5Tepfb4AuACWJQ8HzC6
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2026 21:27:14.2413
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ft3Zh/YWvFD1DOpj9yVieOo1Vlh68tkpy1qzPeR8odRoW6Qr4JTVdSgwoBqyhNdRu2uBrEU6ZYDrefRpeLBagg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8932
+X-MS-Exchange-CrossTenant-Network-Message-Id: 39c5cc20-89b4-4bb9-1d6b-08de60465631
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF0000231F.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6588
 
-
-
-On 1/29/2026 10:38 PM, John Hubbard wrote:
-> On 1/29/26 5:59 PM, Joel Fernandes wrote:
->> On 1/29/26 8:12 PM, John Hubbard wrote:
->>> On 1/29/26 4:26 PM, Joel Fernandes wrote:
->>>> Based on the below discussion and research, I came up with some deadlock
->>>> scenarios that we need to handle in the v6 series of these patches.
->>>> [...]
->>>> memory allocations under locks that we need in the dma-fence signaling
->>>> critical path (when doing the virtual memory map/unmap)
->>>
->>> unmap? Are you seeing any allocations happening during unmap? I don't
->>> immediately see any, but that sounds surprising.
->>
->> Not allocations but we are acquiring locks during unmap. My understanding
->> is (at least some) unmaps have to also be done in the dma fence signaling
->> critical path (the run stage), but Danilo/you can correct me if I am wrong
->> on that. We cannot avoid all locking but those same locks cannot be held in
->> any other paths which do a memory allocation (as mentioned in one of the
->> deadlock scenarios), that is probably the main thing to check for unmap.
->>
+On 1/29/2026 3:04 PM, Gregory Price wrote:
+> In the current kmem driver binding process, the only way for users
+> to define hotplug policy is via a build-time option, or by not
+> onlining memory by default and setting each individual memory block
+> online after hotplug occurs.  We can solve this with a configuration
+> step between region-probe and dax-probe.
 > 
-> Right, OK we are on the same page now: no allocations happening on unmap,
-> but it can still deadlock, because the driver is typically going to
-> use a single lock to protect calls both map and unmap-related calls
-> to the buddy allocator.
+> Add the infrastructure for a two-stage driver binding for kmem-mode
+> dax regions. The cxl_dax_kmem_region driver probes cxl_sysram_region
+> devices and creates cxl_dax_region with dax_driver=kmem.
+> 
+> This creates an interposition step where users can configure policy.
+> 
+> Device hierarchy:
+>   region0 -> sysram_region0 -> dax_region0 -> dax0.0
 
-Yes exactly!
+This technically comes up in the devdax_region driver patch first, but I noticed it here
+so this is where I'm putting it:
+
+I like the idea here, but the implementation is all off. Firstly, devm_cxl_add_sysram_region()
+is never called outside of sysram_region_driver::probe(), so I'm not sure how they ever get
+added to the system (same with devdax regions).
+
+Second, there's this weird pattern of adding sub-region (sysram, devdax, etc.) devices being added
+inside of the sub-region driver probe. I would expect the devices are added then the probe function
+is called. What I think should be going on here (and correct me if I'm wrong) is:
+	1. a cxl_region device is added to the system
+	2. cxl_region::probe() is called on said device (one in cxl/core/region.c)
+	3. Said probe function figures out the device is a dax_region or whatever else and creates that type of region device
+	(i.e. cxl_region::probe() -> device_add(&cxl_sysram_device))
+	4. if the device's dax driver type is DAXDRV_DEVICE_TYPE it gets sent to the daxdev_region driver
+	5a. if the device's dax driver type is DAXDRV_KMEM_TYPE it gets sent to the sysram_region driver which holds it until
+	the online_type is set
+	5b. Once the online_type is set, the device is forwarded to the dax_kmem_region driver? Not sure on this part
+
+What seems to be happening is that the cxl_region is added, all of these region drivers try
+to bind to it since they all use the same device id (CXL_DEVICE_REGION) and the correct one is
+figured out by magic? I'm somewhat confused at this point :/.
 
 > 
-> For the deadlock above, I think a good way to break that deadlock is
-> to not allow taking that lock in a fence signaling calling path.
+> The sysram_region device exposes a sysfs 'online_type' attribute
+> that allows users to configure the memory online type before the
+> underlying dax_region is created and memory is hotplugged.
 > 
-> So during an unmap, instead of "lock, unmap/free, unlock" it should
-> move the item to a deferred-free list, which is processed separately.
-> Of course, this is a little complex, because the allocation and reclaim
-> has to be aware of such lists if they get large.
-Yes, also avoiding GFP_KERNEL allocations while holding any of these mm locks
-(whichever we take during map). The GPU buddy actually does GFP_KERNEL
-allocations internally which is problematic.
+>   sysram_region0/online_type:
+>       invalid:        not configured, blocks probe
+>       offline:        memory will not be onlined automatically
+>       online:         memory will be onlined in ZONE_NORMAL
+>       online_movable: memory will be onlined in ZONE_MMOVABLE
+> 
+> The device initializes with online_type=invalid which prevents the
+> cxl_dax_kmem_region driver from binding until the user explicitly
+> configures a valid online_type.
+> 
+> This enables a two-step binding process:
+>   echo region0 > cxl_sysram_region/bind
+>   echo online_movable > sysram_region0/online_type
+>   echo sysram_region0 > cxl_dax_kmem_region/bind
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+> ---
+>  Documentation/ABI/testing/sysfs-bus-cxl |  21 +++
+>  drivers/cxl/core/Makefile               |   1 +
+>  drivers/cxl/core/core.h                 |   6 +
+>  drivers/cxl/core/dax_region.c           |  50 +++++++
+>  drivers/cxl/core/port.c                 |   2 +
+>  drivers/cxl/core/region.c               |  14 ++
+>  drivers/cxl/core/sysram_region.c        | 180 ++++++++++++++++++++++++
+>  drivers/cxl/cxl.h                       |  25 ++++
+>  8 files changed, 299 insertions(+)
+>  create mode 100644 drivers/cxl/core/sysram_region.c
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-bus-cxl b/Documentation/ABI/testing/sysfs-bus-cxl
+> index c80a1b5a03db..a051cb86bdfc 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-cxl
+> +++ b/Documentation/ABI/testing/sysfs-bus-cxl
+> @@ -624,3 +624,24 @@ Description:
+>  		The count is persistent across power loss and wraps back to 0
+>  		upon overflow. If this file is not present, the device does not
+>  		have the necessary support for dirty tracking.
+> +
+> +
+> +What:		/sys/bus/cxl/devices/sysram_regionZ/online_type
+> +Date:		January, 2026
+> +KernelVersion:	v7.1
+> +Contact:	linux-cxl@vger.kernel.org
+> +Description:
+> +		(RW) This attribute allows users to configure the memory online
+> +		type before the underlying dax_region engages in hotplug.
+> +
+> +		Valid values:
+> +		  'invalid': Not configured (default). Blocks probe.
 
-Some solutions / next steps:
+This should be removed from the valid values section since it's not a valid value
+to write to the attribute. The mention of the default in the paragraph below should
+be enough.
 
-1. allocating (VRAM and system memory) outside mm locks just before acquiring them.
+> +		  'offline': Memory will not be onlined automatically.
+> +		  'online' : Memory will be onlined in ZONE_NORMAL.
+> +		  'online_movable': Memory will be onlined in ZONE_MOVABLE.
+> +
+> +		The device initializes with online_type='invalid' which prevents
+> +		the cxl_dax_kmem_region driver from binding until the user
+> +		explicitly configures a valid online_type. This enables a
+> +		two-step binding process that gives users control over memory
+> +		hotplug policy before memory is added to the system.
+> diff --git a/drivers/cxl/core/Makefile b/drivers/cxl/core/Makefile
+> index 36f284d7c500..faf662c7d88b 100644
+> --- a/drivers/cxl/core/Makefile
+> +++ b/drivers/cxl/core/Makefile
+> @@ -18,6 +18,7 @@ cxl_core-y += ras.o
+>  cxl_core-$(CONFIG_TRACING) += trace.o
+>  cxl_core-$(CONFIG_CXL_REGION) += region.o
+>  cxl_core-$(CONFIG_CXL_REGION) += dax_region.o
+> +cxl_core-$(CONFIG_CXL_REGION) += sysram_region.o
+>  cxl_core-$(CONFIG_CXL_REGION) += pmem_region.o
+>  cxl_core-$(CONFIG_CXL_MCE) += mce.o
+>  cxl_core-$(CONFIG_CXL_FEATURES) += features.o
+> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
+> index ea4df8abc2ad..04b32015e9b1 100644
+> --- a/drivers/cxl/core/core.h
+> +++ b/drivers/cxl/core/core.h
+> @@ -26,6 +26,7 @@ extern struct device_attribute dev_attr_delete_region;
+>  extern struct device_attribute dev_attr_region;
+>  extern const struct device_type cxl_pmem_region_type;
+>  extern const struct device_type cxl_dax_region_type;
+> +extern const struct device_type cxl_sysram_region_type;
+>  extern const struct device_type cxl_region_type;
+>  
+>  int cxl_decoder_detach(struct cxl_region *cxlr,
+> @@ -37,6 +38,7 @@ int cxl_decoder_detach(struct cxl_region *cxlr,
+>  #define SET_CXL_REGION_ATTR(x) (&dev_attr_##x.attr),
+>  #define CXL_PMEM_REGION_TYPE(x) (&cxl_pmem_region_type)
+>  #define CXL_DAX_REGION_TYPE(x) (&cxl_dax_region_type)
+> +#define CXL_SYSRAM_REGION_TYPE(x) (&cxl_sysram_region_type)
+>  int cxl_region_init(void);
+>  void cxl_region_exit(void);
+>  int cxl_get_poison_by_endpoint(struct cxl_port *port);
+> @@ -44,9 +46,12 @@ struct cxl_region *cxl_dpa_to_region(const struct cxl_memdev *cxlmd, u64 dpa);
+>  u64 cxl_dpa_to_hpa(struct cxl_region *cxlr, const struct cxl_memdev *cxlmd,
+>  		   u64 dpa);
+>  int devm_cxl_add_dax_region(struct cxl_region *cxlr, enum dax_driver_type);
+> +int devm_cxl_add_sysram_region(struct cxl_region *cxlr);
+>  int devm_cxl_add_pmem_region(struct cxl_region *cxlr);
+>  
+>  extern struct cxl_driver cxl_devdax_region_driver;
+> +extern struct cxl_driver cxl_dax_kmem_region_driver;
+> +extern struct cxl_driver cxl_sysram_region_driver;
+>  
+>  #else
+>  static inline u64 cxl_dpa_to_hpa(struct cxl_region *cxlr,
+> @@ -81,6 +86,7 @@ static inline void cxl_region_exit(void)
+>  #define SET_CXL_REGION_ATTR(x)
+>  #define CXL_PMEM_REGION_TYPE(x) NULL
+>  #define CXL_DAX_REGION_TYPE(x) NULL
+> +#define CXL_SYSRAM_REGION_TYPE(x) NULL
+>  #endif
+>  
+>  struct cxl_send_command;
+> diff --git a/drivers/cxl/core/dax_region.c b/drivers/cxl/core/dax_region.c
+> index 391d51e5ec37..a379f5b85e3d 100644
+> --- a/drivers/cxl/core/dax_region.c
+> +++ b/drivers/cxl/core/dax_region.c
+> @@ -127,3 +127,53 @@ struct cxl_driver cxl_devdax_region_driver = {
+>  	.probe = cxl_devdax_region_driver_probe,
+>  	.id = CXL_DEVICE_REGION,
+>  };
+> +
+> +static int cxl_dax_kmem_region_driver_probe(struct device *dev)
+> +{
+> +	struct cxl_sysram_region *cxlr_sysram = to_cxl_sysram_region(dev);
+> +	struct cxl_dax_region *cxlr_dax;
+> +	struct cxl_region *cxlr;
+> +	int rc;
+> +
+> +	if (!cxlr_sysram)
+> +		return -ENODEV;
+> +
+> +	/* Require explicit online_type configuration before binding */
+> +	if (cxlr_sysram->online_type == -1)
+> +		return -ENODEV;
+> +
+> +	cxlr = cxlr_sysram->cxlr;
+> +
+> +	cxlr_dax = cxl_dax_region_alloc(cxlr);
+> +	if (IS_ERR(cxlr_dax))
+> +		return PTR_ERR(cxlr_dax);
 
-2. pre-allocating both VRAM and system memory needed, before the DMA fence
-critical paths (The issue is also to figure out how much memory to pre-allocate
-for the page table pages based on the VM_BIND request. I think we can analyze
-the page tables in the submit stage to make an estimate).
+You can use cleanup.h here to remove the goto's (I think). Following should work:
 
-3. Unfortunately, I am using gpu-buddy when allocating a VA range in the Vmm
-(called virt_buddy), which itself does GFP_KERNEL memory allocations in the
-allocate path. I am not sure what do yet about this. ISTR the maple tree also
-has similar issues.
+#DEFINE_FREE(cxlr_dax_region_put, struct cxl_dax_region *, if (!IS_ERR_OR_NULL(_T)) put_device(&cxlr_dax->dev))
+static int cxl_dax_kmem_region_driver_probe(struct device *dev)
+{
+	...
 
-4. Using non-reclaimable memory allocations where pre-allocation or
-pre-allocated memory pools is not possible (I'd like to avoid this #4 so we
-don't fail allocations when memory is scarce).
+	struct cxl_dax_region *cxlr_dax __free(cxlr_dax_region_put) = cxl_dax_region_alloc(cxlr);
+	if (IS_ERR(cxlr_dax))
+		return PTR_ERR(cxlr_dax);
 
-Will work on these issues for the v7. Thanks,
+	...
 
---
-Joel Fernandes
+	rc = dev_set_name(&cxlr_dax->dev, "dax_region%d", cxlr->id);
+	if (rc)
+		return rc;
+
+	rc = device_add(&cxlr_dax->dev);
+	if (rc)
+		return rc;
+
+	dev_dbg(dev, "%s: register %s\n", dev_name(dev), dev_name(&cxlr_dax->dev));
+
+	return devm_add_action_or_reset(dev, cxlr_dax_unregister, no_free_ptr(cxlr_dax));
+}
+> +
+> +	/* Inherit online_type from parent sysram_region */
+> +	cxlr_dax->online_type = cxlr_sysram->online_type;
+> +	cxlr_dax->dax_driver = DAXDRV_KMEM_TYPE;
+> +
+> +	/* Parent is the sysram_region device */
+> +	cxlr_dax->dev.parent = dev;
+> +
+> +	rc = dev_set_name(&cxlr_dax->dev, "dax_region%d", cxlr->id);
+> +	if (rc)
+> +		goto err;
+> +
+> +	rc = device_add(&cxlr_dax->dev);
+> +	if (rc)
+> +		goto err;
+> +
+> +	dev_dbg(dev, "%s: register %s\n", dev_name(dev),
+> +		dev_name(&cxlr_dax->dev));
+> +
+> +	return devm_add_action_or_reset(dev, cxlr_dax_unregister, cxlr_dax);
+> +err:
+> +	put_device(&cxlr_dax->dev);
+> +	return rc;
+> +}
+> +
+> +struct cxl_driver cxl_dax_kmem_region_driver = {
+> +	.name = "cxl_dax_kmem_region",
+> +	.probe = cxl_dax_kmem_region_driver_probe,
+> +	.id = CXL_DEVICE_SYSRAM_REGION,
+> +};
+> diff --git a/drivers/cxl/core/port.c b/drivers/cxl/core/port.c
+> index 3310dbfae9d6..dc7262a5efd6 100644
+> --- a/drivers/cxl/core/port.c
+> +++ b/drivers/cxl/core/port.c
+> @@ -66,6 +66,8 @@ static int cxl_device_id(const struct device *dev)
+>  		return CXL_DEVICE_PMEM_REGION;
+>  	if (dev->type == CXL_DAX_REGION_TYPE())
+>  		return CXL_DEVICE_DAX_REGION;
+> +	if (dev->type == CXL_SYSRAM_REGION_TYPE())
+> +		return CXL_DEVICE_SYSRAM_REGION;
+>  	if (is_cxl_port(dev)) {
+>  		if (is_cxl_root(to_cxl_port(dev)))
+>  			return CXL_DEVICE_ROOT;
+> diff --git a/drivers/cxl/core/region.c b/drivers/cxl/core/region.c
+> index 6200ca1cc2dd..8bef91dc726c 100644
+> --- a/drivers/cxl/core/region.c
+> +++ b/drivers/cxl/core/region.c
+> @@ -3734,8 +3734,20 @@ int cxl_region_init(void)
+>  	if (rc)
+>  		goto err_dax;
+>  
+> +	rc = cxl_driver_register(&cxl_sysram_region_driver);
+> +	if (rc)
+> +		goto err_sysram;
+> +
+> +	rc = cxl_driver_register(&cxl_dax_kmem_region_driver);
+> +	if (rc)
+> +		goto err_dax_kmem;
+> +
+>  	return 0;
+>  
+> +err_dax_kmem:
+> +	cxl_driver_unregister(&cxl_sysram_region_driver);
+> +err_sysram:
+> +	cxl_driver_unregister(&cxl_devdax_region_driver);
+>  err_dax:
+>  	cxl_driver_unregister(&cxl_region_driver);
+>  	return rc;
+> @@ -3743,6 +3755,8 @@ int cxl_region_init(void)
+>  
+>  void cxl_region_exit(void)
+>  {
+> +	cxl_driver_unregister(&cxl_dax_kmem_region_driver);
+> +	cxl_driver_unregister(&cxl_sysram_region_driver);
+>  	cxl_driver_unregister(&cxl_devdax_region_driver);
+>  	cxl_driver_unregister(&cxl_region_driver);
+>  }
+> diff --git a/drivers/cxl/core/sysram_region.c b/drivers/cxl/core/sysram_region.c
+> new file mode 100644
+> index 000000000000..5665db238d0f
+> --- /dev/null
+> +++ b/drivers/cxl/core/sysram_region.c
+> @@ -0,0 +1,180 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright(c) 2026 Meta Platforms, Inc. All rights reserved. */
+> +/*
+> + * CXL Sysram Region - Intermediate device for kmem hotplug configuration
+> + *
+> + * This provides an intermediate device between cxl_region and cxl_dax_region
+> + * that allows users to configure memory hotplug parameters (like online_type)
+> + * before the underlying dax_region is created and memory is hotplugged.
+> + */
+> +
+> +#include <linux/memory_hotplug.h>
+> +#include <linux/device.h>
+> +#include <linux/slab.h>
+> +#include <cxlmem.h>
+> +#include <cxl.h>
+> +#include "core.h"
+> +
+> +static void cxl_sysram_region_release(struct device *dev)
+> +{
+> +	struct cxl_sysram_region *cxlr_sysram = to_cxl_sysram_region(dev);
+> +
+> +	kfree(cxlr_sysram);
+> +}
+> +
+> +static ssize_t online_type_show(struct device *dev,
+> +				struct device_attribute *attr, char *buf)
+> +{
+> +	struct cxl_sysram_region *cxlr_sysram = to_cxl_sysram_region(dev);
+> +
+> +	switch (cxlr_sysram->online_type) {
+> +	case MMOP_OFFLINE:
+> +		return sysfs_emit(buf, "offline\n");
+> +	case MMOP_ONLINE:
+> +		return sysfs_emit(buf, "online\n");
+> +	case MMOP_ONLINE_MOVABLE:
+> +		return sysfs_emit(buf, "online_movable\n");
+> +	default:
+> +		return sysfs_emit(buf, "invalid\n");
+> +	}
+> +}
+> +
+> +static ssize_t online_type_store(struct device *dev,
+> +				 struct device_attribute *attr,
+> +				 const char *buf, size_t len)
+> +{
+> +	struct cxl_sysram_region *cxlr_sysram = to_cxl_sysram_region(dev);
+> +
+> +	if (sysfs_streq(buf, "offline"))
+> +		cxlr_sysram->online_type = MMOP_OFFLINE;
+> +	else if (sysfs_streq(buf, "online"))
+> +		cxlr_sysram->online_type = MMOP_ONLINE;
+> +	else if (sysfs_streq(buf, "online_movable"))
+> +		cxlr_sysram->online_type = MMOP_ONLINE_MOVABLE;
+> +	else
+> +		return -EINVAL;
+> +
+> +	return len;
+> +}
+> +
+> +static DEVICE_ATTR_RW(online_type);
+> +
+> +static struct attribute *cxl_sysram_region_attrs[] = {
+> +	&dev_attr_online_type.attr,
+> +	NULL,
+> +};
+> +
+> +static const struct attribute_group cxl_sysram_region_attribute_group = {
+> +	.attrs = cxl_sysram_region_attrs,
+> +};
+> +
+> +static const struct attribute_group *cxl_sysram_region_attribute_groups[] = {
+> +	&cxl_base_attribute_group,
+> +	&cxl_sysram_region_attribute_group,
+> +	NULL,
+> +};
+> +
+> +const struct device_type cxl_sysram_region_type = {
+> +	.name = "cxl_sysram_region",
+> +	.release = cxl_sysram_region_release,
+> +	.groups = cxl_sysram_region_attribute_groups,
+> +};
+> +
+> +static bool is_cxl_sysram_region(struct device *dev)
+> +{
+> +	return dev->type == &cxl_sysram_region_type;
+> +}
+> +
+> +struct cxl_sysram_region *to_cxl_sysram_region(struct device *dev)
+> +{
+> +	if (dev_WARN_ONCE(dev, !is_cxl_sysram_region(dev),
+> +			  "not a cxl_sysram_region device\n"))
+> +		return NULL;
+> +	return container_of(dev, struct cxl_sysram_region, dev);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(to_cxl_sysram_region, "CXL");
+> +
+> +static struct lock_class_key cxl_sysram_region_key;
+> +
+> +static struct cxl_sysram_region *cxl_sysram_region_alloc(struct cxl_region *cxlr)
+> +{
+> +	struct cxl_region_params *p = &cxlr->params;
+> +	struct cxl_sysram_region *cxlr_sysram;
+> +	struct device *dev;
+> +
+> +	guard(rwsem_read)(&cxl_rwsem.region);
+> +	if (p->state != CXL_CONFIG_COMMIT)
+> +		return ERR_PTR(-ENXIO);
+> +
+> +	cxlr_sysram = kzalloc(sizeof(*cxlr_sysram), GFP_KERNEL);
+> +	if (!cxlr_sysram)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	cxlr_sysram->hpa_range.start = p->res->start;
+> +	cxlr_sysram->hpa_range.end = p->res->end;
+> +	cxlr_sysram->online_type = -1;  /* Require explicit configuration */
+> +
+> +	dev = &cxlr_sysram->dev;
+> +	cxlr_sysram->cxlr = cxlr;
+> +	device_initialize(dev);
+> +	lockdep_set_class(&dev->mutex, &cxl_sysram_region_key);
+> +	device_set_pm_not_required(dev);
+> +	dev->parent = &cxlr->dev;
+> +	dev->bus = &cxl_bus_type;
+> +	dev->type = &cxl_sysram_region_type;
+> +
+> +	return cxlr_sysram;
+> +}
+> +
+> +static void cxlr_sysram_unregister(void *_cxlr_sysram)
+> +{
+> +	struct cxl_sysram_region *cxlr_sysram = _cxlr_sysram;
+> +
+> +	device_unregister(&cxlr_sysram->dev);
+> +}
+> +
+> +int devm_cxl_add_sysram_region(struct cxl_region *cxlr)
+> +{
+> +	struct cxl_sysram_region *cxlr_sysram;
+> +	struct device *dev;
+> +	int rc;
+> +
+> +	cxlr_sysram = cxl_sysram_region_alloc(cxlr);
+> +	if (IS_ERR(cxlr_sysram))
+> +		return PTR_ERR(cxlr_sysram);
+
+Same thing as above
+
+Thanks,
+Ben
+
+> +
+> +	dev = &cxlr_sysram->dev;
+> +	rc = dev_set_name(dev, "sysram_region%d", cxlr->id);
+> +	if (rc)
+> +		goto err;
+> +
+> +	rc = device_add(dev);
+> +	if (rc)
+> +		goto err;
+> +
+> +	dev_dbg(&cxlr->dev, "%s: register %s\n", dev_name(dev->parent),
+> +		dev_name(dev));
+> +
+> +	return devm_add_action_or_reset(&cxlr->dev, cxlr_sysram_unregister,
+> +					cxlr_sysram);
+> +err:
+> +	put_device(dev);
+> +	return rc;
+> +}
+> +
+> +static int cxl_sysram_region_driver_probe(struct device *dev)
+> +{
+> +	struct cxl_region *cxlr = to_cxl_region(dev);
+> +
+> +	/* Only handle RAM regions */
+> +	if (cxlr->mode != CXL_PARTMODE_RAM)
+> +		return -ENODEV;
+> +
+> +	return devm_cxl_add_sysram_region(cxlr);
+> +}
+> +
+> +struct cxl_driver cxl_sysram_region_driver = {
+> +	.name = "cxl_sysram_region",
+> +	.probe = cxl_sysram_region_driver_probe,
+> +	.id = CXL_DEVICE_REGION,
+> +};
+> diff --git a/drivers/cxl/cxl.h b/drivers/cxl/cxl.h
+> index 674d5f870c70..1544c27e9c89 100644
+> --- a/drivers/cxl/cxl.h
+> +++ b/drivers/cxl/cxl.h
+> @@ -596,6 +596,25 @@ struct cxl_dax_region {
+>  	enum dax_driver_type dax_driver;
+>  };
+>  
+> +/**
+> + * struct cxl_sysram_region - CXL RAM region for system memory hotplug
+> + * @dev: device for this sysram_region
+> + * @cxlr: parent cxl_region
+> + * @hpa_range: Host physical address range for the region
+> + * @online_type: Memory online type (MMOP_* 0-3, or -1 if not configured)
+> + *
+> + * Intermediate device that allows configuration of memory hotplug
+> + * parameters before the underlying dax_region is created. The device
+> + * starts with online_type=-1 which prevents the cxl_dax_kmem_region
+> + * driver from binding until the user explicitly sets online_type.
+> + */
+> +struct cxl_sysram_region {
+> +	struct device dev;
+> +	struct cxl_region *cxlr;
+> +	struct range hpa_range;
+> +	int online_type;
+> +};
+> +
+>  /**
+>   * struct cxl_port - logical collection of upstream port devices and
+>   *		     downstream port devices to construct a CXL memory
+> @@ -890,6 +909,7 @@ void cxl_driver_unregister(struct cxl_driver *cxl_drv);
+>  #define CXL_DEVICE_PMEM_REGION		7
+>  #define CXL_DEVICE_DAX_REGION		8
+>  #define CXL_DEVICE_PMU			9
+> +#define CXL_DEVICE_SYSRAM_REGION	10
+>  
+>  #define MODULE_ALIAS_CXL(type) MODULE_ALIAS("cxl:t" __stringify(type) "*")
+>  #define CXL_MODALIAS_FMT "cxl:t%d"
+> @@ -907,6 +927,7 @@ bool is_cxl_pmem_region(struct device *dev);
+>  struct cxl_pmem_region *to_cxl_pmem_region(struct device *dev);
+>  int cxl_add_to_region(struct cxl_endpoint_decoder *cxled);
+>  struct cxl_dax_region *to_cxl_dax_region(struct device *dev);
+> +struct cxl_sysram_region *to_cxl_sysram_region(struct device *dev);
+>  u64 cxl_port_get_spa_cache_alias(struct cxl_port *endpoint, u64 spa);
+>  #else
+>  static inline bool is_cxl_pmem_region(struct device *dev)
+> @@ -925,6 +946,10 @@ static inline struct cxl_dax_region *to_cxl_dax_region(struct device *dev)
+>  {
+>  	return NULL;
+>  }
+> +static inline struct cxl_sysram_region *to_cxl_sysram_region(struct device *dev)
+> +{
+> +	return NULL;
+> +}
+>  static inline u64 cxl_port_get_spa_cache_alias(struct cxl_port *endpoint,
+>  					       u64 spa)
+>  {
 
