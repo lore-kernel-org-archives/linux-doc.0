@@ -1,178 +1,583 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70AE37260A;
-	Fri, 30 Jan 2026 16:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10D034679C
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 17:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769792345; cv=none; b=hT1K+/7X2LPPxJ6cJGpf1nZ0l4PMiJBK9v8E5ejkH1FQDUfc5LjHNS1RBOvPKDmBQ2wwMQiMFBq0VNHjqa1+gi/XcVonTzPznEIJmT6AvR9xDRF0+EBTLOXgKWO58X89aFzSu2bX1LSIhQY6ZWhAwcesbZE76+MG3RFNC4MqtUo=
+	t=1769792786; cv=none; b=TXE9KyAuCAr5+fYlTFc8Wt2R1AZQzxXgLu78STzCAmADVxdFjrwa89HYVxYXEuw8zfcCCqA/fOZu6gtz+HtsEs64+T/6Vw2xIxIlFILmRO2gnKSsSohv5j9tzPjHbMuGg40voHbK1DtxFu+jwvkQ62FbtPriYY4UQjOdReVvD/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769792345; c=relaxed/simple;
-	bh=cUrkIzDDTezjkboeBKyDgO0TKRNuDY51DVikFFzM37c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bGSE6H9fZjgaxTcqeydq4ySaCGctfewc9uciT5oBpzb4IqLUC6XCE1rMIE6+g0VoyUgn2PV0sFFfxDeaVuyRKHy4sIWQ+dgV0luWWdUmd349aVsvtWUk6PQ5rGftLMhcVnqQuD+YQqI9jjRoI7ssxUswqjIf04/ba8626SR8esA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bxYbheue; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769792786; c=relaxed/simple;
+	bh=6eGx7thqmXNsLRiHasYWnYmpkXHF30rS9/OlVSvNRNM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ERGpnVmkXDE5Myv0Ecg6goWopPqjIJA37f3EXfsZzK4caImI5IZhiOfgQZMf6W60AaxXWAOyEmOXjeZGaDJETdlKqT8PyibsByJQlMM3vQlKNRx8j01ZGuJcqQS/spVKzasyrzfni4t6LhZMGVwoTQnRPLf4nwHxtcEdWhn3b/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=SSF9ORLE; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bxYbheue"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76471C4CEF7;
-	Fri, 30 Jan 2026 16:59:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769792345;
-	bh=cUrkIzDDTezjkboeBKyDgO0TKRNuDY51DVikFFzM37c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bxYbheueQ4CDJFteeoaGoo6eDu7Tl1YabtkO2Ke7hUQo1oyMc+tWu9Wh5ThCzo5oP
-	 F+f7Lz7PuUq8qHxirTI+FYmnf9Y97SWfDC5lNHGVSJQu9On6kkiIGCNsmEzu+4Xpiw
-	 S4tzjDBtD4uUOjaf0WEaTie2mGtYNvlrfGgr4nYfLd+RVR+DClzNJVghMbewE03CvS
-	 SuDy8sG48SrMLT5SSZfyTJy+pJ3L+IUEMur2ls2WJjl8BwV+U79K9q28vaRQ5FqCfV
-	 EY2Z8rGTK/xuN3ABHfkg9nJfEBDpABC6Vqgr95A1vliZsi9HFvBWGIMUIq1AMCH/uh
-	 VVqJuWvD4z4UQ==
-Date: Fri, 30 Jan 2026 17:59:00 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: kernel test robot <oliver.sang@intel.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, 
-	Jeff Layton <jlayton@kernel.org>, linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [linux-next:master] [fs]  313c47f4fe:
- BUG:kernel_hang_in_test_stage
-Message-ID: <20260130-badeunfall-flaggen-d4df12bcb501@brauner>
-References: <202601270735.29b7c33e-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="SSF9ORLE"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-4807068eacbso19967665e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 09:06:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1769792782; x=1770397582; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IMJORWzmOlpEqP661qXUzTKVdV68wRwU7CbPE5NG1tY=;
+        b=SSF9ORLEeS06OjDUW8CWpftbqObC+3i5y68oiq9hZxBi2zR4khKzSmFgBzK/+NXqPV
+         tO+36o6ybPIhvx8kQXyZutq57cvh8N8pO+z3wFXGyP/p4nPffPGbCXUrnTXQbhFXRnnS
+         ukKeZ2eweNGDbOJGtZDxc4293AaQ0mMP6FymQJ7p4td5o/i+Y0JGLq6VYstWxJDFsWyf
+         Ah8/U/5kKdsI7GsJiRa6UhdU0oNh80Exn2ymerdF/egb5v+7p9kP4sdpfbvU5GmfoN0X
+         zP+TSjoOJa/KRquTHi1EK3jj2GGQGmmn4qiMJCGLMSUii8Zc8VF6NBIFFHTSL9It15vP
+         oNcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769792782; x=1770397582;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IMJORWzmOlpEqP661qXUzTKVdV68wRwU7CbPE5NG1tY=;
+        b=OiVrOA2IIyxD8Nt3waXEC9aV7YCBPrIKz6p0hXc9O8PX8Scvcil/MyuAjNW5dD3Tvi
+         s4p7xcPwCHx5gfADgISCjVqdshgcypgH8sxvQCX2x4lkSNGclfNqgs02Oh1XzQMANbGw
+         dlWm5UNe5n4KINnXUZ5Lgf8xXPH51ogQV3Qhkh3fPmcR1XnQ4nhTvod6l+u0MpEOVfxR
+         54Me/y8Esjsme/BE4/bRbC9fadnNpn9eg7/KHGwmn/RmglC/GDvntA25YA/JVcG43mwz
+         KA2iWEPI57Atah7wWw7DXjRjk6+kNNj/2HHpBZukHB7/cICdoCTV3Edar+VRtqe8yS5Z
+         Rpgw==
+X-Forwarded-Encrypted: i=1; AJvYcCXBT0j95Prg3KbEOELZRsyqeZvcobMxAgikZyNJv02q/2eO93FVaJ1X1k0+YvI8C2IBTHJLmblFkBs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6XfIhTDgR42ICnxBbJr0JpsErLVyzyM4A0gAeq5pdpvWF4Zn8
+	peO3AbrLktLMbtMTXPsO+O2UM2uE1bI7lKnjKmxnsoZE1oAVfPEepe9EI7bfIjD8L8I=
+X-Gm-Gg: AZuq6aJaODapiPSAuC8MXEfjbr9IRA7z2Q9nB2sRxMJfBk203T9eKpYgRO913VYCa+u
+	Hjg55lPK8VpN0LwmZ6wZaL1z1rK6UluT/nYHAQ4+UkG5KE9ExsDZmITjqrghfTqpL1JtVfF3Sha
+	FhLDWIgXmfdb8S/y9p4fKe0/mjX4OTPTWA4aUTPTATfBkLUwF4bUQbYk7EaRbmBGBVYTt++OZAb
+	UNLCh6JyFyv+625raEsnKEVcI0PyrpCmlREi9Gc3vuyiDiMleBfUlg6sZnNgRemltsy+tP5+u2h
+	R5HiioIK4UHnxhkMkjzNotnAZXpeGeeSCsmdyTGI6nJQgteRek+Hvauks+/5+7t1QHxmD+7DGoW
+	shI4Z+UdmAY+R1VkdRYnWS5WD6tx6hqh318+KAoaVJSY9MkCcRhBU5RW8yxoxiJ55mFsdSdFv7G
+	WAc1uVEDzbXTh6Hwk0r6qLZnVUJWTcSQ==
+X-Received: by 2002:a05:600c:1385:b0:480:4d76:daf0 with SMTP id 5b1f17b1804b1-482db49e8b9mr41644875e9.37.1769792782094;
+        Fri, 30 Jan 2026 09:06:22 -0800 (PST)
+Received: from [10.0.1.22] (109-81-1-107.rct.o2.cz. [109.81.1.107])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-482e047d863sm21561025e9.1.2026.01.30.09.06.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Jan 2026 09:06:21 -0800 (PST)
+Message-ID: <db1ed045-d7b6-49dc-b111-9fea7c30f8ab@suse.com>
+Date: Fri, 30 Jan 2026 18:06:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <202601270735.29b7c33e-lkp@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen
+ <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+ Eric Snowberg <eric.snowberg@oracle.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez
+ <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>,
+ "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>,
+ Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+ Xiu Jianfeng <xiujianfeng@huawei.com>,
+ =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
+ Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>,
+ kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>,
+ =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 27, 2026 at 02:26:09PM +0800, kernel test robot wrote:
->=20
->=20
-> Hello,
->=20
-> kernel test robot noticed "BUG:kernel_hang_in_test_stage" on:
->=20
-> commit: 313c47f4fe4d07eb2969f429a66ad331fe2b3b6f ("fs: use nullfs uncondi=
-tionally as the real rootfs")
-> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
->=20
-> [test failed on linux-next/master ca3a02fda4da8e2c1cb6baee5d72352e9e2cfae=
-a]
->=20
-> in testcase: trinity
-> version:=20
-> with following parameters:
->=20
-> 	runtime: 300s
-> 	group: group-00
-> 	nr_groups: 5
->=20
->=20
->=20
-> config: x86_64-kexec
-> compiler: clang-20
-> test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 3=
-2G
->=20
-> (please refer to attached dmesg/kmsg for entire log/backtrace)
+On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
+> Normally the .ko module files depend on a fully built vmlinux to be
+> available for modpost validation and BTF generation. With
+> CONFIG_MODULE_HASHES, vmlinux now depends on the modules
+> to build a merkle tree. This introduces a dependency cycle which is
+> impossible to satisfy. Work around this by building the modules during
+> link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
+> but before the final module hashes are
 
-The reproducer doesn't work:
+I wonder if this dependency cycle could be resolved by utilizing the
+split into vmlinux.unstripped and vmlinux that occurred last year.
 
-ubuntu@pengar:~/data/kernel/linux/MODULES/lkp-tests$ sudo bin/lkp qemu -k .=
-=2E/../vmlinux -m ./modules.cgz job-script # job-script
-result_root: /home/ubuntu/.lkp//result/trinity/group-00-5-300s/vm-snb/yocto=
--x86_64-minimal-20190520.cgz/x86_64-kexec/clang-20/313c47f4fe4d07eb2969f429=
-a66ad331fe2b3b6f/15
-downloading initrds ...
-skip downloading /home/ubuntu/.lkp/cache/osimage/yocto/yocto-x86_64-minimal=
--20190520.cgz
-19270 blocks
-/usr/bin/wget -q --timeout=3D3600 --tries=3D1 --local-encoding=3DUTF-8 http=
-s://download.01.org/0day-ci/lkp-qemu/osimage/pkg/debian-x86_64-20180403.cgz=
-/trinity-static-x86_64-x86_64-1c734c75-1_2020-01-06.cgz -N -P /home/ubuntu/=
-=2Elkp/cache/osimage/pkg/debian-x86_64-20180403.cgz
-Failed to download osimage/pkg/debian-x86_64-20180403.cgz/trinity-static-x8=
-6_64-x86_64-1c734c75-1_2020-01-06.cgz
-cat: '': No such file or directory
-exec command: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -fsdev local,=
-id=3Dtest_dev,path=3D/home/ubuntu/.lkp//result/trinity/group-00-5-300s/vm-s=
-nb/yocto-x86_64-minimal-20190520.cgz/x86_64-kexec/clang-20/313c47f4fe4d07eb=
-2969f429a66ad331fe2b3b6f/15,security_model=3Dnone -device virtio-9p-pci,fsd=
-ev=3Dtest_dev,mount_tag=3D9p/virtfs_mount -kernel ../../vmlinux -append roo=
-t=3D/dev/ram0 RESULT_ROOT=3D/result/trinity/group-00-5-300s/vm-snb/yocto-x8=
-6_64-minimal-20190520.cgz/x86_64-kexec/clang-20/313c47f4fe4d07eb2969f429a66=
-ad331fe2b3b6f/0 BOOT_IMAGE=3D/pkg/linux/x86_64-kexec/clang-20/313c47f4fe4d0=
-7eb2969f429a66ad331fe2b3b6f/vmlinuz-6.19.0-rc1-00006-g313c47f4fe4d branch=
-=3Dinternal-devel/devel-hourly-20260124-050739 job=3D/lkp/jobs/scheduled/vm=
--meta-17/trinity-group-00-5-300s-yocto-x86_64-minimal-20190520.cgz-313c47f4=
-fe4d-20260126-53110-19zhjsh-2.yaml user=3Dlkp ARCH=3Dx86_64 kconfig=3Dx86_6=
-4-kexec commit=3D313c47f4fe4d07eb2969f429a66ad331fe2b3b6f intremap=3Dposted=
-_msi watchdog_thresh=3D240 rcuperf.shutdown=3D0 rcuscale.shutdown=3D0 refsc=
-ale.shutdown=3D0 audit=3D0 kunit.enable=3D0 ia32_emulation=3Don max_uptime=
-=3D7200 LKP_LOCAL_RUN=3D1 selinux=3D0 debug apic=3Ddebug sysrq_always_enabl=
-ed rcupdate.rcu_cpu_stall_timeout=3D100 net.ifnames=3D0 printk.devkmsg=3Don=
- panic=3D-1 softlockup_panic=3D1 nmi_watchdog=3Dpanic oops=3Dpanic load_ram=
-disk=3D2 prompt_ramdisk=3D0 drbd.minor_count=3D8 systemd.log_level=3Derr ig=
-nore_loglevel console=3Dtty0 earlyprintk=3DttyS0,115200 console=3DttyS0,115=
-200 vga=3Dnormal rw  ip=3Ddhcp result_service=3D9p/virtfs_mount -initrd /ho=
-me/ubuntu/.lkp/cache/final_initrd -smp 2 -m 12872M -no-reboot -device i6300=
-esb -rtc base=3Dlocaltime -device e1000,netdev=3Dnet0 -netdev user,id=3Dnet=
-0 -display none -monitor null -serial stdio
-qemu-system-x86_64: Error loading uncompressed kernel without PVH ELF Note
+The idea is to create the following ordering: vmlinux.unstripped ->
+modules -> vmlinux, and to patch in .module_hashes only when building
+the final vmlinux.
 
-The paths for the downloads in the job script are wrong or don't work.
-Even if I manually modify the above path I still get in the next step:
+This would require the following:
+* Split scripts/Makefile.vmlinux into two Makefiles, one that builds the
+  current vmlinux.unstripped and the second one that builds the final
+  vmlinux from it.
+* Modify the top Makefile to recognize vmlinux.unstripped and update the
+  BTF generation rule 'modules: vmlinux' to
+  'modules: vmlinux.unstripped'.
+* Add the 'vmlinux: modules' ordering in the top Makefile for
+  CONFIG_MODULE_HASHES=y.
+* Remove the patching of vmlinux.unstripped in scripts/link-vmlinux.sh
+  and instead move it into scripts/Makefile.vmlinux when running objcopy
+  to produce the final vmlinux.
 
-/usr/bin/wget -q --timeout=3D3600 --tries=3D1 --local-encoding=3DUTF-8 http=
-s://download.01.org/0day-ci/lkp-qemu/modules.cgz -N -P /home/ubuntu/.lkp/ca=
-che
-Failed to download modules.cgz
-cat: '': No such file or directory
+I think this approach has two main advantages:
+* CONFIG_MODULE_HASHES can be made orthogonal to
+  CONFIG_DEBUG_INFO_BTF_MODULES.
+* All dependencies are expressed at the Makefile level instead of having
+  scripts/link-vmlinux.sh invoke 'make -f Makefile modules'.
 
-I need a way to reproduce the issue to figure out exactly what is
-happening.
+Below is a rough prototype that applies on top of this series. It is a
+bit verbose due to the splitting of part of scripts/Makefile.vmlinux
+into scripts/Makefile.vmlinux_unstripped.
 
->=20
->=20
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <oliver.sang@intel.com>
-> | Closes: https://lore.kernel.org/oe-lkp/202601270735.29b7c33e-lkp@intel.=
-com
->=20
->=20
->=20
-> [   27.746952][ T1793] /lkp/lkp/src/monitors/meminfo: line 25: /lkp/lkp/s=
-rc/bin/event/wait: not found
-> [   31.757224][ T1793] /lkp/lkp/src/monitors/oom-killer: line 94: dmesg: =
-not found
-> [   31.757224][ T1793] /lkp/lkp/src/monitors/oom-killer: line 94: grep: n=
-ot found
-> [   31.757224][ T1793] /lkp/lkp/src/monitors/oom-killer: line 25: /lkp/lk=
-p/src/bin/event/wait: not found
-> [   65.744824][ T4974] trinity-main[4974]: segfault at 0 ip 0000000000000=
-000 sp 00007ffe08d2ec08 error 15 likely on CPU 0 (core 0, socket 0)
-> [   65.746308][ T4974] Code: Unable to access opcode bytes at 0xfffffffff=
-fffffd6.
->=20
-> Code starting with the faulting instruction
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> /etc/rc5.d/S77lkp-bootstrap: line 79: sleep: not found
-> BUG: kernel hang in test stage
->=20
->=20
->=20
-> The kernel config and materials to reproduce are available at:
-> https://download.01.org/0day-ci/archive/20260127/202601270735.29b7c33e-lk=
-p@intel.com
->=20
->=20
->=20
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->=20
+-- 
+Thanks,
+Petr
+
+
+diff --git a/Makefile b/Makefile
+index 841772a5a260..19a3beb82fa7 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1259,7 +1259,7 @@ vmlinux_o: vmlinux.a $(KBUILD_VMLINUX_LIBS)
+ vmlinux.o modules.builtin.modinfo modules.builtin: vmlinux_o
+ 	@:
+ 
+-PHONY += vmlinux
++PHONY += vmlinux.unstripped vmlinux
+ # LDFLAGS_vmlinux in the top Makefile defines linker flags for the top vmlinux,
+ # not for decompressors. LDFLAGS_vmlinux in arch/*/boot/compressed/Makefile is
+ # unrelated; the decompressors just happen to have the same base name,
+@@ -1270,9 +1270,11 @@ PHONY += vmlinux
+ #   https://savannah.gnu.org/bugs/?61463
+ # For Make > 4.4, the following simple code will work:
+ #  vmlinux: private export LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
+-vmlinux: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
+-vmlinux: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
+-vmlinux: vmlinux.o $(KBUILD_LDS) modpost
++vmlinux.unstripped: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
++vmlinux.unstripped: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
++vmlinux.unstripped: vmlinux.o $(KBUILD_LDS) modpost
++	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux_unstripped
++vmlinux: vmlinux.unstripped
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux
+ 
+ # The actual objects are generated when descending,
+@@ -1541,7 +1543,7 @@ all: dtbs
+ endif
+ 
+ ifdef CONFIG_GENERIC_BUILTIN_DTB
+-vmlinux: dtbs
++vmlinux.unstripped: dtbs
+ endif
+ 
+ endif
+@@ -1588,9 +1590,11 @@ endif
+ # is an exception.
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+ KBUILD_BUILTIN := y
+-ifndef CONFIG_MODULE_HASHES
+-modules: vmlinux
++modules: vmlinux.unstripped
+ endif
++
++ifdef CONFIG_MODULE_HASHES
++vmlinux: modules
+ endif
+ 
+ modules: modules_prepare
+@@ -1983,11 +1987,7 @@ modules.order: $(build-dir)
+ # KBUILD_MODPOST_NOFINAL can be set to skip the final link of modules.
+ # This is solely useful to speed up test compiles.
+ modules: modpost
+-ifdef CONFIG_MODULE_HASHES
+-ifeq ($(MODULE_HASHES_MODPOST_FINAL), 1)
+-	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
+-endif
+-else ifneq ($(KBUILD_MODPOST_NOFINAL),1)
++ifneq ($(KBUILD_MODPOST_NOFINAL),1)
+ 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modfinal
+ endif
+ 
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 890724edac69..213e21ecfe0d 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -55,7 +55,7 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+ 	$(cmd);                                                              \
+ 	printf '%s\n' 'savedcmd_$@ := $(make-cmd)' > $(dot-target).cmd, @:)
+ 
+-# Re-generate module BTFs if either module's .ko or vmlinux changed
++# Re-generate module BTFs if either module's .ko or vmlinux.unstripped changed
+ %.ko: %.o %.mod.o .module-common.o $(objtree)/scripts/module.lds $(and $(CONFIG_DEBUG_INFO_BTF_MODULES),$(KBUILD_BUILTIN),$(objtree)/.tmp_vmlinux_btf.stamp) FORCE
+ 	+$(call if_changed_except,ld_ko_o,$(objtree)/.tmp_vmlinux_btf.stamp)
+ ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+diff --git a/scripts/Makefile.vmlinux b/scripts/Makefile.vmlinux
+index 4ce849f6253a..8c2a938c88ab 100644
+--- a/scripts/Makefile.vmlinux
++++ b/scripts/Makefile.vmlinux
+@@ -15,78 +15,24 @@ targets :=
+ %.o: %.S FORCE
+ 	$(call if_changed_rule,as_o_S)
+ 
+-# Built-in dtb
+-# ---------------------------------------------------------------------------
+-
+-quiet_cmd_wrap_dtbs = WRAP    $@
+-      cmd_wrap_dtbs = {							\
+-	echo '\#include <asm-generic/vmlinux.lds.h>';			\
+-	echo '.section .dtb.init.rodata,"a"';				\
+-	while read dtb; do						\
+-		symbase=__dtb_$$(basename -s .dtb "$${dtb}" | tr - _);	\
+-		echo '.balign STRUCT_ALIGNMENT';			\
+-		echo ".global $${symbase}_begin";			\
+-		echo "$${symbase}_begin:";				\
+-		echo '.incbin "'$$dtb'" ';				\
+-		echo ".global $${symbase}_end";				\
+-		echo "$${symbase}_end:";				\
+-	done < $<;							\
+-	} > $@
+-
+-.builtin-dtbs.S: .builtin-dtbs-list FORCE
+-	$(call if_changed,wrap_dtbs)
+-
+-quiet_cmd_gen_dtbs_list = GEN     $@
+-      cmd_gen_dtbs_list = \
+-	$(if $(CONFIG_BUILTIN_DTB_NAME), echo "arch/$(SRCARCH)/boot/dts/$(CONFIG_BUILTIN_DTB_NAME).dtb",:) > $@
+-
+-.builtin-dtbs-list: arch/$(SRCARCH)/boot/dts/dtbs-list FORCE
+-	$(call if_changed,$(if $(CONFIG_BUILTIN_DTB_ALL),copy,gen_dtbs_list))
+-
+-targets += .builtin-dtbs-list
+-
+-ifdef CONFIG_GENERIC_BUILTIN_DTB
+-targets += .builtin-dtbs.S .builtin-dtbs.o
+-vmlinux.unstripped: .builtin-dtbs.o
+-endif
+-
+-# vmlinux.unstripped
++# vmlinux
+ # ---------------------------------------------------------------------------
+ 
+-ifdef CONFIG_ARCH_WANTS_PRE_LINK_VMLINUX
+-vmlinux.unstripped: arch/$(SRCARCH)/tools/vmlinux.arch.o
+-
+-arch/$(SRCARCH)/tools/vmlinux.arch.o: vmlinux.o FORCE
+-	$(Q)$(MAKE) $(build)=arch/$(SRCARCH)/tools $@
+-endif
+-
+-ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
+-
+-# Final link of vmlinux with optional arch pass after final link
+-cmd_link_vmlinux =							\
+-	$< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)" "$@";	\
+-	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
++ifdef CONFIG_MODULE_HASHES
++targets += .tmp_module_hashes.o
++.tmp_module_hashes.o: .tmp_module_hashes.c FORCE
+ 
+-targets += vmlinux.unstripped .vmlinux.export.o
+-vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o .vmlinux.export.o $(KBUILD_LDS) FORCE
+-	+$(call if_changed_dep,link_vmlinux)
+-ifdef CONFIG_DEBUG_INFO_BTF
+-vmlinux.unstripped: $(RESOLVE_BTFIDS)
+-endif
++quiet_cmd_module_hashes = OBJCOPY $@
++      cmd_module_hashes = $(OBJCOPY) --dump-section .module_hashes=$@ $<
+ 
+-ifdef CONFIG_BUILDTIME_TABLE_SORT
+-vmlinux.unstripped: scripts/sorttable
+-endif
++targets += .tmp_module_hashes.bin
++.tmp_module_hashes.bin: .tmp_module_hashes.o FORCE
++	$(call if_changed,module_hashes)
+ 
+-ifdef CONFIG_MODULE_HASHES
+-vmlinux.unstripped: $(objtree)/scripts/modules-merkle-tree
+-vmlinux.unstripped: modules.order
+-vmlinux.unstripped: $(wildcard include/config/MODULE_INSTALL_STRIP)
++vmlinux: .tmp_module_hashes.bin
++patch-module-hashes := --update-section .module_hashes=.tmp_module_hashes.bin
+ endif
+ 
+-# vmlinux
+-# ---------------------------------------------------------------------------
+-
+ remove-section-y                                   := .modinfo
+ remove-section-$(CONFIG_ARCH_VMLINUX_NEEDS_RELOCS) += '.rel*' '!.rel*.dyn'
+ # for compatibility with binutils < 2.32
+@@ -98,70 +44,15 @@ remove-symbols := -w --strip-unneeded-symbol='__mod_device_table__*'
+ # To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
+ # it is necessary to remove the PT_LOAD flag from the segment.
+ quiet_cmd_strip_relocs = OBJCOPY $@
+-      cmd_strip_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
+-                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $(remove-symbols) $@
++      cmd_script_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
++                          $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
++                                     $(remove-symbols) \
++                                     $(patch-module-hashes) $@
+ 
+ targets += vmlinux
+ vmlinux: vmlinux.unstripped FORCE
+ 	$(call if_changed,strip_relocs)
+ 
+-# modules.builtin.modinfo
+-# ---------------------------------------------------------------------------
+-
+-# .modinfo in vmlinux.unstripped is aligned to 8 bytes for compatibility with
+-# tools that expect vmlinux to have sufficiently aligned sections but the
+-# additional bytes used for padding .modinfo to satisfy this requirement break
+-# certain versions of kmod with
+-#
+-#   depmod: ERROR: kmod_builtin_iter_next: unexpected string without modname prefix
+-#
+-# Strip the trailing padding bytes after extracting .modinfo to comply with
+-# what kmod expects to parse.
+-quiet_cmd_modules_builtin_modinfo = GEN     $@
+-      cmd_modules_builtin_modinfo = $(cmd_objcopy); \
+-                                    sed -i 's/\x00\+$$/\x00/g' $@
+-
+-OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
+-
+-targets += modules.builtin.modinfo
+-modules.builtin.modinfo: vmlinux.unstripped FORCE
+-	$(call if_changed,modules_builtin_modinfo)
+-
+-# modules.builtin
+-# ---------------------------------------------------------------------------
+-
+-__default: modules.builtin
+-
+-# The second line aids cases where multiple modules share the same object.
+-
+-quiet_cmd_modules_builtin = GEN     $@
+-      cmd_modules_builtin = \
+-	tr '\0' '\n' < $< | \
+-	sed -n 's/^[[:alnum:]:_]*\.file=//p' | \
+-	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
+-
+-targets += modules.builtin
+-modules.builtin: modules.builtin.modinfo FORCE
+-	$(call if_changed,modules_builtin)
+-
+-# modules.builtin.ranges
+-# ---------------------------------------------------------------------------
+-ifdef CONFIG_BUILTIN_MODULE_RANGES
+-__default: modules.builtin.ranges
+-
+-quiet_cmd_modules_builtin_ranges = GEN     $@
+-      cmd_modules_builtin_ranges = gawk -f $(real-prereqs) > $@
+-
+-targets += modules.builtin.ranges
+-modules.builtin.ranges: $(srctree)/scripts/generate_builtin_ranges.awk \
+-			modules.builtin vmlinux.map vmlinux.o.map FORCE
+-	$(call if_changed,modules_builtin_ranges)
+-
+-vmlinux.map: vmlinux.unstripped
+-	@:
+-
+-endif
+-
+ # Add FORCE to the prerequisites of a target to force it to be always rebuilt.
+ # ---------------------------------------------------------------------------
+ 
+diff --git a/scripts/Makefile.vmlinux_unstripped b/scripts/Makefile.vmlinux_unstripped
+new file mode 100644
+index 000000000000..914ee6f3b935
+--- /dev/null
++++ b/scripts/Makefile.vmlinux_unstripped
+@@ -0,0 +1,159 @@
++# SPDX-License-Identifier: GPL-2.0-only
++
++PHONY := __default
++__default: vmlinux.unstripped
++
++include include/config/auto.conf
++include $(srctree)/scripts/Kbuild.include
++include $(srctree)/scripts/Makefile.lib
++
++targets :=
++
++%.o: %.c FORCE
++	$(call if_changed_rule,cc_o_c)
++
++%.o: %.S FORCE
++	$(call if_changed_rule,as_o_S)
++
++# Built-in dtb
++# ---------------------------------------------------------------------------
++
++quiet_cmd_wrap_dtbs = WRAP    $@
++      cmd_wrap_dtbs = {							\
++	echo '\#include <asm-generic/vmlinux.lds.h>';			\
++	echo '.section .dtb.init.rodata,"a"';				\
++	while read dtb; do						\
++		symbase=__dtb_$$(basename -s .dtb "$${dtb}" | tr - _);	\
++		echo '.balign STRUCT_ALIGNMENT';			\
++		echo ".global $${symbase}_begin";			\
++		echo "$${symbase}_begin:";				\
++		echo '.incbin "'$$dtb'" ';				\
++		echo ".global $${symbase}_end";				\
++		echo "$${symbase}_end:";				\
++	done < $<;							\
++	} > $@
++
++.builtin-dtbs.S: .builtin-dtbs-list FORCE
++	$(call if_changed,wrap_dtbs)
++
++quiet_cmd_gen_dtbs_list = GEN     $@
++      cmd_gen_dtbs_list = \
++	$(if $(CONFIG_BUILTIN_DTB_NAME), echo "arch/$(SRCARCH)/boot/dts/$(CONFIG_BUILTIN_DTB_NAME).dtb",:) > $@
++
++.builtin-dtbs-list: arch/$(SRCARCH)/boot/dts/dtbs-list FORCE
++	$(call if_changed,$(if $(CONFIG_BUILTIN_DTB_ALL),copy,gen_dtbs_list))
++
++targets += .builtin-dtbs-list
++
++ifdef CONFIG_GENERIC_BUILTIN_DTB
++targets += .builtin-dtbs.S .builtin-dtbs.o
++vmlinux.unstripped: .builtin-dtbs.o
++endif
++
++# vmlinux.unstripped
++# ---------------------------------------------------------------------------
++
++ifdef CONFIG_ARCH_WANTS_PRE_LINK_VMLINUX
++vmlinux.unstripped: arch/$(SRCARCH)/tools/vmlinux.arch.o
++
++arch/$(SRCARCH)/tools/vmlinux.arch.o: vmlinux.o FORCE
++	$(Q)$(MAKE) $(build)=arch/$(SRCARCH)/tools $@
++endif
++
++ARCH_POSTLINK := $(wildcard $(srctree)/arch/$(SRCARCH)/Makefile.postlink)
++
++# Final link of vmlinux with optional arch pass after final link
++cmd_link_vmlinux =							\
++	$< "$(LD)" "$(KBUILD_LDFLAGS)" "$(LDFLAGS_vmlinux)" "$@";	\
++	$(if $(ARCH_POSTLINK), $(MAKE) -f $(ARCH_POSTLINK) $@, true)
++
++targets += vmlinux.unstripped .vmlinux.export.o
++vmlinux.unstripped: scripts/link-vmlinux.sh vmlinux.o .vmlinux.export.o $(KBUILD_LDS) FORCE
++	+$(call if_changed_dep,link_vmlinux)
++ifdef CONFIG_DEBUG_INFO_BTF
++vmlinux.unstripped: $(RESOLVE_BTFIDS)
++endif
++
++ifdef CONFIG_BUILDTIME_TABLE_SORT
++vmlinux.unstripped: scripts/sorttable
++endif
++
++ifdef CONFIG_MODULE_HASHES
++vmlinux.unstripped: $(objtree)/scripts/modules-merkle-tree
++vmlinux.unstripped: modules.order
++vmlinux.unstripped: $(wildcard include/config/MODULE_INSTALL_STRIP)
++endif
++
++# modules.builtin.modinfo
++# ---------------------------------------------------------------------------
++
++# .modinfo in vmlinux.unstripped is aligned to 8 bytes for compatibility with
++# tools that expect vmlinux to have sufficiently aligned sections but the
++# additional bytes used for padding .modinfo to satisfy this requirement break
++# certain versions of kmod with
++#
++#   depmod: ERROR: kmod_builtin_iter_next: unexpected string without modname prefix
++#
++# Strip the trailing padding bytes after extracting .modinfo to comply with
++# what kmod expects to parse.
++quiet_cmd_modules_builtin_modinfo = GEN     $@
++      cmd_modules_builtin_modinfo = $(cmd_objcopy); \
++                                    sed -i 's/\x00\+$$/\x00/g' $@
++
++OBJCOPYFLAGS_modules.builtin.modinfo := -j .modinfo -O binary
++
++targets += modules.builtin.modinfo
++modules.builtin.modinfo: vmlinux.unstripped FORCE
++	$(call if_changed,modules_builtin_modinfo)
++
++# modules.builtin
++# ---------------------------------------------------------------------------
++
++__default: modules.builtin
++
++# The second line aids cases where multiple modules share the same object.
++
++quiet_cmd_modules_builtin = GEN     $@
++      cmd_modules_builtin = \
++	tr '\0' '\n' < $< | \
++	sed -n 's/^[[:alnum:]:_]*\.file=//p' | \
++	tr ' ' '\n' | uniq | sed -e 's:^:kernel/:' -e 's/$$/.ko/' > $@
++
++targets += modules.builtin
++modules.builtin: modules.builtin.modinfo FORCE
++	$(call if_changed,modules_builtin)
++
++# modules.builtin.ranges
++# ---------------------------------------------------------------------------
++ifdef CONFIG_BUILTIN_MODULE_RANGES
++__default: modules.builtin.ranges
++
++quiet_cmd_modules_builtin_ranges = GEN     $@
++      cmd_modules_builtin_ranges = gawk -f $(real-prereqs) > $@
++
++targets += modules.builtin.ranges
++modules.builtin.ranges: $(srctree)/scripts/generate_builtin_ranges.awk \
++			modules.builtin vmlinux.map vmlinux.o.map FORCE
++	$(call if_changed,modules_builtin_ranges)
++
++vmlinux.map: vmlinux.unstripped
++	@:
++
++endif
++
++# Add FORCE to the prerequisites of a target to force it to be always rebuilt.
++# ---------------------------------------------------------------------------
++
++PHONY += FORCE
++FORCE:
++
++# Read all saved command lines and dependencies for the $(targets) we
++# may be building above, using $(if_changed{,_dep}). As an
++# optimization, we don't need to read them if the target does not
++# exist, we will rebuild anyway in that case.
++
++existing-targets := $(wildcard $(sort $(targets)))
++
++-include $(foreach f,$(existing-targets),$(dir $(f)).$(notdir $(f)).cmd)
++
++.PHONY: $(PHONY)
+diff --git a/scripts/link-vmlinux.sh b/scripts/link-vmlinux.sh
+index bfeff1f5753d..80cb09707426 100755
+--- a/scripts/link-vmlinux.sh
++++ b/scripts/link-vmlinux.sh
+@@ -316,17 +316,6 @@ if is_enabled CONFIG_BUILDTIME_TABLE_SORT; then
+ 	fi
+ fi
+ 
+-if is_enabled CONFIG_MODULE_HASHES; then
+-	info MAKE modules
+-	${MAKE} -f Makefile MODULE_HASHES_MODPOST_FINAL=1 modules
+-	module_hashes_o=.tmp_module_hashes.o
+-	info CC ${module_hashes_o}
+-	${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} ${KBUILD_CFLAGS} \
+-		${KBUILD_CFLAGS_KERNEL} -fno-lto -c -o "${module_hashes_o}" ".tmp_module_hashes.c"
+-	${OBJCOPY} --dump-section .module_hashes=.tmp_module_hashes.bin ${module_hashes_o}
+-	${OBJCOPY} --update-section .module_hashes=.tmp_module_hashes.bin ${VMLINUX}
+-fi
+-
+ # step a (see comment above)
+ if is_enabled CONFIG_KALLSYMS; then
+ 	if ! cmp -s System.map "${kallsyms_sysmap}"; then
