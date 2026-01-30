@@ -1,84 +1,109 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E26B313545;
-	Fri, 30 Jan 2026 09:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719712D46BD;
+	Fri, 30 Jan 2026 09:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769764330; cv=none; b=DdryTT3M6mBYlmZsYfIkUnPiVwn1TjQ3weTRK60/mdtuzh0xADPC44F/vS9gbzn/KO59I17Qop4eZShshnU3P69p6m0/Mhf1ik7tE+aBQnD2pNJGQ9MVxcLt60mS3EGxWLAu6B2uZ1+uTF5DtFmZx3YSuzFZym11P4c/IncQl0c=
+	t=1769765427; cv=none; b=CcNbrvFYkQu/ClHz5d7wruqzgKwIzyPcnBXtgkYYkrnN/xFvb+72USTkFQRwWs+BBvvnmdbDsUEsNz4q2YhqfF7jIWKPUp6bqYVML9LumrNcscvTWULJDPFQyUB0bjQuBGg7aUafU/2ajniAXeqACtIGVJDgusNk+qNGicT20Xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769764330; c=relaxed/simple;
-	bh=zSkklyuLE8HkmKOM+X8WC6cl4Z5Dw4K6neglavCVEfg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=npB+HFVzo64LnQZtIW3fVpP4QCWSVFyX9yoWg7FY2uYECQQrRDjUQWlDT7bg1BUsPPZNoZg0Ilw6k/Yy4AcE62txRrRWiSwX5+fjmf0pFQW6Ke8wjCRXcaY5TNGVi2+9FaMC4lQk8dNvtrd6NoP9fk2+jOdK5ZuvY88A53+35qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=I4Wj1v6i; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1769765427; c=relaxed/simple;
+	bh=A/e93zSeuScuKLLv1EFCsZiYkVthcJkWuJEGlAY6QNA=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=m0v5sH2YubUZNNK8NGFIuA0/tWLTns4HE9rj04aK4gPb8+/88ueTBJ0QEc9b7kosWiLioe+gYcGCPhk4ILSKFdc5iao7F7BX/z1BbFJ+D6dq+AyhnjoSlfSLHDg0GLsExPn8EEn52BBb5Xo+uIysMaL7CvHORhgPO4CppLX1LQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HlD0gqm0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="I4Wj1v6i"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9A1B03A2;
-	Fri, 30 Jan 2026 10:11:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1769764288;
-	bh=zSkklyuLE8HkmKOM+X8WC6cl4Z5Dw4K6neglavCVEfg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=I4Wj1v6ix1bkop733M4hhsYMnKkCxOJz/hsN33vDYYU7rgHfHp1SM7hB3t35VxzPh
-	 0g0NxSmSCaf/6bcrKizpQxQZUczhqHlJyWxopSKhOSg9Y2B8/065asunBdOFOaGyp1
-	 BXI0c39mslh6Hn/vIbzC8M4LXgz+DI1eSwo0VKcM=
-Date: Fri, 30 Jan 2026 11:12:05 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tzung-Bi Shih <tzungbi@kernel.org>
-Cc: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
-Message-ID: <20260130091205.GI3374091@killaraus>
-References: <20260124170535.11756-1-johan@kernel.org>
- <aXjgeNY-jf9rIw09@google.com>
- <aXt2XqRnBjb25f81@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HlD0gqm0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CE07C4CEF7;
+	Fri, 30 Jan 2026 09:30:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769765427;
+	bh=A/e93zSeuScuKLLv1EFCsZiYkVthcJkWuJEGlAY6QNA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HlD0gqm0fh9rqu+5ydFFnqQtErkuE9CoVB+/MavUxoVktSjloZfIrJSoAi5hg0nzb
+	 XCAE5/NqZy5qB2LXxPTe5hkAjEiuA4FwnhS703qLkWjEucPKAoEzGiPsz8JP/3oeQR
+	 uKNsQ+vEd8FsqBdQ/Zx6lLV3HlEn+ZiRtsFUHrfT2T4DgVXdihki7fuiCrkMHyZbAh
+	 +ecbxd5fVgcfF3AuhGg49xGfR23mhawtxUKLe741QureYgx9rZqPnj31n9kgLJleiZ
+	 /SIxaVLkVHwcquEJ/WRFc7zaihxSOGxwVaQutjXE2v0eYDNZFg+I3pmsTMwaWq1TPc
+	 na8vW5szw2nTw==
+Date: Fri, 30 Jan 2026 18:30:22 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Yaxiong Tian <tianyaxiong@kylinos.cn>,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, linux-trace-kernel@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 5/5] blktrace: Make init_blk_tracer() asynchronous
+ when trace_async_init set
+Message-Id: <20260130183022.add316050dd9638e6d71a469@kernel.org>
+In-Reply-To: <20260129152958.05c1ca46@gandalf.local.home>
+References: <20260128194104.30051be1@gandalf.local.home>
+	<56C8934E-3D17-4467-93E6-D813770BF577@kernel.dk>
+	<20260129152958.05c1ca46@gandalf.local.home>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aXt2XqRnBjb25f81@google.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 29, 2026 at 03:01:50PM +0000, Tzung-Bi Shih wrote:
-> On Tue, Jan 27, 2026 at 03:57:44PM +0000, Tzung-Bi Shih wrote:
-> > On Sat, Jan 24, 2026 at 06:05:32PM +0100, Johan Hovold wrote:
-> > > Turns out there are correctness issues with both the gpiolib conversion and
-> > > the revocable design itself that can lead to use-after-free and hung tasks (see
-> > > [1] and patch 3/3).
-> > [...]
-> > > Revert the revocable implementation until a redesign has been proposed and
-> > > evaluated properly.
-> > 
-> > I'll work on addressing the discovered issues and send follow-up fixes.  I
-> > believe keeping the current series in linux-next would be beneficial, as it
-> > allows for easier testing and wider evaluation by others, rather than
-> > reverting at this stage.
+On Thu, 29 Jan 2026 15:29:58 -0500
+Steven Rostedt <rostedt@goodmis.org> wrote:
+
+> On Wed, 28 Jan 2026 19:25:46 -0700
+> Jens Axboe <axboe@kernel.dk> wrote:
 > 
-> FWIW: https://lore.kernel.org/all/20260129143733.45618-2-tzungbi@kernel.org/
-> and https://lore.kernel.org/all/20260129143733.45618-4-tzungbi@kernel.org/
-> are the proposed fixes.
+> > On Jan 28, 2026, at 5:40 PM, Steven Rostedt <rostedt@goodmis.org> wrote:
+> > > 
+> > > ﻿
+> > > Jens,
+> > > 
+> > > Can you give me an acked-by on this patch and I can take the series through
+> > > my tree.  
+> > 
+> > On phone, hope this works:
+> > 
+> > Acked-by: Jens Axboe <axboe@kernel.dk>
+> 
+> Thanks!
+> 
+> > 
+> > > Or perhaps this doesn't even need to test the trace_async_init flag and can
+> > > always do the work queue? Does blk_trace ever do tracing at boot up? That
+> > > is, before user space starts?  
+> > 
+> > Not via the traditonal way of running blktrace.
+> 
+> Masami and Yaxiong,
+> 
+> I've been thinking about this more and I'm not sure we need the
+> trace_async_init kernel parameter at all. As blktrace should only be
+> enabled by user space, it can always use the work queue.
+> 
+> For kprobes, if someone is adding a kprobe on the kernel command line, then
+> they are already specifying that tracing is more important.
+> 
+> Patch 3 already keeps kprobes from being an issue with contention of the
+> tracing locks, so I don't think it ever needs to use the work queue.
+> 
+> Wouldn't it just be better to remove the trace_async_init and make blktrace
+> always use the work queue and kprobes never do it (but exit out early if
+> there were no kprobes registered)?
 
-I won't review that, sorry. As multiple people said in this mail thread,
-the API needs to go back to the design board.
+Yeah, for kprobes event case, that sounds good to me. I think [3/5] is
+enough to speed it up if user does not define kprobe events on cmdline.
+
+Thank you,
+
+> 
+> That is, remove patch 2 and 4 and make this patch always use the work queue.
+> 
+> -- Steve
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
