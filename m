@@ -1,83 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6030B3803D1
-	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 19:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA32A25EFBE
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 19:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769801136; cv=none; b=SL577JBSCob9PofU6OWHBCISmfxkUJNtYjymmmcL19yxehr1wqrU9tcGmknEeRJytgjxfxjbDJQoCqYnwaLvFGIgIaFKxb3X2zm4pRqCG/ildr2AolD95kESnqQYDOk4FlIOOe+GXsj8TORqBWUl1BAEzLL51LnbxEh9tnxs7j4=
+	t=1769801715; cv=none; b=Xt1O74CRUqoe0QaEhrMZRuSxvQJwGPX16IAZPeV+ynkowfcpBqR2YgKqQ1jWaEgaZwkOnqM/sc0sOBp+0zo1B+XWalwy3vgNj70NrI9lYywMkCVHyKO4aAz6UucM8vuysujFNvNnAW/e5tQZfUa4Ok28Lg4MZ47k9tX/JOIVo6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769801136; c=relaxed/simple;
-	bh=iRNU6ULF3xAFYTTUcATMkWcKCARg5LR7oiCdEr4qq5k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lbkgm1et4PF8mhwXfBbqiRbsPzcODFh2odFbnZyG2SXmQXCT/r+qObxUxI6g8q0xW692HUlxtgtWwjR6a1yX18942qnkySyTTcyYNqr8ThsLqE8kykz3U8Xzd5CWPl+jO9GIQ6cpTjmYa/7P28+hYAzjTjMhO7M4zApLMC0vB70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IJuLSw1x; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769801715; c=relaxed/simple;
+	bh=YtPdTuWX7+Eu4QBGhtaUia2wJN2UIOd1S5Vv2sfiY7o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VznvGGcqufHCkZFWtz7EWLNeU795bGO9GRs+jR0KHpaa7Xm4KTpQj1uJzdcxA7Roz9WQ8n6CdQ8b2BD2SuRXQ3nfT1Ck/Md27Zr9bjg0LxlrGehA4Qw8hWmmNq5DUcCJxLw7052LIDXDSF+yZ79osHelqwOUPNnvQzoFs/86t74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SYkIMnRZ; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IJuLSw1x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 191DFC19421
-	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 19:25:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769801136;
-	bh=iRNU6ULF3xAFYTTUcATMkWcKCARg5LR7oiCdEr4qq5k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=IJuLSw1xanby+V1WY1IU8bZflComKh6kPbWxVFHtWIYxAu++wiFlVQJ861YLTeEDO
-	 1UIbjx8n/PsuRqyu08hLoq9Rn646PdNhtLIkWM55riUUOzrvux6oMHvyULYeHOA1ET
-	 d0NQmsZU1AmjSBi7Lv+bCBhfu8Az9Lot8Azm5YHapJRJDrWoEne0ESl9+vWlDvJNfA
-	 JErQaNgll8MwTJEd8fjE7IIQzyDu1s6lbCvQgUpBxGbmnxOSYpwVMJRFqWlFvPovl8
-	 LTgJbC9HPqw2vvnjmUx0Bz+M7aVPl+YAFuJvM/K4CjI4FGdinmonEM7pmF752hO7o7
-	 KMUKOIdrdht2g==
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-662f5c5507cso1415168eaf.3
-        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 11:25:36 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXUylyhmV/egzd/Ihn8muxPBiLMItJFYkPUr/BIxZg0VFZv1KudmOLmJ4JLpW7sJTeejPsGCxVF82c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxGPEQ7gyQUc8oFYIGFGwAiy7iMyWSuPLXb6/YkhZ8R8+Zaevy
-	EGfqYJrM24u9Me30jnyaldWBAk835MOEkgcWvZUUabOlMzoF1y76loejH0HCC1TQyPcqeQMd/bb
-	6YfPjolMnnWTkkh0iRp0Nyd8u41bGAUQ=
-X-Received: by 2002:a05:6820:c83:b0:65d:be3:3110 with SMTP id
- 006d021491bc7-6630f04fa71mr2191742eaf.23.1769801135161; Fri, 30 Jan 2026
- 11:25:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SYkIMnRZ"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4359249bbacso2238573f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 11:35:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769801712; x=1770406512; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YtPdTuWX7+Eu4QBGhtaUia2wJN2UIOd1S5Vv2sfiY7o=;
+        b=SYkIMnRZU41qkdY5TPm6K7gH2Bib9R+99H4ORYhIlq/P92WnaERWNBnJB8164hzitO
+         wA93u4FW7Z4kiwum21EE+sKo59zx17nINKn3PGtflBwdFNqSoKIBT9eN+CJOtGB1TYDE
+         fU/Xmgt6fVTo7Bn+TJqWHzQKExn2wU5WTWrNhIy9DyTTsXv4GeF3A9p164zYL6L/mTX+
+         Fo6bw0dhyY0nIYLUDeMXdvf2QSsoFYkzJTv/zAHgKf88iBtmsQU/bMw5BoijJcSc07Jt
+         ujVaYDZnNsKPN40isYi4AxPaLisUd+8pc8pxlCd9EsyvcpYAyQmfBGT6B5ZZYvy00vOc
+         lZTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769801712; x=1770406512;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YtPdTuWX7+Eu4QBGhtaUia2wJN2UIOd1S5Vv2sfiY7o=;
+        b=HgRp8O0QDdV7oWKji2HnaVcBdNAqtiFP1HwwLoP782JdG5nIKPnsQaZMVk5qjOuSm8
+         4Xct3OOITo952iKv/CP6uvs0zsSXEcmw1ciyusGOeYog/ljybEoiqw9lkj3odS7YvxSh
+         eMkWe1CEPFaNA5QgmPxS6Dx/9i5EFNDN+oL1eRD4cswK3PtYDneeUpQImNHbOjLzhCVL
+         vQxp6P2De4I7TdlaPu7Ux9TLwRHWQsMP3QbIlyrmkaeyFZjYskmJjSq2r5/4ls9CL67f
+         1iyrEEO2K6hFPOzYzMednKrCZpT9uImxlhENzBx5i0Z3cvyqVVqGgqaafYIAZGf2xiFv
+         XFJg==
+X-Forwarded-Encrypted: i=1; AJvYcCXCCXfxyTda+ERyVS7Y0Jy2iYLGwt/tEtfVhFrigqMJQvuvFZcYh8EPAUm2LpAFSWK7nF3pZbfCj4Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywro0ZLxGwLBQCfMiDBx/JqS1FO5i6SEDspoQHluY+Au2/BLpmQ
+	Wke1k70FkOA2/kJ2rrNgUk4rYlvIHt8n2ussDb8tQOClR83koily5OCx
+X-Gm-Gg: AZuq6aKFg+yyz75wjaLABOSESYKEulAb9oI97m+cc/CS0mx/MQ6FXak6dpIy32/VL/M
+	jaWaUSIbUDNGiAxJyiQIOmnwbKbX1DACJOTaWA+k2Deehjrd0q70x+7UIFkddPvNZmy0o6NP8Vj
+	lwSBiv1jvAFGg5gZYZ6zPmFiNFM4Sr701HPILikLnuhGny/VxN2txviFogTX6ZaiXQZQjD7eYmF
+	LWxpHtQ1ZqT5Vg5GwrNqbZBpY+kOaQWec2fCR57/Zt0GoMHPgvFD0BStpOt48xJOLcXsA4MMYt1
+	ECocR8eYlsOsPwmalyi2msAarWHC5tx1JUg8jMuQqv8C7XnlvUKy6QBjv3b6WGmFQKSBjyLj7GW
+	CFB+qPFnkA87buZS/ZI63D08DIPh+Ag8Jn2qpJ+/+iS88Hop78/zUCqsHZGfjFRzN5PpnSsM4HB
+	4dx3xF6pq/ZXU/WgVVXzuBhTuqlPrgl8s5D+21za4I1K409h8RHeUd3jvsGU62
+X-Received: by 2002:a5d:5d07:0:b0:432:84f0:9683 with SMTP id ffacd0b85a97d-435ea210379mr10922542f8f.24.1769801712112;
+        Fri, 30 Jan 2026 11:35:12 -0800 (PST)
+Received: from DB-VM.1337.ma ([197.230.240.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e1323034sm24631728f8f.35.2026.01.30.11.35.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Jan 2026 11:35:11 -0800 (PST)
+From: Taha Ed-Dafili <0rayn.dev@gmail.com>
+To: jic23@kernel.org
+Cc: 0rayn.dev@gmail.com,
+	andy@kernel.org,
+	corbet@lwn.net,
+	dlechner@baylibre.com,
+	linux-doc@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel-mentees-archive@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	me@brighamcampbell.com,
+	nuno.sa@analog.com,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH] docs: iio: adxl345: Fix typos, units, and grammatical errors
+Date: Fri, 30 Jan 2026 14:35:09 -0500
+Message-ID: <20260130193509.5570-1-0rayn.dev@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260129173337.7fc2a4ad@jic23-huawei>
+References: <20260129173337.7fc2a4ad@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260128-documentation-fix-grammar-v1-0-39238dc471f9@gmail.com>
-In-Reply-To: <20260128-documentation-fix-grammar-v1-0-39238dc471f9@gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 30 Jan 2026 20:25:24 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0javFwhhrmrTGq-DPUPK4-CEZtn48v5qcKstd+Zmw9X2w@mail.gmail.com>
-X-Gm-Features: AZwV_QiqtG6SCI2DavyLoBekKA2NCIAxV--TO3berDthQYIbmY1ayv-n7dJ1f3k
-Message-ID: <CAJZ5v0javFwhhrmrTGq-DPUPK4-CEZtn48v5qcKstd+Zmw9X2w@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Fix grammar and example code in Documentation.
-To: Patrick Little <plittle@gmail.com>
-Cc: Joseph Kogut <joseph.kogut@gmail.com>, Lukasz Luba <lukasz.luba@arm.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 28, 2026 at 11:33=E2=80=AFPM Patrick Little <plittle@gmail.com>=
- wrote:
->
-> I split these into:
->   Text updates
->   Example code updates
->
-> If it would be better split more or differently, I'm happy to do that.
-> These are strictly typo fixes, no clarification or rewording.
->
-> ---
-> Patrick Little (2):
->       Documentation: Fix typos
->       Documentation: Fix bug in example code snippet
->
->  Documentation/power/energy-model.rst     | 18 +++++++++---------
->  Documentation/scheduler/sched-energy.rst |  8 ++++----
->  2 files changed, 13 insertions(+), 13 deletions(-)
-> ---
+Hi Jonathan,
 
-Both patches applied as 6.20/7.0 material under adjusted changelogs
-(to indicate that they are related to energy model management).
+An audit of adxl345_core.c confirms the documentation scale factor of 0.478899
+is incorrect. The driver's { 0, 4789 } correctly represents 0.004789 m/s^2
+per LSB for the 2g range.
 
-Thanks!
+I'll prepare a v2 series to reconcile the driver and documentation
+with the IIO ABI. This will include implementing in_accel_scale for events
+to resolve the threshold unit inconsistencies.
+
+I will send the update once I have implemented
+and compile-tested the changes.
+
+Best regards, Taha
