@@ -1,91 +1,205 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F67320CBE
-	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 15:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9329432FA1E
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 15:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769786731; cv=none; b=HWQwnr1dyTO6K0pz2OiPSxNQ88/ZV2e5lS+fPQa7uXM35cGQ+eJueNmtbJq+FS/+29ieShqwK9kFdEub0D4P3DXUUSJO2C9lpS+TBYiaRCmbZPr4NaN82pufQe6teSjXUqe5OoiZTalOyVoOCUf+GIucwkpkH8SEmY5HSKJ8XMw=
+	t=1769787869; cv=none; b=fDCrdrl+P3a3HMiETGuTDSrIj+bgI5l7g0KIIYobW4VlszV+xjKOOigznKbSnJ/vAxdwwGHvl4UmDMCauitDaobvljp8CehBfcSuRyfnyefHl5rqS3boqKCoZKAaH/+tbJwDhLpbkGb6c2oKwM0Zr6RBvKVPNagvi8MgpWumKGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769786731; c=relaxed/simple;
-	bh=SyMj/yR9F0xv3KH/aGBm0oBYdP5Wv3wP9gmWPrk7UvE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=o2Jc9M5Yp08OcjpTmJjWDyCWsEHGpvZGx4tHzV+oJ7hqcQNwbcuK7zPODX4a8yc7atDrmbuhfpGhdWQLvKl26DTAW4yhntk1vBptuurPUhrio/mh19nhxLTTqmUK3kJA0bq7+/w7Dc2SRyWnqs7oHa7rlA3PpE1aUMQT8zgnqqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiredspace.de; spf=pass smtp.mailfrom=wiredspace.de; dkim=pass (1024-bit key) header.d=wiredspace.de header.i=@wiredspace.de header.b=ltOEIFlE; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiredspace.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wiredspace.de
+	s=arc-20240116; t=1769787869; c=relaxed/simple;
+	bh=tWMoCq/TVKZX/ZEK6i8GI3uCfaa9NF997h3oA9U0APQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s5B9oNNADPzGfdJZ1ya9NluR6Z/NwTn4m2yrlCFo+GHafMk7JGEKf0HcFOJP0sudC/kHP5GgshG+x2W20IfcNEpyY3/7i4wDK2iQA4QYBuJUv4IsV0AdXX/SiF37lslSUeI1MTZR7gZwZ10bb3pvIo0eRn/d3P5RIZymj+IDGZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gSoRsY2+; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wiredspace.de header.i=@wiredspace.de header.b="ltOEIFlE"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiredspace.de;
-	s=key1; t=1769786727;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=IklL95PHT+w3sFQXSNf8gYPa46yCOGUlpAY0wy5v2IY=;
-	b=ltOEIFlEi23fx/S8hmKbv9+r76vkJxWTgVHPG1scsMrTvK9fkyowc6u1dgmfy0q4bF5ypz
-	4EHhpAJkIc3Wd6kpW7MuF9/kii95rQL/TpHzojeh9BL9pWzYuX/uAdInNtCNsi8YZQYVc1
-	7YHvLkSjSxkzTAQMQZc2UAM2cR1Izwo=
-From: =?utf-8?q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>
-Date: Fri, 30 Jan 2026 16:25:07 +0100
-Subject: [PATCH] docs: filesystems: ensure proc pid substitutable is
- complete
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gSoRsY2+"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8230d228372so1207855b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 07:44:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769787867; x=1770392667; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=tKYnk6Q0VHb2F316NAJG3Y7DCI41HuS4pf69ucGBkr8=;
+        b=gSoRsY2+t76+cStcdWbSzpCDfi4LVOpP/2qgcOFclmsQqvPvmAIrQMDJ4J5vWvaIlK
+         BTc+3CL6XhDnUUw3FbXG2ZPrRZJXG83QNYELmmb4FHBggxrSUhBOMNsZUig9WqfhCAg1
+         RBvnDaYBWjynkWc8JXRcFLVkQPJnnRlR280H7OMGfkIR3tr90O+MTPXVCjDkmjqZmp6p
+         FUvyVIhqZ1LB2mNoIuq6NEvthkeuo7jnPoICO/2/+gz5JYfRusCgLOjx/4Bhw2K+Q5Q6
+         VOGRXuSPD/4yyuvfQaW+0c0qERcmVWkhoId+Sz/RSRfaXag0xk/TBgDHdXAYSb53eA1o
+         T2bQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769787867; x=1770392667;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tKYnk6Q0VHb2F316NAJG3Y7DCI41HuS4pf69ucGBkr8=;
+        b=kHQYzxYs03k7z+mIPBC3K/BG65SvI49eZeBymd3NtMR9ZQ8aVidryVsJEA2ADdp+Cq
+         S1UkC1DO4wK5gkmC7OUHdnkaKCG3CRyjfQtH4G1lWzWQimdBpUr292N4TmMoEteOdRv4
+         HwUp9MIvni1DSkXc0uPPbm1rz/1W6iyqLao2bz20mpfEbo4IDjTP4ll7acXnUxj6zssZ
+         6k1S8gwW2TNZJH6wLJ/ht21pLLt9tPB19AhjCE2yTW0fclFDGN6pfcZuXJgwRplCpzBx
+         i66XN0bhaM9EaSwOKn9/SvLSOpIe9AYwg+mugvtdVhaeDtrAGq4+iSKklQPQraQgpBLd
+         CoFg==
+X-Gm-Message-State: AOJu0Yz8RHF3Gg16jfqgA8gw9nPX27iumX+NGmpyN27NMzWigIBEnoUV
+	SV5Hzig2hIZ2JwAOJlZIK4gnIP0f8oNL+dHPDPXaLMFjNYWkfPV8OnUk
+X-Gm-Gg: AZuq6aIxNypA6oKYItImlE0khILhkm2DpRScf2O8hGLt8BBKiUXRnrXZbFJ5Zapuc4P
+	ybccOfhdfguUP+VTVDKdoLziRshbEShlbnPJMEMBqg3yvigrX2MD6GOSBul8XVRmg8Pwj5k4pBx
+	VeMGCt4wbTnrwxejIaZRlXPJNc5TXIV4DX1ckXoLT1YxGCH8agoJNIe3hlo+kIK8sF9fpYkh6N8
+	HFRNTlEh/KXYmatMHCYjGz5SSlhwXCapsx+UpyQrPsNIDIPQ5qOG06TmuWZGxV336rEk5ebb7DJ
+	rhKfAQPYT9vuKljcjMmT8U7tCIjdGDAgLrBFQDXs8zpb8mYgmGikf3PVyvnPSDOcYZ002betusd
+	L51q8Z3FDWCKC9xNqrYSLOJx/IRBcelwECI7VpLI4rVnb5/ZXu7u6LcKflKam+Yu7Q/phMHi5OL
+	LXNN9Kd2y/yV0e6Tdln4sXMTo7rSP+kMioKmqIyQF+4GErIXoHAf5YuBFhiYTF
+X-Received: by 2002:a05:6a00:9288:b0:81e:372c:b02e with SMTP id d2e1a72fcca58-823ab873c4fmr4013251b3a.47.1769787866900;
+        Fri, 30 Jan 2026 07:44:26 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82379bfcab8sm8005207b3a.36.2026.01.30.07.44.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Jan 2026 07:44:25 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <ae5f1ab3-cd0e-4831-9a11-30dc75f16da0@roeck-us.net>
+Date: Fri, 30 Jan 2026 07:44:24 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260130-ksm_stat-v1-1-a6aa0da78de6@wiredspace.de>
-X-B4-Tracking: v=1; b=H4sIAFLNfGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDQ2MD3ezi3PjiksQSXZMUQxNjMzMzY4PURCWg8oKi1LTMCrBR0bG1tQC
- 1RPy3WgAAAA==
-X-Change-ID: 20260130-ksm_stat-4d14366630ea
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT 3/5] hwmon: Add support for updating thermal zones
+To: linux-hwmon@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jaroslav Pulchart <jaroslav.pulchart@gooddata.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, lihuisong <lihuisong@huawei.com>
+References: <20260123182208.2229670-1-linux@roeck-us.net>
+ <20260123182208.2229670-4-linux@roeck-us.net>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
+ oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
+ VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
+ 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
+ onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
+ DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
+ rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
+ WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
+ qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
+ 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
+ qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
+ H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
+ njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
+ dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
+ j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
+ scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
+ zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
+ RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
+ F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
+ FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260123182208.2229670-4-linux@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The entry in proc.rst for 3.14 is missing the closing ">" of the "pid"
-field for the ksm_stat file. Add this for both the table of contents and
-the actual header for the "ksm_stat" file.
+On 1/23/26 10:22, Guenter Roeck wrote:
+> Implement support for updating thermal zones. This is necessary
+> to be able to handle updates to sysfs attribute visibility.
+> 
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 
-Signed-off-by: Thomas Böhler <witcher@wiredspace.de>
----
- Documentation/filesystems/proc.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This patch is both racy because it doesn't protect the list of thermal
+zones, and it leaks tzdata until the device is removed. SO it will need
+(much) more work.
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 8256e857e2d7..346816b02bac 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -48,7 +48,7 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
-   3.11	/proc/<pid>/patch_state - Livepatch patch operation state
-   3.12	/proc/<pid>/arch_status - Task architecture specific information
-   3.13  /proc/<pid>/fd - List of symlinks to open files
--  3.14  /proc/<pid/ksm_stat - Information about the process's ksm status.
-+  3.14  /proc/<pid>/ksm_stat - Information about the process's ksm status.
- 
-   4	Configuring procfs
-   4.1	Mount options
-@@ -2289,7 +2289,7 @@ The number of open files for the process is stored in 'size' member
- of stat() output for /proc/<pid>/fd for fast access.
- -------------------------------------------------------
- 
--3.14 /proc/<pid/ksm_stat - Information about the process's ksm status
-+3.14 /proc/<pid>/ksm_stat - Information about the process's ksm status
- ---------------------------------------------------------------------
- When CONFIG_KSM is enabled, each process has this file which displays
- the information of ksm merging status.
+Guenter
 
----
-base-commit: 6b8edfcd661b569f077cc1ea1f7463ec38547779
-change-id: 20260130-ksm_stat-4d14366630ea
-
-Best regards,
--- 
-Thomas Böhler <witcher@wiredspace.de>
+> ---
+>   drivers/hwmon/hwmon.c | 34 +++++++++++++++++++++++++++-------
+>   1 file changed, 27 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/hwmon/hwmon.c b/drivers/hwmon/hwmon.c
+> index 1f35285ca7a0..cb89218a0b6a 100644
+> --- a/drivers/hwmon/hwmon.c
+> +++ b/drivers/hwmon/hwmon.c
+> @@ -276,7 +276,7 @@ static struct hwmon_thermal_data *hwmon_thermal_find_tz(struct device *dev, int
+>   	return NULL;
+>   }
+>   
+> -static int hwmon_thermal_register_sensors(struct device *dev)
+> +static int hwmon_thermal_handle_sensors(struct device *dev, bool update)
+>   {
+>   	struct hwmon_device *hwdev = to_hwmon_device(dev);
+>   	const struct hwmon_chip_info *chip = hwdev->chip;
+> @@ -294,22 +294,42 @@ static int hwmon_thermal_register_sensors(struct device *dev)
+>   			continue;
+>   
+>   		for (j = 0; info[i]->config[j]; j++) {
+> +			umode_t mode;
+>   			int err;
+>   
+> -			if (!(info[i]->config[j] & HWMON_T_INPUT) ||
+> -			    !hwmon_is_visible(chip->ops, drvdata, hwmon_temp,
+> -					      hwmon_temp_input, j))
+> +			if (!(info[i]->config[j] & HWMON_T_INPUT))
+>   				continue;
+> +			mode = hwmon_is_visible(chip->ops, drvdata, hwmon_temp,
+> +						hwmon_temp_input, j);
+> +			if (!mode) {
+> +				struct hwmon_thermal_data *tzdata;
+>   
+> -			err = hwmon_thermal_add_sensor(dev, j);
+> -			if (err)
+> -				return err;
+> +				if (!update)
+> +					continue;
+> +				tzdata = hwmon_thermal_find_tz(dev, j);
+> +				if (tzdata) {
+> +					devm_thermal_of_zone_unregister(dev, tzdata->tzd);
+> +					devm_release_action(dev, hwmon_thermal_remove_sensor,
+> +							    &tzdata->node);
+> +				}
+> +			} else {
+> +				if (!update || !hwmon_thermal_find_tz(dev, j)) {
+> +					err = hwmon_thermal_add_sensor(dev, j);
+> +					if (err)
+> +						return err;
+> +				}
+> +			}
+>   		}
+>   	}
+>   
+>   	return 0;
+>   }
+>   
+> +static int hwmon_thermal_register_sensors(struct device *dev)
+> +{
+> +	return hwmon_thermal_handle_sensors(dev, false);
+> +}
+> +
+>   static void hwmon_thermal_notify(struct device *dev, int index)
+>   {
+>   	struct hwmon_thermal_data *tzdata = hwmon_thermal_find_tz(dev, index);
 
