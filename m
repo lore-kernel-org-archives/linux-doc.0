@@ -1,173 +1,85 @@
-Received: from out30-97.freemail.mail.aliyun.com (out30-97.freemail.mail.aliyun.com [115.124.30.97])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A44821257F;
-	Fri, 30 Jan 2026 13:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC322ECD34;
+	Fri, 30 Jan 2026 13:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769779527; cv=none; b=qRoHTfQm3hH/xBO0PW0pSX2xiFLYRQ3LVYclUr41sZ2rJXdWHT9o0rxTH/6OhlszW8foLPhpu/HK8Sw5NzTtmbivfqp++G7hqP86sA01SB5lhToZmK1TA97lc0dKRxswJg7IS70nUjaSOJqP7hiWlUcPGZx8RYelnpdmBcmanVM=
+	t=1769780564; cv=none; b=UurHtHi/a8sfiefgavCH+pPq70aVbCDGBQzMHNOn+4iQW3pgJjzAdR+vVBgC/50+ImL/xaOYDXi/Nv7VTJsPH0YmZQIrOPimi1LO5D70JDPIMr4nokpZc2p0uXVtZYIRdx5eagOLdTaJfOMmhjGUd0iY1zvBdjJLZx5hpoCdDps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769779527; c=relaxed/simple;
-	bh=MvGMSADanzB7x+q+EqopZ7kfWA1qw4bC+aLY+a4Q7D4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RRYOwlnPV9uYEj2l/7lx9s9L6zQICKZpkhXp7zeBoKVrJfVr6FWZtcuqrogcu8z4v8wktBOfQCnRXpAal2qS+eEohu4m4VHXMqWUEMZeYqsjQGPcR64ubkHjqxE/Qtsl++xWwP2GNLjt32Lu6CqefAmZ8Y5jby0WMgV9iIcl3mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=TuammyZb; arc=none smtp.client-ip=115.124.30.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1769780564; c=relaxed/simple;
+	bh=ZdwfXVDKrptF6zEBnycSM2xt2oyuwZwAE3tj/VXJTDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ixF3u0IjcYowjZuWl1ZN1s87O73GEDmaMiCTPGG02+UeOJM8UWYi/ZJUKLppM/DcKyXjMVhSRQZycukLyjXw4e0gojYjk6NZeKevIW6R3+Xu3TYm66jwqaoHwvAVvph29jRs8xIUYmXnkAS8XMZPdXQktRe0bXXUAA4M6zfbxzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=Wc+3DTR9; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="TuammyZb"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1769779518; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	bh=NP4C/8iS3LZQ05EAXyUJq46Gw0HsoTqfjGkTOKLW1mk=;
-	b=TuammyZb4RFji8XLQFPYnDia8IMrXDnp4Li5+X/xlzfKh7wqFw6PatmmwYXCaBNllIPqeWizy1PICDcQtXFxDh9gnhIqXQge7N9omJCcajE1mtR+hzyapMuNHEMWwozpXLIkUr6RraJNuuTIZ/xvqHtTEEiOQ9YK51dBLDUn62o=
-Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WyAwpf6_1769779515 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 30 Jan 2026 21:25:16 +0800
-From: fangyu.yu@linux.alibaba.com
-To: radim.krcmar@oss.qualcomm.com
-Cc: ajones@ventanamicro.com,
-	alex@ghiti.fr,
-	andrew.jones@oss.qualcomm.com,
-	anup@brainfault.org,
-	aou@eecs.berkeley.edu,
-	atish.patra@linux.dev,
-	corbet@lwn.net,
-	fangyu.yu@linux.alibaba.com,
-	guoren@kernel.org,
-	kvm-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	palmer@dabbelt.com,
-	pbonzini@redhat.com,
-	pjw@kernel.org
-Subject: Re: Re: [PATCH v3 2/2] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE 
-Date: Fri, 30 Jan 2026 21:25:14 +0800
-Message-Id: <20260130132514.16432-1-fangyu.yu@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <DG199ZOUMRND.1RTVHMI6L9U5L@oss.qualcomm.com>
-References: <DG199ZOUMRND.1RTVHMI6L9U5L@oss.qualcomm.com>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="Wc+3DTR9"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 9307440E01AC;
+	Fri, 30 Jan 2026 13:42:39 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id HGucyxo1SEAf; Fri, 30 Jan 2026 13:42:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1769780556; bh=80KzFPZyd2K++cpKjokXAKYgQ1cNBdJ37gjAwS22QHE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Wc+3DTR9Z1ohoGrqoLyNftmnXVoKLQdwgFMi5ITZt/U6akuVpZ13goXx+qZy+Hd/Q
+	 /Ryxs7q6Tkl7QGXmvBxPJDKhZgxQFKe4lTiGroq9fWhUW9XfjX9VMfhWOzCwVH6D5B
+	 LVsfJuf5xEKgRwwFrli7+BUFIWVA5x4D5y7UkxZkxML3kJ5Uxffua7WjgZ/qd1nFev
+	 MAYUJ50T5hh8Z3hTKTm35gHBGcu/GonLsQAw5G5loeC3zqRO7ehL1ArpMR5T3p4SsH
+	 Jwoi9LjDIukf/q2Gq9VeYnKBmFFKjWjYBNrvGn/MgdiBoWrTUOrZydJPyIiRDpJkrS
+	 tZxdZNkzUa0vv4VupEi2qyJvlN4EeGhTOma0CA8AsDTv8rXlhamIzVjrGz0CbpHzaO
+	 n3h1vJzYTiW4f3Zvfc0k5xl5OpKWYtdDeb7RtCzj5y0ovXFwZIzTKusDQNPgSeZQAv
+	 5lLMAJAukJBFoY/OxACc+0a+SeTvSOE55XIE9oZaZ9nfJ1vHM1VH6d6AvA7mrxjO/p
+	 ON2rgClkNW7r6Y1i5OujGBLIWiGRNRoqplVrWF4ezpuFFs+cxAVILZ3Et1vc/wu8zj
+	 ppmielMxovDY070NlD2FWLzaITDT2ckBk7qnrWyuLAHdQOudHNUqx2KG6MPd9H8ZHp
+	 pcVA0aYEvSakm86Mp82dPIA8=
+Received: from zn.tnic (pd953023b.dip0.t-ipconnect.de [217.83.2.59])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id D1C1F40E00DE;
+	Fri, 30 Jan 2026 13:42:17 +0000 (UTC)
+Date: Fri, 30 Jan 2026 14:42:11 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: "Xin Li (Intel)" <xin@zytor.com>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
+	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+	luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
+	chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
+Subject: Re: [PATCH v9 05/22] x86/cea: Use array indexing to simplify
+ exception stack access
+Message-ID: <20260130134211.GTaXy1M4oB2R7rvTfF@fat_crate.local>
+References: <20251026201911.505204-1-xin@zytor.com>
+ <20251026201911.505204-6-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251026201911.505204-6-xin@zytor.com>
 
->> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->>
->> This capability allows userspace to explicitly select the HGATP mode
->> for the VM. The selected mode must be less than or equal to the max
->> HGATP mode supported by the hardware. This capability must be enabled
->> before creating any vCPUs, and can only be set once per VM.
->>
->> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->> ---
->>  Documentation/virt/kvm/api.rst | 18 ++++++++++++++++++
->>  arch/riscv/kvm/vm.c            | 26 ++++++++++++++++++++++++--
->>  include/uapi/linux/kvm.h       |  1 +
->>  3 files changed, 43 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
->> @@ -8765,6 +8765,24 @@ helpful if user space wants to emulate instructions which are not
->> +7.47 KVM_CAP_RISCV_SET_HGATP_MODE
->> +---------------------------------
->> +
->> +:Architectures: riscv
->> +:Type: VM
->> +:Parameters: args[0] contains the requested HGATP mode
->> +:Returns:
->> +  - 0 on success.
->> +  - -EINVAL if args[0] is outside the range of HGATP modes supported by the
->> +    hardware.
->> +  - -EBUSY if vCPUs have already been created for the VM, if the VM has any
->> +    non-empty memslots, or if the capability has already been set for the VM.
->> +
->> +This capability allows userspace to explicitly select the HGATP mode for
->> +the VM. The selected mode must be less than or equal to the maximum HGATP
->> +mode supported by the hardware.
->
->"The selected mode must be supported by both KVM and hardware."
+On Sun, Oct 26, 2025 at 01:18:53PM -0700, Xin Li (Intel) wrote:
+> +noinstr unsigned long __this_cpu_ist_top_va(enum exception_stack_ordering stack)
+> +{
 
-This description is clear, Agreed.
+You better check this @stack is within the array bounds of event_stacks[].
 
->(The comparison is a technical detail, and incorrect too since the value
-> is bouded from the bottom as well.)
->
->>                                  This capability must be enabled before
->> +creating any vCPUs, and can only be set once per VM.
->
->                     ^ "or memslots"
+> +	return __this_cpu_ist_bottom_va(stack) + EXCEPTION_STKSZ;
+> +}
 
-Right, thanks for catching that.
+-- 
+Regards/Gruss,
+    Boris.
 
->
->> diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
->> @@ -202,6 +202,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->>  	case KVM_CAP_VM_GPA_BITS:
->>  		r = kvm_riscv_gstage_gpa_bits(&kvm->arch);
->>  		break;
->> +	case KVM_CAP_RISCV_SET_HGATP_MODE:
->> +		r = IS_ENABLED(CONFIG_64BIT) ? 1 : 0;
->
->Maybe we can return the currently selected mode for a bit of extra info?
->Another nice option would be to return a bitmask of all supported modes.
->
->I think userspace has otherwise no reason to call it, since it's fine to
->just try enable and handle the -EINVAL as "don't care".
->1 syscall instead of 2.
-
-I’d prefer to keep an explicit KVM_CHECK_EXTENSION implementation for
-KVM_CAP_RISCV_SET_HGATP_MODE. Userspace commonly uses CHECK_EXTENSION for
-capability discovery, and returning 0 would make it assume the capability is
-unsupported even though KVM_ENABLE_CAP works.
-
-Returning 1/0 should be sufficient here, as the actual mode support is
-validated by KVM_ENABLE_CAP itself (with -EINVAL for unsupported modes).
-
->> @@ -212,12 +215,31 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->>  
->>  int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
->>  {
->> +	case KVM_CAP_RISCV_SET_HGATP_MODE:
->> +#ifdef CONFIG_64BIT
->> +		if (cap->args[0] < HGATP_MODE_SV39X4 ||
->> +		    cap->args[0] > kvm_riscv_gstage_mode(kvm_riscv_gstage_max_pgd_levels))
->> +			return -EINVAL;
->> +
->> +		if (kvm->arch.gstage_mode_user_initialized || kvm->created_vcpus ||
->> +		    !kvm_are_all_memslots_empty(kvm))
->> +			return -EBUSY;
->> +
->> +		kvm->arch.gstage_mode_user_initialized = true;
->
->No need to have gstage_mode_user_initialized, since if the user could
->have changed it once, there shouldn't be an issue in changing it again.
->It's the other protections that must work.
-
-Agreed — I'll drop gstage_mode_user_initialized. Userspace can change the
-mode multiple times before the VM is committed, and updates will be gated
-by the existing protections (i.e. once <vcpus created/ran | memslots active>,
-the mode change will be rejected).
-
->> +		kvm->arch.kvm_riscv_gstage_pgd_levels =
->> +				3 + cap->args[0] - HGATP_MODE_SV39X4;
->> +		kvm_debug("VM (vmid:%lu) using SV%lluX4 G-stage page table format\n",
->> +			  kvm->arch.vmid.vmid,
->> +			  39 + (cap->args[0] - HGATP_MODE_SV39X4) * 9);
->
->(I don't think this debug message is going to be useful after a short
-> debugging period, and it would clog the log on each VM launch, so I'd
-> rather get rid of it.)
-
-I'll drop this kvm_debug() from the capability path to avoid spamming the
-log on each VM creation.
-
->Thanks.
-
-Thanks,
-Fangyu
+https://people.kernel.org/tglx/notes-about-netiquette
