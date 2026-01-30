@@ -1,173 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585443314AE;
-	Fri, 30 Jan 2026 06:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D169B34FF4F;
+	Fri, 30 Jan 2026 08:14:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769755216; cv=none; b=DGdyTejQwuRsay/zY4bxInxfFCKXkzEXaq3/8Lyy95iv5oXftEqdAN01C8+TrhHvOdLYrHkCXXeUop8m7RPjDR7YWeICiDgjFAA0U5Bc2mgEKM0Jvt1BG8Lutq5LS3v89UCerIqIaorJykXc0RElnwa4EU/G0HoTNvkgLgzZG/A=
+	t=1769760851; cv=none; b=dsX6rKmvSBTL4NE2LKBQWlOpuqap9J2e81Ntaw8q5HuHbb6Obdd4jvmCee/zu+v0jqm8hLBASvLpc+M7Sm8Ddq/VjinmAWWszY8TP+t8HZf+BvvonnHbqLblE9ocubW+gkFNT5OoDAWTy92r5vk6g4Kv+dk3grkOUZ0aAPHq6l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769755216; c=relaxed/simple;
-	bh=qIBxrF2hQmN7WONWgAkCwa6bOclIF+BsQ/T1XUzy/FI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U52hKdDKT2luaDpYCw0PKDK1ZJpPN9UycVGQKExDA67RvmWiUlmnOrjITwq6NHrz1fp6OeUY02jONu6hESaDfja+TXU0RwBtUzneVMM+pOaYZ4h9xp2onIQ314kFyaszS0PozhHhZrXn5aimisdSoTlT8AtrwYGurzX4J6O5ycY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p7PHlYEN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769760851; c=relaxed/simple;
+	bh=T/xTnGyF/enhfuoxS2sv+kprrbFBjOX4J2fjW88C3U0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=a+6qvEWnCyTUh2amqATMePE8MbMPEFeQxWncbJ8mJn0YpT6Oxg1IAqW1UVYAtTTLEWvCtWYgqIU8SVgjOCmlfG96RwmHP+azl3ZCPJg936qib85ePGscOf0hKJY3uwl+pWIbSopN8maVmApuaF4cZw1wq+33d6qhNieL6KqVPZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HT7JjCUc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p7PHlYEN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1885DC4CEF7;
-	Fri, 30 Jan 2026 06:40:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HT7JjCUc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8E70C4CEF7;
+	Fri, 30 Jan 2026 08:14:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769755215;
-	bh=qIBxrF2hQmN7WONWgAkCwa6bOclIF+BsQ/T1XUzy/FI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p7PHlYENvYWORUmNGPJNjRFLIMblo9mgBUy9OD8bfHp9uEnW2kw/TvyUv3Ykp3Mmg
-	 dwCkd2BX6KBOysydDfTrEK6WeCpm8OdWM1QLrhMT37uDpexFCIJ0tL64FC4I2dRbe/
-	 vN5eBsB72SA/L3L/l+epZ6Zo51GoZGfO/SgxMXiesjea7bmwl40H7SwkcIdifwNU/y
-	 2Loa5+R8E0WMpaSghSRx6GWSkLk72+GdgcefY9oEDOzAVkviGSdNYigjPgVa4QxQWj
-	 458GmEyKw/6My1h5epbWc+nyLRDQ8LR5uuZeTnrDFWFYnBtKpabtGTEqTzvq+AVwpO
-	 OOjPeLnggYMqQ==
-Date: Thu, 29 Jan 2026 23:40:11 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Rong Zhang <i@rong.moe>, Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] kbuild: install-extmod-build: Add missing python
- libraries
-Message-ID: <20260130064011.GA2981809@ax162>
-References: <20260129175321.415295-1-i@rong.moe>
- <20260130011106.GA359714@ax162>
- <20260130063056.72fbe458@foz.lan>
+	s=k20201202; t=1769760851;
+	bh=T/xTnGyF/enhfuoxS2sv+kprrbFBjOX4J2fjW88C3U0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=HT7JjCUcu5J2DvsQr2lzz6QPIY2ZwnZPR2rvauDa+2EcqzyzRJStEfI1NM6/JBY03
+	 FVaAY5EE1zNpJunTknA/4Rs+wOxG2LANxrcIymPgbDwYxQpfc8IRbq3GPbdK4THMeh
+	 ZbdiJ+a9l1UQMGRz6FjwZNjOHqPD8b1OUhYnHLT0+UJquHUGGatMKXWp6jMKUSXxir
+	 Np3iB46FYzrzzQ2scweU3R9cvlNyU7gG/x5F8l5HIrZG84AFEzxgda9KgN7vDyvzaC
+	 bPpdMSlys/s5TKKe3fz1bp2mvedWLnsbwWEYqYQSAr104g5y5+CYxXBZarS4hzJLIU
+	 QS9KGkZAohT4g==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
+ jiaxun.yang@flygoat.com, maobibo@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: Re: [PATCH v9 2/4] irqchip/irq-loongson.h:irq-loongson.h
+ preparation for Redirect irqchip
+In-Reply-To: <20260130025941.2140582-3-zhangtianyang@loongson.cn>
+References: <20260130025941.2140582-1-zhangtianyang@loongson.cn>
+ <20260130025941.2140582-3-zhangtianyang@loongson.cn>
+Date: Fri, 30 Jan 2026 09:14:07 +0100
+Message-ID: <875x8jmsa8.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130063056.72fbe458@foz.lan>
+Content-Type: text/plain
 
-On Fri, Jan 30, 2026 at 06:30:56AM +0100, Mauro Carvalho Chehab wrote:
-> On Thu, 29 Jan 2026 18:11:06 -0700
-> Nathan Chancellor <nathan@kernel.org> wrote:
-> > On Fri, Jan 30, 2026 at 01:49:55AM +0800, Rong Zhang wrote:
-...
-> > >   $ make -C /lib/modules/6.19.0-rc6/build/ M="$(pwd)" modules V=1 W=1
-> > >   [...]
-> > >   make -f /usr/src/linux-headers-6.19.0-rc6/scripts/Makefile.build obj=. need-builtin=1 need-modorder=1
-> > >   # CC [M]  mod.o
-> > >   [...]
-> > >   # cmd_checkdoc mod.o
-> > >   PYTHONDONTWRITEBYTECODE=1 python3 /usr/src/linux-headers-6.19.0-rc6/scripts/kernel-doc.py -none mod.c
-> 
-> This sounds really weird, as it is trying to run scripts/kernel-doc.py
-> instead of tools/docs/kernel-doc. Does the out-of-tree Makefile
-> override KERNELDOC variable? The current version contains:
-> 	
-> 	KERNELDOC       = $(srctree)/tools/docs/kernel-doc
-> 
-> But somehow it is using the old version before the renames:
-> 
-> 	KERNELDOC       = $(srctree)/scripts/kernel-doc.py
+On Fri, Jan 30 2026 at 10:59, Tianyang Zhang wrote:
 
-Well I think based on the "6.19.0-rc6" in the path above, this is
-mainline, not -next, so the rename has has not happend there yet.
+The subject line is broken and incomprehensible. Something like:
 
-> Btw, I did a very quick test here, using an old OOT project I have
-> at github:
-> 
-> 	https://github.com/mchehab/xr_serial
-...
-> It sounds to me that Rong may be using a Makefile on his OOT project
-> that was not updated to pick the right kernel-doc tool.
+    irqchip/irq-loonarch-avec: Prepare for interrupt redirection support
 
-If I use that project with Rong's original command, the
-linux-upstream-headers package from the pacman-pkg target (which uses
-install-extmod-build), and the following fix up for a more modern kernel
-version, I see the following error:
+is concise and gives context.
 
-  $ make -C /usr/lib/modules/6.19.0-rc7-next-20260129/build M=/tmp/xr_serial modules V=1 W=1
-  ...
-  # CC [M]  xr_serial.o
-    gcc ...
-  # cmd_checkdoc xr_serial.o
-    PYTHONDONTWRITEBYTECODE=1 python3 /usr/lib/modules/6.19.0-rc7-next-20260129/build/tools/docs/kernel-doc -none   xr_serial.c
-  python3: can't open file '/usr/lib/modules/6.19.0-rc7-next-20260129/build/tools/docs/kernel-doc': [Errno 2] No such file or directory
-  make[3]: *** [/usr/lib/modules/6.19.0-rc7-next-20260129/build/scripts/Makefile.build:287: xr_serial.o] Error 2
+> Adjusted definitions and macro from loongson-avec.c to irq-loongson.h,
+> including:
+> 1 marco AVEC_MSG_OFFSET
+> 2 struct avecintc_data
+> 3 Make avecintc_sync public
 
-If it is not expected that kernel-doc runs for external modules, then
-maybe cmd_checkdoc should also be wrapped in a check for KBUILD_EXTMOD?
+That's not a change log because it only tells _what_ the patch is doing,
+but not _why_. Enumerating the details of what is moved is a pointless
+exercise because that can bee seen from the diff itself.
 
-Cheers,
-Nathan
+So you want something like:
 
-diff --git a/xr_serial.c b/xr_serial.c
-index 63a45a2..d4f7d81 100644
---- a/xr_serial.c
-+++ b/xr_serial.c
-@@ -517,7 +517,7 @@ static void xr_dtr_rts(struct usb_serial_port *port, int on)
- 		xr_tiocmset_port(port, 0, TIOCM_DTR | TIOCM_RTS);
- }
- 
--static void xr_break_ctl(struct tty_struct *tty, int break_state)
-+static int xr_break_ctl(struct tty_struct *tty, int break_state)
- {
- 	struct usb_serial_port *port = tty->driver_data;
- 	struct xr_port_private *port_priv = usb_get_serial_data(port->serial);
-@@ -526,7 +526,7 @@ static void xr_break_ctl(struct tty_struct *tty, int break_state)
- 	if (port_priv->model != XR21V141X) {
- 		xr_usb_serial_ctrl_msg(port, USB_CDC_REQ_SEND_BREAK, state,
- 				       NULL, 0);
--		return;
-+		return 0;
- 	}
- 
- 	if (break_state == 0)
-@@ -538,6 +538,7 @@ static void xr_break_ctl(struct tty_struct *tty, int break_state)
- 		state == UART_BREAK_OFF ? "off" : "on");
- 	xr_set_reg_uart(port, xr_hal_table[port_priv->model][REG_TX_BREAK],
- 			state);
-+	return 0;
- }
- 
- /* Tx and Rx clock mask values obtained from section 3.3.4 of datasheet */
-@@ -645,7 +646,7 @@ static int xr_set_baudrate(struct tty_struct *tty,
- 
- static void xr_set_flow_mode(struct tty_struct *tty,
- 			     struct usb_serial_port *port,
--			     struct ktermios *old_termios)
-+			     const struct ktermios *old_termios)
- {
- 	struct xr_port_private *port_priv = usb_get_serial_data(port->serial);
- 	u8 flow, gpio_mode;
-@@ -701,7 +702,7 @@ static void xr_set_flow_mode(struct tty_struct *tty,
- 
- static void xr_set_termios_cdc(struct tty_struct *tty,
- 			       struct usb_serial_port *port,
--			       struct ktermios *old_termios)
-+			       const struct ktermios *old_termios)
- {
- 	struct ktermios *termios = &tty->termios;
- 	struct usb_cdc_line_coding line = { 0 };
-@@ -747,7 +748,7 @@ static void xr_set_termios_cdc(struct tty_struct *tty,
- 
- static void xr_set_termios_format_reg(struct tty_struct *tty,
- 				      struct usb_serial_port *port,
--				      struct ktermios *old_termios)
-+				      const struct ktermios *old_termios)
- {
- 	struct xr_port_private *port_priv = usb_get_serial_data(port->serial);
- 	struct ktermios *termios = &tty->termios;
-@@ -805,7 +806,7 @@ static void xr_set_termios_format_reg(struct tty_struct *tty,
- 
- static void xr_set_termios(struct tty_struct *tty,
- 			   struct usb_serial_port *port,
--			   struct ktermios *old_termios)
-+			   const struct ktermios *old_termios)
- {
- 	struct xr_port_private *port_priv = usb_get_serial_data(port->serial);
- 
+  Interrupt redirection support requires a new interrupt chip, which
+  needs to share data structures, constants and functions with the AVEC
+  code.
+
+  Move them to the header file and make the required functions public.
+
+See?
+
