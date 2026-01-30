@@ -1,251 +1,91 @@
-Received: from sender4-pp-g125.zoho.com (sender4-pp-g125.zoho.com [136.143.188.125])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C654303C9F;
-	Fri, 30 Jan 2026 14:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.125
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769784779; cv=pass; b=qRdfNU7yNV+r0t2fwSEQW0ruyQSzdA6uO53QhnNe/pku4RsvrPDTiC34y07buZuyBzqQXHZ4Ryy/aFqsS6C+PSqeWqUa6IWJ8apoF9zZXfB+X+SMlnIPGKQmzKFgmWszkatOX5cRcTN2kRuNhoMtgzHj2hfOjhNkN0bOWtxOBB4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769784779; c=relaxed/simple;
-	bh=41ZSw8e/e5f/AuqeCxVE2oTQbqIo+4zi3gJPu89fVgY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P9ZxdAvRdAOcIkbMyJIBpZ5oeMQz96exSpkz+SurF6qrMpqpOcnenl3r8X9oZe07/Uf0jc3ogO9syz6jsupqZ12MCCfXQWWGR+oIJz3PsT00kHjhGmE0VFW8ENWtkrxaWb+8SOJYU/bZT9gvTmcO6iBdBChQwcmtsGo4WGD8eoc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=SRBhcykL; arc=pass smtp.client-ip=136.143.188.125
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F67320CBE
+	for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 15:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769786731; cv=none; b=HWQwnr1dyTO6K0pz2OiPSxNQ88/ZV2e5lS+fPQa7uXM35cGQ+eJueNmtbJq+FS/+29ieShqwK9kFdEub0D4P3DXUUSJO2C9lpS+TBYiaRCmbZPr4NaN82pufQe6teSjXUqe5OoiZTalOyVoOCUf+GIucwkpkH8SEmY5HSKJ8XMw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769786731; c=relaxed/simple;
+	bh=SyMj/yR9F0xv3KH/aGBm0oBYdP5Wv3wP9gmWPrk7UvE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=o2Jc9M5Yp08OcjpTmJjWDyCWsEHGpvZGx4tHzV+oJ7hqcQNwbcuK7zPODX4a8yc7atDrmbuhfpGhdWQLvKl26DTAW4yhntk1vBptuurPUhrio/mh19nhxLTTqmUK3kJA0bq7+/w7Dc2SRyWnqs7oHa7rlA3PpE1aUMQT8zgnqqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiredspace.de; spf=pass smtp.mailfrom=wiredspace.de; dkim=pass (1024-bit key) header.d=wiredspace.de header.i=@wiredspace.de header.b=ltOEIFlE; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wiredspace.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wiredspace.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="SRBhcykL"
-ARC-Seal: i=1; a=rsa-sha256; t=1769784720; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=lo3kwHp0jF3jjdfnzFC/JNibTZag0oNVgjbwbRUQZLU9vCynlluDt44DHI2kLU7aVNn2LMh7TnN94TwBkKaU3UqSU+XmcuQDZba2jrZTjOuNi4SY0sj6tgGkLQNylcvvgESMgLANJKh/IasCWZ+NnVsRaP5ZY/YAErbEoGwPnlM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1769784720; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=g30GeD5luz415Zspf8u9IYtmiaQwDaZdE/ttvlyNc/k=; 
-	b=m8nPvh9njtD+hMoXBjSVhUYU5p5o9BgUCLxxAC6IzOnqoOG1F6o8QGnC+6XWKBakORMHBDLFM7+qR7oKIJKR3o0oJmeQyx+Wyq6MRYRhIiOQiIa6a0WZzSX+7kPPAxtj5B7GScNyrINa1P/N+Gw0CBevsioKnqwCEYMOMXZ/4n0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=linux.beauty;
-	spf=pass  smtp.mailfrom=me@linux.beauty;
-	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769784720;
-	s=zmail; d=linux.beauty; i=me@linux.beauty;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=g30GeD5luz415Zspf8u9IYtmiaQwDaZdE/ttvlyNc/k=;
-	b=SRBhcykLjLSun/HHplWgjobxH70QpCOxNnIB0DaWK5iZEO87zOwRxq54q8nyP2jx
-	XoHxEUvMJqbdI9x8JxfKq6C7wU84zHuW/+iGhgbIyQRHralNG+Vndzb1oQNEUZGhII6
-	2eLU4e0KbIMr5dvuwlU2SX7498WOIsToXjII5Nu8=
-Received: by mx.zohomail.com with SMTPS id 176978471899844.65970746766061;
-	Fri, 30 Jan 2026 06:51:58 -0800 (PST)
-From: Li Chen <me@linux.beauty>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Ahern <dsahern@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	Kees Cook <kees@kernel.org>,
-	Li RongQing <lirongqing@baidu.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Askar Safin <safinaskar@gmail.com>,
-	Frank van der Linden <fvdl@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Cc: Li Chen <me@linux.beauty>
-Subject: [PATCH v1 3/3] liveupdate: suppress TCP RST during post-kexec restore window
-Date: Fri, 30 Jan 2026 22:51:19 +0800
-Message-ID: <20260130145122.368748-4-me@linux.beauty>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260130145122.368748-1-me@linux.beauty>
-References: <20260130145122.368748-1-me@linux.beauty>
+	dkim=pass (1024-bit key) header.d=wiredspace.de header.i=@wiredspace.de header.b="ltOEIFlE"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wiredspace.de;
+	s=key1; t=1769786727;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=IklL95PHT+w3sFQXSNf8gYPa46yCOGUlpAY0wy5v2IY=;
+	b=ltOEIFlEi23fx/S8hmKbv9+r76vkJxWTgVHPG1scsMrTvK9fkyowc6u1dgmfy0q4bF5ypz
+	4EHhpAJkIc3Wd6kpW7MuF9/kii95rQL/TpHzojeh9BL9pWzYuX/uAdInNtCNsi8YZQYVc1
+	7YHvLkSjSxkzTAQMQZc2UAM2cR1Izwo=
+From: =?utf-8?q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>
+Date: Fri, 30 Jan 2026 16:25:07 +0100
+Subject: [PATCH] docs: filesystems: ensure proc pid substitutable is
+ complete
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Message-Id: <20260130-ksm_stat-v1-1-a6aa0da78de6@wiredspace.de>
+X-B4-Tracking: v=1; b=H4sIAFLNfGkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDQ2MD3ezi3PjiksQSXZMUQxNjMzMzY4PURCWg8oKi1LTMCrBR0bG1tQC
+ 1RPy3WgAAAA==
+X-Change-ID: 20260130-ksm_stat-4d14366630ea
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ =?utf-8?q?Thomas_B=C3=B6hler?= <witcher@wiredspace.de>
+X-Migadu-Flow: FLOW_OUT
 
-During a kexec-based live update, userspace may restore established TCP
-connections after the new kernel has booted (e.g. via CRIU). Any packet
-arriving for a not-yet-restored socket will hit the no-socket path and
-trigger a TCP RST, causing the peer to immediately drop the connection.
-Add an optional cmdline knob, liveupdate_tcp_rst_suppress=, to drop such
-packets while liveupdate_restore_in_progress() is true. Only segments
-with ACK set and SYN clear are dropped, and the default behavior remains
-unchanged.
-Document the liveupdate_tcp_rst_suppress cmdline parameter.
+The entry in proc.rst for 3.14 is missing the closing ">" of the "pid"
+field for the ksm_stat file. Add this for both the table of contents and
+the actual header for the "ksm_stat" file.
 
-Signed-off-by: Li Chen <me@linux.beauty>
+Signed-off-by: Thomas Böhler <witcher@wiredspace.de>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++++
- include/linux/liveupdate.h                      | 11 +++++++++++
- kernel/liveupdate/luo_core.c                    | 14 ++++++++++++++
- kernel/liveupdate/luo_session.c                 |  1 +
- net/ipv4/tcp_ipv4.c                             |  5 +++++
- net/ipv6/tcp_ipv6.c                             |  5 +++++
- 6 files changed, 46 insertions(+)
+ Documentation/filesystems/proc.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3097e4266d76..b73347a0aefd 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3442,6 +3442,16 @@ Kernel parameters
- 			If there are multiple matching configurations changing
- 			the same attribute, the last one is used.
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 8256e857e2d7..346816b02bac 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -48,7 +48,7 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+   3.11	/proc/<pid>/patch_state - Livepatch patch operation state
+   3.12	/proc/<pid>/arch_status - Task architecture specific information
+   3.13  /proc/<pid>/fd - List of symlinks to open files
+-  3.14  /proc/<pid/ksm_stat - Information about the process's ksm status.
++  3.14  /proc/<pid>/ksm_stat - Information about the process's ksm status.
  
-+	liveupdate_tcp_rst_suppress=	[KNL,EARLY]
-+			Format: <bool>
-+			When enabled, drop packets for established connections
-+			(ACK set, SYN clear) that would otherwise trigger a RST
-+			in the LUO post-kexec restore window.
-+			This is useful when userspace restores sockets after
-+			kexec (e.g. via CRIU).
-+			Requires liveupdate=on.
-+			Default: off.
-+
- 	lockd.nlm_grace_period=P  [NFS] Assign grace period.
- 			Format: <integer>
+   4	Configuring procfs
+   4.1	Mount options
+@@ -2289,7 +2289,7 @@ The number of open files for the process is stored in 'size' member
+ of stat() output for /proc/<pid>/fd for fast access.
+ -------------------------------------------------------
  
-diff --git a/include/linux/liveupdate.h b/include/linux/liveupdate.h
-index 301d3e94516e..6ca740ec19d4 100644
---- a/include/linux/liveupdate.h
-+++ b/include/linux/liveupdate.h
-@@ -227,6 +227,12 @@ bool liveupdate_enabled(void);
-  */
- bool liveupdate_restore_in_progress(void);
- 
-+/*
-+ * Return true when TCP RST suppression is enabled for the post-kexec restore
-+ * window.
-+ */
-+bool liveupdate_tcp_rst_suppress_enabled(void);
-+
- /* Called during kexec to tell LUO that entered into reboot */
- int liveupdate_reboot(void);
- 
-@@ -253,6 +259,11 @@ static inline bool liveupdate_restore_in_progress(void)
- 	return false;
- }
- 
-+static inline bool liveupdate_tcp_rst_suppress_enabled(void)
-+{
-+	return false;
-+}
-+
- static inline int liveupdate_reboot(void)
- {
- 	return 0;
-diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
-index fb6a73c08979..0ed5c9ce1421 100644
---- a/kernel/liveupdate/luo_core.c
-+++ b/kernel/liveupdate/luo_core.c
-@@ -64,6 +64,7 @@
- 
- static struct {
- 	bool enabled;
-+	bool tcp_rst_suppress;
- 	void *fdt_out;
- 	void *fdt_in;
- 	u64 liveupdate_num;
-@@ -75,6 +76,13 @@ static int __init early_liveupdate_param(char *buf)
- }
- early_param("liveupdate", early_liveupdate_param);
- 
-+static int __init early_liveupdate_tcp_rst_suppress_param(char *buf)
-+{
-+	return kstrtobool(buf, &luo_global.tcp_rst_suppress);
-+}
-+early_param("liveupdate_tcp_rst_suppress",
-+	    early_liveupdate_tcp_rst_suppress_param);
-+
- static int __init luo_early_startup(void)
- {
- 	phys_addr_t fdt_phys;
-@@ -259,6 +267,12 @@ bool liveupdate_enabled(void)
- 	return luo_global.enabled;
- }
- 
-+bool liveupdate_tcp_rst_suppress_enabled(void)
-+{
-+	return liveupdate_enabled() && luo_global.tcp_rst_suppress;
-+}
-+EXPORT_SYMBOL_GPL(liveupdate_tcp_rst_suppress_enabled);
-+
- /**
-  * DOC: LUO ioctl Interface
-  *
-diff --git a/kernel/liveupdate/luo_session.c b/kernel/liveupdate/luo_session.c
-index 2c7dd3b12303..427ae74061ba 100644
---- a/kernel/liveupdate/luo_session.c
-+++ b/kernel/liveupdate/luo_session.c
-@@ -146,6 +146,7 @@ bool liveupdate_restore_in_progress(void)
- {
- 	return atomic_long_read(&liveupdate_incoming_sessions_left) > 0;
- }
-+EXPORT_SYMBOL_GPL(liveupdate_restore_in_progress);
- 
- void __init luo_session_restore_window_init(void)
- {
-diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
-index f8a9596e8f4d..9a95f3dbf39a 100644
---- a/net/ipv4/tcp_ipv4.c
-+++ b/net/ipv4/tcp_ipv4.c
-@@ -56,6 +56,7 @@
- #include <linux/fips.h>
- #include <linux/jhash.h>
- #include <linux/init.h>
-+#include <linux/liveupdate.h>
- #include <linux/times.h>
- #include <linux/slab.h>
- #include <linux/sched.h>
-@@ -2349,6 +2350,10 @@ int tcp_v4_rcv(struct sk_buff *skb)
- bad_packet:
- 		__TCP_INC_STATS(net, TCP_MIB_INERRS);
- 	} else {
-+		if (liveupdate_tcp_rst_suppress_enabled() &&
-+		    liveupdate_restore_in_progress() &&
-+		    th->ack && !th->syn)
-+			goto discard_it;
- 		tcp_v4_send_reset(NULL, skb, sk_rst_convert_drop_reason(drop_reason));
- 	}
- 
-diff --git a/net/ipv6/tcp_ipv6.c b/net/ipv6/tcp_ipv6.c
-index 280fe5978559..c2e680eba041 100644
---- a/net/ipv6/tcp_ipv6.c
-+++ b/net/ipv6/tcp_ipv6.c
-@@ -40,6 +40,7 @@
- #include <linux/icmpv6.h>
- #include <linux/random.h>
- #include <linux/indirect_call_wrapper.h>
-+#include <linux/liveupdate.h>
- 
- #include <net/aligned_data.h>
- #include <net/tcp.h>
-@@ -1900,6 +1901,10 @@ INDIRECT_CALLABLE_SCOPE int tcp_v6_rcv(struct sk_buff *skb)
- bad_packet:
- 		__TCP_INC_STATS(net, TCP_MIB_INERRS);
- 	} else {
-+		if (liveupdate_tcp_rst_suppress_enabled() &&
-+		    liveupdate_restore_in_progress() &&
-+		    th->ack && !th->syn)
-+			goto discard_it;
- 		tcp_v6_send_reset(NULL, skb, sk_rst_convert_drop_reason(drop_reason));
- 	}
- 
+-3.14 /proc/<pid/ksm_stat - Information about the process's ksm status
++3.14 /proc/<pid>/ksm_stat - Information about the process's ksm status
+ ---------------------------------------------------------------------
+ When CONFIG_KSM is enabled, each process has this file which displays
+ the information of ksm merging status.
+
+---
+base-commit: 6b8edfcd661b569f077cc1ea1f7463ec38547779
+change-id: 20260130-ksm_stat-4d14366630ea
+
+Best regards,
 -- 
-2.52.0
+Thomas Böhler <witcher@wiredspace.de>
 
