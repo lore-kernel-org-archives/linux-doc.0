@@ -1,85 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C901925BC;
-	Fri, 30 Jan 2026 03:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C282D7384;
+	Fri, 30 Jan 2026 03:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769742020; cv=none; b=IbalI4zuMR+RCzkwVYmmnk7ihP7A/LV0nGP/ePgvjYdnY2JnGMUrUuJx48AQZgJTGOYdEBxCi25nLTZj2EzBxgCmUFGjrkoFoYtFrOYHf0cgsbAwfKm/YP2EfLu1dNovCrQ246DMQwoW9N9T2HcMEvcYANerjWL80/TWIjgWB2Y=
+	t=1769742310; cv=none; b=r/KmPB9YKNmKH14qGIBONGAxlHrcO7ail4EzpS438PwRY5c1/Cx1rvhlz3eZhbs5B1gKIMreHe4qaLaiPL7qva2N57bubf7PFUZYLG+TybPzEyJy/Nc1hGjNM3bOno2cajarpR6vitFEFWXqldRcCRFK4I6eMULaxTmWXiNtP5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769742020; c=relaxed/simple;
-	bh=C/Qfffi+yEKyGzGWexQyUKHMQe9GwN+0uy4RGX15FP4=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=LQJa/cAS5zvutCxipE1DADlRqihvFp6wTAZucK01kfWoE88OdMFESrX2papD0R9zNUGsiTUJthZELuVBtppCnvdedaSyckcmTbYC1/pcPmA7AORwJtDojeXq4jgRpI+GjkrdX3uC7xzD79vseYV6vu/gzNwtKXsCM3GB8Ep2uEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=re7eSOPN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769742310; c=relaxed/simple;
+	bh=fIrJc6V38Gm1Xzp831y0qUcjo7su1xHPtmVZvEaRb+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D65v80qK5uOFpMFmRYaUrMS6/EuOmfR8chODL7jMrR9DOMA/U+0xh5ZShZbGRy8WcF/Vdeej1750ki9lWWqVRXuIJa6XQKgOjlTcT9Y9gQbaiTmq+QESEit2r+ZUSg86ZaXG+8ULsrl6Y0xc8VvqS/B+8IT78kpSIQMRxzY2KW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=KlwQV+TS; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="re7eSOPN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2911C4CEF7;
-	Fri, 30 Jan 2026 03:00:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769742019;
-	bh=C/Qfffi+yEKyGzGWexQyUKHMQe9GwN+0uy4RGX15FP4=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=re7eSOPNGUpobpqR8RZQ9DJPyA3qc2I/B0B5KvOsKjLi2bMBm9EftqdP3aNREmA6A
-	 P3/i36bb+gXRU4a9j88CpImCDBa0EH69PcOjIm6uxrbybHsZ+WZUFRsG8p25j2+h2b
-	 JxsGlttpeUYWQSWx9roXaqGDOXO4TjcJMkkWeuIZPms2Q69PnN8NQ8QOmj8apWnoVk
-	 1cboetP6TvaATjph45WbIGUhaEuLOsd2LzMkuInsSbVOn16mDYVSnswy8Z9Sa0Gevs
-	 Ws3vJ8rte1wUjTlNutRkzUlkCBSS4JT44JSXbM5i1kjKxNpJb/YCZVOgJnY9F2+J51
-	 66UtL/9BJYt4g==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B8F60380CEE0;
-	Fri, 30 Jan 2026 03:00:13 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="KlwQV+TS"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=1B1BFi/8fLCjDIghQMyCqBsdwfNOBaYQ5QhAovF8jkQ=; b=KlwQV+TSwfw4pV4qL7mbq8CuOo
+	E97ZOuJxvR6aaj3Apx8scwubXOzPpgAToaQFhGDPEtDaLLRzz7tjj5KjEpTH7gRmFZ6jqZikW3OT6
+	LEnMLwGSzKWW0XquTB8mJQNH+jcFayqYyCMhuOG1J+nZ8kwiT/U/gu3aoyocewI16B/A=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vleoB-005R2o-6Z; Fri, 30 Jan 2026 04:04:31 +0100
+Date: Fri, 30 Jan 2026 04:04:31 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Sam <sam.chen@nebula-matrix.com>
+Cc: Illusion Wang <illusion.wang@nebula-matrix.com>,
+	Dimon <dimon.zhao@nebula-matrix.com>,
+	Alvin <alvin.wang@nebula-matrix.com>,
+	netdev <netdev@vger.kernel.org>,
+	andrew+netdev <andrew+netdev@lunn.ch>, corbet <corbet@lwn.net>,
+	kuba <kuba@kernel.org>, linux-doc <linux-doc@vger.kernel.org>,
+	lorenzo <lorenzo@kernel.org>, pabeni <pabeni@redhat.com>,
+	horms <horms@kernel.org>,
+	"vadim.fedorenko" <vadim.fedorenko@linux.dev>,
+	"lukas.bulwahn" <lukas.bulwahn@redhat.com>, hawk <hawk@kernel.org>,
+	ast <ast@kernel.org>, bpf <bpf@vger.kernel.org>,
+	sdf <sdf@fomichev.me>, daniel <daniel@iogearbox.net>,
+	"john.fastabend" <john.fastabend@gmail.com>,
+	edumazet <edumazet@google.com>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: =?utf-8?B?5Zue5aSN77ya5Zue5aSN77yaW1BB?=
+ =?utf-8?Q?TCH_v3_net-nex?= =?utf-8?Q?t?= 01/15] net/nebula-matrix: add
+ minimum nbl build framework
+Message-ID: <ecbf1ba5-6ef9-4d94-8240-518852050f03@lunn.ch>
+References: <20260123011804.31263-1-illusion.wang@nebula-matrix.com>
+ <20260123011804.31263-2-illusion.wang@nebula-matrix.com>
+ <88c7e349-f941-4216-89ca-70a49e82b378@lunn.ch>
+ <ad0a6f0f-3ce3-4f38-b27d-2f121511d6e3.illusion.wang@nebula-matrix.com>
+ <c1536b51-f441-45ca-8bfb-d5f7d8230713@lunn.ch>
+ <152750cb-ab8c-4f08-9c6a-6b69ec185f30.sam.chen@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v03 0/4] net: hinic3: Fix code styles
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <176974201260.3152167.11856090096391309419.git-patchwork-notify@kernel.org>
-Date: Fri, 30 Jan 2026 03:00:12 +0000
-References: <cover.1769656467.git.zhuyikai1@h-partners.com>
-In-Reply-To: <cover.1769656467.git.zhuyikai1@h-partners.com>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: zhuyikai1@h-partners.com, netdev@vger.kernel.org, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- andrew+netdev@lunn.ch, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, luosifu@huawei.com, guoxin09@huawei.com,
- zhoushuai28@huawei.com, wulike1@huawei.com, shijing34@huawei.com,
- luoyang82@h-partners.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <152750cb-ab8c-4f08-9c6a-6b69ec185f30.sam.chen@nebula-matrix.com>
 
-Hello:
+On Fri, Jan 30, 2026 at 10:23:50AM +0800, Sam wrote:
+> Thank you for your feedback. I understand what you mean.The reasons why
+> we cannot change the module name now are as follows:
+> Our driver has already been integrated into multiple communities, and
+> the module name is nbl_core. Many customers have already deployed it. If
+> we change the name, there will be a critical problem of conflict between
+> the two modules during subsequent online driver upgrades.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+To a large extent, mainline does not care about your vendor driver,
+and it does not care about any compatibility issues between your
+vendor driver and mainline.
 
-On Thu, 29 Jan 2026 12:01:07 +0800 you wrote:
-> This patchset provides 4 code styles fixes:
-> 
-> Remove empty lines between error handling.
-> Remove defensive txq_num check.
-> Use array_size instead of multiplying.
-> SQ use SQ_CTXT_PREF_CI_HI to improve readability.
-> 
-> [...]
+I've not looked at your driver in detail yet so i cannot comment on
+your driver in particular. But we often see vendor drivers do things
+mainline does not allow. Custom ioctl handlers, files in /sys, write
+APIs in debugfs, statistic counters wrongly grouped, etc. In a vendor
+driver this is O.K, this is all open source, you are free to do what
+you want. But when it comes to mainline, you have to keep to the
+mainline rules. Such code will need to be removed, or reworked,
+breaking compatibility with your vendor driver.
 
-Here is the summary with links:
-  - [net-next,v03,1/4] hinic3: Fix code Style(remove empty lines between error handling)
-    https://git.kernel.org/netdev/net-next/c/738ff2d2f502
-  - [net-next,v03,2/4] hinic3: Remove defensive txq_num check
-    https://git.kernel.org/netdev/net-next/c/34bef6a4960f
-  - [net-next,v03,3/4] hinic3: Use array_size instead of multiplying
-    https://git.kernel.org/netdev/net-next/c/afb81efc971e
-  - [net-next,v03,4/4] hinic3: RQ use RQ_CTXT_PREF_CI_HI instead of SQ_CTXT_PREF_CI_HI
-    https://git.kernel.org/netdev/net-next/c/2da903d0a84a
+So it can be advantages to have different names, it then become clear
+if a customer is using the vendor driver, or is using mainline.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+   Andrew
+
 
 
