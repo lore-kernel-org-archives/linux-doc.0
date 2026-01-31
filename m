@@ -1,76 +1,44 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99A64A3C
-	for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 16:16:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E552D2491;
+	Sat, 31 Jan 2026 16:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769876203; cv=none; b=LnmVf3JFvvQ6bomIBGHfWo9x2vWR1oCBIRMtdh8SyfrbGRx5y1EqrbplJUBawyrFJqgbGA/ImKJEgta+UpVJg1NQHjf3G3o5iILW55p+7srJmreguErToUi+Z5B/tVd+acswLlOUtUtRE+Lr5VvGDuzQYoGRDNTa7gIJB2epnU4=
+	t=1769878245; cv=none; b=KFpELc1LTdZ0hSDQrjtrmFGLS9la6uKBz/ksyeyP8FSClLjf3va/eYqgRMj03reBJoZlH8EJ569gMqtoMKi1SBWi2Bl2JgzFu6+2VH/UCUzU45MGpCQrrMjpFZdF1ZBjLAQTUvPCx6HOsU7kMEukW3PCm1m5a0dNSwOYSzV6V7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769876203; c=relaxed/simple;
-	bh=VK9Pa6bSVZ2wX0vSxdh8PA9o16ssgUDKLaI9IEgywCk=;
+	s=arc-20240116; t=1769878245; c=relaxed/simple;
+	bh=Pq75lfbTLCURF9snDbnVcSpQd+vL1pkGds2uMZrgcgs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M6BmW8UgDFfqTZUjM6qDAYlt3M8lNl2KrYVqLUQrHpO0SZ87z0vZfRALKyjc32uN56GCvAVNY9Z5VFZ2jvB8NOaQYnxjM47bOYC/ed2srVCG+xeC/80PPptCk/UIaPvHDT/6tJqo98ALh8GEOTJBImszHz7fyhQgV00m+JnrK3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NJ7OVUD1; arc=none smtp.client-ip=209.85.219.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=EEZ6GDfq0Mb4dmcLFSsIXbYtyqIa4IaIh1NaOXBO5pZVS4GjXN8lT1EV9YTjRu+s+Vkyg7D3tXUbibEtL6esr+vSo0eXRPqpthZCc04Pe32e8BoPPwRWeLhiTZBvS83MBzlh0kH/m2QiVTKb5pVHosqJ5sIkmVw/OBVFS0c5i1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TXYW1ZHo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NJ7OVUD1"
-Received: by mail-qv1-f65.google.com with SMTP id 6a1803df08f44-894703956b8so52945166d6.1
-        for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 08:16:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769876201; x=1770481001; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nZdfjr2YBB6Bg1S9gnKxkULsiC0x83ebbFEXgtKWVOQ=;
-        b=NJ7OVUD1pA1QKFXc0lzZ838WyFQeOg3YXndf9vksmchuUOqZKypnHvk31JP5bgWjRo
-         EbK1NhXf++9002Y3mV6KZ4EZdBhNi5+p0koURPA4t2QRuQm+RDd9cmweb9WJ9nZNFD9a
-         9+qJcYR5MHm10hjHuyupmeUO1ONgqra2HjFL3BLp10dsk7O9R5tp92JmaIaBVylUG0HG
-         Ju/aFZVBFAkyrJDUc3wjHuVTQo+d0j5alKTlwW5ptlumLOmDgmx+W/13+L6FwdTOCOOY
-         RSBskJ4IkmnPjCFZqtLDv6T+RbHuZHDXKE7dkKp0qLClytN0WDE3bewrko7GCqMt+IGj
-         R1lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769876201; x=1770481001;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nZdfjr2YBB6Bg1S9gnKxkULsiC0x83ebbFEXgtKWVOQ=;
-        b=Fib4G0ZDn5AzfinqdFzcF/7BR/UBjGASCL37F2vmA0YQ5Fqh18QluTWrnxGGSPPKQW
-         CUcOE7AYcSC/TEO2fJfWEU6bKEedbqYRKuKqME0ssnPJFmbD+TMtqYUAcncbU9byrRsB
-         YdEde7a1I9q6x1a3ScSfTK0YSyDoTVNbJm7h4UuwuGuIfGJBQyr2MOuPQoCw8ePvoV3U
-         pywFooXnub7rHFidbbr8Io6Anflvhq2AfgnB2ICuGLWa5HrTxCKz4EWqzHHkr8aQ08P1
-         U8QUno9z25bL5lfiRwQD+7QhYM60Q9K838pFsl5LOoX2oJCXpD687iTfDBsxKn8pi84p
-         BVeA==
-X-Forwarded-Encrypted: i=1; AJvYcCWFGGE3cpgJ+jKlZCceg+9gE1MCgMP7+fkX+0cjiel0wMkAFfbA++E/JadbO01buy88cxvVMD+B9m4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxG7S9rEzAGNKSuOhOlE/d6vGN13tRSGb9I3hqN+epFqujW5b65
-	IAj21Uhh2rtHI2l0E4W18LtD5ZD8qyKGs4sTLQRaw6IhdvKSrG+jPhra
-X-Gm-Gg: AZuq6aI7mgqE+H/FsavvTikh1KDFSU3gV6XILJHa5Hyvazlb1eJxWozY46tiwlE5ZXx
-	olaldy0GARucE3PzpftV0XP6pYZRZdnsxwPRV/eUCxZ9lccGw3AQgPKE2ShlAlTU2cqmBlLSSuC
-	ZmdWSMx6eQ/ecmysLUXVoLWwi8+DViQlvWnX/H0vvXlArhtMiIjK4DaQxygRsa6AHCSOBtDQ2Sx
-	5ityXZQIvTLXlghXLDqBNwDAxDab/fKyi++Aw2NT9ZZzXfU+zMfld2bz3YURpZ4lWcaTkgOhKv/
-	QdrqEwM00VY74uDmOwhIs+FxtllU32u85nOqOPJ3RPCCyV9y3t+mp3MxMprRFJvgki1HAnDY6k5
-	OqJ9k7QHfIXhURK71HeLHB29WumCu9Q9gcjo56YzNAgT/7YdQLj7l4zsugSVdJZBmEtYGlIzhRD
-	pr9ImpMYuQixIEZfUzpc5ixu2RyZXHwsh6TF6PFfBTWmU=
-X-Received: by 2002:ad4:594c:0:b0:894:7322:f1c6 with SMTP id 6a1803df08f44-894ea036009mr91543476d6.34.1769876200574;
-        Sat, 31 Jan 2026 08:16:40 -0800 (PST)
-Received: from pc ([2600:4041:4491:2000:27cf:ceff:6f56:5b3e])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894d37412d4sm84497356d6.36.2026.01.31.08.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 08:16:39 -0800 (PST)
-Date: Sat, 31 Jan 2026 11:16:37 -0500
-From: Seokwoo Chung <seokwoo.chung130@gmail.com>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, corbet@lwn.net, shuah@kernel.org, 
-	mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 v5 1/3] docs: tracing/fprobe: Document list filters
- and :entry/:exit
-Message-ID: <ttsritlbnf5tpqvwcje3wgcjiri72thxo56c7y4ppjkpnw2c2d@tjvwfmxh2c55>
-References: <20260118011815.56516-1-seokwoo.chung130@gmail.com>
- <20260118011815.56516-2-seokwoo.chung130@gmail.com>
- <20260120155340.2dac7fab@gandalf.local.home>
- <wqpijkdwziafpuci6js5mtfzro46bre4z7une547crcdzrlm67@kd4fgea5m6ov>
- <20260129093508.5064b3782a40811cbcd8cb7b@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TXYW1ZHo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A989C4CEF1;
+	Sat, 31 Jan 2026 16:50:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769878244;
+	bh=Pq75lfbTLCURF9snDbnVcSpQd+vL1pkGds2uMZrgcgs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TXYW1ZHoRNDwxLNTidSM6lrXJP5MyWY/UQj1kc6p8EG/2CsO2zfdDUVGcCCGlVgBq
+	 0k3MIPRAvf/eC3ygexyfuec7n1SccatsV/58U4sijLFtLkS/qosZN0Xmwaxv6o9n4N
+	 4/uUIvygCOUA1YSMsxLany79uk0Uy/GDaucqMbfIbP8nnauS1Y14ILYY6BGArirwHA
+	 OcB6cI2vZUsQZOKEkoTi9tF2+R65+ycbtmoRnvNQH4hK5GZhWAXZihMFImbf3XbO9K
+	 CW9lMtamW73BKN8WkQZ6vjFsccpgriWsbxzeIf7UOfERHMV2WiCm3lqg07wQZTbM1h
+	 /eNrtUvCaqG2A==
+Date: Sat, 31 Jan 2026 17:50:38 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Koichiro Den <den@valinux.co.jp>
+Cc: mani@kernel.org, kwilczynski@kernel.org, kishon@kernel.org,
+	bhelgaas@google.com, corbet@lwn.net, jingoohan1@gmail.com,
+	lpieralisi@kernel.org, robh@kernel.org, Frank.Li@nxp.com,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] PCI: endpoint: Document pci_epc_set_bar() caller
+ ownership and lifetime rules
+Message-ID: <aX4y3txKcYmb-kE3@fedora>
+References: <20260131133655.218018-1-den@valinux.co.jp>
+ <20260131133655.218018-4-den@valinux.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,92 +47,94 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260129093508.5064b3782a40811cbcd8cb7b@kernel.org>
+In-Reply-To: <20260131133655.218018-4-den@valinux.co.jp>
 
-On Thu, Jan 29, 2026 at 09:35:08AM +0900, Masami Hiramatsu wrote:
-> Hi Ryan,
+On Sat, Jan 31, 2026 at 10:36:55PM +0900, Koichiro Den wrote:
+> pci_epc_set_bar() may be called multiple times for a BAR when an
+> endpoint controller supports dynamic_inbound_mapping and/or
+> subrange_mapping.
 > 
-> On Sun, 25 Jan 2026 15:23:17 -0500
-> Seokwoo Chung <seokwoo.chung130@gmail.com> wrote:
+> Some EPC drivers keep a reference to the struct pci_epf_bar passed to
+> pci_epc_set_bar(), but the documentation does not describe the ownership
+> and lifetime rules for that object (and its submap array).
 > 
-> > On Tue, Jan 20, 2026 at 03:53:40PM -0500, Steven Rostedt wrote:
-> > > On Sat, 17 Jan 2026 20:18:13 -0500
-> > > "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com> wrote:
-> > > 
-> > > > Update fprobe event documentation to describe comma-separated symbol lists,
-> > > > exclusions, and explicit suffixes.
-> > > 
-> > > Usually, the documentation updates comes *after* the changes.
-> > > 
-> > > -- Steve
-> > > 
-> > Thanks for the comment. As you noticed, I sent another patch since I forgot to
-> > put log. That said, please let me know if you want me to continue on this
-> > series. My apologies on the ordering. I noted after Masami mentioned but I
-> > misordered when sending. Thank you.
+> Document that the EPF driver retains ownership of these objects, must
+> keep them valid, and must not modify them after a successful
+> pci_epc_set_bar(). When updating an active mapping, the EPF driver must
+> pass a new pci_epf_bar instance and only free the old one after the
+> update succeeds.
 > 
-> Sorry for replying so late,
-> Can you fix the kernel test robot's error? I think it is almost done.
+> Signed-off-by: Koichiro Den <den@valinux.co.jp>
+> ---
+>  Documentation/PCI/endpoint/pci-endpoint.rst | 22 +++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
-> Thank you,
-> 
-Hi. Thanks for the reply. I will fix and send the next version.
+> diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
+> index 4697377adeae..b2f5ad147ed8 100644
+> --- a/Documentation/PCI/endpoint/pci-endpoint.rst
+> +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
+> @@ -119,6 +119,28 @@ by the PCI endpoint function driver.
+>     BAR register or BAR decode on the endpoint while the host still expects
+>     the assigned BAR address to remain valid.
+>  
+> +   The struct pci_epf_bar passed to pci_epc_set_bar() (and the optional
+> +   pci_epf_bar.submap array) is owned by the PCI endpoint function driver.
+> +   An EPC driver may keep a reference to these objects after
+> +   pci_epc_set_bar() returns. Therefore the EPF driver must ensure that:
+> +
+> +     * Ownership of the pci_epf_bar object passed to pci_epc_set_bar()
+> +       remains with the caller (the EPF driver). The caller is responsible
+> +       for ensuring it remains valid (and freeing it when dynamically
+> +       allocated).
+> +
+> +     * After pci_epc_set_bar() succeeds, the caller must not modify the
+> +       contents of the pci_epf_bar object (or its submap array) until a
+> +       later successful pci_epc_set_bar() for the same BAR replaces it, or
+> +       until pci_epc_clear_bar() succeeds. Otherwise, it could potentially
+> +       lead to use-after-free or undefined behavior.
+> +
+> +     * If the caller needs to update the mapping for a BAR and calls
+> +       pci_epc_set_bar() again, it should use a new pci_epf_bar instance
+> +       (and a new submap array, if used). If the call succeeds, the old
+
+Why does it need a new submap array?
+
+Since an EPC driver never frees the pci_epf_bar instance, nor never frees
+the submap array, an EPF driver could reuse the submap in two consecutive
+set_bar() if it so wanted, even though it would be a bit silly.
+
+I guess my point is that the important thing is that the pci_epf_bar and
+the submap is immutable / pointer to const from EPC's point of view.
+
+Since the EPC will not change the pci_epf_bar, EPF driver could also
+theoretically call set_bar() twice with the exact same pci_epf_bar,
+even though that would be a bit silly.
 
 
-> > 
-> > Best regards,
-> > Ryan Chung
-> > > > 
-> > > > Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
-> > > > ---
-> > > >  Documentation/trace/fprobetrace.rst | 17 ++++++++++++++---
-> > > >  1 file changed, 14 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/Documentation/trace/fprobetrace.rst b/Documentation/trace/fprobetrace.rst
-> > > > index b4c2ca3d02c1..bbcfd57f0005 100644
-> > > > --- a/Documentation/trace/fprobetrace.rst
-> > > > +++ b/Documentation/trace/fprobetrace.rst
-> > > > @@ -25,14 +25,18 @@ Synopsis of fprobe-events
-> > > >  -------------------------
-> > > >  ::
-> > > >  
-> > > > -  f[:[GRP1/][EVENT1]] SYM [FETCHARGS]                       : Probe on function entry
-> > > > -  f[MAXACTIVE][:[GRP1/][EVENT1]] SYM%return [FETCHARGS]     : Probe on function exit
-> > > > +  f[:[GRP1/][EVENT1]] SYM[%return] [FETCHARGS]		    : Single function
-> > > > +  f[:[GRP1/][EVENT1]] SYM[,[!]SYM[,...]][:entry|:exit] [FETCHARGS] :Multiple
-> > > > +  function
-> > > >    t[:[GRP2/][EVENT2]] TRACEPOINT [FETCHARGS]                : Probe on tracepoint
-> > > >  
-> > > >   GRP1           : Group name for fprobe. If omitted, use "fprobes" for it.
-> > > >   GRP2           : Group name for tprobe. If omitted, use "tracepoints" for it.
-> > > >   EVENT1         : Event name for fprobe. If omitted, the event name is
-> > > > -                  "SYM__entry" or "SYM__exit".
-> > > > +		  - For a single literal symbol, the event name is
-> > > > +		    "SYM__entry" or "SYM__exit".
-> > > > +		  - For a *list or any wildcard*, an explicit [GRP1/][EVENT1] is
-> > > > +		    required; otherwise the parser rejects it.
-> > > >   EVENT2         : Event name for tprobe. If omitted, the event name is
-> > > >                    the same as "TRACEPOINT", but if the "TRACEPOINT" starts
-> > > >                    with a digit character, "_TRACEPOINT" is used.
-> > > > @@ -40,6 +44,13 @@ Synopsis of fprobe-events
-> > > >                    can be probed simultaneously, or 0 for the default value
-> > > >                    as defined in Documentation/trace/fprobe.rst
-> > > >  
-> > > > + SYM		: Function name or comma-separated list of symbols.
-> > > > +		  - SYM prefixed with "!" are exclusions.
-> > > > +		  - ":entry" suffix means it probes entry of given symbols
-> > > > +		    (default)
-> > > > +		  - ":exit" suffix means it probes exit of given symbols.
-> > > > +		  - "%return" suffix means it probes exit of SYM (single
-> > > > +		    symbol).
-> > > >   FETCHARGS      : Arguments. Each probe can have up to 128 args.
-> > > >    ARG           : Fetch "ARG" function argument using BTF (only for function
-> > > >                    entry or tracepoint.) (\*1)
-> > > 
-> 
-> 
-> -- 
-> Masami Hiramatsu (Google) <mhiramat@kernel.org>
+IMO, we could totally avoid all this text if we just changed;
+int pci_epc_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+                    struct pci_epf_bar *epf_bar);
 
-Best regards,
-Ryan Chung
+to:
+int pci_epc_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+                    const struct pci_epf_bar * const epf_bar);
+
+
+i.e.  const pointer to something const, because set_bar() will not change
+the pointer, and what is being passed should not change.
+
+
+Note that I'm not asking you to do this change in all the drivers,
+I'm just saying that if the API was actually defined like this,
+we would not need to add any Documentation, because the code would
+speak for itself.
+
+
+I think this patch is good, if we just rephrase it slightly.
+(An EPF driver can send in the same struct bar twice, it just can't
+modify the current struct bar while it is "in use".)
+We can probably write this in two paragraphs instead of three.
+
+
+Kind regards,
+Niklas
