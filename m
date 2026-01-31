@@ -1,168 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F96B76026;
-	Sat, 31 Jan 2026 15:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3017311967;
+	Sat, 31 Jan 2026 15:15:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769872164; cv=none; b=YkelGCavkz4RFm+1UcxwcTTx1kbCPPj2pC1++FRTxQGoUxaCavWyPUP3owK/VWC9BRr4Me8ahhxSIOYV8zeiER14PU352qqBbdZenYJsm9VlYpJvDQbC7d8GnlOp6wIY+Xd+My2UfjFholYC6Fbtzkzlcbf4atVupfWU+c8JRws=
+	t=1769872510; cv=none; b=B1Hq03d2LO0TBhVCft5Mm8/luES83YGlmZoic7izFyGDz6ki+CyF0oAZCzrFZNg/QzSxhoynuNErzFtpQIfxSUZjge6a5LFgDZg/a0d5FzkhFpzDLSdS6dlvWIFFCz4nr6pQG6jyDy0qxcrEn+1IYNb5mM8zwqNHVghlmZixNpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769872164; c=relaxed/simple;
-	bh=gcdo6o76TtPtyJoi2SieZGmlGf1ucBdMSPbQiU7BwbA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P1eWlJSYb6qpjJ8mD6Ck4f0jemXOhmZGs1BJikNMYw/8jvXm4xGbJwC7Y213oYdZqw+MEzNm5cLhJvVkp258k24nMwjThP40MvKtJD5SliHqBtC62lBwGoq/qKCNSjL+KpstArPp7+45Yn/0ENk+YETapgrmARXx1fQb9oRWkRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mvfyn8Q3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769872510; c=relaxed/simple;
+	bh=Rq2hicaHYETtelHvVqw0B0CBq77TKKw70RkDiNd/h7A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bu9DPNUeaBUPtcqNtFbHCBgkS5D0POC94A9JDSHfdWocSvrhdOvYXrGsFtQsq1LsLeUlYkgj4NOF5B7O4IfK/wxbuHm9I0LZ4/lFPVswTdEav8ALp1mwbHl/0HC0UAct9ApT6Kmaon93zOHrW1SpewsvyOQUzNB+nGKzukTk6iA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cOOvCxv/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mvfyn8Q3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33380C4CEF1;
-	Sat, 31 Jan 2026 15:09:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cOOvCxv/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC249C4CEF1;
+	Sat, 31 Jan 2026 15:15:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769872163;
-	bh=gcdo6o76TtPtyJoi2SieZGmlGf1ucBdMSPbQiU7BwbA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mvfyn8Q3NfDjS6Wqqvu1MvQr40vvyugzNqD4PSSrDQKvllVQfl7dz9aVG4Rcof5ng
-	 8M+z9L8Logi3seWl+orotwTFkDHXFwx4STTTr3wQaLC/gImpgPHWJbtJizVQyUTPI/
-	 MqtpjEUZJwgl6TpT8/CFvXuSQr3CJ/rnIAfev9M6NfgcPeAewPX6veYPZ24qTY4dBH
-	 4ZVE6XjqSdSSELOqr1FK3JMkDQyNjkZEow6n+NpWk2gCgi+l6AgdBcRG9T8P5HwDCs
-	 e6qJ49qtg42/WfIp/4hGILQObfVmHm+SupupEjoH3O5D4MtqqlsAYRLRTkUDvM0JtM
-	 5Ah85DXy1R5Jg==
-Date: Sat, 31 Jan 2026 16:08:52 +0100
+	s=k20201202; t=1769872510;
+	bh=Rq2hicaHYETtelHvVqw0B0CBq77TKKw70RkDiNd/h7A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=cOOvCxv/PU3fbYJSxlp9K/j7E1u5XV5KCd6V3ydGY7VL+QTS2wyGfo1/gzz7ED/rK
+	 SPuMWv4H/246daQUqOFGb0UYxK3c5ihJuGqcGam1hpIA6by4jcLSc5WF1losYIv87R
+	 lrJ/txO/R30kRolguiLmSL4Ac2PubJCAf89ju8gbMK8gIUaerXMTPAIbIO//e4B7rM
+	 n21hbmMSTKUJN4Fa/iEmtX5SDDq0mXGQDwhLuliBD+jKkbg7qPvCAtb3WgpqplkHrl
+	 MVLLfv+R/B+vOVkV6dyrgx51cjG7LNrm3de1RHsDd7reCkKvDuJP6tmWq45OB/ph/Y
+	 WsE00+VQRDU+A==
 From: Nicolas Schier <nsc@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Rong Zhang <i@rong.moe>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] kbuild: install-extmod-build: Add missing python
- libraries
-Message-ID: <aX4bBI_v5oxjHgXi@levanger>
-Mail-Followup-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, Rong Zhang <i@rong.moe>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-References: <20260129175321.415295-1-i@rong.moe>
- <20260130011106.GA359714@ax162>
- <20260130063056.72fbe458@foz.lan>
- <20260130064011.GA2981809@ax162>
- <20260130092816.162a48fe@foz.lan>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>
+Cc: Nicolas Schier <nsc@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Rong Zhang <i@rong.moe>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] kbuild: Do not run kernel-doc when building external modules
+Date: Sat, 31 Jan 2026 16:15:01 +0100
+Message-ID: <176987242178.1743608.5094531752561489739.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
+References: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130092816.162a48fe@foz.lan>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 30, 2026 at 09:32:03AM +0100, Mauro Carvalho Chehab wrote:
-> On Thu, 29 Jan 2026 23:40:11 -0700
-> Nathan Chancellor <nathan@kernel.org> wrote:
+On Fri, 30 Jan 2026 14:37:47 -0700, Nathan Chancellor wrote:
+> After commit 778b8ebe5192 ("docs: Move the python libraries to
+> tools/lib/python"), building an external module with any value of W=
+> against the output of install-extmod-build fails with:
 > 
-> > On Fri, Jan 30, 2026 at 06:30:56AM +0100, Mauro Carvalho Chehab wrote:
-> > > On Thu, 29 Jan 2026 18:11:06 -0700
-> > > Nathan Chancellor <nathan@kernel.org> wrote:  
-> > > > On Fri, Jan 30, 2026 at 01:49:55AM +0800, Rong Zhang wrote:  
-> > ...
-> > > > >   $ make -C /lib/modules/6.19.0-rc6/build/ M="$(pwd)" modules V=1 W=1
-> > > > >   [...]
-> > > > >   make -f /usr/src/linux-headers-6.19.0-rc6/scripts/Makefile.build obj=. need-builtin=1 need-modorder=1
-> > > > >   # CC [M]  mod.o
-> > > > >   [...]
-> > > > >   # cmd_checkdoc mod.o
-> > > > >   PYTHONDONTWRITEBYTECODE=1 python3 /usr/src/linux-headers-6.19.0-rc6/scripts/kernel-doc.py -none mod.c  
-> > > 
-> > > This sounds really weird, as it is trying to run scripts/kernel-doc.py
-> > > instead of tools/docs/kernel-doc. Does the out-of-tree Makefile
-> > > override KERNELDOC variable? The current version contains:
-> > > 	
-> > > 	KERNELDOC       = $(srctree)/tools/docs/kernel-doc
-> > > 
-> > > But somehow it is using the old version before the renames:
-> > > 
-> > > 	KERNELDOC       = $(srctree)/scripts/kernel-doc.py  
-> > 
-> > Well I think based on the "6.19.0-rc6" in the path above, this is
-> > mainline, not -next, so the rename has has not happend there yet.
+>   $ make -C /usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build M=$PWD W=1
+>   make: Entering directory '/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build'
+>   make[1]: Entering directory '...'
+>     CC [M] ...
+>   Traceback (most recent call last):
+>     File "/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build/scripts/kernel-doc.py", line 339, in <module>
+>       main()
+>       ~~~~^^
+>     File "/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build/scripts/kernel-doc.py", line 295, in main
+>       from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
+>       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>   ModuleNotFoundError: No module named 'kdoc'
 > 
-> Ah, ok. On your e-mail you mentioned the renaming patch, so I
-> ended assuming that was the case.
-> 
-> > 
-> > > Btw, I did a very quick test here, using an old OOT project I have
-> > > at github:
-> > > 
-> > > 	https://github.com/mchehab/xr_serial  
-> > ...
-> > > It sounds to me that Rong may be using a Makefile on his OOT project
-> > > that was not updated to pick the right kernel-doc tool.  
-> > 
-> > If I use that project with Rong's original command, the
-> > linux-upstream-headers package from the pacman-pkg target (which uses
-> > install-extmod-build), and the following fix up for a more modern kernel
-> > version, I see the following error:
-> > 
-> >   $ make -C /usr/lib/modules/6.19.0-rc7-next-20260129/build M=/tmp/xr_serial modules V=1 W=1
-> >   ...
-> >   # CC [M]  xr_serial.o
-> >     gcc ...
-> >   # cmd_checkdoc xr_serial.o
-> >     PYTHONDONTWRITEBYTECODE=1 python3 /usr/lib/modules/6.19.0-rc7-next-20260129/build/tools/docs/kernel-doc -none   xr_serial.c
-> >   python3: can't open file '/usr/lib/modules/6.19.0-rc7-next-20260129/build/tools/docs/kernel-doc': [Errno 2] No such file or directory
-> >   make[3]: *** [/usr/lib/modules/6.19.0-rc7-next-20260129/build/scripts/Makefile.build:287: xr_serial.o] Error 2
-> > 
-> > If it is not expected that kernel-doc runs for external modules, then
-> > maybe cmd_checkdoc should also be wrapped in a check for KBUILD_EXTMOD?
-> 
-> I don't particularly see any reason why running kernel-doc for external
-> modules, as the goal of running it there (outside make htmldocs) is to
-> detect early problems at linux-next and other CIs.
-> 
-> On the other hand, I also don't see any problem on encapsulating
-> kernel-doc at the tarball created by install-extmod-build with something
-> like:
-> 
-> 	ifeq ($(KBUILD_EXTMOD),)
-> 		ifneq ($(KBUILD_EXTRA_WARN),)
-> 		  cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
-> 	        	$(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
-> 		        $<
-> 		endif
-> 	endif
-> 
-> at scripts/Makefile.build.
-> 
-> 
-> So, feel free to add to either one of the approaches:
-> 
-> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> [...]
 
-Thanks everybody for report and analysis!  I put Mauro's suggestion into
-a new patch for kbuild-next:
+Applied to kbuild/linux.git (kbuild-fixes-unstable), thanks!
 
-https://lore.kernel.org/linux-kbuild/20260131-run-kernel-doc-only-in-tree-v1-1-93a9c695dfb1@kernel.org/
+[1/1] kbuild: Do not run kernel-doc when building external modules
+      https://git.kernel.org/kbuild/c/8e249948
 
-I plan to send the pull request tonight.
+Please look out for regression or issue reports or other follow up
+comments, as they may result in the patch/series getting dropped,
+reverted or modified (e.g. trailers). Patches applied to the
+kbuild-fixes-unstable branch are accepted pending wider testing in
+linux-next and any post-commit review; they will generally be moved
+to the kbuild-fixes branch in a week if no issues are found.
 
-> That's said, it should be noticed that the DRM subsystem also has
-> some similar code:
-> 
-> 	drivers/gpu/drm/Makefile:                PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-> 	drivers/gpu/drm/i915/Makefile:    cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none -Werror $<
-> 	drivers/gpu/drm/i915/Makefile:          $(KERNELDOC) -none -Werror $<; touch $@
-> 	include/drm/Makefile:           PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-> 	scripts/Makefile.build:  cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
-> 
-> but I suspect that only scripts/Makefile.build probably need
-> such check.
-
-yes, I think so too, as the definitions in drm should only take effect
-on hdrtest target.
-
-Kind regards,
+Best regards,
+-- 
 Nicolas
+
