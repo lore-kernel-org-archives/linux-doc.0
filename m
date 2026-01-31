@@ -1,149 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D295A30148B;
-	Sat, 31 Jan 2026 00:41:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC002DECCC;
+	Sat, 31 Jan 2026 01:05:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769820083; cv=none; b=IA3cLipRk+Fcu8KNcNl08eC5lfbFcdgby9yQyvSm/+PvfsPgVs+ThHG+dQ7UI8IVF5gmGPfZA8cjdEWNHxKahEDGOAug8C84DzY/UxYiAA3IzM0fYnJwLUPzGwWpSownH34WUvegtqTpWNi72X7TrcsfM1MZnIPgqwiy7PORD9M=
+	t=1769821536; cv=none; b=RqowHFPjnUuCnb2u8Q1fwG3qweH8317tt5xa/L1dtvc+9RArE6HnUSJsdDGOPgD/XKFY7gMf/iU8QMRhIVs/lNEwskhhzgHlRzLC1sb34F+IVFyS+204j8GlxHMGTM4gh4XXiHko2r3ecD6498zbDh3pWYNp+AiZyrc7jQ4kiAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769820083; c=relaxed/simple;
-	bh=l9n3mLPGeUos34mQWVNVH+sXbJpO8kREK6u0HCyRDH8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hMFDwndD8uTwhsIP825L2ifXAQVpF2gt8g4uLDVsQIFcJGgBUE5GRh8KZUUK7Yh9k5sxhmx9yCJygW8tfCLnffdZ2tubo+CxJLKR0gGsaykhGF8z4zND689wxqNrkQVSX/ImSgFoME+zjOuD1xleFtmU/nhmID+lzh8Bemc1xEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mMsEdPnp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769821536; c=relaxed/simple;
+	bh=0jI616kk35GV4rCmyrPDMjQwclX9zQXcyVZFyIWp20U=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DMjQ27wryJgCRMxBHJMebBSaLDxK01ktYCZAOrdSPQXXL5FDWl98LhEd4w9OVexk5aL3U11f69wOLl4etJ7CdTBrVrDP4MLsPmi3NGWavpjLZj61iMOm3mctfOwmJmjWLb5zI3tN7Z4yxyIywkLr1Q/aKU89z9Vm6WXQqhSwoHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhtK2hGG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mMsEdPnp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98317C4CEF7;
-	Sat, 31 Jan 2026 00:41:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhtK2hGG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B1D4C4CEF7;
+	Sat, 31 Jan 2026 01:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769820080;
-	bh=l9n3mLPGeUos34mQWVNVH+sXbJpO8kREK6u0HCyRDH8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mMsEdPnphkANsAifUMsiluDLCuBvGpxyU9AkKFfAhE5w7P+4XiRBIGwLGCcG7vifN
-	 0e5p5LSgUKdB09L0ZyZhZChMFIzkCf00rqD59kagFHbfCn7wkTc52LAGUyeLSJGWBA
-	 yb4Ai5GXz21SJx8SZUJMKZ3ZzoB3S9OlVTLS1R10L76gz/7wOfQToSe1gSAta7OOf5
-	 WLAe+9fQctgmRaFwIgr93AITzPyS48CtiZw/r9Lzc6c3ipNrkft3YxD7STpkxA6pim
-	 QtWzkdJU5Opa6KH72Xryi4R8MZHvoI52TB8z0UnAKk5ts5h73CFk1W1Vd+H6RFlE+K
-	 f6BUC/CZP/9cA==
-Date: Fri, 30 Jan 2026 16:41:19 -0800
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>,
-	John Groves <jgroves@fastmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V7 1/3] fuse_kernel.h: bring up to baseline 6.19
-Message-ID: <20260131004119.GA104658@frogsfrogsfrogs>
-References: <20260118223516.92753-1-john@jagalactic.com>
- <0100019bd33f2761-af1fb233-73d0-4b99-a0c0-d239266aec91-000000@email.amazonses.com>
- <0100019bd33fb644-94215a33-24d2-4474-b9eb-ddae39b29bd8-000000@email.amazonses.com>
- <CAJnrk1Z9BuCLZv576Ro9iYUPRDpW=1euG0rQ2wC_19sBcR18pw@mail.gmail.com>
+	s=k20201202; t=1769821535;
+	bh=0jI616kk35GV4rCmyrPDMjQwclX9zQXcyVZFyIWp20U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LhtK2hGGZHISVuVtnVdsIKijTl7Wwe8x7MkYfRcM7sQth7d0gD5G+bAF4305CDn+u
+	 Ie3/xiFiw4VoJVjwm4lGz6HgsAFVbKOBu/kClFxhxEwOx8v81Y8AXKHNWVmCl7z9jE
+	 LmC+a7C20jgQNqzyHfGIqlgAWnrS0Qu3iE9zu2IzcxLcKIeR72i73Z+izd6Ko8iLAQ
+	 tTvgG8fQ32e73oXcvT+Gl8Zv597zW1BZN8MMnQUHHkLYjkkHasS8oBCdHTgzENnlS1
+	 bVImwNMj7114gj6tpKgH6QoHapdIm2d/ZqJSZxLStqHvWoClgwNq5yOw76vgZlILj+
+	 FMUhHZMl/mO+A==
+Date: Fri, 30 Jan 2026 17:05:33 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Li Chen <me@linux.beauty>
+Cc: Jonathan Corbet <corbet@lwn.net>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Mike Rapoport <rppt@kernel.org>, Pratyush
+ Yadav <pratyush@kernel.org>, Eric Dumazet <edumazet@google.com>, Neal
+ Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ "David S. Miller" <davem@davemloft.net>, David Ahern <dsahern@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew
+ Morton <akpm@linux-foundation.org>, "Borislav Petkov (AMD)" <bp@alien8.de>,
+ Randy Dunlap <rdunlap@infradead.org>, Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>, Petr Mladek <pmladek@suse.com>, Feng
+ Tang <feng.tang@linux.alibaba.com>, Kees Cook <kees@kernel.org>, Li
+ RongQing <lirongqing@baidu.com>, Arnd Bergmann <arnd@arndb.de>, Askar Safin
+ <safinaskar@gmail.com>, Frank van der Linden <fvdl@google.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] liveupdate: suppress TCP RST during post-kexec
+ restore window
+Message-ID: <20260130170533.257db5fb@kernel.org>
+In-Reply-To: <20260130145122.368748-4-me@linux.beauty>
+References: <20260130145122.368748-1-me@linux.beauty>
+	<20260130145122.368748-4-me@linux.beauty>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1Z9BuCLZv576Ro9iYUPRDpW=1euG0rQ2wC_19sBcR18pw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 30, 2026 at 02:53:13PM -0800, Joanne Koong wrote:
-> On Sun, Jan 18, 2026 at 2:35 PM John Groves <john@jagalactic.com> wrote:
-> >
-> > From: John Groves <john@groves.net>
-> >
-> > This is copied from include/uapi/linux/fuse.h in 6.19 with no changes.
-> >
-> > Signed-off-by: John Groves <john@groves.net>
-> 
-> This LGTM. We could probably just merge this in already.
-> 
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> 
-> > ---
-> >  include/fuse_kernel.h | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
-> > index 94621f6..c13e1f9 100644
-> > --- a/include/fuse_kernel.h
-> > +++ b/include/fuse_kernel.h
-> > @@ -239,6 +239,7 @@
-> >   *  7.45
-> >   *  - add FUSE_COPY_FILE_RANGE_64
-> >   *  - add struct fuse_copy_file_range_out
-> > + *  - add FUSE_NOTIFY_PRUNE
-> >   */
-> >
-> >  #ifndef _LINUX_FUSE_H
-> > @@ -680,7 +681,7 @@ enum fuse_notify_code {
-> >         FUSE_NOTIFY_DELETE = 6,
-> >         FUSE_NOTIFY_RESEND = 7,
-> >         FUSE_NOTIFY_INC_EPOCH = 8,
-> > -       FUSE_NOTIFY_CODE_MAX,
-> > +       FUSE_NOTIFY_PRUNE = 9,
+On Fri, 30 Jan 2026 22:51:19 +0800 Li Chen wrote:
+> During a kexec-based live update, userspace may restore established TCP
+> connections after the new kernel has booted (e.g. via CRIU). Any packet
+> arriving for a not-yet-restored socket will hit the no-socket path and
+> trigger a TCP RST, causing the peer to immediately drop the connection.
 
-This insertion ought to preserve FUSE_NOTIFY_CODE_MAX, right?
-
---D
-
-> >  };
-> >
-> >  /* The read buffer is required to be at least 8k, but may be much larger */
-> > @@ -1119,6 +1120,12 @@ struct fuse_notify_retrieve_in {
-> >         uint64_t        dummy4;
-> >  };
-> >
-> > +struct fuse_notify_prune_out {
-> > +       uint32_t        count;
-> > +       uint32_t        padding;
-> > +       uint64_t        spare;
-> > +};
-> > +
-> >  struct fuse_backing_map {
-> >         int32_t         fd;
-> >         uint32_t        flags;
-> > @@ -1131,6 +1138,7 @@ struct fuse_backing_map {
-> >  #define FUSE_DEV_IOC_BACKING_OPEN      _IOW(FUSE_DEV_IOC_MAGIC, 1, \
-> >                                              struct fuse_backing_map)
-> >  #define FUSE_DEV_IOC_BACKING_CLOSE     _IOW(FUSE_DEV_IOC_MAGIC, 2, uint32_t)
-> > +#define FUSE_DEV_IOC_SYNC_INIT         _IO(FUSE_DEV_IOC_MAGIC, 3)
-> >
-> >  struct fuse_lseek_in {
-> >         uint64_t        fh;
-> > --
-> > 2.52.0
-> >
+Can you not add a filter to simply drop those packets until workload is
+running again? It'd actually be less racy than this hac^w patch ...
