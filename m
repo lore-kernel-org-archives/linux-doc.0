@@ -1,49 +1,49 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CC835A93B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FF435A939;
 	Sat, 31 Jan 2026 14:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769869522; cv=none; b=Z1V2qWONqM4HChq0CxOUihiQy/OaO9KJ92p73XB8++aU7r/4s6panXOf8V3f43oJIe5H9askYBHDhOxfKPOmd3CqqnUv0geKChUMZAAJY4TbqUnsElGJGvrLzSe2QDIGKEcM29WmmwgxkphtW6SDpNoW03397xHPQGP4FyvyHqI=
+	t=1769869522; cv=none; b=p6ycvzFYgw7bRVloHzXTSCiru1Q+apx101GzcXXY1a5TdXdPo2Yym/RwUdBMO3DktknvkPoov1SDUhEq9CRy0cSiYnWl8mFl/5iTYq+rHIB+WArYY1EAKcqNMKYO86E2kZ1Rm7rVk8bfc3pNeSZ6OFoyuuAmvKyle8duYLIFURs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769869522; c=relaxed/simple;
-	bh=C2cStPoOoGCftK6fYM/VQjKEO1UC2wtJ9483nmjaklU=;
+	bh=J9gpBcUhWSmksHEje7HfFrvd/UJKiZjrUhxoxqAfK3o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cEOfetqAl1XlXVsZlqdJHNBO6Eqeu/fodY7hFQ6jhgWaS0MS2gGzJtLf5rYihITKGnIY7ly0QSiEQJLKDQ/REILIU+C3nS+ZFtl7DO5vmn34BPXvda5eohjeLJLY4Ojy+nsE3sJe5HrTLgxZykh0KfRz0Ra/ZjhkOHR9W6f4vy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XUlq74Q3; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nxJB30JKScPypBtBN4EDPcpC77+oqphn5qrBCPT5EiJykYRPS7a2s1YjbhDjV+Iq1xeBp3j3tkEPFA/sDJpdWsyaO0jiZb4ufsWpFcjW1qPTl7T2nzaAQO7mH35lSFHZYegGqke7ZGJlX/koIy9bLjZmBacvPpGgR5E+nYWmOd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=etJT7UQk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XUlq74Q3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04926C4AF67;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="etJT7UQk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AE0AC4DDE2;
 	Sat, 31 Jan 2026 14:25:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1769869522;
-	bh=C2cStPoOoGCftK6fYM/VQjKEO1UC2wtJ9483nmjaklU=;
+	bh=J9gpBcUhWSmksHEje7HfFrvd/UJKiZjrUhxoxqAfK3o=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XUlq74Q3cKfYzyY2KmtaeWNQkjLbbRDt5JtA5d4kbIkyhkSG2+r9AGrHLU4Qs3OAO
-	 3CImQgNMNaRltbbsjangUr8/RFy/xKGsHu358A75l53bxFqHHyasF1Y45xDrcFc7ZZ
-	 zUGz4lPK3g2E73Jcj6dtY4eaNtIuN0oRlF39s22PGLYoBlu/2KrKfAQvAhr+IyXRR+
-	 fiDNVldhW85MRQCVRgbBHJVmTVarAAtjw7rDnTFIEHavj+WTvsWpLmLJ87yKpKiD0Q
-	 +HIoB2dNIDt/n0P2oHfuEaY5mV8k8GNS3pw9TsRmf1W18wyoLE9yQyFvxtldDB8Ism
-	 kso7P7jRnB1bA==
+	b=etJT7UQkV81clZC3G9h1rJ6n/Coqg5VDtA8GfexHi9ncJVJvmpBQn1iDvm2eAuBhd
+	 Fj2wqeMsPUTEWk9IWBwYb7NqerSM4TNrTRMxWYPUk7i181CDG8Gi7dOnc3eOZ24S0X
+	 h1Z4uZMcX8n+nsH0YSf0+ou5Y+ltihG+SwY/lHVlE0E/JmJyjrHO4O2jsrAHbuRtPA
+	 rmuphAK/iswiSm/1w46YZxxM8R7TX0lmY6q9CKMz7x188BBO3DQlNRe0dm7aCy16zZ
+	 /5ICALjF/4Z/ZMxwm6EtuGqjEOym6sXbhoG/WTbzLDMJ08JaKg/9CVMtBUVXBc3OmR
+	 5GBDzj4RSnRIw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vmBua-0000000AVlv-0v7X;
+	id 1vmBua-0000000AVm7-1FNc;
 	Sat, 31 Jan 2026 15:25:20 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	intel-wired-lan@lists.osuosl.org,
 	linux-hardening@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v4 33/41] tools: sphinx-build-wrapper: improve its help message
-Date: Sat, 31 Jan 2026 15:25:07 +0100
-Message-ID: <9a41e5aa1da74e30a05bc21537a0c170450f01e3.1769867954.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 36/41] docs: sphinx-build-wrapper: better handle troff .TH markups
+Date: Sat, 31 Jan 2026 15:25:10 +0100
+Message-ID: <56468f3cf9ba583a0759953a931bddc361b869aa.1769867954.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1769867953.git.mchehab+huawei@kernel.org>
 References: <cover.1769867953.git.mchehab+huawei@kernel.org>
@@ -57,74 +57,49 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Besides the parameters that are passed via command line arguments,
-the wrapper's behavior is affected by several environment variables.
+Using a regular expression to match .TH is problematic, as it
+doesn't handle well quotation marks.
 
-Document that. While here, use __doc__ for its description.
+Use shlex instead.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/sphinx-build-wrapper | 28 +++++++++++++++++++++++++---
- 1 file changed, 25 insertions(+), 3 deletions(-)
+ tools/docs/sphinx-build-wrapper | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 8080ace60680..b7c149dff06b 100755
+index b7c149dff06b..e6418e22e2ff 100755
 --- a/tools/docs/sphinx-build-wrapper
 +++ b/tools/docs/sphinx-build-wrapper
-@@ -814,20 +814,42 @@ def jobs_type(value):
-     except ValueError:
-         raise argparse.ArgumentTypeError(f"Must be 'auto' or positive integer, got {value}")  # pylint: disable=W0707
+@@ -576,7 +576,6 @@ class SphinxBuilder:
+         """
  
-+EPILOG="""
-+Besides the command line arguments, several environment variables affect its
-+default behavior, meant to be used when called via Kernel Makefile:
-+
-+- KERNELVERSION:  Kernel major version
-+- KERNELRELEASE:  Kernel release
-+- KBUILD_VERBOSE: Contains the value of "make V=[0|1] variable.
-+                  When V=0 (KBUILD_VERBOSE=0), sets verbose level to "-q".
-+- SPHINXBUILD:    Documentation build tool (default: "sphinx-build").
-+- SPHINXOPTS:     Extra options pased to SPHINXBUILD
-+                  (default: "-j auto" and "-q" if KBUILD_VERBOSE=0).
-+                  The "-v" flag can be used to increase verbosity.
-+                  If V=0, the first "-v" will drop "-q".
-+- PYTHON3:        Python command to run SPHINXBUILD
-+- PDFLATEX:       LaTeX PDF engine. (default: "xelatex")
-+- LATEXOPTS:      Optional set of command line arguments to the LaTeX engine
-+- srctree:        Location of the Kernel root directory (default: ".").
-+
-+"""
-+
- def main():
-     """
-     Main function. The only mandatory argument is the target. If not
-     specified, the other arguments will use default values if not
-     specified at os.environ.
-     """
--    parser = argparse.ArgumentParser(description="Kernel documentation builder")
-+    parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter,
-+                                     description=__doc__,
-+                                     epilog=EPILOG)
+         re_kernel_doc = re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")
+-        re_man = re.compile(r'^\.TH "[^"]*" (\d+) "([^"]*)"')
  
-     parser.add_argument("target", choices=list(TARGETS.keys()),
-                         help="Documentation target to build")
-     parser.add_argument("--sphinxdirs", nargs="+",
-                         help="Specific directories to build")
-     parser.add_argument("--builddir", default="output",
--                        help="Sphinx configuration file")
-+                        help="Sphinx configuration file (default: %(default)s)")
+         if docs_dir == src_dir:
+             #
+@@ -616,8 +615,7 @@ class SphinxBuilder:
+         fp = None
+         try:
+             for line in result.stdout.split("\n"):
+-                match = re_man.match(line)
+-                if not match:
++                if not line.startswith(".TH"):
+                     if fp:
+                         fp.write(line + '\n')
+                     continue
+@@ -625,7 +623,9 @@ class SphinxBuilder:
+                 if fp:
+                     fp.close()
  
-     parser.add_argument("--theme", help="Sphinx theme to use")
+-                fname = f"{output_dir}/{match.group(2)}.{match.group(1)}"
++                # Use shlex here, as it handles well parameters with commas
++                args = shlex.split(line)
++                fname = f"{output_dir}/{args[3]}.{args[2]}"
  
-@@ -843,7 +865,7 @@ def main():
-                         help="place build in verbose mode")
- 
-     parser.add_argument('-j', '--jobs', type=jobs_type,
--                        help="Sets number of jobs to use with sphinx-build")
-+                        help="Sets number of jobs to use with sphinx-build(default: auto)")
- 
-     parser.add_argument('-i', '--interactive', action='store_true',
-                         help="Change latex default to run in interactive mode")
+                 if self.verbose:
+                     print(f"Creating {fname}")
 -- 
 2.52.0
 
