@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3779D358D08;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC61358D1A;
 	Sat, 31 Jan 2026 14:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769869522; cv=none; b=jl8SjJC7aAai59NABPdreXn2Qwd93idhiZkzvwgrU/JCk9a9Uo9SwbNK/PpFxU/jcPABz/0Ec9y77pKRfngp9Iw94v+2eMK04R+2sTx2Ue+SmgxbkAky0Ztt8LfYc9HI4xTpF+0+xIhWY7JuB/V+2XurmeMAsGMu/KCzJ1VzJiE=
+	t=1769869522; cv=none; b=g7SmVFHz/nUiOdzuliDM8d6OFBvuw34KC+4OlG43OmTjG3tRmg08kS4QWDDpuEfv1X7K1mWrqRVHXIHA6+hy5+got6vf2es2Em22s4pa7cTpHYfi100TYuleWu8DrFQp8tEvVABZcXrzZN3EpLcmeWeMVFC6z2I5KNtSzhXkBKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769869522; c=relaxed/simple;
-	bh=T/tjtljgzM6ONqM7zhOV7Yk4y75K/wRjyLKxDsGKFtU=;
+	bh=exVw90yVLaIyCuiKNYXLsf4VR9OXQdWgf2cZhrnzV2Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YJggXgVQs1plvs7oZ4TEsdQBgYltfbWYGsMyENw+0mYGczcnoekikwO1MDqMSV9BoTaUhT7jxP3N3MKBfbOE+zMcw8H7m5K8Wzu0AIZi0rAlpDLmG8geabjM6eJPHiHccONA5wZyWotav79Y9TXIvS04utBY4dg6Fnh8bdEpXRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FkI80vV6; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Ar+jO2XD+JGxXUyZ/07D7YDEjlzF23EDwZnodyms0bi7pUK7m3kK/ouDZrdswXrBUN6GMegYmyEEEsw2uHeCNEY88mshTJNLYz5nCPrW/GXU5rWerZIyZtw6rBbqVNBI3IZSsaRZQ6uk0yfUiNqm8D+mnYmnTKH5vS4mrt6cJhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jhqi27Bi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FkI80vV6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86E28C4AF0B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jhqi27Bi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9414FC2BCF6;
 	Sat, 31 Jan 2026 14:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1769869521;
-	bh=T/tjtljgzM6ONqM7zhOV7Yk4y75K/wRjyLKxDsGKFtU=;
+	bh=exVw90yVLaIyCuiKNYXLsf4VR9OXQdWgf2cZhrnzV2Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FkI80vV6n8l3oW8lP1wSbfB0XPQ8C7wAan32GnKk0HvATwLICSCBRX2x6QZ/ajzb+
-	 Ty5boZfyRuzsQg+Y9QsgOtZuDo4SUQr5lWk4jjwgPg7sc4Yav4O2DQJ9iZJgZRapyk
-	 E5ybY6Y6tWdiOxZoq+qVgvQvlRKvEgzNJz4eQDcSIXQW6TG/N7AFZby0zH99zIjXPj
-	 cIbzMxpTBUBrrG+nQMWj/sSNLVW4zVVo8sKcrA/2g7VEBI6B7QSnSTLv40mVqoilIe
-	 VZoOB0MMKmay6en0IPHcwFqEkQReiNZw9dZhbf+SHLnfBetOI7e7/DCcZMYpMvEWr0
-	 NYIjs6aVBSVBQ==
+	b=Jhqi27BiIT4Cy//A3hEMRtGYKj50D5duVDfRfGkKdNgh6LD77COjmfBm64oC/rxgq
+	 Chi6eJlVjvFKzFZuicwjfCRd11XLJCUS4y/RL0kbRwZ93UpgHzfdcmU7UGDcOZrvVc
+	 b0AQNa8jXCKYwbGEB4m4iBCrAiRwlde4FiB95ffOYcdlvFbEW50gZvUNn9bI+RzTgA
+	 YvT9Fp7wKQG7suV9128aCSi0eZxhIBzXVaHZA1C7ebawmkE7z0rtN5py4KusvhVf45
+	 Mf4siTxDUozZqHAqMAb3GDntztQCBlHnv0NkDutJpfgao47cERvK1EirAQQ6kCAmTq
+	 M7HeP0nAPIEaA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vmBuZ-0000000AVki-31UN;
+	id 1vmBuZ-0000000AVl2-3bSB;
 	Sat, 31 Jan 2026 15:25:19 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -41,9 +41,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v4 15/41] docs: kdoc_re: properly handle strings and escape chars on it
-Date: Sat, 31 Jan 2026 15:24:49 +0100
-Message-ID: <6c8e7354e4aa7042daae46b8c778c4195de10df6.1769867953.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 20/41] docs: kdoc_re: add support on NestedMatch for argument replacement
+Date: Sat, 31 Jan 2026 15:24:54 +0100
+Message-ID: <ff9a001e213558d419b3e149710db4c5ba8a53e3.1769867953.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1769867953.git.mchehab+huawei@kernel.org>
 References: <cover.1769867953.git.mchehab+huawei@kernel.org>
@@ -57,53 +57,126 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The logic inside NestedMatch currently doesn't consider that
-function arguments may have chars and strings, which may
-eventually contain delimiters.
+Currently, NestedMatch has very limited support for aguments
+replacement: it is all or nothing.
 
-Add logic to handle strings and escape characters on them.
+Add support to allow replacing individual arguments as well.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
 ---
- tools/lib/python/kdoc/kdoc_re.py | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ tools/lib/python/kdoc/kdoc_re.py | 84 ++++++++++++++++++++++----------
+ 1 file changed, 59 insertions(+), 25 deletions(-)
 
 diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
-index a0402c065d3a..1861799f1966 100644
+index e34d55c25680..858cc688a58f 100644
 --- a/tools/lib/python/kdoc/kdoc_re.py
 +++ b/tools/lib/python/kdoc/kdoc_re.py
-@@ -195,6 +195,8 @@ class NestedMatch:
-         for match_re in regex.finditer(line):
-             start = match_re.start()
-             offset = match_re.end()
-+            string_char = None
-+            escape = False
+@@ -177,29 +177,6 @@ class NestedMatch:
+     will ignore the search string.
+     """
  
-             d = line[offset - 1]
-             if d not in self.DELIMITER_PAIRS:
-@@ -208,6 +210,22 @@ class NestedMatch:
+-    # TODO: make NestedMatch handle multiple match groups
+-    #
+-    # Right now, regular expressions to match it are defined only up to
+-    #       the start delimiter, e.g.:
+-    #
+-    #       \bSTRUCT_GROUP\(
+-    #
+-    # is similar to: STRUCT_GROUP\((.*)\)
+-    # except that the content inside the match group is delimiter-aligned.
+-    #
+-    # The content inside parentheses is converted into a single replace
+-    # group (e.g. r`\1').
+-    #
+-    # It would be nice to change such definition to support multiple
+-    # match groups, allowing a regex equivalent to:
+-    #
+-    #   FOO\((.*), (.*), (.*)\)
+-    #
+-    # it is probably easier to define it not as a regular expression, but
+-    # with some lexical definition like:
+-    #
+-    #   FOO(arg1, arg2, arg3)
+-
+     def __init__(self, regex):
+         self.regex = KernRe(regex)
  
-                 d = line[pos]
+@@ -285,6 +262,59 @@ class NestedMatch:
  
-+                if escape:
-+                    escape = False
-+                    continue
+             yield line[t[0]:t[2]]
+ 
++    @staticmethod
++    def _split_args(all_args, delim=","):
++        """
++        Helper method to split comma-separated function arguments
++        or struct elements, if delim is set to ";".
 +
-+                if string_char:
-+                    if d == '\\':
-+                        escape = True
-+                    elif d == string_char:
-+                        string_char = None
++        It returns a list of arguments that can be used later on by
++        the sub() method.
++        """
++        args = [all_args]
++        stack = []
++        arg_start = 0
++        string_char = None
++        escape = False
 +
-+                    continue
++        for idx, d in enumerate(all_args):
++            if escape:
++                escape = False
++                continue
 +
-+                if d in ('"', "'"):
-+                    string_char = d
-+                    continue
++            if string_char:
++                if d == '\\':
++                    escape = True
++                elif d == string_char:
++                    string_char = None
 +
-                 if d in self.DELIMITER_PAIRS:
-                     end = self.DELIMITER_PAIRS[d]
++                continue
++
++            if d in ('"', "'"):
++                string_char = d
++                continue
++
++            if d in DELIMITER_PAIRS:
++                end = DELIMITER_PAIRS[d]
++
++                stack.append(end)
++                continue
++
++            if stack and d == stack[-1]:
++                stack.pop()
++                continue
++
++            if d == delim and not stack:
++                args.append(all_args[arg_start:idx].strip())
++                arg_start = idx + 1
++
++        # Add the last argument (if any)
++        last = all_args[arg_start:].strip()
++        if last:
++            args.append(last)
++
++        return args
++
+     def sub(self, sub, line, count=0):
+         """
+         This is similar to re.sub:
+@@ -310,9 +340,13 @@ class NestedMatch:
+             # Value, ignoring start/end delimiters
+             value = line[end:pos - 1]
+ 
+-            # replaces \0 at the sub string, if \0 is used there
++            # replace arguments
+             new_sub = sub
+-            new_sub = new_sub.replace(r'\0', value)
++            if "\\" in sub:
++                args = self._split_args(value)
++
++                new_sub = re.sub(r'\\(\d+)',
++                                 lambda m: args[int(m.group(1))], new_sub)
+ 
+             out += new_sub
  
 -- 
 2.52.0
