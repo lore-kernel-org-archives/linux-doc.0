@@ -1,72 +1,74 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11020130.outbound.protection.outlook.com [52.101.228.130])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010053.outbound.protection.outlook.com [52.101.85.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA60D34FF5E;
-	Sat, 31 Jan 2026 13:37:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCAA343D9D;
+	Sat, 31 Jan 2026 13:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769866635; cv=fail; b=THuXACi/gZnQ6v8DjJb/+frvOp/tm3tkB7tsL+RaDQEeAhFgd4KR8oXdDABpamKJhNCToHrPuCbe8mf6sHpIKWaiDbSNrmGRJjLRhzmRdQHAg0ZWanlhuzVsmvG2Ak2DOmGH8TtoFzASTb9s1TPhoptyzyDuxBfw3l04b0Uo3e8=
+	t=1769867927; cv=fail; b=VMvh1qAGr92rr/DOG6EdpwrgFx0YyUNIylQPeB0DCkr2V977HNwB7ApQSm1eUqBP9hCbq25dxuegQYlHjZXUeeGc/g/JagsdwHGRB/pzBrmPWf6sVgmI33IIwSofMTn+jRbsIp4zeRB1vAaY2FTdwwU+KOvuEXZDY+Kvvvnipp8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769866635; c=relaxed/simple;
-	bh=X6O7t66gp66HCp91qg/Gvc3NQ7ArPWNWcSrcYOHOFCk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BfXDxkO6zvgM8aWJQ2TRIXDpHiEbAmGtMT4hCe+wJchJ2YATpnrxpnOqeiJo81QWrS3r46j2XNPt3OsZgZ5eeed6POWGQltWSawXmbgWI0FhAlX9LFCZBY6DxtMubHb5FjqQwAyKZiwclKDzG8HmctPPLccrRMB+x5bqdIm67fE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=i9g9A44B; arc=fail smtp.client-ip=52.101.228.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+	s=arc-20240116; t=1769867927; c=relaxed/simple;
+	bh=IWe6g+O3OORWZF5yBeOUPSxV45hePwsj0G8XHSOmTM8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=J4O9Z2mrLGzxBKaP7x50DsgoGXd/DBQ9Zaf2yHZe5YmY0AlxSTxPbQrMqE2lGlCKS/429ii6lWkGe1aEbrW3VCWHl9Omh1KQvyFTwgx1jFCOXF52Yf1ghzYVDrvwh8Z5PGOs/EAU0JdiCtOb6TY7CO/OS59VNN6MkKjpeQHLxEY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=f8QVUsD4; arc=fail smtp.client-ip=52.101.85.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="i9g9A44B"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="f8QVUsD4"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OB2lN6RulOd9eMUVP4VoARWi9QWp8zPnvoNni3ec1a1J0PiICDO/+YTXVKQ9ADwGr825hH6Du3WY25DxqmVrQ0lNgU2WtPYK/OIx8ym68tSUvvp8q322ZdRxslipaOxxIYBJvrx/Q2sgDLJxOhgJsYT6eq3o7aq1Mz8JJGcFrkzKOHgIRe0pPwjUdDnWx5dcnTBMaqikPrYGuXDvLNGhHT+EIMmq/Iyw3uc0fje57Q8Ps7YMRYwBkUIcJIK9TMQKi6JquOTrLrHBcIitjkXx8H2Ree5XFDTQ8yIr9FxsdBjEyW3bcxemkeZxZ4QgOzYSDigUMmKtuh4422ZMJQRMTw==
+ b=G4XomHXhpcy6d3BOV77ykUcAJEHabNM0F6RZUm/T3Zt7G9/LBAdyY2zA11tlLXft5Nl0cHy4cXPUePn27+tfNJaZcf6YQ2/FWJnaZ01uBSWply+6XpNaIezVzvRK4LSy0UA9Ml+6sUdhrN7/qtdiJgb+CLOHLWf0cQKxHCH6PRzBZSYNSbuMi/fcJsIN/4LvDlsFO4TwSvSzLS5aUK/AeA7c7WLoC+Z2nIBwY/laS9QPD1uP4RcaJv3byapU9pchnfD4vY5HGcLIhZFCRGEivOsiAZkazEcHsDs79JKs8/bi3FUlNy38RcrjsMyUdZKmFt/TI8JF2kDjRsSE+27MAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5+t68dBPpDV4Bxfnnwxii4grBGD3wbam6DT3zfoyKCw=;
- b=KnfMQ4LIpJYOVl64howwKwsgNTNh5pxj1fhCdnP5RbhzvXwr4T1TOSfjZu05idA+vjIPFelSvbHZdJ0ggIMbHBgOWCEDYMKSkAbom0j+O4oqe9mge6AjvGsbUr+9Gy1hxSfq866DtfzOXocYFQnCweWsfr6KB67LxYxsmktD7C0yV21nSYG47XWMlYLhrmABVP58s4O+gc1IZJ7YJh1yRhQX0l68Z9WgS1G9hdyXNtVOZKSZdqoeGTEaB/xnvrmmH1AX237xN2rPRbRgsrO7imLbxjkSfPAC2Fp/DbEY+mjXaadB5h8y65bxl+3VWXXnsKFzPv2nCRdF/FbdmSZ8HQ==
+ bh=toBr/iy64AGRkHu312gIej0WuMvFifCnazsrT1jbZNY=;
+ b=DgC1hdQn4chF+5n2uSZrQHiBAr1mT1EYBbtKsXAKlFbqFysCWYZjqUEapJD6sMT1K6juVA6DOhBwGvSJW5eE6SbQdyPEcSz/3Is0XKWfaYq4ZEljqyr93w+HaSmxTSYzo+L0uKaFYBW0xYvGZCOMFHuRPl34lGr1EGcGGEh87HXDwn5GOncHjbcc/Ggv5sXZmPNt3WZ6WmmN/3V6GXN41uva/PJyt5PKTgzx/7EtllqCbgiI/P7Rcvpp6XRkjVBvQbY+0TSpkMANF8IusBuzlmBbSXzcf8eUIXuJm7WKlH3C+ztIeuxFMfE/PNBEZGg25hlvUXpKAr1MlxNVpabAhg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5+t68dBPpDV4Bxfnnwxii4grBGD3wbam6DT3zfoyKCw=;
- b=i9g9A44B8AYE/m0I3etI691UVm0lQzRQgRZpqeSdM0OYjP71E/wBJG+jULDKRcyiSfNWS1G/NWBIELxFGp8gBgmFqeBRL8D2vXT+zYwZfhGr0slCpfJ2NLb8YH7qprdaDPBpwnuNdLqDt7qI21Ropi4wFh8F8b/oE8zzc3oSg3M=
+ bh=toBr/iy64AGRkHu312gIej0WuMvFifCnazsrT1jbZNY=;
+ b=f8QVUsD4rEy09WUX+62Q850fRgl9LKVpzQhK9D0W36Y1j1yEzTUOSAdDR69MuojQG7b9/EZzYviqN7ALbFMAEisTz7lNF32+rtodqH8vmjjn7Q1lgG9rUjj+qM4GuejfFXgqj9YryxdaDY9HghLd4vI9g4gOlbB5mkOkQvYbh5pIIkxz4b+LnnbbKEJAIBQqcNpB5Ja2jJ4BH1i6CP8La7M+Ln7gZkxSCWGOSNIGexTBdeorHUwa3KjIU2R0xwa1KjBTpYELGHPuafcqUWtD3z0OLQk8ztsjqaK5oQ04+oK3GntZStY+sjRngM8pFK9Sperj2RdStETRnL8YI4sQpA==
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TYYP286MB5003.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:14b::8) with
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by MN0PR12MB5978.namprd12.prod.outlook.com (2603:10b6:208:37d::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.13; Sat, 31 Jan
- 2026 13:37:04 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9542.010; Sat, 31 Jan 2026
- 13:37:04 +0000
-From: Koichiro Den <den@valinux.co.jp>
-To: mani@kernel.org,
-	cassel@kernel.org,
-	kwilczynski@kernel.org,
-	kishon@kernel.org,
-	bhelgaas@google.com,
-	corbet@lwn.net,
-	jingoohan1@gmail.com,
-	lpieralisi@kernel.org,
-	robh@kernel.org,
-	Frank.Li@nxp.com
-Cc: linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] PCI: endpoint: Document pci_epc_set_bar() caller ownership and lifetime rules
-Date: Sat, 31 Jan 2026 22:36:55 +0900
-Message-ID: <20260131133655.218018-4-den@valinux.co.jp>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260131133655.218018-1-den@valinux.co.jp>
-References: <20260131133655.218018-1-den@valinux.co.jp>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP286CA0133.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b6::20) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.6; Sat, 31 Jan
+ 2026 13:58:41 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f%5]) with mapi id 15.20.9564.014; Sat, 31 Jan 2026
+ 13:58:41 +0000
+Message-ID: <c96312c7-b13f-4f5c-9512-cc0382c1c77b@nvidia.com>
+Date: Sat, 31 Jan 2026 19:28:28 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 4/7] ACPI: CPPC: add APIs and sysfs interface for
+ min/max_perf
+To: "zhenglifeng (A)" <zhenglifeng1@huawei.com>, pierre.gondois@arm.com
+Cc: rafael@kernel.org, viresh.kumar@linaro.org, ionela.voinescu@arm.com,
+ lenb@kernel.org, robert.moore@intel.com, corbet@lwn.net,
+ rdunlap@infradead.org, ray.huang@amd.com, gautham.shenoy@amd.com,
+ mario.limonciello@amd.com, perry.yuan@amd.com, zhanjie9@hisilicon.com,
+ linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
+ ksitaraman@nvidia.com, sanjayc@nvidia.com, nhartman@nvidia.com,
+ bbasu@nvidia.com, sumitg@nvidia.com
+References: <20260129104817.3752340-1-sumitg@nvidia.com>
+ <20260129104817.3752340-5-sumitg@nvidia.com>
+ <4432fa04-e67c-422a-aae4-2938be431985@huawei.com>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <4432fa04-e67c-422a-aae4-2938be431985@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0272.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1f2::11) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,139 +76,422 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYYP286MB5003:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3206a32e-c831-4892-61c7-08de60cdd216
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|MN0PR12MB5978:EE_
+X-MS-Office365-Filtering-Correlation-Id: d2623a9a-2372-4dc1-0a76-08de60d0d6ff
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|7416014|1800799024|376014|921020;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?u9Xrsy7o+OCtrXWYicxK1rtWkbtzSqOeLQr9cx8/Kztp59SHifqeV3CUDn0y?=
- =?us-ascii?Q?hxbWb85NMHpAh53KwFvosu/vgTannHJCZS2N4QJZnXTkde1etQospdsQOQrf?=
- =?us-ascii?Q?Esxuue2kMmE7XvOfQ0YBlGu6RoIUJPFmr70kuI9Gyl4A3hBp185j1YbsUZYY?=
- =?us-ascii?Q?3wYhCl2aFU3KonsUZ8e8FFTz3hKK+zuccgNi8btVfkSi07QjRZHTd1t9jCJZ?=
- =?us-ascii?Q?wNm7RBbwVUS6Yy5R/0ZVvF+QDvVMyyTJhumEHupZ9eXIWUd2kpWXgNhmuNd2?=
- =?us-ascii?Q?JOvhzLt9wUALS+2iOC3dLyhBqJldPAg6OKjo7g5S/B9DjA40zCmufJDWtNwG?=
- =?us-ascii?Q?NxRUmzQx2qPLjZF9FU0LGG7b+w0lsV2bAhwwEnkvl/ZqBWOLPGpfGhEmNwCR?=
- =?us-ascii?Q?bza0B6MyO4lqhwKCI+DGVyQIfNZz1gQ5+Ov4JLitfqjy1lbuYXAovPC5kn+4?=
- =?us-ascii?Q?KpffJ+vghSI1ojptT5bsrjaGFvrkD7t8KmpknpSYQTJEh8T320MHq7Bc6RFU?=
- =?us-ascii?Q?1vwfozy7RrseWC37NlImBz3FUhopN2iAv5vSvXMDWqqPiB8kiS6bYESc7n7q?=
- =?us-ascii?Q?azNOGRHSUpY2qPLmsCWuZ3//9lOULHmSaCP5cgeKHzbdl0alYNMV5RV53p+u?=
- =?us-ascii?Q?z4ZW/dEoPbUYRzUELsxvNgD2Y8IJ3r2FAo0CSSCE4bGv3Xy/50TgWmPtDs/8?=
- =?us-ascii?Q?mPROr1eOvrPLIpM/MzSmqTzwnsIAGAR71QzQd41aQuNaRnH0Nq7aNtmH0d6p?=
- =?us-ascii?Q?wyDcwF4lR7LFdbxUHlJ5lTG8GBV8xzAEjO7pG/Q6L9zcZniH9QnAbcC3KZ6R?=
- =?us-ascii?Q?aDr0GPROz2lbarX18bjtcolnE4M6bNYBHCqsVOyyIhk4yVfPlqhqj80FZ9df?=
- =?us-ascii?Q?NYp7UAPuReL/7f7aRGfnHp834ZuQ8F9uoj45WgX5zBPBRiN4gKu2OTIZiS9f?=
- =?us-ascii?Q?lhYErlFtCmeAlUmA0aFndvwRaUa2AmdF9NjheUK+E1w8Xdps1ZZEBlj0TN4A?=
- =?us-ascii?Q?SRrFDN0clK307xjtMEWnetiOcPWyJ8PV5HhrmPxeCXs+W8LV1V7b3hG60nrr?=
- =?us-ascii?Q?4NPsPOWcrvMraE0EI64aES3EkUMtI4PWGPOTalGFKvdByUHJv3h4+ihwsSOd?=
- =?us-ascii?Q?+OkOq4lai55EQnxFKJUKwUMDsMfb9sjR4zp0gsXUfFlGcwcPKH6bWlyidG8c?=
- =?us-ascii?Q?aG0rcnrFQHldu9RMV0O6FCheNn6XWrht8SnHGFRiTp3haE9yE/7iqHgyZn2N?=
- =?us-ascii?Q?ISveK3yQXZitqsd8vsmofYQvv5SSmsd+6ZlU962SdI8e+q2WkYa6uU6OU2Lg?=
- =?us-ascii?Q?f/32PET/orfBd8gAD8TAu4ruxtdDfh1eulIv8ziKYu/02tGujIK0HhTZoeAl?=
- =?us-ascii?Q?wmVFeB3t613nlBXzv/x2PEyCTyqnQU4BY2a9zyumQysFlGrreB6kKawgAA3E?=
- =?us-ascii?Q?opDgBv0FfwgC9neRcQ1XqghrM1sFK/OknNKa6c2lhpEtuWedkDhbscbuU/iT?=
- =?us-ascii?Q?aCCI/yTfKAW5LWg1/KLmF5un2uTVwG+ZWgiLKewRZzI79h1pRw4K7TeBpj1K?=
- =?us-ascii?Q?b/bqVyKwGxtqvzxA7neMWRsQIzJ8MyZrsnUFcRSwdvs4kNzcjTOwYBMemBQZ?=
- =?us-ascii?Q?Hg=3D=3D?=
+	=?utf-8?B?YjVBejJjSVZqTENZM1NBNitOck12MHhXTnpUcjRzYUFydEtZYzZJTmRaRXIw?=
+ =?utf-8?B?L1JJNUl0akxhb0sxRmRLbWF1cmt5Y1c0Mk5Qanp0OTc0UWs4RUpRNlEyV20z?=
+ =?utf-8?B?MktRQ3lWZ25OeU5zeWVqTFJUbWZaMjB4WnY2N0VPSG8xWHdheWtCWGU1eVdO?=
+ =?utf-8?B?NHBxTGJCWnZ4MEpTdEhYa2sxVmZSeCtsTThtRm5neStESk9XemJ1QWt4cyta?=
+ =?utf-8?B?VExKdzZtd2pvbXJJT284eVZlZWRxUWJjRVdLMnlpOFpnTlp1SWRBeVhBQ0Fs?=
+ =?utf-8?B?ejYrRkxJNFNsTW1nOWNxYmVKSE1tcm45QUJIb05jbG45eFNKc1Z6UDYxK3ZG?=
+ =?utf-8?B?Y2g3RTVLY1JEeWU3cGZ3aklZWmRROHJCZDFsMnN3a2dVajlnUlNxdGJuL1Bu?=
+ =?utf-8?B?UlFmVGt1QlVMN2hwWTFQN2ltMU9Eai9WS2lHY3JJNk45VkRBbHM4azRoUm5x?=
+ =?utf-8?B?TW90bUZnZ1BscXF2NENZdlNvQnZGOHIwa2lyTEMyN0RJMlVkS3hMK2d6elM5?=
+ =?utf-8?B?bkJEKzkrdnMvNEQ2ZkdjaDRFdTVTN0JSQ2lwTHNIeUZ3cUdLdDFHdTUrRVFF?=
+ =?utf-8?B?UThZTHJpTWl4SHJSYWdKODJlM21CMzFJVituNERtOWRuamxxQitzcldFdmV3?=
+ =?utf-8?B?UU9FelgydHJpNkFBYStKUGRpYlY3YWo5M200aTdiN0tuTERLdFQvRTBFRUYv?=
+ =?utf-8?B?V2xCV1BZdXFLVVdSWUNQTXNrdWZDdFNnMUxBNDI0NGdCN2d6Y2xOV0ljSUs4?=
+ =?utf-8?B?bytSajIrTmhONEduWkJVL3haVnFFbTR5djJ1d2ZIYmJPc3VqK1d4VEhpNk5Q?=
+ =?utf-8?B?anp4QVpidXE2UTBIWGVsdHVkT2FEZURScW94VkxIY05uYTFmclRLb3JUU2FG?=
+ =?utf-8?B?bjR3ckRIcnlVVWNQb3ZkejZpa0pVSWFZSU1TRmNtSis1WTNrLzBWaHNLb1hL?=
+ =?utf-8?B?VDdReTh4R1VYT3E0bjdPS3FOai9RNjFQU3ZoQWljMkpmYnorVkJ4ejlXQnlm?=
+ =?utf-8?B?MlFkejcyWm05NmtpRVlleU5XMlY3NmEzSENOelZ1QTI2TVpEV3c1ZlV1VWNS?=
+ =?utf-8?B?MktsNStWc2wrVlNGWWdRajlienhMUlVUeTBWdzhPUm1Idm5YZ0xxMm9VSTN1?=
+ =?utf-8?B?amxRSkNZS3g2dklnNnRBZmRVbHUxMGp0aW9DZ1VKWkZWbXh4Wm84bDdZWUxq?=
+ =?utf-8?B?VUViQ1grb3RueG8zcVlTWDNyZlVzS09JbjV3NklIV09qWUdTaENMSE8zMDg1?=
+ =?utf-8?B?UDJGUk5RcEY0VFM0dnp0UzZTZWFGMmxDSk1jbTIyQ1htVUxyZVJyRU5YekMw?=
+ =?utf-8?B?dkVkaXljbUlId2JpeGdtQUZseHlHSTJodmhQZUZXT1pOYzJ5cjZXZ2hrUEpa?=
+ =?utf-8?B?UlpXVlAwOHhDWDhlZGdPamxxelJHNDVrYmhKRGlmSnlySUpEcEdGakFidmIw?=
+ =?utf-8?B?OVZpR3U2ZEQ3U2RqUTRlZFVQRnh5eDVnbWlyRXVlcFlCTUJnSEhTM2NUdkFG?=
+ =?utf-8?B?TUlQTVZxbXRlMzRVVnl0L0N2YnI2VFdTRG1yb3JYTGFVajVBbzV3MFMwaW4v?=
+ =?utf-8?B?dkFVbWVsdWk2QUdWRnRyQVprcklKU0VBQmlxdGJLRXJiRE5zdVprNmdyMzk3?=
+ =?utf-8?B?SzBmbi9aM1p6U1RVNzNvUFVKQksyQitjNXVBZjd6MDNjSWhtaVlkMkQweWZ1?=
+ =?utf-8?B?RkdQUTh6emRzVGI3TTFaRG9iMW9vaVFxZldYMTlSOHVtc0JiTnFqQzlWNkEy?=
+ =?utf-8?B?eUFmRHM2cktHQmxURDBkdkdQWmNkaEp4VGx0alcvN05sSzhTWWVCSkFvYmVB?=
+ =?utf-8?B?ZlppNW1kNUJMRTlYWnA5UUVHS242bHJRZUJEdUI3bDVLNEJMcVFwdlJ5ZmRn?=
+ =?utf-8?B?eEpnRGdGZmxINlNKSXM5Zm5kY0JhZVdHbnlqMng0K01Bdml6NzhDS2FLS0U5?=
+ =?utf-8?B?RGFWL2VoOGNCNmFRUU96ZHhUVU1xNWNGbUtvTmFucU9yVGdvZFRwL3ord3NX?=
+ =?utf-8?B?ZFJVMEVrQVBVQWcrUit4VkFXNlI1SjFBcXZ1WWMzazNUbUZiSVdYZWJ2aFo3?=
+ =?utf-8?B?YnlYRElyNVhIODA2ajgyOGVsSUVKbjFicnpTSjI5UkNyVDgvUi9TSTFsbDhE?=
+ =?utf-8?Q?AnG4=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(7416014)(1800799024)(376014)(921020);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?9Y3AVTak4q2YxAAG/oIVf2oCmMKXqkejtE7ZVFm7m3AE0xMbE/n1nx6PP5Ri?=
- =?us-ascii?Q?MKTI9io7XRqqDyZ0qvjsdr1CbdDKzGNyCvlq4m0pyVH9x37KBmMWbFc9p4Fm?=
- =?us-ascii?Q?vH2XS0GfNVInn013/bPOAQttcSuiMk0elikm8W6hsaCNciKaMk3PqO3RETKq?=
- =?us-ascii?Q?vuD9RdmUTTFUm+YoXdTJvRSXPNfTLCzXSV8+AVqwL2NegUY2XGsqfELKAbxi?=
- =?us-ascii?Q?NSfEC/cz+YYUG4OSXUEMBq7oBG1KuBqn9VE5DJ2nTGKYwBpJTXEj/kfuQ/AN?=
- =?us-ascii?Q?Vb8kPnva9npFV7mlcrbC1ahN8JbKqEgD14/8lD2JJpLPA2Km3vefsjX1F/JB?=
- =?us-ascii?Q?BCRN0vNYehEMWOuTw+1CK7ymx1BBg9EUhRnLvVB1tq1qBRdmW/RMde9VwbY3?=
- =?us-ascii?Q?Hd0KVOTHGEcHFnUx0vfcs9seKYCZEy4s1KAMhhIHXdyzAl2eyudXZwV7HS+C?=
- =?us-ascii?Q?aLyrofageXA80ZSHqJ9ylTkdX74MyP4flSCKbPmpSQoZhhuSwz2PE4gtGXEB?=
- =?us-ascii?Q?IC29NtgKChSXsRpywyzbf1qtloAviTgh7a4Xi/u/ryufPibl2/Rw/VUSWkqH?=
- =?us-ascii?Q?n7JhAv9/pUVBSViReEf+NMjVRW72el2vSmRY3DQVuiKiTw1Pbl3tMBWM36Vb?=
- =?us-ascii?Q?VerK8qwYG/ruP0TMi0nnTZva/Qdol4s6sFrlwj4lFcwTRkfZSZWLhGMROj//?=
- =?us-ascii?Q?LuAOOu9PJn8yZjdEaUGt6KaQNhqSpYscaoNHJxklexzcocs+lk5mgrEp8yFL?=
- =?us-ascii?Q?SIpn99VwI5fX5FFfDDfbUjK8eCar9a8zOXnp05XBSjKnXRkYQ6JKyHx38SC8?=
- =?us-ascii?Q?7XMbuDW0lIILyC+C8hu0s1yp63J4O9q7EoR5zFqSz4v/Kr5sKqErZu1BSfya?=
- =?us-ascii?Q?aEqTAy3CAG9+lnYGCTSFbHq60h9cWbLC1icZ0ah/P/MV8pCmSGQ4ecVbweU9?=
- =?us-ascii?Q?ZsUGChNvF5IkJsoXtaWCbbEWbfe0wQ6aD1iCIhIRMM/nEEaUeI+X30VW+NHN?=
- =?us-ascii?Q?zTveLjM0DFlRSucP3o8UKsFbanImEl7AgETkubdaCwCp2prdZu/OANsuFMFS?=
- =?us-ascii?Q?gletTES4KkEaqujzjwpT/YzTKI10kH0mPa57z7KMn56PBNRo8CFAu1u2pt+t?=
- =?us-ascii?Q?FGD7kh1mSEGv/q6Sy6TX6zpYzTYgvrHSTiAoXoldILVP/fvTh9LiJNgd3qkj?=
- =?us-ascii?Q?F5JimIGUc1vkSCwtggorqhBWxuv7u9KMCurdQ8M87Cxi7Zrfmvc0COBerZUF?=
- =?us-ascii?Q?Dryjrj5sFrqtC0pOdwMS8tLKvKf7mrdwyij4wyODE9jIU4oZynEtUs383Gf+?=
- =?us-ascii?Q?6Si49AuoQ4YyEHxD51jZJTstdLQefaIvQUpSCy4Xa3eEGuMZzxlezj8Tvn/t?=
- =?us-ascii?Q?97EZArKvehxhkcNm7QREiH0wtthCv2UlV0oMnBFG0m/2KHe/tm2TGGqZxZf6?=
- =?us-ascii?Q?i9jKWdDLO08+clhN+/4w/rhqmgCQ7qP0y8NgAb36WtIlklPtkuAwCvl5l4Cg?=
- =?us-ascii?Q?WNcCW7A2c2v+5CXUmkh5nOZEwGJ8hxT2WAnbrhxteqQl3aIvfHEzqlWGx9Sf?=
- =?us-ascii?Q?HhGZjjfZf43gh/HIQzhnd1NSXsUe7ZR3eH9HDIkwIlf4zZ8fP6fuD6f5JJen?=
- =?us-ascii?Q?DAQuQKdik3ml3lbp19+WXLvpklYqV3uBCb2j3Xixqjvv1fee8MQGKLMS7EKV?=
- =?us-ascii?Q?U+61wV4yArA5RNT1+oAvpw5DGpnAzeDw2uX3vQzeEDZSUuI4FGBsdPpfrwt1?=
- =?us-ascii?Q?VfneX0CSBSOUbpM2To0ZYaNR+G2fmG8PEa2plbd1uXHhg5BgLF5q?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3206a32e-c831-4892-61c7-08de60cdd216
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+	=?utf-8?B?aWI2bXd3WHBrVm1sRVo3ekJheVRjdGtnaC9LKzV4Mzc3NDJEbUtMSkl2M1Fz?=
+ =?utf-8?B?aVhETE4wWVpTMjdrR1dkRVNlSHNCUTJQdDl4cFU1d3p0ZUwwNjFqMXQyNnFV?=
+ =?utf-8?B?UFdwRGFTZUZaWnJTckt5T09qMis2b0grUkdZMXBZQ2hHUm14WnJtMERZWjVB?=
+ =?utf-8?B?Z211ZlRHVjA2SWlYT2dTRXd0RTBqUWJrMER4aVpOeDJzVnZGd2haK3hBVlhP?=
+ =?utf-8?B?UkNHbGNMb2hGZkp1c3BGYmFLUGdHaHFUQkkwMUlPbVdlTEJCQnpzaVRPa2RC?=
+ =?utf-8?B?WVlBL1RRR3luakxjL3dXOEVvL3RCOG1jNVI5TGZTSlQwak1sMUpsM2k0RjJl?=
+ =?utf-8?B?djNyNzBESzdQTnlUZlNzNUp0bXN3NmRBSHlWWitsajl0alpHNEZqc0NDdDAr?=
+ =?utf-8?B?WGdoRGlnekRKNlhzQkdKbXBNakprUGMrcm9nU2RlNWxQZGxZbXpmakZOZVpy?=
+ =?utf-8?B?QzhZcFN6RXdGZDhKczgyd3c2NUpoT0JZUkk5dDhIUjM4ODhuMkdGK1MxZXpX?=
+ =?utf-8?B?UEVPVUtjdmxNamJxZElXQlBzdmZCRXlZcDVWZ1BlQlRURUgvNXV0RzhWRTlp?=
+ =?utf-8?B?Zlh3czVXQ054VEs3a25uY0xsZGM3TjdMc2x2K3dxMWJuMlE5dkx5MkplVVZO?=
+ =?utf-8?B?azliZXhhOFdvMHhJeWJsb1dGb080cWFsVTV5UGRQZnFkTWZ0dzlwWkVnSSsv?=
+ =?utf-8?B?b3hmVzZ4WVQ4aFIrdEJVelJNNWU5cE4vNTJwQVJhZTlndmpRZTVKZkczS2dw?=
+ =?utf-8?B?dU5MUXowMTl5MHEvWi9vMHhGNG5Wa1Bid0JKU3lDcnFpejYwNlRpTkRBa1Zq?=
+ =?utf-8?B?QkJXcFhXVHhrODZleFJ6NCtRSDNTL2VUVnVuNjJXN1Z4TEg1RU5NNWVxbnUw?=
+ =?utf-8?B?MXNPeStyMDNOY0FhRldXVDg3SUVaTzZ4SllEUXpZQklvNnNpNVRpMzlwTUl3?=
+ =?utf-8?B?T1gzcjdsYVN5SkFmZ0N5K091d1duWldSWHZKNW1MKzZoNnM2RUR1YW9LL3BX?=
+ =?utf-8?B?R3dDWHc3STcxU0Y0QUw2QXFrVldKU3I0YzdmMnBKOGJVTG9IVStQUnJXK2NE?=
+ =?utf-8?B?NnYreEMxRks4VlZHSDJ4ZEhweTZtRktnZzFlVUErUzdHdDdVQk9oNjdZYkJX?=
+ =?utf-8?B?THF4VnZLYmNqTGpWN1d1aFlYN1hQSEhuTTIzdlE4dVp2MFRwR1hZKzNrL0d1?=
+ =?utf-8?B?TzJ5Z05Wd0pkTy9aMHZjQ2lXNllFcTJqcDRocW5sZmp2c0I5N2l2UU0yejBv?=
+ =?utf-8?B?aVpzT3BwQnRpWFpKZE5yLzZNZ1FkZjFLOG41blhtL0VtYlY1SVdPelVnWVRR?=
+ =?utf-8?B?dElZNEZIM3o4YlhNZVhuZk1VZWV4YithbjVsUUpOUXhGMDFXdXUvSmUyVjRZ?=
+ =?utf-8?B?WDBJSngzN3RlazM2WmxVdFp5VHdSTnhDZVJubUw4TlRBZ1UvQ3RXcmdnUHU0?=
+ =?utf-8?B?SjVPbUtOaFpXUWV4ejduRjRrajZUV1RKNVdzYU1rdmxVNUM1aVNIb0JQbDhM?=
+ =?utf-8?B?a3JZaUtYdmtGL3hmRkVBaUJGa3EwNURJNHFxU1crNnIwSjk2czdRckdPZHdw?=
+ =?utf-8?B?TkNDdkZsSHEzeVpQYXJzaGE1K0ZzZG4vN0V0VW9kV0VyNDVWR0VEMkxRMG9R?=
+ =?utf-8?B?eGhDbjZoeDgrN25NMFRuN3hEemQ2eXhlZ1pzN0VBcmpKbTBxZk9kQVdzWlQ1?=
+ =?utf-8?B?blFMOGM1TW56OWJrZk5wVWVWNmNMK3BXUW9KSDA2QTczZUhCaFZGL0pWK1BS?=
+ =?utf-8?B?SUZGVmY1UUZOZ0wvNy9lc1k2MlU1VFA4WlBZZkY0NzdEZGcxUmppQW9nUFU0?=
+ =?utf-8?B?bzNoSGJ5TkN0VnhuZ3hqNXRNVmNxWk92TDFQSktOYmFJY3pHRXJMaDljNkl1?=
+ =?utf-8?B?WThzL2R2elpnTHlzYlpDczhsWUUzVlMvdWY1Q0J4ZWRsOFVReHN3b3RvTm9y?=
+ =?utf-8?B?RVJoWHh1RlJFUXBXRWNJT0cxT0pZbjk0bFFveWhHeGdzaDdEMXJyQ2E0ZE56?=
+ =?utf-8?B?WXdhNHBPZ21vb051Ukx4eGJ5RHBZLzE2cDZPL3pEVTl3OFZLK2ptT3BHMDAv?=
+ =?utf-8?B?VjBUcnpvaFlzV3ovK01xNENYVjlQWjBCeUFGM09ZbVdoVmpMOG0vTFlwWWZU?=
+ =?utf-8?B?cTBKQkhnN1JiWGRscnVQc0R6OGE2TWNmSXh6dURtT1NVOHFUeWJtaTlBcjZ1?=
+ =?utf-8?B?dVl0QXhLaWQrZTB1ZmZobXY2dW5IZ3c3VVRhWGxVWlI4ZE9qTkhJM0RTN3JU?=
+ =?utf-8?B?NVN5UUhTWW9GWkZFWDM1NDdqeFZMZlREekkvOEQ4OC9PcEJ5dWFjZGg5cmU2?=
+ =?utf-8?Q?R412e1NgpCqYKZm8MQ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2623a9a-2372-4dc1-0a76-08de60d0d6ff
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2026 13:37:04.2995
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2026 13:58:41.3525
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mvqaOhYOpEsiCkOdMW/et074PvudrVfjoMEGSBF21hlL/Rz+R4Dz6gaiaT+QFeS45KmYp2Cub2sCgucs2PCCtg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYYP286MB5003
+X-MS-Exchange-CrossTenant-UserPrincipalName: b1o6ri7mtPouDeah57ZEdM6oufr8UAjGbcVHMob2buec2JlAyb5NIcNTyyBocnTo/ji9mp3DJ2iC2x1y1x3s9w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5978
 
-pci_epc_set_bar() may be called multiple times for a BAR when an
-endpoint controller supports dynamic_inbound_mapping and/or
-subrange_mapping.
 
-Some EPC drivers keep a reference to the struct pci_epf_bar passed to
-pci_epc_set_bar(), but the documentation does not describe the ownership
-and lifetime rules for that object (and its submap array).
+On 31/01/26 09:36, zhenglifeng (A) wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> Hi Sumit,
+>
+> I am thinking that maybe it is better to call these two sysfs interface
+> 'min_freq' and 'max_freq' as users read and write khz instead of raw value.
 
-Document that the EPF driver retains ownership of these objects, must
-keep them valid, and must not modify them after a successful
-pci_epc_set_bar(). When updating an active mapping, the EPF driver must
-pass a new pci_epf_bar instance and only free the old one after the
-update succeeds.
+Thanks for the suggestion.
+Kept min_perf/max_perf to match the CPPC register names
+(MIN_PERF/MAX_PERF), making it clear to users familiar with
+CPPC what's being controlled.
+The kHz unit is documented in the ABI.
 
-Signed-off-by: Koichiro Den <den@valinux.co.jp>
----
- Documentation/PCI/endpoint/pci-endpoint.rst | 22 +++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Thank you,
+Sumit Gupta
 
-diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
-index 4697377adeae..b2f5ad147ed8 100644
---- a/Documentation/PCI/endpoint/pci-endpoint.rst
-+++ b/Documentation/PCI/endpoint/pci-endpoint.rst
-@@ -119,6 +119,28 @@ by the PCI endpoint function driver.
-    BAR register or BAR decode on the endpoint while the host still expects
-    the assigned BAR address to remain valid.
- 
-+   The struct pci_epf_bar passed to pci_epc_set_bar() (and the optional
-+   pci_epf_bar.submap array) is owned by the PCI endpoint function driver.
-+   An EPC driver may keep a reference to these objects after
-+   pci_epc_set_bar() returns. Therefore the EPF driver must ensure that:
-+
-+     * Ownership of the pci_epf_bar object passed to pci_epc_set_bar()
-+       remains with the caller (the EPF driver). The caller is responsible
-+       for ensuring it remains valid (and freeing it when dynamically
-+       allocated).
-+
-+     * After pci_epc_set_bar() succeeds, the caller must not modify the
-+       contents of the pci_epf_bar object (or its submap array) until a
-+       later successful pci_epc_set_bar() for the same BAR replaces it, or
-+       until pci_epc_clear_bar() succeeds. Otherwise, it could potentially
-+       lead to use-after-free or undefined behavior.
-+
-+     * If the caller needs to update the mapping for a BAR and calls
-+       pci_epc_set_bar() again, it should use a new pci_epf_bar instance
-+       (and a new submap array, if used). If the call succeeds, the old
-+       instance can then be freed by the caller. If the call fails, the old
-+       instance must remain valid.
-+
- * pci_epc_clear_bar()
- 
-    The PCI endpoint function driver should use pci_epc_clear_bar() to reset
--- 
-2.51.0
 
+>
+> On 2026/1/29 18:48, Sumit Gupta wrote:
+>> Add cppc_get/set_min_perf() and cppc_get/set_max_perf() APIs to read and
+>> write the MIN_PERF and MAX_PERF registers.
+>>
+>> Also add sysfs interfaces (min_perf, max_perf) in cppc_cpufreq driver
+>> to expose these controls to userspace. The sysfs values are in frequency
+>> (kHz) for consistency with other cpufreq sysfs files.
+>>
+>> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+>> ---
+>>   drivers/acpi/cppc_acpi.c       |  44 +++++++++
+>>   drivers/cpufreq/cppc_cpufreq.c | 165 +++++++++++++++++++++++++++++++++
+>>   include/acpi/cppc_acpi.h       |  20 ++++
+>>   3 files changed, 229 insertions(+)
+>>
+>> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
+>> index 08e62b58eb83..b2b8daab69ed 100644
+>> --- a/drivers/acpi/cppc_acpi.c
+>> +++ b/drivers/acpi/cppc_acpi.c
+>> @@ -1753,6 +1753,50 @@ int cppc_set_auto_sel(int cpu, bool enable)
+>>   }
+>>   EXPORT_SYMBOL_GPL(cppc_set_auto_sel);
+>>
+>> +/**
+>> + * cppc_get_min_perf - Read minimum performance register.
+>> + * @cpu: CPU from which to read register.
+>> + * @min_perf: Return address.
+>> + */
+>> +int cppc_get_min_perf(int cpu, u64 *min_perf)
+>> +{
+>> +     return cppc_get_reg_val(cpu, MIN_PERF, min_perf);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cppc_get_min_perf);
+>> +
+>> +/**
+>> + * cppc_set_min_perf - Write minimum performance register.
+>> + * @cpu: CPU to which to write register.
+>> + * @min_perf: the desired minimum performance value to be updated.
+>> + */
+>> +int cppc_set_min_perf(int cpu, u32 min_perf)
+>> +{
+>> +     return cppc_set_reg_val(cpu, MIN_PERF, min_perf);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cppc_set_min_perf);
+>> +
+>> +/**
+>> + * cppc_get_max_perf - Read maximum performance register.
+>> + * @cpu: CPU from which to read register.
+>> + * @max_perf: Return address.
+>> + */
+>> +int cppc_get_max_perf(int cpu, u64 *max_perf)
+>> +{
+>> +     return cppc_get_reg_val(cpu, MAX_PERF, max_perf);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cppc_get_max_perf);
+>> +
+>> +/**
+>> + * cppc_set_max_perf - Write maximum performance register.
+>> + * @cpu: CPU to which to write register.
+>> + * @max_perf: the desired maximum performance value to be updated.
+>> + */
+>> +int cppc_set_max_perf(int cpu, u32 max_perf)
+>> +{
+>> +     return cppc_set_reg_val(cpu, MAX_PERF, max_perf);
+>> +}
+>> +EXPORT_SYMBOL_GPL(cppc_set_max_perf);
+>> +
+>>   /**
+>>    * cppc_set_enable - Set to enable CPPC on the processor by writing the
+>>    * Continuous Performance Control package EnableRegister field.
+>> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+>> index 1421f30e87e4..8787185cd8b0 100644
+>> --- a/drivers/cpufreq/cppc_cpufreq.c
+>> +++ b/drivers/cpufreq/cppc_cpufreq.c
+>> @@ -570,6 +570,35 @@ static void populate_efficiency_class(void)
+>>   }
+>>   #endif
+>>
+>> +/* Set min/max performance HW register and cache the value */
+>> +static int cppc_cpufreq_set_mperf_reg(struct cpufreq_policy *policy,
+>> +                                   u64 val, bool is_min)
+>> +{
+>> +     struct cppc_cpudata *cpu_data = policy->driver_data;
+>> +     struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+>> +     unsigned int cpu = policy->cpu;
+>> +     u32 perf;
+>> +     int ret;
+>> +
+>> +     perf = clamp(val, caps->lowest_perf, caps->highest_perf);
+>> +
+>> +     ret = is_min ? cppc_set_min_perf(cpu, perf) :
+>> +                    cppc_set_max_perf(cpu, perf);
+>> +     if (ret) {
+>> +             if (ret != -EOPNOTSUPP)
+>> +                     pr_warn("CPU%d: set %s_perf=%u failed (%d)\n",
+>> +                             cpu, is_min ? "min" : "max", perf, ret);
+>> +             return ret;
+>> +     }
+>> +
+>> +     if (is_min)
+>> +             cpu_data->perf_ctrls.min_perf = perf;
+>> +     else
+>> +             cpu_data->perf_ctrls.max_perf = perf;
+>> +
+>> +     return 0;
+>> +}
+>> +
+>>   static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
+>>   {
+>>        struct cppc_cpudata *cpu_data;
+>> @@ -919,16 +948,152 @@ CPPC_CPUFREQ_ATTR_RW_U64(auto_act_window, cppc_get_auto_act_window,
+>>   CPPC_CPUFREQ_ATTR_RW_U64(energy_performance_preference_val,
+>>                         cppc_get_epp_perf, cppc_set_epp)
+>>
+>> +/**
+>> + * show_min_perf - Show minimum performance as frequency (kHz)
+>> + * @policy: cpufreq policy
+>> + * @buf: buffer to write the frequency value to
+>> + *
+>> + * Reads the MIN_PERF register and converts the performance value to
+>> + * frequency (kHz).
+>> + */
+>> +static ssize_t show_min_perf(struct cpufreq_policy *policy, char *buf)
+>> +{
+>> +     struct cppc_cpudata *cpu_data = policy->driver_data;
+>> +     struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+>> +     u64 perf;
+>> +     int ret;
+>> +
+>> +     ret = cppc_get_min_perf(policy->cpu, &perf);
+>> +     if (ret == -EOPNOTSUPP)
+>> +             return sysfs_emit(buf, "<unsupported>\n");
+>> +     if (ret)
+>> +             return ret;
+>> +
+>> +     /* Use lowest_perf if register is uninitialized or out of range */
+>> +     if (perf == 0 || perf < caps->lowest_perf)
+>> +             perf = caps->lowest_perf;
+>> +
+>> +     /* Convert performance to frequency (kHz) for user */
+>> +     return sysfs_emit(buf, "%u\n", cppc_perf_to_khz(caps, perf));
+>> +}
+>> +
+>> +/**
+>> + * store_min_perf - Set minimum performance from frequency (kHz)
+>> + * @policy: cpufreq policy
+>> + * @buf: buffer containing the frequency value
+>> + * @count: size of @buf
+>> + *
+>> + * Converts the user-provided frequency (kHz) to a performance value
+>> + * and writes it to the MIN_PERF register.
+>> + */
+>> +static ssize_t store_min_perf(struct cpufreq_policy *policy, const char *buf,
+>> +                           size_t count)
+>> +{
+>> +     struct cppc_cpudata *cpu_data = policy->driver_data;
+>> +     unsigned int freq_khz;
+>> +     u64 perf;
+>> +     int ret;
+>> +
+>> +     ret = kstrtouint(buf, 0, &freq_khz);
+>> +     if (ret)
+>> +             return ret;
+>> +
+>> +     /* Convert frequency (kHz) to performance value */
+>> +     perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
+>> +
+>> +     /*
+>> +      * min_perf must be less than or equal to max_perf.
+>> +      * Skip check if max_perf is 0 (uninitialized).
+>> +      */
+>> +     if (cpu_data->perf_ctrls.max_perf &&
+>> +         perf > cpu_data->perf_ctrls.max_perf)
+>> +             return -EINVAL;
+>> +
+>> +     ret = cppc_cpufreq_set_mperf_reg(policy, perf, true);
+>> +     if (ret)
+>> +             return ret;
+>> +
+>> +     return count;
+>> +}
+>> +
+>> +/**
+>> + * show_max_perf - Show maximum performance as frequency (kHz)
+>> + * @policy: cpufreq policy
+>> + * @buf: buffer to write the frequency value to
+>> + *
+>> + * Reads the MAX_PERF register and converts the performance value to
+>> + * frequency (kHz).
+>> + */
+>> +static ssize_t show_max_perf(struct cpufreq_policy *policy, char *buf)
+>> +{
+>> +     struct cppc_cpudata *cpu_data = policy->driver_data;
+>> +     struct cppc_perf_caps *caps = &cpu_data->perf_caps;
+>> +     u64 perf;
+>> +     int ret;
+>> +
+>> +     ret = cppc_get_max_perf(policy->cpu, &perf);
+>> +     if (ret == -EOPNOTSUPP)
+>> +             return sysfs_emit(buf, "<unsupported>\n");
+>> +     if (ret)
+>> +             return ret;
+>> +
+>> +     /* Use highest_perf if register is uninitialized or out of range */
+>> +     if (perf == 0 || perf > caps->highest_perf)
+>> +             perf = caps->highest_perf;
+>> +
+>> +     /* Convert performance to frequency (kHz) for user */
+>> +     return sysfs_emit(buf, "%u\n", cppc_perf_to_khz(caps, perf));
+>> +}
+>> +
+>> +/**
+>> + * store_max_perf - Set maximum performance from frequency (kHz)
+>> + * @policy: cpufreq policy
+>> + * @buf: buffer containing the frequency value
+>> + * @count: size of @buf
+>> + *
+>> + * Converts the user-provided frequency (kHz) to a performance value
+>> + * and writes it to the MAX_PERF register.
+>> + */
+>> +static ssize_t store_max_perf(struct cpufreq_policy *policy, const char *buf,
+>> +                           size_t count)
+>> +{
+>> +     struct cppc_cpudata *cpu_data = policy->driver_data;
+>> +     unsigned int freq_khz;
+>> +     u64 perf;
+>> +     int ret;
+>> +
+>> +     ret = kstrtouint(buf, 0, &freq_khz);
+>> +     if (ret)
+>> +             return ret;
+>> +
+>> +     /* Convert frequency (kHz) to performance value */
+>> +     perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
+>> +
+>> +     /* max_perf must be greater than or equal to min_perf */
+>> +     if (perf < cpu_data->perf_ctrls.min_perf)
+>> +             return -EINVAL;
+>> +
+>> +     ret = cppc_cpufreq_set_mperf_reg(policy, perf, false);
+>> +     if (ret)
+>> +             return ret;
+>> +
+>> +     return count;
+>> +}
+>> +
+>>   cpufreq_freq_attr_ro(freqdomain_cpus);
+>>   cpufreq_freq_attr_rw(auto_select);
+>>   cpufreq_freq_attr_rw(auto_act_window);
+>>   cpufreq_freq_attr_rw(energy_performance_preference_val);
+>> +cpufreq_freq_attr_rw(min_perf);
+>> +cpufreq_freq_attr_rw(max_perf);
+>>
+>>   static struct freq_attr *cppc_cpufreq_attr[] = {
+>>        &freqdomain_cpus,
+>>        &auto_select,
+>>        &auto_act_window,
+>>        &energy_performance_preference_val,
+>> +     &min_perf,
+>> +     &max_perf,
+>>        NULL,
+>>   };
+>>
+>> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
+>> index 3fc796c0d902..b358440cd0e2 100644
+>> --- a/include/acpi/cppc_acpi.h
+>> +++ b/include/acpi/cppc_acpi.h
+>> @@ -174,6 +174,10 @@ extern int cppc_get_auto_act_window(int cpu, u64 *auto_act_window);
+>>   extern int cppc_set_auto_act_window(int cpu, u64 auto_act_window);
+>>   extern int cppc_get_auto_sel(int cpu, bool *enable);
+>>   extern int cppc_set_auto_sel(int cpu, bool enable);
+>> +extern int cppc_get_min_perf(int cpu, u64 *min_perf);
+>> +extern int cppc_set_min_perf(int cpu, u32 min_perf);
+>> +extern int cppc_get_max_perf(int cpu, u64 *max_perf);
+>> +extern int cppc_set_max_perf(int cpu, u32 max_perf);
+>>   extern int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf);
+>>   extern int amd_get_boost_ratio_numerator(unsigned int cpu, u64 *numerator);
+>>   extern int amd_detect_prefcore(bool *detected);
+>> @@ -270,6 +274,22 @@ static inline int cppc_set_auto_sel(int cpu, bool enable)
+>>   {
+>>        return -EOPNOTSUPP;
+>>   }
+>> +static inline int cppc_get_min_perf(int cpu, u64 *min_perf)
+>> +{
+>> +     return -EOPNOTSUPP;
+>> +}
+>> +static inline int cppc_set_min_perf(int cpu, u32 min_perf)
+>> +{
+>> +     return -EOPNOTSUPP;
+>> +}
+>> +static inline int cppc_get_max_perf(int cpu, u64 *max_perf)
+>> +{
+>> +     return -EOPNOTSUPP;
+>> +}
+>> +static inline int cppc_set_max_perf(int cpu, u32 max_perf)
+>> +{
+>> +     return -EOPNOTSUPP;
+>> +}
+>>   static inline int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf)
+>>   {
+>>        return -ENODEV;
