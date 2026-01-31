@@ -1,131 +1,205 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8062F334685;
-	Sat, 31 Jan 2026 02:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769828313; cv=none; b=rD4swDoMz5rdWK3eCnsapzCcuaiuTLcdAZXnY5BWBHXEAGmSm3Ac9qmZgg4HIwOnk9S5O+DrEbJ9mYP43GfevZ+GABNaGjE6CUAQXn2+Z9XYy4yjtCko6NRNOe/0O4uMMsCfAe3Ae5bJ3l/iGScasnsRD/jj0osA1PQSyv8iHP4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769828313; c=relaxed/simple;
-	bh=Dqkwnz4JyEy4loQ8EYMnImJvtidGxEflCqTxc7JXwS0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ki1PEAK+X9vxJO4UlyYqj+f1cVSnAMk1ShZ3lho9ihvclFiL+5oXyDtvsZQnbDEngBGDONJA/vDGAaTVVzKxqmkEV0NUcl4bhm+if7UvdTYAi6NDZVqHVUc2XIpEC/aNl5Kfg9OhyrIeqRxPa1ZxKjbyVeWRyJ/q9BFi/63c6AE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=mpfL96Hx; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3185311952
+	for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 03:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769828477; cv=pass; b=sLPemEJ7mo+13YsbM8aHsnstOeE0Pcnn84oZSi1lFzTcSfiuWyPEWe09e5vBSBbwgDLT3lC7/aNoipJn1GASgAQdXxkrQBiCHmVBxm7deRHsk0YkJVKXo8ZnTdxrtgRWyScoOTAVE0AMuTP/Z2631bfTmVVeHsrGDIVIrADqvig=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769828477; c=relaxed/simple;
+	bh=0dP1zizuvb+YCTfhetz0ht1UJLaJiSW38KjUpELCixc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XB501tc5oOi6LD3FTRpDPIuGSpwnyqDXuGsU3rDbBtCWzB4FMZUt1xA24f+JwyS7D13bBW1xmCwpC+fa04EKPALqCvJocpphBRWmt17iw4UyCABMXJDd5f1bQG/rZW5L4ZeySjIJ9SkQ/dINs2kr/snAFF7PV44GaGW0VrgBez8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WPz0hibx; arc=pass smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="mpfL96Hx"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=7XHWaZHFKtL0PySE53UufCAynSolWQJ0darNOPXOVKA=;
-	b=mpfL96HxwL15BL2vpD0Fd+Rr/YzpTjSvOSWcR8dQvMGyTlzNyAhjwBhWZ0zgQuXhKy2g7PFAl
-	D5fxNjfzgsaPgrhtx3U46DOF+bN22CKmS/GJ8wMT2pWKqycvFBbiIxyy6KU83SYgc2go2iQe/47
-	5tvkLmWkP5aEgdZtMAuMdxc=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4f2yC74Hj7z12LDp;
-	Sat, 31 Jan 2026 10:54:27 +0800 (CST)
-Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
-	by mail.maildlp.com (Postfix) with ESMTPS id 437C240539;
-	Sat, 31 Jan 2026 10:58:20 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
- (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 31 Jan
- 2026 10:58:19 +0800
-Message-ID: <73bf9b60-7a76-4648-98cf-c37901eb7b0a@huawei.com>
-Date: Sat, 31 Jan 2026 10:58:18 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WPz0hibx"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-89473dca8aaso30754206d6.0
+        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 19:01:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769828470; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Lu6+j9XelK446BoigNKhGWGpuL4ssUY/xDl1O1VbggWTfTKEF1TCZdIrwhHKXNEFCH
+         YlEPgt/Xx371zXZrCBqhR6M4fGb9LUM5nYoIXeADm43271W/kwEUAiE2b42Ldy2BWgi9
+         V9DFyW2UlUpc83g7ZBKE5IDABV5Nxp3h4j3FNV/PZodJf2qXw1T5itMouQ3Ah+R3vsBX
+         YeqkPiJI0xdzRKHRiQmUZ2vedj+dJF9ldj92nSVrsv2En6gGk/Zq/BVhzdv5UXaVrNMO
+         pCxCgjSHAlEXsZScQv92MuKc9sl7I/u3xpiUUTB8eA95GqmgJwxWaPr/vlDEgNqnO9eL
+         z+YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0dP1zizuvb+YCTfhetz0ht1UJLaJiSW38KjUpELCixc=;
+        fh=MzxGN1JGVpp6689yS6zM5BuF0AdR0iQ1+8qKREw140I=;
+        b=BLp3Oy5VdQGNu0fSnvZUwMV9DN/hHeApAm1XLgjDAFDF9S6UEtBnBLSja+xXMUi7yy
+         eY5geWyG9u54oeDcrQlPVXyMvbE94cDU2K5fWQ5aznZOGyNg4x3PhoHsFth53HXJUVHZ
+         dQI6SFteMrxjjDuck9Ufcp9yTSp3fk/8fQFxNzGXlVi25BRbUhcFhr9Ow8Jq/+GJiWsG
+         RduvLac2m6rXOdfKSMNH+aNwOK8d9VL7/8B3RmyAOC+q5+3R2AJEpjVjKQYNbSZazKU8
+         nWhxIJcI5ouZoKa+qbloR65bTH/JdRYQn1iXqq4AuozYPwZ6wbmUrGw7EmkLTI31vacy
+         D/7Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769828470; x=1770433270; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0dP1zizuvb+YCTfhetz0ht1UJLaJiSW38KjUpELCixc=;
+        b=WPz0hibx6GdNkusUtWCaf2UaHgvYNZqQ1U/vmDYmAFqzLTEnXLMcBhWQuBNLXuZiIX
+         otUnCrtku2ISMwbZY9lc5qsisr6iq45nhbRx3YntkuAiCzcqYDa4niCSPVQ1nF7sqeas
+         lVL7ZCTAqfcSM19/UIhc9mSXnawMpzBIyKVZVoRh5AulgRhPKfm9vHecDK0kYfhrrHeb
+         2HeWLp3RtnUbWHBXaiWBrhCPCf5gAhJpByB/SFxKH3hnHFy837PLHfWJdvMNdpLvVWGH
+         N7JTj7v7qRFeJQPKGmr6dwOsfgXqyFf+zNN8bHokW8n2xwAmM1XoJPacjCg5n4Ez+ctu
+         tnxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769828470; x=1770433270;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0dP1zizuvb+YCTfhetz0ht1UJLaJiSW38KjUpELCixc=;
+        b=kvNex9kPVilfmaQC9NB9gUgtN8P9OF51ZvUwdPZ8P1XV7IrRAit2HP/t/rItsCLCfG
+         rCIJaDUtEaB/rnOZsZn18w8I7XlsZ792jlcD/a7bvLzaWXtvj+axz4LVJK+rcoEKMQym
+         iNBqSudmcx+EfWFSMEuIagUhnQWgFEQ/PWJf2ackgVSUfi2S3oubfeOYxNRt2K99kPXi
+         MhNUVuwgN2JMamJ0++dKmlzrtTH9ZyhEywBarf0L42aLadGzsTKRMSfAwy8VRwtgSAVh
+         hAUESRqUTf8ocS3nFMp3BURnRrZWAvtC8yMhPe0n3kN3/Je/9Y0cheYom7iR7pbQ0J73
+         S80g==
+X-Forwarded-Encrypted: i=1; AJvYcCXqnufFjNLittaTP2/ZZcmtT6teZvbT4oxbVRNm67jSdhcVAMP0sCMYEqbREtfdFGzzD4JM0K5yFxU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK4VQ+Z1zLHXchbO88IOfxP0qoY2sqwsVtT6A6iYf241USIBD9
+	3auGtBYZpt3XTEU7jgeGl64fzdK1z05s625e1SFNTOhtQux/qX91wlT1FaaiCjiwXxOVEHqZ/0/
+	AwGMW0LHbV7nK33SKedOohzeRtgg/VTY=
+X-Gm-Gg: AZuq6aK8G446HPeA2IF+d/lQJ4DYmEftlVP6foaBowC5Qrx08sfHCHGGt7/P6ClyWlL
+	x1UKaeWglp4NDSNQvHanaFkv7RNNTg0duJ34Z7C6IwAw5pj0ZN1CLbASh8w6pSObCaQFzvVPsgZ
+	qM35XR2HYNOS4lIqG5aapBAdU2JSiVjftRRftJbiuDWljZbdmPy7KscjUIcw5A0PnGtZDL0X/Vv
+	p/402HAcy6hV1hv7aQsi9swSBDMbz7yPv4+2peKvaP7h9SaWVovwQcyQyTZAsOr4I6bJTmWwOgV
+	sso15g9WPczFKVnPjOj3CgeznTwqDaU8HdJJk3FsXJZaZbajLDmHpjg=
+X-Received: by 2002:a05:6214:260b:b0:880:51f0:5b93 with SMTP id
+ 6a1803df08f44-894e9fe6cbemr81159006d6.18.1769828470148; Fri, 30 Jan 2026
+ 19:01:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/7] Enhanced autonomous selection and improvements
-To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
-	<viresh.kumar@linaro.org>, <pierre.gondois@arm.com>
-CC: <ionela.voinescu@arm.com>, <lenb@kernel.org>, <robert.moore@intel.com>,
-	<corbet@lwn.net>, <rdunlap@infradead.org>, <ray.huang@amd.com>,
-	<gautham.shenoy@amd.com>, <mario.limonciello@amd.com>, <perry.yuan@amd.com>,
-	<zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
-	<vsethi@nvidia.com>, <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
-	<nhartman@nvidia.com>, <bbasu@nvidia.com>
-References: <20260129104817.3752340-1-sumitg@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <20260129104817.3752340-1-sumitg@nvidia.com>
+References: <97af2d85-a905-44d4-951f-e56a40f4312e@nvidia.com>
+ <20260130015901.GA301119@joelbox2> <c064fbdc-9202-437d-80ff-6134d2a33778@nvidia.com>
+ <70d88203-2fe1-4bde-b254-51e8107744eb@nvidia.com>
+In-Reply-To: <70d88203-2fe1-4bde-b254-51e8107744eb@nvidia.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Sat, 31 Jan 2026 13:00:58 +1000
+X-Gm-Features: AZwV_QikuSqbC3QYogib7-81aPfnOToX57Ol8yNxSKEx4_hXbDFs8a3hQtETIYo
+Message-ID: <CAPM=9twm1x9rH==uoGQLYa8b4feQMz=Ne14WPuhCPy9_H1u5Tw@mail.gmail.com>
+Subject: Re: [PATCH RFC v6 05/26] nova-core: mm: Add support to use PRAMIN
+ windows to write to VRAM
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: John Hubbard <jhubbard@nvidia.com>, Danilo Krummrich <dakr@kernel.org>, Zhi Wang <zhiw@nvidia.com>, 
+	linux-kernel@vger.kernel.org, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Alex Deucher <alexander.deucher@amd.com>, Christian Koenig <christian.koenig@amd.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Rui Huang <ray.huang@amd.com>, 
+	Matthew Auld <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Lucas De Marchi <lucas.demarchi@intel.com>, 
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>, Helge Deller <deller@gmx.de>, 
+	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+	Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>, 
+	Andy Ritger <aritger@nvidia.com>, Alexey Ivanov <alexeyi@nvidia.com>, 
+	Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>, 
+	Elle Rhumsaa <elle@weathered-steel.dev>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemf200001.china.huawei.com (7.202.181.227)
 
-Reviewed-by: Lifeng Zheng <zhenglifeng1@huawei.com>
+On Sat, 31 Jan 2026 at 07:14, Joel Fernandes <joelagnelf@nvidia.com> wrote:
+>
+>
+>
+> On 1/29/2026 10:38 PM, John Hubbard wrote:
+> > On 1/29/26 5:59 PM, Joel Fernandes wrote:
+> >> On 1/29/26 8:12 PM, John Hubbard wrote:
+> >>> On 1/29/26 4:26 PM, Joel Fernandes wrote:
+> >>>> Based on the below discussion and research, I came up with some deadlock
+> >>>> scenarios that we need to handle in the v6 series of these patches.
+> >>>> [...]
+> >>>> memory allocations under locks that we need in the dma-fence signaling
+> >>>> critical path (when doing the virtual memory map/unmap)
+> >>>
+> >>> unmap? Are you seeing any allocations happening during unmap? I don't
+> >>> immediately see any, but that sounds surprising.
+> >>
+> >> Not allocations but we are acquiring locks during unmap. My understanding
+> >> is (at least some) unmaps have to also be done in the dma fence signaling
+> >> critical path (the run stage), but Danilo/you can correct me if I am wrong
+> >> on that. We cannot avoid all locking but those same locks cannot be held in
+> >> any other paths which do a memory allocation (as mentioned in one of the
+> >> deadlock scenarios), that is probably the main thing to check for unmap.
+> >>
+> >
+> > Right, OK we are on the same page now: no allocations happening on unmap,
+> > but it can still deadlock, because the driver is typically going to
+> > use a single lock to protect calls both map and unmap-related calls
+> > to the buddy allocator.
+>
+> Yes exactly!
+>
+> >
+> > For the deadlock above, I think a good way to break that deadlock is
+> > to not allow taking that lock in a fence signaling calling path.
+> >
+> > So during an unmap, instead of "lock, unmap/free, unlock" it should
+> > move the item to a deferred-free list, which is processed separately.
+> > Of course, this is a little complex, because the allocation and reclaim
+> > has to be aware of such lists if they get large.
+> Yes, also avoiding GFP_KERNEL allocations while holding any of these mm locks
+> (whichever we take during map). The GPU buddy actually does GFP_KERNEL
+> allocations internally which is problematic.
+>
+> Some solutions / next steps:
+>
+> 1. allocating (VRAM and system memory) outside mm locks just before acquiring them.
+>
+> 2. pre-allocating both VRAM and system memory needed, before the DMA fence
+> critical paths (The issue is also to figure out how much memory to pre-allocate
+> for the page table pages based on the VM_BIND request. I think we can analyze
+> the page tables in the submit stage to make an estimate).
+>
+> 3. Unfortunately, I am using gpu-buddy when allocating a VA range in the Vmm
+> (called virt_buddy), which itself does GFP_KERNEL memory allocations in the
+> allocate path. I am not sure what do yet about this. ISTR the maple tree also
+> has similar issues.
+>
+> 4. Using non-reclaimable memory allocations where pre-allocation or
+> pre-allocated memory pools is not possible (I'd like to avoid this #4 so we
+> don't fail allocations when memory is scarce).
+>
+> Will work on these issues for the v7. Thanks,
 
-On 2026/1/29 18:48, Sumit Gupta wrote:
-> As discussed in [7], v5 was split into two parts. This is part 1.
-> - Patch 1-3 from v6: Applied by Rafael for 6.20.
-> - Remaining patches: Included in this v7 with review comments addressed.
-> Part 2 (v5 patches 8-11) will follow separately.
-> 
-> This patch series adds sysfs interfaces for CPPC min_perf, max_perf,
-> and perf_limited registers, along with supporting ACPI APIs and
-> improvements for the cppc_cpufreq driver.
-> 
-> CPPC autonomous mode (auto_sel) enables hardware-driven CPU performance
-> scaling using Energy Performance Preference (EPP) hints. Currently,
-> there's limited runtime control and visibility into CPPC performance
-> registers.
-> 
-> This series addresses these gaps by:
-> 1. Exposing min_perf/max_perf registers via sysfs (as frequency in kHz)
->    to allow fine-grained performance bounds control in autonomous mode.
-> 2. Exposing perf_limited register to detect and clear throttling events.
-> 
-> It also includes code improvements: new APIs for reading performance
-> controls, a warning for missing mandatory DESIRED_PERF register, and
-> extended epp_perf support.
-> 
-> The patches are grouped as below:
-> - Patch 1: Add cppc_get_perf() API (independent).
-> - Patch 2: Warn on missing mandatory DESIRED_PERF (independent).
-> - Patch 3: Extend cppc_set_epp_perf for FFH/SystemMemory (independent)
-> - Patch 4-5: APIs, sysfs for min/max_perf, perf_limited (independent)
-> - Patch 6: Doc for min/max_perf and perf_limited (depends on 4-5)
-> - Patch 7: Update cached perf_ctrls on sysfs write (independent).
-> 
-> ---
-> v6[7] -> v7:
-> - patch 1-3 (v6): Dropped as they were applied by Rafael for 6.20.
-> - patch 2 (v7): Added new patch to warn on missing DESIRED_PERF as
->   suggested by Pierre.
-> - patch 4, 7 (v7): Removed mutex from sysfs store functions as
->   policy->rwsem already provides synchronization.
-> - patch 4 (v7): Added validation checks in store_min/max_perf.
-> 
-> Sumit Gupta (7):
->   ACPI: CPPC: Add cppc_get_perf() API to read performance controls
->   ACPI: CPPC: Warn on missing mandatory DESIRED_PERF register
->   ACPI: CPPC: Extend cppc_set_epp_perf() for FFH/SystemMemory
->   ACPI: CPPC: add APIs and sysfs interface for min/max_perf
->   ACPI: CPPC: add APIs and sysfs interface for perf_limited
->   cpufreq: CPPC: Add sysfs for min/max_perf and perf_limited
->   cpufreq: CPPC: Update cached perf_ctrls on sysfs write
-> 
->  .../ABI/testing/sysfs-devices-system-cpu      |  44 ++++
->  drivers/acpi/cppc_acpi.c                      | 214 +++++++++++++++++-
->  drivers/cpufreq/cppc_cpufreq.c                | 207 ++++++++++++++++-
->  include/acpi/cppc_acpi.h                      |  40 ++++
->  4 files changed, 500 insertions(+), 5 deletions(-)
-> 
-> [1] https://lore.kernel.org/lkml/20250211103737.447704-1-sumitg@nvidia.com/
-> [2] https://lore.kernel.org/lkml/20250823200121.1320197-1-sumitg@nvidia.com/
-> [3] https://lore.kernel.org/lkml/20251001150104.1275188-1-sumitg@nvidia.com/
-> [4] https://lore.kernel.org/lkml/20251105113844.4086250-1-sumitg@nvidia.com/
-> [5] https://lore.kernel.org/lkml/20251223121307.711773-1-sumitg@nvidia.com/
-> [6] https://lore.kernel.org/lkml/20260120145623.2959636-1-sumitg@nvidia.com/
-> [7] https://lore.kernel.org/lkml/66f58f43-631b-40a0-8d42-4e90cd24b757@arm.com/
-> 
+The way this works on nouveau at least (and I haven't yet read the
+nova code in depth).
 
+Is we have 4 stages of vmm page table mgmt.
+
+ref - locked with a ref lock - can allocate/free memory - just makes
+sure the page tables exist and are reference counted
+map - locked with a map lock - cannot allocate memory - fill in the
+PTEs in the page table
+unmap - locked with a map lock - cannot allocate memory - removes
+entries in PTEs
+unref - locked with a ref lock - can allocate/free memory - just drops
+references and frees (not sure if it ever merges).
+
+So maps and unmaps can be in fence signalling paths, but unrefs are
+done in free job from a workqueue.
+
+Dave.
+>
+> --
+> Joel Fernandes
+>
