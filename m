@@ -1,373 +1,221 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FDE1AA7A6;
-	Sat, 31 Jan 2026 04:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2E52D46B2;
+	Sat, 31 Jan 2026 06:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.248.207
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769832416; cv=none; b=cAm4OK6tcFMvQfl+Jm6SLZ37Mc+rFGkSgmsK2gpOD4ZL/C9iiKPY6JUYkgFM/tXKQ9nUoFQf17IPNL7XSGY6YNoeSNQm/Du8fkxQZvLRU0Z37bbnMict2Ftr8LMBAXQ98uib2LkMHeYAJEz4RXLNAdcRtaiyfb7Tdwxq4kZITM8=
+	t=1769839675; cv=none; b=gG7/LmiBQWVTH+EqrHSRlxoEcdbiP0qPwM8tE3on6ZzcUiJn0AN6v7+Ii3ZRpIdJASYGizKvv3Eq/TfqCUkCIabEEBaMQ8fmtD1T/0R6Bx+r4Cvsoa12Dy/aaO8xgVBjjpIv5mlrwUduo36bMt8/q4gawZT1yO135jDk1qH00Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769832416; c=relaxed/simple;
-	bh=ayZ88FkOYHg+di5zgf09R9K8I14AcMw91l4r2Dudvf4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ZIimA5dPI9WA43/5c2Heq10sEt72bIoCEWK30px3ZO/C0NXmGQcFG8qZa2kMs5jdY6v+PKxjDZz7avwFUkp0JfFyhLE+OTtqeNaOeQhPpITkYtawUq3E0Sc6ynIbE50EgQYltz5I0oKtyo0zpIVJRTDTI1k4iULcAQzdeSIolVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=NMxTdCRa; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1769839675; c=relaxed/simple;
+	bh=oeog5iZO0tE/GpnDtWPS42chjSxxsQeVLLMswgVyFfc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ONuwWMm3oGQCKIWxW/tiRcuw+zz7QKoUHGQrf4r9yyGnyoEHDyKamJjk/t1mJfm0gQOme6pV2vqr+Uxg70rWSK4Ez+W/ngQ642Pd2jciIN4bUAVEIlYTpYax6xLV2o9AyXStPOyR+FsP1aW69M/JBQkcpcRa8PlszBYxD3t8S0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=LLr1uZ2R; arc=none smtp.client-ip=159.100.248.207
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="NMxTdCRa"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=VKOnl8OcibkVpBTYjxP1aYM4F7U1Bytuvj+HlSX1+bw=;
-	b=NMxTdCRaRc+EttfeiD8E6m8xEVUJq1jLwxCHBWbslTdi+5dIKvkob98r6OBGfhNYyvxDWm6Q4
-	l8GJayBIZxzY7jrv6MP9AJaprA/AwYDbqhhOYJTTCiD1FaYZ3B0Hz911Sfv2nHp1RoggIYX8Yk8
-	B90e52OuQznmxlINhv9yY5g=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4f2zjk0lK0z1T4Fg;
-	Sat, 31 Jan 2026 12:02:34 +0800 (CST)
-Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8165C40567;
-	Sat, 31 Jan 2026 12:06:50 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
- (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 31 Jan
- 2026 12:06:49 +0800
-Message-ID: <4432fa04-e67c-422a-aae4-2938be431985@huawei.com>
-Date: Sat, 31 Jan 2026 12:06:48 +0800
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="LLr1uZ2R"
+Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.154])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id EC00926345;
+	Sat, 31 Jan 2026 06:07:45 +0000 (UTC)
+Received: from nf2.mymailcheap.com (nf2.mymailcheap.com [54.39.180.165])
+	by relay4.mymailcheap.com (Postfix) with ESMTPS id F1F8C202EF;
+	Sat, 31 Jan 2026 06:07:37 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf2.mymailcheap.com (Postfix) with ESMTPSA id 33F5B400EA;
+	Sat, 31 Jan 2026 06:07:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1769839655; bh=oeog5iZO0tE/GpnDtWPS42chjSxxsQeVLLMswgVyFfc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LLr1uZ2RvxnzrGxF2U7ClmQfPams39DoMhxkR9Zk4vd/JcK7kplJGnweT5Xn1qbx6
+	 Pqh5vDcvOFRG3Emrqa//GTRTieof1nbdI/DL+VNlj1ysDTCi0AF0wvgFG3//Qz1S7y
+	 nVrI0FbF24KWZOhXytUTNXbVb3dV+VcpFz/rAT2k=
+Received: from liushuyu-p15 (unknown [117.151.13.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id EC0F840F79;
+	Sat, 31 Jan 2026 06:07:29 +0000 (UTC)
+From: Zixing Liu <liushuyu@aosc.io>
+To: WANG Xuerui <kernel@xen0n.name>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Bibo Mao <maobibo@loongson.cn>
+Cc: Kexy Biscuit <kexybiscuit@aosc.io>,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Zixing Liu <liushuyu@aosc.io>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Tianrui Zhao <zhaotianrui@loongson.cn>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v2 RESEND] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+Date: Sat, 31 Jan 2026 14:05:59 +0800
+Message-ID: <20260131060600.169748-1-liushuyu@aosc.io>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 4/7] ACPI: CPPC: add APIs and sysfs interface for
- min/max_perf
-To: Sumit Gupta <sumitg@nvidia.com>, <pierre.gondois@arm.com>
-CC: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <ionela.voinescu@arm.com>,
-	<lenb@kernel.org>, <robert.moore@intel.com>, <corbet@lwn.net>,
-	<rdunlap@infradead.org>, <ray.huang@amd.com>, <gautham.shenoy@amd.com>,
-	<mario.limonciello@amd.com>, <perry.yuan@amd.com>, <zhanjie9@hisilicon.com>,
-	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<treding@nvidia.com>, <jonathanh@nvidia.com>, <vsethi@nvidia.com>,
-	<ksitaraman@nvidia.com>, <sanjayc@nvidia.com>, <nhartman@nvidia.com>,
-	<bbasu@nvidia.com>
-References: <20260129104817.3752340-1-sumitg@nvidia.com>
- <20260129104817.3752340-5-sumitg@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <20260129104817.3752340-5-sumitg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf200001.china.huawei.com (7.202.181.227)
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 33F5B400EA
+X-Spamd-Result: default: False [1.40 / 10.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+	RCVD_COUNT_ONE(0.00)[1];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	SPFBL_URIBL_EMAIL_FAIL(0.00)[liushuyu.aosc.io:server fail];
+	URIBL_BLOCKED(0.00)[mail20.mymailcheap.com:rdns,mail20.mymailcheap.com:helo,aosc.io:email,aosc.io:from_smtp,aosc.io:mid,aosc.io:from_mime];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	LOCAL_OUTBOUND(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Rspamd-Action: no action
+X-Rspamd-Server: nf2.mymailcheap.com
 
-Hi Sumit,
+This ioctl can be used by the userspace applications to determine which
+(special) registers are get/set-able in a meaningful way.
 
-I am thinking that maybe it is better to call these two sysfs interface
-'min_freq' and 'max_freq' as users read and write khz instead of raw value.
+This can be very useful for cross-platform VMMs so that they do not have
+to hardcode register indices for each supported architectures.
 
-On 2026/1/29 18:48, Sumit Gupta wrote:
-> Add cppc_get/set_min_perf() and cppc_get/set_max_perf() APIs to read and
-> write the MIN_PERF and MAX_PERF registers.
-> 
-> Also add sysfs interfaces (min_perf, max_perf) in cppc_cpufreq driver
-> to expose these controls to userspace. The sysfs values are in frequency
-> (kHz) for consistency with other cpufreq sysfs files.
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
->  drivers/acpi/cppc_acpi.c       |  44 +++++++++
->  drivers/cpufreq/cppc_cpufreq.c | 165 +++++++++++++++++++++++++++++++++
->  include/acpi/cppc_acpi.h       |  20 ++++
->  3 files changed, 229 insertions(+)
-> 
-> diff --git a/drivers/acpi/cppc_acpi.c b/drivers/acpi/cppc_acpi.c
-> index 08e62b58eb83..b2b8daab69ed 100644
-> --- a/drivers/acpi/cppc_acpi.c
-> +++ b/drivers/acpi/cppc_acpi.c
-> @@ -1753,6 +1753,50 @@ int cppc_set_auto_sel(int cpu, bool enable)
->  }
->  EXPORT_SYMBOL_GPL(cppc_set_auto_sel);
->  
-> +/**
-> + * cppc_get_min_perf - Read minimum performance register.
-> + * @cpu: CPU from which to read register.
-> + * @min_perf: Return address.
-> + */
-> +int cppc_get_min_perf(int cpu, u64 *min_perf)
-> +{
-> +	return cppc_get_reg_val(cpu, MIN_PERF, min_perf);
-> +}
-> +EXPORT_SYMBOL_GPL(cppc_get_min_perf);
-> +
-> +/**
-> + * cppc_set_min_perf - Write minimum performance register.
-> + * @cpu: CPU to which to write register.
-> + * @min_perf: the desired minimum performance value to be updated.
-> + */
-> +int cppc_set_min_perf(int cpu, u32 min_perf)
-> +{
-> +	return cppc_set_reg_val(cpu, MIN_PERF, min_perf);
-> +}
-> +EXPORT_SYMBOL_GPL(cppc_set_min_perf);
-> +
-> +/**
-> + * cppc_get_max_perf - Read maximum performance register.
-> + * @cpu: CPU from which to read register.
-> + * @max_perf: Return address.
-> + */
-> +int cppc_get_max_perf(int cpu, u64 *max_perf)
-> +{
-> +	return cppc_get_reg_val(cpu, MAX_PERF, max_perf);
-> +}
-> +EXPORT_SYMBOL_GPL(cppc_get_max_perf);
-> +
-> +/**
-> + * cppc_set_max_perf - Write maximum performance register.
-> + * @cpu: CPU to which to write register.
-> + * @max_perf: the desired maximum performance value to be updated.
-> + */
-> +int cppc_set_max_perf(int cpu, u32 max_perf)
-> +{
-> +	return cppc_set_reg_val(cpu, MAX_PERF, max_perf);
-> +}
-> +EXPORT_SYMBOL_GPL(cppc_set_max_perf);
-> +
->  /**
->   * cppc_set_enable - Set to enable CPPC on the processor by writing the
->   * Continuous Performance Control package EnableRegister field.
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-> index 1421f30e87e4..8787185cd8b0 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-> @@ -570,6 +570,35 @@ static void populate_efficiency_class(void)
->  }
->  #endif
->  
-> +/* Set min/max performance HW register and cache the value */
-> +static int cppc_cpufreq_set_mperf_reg(struct cpufreq_policy *policy,
-> +				      u64 val, bool is_min)
-> +{
-> +	struct cppc_cpudata *cpu_data = policy->driver_data;
-> +	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
-> +	unsigned int cpu = policy->cpu;
-> +	u32 perf;
-> +	int ret;
-> +
-> +	perf = clamp(val, caps->lowest_perf, caps->highest_perf);
-> +
-> +	ret = is_min ? cppc_set_min_perf(cpu, perf) :
-> +		       cppc_set_max_perf(cpu, perf);
-> +	if (ret) {
-> +		if (ret != -EOPNOTSUPP)
-> +			pr_warn("CPU%d: set %s_perf=%u failed (%d)\n",
-> +				cpu, is_min ? "min" : "max", perf, ret);
-> +		return ret;
-> +	}
-> +
-> +	if (is_min)
-> +		cpu_data->perf_ctrls.min_perf = perf;
-> +	else
-> +		cpu_data->perf_ctrls.max_perf = perf;
-> +
-> +	return 0;
-> +}
-> +
->  static struct cppc_cpudata *cppc_cpufreq_get_cpu_data(unsigned int cpu)
->  {
->  	struct cppc_cpudata *cpu_data;
-> @@ -919,16 +948,152 @@ CPPC_CPUFREQ_ATTR_RW_U64(auto_act_window, cppc_get_auto_act_window,
->  CPPC_CPUFREQ_ATTR_RW_U64(energy_performance_preference_val,
->  			 cppc_get_epp_perf, cppc_set_epp)
->  
-> +/**
-> + * show_min_perf - Show minimum performance as frequency (kHz)
-> + * @policy: cpufreq policy
-> + * @buf: buffer to write the frequency value to
-> + *
-> + * Reads the MIN_PERF register and converts the performance value to
-> + * frequency (kHz).
-> + */
-> +static ssize_t show_min_perf(struct cpufreq_policy *policy, char *buf)
-> +{
-> +	struct cppc_cpudata *cpu_data = policy->driver_data;
-> +	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
-> +	u64 perf;
-> +	int ret;
-> +
-> +	ret = cppc_get_min_perf(policy->cpu, &perf);
-> +	if (ret == -EOPNOTSUPP)
-> +		return sysfs_emit(buf, "<unsupported>\n");
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Use lowest_perf if register is uninitialized or out of range */
-> +	if (perf == 0 || perf < caps->lowest_perf)
-> +		perf = caps->lowest_perf;
-> +
-> +	/* Convert performance to frequency (kHz) for user */
-> +	return sysfs_emit(buf, "%u\n", cppc_perf_to_khz(caps, perf));
-> +}
-> +
-> +/**
-> + * store_min_perf - Set minimum performance from frequency (kHz)
-> + * @policy: cpufreq policy
-> + * @buf: buffer containing the frequency value
-> + * @count: size of @buf
-> + *
-> + * Converts the user-provided frequency (kHz) to a performance value
-> + * and writes it to the MIN_PERF register.
-> + */
-> +static ssize_t store_min_perf(struct cpufreq_policy *policy, const char *buf,
-> +			      size_t count)
-> +{
-> +	struct cppc_cpudata *cpu_data = policy->driver_data;
-> +	unsigned int freq_khz;
-> +	u64 perf;
-> +	int ret;
-> +
-> +	ret = kstrtouint(buf, 0, &freq_khz);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Convert frequency (kHz) to performance value */
-> +	perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
-> +
-> +	/*
-> +	 * min_perf must be less than or equal to max_perf.
-> +	 * Skip check if max_perf is 0 (uninitialized).
-> +	 */
-> +	if (cpu_data->perf_ctrls.max_perf &&
-> +	    perf > cpu_data->perf_ctrls.max_perf)
-> +		return -EINVAL;
-> +
-> +	ret = cppc_cpufreq_set_mperf_reg(policy, perf, true);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return count;
-> +}
-> +
-> +/**
-> + * show_max_perf - Show maximum performance as frequency (kHz)
-> + * @policy: cpufreq policy
-> + * @buf: buffer to write the frequency value to
-> + *
-> + * Reads the MAX_PERF register and converts the performance value to
-> + * frequency (kHz).
-> + */
-> +static ssize_t show_max_perf(struct cpufreq_policy *policy, char *buf)
-> +{
-> +	struct cppc_cpudata *cpu_data = policy->driver_data;
-> +	struct cppc_perf_caps *caps = &cpu_data->perf_caps;
-> +	u64 perf;
-> +	int ret;
-> +
-> +	ret = cppc_get_max_perf(policy->cpu, &perf);
-> +	if (ret == -EOPNOTSUPP)
-> +		return sysfs_emit(buf, "<unsupported>\n");
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Use highest_perf if register is uninitialized or out of range */
-> +	if (perf == 0 || perf > caps->highest_perf)
-> +		perf = caps->highest_perf;
-> +
-> +	/* Convert performance to frequency (kHz) for user */
-> +	return sysfs_emit(buf, "%u\n", cppc_perf_to_khz(caps, perf));
-> +}
-> +
-> +/**
-> + * store_max_perf - Set maximum performance from frequency (kHz)
-> + * @policy: cpufreq policy
-> + * @buf: buffer containing the frequency value
-> + * @count: size of @buf
-> + *
-> + * Converts the user-provided frequency (kHz) to a performance value
-> + * and writes it to the MAX_PERF register.
-> + */
-> +static ssize_t store_max_perf(struct cpufreq_policy *policy, const char *buf,
-> +			      size_t count)
-> +{
-> +	struct cppc_cpudata *cpu_data = policy->driver_data;
-> +	unsigned int freq_khz;
-> +	u64 perf;
-> +	int ret;
-> +
-> +	ret = kstrtouint(buf, 0, &freq_khz);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Convert frequency (kHz) to performance value */
-> +	perf = cppc_khz_to_perf(&cpu_data->perf_caps, freq_khz);
-> +
-> +	/* max_perf must be greater than or equal to min_perf */
-> +	if (perf < cpu_data->perf_ctrls.min_perf)
-> +		return -EINVAL;
-> +
-> +	ret = cppc_cpufreq_set_mperf_reg(policy, perf, false);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return count;
-> +}
-> +
->  cpufreq_freq_attr_ro(freqdomain_cpus);
->  cpufreq_freq_attr_rw(auto_select);
->  cpufreq_freq_attr_rw(auto_act_window);
->  cpufreq_freq_attr_rw(energy_performance_preference_val);
-> +cpufreq_freq_attr_rw(min_perf);
-> +cpufreq_freq_attr_rw(max_perf);
->  
->  static struct freq_attr *cppc_cpufreq_attr[] = {
->  	&freqdomain_cpus,
->  	&auto_select,
->  	&auto_act_window,
->  	&energy_performance_preference_val,
-> +	&min_perf,
-> +	&max_perf,
->  	NULL,
->  };
->  
-> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
-> index 3fc796c0d902..b358440cd0e2 100644
-> --- a/include/acpi/cppc_acpi.h
-> +++ b/include/acpi/cppc_acpi.h
-> @@ -174,6 +174,10 @@ extern int cppc_get_auto_act_window(int cpu, u64 *auto_act_window);
->  extern int cppc_set_auto_act_window(int cpu, u64 auto_act_window);
->  extern int cppc_get_auto_sel(int cpu, bool *enable);
->  extern int cppc_set_auto_sel(int cpu, bool enable);
-> +extern int cppc_get_min_perf(int cpu, u64 *min_perf);
-> +extern int cppc_set_min_perf(int cpu, u32 min_perf);
-> +extern int cppc_get_max_perf(int cpu, u64 *max_perf);
-> +extern int cppc_set_max_perf(int cpu, u32 max_perf);
->  extern int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf);
->  extern int amd_get_boost_ratio_numerator(unsigned int cpu, u64 *numerator);
->  extern int amd_detect_prefcore(bool *detected);
-> @@ -270,6 +274,22 @@ static inline int cppc_set_auto_sel(int cpu, bool enable)
->  {
->  	return -EOPNOTSUPP;
->  }
-> +static inline int cppc_get_min_perf(int cpu, u64 *min_perf)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +static inline int cppc_set_min_perf(int cpu, u32 min_perf)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +static inline int cppc_get_max_perf(int cpu, u64 *max_perf)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +static inline int cppc_set_max_perf(int cpu, u32 max_perf)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
->  static inline int amd_get_highest_perf(unsigned int cpu, u32 *highest_perf)
->  {
->  	return -ENODEV;
+Signed-off-by: Zixing Liu <liushuyu@aosc.io>
+---
+ Documentation/virt/kvm/api.rst |  2 +-
+ arch/loongarch/kvm/vcpu.c      | 85 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 86 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 01a3abef8abb..f46dd8be282f 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -3603,7 +3603,7 @@ VCPU matching underlying host.
+ ---------------------
+ 
+ :Capability: basic
+-:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
++:Architectures: arm64, loongarch, mips, riscv, x86 (if KVM_CAP_ONE_REG)
+ :Type: vcpu ioctl
+ :Parameters: struct kvm_reg_list (in/out)
+ :Returns: 0 on success; -1 on error
+diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
+index 656b954c1134..ed11438f4544 100644
+--- a/arch/loongarch/kvm/vcpu.c
++++ b/arch/loongarch/kvm/vcpu.c
+@@ -1186,6 +1186,73 @@ static int kvm_loongarch_vcpu_set_attr(struct kvm_vcpu *vcpu,
+ 	return ret;
+ }
+ 
++static int kvm_loongarch_walk_csrs(struct kvm_vcpu *vcpu, u64 __user *uindices)
++{
++	unsigned int i, count;
++
++	for (i = 0, count = 0; i < CSR_MAX_NUMS; i++) {
++		if (!(get_gcsr_flag(i) & (SW_GCSR | HW_GCSR)))
++			continue;
++		const u64 reg = KVM_IOC_CSRID(i);
++		if (uindices && put_user(reg, uindices++))
++			return -EFAULT;
++		count++;
++	}
++
++	return count;
++}
++
++static unsigned long kvm_loongarch_num_lbt_regs(void)
++{
++	/* +1 for the LBT_FTOP flag (inside arch.fpu) */
++	return sizeof(struct loongarch_lbt) / sizeof(unsigned long) + 1;
++}
++
++static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
++{
++	/* +1 for the KVM_REG_LOONGARCH_COUNTER register */
++	unsigned long res =
++		kvm_loongarch_walk_csrs(vcpu, NULL) + KVM_MAX_CPUCFG_REGS + 1;
++
++	if (kvm_guest_has_lbt(&vcpu->arch))
++		res += kvm_loongarch_num_lbt_regs();
++
++	return res;
++}
++
++static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
++					  u64 __user *uindices)
++{
++	u64 reg;
++	unsigned int i;
++
++	i = kvm_loongarch_walk_csrs(vcpu, uindices);
++	if (i < 0)
++		return i;
++	uindices += i;
++
++	for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
++		reg = KVM_IOC_CPUCFG(i);
++		if (put_user(reg, uindices++))
++			return -EFAULT;
++	}
++
++	reg = KVM_REG_LOONGARCH_COUNTER;
++	if (put_user(reg, uindices++))
++		return -EFAULT;
++
++	if (!kvm_guest_has_lbt(&vcpu->arch))
++		return 0;
++
++	for (i = 1; i <= kvm_loongarch_num_lbt_regs(); i++) {
++		reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
++		if (put_user(reg, uindices++))
++			return -EFAULT;
++	}
++
++	return 0;
++}
++
+ long kvm_arch_vcpu_ioctl(struct file *filp,
+ 			 unsigned int ioctl, unsigned long arg)
+ {
+@@ -1251,6 +1318,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+ 		r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
+ 		break;
+ 	}
++	case KVM_GET_REG_LIST: {
++		struct kvm_reg_list __user *user_list = argp;
++		struct kvm_reg_list reg_list;
++		unsigned n;
++
++		r = -EFAULT;
++		if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
++			break;
++		n = reg_list.n;
++		reg_list.n = kvm_loongarch_num_regs(vcpu);
++		if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
++			break;
++		r = -E2BIG;
++		if (n < reg_list.n)
++			break;
++		r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
++		break;
++	}
+ 	default:
+ 		r = -ENOIOCTLCMD;
+ 		break;
+-- 
+2.52.0
 
