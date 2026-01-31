@@ -1,49 +1,50 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102F3357725;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055D0357711;
 	Sat, 31 Jan 2026 14:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769869522; cv=none; b=GGOGEtWHz3j84JO5009ctcd4OrTWQtjru4Be5RQI5NO7/hDCUULYAD9gFzWM+k2eweXuNHrV3QBCPNGL0uR5YX6ii9+fYyQ9McoQgQ3o5avBhzC/Mfoy5XSKWEFp5BFJsw7xJFvpM/S+JlNZol+8jlzjqK+UIsfQJlwoaxS2TyY=
+	t=1769869522; cv=none; b=CDAFB32cl24ddX+2/XegV7NB/FuOhIZpt4HW+HsS0/krwK3obieJTIpEgHdDQi9hee6+fmFlo3KqZlbCd57g+nn/W6OKKpXBFmSGHhhb0t7oV2NQLyGrV1d1XAazy7J2XCrWVWQiFwCtKkLFlLPIB3ztnVXAQaVxgaJ+qWLSQgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769869522; c=relaxed/simple;
-	bh=k65ZRQ6nCC0QeSNdRmqS6WoUNEEbl9/G3ipKWB3BcN0=;
+	bh=uOq+nl7eJthPvVG9hgcDgM2eUmvJY3Ts+Jdl+DSpsYI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r4Lf6TT2QnsRAXYTwt0f19YnGv/1j+xScTDBf35Bd9HloiuY835q6e3gPzuub6DB+2TlzUlggBSc7sqaa6qCgQetkJ7xH+d/sab+3X9KOO0ft0uXM7Ir3tQA3EWGYY1cP+rqbwKHmTb/94ab+54vhtQ+nPQSTpKayAK4wCmXPNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e63fBHEI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=TgP/iHFH72JujyJKggJ+9iJucNIFJOhVkru1B8B4oybBMUR1NwGmhjDtsiI6fUQ6Lc57Tk+0VdTwUaKFiIKhEJfaNC7IdDi+u3Z8XKg1MiEclKr9eOniCS2IugdcRtEkEk8nPBPlOsyANrlpcKVe0P6RuklxiaouOZXu+5nFj/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=neOACnZT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e63fBHEI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BB10C2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="neOACnZT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71CABC2BCAF;
 	Sat, 31 Jan 2026 14:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1769869521;
-	bh=k65ZRQ6nCC0QeSNdRmqS6WoUNEEbl9/G3ipKWB3BcN0=;
+	bh=uOq+nl7eJthPvVG9hgcDgM2eUmvJY3Ts+Jdl+DSpsYI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e63fBHEIkHV7gUbvSu0y+j59kfsYS+U2rp5MWNYp5NQ0g0JUfdEhh8zX9FFM/Kobt
-	 /ihVs21vbRRyz69Q6p6+ahKpCiLT+GoqoAMnyBqQvjdGpLpbW1DwlHmRa4W1zbtY5Q
-	 i9F1iQnfMkB9haZzKgJ3rwc+tQKXFlGksj9GPaw9N84mw2IdQKLAuONYFDmInekn3x
-	 7f+7ujrpGZ8s2YBbjnNQFTS+qegSmz1cSeOCs0zaTLhGCg1sTbDlLHDvAor/RWFO4q
-	 TprFa23N2XVs5qdpJER1yKLNqsWaWlHrqCLnmmM1h+3VfscA2EI5nVO6WUJM9EgsRn
-	 sI6nVx08tDgDg==
+	b=neOACnZTJdN4hBjqEVf5dn93zlY5Ke3dCNR50AducSB2fWBw/1/3YKlYFd8Nx66S2
+	 PklvVqDS/z4xvv/8X6Wr+gQhcFgKEtYKyyuHIwRN0z8+3gQ1XEyPwlGZ8AJmwgNsmx
+	 qhY2MCJQ1T4dmkDUOm3SuanelIuDfqLQkBcdufrLnbdK5dF271OT+L9iN3qtE9BWeT
+	 dGsRFsDy4mXqeldzejd3nBHO1vKh4jIE+8Zd9WVsJBChrEW4E4YEMiyELWJxV+/Kwk
+	 d02ZYDhtL+hqo8nm/HajufmJdYPdqDF4/oh1zcuXp3bVB1VjvOnGO5Gbewsn8T3U0W
+	 NRuAPxDuPxRwA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vmBuZ-0000000AVk0-1jqe;
+	id 1vmBuZ-0000000AVkW-2fUw;
 	Sat, 31 Jan 2026 15:25:19 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Randy Dunlap <rdunlap@infradead.org>,
 	intel-wired-lan@lists.osuosl.org,
 	linux-hardening@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
 	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v4 04/41] docs: kdoc_parser: don't mangle with function defines
-Date: Sat, 31 Jan 2026 15:24:38 +0100
-Message-ID: <40010f8fa7275d1be1287b26ac46fcd3c88e2b99.1769867953.git.mchehab+huawei@kernel.org>
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH v4 12/41] docs: kdoc_parser: ignore context analysis and lock attributes
+Date: Sat, 31 Jan 2026 15:24:46 +0100
+Message-ID: <e1b8c0052ea99cca8428d3aec8a4fcf10412cee8.1769867953.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1769867953.git.mchehab+huawei@kernel.org>
 References: <cover.1769867953.git.mchehab+huawei@kernel.org>
@@ -57,66 +58,78 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Mangling with #defines is not nice, as we may end removing
-the macro names, preventing several macros from being properly
-documented.
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Also, on defines, we have something like:
+Drop all context analysis and lock (tracking) attributes to avoid
+kernel-doc warnings.
 
-	#define foo(a1, a2, a3, ...)			 \
-		/* some real implementation */
+Documentation/core-api/kref:328: ../include/linux/kref.h:72: WARNING: Invalid C declaration: Expected end of definition. [error at 96]
+  int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
+  ------------------------------------------------------------------------------------------------^
+Documentation/core-api/kref:328: ../include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
+  int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
+  --------------------------------------------------------------------------------------------^
 
-The prototype part (first line on this example) won't contain
-any macros, so no need to apply any regexes on it.
+The regex is suggested by Mauro; mine was too greedy. Thanks.
+Updated context analysis and lock macros list provided by PeterZ. Thanks.
 
-With that, move the apply_transforms() logic to ensure that
-it will be called only on functions.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/all/20260107161548.45530e1c@canb.auug.org.au/
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_parser.py | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ tools/lib/python/kdoc/kdoc_parser.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index 0b68b140cd02..3ba2cda2487a 100644
+index 21cc4e19a1e8..92b550189988 100644
 --- a/tools/lib/python/kdoc/kdoc_parser.py
 +++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -163,7 +163,7 @@ struct_nested_prefixes = [
+@@ -81,6 +81,8 @@ struct_xforms = [
+     (KernRe(r'\s*__aligned\s*\([^;]*\)', re.S), ' '),
+     (KernRe(r'\s*__counted_by\s*\([^;]*\)', re.S), ' '),
+     (KernRe(r'\s*__counted_by_(le|be)\s*\([^;]*\)', re.S), ' '),
++    (KernRe(r'\s*__guarded_by\s*\([^\)]*\)', re.S), ' '),
++    (KernRe(r'\s*__pt_guarded_by\s*\([^\)]*\)', re.S), ' '),
+     (KernRe(r'\s*__packed\s*', re.S), ' '),
+     (KernRe(r'\s*CRYPTO_MINALIGN_ATTR', re.S), ' '),
+     (KernRe(r'\s*__private', re.S), ' '),
+@@ -165,6 +167,16 @@ struct_nested_prefixes = [
+ # the start delimiter.
  #
- # Transforms for function prototypes
- #
--function_xforms  = [
-+function_xforms = [
-     (KernRe(r"^static +"), ""),
-     (KernRe(r"^extern +"), ""),
-     (KernRe(r"^asmlinkage +"), ""),
-@@ -1065,10 +1065,7 @@ class KernelDoc:
-         found = func_macro = False
-         return_type = ''
-         decl_type = 'function'
--        #
--        # Apply the initial transformations.
--        #
--        prototype = apply_transforms(function_xforms, prototype)
-+
-         #
-         # If we have a macro, remove the "#define" at the front.
-         #
-@@ -1087,6 +1084,11 @@ class KernelDoc:
-                 declaration_name = r.group(1)
-                 func_macro = True
-                 found = True
-+        else:
-+            #
-+            # Apply the initial transformations.
-+            #
-+            prototype = apply_transforms(function_xforms, prototype)
+ function_nested_prefixes = [
++    (re.compile(r"__cond_acquires\s*\("), ""),
++    (re.compile(r"__cond_releases\s*\("), ""),
++    (re.compile(r"__acquires\s*\("), ""),
++    (re.compile(r"__releases\s*\("), ""),
++    (re.compile(r"__must_hold\s*\("), ""),
++    (re.compile(r"__must_not_hold\s*\("), ""),
++    (re.compile(r"__must_hold_shared\s*\("), ""),
++    (re.compile(r"__cond_acquires_shared\s*\("), ""),
++    (re.compile(r"__acquires_shared\s*\("), ""),
++    (re.compile(r"__releases_shared\s*\("), ""),
+     (re.compile(r"__attribute__\s*\("), ""),
+ ]
  
-         # Yes, this truly is vile.  We are looking for:
-         # 1. Return type (may be nothing if we're looking at a macro)
+@@ -195,6 +207,7 @@ function_xforms = [
+     (KernRe(r"__(?:re)?alloc_size\s*\(\s*\d+\s*(?:,\s*\d+\s*)?\) +"), ""),
+     (KernRe(r"__diagnose_as\s*\(\s*\S+\s*(?:,\s*\d+\s*)*\) +"), ""),
+     (KernRe(r"DECL_BUCKET_PARAMS\s*\(\s*(\S+)\s*,\s*(\S+)\s*\)"), r"\1, \2"),
++    (KernRe(r"__no_context_analysis\s*"), ""),
+     (KernRe(r"__attribute_const__ +"), ""),
+ ]
+ 
+@@ -204,6 +217,8 @@ function_xforms = [
+ var_xforms = [
+     (KernRe(r"__read_mostly"), ""),
+     (KernRe(r"__ro_after_init"), ""),
++    (KernRe(r'\s*__guarded_by\s*\([^\)]*\)', re.S), ""),
++    (KernRe(r'\s*__pt_guarded_by\s*\([^\)]*\)', re.S), ""),
+     (KernRe(r"(?://.*)$"), ""),
+     (KernRe(r"(?:/\*.*\*/)"), ""),
+     (KernRe(r";$"), ""),
 -- 
 2.52.0
 
