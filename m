@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D77E3587C3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2152D357A59;
 	Sat, 31 Jan 2026 14:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769869522; cv=none; b=cIrUiTpgrt63aDcfyVob8HkEMzuTGKawiGRzwjka6Rdtl92/JzBDSDAzMDMbu1VPUbXDCERGdYD941inhuaczBxrBmv8xFXZHXdKON3krcK+r+/9UbfeNKeOMwuXDgh1nhP8T8J1+bGTCGgMQPAojuY9gbC5/3wghV8/Hjdsu0M=
+	t=1769869522; cv=none; b=FkGPDD3DHY87NnLbIJy58fV9Q/mXti1XXDzpPM4HUzjeDpSuMazy+Mo8pMINKc4ODmhH8cRniJsUz1Wf801banMiokXK9jsnBaUCVUbcZhSvHI1zI8nzf0Ycou9jLeQFYX6y4jICcOBjemNhO3xFJjO5eitPY5bbBJuAjm/fLBI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1769869522; c=relaxed/simple;
-	bh=f75PYMG6ddvHOj0au37tuHra8a1RYsJ5qmzwD4SUTjA=;
+	bh=E4fJO9wVUnaqUlAi5WmkzEmXnpOij75g8JwiGBZaJ9Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AbfqDGrSyjEwvJtdgeNzhXcTgTHTfU0apN5OB9zuFSLmEFp/HosC2LgNmPJOUSWDHXBjKX01t2hmgvYBLA/fQm6zTukbQCTcOk9Ji6LbSOtlcjUBGd/31S8uliPiQFe7tSz0FlpwPBhfh/wtg3h3E+niesbgcYewrBmz9WhrgGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f1p0q3/r; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=AXX4PDFQXRYrntxhf2QXNS9ZXpQQMNhbfqKCDzb6pwtYV4LfMxoKwtaG5HyRjNLAhF7zbau1sHDGFOCdKbQTn+uE+KadmmLEhOqSGJwSB+qS1eZixY9vN2sYd82axbtiGv0vto4t8Y2E/uTL0Hgl8/RPj7UEi80Qiq4ZvyEDFtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T3JUosEF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f1p0q3/r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80AF9C2BCB8;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T3JUosEF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FEB9C2BCB7;
 	Sat, 31 Jan 2026 14:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1769869521;
-	bh=f75PYMG6ddvHOj0au37tuHra8a1RYsJ5qmzwD4SUTjA=;
+	bh=E4fJO9wVUnaqUlAi5WmkzEmXnpOij75g8JwiGBZaJ9Q=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=f1p0q3/rMjMPWREONbC8rMKcph3t8I45QF2IDKfCfUrKuKcq9HvyuMUORKQSeqoSO
-	 l/62TEU6GDqm5+sXuxKGCu0LxVoCSrMoZXv2aqGSvk9sE7IJH9Tmbgk4NbnGj+4Lwh
-	 8Ou4aS6bDve+hsKdq6rSEM7nYXRLhxTkimeNGhQ1Pni0UxA4PFIoiWWL9styvraMjs
-	 Qah5GB1BvxahKCe7e08+hwOouK12F1U8SnWGsM1NVhN3sxI7zByxNEyBojHHYbsiHv
-	 Kb9ZpHitHaOKYubFpvnmr9xVxu+qqOv27H50IN3bSXkof4Ek9bU9TQR9HS9KVQEHgs
-	 GhEdoBGmIK8BA==
+	b=T3JUosEFJJEjm57nIN5CeAd93uZO4+2EAFKhDcuIbkebO1FR7POhOcbcWgZueyjxz
+	 /IXGruDaiYAZz5IDDMkSzYsse7MozmnPNwyYQ8YggFCXDpNaPTh0vTGS/jP152zC7j
+	 czzMbvpxWdlmG/CBEtjZDH+Jxejj1xUlPWmhmsAvgpBeAjSfrsEp6at4bEQGHheS0p
+	 2Pd6103t7cEK0kCjoXibs2v9jbZ0I009Vab8mMb4bm3yMhx7jMcI1E/PLCPjN2dVXw
+	 nj/EAPU4U/6kUE05hcZ18vsYp8a1GBMvr+2v2XPhxvic6Epx9QexnaN5o3IjvqpgNq
+	 mqUN574QnMeEA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vmBuZ-0000000AVkm-38lv;
+	id 1vmBuZ-0000000AVka-2msr;
 	Sat, 31 Jan 2026 15:25:19 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -41,9 +41,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v4 16/41] docs: kdoc_re: better show KernRe() at documentation
-Date: Sat, 31 Jan 2026 15:24:50 +0100
-Message-ID: <affc3bcc500311dcebc0ded047cff134a7095968.1769867953.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 13/41] docs: kdoc_parser: add support for LIST_HEAD
+Date: Sat, 31 Jan 2026 15:24:47 +0100
+Message-ID: <b53c8adc52fc0263d73fe85ff0c57b9cbc58bfd1.1769867953.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1769867953.git.mchehab+huawei@kernel.org>
 References: <cover.1769867953.git.mchehab+huawei@kernel.org>
@@ -57,51 +57,29 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-the __repr__() function is used by autodoc to document macro
-initialization.
-
-Add a better representation for them.
+Convert LIST_HEAD into struct list_head when handling its
+prototype.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
 ---
- tools/lib/python/kdoc/kdoc_re.py | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+ tools/lib/python/kdoc/kdoc_parser.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
-index 1861799f1966..3f405addcc58 100644
---- a/tools/lib/python/kdoc/kdoc_re.py
-+++ b/tools/lib/python/kdoc/kdoc_re.py
-@@ -52,7 +52,28 @@ class KernRe:
-         return self.regex.pattern
- 
-     def __repr__(self):
--        return f're.compile("{self.regex.pattern}")'
-+        """
-+        Returns a displayable version of the class init.
-+        """
-+
-+        flag_map = {
-+            re.IGNORECASE: "re.I",
-+            re.MULTILINE: "re.M",
-+            re.DOTALL: "re.S",
-+            re.VERBOSE: "re.X",
-+        }
-+
-+        flags = []
-+        for flag, name in flag_map.items():
-+            if self.regex.flags & flag:
-+                flags.append(name)
-+
-+        flags_name = " | ".join(flags)
-+
-+        if flags_name:
-+            return f'KernRe("{self.regex.pattern}", {flags_name})'
-+        else:
-+            return f'KernRe("{self.regex.pattern}")'
- 
-     def __add__(self, other):
-         """
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index 92b550189988..33710c4be145 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -219,6 +219,7 @@ var_xforms = [
+     (KernRe(r"__ro_after_init"), ""),
+     (KernRe(r'\s*__guarded_by\s*\([^\)]*\)', re.S), ""),
+     (KernRe(r'\s*__pt_guarded_by\s*\([^\)]*\)', re.S), ""),
++    (KernRe(r"LIST_HEAD\(([\w_]+)\)"), r"struct list_head \1"),
+     (KernRe(r"(?://.*)$"), ""),
+     (KernRe(r"(?:/\*.*\*/)"), ""),
+     (KernRe(r";$"), ""),
 -- 
 2.52.0
 
