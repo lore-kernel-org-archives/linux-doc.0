@@ -1,100 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9025035A945;
-	Sat, 31 Jan 2026 14:25:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F0235BDB8;
+	Sat, 31 Jan 2026 14:25:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769869522; cv=none; b=dZag052rToNTID6UYD6A6E7Tp5NniTy4JKU12xrpJCcASZwwgyxJSiO1CDgJ5a7qq3VROpWij1enOM1IkV9x1wItpIHMckhmeD9m5K/ICJulmGBwoC95LdDNyALrhR2PaJO7iCQ/KHb/k+rVEnpivjTZsuF++y8eRMnpndSto0M=
+	t=1769869544; cv=none; b=d4ve7z5/SmCtCGj4PsuHKxYiqU9yGTEoYB8UYXUUNMAZXTUg60QzpO68Kkatoa0lYbe4XqhbiL/lm2INK/EyeZq4XigjVNsL4G55JwzhqoX8rCOHShOg/4/4zH3t3F5NDDn79cqkJK9UW2lErBGiUTkcAspBDd29qppTzrPeoQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769869522; c=relaxed/simple;
-	bh=xc3bdeTKA4gaQTm1QPUjzckBF1/Bc6XutKPIezxeXB8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IPlDmiUU88UUmvIyTZKxT0f6yBhLhvI6AhU+o5STtmJdh3DTnIimVlZz2jqGvgn0OhnO8gTKq1LMX5Rth7k+75OssP4LJLPZpC7ySlNngSbtS7rizeITnnL2eZ+EKpepwwuEPvCVgjIkz8wV8vnQbTtkXGey3+VFMLziebpTdvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e+lgoG9C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1769869544; c=relaxed/simple;
+	bh=wVsWvv0IL5XOf6zVy7RcF5hJW8aZ2pYZbyOxNeIcvmA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LEcpNrY1GCDNvpmDJ6a8och4WDWblwHVJQBhPgXBMIKFiwDSZiAx14zKj9EX8Mfaxc7/BjmFXhD2W0KWtjJLbWOX0f0bdlXAPozvXqIfSyZG5KqghoVd6X2ZAepcagTlYPELsZ4F/Rvgkk9XjQPQlkIBhSe3ks3wYwMhMs7AM0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pEiVGPDt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e+lgoG9C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1600DC2BD04;
-	Sat, 31 Jan 2026 14:25:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pEiVGPDt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4071C4CEF1;
+	Sat, 31 Jan 2026 14:25:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769869522;
-	bh=xc3bdeTKA4gaQTm1QPUjzckBF1/Bc6XutKPIezxeXB8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e+lgoG9CCnr7rpRrfsny4rjU3fOjEA51AuUGLbiRKwx4JxSMtmKdWklJMdOrLCagH
-	 JF5wdiKyo3olj2bQCU/JKO4RWNPvW5PiF38+1ed3tFZVgSB6VxYq7mXw5iNUgROa9S
-	 f2AqXDqsVXQKNJAnTON850mtt7wlHtt6Q00qG5g9KlvTCRkHgxbsgj/Ag22zWTaXeT
-	 aUo438xrkfrN2S8hpQFTeJ0cPbJZfK6PMPnw486vZ72kMUbNXYGXODLNQcTQqAeIhP
-	 0yiQUASDOOvdYUZeyMG0irPKAvFiWPIWSvNVWbbf9wn9hQpeZ7Hu2CHivgMnC22av+
-	 kONely4AuJDNw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vmBua-0000000AVmB-1Mc4;
-	Sat, 31 Jan 2026 15:25:20 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	intel-wired-lan@lists.osuosl.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v4 37/41] docs: kdoc_output: use a more standard order for .TH on man pages
-Date: Sat, 31 Jan 2026 15:25:11 +0100
-Message-ID: <b41dd589cfde10cda5ada6b629f93916a4e96162.1769867954.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1769867953.git.mchehab+huawei@kernel.org>
-References: <cover.1769867953.git.mchehab+huawei@kernel.org>
+	s=k20201202; t=1769869543;
+	bh=wVsWvv0IL5XOf6zVy7RcF5hJW8aZ2pYZbyOxNeIcvmA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pEiVGPDtTfcvXGzrM81yaHgKojfCIpjcpmrU2VBVWEzD/405MNOqqSPHBmJwlqM1C
+	 ASigzP+jyB4FX7MkWq+JXyLVpi+CEhlF7zcSl5NSs88S6r5Hef92ZoYgoS7OQ3JB22
+	 OeuA74wiRergJjvZmDxGNaMIiyI3BhULKtY81uQZ4xnnLMI4uax1ET9UyVet47CBbu
+	 t+OWqn/59+Oof+4s54LEnbGImO6Psdg+wyNUZFRC2D/hb4s8TpaZonyuPSojDzv6BJ
+	 tCvunJsQgDH5JfGRjWwl5hw1jqkEvHyHQ5NtZ97X+jI5rRrB2WE+kbwbT97EeD7cu5
+	 yoDlp5uwnOMCg==
+Date: Sat, 31 Jan 2026 15:25:37 +0100
+From: Niklas Cassel <cassel@kernel.org>
+To: Koichiro Den <den@valinux.co.jp>
+Cc: mani@kernel.org, kwilczynski@kernel.org, kishon@kernel.org,
+	bhelgaas@google.com, corbet@lwn.net, jingoohan1@gmail.com,
+	lpieralisi@kernel.org, robh@kernel.org, Frank.Li@nxp.com,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] PCI: dwc: ep: Return after clearing BAR-match
+ inbound mapping
+Message-ID: <aX4Q4RWMfXt085lL@fedora>
+References: <20260131133655.218018-1-den@valinux.co.jp>
+ <20260131133655.218018-2-den@valinux.co.jp>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260131133655.218018-2-den@valinux.co.jp>
 
-The generated man pages are not following the current standards
-for Linux documentation. Reorder .TH fields for them to look
-like other Linux man pages.
+On Sat, Jan 31, 2026 at 10:36:53PM +0900, Koichiro Den wrote:
+> dw_pcie_ep_clear_ib_maps() first checks whether the inbound mapping for
+> a BAR is in BAR Match Mode (tracked via ep_func->bar_to_atu[bar]). Once
+> found, the iATU region is disabled and the bookkeeping is cleared.
+> 
+> BAR Match Mode and Address Match Mode mappings are mutually exclusive
+> for a given BAR, so there is nothing left for the Address Match Mode
+> teardown path to do after the BAR Match Mode mapping has been removed.
+> 
+> Return early after clearing the BAR Match Mode mapping to avoid running
+> the Address Match Mode teardown path. This makes the helper's intention
+> explicit and helps detect incorrect use of pci_epc_set_bar().
+> 
+> Link: https://lore.kernel.org/all/aXtrW7viGZfMNZur@ryzen/
+> Suggested-by: Niklas Cassel <cassel@kernel.org>
+> Signed-off-by: Koichiro Den <den@valinux.co.jp>
+> ---
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/docs/sphinx-build-wrapper      | 2 +-
- tools/lib/python/kdoc/kdoc_output.py | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index e6418e22e2ff..ac6852e3dd8c 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -625,7 +625,7 @@ class SphinxBuilder:
- 
-                 # Use shlex here, as it handles well parameters with commas
-                 args = shlex.split(line)
--                fname = f"{output_dir}/{args[3]}.{args[2]}"
-+                fname = f"{output_dir}/{args[1]}.{args[2]}"
- 
-                 if self.verbose:
-                     print(f"Creating {fname}")
-diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-index fe3fc0dfd02b..fb44cc8e0770 100644
---- a/tools/lib/python/kdoc/kdoc_output.py
-+++ b/tools/lib/python/kdoc/kdoc_output.py
-@@ -611,8 +611,8 @@ class ManFormat(OutputFormat):
-         """Emit a title header line."""
-         name = name.strip()
- 
--        self.data += f'.TH "{self.modulename}" {self.section} "{name}" '
--        self.data += f' "{self.date}" "{self.manual}"\n'
-+        self.data += f'.TH "{name}" {self.section} "{self.date}" '
-+        self.data += f' "{self.modulename}" "{self.manual}"\n'
- 
-     def __init__(self, modulename, section="9", manual="Kernel API Manual"):
-         """
--- 
-2.52.0
-
+Reviewed-by: Niklas Cassel <cassel@kernel.org>
