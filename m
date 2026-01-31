@@ -1,195 +1,131 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D712DC322
-	for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 01:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769822326; cv=pass; b=Yg3kqcP21TaThIrzhlBuAyPsvdDB1b3BdlafATSCzyO1ISf454wLKN/zHcDZFRVc4471h8l7p8wpnDqr1d3Tsl3XMXz5v2uKUsMHmPNKDiU3wcKiGA0uOy9RMMxRqkQpPx6lJ9qZsiIq6+iggLYdWCTfoNyTyiCeBVujeIs0Zdg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769822326; c=relaxed/simple;
-	bh=NJyyW3LrV2W0dVysafPoC2cjKhBb+MYi76erl20GHWk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fzRno1TRgPGECGLOxXOklOITsWb6H6O5EKuBu1vYxnrM8HBawmINzJOAgooSMB3BSCCsRLfAC+W0Bt1QAo2Y72li5Uf5Tmiv7/naAIl709SI5yO3PCmM5g0ZzwkBbKtZQP2tMJze//1JXHbPhDcwf51BimhC9ULoPASn/KzXjzs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MSNneL6Z; arc=pass smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8062F334685;
+	Sat, 31 Jan 2026 02:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769828313; cv=none; b=rD4swDoMz5rdWK3eCnsapzCcuaiuTLcdAZXnY5BWBHXEAGmSm3Ac9qmZgg4HIwOnk9S5O+DrEbJ9mYP43GfevZ+GABNaGjE6CUAQXn2+Z9XYy4yjtCko6NRNOe/0O4uMMsCfAe3Ae5bJ3l/iGScasnsRD/jj0osA1PQSyv8iHP4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769828313; c=relaxed/simple;
+	bh=Dqkwnz4JyEy4loQ8EYMnImJvtidGxEflCqTxc7JXwS0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=ki1PEAK+X9vxJO4UlyYqj+f1cVSnAMk1ShZ3lho9ihvclFiL+5oXyDtvsZQnbDEngBGDONJA/vDGAaTVVzKxqmkEV0NUcl4bhm+if7UvdTYAi6NDZVqHVUc2XIpEC/aNl5Kfg9OhyrIeqRxPa1ZxKjbyVeWRyJ/q9BFi/63c6AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=mpfL96Hx; arc=none smtp.client-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MSNneL6Z"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8947e6ffd20so31183566d6.1
-        for <linux-doc@vger.kernel.org>; Fri, 30 Jan 2026 17:18:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1769822323; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PlkJtz8KtB2+KxaH097gp40y7z3FmWxgTk5cVPy3lAaeq5V4brsOa1nwxUtX0yz0Ze
-         gpZVGLdlf0MBT8r/97hCDVsbZ0q77CKJJa87tPPQzd3KFcl6Wy4V8TAXSRHuYguvHeH/
-         jVOBBCmbLqx/rdWVuJNE59OyWTUMlw2EYxH20p6m7jkjNPQXnIS61uXNGNcraGDnQZGw
-         iyQYZumbpauE+Q1lmEV7EtU9xk7mY/OlWTW0oEVqwyCKfUnQEmFspvefNx9HcGPNEl2U
-         zoKL+dOJCU0v363Wau9LyNGmHkP95W+Vlu6KN+6eYTLNjj6N2xhGKf9EmvSpB4NEWH8O
-         SkkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=C9hrsBRNghnIovdQhJmal8FXOCZu37oJsf0hDL/41Z4=;
-        fh=hngUqDxd8tZ33gt8WRpuqZUnuknieNUOhMUPCzWkbvc=;
-        b=WsHP4hH/oT+TqwqhNdlqukxKDOSs76dPb0d5pzHUNYcZtvnv2rTQJV3r/8K82j2vZq
-         xV3vyvX3Jn1g8pkwK3yLadshCdw4/AGmAY35695cC2TNFkun1czZY+qUk5Xnb3PpA0jT
-         EUY8lHcDevZZEOuuFYnWV6tKzQUXWDIrBeDZSkrWl0dff+1EnIWwISFvfPVb9aXAHqo+
-         KKQxEX8fzvvEq+Ou6ff8eufcyia0w6l2nCcQb+edO/5S2ZcCrCbK8c+1m6fl3uP3fLs4
-         wqogf7W/JNQWIfSIgbnbL8TpVi9GKnCGIpcJwQ1jW8BAPB9p1x2pUYyJA5MgkQZmbfMR
-         7bjA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769822323; x=1770427123; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C9hrsBRNghnIovdQhJmal8FXOCZu37oJsf0hDL/41Z4=;
-        b=MSNneL6ZdYS1vduzZenv+A58CJIG8UdamLkhXnr/8M8qRF6bLvW4xnwm/VgGelXIFl
-         Tj/cfvczfvA6tQ7Rm9CtQeA/gDpKESzHzdYX3VXFWA/1KF0MBZHAykOv0tVmtfUzOKda
-         qId3vRNxsCijXl/sjwUwZpmCNLUFkJl6DAozGBUgGOerPhHa2oxWGbTNjX9rkGalHfOX
-         VED2q3zf5UT5E7EZl45MKecY9pOLuq1uWqbZQDFz7qZcHEA1CXd/HtVlQdbZ/UHBJF1x
-         eJo384AlDBIPIADVGL5ZVUe+CTjBbQm+HXsDgVxVYtjifhX4Cno7a40hCza5Oxu0el8S
-         3CRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769822323; x=1770427123;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=C9hrsBRNghnIovdQhJmal8FXOCZu37oJsf0hDL/41Z4=;
-        b=XG3UN4Z/+I0oqwa7J6ZgD/UwBOSbdpuA8tHBjAlyDJgWHtQsH5VY+dP7G3wp7XhWIi
-         B6vDoQCnA1GK4pCxiWkARqmOeCu7al8kn9pHRr9Le2Y2VOMUEKEAzGuLBdpwb4faKpGd
-         cXtntpzj8ypxYGHMP5QTDu4clLcSj3IyKz3i94te31hnvkjYyY6w9Lnsyr9msIbtJLj/
-         m+AP5cFcQtg5vhRPGx8advmAMvKbtfNabDdxzDWo9bptUkrhnsbu2kv4lAPK6VmBttkd
-         EZxSGiPFdI6ktIYjv4bF8RslCjumGZGECwq48hh4F0lIx2Cca/PiHflbosIEBvIMvAAB
-         xdZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWGHhCDb5neJGOcOCVE9mCwF33aq73HIiXlSAXcNXJs/Uwy0zrONCY3v5g2elCtnPEbMzRvCKfteV0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynCLW+SHB12vyG4nob+PCYPfO6k/WzA1wdUqUAy52VQr8Zeuu5
-	uI9m6j9WAEAdDE/OOu2s1pk7c1k8cRwttGvuu8U2h4Xu+tJB77lR6XCJubr3j6+90vandbobD3i
-	TPo6OKUTRyPZkFDb3iBXckF7h+5wavIc=
-X-Gm-Gg: AZuq6aJEZ+UCQSdUrBiOn+IHwEhtwDnx4NwEXSzftXxv+CEqUH1SXEOzqJpLJCbvj3O
-	TYuXaotuOxh+m+FatXRWpKgoe/a6N52+8fDB1wXUrMgHT1MUZWxUrmM53hFVA71c/Zldi8hnSec
-	tP8bXlS7M3LDcDr0wvIq6wvZuarUj9ooKBCnXEqNo5mq5PalwzeFgUGdvfi7sM7vLETDtB8RUc8
-	frJu3UlmQsFN40GXOthMw6+hbFhp+phj2JIEpCOgSijHBj6TE9urdnInfBmPSsgJBVGCQ==
-X-Received: by 2002:a05:6214:29cd:b0:894:2e09:335c with SMTP id
- 6a1803df08f44-894ea06291bmr70047416d6.53.1769822323137; Fri, 30 Jan 2026
- 17:18:43 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="mpfL96Hx"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=7XHWaZHFKtL0PySE53UufCAynSolWQJ0darNOPXOVKA=;
+	b=mpfL96HxwL15BL2vpD0Fd+Rr/YzpTjSvOSWcR8dQvMGyTlzNyAhjwBhWZ0zgQuXhKy2g7PFAl
+	D5fxNjfzgsaPgrhtx3U46DOF+bN22CKmS/GJ8wMT2pWKqycvFBbiIxyy6KU83SYgc2go2iQe/47
+	5tvkLmWkP5aEgdZtMAuMdxc=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4f2yC74Hj7z12LDp;
+	Sat, 31 Jan 2026 10:54:27 +0800 (CST)
+Received: from kwepemf200001.china.huawei.com (unknown [7.202.181.227])
+	by mail.maildlp.com (Postfix) with ESMTPS id 437C240539;
+	Sat, 31 Jan 2026 10:58:20 +0800 (CST)
+Received: from [10.67.121.90] (10.67.121.90) by kwepemf200001.china.huawei.com
+ (7.202.181.227) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 31 Jan
+ 2026 10:58:19 +0800
+Message-ID: <73bf9b60-7a76-4648-98cf-c37901eb7b0a@huawei.com>
+Date: Sat, 31 Jan 2026 10:58:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260118223516.92753-1-john@jagalactic.com> <0100019bd33f2761-af1fb233-73d0-4b99-a0c0-d239266aec91-000000@email.amazonses.com>
- <0100019bd33fb644-94215a33-24d2-4474-b9eb-ddae39b29bd8-000000@email.amazonses.com>
- <CAJnrk1Z9BuCLZv576Ro9iYUPRDpW=1euG0rQ2wC_19sBcR18pw@mail.gmail.com> <20260131004119.GA104658@frogsfrogsfrogs>
-In-Reply-To: <20260131004119.GA104658@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Fri, 30 Jan 2026 17:18:32 -0800
-X-Gm-Features: AZwV_QjdwrW8pUbs14BS2iG7wgbYWMrbtNkfExGV1HlyGRZYGgSvmv1QKkg5_Go
-Message-ID: <CAJnrk1adQktTTv=9_G=G_QDTkEZyCQgsPDd7QSGwwTsWk_4fEg@mail.gmail.com>
-Subject: Re: [PATCH V7 1/3] fuse_kernel.h: bring up to baseline 6.19
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/7] Enhanced autonomous selection and improvements
+To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
+	<viresh.kumar@linaro.org>, <pierre.gondois@arm.com>
+CC: <ionela.voinescu@arm.com>, <lenb@kernel.org>, <robert.moore@intel.com>,
+	<corbet@lwn.net>, <rdunlap@infradead.org>, <ray.huang@amd.com>,
+	<gautham.shenoy@amd.com>, <mario.limonciello@amd.com>, <perry.yuan@amd.com>,
+	<zhanjie9@hisilicon.com>, <linux-pm@vger.kernel.org>,
+	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<acpica-devel@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+	<linux-tegra@vger.kernel.org>, <treding@nvidia.com>, <jonathanh@nvidia.com>,
+	<vsethi@nvidia.com>, <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
+	<nhartman@nvidia.com>, <bbasu@nvidia.com>
+References: <20260129104817.3752340-1-sumitg@nvidia.com>
+From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
+In-Reply-To: <20260129104817.3752340-1-sumitg@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemf200001.china.huawei.com (7.202.181.227)
 
-On Fri, Jan 30, 2026 at 4:41=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Fri, Jan 30, 2026 at 02:53:13PM -0800, Joanne Koong wrote:
-> > On Sun, Jan 18, 2026 at 2:35=E2=80=AFPM John Groves <john@jagalactic.co=
-m> wrote:
-> > >
-> > > From: John Groves <john@groves.net>
-> > >
-> > > This is copied from include/uapi/linux/fuse.h in 6.19 with no changes=
-.
-> > >
-> > > Signed-off-by: John Groves <john@groves.net>
-> >
-> > This LGTM. We could probably just merge this in already.
-> >
-> > Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> >
-> > > ---
-> > >  include/fuse_kernel.h | 10 +++++++++-
-> > >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/include/fuse_kernel.h b/include/fuse_kernel.h
-> > > index 94621f6..c13e1f9 100644
-> > > --- a/include/fuse_kernel.h
-> > > +++ b/include/fuse_kernel.h
-> > > @@ -239,6 +239,7 @@
-> > >   *  7.45
-> > >   *  - add FUSE_COPY_FILE_RANGE_64
-> > >   *  - add struct fuse_copy_file_range_out
-> > > + *  - add FUSE_NOTIFY_PRUNE
-> > >   */
-> > >
-> > >  #ifndef _LINUX_FUSE_H
-> > > @@ -680,7 +681,7 @@ enum fuse_notify_code {
-> > >         FUSE_NOTIFY_DELETE =3D 6,
-> > >         FUSE_NOTIFY_RESEND =3D 7,
-> > >         FUSE_NOTIFY_INC_EPOCH =3D 8,
-> > > -       FUSE_NOTIFY_CODE_MAX,
-> > > +       FUSE_NOTIFY_PRUNE =3D 9,
->
-> This insertion ought to preserve FUSE_NOTIFY_CODE_MAX, right?
+Reviewed-by: Lifeng Zheng <zhenglifeng1@huawei.com>
 
-FUSE_NOTIFY_CODE_MAX was removed by Miklos in commit 0a0fdb98d16e3.
+On 2026/1/29 18:48, Sumit Gupta wrote:
+> As discussed in [7], v5 was split into two parts. This is part 1.
+> - Patch 1-3 from v6: Applied by Rafael for 6.20.
+> - Remaining patches: Included in this v7 with review comments addressed.
+> Part 2 (v5 patches 8-11) will follow separately.
+> 
+> This patch series adds sysfs interfaces for CPPC min_perf, max_perf,
+> and perf_limited registers, along with supporting ACPI APIs and
+> improvements for the cppc_cpufreq driver.
+> 
+> CPPC autonomous mode (auto_sel) enables hardware-driven CPU performance
+> scaling using Energy Performance Preference (EPP) hints. Currently,
+> there's limited runtime control and visibility into CPPC performance
+> registers.
+> 
+> This series addresses these gaps by:
+> 1. Exposing min_perf/max_perf registers via sysfs (as frequency in kHz)
+>    to allow fine-grained performance bounds control in autonomous mode.
+> 2. Exposing perf_limited register to detect and clear throttling events.
+> 
+> It also includes code improvements: new APIs for reading performance
+> controls, a warning for missing mandatory DESIRED_PERF register, and
+> extended epp_perf support.
+> 
+> The patches are grouped as below:
+> - Patch 1: Add cppc_get_perf() API (independent).
+> - Patch 2: Warn on missing mandatory DESIRED_PERF (independent).
+> - Patch 3: Extend cppc_set_epp_perf for FFH/SystemMemory (independent)
+> - Patch 4-5: APIs, sysfs for min/max_perf, perf_limited (independent)
+> - Patch 6: Doc for min/max_perf and perf_limited (depends on 4-5)
+> - Patch 7: Update cached perf_ctrls on sysfs write (independent).
+> 
+> ---
+> v6[7] -> v7:
+> - patch 1-3 (v6): Dropped as they were applied by Rafael for 6.20.
+> - patch 2 (v7): Added new patch to warn on missing DESIRED_PERF as
+>   suggested by Pierre.
+> - patch 4, 7 (v7): Removed mutex from sysfs store functions as
+>   policy->rwsem already provides synchronization.
+> - patch 4 (v7): Added validation checks in store_min/max_perf.
+> 
+> Sumit Gupta (7):
+>   ACPI: CPPC: Add cppc_get_perf() API to read performance controls
+>   ACPI: CPPC: Warn on missing mandatory DESIRED_PERF register
+>   ACPI: CPPC: Extend cppc_set_epp_perf() for FFH/SystemMemory
+>   ACPI: CPPC: add APIs and sysfs interface for min/max_perf
+>   ACPI: CPPC: add APIs and sysfs interface for perf_limited
+>   cpufreq: CPPC: Add sysfs for min/max_perf and perf_limited
+>   cpufreq: CPPC: Update cached perf_ctrls on sysfs write
+> 
+>  .../ABI/testing/sysfs-devices-system-cpu      |  44 ++++
+>  drivers/acpi/cppc_acpi.c                      | 214 +++++++++++++++++-
+>  drivers/cpufreq/cppc_cpufreq.c                | 207 ++++++++++++++++-
+>  include/acpi/cppc_acpi.h                      |  40 ++++
+>  4 files changed, 500 insertions(+), 5 deletions(-)
+> 
+> [1] https://lore.kernel.org/lkml/20250211103737.447704-1-sumitg@nvidia.com/
+> [2] https://lore.kernel.org/lkml/20250823200121.1320197-1-sumitg@nvidia.com/
+> [3] https://lore.kernel.org/lkml/20251001150104.1275188-1-sumitg@nvidia.com/
+> [4] https://lore.kernel.org/lkml/20251105113844.4086250-1-sumitg@nvidia.com/
+> [5] https://lore.kernel.org/lkml/20251223121307.711773-1-sumitg@nvidia.com/
+> [6] https://lore.kernel.org/lkml/20260120145623.2959636-1-sumitg@nvidia.com/
+> [7] https://lore.kernel.org/lkml/66f58f43-631b-40a0-8d42-4e90cd24b757@arm.com/
+> 
 
-Thanks,
-Joanne
->
-> --D
->
-> > >  };
-> > >
-> > >  /* The read buffer is required to be at least 8k, but may be much la=
-rger */
-> > > @@ -1119,6 +1120,12 @@ struct fuse_notify_retrieve_in {
-> > >         uint64_t        dummy4;
-> > >  };
-> > >
-> > > +struct fuse_notify_prune_out {
-> > > +       uint32_t        count;
-> > > +       uint32_t        padding;
-> > > +       uint64_t        spare;
-> > > +};
-> > > +
-> > >  struct fuse_backing_map {
-> > >         int32_t         fd;
-> > >         uint32_t        flags;
-> > > @@ -1131,6 +1138,7 @@ struct fuse_backing_map {
-> > >  #define FUSE_DEV_IOC_BACKING_OPEN      _IOW(FUSE_DEV_IOC_MAGIC, 1, \
-> > >                                              struct fuse_backing_map)
-> > >  #define FUSE_DEV_IOC_BACKING_CLOSE     _IOW(FUSE_DEV_IOC_MAGIC, 2, u=
-int32_t)
-> > > +#define FUSE_DEV_IOC_SYNC_INIT         _IO(FUSE_DEV_IOC_MAGIC, 3)
-> > >
-> > >  struct fuse_lseek_in {
-> > >         uint64_t        fh;
-> > > --
-> > > 2.52.0
-> > >
