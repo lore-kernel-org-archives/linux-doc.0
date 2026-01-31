@@ -1,148 +1,113 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E780A1EB5F8;
-	Fri, 30 Jan 2026 23:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F7C2D3EE5;
+	Sat, 31 Jan 2026 00:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769815110; cv=none; b=qnXfodr2QxrAwOgqJuoTUvHThDzrTWuY+wfMDWUpHr1/BVHzAEgXlJuYK43VVdY4eIz2Qnz1BVolYcYHulKOgmaTIKLqnMQsO//TEE0QaHBcz1gai+BtnOJlf7exbweqbQL4Tv9yRg4ECGcFmyJo6pVBxHSiG4qQzmcYP+EiZb8=
+	t=1769819956; cv=none; b=QuWvO09Y56C9OcjuaIAggTCwolgFCHZNK6Ml9MdJZB+cqM5MDcRAsrMAh2IifrdYHmVLoq2KuCB9RkaAqjiVPbjqzk1UXwtdWH9AkMcFoDj4UlhkRZoz1tHLCsYTKmuKHtjCzgqi2LxW1Q9SpJyQSryi14Y2UMCITFz8Lw5JhN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769815110; c=relaxed/simple;
-	bh=t6+FD63TBEjAF4loU6XF4HOpBwGsFUNv91UC8x59JYY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fu6RWOQT/UBsFk9sblbb9zf4CtSz5jwqaCk1Si2axSLjhLFnrt6XslBK2x/uSO5LDBGf77pF6CoajC0N72/F74AjQXHaCA130zmLlP4W9UwhnbKgi7OaklrRe7Z0EdBVrgEvUvquKx6PXfWL/pc9xdzNq9GBJg3dZt0v3qNgSzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=h2oOv/wf; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1769819956; c=relaxed/simple;
+	bh=8cXBQNCdQxCaRXIFna2676wPV2abi47edMOp/wOXg2M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p8Dme7qy28vMqKT8a+KyEiz90s5RHREu5sYS3zP6UjHaqyqdqMDmYskGruHI0hutyZGSUnXjaa8JJ9mnoO3wITxiAtKnoHfSckzhLsuXbVy7jPQhnmFbwmRJboaMOCq1KRNo0InFsjSu73b/v/iZaw+lORPfRR8En4l8nUO08QQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Top7DyDo; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="h2oOv/wf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=6O1mYVG2C4caxIEKCFEl8cUKL+tPPC5+mqnQqr+mWek=; b=h2oOv/wf+Gc10WkF1rp6lpKhkx
-	REDyin4qfKyGMKAcdYmyjQRWX+VrSfwR4eXd8S2FNWlADZqsKpnxN7EvCdHc8CCZMwbNlODRRUqBj
-	V5U+9vU+B7KisVoQ7uYed0oa+vWVk0Kq636TjCG7kO6S1Pchuxw0YZNWtk50oIw/VEjd5R/oHVwg4
-	V4/CUHugHHoryEUoLPQSjfboedENzshD0dfK61pSZkzolTxa9WB2kLMBpjHNW2jd0R8aDCgwqzRHD
-	4Uw/6WH8KgIZ5wEXi17F41tNvBNsKBlrj08GiHFqQXWU1oOPozjg3NZmHoQIHPRKbXbZRPwDonUCe
-	2Uz7VkBw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vlxku-000000025sf-22tZ;
-	Fri, 30 Jan 2026 23:18:24 +0000
-Message-ID: <70955fc0-84c0-440f-85ba-2d97418ca827@infradead.org>
-Date: Fri, 30 Jan 2026 15:18:22 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Top7DyDo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1769819953; x=1801355953;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8cXBQNCdQxCaRXIFna2676wPV2abi47edMOp/wOXg2M=;
+  b=Top7DyDol+tVGFcOEKfyZdEM+VygqSq0hpNxrKdcR1S1BNQJVUamsw0m
+   VuM+x/Hu37I6jJBsz2FkwTzBL+zoomV2/bcFUG+LKQvnwm17c4udlqTeQ
+   WlGv+WRpgRkDA62r+G6yVmnhMbHm884RT2kGUCi3jtwBD245MepJ2a+8k
+   q91okJQFceX/oj51EQDSZzGWzmXGC/ZySxws9yMkfYrO0mjAaoEokecxg
+   aeKu4uuJGGN/oxdZ/kU6VkdjvdbSsj6j6q+SjnzPDYVkf/+ALYLanUeCl
+   SYmBdp/ON5Dm2lfCAQnse2yqIbykYBGF1IOhqCqgmKqsH73kRknDNN3xY
+   w==;
+X-CSE-ConnectionGUID: Ina9h9mZT5ua+vw7PujZQQ==
+X-CSE-MsgGUID: lSCduzbcSzW+Siz1FhIs/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11687"; a="82443497"
+X-IronPort-AV: E=Sophos;i="6.21,264,1763452800"; 
+   d="scan'208";a="82443497"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jan 2026 16:39:12 -0800
+X-CSE-ConnectionGUID: g3rJi/AKTPmZP30c67YFtw==
+X-CSE-MsgGUID: D2q0tBQuSz2sKtT48A7x0g==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 30 Jan 2026 16:39:11 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vlz12-000000002bZ-3lTR;
+	Sat, 31 Jan 2026 00:39:08 +0000
+Date: Sat, 31 Jan 2026 01:38:15 +0100
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?B=F6hler?= <witcher@wiredspace.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Thomas =?iso-8859-1?Q?B=F6hler?= <witcher@wiredspace.de>
+Subject: Re: [PATCH] docs: filesystems: ensure proc pid substitutable is
+ complete
+Message-ID: <202601310140.l1CiA2nu-lkp@intel.com>
+References: <20260130-ksm_stat-v1-1-a6aa0da78de6@wiredspace.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kbuild: Do not run kernel-doc when building external
- modules
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, Rong Zhang
- <i@rong.moe>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-References: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260130-ksm_stat-v1-1-a6aa0da78de6@wiredspace.de>
+
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 6b8edfcd661b569f077cc1ea1f7463ec38547779]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-B-hler/docs-filesystems-ensure-proc-pid-substitutable-is-complete/20260130-232903
+base:   6b8edfcd661b569f077cc1ea1f7463ec38547779
+patch link:    https://lore.kernel.org/r/20260130-ksm_stat-v1-1-a6aa0da78de6%40wiredspace.de
+patch subject: [PATCH] docs: filesystems: ensure proc pid substitutable is complete
+reproduce: (https://download.01.org/0day-ci/archive/20260131/202601310140.l1CiA2nu-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202601310140.l1CiA2nu-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   ERROR: Cannot find file ./include/linux/jbd2.h
+   ERROR: Cannot find file ./include/linux/jbd2.h
+   WARNING: No kernel-doc for file ./include/linux/jbd2.h
+   ERROR: Cannot find file ./include/linux/netfs.h
+   WARNING: No kernel-doc for file ./include/linux/netfs.h
+>> Documentation/filesystems/proc.rst:2293: WARNING: Title underline too short.
+--
+   3.14 /proc/<pid>/ksm_stat - Information about the process's ksm status
+   --------------------------------------------------------------------- [docutils]
+>> Documentation/filesystems/proc.rst:2293: WARNING: Title underline too short.
 
 
+vim +2293 Documentation/filesystems/proc.rst
 
-On 1/30/26 1:37 PM, Nathan Chancellor wrote:
-> After commit 778b8ebe5192 ("docs: Move the python libraries to
-> tools/lib/python"), building an external module with any value of W=
-> against the output of install-extmod-build fails with:
-> 
->   $ make -C /usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build M=$PWD W=1
->   make: Entering directory '/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build'
->   make[1]: Entering directory '...'
->     CC [M] ...
->   Traceback (most recent call last):
->     File "/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build/scripts/kernel-doc.py", line 339, in <module>
->       main()
->       ~~~~^^
->     File "/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build/scripts/kernel-doc.py", line 295, in main
->       from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
->       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->   ModuleNotFoundError: No module named 'kdoc'
-> 
-> scripts/lib was included in the build directory from find_in_scripts but
-> after the move to tools/lib/python, it is no longer included, breaking
-> kernel-doc.py.
-> 
-> Commit eba6ffd126cd ("docs: kdoc: move kernel-doc to tools/docs") breaks
-> this even further by moving kernel-doc outside of scripts as well, so it
-> cannot be found when called by cmd_checkdoc.
-> 
->   $ make -C /usr/lib/modules/6.19.0-rc7-next-20260130/build M=$PWD W=1
->   make: Entering directory '/usr/lib/modules/6.19.0-rc7-next-20260130/build'
->   make[1]: Entering directory '...'
->     CC [M]  ...
->   python3: can't open file '/usr/lib/modules/6.19.0-rc7-next-20260130/build/tools/docs/kernel-doc': [Errno 2] No such file or directory
-> 
-> While kernel-doc could be useful for external modules, it is more useful
-> for in-tree documentation that will be build and included in htmldocs.
-> Rather than including it in install-extmod-build, just skip running
-> kernel-doc for the external module build.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 778b8ebe5192 ("docs: Move the python libraries to tools/lib/python")
-> Reported-by: Rong Zhang <i@rong.moe>
-> Closes: https://lore.kernel.org/20260129175321.415295-1-i@rong.moe/
-> Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-
-
-LGTM.
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
-> This is an alternative to Rong's proposed fix for the first error:
-> 
->   https://lore.kernel.org/20260129175321.415295-1-i@rong.moe/
-> 
-> I noticed the second one by inspection of -next and further testing.
-> ---
->  scripts/Makefile.build | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 5037f4715d74..f01d7957edf7 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -166,11 +166,13 @@ else ifeq ($(KBUILD_CHECKSRC),2)
->          cmd_force_checksrc = $(CHECK) $(CHECKFLAGS) $(c_flags) $<
->  endif
->  
-> +ifeq ($(KBUILD_EXTMOD),)
->  ifneq ($(KBUILD_EXTRA_WARN),)
->    cmd_checkdoc = PYTHONDONTWRITEBYTECODE=1 $(PYTHON3) $(KERNELDOC) -none $(KDOCFLAGS) \
->          $(if $(findstring 2, $(KBUILD_EXTRA_WARN)), -Wall) \
->          $<
->  endif
-> +endif
->  
->  # Compile C sources (.c)
->  # ---------------------------------------------------------------------------
-> 
-> ---
-> base-commit: 63804fed149a6750ffd28610c5c1c98cce6bd377
-> change-id: 20260130-kbuild-skip-kernel-doc-extmod-276584e7b2b0
-> 
-> Best regards,
-> --  
-> Nathan Chancellor <nathan@kernel.org>
-> 
-> 
+f1f1f2569901ec Ivan Babrou   2022-09-22  2291  
+d5424c31b9e465 Thomas Böhler 2026-01-30  2292  3.14 /proc/<pid>/ksm_stat - Information about the process's ksm status
+91fe0e4d044044 Andrew Morton 2025-01-10 @2293  ---------------------------------------------------------------------
+3ab76c767bc783 xu xin        2025-01-10  2294  When CONFIG_KSM is enabled, each process has this file which displays
+3ab76c767bc783 xu xin        2025-01-10  2295  the information of ksm merging status.
+3ab76c767bc783 xu xin        2025-01-10  2296  
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
