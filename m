@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1357356A00;
-	Sat, 31 Jan 2026 14:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CD6D3542F6;
+	Sat, 31 Jan 2026 14:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769869521; cv=none; b=t7c3MLiknzwlBCpxQ1IcKqgz7NfDIK9ZhWCJ89xqBoA/qhO3Gtks+8oNQkAVQhUysxNyqpRxnG8rEG/P2S3RQUgExqcEN/FtQ1ptj2SPNm+OeWbXFZZ4I12dZfjf+jskHH2NvFb5nQjUGkXvcvr06lrCGlNrqDQXvoWd+y2/aUY=
+	t=1769869522; cv=none; b=BVqauaq0Vku5dwH8+lt+e1biLp++D09DjFi2SbRGrhBr3FQAKA3YOuREY3F6GYteesRc1F156qljdj+R0GDrP7VBCyeHv4hn611ILH1U6QYd5w2lUXLoXIWu/pvV2c82UpH9Gzzvm6IH/BpjHkoM5ylZuVaV5UY3erCXhkacFQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769869521; c=relaxed/simple;
-	bh=R+lEuWZm4gs2UH9ywluoEBP8XgG1POTA/3QmMS82aUQ=;
+	s=arc-20240116; t=1769869522; c=relaxed/simple;
+	bh=gMIMQCBzXE8M1JL5w9F3R5TyIvM3vcLDpK3YDNHeLyM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ii3zGKKSDzv46Kv9mphMFrwadHaNP72DhNOOzFG3rSnRxqzjcI6URUeDQGfYDnBkcSX6YrSDXo4xZZvbBnABUwp1gcVkh9M0Z5dtJM85l9U9O5dFojo5KvTbnHyNRX2chy464Dj4EbjF7daAYJxhiGNWvU9orPkn3nexRtsVKcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OmO+GkNQ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ki9zeVGLPYO+iPzez9xz3eavR33Lqms1SRNJleRQINEju+wqaht3h+vLqdisP2E1Vpqrta5D3GfmXJ+wuI8skwXFax+qrcxL9lcZ0A/udyIBvaC7/mJgDF0E9s0K2/Vv1B+Wq+6Av+1WPU056kvQPEqwrvbSnLnX4X2iv27QBiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itzFgM1h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OmO+GkNQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69352C2BC86;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="itzFgM1h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74611C2BC9E;
 	Sat, 31 Jan 2026 14:25:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1769869521;
-	bh=R+lEuWZm4gs2UH9ywluoEBP8XgG1POTA/3QmMS82aUQ=;
+	bh=gMIMQCBzXE8M1JL5w9F3R5TyIvM3vcLDpK3YDNHeLyM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OmO+GkNQzROY8UXEsWbQLH8djRLsR2ixEWp38CBXq2MQh2bZrGNnJz+AbNxiccXgJ
-	 3JfJ1SeiGr75ZTTyy+kxsaiMfLzTs+zwT/ThdvgrReLNY2jblj+Fl0XkAA6v+2iJZs
-	 St6cPOotJLMvFoqYo59i27hTqbomG48wsJti7IHB25erya+EIzAhxKW3BgeG/QdKo1
-	 du6tXS0i/ewyyRFzVScbPugMkbgAM+zcPdAvUCXTDLMz7RLT8A7JdpL38FjT2Mv6N4
-	 U75omrjw3QdTrXTPq/8R6RF42rVmMv4/7QDEB2bNI+1Xw1nCJA1ly+UWAJn7+88XOz
-	 wXG7LY2MbV5FQ==
+	b=itzFgM1hHQtINK9Tggf9nZluKqT1tfa33omgqV7sSa4Pogr/jZmmS3rJPEfY3DhiN
+	 QjKK5oCCmyQxC2pIqEI/guZsIXdLh+bFKIPOZ4Ne6UrbsC3Ysdg768tiB3tP2XdNU0
+	 IcP01cHajYZ2ff9yXY77rkpq0Iusq3XNv80hFLcy0TGna1bsaBIDkEclwuzxRgpOwf
+	 amm4WJguATio9mS6n0oXrQ6vic4mPWBXPwk2VCUI5NgF/5RCKmwmF0rNt8GrR4O4lN
+	 mnv3YsyHSG7vayq2JYn4QRUwmnstoq6Jz9YIGGoglJLdhetsm6rMpeVwT1I3u2fQu1
+	 Ywk2eSmwuk4QA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vmBuZ-0000000AVkC-25QF;
+	id 1vmBuZ-0000000AVjo-1Mqq;
 	Sat, 31 Jan 2026 15:25:19 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -41,9 +41,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v4 07/41] docs: kdoc_parser: fix variable regexes to work with size_t
-Date: Sat, 31 Jan 2026 15:24:41 +0100
-Message-ID: <58131226492f1a0f369fa8e4143535b972d77aa6.1769867953.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 01/41] docs: kdoc_re: add support for groups()
+Date: Sat, 31 Jan 2026 15:24:35 +0100
+Message-ID: <fb753f9fe5ecbb218917da0b5787c66ecfa1a918.1769867953.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1769867953.git.mchehab+huawei@kernel.org>
 References: <cover.1769867953.git.mchehab+huawei@kernel.org>
@@ -57,39 +57,35 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The regular expressions meant to pick variable types are too
-naive: they forgot that the type word may contain underlines.
+Add an equivalent to re groups() method.
+This is useful on debug messages.
 
-Co-developed-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Acked-by: Randy Dunlap <rdunlap@infradead.org>
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
 ---
- tools/lib/python/kdoc/kdoc_parser.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tools/lib/python/kdoc/kdoc_re.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index 64165d8df84e..201c4f7298d7 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -1027,14 +1027,14 @@ class KernelDoc:
+diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
+index 2816bd9f90f8..19e777e2c97e 100644
+--- a/tools/lib/python/kdoc/kdoc_re.py
++++ b/tools/lib/python/kdoc/kdoc_re.py
+@@ -106,6 +106,13 @@ class KernRe:
  
-         default_val = None
+         return self.last_match.group(num)
  
--        r= KernRe(OPTIONAL_VAR_ATTR + r"\w.*\s+(?:\*+)?([\w_]+)\s*[\d\]\[]*\s*(=.*)?")
-+        r= KernRe(OPTIONAL_VAR_ATTR + r"[\w_]*\s+(?:\*+)?([\w_]+)\s*[\d\]\[]*\s*(=.*)?")
-         if r.match(proto):
-             if not declaration_name:
-                 declaration_name = r.group(1)
++    def groups(self):
++        """
++        Returns the group results of the last match
++        """
++
++        return self.last_match.groups()
++
  
-             default_val = r.group(2)
-         else:
--            r= KernRe(OPTIONAL_VAR_ATTR + r"(?:\w.*)?\s+(?:\*+)?(?:[\w_]+)\s*[\d\]\[]*\s*(=.*)?")
-+            r= KernRe(OPTIONAL_VAR_ATTR + r"(?:[\w_]*)?\s+(?:\*+)?(?:[\w_]+)\s*[\d\]\[]*\s*(=.*)?")
-         if r.match(proto):
-             default_val = r.group(1)
- 
+ class NestedMatch:
+     """
 -- 
 2.52.0
 
