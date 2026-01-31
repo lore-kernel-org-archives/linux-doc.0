@@ -1,210 +1,228 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DFBB28B4FD
-	for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 08:49:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769849353; cv=none; b=cfIYHf8u4bz0ftUpCHb+WZdnRRJqll/hqcUrcZa1fPP5Zt/eZCqhntiMLjEBVOR/N+xFY1XGHmE4b+6yhpB3kPJqJr5imd+ZnbHSWLx0eUN/KItYJDOVeWQ47OAkywmBJC7I1mFg0wEWhYX5u5RLiTo1eeP1Wz6NqQsRYytW1HA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769849353; c=relaxed/simple;
-	bh=dGpLK5EUCc7kxrIuKT+VIjH3dXIChnaZ7t34gz+6Iws=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F58829B777
+	for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 10:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769854953; cv=pass; b=Gb+eg0KEWUECB7iRRuWr5mizJhT4qvDnQsUVSanc6HwOlqRCp0/ovXcSNguk2xbCTvtL1fVpYYi2NobSvXQFRed1Pktf+Guf44yq7hFNwYiwVWmapDP0nz8KuiDMb5zCLIYs+8o7A526WU5NU6aUX5siLTmnEUu8IfaRYtzJxYI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769854953; c=relaxed/simple;
+	bh=YPQiVbTLDX2QySl8NWtf+H/tt2k8PPdv1MYIXxNFllE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ovn+83ta2Mb7tNz3w7VeEWcmAxBARfIBeCo2kXK1njQ0YV5QNivccJPIqkyIX9L3/WftDonstSyFfwVR4SBsHdCkxFXCov6PQh4vtkdrA9BageVoDyM1CnJep9kyadhyTUdlkvdgyAhCAl0tUpfpmQ1eJlMKAZzz4W+UZiZJgO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cPJMDi4K; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=bOyKnTFt5QNed8VXQw3yTkfivn+At/w8Cz2OCGxUV05JsZpF9u8ReOTLsBw9vodLqqkM+hUTHyC4VsmZ+NQG9j1bh/KubFfvZ1LPvKRrmEJnxEhEQ+gxuq9x+DyEzzxKZyQe0aLdA5mn4dA61JG0K9I/mprg2BkidboyiiRdz24=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iGfIBMRn; arc=pass smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cPJMDi4K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A373EC2BCAF
-	for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 08:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769849352;
-	bh=dGpLK5EUCc7kxrIuKT+VIjH3dXIChnaZ7t34gz+6Iws=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cPJMDi4KTOdp9mLdW89C0sAkKpBSvgv2Je/9qpAjg7VswkbD2HnopxOqP7jsSHu7V
-	 n5v8ZjVuK2Ac4+jwBe1ALh0quh2HgUJqUcyZ2Dtn5ezFXuDmqIIX72fP3Ggnh7Rnpn
-	 85Zp2Ntr5v4tQgJN5uLi09U9CyIoOJtBVYIUlsIZvtdKDQG2xZVkG7UlM/bS6Nc2nV
-	 B63sd++L/Qep9CTy9MP0QrALBNjWtNzY1L3AfXGDAmcteEw3MCbnu1X4EmwQDp2lGC
-	 bOVFYTlM5cRP7tTzgBKiDNpDJ9pJUb2KL1P0nRXwL7cMTtboVY58vmCB0lTJ62T7i4
-	 Nk35roDsR6DpQ==
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6582e8831aeso4609616a12.1
-        for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 00:49:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWDy9F9wjoGQC3coVsXZjtb13tieIaa6kWxn1Ez7g8djwbmeyCGglrEXWXaAJHpm5OdFvVcO6pMPII=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1GyXCT+yCCX1Hu+t8WtC/2jq+T2mdnCb2wrSme7iBUTIFYxkn
-	Uu43Yxe1OoTgVcm11zFNFBwpzS3bYyBWv44WeXH2nDrO1Cftw/NKMA6vdQ2Yiu3UoneIp7vLLZM
-	cXzVgVLIgGrED+XbE+DbrYOjeVFhzyIk=
-X-Received: by 2002:a17:907:3e1a:b0:b87:7485:b4a8 with SMTP id
- a640c23a62f3a-b8dff23aab3mr312380166b.0.1769849351173; Sat, 31 Jan 2026
- 00:49:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iGfIBMRn"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-658d3d3ac37so4802016a12.1
+        for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 02:22:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769854950; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JqehPsv94cvWNGyjT0kRw9PnXDTenXJ/slrJkqBFEIX0y2dycQAkoVupPycZNWuOUY
+         a9K4YRN9k9V4sRzeDa0RNiZxM48LyELfPcdgj1KcNOyWwQ0iThKP7ajmuqPDNbQVMMsE
+         VAENhPno00tyzPsjgMfOUVls2UYg9CIVkqTBaMdqosjy6WDvy8va3v+q0bVG6Aur0oG4
+         IKOaYGq8BXvNc/slZ/R08T8R72PAPfwhWF0w/UuZJyA3gjXDBYCcw0rpRBeRpkmLn+IK
+         T6AilYL+a4qIOFFi77Vi9XM8/ksUsYcLdMsZOwEbWKeTsVZ/RRWm/OHA+J8jNd0GFgoW
+         r/Lg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YPQiVbTLDX2QySl8NWtf+H/tt2k8PPdv1MYIXxNFllE=;
+        fh=+h5x/O+D/N7XFCDBQY3oJzCAd3X/BAlk764Alz+SqZI=;
+        b=OUg+ntR7y74LmZ7iuJ2jM5Uwm4tZfYkkB1yWS8+C0EKkH2aeaaY3d755vmJ3u11Aev
+         frT1dXcEetVx+nAUcG1hAfrdcm4dHaA/SWllscJKXvlxth+rIJdyjs5KA+cdgissHPMy
+         2BbwrYALlTL04gAVIbnuXIu/yMTSaoFiK33O0XfMFq7w3C/Lg5x/SQbcpamP6yDkit+8
+         xqJgDbFAGwLV6bb361UkKYP9C6UqtQva4OJ+hOtESmlddknNFXwmaecjTChJFvN5sBtF
+         Ef5ija5NDYq/Q4uHakFPA6SqQG3ejXpiJNb9GRpHCiPrSA+wCJa5Scwmu4teXyiwSCKG
+         ih2g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769854950; x=1770459750; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YPQiVbTLDX2QySl8NWtf+H/tt2k8PPdv1MYIXxNFllE=;
+        b=iGfIBMRnH7Gv9C7JGDzZjOlHDgMv60hNIFmw0+QIXRVzM7SKUTps1f560iBkOWzFat
+         H5w+wl7KDxwD0tG322MUxCsclAiTZP2uA8lIi3quR9Zi/En7F8/MMhFaG8HQWXSbpVJn
+         wa6P2GwmCAtUmwH0W6D0u0Kj8Tert+BP1Plv55xmvT6b5/9hvyVRoSzSRjE+HqInNn7u
+         Eg+9zFCNKM08fKBnV56xXR6rqqy0ijG5M/Z2FeIS358PE5AP3c3xE0JwwJMVCGYcBYel
+         Jxs4oDIFzxfHplRXxSUAyJm7/II/SrX0xEum3A5D4NWoD+iXcyVU+Ex5OUEAAOrF5hZy
+         dLsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769854950; x=1770459750;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YPQiVbTLDX2QySl8NWtf+H/tt2k8PPdv1MYIXxNFllE=;
+        b=roh7nLk1C5NnDht+ORuVVQ3r1hjel28D6cdqSSx6/gO7HxowlVNHlrR+kD6Zy2IZg5
+         tv+458qtbInqZi5BbHbJqvw0Xw0yNYYJibQDa/sargrB0TMjYbF7jC+Fl79OY25elV6K
+         3DAAN/TPTkQ5n1EoziwdN5WfaRnUu/Vph60Zugn9qWyfi3d+rydcSJPnkKL6OkjMSJWs
+         SOkaqZ+gb4doZ3lUXvaaaGbByhblu2ySCoHfAyzxrU1wYcgJ2Y0YonMf+7Fq0ywk8oFX
+         pe7bIEIx8K3bToxSQjLX4E0DtrtyLMxbB4FtbOc5dQ8p8IVb8kp/8qGVXeKG5QsX4phT
+         Q+Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/0YIxxIOC2JzGMf7OAPxBVgM06NEnR6TTTukVJabWN5Oa0Lfg7Y3GdrO+gvgHfQD2+Ltyg5zmcKM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPqqe2lD+tQpnQs++7erOqYLybcsu7b+p4NtGE6inqSi2YODMy
+	Jr67IYe41BZQnzmV6h0z8Jwk60CrGqte9E1XhwlbrG0IrWTypabFM77O4KBJZTfiwWloil7Eui/
+	WUati1AxZLTwAwoSVH4jO2hWFYERr7+g=
+X-Gm-Gg: AZuq6aJNx+0af/KTMjwpUWqIB762oslsrrOqgaywMsTSpjj9Pbu4znTUxum1G1dcCbo
+	F3NgkwJ6MF3zvwMcYESqs8cOLJIH6uMpo1DaestPVzhJRmrX9FYZx3JM2T5YD7toZ2YgZmFW3AM
+	q1M4Xdqjjoo8rtgWR+lKZJ0OgGguRl84Cyvl7JiZ8ZR1VjzLhbqQgh1NgUSQDW5C2B4EENHzrS2
+	bd2xsQOn5SHR+ABuTeftoeWaANpBDf4/cLm+V0CNv+OVOqTHnPvpZVSFTuIHvGvv/VA0neirOHG
+	uCG0S3hIYwdQtcIUHQmL2TOSL314
+X-Received: by 2002:a05:6402:3483:b0:64b:8d7a:71cf with SMTP id
+ 4fb4d7f45d1cf-658de5a0ce3mr3157686a12.26.1769854949593; Sat, 31 Jan 2026
+ 02:22:29 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260131060600.169748-1-liushuyu@aosc.io>
-In-Reply-To: <20260131060600.169748-1-liushuyu@aosc.io>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sat, 31 Jan 2026 16:48:58 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7g4StjP5fnHVVEyR_xFx9=fg6S9UuHWnPpMV_k=ZVGGw@mail.gmail.com>
-X-Gm-Features: AZwV_QgPxFoSfCmMU-FyVI71xlpOxVZW5UWuDu6-xVqczdI4YRz8mS_EVp-09Zw
-Message-ID: <CAAhV-H7g4StjP5fnHVVEyR_xFx9=fg6S9UuHWnPpMV_k=ZVGGw@mail.gmail.com>
-Subject: Re: [PATCH v2 RESEND] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
-To: Zixing Liu <liushuyu@aosc.io>
-Cc: WANG Xuerui <kernel@xen0n.name>, Bibo Mao <maobibo@loongson.cn>, 
-	Kexy Biscuit <kexybiscuit@aosc.io>, Mingcong Bai <jeffbai@aosc.io>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Tianrui Zhao <zhaotianrui@loongson.cn>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
-	linux-riscv@lists.infradead.org
+References: <20260130001418.18414-1-wufan@kernel.org> <CAOQ4uxhf6EQKcoN055xzmi-RW2GPxRzz_ExsQawGQBSmoX2WYg@mail.gmail.com>
+ <CAKtyLkG1_evj7=yrB6nH-8fJuP3DsWyxwrhv7O_Mk=Fy8FOvVw@mail.gmail.com>
+In-Reply-To: <CAKtyLkG1_evj7=yrB6nH-8fJuP3DsWyxwrhv7O_Mk=Fy8FOvVw@mail.gmail.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Sat, 31 Jan 2026 11:22:18 +0100
+X-Gm-Features: AZwV_QhOhPDOYt2J1lFISrx3c1dHs0q3o3EvwGFAflm_-U4v5NyUzpUKw-giy8A
+Message-ID: <CAOQ4uxjndETYhGayZH_opeMxH1zadW5G0DUHfdiGt=i+pM26ow@mail.gmail.com>
+Subject: Re: [PATCH] ipe: document AT_EXECVE_CHECK TOCTOU issue on OverlayFS
+To: Fan Wu <wufan@kernel.org>
+Cc: linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, corbet@lwn.net, mic@digikod.net, 
+	miklos@szeredi.hu, linux-unionfs@vger.kernel.org, 
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi, Zixing,
+[+CC fsdevel]
 
-On Sat, Jan 31, 2026 at 2:07=E2=80=AFPM Zixing Liu <liushuyu@aosc.io> wrote=
-:
+On Fri, Jan 30, 2026 at 8:21=E2=80=AFPM Fan Wu <wufan@kernel.org> wrote:
 >
-> This ioctl can be used by the userspace applications to determine which
-> (special) registers are get/set-able in a meaningful way.
+> On Fri, Jan 30, 2026 at 3:06=E2=80=AFAM Amir Goldstein <amir73il@gmail.co=
+m> wrote:
+> >
+> > On Fri, Jan 30, 2026 at 1:14=E2=80=AFAM <wufan@kernel.org> wrote:
+> > >
+> > > From: Fan Wu <wufan@kernel.org>
+> > >
+> > > Document a known TOCTOU (time-of-check to time-of-use) issue when usi=
+ng
+> > > AT_EXECVE_CHECK with read() on OverlayFS.
+> >
+> > Hi Fan Wu,
+> >
+> > TBH, I don't like the way that this problem is being framed.
+> > IIUC, the problem is using IPE on a non-read-only fs.
+> > Is that correct?
+> >
+> > That fact that IPE metadata is usually coupled with read-only fs
+> > is interesting for the understanding of the use case, but unless
+> > IPE feature mandates read-only fs, this is a generic problem.
+> >
+> > OverlayFS is just one private case, which happens to be common
+> > in Android or containers? IDK, you did not mention this.
+> >
+> > Please describe the problem as a generic problem and give
+> > overlayfs as an example, preferable with references to the
+> > real world use cases.
+> >
+> > If I misunderstood, please explain why this problem is exclusive
+> > to overlayfs.
+> >
+> > Thanks,
+> > Amir.
+> >
 >
-> This can be very useful for cross-platform VMMs so that they do not have
-> to hardcode register indices for each supported architectures.
+> Hi Amir,
 >
-> Signed-off-by: Zixing Liu <liushuyu@aosc.io>
-> ---
->  Documentation/virt/kvm/api.rst |  2 +-
->  arch/loongarch/kvm/vcpu.c      | 85 ++++++++++++++++++++++++++++++++++
->  2 files changed, 86 insertions(+), 1 deletion(-)
+> Thanks for the review. That's exactly why we CC'd you and the
+> overlayfs folks, we wanted to get your perspective before documenting
+> this.
 >
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.=
-rst
-> index 01a3abef8abb..f46dd8be282f 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -3603,7 +3603,7 @@ VCPU matching underlying host.
->  ---------------------
+> Let me give some background. IPE enforces execution policy based on
+> file integrity properties, primarily dm-verity and fs-verity. These
+> are the trust anchors, and files without these protections won't be
+> trusted by IPE. Since dm-verity and fs-verity are inherently
+> read-only, in typical deployments the TOCTOU issue doesn't exist. To
+> support overlayfs, IPE uses d_real_inode() to look through the overlay
+> and get the real inode from the lower layer.
 >
->  :Capability: basic
-> -:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
-> +:Architectures: arm64, loongarch, mips, riscv, x86 (if KVM_CAP_ONE_REG)
->  :Type: vcpu ioctl
->  :Parameters: struct kvm_reg_list (in/out)
->  :Returns: 0 on success; -1 on error
-> diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
-> index 656b954c1134..ed11438f4544 100644
-> --- a/arch/loongarch/kvm/vcpu.c
-> +++ b/arch/loongarch/kvm/vcpu.c
-> @@ -1186,6 +1186,73 @@ static int kvm_loongarch_vcpu_set_attr(struct kvm_=
-vcpu *vcpu,
->         return ret;
->  }
+> Recently a new feature AT_EXECVE_CHECK was introduced to allow script
+> interpreters to request LSM checks on script files before execution.
+> The idea is: interpreter opens the script, calls execveat() with
+> AT_EXECVE_CHECK to verify the file passes security policy, then reads
+> and executes the content.
 >
-> +static int kvm_loongarch_walk_csrs(struct kvm_vcpu *vcpu, u64 __user *ui=
-ndices)
-> +{
-> +       unsigned int i, count;
-> +
-> +       for (i =3D 0, count =3D 0; i < CSR_MAX_NUMS; i++) {
-> +               if (!(get_gcsr_flag(i) & (SW_GCSR | HW_GCSR)))
-> +                       continue;
-> +               const u64 reg =3D KVM_IOC_CSRID(i);
-> +               if (uindices && put_user(reg, uindices++))
-> +                       return -EFAULT;
-> +               count++;
-> +       }
-> +
-> +       return count;
-> +}
-> +
-> +static unsigned long kvm_loongarch_num_lbt_regs(void)
-> +{
-> +       /* +1 for the LBT_FTOP flag (inside arch.fpu) */
-> +       return sizeof(struct loongarch_lbt) / sizeof(unsigned long) + 1;
-> +}
-This function has only one line, I think it is better to embed it into
-the caller.
+> What we found is that on overlayfs with a dm-verity lower layer and
+> writable upper layer, when a script file only exists in the lower
+> layer, AT_EXECVE_CHECK passes because IPE sees it's dm-verity
+> protected. But if another process writes to the same path after
+> execveat() returns, copy-up happens and subsequent read() from the
+> original fd returns content from the upper layer. We verified this
+> through testing.
 
-Huacai
+I don't understand how this is different from any AT_EXECVE_CHECK
+TOCTOU race on a writable filesystem, regardless of IPE.
+It seems to me that it is the user calling AT_EXECVE_CHECK who
+is responsible for verifying after reading that file has not changed and if
+it has changed, then the AT_EXECVE_CHECK could be invalidated
+(depending on policy).
 
-> +
-> +static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
-> +{
-> +       /* +1 for the KVM_REG_LOONGARCH_COUNTER register */
-> +       unsigned long res =3D
-> +               kvm_loongarch_walk_csrs(vcpu, NULL) + KVM_MAX_CPUCFG_REGS=
- + 1;
-> +
-> +       if (kvm_guest_has_lbt(&vcpu->arch))
-> +               res +=3D kvm_loongarch_num_lbt_regs();
-> +
-> +       return res;
-> +}
-> +
-> +static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
-> +                                         u64 __user *uindices)
-> +{
-> +       u64 reg;
-> +       unsigned int i;
-> +
-> +       i =3D kvm_loongarch_walk_csrs(vcpu, uindices);
-> +       if (i < 0)
-> +               return i;
-> +       uindices +=3D i;
-> +
-> +       for (i =3D 0; i < KVM_MAX_CPUCFG_REGS; i++) {
-> +               reg =3D KVM_IOC_CPUCFG(i);
-> +               if (put_user(reg, uindices++))
-> +                       return -EFAULT;
-> +       }
-> +
-> +       reg =3D KVM_REG_LOONGARCH_COUNTER;
-> +       if (put_user(reg, uindices++))
-> +               return -EFAULT;
-> +
-> +       if (!kvm_guest_has_lbt(&vcpu->arch))
-> +               return 0;
-> +
-> +       for (i =3D 1; i <=3D kvm_loongarch_num_lbt_regs(); i++) {
-> +               reg =3D (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
-> +               if (put_user(reg, uindices++))
-> +                       return -EFAULT;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  long kvm_arch_vcpu_ioctl(struct file *filp,
->                          unsigned int ioctl, unsigned long arg)
->  {
-> @@ -1251,6 +1318,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
->                 r =3D kvm_loongarch_vcpu_set_attr(vcpu, &attr);
->                 break;
->         }
-> +       case KVM_GET_REG_LIST: {
-> +               struct kvm_reg_list __user *user_list =3D argp;
-> +               struct kvm_reg_list reg_list;
-> +               unsigned n;
-> +
-> +               r =3D -EFAULT;
-> +               if (copy_from_user(&reg_list, user_list, sizeof(reg_list)=
-))
-> +                       break;
-> +               n =3D reg_list.n;
-> +               reg_list.n =3D kvm_loongarch_num_regs(vcpu);
-> +               if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
-> +                       break;
-> +               r =3D -E2BIG;
-> +               if (n < reg_list.n)
-> +                       break;
-> +               r =3D kvm_loongarch_copy_reg_indices(vcpu, user_list->reg=
-);
-> +               break;
-> +       }
->         default:
->                 r =3D -ENOIOCTLCMD;
->                 break;
-> --
-> 2.52.0
+Maybe multi-grain ctime could provide a safe cache invalidating check?
+As long as the filesystem is trusted to report true MG ctime.
+See below regarding overlayfs...
+
 >
+> Overlayfs is popular in container environments, so we want to document
+> this for IPE users.
+>
+> We noticed the overlayfs documentation
+> (https://docs.kernel.org/filesystems/overlayfs.html#non-standard-behavior=
+)
+> states that if a lower layer file is opened and memory mapped,
+> subsequent changes are not reflected in the memory mapping. We also
+> verified this: mmap keeps the original lower layer content after
+> copy-up. One reason we CC'd you is to ask: is relying on mmap to keep
+> the original lower file reference a reasonable choice? Or would you
+> recommend against depending on this behavior?
+
+I recommend against depending on this behavior.
+Please do not document this as a solution.
+
+It sounds like you are documenting a recipe for how to write a safe
+interpreter?
+
+The advice to mount overlayfs read only seems impractical to 90%
+of the container users which use overlayfs specifically to add writability
+over a read only image.
+
+If the generic ctime check is not considered reliable enough for checking
+if a file was modified and copied up, what about checking the
+STATX_ATTR_VERITY flag of the file?
+
+ovl_getattr() reports the STATX_ flags from the "upper most" inode
+and then merges some specific fields from lower layers.
+
+I think that would mean that in the use case to describe, a copy up
+would result in STATX_ATTR_VERITY going away when doing
+fstat() after a copy up.
+
+If this works, better document it as a good solution.
+
+>
+> The narrative in the patch can definitely be adjusted. Would something
+> like this work better:
+>
+> "When using AT_EXECVE_CHECK on overlayfs, if the lower layer is
+> integrity-protected but the upper layer is writable, a copy-up between
+> the check and read() may cause the interpreter to read unverified
+> content."
+
+Sounds fine to me, as long as it is clear that overlayfs is just
+a private case of the AT_EXECVE_CHECK TOCOU race.
+
+Thanks,
+Amir.
