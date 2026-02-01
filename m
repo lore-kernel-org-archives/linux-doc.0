@@ -1,47 +1,54 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE4D1C549F;
-	Sun,  1 Feb 2026 21:59:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE131E1024;
+	Sun,  1 Feb 2026 22:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769983196; cv=none; b=VCb2K3o8MHZTirkmqGtFYMi5Tg2ITCmgoVkQoUNasuMEQNdvW5ITu6R5DY6EZNmOPozxG8Xpe9WAQFWfYMDDTrKzIEBQ40YP+Xv202M9DzZZWuAFGb1xJr4sUINd/Tf0kMPdWRpMdg5nHeAIFYO6ULpi0ovfYyivu9KOLd9hEqc=
+	t=1769986003; cv=none; b=Yeck7ivCkhSzKkpqKko2Y+upEy7DQre0XNKA5Y7RKBYyyKi2pryn2BumtLw9G7DOSAoN3ku2aJM/KBZFu/9fLVLPFJ1ogd//+U6+OEmkovbSwWZWrUpSSOVD6gMiFnTkefVBQjlmUx0gUlNyXzGEhVll6knBHg+z3uOCg5GroIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769983196; c=relaxed/simple;
-	bh=nwNCfCy2+if2Xqeil/vmYXf8W1NhA8yq0rv6pHKBrSg=;
+	s=arc-20240116; t=1769986003; c=relaxed/simple;
+	bh=FCYpJl8EOX8GMWf4gm75QpFvBDwzIFIO8cA6R9Ty+Ac=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iagYhjsCtqV6CnA5/BxvgXm1s8vCABEy0gxQR4ZXbMHVez8m5d6cTIFO9yRS9sWpNdAss0Bn2qB80MYfV+oW1ZMj7iTMciLM7Ilzj4Vu8y5dOkKyDEaavEhJoWwUu8onAvUKx8LS2AOWgUrZiltIx8ZNQoXTc5wJ1SyYuXjr+8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rZ55KXEi; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=eJIVd+RVJ3T9mmRVTUPpEdogViVmzT4omayqcJI+fFdwZft7K89fzXd4MsFggS1h6P4i7EODw9Av/NYVzvkFLvsvm6HfWSB/d/FUwD7pl+37WOUPoUYs5EPQYUFMlkAKyYcPc1vqde1lEPxbXs+5I+j/YeNSeabJwk28CJlBBbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=demddUI3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rZ55KXEi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB87EC4CEF7;
-	Sun,  1 Feb 2026 21:59:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="demddUI3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9944FC4CEF7;
+	Sun,  1 Feb 2026 22:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769983195;
-	bh=nwNCfCy2+if2Xqeil/vmYXf8W1NhA8yq0rv6pHKBrSg=;
+	s=k20201202; t=1769986003;
+	bh=FCYpJl8EOX8GMWf4gm75QpFvBDwzIFIO8cA6R9Ty+Ac=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rZ55KXEi8hcUxUgu6bhh0qs5Md6Cbu4hrdReoTvTQUcTOmbjVYZPDZsTJ1haT0ScY
-	 37I6ADunxaz61lQXHGlB52KryXo1BrJabJq1+QRoMNyx5a1MKKuYaegIaKX6/S/GWa
-	 Qn6jP8JFE93zJlUAlX64cbjd9Bg6MTJ2x/rmTo5dvR5ZsfFKCPu/3q5IrD7OA9CBmA
-	 E90TR/BRHhS5++dPyrT1EOufCF7LCrKtpceeVc+/Q9hKl8BeDKq5jiKkk3YapVrqHA
-	 oCthDqCiHFvqoA+R+49JKydQKkR+6Dhn+Ci/nv3A+SR8GhoJaEks8mtY+hcVHY7yHH
-	 JfwaS2bCqltUw==
-Date: Sun, 1 Feb 2026 22:59:50 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: mani@kernel.org, kwilczynski@kernel.org, kishon@kernel.org,
-	bhelgaas@google.com, corbet@lwn.net, jingoohan1@gmail.com,
-	lpieralisi@kernel.org, robh@kernel.org, Frank.Li@nxp.com,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] PCI: endpoint: Document pci_epc_set_bar() caller
- ownership and lifetime rules
-Message-ID: <aX_M1rbIkNaPcVJd@ryzen>
-References: <20260131133655.218018-1-den@valinux.co.jp>
- <20260131133655.218018-4-den@valinux.co.jp>
- <aX4y3txKcYmb-kE3@fedora>
- <4erlj426nvmilwfdq5e63ojiqecomcpj35nvmiyw2p5mvifwlt@yspmfxrzmxei>
- <aX_HfpBoQX4j7mag@ryzen>
+	b=demddUI3kI/QRadXK8U7OSeKMbsdkhKJqfLguBHAca+Trk4VXSu0sJZCszhFvMfeF
+	 QBhh4DkygaGFZjcREzGN+Gg3DGSZf4C9/aCNsy9ixHnDgHtnTp34sz+GtxNQ7YEfMx
+	 uTogeujSiWcnvxxf/yJJ3NRK0/IJ2TBa4ES8Gre9M/GYhHOloTrh686VAzyxHSNW9+
+	 azvzULdZsop3ti7N1x4mnbaRHfu4ahXro61ihGNaHMZVmrkqeHLxo6kSE7TEkw4xJq
+	 G1VieqSHaz92qAYAL2qzNdThPFf0+IsKjI1kqbXL6ENmRTt0F3PXmIR+kMkQaJw9Wm
+	 e2I9O5NDkD9Ww==
+Date: Mon, 2 Feb 2026 00:46:39 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Cc: Ross Philipson <ross.philipson@oracle.com>,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+	linux-efi@vger.kernel.org, iommu@lists.linux.dev,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+	dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
+	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu,
+	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
+	ebiederm@xmission.com, dwmw2@infradead.org,
+	baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v15 01/28] tpm: Initial step to reorganize TPM public
+ headers
+Message-ID: <aX_Xz3ERMEb7GwK8@kernel.org>
+References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+ <20251215233316.1076248-2-ross.philipson@oracle.com>
+ <aW7A-4xJSzln1HtH@kernel.org>
+ <b94815dc-fc4d-4073-bfd6-31ab99a6b85b@apertussolutions.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,22 +57,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aX_HfpBoQX4j7mag@ryzen>
+In-Reply-To: <b94815dc-fc4d-4073-bfd6-31ab99a6b85b@apertussolutions.com>
 
-On Sun, Feb 01, 2026 at 10:37:08PM +0100, Niklas Cassel wrote:
+On Sun, Feb 01, 2026 at 11:20:20AM -0500, Daniel P. Smith wrote:
+> On 1/19/26 18:40, Jarkko Sakkinen wrote:
+> > On Mon, Dec 15, 2025 at 03:32:49PM -0800, Ross Philipson wrote:
+> > > Replace the existing public header tpm_command.h with the first two
+> > > new public headers tpm1.h and tpm_common.h. In addition, related
+> > > definitions in tpm1_cmd.c were moved to the new tpm1.h.
+> > > 
+> > > Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+> > > Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+> > > ---
+> > >   drivers/char/tpm/tpm-buf.c                |  3 +-
+> > >   drivers/char/tpm/tpm1-cmd.c               | 13 +-----
+> > >   include/keys/trusted_tpm.h                |  1 -
+> > >   include/linux/tpm.h                       |  3 ++
+> > >   include/linux/tpm1.h                      | 55 +++++++++++++++++++++++
+> > >   include/linux/tpm_command.h               | 30 -------------
+> > 
+> > Removing tpm_command.h causes unnecessary noise.
+> > 
+> > It would be better to retain tpm_command.h, and simply supplement
+> > it with TPM2 constants.
+> > 
+> > Also, what is the reason to not have both TPM1 and TPM2 in tpm.h?
+> > 
+> > To put the question in other words: is there something in tpm.h that
+> > would be incompatible with early boot code?
+> > 
+> > I'd rather tweak that than have more files...
 > 
-> Considering that we probably want to support in place updates after all...
+> Every #include in tpm.h will break in the early boot code. I don't see any
+> way to avoid having one header that is the device driver header that
+> integrates with mainline features and at least one header that holds the
+> general TPM definitions.
 > 
-> I guess we probably only need patch 1/3 in this series, plus another
-> patch that makes sure that we call dw_pcie_ep_clear_ib_maps() unconditionally?
-> 
-> I still don't like that dw_pcie_ep_clear_ib_maps() will be called
-> unconditionally, but I don't see any other way to support in place updates...
+> We will move everything that was broken out into tpm_command.h, making it
+> the header with the general definitions. I would raise the question of
+> whether tpm_command.h would be the best name of the file after definition
+> reloactions
 
-Perhaps just add a comment above the unconditonal call to
-dw_pcie_ep_clear_ib_maps() which explains why the call is unconditional
-(i.e. it has to be unconditional in order to support in place updates).
+tpm_command.h conforms with lowest common denominator in the sense that
+it in its current state it is compatible with early boot code.
 
+I'd consolidate TPM1 and TPM2 definitions that can be shared to that
+header. I guess rename is fine as long as protocol definitions are
+not scattered to two headers.
 
-Kind regards,
-Niklas
+BR, Jarkko
