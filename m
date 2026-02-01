@@ -1,343 +1,126 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02B52EFDAD
-	for <linux-doc@vger.kernel.org>; Sun,  1 Feb 2026 09:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769937469; cv=none; b=rQ4hOgvitEbdi0hyLTo6P/O7rXIFmscywbHXjCE9EL3tMAet/qj/QCGpMRKne4ixaT+zyPC3NwfiySlmmCoyWS9WEHfJEjbWpIPKxdOMjutbyeTD4+hPRt8LF9aC9FgjReqwXIKSVzEzb6xS0SNbtDxYkFWpDLYDyqn2TNoLoBs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769937469; c=relaxed/simple;
-	bh=LaKEqrgvYkhsFwqyindBMnW1p2HUBq4DbwnLjR4F0Go=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DnyRjLx2K+RWOqA0RKER9Taqhuy3Kv0/v4+9uPhNqxwkgdfopQbQn9J/PHV3KYdzfvHsg6u2StexAH708+AHgFP/5M3C0V1DXe2bctnWmgYb51Ze900Q71DLxie89Y0Xt8fY5djVYqlHDYIxce2/yIhfxB76UYWhZHkyj5dvX6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZMFwtY5D; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=g9teKUJW; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4256C2E8E07
+	for <linux-doc@vger.kernel.org>; Sun,  1 Feb 2026 10:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769941500; cv=pass; b=SXHs4a7C6M8JtGQa5yHyLjBoO+i8SVQTcleHyOic+ijtzpXT+sHjiLobsp+vZ0fTEv9eRMReAcT4ycDscMfsP6WIuQGSeuGDqBg4o8umXcLI+WqIu9nOw4P8Y4nOCAXmUZT5qE0brOZGL/x/gDiILkWQItuvrej7I4z/YSaa42I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769941500; c=relaxed/simple;
+	bh=c13X9iCoqEMpER2AIG5Pt/jrhfKFm2Mm4FnRZDWIDoY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NCCCu3HkSjVEpVKFXdhYTLMy0jRtI1XQPdvbZf6w5KD43rKpKnQGElX4lziHqR3s+xr76cf4+QFQf8MvQ+S/D7DDyBms/tIeVq5NiEC+pxCDvfy/ZrPJkx8MIIdbgtfs18xl5MuLCh/c4v8l4o2rN0uExy5qA274P1kkTpcQTPk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MIjfYEv3; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZMFwtY5D";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="g9teKUJW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769937464;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=b1F5jlC4KkSLd9axs6reavDIsao7rIgQww1rrTaK/DA=;
-	b=ZMFwtY5D0nzd7Rwx24Llyd63vm7hRPECVEJRDLS4JD0U/MlcwMU8150DsyqP4unL2zk2QH
-	UNsY8llyJATtkZwsUjzx97MASvD6xSVy9higavJCL5KL5GxxqA4S30xq0mPXVY6PZLE5fB
-	z/GNPKAzBJeQhKZTBHVxQkUGtXlj0SA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-130-qt9Q8BbsP1yOXH8vY4M1hA-1; Sun, 01 Feb 2026 04:17:43 -0500
-X-MC-Unique: qt9Q8BbsP1yOXH8vY4M1hA-1
-X-Mimecast-MFC-AGG-ID: qt9Q8BbsP1yOXH8vY4M1hA_1769937462
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-434302283dcso4369488f8f.0
-        for <linux-doc@vger.kernel.org>; Sun, 01 Feb 2026 01:17:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MIjfYEv3"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5032e951106so28738201cf.0
+        for <linux-doc@vger.kernel.org>; Sun, 01 Feb 2026 02:24:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769941498; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LCx1yV7fbyH+GgVkBUo8hd24+lYbRzY7QeDSAcSDT4XU9ZtniNnEmN/HGJrNQsISTx
+         5QGxr4GYeIQFc3liieShhvNea1C1qYrhyNGk9ib/pk+poz7Lm8xiZC0/OYIyx/YRcXcq
+         mHV0zAiH73ztINlCB3vHhyQaSByX8zYA2PQ9Oi1l4lR4LOjfROaBkwyA7bA+VJSIhSyj
+         3CWSBO+PVeqkHkJsS0wiQHB4t5bve5YzKv8tPQgErhJncQCHS/r/RQgiP9MRZPZO6Sd9
+         2qiwNLegwcMdkzVwFzTLHmOgQmBLkeq9QeT+X8T8ZPNBii63Z8MrufhaiA6HMP4R3fKc
+         xZpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=c13X9iCoqEMpER2AIG5Pt/jrhfKFm2Mm4FnRZDWIDoY=;
+        fh=n/0qjOfASZR9qNdUOP/BttC7mq9APrcrmR71Nce+cl4=;
+        b=lroGmaBmr5HvfSgzGv9X/C3AsEaFF99scNrq8z64NV7fXOk4Nndmhhhev5Y0fxketv
+         L+xpv14ATQ/vemmWk/LZDPpnUHZk7ff2MYYMVNH+GHUSkJxgrXc58RUofKLd6YFBqUSJ
+         z4ALNnBqgP2Svka6Td29SuzN8p8ti0OxN0Nztl+h9nrOVGkAtxKSLHBunLrtGVtzjdrD
+         ZH0WakCAv4yXVy2ENJwRnHx/61KkRojcJaAVUtq199o9VEKM8SX1X7E+A3adVHyKVSAo
+         7F4ACSBJunB+tAEktFp2/SBBb3nT+xNIl/U0/bO74oBd1BSGVsUK2zcTQd/UNRdTjus4
+         SIEA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1769937462; x=1770542262; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b1F5jlC4KkSLd9axs6reavDIsao7rIgQww1rrTaK/DA=;
-        b=g9teKUJWmIzv/YgFxs39Hoalac8WQQJPdt107OW4pXtEuUor7a5B9Rj5vqSNoNgAkq
-         vSlkUQ7qa36Zrls1J/kwCVyA3cTTG5Hni3IX78LwWUcHCdlfxBZTQ3JFKtGhd3tUgbPn
-         cDC6piFB7ylW9ABQNIDmkA7APgPltel6CcSAyJxth1f1qTfmc0yppwOdvAQbE7bKuGbo
-         myG1p6y/eNJ4qOz/tTEHR1OPDB5gG65OfIkKvXMBVHjWlvpY2jNCTz1qXSCDjIz4JPHb
-         6CP5hgWYUbQ66smXlP52Kp6Ov+3ngDYIPh0csoTfzjAF3/tLo+0nNpTRpIBMcMfhun+F
-         Z/Bg==
+        d=google.com; s=20230601; t=1769941498; x=1770546298; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c13X9iCoqEMpER2AIG5Pt/jrhfKFm2Mm4FnRZDWIDoY=;
+        b=MIjfYEv3Li6hV8HO6FS2uLcjF2ZAWGHiV2K89t/jxIh7U/LFzvM7tuO2Vr0/5fAJn7
+         W1lfRwlTpWXhXqgkDo9uwtizhOwQRPz4HZdv+l/cD4zGjTfanmdcnduR+P22Hu5jZ7RI
+         R/U9Zjx5A/YmVYq23CZNHb+ZCaXbCBvoHivYaqTxjcCCrz8ZCx6XpzR+TveF3oVJgxAP
+         KSlevuxG50TfBx/Sb1MP1A9Cnj7QJCoMtBAKEl/rhCE8hMbQTz5NuwYkuJqx5vHQQ0hU
+         RacLMLDg/KbdMT2Dz5cCfjeZF3CWGCPZVJVJJnnPi52nFe5T+rxN62m4NjSRllgAiQ+e
+         rXjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769937462; x=1770542262;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b1F5jlC4KkSLd9axs6reavDIsao7rIgQww1rrTaK/DA=;
-        b=cU83Pie2zRNdNVwZvQ5xTc+EYlZCp8YjhmVHyIYiPa9gnnUTE2c7O+G/ilogfRISmV
-         NNlJ+IdO6TPb/M9C7FJDo+v4/olPxzLdfdNhrTxR9EfZApqRGgFvS1Nadcy+qQg98J/2
-         8+6hhoGX/TFVnEXXdCCLr2sYP8Hj1zNNokWFz1U31g37qSU7fKNq6Bqdo35zgfG3NlB0
-         Q6NVw3kMRQ+EPzYC4RhXvkQc7REsa5gVxwTk5aNAn6XIX9HCz865MnmTvxH+R5btaaiu
-         +qPf5ZNcMUpI1bSIdBCgT5GFe76zwM4s1G6G1gR/qzlVDCCcKbzYN/Enh8XtpNzedpBN
-         hUSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV31sBwLp3uRy7ktAsKgtUokoTeFb635QlPoJLAsK+TxvnNz7KCupNuFZZoXOwq1HLECDLEDuAtDtw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYJBnHhm+hvGLS7akt4LjEVLJb3oqSm4vP4qsjYwHJWspDVRUI
-	jw22R+hUeJXC0QYjCIMrMoX3J1hAtrAvH1Lbl/RNiJnW1JiAf2ggYLJZNirOZedo6/UhErjLYa3
-	yexSsKVOaEgJ4tbOmHI+3dlGfYwACQqTvsnarIUL6qZxufDGvK+Rtzn8tWQ6mAg==
-X-Gm-Gg: AZuq6aK1nQDHyTEHlEQVhRrf1dIH+ZJMN1Ix0uYnz3zdEH+7igLR3DqY7ThbV36mxIb
-	M49N7NWX7h102TWsOUDOHcmBVwNLUZ/5Q0aufEC3F+R2BOXB1DgkO35YSYa9iH32GUN7FR4AwnS
-	/8YVsTZrErDEJc2sTi+JdKv6VGugj931Rb5XZ84UR2kTpV/JFGQDSXu2nToOsMi38An2EZ3w3si
-	o8OveMp9g6Wwe7t6ylyYhbd+psOLgImWth8iz4KiUIbp+KM6i2XGBq7XuL34ZaYBsh1p0fVO+Cd
-	MNxl6hZeJqx1b+rPqo9l6TvlvnWjg6yTnOo6+HhUPYg16NuwQ9kLoIklNkeXnJIj06Ik0qHUUgT
-	b2DuEElP9TFs4Feo6zuOvB/jM7nGzjQXI7Q==
-X-Received: by 2002:a05:6000:4313:b0:432:dfea:1fa8 with SMTP id ffacd0b85a97d-435f3abc65cmr11406048f8f.45.1769937461797;
-        Sun, 01 Feb 2026 01:17:41 -0800 (PST)
-X-Received: by 2002:a05:6000:4313:b0:432:dfea:1fa8 with SMTP id ffacd0b85a97d-435f3abc65cmr11405975f8f.45.1769937461191;
-        Sun, 01 Feb 2026 01:17:41 -0800 (PST)
-Received: from redhat.com (IGLD-80-230-34-155.inter.net.il. [80.230.34.155])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e131ce58sm34407293f8f.20.2026.02.01.01.17.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Feb 2026 01:17:40 -0800 (PST)
-Date: Sun, 1 Feb 2026 04:17:35 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: chia-yu.chang@nokia-bell-labs.com
-Cc: tariqt@nvidia.com, linux-rdma@vger.kernel.org, shaojijie@huawei.com,
-	shenjian15@huawei.com, salil.mehta@huawei.com, mbloch@nvidia.com,
-	saeedm@nvidia.com, leon@kernel.org, eperezma@redhat.com,
-	brett.creeley@amd.com, jasowang@redhat.com,
-	virtualization@lists.linux.dev, xuanzhuo@linux.alibaba.com,
-	pabeni@redhat.com, edumazet@google.com, parav@nvidia.com,
-	linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
-	dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
-	kuba@kernel.org, stephen@networkplumber.org,
-	xiyou.wangcong@gmail.com, jiri@resnulli.us, davem@davemloft.net,
-	andrew+netdev@lunn.ch, donald.hunter@gmail.com, ast@fiberby.net,
-	liuhangbin@gmail.com, shuah@kernel.org,
-	linux-kselftest@vger.kernel.org, ij@kernel.org,
-	ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
-	g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
-	mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
-	Jason_Livingood@comcast.com, vidhi_goel@apple.com
-Subject: Re: [PATCH v1 net-next 3/3] virtio_net: Accurate ECN flag in
- virtio_net_hdr
-Message-ID: <20260201035912-mutt-send-email-mst@kernel.org>
-References: <20260131225510.2946-1-chia-yu.chang@nokia-bell-labs.com>
- <20260131225510.2946-4-chia-yu.chang@nokia-bell-labs.com>
+        d=1e100.net; s=20230601; t=1769941498; x=1770546298;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=c13X9iCoqEMpER2AIG5Pt/jrhfKFm2Mm4FnRZDWIDoY=;
+        b=wptfNu9aVlYs7J9pj/tCt82LZ+hahRRrmmxWQO7V9Z3SkJG2syj54WGLJttPCiBxO+
+         IgAoF7XcV/20RKlv3JLV+/Ju6Dwask6Q5pVk5iuEDFQ50716virBriXJxGkQJ34drLtO
+         Q+gZ3uYscq3aMxZMNFDkrA8o1D9zUBgX8a+XX9ye4JUkQsnlxYuUDmfXtTmDnAkIqdVw
+         wC4JeRc9Eg8gCO54LR3TBIrv+BKtxsSJHG58pMf2ZQN0Av1pF0dTVjO7qorMwPOUVfcr
+         +5xvtcg5zF1Y+heYvP3AseA7BnmkL+2JRPL2eTPeBoQXxctEdsNZ5KkiktAnnFcr4Uco
+         jVLg==
+X-Forwarded-Encrypted: i=1; AJvYcCWFhs7qFgHVheLWDfQoE6hV0UxgpdcTSTjmLAjjXZetQ5RVSd9S2IOLfcTRFcVVtLXMAHjFqC/9YyY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8mq7/EV8Yrxf1HMXfHYedSKO2Hk3no1gWTyDB2BXQsvPKP0mZ
+	rprEogAXaR+e4K/JZX1z8Z3FlhtUapKnSxTbJVLlhaQ8rwA4VwQ2BERwK9LaBBg5PoiJrW11YuK
+	jLhy9rLtmpPb64h1QoDEZkiQ1hoJ0zxGYNJKRyOQN
+X-Gm-Gg: AZuq6aLc/aRLLxTSIB26WTLapkpJMo+7aUmueINXB38sDIM9yYs/8cC5t5CGoIz70r2
+	9l3+W5NreZuZ3x7B1l1ufZTqMK1pxsawV7XmUG249Ry08PPgHiQNlG4m0YOygf5SOdd9KmLxAYk
+	unT/lv9QfDfn5T5SiIbrGeNoIGDNr2lnPel1ioi392M5vrQg9Pe9ic7KmEkV6dPNqAYuVNFv6pv
+	EIWasou51uT84r7fGx5c0VjZzIYUp8aKfm8f8rwYl4scFDO/JF3KCiAqDn4Gto6rw0p01U=
+X-Received: by 2002:a05:622a:510:b0:503:36ba:1315 with SMTP id
+ d75a77b69052e-505d212dc92mr105121131cf.17.1769941497854; Sun, 01 Feb 2026
+ 02:24:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260131225510.2946-4-chia-yu.chang@nokia-bell-labs.com>
+References: <20260131222515.8485-1-chia-yu.chang@nokia-bell-labs.com> <20260131222515.8485-13-chia-yu.chang@nokia-bell-labs.com>
+In-Reply-To: <20260131222515.8485-13-chia-yu.chang@nokia-bell-labs.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Sun, 1 Feb 2026 11:24:46 +0100
+X-Gm-Features: AZwV_Qje-4lGonBagy2Li1XCvjDteYMc2SXNllbyqn7JUJVP33Ro8aW2ZhSaRR4
+Message-ID: <CANn89i+8vG=DiXrd9tbv2PCH_ALpDYUKsj5jm4Jk+G7Qp+2EPQ@mail.gmail.com>
+Subject: Re: [PATCH v13 net-next 12/15] tcp: accecn: detect loss ACK w/ AccECN
+ option and add TCP_ACCECN_OPTION_PERSIST
+To: chia-yu.chang@nokia-bell-labs.com
+Cc: pabeni@redhat.com, parav@nvidia.com, linux-doc@vger.kernel.org, 
+	corbet@lwn.net, horms@kernel.org, dsahern@kernel.org, kuniyu@google.com, 
+	bpf@vger.kernel.org, netdev@vger.kernel.org, dave.taht@gmail.com, 
+	jhs@mojatatu.com, kuba@kernel.org, stephen@networkplumber.org, 
+	xiyou.wangcong@gmail.com, jiri@resnulli.us, davem@davemloft.net, 
+	andrew+netdev@lunn.ch, donald.hunter@gmail.com, ast@fiberby.net, 
+	liuhangbin@gmail.com, shuah@kernel.org, linux-kselftest@vger.kernel.org, 
+	ij@kernel.org, ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com, 
+	g.white@cablelabs.com, ingemar.s.johansson@ericsson.com, 
+	mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at, 
+	Jason_Livingood@comcast.com, vidhi_goel@apple.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the patch! Yet something to improve:
-
-On Sat, Jan 31, 2026 at 11:55:10PM +0100, chia-yu.chang@nokia-bell-labs.com wrote:
+On Sat, Jan 31, 2026 at 11:26=E2=80=AFPM <chia-yu.chang@nokia-bell-labs.com=
+> wrote:
+>
 > From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> 
-> Unlike RFC 3168 ECN, accurate ECN uses the CWR flag as part of the ACE
-> field to count new packets with CE mark; however, it will be corrupted
-> by the RFC 3168 ECN-aware TSO. Therefore, fallback shall be applied by
-> seting NETIF_F_GSO_ACCECN to ensure that the CWR flag should not be
-> changed within a super-skb.
-> 
-> To apply the aforementieond new AccECN GSO for virtio, new featue bits
-> for host and guest are added for feature negotiation between driver and
-> device. And the translation of Accurate ECN GSO flag between
-> virtio_net_hdr and skb header for NETIF_F_GSO_ACCECN is also added to
-> avoid CWR flag corruption due to RFC3168 ECN TSO.
-> 
+>
+> Detect spurious retransmission of a previously sent ACK carrying the
+> AccECN option after the second retransmission. Since this might be caused
+> by the middlebox dropping ACK with options it does not recognize, disable
+> the sending of the AccECN option in all subsequent ACKs. This patch
+> follows Section 3.2.3.2.2 of AccECN spec (RFC9768), and a new field
+> (accecn_opt_sent_w_dsack) is added to indicate that an AccECN option was
+> sent with duplicate SACK info.
+>
+> Also, a new AccECN option sending mode is added to tcp_ecn_option sysctl:
+> (TCP_ECN_OPTION_PERSIST), which ignores the AccECN fallback policy and
+> persistently sends AccECN option once it fits into TCP option space.
+>
 > Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+> Acked-by: Paolo Abeni <pabeni@redhat.com>
 
-
-To the best of my understanding, this is a new feature - support
-for VIRTIO_NET_F_HOST_ACCECN, VIRTIO_NET_F_GUEST_ACCECN?
-The commit log makes it sound like it fixes some behaviour for
-existing hardware, but that is not the case.
-
-
-
-
-
-> ---
-> v2:
-> - Replace VIRTIO_NET_HDR_GSO_ECN with VIRTIO_NET_HDR_GSO_ECN_FLAGS
-
-but where is v2? this is v1...
-
-> ---
->  drivers/net/virtio_net.c        | 14 +++++++++++---
->  drivers/vdpa/pds/debugfs.c      |  6 ++++++
->  include/linux/virtio_net.h      | 18 +++++++++++-------
->  include/uapi/linux/virtio_net.h |  5 +++++
->  4 files changed, 33 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
-> index db88dcaefb20..103fb87c690e 100644
-> --- a/drivers/net/virtio_net.c
-> +++ b/drivers/net/virtio_net.c
-> @@ -75,6 +75,7 @@ static const unsigned long guest_offloads[] = {
->  	VIRTIO_NET_F_GUEST_TSO4,
->  	VIRTIO_NET_F_GUEST_TSO6,
->  	VIRTIO_NET_F_GUEST_ECN,
-> +	VIRTIO_NET_F_GUEST_ACCECN,
->  	VIRTIO_NET_F_GUEST_UFO,
->  	VIRTIO_NET_F_GUEST_CSUM,
->  	VIRTIO_NET_F_GUEST_USO4,
-> @@ -87,6 +88,7 @@ static const unsigned long guest_offloads[] = {
->  #define GUEST_OFFLOAD_GRO_HW_MASK ((1ULL << VIRTIO_NET_F_GUEST_TSO4) | \
->  			(1ULL << VIRTIO_NET_F_GUEST_TSO6) | \
->  			(1ULL << VIRTIO_NET_F_GUEST_ECN)  | \
-> +			(1ULL << VIRTIO_NET_F_GUEST_ACCECN) | \
->  			(1ULL << VIRTIO_NET_F_GUEST_UFO)  | \
->  			(1ULL << VIRTIO_NET_F_GUEST_USO4) | \
->  			(1ULL << VIRTIO_NET_F_GUEST_USO6) | \
-> @@ -5976,6 +5978,7 @@ static int virtnet_xdp_set(struct net_device *dev, struct bpf_prog *prog,
->  	    && (virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_TSO4) ||
->  	        virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_TSO6) ||
->  	        virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_ECN) ||
-> +		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_ACCECN) ||
->  		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_UFO) ||
->  		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_CSUM) ||
->  		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_USO4) ||
-> @@ -6635,6 +6638,7 @@ static bool virtnet_check_guest_gso(const struct virtnet_info *vi)
->  	return virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_TSO4) ||
->  		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_TSO6) ||
->  		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_ECN) ||
-> +		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_ACCECN) ||
->  		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_UFO) ||
->  		(virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_USO4) &&
->  		virtio_has_feature(vi->vdev, VIRTIO_NET_F_GUEST_USO6));
-> @@ -6749,6 +6753,8 @@ static int virtnet_probe(struct virtio_device *vdev)
->  			dev->hw_features |= NETIF_F_TSO6;
->  		if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_ECN))
->  			dev->hw_features |= NETIF_F_TSO_ECN;
-> +		if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_ACCECN))
-> +			dev->hw_features |= NETIF_F_GSO_ACCECN;
->  		if (virtio_has_feature(vdev, VIRTIO_NET_F_HOST_USO))
->  			dev->hw_features |= NETIF_F_GSO_UDP_L4;
->  
-> @@ -7169,9 +7175,11 @@ static struct virtio_device_id id_table[] = {
->  	VIRTIO_NET_F_CSUM, VIRTIO_NET_F_GUEST_CSUM, \
->  	VIRTIO_NET_F_MAC, \
->  	VIRTIO_NET_F_HOST_TSO4, VIRTIO_NET_F_HOST_UFO, VIRTIO_NET_F_HOST_TSO6, \
-> -	VIRTIO_NET_F_HOST_ECN, VIRTIO_NET_F_GUEST_TSO4, VIRTIO_NET_F_GUEST_TSO6, \
-> -	VIRTIO_NET_F_GUEST_ECN, VIRTIO_NET_F_GUEST_UFO, \
-> -	VIRTIO_NET_F_HOST_USO, VIRTIO_NET_F_GUEST_USO4, VIRTIO_NET_F_GUEST_USO6, \
-> +	VIRTIO_NET_F_HOST_ECN, VIRTIO_NET_F_HOST_ACCECN, \
-> +	VIRTIO_NET_F_GUEST_TSO4, VIRTIO_NET_F_GUEST_TSO6, \
-> +	VIRTIO_NET_F_GUEST_ECN, VIRTIO_NET_F_GUEST_ACCECN, \
-> +	VIRTIO_NET_F_GUEST_UFO, VIRTIO_NET_F_HOST_USO, \
-> +	VIRTIO_NET_F_GUEST_USO4, VIRTIO_NET_F_GUEST_USO6, \
->  	VIRTIO_NET_F_MRG_RXBUF, VIRTIO_NET_F_STATUS, VIRTIO_NET_F_CTRL_VQ, \
->  	VIRTIO_NET_F_CTRL_RX, VIRTIO_NET_F_CTRL_VLAN, \
->  	VIRTIO_NET_F_GUEST_ANNOUNCE, VIRTIO_NET_F_MQ, \
-> diff --git a/drivers/vdpa/pds/debugfs.c b/drivers/vdpa/pds/debugfs.c
-> index c328e694f6e7..90bd95db0245 100644
-> --- a/drivers/vdpa/pds/debugfs.c
-> +++ b/drivers/vdpa/pds/debugfs.c
-> @@ -78,6 +78,9 @@ static void print_feature_bits_all(struct seq_file *seq, u64 features)
->  		case BIT_ULL(VIRTIO_NET_F_GUEST_ECN):
->  			seq_puts(seq, " VIRTIO_NET_F_GUEST_ECN");
->  			break;
-> +		case BIT_ULL(VIRTIO_NET_F_GUEST_ACCECN):
-> +			seq_puts(seq, " VIRTIO_NET_F_GUEST_ACCECN");
-> +			break;
->  		case BIT_ULL(VIRTIO_NET_F_GUEST_UFO):
->  			seq_puts(seq, " VIRTIO_NET_F_GUEST_UFO");
->  			break;
-> @@ -90,6 +93,9 @@ static void print_feature_bits_all(struct seq_file *seq, u64 features)
->  		case BIT_ULL(VIRTIO_NET_F_HOST_ECN):
->  			seq_puts(seq, " VIRTIO_NET_F_HOST_ECN");
->  			break;
-> +		case BIT_ULL(VIRTIO_NET_F_HOST_ACCECN):
-> +			seq_puts(seq, " VIRTIO_NET_F_HOST_ACCECN");
-> +			break;
->  		case BIT_ULL(VIRTIO_NET_F_HOST_UFO):
->  			seq_puts(seq, " VIRTIO_NET_F_HOST_UFO");
->  			break;
-> diff --git a/include/linux/virtio_net.h b/include/linux/virtio_net.h
-> index 75dabb763c65..0cf86b026828 100644
-> --- a/include/linux/virtio_net.h
-> +++ b/include/linux/virtio_net.h
-> @@ -11,7 +11,7 @@
->  
->  static inline bool virtio_net_hdr_match_proto(__be16 protocol, __u8 gso_type)
->  {
-> -	switch (gso_type & ~VIRTIO_NET_HDR_GSO_ECN) {
-> +	switch (gso_type & ~VIRTIO_NET_HDR_GSO_ECN_FLAGS) {
->  	case VIRTIO_NET_HDR_GSO_TCPV4:
->  		return protocol == cpu_to_be16(ETH_P_IP);
->  	case VIRTIO_NET_HDR_GSO_TCPV6:
-> @@ -31,7 +31,7 @@ static inline int virtio_net_hdr_set_proto(struct sk_buff *skb,
->  	if (skb->protocol)
->  		return 0;
->  
-> -	switch (hdr->gso_type & ~VIRTIO_NET_HDR_GSO_ECN) {
-> +	switch (hdr->gso_type & ~VIRTIO_NET_HDR_GSO_ECN_FLAGS) {
->  	case VIRTIO_NET_HDR_GSO_TCPV4:
->  	case VIRTIO_NET_HDR_GSO_UDP:
->  	case VIRTIO_NET_HDR_GSO_UDP_L4:
-> @@ -58,7 +58,7 @@ static inline int __virtio_net_hdr_to_skb(struct sk_buff *skb,
->  	unsigned int ip_proto;
->  
->  	if (hdr_gso_type != VIRTIO_NET_HDR_GSO_NONE) {
-> -		switch (hdr_gso_type & ~VIRTIO_NET_HDR_GSO_ECN) {
-> +		switch (hdr_gso_type & ~VIRTIO_NET_HDR_GSO_ECN_FLAGS) {
->  		case VIRTIO_NET_HDR_GSO_TCPV4:
->  			gso_type = SKB_GSO_TCPV4;
->  			ip_proto = IPPROTO_TCP;
-> @@ -84,7 +84,9 @@ static inline int __virtio_net_hdr_to_skb(struct sk_buff *skb,
->  			return -EINVAL;
->  		}
->  
-> -		if (hdr_gso_type & VIRTIO_NET_HDR_GSO_ECN)
-> +		if (hdr_gso_type & VIRTIO_NET_HDR_GSO_ACCECN)
-> +			gso_type |= SKB_GSO_TCP_ACCECN;
-> +		else if (hdr_gso_type & VIRTIO_NET_HDR_GSO_ECN)
->  			gso_type |= SKB_GSO_TCP_ECN;
->  
->  		if (hdr->gso_size == 0)
-> @@ -159,7 +161,7 @@ static inline int __virtio_net_hdr_to_skb(struct sk_buff *skb,
->  		unsigned int nh_off = p_off;
->  		struct skb_shared_info *shinfo = skb_shinfo(skb);
->  
-> -		switch (gso_type & ~SKB_GSO_TCP_ECN) {
-> +		switch (gso_type & ~(SKB_GSO_TCP_ECN | SKB_GSO_TCP_ACCECN)) {
->  		case SKB_GSO_UDP:
->  			/* UFO may not include transport header in gso_size. */
->  			nh_off -= thlen;
-> @@ -231,7 +233,9 @@ static inline int virtio_net_hdr_from_skb(const struct sk_buff *skb,
->  			hdr->gso_type = VIRTIO_NET_HDR_GSO_UDP_L4;
->  		else
->  			return -EINVAL;
-> -		if (sinfo->gso_type & SKB_GSO_TCP_ECN)
-> +		if (sinfo->gso_type & SKB_GSO_TCP_ACCECN)
-> +			hdr->gso_type |= VIRTIO_NET_HDR_GSO_ACCECN;
-> +		else if (sinfo->gso_type & SKB_GSO_TCP_ECN)
->  			hdr->gso_type |= VIRTIO_NET_HDR_GSO_ECN;
->  	} else
->  		hdr->gso_type = VIRTIO_NET_HDR_GSO_NONE;
-> @@ -282,7 +286,7 @@ virtio_net_hdr_tnl_to_skb(struct sk_buff *skb,
->  		return -EINVAL;
->  
->  	/* The UDP tunnel must carry a GSO packet, but no UFO. */
-> -	gso_inner_type = hdr->gso_type & ~(VIRTIO_NET_HDR_GSO_ECN |
-> +	gso_inner_type = hdr->gso_type & ~(VIRTIO_NET_HDR_GSO_ECN_FLAGS |
->  					   VIRTIO_NET_HDR_GSO_UDP_TUNNEL);
->  	if (!gso_inner_type || gso_inner_type == VIRTIO_NET_HDR_GSO_UDP)
->  		return -EINVAL;
-> diff --git a/include/uapi/linux/virtio_net.h b/include/uapi/linux/virtio_net.h
-> index 1db45b01532b..af5bfe45aa1f 100644
-> --- a/include/uapi/linux/virtio_net.h
-> +++ b/include/uapi/linux/virtio_net.h
-> @@ -56,6 +56,8 @@
->  #define VIRTIO_NET_F_MQ	22	/* Device supports Receive Flow
->  					 * Steering */
->  #define VIRTIO_NET_F_CTRL_MAC_ADDR 23	/* Set MAC address */
-> +#define VIRTIO_NET_F_HOST_ACCECN 25	/* Host can handle GSO of AccECN */
-> +#define VIRTIO_NET_F_GUEST_ACCECN 26	/* Guest can handle GSO of AccECN */
->  #define VIRTIO_NET_F_DEVICE_STATS 50	/* Device can provide device-level statistics. */
->  #define VIRTIO_NET_F_VQ_NOTF_COAL 52	/* Device supports virtqueue notification coalescing */
->  #define VIRTIO_NET_F_NOTF_COAL	53	/* Device supports notifications coalescing */
-> @@ -165,6 +167,9 @@ struct virtio_net_hdr_v1 {
->  #define VIRTIO_NET_HDR_GSO_UDP_TUNNEL (VIRTIO_NET_HDR_GSO_UDP_TUNNEL_IPV4 | \
->  				       VIRTIO_NET_HDR_GSO_UDP_TUNNEL_IPV6)
->  #define VIRTIO_NET_HDR_GSO_ECN		0x80	/* TCP has ECN set */
-> +#define VIRTIO_NET_HDR_GSO_ACCECN	0x10	/* TCP AccECN segmentation */
-> +#define VIRTIO_NET_HDR_GSO_ECN_FLAGS	(VIRTIO_NET_HDR_GSO_ECN | \
-> +					 VIRTIO_NET_HDR_GSO_ACCECN)
->  	__u8 gso_type;
->  	__virtio16 hdr_len;	/* Ethernet + IP + tcp/udp hdrs */
->  	__virtio16 gso_size;	/* Bytes to append to hdr_len per frame */
-
-
-UAPI changes need to be added to the virtio spec.
-Pls get this approved by the virtio TC.
-Thanks!
-
-
-> -- 
-> 2.34.1
-
+Reviewed-by: Eric Dumazet <edumazet@google.com>
