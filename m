@@ -1,855 +1,518 @@
-Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B02313FEE
-	for <linux-doc@vger.kernel.org>; Sun,  1 Feb 2026 05:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDA72D8DC3
+	for <linux-doc@vger.kernel.org>; Sun,  1 Feb 2026 06:38:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769922572; cv=none; b=e6N6UdPn23w6a8BD2aZavRws0CWXAaq7s75RhVYW0XU0A7YPwuqKjEZIXa+NemxU3DPeoYY7Ddx7jIohWj6VmZKz/2T7JhBHpZYPwlp9vrGBU7UOOay/4JXOKM8sDmTzTMV5G3N5GDD/sKccsqB1eHdh38g0v4V/+JoUX7UiL4M=
+	t=1769927928; cv=none; b=Ga5DBNc2QVNJS2x39GnbBisbMddJVbPCFyuFRKOydyQ38hXWePfureL7SGNU2qR0YM5Na2iT/7DzxsJxxQ70qQg+Ru/cxk6ylrxQI1eSDG+qOY2/0mh243B4+IV2lxC0IKzdqwl3C2GEYilg9BMniO6ho3ZQniXAvZ82aOw1FnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769922572; c=relaxed/simple;
-	bh=KXtohvvw/CoW1b+xcLwswsM+zyQDh/ExoBtCtgcge4U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Jm5bAamRPxRS09qXksGuoSYWFHQhQIGp/Rva7/qW5MUJ/j5Gh/anYJLw/BB1V6PIdBFolDgClm+cqxwpFjyAQiJk1JTXiE46IAWRLvlvST31FKVhYRtW8X9yCRm4poB3K5xs4YF4BhM9z9QfC3uLVbxg69n5Gi85fM7Z6NBNgr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NIsk8AI8; arc=none smtp.client-ip=74.125.224.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1769927928; c=relaxed/simple;
+	bh=nbfNpQjgAzIEscLrdW9vuZG047Ckhgg+ZpH+MEM3RCU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FTKC31sSloSd/s8ZWU4Mmntz150qZfSgvduenL8R+MSPKhDm2TuQjyMMg9hNMhyb9SGzUkOdmcnKk0SBkaBmGtG5Nrl76dhOhG8ZE+n2VBFP3R6pYzk+/sXfHsK9RItgkfITWU9IeO3L6w14zFbQI2tizesQhThmzXFFI1d/x7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=smbFLQG3; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NIsk8AI8"
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-649ba412cd4so476849d50.0
-        for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 21:09:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1769922567; x=1770527367; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=33q60Q5JyZ2hg3MSBYQFtuVO1qmXKx9+XVt2uOvF5oI=;
-        b=NIsk8AI8cyxyW3B56fXmobyMsGSL0RXLVn5pnvGrB3hMrnBuw/HF8uE0wNiPEpKA2A
-         gF1VkgH/cMawNIds4U6vnjSp9JnTRJwjGxS9LZ7oeylVc6cV8G/2k43gS75MuTyOtRMp
-         MiG4FeGmURStRDUnp4cpcsA+Uljs45DZSA5YkqYj32rWLjpC2FN1NFCciStppxOhCgLC
-         Pbyaq1ijXpAO4+Jgo4Cbh5QuDMZCE+UUPQw7JLTiPlhvoaYx9MfHGEKBKLPw/ZjgvspO
-         AvLHsRmCmTbYJkAzznlbmYK0aubXh1BTZvckyoowYa/YkZptpEmHtrIkhHk6ZhN8rDc5
-         EsxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1769922567; x=1770527367;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=33q60Q5JyZ2hg3MSBYQFtuVO1qmXKx9+XVt2uOvF5oI=;
-        b=Jsr4aro4DksYat3+r/Ni8NLse+QHxo9YmeMZmB9FP+BgDY2dOQd8bU5Om8tvKmiNm4
-         hEgTCaYMg7urExLHdSG5Q8+oUvDyLv87J7KdFAPVeP299f2kPowI9sYBL5nxf/xf1glX
-         kvmGXlHUxbQXZZjtas49ZjoHvTkEpDezvlZjykICfUv6Y5ZVgeZ4p4bwgnVxch8ivNA/
-         NTKU5uUpSCCAXnzAkGcyt7XSAIdRvBV/fL2FqzouWa7sKUKeieZvxpb5zS/PbB4FPkfC
-         51J7gBrD6TSK0/sem5j3af9W2B2TsaT3spxn76n3sPEN9UoM3WtBf/7x0fj9TFx3cU+v
-         D7BQ==
-X-Gm-Message-State: AOJu0YwERhT1LqjeB8o4uR1I1m03PgyClzQvRGcA8tWLsWbW6nUJ0QVK
-	EMkOhsMj6lKBvD0GpzWtMIr23HoMH+ShIdIjYP2Gq2E6+zuxKC97K6VvUQjOOw==
-X-Gm-Gg: AZuq6aLt/0wKsAk6dNRDMT+6l0GinwnsTznmKEmq2oQHfSNh+TS5PAs73hGSoX3JwCl
-	SlC+0LiGs0hv51xeuktHdZz1VkkiB1bp95+0hWkcUx15t8dZgjSnA92fcSjcCZWrl/zVc9bW5HO
-	ECj2IBwf3+7k99td7aPhZOvv/Ai3rHTL/1GG0Abmhfgm3v99puerPqgCF9z4GegFDqpFFuFbM6I
-	sv8srhRZIXh4dCHF19/7HX0YCK+fCJrC7HPQ6ne3Ldnr7HwxklaZY5r/KD4syFizgHT8vqjdXKc
-	DISiQx6FIMwwESJIt2sVMNBfQ6IBJSysRu3bPWWvqyPYlqwaZmMF2+3Sr2LIwRBES6xkZSH+BrX
-	K1SOcLV5jYJ3aMbQwujdk/Ii1cyqITVDeuGfOUo8HMJRhEiyIDk4dW6MM+uR5Jxiy6GUn+EuEfR
-	VUOjl6PwBjnn+TWZrkKbYtTviBoyI7jqTyZIFhyW7HyJIzeWK4qQ==
-X-Received: by 2002:a05:690c:d89:b0:792:7675:f5bc with SMTP id 00721157ae682-7949debfb43mr64390247b3.17.1769922566423;
-        Sat, 31 Jan 2026 21:09:26 -0800 (PST)
-Received: from mentoria.. ([2804:29b8:512d:1e0e:5ef2:2aef:f5c2:4fb0])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-794828f876fsm56031897b3.54.2026.01.31.21.09.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Jan 2026 21:09:25 -0800 (PST)
-From: Daniel <danielmaraboo@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: Daniel <danielmaraboo@gmail.com>
-Subject: [PATCH v2] docs: pt_BR: add initial Portuguese translation
-Date: Sun,  1 Feb 2026 02:09:08 -0300
-Message-ID: <20260201050911.46522-1-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="smbFLQG3"
+Message-ID: <44484594-5b5d-4237-993c-ac1e173ad62e@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1769927913;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZwyK35BqHJ9vMxdC101Hpkz7OEl6VsmM8t+q1gtlYtQ=;
+	b=smbFLQG3fxi0EmdEQh5EfbtGQ62LpS961djirjg538qndfMoJIldCdV/L2GKzWYzuysN/1
+	/GumBEceCbaFABLQT0FDfy4W6hBDyhGvjE/RBwgY8Fercg7NI2raGGc+bgtYZDTz4/ErLu
+	bI04FQJ+kIrizpByKTlcv8fJSr/4ST4=
+Date: Sat, 31 Jan 2026 22:38:18 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v2 02/22] PCI: Add API to track PCI devices preserved
+ across Live Update
+To: David Matlack <dmatlack@google.com>, Alex Williamson <alex@shazbot.org>
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
+ Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal
+ <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>,
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
+ Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>,
+ kexec@lists.infradead.org, kvm@vger.kernel.org,
+ Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>,
+ =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pranjal Shrivastava <praan@google.com>, Pratyush Yadav
+ <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Samiullah Khawaja <skhawaja@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>,
+ Yi Liu <yi.l.liu@intel.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+ <20260129212510.967611-3-dmatlack@google.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <20260129212510.967611-3-dmatlack@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-This patch introduces the initial Portuguese (Brazilian) translation
-for the Linux kernel documentation. It includes the mandatory
-disclaimer, the translation of the HOWTO document, and establishes
-the directory structure for the pt_BR locale.
 
-Signed-off-by: Daniel <danielmaraboo@gmail.com>
----
-v2: Include pt_BR/index in the main translations index to ensure the 
-    documentation hierarchy is correctly linked.
+在 2026/1/29 13:24, David Matlack 写道:
+> Add an API to enable the PCI subsystem to track all devices that are
+> preserved across a Live Update, including both incoming devices (passed
+> from the previous kernel) and outgoing devices (passed to the next
+> kernel).
+>
+> Use PCI segment number and BDF to keep track of devices across Live
+> Update. This means the kernel must keep both identifiers constant across
+> a Live Update for any preserved device. VFs are not supported for now,
+> since that requires preserving SR-IOV state on the device to ensure the
+> same number of VFs appear after kexec and with the same BDFs.
+>
+> Drivers that preserve devices across Live Update can now register their
+> struct liveupdate_file_handler with the PCI subsystem so that the PCI
+> subsystem can allocate and manage File-Lifecycle-Bound (FLB) global data
+> to track the list of incoming and outgoing preserved devices.
+>
+>    pci_liveupdate_register_fh(driver_fh)
+>    pci_liveupdate_unregister_fh(driver_fh)
 
- Documentation/translations/index.rst          |   1 +
- .../translations/pt_BR/disclaimer-pt_BR.rst   |  11 +
- Documentation/translations/pt_BR/index.rst    |  67 ++
- .../translations/pt_BR/process/howto.rst      | 637 ++++++++++++++++++
- MAINTAINERS                                   |   6 +
- 5 files changed, 722 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/disclaimer-pt_BR.rst
- create mode 100644 Documentation/translations/pt_BR/index.rst
- create mode 100644 Documentation/translations/pt_BR/process/howto.rst
+Can the above 2 functions support the virtual devices? For example, 
+bonding, veth, iSWAP and RXE.
 
-diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
-index b826c3479..b799eacb8 100644
---- a/Documentation/translations/index.rst
-+++ b/Documentation/translations/index.rst
-@@ -13,6 +13,7 @@ Translations
-    ko_KR/index
-    ja_JP/index
-    sp_SP/index
-+   pt_BR/index
- 
- 
- .. _translations_disclaimer:
-diff --git a/Documentation/translations/pt_BR/disclaimer-pt_BR.rst b/Documentation/translations/pt_BR/disclaimer-pt_BR.rst
-new file mode 100644
-index 000000000..fe7518de6
---- /dev/null
-+++ b/Documentation/translations/pt_BR/disclaimer-pt_BR.rst
-@@ -0,0 +1,11 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _pt_disclaimer:
-+
-+Aviso sobre traduções para português
-+====================================
-+
-+Esta documentação foi traduzida para português brasileiro por voluntários.
-+Em caso de qualquer divergência entre esta tradução e o documento original
-+em inglês, a versão em inglês (encontrada no diretório Documentation/)
-+deve ser considerada a única fonte de verdade.
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-new file mode 100644
-index 000000000..f0e229568
---- /dev/null
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -0,0 +1,67 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _pt_BR_linux_doc:
-+
-+=========================================
-+Documentação do Kernel Linux em Português
-+=========================================
-+
-+.. raw:: latex
-+
-+	\kerneldocCJKoff
-+
-+:mantenedor: Daniel <danielmaraboo@gmail.com>
-+
-+Este é o nível principal da documentação do kernel em língua portuguesa (Brasil).
-+A tradução ainda está em seu estágio inicial e incompleta; você notará avisos
-+sinalizando a falta de traduções para grupos específicos de documentos.
-+
-+De maneira geral, a documentação, assim como o próprio kernel, está em constante
-+desenvolvimento; isso é especialmente verdade agora, pois estamos trabalhando
-+na reorganização da documentação de forma mais coerente. Melhorias na
-+documentação são sempre bem-vindas; se você deseja ajudar, inscreva-se na lista
-+de discussão linux-doc em vger.kernel.org.
-+
-+.. _pt_BR_disclaimer:
-+
-+Avisos
-+======
-+
-+O objetivo desta tradução é facilitar a leitura e compreensão para aqueles que
-+não dominam o inglês ou têm dúvidas sobre sua interpretação, ou simplesmente
-+para quem prefere ler em sua língua nativa. No entanto, tenha em mente que a
-+*única* documentação oficial é a em língua inglesa: :ref:`linux_doc`
-+
-+A propagação simultânea de uma alteração em :ref:`linux_doc` para todas as
-+traduções é altamente improvável. Os mantenedores das traduções — e seus
-+contribuidores — acompanham a evolução da documentação oficial e tentam manter
-+as respectivas traduções alinhadas na medida do possível. Por este motivo, não
-+há garantia de que uma tradução esteja atualizada com a última modificação.
-+Se o que você ler em uma tradução não corresponder ao que ler no código,
-+informe o mantenedor da tradução e — se puder — verifique também a
-+documentação em inglês.
-+
-+Uma tradução não é um *fork* da documentação oficial; portanto, os usuários não
-+encontrarão nela informações diferentes daquelas contidas na versão oficial.
-+Qualquer adição, remoção ou modificação de conteúdo deve ser feita primeiro nos
-+documentos em inglês. Posteriormente, quando possível, a mesma alteração deve
-+ser aplicada às traduções. Os mantenedores das traduções aceitam contribuições
-+que afetem puramente a atividade de tradução (por exemplo, novas traduções,
-+atualizações, correções).
-+
-+As traduções buscam ser o mais precisas possível, mas não é possível mapear
-+diretamente uma língua em outra. Cada língua possui sua própria gramática e
-+cultura, portanto, a tradução de uma frase em inglês pode ser modificada para
-+se adaptar ao português. Por esse motivo, ao ler esta tradução, você poderá
-+encontrar algumas diferenças de forma, mas que transmitem a mensagem original.
-+
-+Trabalhando com a comunidade de desenvolvimento
-+===============================================
-+
-+As guias fundamentais para a interação com a comunidade de desenvolvimento do
-+kernel e sobre como ver seu trabalho integrado.
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   Como começar <process/howto>
-diff --git a/Documentation/translations/pt_BR/process/howto.rst b/Documentation/translations/pt_BR/process/howto.rst
-new file mode 100644
-index 000000000..43a2be263
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/howto.rst
-@@ -0,0 +1,637 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _process_howto:
-+
-+COMO FAZER o desenvolvimento do kernel Linux
-+============================================
-+
-+Este é o documento definitivo sobre este tópico. Ele contém instruções
-+sobre como se tornar um desenvolvedor do kernel Linux e como aprender a
-+trabalhar com a comunidade de desenvolvimento do kernel Linux. Ele tenta
-+não conter nada relacionado aos aspectos técnicos da programação do kernel,
-+mas ajudará a apontar a direção certa para isso.
-+
-+Se algo neste documento ficar desatualizado, por favor, envie patches para
-+o mantenedor deste arquivo, que está listado no final do documento.
-+
-+
-+Introdução
-+------------
-+
-+Então, você quer aprender como se tornar um desenvolvedor do kernel Linux?
-+Ou o seu gerente lhe disse: "Vá escrever um driver Linux para este
-+dispositivo". O objetivo deste documento é ensinar tudo o que você precisa
-+saber para conseguir isso, descrevendo o processo pelo qual você deve passar
-+e oferecendo dicas sobre como trabalhar com a comunidade. Ele também tentará
-+explicar algumas das razões pelas quais a comunidade trabalha da forma que
-+trabalha.
-+
-+O kernel é escrito principalmente em C, com algumas partes dependentes de
-+arquitetura escritas em assembly. Um bom entendimento de C é necessário para
-+o desenvolvimento do kernel. O conhecimento de Assembly (de qualquer
-+arquitetura) não é obrigatório, a menos que você planeje fazer
-+desenvolvimento de baixo nível para essa arquitetura específica. Embora não
-+sejam um substituto para uma formação sólida em C e/ou anos de experiência,
-+os seguintes livros são bons para, no mínimo, referência:
-+
-+  - "The C Programming Language" por Kernighan e Ritchie [Prentice Hall]
-+
-+  - "Practical C Programming" por Steve Oualline [O'Reilly]
-+
-+  - "C: A Reference Manual" por Harbison e Steele [Prentice Hall]
-+
-+O kernel é escrito usando o GNU C e a GNU toolchain. Embora ele siga o
-+padrão ISO C11, ele utiliza uma série de extensões que não estão presentes
-+no padrão. O kernel é um ambiente C independente (freestanding), sem
-+dependência da biblioteca C padrão (libc), portanto, algumas partes do
-+padrão C não são suportadas. Divisões arbitrárias de "long long" e ponto
-+flutuante não são permitidas. Às vezes, pode ser difícil entender as
-+suposições que o kernel faz sobre a toolchain e as extensões que ele utiliza
-+e, infelizmente, não existe uma referência definitiva para elas. Por favor,
-+verifique as páginas de informações do gcc (`info gcc`) para obter algumas
-+informações sobre elas.
-+
-+Por favor, lembre-se de que você está tentando aprender como trabalhar com a
-+comunidade de desenvolvimento existente. É um grupo diversificado de pessoas,
-+com altos padrões de codificação, estilo e procedimento. Esses padrões foram
-+criados ao longo do tempo com base no que se descobriu funcionar melhor para
-+uma equipe tão grande e geograficamente dispersa. Tente aprender o máximo
-+possível sobre esses padrões com antecedência, pois eles estão bem
-+documentados; não espere que as pessoas se adaptem a você ou à forma de fazer
-+as coisas da sua empresa.
-+
-+
-+Questões Legais
-+---------------
-+
-+O código-fonte do kernel Linux é lançado sob a GPL. Por favor, veja o arquivo
-+COPYING no diretório principal da árvore de fontes. As regras de licenciamento
-+do kernel Linux e como usar os identificadores `SPDX <https://spdx.org/>`_ no
-+código-fonte estão descritas em :ref:`Documentation/process/license-rules.rst <kernel_licensing>`.
-+Se você tiver mais perguntas sobre a licença, por favor, entre em contato com
-+um advogado e não pergunte na lista de discussão do kernel Linux. As pessoas
-+nas listas de discussão não são advogados e você não deve confiar em suas
-+declarações sobre assuntos jurídicos.
-+
-+Para perguntas e respostas comuns sobre a GPL, por favor, veja:
-+
-+        https://www.gnu.org/licenses/gpl-faq.html
-+
-+
-+Documentação
-+------------
-+
-+A árvore de fontes do kernel Linux possui uma vasta gama de documentos que
-+são inestimáveis para aprender como interagir com a comunidade do kernel.
-+Quando novos recursos são adicionados ao kernel, recomenda-se que novos
-+arquivos de documentação também sejam adicionados explicando como usar o
-+recurso. Quando uma mudança no kernel faz com que a interface que o kernel
-+expõe para o espaço do usuário (userspace) mude, recomenda-se que você envie
-+a informação ou um patch para as páginas de manual explicando a mudança para
-+o mantenedor das páginas de manual em alx@kernel.org, e coloque em cópia (CC)
-+a lista linux-api@vger.kernel.org.
-+
-+Aqui está uma lista de arquivos que estão na árvore de fontes do kernel e
-+que são de leitura obrigatória:
-+
-+  :ref:`Documentation/admin-guide/README.rst <readme>`
-+    Este arquivo fornece um breve histórico sobre o kernel Linux e descreve
-+    o que é necessário fazer para configurar e compilar o kernel. Pessoas
-+    que são novas no kernel devem começar por aqui.
-+
-+  :ref:`Documentation/process/changes.rst <changes>`
-+    Este arquivo fornece uma lista das versões mínimas de vários pacotes de
-+    software que são necessários para compilar e executar o kernel com
-+    sucesso.
-+
-+  :ref:`Documentation/process/coding-style.rst <codingstyle>`
-+    Este documento descreve o estilo de codificação do kernel Linux e parte
-+    da fundamentação por trás dele. Espera-se que todo código novo siga as
-+    diretrizes deste documento. A maioria dos mantenedores apenas aceitará
-+    patches se essas regras forem seguidas, e muitas pessoas apenas
-+    revisarão o código se ele estiver no estilo adequado.
-+
-+  :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
-+    Este arquivo descreve em detalhes explícitos como criar e enviar
-+    um patch com sucesso, incluindo (mas não limitado a):
-+
-+        - Conteúdo do e-mail
-+        - Formato do e-mail
-+        - Para quem enviá-lo
-+
-+    Seguir estas regras não garantirá o sucesso (já que todos os patches
-+    estão sujeitos a um escrutínio de conteúdo e estilo), mas não segui-las
-+    quase sempre o impedirá.
-+
-+Outras excelentes descrições de como criar patches adequadamente são:
-+
-+	"O Patch Perfeito"
-+		https://www.ozlabs.org/~akpm/stuff/tpp.txt
-+
-+	"Formato de Submissão de Patch do Kernel Linux"
-+		https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
-+
-+  :ref:`Documentation/process/stable-api-nonsense.rst <stable_api_nonsense>`
-+    Este arquivo descreve a justificativa por trás da decisão consciente de
-+    não ter uma API estável dentro do kernel, incluindo pontos como:
-+
-+      - Camadas de adaptação (shim-layers) de subsistemas (para compatibilidade?)
-+      - Portabilidade de drivers entre sistemas operacionais.
-+      - Mitigação de mudanças rápidas dentro da árvore de fontes do kernel
-+        (ou impedimento de mudanças rápidas).
-+
-+    Este documento é crucial para compreender a filosofia de desenvolvimento
-+    do Linux e é muito importante para pessoas que estão migrando para o
-+    Linux vindas do desenvolvimento em outros Sistemas Operacionais.
-+
-+  :ref:`Documentation/process/security-bugs.rst <securitybugs>`
-+    Se você acredita ter encontrado um problema de segurança no kernel Linux,
-+    por favor, siga os passos descritos neste documento para ajudar a
-+    notificar os desenvolvedores do kernel e auxiliar na resolução do problema.
-+
-+  :ref:`Documentation/process/management-style.rst <managementstyle>`
-+    Este documento descreve como os mantenedores do kernel Linux operam e o
-+    ethos compartilhado por trás de suas metodologias. Esta é uma leitura
-+    importante para qualquer pessoa nova no desenvolvimento do kernel (ou
-+    para qualquer pessoa simplesmente curiosa sobre isso), pois resolve muitos
-+    equívocos comuns e confusões sobre o comportamento único dos mantenedores
-+    do kernel.
-+
-+  :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
-+    Este arquivo descreve as regras sobre como ocorrem os lançamentos das
-+    versões estáveis (stable) do kernel e o que fazer se você desejar que
-+    uma alteração seja incluída em um desses lançamentos.
-+
-+  :ref:`Documentation/process/kernel-docs.rst <kernel_docs>`
-+    Uma lista de documentação externa que pertence ao desenvolvimento do
-+    kernel. Por favor, consulte esta lista caso não encontre o que está
-+    procurando dentro da documentação interna do kernel.
-+
-+  :ref:`Documentation/process/applying-patches.rst <applying_patches>`
-+    Uma boa introdução descrevendo exatamente o que é um patch e como
-+    aplicá-lo aos diferentes ramos (branches) de desenvolvimento do kernel.
-+
-+O kernel também possui um grande número de documentos que podem ser
-+gerados automaticamente a partir do próprio código-fonte ou de
-+marcações ReStructuredText (ReST), como esta. Isso inclui uma
-+descrição completa da API interna do kernel e regras sobre como
-+manipular o bloqueio (locking) corretamente.
-+
-+Todos esses documentos podem ser gerados em formato PDF ou HTML ao
-+executar::
-+
-+	make pdfdocs
-+	make htmldocs
-+
-+respectivamente, a partir do diretório principal do código-fonte do kernel.
-+
-+Os documentos que utilizam a marcação ReST serão gerados em
-+Documentation/output. Eles também podem ser gerados nos formatos
-+LaTeX e ePub com::
-+
-+	make latexdocs
-+	make epubdocs
-+
-+Becoming A Kernel Developer
-+---------------------------
-+
-+Se você não sabe nada sobre o desenvolvimento do kernel Linux, você deve
-+consultar o projeto Linux KernelNewbies:
-+
-+	https://kernelnewbies.org
-+
-+Ele consiste em uma lista de discussão útil onde você pode fazer quase
-+qualquer tipo de pergunta básica sobre o desenvolvimento do kernel
-+(certifique-se de pesquisar nos arquivos primeiro, antes de perguntar
-+algo que já foi respondido no passado). Ele também possui um canal de
-+IRC que você pode usar para fazer perguntas em tempo real, e muita
-+documentação útil para aprender sobre o desenvolvimento do kernel Linux.
-+
-+O site possui informações básicas sobre a organização do código,
-+subsistemas e projetos atuais (tanto in-tree quanto out-of-tree).
-+Também descreve algumas informações logísticas básicas, como por exemplo,
-+como compilar um kernel e aplicar um patch.
-+
-+Se você não sabe por onde começar, mas deseja procurar alguma tarefa
-+para iniciar sua integração na comunidade de desenvolvimento do kernel,
-+acesse o projeto Linux Kernel Janitor:
-+
-+	https://kernelnewbies.org/KernelJanitors
-+
-+É um ótimo lugar para começar. Ele descreve uma lista de problemas
-+relativamente simples que precisam ser limpos e corrigidos dentro da
-+árvore de códigos-fonte do kernel Linux. Ao trabalhar com os
-+desenvolvedores responsáveis por este projeto, você aprenderá o básico
-+sobre como incluir seu patch na árvore do kernel Linux e,
-+possivelmente, será orientado sobre o que trabalhar em seguida, caso
-+ainda não tenha uma ideia.
-+
-+Antes de fazer qualquer modificação real no código do kernel Linux, é
-+imperativo entender como o código em questão funciona. Para esse
-+propósito, nada é melhor do que lê-lo diretamente (a maioria das partes
-+complexas está bem comentada), talvez até com a ajuda de ferramentas
-+especializadas. Uma ferramenta particularmente recomendada é o projeto
-+Linux Cross-Reference, que é capaz de apresentar o código-fonte em um
-+formato de página web indexada e auto-referenciada. Um excelente
-+repositório atualizado do código do kernel pode ser encontrado em:
-+
-+    https://elixir.bootlin.com/
-+
-+
-+O processo de desenvolvimento
-+-----------------------------
-+
-+O processo de desenvolvimento do kernel Linux consiste atualmente em algumas
-+"branches" (ramos) principais diferentes e muitos ramos de subsistemas
-+específicos. Esses diferentes ramos são:
-+
-+  - Árvore principal (mainline) do Linus
-+  - Várias árvores estáveis com múltiplos números de versão principal
-+  - Árvores específicas de subsistemas
-+  - Árvore de testes de integração linux-next
-+
-+Árvore principal (Mainline tree)
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+A árvore principal é mantida por Linus Torvalds e pode ser encontrada em
-+https://kernel.org ou no repositório. Seu processo de desenvolvimento é
-+o seguinte:
-+
-+  - Assim que um novo kernel é lançado, uma janela de duas semanas é aberta;
-+    durante esse período, os mantenedores podem enviar grandes diffs para
-+    Linus, geralmente patches que já foram incluídos na linux-next por algumas
-+    semanas. A forma preferida de enviar grandes mudanças é usando o git
-+    (a ferramenta de gerenciamento de código-fonte do kernel, mais informações
-+    podem ser encontradas em https://git-scm.com/), mas patches simples
-+    também são aceitos.
-+  - Após duas semanas, um kernel -rc1 é lançado e o foco passa a ser tornar
-+    o novo kernel o mais sólido possível. A maioria dos patches neste estágio
-+    deve corrigir uma regressão. Bugs que sempre existiram não são regressões,
-+    portanto, envie esses tipos de correções apenas se forem importantes.
-+    Observe que um driver (ou sistema de arquivos) totalmente novo pode ser
-+    aceito após o -rc1 porque não há risco de causar regressões com tal
-+    mudança, desde que a alteração seja autocontida e não afete áreas fora do
-+    código que está sendo adicionado. O git pode ser usado para enviar
-+    patches para Linus após o lançamento do -rc1, mas os patches também
-+    precisam ser enviados para uma lista de discussão pública para revisão.
-+  - Um novo -rc é lançado sempre que Linus considerar que a árvore git atual
-+    está em um estado razoavelmente estável e adequado para testes. O objetivo
-+    é lançar um novo kernel -rc a cada semana.
-+  - O processo continua até que o kernel seja considerado "pronto"; o
-+    processo deve durar cerca de 6 semanas.
-+
-+Vale a pena mencionar o que Andrew Morton escreveu na lista de discussão
-+do kernel Linux sobre os lançamentos do kernel:
-+
-+    *"Ninguém sabe quando um kernel será lançado, porque ele é
-+    lançado de acordo com o status percebido dos bugs, não de acordo
-+    com um cronograma pré-concebido."*
-+
-+Várias árvores estáveis com múltiplos números de versão principal
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Kernels com versões de 3 partes são kernels -stable (estáveis). Eles
-+contêm correções relativamente pequenas e críticas para problemas de
-+segurança ou regressões significativas descobertas em um determinado
-+lançamento principal da árvore mainline. Cada lançamento em uma série
-+estável principal incrementa a terceira parte do número da versão,
-+mantendo as duas primeiras partes iguais.
-+
-+Este é o ramo recomendado para usuários que desejam o kernel estável
-+mais recente e não estão interessados em ajudar a testar versões de
-+desenvolvimento ou experimentais.
-+
-+As árvores estáveis são mantidas pela equipe "stable"
-+<stable@vger.kernel.org> e são lançadas conforme a necessidade exigir.
-+O período normal de lançamento é de aproximadamente duas semanas, mas
-+pode ser mais longo se não houver problemas urgentes. Por outro lado,
-+um problema relacionado à segurança pode fazer com que um lançamento
-+ocorra quase instantaneamente.
-+
-+O arquivo :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
-+na árvore do kernel documenta quais tipos de mudanças são aceitáveis para
-+a árvore -stable e como o processo de lançamento funciona.
-+
-+Árvores específicas de subsistemas
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Os mantenedores dos vários subsistemas do kernel — e também muitos
-+desenvolvedores de subsistemas do kernel — expõem seu estado atual de
-+desenvolvimento em repositórios de código-fonte. Dessa forma, outros
-+podem ver o que está acontecendo nas diferentes áreas do kernel. Em
-+áreas onde o desenvolvimento é rápido, um desenvolvedor pode ser
-+solicitado a basear suas submissões em tal árvore de subsistema do
-+kernel para que conflitos entre a submissão e outros trabalhos já em
-+andamento sejam evitados.
-+
-+A maioria desses repositórios são árvores git, mas também existem outros
-+SCMs em uso, ou filas de patches sendo publicadas como séries quilt. Os
-+endereços desses repositórios de subsistemas estão listados no arquivo
-+MAINTAINERS. Muitos deles podem ser navegados em https://git.kernel.org/.
-+
-+Antes que um patch proposto seja incluído em tal árvore de subsistema,
-+ele está sujeito a uma revisão que ocorre principalmente em listas de
-+discussão (veja a seção respectiva abaixo). Para vários subsistemas do
-+kernel, este processo de revisão é rastreado com a ferramenta patchwork.
-+O Patchwork oferece uma interface web que mostra as postagens de patches,
-+quaisquer comentários sobre um patch ou revisões feitas a ele, e os
-+mantenedores podem marcar os patches como "sob revisão", "aceitos" ou
-+"rejeitados". A maioria desses sites patchwork está listada em
-+https://patchwork.kernel.org/.
-+
-+Árvore de testes de integração linux-next
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Antes que as atualizações das árvores de subsistemas sejam mescladas na
-+árvore mainline, elas precisam ser testadas quanto à integração. Para
-+este propósito, existe um repositório de testes especial no qual
-+praticamente todas as árvores de subsistemas são integradas (pulled)
-+quase diariamente:
-+
-+    https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-+
-+Dessa forma, a linux-next oferece uma visão resumida do que se espera
-+que entre no kernel mainline no próximo período de mesclagem (merge
-+window). Testadores aventureiros são muito bem-vindos para testar a
-+linux-next em tempo de execução.
-+
-+
-+Relato de Bugs
-+--------------
-+
-+O arquivo 'Documentation/admin-guide/reporting-issues.rst' no diretório
-+principal de códigos-fonte do kernel descreve como relatar um possível
-+bug no kernel e detalha que tipo de informação é necessária para os
-+desenvolvedores do kernel ajudarem a rastrear o problema.
-+
-+Gerenciando relatos de bugs
-+---------------------------
-+
-+Uma das melhores maneiras de colocar em prática suas habilidades de hacking
-+é corrigindo bugs relatados por outras pessoas. Você não apenas ajudará a
-+tornar o kernel mais estável, mas também aprenderá a resolver problemas do
-+mundo real, melhorará suas habilidades e outros desenvolvedores passarão a
-+notar sua presença. Corrigir bugs é uma das melhores formas de obter mérito
-+entre outros desenvolvedores, pois poucas pessoas gostam de gastar tempo
-+corrigindo bugs de terceiros.
-+
-+Para trabalhar em relatos de bugs já existentes, encontre um subsistema no
-+qual você esteja interessado. Verifique no arquivo MAINTAINERS para onde
-+os bugs daquele subsistema são relatados; geralmente será uma lista de
-+discussão, raramente um rastreador de bugs (bugtracker). Pesquise nos
-+arquivos de mensagens do local indicado por relatos recentes e ajude onde
-+achar apropriado. Você também pode verificar o site
-+https://bugzilla.kernel.org para relatos de bugs; apenas alguns
-+subsistemas do kernel o utilizam ativamente para relato ou rastreamento,
-+entretanto, bugs de todo o kernel acabam sendo registrados lá.
-+
-+
-+Listas de discussão
-+-------------------
-+
-+Como alguns dos documentos acima descrevem, a maioria dos desenvolvedores
-+do núcleo (core) do kernel participa da Linux Kernel Mailing List (LKML).
-+Detalhes sobre como se inscrever e cancelar a inscrição na lista podem
-+ser encontrados em:
-+
-+    https://subspace.kernel.org/subscribing.html
-+
-+Existem arquivos de mensagens da lista na web em muitos lugares diferentes.
-+Use um mecanismo de busca para encontrar esses arquivos. Por exemplo:
-+
-+    https://lore.kernel.org/linux-kernel/
-+
-+É altamente recomendável que você pesquise nos arquivos sobre o tópico que
-+deseja abordar antes de postar na lista. Muitas coisas já discutidas em
-+detalhes estão registradas apenas nos arquivos das listas de discussão.
-+
-+A maioria dos subsistemas individuais do kernel também possui sua própria
-+lista de discussão separada, onde realizam seus esforços de desenvolvimento.
-+Consulte o arquivo MAINTAINERS para obter uma lista de quais são essas
-+listas para os diferentes grupos.
-+
-+Muitas das listas estão hospedadas no kernel.org. Informações sobre elas
-+podem ser encontradas em:
-+
-+    https://subspace.kernel.org
-+
-+Por favor, lembre-se de seguir bons hábitos de comportamento ao usar as
-+listas. Embora um pouco clichê, a URL a seguir possui algumas diretrizes
-+simples para interagir com a lista (ou qualquer outra lista):
-+
-+    https://subspace.kernel.org/etiquette.html
-+
-+Se várias pessoas responderem ao seu e-mail, a lista de destinatários em
-+CC: pode se tornar bem grande. Não remova ninguém da lista CC: sem um
-+bom motivo, e não responda apenas para o endereço da lista. Acostume-se
-+a receber o e-mail duas vezes (um do remetente e outro da lista) e não
-+tente ajustar isso adicionando cabeçalhos de e-mail complexos; as pessoas
-+não gostarão disso.
-+
-+Lembre-se de manter o contexto e a atribuição de suas respostas intactos;
-+mantenha as linhas do tipo "John Kernelhacker escreveu...:" no topo da
-+sua resposta e adicione seus comentários entre as seções citadas
-+individualmente, em vez de escrever tudo no topo do e-mail.
-+
-+Se você adicionar patches ao seu e-mail, certifique-se de que sejam texto
-+puro legível, conforme declarado em
-+:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`.
-+Os desenvolvedores do kernel não querem lidar com anexos ou patches
-+compactados; eles podem querer comentar linhas individuais do seu patch,
-+o que só funciona dessa forma. Certifique-se de usar um programa de
-+e-mail que não altere espaços e caracteres de tabulação (tabs). Um bom
-+primeiro teste é enviar o e-mail para si mesmo e tentar aplicar o seu
-+próprio patch. Se isso não funcionar, conserte seu programa de e-mail ou
-+troque-o até que funcione.
-+
-+Acima de tudo, por favor, lembre-se de mostrar respeito aos outros
-+inscritos.
-+
-+
-+Trabalhando com a comunidade
-+----------------------------
-+
-+O objetivo da comunidade do kernel é fornecer o melhor kernel possível.
-+Quando você envia um patch para aceitação, ele será revisado por seus
-+méritos técnicos e apenas por eles. Então, o que você deve esperar?
-+
-+  - críticas
-+  - comentários
-+  - solicitações de mudança
-+  - solicitações de justificativa
-+  - silêncio
-+
-+Lembre-se, isso faz parte do processo de incluir seu patch no kernel.
-+Você deve ser capaz de aceitar críticas e comentários sobre seus patches,
-+avaliá-los em nível técnico e retrabalhar seus patches ou fornecer
-+raciocínios claros e concisos sobre o porquê de certas mudanças não
-+deverem ser feitas. Se não houver respostas à sua postagem, aguarde
-+alguns dias e tente novamente; às vezes, as coisas se perdem no enorme
-+volume de mensagens.
-+
-+O que você não deve fazer?
-+
-+  - esperar que seu patch seja aceito sem questionamentos
-+  - tornar-se defensivo
-+  - ignorar comentários
-+  - reenviar o patch sem fazer nenhuma das alterações solicitadas
-+
-+Em uma comunidade que busca a melhor solução técnica possível, sempre
-+haverá opiniões divergentes sobre o quão benéfico é um patch. Você deve
-+ser cooperativo e estar disposto a adaptar sua ideia para que ela se
-+encaixe no kernel. Ou, pelo menos, estar disposto a provar que sua ideia
-+vale a pena. Lembre-se: estar errado é aceitável, desde que você esteja
-+disposto a trabalhar em direção a uma solução correta.
-+
-+É normal que as respostas ao seu primeiro patch sejam apenas uma lista
-+de uma dúzia de coisas que você deve corrigir. Isso **não** implica que
-+seu patch não será aceito e **não** é algo pessoal contra você. Simplesmente
-+corrija todos os problemas apontados em seu patch e envie-o novamente.
-+
-+
-+Diferenças entre a comunidade do kernel e estruturas corporativas
-+-----------------------------------------------------------------
-+
-+A comunidade do kernel trabalha de forma diferente da maioria dos ambientes
-+tradicionais de desenvolvimento corporativo. Aqui está uma lista de coisas
-+que você pode tentar fazer para evitar problemas:
-+
-+  Boas coisas a dizer em relação às suas mudanças propostas:
-+
-+    - "Isto resolve múltiplos problemas."
-+    - "Isto remove 2000 linhas de código."
-+    - "Aqui está um patch que explica o que estou tentando descrever."
-+    - "Eu testei isso em 5 arquiteturas diferentes..."
-+    - "Aqui está uma série de pequenos patches que..."
-+    - "Isto aumenta a performance em máquinas comuns..."
-+
-+  Coisas ruins que você deve evitar dizer:
-+
-+    - "Nós fizemos desta forma no AIX/ptx/Solaris, portanto deve ser bom..."
-+    - "Eu faço isso há 20 anos, então..."
-+    - "Isto é necessário para minha empresa ganhar dinheiro."
-+    - "Isto é para nossa linha de produtos Enterprise."
-+    - "Aqui está meu documento de design de 1000 páginas que descreve minha ideia."
-+    - "Estou trabalhando nisso há 6 meses..."
-+    - "Aqui está um patch de 5000 linhas que..."
-+    - "Eu reescrevi toda a bagunça atual, e aqui está..."
-+    - "Eu tenho um prazo (deadline), e este patch precisa ser aplicado agora."
-+
-+Outra forma em que a comunidade do kernel difere da maioria dos ambientes
-+tradicionais de engenharia de software é a natureza anônima da interação.
-+Um benefício de usar e-mail e IRC como as principais formas de comunicação
-+é a ausência de discriminação baseada em gênero ou raça. O ambiente de
-+trabalho do kernel Linux aceita mulheres e minorias porque tudo o que você
-+é, é um endereço de e-mail. O aspecto internacional também ajuda a nivelar
-+o campo de jogo porque você não pode adivinhar o gênero com base no nome
-+de uma pessoa. Um homem pode se chamar Andrea e uma mulher pode se chamar
-+Pat. A maioria das mulheres que trabalharam no kernel Linux e expressaram
-+uma opinião tiveram experiências positivas.
-+
-+A barreira do idioma pode causar problemas para algumas pessoas que não
-+se sentem confortáveis com o inglês. Um bom domínio do idioma pode ser
-+necessário para transmitir ideias adequadamente nas listas de discussão,
-+por isso recomenda-se que você verifique seus e-mails para garantir que
-+façam sentido em inglês antes de enviá-los.
-+
-+
-+Divida suas alterações
-+----------------------
-+
-+A comunidade do kernel Linux não aceita de bom grado grandes blocos de
-+código jogados de uma só vez. As mudanças precisam ser devidamente
-+introduzidas, discutidas e divididas em porções minúsculas e individuais.
-+Isso é quase o exato oposto do que as empresas costumam fazer. Sua proposta
-+também deve ser introduzida muito cedo no processo de desenvolvimento, para
-+que você possa receber feedback sobre o que está fazendo. Isso também permite
-+que a comunidade sinta que você está trabalhando com eles, e não simplesmente
-+usando-os como um depósito para sua funcionalidade. No entanto, não envie
-+50 e-mails de uma só vez para uma lista de discussão; sua série de patches
-+deve ser menor que isso quase sempre.
-+
-+As razões para dividir as coisas são as seguintes:
-+
-+1) Patches pequenos aumentam a probabilidade de serem aplicados, pois não
-+   exigem muito tempo ou esforço para verificar sua correção. Um patch de
-+   5 linhas pode ser aplicado por um mantenedor com apenas um olhar rápido.
-+   No entanto, um patch de 500 linhas pode levar horas para ser revisado
-+   (o tempo que leva é exponencialmente proporcional ao tamanho do patch,
-+   ou algo assim).
-+
-+   Patches pequenos também tornam muito fácil a depuração (debug) quando
-+   algo dá errado. É muito mais fácil reverter patches um por um do que
-+   dissecar um patch muito grande após ele ter sido aplicado (e quebrado algo).
-+
-+2) É importante não apenas enviar patches pequenos, mas também reescrever
-+   e simplificar (ou simplesmente reordenar) os patches antes de submetê-los.
-+
-+Aqui está uma analogia do desenvolvedor do kernel Al Viro:
-+
-+    *"Pense em um professor corrigindo o dever de casa de um aluno de
-+    matemática. O professor não quer ver as tentativas e erros do aluno
-+    antes de chegar à solução. Ele quer ver a resposta mais limpa e
-+    elegante. Um bom aluno sabe disso e nunca enviaria seu trabalho
-+    intermediário antes da solução final.*
-+
-+    *O mesmo vale para o desenvolvimento do kernel. Os mantenedores e
-+    revisores não querem ver o processo de pensamento por trás da solução
-+    do problema que se está resolvendo. Eles querem ver uma solução
-+    simples e elegante."*
-+
-+Pode ser desafiador manter o equilíbrio entre apresentar uma solução
-+elegante e trabalhar em conjunto com a comunidade discutindo seu trabalho
-+inacabado. Portanto, é bom entrar no processo cedo para obter feedback e
-+melhorar seu trabalho, mas também manter suas alterações em pequenos blocos
-+que possam ser aceitos, mesmo quando sua tarefa completa ainda não esteja
-+pronta para inclusão.
-+
-+Também entenda que não é aceitável enviar patches para inclusão que estejam
-+inacabados e que serão "consertados mais tarde".
-+
-+
-+Justifique sua alteração
-+------------------------
-+
-+Além de dividir seus patches, é muito importante que você deixe a comunidade
-+Linux saber por que eles deveriam adicionar essa mudança. Novas
-+funcionalidades devem ser justificadas como necessárias e úteis.
-+
-+
-+Documente sua alteração
-+-----------------------
-+
-+Ao enviar seus patches, preste atenção especial ao que você diz no texto
-+do seu e-mail. Essas informações se tornarão as informações do ChangeLog
-+para o patch e serão preservadas para que todos vejam para sempre. Elas
-+devem descrever o patch completamente, contendo:
-+
-+  - por que a mudança é necessária
-+  - a abordagem geral de design no patch
-+  - detalhes de implementação
-+  - resultados de testes
-+
-+Para mais detalhes sobre como tudo isso deve ser, por favor, veja a seção
-+ChangeLog do documento:
-+
-+  "The Perfect Patch"
-+      https://www.ozlabs.org/~akpm/stuff/tpp.txt
-+
-+Todas essas coisas às vezes são muito difíceis de fazer. Pode levar anos
-+para aperfeiçoar essas práticas (se é que é possível). É um processo
-+contínuo de melhoria que exige muita paciência e determinação. Mas não
-+desista, é possível. Muitos fizeram isso antes, e cada um teve que começar
-+exatamente onde você está agora.
-+
-+----------
-+
-+Agradecimentos a Paolo Ciarrocchi, que permitiu que a seção "Processo de
-+Desenvolvimento" (https://lwn.net/Articles/94386/) fosse baseada em um
-+texto que ele escreveu, e a Randy Dunlap e Gerrit Huizenga por parte da
-+lista de coisas que você deve ou não dizer. Também agradecemos a Pat Mochel,
-+Hanna Linder, Randy Dunlap, Kay Sievers, Vojtech Pavlik, Jan Kara,
-+Josh Boyer, Kees Cook, Andrew Morton, Andi Kleen, Vadim Lobanov, Jesper Juhl,
-+Adrian Bunk, Keri Harris, Frans Pop, David A. Wheeler, Junio Hamano,
-+Michael Kerrisk e Alex Shepard por suas revisões, comentários e contribuições.
-+Sem a ajuda deles, este documento não teria sido possível.
-+
-+Mantenedor: Greg Kroah-Hartman <greg@kroah.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0efa8cc67..386b13023 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -28876,3 +28876,9 @@ S:	Buried alive in reporters
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
- F:	*
- F:	*/
-+
-+PORTUGUESE (BRAZILIAN) TRANSLATION
-+M:	Daniel <danielmaraboo@gmail.com>
-+L:	linux-doc@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/translations/pt_BR/
+These virtual devices do not have BDF. As such, I am not sure if your 
+patches take these virtual devices in to account.
+
+Thanks a lot.
+
+Zhu Yanjun
+
+>
+> Drivers can notify the PCI subsystem whenever a device is preserved and
+> unpreserved with the following APIs:
+>
+>    pci_liveupdate_outgoing_preserve(pci_dev)
+>    pci_liveupdate_outgoing_unpreserve(pci_dev)
+>
+> After a Live Update, the PCI subsystem fetches its FLB global data
+> from the previous kernel from the Live Update Orchestrator (LUO) during
+> device initialization to determine which devices were preserved.
+>
+> Drivers can check if a device was preserved before userspace retrieves
+> the file for it via pci_dev->liveupdate_incoming.
+>
+> Once a driver has finished restoring an incoming preserved device, it
+> can notify the PCI subsystem with the following call, which clears
+> pci_dev->liveupdate_incoming.
+>
+>    pci_liveupdate_incoming_finish(pci_dev)
+>
+> This API will be used in subsequent commits by the vfio-pci driver to
+> preserve VFIO devices across Live Update and by the PCI subsystem.
+>
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>   drivers/pci/Makefile        |   1 +
+>   drivers/pci/liveupdate.c    | 212 ++++++++++++++++++++++++++++++++++++
+>   drivers/pci/probe.c         |   2 +
+>   include/linux/kho/abi/pci.h |  55 ++++++++++
+>   include/linux/pci.h         |  47 ++++++++
+>   5 files changed, 317 insertions(+)
+>   create mode 100644 drivers/pci/liveupdate.c
+>   create mode 100644 include/linux/kho/abi/pci.h
+>
+> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+> index 8c259a9a8796..a32f7658b9e5 100644
+> --- a/drivers/pci/Makefile
+> +++ b/drivers/pci/Makefile
+> @@ -16,6 +16,7 @@ obj-$(CONFIG_PROC_FS)		+= proc.o
+>   obj-$(CONFIG_SYSFS)		+= pci-sysfs.o slot.o
+>   obj-$(CONFIG_ACPI)		+= pci-acpi.o
+>   obj-$(CONFIG_GENERIC_PCI_IOMAP) += iomap.o
+> +obj-$(CONFIG_LIVEUPDATE)	+= liveupdate.o
+>   endif
+>   
+>   obj-$(CONFIG_OF)		+= of.o
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> new file mode 100644
+> index 000000000000..182cfc793b80
+> --- /dev/null
+> +++ b/drivers/pci/liveupdate.c
+> @@ -0,0 +1,212 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/*
+> + * Copyright (c) 2025, Google LLC.
+> + * David Matlack <dmatlack@google.com>
+> + */
+> +
+> +#include <linux/bsearch.h>
+> +#include <linux/io.h>
+> +#include <linux/kexec_handover.h>
+> +#include <linux/kho/abi/pci.h>
+> +#include <linux/liveupdate.h>
+> +#include <linux/mutex.h>
+> +#include <linux/mm.h>
+> +#include <linux/pci.h>
+> +#include <linux/sort.h>
+> +
+> +static DEFINE_MUTEX(pci_flb_outgoing_lock);
+> +
+> +static int pci_flb_preserve(struct liveupdate_flb_op_args *args)
+> +{
+> +	struct pci_dev *dev = NULL;
+> +	int max_nr_devices = 0;
+> +	struct pci_ser *ser;
+> +	unsigned long size;
+> +
+> +	for_each_pci_dev(dev)
+> +		max_nr_devices++;
+> +
+> +	size = struct_size_t(struct pci_ser, devices, max_nr_devices);
+> +
+> +	ser = kho_alloc_preserve(size);
+> +	if (IS_ERR(ser))
+> +		return PTR_ERR(ser);
+> +
+> +	ser->max_nr_devices = max_nr_devices;
+> +
+> +	args->obj = ser;
+> +	args->data = virt_to_phys(ser);
+> +	return 0;
+> +}
+> +
+> +static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args)
+> +{
+> +	struct pci_ser *ser = args->obj;
+> +
+> +	WARN_ON_ONCE(ser->nr_devices);
+> +	kho_unpreserve_free(ser);
+> +}
+> +
+> +static int pci_flb_retrieve(struct liveupdate_flb_op_args *args)
+> +{
+> +	args->obj = phys_to_virt(args->data);
+> +	return 0;
+> +}
+> +
+> +static void pci_flb_finish(struct liveupdate_flb_op_args *args)
+> +{
+> +	kho_restore_free(args->obj);
+> +}
+> +
+> +static struct liveupdate_flb_ops pci_liveupdate_flb_ops = {
+> +	.preserve = pci_flb_preserve,
+> +	.unpreserve = pci_flb_unpreserve,
+> +	.retrieve = pci_flb_retrieve,
+> +	.finish = pci_flb_finish,
+> +	.owner = THIS_MODULE,
+> +};
+> +
+> +static struct liveupdate_flb pci_liveupdate_flb = {
+> +	.ops = &pci_liveupdate_flb_ops,
+> +	.compatible = PCI_LUO_FLB_COMPATIBLE,
+> +};
+> +
+> +#define INIT_PCI_DEV_SER(_dev) {		\
+> +	.domain = pci_domain_nr((_dev)->bus),	\
+> +	.bdf = pci_dev_id(_dev),		\
+> +}
+> +
+> +static int pci_dev_ser_cmp(const void *__a, const void *__b)
+> +{
+> +	const struct pci_dev_ser *a = __a, *b = __b;
+> +
+> +	return cmp_int(a->domain << 16 | a->bdf, b->domain << 16 | b->bdf);
+> +}
+> +
+> +static struct pci_dev_ser *pci_ser_find(struct pci_ser *ser,
+> +					struct pci_dev *dev)
+> +{
+> +	const struct pci_dev_ser key = INIT_PCI_DEV_SER(dev);
+> +
+> +	return bsearch(&key, ser->devices, ser->nr_devices,
+> +		       sizeof(key), pci_dev_ser_cmp);
+> +}
+> +
+> +static int pci_ser_delete(struct pci_ser *ser, struct pci_dev *dev)
+> +{
+> +	struct pci_dev_ser *dev_ser;
+> +	int i;
+> +
+> +	dev_ser = pci_ser_find(ser, dev);
+> +	if (!dev_ser)
+> +		return -ENOENT;
+> +
+> +	for (i = dev_ser - ser->devices; i < ser->nr_devices - 1; i++)
+> +		ser->devices[i] = ser->devices[i + 1];
+> +
+> +	ser->nr_devices--;
+> +	return 0;
+> +}
+> +
+> +int pci_liveupdate_outgoing_preserve(struct pci_dev *dev)
+> +{
+> +	struct pci_dev_ser new = INIT_PCI_DEV_SER(dev);
+> +	struct pci_ser *ser;
+> +	int i, ret;
+> +
+> +	/* Preserving VFs is not supported yet. */
+> +	if (dev->is_virtfn)
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&pci_flb_outgoing_lock);
+> +
+> +	if (dev->liveupdate_outgoing)
+> +		return -EBUSY;
+> +
+> +	ret = liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void **)&ser);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (ser->nr_devices == ser->max_nr_devices)
+> +		return -E2BIG;
+> +
+> +	for (i = ser->nr_devices; i > 0; i--) {
+> +		struct pci_dev_ser *prev = &ser->devices[i - 1];
+> +		int cmp = pci_dev_ser_cmp(&new, prev);
+> +
+> +		if (WARN_ON_ONCE(!cmp))
+> +			return -EBUSY;
+> +
+> +		if (cmp > 0)
+> +			break;
+> +
+> +		ser->devices[i] = *prev;
+> +	}
+> +
+> +	ser->devices[i] = new;
+> +	ser->nr_devices++;
+> +	dev->liveupdate_outgoing = true;
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_outgoing_preserve);
+> +
+> +void pci_liveupdate_outgoing_unpreserve(struct pci_dev *dev)
+> +{
+> +	struct pci_ser *ser;
+> +	int ret;
+> +
+> +	guard(mutex)(&pci_flb_outgoing_lock);
+> +
+> +	ret = liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void **)&ser);
+> +	if (WARN_ON_ONCE(ret))
+> +		return;
+> +
+> +	WARN_ON_ONCE(pci_ser_delete(ser, dev));
+> +	dev->liveupdate_outgoing = false;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_outgoing_unpreserve);
+> +
+> +u32 pci_liveupdate_incoming_nr_devices(void)
+> +{
+> +	struct pci_ser *ser;
+> +	int ret;
+> +
+> +	ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&ser);
+> +	if (ret)
+> +		return 0;
+> +
+> +	return ser->nr_devices;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_incoming_nr_devices);
+> +
+> +void pci_liveupdate_setup_device(struct pci_dev *dev)
+> +{
+> +	struct pci_ser *ser;
+> +	int ret;
+> +
+> +	ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&ser);
+> +	if (ret)
+> +		return;
+> +
+> +	dev->liveupdate_incoming = !!pci_ser_find(ser, dev);
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_setup_device);
+> +
+> +void pci_liveupdate_incoming_finish(struct pci_dev *dev)
+> +{
+> +	dev->liveupdate_incoming = false;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_incoming_finish);
+> +
+> +int pci_liveupdate_register_fh(struct liveupdate_file_handler *fh)
+> +{
+> +	return liveupdate_register_flb(fh, &pci_liveupdate_flb);
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_register_fh);
+> +
+> +int pci_liveupdate_unregister_fh(struct liveupdate_file_handler *fh)
+> +{
+> +	return liveupdate_unregister_flb(fh, &pci_liveupdate_flb);
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_unregister_fh);
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 37329095e5fe..af6356c5a156 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -2060,6 +2060,8 @@ int pci_setup_device(struct pci_dev *dev)
+>   	if (pci_early_dump)
+>   		early_dump_pci_device(dev);
+>   
+> +	pci_liveupdate_setup_device(dev);
+> +
+>   	/* Need to have dev->class ready */
+>   	dev->cfg_size = pci_cfg_space_size(dev);
+>   
+> diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
+> new file mode 100644
+> index 000000000000..6577767f8da6
+> --- /dev/null
+> +++ b/include/linux/kho/abi/pci.h
+> @@ -0,0 +1,55 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +/*
+> + * Copyright (c) 2025, Google LLC.
+> + * David Matlack <dmatlack@google.com>
+> + */
+> +
+> +#ifndef _LINUX_KHO_ABI_PCI_H
+> +#define _LINUX_KHO_ABI_PCI_H
+> +
+> +#include <linux/compiler.h>
+> +#include <linux/types.h>
+> +
+> +/**
+> + * DOC: PCI File-Lifecycle Bound (FLB) Live Update ABI
+> + *
+> + * This header defines the ABI for preserving core PCI state across kexec using
+> + * Live Update File-Lifecycle Bound (FLB) data.
+> + *
+> + * This interface is a contract. Any modification to any of the serialization
+> + * structs defined here constitutes a breaking change. Such changes require
+> + * incrementing the version number in the PCI_LUO_FLB_COMPATIBLE string.
+> + */
+> +
+> +#define PCI_LUO_FLB_COMPATIBLE "pci-v1"
+> +
+> +/**
+> + * struct pci_dev_ser - Serialized state about a single PCI device.
+> + *
+> + * @domain: The device's PCI domain number (segment).
+> + * @bdf: The device's PCI bus, device, and function number.
+> + */
+> +struct pci_dev_ser {
+> +	u16 domain;
+> +	u16 bdf;
+> +} __packed;
+> +
+> +/**
+> + * struct pci_ser - PCI Subsystem Live Update State
+> + *
+> + * This struct tracks state about all devices that are being preserved across
+> + * a Live Update for the next kernel.
+> + *
+> + * @max_nr_devices: The length of the devices[] flexible array.
+> + * @nr_devices: The number of devices that were preserved.
+> + * @devices: Flexible array of pci_dev_ser structs for each device. Guaranteed
+> + *           to be sorted ascending by domain and bdf.
+> + */
+> +struct pci_ser {
+> +	u64 max_nr_devices;
+> +	u64 nr_devices;
+> +	struct pci_dev_ser devices[];
+> +} __packed;
+> +
+> +#endif /* _LINUX_KHO_ABI_PCI_H */
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 7e36936bb37a..9ead6d84aef6 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -40,6 +40,7 @@
+>   #include <linux/resource_ext.h>
+>   #include <linux/msi_api.h>
+>   #include <uapi/linux/pci.h>
+> +#include <linux/liveupdate.h>
+>   
+>   #include <linux/pci_ids.h>
+>   
+> @@ -582,6 +583,10 @@ struct pci_dev {
+>   	u8		tph_mode;	/* TPH mode */
+>   	u8		tph_req_type;	/* TPH requester type */
+>   #endif
+> +#ifdef CONFIG_LIVEUPDATE
+> +	unsigned int	liveupdate_incoming:1;	/* Preserved by previous kernel */
+> +	unsigned int	liveupdate_outgoing:1;	/* Preserved for next kernel */
+> +#endif
+>   };
+>   
+>   static inline struct pci_dev *pci_physfn(struct pci_dev *dev)
+> @@ -2854,4 +2859,46 @@ void pci_uevent_ers(struct pci_dev *pdev, enum  pci_ers_result err_type);
+>   	WARN_ONCE(condition, "%s %s: " fmt, \
+>   		  dev_driver_string(&(pdev)->dev), pci_name(pdev), ##arg)
+>   
+> +#ifdef CONFIG_LIVEUPDATE
+> +int pci_liveupdate_outgoing_preserve(struct pci_dev *dev);
+> +void pci_liveupdate_outgoing_unpreserve(struct pci_dev *dev);
+> +void pci_liveupdate_setup_device(struct pci_dev *dev);
+> +u32 pci_liveupdate_incoming_nr_devices(void);
+> +void pci_liveupdate_incoming_finish(struct pci_dev *dev);
+> +int pci_liveupdate_register_fh(struct liveupdate_file_handler *fh);
+> +int pci_liveupdate_unregister_fh(struct liveupdate_file_handler *fh);
+> +#else /* !CONFIG_LIVEUPDATE */
+> +static inline int pci_liveupdate_outgoing_preserve(struct pci_dev *dev)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline void pci_liveupdate_outgoing_unpreserve(struct pci_dev *dev)
+> +{
+> +}
+> +
+> +static inline void pci_liveupdate_setup_device(struct pci_dev *dev)
+> +{
+> +}
+> +
+> +static inline u32 pci_liveupdate_incoming_nr_devices(void)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void pci_liveupdate_incoming_finish(struct pci_dev *dev)
+> +{
+> +}
+> +
+> +static inline int pci_liveupdate_register_fh(struct liveupdate_file_handler *fh)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int pci_liveupdate_unregister_fh(struct liveupdate_file_handler *fh)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +#endif /* !CONFIG_LIVEUPDATE */
+> +
+>   #endif /* LINUX_PCI_H */
+>
 -- 
-2.43.0
+Best Regards,
+Yanjun.Zhu
 
