@@ -1,275 +1,423 @@
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11021127.outbound.protection.outlook.com [40.107.74.127])
+Received: from sender4-of-o50.zoho.com (sender4-of-o50.zoho.com [136.143.188.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509403A1B5;
-	Sun,  1 Feb 2026 15:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.127
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 258AC263F34;
+	Sun,  1 Feb 2026 16:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769960759; cv=fail; b=VHxTXt//rsXBKfEXHVjPesMIlpHjRZTZRPEwBu+LTp95/QskKEdcAGLqcEFzGyLbvdfKmxj1gGqJj6nKxexLPKhlgxEqCuyhXTvpynfDT1cdFIkgS31VsZkoP75KVMCGSNnSQQbYLk2IF+DGIVD16vO5yb77zpalx4QTiDnUCxE=
+	t=1769962914; cv=pass; b=ipRKgExmgPnBdIUDEAjY6UMY/m+FOFBbihkGd4dV+SFLJPzf8/pXJdEvWpItX4Gk8OyDt8LtQvag1lOXWhkFTrAQIqCqC5JCRR6OHWt7M/MrkYfu/x1StV5uyDkrf9a6DPHkTa2YtpqTpFEOQknVXKYLF0iwl3Fa0DYFE8tdhJs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769960759; c=relaxed/simple;
-	bh=9hH4/OgK3MR+rm1pDN9bozx8Fr79aokZU4FsjGDtbzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nzFH67tbUQ8JtweNLTtFgdBQeOBf7fEZxi5/glphhdCl1z2yyfLYyMpAjx8WWXMpEQBJmdtHJzFKe1O2EWOFl1/4CeGBIk7WCTVILGWkaUZJAk+4HCUH07wSH5cVxth7fs+sdl0T+xhqjmjlh63R0ZlDHCeEucKfR9ri3MtbCwg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=Jyk0jCi1; arc=fail smtp.client-ip=40.107.74.127
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+	s=arc-20240116; t=1769962914; c=relaxed/simple;
+	bh=wEqhhueRECF0KNX3O0Rb3OOvsLw2IhuQzlhLGOexWiU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kmfhfG5oAPrbe90xmMpeFUH5Oeb8A/5wGZ+QMngxS6HO9N6jaENZhquIiHxXLhGDhLUN3E12cCSz2VbLG10jZT2ICF3+ktKodYsE78b4t578uTVYtQflGQQiZ4zkSx5yQTxnBJCittwI3KxRVjfRY3c9jm6PcUQF66brsbv6uDU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com; spf=pass smtp.mailfrom=apertussolutions.com; dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b=oTiSt5ZJ; arc=pass smtp.client-ip=136.143.188.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apertussolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apertussolutions.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="Jyk0jCi1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AdEz6okS+NREi6KkYmNbrbeYwZwnva7TaaJzIs1EIBNgBAq8BbHyHSGF64HJM1RdzAEPgid/Mk9LlDrji0jIbW5aP00nT7QgQe/2uNvbJqthGaeoVC/cyUbACjjqksoWMPq19iaTlLiprWpOCjyZvqPSk9/cFrKMWu+EYjfmhi1P5gCw21xLsUeKtFDjX8b/MvmLWe4zcN+6WX+3NG0qkCyvFA4IkrXGI5BOaseQSP1wNr5RMIlDSZTeKacCjgevNmR2vGLvxX/x3FbL1A48PNP2lFZLTI7wMUGZWVRNstehFuYNoMLZ7FoQ4sUwUEr/Nffm0DnniGgEHZh/UMA1Ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HB4ZJJk6NRnLrl1CYvTbyqfv1RKnsUCtsNv1it7z90M=;
- b=MbjhdlKJJAbMx2IUtY0N68ytKqtikI8dfbXxj2V/f8y/DL7PAzITj5D2KbO0zkPeah3XEM1g2dSBpm1+wi2MCKk2CGlnpmd6WDZD3c1DXXfsqYel6jSuCj3Tz9IrhJV3h3/cCcCfZ5J8psk3iY+H/c/KJR951JPn19qiyhnC08JVKYXh0/y3n/UARylJJCOuOnbw8KvngKVdkYwKOrolG4vWzk5mK4+Orx6hclvNECCjybEu8Mj7urb965PTGQYGc9oPQsG7BnDARB3yzXIdGaeNu38QmpN1tTyMLyZJRvVvo3snJNAfo2scLGg2xKfqJWXRLipMmeLC23/f5HdB9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HB4ZJJk6NRnLrl1CYvTbyqfv1RKnsUCtsNv1it7z90M=;
- b=Jyk0jCi1TGzSZJtXajaIJJSdkk2r0fiOoS5TBAKNxfcJy3A47NhBYaQTR5WYsDPyEMYx1NaVYIxVE76GKirBYoi3onx5M3MR46GxR34cPtuvPXwQG4u7ql1fbc5V/VFtJaW2GD9OGH+8Gyy7ZBls8SxHMN/2PZ3N9DkIv9lokZI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TY4P286MB7444.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:352::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Sun, 1 Feb
- 2026 15:45:54 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9564.013; Sun, 1 Feb 2026
- 15:45:54 +0000
-Date: Mon, 2 Feb 2026 00:45:52 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Niklas Cassel <cassel@kernel.org>
-Cc: mani@kernel.org, kwilczynski@kernel.org, kishon@kernel.org, 
-	bhelgaas@google.com, corbet@lwn.net, jingoohan1@gmail.com, lpieralisi@kernel.org, 
-	robh@kernel.org, Frank.Li@nxp.com, linux-pci@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] PCI: endpoint: Document pci_epc_set_bar() caller
- ownership and lifetime rules
-Message-ID: <4erlj426nvmilwfdq5e63ojiqecomcpj35nvmiyw2p5mvifwlt@yspmfxrzmxei>
-References: <20260131133655.218018-1-den@valinux.co.jp>
- <20260131133655.218018-4-den@valinux.co.jp>
- <aX4y3txKcYmb-kE3@fedora>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aX4y3txKcYmb-kE3@fedora>
-X-ClientProxiedBy: TYCP286CA0280.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c9::8) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	dkim=pass (1024-bit key) header.d=apertussolutions.com header.i=dpsmith@apertussolutions.com header.b="oTiSt5ZJ"
+ARC-Seal: i=1; a=rsa-sha256; t=1769962827; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=eLrQVuj3RsXJTTpG5owHrnqFfaHxy6E8IRRb5+CwFA3Bzfi+mJmyXXqc5phB2v4xpkbjb7zHkYRBbS/RVZH2ks0toqesjWOmYyWNH9LBecfI8Wn3v3N4uzI67ntOYXPRdcR8r+Ga5IckWnHefS6oBQXkeMZW3d0YzBLK77sD9lE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1769962827; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=YIYCK59jh50spm8tJeld6eak6XiX3KK4FkOhjNCm+ws=; 
+	b=bgIKAzESOhr623ZcPoiwK6IVCJRgVcxDo/joqJFPIWM0tFh8XkZV0pz2F8lGL6Tn3X/cX3M8AdWWJRTXfqNHMzSjYLIuPlK3CsEKeFjsndEgdsuJKPUIPKjBIdgO5b0GYCGfAwh3LgRwVt0oOtMVBpTs/RaxS6WLlDKDgBuB7iU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=apertussolutions.com;
+	spf=pass  smtp.mailfrom=dpsmith@apertussolutions.com;
+	dmarc=pass header.from=<dpsmith@apertussolutions.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769962827;
+	s=zoho; d=apertussolutions.com; i=dpsmith@apertussolutions.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=YIYCK59jh50spm8tJeld6eak6XiX3KK4FkOhjNCm+ws=;
+	b=oTiSt5ZJZIrN5X1fyRVpbvtQMlOSvHav0NhcbHW+q/3VDkax3N3xHblVzK2zAHPK
+	BOpedbVBfCP7+j/MYLuMGdeF81TvsQg5EWue6+dA1HaKT1/KGm1dVSMIOnN3/GaX3Mq
+	I6j6uM5TqURWbXbpA/Yc+M2FHXM9J5c5BsxDvZxs=
+Received: by mx.zohomail.com with SMTPS id 1769962824390979.9307132328469;
+	Sun, 1 Feb 2026 08:20:24 -0800 (PST)
+Message-ID: <b94815dc-fc4d-4073-bfd6-31ab99a6b85b@apertussolutions.com>
+Date: Sun, 1 Feb 2026 11:20:20 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TY4P286MB7444:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d63b305-a133-4fc8-0e26-08de61a8fbe7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|10070799003|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?y6E0ffeEEqKpaGVDbZXvYnwF4DYb6zbNVLAMGAWmw/wNllKEQi7bVEwE9Qu7?=
- =?us-ascii?Q?7ETsihtwApfmi2tAM5qRpT2A/HpEWVyoKkIy5I8SyB37aFeV84NmV4NICLmD?=
- =?us-ascii?Q?qmbHrgFtgsSzxVA7GhkdnBbHw3xdY0jsxefC104hx+87Jxw/0TCmhGO4LKuc?=
- =?us-ascii?Q?X/UIAMBY+3+mnwHw85wDBypNBXQewf/tZVOQDmkZonlRO1hvjnkW/mIXZnxk?=
- =?us-ascii?Q?Ovh1OeTDT2zqSw9XluAJR6B80GKKmS5oP5daDcNFumttb7C/DZI7Y5DNzXU2?=
- =?us-ascii?Q?O2SlbiVf9Q/SfZ3SpjwIx7o96Eqzeck6jjD+LR51sHyaUZv6G4jz6rULE8Qe?=
- =?us-ascii?Q?rB4Tl++93yA3199Kyf6hk18aEOfSO15iLiapGEi05Mirk972D0CHVl2EGO4u?=
- =?us-ascii?Q?szxFxge3u+rv8xekkF0pG+JsKV3OAME0aoj6KFhgniOgifTI1i9B55extzYu?=
- =?us-ascii?Q?mGWu0ssaxNXA1tQ6itCJTdDH/0hTYdP8mS8ADal108NRe7Fx1Z6QaMDxfEk/?=
- =?us-ascii?Q?Eezhz/DP0SMkE8P846abGd9g1fxhhAv4Cb1n+H8+3dOEAmM5MSA2QwyLPXJj?=
- =?us-ascii?Q?97Jppg+nxGdCYQgi05b9dAbMYNQTtxl2LOZwJmbaYYWvdQjjTH3jnQu/Klvc?=
- =?us-ascii?Q?RO0/3xMvm15ByycB+7OiRHpgMO+YWcejekHvCcBwjC/vfueBmK+n9ig2aK+S?=
- =?us-ascii?Q?8bZLcpPVyRwMYmxySdq8F8YqKmFP6SNJWsEikI0zjqNVz0dE0tsOUSfCu1aY?=
- =?us-ascii?Q?zeIzw6mHs36DUQwH/gJ3TbZf3z+nU51lqs9+zwrM7+G3TreSbP7UgM5UXajI?=
- =?us-ascii?Q?xxCFxtPRxfdSSEf9KcL3IoRjS87hudTAdmzov54319YhWDel6B5rVLL1zcZy?=
- =?us-ascii?Q?dSiainNDgjE0OOMqssaHlWrsyefRdCTFdV+y5+wKB/kiJzpamP1cDh5KtXyz?=
- =?us-ascii?Q?PS/mWYbJgitPPPCKliyjJDlgLyISYWDcS6//+4Ll1rhYg47GdrXiePNhcmMW?=
- =?us-ascii?Q?E3NSA2PnIG+HHRFjmc7AICjbF/t5HsoT+g2kMNkz3Tt/NOhcC39h3YWJeHPO?=
- =?us-ascii?Q?215zQxYOiF5INVDjzIl1wZSYSMJ1CSCM6IBGA66PHnaTcJhXr2aYBPzd0w1s?=
- =?us-ascii?Q?lAN6sqtQCZ2xFLusf/oaGvskcn6MoF9EV2bje+jUAdMZyz3iqHCrPveGAK7y?=
- =?us-ascii?Q?oZVZatK8I6MhpeRfT/0NuuzUrz8kpkTEBtcNgdgWmd/AIlC4QtLSYzV4JAk7?=
- =?us-ascii?Q?kEXgMma65KEYrNCU5GQwYj+QL9nzUNiYAZrbrOfOtNnLhgJE1zq40Zo7MYrV?=
- =?us-ascii?Q?biLEdby/SIny2BgqJFcBBa+fDXBgqE81UsEV1kTQF4/v/aHVNLBNaT4MxY0o?=
- =?us-ascii?Q?vRKPrFXQHvUybpRSH2RrK1lm2jo3TRsjZZJe+t+Umor2JXxqEYnFE+dEqyNK?=
- =?us-ascii?Q?MF+n51dOyS88oo5O8fFJbg+AEkBvhmo/5hwh/Nk8qD1AffudTPyEIt7MzvXl?=
- =?us-ascii?Q?nofSGBz6pe8ie2OoZjlcSGns2P75VlQcReBZ?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(10070799003)(366016);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OG88KcH5AvhSy2dXqN/fjhdWANScIQomhTnXJ/F9NYTEThAarGcno30WYWBs?=
- =?us-ascii?Q?OmY7WJEDjPh+uGnUaSB6SEfkD0474XhGFHqJMa5vC+SB6sQH+/Pyb7jQ/xKY?=
- =?us-ascii?Q?HPz8lODEKiluQ/TNI4mf3RnQoxvh46V0pZjYn9ZWV+EVZcqYV4iC6T+YtcZR?=
- =?us-ascii?Q?gOnRS2hxMq94YolcIwiML3IzmGzla+uBiRqRq9Zp9eVj96o0AqL9iq5iHygR?=
- =?us-ascii?Q?HLh0PcDZY8m5oYFxAJ3zJdUITQpBYa/138+c+U1N4IyEBphZ5vKoaAMUBMjJ?=
- =?us-ascii?Q?x88HuJ8D3WIMaoD3KxZACZVMxGSHpyWZkyehTLsqw0zEF/GfLPVW3VEOeasd?=
- =?us-ascii?Q?vGTKXYAVDDKa4Wi/QuPUrcHHUELa9MTUZPXCFCpFbCozBZ32ghzPNvpY8+DO?=
- =?us-ascii?Q?Trjid89DDQNdiXn/C3YfaauPw7geN2GFlA2u1pVZR1oClOGvb+sg38q9bzh1?=
- =?us-ascii?Q?1P9ru1aP+T8gqLfkG6Eih0CqEzo/dzPTu9tEfEjWWDumy5+qTAgkCGSGSMOB?=
- =?us-ascii?Q?i/JXEHvT37aL/jnW/wVuwpUlsR6jS1ZkXkysg9K/wiY67MpicKoJNjaVDKa7?=
- =?us-ascii?Q?IoQpIYQ0SnVUapO717KYZIPNsNcyzTV0CyW5ekufU+Q2pNFqKZfk6q5t9IdZ?=
- =?us-ascii?Q?G7wQpM5fOczVLhpgHXxSS+spItKI8rDH7w9ssRD/7Mm1Z0vvJftL5TXTsRjz?=
- =?us-ascii?Q?PUByGst/JJ6hIUA6xXSfcWhCKzeWsaNtps4ralzTwnOvj5cmRf71JzccqFoz?=
- =?us-ascii?Q?hGuLp37gNLUWptIvcEXBVOPcRJN9URg1gZBk+yEaPwx/0vocNwvBkomuW2Ab?=
- =?us-ascii?Q?28b8rWHH2W9Ox8gJXKj3TZnsNnBicH7wY3lqgmXleVcPvy6ZutbxMd8HVn6B?=
- =?us-ascii?Q?pciFwf2XDjqPKaJwM+nri3i7QrSxJ7utljK6B0WLNF+yPecgmhZINpL9h8Qu?=
- =?us-ascii?Q?RR6fra0SZLCsKh8JCwh1tAAlm3BihkXYsmSIxRYoxxodSkojXG0qJiW5vGu5?=
- =?us-ascii?Q?gGpWVzoixAFmNkKjFLCLBu80iE7ohfDHNI0BgbB/fge4+sNgX0qgXLwVUm+H?=
- =?us-ascii?Q?QM/WmEG6b3KXVelGP7P5BiVj25nqlp1XqnkRvwzMRh4TfWYxtN/a8PkVMcT7?=
- =?us-ascii?Q?/Q2w2HhtWtQi08UKdOCBL47nIHWKuRY5p6E5puoqaZEaIl1Uq8O6OlAxQtXr?=
- =?us-ascii?Q?z0TajsAEKVK7gkGilPbXZkNkVGnJ2lMas8F3O+nKH++CkA4VJGJvUZkVRqn/?=
- =?us-ascii?Q?YTMtfUO3mBTiUTf7dSAy5vWlrQrjlndNd7fkGuOnQb7IcyQZnkxshg0fljbF?=
- =?us-ascii?Q?qIpDUXmLgvrmTz6mcnRoip4SUL+3pkeefBHgwO3ySNYgX2zBeLFicMsNaTcJ?=
- =?us-ascii?Q?SADg8V5Hcf/UEReUeND/bhyhfKeR+uPe/nvHBNJEx80mv7M6MXstzyUQgPn0?=
- =?us-ascii?Q?qffb6pz+SiZeIbQODEjPox6zujfzYZtzx9lkO9NWudMoChRsmf8hvyTOKGxb?=
- =?us-ascii?Q?Gv90n9wT1KKwUuKrD4ZBLc6S0D8za5wATfwkbZq6Dg/wF6bUSi6x+94V0Lh4?=
- =?us-ascii?Q?g8vmXpIpym6xDpOPcMwENlJpX4XUU+WBB3yf9YVCh0k2z8ftmZ7rYKOp74sv?=
- =?us-ascii?Q?D4xxC+JhSJtulnXp5KfXNvba32e7q2SuzHPn7vdMo5QGRHgYOcPpSHHVuQ/7?=
- =?us-ascii?Q?7CTpNO0a0ZC4OEuMumIO8LwJGHKsPXrSTj/UnJSdtuuGcQV2t5wvgq9SXK0r?=
- =?us-ascii?Q?t0S5hZV8DUTudWRdStn9pbdeRTIvqGdgEx4Fb2zM163RrAZRc0Os?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d63b305-a133-4fc8-0e26-08de61a8fbe7
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2026 15:45:54.2588
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: faky14gEGg95galsMopep2n4w1nh49qwyRiaDVtzx89ybfPUYasziMpaEOjUno4a78WgqZniRQLgI6yvG15L4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4P286MB7444
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 01/28] tpm: Initial step to reorganize TPM public
+ headers
+To: Jarkko Sakkinen <jarkko@kernel.org>,
+ Ross Philipson <ross.philipson@oracle.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
+ ardb@kernel.org, mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu,
+ herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
+ ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com,
+ kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
+ trenchboot-devel@googlegroups.com
+References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+ <20251215233316.1076248-2-ross.philipson@oracle.com>
+ <aW7A-4xJSzln1HtH@kernel.org>
+Content-Language: en-US
+From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+Autocrypt: addr=dpsmith@apertussolutions.com; keydata=
+ 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
+In-Reply-To: <aW7A-4xJSzln1HtH@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-On Sat, Jan 31, 2026 at 05:50:38PM +0100, Niklas Cassel wrote:
-> On Sat, Jan 31, 2026 at 10:36:55PM +0900, Koichiro Den wrote:
-> > pci_epc_set_bar() may be called multiple times for a BAR when an
-> > endpoint controller supports dynamic_inbound_mapping and/or
-> > subrange_mapping.
-> > 
-> > Some EPC drivers keep a reference to the struct pci_epf_bar passed to
-> > pci_epc_set_bar(), but the documentation does not describe the ownership
-> > and lifetime rules for that object (and its submap array).
-> > 
-> > Document that the EPF driver retains ownership of these objects, must
-> > keep them valid, and must not modify them after a successful
-> > pci_epc_set_bar(). When updating an active mapping, the EPF driver must
-> > pass a new pci_epf_bar instance and only free the old one after the
-> > update succeeds.
-> > 
-> > Signed-off-by: Koichiro Den <den@valinux.co.jp>
-> > ---
-> >  Documentation/PCI/endpoint/pci-endpoint.rst | 22 +++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> > 
-> > diff --git a/Documentation/PCI/endpoint/pci-endpoint.rst b/Documentation/PCI/endpoint/pci-endpoint.rst
-> > index 4697377adeae..b2f5ad147ed8 100644
-> > --- a/Documentation/PCI/endpoint/pci-endpoint.rst
-> > +++ b/Documentation/PCI/endpoint/pci-endpoint.rst
-> > @@ -119,6 +119,28 @@ by the PCI endpoint function driver.
-> >     BAR register or BAR decode on the endpoint while the host still expects
-> >     the assigned BAR address to remain valid.
-> >  
-> > +   The struct pci_epf_bar passed to pci_epc_set_bar() (and the optional
-> > +   pci_epf_bar.submap array) is owned by the PCI endpoint function driver.
-> > +   An EPC driver may keep a reference to these objects after
-> > +   pci_epc_set_bar() returns. Therefore the EPF driver must ensure that:
-> > +
-> > +     * Ownership of the pci_epf_bar object passed to pci_epc_set_bar()
-> > +       remains with the caller (the EPF driver). The caller is responsible
-> > +       for ensuring it remains valid (and freeing it when dynamically
-> > +       allocated).
-> > +
-> > +     * After pci_epc_set_bar() succeeds, the caller must not modify the
-> > +       contents of the pci_epf_bar object (or its submap array) until a
-> > +       later successful pci_epc_set_bar() for the same BAR replaces it, or
-> > +       until pci_epc_clear_bar() succeeds. Otherwise, it could potentially
-> > +       lead to use-after-free or undefined behavior.
-> > +
-> > +     * If the caller needs to update the mapping for a BAR and calls
-> > +       pci_epc_set_bar() again, it should use a new pci_epf_bar instance
-> > +       (and a new submap array, if used). If the call succeeds, the old
+On 1/19/26 18:40, Jarkko Sakkinen wrote:
+> On Mon, Dec 15, 2025 at 03:32:49PM -0800, Ross Philipson wrote:
+>> Replace the existing public header tpm_command.h with the first two
+>> new public headers tpm1.h and tpm_common.h. In addition, related
+>> definitions in tpm1_cmd.c were moved to the new tpm1.h.
+>>
+>> Signed-off-by: Daniel P. Smith <dpsmith@apertussolutions.com>
+>> Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+>> ---
+>>   drivers/char/tpm/tpm-buf.c                |  3 +-
+>>   drivers/char/tpm/tpm1-cmd.c               | 13 +-----
+>>   include/keys/trusted_tpm.h                |  1 -
+>>   include/linux/tpm.h                       |  3 ++
+>>   include/linux/tpm1.h                      | 55 +++++++++++++++++++++++
+>>   include/linux/tpm_command.h               | 30 -------------
 > 
-> Why does it need a new submap array?
+> Removing tpm_command.h causes unnecessary noise.
 > 
-> Since an EPC driver never frees the pci_epf_bar instance, nor never frees
-> the submap array, an EPF driver could reuse the submap in two consecutive
-> set_bar() if it so wanted, even though it would be a bit silly.
+> It would be better to retain tpm_command.h, and simply supplement
+> it with TPM2 constants.
+> 
+> Also, what is the reason to not have both TPM1 and TPM2 in tpm.h?
+> 
+> To put the question in other words: is there something in tpm.h that
+> would be incompatible with early boot code?
+> 
+> I'd rather tweak that than have more files...
 
-You're right, the phrase "(and a new submap array, if used)" was
-overreaching. The .submap does not necessarily need to be a new
-allocation.
+Every #include in tpm.h will break in the early boot code. I don't see 
+any way to avoid having one header that is the device driver header that 
+integrates with mainline features and at least one header that holds the 
+general TPM definitions.
 
-> 
-> I guess my point is that the important thing is that the pci_epf_bar and
-> the submap is immutable / pointer to const from EPC's point of view.
-> 
-> Since the EPC will not change the pci_epf_bar, EPF driver could also
-> theoretically call set_bar() twice with the exact same pci_epf_bar,
-> even though that would be a bit silly.
-> 
-> 
-> IMO, we could totally avoid all this text if we just changed;
-> int pci_epc_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
->                     struct pci_epf_bar *epf_bar);
-> 
-> to:
-> int pci_epc_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
->                     const struct pci_epf_bar * const epf_bar);
-> 
-> 
-> i.e.  const pointer to something const, because set_bar() will not change
-> the pointer, and what is being passed should not change.
-> 
-> 
-> Note that I'm not asking you to do this change in all the drivers,
-> I'm just saying that if the API was actually defined like this,
-> we would not need to add any Documentation, because the code would
-> speak for itself.
+We will move everything that was broken out into tpm_command.h, making 
+it the header with the general definitions. I would raise the question 
+of whether tpm_command.h would be the best name of the file after 
+definition reloactions
 
-I agree that the const-ification would be useful to some extent. That makes
-it explicit that the EPC must not modify the epf_bar.
-
-However, I don't think it removes the need for the documentation, because
-the added text is more about ownership, lifetime and about what the caller
-must (and must not) do after set_bar() returns.
-
-Even without the third bullet point ("If the caller needs to update ..."),
-const-ifying the function parameter does not enforce the first and second
-points either. The caller can still keep its own non-const reference and
-mutate the same object after a successful pci_epc_set_bar().
-
-For example, epf-vntb initializes BARs via pci_epc_set_bar() with phys_addr
-= 0 [1], and later updates the same ntb->epf->bar[barno] fields in-place
-and calls pci_epc_set_bar() again [2] via the .mw_set_trans callback:
-
-  [1] https://github.com/torvalds/linux/blob/v6.19-rc7/drivers/pci/endpoint/functions/pci-epf-vntb.c#L710
-  [2] https://github.com/torvalds/linux/blob/v6.19-rc7/drivers/pci/endpoint/functions/pci-epf-vntb.c#L1288
-
-So, if [PATCH 3/3] is the contract we can agree on, then I think epf-vntb
-would likely need an adjustment to follow that contract (i.e. avoid
-mutating the descriptor that might still be referenced by the EPC, and
-instead switch to a different instance when updating). In that sense, the
-code alone seems not always to speak for itself at the moment, and having
-the agreement documented would still be valuable for future EPF
-implementations.
-
-Kind regards,
-Koichiro
-
+>>   include/linux/tpm_common.h                | 22 +++++++++
+>>   security/keys/trusted-keys/trusted_tpm1.c |  1 -
+>>   security/keys/trusted-keys/trusted_tpm2.c |  1 -
+>>   9 files changed, 82 insertions(+), 47 deletions(-)
+>>   create mode 100644 include/linux/tpm1.h
+>>   delete mode 100644 include/linux/tpm_command.h
+>>   create mode 100644 include/linux/tpm_common.h
+>>
+>> diff --git a/drivers/char/tpm/tpm-buf.c b/drivers/char/tpm/tpm-buf.c
+>> index 1cb649938c01..dae23e6de269 100644
+>> --- a/drivers/char/tpm/tpm-buf.c
+>> +++ b/drivers/char/tpm/tpm-buf.c
+>> @@ -3,7 +3,6 @@
+>>    * Handling of TPM command and other buffers.
+>>    */
+>>   
+>> -#include <linux/tpm_command.h>
+>>   #include <linux/module.h>
+>>   #include <linux/tpm.h>
+>>   
+>> @@ -296,7 +295,7 @@ void tpm1_buf_append_extend(struct tpm_buf *buf, u32 pcr_idx, const u8 *hash)
+>>   	if (buf->flags & TPM_BUF_INVALID)
+>>   		return;
+>>   
+>> -	if (!tpm1_buf_is_command(buf, TPM_ORD_EXTEND)) {
+>> +	if (!tpm1_buf_is_command(buf, TPM_ORD_PCR_EXTEND)) {
+>>   		WARN(1, "tpm_buf: invalid TPM_Extend command\n");
+>>   		buf->flags |= TPM_BUF_INVALID;
+>>   		return;
+>> diff --git a/drivers/char/tpm/tpm1-cmd.c b/drivers/char/tpm/tpm1-cmd.c
+>> index bc156d7d59f2..f29827b454d2 100644
+>> --- a/drivers/char/tpm/tpm1-cmd.c
+>> +++ b/drivers/char/tpm/tpm1-cmd.c
+>> @@ -18,12 +18,9 @@
+>>   #include <linux/mutex.h>
+>>   #include <linux/spinlock.h>
+>>   #include <linux/freezer.h>
+>> -#include <linux/tpm_command.h>
+>>   #include <linux/tpm_eventlog.h>
+>>   #include "tpm.h"
+>>   
+>> -#define TPM_MAX_ORDINAL 243
+>> -
+>>   /*
+>>    * Array with one entry per ordinal defining the maximum amount
+>>    * of time the chip could take to return the result.  The ordinal
+>> @@ -308,9 +305,6 @@ unsigned long tpm1_calc_ordinal_duration(struct tpm_chip *chip, u32 ordinal)
+>>   		return duration;
+>>   }
+>>   
+>> -#define TPM_ORD_STARTUP 153
+>> -#define TPM_ST_CLEAR 1
+>> -
+>>   /**
+>>    * tpm1_startup() - turn on the TPM
+>>    * @chip: TPM chip to use
+>> @@ -478,7 +472,6 @@ int tpm1_pcr_extend(struct tpm_chip *chip, u32 pcr_idx, const u8 *hash,
+>>   	return rc;
+>>   }
+>>   
+>> -#define TPM_ORD_GET_CAP 101
+>>   ssize_t tpm1_getcap(struct tpm_chip *chip, u32 subcap_id, cap_t *cap,
+>>   		    const char *desc, size_t min_cap_length)
+>>   {
+>> @@ -574,7 +567,6 @@ int tpm1_get_random(struct tpm_chip *chip, u8 *dest, size_t max)
+>>   	return rc;
+>>   }
+>>   
+>> -#define TPM_ORD_PCRREAD 21
+>>   int tpm1_pcr_read(struct tpm_chip *chip, u32 pcr_idx, u8 *res_buf)
+>>   {
+>>   	int rc;
+>> @@ -584,7 +576,7 @@ int tpm1_pcr_read(struct tpm_chip *chip, u32 pcr_idx, u8 *res_buf)
+>>   		return -ENOMEM;
+>>   
+>>   	tpm_buf_init(buf, TPM_BUFSIZE);
+>> -	tpm_buf_reset(buf, TPM_TAG_RQU_COMMAND, TPM_ORD_PCRREAD);
+>> +	tpm_buf_reset(buf, TPM_TAG_RQU_COMMAND, TPM_ORD_PCR_READ);
+>>   	tpm_buf_append_u32(buf, pcr_idx);
+>>   
+>>   	rc = tpm_transmit_cmd(chip, buf, TPM_DIGEST_SIZE,
+>> @@ -599,7 +591,6 @@ int tpm1_pcr_read(struct tpm_chip *chip, u32 pcr_idx, u8 *res_buf)
+>>   	return rc;
+>>   }
+>>   
+>> -#define TPM_ORD_CONTINUE_SELFTEST 83
+>>   /**
+>>    * tpm1_continue_selftest() - run TPM's selftest
+>>    * @chip: TPM chip to use
+>> @@ -716,8 +707,6 @@ int tpm1_auto_startup(struct tpm_chip *chip)
+>>   	return rc;
+>>   }
+>>   
+>> -#define TPM_ORD_SAVESTATE 152
+>> -
+>>   /**
+>>    * tpm1_pm_suspend() - pm suspend handler
+>>    * @chip: TPM chip to use.
+>> diff --git a/include/keys/trusted_tpm.h b/include/keys/trusted_tpm.h
+>> index 0fadc6a4f166..3a0fa3bc8454 100644
+>> --- a/include/keys/trusted_tpm.h
+>> +++ b/include/keys/trusted_tpm.h
+>> @@ -3,7 +3,6 @@
+>>   #define __TRUSTED_TPM_H
+>>   
+>>   #include <keys/trusted-type.h>
+>> -#include <linux/tpm_command.h>
+>>   
+>>   extern struct trusted_key_ops trusted_key_tpm_ops;
+>>   
+>> diff --git a/include/linux/tpm.h b/include/linux/tpm.h
+>> index 8da49e8769d5..ef81e0b59657 100644
+>> --- a/include/linux/tpm.h
+>> +++ b/include/linux/tpm.h
+>> @@ -25,6 +25,9 @@
+>>   #include <crypto/hash_info.h>
+>>   #include <crypto/aes.h>
+>>   
+>> +#include "tpm_common.h"
+>> +#include "tpm1.h"
+>> +
+>>   #define TPM_DIGEST_SIZE		20	/* Max TPM v1.2 PCR size */
+>>   #define TPM_HEADER_SIZE		10
+>>   #define TPM_BUFSIZE		4096
+>> diff --git a/include/linux/tpm1.h b/include/linux/tpm1.h
+>> new file mode 100644
+>> index 000000000000..54c6c211eb9e
+>> --- /dev/null
+>> +++ b/include/linux/tpm1.h
+>> @@ -0,0 +1,55 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (C) 2004,2007,2008 IBM Corporation
+>> + *
+>> + * Authors:
+>> + * Leendert van Doorn <leendert@watson.ibm.com>
+>> + * Dave Safford <safford@watson.ibm.com>
+>> + * Reiner Sailer <sailer@watson.ibm.com>
+>> + * Kylene Hall <kjhall@us.ibm.com>
+>> + * Debora Velarde <dvelarde@us.ibm.com>
+>> + *
+>> + * Maintained by: <tpmdd_devel@lists.sourceforge.net>
+>> + *
+>> + * Device driver for TCG/TCPA TPM (trusted platform module).
+>> + * Specifications at www.trustedcomputinggroup.org
+>> + */
+>> +#ifndef __LINUX_TPM1_H__
+>> +#define __LINUX_TPM1_H__
+>> +
+>> +/*
+>> + * TPM 1.2 Main Specification
+>> + * https://trustedcomputinggroup.org/resource/tpm-main-specification/
+>> + */
+>> +
+>> +/* Command TAGS */
+>> +enum tpm_command_tags {
+>> +	TPM_TAG_RQU_COMMAND		= 193,
+>> +	TPM_TAG_RQU_AUTH1_COMMAND	= 194,
+>> +	TPM_TAG_RQU_AUTH2_COMMAND	= 195,
+>> +	TPM_TAG_RSP_COMMAND		= 196,
+>> +	TPM_TAG_RSP_AUTH1_COMMAND	= 197,
+>> +	TPM_TAG_RSP_AUTH2_COMMAND	= 198,
+>> +};
+>> +
+>> +/* Command Ordinals */
+>> +enum tpm_command_ordinals {
+>> +	TPM_ORD_CONTINUE_SELFTEST	= 83,
+>> +	TPM_ORD_GET_CAP			= 101,
+>> +	TPM_ORD_GET_RANDOM		= 70,
+>> +	TPM_ORD_PCR_EXTEND		= 20,
+>> +	TPM_ORD_PCR_READ		= 21,
+>> +	TPM_ORD_OSAP			= 11,
+>> +	TPM_ORD_OIAP			= 10,
+>> +	TPM_ORD_SAVESTATE		= 152,
+>> +	TPM_ORD_SEAL			= 23,
+>> +	TPM_ORD_STARTUP			= 153,
+>> +	TPM_ORD_UNSEAL			= 24,
+>> +};
+>> +
+>> +/* Other constants */to address your concern over diff churn
+>> +#define SRKHANDLE                       0x40000000
+>> +#define TPM_NONCE_SIZE                  20
+>> +#define TPM_ST_CLEAR			1
+>> +
+>> +#endif
+>> diff --git a/include/linux/tpm_command.h b/include/linux/tpm_command.h
+>> deleted file mode 100644
+>> index 02038972a05f..000000000000
+>> --- a/include/linux/tpm_command.h
+>> +++ /dev/null
+>> @@ -1,30 +0,0 @@
+>> -/* SPDX-License-Identifier: GPL-2.0 */
+>> -#ifndef __LINUX_TPM_COMMAND_H__
+>> -#define __LINUX_TPM_COMMAND_H__
+>> -
+>> -/*
+>> - * TPM Command constants from specifications at
+>> - * http://www.trustedcomputinggroup.org
+>> - */
+>> -
+>> -/* Command TAGS */
+>> -#define TPM_TAG_RQU_COMMAND             193
+>> -#define TPM_TAG_RQU_AUTH1_COMMAND       194
+>> -#define TPM_TAG_RQU_AUTH2_COMMAND       195
+>> -#define TPM_TAG_RSP_COMMAND             196
+>> -#define TPM_TAG_RSP_AUTH1_COMMAND       197
+>> -#define TPM_TAG_RSP_AUTH2_COMMAND       198
+>> -
+>> -/* Command Ordinals */
+>> -#define TPM_ORD_OIAP                    10
+>> -#define TPM_ORD_OSAP                    11
+>> -#define TPM_ORD_EXTEND			20
+>> -#define TPM_ORD_SEAL                    23
+>> -#define TPM_ORD_UNSEAL                  24
+>> -#define TPM_ORD_GET_RANDOM              70
+>> -
+>> -/* Other constants */
+>> -#define SRKHANDLE                       0x40000000
+>> -#define TPM_NONCE_SIZE                  20
+>> -
+>> -#endif
+>> diff --git a/include/linux/tpm_common.h b/include/linux/tpm_common.h
+>> new file mode 100644
+>> index 000000000000..b8be669913dd
+>> --- /dev/null
+>> +++ b/include/linux/tpm_common.h
+>> @@ -0,0 +1,22 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (C) 2004,2007,2008 IBM Corporation
+>> + *
+>> + * Authors:
+>> + * Leendert van Doorn <leendert@watson.ibm.com>
+>> + * Dave Safford <safford@watson.ibm.com>
+>> + * Reiner Sailer <sailer@watson.ibm.com>
+>> + * Kylene Hall <kjhall@us.ibm.com>
+>> + * Debora Velarde <dvelarde@us.ibm.com>
+>> + *
+>> + * Maintained by: <tpmdd_devel@lists.sourceforge.net>
+>> + *
+>> + * Device driver for TCG/TCPA TPM (trusted platform module).
+>> + * Specifications at www.trustedcomputinggroup.org
+>> + */
+>> +#ifndef __LINUX_TPM_COMMON_H__
+>> +#define __LINUX_TPM_COMMON_H__
+>> +
+>> +#define TPM_MAX_ORDINAL 243
+>> +
+>> +#endif
+>> diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
+>> index 6e6a9fb48e63..3717a06a5212 100644
+>> --- a/security/keys/trusted-keys/trusted_tpm1.c
+>> +++ b/security/keys/trusted-keys/trusted_tpm1.c
+>> @@ -17,7 +17,6 @@
+>>   #include <keys/trusted-type.h>
+>>   #include <linux/key-type.h>
+>>   #include <linux/tpm.h>
+>> -#include <linux/tpm_command.h>
+>>   
+>>   #include <keys/trusted_tpm.h>
+>>   
+>> diff --git a/security/keys/trusted-keys/trusted_tpm2.c b/security/keys/trusted-keys/trusted_tpm2.c
+>> index 0a99bd051a25..e6000c71eeb6 100644
+>> --- a/security/keys/trusted-keys/trusted_tpm2.c
+>> +++ b/security/keys/trusted-keys/trusted_tpm2.c
+>> @@ -9,7 +9,6 @@
+>>   #include <linux/string.h>
+>>   #include <linux/err.h>
+>>   #include <linux/tpm.h>
+>> -#include <linux/tpm_command.h>
+>>   
+>>   #include <keys/trusted-type.h>
+>>   #include <keys/trusted_tpm.h>
+>> -- 
+>> 2.43.7
+>>
 > 
-> 
-> I think this patch is good, if we just rephrase it slightly.
-> (An EPF driver can send in the same struct bar twice, it just can't
-> modify the current struct bar while it is "in use".)
-> We can probably write this in two paragraphs instead of three.
-> 
-> 
-> Kind regards,
-> Niklas
+> BR, Jarkko
+
+V/r,
+DPS
+
