@@ -1,223 +1,109 @@
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692732253A0;
-	Sun,  1 Feb 2026 07:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.241.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B501E2D061D
+	for <linux-doc@vger.kernel.org>; Sun,  1 Feb 2026 08:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769930577; cv=none; b=B/n5dZq1NYqo7oqtg7dMatkQyP1FyjX+9Vaa/1eaUHnasKmbzZUr5j0aUyuCKOk1LoIyyAa0fpDvZ0322/RsX0Sh+EYL8voMHA2oyl+6VSYiuKzTWrSLEaKQCk6Zf4pNZcrO3ergqcj8bSIHKoVQTgXEdBaP8dfB7dkZEHnovj4=
+	t=1769933405; cv=none; b=BuiBfco+myA8l4Hd76WyeIQglqgVqHpQfDYqwDCoaZvSZMJVdFCE/RO/96DQf3T7gXnY0iAnXWeAg7lZS3SHL1Pzp76YyLznxdG6Y581UJBONqLl07lFdtY0sgaNDYHh45DTPzcQajF8CiUCem+S9V81njuGICDnlt/aPVtzzi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769930577; c=relaxed/simple;
-	bh=tsYztuBMmDw9dhEyvXm134zQnSNewOglMstDiOxHhEs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RGJ+OysOQr/DCo2b57osvwF7JFvuIvFZvz3KB5SdaZm7GtGuXgMsQF8moazzTINVXNUAR0EOzAN/BYEsPE+yfylcZnv3Yx062jWWYmIxou1pWMb5JOyXLETJMV5FIIOeVDdhaa1B1kBOE0q0VVoQhNEJrAKKo5tvNssuDselwgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=iOhL+zKY; arc=none smtp.client-ip=159.100.241.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+	s=arc-20240116; t=1769933405; c=relaxed/simple;
+	bh=weBSH2/B8nDrlAu3pF5x2Dr89pPcOECnGV6bRY1zB1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LKufGM8yX438YtKu4znf6OKCsraXFqPyw93RFrvBAd8J2txIIiDe8PhGkoea8X/tkjWo6AP1Z1tmDKe6W0/6Zr3R0Vf5IfzC6dScS4AHwKZ/5m0o7fKFQRg47siSgn7RQ/mB6S4woY78ByMou9mvR8A7EvdNA1VGOASFoAZzt2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ItGLhCSI; arc=none smtp.client-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="iOhL+zKY"
-Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [144.217.248.100])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id D68EA20229;
-	Sun,  1 Feb 2026 07:22:46 +0000 (UTC)
-Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
-	by relay1.mymailcheap.com (Postfix) with ESMTPS id 97D883E904;
-	Sun,  1 Feb 2026 07:22:38 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 826E0400D5;
-	Sun,  1 Feb 2026 07:22:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1769930557; bh=tsYztuBMmDw9dhEyvXm134zQnSNewOglMstDiOxHhEs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=iOhL+zKYkoaHk3q1iqoOy9vIybwQDY0uOe0dcyxM0fekb06r8/iElx7VHqGrQLrmW
-	 Nq5KtnialzdQJDUTS7l4exM7Cfr1d7oc0NqtorLP9rC03FzHVPirO+E/uGdk6lON0I
-	 AN60QrXkkS2p2R2XBlpim+5ZagooXqlnbQZigupg=
-Received: from liushuyu-p15 (unknown [117.151.13.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id B594B40563;
-	Sun,  1 Feb 2026 07:22:28 +0000 (UTC)
-From: Zixing Liu <liushuyu@aosc.io>
-To: WANG Xuerui <kernel@xen0n.name>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Bibo Mao <maobibo@loongson.cn>
-Cc: Kexy Biscuit <kexybiscuit@aosc.io>,
-	Mingcong Bai <jeffbai@aosc.io>,
-	Zixing Liu <liushuyu@aosc.io>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Tianrui Zhao <zhaotianrui@loongson.cn>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v3] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
-Date: Sun,  1 Feb 2026 15:21:23 +0800
-Message-ID: <20260201072124.566587-1-liushuyu@aosc.io>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItGLhCSI"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2ae2eb49b4bso6720077eec.0
+        for <linux-doc@vger.kernel.org>; Sun, 01 Feb 2026 00:10:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769933403; x=1770538203; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iKJM5FekupxGXax7BEjPAzFs9OgvHeN0OQc3ubwHQ3o=;
+        b=ItGLhCSI3mCVIc1dy8R5odE4pwPM+sxo7HOZynwWuM18Cb7wKqehycOOcKRHKazibj
+         iDVE7PnY6H4/3snh11AX0+KCook2w5K3xaLb7W1c7ciYrnYif5Z8EcwLa5nfFQK8ox/1
+         eq7st4AmDmMf7Db0JGZSpOyiQbxl1dZAHqyjYnfGAhaa7LhXe100pW5UU7qUix62VLO/
+         +HqNq9q62DfTbEN+fKfXllu/Gl2PVe4dZU2M1yzLCFwi4IRx1Drr61vIaK29yC6YPOUB
+         sq8PQPfOvVKTWFMXq3hCgfDJAXjUJdJVhQEei7Fl7f8jbj2oXNeeLfafOBQJC9mhrKV/
+         bGMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769933403; x=1770538203;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iKJM5FekupxGXax7BEjPAzFs9OgvHeN0OQc3ubwHQ3o=;
+        b=WrACOVbt3nv7oEsgouk2pN2ahk273zQwTIYwLFNUk9lmwsZ0XH2a18DsrPwCh/jgIZ
+         dirb06MTEizvzG82XTfA3TrrWk6wkIRDy5OLaslYKZOMYX7AUqnnufdMLJmrGRe4AIWV
+         tBoSEEO/t/ZqEj+15KETgy4YwdieSIyK90WHLGdJoVv5sdgKR934SHvG6zOHWpjTyk79
+         E8gkT+G5k2aWoKIGhEsUyHi74OA4lK760J7Y/mehykUpwn9Nb9icfkqmy15U7QQ22RV2
+         F2vhXY7hJ5knV4I89r5itBHPpUvYA87/cnAV55vrm6B2S7fowwXEvy9mFVPkElt6M2N5
+         3dMA==
+X-Forwarded-Encrypted: i=1; AJvYcCUHuwloKDhID274Lnd3a4uNLHBJE5DjPhvO27T15xij8FY4bqWFPQQxzLOhXpx5XZaqKkhklEgVU7k=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyc0kgvDpraHmjFug8t3L5DEX5fYHx2YfjMYpEPaGcIK6SBSm6Q
+	f1mO8C1Q/fXTG/0W6qSfDNAe8THJOdFshUpzKwn1kHEVU/nFS1pawlMa
+X-Gm-Gg: AZuq6aK/OMDBgawjvZYjrE8qi7/m6vPzHctccDDecYGt6Ci1lDHT4u7PMUe+PgpKsBh
+	S0y0OQnLrJTliK/FRhwySbEXTJvNIbbBD0WOCOrzWGjPTGVjdT95cc8PrCx2Zl7TfdSpuTd5nC7
+	DJmkn8rTquaisPHBidgqa6C9c3f2ArlYTtXatvjBVck0dL9u7bwK1MxSt9nW9N3xA/d64tDk6E/
+	s873E/pkbDchobv2p9LuMAx2KLIyqbofctFilLdbgk7to+pjZG5ecc88h3SMnz4gMVJRyge+v77
+	E1Zlw78Ld8K28J4FYdhJ7je1D7dSW6quAYRirpWB8wwrM/hOwGQvsffOSw0B7gMPMw1KXWXiARW
+	33kHsgcyxgmDz+GWtbDIdkA90yITGjS3nF+1LLcgfmFLMmF8/tZ/N5amGS5QB1jkTVE0vXTJfUl
+	2Ev8xZwKn/QnN8MgOMSM6wblHs
+X-Received: by 2002:a05:7300:2151:b0:2b6:f0fc:8c47 with SMTP id 5a478bee46e88-2b7c8664427mr3028848eec.16.1769933402697;
+        Sun, 01 Feb 2026 00:10:02 -0800 (PST)
+Received: from google.com ([205.220.129.37])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a1add664sm17783605eec.26.2026.02.01.00.09.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Feb 2026 00:10:02 -0800 (PST)
+Date: Sun, 1 Feb 2026 08:09:34 +0000
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Vishnu Sankar <vishnuocv@gmail.com>
+Cc: mpearson-lenovo@squebb.ca, hmh@hmh.eng.br, hansg@kernel.org, 
+	corbet@lwn.net, derekjohn.clark@gmail.com, ilpo.jarvinen@linux.intel.com, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ibm-acpi-devel@lists.sourceforge.net, linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	vsankar@lenovo.com
+Subject: Re: [PATCH v6 1/3] input: trackpoint - Enable doubletap by default
+ on capable devices
+Message-ID: <aX8JwB7F8_ypJRAz@google.com>
+References: <20260127103907.20269-1-vishnuocv@gmail.com>
+ <20260127103907.20269-2-vishnuocv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 826E0400D5
-X-Spamd-Result: default: False [1.40 / 10.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ONE(0.00)[1];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED(0.00)[mail20.mymailcheap.com:rdns,mail20.mymailcheap.com:helo,aosc.io:mid,aosc.io:email,aosc.io:from_smtp,aosc.io:from_mime];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	LOCAL_OUTBOUND(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Rspamd-Action: no action
-X-Rspamd-Server: nf1.mymailcheap.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260127103907.20269-2-vishnuocv@gmail.com>
 
-This ioctl can be used by the userspace applications to determine which
-(special) registers are get/set-able in a meaningful way.
+Hi Vishnu,
 
-This can be very useful for cross-platform VMMs so that they do not have
-to hardcode register indices for each supported architectures.
+On Tue, Jan 27, 2026 at 07:39:05PM +0900, Vishnu Sankar wrote:
+> @@ -470,6 +509,14 @@ int trackpoint_detect(struct psmouse *psmouse, bool set_properties)
+>  		     psmouse->vendor, firmware_id,
+>  		     (button_info & 0xf0) >> 4, button_info & 0x0f);
+>  
+> +	/* Enable doubletap by default on capable devices */
 
-Signed-off-by: Zixing Liu <liushuyu@aosc.io>
----
- Documentation/virt/kvm/api.rst |  2 +-
- arch/loongarch/kvm/vcpu.c      | 81 ++++++++++++++++++++++++++++++++++
- 2 files changed, 82 insertions(+), 1 deletion(-)
+This is obvious from the code, please drop the comment.
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 01a3abef8abb..f46dd8be282f 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -3603,7 +3603,7 @@ VCPU matching underlying host.
- ---------------------
- 
- :Capability: basic
--:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
-+:Architectures: arm64, loongarch, mips, riscv, x86 (if KVM_CAP_ONE_REG)
- :Type: vcpu ioctl
- :Parameters: struct kvm_reg_list (in/out)
- :Returns: 0 on success; -1 on error
-diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
-index 656b954c1134..fb8001deadc9 100644
---- a/arch/loongarch/kvm/vcpu.c
-+++ b/arch/loongarch/kvm/vcpu.c
-@@ -14,6 +14,8 @@
- #define CREATE_TRACE_POINTS
- #include "trace.h"
- 
-+#define NUM_LBT_REGS 6
-+
- const struct _kvm_stats_desc kvm_vcpu_stats_desc[] = {
- 	KVM_GENERIC_VCPU_STATS(),
- 	STATS_DESC_COUNTER(VCPU, int_exits),
-@@ -1186,6 +1188,67 @@ static int kvm_loongarch_vcpu_set_attr(struct kvm_vcpu *vcpu,
- 	return ret;
- }
- 
-+static int kvm_loongarch_walk_csrs(struct kvm_vcpu *vcpu, u64 __user *uindices)
-+{
-+	unsigned int i, count;
-+
-+	for (i = 0, count = 0; i < CSR_MAX_NUMS; i++) {
-+		if (!(get_gcsr_flag(i) & (SW_GCSR | HW_GCSR)))
-+			continue;
-+		const u64 reg = KVM_IOC_CSRID(i);
-+		if (uindices && put_user(reg, uindices++))
-+			return -EFAULT;
-+		count++;
-+	}
-+
-+	return count;
-+}
-+
-+static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
-+{
-+	/* +1 for the KVM_REG_LOONGARCH_COUNTER register */
-+	unsigned long res =
-+		kvm_loongarch_walk_csrs(vcpu, NULL) + KVM_MAX_CPUCFG_REGS + 1;
-+
-+	if (kvm_guest_has_lbt(&vcpu->arch))
-+		res += NUM_LBT_REGS;
-+
-+	return res;
-+}
-+
-+static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
-+					  u64 __user *uindices)
-+{
-+	u64 reg;
-+	unsigned int i;
-+
-+	i = kvm_loongarch_walk_csrs(vcpu, uindices);
-+	if (i < 0)
-+		return i;
-+	uindices += i;
-+
-+	for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
-+		reg = KVM_IOC_CPUCFG(i);
-+		if (put_user(reg, uindices++))
-+			return -EFAULT;
-+	}
-+
-+	reg = KVM_REG_LOONGARCH_COUNTER;
-+	if (put_user(reg, uindices++))
-+		return -EFAULT;
-+
-+	if (!kvm_guest_has_lbt(&vcpu->arch))
-+		return 0;
-+
-+	for (i = 1; i <= NUM_LBT_REGS; i++) {
-+		reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
-+		if (put_user(reg, uindices++))
-+			return -EFAULT;
-+	}
-+
-+	return 0;
-+}
-+
- long kvm_arch_vcpu_ioctl(struct file *filp,
- 			 unsigned int ioctl, unsigned long arg)
- {
-@@ -1251,6 +1314,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
- 		r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
- 		break;
- 	}
-+	case KVM_GET_REG_LIST: {
-+		struct kvm_reg_list __user *user_list = argp;
-+		struct kvm_reg_list reg_list;
-+		unsigned n;
-+
-+		r = -EFAULT;
-+		if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
-+			break;
-+		n = reg_list.n;
-+		reg_list.n = kvm_loongarch_num_regs(vcpu);
-+		if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
-+			break;
-+		r = -E2BIG;
-+		if (n < reg_list.n)
-+			break;
-+		r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
-+		break;
-+	}
- 	default:
- 		r = -ENOIOCTLCMD;
- 		break;
+
+> +	if (trackpoint_is_dt_capable(ps2dev->serio->firmware_id)) {
+> +		if (trackpoint_write(ps2dev, TP_DOUBLETAP, TP_DOUBLETAP_ENABLE))
+> +			psmouse_warn(psmouse, "Failed to enable doubletap: %d\n", error);
+> +		else
+> +			psmouse_info(psmouse, "Doubletap enabled by default!\n");
+
+Drop psmouse_info(), no need to make the driver too noisy.
+
+Otherwise:
+
+
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+
 -- 
-2.52.0
-
+Dmitry
