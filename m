@@ -1,113 +1,243 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB303597B;
-	Sun,  1 Feb 2026 01:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769910323; cv=pass; b=Yw5er7UJOQXmeFkxoBNl6DLVLvn3ZywKd5MwaiX1ZejCPpGSPi2yto2tVF/NffcCbBGTQLSQmceAvXm7Ffnu40ewSi8JuaDM1H7HkaIqqEO+8c0Qr82FOJVD9k2CUB1bbHARZLcTSDEfeXqzOEMkAtrB8CIIlFioIQHpOV0Ggzg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769910323; c=relaxed/simple;
-	bh=+BE/aOCCJtfEvwl/rY/BaFAqJGwQ3CQ/5FKlrXU36Us=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=QGXGgpsLsXx5sd6TbEfQCIA5L+bF1+3+92VRuqIiNGVP0eWdxRkzxhHWGPauMlF5rf7CvLaCNxmP/rF2UHR00WKlnrjiugPtTfetGd+KrgjHsZTHGna4GUXe0f5YGXSN0V93duIb+wQxjnwIrpTFu2UEWziwgnsWxPmLMsdO1g0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=dtTXRY3C; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A6A2652B6
+	for <linux-doc@vger.kernel.org>; Sun,  1 Feb 2026 02:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769913357; cv=none; b=gbFBEL0bpsZ+cKZW2igRDTVUXUhgPUvjQi+DDjiROEzsaARzbcA/Wcde4rXV6pJgqtWOWRi6t+ShtWLodjyQ7JelLWb1gSOhjghYx1wBJGUsFofzLpdA13QZP2Rl/K0LttPNzkWQSkziu+R+QQEeH1zbLkg3b1gxPpXMf/EKA+U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769913357; c=relaxed/simple;
+	bh=vbiqeQeAMOJdDl2w3Y80oOeJ7TUQghamWnPJJUjLEY4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HYOo/NjaBxWdAkd0EUptyQudRAti/Xt5n2pUNGM9BOzao2cm+4G0f6G3hhD/V3zV5IPHDVeEVAXXbhWmsb2cyhaPRhgO0oxhYwMUh8Zrz2qrv/7hEaYDsr8VrJok7G9KCeyzhgnCc4osB6wZTZVhjTWx9VKVbi4ZhowTur2RqHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oQYODOLF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="dtTXRY3C"
-ARC-Seal: i=1; a=rsa-sha256; t=1769910269; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=m0IOtmd5YqZsEJ/pwodTe27kB+pIBoW4WbFCt4/2HBk2Tyt9/b2eRTnA1uPRavHsUryo5b1JYTEe9SLAbB0crrmMEudEl4TsJkKO3IR5978gq57qSeuDs2L7H+cP1GYnCcww/2fzHY5/GKlZ44sjiVOe1BsH0rIylZ+vuyfbA4o=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1769910269; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=IlG1n9BLDZ09VGbQUqKZBipsjvO2o1DnNBZKvwfyDwk=; 
-	b=Ojpcf78xHG+VH9H+S4tL7P1V/m269NAUOSjTzoIIM8q3h4W7dlpZfjFcsLkPiaF/01V1fAHoYWQL9PXFBMa3XLP+/XVrMA0lmtDrMDwyHolxh7K7yAGgMPw4Ub64txwvuhmI8/tXMTRrdlgesIbrau1FQHNZpzUZC7wCS0x/Sag=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=linux.beauty;
-	spf=pass  smtp.mailfrom=me@linux.beauty;
-	dmarc=pass header.from=<me@linux.beauty>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769910269;
-	s=zmail; d=linux.beauty; i=me@linux.beauty;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=IlG1n9BLDZ09VGbQUqKZBipsjvO2o1DnNBZKvwfyDwk=;
-	b=dtTXRY3C6JqHvcRiViY4SIotEiRzuDmvKpN0smf6mdUy9EbPUx+17cTp+tB7l6DW
-	DNIEIc9ABwfrnYBUmYjbx81UkTHolhiu/FCJFUhI2zhKpFifEfGHkycX4AieV/g94sw
-	hKoQa9hMSTG/7r3FxOhs0BZ49csvDBxX4Emz6H2Y=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1769910267415394.81945402914016; Sat, 31 Jan 2026 17:44:27 -0800 (PST)
-Date: Sun, 01 Feb 2026 09:44:27 +0800
-From: Li Chen <me@linux.beauty>
-To: "Jakub Kicinski" <kuba@kernel.org>
-Cc: "Jonathan Corbet" <corbet@lwn.net>,
-	"Pasha Tatashin" <pasha.tatashin@soleen.com>,
-	"Mike Rapoport" <rppt@kernel.org>,
-	"Pratyush Yadav" <pratyush@kernel.org>,
-	"Eric Dumazet" <edumazet@google.com>,
-	"Neal Cardwell" <ncardwell@google.com>,
-	"Kuniyuki Iwashima" <kuniyu@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	"David Ahern" <dsahern@kernel.org>,
-	"Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
-	"Andrew Morton" <akpm@linux-foundation.org>,
-	"Borislav Petkov" <bp@alien8.de>,
-	"Randy Dunlap" <rdunlap@infradead.org>,
-	"Pawan Gupta" <pawan.kumar.gupta@linux.intel.com>,
-	"Petr Mladek" <pmladek@suse.com>,
-	"Feng Tang" <feng.tang@linux.alibaba.com>,
-	"Kees Cook" <kees@kernel.org>, "Li RongQing" <lirongqing@baidu.com>,
-	"Arnd Bergmann" <arnd@arndb.de>,
-	"Askar Safin" <safinaskar@gmail.com>,
-	"Frank van der Linden" <fvdl@google.com>,
-	"linux-doc" <linux-doc@vger.kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"netdev" <netdev@vger.kernel.org>
-Message-ID: <19c16df6e07.5d6555571430461.7492468111934043630@linux.beauty>
-In-Reply-To: <20260130170533.257db5fb@kernel.org>
-References: <20260130145122.368748-1-me@linux.beauty>
-	<20260130145122.368748-4-me@linux.beauty> <20260130170533.257db5fb@kernel.org>
-Subject: Re: [PATCH v1 3/3] liveupdate: suppress TCP RST during post-kexec
- restore window
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oQYODOLF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65DA7C2BCB4
+	for <linux-doc@vger.kernel.org>; Sun,  1 Feb 2026 02:35:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1769913357;
+	bh=vbiqeQeAMOJdDl2w3Y80oOeJ7TUQghamWnPJJUjLEY4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=oQYODOLFFwI1DRbG66HOBvsAPdViI1Xhw/mfZVC8OWDF/eQikTHF9FhlGRRMbHOi+
+	 ZnpkeQkMfM+GnBXErmtlzLA5HGQRA0kX+/teO4XCklzUwYp65mBOgg1bibrc4/lFjT
+	 2IqKTrGFTiP0EAlqOyi1Dc+lnc/jjrWtT8Q6CieddGzLgr/EZk6Ke01//riSqaC2Wb
+	 Lif/YXJSnixpQHWIYAZakSeJ0BipMm+2+RQPv4DsdgVdaW55XeUb+vL6wugKgLCRdS
+	 +dhKjO3X//O1DOavKXTdr7rHJ8MMktBG4m0xtPieG4j4vszQXU0rZqVlhGS/3ceFeT
+	 gNKhmMWICDysA==
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-658f1fde4bfso1609475a12.1
+        for <linux-doc@vger.kernel.org>; Sat, 31 Jan 2026 18:35:57 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV0xRvVg39qwgm7WQaQFuE1Trtrhbhl2261aHtnHuzkUn8uFOci2FP0BCHVsXM6kAl8EIeZ9nFAOFo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxt2/FDgfhK/O7U35bpCUmbJqwN71jkReZnXA0awReodEuL1Og6
+	i3260zN/KXhMn57Rj5L05C1GVd11N/4TtMixqY2m9pYD9l88xO0XbSTuF0rR0BS56wI9xak4nfa
+	ftaFE7AZ9g93XT2GEI2chJpw1xrt/8Zc=
+X-Received: by 2002:a17:906:478b:b0:b8d:f737:ba8a with SMTP id
+ a640c23a62f3a-b8dff430bf3mr475152766b.18.1769913355873; Sat, 31 Jan 2026
+ 18:35:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260131060600.169748-1-liushuyu@aosc.io> <CAAhV-H7g4StjP5fnHVVEyR_xFx9=fg6S9UuHWnPpMV_k=ZVGGw@mail.gmail.com>
+ <b89a22a3-be55-4c86-99e3-84759e362309@aosc.io>
+In-Reply-To: <b89a22a3-be55-4c86-99e3-84759e362309@aosc.io>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sun, 1 Feb 2026 10:35:44 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H7JyzHtBRaB9A7oOdZah75p2tvgPe_XHrVYoO8rZEwQ-g@mail.gmail.com>
+X-Gm-Features: AZwV_QgZwz2tAGpzsIBCY_8QliHVTHc_nrfg8cZfLSpMHtcwuZh8AY9WcbekdZo
+Message-ID: <CAAhV-H7JyzHtBRaB9A7oOdZah75p2tvgPe_XHrVYoO8rZEwQ-g@mail.gmail.com>
+Subject: Re: [PATCH v2 RESEND] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+To: liushuyu <liushuyu@aosc.io>
+Cc: WANG Xuerui <kernel@xen0n.name>, Bibo Mao <maobibo@loongson.cn>, 
+	Kexy Biscuit <kexybiscuit@aosc.io>, Mingcong Bai <jeffbai@aosc.io>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Tianrui Zhao <zhaotianrui@loongson.cn>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
+	linux-riscv@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jakub,
+On Sat, Jan 31, 2026 at 10:09=E2=80=AFPM liushuyu <liushuyu@aosc.io> wrote:
+>
+> Hi Huacai,
+>
+> > Hi, Zixing,
+> >
+> > On Sat, Jan 31, 2026 at 2:07=E2=80=AFPM Zixing Liu <liushuyu@aosc.io> w=
+rote:
+> >> This ioctl can be used by the userspace applications to determine whic=
+h
+> >> (special) registers are get/set-able in a meaningful way.
+> >>
+> >> This can be very useful for cross-platform VMMs so that they do not ha=
+ve
+> >> to hardcode register indices for each supported architectures.
+> >>
+> >> Signed-off-by: Zixing Liu <liushuyu@aosc.io>
+> >> ---
+> >>  Documentation/virt/kvm/api.rst |  2 +-
+> >>  arch/loongarch/kvm/vcpu.c      | 85 +++++++++++++++++++++++++++++++++=
++
+> >>  2 files changed, 86 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/a=
+pi.rst
+> >> index 01a3abef8abb..f46dd8be282f 100644
+> >> --- a/Documentation/virt/kvm/api.rst
+> >> +++ b/Documentation/virt/kvm/api.rst
+> >> @@ -3603,7 +3603,7 @@ VCPU matching underlying host.
+> >>  ---------------------
+> >>
+> >>  :Capability: basic
+> >> -:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
+> >> +:Architectures: arm64, loongarch, mips, riscv, x86 (if KVM_CAP_ONE_RE=
+G)
+> >>  :Type: vcpu ioctl
+> >>  :Parameters: struct kvm_reg_list (in/out)
+> >>  :Returns: 0 on success; -1 on error
+> >> diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
+> >> index 656b954c1134..ed11438f4544 100644
+> >> --- a/arch/loongarch/kvm/vcpu.c
+> >> +++ b/arch/loongarch/kvm/vcpu.c
+> >> @@ -1186,6 +1186,73 @@ static int kvm_loongarch_vcpu_set_attr(struct k=
+vm_vcpu *vcpu,
+> >>         return ret;
+> >>  }
+> >>
+> >> +static int kvm_loongarch_walk_csrs(struct kvm_vcpu *vcpu, u64 __user =
+*uindices)
+> >> +{
+> >> +       unsigned int i, count;
+> >> +
+> >> +       for (i =3D 0, count =3D 0; i < CSR_MAX_NUMS; i++) {
+> >> +               if (!(get_gcsr_flag(i) & (SW_GCSR | HW_GCSR)))
+> >> +                       continue;
+> >> +               const u64 reg =3D KVM_IOC_CSRID(i);
+> >> +               if (uindices && put_user(reg, uindices++))
+> >> +                       return -EFAULT;
+> >> +               count++;
+> >> +       }
+> >> +
+> >> +       return count;
+> >> +}
+> >> +
+> >> +static unsigned long kvm_loongarch_num_lbt_regs(void)
+> >> +{
+> >> +       /* +1 for the LBT_FTOP flag (inside arch.fpu) */
+> >> +       return sizeof(struct loongarch_lbt) / sizeof(unsigned long) + =
+1;
+> >> +}
+> > This function has only one line, I think it is better to embed it into
+> > the caller.
+>
+> This function was used twice in this patch. If the hardware gained more
+> LBT registers that are not recorded in `struct loongarch_lbt` in the
+> future, I am afraid changing manually inlined logic will be a bit
+> error-prone.
+If this really happens, how to keep compatibility?
 
- > On Fri, 30 Jan 2026 22:51:19 +0800 Li Chen wrote:
- > > During a kexec-based live update, userspace may restore established TCP
- > > connections after the new kernel has booted (e.g. via CRIU). Any packet
- > > arriving for a not-yet-restored socket will hit the no-socket path and
- > > trigger a TCP RST, causing the peer to immediately drop the connection.
- > 
- > Can you not add a filter to simply drop those packets until workload is
- > running again? It'd actually be less racy than this hac^w patch ...
- > 
+>
+> Maybe one compromise would be making this a `const` variable somewhere
+> in this file instead of a function? What do you think?
 
-Thanks for the suggestion.
+I think the best way is
+#define NUM_LBT_REGS 6
+in this file.
 
-When you say "add a filter", do you mean installing a temporary drop rule
-(nftables/iptables/tc) in the network domain which does not get rebooted by
-kexec (e.g. LB/ToR/host firewall), so packets never reach the new kernel
-until the workload is restored and ready?
+Huacai
 
-If you meant a filter inside the kexec'ed kernel, I'm worried it won't cover
-the critical window: kexec resets the ruleset, so we'd have to install the
-drop rule extremely early (initramfs) before any packets hit the no-socket
-path, which still seems inherently racy.
-
-If the expectation is to drain/blackhole traffic externally and re-enable it
-once the workload is running again, I can rework the series to keep only the
-restore-window tracking plus a clear "restore done" control plane, and rely
-on the external filter for the data plane.
-
-Regards
-Li
+>
+> > Huacai
+>
+> Thanks,
+>
+> Zixing
+>
+> >> +
+> >> +static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
+> >> +{
+> >> +       /* +1 for the KVM_REG_LOONGARCH_COUNTER register */
+> >> +       unsigned long res =3D
+> >> +               kvm_loongarch_walk_csrs(vcpu, NULL) + KVM_MAX_CPUCFG_R=
+EGS + 1;
+> >> +
+> >> +       if (kvm_guest_has_lbt(&vcpu->arch))
+> >> +               res +=3D kvm_loongarch_num_lbt_regs();
+> >> +
+> >> +       return res;
+> >> +}
+> >> +
+> >> +static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
+> >> +                                         u64 __user *uindices)
+> >> +{
+> >> +       u64 reg;
+> >> +       unsigned int i;
+> >> +
+> >> +       i =3D kvm_loongarch_walk_csrs(vcpu, uindices);
+> >> +       if (i < 0)
+> >> +               return i;
+> >> +       uindices +=3D i;
+> >> +
+> >> +       for (i =3D 0; i < KVM_MAX_CPUCFG_REGS; i++) {
+> >> +               reg =3D KVM_IOC_CPUCFG(i);
+> >> +               if (put_user(reg, uindices++))
+> >> +                       return -EFAULT;
+> >> +       }
+> >> +
+> >> +       reg =3D KVM_REG_LOONGARCH_COUNTER;
+> >> +       if (put_user(reg, uindices++))
+> >> +               return -EFAULT;
+> >> +
+> >> +       if (!kvm_guest_has_lbt(&vcpu->arch))
+> >> +               return 0;
+> >> +
+> >> +       for (i =3D 1; i <=3D kvm_loongarch_num_lbt_regs(); i++) {
+> >> +               reg =3D (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i)=
+;
+> >> +               if (put_user(reg, uindices++))
+> >> +                       return -EFAULT;
+> >> +       }
+> >> +
+> >> +       return 0;
+> >> +}
+> >> +
+> >>  long kvm_arch_vcpu_ioctl(struct file *filp,
+> >>                          unsigned int ioctl, unsigned long arg)
+> >>  {
+> >> @@ -1251,6 +1318,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+> >>                 r =3D kvm_loongarch_vcpu_set_attr(vcpu, &attr);
+> >>                 break;
+> >>         }
+> >> +       case KVM_GET_REG_LIST: {
+> >> +               struct kvm_reg_list __user *user_list =3D argp;
+> >> +               struct kvm_reg_list reg_list;
+> >> +               unsigned n;
+> >> +
+> >> +               r =3D -EFAULT;
+> >> +               if (copy_from_user(&reg_list, user_list, sizeof(reg_li=
+st)))
+> >> +                       break;
+> >> +               n =3D reg_list.n;
+> >> +               reg_list.n =3D kvm_loongarch_num_regs(vcpu);
+> >> +               if (copy_to_user(user_list, &reg_list, sizeof(reg_list=
+)))
+> >> +                       break;
+> >> +               r =3D -E2BIG;
+> >> +               if (n < reg_list.n)
+> >> +                       break;
+> >> +               r =3D kvm_loongarch_copy_reg_indices(vcpu, user_list->=
+reg);
+> >> +               break;
+> >> +       }
+> >>         default:
+> >>                 r =3D -ENOIOCTLCMD;
+> >>                 break;
+> >> --
+> >> 2.52.0
+> >>
+>
