@@ -1,83 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 964BD3EBF1F;
-	Sun,  1 Feb 2026 00:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769906719; cv=none; b=OlNwRV7bBYQPxhvxF+DVgdiw3CmZkTq2VQwCZgUBMTymfGI7cXXTT4cAhj9CN8cmytc5vpIQPwnhhHFnMEoMWo2M/YFBwWFmS8s7QENJcZ2s5s35fpj3EAJlgyP0MKxGqff26FjnYMxjMFUxK5hdnC9mh17nqhWc/4+Lo7PB9ZA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769906719; c=relaxed/simple;
-	bh=3H50njZHf/MxF1LMF+V5Pv639i4KiMLWrfP4zBIYZyI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XFSlELtCOYrfIVXq1ybsR55Zi0wfEEaM8bBuKqp/yfx04GDMqKCoTpEmyvp4D3IRcYjOWQrmX9vURq0a4X7my5A3cMHjVX3In5SGh/VkOF1a6QjO9q+lHfvFnYtzMKbuL/9PyL1xmOtcIsmX693ppHyRdyRX7kzW0ES+Y3sS4Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S7bY3VXT; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB303597B;
+	Sun,  1 Feb 2026 01:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1769910323; cv=pass; b=Yw5er7UJOQXmeFkxoBNl6DLVLvn3ZywKd5MwaiX1ZejCPpGSPi2yto2tVF/NffcCbBGTQLSQmceAvXm7Ffnu40ewSi8JuaDM1H7HkaIqqEO+8c0Qr82FOJVD9k2CUB1bbHARZLcTSDEfeXqzOEMkAtrB8CIIlFioIQHpOV0Ggzg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1769910323; c=relaxed/simple;
+	bh=+BE/aOCCJtfEvwl/rY/BaFAqJGwQ3CQ/5FKlrXU36Us=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=QGXGgpsLsXx5sd6TbEfQCIA5L+bF1+3+92VRuqIiNGVP0eWdxRkzxhHWGPauMlF5rf7CvLaCNxmP/rF2UHR00WKlnrjiugPtTfetGd+KrgjHsZTHGna4GUXe0f5YGXSN0V93duIb+wQxjnwIrpTFu2UEWziwgnsWxPmLMsdO1g0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty; spf=pass smtp.mailfrom=linux.beauty; dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b=dtTXRY3C; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.beauty
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.beauty
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S7bY3VXT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 165EBC4CEF1;
-	Sun,  1 Feb 2026 00:45:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1769906719;
-	bh=3H50njZHf/MxF1LMF+V5Pv639i4KiMLWrfP4zBIYZyI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=S7bY3VXTi93jajlzzf9u55uwY1CbLXh0X1C+sbA+21hInHUw0Fpej/aYRhSU3/jXh
-	 nBooIc/RlWsgFA/cGDkdsLhGmVYdaNWGpjHaWxhjtx4sMbsZcqB5HAQtYYHzIOJdhm
-	 lrkfaUHOyP5Vf6mqT/2D3UFb/0eGVCbrSV9yENRYzeN5a5FEJpzGjms7dHoravUEi/
-	 B05bkLXi+uGuGGJ5x1xp8hbG3dZFgWdNAsgNoCWEHTs7/m/EsK03somqEOGxIrna83
-	 xZHPgiuGZS5Wd8T2nPL9S3XufRfuaV1SRvpVzRDh0v0lK25et8Bkl0zgfD/id0oj3/
-	 TSKJyytk0CGZQ==
-Date: Sat, 31 Jan 2026 16:45:16 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: chia-yu.chang@nokia-bell-labs.com
-Cc: tariqt@nvidia.com, linux-rdma@vger.kernel.org, shaojijie@huawei.com,
- shenjian15@huawei.com, salil.mehta@huawei.com, mbloch@nvidia.com,
- saeedm@nvidia.com, leon@kernel.org, eperezma@redhat.com,
- brett.creeley@amd.com, jasowang@redhat.com, virtualization@lists.linux.dev,
- mst@redhat.com, xuanzhuo@linux.alibaba.com, pabeni@redhat.com,
- edumazet@google.com, parav@nvidia.com, linux-doc@vger.kernel.org,
- corbet@lwn.net, horms@kernel.org, dsahern@kernel.org, kuniyu@google.com,
- bpf@vger.kernel.org, netdev@vger.kernel.org, dave.taht@gmail.com,
- jhs@mojatatu.com, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
- jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
- donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
- shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
- ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
- g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
- mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
- Jason_Livingood@comcast.com, vidhi_goel@apple.com
-Subject: Re: [PATCH v1 net-next 0/3] ECN offload handling for AccECN series
-Message-ID: <20260131164516.4a423230@kernel.org>
-In-Reply-To: <20260131225510.2946-1-chia-yu.chang@nokia-bell-labs.com>
-References: <20260131225510.2946-1-chia-yu.chang@nokia-bell-labs.com>
+	dkim=pass (1024-bit key) header.d=linux.beauty header.i=me@linux.beauty header.b="dtTXRY3C"
+ARC-Seal: i=1; a=rsa-sha256; t=1769910269; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=m0IOtmd5YqZsEJ/pwodTe27kB+pIBoW4WbFCt4/2HBk2Tyt9/b2eRTnA1uPRavHsUryo5b1JYTEe9SLAbB0crrmMEudEl4TsJkKO3IR5978gq57qSeuDs2L7H+cP1GYnCcww/2fzHY5/GKlZ44sjiVOe1BsH0rIylZ+vuyfbA4o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1769910269; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=IlG1n9BLDZ09VGbQUqKZBipsjvO2o1DnNBZKvwfyDwk=; 
+	b=Ojpcf78xHG+VH9H+S4tL7P1V/m269NAUOSjTzoIIM8q3h4W7dlpZfjFcsLkPiaF/01V1fAHoYWQL9PXFBMa3XLP+/XVrMA0lmtDrMDwyHolxh7K7yAGgMPw4Ub64txwvuhmI8/tXMTRrdlgesIbrau1FQHNZpzUZC7wCS0x/Sag=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=linux.beauty;
+	spf=pass  smtp.mailfrom=me@linux.beauty;
+	dmarc=pass header.from=<me@linux.beauty>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1769910269;
+	s=zmail; d=linux.beauty; i=me@linux.beauty;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=IlG1n9BLDZ09VGbQUqKZBipsjvO2o1DnNBZKvwfyDwk=;
+	b=dtTXRY3C6JqHvcRiViY4SIotEiRzuDmvKpN0smf6mdUy9EbPUx+17cTp+tB7l6DW
+	DNIEIc9ABwfrnYBUmYjbx81UkTHolhiu/FCJFUhI2zhKpFifEfGHkycX4AieV/g94sw
+	hKoQa9hMSTG/7r3FxOhs0BZ49csvDBxX4Emz6H2Y=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1769910267415394.81945402914016; Sat, 31 Jan 2026 17:44:27 -0800 (PST)
+Date: Sun, 01 Feb 2026 09:44:27 +0800
+From: Li Chen <me@linux.beauty>
+To: "Jakub Kicinski" <kuba@kernel.org>
+Cc: "Jonathan Corbet" <corbet@lwn.net>,
+	"Pasha Tatashin" <pasha.tatashin@soleen.com>,
+	"Mike Rapoport" <rppt@kernel.org>,
+	"Pratyush Yadav" <pratyush@kernel.org>,
+	"Eric Dumazet" <edumazet@google.com>,
+	"Neal Cardwell" <ncardwell@google.com>,
+	"Kuniyuki Iwashima" <kuniyu@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	"David Ahern" <dsahern@kernel.org>,
+	"Paolo Abeni" <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>,
+	"Andrew Morton" <akpm@linux-foundation.org>,
+	"Borislav Petkov" <bp@alien8.de>,
+	"Randy Dunlap" <rdunlap@infradead.org>,
+	"Pawan Gupta" <pawan.kumar.gupta@linux.intel.com>,
+	"Petr Mladek" <pmladek@suse.com>,
+	"Feng Tang" <feng.tang@linux.alibaba.com>,
+	"Kees Cook" <kees@kernel.org>, "Li RongQing" <lirongqing@baidu.com>,
+	"Arnd Bergmann" <arnd@arndb.de>,
+	"Askar Safin" <safinaskar@gmail.com>,
+	"Frank van der Linden" <fvdl@google.com>,
+	"linux-doc" <linux-doc@vger.kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"netdev" <netdev@vger.kernel.org>
+Message-ID: <19c16df6e07.5d6555571430461.7492468111934043630@linux.beauty>
+In-Reply-To: <20260130170533.257db5fb@kernel.org>
+References: <20260130145122.368748-1-me@linux.beauty>
+	<20260130145122.368748-4-me@linux.beauty> <20260130170533.257db5fb@kernel.org>
+Subject: Re: [PATCH v1 3/3] liveupdate: suppress TCP RST during post-kexec
+ restore window
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-On Sat, 31 Jan 2026 23:55:07 +0100 chia-yu.chang@nokia-bell-labs.com
-wrote:
-> ---
-> v2:
-> - Replace VIRTIO_NET_HDR_GSO_ECN with VIRTIO_NET_HDR_GSO_ECN_FLAGS
+Hi Jakub,
 
-For the future:
+ > On Fri, 30 Jan 2026 22:51:19 +0800 Li Chen wrote:
+ > > During a kexec-based live update, userspace may restore established TCP
+ > > connections after the new kernel has booted (e.g. via CRIU). Any packet
+ > > arriving for a not-yet-restored socket will hit the no-socket path and
+ > > trigger a TCP RST, causing the peer to immediately drop the connection.
+ > 
+ > Can you not add a filter to simply drop those packets until workload is
+ > running again? It'd actually be less racy than this hac^w patch ...
+ > 
 
-Quoting documentation:
+Thanks for the suggestion.
 
-  Limit patches outstanding on mailing list
-  -----------------------------------------
-  
-  Avoid having more than 15 patches, across all series, outstanding for
-  review on the mailing list for a single tree. In other words, a maximum of
-  15 patches under review on net, and a maximum of 15 patches under review on
-  net-next.
-  
-  This limit is intended to focus developer effort on testing patches before
-  upstream review. Aiding the quality of upstream submissions, and easing the
-  load on reviewers.
-    
-See: https://www.kernel.org/doc/html/next/process/maintainer-netdev.html#limit-patches-outstanding-on-mailing-list
+When you say "add a filter", do you mean installing a temporary drop rule
+(nftables/iptables/tc) in the network domain which does not get rebooted by
+kexec (e.g. LB/ToR/host firewall), so packets never reach the new kernel
+until the workload is restored and ready?
+
+If you meant a filter inside the kexec'ed kernel, I'm worried it won't cover
+the critical window: kexec resets the ruleset, so we'd have to install the
+drop rule extremely early (initramfs) before any packets hit the no-socket
+path, which still seems inherently racy.
+
+If the expectation is to drain/blackhole traffic externally and re-enable it
+once the workload is running again, I can rework the series to keep only the
+restore-window tracking plus a clear "restore done" control plane, and rely
+on the external filter for the data plane.
+
+Regards
+Li
