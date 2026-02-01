@@ -1,104 +1,120 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A38E2773FC
-	for <linux-doc@vger.kernel.org>; Sun,  1 Feb 2026 17:10:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB45287268
+	for <linux-doc@vger.kernel.org>; Sun,  1 Feb 2026 18:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1769965819; cv=none; b=J+UMtv+9gR/TdSddn6mBJWc6F7JKUfY6Nw+NM48q1PiV9ywoOvZ+EBi39bB0foF0qS1Z2zAlOxqPTVcHv6lAwvFex6JoSXM5PsN2LyuRL1JB80GY7iR+paoepv9JFsKpyKZ9sgvfTgvVX2weXPadAeMPdmjipntD6JEchizeWss=
+	t=1769970828; cv=none; b=LV0LrWLVvdKUGmlobRSx/RYauuGOh5kQ5ZeGS3P0UxEkoycuaLx+KSp6x3GAy5shoVRjoeYv6Bs4sxG40PMVwiZ10jGql7W39dFjoeC0DQEMx1CunhleqJZSsLF1xYz1t1uzPm7Y/+1OIenC1x3+6vU891hz34FEsBNtLQWppKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1769965819; c=relaxed/simple;
-	bh=l1Wbi14WkrPKE6m94OU3++sRcIxnpCP514pJT2bxYMQ=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=D5D1zaI6lAHxyBP8e6zObY/jMMT37nJNyXSTRIEFtT8lfT2BZ3p5/Fhcb5n0m990G/hzVu3pi42cdyqhDRaCzfuX8b6nnHYzVsBuUwLtQbPbDfc091ZvijPHqNjDoDs5rAOOkh/rm+DrgeuwjWKpiJXPgcPhTHK+FUamfYZHAOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cxievbm/; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1769970828; c=relaxed/simple;
+	bh=9aHRWQRIj+vjq7aojPwZL22fm2LfK7+rNgxELwFuuaI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QvZZtOtK0npS30ifx3GFPVqkmAmO/5F054mEUkrofU3D7eru0l8spUz5PZMvStRP1zbkPo+gLn8AifSPVTcYneRdray9tQjCpNPNqn70vs2tSxILFSahRhiHZA6Dg4eGUe0JHNN6VkUSJzJbvacOdOTqbC6FWmoQ+85Jn60P9Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BR0h5R6L; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cxievbm/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1769965817;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=AXzGf8dg7zdwjSpH9NQ85FkESCYj8y44yqTfJ6FGfkQ=;
-	b=Cxievbm/9L3y0fPhfQsugjyYs+9a1OhKAZQDiksrVRfDtB/5XJbNMQeSvQySx+Rpy+d3QN
-	u01eD5SykEE9EE8NlQI9wYWmX0xBijz9lXCXtGJqKaO9ubOKfSQeWeUTII1JVvVKXUqmeJ
-	pN+ic6i9IaslbC6q1C+c+7yiFuProWg=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-479-oQw7rZraM7KagOwiXj8BJg-1; Sun,
- 01 Feb 2026 12:10:11 -0500
-X-MC-Unique: oQw7rZraM7KagOwiXj8BJg-1
-X-Mimecast-MFC-AGG-ID: oQw7rZraM7KagOwiXj8BJg_1769965807
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 99D621956066;
-	Sun,  1 Feb 2026 17:10:04 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.44.33.164])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3D41A18004D8;
-	Sun,  1 Feb 2026 17:09:50 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20260131073636.65494-1-mcaju95@gmail.com>
-References: <20260131073636.65494-1-mcaju95@gmail.com> <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
-To: =?us-ascii?Q?=3D=3FUTF-8=3Fq=3FMihai-Drosi=3D20C=3DC3=3DA2ju=3F=3D?= <mcaju95@gmail.com>
-Cc: dhowells@redhat.com, linux@weissschuh.net, arnd@arndb.de,
-    arnout@bzzt.net, atomlin@atomlin.com, bigeasy@linutronix.de,
-    chleroy@kernel.org, christian@heusel.eu, corbet@lwn.net,
-    coxu@redhat.com, da.gomez@kernel.org, da.gomez@samsung.com,
-    dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
-    f.gruenbichler@proxmox.com, jmorris@namei.org, kpcyrd@archlinux.org,
-    linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-    linux-integrity@vger.kernel.org, linux-kbuild@vger.kernel.org,
-    linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
-    linux-security-module@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-    lkp@intel.com, maddy@linux.ibm.com, mattia@mapreri.org,
-    mcgrof@kernel.org, mpe@ellerman.id.au, nathan@kernel.org,
-    naveen@kernel.org, nicolas.bouchinet@oss.cyber.gouv.fr,
-    nicolas.schier@linux.dev, npiggin@gmail.com, nsc@kernel.org,
-    paul@paul-moore.com, petr.pavlu@suse.com, roberto.sassu@huawei.com,
-    samitolvanen@google.com, serge@hallyn.com, xiujianfeng@huawei.com,
-    zohar@linux.ibm.com
-Subject: Re: [PATCH v4 00/17] module: Introduce hash-based integrity checking
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BR0h5R6L"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47edd9024b1so29163255e9.3
+        for <linux-doc@vger.kernel.org>; Sun, 01 Feb 2026 10:33:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769970825; x=1770575625; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TcfKK1uOL+FesMU0XVhvzXmDqRlJZPCMwhVufj0BSo0=;
+        b=BR0h5R6LVGfH0tfCQCAEQb/0vWuK/xFRFuyNVwleUEo8l9QpiyVy7NlSx82+Dk8TbZ
+         0KeBwzLECaKNXmuHFSAhxK8NKmZQlIrdgtUfDE4m2LNDnKZZBFEHMOIIqK1g3sUcHuDd
+         /b67jfVidRmC8Ozue5HTCdzHU9Sf1naIlan5bX3AQkopetJ3dR0cFojzc9LQrWfHSiNe
+         aiV5/rEz2tjGnP/tAiBmRxuT1v+E9vkBZmB5P94BIsvaOBAnzzhq6CcHTUwiwEBQGwF7
+         Gz0TvASRdo38a0rdeznpf6+7keGJ8PbOo8X/dcwBeP171ns5U43qam3M/tvi6IQ9VyZd
+         ++WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769970825; x=1770575625;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TcfKK1uOL+FesMU0XVhvzXmDqRlJZPCMwhVufj0BSo0=;
+        b=Gp+shogkK1sgZQCv/Ow6KNwP/z9I/9t9RDYcxcuO0tGaaEVIAmVJrQGkQDSZkkhQ5w
+         ja/aOeTg+HRS6hkYGaCkgNCAt9WJtXDdk4efqTKywI/dpoNnJDs6yCDBq5TkVkO2zDPl
+         7R4Dg1S3imsxkF09vQuDs5rTvHq6qpIQlwlZdNOucTvb4rFXd8myKC85WuL01OEEH8hY
+         yFiFjH504l/5ClOK2oGYdXkWMwvE+Dmysqyd0ScFR1WmE5fAsATEd14o2NqLgTExVFnQ
+         9Kru3FYK8HUgvQLTfvlKT6Kzn9vhbGfJhgE5drJRiY5GRlhYgDW1GcGscjcvICSyuf4i
+         Us5A==
+X-Forwarded-Encrypted: i=1; AJvYcCXPz42iwUiNwraZ9N/M3I/u/ihp7J5NWNozv9eqNyj5BzKUhNEQ6MJFgD2V9XRXWSZ7WKSHzGp+QWQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxH+UIjvsSUo5fZn4P5uvsZ8Z2iG+vXo6pcb9sDDBoODbrcSyUr
+	EYIlGLVChP6Dx5FkIBVI2nkXC6akydjOk7v1b9dXipgd879gS9pig5qk
+X-Gm-Gg: AZuq6aJk/3A4Nw1ULmD21MxGD14SR3/kNrMgXmQoK2QKo5SruCO0OUErrDGNzCRuuCx
+	CKE0Ml0MlLXa2NIK1mDLCoQvff0Vw3a7WX9K0tickIh2qsDTdeLOARYrNjFKJZ9MrHVVbriAfZu
+	pYq5Y4VjPGpTafRMwwZYuBpZScLmjtU6R591T5i1mUBJlEhye/3xCtKVWmFlHuFWWkPDjKIozLP
+	253PtBmcV87cxvOpDxoUeAiTfcko705DJQG9vtusyKDOQeyp93p47NQm1eAn/SSxxNlW3/0gMc+
+	V1IdcMi+YWEeOF1A1wseXMi/3Aks9xYBn9PBp65JU+QEh5ekWWCXEjTxihRWU/goM4DdtgxZPgq
+	24yys/PNz5cCC0PBfJpyzAZdH6qH+Q1/8UqtSYTbTakHAjEKAn4dxkaf25Pr4M1cgIvvVJrCU3f
+	WKlE6AuSBLfArGlN2H1VOIiPKanMHz1QgYeX2uqmegpFHXrw==
+X-Received: by 2002:a05:600c:3586:b0:477:582e:7a81 with SMTP id 5b1f17b1804b1-482db45237cmr145131415e9.4.1769970824962;
+        Sun, 01 Feb 2026 10:33:44 -0800 (PST)
+Received: from DB-VM.1337.ma ([197.230.240.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10edf62sm41400084f8f.13.2026.02.01.10.33.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Feb 2026 10:33:44 -0800 (PST)
+From: Taha Ed-Dafili <0rayn.dev@gmail.com>
+To: jic23@kernel.org
+Cc: me@brighamcampbell.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees-archive@lists.linuxfoundation.org,
+	rdunlap@infradead.org,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	corbet@lwn.net,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Taha Ed-Dafili <0rayn.dev@gmail.com>
+Subject: [PATCH v2 0/4] iio: accel: adxl345: Add event scaling and doc fixes
+Date: Sun,  1 Feb 2026 13:33:09 -0500
+Message-ID: <20260201183320.27023-1-0rayn.dev@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 01 Feb 2026 17:09:48 +0000
-Message-ID: <2316630.1769965788@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Transfer-Encoding: 8bit
 
-Mihai-Drosi C=C3=A2ju <mcaju95@gmail.com> wrote:
+This series addresses ADXL345 driver non-compliance with the IIO ABI
+for event thresholds, following feedback from Jonathan Cameron on v1.
 
-> > The current signature-based module integrity checking has some drawbacks
-> in combination with reproducible builds. Either the module signing key
-> is generated at build time, which makes the build unreproducible, or a
-> static signing key is used, which precludes rebuilds by third parties
-> and makes the whole build and packaging process much more complicated.
+Core Changes: During development, I noticed IIO_EV_INFO_SCALE was missing
+from the internal IIO core. I've added this constant to the iio_event_info
+enum to allow proper ABI compliance. I would appreciate a sanity check on
+this infrastructure change.
 
-There is another issue too: If you have a static private key that you use to
-sign modules (and probably other things), someone will likely give you a GPL
-request to get it.
+Testing: This series is compile-tested only, as I do not have access to
+physical hardware. Implementation is based on the ADXL345 datasheet.
 
-One advantage of using a transient key every build and deleting it after is
-that no one has the key.
+Changes since v1:
+- Added core infrastructure for IIO_EV_INFO_SCALE.
+- Implemented event scaling (0.612915 m/s2) for ADXL345.
+- Fixed technical math/decimal errors in existing documentation.
+- Cleaned up grammar and pluralization issues in .rst file.
 
-One other thing to remember: security is *meant* to get in the way.  That's
-the whole point of it.
+Many thanks to Jonathan Cameron for the detailed guidance on v1.
 
-However, IANAL.
+Taha Ed-Dafili (4):
+  docs: iio: adxl345: fix typos and grammar
+  iio: core: Add IIO_EV_INFO_SCALE to event info
+  iio: accel: adxl345: Implement event scaling for ABI compliance
+  docs: iio: adxl345: update math and examples for scaling
 
-David
+ Documentation/iio/adxl345.rst    | 63 +++++++++++++++++++-------------
+ drivers/iio/accel/adxl345_core.c | 28 +++++++++++---
+ drivers/iio/industrialio-event.c |  1 +
+ include/linux/iio/types.h        |  1 +
+ 4 files changed, 62 insertions(+), 31 deletions(-)
+
+-- 
+2.47.3
 
