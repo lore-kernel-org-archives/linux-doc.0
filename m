@@ -1,95 +1,125 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D455937AA8E
-	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 15:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BEB2248A8
+	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 15:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770046214; cv=none; b=bR+acQXcDK5qZc36HeJdyNyGDEopqfC6ZcDvPQFp7Z9IL+SttrrfTIcGf2SAv9r9MJ4m8StL21xiq6WJmooiAdo2T396eDKP966Q+7EK4E4fEmlqtQb9Anibk5AkH3po6dUkg5MjgOcFCfz3dU1q4dk8azfo2X9AnfuhmahtrQU=
+	t=1770046309; cv=none; b=sut5pm//HDpR+BK5yDVvc1+jx5wOUTy+lglw6/DdvkqwbO3/Xlv/lppGo9eWbFJjxMON3Th27HH/gX05Wm27DGMcy6lxJCQ7LVX4bE92gJlJwDjyMb67g2Rqmbm6XeaVtrtULTtLxtj3GPbyviAYB7p+qkh4218Sn4soS+A1vMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770046214; c=relaxed/simple;
-	bh=2k/8afkIWZSdo5QciZuWLdMGT4c5f0pC782XI+ZtzX0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B1LFq4rR9ekTjQhHlmUiC6uhp8X2am/aaMV9GpKRQ69tQKOPcT7PvgjUC0JggKG4UQoM4hiWN/ZCx3rSKZxRLYmo8B38qY1Uz5ENxqELCK0NEk28unJA0Z6OgNrafwsh+LEbwbmprHVZ24m+UJE1WnSNPihUC1zxQJzNFsamOF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cqf31olL; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770046309; c=relaxed/simple;
+	bh=HaSLdUfjo+ndtARltuxzMFZ7pO7xIlqmAt9VSiMwTRs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rOe1SIgt61xg7XP0n9YmsASWKdz4cryLV/xznKP5Op2Ce9NIcxXWts/sjrb9N3xa6TLGBIup2Nn4H9pkgiEAdt99Mq+X7ytG5biho6ndvAd/FUNgApiosYsrLlM1eOr2JHjhe6EspcGCiCZ/DprAXyvf6CG8zKh/dqQo3EOfx4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=C08Ey6VJ; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cqf31olL"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48068127f00so39301925e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 07:30:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="C08Ey6VJ"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-45c87d82bd2so3088254b6e.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 07:31:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770046211; x=1770651011; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2k/8afkIWZSdo5QciZuWLdMGT4c5f0pC782XI+ZtzX0=;
-        b=Cqf31olLhPIvPianEIQCbpnC/6hFeOVEgBOcZVobl6/XNsiAiy7iEMNx954WGA1SB7
-         jc7UsQT2IXBjAjCvVERBdyWvx+MCQInqiqRH8CCZsIkmFNw8WYOuzW1elrlWFlYz73cM
-         0eZYQ+mRKshrcSWkbu0J4f/YXfkY6C+8ljODwRupLIcNhHcywSeSnAT4v/NfdbwL2zMs
-         pZNc8TXDBz4T4zKOe5iDy1LTzj1Mn3T7Bc3gJxaEc37XxUVW72jcbfJBHLPV9axR/qS0
-         tOH/Ld1SwOTH/XYdxtFTm2RXSGeOvK6c/JsVACgHiiqVGexH8lCDnGHd582Z/Luf5Im7
-         jSEA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770046306; x=1770651106; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kgPLskVZbsnwpPXjI0Uy3xPQbW7GUfPIAOi3y1K2veg=;
+        b=C08Ey6VJLhV/xq7zMUwqu2azzvc9O3JrazCwCqVbNxkkSX+hLHSDRnlEmlUeLQZA+0
+         mbMA56P9TG1iG+tzRuInFnxU4AUmjsCHvEd5AXyIcEYztETIsOIpqWaumLW1OCn1iFLa
+         DvH4fLVc8E+1RwUVQzPCucACg7Mu4DE1+yd1XRYYke9PBHZE4Up5xexj51r9TeiFm7f0
+         4OJX/gXV9tyPD34EY4Q+0oKtVP/ZsOFNuJiFob+inThg5Wbg+dLCYWBfV0je+65RP7/y
+         Sg7EaDe9XwHxxRKfthe6NcbyctS2OfSUrDPWv9fckpYOKKBOmBuZfNRsP9D0sbhz63GQ
+         LBMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770046211; x=1770651011;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2k/8afkIWZSdo5QciZuWLdMGT4c5f0pC782XI+ZtzX0=;
-        b=kx7wnW/2BWec5azerGv2jcpUvcX+idPsafWVu/BCZXam6C6vbYfK75HqlOYapUr6yD
-         FGB/rGqs6Kig/ucxXcjsio3gsRO5JENpCwHmbKyzSqQFqi/oEHKWvGwRjFdHBSz9GDQs
-         2+cUKcQiRfYBAqrT8GOjl5+++TB79KyuldeGVsTG0as+RbJ72QXsAc7EAtInVFNzsGxD
-         vz+uCab7e6GIeRmocmA0jI4lV/Nl3Vw2A9kG63xSLp+70mIXhh8QpsyYJ5yhSgRWxAME
-         wjWtPt4RzFmeosYmU4g+F2Xa0jmTjB6pu1llU1xKHjacjHYoehTFmvVrXg2OJHr8P6CX
-         MuIA==
-X-Forwarded-Encrypted: i=1; AJvYcCUalo/63P/K/Yf43Iiyd9H1CP9E2HrrvB2/IsE68b759dmfG9NRs1PZVIPeWY8LNINJs43nAiUA3PM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzijVJr5pqmDgcwtHDTo3MetjR/NgvH+JzVT3aR2cTMzrCtdemm
-	FRLJzSjBis50XEazcQHDCo4yd72JLAwXIsDYGrX7YFHn+3WOpXIgmFGn
-X-Gm-Gg: AZuq6aIPQExo2v2rKZQNLYzzIF+c32aIVgCimLb+bbC0uyS69imJ63WIrBiSddlJlln
-	BUIfHvOwhsDk4N8mJ+HQssjAMzFMyGxgA3PhgIN/VzrFKsIlneFtYH7CGVmrkcYS49PmeVS/vHz
-	BoY2Aaczm5Rf0ez3us4iNiVPlxdT0pxE4e/q0Cv0eEBvYeWH4uu47I2KcdQEIn8l3FpMkdBDSD1
-	nGHp44NmMHv1aj5PJaAhdKlYUyPKvjMYdLBp3KQffBebDoJcnFA/oX1e2qJH0gFgb/vwq2As3DR
-	+pAHmNifmHOcldcJdnlh4r/0NAlflngabwaSQKUPPi9KIetPtwMbforZuEKHqNwBs1swtLjhP6y
-	XvfAH6u7Vp1HLE8XCUe10LX9JnlBz34xTlqjwcIMnJcBFW9N9J9EtYjI6jGEzndBQHX7Lbp8Ffo
-	ekJBOjxXkRXXKV6YJjNzeKu4lUv+r51goQr88ilWFjwIuA+96Z6sANjxvL
-X-Received: by 2002:a05:6000:1861:b0:432:8504:befd with SMTP id ffacd0b85a97d-435f3aa7441mr17364642f8f.32.1770046210971;
-        Mon, 02 Feb 2026 07:30:10 -0800 (PST)
-Received: from DB-VM.1337.ma ([197.230.240.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e1353ac2sm47269977f8f.38.2026.02.02.07.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 07:30:10 -0800 (PST)
-From: Taha Ed-Dafili <0rayn.dev@gmail.com>
-To: rdunlap@infradead.org
-Cc: 0rayn.dev@gmail.com,
-	Michael.Hennerich@analog.com,
-	andy@kernel.org,
-	corbet@lwn.net,
-	dlechner@baylibre.com,
-	jic23@kernel.org,
-	lars@metafoo.de,
-	linux-doc@vger.kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-kernel-mentees-archive@lists.linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	me@brighamcampbell.com,
-	nuno.sa@analog.com,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v2 1/4] docs: iio: adxl345: fix typos and grammar
-Date: Mon,  2 Feb 2026 10:30:08 -0500
-Message-ID: <20260202153008.16588-1-0rayn.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <6cee15c9-13d4-44d9-bbb2-4a7a53fe23f2@infradead.org>
-References: <6cee15c9-13d4-44d9-bbb2-4a7a53fe23f2@infradead.org>
+        d=1e100.net; s=20230601; t=1770046306; x=1770651106;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kgPLskVZbsnwpPXjI0Uy3xPQbW7GUfPIAOi3y1K2veg=;
+        b=HIgNXQrK1UHK6nL+l400KICCbfejHpEGqeN6SFKoOSpkOpaOKgRVbeu+QK2J1QpCA/
+         vEwl2bLLkxXz8+8k9aktHiHxktUrTWKF3cG9vfjVrWUdD81BNQcRi7DdmHAPDcY7MVfm
+         2T1v/QiLzWVI4yjLPx2jcgLV8rATuYxq/ERv3LDJ3Chj8x5clGOp3ndv3IjSMnusbLsT
+         3ue6yKAkXFKImeWubk2dMHxoKW0u1dKvKxg5mifSf8GzJv2dOW8KXr8dhABo3cZouSR1
+         GPXgrhQ4faMBxcxukgyVNVq6ntfvrSZbz+EM2kfB5Gy9H7xMPXyzqQ/lFZ5PgyWzOT3z
+         1Xqw==
+X-Forwarded-Encrypted: i=1; AJvYcCViGbjnGrWTlzJ26ghA4Ig2JResBvx7lznjUdL2SwDyAENSZx8PYqNLSW8OmDHm3MQJOPFfTLgUx4g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6IdEgw/jRU22EqK3Xl0NEZnHC/aYSRMQLdqU5UC7/qBx4BnSv
+	FMwg4bEzKaVpsjaHCh3tIwLL3D57fdne+4dVuPKFkySxgF8kbj1+wnbHed6keC1hYOs=
+X-Gm-Gg: AZuq6aJo8WFolXzl0X6IvYdLq+35Si3Denv8ibsEcuxWicbuh07wICillJ7KV0CAOav
+	J2PY1AsN797mwIN7cYWS02DotfUK7050cpRc57hYOdKDz9ioBglL6+sh0UV3AZ8K5g2O7r1GwMH
+	Nz1+UxI5RgRdNcLJ4ACzsYBcBprYntK9/jyjTuJw7/Xw2PLx1s4u4wKmoNXLFqwtsnYyYO0f0C1
+	BpkN1GeONBB7vXQ64SzuUZJKM3amT3jK4QkHjPTNzU+ZZJVJglg8e3L9po8FUelYsvzoD7aWuY8
+	ya8d/0OKsi8vwZmad4vsNxr3FqCHoAExZeFbtggqRcF4USLjWp9MxUH32rNPQv/dsFNyeFCorFv
+	LrHlCqDmqcL+lYsErQaMDobrtlxfzoQLHnjTp9r19swHnjR6RVHzxBj7422JmhICJqbPyIxe/BX
+	XZwF2SpQImvyyITlbA93J8WyGc6eJdB0Ltl6RFbVYTdF8sVoel4sDAK8iw6ubq
+X-Received: by 2002:a05:6808:309c:b0:45e:ab3d:2378 with SMTP id 5614622812f47-45f34b3c8f7mr5806724b6e.6.1770046306640;
+        Mon, 02 Feb 2026 07:31:46 -0800 (PST)
+Received: from ?IPV6:2600:8803:e7e4:500:3695:6954:27c2:42ef? ([2600:8803:e7e4:500:3695:6954:27c2:42ef])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d1a6dd4423sm6567145a34.28.2026.02.02.07.31.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Feb 2026 07:31:46 -0800 (PST)
+Message-ID: <745218f5-fe09-4a20-9cff-ee2ca28143e3@baylibre.com>
+Date: Mon, 2 Feb 2026 09:31:45 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] iio: core: Add IIO_EV_INFO_SCALE to event info
+To: Taha Ed-Dafili <0rayn.dev@gmail.com>
+Cc: Michael.Hennerich@analog.com, andy@kernel.org, corbet@lwn.net,
+ jic23@kernel.org, lars@metafoo.de, linux-doc@vger.kernel.org,
+ linux-iio@vger.kernel.org,
+ linux-kernel-mentees-archive@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, me@brighamcampbell.com, nuno.sa@analog.com,
+ rdunlap@infradead.org, skhan@linuxfoundation.org
+References: <afa85a59-07c7-46c9-990a-b0b34599cdc3@baylibre.com>
+ <20260202151939.15893-1-0rayn.dev@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20260202151939.15893-1-0rayn.dev@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Thanks for the catch, Randy.
+On 2/2/26 9:19 AM, Taha Ed-Dafili wrote:
+> Hi David,
+> 
+> Thanks for the feedback. You're right—"missing" was poor wording; I’ll
+> rephrase to "implement support in the core" for v3 to reflect that this
+> is an infrastructure addition.
+> 
+> Regarding existing users, the current lack of IIO_EV_INFO_SCALE in the core
+> forces developers into manual workarounds to stay ABI-compliant. For
+> instance, in drivers/iio/accel/mma8452.c, the developer used
+> IIO_CONST_ATTR_NAMED to create a manual in_accel_scale and linked it via
+> .event_attrs. This approach is static and bypasses the standard event_spec
+> infrastructure.
 
-That makes sense; I'll revert that change in v3.
+OK, so it looks like there is just one existing user of any events/*_scale
+attribute then. That would explain why there isn't a IIO_EV_INFO_SCALE.
+It just isn't very common.
 
-Best, Taha
+> 
+> My goal with adding IIO_EV_INFO_SCALE is to provide a standard path to
+> report these scales dynamically through read_event_value(), ensuring ABI
+> compliance without manual sysfs boilerplate.
+> 
+> Does this core infrastructure approach seem like the right architectural
+> path, or would you prefer I stick to a driver-level attribute for the
+> ADXL345? Regardless of the path chosen, I will address your other comments
+> in the next version: I'll fix the "in scale" typo and add the new scale
+> entries to the adxl345 documentation table.
+
+If we think there will be more users of this and we want to make it more
+discoverable, then adding IIO_EV_INFO_SCALE seems useful.
+
+I would wait until Jonathan weighs in with his opinion before taking action
+though.
+
+> 
+> Thanks,
+> Taha
+
