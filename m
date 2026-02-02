@@ -1,160 +1,305 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFF338B9B6
-	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 18:02:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BC52BEC2C
+	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 18:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770055335; cv=none; b=kc12lWmCfBxWI1fWhfGwAYgf8r3q5W/CjImdbj01iMwhctDENflvn835wAUTgOQBW50pYf4Mi/QnNESbXyGzF9iPPPH9/dCqHhxL6/4rQIDffYVpGt0BXY41slsxEOFb8yw3F8G1XQFQ0yHg5Eg+o26KmzF8TsRJccJ+C/c/Bac=
+	t=1770056110; cv=none; b=RawzeThy11TfRjV5Dag/iT7KGeGUH2qb6EBCH8zNc9aE2lDjO3XMVpdM1dP3g7aAHuP/8gmA+SlYxNDKhRG0PDjPzeFORz+7ruwtlchMZTlNjrPFgRUi31vQ0KMg5uTATOHyk7gp8B+TfVqFqlBVIcc/rHjxNR5DQp4+ewbUesk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770055335; c=relaxed/simple;
-	bh=MbAgTX+hDTfHzpvyoNvAv/VH86Gp5D8IWac2rvKmaY0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YXTtgzx8czA7WHDyqrlx0GM0LaA52nJojQSVLRyDhI47mT/99CIIkp8jWmGimiaNZ5T1xAwkFTajxAhtHi3xFi1CYmZA28oJL45eZXzLIWA0qP3z6W5X13zHxkreZmcr8+wl909bdmrgINNlb/9urLwyfO6RDwuBO1WlAAbjl9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Aj1JpC+x; arc=none smtp.client-ip=209.85.222.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1770056110; c=relaxed/simple;
+	bh=uYU+UjGaHRwL3bTehmXjsmKVViIaqfL1AqdHtt2ux/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Xk1m2EmukW6WXpP5zx6VNRTtFYp0wwhVZ5TF8em9DVnFiW6lgTZjSfSQmJWdquBRO5UJHLoTmDiHg8h3zlyDiYEK0EE1lzSGFhJRnoDZShmkG/mBhe3fEbDUg6OxUSzpOwXSWNkl8lUhaxCcjMoPtfuNkE5Ul8sGM4osKlac1Q8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IcpvyglW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Aj1JpC+x"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8c711959442so1027385a.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 10:02:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1770055333; x=1770660133; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NMO26NJqLzUacsptvD643N0i+a1yKYqxDegqXwZutbI=;
-        b=Aj1JpC+xrABNzYNRpCdkZPyfq4fpyHofQgTKnTflpXvwKssxlbTrRAytGzhuPWUdNK
-         CfRYx9eV/CaKWasmMIYZOb3PbKKbRph2X5q9IzvXiW3Zp4VcIzjHLGh5BGVQq11KaLfK
-         HIfPvH1wqREF7DiOxjT+o1zGx22ZdlKX59n2D/PmifZQ5eB6tz2BfWcSischrqsnggfy
-         1F79UPbPyw6n/UOrq3Aqn8haN46JgwftdoHEVRWplbueekIRggnWnH6OMK1GDMW35go/
-         vTvErql0wX5l2Qey8bJa5VH/Q24DExcroGeIQO0uC294obNNfFCH8LyGWZIWtX+AXCgn
-         9mRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770055333; x=1770660133;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NMO26NJqLzUacsptvD643N0i+a1yKYqxDegqXwZutbI=;
-        b=CPw7G3Nh6Y2gyvNbvYsQ6+KVOmoi/ux6hfyUwJrhTYM5T49mNEIRe7opfoG4wbfcQ/
-         rexKMX4oDJXnC/rSFY2v2dgUqE5KtbuNRcwaRdurRNTz2pNdAnf03x8bLMBGaAb2G8JH
-         2Z9u+ixG+zYwCMl2HR0e8xMCxTHzlYVauRWzOwhuxIk3BmEjDr20X/Duct+u9BWoGaeJ
-         F7XKCc1DFWzb1pJbbDbMmj29VKwmC3j8urocrIx9cuGvsElKfB/4WIukXzoLBut9Y4YH
-         jZLjKA8MKoW2aeA1VDfU4S683BbX+uT9TiJNg2eKIpIBQyKprFdnUt8pb1GVzHfjzw1W
-         hTgw==
-X-Forwarded-Encrypted: i=1; AJvYcCW4i3rhGyMrXviaRS00vzkqpPgflWzui6Qz6LdAVniA20LITDdXik0vw98TPw/PkuetvYrhUhXYrr4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoPVdgJ1ow/8NQjE6r3dNYGNc7kBp15lLjOQVQqutEREkK71i1
-	3LACKtOe95Iu3KLeYp99oZgnArhR57II3hcm+2uVqavi2EK40NcIaqeccBCBs4yMmGY=
-X-Gm-Gg: AZuq6aIkfCTM244Ja4ipqaco3ZQtC3h2R151St+IizPLD+pvhB+fUp6pc2PXqzir7xF
-	NB5LQRt0WS4dAiQZTRavu5IdgTWkMlwdUTUpS6LiCXc2sg1ZXq9txLzMBXDHUvIr38U3l4Ftc06
-	OaXQWQp/ugRqxe5E12D7XpqXeVukLMeA5SE+ryLRTqYn439ATUcYubwybWpiN0wNrARsPjnVEcV
-	ccmR5tTSMyMf15iVmp6XY/Imnz/k5etw/XbLXkYz3RF30vdGawFb2YppD5uONNJGsT0EwxmwRJP
-	b0uQPMv7wFOcJfAa5SZsvJqmExIiWlD4SA0mv6hrjhXwpEKjGtPd8jjgN3SGwyomAKPDLmJqJ5i
-	zb1DrVhvL6xa/S8oBMTrGrU2LKS7PHqYcZndxJMDOGu3+Jtm72LccY2wLTnFpCjR9pz1ip9KfoB
-	NJt/UFPmGs8akej1gHLmZGlZZZYvs8+QlNo7yUPUkWWZIPXvLthoRrU+Vu/P8Kb2HJ9GZGsg==
-X-Received: by 2002:ac8:5a54:0:b0:501:45d7:10cd with SMTP id d75a77b69052e-506092c7f24mr3163751cf.20.1770055332821;
-        Mon, 02 Feb 2026 10:02:12 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-894d36c5430sm119862196d6.22.2026.02.02.10.02.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 10:02:12 -0800 (PST)
-Date: Mon, 2 Feb 2026 13:02:10 -0500
-From: Gregory Price <gourry@gourry.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: linux-mm@kvack.org, linux-cxl@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kernel-team@meta.com, dave@stgolabs.net,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com, willy@infradead.org, jack@suse.cz,
-	terry.bowman@amd.com, john@jagalactic.com,
-	David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 2/9] mm/memory_hotplug: add __add_memory_driver_managed()
- with online_type arg
-Message-ID: <aYDmor_ruasxaZ-7@gourry-fedora-PF4VCD3F>
-References: <20260129210442.3951412-1-gourry@gourry.net>
- <20260129210442.3951412-3-gourry@gourry.net>
- <20260202172524.00000c6d@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IcpvyglW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA95C116C6;
+	Mon,  2 Feb 2026 18:15:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770056110;
+	bh=uYU+UjGaHRwL3bTehmXjsmKVViIaqfL1AqdHtt2ux/g=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IcpvyglWbRMg70AAfdhjvJggGwQ+vOKAHNgwrMCqVGdLzzFJDZTu5g3gf5U05Stjb
+	 5MtCzNPOtLBOx704NUiq+ox6Bv6QjaYsu8Y26fFoyBV5SQhf810EduaKtD0M7p48HQ
+	 yuxK+N9zX6TTReHHNQe5iKJkmVFYz6jq7WlBbDbiXhR+PE0/tPgqFKSIhSBpjYLEeA
+	 FZh7W9bzlkEKXOujVDPuaxfBVJPGEPNji5h12Cjj98o8JPACC5E+d5kYeqO5rjKaci
+	 04JoeDjTo75aGme8qFTMx6JLssDVwRz/p/H1xNKoVJ6+05G6DH2cGjGS5dvI4OU6/W
+	 1ylEvhp5YtmTg==
+Date: Mon, 2 Feb 2026 19:15:06 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 0/3] Some kernel-doc fixes
+Message-ID: <20260202191506.0aaee18e@foz.lan>
+In-Reply-To: <87bji7rsf9.fsf@trenco.lwn.net>
+References: <cover.1769500383.git.mchehab+huawei@kernel.org>
+	<87bji7rsf9.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202172524.00000c6d@huawei.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 02, 2026 at 05:25:24PM +0000, Jonathan Cameron wrote:
-> On Thu, 29 Jan 2026 16:04:35 -0500
-> Gregory Price <gourry@gourry.net> wrote:
+Hi Jon,
+
+On Mon, 02 Feb 2026 10:01:14 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
+
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> > Enable dax kmem driver to select how to online the memory rather than
-> > implicitly depending on the system default.  This will allow users of
-> > dax to plumb through a preferred auto-online policy for their region.
-> > 
-> > Refactor and new interface:
-> > Add __add_memory_driver_managed() which accepts an explicit online_type
-> > and export mhp_get_default_online_type() so callers can pass it when
-> > they want the default behavior.
+> > Hi Jon,
+> >
+> > This small series contain 3 patches:
+> > - patch 1 fixes PDF docs build, as reported by Akira;
+> >   (I'm resending this one as-is from its v2)
+> > - patch 2 addresses a complain from Jani about not being able
+> >   of disabling "-q" flag when building docs with V=0;
+> > - patch 3 addresses an issue indirectly reported by Jani that
+> >   it the env vars that affects the wrapper aren't documented.
+> >
+> > With regards to patch 2, docs build honours V=0 by adding a
+> > "-q" flag.
+> >
+> > When V=1 is set, there are two effects in place:
+> >
+> > 1. sphix-build will be called without "-q";
+> > 2. Sphinx extensions will increase their verbosity levels.
+> >
+> > Sometimes, it is desired to just remove "-q" without increasing
+> > extensions verbosity. That's what patch 2 does.
+> >
+> > IMO, at least patch 1 should be merged during Kernel v6.21
+> > development cycle.
+> >
+> > Mauro Carvalho Chehab (3):
+> >   docs: kdoc: Fix pdfdocs build for tools
+> >   docs: sphinx-build-wrapper: allow -v override -q
+> >   tools: sphinx-build-wrapper: improve its help message
+> >
+> >  tools/docs/sphinx-build-wrapper  | 42 +++++++++++++++++++++++++++-----
+> >  tools/lib/python/kdoc/kdoc_re.py | 10 +++++---
+> >  2 files changed, 43 insertions(+), 9 deletions(-)  
 > 
-> Hi Gregory,
-> 
-> I think maybe I'd have left the export for the first user outside of
-> memory_hotplug.c. Not particularly important however.
-> 
-> Maybe talk about why a caller of __add_memory_driver_managed() might want
-> the default?  Feels like that's for the people who don't...
->
+> I've applied this set, thanks.
 
-Less about why they want the default, more about maintaining backward
-compatibility.
+Thanks!
 
-In the cxl driver, Ben pointed out something that made me realize we can
-change `region/bind()` to actually use the new `sysram/bind` path by
-just adding a one line `sysram_regionN->online_type = default()`
+-
 
-I can add this detail to the changelog.
+Jon,
 
-> 
-> Other comments are mostly about using a named enum. I'm not sure
-> if there is some existing reason why that doesn't work?  -Errno pushed through
-> this variable or anything like that?
-> 
+I ended placing this series near the end of the /41 one mainly because
+the first patch conflicts there.
 
-I can add a cleanup-patch prior to use the enum, but i don't think this
-actually enables the compiler to do anything new at the moment?
+The conflict is trivial, to solve though, if you opt to merge
+from it.
 
-An enum just resolves to an int, and setting `enum thing val = -1` when
-the enum definition doesn't include -1 doesn't actually fire any errors
-(at least IIRC - maybe i'm just wrong). Same with
+IMO, it is worth merging this series before the merge window,
+as it will solve some troubles that will appear after Linus
+picks stuff from -next, related to some annotations Peter
+Zijlstra added on his tree, but it is up to you.
 
-   function(enum) -> function(-1) wouldn't fire a compilation error
+Yeah, it is a lot more complex than I would expect for a late
+-rc, so we could end just postpone it.
 
-It might actually be worth adding `MMOP_NOT_CONFIGURED = -1` so that the
-cxl-sysram driver can set this explicitly rather than just setting -1
-as an implicit version of this - but then why would memory_hotplug.c
-ever want to expose a NOT_CONFIGURED option lol.
+---
 
-So, yeah, the enum looks nicer, but not sure how much it buys us beyond
-that.
+As a heads up, I'm working on a separate set of patches that, if 
+things go well, we may end having a regression test for kernel-doc.
+When done, I'll be submitting in separate.
 
-> It's a little odd to add nice kernel-doc formatted documentation
-> when the non __ variant has free form docs.  Maybe tidy that up first
-> if we want to go kernel-doc in this file?  (I'm in favor, but no idea
-> on general feelings...)
->
+The idea is to have a YAML file with source code, KdocItem,
+man output and rst output, and a dynamic unit test to run
+them. I finished today to write a skeleton, but still requires
+polishing (*).
 
-ack.  Can add some more cleanups early in the series.
+I'm thinking on modifying kernel-doc executable to be able
+to generate the content for such YAML file.
 
-> > +	if (online_type < 0 || online_type > MMOP_ONLINE_MOVABLE)
-> 
-> This is where using an enum would help compiler know what is going on
-> and maybe warn if anyone writes something that isn't defined.
->
+If things go well, we could have something like:
 
-I think you still have to sanity check this, but maybe the code looks
-cleaner, so will do. 
+	$ tools/docs/kernel-doc --gen-yaml all_kdoc_tests.yaml .
 
-~Gregory
+To place all tests there. As we modify kernel-doc, we can
+run the code I'm currently writing. It would identify the
+differences for both ReST and man and report.
+	
+(*) I started working on it today.
+
+The unittest generation part from YAML already works:
+
+	$ tools/unittests/test_kdoc_from_yaml.py 
+	Ran 3 tests in 0.004s
+
+	FAILED (failures=1)
+	test_kdoc_from_yaml:
+	    KernelDocParser:
+	        test_gen_function3:  FAIL
+	    KernelManOutput:
+	        test_man_function3:  OK
+	    KernelRestOutput:
+	        test_rst_function3:  OK
+
+Those 3 classes were auto-populated from yaml. Right now,
+only KernelDocParser test exectution was implemented.
+
+Those three classes contain just the test functions (two are just
+stubs):
+
+	class KernelDocParser(KdocParser):
+	    def run_parser_test(self, source, kdoc_item, exports, fname):
+	        if isinstance(kdoc_item, dict):
+	            kdoc_item = [kdoc_item]
+
+        	if isinstance(exports, str):
+        	    exports=set([exports])
+        	elif isinstance(exports, list):
+        	    exports=set(exports)
+
+		# For now, it is using here a function I wrote on a non-dynamic unit test
+	        self.run_test(source, kdoc_item, exports=exports, fname=fname)
+
+	class KernelManOutput(unittest.TestCase):
+	    # TODO: for now, this is just a stub
+	    def run_out_test(self, kdoc_item, out_type, data):
+	        pass
+
+	class KernelRestOutput(unittest.TestCase):
+	    # TODO: for now, this is just a stub
+	    def run_out_test(self, kdoc_item, out_type, data):
+	        pass
+
+And It contains a separate class to add dynamic tests on those.
+
+The only issue I need to handle on its current implementation for
+KernelDocParser (with the simple YAML test) is to solve whitespace
+issues:
+
+	FAIL: test_gen_function3 (test_kdoc_from_yaml.KernelDocParser.test_gen_function3)
+	Lambda-like function to run tests with provided vars
+	----------------------------------------------------------------------
+	Traceback (most recent call last):
+	  File "/new_devel/docs/tools/unittests/test_kdoc_from_yaml.py", line 79, in test_method
+	    self.run_parser_test(source, kdoc_item, exports, fname)
+	    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	  File "/new_devel/docs/tools/unittests/test_kdoc_from_yaml.py", line 54, in run_parser_test
+	    self.run_test(source, kdoc_item, exports=exports, fname=fname)
+	    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	  File "/new_devel/docs/tools/unittests/test_kdoc_parser.py", line 84, in run_test
+	    self.assertEqual(d[key], value, msg=f"at {key}")
+	    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	AssertionError: {'Description': 'Does nothing\n\n', 'Return': '\nalways return 0.\n'} != {'Description': 'Does nothing\n', 'Return': 'always return 0.\n'}
+	- {'Description': 'Does nothing\n\n', 'Return': '\nalways return 0.\n'}
+	?                                --              --
+	
+	+ {'Description': 'Does nothing\n', 'Return': 'always return 0.\n'} : at sections
+
+I'll probably add a regex to replace all whitespaces/new lines by a
+single one.
+
+For man pages, I need to handle timestamps, but except for that and
+whitespace differences, both rst and man page functions should be
+straight forward: just call the output class passing the list of
+KdocItem objects.
+
+I guess tomorrow I may have this fixed and the test functions for
+rst and man implemented.
+
+Thanks,
+Mauro
+
+---
+
+If you're curious enough, this is the test YAML file it is using to
+generate the 3 dynamic unit tests:
+
+tests:
+  - name: function3
+    fname: function3.c
+    description: Just a simple example
+
+    source: |
+      /**
+      * function3: Exported function
+      * @arg1: @arg1 does nothing
+      *
+      * Does nothing
+      *
+      * return:
+      *    always return 0.
+      */
+      int function3(char *arg1) { return 0; };
+      EXPORT_SYMBOL(function3);
+
+    exports: function3
+    expected:
+      - kdoc_item:
+          name: function3
+          type: function
+          declaration_start_line: 1
+
+          sections:
+            Description: |
+              Does nothing
+
+            Return: |
+              always return 0.
+
+          parameterdescs:
+            arg1: |
+              @arg1 does nothing
+          parameterlist:
+            - arg1
+          parameterdesc_start_lines:
+            arg1: 2
+          parametertypes:
+            arg1: char *arg1
+
+          other_stuff:
+            func_macro: false
+            functiontype: int
+            purpose: Exported function
+            typedef: false
+
+        rst: |
+          .. c:function:: int function3 (char *arg1)
+
+            Exported function
+
+          .. container:: kernelindent
+
+            **Parameters**
+
+            ``char *arg1``
+              **arg1** does nothing
+
+            **Description**
+
+            Does nothing
+
+            **Return**
+
+            always return 0.
+
+        man: |
+          .TH "function3" 9 "February 2026"  "" "Kernel API Manual"
+          .SH NAME
+          function3 \- Exported function
+          .SH SYNOPSIS
+          .B "int" function3
+          .BI "(char *arg1 "  ");"
+          .SH ARGUMENTS
+          .IP "arg1" 12
+          \fIarg1\fP does nothing
+          .SH "DESCRIPTION"
+          Does nothing
+          .SH "RETURN"
+          always return 0.
+          .SH "SEE ALSO"
+          .PP
+          Kernel file \fBtest.c\fR
