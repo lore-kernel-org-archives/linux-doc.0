@@ -1,135 +1,105 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7FD30F804
-	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 21:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0DB30BF70;
+	Mon,  2 Feb 2026 21:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770068231; cv=none; b=X/SK/tsvkPbjjgoqpOPEidSF12H7OQ2Kl0+pDJRY2URFcarWcX2enJIw+hHtbid3i7wKX9MFmqr0glOL2BiPRG+7Lfol+YD9FXC/xl0v87LYD+X2ZGsXK9ak71ZOxHKAUn29iBhnfQazc0tq6rXxn5mfETuHekmh1P0UdLv+yUE=
+	t=1770069470; cv=none; b=pPACSSn2MJJoyF7pOpMVcx2IHxLgY1ARK3XQabVeUrjOSe1FWWbSduCWFvGP0wRU7cgeXW6JursvFUyAf/DVp9PwhuCVXPYBOCHnB5jKhi/leUJWaxwGfT89cb6EdE8CKRlLlFYQy+hBFtoJKlHFhk+K6J+uvekDbzyk6Lb6uBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770068231; c=relaxed/simple;
-	bh=kWEypPVGwJEMybutYPQAIuFoGDfenpYyYtSso4g6JH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=INzTPW3BsD/iia7p2ZhNntHLfxVVC2d0quxm2kVWK9D+fuVI1UIwh5OaqM9jTQEua0WNu8smjllTy+PXJElJlo8IyHcqSTC7eepUuskHCZLdZj+6QQcFXkoZz4sJWuaJXwq+fc/oJxdYA3Jhto3IDJhq2GbSllLc3gJQg9WpJTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Mzx9Hd/R; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1770069470; c=relaxed/simple;
+	bh=P56i96NRuYLl+79Mae849MLDf3tpfWekmMXgt9RJ3Mc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mwUd3YsoNcMYdBba2bC/qYNNov9WdDc/tbCiO3kkZEWDEemK6XWPktc2zyBgEO4Zz+GJ/cw6NnoWjQ0bYhdRK/BD2UUnsbY88HtJjJzYBf/7w3p1YW9Ps6E2Y5zOkjBLW4pdcL5PtTn3UwHCK+LLEv7mVxl8Pltn6XrUpbyDNlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=StVsix6b; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Mzx9Hd/R"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-8c6ac42b91eso612009885a.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 13:37:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1770068228; x=1770673028; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8laAOVGcrjt3grREBpdlanB8iPI5gP36V5MB+/CpDTw=;
-        b=Mzx9Hd/Rzt+M+pJq9wOJRdRLoK7Svg7rFWFXH2nBvx1PV9vaNObCnNYbF5O2Kk4OLb
-         VjdBr7JKdmQzzE7uEqmt9JLCMpvCohdG2P1YFr2uBfPFwoKU3TPlMPjzgW62pD/yEXh8
-         wPAvQ2YR6/lVWr2aZXP7mV+0JIu88qFTCOcSoPvqmFz83INXqVooueaHMy00oCZlmgys
-         XC+QiXVYxKLHy3bY7XOqqu0tjlENqGPiyXu+s2SLdl5vuVqJTvO5OQcwCEGokRqsm6S9
-         B6n3U3wEoh96z1SiUNTjG044xBGkEWryo/9BUQepQmGkdG9rpXMy4P/C638jFPArwfiw
-         poKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770068228; x=1770673028;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8laAOVGcrjt3grREBpdlanB8iPI5gP36V5MB+/CpDTw=;
-        b=m/3UOt+88HSYnzYY5qMGoyavmGWm/UWa0De4WzfcUrQf3iF6phcVN74uP5S1N1Zyzr
-         PK18/0MvlhxWb/klZTLvlTOQsQV++aUBlAnSWUnLlR5hJ4mXFv1M010eYhgBstC+WpET
-         sq4mPmkwxzeY5LXLZmnUJ2Lpq8Wl5vFRkGBd6dHzsgPcl4mT5Bo1pZ8n7l0U55uuF8zt
-         bFi9LpPhdPKL4VgWTMxVWBPSRuaKFYtQ4QfhFLnlOWq9HXCDSuZ8VO+4fum0UHkIkLM1
-         dC7uzY9nsUNjhpg3tO0eKVmijSFzykxeFWqm/6Yo/2Z+wmdaTuwON4xA+EsesNOL2xXE
-         1e0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV1h2EqzJBaWi9E8r7QgzJnJn2OvDXKT2jWIFn1fVTNGR1ZKYzQ4wyrBiv4szeOA8+VrwNb4SNDlVk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWUBGH8YNn4sqF33trUAxMoQzvgdmfnBPUQUlB4MGZy+51K7RF
-	xKvnNTRSTTZNcTz/JTn3ObnT23zMusklmi6dZogQDD3DbYkgquIbFy11ZTVvMv7jEnE+/TUILHF
-	ocgvtTo8=
-X-Gm-Gg: AZuq6aIDo+iWswRXnfmu9YiqJjbzOYhpmHQoS5oXWo3JdWSDfN7dN8x4hG8rAWgHlmC
-	OtVcmHxM2RYeqh4DgFVGythpY4BNRpUU6X/djn5T4lCiM/oOHbKHtIAG72TnFqcWRAwo4d1JGry
-	ipf2OZgA25s7oJYMEofAaHKQDyH7PQpcVJdomFbE5WtswLqK/pWGziGXF3RT8712kTd1CRhnDKN
-	GMqEgeotIzxCf3AEoiLVxwbDQsi773jDURGxdcUduy9KjyUNTa2dPeSMEEs1hJZM0gSUxwuNGCq
-	nSV7MkMhMGosFaNuQFHwT6VnygzGxtpoLVW3r/8WupmSJl4EdJUpmbkhYnmRK0QFX+zXVuo8bSZ
-	9A7TEVlhoIzSWOAou88HotSq1Upxw5a47ZcHivRcNKyaYMrir5t1PqmwvWd2v5d4QKkA3lkwzfc
-	vfeW9D2pFi2kiM77AXovNSluFp9Qhy7ariyNX0GAe4luxuXuzXh2DhbuIUeXeYBVjJzhrZIg==
-X-Received: by 2002:a05:620a:46a6:b0:8c6:e22b:25f7 with SMTP id af79cd13be357-8c9eb1fc204mr1562950785a.18.1770068228565;
-        Mon, 02 Feb 2026 13:37:08 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711d61c6fsm1317392985a.47.2026.02.02.13.37.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 13:37:08 -0800 (PST)
-Date: Mon, 2 Feb 2026 16:37:05 -0500
-From: Gregory Price <gourry@gourry.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: linux-mm@kvack.org, linux-cxl@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kernel-team@meta.com, dave@stgolabs.net,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com, willy@infradead.org, jack@suse.cz,
-	terry.bowman@amd.com, john@jagalactic.com,
-	David Hildenbrand <david@kernel.org>,
-	Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 2/9] mm/memory_hotplug: add __add_memory_driver_managed()
- with online_type arg
-Message-ID: <aYEZAUJMLWvaug50@gourry-fedora-PF4VCD3F>
-References: <20260129210442.3951412-1-gourry@gourry.net>
- <20260129210442.3951412-3-gourry@gourry.net>
- <20260202172524.00000c6d@huawei.com>
- <aYDmor_ruasxaZ-7@gourry-fedora-PF4VCD3F>
- <20260202184609.00004a02@huawei.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="StVsix6b"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=OAFAKZ+dErA1HvBk9m+TneK1sY+noADf94ivapgmRWo=; b=StVsix6bfK9GPsxlABYwBkEIWA
+	J3hNaUSzrxCOv8YfWalpwuA3eDxo+YehVRmRaoDwia7pEnmFcI40ld6we10c0UUIN5YRkhGsr2DbF
+	YERRctAvOGtyET4nS/wjVD3j4AXWUniGW+qW0Rh3r1A2IK34+e/WJ8Fxa3//m05bJ+nMNqCUXmF9R
+	xPGRMh9Sf+VwxqBRTe7BTe60eXhJkiHVaaBq2Bz996+rxQMzigN8Vc3NjSLAT3KkPKr54MLrjGEhW
+	IfHVMNHetLjU2K1+uEcOdEabcLib3TOVYl6vkLvVlqMuOLsPvemCypDtX+NQZecF9iAgp1zKiUT1N
+	zKYVVGDw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vn1vW-00000005gDL-3kCW;
+	Mon, 02 Feb 2026 21:57:46 +0000
+Message-ID: <0d0b90c1-db32-4eab-98c2-9bb46cea7a8d@infradead.org>
+Date: Mon, 2 Feb 2026 13:57:46 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202184609.00004a02@huawei.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: htmldocs: Documentation/driver-api/tty/tty_port.rst:65: WARNING:
+ Document or section may not begin with a transition. [docutils]
+To: kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <202602022007.fALe9bGB-lkp@intel.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <202602022007.fALe9bGB-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 02, 2026 at 06:46:09PM +0000, Jonathan Cameron wrote:
-> > 
-> > I can add a cleanup-patch prior to use the enum, but i don't think this
-> > actually enables the compiler to do anything new at the moment?
+Hi k.t.r.,
+
+On 2/2/26 11:45 AM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   18f7fcd5e69a04df57b563360b88be72471d6b62
+> commit: 00d95fcc4dee66dfb6980de6f2973b32f973a1eb docs: kdoc: handle the obsolescensce of docutils.ErrorString()
+> date:   5 months ago
+> reproduce: (https://download.01.org/0day-ci/archive/20260202/202602022007.fALe9bGB-lkp@intel.com/reproduce)
+
+I cannot reproduce this warning.
+What version of docutils do you use?
+
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202602022007.fALe9bGB-lkp@intel.com/
 > 
-> Good point. More coffee needed (or sleep)
+> All warnings (new ones prefixed by >>):
 > 
-> It lets sparse do some checking, but sadly only for wrong enum assignment.
-> (Gcc has -Wenum-conversion as well which I think is effectively the same)
-> I.e. you can't assign a value from a different enum without casting.
+>    WARNING: No kernel-doc for file ./include/linux/tty_port.h
+>    ERROR: Cannot find file ./include/linux/tty_port.h
+>    WARNING: No kernel-doc for file ./include/linux/tty_port.h
+>    ERROR: Cannot find file ./include/linux/tty_port.h
+>    WARNING: No kernel-doc for file ./include/linux/tty_port.h
+>>> Documentation/driver-api/tty/tty_port.rst:65: WARNING: Document or section may not begin with a transition. [docutils]
+>    ERROR: Cannot find file ./include/linux/tty.h
+>    WARNING: No kernel-doc for file ./include/linux/tty.h
+>    ERROR: Cannot find file ./include/linux/tty.h
+>    WARNING: No kernel-doc for file ./include/linux/tty.h
+>    ERROR: Cannot find file ./include/linux/tty.h
 > 
-> It can't do anything if people just pass in an out of range int.
+> 
+> vim +65 Documentation/driver-api/tty/tty_port.rst
+> 
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  61  
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  62  .. kernel-doc:: include/linux/tty_port.h
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  63     :identifiers: tty_port
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  64  
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26 @65  ----
+> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  66  
+> 
+> :::::: The code at line 65 was first introduced by commit
+> :::::: 3f19fed8d0daed6e0e04b130d203d4333b757901 Documentation: add TTY chapter
+> 
+> :::::: TO: Jiri Slaby <jslaby@suse.cz>
+> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > 
 
-Which, after looking a bit... mm/memory_hotplug.c does this quite a bit
-internally - except it uses a uint8_t
+thanks.
+-- 
+~Randy
 
-Example:
-
-static int try_offline_memory_block(struct memory_block *mem, void *arg)
-{
-        uint8_t online_type = MMOP_ONLINE_KERNEL;
-        uint8_t **online_types = arg;
-	... snip ...
-}
-
-int offline_and_remove_memory(u64 start, u64 size)
-{
-        uint8_t *online_types, *tmp;
-	... snip ...
-        online_types = kmalloc_array(mb_count, sizeof(*online_types),
-                                     GFP_KERNEL);
-}
-
-So that's fun.
-
-I'm not sure it's worth the churn here, but happy to do it if there are
-strong opinions.
-
----
-
-David do you have thoughts here?
-
-~Gregory
