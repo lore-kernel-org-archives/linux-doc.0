@@ -1,129 +1,81 @@
-Received: from pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.34.181.151])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BB73806BD;
-	Mon,  2 Feb 2026 17:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.34.181.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FC338946A;
+	Mon,  2 Feb 2026 17:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770054563; cv=none; b=hjT3uY6lAQ7VV+XmcA//d7KPAkdukQN+oFdNTEciC9xp0ADxjzdzzl0i1Mlz/vQIDx+9VUdkM+uXCld4UwCsEE6Md4zeSis1JIAokqX6kAYRysrlUPWLL8O1UxzLANB1fRRf+95sB+s8QaFfhnGNtg0pgwntBmn3eKPZPSwwxmM=
+	t=1770054866; cv=none; b=QtyhFMJkREHhZkeYQqP8HXrfcp4AXE4FYv/GvoqF+pyN+82Uza+U+LVaLu1VerJ90mXnVSo5GmDUTRGQC3LWCcnnAkXijkxpboou9YQ0rDVmmyhHDObPeUsF+coad3m4M/8xnNLlnDux4LefH7W7RnxihzUPqEw7F7HZwfSPuQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770054563; c=relaxed/simple;
-	bh=WbjAZRrEsrpqlbZTrPrIZ2KI90tSkIv3uHXWcKxEEX8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=T3g1xLqGKYIV7LMXDkXB3HXA/NBfAtPsjrcZW0h2f4Ae2fRM06rVbf32BGxtQrcMQvYjrCFSCpFm1hhfy+aPDfzuBP7W55QYacvI2kQ8+1pRaZ7VTaFKlAQO9wN+/+cFjk0xVg7LSlpdAi1+cgFDoUwiqHWxuwckMWDizEVElk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=jgkKRxFx; arc=none smtp.client-ip=52.34.181.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="jgkKRxFx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1770054562; x=1801590562;
-  h=message-id:date:mime-version:subject:from:to:cc:
-   references:in-reply-to:content-transfer-encoding;
-  bh=WbjAZRrEsrpqlbZTrPrIZ2KI90tSkIv3uHXWcKxEEX8=;
-  b=jgkKRxFxZYEVtp2za+PzH7FopNgI0I+plL78SmddQhwUAnXZF1GFq66+
-   q6n1u6qxF9EDiZDCt9xF1tvFrw6mSempMKXlK+mTuSkPP9fYI/lnOirVp
-   HaKxcVqnr0xWR5P2WDYgmRB0IvZPch2Tqy7tB/0ucjLMDbdsgLffbv2JZ
-   6GmHzCSNbXA7NXmgal0QYcGYQeILBuaZH4+CCR8sdbPv8incQmlqnDm8c
-   T7nXFB8fi7vexQRDRfHmd6AOdsvmt0ElpYysD+xMq7U7kGcKRiMHIHXVZ
-   LbFus/SrYF4LuN1waA5hOSxfrAxiHB+xCSQlffi8cateSVb1jmLjSLQMq
-   g==;
-X-CSE-ConnectionGUID: 1/i0WIESR9Ca/rFbREMRNg==
-X-CSE-MsgGUID: rH4Z0bntRb6tfrtNIwqhnw==
-X-IronPort-AV: E=Sophos;i="6.21,269,1763424000"; 
-   d="scan'208";a="12113048"
-Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
-  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 17:49:21 +0000
-Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.234:22198]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.0.174:2525] with esmtp (Farcaster)
- id 4f1001dd-00ac-4dc7-a284-44d55b01adbe; Mon, 2 Feb 2026 17:49:21 +0000 (UTC)
-X-Farcaster-Flow-ID: 4f1001dd-00ac-4dc7-a284-44d55b01adbe
-Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
- EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
- Mon, 2 Feb 2026 17:49:20 +0000
-Received: from [0.0.0.0] (172.19.99.218) by EX19D020UWC004.ant.amazon.com
- (10.13.138.149) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35; Mon, 2 Feb 2026
- 17:49:15 +0000
-Message-ID: <e38c5244-9e8f-467c-b3aa-8098f288a2c3@amazon.com>
-Date: Mon, 2 Feb 2026 18:49:13 +0100
+	s=arc-20240116; t=1770054866; c=relaxed/simple;
+	bh=+YVxmF2myapnZJzWAxzkwc1WbYzrAwrO+lR9xUfX84s=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u/M95qqqvyT5damML9wy/m6XgzvtQ4uk9xR83bD4h0QjzSfsX0EpRUwwLNhyQy8EOFujk4HaeZtUT5nEFSldNbwPUrHJdYn9dpSkOpr+B7EOTpSIqMavmSoAf2mxdZgd339Q4emwZPN0e31ealumgnGI4BgVuhasL2WKvAFTwyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4f4Z3Q42MMzHnGgg;
+	Tue,  3 Feb 2026 01:53:22 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 546A140572;
+	Tue,  3 Feb 2026 01:54:20 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 2 Feb
+ 2026 17:54:19 +0000
+Date: Mon, 2 Feb 2026 17:54:17 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Gregory Price <gourry@gourry.net>
+CC: <linux-mm@kvack.org>, <linux-cxl@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<kernel-team@meta.com>, <dave@stgolabs.net>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>, <dan.j.williams@intel.com>, <willy@infradead.org>,
+	<jack@suse.cz>, <terry.bowman@amd.com>, <john@jagalactic.com>
+Subject: Re: [PATCH 4/9] drivers/cxl,dax: add dax driver mode selection for
+ dax regions
+Message-ID: <20260202175417.00000abe@huawei.com>
+In-Reply-To: <20260129210442.3951412-5-gourry@gourry.net>
+References: <20260129210442.3951412-1-gourry@gourry.net>
+	<20260129210442.3951412-5-gourry@gourry.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Add HPET NMI Watchdog support
-From: Alexander Graf <graf@amazon.com>
-To: <x86@kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Clemens
- Ladisch" <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>, Dave Hansen
-	<dave.hansen@linux.intel.com>, Borislav Petkov <bp@alien8.de>, Ingo Molnar
-	<mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Paolo Bonzini <pbonzini@redhat.com>, Pasha Tatashin
-	<pasha.tatashin@soleen.com>, <nh-open-source@amazon.com>, "Nicolas Saenz
- Julienne" <nsaenz@amazon.es>, Hendrik Borghorst <hborghor@amazon.de>, Filippo
- Sironi <sironi@amazon.de>, David Woodhouse <dwmw@amazon.co.uk>,
-	=?UTF-8?Q?Jan_Sch=C3=B6nherr?= <jschoenh@amazon.de>
-References: <20260202174316.65044-1-graf@amazon.com>
-Content-Language: en-US
-In-Reply-To: <20260202174316.65044-1-graf@amazon.com>
-X-ClientProxiedBy: EX19D042UWA004.ant.amazon.com (10.13.139.16) To
- EX19D020UWC004.ant.amazon.com (10.13.138.149)
-Content-Type: text/plain; charset="utf-8"; format="flowed"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-Ck9uIDAyLjAyLjI2IDE4OjQzLCBBbGV4YW5kZXIgR3JhZiB3cm90ZToKPiBUaGUgY3VycmVudCBO
-TUkgd2F0Y2hkb2cgcmVsaWVzIG9uIHBlcmZvcm1hbmNlIGNvdW50ZXJzIGFuZCBjb25zaXN0ZW50
-bHkKPiBvY2N1cGllcyBvbmUgb24gZWFjaCBDUFUuIFdoZW4gcnVubmluZyB2aXJ0dWFsIG1hY2hp
-bmVzLCB3ZSB3YW50IHRvIHBhc3MKPiBwZXJmb3JtYW5jZSBjb3VudGVycyB0byB2aXJ0dWFsIG1h
-Y2hpbmVzIHNvIHRoZXkgY2FuIG1ha2UgdXNlIG9mIHRoZW0uCj4gSW4gYWRkaXRpb24gdGhlIGhv
-c3Qgc3lzdGVtIHdhbnRzIHRvIHVzZSBwZXJmb3JtYW5jZSBjb3VudGVycyB0byBjaGVjawo+IHRo
-ZSBzeXN0ZW0gdG8gaWRlbnRpZnkgd2hlbiBhbnl0aGluZyBsb29rcyBhYm5vcm1hbCwgc3VjaCBh
-cyBzcGxpdAo+IGxvY2tzLgo+Cj4gVGhhdCBtYWtlcyBQTUNzIGEgcHJlY2lvdXMgcmVzb3VyY2Uu
-IFNvIGFueSBQTUMgd2UgY2FuIGZyZWUgdXAgaXMgYSBQTUMKPiB3ZSBjYW4gdXNlIGZvciBzb21l
-dGhpbmcgdXNlZnVsLiBUaGF0IG1hZGUgbWUgbG9vayBhdCB0aGUgTk1JIHdhdGNoZG9nLgo+Cj4g
-VGhlIFBNQyBiYXNlZCBOTUkgd2F0Y2hkb2cgaW1wbGVtZW50YXRpb24gZG9lcyBub3QgYWN0dWFs
-bHkgbmVlZCBhbnkKPiBwZXJmb3JtYW5jZSBjb3VudGluZy4gSXQganVzdCBuZWVkcyBhIHBlci1D
-UFUgTk1JIHRpbWVyIHNvdXJjZS4gWDg2Cj4gc3lzdGVtcyBjYW4gbWFrZSBhbnl0aGluZyB0aGF0
-IGVtaXRzIGFuIGludGVycnVwdCBkZXNjcmlwdG9yIChJT0FQSUMsCj4gTVNJKC1YKSwgZXRjKSBi
-ZWNvbWUgYW4gTk1JIHNvdXJjZS4gU28gYW55IHRpbWUgZ29lcy4gSW5jbHVkaW5nIHRoZQo+IEhQ
-RVQuIEFuZCB3aGlsZSB0aGV5IGNhbid0IHJlYWxseSBvcGVyYXRlIHBlci1DUFUsIGluIGFsbW9z
-dCBhbGwgY2FzZXMKPiB5b3Ugb25seSByZWFsbHkgd2FudCB0aGUgTk1JIG9uICphbGwqIENQVXMs
-IHJhdGhlciB0aGFuIHBlci1DUFUuCj4KPiBTbyBJIHRvb2sgYSBzdGFiIGF0IGJ1aWxkaW5nIGFu
-IEhQRVQgYmFzZWQgTk1JIHdhdGNoZG9nLiBJbiBteSAoUUVNVQo+IGJhc2VkKSB0ZXN0aW5nLCBp
-dCdzIGZ1bGx5IGZ1bmN0aW9uYWwgYW5kIGNhbiBzdWNjZXNzZnVsbHkgZGV0ZWN0IHdoZW4KPiBD
-UFVzIGdldCBzdHVjay4gSXQgZXZlbiBzdXJ2aXZlcyBzdXNwZW5kL3Jlc3VtZSBjeWNsZXMuCj4K
-PiBGb3Igbm93LCBpdHMgZW5hYmxlbWVudCBpcyBhIGNvbmZpZyB0aW1lIG9wdGlvbiBiZWNhdXNl
-IHRoZSBoYXJkbG9ja3VwCj4gZnJhbWV3b3JrIGRvZXMgbm90IHN1cHBvcnQgZHluYW1pYyBzd2l0
-Y2hpbmcgb2YgbXVsdGlwbGUgZGV0ZWN0b3JzLgo+IFRoYXQncyBvayBmb3Igb3VyIHVzZSBjYXNl
-LiBCdXQgbWF5YmUgc29tZXRoaW5nIGZvciB0aGUgaW50ZXJlc3RlZAo+IHJlYWRlciB0byB0YWNr
-bGUgZXZlbnR1YWxseSA6KS4KPgo+IFlvdSBjYW4gZW5hYmxlIHRoZSBIUEVUIHdhdGNoZG9nIGJ5
-IGRlZmF1bHQgYnkgc2V0dGluZwo+Cj4gICAgQ09ORklHX0hBUkRMT0NLVVBfREVURUNUT1JfSFBF
-VF9ERUZBVUxUPXkKPgo+IG9yIHBhc3NpbmcgImhwZXQ9d2F0Y2hkb2ciIHRvIHRoZSBrZXJuZWwg
-Y29tbWFuZCBsaW5lLiBXaGVuIGFjdGl2ZSwgaXQKPiB3aWxsIGVtaXQgYSBrZXJuZWwgbG9nIG1l
-c3NhZ2UgdG8gaW5kaWNhdGUgaXQgd29ya3M6Cj4KPiAgICBbICAgIDAuMTc5MTc2XSBocGV0OiBI
-UEVUIHdhdGNoZG9nIGluaXRpYWxpemVkIG9uIHRpbWVyIDAsIEdTSSAyCj4KPiBUaGUgSFBFVCBj
-YW4gb25seSBiZSBpbiBlaXRoZXIgd2F0Y2hkb2cgb3IgZ2VuZXJpYyBtb2RlLiBJIGFtIGEgYml0
-Cj4gd29ycmllZCBhYm91dCBJTy1BUElDIHBpbiBhbGxvY2F0aW9uIGxvZ2ljLCBzbyBJIG9wdGVk
-IHRvIHJldXNlIHRoZQo+IGdlbmVyaWMgdGltZXIgcGluLiBBbmQgdGhhdCBtZWFucyBJJ20gZWZm
-ZWN0aXZlbHkgYnJlYWtpbmcgdGhlIG5vcm1hbAo+IGludGVycnVwdCBkZWxpdmVyeSBwYXRoLiBz
-byB0aGUgZWFzeSB3YXkgb3V0IHdhcyB0byBzYXkgd2hlbiB3YXRjaGRvZyBpcwo+IGFjdGl2ZSwg
-UElUIGFuZCBIUEVUIGFyZSBub3QgYXZhaWxhYmxlIGFzIHRpbWVyIHNvdXJjZXMuIFdoaWNoIGlz
-IG9rIG9uCj4gbW9kZXJuIHN5c3RlbXMuIFRoZXJlIGFyZSB3YXkgdG9vIG1hbnkgKHVucmVsaWFi
-bGUpIHRpbWVyIHNvdXJjZXMgb24geDg2Cj4gYWxyZWFkeS4gVHJpbW1pbmcgYSBmZXcgc3VyZWx5
-IHdvbid0IGh1cnQuCj4KPiBJJ20gb3BlbiB0byBpbnB1dHMgb24gaG93IHRvIG1ha2UgdGhlIEhQ
-RVQgbXVsdGktcHVycG9zZSB0aG91Z2gsIGluIGNhc2UKPiBhbnlvbmUgZmVlbHMgc3Ryb25nbHkg
-YWJvdXQgaXQuCgoKU29ycnkgZm9yIHRoZSByZXNlbmQuIEkgY2F1Z2h0IGFuIGlzc3VlIHdoaWxl
-IHNlbmRpbmcgb3V0IHRoZSBzZXJpZXMsIApoaXQgY3RybC1jIGJlZm9yZSB0aGlua2luZyBhbmQg
-c3VkZGVubHkgaGFkIGEgaGFsZiBzZW50IHNlcmllcy4gRGlzY2FyZCAKdGhpcyBvbmUuIEhhcHB5
-IHJldmlldyBvbiB0aGUgcmVhbCwgZnVsbCBvbmUgOikKCgpBbGV4CgoKCgpBbWF6b24gV2ViIFNl
-cnZpY2VzIERldmVsb3BtZW50IENlbnRlciBHZXJtYW55IEdtYkgKVGFtYXJhLURhbnotU3RyLiAx
-MwoxMDI0MyBCZXJsaW4KR2VzY2hhZWZ0c2Z1ZWhydW5nOiBDaHJpc3RvZiBIZWxsbWlzLCBBbmRy
-ZWFzIFN0aWVnZXIKRWluZ2V0cmFnZW4gYW0gQW10c2dlcmljaHQgQ2hhcmxvdHRlbmJ1cmcgdW50
-ZXIgSFJCIDI1Nzc2NCBCClNpdHo6IEJlcmxpbgpVc3QtSUQ6IERFIDM2NSA1MzggNTk3Cg==
+On Thu, 29 Jan 2026 16:04:37 -0500
+Gregory Price <gourry@gourry.net> wrote:
+
+> CXL regions may wish not to auto-configure their memory as dax kmem,
+> but the current plumbing defaults all cxl-created dax devices to the
+> kmem driver.  This exposes them to hotplug policy, even if the user
+> intends to use the memory as a dax device.
+> 
+> Add plumbing to allow CXL drivers to select whether a DAX region should
+> default to kmem (DAXDRV_KMEM_TYPE) or device (DAXDRV_DEVICE_TYPE).
+> 
+> Add a 'dax_driver' field to struct cxl_dax_region and update
+> devm_cxl_add_dax_region() to take a dax_driver_type parameter.
+> 
+> In drivers/dax/cxl.c, the IORESOURCE_DAX_KMEM flag used by dax driver
+> matching code is now set conditionally based on dax_region->dax_driver.
+> 
+> Exports `enum dax_driver_type` to linux/dax.h for use in the cxl driver.
+> 
+> All current callers pass DAXDRV_KMEM_TYPE for backward compatibility.
+> 
+> Cc: John Groves <john@jagalactic.com>
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+LGTM
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+
 
