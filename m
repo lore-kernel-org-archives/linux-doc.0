@@ -1,153 +1,151 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5405C387349
-	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 17:41:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A5A263C8C;
+	Mon,  2 Feb 2026 17:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770054096; cv=none; b=S36rx7VfVKI1FPlJueuPQ6RUR7J7izSgYdzLYFD/j1OwbhFb3naAq/fj9T+SVaukHjJa8wYbSX4mSFL3MVZx4kCjK9vPVy4Ya6TXUdhOPwz1VR18kpAjozTAmGq1pfU3vD0t9GmBhRAPVISey+iiwZTcFTgUL6bpGzRPcApQDpU=
+	t=1770054206; cv=none; b=sjawcn5n7w3r297SAppM6jcbAJOMQrFZegF96qxzZxPmHGyFdsv6T8YiWQow+OO//H7MM+f+YCuaRxbHKc7cbE8w2KcqKY5ifdawzlFcXwD11N2F/pX8FDRDxbYgTwVEO+cOx3aUavPfblhvHGziPXTvbGmHxR1ZayM4PV7lD8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770054096; c=relaxed/simple;
-	bh=NvSchrP/3iqVAPZQcFrmz3WZ5MlQLRFV2NZ/1rw7880=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TBUscuQKW34Wrabq0mza6nHm824D1QcnztTGQk+3rDyPZHOTCNiPywZhnu9N4NUjYd4v/mT7iZ8318+7uS73YZDmkMB6837iQjDbCE1eutbGpS++97ypDu0Ma3Jx2jU/gKbqR1OeSIH8qeiiTCjfaj5WM2ZFDH8QcJg7t/HI8Ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Sx5Ofipm; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1770054206; c=relaxed/simple;
+	bh=GpPLXQFAH5j67YcvtRYBXcozg4W/BXInprKa/DJePpc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DEG0g1Pj99HWH57YSwH+dFUOkB6tU8eKEefCkn6ZE7OPji34mx02aByHR9oAfg6nzwsIdm+R5pOd2x2VglSHj9i3GKFPwVikG+yvlrm22gc3fLKaa792nUGkyNZ6S8VwcJO2tEwZU355ZDM6ZGrlhO/Tnlf+MvMEGV3JXFgBHco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.de; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=eemFntpX; arc=none smtp.client-ip=35.162.73.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Sx5Ofipm"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-88a288811a4so46341326d6.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 09:41:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="eemFntpX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1770054094; x=1770658894; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6OBDEWLEmHCzYPUVrTciErMQbNpqUwuoibpvHtq101E=;
-        b=Sx5OfipmZy6VSguN3UfYogDNou/OpbG+PH0pl1nyOXT/V88T3HqakBgwdFYC+dChwy
-         KrfUKFMnK+VPp7SscQaJqHz4Y1qi1pb+EvNbv1A1I5UJQHVApan8h2NlPs3kwrOopt7r
-         y4Lw6oGg2jS1pmfG6ekVvTRmo1L8kOib4WH3udiGLUpqz4qCYg1VIrNNkZTKubhK3gpn
-         Gqb3MfSjSna1InoYN45/s0i9wis222PsHOK/zHXWJ/1KC87XnaGFrbkvmpO9/P7YEWQp
-         YWEWbmhF3jHygOmg1Fc0fuEVSOIRe+4Brv/7e6Hn1ooqZ8FZV4enITWnxGAtd7lEOO37
-         04dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770054094; x=1770658894;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6OBDEWLEmHCzYPUVrTciErMQbNpqUwuoibpvHtq101E=;
-        b=DqrI4BmYDWp19H+9CkT3TvmzZOxmN5PzN+QSxdngXqUHoxDtue5hDc4ERy4g3Qudxv
-         1Fe2ooNorQuB7qqMWoNXwQzXQ/YWQoTfgdw/VGBA0J1pIGNMVYER258x5xYJVhXzId2Y
-         ytYYIwUKlekpEy1v4VR1ExgHHlQqMbG3NJX1N8ljNbRHIX/EARnCh+DGBWeZ1Kv7okk8
-         ImTasHChlv+Y89msUelMi/ZtRnp550neTEvHXNmBeZW++0RLeE25GHP+aRsNAIKp1DxW
-         7+b9Ml9WqqyKA4/NpSA1CkQ/TwRvkkOLJDA7ottDv+tnSxjQvhFfnbVTu5Grgmb5OeQk
-         kNyw==
-X-Forwarded-Encrypted: i=1; AJvYcCW/0bMpmfpYbvBo8I2UgIb9R5tWWAEm5tDhiCM7AIvyrEKyC9+7Bj2tdTJAd3gDv7AzfXi/LNu1rR0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCgqeEdh/DRGA/9H4L0J7Zej0hpYyg1TjlfV66IBzNTjjJRXBK
-	YNHLp6g89KU1WviH+p59oPAy4rSPkE5p55jN7yyTUN53UL2I6QwZKY1gwV98bbjJRbk=
-X-Gm-Gg: AZuq6aI85goYWPERyQXSMTchdSUUadSrb+F7m5njnAkmR4xEDOHsqegw9PJidrbmGfF
-	TzmkmskyE+gZPwd5Kaw2yINMSr7ufyrsSQpVol4JC1ZsiKoE8SGZeAUUYMVzb5FoZQt/CT7kBKL
-	8vMWQob5vl5BaxpPZ44l3Mccbf7HgNtDWbUtitnjNt0XJpF3UKMtLn86KyTMI/GPRU3Y8AnHiNJ
-	pqg6y8ER1Xfgg/9hIJqEfpoCEAOjlKfYpv85Tk2XAfTBZZkUyPKZ15st/6iXGNGKpzyM2kNeMv5
-	g8HfrLk3WFRQq+gPVbcRAxrzIQwAVHxbGrX1Uv1K+i3G98T8BlOi0bC07H7HhkWhpmarh9w3/PO
-	aPOSGvHifXGJ/sGAEPETwfzpIGu+fYR5XvAITdTHBmBQmrMmP2WA0kG2LpmrM2Ug0d/91IZna2W
-	RZBLAfI/QoVvKy6DT9ZN/Kvvw3ey5XnUbHZbUyxLYQHNBEcOcp3coT5arZMf55elbREONLPuGU4
-	w3lDHkS
-X-Received: by 2002:a05:6214:20ae:b0:894:7fa3:7a32 with SMTP id 6a1803df08f44-894ea0f90c0mr191291886d6.68.1770054094267;
-        Mon, 02 Feb 2026 09:41:34 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8c711b7c789sm1274632885a.7.2026.02.02.09.41.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 09:41:33 -0800 (PST)
-Date: Mon, 2 Feb 2026 12:41:31 -0500
-From: Gregory Price <gourry@gourry.net>
-To: "Cheatham, Benjamin" <benjamin.cheatham@amd.com>
-Cc: linux-mm@kvack.org, linux-cxl@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kernel-team@meta.com, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	ira.weiny@intel.com, dan.j.williams@intel.com, willy@infradead.org,
-	jack@suse.cz, terry.bowman@amd.com, john@jagalactic.com
-Subject: Re: [PATCH 8/9] cxl/core: Add dax_kmem_region and sysram_region
- drivers
-Message-ID: <aYDhyxjzKtbqFWdM@gourry-fedora-PF4VCD3F>
-References: <20260129210442.3951412-1-gourry@gourry.net>
- <20260129210442.3951412-9-gourry@gourry.net>
- <c1d7d137-b7c2-4713-8ca4-33b6bc2bea2b@amd.com>
- <aX0s4i5OqFhHkEUp@gourry-fedora-PF4VCD3F>
- <9652a424-6eb1-462f-8cbd-181af880f98b@amd.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1770054204; x=1801590204;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4HeTz+82MVw5VAqBWLGfcJblrW68oVtx4Q+FhZQ1Vko=;
+  b=eemFntpX2BorD50BfaH128LOuJdwfoWhaDgcJv0ad/Z5BP3YglhpvMIH
+   8ENo6uAXIkw6yXYKxFkbXOtls11YOY08srZanggsyp75zOy8X+3s395jI
+   JwKfnCLR72VGh2XkO+FDnj3HNN5SKuZ7p8GR7bjS/J+Og5VR/+95H/wT+
+   O8M5vO1esvstI8zufswoEK0hj2hniaSj9mabXFrB/ubCVghk0qC/SipTu
+   I3wahCEu0r5NCkZfAQSxUiSGV1GdwyHmVYn2btGAJ+3av4eG0uEpaO+Jf
+   4Ap8gbFziBCO3m3yYZKf1znlJJYZ2+2mCHUS/3/RcJrzx1ws2ErSgJhjz
+   A==;
+X-CSE-ConnectionGUID: Ju+a5x65R2yrbOBNZohNpg==
+X-CSE-MsgGUID: zrPUXdLkSvWEz4q+zyW0/A==
+X-IronPort-AV: E=Sophos;i="6.21,269,1763424000"; 
+   d="scan'208";a="11915415"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 17:43:21 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:9998]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.4.92:2525] with esmtp (Farcaster)
+ id e818eafa-82dd-4883-8b05-718937f7011b; Mon, 2 Feb 2026 17:43:21 +0000 (UTC)
+X-Farcaster-Flow-ID: e818eafa-82dd-4883-8b05-718937f7011b
+Received: from EX19D020UWC004.ant.amazon.com (10.13.138.149) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
+ Mon, 2 Feb 2026 17:43:20 +0000
+Received: from ip-10-253-83-51.amazon.com (172.19.99.218) by
+ EX19D020UWC004.ant.amazon.com (10.13.138.149) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.35;
+ Mon, 2 Feb 2026 17:43:17 +0000
+From: Alexander Graf <graf@amazon.com>
+To: <x86@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Clemens
+ Ladisch" <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, Dave Hansen
+	<dave.hansen@linux.intel.com>, Borislav Petkov <bp@alien8.de>, Ingo Molnar
+	<mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Paolo Bonzini <pbonzini@redhat.com>, Pasha Tatashin
+	<pasha.tatashin@soleen.com>, <nh-open-source@amazon.com>, "Nicolas Saenz
+ Julienne" <nsaenz@amazon.es>, Hendrik Borghorst <hborghor@amazon.de>, Filippo
+ Sironi <sironi@amazon.de>, David Woodhouse <dwmw@amazon.co.uk>,
+	=?UTF-8?q?Jan=20Sch=C3=B6nherr?= <jschoenh@amazon.de>
+Subject: [PATCH 0/2] Add HPET NMI Watchdog support
+Date: Mon, 2 Feb 2026 17:43:14 +0000
+Message-ID: <20260202174316.65044-1-graf@amazon.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9652a424-6eb1-462f-8cbd-181af880f98b@amd.com>
+X-ClientProxiedBy: EX19D036UWC002.ant.amazon.com (10.13.139.242) To
+ EX19D020UWC004.ant.amazon.com (10.13.138.149)
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 02, 2026 at 11:02:37AM -0600, Cheatham, Benjamin wrote:
-> > 
-> > For auto-regions:
-> >    region_probe() eats it and you get the default behavior.
-> > 
-> > For non-auto regions:
-> >    create_x_region generates an un-configured region and fails to probe
-> >    until the user commits it and probes it.
-> 
-> I think this was the source of my misunderstanding. I was trying to understand how it
-> works for auto regions when it's never meant to apply to them.
-> 
-> Sorry if this is a stupid question, but what stops auto regions from binding to the
-> sysram/dax region drivers? They all bind to region devices, so I assume there's something
-> keeping them from binding before the core region driver gets a chance.
-> 
+The current NMI watchdog relies on performance counters and consistently
+occupies one on each CPU. When running virtual machines, we want to pass
+performance counters to virtual machines so they can make use of them.
+In addition the host system wants to use performance counters to check
+the system to identify when anything looks abnormal, such as split
+locks.
 
-Auto regions explicitly use the dax_kmem path (all existing code,
-unchanged)- which auto-plugs into dax/hotplug.
+That makes PMCs a precious resource. So any PMC we can free up is a PMC
+we can use for something useful. That made me look at the NMI watchdog.
 
-I do get what you're saying that everything binds on a region type,
-I will look a little closer at this and see if there's something more
-reasonable we can do.
+The PMC based NMI watchdog implementation does not actually need any
+performance counting. It just needs a per-CPU NMI timer source. X86
+systems can make anything that emits an interrupt descriptor (IOAPIC,
+MSI(-X), etc) become an NMI source. So any time goes. Including the
+HPET. And while they can't really operate per-CPU, in almost all cases
+you only really want the NMI on *all* CPUs, rather than per-CPU.
 
-I think i can update `region/bind` to use the sysram driver with
-   online_type=mhp_default_online_type
+So I took a stab at building an HPET based NMI watchdog. In my (QEMU
+based) testing, it's fully functional and can successfully detect when
+CPUs get stuck. It even survives suspend/resume cycles.
 
-so you'd end up with effective the auto-region logic:
+For now, its enablement is a config time option because the hardlockup
+framework does not support dynamic switching of multiple detectors.
+That's ok for our use case. But maybe something for the interested
+reader to tackle eventually :).
 
-cxlcli create-region -m ram ... existing argument set
-------
-    echo region0 > create_ram_region
-    /* program decoders */
-    echo region0 > region/bind
-    /* 
-     * region_bind():
-     *    1) alloc sysram_region object
-     *    2) sysram_regionN->online_type=mhp_default_online_type()
-     *    3) add device to bus
-     *    4) device auto-probes all the way down to dax
-     *    5) dax auto-onlines with system default setting
-     */
-------
+You can enable the HPET watchdog by default by setting
 
-and Non-auto-region logic (approximation)
+  CONFIG_HARDLOCKUP_DETECTOR_HPET_DEFAULT=y
 
-cxlcli creation-region -m ram --type sysram --online-type=movable
------
-   echo region0 > create_ram_region
-   /* program decoders */
-   echo region0 > sysram/bind
-   echo online_movable > sysram_region0/online_type
-   echo sysram_region0 > dax_kmem/bind
------
+or passing "hpet=watchdog" to the kernel command line. When active, it
+will emit a kernel log message to indicate it works:
+
+  [    0.179176] hpet: HPET watchdog initialized on timer 0, GSI 2
+
+The HPET can only be in either watchdog or generic mode. I am a bit
+worried about IO-APIC pin allocation logic, so I opted to reuse the
+generic timer pin. And that means I'm effectively breaking the normal
+interrupt delivery path. so the easy way out was to say when watchdog is
+active, PIT and HPET are not available as timer sources. Which is ok on
+modern systems. There are way too many (unreliable) timer sources on x86
+already. Trimming a few surely won't hurt.
+
+I'm open to inputs on how to make the HPET multi-purpose though, in case
+anyone feels strongly about it.
+
+Alex
+
+Alexander Graf (2):
+  x86/ioapic: Add NMI delivery configuration helper
+  hpet: Add HPET-based NMI watchdog support
+
+ .../admin-guide/kernel-parameters.txt         |   5 +-
+ arch/x86/Kconfig                              |  19 ++
+ arch/x86/include/asm/io_apic.h                |   2 +
+ arch/x86/kernel/apic/io_apic.c                |  32 ++++
+ arch/x86/kernel/hpet.c                        | 172 ++++++++++++++++++
+ arch/x86/kernel/i8253.c                       |   9 +
+ drivers/char/hpet.c                           |   3 +
+ include/linux/hpet.h                          |  14 ++
+ 8 files changed, 255 insertions(+), 1 deletion(-)
+
+-- 
+2.47.1
 
 
-I want to retain the dax_kmem driver because there may be multiple users
-other than sysram.   For example, a compressed memory region wants to
-utilize dax_kmem, but has its own complex policy (via N_MEMORY_PRIVATE)
-so it doesn't want to abstract through sysram_region, but it does want
-to abstract through dax_kmem.
 
-weeeee "software defined memory" weeeee
 
-~Gregory
+Amazon Web Services Development Center Germany GmbH
+Tamara-Danz-Str. 13
+10243 Berlin
+Geschaeftsfuehrung: Christof Hellmis, Andreas Stieger
+Eingetragen am Amtsgericht Charlottenburg unter HRB 257764 B
+Sitz: Berlin
+Ust-ID: DE 365 538 597
+
