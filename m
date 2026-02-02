@@ -1,290 +1,152 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6D02EF65C
-	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 18:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99CB82DF144;
+	Mon,  2 Feb 2026 18:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770057938; cv=none; b=DN6vVPWKWE5OtmEfYN8StYH9Ew11zN9qgnobAwCEkcsnZLfwgGUzSwFWXVXpSBwx9BfwfG5BcDym2k2IYM6V7fakrwE486xhsa0rsgEl6tAsUlqItjbniGUUr7UHyfIwkeJmeGtAfHbUz7CbF8JNcnF0+brLTNkgCAXsZcrBAAU=
+	t=1770057977; cv=none; b=aLMuRsHmyRRFwoOkSxYTRiTsQMGPXBdHA8WKTGMextu0iPIUJZ4I+2TbKxqdix7XbU4R3Fu7Pn9D8VLJDUXcIiSOjBnovDzqe8TUon8hK02OsU5ILV1sHkmq0lpBwbmMKrg8kc4caohmnG+dMmt7yf4uJs9+w/nO+bTlWYtOFlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770057938; c=relaxed/simple;
-	bh=RJUo7bccRTxp6w/X5Mb4jk7DDbM7Ry33Sc91fPvwY3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rc5bAVwfINJK4I+WU3kM2QcHEfViERBfgTTzRM3FYFWxzSm2KWACltKtysBAJ6raLgARl3tz+j6mHHM7yJxG6ozo3C+uGLYvmbgR6D2/FHXRyMhamVwm1MG9eAPUWcBUC8cUTOoSuiyjFMuyfRDJV4UHHgnlvkht75hQyFgOEqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=A6vQWelR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HgM4ztt/; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="A6vQWelR";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HgM4ztt/"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 612Fl59L3387833
-	for <linux-doc@vger.kernel.org>; Mon, 2 Feb 2026 18:45:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=F3pTCtfOUHdevSdvNcn6XqzL
-	AXxPpY1f4QI0AgduT8w=; b=A6vQWelRxUO5ssU1d44HbW04LSRdJPcgJDyxrVRY
-	Pc2aHeWYECNXWzDegYEcHfxupof23ZBmKMNWIGEP+3bnwrkj/iCzv6qYArKL12u+
-	JFhpG3dfm6h/wOfRjiLBR41kilUIeIbNRjFKd/vMepW+pqb9sv8ln4ME28IUginG
-	YOk07VoqVwmTpLvO7q12pqmW1iRis2xpqm3p1W/GVdEI+6S+0TyMmQ2hT9It0aPT
-	Q32w4ITgOW8x55wWCvEF/z9HQ3XUCu3JehBwgFuAvlbhag+FMzXatRJ888aBxoD0
-	fJSdRiOsoBtfbuBsFuJV8mKGqlEi/tKvOStg9UYB/w+Wfg==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c2xvbrkkr-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 18:45:35 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-2b713fa927dso34119eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 10:45:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1770057935; x=1770662735; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=F3pTCtfOUHdevSdvNcn6XqzLAXxPpY1f4QI0AgduT8w=;
-        b=HgM4ztt/OGY9RxgX5fs48z3Wikzu7bD+M9jeVcsk4xiT7dxqreY4ENM5FkSTtjzKso
-         2z5+IBWiwJ/WwnutERzIhquGHG/oTi+ReyodhrswYd11aJZTDS+RBkVt62yqvuRJ7Ww+
-         kUSZMV5wAaO7Wh8JHLm3btOy5Q0cRMvqCAgTFbPHDfo44UNNpLRqu4qGWEN2E+8ytILg
-         VIwsnU65fUIBEh6Pf+RzS+yP8TrIS4vwSeKreL+WufETtmLTiQDq0WCX2h8CRLfciu8j
-         7TnLrtZIy9C/OQDv4bp7H1Qv5REf3yszGddvA3eNnVTdF3/sI/2rgNgg47JRXgbUzNvx
-         Sv2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770057935; x=1770662735;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F3pTCtfOUHdevSdvNcn6XqzLAXxPpY1f4QI0AgduT8w=;
-        b=SG5rZwWSDYMuxoM15NP/Z3Nm93kka0n9ZpokDONKcWu+47Nh3QPe0RTVw2+cOCPLXk
-         xvtUVHVAmhwRnCy8hZAaY4knqMnaIioqXmSbeEKZspBn3q4Z3nk8KOC8nr6gxHhl7DpE
-         p5tb4VHHX9xdf/VzJVaAEFYoT2DP2xwM/GRphFScFPRWaKolyV2YbHuF4q6U4nXM7lmt
-         AFMUCEJoQrWgTpP/tMHjHXY3GQp88byoAwB+ESIsDR9feDr+xECp35I1rh2W5XZvHp12
-         V7QxZcxt5uHOqEhByt5dS0Vd+oDtXcZOYL5jrujtQCJKrDhND37sIZks3jXkzpxQnAFC
-         SUfA==
-X-Forwarded-Encrypted: i=1; AJvYcCWF+C2FMPbP+7LFC5BRve/XoUGZLebIaEkT+esppK2S8FuuAiIj+6oAlpFJrm1WPyqaT4VhGSUnfWE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPvw10T9RqRCXp+keqt67qqW7IO09JIn4I3PZ7aO8G6DsIXsOe
-	B6Ygoe1GfwsdxvTtRWVxdaW7fiF+pg7nmjK/jIfmN4DXq/qHxkEpOi2oHRC/RtbLnkj+lakCchm
-	rqfT2Ub71D2EI+yACiZWpL4rO8stJ0zzZpZLEZhuy4i5+ViZUwebvPjzAaUjTBc0=
-X-Gm-Gg: AZuq6aLq4LLfOYk1pO5Mp9dIltBxyZrkVUcxaIJFnc/xs8r6hArRbjlbx6d7LQyxvdz
-	CWPgtic3xcameuCg9VcegNDIH1cjCYzlLDMXQCxWe6zHTuD3XNGBF9T0bThzSMPt3JROwzny5ZN
-	S3AfejjYz3/4wZ3fGJ9i1DaTjwW1Hu7wE/mfMLLktZdMmguLzYfGSQWgHsCx3AxMi0LFFBciypf
-	wIxk+5CQ9KvrC3wxOKDTKUk3plSXIJy5FEXP9XEv1BPLS3UYKvN9+Fu5623trwucft6kMoClEIc
-	HpeU/XN/Jjs/U4oiQFui7c9M5R0evWVUCnNjD/bvpOix/ys8r8ltRd8dpumNW7geHWvpuvqSL1f
-	gFYaDw3ZNejSgm0cg1es=
-X-Received: by 2002:a05:693c:2289:b0:2a4:3593:ccbb with SMTP id 5a478bee46e88-2b820e4d59cmr181285eec.2.1770057934516;
-        Mon, 02 Feb 2026 10:45:34 -0800 (PST)
-X-Received: by 2002:a05:693c:2289:b0:2a4:3593:ccbb with SMTP id 5a478bee46e88-2b820e4d59cmr181263eec.2.1770057933918;
-        Mon, 02 Feb 2026 10:45:33 -0800 (PST)
-Received: from localhost ([140.82.166.162])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a16eab80sm20197175eec.9.2026.02.02.10.45.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 10:45:33 -0800 (PST)
-Date: Mon, 2 Feb 2026 12:45:31 -0600
-From: Andrew Jones <andrew.jones@oss.qualcomm.com>
-To: fangyu.yu@linux.alibaba.com
-Cc: pbonzini@redhat.com, corbet@lwn.net, anup@brainfault.org,
-        atish.patra@linux.dev, pjw@kernel.org, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, alex@ghiti.fr, guoren@kernel.org,
-        ajones@ventanamicro.com, rkrcmar@ventanamicro.com,
-        radim.krcmar@oss.qualcomm.com, linux-doc@vger.kernel.org,
-        kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] RISC-V: KVM: Detect and expose supported HGATP
- G-stage modes
-Message-ID: <ftdnjnfvmybiskej3txd23mqn3jpjdewmgjxjbap3y4ekj4h4m@d74ihtpclyps>
-References: <20260202140716.34323-1-fangyu.yu@linux.alibaba.com>
- <20260202140716.34323-3-fangyu.yu@linux.alibaba.com>
+	s=arc-20240116; t=1770057977; c=relaxed/simple;
+	bh=3Bb3GA58D7DLWusn0/jAKceagn2uKDar4xbNlnWV1tE=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=d/f2Mt9n905YjPRSHDS7ZaG+ZY/HldPPA5KO3F3fpytX0EnZDoXLWln2GudQiKL7Vqg9a3SGkFbQRnv/Ah9l+Ku6DI54JbjC1UxZ9DrgPOnB3lljRAAGQHYPVLCebyUpd0XFrU4ecg4YLwM2qS8Q/P8AV0iX/yo/2/eg3oBxwIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4f4bCV0H9xzJ467X;
+	Tue,  3 Feb 2026 02:45:26 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 30AC040565;
+	Tue,  3 Feb 2026 02:46:12 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 2 Feb
+ 2026 18:46:11 +0000
+Date: Mon, 2 Feb 2026 18:46:09 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Gregory Price <gourry@gourry.net>
+CC: <linux-mm@kvack.org>, <linux-cxl@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<kernel-team@meta.com>, <dave@stgolabs.net>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>, <dan.j.williams@intel.com>, <willy@infradead.org>,
+	<jack@suse.cz>, <terry.bowman@amd.com>, <john@jagalactic.com>, David
+ Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>, Andrew
+ Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 2/9] mm/memory_hotplug: add
+ __add_memory_driver_managed() with online_type arg
+Message-ID: <20260202184609.00004a02@huawei.com>
+In-Reply-To: <aYDmor_ruasxaZ-7@gourry-fedora-PF4VCD3F>
+References: <20260129210442.3951412-1-gourry@gourry.net>
+	<20260129210442.3951412-3-gourry@gourry.net>
+	<20260202172524.00000c6d@huawei.com>
+	<aYDmor_ruasxaZ-7@gourry-fedora-PF4VCD3F>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202140716.34323-3-fangyu.yu@linux.alibaba.com>
-X-Proofpoint-GUID: PRWmKytrv1uP8arYLT2mVibsI4ot-ctd
-X-Proofpoint-ORIG-GUID: PRWmKytrv1uP8arYLT2mVibsI4ot-ctd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAyMDE0NyBTYWx0ZWRfXxy0WqHfsZRZq
- BLgI0TAcpXKHKu7OgsXZO7zk8qb7PJPwRF+lrWplojPWe405MajLx/Jvb5OrNuvKePqm/q5BFVo
- JhdhLscLDzXlFpcByoMJrsLmqT69moPQ1zwQ52YqbPkA9MGuzbPGFWRxyJmLN65QwlLVaE/X4y/
- IuV7Yvaw8UbYNOCmCXRjpOUEIKKQWeevcKGxnUkKh29zRsyB2f6/I+GY5dXgjrLVwRQer4+Ln3Q
- TZXB949eWnUW8IpMF3jbU2G3SCn9AtkCqTPpOYPtRiju3kyaWfay6CliwefYaQDsNadImbF8Xgf
- t3sNR+7yHIU/JoW1FMYE04YESoZmkWOXBBqSat+gexoX1rY9dsO0dtpntkkthpWWto6iHi9W/oU
- 6bnP6HDmnTrebyeqA1lU0iloHS3xEub7jtNcf9nHmqMi/jk9aht/Mln7pWvHAcmWCRKUFhNbtTY
- VPJXoYpdutC7Odu7Lqg==
-X-Authority-Analysis: v=2.4 cv=AurjHe9P c=1 sm=1 tr=0 ts=6980f0cf cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
- a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=SRrdq9N9AAAA:8 a=XyLJYK2s2W5OP0ZauVAA:9
- a=CjuIK1q_8ugA:10 a=bBxd6f-gb0O0v-kibOvt:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-02_05,2026-02-02_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 suspectscore=0 phishscore=0 adultscore=0
- malwarescore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602020147
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Mon, Feb 02, 2026 at 10:07:14PM +0800, fangyu.yu@linux.alibaba.com wrote:
-> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+On Mon, 2 Feb 2026 13:02:10 -0500
+Gregory Price <gourry@gourry.net> wrote:
+
+> On Mon, Feb 02, 2026 at 05:25:24PM +0000, Jonathan Cameron wrote:
+> > On Thu, 29 Jan 2026 16:04:35 -0500
+> > Gregory Price <gourry@gourry.net> wrote:
+> >   
+> > > Enable dax kmem driver to select how to online the memory rather than
+> > > implicitly depending on the system default.  This will allow users of
+> > > dax to plumb through a preferred auto-online policy for their region.
+> > > 
+> > > Refactor and new interface:
+> > > Add __add_memory_driver_managed() which accepts an explicit online_type
+> > > and export mhp_get_default_online_type() so callers can pass it when
+> > > they want the default behavior.  
+> > 
+> > Hi Gregory,
+> > 
+> > I think maybe I'd have left the export for the first user outside of
+> > memory_hotplug.c. Not particularly important however.
+> > 
+> > Maybe talk about why a caller of __add_memory_driver_managed() might want
+> > the default?  Feels like that's for the people who don't...
+> >  
 > 
-> Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE values
-> supported by the host and record them in a bitmask. Keep tracking the
-> maximum supported G-stage page table level for existing internal users.
+> Less about why they want the default, more about maintaining backward
+> compatibility.
 > 
-> Also provide lightweight helpers to retrieve the supported-mode bitmask
-> and validate a requested HGATP.MODE against it.
+> In the cxl driver, Ben pointed out something that made me realize we can
+> change `region/bind()` to actually use the new `sysram/bind` path by
+> just adding a one line `sysram_regionN->online_type = default()`
 > 
-> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
-> ---
->  arch/riscv/include/asm/kvm_gstage.h | 37 +++++++++++++++++++++++++++
->  arch/riscv/kvm/gstage.c             | 39 ++++++++++++++++-------------
->  2 files changed, 58 insertions(+), 18 deletions(-)
+> I can add this detail to the changelog.
 > 
-> diff --git a/arch/riscv/include/asm/kvm_gstage.h b/arch/riscv/include/asm/kvm_gstage.h
-> index b12605fbca44..c0c5a8b99056 100644
-> --- a/arch/riscv/include/asm/kvm_gstage.h
-> +++ b/arch/riscv/include/asm/kvm_gstage.h
-> @@ -30,6 +30,7 @@ struct kvm_gstage_mapping {
->  #endif
->  
->  extern unsigned long kvm_riscv_gstage_max_pgd_levels;
-> +extern u32 kvm_riscv_gstage_mode_mask;
->  
->  #define kvm_riscv_gstage_pgd_xbits	2
->  #define kvm_riscv_gstage_pgd_size	(1UL << (HGATP_PAGE_SHIFT + kvm_riscv_gstage_pgd_xbits))
-> @@ -75,4 +76,40 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *gstage, gpa_t start, gpa_t end
->  
->  void kvm_riscv_gstage_mode_detect(void);
->  
-> +enum kvm_riscv_hgatp_mode_bit {
-> +	HGATP_MODE_SV39X4_BIT = 0,
-> +	HGATP_MODE_SV48X4_BIT = 1,
-> +	HGATP_MODE_SV57X4_BIT = 2,
-> +};
+> > 
+> > Other comments are mostly about using a named enum. I'm not sure
+> > if there is some existing reason why that doesn't work?  -Errno pushed through
+> > this variable or anything like that?
+> >   
+> 
+> I can add a cleanup-patch prior to use the enum, but i don't think this
+> actually enables the compiler to do anything new at the moment?
 
-These should be defined in the UAPI, as I see the last patch of the series
-does. No need to define them twice.
+Good point. More coffee needed (or sleep)
 
-> +
-> +static inline u32 kvm_riscv_get_hgatp_mode_mask(void)
-> +{
-> +	return kvm_riscv_gstage_mode_mask;
-> +}
-> +
-> +static inline bool kvm_riscv_hgatp_mode_is_valid(unsigned long mode)
-> +{
-> +#ifdef CONFIG_64BIT
-> +	u32 bit;
-> +
-> +	switch (mode) {
-> +	case HGATP_MODE_SV39X4:
-> +		bit = HGATP_MODE_SV39X4_BIT;
-> +		break;
-> +	case HGATP_MODE_SV48X4:
-> +		bit = HGATP_MODE_SV48X4_BIT;
-> +		break;
-> +	case HGATP_MODE_SV57X4:
-> +		bit = HGATP_MODE_SV57X4_BIT;
-> +		break;
-> +	default:
-> +		return false;
-> +	}
-> +
-> +	return kvm_riscv_gstage_mode_mask & BIT(bit);
-> +#else
-> +	return false;
-> +#endif
+It lets sparse do some checking, but sadly only for wrong enum assignment.
+(Gcc has -Wenum-conversion as well which I think is effectively the same)
+I.e. you can't assign a value from a different enum without casting.
 
-It seems like we're going out of our way to only provide the capability
-for rv64. While the cap isn't useful for rv32, having #ifdefs in KVM and
-additional paths in kvm userspace is probably worse than just having a
-useless HGATP_MODE_SV32X4_BIT that rv32 userspace can set.
+It can't do anything if people just pass in an out of range int.
 
-> +}
-> +
->  #endif
-> diff --git a/arch/riscv/kvm/gstage.c b/arch/riscv/kvm/gstage.c
-> index 2d0045f502d1..edbabdac57d8 100644
-> --- a/arch/riscv/kvm/gstage.c
-> +++ b/arch/riscv/kvm/gstage.c
-> @@ -16,6 +16,8 @@ unsigned long kvm_riscv_gstage_max_pgd_levels __ro_after_init = 3;
->  #else
->  unsigned long kvm_riscv_gstage_max_pgd_levels __ro_after_init = 2;
->  #endif
-> +/* Bitmask of supported HGATP.MODE (see HGATP_MODE_*_BIT). */
-> +u32 kvm_riscv_gstage_mode_mask __ro_after_init;
->  
->  #define gstage_pte_leaf(__ptep)	\
->  	(pte_val(*(__ptep)) & (_PAGE_READ | _PAGE_WRITE | _PAGE_EXEC))
-> @@ -315,42 +317,43 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *gstage, gpa_t start, gpa_t end
->  	}
->  }
->  
-> +static bool __init kvm_riscv_hgatp_mode_supported(unsigned long mode)
-> +{
-> +	csr_write(CSR_HGATP, mode << HGATP_MODE_SHIFT);
-> +	return ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == mode);
-> +}
-> +
->  void __init kvm_riscv_gstage_mode_detect(void)
->  {
-> +	kvm_riscv_gstage_mode_mask = 0;
-> +	kvm_riscv_gstage_max_pgd_levels = 0;
-> +
->  #ifdef CONFIG_64BIT
-> -	/* Try Sv57x4 G-stage mode */
-> -	csr_write(CSR_HGATP, HGATP_MODE_SV57X4 << HGATP_MODE_SHIFT);
-> -	if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == HGATP_MODE_SV57X4) {
-> -		kvm_riscv_gstage_max_pgd_levels = 5;
-> -		goto done;
-> +	/* Try Sv39x4 G-stage mode */
-> +	if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV39X4)) {
-> +		kvm_riscv_gstage_mode_mask |= BIT(HGATP_MODE_SV39X4_BIT);
-> +		kvm_riscv_gstage_max_pgd_levels = 3;
->  	}
->  
->  	/* Try Sv48x4 G-stage mode */
-> -	csr_write(CSR_HGATP, HGATP_MODE_SV48X4 << HGATP_MODE_SHIFT);
-> -	if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == HGATP_MODE_SV48X4) {
-> +	if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV48X4)) {
-> +		kvm_riscv_gstage_mode_mask |= BIT(HGATP_MODE_SV48X4_BIT);
->  		kvm_riscv_gstage_max_pgd_levels = 4;
-> -		goto done;
->  	}
->  
-> -	/* Try Sv39x4 G-stage mode */
-> -	csr_write(CSR_HGATP, HGATP_MODE_SV39X4 << HGATP_MODE_SHIFT);
-> -	if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == HGATP_MODE_SV39X4) {
-> -		kvm_riscv_gstage_max_pgd_levels = 3;
-> -		goto done;
-> +	/* Try Sv57x4 G-stage mode */
-> +	if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV57X4)) {
-> +		kvm_riscv_gstage_mode_mask |= BIT(HGATP_MODE_SV57X4_BIT);
-> +		kvm_riscv_gstage_max_pgd_levels = 5;
->  	}
->  #else /* CONFIG_32BIT */
->  	/* Try Sv32x4 G-stage mode */
->  	csr_write(CSR_HGATP, HGATP_MODE_SV32X4 << HGATP_MODE_SHIFT);
->  	if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == HGATP_MODE_SV32X4) {
+> 
+> An enum just resolves to an int, and setting `enum thing val = -1` when
+> the enum definition doesn't include -1 doesn't actually fire any errors
+> (at least IIRC - maybe i'm just wrong). Same with
+> 
+>    function(enum) -> function(-1) wouldn't fire a compilation error
+> 
+> It might actually be worth adding `MMOP_NOT_CONFIGURED = -1` so that the
+> cxl-sysram driver can set this explicitly rather than just setting -1
+> as an implicit version of this - but then why would memory_hotplug.c
+> ever want to expose a NOT_CONFIGURED option lol.
+> 
+> So, yeah, the enum looks nicer, but not sure how much it buys us beyond
+> that.
+> 
+> > It's a little odd to add nice kernel-doc formatted documentation
+> > when the non __ variant has free form docs.  Maybe tidy that up first
+> > if we want to go kernel-doc in this file?  (I'm in favor, but no idea
+> > on general feelings...)
+> >  
+> 
+> ack.  Can add some more cleanups early in the series.
+> 
+> > > +	if (online_type < 0 || online_type > MMOP_ONLINE_MOVABLE)  
+> > 
+> > This is where using an enum would help compiler know what is going on
+> > and maybe warn if anyone writes something that isn't defined.
+> >  
+> 
+> I think you still have to sanity check this, but maybe the code looks
+> cleaner, so will do. 
 
-Can use kvm_riscv_hgatp_mode_supported() here too.
+I'm in two minds about this. If it's an enum and someone writes an int
+I take take the view it's not our problem that they shot themselves in
+the foot.  Maybe we should be paranoid...
 
->  		kvm_riscv_gstage_max_pgd_levels = 2;
-> -		goto done;
->  	}
->  #endif
->  
-> -	/* KVM depends on !HGATP_MODE_OFF */
-> -	kvm_riscv_gstage_max_pgd_levels = 0;
-> -
-> -done:
->  	csr_write(CSR_HGATP, 0);
->  	kvm_riscv_local_hfence_gvma_all();
->  }
-> -- 
-> 2.50.1
->
+J
 
-Thanks,
-drew
+
+> 
+> ~Gregory
+> 
+
