@@ -1,166 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DD71ADC83;
-	Mon,  2 Feb 2026 09:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF2F2D46B4
+	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 09:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770024438; cv=none; b=tCThru9Tl6nx9UY2CIAR4SlQPOf9Vmc0hsqo9hnRIP3wyYtwFMG06BobuhxtBd8Scb8bUCSwe+rwDbdjfmC0TShVHtPusfBNMcz0NJ9mF0H2vROPSUpRbrZitvOtmTkvZiNMjCRcR3B+7dvTDSZyhWIMsocy5cby2J7B39nIrC8=
+	t=1770025180; cv=none; b=hvzlfzw6q61Smbpz1N8Lv5E7EOn1myf53AImq2RwP+/VIWn84dA28MpPAB2jqqrhAHD2B3g61gjn6ichYdrs4uj8vn1NwX1cOZF0iESpBc3u1z2YDHJFwUZkDglj9GCelQXHhIaottjSE2/xMuMLbe2jNwlt/JnnsTaMyQABjUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770024438; c=relaxed/simple;
-	bh=b3tm47c8YeCLtBZmLUWotU+9f5TDfFlSjYMnR48dl5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HB32tY8qeqR/Abn3j36BPdSANzRSJse75FbUGLV2GF53Pd+y7EZPfpZg6V1RdSaafrU05Hm9F2hpoZ+SheYQyc5PgiSXREPPNjZCkuQwganE+Kc6lGJN7TJ43FxiBVSNCklTojbkS0HpUTMeOK6aDq+DKdD3aSWUaI16nJyt3Y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFW8nI/d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770025180; c=relaxed/simple;
+	bh=JZW9FqOgKNlGr+OVdZAsl+iLG1my67/IDZ5nsGYYj8U=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jgsoNj5F8LGTTKpSupFUozJAanaL94fmiGHFTjmNkzLMKbyb2m1NiXhas4yeUswRoA2geLhMbby4PWcBzLPpo0iPdQDeAVBIaUBYOUApncvvrIt2X31wlOMmwV7QKR+Hft9yTVGxxexT16CXAdlSIgCz8JT6ViwvE95YAR2g4UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Prp5a7r0; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFW8nI/d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE1E0C116C6;
-	Mon,  2 Feb 2026 09:27:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770024437;
-	bh=b3tm47c8YeCLtBZmLUWotU+9f5TDfFlSjYMnR48dl5Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DFW8nI/dKocoLcIkta4LQ0jKncQEMXXqK8dsPW2CWWdcPD6wN6EpbZy0fiZPfKO8b
-	 TnG6E3qy5ZYdXeJmPDb7Nb57FhDSsS7GgHG4mbhOXmrjOZW63d6p7fJY78hQAGSfBE
-	 wvqd9lsH3KW0ZHzwaSWaCKsuwvGRZHaz841b95pmMfozYy9a2leuPvIVl5AKHSApwY
-	 RBZplcBwUv2YNzBSiQU5JChAgtsKxXkDXcsyQYNY7efK3f6TfehhURMozbltAd+SfV
-	 kL4J968NGJPBOUq+w9DjKFk4DYrQVOBGzEzg1XNqdZHOBgbkQBbn0sLfQjKkvDeL02
-	 +eXGVw5Vop1gQ==
-Date: Mon, 2 Feb 2026 10:27:12 +0100
-From: Niklas Cassel <cassel@kernel.org>
-To: Koichiro Den <den@valinux.co.jp>
-Cc: mani@kernel.org, kwilczynski@kernel.org, kishon@kernel.org,
-	bhelgaas@google.com, corbet@lwn.net, jingoohan1@gmail.com,
-	lpieralisi@kernel.org, robh@kernel.org, Frank.Li@nxp.com,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] PCI: endpoint: Document pci_epc_set_bar() caller
- ownership and lifetime rules
-Message-ID: <aYBt8OSLKC6F3nZG@ryzen>
-References: <20260131133655.218018-1-den@valinux.co.jp>
- <20260131133655.218018-4-den@valinux.co.jp>
- <aX4y3txKcYmb-kE3@fedora>
- <4erlj426nvmilwfdq5e63ojiqecomcpj35nvmiyw2p5mvifwlt@yspmfxrzmxei>
- <aX_HfpBoQX4j7mag@ryzen>
- <sextbnbmsur2xjfoun2l4lr5vekmpzae7sx6or2ird44t6ud6d@yprcz43tpq4p>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Prp5a7r0"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4359a316d89so3182713f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 01:39:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770025177; x=1770629977; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=NG9zIsElX5WbHaxck+/ant7kO4MYK49Qj1cyBalqLVE=;
+        b=Prp5a7r08hNeA/bvpK1pRqjkdwlud3a+1wNYX5JXd9F4BbxGYu4q44XjjQ9s7Gaiq/
+         ht/zFSAZW46p39/dsE3OZvFzmhP2PmQBm236uvqWZ+XM9lOK/4XcseZNcFk9RstZ3lUV
+         AcYYJjbSjOuiLDiHl0EzMfLw0tpjysycrZSEIHKn/lZxjIO24DOHWjxRfU9G9zPwTxb+
+         23gS4ChkRa5SVAX7y0W4QtAcpWrkVC9XCkRhwCw1x/bhvV5qvAp/PvS9Vr4Rhn3qV2rB
+         WH60EwZIVKLpykSqp13RdlFlQnyh42tG/2iJ+U6s/teaoIc1YqRcGwegpj0Gqt/QuIKe
+         5rcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770025177; x=1770629977;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NG9zIsElX5WbHaxck+/ant7kO4MYK49Qj1cyBalqLVE=;
+        b=ZRHTZyDvjWg/edBh8aY/CZELZ3HPOpwHSmSrwS0FpmMuV1MF+J/kpnUhlomHgeZimM
+         8OLGd/xM1UJ5r6hYEXyN0rFKlgbgDjK9lFcDiA1l2I7ISyRxMO11XqsEIDWiw8sN6S17
+         5pN2uyFHyu+MrFjxQZRRFJ1XqSC53irBkzPl8BA0vnoDNb0SdHScIEkrYL7z+X6OTQFH
+         ya5ErrG5idvJ8XEiF5iTof+x/3u5Mb5UeZSZfYImCYEEfwUw1yTvk+agavea8HkWwJHD
+         6MzOu3qZ+koDrh9LRGbjG5kDL+kow2CqDWTod3s+BQuZAYRxurFGwe08GiVEFlGMmdwF
+         0gzA==
+X-Forwarded-Encrypted: i=1; AJvYcCWGe/cyTWKUo2aRroGQuxfocfw5R+Glz3Yd4zud3ZSE2vY3+9xKKDTRxlBhNzJ7ufvWj/kONVKrdFw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBOIagfLuFzuJMQA2BWYvE+b1dM94Ym6tsV4YTR95XsXvEiPES
+	mSCTpZMNG41BFd1SYeu8DA5S1L7dQuNhbua0YtceUUkIq48FVzUsTqfw
+X-Gm-Gg: AZuq6aK+XOIGCw1f40weOlXm8LdgUFtYldJBX9fa8OOvMuOGYFO3WAKsj2GEQgOKDju
+	UamSkvY51cKicxPiM46v38jc4Crdw5pdoPM8+qdHjCD65FVIxaY8T9U33r1Qwd4mJGjSewTbORX
+	nj88Pka8OUNyEC/5fHxDKIOMVEgbdMKHvDLYkyxEvUduu90wygccq0uVwnC9mQCNF8f+q0joxjR
+	pyaUk1lA42CztvhIwiA0Dcd+HcOU71NxOPrLorA9bBwtPyNlyCuv4DRN2V2v/VC5WQwVA3WSJG5
+	RdAZmmRctPONzvbDz0jk1sUgKpMSZZM67UWT+SSIpXoooWsTfuSNCMF13x8AN0p1SY0vagyeFpT
+	5kYTLR/azDm1VxttWYRNbS0BOoMQ6JW58hhVfCjRhxfdgjDFrihsAinoyAT26yeTS11CBwYWhY4
+	UpH/n+X83j8Sv90ajhW5g=
+X-Received: by 2002:a5d:5885:0:b0:430:f6bc:2f8a with SMTP id ffacd0b85a97d-435f3aac95fmr17351963f8f.47.1770025176575;
+        Mon, 02 Feb 2026 01:39:36 -0800 (PST)
+Received: from [192.168.1.187] ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e13235f5sm41242186f8f.29.2026.02.02.01.39.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Feb 2026 01:39:36 -0800 (PST)
+Message-ID: <0f6c51ed27643a7fc94df0a40c476326cfeb0043.camel@gmail.com>
+Subject: Re: [PATCH v5 0/3] hwmon: Add support for the LTC4283 Hot Swap
+ Controller
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
+ linux-gpio@vger.kernel.org, 	devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Jean Delvare	 <jdelvare@suse.com>, Jonathan
+ Corbet <corbet@lwn.net>, Linus Walleij	 <linus.walleij@linaro.org>, Bartosz
+ Golaszewski <brgl@bgdev.pl>, "Rob Herring (Arm)"	 <robh@kernel.org>, Linus
+ Walleij <linusw@kernel.org>, Bartosz Golaszewski	 <brgl@kernel.org>
+Date: Mon, 02 Feb 2026 09:40:18 +0000
+In-Reply-To: <e2208717-0f47-48d6-9cf2-20196e13a3d0@roeck-us.net>
+References: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
+	 <eed64bf1-93af-4b36-adf5-1476cb40edbb@roeck-us.net>
+	 <382e259ea3835ffbd2be9c36b529875f5a43f38b.camel@gmail.com>
+	 <8efa188b-8b91-479c-ac10-3fba5b0cbb5f@roeck-us.net>
+	 <02b7cf63-4f87-4cdd-8d9e-53a7d0e808a6@roeck-us.net>
+	 <e5b775065b92cada730f42a3d60546700ec46db9.camel@gmail.com>
+	 <e2208717-0f47-48d6-9cf2-20196e13a3d0@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <sextbnbmsur2xjfoun2l4lr5vekmpzae7sx6or2ird44t6ud6d@yprcz43tpq4p>
 
-On Mon, Feb 02, 2026 at 02:59:35PM +0900, Koichiro Den wrote:
-> > 
-> > Considering that struct pci_epf_bar lives in struct pci_epf, I think my
-> > previous idea of doing a kmemdup, seems wrong...
-> > 
-> 
-> I don't think it's inherently wrong. I think it really comes down to what
-> contract we want pci_epc_set_bar() to imply.
-> 
-> When I saw your earlier comment:
-> https://lore.kernel.org/all/aX019VTWjMlPX8qp@fedora/
-> I hastily assumed you were implicitly suggesting that there are some
-> outliers (such as epf-vntb), which led me to think we should document a
-> single "legit" way to use the API. In hindsight, I read too much into it,
-> there doesn't seem to be a clearly established contract today.
-> 
-> One subtlety if we decide to treat in-place updates as supported: the
-> existing dynamic update compatibility check in dwc [3] becomes officially
-> best-effort, because ep->epf_bar[bar] and the passed-in epf_bar may point
-> to the same object (so comparing against the previous state is not
-> reliable). In other words, changing barno/size/flags via in-place updates
-> would be caller misuse, but the driver cannot always detect it.
+On Wed, 2026-01-28 at 10:22 -0800, Guenter Roeck wrote:
+> On Wed, Jan 28, 2026 at 06:07:24PM +0000, Nuno S=C3=A1 wrote:
+> > > [ ... ]
+> > >=20
+> > > > +static int ltc4283_read_power_word(const struct ltc4283_hwmon *st,
+> > > > +				=C2=A0=C2=A0 u32 reg, long *val)
+> > > > +{
+> > > > +	u64 temp =3D (u64)LTC4283_ADC1_FS_uV * LTC4283_ADC2_FS_mV * DECA =
+* MILLI;
+> > > > +	unsigned int __raw;
+> > > > +	int ret;
+> > > > +
+> > > > +	ret =3D regmap_read(st->map_word, reg, &__raw);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	/*
+> > > > +	 * Power is given by:
+> > > > +	 *=C2=A0=C2=A0=C2=A0=C2=A0 P =3D CODE(16b) * 32.768mV * 2.048V / =
+(2^16 * Rsense)
+> > > > +	 */
+> > > > +	*val =3D DIV64_U64_ROUND_CLOSEST(temp * __raw, BIT_ULL(16) * st->=
+rsense);
+> > >=20
+> > > Does this overflow *val on 32-bit systems if the calculated power exc=
+eeds
+> > > 2000 Watts (approx 2^31 microWatts)?=C2=A0 The intermediate calculati=
+on is
+> > > u64, but the result is assigned to a signed long.
+> > >=20
+> >=20
+> > I'll have to double check this one but IIRC 2000W is not a realistic va=
+lue for
+> > these applications. One thing that could overflow is power_max given th=
+at the default
+> > register value is 0xff but we do write the proper max value depending o=
+n
+> > rsense (I actually need to check how will this behave in case we use a =
+default
+> > rsense value - ie with no DT property).
+> >=20
+>=20
+> I have been wondering if I should introduce a hwmon_power64 sensor type, =
+similar to
+> hwmon_energy64. WDYT ?
+>=20
 
-Yes, I agree, but I think that is fine.
+No strong opinion. As I said, not sure if it's needed here but OTOH given t=
+hat power is
+microWatts I guess it's a matter of time. Anyways, if you do it, I might as=
+ well just play safe
+and use it in here (and ltc4282 should also be converted - likely).
 
-If the caller does a fundamental change to an existing struct pci_epf_bar,
-between two set_bar() calls... they have no one to blame but themselves.
-
-At least the check will be able to detect when the second set_bar() call
-is supplied a new struct which does not have the same size / flags as the
-struct pci_epf_bar that is currently in use.
-
-The same currently applies to clear_bar():
-If you do a stupid in place update of the struct pci_epf_bar after calling
-set_bar(), e.g. modifying epf_bar->barno, clear_bar() will absolutely do
-"bad things".
-
-Perhaps we should update the comment in dw_pcie_ep_set_bar():
-
-diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index 7e7844ff0f7e..451ba8add157 100644
---- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -518,6 +518,11 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
-                /*
-                 * We can only dynamically change a BAR if the new BAR size and
-                 * BAR flags do not differ from the existing configuration.
-+                *
-+                * Note: this safety check only works when the caller uses a new
-+                * struct pci_epf_bar in the second set_bar() call. If the same
-+                * struct pci_epf_bar was supplied (i.e. being updated in place)
-+                * then it is impossible to detect invalid changes to the BAR.
-                 */
-                if (ep_func->epf_bar[bar]->barno != bar ||
-                    ep_func->epf_bar[bar]->size != size ||
-
-
-To make it clear that this safety check is not always possible.
-
-
-> > I'm sorry for making you waste time. I did miss that even though pci-epf-vntb
-> > does not do in place updates of doorbell BAR, it does so for the other BARs.
-> 
-> No worries at all, and thanks for digging through the history with me.
-> At this point, I think there are still two reasonable options (to
-> summarize):
-> 
-> X). Treat the existing in-tree callers (including in-place update) as valid
->     usage (i.e. apply [4]).
-> 
->     [4] https://lore.kernel.org/linux-pci/q5e7ydmf4ra6x2mbxwifovgr6p6x5dfnz3hz5psq5ypyabtsvx@oq5ovi4o26yf/
-> 
->     In this case, the downside noted in [4] remains: if a BAR reprogramming
->     attempt fails (especially for the long-standing epf-vntb's BAR Match ->
->     BAR Match transition case), the previously programmed inbound mapping
->     will already have been torn down. This behavior change is inherent in
->     making the teardown unconditional. I think this is acceptable because
->     if the caller is passing incompatible/invalid parameters, things are
->     already going off the rails anyway, and the call site that receives the
->     error should never actively use the BAR for any real transactions.
-> 
->     Separately, if we treat in-place updates as supported, some of the
->     existing compatibility checks (e.g. barno/size/flags) become inherently
->     best-effort, because the previous state may no longer be observable by
->     the driver. Addressing that would require additional follow-up work
->     (e.g. with doing a kmemdup and holding the snapshot), but this is a
->     pre-existing issue, so there is no need to rush fixing this.
-> 
-> Y). Define a stricter API usage contract, document it, and then adjust all
->     the caller sides later (i.e. apply this v2 series).
-> 
->     The downside here is that struct pci_epf embeds the struct pci_epf_bar
->     array, so tightening the contract and fixing existing users would
->     likely be awkward.
-> 
-> Personally, I'm inclined towards (X) at the moment, mainly because there
-> doesn't seem to be a firm, shared understanding of the API contract today.
-> Later, we can do follow-up work for the existing behaviour, which is
-> already present on mainline.
-> 
-> If you still agree with (X), I'll send v2 with splitting [4] into two-patch
-> series, with an explanation above the unconditional
-> dw_pcie_ep_clear_ib_maps().
-
-I did not change my mind a second time :)
-
-So I still think X is the way to go.
-
-
-Kind regards,
-Niklas
+- Nuno S=C3=A1
