@@ -1,105 +1,207 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0DB30BF70;
-	Mon,  2 Feb 2026 21:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDDB353ECC
+	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 22:30:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770069470; cv=none; b=pPACSSn2MJJoyF7pOpMVcx2IHxLgY1ARK3XQabVeUrjOSe1FWWbSduCWFvGP0wRU7cgeXW6JursvFUyAf/DVp9PwhuCVXPYBOCHnB5jKhi/leUJWaxwGfT89cb6EdE8CKRlLlFYQy+hBFtoJKlHFhk+K6J+uvekDbzyk6Lb6uBs=
+	t=1770071426; cv=none; b=j+EqTk5T2T1TIISyut74FwqO66KdvVf6BYtqperXBcRQfPFXRVJZnvBBWRgbk3xiZCfwpnrMKMwelwKgdghH30aOIYjRVriBZu/FB7R8yBl8ivZ3uYkNd/251qWXY87409QXCprNzV139Q6tG2qFZJX64lL9wW52Ql13MGJ6NH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770069470; c=relaxed/simple;
-	bh=P56i96NRuYLl+79Mae849MLDf3tpfWekmMXgt9RJ3Mc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mwUd3YsoNcMYdBba2bC/qYNNov9WdDc/tbCiO3kkZEWDEemK6XWPktc2zyBgEO4Zz+GJ/cw6NnoWjQ0bYhdRK/BD2UUnsbY88HtJjJzYBf/7w3p1YW9Ps6E2Y5zOkjBLW4pdcL5PtTn3UwHCK+LLEv7mVxl8Pltn6XrUpbyDNlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=StVsix6b; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1770071426; c=relaxed/simple;
+	bh=uSbCIOBOEf0Jbc1TJu+Uo31WNZmK8IMWR8LoTzKYbHI=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=W9skwWbLFMKdKXh5VFqQykHQoH4o+j7RTDneYyAdO4VC2glgHbs/lWUBW4sLQ80NFrxAduygCbFfcuovjrjIeqaMjRO4X04GAVrz1lu0yDxu6VDpuybdZmLZJ0XU5TkSnIsBycjEXzdTQooGeKAhwr8icYJUp0L4tf2eGnjw4bI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VhVKhscF; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="StVsix6b"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=OAFAKZ+dErA1HvBk9m+TneK1sY+noADf94ivapgmRWo=; b=StVsix6bfK9GPsxlABYwBkEIWA
-	J3hNaUSzrxCOv8YfWalpwuA3eDxo+YehVRmRaoDwia7pEnmFcI40ld6we10c0UUIN5YRkhGsr2DbF
-	YERRctAvOGtyET4nS/wjVD3j4AXWUniGW+qW0Rh3r1A2IK34+e/WJ8Fxa3//m05bJ+nMNqCUXmF9R
-	xPGRMh9Sf+VwxqBRTe7BTe60eXhJkiHVaaBq2Bz996+rxQMzigN8Vc3NjSLAT3KkPKr54MLrjGEhW
-	IfHVMNHetLjU2K1+uEcOdEabcLib3TOVYl6vkLvVlqMuOLsPvemCypDtX+NQZecF9iAgp1zKiUT1N
-	zKYVVGDw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vn1vW-00000005gDL-3kCW;
-	Mon, 02 Feb 2026 21:57:46 +0000
-Message-ID: <0d0b90c1-db32-4eab-98c2-9bb46cea7a8d@infradead.org>
-Date: Mon, 2 Feb 2026 13:57:46 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VhVKhscF"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-34e70e2e363so5188113a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 14:30:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770071423; x=1770676223; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=zTHZdye+hOtZPjhoVi1/P3piDNtewPIJyZBVqqIicdA=;
+        b=VhVKhscFBRcjyWXd4ZbEO+3iv3xVOA2HsrLH0awdshxYzlBSaU+NhELpUkGdjgtwUY
+         ph/k+MNvzUErKehkZfVXZxNxOEcmpFL2+q/sw7pP3nTagIBAud6gqAaxQXD8+b+5lhR7
+         K6Bu7mVwPvqS7t7aFzhIIryvHg9Nt8yOuM0o9ER+FIUbM65+hEISRIg1Dmkhzv3nowoV
+         BkMVjz0Z9XIY4vylL0gSvJcYIMH2JbaPZXoSaR2nniBi9HswyiZpu2IPE231O47vG/0N
+         Ij4H0QMMMiOzLVSmdHOoKlxapBL6hq773YDM0v9ZmoQb4uX25ELFGcgYU2Gjrv81LBMq
+         3auw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770071423; x=1770676223;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zTHZdye+hOtZPjhoVi1/P3piDNtewPIJyZBVqqIicdA=;
+        b=nX2VCnTIlA1CQ5TRRpyUKbkp4xSgbyBl4vneEIgC95cqqP7SZIXf9Z0WEEEu9ad9CI
+         Jzd/7xztxc08b73fe02gBtmL2YJMnw64jXFwSzRGvZNqkLAxGKGXTK6gTrPFqf2TG5dx
+         4f1NG4aeZHjGUUnkxEU12uMEaYXgVkUf3glDFTQ6+NxJDFoR63NgMOvkJ7ESqgK/PDGw
+         CCcLEuRQfQVDR6csL0YE1HS6JlzIGFRHga4rRIzUoxz/lbevcErltV6tKrtuV0hpHq9T
+         ibjsREBosJ5uzzb20zw58GCDlf3b0cmvl29+hn4NnuT9IZuoABEZLTpxMQumo5VNfG02
+         e+XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV8WdgaqTsS21IFbcS93jbj1b/29rxOU5dWtLHQNyYPnYZMix1KuUzX27ThifwKe+zNv9MZjmeybKQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhdZ9D68zZxtpRSab4Vxmx/RObaHuyCnHbcJOZWsh93Actcdq9
+	od6kxTDVl7APN9YjMuZmbm7lEGzVcdLSIL4B2l4RUCsdOtTkOM4+PrVqaWMotg/Lr4vhQu3gJbr
+	5v5wI0XfgkYDvWErOcqOgji40tQ==
+X-Received: from pjbgn7.prod.google.com ([2002:a17:90a:c787:b0:349:8a6d:dfd1])
+ (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:6c3:b0:352:cd58:c8ce with SMTP id 98e67ed59e1d1-3543b3e4ba3mr11808970a91.32.1770071422709;
+ Mon, 02 Feb 2026 14:30:22 -0800 (PST)
+Date: Mon,  2 Feb 2026 14:29:38 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: htmldocs: Documentation/driver-api/tty/tty_port.rst:65: WARNING:
- Document or section may not begin with a transition. [docutils]
-To: kernel test robot <lkp@intel.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <202602022007.fALe9bGB-lkp@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202602022007.fALe9bGB-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.rc1.225.gd81095ad13-goog
+Message-ID: <cover.1769725905.git.ackerleytng@google.com>
+Subject: [RFC PATCH v2 00/37] guest_memfd: In-place conversion support
+From: Ackerley Tng <ackerleytng@google.com>
+To: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	bp@alien8.de, brauner@kernel.org, chao.p.peng@intel.com, 
+	chao.p.peng@linux.intel.com, chenhuacai@kernel.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, david@kernel.org, hpa@zytor.com, 
+	ira.weiny@intel.com, jgg@nvidia.com, jmattson@google.com, jroedel@suse.de, 
+	jthoughton@google.com, maobibo@loongson.cn, mathieu.desnoyers@efficios.com, 
+	maz@kernel.org, mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
+	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
+	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, seanjc@google.com, shivankg@amd.com, shuah@kernel.org, 
+	steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
+	vannapurve@google.com, vbabka@suse.cz, willy@infradead.org, wyihan@google.com, 
+	yan.y.zhao@intel.com, Ackerley Tng <ackerleytng@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi k.t.r.,
+Here's a second revision of guest_memfd In-place conversion support.
 
-On 2/2/26 11:45 AM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   18f7fcd5e69a04df57b563360b88be72471d6b62
-> commit: 00d95fcc4dee66dfb6980de6f2973b32f973a1eb docs: kdoc: handle the obsolescensce of docutils.ErrorString()
-> date:   5 months ago
-> reproduce: (https://download.01.org/0day-ci/archive/20260202/202602022007.fALe9bGB-lkp@intel.com/reproduce)
+In this version, other than addressing comments from RFCv1 [1], the largest
+change is that guest_memfd now does not avoid participation in LRU; it
+participates in LRU by joining the unevictable list (no change from before this
+series).
 
-I cannot reproduce this warning.
-What version of docutils do you use?
+While checking for elevated refcounts during shared to private conversions,
+guest_memfd will now do an lru_add_drain_all() if elevated refcounts were found,
+before concluding that there are true users of the shared folio and erroring
+out.
 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202602022007.fALe9bGB-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    WARNING: No kernel-doc for file ./include/linux/tty_port.h
->    ERROR: Cannot find file ./include/linux/tty_port.h
->    WARNING: No kernel-doc for file ./include/linux/tty_port.h
->    ERROR: Cannot find file ./include/linux/tty_port.h
->    WARNING: No kernel-doc for file ./include/linux/tty_port.h
->>> Documentation/driver-api/tty/tty_port.rst:65: WARNING: Document or section may not begin with a transition. [docutils]
->    ERROR: Cannot find file ./include/linux/tty.h
->    WARNING: No kernel-doc for file ./include/linux/tty.h
->    ERROR: Cannot find file ./include/linux/tty.h
->    WARNING: No kernel-doc for file ./include/linux/tty.h
->    ERROR: Cannot find file ./include/linux/tty.h
-> 
-> 
-> vim +65 Documentation/driver-api/tty/tty_port.rst
-> 
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  61  
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  62  .. kernel-doc:: include/linux/tty_port.h
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  63     :identifiers: tty_port
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  64  
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26 @65  ----
-> 3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  66  
-> 
-> :::::: The code at line 65 was first introduced by commit
-> :::::: 3f19fed8d0daed6e0e04b130d203d4333b757901 Documentation: add TTY chapter
-> 
-> :::::: TO: Jiri Slaby <jslaby@suse.cz>
-> :::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> 
+I'd still like feedback on these points, if any:
 
-thanks.
--- 
-~Randy
+1. Having private/shared status stored in a maple tree (Thanks Michael for your
+   support of using maple trees over xarrays for performance! [5]).
+2. Having a new guest_memfd ioctl (not a vm ioctl) that performs conversions.
+3. Using ioctls/structs/input attribute similar to the existing vm ioctl
+   KVM_SET_MEMORY_ATTRIBUTES to perform conversions.
+4. Storing requested attributes directly in the maple tree.
+5. Using a KVM module-wide param to toggle between setting memory attributes via
+   vm and guest_memfd ioctls (making them mututally exclusive - a single loaded
+   KVM module can only do one of the two.).
 
+This series is based on kvm/next as at 2026-01-21, and here's the tree for your
+convenience:
+
+https://github.com/googleprodkernel/linux-cc/commits/guest_memfd-inplace-conversion-v2
+
+The "Don't set FGP_ACCESSED when getting folios" patch from RFCv1 is still
+useful but no longer related to conversion, and was posted separately [6].
+
+Older series:
+
++ RFCv1 is at [1]
++ Previous versions of this feature, part of other series, are available at
+  [2][3][4].
+
+[1] https://lore.kernel.org/all/cover.1760731772.git.ackerleytng@google.com/T/
+[2] https://lore.kernel.org/all/bd163de3118b626d1005aa88e71ef2fb72f0be0f.1726009989.git.ackerleytng@google.com/
+[3] https://lore.kernel.org/all/20250117163001.2326672-6-tabba@google.com/
+[4] https://lore.kernel.org/all/b784326e9ccae6a08388f1bf39db70a2204bdc51.1747264138.git.ackerleytng@google.com/
+[5] https://lore.kernel.org/all/20250529054227.hh2f4jmyqf6igd3i@amd.com/
+[6] https://lore.kernel.org/all/20260129172646.2361462-1-ackerleytng@google.com/
+
+Ackerley Tng (19):
+  KVM: guest_memfd: Update kvm_gmem_populate() to use gmem attributes
+  KVM: Introduce KVM_SET_MEMORY_ATTRIBUTES2
+  KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
+  KVM: guest_memfd: Handle lru_add fbatch refcounts during conversion
+    safety check
+  KVM: selftests: Update framework to use KVM_SET_MEMORY_ATTRIBUTES2
+  KVM: selftests: Test using guest_memfd for guest private memory
+  KVM: selftests: Test basic single-page conversion flow
+  KVM: selftests: Test conversion flow when INIT_SHARED
+  KVM: selftests: Test indexing in guest_memfd
+  KVM: selftests: Test conversion before allocation
+  KVM: selftests: Convert with allocated folios in different layouts
+  KVM: selftests: Test precision of conversion
+  KVM: selftests: Test that truncation does not change shared/private
+    status
+  KVM: selftests: Test conversion with elevated page refcount
+  KVM: selftests: Reset shared memory after hole-punching
+  KVM: selftests: Provide function to look up guest_memfd details from
+    gpa
+  KVM: selftests: Make TEST_EXPECT_SIGBUS thread-safe
+  KVM: selftests: Update private_mem_conversions_test to mmap()
+    guest_memfd
+  KVM: selftests: Add script to exercise private_mem_conversions_test
+
+Sean Christopherson (18):
+  KVM: guest_memfd: Introduce per-gmem attributes, use to guard user
+    mappings
+  KVM: Rename KVM_GENERIC_MEMORY_ATTRIBUTES to KVM_VM_MEMORY_ATTRIBUTES
+  KVM: Enumerate support for PRIVATE memory iff kvm_arch_has_private_mem
+    is defined
+  KVM: Stub in ability to disable per-VM memory attribute tracking
+  KVM: guest_memfd: Wire up kvm_get_memory_attributes() to per-gmem
+    attributes
+  KVM: guest_memfd: Enable INIT_SHARED on guest_memfd for x86 Coco VMs
+  KVM: Move KVM_VM_MEMORY_ATTRIBUTES config definition to x86
+  KVM: Let userspace disable per-VM mem attributes, enable per-gmem
+    attributes
+  KVM: selftests: Create gmem fd before "regular" fd when adding memslot
+  KVM: selftests: Rename guest_memfd{,_offset} to gmem_{fd,offset}
+  KVM: selftests: Add support for mmap() on guest_memfd in core library
+  KVM: selftests: Add selftests global for guest memory attributes
+    capability
+  KVM: selftests: Add helpers for calling ioctls on guest_memfd
+  KVM: selftests: Test that shared/private status is consistent across
+    processes
+  KVM: selftests: Provide common function to set memory attributes
+  KVM: selftests: Check fd/flags provided to mmap() when setting up
+    memslot
+  KVM: selftests: Update pre-fault test to work with per-guest_memfd
+    attributes
+  KVM: selftests: Update private memory exits test work with per-gmem
+    attributes
+
+ Documentation/virt/kvm/api.rst                |  72 ++-
+ arch/x86/include/asm/kvm_host.h               |   2 +-
+ arch/x86/kvm/Kconfig                          |  15 +-
+ arch/x86/kvm/mmu/mmu.c                        |   4 +-
+ arch/x86/kvm/x86.c                            |  13 +-
+ include/linux/kvm_host.h                      |  53 +-
+ include/trace/events/kvm.h                    |   4 +-
+ include/uapi/linux/kvm.h                      |  17 +
+ tools/testing/selftests/kvm/.gitignore        |   1 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../kvm/guest_memfd_conversions_test.c        | 486 ++++++++++++++++++
+ .../testing/selftests/kvm/guest_memfd_test.c  |  57 +-
+ .../testing/selftests/kvm/include/kvm_util.h  | 128 ++++-
+ .../testing/selftests/kvm/include/test_util.h |  31 +-
+ tools/testing/selftests/kvm/lib/kvm_util.c    | 130 +++--
+ tools/testing/selftests/kvm/lib/test_util.c   |   7 -
+ .../selftests/kvm/pre_fault_memory_test.c     |   2 +-
+ .../kvm/x86/private_mem_conversions_test.c    |  48 +-
+ .../kvm/x86/private_mem_conversions_test.py   | 152 ++++++
+ .../kvm/x86/private_mem_kvm_exits_test.c      |  36 +-
+ virt/kvm/Kconfig                              |   4 +-
+ virt/kvm/guest_memfd.c                        | 399 +++++++++++++-
+ virt/kvm/kvm_main.c                           | 104 +++-
+ 23 files changed, 1590 insertions(+), 176 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/guest_memfd_conversions_test.c
+ create mode 100755 tools/testing/selftests/kvm/x86/private_mem_conversions_test.py
+
+--
+2.53.0.rc1.225.gd81095ad13-goog
