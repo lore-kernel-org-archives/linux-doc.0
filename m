@@ -1,71 +1,69 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11020128.outbound.protection.outlook.com [52.101.229.128])
+Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazon11020104.outbound.protection.outlook.com [52.101.228.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B25C37472D;
-	Mon,  2 Feb 2026 14:54:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E802D2493;
+	Mon,  2 Feb 2026 15:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.228.104
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770044059; cv=fail; b=EKYGGGk6IT7+evXDbnmWJT6bMM0T6OzYiQ3pBG+jnKFVckPfDGgiO20Z47ur0oWZrYgw8U03/Lz3Cw0dQOCGcJSVl8HlAwfyasakKQ3m4PTjr00UgUrPPqG4I+0K8wbXsRdPpDSLHBpqDJlrwGwl4ebymXbhpMMGoJW8aT8rkt8=
+	t=1770044657; cv=fail; b=DBvPTJ7HUq6WuWFX40ytqBl58XXyVuE9zxdvfEzVbgFIvaLorqfyXEdbSXkb6VeNAdEo4FglHnhEAFVMMojX8ArIB5fv4fSlZRt+dd0YEpHrxym4YnYXwdjveezxA3L1fw7OdeMeqDWZx2dItGLOGuSG8ELYWIHCVixB95lKs34=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770044059; c=relaxed/simple;
-	bh=r7SsTH7HX9+moUlX6s5BOvcRCclyeKM1P+rJX+GIFks=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=WWZCvX5rZCRMa9qeeOjdNTT+LN0TeJc4FEcb6Zi+YepCTvi40RDObNQpolUgtWRH0SSk8dYwFozb/w6KqqegwwkFsIH4dkZFFgsHHYyV5ROi9T/5aEBvJjA/0vXBrYN7cSwD2qhgYdpTIE9chfhvqcSnUj1NYXH0njaXXyamJ9I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=Z+95Y62G; arc=fail smtp.client-ip=52.101.229.128
+	s=arc-20240116; t=1770044657; c=relaxed/simple;
+	bh=pWkOvKz/7uHLHj4beIbkt2mctMPUUxc4vWIOxfAYjqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KvYmCCxhyjH8jxRGEAxzU4XaMml8vvOFWtZruMxReEtrb5jPs9VkOZhRR0YUhlACefTA7qLiMSj0pZWqa+2szi7ZfP32uHw0kVrO7NR62UlrS7M1n6fL+fLALVvzBpB7FvvQtUtDwMKdMsxS+58WYn6q6rdyK5ITMkrrarcePws=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=mZJxp2gp; arc=fail smtp.client-ip=52.101.228.104
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="Z+95Y62G"
+	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="mZJxp2gp"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mXa7HsCXaTJ80fFTtHW53598eHny2B7mIB08BiLJeUxm5fuV3KVGAGudlPHFS7+HyBkNImERk/lTSZ2pqs5HR9f3gD6hFeaNwa8T2CNrdQBs2JK42cg1CtdRXEYQq5Mui3OxwnzliK+z6khwtgGQqYSuSpn+cNlcKUCcANQlHblaTsAvPynott4kHJo1GIj+4wloF8RU5bCng/wEtb6UbZ9eT2HTlp9uE543du68JInqNhBLmId+6G4D1rDtLZLJqjy6w0jA6Nqr7Wz8i8ESUIpViOqVtlNi7P88l+7YUfTjHAGhtKGGfRwNI63OEXS6/9aUYbA2i8Si4Nb/b2T7gQ==
+ b=gK7hl5or1ryN2l+g70Bu71ipVa3KYVnpQIaokMW+nGCVuY5ql8tH5vK7mUPAabZm0pyowsgxj66sbkrvhr+XsTs+UZrMZ9aYwrpnPm0lDz0DaI7CYEOTmrVMtPsl3Y/tA6UA+uGMljMycvTnlXv6kE1vxz6os4DqmI0q0eizGhSckn2kpP9XSpxGvMoHfrJBgRM5rJhL26NwvMOf+MQKYbdNridBcTL+m5PTzIx1SYgKk0TwSmnb8+fM2kddQosCtU3dEfEthUEuptujsu99p99BDkbljvx/WgiMGclkZ6qMtV+rFT2ioHRygUTlnBflxWk5d6ElBBUSU+W4l15vzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=myfWSvjvbUQ1WyQRdDNcmljcaZVqPv4q0vybl6Z1Grc=;
- b=PRS1+JazAxRxVQW0o9TSxxtbdlOwTUq4gmO3WVrie0XvLKy31Vu2xgFa1vE8lYD++6LwxBWZC2FI4XbGxYncd9Q49e2elIfCebtpWgQ2Ow9mXkmSflNb+THynfcHyXDkJMBp+Ep8FcvPFLhBQPUUspP+QSbGWxtLa9WLn5c9UjYP38s8wXMo9fY4h9riV6tk7J0utv9Ex+KQ3Dw64l70/kUVcoV54lzrnaWQl6NtBOZ7DJCbLW3VSjHqi3rogewm6pZ5RKXq7BDLDCRdhot3lJNJkAQnih1W0PlQnXB1GOclU+qNSKBT+ADxpS4G8/VhBuX4uQjYC4VdXDiHOul8bw==
+ bh=JVbu91/h9cqsX0AOCA8csaVz+fS2HcgU3A+nTWd1w4g=;
+ b=t+q7LHWKgijKcdwh2M3Lz4KK4TxL7Q7vDbwRpuzQkZB7bucsTtRhzI/LeLzCuMIqRY6G4QrExEAS73VMxG2Gk+7RRJvA+c4nWYv3Q9dAvjUUR4gJ5N4f/vmq1Ad8Jtn8HXOzOJnU0mGu7NPNZ92VJrcWBFig+PrSBXsy1xWwfHwTwFf/Zuc1AZOpHlFF+cBjHecRF3TmKh96mShtULKrC2Llsu4GtFZCN5lefiz5CmR4tVQZxi1BT683RJn0FLh/V43ETJilt9UiD2umbJueHo8jqyNpchP63veNpOgc5wUQQf75V5HevKN+JwKyGKyy3jMfFelVFQZkHFXne9XZDw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
  header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=myfWSvjvbUQ1WyQRdDNcmljcaZVqPv4q0vybl6Z1Grc=;
- b=Z+95Y62GVqKom9yRorBoGregChLPQXOe3/91mRyoZJ04sjYBzL62BSqZO+5Zqj7wCaTPbjulR9VM01HVEK45a0AFaWJa7g0bDsX1LkAYHXX8zhkPD+DnZVuHBSb9pFVroWRV+08FJs6arIT+CyAPClQebJIfzGFUtMeccZ5yEuA=
+ bh=JVbu91/h9cqsX0AOCA8csaVz+fS2HcgU3A+nTWd1w4g=;
+ b=mZJxp2gphs1cH7cIjfHfid8nmKqG22bIIMfxZrL48HQQRKfkOvFylMlPn7LoGa9KgOXSbC1G+fYsnBwKivKESg+SWg7vg8ef4bGAlJSBeDZIn07dqYYA9ANzutSKT0yNaU1z3BwfpB4U0KGbFrCAHEIGrxusDH1hrOSSCy9cYNg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=valinux.co.jp;
 Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TYCP286MB2195.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:15d::12) with
+ by OS7P286MB7748.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:464::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.15; Mon, 2 Feb
- 2026 14:54:12 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Mon, 2 Feb
+ 2026 15:04:12 +0000
 Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
  ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
  ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9564.016; Mon, 2 Feb 2026
- 14:54:12 +0000
+ 15:04:12 +0000
+Date: Tue, 3 Feb 2026 00:04:11 +0900
 From: Koichiro Den <den@valinux.co.jp>
-To: mani@kernel.org,
-	cassel@kernel.org,
-	kwilczynski@kernel.org,
-	kishon@kernel.org,
-	bhelgaas@google.com,
-	corbet@lwn.net,
-	jingoohan1@gmail.com,
-	lpieralisi@kernel.org,
-	robh@kernel.org,
-	Frank.Li@nxp.com
-Cc: linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] PCI: dwc: ep: Always clear IB maps on BAR update
-Date: Mon,  2 Feb 2026 23:54:07 +0900
-Message-ID: <20260202145407.503348-3-den@valinux.co.jp>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260202145407.503348-1-den@valinux.co.jp>
-References: <20260202145407.503348-1-den@valinux.co.jp>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYXPR01CA0044.jpnprd01.prod.outlook.com
- (2603:1096:403:a::14) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
+To: Niklas Cassel <cassel@kernel.org>
+Cc: mani@kernel.org, kwilczynski@kernel.org, kishon@kernel.org, 
+	bhelgaas@google.com, corbet@lwn.net, jingoohan1@gmail.com, lpieralisi@kernel.org, 
+	robh@kernel.org, Frank.Li@nxp.com, linux-pci@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] PCI: endpoint: Document pci_epc_set_bar() caller
+ ownership and lifetime rules
+Message-ID: <xzred2tylww7hbwrpov77h337r4x7mtjgdslgvwfgnooqjv6nx@cyo6mfj3v4hv>
+References: <20260131133655.218018-1-den@valinux.co.jp>
+ <20260131133655.218018-4-den@valinux.co.jp>
+ <aX4y3txKcYmb-kE3@fedora>
+ <4erlj426nvmilwfdq5e63ojiqecomcpj35nvmiyw2p5mvifwlt@yspmfxrzmxei>
+ <aX_HfpBoQX4j7mag@ryzen>
+ <sextbnbmsur2xjfoun2l4lr5vekmpzae7sx6or2ird44t6ud6d@yprcz43tpq4p>
+ <aYBt8OSLKC6F3nZG@ryzen>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aYBt8OSLKC6F3nZG@ryzen>
+X-ClientProxiedBy: TY4P301CA0023.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:2b1::15) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
  (2603:1096:405:38f::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -74,153 +72,203 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYCP286MB2195:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab330635-e323-4abb-8181-08de626aeda4
+X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|OS7P286MB7748:EE_
+X-MS-Office365-Filtering-Correlation-Id: eb0474e4-c98c-4334-5be2-08de626c532f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|10070799003|921020;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|10070799003|366016;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?s/ZlPKumhJCgOAQcSMH/tP+ccuiHADx1PaWTHCYmmFbTSjiSbyUV7JCMCVLH?=
- =?us-ascii?Q?DKsWRPdVJSEVL7aq0XT53QQupEtCZFFZW9Wnh1Nn9KCkT/ruAv95nEYCLSUb?=
- =?us-ascii?Q?AkbyfNWd9Rv9P3EckakWlBobeaNzycN7GShCIUI9IS/X4janr5Qdvi4CzlmP?=
- =?us-ascii?Q?+41detbk8B6I2/n3FbOhGASFwtt78zT3v0lK9Amm+W5EoGJA/0Tu9v6XmFKz?=
- =?us-ascii?Q?9c+Ll3spECVJA5R+8Q/VPXpFUWhbUBEhOnNlgqsAioMfC1g2Dc3w9oQqL/mw?=
- =?us-ascii?Q?ryk3e3LYNxW6gFSXaJaguKuT+F0aBr+FECetzAP/jFBMNtMmpGNajlHd/y8v?=
- =?us-ascii?Q?1C4AhEge+eMCqImUL298tsq4K+AcfSoW2ogPc7Nj1N7pZeEf4kTlpYJBPUmm?=
- =?us-ascii?Q?kai1e+fsjflP0swczeCzPE4To8VpmFHeC+zT/RGO+L13xc63Eaxx5WhZxJ+/?=
- =?us-ascii?Q?8aoL+cnS6bUic8ok5qjM/bncE7WMVkjiJAGjQpVuB6I6JWVpOEitn7iudipP?=
- =?us-ascii?Q?l+W1XVlwlVD7USRq62POVNzJBb//3HtIl6w4Oco+fA3TAJuA+ji4BDOA58qF?=
- =?us-ascii?Q?hpBqG6yU8vFSBOsbV7ITwv1uZBwCAI70enep2nI/AxuEqUt4bIyq3F1gMLuw?=
- =?us-ascii?Q?inoJBeO0B+747gBZblmiKW1Gyu0fyfu+7POfwU6epiK3tqmzg1jYaLJxPxWB?=
- =?us-ascii?Q?/Z7Zk2ZFZ9FmwgFDXsC1WcN0MBmuPkSx22PRbqj4PfjnPMLPbs629WoRY+lB?=
- =?us-ascii?Q?4S1M7MioOkEqN9W/y7P0UBByhI8qraakaLxpB2UCAudOJq2fPCvjJq1W3gKR?=
- =?us-ascii?Q?0UIBkV/nMtNroeU8LWxVI2vywP3Wr1JaiilvQmA967NCjfH2DtV365zX7tAh?=
- =?us-ascii?Q?qYNNVqZYpvUVdlQ+LAiOpeYJKXAjyXpVKTL+TQQbIN4oRm3wJLrqT6/wxvqg?=
- =?us-ascii?Q?3KoFhJG5Y2H3qkezwvi6i1Q208BcvZGytCJI8mRBsFxdExLjOH664Ui85+nH?=
- =?us-ascii?Q?avR0LB0TyKoZrNBx5aJ/TfwfKZ9clqkNyrnZ32VOSEb7aLt38GqRpkHOkCxh?=
- =?us-ascii?Q?IO2ihxXVaVP8v0U/IHbxAgtKB5evfAPOSGSU7e44hHBn99E4Um6CvG0+B9Tj?=
- =?us-ascii?Q?n3FuQ/bZoC/SCIdtt3J5c+2vd3XpBzkd8VGovncEidk9HGc4oXCxhajgHdcI?=
- =?us-ascii?Q?Z1h+pwKNvErr3Eqe13wtOXlLx7SQReTu+eOCorlY+kzAWiii/CK1v9d3CO6e?=
- =?us-ascii?Q?j8IF64H3UD54v4zqIBaMtCsAytpQzYo4hqyw68Ml0gdQfMJM0lnQC/vdEhVs?=
- =?us-ascii?Q?uN7b82lZhTTIqJTbUZJqpkHy+KMgHWGiZD+vRC1W4IVggLOdAoVwL6PWrwfs?=
- =?us-ascii?Q?SWiq++IO8gBjFcC9xUSkp6za+k6+LVCtpY3CrP+6Qb0h+t5dKoRhb7Y61Hai?=
- =?us-ascii?Q?s0aTjPfNx51MWLnrN7Wj0cfqwP+K4QWAUsmozt6jzBMuY+CLLgTe8zaXvnCL?=
- =?us-ascii?Q?/X1lvEklsPcarU+0+47YyfzpQ5JoeJSShxGRu9vNORjJnFs6W+UVAOjWMsAl?=
- =?us-ascii?Q?5NWgxXLaMJZmq1e2MVubSynyS53u03OeHXn8TW80Bx+nMc5QRFb9y81MBCqe?=
- =?us-ascii?Q?1w=3D=3D?=
+	=?us-ascii?Q?7GEBPg9Xt+Txuf2A3f83UNDwFF4WaaKIdoAJS5WouxcC2DJiDNQeXh6V1rHq?=
+ =?us-ascii?Q?F1d1cOIYaDke/FQKipzWcKsZJhglpMbXAOnSYy5yZ2faFR5J8s9GDgaZmKeI?=
+ =?us-ascii?Q?8KUbc9ldXxESdY9DFf4/nmVZI0bRuux6VqKGRctVP4IK/jrnd1RGGrIu/QC/?=
+ =?us-ascii?Q?XqRVR4GfrzF5kv2HJEAW9nC1Q6bl3Q4bb/gxA/tzagiXNwV4iyDICR+nUxDR?=
+ =?us-ascii?Q?lzuU+h/nffgiIxGBALtfJ35RlqHm1s8ASvVH3qZqHFePDYgDxf97vT2+8Ih8?=
+ =?us-ascii?Q?7gOi71QCOhpw5iG/7Z+EXuXq/9c+wWFvdjJWaUwyBBZjc2DzoiJlC92TQhBc?=
+ =?us-ascii?Q?kMshvk0eaxs1quhDl4M5UYXEd23jd/R3ekXmbjJ0WXNLQmK9OMYWdDsxuKN4?=
+ =?us-ascii?Q?0L0BzHAdo+Pw1T0ZXbUXvZQiLFnff+StYjcvetpyLPBXH8fPwBscOKNY/lzD?=
+ =?us-ascii?Q?sD6iEx6MBCZkLVJ2/7LEQzmQDHaEVOZGwJ86H6yrDo+9vytymu57dDMFqdIO?=
+ =?us-ascii?Q?exlnbZwFecRMWMDs2Z01FvzQWY6tbTA5TxGaLz0UoUnMfKAVmhsNtQJ5qWHe?=
+ =?us-ascii?Q?dsQ+2Ofpcsu+Vr3SNfmfAvIQHtMP8MKm24Zh4A5t3uN2flIsccgPt6CQCsOi?=
+ =?us-ascii?Q?2VqBGKO9CIlKYDicLOsW+Jvl2CMzunskh28HmtmP6ZPMWby65fPmyYinH7np?=
+ =?us-ascii?Q?lyzxqDWYYSNobTBOed3gNn9xVDJvmruS2nZe/L2/OUWwmdQGWqjCEcPgO6+5?=
+ =?us-ascii?Q?ui9w7WvMHpK2iRYpXB3OlPOekoBewpnpcKiBd4YtMzUrG745BSQySIEVpZzs?=
+ =?us-ascii?Q?y/Rp5g3flNGL/3uWHpMISQPi1CQ76dlkhC/bvJ4gfyZYwoxmxladg80TRLKH?=
+ =?us-ascii?Q?TNot2mlTIxes6v0Ic95is3HECj3ev6frZEw6OxJE734IYUN2Qs528JSuD5ZR?=
+ =?us-ascii?Q?uMFY2Spess21DuMkrFqepnll4ZnwaZOZeLDR2zlH2K6SbyckITDzNKxtjMv4?=
+ =?us-ascii?Q?Oj1kd9o++y+e7qCDxiB+nSoWvsNz+/Q1A5N+YMdq9XDm6owW/AbyhHDxA3IP?=
+ =?us-ascii?Q?i24XbEAfKFe/c2rRNezjEVa29GHdaxP0AKpk922Jtwkfxz+iVYGMPck1Etae?=
+ =?us-ascii?Q?6UMOJKB9HGoQINoy/oRpgVAORiRIMj7GGV8Po2ILVhrB4BDCCGQjuZymE1no?=
+ =?us-ascii?Q?AKHAot6ewg1lG8v7Yg4P7UoZlS/IYS5+2HPiHShFQ0QYm06m/DDYy8w/FbND?=
+ =?us-ascii?Q?3qhRPePcIECbjCUt0P6TqEgxEWqEU8n5oa3O7nU0NF44boCJbo0zq31edW38?=
+ =?us-ascii?Q?KubFSYXiiAGEdpeO6tEO3ds9rPingWqIYAM6AEGLyLQDcQpmAY2loegYdCKN?=
+ =?us-ascii?Q?AMYmBdtrybId3U9QdAIKeGa6GRVB4ZpVI0FV+n6JqLm3v7OiaWS8tmWbygr+?=
+ =?us-ascii?Q?2yCQm8ujSY3AeZTfq8GS8G2KTTEHIcnjfIhA5N1Ch6RIUdq0LayENvv49HFb?=
+ =?us-ascii?Q?iZGmwpFTmSWGNF2Rp5hI6/0VkzPzUQFWZxmFOH/t3jXf+rpZyigrVacDtEuy?=
+ =?us-ascii?Q?Ws5Xz364RJk4/BbvgOc=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(10070799003)(921020);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?kFaiznd6hfPXWb1SbD6J61hhBHpLC4GbfNN7SLuTA7AKvaT6wdRTFXjWiFOS?=
- =?us-ascii?Q?qvABXqdnZuwDqb2prUDxReChGCamlKJt/8F3ntTEESUyp90DS1mOMocnaqZF?=
- =?us-ascii?Q?6a6Bwfb5me1KugijoWxuWWvNkWLQyeT9dahBzhMaj/Hl+W4i7GtpIAjLgOKM?=
- =?us-ascii?Q?vuZKrQCa2YfdZmkjhGIW311+9HBlqRgkiSz2+/8mswIYMexeq0YqdsgblmqH?=
- =?us-ascii?Q?uShE6ynY7s1Q6gbtfNV0/ENEUVBpghqGAQ5lSRz2cMonFeiYP/ok391VzB7s?=
- =?us-ascii?Q?BMYqIWtgzeIdrtVeHO9O6zvQvG8MC7kKc3sDgP3BZUTuJgx3lTsDUAp+MBzA?=
- =?us-ascii?Q?rB2vAXUyh/gu9rEu0YvUe086a8KR+wCQCD6oj/AStPa5mvvBwSeskd6Knw9d?=
- =?us-ascii?Q?OIX6z13cR1RcJIBwpZOUYNryp0KR7DU7wKgzNHayTCpPZC39VUavozCWHTEk?=
- =?us-ascii?Q?ks9CuG3PaRF51kPCQncfyoQUVIdJJwomQfqgZ3PjOmAqD6oc6yGgio67pb4h?=
- =?us-ascii?Q?yxqe/gyJlZufZI0mv7e9qjz/y8R9iL2+jWC3136buSVCUT3WJCE9gIVTByEW?=
- =?us-ascii?Q?pTA/HEWG5ZD3hiynPW6f3G2q9B39eOGiytFwfyUTv8PRSt1nG43klQf2Xg6g?=
- =?us-ascii?Q?BTEeEzfe0I/QEhTRnF2+KTP7SjFlhfpO3sbQLVAkURXy3z94DsUJo1RJgTLN?=
- =?us-ascii?Q?eMyPoLy0LgVZiwOfb475pgvEk08PT/q7VTSKMuCtYE976rBKprfjj/Iniuyc?=
- =?us-ascii?Q?A6azXgeRCsRN9l8Irgdm7zYcCAf5cIROxs+us9HrvenlcEjW3jFADlMc/cvj?=
- =?us-ascii?Q?UB6hAyrOOucKqm0lUwNcXdYilIzKBDRwODE7TxOCx7PnOYPcQxCHWFPSjWPY?=
- =?us-ascii?Q?HhdI7pS6vm5UF/1qC6XQC0ZCLdc82pwCpsdWynImiXz0GaO8vDyy8w3AMEWX?=
- =?us-ascii?Q?jVe/TB/HflYbO3AgIqzMWhlzUrymP+Sbw2qo+bfpBgoGU1MCsaB2WIW0UNzs?=
- =?us-ascii?Q?4Rm90JGsOElrllpTYOKjwrNIeDUIeWKb2OZyBwHffzwUWVAqaJ8foqIXD8Jj?=
- =?us-ascii?Q?oFsp3j9mHyEOhTXmRNIG5PBMa3lkiG15HvRqhIMicgIfE6w19+uf75NAI8/i?=
- =?us-ascii?Q?KWqyQzCR1XuzPrKIIdBw/eub2r7X1hkmrzFd6OOwAm1KT6rtP0VQ6bHXpgt7?=
- =?us-ascii?Q?8I+NkDks84XOuVcKb8nXGziuXe/ROKKri+bcSrG5U9swExL5m0HnHUe4OiBn?=
- =?us-ascii?Q?hAeccCBQDMzp+68YWKicMiksXIbi6KYUqApcTQ7VUhlUqezsLIn5MWPG8+04?=
- =?us-ascii?Q?mjzjGGXAKNyb0Xfi8JGMo3e4LcY/XeRCK5mK2OWweSd+rAAtuV6NvlxE1paV?=
- =?us-ascii?Q?3okSKnzS4O60bW4xzfy3qBdzvsIImhtUEN0e2PYdAY5/cP6Sopo0XybCGfce?=
- =?us-ascii?Q?BNZ5FdDY3A8NhiNQWK7SWLtPybuY1cp0toI6SlJQzFAQQiamBJ4KIGeIHHEr?=
- =?us-ascii?Q?obMBfVK56giP8JbW6iUuLP2EGLBa6pl5igg4gLeSpxv/WfRHkSrffjSfHNXn?=
- =?us-ascii?Q?mg8FIG8lN1/jzrOjb5BwPX5nNxfCpwfY8zfIPaUL5m5czBoEQC2P2WZQ2z2W?=
- =?us-ascii?Q?7kFPQ1P3jAigs2tS8wouhHLZf5hnYHf0Vmiq8Yh2BWJHluVp2E6MTZhTPntF?=
- =?us-ascii?Q?5Kctqu7XrvCl4Iy66gEa873cFUaldcb9XABI0ZgOTj9EtVgnf6pJINDiHebp?=
- =?us-ascii?Q?jHLT+Cc15aP0riGSiW6m0HN8XI2x2XHnitAo3Q7JVdDEPP41gJBE?=
+	=?us-ascii?Q?7jrKG4rWj01uD2sZzisocT2eyxiigG7pTELAJmD5vSYE6NteEgLuwc0BI1ev?=
+ =?us-ascii?Q?ADZxA8tLZoInBJRipsx2kXsHrvEPhw8Fb9wXxtNfj3uSVzRa1vG+4Akd8aYP?=
+ =?us-ascii?Q?svN9d29hEmfPiCBIRdZrNYDZDhoF2UHFYccMxA+GysRdwxtNOLAAakcrBeaq?=
+ =?us-ascii?Q?82g9qL2djY1InYOiDnQw9NP36fdHPw9n7cdTtVlfRLG1Y1iX5LQ+Bh7v9i2G?=
+ =?us-ascii?Q?ROMrpCIbn+Zs66dlVYWhDLwQpoSIdAXhx8ffBVnTcbdcsRVral0Q+LkaqGSd?=
+ =?us-ascii?Q?i+26crU3iZEWSHCC33AArxXgj6Rd7ucT9WC+grH2OaTG713ihP625WkkzfRX?=
+ =?us-ascii?Q?aquzpI9uEEy6VwbA2ymlHUkXgW9kY/LOmVhyqiz7jUJyEaMfzB5TS8jBES+V?=
+ =?us-ascii?Q?x66bI0Z1Dhe+vCGP+haisWNDK5DEGDeg0kNzojMRtJFa0czKv9VTN11yrjG5?=
+ =?us-ascii?Q?eMlhsgV6hJkrB+njb5clwxiigi3/rJKyVan4Xo9O8QyKXOuS/fO+UkYaZT28?=
+ =?us-ascii?Q?4HQCOeXkyIKaBHGLsyQgv0o4iTM16xBHouVUGeDfroRdSJ9gVTi4JVcO9k9r?=
+ =?us-ascii?Q?Glr/WJTBrhuSzWrpZOdRO9Og5HCa6pRneAnGMXPDMaVW8InrFv1Z8qtxMT5Q?=
+ =?us-ascii?Q?Ay26SL986YfhYz5yJ+a9xpY6VxP6kfCMmwzyD23iFB+KXx6uVxXgKHhzzYq8?=
+ =?us-ascii?Q?TRfTWgd65FALDnh7PBJAo/95b8OzgGsoUCv7fesvxGJtJNewGfdDiN2py6PC?=
+ =?us-ascii?Q?KtuzswhZx8p2CbaNULdRroHQPGj6Tpnrwx/JXe1mTnhFc6nwpTjMgM+s+03Y?=
+ =?us-ascii?Q?QTsq9v5MIZzoAVKtX4mP0oNjgWlJESv1yHeTBm27c+TFF2XOIQjzLju+XeOa?=
+ =?us-ascii?Q?1XozTVt7SaUyErA+kSohet+2fa4qdMR9kJIbl2YI3LSDP6KyX4EqJj4hZAY2?=
+ =?us-ascii?Q?xUjgTEhwgnu9rRBf3tKcayGTkrMrLMEAj8Ho5jZLC2L39TKJ7XAOAw5z3XVu?=
+ =?us-ascii?Q?tApdL7CmCqCcMzp0h5QSu9C2QXuWVZ6OoT6O90PaM0/urtX8XEaaQyuxjQe/?=
+ =?us-ascii?Q?3uu3rzvL+tbmwdkFhMgznkHtTzLalNpfesfLuUZ0dmfISjlw3GBc5Wb8pXdy?=
+ =?us-ascii?Q?qvD7ENOZqEQVynrQdvnPPa+FGArPAazbMx1F8lqWOtP7z9y/Q8s3mDNcrRp7?=
+ =?us-ascii?Q?P4gc/MAoNF92igiDRMeWA7dewSXaeL2odYtNbuyYJDPzVZTQ1JO9z7JLz3Or?=
+ =?us-ascii?Q?aTXcmpV84r2qucWF0VlBKD7YipoGpVAXt4WbTxIv4LRp3k/x3sybo7UlGHcj?=
+ =?us-ascii?Q?ASdt1+ZYMvICkGcUMM5MdEd9Kods95bVFFrXBHThROeMGEKxH8LvCFkplW7y?=
+ =?us-ascii?Q?lKkkqm3IgZ1aTdSLHAVsgGzBOvWgEeWdjfYDy7vWmuRpBcKN6wkdv9Gtz6Ub?=
+ =?us-ascii?Q?1/mdr33cn3f5fUODrkB9mOOWFjYnm/rP1AZ3JiYQofCpCb6WNqVmg1YCG5gc?=
+ =?us-ascii?Q?enQ1k1kO9d5fPSPcqFZxNAYGC030rtjMqYqI1zFNAOUVV6qYpqEXsHi171ow?=
+ =?us-ascii?Q?O0fCBLEa4FvcMv/rNZtePD54Uo3VfGvRGdKZm4aOVB0diD5rpgvPX+Ri18E/?=
+ =?us-ascii?Q?MdJEFQO4WHLepOiXBzAQ/yE0/LFdoh8OHompCWqOT1/AsPeRWveMiMnWGIMQ?=
+ =?us-ascii?Q?+XiurfDIMzhay+M3DvC6tZ110mKTNQtwhOBoB8ioTk1oldzuFWCQufEO38U9?=
+ =?us-ascii?Q?I4ThP9xPIVneXqjLho0ypS3M53qOJ4W32DZJ0zpBgxjnuA1HEA5Y?=
 X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab330635-e323-4abb-8181-08de626aeda4
+X-MS-Exchange-CrossTenant-Network-Message-Id: eb0474e4-c98c-4334-5be2-08de626c532f
 X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 14:54:12.6741
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2026 15:04:12.5433
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OAtR3pI2CffkkFiBNH66XsZKaXTo514TVi74pLN87EJ5OvOyRNSakDaMkISAibzhoONyEHD2kdP3NQNGZO9YRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB2195
+X-MS-Exchange-CrossTenant-UserPrincipalName: sklfcmjrjXU54PliuAU+5sRO4rhbW7Rb407htpWdUGIUMTl4o9xQP3cRbphldFwTv+IEzOKDhkhBGgm1ZcZjnQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7P286MB7748
 
-dw_pcie_ep_set_bar() currently tears down existing inbound mappings only
-when either the previous or the new struct pci_epf_bar uses submaps
-(num_submap != 0). If both the old and new mappings are BAR Match Mode,
-reprogramming the same ATU index is sufficient, so no explicit teardown
-was needed.
+On Mon, Feb 02, 2026 at 10:27:12AM +0100, Niklas Cassel wrote:
+> On Mon, Feb 02, 2026 at 02:59:35PM +0900, Koichiro Den wrote:
+> > > 
+> > > Considering that struct pci_epf_bar lives in struct pci_epf, I think my
+> > > previous idea of doing a kmemdup, seems wrong...
+> > > 
+> > 
+> > I don't think it's inherently wrong. I think it really comes down to what
+> > contract we want pci_epc_set_bar() to imply.
+> > 
+> > When I saw your earlier comment:
+> > https://lore.kernel.org/all/aX019VTWjMlPX8qp@fedora/
+> > I hastily assumed you were implicitly suggesting that there are some
+> > outliers (such as epf-vntb), which led me to think we should document a
+> > single "legit" way to use the API. In hindsight, I read too much into it,
+> > there doesn't seem to be a clearly established contract today.
+> > 
+> > One subtlety if we decide to treat in-place updates as supported: the
+> > existing dynamic update compatibility check in dwc [3] becomes officially
+> > best-effort, because ep->epf_bar[bar] and the passed-in epf_bar may point
+> > to the same object (so comparing against the previous state is not
+> > reliable). In other words, changing barno/size/flags via in-place updates
+> > would be caller misuse, but the driver cannot always detect it.
+> 
+> Yes, I agree, but I think that is fine.
+> 
+> If the caller does a fundamental change to an existing struct pci_epf_bar,
+> between two set_bar() calls... they have no one to blame but themselves.
+> 
+> At least the check will be able to detect when the second set_bar() call
+> is supplied a new struct which does not have the same size / flags as the
+> struct pci_epf_bar that is currently in use.
+> 
+> The same currently applies to clear_bar():
+> If you do a stupid in place update of the struct pci_epf_bar after calling
+> set_bar(), e.g. modifying epf_bar->barno, clear_bar() will absolutely do
+> "bad things".
+> 
+> Perhaps we should update the comment in dw_pcie_ep_set_bar():
+> 
+> diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> index 7e7844ff0f7e..451ba8add157 100644
+> --- a/drivers/pci/controller/dwc/pcie-designware-ep.c
+> +++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
+> @@ -518,6 +518,11 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
+>                 /*
+>                  * We can only dynamically change a BAR if the new BAR size and
+>                  * BAR flags do not differ from the existing configuration.
+> +                *
+> +                * Note: this safety check only works when the caller uses a new
+> +                * struct pci_epf_bar in the second set_bar() call. If the same
+> +                * struct pci_epf_bar was supplied (i.e. being updated in place)
+> +                * then it is impossible to detect invalid changes to the BAR.
+>                  */
+>                 if (ep_func->epf_bar[bar]->barno != bar ||
+>                     ep_func->epf_bar[bar]->size != size ||
+> 
+> 
+> To make it clear that this safety check is not always possible.
+> 
+> 
+> > > I'm sorry for making you waste time. I did miss that even though pci-epf-vntb
+> > > does not do in place updates of doorbell BAR, it does so for the other BARs.
+> > 
+> > No worries at all, and thanks for digging through the history with me.
+> > At this point, I think there are still two reasonable options (to
+> > summarize):
+> > 
+> > X). Treat the existing in-tree callers (including in-place update) as valid
+> >     usage (i.e. apply [4]).
+> > 
+> >     [4] https://lore.kernel.org/linux-pci/q5e7ydmf4ra6x2mbxwifovgr6p6x5dfnz3hz5psq5ypyabtsvx@oq5ovi4o26yf/
+> > 
+> >     In this case, the downside noted in [4] remains: if a BAR reprogramming
+> >     attempt fails (especially for the long-standing epf-vntb's BAR Match ->
+> >     BAR Match transition case), the previously programmed inbound mapping
+> >     will already have been torn down. This behavior change is inherent in
+> >     making the teardown unconditional. I think this is acceptable because
+> >     if the caller is passing incompatible/invalid parameters, things are
+> >     already going off the rails anyway, and the call site that receives the
+> >     error should never actively use the BAR for any real transactions.
+> > 
+> >     Separately, if we treat in-place updates as supported, some of the
+> >     existing compatibility checks (e.g. barno/size/flags) become inherently
+> >     best-effort, because the previous state may no longer be observable by
+> >     the driver. Addressing that would require additional follow-up work
+> >     (e.g. with doing a kmemdup and holding the snapshot), but this is a
+> >     pre-existing issue, so there is no need to rush fixing this.
+> > 
+> > Y). Define a stricter API usage contract, document it, and then adjust all
+> >     the caller sides later (i.e. apply this v2 series).
+> > 
+> >     The downside here is that struct pci_epf embeds the struct pci_epf_bar
+> >     array, so tightening the contract and fixing existing users would
+> >     likely be awkward.
+> > 
+> > Personally, I'm inclined towards (X) at the moment, mainly because there
+> > doesn't seem to be a firm, shared understanding of the API contract today.
+> > Later, we can do follow-up work for the existing behaviour, which is
+> > already present on mainline.
+> > 
+> > If you still agree with (X), I'll send v2 with splitting [4] into two-patch
+> > series, with an explanation above the unconditional
+> > dw_pcie_ep_clear_ib_maps().
+> 
+> I did not change my mind a second time :)
+> 
+> So I still think X is the way to go.
 
-However, some callers may reuse the same struct pci_epf_bar instance and
-update it in place before calling set_bar() again. In that case
-ep_func->epf_bar[bar] and the passed-in epf_bar can point to the same
-object, so we cannot reliably distinguish BAR Match Mode -> BAR Match Mode
-from Address Match Mode -> BAR Match Mode. As a result, the conditional
-teardown based on num_submap becomes unreliable and existing inbound maps
-may be left active.
+I have just sent v2:
+https://lore.kernel.org/linux-pci/20260202145407.503348-1-den@valinux.co.jp/
+Thanks for the review.
 
-Call dw_pcie_ep_clear_ib_maps() unconditionally before reprogramming the
-BAR so that in-place updates are handled correctly.
+Kind regards,
+Koichiro
 
-This introduces a behavioral change in a corner case: if a BAR
-reprogramming attempt fails (especially for the long-standing BAR Match
-Mode -> BAR Match Mode update case), the previously programmed inbound
-mapping will already have been torn down. This should be acceptable,
-since the caller observes the error and should not use the BAR for any
-real transactions in that case.
-
-While at it, document that the existing update parameter check is
-best-effort for in-place updates.
-
-Fixes: cc839bef7727 ("PCI: dwc: ep: Support BAR subrange inbound mapping via Address Match Mode iATU")
-Signed-off-by: Koichiro Den <den@valinux.co.jp>
----
- drivers/pci/controller/dwc/pcie-designware-ep.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/pci/controller/dwc/pcie-designware-ep.c b/drivers/pci/controller/dwc/pcie-designware-ep.c
-index 0ca05943a1e5..295076cf70de 100644
---- a/drivers/pci/controller/dwc/pcie-designware-ep.c
-+++ b/drivers/pci/controller/dwc/pcie-designware-ep.c
-@@ -519,6 +519,12 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 		/*
- 		 * We can only dynamically change a BAR if the new BAR size and
- 		 * BAR flags do not differ from the existing configuration.
-+		 *
-+		 * Note: this safety check only works when the caller uses
-+		 * a new struct pci_epf_bar in the second set_bar() call.
-+		 * If the same instance is updated in place and passed in,
-+		 * we cannot reliably detect invalid barno/size/flags
-+		 * changes here.
- 		 */
- 		if (ep_func->epf_bar[bar]->barno != bar ||
- 		    ep_func->epf_bar[bar]->size != size ||
-@@ -527,10 +533,12 @@ static int dw_pcie_ep_set_bar(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 
- 		/*
- 		 * When dynamically changing a BAR, tear down any existing
--		 * mappings before re-programming.
-+		 * mappings before re-programming. This is redundant when
-+		 * both the old and new mappings are BAR Match Mode, but
-+		 * required to handle in-place updates and match-mode
-+		 * changes reliably.
- 		 */
--		if (ep_func->epf_bar[bar]->num_submap || epf_bar->num_submap)
--			dw_pcie_ep_clear_ib_maps(ep, func_no, bar);
-+		dw_pcie_ep_clear_ib_maps(ep, func_no, bar);
- 
- 		/*
- 		 * When dynamically changing a BAR, skip writing the BAR reg, as
--- 
-2.51.0
-
+> 
+> 
+> Kind regards,
+> Niklas
