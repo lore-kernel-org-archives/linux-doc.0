@@ -1,84 +1,80 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF2F2D46B4
-	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 09:39:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F1E2DFA54
+	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 09:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770025180; cv=none; b=hvzlfzw6q61Smbpz1N8Lv5E7EOn1myf53AImq2RwP+/VIWn84dA28MpPAB2jqqrhAHD2B3g61gjn6ichYdrs4uj8vn1NwX1cOZF0iESpBc3u1z2YDHJFwUZkDglj9GCelQXHhIaottjSE2/xMuMLbe2jNwlt/JnnsTaMyQABjUo=
+	t=1770026226; cv=none; b=fS8Ysx4QyiVHJYY8GYfF1+KpKA9CbPn2tuM4Lx8IOe+hyx9d4hjfMfaUkchnsaMnwQh3Xc0NjfYyC5pCdamp/IIGgMOF9F+1TndLQEPYuiO7TwpAgbgsaz+nKlzY8b/VpRmQpFxMIuIcWLEc50yMlThtxdMZp1FG1Iio+NGSmvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770025180; c=relaxed/simple;
-	bh=JZW9FqOgKNlGr+OVdZAsl+iLG1my67/IDZ5nsGYYj8U=;
+	s=arc-20240116; t=1770026226; c=relaxed/simple;
+	bh=aQyS+hE0k2g5HzJUxy2lGI++kpB0sDD0gMSMsx1vkYE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jgsoNj5F8LGTTKpSupFUozJAanaL94fmiGHFTjmNkzLMKbyb2m1NiXhas4yeUswRoA2geLhMbby4PWcBzLPpo0iPdQDeAVBIaUBYOUApncvvrIt2X31wlOMmwV7QKR+Hft9yTVGxxexT16CXAdlSIgCz8JT6ViwvE95YAR2g4UA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Prp5a7r0; arc=none smtp.client-ip=209.85.221.47
+	 Content-Type:MIME-Version; b=Foh8DWoc0+R83B3/M79spbOApgThGZm4K74xOu3Q5ikVqJZdtsvcCRsaOZ/EOUUZ4Une5940/bDqy3g18QPyz4fAshkqlmBURbwolnb003RP77nBskHh79EsZjx+nqjib8KpvoExtk4shn0QhiWMfCmvhA6wEBhy/k2pNZHyzyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AhFPS8rS; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Prp5a7r0"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4359a316d89so3182713f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 01:39:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AhFPS8rS"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4359108fd24so2560782f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 01:57:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770025177; x=1770629977; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770026222; x=1770631022; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=NG9zIsElX5WbHaxck+/ant7kO4MYK49Qj1cyBalqLVE=;
-        b=Prp5a7r08hNeA/bvpK1pRqjkdwlud3a+1wNYX5JXd9F4BbxGYu4q44XjjQ9s7Gaiq/
-         ht/zFSAZW46p39/dsE3OZvFzmhP2PmQBm236uvqWZ+XM9lOK/4XcseZNcFk9RstZ3lUV
-         AcYYJjbSjOuiLDiHl0EzMfLw0tpjysycrZSEIHKn/lZxjIO24DOHWjxRfU9G9zPwTxb+
-         23gS4ChkRa5SVAX7y0W4QtAcpWrkVC9XCkRhwCw1x/bhvV5qvAp/PvS9Vr4Rhn3qV2rB
-         WH60EwZIVKLpykSqp13RdlFlQnyh42tG/2iJ+U6s/teaoIc1YqRcGwegpj0Gqt/QuIKe
-         5rcg==
+        bh=AFDYJ7q5ek+KQjUhD9TdsFNk97m/l5Paz0LDlGO6qOo=;
+        b=AhFPS8rSkzQLsTOupJ+6H0meExyi1Bz1CHUpTwrBTmp8xc9ZCXfAB3XhMDsFHXBRyx
+         7GXi9yOy1fVJryLASSDmr1BAwW27HZhgLvceQX9KQaE5blpqbfFDn9aJDitA0wAvT1ob
+         2zcYadrwjl8xlofawGgQ/FIwbsCIvvl0JFef3gRq6w1u2rwt/9Zv+AYRYjbLLgrwnGbN
+         RQ761QqXE8kMx6FMx54oh990Vw48Xpadhb4Ee4mO/3+lV3MfT8bqbtvIkJmzVkzd5LTg
+         q6NJbkIVvYI7xFRq/AKRAYPDbUwaPsIfXIfmebtI60H72Ewn6Oi50Lk/0zyPjgHMn1Mw
+         XLHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770025177; x=1770629977;
+        d=1e100.net; s=20230601; t=1770026222; x=1770631022;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NG9zIsElX5WbHaxck+/ant7kO4MYK49Qj1cyBalqLVE=;
-        b=ZRHTZyDvjWg/edBh8aY/CZELZ3HPOpwHSmSrwS0FpmMuV1MF+J/kpnUhlomHgeZimM
-         8OLGd/xM1UJ5r6hYEXyN0rFKlgbgDjK9lFcDiA1l2I7ISyRxMO11XqsEIDWiw8sN6S17
-         5pN2uyFHyu+MrFjxQZRRFJ1XqSC53irBkzPl8BA0vnoDNb0SdHScIEkrYL7z+X6OTQFH
-         ya5ErrG5idvJ8XEiF5iTof+x/3u5Mb5UeZSZfYImCYEEfwUw1yTvk+agavea8HkWwJHD
-         6MzOu3qZ+koDrh9LRGbjG5kDL+kow2CqDWTod3s+BQuZAYRxurFGwe08GiVEFlGMmdwF
-         0gzA==
-X-Forwarded-Encrypted: i=1; AJvYcCWGe/cyTWKUo2aRroGQuxfocfw5R+Glz3Yd4zud3ZSE2vY3+9xKKDTRxlBhNzJ7ufvWj/kONVKrdFw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBOIagfLuFzuJMQA2BWYvE+b1dM94Ym6tsV4YTR95XsXvEiPES
-	mSCTpZMNG41BFd1SYeu8DA5S1L7dQuNhbua0YtceUUkIq48FVzUsTqfw
-X-Gm-Gg: AZuq6aK+XOIGCw1f40weOlXm8LdgUFtYldJBX9fa8OOvMuOGYFO3WAKsj2GEQgOKDju
-	UamSkvY51cKicxPiM46v38jc4Crdw5pdoPM8+qdHjCD65FVIxaY8T9U33r1Qwd4mJGjSewTbORX
-	nj88Pka8OUNyEC/5fHxDKIOMVEgbdMKHvDLYkyxEvUduu90wygccq0uVwnC9mQCNF8f+q0joxjR
-	pyaUk1lA42CztvhIwiA0Dcd+HcOU71NxOPrLorA9bBwtPyNlyCuv4DRN2V2v/VC5WQwVA3WSJG5
-	RdAZmmRctPONzvbDz0jk1sUgKpMSZZM67UWT+SSIpXoooWsTfuSNCMF13x8AN0p1SY0vagyeFpT
-	5kYTLR/azDm1VxttWYRNbS0BOoMQ6JW58hhVfCjRhxfdgjDFrihsAinoyAT26yeTS11CBwYWhY4
-	UpH/n+X83j8Sv90ajhW5g=
-X-Received: by 2002:a5d:5885:0:b0:430:f6bc:2f8a with SMTP id ffacd0b85a97d-435f3aac95fmr17351963f8f.47.1770025176575;
-        Mon, 02 Feb 2026 01:39:36 -0800 (PST)
+        bh=AFDYJ7q5ek+KQjUhD9TdsFNk97m/l5Paz0LDlGO6qOo=;
+        b=F4x99PcrNRI5lBNIs3rARFw4LiPbJnuNnuRkrZErwD1dlSdi/mZaIF0jlKoZMRZERB
+         pQmx8ETKbB6RciqJ6xtQ08YTHhkE5fNxnPBxTWhBqpyj4rq7pptOLJh82g18jEVyQnim
+         VCJK9B335aeHZMKvwdaIEMcX1tGNj/NjfnQV7JdUL64wARWuMS16XkUMCsa5tcG62aEs
+         stnjQ0a5PjS/eH50nTYyRA6gvvV1LboM93f98OZTUCIN7QtcX3XnBa8fPxJ+FEHlkoE8
+         j1/QtXtIfecQxupNbONB7bO5LTQ3jvN9jw4xRe0p1mVPEurT+JKF/1+IoRmbVQLqprZn
+         XaIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVftip+sWgqwvkRfFw66DM9ZZQyJqW1oTQ+26z0OG2kBXVmdhHwN8PBteEVGbY9pMGR2VLp2t64r5s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwdgCg0rO0dA/aKC6WonZz6p5Z22BddjmUZa9Tq9fH/2yakpcgM
+	FQ7jYCXFjHTC3qXfVKM96FmB7p8wJAaBc1czNQyHgQokH7aokjJ1uM7B
+X-Gm-Gg: AZuq6aL4WdlAVlK42UflHPoDC7JnLr/w6CAQ6G5Jm8CsZCxMJgG3Aihk2mftzfZRHm2
+	LmbroS/CEwTb87GS7tXn+nmSmH+VX6NjUmwr+KXsUfKYjBJIAVmdT6gD6dxaAQnxQI9+3rLUw4r
+	42saT5nVOJmoFbKdEksugp1LrHgknp5TaGEBzZRU9S+g1B8HTAFno3Fxi0uJcNWRhwhRGCwmeNv
+	h1EJh9QDABh3myopprbceA7QOrfEKv9ZYRWA9GvRACKbOfQpcG9yfIGHMUO6mOziPvDnwp+wOCy
+	H99+9XrvxPOQVmglB0m+CBHkcLNAct8a2jPjfXVheim8Mg2lt4bPUugCVi/g0L2+VdUvn26QtAs
+	I4DjZbONKpXbYUis9LfwC4WoYBqujYFKicd9KlMB/GZ63EUJwB/QrgrP4Ud5uV9GiQVpN+ROfjM
+	XGNPvaJpcGM0hjlXAIhho=
+X-Received: by 2002:a05:6000:61e:b0:432:8504:8d5b with SMTP id ffacd0b85a97d-435f3abb458mr15482339f8f.50.1770026221918;
+        Mon, 02 Feb 2026 01:57:01 -0800 (PST)
 Received: from [192.168.1.187] ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e13235f5sm41242186f8f.29.2026.02.02.01.39.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10e483asm41024865f8f.3.2026.02.02.01.57.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 01:39:36 -0800 (PST)
-Message-ID: <0f6c51ed27643a7fc94df0a40c476326cfeb0043.camel@gmail.com>
-Subject: Re: [PATCH v5 0/3] hwmon: Add support for the LTC4283 Hot Swap
- Controller
+        Mon, 02 Feb 2026 01:57:01 -0800 (PST)
+Message-ID: <eb1d9b939f95888739ce4a70f516cec07393c6df.camel@gmail.com>
+Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
 From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: nuno.sa@analog.com, linux-hwmon@vger.kernel.org,
- linux-gpio@vger.kernel.org, 	devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Jean Delvare	 <jdelvare@suse.com>, Jonathan
- Corbet <corbet@lwn.net>, Linus Walleij	 <linus.walleij@linaro.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, "Rob Herring (Arm)"	 <robh@kernel.org>, Linus
- Walleij <linusw@kernel.org>, Bartosz Golaszewski	 <brgl@kernel.org>
-Date: Mon, 02 Feb 2026 09:40:18 +0000
-In-Reply-To: <e2208717-0f47-48d6-9cf2-20196e13a3d0@roeck-us.net>
-References: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
-	 <eed64bf1-93af-4b36-adf5-1476cb40edbb@roeck-us.net>
-	 <382e259ea3835ffbd2be9c36b529875f5a43f38b.camel@gmail.com>
-	 <8efa188b-8b91-479c-ac10-3fba5b0cbb5f@roeck-us.net>
-	 <02b7cf63-4f87-4cdd-8d9e-53a7d0e808a6@roeck-us.net>
-	 <e5b775065b92cada730f42a3d60546700ec46db9.camel@gmail.com>
-	 <e2208717-0f47-48d6-9cf2-20196e13a3d0@roeck-us.net>
+To: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, David Lechner
+ <dlechner@baylibre.com>,  Andy Shevchenko	 <andy@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich	
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Date: Mon, 02 Feb 2026 09:57:44 +0000
+In-Reply-To: <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
+References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
+	 <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.58.2 
@@ -89,57 +85,267 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-On Wed, 2026-01-28 at 10:22 -0800, Guenter Roeck wrote:
-> On Wed, Jan 28, 2026 at 06:07:24PM +0000, Nuno S=C3=A1 wrote:
-> > > [ ... ]
-> > >=20
-> > > > +static int ltc4283_read_power_word(const struct ltc4283_hwmon *st,
-> > > > +				=C2=A0=C2=A0 u32 reg, long *val)
-> > > > +{
-> > > > +	u64 temp =3D (u64)LTC4283_ADC1_FS_uV * LTC4283_ADC2_FS_mV * DECA =
-* MILLI;
-> > > > +	unsigned int __raw;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret =3D regmap_read(st->map_word, reg, &__raw);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	/*
-> > > > +	 * Power is given by:
-> > > > +	 *=C2=A0=C2=A0=C2=A0=C2=A0 P =3D CODE(16b) * 32.768mV * 2.048V / =
-(2^16 * Rsense)
-> > > > +	 */
-> > > > +	*val =3D DIV64_U64_ROUND_CLOSEST(temp * __raw, BIT_ULL(16) * st->=
-rsense);
-> > >=20
-> > > Does this overflow *val on 32-bit systems if the calculated power exc=
-eeds
-> > > 2000 Watts (approx 2^31 microWatts)?=C2=A0 The intermediate calculati=
-on is
-> > > u64, but the result is assigned to a signed long.
-> > >=20
-> >=20
-> > I'll have to double check this one but IIRC 2000W is not a realistic va=
-lue for
-> > these applications. One thing that could overflow is power_max given th=
-at the default
-> > register value is 0xff but we do write the proper max value depending o=
-n
-> > rsense (I actually need to check how will this behave in case we use a =
-default
-> > rsense value - ie with no DT property).
-> >=20
+On Fri, 2026-01-30 at 10:06 +0000, Rodrigo Alencar via B4 Relay wrote:
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 >=20
-> I have been wondering if I should introduce a hwmon_power64 sensor type, =
-similar to
-> hwmon_energy64. WDYT ?
+> Add iio_str_to_fixpoint64() function that leverages simple_strtoull()
+> to parse numbers from a string.
+> A helper function __iio_str_to_fixpoint64() replaces
+> __iio_str_to_fixpoint() implementation, extending its usage for
+> 64-bit fixed-point parsing.
 >=20
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> ---
+> =C2=A0drivers/iio/industrialio-core.c | 211 +++++++++++++++++++++++++++++=
++----------
+> =C2=A0include/linux/iio/iio.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0=C2=A0 2 +
+> =C2=A02 files changed, 163 insertions(+), 50 deletions(-)
+>=20
+> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-c=
+ore.c
+> index 3115d59c1372..37e9ed6b659b 100644
+> --- a/drivers/iio/industrialio-core.c
+> +++ b/drivers/iio/industrialio-core.c
+> @@ -21,6 +21,7 @@
+> =C2=A0#include <linux/kernel.h>
+> =C2=A0#include <linux/module.h>
+> =C2=A0#include <linux/mutex.h>
+> +#include <linux/overflow.h>
+> =C2=A0#include <linux/poll.h>
+> =C2=A0#include <linux/property.h>
+> =C2=A0#include <linux/sched.h>
+> @@ -881,6 +882,136 @@ static ssize_t iio_read_channel_info_avail(struct d=
+evice *dev,
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0
+> +/**
+> + * iio_safe_strntou64() - Parse u64 from string checking for overflow sa=
+fety
+> + * @str: The string to parse
+> + * @endp: output pointer to the end parsing position
+> + * @result: parsed value
+> + * @max_chars: maximum number of digit characters to read
+> + *
+> + * This function is used in fixed-point parsing and it iterates over a c=
+onst
+> + * char array. It might duplicate behavior of simple_strtoull() or kstrt=
+oull(),
+> + * but those have their own limitations:
+> + * - simple_strtoull() is not overflow-safe and its usage is discouraged=
+;
+> + * - kstrtoull() is safe, but requires termination and it would required=
+ a copy
+> + *=C2=A0=C2=A0 of the string to a temporary buffer.
+> + *
+> + * The implementation of this function is similar to _parse_integer_limi=
+t()
+> + * available in lib/kstrtox.h, but that header/function is not available=
+ to be
+> + * used in kernel modules. Hence, this implementation may need to change=
+ or
+> + * removed to reuse a new suitable helper that is properly exposed.
+> + *
+> + * Returns:
+> + * number of parsed characters on success, -ERANGE on overflow
+> + */
+> +static ssize_t iio_safe_strntou64(const char *str, const char **endp,
+> +				=C2=A0 u64 *result, size_t max_chars)
+> +{
+> +	u64 digit, acc =3D 0;
+> +	ssize_t idx =3D 0;
+> +
+> +	while (isdigit(str[idx]) && idx < max_chars) {
+> +		digit =3D str[idx] - '0';
+> +		if (unlikely(acc & (~0ull << 60))) {
+> +			if (check_mul_overflow(acc, 10, &acc) ||
+> +			=C2=A0=C2=A0=C2=A0 check_add_overflow(acc, digit, &acc))
+> +				return -ERANGE;
+> +		} else {
+> +			acc =3D acc * 10 + digit;
+> +		}
+> +		idx++;
+> +	}
+> +
+> +	*endp =3D str + idx;
+> +	*result =3D acc;
+> +	return idx;
+> +}
+> +
+> +/**
+> + * __iio_str_to_fixpoint64() - Parse a fixed-point number from a string
+> + * @str: The string to parse
+> + * @fract_mult: Multiplier for the first decimal place, should be a powe=
+r of 10
+> + * @integer: The integer part of the number
+> + * @fract: The fractional part of the number
+> + * @scale_db: True if this should parse as dB
+> + *
+> + * This variant uses 64-bit integers for both integer and fractional par=
+ts.
+> + * Parsed positive values greater than S64_MAX are returned as-is. Parse=
+d
+> + * negative values less than S64_MIN are treated as range error, so -ERA=
+NGE is
+> + * returned.
+> + *
+> + * Returns:
+> + * 0 on success, or a negative error code if the string could not be par=
+sed.
+> + */
+> +static int __iio_str_to_fixpoint64(const char *str, u64 fract_mult,
+> +				=C2=A0=C2=A0 s64 *integer, s64 *fract, bool scale_db)
+> +{
+> +	u64 i =3D 0, f =3D 0;
+> +	int ret, precision =3D ffs(fract_mult);
+> +	bool negative =3D false;
+> +
+> +	if (precision > 20) /* ceil(log10(U64_MAX)) =3D 20 */
+> +		return -EINVAL;
+> +
+> +	if (str[0] =3D=3D '-') {
+> +		negative =3D true;
+> +		str++;
+> +	} else if (str[0] =3D=3D '+') {
+> +		str++;
+> +	}
+> +
+> +	ret =3D iio_safe_strntou64(str, &str, &i, SIZE_MAX);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (precision && *str =3D=3D '.') {
+> +		str++; /* skip decimal point */
+> +		ret =3D iio_safe_strntou64(str, &str, &f, precision);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		if (ret < precision) /* scale up */
+> +			f *=3D int_pow(10, precision - ret);
+> +
+> +		while (isdigit(*str)) /* truncate: ignore further digits */
+> +			str++;
+> +	}
+> +
+> +	if (!ret)
+> +		return -EINVAL;
+> +
+> +	if (scale_db) {
+> +		/* Ignore the dB suffix */
+> +		if (!strncmp(str, " dB", sizeof(" dB") - 1))
+> +			str +=3D sizeof(" dB") - 1;
+> +		else if (!strncmp(str, "dB", sizeof("dB") - 1))
+> +			str +=3D sizeof("dB") - 1;
+> +	}
+> +
+> +	if (*str =3D=3D '\n')
+> +		str++;
+> +
+> +	if (*str !=3D '\0')
+> +		return -EINVAL;
+> +
+> +	if (negative) {
+> +		if (i) {
+> +			if (i > (u64)S64_MIN)
+> +				return -ERANGE;
+> +			i =3D -i;
+> +		} else {
+> +			if (f > (u64)S64_MIN)
+> +				return -ERANGE;
+> +			f =3D -f;
+> +		}
+> +	}
+> +
+> +	*integer =3D i;
+> +	*fract =3D f;
+> +
+> +	return 0;
+> +}
+> +
+> =C2=A0/**
+> =C2=A0 * __iio_str_to_fixpoint() - Parse a fixed-point number from a stri=
+ng
+> =C2=A0 * @str: The string to parse
+> @@ -895,63 +1026,43 @@ static ssize_t iio_read_channel_info_avail(struct =
+device *dev,
+> =C2=A0static int __iio_str_to_fixpoint(const char *str, int fract_mult,
+> =C2=A0				 int *integer, int *fract, bool scale_db)
+> =C2=A0{
+> -	int i =3D 0, f =3D 0;
+> -	bool integer_part =3D true, negative =3D false;
+> +	s64 integer64, fract64;
+> +	int ret;
+> =C2=A0
+> -	if (fract_mult =3D=3D 0) {
+> -		*fract =3D 0;
+> +	ret =3D __iio_str_to_fixpoint64(str, fract_mult, &integer64, &fract64,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 scale_db);
+> +	if (ret)
+> +		return ret;
 
-No strong opinion. As I said, not sure if it's needed here but OTOH given t=
-hat power is
-microWatts I guess it's a matter of time. Anyways, if you do it, I might as=
- well just play safe
-and use it in here (and ltc4282 should also be converted - likely).
+I know it feels tempting to do the above while adding the 64bit variant. Bu=
+t isn't the
+overflow safety also an issue on the 32bit variant? IMO, we should first ha=
+ve a patch
+adding the overflow safety with a Fixes tag and then add 64bit support.
+
+=20
+> =C2=A0
+> -		return kstrtoint(str, 0, integer);
+> -	}
+> +	if (integer64 < INT_MIN || integer64 > UINT_MAX ||
+> +	=C2=A0=C2=A0=C2=A0 fract64 < INT_MIN || fract64 > UINT_MAX)
+> +		return -ERANGE;
+> =C2=A0
+> -	if (str[0] =3D=3D '-') {
+> -		negative =3D true;
+> -		str++;
+> -	} else if (str[0] =3D=3D '+') {
+> -		str++;
+> -	}
+> -
+> -	while (*str) {
+> -		if ('0' <=3D *str && *str <=3D '9') {
+> -			if (integer_part) {
+> -				i =3D i * 10 + *str - '0';
+> -			} else {
+> -				f +=3D fract_mult * (*str - '0');
+> -				fract_mult /=3D 10;
+> -			}
+> -		} else if (*str =3D=3D '\n') {
+> -			if (*(str + 1) =3D=3D '\0')
+> -				break;
+> -			return -EINVAL;
+> -		} else if (!strncmp(str, " dB", sizeof(" dB") - 1) && scale_db) {
+> -			/* Ignore the dB suffix */
+> -			str +=3D sizeof(" dB") - 1;
+> -			continue;
+> -		} else if (!strncmp(str, "dB", sizeof("dB") - 1) && scale_db) {
+> -			/* Ignore the dB suffix */
+> -			str +=3D sizeof("dB") - 1;
+> -			continue;
+> -		} else if (*str =3D=3D '.' && integer_part) {
+> -			integer_part =3D false;
+> -		} else {
+> -			return -EINVAL;
+> -		}
+> -		str++;
+> -	}
+> -
+> -	if (negative) {
+> -		if (i)
+> -			i =3D -i;
+> -		else
+> -			f =3D -f;
+> -	}
+> -
+> -	*integer =3D i;
+> -	*fract =3D f;
+> +	*integer =3D integer64;
+> +	*fract =3D fract64;
+
+Hmmm, aren't we truncating the values? They are still int pointers...
 
 - Nuno S=C3=A1
+
