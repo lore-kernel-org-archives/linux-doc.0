@@ -1,89 +1,106 @@
-Received: from mail108.out.titan.email (mail108.out.titan.email [44.210.203.104])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3842E0926;
-	Mon,  2 Feb 2026 19:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.210.203.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352AD35972;
+	Mon,  2 Feb 2026 19:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770061099; cv=none; b=mfNKdo518b0dJg9ulCuqDrZcyqJQpcffXBgEVRm+CRd/wMWJG5+3+OUQuX5eRY3SnH6TQsaVoAJRz5BOaQrmGSANuK4aIL2JmKGXHoGwg9qQkWK0YcWsdoSDxmHkAZLAehgGIcXSsy+CZvc2dD8HVHiVmYDFxhdP7JT/yJJc5nw=
+	t=1770061602; cv=none; b=QMtdjCUSL32ZAmXdkpk4bFFnDs9nWMlcb9chaauicsDr9XP/a3qYuFkml1mGgGbut+ZN94nyVIAoPWW2CM1wIMSTmwzlJikNEPDN09v/yDzBNu2zr6hMLfGbDDF5EFOpJtt51wBEHuSL2Wmwt0KqnB9HwA4vp2mhiL+ytzSIrbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770061099; c=relaxed/simple;
-	bh=Dv8btka5I2NI46HYkt/rxP/24ZP9VYV8r6TXGBRX/V0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LUfD5zk4uIeiArQ3MzaV9a3woVlkygUalGUciCSi2MkWInw2SNm6UM/Ic3+gUd3/32ItJgLrLsseJX6eehq3681MMzjgJRy9bl9M1I7fIe+QDuxm2gtqbS/8D2jyzKaI4JdSl4yO/8rajWjrYWT3nPd/6hJqTMEFt5j15RwfF1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com; spf=pass smtp.mailfrom=amidevlab.com; dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b=U87qYSX2; arc=none smtp.client-ip=44.210.203.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amidevlab.com
+	s=arc-20240116; t=1770061602; c=relaxed/simple;
+	bh=TFn5p17AdU+ewLx+yvi/Q6RCvsZQp4hixKeO8bgKD94=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CY84rHMX1xZ7+2CR2LuuVUT2hGX02EQohTl2kPijaPIA+/s3aP12Y0ITIgUzqUz8ALG7qH5U0gFUq62EtVty2aM9qdNnDzr/e3mOYP14NVrSklC6LeBDg3L4VCg2O7BEJWLpYbZCiKypolWCGMonJphVkNGrL/6vfSTw0ZpdtMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J2tlGt41; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b="U87qYSX2"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp-out.flockmail.com (Postfix) with ESMTP id 4f4cNH5fxMz9s10;
-	Mon,  2 Feb 2026 19:38:07 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; bh=lXyXj2SWwx7lfYwC8SQkxeEFfRbUsY+ead7bOx9CJRA=;
-	c=relaxed/relaxed; d=amidevlab.com;
-	h=subject:cc:mime-version:from:to:date:message-id:from:to:cc:subject:date:message-id:in-reply-to:reply-to:references;
-	q=dns/txt; s=titan1; t=1770061087; v=1;
-	b=U87qYSX2KyAJ8Q3FUv8k5RYxspYnl8V8EAK9ZXZfKtDPHdiMMxjF0zH094zajvpE1nEN7q5/
-	vF3zya2WpZMEmF32DoMECJ04xbyFlBYSeDy1L1A14T2ChLi4IGUJ72oBUzFaUAw6fSeYwL0UVKJ
-	cOM967A4GVXqxG+o0aDdQ0KI=
-Received: from ub26dev (unknown [122.172.85.244])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp-out.flockmail.com (Postfix) with ESMTPSA id 4f4cNF0Pmnz9rxX;
-	Mon,  2 Feb 2026 19:38:04 +0000 (UTC)
-Feedback-ID: :amitabh@amidevlab.com:amidevlab.com:flockmailId
-From: Amitabh Srivastava <amitabh@amidevlab.com>
-To: corbet@lwn.net
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Amitabh Srivastava <amitabh@amidevlab.com>
-Subject: [PATCH] docs: maintainer-pgp-guide.rst: updated a kernel.org link
-Date: Tue,  3 Feb 2026 01:07:27 +0530
-Message-ID: <20260202193755.41863-1-amitabh@amidevlab.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2tlGt41"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770061601; x=1801597601;
+  h=date:from:to:cc:subject:message-id;
+  bh=TFn5p17AdU+ewLx+yvi/Q6RCvsZQp4hixKeO8bgKD94=;
+  b=J2tlGt41jUVrktda54V3NN2WebzcVA3DtdeLMnmnoGwE8Edej5cjAvAv
+   gYZa6auFnPwtmzxU4xy2juJT1GtC2guXsR/PHgWe9RooBozrO2B8lw32w
+   rJYGPiRrAXBxGRvtn/Y7mI6Lv/2PfY7h8H4uIUnCPRrKYMHFacl6MsMwI
+   OvRY7+s7gM2PZFJDcjCRu3alAR9Ud5F5X+imkq1rPmVWE8wd78oHLCMYN
+   Kh9+IhGT8uCNJhuUV5r7p1vSlRyP03czz3OjwCpBHLlza+Wr2e322Dm6r
+   Y6fDuRDxVqaDTC6M2CcPqDygz4CFIdw/xlXC00apDgYHIjHDNPB/nyNux
+   A==;
+X-CSE-ConnectionGUID: TSTWLS6ORwiPHriQ0vVmYQ==
+X-CSE-MsgGUID: Mm8KtCQFS4iwIrpSINAl/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="88647301"
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="88647301"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 11:46:40 -0800
+X-CSE-ConnectionGUID: aW8W4Ve8QX6fcnf0F3AIjA==
+X-CSE-MsgGUID: TrBUZ3IWQXSs0UVeTcC7SA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="208897697"
+Received: from igk-lkp-server01.igk.intel.com (HELO afc5bfd7f602) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 02 Feb 2026 11:46:39 -0800
+Received: from kbuild by afc5bfd7f602 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vmzsa-000000003Bt-2S4C;
+	Mon, 02 Feb 2026 19:46:36 +0000
+Date: Mon, 02 Feb 2026 20:45:38 +0100
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/driver-api/tty/tty_port.rst:65:
+ WARNING: Document or section may not begin with a transition. [docutils]
+Message-ID: <202602022007.fALe9bGB-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-F-Verdict: SPFVALID
-X-Titan-Src-Out: 1770061087643327572.13754.897954706142706125@prod-use1-smtp-out1003.
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.4 cv=PI31+eqC c=1 sm=1 tr=0 ts=6980fd1f
-	a=txo+5pS2dMFdB056rU3bsA==:117 a=txo+5pS2dMFdB056rU3bsA==:17
-	a=VwQbUJbxAAAA:8 a=CEWIc4RMnpUA:10 a=4yxl8aT0AAAA:8
-	a=4KLjzbiQD8Z_VC4WIWgA:9 a=4a-YG245BeQA:10 a=oCAeEeOuyiZLRzIZmmpZ:22
 
-Signed-off-by: Amitabh Srivastava <amitabh@amidevlab.com>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   18f7fcd5e69a04df57b563360b88be72471d6b62
+commit: 00d95fcc4dee66dfb6980de6f2973b32f973a1eb docs: kdoc: handle the obsolescensce of docutils.ErrorString()
+date:   5 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20260202/202602022007.fALe9bGB-lkp@intel.com/reproduce)
 
-docs: process: maintainer-pgp-guide.rst: updated the http link for
-'add the kernel.org UID to your key'. Added SPDX-License-Identifier
-to fix checkpatch.pl warning.
----
- Documentation/process/maintainer-pgp-guide.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602022007.fALe9bGB-lkp@intel.com/
 
-diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
-index b6919bf606c3..1e4d885dc784 100644
---- a/Documentation/process/maintainer-pgp-guide.rst
-+++ b/Documentation/process/maintainer-pgp-guide.rst
-@@ -1,3 +1,5 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
- .. _pgpguide:
- 
- ===========================
-@@ -864,7 +866,7 @@ don't already have them)::
- If you have a kernel.org account, then you should `add the kernel.org
- UID to your key`_ to make WKD more useful to other kernel developers.
- 
--.. _`add the kernel.org UID to your key`: https://korg.wiki.kernel.org/userdoc/mail#adding_a_kernelorg_uid_to_your_pgp_key
-+.. _`add the kernel.org UID to your key`: https://korg.docs.kernel.org/mail.html#adding-a-kernel-org-uid-to-your-pgp-key
- 
- Web of Trust (WOT) vs. Trust on First Use (TOFU)
- ------------------------------------------------
+All warnings (new ones prefixed by >>):
+
+   WARNING: No kernel-doc for file ./include/linux/tty_port.h
+   ERROR: Cannot find file ./include/linux/tty_port.h
+   WARNING: No kernel-doc for file ./include/linux/tty_port.h
+   ERROR: Cannot find file ./include/linux/tty_port.h
+   WARNING: No kernel-doc for file ./include/linux/tty_port.h
+>> Documentation/driver-api/tty/tty_port.rst:65: WARNING: Document or section may not begin with a transition. [docutils]
+   ERROR: Cannot find file ./include/linux/tty.h
+   WARNING: No kernel-doc for file ./include/linux/tty.h
+   ERROR: Cannot find file ./include/linux/tty.h
+   WARNING: No kernel-doc for file ./include/linux/tty.h
+   ERROR: Cannot find file ./include/linux/tty.h
+
+
+vim +65 Documentation/driver-api/tty/tty_port.rst
+
+3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  61  
+3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  62  .. kernel-doc:: include/linux/tty_port.h
+3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  63     :identifiers: tty_port
+3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  64  
+3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26 @65  ----
+3f19fed8d0daed Documentation/tty/tty_port.rst Jiri Slaby 2021-11-26  66  
+
+:::::: The code at line 65 was first introduced by commit
+:::::: 3f19fed8d0daed6e0e04b130d203d4333b757901 Documentation: add TTY chapter
+
+:::::: TO: Jiri Slaby <jslaby@suse.cz>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
 -- 
-2.51.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
