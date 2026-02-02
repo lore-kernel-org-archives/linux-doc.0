@@ -1,282 +1,298 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4DC37F8A9
-	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 17:19:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7AE387346;
+	Mon,  2 Feb 2026 17:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770052799; cv=none; b=fyHqNLd4gYc7hE4fxBydjA4w5aAiYu0pL8ldOWCD8WyATZvOoOmoFGjigPqfBJSpRtYh5S37LDutFcN6VbdHVqG/h/xq+FtmHALNMI/GtLcq9CfYlTcHCXwCNWwUxPOcZ5w2IOhc7omsaFPctg/U5zAckgnyq0NjJAVV3pMX1Es=
+	t=1770053132; cv=none; b=MXQfziNGZlhLPTw8nQ8k5KIUZRUiWhgetDjhSJH9lJ9XWuEa4GYCXzZCvn+JOwLIJ3fnMVmjQPFaFYRrQ7BqO8Xht+syaTGq3i1bQ52nw5fHcrc7ZbDb8CX4vGa6+ANIhErSCA2AWWPlXdCO+OrSvMtv1X+RILQxuyQiHNRBYL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770052799; c=relaxed/simple;
-	bh=sg7r2bggyNeKqLAfbEeFBVcgdfvWyCSGQHXTajmTCS0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gR58nFeZ0IghNFWv9JGNMMoFSAKHkguIy2yPVyf7d1B1f8znh7Zf+8htYZUwFMUxjA+7C46zSaOvN+8Gkh5g9KAk5C3NggnTkPaOc4UHoOyxzCUSNtx5zd6dDy/s5vTmTnx8OX9u4nUC1BHSPjNPKzySwM627R21Tp0EH2gcp5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YrX2abF+; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ALHckiru; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YrX2abF+";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ALHckiru"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1770052796;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ueRmNBsULHX80WZv6MW3ddncHXPCqgI+9LkeT0jMc9E=;
-	b=YrX2abF+mmP9/MVEHtCdyfT6eVT4SK5GfJvmb6XP6MdnwPUolzhJstYDOU+cn+83oeUG4X
-	OVSUqKt5X00zKi9xFnxldbepM0HFlE1bEurh+X1IIO39KT/oJHZkajRN2WcOd1mmXjN+UV
-	CDpFVdASihB/GDWntrRb0E0Rn1i+IbQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-649-7B_-GuyNOP-IOHrlRzwMXg-1; Mon, 02 Feb 2026 12:19:55 -0500
-X-MC-Unique: 7B_-GuyNOP-IOHrlRzwMXg-1
-X-Mimecast-MFC-AGG-ID: 7B_-GuyNOP-IOHrlRzwMXg_1770052794
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-430fe16b481so3089471f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 09:19:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1770052794; x=1770657594; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ueRmNBsULHX80WZv6MW3ddncHXPCqgI+9LkeT0jMc9E=;
-        b=ALHckiruESfNzZ7hHsXUXRLtVe7//5gK/OLLXESaB9pB5FBdAZdGPXf2bqNy7dC7g1
-         eRb0O1xS0E2jYlIjbYSkN+Qne0asRv6XoXyNTGzDkYDwV4b016xgvpGmJSOhOaYQKvAm
-         M3XMRwQHDSH2aA5qzVtNOQ/AKEVF5zfTdS2drgB3FA7fefqI1B5xAXvsMQjpYYGV6f+P
-         kzT0Wqgb4kRjHiaY+HzgdcSeHCH9vvZzYAe/Fw8JltI19I/2bvPBN2UfMH5AIcJYV3CK
-         xfOf/smPA0Ke/MVI9+1gd47Xcu5naSCSPygRNptpbZ0AEHVY6PhYzfZ/kHYMdaQH5CLd
-         xLSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770052794; x=1770657594;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ueRmNBsULHX80WZv6MW3ddncHXPCqgI+9LkeT0jMc9E=;
-        b=XRN4dn20u5bIZOzleOKQQd0MsAfUOWnzXLP5MEG1/WVsZ8zSPhN5HlAjG7EOw8PxC3
-         0BAkP7YBKjjb9nbtiZqCaBjLR/PwV1Qtn5JDTful6xWKZZbGQTTUO2Y9C0xLpIpQrzN7
-         JYtpRG16Udon4OuVkKD1XcOMnEZj4sM3dI24wesqFa9RyPcg7tYpUSivAqQPrwseZ8a4
-         Oy/XmaDNs+cAnOVJBRldeos/YRdZ88lJEzEkrBKXOgBeNwj6PGYd1g7GdaErnq+dN99d
-         8wUzE0aSWjVB0IzXuu6a1IF2q33qEsegfu5vOmCuSQfxdB7N99V9hqG4HRNv+omSIhPv
-         1DRg==
-X-Forwarded-Encrypted: i=1; AJvYcCVKr4yS3EfOB3UT5PvTG+LaM8fdIOZoLAIlGUCr4bH8hOlHU8tT2UPDb0zPN85K8t50UCmAgTxY33I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7KFIleEu84bXYNzabykflUOQ6othYTHzCCbPtLoElVJHAT2Eg
-	skOW2tEy3vz2lwZgiK+O6JV8E1GVnAE6/r5lPxpHOy+aC3szrKvFQJv5rGGr4vUW+E9wLjVEBjG
-	X4apmh7W/zmjTiggDqJ/0B4aFaF09zsEKoXDe211vmMj54+aGSmxb9PepYg+oLQ==
-X-Gm-Gg: AZuq6aLIuATl5/YbkASaO1MOLv1tcWm3JR08sSsIdFrVGTUyzpxygEzmv2sC2rsUq0h
-	qu5nAPpUQZuTZLUF5XIu4WUbP4nUbyGCFIol16vafWkC8bjZvg0SXyY5dwukgj3wXbR/Uf18jRK
-	ddsRmPA8NazkesBT16qW+K9DG55J7pSeWvxElQY+oLVahGuE7t+rD1zs20MTbkknEaW8MtDogQd
-	loLxwTaWDCb+f4NRML1m2KnPYGOlk+D8/zkpKzQve+wGTIXSumx24BI497N5EoxHhczD40oP0pG
-	EqproP4bdfVKsepVSQD0ag9mjKV0cVSoHDbfzptsYzhR904DaUV0ZAUWxPSSFawAWA9Tzh87P9c
-	BF2Fc/A==
-X-Received: by 2002:a05:600c:c4a5:b0:47e:e946:3a59 with SMTP id 5b1f17b1804b1-482db4992d3mr133149905e9.34.1770052794264;
-        Mon, 02 Feb 2026 09:19:54 -0800 (PST)
-X-Received: by 2002:a05:600c:c4a5:b0:47e:e946:3a59 with SMTP id 5b1f17b1804b1-482db4992d3mr133149375e9.34.1770052793718;
-        Mon, 02 Feb 2026 09:19:53 -0800 (PST)
-Received: from redhat.com ([2a06:c701:73e3:8f00:866c:5eeb:fc46:7674])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48305129419sm2637285e9.6.2026.02.02.09.19.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 09:19:53 -0800 (PST)
-Date: Mon, 2 Feb 2026 12:19:48 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-Cc: "tariqt@nvidia.com" <tariqt@nvidia.com>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"shaojijie@huawei.com" <shaojijie@huawei.com>,
-	"shenjian15@huawei.com" <shenjian15@huawei.com>,
-	"salil.mehta@huawei.com" <salil.mehta@huawei.com>,
-	"mbloch@nvidia.com" <mbloch@nvidia.com>,
-	"saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"leon@kernel.org" <leon@kernel.org>,
-	"eperezma@redhat.com" <eperezma@redhat.com>,
-	"brett.creeley@amd.com" <brett.creeley@amd.com>,
-	"jasowang@redhat.com" <jasowang@redhat.com>,
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
-	"xuanzhuo@linux.alibaba.com" <xuanzhuo@linux.alibaba.com>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"parav@nvidia.com" <parav@nvidia.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"dsahern@kernel.org" <dsahern@kernel.org>,
-	"kuniyu@google.com" <kuniyu@google.com>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"dave.taht@gmail.com" <dave.taht@gmail.com>,
-	"jhs@mojatatu.com" <jhs@mojatatu.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"stephen@networkplumber.org" <stephen@networkplumber.org>,
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>,
-	"jiri@resnulli.us" <jiri@resnulli.us>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
-	"donald.hunter@gmail.com" <donald.hunter@gmail.com>,
-	"ast@fiberby.net" <ast@fiberby.net>,
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"ij@kernel.org" <ij@kernel.org>,
-	"ncardwell@google.com" <ncardwell@google.com>,
-	"Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>,
-	"g.white@cablelabs.com" <g.white@cablelabs.com>,
-	"ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>,
-	"mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>,
-	"cheshire@apple.com" <cheshire@apple.com>,
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>,
-	"Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>,
-	"vidhi_goel@apple.com" <vidhi_goel@apple.com>
-Subject: Re: [PATCH v1 net-next 3/3] virtio_net: Accurate ECN flag in
- virtio_net_hdr
-Message-ID: <20260202121830-mutt-send-email-mst@kernel.org>
-References: <20260131225510.2946-1-chia-yu.chang@nokia-bell-labs.com>
- <20260131225510.2946-4-chia-yu.chang@nokia-bell-labs.com>
- <20260201035912-mutt-send-email-mst@kernel.org>
- <AM9PR07MB79696F945D8DBEF370CD4DC6A39AA@AM9PR07MB7969.eurprd07.prod.outlook.com>
+	s=arc-20240116; t=1770053132; c=relaxed/simple;
+	bh=hoF5jKgZ38/6WcedCmJApOnqzUjZc+tV/0qLCEH+x9w=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FvfcwFsIotvrisMmBp4NxucgxZIJLA3POEb/iyqGq+vZY4/vWNbK/qVrFPlOWvH+aywG4A24tyX6IG0sk3mD2k7RP1/FQws0+8qPKJh23PUaUTDvxDD3zLnsRnd6hgC9SnL4Irz/u98Du3okcz90OBqa2s8UCvPtOPf9I+hEbOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4f4YQ50dSKzHnGhY;
+	Tue,  3 Feb 2026 01:24:29 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id D095B40539;
+	Tue,  3 Feb 2026 01:25:26 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 2 Feb
+ 2026 17:25:25 +0000
+Date: Mon, 2 Feb 2026 17:25:24 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Gregory Price <gourry@gourry.net>
+CC: <linux-mm@kvack.org>, <linux-cxl@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-fsdevel@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<kernel-team@meta.com>, <dave@stgolabs.net>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>, <dan.j.williams@intel.com>, <willy@infradead.org>,
+	<jack@suse.cz>, <terry.bowman@amd.com>, <john@jagalactic.com>, David
+ Hildenbrand <david@kernel.org>, Oscar Salvador <osalvador@suse.de>, Andrew
+ Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 2/9] mm/memory_hotplug: add
+ __add_memory_driver_managed() with online_type arg
+Message-ID: <20260202172524.00000c6d@huawei.com>
+In-Reply-To: <20260129210442.3951412-3-gourry@gourry.net>
+References: <20260129210442.3951412-1-gourry@gourry.net>
+	<20260129210442.3951412-3-gourry@gourry.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <AM9PR07MB79696F945D8DBEF370CD4DC6A39AA@AM9PR07MB7969.eurprd07.prod.outlook.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Mon, Feb 02, 2026 at 04:56:38PM +0000, Chia-Yu Chang (Nokia) wrote:
-> > -----Original Message-----
-> > From: Michael S. Tsirkin <mst@redhat.com>=20
-> > Sent: Sunday, February 1, 2026 10:18 AM
-> > To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
-> > Cc: tariqt@nvidia.com; linux-rdma@vger.kernel.org; shaojijie@huawei.com=
-; shenjian15@huawei.com; salil.mehta@huawei.com; mbloch@nvidia.com; saeedm@=
-nvidia.com; leon@kernel.org; eperezma@redhat.com; brett.creeley@amd.com; ja=
-sowang@redhat.com; virtualization@lists.linux.dev; xuanzhuo@linux.alibaba.c=
-om; pabeni@redhat.com; edumazet@google.com; parav@nvidia.com; linux-doc@vge=
-r.kernel.org; corbet@lwn.net; horms@kernel.org; dsahern@kernel.org; kuniyu@=
-google.com; bpf@vger.kernel.org; netdev@vger.kernel.org; dave.taht@gmail.co=
-m; jhs@mojatatu.com; kuba@kernel.org; stephen@networkplumber.org; xiyou.wan=
-gcong@gmail.com; jiri@resnulli.us; davem@davemloft.net; andrew+netdev@lunn.=
-ch; donald.hunter@gmail.com; ast@fiberby.net; liuhangbin@gmail.com; shuah@k=
-ernel.org; linux-kselftest@vger.kernel.org; ij@kernel.org; ncardwell@google=
-=2Ecom; Koen De Schepper (Nokia) <koen.de_schepper@nokia-bell-labs.com>; g.=
-white@cablelabs.com; ingemar.s.johansson@ericsson.com; mirja.kuehlewind@eri=
-csson.com; cheshire@apple.com; rs.ietf@gmx.at; Jason_Livingood@comcast.com;=
- vidhi_goel@apple.com
-> > Subject: Re: [PATCH v1 net-next 3/3] virtio_net: Accurate ECN flag in v=
-irtio_net_hdr
-> >=20
-> >=20
-> > CAUTION: This is an external email. Please be very careful when clickin=
-g links or opening attachments. See the URL nok.it/ext for additional infor=
-mation.
-> >=20
-> >=20
-> >=20
-> > Thanks for the patch! Yet something to improve:
-> >=20
-> > On Sat, Jan 31, 2026 at 11:55:10PM +0100, chia-yu.chang@nokia-bell-labs=
-=2Ecom wrote:
-> > > From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> > >
-> > > Unlike RFC 3168 ECN, accurate ECN uses the CWR flag as part of the AC=
-E=20
-> > > field to count new packets with CE mark; however, it will be corrupte=
-d=20
-> > > by the RFC 3168 ECN-aware TSO. Therefore, fallback shall be applied b=
-y=20
-> > > seting NETIF_F_GSO_ACCECN to ensure that the CWR flag should not be=
-=20
-> > > changed within a super-skb.
-> > >
-> > > To apply the aforementieond new AccECN GSO for virtio, new featue bit=
-s=20
-> > > for host and guest are added for feature negotiation between driver=
-=20
-> > > and device. And the translation of Accurate ECN GSO flag between=20
-> > > virtio_net_hdr and skb header for NETIF_F_GSO_ACCECN is also added to=
-=20
-> > > avoid CWR flag corruption due to RFC3168 ECN TSO.
-> > >
-> > > Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> >=20
-> >=20
-> > To the best of my understanding, this is a new feature - support for VI=
-RTIO_NET_F_HOST_ACCECN, VIRTIO_NET_F_GUEST_ACCECN?
-> > The commit log makes it sound like it fixes some behaviour for existing=
- hardware, but that is not the case.
-> >=20
->=20
-> Thansk for the feedback, I will update commit message in v3.
-> >=20
-> > > ---
-> > > v2:
-> > > - Replace VIRTIO_NET_HDR_GSO_ECN with VIRTIO_NET_HDR_GSO_ECN_FLAGS
-> >=20
-> > but where is v2? this is v1...
->=20
-> I shall update this version as v2, will do at the next version.
->=20
-> [...]
-> > > diff --git a/include/uapi/linux/virtio_net.h=20
-> > > b/include/uapi/linux/virtio_net.h index 1db45b01532b..af5bfe45aa1f=20
-> > > 100644
-> > > --- a/include/uapi/linux/virtio_net.h
-> > > +++ b/include/uapi/linux/virtio_net.h
-> > > @@ -56,6 +56,8 @@
-> > >  #define VIRTIO_NET_F_MQ      22      /* Device supports Receive Flow
-> > >                                        * Steering */
-> > >  #define VIRTIO_NET_F_CTRL_MAC_ADDR 23        /* Set MAC address */
-> > > +#define VIRTIO_NET_F_HOST_ACCECN 25  /* Host can handle GSO of AccEC=
-N=20
-> > > +*/ #define VIRTIO_NET_F_GUEST_ACCECN 26 /* Guest can handle GSO of=
-=20
-> > > +AccECN */
-> > >  #define VIRTIO_NET_F_DEVICE_STATS 50 /* Device can provide=20
-> > > device-level statistics. */  #define VIRTIO_NET_F_VQ_NOTF_COAL 52 /* =
-Device supports virtqueue notification coalescing */
-> > >  #define VIRTIO_NET_F_NOTF_COAL       53      /* Device supports noti=
-fications coalescing */
-> > > @@ -165,6 +167,9 @@ struct virtio_net_hdr_v1 {  #define=20
-> > > VIRTIO_NET_HDR_GSO_UDP_TUNNEL (VIRTIO_NET_HDR_GSO_UDP_TUNNEL_IPV4 | \
-> > >                                      VIRTIO_NET_HDR_GSO_UDP_TUNNEL_IP=
-V6)
-> > >  #define VIRTIO_NET_HDR_GSO_ECN               0x80    /* TCP has ECN =
-set */
-> > > +#define VIRTIO_NET_HDR_GSO_ACCECN    0x10    /* TCP AccECN segmentat=
-ion */
-> > > +#define VIRTIO_NET_HDR_GSO_ECN_FLAGS (VIRTIO_NET_HDR_GSO_ECN | \
-> > > +                                      VIRTIO_NET_HDR_GSO_ACCECN)
-> > >       __u8 gso_type;
-> > >       __virtio16 hdr_len;     /* Ethernet + IP + tcp/udp hdrs */
-> > >       __virtio16 gso_size;    /* Bytes to append to hdr_len per frame=
- */
-> >=20
-> >=20
-> > UAPI changes need to be added to the virtio spec.
-> > Pls get this approved by the virtio TC.
-> > Thanks!
->=20
-> There were some discussions last October in virtio-comment@lists.linux.de=
-v mailing list.
+On Thu, 29 Jan 2026 16:04:35 -0500
+Gregory Price <gourry@gourry.net> wrote:
+
+> Enable dax kmem driver to select how to online the memory rather than
+> implicitly depending on the system default.  This will allow users of
+> dax to plumb through a preferred auto-online policy for their region.
+> 
+> Refactor and new interface:
+> Add __add_memory_driver_managed() which accepts an explicit online_type
+> and export mhp_get_default_online_type() so callers can pass it when
+> they want the default behavior.
+
+Hi Gregory,
+
+I think maybe I'd have left the export for the first user outside of
+memory_hotplug.c. Not particularly important however.
+
+Maybe talk about why a caller of __add_memory_driver_managed() might want
+the default?  Feels like that's for the people who don't...
+
+Or is this all a dance to avoid an
+
+if (special mode)
+	__add_memory_driver_managed();
+else
+	add_memory_driver_managed();
+?
+
+Other comments are mostly about using a named enum. I'm not sure
+if there is some existing reason why that doesn't work?  -Errno pushed through
+this variable or anything like that?
+
+> 
+> Refactor:
+> Extract __add_memory_resource() to take an explicit online_type parameter,
+> and update add_memory_resource() to pass the system default.
+> 
+> No functional change for existing users.
+> 
+> Cc: David Hildenbrand <david@kernel.org>
+> Cc: Oscar Salvador <osalvador@suse.de>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+> ---
+>  include/linux/memory_hotplug.h |  3 ++
+>  mm/memory_hotplug.c            | 91 ++++++++++++++++++++++++----------
+>  2 files changed, 67 insertions(+), 27 deletions(-)
+> 
+> diff --git a/include/linux/memory_hotplug.h b/include/linux/memory_hotplug.h
+> index f2f16cdd73ee..1eb63d1a247d 100644
+> --- a/include/linux/memory_hotplug.h
+> +++ b/include/linux/memory_hotplug.h
+> @@ -293,6 +293,9 @@ extern int __add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags);
+>  extern int add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags);
+>  extern int add_memory_resource(int nid, struct resource *resource,
+>  			       mhp_t mhp_flags);
+> +int __add_memory_driver_managed(int nid, u64 start, u64 size,
+> +				const char *resource_name, mhp_t mhp_flags,
+> +				int online_type);
+
+Given online_type values are from an enum anyway, maybe we can name that enum and use
+it explicitly?
+
+>  extern int add_memory_driver_managed(int nid, u64 start, u64 size,
+>  				     const char *resource_name,
+>  				     mhp_t mhp_flags);
+> diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+> index 87796b617d9e..d3ca95b872bd 100644
+> --- a/mm/memory_hotplug.c
+> +++ b/mm/memory_hotplug.c
+> @@ -239,6 +239,7 @@ int mhp_get_default_online_type(void)
+>  
+>  	return mhp_default_online_type;
+>  }
+> +EXPORT_SYMBOL_GPL(mhp_get_default_online_type);
+>  
+>  void mhp_set_default_online_type(int online_type)
+>  {
+> @@ -1490,7 +1491,8 @@ static int create_altmaps_and_memory_blocks(int nid, struct memory_group *group,
+>   *
+>   * we are OK calling __meminit stuff here - we have CONFIG_MEMORY_HOTPLUG
+>   */
+> -int add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
+> +static int __add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags,
+> +				 int online_type)
+>  {
+>  	struct mhp_params params = { .pgprot = pgprot_mhp(PAGE_KERNEL) };
+>  	enum memblock_flags memblock_flags = MEMBLOCK_NONE;
+> @@ -1580,12 +1582,9 @@ int add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
+>  		merge_system_ram_resource(res);
+>  
+>  	/* online pages if requested */
+> -	if (mhp_get_default_online_type() != MMOP_OFFLINE) {
+> -		int online_type = mhp_get_default_online_type();
+> -
+> +	if (online_type != MMOP_OFFLINE)
+
+Ah. Fair enough, ignore comment in previous patch.  I should have read on...
+
+>  		walk_memory_blocks(start, size, &online_type,
+>  				   online_memory_block);
+> -	}
+>  
+>  	return ret;
+>  error:
+> @@ -1601,7 +1600,13 @@ int add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
+>  	return ret;
+>  }
+>  
+> -/* requires device_hotplug_lock, see add_memory_resource() */
+> +int add_memory_resource(int nid, struct resource *res, mhp_t mhp_flags)
+> +{
+> +	return __add_memory_resource(nid, res, mhp_flags,
+> +				     mhp_get_default_online_type());
+> +}
+> +
+> +/* requires device_hotplug_lock, see __add_memory_resource() */
+>  int __add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags)
+>  {
+>  	struct resource *res;
+> @@ -1629,29 +1634,24 @@ int add_memory(int nid, u64 start, u64 size, mhp_t mhp_flags)
+>  }
+>  EXPORT_SYMBOL_GPL(add_memory);
+>  
+> -/*
+> - * Add special, driver-managed memory to the system as system RAM. Such
+> - * memory is not exposed via the raw firmware-provided memmap as system
+> - * RAM, instead, it is detected and added by a driver - during cold boot,
+> - * after a reboot, and after kexec.
+> - *
+> - * Reasons why this memory should not be used for the initial memmap of a
+> - * kexec kernel or for placing kexec images:
+> - * - The booting kernel is in charge of determining how this memory will be
+> - *   used (e.g., use persistent memory as system RAM)
+> - * - Coordination with a hypervisor is required before this memory
+> - *   can be used (e.g., inaccessible parts).
+> +/**
+> + * __add_memory_driver_managed - add driver-managed memory with explicit online_type
+
+It's a little odd to add nice kernel-doc formatted documentation
+when the non __ variant has free form docs.  Maybe tidy that up first
+if we want to go kernel-doc in this file?  (I'm in favor, but no idea
+on general feelings...)
 
 
-That's it I could not find it. Could you include the archive link pls?=20
+> + * @nid: NUMA node ID where the memory will be added
+> + * @start: Start physical address of the memory range
+> + * @size: Size of the memory range in bytes
+> + * @resource_name: Resource name in format "System RAM ($DRIVER)"
+> + * @mhp_flags: Memory hotplug flags
+> + * @online_type: Online behavior (MMOP_ONLINE, MMOP_ONLINE_KERNEL,
+> + *               MMOP_ONLINE_MOVABLE, or MMOP_OFFLINE)
+
+Given that's currently the full set, seems like enum wins out here over
+an int.
+
+>   *
+> - * For this memory, no entries in /sys/firmware/memmap ("raw firmware-provided
+> - * memory map") are created. Also, the created memory resource is flagged
+> - * with IORESOURCE_SYSRAM_DRIVER_MANAGED, so in-kernel users can special-case
+> - * this memory as well (esp., not place kexec images onto it).
+> + * Add driver-managed memory with explicit online_type specification.
+> + * The resource_name must have the format "System RAM ($DRIVER)".
+>   *
+> - * The resource_name (visible via /proc/iomem) has to have the format
+> - * "System RAM ($DRIVER)".
+> + * Return: 0 on success, negative error code on failure.
+>   */
+> -int add_memory_driver_managed(int nid, u64 start, u64 size,
+> -			      const char *resource_name, mhp_t mhp_flags)
+> +int __add_memory_driver_managed(int nid, u64 start, u64 size,
+> +				const char *resource_name, mhp_t mhp_flags,
+> +				int online_type)
+>  {
+>  	struct resource *res;
+>  	int rc;
+> @@ -1661,6 +1661,9 @@ int add_memory_driver_managed(int nid, u64 start, u64 size,
+>  	    resource_name[strlen(resource_name) - 1] != ')')
+>  		return -EINVAL;
+>  
+> +	if (online_type < 0 || online_type > MMOP_ONLINE_MOVABLE)
+
+This is where using an enum would help compiler know what is going on
+and maybe warn if anyone writes something that isn't defined.
 
 
-> At that moment, it is suggested to make Linux kernel accept new comments =
-for SKB_GSO_TCP_ECN and SKB_GSO_TCP_ACCECN first.
-> So, could virtio-spec colleague give your feedback? (Parav?).
->=20
-> Otherwise, the CWR handling of virtio will be wrong after all Accurate EC=
-N commits are merged in Linux.
->=20
-> Chia-Yu
-
-if there's a general agreement we don't need to block linux on tc
-approval.
-
---=20
-MST
+> +		return -EINVAL;
+> +
+>  	lock_device_hotplug();
+>  
+>  	res = register_memory_resource(start, size, resource_name);
+> @@ -1669,7 +1672,7 @@ int add_memory_driver_managed(int nid, u64 start, u64 size,
+>  		goto out_unlock;
+>  	}
+>  
+> -	rc = add_memory_resource(nid, res, mhp_flags);
+> +	rc = __add_memory_resource(nid, res, mhp_flags, online_type);
+>  	if (rc < 0)
+>  		release_memory_resource(res);
+>  
+> @@ -1677,6 +1680,40 @@ int add_memory_driver_managed(int nid, u64 start, u64 size,
+>  	unlock_device_hotplug();
+>  	return rc;
+>  }
+> +EXPORT_SYMBOL_FOR_MODULES(__add_memory_driver_managed, "kmem");
+> +
+> +/*
+> + * Add special, driver-managed memory to the system as system RAM. Such
+> + * memory is not exposed via the raw firmware-provided memmap as system
+> + * RAM, instead, it is detected and added by a driver - during cold boot,
+> + * after a reboot, and after kexec.
+> + *
+> + * Reasons why this memory should not be used for the initial memmap of a
+> + * kexec kernel or for placing kexec images:
+> + * - The booting kernel is in charge of determining how this memory will be
+> + *   used (e.g., use persistent memory as system RAM)
+> + * - Coordination with a hypervisor is required before this memory
+> + *   can be used (e.g., inaccessible parts).
+> + *
+> + * For this memory, no entries in /sys/firmware/memmap ("raw firmware-provided
+> + * memory map") are created. Also, the created memory resource is flagged
+> + * with IORESOURCE_SYSRAM_DRIVER_MANAGED, so in-kernel users can special-case
+> + * this memory as well (esp., not place kexec images onto it).
+> + *
+> + * The resource_name (visible via /proc/iomem) has to have the format
+> + * "System RAM ($DRIVER)".
+> + *
+> + * Memory will be onlined using the system default online type.
+> + *
+> + * Returns 0 on success, negative error code on failure.
+> + */
+> +int add_memory_driver_managed(int nid, u64 start, u64 size,
+> +			      const char *resource_name, mhp_t mhp_flags)
+> +{
+> +	return __add_memory_driver_managed(nid, start, size, resource_name,
+> +					   mhp_flags,
+> +					   mhp_get_default_online_type());
+> +}
+>  EXPORT_SYMBOL_GPL(add_memory_driver_managed);
+>  
+>  /*
 
