@@ -1,35 +1,55 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2317F3A8FE6;
-	Tue,  3 Feb 2026 14:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C809B3A4F4E;
+	Tue,  3 Feb 2026 14:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770128440; cv=none; b=BPvDJ08RYJYipwXJobvRME2XKgeOaMVcRkekMN0nmyeZovqqYW/qIVngIknYKKq41bt55gWQDMlzTqgz3FJikyCHt1OS/Jmg2J5XaSOH5m+le19gHHbfTbdgqbx87S6SnUmAbpx5vn/isFsKrsXiTXEg7yiz3l5tte6HSv5bkb0=
+	t=1770128538; cv=none; b=N2g+WRAqzCnCtqX325s4a1DjA+zxGOXDdQTKbvG0fg+y5q3RF9Cr9W/0i5RJRNnv1dG3lbioH+/baLXLtrluFi+pofXe/9sMKpkyqnKgyWhR3QYipBiSlMLM6JUVQAOM81kdRuXIbBiPXNZBaHtEuMMq+/vSFQPHY027gP8D6l4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770128440; c=relaxed/simple;
-	bh=bh7+IerRoy6AL9qQCND5lJKi+YgjZel6S467nOCTmzk=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=a07gB91NfgzgSi4dcN5X9axHvX6jhcgHqL50Vuz6U0cQox2AYwsNqr8OQWZXc1M3uTZ7Qr+6F9MJHiKYjhakf3MqRuNWplh7kQgF4o+XRdv+ILdTwA6F3pPVrYHxouW+X95XEpDEzYgXIBgpDp/sWFKetZa61cgVGFfN2a9dkPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jBLpkqes; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770128538; c=relaxed/simple;
+	bh=4wsLi5Bouoo5PRGeaZoqcAfeHciH8hjPc42bsCQYaP4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=GZ4KrUzbYbu/yhiMWqGFFPhP0a09Ell3ogx9LJ1bqm+O8mfYGjIDaKho40i2WOhOfkFGcyEJwHguZbnY7fy0GyC6tYthRjU0zt3kqg48MfWdTq5Ye3ztkVftfr8xs4s3l7E8Tw3T+V9Y0KtdoFRqYBO99260Lmde5AZ7lNWyfRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=NfNjyq5n; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jBLpkqes"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2E06C116D0;
-	Tue,  3 Feb 2026 14:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770128439;
-	bh=bh7+IerRoy6AL9qQCND5lJKi+YgjZel6S467nOCTmzk=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=jBLpkqes71HO/n5IeE6eAmpgINcqOttk0C0U0jGba4RUUBeCygc8B2vGJm+uwp9/4
-	 +cP06DGBLAV2RMu1gHkLuUrMDOCfDfrz3uaRcWw386yWapF0f24O0QL1PHZZWvjaM1
-	 mhfJhJNaKUjv3chl2jiyeysVSlC5Y17tUdZ7k3aS9YijcP9vxNMFy1iSkwLKDfYHgI
-	 H6vH3zYRR66VZBCbsljg9LTJbfP1/kaZL3jn9wuf1tq9fZc6as5lr3MvwyP+pj2YHd
-	 h7FfVu7Ujj9IY8fB+IRWpN5vCGSgyWBsuzHorMBPsB6O37efcIZ1vk5y4XNssIaENa
-	 59wUokk/JOWPg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 90F973808200;
-	Tue,  3 Feb 2026 14:20:37 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="NfNjyq5n"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1770128525; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=GKZoo0J/VDdVWk4ONTShUiBmDnbd5FCIHWlHlNben/s=;
+	b=NfNjyq5nUqgXZ7RdpeAE/qRICsQ1UTcil4kFhiGWXS+B/Gx5ynLEOQvguaaTrx8VYPtiobHoy2AeybxwSx7sCSQmFnWbUrfhA1UqdtRp8aFljqEbtfH4/st+XP6LUbOJXgRjf3rNIUCfvmln8m18G6TjpVWyG2pGu7noT2sdVEg=
+Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WyTKNws_1770128522 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 03 Feb 2026 22:22:03 +0800
+From: fangyu.yu@linux.alibaba.com
+To: andrew.jones@oss.qualcomm.com
+Cc: ajones@ventanamicro.com,
+	alex@ghiti.fr,
+	anup@brainfault.org,
+	aou@eecs.berkeley.edu,
+	atish.patra@linux.dev,
+	corbet@lwn.net,
+	fangyu.yu@linux.alibaba.com,
+	guoren@kernel.org,
+	kvm-riscv@lists.infradead.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	palmer@dabbelt.com,
+	pbonzini@redhat.com,
+	pjw@kernel.org,
+	radim.krcmar@oss.qualcomm.com,
+	rkrcmar@ventanamicro.com
+Subject: Re: Re: [PATCH v4 2/4] RISC-V: KVM: Detect and expose supported HGATP G-stage modes
+Date: Tue,  3 Feb 2026 22:22:00 +0800
+Message-Id: <20260203142200.98839-1-fangyu.yu@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <ftdnjnfvmybiskej3txd23mqn3jpjdewmgjxjbap3y4ekj4h4m@d74ihtpclyps>
+References: <ftdnjnfvmybiskej3txd23mqn3jpjdewmgjxjbap3y4ekj4h4m@d74ihtpclyps>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,79 +57,184 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v13 net-next 00/15] AccECN protocol case handling series
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177012843606.1498169.6318995786040957061.git-patchwork-notify@kernel.org>
-Date: Tue, 03 Feb 2026 14:20:36 +0000
-References: <20260131222515.8485-1-chia-yu.chang@nokia-bell-labs.com>
-In-Reply-To: <20260131222515.8485-1-chia-yu.chang@nokia-bell-labs.com>
-To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
-Cc: pabeni@redhat.com, edumazet@google.com, parav@nvidia.com,
- linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
- dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
- netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
- kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
- jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
- donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
- shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
- ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
- g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
- mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
- Jason_Livingood@comcast.com, vidhi_goel@apple.com
 
-Hello:
+>> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>> 
+>> Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE values
+>> supported by the host and record them in a bitmask. Keep tracking the
+>> maximum supported G-stage page table level for existing internal users.
+>> 
+>> Also provide lightweight helpers to retrieve the supported-mode bitmask
+>> and validate a requested HGATP.MODE against it.
+>> 
+>> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>> ---
+>>  arch/riscv/include/asm/kvm_gstage.h | 37 +++++++++++++++++++++++++++
+>>  arch/riscv/kvm/gstage.c             | 39 ++++++++++++++++-------------
+>>  2 files changed, 58 insertions(+), 18 deletions(-)
+>> 
+>> diff --git a/arch/riscv/include/asm/kvm_gstage.h b/arch/riscv/include/asm/kvm_gstage.h
+>> index b12605fbca44..c0c5a8b99056 100644
+>> --- a/arch/riscv/include/asm/kvm_gstage.h
+>> +++ b/arch/riscv/include/asm/kvm_gstage.h
+>> @@ -30,6 +30,7 @@ struct kvm_gstage_mapping {
+>>  #endif
+>>  
+>>  extern unsigned long kvm_riscv_gstage_max_pgd_levels;
+>> +extern u32 kvm_riscv_gstage_mode_mask;
+>>  
+>>  #define kvm_riscv_gstage_pgd_xbits	2
+>>  #define kvm_riscv_gstage_pgd_size	(1UL << (HGATP_PAGE_SHIFT + kvm_riscv_gstage_pgd_xbits))
+>> @@ -75,4 +76,40 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *gstage, gpa_t start, gpa_t end
+>>  
+>>  void kvm_riscv_gstage_mode_detect(void);
+>>  
+>> +enum kvm_riscv_hgatp_mode_bit {
+>> +	HGATP_MODE_SV39X4_BIT = 0,
+>> +	HGATP_MODE_SV48X4_BIT = 1,
+>> +	HGATP_MODE_SV57X4_BIT = 2,
+>> +};
+>
+>These should be defined in the UAPI, as I see the last patch of the series
+>does. No need to define them twice.
 
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+ok, I'll drop the duplicated enum from the non-UAPI header and reuse the UAPI
+definitions instead.
 
-On Sat, 31 Jan 2026 23:25:00 +0100 you wrote:
-> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> 
-> Hello,
-> 
-> Plesae find the v13 AccECN case handling patch series, which covers
-> several excpetional case handling of Accurate ECN spec (RFC9768),
-> adds new identifiers to be used by CC modules, adds ecn_delta into
-> rate_sample, and keeps the ACE counter for computation, etc.
-> 
-> [...]
+>
+>> +
+>> +static inline u32 kvm_riscv_get_hgatp_mode_mask(void)
+>> +{
+>> +	return kvm_riscv_gstage_mode_mask;
+>> +}
+>> +
+>> +static inline bool kvm_riscv_hgatp_mode_is_valid(unsigned long mode)
+>> +{
+>> +#ifdef CONFIG_64BIT
+>> +	u32 bit;
+>> +
+>> +	switch (mode) {
+>> +	case HGATP_MODE_SV39X4:
+>> +		bit = HGATP_MODE_SV39X4_BIT;
+>> +		break;
+>> +	case HGATP_MODE_SV48X4:
+>> +		bit = HGATP_MODE_SV48X4_BIT;
+>> +		break;
+>> +	case HGATP_MODE_SV57X4:
+>> +		bit = HGATP_MODE_SV57X4_BIT;
+>> +		break;
+>> +	default:
+>> +		return false;
+>> +	}
+>> +
+>> +	return kvm_riscv_gstage_mode_mask & BIT(bit);
+>> +#else
+>> +	return false;
+>> +#endif
+>
+>It seems like we're going out of our way to only provide the capability
+>for rv64. While the cap isn't useful for rv32, having #ifdefs in KVM and
+>additional paths in kvm userspace is probably worse than just having a
+>useless HGATP_MODE_SV32X4_BIT that rv32 userspace can set.
+>
 
-Here is the summary with links:
-  - [v13,net-next,01/15] tcp: try to avoid safer when ACKs are thinned
-    https://git.kernel.org/netdev/net-next/c/7885ce014740
-  - [v13,net-next,02/15] gro: flushing when CWR is set negatively affects AccECN
-    https://git.kernel.org/netdev/net-next/c/ab4c8b6f7fcb
-  - [v13,net-next,03/15] selftests/net: gro: add self-test for TCP CWR flag
-    https://git.kernel.org/netdev/net-next/c/6f74bc8b6e8d
-  - [v13,net-next,04/15] tcp: ECT_1_NEGOTIATION and NEEDS_ACCECN identifiers
-    https://git.kernel.org/netdev/net-next/c/100f946b8d44
-  - [v13,net-next,05/15] tcp: disable RFC3168 fallback identifier for CC modules
-    https://git.kernel.org/netdev/net-next/c/e68c28f22f46
-  - [v13,net-next,06/15] tcp: accecn: handle unexpected AccECN negotiation feedback
-    https://git.kernel.org/netdev/net-next/c/c5ff6b837159
-  - [v13,net-next,07/15] tcp: accecn: retransmit downgraded SYN in AccECN negotiation
-    https://git.kernel.org/netdev/net-next/c/3ae62b8b4a48
-  - [v13,net-next,08/15] tcp: add TCP_SYNACK_RETRANS synack_type
-    https://git.kernel.org/netdev/net-next/c/f1eaea5585e4
-  - [v13,net-next,09/15] tcp: accecn: retransmit SYN/ACK without AccECN option or non-AccECN SYN/ACK
-    https://git.kernel.org/netdev/net-next/c/f326f1f17f37
-  - [v13,net-next,10/15] tcp: accecn: unset ECT if receive or send ACE=0 in AccECN negotiaion
-    https://git.kernel.org/netdev/net-next/c/4024081feb87
-  - [v13,net-next,11/15] tcp: accecn: fallback outgoing half link to non-AccECN
-    https://git.kernel.org/netdev/net-next/c/2ed661248e2b
-  - [v13,net-next,12/15] tcp: accecn: detect loss ACK w/ AccECN option and add TCP_ACCECN_OPTION_PERSIST
-    https://git.kernel.org/netdev/net-next/c/1247fb19cafe
-  - [v13,net-next,13/15] tcp: accecn: add tcpi_ecn_mode and tcpi_option2 in tcp_info
-    https://git.kernel.org/netdev/net-next/c/4fa4ac5e5848
-  - [v13,net-next,14/15] tcp: accecn: enable AccECN
-    https://git.kernel.org/netdev/net-next/c/8ae3e8e6ceed
-  - [v13,net-next,15/15] selftests/net: packetdrill: add TCP Accurate ECN cases
-    https://git.kernel.org/netdev/net-next/c/f85d9c45f1d4
+Agreed.
+I'll drop the CONFIG_64BIT conditional and make the mode validation work
+for both RV32 and RV64. On RV32 we'll define/accept an HGATP_MODE_SV32X4
+bit.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+>> +}
+>> +
+>>  #endif
+>> diff --git a/arch/riscv/kvm/gstage.c b/arch/riscv/kvm/gstage.c
+>> index 2d0045f502d1..edbabdac57d8 100644
+>> --- a/arch/riscv/kvm/gstage.c
+>> +++ b/arch/riscv/kvm/gstage.c
+>> @@ -16,6 +16,8 @@ unsigned long kvm_riscv_gstage_max_pgd_levels __ro_after_init = 3;
+>>  #else
+>>  unsigned long kvm_riscv_gstage_max_pgd_levels __ro_after_init = 2;
+>>  #endif
+>> +/* Bitmask of supported HGATP.MODE (see HGATP_MODE_*_BIT). */
+>> +u32 kvm_riscv_gstage_mode_mask __ro_after_init;
+>>  
+>>  #define gstage_pte_leaf(__ptep)	\
+>>  	(pte_val(*(__ptep)) & (_PAGE_READ | _PAGE_WRITE | _PAGE_EXEC))
+>> @@ -315,42 +317,43 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *gstage, gpa_t start, gpa_t end
+>>  	}
+>>  }
+>>  
+>> +static bool __init kvm_riscv_hgatp_mode_supported(unsigned long mode)
+>> +{
+>> +	csr_write(CSR_HGATP, mode << HGATP_MODE_SHIFT);
+>> +	return ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == mode);
+>> +}
+>> +
+>>  void __init kvm_riscv_gstage_mode_detect(void)
+>>  {
+>> +	kvm_riscv_gstage_mode_mask = 0;
+>> +	kvm_riscv_gstage_max_pgd_levels = 0;
+>> +
+>>  #ifdef CONFIG_64BIT
+>> -	/* Try Sv57x4 G-stage mode */
+>> -	csr_write(CSR_HGATP, HGATP_MODE_SV57X4 << HGATP_MODE_SHIFT);
+>> -	if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == HGATP_MODE_SV57X4) {
+>> -		kvm_riscv_gstage_max_pgd_levels = 5;
+>> -		goto done;
+>> +	/* Try Sv39x4 G-stage mode */
+>> +	if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV39X4)) {
+>> +		kvm_riscv_gstage_mode_mask |= BIT(HGATP_MODE_SV39X4_BIT);
+>> +		kvm_riscv_gstage_max_pgd_levels = 3;
+>>  	}
+>>  
+>>  	/* Try Sv48x4 G-stage mode */
+>> -	csr_write(CSR_HGATP, HGATP_MODE_SV48X4 << HGATP_MODE_SHIFT);
+>> -	if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == HGATP_MODE_SV48X4) {
+>> +	if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV48X4)) {
+>> +		kvm_riscv_gstage_mode_mask |= BIT(HGATP_MODE_SV48X4_BIT);
+>>  		kvm_riscv_gstage_max_pgd_levels = 4;
+>> -		goto done;
+>>  	}
+>>  
+>> -	/* Try Sv39x4 G-stage mode */
+>> -	csr_write(CSR_HGATP, HGATP_MODE_SV39X4 << HGATP_MODE_SHIFT);
+>> -	if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == HGATP_MODE_SV39X4) {
+>> -		kvm_riscv_gstage_max_pgd_levels = 3;
+>> -		goto done;
+>> +	/* Try Sv57x4 G-stage mode */
+>> +	if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV57X4)) {
+>> +		kvm_riscv_gstage_mode_mask |= BIT(HGATP_MODE_SV57X4_BIT);
+>> +		kvm_riscv_gstage_max_pgd_levels = 5;
+>>  	}
+>>  #else /* CONFIG_32BIT */
+>>  	/* Try Sv32x4 G-stage mode */
+>>  	csr_write(CSR_HGATP, HGATP_MODE_SV32X4 << HGATP_MODE_SHIFT);
+>>  	if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) == HGATP_MODE_SV32X4) {
+>
+>Can use kvm_riscv_hgatp_mode_supported() here too.
 
+Sure.
+I'll switch the 32-bit path to use kvm_riscv_hgatp_mode_supported() as well,
+so both RV32 and RV64 use the same helper to probe HGATP mode support.
+>
+>>  		kvm_riscv_gstage_max_pgd_levels = 2;
+>> -		goto done;
+>>  	}
+>>  #endif
+>>  
+>> -	/* KVM depends on !HGATP_MODE_OFF */
+>> -	kvm_riscv_gstage_max_pgd_levels = 0;
+>> -
+>> -done:
+>>  	csr_write(CSR_HGATP, 0);
+>>  	kvm_riscv_local_hfence_gvma_all();
+>>  }
+>> -- 
+>> 2.50.1
+>>
+>
+>Thanks,
+>drew
+>
 
+Thanks,
+Fangyu
