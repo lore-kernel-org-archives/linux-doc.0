@@ -1,1357 +1,168 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-dl1-f68.google.com (mail-dl1-f68.google.com [74.125.82.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C1520010C
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 19:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770147920; cv=none; b=SKs0KoVAz3aWhWAyqB4wKzj0i3XHtMM+cuXeDH5VSKkEw0YHqLB1pwYuub8at9OBtCrOmwPX46i2isvJFd8X2/oau/GD770nUDAgErw97aN10gBTHZKoCHDDoPX/2oGrigmN0EqUh0D7xPlZHTYP+C9EQEgsqwbJbvRpePXl4OI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770147920; c=relaxed/simple;
-	bh=NtjbdCrD6/ThU+GAgvHr+eI0fXP0tqDA5BrSYr2+m0A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZyhXev52aJLmLRJAHcq8TRjCaMuHga4SuQ001wV+i9sHFUwGPSulJan95Z0Q1Ovas+lIOG13S0zt6eCrCnos/nkmheofIXLKPvw6wb7bSTE70XW1/HrPRwBDnf+LsbuPeWOYP9MgrgjLrw0OvyFefNFX1h1j4dt69aWK04v1RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wkw0mHsg; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715BC288C39
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 19:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770148099; cv=pass; b=UQhdkxVdE6jSO4HFdbKXy2mhJ2CJox3++thx73TYdPCdFukBGHqTohQ590dbl9x7jJEzDWyTjc0pJH4ouUDb7o6H1HvL2wWhwP25jrik/+A6ytDrmwk4fuH9OT8J/nJxa6vCZatVgO2GFijyZjafH3P8TCH8oZ2JXf597/lO/U8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770148099; c=relaxed/simple;
+	bh=kNXxiUDQy1SVXfSeJbu09uShQ8mMvmjrjF4sRv0Rx5Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hHo5yCmIv+Dq+CLrffmqiPW7qpZYTde5+iXZJryEw7teirKQ+/cIRQbsSK/glcuKA4ei2kNCIcjH4A2CfEiw3QmiD77ZonrEmeBdVSSAVeXo06s+XIPUGYn2xAsq34gX/XWjYYkVS8miaDNR3Xi01sg1yklOuwTc86VXbhTHnmM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M8EFHXjR; arc=pass smtp.client-ip=74.125.82.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wkw0mHsg"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8230c2d3128so3249796b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 11:45:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M8EFHXjR"
+Received: by mail-dl1-f68.google.com with SMTP id a92af1059eb24-124afd03fd1so9045771c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 11:48:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770148098; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ObjUGfcyNzTsw0SUqLYI4k0v5NV0zffxEWGakb4NIuqyGDBcxfcAJpYXI3SQU3POtJ
+         Ej+QThUjEgh2ANB5vN5xszm6b3fcNZt8pii0L3zvleyArAjnIS3rf0uWlSMbLE/SUJB0
+         9vC3RFDhM/cUtQPjOqYNaj/gttnpX3zMh/n6FGmBrX3RkkjQpW8UPrHiEUf1v6WOHbjD
+         m0KEtZCace+guiY4Tl7YRxB4hFWWD/mXcXxJMCcDghxUX1mIRn4NlBknHsvZmEdNe0cv
+         3u0cnXkUpTc4PqTvfb1vOMKc2srZHYsr+CArBuSu1gR2OOgr0CMbgcfSDwO8Pw6BTRT7
+         +evg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ljYXjREKDmOu7d2s7Y3SwTV+aN53dscZlpBmijYsyBA=;
+        fh=jeRuJHq31cGj0D7EiJ78rqqy3AQjaW7ipaL5iFbPcUM=;
+        b=DWT4Xz+Rwhdx1sSaWpzMt0afgf3wLT7KZhKYZIrba1a0vtUyvphaOVsI8Z/CZav6fF
+         PlBxKqd0qDyk6egNOQxBEcfJJ5nNXhD4myrPIWpwPbRIy+cviaAfGv1pWu26NuWQfqU/
+         DhmgRmEDN0gPslWDJfOnjG30i0JKQppNCD7Nz70he6jdhe8qFiGvn3HN9C0dj4zH1gBb
+         UGfc9YAzWayq8k0SWd9ENBomY4Px0LUn0ErA5PU/S8qODZ1udNXiMBe0TRwvjw8POcR3
+         wEdPIUgItuBEg2RWI0fW1XWmbiQ8hCBRvSxdbLIMlJAfHAIN+9Wwa/vwQrKvUaxoklus
+         DVdg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770147917; x=1770752717; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uyUtRqxb++BvA5dLyce8+gkqRoos/DmqS+pMAL1s9g0=;
-        b=Wkw0mHsg57PMFJRBAgmfMEvrFEnnGQW3h5n847i9arSkEGaij1GdoEZoyKaSuRbs+i
-         1/Bbg/vQK83nD1+/weDcDlBGtn1zgJWNDodwnRjtwe/6Qb8w70Mr5Wi9sap7TADKi0mA
-         eXRxlXNVGymFSBZMkZsWutSAF2Ne+PRYbYB+S/MqASrqZJj3pnHx3KHhlr9lXthj2fjT
-         YHzzAI0tQIB7zDP+eXMFYJ1QWUqOIWpVUcC+12wg207cH204h8O8Xy9nSyoKOP+ZvZeT
-         NCMi17oTtcMq5aJi845WbjvHmywe5/asllxv0XtG4DIIov1ZK29jJHjy8tt+U3QdQ1Gz
-         uwCg==
+        d=gmail.com; s=20230601; t=1770148098; x=1770752898; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ljYXjREKDmOu7d2s7Y3SwTV+aN53dscZlpBmijYsyBA=;
+        b=M8EFHXjRmdSzfDypzpbjYeroD/naEkvqHUtZGsK9MT3IINmdZOaANZ89y5/sR0cWHJ
+         Ad9M395+zzsXOo2w5KR2djBI555Z7THYTGdjWZjQcown3rMIEBj+nSnZE8P9bAQUHcXG
+         ImGfU8qTKKgtaTakdCtE8/bmcsWgxtZDIXkmJu76+lV3eQOiCszeiT5hfehrmV9doQKo
+         FS63wHw8EpGHjjr7FiTfzNuK7WBjOEX+FHD+J3+Wx8/a/3F4OWxKKX0cEEvG461ZqrBs
+         dGBVbuOPdY4uUMcljXEutUAKx8cejEgySKA2syqBWwSNCG6rFFtKx/4Yo3of5nUjHkBR
+         KMLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770147917; x=1770752717;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uyUtRqxb++BvA5dLyce8+gkqRoos/DmqS+pMAL1s9g0=;
-        b=VXWRcYSdTxjV+6qBdECHktgBFQdI0tYFLC8WHk6uJeM/SkMZFL2EpHJ0JPnADwkfyq
-         PQIfm8HsPvuBdIIalDyJ1JORVJL7xJxs3HxtypeZhoM8PrcNKEMj7mC9/DAOrAN1obFm
-         LLo1kMeLaUyAs4i1Fy8kfj4AMC6XATfe3vC455O48FAuAxmJo1tuWDPSBNeFFwUD/Xbq
-         sNgrMnhK2ZD+rpVX2UCYor5GBjSGr6tmRPsXKrkCQgtdymrCK9yGUJCzD9pbY1FgqG4J
-         yroKwsOlOCHOR40p+BaKdzxuxUWkLruOZaWAA0GVThAf5fyN/8Dmgf+l10OH3ZRY2Ebd
-         Z1iQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXIU7+ZZUyb/WI4bIRQHTmrYNAYDMyYNtT2RJp0+LvPCwcMGRQrasogBKsxnCEgNJtyXbL1wOWCsEc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbbnCUHnl5OKvr29P3QS7iGk4YJF0j/hBOfZaT2NPs0ykwSfTy
-	iXOTd/6lo3k9CPq00xMC1dF9J7APuth+xaxBSoiCVTLtUmXfR9GqBSYB
-X-Gm-Gg: AZuq6aIKX+DYvoplRhiNhJyp1+80CT7EocP597ucuQwqa/f0Z02IVTUdChnN+5SvzSD
-	I/KGglh119jN9R0PCPl0kpq+QSCrAN8esTd5FsQcKPD/+Y96ynrkqkvBjzQyh12JoXI138hj14i
-	jAktUtZxBpIFgiLm/TgrQCSui2pENF3I87Q/8kYKbdHdQRv9qN3gNYvxK2CIggYD9zntYD3eW44
-	0xKP4qDCsKJhZFcXczLjY5j2VeHDF+bqJPVh0oc5av266V65M/4/7i4OlA5ryRD9pS0VsSkCtDc
-	8M20zWKWJ9WxrtQh5jSmqpvj2sx4p4c5YYZJyDNq5N3eYlaz4eHUTdI1i+pjySp/5nvoICDVBaB
-	2hxNH/64rA7yj+3ti1F8j7XKxJWERXTw58aE8kp12wjRMZuUU6bFQ1a3A0YYqH1U9YbOLeGoxHr
-	xwshirqLznGT0+/PKQYmKaSXKZ
-X-Received: by 2002:a05:6a21:7a82:b0:36c:2cf5:9b06 with SMTP id adf61e73a8af0-393724cd042mr505803637.79.1770147916574;
-        Tue, 03 Feb 2026 11:45:16 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8241d1e55b8sm210622b3a.30.2026.02.03.11.45.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 11:45:15 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 3 Feb 2026 11:45:14 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: victor.duicu@microchip.com
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, marius.cristea@microchip.com,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] hwmon: add support for MCP998X
-Message-ID: <1aefa888-fdf2-4ffb-8cd4-5008908673b5@roeck-us.net>
-References: <20260127151823.9728-1-victor.duicu@microchip.com>
- <20260127151823.9728-3-victor.duicu@microchip.com>
+        d=1e100.net; s=20230601; t=1770148098; x=1770752898;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ljYXjREKDmOu7d2s7Y3SwTV+aN53dscZlpBmijYsyBA=;
+        b=ACAYh0myCpOmkWf3eylFOdomRMa7TQKgBr/UtWKIIxToikP+A4jVOS9DzqTvyoccDL
+         jV8d0hcZGksdq61oPwYBT70mid+lBau/L1EEbeBeiEQ7cv6vmv9kBxrWAtDZPi7ACOIN
+         QoyS3m71+UIJv5ppKYFp9H+Qu3YXGgzp9+LvzVs3ViN1OxluwLsSiu7p6SdANUuS8LXB
+         WiHfsxkBFjL+9KlnEw9d9ahNLZxqAKBUtU2g4v4LYSAClR7QUKEeDm2WNpGsshNTO8b1
+         WkSdg3+lxtmj2xd7CdhyrSYMx9j30u5v/XAHbs4UI8dZte9xI4691w1M5+8x4Ge1COYE
+         oIpA==
+X-Forwarded-Encrypted: i=1; AJvYcCVNdFahuMhiMSCm/EQRY5nXKQomMlP9kUpQX4ZKIfN1wJz8R0Xjp0Bx687+K3ukmjaVnCWti4kgI9M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtACqRSHJ/J/w9sKjnjnoje24t8VsDe9dNRwnewtVpG0S67rDK
+	r/gUdjXqYPJzRJR8oSEC6vABkLNEuRKnppzJzyjoGciYtlxJCW3zgp8Q03FbnvPS7Fa5JD4zg/l
+	r/bVyPeTC+khitOj7A9GWSs4FRCGF3w==
+X-Gm-Gg: AZuq6aIR8vqFR8+sjC/+twFwoCoV1YNmAxP4UqoveNyd7mvl18x5c36EN32YqvTPTwy
+	PDwFNC7DngS0A+GnmXyaAUH2ZRM52EhefaVGOCd7wPkKGFwoJktIOfZqt8gUF5de+JYQqtGHe6U
+	oDUtAG3CU8ENUPJtqpkAPl97HIaBpEvj4QuyoD6aPwLLB8d5XItv5OjCniR0G3k91hxFdIJGtH3
+	aGT7wQErknuMikj2MuXOuJZ5lXtXo0ji2o1/rKcfHxXGivs1FEuSPaVLs+3QlEwSWs1hwA=
+X-Received: by 2002:a05:7022:6ba2:b0:11b:923d:773f with SMTP id
+ a92af1059eb24-126f4781428mr242143c88.5.1770148097517; Tue, 03 Feb 2026
+ 11:48:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260127151823.9728-3-victor.duicu@microchip.com>
+References: <20260130014807.51302-1-sj@kernel.org> <20260131195408.66514-1-sj@kernel.org>
+In-Reply-To: <20260131195408.66514-1-sj@kernel.org>
+From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Date: Tue, 3 Feb 2026 11:48:06 -0800
+X-Gm-Features: AZwV_QhQ9CdPx0t0XZJXip2Lmrp6vOfL-d4v8wYJQjypSaPQbLX41bGGmoxym7c
+Message-ID: <CALa+Y1475VSnrNTn-AQtTTnye+sdAGu9sVO0YMEtLidNW53_=A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/3] mm/damon: Introduce node_target_mem_bp Quota
+ Goal Metric
+To: SeongJae Park <sj@kernel.org>
+Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
+	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
+	yunjeong.mun@sk.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 27, 2026 at 05:18:22PM +0200, victor.duicu@microchip.com wrote:
-> From: Victor Duicu <victor.duicu@microchip.com>
-> 
-> This is the driver for Microchip MCP998X/33 and MCP998XD/33D
-> Multichannel Automotive Temperature Monitor Family.
-> 
-> Signed-off-by: Victor Duicu <victor.duicu@microchip.com>
+On Sat, Jan 31, 2026 at 11:54=E2=80=AFAM SeongJae Park <sj@kernel.org> wrot=
+e:
+>
+> On Thu, 29 Jan 2026 17:48:06 -0800 SeongJae Park <sj@kernel.org> wrote:
+>
+> > On Thu, 29 Jan 2026 13:58:11 -0800 Ravi Jonnalagadda <ravis.opensrc@gma=
+il.com> wrote:
+> >
+> > > This series introduces a new DAMON quota goal metric, `node_target_me=
+m_bp`,
+> > > designed for controlling memory migration in heterogeneous memory sys=
+tems
+> > > (e.g., DRAM and CXL memory tiering).
+> > >
+> > > v1: https://lore.kernel.org/linux-mm/20260123045733.6954-1-ravis.open=
+src@gmail.com/T/#u
+> [...]
+> >     Context 0: monitors node 0, migrate_hot -> node 1
+> >       goal: node_ineligible_mem_bp, nid=3D0, target=3D4000
+> >
+> >     Context 1: monitors node 1, migrate_hot -> node 0
+> >       goal: node_target_mem_bp, nid=3D0, target=3D6000
+>
+> In offline, Ravi enlightened me that using a single context with two sche=
+mes
+> instead of the above two contexts setup can be more efficienct and useful=
+.  I
+> agree that.  It will be able to only single kdamond, and there could be m=
+ore
+> flexible use cases that can use the whole-memory access pattern.
+>
+> That is, we can use single context with the two schemes, but adding a cor=
+e
+> layer DAMOS filters for applying the schemes to only memory of node 0 and=
+ node
+> 1, respectively.  Similar for memory tiering use cases.
+>
+> But I was recommending the multi contexts approach to people because the
+> current implementation of DAMOS is not efficient when both quota and core=
+ layer
+> filters are used.  I was actually working on making it improved, and just
+> posted an RFC patch series [1].  After the patches are merged, hopefully =
+the
+> single context approach will be useful and effcient enough for varying us=
+e
+> cases including the memory tiering.
+>
+> [1] https://lore.kernel.org/20260131194145.66286-1-sj@kernel.org
+>
+Thanks for providing the DAMOS_FILTER patch update SJ.
 
-I ran the patch through an AI code review. Findings (some already reported) inline,
-plus some additional feedback from me.
+For v3, I plan to introduce two complementary metrics:
+DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP
+and DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP.
 
-> ---
->  Documentation/hwmon/index.rst   |    1 +
->  Documentation/hwmon/mcp9982.rst |  105 ++++
->  MAINTAINERS                     |    2 +
->  drivers/hwmon/Kconfig           |   11 +
->  drivers/hwmon/Makefile          |    1 +
->  drivers/hwmon/mcp9982.c         | 1022 +++++++++++++++++++++++++++++++
->  6 files changed, 1142 insertions(+)
->  create mode 100644 Documentation/hwmon/mcp9982.rst
->  create mode 100644 drivers/hwmon/mcp9982.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 85d7a686883e..b02709fc216e 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -173,6 +173,7 @@ Hardware Monitoring Kernel Drivers
->     mc33xs2410_hwmon
->     mc34vr500
->     mcp3021
-> +   mcp9982
->     menf21bmc
->     mlxreg-fan
->     mp2856
-> diff --git a/Documentation/hwmon/mcp9982.rst b/Documentation/hwmon/mcp9982.rst
-> new file mode 100644
-> index 000000000000..dee2947f9044
-> --- /dev/null
-> +++ b/Documentation/hwmon/mcp9982.rst
-> @@ -0,0 +1,105 @@
-> +.. SPDX-License-Identifier: GPL-2.0+
-> +Kernel driver MCP998X
-> +=====================
-> +
-> +Supported chips:
-> +
-> +  * Microchip Technology MCP998X/MCP9933 and MCP998XD/MCP9933D
-> +
-> +    Prefix: 'mcp9982'
-> +
-> +    Datasheet:
-> +    https://ww1.microchip.com/downloads/aemDocuments/documents/MSLD/ProductDocuments/DataSheets/MCP998X-Family-Data-Sheet-DS20006827.pdf
-> +
-> +Authors:
-> +
-> +   - Victor Duicu <victor.duicu@microchip.com>
-> +
-> +Description
-> +-----------
-> +
-> +This driver implements support for the MCP998X family containing: MCP9982,
-> +MCP9982D, MCP9983, MCP9983D, MCP9984, MCP9984D, MCP9985, MCP9985D,
-> +MCP9933 and MCP9933D.
-> +
-> +The MCP998X Family is a high accuracy 2-wire multichannel automotive
-> +temperature monitor.
-> +
-> +The chips in the family have different numbers of external channels,
-> +ranging from 1 (MCP9982) to 4 channels (MCP9985). Reading diodes in
-> +anti-parallel connection is supported by MCP9984/85/33 and
-> +MCP9984D/85D/33D. Dedicated hardware shutdown circuitry is present
-> +only in MCP998XD and MCP9933D.
-> +
-> +Temperatures are read in millidegrees Celsius, ranging from -64 to
-> +191.875 with 0.125 precision.
-> +
-> +Each channel has a minimum, maximum, and critical limit alongside associated alarms.
-> +The chips also implement a hysteresis mechanism which applies only to the maximum
-> +and critical limits. The relative difference between a limit and its hysteresis
-> +is the same for both and the value is kept in a single register.
-> +
-> +The chips measure temperatures with a variable conversion rate.
-> +Update_interval = Conversion/Second, so the available options are:
-> +- 16000 (ms) = 1 conv/16 sec
-> +- 8000 (ms) = 1 conv/8 sec
-> +- 4000 (ms) = 1 conv/4 sec
-> +- 2000 (ms) = 1 conv/2 sec
-> +- 1000 (ms) = 1 conv/sec
-> +- 500 (ms) = 2 conv/sec
-> +- 250 (ms) = 4 conv/sec
-> +- 125 (ms) = 8 conv/sec
-> +- 64 (ms) = 16 conv/sec
-> +- 32 (ms) = 32 conv/sec
-> +- 16 (ms) = 64 conv/sec
-> +
-> +Usage Notes
-> +-----------
-> +
-> +Parameters that can be configured in devicetree:
-> +- anti-parallel diode mode operation
-> +- resistance error correction on channels 1 and 2
-> +- resistance error correction on channels 3 and 4
-> +Chips 82/83 and 82D/83D do not support anti-parallel diode mode.
-> +For chips with "D" in the name resistance error correction must be on.
-> +Please see Documentation/devicetree/bindings/hwmon/microchip,mcp9982.yaml
-> +for details.
-> +
-> +There are two power states:
-> +- Active state: in which the chip is converting on all channels at the
-> +  programmed rate.
-> +- Standby state: in which the host must initiate a conversion cycle.
-> +Chips with "D" in the name work in Active state only and those without
-> +can work in either state.
-> +
-> +Chips with "D" in the name can't set update interval slower than 1 second.
-> +
-> +Among the hysteresis attributes, only the tempX_crit_hyst ones are writeable
-> +while the others are read only. Setting tempX_crit_hyst writes the difference
-> +between tempX_crit and tempX_crit_hyst in the hysteresis register. The new value
-> +applies automatically  to the other limits. At power up the device starts with
-> +the value 10 in the hysteresis register.
-> +
-> +Sysfs entries
-> +-------------
-> +
-> +The following attributes are supported. The limits and update_interval are
-> +read-write, while the rest are read only.
-> +
-> +======================= ==================================================
-> +temp[1-5]_label		User name for channel.
-> +temp[1-5]_input		Measured temperature for channel.
-> +
-> +temp[1-5]_crit		Critical temperature limit.
-> +temp[1-5]_crit_alarm	Critical temperature limit alarm.
-> +temp[1-5]_crit_hyst	Critical temperature limit hysteresis.
-> +
-> +temp[1-5]_max		High temperature limit.
-> +temp[1-5]_max_alarm	High temperature limit alarm.
-> +temp[1-5]_max_hyst	High temperature limit hysteresis.
-> +
-> +temp[1-5]_min		Low temperature limit.
-> +temp[1-5]_min_alarm	Low temperature limit alarm.
-> +
-> +update_interval		The interval at which the chip will update readings.
-> +======================= ==================================================
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f88d837cb586..c39ab12b6bc8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17154,6 +17154,8 @@ M:	Victor Duicu <victor.duicu@microchip.com>
->  L:	linux-hwmon@vger.kernel.org
->  S:	Supported
->  F:	Documentation/devicetree/bindings/hwmon/microchip,mcp9982.yaml
-> +F:	Documentation/hwmon/mcp9982.rst
-> +F:	drivers/hwmon/mcp9982.c
->  
->  MICROCHIP MMC/SD/SDIO MCI DRIVER
->  M:	Aubin Constans <aubin.constans@microchip.com>
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 157678b821fc..c758ab2d5fdf 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -1388,6 +1388,17 @@ config SENSORS_MCP3021
->  	  This driver can also be built as a module. If so, the module
->  	  will be called mcp3021.
->  
-> +config SENSORS_MCP9982
-> +       tristate "Microchip Technology MCP9982 driver"
-> +       depends on I2C
-> +       select REGMAP_I2C
-> +       help
-> +         Say yes here to include support for Microchip Technology's MCP998X/33
-> +         and MCP998XD/33D Multichannel Automotive Temperature Monitor Family.
-> +
-> +         This driver can also be built as a module. If so, the module
-> +         will be called mcp9982.
-> +
->  config SENSORS_MLXREG_FAN
->  	tristate "Mellanox FAN driver"
->  	depends on MELLANOX_PLATFORM
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index eade8e3b1bde..cec33da29a68 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -170,6 +170,7 @@ obj-$(CONFIG_SENSORS_MC13783_ADC)+= mc13783-adc.o
->  obj-$(CONFIG_SENSORS_MC33XS2410) += mc33xs2410_hwmon.o
->  obj-$(CONFIG_SENSORS_MC34VR500)	+= mc34vr500.o
->  obj-$(CONFIG_SENSORS_MCP3021)	+= mcp3021.o
-> +obj-$(CONFIG_SENSORS_MCP9982)	+= mcp9982.o
->  obj-$(CONFIG_SENSORS_TC654)	+= tc654.o
->  obj-$(CONFIG_SENSORS_TPS23861)	+= tps23861.o
->  obj-$(CONFIG_SENSORS_MLXREG_FAN) += mlxreg-fan.o
-> diff --git a/drivers/hwmon/mcp9982.c b/drivers/hwmon/mcp9982.c
-> new file mode 100644
-> index 000000000000..55701655daa0
-> --- /dev/null
-> +++ b/drivers/hwmon/mcp9982.c
-> @@ -0,0 +1,1022 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * HWMON driver for MCP998X/33 and MCP998XD/33D Multichannel Automotive
-> + * Temperature Monitor Family
-> + *
-> + * Copyright (C) 2026 Microchip Technology Inc. and its subsidiaries
-> + *
-> + * Author: Victor Duicu <victor.duicu@microchip.com>
-> + *
-> + * Datasheet can be found here:
-> + * https://ww1.microchip.com/downloads/aemDocuments/documents/MSLD/ProductDocuments/DataSheets/MCP998X-Family-Data-Sheet-DS20006827.pdf
-> + */
-> +
-> +#include <linux/array_size.h>
-> +#include <linux/bitfield.h>
-> +#include <linux/bitops.h>
-> +#include <linux/bits.h>
-> +#include <linux/byteorder/generic.h>
-> +#include <linux/delay.h>
-> +#include <linux/device/devres.h>
-> +#include <linux/device.h>
-> +#include <linux/dev_printk.h>
-> +#include <linux/err.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/i2c.h>
-> +#include <linux/math.h>
-> +#include <linux/minmax.h>
-> +#include <linux/property.h>
-> +#include <linux/regmap.h>
-> +#include <linux/time64.h>
-> +#include <linux/util_macros.h>
-> +
-> +/* MCP9982 Registers */
-> +#define MCP9982_HIGH_BYTE_ADDR(index)		(2 * (index))
-> +#define MCP9982_ONE_SHOT_ADDR			0x0A
-> +#define MCP9982_INTERNAL_HIGH_LIMIT_ADDR	0x0B
-> +#define MCP9982_INTERNAL_LOW_LIMIT_ADDR		0x0C
-> +#define MCP9982_EXT_HIGH_LIMIT_ADDR(index)	(4 * ((index) - 1) + 0x0D)
-> +#define MCP9982_EXT_LOW_LIMIT_ADDR(index)	(4 * ((index) - 1) + 0x0F)
-> +#define MCP9982_THERM_LIMIT_ADDR(index)		((index) + 0x1D)
-> +#define MCP9982_CFG_ADDR			0x22
-> +#define MCP9982_CONV_ADDR			0x24
-> +#define MCP9982_HYS_ADDR			0x25
-> +#define MCP9982_CONSEC_ALRT_ADDR		0x26
-> +#define MCP9982_ALRT_CFG_ADDR			0x27
-> +#define MCP9982_RUNNING_AVG_ADDR		0x28
-> +#define MCP9982_HOTTEST_CFG_ADDR		0x29
-> +#define MCP9982_STATUS_ADDR			0x2A
-> +#define MCP9982_EXT_FAULT_STATUS_ADDR		0x2B
-> +#define MCP9982_HIGH_LIMIT_STATUS_ADDR		0x2C
-> +#define MCP9982_LOW_LIMIT_STATUS_ADDR		0x2D
-> +#define MCP9982_THERM_LIMIT_STATUS_ADDR		0x2E
-> +#define MCP9982_HOTTEST_HIGH_BYTE_ADDR		0x2F
-> +#define MCP9982_HOTTEST_LOW_BYTE_ADDR		0x30
-> +#define MCP9982_HOTTEST_STATUS_ADDR		0x31
-> +#define MCP9982_THERM_SHTDWN_CFG_ADDR		0x32
-> +#define MCP9982_HRDW_THERM_SHTDWN_LIMIT_ADDR	0x33
-> +#define MCP9982_EXT_BETA_CFG_ADDR(index)	((index) + 0x33)
-> +#define MCP9982_EXT_IDEAL_ADDR(index)		((index) + 0x35)
-> +
-> +/* MCP9982 Bits */
-> +#define MCP9982_CFG_MSKAL			BIT(7)
-> +#define MCP9982_CFG_RS				BIT(6)
-> +#define MCP9982_CFG_ATTHM			BIT(5)
-> +#define MCP9982_CFG_RECD12			BIT(4)
-> +#define MCP9982_CFG_RECD34			BIT(3)
-> +#define MCP9982_CFG_RANGE			BIT(2)
-> +#define MCP9982_CFG_DA_ENA			BIT(1)
-> +#define MCP9982_CFG_APDD			BIT(0)
-> +
-> +#define MCP9982_STATUS_BUSY			BIT(5)
-> +
-> +/* Constants and default values */
-> +#define MCP9982_MAX_NUM_CHANNELS		5
-> +#define MCP9982_BETA_AUTODETECT			16
-> +#define MCP9982_IDEALITY_DEFAULT		18
-> +#define MCP9982_OFFSET				64
-> +#define MCP9982_DEFAULT_CONSEC_ALRT_VAL		112
-> +#define MCP9982_DEFAULT_HYS_VAL			10
-> +#define MCP9982_DEFAULT_CONV_VAL		6
-> +#define MCP9982_WAKE_UP_TIME_US			125000
-> +#define MCP9982_WAKE_UP_TIME_MAX_US		130000
-> +#define MCP9982_TIMER_BUFFER_US			10000
-> +#define MCP9982_CONVERSION_TIME_MS		125
-> +#define MCP9982_HIGH_LIMIT_DEFAULT		21000
-> +#define MCP9982_LOW_LIMIT_DEFAULT		0
-> +
-> +static const struct hwmon_channel_info * const mcp9985_info[] = {
-> +	HWMON_CHANNEL_INFO(temp,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_MIN |
-> +			   HWMON_T_MIN_ALARM | HWMON_T_MAX | HWMON_T_MAX_ALARM |
-> +			   HWMON_T_MAX_HYST | HWMON_T_CRIT | HWMON_T_CRIT_ALARM |
-> +			   HWMON_T_CRIT_HYST,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_MIN |
-> +			   HWMON_T_MIN_ALARM | HWMON_T_MAX | HWMON_T_MAX_ALARM |
-> +			   HWMON_T_MAX_HYST | HWMON_T_CRIT | HWMON_T_CRIT_ALARM |
-> +			   HWMON_T_CRIT_HYST,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_MIN |
-> +			   HWMON_T_MIN_ALARM | HWMON_T_MAX | HWMON_T_MAX_ALARM |
-> +			   HWMON_T_MAX_HYST | HWMON_T_CRIT | HWMON_T_CRIT_ALARM |
-> +			   HWMON_T_CRIT_HYST,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_MIN |
-> +			   HWMON_T_MIN_ALARM | HWMON_T_MAX | HWMON_T_MAX_ALARM |
-> +			   HWMON_T_MAX_HYST | HWMON_T_CRIT | HWMON_T_CRIT_ALARM |
-> +			   HWMON_T_CRIT_HYST,
-> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_MIN |
-> +			   HWMON_T_MIN_ALARM | HWMON_T_MAX | HWMON_T_MAX_ALARM |
-> +			   HWMON_T_MAX_HYST | HWMON_T_CRIT | HWMON_T_CRIT_ALARM |
-> +			   HWMON_T_CRIT_HYST),
-> +	HWMON_CHANNEL_INFO(chip,
-> +			   HWMON_C_UPDATE_INTERVAL),
-> +	NULL
-> +};
-> +
-> +/**
-> + * struct mcp9982_features - features of a mcp9982 instance
-> + * @name:			chip's name
-> + * @phys_channels:		number of physical channels supported by the chip
-> + * @hw_thermal_shutdown:	presence of hardware thermal shutdown circuitry
-> + * @allow_apdd:			whether the chip supports enabling APDD
-> + */
-> +struct mcp9982_features {
-> +	const char	*name;
-> +	u8		phys_channels;
-> +	bool		hw_thermal_shutdown;
-> +	bool		allow_apdd;
-> +};
-> +
-> +static const struct mcp9982_features mcp9933_chip_config = {
-> +	.name = "mcp9933",
-> +	.phys_channels = 3,
-> +	.hw_thermal_shutdown = false,
-> +	.allow_apdd = true,
-> +};
-> +
-> +static const struct mcp9982_features mcp9933d_chip_config = {
-> +	.name = "mcp9933d",
-> +	.phys_channels = 3,
-> +	.hw_thermal_shutdown = true,
-> +	.allow_apdd = true,
-> +};
-> +
-> +static const struct mcp9982_features mcp9982_chip_config = {
-> +	.name = "mcp9982",
-> +	.phys_channels = 2,
-> +	.hw_thermal_shutdown = false,
-> +	.allow_apdd = false,
-> +};
-> +
-> +static const struct mcp9982_features mcp9982d_chip_config = {
-> +	.name = "mcp9982d",
-> +	.phys_channels = 2,
-> +	.hw_thermal_shutdown = true,
-> +	.allow_apdd = false,
-> +};
-> +
-> +static const struct mcp9982_features mcp9983_chip_config = {
-> +	.name = "mcp9983",
-> +	.phys_channels = 3,
-> +	.hw_thermal_shutdown = false,
-> +	.allow_apdd = false,
-> +};
-> +
-> +static const struct mcp9982_features mcp9983d_chip_config = {
-> +	.name = "mcp9983d",
-> +	.phys_channels = 3,
-> +	.hw_thermal_shutdown = true,
-> +	.allow_apdd = false,
-> +};
-> +
-> +static const struct mcp9982_features mcp9984_chip_config = {
-> +	.name = "mcp9984",
-> +	.phys_channels = 4,
-> +	.hw_thermal_shutdown = false,
-> +	.allow_apdd = true,
-> +};
-> +
-> +static const struct mcp9982_features mcp9984d_chip_config = {
-> +	.name = "mcp9984d",
-> +	.phys_channels = 4,
-> +	.hw_thermal_shutdown = true,
-> +	.allow_apdd = true,
-> +};
-> +
-> +static const struct mcp9982_features mcp9985_chip_config = {
-> +	.name = "mcp9985",
-> +	.phys_channels = 5,
-> +	.hw_thermal_shutdown = false,
-> +	.allow_apdd = true,
-> +};
-> +
-> +static const struct mcp9982_features mcp9985d_chip_config = {
-> +	.name = "mcp9985d",
-> +	.phys_channels = 5,
-> +	.hw_thermal_shutdown = true,
-> +	.allow_apdd = true,
-> +};
-> +
-> +static const unsigned int mcp9982_update_interval[11] = {
-> +	16000, 8000, 4000, 2000, 1000, 500, 250, 125, 64, 32, 16
-> +};
-> +
-> +/* MCP9982 regmap configuration */
-> +static const struct regmap_range mcp9982_regmap_wr_ranges[] = {
-> +	regmap_reg_range(MCP9982_ONE_SHOT_ADDR, MCP9982_CFG_ADDR),
-> +	regmap_reg_range(MCP9982_CONV_ADDR, MCP9982_HOTTEST_CFG_ADDR),
-> +	regmap_reg_range(MCP9982_THERM_SHTDWN_CFG_ADDR, MCP9982_THERM_SHTDWN_CFG_ADDR),
-> +	regmap_reg_range(MCP9982_EXT_BETA_CFG_ADDR(1), MCP9982_EXT_IDEAL_ADDR(4)),
-> +};
-> +
-> +static const struct regmap_access_table mcp9982_regmap_wr_table = {
-> +	.yes_ranges = mcp9982_regmap_wr_ranges,
-> +	.n_yes_ranges = ARRAY_SIZE(mcp9982_regmap_wr_ranges),
-> +};
-> +
-> +static const struct regmap_range mcp9982_regmap_rd_ranges[] = {
-> +	regmap_reg_range(MCP9982_HIGH_BYTE_ADDR(0), MCP9982_CFG_ADDR),
-> +	regmap_reg_range(MCP9982_CONV_ADDR, MCP9982_EXT_IDEAL_ADDR(4)),
-> +};
-> +
-> +static const struct regmap_access_table mcp9982_regmap_rd_table = {
-> +	.yes_ranges = mcp9982_regmap_rd_ranges,
-> +	.n_yes_ranges = ARRAY_SIZE(mcp9982_regmap_rd_ranges),
-> +};
-> +
-> +static bool mcp9982_is_volatile_reg(struct device *dev, unsigned int reg)
-> +{
-> +	switch (reg) {
-> +	case MCP9982_ONE_SHOT_ADDR:
-> +	case MCP9982_INTERNAL_HIGH_LIMIT_ADDR:
-> +	case MCP9982_INTERNAL_LOW_LIMIT_ADDR:
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(1):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(1) + 1:
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(2):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(2) + 1:
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(3):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(3) + 1:
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(4):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(4) + 1:
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(1):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(1) + 1:
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(2):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(2) + 1:
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(3):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(3) + 1:
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(4):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(4) + 1:
-> +	case MCP9982_THERM_LIMIT_ADDR(0):
-> +	case MCP9982_THERM_LIMIT_ADDR(1):
-> +	case MCP9982_THERM_LIMIT_ADDR(2):
-> +	case MCP9982_THERM_LIMIT_ADDR(3):
-> +	case MCP9982_THERM_LIMIT_ADDR(4):
-> +	case MCP9982_CFG_ADDR:
-> +	case MCP9982_CONV_ADDR:
-> +	case MCP9982_HYS_ADDR:
-> +	case MCP9982_CONSEC_ALRT_ADDR:
-> +	case MCP9982_ALRT_CFG_ADDR:
-> +	case MCP9982_RUNNING_AVG_ADDR:
-> +	case MCP9982_HOTTEST_CFG_ADDR:
-> +	case MCP9982_THERM_SHTDWN_CFG_ADDR:
-> +		return false;
-> +	default:
-> +		return true;
-> +	}
-> +}
-> +
-> +static const struct regmap_config mcp9982_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.rd_table = &mcp9982_regmap_rd_table,
-> +	.wr_table = &mcp9982_regmap_wr_table,
-> +	.volatile_reg = mcp9982_is_volatile_reg,
-> +	.max_register = MCP9982_EXT_IDEAL_ADDR(4),
-> +	.cache_type = REGCACHE_MAPLE,
-> +};
-> +
-> +/**
-> + * struct mcp9992_priv - information about chip parameters
-> + * @regmap:			device register map
-> + * @chip:			pointer to structure holding chip features
-> + * @labels:			labels of the channels
-> + * @interval_idx:		index representing the current update interval
-> + * @time_limit:			time when it is safe to read
-> + * @enabled_channel_mask:	mask containing which channels should be enabled
-> + * @num_channels:		number of active physical channels
-> + * @recd34_enable:		state of Resistance Error Correction(REC) on channels 3 and 4
-> + * @recd12_enable:		state of Resistance Error Correction(REC) on channels 1 and 2
-> + * @apdd_enable:		state of anti-parallel diode mode
-> + * @run_state:			chip is in Run state, otherwise is in Standby state
-> + * @wait_before_read:		whether we need to wait a delay before reading a new value
-> + */
-> +struct mcp9982_priv {
-> +	struct regmap *regmap;
-> +	const struct mcp9982_features *chip;
-> +	const char *labels[MCP9982_MAX_NUM_CHANNELS];
-> +	unsigned int interval_idx;
-> +	unsigned long time_limit;
-> +	unsigned long enabled_channel_mask;
-> +	u8 num_channels;
-> +	bool recd34_enable;
-> +	bool recd12_enable;
-> +	bool apdd_enable;
-> +	bool run_state;
-> +	bool wait_before_read;
-> +};
-> +
-> +static int mcp9982_read_limit(struct mcp9982_priv *priv, u8 address, long *val)
-> +{
-> +	unsigned int limit, reg_high, reg_low;
-> +	int ret;
-> +
-> +	switch (address) {
-> +	case MCP9982_INTERNAL_HIGH_LIMIT_ADDR:
-> +	case MCP9982_INTERNAL_LOW_LIMIT_ADDR:
-> +	case MCP9982_THERM_LIMIT_ADDR(0):
-> +	case MCP9982_THERM_LIMIT_ADDR(1):
-> +	case MCP9982_THERM_LIMIT_ADDR(2):
-> +	case MCP9982_THERM_LIMIT_ADDR(3):
-> +	case MCP9982_THERM_LIMIT_ADDR(4):
-> +		ret = regmap_read(priv->regmap, address, &limit);
-> +		if (ret)
-> +			return ret;
-> +
-> +		*val = limit & 0xFF;
-> +		*val = (*val - MCP9982_OFFSET) * 1000;
-> +
-> +		return 0;
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(1):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(2):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(3):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(4):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(1):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(2):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(3):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(4):
-> +		/*
-> +		 * The register address determines whether a single byte or
-> +		 * multiple byte (block) operation is run. For a single byte
-> +		 * operation, the MSB of the register address is set to "0".
-> +		 * For a multiple byte operation, it is set to "1". The addresses
-> +		 * quoted in the register map and throughout the data sheet assume
-> +		 * single byte operation. For multiple byte operations, the user
-> +		 * must set the MSB of each register address to "1".
-> +		 */
+This will support the following approaches for hot memory migration:
+1. Single context with two schemes using both metrics.
+(along with DAMOS_FILTER_TYPE_ADDR)
+2. Two DAMON contexts each using
+DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP.
 
-The above comment is confusing and doesn't seem to provide a useful purpose,
-or at least none that I can see.
+Will provide more details on the implementation and usage in the v3 series.
 
-> +		ret = regmap_read(priv->regmap, address, &reg_high);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = regmap_read(priv->regmap, address + 1, &reg_low);
-> +		if (ret)
-> +			return ret;
-> +
-
-> +		reg_high = reg_high & 0xFF;
-> +		reg_low = reg_low & 0xFF;
-> +		*val = ((reg_high << 8) + reg_low) >> 5;
-> +		*val = (*val - (MCP9982_OFFSET << 3)) * 125;
-> +
-> +		return 0;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int mcp9982_read(struct device *dev, enum hwmon_sensor_types type, u32 attr, int channel,
-> +			long *val)
-> +{
-> +	struct mcp9982_priv *priv = dev_get_drvdata(dev);
-> +	unsigned int reg_status, reg_high, reg_low;
-> +	unsigned long sleep_time;
-> +	int ret, hyst;
-> +	u8 addr;
-> +
-> +	/*
-> +	 * When working in Run mode, after modifying a parameter (like update
-> +	 * interval) we have to wait a delay before reading the new values.
-> +	 * We can't determine when the conversion is done based on the BUSY bit.
-> +	 */
-> +	if (priv->run_state) {
-> +		if (priv->wait_before_read) {
-> +			sleep_time = jiffies_to_msecs(priv->time_limit - jiffies) * USEC_PER_MSEC;
-> +			if (!time_after(jiffies, priv->time_limit))
-> +				usleep_range(sleep_time, sleep_time + MCP9982_TIMER_BUFFER_US);
-> +
-
-AI: Could this result in excessive delays when the update interval is set to its
-maximum value (16 seconds)?  It appears this would block sysfs reads for a
-significant amount of time.
-
-> +			priv->wait_before_read = false;
-> +		}
-> +	} else {
-> +		ret = regmap_write(priv->regmap, MCP9982_ONE_SHOT_ADDR, 1);
-> +		if (ret)
-> +			return ret;
-> +
-> +		/*
-> +		 * In Standby state after writing in OneShot register wait for
-> +		 * the start of conversion and then poll the BUSY bit.
-> +		 */
-> +		sleep_time = mcp9982_update_interval[priv->interval_idx] * USEC_PER_MSEC;
-> +		usleep_range(MCP9982_WAKE_UP_TIME_US, MCP9982_WAKE_UP_TIME_MAX_US);
-> +
-> +		ret = regmap_read_poll_timeout(priv->regmap, MCP9982_STATUS_ADDR,
-> +					       reg_status, !(reg_status & MCP9982_STATUS_BUSY),
-> +					       sleep_time, sleep_time * 2);
-
-AI: Similarly, using the update interval as the sleep time for polling a one-shot
-conversion seems like it could lead to 16-second blocks if mcp9982_read() is
-called in Standby mode with a slow update interval configured.
-
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_input:
-> +			/*
-> +			 * The chips support block reading only on the temperature and
-> +			 * status memory blocks. The driver uses only individual read commands.
-> +			 */
-> +			ret = regmap_read(priv->regmap, MCP9982_HIGH_BYTE_ADDR(channel), &reg_high);
-> +			if (ret)
-> +				return ret;
-> +
-> +			ret = regmap_read(priv->regmap, MCP9982_HIGH_BYTE_ADDR(channel) + 1,
-> +					  &reg_low);
-> +			if (ret)
-> +				return ret;
-> +
-> +			*val = ((reg_high << 8) + reg_low) >> 5;
-> +			*val = (*val - (MCP9982_OFFSET << 3)) * 125;
-> +
-> +			return 0;
-> +		case hwmon_temp_max:
-> +			if (channel)
-> +				addr = MCP9982_EXT_HIGH_LIMIT_ADDR(channel);
-> +			else
-> +				addr = MCP9982_INTERNAL_HIGH_LIMIT_ADDR;
-> +
-> +			return mcp9982_read_limit(priv, addr, val);
-> +		case hwmon_temp_max_alarm:
-> +			*val = regmap_test_bits(priv->regmap, MCP9982_HIGH_LIMIT_STATUS_ADDR,
-> +						BIT(channel));
-> +			if (*val < 0)
-> +				return *val;
-> +
-> +			return 0;
-> +		case hwmon_temp_max_hyst:
-> +			if (channel)
-> +				addr = MCP9982_EXT_HIGH_LIMIT_ADDR(channel);
-> +			else
-> +				addr = MCP9982_INTERNAL_HIGH_LIMIT_ADDR;
-> +			ret = mcp9982_read_limit(priv, addr, val);
-> +			if (ret)
-> +				return ret;
-> +
-> +			ret = regmap_read(priv->regmap, MCP9982_HYS_ADDR, &hyst);
-> +			if (ret)
-> +				return ret;
-> +
-> +			*val -= (hyst & 0xFF) * 1000;
-> +			*val = clamp_val(*val, -64000, 191875);
-> +
-> +			return 0;
-> +		case hwmon_temp_min:
-> +			if (channel)
-> +				addr = MCP9982_EXT_LOW_LIMIT_ADDR(channel);
-> +			else
-> +				addr = MCP9982_INTERNAL_LOW_LIMIT_ADDR;
-> +
-> +			return mcp9982_read_limit(priv, addr, val);
-> +		case hwmon_temp_min_alarm:
-> +			*val = regmap_test_bits(priv->regmap, MCP9982_LOW_LIMIT_STATUS_ADDR,
-> +						BIT(channel));
-> +			if (*val < 0)
-> +				return *val;
-> +
-> +			return 0;
-> +		case hwmon_temp_crit:
-> +			return mcp9982_read_limit(priv, MCP9982_THERM_LIMIT_ADDR(channel), val);
-> +		case hwmon_temp_crit_alarm:
-> +			*val = regmap_test_bits(priv->regmap, MCP9982_THERM_LIMIT_STATUS_ADDR,
-> +						BIT(channel));
-> +			if (*val < 0)
-> +				return *val;
-> +
-> +			return 0;
-> +		case hwmon_temp_crit_hyst:
-> +			ret = mcp9982_read_limit(priv, MCP9982_THERM_LIMIT_ADDR(channel), val);
-> +			if (ret)
-> +				return ret;
-> +
-> +			ret = regmap_read(priv->regmap, MCP9982_HYS_ADDR, &hyst);
-> +			if (ret)
-> +				return ret;
-> +
-> +			*val -= (hyst & 0xFF) * 1000;
-> +			*val = clamp_val(*val, -64000, 191875);
-> +
-> +			return 0;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +	case hwmon_chip:
-> +		switch (attr) {
-> +		case hwmon_chip_update_interval:
-> +			*val = mcp9982_update_interval[priv->interval_idx];
-> +			return 0;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int mcp9982_read_label(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-> +			      int channel, const char **str)
-> +{
-> +	struct mcp9982_priv *priv = dev_get_drvdata(dev);
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_label:
-> +			*str = priv->labels[channel];
-> +			return 0;
-> +		default:
-> +			return -EOPNOTSUPP;
-> +		}
-> +	default:
-> +		return -EOPNOTSUPP;
-> +	}
-> +}
-> +
-> +static int mcp9982_write_limit(struct mcp9982_priv *priv, u8 address, long val)
-> +{
-> +	int ret;
-> +
-> +	/* Range is always -64 to 191.875°C. */
-> +	val = clamp_val(val, -64000, 191875);
-> +	val = (val + MCP9982_OFFSET * 1000) << 5;
-> +	val = DIV_ROUND_CLOSEST(val, 125);
-> +
-> +	switch (address) {
-> +	case MCP9982_INTERNAL_HIGH_LIMIT_ADDR:
-> +	case MCP9982_INTERNAL_LOW_LIMIT_ADDR:
-> +	case MCP9982_THERM_LIMIT_ADDR(0):
-> +	case MCP9982_THERM_LIMIT_ADDR(1):
-> +	case MCP9982_THERM_LIMIT_ADDR(2):
-> +	case MCP9982_THERM_LIMIT_ADDR(3):
-> +	case MCP9982_THERM_LIMIT_ADDR(4):
-> +		val = val >> 8;
-> +		val = val & 0xFF;
-> +		ret = regmap_write(priv->regmap, address, val);
-> +		if (ret)
-> +			return ret;
-> +
-> +		return 0;
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(1):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(2):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(3):
-> +	case MCP9982_EXT_HIGH_LIMIT_ADDR(4):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(1):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(2):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(3):
-> +	case MCP9982_EXT_LOW_LIMIT_ADDR(4):
-> +		val = cpu_to_be16(val);
-> +		ret = regmap_bulk_write(priv->regmap, address, &val, 2);
-
-AI:
-
-Does this code work correctly on Big Endian systems?  Passing the address of
-the 'long val' to regmap_bulk_write() after storing a be16 value in it appears
-problematic, as regmap_bulk_write() will read from the beginning of the
-variable.
-
-Second feedback:
-
-This is incorrect for several reasons:
-- 'val' is a long (8 bytes on many systems), but the code passes its
-  address to regmap_bulk_write() for a 2-byte write.
-- cpu_to_be16(val) returns a u16. Assigning this back to the 'long val'
-  and then taking its address results in different data being sent
-  depending on the host's endianness. On a Little Endian system, the
-  u16 will be stored in the first two bytes of the long, and
-  regmap_bulk_write() will send them in Little Endian order to the bus,
-  effectively nullifying the cpu_to_be16() conversion.
-A local u16 or __be16 variable should be used instead:
-    __be16 reg_val = cpu_to_be16(val);
-    ret = regmap_bulk_write(priv->regmap, address | 0x80, &reg_val, 2);
-
-Third feedback:
-
-The address variable does not have the MSB set (e.g., for
-MCP9982_EXT_HIGH_LIMIT_ADDR(1), it is 0x0D). Based on the datasheet
-description provided in the comment, this should likely be
-(address | 0x80).
-
-> +		if (ret)
-> +			return ret;
-> +
-> +		return 0;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int mcp9982_write_hyst(struct mcp9982_priv *priv, int channel, long val)
-> +{
-> +	int hyst, ret;
-> +	int limit;
-> +
-> +	val = clamp_val(val, -64000, 191875);
-> +	val = (val + MCP9982_OFFSET * 1000) << 5;
-> +	val = DIV_ROUND_CLOSEST(val, 125);
-> +	val = val >> 8;
-> +
-> +	/* Therm register is 8 bits and so it keeps only the integer part of the temperature. */
-> +	ret = regmap_read(priv->regmap, MCP9982_THERM_LIMIT_ADDR(channel), &limit);
-> +	if (ret)
-> +		return ret;
-> +
-> +	hyst = clamp_val(limit - val, 0, 255);
-> +
-> +	ret = regmap_write(priv->regmap, MCP9982_HYS_ADDR, hyst);
-> +
-> +	return ret;
-> +}
-> +
-> +static int mcp9982_write(struct device *dev, enum hwmon_sensor_types type, u32 attr, int channel,
-> +			 long val)
-> +{
-> +	struct mcp9982_priv *priv = dev_get_drvdata(dev);
-> +	unsigned int previous_interval_idx, idx;
-> +	bool use_previous_interval = false;
-> +	unsigned long new_time_limit;
-> +	u8 addr;
-> +	int ret;
-> +
-> +	switch (type) {
-> +	case hwmon_chip:
-> +		switch (attr) {
-> +		case hwmon_chip_update_interval:
-> +			previous_interval_idx = priv->interval_idx;
-> +
-> +			/*
-> +			 * For MCP998XD and MCP9933D update interval
-> +			 * can't be slower than 1 second.
-> +			 */
-> +			if (priv->chip->hw_thermal_shutdown)
-> +				val = clamp(val, 0, 1000);
-> +
-> +			idx = find_closest_descending(val, mcp9982_update_interval,
-> +						      ARRAY_SIZE(mcp9982_update_interval));
-> +
-> +			ret = regmap_write(priv->regmap, MCP9982_CONV_ADDR, idx);
-> +			if (ret)
-> +				return ret;
-> +
-> +			priv->interval_idx = idx;
-> +
-> +			/*
-> +			 * When changing the interval time in Run mode, wait a delay based
-> +			 * on the previous value to ensure the new value becomes active.
-> +			 */
-> +			if (priv->run_state)
-> +				use_previous_interval = true;
-> +			else
-> +				return 0;
-> +			break;
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +		break;
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_max:
-> +			if (channel)
-> +				addr = MCP9982_EXT_HIGH_LIMIT_ADDR(channel);
-> +			else
-> +				addr = MCP9982_INTERNAL_HIGH_LIMIT_ADDR;
-> +
-> +			return ret = mcp9982_write_limit(priv, addr, val);
-> +		case hwmon_temp_min:
-> +			if (channel)
-> +				addr = MCP9982_EXT_LOW_LIMIT_ADDR(channel);
-> +			else
-> +				addr = MCP9982_INTERNAL_LOW_LIMIT_ADDR;
-> +
-> +			return mcp9982_write_limit(priv, addr, val);
-> +		case hwmon_temp_crit:
-> +			return mcp9982_write_limit(priv, MCP9982_THERM_LIMIT_ADDR(channel), val);
-> +		case hwmon_temp_crit_hyst:
-> +			return mcp9982_write_hyst(priv, channel, val);
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	/*
-> +	 * Calculate the time point when it would be safe to read after
-> +	 * the current write operation in Run mode.
-> +	 * If, for example, we change update interval from a slower time
-> +	 * to a faster time, the change will become active after the
-> +	 * conversion with the slower time is finished. If we read before
-> +	 * the end of conversion, the value will be from the previous cycle.
-> +	 */
-> +	if (use_previous_interval) {
-> +		new_time_limit = msecs_to_jiffies(mcp9982_update_interval[previous_interval_idx]);
-> +		use_previous_interval = false;
-> +	} else {
-> +		new_time_limit = msecs_to_jiffies(mcp9982_update_interval[priv->interval_idx]);
-> +	}
-> +
-> +	new_time_limit += jiffies + msecs_to_jiffies(MCP9982_CONVERSION_TIME_MS);
-> +
-> +	if (time_after(new_time_limit, priv->time_limit)) {
-> +		priv->time_limit = new_time_limit;
-> +		priv->wait_before_read = true;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static umode_t mcp9982_is_visible(const void *_data, enum hwmon_sensor_types type, u32 attr,
-> +				  int channel)
-> +{
-> +	const struct mcp9982_priv *priv = _data;
-> +
-> +	if (!test_bit(channel, &priv->enabled_channel_mask))
-> +		return 0;
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		switch (attr) {
-> +		case hwmon_temp_label:
-> +			if (priv->labels[channel])
-> +				return 0444;
-> +			else
-> +				return 0;
-> +		case hwmon_temp_input:
-> +		case hwmon_temp_min_alarm:
-> +		case hwmon_temp_max_alarm:
-> +		case hwmon_temp_max_hyst:
-> +		case hwmon_temp_crit_alarm:
-> +			return 0444;
-> +		case hwmon_temp_min:
-> +		case hwmon_temp_max:
-> +		case hwmon_temp_crit:
-> +		case hwmon_temp_crit_hyst:
-> +			return 0644;
-> +		default:
-> +			return 0;
-> +		}
-> +	case hwmon_chip:
-> +		switch (attr) {
-> +		case hwmon_chip_update_interval:
-> +			return 0644;
-> +		default:
-> +			return 0;
-> +		}
-> +	default:
-> +		return 0;
-> +	}
-> +}
-> +
-> +static const struct hwmon_ops mcp9982_hwmon_ops = {
-> +	.is_visible = mcp9982_is_visible,
-> +	.read = mcp9982_read,
-> +	.read_string = mcp9982_read_label,
-> +	.write = mcp9982_write,
-> +};
-> +
-> +static int mcp9982_init(struct device *dev, struct mcp9982_priv *priv)
-> +{
-> +	unsigned int i;
-> +	int ret;
-> +	u8 val;
-> +
-> +	/* Chips 82/83 and 82D/83D do not support anti-parallel diode mode. */
-> +	if (!priv->chip->allow_apdd && priv->apdd_enable == 1)
-> +		return dev_err_probe(dev, -EINVAL, "Incorrect setting of APDD.\n");
-> +
-> +	/* Chips with "D" work only in Run state. */
-> +	if (priv->chip->hw_thermal_shutdown && !priv->run_state)
-> +		return dev_err_probe(dev, -EINVAL, "Incorrect setting of Power State.\n");
-> +
-> +	/*
-> +	 * For chips with "D" in the name, resistance error correction must be on
-> +	 * so that hardware shutdown feature can't be overridden.
-> +	 */
-> +	if (priv->chip->hw_thermal_shutdown)
-> +		if (!priv->recd34_enable || !priv->recd12_enable)
-> +			return dev_err_probe(dev, -EINVAL, "Incorrect setting of RECD.\n");
-> +
-> +	/*
-> +	 * Set default values in registers.
-> +	 * APDD, RECD12 and RECD34 are active on 0.
-> +	 */
-> +	val = FIELD_PREP(MCP9982_CFG_MSKAL, 1) |
-> +	      FIELD_PREP(MCP9982_CFG_RS, !priv->run_state) |
-> +	      FIELD_PREP(MCP9982_CFG_ATTHM, 1) |
-> +	      FIELD_PREP(MCP9982_CFG_RECD12, !priv->recd12_enable) |
-> +	      FIELD_PREP(MCP9982_CFG_RECD34, !priv->recd34_enable) |
-> +	      FIELD_PREP(MCP9982_CFG_RANGE, 1) | FIELD_PREP(MCP9982_CFG_DA_ENA, 0) |
-> +	      FIELD_PREP(MCP9982_CFG_APDD, !priv->apdd_enable);
-> +
-> +	ret = regmap_write(priv->regmap, MCP9982_CFG_ADDR, val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(priv->regmap, MCP9982_CONV_ADDR, MCP9982_DEFAULT_CONV_VAL);
-> +	if (ret)
-> +		return ret;
-> +	priv->interval_idx = MCP9982_DEFAULT_CONV_VAL;
-> +
-> +	ret = regmap_write(priv->regmap, MCP9982_HYS_ADDR, MCP9982_DEFAULT_HYS_VAL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(priv->regmap, MCP9982_CONSEC_ALRT_ADDR, MCP9982_DEFAULT_CONSEC_ALRT_VAL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(priv->regmap, MCP9982_ALRT_CFG_ADDR, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(priv->regmap, MCP9982_RUNNING_AVG_ADDR, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(priv->regmap, MCP9982_HOTTEST_CFG_ADDR, 0);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * Only external channels 1 and 2 support beta compensation.
-> +	 * Set beta auto-detection.
-> +	 */
-> +	for (i = 1; i < 3; i++)
-> +		if (test_bit(i, &priv->enabled_channel_mask)) {
-> +			ret = regmap_write(priv->regmap, MCP9982_EXT_BETA_CFG_ADDR(i),
-> +					   MCP9982_BETA_AUTODETECT);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +
-> +	/* Set default values for internal channel limits. */
-> +	if (test_bit(0, &priv->enabled_channel_mask)) {
-> +		ret = mcp9982_write_limit(priv, MCP9982_INTERNAL_HIGH_LIMIT_ADDR,
-> +					  MCP9982_HIGH_LIMIT_DEFAULT);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = mcp9982_write_limit(priv, MCP9982_INTERNAL_LOW_LIMIT_ADDR,
-> +					  MCP9982_LOW_LIMIT_DEFAULT);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = mcp9982_write_limit(priv, MCP9982_THERM_LIMIT_ADDR(0),
-> +					  MCP9982_HIGH_LIMIT_DEFAULT);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	/* Set ideality factor and limits to default for external channels. */
-> +	for (i = 1; i < MCP9982_MAX_NUM_CHANNELS; i++)
-> +		if (test_bit(i, &priv->enabled_channel_mask)) {
-> +			ret = regmap_write(priv->regmap, MCP9982_EXT_IDEAL_ADDR(i),
-> +					   MCP9982_IDEALITY_DEFAULT);
-> +			if (ret)
-> +				return ret;
-> +
-> +			ret = mcp9982_write_limit(priv, MCP9982_EXT_HIGH_LIMIT_ADDR(i),
-> +						  MCP9982_HIGH_LIMIT_DEFAULT);
-> +			if (ret)
-> +				return ret;
-> +
-> +			ret = mcp9982_write_limit(priv, MCP9982_EXT_LOW_LIMIT_ADDR(i),
-> +						  MCP9982_LOW_LIMIT_DEFAULT);
-> +			if (ret)
-> +				return ret;
-> +
-> +			ret = mcp9982_write_limit(priv, MCP9982_THERM_LIMIT_ADDR(i),
-> +						  MCP9982_HIGH_LIMIT_DEFAULT);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +
-> +	priv->wait_before_read = false;
-> +	priv->time_limit = jiffies;
-> +
-> +	return 0;
-> +}
-> +
-> +static int mcp9982_parse_fw_config(struct device *dev, int device_nr_channels)
-> +{
-> +	unsigned int reg_nr;
-> +	struct mcp9982_priv *priv = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	/* Initialise internal channel( which is always present ). */
-> +	priv->labels[0] = "internal diode";
-> +	priv->enabled_channel_mask = 1;
-> +
-> +	/* Default values to work on systems without devicetree or firmware nodes. */
-> +	if (!dev_fwnode(dev)) {
-> +		priv->num_channels = device_nr_channels;
-> +		priv->enabled_channel_mask = BIT(priv->num_channels) - 1;
-> +		priv->apdd_enable = false;
-> +		priv->recd12_enable = true;
-> +		priv->recd34_enable = true;
-> +		priv->run_state = true;
-> +		return 0;
-> +	}
-> +
-> +	priv->apdd_enable =
-> +		device_property_read_bool(dev, "microchip,enable-anti-parallel");
-> +
-> +	priv->recd12_enable =
-> +		device_property_read_bool(dev, "microchip,parasitic-res-on-channel1-2");
-> +
-> +	priv->recd34_enable =
-> +		device_property_read_bool(dev, "microchip,parasitic-res-on-channel3-4");
-> +
-> +	priv->run_state =
-> +		device_property_read_bool(dev, "microchip,power-state");
-> +
-> +	priv->num_channels = device_get_child_node_count(dev) + 1;
-> +
-> +	if (priv->num_channels > device_nr_channels)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "More channels than the chip supports.\n");
-> +
-> +	/* Read information about the external channels. */
-> +	device_for_each_child_node_scoped(dev, child) {
-> +		reg_nr = 0;
-> +		ret = fwnode_property_read_u32(child, "reg", &reg_nr);
-> +		if (ret || !reg_nr || reg_nr >= device_nr_channels)
-> +			return dev_err_probe(dev, -EINVAL,
-> +			  "Channel reg is incorrectly set.\n");
-> +
-> +		fwnode_property_read_string(child, "label", &priv->labels[reg_nr]);
-> +		set_bit(reg_nr, &priv->enabled_channel_mask);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mcp9982_probe(struct i2c_client *client)
-> +{
-> +	struct hwmon_chip_info mcp998x_chip_info;
-> +	const struct mcp9982_features *chip;
-> +	struct device *dev = &client->dev;
-> +	struct mcp9982_priv *priv;
-> +	struct device *hwmon_dev;
-> +	int ret;
-> +
-> +	priv = devm_kzalloc(dev, sizeof(struct mcp9982_priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->regmap = devm_regmap_init_i2c(client, &mcp9982_regmap_config);
-> +
-> +	if (IS_ERR(priv->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(priv->regmap),
-> +				     "Cannot initialize register map.\n");
-> +
-> +	dev_set_drvdata(dev, priv);
-> +
-> +	chip = i2c_get_match_data(client);
-> +	if (!chip)
-> +		return -EINVAL;
-> +	priv->chip = chip;
-> +
-> +	ret = mcp9982_parse_fw_config(dev, chip->phys_channels);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = mcp9982_init(dev, priv);
-> +	if (ret)
-> +		return ret;
-> +
-> +	mcp998x_chip_info.ops = &mcp9982_hwmon_ops;
-> +	mcp998x_chip_info.info = mcp9985_info;
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, chip->name, priv,
-> +							 &mcp998x_chip_info, NULL);
-
-AI: Is it safe to pass a pointer to the stack-allocated mcp998x_chip_info to
-devm_hwmon_device_register_with_info()?  The hwmon core appears to store this
-pointer and uses it in hwmon_thermal_get_temp(), which could lead to a crash
-after probe() returns and the stack frame is reclaimed.
-
-Me: Outch. Yes.
-
-> +
-> +	return PTR_ERR_OR_ZERO(hwmon_dev);
-> +}
-> +
-> +static const struct i2c_device_id mcp9982_id[] = {
-> +	{ .name = "mcp9933", .driver_data = (kernel_ulong_t)&mcp9933_chip_config },
-> +	{ .name = "mcp9933d", .driver_data = (kernel_ulong_t)&mcp9933d_chip_config },
-> +	{ .name = "mcp9982", .driver_data = (kernel_ulong_t)&mcp9982_chip_config },
-> +	{ .name = "mcp9982d", .driver_data = (kernel_ulong_t)&mcp9982d_chip_config },
-> +	{ .name = "mcp9983", .driver_data = (kernel_ulong_t)&mcp9983_chip_config },
-> +	{ .name = "mcp9983d", .driver_data = (kernel_ulong_t)&mcp9983d_chip_config },
-> +	{ .name = "mcp9984", .driver_data = (kernel_ulong_t)&mcp9984_chip_config },
-> +	{ .name = "mcp9984d", .driver_data = (kernel_ulong_t)&mcp9984d_chip_config },
-> +	{ .name = "mcp9985", .driver_data = (kernel_ulong_t)&mcp9985_chip_config },
-> +	{ .name = "mcp9985d", .driver_data = (kernel_ulong_t)&mcp9985d_chip_config },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, mcp9982_id);
-> +
-> +static const struct of_device_id mcp9982_of_match[] = {
-> +	{
-> +		.compatible = "microchip,mcp9933",
-> +		.data = &mcp9933_chip_config,
-> +	}, {
-> +		.compatible = "microchip,mcp9933d",
-> +		.data = &mcp9933d_chip_config,
-> +	}, {
-> +		.compatible = "microchip,mcp9982",
-> +		.data = &mcp9982_chip_config,
-> +	}, {
-> +		.compatible = "microchip,mcp9982d",
-> +		.data = &mcp9982d_chip_config,
-> +	}, {
-> +		.compatible = "microchip,mcp9983",
-> +		.data = &mcp9983_chip_config,
-> +	}, {
-> +		.compatible = "microchip,mcp9983d",
-> +		.data = &mcp9983d_chip_config,
-> +	}, {
-> +		.compatible = "microchip,mcp9984",
-> +		.data = &mcp9984_chip_config,
-> +	}, {
-> +		.compatible = "microchip,mcp9984d",
-> +		.data = &mcp9984d_chip_config,
-> +	}, {
-> +		.compatible = "microchip,mcp9985",
-> +		.data = &mcp9985_chip_config,
-> +	}, {
-> +		.compatible = "microchip,mcp9985d",
-> +		.data = &mcp9985d_chip_config,
-> +	},
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, mcp9982_of_match);
-> +
-> +static struct i2c_driver mcp9982_driver = {
-> +	.driver	 = {
-> +		.name = "mcp9982",
-> +		.of_match_table = mcp9982_of_match,
-> +	},
-> +	.probe = mcp9982_probe,
-> +	.id_table = mcp9982_id,
-> +};
-> +module_i2c_driver(mcp9982_driver);
-> +
-> +MODULE_AUTHOR("Victor Duicu <victor.duicu@microchip.com>");
-> +MODULE_DESCRIPTION("MCP998X/33 and MCP998XD/33D Multichannel Automotive Temperature Monitor Driver");
-> +MODULE_LICENSE("GPL");
+Thanks,
+Ravi.
+>
+> Thanks,
+> SJ
+>
+> [...]
