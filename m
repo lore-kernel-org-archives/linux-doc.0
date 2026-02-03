@@ -1,105 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCEA2741A0;
-	Tue,  3 Feb 2026 15:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09592DB7AE;
+	Tue,  3 Feb 2026 15:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770132494; cv=none; b=Dl+mROXDjGQQI67k1s3UYxC1NavRw66RTKrQsO+E2xEXepUmEcs+xfiXtUfMcIIa7iY+AYr2iEpdNf4y7AP/U7eDsCSuB8Qj/N7GiOxvzZs0xuGKQiqdjIjff3zCOA/On1YMldsv76HdlgyN/YfRyNfd/wn62xrbSgHva9yxbnA=
+	t=1770133131; cv=none; b=qKoMN9WlI3oasBbTiawSWLqplVd5pCGlDk23cm3SSlY4tzTXG8Faxd0d+9KQsyrda6XHMYZTioKJV75mSyscR5SNANNrWlUyzcJzj0TNVEHo/7iCskbGUF/gH1rHLrsRcsp7MWJWzI0CmCPOSG6Ld5P48HlzRG9ZWb3FO7Mb7OQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770132494; c=relaxed/simple;
-	bh=+6p143ELtev1Q0EPq1zvLV436kIhzaspuiQqOcld6lY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rFfgbFtlZ4eKKpRDUl13rES8rd1qzlXKGnvbuo2KRk93NKuu1CBdpyjz6QcLT4R3Jfxry2uHOgrIJmFBbAaTnJhsIV3Y/vXBWt//EePs9lTbMgr6X0D6tOIsTlx+MxPoryB9Yz4pfrWzbMuLV1F8gpvl1k3ialtomEr9CanaBd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OKYBtZed; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770133131; c=relaxed/simple;
+	bh=v6A3tzQV+HRR60fcN7UvQte2RTaFoOhouiuZBmHlwUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uf0baLj1lngT5gahCD8VCsnfw1cCYoiw6jZcAOhSbMTnxpIeH+lMHVmvu4Po4s0PE8DANXEJPcPCbpG3keIbsKLmWQsRzXmBbj5Cdsk0WpR1QBUElzEk+Jb4jIcwrJUK5sK/8EkNAZeLC4YFt88mw/h5NbvAEat1K3Bl2BSQIqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GBgssIku; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OKYBtZed"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4C4FC116D0;
-	Tue,  3 Feb 2026 15:28:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770132494;
-	bh=+6p143ELtev1Q0EPq1zvLV436kIhzaspuiQqOcld6lY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OKYBtZed69yoxj+qddE06qEbqsm41Vw762oBxTSpV19JigTIwTp8n6UVj7vs1SJkv
-	 hT7YAI7LRaz5rXLJN1TzuddQsBn5UteXM0fAWeEHFsSbQhSq9/3JF9dzV2AkNiQ2xo
-	 zMZfThhBIOCanPRjOEbVCCPD4qmH0k5gxCQZabWjNOZYYVOQInqTGvlBphcSyW/o1e
-	 W+j+zOSEZ56DOarSmG2XO59jClAVrTDr3ZXl1Wcl72mF1X1H0VcyrPtYmT2Q+RBOyC
-	 LR0tVRMaXABxJRUvTMRRKCE8Y9nkCYEtL7Wqb5HtISLMHzm5//bJclyuQqVuRH2Xoa
-	 vN8GfnzyQCKsA==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Alexander Graf <graf@amazon.com>, x86@kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Clemens
- Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Hansen
- <dave.hansen@linux.intel.com>, Borislav Petkov <bp@alien8.de>, Ingo Molnar
- <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini
- <pbonzini@redhat.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
- nh-open-source@amazon.com, Nicolas Saenz Julienne <nsaenz@amazon.es>,
- Hendrik Borghorst <hborghor@amazon.de>, Filippo Sironi <sironi@amazon.de>,
- David Woodhouse <dwmw@amazon.co.uk>, Jan =?utf-8?Q?Sch=C3=B6nherr?=
- <jschoenh@amazon.de>,
- ricardo.neri-calderon@linux.intel.com, Sasha Levin <sashal@kernel.org>
-Subject: Re: [PATCH 2/2] hpet: Add HPET-based NMI watchdog support
-In-Reply-To: <1e13c61d-8581-4ece-b31c-7aa771ba7bc2@amazon.com>
-References: <20260202174803.66640-1-graf@amazon.com>
- <20260202174803.66640-3-graf@amazon.com> <87jywu3yov.ffs@tglx>
- <1e13c61d-8581-4ece-b31c-7aa771ba7bc2@amazon.com>
-Date: Tue, 03 Feb 2026 16:28:11 +0100
-Message-ID: <878qd94zjo.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GBgssIku"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770133130; x=1801669130;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=v6A3tzQV+HRR60fcN7UvQte2RTaFoOhouiuZBmHlwUo=;
+  b=GBgssIkuRYWfph58V7hnrhv+X0rmhuJsKvawXsoO39lllLvg1t3wi1mD
+   vDIsuqGWsZ8Fy2MPfz9YgqH7trUd0+ygkiIfZ2RNg23V2tlZDpa03srXA
+   whMDi8uyzDjvbl/vp72wWA+oHwf7fX3Y/h5BZCvpjZh35/h2WYiIfpiRz
+   Q6W8TMb6sMVRZM4QSYvMxMePq5VmLl33PJ5BNr340ZDZ4hDP37GCVPbB5
+   zedo+/sH+YGAUFGVEk29JRrTk66HW4OMOcQ7PlYkmGv/GXs0MmdOlAZp8
+   zlodwqaW2DBbUjqIcelEIw8qYaf6qLX35Y5fie/dt6wsTPIYDU9nRwG5T
+   g==;
+X-CSE-ConnectionGUID: LiiJYJOYTROV4Ie8kuAjqw==
+X-CSE-MsgGUID: pPogL6ENSY6/Y40CxG6Xwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71206993"
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="71206993"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 07:38:49 -0800
+X-CSE-ConnectionGUID: qzRzXXumTp+KWyAZ51XLRg==
+X-CSE-MsgGUID: hbMs+Fx2QKOAknzldq2Rbg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
+   d="scan'208";a="209914900"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.99])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 07:38:45 -0800
+Date: Tue, 3 Feb 2026 17:38:43 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v6 3/8] iio: test: add kunit test for fixed-point parsing
+Message-ID: <aYIWg9874VmIdJnA@smile.fi.intel.com>
+References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
+ <20260130-adf41513-iio-driver-v6-3-cf46239026bc@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260130-adf41513-iio-driver-v6-3-cf46239026bc@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Feb 03 2026 at 13:36, Alexander Graf wrote:
-> On 03.02.26 11:32, Thomas Gleixner wrote:
->> On Mon, Feb 02 2026 at 17:48, Alexander Graf wrote:
->>> (Disclaimer: Some of this code was written with the help of Kiro, an AI
->>> coding assistant)
->> You could have sent your change log through AI too so it conforms with
->> the change log rules ...
->
-> Maybe we should introduce an AGENTS.md file in Linux that tells the AI 
-> tool to do that automatically? These tools usually don't read README 
-> files. :)
+On Fri, Jan 30, 2026 at 10:06:44AM +0000, Rodrigo Alencar via B4 Relay wrote:
 
-I don't care what tools do, but I very much care about what the people
-who use the tools do.
+> Add kunit test cases that aims to verify expected behavior for
+> iio_str_to_fixpoint() and iio_str_to_fixpoint64().
+> To run the test, create a .kunitconfig file with:
+> 
+> CONFIG_KUNIT=y
+> CONFIG_IIO=y
+> CONFIG_IIO_FIXPOINT_PARSE_KUNIT_TEST=y
+> 
+> and run the command:
+> ./tools/testing/kunit/kunit.py run --kunitconfig=.kunitconfig
 
->>> +     if (panic_in_progress())
->>> +             return NMI_HANDLED;
->>> +
->>> +     /* Check if this NMI is from our HPET timer by comparing counter value */
->>> +     now = hpet_readl(HPET_COUNTER);
->> And both you and your AI assistant failed to read through the previous
->> discussions on that topic and the 10+ failed attempts to make it work
->> correctly.  Otherwise you would have figured out that reading HPET in
->> the NMI handler is a patently bad idea.
->>
->> I'm not reiterating any of it as it's well documented in the LKML archive.
->
->
-> Thanks a bunch for the pointer. I had indeed missed the previous patch 
-> set submissions on the same topic. Those look a lot more sophisticated 
-> than the quick hacky version I built. Nice! Oh well, at least I 
-> (re)learned a few things about the HPET along the way.
->
-> Looking at the latest submission [1] (v7), I see patches but no reviews, 
-> no acks and no merges. Those patches also seem to address most of your 
-> concerns (obviously, since you reviewed them before :)). Reading the 
-> side conversation about it [2], it sounds like the buddy hardlockup 
-> detector is trying to fill the same gap as the HPET one and hence after 
-> that got merged, interest faded?
+Thanks for the test cases!
+There are some nit-picks, otherwise
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-I don't remember. That thing clearly fell through the cracks. Let me
-find it again and reply to that.
+...
 
-As time has advanced there are probably a few things which need to be
-addressed. 
+> +#include <kunit/test.h>
 
-Thanks,
++ errno.h // -ERANGE
 
-        tglx
+> +#include <linux/iio/iio.h>
+
++ limits.h // S32_MIN
+
+> +#include <linux/math.h>
+
++ types.h // s32
+
+...
+
+> +static struct kunit_suite iio_fixpoint_parse_test_suite = {
+> +	.name = "iio-fixpoint-parse",
+> +	.test_cases = iio_fixpoint_parse_test_cases,
+> +};
+
+> +
+
+Unneeded blank line.
+
+> +kunit_test_suite(iio_fixpoint_parse_test_suite);
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
