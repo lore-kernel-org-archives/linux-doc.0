@@ -1,87 +1,132 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2779E2E92C3;
-	Tue,  3 Feb 2026 14:48:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5971A394497;
+	Tue,  3 Feb 2026 14:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770130104; cv=none; b=BrKantcYKpuefUJYPLa5RCE1ZCsKAFpk6kQyKQ7W7UJIMEx8J1dADkPYGgq/Sec+D/jD/j8UyQWwEn+xZFc5CrMsUcMboToM+qX9wec7sDEPPqjCLBR+WZOzDcyWJGz62VL0L6Le1iunOZUlpchtrVq8TX3kZFNqJTtUgmvrRkM=
+	t=1770130555; cv=none; b=EvUNk4St1HLcNlX9XHA1N96N/cQv8vfHw8Y09oGfEtU/OjSuLft5sARqfdth9k0/iNYhUbEMn2nXHxU/c2I/SH/1uaTCbSGS+YqQl5rC5bm4kto3Fd7llW8uXYifEl3lQF3/BXF8dzg+OA/6xOZ+QsZYBuvdPY6hzZArlORmMvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770130104; c=relaxed/simple;
-	bh=n3cfsDaFatREc4+QUvMlup0Lh0X+zz8QT4fCqZErkhg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a4rjEpwZUIA/Com2ExdxXt4MoA39cJ7umqtRSdKfKZlcXtw78o3KfPyXJkBS102TVL2Daw0IpwSiNEHHF1UGQ5QR0C0SYZG9B8H7m1P1rpas80obZm+5DgYLkz1krw/2gs4sR3dqTE0FJ1aXD+iUAREfcOXhUpqgVCRI039RMbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lzdRyOhm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770130555; c=relaxed/simple;
+	bh=12OPqlskckL5HqlY4jj0+cdjZZti4SPQGDREnmoAJkE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BOTf3WsmN0YU/O5EpF15OdI6qqvkyKOKXLSlKB5km2xylERfIEPgetK0vZTeJxvdPDP9CuHojyYfaZheyWDehBKkjzNjmS0rI0dkvzP5VzbEdMieUGvq+MXKSXwhExE+KaLuwVWIyoLADeZkx5cU9S/XRDDL35QPVSVfgoBWl6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UF3f7nYZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lzdRyOhm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C01BC116D0;
-	Tue,  3 Feb 2026 14:48:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1770130103;
-	bh=n3cfsDaFatREc4+QUvMlup0Lh0X+zz8QT4fCqZErkhg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lzdRyOhmKHmiDdQtfJSTGsT1tLrg8cP9jcbl5WHbGArK+U30qKYYYtzepSPd8SDuM
-	 aicgmPLlUdh/v34Nmi6Wbh/XGXC+w+TAQoZHhJ7kvm7eiNuVhxox5iA4/vnqs8L+Wf
-	 e1ohTiQuJFtzsaB+d/vhhhOOwfOQEmlMA8qB/CqU=
-Date: Tue, 3 Feb 2026 09:48:22 -0500
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Amitabh Srivastava <amitabh@amidevlab.com>
-Cc: corbet@lwn.net, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: maintainer-pgp-guide.rst: updated kernel.org
- link
-Message-ID: <20260203-spicy-terrestrial-jaguarundi-701efd@lemur>
-References: <20260203050020.27792-1-amitabh@amidevlab.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UF3f7nYZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C40EEC116D0;
+	Tue,  3 Feb 2026 14:55:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770130554;
+	bh=12OPqlskckL5HqlY4jj0+cdjZZti4SPQGDREnmoAJkE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UF3f7nYZYJt6LtqA2Z3zw8NAsjuv9yMpfu6WiKu17rek7bSmj89fM+kusmyUie9d8
+	 mlx6WQj3wtEuJW+bx1FwgLEg3IPtJitI9WaznY6CVQx3Tb+UvcD+nAp6uK7gqadp9u
+	 mI13SgvP6IZsu4lghJrb6oh+dhMwQLMTkiWrWwms90SiWjj6HaciGT2YKsYFUatGf5
+	 UTXh6wjfYfzftZHQ2LrCdvr2KnphduVLFSn2s804ntBnlnOQGkbJq8jD4ovPz7ToUc
+	 kVdQayOCmV1z7UMpWxM+S9SstoOeAbhYrbnpKhtXd4P9V1364dsAmvpeN91yvjCrzU
+	 ZJQnkBvuCEUWw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vnHom-000000027UW-45YU;
+	Tue, 03 Feb 2026 15:55:52 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 07/15] docs: kdoc_item: add support to generate a KdocItem from a dict
+Date: Tue,  3 Feb 2026 15:55:35 +0100
+Message-ID: <01ec6c8007e9ccd40ab07e09b457912ea6866ac7.1770128540.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1770128540.git.mchehab+huawei@kernel.org>
+References: <cover.1770128540.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260203050020.27792-1-amitabh@amidevlab.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Tue, Feb 03, 2026 at 10:29:48AM +0530, Amitabh Srivastava wrote:
-> docs: process: maintainer-pgp-guide.rst: updated the http link for
+When reading the contents on a KdocItem using YAML, the data
+will be imported into a dict.
 
-I missed this the last time, but you don't need to duplicate the "docs:
-process:..." line here.
+Add a method to create a new KdocItem from a dict to allow
+converting such input into a real KdocItem.
 
-> 'add the kernel.org UID to your key'. Added SPDX-License-Identifier
-> to fix checkpatch.pl warning. Tested kernel using qemu-system-aarch64
+While here, address an issue that, if the class is initialized
+with an internal parameter outside the 4 initial arguments,
+it would end being added inside other_stuff, which breaks
+initializing it from a dict.
 
-You don't need to mention how you tested it (great that you did, but it
-doesn't need to be in the commit).
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ tools/lib/python/kdoc/kdoc_item.py | 35 +++++++++++++++++++++++++++++-
+ 1 file changed, 34 insertions(+), 1 deletion(-)
 
-> with busybox inside a multipass ubuntu VM on macos.
-
-I suggest that your submission should look like this:
-
-    Subject: docs: process: maintainer-pgp-guide: update kernel.org docs link
-
-    Update http link to the documentation about how to add a kernel.org UID to
-    the maintainer's key. Add missing SPDX-License-Identifier to fix a
-    checkpatch warning.
-
-    Signed-off-by: ...
-
-This has the following improvements:
-
-- removes duplicate info that is already in the subject
-- uses imperative mood that is required for commits (update vs updated)
-  see: https://docs.kernel.org/process/submitting-patches.html#describe-your-changes
-
-> Signed-off-by: Amitabh Srivastava <amitabh@amidevlab.com>
-> Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-
-You shouldn't do this -- I didn't actually reply with  a "Reviewed-by"
-trailer. These trailers are given by the reviewer to indicate "I have reviewed
-this and didn't find any problems with the patch. You should only add trailers
-that you have actually received from reviewers.
-
-Please send a v3 with these fixes and that should earn you a "Reviewed-by."
-
-Best regards,
+diff --git a/tools/lib/python/kdoc/kdoc_item.py b/tools/lib/python/kdoc/kdoc_item.py
+index c0585cdbcbd1..5f41790efacb 100644
+--- a/tools/lib/python/kdoc/kdoc_item.py
++++ b/tools/lib/python/kdoc/kdoc_item.py
+@@ -25,12 +25,31 @@ class KdocItem:
+         self.parameterdesc_start_lines = {}
+         self.parameterdescs = {}
+         self.parametertypes = {}
++
++        self.warnings = []
++
+         #
+         # Just save everything else into our own dict so that the output
+         # side can grab it directly as before.  As we move things into more
+         # structured data, this will, hopefully, fade away.
+         #
+-        self.other_stuff = other_stuff
++        known_keys = {
++            'declaration_start_line',
++            'sections',
++            'sections_start_lines',
++            'parameterlist',
++            'parameterdesc_start_lines',
++            'parameterdescs',
++            'parametertypes',
++            'warnings',
++        }
++
++        self.other_stuff = {}
++        for k, v in other_stuff.items():
++            if k in known_keys:
++                setattr(self, k, v)           # real attribute
++            else:
++                self.other_stuff[k] = v
+ 
+     def get(self, key, default = None):
+         """
+@@ -41,6 +60,20 @@ class KdocItem:
+     def __getitem__(self, key):
+         return self.get(key)
+ 
++    @classmethod
++    def from_dict(cls, d):
++        """Create a KdocItem from a plain dict."""
++
++        cp = d.copy()
++        name        = cp.pop('name', None)
++        fname       = cp.pop('fname', None)
++        type        = cp.pop('type', None)
++        start_line  = cp.pop('start_line', 1)
++        other_stuff = cp.pop('other_stuff', {})
++
++        # Everything that’s left goes straight to __init__
++        return cls(name, fname, type, start_line, **cp, **other_stuff)
++
+     #
+     # Tracking of section and parameter information.
+     #
 -- 
-KR
+2.52.0
+
