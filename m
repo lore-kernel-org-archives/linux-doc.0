@@ -1,344 +1,249 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC842BEFEF
-	for <linux-doc@vger.kernel.org>; Mon,  2 Feb 2026 23:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770075921; cv=none; b=aSckwsu8Vod2/VuQIHiYRm9i/Nae+H8e7M/f1AKZRJEsO4HO3I6wP6xRCcGKa6k/r2S2T0j7uUCiuc/9pmsDrSYIPb/a3PUF3oasXKuHCpWaUhDkDwd4vItzx4Z+swrIxYIuZaVuRpkpenS29fzuozKJi1MoRLmOqjQcUnIqpgo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770075921; c=relaxed/simple;
-	bh=v3QxbsnYFPFhmHyOT+53OCvrWXMe3iVLPtXS700YHFc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jiU6Go0pTtvH4tMpfEZXi8W/nS0QPWbcmWhKrqoHYTUzZu13zrOFfQ8K8w0mPcMcF3/TdCYhmzv6w/3R9tCLZ5M6xMH5ZMa/AoPgp7cwDvJD1AJmFr9yJfqGmpjfTS6bpBWF4r6NXVbApKOwFbWgRZbBm0H0kh/apeJUPWY/hZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZdIfakYe; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Sav+JHRC; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2444617A2EA;
+	Tue,  3 Feb 2026 00:00:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770076837; cv=fail; b=Q7MqmGr7lY5VVZBgsJvkQr8OZUqgP6j1LWXzw47OxhgbqWMSDGLtTD6zoBn6DJseUheISrdasuYlx8zgpI4uBpR0aI3Wv9nsvqMi0TFMnJsQmlNZQMezDsY5p0cf9CWQ1GkrUMinI5i2SswpPEmo8VqpPdjOu1sqM7PMGkpKEe0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770076837; c=relaxed/simple;
+	bh=HOPSFPip0WMsgK64kVUgbLTX7AmUwh14ViMEmOrTyx0=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=qqmJngwllqjnNwVtEo9mQdvpdW/mXBIxy5Wljuws0gVRd7DpLd1vxrJjReu8QFMmnQAmX5xBmsgNzEzLVAcLrG4AtthHYHB6Yj3zXbco1ef9vnGE0ZFc4UUuMOpOvoo51jLFRsBqt74rG8q9zX1qd3RLb+smKX2bpBKzP+4M4tc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kw4N9zju; arc=fail smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZdIfakYe";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Sav+JHRC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1770075918;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lvgXYLhzuo4m8CMvfirt/IQLU1LzuZOJSYGy1TV2tNQ=;
-	b=ZdIfakYexuILOEZUcezelP/V2cA+lU4TFNo69ir2XwGFXd5A2fgoVQeiTyFQfpUC817XLE
-	NDbD+M72POt2Uytqyxp3UT5HKWNKSYm6lnsEg4AZ/eg27u7gQQx/MInXJ01sJJWzq2TUsQ
-	UQURRr4ariFtm4UyFC0VtE9KncA1GKo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-573-8K99v5I3PGiAG00MDV8zOQ-1; Mon, 02 Feb 2026 18:45:17 -0500
-X-MC-Unique: 8K99v5I3PGiAG00MDV8zOQ-1
-X-Mimecast-MFC-AGG-ID: 8K99v5I3PGiAG00MDV8zOQ_1770075916
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-4325cc15176so3440490f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 15:45:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1770075916; x=1770680716; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lvgXYLhzuo4m8CMvfirt/IQLU1LzuZOJSYGy1TV2tNQ=;
-        b=Sav+JHRCO5q+63GngS2OyNbGbAaN4LJ1tzTArNim6Ok5WrSMvHZtznQEJpVS2RerrB
-         jJC1eofDv3HC2Ukl4TqHeD5PvnPrTUaRgY4PiuSl2Xh6cQb/Ri1XBQC3J5Ft3lxjN0TQ
-         2tMPA4lzi8F1vXVHm6v67688yfcYdRCzya+ZOHHqRTUHVIVy97Nts/f0a6IkrXzZlRCM
-         55psjYrasx72o1irMyJcpYAOHMtTH72Bx/E9z4oZhCZ+aEFotmMXa7vUlnXRYchZc4V6
-         l9nhqkbGrXS4W/PNU+trBaiwYz8XezVqJSE5a0dBOxRfYyp+0jLTVMVbFJUldKIUNRRF
-         ilIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770075916; x=1770680716;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lvgXYLhzuo4m8CMvfirt/IQLU1LzuZOJSYGy1TV2tNQ=;
-        b=iXfJ94Bk03l8nsUToL7WpiEVtZxetUULI/vG65HBbd8XL6/xfhqpXilVzc6nKBHYJ0
-         nUrDSmdUFxrDE1lPjjeoWiUqBZkVCRQJTf5vfiCIYTuvruGMwUzi62bGGy0jOVX1m6NB
-         GWiCcBcZnumfn7fJGEA415Pdj3Jw3kEqyhLga5q51BbmQsSPoOOWcufZr5i9SwXKP8t8
-         ToMqhUUf8i3M4fuP33cqjYJmiDNIuIMUQdg2aeSQFacfi4hSgLwFAQExGG01JT+MTR2R
-         ytLrw2CseodGarkd+PYrXU85s8tZcDBZKY4Yd2fNpVIf6eoL7DWBpge/4ibVVs5dKyIl
-         pJGw==
-X-Forwarded-Encrypted: i=1; AJvYcCVPPxx9S2cT6yhohrrcdD31Kn91NdPvPEOm3grcO8j2O/2s0cH2R1nihfzUAci5eNo8WSeXj3vNG9Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZAp1mo9e+CkEZf5xGwYAxtyE9Pry3tWqTc4kBSiQgLPDihHqk
-	46nwONVXsVkyfem+V2DTJ9wuGE4nQExRIw657U2XvvZ/M9k0qZqkXbaVbGIeZGWqXIyaWjtOvQT
-	wb2KWp4+TsTIzsS0o8BB9IsK/9nmrV+6Sn+bse0j1xy9e/k4Y3vbfm1x7wu/tAQ==
-X-Gm-Gg: AZuq6aIWeR3M5zg0hItqcpKo4TTLEGpGpdhGt22hUTiAE/G2hRC/XxlCV7bdcErxHCP
-	5va605fB87lrShXH0L6Q2B/BtsIVfix0rFzpZ1qUnqe3EBUDLFI9uX8Jt64X5pj16PEPFRZsMxF
-	2JolCJXK9MacDp3npQBNXsYLfaMwlIU6hD+JFuSCrI7kebgWYNHPMNLfcz/NAmyrHlKWOVRZ+MR
-	NsLnJAzQ0XFZuQwaeJsITHVcqB/yUKGEOJdTgJSdma/PW5GTGtII9JD3Np5U6QaeclovUnne0PJ
-	5v31sgtZwbyrUGz/508V/Cj6YB6KLGeMbcx5TgmQ44n8c8aZarc4Z+bnpQCJZtczydQfM14qvz1
-	mFMvP3Hz/Nilx2DzOKVC5YJHXvlJvBSNv6A==
-X-Received: by 2002:a05:6000:611:b0:435:e47b:e746 with SMTP id ffacd0b85a97d-435f3aaa5e7mr18354415f8f.36.1770075916017;
-        Mon, 02 Feb 2026 15:45:16 -0800 (PST)
-X-Received: by 2002:a05:6000:611:b0:435:e47b:e746 with SMTP id ffacd0b85a97d-435f3aaa5e7mr18354364f8f.36.1770075915366;
-        Mon, 02 Feb 2026 15:45:15 -0800 (PST)
-Received: from redhat.com (IGLD-80-230-34-155.inter.net.il. [80.230.34.155])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-435e10ee057sm52844751f8f.15.2026.02.02.15.45.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Feb 2026 15:45:14 -0800 (PST)
-Date: Mon, 2 Feb 2026 18:45:08 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Chia-Yu Chang (Nokia)" <chia-yu.chang@nokia-bell-labs.com>
-Cc: "tariqt@nvidia.com" <tariqt@nvidia.com>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"shaojijie@huawei.com" <shaojijie@huawei.com>,
-	"shenjian15@huawei.com" <shenjian15@huawei.com>,
-	"salil.mehta@huawei.com" <salil.mehta@huawei.com>,
-	"mbloch@nvidia.com" <mbloch@nvidia.com>,
-	"saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"leon@kernel.org" <leon@kernel.org>,
-	"eperezma@redhat.com" <eperezma@redhat.com>,
-	"brett.creeley@amd.com" <brett.creeley@amd.com>,
-	"jasowang@redhat.com" <jasowang@redhat.com>,
-	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
-	"xuanzhuo@linux.alibaba.com" <xuanzhuo@linux.alibaba.com>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"parav@nvidia.com" <parav@nvidia.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"dsahern@kernel.org" <dsahern@kernel.org>,
-	"kuniyu@google.com" <kuniyu@google.com>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"dave.taht@gmail.com" <dave.taht@gmail.com>,
-	"jhs@mojatatu.com" <jhs@mojatatu.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"stephen@networkplumber.org" <stephen@networkplumber.org>,
-	"xiyou.wangcong@gmail.com" <xiyou.wangcong@gmail.com>,
-	"jiri@resnulli.us" <jiri@resnulli.us>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
-	"donald.hunter@gmail.com" <donald.hunter@gmail.com>,
-	"ast@fiberby.net" <ast@fiberby.net>,
-	"liuhangbin@gmail.com" <liuhangbin@gmail.com>,
-	"shuah@kernel.org" <shuah@kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"ij@kernel.org" <ij@kernel.org>,
-	"ncardwell@google.com" <ncardwell@google.com>,
-	"Koen De Schepper (Nokia)" <koen.de_schepper@nokia-bell-labs.com>,
-	"g.white@cablelabs.com" <g.white@cablelabs.com>,
-	"ingemar.s.johansson@ericsson.com" <ingemar.s.johansson@ericsson.com>,
-	"mirja.kuehlewind@ericsson.com" <mirja.kuehlewind@ericsson.com>,
-	"cheshire@apple.com" <cheshire@apple.com>,
-	"rs.ietf@gmx.at" <rs.ietf@gmx.at>,
-	"Jason_Livingood@comcast.com" <Jason_Livingood@comcast.com>,
-	"vidhi_goel@apple.com" <vidhi_goel@apple.com>
-Subject: Re: [PATCH v1 net-next 3/3] virtio_net: Accurate ECN flag in
- virtio_net_hdr
-Message-ID: <20260202184439-mutt-send-email-mst@kernel.org>
-References: <20260131225510.2946-1-chia-yu.chang@nokia-bell-labs.com>
- <20260131225510.2946-4-chia-yu.chang@nokia-bell-labs.com>
- <20260201035912-mutt-send-email-mst@kernel.org>
- <AM9PR07MB79696F945D8DBEF370CD4DC6A39AA@AM9PR07MB7969.eurprd07.prod.outlook.com>
- <20260202121830-mutt-send-email-mst@kernel.org>
- <PAXPR07MB7984B37862D3FBBE363AE5A8A39AA@PAXPR07MB7984.eurprd07.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kw4N9zju"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770076836; x=1801612836;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=HOPSFPip0WMsgK64kVUgbLTX7AmUwh14ViMEmOrTyx0=;
+  b=kw4N9zjua/YNUFokCuHvJPQFyeIWonhx6Jpqru6MyAyj+l5ckq04lR7q
+   mvO/DrvGhsXSg/9tZqgbjkklW/BD8fJQ4OAJuRsJtIXw9hU+m33HRmWuJ
+   MNpHQy6mHRvtPEa1z6w3/ZZ9k74alADTfL4SfFWbxG1MSpMbVlIN0de77
+   VNbRbR92fnXuBg70x2FKtTxcxzvrojxVekiQ6L8GTOjKjm7dGln7lXXu7
+   rq3V10Wqz2Hq8VEuWN7hk9zEljXofVTDHx88DQHouUyz/7IkTrvbTCmJT
+   0Hi/OZGFAQvJBsOtRcKE1/OQXK0GB/20bns/vaft6AKwW6QgKHC2qlSYW
+   w==;
+X-CSE-ConnectionGUID: gbsez+S4R8CNvTDYrzOr/g==
+X-CSE-MsgGUID: FpHYLCtQSGOidMWYgaWU4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="71405895"
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="71405895"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 16:00:35 -0800
+X-CSE-ConnectionGUID: sBLNyVJSRCi4Vjl8fo9r/A==
+X-CSE-MsgGUID: g6B8el7bQfGc3V1uB2BQdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,269,1763452800"; 
+   d="scan'208";a="209673538"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Feb 2026 16:00:35 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 2 Feb 2026 16:00:34 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Mon, 2 Feb 2026 16:00:34 -0800
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.3) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Mon, 2 Feb 2026 16:00:33 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pGgp4JOirDz8X7aITPDXcoqg+MXlc/tNRhR4ksnU5RLAk3R1cwjkxx6rr6v3K/Y6p3VhpezbadPKbjA9AGZWjczbgW+qyRZ18Rh64aDnHJQr2UdeSlBS4T8x0mF7vYcYyqZiL1bQMOux2mpWiFEhdSFKgNfJd+yJuGsAS2dr0DLLsPKkAs6JkY3/5JiuMA3fZF9JGdxYfK9C/DG90JZgVJHIVGjlCYNv4j8NkiWWxkwKDhY8Yxu44ZHhpkEirb7Pup5bvUNjBWRQc5M436KTIuH70eFSxV33P9ZnrdfLyATADFvuWrCc4L/f4V5Mq0xpQ96IvlFgPwUzFoq+E3yc8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5DlslZE7pqpClkhcxjVK+RK3RI2toyeKjs1N6CdrT1E=;
+ b=baR0frBV9IjrNlicpeHOaP4Wc+at3uFaS/W+kjIOnM30GTg1/gnGfe2gG+ptsm+qQc7Dm0SCZpUsMQxiXHG8qGxzwh0W7y6fVYlJQi4YcSJyJW/gyXde7ejrkU6+S4x/VllTvNWqrC4yYEz0dTnCuUZJFw3psYHNdqZH3FeAqYpUItXtUS3Pi1DSaXn2xW96TA9094wAHFdgBZBbuwL5U/5VzawMvLIbn4AiTdEG2dhzwLYogCCB662ZXuJ6+Ezme+i7N8LUxcYeSLSZernRyXVQB9V8xIGsmz5/xrL21nFTWnGRQkrKXj2/mGC1Sir+HvKgIN2cOvN355waakkdCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by DS4PPFFAE6AEB4B.namprd11.prod.outlook.com (2603:10b6:f:fc02::61) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Tue, 3 Feb
+ 2026 00:00:29 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6%3]) with mapi id 15.20.9564.016; Tue, 3 Feb 2026
+ 00:00:29 +0000
+Date: Mon, 2 Feb 2026 16:00:26 -0800
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Babu Moger <babu.moger@amd.com>
+CC: <corbet@lwn.net>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <x86@kernel.org>, <hpa@zytor.com>,
+	<peterz@infradead.org>, <juri.lelli@redhat.com>,
+	<vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
+	<rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
+	<vschneid@redhat.com>, <akpm@linux-foundation.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <pmladek@suse.com>,
+	<feng.tang@linux.alibaba.com>, <kees@kernel.org>, <arnd@arndb.de>,
+	<fvdl@google.com>, <lirongqing@baidu.com>, <bhelgaas@google.com>,
+	<seanjc@google.com>, <xin@zytor.com>, <manali.shukla@amd.com>,
+	<dapeng1.mi@linux.intel.com>, <chang.seok.bae@intel.com>,
+	<mario.limonciello@amd.com>, <naveen@kernel.org>,
+	<elena.reshetova@intel.com>, <thomas.lendacky@amd.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<kvm@vger.kernel.org>, <peternewman@google.com>, <eranian@google.com>,
+	<gautham.shenoy@amd.com>
+Subject: Re: [RFC PATCH 04/19] fs/resctrl: Add the documentation for Global
+ Memory Bandwidth Allocation
+Message-ID: <aYE6mhsx6OQqeXG4@agluck-desk3>
+References: <cover.1769029977.git.babu.moger@amd.com>
+ <d58f70592a4ce89e744e7378e49d5a36be3fd05e.1769029977.git.babu.moger@amd.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <d58f70592a4ce89e744e7378e49d5a36be3fd05e.1769029977.git.babu.moger@amd.com>
+X-ClientProxiedBy: BYAPR21CA0018.namprd21.prod.outlook.com
+ (2603:10b6:a03:114::28) To SJ1PR11MB6083.namprd11.prod.outlook.com
+ (2603:10b6:a03:48a::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <PAXPR07MB7984B37862D3FBBE363AE5A8A39AA@PAXPR07MB7984.eurprd07.prod.outlook.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|DS4PPFFAE6AEB4B:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc10ffc4-e98c-413e-b2f3-08de62b73df7
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?wVrZu93bmzZIgNuSdpc/AbMrwTiujdSEpuUCVpxI+z571iP2wxIrxBft5Fmx?=
+ =?us-ascii?Q?vFih3N7Kg31kRKICVRvB0FK8B9wUNd/yEULmGpbNJXXQHGAmN7B9/a+w+XMy?=
+ =?us-ascii?Q?QFn+l+txxdUEn5Rw15z8LBDGy5AQuK8iC1OOc1x+JiVXTiIIz+XaYt9H0hc+?=
+ =?us-ascii?Q?iWD2jyUgCjBaLZuKNBywXKpJwCUNKLQBL6Uz8STjzcYKdAggZovKS3m4UBq5?=
+ =?us-ascii?Q?zoGNgjlRrZls4plJmz0ENJv0XunilPUT3n5h9MbuQOCmCrkrD5Axymy9PYJD?=
+ =?us-ascii?Q?f8Wi0xZRwDoO6+Py5FhqliCL67FwclGn/S83gGQ4dVQjabrfjo4w3yzlZm0O?=
+ =?us-ascii?Q?2Mo2GHdnLxGpcCNuVFfOrYDCWtv1Q0WVwom5vXm1JME14ksGYZ8PRUc/wbWE?=
+ =?us-ascii?Q?4mSwN+7LAfuknv4AllPPpu2PamwIa7IautpwaI4sFhoShFX9fT+SLZ67TAIc?=
+ =?us-ascii?Q?64DlLyM7q18+qatxQLNuI1vmbxv2wJgUVn6QPk5VTQs/TS2xdnLySeSgAyp8?=
+ =?us-ascii?Q?Wh7KB/pzhQs4jvj46mpDyUpuAgR4D5QSQt88WqwE32GbdWRR8b9J0mgavbB8?=
+ =?us-ascii?Q?wxGrF+2QOslIM+u6d7KP+51dhowp4u/IrOdzPacEzsEJ2on6Rle6cueHfv63?=
+ =?us-ascii?Q?lyA6s+IT3ww0jCgfI/9C9e7Z4Vk2YwFT2tes9eBGIkXOzcT1pKtEQNJufm2s?=
+ =?us-ascii?Q?44tinc62UPgP5kkEOXHrruzVjDCkkgxsfIyAhwG/6fkXxI73JY0fMPZU/pIP?=
+ =?us-ascii?Q?qeuN7flCQlt3yHvCY2I/dHnzCy3kNja/PtxpIjKTph6l0P9pcRQOw8Z1nAix?=
+ =?us-ascii?Q?mBU1EMkpDSN9QRqAWG1YLM/9pH3LwY4tiUKeekZmL6yGwYwGvCJ/wSg3JoSb?=
+ =?us-ascii?Q?3Lxy5SpXRnvhlO+pm9LtTfZ65gc5YMpnz7cgoYNDi99cWgxeQ1zZQaqIKvas?=
+ =?us-ascii?Q?Mvn0pb6vZOfUpLwJ37NDxY8HZQWibvkb6YbOJjkvwzrxKyFoQ8FKuOjQBSFu?=
+ =?us-ascii?Q?fIShDHXlWDboqdnUiVSAYel3f+hA6pv4XrarFKuVXZJDlwGEibcEu88hvL3x?=
+ =?us-ascii?Q?F3ju5SkGbCDCxTCbFdz333/NHWsz5k4bd4muWHcYMc5E6mooN0BUkytGGEif?=
+ =?us-ascii?Q?NqQBmbKcfLMo6Ozb0Jri6caCIycKwNA+ZoYe5yNU0O9SvZmphvxpWAjJERVn?=
+ =?us-ascii?Q?n5aR79eXi+BhzxCHnjn8BCxaYnjHt2dmYokkOCGv2cwipUEGQ/dPAnW3nvoy?=
+ =?us-ascii?Q?/HWcn4zxuMBKuNrbxFqYggjCBv8QgRyKSgYUzwnHHGseNQZ4bSuXZfgCzwBk?=
+ =?us-ascii?Q?kV9NUCe3FgglasSZt72SiWU6yQV3tcMPa9XW7DnjEoOXdsUTbiXcj/mgEA7A?=
+ =?us-ascii?Q?9ePcF7V1TzyKLWgnnGhoLlgZKQk5tD8+yXrYWtY+G8oqx+uiARCYvoy3OZSJ?=
+ =?us-ascii?Q?41IapdactH2qiG1UJHni+U6TSM24KDjKdVnm2gfBl3mzw3KBV9TSNXWJT4YB?=
+ =?us-ascii?Q?N4TeoBbN9ULBDDlhdjDU2V2M0je6j34hqNJYPrNIopg6KicorCd0WCj8G/HB?=
+ =?us-ascii?Q?GMB/Pl0HZLUMZr65w1w=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YqKRKDYoL1vQ6+ivPBHb2oS2Bs4rg09zzef8UcGuAEtiDKeLC7npnu7GUhq+?=
+ =?us-ascii?Q?ARLa1Oj9+hwQC2WFCyOhCUvgjqaF0IjDuAhBmTGT8ZZtU+v027KEVtuRrw7o?=
+ =?us-ascii?Q?cz4P4uQtHqaY7CH7A3tMZ6WauyqzQqT5T0J0C3VtOplpv0wGrQc6PKA7DBZ+?=
+ =?us-ascii?Q?y7RHX026B1BWjvOFDC5rHwJHtGhFJoF/QzP511xd1bIR3ztoLmIgKzagqnbm?=
+ =?us-ascii?Q?U/32i8ST3Fi6QE4V4xCOgsYEIfbSu1LtxcKyCn0Hzeog9wNoSuwtQeOM3V5F?=
+ =?us-ascii?Q?IUtMsgNYWGOM1dmG08Gn5n4watFLAYBbha+QEPtotr7q28vy57+r0Brzit6B?=
+ =?us-ascii?Q?2RZ+QaaqbZKe48vvDPzc/C/5R5AuHPN/TaNeV+++Kh7o19Za2+kmZX8YKD6A?=
+ =?us-ascii?Q?x6dZ5BEsMyR3YoIld/P8CZihPsS+wSQZRkzAaiNLcEEwo1YmH927hrSXFGot?=
+ =?us-ascii?Q?/qlgPOoWZWfPyM5AeNEhw3ql54l4QTaEppPED9ubskYcCl/zKAL12j41GonK?=
+ =?us-ascii?Q?a0Hk03FvgygCFgcHLkQR9CWBJnHe5jgMiw/dpk8dgeCSMoZsOaxuXInA3uGS?=
+ =?us-ascii?Q?VUv2yLzlErIjZsBRPX1KbiXiwyq8Jtrn/h/5WYe9nsLbJXE1Epe2HRTcKtIB?=
+ =?us-ascii?Q?RQbZGNgcJ1ctsGDqCz1bCutFSLENZ7E5c4AH01N81Wj1FiVWGG3hirnOFMeK?=
+ =?us-ascii?Q?KJxGo+E5xi1w96L9xhUs76J+znreSdGQQ+1qW39jlISdXNDUWu6T+LaGlQ0F?=
+ =?us-ascii?Q?ZLZd6dbld5SOv+HZu6/6iiSyoLWaPs1rDY77mbQpsz3B4gNHUtIKxK5F+jBz?=
+ =?us-ascii?Q?QB5js2dnMNtvaTr1cYsrPEnTqYgAlarGTyhrSs9NyKAO24B+g6NPTzc/6s58?=
+ =?us-ascii?Q?bikncchl2YBrcells8b8uDdyvAHprtBALBfPp6E8OS37OEtb9ZIMzy5RD92D?=
+ =?us-ascii?Q?XM8QVFSFah7kOLgde9/8hGZ7PrqYCP+sIINlJVDRCZyBBFCpGR+WeFsiHxXX?=
+ =?us-ascii?Q?C531xT1iRRO8CPynNyF0jhArGfS6sEsTJRAC0lA6bJjt52F9Whrhhho9ct3Z?=
+ =?us-ascii?Q?PjlPeI7QlqndN7irh9XZ3QCrw0FA2e5D1uMPBNDvna5Wh7DLkLgwFnp0JyVS?=
+ =?us-ascii?Q?vL7s9EspAq7Yk2wBvD0M8eN6q8ocql2MfxJ2EXwwt6EpVBSrVKOWGYyd0mp5?=
+ =?us-ascii?Q?NxoqKglyFmG9HtNyUSTDGKKAmiyA0J3+Wu3U5tF0xJRQ1zeqNm7JxkycLII9?=
+ =?us-ascii?Q?ZFRkhwpdUrzK29205fJXgjLDR1XLetRWc/j8EtCTGVpOtaDFwoajboGfDa/1?=
+ =?us-ascii?Q?5zaFh8L5eIjXALTaHv1/d62lqv0D0JMKRRItNHsmBOoaXotmgkNoFuahJAtZ?=
+ =?us-ascii?Q?f4RVFpXuvKc1XY14PYD3WnTlHh68PZePDtnCcoLDzReTp2EqDR4j7E4AS/bu?=
+ =?us-ascii?Q?Qu9ZuQ31rWxsQlpZRCYaglhnixVfpwWzPbLMhyn4gDVKf3DNnCXDoSEi8E6f?=
+ =?us-ascii?Q?Z7ahXN6nC2QjtWLU5QyNiPK0Oo+bU2It2R4ozjTx6PJ1JH12FYqFn+9mRLHZ?=
+ =?us-ascii?Q?Io3DJqOl4HRRos3ZqBbav9877PvE9l+lN1kOpiIFENC27kSDnk0GzoRkKT49?=
+ =?us-ascii?Q?sLX9b+8qJH04BlUYhLPCD2eSvrNew77C/+zi03VwyzYNI1ja7BH7TwjbwYiG?=
+ =?us-ascii?Q?4RuGvl5WlmDWeXPnq+CV+wx4tSjsmw1OBXrc6LH+g5lmD/Xgqmg9JkNkUfPN?=
+ =?us-ascii?Q?6jNPS5t7gw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc10ffc4-e98c-413e-b2f3-08de62b73df7
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 00:00:29.5479
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VVWnalYwPmBFNGPn2izoG1GkQnYYYknM+nfXJ4svLZSSaJgPlSbtzYtIKmGPXENS78wBq30fOJeI/BcUk2ZqeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFFAE6AEB4B
+X-OriginatorOrg: intel.com
 
-On Mon, Feb 02, 2026 at 09:09:28PM +0000, Chia-Yu Chang (Nokia) wrote:
-> > -----Original Message-----
-> > From: Michael S. Tsirkin <mst@redhat.com>=20
-> > Sent: Monday, February 2, 2026 6:20 PM
-> > To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
-> > Cc: tariqt@nvidia.com; linux-rdma@vger.kernel.org; shaojijie@huawei.com=
-; shenjian15@huawei.com; salil.mehta@huawei.com; mbloch@nvidia.com; saeedm@=
-nvidia.com; leon@kernel.org; eperezma@redhat.com; brett.creeley@amd.com; ja=
-sowang@redhat.com; virtualization@lists.linux.dev; xuanzhuo@linux.alibaba.c=
-om; pabeni@redhat.com; edumazet@google.com; parav@nvidia.com; linux-doc@vge=
-r.kernel.org; corbet@lwn.net; horms@kernel.org; dsahern@kernel.org; kuniyu@=
-google.com; bpf@vger.kernel.org; netdev@vger.kernel.org; dave.taht@gmail.co=
-m; jhs@mojatatu.com; kuba@kernel.org; stephen@networkplumber.org; xiyou.wan=
-gcong@gmail.com; jiri@resnulli.us; davem@davemloft.net; andrew+netdev@lunn.=
-ch; donald.hunter@gmail.com; ast@fiberby.net; liuhangbin@gmail.com; shuah@k=
-ernel.org; linux-kselftest@vger.kernel.org; ij@kernel.org; ncardwell@google=
-=2Ecom; Koen De Schepper (Nokia) <koen.de_schepper@nokia-bell-labs.com>; g.=
-white@cablelabs.com; ingemar.s.johansson@ericsson.com; mirja.kuehlewind@eri=
-csson.com; cheshire@apple.com; rs.ietf@gmx.at; Jason_Livingood@comcast.com;=
- vidhi_goel@apple.com
-> > Subject: Re: [PATCH v1 net-next 3/3] virtio_net: Accurate ECN flag in v=
-irtio_net_hdr
-> >=20
-> >=20
-> > CAUTION: This is an external email. Please be very careful when clickin=
-g links or opening attachments. See the URL nok.it/ext for additional infor=
-mation.
-> >=20
-> >=20
-> >=20
-> > On Mon, Feb 02, 2026 at 04:56:38PM +0000, Chia-Yu Chang (Nokia) wrote:
-> > > > -----Original Message-----
-> > > > From: Michael S. Tsirkin <mst@redhat.com>
-> > > > Sent: Sunday, February 1, 2026 10:18 AM
-> > > > To: Chia-Yu Chang (Nokia) <chia-yu.chang@nokia-bell-labs.com>
-> > > > Cc: tariqt@nvidia.com; linux-rdma@vger.kernel.org;=20
-> > > > shaojijie@huawei.com; shenjian15@huawei.com; salil.mehta@huawei.com=
-;=20
-> > > > mbloch@nvidia.com; saeedm@nvidia.com; leon@kernel.org;=20
-> > > > eperezma@redhat.com; brett.creeley@amd.com; jasowang@redhat.com;=20
-> > > > virtualization@lists.linux.dev; xuanzhuo@linux.alibaba.com;=20
-> > > > pabeni@redhat.com; edumazet@google.com; parav@nvidia.com;=20
-> > > > linux-doc@vger.kernel.org; corbet@lwn.net; horms@kernel.org;=20
-> > > > dsahern@kernel.org; kuniyu@google.com; bpf@vger.kernel.org;=20
-> > > > netdev@vger.kernel.org; dave.taht@gmail.com; jhs@mojatatu.com;=20
-> > > > kuba@kernel.org; stephen@networkplumber.org;=20
-> > > > xiyou.wangcong@gmail.com; jiri@resnulli.us; davem@davemloft.net;=20
-> > > > andrew+netdev@lunn.ch; donald.hunter@gmail.com; ast@fiberby.net;=20
-> > > > liuhangbin@gmail.com; shuah@kernel.org;=20
-> > > > linux-kselftest@vger.kernel.org; ij@kernel.org;=20
-> > > > ncardwell@google.com; Koen De Schepper (Nokia)=20
-> > > > <koen.de_schepper@nokia-bell-labs.com>; g.white@cablelabs.com;=20
-> > > > ingemar.s.johansson@ericsson.com; mirja.kuehlewind@ericsson.com;=20
-> > > > cheshire@apple.com; rs.ietf@gmx.at; Jason_Livingood@comcast.com;=20
-> > > > vidhi_goel@apple.com
-> > > > Subject: Re: [PATCH v1 net-next 3/3] virtio_net: Accurate ECN flag=
-=20
-> > > > in virtio_net_hdr
-> > > >
-> > > >
-> > > > CAUTION: This is an external email. Please be very careful when cli=
-cking links or opening attachments. See the URL nok.it/ext for additional i=
-nformation.
-> > > >
-> > > >
-> > > >
-> > > > Thanks for the patch! Yet something to improve:
-> > > >
-> > > > On Sat, Jan 31, 2026 at 11:55:10PM +0100, chia-yu.chang@nokia-bell-=
-labs.com wrote:
-> > > > > From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> > > > >
-> > > > > Unlike RFC 3168 ECN, accurate ECN uses the CWR flag as part of th=
-e=20
-> > > > > ACE field to count new packets with CE mark; however, it will be=
-=20
-> > > > > corrupted by the RFC 3168 ECN-aware TSO. Therefore, fallback shal=
-l=20
-> > > > > be applied by seting NETIF_F_GSO_ACCECN to ensure that the CWR=20
-> > > > > flag should not be changed within a super-skb.
-> > > > >
-> > > > > To apply the aforementieond new AccECN GSO for virtio, new featue=
-=20
-> > > > > bits for host and guest are added for feature negotiation between=
-=20
-> > > > > driver and device. And the translation of Accurate ECN GSO flag=
-=20
-> > > > > between virtio_net_hdr and skb header for NETIF_F_GSO_ACCECN is=
-=20
-> > > > > also added to avoid CWR flag corruption due to RFC3168 ECN TSO.
-> > > > >
-> > > > > Signed-off-by: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
-> > > >
-> > > >
-> > > > To the best of my understanding, this is a new feature - support fo=
-r VIRTIO_NET_F_HOST_ACCECN, VIRTIO_NET_F_GUEST_ACCECN?
-> > > > The commit log makes it sound like it fixes some behaviour for exis=
-ting hardware, but that is not the case.
-> > > >
-> > >
-> > > Thansk for the feedback, I will update commit message in v3.
-> > > >
-> > > > > ---
-> > > > > v2:
-> > > > > - Replace VIRTIO_NET_HDR_GSO_ECN with VIRTIO_NET_HDR_GSO_ECN_FLAGS
-> > > >
-> > > > but where is v2? this is v1...
-> > >
-> > > I shall update this version as v2, will do at the next version.
-> > >
-> > > [...]
-> > > > > diff --git a/include/uapi/linux/virtio_net.h=20
-> > > > > b/include/uapi/linux/virtio_net.h index 1db45b01532b..af5bfe45aa1f
-> > > > > 100644
-> > > > > --- a/include/uapi/linux/virtio_net.h
-> > > > > +++ b/include/uapi/linux/virtio_net.h
-> > > > > @@ -56,6 +56,8 @@
-> > > > >  #define VIRTIO_NET_F_MQ      22      /* Device supports Receive =
-Flow
-> > > > >                                        * Steering */
-> > > > >  #define VIRTIO_NET_F_CTRL_MAC_ADDR 23        /* Set MAC address =
-*/
-> > > > > +#define VIRTIO_NET_F_HOST_ACCECN 25  /* Host can handle GSO of=
-=20
-> > > > > +AccECN */ #define VIRTIO_NET_F_GUEST_ACCECN 26 /* Guest can=20
-> > > > > +handle GSO of AccECN */
-> > > > >  #define VIRTIO_NET_F_DEVICE_STATS 50 /* Device can provide=20
-> > > > > device-level statistics. */  #define VIRTIO_NET_F_VQ_NOTF_COAL 52=
- /* Device supports virtqueue notification coalescing */
-> > > > >  #define VIRTIO_NET_F_NOTF_COAL       53      /* Device supports =
-notifications coalescing */
-> > > > > @@ -165,6 +167,9 @@ struct virtio_net_hdr_v1 {  #define=20
-> > > > > VIRTIO_NET_HDR_GSO_UDP_TUNNEL (VIRTIO_NET_HDR_GSO_UDP_TUNNEL_IPV4=
- | \
-> > > > >                                      VIRTIO_NET_HDR_GSO_UDP_TUNNE=
-L_IPV6)
-> > > > >  #define VIRTIO_NET_HDR_GSO_ECN               0x80    /* TCP has =
-ECN set */
-> > > > > +#define VIRTIO_NET_HDR_GSO_ACCECN    0x10    /* TCP AccECN segme=
-ntation */
-> > > > > +#define VIRTIO_NET_HDR_GSO_ECN_FLAGS (VIRTIO_NET_HDR_GSO_ECN | \
-> > > > > +                                      VIRTIO_NET_HDR_GSO_ACCECN)
-> > > > >       __u8 gso_type;
-> > > > >       __virtio16 hdr_len;     /* Ethernet + IP + tcp/udp hdrs */
-> > > > >       __virtio16 gso_size;    /* Bytes to append to hdr_len per f=
-rame */
-> > > >
-> > > >
-> > > > UAPI changes need to be added to the virtio spec.
-> > > > Pls get this approved by the virtio TC.
-> > > > Thanks!
-> > >
-> > > There were some discussions last October in virtio-comment@lists.linu=
-x.dev mailing list.
-> >=20
-> >=20
-> > That's it I could not find it. Could you include the archive link pls?
->=20
-> The email thread I found is https://yhbt.net/lore/all/20250814120118.8178=
-7-1-chia-yu.chang@nokia-bell-labs.com/T/#m62dd5e559a68e8d3e5872e85d37c924f6=
-5fc7033
+On Wed, Jan 21, 2026 at 03:12:42PM -0600, Babu Moger wrote:
+> +Global Memory bandwidth Allocation
+> +-----------------------------------
+> +
+> +AMD hardware supports Global Memory Bandwidth Allocation (GMBA) provides
+> +a mechanism for software to specify bandwidth limits for groups of threads
+> +that span across multiple QoS domains. This collection of QOS domains is
+> +referred to as GMBA control domain. The GMBA control domain is created by
+> +setting the same GMBA limits in one or more QoS domains. Setting the default
+> +max_bandwidth excludes the QoS domain from being part of GMBA control domain.
 
-or
+I don't see any checks that the user sets the *SAME* GMBA limits.
 
-https://lore.kernel.org/all/20250814120118.81787-1-chia-yu.chang@nokia-bell=
--labs.com/
+What happens if the user ignores the dosumentation and sets different
+limits?
+
+... snip ...
+
++  # cat schemata
++    GMB:0=2048;1=2048;2=2048;3=2048
++     MB:0=4096;1=4096;2=4096;3=4096
++     L3:0=ffff;1=ffff;2=ffff;3=ffff
++
++  # echo "GMB:0=8;2=8" > schemata
++  # cat schemata
++    GMB:0=   8;1=2048;2=   8;3=2048
++     MB:0=4096;1=4096;2=4096;3=4096
++     L3:0=ffff;1=ffff;2=ffff;3=ffff
+
+Can the user go on to set:
+
+   # echo "GMB:1=10;3=10" > schemata
+
+and have domains 0 & 2 with a combined 8GB limit,
+while domains 1 & 3 run with a combined 10GB limit?
+Or is there a single "GMBA domain"?
+
+Will using "2048" as the "this domain isn't limited
+by GMBA" value come back to haunt you when some
+system has much more than 2TB bandwidth to divide up?
+
+Should resctrl have a non-numeric "unlimited" value
+in the schemata file for this?
+
+The "mba_MBps" feature used U32_MAX as the unlimited
+value. But it looks somewhat ugly in the schemata
+file:
+
+	$ cat schemata
+	MB:0=4294967295;1=4294967295
+	L3:0=fff;1=fff
+
+so I'm not sure it is a great precedent.
 
 
-> There were discussions about updating the documents of SKB_GSO_TCP_ECN an=
-d SKB_GSO_TCP_ACCECN, and you can find it in the first patch of this series.
-
-document this in commit log and cover letter pls.
-
-> >=20
-> >=20
-> > > At that moment, it is suggested to make Linux kernel accept new comme=
-nts for SKB_GSO_TCP_ECN and SKB_GSO_TCP_ACCECN first.
-> > > So, could virtio-spec colleague give your feedback? (Parav?).
-> > >
-> > > Otherwise, the CWR handling of virtio will be wrong after all Accurat=
-e ECN commits are merged in Linux.
-> > >
-> > > Chia-Yu
-> >=20
-> > if there's a general agreement we don't need to block linux on tc appro=
-val.
-> >=20
-> > --
-> > MST
->=20
-> Shall I also submit patches to virtio-spec? Please suggest ways forwards.
->=20
-> Thanks!
->=20
-> Chia-Yu
-
+-Tony
