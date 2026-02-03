@@ -1,195 +1,96 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA31A396D01
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 09:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF956394465;
+	Tue,  3 Feb 2026 09:35:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770110809; cv=none; b=C2LLBlem6b+yEb4z77juIGHcMSeLxS/O0KBApnRtfCoN/vC65WO8E+a2OOxuscPMfrfJ6q7xjZj1SB8PXeH5aH9U8xxmDw1dcT4Fi9YasDshlStI0pCZNBoHK+kixAcNWTtiUNpPQy3FAm7RzaAT36R+qpjAVglXbjSdGiEUeGc=
+	t=1770111316; cv=none; b=fv1yEq15Pq5v2Iksups25jUgDPK7FSjxXywoCPc8vDgmQTdEbKFd6ppArtCGk87nlLjckFb/zcgmRymoeJxtwX1hEP8OCKm95Ixxxk3ZWd0RR7Pk6i2D4uhjgJbkBAb3sdNeZH+CBNRtoZCsnCLG0QIDNxsTFgaTlDvafXCshrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770110809; c=relaxed/simple;
-	bh=zQIcFhLzEEVfpsSAYKxeP8WFD6JDPzhJjkOH75MBsj0=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XMoUf5fPRiEbO61O+kUJhfeBho756ToLT8JA1s367MFbB3rt10rC6gF4tpdhcAvpswJOahvRuRKE2fd3OltOEU3tpqx00oSKW//88MkVcAPRzFTsNV0IJybEXuCCgasEfA+Z0SIHaM0aP4vnpgvDryavUCa5AzDYXEqbMv6UO6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CszI0hi0; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CszI0hi0"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-480706554beso57717045e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 01:26:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770110806; x=1770715606; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=v8u3IwoMOrMqGo+Mwbf89Kdkxv+i1U2HP3cA+C8V8rM=;
-        b=CszI0hi0akWQwhlXq1WfZsp9xDZjx8nGupVk2Dhq8140uSJj+SpEOvMaQF4buoj39q
-         +Epe8D6iNMt7njDdlXM6L61TRQY7i7lyYppiBynsGbOjHcMy4Z8LSDEFydxsl39CgEKx
-         S7a9BYpBUwovngDihUHOhX0u2CqFTFvErppY3ausyYe10ey5cWUjFrwQE6cI0hK4pRed
-         knsW7Gxukn1z8C+++pqXpEPRdLgqMMTrLZXXjoR+HW3WBwSZWxQSb4Jxi35i4ZK/Gow1
-         vmC+krwiFI3GhGHhA2xqf0u6L0nkFtGbL0dNSqm7HaRBQ7VxrJzdv2xokpgenQwjyhnF
-         HrRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770110806; x=1770715606;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v8u3IwoMOrMqGo+Mwbf89Kdkxv+i1U2HP3cA+C8V8rM=;
-        b=JBmjJTrgXQ/WQNqPDuvLxZgHzOEzcVrz29bPkZJ1BRx45xP4zZmjFSD+tG4KVvsfkY
-         VOK0o7ZCbUMg2hiM26jfx6lEZ5ps9KNOKrvTFlT/pzDFuX/LhCXPq9YUEgMK1U+5K/gz
-         cP2Momi8V9IoWcKjk2pRsm8lfS9pPPXQ7NK6C4u7wyE0NTpH2ojE6NrPqelaMnwQUNVR
-         GXjdaJsPXG/m1fuKd3UOEO8b6or2UTPmfoP6w7m/L6sX96sgZlPGJfc5IiPK6GzsCrz0
-         A3jX/J6/F2LYnAo/Bz0ePHZ1ccBqcMuTO4Cz34UpIjkwlkJ70TEXcsqID9KhpFY0YH5j
-         wofg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZjn0URY5IGGW0UlnPgfC52BYAAOz5s2xrJvjB7ojgfIeh3aChN2oonWCCohFTiel2Twz3vzHZKZc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDFhmHvjjwofPtmU8z1zyxIXmPFP6MrmavX1tOnGTpbpm5uC47
-	gy20FqWFfepfr/wT1YN4Ane8IIONMF2QLRk0TkV6L6xhbL1S4HK45TLv
-X-Gm-Gg: AZuq6aIf6OCisZ9eJXmcUIHF4z9L7PTAMr01cHFwrkhK3CsrHLTC0yi+HmhEv9806An
-	kVUlCsOm7qfFc2uZlXS/u7uVqEQmlWUx7FfPs3z9l+lnGbatJPS4FixgHdQaLVZTD3jI8lun2nw
-	MwW6VQ+rg0TaQj9vPLjI1yQDIwAp7gk1/28TEPbbWPTeYgq6DXtF0sfEooGi6sQ5IeruA6ahrFA
-	HeaZzMfviDGzZmJHePVK8AC9BNYfdWqM4W40MhtiF9zjJBBfYnuCmHUpZ06lqMlRkIHlvp17BSD
-	G4u21+q9J3s/j9XKWM/l+6ucPm2+zpY3TeKxorn3RCdYtoV1caWKnrNbN/LRei2Bh5IYAQJtbOQ
-	YZvVPGBkckTJFx5mZBSSFIa5JoJDP21uihJfhMVCHjogrthPy92dJbM4KCV1t3lfSz19vjiNCA7
-	dgw3QNsXHymHgouxZlcc/bSNscC6fH/YNV1hUDFL1i2FkMeysCOBD6I97K4hrC783MkRCMhZoH6
-	yfV
-X-Received: by 2002:a05:600c:3b23:b0:47e:e87f:4bba with SMTP id 5b1f17b1804b1-482db49e871mr191759345e9.29.1770110806001;
-        Tue, 03 Feb 2026 01:26:46 -0800 (PST)
-Received: from RDEALENC-L01.ad.analog.com ([24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48305129321sm49396195e9.4.2026.02.03.01.26.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Feb 2026 01:26:45 -0800 (PST)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Tue, 3 Feb 2026 09:26:37 +0000
-To: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>, 
-	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
- parts
-Message-ID: <nzowa6uhnlcllceml2pqjk4so33kl3rf2jwu36eh3znnxug6ub@gfzafmi3m5re>
-References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
- <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
- <eb1d9b939f95888739ce4a70f516cec07393c6df.camel@gmail.com>
+	s=arc-20240116; t=1770111316; c=relaxed/simple;
+	bh=pFXeBmN/oda3AIVy63ZLjJAUo47uDuibMshllho66vA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KM+zB/jYoY4lvSQkgXFnw0huVGnhvUL+I6u5GUIkl55IOvS2EAzJSRS8iT1yuKy3AM3vkgRjRhcpzkeZYy/u49CoOUF/tLnctK0t0robCscP4s1gfCSLYX7lPvBktyOifvREmMYw355Y4DQHezqsCj7FgxvrcJBU++/tgK99HNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 9f7fb13000e311f1b0f03b4cfa9209d1-20260203
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+	HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NO_NAME
+	IP_UNTRUSTED, SRC_UNTRUSTED, IP_UNFAMILIAR, SRC_UNFAMILIAR, DN_TRUSTED
+	SRC_TRUSTED, SA_TRUSTED, SA_EXISTED, SN_TRUSTED, SN_EXISTED
+	SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_GOOD_SPF, CIE_UNKNOWN
+	GTI_FG_BS, GTI_RG_INFO, GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:cd0e1da6-0b4b-48b0-99a5-796c405f909a,IP:10,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:5
+X-CID-INFO: VERSION:1.3.6,REQID:cd0e1da6-0b4b-48b0-99a5-796c405f909a,IP:10,URL
+	:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:5
+X-CID-META: VersionHash:a9d874c,CLOUDID:63fdfab8849028c80af98bc33f8b17de,BulkI
+	D:260203173508X67AJHQB,BulkQuantity:0,Recheck:0,SF:17|19|38|66|78|102|127|
+	850|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil
+	,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:
+	0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 9f7fb13000e311f1b0f03b4cfa9209d1-20260203
+X-User: tianyaxiong@kylinos.cn
+Received: from localhost.localdomain [(175.2.42.220)] by mailgw.kylinos.cn
+	(envelope-from <tianyaxiong@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1417785980; Tue, 03 Feb 2026 17:35:05 +0800
+From: Yaxiong Tian <tianyaxiong@kylinos.cn>
+To: rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yaxiong Tian <tianyaxiong@kylinos.cn>
+Subject: [PATCH] cpufreq: docs: Update description of rate_limit_us default value
+Date: Tue,  3 Feb 2026 17:35:01 +0800
+Message-Id: <20260203093501.1138721-1-tianyaxiong@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <eb1d9b939f95888739ce4a70f516cec07393c6df.camel@gmail.com>
 
-On 26/02/02 09:57AM, Nuno Sá wrote:
-> On Fri, 2026-01-30 at 10:06 +0000, Rodrigo Alencar via B4 Relay wrote:
-> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > 
-> > Add iio_str_to_fixpoint64() function that leverages simple_strtoull()
-> > to parse numbers from a string.
-> > A helper function __iio_str_to_fixpoint64() replaces
-> > __iio_str_to_fixpoint() implementation, extending its usage for
-> > 64-bit fixed-point parsing.
+Due to commit 37c6dccd6837 ("cpufreq: Remove LATENCY_MULTIPLIER")
+updating the acquisition logic of cpufreq_policy_transition_delay_us(),
+the original description of 2ms has become inaccurate.
 
-...
+Therefore, update the description of the default value for
+rate_limit_us from 2ms to 1ms.
 
-> >  /**
-> >   * __iio_str_to_fixpoint() - Parse a fixed-point number from a string
-> >   * @str: The string to parse
-> > @@ -895,63 +1026,43 @@ static ssize_t iio_read_channel_info_avail(struct device *dev,
-> >  static int __iio_str_to_fixpoint(const char *str, int fract_mult,
-> >  				 int *integer, int *fract, bool scale_db)
-> >  {
-> > -	int i = 0, f = 0;
-> > -	bool integer_part = true, negative = false;
-> > +	s64 integer64, fract64;
-> > +	int ret;
-> >  
-> > -	if (fract_mult == 0) {
-> > -		*fract = 0;
-> > +	ret = __iio_str_to_fixpoint64(str, fract_mult, &integer64, &fract64,
-> > +				      scale_db);
-> > +	if (ret)
-> > +		return ret;
-> 
-> I know it feels tempting to do the above while adding the 64bit variant. But isn't the
-> overflow safety also an issue on the 32bit variant? IMO, we should first have a patch
-> adding the overflow safety with a Fixes tag and then add 64bit support.
+Signed-off-by: Yaxiong Tian <tianyaxiong@kylinos.cn>
+---
+ Documentation/admin-guide/pm/cpufreq.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think handling 64-bit support after taclking the overflow issue
-would require changes on top of previous ones, which might get a messy
-commit history, no? Mostly because the 64-bit variant of the function
-is being used inside the 32-bit one. Also, the added auxiliary function
-that implements the overflow check parses u64, which allowed for the
-removal of the while loop in the __iio_str_to_fixpoint() implementation.
+diff --git a/Documentation/admin-guide/pm/cpufreq.rst b/Documentation/admin-guide/pm/cpufreq.rst
+index 738d7b4dc33a..dbe6d23a5d67 100644
+--- a/Documentation/admin-guide/pm/cpufreq.rst
++++ b/Documentation/admin-guide/pm/cpufreq.rst
+@@ -439,7 +439,7 @@ This governor exposes only one tunable:
+ ``rate_limit_us``
+ 	Minimum time (in microseconds) that has to pass between two consecutive
+ 	runs of governor computations (default: 1.5 times the scaling driver's
+-	transition latency or the maximum 2ms).
++	transition latency or 1ms if the driver does not provide a latency value).
  
->  
-> >  
-> > -		return kstrtoint(str, 0, integer);
-> > -	}
-> > +	if (integer64 < INT_MIN || integer64 > UINT_MAX ||
-> > +	    fract64 < INT_MIN || fract64 > UINT_MAX)
-> > +		return -ERANGE;
-> >  
-> > -	if (str[0] == '-') {
-> > -		negative = true;
-> > -		str++;
-> > -	} else if (str[0] == '+') {
-> > -		str++;
-> > -	}
-> > -
-> > -	while (*str) {
-> > -		if ('0' <= *str && *str <= '9') {
-> > -			if (integer_part) {
-> > -				i = i * 10 + *str - '0';
-> > -			} else {
-> > -				f += fract_mult * (*str - '0');
-> > -				fract_mult /= 10;
-> > -			}
-> > -		} else if (*str == '\n') {
-> > -			if (*(str + 1) == '\0')
-> > -				break;
-> > -			return -EINVAL;
-> > -		} else if (!strncmp(str, " dB", sizeof(" dB") - 1) && scale_db) {
-> > -			/* Ignore the dB suffix */
-> > -			str += sizeof(" dB") - 1;
-> > -			continue;
-> > -		} else if (!strncmp(str, "dB", sizeof("dB") - 1) && scale_db) {
-> > -			/* Ignore the dB suffix */
-> > -			str += sizeof("dB") - 1;
-> > -			continue;
-> > -		} else if (*str == '.' && integer_part) {
-> > -			integer_part = false;
-> > -		} else {
-> > -			return -EINVAL;
-> > -		}
-> > -		str++;
-> > -	}
-> > -
-> > -	if (negative) {
-> > -		if (i)
-> > -			i = -i;
-> > -		else
-> > -			f = -f;
-> > -	}
-> > -
-> > -	*integer = i;
-> > -	*fract = f;
-> > +	*integer = integer64;
-> > +	*fract = fract64;
-> 
-> Hmmm, aren't we truncating the values? They are still int pointers...
-
-Yes, truncation happens here. integer64 and fract64 are range checked
-before this assignment.
- 
+ 	The purpose of this tunable is to reduce the scheduler context overhead
+ 	of the governor which might be excessive without it.
 -- 
-Kind regards,
+2.25.1
 
-Rodrigo Alencar
