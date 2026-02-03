@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29C33ACF00;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A08123ACEFD;
 	Tue,  3 Feb 2026 14:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770130555; cv=none; b=ATYyUXtyG9/TR3Syt00un0967TG+FSCbN37usHptiUPKlNYhB1l2lzVrsdZw4n4L7y46Ni28TxiUJzF7R+67Lr/q0b9kdrdQI8IGJXVW+ehg+fc2LAIQQS3db7eIoCu6U9bVfldAzaPwkqPmUa4w3G7p+6XBtMJ7l3ndHKRIzBE=
+	t=1770130555; cv=none; b=IfEaCY9eI2iK1bz2PZ1NLPunCTOyZUHvb9Zuishe++BWOAR/f4nzcerSznjTAyH4hDbn1CXf46NRNjxQ8Q0TSfHtPylu276qlo/YgLwUh1fpoZPnv4b8arQ36yoOa1lt4liNUbCXZa8Wve9E1O/dzehPy72vDoa3TPDrGIWd+zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770130555; c=relaxed/simple;
-	bh=PaOLRDk0iXEcEwnWCzqzsJpfgjdAgDVAImrhDci59t0=;
+	bh=D+Yw/P1wo2Fe3Sse9jDq5scutU3896nHCn53LsY9Ih8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Db9t8wO7dKwuxxgx2owYTHkxHZV1cGiiNFI9ZcZvjXPyz5qZpS6k3K0ugtiID/wOmWEClGvGmEmOfUjoDjXlYcAtroBxQr9rhQIPgHHKC0oG2UEALwnVeSX6lNbnzqm4UO+zF1yCpIrw+zefXolwZwSn9mY5GpxihsG9z1vTyjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I1hn9eZu; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=hya5Q1Bu07hPiWHQ/JbhBZwyM3PzUX1bAauqlkj0G9qhYAdxM1qgBlQEplYY3tV+pX0ASsIBACMA7e6PXDyZMj78xCflCXF7NHsU62iD8iUUq5OXwDhOqe23KHjg0M0P5vkg3NtCc5owiYuzsaChSDJsrkS64ncKHIMJEw/1eNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UtxuMrO4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I1hn9eZu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D149FC19421;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UtxuMrO4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6E53C4AF0B;
 	Tue,  3 Feb 2026 14:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1770130554;
-	bh=PaOLRDk0iXEcEwnWCzqzsJpfgjdAgDVAImrhDci59t0=;
+	bh=D+Yw/P1wo2Fe3Sse9jDq5scutU3896nHCn53LsY9Ih8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=I1hn9eZuOhs+VkCXrq2GGv2yAIF1R19EMOw09r7vylNK5xcOun/eGN5cJ0Yieslpd
-	 aNWM8UUSJqXjZRG5ODUfTLOrq3hKxsMHSUPY8hFKe4tb1IA54ZhkJGI1BGvRaxYc0U
-	 gpda/OI0ekDOR7VKjlFVSCvN9G8RvOEizWZqVd1j+1FH3De/Us2ffpl4EwqMHpPMYy
-	 +r92h3ogzzzHF1nEoHxuIrc6c+Appnq+v6nv9Vxlwysaqrs79AhPCVg2XU85LiXwJZ
-	 b9l9Q2RMZLrqoA7eNZTRwduPmKjo/Y9TVneGLT1jzmjMRPgh4om4qMcWvgG4PSpGtz
-	 7KlzFy/Y562hQ==
+	b=UtxuMrO49Ra/ZBPDGjreRGGTyu4RY7XGuABGvJ2mTw/VIqIebsyXRJ9H7A+DJMasF
+	 EVx3jT7oX53ngTFIfHLTm2MVwfluhS2e8MqpHLNvNJJ7wOCw3dCeikPCcH3J6B2E2M
+	 3t7u838xJ7CLOsxYo0A9HyMKgjmBOAqdPZzK2nq51hgaWc5LAcwifmQFGuWdXHTx5i
+	 DFKRuYjyg6Pkf2otPR82l3ThmSXcFcmYoL/mEdvwsIsq78er0Xuwp9SDd4umbkg/bQ
+	 pOxIc5iSSyMLz9ovw1NR7vGr/vNu/On0+VpLa2EUMF2Qr30Q9ekCeklyshqZqHcb9c
+	 CN/p7WneEPSuQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vnHom-000000027UG-3clW;
+	id 1vnHom-000000027UO-3rI4;
 	Tue, 03 Feb 2026 15:55:52 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,10 +36,11 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Jani Nikula <jani.nikula@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 03/15] unittests: add a runner to execute all unittests
-Date: Tue,  3 Feb 2026 15:55:31 +0100
-Message-ID: <fbc29b02eeb3dfb644dad54b1bb8d36f88bc67e2.1770128540.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 05/15] docs: kdoc_files: move output symbols logic to kdoc_output
+Date: Tue,  3 Feb 2026 15:55:33 +0100
+Message-ID: <f31df724450b31b6aa96c19e7ccbd7a1820d3c3e.1770128540.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1770128540.git.mchehab+huawei@kernel.org>
 References: <cover.1770128540.git.mchehab+huawei@kernel.org>
@@ -53,42 +54,101 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-We'll soon have multiple unit tests, add a runner that will
-discover all of them and execute all tests.
+When writing unittests for kdoc_output, it became clear that
+the logic with handles a series of KdocItem symbols from
+a single file belons to kdoc_output, and not to kdoc_files.
 
-It was opted to discover only files that starts with "test",
-as this way unittest discover won't try adding libraries or
-other stuff that might not contain unittest classes.
+Move the code to it.
+
+While here, also ensure that self.config will be placed
+together with set.out_style.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/unittests/run.py | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100755 tools/unittests/run.py
+ tools/lib/python/kdoc/kdoc_files.py  | 18 ++----------------
+ tools/lib/python/kdoc/kdoc_output.py | 21 +++++++++++++++++++++
+ 2 files changed, 23 insertions(+), 16 deletions(-)
 
-diff --git a/tools/unittests/run.py b/tools/unittests/run.py
-new file mode 100755
-index 000000000000..8c19036d43a1
---- /dev/null
-+++ b/tools/unittests/run.py
-@@ -0,0 +1,17 @@
-+#!/bin/env python3
-+import os
-+import unittest
-+import sys
+diff --git a/tools/lib/python/kdoc/kdoc_files.py b/tools/lib/python/kdoc/kdoc_files.py
+index 1c5cb9e5f0e8..58f4ee08e226 100644
+--- a/tools/lib/python/kdoc/kdoc_files.py
++++ b/tools/lib/python/kdoc/kdoc_files.py
+@@ -269,6 +269,7 @@ class KernelFiles():
+         # Initialize variables that are internal to KernelFiles
+ 
+         self.out_style = out_style
++        self.out_style.set_config(self.config)
+ 
+         self.errors = 0
+         self.results = {}
+@@ -311,8 +312,6 @@ class KernelFiles():
+         returning kernel-doc markups on each interaction.
+         """
+ 
+-        self.out_style.set_config(self.config)
+-
+         if not filenames:
+             filenames = sorted(self.results.keys())
+ 
+@@ -336,25 +335,12 @@ class KernelFiles():
+                                       function_table, enable_lineno,
+                                       no_doc_sections)
+ 
+-            msg = ""
+             if fname not in self.results:
+                 self.config.log.warning("No kernel-doc for file %s", fname)
+                 continue
+ 
+             symbols = self.results[fname]
+-            self.out_style.set_symbols(symbols)
+-
+-            for arg in symbols:
+-                m = self.out_msg(fname, arg.name, arg)
+-
+-                if m is None:
+-                    ln = arg.get("ln", 0)
+-                    dtype = arg.get('type', "")
+-
+-                    self.config.log.warning("%s:%d Can't handle %s",
+-                                            fname, ln, dtype)
+-                else:
+-                    msg += m
+ 
++            msg = self.out_style.output_symbols(fname, symbols)
+             if msg:
+                 yield fname, msg
+diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
+index 44e40a6e8ca6..ece03cd9d321 100644
+--- a/tools/lib/python/kdoc/kdoc_output.py
++++ b/tools/lib/python/kdoc/kdoc_output.py
+@@ -222,6 +222,27 @@ class OutputFormat:
+ 
+         return None
+ 
++    def output_symbols(self, fname, symbols):
++        """
++        Handles a set of KdocItem symbols.
++        """
++        self.set_symbols(symbols)
 +
-+TOOLS_DIR=os.path.join(os.path.dirname(os.path.realpath(__file__)), "..")
-+sys.path.insert(0, TOOLS_DIR)
++        msg = ""
++        for arg in symbols:
++            m = self.msg(fname, arg.name, arg)
 +
-+from lib.python.unittest_helper import TestUnits
++            if m is None:
++                ln = arg.get("ln", 0)
++                dtype = arg.get('type', "")
 +
-+if __name__ == "__main__":
-+    loader = unittest.TestLoader()
++                self.config.log.warning("%s:%d Can't handle %s",
++                                        fname, ln, dtype)
++            else:
++                msg += m
 +
-+    suite = loader.discover(start_dir=os.path.join(TOOLS_DIR, "unittests"),
-+                            pattern="test*.py")
++        return msg
 +
-+    TestUnits().run("", suite=suite)
+     # Virtual methods to be overridden by inherited classes
+     # At the base class, those do nothing.
+     def set_symbols(self, symbols):
 -- 
 2.52.0
 
