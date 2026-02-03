@@ -1,75 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797FD136672
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 00:18:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8672118D658;
+	Tue,  3 Feb 2026 00:53:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770077939; cv=none; b=KDWqxu5fYRvV67XyjQKDeOUeaGXmso5zxf+WYyIZ9W2c5lub8yinDlGnZJd1lGirm+2TOVKtPzYDPJwr4TZ+gj8kM+H4o5g07S4gkxLQ55GkMtHSSvrxwHlf7o0EWeZhoHPf7OWmDGNLJXVaoaceG/E3pulXAHQR0bdm1zQdrJc=
+	t=1770080002; cv=none; b=JavJn6cZLZQ1zMeRATd/FJE4QOEUBLnVHwX6uVAxAsUQ/ZawLkSvfDsD2ccfx+idtDyyvIS6xaXfLP6ijERIvjUqeKwNfgF3tCWCAvOgS7lYtefgHIlZi+3DKlh+LThA7Iy7lIS5WxfeJdRDN+lTG7Nl/Z+9yayvMrOAMn9QYOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770077939; c=relaxed/simple;
-	bh=kvFBZrL6mjnoA0d4J5XigmhYX+FRf8/EkWVJ6Im6XWo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MMd3+zJaPb1H1uD5wi6yA/hKAyBRfvNGO+RiRs7lWxJwFnZKdo1AFdUXXFVBWwwvPFhOm3Xui5/Onv5slB5TaWiywyUHqIEyT+UY5Y9Mqhf5H72MdGVw/TojFDhJ1OkVmu873lcpJrrFI6IfQssuj9nv8zqQPARlQPKc8N3/pJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ttD5xsaJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770080002; c=relaxed/simple;
+	bh=Q66e2wNbr5G2bksRqR3gi6DKYZY+KKyX8+N7Iy7sfLY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SDiot3qKmNc6a4CGnbwFiP/nl+G2qn/Nl7gj1baQP5GokHwzl8Eph9mnu10nk2eGWODpf582Ax8waSjIHygKAC5HGvhFn+bc60EifQbIC3cVIU6bM8yAJW2l9C3F4vGK7DhKmKPgivlLB5d9/skiNHMU0CwN2pveKPUVUkuy65Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kfu9oW7D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ttD5xsaJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A63CC2BC86
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 00:18:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kfu9oW7D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C8CEC116C6;
+	Tue,  3 Feb 2026 00:53:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770077939;
-	bh=kvFBZrL6mjnoA0d4J5XigmhYX+FRf8/EkWVJ6Im6XWo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ttD5xsaJs0J3WzIH+zZ+7i8C+Hd2hXp6KOCVgBZdLRwG/OWsLetP60ZwFIJ3O8hJZ
-	 XBhOZJadsTWDw36aX8PuAQsM7qBrMz5l/WYAIxw3rGw4c0jE96YEXrmEPWUNmmIHaM
-	 nDxJVLqZ4FFo8wv2tvNBY0mCFzXuoPZTMn8LzzgxOCykKbQL//2ZWQc861YOS/Rs/s
-	 llxzo6q/eIbgxBXuJXtkDVm/OGKlfaIgWHHSJoyT3DTy/7yz7UuYTN4bCWZX9ypq+x
-	 PR4VhAPdd3+O6DeH+1FCFibS6wazeSCvKDCJNWmtaG1XSPsxfPjzc0DMLnNhFpL2ix
-	 5MADNKoBxsdzg==
-Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-649c070ef3bso1876738d50.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Feb 2026 16:18:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXWvcp9mAksT2Olm1FHaCK4NNaBA2cCDb3q7LpLVVI3iGKVZhofCjxz+D9MFnUQD1pYkeJGC4PFFzg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKNkjuMosMRAO+eemwQvADbc2GKHK3TtUFiPoB/WUFLL2mrKgo
-	nvjdswVm/Rc9yCOKnzczfcg4evu6Qk/B3t89oea9puo4VOIQF/6FK+Bb5TDSaePoNPfXt9P/423
-	78MldLPbUdU12rfj5ge2gmNmzixVlrtc=
-X-Received: by 2002:a05:690e:138f:b0:649:b31e:8f5b with SMTP id
- 956f58d0204a3-649b31e912cmr7549452d50.4.1770077938461; Mon, 02 Feb 2026
- 16:18:58 -0800 (PST)
+	s=k20201202; t=1770080002;
+	bh=Q66e2wNbr5G2bksRqR3gi6DKYZY+KKyX8+N7Iy7sfLY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Kfu9oW7D0U5Z0Lh1/jEUmfcTeXIh2rcrocV0nw7JSieq9p+Y0+87Cs7/FSqinlZ5l
+	 dVe5NUFSAB5n05qJhS1ThCwWAfCIrQxraJNSoVc5+xQ7c/VB5mDhibhh3V/pZrtmEA
+	 65nExa3CWVP/j1C95632syua3lzqJ83fPgaqtDyi1UtxRyk9aqhaeyRiQLlic7ty+f
+	 qPsFdHSc6JacQN4hGfOtTr6+E+di06zvlqRUSdera3pCpZjsnK/TFjuclq0LvR9vp1
+	 EyxvLseT8RI/uUCRPgLBzeDtaUDADlx4J3IFMT0o2XTuFrlCR6tl4dGA6YL0rSNdHx
+	 +GEE4og8G+REg==
+Date: Mon, 2 Feb 2026 16:53:20 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Li Chen <me@linux.beauty>
+Cc: "Jonathan Corbet" <corbet@lwn.net>, "Pasha Tatashin"
+ <pasha.tatashin@soleen.com>, "Mike Rapoport" <rppt@kernel.org>, "Pratyush
+ Yadav" <pratyush@kernel.org>, "Eric Dumazet" <edumazet@google.com>, "Neal
+ Cardwell" <ncardwell@google.com>, "Kuniyuki Iwashima" <kuniyu@google.com>,
+ "David S. Miller" <davem@davemloft.net>, "David Ahern"
+ <dsahern@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Simon Horman"
+ <horms@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>, "Borislav
+ Petkov" <bp@alien8.de>, "Randy Dunlap" <rdunlap@infradead.org>, "Pawan
+ Gupta" <pawan.kumar.gupta@linux.intel.com>, "Petr Mladek"
+ <pmladek@suse.com>, "Feng Tang" <feng.tang@linux.alibaba.com>, "Kees Cook"
+ <kees@kernel.org>, "Li RongQing" <lirongqing@baidu.com>, "Arnd Bergmann"
+ <arnd@arndb.de>, "Askar Safin" <safinaskar@gmail.com>, "Frank van der
+ Linden" <fvdl@google.com>, "linux-doc" <linux-doc@vger.kernel.org>,
+ "linux-kernel" <linux-kernel@vger.kernel.org>, "netdev"
+ <netdev@vger.kernel.org>
+Subject: Re: [PATCH v1 3/3] liveupdate: suppress TCP RST during post-kexec
+ restore window
+Message-ID: <20260202165320.7ddb25f8@kernel.org>
+In-Reply-To: <19c16df6e07.5d6555571430461.7492468111934043630@linux.beauty>
+References: <20260130145122.368748-1-me@linux.beauty>
+	<20260130145122.368748-4-me@linux.beauty>
+	<20260130170533.257db5fb@kernel.org>
+	<19c16df6e07.5d6555571430461.7492468111934043630@linux.beauty>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20260127103325.3925173-1-andriy.shevchenko@linux.intel.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 3 Feb 2026 01:18:47 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=iqUPuVAmytT1kmMgV3cBxdvjMTAkg7PqaiafoRhguVQ@mail.gmail.com>
-X-Gm-Features: AZwV_QimfTlckJYCT2zHhZcI3wnDbHT5acmPKReswmLekZo2WTj8N-fEd6bdc4w
-Message-ID: <CAD++jL=iqUPuVAmytT1kmMgV3cBxdvjMTAkg7PqaiafoRhguVQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] pinctrl: core: managed resource handling cleanup
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Philipp Stanner <phasta@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, driver-core@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 27, 2026 at 11:33=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Sun, 01 Feb 2026 09:44:27 +0800 Li Chen wrote:
+>  > On Fri, 30 Jan 2026 22:51:19 +0800 Li Chen wrote:  
+>  > > During a kexec-based live update, userspace may restore established TCP
+>  > > connections after the new kernel has booted (e.g. via CRIU). Any packet
+>  > > arriving for a not-yet-restored socket will hit the no-socket path and
+>  > > trigger a TCP RST, causing the peer to immediately drop the connection.  
+>  > 
+>  > Can you not add a filter to simply drop those packets until workload is
+>  > running again? It'd actually be less racy than this hac^w patch ...
+>  >   
+> 
+> Thanks for the suggestion.
+> 
+> When you say "add a filter", do you mean installing a temporary drop rule
+> (nftables/iptables/tc) in the network domain which does not get rebooted by
+> kexec (e.g. LB/ToR/host firewall), so packets never reach the new kernel
+> until the workload is restored and ready?
+> 
+> If you meant a filter inside the kexec'ed kernel, I'm worried it won't cover
+> the critical window: kexec resets the ruleset, so we'd have to install the
+> drop rule extremely early (initramfs) before any packets hit the no-socket
+> path, which still seems inherently racy.
 
-> I have stumbled over low-level APIs used for managed API implementations.
-> Here is a clean up along with a drop of some duplicate messages.
->
-> Andy Shevchenko (3):
->   pinctrl: core: Remove unused devm_pinctrl_unregister()
->   pinctrl: core: Simplify devm_pinctrl_*()
->   pinctrl: core: Remove duplicate error messages
-
-Sweet, patches applied!
-
-Yours,
-Linus Walleij
+I'm not sure what your flow is exactly, but I assume you drive 
+the workload restore from user space already?
