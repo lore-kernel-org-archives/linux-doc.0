@@ -1,68 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail97.out.titan.email (mail97.out.titan.email [3.219.11.208])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2796B214A64;
-	Tue,  3 Feb 2026 04:09:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E78CA4A35
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 05:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.219.11.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770091759; cv=none; b=WEImIxbypUWe4F/Ct3ikdEc9vS29yObnYZgRG7DJ4xd+1DNTd7Mxlj7hrCr9BLs5/yt6S5vyb32zGySiZkPPdbqnKKA6qasARpSuWV8M7M1CtMzEI4I6aAVIo49nhDGmLvGv3ZZde5C+9SpD6Mnpz/Aurw97rWw+9j0ImsjLlb4=
+	t=1770094844; cv=none; b=fArmrWuSldGnPF97EtvN6ifuJoNTSDi+/grqMJt326s08ROUq7g9QMgFdZjj04Y/RUWPVYvc8ZzO3N+W8GhcuZT4eC2CnIi7o3cq03/na/xM16ALLd8DWoLYbWDxwc7CQwu+DeiUjPV6vPw27ELbXkO2g+655UJ48MRYTP77a+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770091759; c=relaxed/simple;
-	bh=IXDilzVCem2iDthXSKXW8yichEDMzvfMuferk/Hty3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=crnMwpGFP75dYZ6NEYBawx+hWcR5DwPhHzUQZViV7QuN3yZTXt/HcaVd30UGgm2bYdB2IdA34w1K0qqGuT/QfWzRiCreLdNKVPv9MqVn2PUt8HUTNwdCaQxVZRbl2VuUTDA4iIwjWFgZKnzoBD6/oMEqIhHUAP/+rMRZUOsFnXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t4KoajWe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770094844; c=relaxed/simple;
+	bh=i/DZCI3R6gvlC/UJ+amuLRvPu1aGmflAbOyym12TGPA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qdfvLct0bWCvkSYq8/fUw+vy7UEvBYQpBKmbj0yBwYK77xxPWcGCHChLtaqGu9zPZZFZKUdFS0ALm8CIHuuxbGEDvPCipufipu+6ijhmsmdoMMFL3aNUUw509kp31mpOdbLB9tHS+RzewEMzdG//sIt7v0mYr4tdUAjZm0eVK9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com; spf=pass smtp.mailfrom=amidevlab.com; dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b=u2mm7O+5; arc=none smtp.client-ip=3.219.11.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amidevlab.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t4KoajWe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDE7CC116D0;
-	Tue,  3 Feb 2026 04:09:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770091759;
-	bh=IXDilzVCem2iDthXSKXW8yichEDMzvfMuferk/Hty3E=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=t4KoajWevWwa5LfWTbOIjq718jkE5hU4RMhnXxLW9ANadmh8GZ4VmaVeziGrcOODX
-	 db8jmpDFoO5gTh0JhFMW8OFmsW79hfyqUrFeFshLJe1aBsl/W0xH7XinTKU8Y+cyTp
-	 xP/HJVh8nkAdLYUcvMovug+QSi7DypGCnOWlbd43w+y+OsiuM2K3FK2SbIy1TwyRu0
-	 ImYC/DVvZEcyjGaBK5efDxhh475oPZR6CjeXh+wwXfRkRD+dDLsVDyxR2pwB4IU2J2
-	 zJJSDC6/Vsn5wE847REIM9Nis511s752K9cmLuOoTWzbTvp4oZd/FnmXqyaFwott/z
-	 XTR2QZ8s2+9Jg==
-Date: Mon, 2 Feb 2026 20:09:16 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko
- <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
- <saeedm@nvidia.com>, "Leon Romanovsky" <leon@kernel.org>, Mark Bloch
- <mbloch@nvidia.com>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-rdma@vger.kernel.org>, Gal Pressman <gal@nvidia.com>, Moshe Shemesh
- <moshe@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu
- <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Randy Dunlap
- <rdunlap@infradead.org>, Simon Horman <horms@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH net-next V7 00/14] devlink and mlx5: Support
- cross-function rate scheduling
-Message-ID: <20260202200916.2b71ccdc@kernel.org>
-In-Reply-To: <20260128112544.1661250-1-tariqt@nvidia.com>
-References: <20260128112544.1661250-1-tariqt@nvidia.com>
+	dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b="u2mm7O+5"
+Received: from localhost (localhost [127.0.0.1])
+	by smtp-out.flockmail.com (Postfix) with ESMTP id 4f4rsF1x39z9rwm;
+	Tue,  3 Feb 2026 05:00:33 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; bh=JHm+jFZ73wtbrzgwtOTGLgkYsc+uvSXYPWVHvA2IPKQ=;
+	c=relaxed/relaxed; d=amidevlab.com;
+	h=date:message-id:from:to:subject:mime-version:cc:from:to:cc:subject:date:message-id:in-reply-to:reply-to:references;
+	q=dns/txt; s=titan1; t=1770094833; v=1;
+	b=u2mm7O+5UOABnGJ1Xvjc+AVl2A3P4zl5iDViSVDWHN55MaIo1uDGfMUk80mbp7sOR2BofrUq
+	YnCg3mZ5WfLyXVYf8MWwKC0Fvutf6kc39DbOQNiN18EID495UGM3NZj+YCGsJ2wlRrFQZiH/L8A
+	CQ1JDlvkoD6qDUMk3y3w94ZU=
+Received: from ub26dev (unknown [122.172.85.244])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp-out.flockmail.com (Postfix) with ESMTPSA id 4f4rs972JMz9rwL;
+	Tue,  3 Feb 2026 05:00:29 +0000 (UTC)
+Feedback-ID: :amitabh@amidevlab.com:amidevlab.com:flockmailId
+From: Amitabh Srivastava <amitabh@amidevlab.com>
+To: corbet@lwn.net
+Cc: workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Amitabh Srivastava <amitabh@amidevlab.com>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+Subject: [PATCH v2] docs: maintainer-pgp-guide.rst: updated kernel.org link
+Date: Tue,  3 Feb 2026 10:29:48 +0530
+Message-ID: <20260203050020.27792-1-amitabh@amidevlab.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-F-Verdict: SPFVALID
+X-Titan-Src-Out: 1770094833073631484.13754.3426560428773506812@prod-use1-smtp-out1003.
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.4 cv=KJWgDEFo c=1 sm=1 tr=0 ts=698180f1
+	a=txo+5pS2dMFdB056rU3bsA==:117 a=txo+5pS2dMFdB056rU3bsA==:17
+	a=VwQbUJbxAAAA:8 a=CEWIc4RMnpUA:10 a=4yxl8aT0AAAA:8 a=ag1SF4gXAAAA:8
+	a=yUgL2rgLLi4JuPxWwBoA:9 a=4a-YG245BeQA:10 a=oCAeEeOuyiZLRzIZmmpZ:22
+	a=Yupwre4RP9_Eg_Bd0iYG:22
 
-On Wed, 28 Jan 2026 13:25:30 +0200 Tariq Toukan wrote:
-> This series by Cosmin and Jiri adds support for cross-function rate
-> scheduling in devlink and mlx5.
-> See detailed explanation by Cosmin below [1].
+docs: process: maintainer-pgp-guide.rst: updated the http link for
+'add the kernel.org UID to your key'. Added SPDX-License-Identifier
+to fix checkpatch.pl warning. Tested kernel using qemu-system-aarch64
+with busybox inside a multipass ubuntu VM on macos.
 
-I'll apply the trivial patches (3, 5) to avoid the reposts.
+Signed-off-by: Amitabh Srivastava <amitabh@amidevlab.com>
+Reviewed-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+---
+ Documentation/process/maintainer-pgp-guide.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Please add driver tests exercising this code, there's high risk 
-of regressions with all this complexity and nested locking.
+diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documentation/process/maintainer-pgp-guide.rst
+index b6919bf606c3..1e4d885dc784 100644
+--- a/Documentation/process/maintainer-pgp-guide.rst
++++ b/Documentation/process/maintainer-pgp-guide.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ .. _pgpguide:
+ 
+ ===========================
+@@ -864,7 +866,7 @@ don't already have them)::
+ If you have a kernel.org account, then you should `add the kernel.org
+ UID to your key`_ to make WKD more useful to other kernel developers.
+ 
+-.. _`add the kernel.org UID to your key`: https://korg.wiki.kernel.org/userdoc/mail#adding_a_kernelorg_uid_to_your_pgp_key
++.. _`add the kernel.org UID to your key`: https://korg.docs.kernel.org/mail.html#adding-a-kernel-org-uid-to-your-pgp-key
+ 
+ Web of Trust (WOT) vs. Trust on First Use (TOFU)
+ ------------------------------------------------
+-- 
+2.51.0
 
-What devices will support this? Is CX7 enough to test?
