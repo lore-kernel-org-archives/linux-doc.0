@@ -1,120 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FD43451C6
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 12:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33E3A34026B;
+	Tue,  3 Feb 2026 12:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770122722; cv=none; b=lLk43O93R43YgmDUOVkJrLDZF0opNtdCseZpsPF8anRQnk77cvpoYjUq3rb8EhTV4ZukSMndbiC9cW8bwXIVaPsmTspIHvJedrnSIYSiAKeow5QISaxGultkSNXLXrVEJvzFjaJbDAFB4H1alPawEpLrZn1GFxZRQanuqvqamkY=
+	t=1770122748; cv=none; b=jl/5h+R9qPdUAmQUtg59jx+NRS7CpSDgjMRCrrqjy9R1kZU3CkF13PdVYQxhDV8TJlEgitt/WdIpofq+g1L2puC03/0+2Yfj0PmXzwvDV0SMxD+88qx5Xt//n5MZieHaCyw+Sg3mfS1GHH131weHuXdtHIbWzZ9BjcfrxbrCQRA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770122722; c=relaxed/simple;
-	bh=+82RPlBYDQHhn4O86HZF3vxIxA0tssEvTGqVmKABwno=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SNmon03aOJYMqO9FzLnznYK1cLOKbki8JEGAXujud4x+EbyGH/MgrZvYnxQ/ve2k+rrup17zJbSH4tl99p65KmbTYhC/nJ+p0vi/YwtI1Nn18XBkGl2Jr/7Zz0r9KMBh7V3gLjYOz/z2K86gkuuQ+zHOWCzBsyJo+3KBWpAQOfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XaRNbUqh; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XaRNbUqh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C629C2BC86
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 12:45:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770122722;
-	bh=+82RPlBYDQHhn4O86HZF3vxIxA0tssEvTGqVmKABwno=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=XaRNbUqhYPj9cmZVqJT5P2uwkLY63Aw+AvlTDvf1dX1N7qUvhpe5bWNNL48dHXQdK
-	 wf2L5f/VPg+pzhbJ0B7VRiHnNqhbiEp/btQuZHCssCBkWp1atTb9VVzP+ebDquGSSx
-	 FpYo8kb8c3KojUfnJut/npM8Fe2nMxBtJAXzcWVjFLkHY5aVKD7/lzb5eHRPQZ7sKh
-	 7/XK8NTOHvHcYOCXGBArCR/fwqgrH8gv0WX7XBNp4oPZcBRn2KCYnX4Jq7kDItyXy4
-	 dfUkQ/WTAmTdIqUbd1yFohu9VgOFxuyYfA8g8PhnRgH9oWQ/xhm9Ib2wqFLJmtkRLx
-	 f1AV/RcQQElGQ==
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d18dd2adf7so3301830a34.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 04:45:22 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUmeaxchGqXngDW1FWbUiR6gBA7qCkPtBdLBYRsCAspN7r6GHWqXsDuMkE9zo6Ngi3/qnfAIKwCeV0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhalAtNnuEV/BK/lYl2s2vuOfYQWbRsyu4tRv1/0jEVvitrz6D
-	sWhgk69ywKE7O7VFPC616LqwAMvPkFAKpDd2bjLXXxXKsdNgrJhVQgkqsGuN6Nae/ELNex8/hsN
-	RqcOt+hfG7us50ll+phu2CYTXz+rDuw4=
-X-Received: by 2002:a05:6820:623:b0:662:ffc5:cedc with SMTP id
- 006d021491bc7-6630f01c0a5mr5982202eaf.1.1770122721539; Tue, 03 Feb 2026
- 04:45:21 -0800 (PST)
+	s=arc-20240116; t=1770122748; c=relaxed/simple;
+	bh=JN4QEE6cA+wjvXfAgLTYEW/F5c17/Co8nCG7VE4Or+c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gXQT9FMRN4l+foEP/83W6gizQsTRYqSnaUCcOVuEyr1DOjBiDP2KlKpZ9HADepixQavR7eyXtU0l3WGLSnYcB1v6AhbxnKD8Sk5CXP627vtLCUIRdUDRcxVjgbEx0QCcirGtZIKjg/G9vBpth1zLBryFpoq38UdAL4mSoWpkHjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.40.57.136])
+	by gateway (Coremail) with SMTP id _____8CxrsPq7YFpw10PAA--.50524S3;
+	Tue, 03 Feb 2026 20:45:30 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.40.57.136])
+	by front1 (Coremail) with SMTP id qMiowJDxzsLk7YFp3Bc_AA--.51803S3;
+	Tue, 03 Feb 2026 20:45:27 +0800 (CST)
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+To: chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	corbet@lwn.net,
+	alexs@kernel.org,
+	si.yanteng@linux.dev,
+	tglx@linutronix.de,
+	jiaxun.yang@flygoat.com,
+	maobibo@loongson.cn
+Cc: loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: [PATCH v11 1/4] Docs/LoongArch: Add Advanced Extended-Redirect IRQ model description
+Date: Tue,  3 Feb 2026 20:45:18 +0800
+Message-ID: <20260203124522.2288900-2-zhangtianyang@loongson.cn>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20260203124522.2288900-1-zhangtianyang@loongson.cn>
+References: <20260203124522.2288900-1-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260129104817.3752340-1-sumitg@nvidia.com> <20260129104817.3752340-5-sumitg@nvidia.com>
- <4432fa04-e67c-422a-aae4-2938be431985@huawei.com> <c96312c7-b13f-4f5c-9512-cc0382c1c77b@nvidia.com>
- <74f3e6cf-7c13-43e6-a8f6-2b46184b8ad6@gmail.com> <944fc140-e5c5-425f-a6ad-883e87eed8a3@nvidia.com>
-In-Reply-To: <944fc140-e5c5-425f-a6ad-883e87eed8a3@nvidia.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 3 Feb 2026 13:45:09 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0hUdLsh8UK5G6rHHD49RQGYLAiU1J-11DK-fLTKnuqhUQ@mail.gmail.com>
-X-Gm-Features: AZwV_QhB065_tKI7QjTUgxYReeYNGWgeu7zDKGuhRbpPyUYQlroYk6sWK9959V4
-Message-ID: <CAJZ5v0hUdLsh8UK5G6rHHD49RQGYLAiU1J-11DK-fLTKnuqhUQ@mail.gmail.com>
-Subject: Re: [PATCH v7 4/7] ACPI: CPPC: add APIs and sysfs interface for min/max_perf
-To: Sumit Gupta <sumitg@nvidia.com>
-Cc: Russell Haley <yumpusamongus@gmail.com>, "zhenglifeng (A)" <zhenglifeng1@huawei.com>, 
-	pierre.gondois@arm.com, "Rafael J. Wysocki" <rafael@kernel.org>, viresh.kumar@linaro.org, 
-	ionela.voinescu@arm.com, lenb@kernel.org, robert.moore@intel.com, 
-	corbet@lwn.net, rdunlap@infradead.org, ray.huang@amd.com, 
-	gautham.shenoy@amd.com, mario.limonciello@amd.com, perry.yuan@amd.com, 
-	zhanjie9@hisilicon.com, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, treding@nvidia.com, 
-	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com, 
-	sanjayc@nvidia.com, nhartman@nvidia.com, bbasu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJDxzsLk7YFp3Bc_AA--.51803S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxAryfuw1rKw1kKFyUuw45Jwc_yoWrXr4fpr
+	Z3GryxXF18Jry5Xr17Jr4UXr13Gwn3Ja1DtF1xKry8Xr4kAr1ktr1UJrykJFy7G34rAr1U
+	XFWrJw4UJr1UJwcCm3ZEXasCq-sJn29KB7ZKAUJUUUU3529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUBIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07
+	AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWU
+	tVWrXwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7V
+	AKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY
+	6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+	xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
+	jxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw2
+	0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x02
+	67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Gii3UUUUU==
 
-On Tue, Feb 3, 2026 at 10:41=E2=80=AFAM Sumit Gupta <sumitg@nvidia.com> wro=
-te:
->
-> >>> Hi Sumit,
-> >>>
-> >>> I am thinking that maybe it is better to call these two sysfs interfa=
-ce
-> >>> 'min_freq' and 'max_freq' as users read and write khz instead of raw
-> >>> value.
-> >> Thanks for the suggestion.
-> >> Kept min_perf/max_perf to match the CPPC register names
-> >> (MIN_PERF/MAX_PERF), making it clear to users familiar with
-> >> CPPC what's being controlled.
-> >> The kHz unit is documented in the ABI.
-> >>
-> >> Thank you,
-> >> Sumit Gupta
-> > On my x86 machine with kernel 6.18.5, the kernel is exposing raw values=
-:
-> >
-> >> grep . /sys/devices/system/cpu/cpu0/acpi_cppc/*
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/feedback_ctrs:ref:34290401885656=
-8
-> > del:437439724183386
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/guaranteed_perf:63
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/highest_perf:88
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_freq:0
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_nonlinear_perf:36
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_perf:1
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_freq:3900
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_perf:62
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/reference_perf:62
-> > /sys/devices/system/cpu/cpu0/acpi_cppc/wraparound_time:1844674407370955=
-1615
-> >
-> > It would be surprising for a nearby sysfs interface with very similar
-> > names to use kHz instead.
-> >
-> > Thanks,
-> >
-> > Russell Haley
->
-> I can rename to either of the below:
-> - min/max_freq: might be confused with scaling_min/max_freq.
-> - min/max_perf_freq: keeps the CPPC register association clear.
->
-> Rafael, Any preferences here?
+Introduce the redirect interrupt controllers.When the redirect interrupt
+controller is enabled, the routing target of MSI interrupts is no longer
+a specific CPU and vector number, but a specific redirect entry. The
+actual CPU and vector number used are described by the redirect entry.
 
-On x86 the units in CPPC are not kHz and there is no easy reliable way
-to convert them to kHz.
+Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+---
+ .../arch/loongarch/irq-chip-model.rst         | 38 +++++++++++++++++++
+ .../zh_CN/arch/loongarch/irq-chip-model.rst   | 37 ++++++++++++++++++
+ 2 files changed, 75 insertions(+)
 
-Everything under /sys/devices/system/cpu/cpu0/acpi_cppc/ needs to be
-in CPPC units, not kHz (unless, of course, kHz are CPPC units).
+diff --git a/Documentation/arch/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+index 8f5c3345109e..88474edcea48 100644
+--- a/Documentation/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/arch/loongarch/irq-chip-model.rst
+@@ -181,6 +181,44 @@ go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then go to CPUINTC directly::
+              | Devices |
+              +---------+
+ 
++Advanced Extended IRQ model (with redirection)
++==============================================
++
++In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
++to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, PCH-MSI interrupts go
++to REDIRECT for remapping it to AVEC, and then go to CPUINTC directly, while all
++other devices interrupts go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then
++go to CPUINTC directly::
++
++ +-----+     +-----------------------+     +-------+
++ | IPI | --> |        CPUINTC        | <-- | Timer |
++ +-----+     +-----------------------+     +-------+
++              ^          ^          ^
++              |          |          |
++       +---------+ +----------+ +---------+     +-------+
++       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
++       +---------+ +----------+ +---------+     +-------+
++            ^            ^
++            |            |
++            |      +----------+
++            |      | REDIRECT |
++            |      +----------+
++            |            ^
++            |            |
++       +---------+  +---------+
++       | PCH-PIC |  | PCH-MSI |
++       +---------+  +---------+
++         ^     ^           ^
++         |     |           |
++ +---------+ +---------+ +---------+
++ | Devices | | PCH-LPC | | Devices |
++ +---------+ +---------+ +---------+
++                  ^
++                  |
++             +---------+
++             | Devices |
++             +---------+
++
+ ACPI-related definitions
+ ========================
+ 
+diff --git a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+index d4ff80de47b6..7e4e3e55c7ad 100644
+--- a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+@@ -174,6 +174,43 @@ CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断发送到AVECINTC，
+              | Devices |
+              +---------+
+ 
++高级扩展IRQ模型 (带重定向)
++==========================
++
++在这种模型里面，IPI（Inter-Processor Interrupt）和CPU本地时钟中断直接发送到CPUINTC，
++CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断首先发送到REDIRECT模块,完成重定向后发
++送到AVECINTC，而后通过AVECINTC直接送达CPUINTC，而其他所有设备的中断则分别发送到所连
++接的PCH-PIC/PCH-LPC，然后由EIOINTC统一收集，再直接到达CPUINTC::
++
++ +-----+     +-----------------------+     +-------+
++ | IPI | --> |        CPUINTC        | <-- | Timer |
++ +-----+     +-----------------------+     +-------+
++              ^          ^          ^
++              |          |          |
++       +---------+ +----------+ +---------+     +-------+
++       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
++       +---------+ +----------+ +---------+     +-------+
++            ^            ^
++            |            |
++            |      +----------+
++            |      | REDIRECT |
++            |      +----------+
++            |            ^
++            |            |
++       +---------+  +---------+
++       | PCH-PIC |  | PCH-MSI |
++       +---------+  +---------+
++         ^     ^           ^
++         |     |           |
++ +---------+ +---------+ +---------+
++ | Devices | | PCH-LPC | | Devices |
++ +---------+ +---------+ +---------+
++                  ^
++                  |
++             +---------+
++             | Devices |
++             +---------+
++
+ ACPI相关的定义
+ ==============
+ 
+-- 
+2.41.0
+
