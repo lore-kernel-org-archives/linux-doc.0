@@ -1,73 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACFB23EA8B;
-	Tue,  3 Feb 2026 20:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFAD2F3C10
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 20:55:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770151770; cv=none; b=XoanaotJnwGLLVT4XwsAt9x7z5gLMWWQhdce7PRj6Bv24UFDYIxfhRUo8SuClW/PNPeUQSVqk9DJ0tr9xhGfo1Q+qZ/+QNWpo/EqcIm1Y2t3smAc1XdFqAOdLUZVowox9AzX6wCtkUJoXnrjMIhCAxKY8K7QnRdmWSQLnlwC3Zc=
+	t=1770152114; cv=none; b=azwXxLFc3nm/7wEV8RdV/KBMLzB8fDyzuiM05EbWkgG51HQJm7tiyPryHCyZZpXXe2cLl75utEVh3zCvVilgD5Ig8gAejpRiyAbk9oZCKJrAqhM3e6VHUl5OiqQI4GABmbPV8AJL6DN4E4Y37hPScPePeVfYtDzPXsT+ym8aFUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770151770; c=relaxed/simple;
-	bh=pHGo1C4Pz/uuXM8SzFth/6l/p9wgCvOIRRB+8irU9ts=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=rxRmDj2f+JhYOsuFv1GV3V/VRzuvSGXlEKGG5hxq3/KrJver3Z0PFjzo0SLglvGOIcNOI2B9ddkWAXN3VTPzjbtlX1veuEeIC1UkN+9hQVrg6WsUx3MEwTqXNsbUaiMfRhnBZIBSxjDLQ6qCAnJCN8DlJivNBMFPAw9qp4A/F7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juRPGVr0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770152114; c=relaxed/simple;
+	bh=3TnQAFDhm7FienmxzZk7R9Ukmy9Fe6IVR9MEL8z0xS0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T/c6opJGkwbJJdBvyRQD7HfxFFP1ZKtorufjCnMU1ejk4ru+T7Og1k8KqLkaXpaGMv/etdiOSr1IEl00c1Ig7gxq7UoKUDV8OkQc6hCRiElh9QM+u0VniolSL9HghG0sZGattV66gwwgrB+R4mMmBl/sFP59Ow55m32cPwvvIxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Yk5NZv3n; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juRPGVr0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AD6EC116D0;
-	Tue,  3 Feb 2026 20:49:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770151769;
-	bh=pHGo1C4Pz/uuXM8SzFth/6l/p9wgCvOIRRB+8irU9ts=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=juRPGVr0ejaE+JmDG7KMEy8WtkPk8ggSdc23YlY7ltfkvvyyTphbdBT4BrrHbzMH8
-	 vvVr7IsJbdhiw+hkPzOBmzowaPLKKCwo48ht9c4cVB/9T4TPe4559zytFB9TZ99q6X
-	 C3h2gjD/e3lQAbDioaIaNobGKqfJWA9Wrgjd3mo4FX063ISQeC+aTbEgZiIhHfMoF1
-	 AZr7xX9NpgPHPMqCONPiwCYI0TPt/5VjeigC4/f24FPG6t+D3dTfOYmqf9oaiKnPIK
-	 WZEWPrOF0j1sfKrYGseRHzYYcOCpmXkHZ8gANdbS9pESexQBbx1lTDPg/zoe4OABjf
-	 11HE/Alv5Ldjg==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-Cc: Alexander Graf <graf@amazon.com>, x86@kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Clemens Ladisch
- <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Dave Hansen <dave.hansen@linux.intel.com>,
- Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>, Jonathan
- Corbet <corbet@lwn.net>, Paolo Bonzini <pbonzini@redhat.com>, Pasha
- Tatashin <pasha.tatashin@soleen.com>, nh-open-source@amazon.com, Nicolas
- Saenz Julienne <nsaenz@amazon.es>, Hendrik Borghorst <hborghor@amazon.de>,
- Filippo Sironi <sironi@amazon.de>, David Woodhouse <dwmw@amazon.co.uk>,
- Jan =?utf-8?Q?Sch=C3=B6nherr?= <jschoenh@amazon.de>, Sasha Levin
- <sashal@kernel.org>
-Subject: Re: [PATCH 2/2] hpet: Add HPET-based NMI watchdog support
-In-Reply-To: <20260203194429.GA30254@ranerica-svr.sc.intel.com>
-References: <20260202174803.66640-1-graf@amazon.com>
- <20260202174803.66640-3-graf@amazon.com> <87jywu3yov.ffs@tglx>
- <1e13c61d-8581-4ece-b31c-7aa771ba7bc2@amazon.com> <878qd94zjo.ffs@tglx>
- <20260203194429.GA30254@ranerica-svr.sc.intel.com>
-Date: Tue, 03 Feb 2026 21:49:26 +0100
-Message-ID: <87cy2l363t.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Yk5NZv3n"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=hsad4j96gPrHuBSohj3rNBDjsFmivqkpHD/drSe6fak=; b=Yk5NZv3nx6FRpjytsrIGh6wNOj
+	RXOq71CtjnAAludAl1bcXeFfwsqJEI2sRsF2jTGSRVFQPWgjKhBiB+n++2549XzxKY3CUsbR6Otp8
+	b0CtwjGvmlboRuWjnd+zZ0kQVQLgzzPa9J6Gw60OMRATE2IVzfEg7akgYPirRf9mcKptBxW7IaIap
+	Lj6KpnQCgjHgM1vefWDPNm21ZS+qCHQpz4wH9fyy7qvmgDjXCtVuJZmvdAu5oIdPMNXQvg91rBp1T
+	PAX/zRUZJBYhLr/BctIyGuOrvJdhT9Mwly+VK5Nuwyf51jhTJn6OM4c1wzy5VeFfS9m6ZfWldreSB
+	fbmgwmdA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vnNQU-00000007LyZ-0m4e;
+	Tue, 03 Feb 2026 20:55:10 +0000
+Message-ID: <0852503c-1d94-4cea-9364-d390ef076ea6@infradead.org>
+Date: Tue, 3 Feb 2026 12:55:09 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] docs: pt_BR: add initial Portuguese translation
+To: Daniel <danielmaraboo@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+References: <20260203184826.81594-1-danielmaraboo@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260203184826.81594-1-danielmaraboo@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 03 2026 at 11:44, Ricardo Neri wrote:
-> On Tue, Feb 03, 2026 at 04:28:11PM +0100, Thomas Gleixner wrote:
->> I don't remember. That thing clearly fell through the cracks.
->
-> My impression at the time was that the buddy hardlockup detector met the
-> goal of freeing the PMU counter and there was little interest on using the
-> HPET.
->
->> Let me find it again and reply to that.
->
-> Does this mean that there is renewed interest for this?
+Hi,
+One more nit, sorry.
 
-It seems Alex is interrested and the code minus the rejects and my
-todays suggestion looks palatable.
+On 2/3/26 10:48 AM, Daniel wrote:
+> From: Daniel Pereira <danielmaraboo@gmail.com>
+> 
+> This patch introduces the initial Portuguese (Brazilian) translation
+> for the Linux kernel documentation. It includes the mandatory
+> disclaimer, the translation of the HOWTO document, and establishes
+> the directory structure for the pt_BR locale.
+> 
+> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+> 
+> ---
 
+Documentation/process/submitting-patches.rst says:
+
+Describe your changes in imperative mood, e.g. "make xyzzy do frotz"
+instead of "[This patch] makes xyzzy do frotz" or "[I] changed xyzzy
+to do frotz", as if you are giving orders to the codebase to change
+its behaviour.
+
+so something like
+
+Introduce the initial ...
+
+would be good.
+
+-- 
+~Randy
 
