@@ -1,654 +1,142 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2269134026B;
-	Tue,  3 Feb 2026 12:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD08B3446D3
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 12:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770122763; cv=none; b=EmA56v9fPqCdWbCnFvc8kasZYCDy4mRFFE8lwGmUudfkNFN2d9eaNYHixcZu4GW6RoQDZ8YzKzVN4HTditQfNwWb9uVeAkQkA0HYleeU08r43jZkgwfaV9NMSLlurGke5SVdPyf50+KQ6x0imacd4Lgqkc42oPcqUTVFe5Jlp20=
+	t=1770123047; cv=none; b=JvNIi8T6FhFUyJY5aQYAFs8LKDQY9yhAgy5G9QH3yq257a913vhea3+8hizwbj8LHrPUwg2inZQ6QPWwQbNk9rC/zUmA4eNn2ixTFpfYAFQZLdT0+t1LkV3w+Jup9ZIRw+d1egigVYal7T49lyX91wwxWtXnO8OQ+z605bF0sXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770122763; c=relaxed/simple;
-	bh=WwolhCM8vOxMy0VOdGzgihygYWS18FoqOOQGQlNeTuE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QLVVr4bNhbwFKL/Cy7ssUctwYvhi3Pn8LvLyGUWMg/9Py6hImPK3w8IZBcLwhmCEr1zwDlRZ0xit0DX2eCAYZLrWA/3Hv+eRNp98g+HR+dOIBoz0qn8GPYkxktV5f7wOQ1imDEI+g9fqGFeiLkVzYNc4h6QJpog56agZBodBjZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.40.57.136])
-	by gateway (Coremail) with SMTP id _____8AxEvEA7oFp5F0PAA--.50309S3;
-	Tue, 03 Feb 2026 20:45:52 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.40.57.136])
-	by front1 (Coremail) with SMTP id qMiowJDxzsLk7YFp3Bc_AA--.51803S6;
-	Tue, 03 Feb 2026 20:45:46 +0800 (CST)
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-To: chenhuacai@kernel.org,
-	kernel@xen0n.name,
-	corbet@lwn.net,
-	alexs@kernel.org,
-	si.yanteng@linux.dev,
-	tglx@linutronix.de,
-	jiaxun.yang@flygoat.com,
-	maobibo@loongson.cn
-Cc: loongarch@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tianyang Zhang <zhangtianyang@loongson.cn>,
-	Liupu Wang <wangliupu@loongson.cn>
-Subject: [PATCH v11 4/4] irqchip/irq-loongarch-ir:Add Redirect irqchip support
-Date: Tue,  3 Feb 2026 20:45:21 +0800
-Message-ID: <20260203124522.2288900-5-zhangtianyang@loongson.cn>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20260203124522.2288900-1-zhangtianyang@loongson.cn>
-References: <20260203124522.2288900-1-zhangtianyang@loongson.cn>
+	s=arc-20240116; t=1770123047; c=relaxed/simple;
+	bh=8KynJT2ddnzGhgGZ8pfYEVkha/4ppnwD3PQCKPf3fF4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=dFlKc+VAAyF23aQ/+r9tX3On890IWoD3fv6E7uJj0a4AXN/0EB34SPkvncr4c1rmvEgjQ7NW5UdHoA0m7AK9MlUbmVTfy2jXtel5pQK+JHk0ew+y0A/c+MUY0C92Gul6HP6CwW3RnQAiC3oX2N2Ml5Q49CMGRFAH6vEvS8coR8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jWD9ZV64; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=IMxrHQHs; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jWD9ZV64";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="IMxrHQHs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1770123045;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cEWONWPgIK5PTen/Dr95JAV9SFIx8z/zmIXZPCQZI9g=;
+	b=jWD9ZV64DRzRVBZ4USdiznBuxkZqhjTM/Uv5vVlmStdBCjyfci5fgckc3u42e5TIZwEOYs
+	MOoFk6vvPKeFYzG+ndA5BZVCWKeZEzY7Xpq/+ZE1582RhAFvbOvQlct4qszbdYlDNpeZ0M
+	KWFrBbLa0sZ9aR4QRCiFzWWk21z//Qk=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-190-kIaMkdAAP8KfF015PETLzg-1; Tue, 03 Feb 2026 07:50:43 -0500
+X-MC-Unique: kIaMkdAAP8KfF015PETLzg-1
+X-Mimecast-MFC-AGG-ID: kIaMkdAAP8KfF015PETLzg_1770123042
+Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-59e2e2f1c91so1309358e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 04:50:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1770123042; x=1770727842; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cEWONWPgIK5PTen/Dr95JAV9SFIx8z/zmIXZPCQZI9g=;
+        b=IMxrHQHsA0ZqTfNWdggKaeqWMpR6zYgedPADfwgtQDIjOM0wxzGkzaVAz1kUC6Nv7h
+         2tV4fD+KxeAQY6J4zO0gp0sZ2E3KIyBY9OSi0dA9eIDDfo8qnSCa+65o/HWWXybArrPS
+         jRvMPOGzV336ckA2rOarL1IYXai9ZDrQVpM/5M5KZUQQP0MKGSlQ/paIOEG4ZjVEzeAf
+         qyq7Vef42Cr5QDjDfvIAAHmGzdLLoEBgQ/+S93rbJWWp6yGrHn1ZGLbl2P5bm1cgJAWz
+         zi9MWKXlAv/8SKk05DVRyNDbEoMDfdjURs/LM9jZfaRSBAF5M3aib+Sz/4jVOYQt72NU
+         TiqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770123042; x=1770727842;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cEWONWPgIK5PTen/Dr95JAV9SFIx8z/zmIXZPCQZI9g=;
+        b=AUA5uqKIezMkUpazqYUVGXOw5RXY7KID912GQ6KA/VNFgh+rkceZjK3Q8AUrqQA0Fm
+         QtMwAy8tLjeYmnckkciYG51YfYPSCaX6Ty5W6qzNyU0aGaNlIJySBvjBWYElZe7Gazyz
+         hMF2Ff9Jo3xUxkW0INQo8aYXfQTegzxR+wsAVu1NgAInUkh290ja2Pa8pLargjK1g3Dx
+         N2UuSCNfjREE1CAPrcwwb1qSE3ECGKDa/jLWDq1L+HAEL0FWL8H/7thDORsM/hAJcPIG
+         A6XenBNzLAQKMu0kzWtkZ5xMrh/f8ZjfLT0Vu/GlcJqYUm9oy8niKpFuIoYWYqJyPPnq
+         BQ2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUclpiPparWhDkSbWOkyzx2rVDTFSXQhhbvOuZmKGinNR1a4wXQcsD7IgXrfvXTvmLKH+dkecRntmA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEmPPLv/7zAF1fW9UyzTnqFWzYXsrZ1FWqORP8wnMb5vySjL/z
+	3T+4+Z/FCrnbq003Ek5S+ppWMdz4W94CfCB0CJfoayMFYR5Pbl213pMBSk7ZGHvIgTpKFQaZvBp
+	SukSaPhJVeXvODl/kbj59OapDACWhYN8VmpxPL3C/O3+0wNElvoPuToLNuvYgqIJ+BvLXGg==
+X-Gm-Gg: AZuq6aI4J0nXNz0ATA28yigWsG/1C41CiXCUiBTzcrvLTaTyTzQ/SZpWt0w+pOnYS0Z
+	V4+duhtIEkfxisfPd7un/kEYCk+X1iz8pkNNsOE6WPNtKedRevA5umI7DNeN7WU3OYOMTRKX/L5
+	cpNC9z2/AIvoL7hXVCRWllLNn4ddhb52UL0FvaFH8GBsrS/gmifaEtHSqOPQstzebHnQRWZLLFp
+	UFykJ4fmr0XbCN5pUPzuaqDXg12tUeru66Sfe2GvE41YZdQ22TWIvAF1dYCGcMJ1mlIKuL48WJP
+	KggX5YKXWjydVrr+BqHoY0sHj+N89dgc92QgGBLtdkZNOQCBENvKG4ZP+HUA0sqk+SK7P/5bb+s
+	GaLGzwN0TLOk=
+X-Received: by 2002:a05:6512:3f21:b0:59e:429:932a with SMTP id 2adb3069b0e04-59e163f573fmr4674357e87.1.1770123041887;
+        Tue, 03 Feb 2026 04:50:41 -0800 (PST)
+X-Received: by 2002:a05:6512:3f21:b0:59e:429:932a with SMTP id 2adb3069b0e04-59e163f573fmr4674323e87.1.1770123041407;
+        Tue, 03 Feb 2026 04:50:41 -0800 (PST)
+Received: from [192.168.88.32] ([150.228.93.21])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e0751bb68sm4024086e87.8.2026.02.03.04.50.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Feb 2026 04:50:40 -0800 (PST)
+Message-ID: <7df9baf9-040f-41ae-b292-f3155842b5f4@redhat.com>
+Date: Tue, 3 Feb 2026 13:50:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJDxzsLk7YFp3Bc_AA--.51803S6
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj9fXoW3Zw17uw1UGryDWFWfGF1fKrX_yoW8Ar1rGo
-	WfJFs3J34rWr18GrW0ka17tFyxZ3y5Gw4Fyw1ruFWDZ3Wqqr4rtrW7GrW3Za42gF10qF17
-	JFy0qwn3GFW7trn3l-sFpf9Il3svdjkaLaAFLSUrUUUUnb8apTn2vfkv8UJUUUU8wcxFpf
-	9Il3svdxBIdaVrn0xqx4xG64xvF2IEw4CE5I8CrVC2j2Jv73VFW2AGmfu7bjvjm3AaLaJ3
-	UjIYCTnIWjp_UUUYu7kC6x804xWl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI
-	8IcIk0rVWrJVCq3wAFIxvE14AKwVWUXVWUAwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xG
-	Y2AK021l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14
-	v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6x
-	kI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v2
-	6rWY6Fy7McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2
-	Ij64vIr41lc7CjxVAaw2AFwI0_JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Y
-	z7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
-	8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
-	2Ix0cI8IcVAFwI0_Xr0_Ar1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
-	xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2z280aVCY
-	1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0_WrPUUUUU==
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 net-next 00/15] AccECN protocol case handling series
+To: chia-yu.chang@nokia-bell-labs.com, edumazet@google.com, parav@nvidia.com,
+ linux-doc@vger.kernel.org, corbet@lwn.net, horms@kernel.org,
+ dsahern@kernel.org, kuniyu@google.com, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, dave.taht@gmail.com, jhs@mojatatu.com,
+ kuba@kernel.org, stephen@networkplumber.org, xiyou.wangcong@gmail.com,
+ jiri@resnulli.us, davem@davemloft.net, andrew+netdev@lunn.ch,
+ donald.hunter@gmail.com, ast@fiberby.net, liuhangbin@gmail.com,
+ shuah@kernel.org, linux-kselftest@vger.kernel.org, ij@kernel.org,
+ ncardwell@google.com, koen.de_schepper@nokia-bell-labs.com,
+ g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
+ mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
+ Jason_Livingood@comcast.com, vidhi_goel@apple.com
+References: <20260131222515.8485-1-chia-yu.chang@nokia-bell-labs.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20260131222515.8485-1-chia-yu.chang@nokia-bell-labs.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The main function of the Redirected interrupt controller is to manage
-the redirected-interrupt table, which consists of many redirected entries.
-When MSI interrupts are requested, the driver creates a corresponding
-redirected entry that describes the target CPU/vector number and the
-operating mode of the interrupt. The redirected interrupt module has an
-independent cache, and during the interrupt routing process, it will
-prioritize the redirected entries that hit the cache. The driver
-invalidates certain entry caches via a command queue.
+On 1/31/26 11:25 PM, chia-yu.chang@nokia-bell-labs.com wrote:
+> From: Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
+> 
+> Hello,
+> 
+> Plesae find the v13 AccECN case handling patch series, which covers
+> several excpetional case handling of Accurate ECN spec (RFC9768),
+> adds new identifiers to be used by CC modules, adds ecn_delta into
+> rate_sample, and keeps the ACE counter for computation, etc.
+> 
+> This patch series is part of the full AccECN patch series, which is at
+> https://github.com/L4STeam/linux-net-next/commits/upstream_l4steam/
 
-Co-developed-by: Liupu Wang <wangliupu@loongson.cn>
-Signed-off-by: Liupu Wang <wangliupu@loongson.cn>
-Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
----
- drivers/irqchip/Makefile             |   2 +-
- drivers/irqchip/irq-loongarch-avec.c |   6 +-
- drivers/irqchip/irq-loongarch-ir.c   | 522 +++++++++++++++++++++++++++
- 3 files changed, 528 insertions(+), 2 deletions(-)
- create mode 100644 drivers/irqchip/irq-loongarch-ir.c
+Beside the just shared feedback, the AI reported a bunch of other stuff
+that are not relevant:
+- fixes tags, IMHO not needed since the touched features were just
+partially implemented before
+- uapi breakage, already ruled out as irrelevant since the iproute bits
+are not there yet
+- pktdrill syntax, which is a little inconsistent but AFAICS correct.
 
-diff --git a/drivers/irqchip/Makefile b/drivers/irqchip/Makefile
-index 6a229443efe0..2fc15a8e6ada 100644
---- a/drivers/irqchip/Makefile
-+++ b/drivers/irqchip/Makefile
-@@ -118,7 +118,7 @@ obj-$(CONFIG_LS1X_IRQ)			+= irq-ls1x.o
- obj-$(CONFIG_TI_SCI_INTR_IRQCHIP)	+= irq-ti-sci-intr.o
- obj-$(CONFIG_TI_SCI_INTA_IRQCHIP)	+= irq-ti-sci-inta.o
- obj-$(CONFIG_TI_PRUSS_INTC)		+= irq-pruss-intc.o
--obj-$(CONFIG_IRQ_LOONGARCH_CPU)		+= irq-loongarch-cpu.o irq-loongarch-avec.o
-+obj-$(CONFIG_IRQ_LOONGARCH_CPU)		+= irq-loongarch-cpu.o irq-loongarch-avec.o irq-loongarch-ir.o
- obj-$(CONFIG_LOONGSON_LIOINTC)		+= irq-loongson-liointc.o
- obj-$(CONFIG_LOONGSON_EIOINTC)		+= irq-loongson-eiointc.o
- obj-$(CONFIG_LOONGSON_HTPIC)		+= irq-loongson-htpic.o
-diff --git a/drivers/irqchip/irq-loongarch-avec.c b/drivers/irqchip/irq-loongarch-avec.c
-index 7bdf3f678db4..972203182079 100644
---- a/drivers/irqchip/irq-loongarch-avec.c
-+++ b/drivers/irqchip/irq-loongarch-avec.c
-@@ -111,7 +111,8 @@ static int avecintc_set_affinity(struct irq_data *data, const struct cpumask *de
- 		adata->cpu = cpu;
- 		adata->vec = vector;
- 		per_cpu_ptr(irq_map, adata->cpu)[adata->vec] = irq_data_to_desc(data);
--		avecintc_sync(adata);
-+		if (!cpu_has_redirectint)
-+			avecintc_sync(adata);
- 	}
- 
- 	irq_data_update_effective_affinity(data, cpumask_of(cpu));
-@@ -403,6 +404,9 @@ static int __init pch_msi_parse_madt(union acpi_subtable_headers *header,
- 
- static inline int __init acpi_cascade_irqdomain_init(void)
- {
-+	if (cpu_has_redirectint)
-+		return redirect_acpi_init(loongarch_avec.domain);
-+
- 	return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
- }
- 
-diff --git a/drivers/irqchip/irq-loongarch-ir.c b/drivers/irqchip/irq-loongarch-ir.c
-new file mode 100644
-index 000000000000..d34ac1c989c9
---- /dev/null
-+++ b/drivers/irqchip/irq-loongarch-ir.c
-@@ -0,0 +1,522 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2024 Loongson Technologies, Inc.
-+ */
-+#define pr_fmt(fmt) "redirect: " fmt
-+
-+#include <linux/cpuhotplug.h>
-+#include <linux/init.h>
-+#include <linux/interrupt.h>
-+#include <linux/irq.h>
-+#include <linux/irqchip.h>
-+#include <linux/irqchip/irq-msi-lib.h>
-+#include <linux/irqdomain.h>
-+#include <linux/kernel.h>
-+#include <linux/msi.h>
-+#include <linux/spinlock.h>
-+
-+#include <asm/irq.h>
-+#include <asm/loongarch.h>
-+#include <asm/loongson.h>
-+#include <asm/numa.h>
-+#include <asm/setup.h>
-+#include <larchintrin.h>
-+
-+#include "irq-loongson.h"
-+
-+#define LOONGARCH_IOCSR_REDIRECT_CFG           0x15e0
-+#define LOONGARCH_IOCSR_REDIRECT_TBR           0x15e8  /* IRT BASE REG*/
-+#define LOONGARCH_IOCSR_REDIRECT_CQB           0x15f0  /* IRT CACHE QUEUE BASE */
-+#define LOONGARCH_IOCSR_REDIRECT_CQH           0x15f8  /* IRT CACHE QUEUE HEAD, 32bit */
-+#define LOONGARCH_IOCSR_REDIRECT_CQT           0x15fc  /* IRT CACHE QUEUE TAIL, 32bit */
-+
-+#define GPID_ADDR_MASK			GENMASK(47, 6)
-+#define GPID_ADDR_SHIFT 		6
-+
-+#define CQB_SIZE_MASK			0xf
-+#define CQB_ADDR_MASK			GENMASK(47, 12)
-+
-+#define CFG_DISABLE_IDLE		2
-+#define INVALID_INDEX			0
-+
-+#define MAX_IR_ENGINES			16
-+
-+struct redirect_entry {
-+	struct  {
-+		u64	valid	: 1,
-+			res1	: 5,
-+			gpid	: 42,
-+			res2	: 8,
-+			vector	: 8;
-+	}	lo;
-+	u64	hi;
-+};
-+#define IRD_ENTRY_SIZE			sizeof(struct redirect_entry)
-+#define IRD_ENTRIES			65536
-+#define IRD_TABLE_PAGE_ORDER		get_order(IRD_ENTRIES * IRD_ENTRY_SIZE)
-+
-+struct redirect_gpid {
-+	u64	pir[4];      // Pending interrupt requested
-+	u8	en	: 1, // doorbell
-+		res0	: 7;
-+	u8	irqnum;
-+	u16	res1;
-+	u32	dst;
-+	u32	rsvd[6];
-+};
-+
-+struct irde_inv_cmd {
-+	union {
-+		u64	cmd_info;
-+		struct {
-+			u64	res1		: 4,
-+				type		: 1,
-+				need_notice	: 1,
-+				pad		: 2,
-+				index		: 16,
-+				pad2		: 40;
-+		}	index;
-+	};
-+	u64		notice_addr;
-+};
-+#define IRD_CMD_SIZE			sizeof(struct irde_inv_cmd)
-+#define INVALID_QUEUE_SIZE		4096
-+#define INV_QUEUE_PAGE_ORDER		get_order(INVALID_QUEUE_SIZE * IRD_CMD_SIZE)
-+
-+struct redirect_table {
-+	struct redirect_entry	*table;
-+	unsigned long		*bitmap;
-+	raw_spinlock_t		lock;
-+};
-+
-+struct redirect_queue {
-+	struct irde_inv_cmd	*cmd_base;
-+	int			head;
-+	int			tail;
-+	raw_spinlock_t		lock;
-+};
-+
-+struct irde_desc {
-+	struct	redirect_table	ird_table;
-+	struct	redirect_queue	inv_queue;
-+	int			node;
-+};
-+
-+struct redirect_item {
-+	int			index;
-+	struct irde_desc	*irde;
-+	struct redirect_gpid	*gpid;
-+};
-+
-+
-+static struct irq_domain *redirect_domain;
-+static struct irde_desc irde_descs[MAX_IR_ENGINES];
-+static phys_addr_t msi_base_addr;
-+static phys_addr_t redirect_reg_base = LOONGSON_REG_BASE;
-+
-+#define REDIRECT_REG(reg, node) \
-+	((void __iomem *)(IO_BASE | redirect_reg_base | (u64)(node) << NODE_ADDRSPACE_SHIFT | (reg)))
-+
-+static inline void redirect_write_reg64(u32 node, u64 val, u32 reg)
-+{
-+	writeq(val, REDIRECT_REG(reg, node));
-+}
-+
-+static inline void redirect_write_reg32(u32 node, u32 val, u32 reg)
-+{
-+	writel(val, REDIRECT_REG(reg, node));
-+}
-+
-+static inline u32 redirect_read_reg32(u32 node, u32 reg)
-+{
-+	return readl(REDIRECT_REG(reg, node));
-+}
-+
-+static inline struct redirect_entry *item_get_entry(struct redirect_item *item)
-+{
-+	return item->irde->ird_table.table + item->index;
-+}
-+
-+static inline bool invalid_queue_is_full(int node, u32 *tail)
-+{
-+	u32 head = redirect_read_reg32(node, LOONGARCH_IOCSR_REDIRECT_CQH);
-+
-+	*tail = redirect_read_reg32(node, LOONGARCH_IOCSR_REDIRECT_CQT);
-+
-+	return head == ((*tail + 1) % INVALID_QUEUE_SIZE);
-+}
-+
-+static void invalid_enqueue(struct redirect_item *item, struct irde_inv_cmd *cmd)
-+{
-+	struct redirect_queue *inv_queue = &item->irde->inv_queue;
-+	u32 tail;
-+
-+	guard(raw_spinlock_irqsave)(&inv_queue->lock);
-+
-+	while (invalid_queue_is_full(item->irde->node, &tail))
-+		cpu_relax();
-+
-+	memcpy(&inv_queue->cmd_base[tail], cmd, sizeof(*cmd));
-+
-+	redirect_write_reg32(item->irde->node, (tail + 1) % INVALID_QUEUE_SIZE,
-+			     LOONGARCH_IOCSR_REDIRECT_CQT);
-+}
-+
-+static void irde_invalidate_entry(struct redirect_item *item)
-+{
-+	struct irde_inv_cmd cmd;
-+	u64 raddr = 0;
-+
-+	cmd.cmd_info = 0;
-+	cmd.index.type = INVALID_INDEX;
-+	cmd.index.need_notice = 1;
-+	cmd.index.index = item->index;
-+	cmd.notice_addr = (u64)(__pa(&raddr));
-+
-+	invalid_enqueue(item, &cmd);
-+
-+	/*
-+	 * The CPU needs to wait here for cmd to complete, and it determines this
-+	 * by checking whether the invalidation queue has already written a valid value
-+	 * to cmd.notice_addr.
-+	 */
-+	while (!raddr)
-+		cpu_relax();
-+
-+}
-+
-+static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
-+{
-+	return data->parent_data->chip_data;
-+}
-+
-+static int redirect_table_alloc(int node, u32 nr_irqs)
-+{
-+	struct redirect_table *ird_table = &irde_descs[node].ird_table;
-+	int index, order = 0;
-+
-+	if (nr_irqs > 1) {
-+		nr_irqs = __roundup_pow_of_two(nr_irqs);
-+		order = ilog2(nr_irqs);
-+	}
-+
-+	guard(raw_spinlock_irqsave)(&ird_table->lock);
-+
-+	index = bitmap_find_free_region(ird_table->bitmap, IRD_ENTRIES, order);
-+	if (index < 0) {
-+		pr_err("No redirect entry to use\n");
-+		return -EINVAL;
-+	}
-+
-+	return index;
-+}
-+
-+static void redirect_table_free(struct redirect_item *item)
-+{
-+	struct redirect_table *ird_table = &item->irde->ird_table;
-+	struct redirect_entry *entry = item_get_entry(item);
-+
-+	memset(entry, 0, sizeof(*entry));
-+
-+	scoped_guard(raw_spinlock_irq, &ird_table->lock)
-+		clear_bit(item->index, ird_table->bitmap);
-+
-+	kfree(item->gpid);
-+
-+	irde_invalidate_entry(item);
-+}
-+
-+static inline void redirect_domain_prepare_entry(struct redirect_item *item,
-+						 struct avecintc_data *adata)
-+{
-+	struct redirect_entry *entry = item_get_entry(item);
-+
-+	item->gpid->en = 1;
-+	item->gpid->irqnum = adata->vec;
-+	item->gpid->dst = adata->cpu;
-+
-+	entry->lo.valid = 1;
-+	entry->lo.gpid = ((u64)item->gpid & GPID_ADDR_MASK) >> GPID_ADDR_SHIFT;
-+	entry->lo.vector = 0xff;
-+}
-+
-+static int redirect_set_affinity(struct irq_data *data, const struct cpumask *dest, bool force)
-+{
-+	struct redirect_item *item = data->chip_data;
-+	int ret;
-+
-+	ret = irq_chip_set_affinity_parent(data, dest, force);
-+	if (ret == IRQ_SET_MASK_OK_DONE) {
-+		return ret;
-+	} else if (ret) {
-+		pr_err("IRDE:set_affinity error %d\n", ret);
-+		return ret;
-+	}
-+	struct avecintc_data *adata = irq_data_get_avec_data(data);
-+
-+	redirect_domain_prepare_entry(item, adata);
-+	irde_invalidate_entry(item);
-+	avecintc_sync(adata);
-+
-+	return IRQ_SET_MASK_OK;
-+}
-+
-+static void redirect_compose_msi_msg(struct irq_data *d, struct msi_msg *msg)
-+{
-+	struct redirect_item *item = irq_data_get_irq_chip_data(d);
-+
-+	msg->address_lo = (msi_base_addr | 1 << 2);
-+	msg->address_hi = 0x0;
-+	msg->data = item->index;
-+}
-+
-+static struct irq_chip loongarch_redirect_chip = {
-+	.name			= "REDIRECT",
-+	.irq_ack		= irq_chip_ack_parent,
-+	.irq_mask		= irq_chip_mask_parent,
-+	.irq_unmask		= irq_chip_unmask_parent,
-+	.irq_set_affinity	= redirect_set_affinity,
-+	.irq_compose_msi_msg	= redirect_compose_msi_msg,
-+};
-+
-+static void redirect_free_resources(struct irq_domain *domain, unsigned int virq,
-+				    unsigned int nr_irqs)
-+{
-+	for (int i = 0; i < nr_irqs; i++) {
-+		struct irq_data *irq_data = irq_domain_get_irq_data(domain, virq + i);
-+
-+		if (irq_data && irq_data->chip_data) {
-+			struct redirect_item *item = irq_data->chip_data;
-+
-+			redirect_table_free(item);
-+			kfree(item);
-+		}
-+	}
-+}
-+
-+static int redirect_domain_alloc(struct irq_domain *domain, unsigned int virq,
-+				 unsigned int nr_irqs, void *arg)
-+{
-+	msi_alloc_info_t *info = arg;
-+	int ret, i, node, index;
-+
-+	node = dev_to_node(info->desc->dev);
-+
-+	ret = irq_domain_alloc_irqs_parent(domain, virq, nr_irqs, arg);
-+	if (ret < 0)
-+		return ret;
-+
-+	index = redirect_table_alloc(node, nr_irqs);
-+	if (index < 0) {
-+		pr_err("Alloc redirect table entry failed\n");
-+		return -EINVAL;
-+	}
-+
-+	for (i = 0; i < nr_irqs; i++) {
-+		struct irq_data *irq_data = irq_domain_get_irq_data(domain, virq + i);
-+		struct redirect_item *item;
-+
-+		item = kzalloc(sizeof(*item), GFP_KERNEL);
-+		if (!item) {
-+			pr_err("Alloc redirect descriptor failed\n");
-+			goto out_free_resources;
-+		}
-+		item->irde = &irde_descs[node];
-+
-+		/*
-+		 * Only bits 47:6 of the GPID are passed to the controller,
-+		 * 64-byte alignment must be guarantee and make kzalloc can
-+		 * align to the respective size.
-+		 */
-+		static_assert(sizeof(*item->gpid) == 64);
-+		item->gpid = kzalloc_node(sizeof(*item->gpid), GFP_KERNEL, node);
-+		if (!item->gpid) {
-+			pr_err("Alloc redirect GPID failed\n");
-+			goto out_free_resources;
-+		}
-+		item->index = index + i;
-+
-+		irq_data->chip_data = item;
-+		irq_data->chip = &loongarch_redirect_chip;
-+
-+		redirect_domain_prepare_entry(item, irq_data_get_avec_data(irq_data));
-+	}
-+	return 0;
-+
-+out_free_resources:
-+	redirect_free_resources(domain, virq, nr_irqs);
-+	irq_domain_free_irqs_common(domain, virq, nr_irqs);
-+
-+	return -ENOMEM;
-+}
-+
-+static void redirect_domain_free(struct irq_domain *domain, unsigned int virq, unsigned int nr_irqs)
-+{
-+	redirect_free_resources(domain, virq, nr_irqs);
-+	return irq_domain_free_irqs_common(domain, virq, nr_irqs);
-+}
-+
-+static const struct irq_domain_ops redirect_domain_ops = {
-+	.alloc		= redirect_domain_alloc,
-+	.free		= redirect_domain_free,
-+	.select		= msi_lib_irq_domain_select,
-+};
-+
-+static int redirect_queue_init(struct irde_desc *irde)
-+{
-+	struct redirect_queue *inv_queue = &irde->inv_queue;
-+	struct folio *folio;
-+
-+	folio = __folio_alloc_node(GFP_KERNEL | __GFP_ZERO, INV_QUEUE_PAGE_ORDER, irde->node);
-+	if (!folio) {
-+		pr_err("Node [%d] invalid queue alloc pages failed!\n", irde->node);
-+		return -ENOMEM;
-+	}
-+
-+	inv_queue->cmd_base = folio_address(folio);
-+	inv_queue->head = 0;
-+	inv_queue->tail = 0;
-+	raw_spin_lock_init(&inv_queue->lock);
-+
-+	return 0;
-+}
-+
-+static int redirect_table_init(struct irde_desc *irde)
-+{
-+	struct redirect_table *ird_table = &irde->ird_table;
-+	unsigned long *bitmap;
-+	struct folio *folio;
-+
-+	folio = __folio_alloc_node(GFP_KERNEL | __GFP_ZERO, IRD_TABLE_PAGE_ORDER, irde->node);
-+	if (!folio) {
-+		pr_err("Node [%d] redirect table alloc pages failed!\n", irde->node);
-+		return -ENOMEM;
-+	}
-+	ird_table->table = folio_address(folio);
-+
-+	bitmap = bitmap_zalloc(IRD_ENTRIES, GFP_KERNEL);
-+	if (!bitmap) {
-+		pr_err("Node [%d] redirect table bitmap alloc pages failed!\n", irde->node);
-+		folio_put(folio);
-+		ird_table->table = NULL;
-+		return -ENOMEM;
-+	}
-+
-+	ird_table->bitmap = bitmap;
-+
-+	raw_spin_lock_init(&ird_table->lock);
-+
-+	return 0;
-+}
-+
-+static void redirect_irde_cfg(struct irde_desc *irde)
-+{
-+	redirect_write_reg64(irde->node, CFG_DISABLE_IDLE, LOONGARCH_IOCSR_REDIRECT_CFG);
-+	redirect_write_reg64(irde->node, __pa(irde->ird_table.table), LOONGARCH_IOCSR_REDIRECT_TBR);
-+	redirect_write_reg32(irde->node, 0, LOONGARCH_IOCSR_REDIRECT_CQH);
-+	redirect_write_reg32(irde->node, 0, LOONGARCH_IOCSR_REDIRECT_CQT);
-+	redirect_write_reg64(irde->node, ((u64)irde->inv_queue.cmd_base & CQB_ADDR_MASK) |
-+			     CQB_SIZE_MASK, LOONGARCH_IOCSR_REDIRECT_CQB);
-+}
-+
-+static void __init redirect_free_irde(struct irde_desc *irde)
-+{
-+	struct redirect_table *ird_table = &irde_descs->ird_table;
-+	struct redirect_queue *inv_queue = &irde_descs->inv_queue;
-+
-+	if (ird_table->table) {
-+		folio_put(virt_to_folio(ird_table->table));
-+		ird_table->table = NULL;
-+	}
-+
-+	if (ird_table->bitmap) {
-+		bitmap_free(ird_table->bitmap);
-+		ird_table->bitmap = NULL;
-+	}
-+
-+	if (inv_queue->cmd_base) {
-+		folio_put(virt_to_folio(inv_queue->cmd_base));
-+		inv_queue->cmd_base = NULL;
-+	}
-+}
-+
-+static int __init redirect_irde_init(int node)
-+{
-+	struct irde_desc *irde = &irde_descs[node];
-+	int ret;
-+
-+	irde->node = node;
-+
-+	ret = redirect_table_init(irde);
-+	if (ret)
-+		return ret;
-+
-+	ret = redirect_queue_init(irde);
-+	if (ret) {
-+		redirect_free_irde(irde);
-+		return ret;
-+	}
-+
-+	redirect_irde_cfg(irde);
-+
-+	return 0;
-+}
-+
-+static int __init pch_msi_parse_madt(union acpi_subtable_headers *header, const unsigned long end)
-+{
-+	struct acpi_madt_msi_pic *pchmsi_entry = (struct acpi_madt_msi_pic *)header;
-+
-+	msi_base_addr = pchmsi_entry->msg_address - AVEC_MSG_OFFSET;
-+
-+	return pch_msi_acpi_init_avec(redirect_domain);
-+}
-+
-+static int __init acpi_cascade_irqdomain_init(void)
-+{
-+	return acpi_table_parse_madt(ACPI_MADT_TYPE_MSI_PIC, pch_msi_parse_madt, 1);
-+}
-+
-+int __init redirect_acpi_init(struct irq_domain *parent)
-+{
-+	struct fwnode_handle *fwnode;
-+	int ret = -EINVAL, node;
-+
-+	fwnode = irq_domain_alloc_named_fwnode("redirect");
-+	if (!fwnode) {
-+		pr_err("Unable to alloc redirect domain handle\n");
-+		goto fail;
-+	}
-+
-+	redirect_domain = irq_domain_create_hierarchy(parent, 0, IRD_ENTRIES, fwnode,
-+						      &redirect_domain_ops, irde_descs);
-+	if (!redirect_domain) {
-+		pr_err("Unable to alloc redirect domain\n");
-+		goto out_free_fwnode;
-+	}
-+
-+	for_each_node_mask(node, node_possible_map) {
-+		ret = redirect_irde_init(node);
-+		if (ret)
-+			goto out_clear_irde;
-+	}
-+
-+	ret = acpi_cascade_irqdomain_init();
-+	if (ret < 0) {
-+		pr_err("Failed to cascade IRQ domain, ret=%d\n", ret);
-+		goto out_clear_irde;
-+	}
-+
-+	pr_info("init succeeded\n");
-+	return 0;
-+
-+out_clear_irde:
-+	for_each_node_mask(node, node_possible_map) {
-+		redirect_free_irde(&irde_descs[node]);
-+	}
-+
-+	irq_domain_remove(redirect_domain);
-+out_free_fwnode:
-+	irq_domain_free_fwnode(fwnode);
-+fail:
-+	return ret;
-+}
--- 
-2.41.0
+I'm not sure about the BIT() macro usage in uAPI, which is already a
+thing in many uAPI exposed headers, but does not look correct. I guess
+it could be handled with a follow-up, if needed.
+
+So the only feedback the could really require a new revision is WRT ECN
+flags handling on retransmission - and I'm not 110% it needs a new
+revision: please double check it.
+
+Thanks,
+
+Paolo
 
