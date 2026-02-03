@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A072C3ACEFB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B0F23ACEFA;
 	Tue,  3 Feb 2026 14:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770130555; cv=none; b=j7rs6Q2Y9TtH+olHxnbqWH9dkBMzx/j6owBy3LZdTwQrLQNvcFR83Xp0Ey0gbpMJpr7nBC5p4wSwDcOdxyQ9GCsm3QVv3Ah5z5hrYis1ws8WEavqDtTjqeMNcOranIIGjh1DtJfv01BayLqGaUNSMifxYQd/8hLTVnyelE32TOQ=
+	t=1770130555; cv=none; b=fdKqQjMiKq3+phNmijydZq8xcwIG5xdSl2AAq7wqdNe5PlaU5OqYumsvx7o2nT6wQ1JWPXHnxUu7p+FhjedXl5Yi5P8bQWw6tB7wapmSOBX9LZFxYWf8EbR6y5YH/4C7Aj+Al4I3L4USnWWTY1N43MMKWuwTmzCVl0/+kUuxHpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770130555; c=relaxed/simple;
-	bh=rjYPYvJZXqQuJOofuiN0Kf8CTYyF0WAZo3QvwumSH8M=;
+	bh=NG3dg7pu+frczz+Zr/hP/7FD6w4QMq2rfMP2u6GHZtM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fvI/n1qj08Zsa8XYr3daE4aHeiwJqBs2k6JgU2a2j/z9t2FD70NiIuahCrcfE1aObg1S261j79F8kgwU91IsbP4cBIafTTSfXtzMAxHlQWApUfPuFJfgg4PwlvQQVZN1HWM9O9tGc/3NCBRDcSnksi8u6ym8W8Zl+Bf1j1YhBK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sRDN8GE7; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=UKOY+sLlMDFL/EaD4oEG73I+M+Ms+McPQ26ZWFQXgXJW+UBuu6LrN15OVAeWUeMIc0fKjsECZiuqdWvo4rSZ2/1wFBgNLAnq+RyATKF4NKHrANVcfUnwECOSS6PqumRStZgRgvwbmlg4Er8mknAo2ihXtBv1WVTi6/MyNQV0M0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZxIKqZOW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sRDN8GE7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E218CC2BCB2;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZxIKqZOW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC6ECC2BC87;
 	Tue,  3 Feb 2026 14:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770130555;
-	bh=rjYPYvJZXqQuJOofuiN0Kf8CTYyF0WAZo3QvwumSH8M=;
+	s=k20201202; t=1770130554;
+	bh=NG3dg7pu+frczz+Zr/hP/7FD6w4QMq2rfMP2u6GHZtM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sRDN8GE7yACx+mYYZqsJZJpUeBGrKHPcjsn29FdMuyQ10AkIcqIbd49R8kgMkLtZZ
-	 MPvX62SV9bxBAANi0CB5XTy0gZCT8DlvEBjya6o4iGtL2wqxAJESwrJFIYu/5uynwC
-	 nr/5UrnVGyHEO0AcWWuwH6fSCORBe3qyzXauSEYD0voVGzY/WWuefW0/hJ1KVTIlg7
-	 TQ1TwVlh5bBXq0VlpU5kjEAX1tl6qcTRWlRvdM5h864RsxBg3Vcy6ghJBWCikNhyJp
-	 7ua5G5dlLZx0DwGLqZSbQbNvdT3QkHfAPjnQqFl4F7pf4LnbGGFRDMMaFwYIbFO6e3
-	 L5hy9/dH59QmQ==
+	b=ZxIKqZOW1G/9R7qtIn+1wUtTOSdXgPWo/du678TCWD7usQXpG5/VQmaywbEeDB3hB
+	 GDeb5PPwco9ZYcUV0DsLApsVqiSpPMYuMLK/u+shHf7oAr/n0pSx1S7988u912W7Go
+	 700G9XRZdQfNLcZrJeGGYOeQr6y/rOBiBC/8Cb/oF8T1VLgpFPSm2qOWMgyUmtgOC7
+	 ddvnnX5/QkQBYcqHxD0bAkCdfFHwnkYeiTDp91cfAtl52dxamyAHglE9WYdTrEftk2
+	 +j54mwwMEdV+hcZeHj/nbhMaPpwbi+XX6E7/WTnpWY0oIXmDQ9GEqysjbmgB8V/oHI
+	 w0oATmsxvpazw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vnHom-000000027US-3yRi;
-	Tue, 03 Feb 2026 15:55:52 +0100
+	id 1vnHon-000000027Ue-07jM;
+	Tue, 03 Feb 2026 15:55:53 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
@@ -37,9 +37,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Jani Nikula <jani.nikula@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 06/15] docs: kdoc_item: fix initial value for parameterdesc_start_lines
-Date: Tue,  3 Feb 2026 15:55:34 +0100
-Message-ID: <ff57dee2523ab906123657b43405059b1b249e8c.1770128540.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 09/15] docs: unittests: add a parser to test kernel-doc parser logic
+Date: Tue,  3 Feb 2026 15:55:37 +0100
+Message-ID: <89897c6344749de5cbf2b59a2a1ae24ff58154c1.1770128540.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1770128540.git.mchehab+huawei@kernel.org>
 References: <cover.1770128540.git.mchehab+huawei@kernel.org>
@@ -53,27 +53,232 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Ensure that parameterdesc_start_lines is a dict at init time,
-as this is how it will be set later on at the parser.
+Validating that kernel-doc is parsing data properly is tricky.
+
+Add an unittest skeleton that alllows passing a source code
+and check if the corresponding values of export_table and
+entries returned by the parser are properly filled.
+
+It works by mocking a file input with the contents of a source
+string, an comparing if:
+
+	- exports set matches;
+	- expected KernelItem entries match.
+
+Create a new TestSelfValidate meant to check if the logic
+inside KdocParser.run_test() does its job of checking for
+differences inside KdocItem.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_item.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tools/unittests/test_kdoc_parser.py | 198 ++++++++++++++++++++++++++++
+ 1 file changed, 198 insertions(+)
+ create mode 100755 tools/unittests/test_kdoc_parser.py
 
-diff --git a/tools/lib/python/kdoc/kdoc_item.py b/tools/lib/python/kdoc/kdoc_item.py
-index 2b8a93f79716..c0585cdbcbd1 100644
---- a/tools/lib/python/kdoc/kdoc_item.py
-+++ b/tools/lib/python/kdoc/kdoc_item.py
-@@ -22,7 +22,7 @@ class KdocItem:
-         self.sections = {}
-         self.sections_start_lines = {}
-         self.parameterlist = []
--        self.parameterdesc_start_lines = []
-+        self.parameterdesc_start_lines = {}
-         self.parameterdescs = {}
-         self.parametertypes = {}
-         #
+diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
+new file mode 100755
+index 000000000000..f3ff750ac0e9
+--- /dev/null
++++ b/tools/unittests/test_kdoc_parser.py
+@@ -0,0 +1,198 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++# Copyright(c) 2026: Mauro Carvalho Chehab <mchehab@kernel.org>.
++#
++# pylint: disable=C0200,C0413,W0102,R0914
++
++"""
++Unit tests for kernel-doc parser.
++"""
++
++import os
++import unittest
++import re
++import sys
++
++from textwrap import dedent
++from unittest.mock import patch, MagicMock, mock_open
++
++SRC_DIR = os.path.dirname(os.path.realpath(__file__))
++sys.path.insert(0, os.path.join(SRC_DIR, "../lib/python"))
++
++from kdoc.kdoc_parser import KernelDoc
++from kdoc.kdoc_item import KdocItem
++from kdoc.xforms_lists import CTransforms
++from unittest_helper import run_unittest
++
++#: Regex to help cleaning whitespaces
++RE_WHITESPC = re.compile(r"\s++")
++
++def clean_whitespc(val, relax_whitespace=False):
++    """
++    Cleanup whitespaces to avoid false positives.
++
++    By default, strip only bein/end whitespaces, but, when relax_whitespace
++    is true, also replace multiple whitespaces in the middle.
++    """
++
++    if isinstance(val, str):
++        val = val.strip()
++        if relax_whitespace:
++            val = RE_WHITESPC.sub("", val)
++    elif isinstance(val, list):
++        val = [clean_whitespc(item, relax_whitespace) for item in val]
++    elif isinstance(val, dict):
++        val = {k: clean_whitespc(v, relax_whitespace) for k, v in val.items()}
++    return val
++
++#
++# Helper class to help mocking with
++#
++class KdocParser(unittest.TestCase):
++    """
++    Base class to run KernelDoc parser class
++    """
++
++    DEFAULT = vars(KdocItem("", "", "", 0))
++
++    def setUp(self):
++        self.maxDiff = None
++        self.config = MagicMock()
++        self.config.log = MagicMock()
++        self.config.log.debug = MagicMock()
++        self.xforms = CTransforms()
++
++
++    def run_test(self, source, __expected_list, exports={}, fname="test.c",
++                 relax_whitespace=False):
++        """
++        Stores expected values and patch the test to use source as
++        a "file" input.
++        """
++        debug_level = int(os.getenv("VERBOSE", "0"))
++        source = dedent(source)
++
++        # Ensure that default values will be there
++        expected_list = []
++        for e in __expected_list:
++            new_e = self.DEFAULT.copy()
++            new_e["fname"] = fname
++            for key, value in e.items():
++                new_e[key] = value
++
++            expected_list.append(new_e)
++
++        patcher = patch('builtins.open',
++                        new_callable=mock_open, read_data=source)
++
++        kernel_doc = KernelDoc(self.config, fname, self.xforms)
++
++        with patcher:
++            export_table, entries = kernel_doc.parse_kdoc()
++
++            self.assertEqual(export_table, exports)
++            self.assertEqual(len(entries), len(expected_list))
++
++            for i in range(0, len(entries)):
++
++                entry = entries[i]
++                expected = expected_list[i]
++                self.assertNotEqual(expected, None)
++                self.assertNotEqual(expected, {})
++                self.assertIsInstance(entry, KdocItem)
++
++                d = vars(entry)
++                for key, value in expected.items():
++                    result = clean_whitespc(d[key], relax_whitespace)
++                    value = clean_whitespc(value, relax_whitespace)
++
++                    if debug_level > 1:
++                        sys.stderr.write(f"{key}: assert('{result}' == '{value}')\n")
++
++                    self.assertEqual(result, value, msg=f"at {key}")
++
++
++#
++# Selttest class
++#
++class TestSelfValidate(KdocParser):
++    """
++    Tests to check if logic inside KdocParser.run_test() is working.
++    """
++
++    SOURCE = """
++        /**
++         * function3: Exported function
++         * @arg1: @arg1 does nothing
++         *
++         * Does nothing
++         *
++         * return:
++         *    always return 0.
++         */
++        int function3(char *arg1) { return 0; };
++        EXPORT_SYMBOL(function3);
++    """
++
++    EXPECTED = [{
++        'name': 'function3',
++        'type': 'function',
++        'declaration_start_line': 2,
++
++        'sections': {
++            'Description': 'Does nothing\n\n',
++            'Return': '\nalways return 0.\n'
++        },
++        'other_stuff': {
++            'func_macro': False,
++            'functiontype': 'int',
++            'purpose': 'Exported function',
++            'typedef': False
++        },
++        'parameterdescs': {'arg1': '@arg1 does nothing\n'},
++        'parameterlist': ['arg1'],
++        'parameterdesc_start_lines': {'arg1': 3},
++        'parametertypes': {'arg1': 'char *arg1'},
++    }]
++
++    EXPORTS = {"function3"}
++
++    def test_parse_pass(self):
++        """
++        Test if export_symbol is properly handled.
++        """
++        self.run_test(self.SOURCE, self.EXPECTED, self.EXPORTS)
++
++    @unittest.expectedFailure
++    def test_no_exports(self):
++        """
++        Test if export_symbol is properly handled.
++        """
++        self.run_test(self.SOURCE, [], {})
++
++    @unittest.expectedFailure
++    def test_with_empty_expected(self):
++        """
++        Test if export_symbol is properly handled.
++        """
++        self.run_test(self.SOURCE, [], self.EXPORTS)
++
++    @unittest.expectedFailure
++    def test_with_unfilled_expected(self):
++        """
++        Test if export_symbol is properly handled.
++        """
++        self.run_test(self.SOURCE, [{}], self.EXPORTS)
++
++    @unittest.expectedFailure
++    def test_with_default_expected(self):
++        """
++        Test if export_symbol is properly handled.
++        """
++        self.run_test(self.SOURCE, [self.DEFAULT.copy()], self.EXPORTS)
++
++#
++# Run all tests
++#
++if __name__ == "__main__":
++    run_unittest(__file__)
 -- 
 2.52.0
 
