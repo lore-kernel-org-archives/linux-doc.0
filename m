@@ -1,258 +1,105 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0706930FF27
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 15:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCEA2741A0;
+	Tue,  3 Feb 2026 15:28:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770131296; cv=none; b=pRqACggi6vt4nxh/qj5gUs7IuNDja8RRzypKEnKUNlXpgZkI2zKJrR5b1SyQZl4MlgRQFPisyt5OYaunnJcxgbVhuCURL/iFe1ZFEB3Ogd9CqWFENGy/5AQvw7HfElN8zYytS7iGcKxO6mj7L05SsOikFGhbidj2bCow4Rj/M2U=
+	t=1770132494; cv=none; b=Dl+mROXDjGQQI67k1s3UYxC1NavRw66RTKrQsO+E2xEXepUmEcs+xfiXtUfMcIIa7iY+AYr2iEpdNf4y7AP/U7eDsCSuB8Qj/N7GiOxvzZs0xuGKQiqdjIjff3zCOA/On1YMldsv76HdlgyN/YfRyNfd/wn62xrbSgHva9yxbnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770131296; c=relaxed/simple;
-	bh=8GINnqKygDpTFkA/KD3M9ROxHpLiGrhuMp4u7WmWTb0=;
+	s=arc-20240116; t=1770132494; c=relaxed/simple;
+	bh=+6p143ELtev1Q0EPq1zvLV436kIhzaspuiQqOcld6lY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=mLaRfHpsVMQ17abDqj9rproBe8OrSzmhlkCVvyLR20pDCNHGtPFLt3EgwDg2PB4zEzw8Nxyo5/mzUUovJmxc5dreL/IgkNTzFmpC/hR3vmbyvrCk6PCFQo4StVYAqkb7AB4O3/mvJpTFtJBlZj14AyC2wqnsOWlwpFeUccv1CmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dxtdAFlL; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	 MIME-Version:Content-Type; b=rFfgbFtlZ4eKKpRDUl13rES8rd1qzlXKGnvbuo2KRk93NKuu1CBdpyjz6QcLT4R3Jfxry2uHOgrIJmFBbAaTnJhsIV3Y/vXBWt//EePs9lTbMgr6X0D6tOIsTlx+MxPoryB9Yz4pfrWzbMuLV1F8gpvl1k3ialtomEr9CanaBd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OKYBtZed; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dxtdAFlL"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 31D5B40428
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1770131294; bh=XwcsmKHL2I8l4sDav0F02wWrfqCgU3ERULDiwmJRWL8=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OKYBtZed"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4C4FC116D0;
+	Tue,  3 Feb 2026 15:28:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770132494;
+	bh=+6p143ELtev1Q0EPq1zvLV436kIhzaspuiQqOcld6lY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=dxtdAFlLxNb7TtR91hkpKgcQSg/rdRhvs2En4yvS+XActJhX2cCx6S9EbuZfStLzR
-	 q3TsVguWfZqnYxZyvYPTYZfPQQY/WHTmC2DHBsJ5Dlf041M3m5Qs/DrC7rXRtZPhcf
-	 A01Aveux3Ini7lWFX0+qlV9MIk2yaGbnsNnp9l/Byw1u1kEAkCn4r7z9eWz5FDIQNc
-	 w6/60TRjLMTuPnoeBrvZt/URk24fZgX+B+abTsdyRh1k3P0vBt2EL7Ayf2HFVjvH12
-	 5+l+bxS5wngJyEUKW2/mMATgmIkH8TNZ1a5ZGmygAyLckj64zNX8fjwM250HszJIHK
-	 NBFbpQ7ge7CuQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 31D5B40428;
-	Tue,  3 Feb 2026 15:08:14 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: linux-doc@vger.kernel.org, Daniel Pereira <danielmaraboo@gmail.com>
-Subject: Re: [PATCH v3] docs: pt_BR: add initial Portuguese translation
-In-Reply-To: <20260203120859.65735-1-danielmaraboo@gmail.com>
-References: <20260203120859.65735-1-danielmaraboo@gmail.com>
-Date: Tue, 03 Feb 2026 08:08:13 -0700
-Message-ID: <87h5rxrhk2.fsf@trenco.lwn.net>
+	b=OKYBtZed69yoxj+qddE06qEbqsm41Vw762oBxTSpV19JigTIwTp8n6UVj7vs1SJkv
+	 hT7YAI7LRaz5rXLJN1TzuddQsBn5UteXM0fAWeEHFsSbQhSq9/3JF9dzV2AkNiQ2xo
+	 zMZfThhBIOCanPRjOEbVCCPD4qmH0k5gxCQZabWjNOZYYVOQInqTGvlBphcSyW/o1e
+	 W+j+zOSEZ56DOarSmG2XO59jClAVrTDr3ZXl1Wcl72mF1X1H0VcyrPtYmT2Q+RBOyC
+	 LR0tVRMaXABxJRUvTMRRKCE8Y9nkCYEtL7Wqb5HtISLMHzm5//bJclyuQqVuRH2Xoa
+	 vN8GfnzyQCKsA==
+From: Thomas Gleixner <tglx@kernel.org>
+To: Alexander Graf <graf@amazon.com>, x86@kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Clemens
+ Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Borislav Petkov <bp@alien8.de>, Ingo Molnar
+ <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini
+ <pbonzini@redhat.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+ nh-open-source@amazon.com, Nicolas Saenz Julienne <nsaenz@amazon.es>,
+ Hendrik Borghorst <hborghor@amazon.de>, Filippo Sironi <sironi@amazon.de>,
+ David Woodhouse <dwmw@amazon.co.uk>, Jan =?utf-8?Q?Sch=C3=B6nherr?=
+ <jschoenh@amazon.de>,
+ ricardo.neri-calderon@linux.intel.com, Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH 2/2] hpet: Add HPET-based NMI watchdog support
+In-Reply-To: <1e13c61d-8581-4ece-b31c-7aa771ba7bc2@amazon.com>
+References: <20260202174803.66640-1-graf@amazon.com>
+ <20260202174803.66640-3-graf@amazon.com> <87jywu3yov.ffs@tglx>
+ <1e13c61d-8581-4ece-b31c-7aa771ba7bc2@amazon.com>
+Date: Tue, 03 Feb 2026 16:28:11 +0100
+Message-ID: <878qd94zjo.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Daniel Pereira <danielmaraboo@gmail.com> writes:
-
-> This patch introduces the initial Portuguese (Brazilian) translation
-> for the Linux kernel documentation. It includes the mandatory
-> disclaimer, the translation of the HOWTO document, and establishes
-> the directory structure for the pt_BR locale.
+On Tue, Feb 03 2026 at 13:36, Alexander Graf wrote:
+> On 03.02.26 11:32, Thomas Gleixner wrote:
+>> On Mon, Feb 02 2026 at 17:48, Alexander Graf wrote:
+>>> (Disclaimer: Some of this code was written with the help of Kiro, an AI
+>>> coding assistant)
+>> You could have sent your change log through AI too so it conforms with
+>> the change log rules ...
 >
-> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+> Maybe we should introduce an AGENTS.md file in Linux that tells the AI 
+> tool to do that automatically? These tools usually don't read README 
+> files. :)
 
-I've taken a look and have a few brief comments...
+I don't care what tools do, but I very much care about what the people
+who use the tools do.
 
-> ---
-> v3:
->   - Fix alphabetical order in MAINTAINERS file.
->   - Remove trailing whitespaces in RST files.
->   - Fix indentation in Documentation/translations/index.rst.
+>>> +     if (panic_in_progress())
+>>> +             return NMI_HANDLED;
+>>> +
+>>> +     /* Check if this NMI is from our HPET timer by comparing counter value */
+>>> +     now = hpet_readl(HPET_COUNTER);
+>> And both you and your AI assistant failed to read through the previous
+>> discussions on that topic and the 10+ failed attempts to make it work
+>> correctly.  Otherwise you would have figured out that reading HPET in
+>> the NMI handler is a patently bad idea.
+>>
+>> I'm not reiterating any of it as it's well documented in the LKML archive.
 >
-> v2:
->   - Include pt_BR/index in the main translations index.
-> ---
->  Documentation/translations/index.rst          |   1 +
->  .../translations/pt_BR/disclaimer-pt_BR.rst   |  11 +
->  Documentation/translations/pt_BR/index.rst    |  67 ++
->  .../translations/pt_BR/process/howto.rst      | 637 ++++++++++++++++++
->  MAINTAINERS                                   |   8 +
->  5 files changed, 724 insertions(+)
->  create mode 100644 Documentation/translations/pt_BR/disclaimer-pt_BR.rst
->  create mode 100644 Documentation/translations/pt_BR/index.rst
->  create mode 100644 Documentation/translations/pt_BR/process/howto.rst
 >
-> diff --git a/Documentation/translations/index.rst b/Documentation/transla=
-tions/index.rst
-> index b826c3479..b799eacb8 100644
-> --- a/Documentation/translations/index.rst
-> +++ b/Documentation/translations/index.rst
-> @@ -13,6 +13,7 @@ Translations
->     ko_KR/index
->     ja_JP/index
->     sp_SP/index
-> +   pt_BR/index
+> Thanks a bunch for the pointer. I had indeed missed the previous patch 
+> set submissions on the same topic. Those look a lot more sophisticated 
+> than the quick hacky version I built. Nice! Oh well, at least I 
+> (re)learned a few things about the HPET along the way.
+>
+> Looking at the latest submission [1] (v7), I see patches but no reviews, 
+> no acks and no merges. Those patches also seem to address most of your 
+> concerns (obviously, since you reviewed them before :)). Reading the 
+> side conversation about it [2], it sounds like the buddy hardlockup 
+> detector is trying to fill the same gap as the HPET one and hence after 
+> that got merged, interest faded?
 
-If you look at the rendered page, you'll see that the translations are
-in alphabetical order.  Not hugely important but we might as well
-continue that tradition.
+I don't remember. That thing clearly fell through the cracks. Let me
+find it again and reply to that.
 
->=20=20
->  .. _translations_disclaimer:
-> diff --git a/Documentation/translations/pt_BR/disclaimer-pt_BR.rst b/Docu=
-mentation/translations/pt_BR/disclaimer-pt_BR.rst
-> new file mode 100644
-> index 000000000..fe7518de6
-> --- /dev/null
-> +++ b/Documentation/translations/pt_BR/disclaimer-pt_BR.rst
-> @@ -0,0 +1,11 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _pt_disclaimer:
-
-You don't need this label here; you don't use it.  In truth, it seems
-like this file isn't used in the build at all?  That should have
-generated a warning?
-
-> +Aviso sobre tradu=C3=A7=C3=B5es para portugu=C3=AAs
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Esta documenta=C3=A7=C3=A3o foi traduzida para portugu=C3=AAs brasileiro=
- por volunt=C3=A1rios.
-> +Em caso de qualquer diverg=C3=AAncia entre esta tradu=C3=A7=C3=A3o e o d=
-ocumento original
-> +em ingl=C3=AAs, a vers=C3=A3o em ingl=C3=AAs (encontrada no diret=C3=B3r=
-io Documentation/)
-> +deve ser considerada a =C3=BAnica fonte de verdade.
-> diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/t=
-ranslations/pt_BR/index.rst
-> new file mode 100644
-> index 000000000..f0e229568
-> --- /dev/null
-> +++ b/Documentation/translations/pt_BR/index.rst
-> @@ -0,0 +1,67 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _pt_BR_linux_doc:
-
-Here too, no label.  If you need to refer to this file, just use its name.
-
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Documenta=C3=A7=C3=A3o do Kernel Linux em Portugu=C3=AAs
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. raw:: latex
-> +
-> +	\kerneldocCJKoff
-> +
-> +:mantenedor: Daniel <danielmaraboo@gmail.com>
-> +
-> +Este =C3=A9 o n=C3=ADvel principal da documenta=C3=A7=C3=A3o do kernel e=
-m l=C3=ADngua portuguesa (Brasil).
-> +A tradu=C3=A7=C3=A3o ainda est=C3=A1 em seu est=C3=A1gio inicial e incom=
-pleta; voc=C3=AA notar=C3=A1 avisos
-> +sinalizando a falta de tradu=C3=A7=C3=B5es para grupos espec=C3=ADficos =
-de documentos.
-> +
-> +De maneira geral, a documenta=C3=A7=C3=A3o, assim como o pr=C3=B3prio ke=
-rnel, est=C3=A1 em constante
-> +desenvolvimento; isso =C3=A9 especialmente verdade agora, pois estamos t=
-rabalhando
-> +na reorganiza=C3=A7=C3=A3o da documenta=C3=A7=C3=A3o de forma mais coere=
-nte. Melhorias na
-> +documenta=C3=A7=C3=A3o s=C3=A3o sempre bem-vindas; se voc=C3=AA deseja a=
-judar, inscreva-se na lista
-> +de discuss=C3=A3o linux-doc em vger.kernel.org.
-> +
-> +.. _pt_BR_disclaimer:
-
-...and another label to take out.  This seems to be a different disclaimer?
-
-> +Avisos
-> +=3D=3D=3D=3D=3D=3D
-> +
-> +O objetivo desta tradu=C3=A7=C3=A3o =C3=A9 facilitar a leitura e compree=
-ns=C3=A3o para aqueles que
-> +n=C3=A3o dominam o ingl=C3=AAs ou t=C3=AAm d=C3=BAvidas sobre sua interp=
-reta=C3=A7=C3=A3o, ou simplesmente
-> +para quem prefere ler em sua l=C3=ADngua nativa. No entanto, tenha em me=
-nte que a
-> +*=C3=BAnica* documenta=C3=A7=C3=A3o oficial =C3=A9 a em l=C3=ADngua ingl=
-esa: :ref:`linux_doc`
-> +
-> +A propaga=C3=A7=C3=A3o simult=C3=A2nea de uma altera=C3=A7=C3=A3o em :re=
-f:`linux_doc` para todas as
-> +tradu=C3=A7=C3=B5es =C3=A9 altamente improv=C3=A1vel. Os mantenedores da=
-s tradu=C3=A7=C3=B5es =E2=80=94 e seus
-> +contribuidores =E2=80=94 acompanham a evolu=C3=A7=C3=A3o da documenta=C3=
-=A7=C3=A3o oficial e tentam manter
-> +as respectivas tradu=C3=A7=C3=B5es alinhadas na medida do poss=C3=ADvel.=
- Por este motivo, n=C3=A3o
-> +h=C3=A1 garantia de que uma tradu=C3=A7=C3=A3o esteja atualizada com a =
-=C3=BAltima modifica=C3=A7=C3=A3o.
-> +Se o que voc=C3=AA ler em uma tradu=C3=A7=C3=A3o n=C3=A3o corresponder a=
-o que ler no c=C3=B3digo,
-> +informe o mantenedor da tradu=C3=A7=C3=A3o e =E2=80=94 se puder =E2=80=
-=94 verifique tamb=C3=A9m a
-> +documenta=C3=A7=C3=A3o em ingl=C3=AAs.
-> +
-> +Uma tradu=C3=A7=C3=A3o n=C3=A3o =C3=A9 um *fork* da documenta=C3=A7=C3=
-=A3o oficial; portanto, os usu=C3=A1rios n=C3=A3o
-> +encontrar=C3=A3o nela informa=C3=A7=C3=B5es diferentes daquelas contidas=
- na vers=C3=A3o oficial.
-> +Qualquer adi=C3=A7=C3=A3o, remo=C3=A7=C3=A3o ou modifica=C3=A7=C3=A3o de=
- conte=C3=BAdo deve ser feita primeiro nos
-> +documentos em ingl=C3=AAs. Posteriormente, quando poss=C3=ADvel, a mesma=
- altera=C3=A7=C3=A3o deve
-> +ser aplicada =C3=A0s tradu=C3=A7=C3=B5es. Os mantenedores das tradu=C3=
-=A7=C3=B5es aceitam contribui=C3=A7=C3=B5es
-> +que afetem puramente a atividade de tradu=C3=A7=C3=A3o (por exemplo, nov=
-as tradu=C3=A7=C3=B5es,
-> +atualiza=C3=A7=C3=B5es, corre=C3=A7=C3=B5es).
-> +
-> +As tradu=C3=A7=C3=B5es buscam ser o mais precisas poss=C3=ADvel, mas n=
-=C3=A3o =C3=A9 poss=C3=ADvel mapear
-> +diretamente uma l=C3=ADngua em outra. Cada l=C3=ADngua possui sua pr=C3=
-=B3pria gram=C3=A1tica e
-> +cultura, portanto, a tradu=C3=A7=C3=A3o de uma frase em ingl=C3=AAs pode=
- ser modificada para
-> +se adaptar ao portugu=C3=AAs. Por esse motivo, ao ler esta tradu=C3=A7=
-=C3=A3o, voc=C3=AA poder=C3=A1
-> +encontrar algumas diferen=C3=A7as de forma, mas que transmitem a mensage=
-m original.
-> +
-> +Trabalhando com a comunidade de desenvolvimento
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +As guias fundamentais para a intera=C3=A7=C3=A3o com a comunidade de des=
-envolvimento do
-> +kernel e sobre como ver seu trabalho integrado.
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   Como come=C3=A7ar <process/howto>
-> diff --git a/Documentation/translations/pt_BR/process/howto.rst b/Documen=
-tation/translations/pt_BR/process/howto.rst
-> new file mode 100644
-> index 000000000..43a2be263
-> --- /dev/null
-> +++ b/Documentation/translations/pt_BR/process/howto.rst
-> @@ -0,0 +1,637 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _process_howto:
-
-You know what I'm going to say here :)
-
-> +COMO FAZER o desenvolvimento do kernel Linux
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-...and this is where I'll stop; I'm not in a position judge the quality
-of the translation itself.
+As time has advanced there are probably a few things which need to be
+addressed. 
 
 Thanks,
 
-jon
+        tglx
