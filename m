@@ -1,55 +1,87 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A46486341;
-	Tue,  3 Feb 2026 12:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05A2349B1F
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 13:00:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770123546; cv=none; b=uJGerNazbpAgp+r2V+JQDbZannVE+p6OWHlgbC44IfXmPVJT/UlMzBDn4r/aUtdbpuAt5eUYgSSzeF8bs99VlG+6YYSM/jkBCN+6K30kpXaDQ40Ys7qVCC873YpTX/GwjYqced9+E3NnXBqUxB4UAeTm5A1/G6pJRbWiK/pd1rU=
+	t=1770123634; cv=none; b=NlLJrio8QuR/K1DxAUXc1Vt/3zM3TbjP7OmCGf2F3c51QUto7TPf/3F7tOriNsgXOA6BYFwdKTosQPaUTZxI0Wp1gxCSfFzhVoeu1Tw2xe4UrgYrQowhJNoJDuh2e6DLnZy9o/sfyHQwmk68HHAte0mVtwnqi49961wbL+4IUPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770123546; c=relaxed/simple;
-	bh=6LS/kA+onmwNe8A7Ynby1iar5OwBoPJ8XKnL5twRNZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=esTfFlucMrd0IjtGBK7ug8gaN3Hw3+WrTzD4g2WeObrVnMsSLbB5qIr4UYIQ5EhZ9YSZRhIgENFW42t4DaaEfwHZwQJlsthujWt5OlwH/DQXVlz7WHiC4kOq6VECxN8gv9aSNRUxs6DsPQfwbh5orkSr5P/F/czfgQ8sg3LBQYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=SPdtsnUd; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1770123634; c=relaxed/simple;
+	bh=QfrRwcFVbs7HXzfXIJF1G4CMBzqUTb6IXs918LJA2kU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=YaCdqP6EQ0sN6ROlLj64CMufmgfWvd7it5iuU2H7CYUagYMA9d4+aQ2YRG9dDbq5JpecO5/6I52kFO6kb8CmjPJ77W3lFnMoa63oXh42I4S5jbZ4/eZbpgP/riryKgsDZuYokEL5gr6K6Kmz4EowumTvwVS9rz2RLHify25mBI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Jq1nVgbE; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="SPdtsnUd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1770123542;
-	bh=6LS/kA+onmwNe8A7Ynby1iar5OwBoPJ8XKnL5twRNZI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SPdtsnUdSSGeLAvpGs66Yc7fwhPORRh9r7ctAvysXw3f//3u70CJ0gLtNJWuXJQC9
-	 7MAnhu/JI34H1H6OHyalZvy4k5hxQXNQ1m/yLoFxdGWEao2ummshchk8d8wnhmjVOu
-	 e+aM1OBp2myV2ypeuFFm6aPHmRqcdO/MCSevgV0o=
-Date: Tue, 3 Feb 2026 13:59:02 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Daniel Gomez <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Xiu Jianfeng <xiujianfeng@huawei.com>, 
-	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>, 
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, 
-	Christian Heusel <christian@heusel.eu>, =?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
-Message-ID: <633ddd60-edbf-4072-932e-2d67d2173edd@t-8ch.de>
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
- <fab2af64-e396-45f9-8876-feff4002e04b@suse.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Jq1nVgbE"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8845cb5862so878144666b.3
+        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 05:00:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770123630; x=1770728430; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QfrRwcFVbs7HXzfXIJF1G4CMBzqUTb6IXs918LJA2kU=;
+        b=Jq1nVgbEc+QRabvwNxsoLVixZKeiz+URccT9hmLyh3PN3UI10sq5mJ22vC4Frf/nCa
+         Kxh5bdG/hqXZ3KUTYO+ZMqio6iYJSy5VMhevnvhLpYQJ22ChR++nZ0zmoZXZXRbtRcVY
+         6WajfEKdp+z5NbuFfZcHPM8I2JGFPFddBnh0qN7Lb0Oa0X9V23GlteZla79cY2xLMbxN
+         3GQpxwqRduDa4n+ftM4gkrMkm0+zG8Agie6+D1ECW6CESzw9dstQPvN7jeYOrGqp4xjA
+         YMtm/b0j2DEgJzZtYxrEdpx2ODT8lTkvkQbKjLV83l43AIh5UQma089ZXLJLMgjbWQfM
+         Secg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770123630; x=1770728430;
+        h=content-transfer-encoding:mime-version:message-id:date:user-agent
+         :references:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QfrRwcFVbs7HXzfXIJF1G4CMBzqUTb6IXs918LJA2kU=;
+        b=hnvpIPKBrNowhV/rchPzRj/ZxtqD/12LoIPWpqBOgWuGUayxuTSMYwAQIvCbwksNwZ
+         fLfZkwMIkElktU+hX8tiebpngcB6U5haUo/2T8TPV1q5rxtFw6ICEADOuMjyFyVYjLgT
+         rTiVbe+sNBa1BGsDSZtlOqQR+l4ASzl6lainJENT7ljjvXYuBkbVvvEbe/KEgBhpIZJ1
+         6ULk3axN0rZpA+PbBJREFNBo0Mj9G+v7sW2Yzn5qnvAAPGYqeDL+RWQBxItTaAYMA5iQ
+         o3dR+ZQqAJ9YkJ1Ca38mtayje+2Z9aFpPLQyWllrAY+7nzOI/hYCDOXuZfjKfwl6XjQt
+         rtxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUA8pxESDIppwFs88TQCbEdaGeAKg8PCTEwAsoeKmLWI3YfXLjmq+zJGdv2OR6wr8IwFTVuyvsnCf8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+nVPCxVrGJpbqQsGGh54HVFUhgNg3ylo+MzfqZfb8tSEwdW50
+	bqAWL04AnkfmQ/oWs6+Yc3mI5G4j+l22cxNRNuOcJdalxsmQOOuIONujT7KIy1eN+BY=
+X-Gm-Gg: AZuq6aLx5q4W8ee3OIq/z38Pw4Bim53Lg3UceELH0O9ePT69i7jbwcQfrojWVRXFzgM
+	q3X3rgdhviMnhSx93/iGpkLLXk3NuLvTx5m1ZUyXnN6nwFuxFpqwxHiEqnrhF5DVPBHdD0w/ujr
+	Oy+jb3r0A/5uYtE/D1TzurfeOvZScb56RwW+9zoAVsOS9ZO0qwqwMwLAq5u4VDxP7juE1Pn9d6C
+	UmoGXfmiMCWbb63FHpKcRYCY4+uH/6G7HvAPA+DgRNh6a7tqpDlE4hkp0MubhZIUj8K++7sds7d
+	oT3iIWzRjwCgAkf1zxGOtiIHpXZitsnShxRk+j3VZTrNU+MaMQAfcEmRF0WTZl4X/SVYJJ8PgcN
+	bFABfB3gKIx3mgE/We2Y2kLJcL5TWw6CTiJ8AW6sjGRYnZA0q21AjwcH0wlXeO985H+nhYxJH+D
+	vMgGmQzGzMWWk=
+X-Received: by 2002:a17:907:1b20:b0:b86:f558:ecad with SMTP id a640c23a62f3a-b8dff5260f2mr877455366b.7.1770123628657;
+        Tue, 03 Feb 2026 05:00:28 -0800 (PST)
+Received: from draig.lan ([185.124.0.126])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8dbf1c5b38sm1024503866b.53.2026.02.03.05.00.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Feb 2026 05:00:28 -0800 (PST)
+Received: from draig (localhost [IPv6:::1])
+	by draig.lan (Postfix) with ESMTP id 1C5C05F841;
+	Tue, 03 Feb 2026 13:00:27 +0000 (GMT)
+From: =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>,  Joey Gouly <joey.gouly@arm.com>,
+  Catalin Marinas <catalin.marinas@arm.com>,  Suzuki K Poulose
+ <suzuki.poulose@arm.com>,  Will Deacon <will@kernel.org>,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Jonathan Corbet <corbet@lwn.net>,  Shuah Khan
+ <shuah@kernel.org>,  Oliver Upton <oupton@kernel.org>,  Dave Martin
+ <Dave.Martin@arm.com>,  Fuad Tabba <tabba@google.com>,  Mark Rutland
+ <mark.rutland@arm.com>,  Ben Horgan <ben.horgan@arm.com>,
+  linux-arm-kernel@lists.infradead.org,  kvmarm@lists.linux.dev,
+  linux-kernel@vger.kernel.org,  kvm@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-kselftest@vger.kernel.org,  Peter
+ Maydell <peter.maydell@linaro.org>,  Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v9 01/30] arm64/sysreg: Update SMIDR_EL1 to DDI0601 2025-06
+In-Reply-To: <20251223-kvm-arm64-sme-v9-1-8be3867cb883@kernel.org> (Mark
+	Brown's message of "Tue, 23 Dec 2025 01:20:55 +0000")
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org>
+	<20251223-kvm-arm64-sme-v9-1-8be3867cb883@kernel.org>
+User-Agent: mu4e 1.14.0-pre1; emacs 30.1
+Date: Tue, 03 Feb 2026 13:00:27 +0000
+Message-ID: <87o6m6nfro.fsf@draig.linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,64 +89,19 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fab2af64-e396-45f9-8876-feff4002e04b@suse.com>
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-02-03 13:19:20+0100, Petr Pavlu wrote:
-> On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
-> > The current signature-based module integrity checking has some drawbacks
-> > in combination with reproducible builds. Either the module signing key
-> > is generated at build time, which makes the build unreproducible, or a
-> > static signing key is used, which precludes rebuilds by third parties
-> > and makes the whole build and packaging process much more complicated.
-> > 
-> > The goal is to reach bit-for-bit reproducibility. Excluding certain
-> > parts of the build output from the reproducibility analysis would be
-> > error-prone and force each downstream consumer to introduce new tooling.
-> > 
-> > Introduce a new mechanism to ensure only well-known modules are loaded
-> > by embedding a merkle tree root of all modules built as part of the full
-> > kernel build into vmlinux.
-> > 
-> > Non-builtin modules can be validated as before through signatures.
-> > 
-> > Normally the .ko module files depend on a fully built vmlinux to be
-> > available for modpost validation and BTF generation. With
-> > CONFIG_MODULE_HASHES, vmlinux now depends on the modules
-> > to build a merkle tree. This introduces a dependency cycle which is
-> > impossible to satisfy. Work around this by building the modules during
-> > link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
-> > but before the final module hashes are
-> > 
-> > The PKCS7 format which is used for regular module signatures can not
-> > represent Merkle proofs, so a new kind of module signature is
-> > introduced. As this signature type is only ever used for builtin
-> > modules, no compatibility issues can arise.
-> 
-> Nit: The description uses the term "builtin modules" in a misleading
-> way. Typically, "builtin modules" refers to modules that are linked
-> directly into vmlinux. However, this text uses the term to refer to
-> loadable modules that are built together with the main kernel image,
-> which is something different.
+Mark Brown <broonie@kernel.org> writes:
 
-Agreed. I'll go through everything again, to consistently use "in-tree".
+> Update the definiton of SMIDR_EL1 in the sysreg definition to reflect the
+> information in DD0601 2025-06. This includes somewhat more generic ways of
+> describing the sharing of SMCUs, more information on supported priorities
+> and provides additional resolution for describing affinity groups.
+>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-(...)
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-> > +
-> > +	while (fgets(line, PATH_MAX, in)) {
-> > +		struct file_entry *entry;
-> > +
-> > +		fh_list = xreallocarray(fh_list, num_files + 1, sizeof(*fh_list));
-> 
-> It might be useful to not reallocate this array for each file, although
-> I don't immediately see that it contributes any significant time to the
-> runtime.
-
-The libc implementation should optimize this internally to not actually
-grow one elemet at a time. I'd like to keep this as-is.
-
-(...)
-
-Ack to everything else.
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
