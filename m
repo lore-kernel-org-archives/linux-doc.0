@@ -1,126 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DC736A024;
-	Tue,  3 Feb 2026 09:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA31A396D01
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 09:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770110342; cv=none; b=m2N4T5faYgEild/pnMsniPtHGSGhfa41vTD1l0YTCKoIzM6TBdT4LxFsKN5hmI/vg1p+YD/Dr+Zizfp5T0YcbRHJAYpzlq0GTdkY1vvYGJ0CmECEpZ3qA1cSvPVPb/4vztltEY6kqECRd7gEW1k0/A5f42zLD8RwkDxJgQSix04=
+	t=1770110809; cv=none; b=C2LLBlem6b+yEb4z77juIGHcMSeLxS/O0KBApnRtfCoN/vC65WO8E+a2OOxuscPMfrfJ6q7xjZj1SB8PXeH5aH9U8xxmDw1dcT4Fi9YasDshlStI0pCZNBoHK+kixAcNWTtiUNpPQy3FAm7RzaAT36R+qpjAVglXbjSdGiEUeGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770110342; c=relaxed/simple;
-	bh=EL5/CWhuVKlSmqggE8w0nVImAy4Hf9oadRPQy0z32XU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uln87Q+WKuodPA/uEumULNC0j/eG80FUDYR6GJgSLWh2xpkM9/r6yTLrrYuDP+3V/qLks5Ymn4Q4d1hZfZiyYAd4UAD4JY1V+5D8Iqt/HU8wNerd2K4uP+DCUn/DFGukwV9ls+VNV5HuOD6++ZDOon8zyw+AALC5RK5MDjOCSoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PuXzui41; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770110809; c=relaxed/simple;
+	bh=zQIcFhLzEEVfpsSAYKxeP8WFD6JDPzhJjkOH75MBsj0=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XMoUf5fPRiEbO61O+kUJhfeBho756ToLT8JA1s367MFbB3rt10rC6gF4tpdhcAvpswJOahvRuRKE2fd3OltOEU3tpqx00oSKW//88MkVcAPRzFTsNV0IJybEXuCCgasEfA+Z0SIHaM0aP4vnpgvDryavUCa5AzDYXEqbMv6UO6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CszI0hi0; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PuXzui41"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770110342; x=1801646342;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=EL5/CWhuVKlSmqggE8w0nVImAy4Hf9oadRPQy0z32XU=;
-  b=PuXzui41sAFEpX4RLgNhH5euniT4J9QyLzgUKyBbjx2mbjVLqByOq9PN
-   wqzSOZf+loz/kpHyPu9L/9qulMwBSi5I0XWGNoHZm0pM+SagVrb7Kk8Lg
-   cy32lQuHnxvxITbrofpZjElTCHXac+w2gTt6fal2V/EjfneQDEeKGSssC
-   2L4yg7UVJ/UeEzDl2ulKegFs8ePbyXEbyeOCx4H3+tal8zrpS2EIwnB76
-   6WnK2C0Fc7WY5qUBgxmAvN//UZL3kls5akcRXfxSmwjQuiBkPUOY8GQz1
-   7eie4bs2H5slq7uL1kKpBgkCbZpxri8f3Em/7fajHklmPEcAjsvSqLXr1
-   g==;
-X-CSE-ConnectionGUID: qJ0xDkjbSaWvlA/ks3IDFQ==
-X-CSE-MsgGUID: P5hq5qkaSQSrUelPDcbKjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11690"; a="88697935"
-X-IronPort-AV: E=Sophos;i="6.21,270,1763452800"; 
-   d="scan'208";a="88697935"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 01:19:01 -0800
-X-CSE-ConnectionGUID: vRkcvnMZTSGwT/dXivMC5w==
-X-CSE-MsgGUID: GJOaJvlfRVKSKluBmYXX5Q==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Feb 2026 01:18:57 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vnCYh-00000000gUa-2P0g;
-	Tue, 03 Feb 2026 09:18:55 +0000
-Date: Tue, 3 Feb 2026 17:18:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
-	kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
-	si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
-	maobibo@loongson.cn
-Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tianyang Zhang <zhangtianyang@loongson.cn>,
-	Liupu Wang <wangliupu@loongson.cn>
-Subject: Re: [PATCH v10 4/4] irqchip/irq-loongarch-ir:Add Redirect irqchip
- support
-Message-ID: <202602031759.6a4E6Hm4-lkp@intel.com>
-References: <20260202091041.2278271-5-zhangtianyang@loongson.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CszI0hi0"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-480706554beso57717045e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 01:26:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770110806; x=1770715606; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=v8u3IwoMOrMqGo+Mwbf89Kdkxv+i1U2HP3cA+C8V8rM=;
+        b=CszI0hi0akWQwhlXq1WfZsp9xDZjx8nGupVk2Dhq8140uSJj+SpEOvMaQF4buoj39q
+         +Epe8D6iNMt7njDdlXM6L61TRQY7i7lyYppiBynsGbOjHcMy4Z8LSDEFydxsl39CgEKx
+         S7a9BYpBUwovngDihUHOhX0u2CqFTFvErppY3ausyYe10ey5cWUjFrwQE6cI0hK4pRed
+         knsW7Gxukn1z8C+++pqXpEPRdLgqMMTrLZXXjoR+HW3WBwSZWxQSb4Jxi35i4ZK/Gow1
+         vmC+krwiFI3GhGHhA2xqf0u6L0nkFtGbL0dNSqm7HaRBQ7VxrJzdv2xokpgenQwjyhnF
+         HrRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770110806; x=1770715606;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v8u3IwoMOrMqGo+Mwbf89Kdkxv+i1U2HP3cA+C8V8rM=;
+        b=JBmjJTrgXQ/WQNqPDuvLxZgHzOEzcVrz29bPkZJ1BRx45xP4zZmjFSD+tG4KVvsfkY
+         VOK0o7ZCbUMg2hiM26jfx6lEZ5ps9KNOKrvTFlT/pzDFuX/LhCXPq9YUEgMK1U+5K/gz
+         cP2Momi8V9IoWcKjk2pRsm8lfS9pPPXQ7NK6C4u7wyE0NTpH2ojE6NrPqelaMnwQUNVR
+         GXjdaJsPXG/m1fuKd3UOEO8b6or2UTPmfoP6w7m/L6sX96sgZlPGJfc5IiPK6GzsCrz0
+         A3jX/J6/F2LYnAo/Bz0ePHZ1ccBqcMuTO4Cz34UpIjkwlkJ70TEXcsqID9KhpFY0YH5j
+         wofg==
+X-Forwarded-Encrypted: i=1; AJvYcCVZjn0URY5IGGW0UlnPgfC52BYAAOz5s2xrJvjB7ojgfIeh3aChN2oonWCCohFTiel2Twz3vzHZKZc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDFhmHvjjwofPtmU8z1zyxIXmPFP6MrmavX1tOnGTpbpm5uC47
+	gy20FqWFfepfr/wT1YN4Ane8IIONMF2QLRk0TkV6L6xhbL1S4HK45TLv
+X-Gm-Gg: AZuq6aIf6OCisZ9eJXmcUIHF4z9L7PTAMr01cHFwrkhK3CsrHLTC0yi+HmhEv9806An
+	kVUlCsOm7qfFc2uZlXS/u7uVqEQmlWUx7FfPs3z9l+lnGbatJPS4FixgHdQaLVZTD3jI8lun2nw
+	MwW6VQ+rg0TaQj9vPLjI1yQDIwAp7gk1/28TEPbbWPTeYgq6DXtF0sfEooGi6sQ5IeruA6ahrFA
+	HeaZzMfviDGzZmJHePVK8AC9BNYfdWqM4W40MhtiF9zjJBBfYnuCmHUpZ06lqMlRkIHlvp17BSD
+	G4u21+q9J3s/j9XKWM/l+6ucPm2+zpY3TeKxorn3RCdYtoV1caWKnrNbN/LRei2Bh5IYAQJtbOQ
+	YZvVPGBkckTJFx5mZBSSFIa5JoJDP21uihJfhMVCHjogrthPy92dJbM4KCV1t3lfSz19vjiNCA7
+	dgw3QNsXHymHgouxZlcc/bSNscC6fH/YNV1hUDFL1i2FkMeysCOBD6I97K4hrC783MkRCMhZoH6
+	yfV
+X-Received: by 2002:a05:600c:3b23:b0:47e:e87f:4bba with SMTP id 5b1f17b1804b1-482db49e871mr191759345e9.29.1770110806001;
+        Tue, 03 Feb 2026 01:26:46 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48305129321sm49396195e9.4.2026.02.03.01.26.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Feb 2026 01:26:45 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 3 Feb 2026 09:26:37 +0000
+To: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>, 
+	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
+Message-ID: <nzowa6uhnlcllceml2pqjk4so33kl3rf2jwu36eh3znnxug6ub@gfzafmi3m5re>
+References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
+ <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
+ <eb1d9b939f95888739ce4a70f516cec07393c6df.camel@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260202091041.2278271-5-zhangtianyang@loongson.cn>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <eb1d9b939f95888739ce4a70f516cec07393c6df.camel@gmail.com>
 
-Hi Tianyang,
+On 26/02/02 09:57AM, Nuno Sá wrote:
+> On Fri, 2026-01-30 at 10:06 +0000, Rodrigo Alencar via B4 Relay wrote:
+> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > 
+> > Add iio_str_to_fixpoint64() function that leverages simple_strtoull()
+> > to parse numbers from a string.
+> > A helper function __iio_str_to_fixpoint64() replaces
+> > __iio_str_to_fixpoint() implementation, extending its usage for
+> > 64-bit fixed-point parsing.
 
-kernel test robot noticed the following build warnings:
+...
 
-[auto build test WARNING on tip/irq/core]
-[also build test WARNING on linus/master v6.19-rc8 next-20260202]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >  /**
+> >   * __iio_str_to_fixpoint() - Parse a fixed-point number from a string
+> >   * @str: The string to parse
+> > @@ -895,63 +1026,43 @@ static ssize_t iio_read_channel_info_avail(struct device *dev,
+> >  static int __iio_str_to_fixpoint(const char *str, int fract_mult,
+> >  				 int *integer, int *fract, bool scale_db)
+> >  {
+> > -	int i = 0, f = 0;
+> > -	bool integer_part = true, negative = false;
+> > +	s64 integer64, fract64;
+> > +	int ret;
+> >  
+> > -	if (fract_mult == 0) {
+> > -		*fract = 0;
+> > +	ret = __iio_str_to_fixpoint64(str, fract_mult, &integer64, &fract64,
+> > +				      scale_db);
+> > +	if (ret)
+> > +		return ret;
+> 
+> I know it feels tempting to do the above while adding the 64bit variant. But isn't the
+> overflow safety also an issue on the 32bit variant? IMO, we should first have a patch
+> adding the overflow safety with a Fixes tag and then add 64bit support.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tianyang-Zhang/Docs-LoongArch-Add-Advanced-Extended-Redirect-IRQ-model-description/20260202-171607
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20260202091041.2278271-5-zhangtianyang%40loongson.cn
-patch subject: [PATCH v10 4/4] irqchip/irq-loongarch-ir:Add Redirect irqchip support
-config: loongarch-randconfig-r072-20260203 (https://download.01.org/0day-ci/archive/20260203/202602031759.6a4E6Hm4-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.2.0
-smatch version: v0.5.0-8994-gd50c5a4c
+I think handling 64-bit support after taclking the overflow issue
+would require changes on top of previous ones, which might get a messy
+commit history, no? Mostly because the 64-bit variant of the function
+is being used inside the 32-bit one. Also, the added auxiliary function
+that implements the overflow check parses u64, which allowed for the
+removal of the while loop in the __iio_str_to_fixpoint() implementation.
+ 
+>  
+> >  
+> > -		return kstrtoint(str, 0, integer);
+> > -	}
+> > +	if (integer64 < INT_MIN || integer64 > UINT_MAX ||
+> > +	    fract64 < INT_MIN || fract64 > UINT_MAX)
+> > +		return -ERANGE;
+> >  
+> > -	if (str[0] == '-') {
+> > -		negative = true;
+> > -		str++;
+> > -	} else if (str[0] == '+') {
+> > -		str++;
+> > -	}
+> > -
+> > -	while (*str) {
+> > -		if ('0' <= *str && *str <= '9') {
+> > -			if (integer_part) {
+> > -				i = i * 10 + *str - '0';
+> > -			} else {
+> > -				f += fract_mult * (*str - '0');
+> > -				fract_mult /= 10;
+> > -			}
+> > -		} else if (*str == '\n') {
+> > -			if (*(str + 1) == '\0')
+> > -				break;
+> > -			return -EINVAL;
+> > -		} else if (!strncmp(str, " dB", sizeof(" dB") - 1) && scale_db) {
+> > -			/* Ignore the dB suffix */
+> > -			str += sizeof(" dB") - 1;
+> > -			continue;
+> > -		} else if (!strncmp(str, "dB", sizeof("dB") - 1) && scale_db) {
+> > -			/* Ignore the dB suffix */
+> > -			str += sizeof("dB") - 1;
+> > -			continue;
+> > -		} else if (*str == '.' && integer_part) {
+> > -			integer_part = false;
+> > -		} else {
+> > -			return -EINVAL;
+> > -		}
+> > -		str++;
+> > -	}
+> > -
+> > -	if (negative) {
+> > -		if (i)
+> > -			i = -i;
+> > -		else
+> > -			f = -f;
+> > -	}
+> > -
+> > -	*integer = i;
+> > -	*fract = f;
+> > +	*integer = integer64;
+> > +	*fract = fract64;
+> 
+> Hmmm, aren't we truncating the values? They are still int pointers...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602031759.6a4E6Hm4-lkp@intel.com/
-
-smatch warnings:
-drivers/irqchip/irq-loongarch-ir.c:206 redirect_table_alloc() warn: unsigned 'index' is never less than zero.
-drivers/irqchip/irq-loongarch-ir.c:206 redirect_table_alloc() warn: error code type promoted to positive: 'index'
-
-vim +/index +206 drivers/irqchip/irq-loongarch-ir.c
-
-   192	
-   193	static int redirect_table_alloc(int node, u32 nr_irqs)
-   194	{
-   195		struct redirect_table *ird_table = &irde_descs[node].ird_table;
-   196		unsigned int index, order = 0;
-   197	
-   198		if (nr_irqs > 1) {
-   199			nr_irqs = __roundup_pow_of_two(nr_irqs);
-   200			order = ilog2(nr_irqs);
-   201		}
-   202	
-   203		guard(raw_spinlock_irqsave)(&ird_table->lock);
-   204	
-   205		index = bitmap_find_free_region(ird_table->bitmap, IRD_ENTRIES, order);
- > 206		if (index < 0) {
-   207			pr_err("No redirect entry to use\n");
-   208			return -EINVAL;
-   209		}
-   210	
-   211		return index;
-   212	}
-   213	
-
+Yes, truncation happens here. integer64 and fract64 are range checked
+before this assignment.
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kind regards,
+
+Rodrigo Alencar
