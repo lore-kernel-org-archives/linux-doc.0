@@ -1,369 +1,872 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EFA33D6EC;
-	Tue,  3 Feb 2026 12:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770120566; cv=fail; b=b4VkwxdCrLwoLxj2uoRp2OekuVzO+J16HNy4k7eslMwY9oOoYD4YKvZdyESbTe/jsbdkqbmceZXNAU8+wYBHkjKzwNWWolNePczbFofD+02zEcPGjLAP3QHCCMK1lHikUjVPvADlNblH+V6FKzcMtmYzAs5yiFRMWU+0QJ7Z0Fw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770120566; c=relaxed/simple;
-	bh=Hbkiq7lmKPi3vWY6yh4QnHjEKEVd0bZi0KNFN5fAetY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=NcNIKBxuPs88AJHtoD7bx5KqhbbdGBcFPCFitzgkQjogYD1OJmD9f0/q81Po++Q93qGAPqcT5bWkWFMCR4HRkxc+FkFH30ocClaCkxrOKzT2fURuG9Hkn5qSfunVR6fG3FV9QcvohZb9DzqhEs9tYiXG+RIWwkDvVJeWVmM+RwI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=o/G785e5; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=nB2c4dgL; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B790233AD93
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 12:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770120630; cv=none; b=Ek6iVEh1Mv2UujCWJSVkPwQ42NpxCP3ncvnfWkPlykpAYI9cZVBgxj8gv45xirUuxY6SE4XifjWty8lGecGbNFgO1QVwv1P6Ge6NIVJePIYAimrg46DfDiN9VL/GBpSYM1guN608u6ppRZIqrCQQ/5OF7Zqp48qXOE3cLnVq2pk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770120630; c=relaxed/simple;
+	bh=1NM6+bfr/cMN0xttfaEuPeuEzSbl2A++R6DVEmWfxr8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qMdEEF/NyDKUqInLOPRtToHUC5mgEGJ+oRiutUK5/8L7DYciQGuw71ybRSONplA+WVN9ob8vva7maNUEdyBlHLs6l4ODJscJ2icZVlTytw1yQLPPXtkNXUmASgooznrwbXWR1NGo9H39aD9srGnp1GoRvMcQ7jVbRvroaDCZrxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q+61H0Rm; arc=none smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="o/G785e5";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="nB2c4dgL"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6138vWB03766261;
-	Tue, 3 Feb 2026 12:08:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=corp-2025-04-25; bh=VJ5EB9yx/v8VmIR8WD
-	l5rZBy3Zs8q0dlaf+8cPoExK8=; b=o/G785e5z44znryEsz5wbroV+zUA+i1coX
-	9PS9DMPTEJuuRqZl2DNBDUIQiCa6OC/EYG/90FolD3ikHaIFDjl+/84G0k9Z9fJZ
-	fhlSWiJ3Yt0BhvBY8HWjTnwfV9j/xusY1bV5HSUHki5PSNOmsdh3s7Zvr2XjCH9Z
-	aCOCYq8+wlWX19X85D0Wkx93xgn44Vc5OxjMRNUuENr+VG/w5DlVwgqNXY7dv+Lm
-	MQXrLZWVpJUvP2W+fAEDBnXpe1PH3mFNRxI9BgeaQza32oGfHiTBuh/Tf4Y9bSpH
-	TZzBrjQO/qzNAlorOXZZx4D4tf2cCz/T2c3ni0dJggc0i+q1OuMQ==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4c1arhkwcs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 03 Feb 2026 12:08:30 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 613Boxie037317;
-	Tue, 3 Feb 2026 12:08:29 GMT
-Received: from bl0pr03cu003.outbound.protection.outlook.com (mail-eastusazon11012041.outbound.protection.outlook.com [52.101.53.41])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4c1869qy0p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 03 Feb 2026 12:08:29 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TMhI+LVlR4I9mDvGUEyYk5pUMDMV3rK+ZA4sylahg1jSiNvV9i7/I06t4tn8w4tXdmRhHlJhciYpA62pG5cvmugOLtWo7ftNWoKMe5QpaeGVPSUPQpQwRHgbd7j1OPzcyzB1nqfPJXRry61ArsVWbsHV+WdDm6qm+UU3axVM6BeDo8aEIIwg3k1NMIbMR5KW0tBM0lgjRMqG9aP1BqMZsqTz6qFBUBrhUyUBOILNwJOgtM/z7j9NAC7ZgokCdtWtMVu8SFM6ka34gOq0i2xEVCvWLGU1hyVuqMmeoWYaYhnQDZWIrjfRkfZq8o/A7xII4WnuLP84JJ2Jribmmf8ZkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VJ5EB9yx/v8VmIR8WDl5rZBy3Zs8q0dlaf+8cPoExK8=;
- b=OdXl03gec008o+lJO1Cxp4ks6m5jplwKCVEYjXEc/Q2lXsUXT6MFDUJkJfYeRtBqSHe5DOqRywLtQr9+2KSOFN4sHyfaJ0WXegA4WbZ8H9y0DS8TGvFmauKtQXzKGd2EtWX7E15Ftfy/VwzblK9RTcaINq+Yn8w/cQX/c9z2eSl9BeDeZpPsh5P0t2Gabc+zAVQryILALVyc+hGkw2IOPfUYu0iDx05kvvVszPd5xctjq2uP+LrtcnuE5mwHBEwbwTDBRAwhX6j+nMDjS4gWykaAPJVY0bKu/GVXJU5EY9/kKjOzhFx0Dx6J9tPUWSkdzpLgsovSt/YT8ND6QXzopA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q+61H0Rm"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2b720bb90d0so5399417eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 04:10:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VJ5EB9yx/v8VmIR8WDl5rZBy3Zs8q0dlaf+8cPoExK8=;
- b=nB2c4dgLU2/GiBZW8Fy+f/ek0msGVEZZW3VCxMwGiSvvL0HirxbOuHgEp9zcVW3ND1iurrRv4wdUCRDuwflMIz6fMD0P5ajq/XiF/8dq663b4c3VHLEpT6RNWPxddZGCo4uJk0UEtDaaDpmzTkTnAJenWmSB6/sAVrTTq52TxCA=
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com (2603:10b6:208:4e6::14)
- by DM6PR10MB4202.namprd10.prod.outlook.com (2603:10b6:5:222::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Tue, 3 Feb
- 2026 12:08:25 +0000
-Received: from BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582]) by BL4PR10MB8229.namprd10.prod.outlook.com
- ([fe80::552b:16d2:af:c582%6]) with mapi id 15.20.9520.005; Tue, 3 Feb 2026
- 12:08:24 +0000
-Date: Tue, 3 Feb 2026 12:08:24 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        akpm@linux-foundation.org, david@kernel.org, ziy@nvidia.com,
-        baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
-        ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
-        lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org,
-        surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-        rostedt@goodmis.org, mhiramat@kernel.org,
-        mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
-        joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
-        gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
-        jannh@google.com, pfalcato@suse.de, jackmanb@google.com,
-        hannes@cmpxchg.org, willy@infradead.org, peterx@redhat.com,
-        wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
-        sunnanyong@huawei.com, vishal.moola@gmail.com,
-        thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
-        kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
-        anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
-        will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
-        cl@gentwo.org, jglisse@google.com, zokeefe@google.com,
-        rientjes@google.com, rdunlap@infradead.org, hughd@google.com,
-        richard.weiyang@gmail.com
-Subject: Re: [PATCH mm-unstable v14 07/16] khugepaged: introduce
- collapse_max_ptes_none helper function
-Message-ID: <db10946c-9743-49e0-a845-7f53a60778a6@lucifer.local>
-References: <20260122192841.128719-1-npache@redhat.com>
- <20260122192841.128719-8-npache@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260122192841.128719-8-npache@redhat.com>
-X-ClientProxiedBy: LO3P265CA0027.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:387::17) To BL4PR10MB8229.namprd10.prod.outlook.com
- (2603:10b6:208:4e6::14)
+        d=gmail.com; s=20230601; t=1770120625; x=1770725425; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZHtfd22V941F8jIzX8x+yNRec73rAVYTTJefxncTn9I=;
+        b=Q+61H0Rm8Oq+l5IH4uxPbj5akEJEaJrl6kBBLXVal2kp4g6bnb4PcrJCLZ5L3g4sTj
+         BPKCNVEDMY4eRC6x4zthBKGRRq8Vq+dR71CyIgIQdc01bhzU8I/3Ela6NMmiCPUNRU+i
+         cSaGK2Kqrg2iQU/rsf8fdSsIangIiRFZIibYYuJp6PurlV6cTsGTWmLMmxFli4jWT6Pm
+         LqV0L1RW08ssK7Vz9U2UosZ+cFKWvmtMee4kLGB4CrleMLSwFe7qbWRheUNts8wHprZr
+         WyD0sD/okIuc6wDMPjjpyMzxvC6TljuNzSTDkYahLKbh5WCdoD6sLVR+445lqr77O9JZ
+         Cb0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770120625; x=1770725425;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZHtfd22V941F8jIzX8x+yNRec73rAVYTTJefxncTn9I=;
+        b=jW4wtEK6gcKD9TtkngtsLGFcNvGf+vzgia2ljwCM14RhSslu2kicdPZzxrYOymSfoU
+         IMv+1dlJs63NOH6RQnMndloIPtxUc9BBXyYi3WMw9ARmKrUNCXKu3oqUqVGmQZA2IbG+
+         zB54qVfbTdsJnp/npeG1mAxOZH2jxGHXieRvbcPc2HdpR8kgtnICgjYYhQE+CqXqRIng
+         sVJexxdc2IuTBVEJ87/zp5hKmfQOHvSvluqgQFO/DSKhKXAuZ0AtK7hYeJDMc2/GBR0a
+         qfdI+Ku5AaDhyZ3LF08lW/LCYjeQ87GCI8oFiN0Tw1niZfGBPpBhsruCiPg5vIuxUHzo
+         vqeg==
+X-Gm-Message-State: AOJu0Yz/ezPe/EwH1Kk9NpPyJFn9lY+AgPSeXAdFNxd9y5+vpuh/T95T
+	NLc+4RCsnzVTHR3+Z5LzLuA+C/TnYVN2V0wxZKHfcWQNZ0QgFnZ2JRIb23S2vjbj
+X-Gm-Gg: AZuq6aInI+XqKnQtODYhluE4wHQMycrWZC5xRuJTyKrZ3YbbzfrhjbJ3CYIWpWNmuiK
+	qiJAJP3vDZvqjB6mWuOOHcXynkjRce0pc8osR2arLiYivnTpRPA5FnrS2V8PPLddOSzZNB3QP60
+	9tBCeOWm2gDgZAm+nYE028hTo7OKn+0VatqIVjCTMcpcYE65Yy8Sr1bibMzx2uHkYClnv98SOT9
+	8f8xdKGdrVwh3R/0th/vdWhVMYUzhjqwCiBWkJmaEa6vzRacFtIBaH+Y/JvZJ/9L+AQVwiNC+0u
+	TtFMmIRaJDdP1XtYoqj4J7oLC5eoDE4CLFZzDxLMbKgPD5lFm0aSrJGZdngFVNwLfJEKidihp2+
+	leY3F00zIbZdf1acrj2EuerBqnPoZ5hwvX2XCzF1AFaABKtIOn3fXH8cVeGd01o1xLWs1BISW2h
+	NXDqhpprB4HbpHstkqqiCKokMsBGOqiOgXJTqXndV2MyIahS9m6eKYpsN9uOS/1ZXeI6hU5Ft9k
+	A==
+X-Received: by 2002:a05:693c:6205:b0:2b8:711:ae4f with SMTP id 5a478bee46e88-2b80711ba27mr2665831eec.9.1770120624021;
+        Tue, 03 Feb 2026 04:10:24 -0800 (PST)
+Received: from mentoria.. (smtp.hostdime.com.br. [187.45.177.18])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b7a1abe92dsm22055823eec.17.2026.02.03.04.10.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Feb 2026 04:10:23 -0800 (PST)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: [PATCH v3] docs: pt_BR: add initial Portuguese translation
+Date: Tue,  3 Feb 2026 09:08:57 -0300
+Message-ID: <20260203120859.65735-1-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL4PR10MB8229:EE_|DM6PR10MB4202:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5bf78729-4a7b-4aab-03e1-08de631cee7c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?HRMm+aTZLdYqqGXXSgWFbhw/7hnxYUz9m21LiIErFrEgl1CytAQLZnX6nsq4?=
- =?us-ascii?Q?cAJxCLKBeJCPlEy7ppx7856aTOsJEYqYEMAdLPQovMkYQ5U/fWeysu+CLNuy?=
- =?us-ascii?Q?/Rri9ZIyK3aDn6ocCMFKSpfaQPwvErF3Jg256q80JMKb0L3YN/+nrA/TbhhQ?=
- =?us-ascii?Q?RLfTCiugT2mbheaNAQPm6vEUav0Oi0dfZJOVUWcH5gNC31vBEvLf4/ygRokF?=
- =?us-ascii?Q?8n+JbsEdGd8AZHFwIrBhD3ujI2BjjlwmQfryugr0hBYTTpGOjKpfJZb1SX1v?=
- =?us-ascii?Q?403YNQ9bSUujRx6p2vsJNpMGJrcCQ1hBlcxl80B3V5L+Ij49gpBx73Hwd3ZZ?=
- =?us-ascii?Q?561+gB9EPKsW/vmctDChC9e/2gkchJvSSC8idMDEla4q9Qu3yZZI1wk2eZmX?=
- =?us-ascii?Q?3SktQHFea6KULxYXyU9IXLKpxu9yUpzuSkst+7hHKc4KL985HeaJVXwWs+PW?=
- =?us-ascii?Q?uMboTZGaoK7LdTnvVie6gJneo8i40iTct+K7s9+uz8Ox1yFNww2kGORgkDeH?=
- =?us-ascii?Q?FEvqJLbp8Pf5oofxsw+DgzVgGtqxZwcqYF/Ws+zIVQVs8pZdKnCNlZP74d51?=
- =?us-ascii?Q?DW6PRb7SbKld2JAFstxG2SnJIIC4nVF45YlKuL8IYpR1wBD5keFfCN66xHpt?=
- =?us-ascii?Q?T8Lp736X+iIoPzoocW63usvk38bXTlaOIxGJL2PzemTmvoC8QVwFaD4/7d/f?=
- =?us-ascii?Q?bVcJUGfCMHSRvuqUKjI9pWlPwads/sc/CY+KLum32p1FaJZDoQXpWUczHL1d?=
- =?us-ascii?Q?Xy3U/KNzYOki0KDMkWOC4iPEHr328/JnNWoqcKEJ0qQc0ZtkFhFJN48vbGMr?=
- =?us-ascii?Q?gtrBdQXzrPspgwS+eLU4ferhUo7D9ZRByijlDAp0mRnkJG0fGx68hYfgwa1X?=
- =?us-ascii?Q?1+RTvtDUwrzp0v6ahWvIuxxdQJak2HMkE9dfPdgspzBl8hUIrVOvE5uo+mey?=
- =?us-ascii?Q?/NFqnTKPZ8i2inyybcLEWqRSnqUGL4cqFDMHarO06GE5e9m5cQqI1xCeab/3?=
- =?us-ascii?Q?Ajw4XTZLsyOwnLJraBKia3exogHwp+xODSdDAq0SWhUIvR0E0tJ8/O/SwBpx?=
- =?us-ascii?Q?iAkrqGYY5PSQWYwPqQAhnmV0qdIhE/9miLsJtdzlDdwfaUKCGZbPtkgN51JV?=
- =?us-ascii?Q?k7KLp+akePqGS+E2ACJWf3jbtDLt+lk3pWAgS/6855sI+n++6afRo1emIngi?=
- =?us-ascii?Q?g0KuzzNHDED7rOhk8atVRmwBPsJZovuKkzy5L4tX1ZJoH8sEUEyej5nKIOvJ?=
- =?us-ascii?Q?FV/ejsY6TNHJMSlvT1YqvnIZKFny5V4frxYWnej9P2nFd1y+c1+h4HD/GN2I?=
- =?us-ascii?Q?RLCrkAfIXn1FK5jlLfwR5z8SyHbx51S/G1pgqNbSxEtHk1xFJ5/fsuKHbmXY?=
- =?us-ascii?Q?5k0T5eScEu61epy6FgQRTor7hq3Bvb5J2lNXOIxUPwebBYdI4go/ypLAp5vE?=
- =?us-ascii?Q?feKba2SRQ539TTyCYL7Qs0ObzeA26wF8yXK0++j64Gf8roPqAx/v7IJ9WLIs?=
- =?us-ascii?Q?hQ1AY9azwnR0W5nKl+D4RjGHxXrPWNcUPeZWfr3Ajt7Ilvr9kpSGbqLABufG?=
- =?us-ascii?Q?u58SF+8RxN3NVq9Xq9A=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL4PR10MB8229.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?cx5zk0eQW3FTXVajPN5adcHxp4TRje2urhMssJCgpUWW7mPzN+yWGIrDyleY?=
- =?us-ascii?Q?toH5sp9w6MNVWsEg9lJbU5MJPRLEz+gs8KSp9ocz0h2WjPYbuA7TO3wjpWtl?=
- =?us-ascii?Q?LvHbOHJC74PVsZTM7w5kk4ZnKTfTr068ggn+ZUyD/AyDdajbYd3Ot9yptzhn?=
- =?us-ascii?Q?Xmf4fo6lRqbB/PqnJg6u4iGx06g3Z/bOEDzy0cHzQsGcExYJdYHPPnjFggfv?=
- =?us-ascii?Q?RjQaeIysxo6hY5/Z1kDenyzQRUTlcG5WL5JsPSAGg1M91RfBHawfL/JavRmb?=
- =?us-ascii?Q?HVTiM8aHA7WYWOgpru2jKpva6PIE3+S2Aj0OB/gUtp6lF1TBP0MuyagpVQNB?=
- =?us-ascii?Q?2/As5P+tMFbNY0kOJz2aRcNmgA3PGTF3/ZX91aoBQqhqjDPmevOThzyziHra?=
- =?us-ascii?Q?aGmLCEfQNXUD1Gzov9iKWZsxC15UKBwLvt6gztPmOApd9ajLkRzV6qa6vLZn?=
- =?us-ascii?Q?IsHu2IJnnrZR27EUvPQGumE1LCwu6FYfSTPh9xN1WaVc9xB6GJJOAqTuRVnb?=
- =?us-ascii?Q?hVtaT1/9ZXd1hySo3UrFT24l7/zOkIVB5qvkn7N0eIdzltpP2TZYaRBH7WXc?=
- =?us-ascii?Q?wgSJ6QaHpwEvgmVpsYURZHNR01nW0nm0awJObNs68ZbmtDpPouDpg5ACot7h?=
- =?us-ascii?Q?g+ZnTrXNWV+w8m9MqMoI4D1R9ooIMkhxpVkpZrMIgUjlMN1rzBgkXyJw0Xd9?=
- =?us-ascii?Q?A70dItl/l4dU8D2yzzR3SYpX2NBS0TKHdupv30aI2EXnKKpSUAVhKqr3YIe/?=
- =?us-ascii?Q?iUwNxPmYDsH23gmkBonRmIRuCKyuyNEMGDFSoILMF6yvNzKEg9o0IVpf0znZ?=
- =?us-ascii?Q?qqjdxoukTn9A+CeWfojKWrB9GzIaZ641ykDpzT8TbDeSv5NFyAXijGP/UWrF?=
- =?us-ascii?Q?euBdkkBSBLDin4kqBQPzRf5Ej16eWg3XfuIwT7BXfaP0DERGbEharagBe/we?=
- =?us-ascii?Q?U0yC3ea+VggC0BvdlwXqBotmzGgyD75Y2YYASy2xfy/08CtoWw3DoowJrmPH?=
- =?us-ascii?Q?Qk01JVxYCIs0sq3/Ncdq1iejcr/GW7jibWqMTIfwYmT9KDgmzI+MApd6xzRl?=
- =?us-ascii?Q?5ePsPDLbB2vmi/aS9TBPL0z0e5v88oW9PqE+w+41qSMxFsSWXS/fQPaq2gnB?=
- =?us-ascii?Q?4vMfoKuCqErl9QK2QPZvEimBnFPtYVZ8cAVd7Mjh9m0IkfeBvsOTS+Z5sFNA?=
- =?us-ascii?Q?GoUcVCCWmbADeZxV4P6MPGzjvrkDIxF07E6RakPrw6UmdzEUDvHywIRnGDd5?=
- =?us-ascii?Q?HLaNH71N+UCKwP1ktLsod41MBBVBWW07J0YBfhYBYjgHlmI3ZtST38oVOnTR?=
- =?us-ascii?Q?iEegBw3yDmOxVyjPlRs3vHIfXw9yLS8iPboiW+XwmABUTzJ7BFesCg9+WZmx?=
- =?us-ascii?Q?/9sQS5o/3qeDmh0sGMMsYPADUgI9WA2pldiciBD8sf2LAaiC2CvPLGLvCCy1?=
- =?us-ascii?Q?oQQFi9JmjPj4/U+Dxzo6Hbjzg+XmN/hsMaiRkNkLshdtIZwEjLqRdwPBqMIq?=
- =?us-ascii?Q?17A0I9Ja8JVk4vZGC1+5k+j8J+mdEIzCVX0ywpT2QlhnUxENmcAROiSVoYGV?=
- =?us-ascii?Q?+StfC0jAVLoBLoWm9ko+yQqozRZXIFc+NTYlnqp2/RPETTWgUc3xgzkwLCOz?=
- =?us-ascii?Q?T47dIode7NLYl2+RgdYDgxDKIdyA+8DaAzzxzTtlWz6p6+82/ISDmofGJktp?=
- =?us-ascii?Q?WjHH8dCqhBY2vwwJcvjRPVfLDx6OOIkUHNosUPfxnYgP44geZvr0Jf95jYkY?=
- =?us-ascii?Q?qbYp7Rv/ifrpUxy1ShSTfJ/M75mVUJQ=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	SmWCXN/3IHnUKKV086LV9p3NB0y/SRKCJXUJ+SY0CzV5RxX5k0bzmBeETc0gf0xK6xvU1sJAhMIId8z/19YYtXccTRmgWAizdt9c4r2lEw8kZysYVLjatsH0xSiNhsvrMNWDND9dRY65qz4E+2a54xI/9ksOh42p/QzNkzcpdcf+9P6MSlzPlM2XJos9ZA8V96/QGG4K3erQr9VVxXplbFLaF7hK2p4OiU7lzxLIz7uZG487m/B1ZvX6X72fv8hy289TMDV/JblDQY5jGieR21zzjLdbbV6QF6580IUzqkWpxja3jyebnFt6+erG1UNSet45btUvczqIEgk/vNdzOAq8eJ3hd2R0IszMnRcy0lPHLNN1HomFs+ESSdEMFNRVZGpbClIkp7N3/UpRaCnvZ3SE1nQ9l8OPGvrTcM2m8eq2jMBOimTurf15lz8XyGCNkLrFbHeJek3WXko1qM3+j54mTJZrQEsij83fcAPAuu5iXmOWF+fRZEgpZB/1AqLT3HYvV6Pj7fufzg1Clra0yk/ET6PyHNufQyTtk9+f8r2gxPYJ3TixTcc+1t7tJ5FmMsLZ8KJA1i/YmaoyXwc5t0fSbGmDSZBToU7qceC/soo=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5bf78729-4a7b-4aab-03e1-08de631cee7c
-X-MS-Exchange-CrossTenant-AuthSource: BL4PR10MB8229.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 12:08:24.5690
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wg0jggvwwDvSWXsl3a/DxWzNIReRE6PiDPgLRbRVpZFh049b13ofcYBfUUzOkH4zSO4s5N0p8OVXjI25X4ONhHVXZqL/My4bfXy2WuV7eN0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4202
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-03_03,2026-02-02_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999
- malwarescore=0 spamscore=0 bulkscore=0 adultscore=0 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2601150000 definitions=main-2602030096
-X-Proofpoint-ORIG-GUID: FqFo6J7ONwveNks7T7afDtbgGN_q-IMd
-X-Proofpoint-GUID: FqFo6J7ONwveNks7T7afDtbgGN_q-IMd
-X-Authority-Analysis: v=2.4 cv=fdmgCkQF c=1 sm=1 tr=0 ts=6981e53f b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=SRrdq9N9AAAA:8 a=20KFwNOVAAAA:8 a=yPCof4ZbAAAA:8 a=HStmIDA-SljqF_l6CIgA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjAzMDA5NiBTYWx0ZWRfX4KaT9nldxfI8
- UkFFmO884k4/8UBxBNJh23kabc02NG/dXD7m9EyjyzgW0heCuxB/wC1oAQAdqh1c0phct4TX5Fy
- J8t03Ia57f52NQe0q2x/nD8BByyAILWF9vha6FvhsHquf40SoilA2tw/TeDr4mSQd3YwnWnQN7t
- VCgwRxTmMhrWo40Na3Grz3jDaKb88gHHeYGi56CTFbJRxQL2lR7BjjTn6NEk9f8llgPQPNtJxnu
- yuRl3uhGPRbj/zCcojn4rLVrbVu9Y20SgcbAFKNQ3eDKuucYseJZgIgpSPudqma653SVAs/2IJj
- tzF1vQBK4oPMkKRqZyRzfkI70zZkS2lt/YwZeiUM2CmAah5xJd3MzLhToImui+wfOeOJ+iKgsJH
- W8Bd4z/W0rbthCwI+Qc0k+zZYKi8hi+ECOcViqTKMDo0SrdgJP5Ec8fiK2YME785YMjwKLw9rkk
- sj5CBOAicDhXZ0UVwxw==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 22, 2026 at 12:28:32PM -0700, Nico Pache wrote:
-> The current mechanism for determining mTHP collapse scales the
-> khugepaged_max_ptes_none value based on the target order. This
-> introduces an undesirable feedback loop, or "creep", when max_ptes_none
-> is set to a value greater than HPAGE_PMD_NR / 2.
->
-> With this configuration, a successful collapse to order N will populate
-> enough pages to satisfy the collapse condition on order N+1 on the next
-> scan. This leads to unnecessary work and memory churn.
->
-> To fix this issue introduce a helper function that will limit mTHP
-> collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
-> This effectively supports two modes:
->
-> - max_ptes_none=0: never introduce new none-pages for mTHP collapse.
-> - max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
->   available mTHP order.
->
-> This removes the possiblilty of "creep", while not modifying any uAPI
-> expectations. A warning will be emitted if any non-supported
-> max_ptes_none value is configured with mTHP enabled.
->
-> The limits can be ignored by passing full_scan=true, this is useful for
-> madvise_collapse (which ignores limits), or in the case of
-> collapse_scan_pmd(), allows the full PMD to be scanned when mTHP
-> collapse is available.
+This patch introduces the initial Portuguese (Brazilian) translation
+for the Linux kernel documentation. It includes the mandatory
+disclaimer, the translation of the HOWTO document, and establishes
+the directory structure for the pt_BR locale.
 
-Thanks, great commit msg!
+Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 
->
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
+---
+v3:
+  - Fix alphabetical order in MAINTAINERS file.
+  - Remove trailing whitespaces in RST files.
+  - Fix indentation in Documentation/translations/index.rst.
 
-This LGTM in terms of logic, some nits below, with those addressed feel
-free to add:
+v2:
+  - Include pt_BR/index in the main translations index.
+---
+ Documentation/translations/index.rst          |   1 +
+ .../translations/pt_BR/disclaimer-pt_BR.rst   |  11 +
+ Documentation/translations/pt_BR/index.rst    |  67 ++
+ .../translations/pt_BR/process/howto.rst      | 637 ++++++++++++++++++
+ MAINTAINERS                                   |   8 +
+ 5 files changed, 724 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/disclaimer-pt_BR.rst
+ create mode 100644 Documentation/translations/pt_BR/index.rst
+ create mode 100644 Documentation/translations/pt_BR/process/howto.rst
 
-Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
+index b826c3479..b799eacb8 100644
+--- a/Documentation/translations/index.rst
++++ b/Documentation/translations/index.rst
+@@ -13,6 +13,7 @@ Translations
+    ko_KR/index
+    ja_JP/index
+    sp_SP/index
++   pt_BR/index
+ 
+ 
+ .. _translations_disclaimer:
+diff --git a/Documentation/translations/pt_BR/disclaimer-pt_BR.rst b/Documentation/translations/pt_BR/disclaimer-pt_BR.rst
+new file mode 100644
+index 000000000..fe7518de6
+--- /dev/null
++++ b/Documentation/translations/pt_BR/disclaimer-pt_BR.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _pt_disclaimer:
++
++Aviso sobre traduções para português
++====================================
++
++Esta documentação foi traduzida para português brasileiro por voluntários.
++Em caso de qualquer divergência entre esta tradução e o documento original
++em inglês, a versão em inglês (encontrada no diretório Documentation/)
++deve ser considerada a única fonte de verdade.
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+new file mode 100644
+index 000000000..f0e229568
+--- /dev/null
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -0,0 +1,67 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _pt_BR_linux_doc:
++
++=========================================
++Documentação do Kernel Linux em Português
++=========================================
++
++.. raw:: latex
++
++	\kerneldocCJKoff
++
++:mantenedor: Daniel <danielmaraboo@gmail.com>
++
++Este é o nível principal da documentação do kernel em língua portuguesa (Brasil).
++A tradução ainda está em seu estágio inicial e incompleta; você notará avisos
++sinalizando a falta de traduções para grupos específicos de documentos.
++
++De maneira geral, a documentação, assim como o próprio kernel, está em constante
++desenvolvimento; isso é especialmente verdade agora, pois estamos trabalhando
++na reorganização da documentação de forma mais coerente. Melhorias na
++documentação são sempre bem-vindas; se você deseja ajudar, inscreva-se na lista
++de discussão linux-doc em vger.kernel.org.
++
++.. _pt_BR_disclaimer:
++
++Avisos
++======
++
++O objetivo desta tradução é facilitar a leitura e compreensão para aqueles que
++não dominam o inglês ou têm dúvidas sobre sua interpretação, ou simplesmente
++para quem prefere ler em sua língua nativa. No entanto, tenha em mente que a
++*única* documentação oficial é a em língua inglesa: :ref:`linux_doc`
++
++A propagação simultânea de uma alteração em :ref:`linux_doc` para todas as
++traduções é altamente improvável. Os mantenedores das traduções — e seus
++contribuidores — acompanham a evolução da documentação oficial e tentam manter
++as respectivas traduções alinhadas na medida do possível. Por este motivo, não
++há garantia de que uma tradução esteja atualizada com a última modificação.
++Se o que você ler em uma tradução não corresponder ao que ler no código,
++informe o mantenedor da tradução e — se puder — verifique também a
++documentação em inglês.
++
++Uma tradução não é um *fork* da documentação oficial; portanto, os usuários não
++encontrarão nela informações diferentes daquelas contidas na versão oficial.
++Qualquer adição, remoção ou modificação de conteúdo deve ser feita primeiro nos
++documentos em inglês. Posteriormente, quando possível, a mesma alteração deve
++ser aplicada às traduções. Os mantenedores das traduções aceitam contribuições
++que afetem puramente a atividade de tradução (por exemplo, novas traduções,
++atualizações, correções).
++
++As traduções buscam ser o mais precisas possível, mas não é possível mapear
++diretamente uma língua em outra. Cada língua possui sua própria gramática e
++cultura, portanto, a tradução de uma frase em inglês pode ser modificada para
++se adaptar ao português. Por esse motivo, ao ler esta tradução, você poderá
++encontrar algumas diferenças de forma, mas que transmitem a mensagem original.
++
++Trabalhando com a comunidade de desenvolvimento
++===============================================
++
++As guias fundamentais para a interação com a comunidade de desenvolvimento do
++kernel e sobre como ver seu trabalho integrado.
++
++.. toctree::
++   :maxdepth: 1
++
++   Como começar <process/howto>
+diff --git a/Documentation/translations/pt_BR/process/howto.rst b/Documentation/translations/pt_BR/process/howto.rst
+new file mode 100644
+index 000000000..43a2be263
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/howto.rst
+@@ -0,0 +1,637 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _process_howto:
++
++COMO FAZER o desenvolvimento do kernel Linux
++============================================
++
++Este é o documento definitivo sobre este tópico. Ele contém instruções
++sobre como se tornar um desenvolvedor do kernel Linux e como aprender a
++trabalhar com a comunidade de desenvolvimento do kernel Linux. Ele tenta
++não conter nada relacionado aos aspectos técnicos da programação do kernel,
++mas ajudará a apontar a direção certa para isso.
++
++Se algo neste documento ficar desatualizado, por favor, envie patches para
++o mantenedor deste arquivo, que está listado no final do documento.
++
++
++Introdução
++------------
++
++Então, você quer aprender como se tornar um desenvolvedor do kernel Linux?
++Ou o seu gerente lhe disse: "Vá escrever um driver Linux para este
++dispositivo". O objetivo deste documento é ensinar tudo o que você precisa
++saber para conseguir isso, descrevendo o processo pelo qual você deve passar
++e oferecendo dicas sobre como trabalhar com a comunidade. Ele também tentará
++explicar algumas das razões pelas quais a comunidade trabalha da forma que
++trabalha.
++
++O kernel é escrito principalmente em C, com algumas partes dependentes de
++arquitetura escritas em assembly. Um bom entendimento de C é necessário para
++o desenvolvimento do kernel. O conhecimento de Assembly (de qualquer
++arquitetura) não é obrigatório, a menos que você planeje fazer
++desenvolvimento de baixo nível para essa arquitetura específica. Embora não
++sejam um substituto para uma formação sólida em C e/ou anos de experiência,
++os seguintes livros são bons para, no mínimo, referência:
++
++  - "The C Programming Language" por Kernighan e Ritchie [Prentice Hall]
++
++  - "Practical C Programming" por Steve Oualline [O'Reilly]
++
++  - "C: A Reference Manual" por Harbison e Steele [Prentice Hall]
++
++O kernel é escrito usando o GNU C e a GNU toolchain. Embora ele siga o
++padrão ISO C11, ele utiliza uma série de extensões que não estão presentes
++no padrão. O kernel é um ambiente C independente (freestanding), sem
++dependência da biblioteca C padrão (libc), portanto, algumas partes do
++padrão C não são suportadas. Divisões arbitrárias de "long long" e ponto
++flutuante não são permitidas. Às vezes, pode ser difícil entender as
++suposições que o kernel faz sobre a toolchain e as extensões que ele utiliza
++e, infelizmente, não existe uma referência definitiva para elas. Por favor,
++verifique as páginas de informações do gcc (`info gcc`) para obter algumas
++informações sobre elas.
++
++Por favor, lembre-se de que você está tentando aprender como trabalhar com a
++comunidade de desenvolvimento existente. É um grupo diversificado de pessoas,
++com altos padrões de codificação, estilo e procedimento. Esses padrões foram
++criados ao longo do tempo com base no que se descobriu funcionar melhor para
++uma equipe tão grande e geograficamente dispersa. Tente aprender o máximo
++possível sobre esses padrões com antecedência, pois eles estão bem
++documentados; não espere que as pessoas se adaptem a você ou à forma de fazer
++as coisas da sua empresa.
++
++
++Questões Legais
++---------------
++
++O código-fonte do kernel Linux é lançado sob a GPL. Por favor, veja o arquivo
++COPYING no diretório principal da árvore de fontes. As regras de licenciamento
++do kernel Linux e como usar os identificadores `SPDX <https://spdx.org/>`_ no
++código-fonte estão descritas em :ref:`Documentation/process/license-rules.rst <kernel_licensing>`.
++Se você tiver mais perguntas sobre a licença, por favor, entre em contato com
++um advogado e não pergunte na lista de discussão do kernel Linux. As pessoas
++nas listas de discussão não são advogados e você não deve confiar em suas
++declarações sobre assuntos jurídicos.
++
++Para perguntas e respostas comuns sobre a GPL, por favor, veja:
++
++        https://www.gnu.org/licenses/gpl-faq.html
++
++
++Documentação
++------------
++
++A árvore de fontes do kernel Linux possui uma vasta gama de documentos que
++são inestimáveis para aprender como interagir com a comunidade do kernel.
++Quando novos recursos são adicionados ao kernel, recomenda-se que novos
++arquivos de documentação também sejam adicionados explicando como usar o
++recurso. Quando uma mudança no kernel faz com que a interface que o kernel
++expõe para o espaço do usuário (userspace) mude, recomenda-se que você envie
++a informação ou um patch para as páginas de manual explicando a mudança para
++o mantenedor das páginas de manual em alx@kernel.org, e coloque em cópia (CC)
++a lista linux-api@vger.kernel.org.
++
++Aqui está uma lista de arquivos que estão na árvore de fontes do kernel e
++que são de leitura obrigatória:
++
++  :ref:`Documentation/admin-guide/README.rst <readme>`
++    Este arquivo fornece um breve histórico sobre o kernel Linux e descreve
++    o que é necessário fazer para configurar e compilar o kernel. Pessoas
++    que são novas no kernel devem começar por aqui.
++
++  :ref:`Documentation/process/changes.rst <changes>`
++    Este arquivo fornece uma lista das versões mínimas de vários pacotes de
++    software que são necessários para compilar e executar o kernel com
++    sucesso.
++
++  :ref:`Documentation/process/coding-style.rst <codingstyle>`
++    Este documento descreve o estilo de codificação do kernel Linux e parte
++    da fundamentação por trás dele. Espera-se que todo código novo siga as
++    diretrizes deste documento. A maioria dos mantenedores apenas aceitará
++    patches se essas regras forem seguidas, e muitas pessoas apenas
++    revisarão o código se ele estiver no estilo adequado.
++
++  :ref:`Documentation/process/submitting-patches.rst <submittingpatches>`
++    Este arquivo descreve em detalhes explícitos como criar e enviar
++    um patch com sucesso, incluindo (mas não limitado a):
++
++        - Conteúdo do e-mail
++        - Formato do e-mail
++        - Para quem enviá-lo
++
++    Seguir estas regras não garantirá o sucesso (já que todos os patches
++    estão sujeitos a um escrutínio de conteúdo e estilo), mas não segui-las
++    quase sempre o impedirá.
++
++Outras excelentes descrições de como criar patches adequadamente são:
++
++	"O Patch Perfeito"
++		https://www.ozlabs.org/~akpm/stuff/tpp.txt
++
++	"Formato de Submissão de Patch do Kernel Linux"
++		https://web.archive.org/web/20180829112450/http://linux.yyz.us/patch-format.html
++
++  :ref:`Documentation/process/stable-api-nonsense.rst <stable_api_nonsense>`
++    Este arquivo descreve a justificativa por trás da decisão consciente de
++    não ter uma API estável dentro do kernel, incluindo pontos como:
++
++      - Camadas de adaptação (shim-layers) de subsistemas (para compatibilidade?)
++      - Portabilidade de drivers entre sistemas operacionais.
++      - Mitigação de mudanças rápidas dentro da árvore de fontes do kernel
++        (ou impedimento de mudanças rápidas).
++
++    Este documento é crucial para compreender a filosofia de desenvolvimento
++    do Linux e é muito importante para pessoas que estão migrando para o
++    Linux vindas do desenvolvimento em outros Sistemas Operacionais.
++
++  :ref:`Documentation/process/security-bugs.rst <securitybugs>`
++    Se você acredita ter encontrado um problema de segurança no kernel Linux,
++    por favor, siga os passos descritos neste documento para ajudar a
++    notificar os desenvolvedores do kernel e auxiliar na resolução do problema.
++
++  :ref:`Documentation/process/management-style.rst <managementstyle>`
++    Este documento descreve como os mantenedores do kernel Linux operam e o
++    ethos compartilhado por trás de suas metodologias. Esta é uma leitura
++    importante para qualquer pessoa nova no desenvolvimento do kernel (ou
++    para qualquer pessoa simplesmente curiosa sobre isso), pois resolve muitos
++    equívocos comuns e confusões sobre o comportamento único dos mantenedores
++    do kernel.
++
++  :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
++    Este arquivo descreve as regras sobre como ocorrem os lançamentos das
++    versões estáveis (stable) do kernel e o que fazer se você desejar que
++    uma alteração seja incluída em um desses lançamentos.
++
++  :ref:`Documentation/process/kernel-docs.rst <kernel_docs>`
++    Uma lista de documentação externa que pertence ao desenvolvimento do
++    kernel. Por favor, consulte esta lista caso não encontre o que está
++    procurando dentro da documentação interna do kernel.
++
++  :ref:`Documentation/process/applying-patches.rst <applying_patches>`
++    Uma boa introdução descrevendo exatamente o que é um patch e como
++    aplicá-lo aos diferentes ramos (branches) de desenvolvimento do kernel.
++
++O kernel também possui um grande número de documentos que podem ser
++gerados automaticamente a partir do próprio código-fonte ou de
++marcações ReStructuredText (ReST), como esta. Isso inclui uma
++descrição completa da API interna do kernel e regras sobre como
++manipular o bloqueio (locking) corretamente.
++
++Todos esses documentos podem ser gerados em formato PDF ou HTML ao
++executar::
++
++	make pdfdocs
++	make htmldocs
++
++respectivamente, a partir do diretório principal do código-fonte do kernel.
++
++Os documentos que utilizam a marcação ReST serão gerados em
++Documentation/output. Eles também podem ser gerados nos formatos
++LaTeX e ePub com::
++
++	make latexdocs
++	make epubdocs
++
++Becoming A Kernel Developer
++---------------------------
++
++Se você não sabe nada sobre o desenvolvimento do kernel Linux, você deve
++consultar o projeto Linux KernelNewbies:
++
++	https://kernelnewbies.org
++
++Ele consiste em uma lista de discussão útil onde você pode fazer quase
++qualquer tipo de pergunta básica sobre o desenvolvimento do kernel
++(certifique-se de pesquisar nos arquivos primeiro, antes de perguntar
++algo que já foi respondido no passado). Ele também possui um canal de
++IRC que você pode usar para fazer perguntas em tempo real, e muita
++documentação útil para aprender sobre o desenvolvimento do kernel Linux.
++
++O site possui informações básicas sobre a organização do código,
++subsistemas e projetos atuais (tanto in-tree quanto out-of-tree).
++Também descreve algumas informações logísticas básicas, como por exemplo,
++como compilar um kernel e aplicar um patch.
++
++Se você não sabe por onde começar, mas deseja procurar alguma tarefa
++para iniciar sua integração na comunidade de desenvolvimento do kernel,
++acesse o projeto Linux Kernel Janitor:
++
++	https://kernelnewbies.org/KernelJanitors
++
++É um ótimo lugar para começar. Ele descreve uma lista de problemas
++relativamente simples que precisam ser limpos e corrigidos dentro da
++árvore de códigos-fonte do kernel Linux. Ao trabalhar com os
++desenvolvedores responsáveis por este projeto, você aprenderá o básico
++sobre como incluir seu patch na árvore do kernel Linux e,
++possivelmente, será orientado sobre o que trabalhar em seguida, caso
++ainda não tenha uma ideia.
++
++Antes de fazer qualquer modificação real no código do kernel Linux, é
++imperativo entender como o código em questão funciona. Para esse
++propósito, nada é melhor do que lê-lo diretamente (a maioria das partes
++complexas está bem comentada), talvez até com a ajuda de ferramentas
++especializadas. Uma ferramenta particularmente recomendada é o projeto
++Linux Cross-Reference, que é capaz de apresentar o código-fonte em um
++formato de página web indexada e auto-referenciada. Um excelente
++repositório atualizado do código do kernel pode ser encontrado em:
++
++    https://elixir.bootlin.com/
++
++
++O processo de desenvolvimento
++-----------------------------
++
++O processo de desenvolvimento do kernel Linux consiste atualmente em algumas
++"branches" (ramos) principais diferentes e muitos ramos de subsistemas
++específicos. Esses diferentes ramos são:
++
++  - Árvore principal (mainline) do Linus
++  - Várias árvores estáveis com múltiplos números de versão principal
++  - Árvores específicas de subsistemas
++  - Árvore de testes de integração linux-next
++
++Árvore principal (Mainline tree)
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++A árvore principal é mantida por Linus Torvalds e pode ser encontrada em
++https://kernel.org ou no repositório. Seu processo de desenvolvimento é
++o seguinte:
++
++  - Assim que um novo kernel é lançado, uma janela de duas semanas é aberta;
++    durante esse período, os mantenedores podem enviar grandes diffs para
++    Linus, geralmente patches que já foram incluídos na linux-next por algumas
++    semanas. A forma preferida de enviar grandes mudanças é usando o git
++    (a ferramenta de gerenciamento de código-fonte do kernel, mais informações
++    podem ser encontradas em https://git-scm.com/), mas patches simples
++    também são aceitos.
++  - Após duas semanas, um kernel -rc1 é lançado e o foco passa a ser tornar
++    o novo kernel o mais sólido possível. A maioria dos patches neste estágio
++    deve corrigir uma regressão. Bugs que sempre existiram não são regressões,
++    portanto, envie esses tipos de correções apenas se forem importantes.
++    Observe que um driver (ou sistema de arquivos) totalmente novo pode ser
++    aceito após o -rc1 porque não há risco de causar regressões com tal
++    mudança, desde que a alteração seja autocontida e não afete áreas fora do
++    código que está sendo adicionado. O git pode ser usado para enviar
++    patches para Linus após o lançamento do -rc1, mas os patches também
++    precisam ser enviados para uma lista de discussão pública para revisão.
++  - Um novo -rc é lançado sempre que Linus considerar que a árvore git atual
++    está em um estado razoavelmente estável e adequado para testes. O objetivo
++    é lançar um novo kernel -rc a cada semana.
++  - O processo continua até que o kernel seja considerado "pronto"; o
++    processo deve durar cerca de 6 semanas.
++
++Vale a pena mencionar o que Andrew Morton escreveu na lista de discussão
++do kernel Linux sobre os lançamentos do kernel:
++
++    *"Ninguém sabe quando um kernel será lançado, porque ele é
++    lançado de acordo com o status percebido dos bugs, não de acordo
++    com um cronograma pré-concebido."*
++
++Várias árvores estáveis com múltiplos números de versão principal
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Kernels com versões de 3 partes são kernels -stable (estáveis). Eles
++contêm correções relativamente pequenas e críticas para problemas de
++segurança ou regressões significativas descobertas em um determinado
++lançamento principal da árvore mainline. Cada lançamento em uma série
++estável principal incrementa a terceira parte do número da versão,
++mantendo as duas primeiras partes iguais.
++
++Este é o ramo recomendado para usuários que desejam o kernel estável
++mais recente e não estão interessados em ajudar a testar versões de
++desenvolvimento ou experimentais.
++
++As árvores estáveis são mantidas pela equipe "stable"
++<stable@vger.kernel.org> e são lançadas conforme a necessidade exigir.
++O período normal de lançamento é de aproximadamente duas semanas, mas
++pode ser mais longo se não houver problemas urgentes. Por outro lado,
++um problema relacionado à segurança pode fazer com que um lançamento
++ocorra quase instantaneamente.
++
++O arquivo :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
++na árvore do kernel documenta quais tipos de mudanças são aceitáveis para
++a árvore -stable e como o processo de lançamento funciona.
++
++Árvores específicas de subsistemas
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Os mantenedores dos vários subsistemas do kernel — e também muitos
++desenvolvedores de subsistemas do kernel — expõem seu estado atual de
++desenvolvimento em repositórios de código-fonte. Dessa forma, outros
++podem ver o que está acontecendo nas diferentes áreas do kernel. Em
++áreas onde o desenvolvimento é rápido, um desenvolvedor pode ser
++solicitado a basear suas submissões em tal árvore de subsistema do
++kernel para que conflitos entre a submissão e outros trabalhos já em
++andamento sejam evitados.
++
++A maioria desses repositórios são árvores git, mas também existem outros
++SCMs em uso, ou filas de patches sendo publicadas como séries quilt. Os
++endereços desses repositórios de subsistemas estão listados no arquivo
++MAINTAINERS. Muitos deles podem ser navegados em https://git.kernel.org/.
++
++Antes que um patch proposto seja incluído em tal árvore de subsistema,
++ele está sujeito a uma revisão que ocorre principalmente em listas de
++discussão (veja a seção respectiva abaixo). Para vários subsistemas do
++kernel, este processo de revisão é rastreado com a ferramenta patchwork.
++O Patchwork oferece uma interface web que mostra as postagens de patches,
++quaisquer comentários sobre um patch ou revisões feitas a ele, e os
++mantenedores podem marcar os patches como "sob revisão", "aceitos" ou
++"rejeitados". A maioria desses sites patchwork está listada em
++https://patchwork.kernel.org/.
++
++Árvore de testes de integração linux-next
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Antes que as atualizações das árvores de subsistemas sejam mescladas na
++árvore mainline, elas precisam ser testadas quanto à integração. Para
++este propósito, existe um repositório de testes especial no qual
++praticamente todas as árvores de subsistemas são integradas (pulled)
++quase diariamente:
++
++    https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
++
++Dessa forma, a linux-next oferece uma visão resumida do que se espera
++que entre no kernel mainline no próximo período de mesclagem (merge
++window). Testadores aventureiros são muito bem-vindos para testar a
++linux-next em tempo de execução.
++
++
++Relato de Bugs
++--------------
++
++O arquivo 'Documentation/admin-guide/reporting-issues.rst' no diretório
++principal de códigos-fonte do kernel descreve como relatar um possível
++bug no kernel e detalha que tipo de informação é necessária para os
++desenvolvedores do kernel ajudarem a rastrear o problema.
++
++Gerenciando relatos de bugs
++---------------------------
++
++Uma das melhores maneiras de colocar em prática suas habilidades de hacking
++é corrigindo bugs relatados por outras pessoas. Você não apenas ajudará a
++tornar o kernel mais estável, mas também aprenderá a resolver problemas do
++mundo real, melhorará suas habilidades e outros desenvolvedores passarão a
++notar sua presença. Corrigir bugs é uma das melhores formas de obter mérito
++entre outros desenvolvedores, pois poucas pessoas gostam de gastar tempo
++corrigindo bugs de terceiros.
++
++Para trabalhar em relatos de bugs já existentes, encontre um subsistema no
++qual você esteja interessado. Verifique no arquivo MAINTAINERS para onde
++os bugs daquele subsistema são relatados; geralmente será uma lista de
++discussão, raramente um rastreador de bugs (bugtracker). Pesquise nos
++arquivos de mensagens do local indicado por relatos recentes e ajude onde
++achar apropriado. Você também pode verificar o site
++https://bugzilla.kernel.org para relatos de bugs; apenas alguns
++subsistemas do kernel o utilizam ativamente para relato ou rastreamento,
++entretanto, bugs de todo o kernel acabam sendo registrados lá.
++
++
++Listas de discussão
++-------------------
++
++Como alguns dos documentos acima descrevem, a maioria dos desenvolvedores
++do núcleo (core) do kernel participa da Linux Kernel Mailing List (LKML).
++Detalhes sobre como se inscrever e cancelar a inscrição na lista podem
++ser encontrados em:
++
++    https://subspace.kernel.org/subscribing.html
++
++Existem arquivos de mensagens da lista na web em muitos lugares diferentes.
++Use um mecanismo de busca para encontrar esses arquivos. Por exemplo:
++
++    https://lore.kernel.org/linux-kernel/
++
++É altamente recomendável que você pesquise nos arquivos sobre o tópico que
++deseja abordar antes de postar na lista. Muitas coisas já discutidas em
++detalhes estão registradas apenas nos arquivos das listas de discussão.
++
++A maioria dos subsistemas individuais do kernel também possui sua própria
++lista de discussão separada, onde realizam seus esforços de desenvolvimento.
++Consulte o arquivo MAINTAINERS para obter uma lista de quais são essas
++listas para os diferentes grupos.
++
++Muitas das listas estão hospedadas no kernel.org. Informações sobre elas
++podem ser encontradas em:
++
++    https://subspace.kernel.org
++
++Por favor, lembre-se de seguir bons hábitos de comportamento ao usar as
++listas. Embora um pouco clichê, a URL a seguir possui algumas diretrizes
++simples para interagir com a lista (ou qualquer outra lista):
++
++    https://subspace.kernel.org/etiquette.html
++
++Se várias pessoas responderem ao seu e-mail, a lista de destinatários em
++CC: pode se tornar bem grande. Não remova ninguém da lista CC: sem um
++bom motivo, e não responda apenas para o endereço da lista. Acostume-se
++a receber o e-mail duas vezes (um do remetente e outro da lista) e não
++tente ajustar isso adicionando cabeçalhos de e-mail complexos; as pessoas
++não gostarão disso.
++
++Lembre-se de manter o contexto e a atribuição de suas respostas intactos;
++mantenha as linhas do tipo "John Kernelhacker escreveu...:" no topo da
++sua resposta e adicione seus comentários entre as seções citadas
++individualmente, em vez de escrever tudo no topo do e-mail.
++
++Se você adicionar patches ao seu e-mail, certifique-se de que sejam texto
++puro legível, conforme declarado em
++:ref:`Documentation/process/submitting-patches.rst <submittingpatches>`.
++Os desenvolvedores do kernel não querem lidar com anexos ou patches
++compactados; eles podem querer comentar linhas individuais do seu patch,
++o que só funciona dessa forma. Certifique-se de usar um programa de
++e-mail que não altere espaços e caracteres de tabulação (tabs). Um bom
++primeiro teste é enviar o e-mail para si mesmo e tentar aplicar o seu
++próprio patch. Se isso não funcionar, conserte seu programa de e-mail ou
++troque-o até que funcione.
++
++Acima de tudo, por favor, lembre-se de mostrar respeito aos outros
++inscritos.
++
++
++Trabalhando com a comunidade
++----------------------------
++
++O objetivo da comunidade do kernel é fornecer o melhor kernel possível.
++Quando você envia um patch para aceitação, ele será revisado por seus
++méritos técnicos e apenas por eles. Então, o que você deve esperar?
++
++  - críticas
++  - comentários
++  - solicitações de mudança
++  - solicitações de justificativa
++  - silêncio
++
++Lembre-se, isso faz parte do processo de incluir seu patch no kernel.
++Você deve ser capaz de aceitar críticas e comentários sobre seus patches,
++avaliá-los em nível técnico e retrabalhar seus patches ou fornecer
++raciocínios claros e concisos sobre o porquê de certas mudanças não
++deverem ser feitas. Se não houver respostas à sua postagem, aguarde
++alguns dias e tente novamente; às vezes, as coisas se perdem no enorme
++volume de mensagens.
++
++O que você não deve fazer?
++
++  - esperar que seu patch seja aceito sem questionamentos
++  - tornar-se defensivo
++  - ignorar comentários
++  - reenviar o patch sem fazer nenhuma das alterações solicitadas
++
++Em uma comunidade que busca a melhor solução técnica possível, sempre
++haverá opiniões divergentes sobre o quão benéfico é um patch. Você deve
++ser cooperativo e estar disposto a adaptar sua ideia para que ela se
++encaixe no kernel. Ou, pelo menos, estar disposto a provar que sua ideia
++vale a pena. Lembre-se: estar errado é aceitável, desde que você esteja
++disposto a trabalhar em direção a uma solução correta.
++
++É normal que as respostas ao seu primeiro patch sejam apenas uma lista
++de uma dúzia de coisas que você deve corrigir. Isso **não** implica que
++seu patch não será aceito e **não** é algo pessoal contra você. Simplesmente
++corrija todos os problemas apontados em seu patch e envie-o novamente.
++
++
++Diferenças entre a comunidade do kernel e estruturas corporativas
++-----------------------------------------------------------------
++
++A comunidade do kernel trabalha de forma diferente da maioria dos ambientes
++tradicionais de desenvolvimento corporativo. Aqui está uma lista de coisas
++que você pode tentar fazer para evitar problemas:
++
++  Boas coisas a dizer em relação às suas mudanças propostas:
++
++    - "Isto resolve múltiplos problemas."
++    - "Isto remove 2000 linhas de código."
++    - "Aqui está um patch que explica o que estou tentando descrever."
++    - "Eu testei isso em 5 arquiteturas diferentes..."
++    - "Aqui está uma série de pequenos patches que..."
++    - "Isto aumenta a performance em máquinas comuns..."
++
++  Coisas ruins que você deve evitar dizer:
++
++    - "Nós fizemos desta forma no AIX/ptx/Solaris, portanto deve ser bom..."
++    - "Eu faço isso há 20 anos, então..."
++    - "Isto é necessário para minha empresa ganhar dinheiro."
++    - "Isto é para nossa linha de produtos Enterprise."
++    - "Aqui está meu documento de design de 1000 páginas que descreve minha ideia."
++    - "Estou trabalhando nisso há 6 meses..."
++    - "Aqui está um patch de 5000 linhas que..."
++    - "Eu reescrevi toda a bagunça atual, e aqui está..."
++    - "Eu tenho um prazo (deadline), e este patch precisa ser aplicado agora."
++
++Outra forma em que a comunidade do kernel difere da maioria dos ambientes
++tradicionais de engenharia de software é a natureza anônima da interação.
++Um benefício de usar e-mail e IRC como as principais formas de comunicação
++é a ausência de discriminação baseada em gênero ou raça. O ambiente de
++trabalho do kernel Linux aceita mulheres e minorias porque tudo o que você
++é, é um endereço de e-mail. O aspecto internacional também ajuda a nivelar
++o campo de jogo porque você não pode adivinhar o gênero com base no nome
++de uma pessoa. Um homem pode se chamar Andrea e uma mulher pode se chamar
++Pat. A maioria das mulheres que trabalharam no kernel Linux e expressaram
++uma opinião tiveram experiências positivas.
++
++A barreira do idioma pode causar problemas para algumas pessoas que não
++se sentem confortáveis com o inglês. Um bom domínio do idioma pode ser
++necessário para transmitir ideias adequadamente nas listas de discussão,
++por isso recomenda-se que você verifique seus e-mails para garantir que
++façam sentido em inglês antes de enviá-los.
++
++
++Divida suas alterações
++----------------------
++
++A comunidade do kernel Linux não aceita de bom grado grandes blocos de
++código jogados de uma só vez. As mudanças precisam ser devidamente
++introduzidas, discutidas e divididas em porções minúsculas e individuais.
++Isso é quase o exato oposto do que as empresas costumam fazer. Sua proposta
++também deve ser introduzida muito cedo no processo de desenvolvimento, para
++que você possa receber feedback sobre o que está fazendo. Isso também permite
++que a comunidade sinta que você está trabalhando com eles, e não simplesmente
++usando-os como um depósito para sua funcionalidade. No entanto, não envie
++50 e-mails de uma só vez para uma lista de discussão; sua série de patches
++deve ser menor que isso quase sempre.
++
++As razões para dividir as coisas são as seguintes:
++
++1) Patches pequenos aumentam a probabilidade de serem aplicados, pois não
++   exigem muito tempo ou esforço para verificar sua correção. Um patch de
++   5 linhas pode ser aplicado por um mantenedor com apenas um olhar rápido.
++   No entanto, um patch de 500 linhas pode levar horas para ser revisado
++   (o tempo que leva é exponencialmente proporcional ao tamanho do patch,
++   ou algo assim).
++
++   Patches pequenos também tornam muito fácil a depuração (debug) quando
++   algo dá errado. É muito mais fácil reverter patches um por um do que
++   dissecar um patch muito grande após ele ter sido aplicado (e quebrado algo).
++
++2) É importante não apenas enviar patches pequenos, mas também reescrever
++   e simplificar (ou simplesmente reordenar) os patches antes de submetê-los.
++
++Aqui está uma analogia do desenvolvedor do kernel Al Viro:
++
++    *"Pense em um professor corrigindo o dever de casa de um aluno de
++    matemática. O professor não quer ver as tentativas e erros do aluno
++    antes de chegar à solução. Ele quer ver a resposta mais limpa e
++    elegante. Um bom aluno sabe disso e nunca enviaria seu trabalho
++    intermediário antes da solução final.*
++
++    *O mesmo vale para o desenvolvimento do kernel. Os mantenedores e
++    revisores não querem ver o processo de pensamento por trás da solução
++    do problema que se está resolvendo. Eles querem ver uma solução
++    simples e elegante."*
++
++Pode ser desafiador manter o equilíbrio entre apresentar uma solução
++elegante e trabalhar em conjunto com a comunidade discutindo seu trabalho
++inacabado. Portanto, é bom entrar no processo cedo para obter feedback e
++melhorar seu trabalho, mas também manter suas alterações em pequenos blocos
++que possam ser aceitos, mesmo quando sua tarefa completa ainda não esteja
++pronta para inclusão.
++
++Também entenda que não é aceitável enviar patches para inclusão que estejam
++inacabados e que serão "consertados mais tarde".
++
++
++Justifique sua alteração
++------------------------
++
++Além de dividir seus patches, é muito importante que você deixe a comunidade
++Linux saber por que eles deveriam adicionar essa mudança. Novas
++funcionalidades devem ser justificadas como necessárias e úteis.
++
++
++Documente sua alteração
++-----------------------
++
++Ao enviar seus patches, preste atenção especial ao que você diz no texto
++do seu e-mail. Essas informações se tornarão as informações do ChangeLog
++para o patch e serão preservadas para que todos vejam para sempre. Elas
++devem descrever o patch completamente, contendo:
++
++  - por que a mudança é necessária
++  - a abordagem geral de design no patch
++  - detalhes de implementação
++  - resultados de testes
++
++Para mais detalhes sobre como tudo isso deve ser, por favor, veja a seção
++ChangeLog do documento:
++
++  "The Perfect Patch"
++      https://www.ozlabs.org/~akpm/stuff/tpp.txt
++
++Todas essas coisas às vezes são muito difíceis de fazer. Pode levar anos
++para aperfeiçoar essas práticas (se é que é possível). É um processo
++contínuo de melhoria que exige muita paciência e determinação. Mas não
++desista, é possível. Muitos fizeram isso antes, e cada um teve que começar
++exatamente onde você está agora.
++
++----------
++
++Agradecimentos a Paolo Ciarrocchi, que permitiu que a seção "Processo de
++Desenvolvimento" (https://lwn.net/Articles/94386/) fosse baseada em um
++texto que ele escreveu, e a Randy Dunlap e Gerrit Huizenga por parte da
++lista de coisas que você deve ou não dizer. Também agradecemos a Pat Mochel,
++Hanna Linder, Randy Dunlap, Kay Sievers, Vojtech Pavlik, Jan Kara,
++Josh Boyer, Kees Cook, Andrew Morton, Andi Kleen, Vadim Lobanov, Jesper Juhl,
++Adrian Bunk, Keri Harris, Frans Pop, David A. Wheeler, Junio Hamano,
++Michael Kerrisk e Alex Shepard por suas revisões, comentários e contribuições.
++Sem a ajuda deles, este documento não teria sido possível.
++
++Mantenedor: Greg Kroah-Hartman <greg@kroah.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 0efa8cc67..c5e0e1f2b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21141,6 +21141,12 @@ F:	include/sound/pxa2xx-lib.h
+ F:	sound/arm/pxa*
+ F:	sound/soc/pxa/
+ 
++PORTUGUESE (BRAZILIAN) TRANSLATION
++M:	Daniel Pereira <danielmaraboo@gmail.com>
++L:	linux-doc@vger.kernel.org
++S:	Maintained
++F:	Documentation/translations/pt_BR/
++
+ QAT DRIVER
+ M:	Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+ L:	qat-linux@intel.com
+@@ -28876,3 +28882,5 @@ S:	Buried alive in reporters
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+ F:	*
+ F:	*/
++
++
+-- 
+2.43.0
 
-Cheers, Lorenzo
-
-> ---
->  mm/khugepaged.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 42 insertions(+), 1 deletion(-)
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 0f68902edd9a..9b7e05827749 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -460,6 +460,44 @@ void __khugepaged_enter(struct mm_struct *mm)
->  		wake_up_interruptible(&khugepaged_wait);
->  }
->
-> +/**
-> + * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for collapse
-> + * @order: The folio order being collapsed to
-> + * @full_scan: Whether this is a full scan (ignore limits)
-> + *
-> + * For madvise-triggered collapses (full_scan=true), all limits are bypassed
-> + * and allow up to HPAGE_PMD_NR - 1 empty PTEs.
-> + *
-> + * For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the configured
-> + * khugepaged_max_ptes_none value.
-> + *
-> + * For mTHP collapses, we currently only support khugepaged_max_pte_none values
-> + * of 0 or (HPAGE_PMD_NR - 1). Any other value will emit a warning and no mTHP
-> + * collapse will be attempted
-> + *
-> + * Return: Maximum number of empty PTEs allowed for the collapse operation
-> + */
-> +static unsigned int collapse_max_ptes_none(unsigned int order, bool full_scan)
-> +{
-> +	/* ignore max_ptes_none limits */
-> +	if (full_scan)
-> +		return HPAGE_PMD_NR - 1;
-
-I wonder if, given we are effectively doing:
-
-	const unsigned int nr_pages = collapse_max_ptes_none(order, /*full_scan=*/true);
-
-	...
-
-	foo(nr_pages);
-
-In places where we ignore limits, whether we would be better off putting
-HPAGE_PMD_NR - 1 into a define and just using that in these cases, like:
-
-#define COLLAPSE_MAX_PTES_LIM (HPAGE_PMD_NR - 1)
-
-Then instead doing:
-
-	foo(COLLAPSE_MAX_PTES_LIM);
-
-?
-
-Seems somewhat silly to pass in a boolean that makes it return a set value in
-cases where you know that should be the case at the outset.
-
-> +
-> +	if (is_pmd_order(order))
-> +		return khugepaged_max_ptes_none;
-> +
-> +	/* Zero/non-present collapse disabled. */
-> +	if (!khugepaged_max_ptes_none)
-> +		return 0;
-> +
-> +	if (khugepaged_max_ptes_none == HPAGE_PMD_NR - 1)
-
-Having a define for HPAGE_PMD_NR - 1 would also be handy here...
-
-> +		return (1 << order) - 1;
-> +
-> +	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %d\n",
-> +		      HPAGE_PMD_NR - 1);
-
-...and here.
-
-Also a MICRO nit here - the function returns unsigned int and thus we
-express PTEs in this unit, so maybe use %u rather than %d?
-
-> +	return -EINVAL;
-> +}
-
-Logic of this function looks correct though!
-
-> +
->  void khugepaged_enter_vma(struct vm_area_struct *vma,
->  			  vm_flags_t vm_flags)
->  {
-> @@ -548,7 +586,10 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  	int none_or_zero = 0, shared = 0, referenced = 0;
->  	enum scan_result result = SCAN_FAIL;
->  	const unsigned long nr_pages = 1UL << order;
-> -	int max_ptes_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
-> +	int max_ptes_none = collapse_max_ptes_none(order, !cc->is_khugepaged);
-
-Yeah, the !cc->is_khugepaged is a bit gross here, so as per the above, maybe do:
-
-	int max_ptes_none;
-
-	if (cc->is_khugepaged)
-		max_ptes_none = collapse_max_ptes_none(order);
-	else	/* MADV_COLLAPSE is not limited. */
-		max_ptes_none = COLLAPSE_MAX_PTES_LIM;
-
-> +
-> +	if (max_ptes_none == -EINVAL)
-> +		return result;
->
->  	for (_pte = pte; _pte < pte + nr_pages;
->  	     _pte++, addr += PAGE_SIZE) {
-> --
-> 2.52.0
->
