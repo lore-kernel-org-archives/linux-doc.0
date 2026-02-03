@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5971A394497;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989193ACEF9;
 	Tue,  3 Feb 2026 14:55:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770130555; cv=none; b=EvUNk4St1HLcNlX9XHA1N96N/cQv8vfHw8Y09oGfEtU/OjSuLft5sARqfdth9k0/iNYhUbEMn2nXHxU/c2I/SH/1uaTCbSGS+YqQl5rC5bm4kto3Fd7llW8uXYifEl3lQF3/BXF8dzg+OA/6xOZ+QsZYBuvdPY6hzZArlORmMvI=
+	t=1770130555; cv=none; b=YGG3flz/3bkkVgR9Zc9CliaC9vZ405nzBm9FxBBWzE9rUMMY5/br827hVnCUE1r+ChuFtSYdFjfi8fpLw4THtXFgKCzDnilOK5nPtNG0LvhvqRs3U/I584l/vX8kYWXSRWk9XbyTqeg7z7NYOzRo6V/Itqd+VLErcKf+XdxqZnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1770130555; c=relaxed/simple;
-	bh=12OPqlskckL5HqlY4jj0+cdjZZti4SPQGDREnmoAJkE=;
+	bh=evoBKNHKPvItoY9jitBsJ0pNF0jXPhqQ6qV4iI8PcEA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BOTf3WsmN0YU/O5EpF15OdI6qqvkyKOKXLSlKB5km2xylERfIEPgetK0vZTeJxvdPDP9CuHojyYfaZheyWDehBKkjzNjmS0rI0dkvzP5VzbEdMieUGvq+MXKSXwhExE+KaLuwVWIyoLADeZkx5cU9S/XRDDL35QPVSVfgoBWl6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UF3f7nYZ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=CibFdxYNySNt8QIBfbSWgVSpTqmNkfJAb9JNUvJvzCEIuFYczc2FOxGOqjQQqbHow9EQ8vh9FondhVoTbMhihee8QOtgVAQhTIy361VE4oJro9+J2moLJ7/O5A/AmpS6cST3tY8lPqKBkMz/EtrRrFlhLVX7SVBA9CDi3mh0yN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iw3egPAY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UF3f7nYZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C40EEC116D0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iw3egPAY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4179C2BCAF;
 	Tue,  3 Feb 2026 14:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1770130554;
-	bh=12OPqlskckL5HqlY4jj0+cdjZZti4SPQGDREnmoAJkE=;
+	bh=evoBKNHKPvItoY9jitBsJ0pNF0jXPhqQ6qV4iI8PcEA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UF3f7nYZYJt6LtqA2Z3zw8NAsjuv9yMpfu6WiKu17rek7bSmj89fM+kusmyUie9d8
-	 mlx6WQj3wtEuJW+bx1FwgLEg3IPtJitI9WaznY6CVQx3Tb+UvcD+nAp6uK7gqadp9u
-	 mI13SgvP6IZsu4lghJrb6oh+dhMwQLMTkiWrWwms90SiWjj6HaciGT2YKsYFUatGf5
-	 UTXh6wjfYfzftZHQ2LrCdvr2KnphduVLFSn2s804ntBnlnOQGkbJq8jD4ovPz7ToUc
-	 kVdQayOCmV1z7UMpWxM+S9SstoOeAbhYrbnpKhtXd4P9V1364dsAmvpeN91yvjCrzU
-	 ZJQnkBvuCEUWw==
+	b=Iw3egPAYA419fVh3rFnF8EZIFK1u7V4HfqXv2CRWioPSAeQeAFsIXzmilM07g1GSf
+	 cBsztuJEmHC4GjgWbKnVKWYd0RGfEDeb7NiN6isacV2CjZ7WLYGisS307eVuZNXFqU
+	 dF+hLGQEn13HuqIxq9r/BZ0gd6La0FFVif4pCbWrNOu94w3h8ETzHSlbuqSrClD6Za
+	 0brN5SfRclHR3jOLrozJXuEZMfJqqafLTeVhQC2Q5W7eiqRf4u207kud0sFSu0TBIi
+	 XlEChsjpem7PA/XnZReH98E1r1CMVc9eajkYJcdGk0EUsyfhJEEwIvOttIOZgW3dLN
+	 5v7ZCMVT3B/hQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vnHom-000000027UW-45YU;
-	Tue, 03 Feb 2026 15:55:52 +0100
+	id 1vnHon-000000027Ui-0EqI;
+	Tue, 03 Feb 2026 15:55:53 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 07/15] docs: kdoc_item: add support to generate a KdocItem from a dict
-Date: Tue,  3 Feb 2026 15:55:35 +0100
-Message-ID: <01ec6c8007e9ccd40ab07e09b457912ea6866ac7.1770128540.git.mchehab+huawei@kernel.org>
+	Carvalho Chehab <mchehab@kernel.org>,
+	Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH 10/15] docs: add a schema to help creating unittests for kernel-doc
+Date: Tue,  3 Feb 2026 15:55:38 +0100
+Message-ID: <c5c0dcbcd43bdc9dfb8a897d2dfdbfb7eeaa9d7a.1770128540.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1770128540.git.mchehab+huawei@kernel.org>
 References: <cover.1770128540.git.mchehab+huawei@kernel.org>
@@ -53,80 +53,179 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-When reading the contents on a KdocItem using YAML, the data
-will be imported into a dict.
+Instead of hardcoding lots of tests inside a file, let's place
+them inside a yaml file.
 
-Add a method to create a new KdocItem from a dict to allow
-converting such input into a real KdocItem.
-
-While here, address an issue that, if the class is initialized
-with an internal parameter outside the 4 initial arguments,
-it would end being added inside other_stuff, which breaks
-initializing it from a dict.
+Add first a schema to handle it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_item.py | 35 +++++++++++++++++++++++++++++-
- 1 file changed, 34 insertions(+), 1 deletion(-)
+ tools/unittests/kdoc-test-schema.yaml | 156 ++++++++++++++++++++++++++
+ 1 file changed, 156 insertions(+)
+ create mode 100644 tools/unittests/kdoc-test-schema.yaml
 
-diff --git a/tools/lib/python/kdoc/kdoc_item.py b/tools/lib/python/kdoc/kdoc_item.py
-index c0585cdbcbd1..5f41790efacb 100644
---- a/tools/lib/python/kdoc/kdoc_item.py
-+++ b/tools/lib/python/kdoc/kdoc_item.py
-@@ -25,12 +25,31 @@ class KdocItem:
-         self.parameterdesc_start_lines = {}
-         self.parameterdescs = {}
-         self.parametertypes = {}
+diff --git a/tools/unittests/kdoc-test-schema.yaml b/tools/unittests/kdoc-test-schema.yaml
+new file mode 100644
+index 000000000000..cf5079711cd8
+--- /dev/null
++++ b/tools/unittests/kdoc-test-schema.yaml
+@@ -0,0 +1,156 @@
++# SPDX-License-Identifier: GPL-2.0
++# Copyright(c) 2026: Mauro Carvalho Chehab <mchehab@kernel.org>.
 +
-+        self.warnings = []
++# KDoc Test File Schema
 +
-         #
-         # Just save everything else into our own dict so that the output
-         # side can grab it directly as before.  As we move things into more
-         # structured data, this will, hopefully, fade away.
-         #
--        self.other_stuff = other_stuff
-+        known_keys = {
-+            'declaration_start_line',
-+            'sections',
-+            'sections_start_lines',
-+            'parameterlist',
-+            'parameterdesc_start_lines',
-+            'parameterdescs',
-+            'parametertypes',
-+            'warnings',
-+        }
++# This schema contains objects and properties needed to run kernel-doc
++# self-tests.
 +
-+        self.other_stuff = {}
-+        for k, v in other_stuff.items():
-+            if k in known_keys:
-+                setattr(self, k, v)           # real attribute
-+            else:
-+                self.other_stuff[k] = v
- 
-     def get(self, key, default = None):
-         """
-@@ -41,6 +60,20 @@ class KdocItem:
-     def __getitem__(self, key):
-         return self.get(key)
- 
-+    @classmethod
-+    def from_dict(cls, d):
-+        """Create a KdocItem from a plain dict."""
++$schema: "http://json-schema.org/draft-07/schema#"
 +
-+        cp = d.copy()
-+        name        = cp.pop('name', None)
-+        fname       = cp.pop('fname', None)
-+        type        = cp.pop('type', None)
-+        start_line  = cp.pop('start_line', 1)
-+        other_stuff = cp.pop('other_stuff', {})
++tests:
++  type: array
++  minItems: 1
++  description: |
++    A list of kernel-doc tests.
 +
-+        # Everything that’s left goes straight to __init__
-+        return cls(name, fname, type, start_line, **cp, **other_stuff)
++  properties:
++    type: object
++    properties:
++      name:
++        type: string
++        description: |
++          Test name. Should be an unique identifier within the schema.
++          Don't prepend it with "test", as the dynamic test creation will
++          do it.
 +
-     #
-     # Tracking of section and parameter information.
-     #
++      description:
++        type: string
++        description: |
++          Test description
++
++      source:
++        type: string
++        description: |
++          C source code that should be parsed by kernel-doc.
++
++      fname:
++        type: string
++        description: |
++          The filename that contains the element.
++          When placing real testcases, please use here the name of
++          the C file (or header) from where the source code was picked.
++
++      exports:
++        type: array
++        items: { type: string }
++        description: |
++          A list of export identifiers that are expected when parsing source.
++
++      expected:
++        type: array
++        minItems: 1
++        description: |
++          A list of expected values. This list consists on objects to check
++          both kdoc_parser and/or kdoc_output objects.
++
++        items:
++          type: object
++          properties:
++            #
++            #  kdoc_item
++            #
++            kdoc_item:
++              type: object
++              description: |
++                Object expected to represent the C source code after parsed
++                by tools/lib/python/kdoc/kdoc_parser.py KernelDoc class.
++                See tools/lib/python/kdoc/kdoc_item.py for its contents.
++
++              properties:
++                name:
++                  type: string
++                  description: |
++                    The name of the identifier (function name, struct name, etc).
++                type:
++                  type: string
++                  description: |
++                    Type of the object, as filled by kdoc_parser. can be:
++                    - enum
++                    - typedef
++                    - union
++                    - struct
++                    - var
++                    - function
++                declaration_start_line:
++                  type: integer
++                  description: |
++                    The line number where the kernel-doc markup started.
++                    The first line of the code is line number 1.
++                sections:
++                  type: object
++                  additionalProperties: { type: string }
++                  description: |
++                    Sections inside the kernel-doc markups:
++                    - "description"
++                    - "return"
++                    - any other part of the markup that starts with "something:"
++                sections_start_lines:
++                  type: object
++                  additionalProperties: { type: integer }
++                  description: |
++                    a list of section names and the starting line of it.
++                parameterlist:
++                  type: array
++                  items: { type: string }
++                  description: |
++                    Ordered list of parameter names.
++
++                parameterdesc_start_lines:
++                  type: object
++                  additionalProperties: { type: integer }
++                  description: |
++                    Mapping from parameter name to the line where its
++                    description starts.
++                parameterdescs:
++                  type: object
++                  additionalProperties: { type: string }
++                  description: |
++                    Mapping from parameter name to its description.
++
++                parametertypes:
++                  type: object
++                  additionalProperties: { type: string }
++                  description: |
++                    Mapping from parameter name to its type.
++
++                other_stuff:
++                  type: object
++                  additionalProperties: {}
++                  description: |
++                    Extra properties that will be stored at the item.
++                    Should match what kdoc_output expects.
++
++              required:
++                - name
++                - type
++                - declaration_start_line
++
++            rst:
++              type: string
++              description: |
++                The expected output for RestOutput class.
++
++            man:
++              type: string
++              description: |
++                The expected output for ManOutput class.
++
++        anyOf:
++          required: kdoc_item
++          required: source
++
++    required:
++      - name
++      - fname
++      - expected
 -- 
 2.52.0
 
