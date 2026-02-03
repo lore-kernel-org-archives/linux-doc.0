@@ -1,128 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A793469FA
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 12:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EAE320B7ED;
+	Tue,  3 Feb 2026 12:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770123274; cv=none; b=fouG29iK5+y+w7CvVeeaAN0O1pBnFGGARqr5jgiVRp5UydkRnxM+K0WH31xxXS+1iQap3EC1Abbs/KKtKW6CCnWBqwEgTMrPrLm5nnCxLdiGGazEwQYQqCoZgoa0cYzK/FU5CXdjYSzgi9jBrfeOp7a4fieet+C2qS1RkQQAzuw=
+	t=1770123309; cv=none; b=UJof4Hb6xKcflEtCB2xlZj/nykfeOswEjLhlj1Ub2xSXWEciqUWY8rQMPzNvdzkJONtU1E9r/uZJA2qwdgM6d2QbqLNXgZb4Wlzsdk1DcliCQwT4269qAc+LFudiVhaDIZ6ZxL86TseD0EFLgi8GFGqg+XNXI0/4S0n4OOQAprY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770123274; c=relaxed/simple;
-	bh=Co1W0er3qP2bsTr8wPseHkrGqCiTC9H5dT9ACv1yd+s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ORJfnUDoBN2IV22ekAti4vcOM9gluMlMW2a+DFUJC2oi4c8XRxZLrFqxSPROzf3OJK8oN/6JJ1WvETzBPPGD8+P7gN67FsmJgtz/sRJ3idxktDV8YDzI86YVoRUSX9FbO72o8vQ5IfClud5K6zuwuohnh+yHPKTiMojRdAiA8y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ku549Ong; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770123309; c=relaxed/simple;
+	bh=8c+Pqi8S29ccrlKn7/Q5mxLVtC9FrsWFxplmCU6dgEw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CpuA3pychI9eMgfdJZvL9cDSMCQS4xcy+4Jd6bLpX5efsh37OY+odz13nUkDLLP+3/9ffY5oVcV72GAfQvts3nSjYW1CYpIUnQLcvx4gJQB6moagnw+GZjoyWLZNvmSu9EMcJRPznLGKG+H0cC2nUMIu7ugE5INFeLzNizw0ZA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=h3fezYnN; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ku549Ong"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0B39C4AF0C
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 12:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770123273;
-	bh=Co1W0er3qP2bsTr8wPseHkrGqCiTC9H5dT9ACv1yd+s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Ku549OngG5aewt0GX7ihKyFwEpeePOrvb7ZmXxr1V0w1j7tC3sHxyuclFX0Jox4i+
-	 KQiXEuoebiuqitH3YQdeUCWob4Xz+i1bIgbD0IKzwE+0sjE72BmBpFDy6xwdLO/WIa
-	 dZVWtp65+6i/xQ46FGeb9K3d8b9hof0WB3wQB9d9y7Z+iCym5QJbHd206GSPW5Qm3t
-	 AHjOj8AtoltlePNKefpZB51SAptkJ5lGwZFpKbOnruSDD5osi9nIN9Iu0W3bleJv/W
-	 Ig5TNepoptYzVIgyvG9AzeIA0neWWnUmnthOy7GbtAdSC4D9uG7DGL2mst0JY2HC/b
-	 lifVQTCWntaZg==
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-45c93313721so3636895b6e.2
-        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 04:54:33 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX31X8cFxgNLWiU8lEF/0Q0NYlxpYfvjCD0bIBpCQzgV8oi7u+wMG0S7h07eHAm9n7ak2JmOxx4S1k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyO1hzNSyxrBoHIo9syB36iMlYiwv1NYOpeK7f8TyrQ0CSdogZi
-	+WgXa4tkphNZPxnroAOiCcyY/Hwjzq+hjSmCje/gt1r6REWwJHnkdRcqzr2wo/7OxaswHwqM5q9
-	5LH2ldkn3ZkrkZKdo2RtXESuhDhELUac=
-X-Received: by 2002:a05:6808:1a19:b0:45e:e52c:8a9b with SMTP id
- 5614622812f47-45f34d98b5amr6423692b6e.59.1770123272793; Tue, 03 Feb 2026
- 04:54:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="h3fezYnN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1770123305;
+	bh=8c+Pqi8S29ccrlKn7/Q5mxLVtC9FrsWFxplmCU6dgEw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h3fezYnNYnXEKvq604yd2NerVugru+NdBANWM+DWnwaWb5ItwAC0VUZhIl5YUjCms
+	 ygiVLrxrPvbovp2BJqy+bNMcWSa/VW1lTBYim8VFtMaE6qk2X2Xo1Ey0C4zQ14Aokc
+	 Wog6ncF8YdRMXZU8PXR10lrOsiZ6bohkkWQdQQIY=
+Date: Tue, 3 Feb 2026 13:55:05 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
+	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
+	Eric Snowberg <eric.snowberg@oracle.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
+	Daniel Gomez <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Xiu Jianfeng <xiujianfeng@huawei.com>, 
+	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>, 
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, 
+	Christian Heusel <christian@heusel.eu>, =?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
+Message-ID: <28cf8d51-7530-41d5-a47b-cad5ecabd269@t-8ch.de>
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+ <db1ed045-d7b6-49dc-b111-9fea7c30f8ab@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260129104817.3752340-1-sumitg@nvidia.com> <20260129104817.3752340-5-sumitg@nvidia.com>
- <4432fa04-e67c-422a-aae4-2938be431985@huawei.com> <c96312c7-b13f-4f5c-9512-cc0382c1c77b@nvidia.com>
- <74f3e6cf-7c13-43e6-a8f6-2b46184b8ad6@gmail.com> <944fc140-e5c5-425f-a6ad-883e87eed8a3@nvidia.com>
- <CAJZ5v0hUdLsh8UK5G6rHHD49RQGYLAiU1J-11DK-fLTKnuqhUQ@mail.gmail.com>
-In-Reply-To: <CAJZ5v0hUdLsh8UK5G6rHHD49RQGYLAiU1J-11DK-fLTKnuqhUQ@mail.gmail.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 3 Feb 2026 13:54:21 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0ggzD0PEti-r20Sm-8n0gPigPh=NgE2Oa=UKzMmwB0jpw@mail.gmail.com>
-X-Gm-Features: AZwV_Qh2_C6NzL0YjzuEvp_eyYEIiFinRoaSQUx14OPXT8iJZ6DvXYU6oH3FyWA
-Message-ID: <CAJZ5v0ggzD0PEti-r20Sm-8n0gPigPh=NgE2Oa=UKzMmwB0jpw@mail.gmail.com>
-Subject: Re: [PATCH v7 4/7] ACPI: CPPC: add APIs and sysfs interface for min/max_perf
-To: Sumit Gupta <sumitg@nvidia.com>
-Cc: Russell Haley <yumpusamongus@gmail.com>, "zhenglifeng (A)" <zhenglifeng1@huawei.com>, 
-	pierre.gondois@arm.com, viresh.kumar@linaro.org, ionela.voinescu@arm.com, 
-	corbet@lwn.net, rdunlap@infradead.org, ray.huang@amd.com, 
-	gautham.shenoy@amd.com, mario.limonciello@amd.com, perry.yuan@amd.com, 
-	zhanjie9@hisilicon.com, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, treding@nvidia.com, 
-	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com, 
-	sanjayc@nvidia.com, nhartman@nvidia.com, bbasu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <db1ed045-d7b6-49dc-b111-9fea7c30f8ab@suse.com>
 
-On Tue, Feb 3, 2026 at 1:45=E2=80=AFPM Rafael J. Wysocki <rafael@kernel.org=
-> wrote:
->
-> On Tue, Feb 3, 2026 at 10:41=E2=80=AFAM Sumit Gupta <sumitg@nvidia.com> w=
-rote:
-> >
-> > >>> Hi Sumit,
-> > >>>
-> > >>> I am thinking that maybe it is better to call these two sysfs inter=
-face
-> > >>> 'min_freq' and 'max_freq' as users read and write khz instead of ra=
-w
-> > >>> value.
-> > >> Thanks for the suggestion.
-> > >> Kept min_perf/max_perf to match the CPPC register names
-> > >> (MIN_PERF/MAX_PERF), making it clear to users familiar with
-> > >> CPPC what's being controlled.
-> > >> The kHz unit is documented in the ABI.
-> > >>
-> > >> Thank you,
-> > >> Sumit Gupta
-> > > On my x86 machine with kernel 6.18.5, the kernel is exposing raw valu=
-es:
-> > >
-> > >> grep . /sys/devices/system/cpu/cpu0/acpi_cppc/*
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/feedback_ctrs:ref:342904018856=
-568
-> > > del:437439724183386
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/guaranteed_perf:63
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/highest_perf:88
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_freq:0
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_nonlinear_perf:36
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_perf:1
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_freq:3900
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_perf:62
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/reference_perf:62
-> > > /sys/devices/system/cpu/cpu0/acpi_cppc/wraparound_time:18446744073709=
-551615
-> > >
-> > > It would be surprising for a nearby sysfs interface with very similar
-> > > names to use kHz instead.
-> > >
-> > > Thanks,
-> > >
-> > > Russell Haley
-> >
-> > I can rename to either of the below:
-> > - min/max_freq: might be confused with scaling_min/max_freq.
-> > - min/max_perf_freq: keeps the CPPC register association clear.
-> >
-> > Rafael, Any preferences here?
->
-> On x86 the units in CPPC are not kHz and there is no easy reliable way
-> to convert them to kHz.
->
-> Everything under /sys/devices/system/cpu/cpu0/acpi_cppc/ needs to be
-> in CPPC units, not kHz (unless, of course, kHz are CPPC units).
+On 2026-01-30 18:06:20+0100, Petr Pavlu wrote:
+> On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
+> > Normally the .ko module files depend on a fully built vmlinux to be
+> > available for modpost validation and BTF generation. With
+> > CONFIG_MODULE_HASHES, vmlinux now depends on the modules
+> > to build a merkle tree. This introduces a dependency cycle which is
+> > impossible to satisfy. Work around this by building the modules during
+> > link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
+> > but before the final module hashes are
+> 
+> I wonder if this dependency cycle could be resolved by utilizing the
+> split into vmlinux.unstripped and vmlinux that occurred last year.
+> 
+> The idea is to create the following ordering: vmlinux.unstripped ->
+> modules -> vmlinux, and to patch in .module_hashes only when building
+> the final vmlinux.
+> 
+> This would require the following:
+> * Split scripts/Makefile.vmlinux into two Makefiles, one that builds the
+>   current vmlinux.unstripped and the second one that builds the final
+>   vmlinux from it.
+> * Modify the top Makefile to recognize vmlinux.unstripped and update the
+>   BTF generation rule 'modules: vmlinux' to
+>   'modules: vmlinux.unstripped'.
+> * Add the 'vmlinux: modules' ordering in the top Makefile for
+>   CONFIG_MODULE_HASHES=y.
+> * Remove the patching of vmlinux.unstripped in scripts/link-vmlinux.sh
+>   and instead move it into scripts/Makefile.vmlinux when running objcopy
+>   to produce the final vmlinux.
+> 
+> I think this approach has two main advantages:
+> * CONFIG_MODULE_HASHES can be made orthogonal to
+>   CONFIG_DEBUG_INFO_BTF_MODULES.
+> * All dependencies are expressed at the Makefile level instead of having
+>   scripts/link-vmlinux.sh invoke 'make -f Makefile modules'.
+> 
+> Below is a rough prototype that applies on top of this series. It is a
+> bit verbose due to the splitting of part of scripts/Makefile.vmlinux
+> into scripts/Makefile.vmlinux_unstripped.
 
-That said, the new attributes will show up elsewhere.
+That looks like a feasible alternative. Before adopting it, I'd like to
+hear the preference of the kbuild folks.
 
-So why do you need to add these things in the first place?
+> diff --git a/Makefile b/Makefile
+> index 841772a5a260..19a3beb82fa7 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -1259,7 +1259,7 @@ vmlinux_o: vmlinux.a $(KBUILD_VMLINUX_LIBS)
+>  vmlinux.o modules.builtin.modinfo modules.builtin: vmlinux_o
+>  	@:
+>  
+> -PHONY += vmlinux
+> +PHONY += vmlinux.unstripped vmlinux
+>  # LDFLAGS_vmlinux in the top Makefile defines linker flags for the top vmlinux,
+>  # not for decompressors. LDFLAGS_vmlinux in arch/*/boot/compressed/Makefile is
+>  # unrelated; the decompressors just happen to have the same base name,
+> @@ -1270,9 +1270,11 @@ PHONY += vmlinux
+>  #   https://savannah.gnu.org/bugs/?61463
+>  # For Make > 4.4, the following simple code will work:
+>  #  vmlinux: private export LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
+> -vmlinux: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
+> -vmlinux: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
+> -vmlinux: vmlinux.o $(KBUILD_LDS) modpost
+> +vmlinux.unstripped: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
+> +vmlinux.unstripped: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
+> +vmlinux.unstripped: vmlinux.o $(KBUILD_LDS) modpost
+> +	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux_unstripped
+> +vmlinux: vmlinux.unstripped
+>  	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux
+
+Maybe we could keep them together in a single Makefile,
+and instead have different targets in it.
+
+(...)
+
+> @@ -98,70 +44,15 @@ remove-symbols := -w --strip-unneeded-symbol='__mod_device_table__*'
+>  # To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
+>  # it is necessary to remove the PT_LOAD flag from the segment.
+>  quiet_cmd_strip_relocs = OBJCOPY $@
+> -      cmd_strip_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
+> -                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $(remove-symbols) $@
+> +      cmd_script_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
+> +                          $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
+> +                                     $(remove-symbols) \
+> +                                     $(patch-module-hashes) $@
+
+cmd_script_relocs -> cmd_strip_relocs
+
+(...)
