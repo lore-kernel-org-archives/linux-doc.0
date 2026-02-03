@@ -1,109 +1,120 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733A7284B2F;
-	Tue,  3 Feb 2026 12:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FD43451C6
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 12:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770122648; cv=none; b=FLqIo48Jw9DVJ60JHshhYjskeBh0J0es2soX1uqA+6EvmD2sNBZ7xj8uQWpLICnQ46+1SbxE4g2+fXjl9z4Gz36Syit5xr4L0zw7ZNFbnMfIzcVAA4zyzsaGmreWzKu30eJkoUlZ476taCerMc7SAz1e91Jq1iauBSw1gF+6z6M=
+	t=1770122722; cv=none; b=lLk43O93R43YgmDUOVkJrLDZF0opNtdCseZpsPF8anRQnk77cvpoYjUq3rb8EhTV4ZukSMndbiC9cW8bwXIVaPsmTspIHvJedrnSIYSiAKeow5QISaxGultkSNXLXrVEJvzFjaJbDAFB4H1alPawEpLrZn1GFxZRQanuqvqamkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770122648; c=relaxed/simple;
-	bh=4xMbDkPtYFnbhn8oi8ogQM7HDBoaOGhwFfB7e0t3td4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cd0b3lnXsbqS7SDpcrPZJMJiNuYgagTxtUhqe8PQ+4MwSovKrJ98d2NMGogFi4qoN2/C3tgC9SyEbv7gAkZZGcyqGJyzsgAQ0p9WJGqClZaj6ApWMeak+p2mp4oI5OFbKsIB8ComIydjkYunb0/pL/NZfnjQjq8fZOuDnwaRuI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=SMXk7Zio; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1770122722; c=relaxed/simple;
+	bh=+82RPlBYDQHhn4O86HZF3vxIxA0tssEvTGqVmKABwno=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SNmon03aOJYMqO9FzLnznYK1cLOKbki8JEGAXujud4x+EbyGH/MgrZvYnxQ/ve2k+rrup17zJbSH4tl99p65KmbTYhC/nJ+p0vi/YwtI1Nn18XBkGl2Jr/7Zz0r9KMBh7V3gLjYOz/z2K86gkuuQ+zHOWCzBsyJo+3KBWpAQOfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XaRNbUqh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="SMXk7Zio"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1770122645;
-	bh=4xMbDkPtYFnbhn8oi8ogQM7HDBoaOGhwFfB7e0t3td4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SMXk7Ziop93PtXgUUPvFJrwX+tZphLJn717cY967EJ+dn5c3ytK5Jd3akdSlt7smz
-	 LjQYDD5nu7+lEc/AI7bKfPM9nyLwM7tXiMSSwvKs2nPopR1BLCJ2Cgd771dfO3qck8
-	 4K58p7AUrndd8U19BhXdA2hDQ2k+wJyqNngf+7xI=
-Date: Tue, 3 Feb 2026 13:44:05 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	Daniel Gomez <da.gomez@samsung.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Daniel Gomez <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, Xiu Jianfeng <xiujianfeng@huawei.com>, 
-	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>, 
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, 
-	Christian Heusel <christian@heusel.eu>, =?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 13/17] module: Report signature type to users
-Message-ID: <8d399298-88a6-4c89-a0ed-fed0268b6493@t-8ch.de>
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-13-0b932db9b56b@weissschuh.net>
- <fd19f9d3-b01c-4cc8-9fd5-642350e7b36b@suse.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XaRNbUqh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C629C2BC86
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 12:45:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770122722;
+	bh=+82RPlBYDQHhn4O86HZF3vxIxA0tssEvTGqVmKABwno=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XaRNbUqhYPj9cmZVqJT5P2uwkLY63Aw+AvlTDvf1dX1N7qUvhpe5bWNNL48dHXQdK
+	 wf2L5f/VPg+pzhbJ0B7VRiHnNqhbiEp/btQuZHCssCBkWp1atTb9VVzP+ebDquGSSx
+	 FpYo8kb8c3KojUfnJut/npM8Fe2nMxBtJAXzcWVjFLkHY5aVKD7/lzb5eHRPQZ7sKh
+	 7/XK8NTOHvHcYOCXGBArCR/fwqgrH8gv0WX7XBNp4oPZcBRn2KCYnX4Jq7kDItyXy4
+	 dfUkQ/WTAmTdIqUbd1yFohu9VgOFxuyYfA8g8PhnRgH9oWQ/xhm9Ib2wqFLJmtkRLx
+	 f1AV/RcQQElGQ==
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d18dd2adf7so3301830a34.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 04:45:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUmeaxchGqXngDW1FWbUiR6gBA7qCkPtBdLBYRsCAspN7r6GHWqXsDuMkE9zo6Ngi3/qnfAIKwCeV0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzhalAtNnuEV/BK/lYl2s2vuOfYQWbRsyu4tRv1/0jEVvitrz6D
+	sWhgk69ywKE7O7VFPC616LqwAMvPkFAKpDd2bjLXXxXKsdNgrJhVQgkqsGuN6Nae/ELNex8/hsN
+	RqcOt+hfG7us50ll+phu2CYTXz+rDuw4=
+X-Received: by 2002:a05:6820:623:b0:662:ffc5:cedc with SMTP id
+ 006d021491bc7-6630f01c0a5mr5982202eaf.1.1770122721539; Tue, 03 Feb 2026
+ 04:45:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fd19f9d3-b01c-4cc8-9fd5-642350e7b36b@suse.com>
+References: <20260129104817.3752340-1-sumitg@nvidia.com> <20260129104817.3752340-5-sumitg@nvidia.com>
+ <4432fa04-e67c-422a-aae4-2938be431985@huawei.com> <c96312c7-b13f-4f5c-9512-cc0382c1c77b@nvidia.com>
+ <74f3e6cf-7c13-43e6-a8f6-2b46184b8ad6@gmail.com> <944fc140-e5c5-425f-a6ad-883e87eed8a3@nvidia.com>
+In-Reply-To: <944fc140-e5c5-425f-a6ad-883e87eed8a3@nvidia.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 3 Feb 2026 13:45:09 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0hUdLsh8UK5G6rHHD49RQGYLAiU1J-11DK-fLTKnuqhUQ@mail.gmail.com>
+X-Gm-Features: AZwV_QhB065_tKI7QjTUgxYReeYNGWgeu7zDKGuhRbpPyUYQlroYk6sWK9959V4
+Message-ID: <CAJZ5v0hUdLsh8UK5G6rHHD49RQGYLAiU1J-11DK-fLTKnuqhUQ@mail.gmail.com>
+Subject: Re: [PATCH v7 4/7] ACPI: CPPC: add APIs and sysfs interface for min/max_perf
+To: Sumit Gupta <sumitg@nvidia.com>
+Cc: Russell Haley <yumpusamongus@gmail.com>, "zhenglifeng (A)" <zhenglifeng1@huawei.com>, 
+	pierre.gondois@arm.com, "Rafael J. Wysocki" <rafael@kernel.org>, viresh.kumar@linaro.org, 
+	ionela.voinescu@arm.com, lenb@kernel.org, robert.moore@intel.com, 
+	corbet@lwn.net, rdunlap@infradead.org, ray.huang@amd.com, 
+	gautham.shenoy@amd.com, mario.limonciello@amd.com, perry.yuan@amd.com, 
+	zhanjie9@hisilicon.com, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, treding@nvidia.com, 
+	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com, 
+	sanjayc@nvidia.com, nhartman@nvidia.com, bbasu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-01-29 15:44:31+0100, Petr Pavlu wrote:
-> On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
-> > The upcoming CONFIG_MODULE_HASHES will introduce a signature type.
-> > This needs to be handled by callers differently than PKCS7 signatures.
-> > 
-> > Report the signature type to the caller and let them verify it.
-> > 
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> > ---
-> > [...]
-> > diff --git a/kernel/module/main.c b/kernel/module/main.c
-> > index d65bc300a78c..2a28a0ece809 100644
-> > --- a/kernel/module/main.c
-> > +++ b/kernel/module/main.c
-> > @@ -3348,19 +3348,24 @@ static int module_integrity_check(struct load_info *info, int flags)
-> >  {
-> >  	bool mangled_module = flags & (MODULE_INIT_IGNORE_MODVERSIONS |
-> >  				       MODULE_INIT_IGNORE_VERMAGIC);
-> > +	enum pkey_id_type sig_type;
-> >  	size_t sig_len;
-> >  	const u8 *sig;
-> >  	int err = 0;
-> >  
-> >  	if (IS_ENABLED(CONFIG_MODULE_SIG_POLICY)) {
-> >  		err = mod_split_sig(info->hdr, &info->len, mangled_module,
-> > -				    &sig_len, &sig, "module");
-> > +				    &sig_type, &sig_len, &sig, "module");
-> >  		if (err)
-> >  			return err;
-> >  	}
-> >  
-> > -	if (IS_ENABLED(CONFIG_MODULE_SIG))
-> > +	if (IS_ENABLED(CONFIG_MODULE_SIG) && sig_type == PKEY_ID_PKCS7) {
-> >  		err = module_sig_check(info, sig, sig_len);
-> > +	} else {
-> > +		pr_err("module: not signed with expected PKCS#7 message\n");
-> > +		err = -ENOPKG;
-> > +	}
-> 
-> The new else branch means that if the user chooses not to configure any
-> module integrity policy, they will no longer be able to load any
-> modules. I think this entire if-else part should be moved under the
-> IS_ENABLED(CONFIG_MODULE_SIG_POLICY) block above, as I'm mentioning on
-> patch #12.
+On Tue, Feb 3, 2026 at 10:41=E2=80=AFAM Sumit Gupta <sumitg@nvidia.com> wro=
+te:
+>
+> >>> Hi Sumit,
+> >>>
+> >>> I am thinking that maybe it is better to call these two sysfs interfa=
+ce
+> >>> 'min_freq' and 'max_freq' as users read and write khz instead of raw
+> >>> value.
+> >> Thanks for the suggestion.
+> >> Kept min_perf/max_perf to match the CPPC register names
+> >> (MIN_PERF/MAX_PERF), making it clear to users familiar with
+> >> CPPC what's being controlled.
+> >> The kHz unit is documented in the ABI.
+> >>
+> >> Thank you,
+> >> Sumit Gupta
+> > On my x86 machine with kernel 6.18.5, the kernel is exposing raw values=
+:
+> >
+> >> grep . /sys/devices/system/cpu/cpu0/acpi_cppc/*
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/feedback_ctrs:ref:34290401885656=
+8
+> > del:437439724183386
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/guaranteed_perf:63
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/highest_perf:88
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_freq:0
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_nonlinear_perf:36
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_perf:1
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_freq:3900
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_perf:62
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/reference_perf:62
+> > /sys/devices/system/cpu/cpu0/acpi_cppc/wraparound_time:1844674407370955=
+1615
+> >
+> > It would be surprising for a nearby sysfs interface with very similar
+> > names to use kHz instead.
+> >
+> > Thanks,
+> >
+> > Russell Haley
+>
+> I can rename to either of the below:
+> - min/max_freq: might be confused with scaling_min/max_freq.
+> - min/max_perf_freq: keeps the CPPC register association clear.
+>
+> Rafael, Any preferences here?
 
-Ack.
+On x86 the units in CPPC are not kHz and there is no easy reliable way
+to convert them to kHz.
+
+Everything under /sys/devices/system/cpu/cpu0/acpi_cppc/ needs to be
+in CPPC units, not kHz (unless, of course, kHz are CPPC units).
