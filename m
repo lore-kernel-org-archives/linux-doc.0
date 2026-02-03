@@ -1,79 +1,165 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FED36AB59
-	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 20:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0C736C59B
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 20:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770150012; cv=none; b=m/cHKmb7V3SnzPnbKjXf1OFsK/F8hBOKh1XU3tTLUNTVPlrHuFiwYsd5qpJUldP2WlotPiOLhV/CZnJu7AeZon2q0wR2TQqzMKhWiDBhmkDUS/z3U3VbaKmNh1HENOPd/PzGeWJUFrVvhLwjxygxvnqI4PpyeviZsvi61lIolJA=
+	t=1770150302; cv=none; b=kIHOO5msmZqWD+8sGk3S79LlloUNkGalC7Wo+3CYNV/y3h8ZqDTSOhWC/GWm3OaRbkgk8M9/vizp0RfE6qJLKxdENBA4ZB/zVwWk/MjLHvV2eVEhzPbI/CVOTsbv113C0GPhI/j00YKmCdun4eiFzMwtUdF2hjFgDew2Z0XlMQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770150012; c=relaxed/simple;
-	bh=KNAz9P+MREIhPSokwvSCnEkWtR776uGMELJFJcVu150=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rYHpdKnNcNEvJ8nqdtuAIFQXOeWCIhEsZEs9iuQI/6Z7Svj82iCdfEpXfVVhfoY5K0FmfCoOPALdTTLVOrPPPosh/ZJI+1Z9uO+orI0gdLKWKkfAqGr5fX67TG706V6mfoBnzo/7kKcfjVEOu3AyOV91ujh8vwTqtbrVlIqwwUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CBFCLDo7; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1770150302; c=relaxed/simple;
+	bh=BTjXD26SYyc+9FHq9itXaZBWEZ5WY9RIwmpBHoxp8hU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sNgFwKleunPqsljOSdFgbOHkX98J/DqHgPCScmcoyCMvQpivBTvg+GOYX6Y5uc3o6Cuk2wgcFOAgrgbK2mcDPv+Ah/WPu465rTbNg5BhIs7cx8QTG8kGnTH4pajw8+3W1cVzI8R9OQ/FuQa43a9160trbeOXCWSo8CORgl1SALU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GUsGp35S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CBFCLDo7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=iFy4eB9AArm7Jn7no0+dr9bAsL0REntrFrp24B9Mhug=; b=CBFCLDo7mRxLZWvtvN+bmB9JEr
-	qSGHzTo+3T09mCEPSOe3Fh9QG/kIjSHhCabmBxuEk9y0+enWVVUzcCK8AJPwAto4t6LzT6RgkHwz2
-	huLPV9sXF+tiDZMuAFyLK7A8qwezfOCHBsGfC1NAuEoaVe07Jc6ExuBMDPyewfOomlO9QdcxduITn
-	+spDVj09cYO/H31ND4hdxubMjfOX3IL2D9P4U65Ez+MgnUedFOF9Gmm66vvyNXsrvB/w0GfoHbLki
-	gJOMetjpo/MI+PPRVgRWH30qZtelM8RTbNgUh1w/yh3iPSTnTfYK2EQdhhnS7qmA/+svEy7AzmLWK
-	Ra3mIS4g==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vnMsS-000000010Yq-30ve;
-	Tue, 03 Feb 2026 20:20:00 +0000
-Date: Tue, 3 Feb 2026 20:20:00 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Daniel <danielmaraboo@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4] docs: pt_BR: add initial Portuguese translation
-Message-ID: <aYJYcBZh3fxvpXLM@casper.infradead.org>
-References: <20260203184826.81594-1-danielmaraboo@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GUsGp35S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C0C9C2BCB3
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 20:25:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770150302;
+	bh=BTjXD26SYyc+9FHq9itXaZBWEZ5WY9RIwmpBHoxp8hU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GUsGp35Sih8cc0hh9rnacnQMEoFDWdpsvnIBcCFeBHdBBqAQPw+YTr2jjbfYVaO+h
+	 J/bK73vgxdViQE6PON0ys/JULJi5X4bGSWwF5zKnX3ug8S87ROi5PEZh5RNi+fMCn/
+	 r8W7Nw4dzs93zCnKROoHmLncCE4KuZ6mZdbDBDAt7Pd5N8HUzBuZM53SwlIxD5LaZh
+	 dSowLOD7wEcpubBwWnWssw4nxf6KFtfPnZYgSan+qXuXSa9vWBzKy+IUy+kixMIqyI
+	 pA1S9YAWQNlT5cabsw2sWf5MfzrxAfNxNiRXbXpVmtSCXY6vO+RyjAltUCKGB+N3RF
+	 8H5SFKwKvUESg==
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-45f126d4794so3722781b6e.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 12:25:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUDmjz/Qj0CbZwaTw8CtBIFUXlF/DglMJaqcs7vJuU+s75Mc4R3scferhdJzVAO2K7vRS/GtCaCE/w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxaFVribujZhLgO7Ffi4WM04SeFvT3THHGLXS3F7EfNB0/mxd7
+	+7mbR5pRHEwV37ceS8pTVEt+bEA7kYxCCncKHfJ9F1CKdEc/QleD4gWEgwehNq1objNLexOmwmJ
+	OyYgrSbbPPckFp43Q31d6Y8Q2T/KJe0g=
+X-Received: by 2002:a05:6808:1905:b0:45c:8bc0:fcdf with SMTP id
+ 5614622812f47-462d588335bmr361499b6e.10.1770150301081; Tue, 03 Feb 2026
+ 12:25:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260203184826.81594-1-danielmaraboo@gmail.com>
+References: <20260129104817.3752340-1-sumitg@nvidia.com> <20260129104817.3752340-5-sumitg@nvidia.com>
+ <4432fa04-e67c-422a-aae4-2938be431985@huawei.com> <c96312c7-b13f-4f5c-9512-cc0382c1c77b@nvidia.com>
+ <74f3e6cf-7c13-43e6-a8f6-2b46184b8ad6@gmail.com> <944fc140-e5c5-425f-a6ad-883e87eed8a3@nvidia.com>
+ <CAJZ5v0hUdLsh8UK5G6rHHD49RQGYLAiU1J-11DK-fLTKnuqhUQ@mail.gmail.com>
+ <CAJZ5v0ggzD0PEti-r20Sm-8n0gPigPh=NgE2Oa=UKzMmwB0jpw@mail.gmail.com> <211d9dfa-26e6-4fc3-b70b-f5fbca49e5fd@nvidia.com>
+In-Reply-To: <211d9dfa-26e6-4fc3-b70b-f5fbca49e5fd@nvidia.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 3 Feb 2026 21:24:50 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0if=tMiyLB-efkzB67SniJS-2pCVv1-eN+vzZxqrdAM8Q@mail.gmail.com>
+X-Gm-Features: AZwV_QjXaHsQZ2uAWLZvX1hT_RYnLifph_oQl3U2gGF9mLZZdm4jux8kCljAbGs
+Message-ID: <CAJZ5v0if=tMiyLB-efkzB67SniJS-2pCVv1-eN+vzZxqrdAM8Q@mail.gmail.com>
+Subject: Re: [PATCH v7 4/7] ACPI: CPPC: add APIs and sysfs interface for min/max_perf
+To: Sumit Gupta <sumitg@nvidia.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Russell Haley <yumpusamongus@gmail.com>, 
+	"zhenglifeng (A)" <zhenglifeng1@huawei.com>, pierre.gondois@arm.com, viresh.kumar@linaro.org, 
+	ionela.voinescu@arm.com, corbet@lwn.net, rdunlap@infradead.org, 
+	ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com, 
+	perry.yuan@amd.com, zhanjie9@hisilicon.com, linux-pm@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, 
+	acpica-devel@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com, 
+	vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com, 
+	nhartman@nvidia.com, bbasu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 03, 2026 at 03:48:20PM -0300, Daniel wrote:
-> diff --git a/Documentation/translations/index.rst b/Documentation/translations/index.rst
-> index b826c3479..409b6a84e 100644
-> --- a/Documentation/translations/index.rst
-> +++ b/Documentation/translations/index.rst
-> @@ -11,10 +11,12 @@ Translations
->     zh_TW/index
->     it_IT/index
->     ko_KR/index
-> +   pt_BR/index
->     ja_JP/index
->     sp_SP/index
->  
->  
-> +
+On Tue, Feb 3, 2026 at 3:32=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com> wrot=
+e:
+>
+>
+> On 03/02/26 18:24, Rafael J. Wysocki wrote:
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > On Tue, Feb 3, 2026 at 1:45=E2=80=AFPM Rafael J. Wysocki <rafael@kernel=
+.org> wrote:
+> >> On Tue, Feb 3, 2026 at 10:41=E2=80=AFAM Sumit Gupta <sumitg@nvidia.com=
+> wrote:
+> >>>>>> Hi Sumit,
+> >>>>>>
+> >>>>>> I am thinking that maybe it is better to call these two sysfs inte=
+rface
+> >>>>>> 'min_freq' and 'max_freq' as users read and write khz instead of r=
+aw
+> >>>>>> value.
+> >>>>> Thanks for the suggestion.
+> >>>>> Kept min_perf/max_perf to match the CPPC register names
+> >>>>> (MIN_PERF/MAX_PERF), making it clear to users familiar with
+> >>>>> CPPC what's being controlled.
+> >>>>> The kHz unit is documented in the ABI.
+> >>>>>
+> >>>>> Thank you,
+> >>>>> Sumit Gupta
+> >>>> On my x86 machine with kernel 6.18.5, the kernel is exposing raw val=
+ues:
+> >>>>
+> >>>>> grep . /sys/devices/system/cpu/cpu0/acpi_cppc/*
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/feedback_ctrs:ref:34290401885=
+6568
+> >>>> del:437439724183386
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/guaranteed_perf:63
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/highest_perf:88
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_freq:0
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_nonlinear_perf:36
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_perf:1
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_freq:3900
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_perf:62
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/reference_perf:62
+> >>>> /sys/devices/system/cpu/cpu0/acpi_cppc/wraparound_time:1844674407370=
+9551615
+> >>>>
+> >>>> It would be surprising for a nearby sysfs interface with very simila=
+r
+> >>>> names to use kHz instead.
+> >>>>
+> >>>> Thanks,
+> >>>>
+> >>>> Russell Haley
+> >>> I can rename to either of the below:
+> >>> - min/max_freq: might be confused with scaling_min/max_freq.
+> >>> - min/max_perf_freq: keeps the CPPC register association clear.
+> >>>
+> >>> Rafael, Any preferences here?
+> >> On x86 the units in CPPC are not kHz and there is no easy reliable way
+> >> to convert them to kHz.
+> >>
+> >> Everything under /sys/devices/system/cpu/cpu0/acpi_cppc/ needs to be
+> >> in CPPC units, not kHz (unless, of course, kHz are CPPC units).
+>
+>
+> In v1 [1], these controls were added under acpi_cppc sysfs.
+> After discussion, they were moved under cpufreq, and [2] was merged first=
+.
+> The decision to use frequency scale instead of raw perf was made
+> for consistency with other cpufreq interfaces as per (v3 [3]).
+>
+> CPPC units in our case are also not in kHz. The kHz conversion uses the
+> existing cppc_perf_to_khz()/cppc_khz_to_perf() helpers which are already
+> used in cppc_cpufreq attributes. So the conversion behavior is consistent
+> with existing cpufreq interfaces.
+>
+> [1]
+> https://lore.kernel.org/lkml/076c199c-a081-4a7f-956c-f395f4d5e156@nvidia.=
+com/
+> [2]
+> https://lore.kernel.org/all/20250507031941.2812701-1-zhenglifeng1@huawei.=
+com/
+> [3]
+> https://lore.kernel.org/lkml/80e16de0-63e4-4ead-9577-4ebba9b1a02d@nvidia.=
+com/
+>
+> > That said, the new attributes will show up elsewhere.
+> >
+> > So why do you need to add these things in the first place?
+>
+> Currently there's no sysfs interface to dynamically control the
+> MIN_PERF/MAX_PERF bounds when using autonomous mode. This helps
+> users tune power and performance at runtime.
 
-This seems an unnecessary blank line?
+So what about scaling_min_freq and scaling_max_freq?
 
-> +Becoming A Kernel Developer
-> +---------------------------
-
-Is there a reason to not translate this one heading?
-
-
-I have a delicate question ... how different are Brazilian and European
-Portuguese for technical documentation?  We have similar questions for
-other languages; for example we freely mix Commonwealth and American
-spellings in the English documentation because they're mutually
-intelligible, but split Traditional and Simplified Chinese because
-they're quite different from each other.
-
+intel_pstate uses them for an analogous purpose.
