@@ -1,105 +1,264 @@
-Received: from out30-131.freemail.mail.aliyun.com (out30-131.freemail.mail.aliyun.com [115.124.30.131])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012062.outbound.protection.outlook.com [52.101.53.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC7C5341076;
-	Tue,  3 Feb 2026 14:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770128677; cv=none; b=ZSPAKXj4F3SO8I0teZv9E7+VBtA0GNCQiw09wACesxt3xv8l7v0hKDLw386TLsv95M5RZKK6Z+nS34yCehLOiTzASXHvzhPYHHZrqJIXLZnJ1pr0dBRdnD/Wn7DtymPKVO8SzrTR0ElVjVUfWCr2x8DdhgBoc/Ud1JTQFBrftUs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770128677; c=relaxed/simple;
-	bh=ffOir72Vs8lqPj8BPkmThj6PjbpIXm1wp44KeiKwcBo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CR03Pt81PvFzJmAAz5gZaZ3mVOsjnt74S8xZGG8Ub0tl+DSD42PTyZqqZRAsDfLpeSdS1moAYn2sn3pYIji36v3nYG7Kajc4C3hUR0WdIqTMOTz1KohjCu5gCC4jMM5spwmnmDm6dpbqeRnPRlhOhziN+I2MayEF9+AfawM4Z8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=HjSDYkkN; arc=none smtp.client-ip=115.124.30.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28473A9DBC;
+	Tue,  3 Feb 2026 14:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770129128; cv=fail; b=hckjKPe2tKyQAwKk6TJCSWtwl/6n35OrFhipnjX8qe8iECZIe0ZAYQUo46WcJ9XiEUTPrALNI+/E/pfgywz07v+A7BcBXMYvM5LMLcHWDP6pbH2d4J7HA1VS/f//g52M3WfGCw4YNSP/kYRfx8u7pZYPRwfQkF0oB/kh7UfBmoI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770129128; c=relaxed/simple;
+	bh=ytW5EihnkTKMKjEaz8hpYIr6W1x8ytjc/m4m6OizuQw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=p9e9EoY/+3knuFehmOLVuC/3GWirnR73zfHA0feGfg4QpOmsO/M9UgNUp3xeCjZdqXcQQPr4IOEzIgoAiUwOTbmWL/mvr4KTsWIWHb0OsrlA9VudIC8I45SDR/kUNS2GaoHtwO9Xsr93fVRfRp6Gv5lJ4E+2+IMoXZ5i4+5cfvI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ZotgNOQG; arc=fail smtp.client-ip=52.101.53.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="HjSDYkkN"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1770128666; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	bh=0M1HZ0jCLyoH118xBYa/oRTWv4PKWmhxkZYP6AlCFTM=;
-	b=HjSDYkkNi+2NHAOTQu/gNxrPIjTQI1TFJ7i4a6ybQdk/gb1IvKDJxZZZynl9WyvfvIt9Oz5frhbguPVbJYL9YWvlg/U+ngcoBe5CX3CyyFVcfGsGb68OwamDDlC1+i1+H8ZYdmCwJn4nng3qf013AIjTJ3nIg1QIfQC9O87b4eI=
-Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WyTNrow_1770128663 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 03 Feb 2026 22:24:24 +0800
-From: fangyu.yu@linux.alibaba.com
-To: radim.krcmar@oss.qualcomm.com
-Cc: ajones@ventanamicro.com,
-	alex@ghiti.fr,
-	andrew.jones@oss.qualcomm.com,
-	anup@brainfault.org,
-	aou@eecs.berkeley.edu,
-	atish.patra@linux.dev,
-	corbet@lwn.net,
-	fangyu.yu@linux.alibaba.com,
-	guoren@kernel.org,
-	kvm-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	palmer@dabbelt.com,
-	pbonzini@redhat.com,
-	pjw@kernel.org,
-	rkrcmar@ventanamicro.com
-Subject: Re: Re: [PATCH v4 2/4] RISC-V: KVM: Detect and expose supported HGATP G-stage modes
-Date: Tue,  3 Feb 2026 22:24:22 +0800
-Message-Id: <20260203142422.99110-1-fangyu.yu@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <DG4PS6NRRUC1.1FL8WBJVEEM4D@oss.qualcomm.com>
-References: <DG4PS6NRRUC1.1FL8WBJVEEM4D@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ZotgNOQG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=htnwl6wO1KZj/p/8Qfuzn+avSq/OZgSCTMth/xw7AIFAK6yRoRYmgDYfPXJqQCM1mMIpNv2M3u5i31/R7f61+c3YEhqpodqqjxHWzCRUAryPMKrZLMxS/K657DfWDP2dnlhTxmy+0/nWNSIA3E7ueFkl4z1Qt0zxfn9e+APbGEEYjUnZg5xJqdoeTQr3wG/Denm/I7ZSG2GRHRReuocbj5xJy5+Dn6cxcaQBOC0quY0YBglSCyuhWT+w7b1n9yL2uALuVT4MxTReenFoWQp9PaAW4xh6NfmzNb0qiYEcKttXyz2E4MTu09VHBxSNAsy0+MVBj7SgMVy+Tu1CmyZ5Cw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WnDPKFDZiAfekJ/r7/9h4FWkAhHYbSdhbVJdjsLoWkY=;
+ b=RISS1dxTvo12xazGbY5iUlav9j4L4zxefo8Dva3VogzopGVj1ExdIRoVb3eQAFkBTL/ffvQiE2Y6GoujWh6rTkbukMtX18AL2UnAvzxNk1+lX+cglZDb+HLvWgbbopIHiOG6a/6kBecnxx+/vxJPMVFPH+f7x7H9FE6C6cAiF7MgYi9gaWbvJn8mGaYsUc0KWM2TGxtx6NEGpZza8HqpVVgV7k9EKpml+73y4vW1YMvXv/344YMCi8uCkKfTEagNl2OGBFn/Yio5m9KmOYEUCgLj1w5RAaHqqOvbJdTZ/cgwXYgZRO0qHayki1ylXLxMi7cShm9KLcGh7Z0vyUZCIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WnDPKFDZiAfekJ/r7/9h4FWkAhHYbSdhbVJdjsLoWkY=;
+ b=ZotgNOQGSUjGDfBgnH0DqzOJ7PQxTrY4LEvApSjIPEm8KpEz/1STzB7Yf5SSxMVgmzIf7mUgpJZYRNZ5gSObD/CPvrGgFN+q3YfNW0yPHlsEYe5ClQV95DQfTieZIy22qE3GybwXb4sqweOQBiKBmP+VYZ5+C4ttL/Y3PqUkvXn5GziaFRE6Hi4wqPF0XKQIJeESvkIlLG3P9/DK3KNJpWTiTCTgPVMNUafPhl/k2CDacPNJ+rYk98ZtAMdyPS3W2X8fINeoIRWTZCkyunjS7I78wE1pop3jaHk0YLuqnwlFqapr7+zFS+YtD6SosaW9vKBdDM4SOgDxew+Ut0sYcg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by CY5PR12MB6204.namprd12.prod.outlook.com (2603:10b6:930:23::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.12; Tue, 3 Feb
+ 2026 14:32:02 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f%5]) with mapi id 15.20.9564.016; Tue, 3 Feb 2026
+ 14:32:02 +0000
+Message-ID: <211d9dfa-26e6-4fc3-b70b-f5fbca49e5fd@nvidia.com>
+Date: Tue, 3 Feb 2026 20:01:48 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 4/7] ACPI: CPPC: add APIs and sysfs interface for
+ min/max_perf
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Russell Haley <yumpusamongus@gmail.com>,
+ "zhenglifeng (A)" <zhenglifeng1@huawei.com>, pierre.gondois@arm.com,
+ viresh.kumar@linaro.org, ionela.voinescu@arm.com, corbet@lwn.net,
+ rdunlap@infradead.org, ray.huang@amd.com, gautham.shenoy@amd.com,
+ mario.limonciello@amd.com, perry.yuan@amd.com, zhanjie9@hisilicon.com,
+ linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
+ ksitaraman@nvidia.com, sanjayc@nvidia.com, nhartman@nvidia.com,
+ bbasu@nvidia.com, sumitg@nvidia.com
+References: <20260129104817.3752340-1-sumitg@nvidia.com>
+ <20260129104817.3752340-5-sumitg@nvidia.com>
+ <4432fa04-e67c-422a-aae4-2938be431985@huawei.com>
+ <c96312c7-b13f-4f5c-9512-cc0382c1c77b@nvidia.com>
+ <74f3e6cf-7c13-43e6-a8f6-2b46184b8ad6@gmail.com>
+ <944fc140-e5c5-425f-a6ad-883e87eed8a3@nvidia.com>
+ <CAJZ5v0hUdLsh8UK5G6rHHD49RQGYLAiU1J-11DK-fLTKnuqhUQ@mail.gmail.com>
+ <CAJZ5v0ggzD0PEti-r20Sm-8n0gPigPh=NgE2Oa=UKzMmwB0jpw@mail.gmail.com>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <CAJZ5v0ggzD0PEti-r20Sm-8n0gPigPh=NgE2Oa=UKzMmwB0jpw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5PR01CA0203.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1b0::7) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|CY5PR12MB6204:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4889bc4a-61e1-4c88-5202-08de6330fecb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?YVM2d3UyOXJWVytZSW9sN25QUzJ4MzA4QUZrRTZWOEVDeWcvNXErM1hjNnFX?=
+ =?utf-8?B?bUlwKzJkSUVGdkNUd0w5dXF6VEZGTmh2bDViQkNFNENkcDZKeExoM3JTaER2?=
+ =?utf-8?B?MG1tTStock9sN1RUSUZQK2NRTkY1dmtsOUtscnVTOUl5VVA4dGhMODV6VGR1?=
+ =?utf-8?B?L09HRWJ1TkVpZVUwYjJ6bjY3TVR0YzBZT0p1KzZLa0lqR0hKZXNzcVlWVzdR?=
+ =?utf-8?B?M3c2aEJTZ2NCU09QcFo1QStHQmVtR2dnUmxLeTZybm5rQTErSy8vMVZsUUlx?=
+ =?utf-8?B?VnFvM2x3OGpMMWVrL0NGdlN5M2ROQkhLdnZLN0pISDBucGtTYUtQQ2FzcVIr?=
+ =?utf-8?B?dU03VWNJNTdSSEFKRDhhYXNQK1FMZVExMUNDNWdaTDE1ZElTMkpuMWZ6UFow?=
+ =?utf-8?B?Vjh2UGIxTWUraXhLWHpWTHhGZ2M2Mm10YWN1OG9sUmVVbWxoOHdTdmQvNWk3?=
+ =?utf-8?B?VDVZTHRDKzZFVnMzNmVwbjVnYVdkS1BocTZsVWw5Qmh4bkRySDJxK0xROHNM?=
+ =?utf-8?B?VWJDb0NwL1M4N0RWUnFyUHJYUGNDdTBNVkhPOExwZERXS1JZS0dNYnF3dTg2?=
+ =?utf-8?B?UW13R2lGdmRwaEhhMEs1amFoRlZCTXZHU29vblgxb2VjL2VHMHZRbTJZY015?=
+ =?utf-8?B?VWJyZWpSY2tmRSswR3dxRTh0cG9KZWovRmwzQXVJbkdqQkxpckY0M0JuRHpz?=
+ =?utf-8?B?eGRoRmtWRURkdTN4U2JMZVRaUndKdFM1dnVLejJ1K0xTSE1BcFF2dHhreU9w?=
+ =?utf-8?B?aVhCc3pLQ1ZSV3pCbHNJVWUvdGFRcHByL1IrcHEzU1RidmFtS3hYWHRhc1VR?=
+ =?utf-8?B?MzNWTjhBQy84MjBwUGxVa2J1MUh1eGtwVGNTRTNzQ0kvZm9xRDIyM04rcVZn?=
+ =?utf-8?B?UmQ0R0ZPbE80NVo3a25NRE43Z1RsRTF0enpzbkRWZmVzaklNQzhMbEl4bzhI?=
+ =?utf-8?B?Tlh0b24vWGY2eVl2R1FRdjdEb2Yzd0lHYzFmVHA4bHV0TG5BSGorcUR6cEhh?=
+ =?utf-8?B?NHJXSHdPZkp1Sm5yeUxqV1VFbjRmSmo2T3E0WVJpai9IWktCVFBkcjExZUF0?=
+ =?utf-8?B?WXA0YUhUckJEM0x1b1QrakpSRTk0VGNZNm5CY3BDdS9Ed0NMM3JiMlgxckR5?=
+ =?utf-8?B?UXc3bTRLOGVPMWpFZlp2N3dIOHZjODd6ME92YWY2YjM0VlhDN1ZRaVVsUThj?=
+ =?utf-8?B?VGNTdUZKY1FxaEs4OVlwTlBTUTZZcWV5SmduODRvSEdCWmduTUkrN3hoSFd3?=
+ =?utf-8?B?RFV4alBVaGRPMXdZc0V3YmFjNDV6bVNPMHhuenFCeUhLSGdzM3NWZVJlSWM3?=
+ =?utf-8?B?dVpsTmdDKzVCRkN0aUJmLzhta0lGN3cxbklMTG0xWW5EVFVxVWk1K2tjdFlV?=
+ =?utf-8?B?L1RXNDRjdW9sMHdxc2xQdk5oR3FkckpvSFIweGhnRjFYczRRK3lUL2dQemhv?=
+ =?utf-8?B?UElOOXhNWkZsUC9GNTNZQ0hGOTFCNnR0YkMyOVlmVjlUaU5ReFN0RFhqSVpG?=
+ =?utf-8?B?c3RXMjd6LzZmRDRDUlhPdi8xQ1d2Q3QrblFFYSsxTVNPbjVIeWdkRVpVOEVs?=
+ =?utf-8?B?S3hwcFBRSnBxYjZWZ1BCbUJFekprUTdROER2ZDhHU2dBb3RDYUNQcWRpcHJU?=
+ =?utf-8?B?QzJUOU52endkSWxFNlhDdURMUXp4VVFabnkxRndpbndMdjRBdVZVc3NLVGd0?=
+ =?utf-8?B?RURMd1NkeUpKYWZJYWt4OUdYSVcySDdDWHFXSVZGQ3o2Nkk3ejhzVDJyV0ov?=
+ =?utf-8?B?WDRKRC9Mc2Jkd0o3VjdaL0JVSEU4VDFvWWVQSnlvd0tGWmVJYzVyUmJqM3Z3?=
+ =?utf-8?B?bkRuNXVnU3QzbE81UW9IdFRpUjFkaktnUDQ5N3NzQUoyZXlBR3RHdVJBOVhT?=
+ =?utf-8?B?WHJ5cVFPdmhqNUVsc0tqOVpSazBYOUx1R2pVN3ppSzg1UjBKZmxYNEVrUy9W?=
+ =?utf-8?B?b3BBZXlBOWgyYzl0ckt4RFlWNENUK2QxMTlValpvdkYyYmhpem14bDZJRERK?=
+ =?utf-8?B?U2tOTGxLTXFSMHA3QjNJaStFakZSOTZUVjNUN0VjT1o0cTA1bkoydlJHZkJC?=
+ =?utf-8?B?S21rR2ltVWllR2FNWi9VdnZBOW5ZY3FFcGxhcGI5ZnBSRFZ4bDRzMm1Hd3c3?=
+ =?utf-8?Q?GpLQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Zk9UVk1KTVNHQzhoVEE3SU96RmJ3TUdRcVNCVGlFOHc2eGdLN2ZkTmdkWmR2?=
+ =?utf-8?B?Mll6Tzd3Q1BMZVNFMkhzR013eU0zdll5NmN2dFpna3hMQjBiSjFtdDhtQXNs?=
+ =?utf-8?B?Z05KTVU3eFhibDl2TndqTGZJUmc0aUFxdmM1akw4NkZFV3BzSjVEcm9wM1F2?=
+ =?utf-8?B?WjlIeWxrZGJwZUNIQXhucGx3U2V4dVUyVkVGWi95TFZNVmtMekZwWHhoWDFz?=
+ =?utf-8?B?YnBGOHB5bXJrNXFMNnhYbTMrR2krYzY1YyttKzRoYzhxbUVNbWU1enAxNzhP?=
+ =?utf-8?B?YjJmMzgzTnBkZENzTUgyMXByblI0c092QS9pdjhLTlRZNEoydzlERUZFalZz?=
+ =?utf-8?B?ME5KZURESkI4alhyby9oUTEwZUU4V0FVdTUvODJoTTEwOEdtb09mNU5YS3VN?=
+ =?utf-8?B?a0pvK1BYQVBxdUpRS0dLNmxORFRlL2QrWEZ6dVdoYVd6d1FTWEZsRjRhVmhO?=
+ =?utf-8?B?Tm41ZStTSTk4UE1jT0NZd2l6NkZxNkRyeXlCYU1VamNMWVY0aDlrSVhkL3ZH?=
+ =?utf-8?B?RmdPZW13bHhWZ3BEM0Y1dVpaOXF1UU83Yi9Dd2c1Sk5mWVlPeGZhV0MwR0pW?=
+ =?utf-8?B?c1oyc3FzLzI2Rjd2NjZhT2RJYzlpWFEvc3paaUtTSVNpdDY1U2tOWmxzQUtO?=
+ =?utf-8?B?bzEybG1VN0gzL2l5Q0RwRyt4UlRMcEFnL1BQNGRDR1M0S3Z6NFhhUm5tclo1?=
+ =?utf-8?B?VnlaN2tkWGhvMEx4TnRmaTVROGdaQjREYklpRzBGRWVnK1hKS1Rmcm96TE9G?=
+ =?utf-8?B?QVl0K2xzeDZQNkFMQk9Ta0FMYTZWQ3pGMktlMGJma2ZwSGVWRGZwZGJ0S1lV?=
+ =?utf-8?B?THh1MDNKeDFzNnFrQ3ZoSjFkSi9QcTlhNFFmdVZZZm1veFFjVUtMSzZQZHV0?=
+ =?utf-8?B?UXBhbWVQaUpZYjMxYmkrbU1CWDVpRnhpNGdlelQ3MzAzekxpdnM0cEd1SnRD?=
+ =?utf-8?B?eG1IVU90VHVmS3Z3cS96SUJUNEZWQWRQYmlJMEVaQ2NTa0srd0pxS3VnSmtv?=
+ =?utf-8?B?bWwyQU1XYzBjSkx2RGcrakxzd0VKbzhZZ1g0Ni9WaC9QQjFJVTcxcTRjVktT?=
+ =?utf-8?B?aG5SYkZUZHNvYXVIYjVKdUY4bG9hOFB1ZzZIOXBYK01SMytva1R5SXYyVTdO?=
+ =?utf-8?B?Q0Zmb0l2NGF3cDIxQXJyS1E3SytuS2J1eUNsOU8wQVpERExwNmQ4b2s2Z0tN?=
+ =?utf-8?B?R2RDc1RVUDl4OXQvam5aQ0NtV3NhQXBkKzdvN2gwQ240c3lJVm5WcHE3TEdC?=
+ =?utf-8?B?UHZvTlAvWmNiWmJwaVVnQWw0aWtWY2FZeEhBTDZIT2ZZa3lDQ29TTDQ3endX?=
+ =?utf-8?B?ZzlONGdkNWNVOENER2daaU9qS2ZIU1BnM1ROZ3FZVHppaVVMOGxtc3JNY2h0?=
+ =?utf-8?B?U2dkQ0YvTG9LK2hZWjRoRGlWNTdScGljOTdUUmcrbTRZakYzSWpsSWh5NVZl?=
+ =?utf-8?B?aTFsWG5mc0VnU3o3bFZuMXdpSXQ0bjZWRlZwUTlrcnVMNnZCS3AyMlhWaHkr?=
+ =?utf-8?B?WjZIdG9hNnFJQkxQRm5qMTh4Tjk5M1g0Q0lPUUFrcjBicFlxa09zR3ZxbUsy?=
+ =?utf-8?B?OVJWM3crV0dyYXp0dG5adnRJL3ZTeWVzRXc4ME5NYXRTUlQ0Qmh2ZEJtVWZo?=
+ =?utf-8?B?Tk1remdDUXo1dG1aWnpHUlQ4ZkVuOTVRU3haQkJhUEk3YzNMMG04VjFyL0c1?=
+ =?utf-8?B?SjdBZStVZ3lUUXFsMFNuQXgxcU1XQVQ4Qk9wcDhxZmNxMVNZVXBkMUZ4a0pE?=
+ =?utf-8?B?Z1M1U2VCRFRtODRsb0k4eWFaUkEzQzUyNUlLWU5tN3B5RzB2QityTklOV3Iz?=
+ =?utf-8?B?aVZoNWJHMmtIZXVPaU9ndmZ4YWpmTGZFelYzMmUvTTR1bmtEM1pHOG5lc0ll?=
+ =?utf-8?B?TWc1RmpLK1dMY2hORCtpSHFiSFRNZXZ2UE9tRGZnNG1QVG1KTFlLRk9SWVlE?=
+ =?utf-8?B?NVllNHVheldvVGZocEMwU0l5NGdJNDBGZUJqajFPYUdNaDR6M2tUazFXa1Bh?=
+ =?utf-8?B?OWc3WDZleFVYemNyTmdXSys3R2lmZEozY2ZUT1ZkSnJyU3JjQmdZK0REQlhC?=
+ =?utf-8?B?Rk45NkxvWDNpMkFrMW1mNnRQUUdtejZERjg4REpFR3MzTGZUbzlwc2FhNHBE?=
+ =?utf-8?B?OUMxMm1zK0tlR2dJUU96UER5OGJ1NU1rMWY1ZmE5QlVnMjh3S0hkeVBTK2RD?=
+ =?utf-8?B?aDd4SzB3ZllPRDY2endZSm9jQVRFZzZ1aVpTeG5vK0FCTHFzM0Y3YXllSzFO?=
+ =?utf-8?B?c2tIb2Z3blNaMG9jWU1WbjZETWlrYWM1NlJtYlg3akkxTXplTDh3Y0hQMnUz?=
+ =?utf-8?Q?o4qMICTDLXhtj7jdnY?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4889bc4a-61e1-4c88-5202-08de6330fecb
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 14:32:02.1240
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VJ24r6wEIBwd1sr0/6V8JZb4AZn0BHGt69gL4qbhCacRi4GBrljw2AAeImHTAt3OJgIezXr92EOyhyIDzZn1Jg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6204
 
->> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+
+On 03/02/26 18:24, Rafael J. Wysocki wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On Tue, Feb 3, 2026 at 1:45 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
+>> On Tue, Feb 3, 2026 at 10:41 AM Sumit Gupta <sumitg@nvidia.com> wrote:
+>>>>>> Hi Sumit,
+>>>>>>
+>>>>>> I am thinking that maybe it is better to call these two sysfs interface
+>>>>>> 'min_freq' and 'max_freq' as users read and write khz instead of raw
+>>>>>> value.
+>>>>> Thanks for the suggestion.
+>>>>> Kept min_perf/max_perf to match the CPPC register names
+>>>>> (MIN_PERF/MAX_PERF), making it clear to users familiar with
+>>>>> CPPC what's being controlled.
+>>>>> The kHz unit is documented in the ABI.
+>>>>>
+>>>>> Thank you,
+>>>>> Sumit Gupta
+>>>> On my x86 machine with kernel 6.18.5, the kernel is exposing raw values:
+>>>>
+>>>>> grep . /sys/devices/system/cpu/cpu0/acpi_cppc/*
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/feedback_ctrs:ref:342904018856568
+>>>> del:437439724183386
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/guaranteed_perf:63
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/highest_perf:88
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_freq:0
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_nonlinear_perf:36
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_perf:1
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_freq:3900
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_perf:62
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/reference_perf:62
+>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/wraparound_time:18446744073709551615
+>>>>
+>>>> It would be surprising for a nearby sysfs interface with very similar
+>>>> names to use kHz instead.
+>>>>
+>>>> Thanks,
+>>>>
+>>>> Russell Haley
+>>> I can rename to either of the below:
+>>> - min/max_freq: might be confused with scaling_min/max_freq.
+>>> - min/max_perf_freq: keeps the CPPC register association clear.
+>>>
+>>> Rafael, Any preferences here?
+>> On x86 the units in CPPC are not kHz and there is no easy reliable way
+>> to convert them to kHz.
 >>
->> Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE values
->> supported by the host and record them in a bitmask. Keep tracking the
->> maximum supported G-stage page table level for existing internal users.
->>
->> Also provide lightweight helpers to retrieve the supported-mode bitmask
->> and validate a requested HGATP.MODE against it.
->>
->> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->> ---
->> diff --git a/arch/riscv/include/asm/kvm_gstage.h b/arch/riscv/include/asm/kvm_gstage.h
->> @@ -75,4 +76,40 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *gstage, gpa_t start, gpa_t end
->> +enum kvm_riscv_hgatp_mode_bit {
->> +	HGATP_MODE_SV39X4_BIT = 0,
->> +	HGATP_MODE_SV48X4_BIT = 1,
->> +	HGATP_MODE_SV57X4_BIT = 2,
+>> Everything under /sys/devices/system/cpu/cpu0/acpi_cppc/ needs to be
+>> in CPPC units, not kHz (unless, of course, kHz are CPPC units).
+
+
+In v1 [1], these controls were added under acpi_cppc sysfs.
+After discussion, they were moved under cpufreq, and [2] was merged first.
+The decision to use frequency scale instead of raw perf was made
+for consistency with other cpufreq interfaces as per (v3 [3]).
+
+CPPC units in our case are also not in kHz. The kHz conversion uses the
+existing cppc_perf_to_khz()/cppc_khz_to_perf() helpers which are already
+used in cppc_cpufreq attributes. So the conversion behavior is consistent
+with existing cpufreq interfaces.
+
+[1] 
+https://lore.kernel.org/lkml/076c199c-a081-4a7f-956c-f395f4d5e156@nvidia.com/
+[2] 
+https://lore.kernel.org/all/20250507031941.2812701-1-zhenglifeng1@huawei.com/
+[3] 
+https://lore.kernel.org/lkml/80e16de0-63e4-4ead-9577-4ebba9b1a02d@nvidia.com/
+
+> That said, the new attributes will show up elsewhere.
 >
->I think it's a bit awkward to pass 9 when selecting the hgatp mode, but
->then look for bit 0 when detecting it...
->Why not to use the RVI defined values for this UABI as well?
->
->There are only 16 possible hgatp.mode values, so we're fine storing them
->in a bitmap even on RV32.
+> So why do you need to add these things in the first place?
 
-I think this is a good point.
+Currently there's no sysfs interface to dynamically control the
+MIN_PERF/MAX_PERF bounds when using autonomous mode. This helps
+users tune power and performance at runtime.
 
-Using logical bits 0/1/2 is indeed less intuitive than testing
-BIT(HGATP_MODE_SV39X4) when userspace passes the architectural HGATP.MODE
-encoding.
+Thank you,
+Sumit Gupta
 
-However, if we use “HGATP.MODE encoding as bit index”, we need to export
-those encodings to userspace. Today HGATP_MODE_* are not part of the
-UAPI, so userspace would need to hardcode magic numbers.
 
-So if we go with this approach, I’ll add UAPI definitions for the HGATP
-mode encodings (e.g. #define KVM_RISCV_HGATP_MODE_SV39X4_BIT  8, etc.) and
-then define the returned bitmask as BIT(mode).
-
->
->Thanks.
->
-Thanks,
-Fangyu
