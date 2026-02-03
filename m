@@ -1,224 +1,263 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013027.outbound.protection.outlook.com [40.93.201.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AA5396D2E;
-	Tue,  3 Feb 2026 09:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770111703; cv=fail; b=npblOd2UcL/tQMUSYS9EwKSvo/YV2L9+Rtx8w/jv/ubboyC+9HHUnWiCRa6OE6WZzk/dc/r9Lt/TDbZTKXoEjqwvVD1z3WmKaRI4DXWcQ31X8F6CfK2b+F9Civecf5AhZCm5OmbAh+4cmfs66GO1vMRdiu08xMRa4V+ePkFGYLk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770111703; c=relaxed/simple;
-	bh=scDZ9fGi1LfVL0ddVv9f0CJufIFOK67AJ6Mg5N/dEyg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=H1jqjnU4vesVCS9/AihFODWpuIFb7JpJdmlzEYbyY7cJWSdIBv1Kv1grJ/+1xbkpIwOfeoVKxtReJ7j2Klj+qzm3RXYwRh7NxnRLkZU5UeYRQB0QzOqJZWNTO3bdvKCh5GMf3BnWQNc+6h0hGsx+GhUB8SZ5lL+ZjCw6SNxeN9g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IwlebDoD; arc=fail smtp.client-ip=40.93.201.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF309399001
+	for <linux-doc@vger.kernel.org>; Tue,  3 Feb 2026 09:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770111863; cv=none; b=qe2Hq3/K0oVl7khzrLfrvty43poht9gKaM0EuaFyOUBB4SV5moOhbSaP0JR9dIOtXweFdXDnnSYwBW3PSLHm6QfZTTZqq251g8ZzU0f0QaKB+1GiSpNv7uiNQBtJ2Iwa47uq+k242OpuaSKmQQt8e0eYsV8Wgt0U2TgQ8YGWdZE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770111863; c=relaxed/simple;
+	bh=+LoK5vMPKAT4d7HNt+4rYvxY6d0PqQkC7S4nBXL7pQU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tbHwkvjaQnKEEIkU779yUoDb37jiJz6G2G36ozfd6jnMV65Nt8/K3oCkqdHBMjyX4wvEfbbSX9zE3PixAPdf2GI7Pud0S3v6czfoRJrn64vFEzgsvxPumBan3uf8bfm7Uuyn153fi78Hf27MSckhMxAqX8+2H41P/r6FKsTveNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=XLNtWRHP; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IwlebDoD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=siDTR3JiHy2qsevSF87p3Ag/c4oTK98O0etcQ1QPdrqCnRxNq+CfsQf9aXN3sqn/ZeLIN5qBIXkv2IslG/3XqwmtebHiHzURnAbFoYZxzt4xVUZldptfKS1BrY8XVlf5hbIX1UbrwmUoMP1Y0BEOykXXOvtTfAkV43VQkFPDyyfgv6td8dwbRhfpF59gAtKSls1EYCckn9cxHfILzBvdHaSiFx+Bm0QXLryhSLaNHtP4IhDZQs4ibdXiRRdzrJx3ELkDMmz1E3+YxUNbjvJZYLprok3pKPtlnGSr6Vw2t/ijOE4fegi7f5KYe25RPVW4A4KD+qsLGI0uM6FT3swWwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=scDZ9fGi1LfVL0ddVv9f0CJufIFOK67AJ6Mg5N/dEyg=;
- b=q4pMem5hVS0W27YPYpsj9MeZjlnAezsPhQ4+noEsHy3AszI5cC43vEqQTG7n+nWrpRX62hlmumJ/PFfpeIhksa4fl+Wk73zucZ5kA3Ovz8jx48V+vxHeZO24L1jyeqkCxOPK9d3mTMi17uXkbhoCTu8kfuwgeyzGJ2MM4uCJIxlnhDHQNh9yqnK898Bp/eG/uM2oFE4KjwppFZ2fZ2L6Q7qHpXfONsT//MlfGij45yMRfwL/5SLJ8WWFpA338HmBE2XCAxjkhxsh8JlCWvvj4Bx3Ca8O1otiQS783wzSLRx7IOx0KwzBjpO8TwDQnQu6eCZfWvfE1d8O5ZYElSe7Bg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=scDZ9fGi1LfVL0ddVv9f0CJufIFOK67AJ6Mg5N/dEyg=;
- b=IwlebDoDgCeAU4i4vWU3TOC+FIKS85p7yxwl3Yi1Lr6iV6oKNhUi1Qvu9JvzYHH2RtLkrpehoonBbhlKWx5DBMD9PcUuJY6bbMR9WqaaD8PRwc4jFIQtOVgl8EqMwb2z3KalHj3RipIv195vRWnI8dEr/SF7A16q++AJvgzSMzJPxM9xChduR1dsEnAXiE/tEQNdYFgtV+CC9e1RIt2XfVjgQRjp6F8hSHubzVd97fdl+r0XhRv8CpLwocWSElM2xmRMqloBUF3W/mpOFGTu7gd9m8QvPKxT3Tye1UoyRwob+xX53IJNutMj37ntKNXlQAdEEmzvsjzOtYhyNHkk/A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by SJ2PR12MB7990.namprd12.prod.outlook.com (2603:10b6:a03:4c3::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9564.16; Tue, 3 Feb
- 2026 09:41:35 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f%5]) with mapi id 15.20.9564.016; Tue, 3 Feb 2026
- 09:41:34 +0000
-Message-ID: <944fc140-e5c5-425f-a6ad-883e87eed8a3@nvidia.com>
-Date: Tue, 3 Feb 2026 15:11:20 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 4/7] ACPI: CPPC: add APIs and sysfs interface for
- min/max_perf
-To: Russell Haley <yumpusamongus@gmail.com>,
- "zhenglifeng (A)" <zhenglifeng1@huawei.com>, pierre.gondois@arm.com,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: rafael@kernel.org, viresh.kumar@linaro.org, ionela.voinescu@arm.com,
- lenb@kernel.org, robert.moore@intel.com, corbet@lwn.net,
- rdunlap@infradead.org, ray.huang@amd.com, gautham.shenoy@amd.com,
- mario.limonciello@amd.com, perry.yuan@amd.com, zhanjie9@hisilicon.com,
- linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
- ksitaraman@nvidia.com, sanjayc@nvidia.com, nhartman@nvidia.com,
- bbasu@nvidia.com, sumitg@nvidia.com
-References: <20260129104817.3752340-1-sumitg@nvidia.com>
- <20260129104817.3752340-5-sumitg@nvidia.com>
- <4432fa04-e67c-422a-aae4-2938be431985@huawei.com>
- <c96312c7-b13f-4f5c-9512-cc0382c1c77b@nvidia.com>
- <74f3e6cf-7c13-43e6-a8f6-2b46184b8ad6@gmail.com>
-Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <74f3e6cf-7c13-43e6-a8f6-2b46184b8ad6@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MAXP287CA0019.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a00:49::28) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="XLNtWRHP"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-42fed090e5fso4241595f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 01:44:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770111860; x=1770716660; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+mmJhBHP/2MQgA56LecZqFvpbK/EEvY+icUfVMGut74=;
+        b=XLNtWRHPQYSZVfrHI+VqXUFHrGZhLu1vFVp/9VLdOdSJpYpgkqv3eXNAdbrJTAv3hs
+         8bQo2vGOpf20bI2zqLEAkiHe48erDDBrZhsh+tasKB/U5wiiToiPfeLGjYWp6Uq8tKGo
+         +9zmHb81094Ss2S/tnfjBJ0u1gw/9jNv7TItFVFhHUCU33mP6H2CzT7+wV1d8eW23Nk4
+         1DtOBY4x1r81rIu078oQJoD0YTMkYbqgUlpdgM9LL77V2V62Jr1J9NvVM4Bhr4N4Rx2m
+         NuW1uGDHnbRizg+YdshHKIkbJY8Rwo1NDL9VQ/emxuxksC0KBU+/PFVuVJtx64M3Zkjv
+         zjKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770111860; x=1770716660;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+mmJhBHP/2MQgA56LecZqFvpbK/EEvY+icUfVMGut74=;
+        b=vD89zPJSCE3FFa54DR/lnvwAA9MddkiCjTIK6geiHcIOPZ7EN1ZEp5MKzr4pzwI8PR
+         AsQ+wehGQ1tjav5V8PYizKNOtWBSwraxMx62aEx4j1Q0l1kqRTDSUIbNXAxlpL/3m0/T
+         oOT5qgn6s1OsfcSv6yOgE8QNo+dLCYfhe6Ydys4PrfzGNhlYMIoeieiFfpmL4ipMGV9Q
+         zwqCp0rFs0soI/nCcc4fWrMyv4oeSQK1hTRth+LuNCk1Ar+A1MG3EJplzMoYa6rSx7GB
+         Hg7ipBxgLF5XOiO4XarfJNG+Fyv7U8dHGQl09/kLTC7c/nI0ZDxNU/cLxnLOmltcKYaG
+         d4Qg==
+X-Forwarded-Encrypted: i=1; AJvYcCU9Sj8YE1fUotGOryfIIak7IbETujcDF+sKeTbLRlzAuYsPw68k8awAOW/XYdEqcu3l+2WWi0nBT/g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzx0MpaYIXFddNbLMFKb2oKwOChSyvu+cnPcJqAF0U7MlfmGMuu
+	yp7GREVAds+4DsQCqY3OgUePifwBI5Dx1k21gWDnCCt/2sp2FzYV6CTcyuEFY5GKSps=
+X-Gm-Gg: AZuq6aII/rvzGqoOo71qlh9W8jBxnB7t4Hqksp34Nz0Fm6r7N5WOGb30y9ZU2C8OsvZ
+	huo4eb8p5x4jq6FvRw1v4GF+TrNjUMqU41mw/agT36G383aCLKYmaVzUS1r1tNo9HZUEumjn4vn
+	PPww24EyjwUTH6zqOLKffs/jKWRcvQGJ0z6Ptm06NFs/teWRh8unnwD6EWKUrx/lyQtMOh35Cv+
+	qHNLbwFC/T9Uw3XhbWerQBsP2XUJAOt+7y9xTwXWoW02O3JbPF6uF851ZcmAKbE5rf7PZMnjj6p
+	hE5I0ropVJRUvuGS8RbNnKTg0PlgJ2o5u3RGt5yItbHdvguNl1W4UTmPzebCgTtdL7TAzHAaOzJ
+	+QnLGUqfGJIMhz3flbZJ0GM5FrwyTjFxCBXjehG2PehpUgWUsZO8J9bXOHzAiIf4AZkJGi+Nyo9
+	74ToPPguS4q9PGk9o60i3hq6CCjpwX4Q==
+X-Received: by 2002:adf:f7cc:0:b0:436:143c:c000 with SMTP id ffacd0b85a97d-436143cc130mr1101812f8f.45.1770111859982;
+        Tue, 03 Feb 2026 01:44:19 -0800 (PST)
+Received: from FV6GYCPJ69 ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436142de842sm2407305f8f.30.2026.02.03.01.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Feb 2026 01:44:19 -0800 (PST)
+Date: Tue, 3 Feb 2026 10:44:16 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	Gal Pressman <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, 
+	Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Simon Horman <horms@kernel.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH net-next V7 02/14] devlink: introduce shared devlink
+ instance for PFs on same chip
+Message-ID: <wdkd7yelgosii7bklmahxf5t6xnn2vydnwiiruiwqpyue722dj@yjnkcdctzeav>
+References: <20260128112544.1661250-1-tariqt@nvidia.com>
+ <20260128112544.1661250-3-tariqt@nvidia.com>
+ <20260202194946.64555356@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|SJ2PR12MB7990:EE_
-X-MS-Office365-Filtering-Correlation-Id: 611cde3c-4354-4642-4af4-08de63086b17
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dHRSR2ZCeElCbU1BMkg4MEFzSy9XYnRGeHdITW84ZWkzbVB6OFY4OHZnVUxq?=
- =?utf-8?B?aWJYUU1BMjRBaTZ6ZnJRMC9MNjQyUm1rRmkrTG9GQWl0eVZRamZwSm4zblhx?=
- =?utf-8?B?bjM3d3Q3dzNhRWg5NHQ3blM5TmlIUi80UWRWQTRJUlMrd1EwWXFpK1ZSaFg3?=
- =?utf-8?B?am1WSUdaMGx6YmJrYVBBRFBFQjdGVjNuMk5UbFg5NUFtc2x4WFNNaFVUYkE0?=
- =?utf-8?B?bXJrS1ByTXhDU3l1L2ZkTXhmdHZBc2lWRCs3djU4Ynh1cUtMaHh6MGVpSWNk?=
- =?utf-8?B?MHg1eEdHdzBydTFqU052QmFnSXVnR1d3ekF1ZWNRRktta2FjQXZ2Y0hqNzVu?=
- =?utf-8?B?eVFoZDNyaWJkaVhENXB0WlQxNlhOY0F3ek1JQXp2Mzd0eTFDOUZkY0diZjY3?=
- =?utf-8?B?NitCQjF6UjljQ3h2UzhEaDdGWmtYaDlKa1lTb1AyaFNmbUJlSTN2dXNQR2hp?=
- =?utf-8?B?Nkxtc0tpOE84STVSdUtwNHFuV2hOaEw1akRrcWxZSVdrMGxPZU10L1ZwdEJ4?=
- =?utf-8?B?SlVyb0VyTCtHZ1JVNjI0cktxNHRaYkRuSXRCSmlkRTIyTFRvd2Fqd1l0TFBS?=
- =?utf-8?B?RUthdFRLUTEyU25UcW9hR1Y5eHRMc25sRFF0SVRtSUNKRitXaitRems4YUg0?=
- =?utf-8?B?RnNQSU53c0d2ZWxiSEkzK1NOaUoxTHpEYStzT0FESVRzQkJtcmM4UVRsZk5t?=
- =?utf-8?B?ZG04WTA2NHpHZmUrek5taHZVS2lNejllZXZ5VnY5UE12RnpXOEFvZCthMk1D?=
- =?utf-8?B?dVRMbWc3VWRwR1JKd1RuajRCWlAvN2dJU0RaNDA0aVg3ZnJlVWU2Nk56UUt5?=
- =?utf-8?B?QWZ1U1pqWk9oYnpPYURzVEtuTXgyQ2VZbi9pTCtnQVcraXRIbDNrblh4NTB0?=
- =?utf-8?B?NDFiOXBsTkJwUzQwb2pLTE9nem1VTFlJQjI3Sm52UTY0UVRjSm9WWkNFdC9s?=
- =?utf-8?B?eGtpcHFmL2ZlbUZ2NWkyV1U3Mm95WFJzM283cllqSS92L0t0VUU3TlhFcUZn?=
- =?utf-8?B?UGdSYW5NQUxnaHMvU2N3ZDZ4Ykt6a3ZCbUtsNEpydVQ1cDdjQVI0ZDJTcFFr?=
- =?utf-8?B?MzhMajg2djl3TUpjUk84dlJONC9icURZK2RRem1mTm92UzhtZExzL0hHcllK?=
- =?utf-8?B?UmJOMnBBekhQY3RwaFVZUk1SZStoNFU2RGJBU3NsNVZGeE4zdTlaWTBzWTJH?=
- =?utf-8?B?elBCLy9LczNGWkljd2c0Nld0VW9VTUpUd1JaeUFNZnVTdXZObGZJVUdBdjI5?=
- =?utf-8?B?ODFHVGllc3g0eHF2ckhPWnNuL1FmMDY2SUh5eDlLSVlBWVJIZFk2SUMrR3Z1?=
- =?utf-8?B?eDdJSnBEOG1jOW5wN01kZ0M1YjhubGY5REtSbVhnbGpwUUoxbGdKNm1hKzVp?=
- =?utf-8?B?RmtSMWxqYjBEb083eG5Sc3R0aUpkcXVBeVFlQnRQWmFLRVlXTlhqa0RNaytG?=
- =?utf-8?B?elBvZ0dCb0RYYzAxK1A1K0pJQ3JuMFRuVEZ3c1FuZUl4NmNOZEpzckFsVlVJ?=
- =?utf-8?B?QlBqR0J5R3lqSElqRkVCbnFiU2lMQXF0dHZzZkxjUUhqT25rdnNQRjBSVW12?=
- =?utf-8?B?K2xRbS84TmVpQzBGRTlZN3NoTHZFME9wZ05vbkk1aFdXbjlaNVcwcmRhcldV?=
- =?utf-8?B?aHpFVkFITzFWallBTm1kdjhOWndDK0dBQ0ZBU0JtT1FRVy9ac1FVZFJ3UUQy?=
- =?utf-8?B?cjFzWkVlV1JCTVJzZTJFM1o5aVV1N05FRHhxTlprYWZtQjRvUVlBYmpqaDVH?=
- =?utf-8?B?TzJDUmE4TFdTTEZDSzFqbjV1UldrbkpoMUxEdm9WVUpzQkF4eG5QbWZOOGJp?=
- =?utf-8?B?V0pYRnRIVElrRTRrNkJEZWhoRDF6dlZFejVjMjVzVXBVWTBhK1JURXpFTTNT?=
- =?utf-8?B?V0JuSDM2alQ2TXRSRWlnT04xRGg0dStsc2NJd012ci81RHQ1T3ZWcFU4dEdJ?=
- =?utf-8?B?U0R4NEQzbzlXVHFmd0lUQ3JnckI4U2RNZk5aTVFaVUo0cGZDaXRVMjV3M0pk?=
- =?utf-8?B?L2Zib0FHMGtaUW9XNXZaMmozc0pFbHdkZDFoazl2ZFgxUThLODljY25mWEtp?=
- =?utf-8?B?SzJTM3F3VGFkbkJDR2lVSDNFQWVZemdkeS9DWVZxbk0vdnA1aXpOcXpUYzJx?=
- =?utf-8?Q?7B9g=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?clVwcWRpREhFRWN6c09rSjBiNStsdFExbm1jU2NwZnJVdDJFMkcwOG0weGJD?=
- =?utf-8?B?TkRBeDFhZExZdy9WKzJoMysvNWwyWldYdUZDcGVVSlQ5cFgvV1ZOVU41aGJ3?=
- =?utf-8?B?aTRYeExMMWZDR1g2alc0bUgvZGVYeDdUenI5UEJZWW9wdmM1eGV0bzNjSWc4?=
- =?utf-8?B?RjRJV3lvcVRzMkZUMzJZU1VNbjNMZUVVUjNUa0p5ZHdxRVk4ZU9xeE5RQjNL?=
- =?utf-8?B?YVZsSWJiZUZXOTE1U0g4WXZtNzltYUpWamJKQy9oVS9Rc1RtOXlIeDZaU21j?=
- =?utf-8?B?NUY1OUpzMlZRaTRlNmNyM1F3QzArcWpIRm1BdlVkL01qVGV5SnRST2Z1MVM1?=
- =?utf-8?B?UUZmcEplaDMxWTl4OXVUYzNvNk56RjF6NWRtK0daK1A4aTRiaFUvMklyUHJk?=
- =?utf-8?B?bTRxc0ZCYTJkY2FEVnNsRDI1WlVKMW9Fb1VxRzZpYTMvNEVVQ0xDYjFuTlVs?=
- =?utf-8?B?SUF5cXcyZWtjdS84UERWSGxJOGQzd3Bxd2F6L0d0Y2ZVektCTlNZSk9HZ2xz?=
- =?utf-8?B?RWZhQzFrMDVGcVZwQW1obHRSdktleTFrL0VVYUJBZDFuUmVQck9mRWpMYlVq?=
- =?utf-8?B?eGcvN0RFbTJwdUVEVm9abSswbEZuK3ZNSWl1c2cySDcxdmw3MWp4K3RPSjd6?=
- =?utf-8?B?WC8wYU1jQTVza2VTUXRaT3BFWHg2eVRBdGxjTVBIb2kzVjdtM084S25LVEV4?=
- =?utf-8?B?VWtZWXlmVHVRaVdtVUJpUFg4b0E4YkFCR3FqR2hzcGpvUUZjaEt5bVAzeEph?=
- =?utf-8?B?QlJ3R1ZaUk1uVUVuY0FiVUl4dGt0WDQ2OVRyZCt1eksxMHIxV3BYL3huUnQv?=
- =?utf-8?B?L3oycmJNRVJuQnBaRUFHaERQSUQyR01pNWlNTWFqOGY2bUVGUzhMbDUvQTVs?=
- =?utf-8?B?bThZZDNvbHIwWFVBQTJUZlJpVTlOS2Q1Y1IwZktSUFA1dFV6aGJGeENtTGVv?=
- =?utf-8?B?czY3bXdjY1lZQ1oxa29hSzFSV29EbmVDdCtIK0grMTdyUkd5aTZ3c1RxMkcy?=
- =?utf-8?B?MENQd2JQQXJ4bk1hRzc3bjhYdlpaQnk3NFU5VVpmMVFaem11RXRiNzdPZE1j?=
- =?utf-8?B?dURTODZJMkpvM2p0WlI0aEE4cUFxTlFmT0RpZlpISnRIaEtINURIL1JkUUgv?=
- =?utf-8?B?MWM1Mkp4ek5iK2JUNTlYN2FIQVZOdlQwaTNuQ2hQVllGdXlUMTBlUFBRVElP?=
- =?utf-8?B?TlAwSk9kS3hFK1VhNWJXcUpZYjVQWlM0WlV1bXc3MTNvMzh3anZWN25rOEdn?=
- =?utf-8?B?VDREZEZWdXlqSTNLSVE1UFlLVmh5a1g4V3F2TFc5Y1d1RHJLdXo3M0tCaXdO?=
- =?utf-8?B?M0FWQzFjdXlKcDZaSnVodTdvTnNZTjZtVXpub1JWWE53NTd3ZktiRys1WnBN?=
- =?utf-8?B?QU16aitLVGxuT3lQSEcyYXRLYmowak9xRWozNitXMklVeDlESzlCY1FUeVpK?=
- =?utf-8?B?QjFsQk5iRTlGeVprdG5LUmxJUjg5aElBUHhWblpyOUpWMEVZWCszL3E4bkQy?=
- =?utf-8?B?SVV1Qnk1b3dyWFl0SGhxOTY1bnA4L1VGNUZlZ1Q2eFl1d2o3bllPczFwRGZF?=
- =?utf-8?B?Umw5Z1lvVHVVY3l6NG1VcVJUMkVsYWROWmtCY0JvVWtSN3hqSlB5ankyWDVm?=
- =?utf-8?B?MVZXbUx4Z2ExYTA1bEMrR243MGxGMW0zNnllcXpvN0V2SkQxbzBEWk91bGlj?=
- =?utf-8?B?MGJOWHhrL3VKS29rSkFhYzF4ZkZJT29SditnSlpyS244NXlqOVZoWWgzUjZW?=
- =?utf-8?B?MlQzc1V5eGVxUmI5RXlSODhZQ2g1MlRGQy9xRXBwSm83eWE0M3dsSUhzTzhv?=
- =?utf-8?B?WDQ2WG92QkNIOU5BTkEwNUNrYkVQWUJ5Snp2TXZHbkowYmx3K05IL01aNVNJ?=
- =?utf-8?B?ejgwUkJWWnVVZUkrVys5QzE1N1lINkNGSnNXUlNBL3hyODNiNCtabzZ6SXdu?=
- =?utf-8?B?VTE3cXh2TzRxVmVsNHVweDVyRTRPNFNoNE5aL1UxNWNiaU9vWVkybTdpbExk?=
- =?utf-8?B?ZzlNWmh0bU02QmZIeWg0MEdlNXNrWFhyaStnRzI5c1NqRmFvMHZ4S1ZZY3Jo?=
- =?utf-8?B?cEp5Q3RIYmNvVCtKRVZqR0tIejZKR2NLNnNYMlRiOXJwWlNDaVN6dmNySUMr?=
- =?utf-8?B?WHhLOUZvWkk3aUVoc2U0ZkRGVHNtejBTVVgvQk5SekVWUk1OZy9Kcm9oZDNl?=
- =?utf-8?B?ZmJsVjdaRk1nS3dyL3J0cmhKa2E3S2VYVkVSQjhNQjBHWHd2Z2lrZm12QkE3?=
- =?utf-8?B?ZFpFRjJxVlZnZGJFU2QybUZmWGYxNXYyZ0hRc2FxeVBnWGRSRTZEUTlpZm51?=
- =?utf-8?Q?gTNEEyP+rmAG8Lpx7x?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 611cde3c-4354-4642-4af4-08de63086b17
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Feb 2026 09:41:34.5561
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hGH3o3djcjNYottAvwBwV5gNUfbE0pHcHaAF7Dpfbw0sJ/x0dGaatPadhnDTthtJIBsfux4LiDxnJPgxGfOH3A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7990
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260202194946.64555356@kernel.org>
 
->>> Hi Sumit,
->>>
->>> I am thinking that maybe it is better to call these two sysfs interface
->>> 'min_freq' and 'max_freq' as users read and write khz instead of raw
->>> value.
->> Thanks for the suggestion.
->> Kept min_perf/max_perf to match the CPPC register names
->> (MIN_PERF/MAX_PERF), making it clear to users familiar with
->> CPPC what's being controlled.
->> The kHz unit is documented in the ABI.
->>
->> Thank you,
->> Sumit Gupta
-> On my x86 machine with kernel 6.18.5, the kernel is exposing raw values:
+Tue, Feb 03, 2026 at 04:49:46AM +0100, kuba@kernel.org wrote:
+>On Wed, 28 Jan 2026 13:25:32 +0200 Tariq Toukan wrote:
+>> From: Jiri Pirko <jiri@nvidia.com>
+>> 
+>> Multiple PFs may reside on the same physical chip, running a single
+>> firmware. Some of the resources and configurations may be shared among
+>> these PFs. Currently, there is no good object to pin the configuration
+>> knobs on.
+>> 
+>> Introduce a shared devlink instance, instantiated upon probe of the
+>> first PF and removed during remove of the last PF. The shared devlink
+>> instance is backed by a faux device, as there is no PCI device related
+>> to it. The implementation uses reference counting to manage the
+>> lifecycle: each PF that probes calls devlink_shd_get() to get or create
+>> the shared instance, and calls devlink_shd_put() when it removes. The
+>> shared instance is automatically destroyed when the last PF removes.
 >
->> grep . /sys/devices/system/cpu/cpu0/acpi_cppc/*
-> /sys/devices/system/cpu/cpu0/acpi_cppc/feedback_ctrs:ref:342904018856568
-> del:437439724183386
-> /sys/devices/system/cpu/cpu0/acpi_cppc/guaranteed_perf:63
-> /sys/devices/system/cpu/cpu0/acpi_cppc/highest_perf:88
-> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_freq:0
-> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_nonlinear_perf:36
-> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_perf:1
-> /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_freq:3900
-> /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_perf:62
-> /sys/devices/system/cpu/cpu0/acpi_cppc/reference_perf:62
-> /sys/devices/system/cpu/cpu0/acpi_cppc/wraparound_time:18446744073709551615
+>> diff --git a/include/net/devlink.h b/include/net/devlink.h
+>> index cb839e0435a1..c453faec8ebf 100644
+>> --- a/include/net/devlink.h
+>> +++ b/include/net/devlink.h
+>> @@ -1644,6 +1644,12 @@ void devlink_register(struct devlink *devlink);
+>>  void devlink_unregister(struct devlink *devlink);
+>>  void devlink_free(struct devlink *devlink);
+>>  
+>> +struct devlink *devlink_shd_get(const char *id,
+>> +				const struct devlink_ops *ops,
+>> +				size_t priv_size);
+>> +void devlink_shd_put(struct devlink *devlink);
+>> +void *devlink_shd_get_priv(struct devlink *devlink);
 >
-> It would be surprising for a nearby sysfs interface with very similar
-> names to use kHz instead.
+>Would Cosmin or someone else be willing to take on co-maintainership 
+>of this API (including reviews of other drivers using it)?
+>We could add a maintainers entry with:
 >
-> Thanks,
+>K:	devlink_shd_
 >
-> Russell Haley
+>So y'all get CCed.
+>
+>> +#include <linux/device/faux.h>
+>> +#include <net/devlink.h>
+>
+>> +/* This structure represents a shared devlink instance,
+>> + * there is one created per identifier (e.g., serial number).
+>> + */
+>> +struct devlink_shd {
+>> +	struct list_head list; /* Node in shd list */
+>> +	const char *id; /* Identifier string (e.g., serial number) */
+>
+>Why does this have to be a string? The identifier should be irrelevant,
+>and if something like serial number exists it can be reported in dev
+>info for the shared instance?
 
-I can rename to either of the below:
-- min/max_freq: might be confused with scaling_min/max_freq.
-- min/max_perf_freq: keeps the CPPC register association clear.
-
-Rafael, Any preferences here?
-
-Thank you,
-Sumit Gupta
+String gives drivers flexibility to use anything. Perhaps I'm missing
+your point. Are you againts free-form or just string and buf+buf_len
+would be fine?
 
 
+>
+>> +	struct faux_device *faux_dev; /* Related faux device */
+>> +	refcount_t refcount; /* Reference count */
+>> +	char priv[] __aligned(NETDEV_ALIGN); /* Driver private data */
+>
+>size member annotated with __counted_by() is missing here
+
+Will add.
+
+
+>
+>> +};
+>
+>> +static struct devlink_shd *devlink_shd_create(const char *id,
+>> +					      const struct devlink_ops *ops,
+>> +					      size_t priv_size)
+>> +{
+>> +	struct faux_device *faux_dev;
+>> +	struct devlink_shd *shd;
+>> +	struct devlink *devlink;
+>> +
+>> +	/* Create faux device - probe will be called synchronously */
+>> +	faux_dev = faux_device_create(id, NULL, NULL);
+>> +	if (!faux_dev)
+>> +		return NULL;
+>> +
+>> +	devlink = devlink_alloc(ops, sizeof(struct devlink_shd) + priv_size,
+>> +				&faux_dev->dev);
+>> +	if (!devlink)
+>> +		goto err_devlink_alloc;
+>
+>error labels should be named after the target not the source in new code
+
+Okay. Tried to be consistent with the rest of the code. But as you wish.
+
+
+>
+>> +	shd = devlink_priv(devlink);
+>> +
+>> +	shd->id = kstrdup(id, GFP_KERNEL);
+>> +	if (!shd->id)
+>> +		goto err_kstrdup_id;
+>> +	shd->faux_dev = faux_dev;
+>> +	refcount_set(&shd->refcount, 1);
+>> +
+>> +	devl_lock(devlink);
+>> +	devl_register(devlink);
+>> +	devl_unlock(devlink);
+>> +
+>> +	list_add_tail(&shd->list, &shd_list);
+>> +
+>> +	return shd;
+>> +
+>> +err_kstrdup_id:
+>> +	devlink_free(devlink);
+>> +
+>> +err_devlink_alloc:
+>> +	faux_device_destroy(faux_dev);
+>> +	return NULL;
+>> +}
+>
+>> +struct devlink *devlink_shd_get(const char *id,
+>> +				const struct devlink_ops *ops,
+>> +				size_t priv_size)
+>> +{
+>> +	struct devlink_shd *shd;
+>> +
+>> +	if (WARN_ON(!id || !ops))
+>> +		return NULL;
+>
+>Seems a little too defensive to check input attrs against NULL.
+>Let the kernel crash if someone is foolish enough..
+
+Okay.
+
+
+>
+>> +	mutex_lock(&shd_mutex);
+>> +
+>> +	shd = devlink_shd_lookup(id);
+>> +	if (!shd)
+>> +		shd = devlink_shd_create(id, ops, priv_size);
+>> +	else
+>> +		refcount_inc(&shd->refcount);
+>> +
+>> +	mutex_unlock(&shd_mutex);
+>> +	return shd ? priv_to_devlink(shd) : NULL;
+>> +}
+>> +EXPORT_SYMBOL_GPL(devlink_shd_get);
+>> +
+>> +/**
+>> + * devlink_shd_put - Release a reference on a shared devlink instance
+>> + * @devlink: Shared devlink instance
+>> + *
+>> + * Release a reference on a shared devlink instance obtained via
+>> + * devlink_shd_get().
+>> + */
+>> +void devlink_shd_put(struct devlink *devlink)
+>> +{
+>> +	struct devlink_shd *shd;
+>> +
+>> +	if (WARN_ON(!devlink))
+>> +		return;
+>
+>ditto
+
+Okay.
+
+
+>
+>> +	mutex_lock(&shd_mutex);
+>> +	shd = devlink_priv(devlink);
+>> +	if (refcount_dec_and_test(&shd->refcount))
+>> +		devlink_shd_destroy(shd);
+>> +	mutex_unlock(&shd_mutex);
+>> +}
+>> +EXPORT_SYMBOL_GPL(devlink_shd_put);
