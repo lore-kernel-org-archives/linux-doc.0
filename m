@@ -1,77 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FF1261B96;
-	Wed,  4 Feb 2026 02:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB2916CD33;
+	Wed,  4 Feb 2026 02:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770172014; cv=none; b=WqLKk68YYwuoMwVTZXG2Q5uA782IL6f68TDkFBEDPJmyPaGYfqt3W1SFjemFksLyeEgBFx8yr0ISeuFKky2UbO0jQcmdifMJJavBGqlZDqJMlE8zSR/5cfD3d/HeHjWzfaRNGgF/69/+hiPA+4ndoi6tmDCGRl8bBq55fYK97Mg=
+	t=1770172853; cv=none; b=AOJlor1oaT6UeookbV3qDHS2OaUotCsLyq5vrm4vFcTOPt7UWOQSYypnaH4E1QALuTu2UgoAx7oevJwvgkcQ5dKQt6OiKunIPSTvtVLcy0QJLEW90+n3s2w0a4YqKKMcvlWTXGFySdINkjf3JxP33oto6cDa31JxIZickCj+F0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770172014; c=relaxed/simple;
-	bh=7iHhDhmroXilqUpiAl9DOqvbDNkQ3iGMApcbhd1avnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iPqc000Sxl511uT4bjIvxMEq4ros+hA6S4PcDN1qfsK7t11Ct6y9MNwMn4q4DJ2fVWkqdHxHOyMoQcPeKZzgb1G93eIgxnC0I3IcYBnOmZDFNvKx9tvCHT0oH483bMc3P+2Q7yRRC5DIjteyAms3MmNEeL1pMW2TjvL9fdarSoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YKvYfzvz; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YKvYfzvz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01C50C116D0;
-	Wed,  4 Feb 2026 02:26:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770172013;
-	bh=7iHhDhmroXilqUpiAl9DOqvbDNkQ3iGMApcbhd1avnY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YKvYfzvzIEOFw3H6Ta6HXVlrqr2uY2VY+MW3ygbDI4Bba9vW/wbnBccsDoPZ39fUq
-	 WCg75jlFiVPoYxIxHKlbtb1oWy8qlUwMo0kF2tMVQNTXYx56vyvAbaPiXLYNUNKhcN
-	 Qcl8kOj4B1s/fU74SB2YE870qep5V/cIEJQoIWG/5tvgrlfKu8kH9k5EQANbZZwGPb
-	 MINbRdMXlh3PbV3iR5UyHaNYrMD+6erJRf1KxT12MvFdJzc2E8SfelZ7XKye44d5tF
-	 vJG4maBSIqG2bBmYxSZmYkEbza+MXbnNzgiFsqY4baE+VIWC6X1s8yv97lV4Ah5ah/
-	 d17UnfjAlX2qQ==
-Date: Tue, 3 Feb 2026 18:26:52 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko
- <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
- <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
- <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman
- <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Shay Drori
- <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Or Har-Toov
- <ohartoov@nvidia.com>
-Subject: Re: [PATCH net-next 4/5] selftest: netdevsim: Add devlink port
- resource test
-Message-ID: <20260203182652.39a3620d@kernel.org>
-In-Reply-To: <ce09e17d-2b74-4bda-a8ec-352c92659a6e@redhat.com>
-References: <20260203071033.1709445-1-tariqt@nvidia.com>
-	<20260203071033.1709445-5-tariqt@nvidia.com>
-	<ce09e17d-2b74-4bda-a8ec-352c92659a6e@redhat.com>
+	s=arc-20240116; t=1770172853; c=relaxed/simple;
+	bh=hYP/+GFnJaC6xd6pVO5rm6DcPV024iBSq7kygw3XN/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=geDPvi0LFhtxa2NsT8T++WRKJWaIJsCVdBXkRc2Tz7Dm3Jh9QHk6p8Im5huRGAoRZRUvQ7TKACJKa4R+l0Xe17ExDyXwxqRZTcaNFKdVQfpvSZDo+IWwvRySWk2wlYwlafAUXaVGS6EPeRAyolX0UU30+pFWDvwbkR2C8XBRw9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c45ff70000001609-89-6982ae246dfa
+From: Yunjeong Mun <yunjeong.mun@sk.com>
+To: sj@kernel.org
+Cc: honggyu.kim@sk.com,
+	kernel_team@skhynix.com,
+	Ravi Jonnalagadda <ravis.opensrc@gmail.com>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com
+Subject: Re: [RFC PATCH 0/5] mm/damon: Add node_sys_bp quota goal metric for
+Date: Wed,  4 Feb 2026 11:25:35 +0900
+Message-ID: <20260204022537.814-1-yunjeong.mun@sk.com>
+X-Mailer: git-send-email 2.48.1.windows.1
+In-Reply-To: <20260124015045.78075-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLLMWRmVeSWpSXmKPExsXC9ZZnoa7KuqZMgz+7RCxW7G1lt5izfg2b
+	RcOPz2wWTw60M1o8+f+b1WJh2xIWi8u75rBZ3Fvzn9Xi5FsHi8Nf3zA5cHnsnHWX3WPTqk42
+	j02fJrF7nJjxm8XjxeaZjB6L+yazenxf38Hm8XmTXABHFJdNSmpOZllqkb5dAlfGqyOnGQuO
+	CFVMODCdpYHxPV8XIweHhICJxJpTfl2MnGDmxDXP2UBsNgENiYOHTjKD2CICghL9j2ewdjFy
+	cTALrGSSuLj4CRNIQljAR+L6udVgNouAqsTrjTfYQWxeATOJ+ZOPMkMM1ZRouHQPrIZTwFhi
+	2t9NrCC2kACPxKsN+xkh6gUlTs58wgJiMwvISzRvnc0MskxC4DKbxMvzr1ghBklKHFxxg2UC
+	I/8sJD2zkPQsYGRaxSiUmVeWm5iZY6KXUZmXWaGXnJ+7iREY6Mtq/0TvYPx0IfgQowAHoxIP
+	b8DHxkwh1sSy4srcQ4wSHMxKIrzp0+szhXhTEiurUovy44tKc1KLDzFKc7AoifMafStPERJI
+	TyxJzU5NLUgtgskycXBKNTDaSbhoL+LZedW48e7tpSK/NZdECp/hM7y1NkPEX1VVKJ+N9dkm
+	tXO8nuJV4d+vzvhrkyP2Ts/+lZrLBKlXJordIReXr53i5uH3xTm+LWgvo84xz+kfpAr3zONz
+	NVOY9ONumYj2kr8+lhaPi1oW68/ZLpvJp+bqq9d3dMXLzUXqtlEprw34lJVYijMSDbWYi4oT
+	AVNY2FBwAgAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHLMWRmVeSWpSXmKPExsXCNUNWR1dlXVOmweE/rBYr9rayW8xZv4bN
+	ouHHZzaLJwfaGS2e/P/NavH52Wtmi8NzT7JaLGxbwmJxedccNot7a/6zWpx862Bx+OsbJgce
+	j52z7rJ7bFrVyeax6dMkdo8TM36zeLzYPJPRY3HfZFaP7+s72Dy+3fbwWPziA5PH501yAVxR
+	XDYpqTmZZalF+nYJXBmvjpxmLDgiVDHhwHSWBsb3fF2MnBwSAiYSE9c8ZwOx2QQ0JA4eOskM
+	YosICEr0P57B2sXIxcEssJJJ4uLiJ0wgCWEBH4nr51aD2SwCqhKvN95gB7F5Bcwk5k8+ygwx
+	VFOi4dI9sBpOAWOJaX83sYLYQgI8Eq827GeEqBeUODnzCQuIzSwgL9G8dTbzBEaeWUhSs5Ck
+	FjAyrWIUycwry03MzDHVK87OqMzLrNBLzs/dxAgM5WW1fybuYPxy2f0QowAHoxIPb8DHxkwh
+	1sSy4srcQ4wSHMxKIrzp0+szhXhTEiurUovy44tKc1KLDzFKc7AoifN6hacmCAmkJ5akZqem
+	FqQWwWSZODilGhhvufOnTTnH8ndiosISu2RJz/YLzHeuKtyV0Ix8npbhcUrvr57a3X7+5uUG
+	QQV91sdqmVZOXSKrH9S3/G+216PHhVMjw65Ed0o9YjJuYTgkkHX25bJPNo36FTy7vnVe+WiT
+	aOis1iS80ab6nFccq9jPqdcXete0uMblP9e5kbTwXWzyLcnXN5RYijMSDbWYi4oTAfwAvkph
+	AgAA
+X-CFilter-Loop: Reflected
 
-On Tue, 3 Feb 2026 11:16:45 +0100 Paolo Abeni wrote:
-> # Error: netdevsim: Exceeded number of supported fib entries.
-> # Error: netdevsim: Exceeded number of supported fib entries.
-> # kernel answers: Operation not permitted
-> # TEST: resource test                                                 [ OK ]
-> # Command "resource" not found
-> # Command "resource" not found
-> # TEST: port resource test                                            [FAIL]
-> # Failed to show port resource for netdevsim/netdevsim10/0
-> # TEST: dev_info test                                                 [ OK ]
-> # TEST: empty reporter test                                           [ OK ]
-> # kernel answers: Success
-> # kernel answers: Success
-> # ./devlink.sh: line 614: echo: write error: Invalid argument
-> # Error: netdevsim: User setup the recover to fail for testing purposes.
+On Fri, Jan 23, 2026 at 05:50:43PM -0800, SeongJae Park wrote:
+> Cc-ing SK hynix folks (Honggyu and Yunjeong) for quota auto-tuning behavior
+> confusion (not stop immediately after satisfying the goal) I discuss below.
+> 
 
-I suppose this is because iproute2 needs patching. Tariq, could you
-post the user space bits or share a link where we can pull them from?
-I'll revive this in PW once we have CLI updated..
+Hi Seonjae, thanks for Cc-ing us :)
+
+> 
+> Please note that the goal-based quota auto-tuning works in proportional way,
+> preferring small steps and "eventual" goal convergence.  As a result, migration
+> will occur a few more times until it is completely stopped after the goal is
+> satisfied.  Unless there is another scheme that migrates pages into node 0, you
+> may end up having node 0 having a bit less than the 40% memory.
+> 
+> > 
+> >     No oscillation - migration stops when target state is reached.
+> 
+> So, little bit of oscillation could still happen.  Hopefully that shouldn't be
+> significant, though.
+> 
+> IIRC, SK hynix people also confused with the behavior when they experimented
+> migrate_{hot,cold} action with NODE_MEM_USED_BP goal based quota auto-tuning,
+> but using only a single scheme that does migration in a single direction.
+> Because this is at least second time it made confusion, if you need, maybe I
+> can try to add a feature for making DAMOS immediately stops after the goal is
+> satisfied.  Let me know if such new feature can be useful for you.  Cc-ing SK
+> hynix people (Honggyu and Yunjeong) so that they can correct me if my memory is
+> broken, or answer if the new feature I described here can be useful for them.
+> 
+
+Yes, you're absolutely right. Currently, esz(effective size) starts from 0 and 
+esz gradually increases as `current` approaches `target`.
+Once `current` reaches `target`,  `esz` then begins to decrease.
+
+However, we observed that even after `current` hits `target`, 
+migration still continues relatively aggressively - because `esz`  remains high, 
+and it takes time for it to decrease.
+
+To address this, we previously suggested that initializing `esz`  at `target`
+(or something suitably large value, rather than 0) and letting it gradually 
+decrease as `current` gets closer to  `target`.  
+This would allow for stronger migration when `current` is far form `target`, 
+and gradually weaken migration as `current` approaches `target`.
+
+Such a feature would be useful for us to experiment with tiered memory system :)
+
+Best Regards,
+Yunjeong
+
