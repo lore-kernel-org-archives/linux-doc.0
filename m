@@ -1,121 +1,110 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE26257431;
-	Wed,  4 Feb 2026 01:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4579723AB9D;
+	Wed,  4 Feb 2026 01:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770167685; cv=none; b=PzemJe5OUh1HykFn+kox2dvZuX7UdrFED7QICGT9crYtZJwiy7W4kzCtrA3FqD9mVsnVJ9ftJ5msWTM7WXnU1wgeYB3YwH1+dRkX6xGQ8vQXJwaNlydO5k18Dc1l9B9e8+MdaFvDlqxQ5bXae1wZxLSnLBrEOtOm7Qr/WpZ4Vzg=
+	t=1770168488; cv=none; b=AKOnGQemzfgv2DHYdW4CK0PvxzA3FHIDW7PZcz+8+kmbgLjUMOyRR1a9Ing8b5xtGAEPrjp4n2zGzdMNpSYwi+hB5mUDQApphpduKoW4sreh2J379Q52AhOosYkWClheyYHBwbLNsxSjtglsTime1RHARr8PDbOe2lHDtDhTL4A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770167685; c=relaxed/simple;
-	bh=gVpNb2FcJnXvqjd76dpI3QbaGIpY5kIyXa8+4pcw7/o=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hTM1oQ9S3ihwgG55h7zDStIT355O84TEuWA5ojyxEQgPUijuVuzIvzp9lsvC1SbbScKNjzt9zcg1zWGPt3tB78BgNV6acJ8g1T9TiAm6CroJIVmE/QV35mjJyvG6mnJs+mcSvkNYKM7gziAxlOXr5KrPHhg/aZbQmlZB7OAMiwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ayOvC/aV; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ayOvC/aV"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1770167674; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	bh=kcpw6nzObOocTcTfgP4J3okRdYpVAmfqCq2J3Q4ovjM=;
-	b=ayOvC/aVke1G/ZCMMBOP/uGdlIlixWcOs8vLxwIa0DCtNG+TbRl4iuC5W+6ChDV21GBbsFJpiMrVynV6690If+8FEeHIoSQ0EtYSYPNBsH9gXvUnR78f240DSYE22MeJ4J848qr44xE2sYBVokvFI936+AEmd/ZuPeF6YahQQxM=
-Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WyUcCaB_1770167671 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 04 Feb 2026 09:14:32 +0800
-From: fangyu.yu@linux.alibaba.com
-To: andrew.jones@oss.qualcomm.com
-Cc: ajones@ventanamicro.com,
-	alex@ghiti.fr,
-	anup@brainfault.org,
-	aou@eecs.berkeley.edu,
-	atish.patra@linux.dev,
-	corbet@lwn.net,
-	fangyu.yu@linux.alibaba.com,
-	guoren@kernel.org,
-	kvm-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	palmer@dabbelt.com,
-	pbonzini@redhat.com,
-	pjw@kernel.org,
-	radim.krcmar@oss.qualcomm.com,
-	rkrcmar@ventanamicro.com
-Subject: Re: Re: [PATCH v4 2/4] RISC-V: KVM: Detect and expose supported HGATP G-stage modes 
-Date: Wed,  4 Feb 2026 09:14:29 +0800
-Message-Id: <20260204011429.64534-1-fangyu.yu@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <fazd2fcfuwldtrarm6aw26qa5g6fcieoa35xz3bwchif6qfutw@xuvspa4e533b>
-References: <fazd2fcfuwldtrarm6aw26qa5g6fcieoa35xz3bwchif6qfutw@xuvspa4e533b>
+	s=arc-20240116; t=1770168488; c=relaxed/simple;
+	bh=OFxd1GrBys77zioOdyfC6ks98+Ht3t6RYfgESLqbAUs=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=O/6NCt7K89EsFqS5r5yGr/Y29r4IpGqz/H7rPBo+iV5O/zMYUaQMIHHJD8vnnIiPzzza+VHHVi2ancltUfG0Y0Q+BQmLWyqfK011804mGgrpXbMlQU7Aj32HRXGfDCDVzZmdS2hI6Wzs690H3uc4fzA8KgLOLNEGJpDa2CnK5bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8CxLMOboIJpxJkPAA--.50669S3;
+	Wed, 04 Feb 2026 09:27:55 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by front1 (Coremail) with SMTP id qMiowJCxOMGXoIJpQ3A_AA--.38473S3;
+	Wed, 04 Feb 2026 09:27:54 +0800 (CST)
+Subject: Re: [PATCH v11 2/4] irqchip/irq-loonarch-avec: Prepare for interrupt
+ redirection support
+To: Thomas Gleixner <tglx@linutronix.de>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
+ jiaxun.yang@flygoat.com, maobibo@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260203124522.2288900-1-zhangtianyang@loongson.cn>
+ <20260203124522.2288900-3-zhangtianyang@loongson.cn> <87tsvx3fxq.ffs@tglx>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <ccd4a8be-23e2-45f2-5b90-8a8e8f9ae6d6@loongson.cn>
+Date: Wed, 4 Feb 2026 09:26:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <87tsvx3fxq.ffs@tglx>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJCxOMGXoIJpQ3A_AA--.38473S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj9xXoW7Gw4kGw1rXF47Ww15GrW7trc_yoWkCwb_Wr
+	y5Krs7G34DWFWfWFZxGrZ3Xr9xGFyruFyDArW5uF12qryFyFWkCF1qgryS93yrC3y2vrn3
+	ur98Xw1fWw1a9osvyTuYvTs0mTUanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbDkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
+	JVW8Jr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+	x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
+	McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
+	I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCF
+	x2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r
+	1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij
+	64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
+	0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
+	0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8h0ePUUUUU==
 
->> >> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->> >>
->> >> Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE values
->> >> supported by the host and record them in a bitmask. Keep tracking the
->> >> maximum supported G-stage page table level for existing internal users.
->> >>
->> >> Also provide lightweight helpers to retrieve the supported-mode bitmask
->> >> and validate a requested HGATP.MODE against it.
->> >>
->> >> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->> >> ---
->> >> diff --git a/arch/riscv/include/asm/kvm_gstage.h b/arch/riscv/include/asm/kvm_gstage.h
->> >> @@ -75,4 +76,40 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *gstage, gpa_t start, gpa_t end
->> >> +enum kvm_riscv_hgatp_mode_bit {
->> >> +	HGATP_MODE_SV39X4_BIT = 0,
->> >> +	HGATP_MODE_SV48X4_BIT = 1,
->> >> +	HGATP_MODE_SV57X4_BIT = 2,
->> >
->> >I think it's a bit awkward to pass 9 when selecting the hgatp mode, but
->> >then look for bit 0 when detecting it...
->> >Why not to use the RVI defined values for this UABI as well?
->> >
->> >There are only 16 possible hgatp.mode values, so we're fine storing them
->> >in a bitmap even on RV32.
+Hi, Thomas
+
+ÔÚ 2026/2/4 ÉÏÎç1:17, Thomas Gleixner Ð´µÀ:
+> On Tue, Feb 03 2026 at 20:45, Tianyang Zhang wrote:
+> 
+> $Subject: irqchip/irq-loonarch-avec
+> 
+> I know you blindly copied my suggestion and obviously you failed to spot
+> the missing 'g'.
+......ok......
+> 
+>> Interrupt redirection support requires a new interrupt chip, which
+>> needs to share data structures, constants and functions with the AVEC
+>> code.
 >>
->> I think this is a good point.
->>
->> Using logical bits 0/1/2 is indeed less intuitive than testing
->> BIT(HGATP_MODE_SV39X4) when userspace passes the architectural HGATP.MODE
->> encoding.
->>
->> However, if we use â€œHGATP.MODE encoding as bit indexâ€, we need to export
->> those encodings to userspace. Today HGATP_MODE_* are not part of the
->> UAPI, so userspace would need to hardcode magic numbers.
->>
->> So if we go with this approach, Iâ€™ll add UAPI definitions for the HGATP
->> mode encodings (e.g. #define KVM_RISCV_HGATP_MODE_SV39X4_BIT  8, etc.) and
->> then define the returned bitmask as BIT(mode).
->
->The best part of Radim's suggestion is that there is no need to add the
->bits to UAPI. We can write in the documentation for the capability that
->the mode values match the spec. kvm userspace can then just look at the
->spec to determine those values and create its own defines (which QEMU,
->for example, has certainly already done).
+>> Move them to the header file and make the required functions public.
+> 
+> But then you still keep this nonsense around, which has no place in the
+> change log as I explained to you before:
+> 
+>    "Enumerating the details of what is moved is a pointless exercise
+>     because that can bee seen from the diff itself."
+> 
+> What's so hard about that to understand?
+> 
+> Just in case I'm not able to express myself coherently, this means:
+> 
+> Remove the following 4 lines:
+Ok, I got it
+> 
+>> including:
+>> 1 marco AVEC_MSG_OFFSET
+>> 2 struct avecintc_data
+>> 3 Make avecintc_sync public
+> 
+> Sigh. Though I have to admit that 'loonarch' gave me a good laugh at
+> least.
+......Maybe that's a happy little accident
+> 
+> Thanks,
+> 
+>          tglx
+> 
+Thanks
+Tianyang
 
-Makes sense, thanks.
-
-If we use the architectural HGATP.MODE encoding as the bit index, we can
-indeed avoid adding any extra *_BIT or mode constants to the UAPI.
-
-Not sure why my replies didnâ€™t go through yesterday.
-
-Thanks for the review. Iâ€™ll incorporate this feedback as well as your
-other suggestions and address them in the next revision of the series.
->
->Thanks,
->drew
-
-Thanks,
-Fangyu
