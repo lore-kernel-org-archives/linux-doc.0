@@ -1,233 +1,198 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD6392367B5
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 19:03:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295B9427A16;
+	Wed,  4 Feb 2026 19:04:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770231833; cv=none; b=q0at7mFCIqsdxbI5YeQwZkvVv5IjuMbkrVHXOyylW87JO9dqd8NNNflmusrqK4rj7JYPeLcJnmA/M3Jtw0LHSbEP/BY0JIRMSkiIbCLyBTotDygLyk3o8GxUHC2nVnpdLSktOfwJ7sa2tpBTY3/OrQAB+anNj/GAAegtCwebIeg=
+	t=1770231879; cv=none; b=Dg2n+/US4Qa6cEegU081oTb8HL4IJtUqAm87VKT+0Q5EHEVIjKxf/ed2ZgRWc7/vXtZQceS7f2YmHgzV7gXJiOnn0R9K/cYF/9C1KrRDQNxKIhCQMNgAzkfvrD2Gm2IPXuUoeN59307AcWjkzdpugUZOXzqAV+T5tcvVan2eyps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770231833; c=relaxed/simple;
-	bh=9vSWloqcRXaxL3gvmit7soCRVhcCNrs5LQ17VXzVgV4=;
+	s=arc-20240116; t=1770231879; c=relaxed/simple;
+	bh=aEgivNh6lf5umyGVj1PNqoU0kduEbNPMta4Z0lh4ySg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YV14DJN5FjSvG/wqf7FT4Fem7EO/BXvShfm+1erX8N9E2elnAHTJL5K4ksUS/rcn1ve5TM0L3cgnoKPCmMtZEUL75FCjBAcL4UzR3Dauot2kiEJj3FOTqBMfT3Pe4sB6brWqw6uqJsRrh6p2LvMMATNA5DibPMUxdc1Ww1urWk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AJeDJLfM; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sf8ZnkYLymAZLP10XHJmAvcASfUZEBPEjViR6pQpwxVRZM2h0DRr0NwRDkZdO11QZjE2TgMLhuUMKiqYZ9ym56XNgkgepk2gzWDCEanNgMtDqk8FbAPONG1jt4h59z2Lqr3mf8l5muaGB140KMTPtr2MF3zy+0jEAx5Ad6eZZTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TWH4g7e2; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AJeDJLfM"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-8887ac841e2so231866d6.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 11:03:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770231831; x=1770836631; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=qrnr88nIhCevN+aceQs8WpTSQON3sJePiJ1Sjfxvheg=;
-        b=AJeDJLfMEoii7agAD0KN/CEu+5882HEgS5/wT7Vp8WDW3+MDkayATokiIpi8hfVhsV
-         ykSv19VQ5qjTQl5V7I+Udjhm2k8ODspAz8Aco0NrSbBrvtuQJI8xuXvbeVCEpeUaezKN
-         G2Jxzw1GwQ5/7HOLfHYI40+xjXSqBI5OtsEydyjYPwNHZmnK1MCK3vFOEn11+WWfJSFk
-         BcnrqmceR1fuIyJXVhsul6WxfHluYeNdQJw+uH64CRdewceAPUMjUWQizbuzKIDGyKfC
-         od0dJJYxyUKeUU0oU3kZqjbmcP6jdeYiL67H98DLGp82uDBIUCo76GxsRAxO/Vycu2lY
-         FBSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770231832; x=1770836632;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qrnr88nIhCevN+aceQs8WpTSQON3sJePiJ1Sjfxvheg=;
-        b=J4rW9v/OkPnPWlVy8wyxq8woYCQNcCquEEFA8rCQ2qD5mysmPYr6AAfMMtC9VGVQUT
-         zlMw5oFqgVEYsxY507//7/W2CbrERtX+XWm09/yBWz79wEHsIN1PLIOoF10bAhubmfYo
-         DJEwKqDgJQ1w+j7dhsXi4XhROHiiYq8GdTKphWZ4Z3NNK+PunoWFHNeNlYThvrM7FU2O
-         cmOCK7UQhY8xMaW+cEQYD1KVtQ0eJPbpPx/CCc33neqNUr1bPMoyB8z2pj6QAXdmM7SD
-         zR2SgMio4KzsH86/ypMp+i/gjoQeiqe8NCWmvzna4724HosOu9GTNXPVpfy5W3dRnYk3
-         deXw==
-X-Forwarded-Encrypted: i=1; AJvYcCWqHAKDtk8fMlP0CjPox7IyZ7xORG4qs1kCsFjH64WkHuvIXa+mXoulch1iARLXrXTPvBKy24FRPz8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2hoaITxg44uZVpLji1Ep0TXb4x+TzX+uPvXGcf8JJ0bjGpbZj
-	S1jUunFkySPU3rVa4pWG4LJNKMj701ubxAz96kXVDFrPWFp6Y4jN2HklFXo2eA==
-X-Gm-Gg: AZuq6aKjgVviIcrwhfQmyAHDbPYLLZcXABhAQg8aSfbtUrs5138xQdwzL3is86RS2IX
-	ABN51xBx+5eBOaTDJ0/7AgCnY5yE4KhE5bi57CdAw0yCYS8X54cosM1ttieVYmkzmRx9nZ1lFgw
-	sXv834IUUu2sO3ZYRYuZR9ncVTNzYRvVmK+j3cfXqXQP59GrQNRPwJRq6+tClnSe7CgWZOozJ3l
-	6ldtkD4PLlOnRDY60/NP9Yc0q4G5BVd0EcJ+c9Qx7WUYYmexelsnwlDcwQsLy327Hrp6B5yJdVN
-	uC8jIsdWDkcugc9ST2THL2zvUcaoFiLt4UnZc8tgFYS3WnOGQa9re1dHMkODFrWqSE/YOFTeceC
-	RoAz15UqSuqljTQj4HpTa4knewgBTICOn6jVTpZXdm6WCEN3Wd/WWjxZe6VbC+nJF36ahuntZNt
-	n06GceZvAG1GbBnTgZSEkxdFWQAIzIc+jresBmJRSs3xEMidHFKJIGKcvJL1s=
-X-Received: by 2002:a17:903:3d46:b0:2a0:de4f:ca7 with SMTP id d9443c01a7336-2a933cdd064mr26781485ad.1.1770226421229;
-        Wed, 04 Feb 2026 09:33:41 -0800 (PST)
-Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([106.51.164.193])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a933884954sm26879545ad.28.2026.02.04.09.33.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 09:33:40 -0800 (PST)
-Date: Wed, 4 Feb 2026 23:03:28 +0530
-From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
-To: Link Mauve <linkmauve@linkmauve.fr>
-Cc: rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron <jbaron@akamai.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ard Biesheuvel <ardb@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev, 
-	officialTechflashYT@gmail.com, Ash Logan <ash@heyquark.com>, 
-	Roberto Van Eeden <rw-r-r-0644@protonmail.com>, Jonathan =?utf-8?Q?Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
-Subject: Re: [PATCH] rust: Add PowerPC support
-Message-ID: <aYOCWHF4CwzDVPuA@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
-References: <20260204030507.8203-1-linkmauve@linkmauve.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TWH4g7e2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770231879; x=1801767879;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aEgivNh6lf5umyGVj1PNqoU0kduEbNPMta4Z0lh4ySg=;
+  b=TWH4g7e2wARj848PC4LWL5mzbbjPYl0GYHOIH5N3gCI3ISx/lTzUgivf
+   KYEr/S6Gkn54ecJe9LTN4DB+rPpv52PGBfzaBnAeH2IANVPqIRvyjjLTN
+   huhhRMCWuBhzvWAdp5oxh9QWn9kpdSkRIOiunR0foec/4GIAlt/skKTK3
+   7fW6Q3ylmhUK1Yf9Ev0Zp5KwzM0JvO3Pgg7+ZCU4B2zkvX3zJcY8eOb+P
+   6lR9KDqUQtnZFI9GDv6z2pGoilT6B3Oy15Dy3jC1gSux4mS+PzWl5xdnf
+   UwBulrz6M/pS9sF0rrm6/qezt7kCZzUcIKnN+WNkOjkLeKvMUydyKWHX2
+   A==;
+X-CSE-ConnectionGUID: wFC8v9W8SEOaEdNb443NzA==
+X-CSE-MsgGUID: JYxSJhgGTtW++ttWBae2Qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="82797734"
+X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
+   d="scan'208";a="82797734"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 11:04:38 -0800
+X-CSE-ConnectionGUID: Fa3lG6CZSvagjstaQ6uPDA==
+X-CSE-MsgGUID: tcXmNBmaQnSzW20DrV4KTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,273,1763452800"; 
+   d="scan'208";a="233178785"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 04 Feb 2026 11:04:33 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vniAx-00000000j7U-08MJ;
+	Wed, 04 Feb 2026 19:04:31 +0000
+Date: Thu, 5 Feb 2026 03:03:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zixing Liu <liushuyu@aosc.io>, WANG Xuerui <kernel@xen0n.name>,
+	Huacai Chen <chenhuacai@kernel.org>, Bibo Mao <maobibo@loongson.cn>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kexy Biscuit <kexybiscuit@aosc.io>, Mingcong Bai <jeffbai@aosc.io>,
+	Zixing Liu <liushuyu@aosc.io>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Tianrui Zhao <zhaotianrui@loongson.cn>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v4] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+Message-ID: <202602050229.BAdKUB3a-lkp@intel.com>
+References: <20260204113601.912413-1-liushuyu@aosc.io>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260204030507.8203-1-linkmauve@linkmauve.fr>
+In-Reply-To: <20260204113601.912413-1-liushuyu@aosc.io>
 
-On Wed, Feb 04, 2026 at 04:05:04AM +0100, Link Mauve wrote:
-> For now only Big Endian 32-bit PowerPC is supported, as that is the only
-> hardware I have.  This has been tested on the Nintendo Wii so far, but I
-> plan on also using it on the GameCube, Wii U and Apple G4.
-> 
-> These changes aren’t the only ones required to get the kernel to compile
-> and link on PowerPC, libcore will also have to be changed to not use
-> integer division to format u64, u128 and core::time::Duration, otherwise
-> __udivdi3() and __umoddi3() will have to be added.  I have tested this
-> change by replacing the three implementations with unimplemented!() and
-> it linked just fine.
-> 
-Hey Link,
-I sent a patch with ppc64le support. 
-https://lore.kernel.org/all/20260204042417.83903-1-mkchauras@gmail.com/
+Hi Zixing,
 
-Can i take this patch and put ppc64le support over it and send it out?
+kernel test robot noticed the following build errors:
 
-Regards,
-Mukesh
-> Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
-> ---
->  Documentation/rust/arch-support.rst   |  1 +
->  arch/powerpc/Kconfig                  |  1 +
->  arch/powerpc/Makefile                 |  2 ++
->  arch/powerpc/include/asm/jump_label.h | 16 ++++++++++------
->  rust/Makefile                         |  4 +++-
->  scripts/generate_rust_target.rs       | 10 ++++++++++
->  6 files changed, 27 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
-> index 6e6a515d0899..70b9e192a7a0 100644
-> --- a/Documentation/rust/arch-support.rst
-> +++ b/Documentation/rust/arch-support.rst
-> @@ -18,6 +18,7 @@ Architecture   Level of support  Constraints
->  ``arm``        Maintained        ARMv7 Little Endian only.
->  ``arm64``      Maintained        Little Endian only.
->  ``loongarch``  Maintained        \-
-> +``powerpc``    Maintained        32-bit Big Endian only.
->  ``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
->  ``um``         Maintained        \-
->  ``x86``        Maintained        ``x86_64`` only.
-> diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-> index 9537a61ebae0..17db23b82e91 100644
-> --- a/arch/powerpc/Kconfig
-> +++ b/arch/powerpc/Kconfig
-> @@ -283,6 +283,7 @@ config PPC
->  	select HAVE_REGS_AND_STACK_ACCESS_API
->  	select HAVE_RELIABLE_STACKTRACE
->  	select HAVE_RSEQ
-> +	select HAVE_RUST			if PPC32
->  	select HAVE_SAMPLE_FTRACE_DIRECT	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
->  	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
->  	select HAVE_SETUP_PER_CPU_AREA		if PPC64
-> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-> index a58b1029592c..9fd82c75dcbd 100644
-> --- a/arch/powerpc/Makefile
-> +++ b/arch/powerpc/Makefile
-> @@ -61,6 +61,8 @@ else
->  KBUILD_LDFLAGS_MODULE += $(objtree)/arch/powerpc/lib/crtsavres.o
->  endif
->  
-> +KBUILD_RUSTFLAGS += --target=powerpc-unknown-linux-gnu
-> +
->  ifdef CONFIG_CPU_LITTLE_ENDIAN
->  KBUILD_CPPFLAGS	+= -mlittle-endian
->  KBUILD_LDFLAGS	+= -EL
-> diff --git a/arch/powerpc/include/asm/jump_label.h b/arch/powerpc/include/asm/jump_label.h
-> index d4eaba459a0e..238f0f625a36 100644
-> --- a/arch/powerpc/include/asm/jump_label.h
-> +++ b/arch/powerpc/include/asm/jump_label.h
-> @@ -15,14 +15,18 @@
->  #define JUMP_ENTRY_TYPE		stringify_in_c(FTR_ENTRY_LONG)
->  #define JUMP_LABEL_NOP_SIZE	4
->  
-> +/* This macro is also expanded on the Rust side. */
-> +#define ARCH_STATIC_BRANCH_ASM(key, label)		\
-> +	"1:\n\t"					\
-> +	"nop # arch_static_branch\n\t"			\
-> +	".pushsection __jump_table,  \"aw\"\n\t"	\
-> +	".long 1b - ., " label " - .\n\t"		\
-> +	 JUMP_ENTRY_TYPE key " - .\n\t"			\
-> +	 ".popsection \n\t"
-> +
->  static __always_inline bool arch_static_branch(struct static_key *key, bool branch)
->  {
-> -	asm goto("1:\n\t"
-> -		 "nop # arch_static_branch\n\t"
-> -		 ".pushsection __jump_table,  \"aw\"\n\t"
-> -		 ".long 1b - ., %l[l_yes] - .\n\t"
-> -		 JUMP_ENTRY_TYPE "%c0 - .\n\t"
-> -		 ".popsection \n\t"
-> +	asm goto(ARCH_STATIC_BRANCH_ASM("%c0", "%l[l_yes]")
->  		 : :  "i" (&((char *)key)[branch]) : : l_yes);
->  
->  	return false;
-> diff --git a/rust/Makefile b/rust/Makefile
-> index 5c0155b83454..377e6fd68524 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -400,13 +400,15 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
->  	-fno-inline-functions-called-once -fsanitize=bounds-strict \
->  	-fstrict-flex-arrays=% -fmin-function-alignment=% \
->  	-fzero-init-padding-bits=% -mno-fdpic \
-> -	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference
-> +	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference \
-> +	-ffixed-r2 -mmultiple -mno-readonly-in-sdata
->  
->  # Derived from `scripts/Makefile.clang`.
->  BINDGEN_TARGET_x86	:= x86_64-linux-gnu
->  BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
->  BINDGEN_TARGET_arm	:= arm-linux-gnueabi
->  BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
-> +BINDGEN_TARGET_powerpc	:= powerpc-linux-gnu
->  BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
->  BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
->  
-> diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
-> index 38b3416bb979..0054880ba0ea 100644
-> --- a/scripts/generate_rust_target.rs
-> +++ b/scripts/generate_rust_target.rs
-> @@ -188,6 +188,16 @@ fn main() {
->          panic!("arm uses the builtin rustc target");
->      } else if cfg.has("ARM64") {
->          panic!("arm64 uses the builtin rustc aarch64-unknown-none target");
-> +    } else if cfg.has("PPC32") {
-> +        ts.push("arch", "powerpc");
-> +        ts.push("data-layout", "E-m:e-p:32:32-Fn32-i64:64-n32");
-> +        ts.push("features", "+soft-float");
-> +        ts.push("llvm-target", "powerpc-unknown-eabi");
-> +        if cfg.rustc_version_atleast(1, 91, 0) {
-> +            ts.push("target-pointer-width", 32);
-> +        } else {
-> +            ts.push("target-pointer-width", "32");
-> +        }
->      } else if cfg.has("RISCV") {
->          if cfg.has("64BIT") {
->              panic!("64-bit RISC-V uses the builtin rustc riscv64-unknown-none-elf target");
-> -- 
-> 2.52.0
-> 
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next linus/master v6.19-rc8]
+[cannot apply to kvm/linux-next next-20260204]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zixing-Liu/KVM-Add-KVM_GET_REG_LIST-ioctl-for-LoongArch/20260204-193844
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20260204113601.912413-1-liushuyu%40aosc.io
+patch subject: [PATCH v4] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+config: loongarch-defconfig (https://download.01.org/0day-ci/archive/20260205/202602050229.BAdKUB3a-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260205/202602050229.BAdKUB3a-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602050229.BAdKUB3a-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from arch/loongarch/kvm/vcpu.c:6:
+   In file included from arch/loongarch/include/asm/kvm_host.h:21:
+   In file included from arch/loongarch/include/asm/kvm_mmu.h:9:
+>> include/linux/kvm_host.h:389:23: error: field has incomplete type 'struct kvm_vcpu_arch'
+     389 |         struct kvm_vcpu_arch arch;
+         |                              ^
+   include/linux/kvm_host.h:389:9: note: forward declaration of 'struct kvm_vcpu_arch'
+     389 |         struct kvm_vcpu_arch arch;
+         |                ^
+>> include/linux/kvm_host.h:390:23: error: field has incomplete type 'struct kvm_vcpu_stat'
+     390 |         struct kvm_vcpu_stat stat;
+         |                              ^
+   include/linux/kvm_host.h:390:9: note: forward declaration of 'struct kvm_vcpu_stat'
+     390 |         struct kvm_vcpu_stat stat;
+         |                ^
+>> include/linux/kvm_host.h:601:30: error: field has incomplete type 'struct kvm_arch_memory_slot'
+     601 |         struct kvm_arch_memory_slot arch;
+         |                                     ^
+   include/linux/kvm_host.h:601:9: note: forward declaration of 'struct kvm_arch_memory_slot'
+     601 |         struct kvm_arch_memory_slot arch;
+         |                ^
+>> include/linux/kvm_host.h:831:21: error: field has incomplete type 'struct kvm_vm_stat'
+     831 |         struct kvm_vm_stat stat;
+         |                            ^
+   include/linux/kvm_host.h:831:9: note: forward declaration of 'struct kvm_vm_stat'
+     831 |         struct kvm_vm_stat stat;
+         |                ^
+>> include/linux/kvm_host.h:832:18: error: field has incomplete type 'struct kvm_arch'
+     832 |         struct kvm_arch arch;
+         |                         ^
+   include/linux/kvm_host.h:832:9: note: forward declaration of 'struct kvm_arch'
+     832 |         struct kvm_arch arch;
+         |                ^
+>> include/linux/kvm_host.h:1023:11: error: use of undeclared identifier 'KVM_MAX_VCPUS'
+    1023 |         if (id < KVM_MAX_VCPUS)
+         |                  ^
+   In file included from arch/loongarch/kvm/vcpu.c:6:
+>> arch/loongarch/include/asm/kvm_host.h:46:9: warning: 'KVM_DIRTY_LOG_MANUAL_CAPS' macro redefined [-Wmacro-redefined]
+      46 | #define KVM_DIRTY_LOG_MANUAL_CAPS       \
+         |         ^
+   include/linux/kvm_host.h:643:9: note: previous definition is here
+     643 | #define KVM_DIRTY_LOG_MANUAL_CAPS KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE
+         |         ^
+>> arch/loongarch/kvm/vcpu.c:48:10: error: assigning to 'struct kvm_context *' from incompatible type 'void'
+      48 |         context = this_cpu_ptr(vcpu->kvm->arch.vmcs);
+         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kvm/vcpu.c:63:10: error: assigning to 'struct kvm_context *' from incompatible type 'void'
+      63 |         context = this_cpu_ptr(vcpu->kvm->arch.vmcs);
+         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kvm/vcpu.c:1669:11: error: assigning to 'struct kvm_context *' from incompatible type 'void'
+    1669 |                 context = per_cpu_ptr(vcpu->kvm->arch.vmcs, cpu);
+         |                         ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/kvm/vcpu.c:1691:10: error: assigning to 'struct kvm_context *' from incompatible type 'void'
+    1691 |         context = per_cpu_ptr(vcpu->kvm->arch.vmcs, cpu);
+         |                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 10 errors generated.
+
+
+vim +389 include/linux/kvm_host.h
+
+af585b921e5d1e include/linux/kvm_host.h Gleb Natapov        2010-10-14  372  
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  373  #ifdef CONFIG_HAVE_KVM_CPU_RELAX_INTERCEPT
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  374  	/*
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  375  	 * Cpu relax intercept or pause loop exit optimization
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  376  	 * in_spin_loop: set when a vcpu does a pause loop exit
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  377  	 *  or cpu relax intercepted.
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  378  	 * dy_eligible: indicates whether vcpu is eligible for directed yield.
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  379  	 */
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  380  	struct {
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  381  		bool in_spin_loop;
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  382  		bool dy_eligible;
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  383  	} spin_loop;
+4c088493c8d07e include/linux/kvm_host.h Raghavendra K T     2012-07-18  384  #endif
+a6816314af5749 include/linux/kvm_host.h David Matlack       2024-05-03  385  	bool wants_to_run;
+3a08a8f9f0936e include/linux/kvm_host.h Raghavendra K T     2013-03-04  386  	bool preempted;
+d73eb57b80b98a include/linux/kvm_host.h Wanpeng Li          2019-07-18  387  	bool ready;
+d1ae567fb8b559 include/linux/kvm_host.h Sean Christopherson 2024-05-21  388  	bool scheduled_out;
+d657a98e3c2053 drivers/kvm/kvm.h        Zhang Xiantao       2007-12-14 @389  	struct kvm_vcpu_arch arch;
+ce55c049459cff include/linux/kvm_host.h Jing Zhang          2021-06-18 @390  	struct kvm_vcpu_stat stat;
+ce55c049459cff include/linux/kvm_host.h Jing Zhang          2021-06-18  391  	char stats_id[KVM_STATS_NAME_SIZE];
+fb04a1eddb1a65 include/linux/kvm_host.h Peter Xu            2020-09-30  392  	struct kvm_dirty_ring dirty_ring;
+fe22ed827c5b60 include/linux/kvm_host.h David Matlack       2021-08-04  393  
+fe22ed827c5b60 include/linux/kvm_host.h David Matlack       2021-08-04  394  	/*
+a54d806688fe1e include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  395  	 * The most recently used memslot by this vCPU and the slots generation
+a54d806688fe1e include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  396  	 * for which it is valid.
+a54d806688fe1e include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  397  	 * No wraparound protection is needed since generations won't overflow in
+a54d806688fe1e include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  398  	 * thousands of years, even assuming 1M memslot operations per second.
+fe22ed827c5b60 include/linux/kvm_host.h David Matlack       2021-08-04  399  	 */
+a54d806688fe1e include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  400  	struct kvm_memory_slot *last_used_slot;
+a54d806688fe1e include/linux/kvm_host.h Maciej S. Szmigiero 2021-12-06  401  	u64 last_used_slot_gen;
+d657a98e3c2053 drivers/kvm/kvm.h        Zhang Xiantao       2007-12-14  402  };
+d657a98e3c2053 drivers/kvm/kvm.h        Zhang Xiantao       2007-12-14  403  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
