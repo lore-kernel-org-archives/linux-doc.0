@@ -1,219 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2873F075C
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 13:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD872D8375;
+	Wed,  4 Feb 2026 13:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770210164; cv=none; b=TfMMO6hMrAaj3gW3X4xN6r6ThnAVLMwKhT2o5bgdagQ2j2gsO9Zw6C/USomq0L48pRxeQP+VUhOyLBWlI3vcLX1x7mrmOoieWqP3fe97VDPBCRQoXak3ev0LabXISSPzgiYEZlWvV5c90KX8/O9Y1+r3GE5ir5wz4NYQlU3eSUU=
+	t=1770210429; cv=none; b=TM7myZMxY0WrtM/p9VHzCaQ812cgamVeY88ZjvEHZMGfc9j+R9YwdU7gfJxKgkmDXA93jPx6jgdwc0+R2GpcqunJteYZiSqcHO4hzqzWvkw7lYwZGPJN0rQH0LQD//dhKJDkiYrykCSrLDETuPeu7ftoY3Ycx8NWeTavS7AUuP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770210164; c=relaxed/simple;
-	bh=I+ebxz3GapT/F42T4+CxRemWso5iJAqp78kDiVsXGsA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=f2FA3PVgm3okMJA0t6gNYNgUm+VCrc9fECr+HWd3RNr8z3lpOju7tqRBq+tgPvlCQF7gzVQqq2PpZQBRlPJPZ6xR1V/DgOTgdrfv1FmnPXtpLJRvhnlHMMjqCwT64zQYzqgG3uBhCnrovAA+TEROUK+GZmieJ8euColF4bkvLkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A+o1V0p+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770210429; c=relaxed/simple;
+	bh=IG7z+rMybMa4HuzoAClaZJTClqKa1ijErCJG0QFQoWY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MzgnlJzvTdBpVMVovCTChYLL63ph6kXVLwUG2YPHo0/xIcgwjf9jlEuZRZaP2mdmiSWlBOfbmY3GtaoZy/7SrcTi/gi37a2Lk9E63S+qJ+uARLdQNYcZUez28wupNuUdmDnjX1YmYr3nSkPVuQSN3m26RevpjEBaVcs3KcgUMLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JnNmj20m; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A+o1V0p+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB8F2C2BCB0
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 13:02:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770210163;
-	bh=I+ebxz3GapT/F42T4+CxRemWso5iJAqp78kDiVsXGsA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=A+o1V0p+UV4zad/pXOSvyYXpJryJxwHncAa0iJHbGVWU8b7xM+oGjpHHgkmLCKxWO
-	 9KGc5KfTqs8qEGPXEDk2tqd/ItLmH7BkRwURbhD2H5OBTJh82HL1muVPAwNVqsXhmj
-	 nlJyeVMbNnXbna6n9Z+j2iDMGo//gQyj0AuLp6A/c6FX6b5Jygb3T6pH9CNmxJ+57E
-	 dQ/3yi7H8tam/sNyx6uLPCtUSx3xmUFgMRnKxXdi88hPkfswdxJMGyl84jvL+b4VwQ
-	 FfnlV91MOYhmDfzZfPowo91F51d5Xk7B1vkLagaNkrvB0qpZMsO9TB9UnePFyKJp6r
-	 Q8cGSthK33Lnw==
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-40959ad00f2so4675939fac.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 05:02:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUH8uBEIOltlL7Jtp9T4Mj7HZ2tjyt1xnbDWaxQ+E8H7UWgiUKfa5Plp21JlfIkBOpP/cmE+qaWwBo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYUlKHTY+Gl8JLFCFuYt3AiCk6FMKDS2dC4yPbGNhYgKPelRMC
-	95TKKgNJkLpwkEhzJSCyhrE3wkh6q7ppNB5+xgzRrn6/KcCNhmPPQsNZAHwfxwAWbuHpIu+Ji+9
-	ypXbF5l6fxeoMPQXFzKAraKZamdgiagU=
-X-Received: by 2002:a4a:e906:0:b0:659:9a49:8eb8 with SMTP id
- 006d021491bc7-66a23432fe4mr1265953eaf.60.1770210162665; Wed, 04 Feb 2026
- 05:02:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JnNmj20m"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=IG7z+rMybMa4HuzoAClaZJTClqKa1ijErCJG0QFQoWY=; b=JnNmj20mm0cT/SAQkT0IEJ72Jn
+	yFL0UFRybqecdOVM/1xS8zNEz1CsA2VmJqWKJL3pxSz/3Eb2QQee1rOZVnsoWdN+d67Q12Xe7aLog
+	Ed3/oC2V3ikJ7KOnUEvk3UE2dvpREAv4XJym9QeEGR+lPtkcpb8Z8Mp0nqyqJ4++32t1lIVBU/dIZ
+	QP4uqO2SDYDTum3xaUZR9zNluxP4M84YOZdgXelOkAE0NgSQ/beE75OCCIB2t8Efrte/uLOGy8Nb0
+	CasrpB2NDBcpW0kyHSlgGeA0BtuQlhgFzv6a/uvF22OLPZsgx09OPvQ496GWarL+3HLP2b/orH+kv
+	ylDfNAGA==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vncas-000000026VB-09Dm;
+	Wed, 04 Feb 2026 13:06:54 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 7D24B302F8E; Wed, 04 Feb 2026 14:06:53 +0100 (CET)
+Date: Wed, 4 Feb 2026 14:06:53 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Gary Guo <gary@garyguo.net>, Link Mauve <linkmauve@linkmauve.fr>,
+	rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Jason Baron <jbaron@akamai.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	llvm@lists.linux.dev, officialTechflashYT@gmail.com,
+	Ash Logan <ash@heyquark.com>,
+	Roberto Van Eeden <rw-r-r-0644@protonmail.com>,
+	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
+Subject: Re: [PATCH] rust: Add PowerPC support
+Message-ID: <20260204130653.GH2995752@noisy.programming.kicks-ass.net>
+References: <20260204030507.8203-1-linkmauve@linkmauve.fr>
+ <aYMiXcy33YEVkgYM@google.com>
+ <DG66KRKI62WA.3GILMBH1UCYB@garyguo.net>
+ <aYNBtc2Jbtg9sLIE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260129104817.3752340-1-sumitg@nvidia.com> <20260129104817.3752340-5-sumitg@nvidia.com>
- <4432fa04-e67c-422a-aae4-2938be431985@huawei.com> <c96312c7-b13f-4f5c-9512-cc0382c1c77b@nvidia.com>
- <74f3e6cf-7c13-43e6-a8f6-2b46184b8ad6@gmail.com> <944fc140-e5c5-425f-a6ad-883e87eed8a3@nvidia.com>
- <CAJZ5v0hUdLsh8UK5G6rHHD49RQGYLAiU1J-11DK-fLTKnuqhUQ@mail.gmail.com>
- <CAJZ5v0ggzD0PEti-r20Sm-8n0gPigPh=NgE2Oa=UKzMmwB0jpw@mail.gmail.com>
- <211d9dfa-26e6-4fc3-b70b-f5fbca49e5fd@nvidia.com> <CAJZ5v0if=tMiyLB-efkzB67SniJS-2pCVv1-eN+vzZxqrdAM8Q@mail.gmail.com>
- <e7570bc3-5420-4743-8a75-8602559ca235@amd.com> <b8603fcb-b0ab-47da-ae90-e82f7b9bcd67@nvidia.com>
-In-Reply-To: <b8603fcb-b0ab-47da-ae90-e82f7b9bcd67@nvidia.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Wed, 4 Feb 2026 14:02:31 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0h4yOAW5y-B76EooeBLdMBmmL1hRf3PZ0udA+FYR4EPKQ@mail.gmail.com>
-X-Gm-Features: AZwV_QhCjeh-XYu45P0hnBYAXK49X1-cttxr4eR82FwIbJTI78XtQKvZNdg_NH4
-Message-ID: <CAJZ5v0h4yOAW5y-B76EooeBLdMBmmL1hRf3PZ0udA+FYR4EPKQ@mail.gmail.com>
-Subject: Re: [PATCH v7 4/7] ACPI: CPPC: add APIs and sysfs interface for min/max_perf
-To: Sumit Gupta <sumitg@nvidia.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Russell Haley <yumpusamongus@gmail.com>, "zhenglifeng (A)" <zhenglifeng1@huawei.com>, 
-	pierre.gondois@arm.com, viresh.kumar@linaro.org, ionela.voinescu@arm.com, 
-	corbet@lwn.net, rdunlap@infradead.org, ray.huang@amd.com, 
-	gautham.shenoy@amd.com, perry.yuan@amd.com, zhanjie9@hisilicon.com, 
-	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, treding@nvidia.com, 
-	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com, 
-	sanjayc@nvidia.com, nhartman@nvidia.com, bbasu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aYNBtc2Jbtg9sLIE@google.com>
 
-On Wed, Feb 4, 2026 at 10:51=E2=80=AFAM Sumit Gupta <sumitg@nvidia.com> wro=
-te:
->
->
-> On 04/02/26 01:58, Mario Limonciello wrote:
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > On 2/3/26 2:24 PM, Rafael J. Wysocki wrote:
-> >> On Tue, Feb 3, 2026 at 3:32=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com>=
- wrote:
-> >>>
-> >>>
-> >>> On 03/02/26 18:24, Rafael J. Wysocki wrote:
-> >>>> External email: Use caution opening links or attachments
-> >>>>
-> >>>>
-> >>>> On Tue, Feb 3, 2026 at 1:45=E2=80=AFPM Rafael J. Wysocki
-> >>>> <rafael@kernel.org> wrote:
-> >>>>> On Tue, Feb 3, 2026 at 10:41=E2=80=AFAM Sumit Gupta <sumitg@nvidia.=
-com>
-> >>>>> wrote:
-> >>>>>>>>> Hi Sumit,
-> >>>>>>>>>
-> >>>>>>>>> I am thinking that maybe it is better to call these two sysfs
-> >>>>>>>>> interface
-> >>>>>>>>> 'min_freq' and 'max_freq' as users read and write khz instead
-> >>>>>>>>> of raw
-> >>>>>>>>> value.
-> >>>>>>>> Thanks for the suggestion.
-> >>>>>>>> Kept min_perf/max_perf to match the CPPC register names
-> >>>>>>>> (MIN_PERF/MAX_PERF), making it clear to users familiar with
-> >>>>>>>> CPPC what's being controlled.
-> >>>>>>>> The kHz unit is documented in the ABI.
-> >>>>>>>>
-> >>>>>>>> Thank you,
-> >>>>>>>> Sumit Gupta
-> >>>>>>> On my x86 machine with kernel 6.18.5, the kernel is exposing raw
-> >>>>>>> values:
-> >>>>>>>
-> >>>>>>>> grep . /sys/devices/system/cpu/cpu0/acpi_cppc/*
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/feedback_ctrs:ref:34290401=
-8856568
-> >>>>>>>
-> >>>>>>> del:437439724183386
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/guaranteed_perf:63
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/highest_perf:88
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_freq:0
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_nonlinear_perf:36
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/lowest_perf:1
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_freq:3900
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/nominal_perf:62
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/reference_perf:62
-> >>>>>>> /sys/devices/system/cpu/cpu0/acpi_cppc/wraparound_time:1844674407=
-3709551615
-> >>>>>>>
-> >>>>>>>
-> >>>>>>> It would be surprising for a nearby sysfs interface with very
-> >>>>>>> similar
-> >>>>>>> names to use kHz instead.
-> >>>>>>>
-> >>>>>>> Thanks,
-> >>>>>>>
-> >>>>>>> Russell Haley
-> >>>>>> I can rename to either of the below:
-> >>>>>> - min/max_freq: might be confused with scaling_min/max_freq.
-> >>>>>> - min/max_perf_freq: keeps the CPPC register association clear.
-> >>>>>>
-> >>>>>> Rafael, Any preferences here?
-> >>>>> On x86 the units in CPPC are not kHz and there is no easy reliable
-> >>>>> way
-> >>>>> to convert them to kHz.
-> >>>>>
-> >>>>> Everything under /sys/devices/system/cpu/cpu0/acpi_cppc/ needs to b=
-e
-> >>>>> in CPPC units, not kHz (unless, of course, kHz are CPPC units).
-> >>>
-> >>>
-> >>> In v1 [1], these controls were added under acpi_cppc sysfs.
-> >>> After discussion, they were moved under cpufreq, and [2] was merged
-> >>> first.
-> >>> The decision to use frequency scale instead of raw perf was made
-> >>> for consistency with other cpufreq interfaces as per (v3 [3]).
-> >>>
-> >>> CPPC units in our case are also not in kHz. The kHz conversion uses t=
-he
-> >>> existing cppc_perf_to_khz()/cppc_khz_to_perf() helpers which are
-> >>> already
-> >>> used in cppc_cpufreq attributes. So the conversion behavior is
-> >>> consistent
-> >>> with existing cpufreq interfaces.
-> >>>
-> >>> [1]
-> >>> https://lore.kernel.org/lkml/076c199c-a081-4a7f-956c-f395f4d5e156@nvi=
-dia.com/
-> >>>
-> >>> [2]
-> >>> https://lore.kernel.org/all/20250507031941.2812701-1-zhenglifeng1@hua=
-wei.com/
-> >>>
-> >>> [3]
-> >>> https://lore.kernel.org/lkml/80e16de0-63e4-4ead-9577-4ebba9b1a02d@nvi=
-dia.com/
-> >>>
-> >>>
-> >>>> That said, the new attributes will show up elsewhere.
-> >>>>
-> >>>> So why do you need to add these things in the first place?
-> >>>
-> >>> Currently there's no sysfs interface to dynamically control the
-> >>> MIN_PERF/MAX_PERF bounds when using autonomous mode. This helps
-> >>> users tune power and performance at runtime.
-> >>
-> >> So what about scaling_min_freq and scaling_max_freq?
-> >>
-> >> intel_pstate uses them for an analogous purpose.
-> >
-> > FWIW same thing for amd_pstate.
-> >
->
-> intel_pstate and amd_pstate seem to use setpolicy() to update
-> scaling_min/max_freq and program MIN_PERF/MAX_PERF.
+On Wed, Feb 04, 2026 at 12:55:17PM +0000, Alice Ryhl wrote:
 
-That's one possibility.
+> Is there any reason to not make it Rust-only but for all Rust code?
+> Making the / operator work seems like it would be a good idea.
 
-intel_pstate has a "cpufreq-compatible" mode (in which case it is
-called intel_cpufreq) and still uses HWP (which is the underlying
-mechanism for CPPC on Intel platforms).
+Why would it be a good idea to have it work on non-native types in Rust?
 
-> However, as discussed in v5 [1], cppc_cpufreq cannot switch to
-> a setpolicy based approach because:
-> - We need per-CPU control of auto_sel: With setpolicy, we can't
->    dynamically disable auto_sel for individual CPUs and return to the
->    target() (no target hook available).
->    intel_pstate and amd_pstate seem to set HW autonomous mode for
->    all CPUs, not per-CPU.
-> - We need to retain the target() callback - the CPPC spec allows
->    desired_perf to be used even when autonomous selection is enabled.
-
-intel_pstate in the "cpufreq-compatible" mode updates its HWP min and
-max limits when .target() (or .fast_switch() or .adjust_perf()) is
-called.
-
-I guess that would not be sufficient in cppc_cpufreq for some reason?
-
-> [1]
-> https://lore.kernel.org/lkml/66f58f43-631b-40a0-8d42-4e90cd24b757@arm.com=
-/
+The reason we don't have them in C is because non-native divisions are
+expensive and doing them should be a conscious choice. The very same
+argument should be true for Rust code too.
