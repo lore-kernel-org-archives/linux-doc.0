@@ -1,179 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EACA2FD1C5;
-	Wed,  4 Feb 2026 10:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2FF3D9046
+	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 10:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770200548; cv=none; b=taTVTxIX9h9Z3TOJMCNhgaKolq7Dbmcef8UiskJPhiEf4qDasEWj6K4vwg7rlsJxk4uyQaaOeuGvgK9ogzKXE80X6AjWnMx2iedoBV6CgJdiQq2WrhhoQapiCKscMvK9+fWPfQKhjsstI+Cuzm7D2l5u8BU4dhY2+EQhDH/5+kw=
+	t=1770200896; cv=none; b=VligBqi8DCFxdlIZ+MjhLK0dotgzYj3lcirYy/n/xFiBU0Ui5StTE+RwWN2OwnM/juozpU6raq7rOO2gUG0uZijok6VC15ki2EsMu9dGujZWIcCC0alyTJSnITaSd6hm+IaF3+CE/paLbSB68dp071a47kEo+1hukfWeEi+LMcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770200548; c=relaxed/simple;
-	bh=FuuUMY5kTlX4oAjmUdlYn8Nb+GmKyjMCwEvnO1uffuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aGBrH9vsTEy/2KzPYzd86z6405t9vsQWq8aD0jphly1RC0tpxR2VnQtqLN0VLzLIyVMMdhdU83ycb4RMUR8n1eruBOzxswS7IE22PF0q7ST4ZCzZNOBMGYwVUtVZCkU+UMPyW4ipvIafooRVxM9PpOYR2fckWLbeyg7Ikm/V7ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=biDB2fTD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770200896; c=relaxed/simple;
+	bh=JolnKv0qFTOR+o7MUsErJAFOJkrET4c/BlgelBkXp+E=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i+T3NWW8fuS6l/NGGK9xooxGvhkzK343h90/fjOfB+7q3aYMzlAn8VW6/ejczSHkCVUcYkryvHj17Yc2kQZ568NtHmV5QpdeDVDcbAVQA/a9ciOsLqSyioVVGzBrqd4Oj9v8de8XWbOsnVlzonxl2ZdfLjP6ZAR9LtACrkeUmvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TsY8mwjV; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="biDB2fTD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67B69C19422;
-	Wed,  4 Feb 2026 10:22:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770200548;
-	bh=FuuUMY5kTlX4oAjmUdlYn8Nb+GmKyjMCwEvnO1uffuA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=biDB2fTDUN0MWsvbNEv/Y0xVLLwDTdNng/UlogpiG3P4Y9Eyy2p7uVn2lm/NYyIl5
-	 bQjCORNd8csIJcC1vRO4sNgpiz88YR1ym+XkdJjkuBHitl4itY0pHl7WAi8K58W6hp
-	 qS9Ch4GJ2aBdvQ7QG7F4HU2bSHzhTx79a++jImcQwfcEmAtb4iP0oZmkmcqH3Whxng
-	 QY7+sIx9A5Q2ckB0rTISM69q2uiDT/709zuGzR2abdSxLWxk2Gdqi6VEGka8wTux+d
-	 QzUlqiNd4N7KTpxTtyFGBvlDnIdkUSBEpWwHOL6pe4m40dILc7AcojBhkfyXsGfDO4
-	 Oj+8RnI9Ghc6w==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vna1i-00000004r7W-1nx3;
-	Wed, 04 Feb 2026 11:22:26 +0100
-Date: Wed, 4 Feb 2026 11:22:26 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>, linux-kbuild@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	Rong Zhang <i@rong.moe>, Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH] kbuild: Do not run kernel-doc when building external
- modules
-Message-ID: <aYMUc5FVbROqtY6s@foz.lan>
-References: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
- <176987242178.1743608.5094531752561489739.b4-ty@kernel.org>
- <CAK7LNARR9bZQ9t9emcVzmL+P7xYemu=8s8v_LshQ0-m_zEE9mA@mail.gmail.com>
- <20260204073903.GA1632007@ax162>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TsY8mwjV"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47ee0291921so63115615e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 02:28:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770200895; x=1770805695; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JYjG7SQO8WEcZbtf5VFi69+C3kGp/XbrFnd6F1SB62M=;
+        b=TsY8mwjVOlERyLMY4xZcL4FpfW2PC0FXYp2YORrLpKNQAFvrDqA9Pv48o6hL9jCRxG
+         ZMXuemwqTxc+RH7GIPsI3WFUfRWKAb6SpGf4EY4O1n6o/cEcG5vTdJnTNtPw7mgxUWb6
+         3HClgwFLhovEYkHr+EvQObn1U8ZFSjrZwruTVQmOZbkkkDg8h9bN9oybHLzY0iUeYa2n
+         Jaly9/P13T98296deoooscmmE6uIKWGYmLYjGQuICWESIgdVTERmh7WcTeKZDlp4Qigz
+         ITF8HT5YhFaBbGIYR7sDw1gEYKigBErj2ITge1JKv7mCxpIsALT8PkQ4PIDnDJf314Pz
+         TnVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770200895; x=1770805695;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JYjG7SQO8WEcZbtf5VFi69+C3kGp/XbrFnd6F1SB62M=;
+        b=rBfYNUa65Q2b7Hr25gEG6eRWs9tKspeeZdhvqFuz6Ne22RoROr0/bdXqpXbgIViPXA
+         sohoHeDhFwgk1tf6YE8WosIwFiM4j8n+TGyflpBcfhsfXnKE6D9SkfBxPnvxL02TPK5Q
+         QqLVBWLbU859p/t3zs0zUIU/UTHNKN9VB/vsFA0/90JvPafhlnEDYHQo/B20AvxCIHdJ
+         EMjr8Bpl87YQMMKA8ihpBGXsqYf+DLDyiI9D6cLzWax4YvSV9tx+29IXmLHSbf9cPAE5
+         vEQJt5mgKELID3I+Y6Smz87Jb//vGEDKMLm6h6stv+Wy7GQkUh+2WCYps7tRz2lq0Tx7
+         AE9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUFd0f5YtyYVD12EFwrkKzpXZQ8TsH3Zl7Lfl2L0Muga8Bogn9LlVeqc++Tiyg9Z1GEnAmeQDUmz24=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrPFj2sc4QPoA1S8jXbgLpQzAcSxgQPPzQZWhe39UrByZ7O5Zm
+	OefTDvdkMv/7nfcsRlQKxTvrpdVMwpNAA6UOFYssd4e6oTFJSTOIuoCZ
+X-Gm-Gg: AZuq6aLRtCJ6ypw5cmJbVlOdzmoTu9V5cvBxqFG4ZSX8pIbtDHb5BFyRTK9SSwBtq1o
+	X858Rcni6f1aStssXEsb/ioQKkz+CE3zoF4nernRZKlXNTGPH+u4GO9bLAIRKDfX2Cr4wD066di
+	Q+qQThhpvJ8tQMNyiwO9IW/1YHnsCib7vaSKlZVzrBtUbVXkAP5MsuVujsF7mFqyiyMwl6modWq
+	oVjLfHYRn0OfCzY4vC4SbgXZIrOeG2OvYPlu/pujb+3QCLrL7IrK3JIVvTDApXvKJv8mIyN45DB
+	+TOkywHVX1r+jSi6DwoK7QAm6EV0jnf5f/b1Qv+WIXb9/Rb1UnfiwR7TScF83kGYDpgEeBjaMDO
+	jOKH8yRvd+Rm4D5vp5hjfXQEJjvb3dLBEd8MIuyLWBzl2jyAFHKyxqrWrjwzkdpECI/nQN+kca1
+	zcGuDBfdayxreQCf+nthgcKvtQ/8WYIWIa93GSdBt0apuuVwlMs8b/4y0uhEdHwnxqvP6QF5IVD
+	gxjE3KWwLsAD7Q=
+X-Received: by 2002:a05:600c:35cb:b0:45c:4470:271c with SMTP id 5b1f17b1804b1-4830e968e72mr35786535e9.18.1770200894603;
+        Wed, 04 Feb 2026 02:28:14 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com ([24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830ec5cc24sm25090045e9.3.2026.02.04.02.28.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 02:28:13 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Wed, 4 Feb 2026 10:28:05 +0000
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
+Message-ID: <hrhgmum6zdww7etc6ztchivfqecaaqeeul2bbagzyongkxpaeh@q7x4popwel6d>
+References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
+ <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
+ <aYKkv3dq9Vkm3s_3@smile.fi.intel.com>
+ <7tiv33i65unu5ypk7puj3buzybykyhv2qbwp54bhcem5t4rawq@dpfedqmmxbhx>
+ <aYMYJppigidPeLH4@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260204073903.GA1632007@ax162>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+In-Reply-To: <aYMYJppigidPeLH4@smile.fi.intel.com>
 
-On Wed, Feb 04, 2026 at 12:39:03AM -0700, Nathan Chancellor wrote:
-> Hi Masahiro,
+On 26/02/04 11:57AM, Andy Shevchenko wrote:
+> On Wed, Feb 04, 2026 at 09:42:55AM +0000, Rodrigo Alencar wrote:
+> > On 26/02/04 03:45AM, Andy Shevchenko wrote:
+> > > On Fri, Jan 30, 2026 at 10:06:43AM +0000, Rodrigo Alencar via B4 Relay wrote:
 > 
-> Good to see you around.
+> ...
 > 
-> On Wed, Feb 04, 2026 at 04:02:10PM +0900, Masahiro Yamada wrote:
-> > On Sun, Feb 1, 2026 at 12:15 AM Nicolas Schier <nsc@kernel.org> wrote:
-> > >
-> > > On Fri, 30 Jan 2026 14:37:47 -0700, Nathan Chancellor wrote:
-> > > > After commit 778b8ebe5192 ("docs: Move the python libraries to
-> > > > tools/lib/python"), building an external module with any value of W=
-> > > > against the output of install-extmod-build fails with:
-> > > >
-> > > >   $ make -C /usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build M=$PWD W=1
-> > > >   make: Entering directory '/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build'
-> > > >   make[1]: Entering directory '...'
-> > > >     CC [M] ...
-> > > >   Traceback (most recent call last):
-> > > >     File "/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build/scripts/kernel-doc.py", line 339, in <module>
-> > > >       main()
-> > > >       ~~~~^^
-> > > >     File "/usr/lib/modules/6.19.0-rc7-00108-g4d310797262f/build/scripts/kernel-doc.py", line 295, in main
-> > > >       from kdoc.kdoc_files import KernelFiles             # pylint: disable=C0415
-> > > >       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > >   ModuleNotFoundError: No module named 'kdoc'
-> > > >
-> > > > [...]
-> > >
-> > > Applied to kbuild/linux.git (kbuild-fixes-unstable), thanks!
+> > > > +static ssize_t iio_safe_strntou64(const char *str, const char **endp,
+> > > > +				  u64 *result, size_t max_chars)
+> > > > +{
+> > > > +	u64 digit, acc = 0;
+> > > > +	ssize_t idx = 0;
+> > > > +
+> > > > +	while (isdigit(str[idx]) && idx < max_chars) {
+> > > > +		digit = str[idx] - '0';
+> > > > +		if (unlikely(acc & (~0ull << 60))) {
+> > > > +			if (check_mul_overflow(acc, 10, &acc) ||
+> > > > +			    check_add_overflow(acc, digit, &acc))
+> > > > +				return -ERANGE;
+> > > > +		} else {
+> > > > +			acc = acc * 10 + digit;
+> > > > +		}
+> > > > +		idx++;
+> > > > +	}
+> > > > +
+> > > > +	*endp = str + idx;
+> > > > +	*result = acc;
+> > > > +	return idx;
+> > > > +}
+> > > 
+> > > There is a development in the parse_integer in the lib/. I reviewed that series
+> > > and hopefully it will go in. With that done, we better reuse the lib/ function.
+> > > 
+> > > https://lore.kernel.org/linux-hardening/20260202115451.290173-1-dmantipov@yandex.ru/
 > > 
-> > 
-> > I believe this is a wrong direction to go.
-> > 
-> > Since kernel-doc is a part of Kbuild,
-> > all dependent libraries should exist under scripts/.
+> > In this patch, I see that it updates the overflow check, but I am not
+> > seeing that function being exposed to other kernel modules.
 > 
-> Is this around the recent moves such as 778b8ebe5192? I guess Kbuild was
-> never consulted on that change and I missed eba6ffd126cd, despite being
-> CC'd, so that is on me.
-> 
-> I did wonder if it was worth it to package these files in a previous
-> change but Mauro seemed somewhat opposed to it (but maybe I
-> misinterpreted something):
-> 
->   https://lore.kernel.org/20260130063056.72fbe458@foz.lan/
+> Can the IIO be compiled as a module? If so, then we would need to export that
+> function. (Note, we may export only for the exact module(s) in question, so
+> nobody else will be able to use it. See EXPORT_SYMBOL_FOR_MODULES() macro.)
 
-Not really opposed. The point is that, on a normal run, kernel-doc
-is executed with -none, to check if are there a trouble with the
-kernel-doc markup (there's a kconfig option for such purpose).
-Also, it is not the only tool that it is executed on such case,
-on a normal build. See docs/Makefile (*):
+Yes, one can have an industrialio.ko.
+Then, would it be fine to use:
 
-    ifneq ($(MAKECMDGOALS),cleandocs)
-    # Check for broken documentation file references
-    ifeq ($(CONFIG_WARN_MISSING_DOCUMENTS),y)
-    $(shell $(srctree)/tools/docs/documentation-file-ref-check --warn)
-    endif
+EXPORT_SYMBOL_FOR_MODULES(_parse_integer_limit, "industrialio");
 
-    # Check for broken ABI files
-    ifeq ($(CONFIG_WARN_ABI_ERRORS),y)
-    $(shell $(srctree)/tools/docs/get_abi.py --dir $(srctree)/Documentation/ABI validate)
-    endif
-    endif
+in lib/kstrtox.c; and:
 
-(*) The only difference is that kernel-doc call is currently sitting
-    at scripts/Makefile.build. Perhaps it could make sense to move
-    it to docs/Makefile.
+#include "../../lib/kstrtox.h"
 
--
+in drivers/iio/industrialio-core.c
 
-I think it is not worth running any such documentation-validation-tools
-when doing OOT driver builds, as their goal is to ensure a good
-quality of documentation within the Kernel, and OOT drivers usually
-have a lot more problems than just documentation, but it is up to you.
-I'm ok with either solution.
- 
-> Perhaps tools/docs could be moved to scripts/docs and tools/lib/python
-> could be moved to just lib/python to have everything live logically
-> outside of tools/ and make it easier to package?
+that does not look pretty.
 
-The idea of moving it out of scripts is because scripts became
-a no-man's land, with lots of mixed stuff. From my side, I don't
-care much about its location, provided that the path is very short.
+-- 
+Kind regards,
 
--
-
-That's said, if you want htmldocs/mandocs/... targets to work
-with OOT builds, you don't really need kernel-doc executable, 
-as Sphinx uses kdoc libraries directly. Yet, you need a lot
-more:
-
-1) tools executed by docs/Makefile:
-
-    tools/docs/sphinx-build-wrapper
-    tools/docs/sphinx-pre-install
-
-2) Sphinx config and extensions:
-
-    Documentation/conf.py
-    Documentation/sphinx/
-    Documentation/sphinx-includes/
-    Documentation/sphinx-static/
-
-3) Libraries used by sphinx-build-wrapper and sphinx extensions:
-
-    tools/lib/python/jobserver.py
-    tools/lib/python/abi/
-    tools/lib/python/feat/
-    tools/lib/python/kdoc/
-
-You can also install optional command line tools, which
-are helpful to run the code inside abi/feat/kdoc outside
-Sphinx build:
-
-    tools/docs/kernel-doc
-    tools/docs/get_abi.py
-    tools/docs/get_feat.py
-    tools/docs/parse-headers.py
-  
-Regards,
-Mauro
+Rodrigo Alencar
