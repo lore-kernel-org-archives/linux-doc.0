@@ -1,359 +1,220 @@
-Received: from mail-244122.protonmail.ch (mail-244122.protonmail.ch [109.224.244.122])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D589C34AB16
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 19:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.122
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2113148C1;
+	Wed,  4 Feb 2026 19:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770232850; cv=none; b=l9J/fbWVDWWrfydj2R+OaRXt890JiR4KvPwjsnjQmCdsJLmNPAxDSm9e5tnRxmV/fW1OnJ0yk+iFB9/bFaykS57fZKlOyvTjddXfylOe73eVjUNhjZ8Q2k4FEKPxxY0YGxq7w8Ve35iPfU+7zns7EC+aaNROdfP80yqFLSBD0hY=
+	t=1770234188; cv=none; b=jC6esXkZ0KMyQB1YiEBMBwER5xNOkM3XMalu+obV16XIOJ951/LaFFoiA0pyuQlZ6OdhwYs49uqa8pvwfiVeXGJ0zF4IqTaUJFGtKb5emqZioggHcoIoDP2wQ7pCIvY98xJda5SXkE8YqmYt9JvK9DArpRP24KQeEaTJCneGMnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770232850; c=relaxed/simple;
-	bh=42DAA78Ro3TV3GcbE5ZzcA1Hqbgzc7TQEIqAHyzXBGc=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=U98rj0nJLAxxFqbe4rMx0+Rgug+by0eShGrzgbuHTp9oW1Smaw0H5lM/5LakEPStenbvMb1dnQ//aOHK2CzxiHJNfAhOEf4vWZaWdiEp+DAjgyJqF8ySUosOD4DWaj0FIEQzjaKXxGpRYJcRZFHOit8+1rW4Z39ruHueQNX9BYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=WB51Kor4; arc=none smtp.client-ip=109.224.244.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1770234188; c=relaxed/simple;
+	bh=klGJQDFpIQV+UTYw0N8RiEabthirIWJ6NTj5RFvTcAQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lOpskMEZ9Yu+GMpG2nNmfG4VrfkpP1/VJ5qTNHGydDV1j7NdbrkUN8sJefvqLxURDuRnap+ufwvHceBDM7qImrJHy7WMPdNqGm9IJ0Zy16minmtJUHDDjNoI/3pioHvxqPZOBAa5v226pNRVmDZLrYU08nd30J9UOQm31b+vYDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dSv2Kga3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="WB51Kor4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1770232847; x=1770492047;
-	bh=6UueFZCcl3mzDKHsOfQJ62w7Ldj873Wqx02eAw9623E=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=WB51Kor4gXqGj5zw6LbjB78YerTPY/nB1UpapP6eJ66oWcpxX7El2Q/2teblnAW22
-	 k5/xVvQIOCqZ+E4f5/Hr+L+SPJEbAv5QEbfOZH8Uz8OiJ0E93qU3RhE0/Y/xg260gX
-	 qelqqEfffl8CcG4cz2mH9qbsvqqHoYWjmBlf/tpzIu1yORBhD0stmfELmg8l7TKdeu
-	 9G22QLvw23wc0PUIJlsA/wp3AW1WjOzd9qZh3r/NzQqrL1mS3BEFVJ9uTuRsqBV2aU
-	 SgunjY2qFKGC+N4m2V5zWNeuKqs7kInwP8FXMP4d3dAcJ0G3wfDAVtlTRnx72924ej
-	 3Z39PnvXPx9wQ==
-Date: Wed, 04 Feb 2026 19:20:43 +0000
-To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: m.wieczorretman@pm.me, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kasan-dev@googlegroups.com, workflows@vger.kernel.org
-Subject: [PATCH v10 13/13] x86/kasan: Make software tag-based kasan available
-Message-ID: <8fd6275f980b90c62ddcb58cfbc78796c9fa7740.1770232424.git.m.wieczorretman@pm.me>
-In-Reply-To: <cover.1770232424.git.m.wieczorretman@pm.me>
-References: <cover.1770232424.git.m.wieczorretman@pm.me>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 7a80a741d11cacf4a5ea15ef58072bc9dc6c640c
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dSv2Kga3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEEF5C4CEF7;
+	Wed,  4 Feb 2026 19:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770234187;
+	bh=klGJQDFpIQV+UTYw0N8RiEabthirIWJ6NTj5RFvTcAQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dSv2Kga3O5StdZaXYpy2wAMTZiJBJ3cW9BJK4ndKqLIqWHqoJ0bKfqIrtKnWBOgdZ
+	 m6KUDkvDpUOj+mkMDvJ6+6Arvhir5KGds+Y2fyo+wVh6+xLsRPd+ogy4Lx5eldR1F5
+	 ap0uKDG+QAYSfBNoPZI1WljOT83dFUVtqNg8BN22967y03IlbKfyV0hJtSSFFVrM/J
+	 bJTd/foYa83vign1Sa2VxF8JC/nMywQRzoZTIeMraB6pEKnSfTVr8RiC+pT61FP92F
+	 19FzydgB6gcx2yhQqapE5v/e+lKSI2SM0/iA86zs6JUUbbo6Pr6CjZMGsoRJZ1XOq3
+	 pnfo6+HEqtzVw==
+Message-ID: <58845ef3-e781-42d1-bb7e-199b421ff476@kernel.org>
+Date: Wed, 4 Feb 2026 20:42:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] rust: Add PowerPC support
+To: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
+ Link Mauve <linkmauve@linkmauve.fr>
+Cc: rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ Jason Baron <jbaron@akamai.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, llvm@lists.linux.dev,
+ officialTechflashYT@gmail.com, Ash Logan <ash@heyquark.com>,
+ Roberto Van Eeden <rw-r-r-0644@protonmail.com>,
+ =?UTF-8?Q?Jonathan_Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+References: <20260204030507.8203-1-linkmauve@linkmauve.fr>
+ <aYOCWHF4CwzDVPuA@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <aYOCWHF4CwzDVPuA@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 
-Make CONFIG_KASAN_SW_TAGS available for x86 machines if they have
-ADDRESS_MASKING enabled (LAM) as that works similarly to Top-Byte Ignore
-(TBI) that allows the software tag-based mode on arm64 platform.
 
-The value for sw_tags KASAN_SHADOW_OFFSET was calculated by rearranging
-the formulas for KASAN_SHADOW_START and KASAN_SHADOW_END from
-arch/x86/include/asm/kasan.h - the only prerequisites being
-KASAN_SHADOW_SCALE_SHIFT of 4, and KASAN_SHADOW_END equal to the
-one from KASAN generic mode.
+Le 04/02/2026 à 18:33, Mukesh Kumar Chaurasiya a écrit :
+> [Vous ne recevez pas souvent de courriers de mkchauras@gmail.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> On Wed, Feb 04, 2026 at 04:05:04AM +0100, Link Mauve wrote:
+>> For now only Big Endian 32-bit PowerPC is supported, as that is the only
+>> hardware I have.  This has been tested on the Nintendo Wii so far, but I
+>> plan on also using it on the GameCube, Wii U and Apple G4.
+>>
+>> These changes aren’t the only ones required to get the kernel to compile
+>> and link on PowerPC, libcore will also have to be changed to not use
+>> integer division to format u64, u128 and core::time::Duration, otherwise
+>> __udivdi3() and __umoddi3() will have to be added.  I have tested this
+>> change by replacing the three implementations with unimplemented!() and
+>> it linked just fine.
+>>
+> Hey Link,
+> I sent a patch with ppc64le support.
+> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Flore.kernel.org%2Fall%2F20260204042417.83903-1-mkchauras%40gmail.com%2F&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C9033c0c08e1142c26cc408de6420675d%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C639058287509811601%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=LglEn8yJoYUcsXoENa8HO4SsOW4kKU397kDNVyfBilg%3D&reserved=0
+> 
+> Can i take this patch and put ppc64le support over it and send it out?
 
-Set scale macro based on KASAN mode: in software tag-based mode 16 bytes
-of memory map to one shadow byte and 8 in generic mode.
+Could also one of you feed https://github.com/linuxppc/issues/issues/451 ?
 
-Disable CONFIG_KASAN_INLINE and CONFIG_KASAN_STACK when
-CONFIG_KASAN_SW_TAGS is enabled on x86 until the appropriate compiler
-support is available.
+Thanks
+Christophe
 
-Lock software tag KASAN behind CC_IS_CLANG due to lack of proper support
-by gcc resulting in kernel booting issues.
-
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
----
-Changelog v10:
-- Update Documentation/dev-tools/kasan.rst with x86 related
-  informations.
-
-Changelog v9:
-- Lock HAVE_ARCH_KASAN_HAS_SW_TAGS behind CC_IS_CLANG due to lack of
-  support from gcc.
-- Remove pr_info() from KASAN initialization since it's now done by the
-  generic init helper.
-- Add paragraph to the mm.rst to explain the mutual exclusive nature of
-  the KASAN address ranges.
-- Use cpu_feature_enabled() instead of boot_cpu_has() in
-  kasan_init_64.c.
-
-Changelog v7:
-- Add a paragraph to the patch message explaining how the various
-  addresses and the KASAN_SHADOW_OFFSET were calculated.
-
-Changelog v6:
-- Don't enable KASAN if LAM is not supported.
-- Move kasan_init_tags() to kasan_init_64.c to not clutter the setup.c
-  file.
-- Move the #ifdef for the KASAN scale shift here.
-- Move the gdb code to patch "Use arithmetic shift for shadow
-  computation".
-- Return "depends on KASAN" line to Kconfig.
-- Add the defer kasan config option so KASAN can be disabled on hardware
-  that doesn't have LAM.
-
-Changelog v4:
-- Add x86 specific kasan_mem_to_shadow().
-- Revert x86 to the older unsigned KASAN_SHADOW_OFFSET. Do the same to
-  KASAN_SHADOW_START/END.
-- Modify scripts/gdb/linux/kasan.py to keep x86 using unsigned offset.
-- Disable inline and stack support when software tags are enabled on
-  x86.
-
-Changelog v3:
-- Remove runtime_const from previous patch and merge the rest here.
-- Move scale shift definition back to header file.
-- Add new kasan offset for software tag based mode.
-- Fix patch message typo 32 -> 16, and 16 -> 8.
-- Update lib/Kconfig.kasan with x86 now having software tag-based
-  support.
-
-Changelog v2:
-- Remove KASAN dense code.
-
- Documentation/arch/x86/x86_64/mm.rst | 10 ++++++++--
- Documentation/dev-tools/kasan.rst    | 28 ++++++++++++++++------------
- arch/x86/Kconfig                     |  4 ++++
- arch/x86/boot/compressed/misc.h      |  1 +
- arch/x86/include/asm/kasan.h         |  5 +++++
- arch/x86/mm/kasan_init_64.c          |  5 +++++
- lib/Kconfig.kasan                    |  3 ++-
- 7 files changed, 41 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x86/=
-x86_64/mm.rst
-index a6cf05d51bd8..7e2e4c5fa661 100644
---- a/Documentation/arch/x86/x86_64/mm.rst
-+++ b/Documentation/arch/x86/x86_64/mm.rst
-@@ -60,7 +60,8 @@ Complete virtual memory map with 4-level page tables
-    ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused=
- hole
-    ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual me=
-mory map (vmemmap_base)
-    ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused=
- hole
--   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory
-+   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory (generic mode)
-+   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN shad=
-ow memory (software tag-based mode)
-   __________________|____________|__________________|_________|___________=
-_________________________________________________
-                                                               |
-                                                               | Identical =
-layout to the 56-bit one from here on:
-@@ -130,7 +131,8 @@ Complete virtual memory map with 5-level page tables
-    ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused=
- hole
-    ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual me=
-mory map (vmemmap_base)
-    ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused=
- hole
--   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory
-+   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory (generic mode)
-+   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN shad=
-ow memory (software tag-based mode)
-   __________________|____________|__________________|_________|___________=
-_________________________________________________
-                                                               |
-                                                               | Identical =
-layout to the 47-bit one from here on:
-@@ -176,5 +178,9 @@ Be very careful vs. KASLR when changing anything here. =
-The KASLR address
- range must not overlap with anything except the KASAN shadow area, which i=
-s
- correct as KASAN disables KASLR.
-=20
-+The 'KASAN shadow memory (generic mode)/(software tag-based mode)' ranges =
-are
-+mutually exclusive and depend on which KASAN setting is chosen:
-+CONFIG_KASAN_GENERIC or CONFIG_KASAN_SW_TAGS.
-+
- For both 4- and 5-level layouts, the KSTACK_ERASE_POISON value in the last=
- 2MB
- hole: ffffffffffff4111
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/ka=
-san.rst
-index 64dbf8b308bd..03b508ebe673 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -22,8 +22,8 @@ architectures, but it has significant performance and mem=
-ory overheads.
-=20
- Software Tag-Based KASAN or SW_TAGS KASAN, enabled with CONFIG_KASAN_SW_TA=
-GS,
- can be used for both debugging and dogfood testing, similar to userspace H=
-WASan.
--This mode is only supported for arm64, but its moderate memory overhead al=
-lows
--using it for testing on memory-restricted devices with real workloads.
-+This mode is only supported for arm64 and x86, but its moderate memory ove=
-rhead
-+allows using it for testing on memory-restricted devices with real workloa=
-ds.
-=20
- Hardware Tag-Based KASAN or HW_TAGS KASAN, enabled with CONFIG_KASAN_HW_TA=
-GS,
- is the mode intended to be used as an in-field memory bug detector or as a
-@@ -351,10 +351,12 @@ Software Tag-Based KASAN
- Software Tag-Based KASAN uses a software memory tagging approach to checki=
-ng
- access validity. It is currently only implemented for the arm64 architectu=
-re.
-=20
--Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm64 C=
-PUs
--to store a pointer tag in the top byte of kernel pointers. It uses shadow =
-memory
--to store memory tags associated with each 16-byte memory cell (therefore, =
-it
--dedicates 1/16th of the kernel memory for shadow memory).
-+Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm64 C=
-PUs to
-+store a pointer tag in the top byte of kernel pointers. Analogously to TBI=
- on
-+x86 CPUs Linear Address Masking (LAM) feature is used and the pointer tag =
-is
-+stored in four bits of the kernel pointer's top byte. Software Tag-Based m=
-ode
-+uses shadow memory to store memory tags associated with each 16-byte memor=
-y cell
-+(therefore, it dedicates 1/16th of the kernel memory for shadow memory).
-=20
- On each memory allocation, Software Tag-Based KASAN generates a random tag=
-, tags
- the allocated memory with this tag, and embeds the same tag into the retur=
-ned
-@@ -370,12 +372,14 @@ Software Tag-Based KASAN also has two instrumentation=
- modes (outline, which
- emits callbacks to check memory accesses; and inline, which performs the s=
-hadow
- memory checks inline). With outline instrumentation mode, a bug report is
- printed from the function that performs the access check. With inline
--instrumentation, a ``brk`` instruction is emitted by the compiler, and a
--dedicated ``brk`` handler is used to print bug reports.
--
--Software Tag-Based KASAN uses 0xFF as a match-all pointer tag (accesses th=
-rough
--pointers with the 0xFF pointer tag are not checked). The value 0xFE is cur=
-rently
--reserved to tag freed memory regions.
-+instrumentation, arm64's implementation uses the ``brk`` instruction emitt=
-ed by
-+the compiler, and a dedicated ``brk`` handler is used to print bug reports=
-. On
-+x86 inline mode doesn't work yet due to missing compiler support.
-+
-+For arm64 Software Tag-Based KASAN uses 0xFF as a match-all pointer tag
-+(accesses through pointers with the 0xFF pointer tag are not checked). The=
- value
-+0xFE is currently reserved to tag freed memory regions. On x86 the same ta=
-gs
-+take on 0xF and 0xE respectively.
-=20
- Hardware Tag-Based KASAN
- ~~~~~~~~~~~~~~~~~~~~~~~~
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 80527299f859..877668cd5deb 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -67,6 +67,7 @@ config X86
- =09select ARCH_CLOCKSOURCE_INIT
- =09select ARCH_CONFIGURES_CPU_MITIGATIONS
- =09select ARCH_CORRECT_STACKTRACE_ON_KRETPROBE
-+=09select ARCH_DISABLE_KASAN_INLINE=09if X86_64 && KASAN_SW_TAGS
- =09select ARCH_ENABLE_HUGEPAGE_MIGRATION if X86_64 && HUGETLB_PAGE && MIGR=
-ATION
- =09select ARCH_ENABLE_MEMORY_HOTPLUG if X86_64
- =09select ARCH_ENABLE_MEMORY_HOTREMOVE if MEMORY_HOTPLUG
-@@ -196,6 +197,8 @@ config X86
- =09select HAVE_ARCH_JUMP_LABEL_RELATIVE
- =09select HAVE_ARCH_KASAN=09=09=09if X86_64
- =09select HAVE_ARCH_KASAN_VMALLOC=09=09if X86_64
-+=09select HAVE_ARCH_KASAN_SW_TAGS=09=09if ADDRESS_MASKING && CC_IS_CLANG
-+=09select ARCH_NEEDS_DEFER_KASAN=09=09if ADDRESS_MASKING
- =09select HAVE_ARCH_KFENCE
- =09select HAVE_ARCH_KMSAN=09=09=09if X86_64
- =09select HAVE_ARCH_KGDB
-@@ -410,6 +413,7 @@ config AUDIT_ARCH
- config KASAN_SHADOW_OFFSET
- =09hex
- =09depends on KASAN
-+=09default 0xeffffc0000000000 if KASAN_SW_TAGS
- =09default 0xdffffc0000000000
-=20
- config HAVE_INTEL_TXT
-diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed/mis=
-c.h
-index fd855e32c9b9..ba70036c2abd 100644
---- a/arch/x86/boot/compressed/misc.h
-+++ b/arch/x86/boot/compressed/misc.h
-@@ -13,6 +13,7 @@
- #undef CONFIG_PARAVIRT_SPINLOCKS
- #undef CONFIG_KASAN
- #undef CONFIG_KASAN_GENERIC
-+#undef CONFIG_KASAN_SW_TAGS
-=20
- #define __NO_FORTIFY
-=20
-diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-index 90c18e30848f..53ab7de16517 100644
---- a/arch/x86/include/asm/kasan.h
-+++ b/arch/x86/include/asm/kasan.h
-@@ -6,7 +6,12 @@
- #include <linux/kasan-tags.h>
- #include <linux/types.h>
- #define KASAN_SHADOW_OFFSET _AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
-+
-+#ifdef CONFIG_KASAN_SW_TAGS
-+#define KASAN_SHADOW_SCALE_SHIFT 4
-+#else
- #define KASAN_SHADOW_SCALE_SHIFT 3
-+#endif
-=20
- /*
-  * Compiler uses shadow offset assuming that addresses start
-diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
-index 7f5c11328ec1..8cbb8ec32061 100644
---- a/arch/x86/mm/kasan_init_64.c
-+++ b/arch/x86/mm/kasan_init_64.c
-@@ -465,4 +465,9 @@ void __init kasan_init(void)
-=20
- =09init_task.kasan_depth =3D 0;
- =09kasan_init_generic();
-+
-+=09if (cpu_feature_enabled(X86_FEATURE_LAM))
-+=09=09kasan_init_sw_tags();
-+=09else
-+=09=09pr_info("KernelAddressSanitizer not initialized (sw-tags): hardware =
-doesn't support LAM\n");
- }
-diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-index a4bb610a7a6f..d13ea8da7bfd 100644
---- a/lib/Kconfig.kasan
-+++ b/lib/Kconfig.kasan
-@@ -112,7 +112,8 @@ config KASAN_SW_TAGS
-=20
- =09  Requires GCC 11+ or Clang.
-=20
--=09  Supported only on arm64 CPUs and relies on Top Byte Ignore.
-+=09  Supported on arm64 CPUs that support Top Byte Ignore and on x86 CPUs
-+=09  that support Linear Address Masking.
-=20
- =09  Consumes about 1/16th of available memory at kernel start and
- =09  add an overhead of ~20% for dynamic allocations.
---=20
-2.53.0
-
+> 
+> Regards,
+> Mukesh
+>> Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
+>> ---
+>>   Documentation/rust/arch-support.rst   |  1 +
+>>   arch/powerpc/Kconfig                  |  1 +
+>>   arch/powerpc/Makefile                 |  2 ++
+>>   arch/powerpc/include/asm/jump_label.h | 16 ++++++++++------
+>>   rust/Makefile                         |  4 +++-
+>>   scripts/generate_rust_target.rs       | 10 ++++++++++
+>>   6 files changed, 27 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
+>> index 6e6a515d0899..70b9e192a7a0 100644
+>> --- a/Documentation/rust/arch-support.rst
+>> +++ b/Documentation/rust/arch-support.rst
+>> @@ -18,6 +18,7 @@ Architecture   Level of support  Constraints
+>>   ``arm``        Maintained        ARMv7 Little Endian only.
+>>   ``arm64``      Maintained        Little Endian only.
+>>   ``loongarch``  Maintained        \-
+>> +``powerpc``    Maintained        32-bit Big Endian only.
+>>   ``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
+>>   ``um``         Maintained        \-
+>>   ``x86``        Maintained        ``x86_64`` only.
+>> diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+>> index 9537a61ebae0..17db23b82e91 100644
+>> --- a/arch/powerpc/Kconfig
+>> +++ b/arch/powerpc/Kconfig
+>> @@ -283,6 +283,7 @@ config PPC
+>>        select HAVE_REGS_AND_STACK_ACCESS_API
+>>        select HAVE_RELIABLE_STACKTRACE
+>>        select HAVE_RSEQ
+>> +     select HAVE_RUST                        if PPC32
+>>        select HAVE_SAMPLE_FTRACE_DIRECT        if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
+>>        select HAVE_SAMPLE_FTRACE_DIRECT_MULTI  if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
+>>        select HAVE_SETUP_PER_CPU_AREA          if PPC64
+>> diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+>> index a58b1029592c..9fd82c75dcbd 100644
+>> --- a/arch/powerpc/Makefile
+>> +++ b/arch/powerpc/Makefile
+>> @@ -61,6 +61,8 @@ else
+>>   KBUILD_LDFLAGS_MODULE += $(objtree)/arch/powerpc/lib/crtsavres.o
+>>   endif
+>>
+>> +KBUILD_RUSTFLAGS += --target=powerpc-unknown-linux-gnu
+>> +
+>>   ifdef CONFIG_CPU_LITTLE_ENDIAN
+>>   KBUILD_CPPFLAGS      += -mlittle-endian
+>>   KBUILD_LDFLAGS       += -EL
+>> diff --git a/arch/powerpc/include/asm/jump_label.h b/arch/powerpc/include/asm/jump_label.h
+>> index d4eaba459a0e..238f0f625a36 100644
+>> --- a/arch/powerpc/include/asm/jump_label.h
+>> +++ b/arch/powerpc/include/asm/jump_label.h
+>> @@ -15,14 +15,18 @@
+>>   #define JUMP_ENTRY_TYPE              stringify_in_c(FTR_ENTRY_LONG)
+>>   #define JUMP_LABEL_NOP_SIZE  4
+>>
+>> +/* This macro is also expanded on the Rust side. */
+>> +#define ARCH_STATIC_BRANCH_ASM(key, label)           \
+>> +     "1:\n\t"                                        \
+>> +     "nop # arch_static_branch\n\t"                  \
+>> +     ".pushsection __jump_table,  \"aw\"\n\t"        \
+>> +     ".long 1b - ., " label " - .\n\t"               \
+>> +      JUMP_ENTRY_TYPE key " - .\n\t"                 \
+>> +      ".popsection \n\t"
+>> +
+>>   static __always_inline bool arch_static_branch(struct static_key *key, bool branch)
+>>   {
+>> -     asm goto("1:\n\t"
+>> -              "nop # arch_static_branch\n\t"
+>> -              ".pushsection __jump_table,  \"aw\"\n\t"
+>> -              ".long 1b - ., %l[l_yes] - .\n\t"
+>> -              JUMP_ENTRY_TYPE "%c0 - .\n\t"
+>> -              ".popsection \n\t"
+>> +     asm goto(ARCH_STATIC_BRANCH_ASM("%c0", "%l[l_yes]")
+>>                 : :  "i" (&((char *)key)[branch]) : : l_yes);
+>>
+>>        return false;
+>> diff --git a/rust/Makefile b/rust/Makefile
+>> index 5c0155b83454..377e6fd68524 100644
+>> --- a/rust/Makefile
+>> +++ b/rust/Makefile
+>> @@ -400,13 +400,15 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
+>>        -fno-inline-functions-called-once -fsanitize=bounds-strict \
+>>        -fstrict-flex-arrays=% -fmin-function-alignment=% \
+>>        -fzero-init-padding-bits=% -mno-fdpic \
+>> -     --param=% --param asan-% -fno-isolate-erroneous-paths-dereference
+>> +     --param=% --param asan-% -fno-isolate-erroneous-paths-dereference \
+>> +     -ffixed-r2 -mmultiple -mno-readonly-in-sdata
+>>
+>>   # Derived from `scripts/Makefile.clang`.
+>>   BINDGEN_TARGET_x86   := x86_64-linux-gnu
+>>   BINDGEN_TARGET_arm64 := aarch64-linux-gnu
+>>   BINDGEN_TARGET_arm   := arm-linux-gnueabi
+>>   BINDGEN_TARGET_loongarch     := loongarch64-linux-gnusf
+>> +BINDGEN_TARGET_powerpc       := powerpc-linux-gnu
+>>   BINDGEN_TARGET_um    := $(BINDGEN_TARGET_$(SUBARCH))
+>>   BINDGEN_TARGET               := $(BINDGEN_TARGET_$(SRCARCH))
+>>
+>> diff --git a/scripts/generate_rust_target.rs b/scripts/generate_rust_target.rs
+>> index 38b3416bb979..0054880ba0ea 100644
+>> --- a/scripts/generate_rust_target.rs
+>> +++ b/scripts/generate_rust_target.rs
+>> @@ -188,6 +188,16 @@ fn main() {
+>>           panic!("arm uses the builtin rustc target");
+>>       } else if cfg.has("ARM64") {
+>>           panic!("arm64 uses the builtin rustc aarch64-unknown-none target");
+>> +    } else if cfg.has("PPC32") {
+>> +        ts.push("arch", "powerpc");
+>> +        ts.push("data-layout", "E-m:e-p:32:32-Fn32-i64:64-n32");
+>> +        ts.push("features", "+soft-float");
+>> +        ts.push("llvm-target", "powerpc-unknown-eabi");
+>> +        if cfg.rustc_version_atleast(1, 91, 0) {
+>> +            ts.push("target-pointer-width", 32);
+>> +        } else {
+>> +            ts.push("target-pointer-width", "32");
+>> +        }
+>>       } else if cfg.has("RISCV") {
+>>           if cfg.has("64BIT") {
+>>               panic!("64-bit RISC-V uses the builtin rustc riscv64-unknown-none-elf target");
+>> --
+>> 2.52.0
+>>
+> 
 
