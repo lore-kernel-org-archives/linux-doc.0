@@ -1,786 +1,258 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE72423168
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 15:23:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BEF92D738F
+	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 15:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770218592; cv=none; b=OYNEmdhYQ/kQynuznO1ZiGmMFQ8cUSYT0A2k3Qq8yxQesYzuOrozn82KARans8kmksPbRldDmGVUUQ6snez6z8XMnKD/pWu1jckSy3ghqrWgaYaYvpBRA26TXPxOzM/Z5aqkBxxxtg5khePSHmv1G4XiWXqXPH53YQPXD+TiBx8=
+	t=1770219135; cv=none; b=Cg9cJW6m+tjwHesrwpz/oBz1ONdG6a2LGvMaL3LrfORmUJfDJ/4oCwp4Dbpdvx85TciiR3YeLrPBkHc+lF0hzAkgK6iDOuH5btp492iFJToqBezK9enscMl9CcGGRXeeNVKN6nbNm4aE7CUxPZAczVcc1k3+M8mO+6AOZGFmmpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770218592; c=relaxed/simple;
-	bh=vsYZmcckO1XNxa2VaS1P/tT5QfvsMDqiUNvTivmqcGg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AEvUFuyCKZE1vb+tVJFT61cewyFGzt4kErr8FrCDOPHMp8qfGJbtzR1FSw/2HKCBuj9PMzwiBeyzCxEcnAw9Z7sYZU5T0Ieqyq7+0Z0L7VdaORBL5JbYRve71hZuVoapf22ib79Ynj8rgK2+4r05BriCKjAzVE7wiE7zBgQ6ubM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dxzEONpf; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770219135; c=relaxed/simple;
+	bh=jQ/H+uFlXQoG+y9fBq7/d6vFWT2gHX2YV0WdQx3ii8E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PbeZmGKLhdxcMAGX9g8+U9SVG3ZfT46kFX5x60BOxEiBiVuHYWpdDvcr6Z4MLiYXIkU+7WC41jPd0ygLLfJVFYDxETdWnL2n9KLHsoDnrht3bNDz112+Zxc+VxLazpEnBJCeHkXd8Y/1czildJOQe00LJVsN/iODMhp7Z4lvQb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=U94BpjJS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=COaDX+4x; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dxzEONpf"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4359a302794so4850716f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 07:23:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="U94BpjJS";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="COaDX+4x"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 614CIOQF1032392
+	for <linux-doc@vger.kernel.org>; Wed, 4 Feb 2026 15:32:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=Bi4g99czQrt2gJHSucwRU9Ng
+	jJmZN0TE+9w+nsNMdA4=; b=U94BpjJSBKk18ZTtVDUHRaUn1pI65boZWx5o8lUP
+	bI0SpeiXzNAsbpv6LuAeNh58LThBHrP2KPOz/tnpTAQhWUb5MYTO0HHlNnaI/zKY
+	+bCuPdaSLYQjt8UBYbT5SLWv6bxVcWd0oU8Z4DQ+IHx4ATCbLDfdKUzua7IJlIBq
+	oPCYyq77dVQaCeQCcoVH8LMPDWJk3VcdnWiGDvvlYJUJ3SGl+CWI5VaB4wetx67d
+	DyWWl3qDwrlSKm6IX5GAR/ZCZJj8ptxkIDPMKXj9u4KZGVRCZ9IfwnwuqCS8Xie7
+	QBPleBDsSTTuiu11R68/glAKNlPFH0/wW99w5IR2wZuPhA==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c3ne7ut8h-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 15:32:14 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-124a95b6f61so27967699c88.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 07:32:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770218590; x=1770823390; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=z1qnKwov5rrZ01ui9I8cNzqi3dNNcpLkVKDUPSdHgq0=;
-        b=dxzEONpfQIDX66/QL9Y1kpSk/oaWmE711Ei/9+jFac0xG1JdecudX3ECBB5ZoOX0fB
-         JfWU2iznyLDO7IC6j34gEcmFko+gHzM+Tb+KvUmk/VBxEK68B86rSUi97rsbYGXqLBoF
-         S0Fz68J3yTv8rJiK3E7k67Lzja9+NY7LeCq1C59iHa2XdCIxV42FdiPjqJh+wlIrfDpO
-         0pN0G6wBHMWU1dtGIoXI06GTkInFzphK3+Fn3AeTM7etVozF8dOdymWZPVAP7kDAh6ea
-         hhS6oCV1gcBUCgvRB8qVfjrIDEsW0iTBx/KyWAGUjzGVPwd/FoxEKk8oxZ76zZknwKCQ
-         1WfA==
+        d=oss.qualcomm.com; s=google; t=1770219134; x=1770823934; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bi4g99czQrt2gJHSucwRU9NgjJmZN0TE+9w+nsNMdA4=;
+        b=COaDX+4xtOL71EkgUBDTXInzt8jX1Ayon9sDulwFlgoRZbX5Be7HIgTkgbvPL1LfGG
+         LiF/61rQ6oRdedOT3shCA5G6nBAM7XOu8SP0S8+rseGHEcNIEimQlBJvW79MR/aGSvgO
+         IAxrdI1xR0hR9fLbNqGfrHx4IchAVizy0l5JC9scZUnXB7StthTt5pAI2EkkbxSLy95i
+         Fajd5zPs4Pj24j1TRZxZAOY0g+CvxEyLNnRaCHi6JwRnwTI6JpMM140xL4fmxbAZZCtp
+         UttNj9wZJ+EU4FBjui+t3UH8UZTLmcmVVeEYbs8rpiCbTWAIuelmNExztCFmF+GOvb/q
+         B3wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770218590; x=1770823390;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=z1qnKwov5rrZ01ui9I8cNzqi3dNNcpLkVKDUPSdHgq0=;
-        b=Fg3UKuPL3VMBsZnUOc1FotF922VhscqW0Ep/eQPx0NW2GVrhmEpglEl5HC26hQDWD+
-         v0j+1oAfTLhID6tmvYJQhCd2UJPBkZJGb/lr0s48e2rYHgoWGtfbmAXgA1qwD93ssiTA
-         h7Q7fqjStS/Qy4gIfg7VY1r97l+5RbOsZ6qJ7/pXJgMbFDL6DJGXKQBkCeFUID2l3j4C
-         sekBTA6+cYqu063BwHAzSfyfiGr0G5dqNhs7JZm1S/6YqgO2Ix1CeLJL2alSsYhEV5xT
-         YfPH13zLcLmY52qf5A18B45SozPh9EiEbl0YsBX4xQRvJyrLe+zmXXLbTwvg/5ZGVSZ5
-         dcJg==
-X-Forwarded-Encrypted: i=1; AJvYcCWM9QwNguZpoz8v10VGtlErE++7RucliynjYRx4HQgSNkF6AdPbQYrmXsHiR9IA7zY49x2O5l7/rEI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbpjftS9sbqgdESFldF63R1hRHYCXVPLSpKakGF3Jp0b+XBcHE
-	kUTg5mOASJd1tDb0c7Bw5Rzo8tXxzfSjNfl62KJtn2mAgxZ460DgAG4jl1S9Bpeba9MZdNdASmQ
-	7HUfe
-X-Gm-Gg: AZuq6aIU8wrNAUlAq1aZDh4q6YYLDyxulebGOlSYfXvwcRL2xhgjLJLEf3hzCtnghy3
-	qJOzd8AI8e7yoWMC7G/ehbsWQ7wPtsyXZRAQ40e6mRuMYyBIqTnoiZlHyMHy5JzJQ9ediSmAM9N
-	ogQQ0f4gvkOmKb7BJlw7G6IGyYV3KKXxD4xvi/wnXMf+LTP+SjYCZJ7Ol8VZGM6xG3zQCImYxa9
-	n5Ks3wlId952YJCQ21Ttop4ftyik0jmlSuOVhf4jTCO8uBujpzLIxTJkLhlhEQKlFW1r+bgYZtD
-	t44L6wawpug1nktANZk1eBIqES6chKy3E9QjBH3Y7V1k3vreiBZIMoCZPR9YPI+NEmCFv9DnmlD
-	7QtzJ85QVGV9n2Zi78ROvfiYFS0h7384uL/gk6lH07eaHG8OVDNU4AU7wQo6mmaWTmgtIS5GPOJ
-	VKx7nNNGCcJ3uSeRuBMg==
-X-Received: by 2002:a05:6000:420a:b0:430:f255:14b2 with SMTP id ffacd0b85a97d-43617e351bfmr4799085f8f.13.1770218589768;
-        Wed, 04 Feb 2026 07:23:09 -0800 (PST)
-Received: from draszik.lan ([212.129.76.169])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4361805f8c1sm5951629f8f.37.2026.02.04.07.23.08
+        d=1e100.net; s=20230601; t=1770219134; x=1770823934;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Bi4g99czQrt2gJHSucwRU9NgjJmZN0TE+9w+nsNMdA4=;
+        b=dNC/8SSXVAReXugT52oieTwsGEaPjNEcK/eneuPig/AhkqF3V5DHIuq0N9+nKVKr5C
+         9MhPvfUFy3ofICCAkFn6SfbjhYuO7+ND3+bHY22fyhEeHyncmM51anlcwA2ohycWj54P
+         llU7Bia1C9UWw3UtNXTiqsWne9Xc5LtdyTqA4EWtQX2su4BIgkFVVs2yVpkzPwqmnTls
+         ZyBpgWZTqKPYVWAF28VfQExhZAI2X6mE+eweSY0qj++1idgesIcejNglz23Q7xAsYFz9
+         e4a1TseQeZqW+YNHJWfzn2+6bSQtIEX+ccOCzy/7QBciUAVEtnjwUnzzw4yGlvNiMDpE
+         AZUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVG17GgcFkHTCG5dmdaJyndeMKm7XGiPMX7gRuWQY3ThrRlGPvOXf5qOa5rM0jIVns0neyLXZgOty4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqHFzHan38YtjGRW0PfFYzOiOZBgDy0MqW/5Slmc1T73rXmhvB
+	GgfceQPChf6HQRRweDTZ4vxta3vrsg3LAz7wo1Ku5KfrUmwHlve7TIXUosak9cv1Q2DhgWU9Nnt
+	RMXYVVf8AubYb68mz+9lWwEqiE5mt+G2vPX7muj26mQbjkXYEx7frAeL+OIKhf9s=
+X-Gm-Gg: AZuq6aLCGoJIzv1xOfM9pju9O0KGFscBxD8u1req/bqUYK4q1VTcM2pPCpjn6NxyJ9I
+	HJ6f7XD8wpgNVBzbyLN5rKPBj3B4h8EyiCqMmVEU1LQvl0hyPifQanIUnzTILF1ephmy7bD9TBS
+	kxCAPQTHJmM9r+t56GEofsOMitCkRKAF0BrHOr9X0ZVYo/Iu6X4dRG4qZVAKrGVOAV2VJE/SVdI
+	CMZPEpBh79HulS6dMoCZpVkV760Z9JhMzWrB3iP9BW0fjVWivtiWfhMbm2iCxfUcg3TByPLhIq4
+	XFTOe/3sOAS/NR9+9RlCvQZkpl7nJuFTw1l/vnG1HWRcfGLyq2twTQ4wlAVC6eT+lFz16eTX3ye
+	yC3FaDuKq7S41oH0lj+E=
+X-Received: by 2002:a05:7022:41a5:b0:119:e56b:c74d with SMTP id a92af1059eb24-126f477ec7dmr1578531c88.18.1770219133737;
+        Wed, 04 Feb 2026 07:32:13 -0800 (PST)
+X-Received: by 2002:a05:7022:41a5:b0:119:e56b:c74d with SMTP id a92af1059eb24-126f477ec7dmr1578502c88.18.1770219133062;
+        Wed, 04 Feb 2026 07:32:13 -0800 (PST)
+Received: from localhost ([140.82.166.162])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b832faea55sm1748208eec.23.2026.02.04.07.32.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 07:23:09 -0800 (PST)
-Message-ID: <69e2c1b1a2f3d2ed5e5da995cc5ee49bb3627597.camel@linaro.org>
-Subject: Re: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>, Lee Jones
- <lee@kernel.org>,  Pavel Machek <pavel@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo
- Choi	 <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Jonathan Corbet	 <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Date: Wed, 04 Feb 2026 15:23:25 +0000
-In-Reply-To: <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
-	 <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-2+build4 
+        Wed, 04 Feb 2026 07:32:12 -0800 (PST)
+Date: Wed, 4 Feb 2026 09:32:10 -0600
+From: Andrew Jones <andrew.jones@oss.qualcomm.com>
+To: fangyu.yu@linux.alibaba.com
+Cc: pbonzini@redhat.com, corbet@lwn.net, anup@brainfault.org,
+        atish.patra@linux.dev, pjw@kernel.org, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, alex@ghiti.fr, guoren@kernel.org,
+        radim.krcmar@oss.qualcomm.com, linux-doc@vger.kernel.org,
+        kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
+Message-ID: <ocfqo4zpsg6yyaz6kd65jrvudtb35uerdsueazqdk6w7c5lvdf@wvwzhc57gxez>
+References: <20260204134507.33912-1-fangyu.yu@linux.alibaba.com>
+ <20260204134507.33912-4-fangyu.yu@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260204134507.33912-4-fangyu.yu@linux.alibaba.com>
+X-Proofpoint-ORIG-GUID: SI7iC9WGOFo2bSU3awIdO7G-wJbU-19H
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA0MDExOCBTYWx0ZWRfX3tnGHXIaEMni
+ erAdaizCcQv4N6WRPGw3SeXmcakXKr30I+lU0SBIKtVRrwvSc0RJ6YBnj2BSm8JChhqt5nKeD22
+ CQ8b395TLpT2kP3qc7NxkI7feFxdt9eqp92oxIxyd9+ehXLhz4rf0er6AXj/7bQic3GxDcjhkBv
+ lrqfQ6teVa4fFoQSPtSh840fgdxPby1HzPjoFkrHMVM+Mb1jgrrqmh2mMCmkbRtXSiUksdgSFzB
+ XDKfCyD+RNVqTlDJ6vGEjbJzgHRgIsT/So94wwcAxsXPJKpaUddImQbRGjxcVm3FfvXEIv7rxt5
+ koVVZ4YzvrS805/ZZPT75WLyeWjfRzYjNE2J+eqkL/Tf1ehSiVma1t+DJM01sKokiPGRnYtxCeY
+ nh9YAsC3BJtzZct0ANJ+pp2g3pmJ4EPrhXvtXfuI6kldMeNe3EcV67iq6ZYvjRoW6z7IVv2CXzS
+ 5NpxXaJr6WO821kEMRg==
+X-Authority-Analysis: v=2.4 cv=TZmbdBQh c=1 sm=1 tr=0 ts=6983667e cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
+ a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=SRrdq9N9AAAA:8 a=JHdZcz8r7pWqP9VHEEMA:9
+ a=CjuIK1q_8ugA:10 a=Fk4IpSoW4aLDllm1B1p-:22
+X-Proofpoint-GUID: SI7iC9WGOFo2bSU3awIdO7G-wJbU-19H
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-04_04,2026-02-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 suspectscore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 clxscore=1015 spamscore=0 adultscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602040118
 
-Hi,
-
-On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
-> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Micro
-> USB Interface Controller), and flash and RGB LED controllers.
->=20
-> S2MU005's interrupt registers can be properly divided into three regmap
-> IRQ chips, one each for the charger, flash LEDs, and the MUIC.
->=20
-> Add initial support for S2MU005 in the PMIC driver, along with it's three
-> interrupt chips.
->=20
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+On Wed, Feb 04, 2026 at 09:45:07PM +0800, fangyu.yu@linux.alibaba.com wrote:
+> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+> 
+> Add a VM capability that allows userspace to select the G-stage page table
+> format by setting HGATP.MODE on a per-VM basis.
+> 
+> Userspace enables the capability via KVM_ENABLE_CAP, passing the requested
+> HGATP.MODE in args[0]. The request is rejected with -EINVAL if the mode is
+> not supported by the host, and with -EBUSY if the VM has already been
+> committed (e.g. vCPUs have been created or any memslot is populated).
+> 
+> KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE) returns a bitmask of the
+> HGATP.MODE formats supported by the host.
+> 
+> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
 > ---
-> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 ++
-> =C2=A0drivers/mfd/sec-i2c.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 ++
-> =C2=A0drivers/mfd/sec-irq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 74 ++++++++
-> =C2=A0include/linux/mfd/samsung/core.h=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 =
-+
-> =C2=A0include/linux/mfd/samsung/irq.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 66 =
-++++++++
-> =C2=A0include/linux/mfd/samsung/s2mu005.h | 328 +++++++++++++++++++++++++=
-+++++++++++
-> =C2=A06 files changed, 497 insertions(+)
->=20
-> diff --git a/drivers/mfd/sec-common.c b/drivers/mfd/sec-common.c
-> index 0021f9ae8484f..bc2a1f2c6dc7a 100644
-> --- a/drivers/mfd/sec-common.c
-> +++ b/drivers/mfd/sec-common.c
-> @@ -99,6 +99,18 @@ static const struct mfd_cell s2mpu05_devs[] =3D {
-> =C2=A0	MFD_CELL_RES("s2mps15-rtc", s2mpu05_rtc_resources),
-> =C2=A0};
-> =C2=A0
-> +static const struct resource s2mu005_muic_resources[] =3D {
-> +	DEFINE_RES_IRQ_NAMED(S2MU005_IRQ_MUIC_ATTACH, "attach"),
-> +	DEFINE_RES_IRQ_NAMED(S2MU005_IRQ_MUIC_DETACH, "detach"),
-> +};
+>  Documentation/virt/kvm/api.rst | 27 +++++++++++++++++++++++++++
+>  arch/riscv/kvm/vm.c            | 19 +++++++++++++++++--
+>  include/uapi/linux/kvm.h       |  1 +
+>  3 files changed, 45 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 01a3abef8abb..62dc120857c1 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -8765,6 +8765,33 @@ helpful if user space wants to emulate instructions which are not
+>  This capability can be enabled dynamically even if VCPUs were already
+>  created and are running.
+>  
+> +7.47 KVM_CAP_RISCV_SET_HGATP_MODE
+> +---------------------------------
 > +
-> +static const struct mfd_cell s2mu005_devs[] =3D {
-> +	MFD_CELL_OF("s2mu005-charger", NULL, NULL, 0, 0, "samsung,s2mu005-charg=
-er"),
-> +	MFD_CELL_OF("s2mu005-flash", NULL, NULL, 0, 0, "samsung,s2mu005-flash")=
-,
-> +	MFD_CELL_OF("s2mu005-muic", s2mu005_muic_resources, NULL, 0, 0, "samsun=
-g,s2mu005-muic"),
-> +	MFD_CELL_OF("s2mu005-rgb", NULL, NULL, 0, 0, "samsung,s2mu005-rgb"),
-> +};
+> +:Architectures: riscv
+> +:Type: VM
+> +:Parameters: args[0] contains the requested HGATP mode
+> +:Returns:
+> +  - 0 on success.
+> +  - -EINVAL if args[0] is outside the range of HGATP modes supported by the
+> +    hardware.
+> +  - -EBUSY if vCPUs have already been created for the VM, if the VM has any
+> +    non-empty memslots.
 > +
-> =C2=A0static void sec_pmic_dump_rev(struct sec_pmic_dev *sec_pmic)
-> =C2=A0{
-> =C2=A0	unsigned int val;
-> @@ -235,6 +247,10 @@ int sec_pmic_probe(struct device *dev, int device_ty=
-pe, unsigned int irq,
-> =C2=A0		sec_devs =3D s2mpu05_devs;
-> =C2=A0		num_sec_devs =3D ARRAY_SIZE(s2mpu05_devs);
-> =C2=A0		break;
-> +	case S2MU005:
-> +		sec_devs =3D s2mu005_devs;
-> +		num_sec_devs =3D ARRAY_SIZE(s2mu005_devs);
+
+Currently the documentation for KVM_SET_ONE_REG has this for EBUSY
+
+  EBUSY    (riscv) changing register value not allowed after the vcpu
+           has run at least once
+
+I suggest we update the KVM_SET_ONE_REG EBUSY description to say
+
+(riscv) changing register value not allowed. This may occur after the vcpu
+has run at least once or when other setup has completed which depends on
+the value of the register.
+
+> +This capability allows userspace to explicitly select the HGATP mode for
+> +the VM. The selected mode must be supported by both KVM and hardware. This
+> +capability must be enabled before creating any vCPUs or memslots.
+> +
+> +If this capability is not enabled, KVM will select the default HGATP mode
+> +automatically. The default is the highest HGATP.MODE value supported by
+> +hardware.
+> +
+> +``KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE)`` returns a bitmask of
+> +HGATP.MODE values supported by the host. A return value of 0 indicates that
+> +the capability is not supported. Supported-mode bitmask use HGATP.MODE
+> +encodings as defined by the RISC-V privileged specification, such as Sv39x4
+> +corresponds to HGATP.MODE=8, so userspace should test bitmask & BIT(8).
+> +
+>  8. Other capabilities.
+>  ======================
+>  
+> diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
+> index 4b2156df40fc..7d1e1d257df5 100644
+> --- a/arch/riscv/kvm/vm.c
+> +++ b/arch/riscv/kvm/vm.c
+> @@ -202,6 +202,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  	case KVM_CAP_VM_GPA_BITS:
+>  		r = kvm_riscv_gstage_gpa_bits(&kvm->arch);
+>  		break;
+> +	case KVM_CAP_RISCV_SET_HGATP_MODE:
+> +		r = kvm_riscv_get_hgatp_mode_mask();
 > +		break;
-> =C2=A0	default:
-> =C2=A0		return dev_err_probe(sec_pmic->dev, -EINVAL,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 "Unsupported device type %d\n",
-> diff --git a/drivers/mfd/sec-i2c.c b/drivers/mfd/sec-i2c.c
-> index 3132b849b4bc4..3f1d70cc3292b 100644
-> --- a/drivers/mfd/sec-i2c.c
-> +++ b/drivers/mfd/sec-i2c.c
-> @@ -17,6 +17,7 @@
-> =C2=A0#include <linux/mfd/samsung/s2mps14.h>
-> =C2=A0#include <linux/mfd/samsung/s2mps15.h>
-> =C2=A0#include <linux/mfd/samsung/s2mpu02.h>
-> +#include <linux/mfd/samsung/s2mu005.h>
-> =C2=A0#include <linux/mfd/samsung/s5m8767.h>
-> =C2=A0#include <linux/mod_devicetable.h>
-> =C2=A0#include <linux/module.h>
-> @@ -130,6 +131,11 @@ static const struct regmap_config s2mpu05_regmap_con=
-fig =3D {
-> =C2=A0	.val_bits =3D 8,
-> =C2=A0};
-> =C2=A0
-> +static const struct regmap_config s2mu005_regmap_config =3D {
-> +	.reg_bits =3D 8,
-> +	.val_bits =3D 8,
-> +};
+>  	default:
+>  		r = 0;
+>  		break;
+> @@ -212,12 +215,24 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>  
+>  int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
+>  {
+> +	if (cap->flags)
+> +		return -EINVAL;
+> +
+>  	switch (cap->cap) {
+>  	case KVM_CAP_RISCV_MP_STATE_RESET:
+> -		if (cap->flags)
+> -			return -EINVAL;
+>  		kvm->arch.mp_state_reset = true;
+>  		return 0;
+> +	case KVM_CAP_RISCV_SET_HGATP_MODE:
+> +		if (!kvm_riscv_hgatp_mode_is_valid(cap->args[0]))
+> +			return -EINVAL;
+> +
+> +		if (kvm->created_vcpus || !kvm_are_all_memslots_empty(kvm))
+> +			return -EBUSY;
+> +#ifdef CONFIG_64BIT
+> +		kvm->arch.kvm_riscv_gstage_pgd_levels =
+> +				3 + cap->args[0] - HGATP_MODE_SV39X4;
+> +#endif
 
-No cache? And what is the .max_register value?
+ 'if (IS_ENABLED(CONFIG_64BIT))' is preferred to the #ifdef.
 
-> +
-> =C2=A0static const struct regmap_config s5m8767_regmap_config =3D {
-> =C2=A0	.reg_bits =3D 8,
-> =C2=A0	.val_bits =3D 8,
-> @@ -203,6 +209,11 @@ static const struct sec_pmic_i2c_platform_data s2mpu=
-05_data =3D {
-> =C2=A0	.device_type =3D S2MPU05,
-> =C2=A0};
-> =C2=A0
-> +static const struct sec_pmic_i2c_platform_data s2mu005_data =3D {
-> +	.regmap_cfg =3D &s2mu005_regmap_config,
-> +	.device_type =3D S2MU005,
-> +};
-> +
-> =C2=A0static const struct sec_pmic_i2c_platform_data s5m8767_data =3D {
-> =C2=A0	.regmap_cfg =3D &s5m8767_regmap_config,
-> =C2=A0	.device_type =3D S5M8767X,
-> @@ -217,6 +228,7 @@ static const struct of_device_id sec_pmic_i2c_of_matc=
-h[] =3D {
-> =C2=A0	{ .compatible =3D "samsung,s2mps15-pmic", .data =3D &s2mps15_data,=
- },
-> =C2=A0	{ .compatible =3D "samsung,s2mpu02-pmic", .data =3D &s2mpu02_data,=
- },
-> =C2=A0	{ .compatible =3D "samsung,s2mpu05-pmic", .data =3D &s2mpu05_data,=
- },
-> +	{ .compatible =3D "samsung,s2mu005-pmic", .data =3D &s2mu005_data, },
-> =C2=A0	{ .compatible =3D "samsung,s5m8767-pmic", .data =3D &s5m8767_data,=
- },
-> =C2=A0	{ },
-> =C2=A0};
-> diff --git a/drivers/mfd/sec-irq.c b/drivers/mfd/sec-irq.c
-> index 4c0faf4c99893..44a1eb074a082 100644
-> --- a/drivers/mfd/sec-irq.c
-> +++ b/drivers/mfd/sec-irq.c
-> @@ -15,6 +15,7 @@
-> =C2=A0#include <linux/mfd/samsung/s2mps14.h>
-> =C2=A0#include <linux/mfd/samsung/s2mpu02.h>
-> =C2=A0#include <linux/mfd/samsung/s2mpu05.h>
-> +#include <linux/mfd/samsung/s2mu005.h>
-> =C2=A0#include <linux/mfd/samsung/s5m8767.h>
-> =C2=A0#include <linux/regmap.h>
-> =C2=A0#include "sec-core.h"
-> @@ -164,6 +165,65 @@ static const struct regmap_irq s2mpu05_irqs[] =3D {
-> =C2=A0	REGMAP_IRQ_REG(S2MPU05_IRQ_TSD, 2, S2MPU05_IRQ_TSD_MASK),
-> =C2=A0};
-> =C2=A0
-> +static const struct regmap_irq s2mu005_irqs[] =3D {
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_CHGR_DETBAT, 0, S2MU005_IRQ_CHGR_DETBAT_MASK=
-),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_CHGR_BAT, 0, S2MU005_IRQ_CHGR_BAT_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_CHGR_IVR, 0, S2MU005_IRQ_CHGR_IVR_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_CHGR_EVENT, 0, S2MU005_IRQ_CHGR_EVENT_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_CHGR_CHG, 0, S2MU005_IRQ_CHGR_CHG_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_CHGR_VMID, 0, S2MU005_IRQ_CHGR_VMID_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_CHGR_WCIN, 0, S2MU005_IRQ_CHGR_WCIN_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_CHGR_VBUS, 0, S2MU005_IRQ_CHGR_VBUS_MASK),
-> +
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_FLED_LBPROT, 1, S2MU005_IRQ_FLED_LBPROT_MASK=
-),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_FLED_OPENCH2, 1, S2MU005_IRQ_FLED_OPENCH2_MA=
-SK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_FLED_OPENCH1, 1, S2MU005_IRQ_FLED_OPENCH1_MA=
-SK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_FLED_SHORTCH2, 1, S2MU005_IRQ_FLED_SHORTCH2_=
-MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_FLED_SHORTCH1, 1, S2MU005_IRQ_FLED_SHORTCH1_=
-MASK),
-> +
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_ATTACH, 2, S2MU005_IRQ_MUIC_ATTACH_MASK=
-),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_DETACH, 2, S2MU005_IRQ_MUIC_DETACH_MASK=
-),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_KP, 2, S2MU005_IRQ_MUIC_KP_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_LKP, 2, S2MU005_IRQ_MUIC_LKP_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_LKR, 2, S2MU005_IRQ_MUIC_LKR_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_RIDCHG, 2, S2MU005_IRQ_MUIC_RIDCHG_MASK=
-),
-> +
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_VBUSON, 3, S2MU005_IRQ_MUIC_VBUSON_MASK=
-),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_RSVD, 3, S2MU005_IRQ_MUIC_RSVD_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_ADC, 3, S2MU005_IRQ_MUIC_ADC_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_STUCK, 3, S2MU005_IRQ_MUIC_STUCK_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_STUCKRCV, 3, S2MU005_IRQ_MUIC_STUCKRCV_=
-MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_MHDL, 3, S2MU005_IRQ_MUIC_MHDL_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_AVCHG, 3, S2MU005_IRQ_MUIC_AVCHG_MASK),
-> +	REGMAP_IRQ_REG(S2MU005_IRQ_MUIC_VBUSOFF, 3, S2MU005_IRQ_MUIC_VBUSOFF_MA=
-SK),
-> +};
-> +
-> +static unsigned int s2mu005_irq_get_reg(struct regmap_irq_chip_data *dat=
-a,
-> +					unsigned int base, int index)
-> +{
-> +	const unsigned int irqf_regs[] =3D {
-> +		S2MU005_REG_CHGR_INT1,
-> +		S2MU005_REG_FLED_INT1,
-> +		S2MU005_REG_MUIC_INT1,
-> +		S2MU005_REG_MUIC_INT2,
-> +	};
-> +	const unsigned int mask_regs[] =3D {
-> +		S2MU005_REG_CHGR_INT1M,
-> +		S2MU005_REG_FLED_INT1M,
-> +		S2MU005_REG_MUIC_INT1M,
-> +		S2MU005_REG_MUIC_INT2M,
-> +	};
-> +
-> +	switch (base) {
-> +	case irqf_regs[0]:
-> +		return irqf_regs[index];
-> +	case mask_regs[0]:
-> +		return mask_regs[index];
-> +	}
-> +
-> +	return base;
-> +}
-> +
-> =C2=A0static const struct regmap_irq s5m8767_irqs[] =3D {
-> =C2=A0	REGMAP_IRQ_REG(S5M8767_IRQ_PWRR, 0, S5M8767_IRQ_PWRR_MASK),
-> =C2=A0	REGMAP_IRQ_REG(S5M8767_IRQ_PWRF, 0, S5M8767_IRQ_PWRF_MASK),
-> @@ -259,6 +319,17 @@ static const struct regmap_irq_chip s2mpu05_irq_chip=
- =3D {
-> =C2=A0	.ack_base =3D S2MPU05_REG_INT1,
-> =C2=A0};
-> =C2=A0
-> +static const struct regmap_irq_chip s2mu005_irq_chip =3D {
-> +	.name =3D "s2mu005",
-> +	.irqs =3D s2mu005_irqs,
-> +	.num_irqs =3D ARRAY_SIZE(s2mu005_irqs),
-> +	.num_regs =3D 4,
-> +	.status_base =3D S2MU005_REG_CHGR_INT1,
-> +	.mask_base =3D S2MU005_REG_CHGR_INT1M,
-> +	.ack_base =3D S2MU005_REG_CHGR_INT1,
-> +	.get_irq_reg =3D s2mu005_irq_get_reg,
-> +};
-> +
-> =C2=A0static const struct regmap_irq_chip s5m8767_irq_chip =3D {
-> =C2=A0	.name =3D "s5m8767",
-> =C2=A0	.irqs =3D s5m8767_irqs,
-> @@ -358,6 +429,9 @@ struct regmap_irq_chip_data *sec_irq_init(struct sec_=
-pmic_dev *sec_pmic)
-> =C2=A0	case S2MPU05:
-> =C2=A0		sec_irq_chip =3D &s2mpu05_irq_chip;
-> =C2=A0		break;
-> +	case S2MU005:
-> +		sec_irq_chip =3D &s2mu005_irq_chip;
-> +		break;
-> =C2=A0	default:
-> =C2=A0		return dev_err_ptr_probe(sec_pmic->dev, -EINVAL, "Unsupported dev=
-ice type %d\n",
-> =C2=A0					 sec_pmic->device_type);
-> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsung=
-/core.h
-> index c7c3c8cd8d5f9..43e0c5e55f5d3 100644
-> --- a/include/linux/mfd/samsung/core.h
-> +++ b/include/linux/mfd/samsung/core.h
-> @@ -46,6 +46,7 @@ enum sec_device_type {
-> =C2=A0	S2MPS15X,
-> =C2=A0	S2MPU02,
-> =C2=A0	S2MPU05,
-> +	S2MU005,
-> =C2=A0};
-> =C2=A0
-> =C2=A0/**
-> diff --git a/include/linux/mfd/samsung/irq.h b/include/linux/mfd/samsung/=
-irq.h
-> index 8402a5f8e18ab..936369a733a1c 100644
-> --- a/include/linux/mfd/samsung/irq.h
-> +++ b/include/linux/mfd/samsung/irq.h
-> @@ -303,6 +303,72 @@ enum s2mpu05_irq {
-> =C2=A0#define S2MPU05_IRQ_INT140C_MASK	BIT(1)
-> =C2=A0#define S2MPU05_IRQ_TSD_MASK		BIT(2)
-> =C2=A0
-> +enum s2mu005_irq {
-> +	S2MU005_IRQ_CHGR_DETBAT,
-> +	S2MU005_IRQ_CHGR_BAT,
-> +	S2MU005_IRQ_CHGR_IVR,
-> +	S2MU005_IRQ_CHGR_EVENT,
-> +	S2MU005_IRQ_CHGR_CHG,
-> +	S2MU005_IRQ_CHGR_VMID,
-> +	S2MU005_IRQ_CHGR_WCIN,
-> +	S2MU005_IRQ_CHGR_VBUS,
-> +
-> +	S2MU005_IRQ_FLED_LBPROT,
-> +	S2MU005_IRQ_FLED_OPENCH2,
-> +	S2MU005_IRQ_FLED_OPENCH1,
-> +	S2MU005_IRQ_FLED_SHORTCH2,
-> +	S2MU005_IRQ_FLED_SHORTCH1,
-> +
-> +	S2MU005_IRQ_MUIC_ATTACH,
-> +	S2MU005_IRQ_MUIC_DETACH,
-> +	S2MU005_IRQ_MUIC_KP,
-> +	S2MU005_IRQ_MUIC_LKP,
-> +	S2MU005_IRQ_MUIC_LKR,
-> +	S2MU005_IRQ_MUIC_RIDCHG,
-> +
-> +	S2MU005_IRQ_MUIC_VBUSON,
-> +	S2MU005_IRQ_MUIC_RSVD,
-> +	S2MU005_IRQ_MUIC_ADC,
-> +	S2MU005_IRQ_MUIC_STUCK,
-> +	S2MU005_IRQ_MUIC_STUCKRCV,
-> +	S2MU005_IRQ_MUIC_MHDL,
-> +	S2MU005_IRQ_MUIC_AVCHG,
-> +	S2MU005_IRQ_MUIC_VBUSOFF,
-> +
-> +	S2MU005_IRQ_NR,
-> +};
-> +
-> +#define S2MU005_IRQ_CHGR_DETBAT_MASK	BIT(0)
-> +#define S2MU005_IRQ_CHGR_BAT_MASK	BIT(1)
-> +#define S2MU005_IRQ_CHGR_IVR_MASK	BIT(2)
-> +#define S2MU005_IRQ_CHGR_EVENT_MASK	BIT(3)
-> +#define S2MU005_IRQ_CHGR_CHG_MASK	BIT(4)
-> +#define S2MU005_IRQ_CHGR_VMID_MASK	BIT(5)
-> +#define S2MU005_IRQ_CHGR_WCIN_MASK	BIT(6)
-> +#define S2MU005_IRQ_CHGR_VBUS_MASK	BIT(7)
-> +
-> +#define S2MU005_IRQ_FLED_LBPROT_MASK		BIT(2)
-> +#define S2MU005_IRQ_FLED_OPENCH2_MASK		BIT(4)
-> +#define S2MU005_IRQ_FLED_OPENCH1_MASK		BIT(5)
-> +#define S2MU005_IRQ_FLED_SHORTCH2_MASK		BIT(6)
-> +#define S2MU005_IRQ_FLED_SHORTCH1_MASK		BIT(7)
-> +
-> +#define S2MU005_IRQ_MUIC_ATTACH_MASK		BIT(0)
-> +#define S2MU005_IRQ_MUIC_DETACH_MASK		BIT(1)
-> +#define S2MU005_IRQ_MUIC_KP_MASK		BIT(2)
-> +#define S2MU005_IRQ_MUIC_LKP_MASK		BIT(3)
-> +#define S2MU005_IRQ_MUIC_LKR_MASK		BIT(4)
-> +#define S2MU005_IRQ_MUIC_RIDCHG_MASK		BIT(5)
-> +
-> +#define S2MU005_IRQ_MUIC_VBUSON_MASK		BIT(0)
-> +#define S2MU005_IRQ_MUIC_RSVD_MASK		BIT(1)
-> +#define S2MU005_IRQ_MUIC_ADC_MASK		BIT(2)
-> +#define S2MU005_IRQ_MUIC_STUCK_MASK		BIT(3)
-> +#define S2MU005_IRQ_MUIC_STUCKRCV_MASK		BIT(4)
-> +#define S2MU005_IRQ_MUIC_MHDL_MASK		BIT(5)
-> +#define S2MU005_IRQ_MUIC_AVCHG_MASK		BIT(6)
-> +#define S2MU005_IRQ_MUIC_VBUSOFF_MASK		BIT(7)
-> +
-> =C2=A0enum s5m8767_irq {
-> =C2=A0	S5M8767_IRQ_PWRR,
-> =C2=A0	S5M8767_IRQ_PWRF,
-> diff --git a/include/linux/mfd/samsung/s2mu005.h b/include/linux/mfd/sams=
-ung/s2mu005.h
-> new file mode 100644
-> index 0000000000000..32ad35dda661d
-> --- /dev/null
-> +++ b/include/linux/mfd/samsung/s2mu005.h
-> @@ -0,0 +1,328 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * Copyright (c) 2015 Samsung Electronics Co., Ltd
-> + * Copyright (c) 2025 Kaustabh Chakraborty <kauschluss@disroot.org>
-> + */
-> +
-> +#ifndef __LINUX_MFD_S2MU005_H
-> +#define __LINUX_MFD_S2MU005_H
-> +
-> +#include <linux/bitfield.h>
-> +#include <linux/bits.h>
-> +
-> +/* S2MU005 registers */
-> +enum s2mu005_reg {
-> +	S2MU005_REG_CHGR_INT1,
-> +	S2MU005_REG_CHGR_INT1M,
-> +
-> +	S2MU005_REG_FLED_INT1,
-> +	S2MU005_REG_FLED_INT1M,
-> +
-> +	S2MU005_REG_MUIC_INT1,
-> +	S2MU005_REG_MUIC_INT2,
-> +	S2MU005_REG_MUIC_INT1M,
-> +	S2MU005_REG_MUIC_INT2M,
-> +
-> +	S2MU005_REG_CHGR_STATUS0,
-> +	S2MU005_REG_CHGR_STATUS1,
-> +	S2MU005_REG_CHGR_STATUS2,
-> +	S2MU005_REG_CHGR_STATUS3,
-> +	S2MU005_REG_CHGR_STATUS4,
-> +	S2MU005_REG_CHGR_STATUS5,
-> +	S2MU005_REG_CHGR_CTRL0,
-> +	S2MU005_REG_CHGR_CTRL1,
-> +	S2MU005_REG_CHGR_CTRL2,
-> +	S2MU005_REG_CHGR_CTRL3,
-> +	S2MU005_REG_CHGR_CTRL4,
-> +	S2MU005_REG_CHGR_CTRL5,
-> +	S2MU005_REG_CHGR_CTRL6,
-> +	S2MU005_REG_CHGR_CTRL7,
-> +	S2MU005_REG_CHGR_CTRL8,
-> +	S2MU005_REG_CHGR_CTRL9,
-> +	S2MU005_REG_CHGR_CTRL10,
-> +	S2MU005_REG_CHGR_CTRL11,
-> +	S2MU005_REG_CHGR_CTRL12,
-> +	S2MU005_REG_CHGR_CTRL13,
-> +	S2MU005_REG_CHGR_CTRL14,
-> +	S2MU005_REG_CHGR_CTRL15,
-> +	S2MU005_REG_CHGR_CTRL16,
-> +	S2MU005_REG_CHGR_CTRL17,
-> +	S2MU005_REG_CHGR_CTRL18,
-> +	S2MU005_REG_CHGR_CTRL19,
-> +	S2MU005_REG_CHGR_TEST0,
-> +	S2MU005_REG_CHGR_TEST1,
-> +	S2MU005_REG_CHGR_TEST2,
-> +	S2MU005_REG_CHGR_TEST3,
-> +	S2MU005_REG_CHGR_TEST4,
-> +	S2MU005_REG_CHGR_TEST5,
-> +	S2MU005_REG_CHGR_TEST6,
-> +	S2MU005_REG_CHGR_TEST7,
-> +	S2MU005_REG_CHGR_TEST8,
-> +	S2MU005_REG_CHGR_TEST9,
-> +	S2MU005_REG_CHGR_TEST10,
-> +
-> +	S2MU005_REG_FLED_STATUS,
-> +	S2MU005_REG_FLED_CH0_CTRL0,
-> +	S2MU005_REG_FLED_CH0_CTRL1,
-> +	S2MU005_REG_FLED_CH0_CTRL2,
-> +	S2MU005_REG_FLED_CH0_CTRL3,
-> +	S2MU005_REG_FLED_CH1_CTRL0,
-> +	S2MU005_REG_FLED_CH1_CTRL1,
-> +	S2MU005_REG_FLED_CH1_CTRL2,
-> +	S2MU005_REG_FLED_CH1_CTRL3,
-> +	S2MU005_REG_FLED_CTRL0,
-> +	S2MU005_REG_FLED_CTRL1,
-> +	S2MU005_REG_FLED_CTRL2,
-> +	S2MU005_REG_FLED_CTRL3,
-> +	S2MU005_REG_FLED_CTRL4,
-> +	S2MU005_REG_FLED_CTRL5,
-> +	S2MU005_REG_FLED_CTRL6,
-> +
-> +	S2MU005_REG_RGB_EN,
-> +	S2MU005_REG_RGB_CH0_CTRL,
-> +	S2MU005_REG_RGB_CH1_CTRL,
-> +	S2MU005_REG_RGB_CH2_CTRL,
-> +	S2MU005_REG_RGB_CH0_RAMP,
-> +	S2MU005_REG_RGB_CH0_STAY,
-> +	S2MU005_REG_RGB_CH1_RAMP,
-> +	S2MU005_REG_RGB_CH1_STAY,
-> +	S2MU005_REG_RGB_CH2_RAMP,
-> +	S2MU005_REG_RGB_CH2_STAY,
-> +	S2MU005_REG_RGB_TEST0,
-> +	S2MU005_REG_RGB_CTRL0,
-> +
-> +	S2MU005_REG_MUIC_ADC,
-> +	S2MU005_REG_MUIC_DEV1,
-> +	S2MU005_REG_MUIC_DEV2,
-> +	S2MU005_REG_MUIC_DEV3,
-> +	S2MU005_REG_MUIC_BUTTON1,
-> +	S2MU005_REG_MUIC_BUTTON2,
-> +	S2MU005_REG_MUIC_RESET,
-> +	S2MU005_REG_MUIC_CHGTYPE,
-> +	S2MU005_REG_MUIC_DEVAPPLE,
-> +	S2MU005_REG_MUIC_BCDRESCAN,
-> +	S2MU005_REG_MUIC_TEST1,
-> +	S2MU005_REG_MUIC_TEST2,
-> +	S2MU005_REG_MUIC_TEST3,
-> +
-> +	S2MU005_REG_ID =3D 0x73,
-> +
-> +	S2MU005_REG_MUIC_CTRL1 =3D 0xb2,
-> +	S2MU005_REG_MUIC_TIMERSET1,
-> +	S2MU005_REG_MUIC_TIMERSET2,
-> +	S2MU005_REG_MUIC_SWCTRL,
-> +	S2MU005_REG_MUIC_TIMERSET3,
-> +	S2MU005_REG_MUIC_CTRL2,
-> +	S2MU005_REG_MUIC_CTRL3,
-> +
-> +	S2MU005_REG_MUIC_LDOADC_L =3D 0xbf,
-> +	S2MU005_REG_MUIC_LDOADC_H,
-> +};
-> +
-> +#define S2MU005_REG_FLED_CH_CTRL0(x)	(S2MU005_REG_FLED_CH0_CTRL0 + 4 * (=
-x))
-> +#define S2MU005_REG_FLED_CH_CTRL1(x)	(S2MU005_REG_FLED_CH0_CTRL1 + 4 * (=
-x))
-> +#define S2MU005_REG_FLED_CH_CTRL2(x)	(S2MU005_REG_FLED_CH0_CTRL2 + 4 * (=
-x))
-> +#define S2MU005_REG_FLED_CH_CTRL3(x)	(S2MU005_REG_FLED_CH0_CTRL3 + 4 * (=
-x))
-> +
-> +#define S2MU005_REG_RGB_CH_CTRL(x)	(S2MU005_REG_RGB_CH0_CTRL + 1 * (x))
-> +#define S2MU005_REG_RGB_CH_RAMP(x)	(S2MU005_REG_RGB_CH0_RAMP + 2 * (x))
-> +#define S2MU005_REG_RGB_CH_STAY(x)	(S2MU005_REG_RGB_CH0_STAY + 2 * (x))
-> +
-> +/* S2MU005_REG_CHGR_STATUS0 */
-> +#define S2MU005_CHGR_VBUS		BIT(7)
-> +#define S2MU005_CHGR_WCIN		BIT(6)
-> +#define S2MU005_CHGR_VMID		BIT(5)
-> +#define S2MU005_CHGR_CHG		BIT(4)
-> +#define S2MU005_CHGR_STAT		GENMASK(3, 0)
-> +
-> +#define S2MU005_CHGR_STAT_DONE		FIELD_PREP(S2MU005_CHGR_STAT, 8)
-> +#define S2MU005_CHGR_STAT_TOPOFF	FIELD_PREP(S2MU005_CHGR_STAT, 7)
-> +#define S2MU005_CHGR_STAT_DONE_FLAG	FIELD_PREP(S2MU005_CHGR_STAT, 6)
-> +#define S2MU005_CHGR_STAT_CV		FIELD_PREP(S2MU005_CHGR_STAT, 5)
-> +#define S2MU005_CHGR_STAT_CC		FIELD_PREP(S2MU005_CHGR_STAT, 4)
-> +#define	S2MU005_CHGR_STAT_COOL_CHG	FIELD_PREP(S2MU005_CHGR_STAT, 3)
-> +#define S2MU005_CHGR_STAT_PRE_CHG	FIELD_PREP(S2MU005_CHGR_STAT, 2)
-> +
-> +/* S2MU005_REG_CHGR_STATUS1 */
-> +#define S2MU005_CHGR_DETBAT		BIT(7)
-> +#define S2MU005_CHGR_VBUSOVP		GENMASK(6, 4)
-> +
-> +#define S2MU005_CHGR_VBUS_OVP_OVERVOLT	FIELD_PREP(S2MU005_CHGR_OVP, 2)
+> +		return 0;
+>  	default:
+>  		return -EINVAL;
+>  	}
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index dddb781b0507..00c02a880518 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -974,6 +974,7 @@ struct kvm_enable_cap {
+>  #define KVM_CAP_GUEST_MEMFD_FLAGS 244
+>  #define KVM_CAP_ARM_SEA_TO_USER 245
+>  #define KVM_CAP_S390_USER_OPEREXEC 246
+> +#define KVM_CAP_RISCV_SET_HGATP_MODE 247
+>  
+>  struct kvm_irq_routing_irqchip {
+>  	__u32 irqchip;
+> -- 
+> 2.50.1
+>
 
-With definitions like these you can't compare to FIELD_GET on the register =
-value
-anymore, i.e. this doesn't work:
-
-reg =3D readl();
-val =3D FIELD_GET(S2MU005_CHGR_VBUSOVP, reg);
-if (val =3D=3D S2MU005_CHGR_VBUS_OVP_OVERVOLT)
-  ...
-
-or FIELD_PREP() or FIELD_MODIFY() won't work as expected.
-
-I would expect such code to work using usual semantics.
-
-Just define your field values without FIELD_PREP(), e.g.
-
-#define S2MU005_CHGR_VBUS_OVP_OVERVOLT	2
-
-
-Cheers,
-Andre'
-
-> +
-> +/* S2MU005_REG_CHGR_STATUS2 */
-> +#define S2MU005_CHGR_BAT		GENMASK(6, 4)
-> +
-> +#define	S2MU005_CHGR_BAT_VOLT_DET	FIELD_PREP(S2MU005_CHGR_BAT, 7)
-> +#define S2MU005_CHGR_BAT_FAST_CHG_DET	FIELD_PREP(S2MU005_CHGR_BAT, 6)
-> +#define	S2MU005_CHGR_BAT_COOL_CHG_DET	FIELD_PREP(S2MU005_CHGR_BAT, 5)
-> +#define S2MU005_CHGR_BAT_LOW_CHG	FIELD_PREP(S2MU005_CHGR_BAT, 2)
-> +#define S2MU005_CHGR_BAT_SELF_DISCHG	FIELD_PREP(S2MU005_CHGR_BAT, 1)
-> +#define S2MU005_CHGR_BAT_OVP_DET	FIELD_PREP(S2MU005_CHGR_BAT, 0)
-> +
-> +/* S2MU005_REG_CHGR_STATUS3 */
-> +#define S2MU005_CHGR_EVT		GENMASK(3, 0)
-> +
-> +#define S2MU005_CHGR_EVT_WDT_RST	FIELD_PREP(S2MU005_CHGR_EVT, 6)
-> +#define S2MU005_CHGR_EVT_WDT_SUSP	FIELD_PREP(S2MU005_CHGR_EVT, 5)
-> +#define S2MU005_CHGR_EVT_VSYS_VUVLO	FIELD_PREP(S2MU005_CHGR_EVT, 4)
-> +#define S2MU005_CHGR_EVT_VSYS_VOVP	FIELD_PREP(S2MU005_CHGR_EVT, 3)
-> +#define S2MU005_CHGR_EVT_THERM_FOLDBACK	FIELD_PREP(S2MU005_CHGR_EVT, 2)
-> +#define S2MU005_CHGR_EVT_THERM_SHUTDOWN	FIELD_PREP(S2MU005_CHGR_EVT, 1)
-> +
-> +/* S2MU005_REG_CHGR_CTRL0 */
-> +#define S2MU005_CHGR_CHG_EN		BIT(4)
-> +#define S2MU005_CHGR_OP_MODE		GENMASK(2, 0)
-> +
-> +#define S2MU005_CHGR_OP_MODE_OTG	FIELD_PREP(S2MU005_CHGR_OP_MODE, BIT(2)=
-)
-> +#define S2MU005_CHGR_OP_MODE_CHG	FIELD_PREP(S2MU005_CHGR_OP_MODE, BIT(1)=
-)
-> +
-> +/* S2MU005_REG_CHGR_CTRL1 */
-> +#define S2MU005_CHGR_VIN_DROP		GENMASK(6, 4)
-> +
-> +/* S2MU005_REG_CHGR_CTRL2 */
-> +#define S2MU005_CHGR_IN_CURR_LIM	GENMASK(5, 0)
-> +
-> +/* S2MU005_REG_CHGR_CTRL4 */
-> +#define S2MU005_CHGR_OTG_OCP_ON		BIT(5)
-> +#define S2MU005_CHGR_OTG_OCP_OFF	BIT(4)
-> +#define S2MU005_CHGR_OTG_OCP		GENMASK(3, 2)
-> +
-> +/* S2MU005_REG_CHGR_CTRL5 */
-> +#define S2MU005_CHGR_VMID_BOOST		GENMASK(4, 0)
-> +
-> +/* S2MU005_REG_CHGR_CTRL6 */
-> +#define S2MU005_CHGR_COOL_CHG_CURR	GENMASK(5, 0)
-> +
-> +/* S2MU005_REG_CHGR_CTRL7 */
-> +#define S2MU005_CHGR_FAST_CHG_CURR	GENMASK(5, 0)
-> +
-> +/* S2MU005_REG_CHGR_CTRL8 */
-> +#define S2MU005_CHGR_VF_VBAT		GENMASK(6, 1)
-> +
-> +/* S2MU005_REG_CHGR_CTRL10 */
-> +#define S2MU005_CHGR_TOPOFF_CURR(x)	(GENMASK(3, 0) << 4 * (x))
-> +
-> +/* S2MU005_REG_CHGR_CTRL11 */
-> +#define S2MU005_CHGR_OSC_BOOST		GENMASK(6, 5)
-> +#define S2MU005_CHGR_OSC_BUCK		GENMASK(4, 3)
-> +
-> +/* S2MU005_REG_CHGR_CTRL12 */
-> +#define S2MU005_CHGR_WDT		GENMASK(2, 0)
-> +
-> +#define S2MU005_CHGR_WDT_ON		FIELD_PREP(S2MU005_CHGR_WDT, BIT(2))
-> +#define S2MU005_CHGR_WDT_OFF		FIELD_PREP(S2MU005_CHGR_WDT, BIT(1))
-> +
-> +/* S2MU005_REG_CHGR_CTRL15 */
-> +#define S2MU005_CHGR_OTG_EN		GENMASK(3, 2)
-> +
-> +/* S2MU005_REG_FLED_STATUS */
-> +#define S2MU005_FLED_FLASH_STATUS(x)	(BIT(7) >> 2 * (x))
-> +#define S2MU005_FLED_TORCH_STATUS(x)	(BIT(6) >> 2 * (x))
-> +
-> +/* S2MU005_REG_FLED_CHx_CTRL0 */
-> +#define S2MU005_FLED_FLASH_IOUT		GENMASK(3, 0)
-> +
-> +/* S2MU005_REG_FLED_CHx_CTRL1 */
-> +#define S2MU005_FLED_TORCH_IOUT		GENMASK(3, 0)
-> +
-> +/* S2MU005_REG_FLED_CHx_CTRL2 */
-> +#define S2MU005_FLED_TORCH_TIMEOUT	GENMASK(3, 0)
-> +
-> +/* S2MU005_REG_FLED_CHx_CTRL3 */
-> +#define S2MU005_FLED_FLASH_TIMEOUT	GENMASK(3, 0)
-> +
-> +/* S2MU005_REG_FLED_CTRL1 */
-> +#define S2MU005_FLED_CH_EN		BIT(7)
-> +
-> +/*
-> + * S2MU005_REG_FLED_CTRL4 - Rev. EVT0
-> + * S2MU005_REG_FLED_CTRL6 - Rev. EVT1 and later
-> + */
-> +#define S2MU005_FLED_FLASH_EN(x)	(GENMASK(7, 6) >> 4 * (x))
-> +#define S2MU005_FLED_TORCH_EN(x)	(GENMASK(5, 4) >> 4 * (x))
-> +
-> +/* S2MU005_REG_RGB_EN */
-> +#define S2MU005_RGB_RESET		BIT(6)
-> +#define S2MU005_RGB_SLOPE		GENMASK(5, 0)
-> +
-> +#define S2MU005_RGB_SLOPE_CONST		(BIT(4) | BIT(2) | BIT(0))
-> +#define S2MU005_RGB_SLOPE_SMOOTH	(BIT(5) | BIT(3) | BIT(1))
-> +
-> +/* S2MU005_REG_RGB_CHx_RAMP */
-> +#define S2MU005_RGB_CH_RAMP_UP		GENMASK(7, 4)
-> +#define S2MU005_RGB_CH_RAMP_DN		GENMASK(3, 0)
-> +
-> +/* S2MU005_REG_RGB_CHx_STAY */
-> +#define S2MU005_RGB_CH_STAY_HI		GENMASK(7, 4)
-> +#define S2MU005_RGB_CH_STAY_LO		GENMASK(3, 0)
-> +
-> +/* S2MU005_REG_MUIC_DEV1 */
-> +#define S2MU005_MUIC_OTG		BIT(7)
-> +#define S2MU005_MUIC_DCP		BIT(6)
-> +#define S2MU005_MUIC_CDP		BIT(5)
-> +#define S2MU005_MUIC_T1_T2_CHG		BIT(4)
-> +#define S2MU005_MUIC_UART		BIT(3)
-> +#define S2MU005_MUIC_SDP		BIT(2)
-> +#define S2MU005_MUIC_LANHUB		BIT(1)
-> +#define S2MU005_MUIC_AUDIO		BIT(0)
-> +
-> +/* S2MU005_REG_MUIC_DEV2 */
-> +#define S2MU005_MUIC_SDP_1P8S		BIT(7)
-> +#define S2MU005_MUIC_AV			BIT(6)
-> +#define S2MU005_MUIC_TTY		BIT(5)
-> +#define S2MU005_MUIC_PPD		BIT(4)
-> +#define S2MU005_MUIC_JIG_UART_OFF	BIT(3)
-> +#define S2MU005_MUIC_JIG_UART_ON	BIT(2)
-> +#define S2MU005_MUIC_JIG_USB_OFF	BIT(1)
-> +#define S2MU005_MUIC_JIG_USB_ON		BIT(0)
-> +
-> +/* S2MU005_REG_MUIC_DEV3 */
-> +#define S2MU005_MUIC_U200_CHG		BIT(7)
-> +#define S2MU005_MUIC_VBUS_AV		BIT(4)
-> +#define S2MU005_MUIC_VBUS_R255		BIT(1)
-> +#define S2MU005_MUIC_MHL		BIT(0)
-> +
-> +/* S2MU005_REG_MUIC_DEVAPPLE */
-> +#define S2MU005_MUIC_APPLE_CHG_0P5A	BIT(7)
-> +#define S2MU005_MUIC_APPLE_CHG_1P0A	BIT(6)
-> +#define S2MU005_MUIC_APPLE_CHG_2P0A	BIT(5)
-> +#define S2MU005_MUIC_APPLE_CHG_2P4A	BIT(4)
-> +#define S2MU005_MUIC_SDP_DCD_OUT	BIT(3)
-> +#define S2MU005_MUIC_RID_WAKEUP		BIT(2)
-> +#define S2MU005_MUIC_VBUS_WAKEUP	BIT(1)
-> +#define S2MU005_MUIC_BCV1P2_OR_OPEN	BIT(0)
-> +
-> +/* S2MU005_REG_ID */
-> +#define S2MU005_ID_MASK			GENMASK(3, 0)
-> +#define S2MU005_ID_SHIFT		0
-> +
-> +/* S2MU005_REG_MUIC_SWCTRL */
-> +#define S2MU005_MUIC_DM_DP		GENMASK(7, 2)
-> +#define S2MU005_MUIC_JIG		BIT(0)
-> +
-> +#define S2MU005_MUIC_DM_DP_UART		FIELD_PREP(S2MU005_MUIC_DM_DP, 0x12)
-> +#define S2MU005_MUIC_DM_DP_USB		FIELD_PREP(S2MU005_MUIC_DM_DP, 0x09)
-> +
-> +/* S2MU005_REG_MUIC_CTRL1 */
-> +#define S2MU005_MUIC_OPEN		BIT(4)
-> +#define S2MU005_MUIC_RAW_DATA		BIT(3)
-> +#define S2MU005_MUIC_MAN_SW		BIT(2)
-> +#define S2MU005_MUIC_WAIT		BIT(1)
-> +#define S2MU005_MUIC_IRQ		BIT(0)
-> +
-> +/* S2MU005_REG_MUIC_CTRL3 */
-> +#define S2MU005_MUIC_ONESHOT_ADC	BIT(2)
-> +
-> +/* S2MU005_REG_MUIC_LDOADC_L and S2MU005_REG_MUIC_LDOADC_H */
-> +#define S2MU005_MUIC_VSET		GENMASK(4, 0)
-> +
-> +#define S2MU005_MUIC_VSET_3P0V		FIELD_PREP(S2MU005_MUIC_VSET, 0x1f)
-> +#define S2MU005_MUIC_VSET_2P6V		FIELD_PREP(S2MU005_MUIC_VSET, 0x0e)
-> +#define S2MU005_MUIC_VSET_2P4V		FIELD_PREP(S2MU005_MUIC_VSET, 0x0c)
-> +#define S2MU005_MUIC_VSET_2P2V		FIELD_PREP(S2MU005_MUIC_VSET, 0x0a)
-> +#define S2MU005_MUIC_VSET_2P0V		FIELD_PREP(S2MU005_MUIC_VSET, 0x08)
-> +#define S2MU005_MUIC_VSET_1P5V		FIELD_PREP(S2MU005_MUIC_VSET, 0x03)
-> +#define S2MU005_MUIC_VSET_1P4V		FIELD_PREP(S2MU005_MUIC_VSET, 0x02)
-> +#define S2MU005_MUIC_VSET_1P2V		FIELD_PREP(S2MU005_MUIC_VSET, 0x00)
-> +
-> +#endif	/* __LINUX_MFD_S2MU005_H */
+Thanks,
+drew
