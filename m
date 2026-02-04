@@ -1,106 +1,410 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FEF2E1F08;
-	Wed,  4 Feb 2026 14:36:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2C241B357;
+	Wed,  4 Feb 2026 14:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770215785; cv=none; b=DZTQf3EGmI4XmVD7/nZaArLB7+gWGBTX3qPFX4XJ+jwHj9AH6UvAzzSvJdKIKAnmZAWlw2MXtGFcxQpTtE/+ChoDspd+nSSEhZpJKhuQ9Xp1LkuJ6rIxte1g6ljpTTJ970+RRaetWToqvqAqAzr/OWFX++MrGGDxhIyhPPksYkI=
+	t=1770215880; cv=none; b=nPNNQYxwO/e+AMEfdtKDayFe9sml9Rm9RaIjEIGjLKPb13VZrw5OV8KaBo+lP73D7yV3Fr0ksC0OcoXW4ru92nzgVKSNvXHLWJzn/xFJZxFz2gon0cB3F3dORMxBl+5gWC0L+wZKnYygtYB8i4m7UgqT9uzua/T/zpQpsANwXDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770215785; c=relaxed/simple;
-	bh=ERnvZTsukDQO/ZEhVkq25O9dgtCmPyv2PIAGFZTsbuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wh2zs4Zu5QD8lM5bRsfSgxOaVkih4xKVVko3TE6esh1wm2X7Evs/2aVrwq1rbS9xnuOQNy4PPXRS9JldM50QF52MHjUv1rb+uXzOw4T9h8irmsCffPllUr8sFNtLOW3d8Wa11vEdtrbCq96VhNMiRR3iARQPTD+k7oT8TDzUoxQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hPyTwJzW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770215880; c=relaxed/simple;
+	bh=40/oXbEippShMwoqrAFjzhHc6sw5JO/FxzN/6A16TF0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tCRfUkbaUmtJtVjJgLpEGOrWdvORVerKzYmtvY8jI+TPeGn/LZFDB7JUnlDCQ/5sQC3VN1EqPv7QYGiyYTRIJ94GoVXBlvOuMYxhUVkjvCDlZTQSThkje6rIti01DaMoW6uYAs8bH/M3TlXPt6N8IRccjZJ1L4U0Dr2Jo10eKqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HVpFEoCI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPyTwJzW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF24C4CEF7;
-	Wed,  4 Feb 2026 14:36:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HVpFEoCI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7853C116C6;
+	Wed,  4 Feb 2026 14:37:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770215785;
-	bh=ERnvZTsukDQO/ZEhVkq25O9dgtCmPyv2PIAGFZTsbuM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hPyTwJzWvb+qpbBhs8gHPLd4cRXpqV9SwIXH491hn77nXzEBNjWit661VhHQO0M2X
-	 m5dRugDOVxfmMstEGFOhoXVSOZ1ilAZHPCURXf9EZUo7QFnrxsQEv0drO+s2D9UUhX
-	 yCuGZZ3vFHGnfLj48cVIWPi44dPIWx4gTw8xakfMJKN6A7tBHasoUFMrNk3CiVo9Qq
-	 ksqygrzE1lUgJcpaf1S8GTaoibHT6F9NR8uUfgjTqtjsxMpYHYVxtSbkXdPYgW6Htw
-	 7rR0yVlYbWN0l4fEtYJfOylK6S/xZy/L5OoZ5mazgRYzP0IRAwm+S24Hz7u+CKsZ6Y
-	 i5hkMWZSCFhEQ==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vndzO-000000005ta-2CtF;
-	Wed, 04 Feb 2026 15:36:18 +0100
-Date: Wed, 4 Feb 2026 15:36:18 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Danilo Krummrich <dakr@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
+	s=k20201202; t=1770215880;
+	bh=40/oXbEippShMwoqrAFjzhHc6sw5JO/FxzN/6A16TF0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HVpFEoCIUyEdHGPCxh2Lw/dudkEbstFlOvPu8dvZoKVJF5t5t6ZG6we1e2f6KYYUM
+	 rj3UYuQKmUePlZpl7QmgYPRLKcbtgXZUKVKudJwu47FIJvIGHCgt7a3JXbA1sjzOTj
+	 v5WM7hjfUI7eHYEKF9pGjjm2ZQxvcPeIAYx1X0fR9Fl4iUOffuxG+cFrpATlLqnL3b
+	 lGxG7TAi1RRmHibHonaxdQkKZetlhwtiMJKiIVYKGcQlOurHqNd5OqwBcI+8Uo+p8m
+	 DXterDtD836j6XhMszlgNAXvsAPACEg+y0VtXMG+eUgu8DGpVhW3ZdeEq5YrMLDyxO
+	 7FeGc1R1zUemQ==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vne0z-00000005RPX-13sb;
+	Wed, 04 Feb 2026 15:37:57 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Revert "revocable: Revocable resource management"
-Message-ID: <aYNZYqpV62wVtxDI@hovoldconsulting.com>
-References: <20260124170535.11756-1-johan@kernel.org>
- <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
- <2026012554-chatty-policy-42a1@gregkh>
- <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
- <aYHm9pr0e7myeqS3@hovoldconsulting.com>
- <2026020315-twins-probe-d988@gregkh>
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sean Young <sean@mess.org>
+Subject: [PATCH 1/2] docs: media: maintainer-entry-profile: do some editorial reviews
+Date: Wed,  4 Feb 2026 15:37:44 +0100
+Message-ID: <dc12b2f42304866ccc04053f2a3c97e84c7558a1.1770215865.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1769511207.git.hverkuil+cisco@kernel.org>
+References: <cover.1769511207.git.hverkuil+cisco@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026020315-twins-probe-d988@gregkh>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 03, 2026 at 01:26:58PM +0100, Greg Kroah-Hartman wrote:
-> On Tue, Feb 03, 2026 at 01:15:50PM +0100, Johan Hovold wrote:
-> > On Mon, Jan 26, 2026 at 02:50:05PM +0100, Johan Hovold wrote:
-> > > On Sun, Jan 25, 2026 at 01:47:14PM +0100, Greg Kroah-Hartman wrote:
+Do some editorial improvements to the Media Subsystem Profile
+documentation:
 
-> > I noticed that you picked up the proposed incremental fixes to the
-> > issues I reported without anyone even having reviewed them. The fixes
-> > being incremental makes it a lot harder to review, but based on a quick
-> > look it seems there needs to be further changes.
-> > 
-> > And again, what is the rush? Anyone wanting to experiment with this
-> > functionality only needs to apply a single patch. And exposing the API
-> > before it is stable is just going to be a mess as subsystems may start
-> > using it from day one.
-> > 
-> > So please, just drop it for 6.20. You can still merge this for the next
-> > cycle when the basic functionality has been fixed.
-> 
-> The fixes seemed correct on my review, what was wrong with them?  And
-> having the code fixed for known issues is a good thing here, it gives
-> the gpio people a base to test their work on.
+- Some English fixups and cleanups;
+- Capitalize patchwork;
+- Uncapitalize pull requests, as other occurrences are in lower case;
+- Added bold markups to the 3 types of media maintainers;
+- ensure that the document uses 80 chars per line;
 
-Turns out the new revocable design is also fundamentally broken.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../media/maintainer-entry-profile.rst        | 157 +++++++++---------
+ 1 file changed, 80 insertions(+), 77 deletions(-)
 
-I've already spent too much time on this when I should be doing other
-things, but here is an updated revert which explains things:
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+index 0024f85101b7..bb95611f0a84 100644
+--- a/Documentation/driver-api/media/maintainer-entry-profile.rst
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -4,7 +4,7 @@ Media Subsystem Profile
+ Overview
+ --------
+ 
+-The Linux Media Community (aka: the LinuxTV Community) is formed of
++The Linux Media Community (aka: the LinuxTV Community) is formed by
+ developers working on Linux Kernel Media Subsystem, together with users
+ who also play an important role in testing the code.
+ 
+@@ -27,7 +27,7 @@ tree:
+ .. [1] Device tree bindings are maintained by the
+        OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS maintainers
+        (see the MAINTAINERS file). So, changes there must be reviewed
+-       by them before being merged via the media subsystem's development
++       by them before being merged into the media subsystem's development
+        tree.
+ 
+ Both media userspace and Kernel APIs are documented and the documentation
+@@ -38,32 +38,33 @@ corresponding API documentation.
+ Media Maintainers
+ -----------------
+ 
++Media Maintainers are not just people capable of writing code, but they
++are developers who have demonstrated their ability to collaborate with
++the team, get the most knowledgeable people to review code, contribute
++high-quality code, and follow through to fix issues (in code or tests).
++
+ Due to the size and wide scope of the media subsystem, multiple layers of
+ maintainers are required, each with their own areas of expertise:
+ 
+-- Media Driver Maintainer:
+-    Responsible for one or more drivers within the Media Subsystem. You
++- **Media Driver Maintainer**:
++    Responsible for one or more drivers within the Media Subsystem. They
+     are listed in the MAINTAINERS file as maintainer for those drivers. Media
+     Driver Maintainers review patches for those drivers, provide feedback if
+-    the patches are not following the subsystem rules, or are not using the
+-    media kernel or userspace APIs correctly, or have poor code quality.
++    patches do not follow the subsystem rules, or are not using the
++    media kernel or userspace APIs correctly, or if they have poor code
++    quality.
+ 
+-    If you are the author of the patches, then you work with other Media
++    If you are the patch author, you work with other Media
+     Maintainers to ensure your patches are reviewed.
+ 
+-    Some Media Driver Maintainers have additional responsibilities.  They have
+-    been granted patchwork access and keep
+-    `patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_
++    Some Media Driver Maintainers have additional responsibilities. They have
++    been granted Patchwork access and keep
++    `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_
+     up to date, decide when patches are ready for merging, and create Pull
+     Requests for the Media Subsystem Maintainers to merge.
+ 
+-    Such Media Driver Maintainers are not just someone who is capable of creating code,
+-    but someone who has demonstrated their ability to collaborate with the team,
+-    get the most knowledgeable people to review code, contribute high-quality code,
+-    and follow through to fix issues (in code or tests).
+-
+-- Media Core Maintainer:
+-    Media Driver Maintainers with patchwork access who are also responsible for
++- **Media Core Maintainer**:
++    Media Driver Maintainers with Patchwork access who are also responsible for
+     one or more media core frameworks.
+ 
+     Core framework changes are done via consensus between the relevant Media
+@@ -71,22 +72,21 @@ maintainers are required, each with their own areas of expertise:
+     their Pull Requests if they are signed off by the relevant Media Core
+     Maintainers.
+ 
+-- Media Subsystem Maintainers:
+-    Media Core Maintainers who are also responsible for the subsystem as a whole,
+-    with access to the entire subsystem. Responsible for merging Pull Requests
+-    from other Media Maintainers.
++- **Media Subsystem Maintainers**:
++    Media Core Maintainers who are also responsible for the subsystem as a
++    whole, with access to the entire subsystem. Responsible for merging Pull
++    Requests from other Media Maintainers.
+ 
+-    Userspace API/ABI changes are done via consensus between Media Subsystem
++    Userspace API/ABI changes are made via consensus among Media Subsystem
+     Maintainers\ [2]_. Media Maintainers may include API/ABI changes in
+-    their Pull Requests if they are signed off by the all Media Subsystem
++    their pull requests if they are signed off by all Media Subsystem
+     Maintainers.
+ 
+-All Media Maintainers shall explicitly agree with the Kernel development process
+-as described at Documentation/process/index.rst and to the Kernel
+-development rules inside the Kernel documentation, including its code of
+-conduct.
++All Media Maintainers shall agree with the Kernel development process as
++described in Documentation/process/index.rst and with the Kernel development
++rules in the Kernel documentation, including its code of conduct.
+ 
+-Media Maintainers are reachable via the #linux-media IRC channel at OFTC.
++Media Maintainers are often reachable via the #linux-media IRC channel at OFTC.
+ 
+ .. [2] Everything that would break backward compatibility with existing
+        non-kernel code are API/ABI changes. This includes ioctl and sysfs
+@@ -95,8 +95,8 @@ Media Maintainers are reachable via the #linux-media IRC channel at OFTC.
+ Patchwork Access
+ ----------------
+ 
+-All Media Maintainers who have been granted patchwork access shall ensure that
+-`patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_
++All Media Maintainers who have been granted Patchwork access shall ensure that
++`Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_
+ will reflect the current status, e.g. patches shall be delegated to the Media
+ Maintainer who is handling them and the patch status shall be updated according
+ to these rules:
+@@ -112,28 +112,28 @@ to these rules:
+   tree (e.g. drm, dmabuf, upstream merge, etc.) but were cross-posted to the
+   linux-media mailing list.
+ 
+-If a Media Maintainer decides not to accept a patch, then reply by email to
+-the patch authors, explaining why it is not accepted, and
+-`patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_ shall be
+-updated accordingly with either:
++If Media Maintainers decide not to accept a patch, they should reply to the
++patch authors by e‑mail, explaining why it is not accepted, and
++update `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_
++accordingly with one of the following statuses:
+ 
+ - ``Changes Requested``: if a new revision was requested;
+ - ``Rejected``: if the proposed change is not acceptable at all.
+ 
+ .. Note::
+ 
+-   Patchwork supports a couple of clients to help semi-automating
++   Patchwork supports a couple of clients to help semi-automate
+    status updates via its REST interface:
+ 
+    https://patchwork.readthedocs.io/en/latest/usage/clients/
+ 
+-For those patches that fall in your area of responsibility you alse decide
+-when those patches are ready for merging, and create Pull Requests for the
+-Media Subsystem Maintainers to merge.
++For patches that fall within their area of responsibility a Media Maintainer
++also decide when those patches are ready for merging, and create Pull Requests
++for the Media Subsystem Maintainers to merge.
+ 
+-The most important aspect of becoming a Media Maintainer with patchwork access
+-is that you have demonstrated the ability to give good code reviews. So we are
+-looking for whether or not we think you will be good at doing that.
++The most important aspect of becoming a Media Maintainer with Patchwork access
++is that you have demonstrated an ability to give good code reviews. We value
++your ability to deliver thorough, constructive code reviews.
+ 
+ As such, potential maintainers must earn enough credibility and trust from the
+ Linux Media Community. To do that, developers shall be familiar with the open
+@@ -145,7 +145,7 @@ demonstrating your:
+ 
+ - commitment to the project;
+ - ability to collaborate with the team and communicate well;
+-- understand of how upstream and the Linux Media Community work
++- understanding of how upstream and the Linux Media Community work
+   (policies, processes for testing, code review, ...)
+ - reasonable knowledge about:
+ 
+@@ -160,9 +160,9 @@ demonstrating your:
+ - ability to judge when a patch might be ready for review and to submit;
+ - ability to write good code (last but certainly not least).
+ 
+-Media Driver Maintainers that desire to get patchwork access are encouraged
++Media Driver Maintainers that desire to get Patchwork access are encouraged
+ to participate at the yearly Linux Media Summit, typically co-located with
+-a Linux related conference. These summits are announced on the linux-media
++a Linux-related conference. These summits are announced on the linux-media
+ mailing list.
+ 
+ If you are doing such tasks and have become a valued developer, an
+@@ -170,8 +170,8 @@ existing Media Maintainer can nominate you to the Media Subsystem Maintainers.
+ 
+ The ultimate responsibility for accepting a nominated maintainer is up to
+ the subsystem's maintainers. The nominated maintainer must have earned a trust
+-relationship with all Media Subsystem Maintainers, as, by being granted patchwork
+-access, you will take over part of their maintenance tasks.
++relationship with all Media Subsystem Maintainers, as, by being granted
++Patchwork access, you will take over part of their maintenance tasks.
+ 
+ Media Committers
+ ----------------
+@@ -191,14 +191,18 @@ The main development tree used by the media subsystem is hosted at
+ https://gitlab.freedesktop.org/linux-media/.
+ https://linuxtv.org/ hosts news about the subsystem,
+ `wiki <https://www.linuxtv.org/wiki/index.php/Main_Page>`_ pages
+-and a `patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_
++and a `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_
+ instance where we track patches though their lifetime.
+ 
+-The main tree used by media developers is at:
++The stable tree used by media developers is at:
++
++https://git.linuxtv.org/media.git/
++
++Patches there are initially committed to the media committers tree:
+ 
+ https://gitlab.freedesktop.org/linux-media/media-committers.git
+ 
+-Please note that this tree can be rebased, although only as a last resort.
++Please note that the later can be rebased, although only as a last resort.
+ 
+ .. _Media development workflow:
+ 
+@@ -217,11 +221,11 @@ you can find details about how to subscribe to it and to see its archives at:
+ 
+ Emails with HTML will be automatically rejected by the mail server.
+ 
+-It could be wise to also copy the Media Maintainer(s). You should use
++It could be wise to also copy the relevant Media Maintainer(s). You should use
+ ``scripts/get_maintainers.pl`` to identify whom else needs to be copied.
+ Please always copy driver's authors and maintainers.
+ 
+-To minimize the chance of merge conflicts for your patch series, and make
++To minimize the chance of merge conflicts for your patch series, and make it
+ easier to backport patches to stable Kernels, we recommend that you use the
+ following baseline for your patch series:
+ 
+@@ -267,13 +271,14 @@ workflows:
+ a. Media Maintainers' workflow: Media Maintainers post the PRs, which are
+    handled by the Media Subsystem Maintainers::
+ 
+-     +-------+   +------------+   +------+   +-------+   +----------------------------+
+-     |e-mail |-->|picked up by|-->|code  |-->|pull   |-->|Subsystem Maintainers merge |
+-     |to LMML|   |patchwork   |   |review|   |request|   |in media-committers.git     |
+-     +-------+   +------------+   +------+   +-------+   +----------------------------+
++     +-------+   +------------+   +------+   +-------+   +---------------------+
++     |e-mail |-->|picked up by|-->|code  |-->|pull   |-->|Subsystem Maintainers|
++     |to LMML|   |Patchwork   |   |review|   |request|   |merge in             |
++     |       |   |            |   |      |   |       |   |media-committers.git |
++     +-------+   +------------+   +------+   +-------+   +---------------------+
+ 
+    For this workflow, pull requests are generated by Media Maintainers with
+-   patchwork access.  If you do not have patchwork access, then please don't
++   Patchwork access.  If you do not have Patchwork access, then please don't
+    submit pull requests, as they will not be processed.
+ 
+ b. Media Committers' workflow: patches are handled by Media Maintainers with
+@@ -281,15 +286,14 @@ b. Media Committers' workflow: patches are handled by Media Maintainers with
+ 
+      +-------+   +------------+   +------+   +--------------------------+
+      |e-mail |-->|picked up by|-->|code  |-->|Media Committers merge in |
+-     |to LMML|   |patchwork   |   |review|   |media-committers.git      |
++     |to LMML|   |Patchwork   |   |review|   |media-committers.git      |
+      +-------+   +------------+   +------+   +--------------------------+
+ 
+ When patches are picked up by
+-`patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_
+-and when merged at media-committers,
+-Media CI bots will check for errors and may provide e-mail feedback about
+-patch problems. When this happens, the patch submitter must fix them or
+-explain why the errors are false positives.
++`Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_
++and when merged at media-committers, Media CI bots will check for errors and
++may provide e-mail feedback about patch problems. When this happens, the patch
++submitter must fix them or explain why the errors are false positives.
+ 
+ Patches will only be moved to the next stage in these two workflows if they
+ pass on Media CI or if there are false-positives in the Media CI reports.
+@@ -327,18 +331,17 @@ server has accepted your patch, by looking at:
+    - https://lore.kernel.org/linux-media/
+ 
+ If the patch is there and not at
+-`patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_,
+-it is likely that your e-mailer
+-mangled the patch. Patchwork internally has logic that checks if the
+-received e-mail contains a valid patch. Any whitespace and new line
+-breakages mangling the patch won't be recognized by
+-`patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_,
++`Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_,
++it is likely that your e-mailer mangled the patch. Patchwork internally
++has logic that checks if the received e-mail contains a valid patch.
++Any whitespace and new line breakages mangling the patch won't be recognized by
++`Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_,
+ and such a patch will be rejected.
+ 
+ .. [3] It usually takes a few minutes for the patch to arrive, but
+-       the e-mail server may be busy, so it may take up a longer time
++       the e-mail server may be busy, so it may take a longer time
+        for a patch to be picked by
+-       `patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_.
++       `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_.
+ 
+ .. [4] If your email contains HTML, the mailing list server will simply
+        drop it, without any further notice.
+@@ -349,8 +352,8 @@ Authentication for pull and merge requests
+ ++++++++++++++++++++++++++++++++++++++++++
+ 
+ The authenticity of developers submitting pull requests and merge requests
+-shall be validated by using PGP signing at some moment.
+-See: :ref:`kernel_org_trust_repository`.
++shall be validated by using the Linux Kernel Web of Trust, with PGP signing
++at some moment. See: :ref:`kernel_org_trust_repository`.
+ 
+ With the pull request workflow, pull requests shall use PGP-signed tags.
+ 
+@@ -494,11 +497,11 @@ least, simply wrapping the lines.
+ In particular, we accept lines with more than 80 columns:
+ 
+     - on strings, as they shouldn't be broken due to line length limits;
+-    - when a function or variable name need to have a big identifier name,
+-      which keeps hard to honor the 80 columns limit;
++    - when a function or variable name needs to have a large identifier name,
++      which makes hard to honor the 80 columns limit;
+     - on arithmetic expressions, when breaking lines makes them harder to
+       read;
+-    - when they avoid a line to end with an open parenthesis or an open
++    - when they avoid a line ending with an open parenthesis or an open
+       bracket.
+ 
+ Key Cycle Dates
+@@ -512,7 +515,7 @@ Review Cadence
+ --------------
+ 
+ Provided that your patch has landed in
+-`patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_, it
++`Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_, it
+ should be sooner or later handled, so you don't need to re-submit a patch.
+ 
+ Except for important bug fixes, we don't usually add new patches to the
+@@ -525,4 +528,4 @@ other developers to publicly add ``Reviewed-by:`` and, more importantly,
+ ``Tested-by:`` tags.
+ 
+ Please note that we expect a detailed description for ``Tested-by:``,
+-identifying what boards were used at the test and what it was tested.
++identifying what boards were used during the test and what it was tested.
+-- 
+2.52.0
 
-	https://lore.kernel.org/r/20260204142849.22055-1-johan@kernel.org	
-
-> As no one is currently using this, I will disable this from the build,
-> but keeping the code in the tree right now is a good thing as I do feel
-> this is the right way forward, and others can work off of it easier this
-> way.
-
-API design should not be done incrementally in-tree. It just makes
-things harder for reviewers, adds noise, and without any benefit for
-anyone when the interface keeps changing every other week.
-
-Please just merge the reverts and we can work out a way forward.
-
-Johan
