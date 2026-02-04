@@ -1,118 +1,42 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.st.icloud.com (p-east2-cluster6-host9-snip4-5.eps.apple.com [57.103.76.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAE981FECBA
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 12:47:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B7C3876D2
+	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 12:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.76.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770209238; cv=none; b=TJuXy6jatDKpOFb+d24i+CRqMH9bsiL9KIFtSRn045Sw0xvNTzh8GJHpqzhGXPAUnJpNQPPOuWOksMsoRSxSULOXDddShWwI/SLgPntEFdpBtL/kWSgdZ7E53CqiHLhSR8hbIGdX94uD+KKA3FbmnbDOpDTxr9T/guayPA0sQhg=
+	t=1770209477; cv=none; b=jhiMgb4PnduEdTw4f754qCHo6sFULnf2YbtgrfV4akwo3mml5/LvD1LrnIwa1uDkMQGVs8kAlbEfqEC3rMmlQiUyzQiRZSxVkzP/Rbc6SQCrukF8nPCmBsNPOdMFEqRaQulq2NbpHgzWGR15gMppxJwdrXTrc5PdPvq5cYsf0ls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770209238; c=relaxed/simple;
-	bh=sIl8zPvTMavW7op27NWntwAoYxbkYCvD1OGJGO1W/G4=;
+	s=arc-20240116; t=1770209477; c=relaxed/simple;
+	bh=hyiTmnyoKp5aAyvkcMsiAbjIzyeenCueakiKk9xiNJE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CbPXcnjC4mpGnCKawrTA43gl2his5GWbscKvWap2zNYqSLRX65Vn/dkA5HtPY6kT9EhqkrH3hCAR67qs743CWa9lJn13k4zmxNuGmIPF61n29X2aZieSXHtWAq1wb8UGOSiApXUmghNCWoZTtVrLwjfzZGUMcwtufi4MH4thhvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=GW4VHNlj; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=NALVrdBgaCi1gDOUyIebUOkMSQ6WFPd4HRBGkvpMgvLj2dkdOOJ82JYF2DHtIhKkxU50rmcMAv7E55LKKHT06IBGRSs/zGNp4vGL5fgjOt8cglvZ2gXYLovmUgBkJMXCDick7AOWUlK5ZcFf9vnNTLfjUSZHTUO6f3E2L4/SgII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net; spf=pass smtp.mailfrom=y-koj.net; dkim=fail (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b=U8y4SXC8 reason="key not found in DNS"; arc=none smtp.client-ip=57.103.76.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=y-koj.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="GW4VHNlj"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8887ac841e2so62221096d6.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 04:47:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1770209237; x=1770814037; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+U8LpVemtW+m+yu1KTxoehmwVgUgV8X5ud3ORfVCCrA=;
-        b=GW4VHNljJYFgI4mruLbg7vYCpHKew/dRjvlqzTeNn86+wrDMfx4zpIj/dioyccLJXP
-         XACl0ggJFwCgkw29MoP/25q6//IrEkYd5b1PaWKqIt2jogVrM5cjO4x8m4SXMm5gCTeq
-         7+sRa7wqOIMHi2uMMWQ4hgsHW3KpXETuwQdLYmSxbznzYiFF/OpfJ5wYd2+ZEE/Uq1FI
-         Y4nSEVvDEDY7SKTbbuouPMPgd9Kb81K7EZt/IwblUTd+zVebhGIivCskRSb47BFJPge9
-         pAIPD6qNA+nYIkrf2Ayi8x0N4WX83p8Cy9t0L1BJVFY9mZOU1Aekk1WQ1812YLGIQSQW
-         a64g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770209237; x=1770814037;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+U8LpVemtW+m+yu1KTxoehmwVgUgV8X5ud3ORfVCCrA=;
-        b=uHp+YE0Zup0H2DJxd5AL+aigovs8YlvZThOn6oI1PUwy2rUdm8Mxuvj9bOddv0L3Al
-         XqpKTBblxbGjbF1r1f1BGsG8yuOo8wmYQrDkjFi+Dk13u5hTmsViIN/AAOkivjDbbAer
-         ogN2HVIDGsI6yR4dQtWEU5vBktEseo2IgL2TxiO+Ys5vKieas9nz3Tg+H6v47ttFu9fZ
-         MYwi7ccXaqQ7WouGe5soR6v3ursZ+/5ynBg/NZxQO2VR7YbKInAxzEQk2j4e9nAIfU8g
-         qGCJbdh3ljCNxtSHC23fVDr1ozTywGipTCWXwXpCWM9JRk7NhATjxyFVn27WhBNHlsU/
-         gDuw==
-X-Forwarded-Encrypted: i=1; AJvYcCXIwcrOLYpDltGPzqJjkmxeQo0Y8voK+GD0+pbL2GBaf6zpHxC+pvZq63ZEIT4Cr/4i6wdem0HGi5U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRM2obyGSbEDsSzH42kAxybvh9i1yQgA8bjIFD/iJwUEJmC19P
-	U0fU7HM+tPCog+ZE16hT3+U9+FVIQKSoZA6gFWszL8nGYUE+sVW6r6Px0IW1uuNKexw=
-X-Gm-Gg: AZuq6aJHaPcEKbbrKEu57HxqBwXbfcCk6ts0IM/bXbL0+rlaiB9BF3jtaJX1eQ5dF2k
-	tF5b6kESfTiT0I222F6G7swpkE367UzTQ5BBm9+jTy4m0c7q8ccuWkFVeSkdjsXud1oZ6FlLgdh
-	+mwjfunW6HnrYVA3DTaMp6P2sxR3AbvnCbIXMzegx40DsHHrWtZeLJLlESDF2alj+r6w8H9j/b8
-	IZ6wSg41FTnJcrnnuOuzGQL8iIHGpURZgvK67irvZj13aGLySJ3RfLsUs4EMd7c11DNXbX7CuGB
-	d3H8TtRiAGJGVPurCZon4S+de6YRnzPtXAkSu/x3OheiUFYiz5wJUHyXzglXqtSMHsdVEedOUkJ
-	C4NgRfS4j2TXLd5D5Sv3VS3ofJlk/bjJdmsChEpT66WtXDG5pQf0xgJId7g4XRaZAmD6sLg0B2R
-	AFQsnpthnOXfv3u3OrNJ1o9kJL6diq+rSZJD81jEu98DUXMtiW9OKGGDxqfK09VGeL+BU=
-X-Received: by 2002:ac8:7f4d:0:b0:4ee:5fc:43d9 with SMTP id d75a77b69052e-5061c0d57d6mr32950401cf.16.1770209236488;
-        Wed, 04 Feb 2026 04:47:16 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5061c14815asm18573661cf.6.2026.02.04.04.47.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 04:47:15 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vncHr-0000000Gzio-1QmV;
-	Wed, 04 Feb 2026 08:47:15 -0400
-Date: Wed, 4 Feb 2026 08:47:15 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: Sean Christopherson <seanjc@google.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Alexey Kardashevskiy <aik@amd.com>, cgroups@vger.kernel.org,
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org,
-	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de,
-	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org,
-	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com,
-	david@redhat.com, dmatlack@google.com, erdemaktas@google.com,
-	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com,
-	hannes@cmpxchg.org, hch@infradead.org, hpa@zytor.com,
-	hughd@google.com, ira.weiny@intel.com, isaku.yamahata@intel.com,
-	jack@suse.cz, james.morse@arm.com, jarkko@kernel.org,
-	jgowans@amazon.com, jhubbard@nvidia.com, jroedel@suse.de,
-	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com,
-	keirf@google.com, kent.overstreet@linux.dev,
-	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com,
-	mail@maciej.szmigiero.name, maobibo@loongson.cn,
-	mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org,
-	mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com,
-	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au,
-	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es,
-	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com,
-	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com,
-	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz,
-	qperret@google.com, richard.weiyang@gmail.com,
-	rick.p.edgecombe@intel.com, rientjes@google.com,
-	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org,
-	shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com,
-	steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com,
-	tglx@linutronix.de, thomas.lendacky@amd.com, vannapurve@google.com,
-	vbabka@suse.cz, viro@zeniv.linux.org.uk, vkuznets@redhat.com,
-	wei.w.wang@intel.com, will@kernel.org, willy@infradead.org,
-	wyihan@google.com, xiaoyao.li@intel.com, yan.y.zhao@intel.com,
-	yilun.xu@intel.com, yuzenghui@huawei.com, zhiquan1.li@intel.com
-Subject: Re: [RFC PATCH v1 05/37] KVM: guest_memfd: Wire up
- kvm_get_memory_attributes() to per-gmem attributes
-Message-ID: <20260204124715.GA2328995@ziepe.ca>
-References: <cover.1760731772.git.ackerleytng@google.com>
- <071a3c6603809186e914fe5fed939edee4e11988.1760731772.git.ackerleytng@google.com>
- <07836b1d-d0d8-40f2-8f7b-7805beca31d0@amd.com>
- <CAEvNRgEuez=JbArRf2SApLAL0usv5-Q6q=nBPOFMHrHGaKAtMw@mail.gmail.com>
- <20260129003753.GZ1641016@ziepe.ca>
- <aXqx3_eE0rNh6nP0@google.com>
- <aYHGVQTF6RUs7r3g@yilunxu-OptiPlex-7050>
- <20260203181618.GY2328995@ziepe.ca>
- <aYLOZIZU0nwk+0UN@yilunxu-OptiPlex-7050>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b="U8y4SXC8"
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-2 (Postfix) with ESMTPS id 36735180009E;
+	Wed,  4 Feb 2026 12:51:12 +0000 (UTC)
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=y-koj.net; s=sig1; t=1770209476; x=1772801476; bh=GJTb/54Z5+xwAzpTSRQUrcXvBdew3Ol34WshbO9jjpY=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=U8y4SXC8r4mP1JqcDZHck9yCM4QS73nRa4L7yTW8qqqq62qWKYOsbtcwpwltPRRRtrYkNYs66BW2N3yUgCbhBYY30TwBYY+hHQbfhYBpgLYPwHdg8wT2XdgfmoFwmJw4YFdaYSFHfQDoT9Oo1QGNQLbrjZqq210lEuRH5BbA/V9dvRU26apTcRuv6yXf05Rz48EYfT3yhak7RCeqDwkpyhsbdNr3fhj6w9JMrmUmUQtWhz6xYyuihP2d46n9D7hW2Mj3TE7Zs68JSFg4bh8Sp3RT4ZQTX66RJYCLoctYUcBh1VGqH7mngs7IJqHnQjerRz9wxt+WMEadtYr5kwk7Tg==
+mail-alias-created-date: 1719758601013
+Received: from desktop.y-koj.net (unknown [17.42.251.67])
+	by p00-icloudmta-asmtp-us-east-1a-100-percent-2 (Postfix) with ESMTPSA id 344D518000A1;
+	Wed,  4 Feb 2026 12:51:10 +0000 (UTC)
+Date: Wed, 4 Feb 2026 21:51:07 +0900
+From: Yohei Kojima <yk@y-koj.net>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: ethtool: clarify the bit-by-bit bitset
+ format description
+Message-ID: <aYNAuwjJrkV66mD7@desktop.y-koj.net>
+References: <e9ea0fe8bf7935d6439e4dc883414b685afbaf58.1770045398.git.yk@y-koj.net>
+ <20260203195338.1b1fa65a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -121,20 +45,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aYLOZIZU0nwk+0UN@yilunxu-OptiPlex-7050>
+In-Reply-To: <20260203195338.1b1fa65a@kernel.org>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA0MDA5NyBTYWx0ZWRfX7NmUEJFc99jc
+ k1ccRXetdjHEFwRR4BsRQnyZL0EAyRBXj1WFl8bhvrL3jHTBrd76YcrwZdk7X0FaZDDypYZ4f9C
+ oTuYpsEJUSDjpHPHjCulH0vq7uQEkgTI5JSokfaqZ02Oz0XBXsfhxOHU113AC6xP0c1odN2AetJ
+ /ROBCQlciRNrjfwrwbLG9J2RN2VOE+e3/Adduf00Gh/eaWkfquvR5Vx1SN6Tgx5gtsAkKyV/MMP
+ t0uvTBMNm1z6fS7lWBUbj8fcl0UVIOfBwAJxE5lxENY+5X2yFUaGLOK63bXn4QNUoz9zHxDomLJ
+ 8Tool5A24RvwR8BNNriO1pqGV+6tBjgosLeolcyiCrJK+9g8Ppmcg6vZhL1/pU=
+X-Proofpoint-GUID: aZjGYkPqRURxn3ny5b5L4PB-AQYalVaa
+X-Proofpoint-ORIG-GUID: aZjGYkPqRURxn3ny5b5L4PB-AQYalVaa
+X-Authority-Info-Out: v=2.4 cv=Zvzg6t7G c=1 sm=1 tr=0 ts=698340c2
+ cx=c_apl:c_apl_out:c_pps a=YrL12D//S6tul8v/L+6tKg==:117
+ a=YrL12D//S6tul8v/L+6tKg==:17 a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=SN457lRnbVfGF1o8fXsA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-04_04,2026-02-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ adultscore=0 mlxscore=0 bulkscore=0 suspectscore=0 clxscore=1030 spamscore=0
+ lowpriorityscore=0 phishscore=0 mlxlogscore=714 classifier=spam authscore=0
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
+ definitions=main-2602040097
+X-JNJ: AAAAAAABle2D9FYh/ycboO5B0nHbL4HJBugysGx7t2ypDsTXyy/kCFIxES02PDlsjvXWDHM08w69YwI3DpJtXEBTdTRb6U6cmqVTmOk27mO7Bq3HfxLQNVY73+UCFjuyty6NRjgmQDw1eW8EtTKYrTlyhHGO9i1G7yb5oeMGeFaCwRChR1s0DiUwV3wSVPB13acI87WJmkGOVvt7auuGKA35c3nh2CvBi+HEfdEDUr/xninUKNnLDlANpzcK8+Cy5L6oNAcoM/oRPPNr7dsMWTbQoe9d/q3CAIWtc5rCWddz2Nbl9uAiosDcVEb02gXGnWU1rNqodd+vL1u4UPx50zEWyIDfbLMrF77FUBsvPRDlHmfix5OdP6VgzycPqMtSuns5FwAy0sXJyH42Ck9H0VW7Y6S+CbkcdDlvttFwapdZ1exV5npSrWRWta4X726g90a4K81MbQW6MlF/e5X6BBgW+Of4RazlrB9Oz1oFJe7G5iRDAAJro9qaJ7BJTy4w/Rm1brY1LVmOJrAFmeAkczuaC0DrRbUFUp1VioHyQaJPfqmiyKHkBeHW8DdYWxWVbgwGej2lk1tnD1ayeMFXaO2hwt2zhba8afWnLq+MmlwngHg6CH2vrIX4VtONt+ZQIOnThYBGUpuR/IMieTwemP0kFhcgvAGUjQIrz3LC3kCZLLfxlqpHYa4YIPkf/1szaCpezUXzYU0v0/30DyRiYBJcLtQXWImWWYC5vWGsbImBKg==
 
-On Wed, Feb 04, 2026 at 12:43:16PM +0800, Xu Yilun wrote:
-> > Which means we need VFIO to know what they are, and hopefully it is
-> > just static based on the TDISP reports..
+On Tue, Feb 03, 2026 at 07:53:38PM -0800, Jakub Kicinski wrote:
+> On Tue,  3 Feb 2026 00:17:19 +0900 Yohei Kojima wrote:
+> > Clarify the format and semantics of the bit-by-bit bitset by the
+> > following changes:
+> > * Explicitly describe the mandatory and optional fields in one paragraph
+> > * Detail what happens if ETHTOOL_A_BITSET_NOMASK is set
+> > * Clarify that users can set both BIT_INDEX and BIT_NAME fields
 > 
-> I don't think VMM need to check TDISP report. The only special thing is
-> the MSI-X mixed pages which can be figured out by standard PCI
-> discovery.
+> To be honest I'm not entirely sure which doc is easier to follow,
+> before or after this patch :(
 
-Either that or follow along with the guests's choices on
-shared/private.
+Thank you for the feedback. In the v2 patch, I'll focus on adding the
+missing explanation rather than restructuring the entire paragraph.
 
-We can't let VFIO mmap a private MMIO page, so it has to know which
-pages are private at any moment, and it can't guess.
-
-Jason
+Thank you,
+Yohei
