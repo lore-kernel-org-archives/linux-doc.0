@@ -1,282 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA2A41B36C;
-	Wed,  4 Feb 2026 14:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96512D8773;
+	Wed,  4 Feb 2026 15:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770215881; cv=none; b=n7QrzzNinZ/D0tbBwsDC74PwJfo5PuapDbCezcHQmPHdBNoOUNlbY66rui1afF9tK8ipA5ccCmBZBNgTG8gtKz2bxc7Zb1jvCIk1NnVMx//yLvsu4AEJ9oS1RIr6q4jK8VwCegGqF7XhYbwhaVlC4bDPXlQMBpfvDnE4MJUEStI=
+	t=1770217574; cv=none; b=l3oKJxllPP05KqzPZmCrpAYEYbbqastCv06NUTbIs5h9Jy55gclESE5CmduMRa07jAuQus2Lz4tR8K0PFHrrkb+8YmMS6eUxrUDY6oTiVpciI9/pfq/oP7sAXHTWRkXAtvZx6pPY02nJpyH/VbUCJ8O5eNxxCMhfJvGZmVpzTes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770215881; c=relaxed/simple;
-	bh=kafDs67owTuKLxcyHcSwQ4cOrPbS81J/Y6fLYe//cYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Type; b=tSAIionwCAxEAWelv27KDstqTdVmKroMbdnoejA/pWS/FZXl99rjsS5hUN2XMWvWlxbOQMsCTSowBQaEJYix5LA0l2oIgNEZZAGAObQOpadtjQXYZUbCP4ciMgEZGjd4Fo/sbYBWSegEl1Ow8xKbmr92fNDYQ56rgSEqSu7ElQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VOPEi4Q9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770217574; c=relaxed/simple;
+	bh=l4UJ93xL7RIvdoXEwAso2k8G0XekRBNduqBjM9EsFKA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=jwrSCaafHJ+XrqxfnaF4FDEpXAql0kagqOcpH/JKammmXQshtBcWd1syXK7FMXnlGS5NfC8sPbCDYSxAsq+OHqxBQ3mDTqKLlnzBh9wsjrdhV8NzuWLP/MCKA9p1RPSn5vNafquxJuBDrJDB335gCV3xSvqnb+oi+vaUdpNRoNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=TClKHmka; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VOPEi4Q9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0CE5C116C6;
-	Wed,  4 Feb 2026 14:38:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770215881;
-	bh=kafDs67owTuKLxcyHcSwQ4cOrPbS81J/Y6fLYe//cYs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VOPEi4Q9YuZF5+SdWAx+OPtMfvbyzpluZz1D/JNr+z7d/VodB02fCCVO2A8dFi2ub
-	 VGWS0anH1/bw4KBowiQwOFqWUEft1p1GzZGkly27SPV8OTptN5rHxclSPd56nF0of/
-	 TRKiKb4pfOD+/QNy50Nznz/plqWd8+UzNwlUoYORnvfaIByUTtiiq63b+0Zt+MsXxR
-	 bAIJ8Dqzzu4TNKHQ6dMoGfctPO3pgrYiivEnZDrWlpM09uIJvB0lIrnJ3Z4BiZo+sa
-	 UD4wndDVQAYp2I8/XhlR6VWDRhfaeRnb2jLuhs0l///irxMxGTPo9nu01C6dZwAaL+
-	 VwOLkMj6FJr1Q==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vne10-00000005RPu-0u4h;
-	Wed, 04 Feb 2026 15:37:58 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sean Young <sean@mess.org>
-Subject: [PATCH 2/2] docs: media: media-committer: do some editorial changes
-Date: Wed,  4 Feb 2026 15:37:45 +0100
-Message-ID: <ada3056177e5e4e65119fb1b617777a680534e64.1770215865.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <dc12b2f42304866ccc04053f2a3c97e84c7558a1.1770215865.git.mchehab+huawei@kernel.org>
-References: <dc12b2f42304866ccc04053f2a3c97e84c7558a1.1770215865.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="TClKHmka"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id C697125C1C;
+	Wed,  4 Feb 2026 16:06:04 +0100 (CET)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 6cgbYDkk9oG5; Wed,  4 Feb 2026 16:06:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1770217564; bh=l4UJ93xL7RIvdoXEwAso2k8G0XekRBNduqBjM9EsFKA=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To;
+	b=TClKHmkaMrFhD2NWust0LeIqUxfXPqLuyUNrUESirdCylnARh3eREhXvCxJX8+nBw
+	 mBNS1XqGzDNcDP4XeNf/7ZJuLZtCTDYCnmJsGIDB8qz9Nx/Zo6gxCLXHLmtt2wntJ6
+	 UqTjXrveWdYxFWQNkAYG4dAAh/903R/yr1aV0/IO++l0+ZNJTsBRJSB5mtRcqQepjM
+	 EzuP8xCz6ryTm8HEpbLRK6mznhVyGK82C8oHH3OaxKjxeJw5is3Iewr/p8TLuB4+Zc
+	 LxXPGguOCvhEfwgDkJt8ZbPf2lDk5Ct4q8Hc/BqXeob2MU+kJSKC6DzL14HKMy+SQO
+	 7wTLS16k/hvsQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Date: Wed, 04 Feb 2026 20:35:49 +0530
+Message-Id: <DG69QZBG97G3.1458CJYT0YG9C@disroot.org>
+Cc: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 07/12] mfd: sec: store hardware revision in
+ sec_pmic_dev and add S2MU005 support
+From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
+To: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, "Kaustabh
+ Chakraborty" <kauschluss@disroot.org>, "Lee Jones" <lee@kernel.org>, "Pavel
+ Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "MyungJoo Ham" <myungjoo.ham@samsung.com>, "Chanwoo Choi"
+ <cw00.choi@samsung.com>, "Sebastian Reichel" <sre@kernel.org>, "Krzysztof
+ Kozlowski" <krzk@kernel.org>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>
+References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
+ <20260126-s2mu005-pmic-v2-7-78f1a75f547a@disroot.org>
+ <f6d1340062448cf52e4c034d250524e030877898.camel@linaro.org>
+In-Reply-To: <f6d1340062448cf52e4c034d250524e030877898.camel@linaro.org>
 
-Do some editorial changes to make it look clearer:
+On 2026-02-04 14:17 +00:00, Andr=C3=A9 Draszik wrote:
+> Hi Kaustabh,
+>
+> On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
+>> The device revision matters in cases when in some PMICs, the correct
+>> register offsets very in different revisions. Instead of just debug
+>
+> s/very/vary
+>
+>> printing the value, store it in the driver data struct.
+>
+> Please mention that you're not doing that for s2mpg1x, though.
+>
+>>=20
+>> Unlike other devices, S2MU005 has its hardware revision ID in register
+>> offset 0x73. Allow handling different devices and add support for S2MU00=
+5.
+>>=20
+>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+>> ---
+>> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 41 ++++++++++++++++++++++++++++++----------
+>> =C2=A0include/linux/mfd/samsung/core.h |=C2=A0 1 +
+>> =C2=A02 files changed, 32 insertions(+), 10 deletions(-)
+>>=20
+>> diff --git a/drivers/mfd/sec-common.c b/drivers/mfd/sec-common.c
+>> index bc2a1f2c6dc7a..069a1ba9aa1f1 100644
+>> --- a/drivers/mfd/sec-common.c
+>> +++ b/drivers/mfd/sec-common.c
+>> @@ -16,6 +16,7 @@
+>> =C2=A0#include <linux/mfd/samsung/irq.h>
+>> =C2=A0#include <linux/mfd/samsung/s2mps11.h>
+>> =C2=A0#include <linux/mfd/samsung/s2mps13.h>
+>> +#include <linux/mfd/samsung/s2mu005.h>
+>> =C2=A0#include <linux/module.h>
+>> =C2=A0#include <linux/of.h>
+>> =C2=A0#include <linux/pm.h>
+>> @@ -111,17 +112,38 @@ static const struct mfd_cell s2mu005_devs[] =3D {
+>> =C2=A0	MFD_CELL_OF("s2mu005-rgb", NULL, NULL, 0, 0, "samsung,s2mu005-rgb=
+"),
+>> =C2=A0};
+>> =C2=A0
+>> -static void sec_pmic_dump_rev(struct sec_pmic_dev *sec_pmic)
+>> +static int sec_pmic_store_rev(struct sec_pmic_dev *sec_pmic)
+>> =C2=A0{
+>> -	unsigned int val;
+>> +	unsigned int reg, mask, shift;
+>> +	int ret;
+>> =C2=A0
+>> -	/* For s2mpg1x, the revision is in a different regmap */
+>> -	if (sec_pmic->device_type =3D=3D S2MPG10)
+>> -		return;
+>> +	switch (sec_pmic->device_type) {
+>> +	case S2MPG10:
+>> +		/* For s2mpg1x, the revision is in a different regmap */
+>> +		return 0;
+>> +	case S2MU005:
+>> +		reg =3D S2MU005_REG_ID;
+>> +		mask =3D S2MU005_ID_MASK;
+>> +		shift =3D S2MU005_ID_SHIFT;
+>> +		break;
+>> +	default:
+>> +		/* For other device types, the REG_ID is always the first register. *=
+/
+>> +		reg =3D S2MPS11_REG_ID;
+>> +		mask =3D ~0;
+>> +		shift =3D 0;
+>> +	}
+>> +
+>> +	ret =3D regmap_read(sec_pmic->regmap_pmic, reg, &sec_pmic->revision);
+>> +	if (ret) {
+>> +		dev_err(sec_pmic->dev, "Failed to read PMIC revision (%d)\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	sec_pmic->revision &=3D mask;
+>> +	sec_pmic->revision >>=3D shift;
+>> =C2=A0
+>> -	/* For each device type, the REG_ID is always the first register */
+>> -	if (!regmap_read(sec_pmic->regmap_pmic, S2MPS11_REG_ID, &val))
+>> -		dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", val);
+>> +	dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", sec_pmic->revision);
+>> +	return 0;
+>> =C2=A0}
+>> =C2=A0
+>> =C2=A0static void sec_pmic_configure(struct sec_pmic_dev *sec_pmic)
+>> @@ -262,9 +284,8 @@ int sec_pmic_probe(struct device *dev, int device_ty=
+pe, unsigned int irq,
+>> =C2=A0		return ret;
+>> =C2=A0
+>> =C2=A0	sec_pmic_configure(sec_pmic);
+>> -	sec_pmic_dump_rev(sec_pmic);
+>> =C2=A0
+>> -	return ret;
+>> +	return sec_pmic_store_rev(sec_pmic);
+>> =C2=A0}
+>> =C2=A0EXPORT_SYMBOL_GPL(sec_pmic_probe);
+>> =C2=A0
+>> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsun=
+g/core.h
+>> index 43e0c5e55f5d3..56aa33d7e3d60 100644
+>> --- a/include/linux/mfd/samsung/core.h
+>> +++ b/include/linux/mfd/samsung/core.h
+>> @@ -70,6 +70,7 @@ struct sec_pmic_dev {
+>> =C2=A0
+>> =C2=A0	int device_type;
+>> =C2=A0	int irq;
+>> +	unsigned int revision;
+>
+> kerneldoc needs to be updated.
 
-  - media-committers tree references corrected from singular to plural;
-  - updated commit rights wording and responsibilities;
-  - fixed various typographical errors;
-  - corrected “mailing list” and “Kernel” references;
-  - improved core committer description;
-  - updated documentation paths and URLs;
-  - added missing “for” and improved sentence flow.
+Seems like it needs cleanup anyway, I will send a patch for that
+separately (if this patch gets dropped in the next rev, see below).
 
-Perhaps the most relevant change is that i removed a word
-that was requiring granting Patchwork rights some time before
-adding commit rights (we may grant them altogether if makes
-sense for us), and I added a 4th note to committer notes
-list to let it clear that about what it is expected from a
-committer with regards to updating Patchwork.
+>
+> Given the LED driver is the only driver & device so far which needs the
+> PMIC revision, maybe for now that driver could determine the revision
+> itself instead of adding this new member for everybody?
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../driver-api/media/media-committer.rst      | 97 ++++++++++---------
- 1 file changed, 51 insertions(+), 46 deletions(-)
+Hmm, implementing that would make this patch redundant. I'll do so.
 
-diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-index 18cce6e06a2b..c83e94750e57 100644
---- a/Documentation/driver-api/media/media-committer.rst
-+++ b/Documentation/driver-api/media/media-committer.rst
-@@ -20,8 +20,8 @@ and the Linux Media community.
- 
- .. Note::
- 
--   1. Patches you authored must have a Signed-off-by, Reviewed-by or Acked-by
--      of another Media Maintainer;
-+   1. Patches you authored must have a ``Signed-off-by``, ``Reviewed-by``
-+      or ``Acked-by`` from another Media Maintainer;
-    2. If a patch introduces a regression, then it is the Media Committer's
-       responsibility to correct that as soon as possible. Typically the
-       patch is either reverted, or an additional patch is committed to
-@@ -29,14 +29,18 @@ and the Linux Media community.
-    3. If patches are fixing bugs against already released Kernels, including
-       the reverts above mentioned, the Media Committer shall add the needed
-       tags. Please see :ref:`Media development workflow` for more details.
-+   4. All Media Committers are responsible for maintaining
-+      `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_,
-+      updating the state of the patches they review or merge.
-+
- 
- Becoming a Media Committer
- --------------------------
- 
- Existing Media Committers can nominate a Media Maintainer to be granted
--commit rights. The Media Maintainer must already have patchwork access and
--have been in that role for some time, and has demonstrated a good
--understanding of the maintainer's duties and processes.
-+commit rights. The Media Maintainer must have patchwork access,
-+have been reviewing patches from third parties for some time, and has
-+demonstrated a good understanding of the maintainer's duties and processes.
- 
- The ultimate responsibility for accepting a nominated committer is up to
- the Media Subsystem Maintainers. The nominated committer must have earned a
-@@ -61,8 +65,8 @@ Media Committer's agreement
- Once a nominated committer is accepted by all Media Subsystem Maintainers,
- they will ask if the developer is interested in the nomination and discuss
- what area(s) of the media subsystem the committer will be responsible for.
--Those areas will typically be the same as the areas that are already
--maintained by the nominated committer.
-+Those areas will typically be the same as the areas that the nominated
-+committer is already maintaining.
- 
- When the developer accepts being a committer, the new committer shall
- explicitly accept the Kernel development policies described under its
-@@ -77,7 +81,7 @@ following the model below::
- 
-    ...
- 
--   For the purpose of committing patches to the media-committer's tree,
-+   For the purpose of committing patches to the media-committers tree,
-    I'll be using my user https://gitlab.freedesktop.org/users/<username>.
- 
- Followed by a formal declaration of agreement with the Kernel development
-@@ -85,7 +89,7 @@ rules::
- 
-    I agree to follow the Kernel development rules described at:
- 
--   https://www.kernel.org/doc/html/latest/driver-api/media/media-committer.rst
-+   https://www.kernel.org/doc/html/latest/driver-api/media/media-committers.rst
- 
-    and to the Linux Kernel development process rules.
- 
-@@ -97,18 +101,17 @@ rules::
-    my commit rights.
- 
-    I am aware that the Kernel development rules change over time.
--   By doing a new push to media-committer tree, I understand that I agree
-+   By doing a new push to media-committers tree, I understand that I agree
-    to follow the rules in effect at the time of the commit.
- 
--That e-mail shall be signed with a PGP key cross signed by other Kernel and
--media developers. As described at :ref:`media-developers-gpg`, the PGP
--signature, together with the gitlab user security are fundamental components
--that ensure the authenticity of the merge requests that will happen at the
--media-committer.git tree.
-+That e-mail shall be signed via the Kernel Web of trust with a PGP key cross
-+signed by other Kernel and media developers. As described at
-+:ref:`media-developers-gpg`, the PGP signature, together with the gitlab user
-+security are fundamental components that ensure the authenticity of the merge
-+requests that will happen at the media-committers.git tree.
- 
--In case the kernel development process changes, by merging new commits
--to the
--`media-committer tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
-+In case the kernel development process changes, by merging new commits to the
-+`media-committers tree <https://gitlab.freedesktop.org/linux-media/media-committers>`_,
- the Media Committer implicitly declares their agreement with the latest
- version of the documented process including the contents of this file.
- 
-@@ -118,25 +121,27 @@ notify the Media Subsystem Maintainers about that decision.
- .. note::
- 
-    1. Changes to the kernel media development process shall be announced in
--      the media-committers mailinglist with a reasonable review period. All
--      committers are automatically subscribed to that mailinglist;
-+      the media-committers mailing list with a reasonable review period. All
-+      committers are automatically subscribed to that mailing list;
-    2. Due to the distributed nature of the Kernel development, it is
-       possible that kernel development process changes may end being
--      reviewed/merged at the linux-docs mailing list, specially for the
--      contents under Documentation/process and for trivial typo fixes.
-+      reviewed/merged at the Linux Docs and/or at the Linux Kernel mailing
-+      lists, especially for the contents under Documentation/process and for
-+      trivial typo fixes.
- 
- Media Core Committers
- ---------------------
- 
--As described in Documentation/driver-api/media/maintainer-entry-profile.rst
-+A Media Core Committer is a Media Core Maintainer with commit rights.
-+
-+As described in Documentation/driver-api/media/maintainer-entry-profile.rst,
- a Media Core Maintainer maintains media core frameworks as well, besides
--just drivers, and so is able to change core files and the media subsystem's
--Kernel API. A Media Core Committer is a Media Core Maintainer with commit
--rights. The extent of the core committer's grants will be detailed by the
-+just drivers, and so is allowed to change core files and the media subsystem's
-+Kernel API. The extent of the core committer's grants will be detailed by the
- Media Subsystem Maintainers when they nominate a Media Core Committer.
- 
- Existing Media Committers may become Media Core Committers and vice versa.
--Such decisions will be taken in consensus between the Media Subsystem
-+Such decisions will be taken in consensus among the Media Subsystem
- Maintainers.
- 
- Media committers rules
-@@ -148,16 +153,16 @@ shall be merged as soon as possible, aiming to be merged at the same Kernel
- cycle the bug is reported.
- 
- Media committers shall behave accordingly to the rights granted by
--the Media Subsystem Maintainers, specially with regards of the scope of changes
-+the Media Subsystem Maintainers, especially with regards of the scope of changes
- they may apply directly at the media-committers tree. That scope can
--change over time on a mutual agreement between media committers and
--maintainers.
-+change over time on a mutual agreement between Media Committers and
-+Media Subsystem Maintainers.
- 
- The Media Committer workflow is described at :ref:`Media development workflow`.
- 
- .. _Maintain Media Status:
- 
--Maintaining media maintainer or committer status
-+Maintaining Media Maintainer or Committer status
- ------------------------------------------------
- 
- A community of maintainers working together to move the Linux Kernel
-@@ -165,27 +170,27 @@ forward is essential to creating successful projects that are rewarding
- to work on. If there are problems or disagreements within the community,
- they can usually be solved through healthy discussion and debate.
- 
--In the unhappy event that a media maintainer or committer continues to
-+In the unhappy event that a Media Maintainer or Committer continues to
- disregard good citizenship (or actively disrupts the project), we may need
- to revoke that person's status. In such cases, if someone suggests the
--revocation with a good reason, then after discussing this among the media
--maintainers, the final decision is taken by the Media Subsystem Maintainers.
--As the decision to become a media maintainer or committer comes from a
--consensus between Media Subsystem Maintainers, a single subsystem maintainer
--not trusting the media maintainer or committer anymore is enough to revoke
--the maintenance/patchwork or commit rights.
-+revocation with a good reason, then after discussing this among the Media
-+Maintainers, the final decision is taken by the Media Subsystem Maintainers.
- 
--A previous committer that had their commit rights revoked can keep
--contributing to the subsystem via the pull request workflow as documented
--at the :ref:`Media development workflow`, unless they were also removed as
--Media Maintainer.
-+As the decision to become a Media Maintainer or Committer comes from a
-+consensus between Media Subsystem Maintainers, a single Media Subsystem
-+Maintainer not trusting the Media Maintainer or Committer anymore is enough
-+to revoke their maintenance, Patchwork grants and/or commit rights.
-+
-+Having commit rights revoked doesn't prevent Media Maintainers to keep
-+contributing to the subsystem either via the pull request or via email workflow
-+as documented at the :ref:`Media development workflow`.
- 
- If a maintainer is inactive for more than a couple of Kernel cycles,
- maintainers will try to reach you via e-mail. If not possible, they may
--revoke your maintainer/patchwork and committer rights and update MAINTAINERS file
--entries accordingly. If you wish to resume contributing later on, then contact
--the Media Subsystem Maintainers to ask if your maintenance/patchwork and
--commit rights can be restored.
-+revoke their maintainer/patchwork and committer rights and update MAINTAINERS
-+file entries accordingly. If you wish to resume contributing as maintainer
-+later on, then contact the Media Subsystem Maintainers to ask if your
-+maintenance, Patchwork grants and commit rights can be restored.
- 
- References
- ----------
--- 
-2.52.0
+>
+> Cheers,
+> Andre'
+>
+>> =C2=A0};
+>> =C2=A0
+>> =C2=A0struct sec_platform_data {
 
