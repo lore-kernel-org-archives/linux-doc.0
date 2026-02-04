@@ -1,44 +1,44 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9D12BDC16
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 03:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159732BE7DC
+	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 03:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770176443; cv=none; b=Ui9HmxZ0qVpXOiSv3z0KyutRgtXNSnJBJC+xot/GQYHu+wq7hHNXFFrTDf5MuNblqTtLwxYm/FTWpyD18sFEv2OrjdnT/MG6RT28GVeWFWZsx6filwlVzaHu/6tEWuSs2WLWPDWTxhmCCkqNn4pAcDpvRkaobN0JiYzNIBGCk6M=
+	t=1770176478; cv=none; b=CkGSkfScMRLs1iA0ApWbBzJyiyzzIP5XnsqURBejZ/nhzLer9O1rzlZcXQ9dYamXJeVOpkAO0lVTnbbSa7dDc/zIa2OcdmKfF3rmbm19/DxjhDfcO9hTRA/ver1lj7ECTzlHR4zYisBT37ThVsgUyEviLrzloz0hdzK29jcqwCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770176443; c=relaxed/simple;
-	bh=KfsmFp2tc0dqLNsUFulltmvFtwa/SLzHgGiJdDB8Mt0=;
+	s=arc-20240116; t=1770176478; c=relaxed/simple;
+	bh=xdIuoIYWQKGHT6f4TP3BnOGpDuCVP+8VEQD5Lkjr+FQ=;
 	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=EJ6FgbOMJtsCS4ej5b8dS4CPBa5jy/FZ16F7hsbEq3mLPKgdHLVE2NDRb6fbguiYscMaXWtuSZcFyxkDv8WECmwH7WeG9wawg8b7UdGqKsY0zl9ibcBU3D3LyLqZE8HNJDWldVM9/qUZhblGcqUc+o21jKkyo2VPIs1/RbZiT3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=usqKfjbj; arc=none smtp.client-ip=95.215.58.174
+	 Message-Id:References:To; b=DgphI9Yg3rI5ih/Y30ktpjuRCiCvYK2hxeENMSlS6ajLz4dAPr55tOdnE2FUykRiYe5nBFSbo0IE48tTJ8k1mxdRhuXBCA8EAOQ1sXWOC4zNNbqloeLoakieb9p80DLT3RTdQnsTbjGc+QIEpP2nPEN12PW2rl5dbHVfBq9CQbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UoKDcIES; arc=none smtp.client-ip=95.215.58.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="usqKfjbj"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UoKDcIES"
 Content-Type: text/plain;
 	charset=us-ascii
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770176430;
+	t=1770176474;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Onih74rKhXQNkfzkcTR+Zq0Kg1PNfu8onD0zt1Z+qOs=;
-	b=usqKfjbjQqGhGMX7b2myIEJwHkIgCA2hiWToeEcUL8WqIF6QvZMpKyiHrZTCEotjc/XuU5
-	hrDYwyyf/mkZYKRDIdwxGzjQqypNpRQ2ezxi2dWRzE5gQ301xxUaeKxtXnz1t8CvaMPyEY
-	CPkmIkZoqEon51/SAo3Y3y1+pjFyNM0=
+	bh=av/LVp9xwxJIyR+sVr9rZtKTvZHoc1HeKyc5uhYMiWw=;
+	b=UoKDcIES+RABsrqsGspcjNyTH5E2HcfcoO9yvsRp3kXe/z+lkRBZiIyycQqxp54gkgqSqN
+	JT5I86dCMF/pZPS6L/3HiIK91K/EaNVcawSSNzTl0YCPF3pUDQSGylLkB3JpjmeFJR+e3p
+	bgF0Ie6YyD+qiWXrQ4h+pFLRhlWrMmU=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCHv6 17/17] mm/slab: Use compound_head() in page_slab()
+Subject: Re: [PATCHv6 08/17] mm: Make page_zonenum() use head page
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20260202155634.650837-18-kas@kernel.org>
-Date: Wed, 4 Feb 2026 11:39:42 +0800
+In-Reply-To: <20260202155634.650837-9-kas@kernel.org>
+Date: Wed, 4 Feb 2026 11:40:35 +0800
 Cc: Andrew Morton <akpm@linux-foundation.org>,
  David Hildenbrand <david@redhat.com>,
  Matthew Wilcox <willy@infradead.org>,
@@ -66,9 +66,9 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  loongarch@lists.linux.dev,
  linux-riscv@lists.infradead.org
 Content-Transfer-Encoding: 7bit
-Message-Id: <69CF3AD0-F761-48FE-A7A9-20061ADA1A5C@linux.dev>
+Message-Id: <92298523-BC8E-459A-B99D-3C91D57982D0@linux.dev>
 References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-18-kas@kernel.org>
+ <20260202155634.650837-9-kas@kernel.org>
 To: Kiryl Shutsemau <kas@kernel.org>
 X-Migadu-Flow: FLOW_OUT
 
@@ -76,11 +76,16 @@ X-Migadu-Flow: FLOW_OUT
 
 > On Feb 2, 2026, at 23:56, Kiryl Shutsemau <kas@kernel.org> wrote:
 > 
-> page_slab() contained an open-coded implementation of compound_head().
+> With the upcoming changes to HVO, a single page of tail struct pages
+> will be shared across all huge pages of the same order on a node. Since
+> huge pages on the same node may belong to different zones, the zone
+> information stored in shared tail page flags would be incorrect.
 > 
-> Replace the duplicated code with a direct call to compound_head().
+> Always fetch zone information from the head page, which has unique and
+> correct zone flags for each compound page.
 > 
 > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> Acked-by: Zi Yan <ziy@nvidia.com>
 
 Acked-by: Muchun Song <muchun.song@linux.dev>
 
