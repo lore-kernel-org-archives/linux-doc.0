@@ -1,83 +1,50 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2FF3D9046
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 10:28:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FA78460;
+	Wed,  4 Feb 2026 10:32:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770200896; cv=none; b=VligBqi8DCFxdlIZ+MjhLK0dotgzYj3lcirYy/n/xFiBU0Ui5StTE+RwWN2OwnM/juozpU6raq7rOO2gUG0uZijok6VC15ki2EsMu9dGujZWIcCC0alyTJSnITaSd6hm+IaF3+CE/paLbSB68dp071a47kEo+1hukfWeEi+LMcA=
+	t=1770201150; cv=none; b=VweLZF+4YF/1VbnxKuo6xDfqZm1+UvgUPk2WnFub+z/7eojnE8dTwbTE5wtzhP+ue+DXovyCj3WgYoLpFQknin5SvccxXZLEUiZvGURH6cnTrSqTIYxoEnz/yzTDsLPHm168k+VWiEEcutAwxd0Ph1JXkn0Ipb19bJKATgcE5A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770200896; c=relaxed/simple;
-	bh=JolnKv0qFTOR+o7MUsErJAFOJkrET4c/BlgelBkXp+E=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i+T3NWW8fuS6l/NGGK9xooxGvhkzK343h90/fjOfB+7q3aYMzlAn8VW6/ejczSHkCVUcYkryvHj17Yc2kQZ568NtHmV5QpdeDVDcbAVQA/a9ciOsLqSyioVVGzBrqd4Oj9v8de8XWbOsnVlzonxl2ZdfLjP6ZAR9LtACrkeUmvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TsY8mwjV; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770201150; c=relaxed/simple;
+	bh=rA1a+YBhqPqOXlWE1XOcasC4hH+/r1lVZ4TCQm24evU=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=suZVjuidhLYqWwHYiWQgWV/lpXoMLbdcW5L7BPFNoi7bWqzUMK1mc8jzrasvpfzz+Pg6qfpt5B3U5AyyslgkHJEEB39MgkR5bagcRCUUUbvtLvDDX6FT+Hkxt7Hl+EDDKoSVbPpvJP0QxKuscilXeAP7IyrgjF2JcbmSsENRdWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LANPMQ1/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TsY8mwjV"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47ee0291921so63115615e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 02:28:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770200895; x=1770805695; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JYjG7SQO8WEcZbtf5VFi69+C3kGp/XbrFnd6F1SB62M=;
-        b=TsY8mwjVOlERyLMY4xZcL4FpfW2PC0FXYp2YORrLpKNQAFvrDqA9Pv48o6hL9jCRxG
-         ZMXuemwqTxc+RH7GIPsI3WFUfRWKAb6SpGf4EY4O1n6o/cEcG5vTdJnTNtPw7mgxUWb6
-         3HClgwFLhovEYkHr+EvQObn1U8ZFSjrZwruTVQmOZbkkkDg8h9bN9oybHLzY0iUeYa2n
-         Jaly9/P13T98296deoooscmmE6uIKWGYmLYjGQuICWESIgdVTERmh7WcTeKZDlp4Qigz
-         ITF8HT5YhFaBbGIYR7sDw1gEYKigBErj2ITge1JKv7mCxpIsALT8PkQ4PIDnDJf314Pz
-         TnVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770200895; x=1770805695;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JYjG7SQO8WEcZbtf5VFi69+C3kGp/XbrFnd6F1SB62M=;
-        b=rBfYNUa65Q2b7Hr25gEG6eRWs9tKspeeZdhvqFuz6Ne22RoROr0/bdXqpXbgIViPXA
-         sohoHeDhFwgk1tf6YE8WosIwFiM4j8n+TGyflpBcfhsfXnKE6D9SkfBxPnvxL02TPK5Q
-         QqLVBWLbU859p/t3zs0zUIU/UTHNKN9VB/vsFA0/90JvPafhlnEDYHQo/B20AvxCIHdJ
-         EMjr8Bpl87YQMMKA8ihpBGXsqYf+DLDyiI9D6cLzWax4YvSV9tx+29IXmLHSbf9cPAE5
-         vEQJt5mgKELID3I+Y6Smz87Jb//vGEDKMLm6h6stv+Wy7GQkUh+2WCYps7tRz2lq0Tx7
-         AE9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUFd0f5YtyYVD12EFwrkKzpXZQ8TsH3Zl7Lfl2L0Muga8Bogn9LlVeqc++Tiyg9Z1GEnAmeQDUmz24=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrPFj2sc4QPoA1S8jXbgLpQzAcSxgQPPzQZWhe39UrByZ7O5Zm
-	OefTDvdkMv/7nfcsRlQKxTvrpdVMwpNAA6UOFYssd4e6oTFJSTOIuoCZ
-X-Gm-Gg: AZuq6aLRtCJ6ypw5cmJbVlOdzmoTu9V5cvBxqFG4ZSX8pIbtDHb5BFyRTK9SSwBtq1o
-	X858Rcni6f1aStssXEsb/ioQKkz+CE3zoF4nernRZKlXNTGPH+u4GO9bLAIRKDfX2Cr4wD066di
-	Q+qQThhpvJ8tQMNyiwO9IW/1YHnsCib7vaSKlZVzrBtUbVXkAP5MsuVujsF7mFqyiyMwl6modWq
-	oVjLfHYRn0OfCzY4vC4SbgXZIrOeG2OvYPlu/pujb+3QCLrL7IrK3JIVvTDApXvKJv8mIyN45DB
-	+TOkywHVX1r+jSi6DwoK7QAm6EV0jnf5f/b1Qv+WIXb9/Rb1UnfiwR7TScF83kGYDpgEeBjaMDO
-	jOKH8yRvd+Rm4D5vp5hjfXQEJjvb3dLBEd8MIuyLWBzl2jyAFHKyxqrWrjwzkdpECI/nQN+kca1
-	zcGuDBfdayxreQCf+nthgcKvtQ/8WYIWIa93GSdBt0apuuVwlMs8b/4y0uhEdHwnxqvP6QF5IVD
-	gxjE3KWwLsAD7Q=
-X-Received: by 2002:a05:600c:35cb:b0:45c:4470:271c with SMTP id 5b1f17b1804b1-4830e968e72mr35786535e9.18.1770200894603;
-        Wed, 04 Feb 2026 02:28:14 -0800 (PST)
-Received: from RDEALENC-L01.ad.analog.com ([24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4830ec5cc24sm25090045e9.3.2026.02.04.02.28.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 02:28:13 -0800 (PST)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Wed, 4 Feb 2026 10:28:05 +0000
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
- parts
-Message-ID: <hrhgmum6zdww7etc6ztchivfqecaaqeeul2bbagzyongkxpaeh@q7x4popwel6d>
-References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
- <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
- <aYKkv3dq9Vkm3s_3@smile.fi.intel.com>
- <7tiv33i65unu5ypk7puj3buzybykyhv2qbwp54bhcem5t4rawq@dpfedqmmxbhx>
- <aYMYJppigidPeLH4@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LANPMQ1/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 487EAC16AAE;
+	Wed,  4 Feb 2026 10:32:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770201150;
+	bh=rA1a+YBhqPqOXlWE1XOcasC4hH+/r1lVZ4TCQm24evU=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=LANPMQ1/JwxpZ+414qlDQgXHJHzWDlo5SO3DNf4o7kSRBBlXlkYfHXk325rnEpfAv
+	 AMtqb3w7MlA/pXKxBVidkGx8t0VXXtCuJfXo6VBj4OV5c4ftO+GBdXsO0IpFJVmavC
+	 dlJWEa3k0qNho6tPCb/l7+69vFNB7AnRUI5zTcKMeqjRDx+pcuoqrmwzFti+YzuNl2
+	 jA7kv5P+DWjKNeMYI+Ihn6mgp+oNvCxMhXisZJf0v1GcR7iLM6igW7p0No9IREI1bs
+	 em1QS5BcWnef2J4bnt6WIfJqwpGZB1gsHkadGPK+njzGccAicHiguCNEMpeViJZMRX
+	 Y0G+DoWVjmbzg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vnaBQ-00000004sSK-1AMF;
+	Wed, 04 Feb 2026 11:32:28 +0100
+Date: Wed, 4 Feb 2026 11:32:28 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org, Rong Zhang <i@rong.moe>, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] kbuild: Do not run kernel-doc when building external
+ modules
+Message-ID: <aYMeaKMPkf7uxghq@foz.lan>
+References: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
+ <176987242178.1743608.5094531752561489739.b4-ty@kernel.org>
+ <CAK7LNARR9bZQ9t9emcVzmL+P7xYemu=8s8v_LshQ0-m_zEE9mA@mail.gmail.com>
+ <6387ba7b99fb952a59932c3a851dfd0ecc4dfb2c@intel.com>
+ <aYMbVcNvJPlLPaaG@derry.ads.avm.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,64 +53,69 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aYMYJppigidPeLH4@smile.fi.intel.com>
+In-Reply-To: <aYMbVcNvJPlLPaaG@derry.ads.avm.de>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On 26/02/04 11:57AM, Andy Shevchenko wrote:
-> On Wed, Feb 04, 2026 at 09:42:55AM +0000, Rodrigo Alencar wrote:
-> > On 26/02/04 03:45AM, Andy Shevchenko wrote:
-> > > On Fri, Jan 30, 2026 at 10:06:43AM +0000, Rodrigo Alencar via B4 Relay wrote:
-> 
-> ...
-> 
-> > > > +static ssize_t iio_safe_strntou64(const char *str, const char **endp,
-> > > > +				  u64 *result, size_t max_chars)
-> > > > +{
-> > > > +	u64 digit, acc = 0;
-> > > > +	ssize_t idx = 0;
-> > > > +
-> > > > +	while (isdigit(str[idx]) && idx < max_chars) {
-> > > > +		digit = str[idx] - '0';
-> > > > +		if (unlikely(acc & (~0ull << 60))) {
-> > > > +			if (check_mul_overflow(acc, 10, &acc) ||
-> > > > +			    check_add_overflow(acc, digit, &acc))
-> > > > +				return -ERANGE;
-> > > > +		} else {
-> > > > +			acc = acc * 10 + digit;
-> > > > +		}
-> > > > +		idx++;
-> > > > +	}
-> > > > +
-> > > > +	*endp = str + idx;
-> > > > +	*result = acc;
-> > > > +	return idx;
-> > > > +}
-> > > 
-> > > There is a development in the parse_integer in the lib/. I reviewed that series
-> > > and hopefully it will go in. With that done, we better reuse the lib/ function.
-> > > 
-> > > https://lore.kernel.org/linux-hardening/20260202115451.290173-1-dmantipov@yandex.ru/
+On Wed, Feb 04, 2026 at 11:11:33AM +0100, Nicolas Schier wrote:
+> On Wed, Feb 04, 2026 at 11:10:37AM +0200, Jani Nikula wrote:
+> > On Wed, 04 Feb 2026, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > > Since kernel-doc is a part of Kbuild,
+> > > all dependent libraries should exist under scripts/.
 > > 
-> > In this patch, I see that it updates the overflow check, but I am not
-> > seeing that function being exposed to other kernel modules.
+> > Huh. I've always wondered why all the Kbuild makefiles are placed in
+> > scripts/, which appears to be a haphazard collection of, well, scripts
+> > and tools. But then you also have tools/.
 > 
-> Can the IIO be compiled as a module? If so, then we would need to export that
-> function. (Note, we may export only for the exact module(s) in question, so
-> nobody else will be able to use it. See EXPORT_SYMBOL_FOR_MODULES() macro.)
+> From the kbuild perspective, as Masahiro mentioned, every tooling
+> related to kernel builds, kbuild or kconfig should be placed in
+> scripts/.  The tools/ subtree isn't using kbuild; rules, definitionas
+> and other expectations that are valid for kbuild may not be true in
+> tools/, cp. commit 6e6ef2da3a28f [1].
+> 
+> Unfortunately, there _are_ things in tools/ that are required for kernel
+> builds (e.g. objtool), but there is no consent on moving these parts out
+> of the tools/ subtree [2].
+> 
+> > I've followed the kernel-doc refactoring from the sidelines, commenting
+> > on some things, but it never crossed my mind the build shouldn't depend
+> > on something outside of scripts/. (That's what I'm inferring here
+> > anyway.) And apparently that thought didn't occur to a lot of other
+> > people either, with even more kernel experience than myself.
+> 
+> Yes, I also saw the changes fly by but did not think about the
+> implications.
+> 
+> > Sounds like the kernel config and build system would deserve a top-level
+> > directory like build/ or kbuild/, which collects everything needed for
+> > the build, nothing more, nothing less. Because scripts/ is not *that*.
+> 
+> Well, sounds straight forward at first, but where should we make the cut
+> between kbuild and non-kbuild?  I admit that there are some scripts
+> below scripts/ that I'd rather label as "contrib", but I don't think
+> that these are too much.
 
-Yes, one can have an industrialio.ko.
-Then, would it be fine to use:
+There are all sorts of stuff there. Just documentation has 15 scripts
+that was either sitting there or were written directly at tools/docs,
+as part of the discussion process of moving things out of it. Several
+of them belongs to in-kernel-tree build chain.
 
-EXPORT_SYMBOL_FOR_MODULES(_parse_integer_limit, "industrialio");
+Just my two cents, but I guess a kbuild/ and/or tools/kbuild directory
+makes sense on my eyes. Yet, I wouldn't mix it with the documentation
+build itself.
 
-in lib/kstrtox.c; and:
-
-#include "../../lib/kstrtox.h"
-
-in drivers/iio/industrialio-core.c
-
-that does not look pretty.
+> 
+> > I understand all of this may be a historical accident, and possibly too
+> > painful to fix now, but is any of this documented anywhere either?
+> 
+> No, I am afraid it isn't.
+> 
+> Kind regards,
+> Nicolas
+> 
+> 
+> [1]: https://git.kernel.org/kbuild/c/6e6ef2da3a28f
+> [2]: https://lore.kernel.org/linux-kbuild/1551764896-8453-3-git-send-email-yamada.masahiro@socionext.com/
 
 -- 
-Kind regards,
-
-Rodrigo Alencar
+Thanks,
+Mauro
