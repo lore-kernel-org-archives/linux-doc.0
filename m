@@ -1,86 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF143DAC02;
-	Wed,  4 Feb 2026 10:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7123D1CA0;
+	Wed,  4 Feb 2026 10:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770201262; cv=none; b=Wrgf3xIncb76+Mu6PBDTQliZbk2w/rzU3/vONbXjf4JofXWw3KqK1YUnGzUqywSbKnOhRsWX0gfoCH95FETwHPpcvyobPZoKK2OjqeATwhKLJM9VSuh4fEnSsAWxccreFX+QgJxPssrp0G8Fa/h7r/95mtHVPqznnD4Zvpy2sms=
+	t=1770201299; cv=none; b=goF1K+eHjT3LdintRCNSbksH0aPo4KkGoVsyQ1M9tWwJT2Hu9FZG6tXyor0RGoaVDdSTYP5xXjtYYmzGTtJeTfCt9lmNVl4sKCPn2AFsYxEt72IktoIFMjS7+Ltw42qzLVMA9ECGHvZhxkjyQOq3hphUKoXVhiqYISjtRLXte8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770201262; c=relaxed/simple;
-	bh=6LVvhhN7OrPbSfPoAw0XiTmkyIgZ6z/ZrIxoempBPGo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=VoCBzr+PKGYFJgUk6GhcbJc7ymZ8s9YUPTqCsTL98Nr7870it4NSIsvgrSq3NxQK5p/Lb5v0P4QtYHYCkAzwGhsJkB5ASA8GaWp+HW0SlTAvDNsLeTXbBlbsjKLcrKe5Wre+8fupDQACTPKZr0t/CAnye/cx8/7QrlVuSD2sEcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u/nAKrnx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770201299; c=relaxed/simple;
+	bh=oxc7/XTv+dXWfFn+rjSwMgQNviDMmBdkkYSOQJyG8Hk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kYwOxfrIfWV6ECFWsmSoZ7Oq7soxvJ/krPlBWSs1bsBDiAhF3OqWXvhpzXZrN9/Ejp9FrgzNhvGNBShdEsNdkbBf8/gXDw5r7Q9pT3ZKl3myUprjhgcFvhWO3UTSogDkFoL4DheJUXxqYbn6RbF+oLadHUaGx58eA/f9UHUr89w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dZ6YIL/y; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u/nAKrnx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDF38C4CEF7;
-	Wed,  4 Feb 2026 10:34:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770201262;
-	bh=6LVvhhN7OrPbSfPoAw0XiTmkyIgZ6z/ZrIxoempBPGo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=u/nAKrnxfM7NAqLhJp41ZCOAHN/RlZdXNO7ppdSjq81NiirhHjmXnVaSDXBNxF3BY
-	 9n6yw63+AxgicR09I/hfmULj3ogWMU75QooBEAfrbpV/jSftKzfF9I88ITXiO0oxtl
-	 ao5EKNOR2Lsd60xUXqXY2j1KZe38r90GOq/y756LzHoJIzZ7f8JOfFgokJXecQ1lhA
-	 352B+ZKtFHi/acV+BCNpamHu+8BZImO/BZAEFpWmVhIH5zCtx/SjncQKSqQtGzpt1e
-	 xbY1743U8Hgj0mxlOB85Nvr95PPPB2oKpdC6WGrlP2yNAbonWF75XY/tCB3CtZyzLh
-	 JvMRCgdo3WJhg==
-From: Thomas Gleixner <tglx@kernel.org>
-To: David Woodhouse <dwmw2@infradead.org>, Alexander Graf <graf@amazon.com>,
- Sasha Levin <sashal@kernel.org>
-Cc: x86@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Hansen
- <dave.hansen@linux.intel.com>, Borislav Petkov <bp@alien8.de>, Ingo Molnar
- <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini
- <pbonzini@redhat.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
- nh-open-source@amazon.com, Nicolas Saenz Julienne <nsaenz@amazon.es>,
- Hendrik Borghorst <hborghor@amazon.de>, Filippo Sironi <sironi@amazon.de>,
- Jan =?utf-8?Q?Sch=C3=B6nherr?= <jschoenh@amazon.de>,
- ricardo.neri-calderon@linux.intel.com
-Subject: Re: [PATCH 2/2] hpet: Add HPET-based NMI watchdog support
-In-Reply-To: <4539d23f9f857da28d3414f512afe3c8bfe6c426.camel@infradead.org>
-References: <20260202174803.66640-1-graf@amazon.com>
- <20260202174803.66640-3-graf@amazon.com> <87jywu3yov.ffs@tglx>
- <1e13c61d-8581-4ece-b31c-7aa771ba7bc2@amazon.com> <aYIhJWiBtiCF4UCr@laps>
- <1d74c3cc-d125-49cb-af05-43ca7d15f3f8@amazon.com>
- <be0ea0adfabcca5c191e07ca5a3811604633f70b.camel@infradead.org>
- <87fr7h368r.ffs@tglx>
- <4539d23f9f857da28d3414f512afe3c8bfe6c426.camel@infradead.org>
-Date: Wed, 04 Feb 2026 11:34:18 +0100
-Message-ID: <87zf5o23x1.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dZ6YIL/y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770201299; x=1801737299;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oxc7/XTv+dXWfFn+rjSwMgQNviDMmBdkkYSOQJyG8Hk=;
+  b=dZ6YIL/yfBz74DgGZHWGqeZrupYVBdo6/X/gNlb6NON2GWrd+LRPw3jG
+   fve5Nr7X2lJkywmjMiII+t75E5J6rkG/aRWnQo3qaXqdAc49JiR5WP111
+   b6g+zMC/cVK4Lo4rVp+NsAucV41FHpsW9S3lhT7U0dHyuCeJdP0cr8xRh
+   VATokuhXO7lYAlkAN3qkxIQzTcrtta9EngGJ0z81oU3hrTN7MvjkL2Pjx
+   boDyJtVKG2AT1fh6FqhxQ+9uph5lZauRvcH9wd+EjTCRVa8LVkHDgzeWl
+   UdfFGoktuiKT7LBWyiXnPCpoZIXBc/LuKwJ1uSUpBOdtwDLz6DKU4jsy1
+   w==;
+X-CSE-ConnectionGUID: CnxyyDgXTXGJABKpS9QNPQ==
+X-CSE-MsgGUID: IrpZPdZbQkmLcxo1sdsF7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="82754789"
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="82754789"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 02:34:58 -0800
+X-CSE-ConnectionGUID: a9pojmGoSlWN4ARqR3ydPA==
+X-CSE-MsgGUID: VAWEqE5ISCyUQUIWcdsA0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,272,1763452800"; 
+   d="scan'208";a="214308089"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.188])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 02:34:54 -0800
+Date: Wed, 4 Feb 2026 12:34:52 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
+Message-ID: <aYMgzMVcv_QALJtF@smile.fi.intel.com>
+References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
+ <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
+ <aYKkv3dq9Vkm3s_3@smile.fi.intel.com>
+ <7tiv33i65unu5ypk7puj3buzybykyhv2qbwp54bhcem5t4rawq@dpfedqmmxbhx>
+ <aYMYJppigidPeLH4@smile.fi.intel.com>
+ <hrhgmum6zdww7etc6ztchivfqecaaqeeul2bbagzyongkxpaeh@q7x4popwel6d>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <hrhgmum6zdww7etc6ztchivfqecaaqeeul2bbagzyongkxpaeh@q7x4popwel6d>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Feb 03 2026 at 23:13, David Woodhouse wrote:
-> On Tue, 2026-02-03 at 21:46 +0100, Thomas Gleixner wrote:
->> On Tue, Feb 03 2026 at 17:43, David Woodhouse wrote:
->> > Honestly, even when I've explicitly told Kiro three times *not* to do
->> > something, *and* implemented a git commit hook to catch it out, it has
->> > a tendency just to automatically override the commit hook!
->> 
->> Anarchic Intelligence :)
->> 
->> > If it was made of meat, I'd have stabbed it by now.
->> 
->> rm -rf solves that problem too once and forever.
->
-> There *are* cases where it's actually an accelerating function,
-> especially where there's a bunch of boilerplate/infrastructure code to
-> be generated. But by $DEITY you have to keep a close eye on it. It has
-> absolutely no taste whatsoever.
->
-> And I've watched it spend quarter of an hour failing to use its own
-> file read/write tools to edit C files, falling back to sed and then
-> python scripts to make the simple changes it wanted to make. Sometimes
-> needing to be prompted because it thought its sed script had worked
-> when in fact it hadn't. It's... impressive :)
+On Wed, Feb 04, 2026 at 10:28:05AM +0000, Rodrigo Alencar wrote:
+> On 26/02/04 11:57AM, Andy Shevchenko wrote:
+> > On Wed, Feb 04, 2026 at 09:42:55AM +0000, Rodrigo Alencar wrote:
+> > > On 26/02/04 03:45AM, Andy Shevchenko wrote:
+> > > > On Fri, Jan 30, 2026 at 10:06:43AM +0000, Rodrigo Alencar via B4 Relay wrote:
 
-You clearly proved the point that this is accelerating the time and
-energy waste.
+...
+
+> > > > There is a development in the parse_integer in the lib/. I reviewed that series
+> > > > and hopefully it will go in. With that done, we better reuse the lib/ function.
+> > > > 
+> > > > https://lore.kernel.org/linux-hardening/20260202115451.290173-1-dmantipov@yandex.ru/
+> > > 
+> > > In this patch, I see that it updates the overflow check, but I am not
+> > > seeing that function being exposed to other kernel modules.
+> > 
+> > Can the IIO be compiled as a module? If so, then we would need to export that
+> > function. (Note, we may export only for the exact module(s) in question, so
+> > nobody else will be able to use it. See EXPORT_SYMBOL_FOR_MODULES() macro.)
+> 
+> Yes, one can have an industrialio.ko.
+> Then, would it be fine to use:
+> 
+> EXPORT_SYMBOL_FOR_MODULES(_parse_integer_limit, "industrialio");
+> 
+> in lib/kstrtox.c; and:
+> 
+> #include "../../lib/kstrtox.h"
+> 
+> in drivers/iio/industrialio-core.c
+> 
+> that does not look pretty.
+
+Yeah, but I think it's fine as long as we have an associated FIXME.
+In any case Jonathan is the one who makes a decision here.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
