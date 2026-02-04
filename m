@@ -1,184 +1,159 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A566D1E8332
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 21:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895DF27464F;
+	Wed,  4 Feb 2026 21:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770238945; cv=none; b=mdt5XgTgM4wXljJRBXysmuQuQxs7UPy/jH8H/vlYJLc9htTnoyJoy5crAez7r0lORgvas+2viWQZuMidwBwew+PmRDcYLPRNaP14yw9H1YI07P+OYDVacqxx5W+RfUQs1O12kELozEv1FmH5HdrMVnRKZTRqLtXFBOPzGtcKZfA=
+	t=1770239333; cv=none; b=g/DiqB3gK8N5EH8j+e46LWPDeDVltOZ7fFM79jb51Kd0Io7AmbftUtK4zH3c+gVClyflPDftXqZjBWbkmRvUesRHxIrD/F9AAYYCXbAau95zU0YEmkxCnrG3BQ/EAXgVhkkiMIu4iKCOUhb1srOTi3LG2M/1rFEhrpOAXW5XQrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770238945; c=relaxed/simple;
-	bh=EzpOrLbanzoU/XKFGITxt6Om/X66hVN2Cw+4bKLo8ws=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FHMMeKW/U+eX2+7FeiVE25MPa/yZjHsDjijBi+DaW0UQozUjxP542EFmcH/67dEl0qOBLJym4PaxWYjePaw3aI96Qz8wCpZ1JpCBzPwsN+nYlzt4gyqdWbS7nbvICRRTvQ3t+STLU8mwJOLvTji6CG5LzWwxBOcRAyAiPOf8RD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DdxNbJpk; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770239333; c=relaxed/simple;
+	bh=L0yw/ZVXlFtoQTEti0lXJnZOK9g6qlS6ZDzawp2mTxk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NYqdjK/xsxiQ4wXquE9reg4lRrTSGlVM0olORVpIkGHZzwJYLfPjuwr2pAv/LCLCm34m+XlnK5C3JcH6WeAabRGlqllEcEUh8p91FFG1HGn9endGa5m07WTp0G9X/uMiW5W6WJxoP8jDa2rBBCcdttu+G6450hpHQZBeQ0s0XK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mj8+82Ig; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DdxNbJpk"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8230d228372so158906b3a.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 13:02:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770238945; x=1770843745; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5JEXFfn5owLVtRFRZ2oa7tX5z5wOjOt9hQA1ZlR21y4=;
-        b=DdxNbJpkP8Z9QhXeYC9lKxKT7bpQ8koLnXGEcFqvCtOsME5ESwce/Q0IvKks/W73S2
-         QBNNIxJH7+DhFN4zhZ5skwW6HKzAfHIzaJK/ry8ZDq1cKaG1KO1pXbiEB9XEqJG8Abeo
-         aYoqhKQl4iiFjHARZEkNbR0JMZfr7dOi8WeQHyTtDifs10bS0yaCzzxt+OtwqBGGz6Rx
-         Pxgcok/H2bs6DB8U8gGMZ6++os6A4UiGplE1yctPFSgYKVv925q00qhzKhHtwAB1S7G6
-         LU42O1wL2FjpT4ahcCthImAULttl6XAYQawyWqDm1MAYujZ/Nr1mho1hG9ge5Am129ps
-         Lh0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770238945; x=1770843745;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5JEXFfn5owLVtRFRZ2oa7tX5z5wOjOt9hQA1ZlR21y4=;
-        b=LiYXH7C4ydisbmbkgAirCsekJiUQapV9uywYvb+VXqeQleNGPrM4TpPd0NgcfPlBL9
-         2u51yBNn8zEC9QOE6L6okJ4Pix/+pcdzrF+HuTxF/iATAG++a++KpOmgTwu78dGQ7Eqo
-         YHxUfEkmiXHwsz5FUUkr0V4uXbo+CW4eqdBqsi/fnnCdkBqd5ByPkV9aUn9OmZ1VF3GD
-         NaNXzHh0voaGLvBrqYdvZrjdQU0n9k9GsVfBPjtwTMMGyVGtO5xah/z0WmtiUwwXICft
-         5VCwEolUg5t5CmHzfYjcyXLKwjprCyxnyw38m7YAt+BizwgmhbTW208MVp1/Tip14DoF
-         fuiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVSo4WHZc5zakd4bzFJUWf/H8ONOadpRcKFlACPuEs9QrLSWSJPa+ePksfbPRDlP5xJkyUL8XrinvE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUMd9PiepAsgK2wx51QvyYN4vLfNovc3GSud7txhxoBmxnmmK2
-	1LZasnQFodaeaxyuACY1SzuYzJFmcscB5lJQMpZ/6pmB/Y58xVu8/fVf
-X-Gm-Gg: AZuq6aJBNv7HyGvXdSCw1s3bwnWYGQQMtH7nDALx0witvYYwgf2sgk0d1Qzf/sKb4g7
-	ROsBG3oicbJyQlGehcgeCpp3U1o0iPyttabZxQA53LWIdERE0pWlKSS53g7hquQ+n1+vZ28a9NM
-	3YBgGZcLpqjR6UyZRsWywOSEAL4setB8XPpUoLIA/1bA3JLrvfKooJucYQ2dXIGS4wYUI4jNgRX
-	uUbKUK6EIh3taaYOt+vVVzJ+qbyDboaCh6NxNEMVRG1mXOL3QWIPNlg+V6ow08OPhMIi4kV4TiW
-	vOwJPfzHZfxhiGhrS8GJv8NZjWUAZRXRB1Zx2mFiw30pXL9oPmhK16Q9fC7J3yrIL2ps1M/uCJB
-	4xDGUcHK76mtgVup5i6FEUEBomC25DAWO8Y7ja2xUWUOS7GN3VmtlwXLTty+oKQXrqqnAV6flEg
-	dSQxOof5lTUFoNRexgOJ1qAgrJDCb7nQMJDRp/+Ve318et28bPyonHCfuACKyEveRp
-X-Received: by 2002:a05:6a00:a907:b0:823:88a:7f1d with SMTP id d2e1a72fcca58-8241c648432mr4248864b3a.62.1770238944810;
-        Wed, 04 Feb 2026 13:02:24 -0800 (PST)
-Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com.com ([106.51.164.193])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8241d1bd466sm3277977b3a.20.2026.02.04.13.02.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 13:02:24 -0800 (PST)
-From: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-To: linkmauve@linkmauve.fr,
-	ojeda@kernel.org,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	dakr@kernel.org,
-	corbet@lwn.net,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	npiggin@gmail.com,
-	chleroy@kernel.org,
-	peterz@infradead.org,
-	jpoimboe@kernel.org,
-	jbaron@akamai.com,
-	rostedt@goodmis.org,
-	ardb@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Cc: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Subject: [PATCH V2 2/3] rust: Add PowerPC support
-Date: Thu,  5 Feb 2026 02:31:24 +0530
-Message-ID: <20260204210125.613350-3-mkchauras@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260204210125.613350-1-mkchauras@gmail.com>
-References: <20260204210125.613350-1-mkchauras@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mj8+82Ig"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2F8BC4CEF7;
+	Wed,  4 Feb 2026 21:08:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770239333;
+	bh=L0yw/ZVXlFtoQTEti0lXJnZOK9g6qlS6ZDzawp2mTxk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=mj8+82IgGzyI6MJVVLBy57BfvzFo3eflS+GZ+P1hZLQt56+SpuW1qDVqN8T/4ok0o
+	 Bo/rnJCkRFxA2hHtsudRKnNMpNYNBdWsAmqfrIlIfhZc6vHsQIb+ZAhvYwZS2jZXLM
+	 wWtnZJhzQS+BE7Rdsf9bzz9zjQkPcsWgu2dBs6CjaDd/qr8NqBAXklQ8EJcKKwXa9n
+	 eeu5Nk2sTeurjCq3HR22POQH3xW9KiCL/0feoY5DwVCs5gR6vM3oY8Mf+mfvpsaFmN
+	 PhQ4IDgGm70galBMIGm9sKMnra1XxFhBP8QX6JfIgJE+Pfho5g5dqLokt2mrFwSNH4
+	 PBc5rPqWtN5pw==
+Message-ID: <3424eba7-523b-4351-abd0-3a888a3e5e61@kernel.org>
+Date: Wed, 4 Feb 2026 22:08:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/9] mm/memory_hotplug: add __add_memory_driver_managed()
+ with online_type arg
+To: Gregory Price <gourry@gourry.net>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: linux-mm@kvack.org, linux-cxl@vger.kernel.org, nvdimm@lists.linux.dev,
+ linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com, dave@stgolabs.net,
+ dave.jiang@intel.com, alison.schofield@intel.com, vishal.l.verma@intel.com,
+ ira.weiny@intel.com, dan.j.williams@intel.com, willy@infradead.org,
+ jack@suse.cz, terry.bowman@amd.com, john@jagalactic.com,
+ Oscar Salvador <osalvador@suse.de>, Andrew Morton <akpm@linux-foundation.org>
+References: <20260129210442.3951412-1-gourry@gourry.net>
+ <20260129210442.3951412-3-gourry@gourry.net>
+ <20260202172524.00000c6d@huawei.com>
+ <aYDmor_ruasxaZ-7@gourry-fedora-PF4VCD3F>
+ <20260202184609.00004a02@huawei.com>
+ <aYEZAUJMLWvaug50@gourry-fedora-PF4VCD3F>
+From: "David Hildenbrand (arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aYEZAUJMLWvaug50@gourry-fedora-PF4VCD3F>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Link Mauve <linkmauve@linkmauve.fr>
+On 2/2/26 22:37, Gregory Price wrote:
+> On Mon, Feb 02, 2026 at 06:46:09PM +0000, Jonathan Cameron wrote:
+>>>
+>>> I can add a cleanup-patch prior to use the enum, but i don't think this
+>>> actually enables the compiler to do anything new at the moment?
+>>
+>> Good point. More coffee needed (or sleep)
+>>
+>> It lets sparse do some checking, but sadly only for wrong enum assignment.
+>> (Gcc has -Wenum-conversion as well which I think is effectively the same)
+>> I.e. you can't assign a value from a different enum without casting.
+>>
+>> It can't do anything if people just pass in an out of range int.
+>>
+> 
+> Which, after looking a bit... mm/memory_hotplug.c does this quite a bit
+> internally - except it uses a uint8_t
+> 
+> Example:
+> 
+> static int try_offline_memory_block(struct memory_block *mem, void *arg)
+> {
+>          uint8_t online_type = MMOP_ONLINE_KERNEL;
+>          uint8_t **online_types = arg;
+> 	... snip ...
+> }
+> 
+> int offline_and_remove_memory(u64 start, u64 size)
+> {
+>          uint8_t *online_types, *tmp;
+> 	... snip ...
+>          online_types = kmalloc_array(mb_count, sizeof(*online_types),
+>                                       GFP_KERNEL);
+> }
+> 
+> So that's fun.
+> 
+> I'm not sure it's worth the churn here, but happy to do it if there are
+> strong opinions.
+> 
+> ---
+> 
+> David do you have thoughts here?
 
-For now only Big Endian 32-bit PowerPC is supported, as that is the only
-hardware I have.  This has been tested on the Nintendo Wii so far, but I
-plan on also using it on the GameCube, Wii U and Apple G4.
+I guess we should clean that all up where easily possible, but I don't 
+expect you to do that.
 
-These changes aren’t the only ones required to get the kernel to compile
-and link on PowerPC, libcore will also have to be changed to not use
-integer division to format u64, u128 and core::time::Duration, otherwise
-__udivdi3() and __umoddi3() will have to be added.  I have tested this
-change by replacing the three implementations with unimplemented!() and
-it linked just fine.
+For online_types I used it, obviously, to save memory. So I'd expect it 
+to stay at least there, but cast it to the proper type once we take it 
+out the array.
 
-Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
-Signed-off-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
----
- Documentation/rust/arch-support.rst | 1 +
- arch/powerpc/Kconfig                | 1 +
- arch/powerpc/Makefile               | 2 ++
- rust/Makefile                       | 4 +++-
- 4 files changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
-index 6e6a515d0899..e26a94808e97 100644
---- a/Documentation/rust/arch-support.rst
-+++ b/Documentation/rust/arch-support.rst
-@@ -18,6 +18,7 @@ Architecture   Level of support  Constraints
- ``arm``        Maintained        ARMv7 Little Endian only.
- ``arm64``      Maintained        Little Endian only.
- ``loongarch``  Maintained        \-
-+``powerpc``    Experimental      32-bit Big Endian only.
- ``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
- ``um``         Maintained        \-
- ``x86``        Maintained        ``x86_64`` only.
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index 9537a61ebae0..17db23b82e91 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -283,6 +283,7 @@ config PPC
- 	select HAVE_REGS_AND_STACK_ACCESS_API
- 	select HAVE_RELIABLE_STACKTRACE
- 	select HAVE_RSEQ
-+	select HAVE_RUST			if PPC32
- 	select HAVE_SAMPLE_FTRACE_DIRECT	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
- 	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
- 	select HAVE_SETUP_PER_CPU_AREA		if PPC64
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index a58b1029592c..9fd82c75dcbd 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -61,6 +61,8 @@ else
- KBUILD_LDFLAGS_MODULE += $(objtree)/arch/powerpc/lib/crtsavres.o
- endif
- 
-+KBUILD_RUSTFLAGS += --target=powerpc-unknown-linux-gnu
-+
- ifdef CONFIG_CPU_LITTLE_ENDIAN
- KBUILD_CPPFLAGS	+= -mlittle-endian
- KBUILD_LDFLAGS	+= -EL
-diff --git a/rust/Makefile b/rust/Makefile
-index 4dcc2eff51cb..ae22f2c5f0b3 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -384,13 +384,15 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
- 	-fstrict-flex-arrays=% -fmin-function-alignment=% \
- 	-fzero-init-padding-bits=% -mno-fdpic \
- 	-fdiagnostics-show-context -fdiagnostics-show-context=% \
--	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference
-+	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference \
-+	-ffixed-r2 -mmultiple -mno-readonly-in-sdata
- 
- # Derived from `scripts/Makefile.clang`.
- BINDGEN_TARGET_x86	:= x86_64-linux-gnu
- BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
- BINDGEN_TARGET_arm	:= arm-linux-gnueabi
- BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
-+BINDGEN_TARGET_powerpc	:= powerpc-linux-gnu
- BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
- BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
- 
 -- 
-2.52.0
+Cheers,
 
+David
