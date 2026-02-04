@@ -1,121 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FA78460;
-	Wed,  4 Feb 2026 10:32:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF143DAC02;
+	Wed,  4 Feb 2026 10:34:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770201150; cv=none; b=VweLZF+4YF/1VbnxKuo6xDfqZm1+UvgUPk2WnFub+z/7eojnE8dTwbTE5wtzhP+ue+DXovyCj3WgYoLpFQknin5SvccxXZLEUiZvGURH6cnTrSqTIYxoEnz/yzTDsLPHm168k+VWiEEcutAwxd0Ph1JXkn0Ipb19bJKATgcE5A4=
+	t=1770201262; cv=none; b=Wrgf3xIncb76+Mu6PBDTQliZbk2w/rzU3/vONbXjf4JofXWw3KqK1YUnGzUqywSbKnOhRsWX0gfoCH95FETwHPpcvyobPZoKK2OjqeATwhKLJM9VSuh4fEnSsAWxccreFX+QgJxPssrp0G8Fa/h7r/95mtHVPqznnD4Zvpy2sms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770201150; c=relaxed/simple;
-	bh=rA1a+YBhqPqOXlWE1XOcasC4hH+/r1lVZ4TCQm24evU=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=suZVjuidhLYqWwHYiWQgWV/lpXoMLbdcW5L7BPFNoi7bWqzUMK1mc8jzrasvpfzz+Pg6qfpt5B3U5AyyslgkHJEEB39MgkR5bagcRCUUUbvtLvDDX6FT+Hkxt7Hl+EDDKoSVbPpvJP0QxKuscilXeAP7IyrgjF2JcbmSsENRdWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LANPMQ1/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770201262; c=relaxed/simple;
+	bh=6LVvhhN7OrPbSfPoAw0XiTmkyIgZ6z/ZrIxoempBPGo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=VoCBzr+PKGYFJgUk6GhcbJc7ymZ8s9YUPTqCsTL98Nr7870it4NSIsvgrSq3NxQK5p/Lb5v0P4QtYHYCkAzwGhsJkB5ASA8GaWp+HW0SlTAvDNsLeTXbBlbsjKLcrKe5Wre+8fupDQACTPKZr0t/CAnye/cx8/7QrlVuSD2sEcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u/nAKrnx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LANPMQ1/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 487EAC16AAE;
-	Wed,  4 Feb 2026 10:32:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u/nAKrnx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDF38C4CEF7;
+	Wed,  4 Feb 2026 10:34:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770201150;
-	bh=rA1a+YBhqPqOXlWE1XOcasC4hH+/r1lVZ4TCQm24evU=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=LANPMQ1/JwxpZ+414qlDQgXHJHzWDlo5SO3DNf4o7kSRBBlXlkYfHXk325rnEpfAv
-	 AMtqb3w7MlA/pXKxBVidkGx8t0VXXtCuJfXo6VBj4OV5c4ftO+GBdXsO0IpFJVmavC
-	 dlJWEa3k0qNho6tPCb/l7+69vFNB7AnRUI5zTcKMeqjRDx+pcuoqrmwzFti+YzuNl2
-	 jA7kv5P+DWjKNeMYI+Ihn6mgp+oNvCxMhXisZJf0v1GcR7iLM6igW7p0No9IREI1bs
-	 em1QS5BcWnef2J4bnt6WIfJqwpGZB1gsHkadGPK+njzGccAicHiguCNEMpeViJZMRX
-	 Y0G+DoWVjmbzg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vnaBQ-00000004sSK-1AMF;
-	Wed, 04 Feb 2026 11:32:28 +0100
-Date: Wed, 4 Feb 2026 11:32:28 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, Rong Zhang <i@rong.moe>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH] kbuild: Do not run kernel-doc when building external
- modules
-Message-ID: <aYMeaKMPkf7uxghq@foz.lan>
-References: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
- <176987242178.1743608.5094531752561489739.b4-ty@kernel.org>
- <CAK7LNARR9bZQ9t9emcVzmL+P7xYemu=8s8v_LshQ0-m_zEE9mA@mail.gmail.com>
- <6387ba7b99fb952a59932c3a851dfd0ecc4dfb2c@intel.com>
- <aYMbVcNvJPlLPaaG@derry.ads.avm.de>
+	s=k20201202; t=1770201262;
+	bh=6LVvhhN7OrPbSfPoAw0XiTmkyIgZ6z/ZrIxoempBPGo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=u/nAKrnxfM7NAqLhJp41ZCOAHN/RlZdXNO7ppdSjq81NiirhHjmXnVaSDXBNxF3BY
+	 9n6yw63+AxgicR09I/hfmULj3ogWMU75QooBEAfrbpV/jSftKzfF9I88ITXiO0oxtl
+	 ao5EKNOR2Lsd60xUXqXY2j1KZe38r90GOq/y756LzHoJIzZ7f8JOfFgokJXecQ1lhA
+	 352B+ZKtFHi/acV+BCNpamHu+8BZImO/BZAEFpWmVhIH5zCtx/SjncQKSqQtGzpt1e
+	 xbY1743U8Hgj0mxlOB85Nvr95PPPB2oKpdC6WGrlP2yNAbonWF75XY/tCB3CtZyzLh
+	 JvMRCgdo3WJhg==
+From: Thomas Gleixner <tglx@kernel.org>
+To: David Woodhouse <dwmw2@infradead.org>, Alexander Graf <graf@amazon.com>,
+ Sasha Levin <sashal@kernel.org>
+Cc: x86@kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dave Hansen
+ <dave.hansen@linux.intel.com>, Borislav Petkov <bp@alien8.de>, Ingo Molnar
+ <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Paolo Bonzini
+ <pbonzini@redhat.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+ nh-open-source@amazon.com, Nicolas Saenz Julienne <nsaenz@amazon.es>,
+ Hendrik Borghorst <hborghor@amazon.de>, Filippo Sironi <sironi@amazon.de>,
+ Jan =?utf-8?Q?Sch=C3=B6nherr?= <jschoenh@amazon.de>,
+ ricardo.neri-calderon@linux.intel.com
+Subject: Re: [PATCH 2/2] hpet: Add HPET-based NMI watchdog support
+In-Reply-To: <4539d23f9f857da28d3414f512afe3c8bfe6c426.camel@infradead.org>
+References: <20260202174803.66640-1-graf@amazon.com>
+ <20260202174803.66640-3-graf@amazon.com> <87jywu3yov.ffs@tglx>
+ <1e13c61d-8581-4ece-b31c-7aa771ba7bc2@amazon.com> <aYIhJWiBtiCF4UCr@laps>
+ <1d74c3cc-d125-49cb-af05-43ca7d15f3f8@amazon.com>
+ <be0ea0adfabcca5c191e07ca5a3811604633f70b.camel@infradead.org>
+ <87fr7h368r.ffs@tglx>
+ <4539d23f9f857da28d3414f512afe3c8bfe6c426.camel@infradead.org>
+Date: Wed, 04 Feb 2026 11:34:18 +0100
+Message-ID: <87zf5o23x1.ffs@tglx>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aYMbVcNvJPlLPaaG@derry.ads.avm.de>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain
 
-On Wed, Feb 04, 2026 at 11:11:33AM +0100, Nicolas Schier wrote:
-> On Wed, Feb 04, 2026 at 11:10:37AM +0200, Jani Nikula wrote:
-> > On Wed, 04 Feb 2026, Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > > Since kernel-doc is a part of Kbuild,
-> > > all dependent libraries should exist under scripts/.
-> > 
-> > Huh. I've always wondered why all the Kbuild makefiles are placed in
-> > scripts/, which appears to be a haphazard collection of, well, scripts
-> > and tools. But then you also have tools/.
-> 
-> From the kbuild perspective, as Masahiro mentioned, every tooling
-> related to kernel builds, kbuild or kconfig should be placed in
-> scripts/.  The tools/ subtree isn't using kbuild; rules, definitionas
-> and other expectations that are valid for kbuild may not be true in
-> tools/, cp. commit 6e6ef2da3a28f [1].
-> 
-> Unfortunately, there _are_ things in tools/ that are required for kernel
-> builds (e.g. objtool), but there is no consent on moving these parts out
-> of the tools/ subtree [2].
-> 
-> > I've followed the kernel-doc refactoring from the sidelines, commenting
-> > on some things, but it never crossed my mind the build shouldn't depend
-> > on something outside of scripts/. (That's what I'm inferring here
-> > anyway.) And apparently that thought didn't occur to a lot of other
-> > people either, with even more kernel experience than myself.
-> 
-> Yes, I also saw the changes fly by but did not think about the
-> implications.
-> 
-> > Sounds like the kernel config and build system would deserve a top-level
-> > directory like build/ or kbuild/, which collects everything needed for
-> > the build, nothing more, nothing less. Because scripts/ is not *that*.
-> 
-> Well, sounds straight forward at first, but where should we make the cut
-> between kbuild and non-kbuild?  I admit that there are some scripts
-> below scripts/ that I'd rather label as "contrib", but I don't think
-> that these are too much.
+On Tue, Feb 03 2026 at 23:13, David Woodhouse wrote:
+> On Tue, 2026-02-03 at 21:46 +0100, Thomas Gleixner wrote:
+>> On Tue, Feb 03 2026 at 17:43, David Woodhouse wrote:
+>> > Honestly, even when I've explicitly told Kiro three times *not* to do
+>> > something, *and* implemented a git commit hook to catch it out, it has
+>> > a tendency just to automatically override the commit hook!
+>> 
+>> Anarchic Intelligence :)
+>> 
+>> > If it was made of meat, I'd have stabbed it by now.
+>> 
+>> rm -rf solves that problem too once and forever.
+>
+> There *are* cases where it's actually an accelerating function,
+> especially where there's a bunch of boilerplate/infrastructure code to
+> be generated. But by $DEITY you have to keep a close eye on it. It has
+> absolutely no taste whatsoever.
+>
+> And I've watched it spend quarter of an hour failing to use its own
+> file read/write tools to edit C files, falling back to sed and then
+> python scripts to make the simple changes it wanted to make. Sometimes
+> needing to be prompted because it thought its sed script had worked
+> when in fact it hadn't. It's... impressive :)
 
-There are all sorts of stuff there. Just documentation has 15 scripts
-that was either sitting there or were written directly at tools/docs,
-as part of the discussion process of moving things out of it. Several
-of them belongs to in-kernel-tree build chain.
-
-Just my two cents, but I guess a kbuild/ and/or tools/kbuild directory
-makes sense on my eyes. Yet, I wouldn't mix it with the documentation
-build itself.
-
-> 
-> > I understand all of this may be a historical accident, and possibly too
-> > painful to fix now, but is any of this documented anywhere either?
-> 
-> No, I am afraid it isn't.
-> 
-> Kind regards,
-> Nicolas
-> 
-> 
-> [1]: https://git.kernel.org/kbuild/c/6e6ef2da3a28f
-> [2]: https://lore.kernel.org/linux-kbuild/1551764896-8453-3-git-send-email-yamada.masahiro@socionext.com/
-
--- 
-Thanks,
-Mauro
+You clearly proved the point that this is accelerating the time and
+energy waste.
