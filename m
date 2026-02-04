@@ -1,89 +1,223 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD872D8375;
-	Wed,  4 Feb 2026 13:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09AD3F0774
+	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 13:12:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770210429; cv=none; b=TM7myZMxY0WrtM/p9VHzCaQ812cgamVeY88ZjvEHZMGfc9j+R9YwdU7gfJxKgkmDXA93jPx6jgdwc0+R2GpcqunJteYZiSqcHO4hzqzWvkw7lYwZGPJN0rQH0LQD//dhKJDkiYrykCSrLDETuPeu7ftoY3Ycx8NWeTavS7AUuP0=
+	t=1770210754; cv=none; b=X2Y622qc7+WWkhYKSZ9dORG4Th6JAS0SRwPEbaGdMiRRF8nlAXUdJEX7yeQTb+moBp6cKBYRTrtfzun5b644uORn6I5HVFtCbunEmkudXP4zO2Qjgx5MpYvPeYyws40/R7q2kJGMBWdiiKEIWQXM434bG2WSo3SEWpTlm8AE3/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770210429; c=relaxed/simple;
-	bh=IG7z+rMybMa4HuzoAClaZJTClqKa1ijErCJG0QFQoWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MzgnlJzvTdBpVMVovCTChYLL63ph6kXVLwUG2YPHo0/xIcgwjf9jlEuZRZaP2mdmiSWlBOfbmY3GtaoZy/7SrcTi/gi37a2Lk9E63S+qJ+uARLdQNYcZUez28wupNuUdmDnjX1YmYr3nSkPVuQSN3m26RevpjEBaVcs3KcgUMLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JnNmj20m; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1770210754; c=relaxed/simple;
+	bh=5j+moHM2KtRpYQgWDekL56HBMTabiSEQYjC6JVstQ74=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DhwfJ8R4GM3Npg0hhpnelstcu5cBrk9jAx7EGMyffg+1WuckzixPxdQbp+e47mIhWYSTT7n1OZTJN0PlTlOkK0hjxi1lWrkbpK5/wL9w8+9HqLHs1qEuL4VjfNgpeVvNecKpyCmpB05SQypCEHlSuxfPTepH7PYCfVa7utUajxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bO32utGR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JnNmj20m"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=IG7z+rMybMa4HuzoAClaZJTClqKa1ijErCJG0QFQoWY=; b=JnNmj20mm0cT/SAQkT0IEJ72Jn
-	yFL0UFRybqecdOVM/1xS8zNEz1CsA2VmJqWKJL3pxSz/3Eb2QQee1rOZVnsoWdN+d67Q12Xe7aLog
-	Ed3/oC2V3ikJ7KOnUEvk3UE2dvpREAv4XJym9QeEGR+lPtkcpb8Z8Mp0nqyqJ4++32t1lIVBU/dIZ
-	QP4uqO2SDYDTum3xaUZR9zNluxP4M84YOZdgXelOkAE0NgSQ/beE75OCCIB2t8Efrte/uLOGy8Nb0
-	CasrpB2NDBcpW0kyHSlgGeA0BtuQlhgFzv6a/uvF22OLPZsgx09OPvQ496GWarL+3HLP2b/orH+kv
-	ylDfNAGA==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vncas-000000026VB-09Dm;
-	Wed, 04 Feb 2026 13:06:54 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 7D24B302F8E; Wed, 04 Feb 2026 14:06:53 +0100 (CET)
-Date: Wed, 4 Feb 2026 14:06:53 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Gary Guo <gary@garyguo.net>, Link Mauve <linkmauve@linkmauve.fr>,
-	rust-for-linux@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	llvm@lists.linux.dev, officialTechflashYT@gmail.com,
-	Ash Logan <ash@heyquark.com>,
-	Roberto Van Eeden <rw-r-r-0644@protonmail.com>,
-	Jonathan =?iso-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Subject: Re: [PATCH] rust: Add PowerPC support
-Message-ID: <20260204130653.GH2995752@noisy.programming.kicks-ass.net>
-References: <20260204030507.8203-1-linkmauve@linkmauve.fr>
- <aYMiXcy33YEVkgYM@google.com>
- <DG66KRKI62WA.3GILMBH1UCYB@garyguo.net>
- <aYNBtc2Jbtg9sLIE@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bO32utGR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 732ACC4CEF7
+	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 13:12:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770210754;
+	bh=5j+moHM2KtRpYQgWDekL56HBMTabiSEQYjC6JVstQ74=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=bO32utGR3L5Lmp5h6fVzRhe79L5lVoStU5Ezp826SbubZeqVVIr9A5o6ONqSUt1vc
+	 slyznVKsoCA5rgPra7CIApFXTLC5+C+ufZB29lug7g9V1i5DfCLlcW0MIbfqG5FeC2
+	 J9DtCsJc1k0TuGVVEUZ+I87IW7qPfTjFBz/jWmKLRjNN7/ztqDVPo6nOfPi1KA2sa7
+	 63tZJqdG+Yf/7Lqaz/ju3HaFUyrk0GzEbAjh3DZLURPTvZdOouMnGiRcAHGRjBIUKo
+	 iaul3yF/67DoHQDszQo0n5AGdhMs6yUaC8UhbYnL5ZKUaT84gaw17SQUlpe/wJxYdv
+	 M6o6t6LxZz/Vw==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-382fd8aaa6eso55536471fa.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 05:12:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX5MsD9O1mEE/sgJnaHRFRMNRpYcFFkpRoXPKQEKDOguKNgOP3B7S943/urHYV7esMFTQHrcQcZKGQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBXak50ZxBrVI8gPs6T2l1e4BcpQPeFiHvW4x7gB7IoLEHB1o8
+	4+9mdE84W67XdAoQS4TWZ7Wa3jSgg+RYsi5IIRioVonc4BKY9q3vISd+qIyRYiLIdprDYwVXSVe
+	OwARyE89ODUSbCwDsFVmrLl3+AOrwrVj965F13Mgh2w==
+X-Received: by 2002:a05:651c:3135:b0:383:27b9:caae with SMTP id
+ 38308e7fff4ca-38691c54309mr13408971fa.9.1770210753084; Wed, 04 Feb 2026
+ 05:12:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aYNBtc2Jbtg9sLIE@google.com>
+References: <20260116080235.350305-1-tzungbi@kernel.org> <20260116080235.350305-2-tzungbi@kernel.org>
+In-Reply-To: <20260116080235.350305-2-tzungbi@kernel.org>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Wed, 4 Feb 2026 14:12:20 +0100
+X-Gmail-Original-Message-ID: <CAMRc=MeO9vD0SA1ZjPP_K-0FT8ePTNNoSRqfewQRc5dMR6-SBA@mail.gmail.com>
+X-Gm-Features: AZwV_Qjmn5KU3dAH1Ehw8ovrLbiT4k4_-88Pdn1EEDH0WExhMr5nRpFc8fQ3D7s
+Message-ID: <CAMRc=MeO9vD0SA1ZjPP_K-0FT8ePTNNoSRqfewQRc5dMR6-SBA@mail.gmail.com>
+Subject: Re: [PATCH v7 1/3] revocable: Revocable resource management
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: Benson Leung <bleung@chromium.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J . Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev, 
+	linux-kselftest@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Simona Vetter <simona.vetter@ffwll.ch>, 
+	Dan Williams <dan.j.williams@intel.com>, Jason Gunthorpe <jgg@nvidia.com>, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 04, 2026 at 12:55:17PM +0000, Alice Ryhl wrote:
+On Fri, Jan 16, 2026 at 9:03=E2=80=AFAM Tzung-Bi Shih <tzungbi@kernel.org> =
+wrote:
+>
+> Some resources can be removed asynchronously, for example, resources
+> provided by a hot-pluggable device like USB.  When holding a reference
+> to such a resource, it's possible for the resource to be removed and
+> its memory freed, leading to use-after-free errors on subsequent access.
+>
+> The "revocable" mechanism addresses this by establishing a weak reference
+> to a resource that might be freed at any time.  It allows a resource
+> consumer to safely attempt to access the resource, guaranteeing that the
+> access is valid for the duration of its use, or it fails safely if the
+> resource has already been revoked.
+>
+> The implementation uses a provider/consumer model built on Sleepable
+> RCU (SRCU) to guarantee safe memory access:
+>
+> - A resource provider, such as a driver for a hot-pluggable device,
+>   allocates a struct revocable_provider and initializes it with a pointer
+>   to the resource.
+>
+> - A resource consumer that wants to access the resource allocates a
+>   struct revocable which acts as a handle containing a reference to the
+>   provider.
+>
+> - To access the resource, the consumer uses revocable_try_access().
+>   This function enters an SRCU read-side critical section and returns
+>   the pointer to the resource.  If the provider has already freed the
+>   resource, it returns NULL.  After use, the consumer calls
+>   revocable_withdraw_access() to exit the SRCU critical section.  The
+>   REVOCABLE_TRY_ACCESS_WITH() and REVOCABLE_TRY_ACCESS_SCOPED() are
+>   convenient helpers for doing that.
+>
+> - When the provider needs to remove the resource, it calls
+>   revocable_provider_revoke().  This function sets the internal resource
+>   pointer to NULL and then calls synchronize_srcu() to wait for all
+>   current readers to finish before the resource can be completely torn
+>   down.
+>
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
+> Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
+> ---
 
-> Is there any reason to not make it Rust-only but for all Rust code?
-> Making the / operator work seems like it would be a good idea.
+[snip]
 
-Why would it be a good idea to have it work on non-native types in Rust?
+> diff --git a/include/linux/revocable.h b/include/linux/revocable.h
+> new file mode 100644
+> index 000000000000..659ba01c58db
+> --- /dev/null
+> +++ b/include/linux/revocable.h
+> @@ -0,0 +1,69 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright 2026 Google LLC
+> + */
+> +
+> +#ifndef __LINUX_REVOCABLE_H
+> +#define __LINUX_REVOCABLE_H
+> +
+> +#include <linux/compiler.h>
+> +#include <linux/cleanup.h>
+> +
+> +struct device;
+> +struct revocable;
+> +struct revocable_provider;
+> +
+> +struct revocable_provider *revocable_provider_alloc(void *res);
+> +void revocable_provider_revoke(struct revocable_provider *rp);
+> +struct revocable_provider *devm_revocable_provider_alloc(struct device *=
+dev,
+> +                                                        void *res);
+> +
+> +struct revocable *revocable_alloc(struct revocable_provider *rp);
+> +void revocable_free(struct revocable *rev);
+> +void *revocable_try_access(struct revocable *rev) __acquires(&rev->rp->s=
+rcu);
+> +void revocable_withdraw_access(struct revocable *rev) __releases(&rev->r=
+p->srcu);
+> +
+> +DEFINE_FREE(access_rev, struct revocable *, if (_T) revocable_withdraw_a=
+ccess(_T))
+> +
+> +/**
+> + * REVOCABLE_TRY_ACCESS_WITH() - A helper for accessing revocable resour=
+ce
+> + * @_rev: The consumer's ``struct revocable *`` handle.
+> + * @_res: A pointer variable that will be assigned the resource.
+> + *
+> + * The macro simplifies the access-release cycle for consumers, ensuring=
+ that
+> + * revocable_withdraw_access() is always called, even in the case of an =
+early
+> + * exit.
+> + *
+> + * It creates a local variable in the current scope.  @_res is populated=
+ with
+> + * the result of revocable_try_access().  The consumer code **must** che=
+ck if
+> + * @_res is ``NULL`` before using it.  The revocable_withdraw_access() f=
+unction
+> + * is automatically called when the scope is exited.
+> + *
+> + * Note: It shares the same issue with guard() in cleanup.h.  No goto st=
+atements
+> + * are allowed before the helper.  Otherwise, the compiler fails with
+> + * "jump bypasses initialization of variable with __attribute__((cleanup=
+))".
+> + */
+> +#define REVOCABLE_TRY_ACCESS_WITH(_rev, _res)                           =
+       \
+> +       struct revocable *__UNIQUE_ID(name) __free(access_rev) =3D _rev; =
+         \
+> +       _res =3D revocable_try_access(_rev)
+> +
+> +#define _REVOCABLE_TRY_ACCESS_SCOPED(_rev, _label, _res)                =
+       \
+> +       for (struct revocable *__UNIQUE_ID(name) __free(access_rev) =3D _=
+rev;     \
+> +            (_res =3D revocable_try_access(_rev)) || true; ({ goto _labe=
+l; }))   \
+> +               if (0) {                                                 =
+       \
+> +_label:                                                                 =
+               \
+> +                       break;                                           =
+       \
+> +               } else
+> +
+> +/**
+> + * REVOCABLE_TRY_ACCESS_SCOPED() - A helper for accessing revocable reso=
+urce
+> + * @_rev: The consumer's ``struct revocable *`` handle.
+> + * @_res: A pointer variable that will be assigned the resource.
+> + *
+> + * Similar to REVOCABLE_TRY_ACCESS_WITH() but with an explicit scope fro=
+m a
+> + * temporary ``for`` loop.
+> + */
+> +#define REVOCABLE_TRY_ACCESS_SCOPED(_rev, _res)                         =
+               \
 
-The reason we don't have them in C is because non-native divisions are
-expensive and doing them should be a conscious choice. The very same
-argument should be true for Rust code too.
+Seeing this code used in GPIO, I would suggest a coding-style change
+before it makes its way into other places:
+
+revocable_try_access_with() looks better and is in line with most
+other macros. There's no reason for capitalisation IMO and it makes
+the code using it look like there was some issue with it, as if this
+was a WARN() or something.
+
+I'd suggest changing all these macros to using lowercase and queuing
+it for v7.0.
+
+Bartosz
+
+> +       _REVOCABLE_TRY_ACCESS_SCOPED(_rev, __UNIQUE_ID(label), _res)
+> +
+> +#endif /* __LINUX_REVOCABLE_H */
+> --
+> 2.52.0.457.g6b5491de43-goog
+>
