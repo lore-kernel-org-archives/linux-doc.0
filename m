@@ -1,79 +1,54 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283F0352C47
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 09:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550723D3CF1;
+	Wed,  4 Feb 2026 10:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770199111; cv=none; b=ZpbFImlyN8cPxDX4TzDZH2y2dDmQJPIbIYnYmFvvNplhuB3XCtOLc44RI/8ErsUvDIabFUkugpZX9qfb4tGD+pdCotUf+kw+vZOQyZVQ+BLjd/b+NsgBqaLSxXHfLOnzzqM9/GFgRDQjzb2J0dDu5/7kjzDNqV5ELbTT9a0iZfo=
+	t=1770199959; cv=none; b=RFUNrcLioJ7LQ4BSFp7NyDU4uB4jW+8pwyyRYzmG3fhg36Z4IUuEnHHzdpr0yTBnqgmUzMsuMV9BdwHq6MWXgJuldzYkePkwrFDH4NCQF+SsWJLI92GrPQXeqtZeJzVShyGRzRwHbXkXqLPPqujHj9SJjShpdhbXB0dh7+sRzcs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770199111; c=relaxed/simple;
-	bh=RqUvHqsbdJMXbroQSbdoa+j17A8Lq78NDNCD6CEhGH8=;
+	s=arc-20240116; t=1770199959; c=relaxed/simple;
+	bh=inCyKiiNSNV6LDkRbFvq9oB6OngDmsXZ8tjL09HtSOk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MwJbmjffc8yJ7xxybZcB324hp/j8PMHW6WyLRSV35h+rSpnt3NFLUti7YedKAXHCbVHiJVh+trXmmTnHIiT1vy7PiPyJ54K4nZkD+tYUacILZ7tDMf9Jyn5e2RhIGKopMnRky5CTTuSIL4VfkyeM6GshSgpNLKySnz3H7ebicu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=Km5MWAOq; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	 Content-Type:Content-Disposition:In-Reply-To; b=oxmJg+uhqU052GY/YExYXb+tBk4Upj/Ct3gR1V7yg85ns8lHe1w0wBAY4vnYGp93tjJ89E/h4lqswceQ186G9zDUHtTaK6KGVwYmHDPDembj5HVNHdYtFy8AqMZxtQaepC0GMm4QJ8nFJZ0B5I8U/57jZ2W/+T4l8M3xWYQf5RQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=El2K5lZo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="Km5MWAOq"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4359a302794so4565435f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 01:58:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770199110; x=1770803910; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XsS2W/JwCUgw6NN0Wz3AYONgmZuWQ5joMlv0dByi4ao=;
-        b=Km5MWAOqgKvfPhv0SPoi64vQ23QnUBw9q2/Ua2FnDxfvG4yejUVVUVKTURAtFCcUsQ
-         xUCskVjp7dw/KAlS1RyxfllziMWMOytV3ZKR2X1uBYv/qoRmNB4kKOafr+v5COwoOt4j
-         475IIpIpCnORYHO+5VkI5u0Qa3VnQ6GCLBIH+Jm2jebh1aNrW9070zKmM/xzFrwzZ9ZN
-         XfVbC+hI94PN9SPGkoTQ4xsLMSMrsnjd0Q6TnATV7JVJzaY47y9QhypUe9962Y3F0k2e
-         IEPuZP6WjrCJh/Oh+mQsSdTDqVILIJWiTyyh/F7ZZaPV4qGikhpvv8UShGn32T6PXqPA
-         zAWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770199110; x=1770803910;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XsS2W/JwCUgw6NN0Wz3AYONgmZuWQ5joMlv0dByi4ao=;
-        b=QJim+zglmjKzpizvxt18iabiTU543wxml6khH6VFPHpTpWeOKdRgMmmTEb/M0td5+f
-         zfQB/4BEg+Lh46v5QjkXlL3Yybbt/Ka/3KO/wPvEdr5X8qezCFPITxE4Y4T54+wNCzrc
-         DrW0MV6hRgl8+n1gPSxgR+5DMmkfr2Ilq3Jxd4YFun0gcTtaVo99WBGL5wObTdO2p8vS
-         /AFcDID7ALQqgz8Z923UHB/krbXqIQDrAw4AIdvYxWct8kBoqN++Xe9qmu+ZeksQdmIp
-         kDk4BG1aiPjPyXt+c6S7jiNtlypNEtgLNRMLvJ581H8M2WRYLMzryLYwwdrAnmpi0DIh
-         dxlA==
-X-Forwarded-Encrypted: i=1; AJvYcCXT+ZuBzk5LqW5p7BVq5pbO8J2eqDogGXxm/fI4QLVRJ+bzMNCB2kDYEYLgg+6naak7mx7Z31zCjxM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+OFTYwfNgwsQVhIZEG3Lsh+jqrXL3KEv3SjMj10ikBxDqqD/d
-	BMWzpNMFJ0WEh8he8vjnZeGIqRSXVg/FvrD1e4uDTijPEfT0CXVhug/bbBFk8litW+A=
-X-Gm-Gg: AZuq6aIDuvgMUv0RKqCsUpXYO+uWGlwMB8ONF6cg5uHRwJOTtR2v5SFtT5EymMXq445
-	hWei/V2JWd+pVH28g5G4ApWLwK1lrz9TUAVR1iyEEM5xCckW+VC0UISiWAXzbnP+5lZWAdLwm63
-	yB65H6CvCt5FFVRtlbHevlOhKJNjdvLEoXJv+5ZDczl/mN1tnLbRtH4u2zEksiOfjFYZZwSti5e
-	5T3PcOmHbSzmzOWSde7HW3nge3fDL2WZEGMBEm6pcSXDX7xQrPNAAqCAq+SJ1cdYfJBpNrIV/Lb
-	ILKSfUZDZz3oiVr9f/Nt8ZC7o1GN8+Gwf5SSzk9mBI9ra+emWJ+GYFDDQVLXhxn2vNt5iXH1V4U
-	2jQoqTW177WaKP6ypUezKHSdXUmEKKhpQ4I7IJGuYUTj6rTLYMgVtRNJV0+SAk1pwMzhlLS7EJd
-	dtzuS9oUheg9ckQ8A3ch4=
-X-Received: by 2002:a05:6000:290b:b0:431:b6e:8be3 with SMTP id ffacd0b85a97d-43618053a95mr3496064f8f.38.1770199109610;
-        Wed, 04 Feb 2026 01:58:29 -0800 (PST)
-Received: from FV6GYCPJ69 ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43617e25d02sm5028086f8f.3.2026.02.04.01.58.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 01:58:29 -0800 (PST)
-Date: Wed, 4 Feb 2026 10:58:27 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
-	Moshe Shemesh <moshe@nvidia.com>, Shay Drori <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
-	Or Har-Toov <ohartoov@nvidia.com>
-Subject: Re: [PATCH net-next 1/5] devlink: Add port-level resource
- infrastructure
-Message-ID: <tvw3nu7emtvoozmgsskpqqxej74ku4pprztx7kmy3vyv7gygx5@tpfdfghwmrru>
-References: <20260203071033.1709445-1-tariqt@nvidia.com>
- <20260203071033.1709445-2-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="El2K5lZo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B8B2C4CEF7;
+	Wed,  4 Feb 2026 10:12:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770199958;
+	bh=inCyKiiNSNV6LDkRbFvq9oB6OngDmsXZ8tjL09HtSOk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=El2K5lZoEYzGXPyiQxYUZbPxYCcUkUy2DeqOoMdeS2xmPuu6qi9yOlqaI/8W7uAtD
+	 2r4LxKa8TICwGGNHb6rRIAaIkikOg/4N++mxnZGe/kW/4xy/ykNtOylncPllOgG/sN
+	 aNuCBjJ7UgtK/mt52ZKlnlkZPq7NdXTUPjWI8sR3oZoIcZmziDPPIl2DO379SMXbtc
+	 yzFcXxATivyof8t6/+RWy+1aGdUeq9qoAhW6XZWRDUqjU8QX28yG7pnORzwJo4h0HS
+	 RsCBiQyw21eyk61UeiOGmTNKKRX0yhf5cgn9WnhFEmLwdPpcgWUNp3TuyGLQCxi8Rj
+	 XabZ2/+NgFjtw==
+Date: Wed, 4 Feb 2026 11:11:33 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Rong Zhang <i@rong.moe>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] kbuild: Do not run kernel-doc when building external
+ modules
+Message-ID: <aYMbVcNvJPlLPaaG@derry.ads.avm.de>
+Mail-Followup-To: Jani Nikula <jani.nikula@linux.intel.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Rong Zhang <i@rong.moe>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20260130-kbuild-skip-kernel-doc-extmod-v1-1-58443d60131a@kernel.org>
+ <176987242178.1743608.5094531752561489739.b4-ty@kernel.org>
+ <CAK7LNARR9bZQ9t9emcVzmL+P7xYemu=8s8v_LshQ0-m_zEE9mA@mail.gmail.com>
+ <6387ba7b99fb952a59932c3a851dfd0ecc4dfb2c@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,26 +57,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203071033.1709445-2-tariqt@nvidia.com>
+In-Reply-To: <6387ba7b99fb952a59932c3a851dfd0ecc4dfb2c@intel.com>
 
-Tue, Feb 03, 2026 at 08:10:29AM +0100, tariqt@nvidia.com wrote:
->From: Or Har-Toov <ohartoov@nvidia.com>
-
-[...]
-
+On Wed, Feb 04, 2026 at 11:10:37AM +0200, Jani Nikula wrote:
+> On Wed, 04 Feb 2026, Masahiro Yamada <masahiroy@kernel.org> wrote:
+> > Since kernel-doc is a part of Kbuild,
+> > all dependent libraries should exist under scripts/.
 > 
-> 	DEVLINK_CMD_NOTIFY_FILTER_SET,
-> 
->+	DEVLINK_CMD_PORT_RESOURCE_GET,	/* can dump */
+> Huh. I've always wondered why all the Kbuild makefiles are placed in
+> scripts/, which appears to be a haphazard collection of, well, scripts
+> and tools. But then you also have tools/.
 
-Hmm, I assume that "set" is somehow on the horizon. Wouldn't it make
-sense to add the enum as a placeholder to have the cmds
-together?
+From the kbuild perspective, as Masahiro mentioned, every tooling
+related to kernel builds, kbuild or kconfig should be placed in
+scripts/.  The tools/ subtree isn't using kbuild; rules, definitionas
+and other expectations that are valid for kbuild may not be true in
+tools/, cp. commit 6e6ef2da3a28f [1].
+
+Unfortunately, there _are_ things in tools/ that are required for kernel
+builds (e.g. objtool), but there is no consent on moving these parts out
+of the tools/ subtree [2].
+
+> I've followed the kernel-doc refactoring from the sidelines, commenting
+> on some things, but it never crossed my mind the build shouldn't depend
+> on something outside of scripts/. (That's what I'm inferring here
+> anyway.) And apparently that thought didn't occur to a lot of other
+> people either, with even more kernel experience than myself.
+
+Yes, I also saw the changes fly by but did not think about the
+implications.
+
+> Sounds like the kernel config and build system would deserve a top-level
+> directory like build/ or kbuild/, which collects everything needed for
+> the build, nothing more, nothing less. Because scripts/ is not *that*.
+
+Well, sounds straight forward at first, but where should we make the cut
+between kbuild and non-kbuild?  I admit that there are some scripts
+below scripts/ that I'd rather label as "contrib", but I don't think
+that these are too much.
+
+> I understand all of this may be a historical accident, and possibly too
+> painful to fix now, but is any of this documented anywhere either?
+
+No, I am afraid it isn't.
+
+Kind regards,
+Nicolas
 
 
->+
-> 	/* add new commands above here */
-> 	__DEVLINK_CMD_MAX,
-> 	DEVLINK_CMD_MAX = __DEVLINK_CMD_MAX - 1
-
-[...]
+[1]: https://git.kernel.org/kbuild/c/6e6ef2da3a28f
+[2]: https://lore.kernel.org/linux-kbuild/1551764896-8453-3-git-send-email-yamada.masahiro@socionext.com/
