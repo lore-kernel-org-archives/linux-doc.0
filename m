@@ -1,125 +1,118 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3A927713
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 00:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A4F13A258;
+	Wed,  4 Feb 2026 00:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770163828; cv=none; b=rmb+dN6T5bFzp3EknZvnpnod9F1im+urmM1CbbE1Oy1V/aWuDNslqsvLLuM3y0hYESToIPdX22Rv190DgAIQXdKYsCEeLDFNP0ffPJ2X52dcHkuXg8Ms2vcA9vui0GTLC573eb4T+MSmS+BmoRjECwVGmkhpk6H1zgkgNkVWgew=
+	t=1770164948; cv=none; b=hLDqnI0ycN5u17Zg0F8n+ltKZBSRxulkKMgoe8YG1KMTU13VWbRA2n0L49OfXe9crZwxTnzjuATyJ+u1e60RpLK8Q0bK+36W6Iacptxt6zoUynB/ZxWIPtu79xMHICy6tMh2GmwTRjKWR14NabHT4N3h7TxeEAHoWHuQMRNg4xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770163828; c=relaxed/simple;
-	bh=ESxIp4/yXKBosB0FyqK/1O/fQD+MS4ChEKPfTEhgPBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lbC3CJ1Ut/RVnWQoks8GuXoa3ghlN8edh9epYvIQ4xf1wxfZfzR/U5yF15gnqs2vU6wLNRk5Qe21+A2/yRkibrWtqaWQ61rV7W5NMcUfSCBQej3EwhRgHe1rH1orblWYZkW8yl31Sst3on5MPQscJUjryueVKFmcLdPDGzCJqTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ApRMKyWe; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1770164948; c=relaxed/simple;
+	bh=qXE3g6jBKd0Y66pW7cPox46N88wlCWyAaIJYLCmu0uQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RaKrN1TYsSp/Iu7SgPqHEZqzpGH5V7sWTkLInlTsmZr0v1XVsxk42XPq4vg3WopbkULekHFyBT4AK7YS4LJD14eG2Oji08mfgBrXpd3l+t3XDCGsSi3pwyMCgyScp7JCWu0vWYKKXo/beIHJ4Q4119DqKOUwOzOznXheeB3+CxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IU8Q6VfB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ApRMKyWe"
-Message-ID: <7e49472c-4bbc-49fe-92c6-621e4675d882@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770163814;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zPnG+2FnaGlQfzxXfIjWuGajlOFPpBxdoaiBCLVKvoU=;
-	b=ApRMKyWeexGTzglygbcOHhU7Wfd4rnLeiMI+Jogeatu2nhRqIkK0lA//+bUOV3vFAbHCoJ
-	mS0BsrYP93R9bxyxRU1fhniBcUvx2p4NhTCXzAkUT0zL/EyR+YUdOmdiWZC6zP6HhDzLGT
-	UyQfu6GTd6zJWiBQ6KJq5hvzWsaEowg=
-Date: Tue, 3 Feb 2026 16:10:04 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IU8Q6VfB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6442BC2BC86;
+	Wed,  4 Feb 2026 00:29:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770164947;
+	bh=qXE3g6jBKd0Y66pW7cPox46N88wlCWyAaIJYLCmu0uQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=IU8Q6VfBQMpLFZ67aNKfIJIqzkP9TvOhTNtI59fwSZSXV6YqPxKwrWdmpHBv1dwSg
+	 0VX5XZAN2rHTJ0fg32vC10Tsf1IkW0dCshjF1o730hypxasYnFn7LYpV9dECkI+2ji
+	 ID09hCOwY7aUJJA2j5qoXyaGuhMo+MWELNg3FAYKxAf5zf6fdPhQ/ZaqY5ZxiM/zKn
+	 G7+fEneH8mR2fRK4JYehWvbxOT9ag3t7+WbSuwXO99Hwcpf/mqviuc1hWzmw4/IHbz
+	 7aGM2i79izcajfS5FS0mr/49sCoZxV1zCtmF82l5Sy08MXY7wRjrxOR27yq85g47gW
+	 mtTmJPdG6tunw==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [RFC PATCH v2 0/3] mm/damon: Introduce node_target_mem_bp Quota Goal Metric
+Date: Tue,  3 Feb 2026 16:28:58 -0800
+Message-ID: <20260204002900.49291-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CALa+Y1475VSnrNTn-AQtTTnye+sdAGu9sVO0YMEtLidNW53_=A@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 02/22] PCI: Add API to track PCI devices preserved
- across Live Update
-To: David Matlack <dmatlack@google.com>
-Cc: Alex Williamson <alex@shazbot.org>,
- Adithya Jayachandran <ajayachandra@nvidia.com>,
- Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
- Alistair Popple <apopple@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal
- <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>,
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
- Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>,
- kexec@lists.infradead.org, kvm@vger.kernel.org,
- Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>,
- =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pranjal Shrivastava <praan@google.com>, Pratyush Yadav
- <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Samiullah Khawaja <skhawaja@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>,
- Yi Liu <yi.l.liu@intel.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
- <20260129212510.967611-3-dmatlack@google.com>
- <44484594-5b5d-4237-993c-ac1e173ad62e@linux.dev>
- <CALzav=d1ZrHrWd-HhZJ8aY6aqxkBcLoet_5+-LL1mOakVTj6Ww@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Yanjun.Zhu" <yanjun.zhu@linux.dev>
-In-Reply-To: <CALzav=d1ZrHrWd-HhZJ8aY6aqxkBcLoet_5+-LL1mOakVTj6Ww@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+
+On Tue, 3 Feb 2026 11:48:06 -0800 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+
+> On Sat, Jan 31, 2026 at 11:54 AM SeongJae Park <sj@kernel.org> wrote:
+> >
+> > On Thu, 29 Jan 2026 17:48:06 -0800 SeongJae Park <sj@kernel.org> wrote:
+> >
+> > > On Thu, 29 Jan 2026 13:58:11 -0800 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+> > >
+> > > > This series introduces a new DAMON quota goal metric, `node_target_mem_bp`,
+> > > > designed for controlling memory migration in heterogeneous memory systems
+> > > > (e.g., DRAM and CXL memory tiering).
+> > > >
+> > > > v1: https://lore.kernel.org/linux-mm/20260123045733.6954-1-ravis.opensrc@gmail.com/T/#u
+> > [...]
+> > >     Context 0: monitors node 0, migrate_hot -> node 1
+> > >       goal: node_ineligible_mem_bp, nid=0, target=4000
+> > >
+> > >     Context 1: monitors node 1, migrate_hot -> node 0
+> > >       goal: node_target_mem_bp, nid=0, target=6000
+> >
+> > In offline, Ravi enlightened me that using a single context with two schemes
+> > instead of the above two contexts setup can be more efficienct and useful.  I
+> > agree that.  It will be able to only single kdamond, and there could be more
+> > flexible use cases that can use the whole-memory access pattern.
+> >
+> > That is, we can use single context with the two schemes, but adding a core
+> > layer DAMOS filters for applying the schemes to only memory of node 0 and node
+> > 1, respectively.  Similar for memory tiering use cases.
+> >
+> > But I was recommending the multi contexts approach to people because the
+> > current implementation of DAMOS is not efficient when both quota and core layer
+> > filters are used.  I was actually working on making it improved, and just
+> > posted an RFC patch series [1].  After the patches are merged, hopefully the
+> > single context approach will be useful and effcient enough for varying use
+> > cases including the memory tiering.
+> >
+> > [1] https://lore.kernel.org/20260131194145.66286-1-sj@kernel.org
+> >
+> Thanks for providing the DAMOS_FILTER patch update SJ.
+> 
+> For v3, I plan to introduce two complementary metrics:
+> DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP
+> and DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP.
+> 
+> This will support the following approaches for hot memory migration:
+> 1. Single context with two schemes using both metrics.
+> (along with DAMOS_FILTER_TYPE_ADDR)
+> 2. Two DAMON contexts each using
+> DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP.
+
+Sounds good!
+
+> 
+> Will provide more details on the implementation and usage in the v3 series.
+
+Looking forward to it!
 
 
-On 2/2/26 10:14 AM, David Matlack wrote:
-> On Sat, Jan 31, 2026 at 10:38 PM Zhu Yanjun <yanjun.zhu@linux.dev> wrote:
->> 在 2026/1/29 13:24, David Matlack 写道:
->>> Add an API to enable the PCI subsystem to track all devices that are
->>> preserved across a Live Update, including both incoming devices (passed
->>> from the previous kernel) and outgoing devices (passed to the next
->>> kernel).
->>>
->>> Use PCI segment number and BDF to keep track of devices across Live
->>> Update. This means the kernel must keep both identifiers constant across
->>> a Live Update for any preserved device. VFs are not supported for now,
->>> since that requires preserving SR-IOV state on the device to ensure the
->>> same number of VFs appear after kexec and with the same BDFs.
->>>
->>> Drivers that preserve devices across Live Update can now register their
->>> struct liveupdate_file_handler with the PCI subsystem so that the PCI
->>> subsystem can allocate and manage File-Lifecycle-Bound (FLB) global data
->>> to track the list of incoming and outgoing preserved devices.
->>>
->>>     pci_liveupdate_register_fh(driver_fh)
->>>     pci_liveupdate_unregister_fh(driver_fh)
->> Can the above 2 functions support the virtual devices? For example,
->> bonding, veth, iSWAP and RXE.
->>
->> These virtual devices do not have BDF. As such, I am not sure if your
->> patches take these virtual devices in to account.
-> No this patch series only supports PCI devices, since those are the
-> only devices so far we've needed to support.
->
-> I am not familiar with any of the devices that you mentioned. If they
-> are virtual then does that mean it's all just software? In that case I
-> would be curious to know what problem is solved by preserving them in
-> the kernel, vs. tearing them down and rebuilding them across a Live
-> Udpate.
+Thanks,
+SJ
 
-Bonding, veth, rxe, and siw can be used in KVM environments.
-
-Although these are software-only virtual devices with no associated 
-hardware,
-
-they may maintain state that is observable by userspace.
-
-As a result, Live Update should preserve their state across the update.
-
-Zhu Yanjun
-
+[...]
