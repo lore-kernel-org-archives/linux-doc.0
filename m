@@ -1,119 +1,114 @@
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BF4946C;
-	Wed,  4 Feb 2026 05:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67716366821;
+	Wed,  4 Feb 2026 06:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770183943; cv=none; b=JyBp57jAhiEkOVGRU38EJD4yFGl69CRA7eQZp7OF0s5jR3idHUtRpcBLF2ezJYulvmRWrtsEgkRz8HMglcQoqo2XdHIQrNRfPLmEaXrbED3+E8maVG2ek/uo0HUA2zd82Bkj6/ERsGxcD3ENQvvn7YE/kXMX2Ef7bX4aXU/JBUw=
+	t=1770185209; cv=none; b=IDk+a79ZyoPr/i7wvwo+uEnYW2I5WwStcPCPVpn2KjkDC9dirVLW06JlOkBhLhltYVglz3/Y5eXtKK00ZXlbG5mfIfftjuEznso7eAsI/SlghZ99rxbGzZ3Lio8wqZKSMS+npl/dzFtrittLSRE5Y5ZhOWf37u3Jk3haGl49IcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770183943; c=relaxed/simple;
-	bh=gVpNb2FcJnXvqjd76dpI3QbaGIpY5kIyXa8+4pcw7/o=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DYlBGWmrlKidjHObqqXu6TSdZSSvvlXRKHeKbo4CwmYOvL9pU60BNvbFuTAOx4ubXYAng5cR08tlJPirjWruhEmWdgue02KrAjKVxiKyjKTUU1bQdvVLYZ2TqTZwdbnh6jIDcposCyoIGKVB1yTapnOdkiMBYUdGhL0eOzaNI38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Bymy2ZVh; arc=none smtp.client-ip=115.124.30.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1770185209; c=relaxed/simple;
+	bh=YDx6StxtpDi58Lvtwkex+sore9y1zO7/lL+DfNC6Sq8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=h3Xmv5Tq6prj2QEmYw00gnkhadUi9M2XkRKGvBgPO05rrKomVwwv+WCeTpoHpJeTT6+O6le50wwsPGGs4JNIo6tfj9ohEE0bXLQmx91O3b67UxYWbg0qtgfg49l1pMWm3LVU9pxNQ3scHCFc9IZ+19aBsQIvEVfZkRyoaY3iCgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k6pDqTIf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Bymy2ZVh"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1770183938; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	bh=kcpw6nzObOocTcTfgP4J3okRdYpVAmfqCq2J3Q4ovjM=;
-	b=Bymy2ZVhLBI5bSgdxKjWWwspSU0CEjzd1hef/I2NbwFqiR0IfGs0dHyBVj/Jo4cBe6l6F4OapuxMqk6LJqmHRc7XnpLH2UErWZU4FgPnSgJfzzjhfO0A3ljo+M3ZQqIyrxhgK7aHQUYkcelouZLPcXDzt1BWGUXYgu+tLM7jtcU=
-Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WyVYd-Q_1770183935 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 04 Feb 2026 13:45:37 +0800
-From: fangyu.yu@linux.alibaba.com
-To: andrew.jones@oss.qualcomm.com
-Cc: alex@ghiti.fr,
-	anup@brainfault.org,
-	aou@eecs.berkeley.edu,
-	atish.patra@linux.dev,
-	corbet@lwn.net,
-	fangyu.yu@linux.alibaba.com,
-	guoren@kernel.org,
-	kvm-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k6pDqTIf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9261C4CEF7;
+	Wed,  4 Feb 2026 06:06:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770185209;
+	bh=YDx6StxtpDi58Lvtwkex+sore9y1zO7/lL+DfNC6Sq8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=k6pDqTIfKYSOHU297/fPjNP2NvQ2xMkHZOQq1eSZ1tF7slzQRnBqZSAx9mYGWMNTI
+	 aDngLHWLLoiXoqHGUhdRuHyDbRuNrJgxWYqT8TAU4x5KHzX9lYalnmB66IJxPn4QWH
+	 K14oTzSPh9cCeq9Yl4j9WgXaUD4G3zC5q0gwicfMNIjWmuW8v9rpHGL0XKeqD+9c9W
+	 0HJv99ge8aOev5BnLoYfuzMuj4Z7G5idL05MuBDsByOXgguTSzazN8od7p6lg6+fcQ
+	 QVxH6vkHAu+0zW+TsFySilcaTUZMRmRqtf0JyXDeJg/jLhPFAEheKsbVC7RNbdjv+0
+	 vJp1A34Yv4nxg==
+From: SeongJae Park <sj@kernel.org>
+To: Yunjeong Mun <yunjeong.mun@sk.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	honggyu.kim@sk.com,
+	kernel_team@skhynix.com,
+	Ravi Jonnalagadda <ravis.opensrc@gmail.com>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	palmer@dabbelt.com,
-	pbonzini@redhat.com,
-	pjw@kernel.org,
-	radim.krcmar@oss.qualcomm.com
-Subject: Re: Re: [PATCH v4 2/4] RISC-V: KVM: Detect and expose supported HGATP G-stage modes 
-Date: Wed,  4 Feb 2026 13:45:34 +0800
-Message-Id: <20260204054534.89560-1-fangyu.yu@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <fazd2fcfuwldtrarm6aw26qa5g6fcieoa35xz3bwchif6qfutw@xuvspa4e533b>
-References: <fazd2fcfuwldtrarm6aw26qa5g6fcieoa35xz3bwchif6qfutw@xuvspa4e533b>
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com
+Subject: Re: [RFC PATCH 0/5] mm/damon: Add node_sys_bp quota goal metric for
+Date: Tue,  3 Feb 2026 22:06:40 -0800
+Message-ID: <20260204060641.97191-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260204022537.814-1-yunjeong.mun@sk.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
->> >> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->> >>
->> >> Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE values
->> >> supported by the host and record them in a bitmask. Keep tracking the
->> >> maximum supported G-stage page table level for existing internal users.
->> >>
->> >> Also provide lightweight helpers to retrieve the supported-mode bitmask
->> >> and validate a requested HGATP.MODE against it.
->> >>
->> >> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->> >> ---
->> >> diff --git a/arch/riscv/include/asm/kvm_gstage.h b/arch/riscv/include/asm/kvm_gstage.h
->> >> @@ -75,4 +76,40 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *gstage, gpa_t start, gpa_t end
->> >> +enum kvm_riscv_hgatp_mode_bit {
->> >> +	HGATP_MODE_SV39X4_BIT = 0,
->> >> +	HGATP_MODE_SV48X4_BIT = 1,
->> >> +	HGATP_MODE_SV57X4_BIT = 2,
->> >
->> >I think it's a bit awkward to pass 9 when selecting the hgatp mode, but
->> >then look for bit 0 when detecting it...
->> >Why not to use the RVI defined values for this UABI as well?
->> >
->> >There are only 16 possible hgatp.mode values, so we're fine storing them
->> >in a bitmap even on RV32.
->>
->> I think this is a good point.
->>
->> Using logical bits 0/1/2 is indeed less intuitive than testing
->> BIT(HGATP_MODE_SV39X4) when userspace passes the architectural HGATP.MODE
->> encoding.
->>
->> However, if we use “HGATP.MODE encoding as bit index”, we need to export
->> those encodings to userspace. Today HGATP_MODE_* are not part of the
->> UAPI, so userspace would need to hardcode magic numbers.
->>
->> So if we go with this approach, I’ll add UAPI definitions for the HGATP
->> mode encodings (e.g. #define KVM_RISCV_HGATP_MODE_SV39X4_BIT  8, etc.) and
->> then define the returned bitmask as BIT(mode).
->
->The best part of Radim's suggestion is that there is no need to add the
->bits to UAPI. We can write in the documentation for the capability that
->the mode values match the spec. kvm userspace can then just look at the
->spec to determine those values and create its own defines (which QEMU,
->for example, has certainly already done).
+On Wed,  4 Feb 2026 11:25:35 +0900 Yunjeong Mun <yunjeong.mun@sk.com> wrote:
 
-Makes sense, thanks.
+> On Fri, Jan 23, 2026 at 05:50:43PM -0800, SeongJae Park wrote:
+> > Cc-ing SK hynix folks (Honggyu and Yunjeong) for quota auto-tuning behavior
+> > confusion (not stop immediately after satisfying the goal) I discuss below.
+> > 
+> 
+> Hi Seonjae, thanks for Cc-ing us :)
+> 
+> > 
+> > Please note that the goal-based quota auto-tuning works in proportional way,
+> > preferring small steps and "eventual" goal convergence.  As a result, migration
+> > will occur a few more times until it is completely stopped after the goal is
+> > satisfied.  Unless there is another scheme that migrates pages into node 0, you
+> > may end up having node 0 having a bit less than the 40% memory.
+> > 
+> > > 
+> > >     No oscillation - migration stops when target state is reached.
+> > 
+> > So, little bit of oscillation could still happen.  Hopefully that shouldn't be
+> > significant, though.
+> > 
+> > IIRC, SK hynix people also confused with the behavior when they experimented
+> > migrate_{hot,cold} action with NODE_MEM_USED_BP goal based quota auto-tuning,
+> > but using only a single scheme that does migration in a single direction.
+> > Because this is at least second time it made confusion, if you need, maybe I
+> > can try to add a feature for making DAMOS immediately stops after the goal is
+> > satisfied.  Let me know if such new feature can be useful for you.  Cc-ing SK
+> > hynix people (Honggyu and Yunjeong) so that they can correct me if my memory is
+> > broken, or answer if the new feature I described here can be useful for them.
+> > 
+> 
+> Yes, you're absolutely right. Currently, esz(effective size) starts from 0 and 
+> esz gradually increases as `current` approaches `target`.
+> Once `current` reaches `target`,  `esz` then begins to decrease.
+> 
+> However, we observed that even after `current` hits `target`, 
+> migration still continues relatively aggressively - because `esz`  remains high, 
+> and it takes time for it to decrease.
+> 
+> To address this, we previously suggested that initializing `esz`  at `target`
+> (or something suitably large value, rather than 0) and letting it gradually 
+> decrease as `current` gets closer to  `target`.  
+> This would allow for stronger migration when `current` is far form `target`, 
+> and gradually weaken migration as `current` approaches `target`.
+> 
+> Such a feature would be useful for us to experiment with tiered memory system :)
 
-If we use the architectural HGATP.MODE encoding as the bit index, we can
-indeed avoid adding any extra *_BIT or mode constants to the UAPI.
+Thank you for confirming, Yunjeong.  I now agree this is what really need to be
+implemented.  And I agree your suggestion makes sense for the use case.  I want
+to take sufficient time for good design of it, though.  I will share update as
+soon as I get some idea.
 
-Not sure why my replies didn’t go through yesterday.
-
-Thanks for the review. I’ll incorporate this feedback as well as your
-other suggestions and address them in the next revision of the series.
->
->Thanks,
->drew
 
 Thanks,
-Fangyu
+SJ
+
+[...]
