@@ -1,209 +1,139 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB17D413243
-	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 14:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A16410D2B;
+	Wed,  4 Feb 2026 14:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770214641; cv=none; b=G1vhDFv8Dj40mBECGq32VdnUSvNUITLGrYMt0DyoPTGz3xcqXhgMP5k5pyJ/E0iB/rbOBbtTmtgcAPPGu7P2qWjjmJCaXilf9egs2lpI3uimlEIxBAhYt4PV1DQp0WF7z38ILDmIb6YiGIMH6O861rgg24R7+/fhzzRW6tfw8uc=
+	t=1770215638; cv=none; b=j2Pf9wHPy6EhQ6kBqFCQz4gaWQdNN7KBdvzzGiDMGHhFCDNyw0sGYjLzkX09A+3gXWmv28v1nlHm6DBWxJQ+LVmIYVojnb4tMM/bylgCV8UwbPoAf2dyajR+hY9K5TwWPdbBDXgas/c8t+IYSZuZHWnF641WvqIkqOrDcuw1uHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770214641; c=relaxed/simple;
-	bh=fqK/sV1/SV/2SRm0hf98CdMaH9ntyCY9/h5a4/cBf9g=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FzsCM5caVRXXXAubDPNgs/MzZ8sLUVYjHLcsjqXxXI3Xoko2Ap3OOOMYoYJtNms/xWD+1SfcEvVRF9jmNFAKODslNaHsMmp+5VSqNZR5Nqe4g9Wh22wZN0OdiKAori7mXA6CQjyt/PbFcBavKDJ6XFt1QOnp1kJ+bM0glKSOX88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bsGX0+oe; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1770215638; c=relaxed/simple;
+	bh=920Lh5r0yh/UKXJ4YwCKmziOjZ36aSWyMTB7CZoctvc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J4LmTSRojcpmIARQojHCDDp+wuU4HLsSQzAtiFMVlFSBuk4vU2Sdt97iBlvEFNE/rxq5KLp5LeB5WjJ79OACmwADWCNmoSgIvhxxwiDRab/ynHTcDLnixztwF/0y0SAu4qKsFfivJFrX9EZrepU7Djzk2ZjaKA8diVleTYqQVsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NxjYMlRz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bsGX0+oe"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b8860d6251bso1042891666b.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 06:17:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1770214639; x=1770819439; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Tf4Ir5IFLu+SmMvPSgo65r/HAkUdr4ohgIhUVdFKVQ0=;
-        b=bsGX0+oe2f6kv1WuWDGyQq47Hdrkes/K8kavT53wP9EcH4dF4drmeiFGOx+QezlfhL
-         yDQjdFEp6vjBFkNX2wUXPEl/X+yJmAo6H9BMcC54fRPWClUb0MwejiDUX83I904oq8u0
-         hh1sQA/yVGKoIgVrhZ0rCEbqMxEqR2gJLpFc2onS7bvZWCyjPOWTF9MQnXm4tOvfzzMM
-         Bo+ooU702vGUm1uVlM7Q9+wtf5H9d0Bf+ruq7qi/4d4zX2ab2hVrIZgHNykm7l2mMl9k
-         ZHd5wsIInLssCDc/cCAjQtCZyvan7OO4WTZT+Ws/Ocw8kwgjGieMnsdz0GyGC6G7w51O
-         kCgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770214639; x=1770819439;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tf4Ir5IFLu+SmMvPSgo65r/HAkUdr4ohgIhUVdFKVQ0=;
-        b=YNZeyS+Lf2jnZm01l//QurLUmQN7mA/pfAlFbMS+mdYxJteIoaUfjc/XG9exfQQEi9
-         rX68r0ASAR/k2WosrDEgj9kcjv0VmpT1UgRDOPHAi/9PlzrUCjkB3Qy/1p6sRH7GiB12
-         0+B4911HNPUjzwmq3qsqopoD+qbDqyv4RZD1NuatU/aMe3bx1FacqVzr+95TZiQn81kp
-         k5Gf6OJUjuc8fq3qKYeOInYrI8g+WB1558EBVUgppdW35Tw+BOlu/yj0g/LOLE2/8Ty0
-         fId4arguS/0VFwgWsKaQf63SEAkG/FF4OiPdsJ8e2mswyEhD3tX63Etm8AYuJP8Qc1WU
-         188g==
-X-Forwarded-Encrypted: i=1; AJvYcCXPIUK19uvWt3+F/cTe5CU0aswwVinkgrzJKcA8Q4URWggBMbRGXDM1qDdSgK8Ma6twKTlzz5/CMgE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6hSrxF8EPLcY1cz/dKw38wuU2xTEvNOkBad+7F8BqU968vjsV
-	h5vc3AbYvn1lKUBfM//sDyU2xxH1aAlLAuaKS53Bk6fSVJ5FY/z8Aaz0ywf1LANpIr0=
-X-Gm-Gg: AZuq6aLo5nggYp9u42gRuXpYPmKOTPvjUAJUiJ/QC2EkXWaE/78g05eEn8JFM6mYVVZ
-	jtzOhiqzquBKdtSvYNRS4eUxYNBxhkLwOFLAvopuWV7szcBd1ScgkeI2dLcNksbLk3LsFiWvi7L
-	/qp8W7djT1tHz+f2t0+6zYkNgM6NBLYUi6b9s99UwEy0WgcPhxxvguv1JXCwq1mmzlwtrMRjEH4
-	+rH8KHL3ndv+FxM2ohS0nACkqb+nHx8ms0w4kpOjNJCPQMSOE1+1r5llYXrGlBIx6DqHc2k6+dc
-	IMy1NFwY+Pl0/IiWGvfj2pPn6WHqyszYU0HN4laJo9fijfnI4O7dQ4a7TEIWT2dGANQZ1dIw0xi
-	JCUjaL1mlxRp9jP9Tek5fO26RCEC4QwfbQdD5b/vPiRl6QGtXsRGlYy0vHOALCfAEl02+WZM9G/
-	kW3JAccKQ6CaIPGVpFBA==
-X-Received: by 2002:a17:907:72d0:b0:b87:6:371d with SMTP id a640c23a62f3a-b8e9f42bb01mr227190666b.49.1770214639112;
-        Wed, 04 Feb 2026 06:17:19 -0800 (PST)
-Received: from draszik.lan ([212.129.76.169])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8ea0044a09sm125346166b.56.2026.02.04.06.17.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 06:17:18 -0800 (PST)
-Message-ID: <f6d1340062448cf52e4c034d250524e030877898.camel@linaro.org>
-Subject: Re: [PATCH v2 07/12] mfd: sec: store hardware revision in
- sec_pmic_dev and add S2MU005 support
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>, Lee Jones
- <lee@kernel.org>,  Pavel Machek <pavel@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo
- Choi	 <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Jonathan Corbet	 <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Date: Wed, 04 Feb 2026 14:17:35 +0000
-In-Reply-To: <20260126-s2mu005-pmic-v2-7-78f1a75f547a@disroot.org>
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
-	 <20260126-s2mu005-pmic-v2-7-78f1a75f547a@disroot.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-2+build4 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NxjYMlRz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F2CCC4CEF7;
+	Wed,  4 Feb 2026 14:33:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770215637;
+	bh=920Lh5r0yh/UKXJ4YwCKmziOjZ36aSWyMTB7CZoctvc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NxjYMlRzqmuyjL8OqA7lysPloltQH6DZrwbyrixxKXO8VDnx475IOwtSiKuUb0XLr
+	 NGCtGLpGr9TQ3EZ9HdI7Fd7BclI6fhj7kK5/ZhxaJFcEPQOrfzBWQ8z05RgRUPidXO
+	 lf9IHl1XWgNmKvFrxUGAlaCoJYk+0BvjPnVYMjDfO58B/on9uY8DW9nJ/eEs6Y1/Dk
+	 MlQGYtYvyC8phSvwQGRunkIiLEn1R5cUCNuzOVmANNmwBHOxvEtB+QoPiySg/m9LMR
+	 xoG/woRKXlsSZN/aahXd9YINnTtj2DlItkt6meBgrDsrmSacjyrWT7Zv1xw9YyxSSP
+	 /PJT3d7Wp/CpA==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vndx0-000000005q6-1ddf;
+	Wed, 04 Feb 2026 15:33:51 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH v2 0/3] Revert "revocable: Revocable resource management"
+Date: Wed,  4 Feb 2026 15:28:46 +0100
+Message-ID: <20260204142849.22055-1-johan@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Kaustabh,
+I was surprised to learn that the revocable functionality was merged the other
+week given the community feedback on list and at LPC, but not least since there
+are no users of it, which we are supposed to require to be able to evaluate it
+properly.
 
-On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
-> The device revision matters in cases when in some PMICs, the correct
-> register offsets very in different revisions. Instead of just debug
+The chromeos ec driver issue which motivated this work turned out not to need
+it as was found during review. And the example gpiolib conversion was posted
+the very same morning that this was merged which hardly provides enough time
+for evaluation (even if Bartosz quickly reported a performance regression).
 
-s/very/vary
+Turns out there are correctness issues with both the gpiolib conversion and
+the revocable design itself that can lead to use-after-free and hung tasks (see
+[1] and [2]).
 
-> printing the value, store it in the driver data struct.
+And as was pointed out repeatedly during review, and again at the day of the
+merge, this does not look like the right interface for the chardev unplug
+issue.
 
-Please mention that you're not doing that for s2mpg1x, though.
+Despite the last-minute attempt at addressing the issues mentioned above
+incrementally, the revocable design is still fundamentally flawed (see patch
+3/3).
 
->=20
-> Unlike other devices, S2MU005 has its hardware revision ID in register
-> offset 0x73. Allow handling different devices and add support for S2MU005=
-.
->=20
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
-> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 41 ++++++++++++++++++++++++++++++----------
-> =C2=A0include/linux/mfd/samsung/core.h |=C2=A0 1 +
-> =C2=A02 files changed, 32 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/mfd/sec-common.c b/drivers/mfd/sec-common.c
-> index bc2a1f2c6dc7a..069a1ba9aa1f1 100644
-> --- a/drivers/mfd/sec-common.c
-> +++ b/drivers/mfd/sec-common.c
-> @@ -16,6 +16,7 @@
-> =C2=A0#include <linux/mfd/samsung/irq.h>
-> =C2=A0#include <linux/mfd/samsung/s2mps11.h>
-> =C2=A0#include <linux/mfd/samsung/s2mps13.h>
-> +#include <linux/mfd/samsung/s2mu005.h>
-> =C2=A0#include <linux/module.h>
-> =C2=A0#include <linux/of.h>
-> =C2=A0#include <linux/pm.h>
-> @@ -111,17 +112,38 @@ static const struct mfd_cell s2mu005_devs[] =3D {
-> =C2=A0	MFD_CELL_OF("s2mu005-rgb", NULL, NULL, 0, 0, "samsung,s2mu005-rgb"=
-),
-> =C2=A0};
-> =C2=A0
-> -static void sec_pmic_dump_rev(struct sec_pmic_dev *sec_pmic)
-> +static int sec_pmic_store_rev(struct sec_pmic_dev *sec_pmic)
-> =C2=A0{
-> -	unsigned int val;
-> +	unsigned int reg, mask, shift;
-> +	int ret;
-> =C2=A0
-> -	/* For s2mpg1x, the revision is in a different regmap */
-> -	if (sec_pmic->device_type =3D=3D S2MPG10)
-> -		return;
-> +	switch (sec_pmic->device_type) {
-> +	case S2MPG10:
-> +		/* For s2mpg1x, the revision is in a different regmap */
-> +		return 0;
-> +	case S2MU005:
-> +		reg =3D S2MU005_REG_ID;
-> +		mask =3D S2MU005_ID_MASK;
-> +		shift =3D S2MU005_ID_SHIFT;
-> +		break;
-> +	default:
-> +		/* For other device types, the REG_ID is always the first register. */
-> +		reg =3D S2MPS11_REG_ID;
-> +		mask =3D ~0;
-> +		shift =3D 0;
-> +	}
-> +
-> +	ret =3D regmap_read(sec_pmic->regmap_pmic, reg, &sec_pmic->revision);
-> +	if (ret) {
-> +		dev_err(sec_pmic->dev, "Failed to read PMIC revision (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	sec_pmic->revision &=3D mask;
-> +	sec_pmic->revision >>=3D shift;
-> =C2=A0
-> -	/* For each device type, the REG_ID is always the first register */
-> -	if (!regmap_read(sec_pmic->regmap_pmic, S2MPS11_REG_ID, &val))
-> -		dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", val);
-> +	dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", sec_pmic->revision);
-> +	return 0;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static void sec_pmic_configure(struct sec_pmic_dev *sec_pmic)
-> @@ -262,9 +284,8 @@ int sec_pmic_probe(struct device *dev, int device_typ=
-e, unsigned int irq,
-> =C2=A0		return ret;
-> =C2=A0
-> =C2=A0	sec_pmic_configure(sec_pmic);
-> -	sec_pmic_dump_rev(sec_pmic);
-> =C2=A0
-> -	return ret;
-> +	return sec_pmic_store_rev(sec_pmic);
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL_GPL(sec_pmic_probe);
-> =C2=A0
-> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsung=
-/core.h
-> index 43e0c5e55f5d3..56aa33d7e3d60 100644
-> --- a/include/linux/mfd/samsung/core.h
-> +++ b/include/linux/mfd/samsung/core.h
-> @@ -70,6 +70,7 @@ struct sec_pmic_dev {
-> =C2=A0
-> =C2=A0	int device_type;
-> =C2=A0	int irq;
-> +	unsigned int revision;
+We have processes like requiring a user before merging a new interface so that
+issues like these can be identified and the soundness of an API be evaluated.
+They also give a sense of when things are expected to happen, which allows our
+scarce reviewers to manage their time (e.g. to not be forced to drop everything
+else they are doing when things are merged prematurely).
 
-kerneldoc needs to be updated.
+There really is no reason to exempt any new interface from this regardless of
+whether one likes the underlying concept or not.
 
-Given the LED driver is the only driver & device so far which needs the
-PMIC revision, maybe for now that driver could determine the revision
-itself instead of adding this new member for everybody?
+Revert the revocable implementation until a redesign has been proposed and
+evaluated properly.
 
-Cheers,
-Andre'
+Johan
 
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct sec_platform_data {
+
+[1] https://lore.kernel.org/all/aXT45B6vLf9R3Pbf@hovoldconsulting.com/
+[2] https://lore.kernel.org/all/20260124170535.11756-4-johan@kernel.org/
+
+
+Changes in v2:
+ - revert also the incremental changes in driver-core-next
+ - explain why the latest revocable design is still fundamentally broken
+
+
+Johan Hovold (3):
+  Revert "selftests: revocable: Add kselftest cases"
+  Revert "revocable: Add Kunit test cases"
+  Revert "revocable: Revocable resource management"
+
+ .../driver-api/driver-model/index.rst         |   1 -
+ .../driver-api/driver-model/revocable.rst     | 149 ---------
+ MAINTAINERS                                   |   9 -
+ drivers/base/Kconfig                          |   8 -
+ drivers/base/Makefile                         |   3 -
+ drivers/base/revocable.c                      | 225 --------------
+ drivers/base/revocable_test.c                 | 284 ------------------
+ include/linux/revocable.h                     |  89 ------
+ .../selftests/drivers/base/revocable/Makefile |   7 -
+ .../drivers/base/revocable/revocable_test.c   | 136 ---------
+ .../drivers/base/revocable/test-revocable.sh  |  39 ---
+ .../base/revocable/test_modules/Makefile      |  10 -
+ .../revocable/test_modules/revocable_test.c   | 187 ------------
+ 13 files changed, 1147 deletions(-)
+ delete mode 100644 Documentation/driver-api/driver-model/revocable.rst
+ delete mode 100644 drivers/base/revocable.c
+ delete mode 100644 drivers/base/revocable_test.c
+ delete mode 100644 include/linux/revocable.h
+ delete mode 100644 tools/testing/selftests/drivers/base/revocable/Makefile
+ delete mode 100644 tools/testing/selftests/drivers/base/revocable/revocable_test.c
+ delete mode 100755 tools/testing/selftests/drivers/base/revocable/test-revocable.sh
+ delete mode 100644 tools/testing/selftests/drivers/base/revocable/test_modules/Makefile
+ delete mode 100644 tools/testing/selftests/drivers/base/revocable/test_modules/revocable_test.c
+
+-- 
+2.52.0
+
