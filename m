@@ -1,116 +1,78 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FB2916CD33;
-	Wed,  4 Feb 2026 02:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5E82D73A0;
+	Wed,  4 Feb 2026 02:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770172853; cv=none; b=AOJlor1oaT6UeookbV3qDHS2OaUotCsLyq5vrm4vFcTOPt7UWOQSYypnaH4E1QALuTu2UgoAx7oevJwvgkcQ5dKQt6OiKunIPSTvtVLcy0QJLEW90+n3s2w0a4YqKKMcvlWTXGFySdINkjf3JxP33oto6cDa31JxIZickCj+F0g=
+	t=1770172922; cv=none; b=jAkPS4PKvHZ5oIDLhT0a4LtNSIUan7eofVvJ2VvgZ7SZ7C5eGRs7s6puz6+805ygUW6nwLBS8emMhyfxGGI2qwv093DV1vE1NRhMgowh6SsIAIE6cX9UiQbVidKeFlGWtBv3Td91RdZeHXKumKRPpt9lLAJAtWprZ4vOCV/EnTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770172853; c=relaxed/simple;
-	bh=hYP/+GFnJaC6xd6pVO5rm6DcPV024iBSq7kygw3XN/U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=geDPvi0LFhtxa2NsT8T++WRKJWaIJsCVdBXkRc2Tz7Dm3Jh9QHk6p8Im5huRGAoRZRUvQ7TKACJKa4R+l0Xe17ExDyXwxqRZTcaNFKdVQfpvSZDo+IWwvRySWk2wlYwlafAUXaVGS6EPeRAyolX0UU30+pFWDvwbkR2C8XBRw9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c45ff70000001609-89-6982ae246dfa
-From: Yunjeong Mun <yunjeong.mun@sk.com>
-To: sj@kernel.org
-Cc: honggyu.kim@sk.com,
-	kernel_team@skhynix.com,
-	Ravi Jonnalagadda <ravis.opensrc@gmail.com>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com
-Subject: Re: [RFC PATCH 0/5] mm/damon: Add node_sys_bp quota goal metric for
-Date: Wed,  4 Feb 2026 11:25:35 +0900
-Message-ID: <20260204022537.814-1-yunjeong.mun@sk.com>
-X-Mailer: git-send-email 2.48.1.windows.1
-In-Reply-To: <20260124015045.78075-1-sj@kernel.org>
-References: 
+	s=arc-20240116; t=1770172922; c=relaxed/simple;
+	bh=eJr8hiZsk9Jm858UXogm2Fgm8PesKeG4Nne4S52av54=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q8BxI0YJS6JMS9tJv/rnkSPTjc+B/rItlPjhRU1PouPobqxHyAd/h7MycFJzQ/FBbHP4NBgQyMRp4EH9rhzSDpGkZyPTigyH/1gcT3HIZJdZ71MqFIN3tyQRoIcveptd+KNRW5qkY4FhQIWfc0Dwl8oMxzZpPtHkmutoqapkwGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WELAKbXa; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WELAKbXa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 446C9C19425;
+	Wed,  4 Feb 2026 02:42:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770172922;
+	bh=eJr8hiZsk9Jm858UXogm2Fgm8PesKeG4Nne4S52av54=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=WELAKbXabwXNbM1aj6pDKW1izTyaA+pich5YpJXTCqhOecmecxpJVb4Wrea9Wm4VY
+	 Q1uNWpJIGpw9DDjk2GmQ+Jlvs9lVVijzWJ+TOdRFZxkzgWAMJ8LOfpPL2zg9rZ6TC+
+	 RnoyEILi++csXlRiB2gbf5PaA91B3AfWbFqdVqxbjy8fX2PUFZoCCNBkRBVYZ1IKLB
+	 /2fInX7Z7u0tloXvsnfgdM8uusKsnkOE9jGY3xowdcVHcD4UAGqfrrv1DCnaa4f7b9
+	 8hD9oZXjREimKhNAyh+GhpBOlEui8hHOFQsxvaziRbXOXBvGjDEucphbCOfSinIBfK
+	 d6Id1Lg3TcpeQ==
+Date: Tue, 3 Feb 2026 18:42:00 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman
+ <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Carolina Jubran
+ <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko
+ <jiri@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>, Simon Horman
+ <horms@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH net-next V7 02/14] devlink: introduce shared devlink
+ instance for PFs on same chip
+Message-ID: <20260203184200.216bb426@kernel.org>
+In-Reply-To: <wdkd7yelgosii7bklmahxf5t6xnn2vydnwiiruiwqpyue722dj@yjnkcdctzeav>
+References: <20260128112544.1661250-1-tariqt@nvidia.com>
+	<20260128112544.1661250-3-tariqt@nvidia.com>
+	<20260202194946.64555356@kernel.org>
+	<wdkd7yelgosii7bklmahxf5t6xnn2vydnwiiruiwqpyue722dj@yjnkcdctzeav>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLLMWRmVeSWpSXmKPExsXC9ZZnoa7KuqZMgz+7RCxW7G1lt5izfg2b
-	RcOPz2wWTw60M1o8+f+b1WJh2xIWi8u75rBZ3Fvzn9Xi5FsHi8Nf3zA5cHnsnHWX3WPTqk42
-	j02fJrF7nJjxm8XjxeaZjB6L+yazenxf38Hm8XmTXABHFJdNSmpOZllqkb5dAlfGqyOnGQuO
-	CFVMODCdpYHxPV8XIweHhICJxJpTfl2MnGDmxDXP2UBsNgENiYOHTjKD2CICghL9j2ewdjFy
-	cTALrGSSuLj4CRNIQljAR+L6udVgNouAqsTrjTfYQWxeATOJ+ZOPMkMM1ZRouHQPrIZTwFhi
-	2t9NrCC2kACPxKsN+xkh6gUlTs58wgJiMwvISzRvnc0MskxC4DKbxMvzr1ghBklKHFxxg2UC
-	I/8sJD2zkPQsYGRaxSiUmVeWm5iZY6KXUZmXWaGXnJ+7iREY6Mtq/0TvYPx0IfgQowAHoxIP
-	b8DHxkwh1sSy4srcQ4wSHMxKIrzp0+szhXhTEiurUovy44tKc1KLDzFKc7AoifMafStPERJI
-	TyxJzU5NLUgtgskycXBKNTDaSbhoL+LZedW48e7tpSK/NZdECp/hM7y1NkPEX1VVKJ+N9dkm
-	tXO8nuJV4d+vzvhrkyP2Ts/+lZrLBKlXJordIReXr53i5uH3xTm+LWgvo84xz+kfpAr3zONz
-	NVOY9ONumYj2kr8+lhaPi1oW68/ZLpvJp+bqq9d3dMXLzUXqtlEprw34lJVYijMSDbWYi4oT
-	AVNY2FBwAgAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHLMWRmVeSWpSXmKPExsXCNUNWR1dlXVOmweE/rBYr9rayW8xZv4bN
-	ouHHZzaLJwfaGS2e/P/NavH52Wtmi8NzT7JaLGxbwmJxedccNot7a/6zWpx862Bx+OsbJgce
-	j52z7rJ7bFrVyeax6dMkdo8TM36zeLzYPJPRY3HfZFaP7+s72Dy+3fbwWPziA5PH501yAVxR
-	XDYpqTmZZalF+nYJXBmvjpxmLDgiVDHhwHSWBsb3fF2MnBwSAiYSE9c8ZwOx2QQ0JA4eOskM
-	YosICEr0P57B2sXIxcEssJJJ4uLiJ0wgCWEBH4nr51aD2SwCqhKvN95gB7F5Bcwk5k8+ygwx
-	VFOi4dI9sBpOAWOJaX83sYLYQgI8Eq827GeEqBeUODnzCQuIzSwgL9G8dTbzBEaeWUhSs5Ck
-	FjAyrWIUycwry03MzDHVK87OqMzLrNBLzs/dxAgM5WW1fybuYPxy2f0QowAHoxIPb8DHxkwh
-	1sSy4srcQ4wSHMxKIrzp0+szhXhTEiurUovy44tKc1KLDzFKc7AoifN6hacmCAmkJ5akZqem
-	FqQWwWSZODilGhhvufOnTTnH8ndiosISu2RJz/YLzHeuKtyV0Ix8npbhcUrvr57a3X7+5uUG
-	QQV91sdqmVZOXSKrH9S3/G+216PHhVMjw65Ed0o9YjJuYTgkkHX25bJPNo36FTy7vnVe+WiT
-	aOis1iS80ab6nFccq9jPqdcXete0uMblP9e5kbTwXWzyLcnXN5RYijMSDbWYi4oTAfwAvkph
-	AgAA
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jan 23, 2026 at 05:50:43PM -0800, SeongJae Park wrote:
-> Cc-ing SK hynix folks (Honggyu and Yunjeong) for quota auto-tuning behavior
-> confusion (not stop immediately after satisfying the goal) I discuss below.
+On Tue, 3 Feb 2026 10:44:16 +0100 Jiri Pirko wrote:
+> >> +/* This structure represents a shared devlink instance,
+> >> + * there is one created per identifier (e.g., serial number).
+> >> + */
+> >> +struct devlink_shd {
+> >> +	struct list_head list; /* Node in shd list */
+> >> +	const char *id; /* Identifier string (e.g., serial number) */  
+> >
+> >Why does this have to be a string? The identifier should be irrelevant,
+> >and if something like serial number exists it can be reported in dev
+> >info for the shared instance?  
 > 
+> String gives drivers flexibility to use anything. Perhaps I'm missing
+> your point. Are you againts free-form or just string and buf+buf_len
+> would be fine?
 
-Hi Seonjae, thanks for Cc-ing us :)
-
-> 
-> Please note that the goal-based quota auto-tuning works in proportional way,
-> preferring small steps and "eventual" goal convergence.  As a result, migration
-> will occur a few more times until it is completely stopped after the goal is
-> satisfied.  Unless there is another scheme that migrates pages into node 0, you
-> may end up having node 0 having a bit less than the 40% memory.
-> 
-> > 
-> >     No oscillation - migration stops when target state is reached.
-> 
-> So, little bit of oscillation could still happen.  Hopefully that shouldn't be
-> significant, though.
-> 
-> IIRC, SK hynix people also confused with the behavior when they experimented
-> migrate_{hot,cold} action with NODE_MEM_USED_BP goal based quota auto-tuning,
-> but using only a single scheme that does migration in a single direction.
-> Because this is at least second time it made confusion, if you need, maybe I
-> can try to add a feature for making DAMOS immediately stops after the goal is
-> satisfied.  Let me know if such new feature can be useful for you.  Cc-ing SK
-> hynix people (Honggyu and Yunjeong) so that they can correct me if my memory is
-> broken, or answer if the new feature I described here can be useful for them.
-> 
-
-Yes, you're absolutely right. Currently, esz(effective size) starts from 0 and 
-esz gradually increases as `current` approaches `target`.
-Once `current` reaches `target`,  `esz` then begins to decrease.
-
-However, we observed that even after `current` hits `target`, 
-migration still continues relatively aggressively - because `esz`  remains high, 
-and it takes time for it to decrease.
-
-To address this, we previously suggested that initializing `esz`  at `target`
-(or something suitably large value, rather than 0) and letting it gradually 
-decrease as `current` gets closer to  `target`.  
-This would allow for stronger migration when `current` is far form `target`, 
-and gradually weaken migration as `current` approaches `target`.
-
-Such a feature would be useful for us to experiment with tiered memory system :)
-
-Best Regards,
-Yunjeong
-
+I was thinking binary buf+len is fine, and we shouldn't really expose
+this to user space in any shape or form (hence no concern about free
+form).
