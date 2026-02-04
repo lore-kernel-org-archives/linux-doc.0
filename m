@@ -1,92 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87EEF21ABB9;
-	Wed,  4 Feb 2026 05:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BF4946C;
+	Wed,  4 Feb 2026 05:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770182903; cv=none; b=JUOlqSmlhNUTIPqHB3DiqdMKq1+tvWcE1bPHERrnSb35QYbC4fLX/MJ6iZW6lBBsocbbQGkZSKOSrhfjecNnrcXvfTh2svYcXyhc3ufxVx2O11u3PF1XULfefHBPdZ8kTr6HGKbr56Bxu7bLnokRUFb0IRtWIhzSHMrt4Xp+i4g=
+	t=1770183943; cv=none; b=JyBp57jAhiEkOVGRU38EJD4yFGl69CRA7eQZp7OF0s5jR3idHUtRpcBLF2ezJYulvmRWrtsEgkRz8HMglcQoqo2XdHIQrNRfPLmEaXrbED3+E8maVG2ek/uo0HUA2zd82Bkj6/ERsGxcD3ENQvvn7YE/kXMX2Ef7bX4aXU/JBUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770182903; c=relaxed/simple;
-	bh=wiAYeO0Zy2v91IbkE9VovIGytIW74HUqn7avtTiOrho=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LTe4uKNXtnVp/IS//mzsfGB/ySdWn5a+cQW8cuWOW5mfZd+UIZsjMMMIFbT2Slm9+RJiGLb8B81lmEP96SejPP/Wb98JDVeYQ72A28avAttA/5uFG941InHst0W7Q3zJjZRUnWjcQ8goeqF4ft+vqXX9RRmX+IptApsJSKTuFFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KjFwi7Jh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770183943; c=relaxed/simple;
+	bh=gVpNb2FcJnXvqjd76dpI3QbaGIpY5kIyXa8+4pcw7/o=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DYlBGWmrlKidjHObqqXu6TSdZSSvvlXRKHeKbo4CwmYOvL9pU60BNvbFuTAOx4ubXYAng5cR08tlJPirjWruhEmWdgue02KrAjKVxiKyjKTUU1bQdvVLYZ2TqTZwdbnh6jIDcposCyoIGKVB1yTapnOdkiMBYUdGhL0eOzaNI38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Bymy2ZVh; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KjFwi7Jh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE7D0C116C6;
-	Wed,  4 Feb 2026 05:28:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770182903;
-	bh=wiAYeO0Zy2v91IbkE9VovIGytIW74HUqn7avtTiOrho=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KjFwi7JhZWF75i+n/FHiVLVymv/EpBGALUc5pvIMOTi6FjiAL9nBEQYkzzB/PpFBP
-	 sUnfc12FksThlDc2jetLNd1/Bti8+gsTTlvxuSxW7Uj9twTOOPQd+laW4N0foxkNig
-	 aHDfmQjYINQbosby4D37gzOTYa7g/LlNP0i6u5Zx7643H08Be9XSZgAn9tep4bT8Nr
-	 7x2XdUCjl948i3rq3bBJGOJAyUz2+lrc3b4OLf6IU9UmT4c/u7l4AHncYQuWQhrCnD
-	 hiVKXDlU56IY2kdD/cOXgNaSeeFTG2MTil11dfNysfS05RW62rPzaeiCjdco00bcwP
-	 nN91pYbyJ1WKQ==
-Date: Wed, 4 Feb 2026 05:28:18 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Johan Hovold <johan@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] selftests: Disable revocable code from build
-Message-ID: <aYLY8lkSv4Lr2B2r@google.com>
-References: <20260124170535.11756-1-johan@kernel.org>
- <DFX20SA67PF2.VONCFNDOZOZT@kernel.org>
- <2026012554-chatty-policy-42a1@gregkh>
- <aXdxDBXdyqLFfKKI@hovoldconsulting.com>
- <aYHm9pr0e7myeqS3@hovoldconsulting.com>
- <2026020315-twins-probe-d988@gregkh>
- <2026020307-rimmed-dreamy-5a67@gregkh>
- <aYKrdxw3fYf-y52P@google.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Bymy2ZVh"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1770183938; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	bh=kcpw6nzObOocTcTfgP4J3okRdYpVAmfqCq2J3Q4ovjM=;
+	b=Bymy2ZVhLBI5bSgdxKjWWwspSU0CEjzd1hef/I2NbwFqiR0IfGs0dHyBVj/Jo4cBe6l6F4OapuxMqk6LJqmHRc7XnpLH2UErWZU4FgPnSgJfzzjhfO0A3ljo+M3ZQqIyrxhgK7aHQUYkcelouZLPcXDzt1BWGUXYgu+tLM7jtcU=
+Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WyVYd-Q_1770183935 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 04 Feb 2026 13:45:37 +0800
+From: fangyu.yu@linux.alibaba.com
+To: andrew.jones@oss.qualcomm.com
+Cc: alex@ghiti.fr,
+	anup@brainfault.org,
+	aou@eecs.berkeley.edu,
+	atish.patra@linux.dev,
+	corbet@lwn.net,
+	fangyu.yu@linux.alibaba.com,
+	guoren@kernel.org,
+	kvm-riscv@lists.infradead.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	palmer@dabbelt.com,
+	pbonzini@redhat.com,
+	pjw@kernel.org,
+	radim.krcmar@oss.qualcomm.com
+Subject: Re: Re: [PATCH v4 2/4] RISC-V: KVM: Detect and expose supported HGATP G-stage modes 
+Date: Wed,  4 Feb 2026 13:45:34 +0800
+Message-Id: <20260204054534.89560-1-fangyu.yu@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <fazd2fcfuwldtrarm6aw26qa5g6fcieoa35xz3bwchif6qfutw@xuvspa4e533b>
+References: <fazd2fcfuwldtrarm6aw26qa5g6fcieoa35xz3bwchif6qfutw@xuvspa4e533b>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aYKrdxw3fYf-y52P@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The revocable code is still under active discussion, and there is no
-in-kernel users of it.  So disable it from the build for now so that no
-one suffers from it being present in the tree, yet leave it in the
-source tree so that others can easily test it by reverting this commit
-and building off of it for future releases.
+>> >> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>> >>
+>> >> Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE values
+>> >> supported by the host and record them in a bitmask. Keep tracking the
+>> >> maximum supported G-stage page table level for existing internal users.
+>> >>
+>> >> Also provide lightweight helpers to retrieve the supported-mode bitmask
+>> >> and validate a requested HGATP.MODE against it.
+>> >>
+>> >> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>> >> ---
+>> >> diff --git a/arch/riscv/include/asm/kvm_gstage.h b/arch/riscv/include/asm/kvm_gstage.h
+>> >> @@ -75,4 +76,40 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *gstage, gpa_t start, gpa_t end
+>> >> +enum kvm_riscv_hgatp_mode_bit {
+>> >> +	HGATP_MODE_SV39X4_BIT = 0,
+>> >> +	HGATP_MODE_SV48X4_BIT = 1,
+>> >> +	HGATP_MODE_SV57X4_BIT = 2,
+>> >
+>> >I think it's a bit awkward to pass 9 when selecting the hgatp mode, but
+>> >then look for bit 0 when detecting it...
+>> >Why not to use the RVI defined values for this UABI as well?
+>> >
+>> >There are only 16 possible hgatp.mode values, so we're fine storing them
+>> >in a bitmap even on RV32.
+>>
+>> I think this is a good point.
+>>
+>> Using logical bits 0/1/2 is indeed less intuitive than testing
+>> BIT(HGATP_MODE_SV39X4) when userspace passes the architectural HGATP.MODE
+>> encoding.
+>>
+>> However, if we use “HGATP.MODE encoding as bit index”, we need to export
+>> those encodings to userspace. Today HGATP_MODE_* are not part of the
+>> UAPI, so userspace would need to hardcode magic numbers.
+>>
+>> So if we go with this approach, I’ll add UAPI definitions for the HGATP
+>> mode encodings (e.g. #define KVM_RISCV_HGATP_MODE_SV39X4_BIT  8, etc.) and
+>> then define the returned bitmask as BIT(mode).
+>
+>The best part of Radim's suggestion is that there is no need to add the
+>bits to UAPI. We can write in the documentation for the capability that
+>the mode values match the spec. kvm userspace can then just look at the
+>spec to determine those values and create its own defines (which QEMU,
+>for example, has certainly already done).
 
-Fixes: dd7762c73b1c ("driver core: disable revocable code from build")
-Signed-off-by: Tzung-Bi Shih <tzungbi@kernel.org>
----
-Greg: I realized "driver core: disable revocable code from build" is
-already in driver-core-testing branch.  Sent this independent patch
-in case it'd need to.
+Makes sense, thanks.
 
- tools/testing/selftests/Makefile | 1 -
- 1 file changed, 1 deletion(-)
+If we use the architectural HGATP.MODE encoding as the bit index, we can
+indeed avoid adding any extra *_BIT or mode constants to the UAPI.
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 11b6515ce3d0..56e44a98d6a5 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -17,7 +17,6 @@ TARGETS += damon
- TARGETS += devices/error_logs
- TARGETS += devices/probe
- TARGETS += dmabuf-heaps
--TARGETS += drivers/base/revocable
- TARGETS += drivers/dma-buf
- TARGETS += drivers/ntsync
- TARGETS += drivers/s390x/uvdevice
--- 
-2.53.0.rc2.204.g2597b5adb4-goog
+Not sure why my replies didn’t go through yesterday.
+
+Thanks for the review. I’ll incorporate this feedback as well as your
+other suggestions and address them in the next revision of the series.
+>
+>Thanks,
+>drew
+
+Thanks,
+Fangyu
