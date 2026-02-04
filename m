@@ -1,141 +1,211 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39022E65D;
-	Wed,  4 Feb 2026 01:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAA221D3D6
+	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 02:00:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770169543; cv=none; b=l5ntgBc7HFR+NdQBSZjHQkrLYxVI7gJqSsPHd9aE6/ADhMpcVUwfFMvxVBdjE50rc9ieG6B+6LJjtCjcOEImBWgGKyVCp4vwxz6wNFPQzcfPn+F5mO+Y+5AjWN5pjeW6HHjdJhZm477RhcsIEIjiCHlqImb+mFHfjONAUBG6SZ0=
+	t=1770170422; cv=none; b=ETQxyCKebaPvLPoPwWgxB1nrrlJDvBQvnuPmrm4xwhO9ir//ySdWEYEVR23a+GgYNhczzg5WaRR/OpOcqcpyjHHYqOWHTHky8YIvmNjH8V8Fx9HPeLFXhGaoNh8gS1lWagKK7U8gmYwNZLVx4/biQlLr/3oT+7DdteLJhT5zHpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770169543; c=relaxed/simple;
-	bh=YiABNjtqxGsl4v+Aef/koK3zybLExycxmkylXR0NkLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nNPMue3xp6e9nROWs2mryztTHVRkPROyzzW4k2XL7QMz//UsCLbobIWbszJfP7R5032bx2p+8fpfGJr2sbfZQDONoTd5bJQoONVwU9r8kceBdAy13OWpV+dKOyP6Qr4G43giu1P8Wi/XWq+tfS2AvrdS5cjNedbpbpsfxSXt5cM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJTiDp34; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770170422; c=relaxed/simple;
+	bh=R2VWF/IdIhiZpVIUn0UgGtp4fwYsPyrTrIEhPOkpG9g=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=aKIJCSVqhKdqu0Ih9qzy4cuOnG/g2wX1FUC7x/ykJn6PA97Erh28HIlb5IAZE9XEgm3WOcToyW/jyH6ESmmHVyfltMAAxoMeJbh7ZDgyuQxoUYn5zOsBTT6d9+RQoAnxp1sVtJFfqc6gk9vkhN+QI5JYEQURqyP+OE7fGVSI+xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qFklVIYk; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJTiDp34"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770169541; x=1801705541;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YiABNjtqxGsl4v+Aef/koK3zybLExycxmkylXR0NkLM=;
-  b=WJTiDp345RuZA91pJPPL0lnK0WKaqksgjEo24XBA0joW0JwTC8Z1Mvuo
-   haLNpq+M/0VjWlUufryZVzELI3+xkbXkppZDlHFg7F1R4aX/uIHNFUK2x
-   iz+Xzm+jY2drsQz2BWWb/6luXY3NOpovtihNWjC4uasWMLB+irtaF8o95
-   jds+gZ75eeCsHBPXdEigFunckRj58MODueWxAMG8m4cMqCq4aqxMcJdPW
-   ZoZAXLv6E/A5VJ5K291sn9CJoVYHAe4std4WC/tS1fciKge4aYyoWqA7Y
-   cToMojyhRpFFq4mEsD7mTdtn25/KKKRxZTQ4lGKJR53n43O++NIaxyECI
-   w==;
-X-CSE-ConnectionGUID: y2GWe0hiQlKCVBhEd++b/A==
-X-CSE-MsgGUID: rPGlRoRNRhucPB9FrErGPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="70552212"
-X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="70552212"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 17:45:40 -0800
-X-CSE-ConnectionGUID: VuQZQQs7Rf6DdquKrzRZQw==
-X-CSE-MsgGUID: j3ODpeaBSSmdHo+qaUY7pw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
-   d="scan'208";a="210093354"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.168])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 17:45:37 -0800
-Date: Wed, 4 Feb 2026 03:45:35 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
- parts
-Message-ID: <aYKkv3dq9Vkm3s_3@smile.fi.intel.com>
-References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
- <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qFklVIYk"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-352e214cce9so4674340a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Feb 2026 18:00:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770170420; x=1770775220; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6KArFjEOKEZJtmxt9pfWCTqIMmboD2cCUzS9I95uzNQ=;
+        b=qFklVIYk2hfPIPKyA50rnIEBnv1DpNwNjsPQngulgNham1Ib/R1Erv1ZudjBAZSD7r
+         +U2z3kDinZTXOdAf62O8PcDxdc30mV6kTZ98pWl350uRnUMNL6Cvbp68Dvi5LZEcoYWs
+         N+Rua53LEmrhSJ7hH06WDPNtMyYc59H8fTZqXdSR8JnYv5bu3trvHQE50/nv5sjZnMZg
+         kqUSpQuvzNk+OouOO4us2xptNuKgOJRJnUnjSYV7VWdCaERQ8tVvuIGtSI83/PP9lfJl
+         A2u8ll8rt199Scgeadjgeu5a4OM13Id4+nVxgtDFQRzVQbga/V/NM2WwWOEl6aQVRWAL
+         7zFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770170420; x=1770775220;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6KArFjEOKEZJtmxt9pfWCTqIMmboD2cCUzS9I95uzNQ=;
+        b=tifh/UexTM4Mh12XbyWlnMHxhxi064W+KauYo9a1EfK6ivnNjyOOl534MD4KpCIwSp
+         Dd4maq5eJKtOCCuWGrwbzy3MGCM5HozyC8ZkPbNz5lL9ARk8gKtcg2ZPdYwTOuRealVD
+         pLOhn41NyHGhTeCtQHb2IFnnO1PTDztKmTBuIcGbG8JWFRzfvfoH4Eou+oNREWwl0JEm
+         EUPhTx4dRSx8h88lZ2vH/ZbsiXdD5yX6V4E5gUXqP5t2LW3FGdZ97+bBNN38qmGC86zb
+         bKtIbS3OKVl8kw0yAKeA50CJgUs0cW2QhtLjt458cRSnqRQNMkFW7E4mM+qERLRLuGQM
+         6Luw==
+X-Forwarded-Encrypted: i=1; AJvYcCUqEUu2QhUQrJGZIwGBbKIEEUo4E8traMHq60YSkJXRW9r+WD1CvMXJ8HUZooe8X8TaMBZTk1gcHg0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHh0OATJDGYf4Dt1GL3tv/uA7OXgf4ISZvJx3H3aGSjGLIu+gy
+	TtEk1Clh92S/4Wb3WFCD+xMOdOiC99EBnjoDutmljJFNPU//3edVjj8eZ1XnC4EdQGnPKDf3LT0
+	FOUQRWg==
+X-Received: from pjuj13.prod.google.com ([2002:a17:90a:d00d:b0:340:c0e9:24b6])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:2811:b0:34c:c866:81f2
+ with SMTP id 98e67ed59e1d1-354870ae79dmr1018730a91.4.1770170419811; Tue, 03
+ Feb 2026 18:00:19 -0800 (PST)
+Date: Tue, 3 Feb 2026 18:00:07 -0800
+In-Reply-To: <CALMp9eQx7EVim4iYGbAhoHrei2YmTra6oxtdmKaY7bw-M0PHbw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+References: <20260113225406.273373-1-jmattson@google.com> <aWbmXTJdZDO_tnvE@google.com>
+ <CALMp9eTYakMk0Bogxa_GdGU5_h4PK-YOXcu-cSQ16m1QcusHxw@mail.gmail.com> <CALMp9eQx7EVim4iYGbAhoHrei2YmTra6oxtdmKaY7bw-M0PHbw@mail.gmail.com>
+Message-ID: <aYKoJ74MWboBuE_M@google.com>
+Subject: Re: [PATCH] KVM: VMX: Add quirk to allow L1 to set FREEZE_IN_SMM in vmcs12
+From: Sean Christopherson <seanjc@google.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 30, 2026 at 10:06:43AM +0000, Rodrigo Alencar via B4 Relay wrote:
+On Thu, Jan 22, 2026, Jim Mattson wrote:
+> On Tue, Jan 13, 2026 at 7:47=E2=80=AFPM Jim Mattson <jmattson@google.com>=
+ wrote:
+> > On Tue, Jan 13, 2026 at 4:42=E2=80=AFPM Sean Christopherson <seanjc@goo=
+gle.com> wrote:
+> > >
+> > > On Tue, Jan 13, 2026, Jim Mattson wrote:
+> > > > Add KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM to allow L1 to set
+> > > > IA32_DEBUGCTL.FREEZE_IN_SMM in vmcs12 when using nested VMX.  Prior=
+ to
+> > > > commit 6b1dd26544d0 ("KVM: VMX: Preserve host's
+> > > > DEBUGCTLMSR_FREEZE_IN_SMM while running the guest"), L1 could set
+> > > > FREEZE_IN_SMM in vmcs12 to freeze PMCs during physical SMM coincide=
+nt
+> > > > with L2's execution.  The quirk is enabled by default for backwards
+> > > > compatibility; userspace can disable it via KVM_CAP_DISABLE_QUIRKS2=
+ if
+> > > > consistency with WRMSR(IA32_DEBUGCTL) is desired.
+> > >
+> > > It's probably worth calling out that KVM will still drop FREEZE_IN_SM=
+M in vmcs02
+> > >
+> > >         if (vmx->nested.nested_run_pending &&
+> > >             (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS=
+)) {
+> > >                 kvm_set_dr(vcpu, 7, vmcs12->guest_dr7);
+> > >                 vmx_guest_debugctl_write(vcpu, vmcs12->guest_ia32_deb=
+ugctl &
+> > >                                                vmx_get_supported_debu=
+gctl(vcpu, false)); <=3D=3D=3D=3D
+> > >         } else {
+> > >                 kvm_set_dr(vcpu, 7, vcpu->arch.dr7);
+> > >                 vmx_guest_debugctl_write(vcpu, vmx->nested.pre_vmente=
+r_debugctl);
+> > >         }
+> > >
+> > > both from a correctness standpoint and so that users aren't mislead i=
+nto thinking
+> > > the quirk lets L1 control of FREEZE_IN_SMM while running L2.
+> >
+> > Yes, it's probably worth pointing out that the VM is now subject to
+> > the whims of the L0 administrators.
+> >
+> > While that makes some sense for the legacy vPMU, where KVM is just
+> > another client of host perf, perhaps the decision should be revisited
+> > in the case of the MPT vPMU, where KVM owns the PMU while the vCPU is
+> > in VMX non-root operation.
 
-> Add iio_str_to_fixpoint64() function that leverages simple_strtoull()
-> to parse numbers from a string.
-> A helper function __iio_str_to_fixpoint64() replaces
-> __iio_str_to_fixpoint() implementation, extending its usage for
-> 64-bit fixed-point parsing.
+Eh, running guests with FREEZE_IN_SMM=3D0 seems absolutely crazy from a sec=
+urity
+perspective.  If an admin wants to disable FREEZE_IN_SMM, they get to keep =
+the
+pieces.  And KVM definitely isn't going to override the admin, e.g. to allo=
+w the
+guest to profile host SMM.
 
-...
+> > > > diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+> > > > index 0521b55d47a5..bc8f0b3aa70b 100644
+> > > > --- a/arch/x86/kvm/vmx/nested.c
+> > > > +++ b/arch/x86/kvm/vmx/nested.c
+> > > > @@ -3298,10 +3298,24 @@ static int nested_vmx_check_guest_state(str=
+uct kvm_vcpu *vcpu,
+> > > >       if (CC(vmcs12->guest_cr4 & X86_CR4_CET && !(vmcs12->guest_cr0=
+ & X86_CR0_WP)))
+> > > >               return -EINVAL;
+> > > >
+> > > > -     if ((vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS=
+) &&
+> > > > -         (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
+> > > > -          CC(!vmx_is_valid_debugctl(vcpu, vmcs12->guest_ia32_debug=
+ctl, false))))
+> > > > -             return -EINVAL;
+> > > > +     if (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS)=
+ {
+> > > > +             u64 debugctl =3D vmcs12->guest_ia32_debugctl;
+> > > > +
+> > > > +             /*
+> > > > +              * FREEZE_IN_SMM is not virtualized, but allow L1 to =
+set it in
+> > > > +              * L2's DEBUGCTL under a quirk for backwards compatib=
+ility.
+> > > > +              * Prior to KVM taking ownership of the bit to ensure=
+ PMCs are
+> > > > +              * frozen during physical SMM, L1 could set FREEZE_IN=
+_SMM in
+> > > > +              * vmcs12 to freeze PMCs during physical SMM coincide=
+nt with
+> > > > +              * L2's execution.
+> > > > +              */
+> > > > +             if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_VMCS=
+12_FREEZE_IN_SMM))
+> > > > +                     debugctl &=3D ~DEBUGCTLMSR_FREEZE_IN_SMM;
+> > > > +
+> > > > +             if (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
+> > > > +                 CC(!vmx_is_valid_debugctl(vcpu, debugctl, false))=
+)
+> > >
+> > > I'm mildly tempted to say we should quirk the entire consistency chec=
+k instead of
+> > > limiting it to FREEZE_IN_SMM, purely so that we don't have to add yet=
+ another quirk
+> > > if a different setup breaks on a different bit.  I suppose we could l=
+imit the quirk
+> > > to bits that could have been plausibly set in hardware, because other=
+wise VM-Entry
+> > > using L2 would VM-Fail, but that's still quite a few bits.
+> > >
+> > > I'm definitely not opposed to a targeted quirk though.
+> >
+> > I have no preference.
 
-> +/**
-> + * iio_safe_strntou64() - Parse u64 from string checking for overflow safety
-> + * @str: The string to parse
-> + * @endp: output pointer to the end parsing position
-> + * @result: parsed value
-> + * @max_chars: maximum number of digit characters to read
-> + *
-> + * This function is used in fixed-point parsing and it iterates over a const
-> + * char array. It might duplicate behavior of simple_strtoull() or kstrtoull(),
-> + * but those have their own limitations:
-> + * - simple_strtoull() is not overflow-safe and its usage is discouraged;
-> + * - kstrtoull() is safe, but requires termination and it would required a copy
-> + *   of the string to a temporary buffer.
-> + *
-> + * The implementation of this function is similar to _parse_integer_limit()
-> + * available in lib/kstrtox.h, but that header/function is not available to be
-> + * used in kernel modules. Hence, this implementation may need to change or
-> + * removed to reuse a new suitable helper that is properly exposed.
-> + *
-> + * Returns:
-> + * number of parsed characters on success, -ERANGE on overflow
-> + */
-> +static ssize_t iio_safe_strntou64(const char *str, const char **endp,
-> +				  u64 *result, size_t max_chars)
-> +{
-> +	u64 digit, acc = 0;
-> +	ssize_t idx = 0;
-> +
-> +	while (isdigit(str[idx]) && idx < max_chars) {
-> +		digit = str[idx] - '0';
-> +		if (unlikely(acc & (~0ull << 60))) {
-> +			if (check_mul_overflow(acc, 10, &acc) ||
-> +			    check_add_overflow(acc, digit, &acc))
-> +				return -ERANGE;
-> +		} else {
-> +			acc = acc * 10 + digit;
-> +		}
-> +		idx++;
-> +	}
-> +
-> +	*endp = str + idx;
-> +	*result = acc;
-> +	return idx;
-> +}
+After mulling over the options from time to time, I think our best be is to=
+ quirk
+only FREEZE_IN_SMM, but very explicity scope the quirk to just the consiste=
+ncy
+check.  E.g. maybe KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC?  That should help=
+ alert
+readers to the fact that the quirk bypasses the check, but L2 will still se=
+e
+FREEZE_IN_SMM=3D0 (e.g. in the unlikely scenario L1 disables interception o=
+f
+DEBUGCTL).
 
-There is a development in the parse_integer in the lib/. I reviewed that series
-and hopefully it will go in. With that done, we better reuse the lib/ function.
+As for why just FREEZE_IN_SMM, in addition to the fact that FREEZE_IN_SMM i=
+s the
+only bit that broke anyone (as far as we know, /knock wood), it's also the =
+only
+bit that is host-owned.  I.e. unless the host admin likes SMM mucking with =
+things,
+skipping the consistency check isn't terrible from a functionality perspect=
+ive
+(KVM doesn't honor the bit for emulated SMM, but that's QEMU's problem :-D)=
+.
 
-https://lore.kernel.org/linux-hardening/20260202115451.290173-1-dmantipov@yandex.ru/
+> Would you like me to post a v2?
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Yes please.
