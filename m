@@ -1,172 +1,209 @@
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82073392827;
-	Wed,  4 Feb 2026 13:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB17D413243
+	for <linux-doc@vger.kernel.org>; Wed,  4 Feb 2026 14:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770212736; cv=none; b=nHFzo9WfUF8T0EsbSL8XHkScJnFZZpEcCRhjkFwlC3/KP6pbkx7wB6O1MV3Vulg8f5Zabvf9TD1cp8nkYQu7TfclwYFXgEK9/1ltzlK/fWQLQOqjrbtN2XxBV8KyurGsmovq0y/qWczq+fUpiN5ChUuULBGwiKyj3hcLkFnFT7k=
+	t=1770214641; cv=none; b=G1vhDFv8Dj40mBECGq32VdnUSvNUITLGrYMt0DyoPTGz3xcqXhgMP5k5pyJ/E0iB/rbOBbtTmtgcAPPGu7P2qWjjmJCaXilf9egs2lpI3uimlEIxBAhYt4PV1DQp0WF7z38ILDmIb6YiGIMH6O861rgg24R7+/fhzzRW6tfw8uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770212736; c=relaxed/simple;
-	bh=6AoUWFoe1qTdaPzHfdR8hNXmzBqZ37rlpHoBFd6gM1M=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=T6z11rme227JXTTxJQeYbpF6aPt5Zstu+FNfNzL22wmfbyTUtPnZERwhuI4AMMJYzVmv/bKtxvkmlw1EJsPD8aAIpdbRzE38bAd8xXbXp2qpkN2k9pkhngK9Wf1fUnmQNbI9qi5d1aQS+/Pl083ly32tVnhRoxsZ3acc7ZXmYTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=p8L3brfY; arc=none smtp.client-ip=115.124.30.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1770214641; c=relaxed/simple;
+	bh=fqK/sV1/SV/2SRm0hf98CdMaH9ntyCY9/h5a4/cBf9g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FzsCM5caVRXXXAubDPNgs/MzZ8sLUVYjHLcsjqXxXI3Xoko2Ap3OOOMYoYJtNms/xWD+1SfcEvVRF9jmNFAKODslNaHsMmp+5VSqNZR5Nqe4g9Wh22wZN0OdiKAori7mXA6CQjyt/PbFcBavKDJ6XFt1QOnp1kJ+bM0glKSOX88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bsGX0+oe; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="p8L3brfY"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1770212724; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=5R42yBenU3WsqPgksKfBN/gXqqDJrrdf2h4U39oXsd8=;
-	b=p8L3brfYKi6VejGdkPtQhQstAeQ2lIpJfXKDrlXjdyndWuit/nXBGn/lM605LeSCM1tkTZy8Rs0IReLS0FJr1+VbCm3boFg2JrCNIA6Zelr6QTz++3/XotT3TYsjcaA11jKGNDKCWMW6GR0FHpfmozvARvKAauXaLgtiR7l5e7A=
-Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0WyXBzAg_1770212721 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 04 Feb 2026 21:45:22 +0800
-From: fangyu.yu@linux.alibaba.com
-To: pbonzini@redhat.com,
-	corbet@lwn.net,
-	anup@brainfault.org,
-	atish.patra@linux.dev,
-	pjw@kernel.org,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr
-Cc: guoren@kernel.org,
-	radim.krcmar@oss.qualcomm.com,
-	andrew.jones@oss.qualcomm.com,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Fangyu Yu <fangyu.yu@linux.alibaba.com>
-Subject: [PATCH v5 3/3] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
-Date: Wed,  4 Feb 2026 21:45:07 +0800
-Message-Id: <20260204134507.33912-4-fangyu.yu@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20260204134507.33912-1-fangyu.yu@linux.alibaba.com>
-References: <20260204134507.33912-1-fangyu.yu@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bsGX0+oe"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b8860d6251bso1042891666b.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 06:17:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770214639; x=1770819439; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Tf4Ir5IFLu+SmMvPSgo65r/HAkUdr4ohgIhUVdFKVQ0=;
+        b=bsGX0+oe2f6kv1WuWDGyQq47Hdrkes/K8kavT53wP9EcH4dF4drmeiFGOx+QezlfhL
+         yDQjdFEp6vjBFkNX2wUXPEl/X+yJmAo6H9BMcC54fRPWClUb0MwejiDUX83I904oq8u0
+         hh1sQA/yVGKoIgVrhZ0rCEbqMxEqR2gJLpFc2onS7bvZWCyjPOWTF9MQnXm4tOvfzzMM
+         Bo+ooU702vGUm1uVlM7Q9+wtf5H9d0Bf+ruq7qi/4d4zX2ab2hVrIZgHNykm7l2mMl9k
+         ZHd5wsIInLssCDc/cCAjQtCZyvan7OO4WTZT+Ws/Ocw8kwgjGieMnsdz0GyGC6G7w51O
+         kCgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770214639; x=1770819439;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tf4Ir5IFLu+SmMvPSgo65r/HAkUdr4ohgIhUVdFKVQ0=;
+        b=YNZeyS+Lf2jnZm01l//QurLUmQN7mA/pfAlFbMS+mdYxJteIoaUfjc/XG9exfQQEi9
+         rX68r0ASAR/k2WosrDEgj9kcjv0VmpT1UgRDOPHAi/9PlzrUCjkB3Qy/1p6sRH7GiB12
+         0+B4911HNPUjzwmq3qsqopoD+qbDqyv4RZD1NuatU/aMe3bx1FacqVzr+95TZiQn81kp
+         k5Gf6OJUjuc8fq3qKYeOInYrI8g+WB1558EBVUgppdW35Tw+BOlu/yj0g/LOLE2/8Ty0
+         fId4arguS/0VFwgWsKaQf63SEAkG/FF4OiPdsJ8e2mswyEhD3tX63Etm8AYuJP8Qc1WU
+         188g==
+X-Forwarded-Encrypted: i=1; AJvYcCXPIUK19uvWt3+F/cTe5CU0aswwVinkgrzJKcA8Q4URWggBMbRGXDM1qDdSgK8Ma6twKTlzz5/CMgE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6hSrxF8EPLcY1cz/dKw38wuU2xTEvNOkBad+7F8BqU968vjsV
+	h5vc3AbYvn1lKUBfM//sDyU2xxH1aAlLAuaKS53Bk6fSVJ5FY/z8Aaz0ywf1LANpIr0=
+X-Gm-Gg: AZuq6aLo5nggYp9u42gRuXpYPmKOTPvjUAJUiJ/QC2EkXWaE/78g05eEn8JFM6mYVVZ
+	jtzOhiqzquBKdtSvYNRS4eUxYNBxhkLwOFLAvopuWV7szcBd1ScgkeI2dLcNksbLk3LsFiWvi7L
+	/qp8W7djT1tHz+f2t0+6zYkNgM6NBLYUi6b9s99UwEy0WgcPhxxvguv1JXCwq1mmzlwtrMRjEH4
+	+rH8KHL3ndv+FxM2ohS0nACkqb+nHx8ms0w4kpOjNJCPQMSOE1+1r5llYXrGlBIx6DqHc2k6+dc
+	IMy1NFwY+Pl0/IiWGvfj2pPn6WHqyszYU0HN4laJo9fijfnI4O7dQ4a7TEIWT2dGANQZ1dIw0xi
+	JCUjaL1mlxRp9jP9Tek5fO26RCEC4QwfbQdD5b/vPiRl6QGtXsRGlYy0vHOALCfAEl02+WZM9G/
+	kW3JAccKQ6CaIPGVpFBA==
+X-Received: by 2002:a17:907:72d0:b0:b87:6:371d with SMTP id a640c23a62f3a-b8e9f42bb01mr227190666b.49.1770214639112;
+        Wed, 04 Feb 2026 06:17:19 -0800 (PST)
+Received: from draszik.lan ([212.129.76.169])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8ea0044a09sm125346166b.56.2026.02.04.06.17.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Feb 2026 06:17:18 -0800 (PST)
+Message-ID: <f6d1340062448cf52e4c034d250524e030877898.camel@linaro.org>
+Subject: Re: [PATCH v2 07/12] mfd: sec: store hardware revision in
+ sec_pmic_dev and add S2MU005 support
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>, Lee Jones
+ <lee@kernel.org>,  Pavel Machek <pavel@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo
+ Choi	 <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Jonathan Corbet	 <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Date: Wed, 04 Feb 2026 14:17:35 +0000
+In-Reply-To: <20260126-s2mu005-pmic-v2-7-78f1a75f547a@disroot.org>
+References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
+	 <20260126-s2mu005-pmic-v2-7-78f1a75f547a@disroot.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-2+build4 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+Hi Kaustabh,
 
-Add a VM capability that allows userspace to select the G-stage page table
-format by setting HGATP.MODE on a per-VM basis.
+On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
+> The device revision matters in cases when in some PMICs, the correct
+> register offsets very in different revisions. Instead of just debug
 
-Userspace enables the capability via KVM_ENABLE_CAP, passing the requested
-HGATP.MODE in args[0]. The request is rejected with -EINVAL if the mode is
-not supported by the host, and with -EBUSY if the VM has already been
-committed (e.g. vCPUs have been created or any memslot is populated).
+s/very/vary
 
-KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE) returns a bitmask of the
-HGATP.MODE formats supported by the host.
+> printing the value, store it in the driver data struct.
 
-Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
----
- Documentation/virt/kvm/api.rst | 27 +++++++++++++++++++++++++++
- arch/riscv/kvm/vm.c            | 19 +++++++++++++++++--
- include/uapi/linux/kvm.h       |  1 +
- 3 files changed, 45 insertions(+), 2 deletions(-)
+Please mention that you're not doing that for s2mpg1x, though.
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 01a3abef8abb..62dc120857c1 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -8765,6 +8765,33 @@ helpful if user space wants to emulate instructions which are not
- This capability can be enabled dynamically even if VCPUs were already
- created and are running.
- 
-+7.47 KVM_CAP_RISCV_SET_HGATP_MODE
-+---------------------------------
-+
-+:Architectures: riscv
-+:Type: VM
-+:Parameters: args[0] contains the requested HGATP mode
-+:Returns:
-+  - 0 on success.
-+  - -EINVAL if args[0] is outside the range of HGATP modes supported by the
-+    hardware.
-+  - -EBUSY if vCPUs have already been created for the VM, if the VM has any
-+    non-empty memslots.
-+
-+This capability allows userspace to explicitly select the HGATP mode for
-+the VM. The selected mode must be supported by both KVM and hardware. This
-+capability must be enabled before creating any vCPUs or memslots.
-+
-+If this capability is not enabled, KVM will select the default HGATP mode
-+automatically. The default is the highest HGATP.MODE value supported by
-+hardware.
-+
-+``KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE)`` returns a bitmask of
-+HGATP.MODE values supported by the host. A return value of 0 indicates that
-+the capability is not supported. Supported-mode bitmask use HGATP.MODE
-+encodings as defined by the RISC-V privileged specification, such as Sv39x4
-+corresponds to HGATP.MODE=8, so userspace should test bitmask & BIT(8).
-+
- 8. Other capabilities.
- ======================
- 
-diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
-index 4b2156df40fc..7d1e1d257df5 100644
---- a/arch/riscv/kvm/vm.c
-+++ b/arch/riscv/kvm/vm.c
-@@ -202,6 +202,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_VM_GPA_BITS:
- 		r = kvm_riscv_gstage_gpa_bits(&kvm->arch);
- 		break;
-+	case KVM_CAP_RISCV_SET_HGATP_MODE:
-+		r = kvm_riscv_get_hgatp_mode_mask();
-+		break;
- 	default:
- 		r = 0;
- 		break;
-@@ -212,12 +215,24 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 
- int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
- {
-+	if (cap->flags)
-+		return -EINVAL;
-+
- 	switch (cap->cap) {
- 	case KVM_CAP_RISCV_MP_STATE_RESET:
--		if (cap->flags)
--			return -EINVAL;
- 		kvm->arch.mp_state_reset = true;
- 		return 0;
-+	case KVM_CAP_RISCV_SET_HGATP_MODE:
-+		if (!kvm_riscv_hgatp_mode_is_valid(cap->args[0]))
-+			return -EINVAL;
-+
-+		if (kvm->created_vcpus || !kvm_are_all_memslots_empty(kvm))
-+			return -EBUSY;
-+#ifdef CONFIG_64BIT
-+		kvm->arch.kvm_riscv_gstage_pgd_levels =
-+				3 + cap->args[0] - HGATP_MODE_SV39X4;
-+#endif
-+		return 0;
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index dddb781b0507..00c02a880518 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -974,6 +974,7 @@ struct kvm_enable_cap {
- #define KVM_CAP_GUEST_MEMFD_FLAGS 244
- #define KVM_CAP_ARM_SEA_TO_USER 245
- #define KVM_CAP_S390_USER_OPEREXEC 246
-+#define KVM_CAP_RISCV_SET_HGATP_MODE 247
- 
- struct kvm_irq_routing_irqchip {
- 	__u32 irqchip;
--- 
-2.50.1
+>=20
+> Unlike other devices, S2MU005 has its hardware revision ID in register
+> offset 0x73. Allow handling different devices and add support for S2MU005=
+.
+>=20
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 | 41 ++++++++++++++++++++++++++++++----------
+> =C2=A0include/linux/mfd/samsung/core.h |=C2=A0 1 +
+> =C2=A02 files changed, 32 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/mfd/sec-common.c b/drivers/mfd/sec-common.c
+> index bc2a1f2c6dc7a..069a1ba9aa1f1 100644
+> --- a/drivers/mfd/sec-common.c
+> +++ b/drivers/mfd/sec-common.c
+> @@ -16,6 +16,7 @@
+> =C2=A0#include <linux/mfd/samsung/irq.h>
+> =C2=A0#include <linux/mfd/samsung/s2mps11.h>
+> =C2=A0#include <linux/mfd/samsung/s2mps13.h>
+> +#include <linux/mfd/samsung/s2mu005.h>
+> =C2=A0#include <linux/module.h>
+> =C2=A0#include <linux/of.h>
+> =C2=A0#include <linux/pm.h>
+> @@ -111,17 +112,38 @@ static const struct mfd_cell s2mu005_devs[] =3D {
+> =C2=A0	MFD_CELL_OF("s2mu005-rgb", NULL, NULL, 0, 0, "samsung,s2mu005-rgb"=
+),
+> =C2=A0};
+> =C2=A0
+> -static void sec_pmic_dump_rev(struct sec_pmic_dev *sec_pmic)
+> +static int sec_pmic_store_rev(struct sec_pmic_dev *sec_pmic)
+> =C2=A0{
+> -	unsigned int val;
+> +	unsigned int reg, mask, shift;
+> +	int ret;
+> =C2=A0
+> -	/* For s2mpg1x, the revision is in a different regmap */
+> -	if (sec_pmic->device_type =3D=3D S2MPG10)
+> -		return;
+> +	switch (sec_pmic->device_type) {
+> +	case S2MPG10:
+> +		/* For s2mpg1x, the revision is in a different regmap */
+> +		return 0;
+> +	case S2MU005:
+> +		reg =3D S2MU005_REG_ID;
+> +		mask =3D S2MU005_ID_MASK;
+> +		shift =3D S2MU005_ID_SHIFT;
+> +		break;
+> +	default:
+> +		/* For other device types, the REG_ID is always the first register. */
+> +		reg =3D S2MPS11_REG_ID;
+> +		mask =3D ~0;
+> +		shift =3D 0;
+> +	}
+> +
+> +	ret =3D regmap_read(sec_pmic->regmap_pmic, reg, &sec_pmic->revision);
+> +	if (ret) {
+> +		dev_err(sec_pmic->dev, "Failed to read PMIC revision (%d)\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	sec_pmic->revision &=3D mask;
+> +	sec_pmic->revision >>=3D shift;
+> =C2=A0
+> -	/* For each device type, the REG_ID is always the first register */
+> -	if (!regmap_read(sec_pmic->regmap_pmic, S2MPS11_REG_ID, &val))
+> -		dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", val);
+> +	dev_dbg(sec_pmic->dev, "Revision: 0x%x\n", sec_pmic->revision);
+> +	return 0;
+> =C2=A0}
+> =C2=A0
+> =C2=A0static void sec_pmic_configure(struct sec_pmic_dev *sec_pmic)
+> @@ -262,9 +284,8 @@ int sec_pmic_probe(struct device *dev, int device_typ=
+e, unsigned int irq,
+> =C2=A0		return ret;
+> =C2=A0
+> =C2=A0	sec_pmic_configure(sec_pmic);
+> -	sec_pmic_dump_rev(sec_pmic);
+> =C2=A0
+> -	return ret;
+> +	return sec_pmic_store_rev(sec_pmic);
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL_GPL(sec_pmic_probe);
+> =C2=A0
+> diff --git a/include/linux/mfd/samsung/core.h b/include/linux/mfd/samsung=
+/core.h
+> index 43e0c5e55f5d3..56aa33d7e3d60 100644
+> --- a/include/linux/mfd/samsung/core.h
+> +++ b/include/linux/mfd/samsung/core.h
+> @@ -70,6 +70,7 @@ struct sec_pmic_dev {
+> =C2=A0
+> =C2=A0	int device_type;
+> =C2=A0	int irq;
+> +	unsigned int revision;
 
+kerneldoc needs to be updated.
+
+Given the LED driver is the only driver & device so far which needs the
+PMIC revision, maybe for now that driver could determine the revision
+itself instead of adding this new member for everybody?
+
+Cheers,
+Andre'
+
+> =C2=A0};
+> =C2=A0
+> =C2=A0struct sec_platform_data {
