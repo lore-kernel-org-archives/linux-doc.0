@@ -1,110 +1,141 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4579723AB9D;
-	Wed,  4 Feb 2026 01:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39022E65D;
+	Wed,  4 Feb 2026 01:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770168488; cv=none; b=AKOnGQemzfgv2DHYdW4CK0PvxzA3FHIDW7PZcz+8+kmbgLjUMOyRR1a9Ing8b5xtGAEPrjp4n2zGzdMNpSYwi+hB5mUDQApphpduKoW4sreh2J379Q52AhOosYkWClheyYHBwbLNsxSjtglsTime1RHARr8PDbOe2lHDtDhTL4A=
+	t=1770169543; cv=none; b=l5ntgBc7HFR+NdQBSZjHQkrLYxVI7gJqSsPHd9aE6/ADhMpcVUwfFMvxVBdjE50rc9ieG6B+6LJjtCjcOEImBWgGKyVCp4vwxz6wNFPQzcfPn+F5mO+Y+5AjWN5pjeW6HHjdJhZm477RhcsIEIjiCHlqImb+mFHfjONAUBG6SZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770168488; c=relaxed/simple;
-	bh=OFxd1GrBys77zioOdyfC6ks98+Ht3t6RYfgESLqbAUs=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=O/6NCt7K89EsFqS5r5yGr/Y29r4IpGqz/H7rPBo+iV5O/zMYUaQMIHHJD8vnnIiPzzza+VHHVi2ancltUfG0Y0Q+BQmLWyqfK011804mGgrpXbMlQU7Aj32HRXGfDCDVzZmdS2hI6Wzs690H3uc4fzA8KgLOLNEGJpDa2CnK5bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.24])
-	by gateway (Coremail) with SMTP id _____8CxLMOboIJpxJkPAA--.50669S3;
-	Wed, 04 Feb 2026 09:27:55 +0800 (CST)
-Received: from [10.20.42.24] (unknown [10.20.42.24])
-	by front1 (Coremail) with SMTP id qMiowJCxOMGXoIJpQ3A_AA--.38473S3;
-	Wed, 04 Feb 2026 09:27:54 +0800 (CST)
-Subject: Re: [PATCH v11 2/4] irqchip/irq-loonarch-avec: Prepare for interrupt
- redirection support
-To: Thomas Gleixner <tglx@linutronix.de>, chenhuacai@kernel.org,
- kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
- jiaxun.yang@flygoat.com, maobibo@loongson.cn
-Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260203124522.2288900-1-zhangtianyang@loongson.cn>
- <20260203124522.2288900-3-zhangtianyang@loongson.cn> <87tsvx3fxq.ffs@tglx>
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-Message-ID: <ccd4a8be-23e2-45f2-5b90-8a8e8f9ae6d6@loongson.cn>
-Date: Wed, 4 Feb 2026 09:26:02 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1770169543; c=relaxed/simple;
+	bh=YiABNjtqxGsl4v+Aef/koK3zybLExycxmkylXR0NkLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nNPMue3xp6e9nROWs2mryztTHVRkPROyzzW4k2XL7QMz//UsCLbobIWbszJfP7R5032bx2p+8fpfGJr2sbfZQDONoTd5bJQoONVwU9r8kceBdAy13OWpV+dKOyP6Qr4G43giu1P8Wi/XWq+tfS2AvrdS5cjNedbpbpsfxSXt5cM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WJTiDp34; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WJTiDp34"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770169541; x=1801705541;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YiABNjtqxGsl4v+Aef/koK3zybLExycxmkylXR0NkLM=;
+  b=WJTiDp345RuZA91pJPPL0lnK0WKaqksgjEo24XBA0joW0JwTC8Z1Mvuo
+   haLNpq+M/0VjWlUufryZVzELI3+xkbXkppZDlHFg7F1R4aX/uIHNFUK2x
+   iz+Xzm+jY2drsQz2BWWb/6luXY3NOpovtihNWjC4uasWMLB+irtaF8o95
+   jds+gZ75eeCsHBPXdEigFunckRj58MODueWxAMG8m4cMqCq4aqxMcJdPW
+   ZoZAXLv6E/A5VJ5K291sn9CJoVYHAe4std4WC/tS1fciKge4aYyoWqA7Y
+   cToMojyhRpFFq4mEsD7mTdtn25/KKKRxZTQ4lGKJR53n43O++NIaxyECI
+   w==;
+X-CSE-ConnectionGUID: y2GWe0hiQlKCVBhEd++b/A==
+X-CSE-MsgGUID: rPGlRoRNRhucPB9FrErGPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="70552212"
+X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
+   d="scan'208";a="70552212"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 17:45:40 -0800
+X-CSE-ConnectionGUID: VuQZQQs7Rf6DdquKrzRZQw==
+X-CSE-MsgGUID: j3ODpeaBSSmdHo+qaUY7pw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,271,1763452800"; 
+   d="scan'208";a="210093354"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.168])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2026 17:45:37 -0800
+Date: Wed, 4 Feb 2026 03:45:35 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
+Message-ID: <aYKkv3dq9Vkm3s_3@smile.fi.intel.com>
+References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
+ <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <87tsvx3fxq.ffs@tglx>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJCxOMGXoIJpQ3A_AA--.38473S3
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBj9xXoW7Gw4kGw1rXF47Ww15GrW7trc_yoWkCwb_Wr
-	y5Krs7G34DWFWfWFZxGrZ3Xr9xGFyruFyDArW5uF12qryFyFWkCF1qgryS93yrC3y2vrn3
-	ur98Xw1fWw1a9osvyTuYvTs0mTUanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUbDkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
-	JVW8Jr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
-	x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r126r1D
-	McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
-	I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxGrwCF
-	x2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r
-	1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij
-	64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
-	0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-	0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8h0ePUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi, Thomas
+On Fri, Jan 30, 2026 at 10:06:43AM +0000, Rodrigo Alencar via B4 Relay wrote:
 
-ÔÚ 2026/2/4 ÉÏÎç1:17, Thomas Gleixner Ð´µÀ:
-> On Tue, Feb 03 2026 at 20:45, Tianyang Zhang wrote:
-> 
-> $Subject: irqchip/irq-loonarch-avec
-> 
-> I know you blindly copied my suggestion and obviously you failed to spot
-> the missing 'g'.
-......ok......
-> 
->> Interrupt redirection support requires a new interrupt chip, which
->> needs to share data structures, constants and functions with the AVEC
->> code.
->>
->> Move them to the header file and make the required functions public.
-> 
-> But then you still keep this nonsense around, which has no place in the
-> change log as I explained to you before:
-> 
->    "Enumerating the details of what is moved is a pointless exercise
->     because that can bee seen from the diff itself."
-> 
-> What's so hard about that to understand?
-> 
-> Just in case I'm not able to express myself coherently, this means:
-> 
-> Remove the following 4 lines:
-Ok, I got it
-> 
->> including:
->> 1 marco AVEC_MSG_OFFSET
->> 2 struct avecintc_data
->> 3 Make avecintc_sync public
-> 
-> Sigh. Though I have to admit that 'loonarch' gave me a good laugh at
-> least.
-......Maybe that's a happy little accident
-> 
-> Thanks,
-> 
->          tglx
-> 
-Thanks
-Tianyang
+> Add iio_str_to_fixpoint64() function that leverages simple_strtoull()
+> to parse numbers from a string.
+> A helper function __iio_str_to_fixpoint64() replaces
+> __iio_str_to_fixpoint() implementation, extending its usage for
+> 64-bit fixed-point parsing.
+
+...
+
+> +/**
+> + * iio_safe_strntou64() - Parse u64 from string checking for overflow safety
+> + * @str: The string to parse
+> + * @endp: output pointer to the end parsing position
+> + * @result: parsed value
+> + * @max_chars: maximum number of digit characters to read
+> + *
+> + * This function is used in fixed-point parsing and it iterates over a const
+> + * char array. It might duplicate behavior of simple_strtoull() or kstrtoull(),
+> + * but those have their own limitations:
+> + * - simple_strtoull() is not overflow-safe and its usage is discouraged;
+> + * - kstrtoull() is safe, but requires termination and it would required a copy
+> + *   of the string to a temporary buffer.
+> + *
+> + * The implementation of this function is similar to _parse_integer_limit()
+> + * available in lib/kstrtox.h, but that header/function is not available to be
+> + * used in kernel modules. Hence, this implementation may need to change or
+> + * removed to reuse a new suitable helper that is properly exposed.
+> + *
+> + * Returns:
+> + * number of parsed characters on success, -ERANGE on overflow
+> + */
+> +static ssize_t iio_safe_strntou64(const char *str, const char **endp,
+> +				  u64 *result, size_t max_chars)
+> +{
+> +	u64 digit, acc = 0;
+> +	ssize_t idx = 0;
+> +
+> +	while (isdigit(str[idx]) && idx < max_chars) {
+> +		digit = str[idx] - '0';
+> +		if (unlikely(acc & (~0ull << 60))) {
+> +			if (check_mul_overflow(acc, 10, &acc) ||
+> +			    check_add_overflow(acc, digit, &acc))
+> +				return -ERANGE;
+> +		} else {
+> +			acc = acc * 10 + digit;
+> +		}
+> +		idx++;
+> +	}
+> +
+> +	*endp = str + idx;
+> +	*result = acc;
+> +	return idx;
+> +}
+
+There is a development in the parse_integer in the lib/. I reviewed that series
+and hopefully it will go in. With that done, we better reuse the lib/ function.
+
+https://lore.kernel.org/linux-hardening/20260202115451.290173-1-dmantipov@yandex.ru/
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
