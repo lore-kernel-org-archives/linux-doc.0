@@ -1,51 +1,37 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from luna.linkmauve.fr (luna.linkmauve.fr [82.65.109.163])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504922868B4;
-	Thu,  5 Feb 2026 13:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8BB3D7D61;
+	Thu,  5 Feb 2026 13:52:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770299491; cv=none; b=LKONIGI7auVhzgTF+ucyH9bfIk65kBkxmWMnSNGoYOUE9mdOB3BazBBcNE7dSpQWGfe4pqBlMYX/a8v/ndTnxctCUHODqJIJ5a8JY4Y8K2yPnd8RQ2P5nHDPkk6YxFSvQVaN/j0+hYsIaMmRt/XU9QtKHRTjk/QnZIH/hSVl5I0=
+	t=1770299536; cv=none; b=I67sRhh1Icl/UEtna3cmA7l2rc9F2UIUeaPvHcQntg/7hCFCCaowVbELnq6bnSH/owUnSKv8kV2A4a6L7+WME8Gcs44Czs8rZYhoktybMu/ZpAyRbi3DWh09raQuX/Z9PYBl8qZd8jj/CnPRYRDd2JXfvhvodiAKAYul99aPRfE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770299491; c=relaxed/simple;
-	bh=6XN6z6hFfjpOkZlveYpliUUpSXjgUwZDf9EunDICMUo=;
+	s=arc-20240116; t=1770299536; c=relaxed/simple;
+	bh=MJ/TtpdG4VddUlMl0YuIgDO/2eHcxYluLB3WdoCuIf4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wej2Egvubdey+4o6nsekcZDfxhKYs62xvvBlj9qzMgBENMUJ8c9FxDNqQSEfsrVwx+xvaT7lXFKokyod/d5cBhJp6FyABAtiLNL3iEi3cc+hLdqn95rn1Zl1MIuosfOuUY4rzeFD9I5m06qQLlE/iMsMXU4SVwtLkwL8e6Gkx54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWtx09sf; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWtx09sf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC0AFC4CEF7;
-	Thu,  5 Feb 2026 13:51:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770299490;
-	bh=6XN6z6hFfjpOkZlveYpliUUpSXjgUwZDf9EunDICMUo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UWtx09sfcWEfYttX2QWVVmwWF8dnMx2x9pgFXF0gNNNE8HftOGI488+VV2XX03jGl
-	 gtuY2s725BVB8mk51msqorRelxHJ6NX8brqcGBElSq7XnHMcmk5dwsoYoewqCPb8ay
-	 6lCvESm7H/gtMjGKZr2ajtkL6WZKFmk3wxopvXbOSlmd131tMWpLIdTvNLkMgWHe0M
-	 5zIgDeiu5aSsxV/5ncp8rkhRGW7aCdeAnd3RiP+lf2UtsWkV4V2VsXNLZM2MEpCnuc
-	 yj9QTj8LHzNd/degxZTW99fupwmK6h7R4vi7rL/9xYioLS6xXJ8OQaOyAPBz7tpQvE
-	 kOWVYdjSjr4uw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vnzlY-00000009yfA-2f1A;
-	Thu, 05 Feb 2026 14:51:28 +0100
-Date: Thu, 5 Feb 2026 14:51:28 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Ricardo Ribalda <ribalda@chromium.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Sean Young <sean@mess.org>
-Subject: Re: [PATCH 2/2] docs: media: media-committer: do some editorial
- changes
-Message-ID: <aYSbEB0d2cvSi3nZ@foz.lan>
-References: <dc12b2f42304866ccc04053f2a3c97e84c7558a1.1770215865.git.mchehab+huawei@kernel.org>
- <ada3056177e5e4e65119fb1b617777a680534e64.1770215865.git.mchehab+huawei@kernel.org>
- <26a44a31-3ab3-40f0-9ef2-e4bb6484a254@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NLZ0+TaFU7Sq2Cay/DyOsDNMFoACOVEIjWjiGSILkg9I1EZoM2a6Bq5XmL7M33iFVUlHK1cEkveuHYoalobPO4grTvimDdhz5bA6RvRRngyxZ3ePmjM3WEdyIr2v/excPJmiGJd7fv5gk4BEmSqHf7IAPnIOXadJAYXlA3CAgzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
+Received: by luna.linkmauve.fr (Postfix, from userid 1000)
+	id 92A26F43990; Thu, 05 Feb 2026 14:52:12 +0100 (CET)
+Date: Thu, 5 Feb 2026 14:52:12 +0100
+From: Link Mauve <linkmauve@linkmauve.fr>
+To: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
+Cc: linkmauve@linkmauve.fr, ojeda@kernel.org, boqun.feng@gmail.com,
+	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+	dakr@kernel.org, corbet@lwn.net, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
+	peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com,
+	rostedt@goodmis.org, ardb@kernel.org,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH V2 3/3] powerpc: Enable Rust for ppc64le
+Message-ID: <aYSgjPD5KRcNN0j4@luna>
+References: <20260204210125.613350-1-mkchauras@gmail.com>
+ <20260204210125.613350-4-mkchauras@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,182 +40,110 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <26a44a31-3ab3-40f0-9ef2-e4bb6484a254@kernel.org>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260204210125.613350-4-mkchauras@gmail.com>
+Jabber-ID: linkmauve@linkmauve.fr
 
-On Thu, Feb 05, 2026 at 12:52:35PM +0100, Hans Verkuil wrote:
-> Hi Mauro,
-> 
-> For the most part I agree, but I have some suggestions regarding the point 4
-> you added, since I think it just restates what is already mentioned in
-> maintainer-entry-profile.rst.
-> 
-> Let me know what you think of my suggestions.
-> 
-> On 2/4/26 15:37, Mauro Carvalho Chehab wrote:
-> > Do some editorial changes to make it look clearer:
-> > 
-> >   - media-committers tree references corrected from singular to plural;
-> >   - updated commit rights wording and responsibilities;
-> >   - fixed various typographical errors;
-> >   - corrected “mailing list” and “Kernel” references;
-> >   - improved core committer description;
-> >   - updated documentation paths and URLs;
-> >   - added missing “for” and improved sentence flow.
-> > 
-> > Perhaps the most relevant change is that i removed a word
-> > that was requiring granting Patchwork rights some time before
-> > adding commit rights (we may grant them altogether if makes
-> > sense for us), and I added a 4th note to committer notes
-> > list to let it clear that about what it is expected from a
-> > committer with regards to updating Patchwork.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  .../driver-api/media/media-committer.rst      | 97 ++++++++++---------
-> >  1 file changed, 51 insertions(+), 46 deletions(-)
-> > 
-> > diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-> > index 18cce6e06a2b..c83e94750e57 100644
-> > --- a/Documentation/driver-api/media/media-committer.rst
-> > +++ b/Documentation/driver-api/media/media-committer.rst
-> > @@ -20,8 +20,8 @@ and the Linux Media community.
-> >  
-> >  .. Note::
-> 
-> Re-reading this I don't really think this should be a note at all. This just
-> lists the additional responsibilities of a media committer, no need to
-> present this as a 'note'.
+On Thu, Feb 05, 2026 at 02:31:25AM +0530, Mukesh Kumar Chaurasiya (IBM) wro=
+te:
+[=E2=80=A6]
+> diff --git a/rust/Makefile b/rust/Makefile
+> index ae22f2c5f0b3..c3961fd0d9a4 100644
+> --- a/rust/Makefile
+> +++ b/rust/Makefile
+> @@ -392,10 +392,17 @@ BINDGEN_TARGET_x86	:=3D x86_64-linux-gnu
+>  BINDGEN_TARGET_arm64	:=3D aarch64-linux-gnu
+>  BINDGEN_TARGET_arm	:=3D arm-linux-gnueabi
+>  BINDGEN_TARGET_loongarch	:=3D loongarch64-linux-gnusf
+> -BINDGEN_TARGET_powerpc	:=3D powerpc-linux-gnu
+>  BINDGEN_TARGET_um	:=3D $(BINDGEN_TARGET_$(SUBARCH))
+>  BINDGEN_TARGET		:=3D $(BINDGEN_TARGET_$(SRCARCH))
+> =20
+> +ifdef CONFIG_PPC64
+> +ifdef CONFIG_CPU_LITTLE_ENDIAN
+> +BINDGEN_TARGET_powerpc	:=3D powerpc64le-linux-gnu
+> +endif
+> +else
+> +BINDGEN_TARGET_powerpc	:=3D powerpc-linux-gnu
+> +endif
 
-Agreed.
+You define BINDGEN_TARGET_powerpc after BINDGEN_TARGET has been set to
+the value of $(BINDGEN_TARGET_$(SRCARCH)), so it is empty and bindgen
+then gets passed --target=3D which makes it fail here, with this error
+message:
+```
+bindgen ../rust/bindings/bindings_helper.h --blocklist-type __kernel_s?size=
+_t --blocklist-type __kernel_ptrdiff_t --opaque-type xregs_state --opaque-t=
+ype desc_struct --opaque-type arch_lbr_state --opaque-type local_apic --opa=
+que-type alt_instr --opaque-type x86_msi_data --opaque-type x86_msi_addr_lo=
+ --opaque-type kunit_try_catch --opaque-type spinlock --no-doc-comments --b=
+locklist-function __list_.*_report --blocklist-item ARCH_SLAB_MINALIGN --bl=
+ocklist-item ARCH_KMALLOC_MINALIGN --with-derive-custom-struct .*=3DMaybeZe=
+roable --with-derive-custom-union .*=3DMaybeZeroable --rust-target 1.68 --u=
+se-core --with-derive-default --ctypes-prefix ffi --no-layout-tests --no-de=
+bug '.*' --enable-function-attribute-detection -o rust/bindings/bindings_ge=
+nerated.rs -- -Wp,-MMD,rust/bindings/.bindings_generated.rs.d -nostdinc -I.=
+=2E/arch/powerpc/include -I./arch/powerpc/include/generated -I../include -I=
+=2E/include -I../arch/powerpc/include/uapi -I./arch/powerpc/include/generat=
+ed/uapi -I../include/uapi -I./include/generated/uapi -include ../include/li=
+nux/compiler-version.h -include ../include/linux/kconfig.h -include ../incl=
+ude/linux/compiler_types.h -D__KERNEL__ -mbig-endian -m32 -I ../arch/powerp=
+c -fmacro-prefix-map=3D../=3D -std=3Dgnu11 -fshort-wchar -funsigned-char -f=
+no-common -fno-PIE -fno-strict-aliasing -msoft-float -mcpu=3Dpowerpc -mno-p=
+refixed -mno-pcrel -mno-altivec -mno-vsx -mno-mma -fno-asynchronous-unwind-=
+tables -mbig-endian -fno-delete-null-pointer-checks -Os -fno-stack-protecto=
+r -fomit-frame-pointer -ftrivial-auto-var-init=3Dzero -fno-strict-overflow =
+-fno-stack-check -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=3Dimplic=
+it-function-declaration -Werror=3Dimplicit-int -Werror=3Dreturn-type -Werro=
+r=3Dstrict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-addres=
+s -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes=
+ -Wframe-larger-than=3D1280 -Wno-main -Wno-dangling-pointer -Wvla-larger-th=
+an=3D1 -Wno-pointer-sign -Wcast-function-type -Wno-array-bounds -Wno-string=
+op-overflow -Wno-alloc-size-larger-than -Wimplicit-fallthrough=3D5 -Werror=
+=3Ddate-time -Werror=3Dincompatible-pointer-types -Werror=3Ddesignated-init=
+ -Wenum-conversion -Wunused -Wno-unused-but-set-variable -Wno-unused-const-=
+variable -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncatio=
+n -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initialize=
+rs -Wno-type-limits -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno=
+-sign-compare -Wno-unused-parameter -DGCC_PLUGINS -I../rust -Irust -DKBUILD=
+_MODFILE=3D'"rust/bindings_generated"' -DKBUILD_BASENAME=3D'"bindings_gener=
+ated"' -DKBUILD_MODNAME=3D'"bindings_generated"' -D__KBUILD_MODNAME=3Dkmod_=
+bindings_generated -w --target=3D -fno-builtin -D__BINDGEN__ -DMODULE  ; se=
+d -Ei 's/pub const RUST_CONST_HELPER_([a-zA-Z0-9_]*)/pub const /g' rust/bin=
+dings/bindings_generated.rs
+error: unsupported option '-mbig-endian' for target ''
+error: unsupported option '-mcpu=3D' for target ''
+error: unsupported option '-mno-prefixed' for target ''
+error: unsupported option '-mno-pcrel' for target ''
+error: unsupported option '-mno-altivec' for target ''
+error: unsupported option '-mno-vsx' for target ''
+error: unsupported option '-mno-mma' for target ''
+error: unsupported option '-mbig-endian' for target ''
+error: unknown target triple 'unknown'
+panicked at bindgen/ir/context.rs:562:15:
+libclang error; possible causes include:
+- Invalid flag syntax
+- Unrecognized flags
+- Invalid flag arguments
+- File I/O errors
+- Host vs. target architecture mismatch
+If you encounter an error missing from this list, please file an issue or a=
+ PR!
+```
 
-> >  
-> > -   1. Patches you authored must have a Signed-off-by, Reviewed-by or Acked-by
-> > -      of another Media Maintainer;
-> > +   1. Patches you authored must have a ``Signed-off-by``, ``Reviewed-by``
-> > +      or ``Acked-by`` from another Media Maintainer;
-> >     2. If a patch introduces a regression, then it is the Media Committer's
-> >        responsibility to correct that as soon as possible. Typically the
-> >        patch is either reverted, or an additional patch is committed to
-> > @@ -29,14 +29,18 @@ and the Linux Media community.
-> >     3. If patches are fixing bugs against already released Kernels, including
-> >        the reverts above mentioned, the Media Committer shall add the needed
-> >        tags. Please see :ref:`Media development workflow` for more details.
-> > +   4. All Media Committers are responsible for maintaining
-> > +      `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_,
-> > +      updating the state of the patches they review or merge.
-> > +
-> 
-> I don't really agree with this. Not that it hurts, but maintaining patchwork
-> is a job of media maintainers.
+Did this work on PPC64?
 
-Not really: "normal" media driver maintainers don't need to do that, and, even
-if we write they should, I doubt most would.
+> +
+>  # All warnings are inhibited since GCC builds are very experimental,
+>  # many GCC warnings are not supported by Clang, they may only appear in
+>  # some configurations, with new GCC versions, etc.
+> --=20
+> 2.52.0
+>=20
 
-In practice, I expect only core maintainers, subsystem maitnainers and a couple
-of driver maintainers to actually update it.
+With this fixed:
+Reviewed-by: Link Mauve <linkmauve@linkmauve.fr>
+Tested-by: Link Mauve <linkmauve@linkmauve.fr>
 
-I'd like to keep a mention here, as we expect media committers to actually
-read this file and understand what it is expected from them. As such,
-it doesn't hurt letting something explicit here.
-
-The point is: if a committer forgets to update it, we may end having the
-same patch being reviewed by two people at different moments, wasting
-precious review time. Worse than that, if a rejected patch was kept
-as new on patchwork, another committer may end wrongly merging it.
-
-> The only addition for committers is that they
-> have to update patches in patchwork to 'Accepted' when they have committed
-> them. That is certainly worth mentioning (including updating the maintainers
-> profile to clearly state that only committers can set it to Accepted.
-
-With the "committers hat", yes: most of the time it will be just "Accepted",
-but, even so, if they pick a series with duplicated patches, other status
-needs to be updated, like "duplicated" and "superseeded". 
-
-> So in maintainer-entry-profile.rst in 1.3 I would change the description for
-> the Accepted state to:
-> 
-> "Accepted: Once a patch is merged in the media-committers tree. Only Media
-> Maintainers with commit rights can set this state."
-
-Sounds good.
-
-> And change point 4 to this:
-> 
-> 4. After committing a patch, the Media Committer must also update the
->    patch status to ``Accepted`` in
->    `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_.
-
-I would avoid restricting it - or if you want to verbose what status
-type, those are the ones we currently have on patchwork(*):
-
-	Under Review
-	Accepted
-	Rejected
-	RFC
-	Not Applicable
-	Changes Requested
-	Awaiting Upstream
-	Superseded
-	Deferred
-	Obsoleted	
-	TODO
-	driver maintainer
-	Duplicated
-
-(*) Heh, there are some that we only used for a very short period of time,
-    or maybe even never used, but we can't delete status there without
-    causing potential issues to the database.
-
-> 
-> >  
-> >  Becoming a Media Committer
-> >  --------------------------
-> >  
-> >  Existing Media Committers can nominate a Media Maintainer to be granted
-> > -commit rights. The Media Maintainer must already have patchwork access and
-> > -have been in that role for some time, and has demonstrated a good
-> > -understanding of the maintainer's duties and processes.
-> > +commit rights. The Media Maintainer must have patchwork access,
-> > +have been reviewing patches from third parties for some time, and has
-> > +demonstrated a good understanding of the maintainer's duties and processes.
-> >  
-> >  The ultimate responsibility for accepting a nominated committer is up to
-> >  the Media Subsystem Maintainers. The nominated committer must have earned a
-> > @@ -61,8 +65,8 @@ Media Committer's agreement
-> >  Once a nominated committer is accepted by all Media Subsystem Maintainers,
-> >  they will ask if the developer is interested in the nomination and discuss
-> >  what area(s) of the media subsystem the committer will be responsible for.
-> > -Those areas will typically be the same as the areas that are already
-> > -maintained by the nominated committer.
-> > +Those areas will typically be the same as the areas that the nominated
-> > +committer is already maintaining.
-> >  
-> >  When the developer accepts being a committer, the new committer shall
-> >  explicitly accept the Kernel development policies described under its
-> > @@ -77,7 +81,7 @@ following the model below::
-> >  
-> >     ...
-> >  
-> > -   For the purpose of committing patches to the media-committer's tree,
-> > +   For the purpose of committing patches to the media-committers tree,
-> >     I'll be using my user https://gitlab.freedesktop.org/users/<username>.
-> >  
-> >  Followed by a formal declaration of agreement with the Kernel development
-> > @@ -85,7 +89,7 @@ rules::
-> >  
-> >     I agree to follow the Kernel development rules described at:
-> >  
-> > -   https://www.kernel.org/doc/html/latest/driver-api/media/media-committer.rst
-> > +   https://www.kernel.org/doc/html/latest/driver-api/media/media-committers.rst
-> 
-> BTW, I agree that this file should be renamed to media-committers.rst. That matches
-> the name of our git tree as well.
-
-Good. Please check at the maintainers profile if we don't have a reference with
-the singular when submitting v8, as I guess we have.
-
-Regards,
-Mauro
+--=20
+Link Mauve
