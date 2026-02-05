@@ -1,264 +1,111 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6E363EBF3B;
-	Thu,  5 Feb 2026 02:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F32A29CEB;
+	Thu,  5 Feb 2026 02:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770256959; cv=none; b=kC6+miB7lrbTqAc9ipuA36rJN3m3XzhEEpag9ACU1wdVXiUFGEHxClCYhcotVRuCKvY2aFDF7xUMh3zmaTIbEoplTDbqqz2iKzkwqDU7BsSzYbc9Iw7WCHK3l+QYz0j1i9Roq3g3xe26l1/WgduDuGrTKeycxC+3BFLF54wD5HM=
+	t=1770256978; cv=none; b=YipBEWRGh1DXhAMXTYfzKp8PXgY9mVAhQKNMTnXPkioTjaiLuf2F2jYOtll96qhfmngGmJju4FRqv9Xf/FDi/ZnCX5ZOJGD0yPA+4qmn8FsABch0ZmQteODnd1sAQ3nNUOI7H157exSUkVlfPL0F0TxrsOrvmLkFFj7D9/mzVdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770256959; c=relaxed/simple;
-	bh=JZxkhk/rf+1PDEv6tKi7B8n1620Un1GJ7dQnoFc0xeA=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=mOZzd0WfiHxI1upSzOCQxYmoVkDxGSbax/uWHeRCZaURKgDG+jtqf8BJNO8lCJLg7YrxjwwlAKbgWJvjDqUWmffPLtnJH1qHbukdL1H+WcVye9NI5ynGe7I7aQnfz46BrCwG5dOKAEy59W7LS2fk8oIEPHQC1I3Z7G4O+f3ICmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.62])
-	by gateway (Coremail) with SMTP id _____8BxWcI7+oNpofgPAA--.51655S3;
-	Thu, 05 Feb 2026 10:02:35 +0800 (CST)
-Received: from [10.20.42.62] (unknown [10.20.42.62])
-	by front1 (Coremail) with SMTP id qMiowJAxGMEq+oNpISBAAA--.40309S3;
-	Thu, 05 Feb 2026 10:02:21 +0800 (CST)
-Subject: Re: [PATCH v4] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
-To: liushuyu <liushuyu@aosc.io>, WANG Xuerui <kernel@xen0n.name>,
- Huacai Chen <chenhuacai@kernel.org>
-Cc: Kexy Biscuit <kexybiscuit@aosc.io>, Mingcong Bai <jeffbai@aosc.io>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Tianrui Zhao <zhaotianrui@loongson.cn>, Paul Walmsley <pjw@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20260204113601.912413-1-liushuyu@aosc.io>
- <02f9aed7-d435-fd0b-4f7e-4b59dd62dcb2@loongson.cn>
- <35a29467-662d-4214-97a5-35d8ea92dbdb@aosc.io>
-From: Bibo Mao <maobibo@loongson.cn>
-Message-ID: <72d825c4-49d0-7504-3b3b-27cdc7d31206@loongson.cn>
-Date: Thu, 5 Feb 2026 09:59:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1770256978; c=relaxed/simple;
+	bh=nHi2UCGiCbJ0UnCuBebGdrB9aUOyKoFBhFgFqNuLD50=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VboPA/T3BQKzR1srwmaFgpqEqnSx1/3gLxaF0700P+XsPQs+UU9GKr4ixRIUsdyNWO5MjipAv99RNdl9tguSFrdLWCHA+31Od3pqgNyFVGFRwMuTZdQPUx93dR4hK+6+2cuxKWyocUTuKSCXIUN5/RT+d5I2MzmBE0TQJBB/Ke4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AlhrAdo5; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AlhrAdo5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ED13C4CEF7;
+	Thu,  5 Feb 2026 02:02:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770256978;
+	bh=nHi2UCGiCbJ0UnCuBebGdrB9aUOyKoFBhFgFqNuLD50=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=AlhrAdo5TIKMad6/U4CLXKjjKTzvKlYie2xwNvIbUEGMnniorxSiPH8e2PO+Att1S
+	 j3hdtqxYgIsZUtIosEhkpjyVTl80hMP038625drLIt5tajRVjnwM2OpRlkLw1sl1EK
+	 91i87nRcGsbxkisfsKY791B/7NP6TPxSqZH1LxPPTsC+9tTRtUEavXdvD0UhxnJH5H
+	 X+5RzqrnxW3PYZEcWT2KI4XhBlEhr/znQG9x76YUvGcEo6UTaTKzkGQ3qWXiO3B6O9
+	 DQ6ODbhuKVYxyOGmLytrAIK+IsucwMmKStLNtsjEZCMQyCVGF6ZI+udB/MJFtW1cs2
+	 c9aTAT+tRnpBw==
+Date: Wed, 4 Feb 2026 18:02:56 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman
+ <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Carolina Jubran
+ <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko
+ <jiri@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>, Simon Horman
+ <horms@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH net-next V7 01/14] documentation: networking: add shared
+ devlink documentation
+Message-ID: <20260204180256.1476f537@kernel.org>
+In-Reply-To: <3edheaanzxgutuyryorfzlfjvizlorpj4y3ard5js7mp44hfii@4a36de6wazfd>
+References: <20260128112544.1661250-1-tariqt@nvidia.com>
+	<20260128112544.1661250-2-tariqt@nvidia.com>
+	<20260202194023.412bb454@kernel.org>
+	<u7uicnxkcirhacpzjimss2pqsuhbngg4ticqrz45iqchkk2ha2@t3eem6w6hhur>
+	<20260203190105.2cc28e71@kernel.org>
+	<3edheaanzxgutuyryorfzlfjvizlorpj4y3ard5js7mp44hfii@4a36de6wazfd>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <35a29467-662d-4214-97a5-35d8ea92dbdb@aosc.io>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJAxGMEq+oNpISBAAA--.40309S3
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBj93XoW3Jr1ruF18Cr1kAr47JFWrWFX_yoWxKrWrpr
-	1kAFW5Jry5Grn3Jr1UWr1UXFyUAr1UJw1DXr1fXF18Jr42yr12gr10gryqgF1UJw48JF1j
-	vr1UXrnrurs8X3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUk529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUP2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4j6r4UJwAaw2AFwI0_Jw0_GFyle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0c
-	Ia020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_
-	WrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrw
-	CYjI0SjxkI62AI1cAE67vIY487MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48J
-	MxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r4a6rW5MI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0L0ePUUUU
-	U==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-
-
-On 2026/2/5 上午9:50, liushuyu wrote:
-> Hi Bibo,
+On Wed, 4 Feb 2026 08:12:00 +0100 Jiri Pirko wrote:
+> Wed, Feb 04, 2026 at 04:01:05AM +0100, kuba@kernel.org wrote:
+> >On Tue, 3 Feb 2026 10:18:22 +0100 Jiri Pirko wrote:  
+> >> How exactly you can have a single devlink instance for multiple PFs of a
+> >> same device? I don't really understand how that could work, considering
+> >> dynamic binds/unbinds of the PFs within single host and/or multiple VMs
+> >> passing PFs to.  
+> >
+> >The same way you currently gather up the devlink instances to create
+> >the shared instance.  
 > 
->> Hi Zixing,
->>
->> Thanks for doing this.
->>
->> On 2026/2/4 下午7:36, Zixing Liu wrote:
->>> This ioctl can be used by the userspace applications to determine which
->>> (special) registers are get/set-able in a meaningful way.
->>>
->>> This can be very useful for cross-platform VMMs so that they do not have
->>> to hardcode register indices for each supported architectures.
->>>
->>> Signed-off-by: Zixing Liu <liushuyu@aosc.io>
->>> ---
->>>    Documentation/virt/kvm/api.rst |  2 +-
->>>    arch/loongarch/kvm/vcpu.c      | 87 ++++++++++++++++++++++++++++++++++
->>>    2 files changed, 88 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/virt/kvm/api.rst
->>> b/Documentation/virt/kvm/api.rst
->>> index 01a3abef8abb..f46dd8be282f 100644
->>> --- a/Documentation/virt/kvm/api.rst
->>> +++ b/Documentation/virt/kvm/api.rst
->>> @@ -3603,7 +3603,7 @@ VCPU matching underlying host.
->>>    ---------------------
->>>      :Capability: basic
->>> -:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
->>> +:Architectures: arm64, loongarch, mips, riscv, x86 (if KVM_CAP_ONE_REG)
->>>    :Type: vcpu ioctl
->>>    :Parameters: struct kvm_reg_list (in/out)
->>>    :Returns: 0 on success; -1 on error
->>> diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
->>> index 656b954c1134..bd855ee20ee2 100644
->>> --- a/arch/loongarch/kvm/vcpu.c
->>> +++ b/arch/loongarch/kvm/vcpu.c
->>> @@ -3,6 +3,7 @@
->>>     * Copyright (C) 2020-2023 Loongson Technology Corporation Limited
->>>     */
->>>    +#include "asm/kvm_host.h"
->> Had better put after #include <asm/fpu.h>, and keep alphabetical order.
->>>    #include <linux/kvm_host.h>
->>>    #include <asm/fpu.h>
->>>    #include <asm/lbt.h>
->>> @@ -14,6 +15,8 @@
->>>    #define CREATE_TRACE_POINTS
->>>    #include "trace.h"
->>>    +#define NUM_LBT_REGS 6
->>> +
->>>    const struct _kvm_stats_desc kvm_vcpu_stats_desc[] = {
->>>        KVM_GENERIC_VCPU_STATS(),
->>>        STATS_DESC_COUNTER(VCPU, int_exits),
->>> @@ -1186,6 +1189,72 @@ static int kvm_loongarch_vcpu_set_attr(struct
->>> kvm_vcpu *vcpu,
->>>        return ret;
->>>    }
->>>    +static int kvm_loongarch_walk_csrs(struct kvm_vcpu *vcpu, u64
->>> __user *uindices)
->>> +{
->>> +    unsigned int i, count;
->>> +
->>> +    for (i = 0, count = 0; i < CSR_MAX_NUMS; i++) {
->>> +        if (!(get_gcsr_flag(i) & (SW_GCSR | HW_GCSR)))
->>> +            continue;
->>> +        if (i >= LOONGARCH_CSR_PERFCTRL0 && i <=
->>> LOONGARCH_CSR_PERFCNTR3) {
->>> +            /* Skip PMU CSRs if not supported by the guest */
->>> +            if (!kvm_guest_has_pmu(&vcpu->arch))
->>> +                continue;
->>> +        }
->> This is workable, gcsr_flag can be changed with structure, and new
->> element "int required_features" added. However it does not matter, it
->> can be done in later.
->>
->> CSR registers relative with msgint feature can be done with this
->> method also.
->>
->> How about debug/watch CSR registers? can it be skipped also?  the same
->> MERR CSR registers with LOONGARCH_CSR_MERR*.
->>
->> The CSR register list difference can be checked with
->> kvm_loongarch_get_csr() in qemu VMM, with website
->> https://gitlab.com/qemu-project/qemu/-/blob/master/target/loongarch/kvm/kvm.c?ref_type=heads
->>
-> Do you think for KVM guests, the only CSRs need to be saved are listed
-> at
-> https://gitlab.com/qemu-project/qemu/-/blob/master/target/loongarch/kvm/kvm.c?ref_type=heads#L375-544?
-yes, I think so.
-> 
-> Then the concern about embedding a big list will become valid again.
-There is no obvious error with bigger list from the present, however 
-from performance or unexpected compatible issue, the smaller is better.
+> What's the backing device / handle (busname/devname)? Best would be to
+> draw a picture, as always :)
 
-With new feature or new hardware, then the register list will become bigger.
+Either the bus/dev that shows up first or we go back to index.
+(My main point being that the single instance is strictly better
+than shared, ie. no problem exists in single instance multi func
+which does not exist in multi instance + extra instance multi func.
+But some problems do exist in multi instance which do not in single
+like the locking)
 
-Regards
-Bibo Mao
+> >> Okay. I originally wanted to use an id, similar to what we have in
+> >> the dpll. However I was forced by community to tie the instance to
+> >> bus/device. It is how it is, any idea how to relax this bond?  
+> >
+> >Interesting! I was curious to research how we ended up here, found this:
+> >https://lore.kernel.org/netdev/20160225225803.GA2191@nanopsycho.orion/
+> >My reading is that Hannes was arguing against the _NAME attribute but
+> >both _NAME and _INDEX were deleted? I think there's nothing wrong with
+> >an index.  
+> 
+> He argues for "stable topology indentifiers", which randomly assigned
+> index is not.
 
-> What do you think?
-> 
->> Regards
->> Bibo Mao
-> 
-> Thanks,
-> 
-> Zixing
-> 
->>> +        const u64 reg = KVM_IOC_CSRID(i);
->>> +        if (uindices && put_user(reg, uindices++))
->>> +            return -EFAULT;
->>> +        count++;
->>> +    }
->>> +
->>> +    return count;
->>> +}
->>> +
->>> +static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
->>> +{
->>> +    /* +1 for the KVM_REG_LOONGARCH_COUNTER register */
->>> +    unsigned long res =
->>> +        kvm_loongarch_walk_csrs(vcpu, NULL) + KVM_MAX_CPUCFG_REGS + 1;
->>> +
->>> +    if (kvm_guest_has_lbt(&vcpu->arch))
->>> +        res += NUM_LBT_REGS;
->>> +
->>> +    return res;
->>> +}
->>> +
->>> +static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
->>> +                      u64 __user *uindices)
->>> +{
->>> +    u64 reg;
->>> +    unsigned int i;
->>> +
->>> +    i = kvm_loongarch_walk_csrs(vcpu, uindices);
->>> +    if (i < 0)
->>> +        return i;
->>> +    uindices += i;
->>> +
->>> +    for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
->>> +        reg = KVM_IOC_CPUCFG(i);
->>> +        if (put_user(reg, uindices++))
->>> +            return -EFAULT;
->>> +    }
->>> +
->>> +    reg = KVM_REG_LOONGARCH_COUNTER;
->>> +    if (put_user(reg, uindices++))
->>> +        return -EFAULT;
->>> +
->>> +    if (!kvm_guest_has_lbt(&vcpu->arch))
->>> +        return 0;
->>> +
->>> +    for (i = 1; i <= NUM_LBT_REGS; i++) {
->>> +        reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
->>> +        if (put_user(reg, uindices++))
->>> +            return -EFAULT;
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +
->>>    long kvm_arch_vcpu_ioctl(struct file *filp,
->>>                 unsigned int ioctl, unsigned long arg)
->>>    {
->>> @@ -1251,6 +1320,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
->>>            r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
->>>            break;
->>>        }
->>> +    case KVM_GET_REG_LIST: {
->>> +        struct kvm_reg_list __user *user_list = argp;
->>> +        struct kvm_reg_list reg_list;
->>> +        unsigned n;
->>> +
->>> +        r = -EFAULT;
->>> +        if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
->>> +            break;
->>> +        n = reg_list.n;
->>> +        reg_list.n = kvm_loongarch_num_regs(vcpu);
->>> +        if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
->>> +            break;
->>> +        r = -E2BIG;
->>> +        if (n < reg_list.n)
->>> +            break;
->>> +        r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
->>> +        break;
->>> +    }
->>>        default:
->>>            r = -ENOIOCTLCMD;
->>>            break;
->>>
->>
+Agreed, I love me a stable identifier myself! :) That does not mean 
+we can't have ID _as well_ as the identifiers. Which lets us add
+more stable identifiers and/or making some optional.
 
+I think I was trying to sell you on "more stable identifiers" 
+as a alternative to ALT_NAMEs for netdevs at some point ;)
+Maybe I'm projecting that conversation onto what Hannes said.
+
+> >FWIW using devlink day to day, the bus/device is not at all useful as
+> >an identifier. Most of code touching devlink at Meta either matches
+> >on devlink dev info or assumes there's one instance on the system.  
+> 
+> Okay, what's your suggestion going foreward then?
+
+Add the ID back, make bus/dev optional, forgo the faux dev?
+Would that work? Would exiting CLI become very unhappy? :S
