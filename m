@@ -1,196 +1,74 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70761199E89
-	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 18:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 098D4222575;
+	Thu,  5 Feb 2026 18:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770315367; cv=none; b=e/WKBxw+w25qBitcTn8QFKFh9gV2NashbL4YKjXTDC1W91YeiyM6k8veuNHZt5DVV8Ojt2CYI715BY3T1xf16OOLrAg9bJ6IGkemaC0L3/T2P8FdIIwTFtxsB3iBXC57zLqWpcyxGCNPE04Hotfi3kXaplxH0h54J8PJ5ucAOBA=
+	t=1770316825; cv=none; b=mAvy3d0L5pGmfe4qPGLBdUfWAkBTCSkPRd3MWjtYdcTc46xPAVoZ/7BLesoshVeXKWD8I/ze51Ig7wYS0FRZIw4fE9XGvi7+1ugUn6NJg2U28k6zLKvVZPVIZ3PQeGs99kuGbCa9zl48mHKNPN5Qq/pahi5UUm3MzhMPW1EAPwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770315367; c=relaxed/simple;
-	bh=JaSiFx5tGgruRq7Qg3RAVqyVwcNl8rziDHWnfcUwWpk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Z2KMlxtaNr5MYDlqUw49shHvpevdpw9ZXd/XV5Chw4QO6Dj3c53MDBIkbEliC3Z5ogODXvj1SWMINVS5OuQ8A5HIhVHNt1z/EtM4UGcgEYpdjAHaVA6RfE4YeyfFSEXX/IrT0eICg0RETRUtU3sidBNuvB0dnLYbtSHVBJH/T+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mN40ooNX; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1770316825; c=relaxed/simple;
+	bh=S+i5FblNJQbHGB/LuAZ6zsUMPn9TsCtgzHeSToD4PCs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IncxmFfPXOseSnYsNdMqCefwziYdNYjaSwONFIv9tSy5gKKhneQKZE0rl+1/bERqs/q+dY6g+yhGvCy0AxZ1X8lgKDc3kG2ggERV5SrWsbqRujfMPpYwWP4rUgInDy0Oqu6g78rhSkF25dyfXloky/XSVaAbAW+LWzsazxu+9+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kQ+h2QpK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mN40ooNX"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c337cde7e40so760285a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 10:16:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770315367; x=1770920167; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=w63WtH6exvgU3XpaEY5YF/xmw4rPvTE/WzLO1Z+uiT0=;
-        b=mN40ooNXmhao3cRSagt4b2tS8rAftuf/qZbjBeCP0sZc+TcAJJ3r+dzj2zrB1XF6G/
-         1RZ/dpoegkaBzCCEDCwIlgpi17hPJ9TSUTqOatZ9i37uh/rwSdyHz12s5S/2XcrQ1/yy
-         aMAd6LHxSaZ3MaoTl8AvzxRSPqyZ8ZVGK3S6oL4EW/EZ8Dj8BUNWyWj6DomjPVOZRfMK
-         cMu9Mclyn6olt5/+3GkeDnM/v7KQC2uBrbEZthNcz71ItwpVYFImNLtUFMuf+ld6cs7R
-         8UBjN99FbGKsh5FCyqZXj01D5F3H+fqAQWFFbSTsyWG+A80UuTkI19kj6s9W8dKabudM
-         iTUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770315367; x=1770920167;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=w63WtH6exvgU3XpaEY5YF/xmw4rPvTE/WzLO1Z+uiT0=;
-        b=VpSE2NbRFitPovS+iOuehahhG4nlKDAa7ezjEHqDdnvNleK2Ow199sNtdTqoT2s83s
-         lKSEjRi1WV8Zk44k9VV2IGz7gX7qT4erf2qyNp0hLZJ4OJgoHnAWxzSlmbIhv4lq4gb7
-         pGtSsgG7CIpxCWYYMsL532zv4qArVwa3C0u4EUaVbENKV4ZhJkg5deBd1KufQCVf21pm
-         J4KwHIJ1hFg0Kdxf00AY2fIUNq4zW/GRFGS8kbwux8PTKUerjJF7wwE734etJTz/I5bW
-         rHCqcnh5I5qXEDBjsRAt0pMc3NkJJcVpnoTN85DFSfHA03JLhnsbMW+b/7YMwcvWTID+
-         Orgw==
-X-Forwarded-Encrypted: i=1; AJvYcCUJj2yygOL5UEzojXZ8oJ81OF+FvMIVQW8J90gXPXtQPNFw2W9ebYycK2So4uRKpqrLCioClJzwCQY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy84PgDpzHlYui0xvdcjszpt41HK85YEwaladJqdcQlrakviywG
-	Seht1lE/yeWFfQcieyTsxQMjbBOh/rJO9JLdOlDlCKl9FjygQyqdoIuaIEfzt5gYuh2y020cWiv
-	KdB24RQ==
-X-Received: from pgqs26.prod.google.com ([2002:a65:691a:0:b0:c61:3772:dcf4])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:6d9b:b0:35f:6e12:186f
- with SMTP id adf61e73a8af0-393ad0016c0mr253956637.23.1770315366666; Thu, 05
- Feb 2026 10:16:06 -0800 (PST)
-Date: Thu, 5 Feb 2026 10:16:05 -0800
-In-Reply-To: <CALMp9eT_uJZwO5AF-wWHFH1DnOKWjUtU2u9TCOs7=ZK8_xCx+w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kQ+h2QpK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23774C4CEF7;
+	Thu,  5 Feb 2026 18:40:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770316824;
+	bh=S+i5FblNJQbHGB/LuAZ6zsUMPn9TsCtgzHeSToD4PCs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kQ+h2QpKxywhjtLFJndMJSrGY3FE8lfZhQcGwpAhQZmMcZfHsZ7GKXdl0l6WYurG4
+	 4m+UTwuj3aOFD3d81oq58zzwSExoT13JN1mbIqKH83611ggOmXNZTUitsunBjc7lOx
+	 2Lv5EXrRBcY0hIwJiWUyz9+zzefhwRHb8Llwx5uXPE86IOBFXZdjG5Dq6cjTpUdYro
+	 h0d4XZt2jp4KecQ2UYEMTrLMCGsjVrHoXHc9/useRiwLauL0VVB+mCzBczZ+H5VDHq
+	 /pbZcsxP+A2QUjyq5PuLlEQSidbY/oPWrNYzCKf2c96Gg4i2Yr1y0mGe2ZiU5cG+5o
+	 PlDiwJvhWt9iA==
+Date: Thu, 5 Feb 2026 18:40:20 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Colin Huang <u8813345@gmail.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Colin.Huang2@amd.com, Carl.Lee@amd.com,
+	Peter.Shen@amd.com
+Subject: Re: [PATCH 2/3] dt-bindings: trivial-devices: Add Delta Q54SN120A1
+ and Q54SW120A7
+Message-ID: <20260205-quiet-preface-cfcb1fc456d4@spud>
+References: <20260205-add-q54sn120a1-q54q54sw120a7-v1-0-09061ecacfc7@gmail.com>
+ <20260205-add-q54sn120a1-q54q54sw120a7-v1-2-09061ecacfc7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260113225406.273373-1-jmattson@google.com> <aWbmXTJdZDO_tnvE@google.com>
- <CALMp9eTYakMk0Bogxa_GdGU5_h4PK-YOXcu-cSQ16m1QcusHxw@mail.gmail.com>
- <CALMp9eQx7EVim4iYGbAhoHrei2YmTra6oxtdmKaY7bw-M0PHbw@mail.gmail.com>
- <aYKoJ74MWboBuE_M@google.com> <CALMp9eSc=0zS+6Rk-c_0P-Q1Y8_9Xv58G5BYxieKpv_XaSj0wg@mail.gmail.com>
- <aYPvyMDipM9Z9Z7t@google.com> <CALMp9eR4trBDwgDnyEJmrHnStKnAMiRgehty=xu=NMnLVN2vtw@mail.gmail.com>
- <aYStVN5MyME-Pkwt@google.com> <CALMp9eT_uJZwO5AF-wWHFH1DnOKWjUtU2u9TCOs7=ZK8_xCx+w@mail.gmail.com>
-Message-ID: <aYTeZY1DoJUyrGzo@google.com>
-Subject: Re: [PATCH] KVM: VMX: Add quirk to allow L1 to set FREEZE_IN_SMM in vmcs12
-From: Sean Christopherson <seanjc@google.com>
-To: Jim Mattson <jmattson@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nm8/3iV4YSXnfxTq"
+Content-Disposition: inline
+In-Reply-To: <20260205-add-q54sn120a1-q54q54sw120a7-v1-2-09061ecacfc7@gmail.com>
 
-On Thu, Feb 05, 2026, Jim Mattson wrote:
-> On Thu, Feb 5, 2026 at 6:47=E2=80=AFAM Sean Christopherson <seanjc@google=
-.com> wrote:
-> > > > In other words, unless I'm missing something, the only reasonable o=
-ption is to
-> > > > run the guest with FREEZE_IN_SMM=3D1, which means ignoring the gues=
-t's wishes.
-> > > > Or I guess another way to look at it: you can have any color car yo=
-u want, as
-> > > > long as it's black :-)
-> > >
-> > > I would be happy with FREEZE_IN_SMM=3D1. I'm not happy with the host
-> > > dictating FREEZE_IN_SMM=3D0.
-> >
-> > Yep, make sense.
->=20
-> Perhaps we should ignore both L0 and L1, and arbitrarily set
-> FREEZE_IN_SMM=3D1 for both vmcs01 and vmcs02 when MPT is enabled.=20
 
-Hmm, I like that idea even more, because it's waaay simpler to implement.  =
-Argh,
-the wrinkle is that KVM doesn't actually know if DEBUGCTLMSR_FREEZE_IN_SMM =
-is
-supported.  Oh, nice, it's reported in PERF_CAPABILITIES.
+--nm8/3iV4YSXnfxTq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  IA32_DEBUGCTL.FREEZE_WHILE_SMM is supported if
-  IA32_PERF_CAPABILITIES.FREEZE_WHILE_SMM[Bit 12] is reporting 1
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Arguably, this is a fix for mediated PMU support.  Because as you pointed o=
-ut,
-we can freeze PMCs on SMI for mediated vPMUs without impacting host profili=
-ng,
-unlike the legacy vCPU where it being a weird extension of perf means we ca=
-n't
-deny guest profiling without breaking host perf usage.
+--nm8/3iV4YSXnfxTq
+Content-Type: application/pgp-signature; name="signature.asc"
 
-This? (untested)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-in=
-dex.h
-index 4d3566bb1a93..5563f68158bb 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -324,6 +324,7 @@
- #define PERF_CAP_PEBS_TRAP             BIT_ULL(6)
- #define PERF_CAP_ARCH_REG              BIT_ULL(7)
- #define PERF_CAP_PEBS_FORMAT           0xf00
-+#define PERF_CAP_FREEZE_IN_SMM         BIT_ULL(12)
- #define PERF_CAP_FW_WRITES             BIT_ULL(13)
- #define PERF_CAP_PEBS_BASELINE         BIT_ULL(14)
- #define PERF_CAP_PEBS_TIMING_INFO      BIT_ULL(17)
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 27acafd03381..ef0d8108ff42 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -8119,13 +8119,12 @@ void vmx_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu=
-)
- static __init u64 vmx_get_perf_capabilities(void)
- {
-        u64 perf_cap =3D PERF_CAP_FW_WRITES;
--       u64 host_perf_cap =3D 0;
-=20
-        if (!enable_pmu)
-                return 0;
-=20
-        if (boot_cpu_has(X86_FEATURE_PDCM))
--               rdmsrq(MSR_IA32_PERF_CAPABILITIES, host_perf_cap);
-+               rdmsrq(MSR_IA32_PERF_CAPABILITIES, kvm_host.perf_capabiliti=
-es);
-=20
-        if (!cpu_feature_enabled(X86_FEATURE_ARCH_LBR) &&
-            !enable_mediated_pmu) {
-@@ -8139,11 +8138,11 @@ static __init u64 vmx_get_perf_capabilities(void)
-                if (!vmx_lbr_caps.has_callstack)
-                        memset(&vmx_lbr_caps, 0, sizeof(vmx_lbr_caps));
-                else if (vmx_lbr_caps.nr)
--                       perf_cap |=3D host_perf_cap & PERF_CAP_LBR_FMT;
-+                       perf_cap |=3D kvm_host.perf_capabilities & PERF_CAP=
-_LBR_FMT;
-        }
-=20
-        if (vmx_pebs_supported()) {
--               perf_cap |=3D host_perf_cap & PERF_CAP_PEBS_MASK;
-+               perf_cap |=3D kvm_host.perf_capabilities & PERF_CAP_PEBS_MA=
-SK;
-=20
-                /*
-                 * Disallow adaptive PEBS as it is functionally broken, can=
- be
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index 70bfe81dea54..e780d0e06b61 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -408,6 +408,11 @@ static inline void vmx_guest_debugctl_write(struct kvm=
-_vcpu *vcpu, u64 val)
-        WARN_ON_ONCE(val & VMX_HOST_OWNED_DEBUGCTL_BITS);
-=20
-        val |=3D vcpu->arch.host_debugctl & VMX_HOST_OWNED_DEBUGCTL_BITS;
-+
-+       if (kvm_vcpu_has_mediated_pmu(vcpu) &&
-+           (kvm_host.perf_capabilities & PERF_CAP_FREEZE_IN_SMM))
-+               val |=3D DEBUGCTLMSR_FREEZE_IN_SMM;
-+
-        vmcs_write64(GUEST_IA32_DEBUGCTL, val);
- }
-=20
-diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
-index 70e81f008030..e0084e1063d0 100644
---- a/arch/x86/kvm/x86.h
-+++ b/arch/x86/kvm/x86.h
-@@ -52,6 +52,7 @@ struct kvm_host_values {
-        u64 xss;
-        u64 s_cet;
-        u64 arch_capabilities;
-+       u64 perf_capabilities;
- };
-=20
- void kvm_spurious_fault(void);
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaYTkEwAKCRB4tDGHoIJi
+0kIFAP4pVB/Z6rbrb1UXk3+anmTyqg3Nn3SNiS4jTV9ektmi7AD7BJUBfcMUmXdr
+IIwbKPlN05tf8q0VjPFP4UntIN/RXQs=
+=WXdw
+-----END PGP SIGNATURE-----
+
+--nm8/3iV4YSXnfxTq--
