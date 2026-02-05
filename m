@@ -1,74 +1,158 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2E728371
-	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 01:15:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756AD222585
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 01:18:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770254124; cv=none; b=WBQQ9t6gVJ2twtcMWIaBIjLbIyYs1WvazeUR/rLP9AxtdWJBrVjNuot6cF8vVYGRIKtqQwQHspCTcLHeAZt6VYfPOG9aykdg8uPzmfX5SErEaTefUN0sQKn3r4Xq4cLxj46uai81rLOBVHJcWstP9pW8tY0wuJW1ad4WMDGENBs=
+	t=1770254282; cv=none; b=EVbBtl+CsWzHf6UfkkLJZw88p04B73lSltNXX3WHndhD/fUJBw85m7vq9DEVSnXC5CW5iCzAig03VFVmGZrOBeulGFWfrxGhrkXtJcA7EPpkMVDfyA4TCaD1rcOFtTgkTm80vP9atccW9DCH1uhvy6IHlGI498/+GjpGoDb/IOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770254124; c=relaxed/simple;
-	bh=9ZSFYM9VZ4oK1hQjLtZB+I9MVYbAaxxvSNJByCby+rc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L15VCtHbDA7k+3y3LVgDjdRJLCb9OECldn5/Uw1tefJHOjihl6i1GW87PZfPjD5fhUTMjy7WgswgIcbMYwQzCsP0fEOFhHFFF5mP58NZgx/2UQVIm1aiwroZYhRP89Y11HEeBCiHktQP1e+UMyxwjBsEDcCWm9oMXWJNBGWpu7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pQ/xTFyF; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1770254282; c=relaxed/simple;
+	bh=weq0fqo2tPGc5lpeGNhlb77TCji/77VOUp62fcKvqNw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=rpixtcddCqN//ygzn44H1mtKc8BdWSoDF8sBGgqIMjU1QceN9yZscB1NReS8cr/1YX526K5fOzUc+0hv/i9vmKvYY6JpM97LxvbNorZHfIf6PP7pJcvr1ZQXJHqX+PCtBHT20qrDll7W1RFUHlSfEz3y7eokavIX+NtHkkkRlmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=s8gVOT6c; arc=none smtp.client-ip=209.85.214.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pQ/xTFyF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=fzciBs6GhQsu/Vz0cvaYGhXbCWVxclkIIErpiKMxU7E=; b=pQ/xTFyFb1xYXouvFw7RM1k05M
-	lKUEZQF6bZP429cDDJMJd/H/GgAuYFr3g6HA4JGigJqliRXKZCvOQfIKa+Tw2mTjVHLQFlQYqQIH4
-	qCH/xtew7lfg11ERPzOFEHkDu9KyoJC0eq2Cqku8DBuQ5QDUw/mIvEDlN+/cr4SM25tnj1FZCuzKM
-	cWQzGr1Q4KVByIoYdYsLsCYXf/ju351g4QM4R8mOF5qqN5barBJO8NxZ6lhqRdcG9M8n6BiQxZAzb
-	45hIDZn9ew8+tcngeLNSKGZIVJMy1kp5rptWLPTdqvowgCXeTrSlyrPo2Z4DmMpZ4whlOjgEL0fII
-	2oMH7gzg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vnnxp-00000009Ft5-3NJs;
-	Thu, 05 Feb 2026 01:15:21 +0000
-Message-ID: <761e2297-3481-4df6-9ec0-7fc6fd919797@infradead.org>
-Date: Wed, 4 Feb 2026 17:15:20 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="s8gVOT6c"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2a8c273332cso13519145ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 17:18:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770254282; x=1770859082; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pyiDI7VPKF7gTzcDOmb56BEbcPVZQnYwftAUhlr4O+0=;
+        b=s8gVOT6ck0bPDE/tbb8L/MwBtZMIMjxWAULn00IJa9BplzYLQDAGklmUDZtpw4n90j
+         VIxN1rxGheF76p0kHf33zdDDknuqGZMHqOJvAKT8tipnFZNj+1ZB7bRu8f2ysIPP8oQp
+         jYbKLBNOS2U84NUL+mfhPY98CUyPHaBGXzK7+1cr4pMXt1f0xbbZqhmUT9/Q3oCKNjF+
+         kXu7ljvm55nJ03lJCaOZkQk+5MluC/ZWr7vsMeGvmx9Et77LYcW4cdM3XIjct3yWfWuJ
+         Q5jGfSmjbdrDVk+dh1n97/8XBF4iHk9N8lXw5gP5QSiq+dUlP75e9I6Xy6btx6RqJFWw
+         dsAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770254282; x=1770859082;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=pyiDI7VPKF7gTzcDOmb56BEbcPVZQnYwftAUhlr4O+0=;
+        b=mkD59ocXyAqtMnnNKdSjRC/AoxMLAf7+ZBqq/sLygaWYXIn8s4TMP+G78yUto+xZhW
+         HlFKFI1DTuYnlxC460tG2eQSnUKIKa4vBTkjkvYWhH2gUNcRkc/P0PWOWpZxz2FNVB5l
+         hlnpRwRXdLkE6mIVzROVmPpxPoK9//np//UuPlzRDb8hoYO5I9lKtTqduMCqS3PC2gtO
+         pYyT1WNYPkSvo2m6gfmA61wBdL8JdY9qTyqPxo/ta5O1jTUc73r4PXDYDZq2MTzLdRSY
+         Y4kKe3fQ046blGLKW9pfBdg3zSMNGbRsifaMK4u25yap4FmTPwhAoRK+1Zs5oly2IWgc
+         KJIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVohlwgS7Iu4l/EYHWr/H1JLlKse8w5iv+sKg/larY8+CKoXrw1KIyj2M0Q9B2jhWZvaLof5SZrDN8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEO5v1zWkGwm1Fc+fmrV9/ZxIWlNVOg1S5NL5vNR2StFma9yFq
+	SgHtM1HXwQmWkQKhAwHx6hig9Ri4w59PJCR8ZRa4/HCcQ14fuyW8rbeB1DB2DHcg4hrrY/h4HJi
+	RXzrqLA==
+X-Received: from pjva13.prod.google.com ([2002:a17:90a:d80d:b0:352:d931:fa5b])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:a108:b0:393:7575:a8be
+ with SMTP id adf61e73a8af0-3937575c9d5mr3614095637.68.1770254281643; Wed, 04
+ Feb 2026 17:18:01 -0800 (PST)
+Date: Wed, 4 Feb 2026 17:18:00 -0800
+In-Reply-To: <CALMp9eSc=0zS+6Rk-c_0P-Q1Y8_9Xv58G5BYxieKpv_XaSj0wg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] docs: pt_BR: Add initial Portuguese translation
-To: Daniel Pereira <danielmaraboo@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-References: <20260204113210.185221-1-danielmaraboo@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260204113210.185221-1-danielmaraboo@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20260113225406.273373-1-jmattson@google.com> <aWbmXTJdZDO_tnvE@google.com>
+ <CALMp9eTYakMk0Bogxa_GdGU5_h4PK-YOXcu-cSQ16m1QcusHxw@mail.gmail.com>
+ <CALMp9eQx7EVim4iYGbAhoHrei2YmTra6oxtdmKaY7bw-M0PHbw@mail.gmail.com>
+ <aYKoJ74MWboBuE_M@google.com> <CALMp9eSc=0zS+6Rk-c_0P-Q1Y8_9Xv58G5BYxieKpv_XaSj0wg@mail.gmail.com>
+Message-ID: <aYPvyMDipM9Z9Z7t@google.com>
+Subject: Re: [PATCH] KVM: VMX: Add quirk to allow L1 to set FREEZE_IN_SMM in vmcs12
+From: Sean Christopherson <seanjc@google.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Feb 04, 2026, Jim Mattson wrote:
+> On Tue, Feb 3, 2026 at 6:00=E2=80=AFPM Sean Christopherson <seanjc@google=
+.com> wrote:
+> >
+> > On Thu, Jan 22, 2026, Jim Mattson wrote:
+> > > On Tue, Jan 13, 2026 at 7:47=E2=80=AFPM Jim Mattson <jmattson@google.=
+com> wrote:
+> > > > On Tue, Jan 13, 2026 at 4:42=E2=80=AFPM Sean Christopherson <seanjc=
+@google.com> wrote:
+> > > > >
+> > > > > On Tue, Jan 13, 2026, Jim Mattson wrote:
+> > > > > > Add KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM to allow L1 to set
+> > > > > > IA32_DEBUGCTL.FREEZE_IN_SMM in vmcs12 when using nested VMX.  P=
+rior to
+> > > > > > commit 6b1dd26544d0 ("KVM: VMX: Preserve host's
+> > > > > > DEBUGCTLMSR_FREEZE_IN_SMM while running the guest"), L1 could s=
+et
+> > > > > > FREEZE_IN_SMM in vmcs12 to freeze PMCs during physical SMM coin=
+cident
+> > > > > > with L2's execution.  The quirk is enabled by default for backw=
+ards
+> > > > > > compatibility; userspace can disable it via KVM_CAP_DISABLE_QUI=
+RKS2 if
+> > > > > > consistency with WRMSR(IA32_DEBUGCTL) is desired.
+> > > > >
+> > > > > It's probably worth calling out that KVM will still drop FREEZE_I=
+N_SMM in vmcs02
+> > > > >
+> > > > >         if (vmx->nested.nested_run_pending &&
+> > > > >             (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONT=
+ROLS)) {
+> > > > >                 kvm_set_dr(vcpu, 7, vmcs12->guest_dr7);
+> > > > >                 vmx_guest_debugctl_write(vcpu, vmcs12->guest_ia32=
+_debugctl &
+> > > > >                                                vmx_get_supported_=
+debugctl(vcpu, false)); <=3D=3D=3D=3D
+> > > > >         } else {
+> > > > >                 kvm_set_dr(vcpu, 7, vcpu->arch.dr7);
+> > > > >                 vmx_guest_debugctl_write(vcpu, vmx->nested.pre_vm=
+enter_debugctl);
+> > > > >         }
+> > > > >
+> > > > > both from a correctness standpoint and so that users aren't misle=
+ad into thinking
+> > > > > the quirk lets L1 control of FREEZE_IN_SMM while running L2.
+> > > >
+> > > > Yes, it's probably worth pointing out that the VM is now subject to
+> > > > the whims of the L0 administrators.
+> > > >
+> > > > While that makes some sense for the legacy vPMU, where KVM is just
+> > > > another client of host perf, perhaps the decision should be revisit=
+ed
+> > > > in the case of the MPT vPMU, where KVM owns the PMU while the vCPU =
+is
+> > > > in VMX non-root operation.
+> >
+> > Eh, running guests with FREEZE_IN_SMM=3D0 seems absolutely crazy from a=
+ security
+> > perspective.  If an admin wants to disable FREEZE_IN_SMM, they get to k=
+eep the
+> > pieces.  And KVM definitely isn't going to override the admin, e.g. to =
+allow the
+> > guest to profile host SMM.
+>=20
+> I'm not sure what you mean by "they get to keep the pieces." What is
+> the security problem with allowing L1 to freeze *guest-owned* PMCs
+> during SMM?
 
+To give L1 the option to freeze PMCs, KVM would also need to give L1 the op=
+tion
+to *not* freeze PMCs.  At that point, the guest can use its PMCs to profile=
+ host
+SMM code.  Maybe even leverage a PMI to attack a poorly written SMM handler=
+.
 
-On 2/4/26 3:32 AM, Daniel Pereira wrote:
-> Introduce the initial Portuguese (Brazilian) translation
-> for the Linux kernel documentation (HOWTO document). It establishes
-> the directory structure for the pt_BR locale and adds the official
-> entry for the pt_BR maintainer in the MAINTAINERS file.
-> 
-> Additionally, this version adds pt_BR support to the documentation
-> build script (Documentation/sphinx/translations.py) to ensure proper
-> rendering and fixes the documentation hierarchy to avoid orphan file
-> warnings.
-> 
-> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
-> 
-> ---
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
--- 
-~Randy
+In other words, unless I'm missing something, the only reasonable option is=
+ to
+run the guest with FREEZE_IN_SMM=3D1, which means ignoring the guest's wish=
+es.
+Or I guess another way to look at it: you can have any color car you want, =
+as
+long as it's black :-)=20
