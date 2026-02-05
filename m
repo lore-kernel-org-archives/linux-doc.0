@@ -1,133 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DC0334C04;
-	Thu,  5 Feb 2026 07:23:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EB235C1AC;
+	Thu,  5 Feb 2026 07:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770276227; cv=none; b=QESX9Gs4wQm0n+jSf9nBu0BfImtexKF7Rh7rc2fVlYJ9pgU6dNQ/Gp7miFIN3lvXH7HDeUudRnP8qY0UaRSPQ1gNjsmiw93HzIjtLr6mLfIX5YfK0mQZDaPDjzPudYr/IHwRkZ16wIwjYjjUVcPh/KkxP6INlTyB0pMVUxTbqSo=
+	t=1770276551; cv=none; b=QlI89uoS9+2ecosH1gA2XdLNZa4TnhxBUswcj8jBXjO2hr5ui7Q9yN6xl+stvl4pxojtakVi7QQyMFUsL1qfht1S+hfr1mygsxfFT0vve4gJEjnJq+rRuLtD6XSwVJ+KO4RKZMcSV+trh8Qk7fVPQSqNNx6fBsPLGpRbr5Je+AM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770276227; c=relaxed/simple;
-	bh=FgmZNaT1AJdOs3lof3+rnMI62Gul05tMmOYxnVyfbkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GP424HfNlp/tDTUgBHk19t/qxLuNZWZthNvecfytWPYxaFNTjtR6sbPbLR67K+MRMuzOqfqv64CALZmOz8Ro7yGDEVs9gsphsTrTib0I7yH+yPWBNYS6nt3nOCxl1JVF5a0HbsIFxMs7bfkkJN3tbvtAtKCP84DYxO35jFxCabU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=agCF42zA; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1770276551; c=relaxed/simple;
+	bh=EY/43pJFwmCcoMuG08MLSmg6vTo2De+I2D6wtNw8qaQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eQQHo+BrVUi2XPa9OP4FK+x05ZRmN5Tj2TxT1xk3IFEtxnZ8mzBJqO4F9T3MSWEGTP503P5mdv0kcphb2Qef2tWa50em9NNvwHdMrMRyL3u9JigqssTBF02nxQ0euidnOWrDaye0XDTzoz82yfwa7KfRNVyvBlNKrQKfc2OC1k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=b8+xK3BV; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="agCF42zA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770276227; x=1801812227;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FgmZNaT1AJdOs3lof3+rnMI62Gul05tMmOYxnVyfbkM=;
-  b=agCF42zAxuBVhVQS8q2VvWYrlrkCT2ODu1cM10v8ui1sFGAjRUkxbNR6
-   rnhFQaTT0mrhYPT59/WMkhR14DuNtxVGgHKLHtP5Eaqr1oZm/XZtyM/J1
-   6NsyzpV6WhKKCPxbEW1Fgx399k2t0kP1ebX+BOPEwpoFTKi3dSWr+xSQ7
-   dlx3QdbplY4XPr8nBhlISDcxVt/BohwMEwIQwYdeD9FuBGUZeqghZgdBs
-   zFnBjM7BjGxUtFHHglP/nr0xGUKM68xtGKao1KBE08j68SxhMnw6UrH3u
-   zS6Frw3kKkKjm73pEQVOTdp/Q4LhAJLLxhz+7ZGcJTRL7nOvUBYyNFm1W
-   g==;
-X-CSE-ConnectionGUID: n81A8imZTBikNvPrxWRJ7Q==
-X-CSE-MsgGUID: ToEhKqrwTDWDAOks9art2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11691"; a="75322708"
-X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="75322708"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Feb 2026 23:23:44 -0800
-X-CSE-ConnectionGUID: w4M3nSSLQ/mBj1j0Il6KlQ==
-X-CSE-MsgGUID: NkzCqGaoSdu69QFLY8HZpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,274,1763452800"; 
-   d="scan'208";a="214913923"
-Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost) ([10.239.159.165])
-  by fmviesa005.fm.intel.com with ESMTP; 04 Feb 2026 23:23:21 -0800
-Date: Thu, 5 Feb 2026 15:04:48 +0800
-From: Xu Yilun <yilun.xu@linux.intel.com>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Sean Christopherson <seanjc@google.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Alexey Kardashevskiy <aik@amd.com>, cgroups@vger.kernel.org,
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org,
-	akpm@linux-foundation.org, binbin.wu@linux.intel.com, bp@alien8.de,
-	brauner@kernel.org, chao.p.peng@intel.com, chenhuacai@kernel.org,
-	corbet@lwn.net, dave.hansen@intel.com, dave.hansen@linux.intel.com,
-	david@redhat.com, dmatlack@google.com, erdemaktas@google.com,
-	fan.du@intel.com, fvdl@google.com, haibo1.xu@intel.com,
-	hannes@cmpxchg.org, hch@infradead.org, hpa@zytor.com,
-	hughd@google.com, ira.weiny@intel.com, isaku.yamahata@intel.com,
-	jack@suse.cz, james.morse@arm.com, jarkko@kernel.org,
-	jgowans@amazon.com, jhubbard@nvidia.com, jroedel@suse.de,
-	jthoughton@google.com, jun.miao@intel.com, kai.huang@intel.com,
-	keirf@google.com, kent.overstreet@linux.dev,
-	liam.merwick@oracle.com, maciej.wieczor-retman@intel.com,
-	mail@maciej.szmigiero.name, maobibo@loongson.cn,
-	mathieu.desnoyers@efficios.com, maz@kernel.org, mhiramat@kernel.org,
-	mhocko@kernel.org, mic@digikod.net, michael.roth@amd.com,
-	mingo@redhat.com, mlevitsk@redhat.com, mpe@ellerman.id.au,
-	muchun.song@linux.dev, nikunj@amd.com, nsaenz@amazon.es,
-	oliver.upton@linux.dev, palmer@dabbelt.com, pankaj.gupta@amd.com,
-	paul.walmsley@sifive.com, pbonzini@redhat.com, peterx@redhat.com,
-	pgonda@google.com, prsampat@amd.com, pvorel@suse.cz,
-	qperret@google.com, richard.weiyang@gmail.com,
-	rick.p.edgecombe@intel.com, rientjes@google.com,
-	rostedt@goodmis.org, roypat@amazon.co.uk, rppt@kernel.org,
-	shakeel.butt@linux.dev, shuah@kernel.org, steven.price@arm.com,
-	steven.sistare@oracle.com, suzuki.poulose@arm.com, tabba@google.com,
-	tglx@linutronix.de, thomas.lendacky@amd.com, vannapurve@google.com,
-	vbabka@suse.cz, viro@zeniv.linux.org.uk, vkuznets@redhat.com,
-	wei.w.wang@intel.com, will@kernel.org, willy@infradead.org,
-	wyihan@google.com, xiaoyao.li@intel.com, yan.y.zhao@intel.com,
-	yilun.xu@intel.com, yuzenghui@huawei.com, zhiquan1.li@intel.com
-Subject: Re: [RFC PATCH v1 05/37] KVM: guest_memfd: Wire up
- kvm_get_memory_attributes() to per-gmem attributes
-Message-ID: <aYRBEJSan8eoT8xw@yilunxu-OptiPlex-7050>
-References: <cover.1760731772.git.ackerleytng@google.com>
- <071a3c6603809186e914fe5fed939edee4e11988.1760731772.git.ackerleytng@google.com>
- <07836b1d-d0d8-40f2-8f7b-7805beca31d0@amd.com>
- <CAEvNRgEuez=JbArRf2SApLAL0usv5-Q6q=nBPOFMHrHGaKAtMw@mail.gmail.com>
- <20260129003753.GZ1641016@ziepe.ca>
- <aXqx3_eE0rNh6nP0@google.com>
- <aYHGVQTF6RUs7r3g@yilunxu-OptiPlex-7050>
- <20260203181618.GY2328995@ziepe.ca>
- <aYLOZIZU0nwk+0UN@yilunxu-OptiPlex-7050>
- <20260204124715.GA2328995@ziepe.ca>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="b8+xK3BV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=GvYSS0kO3rEuc+Lw6sAuhOdJdDPjLPfPKlxMhr/mFOo=; b=b8+xK3BV1+Y08pOpH5RLqjVaMT
+	xbxhI/sF3AnusuBfBBKXPaY3e0dE1P/8S8lYgP824kcaz35ZpyIp3qm2bUlD2odrCm7HtCpUmLq4J
+	p4CP6Mp9e3jqjTAsxRkp766qMFecTYK+I0s9TeC99qO4GSptm34X9aeF5c3YXfThad3RnsNw8ku8F
+	FX3kndEwOEMv5WZCQ2GkegRjdVsKv9qnlOqVDfsYh6yeIwm8uGPEYb777wqhozRut83N4mJiMfREw
+	oc0bMVWskeVK9361d6FnAjobVyKI99r4Vb4MEvEykIfWGG96er77/TKvbe9rAcBvlNrnr4JfZRe1o
+	dJOkfp7A==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vntnX-00000009YZD-2JYS;
+	Thu, 05 Feb 2026 07:29:07 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Yu Kuai <yukuai@fnnas.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH -next] blk-mq: ABI/sysfs-block: fix docs build warnings
+Date: Wed,  4 Feb 2026 23:29:03 -0800
+Message-ID: <20260205072906.1881343-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260204124715.GA2328995@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 04, 2026 at 08:47:15AM -0400, Jason Gunthorpe wrote:
-> On Wed, Feb 04, 2026 at 12:43:16PM +0800, Xu Yilun wrote:
-> > > Which means we need VFIO to know what they are, and hopefully it is
-> > > just static based on the TDISP reports..
-> > 
-> > I don't think VMM need to check TDISP report. The only special thing is
-> > the MSI-X mixed pages which can be figured out by standard PCI
-> > discovery.
-> 
-> Either that or follow along with the guests's choices on
-> shared/private.
-> 
-> We can't let VFIO mmap a private MMIO page, so it has to know which
-> pages are private at any moment, and it can't guess.
+Clean up the async_depth documentation:
+- insert blank lines before and after lists where needed
+- convert verb tense in a few places
+- make lines fit within 80 characters
 
-No we could only let VFIO mmap MMIO pages that need emulation (like this
-MSI-X mixed page). MMIOs in such page cannot be assigned to guest so no
-way to convert to private.
+Documentation/ABI/stable/sysfs-block:612: ERROR: Unexpected indentation. [docutils]
+Documentation/ABI/stable/sysfs-block:612: ERROR: Unexpected indentation. [docutils]
+Documentation/ABI/stable/sysfs-block:612: ERROR: Unexpected indentation. [docutils]
 
-We don't allow VFIO mmap all asigned MMIO pages, no matter they will be
-private or shared. They are assigned to guest, so host don't touch them.
-Does that make sense?
+Fixes: 2c04718edcd5 ("blk-mq: add documentation for new queue attribute async_dpeth")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Yu Kuai <yukuai@fnnas.com>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: linux-block@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
 
-> 
-> Jason
+ Documentation/ABI/stable/sysfs-block |   33 ++++++++++++++++---------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
+
+--- linux-next-20260204.orig/Documentation/ABI/stable/sysfs-block
++++ linux-next-20260204/Documentation/ABI/stable/sysfs-block
+@@ -613,34 +613,45 @@ What:		/sys/block/<disk>/queue/async_dep
+ Date:		August 2025
+ Contact:	linux-block@vger.kernel.org
+ Description:
+-		[RW] Controls how many asynchronous requests may be allocated in the
+-		block layer. The value is always capped at nr_requests.
++		[RW] Controls how many asynchronous requests may be allocated
++		in the block layer. The value is always capped at nr_requests.
+ 
+ 		When no elevator is active (none):
++
+ 		- async_depth is always equal to nr_requests.
+ 
+ 		For bfq scheduler:
++
+ 		- By default, async_depth is set to 75% of nr_requests.
+ 		  Internal limits are then derived from this value:
++
+ 		  * Sync writes: limited to async_depth (≈75% of nr_requests).
+-		  * Async I/O: limited to ~2/3 of async_depth (≈50% of nr_requests).
++		  * Async I/O: limited to ~2/3 of async_depth (≈50% of
++		    nr_requests).
+ 
+ 		  If a bfq_queue is weight-raised:
+-		  * Sync writes: limited to ~1/2 of async_depth (≈37% of nr_requests).
+-		  * Async I/O: limited to ~1/4 of async_depth (≈18% of nr_requests).
+ 
+-		- If the user writes a custom value to async_depth, BFQ will recompute
+-		  these limits proportionally based on the new value.
++		  * Sync writes: limited to ~1/2 of async_depth (≈37% of
++		    nr_requests).
++		  * Async I/O: limited to ~1/4 of async_depth (≈18% of
++		    nr_requests).
++
++		- If the user writes a custom value to async_depth, BFQ will
++		  recompute these limits proportionally based on the new value.
+ 
+ 		For Kyber:
++
+ 		- By default async_depth is set to 75% of nr_requests.
+-		- If the user writes a custom value to async_depth, then it override the
+-		  default and directly control the limit for writes and async I/O.
++		- If the user writes a custom value to async_depth, then it
++		  overrides the default and directly controls the limit for
++		  writes and async I/O.
+ 
+ 		For mq-deadline:
++
+ 		- By default async_depth is set to nr_requests.
+-		- If the user writes a custom value to async_depth, then it override the
+-		  default and directly control the limit for writes and async I/O.
++		- If the user writes a custom value to async_depth, then it
++		  overrides the default and directly controls the limit for
++		  writes and async I/O.
+ 
+ 
+ What:		/sys/block/<disk>/queue/nr_zones
