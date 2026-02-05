@@ -1,133 +1,112 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496443E8C51;
-	Thu,  5 Feb 2026 15:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEE51407583;
+	Thu,  5 Feb 2026 16:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770305589; cv=none; b=topdOd64QHXC6E9WJkRyPM+GgGXOROxadyxyc6laWdqJMEtKQbsXLdxKaxk5K+yCrKteYZYMGwUODIR+PgcvIvu7jTMr3PV6h8DP9TcWqf6YxW2WxC08AHiDYVJ0EcYGeYm7fUvM4TzDYzMZIVlmK64sijVHacGF/QHdQLEo7DM=
+	t=1770308193; cv=none; b=sutGXZM8VLnwNEqYiPbDSEfm4rUEFJK8b6vKGj/FGNMKVGNCuRGopbL5386xbY87cRzd2xY3oIzyjMIud/DCj/GI1cwHYNbASNkbnOt/+Dkn6aAiiwBwoFi2383aAoAFhmfih+nVbFMRzTkXPgwRCKQb76tfZ1y4X+jE5feAn9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770305589; c=relaxed/simple;
-	bh=d/ARjMgSP9G3NH4cyP+2JNA1MGSoHi33QTSADO5xKvU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=g5AGMeT0jG1lPS/MOpBNzDcidLQ6+rX9Snxh7VSOYYPQOkUj5MaB63/EEOaDYjUmMjHO3tAs4vXQAHZ4BvVhjO9a7j+2vBxIlnyzBsPOzkJdtv5+0gYaf6mwbT78ZBXfsdX6XeAkHLsGfMMeUXqhGN1/FTrmqcVPgKnoRGtAWMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=brUCCggK; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="brUCCggK"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id AEE6D267E6;
-	Thu,  5 Feb 2026 16:32:59 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id SU4LjUO_09gW; Thu,  5 Feb 2026 16:32:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1770305579; bh=d/ARjMgSP9G3NH4cyP+2JNA1MGSoHi33QTSADO5xKvU=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To;
-	b=brUCCggKgzGG2eNnDc1T6EUWCHaax+pAh8pB1BwkFnmuIDMARX++5ODah3INRlgiR
-	 f331TSaZ/H9w6Bt3+4K8CIsWFb/wSeIve10yAmp+vnucHfqHslmoLq8hs9tkyH5fUl
-	 d1E7H0wUjrTujU2pZmCgVuDlTxKrV+BstniJrH/wr59Z6fdwokOyysn67W6oBBh9va
-	 GrkD5/2tlC+Rca16Yq3YL/rI1sg20I2gn7kSJgPEK3Zqr2pGzwiqR+RyBw74vtUiye
-	 3jGaaupHcjyMIvo86AlYcKN3v9XSHVP6+Tfg+ZxPyBBUUMLBLKU57KqYWj+GWk2kXQ
-	 szIlacAlk2Lgg==
+	s=arc-20240116; t=1770308193; c=relaxed/simple;
+	bh=MNkzB34P7cQqRXT25Kr9JHE2YCRHfmQ0v7uYbpp8pzM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ts3iElYDptYPvuOSpOdLDIR887h4UJJszlytGzOzGaPj2Ait/1uIi+0lCPqe+sUEj5UK6oaSrR5eHBolL3I/3ZDwwtCAZ+W6bEtaCgiMilO9y6VdTpLLCQOisCC+NKTwizgeMmnHLo++CR06RqvZf0HENQDi5/KfKUuzJZnmQyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 56515339;
+	Thu,  5 Feb 2026 08:16:25 -0800 (PST)
+Received: from arm.com (arrakis.cambridge.arm.com [10.1.197.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E314C3F632;
+	Thu,  5 Feb 2026 08:16:25 -0800 (PST)
+Date: Thu, 5 Feb 2026 16:16:23 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Ben Horgan <ben.horgan@arm.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+	baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+	dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+	fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
+	jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+	quic_jiles@quicinc.com, reinette.chatre@intel.com,
+	rohit.mathew@arm.com, scott@os.amperecomputing.com,
+	sdonthineni@nvidia.com, tan.shaopeng@fujitsu.com,
+	xhao@linux.alibaba.com, will@kernel.org, corbet@lwn.net,
+	maz@kernel.org, oupton@kernel.org, joey.gouly@arm.com,
+	suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+	zengheng4@huawei.com, linux-doc@vger.kernel.org,
+	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+Subject: Re: [PATCH v4 04/41] arm64: mpam: Context switch the MPAM registers
+Message-ID: <aYTCV8E9ZFn4_FND@arm.com>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+ <20260203214342.584712-5-ben.horgan@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Feb 2026 21:02:41 +0530
-Message-Id: <DG74Y3QSCLIO.32Q8ZKCTISXXB@disroot.org>
-Cc: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-To: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, "Kaustabh
- Chakraborty" <kauschluss@disroot.org>, "Lee Jones" <lee@kernel.org>, "Pavel
- Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "MyungJoo Ham" <myungjoo.ham@samsung.com>, "Chanwoo Choi"
- <cw00.choi@samsung.com>, "Sebastian Reichel" <sre@kernel.org>, "Krzysztof
- Kozlowski" <krzk@kernel.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
- <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
- <69e2c1b1a2f3d2ed5e5da995cc5ee49bb3627597.camel@linaro.org>
-In-Reply-To: <69e2c1b1a2f3d2ed5e5da995cc5ee49bb3627597.camel@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260203214342.584712-5-ben.horgan@arm.com>
 
-On 2026-02-04 15:23 +00:00, Andr=C3=A9 Draszik wrote:
-> Hi,
->
-> On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
->> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Micro
->> USB Interface Controller), and flash and RGB LED controllers.
->>=20
->> S2MU005's interrupt registers can be properly divided into three regmap
->> IRQ chips, one each for the charger, flash LEDs, and the MUIC.
->>=20
->> Add initial support for S2MU005 in the PMIC driver, along with it's thre=
-e
->> interrupt chips.
->>=20
->> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->> ---
->> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 ++
->> =C2=A0drivers/mfd/sec-i2c.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 ++
->> =C2=A0drivers/mfd/sec-irq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 74 ++++++++
->> =C2=A0include/linux/mfd/samsung/core.h=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1=
- +
->> =C2=A0include/linux/mfd/samsung/irq.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 66=
- ++++++++
->> =C2=A0include/linux/mfd/samsung/s2mu005.h | 328 ++++++++++++++++++++++++=
-++++++++++++
->> =C2=A06 files changed, 497 insertions(+)
->>=20
+On Tue, Feb 03, 2026 at 09:43:05PM +0000, Ben Horgan wrote:
+> From: James Morse <james.morse@arm.com>
+> 
+> MPAM allows traffic in the SoC to be labeled by the OS, these labels are
+> used to apply policy in caches and bandwidth regulators, and to monitor
+> traffic in the SoC. The label is made up of a PARTID and PMG value. The x86
+> equivalent calls these CLOSID and RMID, but they don't map precisely.
+> 
+> MPAM has two CPU system registers that is used to hold the PARTID and PMG
+> values that traffic generated at each exception level will use. These can
+> be set per-task by the resctrl file system. (resctrl is the defacto
+> interface for controlling this stuff).
+> 
+> Add a helper to switch this.
+> 
+> struct task_struct's separate CLOSID and RMID fields are insufficient to
+> implement resctrl using MPAM, as resctrl can change the PARTID (CLOSID) and
+> PMG (sort of like the RMID) separately. On x86, the rmid is an independent
+> number, so a race that writes a mismatched closid and rmid into hardware is
+> benign. On arm64, the pmg bits extend the partid.
+> (i.e. partid-5 has a pmg-0 that is not the same as partid-6's pmg-0).  In
+> this case, mismatching the values will 'dirty' a pmg value that resctrl
+> believes is clean, and is not tracking with its 'limbo' code.
+> 
+> To avoid this, the partid and pmg are always read and written as a
+> pair. This requires a new u64 field. In struct task_struct there are two
+> u32, rmid and closid for the x86 case, but as we can't use them here do
+> something else. Add this new field, mpam_partid_pmg, to struct thread_info
+> to avoid adding more architecture specific code to struct task_struct.
+> Always use READ_ONCE()/WRITE_ONCE() when accessing this field.
+> 
+> Resctrl allows a per-cpu 'default' value to be set, this overrides the
+> values when scheduling a task in the default control-group, which has
+> PARTID 0. The way 'code data prioritisation' gets emulated means the
+> register value for the default group needs to be a variable.
+> 
+> The current system register value is kept in a per-cpu variable to avoid
+> writing to the system register if the value isn't going to change.  Writes
+> to this register may reset the hardware state for regulating bandwidth.
+> 
+> Finally, there is no reason to context switch these registers unless there
+> is a driver changing the values in struct task_struct. Hide the whole thing
+> behind a static key. This also allows the driver to disable MPAM in
+> response to errors reported by hardware. Move the existing static key to
+> belong to the arch code, as in the future the MPAM driver may become a
+> loadable module.
+> 
+> All this should depend on whether there is an MPAM driver, hide it behind
+> CONFIG_ARM64_MPAM.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Tested-by: Peter Newman <peternewman@google.com>
+> CC: Amit Singh Tomar <amitsinght@marvell.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Reviewed-by: Gavin Shan <gshan@redhat.com>
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
 
-[...]
-
->> diff --git a/drivers/mfd/sec-i2c.c b/drivers/mfd/sec-i2c.c
->> index 3132b849b4bc4..3f1d70cc3292b 100644
->> --- a/drivers/mfd/sec-i2c.c
->> +++ b/drivers/mfd/sec-i2c.c
->> @@ -17,6 +17,7 @@
->> =C2=A0#include <linux/mfd/samsung/s2mps14.h>
->> =C2=A0#include <linux/mfd/samsung/s2mps15.h>
->> =C2=A0#include <linux/mfd/samsung/s2mpu02.h>
->> +#include <linux/mfd/samsung/s2mu005.h>
->> =C2=A0#include <linux/mfd/samsung/s5m8767.h>
->> =C2=A0#include <linux/mod_devicetable.h>
->> =C2=A0#include <linux/module.h>
->> @@ -130,6 +131,11 @@ static const struct regmap_config s2mpu05_regmap_co=
-nfig =3D {
->> =C2=A0	.val_bits =3D 8,
->> =C2=A0};
->> =C2=A0
->> +static const struct regmap_config s2mu005_regmap_config =3D {
->> +	.reg_bits =3D 8,
->> +	.val_bits =3D 8,
->> +};
->
-> No cache? And what is the .max_register value?
->
-
-This was in the previous revision, but I ended up removing it because
-(at least I thought at that time) interfered with interrupts firing in
-some way. The actual issue was unrelated, so I will add it back.
-
-However, there is also another thing I see in logs:
-
-sec-pmic-i2c 2-003d: using zero-initialized flat cache, this may cause unex=
-pected behavior
-
-This is due to REGCACHE_FLAT, I am not sure if I should just ignore
-this.
+Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
