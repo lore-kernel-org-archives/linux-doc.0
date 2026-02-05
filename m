@@ -1,212 +1,118 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010013.outbound.protection.outlook.com [52.101.201.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29CF22FE11;
-	Thu,  5 Feb 2026 14:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770301911; cv=fail; b=qYcKQFZj1Rprpgsx4LIP7BsKj+Q0D5GeadAXRVgVKxkxooMh6f4CpRg+B55LwgRi+hjbbNZlSt62zC61lk4HQ5g/y57UoEfKuchmMMMIiGLa0+CiHGmVQchCR24QbNVK8vjrmfeAkToXwi0S+xYLJ02LqGpywBm65hBlL2vAwpQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770301911; c=relaxed/simple;
-	bh=C1/qlCXlY/g3y6rDUqeYFl5SPwQsnVqfSAbGos7cdP8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RnMV3CVEUjQgetcFCIhrHmv5ArKcE3WsaC+RxkVIck5dv8te54JACSuemV3+VUeqTDexHjUDhLYgUkOOheXS6OZxW2WJdBdz7UPZknfRivDlTgWdDSkypZz8hOpXQ3ae55VDA2QSo6DD/IucoBI6NF2DGSD+moojux3aPvp6CV0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YVsPnTl7; arc=fail smtp.client-ip=52.101.201.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2425C3F0764
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 14:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770301923; cv=none; b=USENlqK5FR/SnPmiAr6+g/uyNeFQ/n0jRHJOxSuMpU66jp5vIpJC5b8FiGdT/Ohw8vjOOgmmjkrGzQoz5zDRk7bwrwJb/kvVbvKdV/iPbpfUXvxr4Z8CALvbQTzI8usy3aqEni/KOo89aAJ67qyYjl48nJPKCWVPHPaBwRhiRGU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770301923; c=relaxed/simple;
+	bh=KrpVq21uAPBgvMwD5bVVvOvj4m0oV3UgX1RtALao//I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YCai3GnyUvtOjxf0GT2Tk9lPx+mxSH+m9CwcaTUpqxgzR+itm70+eu7+6K5JqimY0YX5II+FzFiTrrcAwS+uIYJs+ArjRUWOVW7ncD9NZBe+bp9HBjSJIdTvX4vpUUwyZUT5Yf5a/YRIWGPyj9ALflJUZtjoDF9JNUWF/W7VlJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtsXkg+s; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YVsPnTl7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C58/GDp3H1IHQzy5qwXuWUIUXKZN57A/QHnP9TjPYxOTQDOHX3HaCUtmMQ/vIXRjSi2OZFPfNT34eYuUfakVyICuIYaMZ4ipKfbiqI2FdSd9a0PmtvvPSJw89puFU8Wsg4G3tZaLqlYrjSZ85j4u3Kzq8bjT3cYvHs69IbA8fbbj2fPSWBBoKtbXr44c51u7ztNO81JKqSP5xRcHlS9NwmZn1+oembVTKRlj4oVd3SeZf0KKyIUCO3uG9aB+4KzkFqsp8tAQQnejq8DhPg0n8ls+IJPYvusU8Q6diCIq+P8rr9kuox7wl4uozqzoxTi0Hjcr59yT3AP5kWpMJJmq6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IsCch8jB9WVgPCnIxO6po+wWaLa7sxXat+GS5eT1eeo=;
- b=fakm/B2474prh86XCSjzZ8hnBQ8gxxhXVNlL7vbYvS76Yc9L7mIFRPa0fSqhvPCoyd6KGFa5IjmYN05QR8klPGxAq7BCGy6zoXQeYsdyBu4XDxQL9KPdHBl3Bdw6YYLZhfR8ZeAzrCyoA+LIPbdclKSDzg0fC40ErewPLB9ZMzPRsE33bXg1hRc5ft5JkYHfOoJXJVkheEraTZ4+8TVcOhFGUMU5qdDiGqnDmVNTh5C2Lv/UscooUqsTxGETCBgAWh0q4E4TEretGdCumTEANswwNSslMh6hjCOirF5d4VhRgTPLN/Rj5gHZdTHG738Wq6+ySsFZAwgfx/64m6++Eg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IsCch8jB9WVgPCnIxO6po+wWaLa7sxXat+GS5eT1eeo=;
- b=YVsPnTl7tbWj36lWtp0Uqc2Pc9Dpa46kJjHv5lZYbDHLFRy/DLAZypAYY3DB3NA4ibnmHJTd/apS+0/LTg+lXYKNFqeZj0CQStZbhbbZXEnm5ihzkYM3pN41zMYX/yiR9nCWLDwiOkM3hKuHhZBy9bGO0K2rFVA8hD0VdX3i3Xd/7QVsG5qRWMyyEOQDwcB5b3U23haQQ+FiIMUJg4EFELm8gyN9sgAgGowHe2dnJG27p8aB4efbJhtUucfnDiqgPFMtWK9kZb2giJPZxjs08cKgdi+e6nmvVwwsrVotcyWcnOrKpP//CDvyztF2fBgbyBPNNLK5MvzM8mrrSBydNw==
-Received: from CH0PR04CA0097.namprd04.prod.outlook.com (2603:10b6:610:75::12)
- by MW4PR12MB7144.namprd12.prod.outlook.com (2603:10b6:303:21b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.13; Thu, 5 Feb
- 2026 14:31:45 +0000
-Received: from DS3PEPF000099E0.namprd04.prod.outlook.com
- (2603:10b6:610:75:cafe::4c) by CH0PR04CA0097.outlook.office365.com
- (2603:10b6:610:75::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.12 via Frontend Transport; Thu,
- 5 Feb 2026 14:31:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- DS3PEPF000099E0.mail.protection.outlook.com (10.167.17.203) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.10 via Frontend Transport; Thu, 5 Feb 2026 14:31:44 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 5 Feb
- 2026 06:31:21 -0800
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.20; Thu, 5 Feb 2026 06:31:20 -0800
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Thu, 5 Feb 2026 06:31:15 -0800
-From: Tariq Toukan <tariqt@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>
-CC: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
- Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
-	<mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Gal Pressman
-	<gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Shay Drori
-	<shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Or Har-Toov
-	<ohartoov@nvidia.com>
-Subject: [PATCH net-next V2 7/7] devlink: Document port-level resources
-Date: Thu, 5 Feb 2026 16:28:33 +0200
-Message-ID: <20260205142833.1727929-8-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20260205142833.1727929-1-tariqt@nvidia.com>
-References: <20260205142833.1727929-1-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtsXkg+s"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-bc274b8b15bso578415a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 06:32:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770301922; x=1770906722; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PWMAbfW1h3czFpPAr6dxtSn9+/tMTdi7V3empbBhtRA=;
+        b=FtsXkg+sNa0qzWzZpm3Ti8pleS/bqFWS+IWo+QERjEk+ellcBkOmpZT3CmEWmGA4HT
+         nraZDIVCPqt3Il/Hw0IVbkDiH7xXGQdEEW6z71JFI9GqRevVcTRWBgTQLtWbK1MS5OwZ
+         MkDoJA1UD0DB+t8uuUA49Gv4nyo43xe1gunGUhVqqEYMaZfyKYezqNBDLr+wZZH4naHi
+         PNnrbwFLSGlfqu0Yv7RWc7oILrjeEtdvfNEZbf/GXCx5VEmnd+vTVa6PvnFpAgsdmp9m
+         FcD1EIGWqvQ8RR+M40gTKOSzEnZpiyvK1ONCV/ZzFOL8B6Z8sjk+6glKDqpGwGlA9zSa
+         YQ3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770301922; x=1770906722;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PWMAbfW1h3czFpPAr6dxtSn9+/tMTdi7V3empbBhtRA=;
+        b=UGdwMWByKzzdF9+58qhCMjdEcGcOZuXyeY9BTUq0z3OrwfaoQoV5IEYIw9XiO99jvf
+         5G69JraIn3AhePT47bKVryOlGVlTsAglepVroC1pLkZ2Xqc8u3Gv8YLWGCU6VzlYgHDN
+         6Ue/+/wf79LicMshx6aFyahT0hwKpl4UqLI056EmjvPhm9dWIriBwNItyJS7aWtObMKj
+         g/+JyTO+iEEAsLXgj8EPxS4jD2YNLufcbyAKkdWxKBE+NF5vgsaXnjbEQ7pOmiacC3f2
+         6Hp2FWOUj23xcMJA2cIF9zPvCFJ06az7ppwHTMaA0GeHmYNZV+yxe5rfF+Z9urNaDpwF
+         Je/A==
+X-Forwarded-Encrypted: i=1; AJvYcCUMpythIFG8D5+NopNbq7RcicR1glN9+ZOa8SvlvSU3DphySYdS89UYkGsG/s1rOW1Fzqpxpcibt6A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywe/osN08HGCSyabXmU7ib979I+TznzwI+XoZgsODx6EPq60Sp2
+	fb0vILwyKQ055M5YwgPV9bjoWjZmK3N7bgbzqdO/G4m25vYWr7Pl/31g
+X-Gm-Gg: AZuq6aKF8v/nHPfn37uxKmO3QASEdoB+K+HYCqFBHpMjyWrRx20AUTROk3UB+dCUtUs
+	xQFdL7wDa4zpDtrJ3/FPX8yyP56skNFnEF5QpkYR8My8KTyQkjIvajVz6JjYV6LmPr6Eu0FmSsP
+	OpHqlTvusUdlbArEJwJlf9LOuaf+jrudfqGDQ/lCvVeCEMGNY5p7/ixQQprdSfMLjs1yZm4+W5N
+	HOS9aDdsGzEaR4oAHxnmJ3AZJzPGWxn1OKxZXJDnAW+OBOBFGL9IgVRwZtO7gypkiPARVyTYG+0
+	ByKjSSwvP7c4xGpL8cmx1PGTDdJPq+enrDkP2LxvYtNMAGDQ8/vi63NjJUhjmE/20wfpSX/Xb3i
+	8EdYHVtvmhFVtSL6wmnoC9niGe4jitVnyYRdCLN1ezqloQX5wqySPadcNrD4nNJ1eNShmgLyR4v
+	Qp358NLkaW7tuyL48nbFfREAIScVfTAH+PnTI=
+X-Received: by 2002:a17:90b:5870:b0:353:5595:3247 with SMTP id 98e67ed59e1d1-354870dd823mr6355651a91.12.1770301922346;
+        Thu, 05 Feb 2026 06:32:02 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35487726e6bsm2092960a91.6.2026.02.05.06.32.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Feb 2026 06:32:01 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 5 Feb 2026 06:32:01 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Colin Huang <u8813345@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Colin.Huang2@amd.com, Carl.Lee@amd.com,
+	Peter.Shen@amd.com
+Subject: Re: [PATCH 3/3] docs: hwmon: Add Q54SN120A1 and Q54SW120A7 to index
+Message-ID: <a3094382-087d-4167-900d-1f2c587aaa18@roeck-us.net>
+References: <20260205-add-q54sn120a1-q54q54sw120a7-v1-0-09061ecacfc7@gmail.com>
+ <20260205-add-q54sn120a1-q54q54sw120a7-v1-3-09061ecacfc7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099E0:EE_|MW4PR12MB7144:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5835a10a-681c-4c6d-2306-08de64c3494f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Yqgn+PzhofIMIskHf9hWtVN7PT6nt5AI7jtT2C5ZAdX6U5F7EpnuV2i7aO1u?=
- =?us-ascii?Q?45VIlYDSGc648q2ujO4M3PRqZDJOK3pjNWub3wK5QyJ+RkNjjw4ZOk2aLb4/?=
- =?us-ascii?Q?DJYc+RQ7Yt5esSKIfGyK3RSxRgZpXvIZo5t9be9QCbeo/3/K2Bv/ORVnvymX?=
- =?us-ascii?Q?ByaG1Mgu1HpOTRrFb7urO3Q6uV0oEGz9Sd3ed+pje763xV0h46OdMXaSM5B1?=
- =?us-ascii?Q?5HsR+0CKY3DNDOvJ6siYMikKyUkwLvy2qsvithm6/LTwjG+C2oLKyK+2lbe9?=
- =?us-ascii?Q?tH3XizePLlMVpXPrtIDwK3m/T2RaJ6X4sKzE7y0gwO7HM2DVOTP95k4AatGd?=
- =?us-ascii?Q?Wh5jFkIiYHjiVHdGhvujt4ctpE/RAL5zRH9mQnHrVieGT1gCf+qdP+TdU4Pq?=
- =?us-ascii?Q?KrD2ngw0WNpMqjuH6ZSl5CWAkDdMRlgDICQBd6tAQJF2515xPEySrhCRbcS3?=
- =?us-ascii?Q?9Q+HiKeeR7LxRLbBJ0oKFG6NNfuzIK+nbtapDqMvH/dZwDkdhITSy1u2gANW?=
- =?us-ascii?Q?29hdNen48RgE0lawqXCosn98RHs4pCQ5YQzvC+KIIR2X4k+7M7TMeV9BCM5s?=
- =?us-ascii?Q?1xvAck353/xhuMqtHMgBod7H7CL/iQJcBUSuaQ1bgyOK3vHbj58QYVrrQr5O?=
- =?us-ascii?Q?KHOZwR6FrXyNnmFv3mCleDDIIEoGy4b4l4gaUYAQEJCYrDkQVhCWubCj8TiS?=
- =?us-ascii?Q?oXRWbPVTF6Lkedw9yOUiWSxNhDnNiap0/vERBAX9hihcYvZF6cNRyYf86PN3?=
- =?us-ascii?Q?19PzOzdbWUEO1K5fwUAZpGxX6SNMvlqnrWHlcIhUTgxe/hK2oGa7bF/Awqug?=
- =?us-ascii?Q?ql2o/380mAvFroEZu65XAivhMKBA4JmfcTdmRQn0mlXaM1Yv9AC84Rm2dKAE?=
- =?us-ascii?Q?ka9ApIOlHq+SspQZJx6WaCsdEKRdTQ0Iuipm/JFbKU8b2k+k7A0yT1yNp0Pm?=
- =?us-ascii?Q?ytDmuP2KDyT2kABv9ajoTe/Habo6SlxHy5JEDIpcu++pfkyP3gz6uHQnzvOF?=
- =?us-ascii?Q?MjKVs8W/U8+SnM17/naK39wlFcTtUDAlf6aplBlOiNZBkzWQathelcxvT+37?=
- =?us-ascii?Q?dpbEvk0CwbpsQ9+ApeYQ/4Kn6Zk/xaloSiweP4E4u/8OhYFsiMbU5UuaXGFf?=
- =?us-ascii?Q?9Lo5h2M7hOCBM7tAVqh/r6ggbmXChLqdKBjvai8VWkDYBzJPDrINM/VGFOIn?=
- =?us-ascii?Q?KCtjiJQCZBjk/qTwTTiroY1FIwDNvxjVom4WlV2hxAR6aDu5rGcro1c2f5LD?=
- =?us-ascii?Q?WGCkeQmC5eOJlABub10bwUNYt2tDnXlrE28vJpp4J+dmOiBrDX0LdBMl7Znm?=
- =?us-ascii?Q?t9fqB9nWgyMQkXJl/hyKzSMQdvNLZ/1qHnLd7/PxygMMSUN9Ux+cNNNeM+Iz?=
- =?us-ascii?Q?QuRDPIVm/4FeX+iR0pvcyaX+zbHg9C71Y5UgXuk+ZZF06+Bk5d1MdyWrHXqN?=
- =?us-ascii?Q?Frr8AORsaYA+ZFjI9qzf7jZR4p4Tc1KsASTTlE4km/1/AaG5xv43/Un02C+y?=
- =?us-ascii?Q?ksKxoTtAoswLQRTlU2MVRCJvxK6tsmFPVN6h+hWaIt7vMkqgVvyoFPPfnDwA?=
- =?us-ascii?Q?LzEFtPT0iYGfoDsBZNW/FzQ0F9+uuubFQMdVCI8umKyZSMmFO+vb3r24XCMc?=
- =?us-ascii?Q?p8NeywkquLofK32iTjMCK9LxS8dFm3DJ0v+XBW0F56QP/2kzebOgeNXRkY+O?=
- =?us-ascii?Q?M1PNFw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	1ri8maCkY+p2FxY1VVy6Qh7PuUilU9n36qEwGV8PlKD1cU5Sg1V8dTSbyGdfkWgYd7WzIfQ7/Dhpi2Z3+ygdbsOQN8sU+fcJHf/dXKCVzJBgzjOP1wNHWH68ZClgvVKnnz51pf5tAiOsPFbFXib1bqGktXxkAqsWtdB+e9HkB/mZhodeOuEZ8nMYOuFlEUdcalfPoK9gcsQ+ZKm6s+dhDStL+6CpbrZy6gV1q0BctzuNxmzXaTImvtCS41ZX/LUN8cDj0cOHHoe7bjKmLeIpETfK8Xr48Eql0CyH3PDmDObcu4JCCkUEjjbeRrh0wMkXU9rNK8qH4lC2tOChUnKVx4eGt4mz0Cibx19HXe0KfXB5ZxJaUQJ/OKmpO60s0SgX6+R8oORp0YGYSfQc9TNXC50s+8TS1LTTGOdQZgdRYTKkAhHrdbcuuZKVA2zcnltB
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 14:31:44.3252
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5835a10a-681c-4c6d-2306-08de64c3494f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099E0.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7144
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205-add-q54sn120a1-q54q54sw120a7-v1-3-09061ecacfc7@gmail.com>
 
-From: Or Har-Toov <ohartoov@nvidia.com>
+On Thu, Feb 05, 2026 at 09:34:37PM +0800, Colin Huang wrote:
+> Add the Delta Q54SN120A1 and Q54SW120A7 PMBus modules to the hwmon
+> driver index.
+> 
+> Signed-off-by: Colin Huang <u8813345@gmail.com>
+> ---
+>  Documentation/hwmon/index.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 85d7a686883e..62d6fc0817eb 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -216,6 +216,8 @@ Hardware Monitoring Kernel Drivers
+>     pxe1610
+>     pwm-fan
+>     q54sj108a2
+> +   q54sn120a1
+> +   q54sw120a7
 
-Add documentation for the port-level resource feature to
-devlink-resource.rst. Port-level resources allow viewing resources
-associated with specific devlink ports.
+Documentations are for drivers, not for chips. There are no such documentation files.
+Add q54sn120a1 and q54sw120a7 to the documentation of the q54sj108a2 driver instead
+and drop this patch.
 
-Currently, port-level resources only support the show command for
-viewing resource information.
+Thanks,
+Guenter
 
-Signed-off-by: Or Har-Toov <ohartoov@nvidia.com>
-Reviewed-by: Shay Drori <shayd@nvidia.com>
-Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
----
- .../networking/devlink/devlink-resource.rst   | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
-
-diff --git a/Documentation/networking/devlink/devlink-resource.rst b/Documentation/networking/devlink/devlink-resource.rst
-index 3d5ae51e65a2..c2bb7e429a26 100644
---- a/Documentation/networking/devlink/devlink-resource.rst
-+++ b/Documentation/networking/devlink/devlink-resource.rst
-@@ -74,3 +74,39 @@ attribute, which represents the pending change in size. For example:
- 
- Note that changes in resource size may require a device reload to properly
- take effect.
-+
-+Port-level Resources
-+====================
-+
-+In addition to device-level resources, ``devlink`` also supports port-level
-+resources. These resources are associated with a specific devlink port rather
-+than the device as a whole.
-+
-+Currently, port-level resources only support the ``show`` command for viewing
-+resource information.
-+
-+Port-level resources can be viewed for a specific port:
-+
-+.. code:: shell
-+
-+    $ devlink port resource show pci/0000:03:00.0/196608
-+      pci/0000:03:00.0/196608:
-+        name max_SFs size 20 unit entry
-+
-+Or for ports of a specific device:
-+
-+.. code:: shell
-+
-+    $ devlink port resource show pci/0000:03:00.0
-+      pci/0000:03:00.0/196608:
-+        name max_SFs size 20 unit entry
-+
-+Or for all ports across all devices:
-+
-+.. code:: shell
-+
-+    $ devlink port resource show
-+      pci/0000:03:00.0/196608:
-+        name max_SFs size 20 unit entry
-+      pci/0000:03:00.1/262144:
-+        name max_SFs size 20 unit entry
--- 
-2.44.0
-
+>     qnap-mcu-hwmon
+>     raspberrypi-hwmon
+>     sa67
+> 
+> -- 
+> 2.34.1
+> 
