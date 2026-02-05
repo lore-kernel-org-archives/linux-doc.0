@@ -1,116 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4BB634A3C1;
-	Thu,  5 Feb 2026 08:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249133A7F5D
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 10:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770281484; cv=none; b=OhVtbyZ1ndWOiu7ldijA8YhslZUXBNEWBNYoIMyVc4bydlGwoFsLATSk0Xdgah4GiqFYoTqn6FPOaIgdyfYu+egN9fzVon96B0S958uQoLHbr/JmKJqZ5dSK8ml9ajoJNChNShs8It5zSxyaDjBCIIo/KEpaxOysoYPOUtrcKgk=
+	t=1770288839; cv=none; b=I9MRxqNPkZB56sHuyDSgLZ5jy4EV0R2gMPCMe45ryx0/8zwnwak3WOyPkINySUqPdHua1+qXWb4ZFPot/TU2J2OSg9VVYM0mN7ZrIySLl5DY4FI/1miU+1450fs9U27j4nKEP13hngnz9CLMx7XpeA34cODduH4rrsZXIKafRuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770281484; c=relaxed/simple;
-	bh=/SWVbyh1ixpEifEztr1IRRPKrj6UPmqtnMLLEAkPJec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j0uMzmmmc+0v7NDXm9qwYqaUDR1c1DGDRxwUhE3P0PCdEGyqE0paokjt5Cc6jFdaJP/7MQs7q/bDTJ20TukGTPl7myxKtQ8Y9gnoTsBnFlC4/ls0Cu8PiScl6hsQFFQBsZE8uRz1phPkRbuFI+2TFdBgzpg3UYFFLFr/bpFRAS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qxsG2kaU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770288839; c=relaxed/simple;
+	bh=dxFq6aqpPeZS/KnlY9gG7jWe91WmosMBfsS9OGUv+zA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=OsF2e0yBUXESBnRac5XsuX729v6gvtClaXGFVfX37XQvoMaqFkiGYs1wl8PpH16Zt8703YxDYmDXQ9GFDOSyyFgecsiYMh1TE77UQup0ddVuKBwc/zqOqhoa4GZXm0+WuWJPoyf09EEWiLveBZJqP/e7roa7bUBhMfUJxZjfSzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y7wVITrd; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qxsG2kaU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3576C4CEF7;
-	Thu,  5 Feb 2026 08:51:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770281484;
-	bh=/SWVbyh1ixpEifEztr1IRRPKrj6UPmqtnMLLEAkPJec=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qxsG2kaUhtAT9xl4vzkVUC6QDMnwfpocmk0NWXsjRpJaDs5SmGnHfI9r0iLS4IVSf
-	 Wr2xekBuWu6+NuMVLvctz6jh1iEyqHcoY5KOFMrZcM0Z23vV231tldcd5kO+svH53W
-	 tim1Kfuvt5pn8cKUgnmPg81Z8a609cCOeTisImfqN39aNpqRl7ttqSpu1fd1/GRTWV
-	 qdzuKeHKy8kLQWiaDkLUjy6dVhpvQ2T+7C2TJhoHNkVbcZ+TWGxBu/RjyEDFjOKCFX
-	 /fKorCFK7ImZh3TPkS3OhzF2rMLxvuyj8uDy/rwl7nLbkul3bTPa5B1SaNuwPPtzOG
-	 H/PQyNpKkfIcA==
-Date: Thu, 5 Feb 2026 08:51:19 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] Revert "revocable: Revocable resource management"
-Message-ID: <aYRaB5wI3mS2J54K@google.com>
-References: <20260204142849.22055-1-johan@kernel.org>
- <20260204142849.22055-4-johan@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Y7wVITrd"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4801bc32725so7304835e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 02:53:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1770288837; x=1770893637; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=5MpsejmhVxhP6NeQbHNzOvF3lV3oAS4n7Jzmwih0cw4=;
+        b=Y7wVITrd4H2B2VrYNm16a5O9nGvyzthwy9v1r9BUHq9OC7edUAU5W9PmGyeBEsABvk
+         EFPcJu2+Ed3JzR3zaFkQniktMvPfwSZ8H5p/9WCv+G+ity1CyJ6sF68T402KDojqSLfY
+         sJHm6DsckdO3soPvxoUby+kVKiDrCTnG2YKy2Rk/Hd7hcXCv1K+syLIQESU4GJLZ+oPg
+         WDTIbTiaISw4Ha6dAqn7lVixg4V1UqLsHH09CY9GU6cjOOvJ3YgNyPyRxlTOBhfk8Qgi
+         yQUl1QIZ92Rypj+Q2euwEiRfVBn0CyIwlcPeMmffpMIkhrPSOaA2U3x/THTXrtWgaugr
+         Aiew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770288837; x=1770893637;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5MpsejmhVxhP6NeQbHNzOvF3lV3oAS4n7Jzmwih0cw4=;
+        b=CNUbxD2P0V2Y7RzXIyYckzjfh/4mXs5AJarEGWBEVa0u9jCijWBIF1mMx4qPEWXU/A
+         HHc2dktss7fsy+C/EQTRpEz04H7lauBlOrobpM9QdZEEL0Id3h3rS0RJPNw0yLgDxy9w
+         HMf2gFgO9PCYdzsKmN23BzSsoBosbmIfTRmbaczfPHxPoDk5YoWAeSg/9uCn3EqSwM94
+         EIXk1rCmG1lCjex+F1PWZNWsKOZW+FWrji4BFYoTPvym/8CnaXtJ6yLz5EXt+sY39kc+
+         sBW7Zg9x3DL4bf2SjH22xogSpQ5viMgpd0X8T5WMOam5W7FYm8/TliEZE0gpkxSp8LaJ
+         EAWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUw4firvaJZCkE/Ty0gYvxLXVpFl0nqXx6bxQC/V5liReJlbt12wxkZJe2Snz5vnBkTddfDugtfzUA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1hGNtczeG+4VY7/WJWdYyKPBtN+Tr7Y7ku1Tncfkj0zBEq2t8
+	+6f2KMZRJx9e9TZJTZWkQdIjCIv6+So50eZBk2HraOvugYahiTQoCy+OZvSQ9Uw0aE4=
+X-Gm-Gg: AZuq6aI5uimbiJctgKWYE3yEiYoKM466HHJtFsGN3Blwvffx5wpH8AW0BUJXDjp8QUh
+	TOuRYqd5sySviuzod8jZThN7q9JCngFBGq9ZrLyiJQUZ4+wdmirvPz8rNbLG1DAGREqW9g5K/mm
+	qC8JBlYJaUi1CCrSS7ZDpn2bCjHDp5Q+qOKKsI0h2z87l3/rpWq4I5VI7Q+ODXGLm29cbfWt8lT
+	jjy4rfpBT9Hl0+dnfmiw5ccU/Y2xo2P/4Pi3ddjxr5GhMWsxTYD2Ql/xr4cFU7FvQSxUnyGJQwD
+	tDwPkQitpsetD+z3jBpqIyfVr1x/Ave8/5Fl/yxzFOdXdUKR/GENnFs4ivqQ36L7LxAcKvmFFhP
+	XPtIiMzxdHLenbkoILo+dq//BCLW+xzuHqd8jagqzZ1ClTtArCHPaLMGFNGw06IvXIRnQ+v4V85
+	Jco8x9gN0z9f/BCtNPIw==
+X-Received: by 2002:a05:600c:6290:b0:47e:e20e:bbb7 with SMTP id 5b1f17b1804b1-4830e990a83mr75256515e9.25.1770288837395;
+        Thu, 05 Feb 2026 02:53:57 -0800 (PST)
+Received: from draszik.lan ([212.129.81.185])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48317d4a6b1sm50273325e9.11.2026.02.05.02.53.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Feb 2026 02:53:56 -0800 (PST)
+Message-ID: <09c1ac114ab108d5f186ee581617a524b9651e96.camel@linaro.org>
+Subject: Re: [PATCH v2 08/12] leds: flash: add support for Samsung S2M
+ series PMIC flash LED device
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>, Lee Jones
+ <lee@kernel.org>,  Pavel Machek <pavel@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Chanwoo
+ Choi	 <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Jonathan Corbet	 <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Date: Thu, 05 Feb 2026 10:54:16 +0000
+In-Reply-To: <20260126-s2mu005-pmic-v2-8-78f1a75f547a@disroot.org>
+References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
+	 <20260126-s2mu005-pmic-v2-8-78f1a75f547a@disroot.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-2+build4 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260204142849.22055-4-johan@kernel.org>
 
-On Wed, Feb 04, 2026 at 03:28:49PM +0100, Johan Hovold wrote:
-> Specifically, the latest design relies on RCU for storing a pointer to
-> the revocable provider, but since the resource can be shared by value
-> (e.g. as in the now reverted selftests) this does not work at all and
-> can also lead to use-after-free:
+Hi,
+
+On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
+
 [...]
-> 	producer:
-> 
-> 	priv->rp = revocable_provider_alloc(&priv->res);
-> 	// pass priv->rp by value to consumer
-> 	revocable_provider_revoke(&priv->rp);
-> 
-> 	consumer:
-> 
-> 	struct revocable_provider __rcu *rp = filp->private_data;
-> 	struct revocable *rev;
-> 
-> 	revocable_init(rp, &rev);
-> 
-> as _rp would still be non-NULL in revocable_init() regardless of whether
-> the producer has revoked the resource and set its pointer to NULL.
 
-You're right to point out the issue with copying the pointer of revocable
-provider.  If a consumer stores this pointer directly, rcu_replace_pointer()
-in the producer's revocable_provider_revoke() will not affect the consumer's
-copy.  I understand this concern.
+> diff --git a/drivers/leds/flash/leds-s2m-flash.c b/drivers/leds/flash/led=
+s-s2m-flash.c
+> new file mode 100644
+> index 0000000000000..1be2745c475bf
 
-The intention was never for consumers to cache the pointer of revocable
-provider long-term.  The design relies on consumers obtaining the current
-valid provider pointer at the point of access.
+[...]
 
-In the latest GPIO transition series [5], the usage pattern has been refined
-to avoid locally storing the pointer of revocable provider.  Instead, it's
-fetched from a source of truth when needed.
+> +
+> +static int s2m_fled_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev =3D &pdev->dev;
+> +	struct sec_pmic_dev *pmic_drvdata =3D dev_get_drvdata(dev->parent);
+> +	struct s2m_fled *priv;
+> +	struct fwnode_handle *child;
 
-I agree that the risks and correct usage patterns need to be much clearer.
-I'll update the Documentation and the selftests to explicitly highlight
-this limitation and demonstrate the proper way to interact with the API,
-avoiding the storage of the provider pointer by value in consumer contexts.
+[...]
 
-> Essentially revocable still relies on having a pointer to reference
-> counted driver data which holds the revocable provider, which makes all
-> the RCU protection unnecessary along with most of the current revocable
-> design and implementation.
+> +
+> +	device_for_each_child_node(dev, child) {
 
-(I'm assuming you are referring to the example in [6].)
+If you switch to device_for_each_child_node_scoped(), you can get rid
+of the goto and the struct fwnode_handle *child declaration at the top,
+and you plug your leak in your early error return a few lines below.
 
-I'm not sure I follow your reasoning.  Per my understanding:
-- The reference counted driver data (e.g. `gdev` in the GPIO example) is to
-  ensure the pointer of revocable provider isn't freed.
-- The RCU protects the pointer value from concurrent access and updates
-  during the revocation process [7].
+> +		u32 reg;
+> +
+> +		if (fwnode_property_read_u32(child, "reg", &reg))
+> +			goto next_child;
+> +
+> +		if (reg >=3D spec->num_channels) {
+> +			dev_warn(dev, "channel %d is non-existent\n", reg);
+> +			goto next_child;
+> +		}
+> +
+> +		if (priv[reg].dev) {
+> +			dev_warn(dev, "duplicate node for channel %d\n", reg);
+> +			goto next_child;
+> +		}
+> +
+> +		priv[reg].dev =3D dev;
+> +		priv[reg].regmap =3D regmap;
+> +		priv[reg].channel =3D (u8)reg;
+> +		priv[reg].spec =3D spec;
+> +		priv[reg].pmic_revision =3D pmic_drvdata->revision;
+> +
+> +		ret =3D devm_mutex_init(dev, &priv[reg].lock);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret, "failed to create mutex lock\n");
+> +
+> +		ret =3D s2m_fled_init_channel(dev, child, &priv[reg]);
+> +		if (ret < 0)
+> +			dev_warn(dev, "channel init failed (%d)\n", ret);
+> +
+> +next_child:
+> +		fwnode_handle_put(child);
+> +	}
+> +
+> +	return 0;
+> +}
 
-These seem to address different aspects.  Could you provide more context
-on why you see the RCU protection as redundant?
-
-[5] https://lore.kernel.org/all/20260203061059.975605-9-tzungbi@kernel.org
-[6] https://lore.kernel.org/all/20260203061059.975605-8-tzungbi@kernel.org
-[7] https://lore.kernel.org/all/20260129143733.45618-2-tzungbi@kernel.org
+Cheers,
+Andre'
