@@ -1,146 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1CC3ECBD7;
-	Thu,  5 Feb 2026 13:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C97A3E8C7A
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 13:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770299946; cv=none; b=hlQkmp7OBisf6NNnITJlADxp/vKYlWdf+Sta07iGt87MPrSMkL3d27vsF2jS9ycGWKZGO67uCkqn6eYcYjSLDf0a5YjFqLyrZr/tntthc/0KvUwTOkWE/YfwkqqgbWTLk+rdKMD0qRXoLQGEfBCDw04K4BLiF/C56a9wCJ4o3yM=
+	t=1770299947; cv=none; b=aG79CKKFtpFZun3uAupLM8FdG2zl2EkJu+hkkzVz4Yo/ZvN1Um1fzK8mpC2GYCIAnIMmXLx0I/Nc+icq9csx9ouk344vh0LEE9b/AypZwWfRDqfn5p6rRRTytszAaa3ykztiUV6Jw9d6HaxIpWAIzCavm28TDoE46gn9VMK2ZuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770299946; c=relaxed/simple;
-	bh=NrgItkvDCDI0JdjjTiJgmYN8Hu+I5JatU6qOApBTUkQ=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=I6s9Tka2fv4xjKnJ4Rd1Fei7HGMIBH4CszSH5hkB3J1ytrYkhG/9oDUuQx08WClWz4HX2RjXkZzf3ll5eU/l1Q3LtcoTPpRfOUOA07FcO4yPTSSfPpLN9YWK1Vau+hY0hsRP7bdeor/ohgp9WS8sIMYIRtL0ku4UGkJelCNiQCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UDgEXs23; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770299947; c=relaxed/simple;
+	bh=ivjLMnYh+gDKhE3NyeK+npuA+uD8EDy6F2Zu9UaPPf0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=S2nLFkSh9Efl+/GlN5R0UQ2AZ3SANKfkQUxJb+5LGqro7MngBlAIHIoDRjsvUNFo6/UmLu7pI0DGZAfmwD7SUO0l2onVWC48mjtksdA5ApXXXdmQWVZ/I8P274/IldxFZ2adcXAPAzvzKfY032dWkj/EJlNQr7OpkleMH8Jbi6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e41WHapi; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UDgEXs23"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E9A4C4CEF7;
-	Thu,  5 Feb 2026 13:58:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770299946;
-	bh=NrgItkvDCDI0JdjjTiJgmYN8Hu+I5JatU6qOApBTUkQ=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=UDgEXs2326E6nluf1TRc8JSNvhmzOon3wFQO4IGhep2GcsTFGb51oZnfVZiY1GAaR
-	 AP8fzqcnv7eYrYj9lL4FNmIylIXtktJO6S/8lPEsr9/blHUuTeaYrMQZrCri1qieYO
-	 cq0gkqvEXFYLEhEOZv7vi4RklL+UFVEE6ysMw5CnfQHGwPi5Qp1XZ6xxWiFW46pN2N
-	 kiqi1m6pj9kSW9RPBUIsDiBzSO344zesdF59KRQwvqScPSbSq4fhaJHCL1XMX/KL6Z
-	 AGh6cTxV+hX4OwAQ5pwgwcuIpE1fW7fngurZgxukYKy1X9RCDc7bsKDUrmmVxEI6CF
-	 RZ/PweRaGfL5Q==
-Message-ID: <a3f454aa-7cff-4e85-b046-5d4c55d8ccb9@kernel.org>
-Date: Thu, 5 Feb 2026 14:58:56 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e41WHapi"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8c5384ee23fso96020085a.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 05:59:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770299946; x=1770904746; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mYk5NaEanNq6uThb2wsIHzNJQE6YGo/SE46HgW+lAvg=;
+        b=e41WHapiL96hDLsLJ9qC0wStyceeTXamm5sQZwiNxsIovYRZ2solJ71u0JU1OcQyH2
+         d7NkKe7R5H3QThR8pRFvWz2p7jYGnRkDosI10+rw0i5trrN/gnrfjkF+PA/lK/jUktXG
+         zbCEo60dZu3ek/bLDocaAFhCqxtpKEAoDD/4y6thevVsc44EgCBEZsZYPG6SdviHyDS+
+         9LaYdO98klObHxrJS0veo80dCqY1Ov25jGZnQmnIsJxqjDkI1XOuRCBEnxqR8DUu6Y2A
+         Z08J/7rU/nIWTstkbqweDRlJ3eB5GO24oF9S8i3E9LQvBr/WwERoK7cTAuVebDshayPP
+         KDfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770299946; x=1770904746;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=mYk5NaEanNq6uThb2wsIHzNJQE6YGo/SE46HgW+lAvg=;
+        b=QjfMWSb5O/eRpI4sYjIbxv8s+xHgkrVSMO+T5e+Y2O47aFwrKvZiHBLLpj1manBKs3
+         FmgCKX9/D1+BgOKf2eZlsqOVuL1whQ0pErdz6A6Up2vosrMm+oFXUUYqsttGzO1H2q8G
+         AZDjfKb9KAWNfBOHW8WgFiV5CsP2Mw7v7pfDQjbpvvcYlp/zrKSv2f1G+sMfKKjpX7BH
+         GpQdGwOiWwccB9cZrDey7S6KUPOH7gIqtwgftdrUwAE24rACe0XYPUxtt+BnyPcTQLPs
+         /iV0i5VlN12bENhN9SzP7lm+qNIq6jPVgZWy7BefTvIBrTcy4JTsS87USVg727bZhquD
+         m3FQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDlU0KZaagUbsnfKcAHldn9701ZA/2xeLcvrD0Mb7OLqKrbKDKbU7Hqmf4q+QDNsc0gGOn7AGjMaE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7T0kd/pT6SiiNIfF19Trh0AQErdhcCWw8q3gxISySA+ZxLUaK
+	WDwfWirGL3lfQSXobHasTKtyxuU/l/CTrNoAbi8ZST73v3XcX3ti2ewm
+X-Gm-Gg: AZuq6aKTzmnxPbZwhzuP4V6a6XwYD5AYTZG6tofRvu/A97HtmcGS6G5faqlnDdCIVHi
+	YoP3DeOh8Bswbz0GnT+Ykn343GEB4ABJH2HR2KHqmhkq5Vn50nji+sQrOfZjNMOqYL9f9Bu01IC
+	Mm1pL9VPrpl7lF/wN2H/fmeMu60Oz3A37J5vl5emQG9qZ7jE8YhMADo+6hkhu6iXTBfG3Vx01Mm
+	eVI8yk0H5vTQC4dYpgw6ZIZ5wrYj5bUxsT9D3RpwVN4ReI5Nm1Bwl7Cs8U/DkX61m0DWCDrIbUm
+	nbVPDcpEIIz4FcoDG/yBvN5yjXkBo4cJRNxh3ztWvnRcWMnzCQQRgKZC1PtynEjqBzhqdq4yGoB
+	rWj2UkvEA+8YmaKIoGMm5vwwE7a95ajOjhK4D0sbvLsMlwrYW/VQpjx4TrCszjMehaPnhuRMLU8
+	DC8IY3VybZ6TUuSZWChXXG+vMmqWJy31d+TN8G5ZdK0eKvjumou38wDBHNydI/GTi8UTWdJzs=
+X-Received: by 2002:a05:620a:170c:b0:8be:94e6:3e6c with SMTP id af79cd13be357-8ca2f87eaa2mr899365685a.39.1770299946058;
+        Thu, 05 Feb 2026 05:59:06 -0800 (PST)
+Received: from pc.mynetworksettings.com ([2600:4041:4491:2000:87a6:ecbb:44f:b3c1])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ca2fd40f9asm404975985a.41.2026.02.05.05.59.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Feb 2026 05:59:05 -0800 (PST)
+From: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+To: mhiramat@kernel.org
+Cc: rostedt@goodmis.org,
+	corbet@lwn.net,
+	shuah@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
+Subject: [PATCH v6 4/4] selftests/ftrace: Add accept cases for fprobe list syntax
+Date: Thu,  5 Feb 2026 08:58:42 -0500
+Message-ID: <20260205135842.20517-5-seokwoo.chung130@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260205135842.20517-1-seokwoo.chung130@gmail.com>
+References: <20260205135842.20517-1-seokwoo.chung130@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 09/17] mm/sparse: Check memmap alignment for
- compound_info_has_mask()
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-To: Kiryl Shutsemau <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
- Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
-Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-10-kas@kernel.org>
- <ef1f6ec1-7036-400c-9d4f-fc4f6f969ef7@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <ef1f6ec1-7036-400c-9d4f-fc4f6f969ef7@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 2/5/26 14:31, David Hildenbrand (Arm) wrote:
-> On 2/2/26 16:56, Kiryl Shutsemau wrote:
->> If page->compound_info encodes a mask, it is expected that vmemmap to be
->> naturally aligned to the maximum folio size.
->>
->> Add a VM_BUG_ON() to check the alignment.
->>
->> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
->> Acked-by: Zi Yan <ziy@nvidia.com>
->> ---
->>   mm/sparse.c | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/mm/sparse.c b/mm/sparse.c
->> index b5b2b6f7041b..6c9b62607f3f 100644
->> --- a/mm/sparse.c
->> +++ b/mm/sparse.c
->> @@ -600,6 +600,13 @@ void __init sparse_init(void)
->>       BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
->>       memblocks_present();
->> +    if (compound_info_has_mask()) {
->> +        unsigned long alignment;
->> +
->> +        alignment = MAX_FOLIO_NR_PAGES * sizeof(struct page);
->> +        VM_BUG_ON(!IS_ALIGNED((unsigned long) pfn_to_page(0), 
->> alignment));
-> 
-> No VM_BUG_ON. VM_WARN_ON_ONCE() should be good enough, no?
-> 
-> As discussed in the other thread, is checking for MAX_FOLIO_NR_PAGES 
-> alignment sufficient?
+Add fprobe_list.tc to test the comma-separated symbol list syntax
+with :entry/:exit suffixes.  Three scenarios are covered:
 
-And after further discussions, we could use MAX_FOLIO_VMEMMAP_ALIGN 
-macro once we have that.
+  1. List with default (entry) behavior and ! exclusion
+  2. List with explicit :entry suffix
+  3. List with :exit suffix for return probes
 
+Each test verifies that the correct functions appear in
+enabled_functions and that excluded (!) symbols are absent.
+
+Note: The existing tests add_remove_fprobe.tc, fprobe_syntax_errors.tc,
+and add_remove_fprobe_repeat.tc check their "requires" line against the
+tracefs README for the old "%return" syntax pattern.  Since the README
+now documents ":entry|:exit" instead, these tests report UNSUPPORTED.
+Their "requires" lines need updating in a follow-up patch.
+
+Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
+---
+ .../ftrace/test.d/dynevent/fprobe_list.tc     | 92 +++++++++++++++++++
+ 1 file changed, 92 insertions(+)
+ create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+
+diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+new file mode 100644
+index 000000000000..45e57c6f487d
+--- /dev/null
++++ b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+@@ -0,0 +1,92 @@
++#!/bin/sh
++# SPDX-License-Identifier: GPL-2.0
++# description: Fprobe event list syntax and :entry/:exit suffixes
++# requires: dynamic_events "f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]":README
++
++# Setup symbols to test. These are common kernel functions.
++PLACE=vfs_read
++PLACE2=vfs_write
++PLACE3=vfs_open
++
++echo 0 > events/enable
++echo > dynamic_events
++
++# Get baseline count of enabled functions (should be 0 if clean, but be safe)
++if [ -f enabled_functions ]; then
++	ocnt=`cat enabled_functions | wc -l`
++else
++	ocnt=0
++fi
++
++# Test 1: List default (entry) with exclusion
++# Target: Trace vfs_read and vfs_open, but EXCLUDE vfs_write
++echo "f:test/list_entry $PLACE,!$PLACE2,$PLACE3" >> dynamic_events
++grep -q "test/list_entry" dynamic_events
++test -d events/test/list_entry
++
++echo 1 > events/test/list_entry/enable
++
++grep -q "$PLACE" enabled_functions
++grep -q "$PLACE3" enabled_functions
++! grep -q "$PLACE2" enabled_functions
++
++# Check count (Baseline + 2 new functions)
++cnt=`cat enabled_functions | wc -l`
++if [ $cnt -ne $((ocnt + 2)) ]; then
++	exit_fail
++fi
++
++# Cleanup Test 1
++echo 0 > events/test/list_entry/enable
++echo "-:test/list_entry" >> dynamic_events
++! grep -q "test/list_entry" dynamic_events
++
++# Count should return to baseline
++cnt=`cat enabled_functions | wc -l`
++if [ $cnt -ne $ocnt ]; then
++	exit_fail
++fi
++
++# Test 2: List with explicit :entry suffix
++# (Should behave exactly like Test 1)
++echo "f:test/list_entry_exp $PLACE,!$PLACE2,$PLACE3:entry" >> dynamic_events
++grep -q "test/list_entry_exp" dynamic_events
++test -d events/test/list_entry_exp
++
++echo 1 > events/test/list_entry_exp/enable
++
++grep -q "$PLACE" enabled_functions
++grep -q "$PLACE3" enabled_functions
++! grep -q "$PLACE2" enabled_functions
++
++cnt=`cat enabled_functions | wc -l`
++if [ $cnt -ne $((ocnt + 2)) ]; then
++	exit_fail
++fi
++
++# Cleanup Test 2
++echo 0 > events/test/list_entry_exp/enable
++echo "-:test/list_entry_exp" >> dynamic_events
++
++# Test 3: List with :exit suffix
++echo "f:test/list_exit $PLACE,!$PLACE2,$PLACE3:exit" >> dynamic_events
++grep -q "test/list_exit" dynamic_events
++test -d events/test/list_exit
++
++echo 1 > events/test/list_exit/enable
++
++# Even for return probes, enabled_functions lists the attached symbols
++grep -q "$PLACE" enabled_functions
++grep -q "$PLACE3" enabled_functions
++! grep -q "$PLACE2" enabled_functions
++
++cnt=`cat enabled_functions | wc -l`
++if [ $cnt -ne $((ocnt + 2)) ]; then
++	exit_fail
++fi
++
++# Cleanup Test 3
++echo 0 > events/test/list_exit/enable
++echo "-:test/list_exit" >> dynamic_events
++
++clear_trace
 -- 
-Cheers,
+2.43.0
 
-David
