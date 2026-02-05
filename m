@@ -1,175 +1,90 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C2A21767D
-	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 23:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8607A33C1AA
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 23:24:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770333354; cv=none; b=lx/9fZId6A/6AAEKzxBG6QS0RK/U3DLafnpQWYy7CzuS0FnlI4NdK5dSnd9xZmfsogpU1MiHHtLQedD1IFanGXxEImcpTNcSnGvAfd5EbfuBcvPfsQRhfD1aWFSiatw3pFba6RMiMrm5hBTVS2A/BR91KuZqobvv9PfAZfMUKks=
+	t=1770333840; cv=none; b=Bnf6LHD2J/V2nmKvuWY06Ap44Mh4oSDm2ZwM7f9uzgNW+6fUPKjiABcJJwx52AQyiF1eWTcqX64yGGrM4CJ02vOTwoiTctksxyZwYA2kqWlYb9y8JTF/ns36ggPnUHU+OrHVct4zfwhWzVuNq1LuFIPgkeEVeUGJfKqEPj90JDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770333354; c=relaxed/simple;
-	bh=z38i7xJ8mEcWy9tZkax+kUeEbeGtqWOfE4+kMi9dRjs=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=t0xpNK531oy7FyXjSIxcC/oHQRMoJo0LpXliiDTmClZx7BuzyK0f7pF6eG2Q0oiHl3Zg9HGgLiEgNAPvOdTquDFFPMU8gOCXl2RnLCUcb7Iz7mZbDu8OCDWrQxp5wPsLB/fcS8clBbXC99rF+ck5/clFD1i/wafAyo5GiP29dfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WFxM0hwo; arc=none smtp.client-ip=209.85.214.201
+	s=arc-20240116; t=1770333840; c=relaxed/simple;
+	bh=kYJ0xbtYMF9eSWTHi1gW1Fy43B/P9OPaa7XaKm1WNzY=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=MR4QnWLwjYYcku4qlq8vA//hJokxs0doXwmHzLG+Q3yX85i1JMQpy+uupuVj5QCpDlukvGNztL8+a3NVI2fzECYlC3C8vo32I6ZodddzXiuKyj/8lU530FODIlQW3xhPv5uTAewrr2HzcZxwqicGDZqarLXek7nbfDrEZYSW0/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=sb5fyJXR; arc=none smtp.client-ip=209.85.216.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WFxM0hwo"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2a8c273332cso2034385ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 15:15:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sb5fyJXR"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-34c48a76e75so1426997a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 15:24:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770333354; x=1770938154; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Pr9RaIefez2nBGuJOdeMmo4gmWbUowIaURWL9SUM80k=;
-        b=WFxM0hwoRq9mbj2QvzsGXoyieuDGBO8yN7TMYHrb90+yazFQf2bJYCJrHMuU+oXY2R
-         W46g706Vcc5c3ENls6lK3SlOo2MYQ0d4mUfY1GkvCFMisiWEMSjo1hRlLmr754hDAbzq
-         O1sZcZZ97KZYQ+ydutPYI9xJCbLVLeGdbB1Dvsli6jYSBXOzZSVAYlcwTJdlE3+Q/FnT
-         kvIBRBcBC7tcMqu7thrqRJ9T9PnuK+N1CLqeSaETYhfTNqi0V+zP1Qr6rZVjNp70dW/l
-         lkjmxSN9GvGmAICWYLQoj1RRS5u96s/+lE50A7ay2sEEcNV4uLATvm86sUhKk3ZtE994
-         ulJw==
+        d=google.com; s=20230601; t=1770333840; x=1770938640; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sjrOHBwOAp+rfRNqktTmxKMOj6iLbUuyVutwNWbVhG0=;
+        b=sb5fyJXRwqQhs/nRjbTFG1HV+pm90DN/h41vwLmCHtifIZ6YiiV9RNjjOHzywEurGE
+         zQQ0XP+/MWsaoBQneZpjCZkKJzRqRbs5xcA9o1lY0p52xUyoAicD4WRheN684uil2eN2
+         0oKZ68/hS+RwpP3V8wyz3TPJH9d2LW9U4zj+DRAp855njdYoVuetRCHd18CS+A+5778D
+         +ZRzf1ZuoIT8X5HCmQXmeJPTMEShU4+XoimJihlciQNdh5JhVhG+bc9GBQmyLv2/Xc8E
+         CREBjfum/NVXsRmF3ybOVsJY4w0tAPfXB0UTZPa+gjUeIYmzNU+bEfXbeXCTRvtuRWyC
+         Oejw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770333354; x=1770938154;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Pr9RaIefez2nBGuJOdeMmo4gmWbUowIaURWL9SUM80k=;
-        b=kJ8cP5X7cuU4MkbLt/RkS6Pkf1eQJ8tT1QqnJF88AaqDGaZT23zB6E/oYh/0fSPUyD
-         5AfTFcwPdHjcrXcIH7yMRibJu28zmERVymFf5z6LWgBeRgFwlAM6tcWviUZ4XBcm8xL+
-         Cqun3yqPgsXbtCsN8RltdnSHOpNtUqCKsVL7G3lGy2MAfQtItCS5YU3CNNEstvuz4hzP
-         zs74OyU489iaPb5RzNN7zNaPtgdCEScUSqFdQYcSXkNc+efQWpuoQ8YTNa2xLK0psxh6
-         hjVxu3CxUFaOimHv5vfC9e/ZyvHOGMkPDROrB02gWYIOkWxOhktt+GhswdnlerNFPuSE
-         eK8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUqCrXHI7UcrIer1oete/ITQiNHnDl1rqmt/6j03PEgJIt6TOr9p6mchQzwX8zJgcjS4t77CDAgyW8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3/rb0O4Ai4AFFY0giPolliATE+95AJ1tKiepxakW/ovabOIlS
-	3mCA9YCkOY1mk+ssI5zdyQczSdY3t7HgU9IYFt0PNLIbnkObcZ0Rnsp3z8Fu09ELSPE2pq9Y80l
-	LCJCSdIbWAJHZMA==
-X-Received: from pjblp12.prod.google.com ([2002:a17:90b:4a8c:b0:352:c761:3cf])
- (user=jmattson job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:1246:b0:2a9:410:2413 with SMTP id d9443c01a7336-2a95192ab1dmr7613285ad.29.1770333354123;
- Thu, 05 Feb 2026 15:15:54 -0800 (PST)
-Date: Thu,  5 Feb 2026 15:15:26 -0800
+        d=1e100.net; s=20230601; t=1770333840; x=1770938640;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sjrOHBwOAp+rfRNqktTmxKMOj6iLbUuyVutwNWbVhG0=;
+        b=NeJH8xg3+1m8H25rD6Xojj/RntIqO7i67WEqfgvK4F3+D6TeBGXNF73boht/7aVL5A
+         mPc3fyG7cTuwdG9rXWuEU6wHOxXYdaZIFEwSo7moS/m+Sf1CzyQgoZYXF7hxtLzb/tDf
+         Wl/hSPiOG0jcVuZIQEp0Js95kwox4J/HxHSGSGnLZVAGInn4z4i0XhOzn1j620NLRJOq
+         WxXdE/bl65H21Z9jQpJLhWLLFoEplZ4o4VAGEYwqYtc5n6uELPdxt/2EGQiLDy8tTq+O
+         10wMJzH2+HjreTe4kH0MYSMC/04WfYXyHONTB1qhc6/pakA0l/HAyQ8nnfCtyjMPjCYJ
+         C8ZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWq+imbHY3KJ9cPYodFwJw65hX7OE3nrrFHpszqocLeH1iPOKjRbuF4YVpf/pnPs2q+SGOxKOSfVuc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsGb1wBqf6mQGe/jM0B89SAobtzyU0Xr6k2tfBCnkOXKOinIO/
+	xLevZirmHnNpd9x+Ect4toJNf0JWjFYLmYwTTyMSnkuOUqrqgeFFW4QCXCXIERzV9EcaMi66+u3
+	+rs/fng==
+X-Received: from pjed23.prod.google.com ([2002:a17:90a:1157:b0:34c:2f52:23aa])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:28cc:b0:32e:4924:6902
+ with SMTP id 98e67ed59e1d1-354b3c406ccmr629203a91.3.1770333839918; Thu, 05
+ Feb 2026 15:23:59 -0800 (PST)
+Date: Thu, 5 Feb 2026 15:23:58 -0800
+In-Reply-To: <20260205231537.1278753-1-jmattson@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-X-Mailer: git-send-email 2.53.0.rc2.204.g2597b5adb4-goog
-Message-ID: <20260205231537.1278753-1-jmattson@google.com>
-Subject: [PATCH v2] Introduce KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC
-From: Jim Mattson <jmattson@google.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+References: <20260205231537.1278753-1-jmattson@google.com>
+Message-ID: <aYUmjpXZfDhDiuuk@google.com>
+Subject: Re: [PATCH v2] Introduce KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC
+From: Sean Christopherson <seanjc@google.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
 	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Josh Hilke <jrhilke@google.com>
-Cc: Jim Mattson <jmattson@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
 
-Add KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC to allow L1 to set FREEZE_IN_SMM
-in vmcs12's GUEST_IA32_DEBUGCTL field, as permitted prior to
-commit 6b1dd26544d0 ("KVM: VMX: Preserve host's DEBUGCTLMSR_FREEZE_IN_SMM
-while running the guest").  The quirk is enabled by default for backwards
-compatibility; userspace can disable it via KVM_CAP_DISABLE_QUIRKS2 for
-consistency with the constraints on WRMSR(IA32_DEBUGCTL).
+On Thu, Feb 05, 2026, Jim Mattson wrote:
+> Add KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC to allow L1 to set FREEZE_IN_SMM
+> in vmcs12's GUEST_IA32_DEBUGCTL field, as permitted prior to
+> commit 6b1dd26544d0 ("KVM: VMX: Preserve host's DEBUGCTLMSR_FREEZE_IN_SMM
+> while running the guest").  The quirk is enabled by default for backwards
+> compatibility; userspace can disable it via KVM_CAP_DISABLE_QUIRKS2 for
+> consistency with the constraints on WRMSR(IA32_DEBUGCTL).
+> 
+> Note that the quirk only bypasses the consistency check. The vmcs02 bit is
+> still owned by the host, and PMCs are not frozen during virtualized SMM.
+> In particular, if a host administrator decides that PMCs should not be
+> frozen during physical SMM, then L1 has no say in the matter.
+> 
+> Fixes: 095686e6fcb4 ("KVM: nVMX: Check vmcs12->guest_ia32_debugctl on nested VM-Enter")
+> Signed-off-by: Jim Mattson <jmattson@google.com>
 
-Note that the quirk only bypasses the consistency check. The vmcs02 bit is
-still owned by the host, and PMCs are not frozen during virtualized SMM.
-In particular, if a host administrator decides that PMCs should not be
-frozen during physical SMM, then L1 has no say in the matter.
-
-Fixes: 095686e6fcb4 ("KVM: nVMX: Check vmcs12->guest_ia32_debugctl on nested VM-Enter")
-Signed-off-by: Jim Mattson <jmattson@google.com>
----
- Documentation/virt/kvm/api.rst  | 10 ++++++++++
- arch/x86/include/asm/kvm_host.h |  3 ++-
- arch/x86/include/uapi/asm/kvm.h |  1 +
- arch/x86/kvm/vmx/nested.c       | 23 +++++++++++++++++++----
- 4 files changed, 32 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index d04b4bdd60c1..325e565ff99e 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -8482,6 +8482,16 @@ KVM_X86_QUIRK_IGNORE_GUEST_PAT      By default, on Intel platforms, KVM ignores
-                                     guest software, for example if it does not
-                                     expose a bochs graphics device (which is
-                                     known to have had a buggy driver).
-+
-+KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC
-+				    By default, KVM relaxes the consistency
-+				    check for GUEST_IA32_DEBUGCTL in vmcb12
-+				    to allow FREEZE_IN_SMM to be set.  When
-+				    this quirk is disabled, KVM requires
-+				    this bit to be cleared.  Note that the
-+				    vmcs02 bit is still completely
-+				    controlled by the host, regardless of
-+				    the quirk setting.
- =================================== ============================================
- 
- 7.32 KVM_CAP_MAX_VCPU_ID
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index ff07c45e3c73..1669d4797f0b 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -2485,7 +2485,8 @@ int memslot_rmap_alloc(struct kvm_memory_slot *slot, unsigned long npages);
- 	 KVM_X86_QUIRK_MWAIT_NEVER_UD_FAULTS |	\
- 	 KVM_X86_QUIRK_SLOT_ZAP_ALL |		\
- 	 KVM_X86_QUIRK_STUFF_FEATURE_MSRS |	\
--	 KVM_X86_QUIRK_IGNORE_GUEST_PAT)
-+	 KVM_X86_QUIRK_IGNORE_GUEST_PAT |	\
-+	 KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC)
- 
- #define KVM_X86_CONDITIONAL_QUIRKS		\
- 	(KVM_X86_QUIRK_CD_NW_CLEARED |		\
-diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
-index 846a63215ce1..76128958bbca 100644
---- a/arch/x86/include/uapi/asm/kvm.h
-+++ b/arch/x86/include/uapi/asm/kvm.h
-@@ -476,6 +476,7 @@ struct kvm_sync_regs {
- #define KVM_X86_QUIRK_SLOT_ZAP_ALL		(1 << 7)
- #define KVM_X86_QUIRK_STUFF_FEATURE_MSRS	(1 << 8)
- #define KVM_X86_QUIRK_IGNORE_GUEST_PAT		(1 << 9)
-+#define KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC	(1 << 10)
- 
- #define KVM_STATE_NESTED_FORMAT_VMX	0
- #define KVM_STATE_NESTED_FORMAT_SVM	1
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index 248635da6766..9bd29b9375fb 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -3300,10 +3300,25 @@ static int nested_vmx_check_guest_state(struct kvm_vcpu *vcpu,
- 	if (CC(vmcs12->guest_cr4 & X86_CR4_CET && !(vmcs12->guest_cr0 & X86_CR0_WP)))
- 		return -EINVAL;
- 
--	if ((vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS) &&
--	    (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
--	     CC(!vmx_is_valid_debugctl(vcpu, vmcs12->guest_ia32_debugctl, false))))
--		return -EINVAL;
-+	if (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS) {
-+		u64 debugctl = vmcs12->guest_ia32_debugctl;
-+
-+		/*
-+		 * FREEZE_IN_SMM is not virtualized, but allow L1 to set it
-+		 * in VMCB12's DEBUGCTL under a quirk for backwards
-+		 * compatibility.  Note that the quirk only relaxes the
-+		 * consistency check. The vmcb02 bit is still under the
-+		 * control of the host. In particular, if a host
-+		 * administrator decides to clear the bit, then L1 has no
-+		 * say in the matter.
-+		 */
-+		if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC))
-+			debugctl &= ~DEBUGCTLMSR_FREEZE_IN_SMM;
-+
-+		if (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
-+		    CC(!vmx_is_valid_debugctl(vcpu, debugctl, false)))
-+			return -EINVAL;
-+	}
- 
- 	if ((vmcs12->vm_entry_controls & VM_ENTRY_LOAD_IA32_PAT) &&
- 	    CC(!kvm_pat_valid(vmcs12->guest_ia32_pat)))
-
-base-commit: e944fe2c09f405a2e2d147145c9b470084bc4c9a
--- 
-2.53.0.rc2.204.g2597b5adb4-goog
-
+I'll tag for stable, but otherwise LGTM.  It's too late for 6.19, but I'll get
+it queued up for 6.20 after giving others a chance to react.  It'll miss the
+initial batch of pull requests, but I'll try to send a fixes for the second half
+of the merge window (I just realized I need to create+send the pull requests...)
