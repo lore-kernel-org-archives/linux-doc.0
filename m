@@ -1,107 +1,269 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD30C2E7179
-	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 04:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7BAC21FF33;
+	Thu,  5 Feb 2026 05:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.241.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770265424; cv=none; b=Ste8bsOGuBKOOqfkW+3AJ6rI95CzbKBYfjxEszzDrsYStX0LGrd1tCy9giCpkAljXtvI2w67rnfjQ5mZYBMcPU0hXU3ZSKindFnDi3Ln1U3RBu6OCaj1gW5yDaAGVvtmUsn8cj5L/BQpIC0SPQTVBQtIQ1vZJKTCu9S+yb8vM5A=
+	t=1770268822; cv=none; b=c1tG+uZwI/9lcHF33FouJWXuASE0PhijdBBdQOJP2D8K8AUOlIi1slkL6k2fUhUz1hmXXVPhgIPG9uW4mtx94vwq6UwnXQiYb8P06yEFdVHwEE37nnUILWdf2V38iRcHJ9uG4lXell13V83ImwUDhREt0wu+4E80e9mzgxsBzIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770265424; c=relaxed/simple;
-	bh=L03384jtDexDfzkRHHtzPIVJ4BKFBQWzJGNmJuCR4wU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j/DQ87ZEdqGY/2/bderNZBzf6JT2n9IcEmHTd2DjUUYiNML33VOn5N0ARbs67Si9xZx2cFGqV70OpLpAQNMFBFYbdzPqFpXLECYyLoPDfIU1JMRx/6aKZW0CZMUvBH9LaTaSMWqb80WalJtrPpMHd5oxN9Q7bSxbwowbHrwp+ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=MLDTEQO6; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1770268822; c=relaxed/simple;
+	bh=rKiM9obf5J95LrwQvikvlTBi0k90jrSuoyJmI+GnCrU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F/4Tambv3/SZWvUr7rkNY7gXk7fk6LaUCkcqkxgykdL2k32VcIisbIQ0WGdmT++PRSUoOuYrt1EL1UCDZm3njpW1DlNur7Mld8VXss5PlgWhoO+QK8i8cK/1/1pC2zxfKvGCNbm4CWYdhu0KnLM78FAzxX3Oh1KxM/yt/oGYGtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=ai3P1gKB; arc=none smtp.client-ip=159.100.241.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="MLDTEQO6"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-8c5349ba802so45189185a.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 20:23:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1770265423; x=1770870223; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qW0+moZctApASOdwQkaNncsGOVFnNExxcEZS6yJkS4M=;
-        b=MLDTEQO6exn21nK7WldrR1aIYxSKV0SetMJnEH6Pq9GFGudIeAuYOU2mKG4qNXd77p
-         njiQp3vvn/XwQGj8U/pVscEkN7VUqTj/4rs6WF2nJh7NVgxPJOUGQ65Wpllt+WITmwjp
-         L4Kd/7cFByLsMZuqVWlCALtotsWYWhVqrhtPsk97ZKxM60Fx+PuD440tbELBKDsFEN72
-         fujBWqAsGz2bl14GxXX0stTlfIAFczr+vIq6muJQpN0ZtMa3P4RF2TiteF1IFNrsYK9q
-         YTEQxJGJSJPn+21BExh4UjvWTHw4NwtQp5EX21CrP/UolEeBumKNm9SaUOFpUdNo3amE
-         aUXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770265423; x=1770870223;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qW0+moZctApASOdwQkaNncsGOVFnNExxcEZS6yJkS4M=;
-        b=JHAJ5e75uCE7K8ezQ6JQFNb/wknsGYPekBUkL5JV9drNpps7r0LKHYm+C8kbTk49kN
-         Yoin6GbrkNNF+NLc+WFGYJSPn+5G/Pc3oGqEjk48uB8Dhu5OI5EFQDxQaiZ0oOJQuNkf
-         jjQVEFjOaG8VA9COaZnBPX+ddFbjKo8/UssvQsxcBfhPp7+/CgLf6golylwSHZ1QM0bR
-         sdgF6RBmFrdD78kWRCt4wpJewqcF6bebkJF1BGMsZyQECJjfcFKIwoNZuMdBhffDKqEn
-         Zh698iuqbrZLgfDiqnRg04TGi7hd1Yvg5EtM+oIKbN/sRa2wNzk5VHFVPkz56+13+yTs
-         8Tdw==
-X-Forwarded-Encrypted: i=1; AJvYcCV9ZRz004xA9cKjyxBT31tMMtnGePpbL2D2rXBN3q7DqWLfgrQ9ThGDNWNcc65lD/idGLY2bl3651k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSlSULaO1+0L9ts6Yb63CtF1NeDHsaHtM7U8HzJtw+eEFHFkZ1
-	lm5oZprzvyvvdkaB+2g64CnwVlMXM1SSDVDJCfCDTR+neCNFA2LMip67hMa6/XFh2BQ=
-X-Gm-Gg: AZuq6aIrSjHmQpVuIRcMiTBa0YS8iW0ZzLCEKatg0bD2qbvukOE1mw6YIpcsC3rDzbs
-	mfvoPOIo1nQ/tS0r4XBufINpumwoak6NYdKR+vX2VQVrfZD9gffC6tlQJUVFkoFIccVB8O4+N2z
-	LnRlb6Y9mM9PPolo9ZUWVzXV5I4G5Nzl0hc/jyYbZhr7MbOZCdMusgGI7HPBDgPXBClYFzG3XZS
-	cHvThEnnpSXNqcq2JQ/QjPHFDLh65K5twLmEnazqz5zG3uB3O8f79H3UZJ/YF0LzERqeEc6zuiL
-	rOYISFmY5TIhLBoPfcl6M/Kyvg58XQ5GvjpudfROnarA4YjFmkQOHPqEY0eIdj6FoQSS0jL3ZGn
-	MlJf+rtYuIozHbXo3RJZYCgGhp8AKVlvPFRdu8CvzKwU/sCo8dWNXn9UNQREkxKLDfD/I2uknhc
-	L81UtjLmHkB2myEhhDA/5byUqjhCFRPr26jiGr7P2YvtSW8ZPAJsZkV8d/CGgWnHK9TWgx6g==
-X-Received: by 2002:a05:620a:c4d:b0:8c6:f74f:9b69 with SMTP id af79cd13be357-8ca2fa5e50cmr701545185a.83.1770265422854;
-        Wed, 04 Feb 2026 20:23:42 -0800 (PST)
-Received: from gourry-fedora-PF4VCD3F (pool-96-255-20-138.washdc.ftas.verizon.net. [96.255.20.138])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89521cf8619sm34240906d6.32.2026.02.04.20.23.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Feb 2026 20:23:42 -0800 (PST)
-Date: Wed, 4 Feb 2026 23:23:40 -0500
-From: Gregory Price <gourry@gourry.net>
-To: "David Hildenbrand (arm)" <david@kernel.org>
-Cc: Jonathan Cameron <jonathan.cameron@huawei.com>, linux-mm@kvack.org,
-	linux-cxl@vger.kernel.org, nvdimm@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kernel-team@meta.com, dave@stgolabs.net,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com, willy@infradead.org, jack@suse.cz,
-	terry.bowman@amd.com, john@jagalactic.com,
-	Oscar Salvador <osalvador@suse.de>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 2/9] mm/memory_hotplug: add __add_memory_driver_managed()
- with online_type arg
-Message-ID: <aYQbTFLTRHiAnrKr@gourry-fedora-PF4VCD3F>
-References: <20260129210442.3951412-1-gourry@gourry.net>
- <20260129210442.3951412-3-gourry@gourry.net>
- <20260202172524.00000c6d@huawei.com>
- <aYDmor_ruasxaZ-7@gourry-fedora-PF4VCD3F>
- <20260202184609.00004a02@huawei.com>
- <aYEZAUJMLWvaug50@gourry-fedora-PF4VCD3F>
- <3424eba7-523b-4351-abd0-3a888a3e5e61@kernel.org>
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="ai3P1gKB"
+Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.119.155])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 2FAD72023C;
+	Thu,  5 Feb 2026 05:20:20 +0000 (UTC)
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+	by relay3.mymailcheap.com (Postfix) with ESMTPS id AE9E93EC2C;
+	Thu,  5 Feb 2026 05:20:11 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 4AB0B400D5;
+	Thu,  5 Feb 2026 05:20:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1770268811; bh=rKiM9obf5J95LrwQvikvlTBi0k90jrSuoyJmI+GnCrU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ai3P1gKBXn10pa96H5KA6uSSJZM2T3JxUesA04AItcASi5hdcIId+ImAbvzXfrTIK
+	 /hsHqp5/f4KU5nQc8ZNrHgQl5m5+4i2KZLOy7xunBQDBmrktWhcPlsY7x/tbgeBR6C
+	 MbNBUPyNzyhM8hxvAQmqOZITM40b8IjE5t6IRTwQ=
+Received: from liushuyu-p15 (unknown [117.151.13.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 6A3EC4017F;
+	Thu,  5 Feb 2026 05:20:03 +0000 (UTC)
+From: Zixing Liu <liushuyu@aosc.io>
+To: WANG Xuerui <kernel@xen0n.name>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Bibo Mao <maobibo@loongson.cn>
+Cc: Kexy Biscuit <kexybiscuit@aosc.io>,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Zixing Liu <liushuyu@aosc.io>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Tianrui Zhao <zhaotianrui@loongson.cn>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v5] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+Date: Thu,  5 Feb 2026 13:18:21 +0800
+Message-ID: <20260205051822.1318253-1-liushuyu@aosc.io>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3424eba7-523b-4351-abd0-3a888a3e5e61@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4AB0B400D5
+X-Spamd-Result: default: False [1.40 / 10.00];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	ASN(0.00)[asn:16276, ipnet:51.83.0.0/16, country:FR];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_ONE(0.00)[1];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	LOCAL_OUTBOUND(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Rspamd-Action: no action
+X-Rspamd-Server: nf1.mymailcheap.com
 
-On Wed, Feb 04, 2026 at 10:08:45PM +0100, David Hildenbrand (arm) wrote:
-> > 
-> > David do you have thoughts here?
-> 
-> I guess we should clean that all up where easily possible, but I don't
-> expect you to do that.
-> 
-> For online_types I used it, obviously, to save memory. So I'd expect it to
-> stay at least there, but cast it to the proper type once we take it out the
-> array.
-> 
+This ioctl can be used by the userspace applications to determine which
+(special) registers are get/set-able in a meaningful way.
 
-I can do it pretty easily and pull it out ahead.
+This can be very useful for cross-platform VMMs so that they do not have
+to hardcode register indices for each supported architectures.
 
-~Gregory
+Signed-off-by: Zixing Liu <liushuyu@aosc.io>
+---
+ Documentation/virt/kvm/api.rst |   2 +-
+ arch/loongarch/kvm/vcpu.c      | 120 +++++++++++++++++++++++++++++++++
+ 2 files changed, 121 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 01a3abef8abb..f46dd8be282f 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -3603,7 +3603,7 @@ VCPU matching underlying host.
+ ---------------------
+ 
+ :Capability: basic
+-:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
++:Architectures: arm64, loongarch, mips, riscv, x86 (if KVM_CAP_ONE_REG)
+ :Type: vcpu ioctl
+ :Parameters: struct kvm_reg_list (in/out)
+ :Returns: 0 on success; -1 on error
+diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
+index 656b954c1134..de02e409ae39 100644
+--- a/arch/loongarch/kvm/vcpu.c
++++ b/arch/loongarch/kvm/vcpu.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/kvm_host.h>
+ #include <asm/fpu.h>
++#include <asm/kvm_host.h>
+ #include <asm/lbt.h>
+ #include <asm/loongarch.h>
+ #include <asm/setup.h>
+@@ -14,6 +15,8 @@
+ #define CREATE_TRACE_POINTS
+ #include "trace.h"
+ 
++#define NUM_LBT_REGS 6
++
+ const struct _kvm_stats_desc kvm_vcpu_stats_desc[] = {
+ 	KVM_GENERIC_VCPU_STATS(),
+ 	STATS_DESC_COUNTER(VCPU, int_exits),
+@@ -1186,6 +1189,105 @@ static int kvm_loongarch_vcpu_set_attr(struct kvm_vcpu *vcpu,
+ 	return ret;
+ }
+ 
++static int kvm_loongarch_walk_csrs(struct kvm_vcpu *vcpu, u64 __user *uindices)
++{
++	unsigned int i, count;
++	const unsigned int csrs_to_save[] = {
++		LOONGARCH_CSR_CRMD,	  LOONGARCH_CSR_PRMD,
++		LOONGARCH_CSR_EUEN,	  LOONGARCH_CSR_MISC,
++		LOONGARCH_CSR_ECFG,	  LOONGARCH_CSR_ESTAT,
++		LOONGARCH_CSR_ERA,	  LOONGARCH_CSR_BADV,
++		LOONGARCH_CSR_BADI,	  LOONGARCH_CSR_EENTRY,
++		LOONGARCH_CSR_TLBIDX,	  LOONGARCH_CSR_TLBEHI,
++		LOONGARCH_CSR_TLBELO0,	  LOONGARCH_CSR_TLBELO1,
++		LOONGARCH_CSR_ASID,	  LOONGARCH_CSR_PGDL,
++		LOONGARCH_CSR_PGDH,	  LOONGARCH_CSR_PGD,
++		LOONGARCH_CSR_PWCTL0,	  LOONGARCH_CSR_PWCTL1,
++		LOONGARCH_CSR_STLBPGSIZE, LOONGARCH_CSR_RVACFG,
++		LOONGARCH_CSR_CPUID,	  LOONGARCH_CSR_PRCFG1,
++		LOONGARCH_CSR_PRCFG2,	  LOONGARCH_CSR_PRCFG3,
++		LOONGARCH_CSR_KS0,	  LOONGARCH_CSR_KS1,
++		LOONGARCH_CSR_KS2,	  LOONGARCH_CSR_KS3,
++		LOONGARCH_CSR_KS4,	  LOONGARCH_CSR_KS5,
++		LOONGARCH_CSR_KS6,	  LOONGARCH_CSR_KS7,
++		LOONGARCH_CSR_TMID,	  LOONGARCH_CSR_CNTC,
++		LOONGARCH_CSR_TINTCLR,	  LOONGARCH_CSR_LLBCTL,
++		LOONGARCH_CSR_IMPCTL1,	  LOONGARCH_CSR_IMPCTL2,
++		LOONGARCH_CSR_TLBRENTRY,  LOONGARCH_CSR_TLBRBADV,
++		LOONGARCH_CSR_TLBRERA,	  LOONGARCH_CSR_TLBRSAVE,
++		LOONGARCH_CSR_TLBRELO0,	  LOONGARCH_CSR_TLBRELO1,
++		LOONGARCH_CSR_TLBREHI,	  LOONGARCH_CSR_TLBRPRMD,
++		LOONGARCH_CSR_DMWIN0,	  LOONGARCH_CSR_DMWIN1,
++		LOONGARCH_CSR_DMWIN2,	  LOONGARCH_CSR_DMWIN3,
++		LOONGARCH_CSR_TVAL,	  LOONGARCH_CSR_TCFG,
++	};
++
++	for (i = 0, count = 0;
++	     i < sizeof(csrs_to_save) / sizeof(csrs_to_save[0]); i++) {
++		const u64 reg = KVM_IOC_CSRID(i);
++		if (uindices && put_user(reg, uindices++))
++			return -EFAULT;
++		count++;
++	}
++
++	/* Skip PMU CSRs if not supported by the guest */
++	if (!kvm_guest_has_pmu(&vcpu->arch))
++		return count;
++	for (i = LOONGARCH_CSR_PERFCTRL0; i <= LOONGARCH_CSR_PERFCNTR3; i++) {
++		const u64 reg = KVM_IOC_CSRID(i);
++		if (uindices && put_user(reg, uindices++))
++			return -EFAULT;
++		count++;
++	}
++
++	return count;
++}
++
++static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
++{
++	/* +1 for the KVM_REG_LOONGARCH_COUNTER register */
++	unsigned long res =
++		kvm_loongarch_walk_csrs(vcpu, NULL) + KVM_MAX_CPUCFG_REGS + 1;
++
++	if (kvm_guest_has_lbt(&vcpu->arch))
++		res += NUM_LBT_REGS;
++
++	return res;
++}
++
++static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
++					  u64 __user *uindices)
++{
++	u64 reg;
++	unsigned int i;
++
++	i = kvm_loongarch_walk_csrs(vcpu, uindices);
++	if (i < 0)
++		return i;
++	uindices += i;
++
++	for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
++		reg = KVM_IOC_CPUCFG(i);
++		if (put_user(reg, uindices++))
++			return -EFAULT;
++	}
++
++	reg = KVM_REG_LOONGARCH_COUNTER;
++	if (put_user(reg, uindices++))
++		return -EFAULT;
++
++	if (!kvm_guest_has_lbt(&vcpu->arch))
++		return 0;
++
++	for (i = 1; i <= NUM_LBT_REGS; i++) {
++		reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
++		if (put_user(reg, uindices++))
++			return -EFAULT;
++	}
++
++	return 0;
++}
++
+ long kvm_arch_vcpu_ioctl(struct file *filp,
+ 			 unsigned int ioctl, unsigned long arg)
+ {
+@@ -1251,6 +1353,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+ 		r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
+ 		break;
+ 	}
++	case KVM_GET_REG_LIST: {
++		struct kvm_reg_list __user *user_list = argp;
++		struct kvm_reg_list reg_list;
++		unsigned n;
++
++		r = -EFAULT;
++		if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
++			break;
++		n = reg_list.n;
++		reg_list.n = kvm_loongarch_num_regs(vcpu);
++		if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
++			break;
++		r = -E2BIG;
++		if (n < reg_list.n)
++			break;
++		r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
++		break;
++	}
+ 	default:
+ 		r = -ENOIOCTLCMD;
+ 		break;
+-- 
+2.53.0
+
