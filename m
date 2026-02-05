@@ -1,133 +1,162 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 527193B8D7B;
-	Thu,  5 Feb 2026 11:56:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6EE3ACF1D;
+	Thu,  5 Feb 2026 11:58:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770292612; cv=none; b=V2BGka9kt0PsZDM4bIi8qZgK3L8gHPhjSZS8WKYOyTH6BCNMJGZow0ghwSDqfbmEdW/el4epoTdRyai2+/6vYbAaCW2NUj0Wnq59HleEv7KedctWWzoEfnIuHNiW9J4dRTFOKtgxzDG8mbYbI0eeSFN+MHcG1MlTckWQs+6Ud0U=
+	t=1770292726; cv=none; b=dQEPZD5dpIyZDFvL6iE+mmzNEgX3OnSW0AmxrC+jAvnr7lgVHwTyvZIHxzKLzFLSq55YaziU3aMOQDinYUsL2Gspl9MOHTyvEZXJyik6sAKzJv9GUhFRtyz9caXRabBghlkvvoTSMpgIqjTOT7vSfwSJBoCcgmHJiyMPiPnrNzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770292612; c=relaxed/simple;
-	bh=Lq1WS/feqcmneRYONaUcKaBFbqjoIGbWkZe7TeY1dWw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=I08URq6uQgw3F2hs+y0JM5L2Tnf+rJcFjWuChTDPDEnXjVDtX1dJU0S7wavT++U3V08Vu63brafH6r9sPb9hxDzsziqMV5x9U6TnmsJ7uCxLMjs75n86yevmpI0g883d9t8XUfnCRthZmPBBiqhiJFr3c5rvgg4PNv0dlC2/cyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MJegvFl8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770292726; c=relaxed/simple;
+	bh=GDq3H3vjByLJ3Ey0kNEDQ9d9kRtQLl25iHAO3wBE/5c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=khkj+EHp/QlBKvSattL8gJxnqp+KD4/vH1rB8/go8yaMkCJQatsi5AH1FlFJvOZmXzKLd7SasGA+bTNEkjPyQx5J/akqNYhVcHsohrRebg0svZ0Z0oOyaqnhrRvPQ+oMOz1Xu4r+WngYo2M6ZHFJVjUiRmjxm2PfUcXkGEI48y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XhP7ik1L; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MJegvFl8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1FE7C4CEF7;
-	Thu,  5 Feb 2026 11:56:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XhP7ik1L"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D731FC16AAE;
+	Thu,  5 Feb 2026 11:58:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770292611;
-	bh=Lq1WS/feqcmneRYONaUcKaBFbqjoIGbWkZe7TeY1dWw=;
-	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
-	b=MJegvFl8zNIFEdCVsIfXc9m0ZW29CQwqJPCT9HtZw3FosEk3mDUAvJOclzswdx19S
-	 0ll4ypcwSaqi3hJFow0sazMsqH8SJOp5Gxc79l2PEpZ5JcB0jCo7aqGcnNy/oLaGW4
-	 KCzj7uEuGcjXiNUcftTNdkgmHzQSYn6UEKjEp1MryzamEvymy98JdyeK4AkQl/hnHo
-	 7sKwf4YHu42Q3Tn7VGRYfrwb3QglQcw/H50T4zoPXyKPy7LXxPDwcrjaE82jU5nwr9
-	 KMf10liy6QaT9sMKhpUzgXTFWMkpEBeAxAB+0e3zVXkRsxsFEr9f3kDyzH8S6MSq4O
-	 7rtFcoWpJxvBg==
+	s=k20201202; t=1770292726;
+	bh=GDq3H3vjByLJ3Ey0kNEDQ9d9kRtQLl25iHAO3wBE/5c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XhP7ik1LXXfjNBnyfS22rv87pd9aNzA7BcYBKsfG9RyitOwBNzkdha7F1F7HZtWZr
+	 RKBCmDD51vVC22UoKfyH6wrLbffbTfdiC0gTQD1JCJbEACzWG3TJwKQG/VkBznINwu
+	 /ZA4R3A3YI4nncmqbyPAzJA02dOTh2cDW8EN8Ao7jJ3aA77B5XeVNy/ovVk5CZ8w8X
+	 e1Y+tNsNKXvgMZKwU9kCYPB4yfbIR1uDWadA8KUph+ddThGFdlkvOYT/Qwb5KlwwBB
+	 0Jwoq95Os8O3bf9Vk7HiDT6jtCWjHqVHLE0NxlQQrPerNxMnNkhUWXvnE8Ti5NvXpy
+	 eGcEwZJrSTb6A==
+Message-ID: <8deb6010-3abd-48dd-8b77-40dbf2d48c65@kernel.org>
+Date: Thu, 5 Feb 2026 12:58:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 05 Feb 2026 12:56:47 +0100
-Message-Id: <DG70CSP8NCJ0.316VXMVLD2ARN@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v2 3/3] Revert "revocable: Revocable resource
- management"
-Cc: "Johan Hovold" <johan@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>, "Linus
- Walleij" <linusw@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <shuah@kernel.org>, "Laurent Pinchart"
- <laurent.pinchart@ideasonboard.com>, "Wolfram Sang"
- <wsa+renesas@sang-engineering.com>, "Simona Vetter"
- <simona.vetter@ffwll.ch>, "Dan Williams" <dan.j.williams@intel.com>, "Jason
- Gunthorpe" <jgg@nvidia.com>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-To: "Tzung-Bi Shih" <tzungbi@kernel.org>
-References: <20260204142849.22055-1-johan@kernel.org>
- <20260204142849.22055-4-johan@kernel.org> <aYRaB5wI3mS2J54K@google.com>
-In-Reply-To: <aYRaB5wI3mS2J54K@google.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv6 02/17] mm: Change the interface of prep_compound_tail()
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>,
+ Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20260202155634.650837-1-kas@kernel.org>
+ <20260202155634.650837-3-kas@kernel.org>
+ <a61bc0a8-cf5a-418a-aeb4-96553b87f043@kernel.org>
+ <aYR-YULI3lBtl9y_@thinkstation>
+From: "David Hildenbrand (arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aYR-YULI3lBtl9y_@thinkstation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu Feb 5, 2026 at 9:51 AM CET, Tzung-Bi Shih wrote:
-> On Wed, Feb 04, 2026 at 03:28:49PM +0100, Johan Hovold wrote:
->> Specifically, the latest design relies on RCU for storing a pointer to
->> the revocable provider, but since the resource can be shared by value
->> (e.g. as in the now reverted selftests) this does not work at all and
->> can also lead to use-after-free:
-> [...]
->> 	producer:
->>=20
->> 	priv->rp =3D revocable_provider_alloc(&priv->res);
->> 	// pass priv->rp by value to consumer
->> 	revocable_provider_revoke(&priv->rp);
->>=20
->> 	consumer:
->>=20
->> 	struct revocable_provider __rcu *rp =3D filp->private_data;
->> 	struct revocable *rev;
->>=20
->> 	revocable_init(rp, &rev);
->>=20
->> as _rp would still be non-NULL in revocable_init() regardless of whether
->> the producer has revoked the resource and set its pointer to NULL.
->
-> You're right to point out the issue with copying the pointer of revocable
-> provider.  If a consumer stores this pointer directly, rcu_replace_pointe=
-r()
-> in the producer's revocable_provider_revoke() will not affect the consume=
-r's
-> copy.  I understand this concern.
->
-> The intention was never for consumers to cache the pointer of revocable
-> provider long-term.  The design relies on consumers obtaining the current
-> valid provider pointer at the point of access.
+On 2/5/26 12:35, Kiryl Shutsemau wrote:
+> On Wed, Feb 04, 2026 at 05:14:12PM +0100, David Hildenbrand (arm) wrote:
+>> On 2/2/26 16:56, Kiryl Shutsemau wrote:
+>>> Instead of passing down the head page and tail page index, pass the tail
+>>> and head pages directly, as well as the order of the compound page.
+>>>
+>>> This is a preparation for changing how the head position is encoded in
+>>> the tail page.
+>>>
+>>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+>>> Reviewed-by: Muchun Song <muchun.song@linux.dev>
+>>> Reviewed-by: Zi Yan <ziy@nvidia.com>
+>>> ---
+>>>    include/linux/page-flags.h |  4 +++-
+>>>    mm/hugetlb.c               |  8 +++++---
+>>>    mm/internal.h              | 12 ++++++------
+>>>    mm/mm_init.c               |  2 +-
+>>>    mm/page_alloc.c            |  2 +-
+>>>    5 files changed, 16 insertions(+), 12 deletions(-)
+>>>
+>>> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+>>> index f7a0e4af0c73..8a3694369e15 100644
+>>> --- a/include/linux/page-flags.h
+>>> +++ b/include/linux/page-flags.h
+>>> @@ -865,7 +865,9 @@ static inline bool folio_test_large(const struct folio *folio)
+>>>    	return folio_test_head(folio);
+>>>    }
+>>> -static __always_inline void set_compound_head(struct page *page, struct page *head)
+>>> +static __always_inline void set_compound_head(struct page *page,
+>>> +					      const struct page *head,
+>>> +					      unsigned int order)
+>>
+>> Two tab indents please on second+ parameter list whenever you touch code.
+> 
+> Do we have this coding style preference written down somewhere?
 
-Yeah, I think this part is not a bug in the API, but I think revocable_init=
-()
-should be
+Good question. I assume not. But it's what we do in MM :)
 
-	int revocable_init(struct revocable_provider __rcu **_rp, ...)
+> 
+> -tip tree wants the opposite. Documentation/process/maintainer-tip.rst:
+> 
+> 	When splitting function declarations or function calls, then please align
+> 	the first argument in the second line with the first argument in the first
+> 	line::
+> 
+> I want the editor to do The Right Thing™ without my brain involvement.
+> Having different coding styles in different corners of the kernel makes
+> it hard.
 
-instead of
+Yeah, but unavoidable. :)
 
-	int revocable_init(struct revocable_provider __rcu *_rp, ...)
+-- 
+Cheers,
 
-for the same reason revocable_provider_revoke() takes a double pointer.
-
-Otherwise this seems racy:
-
-	int revocable_init(struct revocable_provider __rcu *_rp, struct revocable =
-*rev)
-	{
-		struct revocable_provider *rp;
-
-		if (!_rp)
-			return -ENODEV;
-
-		/*
-		 * If revocable_provider_revoke() is called concurrently at this
-		 * point, _rp is not affectd by rcu_replace_pointer().
-		 *
-		 * Additionally, nothing prevents a concurrent kfree_rcu() from
-		 * freeing the revocable provider before we enter the RCU
-		 * read-side critical section below.
-		 */
-
-		/*
-		 * Enter a read-side critical section.
-		 *
-		 * This prevents kfree_rcu() from freeing the struct revocable_provider
-		 * memory, for the duration of this scope.
-		 */
-		scoped_guard(rcu) {
-
-		...
-	}
-
-Do I miss anything?
+David
