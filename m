@@ -1,136 +1,146 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B2933ED131
-	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 13:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1CC3ECBD7;
+	Thu,  5 Feb 2026 13:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770299945; cv=none; b=QLBOxWsXEbFmS8iMmFYpk4pT8y/HgMzvfNbFbmY7cisHjdp4pK6yzBmkMjicSGvdtu5V23SEsMKVMWabbCxvvYeHp1OcLw0hlMvE+4hxMUbETX/S0eq+zgEUnHUjGPLCmWdyHfn2bHvb8iY59McX7y+T65gdgR93/cgTlrCfJRw=
+	t=1770299946; cv=none; b=hlQkmp7OBisf6NNnITJlADxp/vKYlWdf+Sta07iGt87MPrSMkL3d27vsF2jS9ycGWKZGO67uCkqn6eYcYjSLDf0a5YjFqLyrZr/tntthc/0KvUwTOkWE/YfwkqqgbWTLk+rdKMD0qRXoLQGEfBCDw04K4BLiF/C56a9wCJ4o3yM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770299945; c=relaxed/simple;
-	bh=dfSf90CX2fFuCBXs9FEXQJWwoweCuaJmCw5t3YHWiD4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=H8psXRpAZYCUyItm8y1rCSwXB8jmnp9pQLuUpFADlq6vlBnmFgvSzIJL3Mp897obYQc7siReD9p9hLxYwPx33MsPt4yY+vXDK89SBGxacBe2SxBDbOkn/MXIhG39f/sgpkrP5ypgPQOxj6ylA2OJY+oFr94mpDb8vTB9wb8aGWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lskdNJM1; arc=none smtp.client-ip=209.85.222.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770299946; c=relaxed/simple;
+	bh=NrgItkvDCDI0JdjjTiJgmYN8Hu+I5JatU6qOApBTUkQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=I6s9Tka2fv4xjKnJ4Rd1Fei7HGMIBH4CszSH5hkB3J1ytrYkhG/9oDUuQx08WClWz4HX2RjXkZzf3ll5eU/l1Q3LtcoTPpRfOUOA07FcO4yPTSSfPpLN9YWK1Vau+hY0hsRP7bdeor/ohgp9WS8sIMYIRtL0ku4UGkJelCNiQCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UDgEXs23; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lskdNJM1"
-Received: by mail-qk1-f193.google.com with SMTP id af79cd13be357-8c6a7638f42so127355485a.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 05:59:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770299944; x=1770904744; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=r25epDAJMQ/dj4/lD+Zndgkln/iNdOm3o/jXssTljSE=;
-        b=lskdNJM1jt+SEUCstya50W8LVNRwAtMVYdQs7sHvrjiDN1OQXrp6FvMsTu42pEh5rL
-         HEy8sl+69X39EDcfGL8HsKFl0ldYRqdPUvomviRo2FEv4d0Le3KKP2Eda1xXs44fsnqA
-         Wpz4xGu3wCEuY+v9zvODzJ7wO8mBwuVnoYslN13S8xoA/g/tT75Gy4n2cb8dNccFm0Q5
-         BPfk6CibcnI9Css3xJYm5h6Nrg+EzpmTB5HF5CCFfFiH/X25UZ2hoC6Oh3FGXOS4IfPr
-         GOAnDbVkQ/AeWhyHMiKMTZ5jjoj2e6DVmjHPBP0MyDOBfeQXnmip4NlpWH5qh3ahzjxN
-         ZF/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770299944; x=1770904744;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=r25epDAJMQ/dj4/lD+Zndgkln/iNdOm3o/jXssTljSE=;
-        b=V0ncHJC4dEwxoPefY8MnGa3WwWbMh15Yg8xqO70vcVz79GsF4XRM3Tw4tcXHAtqlxM
-         jj+rDmFN3eBbBaQVpTT9rp7j8N6DmwCPj1xXQpHcqRY2t8lzxEDTYh/c1KAPC+06P18G
-         JaRqi99+O/AppbcUrKIJr0M0EFFIH/Qtg5pDTAi+CnGq7DmL/o72CaHI91z98qlnWKEd
-         d/mBXPhHVMLsWlGB2DaLEKKdwp8qfKUhudXKWKT8g6PR+CrKG7gwPQYohkZFZLwdra0f
-         thQOJiCeFx8IrzCPmj2D4chFTPL9bxK68Rc1f/2dqFF+vk3VnR1Ys93/qoIi2YJLOFZa
-         bfNw==
-X-Forwarded-Encrypted: i=1; AJvYcCXFfzFE4HlS+vR6JChU96OWs0tk3p70BQ91/yjRL3U7h45Qfpr4XZWjES12bSI05fu4MKB/RH6ABmo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEPXmI19aZKSCijCq4FIS+g7yDlz4FfGmXnjTTOn1Rs+aoWUmS
-	/VuQFKqQUyOer7xSiT3HjBOJihxN0fGTtLdMw1oXhK5+U5Y6GCwYOF5C
-X-Gm-Gg: AZuq6aJySTaNvf6F6L9coIiFciuS0GnivntGoXDtGE/UKI6fKeu9QGfd/G5AYgT3mij
-	IfKIdgWZ8bqGQZ1cxURG7uu8SGoglhBUjdlOvlh3DzES6Neq6TZg+KEcHIDtUYm43XxoUgJdAXf
-	kTeysRR7gCFahl+J8of45kY4zw/WHHSFNDZx83txUcICkMhqWMagFyl3abXm5+sMkObzkELCuAX
-	d7BoDCAVCQtIXW6zlZbC1H0kvybf6xM/Zx3VGLUxjBwVSPkRim4iJflI6xxQNWz1tcRNvznq+SS
-	M+c0Ic06iQjpgLck/7saG+GGC2bLDaOQ2FhXd3Gu2ypPrHMNRo9DfjVrS8ej5jGcI2za3/Bso1/
-	Dpw9p1CqjfW16jLSjokA7Gmt7oOwjlcvPtRP2oyKOrN1ArQ7phgMH2VU0EP51qhEostCARgEmq8
-	svcoNQUJnYeK8CFMxd/bKEUHD+iOYHTNsdyT1SLZhuWwiAyR4GkzJY5a5/NagIsn2u+pYZGPk=
-X-Received: by 2002:a05:620a:4009:b0:8c7:1986:6b3e with SMTP id af79cd13be357-8ca2f83bdd4mr765898885a.32.1770299944301;
-        Thu, 05 Feb 2026 05:59:04 -0800 (PST)
-Received: from pc.mynetworksettings.com ([2600:4041:4491:2000:87a6:ecbb:44f:b3c1])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ca2fd40f9asm404975985a.41.2026.02.05.05.59.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 05:59:03 -0800 (PST)
-From: "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-To: mhiramat@kernel.org
-Cc: rostedt@goodmis.org,
-	corbet@lwn.net,
-	shuah@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	"Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com>
-Subject: [PATCH v6 3/4] docs: tracing/fprobe: Document list filters and :entry/:exit
-Date: Thu,  5 Feb 2026 08:58:41 -0500
-Message-ID: <20260205135842.20517-4-seokwoo.chung130@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260205135842.20517-1-seokwoo.chung130@gmail.com>
-References: <20260205135842.20517-1-seokwoo.chung130@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UDgEXs23"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E9A4C4CEF7;
+	Thu,  5 Feb 2026 13:58:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770299946;
+	bh=NrgItkvDCDI0JdjjTiJgmYN8Hu+I5JatU6qOApBTUkQ=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=UDgEXs2326E6nluf1TRc8JSNvhmzOon3wFQO4IGhep2GcsTFGb51oZnfVZiY1GAaR
+	 AP8fzqcnv7eYrYj9lL4FNmIylIXtktJO6S/8lPEsr9/blHUuTeaYrMQZrCri1qieYO
+	 cq0gkqvEXFYLEhEOZv7vi4RklL+UFVEE6ysMw5CnfQHGwPi5Qp1XZ6xxWiFW46pN2N
+	 kiqi1m6pj9kSW9RPBUIsDiBzSO344zesdF59KRQwvqScPSbSq4fhaJHCL1XMX/KL6Z
+	 AGh6cTxV+hX4OwAQ5pwgwcuIpE1fW7fngurZgxukYKy1X9RCDc7bsKDUrmmVxEI6CF
+	 RZ/PweRaGfL5Q==
+Message-ID: <a3f454aa-7cff-4e85-b046-5d4c55d8ccb9@kernel.org>
+Date: Thu, 5 Feb 2026 14:58:56 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv6 09/17] mm/sparse: Check memmap alignment for
+ compound_info_has_mask()
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+To: Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
+Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20260202155634.650837-1-kas@kernel.org>
+ <20260202155634.650837-10-kas@kernel.org>
+ <ef1f6ec1-7036-400c-9d4f-fc4f6f969ef7@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <ef1f6ec1-7036-400c-9d4f-fc4f6f969ef7@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Update fprobe event documentation to describe comma-separated symbol lists,
-exclusions, and explicit suffixes.
+On 2/5/26 14:31, David Hildenbrand (Arm) wrote:
+> On 2/2/26 16:56, Kiryl Shutsemau wrote:
+>> If page->compound_info encodes a mask, it is expected that vmemmap to be
+>> naturally aligned to the maximum folio size.
+>>
+>> Add a VM_BUG_ON() to check the alignment.
+>>
+>> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+>> Acked-by: Zi Yan <ziy@nvidia.com>
+>> ---
+>>   mm/sparse.c | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/mm/sparse.c b/mm/sparse.c
+>> index b5b2b6f7041b..6c9b62607f3f 100644
+>> --- a/mm/sparse.c
+>> +++ b/mm/sparse.c
+>> @@ -600,6 +600,13 @@ void __init sparse_init(void)
+>>       BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
+>>       memblocks_present();
+>> +    if (compound_info_has_mask()) {
+>> +        unsigned long alignment;
+>> +
+>> +        alignment = MAX_FOLIO_NR_PAGES * sizeof(struct page);
+>> +        VM_BUG_ON(!IS_ALIGNED((unsigned long) pfn_to_page(0), 
+>> alignment));
+> 
+> No VM_BUG_ON. VM_WARN_ON_ONCE() should be good enough, no?
+> 
+> As discussed in the other thread, is checking for MAX_FOLIO_NR_PAGES 
+> alignment sufficient?
 
-Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
----
- Documentation/trace/fprobetrace.rst | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+And after further discussions, we could use MAX_FOLIO_VMEMMAP_ALIGN 
+macro once we have that.
 
-diff --git a/Documentation/trace/fprobetrace.rst b/Documentation/trace/fprobetrace.rst
-index b4c2ca3d02c1..bbcfd57f0005 100644
---- a/Documentation/trace/fprobetrace.rst
-+++ b/Documentation/trace/fprobetrace.rst
-@@ -25,14 +25,18 @@ Synopsis of fprobe-events
- -------------------------
- ::
- 
--  f[:[GRP1/][EVENT1]] SYM [FETCHARGS]                       : Probe on function entry
--  f[MAXACTIVE][:[GRP1/][EVENT1]] SYM%return [FETCHARGS]     : Probe on function exit
-+  f[:[GRP1/][EVENT1]] SYM[%return] [FETCHARGS]		    : Single function
-+  f[:[GRP1/][EVENT1]] SYM[,[!]SYM[,...]][:entry|:exit] [FETCHARGS] :Multiple
-+  function
-   t[:[GRP2/][EVENT2]] TRACEPOINT [FETCHARGS]                : Probe on tracepoint
- 
-  GRP1           : Group name for fprobe. If omitted, use "fprobes" for it.
-  GRP2           : Group name for tprobe. If omitted, use "tracepoints" for it.
-  EVENT1         : Event name for fprobe. If omitted, the event name is
--                  "SYM__entry" or "SYM__exit".
-+		  - For a single literal symbol, the event name is
-+		    "SYM__entry" or "SYM__exit".
-+		  - For a *list or any wildcard*, an explicit [GRP1/][EVENT1] is
-+		    required; otherwise the parser rejects it.
-  EVENT2         : Event name for tprobe. If omitted, the event name is
-                   the same as "TRACEPOINT", but if the "TRACEPOINT" starts
-                   with a digit character, "_TRACEPOINT" is used.
-@@ -40,6 +44,13 @@ Synopsis of fprobe-events
-                   can be probed simultaneously, or 0 for the default value
-                   as defined in Documentation/trace/fprobe.rst
- 
-+ SYM		: Function name or comma-separated list of symbols.
-+		  - SYM prefixed with "!" are exclusions.
-+		  - ":entry" suffix means it probes entry of given symbols
-+		    (default)
-+		  - ":exit" suffix means it probes exit of given symbols.
-+		  - "%return" suffix means it probes exit of SYM (single
-+		    symbol).
-  FETCHARGS      : Arguments. Each probe can have up to 128 args.
-   ARG           : Fetch "ARG" function argument using BTF (only for function
-                   entry or tracepoint.) (\*1)
 -- 
-2.43.0
+Cheers,
 
+David
