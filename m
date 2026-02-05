@@ -1,149 +1,176 @@
-Received: from luna.linkmauve.fr (luna.linkmauve.fr [82.65.109.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8BB3D7D61;
-	Thu,  5 Feb 2026 13:52:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43D01E1C02;
+	Thu,  5 Feb 2026 13:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770299536; cv=none; b=I67sRhh1Icl/UEtna3cmA7l2rc9F2UIUeaPvHcQntg/7hCFCCaowVbELnq6bnSH/owUnSKv8kV2A4a6L7+WME8Gcs44Czs8rZYhoktybMu/ZpAyRbi3DWh09raQuX/Z9PYBl8qZd8jj/CnPRYRDd2JXfvhvodiAKAYul99aPRfE=
+	t=1770299556; cv=none; b=pI8cYO7vKDH3lX5s1kN84Z8eo3Fazt2HCIaqMWsFiIerxWLbCTX49b7KG7yI/oGWvbeVJwPezua/9oP3uW4oac0LZhb/Ad2Cj2EJbbcQ0iY9k4GipmB46MSDZKaBZGqGnI8kllXed1LAmHcdxDbSUCag68Tva+wSZJM0dLY3boM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770299536; c=relaxed/simple;
-	bh=MJ/TtpdG4VddUlMl0YuIgDO/2eHcxYluLB3WdoCuIf4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NLZ0+TaFU7Sq2Cay/DyOsDNMFoACOVEIjWjiGSILkg9I1EZoM2a6Bq5XmL7M33iFVUlHK1cEkveuHYoalobPO4grTvimDdhz5bA6RvRRngyxZ3ePmjM3WEdyIr2v/excPJmiGJd7fv5gk4BEmSqHf7IAPnIOXadJAYXlA3CAgzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-	id 92A26F43990; Thu, 05 Feb 2026 14:52:12 +0100 (CET)
-Date: Thu, 5 Feb 2026 14:52:12 +0100
-From: Link Mauve <linkmauve@linkmauve.fr>
-To: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Cc: linkmauve@linkmauve.fr, ojeda@kernel.org, boqun.feng@gmail.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
-	dakr@kernel.org, corbet@lwn.net, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
-	peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com,
-	rostedt@goodmis.org, ardb@kernel.org,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH V2 3/3] powerpc: Enable Rust for ppc64le
-Message-ID: <aYSgjPD5KRcNN0j4@luna>
-References: <20260204210125.613350-1-mkchauras@gmail.com>
- <20260204210125.613350-4-mkchauras@gmail.com>
+	s=arc-20240116; t=1770299556; c=relaxed/simple;
+	bh=ZKRLdfY8j+3tSCOhu7lXU/4i+dGzR6BqlTNQ2fMayes=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iQKpBU/X2nkMjH5a/bnNSyRjGjXYbrgjkHv+ALLylUaQlYCOFOG6gUKfVg5Z6gYLuUDaF1ZhT1osID2lLP/MdsDHQX5DHn+nFsCjFznoLHx0ETRkEsfBDgVmdQNjhPmOq39M47xgRkU3W9+rkLOskhNp263XBkGwGxOapB7HxlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PABi8CWR; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PABi8CWR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65A40C4CEF7;
+	Thu,  5 Feb 2026 13:52:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770299556;
+	bh=ZKRLdfY8j+3tSCOhu7lXU/4i+dGzR6BqlTNQ2fMayes=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PABi8CWRapGvnWwD6wZA0gWf2kzC85OADNDNQ+5ZsMgQULKe7P+pTF23HBeTY30cO
+	 KncdahQa08a9SOtjZiIXcDaq0NA2sMxkMtq3Vx8YJS6VwVo5vg1hX5RPIsKZbe7TER
+	 gHSDA6A11s1XLgW1RnDZgeE6tIS0vcfjGeqvQY7P1Apfb+CW9XPlcRH/QVyqUWwWrS
+	 p/zLhgjBcOqqzYiOQ7v+xph6zhf1Kd9yvckyXNT4+DjrG0tCeCWk/n1KFI0jzBgM8r
+	 YpeBP8DHGBG3KF0r/0gQlrl5i9l0jcR/amYMxz8bYX5bGsWBk7+qINuqHd4b9uJv6K
+	 O8YXH7FHEUCEQ==
+Message-ID: <460457b0-64c5-48a2-a5e4-d88ecc222884@kernel.org>
+Date: Thu, 5 Feb 2026 14:52:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260204210125.613350-4-mkchauras@gmail.com>
-Jabber-ID: linkmauve@linkmauve.fr
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv6 06/17] LoongArch/mm: Align vmemmap to maximal folio size
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>,
+ Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20260202155634.650837-1-kas@kernel.org>
+ <20260202155634.650837-7-kas@kernel.org>
+ <2ce0e684-de54-43ec-be7d-c58bbffb3f4e@kernel.org>
+ <062900fa-6419-4748-81d1-9128ce6c46d0@kernel.org>
+ <aYSdW2YaJdpgXYos@thinkstation>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aYSdW2YaJdpgXYos@thinkstation>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 05, 2026 at 02:31:25AM +0530, Mukesh Kumar Chaurasiya (IBM) wro=
-te:
-[=E2=80=A6]
-> diff --git a/rust/Makefile b/rust/Makefile
-> index ae22f2c5f0b3..c3961fd0d9a4 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -392,10 +392,17 @@ BINDGEN_TARGET_x86	:=3D x86_64-linux-gnu
->  BINDGEN_TARGET_arm64	:=3D aarch64-linux-gnu
->  BINDGEN_TARGET_arm	:=3D arm-linux-gnueabi
->  BINDGEN_TARGET_loongarch	:=3D loongarch64-linux-gnusf
-> -BINDGEN_TARGET_powerpc	:=3D powerpc-linux-gnu
->  BINDGEN_TARGET_um	:=3D $(BINDGEN_TARGET_$(SUBARCH))
->  BINDGEN_TARGET		:=3D $(BINDGEN_TARGET_$(SRCARCH))
-> =20
-> +ifdef CONFIG_PPC64
-> +ifdef CONFIG_CPU_LITTLE_ENDIAN
-> +BINDGEN_TARGET_powerpc	:=3D powerpc64le-linux-gnu
-> +endif
-> +else
-> +BINDGEN_TARGET_powerpc	:=3D powerpc-linux-gnu
-> +endif
+On 2/5/26 14:43, Kiryl Shutsemau wrote:
+> On Thu, Feb 05, 2026 at 01:56:36PM +0100, David Hildenbrand (Arm) wrote:
+>> On 2/4/26 17:56, David Hildenbrand (arm) wrote:
+>>>
+>>>
+>>> Same comment, the "MAX_FOLIO_NR_PAGES * sizeof(struct page)" is just
+>>> black magic here
+>>> and the description of the situation is wrong.
+>>>
+>>> Maybe you want to pull the magic "MAX_FOLIO_NR_PAGES * sizeof(struct
+>>> page)" into the core and call it
+>>>
+>>> #define MAX_FOLIO_VMEMMAP_ALIGN    (MAX_FOLIO_NR_PAGES * sizeof(struct
+>>> page))
+>>>
+>>> But then special case it base on (a) HVO being configured in an (b) HVO
+>>> being possible
+>>>
+>>> #ifdef HUGETLB_PAGE_OPTIMIZE_VMEMMAP && is_power_of_2(sizeof(struct page)
+>>> /* A very helpful comment explaining the situation. */
+>>> #define MAX_FOLIO_VMEMMAP_ALIGN    (MAX_FOLIO_NR_PAGES * sizeof(struct
+>>> page))
+>>> #else
+>>> #define MAX_FOLIO_VMEMMAP_ALIGN    0
+>>> #endif
+>>>
+>>> Something like that.
+>>>
+>>
+>> Thinking about this ...
+>>
+>> the vmemmap start is always struct-page-aligned. Otherwise we'd be in
+>> trouble already.
+>>
+>> Isn't it then sufficient to just align the start to MAX_FOLIO_NR_PAGES?
+>>
+>> Let's assume sizeof(struct page) == 64 and MAX_FOLIO_NR_PAGES = 512 for
+>> simplicity.
+>>
+>> vmemmap start would be multiples of 512 (0x0010000000).
+>>
+>> 512, 1024, 1536, 2048 ...
+>>
+>> Assume we have an 256-pages folio at 1536+256 = 0x111000000
+> 
+> s/0x/0b/, but okay.
 
-You define BINDGEN_TARGET_powerpc after BINDGEN_TARGET has been set to
-the value of $(BINDGEN_TARGET_$(SRCARCH)), so it is empty and bindgen
-then gets passed --target=3D which makes it fail here, with this error
-message:
-```
-bindgen ../rust/bindings/bindings_helper.h --blocklist-type __kernel_s?size=
-_t --blocklist-type __kernel_ptrdiff_t --opaque-type xregs_state --opaque-t=
-ype desc_struct --opaque-type arch_lbr_state --opaque-type local_apic --opa=
-que-type alt_instr --opaque-type x86_msi_data --opaque-type x86_msi_addr_lo=
- --opaque-type kunit_try_catch --opaque-type spinlock --no-doc-comments --b=
-locklist-function __list_.*_report --blocklist-item ARCH_SLAB_MINALIGN --bl=
-ocklist-item ARCH_KMALLOC_MINALIGN --with-derive-custom-struct .*=3DMaybeZe=
-roable --with-derive-custom-union .*=3DMaybeZeroable --rust-target 1.68 --u=
-se-core --with-derive-default --ctypes-prefix ffi --no-layout-tests --no-de=
-bug '.*' --enable-function-attribute-detection -o rust/bindings/bindings_ge=
-nerated.rs -- -Wp,-MMD,rust/bindings/.bindings_generated.rs.d -nostdinc -I.=
-=2E/arch/powerpc/include -I./arch/powerpc/include/generated -I../include -I=
-=2E/include -I../arch/powerpc/include/uapi -I./arch/powerpc/include/generat=
-ed/uapi -I../include/uapi -I./include/generated/uapi -include ../include/li=
-nux/compiler-version.h -include ../include/linux/kconfig.h -include ../incl=
-ude/linux/compiler_types.h -D__KERNEL__ -mbig-endian -m32 -I ../arch/powerp=
-c -fmacro-prefix-map=3D../=3D -std=3Dgnu11 -fshort-wchar -funsigned-char -f=
-no-common -fno-PIE -fno-strict-aliasing -msoft-float -mcpu=3Dpowerpc -mno-p=
-refixed -mno-pcrel -mno-altivec -mno-vsx -mno-mma -fno-asynchronous-unwind-=
-tables -mbig-endian -fno-delete-null-pointer-checks -Os -fno-stack-protecto=
-r -fomit-frame-pointer -ftrivial-auto-var-init=3Dzero -fno-strict-overflow =
--fno-stack-check -fno-builtin-wcslen -Wall -Wextra -Wundef -Werror=3Dimplic=
-it-function-declaration -Werror=3Dimplicit-int -Werror=3Dreturn-type -Werro=
-r=3Dstrict-prototypes -Wno-format-security -Wno-trigraphs -Wno-frame-addres=
-s -Wno-address-of-packed-member -Wmissing-declarations -Wmissing-prototypes=
- -Wframe-larger-than=3D1280 -Wno-main -Wno-dangling-pointer -Wvla-larger-th=
-an=3D1 -Wno-pointer-sign -Wcast-function-type -Wno-array-bounds -Wno-string=
-op-overflow -Wno-alloc-size-larger-than -Wimplicit-fallthrough=3D5 -Werror=
-=3Ddate-time -Werror=3Dincompatible-pointer-types -Werror=3Ddesignated-init=
- -Wenum-conversion -Wunused -Wno-unused-but-set-variable -Wno-unused-const-=
-variable -Wno-packed-not-aligned -Wno-format-overflow -Wno-format-truncatio=
-n -Wno-stringop-truncation -Wno-override-init -Wno-missing-field-initialize=
-rs -Wno-type-limits -Wno-shift-negative-value -Wno-maybe-uninitialized -Wno=
--sign-compare -Wno-unused-parameter -DGCC_PLUGINS -I../rust -Irust -DKBUILD=
-_MODFILE=3D'"rust/bindings_generated"' -DKBUILD_BASENAME=3D'"bindings_gener=
-ated"' -DKBUILD_MODNAME=3D'"bindings_generated"' -D__KBUILD_MODNAME=3Dkmod_=
-bindings_generated -w --target=3D -fno-builtin -D__BINDGEN__ -DMODULE  ; se=
-d -Ei 's/pub const RUST_CONST_HELPER_([a-zA-Z0-9_]*)/pub const /g' rust/bin=
-dings/bindings_generated.rs
-error: unsupported option '-mbig-endian' for target ''
-error: unsupported option '-mcpu=3D' for target ''
-error: unsupported option '-mno-prefixed' for target ''
-error: unsupported option '-mno-pcrel' for target ''
-error: unsupported option '-mno-altivec' for target ''
-error: unsupported option '-mno-vsx' for target ''
-error: unsupported option '-mno-mma' for target ''
-error: unsupported option '-mbig-endian' for target ''
-error: unknown target triple 'unknown'
-panicked at bindgen/ir/context.rs:562:15:
-libclang error; possible causes include:
-- Invalid flag syntax
-- Unrecognized flags
-- Invalid flag arguments
-- File I/O errors
-- Host vs. target architecture mismatch
-If you encounter an error missing from this list, please file an issue or a=
- PR!
-```
+:)
 
-Did this work on PPC64?
+> 
+>> Assume we have the last page of that folio (0x011111111111), we would just
+>> get to the start of that folio by AND-ing with ~(256-1).
+>>
+>> Which case am I ignoring?
+> 
+> IIUC, you are ignoring the actual size of struct page. It is not 1 byte :P
 
-> +
->  # All warnings are inhibited since GCC builds are very experimental,
->  # many GCC warnings are not supported by Clang, they may only appear in
->  # some configurations, with new GCC versions, etc.
-> --=20
-> 2.52.0
->=20
+I thought it wouldn't matter but, yeah, that's it.
 
-With this fixed:
-Reviewed-by: Link Mauve <linkmauve@linkmauve.fr>
-Tested-by: Link Mauve <linkmauve@linkmauve.fr>
+"Align the vmemmap to the maximum folio metadata size" it is.
 
---=20
-Link Mauve
+Then you can explain the situation also alongside 
+MAX_FOLIO_VMEMMAP_ALIGN, and that we expect this to be a power of 2.
+
+-- 
+Cheers,
+
+David
