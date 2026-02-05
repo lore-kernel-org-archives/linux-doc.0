@@ -1,138 +1,227 @@
-Received: from mail98.out.titan.email (mail98.out.titan.email [54.147.227.70])
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010048.outbound.protection.outlook.com [52.101.46.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A6A34F27B
-	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 14:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.147.227.70
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770301186; cv=none; b=d8096NKQt3CC9xxFk0fWJex5RKv2iuIXY1bxhqSzp+Wl9A9ectVav/rhiV8Zs6C7tloCsJWe8H1TZgtCH0/iHIjybDmux2ISCb7A7tOPhVW881zBBzbrDHUb6jK2WCUdUm/DmX7vhBgpuGCjkmgdiOCbWD0e+WyG/+yblzoPkx8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770301186; c=relaxed/simple;
-	bh=FFkpM42UXIxkI5Nwmv9y+uhPbRXJWnNl3wRPQnm452o=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=KCBrqC1+FmY8QkYD2JlmxXt/3jF7uRnayQe4qT6q1XBGHocxBlTh+/yBj+sGE2cyn41xI7gs69Q0z53Blrwlfbps1iFkmji2krNI0BazwsXz536XAQr/gmgxuESLdauUXTYncNdH7LYsjTnyPXzhTtByZvzKx6Ebege6Jq45K+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com; spf=pass smtp.mailfrom=amidevlab.com; dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b=l4GTal8p; arc=none smtp.client-ip=54.147.227.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amidevlab.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amidevlab.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FCF218845;
+	Thu,  5 Feb 2026 14:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770301864; cv=fail; b=coGEKrgqwIFmafuu5kyIm0FObNVqceS/tEt9ei80SyLv4HxRxQcpRAcaTj0eDvzVUp++oK+Me9m6GEf4kuAOA90q6PKxE9+INEfcQT72n7kx6qexTnO9hVMrEYJubWSffQswCA5q89+jYFCZi2dX2u0DzLGbhAjXyxXtpEFb7k0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770301864; c=relaxed/simple;
+	bh=2CHOeT539KpSsqg0RfDx+UajNjNV3t2llxoFH0QMDbQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=J0+fqIbptpjWME6IdvhdNPD+BEkkmpTH+68tF0OwzXszloU+OQPn6viWdeTjbn8DzVwFt6IBM4VGim6HLKgE1Iyeqxigz/tkSbeqt4wFpwEWnIbKXGD2a7BcoIXp0h3ItGTI/vBjds44YB1vzruv+8y1tS0rMkl1eEPvu7+A/9I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=eHkddD8C; arc=fail smtp.client-ip=52.101.46.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amidevlab.com header.i=@amidevlab.com header.b="l4GTal8p"
-Received: from localhost (localhost [127.0.0.1])
-	by smtp-out.flockmail.com (Postfix) with ESMTP id 4f6K3K2hcGz9s24;
-	Thu,  5 Feb 2026 14:14:21 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; bh=JUtYKuQE1F5FBDB9QgY0zbKHLcBV6ijN7dYr4Dbvhio=;
-	c=relaxed/relaxed; d=amidevlab.com;
-	h=mime-version:subject:in-reply-to:message-id:references:to:from:date:cc:from:to:cc:subject:date:message-id:in-reply-to:references:reply-to;
-	q=dns/txt; s=titan1; t=1770300861; v=1;
-	b=l4GTal8pS1vguX7e6DnmAsHavGrlXjYXNmEqHBjjOpFhN685x/MNmC6itha/bvyPDxoDvDaI
-	3DX/2gRmcx0Rsall98THRTWLgixDEgi5GQN5EiZfgX0ozFc4urNgO3cjAC/QfM8K/CIa5tD5erA
-	fUroBOHYjI5OuVzgWuDJ+rKU=
-Received: from smtpclient.apple (unknown [122.172.85.244])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp-out.flockmail.com (Postfix) with ESMTPSA id 4f6K3H2Mtpz9rxY;
-	Thu,  5 Feb 2026 14:14:18 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="eHkddD8C"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EolqKAvfTnEn3rzlNQZIeGsc+4+EMUo90Cemj8+L9xZ0XByys6ajsintZRDuCpMCGxtbaw+4TSkRTGFCO9pNJi0mqUW4KFz9Tt0FoM/RTBul+p+H7zGimmtAnT6H1kTMV+9CRFumxTcQw5tcKtxpbtVpG5R2ayy9noN/vAUKvvz9ULG9E6elnbnJ00+GCPzM34FqFlKPaYC4oWsbZ8XMmlGgtTqWkOcGRJwjTa1hjgqrkHNCgFpfq/KunfXsDvYOB1x7h06MhIHgD5aUigQosycn0Lat70eZr254aKpX2QIafOmqVSVo/0NY8yjh8AUGDLW/mYgHLCtJgaXgO8GC9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+/zdk2ndmGt9gGUI4Y9819rRXu1ejUA9UP6c2xvG4rY=;
+ b=vqkIFpHA/8o6ilCetpwGPQvFiZ/DAZZ3tjAyev2ykwftc7LOqMAsA/0kOb2Qwg50kqZane1Wf6OIvzMcLtwble6FbOAZyu/OtedWDjYDhtFVLiNAmcoIU9qnEgsifrZXqS5dw5KjzLYr0ILyY9kCn/k9Hr/Hg61nEsoclSncF2lQAyDxZ/c3fGwkyRX54dQpoNVQ0AmXFJ6carQO67Cbcran1NIQXEEb1kQIQzRut7Paa4atZU+R6oJM0jcdvhM37TGlAlNJ55oDmooOBEchtoU1koh1EZaIjbIeWYd38Mfg241HQqncHw5xbFLxZMiODg5IsnhoQ0xohnxJ7B3Isg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+/zdk2ndmGt9gGUI4Y9819rRXu1ejUA9UP6c2xvG4rY=;
+ b=eHkddD8C2TQiCXXcSTcmpxIU2unoohVhEpWdEknjmyah5bCphBH/89QxzIoHu6dXUdV5JWVmhLMaxeVNjqibxYyF6t1TL0XoYhs6Vy7y4q6SlQA0Sqx2/9uaDhx+4kpP4V2srbGEmZ6yEk7VydqR9manx/24myUGmchCXnAveC9+WPVz2mNaT8AgXMkpwKltWfpEiOmMxNLxn/0+yFgkXZV5BVCu8+gxSyUBNa1WUj5vA4B4hn4+C/5uVWRPQ90Cssf1mIJyHfXc372oYC1gOwu+qHFMlN/tuomKO/FTfv6oyN7GJCLBAxvIWKGaE6Wdgil9VfHkIOx8LX0mw5bfWA==
+Received: from BN9PR03CA0378.namprd03.prod.outlook.com (2603:10b6:408:f7::23)
+ by BN7PPF34483F4BA.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6cb) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.12; Thu, 5 Feb
+ 2026 14:30:59 +0000
+Received: from BN3PEPF0000B06B.namprd21.prod.outlook.com
+ (2603:10b6:408:f7:cafe::6b) by BN9PR03CA0378.outlook.office365.com
+ (2603:10b6:408:f7::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9587.14 via Frontend Transport; Thu,
+ 5 Feb 2026 14:30:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ BN3PEPF0000B06B.mail.protection.outlook.com (10.167.243.70) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9611.0 via Frontend Transport; Thu, 5 Feb 2026 14:30:59 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 5 Feb
+ 2026 06:30:40 -0800
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Thu, 5 Feb 2026 06:30:40 -0800
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Thu, 5 Feb 2026 06:30:35 -0800
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
+ Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
+	<mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Gal Pressman
+	<gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Shay Drori
+	<shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
+Subject: [PATCH net-next V2 0/7] devlink: add per-port resource support
+Date: Thu, 5 Feb 2026 16:28:26 +0200
+Message-ID: <20260205142833.1727929-1-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH v3] docs: process: maintainer-pgp-guide: update kernel.org
- docs link
-Feedback-ID: :amitabh@amidevlab.com:amidevlab.com:flockmailId
-From: Amitabh <amitabh@amidevlab.com>
-In-Reply-To: <CAMuHMdVdBoXKg-7wDshMRGi05LiCOi62ETYzyV5HFbQXLinK6A@mail.gmail.com>
-Date: Thu, 5 Feb 2026 19:44:05 +0530
-Cc: corbet@lwn.net,
- workflows@vger.kernel.org,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <208E3D71-B2A9-4428-958F-915E6FC95D4F@amidevlab.com>
-References: <20260205115554.7795-1-amitabh@amidevlab.com>
- <CAMuHMdVdBoXKg-7wDshMRGi05LiCOi62ETYzyV5HFbQXLinK6A@mail.gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
-X-F-Verdict: SPFVALID
-X-Titan-Src-Out: 1770300861187473581.13754.8931835535389347760@prod-use1-smtp-out1003.
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.4 cv=aI4Kqa9m c=1 sm=1 tr=0 ts=6984a5bd
-	a=txo+5pS2dMFdB056rU3bsA==:117 a=txo+5pS2dMFdB056rU3bsA==:17
-	a=VwQbUJbxAAAA:8 a=IkcTkHD0fZMA:10 a=CEWIc4RMnpUA:10 a=tBb2bbeoAAAA:8
-	a=4yxl8aT0AAAA:8 a=i4OmGAD0xVQIe_X6LU4A:9 a=QEXdDO2ut3YA:10
-	a=4a-YG245BeQA:10 a=Oj-tNtZlA1e06AYgeCfH:22 a=oCAeEeOuyiZLRzIZmmpZ:22
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B06B:EE_|BN7PPF34483F4BA:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac0283fd-4264-4971-b502-08de64c32e65
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|376014|7416014|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?5/nUr+DONj2vOvsr3Wt9AoD5/mfhPegKYtKoUEoPKRxmK6BDE53P4zH+y2cr?=
+ =?us-ascii?Q?ehpAOWhEn4Z6L0Ui+ILaRi+CgqyjB29akBAvh/aS2OzyPjIC6MmfnBCOOGj5?=
+ =?us-ascii?Q?ue/8X9qHtYfa00oktDmE4Lool7mYGTotR88xfAp9epEbEr+MNfhKtUq8I12o?=
+ =?us-ascii?Q?zLBwmjvGGvOnXO9yGthpsG9m5A4P1iqmZxjqSXSBYuNpL1/27/bInSJA5nuP?=
+ =?us-ascii?Q?iJuQ5EveOV1icqC/MjWV78RAxV4nSCJYYUNMeIZeYRQ+o0lvOG8oOfIuPaZB?=
+ =?us-ascii?Q?GOLs6tvCfcjcS9TLuMok5nKR5xsaDy/qZ2XLESWjFbj5HBXerZJKhsKXLaG3?=
+ =?us-ascii?Q?qHQU9mkwXwDhEvfPEAovuXhBDXJA9TQqM0nXJdECAtG8esTbjPJECyThS2A6?=
+ =?us-ascii?Q?1L/AzcH+TUg2Xkwq+C1rpF5qqXAXLLw4tZvm4YUThd6M2P9/6Sco61Jc2eHT?=
+ =?us-ascii?Q?ic73lHuvib50v149h9535wAS/Qk2Z1A1DEXY31+cxJfEapnfJOjyD2m2VsmP?=
+ =?us-ascii?Q?lxzqhkvQvvg+v9wuIBO3j2E5FcpXmTQsEzro68gZU60a4rrOfOh2rW4LF1RX?=
+ =?us-ascii?Q?VXXgDuarkeEfUwGexwbBUYu/YmG/oSf8XRpKBxrrAKoBrZaIjsENVy4UdPc1?=
+ =?us-ascii?Q?0k9jQ5njRgea2C5IXIGI3UsnTwc0MndAvSq1hsinmjEPQjLh4Y9uyBIIjIG4?=
+ =?us-ascii?Q?/RGIxRa1Qmc+yHERaO5qis+7aQyLYNmj2ir/+e/WuA2QlpAiFPyoGZ6cvgo2?=
+ =?us-ascii?Q?RoiLqvdoB/EbwDo/zt38m/zq3VcDdWctNVndmN/6xCMjGeqp3Qfo8wXRlgQH?=
+ =?us-ascii?Q?66i+5wL8Oc01yL8PzOXSuu8x9sOkL6hkKQ6zM0BhNy8HGwf5S+RVyXMTlzfD?=
+ =?us-ascii?Q?42l3a9awpNjvr/ovZVM4+vE0loxWO/iQIyFJBJaJdWiuWpD9dePSbHJmSwTN?=
+ =?us-ascii?Q?AZ/wK/qbEIWsTzrFHkt8ErQm61cRr6uC93KIK0Zg/PzSat2ZumQfTnm9cQXw?=
+ =?us-ascii?Q?kS/zF/xS3/dV9CCbR6RqtcgYmz2i928y/bs1bQ1/vDL0L5CxEz17vTetx3zt?=
+ =?us-ascii?Q?7Nzw9VuRNYIAWNstE5//VoJxtBEzaGb1VB0jh9C33hOshshpXUo7vU9WmwtG?=
+ =?us-ascii?Q?Uvm3uJ+QheFf6Mg+jqdK/U0awoY53K3Q+y3b9uml6CdMYFP57/Jo37WAxUha?=
+ =?us-ascii?Q?l/zb/yJ3due7YQJthkv79ol/2XKXJNvRqLW5PGaRUY/zqnsscTDbImIbq1XW?=
+ =?us-ascii?Q?KDguql6j7KrCil4yipOlSjYTGiln8Ckb/nOrleHcYs1oLZA/D7UkoPadVApI?=
+ =?us-ascii?Q?YtrGqrB4H6z9y4WKJATykTGlnMFw0ZFdYpHSZGns/5GSeoGa27VcORSgpYPa?=
+ =?us-ascii?Q?WYmqm9+LUoQDpEzYo8JzbtoYNZ1MJf7xvLdXWv0Zzk32sYVsEza4Fl+Tcq4e?=
+ =?us-ascii?Q?oEVcwJnFboEjQVpDg342FCV2kQHOi2xiEtd2biy2spn70phEhJlUOLY3wbuQ?=
+ =?us-ascii?Q?0loYEK2lMUyHWoCBrCnITlAPyI0VPLqGnIR/xPVl66FT8KQqm1d4oG1XDvm9?=
+ =?us-ascii?Q?yaYZ/09rdw7zS5FnVASdElM7ujVoY/kQOdy2DU1AObfKJyor5rCK1HxPs4d4?=
+ =?us-ascii?Q?4fkN9M4Z8mAkHBV7G1YAQ48=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(7416014)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	HchDD9I9ADz5laiLkBNCJrMaMJ5i6dUCid/6Kgm4vcYc4sHOUYHom/9iWNG8wj3LXl/BqiAnGcKlU1i/kLhb/r41guCYbo0RfvJcd5MO7KKbgoIvv74tQEvsuZ9EIkcqvQxEgVblDgFCGx8EQEcakjLVtbBOPLN8nZ/5h0PphQ+Rg5IZGCrNQloZVsQa+dhxUWglvVoshm9Vm4NoW2N6Bg2uirqfEpanNNMNtEt4l7VbcKeH9Ejs05RQCETb+/a5h78xyc6UlUCKx8ALceafUzA9j72xkIP7J1uwF1bdJKcxVspFbye0cN+1JPxExTEzdh3pCVoGIGOtyOAeYAZxGFwk2JOIUIh01SjAUpabMI03LAOZT3oEip6jTF7KWgaluX8RvB/Ix8OvcCfGWaeSO3eWrmlnjtok5fA4nWgkWWdlB9hv4HL99PwFHq9lEsxQ
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Feb 2026 14:30:59.1096
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac0283fd-4264-4971-b502-08de64c32e65
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B06B.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF34483F4BA
 
-Hi Geert,
+Hi,
 
-Hope this clarifies.
+This series adds devlink per-port resource support.
+See detailed description by Or below [1].
 
-> On 5 Feb 2026, at 6:53=E2=80=AFPM, Geert Uytterhoeven =
-<geert@linux-m68k.org> wrote:
->=20
-> Hi Amitabh,
->=20
-> Thanks for your patch!
->=20
-> On Thu, 5 Feb 2026 at 13:09, Amitabh Srivastava =
-<amitabh@amidevlab.com> wrote:
->> Update http link to the documentation about how to add a kernel.org =
-UID to
->> the maintainer's key. Add missing SPDX-License-Identifier to fix a
->> checkpatch warning.
->=20
-> > The first sentence states the obvious, but does not explain the
-> > rationale behind this change.  Why should it be changed?  Both the
-> > old and the new URL work.
+Regards,
+Tariq
 
-> The old URL no longer points to the correct page having mentioned =
-information.
-> [Old URL]: Simply redirects to 'https://korg.docs.kernel.org/', which =
-doesn't have any information on how to add the kernel.org UID to your =
-PGP key.
-> [New URL]: Precisely opens the respective page at the anchor for the =
-respective section 'Adding a kernel.org UID to your PGP key'.
+[1]
+Currently, devlink resources are only available at the device level.
+However, some resources are inherently per-port, such as the maximum
+number of subfunctions (SFs) that can be created on a specific PF port.
+This limitation prevents user space from obtaining accurate per-port
+capacity information.
+This series adds infrastructure for per-port resources in devlink core
+and implements it in the mlx5 driver to expose the max_SFs resource on
+PF devlink ports.
 
->> Signed-off-by: Amitabh Srivastava <amitabh@amidevlab.com>
->=20
->> --- a/Documentation/process/maintainer-pgp-guide.rst
->> +++ b/Documentation/process/maintainer-pgp-guide.rst
->> @@ -1,3 +1,5 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> .. _pgpguide:
->>=20
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
->> @@ -864,7 +866,7 @@ don't already have them)::
->> If you have a kernel.org account, then you should `add the kernel.org
->> UID to your key`_ to make WKD more useful to other kernel developers.
->>=20
->> -.. _`add the kernel.org UID to your key`: =
-https://korg.wiki.kernel.org/userdoc/mail#adding_a_kernelorg_uid_to_your_p=
-gp_key
->> +.. _`add the kernel.org UID to your key`: =
-https://korg.docs.kernel.org/mail.html#adding-a-kernel-org-uid-to-your-pgp=
--key
->>=20
->> Web of Trust (WOT) vs. Trust on First Use (TOFU)
->> ------------------------------------------------
->=20
-> Gr{oetje,eeting}s,
->=20
->                        Geert
->=20
-> --=20
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- =
-geert@linux-m68k.org
->=20
-> In personal conversations with technical people, I call myself a =
-hacker. But
-> when I'm talking to journalists I just say "programmer" or something =
-like that.
->                                -- Linus TorvaldsThanks
+Patch #1 refactors resource functions to be generic
+Patch #2 adds port-level resource registration functions
+Patch #3 adds port resource netlink command
+Patch #4 registers SF resource on PF port representor in mlx5
+Patch #5 adds port resource registration to netdevsim for testing
+Patch #6 adds selftest for devlink port resources
+Patch #7 adds documentation for port-level resources
 
-> Regards
+With this series (and upcoming userspace patches), users can query
+per-port resources:
 
-> Amitabh
+$ devlink port resource show pci/0000:03:00.0/196608
+pci/0000:03:00.0/196608:
+  name max_SFs size 20 unit entry
+
+$ devlink port resource show
+pci/0000:03:00.0/196608:
+  name max_SFs size 20 unit entry
+pci/0000:03:00.1/262144:
+  name max_SFs size 20 unit entry
+
+Userspace patches for iproute2:
+https://github.com/ohartoov/iproute2/tree/port_resource
+
+V2:
+- Skip selftest on old userspace that doesn't have the devlink
+  port resource command.
+- Add link to the userspace patch.
+- Rename internal helper functions to follow kernel __ prefix
+  convention.
+- Split first patch into three logical commits.
+- Change names with "res" to "resource".
+- Change netdevsim test resource to be generic and not with max_sfs.
+- Change "max_sfs" to "max_SFs" in documentation file.
+- V1 link: https://lore.kernel.org/all/20260203071033.1709445-1-tariqt@nvidia.com/
+
+Or Har-Toov (7):
+  devlink: Refactor resource functions to be generic
+  devlink: Add port-level resource registration infrastructure
+  devlink: Add port resource netlink command
+  net/mlx5: Register SF resource on PF port representor
+  netdevsim: Add devlink port resource registration
+  selftest: netdevsim: Add devlink port resource test
+  devlink: Document port-level resources
+
+ Documentation/netlink/specs/devlink.yaml      |  23 ++
+ .../networking/devlink/devlink-resource.rst   |  36 +++
+ .../net/ethernet/mellanox/mlx5/core/devlink.h |   4 +
+ .../mellanox/mlx5/core/esw/devlink_port.c     |  37 +++
+ drivers/net/netdevsim/dev.c                   |  23 +-
+ drivers/net/netdevsim/netdevsim.h             |   4 +
+ include/net/devlink.h                         |   8 +
+ include/uapi/linux/devlink.h                  |   3 +
+ net/devlink/netlink.c                         |   2 +-
+ net/devlink/netlink_gen.c                     |  32 +-
+ net/devlink/netlink_gen.h                     |   6 +-
+ net/devlink/port.c                            |   3 +
+ net/devlink/resource.c                        | 281 ++++++++++++++----
+ .../drivers/net/netdevsim/devlink.sh          |  37 ++-
+ 14 files changed, 441 insertions(+), 58 deletions(-)
+
+
+base-commit: 021718d2cc1a2df2f53b06968fa89280199371bd
+-- 
+2.44.0
+
