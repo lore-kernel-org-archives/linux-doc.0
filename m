@@ -1,114 +1,182 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E232253EF
-	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 13:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844BF284883
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 13:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770298527; cv=none; b=F5J2/vHgx8Sa7y6+GsCDM4R4sokSMVH+W2B22DJg917wytloMG9uhOq/MLAyfo0hhjPucYWVNU3kmEXMbgl9hxwPUw0DFKi0EhHIPafjQpjbPLwTAhG2hgqeceTfLOAzeHFO3utVUcbxpJ90HLaYCHCDBTabXX8jP8bd5Nqu2/4=
+	t=1770299047; cv=none; b=fa6+UqKeuiOfSKr3yBi86us/4o+lScgZqYVZLEZZJ1A1PG7q37qnJvKpV5s3RdmRHNJCDvqLchByeX1CaSvgFI2ifx20lZP3B6sYww13C54wwjAAZaaoS7pn6Um7NGwl+UJrtaAPpDqnU+hD2y0WeHVCfkYCcaCWcCZc52a4EL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770298527; c=relaxed/simple;
-	bh=jzOvnTx/W3vkHXNAXJHl105M+tP5MxGbZjwB0Go0Ag8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KfZkyIGj9FcaF9GTVdXSLHIqxAwVToSGaspmRoYThDOJV7SpQEYRdmqTKRx5Zvl6n/Xuhl4KoOEhEhyB592cvmpNLJQ6LDsV86/ia8xNf507ioZCauRLf+kOHVOCpiPdBSBxO1oQtfzUd9eCW5o7yJqIi76ST7MfFj1VrfmtlxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z0zQcrsZ; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770299047; c=relaxed/simple;
+	bh=zbAqPoMW8uRm4vnv38zuUnwWsFnsj8UNXtCVNmXf7C4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bkb2m+g5se8X6WNxcm18eXY2A2Xzf52/+aWP+aB8l80/+IEIpUdaEsk5o0jgAZoWsmVuVcvk9Vhylw2HnBIv/AarhQU4AGTvd1qmNblthJjGIct360FslQgRv1FUWZhtU8bDOTk+uwMIMJ0b90ziTTBbmvbliT1Hb2f8jlCT8FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6eiX6lz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z0zQcrsZ"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2a94450ae14so5430755ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 05:35:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770298527; x=1770903327; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A/zGx1Gcz5LYgaI/49wFrBfxIvVXqwuQwGCglo5zagk=;
-        b=Z0zQcrsZOEGbb9nIybtiHp6U7eOnD6pKrZiadncsurWJ3rbR1KFSY+y7hC1e380qcV
-         Ua+OnpzT9nBh2bLsOnESD2X77gz6DBY1ySB+pyA6Ou2TWsakxgCJofZB6mHbNQQFi7Jk
-         7TIVNx2801X4gfsSJD8YFvXCdQMN/vEZqcbpIyefMRIjvuXXzbgGDl1JUzhzbE63JXhn
-         oQqIzW5L0HD05BIcE0EoypRUt2Q0L2RcY434AknUOQPaq3TTGcnj4pbeAWDTzkeWkRGp
-         cCwJnoDDR8IPb7E9deMgDRLj5g7o9+N1JvVTOUWaHX724H5B5H0bs3UBlIIdD1B19lL0
-         G8vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770298527; x=1770903327;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=A/zGx1Gcz5LYgaI/49wFrBfxIvVXqwuQwGCglo5zagk=;
-        b=OZNr/99XMamxSETKPIsLp9wC0gVKNBhm6OtOHs6mIcYZ9KQa4PKA5V11tYc6K8DpP5
-         lq/ADT5goNB5Odv5LEMaW7IJKCr1kmf9606//SEr2EldWyszlVYnTn232KFCNHYydEcC
-         9ghMliUZhUbhuRi2c+Ltyj8aSyJtxcQLTr10uiUrH6wY6ZvlEqlgf2TYytVqmQq35VKQ
-         0Ru9rXr6L7+7QLfP8QhoIKCFoj8RdPQn/W1CJatQ5bt2Ykuv1VrTFG9XDmqK2ANsGq13
-         cTGbeQBpIHMRKifeHOv0lGGEEhh9yygKlL7WBgIrubzQX1SkrS5dPpm4W2k0BVNbMjOE
-         z9lw==
-X-Forwarded-Encrypted: i=1; AJvYcCUo5lIel5ZS4GjiJ5T8iD7yXzjrCANuzGE0EFUgi3ep7JQGdPKLili3ODZZ7F//pWHDkl+4HP0b6ow=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVjHXj8AmoQP2Ri20gAhrCVVA2M+lFXk+i03TQKasi8wLJ28cD
-	pSgNt/dTUrU1/pf1sOmf+3ARMcPAdL2z/RWTdPqq95RfKZl/6yemzowd
-X-Gm-Gg: AZuq6aIr9kL7zdy17yRb7HlJWj4pGGG4cQqkgksDcFDzhJQTfexp4Zae+secpsb7JK1
-	99Ihb2JdiycAojOm9AftD7D31JXpcfARR3cy3ecihpu7Ahwp4wKFEYaloeMWoKITUpzaDUjaDpr
-	5WvXmyqgydc/8F6bHpGAwpGCcaBKaInG5hE0/1F1wCEKBv2LVKT0CubHQAtnrinFyJqnoKqSfQO
-	Z8QJPx+Z3aSeM8TiUeuuTvjXLhZG1fCnwSSXx5M5hbzPKcjEFzNQP3oJO9kvwrUi9M7qsqJ9mNJ
-	YWn/hDTLZi2UWgoZdUUv5nz6FBfwpcqc3yreBLi8USojGdvZE6+mp8ydygEyehB/69zuJkQSA5V
-	5Nt25T3Qt8Oigm6iVRoMZaMxG5dsh9uKeWuQikvV2+QptDLh6NhEvNfTjT56F+QQMiKiU4KmWwQ
-	LzwdH+dr4=
-X-Received: by 2002:a17:902:f684:b0:2a0:acca:f3f0 with SMTP id d9443c01a7336-2a93400c9damr78505625ad.49.1770298526798;
-        Thu, 05 Feb 2026 05:35:26 -0800 (PST)
-Received: from [127.0.1.1] ([218.32.81.133])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a933850f41sm57760505ad.7.2026.02.05.05.35.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 05:35:26 -0800 (PST)
-From: Colin Huang <u8813345@gmail.com>
-Date: Thu, 05 Feb 2026 21:34:37 +0800
-Subject: [PATCH 3/3] docs: hwmon: Add Q54SN120A1 and Q54SW120A7 to index
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6eiX6lz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F175C16AAE;
+	Thu,  5 Feb 2026 13:44:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770299047;
+	bh=zbAqPoMW8uRm4vnv38zuUnwWsFnsj8UNXtCVNmXf7C4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J6eiX6lzbwi3mcjWTLjOR9hgujeNI51sOYc0ooy0Mi4x7K9F8hAUDeeHzKbynrFn9
+	 kRGp+YJO1sZleB6zcJVAYCc1dOWZMTP6KVx/17TKAL4r3B7shQy7wMRQ2Kz2kx4pIA
+	 UCFlHD1snGZk4Qt5doDftxIBkgzBt8Gnc6m3r5Pz11COTZDAjKNiacUv1NwhCPAU7t
+	 uOGg/15FZBbvs5jNQfxXHOIRzO1lvRXi+7EAwXM839tx37Ul+D5NCbibqg9Hj58qoc
+	 J32wQHETLbxMyiaAf+aaFU66WP5HRaVGi1KX7PaM9SMZU+KU6fPuNMf3BenMSRl74Y
+	 0Ciu0j6Wi5/Mg==
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 86159F4006B;
+	Thu,  5 Feb 2026 08:44:05 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Thu, 05 Feb 2026 08:44:05 -0500
+X-ME-Sender: <xms:pZ6EaSwZIqcQbi3eSr2YeSyNY4soW7jIrW7KmxqFCodpBsJhmMqIng>
+    <xme:pZ6EaR_6UL-HGKaU9kn078cFaH47RcIX-KhAhlp-s0QPg22Tvt0mBeORnm4DgAasp
+    a900ohlCLT7uvqL5JOucndpSFZmzDKToYeC13QOxu3CJbz9yRWFf_1A>
+X-ME-Received: <xmr:pZ6EafZmGKOvZwxi9DHeE6Y2VFHt1kmMw83NW8vMrNwYQ9lhbGY2CIFNR5dleg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukeehgeehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefmihhrhihl
+    ucfuhhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtth
+    gvrhhnpeeludettdeigfefhffhhfelveeludeuleduvefhgefgueeitedtleffudegfffg
+    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkih
+    hrihhllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieeh
+    hedqvdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovh
+    drnhgrmhgvpdhnsggprhgtphhtthhopeehgedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghkphhmsehlih
+    hnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehmuhgthhhunhdrshho
+    nhhgsehlihhnuhigrdguvghvpdhrtghpthhtohepfihilhhlhiesihhnfhhrrgguvggrug
+    drohhrghdprhgtphhtthhopehushgrmhgrrghrihhfieegvdesghhmrghilhdrtghomhdp
+    rhgtphhtthhopehfvhgulhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepohhsrghlvh
+    grughorhesshhushgvrdguvgdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepvhgsrggskhgrsehsuhhsvgdrtgii
+X-ME-Proxy: <xmx:pZ6EaV-6JVghQKxYV_55hxtxUr4iQA-30PgRWCcUY9Xf7uhmyhO0Lg>
+    <xmx:pZ6EaZjRTUOTpn-mSaE2tDB2ylLW_8-qfcbK_oEpeURhBS7Ej8EW0g>
+    <xmx:pZ6EaVlVwycuCa55s_M8An0K5sVkf5dS5d_JRAvkWPk7p2-WBE0hZQ>
+    <xmx:pZ6EaWCl7a_Al3zWzIrd-nfqWzXQPB4PFdHAg5OpAt3vK9Z9oYlT3w>
+    <xmx:pZ6EacOAkLoPSQQtH2x-RFqLuZSXT0NwgUCuBq8jTs4nTH97CVjwbWAA>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 Feb 2026 08:44:03 -0500 (EST)
+Date: Thu, 5 Feb 2026 13:43:58 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
+	Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>, 
+	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
+	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCHv6 06/17] LoongArch/mm: Align vmemmap to maximal folio size
+Message-ID: <aYSdW2YaJdpgXYos@thinkstation>
+References: <20260202155634.650837-1-kas@kernel.org>
+ <20260202155634.650837-7-kas@kernel.org>
+ <2ce0e684-de54-43ec-be7d-c58bbffb3f4e@kernel.org>
+ <062900fa-6419-4748-81d1-9128ce6c46d0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260205-add-q54sn120a1-q54q54sw120a7-v1-3-09061ecacfc7@gmail.com>
-References: <20260205-add-q54sn120a1-q54q54sw120a7-v1-0-09061ecacfc7@gmail.com>
-In-Reply-To: <20260205-add-q54sn120a1-q54q54sw120a7-v1-0-09061ecacfc7@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Colin.Huang2@amd.com, 
- Carl.Lee@amd.com, Peter.Shen@amd.com, Colin Huang <u8813345@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1770298516; l=603;
- i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
- bh=jzOvnTx/W3vkHXNAXJHl105M+tP5MxGbZjwB0Go0Ag8=;
- b=SQRmAR2FLHCMb2rc5Nq3fpB7zsG3L9iKsSUN6Bj2NcQ6ClR//eQEXcGw1gRqY5Phiz4QQTBev
- 3rcl1hD0x0GAhH53lF2v1blOC5n0K0QbHSKxsI2YCrS8wM2TKFVoYqk
-X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
- pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <062900fa-6419-4748-81d1-9128ce6c46d0@kernel.org>
 
-Add the Delta Q54SN120A1 and Q54SW120A7 PMBus modules to the hwmon
-driver index.
+On Thu, Feb 05, 2026 at 01:56:36PM +0100, David Hildenbrand (Arm) wrote:
+> On 2/4/26 17:56, David Hildenbrand (arm) wrote:
+> > On 2/2/26 16:56, Kiryl Shutsemau wrote:
+> > > The upcoming change to the HugeTLB vmemmap optimization (HVO) requires
+> > > struct pages of the head page to be naturally aligned with regard to the
+> > > folio size.
+> > > 
+> > > Align vmemmap to MAX_FOLIO_NR_PAGES.
+> > > 
+> > > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> > > ---
+> > >   arch/loongarch/include/asm/pgtable.h | 3 ++-
+> > >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/
+> > > include/asm/pgtable.h
+> > > index c33b3bcb733e..f9416acb9156 100644
+> > > --- a/arch/loongarch/include/asm/pgtable.h
+> > > +++ b/arch/loongarch/include/asm/pgtable.h
+> > > @@ -113,7 +113,8 @@ extern unsigned long empty_zero_page[PAGE_SIZE /
+> > > sizeof(unsigned long)];
+> > >        min(PTRS_PER_PGD * PTRS_PER_PUD * PTRS_PER_PMD * PTRS_PER_PTE
+> > > * PAGE_SIZE, (1UL << cpu_vabits) / 2) - PMD_SIZE - VMEMMAP_SIZE -
+> > > KFENCE_AREA_SIZE)
+> > >   #endif
+> > > -#define vmemmap        ((struct page *)((VMALLOC_END + PMD_SIZE) &
+> > > PMD_MASK))
+> > > +#define VMEMMAP_ALIGN    max(PMD_SIZE, MAX_FOLIO_NR_PAGES *
+> > > sizeof(struct page))
+> > > +#define vmemmap        ((struct page *)(ALIGN(VMALLOC_END,
+> > > VMEMMAP_ALIGN)))
+> > 
+> > 
+> > Same comment, the "MAX_FOLIO_NR_PAGES * sizeof(struct page)" is just
+> > black magic here
+> > and the description of the situation is wrong.
+> > 
+> > Maybe you want to pull the magic "MAX_FOLIO_NR_PAGES * sizeof(struct
+> > page)" into the core and call it
+> > 
+> > #define MAX_FOLIO_VMEMMAP_ALIGN    (MAX_FOLIO_NR_PAGES * sizeof(struct
+> > page))
+> > 
+> > But then special case it base on (a) HVO being configured in an (b) HVO
+> > being possible
+> > 
+> > #ifdef HUGETLB_PAGE_OPTIMIZE_VMEMMAP && is_power_of_2(sizeof(struct page)
+> > /* A very helpful comment explaining the situation. */
+> > #define MAX_FOLIO_VMEMMAP_ALIGN    (MAX_FOLIO_NR_PAGES * sizeof(struct
+> > page))
+> > #else
+> > #define MAX_FOLIO_VMEMMAP_ALIGN    0
+> > #endif
+> > 
+> > Something like that.
+> > 
+> 
+> Thinking about this ...
+> 
+> the vmemmap start is always struct-page-aligned. Otherwise we'd be in
+> trouble already.
+> 
+> Isn't it then sufficient to just align the start to MAX_FOLIO_NR_PAGES?
+> 
+> Let's assume sizeof(struct page) == 64 and MAX_FOLIO_NR_PAGES = 512 for
+> simplicity.
+> 
+> vmemmap start would be multiples of 512 (0x0010000000).
+> 
+> 512, 1024, 1536, 2048 ...
+> 
+> Assume we have an 256-pages folio at 1536+256 = 0x111000000
 
-Signed-off-by: Colin Huang <u8813345@gmail.com>
----
- Documentation/hwmon/index.rst | 2 ++
- 1 file changed, 2 insertions(+)
+s/0x/0b/, but okay.
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 85d7a686883e..62d6fc0817eb 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -216,6 +216,8 @@ Hardware Monitoring Kernel Drivers
-    pxe1610
-    pwm-fan
-    q54sj108a2
-+   q54sn120a1
-+   q54sw120a7
-    qnap-mcu-hwmon
-    raspberrypi-hwmon
-    sa67
+> Assume we have the last page of that folio (0x011111111111), we would just
+> get to the start of that folio by AND-ing with ~(256-1).
+> 
+> Which case am I ignoring?
+
+IIUC, you are ignoring the actual size of struct page. It is not 1 byte :P
+
+The last page of this 256-page folio is at 1536+256 + (64 * 255) which
+is 0b100011011000000. There's no mask that you can AND that gets you to
+0b11100000000.
 
 -- 
-2.34.1
-
+  Kiryl Shutsemau / Kirill A. Shutemov
