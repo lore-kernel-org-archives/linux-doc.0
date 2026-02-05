@@ -1,108 +1,133 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090AF423156;
-	Thu,  5 Feb 2026 15:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496443E8C51;
+	Thu,  5 Feb 2026 15:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770305406; cv=none; b=NAjz5WIUz135DwKN+RLE+qo2OnzzL5tOnba7JbCNVzg9f/t1yIZHg0GS/CT5JFuwzGs8DUeveQEKKXOVfEJ5jJWQ3XlcacCYPXIxywC+qZLr5b5MFSK7DnP0Uqm9UWA1hwSj0GwE1RTr2DZid+mAcdHNc+ValUFw7mkHwU1QgKw=
+	t=1770305589; cv=none; b=topdOd64QHXC6E9WJkRyPM+GgGXOROxadyxyc6laWdqJMEtKQbsXLdxKaxk5K+yCrKteYZYMGwUODIR+PgcvIvu7jTMr3PV6h8DP9TcWqf6YxW2WxC08AHiDYVJ0EcYGeYm7fUvM4TzDYzMZIVlmK64sijVHacGF/QHdQLEo7DM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770305406; c=relaxed/simple;
-	bh=fZ2xlxnXLiw/h5Vlzzv1Q/V+SjQSkj17RTsLJRoAuU4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uHbZJ3fMpyAfAZQS08s6wujQ3aALhv6HgIaud+lKPJ2y9LFTK1rys0noPl4LgjPPgzGHoZZ1dsCarACJx5rSpssFfzJwYv8rPi7fZcDq+u6MGYPCQDxmLuQd48IbCCQ6D+4Y5xbesyr8G7QcZXldAVSPQYJjbIJfm28LH+7x890=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jT9lmIiS; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1770305589; c=relaxed/simple;
+	bh=d/ARjMgSP9G3NH4cyP+2JNA1MGSoHi33QTSADO5xKvU=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=g5AGMeT0jG1lPS/MOpBNzDcidLQ6+rX9Snxh7VSOYYPQOkUj5MaB63/EEOaDYjUmMjHO3tAs4vXQAHZ4BvVhjO9a7j+2vBxIlnyzBsPOzkJdtv5+0gYaf6mwbT78ZBXfsdX6XeAkHLsGfMMeUXqhGN1/FTrmqcVPgKnoRGtAWMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=brUCCggK; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jT9lmIiS"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2D2F940423
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1770305405; bh=wn/A4B0zgT1iPFcsMuZLEzI5PhZCTF66+607UcUmVvs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jT9lmIiScm/1YC82RwKYOP9RvOi7plkZyz51r617RrgrPNgDFRFLAYTJ70c93G7Rf
-	 11B5dLbg+P8zi/t4dCo8maI+AV6fA0c3210dmzkDSNTUqmNEHIJVegjINAaR4VA0Mp
-	 t+dLgdoqS3hdsvqQZiNVAFMIGgpqWjM0PCiNjWWBepp/8E/Lg+POlDrMJh9oKGg9rj
-	 zTXQ/wtQZ43sZaPHNX3AL+lAG3BQuvJHFvcWABMXsm82aKkgHBzGqFh3HoIxysPtAq
-	 p+i34MvvZ5EHvV5HwkhRJBEQiS3GoY1464n2+MwW1MiS3hNOhw18NX9k7JlEuKaRKF
-	 +rWQxSh+CXv6g==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2D2F940423;
-	Thu,  5 Feb 2026 15:30:05 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Amitabh <amitabh@amidevlab.com>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] docs: process: maintainer-pgp-guide: update
- kernel.org docs link
-In-Reply-To: <E285CDA1-776F-44AF-9C6D-AB43F4EC5054@amidevlab.com>
-References: <20260205115554.7795-1-amitabh@amidevlab.com>
- <875x8bi6su.fsf@trenco.lwn.net>
- <E285CDA1-776F-44AF-9C6D-AB43F4EC5054@amidevlab.com>
-Date: Thu, 05 Feb 2026 08:30:04 -0700
-Message-ID: <87sebfgqdf.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="brUCCggK"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id AEE6D267E6;
+	Thu,  5 Feb 2026 16:32:59 +0100 (CET)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id SU4LjUO_09gW; Thu,  5 Feb 2026 16:32:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1770305579; bh=d/ARjMgSP9G3NH4cyP+2JNA1MGSoHi33QTSADO5xKvU=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To;
+	b=brUCCggKgzGG2eNnDc1T6EUWCHaax+pAh8pB1BwkFnmuIDMARX++5ODah3INRlgiR
+	 f331TSaZ/H9w6Bt3+4K8CIsWFb/wSeIve10yAmp+vnucHfqHslmoLq8hs9tkyH5fUl
+	 d1E7H0wUjrTujU2pZmCgVuDlTxKrV+BstniJrH/wr59Z6fdwokOyysn67W6oBBh9va
+	 GrkD5/2tlC+Rca16Yq3YL/rI1sg20I2gn7kSJgPEK3Zqr2pGzwiqR+RyBw74vtUiye
+	 3jGaaupHcjyMIvo86AlYcKN3v9XSHVP6+Tfg+ZxPyBBUUMLBLKU57KqYWj+GWk2kXQ
+	 szIlacAlk2Lgg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Feb 2026 21:02:41 +0530
+Message-Id: <DG74Y3QSCLIO.32Q8ZKCTISXXB@disroot.org>
+Cc: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
+From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
+To: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, "Kaustabh
+ Chakraborty" <kauschluss@disroot.org>, "Lee Jones" <lee@kernel.org>, "Pavel
+ Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "MyungJoo Ham" <myungjoo.ham@samsung.com>, "Chanwoo Choi"
+ <cw00.choi@samsung.com>, "Sebastian Reichel" <sre@kernel.org>, "Krzysztof
+ Kozlowski" <krzk@kernel.org>, "Alexandre Belloni"
+ <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
+ Khan" <skhan@linuxfoundation.org>
+References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
+ <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
+ <69e2c1b1a2f3d2ed5e5da995cc5ee49bb3627597.camel@linaro.org>
+In-Reply-To: <69e2c1b1a2f3d2ed5e5da995cc5ee49bb3627597.camel@linaro.org>
 
-Amitabh <amitabh@amidevlab.com> writes:
-
-> Hi Jon,
+On 2026-02-04 15:23 +00:00, Andr=C3=A9 Draszik wrote:
+> Hi,
 >
->> On 5 Feb 2026, at 8:19=E2=80=AFPM, Jonathan Corbet <corbet@lwn.net> wrot=
-e:
+> On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
+>> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Micro
+>> USB Interface Controller), and flash and RGB LED controllers.
 >>=20
->> Amitabh Srivastava <amitabh@amidevlab.com> writes:
+>> S2MU005's interrupt registers can be properly divided into three regmap
+>> IRQ chips, one each for the charger, flash LEDs, and the MUIC.
 >>=20
->>> Update http link to the documentation about how to add a kernel.org UID=
- to
->>> the maintainer's key. Add missing SPDX-License-Identifier to fix a
->>> checkpatch warning.
->>>=20
->>> Signed-off-by: Amitabh Srivastava <amitabh@amidevlab.com>
->>> ---
->>> Documentation/process/maintainer-pgp-guide.rst | 4 +++-
->>> 1 file changed, 3 insertions(+), 1 deletion(-)
->>>=20
->>> diff --git a/Documentation/process/maintainer-pgp-guide.rst b/Documenta=
-tion/process/maintainer-pgp-guide.rst
->>> index b6919bf606c3..1e4d885dc784 100644
->>> --- a/Documentation/process/maintainer-pgp-guide.rst
->>> +++ b/Documentation/process/maintainer-pgp-guide.rst
->>> @@ -1,3 +1,5 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +
+>> Add initial support for S2MU005 in the PMIC driver, along with it's thre=
+e
+>> interrupt chips.
 >>=20
->> Do you know that was the intended license for this file?  We need to be
->> careful about putting license declarations on other people's work.
+>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+>> ---
+>> =C2=A0drivers/mfd/sec-common.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16 ++
+>> =C2=A0drivers/mfd/sec-i2c.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 12 ++
+>> =C2=A0drivers/mfd/sec-irq.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 74 ++++++++
+>> =C2=A0include/linux/mfd/samsung/core.h=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1=
+ +
+>> =C2=A0include/linux/mfd/samsung/irq.h=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 66=
+ ++++++++
+>> =C2=A0include/linux/mfd/samsung/s2mu005.h | 328 ++++++++++++++++++++++++=
+++++++++++++
+>> =C2=A06 files changed, 497 insertions(+)
 >>=20
-> Yes, The Linux kernel documentation is typically licensed under GPL-2.0.
 
-I am aware of kernel documentation practices :)  "Typically licensed"
-does not tell you what any individual contributor intended, though.
-*Probably* that tag is OK, but you should really consult with the
-original author of that page to ask what their intent was.
+[...]
 
-> Other files in the directory contain the same 'SPDX-License-Identifier' a=
-s well.
-> However, I have added this just to satisfy checkpatch.pl requirement, whi=
-ch
-> checks for missing license information in documentation files. Let me kno=
-w if
-> you think otherwise.
+>> diff --git a/drivers/mfd/sec-i2c.c b/drivers/mfd/sec-i2c.c
+>> index 3132b849b4bc4..3f1d70cc3292b 100644
+>> --- a/drivers/mfd/sec-i2c.c
+>> +++ b/drivers/mfd/sec-i2c.c
+>> @@ -17,6 +17,7 @@
+>> =C2=A0#include <linux/mfd/samsung/s2mps14.h>
+>> =C2=A0#include <linux/mfd/samsung/s2mps15.h>
+>> =C2=A0#include <linux/mfd/samsung/s2mpu02.h>
+>> +#include <linux/mfd/samsung/s2mu005.h>
+>> =C2=A0#include <linux/mfd/samsung/s5m8767.h>
+>> =C2=A0#include <linux/mod_devicetable.h>
+>> =C2=A0#include <linux/module.h>
+>> @@ -130,6 +131,11 @@ static const struct regmap_config s2mpu05_regmap_co=
+nfig =3D {
+>> =C2=A0	.val_bits =3D 8,
+>> =C2=A0};
+>> =C2=A0
+>> +static const struct regmap_config s2mu005_regmap_config =3D {
+>> +	.reg_bits =3D 8,
+>> +	.val_bits =3D 8,
+>> +};
+>
+> No cache? And what is the .max_register value?
+>
 
-Checkpatch makes suggestions, not requirements.  All files in the kernel
-should have SPDX lines, but they need to be the correct ones, not just
-somebody's guess.
+This was in the previous revision, but I ended up removing it because
+(at least I thought at that time) interfered with interrupts firing in
+some way. The actual issue was unrelated, so I will add it back.
 
-Thanks,
+However, there is also another thing I see in logs:
 
-jon
+sec-pmic-i2c 2-003d: using zero-initialized flat cache, this may cause unex=
+pected behavior
+
+This is due to REGCACHE_FLAT, I am not sure if I should just ignore
+this.
