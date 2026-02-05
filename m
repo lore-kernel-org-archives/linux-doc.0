@@ -1,276 +1,246 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012048.outbound.protection.outlook.com [52.101.48.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D417352FAC;
-	Wed,  4 Feb 2026 23:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43E71E5B73
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 00:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770248534; cv=fail; b=d/+A3fQ8GpMcnpWTTUClOIkG6djyegx97I2uHHI9scnfeoxAShICUdjialZJd6LM/69VRercLtqK/fdq4zkIW6ymz4Ci1/MUUa3Iz0QAGqTU7mZi5Vl3mo7D9Do+qY+f5A1BtYdGhMcjoM5uTnTVWVFowm15neEy2lZNOoGyxi0=
+	t=1770252147; cv=pass; b=LPQalQBz9bu6SihH3ZnPp3nDYIDvNn1kiw8l0ruO+r6z9qFpvqoo1QKNA+roZl4jQnbJf1muIeK9YYUd6HjHU55wJtsLqnI0fxWrdzB7K4EiTqeO0dAbNX4dULDDNN62YABSurwkOp3FwdIgf2sOfiOzKX6lxkD2TfNyRgYAfBQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770248534; c=relaxed/simple;
-	bh=9WW8NiqXmk5apls6PJ9Zpzz7+zkwXO83VP0rczQhzus=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mVzw/FlYpINrEgEVD2e3qRny8ddxi70uE6HqgyMzIhu804yES2/7At9Tx/0Bkm96pA3YJveh7JKNXlPfSyvkLhPh2zEavTzPnKMGiQZdpM+o8QasprtnPpiLXbPAMWVFo9XXUgR8o9ijFX9dHwrJpY4Wa0Vlguy9IcotOj0x20k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Q6HQLuVs; arc=fail smtp.client-ip=52.101.48.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1770252147; c=relaxed/simple;
+	bh=Ow7r61Ujx6Fwtsev9bVFnpw1yXZnUtB5DPBVgBvAnEE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Pt37OfD8L5l9yMKBwvPqgAIWGCWqD8O3eyx+7aMg4byjZvxJsc7nZPgAWaxMI2kSRVn3MUtgK5VcpusY/uui8TdRlzhQLlpKoYrC8QQwqxlk3nfLUZx0QSxTWoVhiS3zmlsnLFnQYfYxmKhj07v6tXuX+6/HIYe5xbV+8Xpddks=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wZEriRCj; arc=pass smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Q6HQLuVs"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tv8p4tBeMcCYY1o9BHFe/MnGByHQpCCDVIoz5BelG/euQzy2CmFY4dFZ4Z1pdBTrwHkWkBp7OKqmscDp+HLivv2rQQCx29gA/sL27kj5Hgz0OKwYDGaN8aIxFdjYFUDnfCJ3CiPxQVWQKOnSOtG32UB0Ub8COxF3ZRTQWeE6DwjqPZP9F0c2hbsPJXUUJm+x6AqVGzrN8ptqAWLUMUkOvNxqEg6NwfPX/+JdzAzEiUQBaqkjwXAaY6CBdzD/Hy/M3fnmjhHdrCsQgSK5IZuuroc+W49xWotm8l3Vgq14MlS2QDeOm99JeaWyi2FU8eBVmrhrHluVody5q7GcMStT8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oKo2tnyMCjGfFmxloIQkBh9Ziq9EQEMQ+dPG8GwYeGE=;
- b=kI4XntVQeJEZsT0zJV2241PTT3uU/k2HB1LIYuV54M4LQjCn/Umb47Z2FVbvF4AX6qJ0dWKUuomQdzcU2XdDMl2DEkti72cmFRXuP+QiiQFN/hOzca67gec6A9zERRW+iLRF3TukAalmBdhTlfblCxVKUh/th8pZP4w5avmrnOdNtQpEuJB9CkyKOLjaOknpKWCczV/MWnDMB84WP3jVHvP6q5RFpqj9nZL+nC0JdjRyeOm+X1uzmLtOMu2Tp2ZfHCVEpCVI9dtoQjRWYTUqeGHaoOlx8bAc/tGFsPedUyldazQOL82OI5BB6zg2gRAv+r/tn6D2SXwvwdkPrwC7gQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oKo2tnyMCjGfFmxloIQkBh9Ziq9EQEMQ+dPG8GwYeGE=;
- b=Q6HQLuVsQCm7fj/eBFTHSMcIBHhlKlmbqPHXOnAciSaBaJPMqfLvlSvoyYwahpoqQc2XX7v0U3wBR4t4uMnYZj1ACO35G2sCB8FiH/sBhQwZfPifo+RskdbDpb/0yo/c5f4HgMzlCjx4BN6HkBTY/GE//LCKUaaUSEaEyPw/RgnQbaXHED8SQbg8GXOSP5SY7QjON7TxV5gFYYge/gH0Fz//QAgaxO31FcB8nHMf2tFQv53bRhw/HtA4gVcRfdOxAf3f78nbmS9KIWlg5Xj9CWPLDACBE4DacE+af8foMys4puyCU2YPevK8SweO7j3pK0bEhHKr2PRGywlJQC0hyw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- CY8PR12MB7537.namprd12.prod.outlook.com (2603:10b6:930:94::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9587.13; Wed, 4 Feb 2026 23:42:10 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9587.010; Wed, 4 Feb 2026
- 23:42:10 +0000
-Message-ID: <e5938ebf-c888-4af0-ad0b-66f983ed0dfe@nvidia.com>
-Date: Wed, 4 Feb 2026 18:42:04 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v6 05/26] nova-core: mm: Add support to use PRAMIN
- windows to write to VRAM
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Dave Airlie <airlied@gmail.com>
-Cc: John Hubbard <jhubbard@nvidia.com>, Danilo Krummrich <dakr@kernel.org>,
- Zhi Wang <zhiw@nvidia.com>, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- Alex Deucher <alexander.deucher@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Rui Huang <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alice Ryhl <aliceryhl@google.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, Alistair Popple <apopple@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
- Andy Ritger <aritger@nvidia.com>, Alexey Ivanov <alexeyi@nvidia.com>,
- Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <97af2d85-a905-44d4-951f-e56a40f4312e@nvidia.com>
- <20260130015901.GA301119@joelbox2>
- <c064fbdc-9202-437d-80ff-6134d2a33778@nvidia.com>
- <70d88203-2fe1-4bde-b254-51e8107744eb@nvidia.com>
- <CAPM=9twm1x9rH==uoGQLYa8b4feQMz=Ne14WPuhCPy9_H1u5Tw@mail.gmail.com>
- <a50c9e31-a182-4ed7-837c-4a12d220c022@amd.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <a50c9e31-a182-4ed7-837c-4a12d220c022@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAPR05CA0027.namprd05.prod.outlook.com
- (2603:10b6:208:335::7) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wZEriRCj"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-65821afe680so2421a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Feb 2026 16:42:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770252145; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SOU+an/1Y11gPG9VIVT2D3pG3Z4PYqRR5GJo3cS4mFnpm0GQEoEQGjkO7aXJqj6mZC
+         +XnwZEJReAOsATPvqp2d25dCkeGExRaljHKtCRku+4IIU0bqElLFyx7yFhXlgpElLHt7
+         JwTvVG6Y/Vvv9OkRDkJI35FrVTFS3DMXvdu62t+GWakW/B63kgZ0XOuAQ7TzO34wIIbK
+         ffrHpPuWGJQCaJNQ4P+A23ruc2/qMDLmydbphm1FHo3P6iqzLwFdCN6R/7F6wfG/As50
+         TSL2SAllcCMBr3x9dSr4+fJeHNU8vr1P0UDyAGa+s99n7JLpHOh2BW7TMab7jPvZhHG8
+         av2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VlDrMcmalHLovHdz8eEZBmrC943QEAplMoC4h6ttO+8=;
+        fh=DQYyQyB7CjgV/1g68JilSM7q4lvENyCB2vMKNXLU57Y=;
+        b=OTFtLyRXA8zuXpY2BzV3Z2VcNjZ9xiN5nKUDpBlEadASKmlkHRq+qb68LLnBCP7y7K
+         4Ueqe7I1GP8R/Y71Xf94PqRikOXZ7ZFUTotuv85zWAes/2UtchCHkXZxE8D98MPi3OLG
+         c06G5EwoenGgZZN4pRjj1zbodM5/acc86qs7PELD1XVSW+cA2BTkzUt2YLhlWNcOZvIk
+         2glUQuc2Kt1uhWHqlUvNM6ABS/P6lWP1FldKtpbbXsdKvPjMHIylzkcua+bewLdYHRZg
+         3BZTjxr4kNz5YQkrO5CqWkn1Rw3ZxANtV5o39By6gSIq8miP8rqx5H4AON+o0B5Cu7BD
+         gfaA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770252145; x=1770856945; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VlDrMcmalHLovHdz8eEZBmrC943QEAplMoC4h6ttO+8=;
+        b=wZEriRCjDzYAfqVgNYog+pKLyAT6ZsKdSxkkzrciJH51y2oQUal0uzZs8GEjzO0TJ/
+         bPSN0Hfar6apX5DKOrcvPdXq/XBhapoqDE0Tdo8xdhEhBfNBlUMLzK+gwAGyRhNhrPWM
+         YjKaJieHX0qjSz+yeARUB20l+0XtHqtFloEkK+jW5Bug4hYZ0WRl8jYAyEQQef5hAhvG
+         BT1TFlW06bSbGUecIgiozyyodCu6xw0rP4yeTcmbQIH5KyRQcxVoBVSC2hoMouwDMA8e
+         TMqcFt3Oaf1q5MaEKKpzRloTrzhh/mHw6TVj0lRmh01BuEMZ59Av3duQ4mcCG0VZhGyM
+         bwDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770252145; x=1770856945;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=VlDrMcmalHLovHdz8eEZBmrC943QEAplMoC4h6ttO+8=;
+        b=F8NQ0pZFSy0YH3HBG10+hPxpmOjwJCh2zGFjEfPcMAnJTdNdAzQsbTzkSzkslquwbG
+         mz4SVN95o1x45j3w8gEHmy3I+sYVO3rzFbakQfDN85OKcSdil/U1ahdo/N9tancDTli2
+         +enhDSAGJDxICuRYP5Flf9pYmTU0S2DZZ53KkXBTbjIeRW5RZtUiVkuYSUOElbjA+8yh
+         7ZmKFKbqPqyxSBwLsZEoffR7ys6o1HLYMW3cXFs8QUfSX5XMTQgSVcARyKt2RVyhfQfd
+         2prELnWkSQDRQVJkGXrAFsbW5U/J7/ReKjNlRGqbDBofLnm2iRRmdlnec4ABO5qxRjkd
+         LAAw==
+X-Forwarded-Encrypted: i=1; AJvYcCUC1QTV/7YEpHCgE2me9UnkkBMLuMtK9ZRqb3SuUtzt3FY3MDw9n3euGvdkOgP/4VTh2xwy7CSUjic=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyH1eddCxQRdz8nCONV2fahn2w7bq9aggOSKnOjlxDCUu3kNxtm
+	bSPy6pbNS/m2anW/W2knJIxfRX2TO8OoQ1owyGunqc/mGkaz8T/EOSlclN6NFvr4zQ+qOA/XDUI
+	5BjLao91OnWmdvZ1kyiEnCr4lpbiKOO7A5S1ulMVr
+X-Gm-Gg: AZuq6aJAeKqrWNgMBpJ3tx6VMAomcXLVrSIKL7ZpFYtkznLcjmNHQXcWp3orbEp5y6r
+	U7w1rpM4LkARIuYpGV/JKcBkVR8DbjgtnEQckMTS6NZAHzBApGLuGs+0ZaSJF/0bPMw0NAfiOwb
+	ixf6lu/bMGiJnJaAsAc6MouU2BQ7tCdcU/xw1pDP0J9k6zUDuJgVekRUvbVfVufh4csB+e4b89m
+	HzOKzH/QsNcUR22N24Il6iOOaf48SHFhgnmZAGu+fBWeVQwEcY5hzgAYIlXDTGpCoc/fBU=
+X-Received: by 2002:aa7:da0d:0:b0:649:69e6:cd4d with SMTP id
+ 4fb4d7f45d1cf-65965ebacd3mr5686a12.11.1770252144864; Wed, 04 Feb 2026
+ 16:42:24 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CY8PR12MB7537:EE_
-X-MS-Office365-Filtering-Correlation-Id: 376844bc-9bd0-4d8b-fb07-08de64470319
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bENLWEhha25KWlNCYlVHTGU0U3p5ejVQUHhiaURpSnlyQlN0U1JzVkN2bDNT?=
- =?utf-8?B?MUs3blUxc1o2Mmd5eHRGSDlpZ0MrR0xjOFlXTHNtalBwcHJVejNXeGJHVkJJ?=
- =?utf-8?B?SEZWRW5VZGVuZGRWZDh5N0Fzb1lrUDZpTXhiVTBXYlNvRDVNVkE3ZzdLRnVC?=
- =?utf-8?B?OWc5aFFvNERvaXF5SDRESGkxaGc4bHRpTDkyUzlTOTVNNjZma0ZLWWxJUldF?=
- =?utf-8?B?SXBqblNlWkdwSkZyZ2YvdDFRcm1hK3krYW1BbWx6dUVURWRBblNVUlYwSWlR?=
- =?utf-8?B?eTcxam9sV1hndEcyYVdCT2hJcWhtVjBwWFJ4V2VxeHJ6Yzl5eTdqY2lyYkZZ?=
- =?utf-8?B?NGJWUDB1SHNrdW42dkZzOE1UMXpVWERrNld0a09WTzQzeWdmN3RxakpDVTdX?=
- =?utf-8?B?OUo1WTA0OWVBSlI1c2MyWVQrb0ZTQVJ6VEE0aEZzN21SNkpJdUdDSUdLUmNq?=
- =?utf-8?B?VWMxZDNrR09FYnlwTGYzaHByT1pnSE9JSTN1OUR5ZktJQVRYVDZ2U0g0Wlk5?=
- =?utf-8?B?QXRmc3FHVE02VHpFa1F1QkduWGZTRkgrbGhFMytEcHpyM0IxbVZpWGZ3TmRm?=
- =?utf-8?B?eGhXUnFVbGF4bk0xVW1Wb1BDZ0RyZlJ6SHRrUVJIcjg2ekpSbGVUUE1SdWJE?=
- =?utf-8?B?azVuVnlQdjlZOHViTzlTUWkvL3pXaGFQSUwyQ0ZaTFZpYnhkNnpHQmVnTmU5?=
- =?utf-8?B?Y2t1OStremQ1K2ZsQUljVFE4WUlaM2FBb1NlMHJuYjBRY05wZmVXd0dFUm82?=
- =?utf-8?B?WlZ2NVFrM3kwZkhpMHBSRWt5ZTBsVy9MTFYrSFpvQ2Y3d0lHMXl2SnNTNDBQ?=
- =?utf-8?B?RVhKUUhQMlJraTIrVWdkOG1IK0lPYUVGNGFqbkJhaEw2ZTVNNXB6cGdYYWNi?=
- =?utf-8?B?UStXekZ2UGlDVVYrdzNzVGNTeFlUMms1MHpSV2ZZL09zWjFiU00zUDRSMC8w?=
- =?utf-8?B?a2pjMEtTM3dTNlBCdVN6UUhTNEdOVFpiekwzZElrM201S3NreW5mSjdCWlQ1?=
- =?utf-8?B?VWJqYWJGQy91MlRpaDFIc2ZydFpYblUzM3hJNlBPbm0yNDZqeWxCbTVyVlpS?=
- =?utf-8?B?WEIxMXRUSEQ4NWI5TEhlay9qUmhBRFZpYVl5MmF2WHk4QUE3SmhUV2FvUk5s?=
- =?utf-8?B?bWVHMndGSEVuYnRuejVMTmJqM0NaR2l1K2RWWVlOeFhSZTFCaEttSCszOCtk?=
- =?utf-8?B?ZEtRWmhKSnJVdVVrWWYrVTVDd2pBTlh5R0NsK1Y0UUM5cHUvc3cvOWdQcThx?=
- =?utf-8?B?YndsNFZmbURFeDJtaDljWWgyY3phS2p3WVdhS0R4L0Q1SVc1Y3NBemppTjRi?=
- =?utf-8?B?a3VZTFA4ZUlBdWZ1LzRzaW5SaHFKVjJzaGpLOE45RTZZUUxwVmxWM2Vua0pL?=
- =?utf-8?B?QkMvcm9aZE8xM3R3WDYzZG5NcTVKVmk5cEg2Z1lGbzJ5L3dGK0VDQnFpelNj?=
- =?utf-8?B?c2xQcS9Ua1Y1VzhYcVRZdU1OMHJaNXh1YW81YTZtOXpmVVlYRmc3ekFTSVJS?=
- =?utf-8?B?V2VYUldwZ1E4dGRzeHdFRU1kWEFUYy9RcmtNNWNUN1FyZ3JaVWxHUWdISkhj?=
- =?utf-8?B?MitrVjZyYUIwZHN4cW5Hd2NBSmtReVVoaXVpZGw5YW00c3cxQnZraW5pWVVa?=
- =?utf-8?B?b2NLS1llalNvMVFWYUFXNG1na05RSWExR3cyejJXd3FzdGJFUzArTFlhUTRG?=
- =?utf-8?B?RVk0YUcvR0wrM0Q0K0R4Z2JlMEl4dFBFZjhzS0ZNRisrZjhDejJrMXZOZkFw?=
- =?utf-8?B?N3BEOC9uY1EzZUVLNEdUcy9NOHpWbnVveUoyOWgxSm1QQ0lmWFI3dFpJWWlR?=
- =?utf-8?B?UFc5UytWWGkrREFhYVVpM0JmZXhsOVRIUXlWRkorQUxkVjI0K2ZRSzlsaHQr?=
- =?utf-8?B?NURhZkFzdGhpdFFyODFLcUZvb0t4SHNrdkNLY0UxMDVhMks5QkhGbEw5S1Fl?=
- =?utf-8?B?K0NQNDgzN1dCZWN2c2x4VXpGYnZENnpaam8vRUxnQnV2S05zcm1MNHEzeEtW?=
- =?utf-8?B?TjhoNHpMNHdYWDM1dTBsVlpxVlVKNTBDZmw4bC9pTGdEK3pDVTJTazRBdzNs?=
- =?utf-8?B?SjFDYm9JSGFiOXdHbC8wa2w0TVNSSkwvSitMYjZ5YWl4bUZVWW5sSEgzWU9u?=
- =?utf-8?Q?jKog=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dmpKN1ZNVVJKK0RQRjBzSzBkR0dnbVQ5VmlPMHZ0SzlwSXplZ2hESEkvYVF6?=
- =?utf-8?B?cElOR0h2SGFlYmJidjRCbE95Wk5XbXVDLyt0bFo1MGlubk1YQVI0b1k1R2RL?=
- =?utf-8?B?c2tpcWYzVGxSMWU5b0J4dXJndDFvOEszeGtiT0NOT2o0ZWdxbUQxUHdKaWhN?=
- =?utf-8?B?MTZqandiUE5KSmRRYW51UVZoenpDbHRROW0ybjRjeFd5NjJFVE5YM3VKUVh4?=
- =?utf-8?B?ejZ6ckk5UVVZVU9yUk10dDBRS1RXZkJEb2dzNzBCQ3NLNVFWcWVIaU5HU3ll?=
- =?utf-8?B?Mzh5b1Q5ZkhyTUtKcTZ1TStkUmZORVN3SXppUjZ5emkyb2RVR2xrZzZIWUFk?=
- =?utf-8?B?ang5MmVsKzJCMU1YbXhRRzB6YnBIWEFDL1hFTnBpU0h5eEhTQWkzeTBkR0ZE?=
- =?utf-8?B?VmNzS0YwRVFralVkcnRvb0hNalYvRE4zTitqdFp0dmJrMVY2bm8wanRYTzNB?=
- =?utf-8?B?eDhGSms0a05jcVdpZjJzQlhIQzZERGFUU0ZqL3F1Wk1xQ2l0aURiWWFNRWxa?=
- =?utf-8?B?QWdHaFlLQ3hHUnJLTklqd3FkaE9MTFEyckwyeTBsWXkwaHU4WVNwKzFNZWla?=
- =?utf-8?B?bDc0MnV5QXR2WHNiamMrSHRTbEs4TmVqL1ZCK1NrM1lib3R1NVBQSFhVa0Iw?=
- =?utf-8?B?TGxzWjNhV1FOemFHRFpkd2FJYkQyOFNiZHp3NW5XVEcyYnRLc2kxeVhmRkox?=
- =?utf-8?B?dnNEQ09WYXJFZDJIWUwzeTJkWFN4bWdKQ1BIcFU5a2U1ZjI4bjlBU0ZuQkgx?=
- =?utf-8?B?azhHMi85NExnTDlLOEtCWGxUc1NDeER3ZEpkRlI5U3F1ZDcxNjROMHIyMGtC?=
- =?utf-8?B?TnliM2dpU3gvZWZHL3hINEVJbGdYQnNidW9wUHhTT0QvLzY5V3N3b1ZkUDBr?=
- =?utf-8?B?a0JrOEFmWTRBUlZDUEViNmovcGhEc2hIZjZaMTVaQ0EwYkVBYXpNa1JpZnZk?=
- =?utf-8?B?TThSSlpGelBiZ20yUXRycVVJN1RWRnBQMjhnb0Y2emV6Sk81blFudmkxRFlK?=
- =?utf-8?B?ZjRnWjlkZlJPQkdFRVdndzNJNVY3Ym9hQXRZSnRJekxaZSt4aStsRjdvUW9h?=
- =?utf-8?B?ZThmenpDOTFCUVdJT09lRktCL3dOa2k4Z3JSdFF2N0VHc0RjWFpsODhuMjU3?=
- =?utf-8?B?R2lKMlBpMTYwN3ducVZPRCtUQUNrZ1RPUlJwc2Z5b0xoS3JlSlJ2THI1WkJD?=
- =?utf-8?B?ZERuOUQ0YkJzSjRiMXVOKzlVY1d5ZWtHbC8xR0lhTHlBMEVCbWdVbkcyZXpM?=
- =?utf-8?B?SUt1SXF2OEJrMVdHcjNiRm1qSVc1VFZzbEtYbE9vanVhb2pOdEl2UHA0OE5F?=
- =?utf-8?B?MmppeTdRNHVjOHVvSmVMTXJ3ZDRmZFZwZ2VVdjhzMllvZDg3RkFObEhQcHl1?=
- =?utf-8?B?MmFjdEFPbm1pVWh2N1hiOStGdUZPWHcwdWtuc05mUjNTSFNZLzl6SHBHVnFo?=
- =?utf-8?B?dE9UcU9aTzdweWlQb0R3emprbUY1UFYrSEtFazNPSzAyWklTQXpCblYvcUlp?=
- =?utf-8?B?WS9GK0QzTVNuVXI2MUVybU5xZHpQbTU0K0swa2d3QStvKytWWWdYZWRMZjNQ?=
- =?utf-8?B?V0trSWh5SVo5WjdZdE5QVS92VWp1eW1ESmptNHlpcjUzVWlkMnFNVnZBZWFS?=
- =?utf-8?B?UzY4RHpaSkJJVjRVVENTc0ZuUU9OWkp0MnZIbWNMZEdiVG9RcTV2djJyOExG?=
- =?utf-8?B?ZlE4ZE85LzJvYkVPQVl1RHEwQ3gvcXRRTmhGcWM1UHdxNFpEZm1nS3FZT3gz?=
- =?utf-8?B?Rnh5b1N4L05PcnAxeFcvZGpwTzBrUVpKaGNJaXJOSUwreUNGQmdtTXgrQlUv?=
- =?utf-8?B?UFFNVUE5cE9IamNIQjV3NS9uTzN4OEpCT0JmbCt5dUVUT0ZmSUxaWk9DUGtO?=
- =?utf-8?B?R2dCOW9OL2V6WkJBTnZEWUlRbTdQNUVPYlJ0YzJSMkxqR2c3enpwb1BGUEVJ?=
- =?utf-8?B?OWlQYU9EdWp2OGtza1RjK1QrMGlGcU9DSUF3VFJ6aGR5NjYvSC9IdW9ZblhO?=
- =?utf-8?B?eW5uNWNKUDJKN3dPR1NqazVMN3hUQm5DUEs5MEJ1U2R0T1RoelR5WHNPdSsv?=
- =?utf-8?B?T1FvcFhnQmV5UE9HVXZGNVFQbWxJSlo5WG1iOTRSSlI4ZzVOL3UrVWc0S3Ra?=
- =?utf-8?B?S0p0YXUyRXc4SVZCcEo2VW9yR1kvVXF6WnJnVkE0MitPWTdHMUx2UDlFa0xy?=
- =?utf-8?B?TGZjSUhBdkdGYzhlNDFuQUJCTkxDMmtwNjhkbWtRQzZQY1V5akZBRjhpemZC?=
- =?utf-8?B?US85OVJicGY4dGxNdGc3aUxoWlNSM2d0VmdYK3JINzg1R0JTTVNiTHIzTkYy?=
- =?utf-8?B?QWNPZXRMTElsTWdGV0NZdW9pdkRIRkJsRW9pZkhTSXBOQzVXbDhDdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 376844bc-9bd0-4d8b-fb07-08de64470319
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2026 23:42:09.8694
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9HFoVqwHleR53IUIJrlqkIqsvjkDbEf1HTWZJhfi4QRuJRKplBxARw6dIb6pqGK5kVXpV20Sqn9TZmbXiJZD5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7537
+References: <20260113225406.273373-1-jmattson@google.com> <aWbmXTJdZDO_tnvE@google.com>
+ <CALMp9eTYakMk0Bogxa_GdGU5_h4PK-YOXcu-cSQ16m1QcusHxw@mail.gmail.com>
+ <CALMp9eQx7EVim4iYGbAhoHrei2YmTra6oxtdmKaY7bw-M0PHbw@mail.gmail.com> <aYKoJ74MWboBuE_M@google.com>
+In-Reply-To: <aYKoJ74MWboBuE_M@google.com>
+From: Jim Mattson <jmattson@google.com>
+Date: Wed, 4 Feb 2026 16:42:12 -0800
+X-Gm-Features: AZwV_QhLA8eJsXkrtDZzOLlw96qtQQW2WL1CaWfZKw649MsGypEsGWxa5AFa2fo
+Message-ID: <CALMp9eSc=0zS+6Rk-c_0P-Q1Y8_9Xv58G5BYxieKpv_XaSj0wg@mail.gmail.com>
+Subject: Re: [PATCH] KVM: VMX: Add quirk to allow L1 to set FREEZE_IN_SMM in vmcs12
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Feb 3, 2026 at 6:00=E2=80=AFPM Sean Christopherson <seanjc@google.c=
+om> wrote:
+>
+> On Thu, Jan 22, 2026, Jim Mattson wrote:
+> > On Tue, Jan 13, 2026 at 7:47=E2=80=AFPM Jim Mattson <jmattson@google.co=
+m> wrote:
+> > > On Tue, Jan 13, 2026 at 4:42=E2=80=AFPM Sean Christopherson <seanjc@g=
+oogle.com> wrote:
+> > > >
+> > > > On Tue, Jan 13, 2026, Jim Mattson wrote:
+> > > > > Add KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM to allow L1 to set
+> > > > > IA32_DEBUGCTL.FREEZE_IN_SMM in vmcs12 when using nested VMX.  Pri=
+or to
+> > > > > commit 6b1dd26544d0 ("KVM: VMX: Preserve host's
+> > > > > DEBUGCTLMSR_FREEZE_IN_SMM while running the guest"), L1 could set
+> > > > > FREEZE_IN_SMM in vmcs12 to freeze PMCs during physical SMM coinci=
+dent
+> > > > > with L2's execution.  The quirk is enabled by default for backwar=
+ds
+> > > > > compatibility; userspace can disable it via KVM_CAP_DISABLE_QUIRK=
+S2 if
+> > > > > consistency with WRMSR(IA32_DEBUGCTL) is desired.
+> > > >
+> > > > It's probably worth calling out that KVM will still drop FREEZE_IN_=
+SMM in vmcs02
+> > > >
+> > > >         if (vmx->nested.nested_run_pending &&
+> > > >             (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTRO=
+LS)) {
+> > > >                 kvm_set_dr(vcpu, 7, vmcs12->guest_dr7);
+> > > >                 vmx_guest_debugctl_write(vcpu, vmcs12->guest_ia32_d=
+ebugctl &
+> > > >                                                vmx_get_supported_de=
+bugctl(vcpu, false)); <=3D=3D=3D=3D
+> > > >         } else {
+> > > >                 kvm_set_dr(vcpu, 7, vcpu->arch.dr7);
+> > > >                 vmx_guest_debugctl_write(vcpu, vmx->nested.pre_vmen=
+ter_debugctl);
+> > > >         }
+> > > >
+> > > > both from a correctness standpoint and so that users aren't mislead=
+ into thinking
+> > > > the quirk lets L1 control of FREEZE_IN_SMM while running L2.
+> > >
+> > > Yes, it's probably worth pointing out that the VM is now subject to
+> > > the whims of the L0 administrators.
+> > >
+> > > While that makes some sense for the legacy vPMU, where KVM is just
+> > > another client of host perf, perhaps the decision should be revisited
+> > > in the case of the MPT vPMU, where KVM owns the PMU while the vCPU is
+> > > in VMX non-root operation.
+>
+> Eh, running guests with FREEZE_IN_SMM=3D0 seems absolutely crazy from a s=
+ecurity
+> perspective.  If an admin wants to disable FREEZE_IN_SMM, they get to kee=
+p the
+> pieces.  And KVM definitely isn't going to override the admin, e.g. to al=
+low the
+> guest to profile host SMM.
 
+I'm not sure what you mean by "they get to keep the pieces." What is
+the security problem with allowing L1 to freeze *guest-owned* PMCs
+during SMM?
 
-On 2/2/2026 4:12 AM, Christian König wrote:
-> On 1/31/26 04:00, Dave Airlie wrote:
->> On Sat, 31 Jan 2026 at 07:14, Joel Fernandes <joelagnelf@nvidia.com> wrote:
->>> On 1/29/2026 10:38 PM, John Hubbard wrote:
-[...]
->>>> For the deadlock above, I think a good way to break that deadlock is
->>>> to not allow taking that lock in a fence signaling calling path.
->>>>
->>>> So during an unmap, instead of "lock, unmap/free, unlock" it should
->>>> move the item to a deferred-free list, which is processed separately.
->>>> Of course, this is a little complex, because the allocation and reclaim
->>>> has to be aware of such lists if they get large.
->>> Yes, also avoiding GFP_KERNEL allocations while holding any of these mm locks
->>> (whichever we take during map). The GPU buddy actually does GFP_KERNEL
->>> allocations internally which is problematic.
->>>
->>> Some solutions / next steps:
->>>
->>> 1. allocating (VRAM and system memory) outside mm locks just before acquiring them.
->>>
->>> 2. pre-allocating both VRAM and system memory needed, before the DMA fence
->>> critical paths (The issue is also to figure out how much memory to pre-allocate
->>> for the page table pages based on the VM_BIND request. I think we can analyze
->>> the page tables in the submit stage to make an estimate).
->>>
->>> 3. Unfortunately, I am using gpu-buddy when allocating a VA range in the Vmm
->>> (called virt_buddy), which itself does GFP_KERNEL memory allocations in the
->>> allocate path. I am not sure what do yet about this. ISTR the maple tree also
->>> has similar issues.
->>>
->>> 4. Using non-reclaimable memory allocations where pre-allocation or
->>> pre-allocated memory pools is not possible (I'd like to avoid this #4 so we
->>> don't fail allocations when memory is scarce).
->>>
->>> Will work on these issues for the v7. Thanks,
->>
->> The way this works on nouveau at least (and I haven't yet read the
->> nova code in depth).
->>
->> Is we have 4 stages of vmm page table mgmt.
->>
->> ref - locked with a ref lock - can allocate/free memory - just makes
->> sure the page tables exist and are reference counted
->> map - locked with a map lock - cannot allocate memory - fill in the
->> PTEs in the page table
->> unmap - locked with a map lock - cannot allocate memory - removes
->> entries in PTEs
->> unref - locked with a ref lock - can allocate/free memory - just drops
->> references and frees (not sure if it ever merges).
-> 
-> On amdgpu VM page tables are allocated and PTEs filled outside of the fence critical path.
-
-Does that really work for async VM_BIND? If we're missing anything in nova-core
-related to the timing of when the allocate and update of the page tables, it
-would be good to know.
-
-My understanding you have to write the PTEs at the run stage of the job in
-question otherwise you may not know how to map? Are you saying amdgpu writes it
-during the run stage but somehow before fence signaling?
-
-> 
-> Only invalidating PTEs to signal that a shader needs to be taken off the HW are inside the fence critical path and here no memory allocation is needed.
-> 
-> Keep in mind that you not only need to avoid having memory allocations inside the critical path, but also not take locks under which memory is allocated.
-
-Yes, this part I was clear from Danilo's email and clear about the various
-deadlocks. See my analysis where what you mention is in the cases I covered:
-https://lore.kernel.org/all/20e04a3e-8d7d-47bc-9299-deadf8b9e992@nvidia.com/
-
-> Simona added some dma_fence_begin_signalling() and dma_fence_end_signalling() helpers to add lockdep annotations to the fence signaling path. Those have proven to be extremely useful since they allow lockdep to point out mistakes immediately and not just after hours of running on a test system.
-> 
-Yeah, I looked. Nice! Thanks,
-
---
-Joel Fernandes
-
+> > > > > diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.=
+c
+> > > > > index 0521b55d47a5..bc8f0b3aa70b 100644
+> > > > > --- a/arch/x86/kvm/vmx/nested.c
+> > > > > +++ b/arch/x86/kvm/vmx/nested.c
+> > > > > @@ -3298,10 +3298,24 @@ static int nested_vmx_check_guest_state(s=
+truct kvm_vcpu *vcpu,
+> > > > >       if (CC(vmcs12->guest_cr4 & X86_CR4_CET && !(vmcs12->guest_c=
+r0 & X86_CR0_WP)))
+> > > > >               return -EINVAL;
+> > > > >
+> > > > > -     if ((vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTRO=
+LS) &&
+> > > > > -         (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
+> > > > > -          CC(!vmx_is_valid_debugctl(vcpu, vmcs12->guest_ia32_deb=
+ugctl, false))))
+> > > > > -             return -EINVAL;
+> > > > > +     if (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROL=
+S) {
+> > > > > +             u64 debugctl =3D vmcs12->guest_ia32_debugctl;
+> > > > > +
+> > > > > +             /*
+> > > > > +              * FREEZE_IN_SMM is not virtualized, but allow L1 t=
+o set it in
+> > > > > +              * L2's DEBUGCTL under a quirk for backwards compat=
+ibility.
+> > > > > +              * Prior to KVM taking ownership of the bit to ensu=
+re PMCs are
+> > > > > +              * frozen during physical SMM, L1 could set FREEZE_=
+IN_SMM in
+> > > > > +              * vmcs12 to freeze PMCs during physical SMM coinci=
+dent with
+> > > > > +              * L2's execution.
+> > > > > +              */
+> > > > > +             if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_VM=
+CS12_FREEZE_IN_SMM))
+> > > > > +                     debugctl &=3D ~DEBUGCTLMSR_FREEZE_IN_SMM;
+> > > > > +
+> > > > > +             if (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
+> > > > > +                 CC(!vmx_is_valid_debugctl(vcpu, debugctl, false=
+)))
+> > > >
+> > > > I'm mildly tempted to say we should quirk the entire consistency ch=
+eck instead of
+> > > > limiting it to FREEZE_IN_SMM, purely so that we don't have to add y=
+et another quirk
+> > > > if a different setup breaks on a different bit.  I suppose we could=
+ limit the quirk
+> > > > to bits that could have been plausibly set in hardware, because oth=
+erwise VM-Entry
+> > > > using L2 would VM-Fail, but that's still quite a few bits.
+> > > >
+> > > > I'm definitely not opposed to a targeted quirk though.
+> > >
+> > > I have no preference.
+>
+> After mulling over the options from time to time, I think our best be is =
+to quirk
+> only FREEZE_IN_SMM, but very explicity scope the quirk to just the consis=
+tency
+> check.  E.g. maybe KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC?  That should he=
+lp alert
+> readers to the fact that the quirk bypasses the check, but L2 will still =
+see
+> FREEZE_IN_SMM=3D0 (e.g. in the unlikely scenario L1 disables interception=
+ of
+> DEBUGCTL).
+>
+> As for why just FREEZE_IN_SMM, in addition to the fact that FREEZE_IN_SMM=
+ is the
+> only bit that broke anyone (as far as we know, /knock wood), it's also th=
+e only
+> bit that is host-owned.  I.e. unless the host admin likes SMM mucking wit=
+h things,
+> skipping the consistency check isn't terrible from a functionality perspe=
+ctive
+> (KVM doesn't honor the bit for emulated SMM, but that's QEMU's problem :-=
+D).
+>
+> > Would you like me to post a v2?
+>
+> Yes please.
