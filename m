@@ -1,142 +1,235 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008843D669C;
-	Thu,  5 Feb 2026 13:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504922868B4;
+	Thu,  5 Feb 2026 13:51:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770299429; cv=none; b=Hf53GTw26K53WUKRhvefuNJnL2PcJl5vBV+jovGHAvtCETus0djpS7SO7Ukq4VQLGi73IAId/kQ4An/qaWWLcZVOTUMOCbQKt3kJFdNENmrkpVvaCorAkJjdHTHm+OUfRO8kx6GCwqcNjov88InW8DXeW5PILTVmHs17Apcv+Rw=
+	t=1770299491; cv=none; b=LKONIGI7auVhzgTF+ucyH9bfIk65kBkxmWMnSNGoYOUE9mdOB3BazBBcNE7dSpQWGfe4pqBlMYX/a8v/ndTnxctCUHODqJIJ5a8JY4Y8K2yPnd8RQ2P5nHDPkk6YxFSvQVaN/j0+hYsIaMmRt/XU9QtKHRTjk/QnZIH/hSVl5I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770299429; c=relaxed/simple;
-	bh=3TY2LvtZnrCiQseYdsb0tgxnCGw9BQjaOFOmpcNjY34=;
+	s=arc-20240116; t=1770299491; c=relaxed/simple;
+	bh=6XN6z6hFfjpOkZlveYpliUUpSXjgUwZDf9EunDICMUo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GT2d33mUe5Bu2tyNShezRaZRsvAjEfPFrw2W/crrPf6NSt2FxcBfgue25SFVokjrh6+g0DxUxZYUTqOjkytHLn5XZW7PAqD+VcrUK84xswzqJm//fSe6BEUeFW88VswgGVSwDYWWEcwp2etNY6LEm+5UpEKOfyTTmLCxAnMAK/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZjt/qf9; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wej2Egvubdey+4o6nsekcZDfxhKYs62xvvBlj9qzMgBENMUJ8c9FxDNqQSEfsrVwx+xvaT7lXFKokyod/d5cBhJp6FyABAtiLNL3iEi3cc+hLdqn95rn1Zl1MIuosfOuUY4rzeFD9I5m06qQLlE/iMsMXU4SVwtLkwL8e6Gkx54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UWtx09sf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZjt/qf9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AEA3C16AAE;
-	Thu,  5 Feb 2026 13:50:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UWtx09sf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC0AFC4CEF7;
+	Thu,  5 Feb 2026 13:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770299428;
-	bh=3TY2LvtZnrCiQseYdsb0tgxnCGw9BQjaOFOmpcNjY34=;
+	s=k20201202; t=1770299490;
+	bh=6XN6z6hFfjpOkZlveYpliUUpSXjgUwZDf9EunDICMUo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nZjt/qf9VJzwFHOgqySxuAcrbSQuBulW3qm/ouJrbXrHLZ8x9pa9nwMgX+3jZo6mU
-	 N4ifhi7PUe9zhliFzPLyXsxoVeLSXF0e6ob9+MuKAQ7Jn5iQvx59m8BbNQ/6fYZIVm
-	 RfSeKPKJpsbdoiBt8Jne2ISM9DDP5cLeWA++u6OsBmvof7sYwh2DvltqJMX0/AGT7/
-	 FyaXn8CIRNnAgm3tAUjjNoO6gUIwFlX/CNrNgoDO7hTBW0CJ3kXk4QORwkTGwf6LGu
-	 v/sYAB0S2Keapjr6rAebNdO7eGUqPtTHQEhj33GWQpAsdidUkrLHNZg7J2BH4rWzLf
-	 y7+WUGfjW0+ng==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 0D54DF40068;
-	Thu,  5 Feb 2026 08:50:27 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 05 Feb 2026 08:50:27 -0500
-X-ME-Sender: <xms:IqCEaZf6StkWfOqu8wFSOZeK9vXsBWrdIeava6LuaFgh6MhYGi-y-w>
-    <xme:IqCEaQ5qls25rtsGHqFrm2Ttf2ZPHFXPplBaTUa4iYpfpLkNRd7SjVQfMZkBxqdaP
-    5jbZJcwMo_ziIilnQwc0Y2dZ5ffYmh-ZBxRxDMc4_GMbK_-ACh8Ncw>
-X-ME-Received: <xmr:IqCEaZebtFCUBddCzka2qZR1s7YPqIztazpkzNjE7oPAi1YH8moJgmlpqubZNA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddukeehgeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepmfhirhihlhcu
-    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepueeijeeiffekheeffffftdekleefleehhfefhfduheejhedvffeluedvudefgfek
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
-    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
-    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
-    hnrghmvgdpnhgspghrtghpthhtohepheegpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopegurghvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrkhhpmheslhhinh
-    hugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepmhhutghhuhhnrdhsohhn
-    gheslhhinhhugidruggvvhdprhgtphhtthhopeifihhllhihsehinhhfrhgruggvrggurd
-    horhhgpdhrtghpthhtohepuhhsrghmrggrrhhifheigedvsehgmhgrihhlrdgtohhmpdhr
-    tghpthhtohepfhhvughlsehgohhoghhlvgdrtghomhdprhgtphhtthhopehoshgrlhhvrg
-    guohhrsehsuhhsvgdruggvpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehvsggrsghkrgesshhushgvrdgtii
-X-ME-Proxy: <xmx:IqCEaXAGHKZMBJS6DUsJ98T7WyuRMoEUVJhkNCQ9KG1MejXV8BfpSw>
-    <xmx:I6CEaVHlKYRyqwTh2vTVJYQ9F735Nv0bH_bNCRQM-oWLhwZ-9a_fqg>
-    <xmx:I6CEafjBkfUHcOHA-WfHtJvjD79HzFhOUFGs7C8chXL6k23xFLRu_A>
-    <xmx:I6CEaXs9Qf8A_cpGbYT3ZbCh3Xs_yGK5n3wyq6EE5VNQ2zEc4GNTkw>
-    <xmx:I6CEaV-n2W8zWDLDGHDrciU6x5-ShBKOSo7gnftoJrzCpdjBdgcLcSiJ>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Feb 2026 08:50:25 -0500 (EST)
-Date: Thu, 5 Feb 2026 13:50:18 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: "David Hildenbrand (arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
-	Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>, 
-	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
-	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCHv6 05/17] riscv/mm: Align vmemmap to maximal folio size
-Message-ID: <aYSe0TAIzxJ9i1Wy@thinkstation>
-References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-6-kas@kernel.org>
- <1b80b189-b549-40ba-800c-8037ce12b081@kernel.org>
+	b=UWtx09sfcWEfYttX2QWVVmwWF8dnMx2x9pgFXF0gNNNE8HftOGI488+VV2XX03jGl
+	 gtuY2s725BVB8mk51msqorRelxHJ6NX8brqcGBElSq7XnHMcmk5dwsoYoewqCPb8ay
+	 6lCvESm7H/gtMjGKZr2ajtkL6WZKFmk3wxopvXbOSlmd131tMWpLIdTvNLkMgWHe0M
+	 5zIgDeiu5aSsxV/5ncp8rkhRGW7aCdeAnd3RiP+lf2UtsWkV4V2VsXNLZM2MEpCnuc
+	 yj9QTj8LHzNd/degxZTW99fupwmK6h7R4vi7rL/9xYioLS6xXJ8OQaOyAPBz7tpQvE
+	 kOWVYdjSjr4uw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vnzlY-00000009yfA-2f1A;
+	Thu, 05 Feb 2026 14:51:28 +0100
+Date: Thu, 5 Feb 2026 14:51:28 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Ricardo Ribalda <ribalda@chromium.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Sean Young <sean@mess.org>
+Subject: Re: [PATCH 2/2] docs: media: media-committer: do some editorial
+ changes
+Message-ID: <aYSbEB0d2cvSi3nZ@foz.lan>
+References: <dc12b2f42304866ccc04053f2a3c97e84c7558a1.1770215865.git.mchehab+huawei@kernel.org>
+ <ada3056177e5e4e65119fb1b617777a680534e64.1770215865.git.mchehab+huawei@kernel.org>
+ <26a44a31-3ab3-40f0-9ef2-e4bb6484a254@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1b80b189-b549-40ba-800c-8037ce12b081@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <26a44a31-3ab3-40f0-9ef2-e4bb6484a254@kernel.org>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Wed, Feb 04, 2026 at 05:50:23PM +0100, David Hildenbrand (arm) wrote:
-> On 2/2/26 16:56, Kiryl Shutsemau wrote:
-> > The upcoming change to the HugeTLB vmemmap optimization (HVO) requires
-> > struct pages of the head page to be naturally aligned with regard to the
-> > folio size.
+On Thu, Feb 05, 2026 at 12:52:35PM +0100, Hans Verkuil wrote:
+> Hi Mauro,
+> 
+> For the most part I agree, but I have some suggestions regarding the point 4
+> you added, since I think it just restates what is already mentioned in
+> maintainer-entry-profile.rst.
+> 
+> Let me know what you think of my suggestions.
+> 
+> On 2/4/26 15:37, Mauro Carvalho Chehab wrote:
+> > Do some editorial changes to make it look clearer:
 > > 
-> > Align vmemmap to MAX_FOLIO_NR_PAGES.
+> >   - media-committers tree references corrected from singular to plural;
+> >   - updated commit rights wording and responsibilities;
+> >   - fixed various typographical errors;
+> >   - corrected “mailing list” and “Kernel” references;
+> >   - improved core committer description;
+> >   - updated documentation paths and URLs;
+> >   - added missing “for” and improved sentence flow.
+> > 
+> > Perhaps the most relevant change is that i removed a word
+> > that was requiring granting Patchwork rights some time before
+> > adding commit rights (we may grant them altogether if makes
+> > sense for us), and I added a 4th note to committer notes
+> > list to let it clear that about what it is expected from a
+> > committer with regards to updating Patchwork.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  .../driver-api/media/media-committer.rst      | 97 ++++++++++---------
+> >  1 file changed, 51 insertions(+), 46 deletions(-)
+> > 
+> > diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
+> > index 18cce6e06a2b..c83e94750e57 100644
+> > --- a/Documentation/driver-api/media/media-committer.rst
+> > +++ b/Documentation/driver-api/media/media-committer.rst
+> > @@ -20,8 +20,8 @@ and the Linux Media community.
+> >  
+> >  .. Note::
 > 
-> I think neither that statement nor the one in the patch description is
-> correct?
-> 
-> "MAX_FOLIO_NR_PAGES * sizeof(struct page)" is neither the maximum folio size
-> nor MAX_FOLIO_NR_PAGES.
-> 
-> It's the size of the memmap that a large folio could span at maximum.
-> 
-> 
-> Assuming we have a 16 GiB folio, the calculation would give us
-> 
-> 	4194304 * sizeof(struct page)
-> 
-> Which could be something like (assuming 80 bytes)
-> 
-> 	335544320
-> 
-> -> not even a power of 2, weird? (for HVO you wouldn't care as HVO would be
-> disabled, but that aliment is super weird?)
-> 
-> 
-> Assuming 64 bytes, it would be a power of two (as 64 is a power of two).
-> 
-> 	268435456 (1<< 28)
-> 
-> 
-> Which makes me wonder whether there is a way to avoid sizeof(struct page)
-> here completely.
+> Re-reading this I don't really think this should be a note at all. This just
+> lists the additional responsibilities of a media committer, no need to
+> present this as a 'note'.
 
-I don't think we can. See the other thread.
+Agreed.
 
-What about using roundup_pow_of_two(sizeof(struct page)) here.
+> >  
+> > -   1. Patches you authored must have a Signed-off-by, Reviewed-by or Acked-by
+> > -      of another Media Maintainer;
+> > +   1. Patches you authored must have a ``Signed-off-by``, ``Reviewed-by``
+> > +      or ``Acked-by`` from another Media Maintainer;
+> >     2. If a patch introduces a regression, then it is the Media Committer's
+> >        responsibility to correct that as soon as possible. Typically the
+> >        patch is either reverted, or an additional patch is committed to
+> > @@ -29,14 +29,18 @@ and the Linux Media community.
+> >     3. If patches are fixing bugs against already released Kernels, including
+> >        the reverts above mentioned, the Media Committer shall add the needed
+> >        tags. Please see :ref:`Media development workflow` for more details.
+> > +   4. All Media Committers are responsible for maintaining
+> > +      `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_,
+> > +      updating the state of the patches they review or merge.
+> > +
+> 
+> I don't really agree with this. Not that it hurts, but maintaining patchwork
+> is a job of media maintainers.
 
-> Or limit the alignment to the case where HVO is actually active and
-> sizeof(struct page) makes any sense?
+Not really: "normal" media driver maintainers don't need to do that, and, even
+if we write they should, I doubt most would.
 
-The annoying part of HVO is that it is unknown at compile-time if it
-will be used. You can compile kernel with HVO that will no be activated
-due to non-power-of-2 sizeof(struct page) because of a debug config option.
+In practice, I expect only core maintainers, subsystem maitnainers and a couple
+of driver maintainers to actually update it.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+I'd like to keep a mention here, as we expect media committers to actually
+read this file and understand what it is expected from them. As such,
+it doesn't hurt letting something explicit here.
+
+The point is: if a committer forgets to update it, we may end having the
+same patch being reviewed by two people at different moments, wasting
+precious review time. Worse than that, if a rejected patch was kept
+as new on patchwork, another committer may end wrongly merging it.
+
+> The only addition for committers is that they
+> have to update patches in patchwork to 'Accepted' when they have committed
+> them. That is certainly worth mentioning (including updating the maintainers
+> profile to clearly state that only committers can set it to Accepted.
+
+With the "committers hat", yes: most of the time it will be just "Accepted",
+but, even so, if they pick a series with duplicated patches, other status
+needs to be updated, like "duplicated" and "superseeded". 
+
+> So in maintainer-entry-profile.rst in 1.3 I would change the description for
+> the Accepted state to:
+> 
+> "Accepted: Once a patch is merged in the media-committers tree. Only Media
+> Maintainers with commit rights can set this state."
+
+Sounds good.
+
+> And change point 4 to this:
+> 
+> 4. After committing a patch, the Media Committer must also update the
+>    patch status to ``Accepted`` in
+>    `Patchwork <https://patchwork.linuxtv.org/project/linux-media/list/>`_.
+
+I would avoid restricting it - or if you want to verbose what status
+type, those are the ones we currently have on patchwork(*):
+
+	Under Review
+	Accepted
+	Rejected
+	RFC
+	Not Applicable
+	Changes Requested
+	Awaiting Upstream
+	Superseded
+	Deferred
+	Obsoleted	
+	TODO
+	driver maintainer
+	Duplicated
+
+(*) Heh, there are some that we only used for a very short period of time,
+    or maybe even never used, but we can't delete status there without
+    causing potential issues to the database.
+
+> 
+> >  
+> >  Becoming a Media Committer
+> >  --------------------------
+> >  
+> >  Existing Media Committers can nominate a Media Maintainer to be granted
+> > -commit rights. The Media Maintainer must already have patchwork access and
+> > -have been in that role for some time, and has demonstrated a good
+> > -understanding of the maintainer's duties and processes.
+> > +commit rights. The Media Maintainer must have patchwork access,
+> > +have been reviewing patches from third parties for some time, and has
+> > +demonstrated a good understanding of the maintainer's duties and processes.
+> >  
+> >  The ultimate responsibility for accepting a nominated committer is up to
+> >  the Media Subsystem Maintainers. The nominated committer must have earned a
+> > @@ -61,8 +65,8 @@ Media Committer's agreement
+> >  Once a nominated committer is accepted by all Media Subsystem Maintainers,
+> >  they will ask if the developer is interested in the nomination and discuss
+> >  what area(s) of the media subsystem the committer will be responsible for.
+> > -Those areas will typically be the same as the areas that are already
+> > -maintained by the nominated committer.
+> > +Those areas will typically be the same as the areas that the nominated
+> > +committer is already maintaining.
+> >  
+> >  When the developer accepts being a committer, the new committer shall
+> >  explicitly accept the Kernel development policies described under its
+> > @@ -77,7 +81,7 @@ following the model below::
+> >  
+> >     ...
+> >  
+> > -   For the purpose of committing patches to the media-committer's tree,
+> > +   For the purpose of committing patches to the media-committers tree,
+> >     I'll be using my user https://gitlab.freedesktop.org/users/<username>.
+> >  
+> >  Followed by a formal declaration of agreement with the Kernel development
+> > @@ -85,7 +89,7 @@ rules::
+> >  
+> >     I agree to follow the Kernel development rules described at:
+> >  
+> > -   https://www.kernel.org/doc/html/latest/driver-api/media/media-committer.rst
+> > +   https://www.kernel.org/doc/html/latest/driver-api/media/media-committers.rst
+> 
+> BTW, I agree that this file should be renamed to media-committers.rst. That matches
+> the name of our git tree as well.
+
+Good. Please check at the maintainers profile if we don't have a reference with
+the singular when submitting v8, as I guess we have.
+
+Regards,
+Mauro
