@@ -1,152 +1,130 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F4A2264AB
-	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 19:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770319908; cv=none; b=WNkVchQVU1x4jhzGx02CuGm4rjOpPdBfeRRNTe2/MtR0MC2o6Bo7eAXPFqzg43PMTgivAf0y2yjCK4Nth1Xj3KGIvJV4VRbJ3XNwPd0lgsdfIRBv6vTNf6i0Tbk68KmvTK7jYK4AqXbkryAg6UC0hZRHTbge+a8mUfbv9GrdLQg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770319908; c=relaxed/simple;
-	bh=SNSK7Cot9ZIbbKE74SRCFLW/frVlnHaL3hZaVj368qc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ig1pwU5nmYI+Ij/GM2CLl5/TXDWMaZSzrFikP6c1hG1viQU3UiOsFnIhbp4RLYZaR5x33Wx0SiNX509zYQ/+TJkCRwS4GavbxXfTthtNpUcedrIdMdh2T2mDBB1FQsRcgQmH13aspbm9dVHhQiwvYFALY9tcdl3SQ8GOqvfD8K4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mbKV4Z6W; arc=none smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F3830B52B
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 19:34:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770320080; cv=pass; b=Bd1Z2j3MShJ9lLHSUg5WIxuw4rR1FpXVhNVosdusJqEejccelrrExC/88xDZtPTFjz0N+6WsssXWvaZ6H0SGTEN10nByVD60fIHJESL9gMfd02RNa8XNUStZJRkbxzpH6+VSOnQSn7fPhis/Ss4LCgVIQqgAGTOy1HHwD/aM/L4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770320080; c=relaxed/simple;
+	bh=Fkc9V2w5LCx5vxvCS4OBbSZnYWzsDBvR693KSERcN+g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=W8s+zJQvsLxz8+dSJ0vy9hPDtQWf7UlKZe7MlGMxdymnBEj4NUrcBmZkplDOQMWekXZZ+zc+abjFs6PvOogj9q41m3WoZxL8nBSR2QZ4bekjTrpWUvgPpbueZKYU6jrpzKCFTh5AgDJYI6GUhsx1wMc+GmlHD4omoQeOAqvu9k4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pl4qgpiB; arc=pass smtp.client-ip=74.125.82.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mbKV4Z6W"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1233c155a42so1851578c88.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 11:31:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pl4qgpiB"
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-124a2dc92dbso57326c88.2
+        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 11:34:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770320080; cv=none;
+        d=google.com; s=arc-20240605;
+        b=klPoV17NwfchWyTD4YkjawcEyKMnHM+savZfYGJxK58KXvqovjjrTOrxBDPM/JN1Gk
+         ZMHcbLk6sXYz1DDrHplS34qMP2VEKkllBEz9VAbiZjVAsyu21XrIOdkTu+ZliGtO1hnQ
+         bDRsQQ4zNN3Qt0n3f39YbBOCApT9DVzqktDq24nPslNBFqwG/gsJvrDZcHfoLRs3+MKR
+         9kJx7VOXAFFugNBNpQxIEnk3r4L60e1jFNejFUCPYPnMhqwIC9g63iryeBVfzvqT62tZ
+         t4di6tFqGkFmqCQdwMoafDwuj/cOvXzsVwkHrwm6kOCQ1v6DRwm9iGCS4Tayh+876tpx
+         5Mhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Fkc9V2w5LCx5vxvCS4OBbSZnYWzsDBvR693KSERcN+g=;
+        fh=VvifX8n8vB8rWuAP3HWk0jLZ4aRGEvV+qKp6Lc2b9oI=;
+        b=W8d/WAiTtotR7zJaUNPIo/GmjTldfJdwRVcbEXA7ustRPX6qkdbQY6O2PgkF4zgP9/
+         P0IA8I9hgCavNi6MhJWXdmc0fRgcBJVwqiU/yeI+Ao8NVEulW+f/IJmMI0Qdkm5A//Z1
+         OsB7CQdcWNY6Bl/5fSM5ZUmbSzvspd6DXC1lbSUX2M1cuY+wG8MVwKAdx6O7CeGj8/fZ
+         gVvx91tkohYOvsrygIavwywDLZ97e5ixr5LGmwU2b0ngtOyz1YTdFOuvUB52ToHWOCpX
+         UDy4vlWXJ4itR7Wzzbr4lSIo1FOE1nCRLZR9rUOXU/9cUEYLLAyxpGQepmweOHkhPhJv
+         4Grw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770319907; x=1770924707; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ArrtrCatvVEunchquCbZFqkaHBYMn7L4hO5jWdJUlIM=;
-        b=mbKV4Z6W3nrgpmNEBq9EGyzlDCzzSf48nFduAryajbPUi6Di5wV4hRoK3X9r0/bKp6
-         gFDkm8VdjboicmaeyicQY42D5TMMZxlI5JVAb6SDScuoRAFdFugHn58Y7J/r/weztBb6
-         66iFHRGNTkW1BB9tJsGqGQSWUiAhNa+PCroWIpas5O/KMcDO//vDnvJZ1fneqrH3fqNA
-         +S8a6FnexvgKyxcO+1mWSaeV+PlfHCtFFJ5+snMkSjjMvg32XRSr51RM5Iqzg7JyBjCA
-         t2k+mbii6UbOyGNMjFulPI7rvfvlxUgD1eVECQHedAXhxku84bwQl2o4WzbnOtx6Edb0
-         Mx5A==
+        d=gmail.com; s=20230601; t=1770320080; x=1770924880; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fkc9V2w5LCx5vxvCS4OBbSZnYWzsDBvR693KSERcN+g=;
+        b=Pl4qgpiBz3Ep0LW1nXK/Fm3tEsrOxZMWBFmPCG5C86+z2yUX0Ku4VAsBpfAk8XzfOY
+         v08Guguxr3tPQadRlI2YHWFi3gq61Zo83w0N1fBTacNuRa4oMSySxGwFwDG3YqKMxk29
+         YaC1EPR8kLZ7fewjjutcfL+dPUVl2iKwLhFa+X8Na8VKkjzQyhGZ7TWzs+nDjj/53np0
+         BGc6V5lSaGCvd9rx8iBXg9CljYxAb7yo5ndHq0E+q+pUZHI2Z41QBvb/57305j68EWYR
+         xg1IWKrAP44iMn1BV8iz61tVFRGMqG1lWYkFuAbJD+MQUjblF2c70WliYULSu1K8mU/K
+         vbrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770319907; x=1770924707;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ArrtrCatvVEunchquCbZFqkaHBYMn7L4hO5jWdJUlIM=;
-        b=EaN0IOtrb8LjrxqiDsdYkcVOQoBllfMVAhkIWyPDSf6HolYJe84OhLOxxUGtYCHx8m
-         r87ybn8GvmAN2QrNyZhX5qXnVLamPU2bd7A/rB+XdaJ5jFQXPakXPtOZM0j+k2AP3sQs
-         IdTTQ02REW+BgZYC7wORcxIgmPkN0RnCPkdNe2eOo8iUQdyHHCQpEbyLONG2hDDhfLP2
-         xAiRU27PXIdJT6lhdz2uk5omrTc00pf91iZrDaKTG+JDSYT9td0n2R7gR4R2rEbUqemM
-         CYVYgNq2aXiogSRtljxAc4rpIf6R2tkcQEHQKkhQdVPg20P6bzvOL7JVy6zXTuG2IKTi
-         2M0g==
-X-Forwarded-Encrypted: i=1; AJvYcCXEJ56/ErJFS/6yg3o77/8OzcIAillku0nj76IFuRriBO9hJOAB+e6DWz8ucAfnbwI7LYmm0P5hbSo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKxEc9zLdgdb44sOju8Q7TmyaUrptVOpQ0w+gAoYBdleYANSF3
-	h36OYmQiQiCZXW3wRA55/fU3ywdWSfa0ucug93/DsNJR2vZ/evdpP9LU
-X-Gm-Gg: AZuq6aIDJ7LjVZfDwwLdsIIWkWUe9CfjZCUCplht0mxSRisQ9RODgS9uUjyW5kWiCWy
-	bmRasCEGiDbONbTaB/mi+vcd8bGDArlw7GCn9RGxMA08JFRVK3qGIW9eW/pJAMFNfDddlk48gHJ
-	y3Bma6KbrfomwNpT16EFtPt/OSrWxlefranwQD/C29mxiMOXzx4auk8AcsKTzuzneoHsaEtidqT
-	xJyBvI6HZu23gBPEMdrOGCIyDbxKK4isWQptX+4s1asEmnM5nyyRcAuD/DwefSVTdXgX7dubVPX
-	9SUYA1kwpagma3S6FVnJ7RA/ccjXtZNzqWyjrWbIspyooOVx7/t2ZzyzIsQl3C1KetyqrNJtJOf
-	78nIGpI0zxsSzLNvBN7TEiySmRO0CkVPgJl9Hmc12ETCmnmv9NNmV4XN6L7zXqRcl9wKVeG5WwP
-	ACWkjuJPfHBeoElzjvOzCzcEm6
-X-Received: by 2002:a05:7022:6611:b0:119:fb9c:4ebb with SMTP id a92af1059eb24-12704049ad1mr125795c88.30.1770319906948;
-        Thu, 05 Feb 2026 11:31:46 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-127041e61b9sm175140c88.8.2026.02.05.11.31.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 11:31:46 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 5 Feb 2026 11:31:45 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Marius Cristea <marius.cristea@microchip.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] hwmon: temperature: add support for EMC1812
-Message-ID: <22549d9e-62fb-4ffb-aa18-50b65fa2591e@roeck-us.net>
-References: <20260205-hw_mon-emc1812-v5-0-232835aefe8f@microchip.com>
- <20260205-hw_mon-emc1812-v5-2-232835aefe8f@microchip.com>
+        d=1e100.net; s=20230601; t=1770320080; x=1770924880;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Fkc9V2w5LCx5vxvCS4OBbSZnYWzsDBvR693KSERcN+g=;
+        b=F78gcTc1gha7LEEYfX4RmXItREC/FbwwCARI0O82ayOoYaL0p84OlI80JNUS5JVwu2
+         8G4iRe2MMCo0SBZnBHF4jaM1S6xKZec3e2aeQCcZ2NAvi4csmHRRzGlI06UuNhdvSVOH
+         akOzJoNOVn0jced62doxY7SgofrFJJYBY35GiXwDTcEc5U7+Z+0Dt252BjtC7laS1IDt
+         U21HKBKzH9hj4a/wM33QoOny5lOmbd2s3dV473HxlLSH8+Grnb7H3AWJoJHlUCsiT+FZ
+         ruSul68yXj7LQo2ZrhUNGZYoz0JIQ/pZLPUI7ddCFj3cJFXZo3a3S4tRYndCPsGazqPL
+         3AvA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXFWkrABQ6da7Id2jEYIuuyc3JeWI2nQJrU1l6vHFSXDDEvkD3j/O6pg2QC7tCfvmxSWdIJ/OxKFk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxweu/corJQGz5eUelaLmUaQvZrPdb0nzR/EuCOVn0nnxxwaEt4
+	JewpKPjBnFLMEpK4T+v1k7zxtdCD+HDBLCYfYSOsQIifLffnDKzA+Okny7ba8nsc1NSM/tSt12T
+	m/Z03JkHkex5N9lySC7ZIugWPqKcOkgw=
+X-Gm-Gg: AZuq6aJweJVi+nh3TgK0TB7dTUzQta1pbnVCBxighp5j+WsuiHqnfPJqdTNaynJHgHU
+	Mx5PAQd7iOna6MTunS+YifUAk6Ut8PojBFnAqSRqskDs6+UU9/F9tGmACW+US0muAzr0NHqoX0e
+	dSFFwZYNHaIavRQKQOqnwoxz5CKNCrXZoX8EiS6/i9ohBacqAZS9X2Lf+6Qi9SvOK0cnKllrT2J
+	/BDqA4iJKoFLE8C/4VLy3JzEbARa2TUAKhN9fTf+aFcQ9ersnGHWe7o+bYddygDi1lfWTjcLo7T
+	drcaaoUQx4lwhx/t352KSwBm1rImWPFBXtR2Ns/O1mRIfgBF8MZBj95J5XW4Ti45yFytZqKacWM
+	bOe32uA+tOGdB
+X-Received: by 2002:a05:7301:1f05:b0:2b7:fac6:a9f4 with SMTP id
+ 5a478bee46e88-2b856a4c965mr38975eec.4.1770320079827; Thu, 05 Feb 2026
+ 11:34:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260205-hw_mon-emc1812-v5-2-232835aefe8f@microchip.com>
+References: <20260204210125.613350-1-mkchauras@gmail.com> <20260204210125.613350-4-mkchauras@gmail.com>
+ <aYSgjPD5KRcNN0j4@luna> <1ed12a72-06e4-461b-907e-2581e25e3e38@linux.ibm.com> <aYS2oWCE0ZCC3don@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+In-Reply-To: <aYS2oWCE0ZCC3don@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 5 Feb 2026 20:34:27 +0100
+X-Gm-Features: AZwV_QiXdOwsA6Cs9ikWk94o2hhbKT_np0MzoS_FXf6_Mvy8gIUKQAkUYwzBM0s
+Message-ID: <CANiq72mi-V_SF+JErMJu1wZEd27HPHqhsxE8dELtd5e3ZEaA4w@mail.gmail.com>
+Subject: Re: [PATCH V2 3/3] powerpc: Enable Rust for ppc64le
+To: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>, Jubilee Young <workingjubilee@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+Cc: Venkat Rao Bagalkote <venkat88@linux.ibm.com>, Link Mauve <linkmauve@linkmauve.fr>, ojeda@kernel.org, 
+	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
+	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com, 
+	tmgross@umich.edu, dakr@kernel.org, corbet@lwn.net, maddy@linux.ibm.com, 
+	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org, 
+	peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com, 
+	rostedt@goodmis.org, ardb@kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, clang-built-linux <llvm@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 05, 2026 at 09:09:04AM +0200, Marius Cristea wrote:
-> This is the hwmon driver for Microchip EMC1812/13/14/15/33
-> Multichannel Low-Voltage Remote Diode Sensor Family.
-> 
-> EMC1812 has one external remote temperature monitoring channel.
-> EMC1813 has two external remote temperature monitoring channels.
-> EMC1814 has three external remote temperature monitoring channels and
-> channels 2 and 3 supports anti parallel diode.
-> EMC1815 has four external remote temperature monitoring channels and
-> channels 1/2  and 3/4 supports anti parallel diode.
-> EMC1833 has two external remote temperature monitoring channels and
-> channels 1 and 2 supports anti parallel diode.
-> 
-> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
-> ---
-...
-> diff --git a/drivers/hwmon/emc1812.c b/drivers/hwmon/emc1812.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..30bbc377d592622b07a156732b71cad555987934
-...
-> +static int emc1812_write(struct device *dev, enum hwmon_sensor_types type, u32 attr,
-> +			 int channel, long val)
-> +{
-> +	struct emc1812_data *data = dev_get_drvdata(dev);
-> +	unsigned int interval, regval;
-> +	int convrate;
-> +
-> +	switch (type) {
-> +	case hwmon_temp:
-> +		/* Range is always -64 to 191.875°C */
-> +		val = clamp_val(val, -64000, 191875);
-> +		val = val + (EMC1812_TEMP_OFFSET * 1000);
-> +
-> +		switch (attr) {
-> +		case hwmon_temp_min:
-> +		case hwmon_temp_max:
-> +			return emc1812_set_temp(dev, data, channel, emc1812_temp_map[attr], val);
-> +		case hwmon_temp_crit:
-> +			/* critical temperature limit is stored on 8bits */
-> +			val = DIV_ROUND_CLOSEST(val, 1000);
-> +			return regmap_write(data->regmap, emc1812_temp_crit_regs[channel], val);
+On Thu, Feb 5, 2026 at 6:29=E2=80=AFPM Mukesh Kumar Chaurasiya
+<mkchauras@gmail.com> wrote:
+>
+> use rust version nightly-2026-01-28
+>
+> the latest one has some issue. I just raised a bug for the rustc
+> here[1].
+>
+> [1] https://github.com/rust-lang/rust/issues/152177
 
-AI feedback:
+It appears to be a bug in LLVM 22 for ppc64, not present in 21.
 
-If the input value is 191875 (the maximum allowed by the clamp above), adding the offset gives 255875.
-DIV_ROUND_CLOSEST(255875, 1000) results in 256. Since the registers are 8-bit, this will be truncated
-to 0 (-64 degrees C), potentially causing an immediate critical alarm. The value should be clamped
-to 255 for 8-bit registers. This also applies to emc1812_set_temp() for the internal channel (channel 0).
+If I understand correctly, then it may be fixed in 22.1.9 if it gets releas=
+ed.
 
-> +		case hwmon_temp_crit_hyst:
-> +			/* critical temperature hysteresis is stored on 8bits */
-> +			regval = DIV_ROUND_CLOSEST(val, 1000);
-> +			return emc1812_set_hyst(data, channel, regval);
+Thanks Jubilee for the quick reply there!
 
-The same problem really applies to emc1812_set_hyst() as well. It clamps
-the register value to (0, 256). 256 is truncated to 0. So either the clamp
-in emc1812_set_hyst() is not needed (I didn't check possible value ranges)
-or it is wrong.
+Cc'ing Clang/LLVM build support, in case they didn't hear about it.
 
-...
+I linked it in our usual lists.
 
-> +	i2c_set_clientdata(client, data);
-
-I don't immediately see why this would be needed.
-
-Thanks,
-Guenter
+Cheers,
+Miguel
