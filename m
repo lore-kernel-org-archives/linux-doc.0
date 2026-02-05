@@ -1,184 +1,196 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BF53054F9
-	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 18:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70761199E89
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 18:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770314702; cv=none; b=khVjYsepE7jeGB7OWFJL2+KJvBzXEqLTy1h3YGd4kS/47ubARkirbdb6qxnDverKQ5zHNVeclksqZE2yt1kfP4DqFhj7eRFdqevm1+x6Rjohw7oqptpd6ZufQcoAknK+ugxMlGQuaWELLSrcxmgYjcb+k09XZ1QeLHrngGudfcE=
+	t=1770315367; cv=none; b=e/WKBxw+w25qBitcTn8QFKFh9gV2NashbL4YKjXTDC1W91YeiyM6k8veuNHZt5DVV8Ojt2CYI715BY3T1xf16OOLrAg9bJ6IGkemaC0L3/T2P8FdIIwTFtxsB3iBXC57zLqWpcyxGCNPE04Hotfi3kXaplxH0h54J8PJ5ucAOBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770314702; c=relaxed/simple;
-	bh=EzpOrLbanzoU/XKFGITxt6Om/X66hVN2Cw+4bKLo8ws=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g4MUy2N0R7hcf/GDbUt1YFBs40cwCUo1pf+bb6zbOuiTiS2L/nrsFrxmv/s05XwwKEgtU46M3dBKjAvu7DieMIWaqU2HSLQc8VgcfRxUPrqK/NAMRUmOUwlVR1GfAkdCAlQFkpJ/2WSv5QTyj7U1LCYcEum2HRUWpp2pFp4czN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DxxhDSRT; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770315367; c=relaxed/simple;
+	bh=JaSiFx5tGgruRq7Qg3RAVqyVwcNl8rziDHWnfcUwWpk=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Z2KMlxtaNr5MYDlqUw49shHvpevdpw9ZXd/XV5Chw4QO6Dj3c53MDBIkbEliC3Z5ogODXvj1SWMINVS5OuQ8A5HIhVHNt1z/EtM4UGcgEYpdjAHaVA6RfE4YeyfFSEXX/IrT0eICg0RETRUtU3sidBNuvB0dnLYbtSHVBJH/T+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mN40ooNX; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DxxhDSRT"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-81f4e136481so721924b3a.3
-        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 10:05:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mN40ooNX"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c337cde7e40so760285a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 10:16:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770314702; x=1770919502; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5JEXFfn5owLVtRFRZ2oa7tX5z5wOjOt9hQA1ZlR21y4=;
-        b=DxxhDSRTRbdjwDuyVTwNWxzodVoiLshVLsR42nvRKnuv5R8jzr1NioCCHQaixFRru7
-         Hsi3GbAPBpvbF0XopxTatAA71mBFzScDXNV+Ge+nG50jpI7P2KodXJUMo6AO/QZAYbDd
-         Q0D9AEjrCy4TFhaTxvqyFaSa85hIEfh3ai0YnwwTxSf8wloIF2TBvKpnH85YOlDO7nKx
-         TV6JriVPVK8t+tK5am/bDQYeSFaW+8/nK/WMLx8ciftnbKOsX0lDguqW65IHz5NMmTbh
-         UkNAkzfwYf+sXCOw5BCjPLlA7cRSwt+8Fy5joHmmjqEuIxz47GyuFzcznQBQKNPc3HCW
-         LrVw==
+        d=google.com; s=20230601; t=1770315367; x=1770920167; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w63WtH6exvgU3XpaEY5YF/xmw4rPvTE/WzLO1Z+uiT0=;
+        b=mN40ooNXmhao3cRSagt4b2tS8rAftuf/qZbjBeCP0sZc+TcAJJ3r+dzj2zrB1XF6G/
+         1RZ/dpoegkaBzCCEDCwIlgpi17hPJ9TSUTqOatZ9i37uh/rwSdyHz12s5S/2XcrQ1/yy
+         aMAd6LHxSaZ3MaoTl8AvzxRSPqyZ8ZVGK3S6oL4EW/EZ8Dj8BUNWyWj6DomjPVOZRfMK
+         cMu9Mclyn6olt5/+3GkeDnM/v7KQC2uBrbEZthNcz71ItwpVYFImNLtUFMuf+ld6cs7R
+         8UBjN99FbGKsh5FCyqZXj01D5F3H+fqAQWFFbSTsyWG+A80UuTkI19kj6s9W8dKabudM
+         iTUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770314702; x=1770919502;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5JEXFfn5owLVtRFRZ2oa7tX5z5wOjOt9hQA1ZlR21y4=;
-        b=MFGaKIXWhPhU+UL8EFQgmf23Y/LnwUCoGdkI3QlT5iHvNit2G1PwLQNLHWXtT4T4RB
-         1wU357OvyBGNB3JOCLSq/rn6Os4v8Ifsy97eBcxNwds6sQGi07tL8Q3u1IjbZSJ+nndp
-         e6jdpliGL7Bko9ct/H30AgfUqf3cFQ0/fF+V4CYJCvSLIyQOh4X+HUEvODmwPNMOCagv
-         XXHqXWBDoJRjRkRrLBBN9w4gU65NtALCP+t/DdFyXVPWKzTMjT9Q7THhJ12z1tgBICdL
-         cdtJlRe5EtY9GgCgVeYTmmcYMXWCLZmypzNZTHHIrSIuel53JG32Ax4xXZlUikD70oQ5
-         R1kg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWP8w5Vr89mABhqEN2tsdVyeQH8Hiw8iefdx5toZHAL6KQZO+kqVO8R4Bg1KosqeIx1YCyxACkay0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjqLBkjjZW2mBPxeN6c0lCy418WXGbmhR52nQQ8wjABMtGStcz
-	OZXyDbd4S46RdzCGZQwRpT8eFzNZIzoAs9C4RZ8RaE8fnjgtZ62tPqU1
-X-Gm-Gg: AZuq6aKuugFL/X9ofYSE4hAC7JBoXPj3rLqDC+Kt4TrO8UlJr3r0vsntk3z/zUtg4fX
-	AkCMEX+BjFlzRYoxCdN0anexb2aUXkL+kNESt5HISQ7rh3jpenDZCazbSadHpORo6X8D2cmqmZN
-	lJ52fSJN827Fi5jqo+lxyNl3dBziz2U/KGBzDH8XuncmesyXxBDONQkCfIsdI2qYppX+AIKPJ6o
-	wd19m4Z3dLQJUSdAMDO94l8ZdDGZ2FwnKGfg5Yp6rL0kOPXD3Sm9CDTGjiPfC06pzOUpQewJIN6
-	8J8eNLtR/J2jsxBwOZBL1rgoT9MdQXhwjw7li70811KhBaUOoEUD+aFCPyZN9bmBV6Nk0qy4E0E
-	tx4D8pkNR2DLChvs+czBYFrhOY/FDufJMwxfRg27br5RrALbQh6nEIPsERwZj+oNyGYwSS9RiiJ
-	uha5RrLYQPGkvq83hQjxKQrp1a2P9baLSFMJlDtmg7Tr2TAotpeEn5ZNO4fuBBZAxTpx4bNgpQ
-X-Received: by 2002:a05:6a21:a89:b0:392:e5eb:f0f with SMTP id adf61e73a8af0-393ad3b6c44mr176743637.68.1770314701789;
-        Thu, 05 Feb 2026 10:05:01 -0800 (PST)
-Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com.com ([106.51.167.8])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb5436c5sm99812a12.15.2026.02.05.10.04.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Feb 2026 10:05:01 -0800 (PST)
-From: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-To: linkmauve@linkmauve.fr,
-	ojeda@kernel.org,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	dakr@kernel.org,
-	corbet@lwn.net,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	npiggin@gmail.com,
-	chleroy@kernel.org,
-	peterz@infradead.org,
-	jpoimboe@kernel.org,
-	jbaron@akamai.com,
-	rostedt@goodmis.org,
-	ardb@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Cc: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Subject: [PATCH V3 2/3] rust: Add PowerPC support
-Date: Thu,  5 Feb 2026 23:34:28 +0530
-Message-ID: <20260205180429.3280657-3-mkchauras@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260205180429.3280657-1-mkchauras@gmail.com>
-References: <20260205180429.3280657-1-mkchauras@gmail.com>
+        d=1e100.net; s=20230601; t=1770315367; x=1770920167;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=w63WtH6exvgU3XpaEY5YF/xmw4rPvTE/WzLO1Z+uiT0=;
+        b=VpSE2NbRFitPovS+iOuehahhG4nlKDAa7ezjEHqDdnvNleK2Ow199sNtdTqoT2s83s
+         lKSEjRi1WV8Zk44k9VV2IGz7gX7qT4erf2qyNp0hLZJ4OJgoHnAWxzSlmbIhv4lq4gb7
+         pGtSsgG7CIpxCWYYMsL532zv4qArVwa3C0u4EUaVbENKV4ZhJkg5deBd1KufQCVf21pm
+         J4KwHIJ1hFg0Kdxf00AY2fIUNq4zW/GRFGS8kbwux8PTKUerjJF7wwE734etJTz/I5bW
+         rHCqcnh5I5qXEDBjsRAt0pMc3NkJJcVpnoTN85DFSfHA03JLhnsbMW+b/7YMwcvWTID+
+         Orgw==
+X-Forwarded-Encrypted: i=1; AJvYcCUJj2yygOL5UEzojXZ8oJ81OF+FvMIVQW8J90gXPXtQPNFw2W9ebYycK2So4uRKpqrLCioClJzwCQY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy84PgDpzHlYui0xvdcjszpt41HK85YEwaladJqdcQlrakviywG
+	Seht1lE/yeWFfQcieyTsxQMjbBOh/rJO9JLdOlDlCKl9FjygQyqdoIuaIEfzt5gYuh2y020cWiv
+	KdB24RQ==
+X-Received: from pgqs26.prod.google.com ([2002:a65:691a:0:b0:c61:3772:dcf4])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:6d9b:b0:35f:6e12:186f
+ with SMTP id adf61e73a8af0-393ad0016c0mr253956637.23.1770315366666; Thu, 05
+ Feb 2026 10:16:06 -0800 (PST)
+Date: Thu, 5 Feb 2026 10:16:05 -0800
+In-Reply-To: <CALMp9eT_uJZwO5AF-wWHFH1DnOKWjUtU2u9TCOs7=ZK8_xCx+w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260113225406.273373-1-jmattson@google.com> <aWbmXTJdZDO_tnvE@google.com>
+ <CALMp9eTYakMk0Bogxa_GdGU5_h4PK-YOXcu-cSQ16m1QcusHxw@mail.gmail.com>
+ <CALMp9eQx7EVim4iYGbAhoHrei2YmTra6oxtdmKaY7bw-M0PHbw@mail.gmail.com>
+ <aYKoJ74MWboBuE_M@google.com> <CALMp9eSc=0zS+6Rk-c_0P-Q1Y8_9Xv58G5BYxieKpv_XaSj0wg@mail.gmail.com>
+ <aYPvyMDipM9Z9Z7t@google.com> <CALMp9eR4trBDwgDnyEJmrHnStKnAMiRgehty=xu=NMnLVN2vtw@mail.gmail.com>
+ <aYStVN5MyME-Pkwt@google.com> <CALMp9eT_uJZwO5AF-wWHFH1DnOKWjUtU2u9TCOs7=ZK8_xCx+w@mail.gmail.com>
+Message-ID: <aYTeZY1DoJUyrGzo@google.com>
+Subject: Re: [PATCH] KVM: VMX: Add quirk to allow L1 to set FREEZE_IN_SMM in vmcs12
+From: Sean Christopherson <seanjc@google.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Link Mauve <linkmauve@linkmauve.fr>
+On Thu, Feb 05, 2026, Jim Mattson wrote:
+> On Thu, Feb 5, 2026 at 6:47=E2=80=AFAM Sean Christopherson <seanjc@google=
+.com> wrote:
+> > > > In other words, unless I'm missing something, the only reasonable o=
+ption is to
+> > > > run the guest with FREEZE_IN_SMM=3D1, which means ignoring the gues=
+t's wishes.
+> > > > Or I guess another way to look at it: you can have any color car yo=
+u want, as
+> > > > long as it's black :-)
+> > >
+> > > I would be happy with FREEZE_IN_SMM=3D1. I'm not happy with the host
+> > > dictating FREEZE_IN_SMM=3D0.
+> >
+> > Yep, make sense.
+>=20
+> Perhaps we should ignore both L0 and L1, and arbitrarily set
+> FREEZE_IN_SMM=3D1 for both vmcs01 and vmcs02 when MPT is enabled.=20
 
-For now only Big Endian 32-bit PowerPC is supported, as that is the only
-hardware I have.  This has been tested on the Nintendo Wii so far, but I
-plan on also using it on the GameCube, Wii U and Apple G4.
+Hmm, I like that idea even more, because it's waaay simpler to implement.  =
+Argh,
+the wrinkle is that KVM doesn't actually know if DEBUGCTLMSR_FREEZE_IN_SMM =
+is
+supported.  Oh, nice, it's reported in PERF_CAPABILITIES.
 
-These changes aren’t the only ones required to get the kernel to compile
-and link on PowerPC, libcore will also have to be changed to not use
-integer division to format u64, u128 and core::time::Duration, otherwise
-__udivdi3() and __umoddi3() will have to be added.  I have tested this
-change by replacing the three implementations with unimplemented!() and
-it linked just fine.
+  IA32_DEBUGCTL.FREEZE_WHILE_SMM is supported if
+  IA32_PERF_CAPABILITIES.FREEZE_WHILE_SMM[Bit 12] is reporting 1
 
-Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
-Signed-off-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
----
- Documentation/rust/arch-support.rst | 1 +
- arch/powerpc/Kconfig                | 1 +
- arch/powerpc/Makefile               | 2 ++
- rust/Makefile                       | 4 +++-
- 4 files changed, 7 insertions(+), 1 deletion(-)
+Arguably, this is a fix for mediated PMU support.  Because as you pointed o=
+ut,
+we can freeze PMCs on SMI for mediated vPMUs without impacting host profili=
+ng,
+unlike the legacy vCPU where it being a weird extension of perf means we ca=
+n't
+deny guest profiling without breaking host perf usage.
 
-diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
-index 6e6a515d0899..e26a94808e97 100644
---- a/Documentation/rust/arch-support.rst
-+++ b/Documentation/rust/arch-support.rst
-@@ -18,6 +18,7 @@ Architecture   Level of support  Constraints
- ``arm``        Maintained        ARMv7 Little Endian only.
- ``arm64``      Maintained        Little Endian only.
- ``loongarch``  Maintained        \-
-+``powerpc``    Experimental      32-bit Big Endian only.
- ``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
- ``um``         Maintained        \-
- ``x86``        Maintained        ``x86_64`` only.
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index 9537a61ebae0..17db23b82e91 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -283,6 +283,7 @@ config PPC
- 	select HAVE_REGS_AND_STACK_ACCESS_API
- 	select HAVE_RELIABLE_STACKTRACE
- 	select HAVE_RSEQ
-+	select HAVE_RUST			if PPC32
- 	select HAVE_SAMPLE_FTRACE_DIRECT	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
- 	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
- 	select HAVE_SETUP_PER_CPU_AREA		if PPC64
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index a58b1029592c..9fd82c75dcbd 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -61,6 +61,8 @@ else
- KBUILD_LDFLAGS_MODULE += $(objtree)/arch/powerpc/lib/crtsavres.o
- endif
- 
-+KBUILD_RUSTFLAGS += --target=powerpc-unknown-linux-gnu
+This? (untested)
+
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-in=
+dex.h
+index 4d3566bb1a93..5563f68158bb 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -324,6 +324,7 @@
+ #define PERF_CAP_PEBS_TRAP             BIT_ULL(6)
+ #define PERF_CAP_ARCH_REG              BIT_ULL(7)
+ #define PERF_CAP_PEBS_FORMAT           0xf00
++#define PERF_CAP_FREEZE_IN_SMM         BIT_ULL(12)
+ #define PERF_CAP_FW_WRITES             BIT_ULL(13)
+ #define PERF_CAP_PEBS_BASELINE         BIT_ULL(14)
+ #define PERF_CAP_PEBS_TIMING_INFO      BIT_ULL(17)
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 27acafd03381..ef0d8108ff42 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -8119,13 +8119,12 @@ void vmx_vcpu_after_set_cpuid(struct kvm_vcpu *vcpu=
+)
+ static __init u64 vmx_get_perf_capabilities(void)
+ {
+        u64 perf_cap =3D PERF_CAP_FW_WRITES;
+-       u64 host_perf_cap =3D 0;
+=20
+        if (!enable_pmu)
+                return 0;
+=20
+        if (boot_cpu_has(X86_FEATURE_PDCM))
+-               rdmsrq(MSR_IA32_PERF_CAPABILITIES, host_perf_cap);
++               rdmsrq(MSR_IA32_PERF_CAPABILITIES, kvm_host.perf_capabiliti=
+es);
+=20
+        if (!cpu_feature_enabled(X86_FEATURE_ARCH_LBR) &&
+            !enable_mediated_pmu) {
+@@ -8139,11 +8138,11 @@ static __init u64 vmx_get_perf_capabilities(void)
+                if (!vmx_lbr_caps.has_callstack)
+                        memset(&vmx_lbr_caps, 0, sizeof(vmx_lbr_caps));
+                else if (vmx_lbr_caps.nr)
+-                       perf_cap |=3D host_perf_cap & PERF_CAP_LBR_FMT;
++                       perf_cap |=3D kvm_host.perf_capabilities & PERF_CAP=
+_LBR_FMT;
+        }
+=20
+        if (vmx_pebs_supported()) {
+-               perf_cap |=3D host_perf_cap & PERF_CAP_PEBS_MASK;
++               perf_cap |=3D kvm_host.perf_capabilities & PERF_CAP_PEBS_MA=
+SK;
+=20
+                /*
+                 * Disallow adaptive PEBS as it is functionally broken, can=
+ be
+diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
+index 70bfe81dea54..e780d0e06b61 100644
+--- a/arch/x86/kvm/vmx/vmx.h
++++ b/arch/x86/kvm/vmx/vmx.h
+@@ -408,6 +408,11 @@ static inline void vmx_guest_debugctl_write(struct kvm=
+_vcpu *vcpu, u64 val)
+        WARN_ON_ONCE(val & VMX_HOST_OWNED_DEBUGCTL_BITS);
+=20
+        val |=3D vcpu->arch.host_debugctl & VMX_HOST_OWNED_DEBUGCTL_BITS;
 +
- ifdef CONFIG_CPU_LITTLE_ENDIAN
- KBUILD_CPPFLAGS	+= -mlittle-endian
- KBUILD_LDFLAGS	+= -EL
-diff --git a/rust/Makefile b/rust/Makefile
-index 4dcc2eff51cb..ae22f2c5f0b3 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -384,13 +384,15 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
- 	-fstrict-flex-arrays=% -fmin-function-alignment=% \
- 	-fzero-init-padding-bits=% -mno-fdpic \
- 	-fdiagnostics-show-context -fdiagnostics-show-context=% \
--	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference
-+	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference \
-+	-ffixed-r2 -mmultiple -mno-readonly-in-sdata
- 
- # Derived from `scripts/Makefile.clang`.
- BINDGEN_TARGET_x86	:= x86_64-linux-gnu
- BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
- BINDGEN_TARGET_arm	:= arm-linux-gnueabi
- BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
-+BINDGEN_TARGET_powerpc	:= powerpc-linux-gnu
- BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
- BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
- 
--- 
-2.52.0
-
++       if (kvm_vcpu_has_mediated_pmu(vcpu) &&
++           (kvm_host.perf_capabilities & PERF_CAP_FREEZE_IN_SMM))
++               val |=3D DEBUGCTLMSR_FREEZE_IN_SMM;
++
+        vmcs_write64(GUEST_IA32_DEBUGCTL, val);
+ }
+=20
+diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
+index 70e81f008030..e0084e1063d0 100644
+--- a/arch/x86/kvm/x86.h
++++ b/arch/x86/kvm/x86.h
+@@ -52,6 +52,7 @@ struct kvm_host_values {
+        u64 xss;
+        u64 s_cet;
+        u64 arch_capabilities;
++       u64 perf_capabilities;
+ };
+=20
+ void kvm_spurious_fault(void);
