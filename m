@@ -1,141 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E5313790B;
-	Thu,  5 Feb 2026 13:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6861ACED5
+	for <linux-doc@vger.kernel.org>; Thu,  5 Feb 2026 13:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770298292; cv=none; b=cbjN9y9rMOMCH4FVCeajVV52vruMO8NOIlZU+5lLUH6x8H0YYhhpsqeOHnUmj1jehnSkhBxNdifvuurn4JQm8lBB6/jn65JZYq9IHqT8DSrHSHuOhseYMY60zYhzQ4HS+yaLenkWplsQZJoZyo0HEjZBuW1qhdeOK7hFoEq9BOY=
+	t=1770298520; cv=none; b=kbtaoRQ49FCBqvKwTzHBp/TGzGuoAL71mK5GpXNPVHXigqZcf1lWPb4331QqM2D1uzqtFqyOta2Yg5ZE8v4le3efKkTHkqBC0icUhwvRFapgg5pH9dMbJVki2Gv/qUDW7IMdoz0NMB+2U1GHMfmuRUoGBXW+k0JIAsvZj+uzbfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770298292; c=relaxed/simple;
-	bh=DkyAfYT/bvAKfYlPhoTvpNcAopuiG0l6VfM4hIZTwXQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ouH2VC57Dq4//Hcph/UwKHJtrRK1eSkjwob629CpSBOqXXk6bb4mMwu+XbqKAJy9TgOz90yCz6I29z5qM3SBzeEvuTTKMWEad0QT8cezcNYnBnxXl89wh7cvUq+m/KXDmjdeO72IE81HGHO/DaU/ICBiCtrkfP3x/SBXKvPpSew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dN0ZAemY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770298520; c=relaxed/simple;
+	bh=7nwci2u+IH2SMmQlelunRUWvLZuWXAaGB2sO487v3e8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=u81rUeL6v26cgxqbu6oTU2m+X0ua7O3Ee45TWKdqB+HzoShOyHc36F2aDBk12EnUn0ACXTofXxfWZPt0TdHRfRfHgNxmrS/36xdvZQBJPa25/AqKh+rzTT0bhLM7eHYkZUkVILP3aKum6RcQrX+oHq/XktWBsJ3HQ1SI0HVX6mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fGt7iyE4; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dN0ZAemY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC1ABC4CEF7;
-	Thu,  5 Feb 2026 13:31:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770298291;
-	bh=DkyAfYT/bvAKfYlPhoTvpNcAopuiG0l6VfM4hIZTwXQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dN0ZAemYnR/7svCmpc2YMVy0ygxmA5qmYsXMLnQkjXGN8pxBM4Kzb3Q6QYrxUhlV/
-	 V/A3GBUffRSnH01yXfnI1EjAwYPsTbieyN+FBS5n0fPYEgAf/HkJVuRsTAJN0KKVIk
-	 H0WrP7ntllmKDPrDb034BI7RcNRY+cGT1tBqtp9847MhF3WHERfeVBzCbRuPfKy7H0
-	 nlVeyCzIy1aPOzqr0inqemLThwkUez9Z/Ec5JuFtdJILTAFlx/PSMRrTFEgikh+spS
-	 sBMQN2KLD2DLOvdZbRlAfiQRbmZZG57/gH2P1pE/Xm8SsncipN6YcGUj+pCeJOeesT
-	 /sSCaEO1GEt/A==
-Message-ID: <ef1f6ec1-7036-400c-9d4f-fc4f6f969ef7@kernel.org>
-Date: Thu, 5 Feb 2026 14:31:23 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fGt7iyE4"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-81e8b1bdf0cso781135b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 05:35:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770298519; x=1770903319; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZGuF+Gd9iYH6P0b+NtAvir3zebICrprEYigd8LlPHKM=;
+        b=fGt7iyE4rOzNRaleyDkyaHw/Lml6tEyXiLvqlPLgSOgaGlba++oFSgN9tHXN+XpFiq
+         TnMPwE/EIqvL3cOnYwo4pZ8BC7EuUf78Rwce9OTSVyYeFDUoDzyi2cdc35ZA+DvpgOCr
+         3cOuNMeqJcgspSvBNj7VHEyvu3ywmdOyLSswCEkg2nybuJXI89Jw6Jc3bQDYKlZ4AamL
+         qcYa3wBBGp26edHNqpZ4ApagM//fGv5KX7hN5738iREjQLLrnFvIIVHFcSexyog6k2V8
+         IJHc7z6FNzf+GmF1YK5M130XoIj/z7m63HVzqOgxJ3plwsppg7dMaLRSeR5BSMWGwA4E
+         KT0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770298519; x=1770903319;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZGuF+Gd9iYH6P0b+NtAvir3zebICrprEYigd8LlPHKM=;
+        b=TWkOhN4ls0JJnuibX/lXT08YVomMbcV24/qmVJtdKFLYI0hLmqj4RM7JqgKlSh1s1w
+         RbcYBiG8osQKN/3KJxEIBs81ikla4mxPyZf3C1h657mU8rjHGdJ0ChQOVbl+Ff/HWGyn
+         DVZeX22NOMkvpP6NspxOXlSdVH9REwa8kJ1W0mzUga7XiUgatE0Dkw2duttTUBBFq8Hj
+         L8kIjN6OZESjyA6s+U3YBLcXMn3Ybc0s1wfnr1t3Jxm4Am8oZ3wRUm4jrlMjHTA/E1jI
+         RuI1Z2ODsYTyktLKi8FkhV/QZUQdB8s4VpOkIyeWT3qKTQaiBJwu6BVnMZMddqTZdBAb
+         1x0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWlT2fzFYD+uCnL0OArn+grm9Nsb5LUBnxNOWsd9WmcRDljX6/R8W/UdEx5hAPLeC5kPhco/vOxy6c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxnShrF5L06SwSuvS2R/83BwoThmu0VBIy7iDlErQl0cLqfw+fR
+	tlTWMiIz5Nq5oeLUFIYkYCGXZ/JRU0NbH1dqMD9FGKx0uw7RmQuevtCf
+X-Gm-Gg: AZuq6aLtPVVzh6z0jcsZh+DaRY5ekDhnyc8wHjdL/GkLqivOAA75zwmQbLegan7uu2E
+	rbKJfRNKr61bQVtMnZACzICRAgehz3w3hBviczDD0jjgUGSNZaPSgc6O53+qd9X8bZSbb6N3niN
+	1+JPkLvgQ/mu0OInxlXn6hCayhyH6QsRkVMsP06w8G3h84Xk47gYmbM4lfeMMzNkZmtbcecaziQ
+	/6rw+oo/aoo8V6OsakXw29U5bneSO7XpIp7FCM01XefkkIDVs5bgxqJ8P/RJAgfnnaBfdCfrUov
+	k0BBeq2rsrcPhRsIsdT0dff6xJ04K9jAIcJ1GVpmrtHwItDD3WPn/45FWYCBgePzkbA3jREMUpD
+	OmMe01TzcWy67SEhCT+7TEQtM13wT+f0wqTfcp8FmqZU2O9Ik1LFhtetsTsNfVBSIlVcMFY3jnp
+	IPEqWrgUw=
+X-Received: by 2002:a05:6a21:6194:b0:38d:e6f8:fd97 with SMTP id adf61e73a8af0-393725ddc5amr5941011637.76.1770298519160;
+        Thu, 05 Feb 2026 05:35:19 -0800 (PST)
+Received: from [127.0.1.1] ([218.32.81.133])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a933850f41sm57760505ad.7.2026.02.05.05.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Feb 2026 05:35:18 -0800 (PST)
+From: Colin Huang <u8813345@gmail.com>
+Subject: [PATCH 0/3] Add support for Delta Q54SN120A1 and Q54SW120A7
+Date: Thu, 05 Feb 2026 21:34:34 +0800
+Message-Id: <20260205-add-q54sn120a1-q54q54sw120a7-v1-0-09061ecacfc7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 09/17] mm/sparse: Check memmap alignment for
- compound_info_has_mask()
-To: Kiryl Shutsemau <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
- Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
-Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-10-kas@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260202155634.650837-10-kas@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGqchGkC/x3MTQqEMAxA4atI1hbS4A96FXERp+mYTdUWVBDvP
+ u3s3rd5DySJKgnG6oEopybdQoatK/isHL5i1GUDIXVI2Bp2zhxtk4IlZFuy6CrqjedmoKUTxt5
+ DXuxRvN7//TS/7w/mFfpBbgAAAA==
+X-Change-ID: 20260205-add-q54sn120a1-q54q54sw120a7-fa492b6ea07f
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Colin.Huang2@amd.com, 
+ Carl.Lee@amd.com, Peter.Shen@amd.com, Colin Huang <u8813345@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770298516; l=1082;
+ i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
+ bh=7nwci2u+IH2SMmQlelunRUWvLZuWXAaGB2sO487v3e8=;
+ b=cGbfvPvhCiFhXRfQYxNUQyPQsB6zNtB6NPDRy8x2bQ+kjeZ3X2rCzr7McXlxhOltee2F4No6X
+ oVwLiD//TrUB8COwWAwyVskAcgmHy5lyWrZPuaynyFxvNaDy8w9vbOR
+X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
+ pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
 
-On 2/2/26 16:56, Kiryl Shutsemau wrote:
-> If page->compound_info encodes a mask, it is expected that vmemmap to be
-> naturally aligned to the maximum folio size.
-> 
-> Add a VM_BUG_ON() to check the alignment.
-> 
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> Acked-by: Zi Yan <ziy@nvidia.com>
-> ---
->   mm/sparse.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/mm/sparse.c b/mm/sparse.c
-> index b5b2b6f7041b..6c9b62607f3f 100644
-> --- a/mm/sparse.c
-> +++ b/mm/sparse.c
-> @@ -600,6 +600,13 @@ void __init sparse_init(void)
->   	BUILD_BUG_ON(!is_power_of_2(sizeof(struct mem_section)));
->   	memblocks_present();
->   
-> +	if (compound_info_has_mask()) {
-> +		unsigned long alignment;
-> +
-> +		alignment = MAX_FOLIO_NR_PAGES * sizeof(struct page);
-> +		VM_BUG_ON(!IS_ALIGNED((unsigned long) pfn_to_page(0), alignment));
+This patch series adds support for the Delta Q54SN120A1 and Q54SW120A7
+1/4-brick DC/DC power modules with PMBus capability.
 
-No VM_BUG_ON. VM_WARN_ON_ONCE() should be good enough, no?
+Patch 1 adds driver support under hwmon pmbus.
+Patch 2 updates the devicetree trivial-devices list.
+Patch 3 updates the hwmon documentation index.
 
-As discussed in the other thread, is checking for MAX_FOLIO_NR_PAGES 
-alignment sufficient?
+These changes have been tested with both modules on hardware platforms
+supporting PMBus over I2C.
 
+Signed-off-by: Colin Huang <u8813345@gmail.com>
+---
+Colin Huang (3):
+      hwmon: (pmbus) Add Delta Q54SN120A1 Q54SW120A7 driver
+      dt-bindings: trivial-devices: Add Delta Q54SN120A1 and Q54SW120A7
+      docs: hwmon: Add Q54SN120A1 and Q54SW120A7 to index
+
+ .../devicetree/bindings/trivial-devices.yaml       |  4 ++
+ Documentation/hwmon/index.rst                      |  2 +
+ drivers/hwmon/pmbus/q54sj108a2.c                   | 47 ++++++++++++++++++++--
+ 3 files changed, 49 insertions(+), 4 deletions(-)
+---
+base-commit: 18f7fcd5e69a04df57b563360b88be72471d6b62
+change-id: 20260205-add-q54sn120a1-q54q54sw120a7-fa492b6ea07f
+
+Best regards,
 -- 
-Cheers,
+Colin Huang <u8813345@gmail.com>
 
-David
