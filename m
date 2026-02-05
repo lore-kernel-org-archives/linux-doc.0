@@ -1,24 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF92B1A9FBA;
-	Thu,  5 Feb 2026 16:20:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89D1D43635E;
+	Thu,  5 Feb 2026 16:21:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770308443; cv=none; b=QfCkxE2aiZsBVOPaI37NjnEoa2I0ZaC65uEfm+mHWzuipQbfRa9vgRHg76g6EdfIBG+i6LgVmgje71rh9WD178d9wt22sEgKdplKMHVIMuam+PrXM57YEsxLRQk6aAzfB2/P8iai55IA/qxvUJiIrrHytJVkfuST7gtWSuDzzx4=
+	t=1770308472; cv=none; b=bTZZK4QBLI4Lzv59Uiqxf6iMp+j/ecvCsC/z7s+qRk80bKRqiGHhXMHJfgn1b3F0irkTO4mKd4JXXzfOEp96gIPa9lrWgtwrTfNRdQojdp0IMbtHr4UCWkMDn7vdvIkC8IfviLryFwfs5rDfp7wNXF6Mdz6fERg+JmjSn8igVpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770308443; c=relaxed/simple;
-	bh=3j9lC1ezcq1o4I4TKi+RkA8i98PkQhrH+eBR1wizp9M=;
+	s=arc-20240116; t=1770308472; c=relaxed/simple;
+	bh=97zcsjpXg8aal4u0Hubd1iWG639IqI0Xvn15xE+Kfzw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N41WkGFs9T8lvhq0fxqnDr2FbFvnUzZWzi6TECjDclFgPi3YMsGM6hBv+YnxDQtF/xOdwSgocGG8rFX8rAfGXgsUjQQf8sZIYubBo6z0tH9cr8ltLNrX1yUTP83g6fqgC2DSkK2JpnPgWGexpMu6qOru2tM0UgpVEfzaYS1rIRc=
+	 Content-Type:Content-Disposition:In-Reply-To; b=QyrbIii6cIjGgSm6LrUnrb8S7Rth9ORsiYzNOqwBymjkWGagLxuBXFPgucmcyLHO+scJ418vmd6sxy84x+W8pBYsM5xyKbhwnhDN8sBMwP+xHcbwUj+HRKrvyZSdF2KUupApA8hvRjAevVJFZW8vuFoo1mR7AOb1b13EA2RhyyY=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC098339;
-	Thu,  5 Feb 2026 08:20:35 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C4B51339;
+	Thu,  5 Feb 2026 08:21:05 -0800 (PST)
 Received: from arm.com (arrakis.cambridge.arm.com [10.1.197.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 85D6C3F632;
-	Thu,  5 Feb 2026 08:20:36 -0800 (PST)
-Date: Thu, 5 Feb 2026 16:20:33 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 892B83F632;
+	Thu,  5 Feb 2026 08:21:06 -0800 (PST)
+Date: Thu, 5 Feb 2026 16:21:03 +0000
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Ben Horgan <ben.horgan@arm.com>
 Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
@@ -34,13 +34,11 @@ Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
 	xhao@linux.alibaba.com, will@kernel.org, corbet@lwn.net,
 	maz@kernel.org, oupton@kernel.org, joey.gouly@arm.com,
 	suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
-	zengheng4@huawei.com, linux-doc@vger.kernel.org,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-Subject: Re: [PATCH v4 05/41] arm64: mpam: Re-initialise MPAM regs when CPU
- comes online
-Message-ID: <aYTDUStE3RJp_ht4@arm.com>
+	zengheng4@huawei.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 06/41] arm64: mpam: Drop the CONFIG_EXPERT restriction
+Message-ID: <aYTDbxXDPUfv0KQT@arm.com>
 References: <20260203214342.584712-1-ben.horgan@arm.com>
- <20260203214342.584712-6-ben.horgan@arm.com>
+ <20260203214342.584712-7-ben.horgan@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,28 +47,11 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260203214342.584712-6-ben.horgan@arm.com>
+In-Reply-To: <20260203214342.584712-7-ben.horgan@arm.com>
 
-On Tue, Feb 03, 2026 at 09:43:06PM +0000, Ben Horgan wrote:
-> From: James Morse <james.morse@arm.com>
+On Tue, Feb 03, 2026 at 09:43:07PM +0000, Ben Horgan wrote:
+> In anticipation of MPAM being useful remove the CONFIG_EXPERT restriction.
 > 
-> Now that the MPAM system registers are expected to have values that change,
-> reprogram them based on the previous value when a CPU is brought online.
-> 
-> Previously MPAM's 'default PARTID' of 0 was always used for MPAM in
-> kernel-space as this is the PARTID that hardware guarantees to
-> reset. Because there are a limited number of PARTID, this value is exposed
-> to user-space, meaning resctrl changes to the resctrl default group would
-> also affect kernel threads.  Instead, use the task's PARTID value for
-> kernel work on behalf of user-space too. The default of 0 is kept for both
-> user-space and kernel-space when MPAM is not enabled.
-> 
-> Tested-by: Gavin Shan <gshan@redhat.com>
-> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-> Tested-by: Peter Newman <peternewman@google.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Reviewed-by: Gavin Shan <gshan@redhat.com>
 > Signed-off-by: Ben Horgan <ben.horgan@arm.com>
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
