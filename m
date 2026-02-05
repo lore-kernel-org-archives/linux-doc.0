@@ -1,134 +1,121 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EB235C1AC;
-	Thu,  5 Feb 2026 07:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B4B26E719;
+	Thu,  5 Feb 2026 08:09:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770276551; cv=none; b=QlI89uoS9+2ecosH1gA2XdLNZa4TnhxBUswcj8jBXjO2hr5ui7Q9yN6xl+stvl4pxojtakVi7QQyMFUsL1qfht1S+hfr1mygsxfFT0vve4gJEjnJq+rRuLtD6XSwVJ+KO4RKZMcSV+trh8Qk7fVPQSqNNx6fBsPLGpRbr5Je+AM=
+	t=1770278988; cv=none; b=BiCWk8olbCP8uICIjPF5PflOBpM4AjlgOnDkUmlXGlaNkO7hs8BIJs/EkeH/bkkiSyIi+VE1f/6ta7LwuTtLB4gHnjGXeTZC81wgzItorkIHnFoLDyGbowU7eCQsujTMNBvcF9Xz6ZBD775usIphPFSC1RgYEphloF2eCkC+38M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770276551; c=relaxed/simple;
-	bh=EY/43pJFwmCcoMuG08MLSmg6vTo2De+I2D6wtNw8qaQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eQQHo+BrVUi2XPa9OP4FK+x05ZRmN5Tj2TxT1xk3IFEtxnZ8mzBJqO4F9T3MSWEGTP503P5mdv0kcphb2Qef2tWa50em9NNvwHdMrMRyL3u9JigqssTBF02nxQ0euidnOWrDaye0XDTzoz82yfwa7KfRNVyvBlNKrQKfc2OC1k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=b8+xK3BV; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1770278988; c=relaxed/simple;
+	bh=Gk1rpoOJ3qlMNhZI4HdytNI08bOgFElC6mEKS/IYXNY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=WhZdTHzZpz22jg2/5K4jN1pxtbQAbXmVy1Y1KhSqR0/M9EGIhpezAcrWgW1KHqv9jOyD6auK+uYu3EGusIkRFkPJLCi+xyE7/edf2k3+foA9M4V30asWpyaFC3XX4jI871evj4QDVylAn4AbnA80Ll4tpTcqyGnByl7HpZ7FJiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pB2e8MNX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="b8+xK3BV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=GvYSS0kO3rEuc+Lw6sAuhOdJdDPjLPfPKlxMhr/mFOo=; b=b8+xK3BV1+Y08pOpH5RLqjVaMT
-	xbxhI/sF3AnusuBfBBKXPaY3e0dE1P/8S8lYgP824kcaz35ZpyIp3qm2bUlD2odrCm7HtCpUmLq4J
-	p4CP6Mp9e3jqjTAsxRkp766qMFecTYK+I0s9TeC99qO4GSptm34X9aeF5c3YXfThad3RnsNw8ku8F
-	FX3kndEwOEMv5WZCQ2GkegRjdVsKv9qnlOqVDfsYh6yeIwm8uGPEYb777wqhozRut83N4mJiMfREw
-	oc0bMVWskeVK9361d6FnAjobVyKI99r4Vb4MEvEykIfWGG96er77/TKvbe9rAcBvlNrnr4JfZRe1o
-	dJOkfp7A==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vntnX-00000009YZD-2JYS;
-	Thu, 05 Feb 2026 07:29:07 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Yu Kuai <yukuai@fnnas.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH -next] blk-mq: ABI/sysfs-block: fix docs build warnings
-Date: Wed,  4 Feb 2026 23:29:03 -0800
-Message-ID: <20260205072906.1881343-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pB2e8MNX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33374C4CEF7;
+	Thu,  5 Feb 2026 08:09:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770278987;
+	bh=Gk1rpoOJ3qlMNhZI4HdytNI08bOgFElC6mEKS/IYXNY=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=pB2e8MNXaRPUmdj792704a5mCJ0O/XIcY+O/2uRB8F5ajnD4PcWkA5KMzKdeEv6lr
+	 1uUJN8R989oRBO7EdhPbQ6DY7ClEQcXN6BH40hSFaFL34sfY2LJiOslN+vusKxUq5M
+	 7AinykT94Vuh8f1ztqhVGOk6b3g7bai93vDS+1Fii6v1Eooi66xu05r+3tGuW9REsC
+	 HHy6KSI7JjgIhhbLQNpDPf/rhBrUvbebMayFanIA0pa7w2sSqk3ka0qoG7MqSLq2O7
+	 1TNzuHjjOsM9ii53boG+MXTyhUyTTv1CEpljC4vj5gNuGBrgBzqfZnfe1x8M1yTlje
+	 VRvEXr3Tb4PMQ==
+Message-ID: <306b01a2-caba-4c15-89d4-849c3f4848cb@kernel.org>
+Date: Thu, 5 Feb 2026 09:09:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 1/3] powerpc/jump_label: adjust inline asm to be
+ consistent
+To: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>,
+ linkmauve@linkmauve.fr, ojeda@kernel.org, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+ dakr@kernel.org, corbet@lwn.net, maddy@linux.ibm.com, mpe@ellerman.id.au,
+ npiggin@gmail.com, peterz@infradead.org, jpoimboe@kernel.org,
+ jbaron@akamai.com, rostedt@goodmis.org, ardb@kernel.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+References: <20260204210125.613350-1-mkchauras@gmail.com>
+ <20260204210125.613350-2-mkchauras@gmail.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <20260204210125.613350-2-mkchauras@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Clean up the async_depth documentation:
-- insert blank lines before and after lists where needed
-- convert verb tense in a few places
-- make lines fit within 80 characters
 
-Documentation/ABI/stable/sysfs-block:612: ERROR: Unexpected indentation. [docutils]
-Documentation/ABI/stable/sysfs-block:612: ERROR: Unexpected indentation. [docutils]
-Documentation/ABI/stable/sysfs-block:612: ERROR: Unexpected indentation. [docutils]
 
-Fixes: 2c04718edcd5 ("blk-mq: add documentation for new queue attribute async_dpeth")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Yu Kuai <yukuai@fnnas.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: linux-block@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+Le 04/02/2026 à 22:01, Mukesh Kumar Chaurasiya (IBM) a écrit :
+> [Vous ne recevez pas souvent de courriers de mkchauras@gmail.com. Découvrez pourquoi ceci est important à https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> Added support for a new macro ARCH_STATIC_BRANCH_ASM in powerpc
+> to avoid duplication of inline asm between C and Rust. This is
+> inline with commit aecaf181651c '("jump_label: adjust inline asm to be consistent")'
+> 
+> Signed-off-by: Madhavan Srinivasan <maddy@linux.ibm.com>
+> Signed-off-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
 
- Documentation/ABI/stable/sysfs-block |   33 ++++++++++++++++---------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
 
---- linux-next-20260204.orig/Documentation/ABI/stable/sysfs-block
-+++ linux-next-20260204/Documentation/ABI/stable/sysfs-block
-@@ -613,34 +613,45 @@ What:		/sys/block/<disk>/queue/async_dep
- Date:		August 2025
- Contact:	linux-block@vger.kernel.org
- Description:
--		[RW] Controls how many asynchronous requests may be allocated in the
--		block layer. The value is always capped at nr_requests.
-+		[RW] Controls how many asynchronous requests may be allocated
-+		in the block layer. The value is always capped at nr_requests.
- 
- 		When no elevator is active (none):
-+
- 		- async_depth is always equal to nr_requests.
- 
- 		For bfq scheduler:
-+
- 		- By default, async_depth is set to 75% of nr_requests.
- 		  Internal limits are then derived from this value:
-+
- 		  * Sync writes: limited to async_depth (≈75% of nr_requests).
--		  * Async I/O: limited to ~2/3 of async_depth (≈50% of nr_requests).
-+		  * Async I/O: limited to ~2/3 of async_depth (≈50% of
-+		    nr_requests).
- 
- 		  If a bfq_queue is weight-raised:
--		  * Sync writes: limited to ~1/2 of async_depth (≈37% of nr_requests).
--		  * Async I/O: limited to ~1/4 of async_depth (≈18% of nr_requests).
- 
--		- If the user writes a custom value to async_depth, BFQ will recompute
--		  these limits proportionally based on the new value.
-+		  * Sync writes: limited to ~1/2 of async_depth (≈37% of
-+		    nr_requests).
-+		  * Async I/O: limited to ~1/4 of async_depth (≈18% of
-+		    nr_requests).
-+
-+		- If the user writes a custom value to async_depth, BFQ will
-+		  recompute these limits proportionally based on the new value.
- 
- 		For Kyber:
-+
- 		- By default async_depth is set to 75% of nr_requests.
--		- If the user writes a custom value to async_depth, then it override the
--		  default and directly control the limit for writes and async I/O.
-+		- If the user writes a custom value to async_depth, then it
-+		  overrides the default and directly controls the limit for
-+		  writes and async I/O.
- 
- 		For mq-deadline:
-+
- 		- By default async_depth is set to nr_requests.
--		- If the user writes a custom value to async_depth, then it override the
--		  default and directly control the limit for writes and async I/O.
-+		- If the user writes a custom value to async_depth, then it
-+		  overrides the default and directly controls the limit for
-+		  writes and async I/O.
- 
- 
- What:		/sys/block/<disk>/queue/nr_zones
+> ---
+>   arch/powerpc/include/asm/jump_label.h | 23 +++++++++++++----------
+>   1 file changed, 13 insertions(+), 10 deletions(-)
+> 
+> diff --git a/arch/powerpc/include/asm/jump_label.h b/arch/powerpc/include/asm/jump_label.h
+> index d4eaba459a0e..a6b211502bfe 100644
+> --- a/arch/powerpc/include/asm/jump_label.h
+> +++ b/arch/powerpc/include/asm/jump_label.h
+> @@ -15,14 +15,20 @@
+>   #define JUMP_ENTRY_TYPE                stringify_in_c(FTR_ENTRY_LONG)
+>   #define JUMP_LABEL_NOP_SIZE    4
+> 
+> +#define JUMP_TABLE_ENTRY(key, label)                   \
+> +       ".pushsection __jump_table,  \"aw\"     \n\t"   \
+> +       ".long 1b - ., " label " - .            \n\t"   \
+> +       JUMP_ENTRY_TYPE key " - .               \n\t"   \
+> +       ".popsection                            \n\t"
+> +
+> +#define ARCH_STATIC_BRANCH_ASM(key, label)             \
+> +       "1:     nop                             \n\t"   \
+> +       JUMP_TABLE_ENTRY(key,label)
+> +
+>   static __always_inline bool arch_static_branch(struct static_key *key, bool branch)
+>   {
+> -       asm goto("1:\n\t"
+> -                "nop # arch_static_branch\n\t"
+> -                ".pushsection __jump_table,  \"aw\"\n\t"
+> -                ".long 1b - ., %l[l_yes] - .\n\t"
+> -                JUMP_ENTRY_TYPE "%c0 - .\n\t"
+> -                ".popsection \n\t"
+> +       asm goto(
+> +                ARCH_STATIC_BRANCH_ASM("%c0", "%l[l_yes]")
+>                   : :  "i" (&((char *)key)[branch]) : : l_yes);
+> 
+>          return false;
+> @@ -34,10 +40,7 @@ static __always_inline bool arch_static_branch_jump(struct static_key *key, bool
+>   {
+>          asm goto("1:\n\t"
+>                   "b %l[l_yes] # arch_static_branch_jump\n\t"
+> -                ".pushsection __jump_table,  \"aw\"\n\t"
+> -                ".long 1b - ., %l[l_yes] - .\n\t"
+> -                JUMP_ENTRY_TYPE "%c0 - .\n\t"
+> -                ".popsection \n\t"
+> +                JUMP_TABLE_ENTRY("%c0", "%l[l_yes]")
+>                   : :  "i" (&((char *)key)[branch]) : : l_yes);
+> 
+>          return false;
+> --
+> 2.52.0
+> 
+
