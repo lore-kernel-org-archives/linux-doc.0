@@ -1,86 +1,225 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB0124677F;
-	Thu,  5 Feb 2026 02:06:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC64224D6;
+	Thu,  5 Feb 2026 03:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770257198; cv=none; b=HMde1tJnmaJNIids8LxIbyKTIsAQGUrdkFkeI2hlwa1Qpkit7EaooMbROIvctz8lgwAQld3y1A3bH5t78eMiWZe3awx+bXWtCOVlP6lcFXz95ZH8yISQMevNM3aButDPIi40T7oU0CYN2N0pIrCEqZZPAMArGI3emJ1f1fKPuRA=
+	t=1770261348; cv=none; b=KrLEp/VRSzTtLSI8cGhmZHYwc0+l4mo3DdcZR/7I2T9e0YDjoCbYaNSqyRZPlwnzK+twOa7SgbFjdLRX/UeW+VDim6uWd4BIWBLPAUskZ2Qbfz3c5+KmOHCh8Sc5aOPseWO5FCLOA9peV7D0pqH2vRLwA+J9Z316erV3Tulx0g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770257198; c=relaxed/simple;
-	bh=o5GScY0IkA5GPyQXBW8RFTDzDffTJNoOPmkAuFmcNts=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M2jyR6KVFMCUpJDPWxUWkmJgMAwUEscQxp9xrAMCQPfsMRxO4Ytycq8jW+og5VNWqbR1MQI0NnSbab6LFOw74gUkIhO3gmH0VFqD31RkPVhXLwwfeaXA2H/fyo9BOl9SKr2Bi7G4ioy5YdNZlCdsLQ8IQuCqaqLHHOmfeH6BFqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vCssFMyN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770261348; c=relaxed/simple;
+	bh=kGtWHHTA3fwgZYHB1C+2bZnx9p4RNST3A1ud1SPTVSY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=XAc6yYvkUqOvtFgM9VcNnYQOH6LGpnrYUUpIZoUASthuaVrDMgV58rm4V29xfXDySV/E38aTDDH52wUMvbJuEcglw5f9SwkqlQH2cCPD4IuINhkHLM83kQb4gtFUS/6RIz9/BLQuyFxkrvKHgdUSxnyMhu0FRwHpwzktbSMaovI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=mrg81Ley; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vCssFMyN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3836CC4CEF7;
-	Thu,  5 Feb 2026 02:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770257198;
-	bh=o5GScY0IkA5GPyQXBW8RFTDzDffTJNoOPmkAuFmcNts=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=vCssFMyN/MYJ3pp6mRt9gbYbxLArpvEIqwxsJ6i0uEg3acxlxvUzLRo9a+35Ank6m
-	 2IIVTHz+jdHtmaGVSxvYqlrwnLRDLddo6Xg1TYeJLeoCjg4w9+PPkzVQgH/EZKM0gu
-	 gGVgT2kHHIm9b1kioqALCaLeTaf2UlFtV+UOCAcYApGSrzPcgVdDGvrA+aszVwBGH5
-	 7IFGaICnk22UIc0Z8J1ppxLU4ZqD89EfJOavzdPXaqX5cj5LwmIqaNDvR8tbHvuTyg
-	 NdmUkgWRWmbb31oqz9GBN2SMrHLX7p04OdA9j9ogl32MQQ2un16OVCRLtxP1beBXhp
-	 RU8qn5JytWVhg==
-Date: Wed, 4 Feb 2026 18:06:36 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Donald Hunter
- <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
- <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
- <mbloch@nvidia.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman
- <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Carolina Jubran
- <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko
- <jiri@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>, Simon Horman
- <horms@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: Re: [PATCH net-next V7 02/14] devlink: introduce shared devlink
- instance for PFs on same chip
-Message-ID: <20260204180636.7ae26cb6@kernel.org>
-In-Reply-To: <y2q4usbmebqm6vpu32is6m3ga3f3xs5xe3jbk2g5n7l7fmt2eu@4m3guiuc3uuz>
-References: <20260128112544.1661250-1-tariqt@nvidia.com>
-	<20260128112544.1661250-3-tariqt@nvidia.com>
-	<20260202194946.64555356@kernel.org>
-	<wdkd7yelgosii7bklmahxf5t6xnn2vydnwiiruiwqpyue722dj@yjnkcdctzeav>
-	<20260203184200.216bb426@kernel.org>
-	<y2q4usbmebqm6vpu32is6m3ga3f3xs5xe3jbk2g5n7l7fmt2eu@4m3guiuc3uuz>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="mrg81Ley"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=m0YhAEtCzGzoYGvZg42KcYgs+OHxXA5AmpEhewJRkE0=;
+	b=mrg81Ley9PfGVLZQRfso+yz1ManXQbV+PfgxLEEqszlmqVu7nf5ibUS3D3jz2hxv4nVKl3Pxy
+	u1f26cRtxz6qdg+Sa5H47rkNKtSL2+fw1FqsGBvUi1egGqaUWoOeHZW1xEPRfIPMfxyDybkK+me
+	y6AzQqnzHgyAcWGTJDZFXnA=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4f62L33nmhz1prQr;
+	Thu,  5 Feb 2026 11:11:07 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id A0B3540561;
+	Thu,  5 Feb 2026 11:15:44 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 5 Feb 2026 11:15:41 +0800
+Message-ID: <113f1d02-69df-b28e-edb9-514d284c6b29@huawei.com>
+Date: Thu, 5 Feb 2026 11:15:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v3 1/3] crash: Exclude crash kernel memory in crash core
+Content-Language: en-US
+To: Sourabh Jain <sourabhjain@linux.ibm.com>, <corbet@lwn.net>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <chenhuacai@kernel.org>,
+	<kernel@xen0n.name>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
+	<npiggin@gmail.com>, <chleroy@kernel.org>, <pjw@kernel.org>,
+	<palmer@dabbelt.com>, <aou@eecs.berkeley.edu>, <alex@ghiti.fr>,
+	<tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<bhe@redhat.com>, <vgoyal@redhat.com>, <dyoung@redhat.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <feng.tang@linux.alibaba.com>,
+	<kees@kernel.org>, <elver@google.com>, <arnd@arndb.de>,
+	<lirongqing@baidu.com>, <fvdl@google.com>, <leitao@debian.org>,
+	<rppt@kernel.org>, <cfsworks@gmail.com>, <osandov@fb.com>, <ardb@kernel.org>,
+	<ryan.roberts@arm.com>, <tangyouling@kylinos.cn>, <ritesh.list@gmail.com>,
+	<bjorn@rivosinc.com>, <songshuaishuai@tinylab.org>,
+	<samuel.holland@sifive.com>, <kevin.brodsky@arm.com>,
+	<junhui.liu@pigmoral.tech>, <vishal.moola@gmail.com>, <coxu@redhat.com>,
+	<jbohac@suse.cz>, <liaoyuanhong@vivo.com>, <brgerst@gmail.com>,
+	<fuqiang.wang@easystack.cn>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <kexec@lists.infradead.org>
+References: <20260204093728.1447527-1-ruanjinjie@huawei.com>
+ <20260204093728.1447527-2-ruanjinjie@huawei.com>
+ <4dc944c7-20ad-4e92-b05e-28a9e0c5a2b8@linux.ibm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <4dc944c7-20ad-4e92-b05e-28a9e0c5a2b8@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On Wed, 4 Feb 2026 08:15:21 +0100 Jiri Pirko wrote:
-> >> String gives drivers flexibility to use anything. Perhaps I'm missing
-> >> your point. Are you againts free-form or just string and buf+buf_len
-> >> would be fine?  
-> >
-> >I was thinking binary buf+len is fine, and we shouldn't really expose
-> >this to user space in any shape or form (hence no concern about free
-> >form).  
+
+
+On 2026/2/4 20:32, Sourabh Jain wrote:
 > 
-> How you imagine to name faux device then? I'm sensing that you want to
-> get rid of busname/devname handle for things like this and rely on some
-> randomly generated index. But the whole ecosystem is bases on
-> busname/devname handle. Any idea how to overcome that?
+> 
+> On 04/02/26 15:07, Jinjie Ruan wrote:
+>> The exclude of crashk_res, crashk_low_res and crashk_cma memory
+>> are almost identical across different architectures, so handling them
+>> in the crash core would eliminate a lot of duplication, so do
+>> them in the common code.
+>>
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> ---
+>>   arch/arm64/kernel/machine_kexec_file.c     | 12 -------
+>>   arch/loongarch/kernel/machine_kexec_file.c | 12 -------
+>>   arch/powerpc/kexec/ranges.c                | 16 ++-------
+>>   arch/riscv/kernel/machine_kexec_file.c     |  5 +--
+>>   arch/x86/kernel/crash.c                    | 39 ++--------------------
+>>   kernel/crash_core.c                        | 28 ++++++++++++++++
+>>   6 files changed, 34 insertions(+), 78 deletions(-)
+>>
 
-Quoting myself form the other sub-thread:
+[...]
 
-  FWIW using devlink day to day, the bus/device is not at all useful as
-  an identifier. Most of code touching devlink at Meta either matches
-  on devlink dev info or assumes there's one instance on the system.
+>> -static int crash_exclude_mem_range_guarded(struct crash_mem
+>> **mem_ranges,
+>> -                       unsigned long long mstart,
+>> -                       unsigned long long mend)
+>> +static int crash_realloc_mem_range_guarded(struct crash_mem
+>> **mem_ranges)
+>>   {
+>>       struct crash_mem *tmem = *mem_ranges;
+>>   @@ -566,7 +564,7 @@ static int
+>> crash_exclude_mem_range_guarded(struct crash_mem **mem_ranges,
+>>               return -ENOMEM;
+>>       }
+>>   -    return crash_exclude_mem_range(tmem, mstart, mend);
+>> +    return 0;
+>>   }
+>>     /**
+>> @@ -604,18 +602,10 @@ int get_crash_memory_ranges(struct crash_mem
+>> **mem_ranges)
+>>               sort_memory_ranges(*mem_ranges, true);
+>>       }
+>>   -    /* Exclude crashkernel region */
+>> -    ret = crash_exclude_mem_range_guarded(mem_ranges,
+>> crashk_res.start, crashk_res.end);
+>> +    ret = crash_realloc_mem_range_guarded(mem_ranges);
+> 
+> What if max_nr_ranges - nr_ranges = 1, then no realloc will happen here.
+> And in
+> elf_header_exclude_ranges we may not enough space to store additional
+> memory ranges needed while excluding one or more CMA ranges.
 
-IOW I think you over-estimate the value of the bus/dev in real life
-systems. And that's for instances that have a real bus/dev. Having
-a faux bus/dev is completely pointless, right? The only question is
-whether some code will straight up crash when seeing a device without
-bus/dev.
+You're absolutely right — if max_nr_ranges - nr_ranges == 1 we skip the
+realloc, yet elf_header_exclude_ranges() can easily need more than one
+extra slot.
+
+Thanks for catching this.
+Jinjie
+
+> 
+>>       if (ret)
+>>           goto out;
+>>   -    for (i = 0; i < crashk_cma_cnt; ++i) {
+>> -        ret = crash_exclude_mem_range_guarded(mem_ranges,
+>> crashk_cma_ranges[i].start,
+>> -                          crashk_cma_ranges[i].end);
+>> -        if (ret)
+>> -            goto out;
+>> -    }
+>> -
+>>       /*
+>>        * FIXME: For now, stay in parity with kexec-tools but if RTAS/OPAL
+>>        *        regions are exported to save their context at the time of
+
+[...]
+
+>>   +static int crash_exclude_mem_ranges(struct crash_mem *cmem)
+>> +{
+>> +    int ret, i;
+>> +
+>> +    /* Exclude crashkernel region */
+>> +    ret = crash_exclude_mem_range(cmem, crashk_res.start,
+>> crashk_res.end);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    if (crashk_low_res.end) {
+>> +        ret = crash_exclude_mem_range(cmem, crashk_low_res.start,
+>> crashk_low_res.end);
+>> +        if (ret)
+>> +            return ret;
+>> +    }
+>>   +    for (i = 0; i < crashk_cma_cnt; ++i) {
+>> +        ret = crash_exclude_mem_range(cmem, crashk_cma_ranges[i].start,
+>> +                          crashk_cma_ranges[i].end);
+>> +        if (ret)
+>> +            return ret;
+>> +    }
+>>   +    return ret;
+>> +}
+>>     int crash_prepare_elf64_headers(struct crash_mem *mem, int
+>> need_kernel_map,
+>>                 void **addr, unsigned long *sz)
+>> @@ -174,6 +197,11 @@ int crash_prepare_elf64_headers(struct crash_mem
+>> *mem, int need_kernel_map,
+>>       unsigned int cpu, i;
+>>       unsigned long long notes_addr;
+>>       unsigned long mstart, mend;
+>> +    int ret;
+>> +
+>> +    ret = crash_exclude_mem_ranges(mem);
+> 
+> I think the assumption here is that mem should have enough space
+> to hold the extra ranges created while excluding crash memory ranges.
+> Right now, this is not happening on powerpc for the case I mentioned
+> in the above comment.
+
+Yes, as you mentioned above.
+
+> 
+> Also, if crashk_cma_cnt changes in the future, or if a new type of
+> crash memory is added, then every architecture would need to adjust
+> the mem allocation accordingly. Instead, could we handle this in
+> generic code rather than in architecture-specific code, so that we
+> always ensure mem has enough space?
+
+I agree — hard-coding the worst-case count in every arch is a
+maintenance trap.
+Let's move the size calculation (and the realloc if needed) into the
+generic crash core so that:
+
+- New CMA regions or future crash-memory types are automatically
+accounted for;
+
+- Each architecture no longer has to play whack-a-mole with its private
+array size.
+
+Thanks for the suggestion.
+
+> 
+>> +    if (ret)
+>> +        return ret;
+>>         /* extra phdr for vmcoreinfo ELF note */
+>>       nr_phdr = nr_cpus + 1;
+> 
