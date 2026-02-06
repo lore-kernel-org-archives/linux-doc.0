@@ -1,169 +1,387 @@
-Received: from out198-23.us.a.mail.aliyun.com (out198-23.us.a.mail.aliyun.com [47.90.198.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B94A30CD87;
-	Fri,  6 Feb 2026 09:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B3E2D3727
+	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 09:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770370018; cv=none; b=IgyA9Fbl0wDXNrqTLHC5DfNdmW9saIwyt6okemA5jvJDMwAfKIeIiG2WnS54J6YhiIpCrDoJurE0HK5dUqy3cGRNVt/G0ukDNf0u5SUFy6e/Y3cEWWRtUwH2GUx4sVV4BIsRgqDPk2Zrm62QrzLqO8wgNGYtXtDBQPtPADq2TMQ=
+	t=1770370434; cv=none; b=RhBVdZTfKUSE8bpV+YHc2MoVMPYjisU5oPPvFbMvNjvW9YrjYfroSRW5EKWD5LvLcmru8GzAkj67ySbSlfrLhJ7eCj4c4cXMBxtoBAmVpW7biM7NAt48WNThwyD5n/Y//3aO0X5EfK4zNe+X8yB4olfBDKXTreycPi3YWZ60Y0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770370018; c=relaxed/simple;
-	bh=bzTXrU9PhqXto/ujJXWTB+KV/DqfHECrd3UQSYaAg4k=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=Rz45Bcisyqdd+goMTdgR4uvMdScym97jrUnMP02msVr507tYKhyO0iuIM9dliGckgo2/1AbrRCoM5SBdU/vTurWQ8YLLs1410VshDfkbJQ6azKyAmM5+ja0MT7vqf1kul2Wp6ciwtetoYOHwn8qr9iU6pcgUT8wGza/+97OJMMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07386666|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.449088-0.00324481-0.547667;FP=16291042166976419330|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037021130;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=16;RT=16;SR=0;TI=W4_0.2.3_212858CE_1770368875700_o7001c697;
-Received: from WS-web (illusion.wang@nebula-matrix.com[W4_0.2.3_212858CE_1770368875700_o7001c697] cluster:ay29) at Fri, 06 Feb 2026 17:26:35 +0800
-Date: Fri, 06 Feb 2026 17:26:35 +0800
-From: "Illusion Wang" <illusion.wang@nebula-matrix.com>
-To: "Andrew Lunn" <andrew@lunn.ch>
-Cc: "Dimon" <dimon.zhao@nebula-matrix.com>,
-  "Alvin" <alvin.wang@nebula-matrix.com>,
-  "Sam" <sam.chen@nebula-matrix.com>,
-  "netdev" <netdev@vger.kernel.org>,
-  "andrew+netdev" <andrew+netdev@lunn.ch>,
-  "corbet" <corbet@lwn.net>,
-  "kuba" <kuba@kernel.org>,
-  "linux-doc" <linux-doc@vger.kernel.org>,
-  "lorenzo" <lorenzo@kernel.org>,
-  "pabeni" <pabeni@redhat.com>,
-  "horms" <horms@kernel.org>,
-  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-  "edumazet" <edumazet@google.com>,
-  "open list" <linux-kernel@vger.kernel.org>
-Reply-To: "Illusion Wang" <illusion.wang@nebula-matrix.com>
-Message-ID: <8641f978-76d5-464f-a312-414bd913c918.illusion.wang@nebula-matrix.com>
-Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHY0IG5ldC1uZXh0IDAyLzExXSBuZXQvbmVidWxhLW1hdHJpeDog?=
-  =?UTF-8?B?YWRkIG91ciBkcml2ZXIgYXJjaGl0ZWN0dXJl?=
-X-Mailer: [Alimail-Mailagent][W4_0.2.3][null][Chrome]
+	s=arc-20240116; t=1770370434; c=relaxed/simple;
+	bh=c+GiUJQTfwJdt0D4FrdPca+NjRLul/+/cXZFtg415KQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ton5X7dFQYTEPj9nev9vehIgHW+NS32qgKDLOOxtv0iN+CipRZiRamPfXL5/Rsd8MwT73Mv+UGsLl+fUJ28LHQVuGeBJI2YcRZ9pQjxTVSkIDijoqUYDGtZvipjkcRN3/RIXryU2jyRLv1Tfs2+I/OY/3zW7YKBcNye2FWbNUYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=T8s0Lqb1; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="T8s0Lqb1"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ee0291921so4540555e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 01:33:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770370432; x=1770975232; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=56MUvuCz4kq0jyDggo6mUeNBZRMTvfCb+XKL3S/XDRU=;
+        b=T8s0Lqb1oNsUcQFpml28rmErHuUAn+On6w1dppEGr3pDG5G77o0Py0FeS+MxpyxCyq
+         z5LV1817Pp5NU1nhAEAtGRYvHoFhzixOPIKBwwBxR1Pl8YOw843zYsa+HHYK8UYTXnkj
+         0xHMeujCLFcT69ent5dSbj+ajtJ1Lb2C+0KjKJvikQq5VsW2i2mKqgVMBJ4ukMwRd5Jg
+         Y9qNKTAwX/ExTtrun8sEd7m5mB0sN7sbEDTno4CD/PqbGD8AHMUABwgM7Z3HcGlEGOc4
+         WC91wj+W2kveJQMWR5BT7sljjvvGZfgJwgV1BtI00WRNaW4MfDjFVYkmu0WUgpw6PTpy
+         4vIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770370432; x=1770975232;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=56MUvuCz4kq0jyDggo6mUeNBZRMTvfCb+XKL3S/XDRU=;
+        b=OaMUJXrrjVDrOdZb3lGRTo96q97YklcFP5Bzj5EvLvN9euFQvkHDZAnWHeDhZU+0PJ
+         mC+++tPpSvr+xqpAZ0vQ58zB1mxCBhx/8xoMOwC46J9H9UOrv8cHbyiC3dH09GVJ0IzB
+         shGK2S5j50UyXBT0s8oTozsPLXHaDJKhOiu0sE8IURFMZ6iEO10h93Q3Mq1DWqz35u0/
+         ND9yzIexQLli9eK+Ar7cjSnvxhH9ysblbexyUnKuMHJgKkO8Cfjbl37BzWCq85t3I1Q7
+         LbUkCILM8XrQIOtiWz/Y67inNLgI2L7sZCa7xOIC7qOY/qgKyBbEu50XxQnK+tb3V9fR
+         aZdw==
+X-Forwarded-Encrypted: i=1; AJvYcCUtR99V0vyyPozxiDE6PzagkbuDBh1f6j6dNhbVYz4HjZ8eOz7foBb1V6PNzgr8+v4ZfDYv3TJs8Qk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbfV3cNq6BR3zQ3xEikecdM4OhaiAHRQ8sEH4jSn0TLnL8Iz2n
+	IDQIdO9iZXDVcSjGElnADZB0qpRqvT6a+CmslRR1VRuDm/MFeC0AfettGMd/V3GgJIA=
+X-Gm-Gg: AZuq6aLVkaZ/Yi7dx/OVRw/hk9/bUei/pqf8mZDkoIFxN+lfll6uT3KqaU7Wkryg1e3
+	scG9PQ/rtureSsEj2hMkVr4leZHy1sXxzysxRx+drVbds6NdGFu3dNOQBivuhPBq46uRsNM4l8i
+	qOIEHwgR4PHfrgExF5feWt1q89Urlyuv92L3kTsl1irHKN+moYv4MSrutehdEqpU/Z0JX5CWJgb
+	OnsDhOHUXNu2sZpeNZAB0vYyQBarGcDIHGYYyUkO2T8nlgqxT1kmsgOG7Lrlms/woh9Q9urHlZU
+	dByJIs+XhbRFxd8GE1ww569aUcvTtABUGCKDdNtSGW3pRcLS1s7WMdb/cj72fV9FpDzIxpiYT91
+	AT7rN19aCnFu9LCFoh28SUYa0nRqmFsaB/uXdfQ3vtkUtmCkhL/dmnJnWCegJN51/1YH8qM0m8Y
+	654LyKwr8yeOiCHRygcyE=
+X-Received: by 2002:a05:600c:528a:b0:47f:1a8d:4f30 with SMTP id 5b1f17b1804b1-4832021cd67mr28793385e9.26.1770370432345;
+        Fri, 06 Feb 2026 01:33:52 -0800 (PST)
+Received: from FV6GYCPJ69 ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483203e5b63sm26740685e9.1.2026.02.06.01.33.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Feb 2026 01:33:51 -0800 (PST)
+Date: Fri, 6 Feb 2026 10:33:50 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
+	Moshe Shemesh <moshe@nvidia.com>, Shay Drori <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
+	Or Har-Toov <ohartoov@nvidia.com>
+Subject: Re: [PATCH net-next V2 3/7] devlink: Add port resource netlink
+ command
+Message-ID: <d2a44w5lausinhwqagu332nkuxqmdrfjlrvt2piscd5cg3zjgf@jefnbqja5xbh>
+References: <20260205142833.1727929-1-tariqt@nvidia.com>
+ <20260205142833.1727929-4-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-x-aliyun-im-through: {"version":"v1.0"}
-References: <20260206021608.85381-1-illusion.wang@nebula-matrix.com> <20260206021608.85381-3-illusion.wang@nebula-matrix.com>,<769fbfa8-a881-403f-bc65-56c60c389185@lunn.ch>
-x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjAtUmVsZWFzZS4yNTEyMjIwMTkpIE1vam8vMS4wLjAgTmF0aXZlIEFwcFR5cGUocmVsZWFzZSkgQ2hhbm5lbC8yMDEyMDAgQXJjaGl0ZWN0dXJlL3g4Nl82NCB3ZWJEdC9QQw==uL
-In-Reply-To: <769fbfa8-a881-403f-bc65-56c60c389185@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205142833.1727929-4-tariqt@nvidia.com>
 
-TGFzdCB0aW1lIHNhbSBoYWQgYSBxdWVzdGlvbgoiClRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFj
-ay4gWW91IG1pZ2h0IGhhdmUgbWlzdW5kZXJzdG9vZCBtZS4KT3VyIGRpZmZpY3VsdGllcyBsaWUg
-aW4gdGhlIGZvbGxvd2luZzoKMS4gQXNzdW1pbmcgb25seSB0aGUgbWFpbmxpbmUgdmVyc2lvbiBj
-aGFuZ2VzIHRoZSBuYW1lIChBc3N1bWUgbmFtZSAibmJsIiksCiAgIGFuZCBvdXIgcmVndWxhcmx5
-IHJlbGVhc2VkIGRyaXZlciBkb2Vzbid0IGNoYW5nZSBpdHMgbmFtZSwgdGhlbiB3aGVuCiAgIGN1
-c3RvbWVycyB1cGdyYWRlIHRvIGEgbmV3IGtlcm5lbCAoY29udGFpbmluZyB0aGUgIm5ibCIgZHJp
-dmVyKSwKICAgYW5kIHRoZW4gd2FudCB0byB1cGRhdGUgb3VyIHJlZ3VsYXJseSByZWxlYXNlZCBk
-cml2ZXIgKG5hbWVkICJuYmxfY29yZSIpLAogICB0aGUgbW9kdWxlIChrbykgY29uZmxpY3Qgd2ls
-bCBvY2N1ci4KMi4gSWYgYm90aCBvdXIgbWFpbmxpbmUgYW5kIHJlZ3VsYXJseSByZWxlYXNlZCBk
-cml2ZXJzIGNoYW5nZSB0aGVpciBuYW1lcywKICAgdGhlbiBjdXN0b21lcnMgd2hvIGFyZSBhbHJl
-YWR5IHVzaW5nIHRoZSAibmJsX2NvcmUiIGRyaXZlciB3aWxsIGFsc28KICAgZW5jb3VudGVyIGNv
-bmZsaWN0IGlzc3VlcyB3aGVuIHVwZGF0aW5nIHRvIHRoZSBuZXcgZHJpdmVyICJuYmwiLgoKSXMg
-aXQgcG9zc2libGUgdG8gZG8gdGhpczogb3VyIG5ldCBkcml2ZXIgaXMgYWxzbyBtb2RpZmllZCB0
-byBiZSBhIGRyaXZlciBiYXNlZApvbiB0aGUgYXV4aWxpYXJ5IGJ1cywgd2hpbGUgdGhlIFBDSWUg
-ZHJpdmVyIG9ubHkgaGFuZGxlcyBQQ0llLXJlbGF0ZWQgcHJvY2Vzc2luZywKYW5kIHRoZXNlIHR3
-byBkcml2ZXJzIHNoYXJlIGEgc2luZ2xlIGtlcm5lbCBtb2R1bGUgKGtvKSwgbmFtZWx5ICJuYmxf
-Y29yZSI/IgoKVGhlcmUncyBubyBjb25jbHVzaW9uIHRvIHRoaXMgaXNzdWUgeWV0LCBzbyBJIGhh
-dmVuJ3QgbW9kaWZpZWQgdGhlICdjb3JlJyBwYXJ0cyBmb3Igbm93CihhcyBtZW50aW9uZWQgaW4g
-cGF0Y2gwKQotLWlsbHVzaW9uLndhbmcKCgo+ICsjZGVmaW5lIE5CTF9BREFQX1RPX0hXX01HVChh
-ZGFwdGVyKSAoKGFkYXB0ZXIpLT5jb3JlLmh3X21ndCkKPiArI2RlZmluZSBOQkxfQURBUF9UT19S
-RVNfTUdUKGFkYXB0ZXIpICgoYWRhcHRlciktPmNvcmUucmVzX21ndCkKPiArI2RlZmluZSBOQkxf
-QURBUF9UT19ESVNQX01HVChhZGFwdGVyKSAoKGFkYXB0ZXIpLT5jb3JlLmRpc3BfbWd0KQo+ICsj
-ZGVmaW5lIE5CTF9BREFQX1RPX0RFVl9NR1QoYWRhcHRlcikgKChhZGFwdGVyKS0+Y29yZS5kZXZf
-bWd0KQo+ICsjZGVmaW5lIE5CTF9BREFQX1RPX0NIQU5fTUdUKGFkYXB0ZXIpICgoYWRhcHRlcikt
-PmNvcmUuY2hhbl9tZ3QpCgpJIHdvdWxkIHN1Z2dlc3QgcmVtb3ZpbmcgdGhlc2UuIEp1c3QgdXNl
-IGFkYXB0ZXItPmNvcmUuY2hhbl9tZ3QKZGlyZWN0bHkgaW4gdGhlIGNvZGUuIFVzaW5nIG1hY3Jv
-cyBub3JtYWxseSBtZWFucyB0aGVyZSBpcyBzb21lIG1hZ2ljCmludm9sdmVkLCBidXQgdGhpcyBp
-cyBqdXN0IHBsYWluIHBvaW50ZXJzLCBub3RoaW5nIG1hZ2ljYWwuCgoKCi0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQrlj5Hk
-u7bkurrvvJpBbmRyZXcgTHVubiA8YW5kcmV3QGx1bm4uY2g+CuWPkemAgeaXtumXtO+8mjIwMjbl
-ubQy5pyINuaXpSjlkajkupQpIDExOjM5CuaUtuS7tuS6uu+8mklsbHVzaW9uIFdhbmc8aWxsdXNp
-b24ud2FuZ0BuZWJ1bGEtbWF0cml4LmNvbT4K5oqE44CA6YCB77yaRGltb248ZGltb24uemhhb0Bu
-ZWJ1bGEtbWF0cml4LmNvbT47IEFsdmluPGFsdmluLndhbmdAbmVidWxhLW1hdHJpeC5jb20+OyBT
-YW08c2FtLmNoZW5AbmVidWxhLW1hdHJpeC5jb20+OyBuZXRkZXY8bmV0ZGV2QHZnZXIua2VybmVs
-Lm9yZz47ICJhbmRyZXcrbmV0ZGV2IjxhbmRyZXcrbmV0ZGV2QGx1bm4uY2g+OyBjb3JiZXQ8Y29y
-YmV0QGx3bi5uZXQ+OyBrdWJhPGt1YmFAa2VybmVsLm9yZz47ICJsaW51eC1kb2MiPGxpbnV4LWRv
-Y0B2Z2VyLmtlcm5lbC5vcmc+OyBsb3JlbnpvPGxvcmVuem9Aa2VybmVsLm9yZz47IHBhYmVuaTxw
-YWJlbmlAcmVkaGF0LmNvbT47IGhvcm1zPGhvcm1zQGtlcm5lbC5vcmc+OyAidmFkaW0uZmVkb3Jl
-bmtvIjx2YWRpbS5mZWRvcmVua29AbGludXguZGV2PjsgImx1a2FzLmJ1bHdhaG4iPGx1a2FzLmJ1
-bHdhaG5AcmVkaGF0LmNvbT47IGVkdW1hemV0PGVkdW1hemV0QGdvb2dsZS5jb20+OyBvcGVuIGxp
-c3Q8bGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZz4K5Li744CA6aKY77yaUmU6IFtQQVRDSCB2
-NCBuZXQtbmV4dCAwMi8xMV0gbmV0L25lYnVsYS1tYXRyaXg6IGFkZCBvdXIgZHJpdmVyIGFyY2hp
-dGVjdHVyZQoKCj4gK3N0YXRpYyBpbnQKPiArbmJsX2NoYW5fc2V0dXBfY2hhbl9tZ3Qoc3RydWN0
-IG5ibF9hZGFwdGVyICphZGFwdGVyLAo+ICsgwqAgc3RydWN0IG5ibF9pbml0X3BhcmFtICpwYXJh
-bSwKPiArIMKgIHN0cnVjdCBuYmxfY2hhbm5lbF9tZ3RfbGVvbmlzICoqY2hhbl9tZ3RfbGVvbmlz
-KQoKSXQgaXMgcHJldHR5IHVudXN1YWwgdG8gcGFzcyAqKiBwb2ludGVycy4gTW9yZSBub3JtYWwg
-d291bGQgYmUgCgoKPiArc3RhdGljIHN0cnVjdCBuYmxfY2hhbm5lbF9tZ3RfbGVvbmlzICoKPiAr
-bmJsX2NoYW5fc2V0dXBfY2hhbl9tZ3Qoc3RydWN0IG5ibF9hZGFwdGVyICphZGFwdGVyLAo+ICsg
-wqAgc3RydWN0IG5ibF9pbml0X3BhcmFtICpwYXJhbSkKCj4gK3sKPiArIHN0cnVjdCBuYmxfaHdf
-b3BzX3RibCAqaHdfb3BzX3RibCA9IGFkYXB0ZXItPmludGYuaHdfb3BzX3RibDsKPiArIHN0cnVj
-dCBuYmxfY29tbW9uX2luZm8gKmNvbW1vbiA9ICZhZGFwdGVyLT5jb21tb247CiBzdHJ1Y3QgbmJs
-X2NoYW5uZWxfbWd0X2xlb25pcyAqY2hhbl9tZ3RfbGVvbmlzOwo+ICsgc3RydWN0IGRldmljZSAq
-ZGV2ID0gJmFkYXB0ZXItPnBkZXYtPmRldjsKPiArIHN0cnVjdCBuYmxfY2hhbl9pbmZvICptYWls
-Ym94Owo+ICsKPiArIGNoYW5fbWd0X2xlb25pcyA9IGRldm1fa3phbGxvYyhkZXYsCj4gKyDCoCDC
-oCBzaXplb2Yoc3RydWN0IG5ibF9jaGFubmVsX21ndF9sZW9uaXMpLAo+ICsgwqAgwqAgR0ZQX0tF
-Uk5FTCk7Cj4gKyBpZiAoIWNoYW5fbWd0X2xlb25pcykKPiArwqAgZ290byBhbGxvY19jaGFubmVs
-X21ndF9sZW9uaXNfZmFpbDsKPiArCj4gKyBjaGFuX21ndF9sZW9uaXMtPmNoYW5fbWd0LT5jb21t
-b24gPSBjb21tb247Cj4gKyBjaGFuX21ndF9sZW9uaXMtPmNoYW5fbWd0Lmh3X29wc190YmwgPSBo
-d19vcHNfdGJsOwo+ICsKPiArIG1haWxib3ggPSBkZXZtX2t6YWxsb2MoZGV2LCBzaXplb2Yoc3Ry
-dWN0IG5ibF9jaGFuX2luZm8pLCBHRlBfS0VSTkVMKTsKPiArIGlmICghbWFpbGJveCkKPiArwqAg
-Z290byBhbGxvY19tYWlsYm94X2ZhaWw7Cj4gKyBtYWlsYm94LT5jaGFuX3R5cGUgPSBOQkxfQ0hB
-Tl9UWVBFX01BSUxCT1g7Cj4gKyBjaGFuX21ndF9sZW9uaXMtPmNoYW5fbWd0LT5jaGFuX2luZm9b
-TkJMX0NIQU5fVFlQRV9NQUlMQk9YXSA9Cj4gK8KgIG1haWxib3g7Cj4gKwogcmV0dXJuIGNoYW5f
-bWd0X2xlb25pczsKIAo+ICthbGxvY19tYWlsYm94X2ZhaWw6Cj4gK2FsbG9jX2NoYW5uZWxfbWd0
-X2xlb25pc19mYWlsOgo+ICsgcmV0dXJuIEVSUl9QVFIoLUVOT01FTSk7CgpUaGlzIGlzIHN0YXJ0
-aW5nIHRvIGxvb2sgbGlrZSBMaW51eCBkcml2ZXIgY29kZSBub3cuIExvdHMgb2YgKCkgaGF2ZQpi
-ZWVuIHJlbW92ZWQuIFlvdXIgYWltIGlzIHRvIG1ha2UgdGhlIGRyaXZlciBsb29rIGxpa2UgYWxs
-IG90aGVyCmRyaXZlcnMgaW4gbGludXgsIGJ5IGNvcHlpbmcgdGhlIGNvbW1vbiBwYXR0ZXJucy4K
-Ckkgd291bGQgcHJvYmFibHkgYWxzbyByZW1vdmUgdGhlIHR3byBsYWJlbHMsIGFuZCBqdXN0IGR1
-ZSB0aGUgcmV0dXJuCkVSUl9QVFIoKSBpbmxpbmUuCgpQbGVhc2Ugc3BlbmQgc29tZSB0aW1lIHJl
-YWRpbmcgb3RoZXIgZHJpdmVycy4gTGVhcm4gZnJvbSB0aGVtLCBhbmQKbWFrZSB5b3VyIGRyaXZl
-ciBsb29rIGxpa2UgdGhlbS4KCj4gKyNkZWZpbmUgTkJMX0FEQVBfVE9fSFdfTUdUKGFkYXB0ZXIp
-ICgoYWRhcHRlciktPmNvcmUuaHdfbWd0KQo+ICsjZGVmaW5lIE5CTF9BREFQX1RPX1JFU19NR1Qo
-YWRhcHRlcikgKChhZGFwdGVyKS0+Y29yZS5yZXNfbWd0KQo+ICsjZGVmaW5lIE5CTF9BREFQX1RP
-X0RJU1BfTUdUKGFkYXB0ZXIpICgoYWRhcHRlciktPmNvcmUuZGlzcF9tZ3QpCj4gKyNkZWZpbmUg
-TkJMX0FEQVBfVE9fREVWX01HVChhZGFwdGVyKSAoKGFkYXB0ZXIpLT5jb3JlLmRldl9tZ3QpCj4g
-KyNkZWZpbmUgTkJMX0FEQVBfVE9fQ0hBTl9NR1QoYWRhcHRlcikgKChhZGFwdGVyKS0+Y29yZS5j
-aGFuX21ndCkKCkkgd291bGQgc3VnZ2VzdCByZW1vdmluZyB0aGVzZS4gSnVzdCB1c2UgYWRhcHRl
-ci0+Y29yZS5jaGFuX21ndApkaXJlY3RseSBpbiB0aGUgY29kZS4gVXNpbmcgbWFjcm9zIG5vcm1h
-bGx5IG1lYW5zIHRoZXJlIGlzIHNvbWUgbWFnaWMKaW52b2x2ZWQsIGJ1dCB0aGlzIGlzIGp1c3Qg
-cGxhaW4gcG9pbnRlcnMsIG5vdGhpbmcgbWFnaWNhbC4KCj4gK2ludCBuYmxfaHdfaW5pdF9sZW9u
-aXMoc3RydWN0IG5ibF9hZGFwdGVyICphZGFwdGVyLAo+ICsgwqAgwqAgwqAgwqAgc3RydWN0IG5i
-bF9pbml0X3BhcmFtICpwYXJhbSkKPiArewo+ICsgc3RydWN0IG5ibF9od19vcHNfdGJsICoqaHdf
-b3BzX3RibCA9ICZhZGFwdGVyLT5pbnRmLmh3X29wc190Ymw7Cj4gKyBzdHJ1Y3QgbmJsX2NvbW1v
-bl9pbmZvICpjb21tb24gPSAmYWRhcHRlci0+Y29tbW9uOwo+ICsgc3RydWN0IG5ibF9od19tZ3Rf
-bGVvbmlzICoqaHdfbWd0X2xlb25pczsKPiArIHN0cnVjdCBwY2lfZGV2ICpwZGV2ID0gY29tbW9u
-LT5wZGV2Owo+ICsgc3RydWN0IG5ibF9od19tZ3QgKmh3X21ndDsKPiArIGludCBiYXJfbWFzazsK
-PiArIGludCByZXQgPSAwOwo+ICsKPiArIGh3X21ndF9sZW9uaXMgPQo+ICvCoCAoc3RydWN0IG5i
-bF9od19tZ3RfbGVvbmlzICoqKSZOQkxfQURBUF9UT19IV19NR1QoYWRhcHRlcik7CgpXaHkgdGhl
-IGNhc3Q/IENhc3QgbGlrZSB0aGlzIHN1Z2dlc3QgeW91ciBkYXRhIHN0cnVjdHVyZSBkZXNpZ24g
-aXMgbm90CmNvcnJlY3QuCgo+ICtzdGF0aWMgaW5saW5lIHUzMiByZDMyKHU4IF9faW9tZW0gKmFk
-ZHIsIHU2NCByZWcpCj4gK3sKPiArIHJldHVybiByZWFkbChhZGRyICsgKHJlZykpOwo+ICt9Cj4g
-Kwo+ICtzdGF0aWMgaW5saW5lIHZvaWQgd3IzMl9iYXJyaWVyKHU4IF9faW9tZW0gKmFkZHIsIHU2
-NCByZWcsIHUzMiB2YWx1ZSkKPiArewo+ICsgd3JpdGVsKCh2YWx1ZSksIChhZGRyICsgKHJlZykp
-KTsKPiArfQoKV2h5IF9iYXJyaWVyIGhlcmUgZm9yIHdyaXRlLCBidXQgbm90IGZvciByZDMyKCk/
-IHJlYWRsKCkgaGFzIGEgYmFycmllcgpzYW1lIGFzIHdyaXRlbCgpPyBTaG91bGQgcmQzMiBhY3R1
-YWxseSBiZSB1c2luZyByZWFkbF9yZWxheGVkKCk/Cgo+ICtzdGF0aWMgaW5saW5lIHZvaWQgbmJs
-X2h3X3JkX3JlZ3Moc3RydWN0IG5ibF9od19tZ3QgKmh3X21ndCwgdTY0IHJlZywgdTggKmRhdGEs
-Cj4gK8KgIMKgIMKgIHUzMiBsZW4pCj4gK3sKPiArIHUzMiBzaXplID0gbGVuIC8gNDsKPiArIHUz
-MiBpID0gMDsKPiArCj4gKyBpZiAobGVuICUgNCkKPiArwqAgcmV0dXJuOwoKSXQgaXMgYWN0dWFs
-bHkgYSBidWc/Cgo+ICsKPiArIHNwaW5fbG9jaygmaHdfbWd0LT5yZWdfbG9jayk7Cj4gKwo+ICsg
-Zm9yIChpID0gMDsgaSA8IHNpemU7IGkrKykKPiArwqAgKih1MzIgKikoZGF0YSArIGkgKiBzaXpl
-b2YodTMyKSkgPQo+ICsgwqAgcmQzMihod19tZ3QtPmh3X2FkZHIsIHJlZyArIGkgKiBzaXplb2Yo
-dTMyKSk7Cj4gKyBzcGluX3VubG9jaygmaHdfbWd0LT5yZWdfbG9jayk7Cj4gK30KClRoaXMgZnVu
-Y3Rpb24gaXMgYSBiaXQgYmlnIGZvciBpbmxpbmUuIEhhdmUgeW91IHVzZWQgYmxvYXQtby1tZXRl
-ciB0bwpsb29rIGF0IHRoZSBzaXplIHdpdGggdGhpcyBhbmQgdGhlIG5leHQgYXMgZnVuY3Rpb25z
-IHZzIGlubGluZT8KCj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBuYmxfaHdfd3JfcmVncyhzdHJ1Y3Qg
-bmJsX2h3X21ndCAqaHdfbWd0LCB1NjQgcmVnLAo+ICvCoCDCoCDCoCBjb25zdCB1OCAqZGF0YSwg
-dTMyIGxlbikKPiArewo+ICsgdTMyIHNpemUgPSBsZW4gLyA0Owo+ICsgdTMyIGkgPSAwOwo+ICsK
-PiArIGlmIChsZW4gJSA0KQo+ICvCoCByZXR1cm47Cj4gKyBzcGluX2xvY2soJmh3X21ndC0+cmVn
-X2xvY2spOwo+ICsgZm9yIChpID0gMDsgaSA8IHNpemU7IGkrKykKPiArwqAgLyogVXNlZCBmb3Ig
-ZW11LCBtYWtlIHN1cmUgdGhhdCB3ZSB3b24ndCB3cml0ZSB0b28gZnJlcXVlbnRseSAqLwo+ICvC
-oCB3cjMyX2JhcnJpZXIoaHdfbWd0LT5od19hZGRyLCByZWcgKyBpICogc2l6ZW9mKHUzMiksCj4g
-K8KgIMKgIMKgIMKgICoodTMyICopKGRhdGEgKyBpICogc2l6ZW9mKHUzMikpKTsKPiArIHNwaW5f
-dW5sb2NrKCZod19tZ3QtPnJlZ19sb2NrKTsKPiArfQoKIEFuZHJldwo=
+Thu, Feb 05, 2026 at 03:28:29PM +0100, tariqt@nvidia.com wrote:
+>From: Or Har-Toov <ohartoov@nvidia.com>
+>
+>Add support for userspace to query resources registered on devlink
+>ports, allowing drivers to expose per-port resource limits and usage.
+>
+>Example output:
+>
+>  $ devlink port resource show
+>  pci/0000:03:00.0/196608:
+>    name max_SFs size 20 unit entry
+>  pci/0000:03:00.1/262144:
+>    name max_SFs size 20 unit entry
+>
+>  $ devlink port resource show pci/0000:03:00.0/196608
+>  pci/0000:03:00.0/196608:
+>    name max_SFs size 20 unit entry
+>
+>Signed-off-by: Or Har-Toov <ohartoov@nvidia.com>
+>Reviewed-by: Shay Drori <shayd@nvidia.com>
+>Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+>---
+> Documentation/netlink/specs/devlink.yaml |  23 ++++++
+> include/uapi/linux/devlink.h             |   3 +
+> net/devlink/netlink.c                    |   2 +-
+> net/devlink/netlink_gen.c                |  32 ++++++-
+> net/devlink/netlink_gen.h                |   6 +-
+> net/devlink/resource.c                   | 101 +++++++++++++++++++++++
+> 6 files changed, 164 insertions(+), 3 deletions(-)
+>
+>diff --git a/Documentation/netlink/specs/devlink.yaml b/Documentation/netlink/specs/devlink.yaml
+>index 837112da6738..0290db1b8393 100644
+>--- a/Documentation/netlink/specs/devlink.yaml
+>+++ b/Documentation/netlink/specs/devlink.yaml
+>@@ -2336,3 +2336,26 @@ operations:
+>             - bus-name
+>             - dev-name
+>             - port-index
+>+
+>+    -
+>+      name: port-resource-get
+>+      doc: Get port resources.
+>+      attribute-set: devlink
+>+      dont-validate: [strict]
+>+      do:
+>+        pre: devlink-nl-pre-doit-port
+>+        post: devlink-nl-post-doit
+>+        request:
+>+          value: 85
+>+          attributes: *port-id-attrs
+>+        reply: &port-resource-get-reply
+>+          value: 85
+>+          attributes:
+>+            - bus-name
+>+            - dev-name
+>+            - port-index
+>+            - resource-list
+>+      dump:
+>+        request:
+>+          attributes: *dev-id-attrs
+>+        reply: *port-resource-get-reply
+>diff --git a/include/uapi/linux/devlink.h b/include/uapi/linux/devlink.h
+>index e7d6b6d13470..1cabd1f6cba0 100644
+>--- a/include/uapi/linux/devlink.h
+>+++ b/include/uapi/linux/devlink.h
+>@@ -141,6 +141,9 @@ enum devlink_command {
+> 
+> 	DEVLINK_CMD_NOTIFY_FILTER_SET,
+> 
+>+	DEVLINK_CMD_PORT_RESOURCE_GET,	/* can dump */
+>+	DEVLINK_CMD_PORT_RESOURCE_SET,
+>+
+> 	/* add new commands above here */
+> 	__DEVLINK_CMD_MAX,
+> 	DEVLINK_CMD_MAX = __DEVLINK_CMD_MAX - 1
+>diff --git a/net/devlink/netlink.c b/net/devlink/netlink.c
+>index 593605c1b1ef..c78c31779622 100644
+>--- a/net/devlink/netlink.c
+>+++ b/net/devlink/netlink.c
+>@@ -367,7 +367,7 @@ struct genl_family devlink_nl_family __ro_after_init = {
+> 	.module		= THIS_MODULE,
+> 	.split_ops	= devlink_nl_ops,
+> 	.n_split_ops	= ARRAY_SIZE(devlink_nl_ops),
+>-	.resv_start_op	= DEVLINK_CMD_SELFTESTS_RUN + 1,
+>+	.resv_start_op	= DEVLINK_CMD_PORT_RESOURCE_GET + 1,
+> 	.mcgrps		= devlink_nl_mcgrps,
+> 	.n_mcgrps	= ARRAY_SIZE(devlink_nl_mcgrps),
+> 	.sock_priv_size		= sizeof(struct devlink_nl_sock_priv),
+>diff --git a/net/devlink/netlink_gen.c b/net/devlink/netlink_gen.c
+>index f4c61c2b4f22..692d7862183a 100644
+>--- a/net/devlink/netlink_gen.c
+>+++ b/net/devlink/netlink_gen.c
+>@@ -604,8 +604,21 @@ static const struct nla_policy devlink_notify_filter_set_nl_policy[DEVLINK_ATTR_
+> 	[DEVLINK_ATTR_PORT_INDEX] = { .type = NLA_U32, },
+> };
+> 
+>+/* DEVLINK_CMD_PORT_RESOURCE_GET - do */
+>+static const struct nla_policy devlink_port_resource_get_do_nl_policy[DEVLINK_ATTR_PORT_INDEX + 1] = {
+>+	[DEVLINK_ATTR_BUS_NAME] = { .type = NLA_NUL_STRING, },
+>+	[DEVLINK_ATTR_DEV_NAME] = { .type = NLA_NUL_STRING, },
+>+	[DEVLINK_ATTR_PORT_INDEX] = { .type = NLA_U32, },
+>+};
+>+
+>+/* DEVLINK_CMD_PORT_RESOURCE_GET - dump */
+>+static const struct nla_policy devlink_port_resource_get_dump_nl_policy[DEVLINK_ATTR_DEV_NAME + 1] = {
+>+	[DEVLINK_ATTR_BUS_NAME] = { .type = NLA_NUL_STRING, },
+>+	[DEVLINK_ATTR_DEV_NAME] = { .type = NLA_NUL_STRING, },
+>+};
+>+
+> /* Ops table for devlink */
+>-const struct genl_split_ops devlink_nl_ops[74] = {
+>+const struct genl_split_ops devlink_nl_ops[76] = {
+> 	{
+> 		.cmd		= DEVLINK_CMD_GET,
+> 		.validate	= GENL_DONT_VALIDATE_STRICT,
+>@@ -1284,4 +1297,21 @@ const struct genl_split_ops devlink_nl_ops[74] = {
+> 		.maxattr	= DEVLINK_ATTR_PORT_INDEX,
+> 		.flags		= GENL_CMD_CAP_DO,
+> 	},
+>+	{
+>+		.cmd		= DEVLINK_CMD_PORT_RESOURCE_GET,
+>+		.validate	= GENL_DONT_VALIDATE_STRICT,
+>+		.pre_doit	= devlink_nl_pre_doit_port,
+>+		.doit		= devlink_nl_port_resource_get_doit,
+>+		.post_doit	= devlink_nl_post_doit,
+>+		.policy		= devlink_port_resource_get_do_nl_policy,
+>+		.maxattr	= DEVLINK_ATTR_PORT_INDEX,
+>+		.flags		= GENL_CMD_CAP_DO,
+>+	},
+>+	{
+>+		.cmd		= DEVLINK_CMD_PORT_RESOURCE_GET,
+>+		.dumpit		= devlink_nl_port_resource_get_dumpit,
+>+		.policy		= devlink_port_resource_get_dump_nl_policy,
+>+		.maxattr	= DEVLINK_ATTR_DEV_NAME,
+>+		.flags		= GENL_CMD_CAP_DUMP,
+>+	},
+> };
+>diff --git a/net/devlink/netlink_gen.h b/net/devlink/netlink_gen.h
+>index 2817d53a0eba..204a665d2fd2 100644
+>--- a/net/devlink/netlink_gen.h
+>+++ b/net/devlink/netlink_gen.h
+>@@ -18,7 +18,7 @@ extern const struct nla_policy devlink_dl_rate_tc_bws_nl_policy[DEVLINK_RATE_TC_
+> extern const struct nla_policy devlink_dl_selftest_id_nl_policy[DEVLINK_ATTR_SELFTEST_ID_FLASH + 1];
+> 
+> /* Ops table for devlink */
+>-extern const struct genl_split_ops devlink_nl_ops[74];
+>+extern const struct genl_split_ops devlink_nl_ops[76];
+> 
+> int devlink_nl_pre_doit(const struct genl_split_ops *ops, struct sk_buff *skb,
+> 			struct genl_info *info);
+>@@ -146,5 +146,9 @@ int devlink_nl_selftests_get_dumpit(struct sk_buff *skb,
+> int devlink_nl_selftests_run_doit(struct sk_buff *skb, struct genl_info *info);
+> int devlink_nl_notify_filter_set_doit(struct sk_buff *skb,
+> 				      struct genl_info *info);
+>+int devlink_nl_port_resource_get_doit(struct sk_buff *skb,
+>+				      struct genl_info *info);
+>+int devlink_nl_port_resource_get_dumpit(struct sk_buff *skb,
+>+					struct netlink_callback *cb);
+> 
+> #endif /* _LINUX_DEVLINK_GEN_H */
+>diff --git a/net/devlink/resource.c b/net/devlink/resource.c
+>index 1b06a1f408fa..42ad7c96a740 100644
+>--- a/net/devlink/resource.c
+>+++ b/net/devlink/resource.c
+>@@ -227,6 +227,7 @@ static int devlink_resource_fill(struct genl_info *info,
+> 				 struct list_head *resource_list,
+> 				 enum devlink_command cmd, int flags)
+> {
+>+	struct devlink_port *devlink_port = info->user_ptr[1];
+> 	struct devlink *devlink = info->user_ptr[0];
+> 	struct devlink_resource *resource;
+> 	struct nlattr *resources_attr;
+>@@ -257,6 +258,10 @@ static int devlink_resource_fill(struct genl_info *info,
+> 	if (devlink_nl_put_handle(skb, devlink))
+> 		goto nla_put_failure;
+> 
+>+	if (devlink_port && nla_put_u32(skb, DEVLINK_ATTR_PORT_INDEX,
+>+					devlink_port->index))
+>+		goto nla_put_failure;
+>+
+> 	resources_attr = nla_nest_start_noflag(skb,
+> 					       DEVLINK_ATTR_RESOURCE_LIST);
+> 	if (!resources_attr)
+>@@ -576,3 +581,99 @@ void devl_port_resources_unregister(struct devlink_port *devlink_port)
+> 				    &devlink_port->resource_list);
+> }
+> EXPORT_SYMBOL_GPL(devl_port_resources_unregister);
+>+
+>+static int devlink_nl_port_resource_fill(struct sk_buff *msg,
+>+					 struct devlink_port *devlink_port,
+>+					 enum devlink_command cmd,
+>+					 u32 portid, u32 seq, int flags)
+>+{
+>+	struct devlink *devlink = devlink_port->devlink;
+>+	struct devlink_resource *resource;
+>+	struct nlattr *resources_attr;
+>+	void *hdr;
+>+
+>+	if (list_empty(&devlink_port->resource_list))
+>+		return 0;
+>+
+>+	hdr = genlmsg_put(msg, portid, seq, &devlink_nl_family, flags, cmd);
+>+	if (!hdr)
+>+		return -EMSGSIZE;
+>+
+>+	if (devlink_nl_put_handle(msg, devlink))
+>+		goto nla_put_failure;
+>+	if (nla_put_u32(msg, DEVLINK_ATTR_PORT_INDEX, devlink_port->index))
+>+		goto nla_put_failure;
+>+
+>+	resources_attr = nla_nest_start_noflag(msg, DEVLINK_ATTR_RESOURCE_LIST);
+>+	if (!resources_attr)
+>+		goto nla_put_failure;
+>+
+>+	list_for_each_entry(resource, &devlink_port->resource_list, list) {
+>+		if (devlink_resource_put(devlink, msg, resource)) {
+>+			nla_nest_cancel(msg, resources_attr);
+>+			goto nla_put_failure;
+>+		}
+>+	}
+>+	nla_nest_end(msg, resources_attr);
+>+	genlmsg_end(msg, hdr);
+>+	return 0;
+>+
+>+nla_put_failure:
+>+	genlmsg_cancel(msg, hdr);
+>+	return -EMSGSIZE;
+
+
+Why you don't unify this function with existing devlink_resource_fill()?
+Unnecessary code duplication, plus devlink_resource_fill() already know
+how to handle multipart message.
+
+
+This is related to my request to implement dump for devlink dev
+resources. I would like to see the code unification for dump ops as
+well.
+
+Thanks!
+
+
+
+>+}
+>+
+>+int devlink_nl_port_resource_get_doit(struct sk_buff *skb,
+>+				      struct genl_info *info)
+>+{
+>+	struct devlink_port *devlink_port = info->user_ptr[1];
+>+	struct sk_buff *msg;
+>+	int err;
+>+
+>+	msg = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
+>+	if (!msg)
+>+		return -ENOMEM;
+>+
+>+	err = devlink_nl_port_resource_fill(msg, devlink_port,
+>+					    DEVLINK_CMD_PORT_RESOURCE_GET,
+>+					    info->snd_portid, info->snd_seq, 0);
+>+	if (err) {
+>+		nlmsg_free(msg);
+>+		return err;
+>+	}
+>+
+>+	return genlmsg_reply(msg, info);
+>+}
+>+
+>+static int
+>+devlink_nl_port_resource_get_dump_one(struct sk_buff *msg,
+>+				      struct devlink *devlink,
+>+				      struct netlink_callback *cb, int flags)
+>+{
+>+	enum devlink_command cmd = DEVLINK_CMD_PORT_RESOURCE_GET;
+>+	struct devlink_nl_dump_state *state = devlink_dump_state(cb);
+>+	struct devlink_port *devlink_port;
+>+	unsigned long port_index;
+>+	int err;
+>+
+>+	xa_for_each_start(&devlink->ports, port_index, devlink_port,
+>+			  state->idx) {
+>+		err = devlink_nl_port_resource_fill(msg, devlink_port,
+>+						    cmd,
+>+						    NETLINK_CB(cb->skb).portid,
+>+						    cb->nlh->nlmsg_seq, flags);
+>+		if (err) {
+>+			state->idx = port_index;
+>+			return err;
+>+		}
+>+	}
+>+
+>+	return 0;
+>+}
+>+
+>+int devlink_nl_port_resource_get_dumpit(struct sk_buff *skb,
+>+					struct netlink_callback *cb)
+>+{
+>+	return devlink_nl_dumpit(skb, cb,
+>+				 devlink_nl_port_resource_get_dump_one);
+>+}
+>-- 
+>2.44.0
+>
