@@ -1,127 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D524D2E3387;
-	Fri,  6 Feb 2026 09:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64F643612EE
+	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 09:42:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770370952; cv=none; b=sUh/mA6PHulfyOKxiuzF/FWI99YfyXUt+Cpo62O8zXohyQ0d/toXKIt8KEYZPifmC0WOYwumpds7CgLYtKwIdm4dxwAS6Fw6e3RZHu38bskML9Beg9NG16KJpeuQm91G1UDQFsPQ5tTSwRF4h8j/pNyuclbmmZygx540TwtLE6E=
+	t=1770370955; cv=none; b=HNFNwJCoCnvWuj82UZkJgq5m6Oea2D0LVVjXCEEz00RlaWPclMD5d6jEfR4vnVUbz+d6OwSURxWUwojklK1C3wgHaBbTz1P52g6IZ7Hc440xSLTqQ43re1I/qpyKrheDWlKz+PO2mLeagCEiV6fIruboBajjklMi2IAQMGw1v+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770370952; c=relaxed/simple;
-	bh=LhrTzSWf7NEah6Z7Oux3u9gbfwj2MNl56bdSDhRmPl8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M4nzBqWQEIj7/RYOiJGyOmez30uzcYu1gMzzM7wScU5/929yL4iIHLoebVcpTg7F+TOMjLZLfNKR4RbNtIBSXN49UZI6Gta8S0ALLF7F+tTyFUBmXgAiYeFGRgevguA01md+t6G0jJd+k3nf89272FoImu3vCrAxLe68v0oKoGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GSvVnMTC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770370955; c=relaxed/simple;
+	bh=tko29gTh2LLoTYAs4568Z4zBWZMgYShefsZIF5Fo0Ns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gLkeZPjaD8yXVSKoKP2Qn1NKYVTggRj+JFHwkP2B411mwj93BtAXrsBLNvQ0iAZgFMF5uRHRCo4xmqn4vTUPMiRt7nhxlgtoQny52vmlRmPSopnITAtwigvtW9T0vh/kfOlCXnAL5ex/VKlmPTI/dCZOK7UAsR9H5b/c3pgYTvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=IQXaoLDK; arc=none smtp.client-ip=209.85.128.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GSvVnMTC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07FF4C116C6;
-	Fri,  6 Feb 2026 09:42:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770370952;
-	bh=LhrTzSWf7NEah6Z7Oux3u9gbfwj2MNl56bdSDhRmPl8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GSvVnMTCcRhkxqlqeDx3rM6srCHZuDenv1DdtPoFP9SUQF8TtuPX/r+4ffLF35a1z
-	 Ya3vXMuTz4OOJrBpC3QVOcQytVqQMUT1mJ5GxbGIGf7EJGU+N6gJF9KKyPHkdhuied
-	 j04tYZXUUvXAkbj2ysXMysEc59RfXPQGZHhTSA6i6PI4+j57T7VPUOH69hOp+j/cy2
-	 yVhWELbxXuWm5SP2qxoGok6mGdD2AiEEDOTR9oIxhwob/7H52+k1jLuQMGzMgKqnNt
-	 u8PlegUm+gteaVi/n5UohU/uGYeeR/8vQpstamEQl+CsHkiUMRiikbcO/+Ojwu/bls
-	 wMOHaiNU6bRzA==
-Message-ID: <ad1a6ccd-d542-420f-b862-b41b7a29054b@kernel.org>
-Date: Fri, 6 Feb 2026 10:42:24 +0100
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="IQXaoLDK"
+Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4806d23e9f1so21639675e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 01:42:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770370954; x=1770975754; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iyNDbUvGFsSfZP0FW1tm6li3l4kdarvpP/zPKhRvGdY=;
+        b=IQXaoLDKFjHthosSnThWePVKl1dPx9eQLoXjQogTiefOpN+1Nhcv1cwIwOxXD0efOM
+         Sc1zlYJ5KjoD7FBAX4zj2PyeOh9k6RdMk3JVofUjip5+nuQgy6r4arWdk0w/QaNvCEad
+         fi3n+mb3ZpQxO5PRMxYpRINEOcE+nWyTISbq3AQ77DxvQyOS+MZm8xZx04OsAKg5nEcr
+         IV3lbl50pc8Seet8k9ECZ+Hee75zbtgolAajF1okRTlEBj6ofbVjmd9kMzvxq8FCzkUz
+         tcxX5UlU03BIvl0TSN5QKsj8YXh4gwTn/F0h33eIcSkJlWxKt7OPEgVpYm0N7J51+xz9
+         UOAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770370954; x=1770975754;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iyNDbUvGFsSfZP0FW1tm6li3l4kdarvpP/zPKhRvGdY=;
+        b=WSZmvkA+Uw2ttt+bzDbezKimF/IQHk+gQ3oK56PlUoAO1RJNYHbuZxat8X7YpU5DZx
+         bdpVAAfQk4adpK6mmNBIBI63cgVpTpXNYi2n352P/ovs2004VpHCxdWQ3p1K5o6FJsaf
+         2OZrou7OMhLpNC+a8vAYLM1a/lP5xf5Umdv6ZNU+ke4nKPsIR/nelyqv/9KuNU0CxNZw
+         q6H3Pp5Eq5f2ZU/CRRPfwGL2gz1Nh4hKVs5HkH39/4mHzjN3YkUSE2XE+D1zFbFWfdii
+         twQJeFxoLFrcg1iUFa84eGGdgBFYgmwKppO/WzHKVpnY3mvNVDKo2PFnt/k3bAri5kEM
+         JuPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUJ/910EJwSFPoh8c90fHk0hl87v1mvHQY2muqss5dSykclOh8LGtAjae5O4IGI1IVKIs34CKhLvps=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQet0UdvR41O0Xtv8H2WSSLfA2MCe/ZE+2+I9tY+1FiO8NGA37
+	08SVW6PE5+8phKdsNph9Vgqf57MeQxCtR2BJaSeLpJxoCCKQxR/Wf4dNSbu+GF2Zl2M=
+X-Gm-Gg: AZuq6aLTZtdas/ZsLf6rb4l5jX1oRDYGVWnaNvLuD1cicQYGq9/vGA6zxv6CK3qTDEM
+	hTzpOBFv40ph9slXk6uuairIyCv5AzvB9ulRWOQJs40Bi3+5S3fC67WQrvCBAt3H7eJIOJ6J/lJ
+	hB4j0YIWMiTKmotgJ3TRb5OwwBvvd9m/Yx4TyN6Rd0bnp6UdHKRRUo4fTlhN4F/fctCTTL6kSLO
+	kEkB2hnuZD8zGh+5VWzIm46kkcu+Ogt0DbpQ0ayGrL+E9/u2qaCdL65Wj+TyF3urVJbo8TeMR/u
+	4YoxXvCUbTkohqi33HhZ0+chWtRKU145OfoLCvKGfswRf4xAViQv2Hf4AbzMoqm2s7Tt9xEoZom
+	SRQB3ssiExV6iaHQBbgritgvChN7F2YKJMTG+w+qrH1uzRI5ZQjMRH4xqCZiculC1IKUQDqC53t
+	Js78oYwyT9y15EgZJx1aoZuJsEBT6g3A==
+X-Received: by 2002:a05:600c:3f08:b0:477:a246:8398 with SMTP id 5b1f17b1804b1-483201dcfc4mr31888195e9.2.1770370953809;
+        Fri, 06 Feb 2026 01:42:33 -0800 (PST)
+Received: from FV6GYCPJ69 ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483228ed4f8sm24728865e9.0.2026.02.06.01.42.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Feb 2026 01:42:33 -0800 (PST)
+Date: Fri, 6 Feb 2026 10:42:31 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
+	Moshe Shemesh <moshe@nvidia.com>, Shay Drori <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
+	Or Har-Toov <ohartoov@nvidia.com>
+Subject: Re: [PATCH net-next V2 7/7] devlink: Document port-level resources
+Message-ID: <djpsyhzawzquyjhq2dgepf5twxi7fwjjqm5rjwcbwkn7ub43k2@unfqnj2fx4ah>
+References: <20260205142833.1727929-1-tariqt@nvidia.com>
+ <20260205142833.1727929-8-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 13/17] hugetlb: Remove VMEMMAP_SYNCHRONIZE_RCU
-To: Kiryl Shutsemau <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
- Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
-Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-14-kas@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260202155634.650837-14-kas@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205142833.1727929-8-tariqt@nvidia.com>
 
-On 2/2/26 16:56, Kiryl Shutsemau wrote:
-> The VMEMMAP_SYNCHRONIZE_RCU flag triggered synchronize_rcu() calls to
-> prevent a race between HVO remapping and page_ref_add_unless(). The
-> race could occur when a speculative PFN walker tried to modify the
-> refcount on a struct page that was in the process of being remapped
-> to a fake head.
+Thu, Feb 05, 2026 at 03:28:33PM +0100, tariqt@nvidia.com wrote:
+>From: Or Har-Toov <ohartoov@nvidia.com>
+>
+>Add documentation for the port-level resource feature to
+>devlink-resource.rst. Port-level resources allow viewing resources
+>associated with specific devlink ports.
+>
+>Currently, port-level resources only support the show command for
+>viewing resource information.
+>
+>Signed-off-by: Or Har-Toov <ohartoov@nvidia.com>
+>Reviewed-by: Shay Drori <shayd@nvidia.com>
+>Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
+>Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
+>---
+> .../networking/devlink/devlink-resource.rst   | 36 +++++++++++++++++++
+> 1 file changed, 36 insertions(+)
+>
+>diff --git a/Documentation/networking/devlink/devlink-resource.rst b/Documentation/networking/devlink/devlink-resource.rst
+>index 3d5ae51e65a2..c2bb7e429a26 100644
+>--- a/Documentation/networking/devlink/devlink-resource.rst
+>+++ b/Documentation/networking/devlink/devlink-resource.rst
+>@@ -74,3 +74,39 @@ attribute, which represents the pending change in size. For example:
 > 
-> With fake heads eliminated, page_ref_add_unless() no longer needs RCU
-> protection.
-> 
-> Remove the flag and synchronize_rcu() calls.
-> 
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> Reviewed-by: Muchun Song <muchun.song@linux.dev>
-> ---
+> Note that changes in resource size may require a device reload to properly
+> take effect.
+>+
+>+Port-level Resources
+>+====================
+>+
+>+In addition to device-level resources, ``devlink`` also supports port-level
+>+resources. These resources are associated with a specific devlink port rather
+>+than the device as a whole.
+>+
+>+Currently, port-level resources only support the ``show`` command for viewing
+>+resource information.
 
-Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
+As this documentation should be kernel one, saying "show command" sound
+odd as from perspective of the kernel, there's nothing like that.
 
--- 
-Cheers,
 
-David
+>+
+>+Port-level resources can be viewed for a specific port:
+>+
+>+.. code:: shell
+>+
+>+    $ devlink port resource show pci/0000:03:00.0/196608
+>+      pci/0000:03:00.0/196608:
+>+        name max_SFs size 20 unit entry
+>+
+>+Or for ports of a specific device:
+>+
+>+.. code:: shell
+>+
+>+    $ devlink port resource show pci/0000:03:00.0
+>+      pci/0000:03:00.0/196608:
+>+        name max_SFs size 20 unit entry
+>+
+>+Or for all ports across all devices:
+>+
+>+.. code:: shell
+>+
+>+    $ devlink port resource show
+>+      pci/0000:03:00.0/196608:
+>+        name max_SFs size 20 unit entry
+>+      pci/0000:03:00.1/262144:
+>+        name max_SFs size 20 unit entry
+>-- 
+>2.44.0
+>
