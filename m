@@ -1,162 +1,135 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2C734E74D
-	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 09:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A8634F24B;
+	Fri,  6 Feb 2026 09:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770370674; cv=none; b=VTJZ1rZG7SRy7SsvmG3gZ0BQ0S6+u8tejn6hYBEXVCnhTG0Lf9J9Fi45dRPU5CDP8RbnXR7Y1v01FeGPQqcA7Y+j/SMCs66xS5SKZxBNXQtgrp4IPFNccAWnb6qikPP7+vjYY/llUbJtfv4SH7XsqGrMmabiQa5Xm9fD0fLvafU=
+	t=1770370912; cv=none; b=XitB4ehmlqANzIbCcHmkYym8fTivV/mgSERA/IHNVJMtfHpHiOE6FF7K7fJ9LDVwm7hepXbOlTK+hUgpzYP9cSOf/ito3BdU8V2eesB/pfmbz8ineuTXiAlumPLv7pvxMAwRwC1iOuKgYT/LKhTamwHYo74WIjTEBVoBrbeMI/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770370674; c=relaxed/simple;
-	bh=a6WHFOsQ0XLpXBz9nVNPRhoAOYofYpq507RpRUTDNVY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bLjxFqMOzTaQgPFP2vKmHBee2t4V7pCIqJJEibbL9zZ7KgAhe2FSiHWr13iBfKllADAFIa0y0X+StVKqFP3lXygo+Y1safBl988LvNiQRtpljNAPwx4Qu9Samc11TrkqJgVDkTqIXHG5nGWXYFRDJbshEfCI+4T/PIPewEm0III=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=muPmwwzu; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1770370912; c=relaxed/simple;
+	bh=83rnD8t3DNJ6QPw39Ew9UXjnTNb13axZkWJb6v64MTg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NsyEqzuQiwjsLsww/x/B2Z096xwj+MAb5Z0JIrw1nDasJIT8smp+uh7qLXiYrzh/jU1eiiYOvpdx6EBk+1GDUAvNHtLAlS+IPEYtxeKX2qLJsIrguOx4Qoy8Oys3bvofn0c+Yp64i76xdzb9nR8ReqgVtQIY8qarjs++1H1dnFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUCfLDqu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="muPmwwzu"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-47ee07570deso4036465e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 01:37:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770370672; x=1770975472; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wlRYgpRsjcg2ejK1OLntwoYIyfilHOYKa44N62R1+TI=;
-        b=muPmwwzueX6ChKrMLIUoFIuPthLqjLgti/xB4Kj9EoFbpNIvzKFy2b19Ux0lUxQ8aR
-         PS4QM0bwvXC5fYZW36TtrJ86G7lfyRYSLyFLNPKOafnSVHcjD7VoPdsI9h6PvGQy+A1p
-         9pG2Qjm6hx2+DvLoBPMo2U0fdmtytCIJK4Mt98UnHcMckvf8TOYjzUCq0oIEPLv4H68j
-         gQFdUThrQ12CgQE+5tITcOUEYR+MYxOhy5Pa0iLesVWBxWGQZN7scP6KnBvv758bZUr8
-         XLDgn1vu3zFI69+zeyrQKo5RDMmkgrHIXTcmlHJvHYiC9MGpRVpqVQs63+Etg/ftiLYd
-         dsOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770370672; x=1770975472;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wlRYgpRsjcg2ejK1OLntwoYIyfilHOYKa44N62R1+TI=;
-        b=JlmCVNj+7ijI/XIldNy4RqaDJPtVxOaY0FK2iEv5F20uiSOKql1ik3i3QLVpyIYlgU
-         IxvSXp7K8gqIBEtx5p6vH8jEA1e2Tw6vMYQEa5+ul6aQKvE2CicZcolCmElrSZnxc8wQ
-         kT242f2z0VtPDsGn8TqiaELKeOFck/V/V+mJuZP/bGjczy5uV+Dc13R35EAvY0k8l2Du
-         egOkCBrQjU7VUj4FKRE9kOVzFzQZfn/fJeDKOWtLQIEbYx32bHhVtigLVc79QWzDbV9Q
-         iHSUly18YJ3cflCRLIgmn7fbztNa1bO/tPoCxCVhnpF9NuhhLJKFHg/ZfMKpXdAh3ZU8
-         /jQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQrV/cE8z0NgHA66r0wjzAKgY7tEhWeZQD1z2CUydQEwKy76icjoLHG+uw9/KrsfMeLVlxCtU7U0o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBR23qso9+viL4Tl0Ky+1LARiKJWDZU15M4I9LFDnEIFNIKRSp
-	1lsgPm4VhjXP7HbMHyYf+82ZgWTjt3WQV0KXllwElsHJk2D0abmaTM0CZGjWfMH/FvE=
-X-Gm-Gg: AZuq6aKgNnZX9ps1m5oQW2tc90w0fAMTVoIZFshNvafGRRmo3c+GLRvqi18pYUwSyBn
-	PWO9/dCCMwnBMyFx7ySKn7mFZW5JQUAno9+JDjaRWH7ojCvtURZDFDWnEG5QIseSttWL9073QIY
-	26qa4/+l7RCKcMtLvrXYuwwggjnlUw28OHRGfHL+l00b7gG0N3YV5VIJAXSsvFitzM4BDQmmEBr
-	Xir3rDUADKmUxEKWLumxPFaYyIsEwkxjJg9AeRhyIWb0aWpODPjrVc2aLwPkSxg+J+UzEP8tAmP
-	DvcEQmZJONyFMzYgtsHaGhD8SMAG73bFf8SQCBENSH1B+Pyqrb3l7W3vrlBU9Z3WnxHLrj3t7cr
-	6ff3tIigfbFtBCJ8VIlAPFAqTg3AB8HRpZjovR/UcHEGQtMPiKe8VgJ9IduHIVfD3dOfu9Ji2Ey
-	mAGsZ6QWuZvBdpwhnS4mQ=
-X-Received: by 2002:a05:600c:8b88:b0:47e:e20e:bbb0 with SMTP id 5b1f17b1804b1-483201d9fa8mr30397895e9.6.1770370671772;
-        Fri, 06 Feb 2026 01:37:51 -0800 (PST)
-Received: from FV6GYCPJ69 ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483206cc7d3sm37505745e9.5.2026.02.06.01.37.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 01:37:51 -0800 (PST)
-Date: Fri, 6 Feb 2026 10:37:49 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
-	Moshe Shemesh <moshe@nvidia.com>, Shay Drori <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
-	Or Har-Toov <ohartoov@nvidia.com>
-Subject: Re: [PATCH net-next V2 6/7] selftest: netdevsim: Add devlink port
- resource test
-Message-ID: <eakcy4lgflnovn64jagsilopjst7xvmhcfujbxwlnphh7pdf5f@jkwcgn5e2ujr>
-References: <20260205142833.1727929-1-tariqt@nvidia.com>
- <20260205142833.1727929-7-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUCfLDqu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6227EC116C6;
+	Fri,  6 Feb 2026 09:41:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770370912;
+	bh=83rnD8t3DNJ6QPw39Ew9UXjnTNb13axZkWJb6v64MTg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RUCfLDqu4SJx8/KJLBbnt2bOOruTXTFBRj3zfNkkKbLB/6TbEbz0Zv7LmeTW5kEb3
+	 Ndti+ks1LLtKOQ5cKLBEoSYmrf26R1l/Uieb9s4ACUmCYAxAaOt6RElMgtu/NSy0hQ
+	 ty0IXApx24A3cS3dVj8/zxAYlnOkfwlb+8O3YqzK3kuc9QEJAeZJOMpnxjfjzfpGxG
+	 ZS+aq70CmWJNi8hzlzLfgMW/SPn0Yf5MY92b5kkon/PPpe4z6LDqZq1ydO0FYbYQsR
+	 vVER/vc/M3/bb1+mj8BjP6ZAph5B33SqPo6eA7qvylTuEdkb0Pk1HbEic1QMOi1sPu
+	 GivGlnw+Zi3bw==
+Message-ID: <f417576d-ab79-44f5-99a1-3f672b490bf2@kernel.org>
+Date: Fri, 6 Feb 2026 10:41:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260205142833.1727929-7-tariqt@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv6 12/17] mm: Drop fake head checks
+To: Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
+Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20260202155634.650837-1-kas@kernel.org>
+ <20260202155634.650837-13-kas@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260202155634.650837-13-kas@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thu, Feb 05, 2026 at 03:28:32PM +0100, tariqt@nvidia.com wrote:
->From: Or Har-Toov <ohartoov@nvidia.com>
->
->Add selftest to verify port-level resource functionality using netdevsim.
->
->Signed-off-by: Or Har-Toov <ohartoov@nvidia.com>
->Reviewed-by: Shay Drori <shayd@nvidia.com>
->Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
->Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
->---
-> .../drivers/net/netdevsim/devlink.sh          | 37 ++++++++++++++++++-
-> 1 file changed, 36 insertions(+), 1 deletion(-)
->
->diff --git a/tools/testing/selftests/drivers/net/netdevsim/devlink.sh b/tools/testing/selftests/drivers/net/netdevsim/devlink.sh
->index 1b529ccaf050..272e60eb7bfe 100755
->--- a/tools/testing/selftests/drivers/net/netdevsim/devlink.sh
->+++ b/tools/testing/selftests/drivers/net/netdevsim/devlink.sh
->@@ -5,7 +5,7 @@ lib_dir=$(dirname $0)/../../../net/forwarding
+On 2/2/26 16:56, Kiryl Shutsemau wrote:
+> With fake head pages eliminated in the previous commit, remove the
+> supporting infrastructure:
 > 
-> ALL_TESTS="fw_flash_test params_test  \
-> 	   params_default_test regions_test reload_test \
->-	   netns_reload_test resource_test dev_info_test \
->+	   netns_reload_test resource_test port_resource_test dev_info_test \
-> 	   empty_reporter_test dummy_reporter_test rate_test"
-> NUM_NETIFS=0
-> source $lib_dir/lib.sh
->@@ -856,6 +856,41 @@ rate_test()
-> 	log_test "rate test"
-> }
+>    - page_fixed_fake_head(): no longer needed to detect fake heads;
+>    - page_is_fake_head(): no longer needed;
+>    - page_count_writable(): no longer needed for RCU protection;
+>    - RCU read_lock in page_ref_add_unless(): no longer needed;
 > 
->+port_resource_test()
->+{
->+	RET=0
->+
->+	if ! devlink port help 2>&1 | grep -q resource; then
->+		echo "SKIP: missing devlink port resource support"
->+		return
->+	fi
->+
->+	local first_port="${DL_HANDLE}/0"
->+	local name
->+	local size
->+
->+	devlink port resource show "$first_port" > /dev/null 2>&1
->+	check_err $? "Failed to show port resource for $first_port"
->+
->+	name=$(cmd_jq "devlink port resource show $first_port -j" \
->+		      ".[][][].name")
->+	[ "$name" == "max_sfs" ]
+> This substantially simplifies compound_head() and page_ref_add_unless(),
+> removing both branches and RCU overhead from these hot paths.
 
-Test resource name not updated.
+Can you say a bit words more why RCU was required and is now no longer 
+needed?
 
+IIRC, it's because we now no longer reuse the real head page (page 0) 
+for a tail, and there could have been a race where we could have 
+attempted to write to that page0 while already mapped (r/o) to page1.
 
+Also good to mention that the corresponding RCU sync will be removed 
+separately in a following commit.
 
->+	check_err $? "Unexpected resource name $name (expected max_sfs)"
->+
->+	size=$(cmd_jq "devlink port resource show $first_port -j" \
->+		      ".[][][].size")
->+	[ "$size" == "20" ]
->+	check_err $? "Unexpected resource size $size (expected 20)"
->+
->+	devlink port resource show "$DL_HANDLE" > /dev/null 2>&1
->+	check_err $? "Failed to show port resources for $DL_HANDLE"
->+
->+	devlink port resource show > /dev/null 2>&1
->+	check_err $? "Failed to dump all port resources"
->+
->+	log_test "port resource test"
->+}
->+
-> setup_prepare()
-> {
-> 	modprobe netdevsim
->-- 
->2.44.0
->
+Nothing jumped at me and it's a great simplification for core-mm.
+
+Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+-- 
+Cheers,
+
+David
