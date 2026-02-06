@@ -1,146 +1,374 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3477E1FECCD
-	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 01:07:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770340045; cv=pass; b=HCqUnyKrsR1EqBAZdW+qZWNKkGL7S63yHNDjKcmFRW1GswJeID9//PT/V5IWaYuMWFP48a99ejkc9iEWietR6exiWcbg8J/iDqvnZp0/Cqr42iIhbvfJHKgCew9yRxBRT4i1RtMybAGYoWc5rVu0wao7PmRcOZm6lx9+XvWta1w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770340045; c=relaxed/simple;
-	bh=wDWVWFCQyt41m36By+1mg9Tz8HGxZTNBLIvQ/XOM2S4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pZD7/9qNJ6TkCHxiXDmjhdAia3swjPnkQiUpTQ3LiZKnVMDQgUDvy5y6mKF/9WhR+g6V1ZuOGg/3lbZD2go3CrIjei3+wnZZGgXpPkCf3bpy3FruZmtCHE7FvpjuaVWxRytRvRN/qCZ3LcZGYGueuDPyfyHoMbw99ZVMQEyxTNw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QBSUUK+p; arc=pass smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB17D2236E0
+	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 01:09:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770340189; cv=none; b=JAS6jkzdHgvIOotQzdXWu8G4984UfNzziD1AuHKjiKqzqlDGhD4+EXObCmWWC+YLGb2y1SWpsjMfpwuBahTVeMuIIpYg1Ye8/+o/A54MMjSR8P2OFv3L3x8Tz8ah3M6Pmf8lbSqUA1nhprVPMZWuXO97AXR6c1cRVZGvRz9Z3xA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770340189; c=relaxed/simple;
+	bh=rNuWtRvMB0NRy8EVLOoIZ2tDJW/Huf0pVpEpPTseNOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=psRndoHuS05tkajWx2qaX/TN5EUbN+8HWmeZmMUMGJk3DmMmaHFlKiJUopF+RlYTnnT3GoRXCB2OseJjPIOlzkGW6kylyQcArU8RAd7/cFpA8gt2pgGoENS5rLOB8rbK50QcVpZlyL2FVEDzsDGOpKi7+nj8wmp27ZqjffKrZjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CYqNmQI+; arc=none smtp.client-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QBSUUK+p"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-895075a3be1so18168226d6.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 17:07:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770340044; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PEh4bosnZgo03/l+aZ1UbMNO5gk+6rKDU9vIXAgsuiZdDT7zdShnVa8gq9ST7sQpRo
-         GkTO3MBQS89+6Y2TzhfvBt2/NGzSXZhC5Hmop4FSGN0odcxr/uh/oNrJG2SQLp6uP0ys
-         Ntn7t1pdCfOhuyJbNBA1t35ENcwXdMyo0TGJbLNzxKIJsZf9vVyBvt1jnhSWIUOoztXo
-         kAH021F35EblDRv6Rtvg8s0lRiEkp7q293CPOs/tkRxEpJhkK6IMxYkst3XLXtgfpxPc
-         p1oU8im460WcBlqaaLlRUgzuiQJFS6eAJtTkB7rNeXdqh1X9IG7n7KdeqjMMIr5Hsjg2
-         4qbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=wDWVWFCQyt41m36By+1mg9Tz8HGxZTNBLIvQ/XOM2S4=;
-        fh=71BUdEynonuUMdqSGamxBKvIDwSwVIMbaO9oIcBSWhc=;
-        b=kfnGtZq8zi+s53zI72BAiVi8VPjSZEDieAry38Ysqwd4swKPkmsQOBT1kmCQfZDuJ3
-         4GfwuLK4guT5V1H1GE61uk0Ib4Bl8BMzjn/B4da3KEMnoBA/WX5blSgYKA0IpAwSwU4w
-         UJPL2YAATl7x0i3GcSxTLkPJWYC6xOfqfnJRutgjIz51rc3FZLTf/wbpLEFW6VX8LUy6
-         gVrIlXpCW8xuNz5F4f2HKAqv5S+b8laVsrA583AfSPa78V469/l2P3aY6lt141yGt6Kr
-         NXK9oFvFOKE/oC4NmCLXdWqTufKTjLKfZZJADg8W6dP8YrmVy1FgHaCcu/lSyBqtlhz/
-         QV/g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CYqNmQI+"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-124566b6693so425410c88.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Feb 2026 17:09:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770340044; x=1770944844; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wDWVWFCQyt41m36By+1mg9Tz8HGxZTNBLIvQ/XOM2S4=;
-        b=QBSUUK+pHEQKVDWqU7aVtVvNN+Z5y3qfTInfv+o7/d+2U/Uh98z2l3j5dJzMDHo3Zp
-         7KKRnsvL51LzOWN+hUhOeIfyuKXIdl1AsuQ+9ImzT10RJQrmJhcU/ERBypEEGwG3/5i8
-         sny6S4hqC9OojiB3yjMI/4xI0HaVn/ERoMhuAmXv58idmsWrURwif8g/EEhH1jV6AfGQ
-         jln7vpt5QNkBk8Q829AqmRYgQsGCqOzIKNZyRNh+XVEmsmC19nnmfcuVySZZZKgwA0EA
-         aam044VkgskRdJrJcg3J5Fex8XYRGFJKrLcV5M0IwV4LGKHYlwhHmqs+v1frn9zxK6TE
-         oTWQ==
+        d=gmail.com; s=20230601; t=1770340188; x=1770944988; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Vs2QcgRbbbiP9STmkUY5xRdKIA29w4m7lTues8D5avc=;
+        b=CYqNmQI+bOQFSWHbeNVufCRxXX31uX8uJ4Q6/VbpzmaPE8Lo3TqHDyTBDwWs2NvOPu
+         /nz9ZVcstSVFnAZoHsE2WRYrsGxTc4Y8+93zbruluQCIxZHvUNHnztpWqGowR1mfkww0
+         uOG0EwsBRlrSSR9Vb44d8ZCWOZ9xpaS2hBiRxpfgt12gjO71dYE2fcaM9x4FyujfPLoV
+         mhQvWR+40g7iRkrYz/T2GLthUVHikQ3UsQ3VJFvGTHM/R2wVG/SirDcC4hOv3K/z3zsP
+         m1yh/7i0QjyJSwG7pvNe7TtcJLBWaYw6WwbIbSLV2NrByK2ubZ4Qi1KYf4AgenAqxy/g
+         8pmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770340044; x=1770944844;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wDWVWFCQyt41m36By+1mg9Tz8HGxZTNBLIvQ/XOM2S4=;
-        b=tAFR1ZprACgBB6M18V+9tDY01hNsAafzxEvS6EXEci1hsSz1F83S3GUBw1q6/rd9NP
-         Ajyq+E5Sx8DxnfN005vJXZi8twSpomBx5xiHZIJJ93cpOMtS9UucplzEajVBT22w+TlO
-         E4IUmtk4PFB9lkfw4nUMh5eSByu8Vuhf7/ZA5uYzOo+3AJwgW7losIPAOTMZpfAgw3xd
-         GMfN9ykInvlBNwlRrV4nRPIHmsmvfMXXwj71iZRiRthHlapAaOI6tQQ5ODMOwFjdNfN4
-         I4Y3qGpRdvhWaizq+9Q61KA99TPCXZ4tK/j2mI5EkzCFXOulRiHSSk06cEFDkvD00hm1
-         Wmew==
-X-Forwarded-Encrypted: i=1; AJvYcCUZeKwk7/YfoQhkCRfxEGDE0MhPObXFE4McQZ/7l8NjGYvJAWUaSbvR7LrJK1400GnbP7vR7seQSW4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz7WQp0boM63w+r8JU5p5q6HEmntRbpUZUb7AY4tof6vsRABM/
-	HYyUuwFilrpy5VJ7kNfNUmpV3ghYDeD/YBCHlGBDV5/05clFXr5KhEVI5vKDrihZ/1c5z00/Cpt
-	csF1aX8Ua+VzwXc1fXEHGjVFk+5E19mA=
-X-Gm-Gg: AZuq6aLNATFaG6247cYD9vUJGTkhgmQkrNem7/07hYMHdgVutDILSYZmLXQp41R3Wlc
-	1cLuhst4rz7TMlWEhAZ5thg4qAdzvkbHoCTRdbx5wc8IGZTuIoG+Q+4M7u4+MRkplPf7teJUxrd
-	Q3JIrP6bn3mmQO3vGEma1Oi5e8spORg8TgMyZJQU6mg+CVw5f71CpGftoQJc6i1EZWUpiB+T8JM
-	aDPf2g6g+IngNWKJoxXpXsKJqT+h6x2zDQHiYpPVx1WMijvT9mnUbbGKIiOzxzlkVANC31NCo0h
-	ksH96ITvpZmroA+ANmk5AQzM743P6FQZ/TL+ThtedqxNnPFNvbKHeGM=
-X-Received: by 2002:a05:6214:c29:b0:88a:44c8:fe30 with SMTP id
- 6a1803df08f44-8953000350fmr75404466d6.10.1770340043910; Thu, 05 Feb 2026
- 17:07:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770340188; x=1770944988;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Vs2QcgRbbbiP9STmkUY5xRdKIA29w4m7lTues8D5avc=;
+        b=SFV1gLG8HW9DMIkw4qiO5Dny5a5f0uOi7BqvykOrr1oSsCag/xKym7joU7+uk3+3uc
+         mtygcZX2lnmvFOS4/L8EtSM52xKkz6NefOxIxVx6YeLFuNieHFVLswmHLfOy/fCsUaCD
+         cgqDwDq4hghj65MjupWP2U8uYud22Tk+pGePnEvGju4ORnmQ041urdYtYf79VmJW6qZf
+         on9Z3kBQKDDyySnjVex56oiRnoTXhzjRS7nYBAMDkytyzyp6iin34qgLU2eqQ6jqk0eC
+         3reg9Y84zIHUoD3KE3iiGIFvp37pIvkP2HSz4E4aONFDYQbt3gXuqmsNBTXnAizZndLX
+         Z6Sg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7J6eCZqNV1c9PqRhHkU5E+myRMjPCDFTrlrvoNm4tZHyuvqqQr21S+0mPBQTe4l0f26u/X3WegcI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOekK7spVcm7cYtfl/sGvKaf7CClmBU+p5ekXO/xqGlip08pkj
+	10aXnAzR/8RDFXqMb2tva3mHnaSDUosEv1HCZflqC12RJWGJGNPfCvuX
+X-Gm-Gg: AZuq6aJKvo71uj1SPkRSGmR8gYspdNkJWyaftTNju+VCs5LiUh+8vb5iXeKOvrBz4sA
+	wc5DPzCTr17pSnhqHoQM2WHlP23/OVHlyVVp8xtPTnhfswNM1Q1R2U96kfjiAX12KVe7DLpnzIm
+	96wbOPHafbTmqlsK2qQ1G4cqwM5uMfQ3B3WFHvDODi4MYLzMW3TxIFDb2q+yp3LnM9CizMEXVnB
+	NM/jwqsVOfsiYvOgASm19OLi7VzCHKOylIronMbI5Wg+twjKE9Y4FlK1e9WC4vNQgsLIf9n356I
+	g1iKFlLMUf1sCrl5DTMFcpbt2Yn9lE6SOaNYaAcnND56C+urCJeq8Cn8vC1J6zKTsiiaZe/OWDc
+	/Fr5LPNPNwpHbQmNvtb05Ee+U75H1JgiYpW2mhQ4pdV4aAXqMsofcs4gbwMEjqc8BIZN/x9mPQe
+	PGrJY9nH1+Ns0l+maMYkVJKAoh
+X-Received: by 2002:a05:7022:6ba6:b0:123:330b:390 with SMTP id a92af1059eb24-127040083femr589392c88.20.1770340187659;
+        Thu, 05 Feb 2026 17:09:47 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b855ad9a42sm881029eec.1.2026.02.05.17.09.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Feb 2026 17:09:47 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 5 Feb 2026 17:09:45 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Marius Cristea <marius.cristea@microchip.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 2/2] hwmon: temperature: add support for EMC1812
+Message-ID: <402ba937-226d-44be-8411-428a8842a35c@roeck-us.net>
+References: <20260205-hw_mon-emc1812-v5-0-232835aefe8f@microchip.com>
+ <20260205-hw_mon-emc1812-v5-2-232835aefe8f@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260120204303.3229303-1-joelagnelf@nvidia.com>
- <20260120204303.3229303-3-joelagnelf@nvidia.com> <CAPM=9tz5iXoFQ3+4hPFW+tZCL2zWe0WJ07-oFkP8TNVL_J_SSg@mail.gmail.com>
- <44542f0b-be3d-4e82-aacf-0bf19ab69954@nvidia.com>
-In-Reply-To: <44542f0b-be3d-4e82-aacf-0bf19ab69954@nvidia.com>
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 6 Feb 2026 11:07:12 +1000
-X-Gm-Features: AZwV_QjEIAozPEFJ7NdCW81HEOLtXZUhxCZzFmSJOZbp-SMcdPX-QLYah3tkGzE
-Message-ID: <CAPM=9tzafj_-L+ia8q=tL5DBWZU9PdSq9vaCAD7ituoMR+CaQg@mail.gmail.com>
-Subject: Re: [PATCH RFC v6 02/26] gpu: Move DRM buddy allocator one level up
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>, 
-	Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>, 
-	Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>, 
-	Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, Alexey Ivanov <alexeyi@nvidia.com>, 
-	Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>, 
-	Elle Rhumsaa <elle@weathered-steel.dev>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	joel@joelfernandes.org, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205-hw_mon-emc1812-v5-2-232835aefe8f@microchip.com>
 
-On Fri, 6 Feb 2026 at 11:04, Joel Fernandes <joelagnelf@nvidia.com> wrote:
->
->
->
-> On 2/5/2026 3:55 PM, Dave Airlie wrote:
-> > On Wed, 21 Jan 2026 at 06:44, Joel Fernandes <joelagnelf@nvidia.com> wrote:
-> >>
-> >> Move the DRM buddy allocator one level up so that it can be used by GPU
-> >> drivers (example, nova-core) that have usecases other than DRM (such as
-> >> VFIO vGPU support). Modify the API, structures and Kconfigs to use
-> >> "gpu_buddy" terminology. Adapt the drivers and tests to use the new API.
-> >>
-> >> The commit cannot be split due to bisectability, however no functional
-> >> change is intended. Verified by running K-UNIT tests and build tested
-> >> various configurations.
-> >>
-> >> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> >
-> > I suggested this and think it's a good idea.
-> >
-> > Reviewed-by: Dave Airlie <airlied@redhat.com>
-> Thanks, Dave!
+On Thu, Feb 05, 2026 at 09:09:04AM +0200, Marius Cristea wrote:
+> This is the hwmon driver for Microchip EMC1812/13/14/15/33
+> Multichannel Low-Voltage Remote Diode Sensor Family.
+> 
+> EMC1812 has one external remote temperature monitoring channel.
+> EMC1813 has two external remote temperature monitoring channels.
+> EMC1814 has three external remote temperature monitoring channels and
+> channels 2 and 3 supports anti parallel diode.
+> EMC1815 has four external remote temperature monitoring channels and
+> channels 1/2  and 3/4 supports anti parallel diode.
+> EMC1833 has two external remote temperature monitoring channels and
+> channels 1 and 2 supports anti parallel diode.
+> 
+> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+> ---
 
-I'm going to apply this to drm-misc-next today but I'll move some of it around.
+Additional AI generated review feedback below. Please address.
 
-Dave.
+Thanks,
+Guenter
+
+---
+
+# Task
+Date: 2026-02-05 16:00:08
+Model: gemini-3-flash-preview
+Prompts SHA: 52e5df6 ("various changes")
+Commits to review:
+- 0f6303cffaab ("dt-bindings: hwmon: temperature: add support for EMC1812")
+- c5a5b0f370f0 ("hwmon: temperature: add support for EMC1812")
+
+
+# Commit 0f6303cffaab ("dt-bindings: hwmon: temperature: add support for EMC1812")
+commit 0f6303cffaabd0f20f74335ad88e6e3ec5876d93
+Author: Marius Cristea <marius.cristea@microchip.com>
+
+dt-bindings: hwmon: temperature: add support for EMC1812
+
+This commit adds the DeviceTree schema for the Microchip EMC1812 family
+of temperature sensors and updates the MAINTAINERS file.
+
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/microchip,emc1812.yaml
+[ ... ]
+> +  interrupts:
+> +    items:
+> +      - description: alert-therm2 asserts when the ALERT limit is exceeded.
+> +      - description: therm-addr asserts when the THERM limit is exceeded.
+> +    minItems: 1
+> +
+> +  interrupt-names:
+> +    items:
+> +      - enum: [alert-therm2, therm-addr]
+
+Is the interrupt-names schema intended to be this flexible?
+
+The current items definition only constrains the first element of the list.
+If a second interrupt is provided, it remains unconstrained.
+
+Additionally, if only one interrupt is provided, the interrupts property
+enforces it to be alert-therm2 (the first positional item), but the
+interrupt-names enum allows it to be named therm-addr.
+
+Should it be defined as:
+  interrupt-names:
+    items:
+      - const: alert-therm2
+      - const: therm-addr
+    minItems: 1
+
+[ ... ]
+> +  microchip,parasitic-res-on-channel1-2:
+> +    description:
+> +      Indicates that the chip and the diodes/transistors are sufficiently
+> +      far apart that a parasitic resistance is added to the wires, which can
+> +      affect the measurements. Due to the anti-parallel diode connections,
+> +      channels 1 and 2 are affected together.
+> +    type: boolean
+
+Is this description accurate for all supported models?
+
+For the EMC1812, there is only one external channel, so it seems
+unlikely that "channels 1 and 2 are affected together".
+
+Also, the EMC1813 does not appear to support anti-parallel diodes
+according to the commit message and driver documentation, yet this
+description attributes the property to anti-parallel diode connections.
+
+[ ... ]
+> +patternProperties:
+> +  "^channel@[1-4]$":
+[ ... ]
+> +    properties:
+> +      reg:
+> +        items:
+> +          minimum: 1
+> +          maximum: 4
+
+Does the reg property for channels need a maxItems: 1 constraint?
+
+Without it, the schema allows reg to be an array of multiple values,
+whereas a channel node reg should typically be a single value.
+
+[ ... ]
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - microchip,emc1812
+> +              - microchip,emc1813
+> +              - microchip,emc1833
+> +    then:
+> +      properties:
+> +        microchip,parasitic-res-on-channel3-4: false
+
+The EMC1814 supports anti-parallel diodes on channels 2 and 3, but only
+has three external channels in total.
+
+Should microchip,parasitic-res-on-channel3-4 also be disabled for the
+EMC1814, since it doesn't have a fourth channel?
+
+If the EMC1814 uses this property for its anti-parallel pair (2 and 3),
+the property name appears to be a mismatch.
+
+[ ... ]
+
+The driver added in commit c5a5b0f370f0 references a property named
+"microchip,enable-anti-parallel", but it is missing from this schema.
+
+Should "microchip,enable-anti-parallel" be added to the bindings?
+
+[ ... ]
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 0efa8cc6775b..c807025d911e 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+
+# Commit c5a5b0f370f0 ("hwmon: temperature: add support for EMC1812")
+commit c5a5b0f370f04e9e4ae78ae82077cfb684461d8e
+Author: Marius Cristea <marius.cristea@microchip.com>
+
+hwmon: temperature: add support for EMC1812
+
+This commit adds a new hwmon driver for the Microchip EMC1812 family of
+temperature sensors, including support for EMC1812, EMC1813, EMC1814,
+EMC1815, and EMC1833 chips.
+
+> diff --git a/Documentation/hwmon/emc1812.rst b/Documentation/hwmon/emc1812.rst
+> new file mode 100644
+> index 000000000000..799111a89541
+> --- /dev/null
+> +++ b/Documentation/hwmon/emc1812.rst
+> @@ -0,0 +1,68 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver emc1802
+> +=====================
+
+Should this be emc1812?
+
+> +Author:
+> +    Marius Cristea <marius.cristea@microchip.com
+
+The closing angle bracket seems to be missing from the email address.
+
+[ ... ]
+
+> diff --git a/drivers/hwmon/emc1812.c b/drivers/hwmon/emc1812.c
+> new file mode 100644
+> index 000000000000..30bbc377d592
+> --- /dev/null
+> +++ b/drivers/hwmon/emc1812.c
+
+[ ... ]
+
+> +static int emc1812_read(struct device *dev, enum hwmon_sensor_types type, u32 attr,
+> +			int channel, long *val)
+> +{
+> +	struct emc1812_data *data = dev_get_drvdata(dev);
+> +	unsigned int convrate;
+> +	int ret;
+> +
+> +	switch (type) {
+> +	case hwmon_temp:
+> +		return emc1812_read_reg(dev, data, attr, channel, val);
+> +	case hwmon_chip:
+> +		switch (attr) {
+> +		case hwmon_chip_update_interval:
+> +			ret = regmap_read(data->regmap, EMC1812_CONV_ADDR, &convrate);
+> +			if (ret < 0)
+> +				return ret;
+> +
+> +			if (convrate > 10)
+> +				convrate = 4;
+> +
+> +			*val = 16000 >> convrate;
+
+If convrate is 10, *val becomes 15. However, emc1812_conv_time[10] is 16.
+This results in a slight discrepancy where writing 16ms and reading it back
+returns 15ms.
+
+> +			return 0;
+> +		default:
+> +			return -EOPNOTSUPP;
+> +		}
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+
+[ ... ]
+
+> +static int emc1812_set_temp(struct device *dev, struct emc1812_data *data, int channel,
+> +			    enum emc1812_limit_type map, long val)
+> +{
+> +	long valh, vall;
+> +	u8 regh, regl;
+> +	int ret;
+> +
+> +	regh = emc1812_limit_regs[channel][map];
+> +	regl = emc1812_limit_regs_low[channel][map];
+> +
+> +	if (channel) {
+> +		val = DIV_ROUND_CLOSEST(val, 125);
+> +		valh = (val >> 3) & 0xff;
+> +		vall = (val & 0x07) << 5;
+> +	} else {
+> +		/* internal channel limit is stored on 8bits */
+> +		valh = DIV_ROUND_CLOSEST(val, 1000);
+> +	}
+> +
+> +	ret = regmap_write(data->regmap, regh, valh);
+
+Can this write overflow the 8-bit register for the internal channel?
+
+In emc1812_write(), val is clamped to a maximum of 191875 and then offset
+by 64000, resulting in 255875.
+
+emc1812_write()
+    val = clamp_val(val, -64000, 191875);
+    val = val + 64000; // val is 255875
+
+emc1812_set_temp()
+    valh = DIV_ROUND_CLOSEST(255875, 1000); // valh is 256
+
+Since the register is 8 bits wide, writing 256 (0x100) will be truncated
+to 0x00, setting the limit to -64.0 C instead of the requested 191.875 C.
+
+[ ... ]
+
+> +static int emc1812_init(struct emc1812_data *priv)
+> +{
+> +	int ret;
+> +	u8 val;
+
+[ ... ]
+
+> +	/* Set ideality factor for all external channels */
+> +	ret = regmap_write(priv->regmap, EMC1812_EXT1_IDEALITY_FACTOR_ADDR,
+> +			   EMC1812_DEFAULT_IDEALITY_FACTOR);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(priv->regmap, EMC1812_EXT2_IDEALITY_FACTOR_ADDR,
+> +			   EMC1812_DEFAULT_IDEALITY_FACTOR);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(priv->regmap, EMC1812_EXT3_IDEALITY_FACTOR_ADDR,
+> +			   EMC1812_DEFAULT_IDEALITY_FACTOR);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(priv->regmap, EMC1812_EXT4_IDEALITY_FACTOR_ADDR,
+> +			   EMC1812_DEFAULT_IDEALITY_FACTOR);
+> +	if (ret)
+> +		return ret;
+
+Does this code need to write to EXT2/3/4 ideality factor registers if the
+chip (like EMC1812) does not support those channels? While likely ignored
+by the hardware, it seems redundant.
+
+
+# Summary
+
+| Commit                                                                    | Regressions |
+| :------------------------------------------------------------------------ | :---------- |
+| 0f6303cffaab ("dt-bindings: hwmon: temperature: add support for EMC1812") | 6           |
+| c5a5b0f370f0 ("hwmon: temperature: add support for EMC1812")              | 5           |
