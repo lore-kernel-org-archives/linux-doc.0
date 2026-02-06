@@ -1,83 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A499B29A9FA
-	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 08:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102C717736;
+	Fri,  6 Feb 2026 08:34:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770366675; cv=none; b=T+VS18fbXpvzFFAQ780br/3T0luFqn3cMwrB+voLQh9sW1yIzGMnfbHGcfvTeGsz27otQHMyyT3fhtLDRIGQNjM5sBzNBplp0O1Aecg9ugNY38/i2POZz6DYQSf8qUB1nsUpTEDgrbTC9ftSJWxtNDmEvj2xKyBePSWk3G0EEfA=
+	t=1770366855; cv=none; b=s4LySjmat56PW6Bs71Fb5xOy6zymoQLAuKqK+rRj2USK/05ReTtWF/LM8TShq8OMhLiVQyJIsDSlMs9WfpM8z7pjp7VPp3WFcpo0UtAoDR/JNRN5VpaSt86tHm36QElP1PRxwQw8BTvC6QN2xUcOAeI7IjBIjLjbxJjuelN6VnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770366675; c=relaxed/simple;
-	bh=RZuiCDy4/g9LV1rpngu3qNY+4nbVNkSvSeCbDiQVFW0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=the+7lG6POvXLRBbjVF4UFIsQr840/iEctaAlOKba0S8vmMGbJ7h4JiGVb9jp57Fd4K2Biz7G9onDX93BSjt72LR4XrjlxMuNp4ZMr3y8zmq0zs0vst3VFxVA/qrBsHMOTHlckMC+vo6N0+lTp+CxUXnoElH3vayN5l5YLg3NgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9VX0zCG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770366855; c=relaxed/simple;
+	bh=N6gVERObGhB15T0VBTmv5xARCwqXVSRXY8MFd6Z+hoo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aMAV/BcR4pht4Au577C1jO7Q30q62XijOwFSXX95c+byn5si9xXi2Y2MOZotz+LvUi6klYJHAYGKs1xEFdHQFNx551j981+qXuWP3tXF/xuL5myjqG9eb/zemLlAt6X4Isb7BQhDmhkiq65GM30XEISZCzCqUINS9lFkI6o2gXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=EgAqSTaj; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9VX0zCG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 129E8C116C6;
-	Fri,  6 Feb 2026 08:31:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770366675;
-	bh=RZuiCDy4/g9LV1rpngu3qNY+4nbVNkSvSeCbDiQVFW0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=G9VX0zCGlZ5/oObf96dKPIrm4pcKz33GvJIf0ow0V3WHzqDH1NTz808KnqemdrSkS
-	 JlFJLOE6vB6t/IOORHBUkmE1rJa0dCq+pezcVozPhQ7g4q4JjXbOQWkSLTSllUY28z
-	 xdw+KYh86V+wN4uqdb8mviRf2aGN3dRfbKS2YC6wux7AWk44SZvgJt6nS5e2qjNt8u
-	 R4lfEM+JR0YY68agazFZqDB7QT6uLAjFxqeFcRhDqXxb58dJq6lJhs4i9JDgaBN12+
-	 /3lT5+0N49Ais8UJrEUvrIZ0HXoDT9O+1CIUOyzQYOmf3OYiV5fEbGYgApzAqqPAVk
-	 oN8uwuaSKmknA==
-Date: Fri, 6 Feb 2026 09:31:07 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH] docs: kdoc_parser: allow __exit in function prototypes
-Message-ID: <20260206093101.39c06f0d@foz.lan>
-In-Reply-To: <20260206065440.2412185-1-rdunlap@infradead.org>
-References: <20260206065440.2412185-1-rdunlap@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="EgAqSTaj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1770366852;
+	bh=N6gVERObGhB15T0VBTmv5xARCwqXVSRXY8MFd6Z+hoo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EgAqSTajdYeJFKCk0ywbXmuECt0fZYvujzSTRvhETEtx3/f+KtVBNsuJfW6iUHO95
+	 xDBk/bqTf7KMMjXf17G01CViU2TjvoF5hm7V0YQt4BUyrOOW+RHBazyoxvvFbIQVcl
+	 KTCxEkR1IahrhDbJw5ftdTKxtSQZZkdA6ovkvFgk=
+Date: Fri, 6 Feb 2026 09:34:11 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: David Howells <dhowells@redhat.com>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Naveen N Rao <naveen@kernel.org>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Nicolas Schier <nicolas.schier@linux.dev>, Daniel Gomez <da.gomez@kernel.org>, 
+	Aaron Tomlin <atomlin@atomlin.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Xiu Jianfeng <xiujianfeng@huawei.com>, Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
+	Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
+	kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>, 
+	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 05/17] module: Switch load_info::len to size_t
+Message-ID: <1c30b3bc-8dba-4627-8a3e-db9fdbbce6ee@t-8ch.de>
+References: <20260113-module-hashes-v4-5-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <2919071.1770365933@warthog.procyon.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2919071.1770365933@warthog.procyon.org.uk>
 
-On Thu,  5 Feb 2026 22:54:40 -0800
-Randy Dunlap <rdunlap@infradead.org> wrote:
-
-> Handle functions that are marked with __exit to prevent warnings:
+On 2026-02-06 08:18:53+0000, David Howells wrote:
+> Thomas Weißschuh <linux@weissschuh.net> wrote:
 > 
-> Documentation/networking/iucv:35: ../net/iucv/iucv.c:1918: WARNING: Error in declarator or parameters
-> Invalid C declaration: Expecting "(" in parameters. [error at 12]
->   void __exit iucv_exit (void)
->   ------------^
+> > As both 'size_t' and 'unsigned int' are always the same size, this
+> > should be risk-free.
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Did you mean 'unsigned long'?
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> 
->  tools/lib/python/kdoc/kdoc_parser.py |    1 +
->  1 file changed, 1 insertion(+)
-> 
-> --- linux-next-20260204.orig/tools/lib/python/kdoc/kdoc_parser.py
-> +++ linux-next-20260204/tools/lib/python/kdoc/kdoc_parser.py
-> @@ -176,6 +176,7 @@ function_xforms  = [
->      (KernRe(r"^__FORTIFY_INLINE +"), ""),
->      (KernRe(r"__init +"), ""),
->      (KernRe(r"__init_or_module +"), ""),
-> +    (KernRe(r"__exit +"), ""),
->      (KernRe(r"__deprecated +"), ""),
->      (KernRe(r"__flatten +"), ""),
->      (KernRe(r"__meminit +"), ""),
+Indeed, I'll fix it for the next revision.
 
 
-
-Thanks,
-Mauro
+Thomas
