@@ -1,310 +1,369 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B186A3043D7
-	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 22:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770417482; cv=none; b=Nj9MXDPeWoCO//QcCfOrYTodDn+v8vEXtRSUZwoWZZJPY7hX9GUM6T03OepYs9cjP7VnflBwSCrEEjVlu43F7EH8+zY+S644prltHUD+XE6n3S08/lD6u368+ZaWoXco/9A2A9jIMG0OoSuEljjQVX7QyJN3oC9X3iVFsnHvbKY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770417482; c=relaxed/simple;
-	bh=LLkqhZ9N+SgP8u+HwW8Vo0qy2/lC5t6oS5IC0lknNH4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qb9R6m2gKkWFT8s33zzp9Q3nUEdqX9vx+Bh3JigjBEngbWTpSB4uZ/YlvPQ4xnteP3gUuiNo51baDlKLfBw0shmuplhu9Hc6gOqoUyvOyLPgG/Igz4aVy28IoTE9h6lLk6Ykqaj/NHVf/98eMYAEDoopziXZwHIS6vN88O2gjIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ltabsfcp; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B30262FEC
+	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 22:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770418070; cv=pass; b=mt4lnqzaCv9Lp1UvJitxiIgHGDjPUQlSDqs9Q9kbBj+8f5oV4uqrdGzgOt4VYVplRAc12QnwXwaa2vsTFS+eUxTbVS0Om5I0eGccEBe4kc58sHJDWhlh6F5EvAyq5js4Kj0TeaRMu0d2UiUOouOe01ZoS2FmQsR4ukF7XaP5DnU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770418070; c=relaxed/simple;
+	bh=KZMki9zsd7xqDhqCfSZ+tkLRxJNln01g4KOtMebtSWw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c4MbLk4J7or3It954owHaKwT0KHwhMn3geNf6fAi15MdGF4VnBnVbJPZFCtqPJHHLEKZyss7tt3x+uCGVPyXGWy7fk+ThKingvjm0gyOZo+Lqw5Y4cN0N3VDYNskcXt+ri2kdOQi0s0aNzAmJgrb54G5UZ6feQNRBV4d9bQYHBE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KWeUBFOG; arc=pass smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ltabsfcp"
-Message-ID: <6dc423bd-36e6-4f97-b2b2-c7030575a3a1@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1770417479;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9jJ4UYueeYSPKpn5obREQWJr7THiJ5jfhsdhIm5npyc=;
-	b=LtabsfcpkYYNEXj4rk6UxoAeebNMHH+eAxM6nF6ShkMfYHLDWCU9u7fr+tGWlVOjNlm5Ou
-	2OCzSUYh05QKsYDU3hO1T/8obHmFYsBVToWOzWid2CAfWQklQinbky6jUjgvnMC1r7RgMq
-	3l//E3MjKtfTYGC+VYr6MkBgsyp5+9w=
-Date: Fri, 6 Feb 2026 14:37:45 -0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KWeUBFOG"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1270fc2bdf2so608c88.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 14:47:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770418069; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AycwodhqETgPld/Bbe/SZByJJ++InZ1QjQu7tqfUUZIJex42jIKWEQLntZuB++PtO9
+         GJr1loMYR/W6i47fIXbjmlm7yDuhv2bQmP1x0IVrguFNPmqJ4RZzcC36Ov9q3EZ5+3YW
+         rQGchA37lP369vn1aNr1EPF15eZLhs0iv+eJuHJJtOA6vqG0k1OT3HJYTlMYtec+YLn8
+         4fI6QflLakZQ66O5XmfPOkbmKzxJ+8xtBfNx47fFBz1Du62mneydwUgvxb4Of1TAxeJR
+         Paj8oGlUIJ8btBiyVzjK53HaRUXhqdtXwSJqo/HaPwKomnQn+6zlWTmluDcPGjDZFdBH
+         /AYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+xzzbafv7IMwH2ifuNO4060POJWB+v1zgMFdCY/APJk=;
+        fh=cmA+r7dKfrQoGVeOl91YE3ZeLuRp5ZAGfa3ZYAiOzlg=;
+        b=dJgU9kJxyyzGD7lOSIhP1T8D5MOuKoaWkB2vykHahmNUyfCB8IGGk6ljec14ylVM0A
+         Bi9d0dGVO0M9ArVdF1qMLgb/m6AxZhgJ7zveOLU++BSmg3r6aeZrGEZp5xztK0li8S34
+         sLqhCjEyKq3EFEi/JqCdfr4Fmg18Aq+sA/laJ9xdHM+m3AFuqQ0P3ORSmftKLfzF3H/1
+         spRtilEh5nKyZBoQYrEoO4QHHj0afzflI/oM8lWkE159qJvpoYWasTG2H0eX9n9MGWzn
+         UHHQ4v1P7U4SY6FF4yDAZHzyFQ68nZ0hJ3QUgbCDmKMaQ0d415tLilDd036zpvad+9co
+         YTZw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770418069; x=1771022869; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+xzzbafv7IMwH2ifuNO4060POJWB+v1zgMFdCY/APJk=;
+        b=KWeUBFOGBoO9sLdsqaPOXLQuaUpIjOogPOILMuLMHzNVYcn3MPHiwZvkoj1AvQlNMH
+         co/e/mq7PeRkbPuic/6b1GOlqDWnyYscOFOTfUWHPu9iE0tozBWYNPH+C5lx2rXI9pKO
+         JNqbGTnNi4iXprHBf1qPRl9z9gXNW7vDnAo9sIT9ecP3+HSa3SELxsdSr8WZX5zVuguc
+         rZRO8MFA9UUZYgeA9MWoEfYFyS0PeLOxQBqMI58WQD+m+Ab37B1KfVHzZIk4QhU5smJn
+         CG6iL7xVw8/Yrr4YEtHIJEazx44ytthyblmFVe6h63lBkDz6/pYkwFKElP7YUEbYOdSN
+         MpQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770418069; x=1771022869;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+xzzbafv7IMwH2ifuNO4060POJWB+v1zgMFdCY/APJk=;
+        b=O55Kw46Rfvdm4IymMxKGK65tsAAx7b9ysKv6oxTju4MNjfAM38qwNFUUlv4kBY98GR
+         PPLhJQPnnHqHcEZePBZBM3JW5mlPxnvX7KoqnTsRGpCLYwNahB9cZMhfRXmXaW2EYtl2
+         KV7AdcA5nAoVgoNCGgeqZr0r8+q4SXEozCOswWsGdhU9Pu+dG/DsSU0fvLAbOBuK0rae
+         12bu37lcl3ZPCTfssp2OSnX2WlL6JFUfLl92eH37eQ26qgppXHk+IaWBtu/Mdh+Pozt7
+         pM6Pk/hrw0oNNxB0LDq7D6QnUuH/WcG8hBLulElMZ2xZmcFOp8WDgdbsMFUE5vqLELRn
+         jeuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVK25A2SnqqTFEHWrqMSM2bqLCmcB3CtvQRZ+8x4tVYeDdbAqf9nknvCPvVCKv2TtTuOWqeIL4FjDk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcWwwwN2kof6quRN9dReYr/hXaYdTjCjCgnW1CZEzdMTl+zV0T
+	G+SU6mRErgrcajlQPPpLn/DPafI2TXIRppVRt03Dfhp5UnQFbVYClJzqKAkJB9lgEQUF2adOATk
+	Mn8XP7vzM0LF6KwTqAlTQiLbm9g7QhggELPx3btmH
+X-Gm-Gg: AZuq6aIByo8Tnm3sCysn+tQVVvt/F8gdCBt6mF9A6QOXS3dkyFlTU94zPvuaSZuwxrh
+	KX0Zi/xutJp2OrQDRgTU4fddnlC0Wx9wwvN51gU6s3Fg9c99CKD2dTY9f4xLQQMhrf7dLZ1Nj3l
+	zqdQNJoELFVtpRa/9USZrwfgkuv9dDaBS4SNsHfVhMtsHhHm3lCNbjTcq+TdiFvxBgkOYaV7iDK
+	M59/xAIlby/EQWmWhW8RyzHVq0QG73p4EUqU+OKXmAHbDWsqi/3WrcO/SbVu38DxTM7qSrwEpuv
+	I7+VgG61WLN00HjX/1xrny6/bQ==
+X-Received: by 2002:a05:7022:609:b0:11a:b4dc:7773 with SMTP id
+ a92af1059eb24-1270eb77341mr35981c88.12.1770418068642; Fri, 06 Feb 2026
+ 14:47:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 04/22] vfio/pci: Register a file handler with Live
- Update Orchestrator
-To: David Matlack <dmatlack@google.com>, Alex Williamson <alex@shazbot.org>
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
- Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
- Alistair Popple <apopple@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal
- <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>,
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
- Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>,
- kexec@lists.infradead.org, kvm@vger.kernel.org,
- Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>,
- =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pranjal Shrivastava <praan@google.com>, Pratyush Yadav
- <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Samiullah Khawaja <skhawaja@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>,
- Yi Liu <yi.l.liu@intel.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
- <20260129212510.967611-5-dmatlack@google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Yanjun.Zhu" <yanjun.zhu@linux.dev>
-In-Reply-To: <20260129212510.967611-5-dmatlack@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260120134256.2271710-1-chenridong@huaweicloud.com> <20260120134256.2271710-2-chenridong@huaweicloud.com>
+In-Reply-To: <20260120134256.2271710-2-chenridong@huaweicloud.com>
+From: Yuanchu Xie <yuanchu@google.com>
+Date: Fri, 6 Feb 2026 16:47:31 -0600
+X-Gm-Features: AZwV_Qj0gV48Ve3tLxFlyOkgNoDi9Hpin9IqAYTK628v4lALi6UuflSgTpYRMQQ
+Message-ID: <CAJj2-QEvrgQ+R-nc3LZ-cBfnzjakxfSgmNbqDa-RFBVOpdVaAQ@mail.gmail.com>
+Subject: Re: [RFC PATCH -next 1/7] vmscan: add memcg heat level for reclaim
+To: Chen Ridong <chenridong@huaweicloud.com>
+Cc: akpm@linux-foundation.org, axelrasmussen@google.com, weixugc@google.com, 
+	david@kernel.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
+	vbabka@suse.cz, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
+	corbet@lwn.net, skhan@linuxfoundation.org, hannes@cmpxchg.org, 
+	roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev, 
+	zhengqi.arch@bytedance.com, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, lujialin4@huawei.com, 
+	ryncsn@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi Ridong,
 
-On 1/29/26 1:24 PM, David Matlack wrote:
-> From: Vipin Sharma <vipinsh@google.com>
+Thanks for working to reconcile the gaps between the LRU implementations.
+
+On Tue, Jan 20, 2026 at 7:57=E2=80=AFAM Chen Ridong <chenridong@huaweicloud=
+.com> wrote:
 >
-> Register a live update file handler for vfio-pci device files. Add stub
-> implementations of all required callbacks so that registration does not
-> fail (i.e. to avoid breaking git-bisect).
+> From: Chen Ridong <chenridong@huawei.com>
 >
-> This file handler will be extended in subsequent commits to enable a
-> device bound to vfio-pci to run without interruption while the host is
-> going through a kexec Live Update.
+> The memcg LRU was originally introduced to improve scalability during
+> global reclaim. However, it is complex and only works with gen lru
+> global reclaim. Moreover, its implementation complexity has led to
+> performance regressions when handling a large number of memory cgroups [1=
+].
 >
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> Co-developed-by: David Matlack <dmatlack@google.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
+> This patch introduces a per-memcg heat level for reclaim, aiming to unify
+> gen lru and traditional LRU global reclaim. The core idea is to track
+> per-node per-memcg reclaim state, including heat, last_decay, and
+> last_refault. The last_refault records the total reclaimed data from the
+> previous memcg reclaim. The last_decay is a time-based parameter; the hea=
+t
+> level decays over time if the memcg is not reclaimed again. Both last_dec=
+ay
+> and last_refault are used to calculate the current heat level when reclai=
+m
+> starts.
+>
+> Three reclaim heat levels are defined: cold, warm, and hot. Cold memcgs a=
+re
+> reclaimed first; only if cold memcgs cannot reclaim enough pages, warm
+> memcgs become eligible for reclaim. Hot memcgs are reclaimed last.
+>
+> While this design can be applied to all memcg reclaim scenarios, this pat=
+ch
+> is conservative and only introduces heat levels for traditional LRU globa=
+l
+> reclaim. Subsequent patches will replace the memcg LRU with
+> heat-level-based reclaim.
+>
+> Based on tests provided by YU Zhao, traditional LRU global reclaim shows
+> significant performance improvement with heat-level reclaim enabled.
+>
+> The results below are from a 2-hour run of the test [2].
+>
+> Throughput (number of requests)         before     after        Change
+> Total                                   1734169    2353717      +35%
+>
+> Tail latency (number of requests)       before     after        Change
+> [128s, inf)                             1231       1057         -14%
+> [64s, 128s)                             586        444          -24%
+> [32s, 64s)                              1658       1061         -36%
+> [16s, 32s)                              4611       2863         -38%
+
+Do you have any numbers comparing heat-based reclaim to memcg LRU?  I
+know Johannes suggested removing memcg LRU, and what you have here
+applies to more reclaim scenarios.
+
+>
+> [1] https://lore.kernel.org/r/20251126171513.GC135004@cmpxchg.org
+> [2] https://lore.kernel.org/all/20221220214923.1229538-1-yuzhao@google.co=
+m/
+>
+> Signed-off-by: Chen Ridong <chenridong@huawei.com>
 > ---
->   MAINTAINERS                            |  1 +
->   drivers/vfio/pci/Makefile              |  1 +
->   drivers/vfio/pci/vfio_pci.c            |  9 +++-
->   drivers/vfio/pci/vfio_pci_liveupdate.c | 69 ++++++++++++++++++++++++++
->   drivers/vfio/pci/vfio_pci_priv.h       | 14 ++++++
->   include/linux/kho/abi/vfio_pci.h       | 28 +++++++++++
->   6 files changed, 121 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/vfio/pci/vfio_pci_liveupdate.c
->   create mode 100644 include/linux/kho/abi/vfio_pci.h
+>  include/linux/memcontrol.h |   7 ++
+>  mm/memcontrol.c            |   3 +
+>  mm/vmscan.c                | 227 +++++++++++++++++++++++++++++--------
+>  3 files changed, 192 insertions(+), 45 deletions(-)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a671e3d4e8be..7d6cdecedb05 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -27520,6 +27520,7 @@ F:	Documentation/ABI/testing/debugfs-vfio
->   F:	Documentation/ABI/testing/sysfs-devices-vfio-dev
->   F:	Documentation/driver-api/vfio.rst
->   F:	drivers/vfio/
-> +F:	include/linux/kho/abi/vfio_pci.h
->   F:	include/linux/vfio.h
->   F:	include/linux/vfio_pci_core.h
->   F:	include/uapi/linux/vfio.h
-> diff --git a/drivers/vfio/pci/Makefile b/drivers/vfio/pci/Makefile
-> index e0a0757dd1d2..23305ebc418b 100644
-> --- a/drivers/vfio/pci/Makefile
-> +++ b/drivers/vfio/pci/Makefile
-> @@ -7,6 +7,7 @@ obj-$(CONFIG_VFIO_PCI_CORE) += vfio-pci-core.o
->   
->   vfio-pci-y := vfio_pci.o
->   vfio-pci-$(CONFIG_VFIO_PCI_IGD) += vfio_pci_igd.o
-> +vfio-pci-$(CONFIG_LIVEUPDATE) += vfio_pci_liveupdate.o
->   obj-$(CONFIG_VFIO_PCI) += vfio-pci.o
->   
->   obj-$(CONFIG_MLX5_VFIO_PCI)           += mlx5/
-> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-> index 0c771064c0b8..19e88322af2c 100644
-> --- a/drivers/vfio/pci/vfio_pci.c
-> +++ b/drivers/vfio/pci/vfio_pci.c
-> @@ -258,6 +258,10 @@ static int __init vfio_pci_init(void)
->   	int ret;
->   	bool is_disable_vga = true;
->   
-> +	ret = vfio_pci_liveupdate_init();
-> +	if (ret)
-> +		return ret;
-> +
->   #ifdef CONFIG_VFIO_PCI_VGA
->   	is_disable_vga = disable_vga;
->   #endif
-> @@ -266,8 +270,10 @@ static int __init vfio_pci_init(void)
->   
->   	/* Register and scan for devices */
->   	ret = pci_register_driver(&vfio_pci_driver);
-> -	if (ret)
-> +	if (ret) {
-> +		vfio_pci_liveupdate_cleanup();
->   		return ret;
-> +	}
->   
->   	vfio_pci_fill_ids();
->   
-> @@ -281,6 +287,7 @@ module_init(vfio_pci_init);
->   static void __exit vfio_pci_cleanup(void)
->   {
->   	pci_unregister_driver(&vfio_pci_driver);
-> +	vfio_pci_liveupdate_cleanup();
->   }
->   module_exit(vfio_pci_cleanup);
->   
-> diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> new file mode 100644
-> index 000000000000..b84e63c0357b
-> --- /dev/null
-> +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> @@ -0,0 +1,69 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
-> + * Vipin Sharma <vipinsh@google.com>
-> + * David Matlack <dmatlack@google.com>
-> + */
-> +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/kho/abi/vfio_pci.h>
-> +#include <linux/liveupdate.h>
-> +#include <linux/errno.h>
-> +
-> +#include "vfio_pci_priv.h"
-> +
-> +static bool vfio_pci_liveupdate_can_preserve(struct liveupdate_file_handler *handler,
-> +					     struct file *file)
-> +{
-> +	return false;
-> +}
-> +
-> +static int vfio_pci_liveupdate_preserve(struct liveupdate_file_op_args *args)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static void vfio_pci_liveupdate_unpreserve(struct liveupdate_file_op_args *args)
-> +{
-> +}
-> +
-> +static int vfio_pci_liveupdate_retrieve(struct liveupdate_file_op_args *args)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static void vfio_pci_liveupdate_finish(struct liveupdate_file_op_args *args)
-> +{
-> +}
-> +
-> +static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
-> +	.can_preserve = vfio_pci_liveupdate_can_preserve,
-> +	.preserve = vfio_pci_liveupdate_preserve,
-> +	.unpreserve = vfio_pci_liveupdate_unpreserve,
-> +	.retrieve = vfio_pci_liveupdate_retrieve,
-> +	.finish = vfio_pci_liveupdate_finish,
-> +	.owner = THIS_MODULE,
+> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> index af352cabedba..b293caf70034 100644
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -76,6 +76,12 @@ struct memcg_vmstats;
+>  struct lruvec_stats_percpu;
+>  struct lruvec_stats;
+>
+> +struct memcg_reclaim_state {
+> +       atomic_long_t heat;
+> +       unsigned long last_decay;
+> +       atomic_long_t last_refault;
 > +};
 > +
-> +static struct liveupdate_file_handler vfio_pci_liveupdate_fh = {
-> +	.ops = &vfio_pci_liveupdate_file_ops,
-> +	.compatible = VFIO_PCI_LUO_FH_COMPATIBLE,
+>  struct mem_cgroup_reclaim_iter {
+>         struct mem_cgroup *position;
+>         /* scan generation, increased every round-trip */
+> @@ -114,6 +120,7 @@ struct mem_cgroup_per_node {
+>         CACHELINE_PADDING(_pad2_);
+>         unsigned long           lru_zone_size[MAX_NR_ZONES][NR_LRU_LISTS]=
+;
+>         struct mem_cgroup_reclaim_iter  iter;
+> +       struct memcg_reclaim_state      reclaim;
+>
+>  #ifdef CONFIG_MEMCG_NMI_SAFETY_REQUIRES_ATOMIC
+>         /* slab stats for nmi context */
+> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> index f2b87e02574e..675d49ad7e2c 100644
+> --- a/mm/memcontrol.c
+> +++ b/mm/memcontrol.c
+> @@ -3713,6 +3713,9 @@ static bool alloc_mem_cgroup_per_node_info(struct m=
+em_cgroup *memcg, int node)
+>
+>         lruvec_init(&pn->lruvec);
+>         pn->memcg =3D memcg;
+> +       atomic_long_set(&pn->reclaim.heat, 0);
+> +       pn->reclaim.last_decay =3D jiffies;
+> +       atomic_long_set(&pn->reclaim.last_refault, 0);
+>
+>         memcg->nodeinfo[node] =3D pn;
+>         return true;
+> diff --git a/mm/vmscan.c b/mm/vmscan.c
+> index 4aa73f125772..3759cd52c336 100644
+> --- a/mm/vmscan.c
+> +++ b/mm/vmscan.c
+> @@ -5978,6 +5978,124 @@ static inline bool should_continue_reclaim(struct=
+ pglist_data *pgdat,
+>         return inactive_lru_pages > pages_for_compaction;
+>  }
+>
+> +enum memcg_scan_level {
+> +       MEMCG_LEVEL_COLD,
+> +       MEMCG_LEVEL_WARM,
+> +       MEMCG_LEVEL_HOT,
+> +       MEMCG_LEVEL_MAX,
 > +};
 > +
-> +int __init vfio_pci_liveupdate_init(void)
+> +#define MEMCG_HEAT_WARM                4
+> +#define MEMCG_HEAT_HOT         8
+> +#define MEMCG_HEAT_MAX         12
+> +#define MEMCG_HEAT_DECAY_STEP  1
+> +#define MEMCG_HEAT_DECAY_INTERVAL      (1 * HZ)
+I agree with Kairui; I'm somewhat concerned about this fixed decay
+interval and how it behaves with many memcgs or heavy pressure.
+
+> +
+> +static void memcg_adjust_heat(struct mem_cgroup_per_node *pn, long delta=
+)
 > +{
-> +	if (!liveupdate_enabled())
-> +		return 0;
-813 int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
-814 {
-815         struct liveupdate_file_handler *fh_iter;
-816         int err;
-817
-818         if (!liveupdate_enabled())
-
-819                 return -EOPNOTSUPP;
-
-In the function liveupdate_register_file_handler, liveupdate_enabled is also checked.
-as such, it is not necessary to check here?
-
-+
-+	return liveupdate_register_file_handler(&vfio_pci_liveupdate_fh);
-+}
-+
-+void vfio_pci_liveupdate_cleanup(void)
-+{
-+	if (!liveupdate_enabled())
-+		return;
-+
-
-
-ditto
-
-Zhu Yanjun
-
-> +	liveupdate_unregister_file_handler(&vfio_pci_liveupdate_fh);
-> +}
-> diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
-> index 27ac280f00b9..68966ec64e51 100644
-> --- a/drivers/vfio/pci/vfio_pci_priv.h
-> +++ b/drivers/vfio/pci/vfio_pci_priv.h
-> @@ -133,4 +133,18 @@ static inline void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev,
->   }
->   #endif
->   
-> +#ifdef CONFIG_LIVEUPDATE
-> +int __init vfio_pci_liveupdate_init(void);
-> +void vfio_pci_liveupdate_cleanup(void);
-> +#else
-> +static inline int vfio_pci_liveupdate_init(void)
-> +{
-> +	return 0;
+> +       long heat, new_heat;
+> +
+> +       if (mem_cgroup_is_root(pn->memcg))
+> +               return;
+> +
+> +       heat =3D atomic_long_read(&pn->reclaim.heat);
+> +       do {
+> +               new_heat =3D clamp_t(long, heat + delta, 0, MEMCG_HEAT_MA=
+X);
+> +               if (atomic_long_cmpxchg(&pn->reclaim.heat, heat, new_heat=
+) =3D=3D heat)
+> +                       break;
+> +               heat =3D atomic_long_read(&pn->reclaim.heat);
+> +       } while (1);
 > +}
 > +
-> +static inline void vfio_pci_liveupdate_cleanup(void)
+> +static void memcg_decay_heat(struct mem_cgroup_per_node *pn)
 > +{
+> +       unsigned long last;
+> +       unsigned long now =3D jiffies;
+> +
+> +       if (mem_cgroup_is_root(pn->memcg))
+> +               return;
+> +
+> +       last =3D READ_ONCE(pn->reclaim.last_decay);
+> +       if (!time_after(now, last + MEMCG_HEAT_DECAY_INTERVAL))
+> +               return;
+> +
+> +       if (cmpxchg(&pn->reclaim.last_decay, last, now) !=3D last)
+> +               return;
+> +
+> +       memcg_adjust_heat(pn, -MEMCG_HEAT_DECAY_STEP);
 > +}
-> +#endif /* CONFIG_LIVEUPDATE */
 > +
->   #endif
-> diff --git a/include/linux/kho/abi/vfio_pci.h b/include/linux/kho/abi/vfio_pci.h
-> new file mode 100644
-> index 000000000000..37a845eed972
-> --- /dev/null
-> +++ b/include/linux/kho/abi/vfio_pci.h
-> @@ -0,0 +1,28 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
+> +static int memcg_heat_level(struct mem_cgroup_per_node *pn)
+> +{
+> +       long heat;
 > +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
-> + * Vipin Sharma <vipinsh@google.com>
-> + * David Matlack <dmatlack@google.com>
-> + */
+> +       if (mem_cgroup_is_root(pn->memcg))
+> +               return MEMCG_LEVEL_COLD;
 > +
-> +#ifndef _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H
-> +#define _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H
+> +       memcg_decay_heat(pn);
+The decay here is somewhat counterintuitive given the name memcg_heat_level=
+.
+
+> +       heat =3D atomic_long_read(&pn->reclaim.heat);
 > +
-> +/**
-> + * DOC: VFIO PCI Live Update ABI
-> + *
-> + * This header defines the ABI for preserving the state of a VFIO PCI device
-> + * files across a kexec reboot using LUO.
-> + *
-> + * Device metadata is serialized into memory which is then handed to the next
-> + * kernel via KHO.
-> + *
-> + * This interface is a contract. Any modification to any of the serialization
-> + * structs defined here constitutes a breaking change. Such changes require
-> + * incrementing the version number in the VFIO_PCI_LUO_FH_COMPATIBLE string.
-> + */
+> +       if (heat >=3D MEMCG_HEAT_HOT)
+> +               return MEMCG_LEVEL_HOT;
+> +       if (heat >=3D MEMCG_HEAT_WARM)
+> +               return MEMCG_LEVEL_WARM;
+> +       return MEMCG_LEVEL_COLD;
+> +}
 > +
-> +#define VFIO_PCI_LUO_FH_COMPATIBLE "vfio-pci-v1"
+> +static void memcg_record_reclaim_result(struct mem_cgroup_per_node *pn,
+> +                                       struct lruvec *lruvec,
+> +                                       unsigned long scanned,
+> +                                       unsigned long reclaimed)
+> +{
+> +       long delta;
 > +
-> +#endif /* _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H */
+> +       if (mem_cgroup_is_root(pn->memcg))
+> +               return;
+> +
+> +       memcg_decay_heat(pn);
+Could you combine the decay and adjust later in this function?
+
+> +
+> +       /*
+> +        * Memory cgroup heat adjustment algorithm:
+> +        * - If scanned =3D=3D 0: mark as hottest (+MAX_HEAT)
+> +        * - If reclaimed >=3D 50% * scanned: strong cool (-2)
+> +        * - If reclaimed >=3D 25% * scanned: mild cool (-1)
+> +        * - Otherwise:  warm up (+1)
+> +        */
+> +       if (!scanned)
+> +               delta =3D MEMCG_HEAT_MAX;
+> +       else if (reclaimed * 2 >=3D scanned)
+> +               delta =3D -2;
+> +       else if (reclaimed * 4 >=3D scanned)
+> +               delta =3D -1;
+> +       else
+> +               delta =3D 1;
+> +
+> +       /*
+> +        * Refault-based heat adjustment:
+> +        * - If refault increase > reclaimed pages: heat up (more cautiou=
+s reclaim)
+> +        * - If no refaults and currently warm:     cool down (allow more=
+ reclaim)
+> +        * This prevents thrashing by backing off when refaults indicate =
+over-reclaim.
+> +        */
+> +       if (lruvec) {
+> +               unsigned long total_refaults;
+> +               unsigned long prev;
+> +               long refault_delta;
+> +
+> +               total_refaults =3D lruvec_page_state(lruvec, WORKINGSET_A=
+CTIVATE_ANON);
+> +               total_refaults +=3D lruvec_page_state(lruvec, WORKINGSET_=
+ACTIVATE_FILE);
+> +
+> +               prev =3D atomic_long_xchg(&pn->reclaim.last_refault, tota=
+l_refaults);
+> +               refault_delta =3D total_refaults - prev;
+> +
+> +               if (refault_delta > reclaimed)
+> +                       delta++;
+> +               else if (!refault_delta && delta > 0)
+> +                       delta--;
+> +       }
+
+I think this metric is based more on the memcg's reclaimability than
+on heat. Though the memcgs are grouped based on absolute metrics and
+not relative to others.
+
+> +
+> +       memcg_adjust_heat(pn, delta);
+> +}
+> +
+>  static void shrink_node_memcgs(pg_data_t *pgdat, struct scan_control *sc=
+)
+>  {
+> ...snip
+>  }
+
+Thanks,
+Yuanchu
