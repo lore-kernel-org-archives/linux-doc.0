@@ -1,270 +1,133 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDE42FFDDC
-	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 22:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770418219; cv=pass; b=qdwU1JMCa16fl9KBsko/fSzE4Jmll78nxbgLoNDZSqqiDZyhoHTL5WzmWxbxaY93BgLs31kZIuyGgTtcb1fdbEm3tX03AlYj7ogIi8BB/SEk/l474TRrpdqj/heJecJDSGAeb2rr5ZDafIEXTif+qylvqiCE9Cz0fuGdo9RF5PY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770418219; c=relaxed/simple;
-	bh=iQtWeiSNgPEPdaYwgKsUPFq1PwMnhYeNxsLcE4bOo68=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kaM5nkiAGhR/B6uDwG3dgxnQuZvvrayUEpI4GQE9/59h5bbsxFIczzU5kDRVfyGBZYu4wkL/2TeF2gcEY6jRRToO652O3iJOqTatJXhUzCjdSusSZOSMfXTjUP9wqcNK+L49TCcxa4r+oz+zeb51uUrePA1H9MeQONlh0hpiwMU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EBenC7/p; arc=pass smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31B21313522
+	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 23:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770419693; cv=none; b=K15QJQn2b2IPvHtsH6IF6ZHTcvOLgibEBDENWgHaVC8EJkkSeq6v/QYoXVaIbxwanPR6PvLRVYFfvBB54nc9ZBoHqKRS6Oqf6ZU1lOorc7BKxIT3gIVlk/AXsRwOstQRSP5A71aBOixkKoH4oIi891c08FoQ2MYxam5weoNFC4A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770419693; c=relaxed/simple;
+	bh=//lXxvGzvwvRX8TAWjBtg2RwKbUnQc3RJsVA6A3Oyik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bdehFWRwf4HpIebLyKJ4HnxkLX0iI3KQ+1dwMlvs6QfGGVc2psPjVFxATIjQ1P3rH9OgpWoe5Wc7ZrGh8puIHXEBOSQVZkOZVyfDBTlGm/TvsZeGWzSYJCPeLTBfXmzwTnOZ3ZXa6wYo3fnKvaYA3JC6r4ixu17N3dF3rnmsUMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g3tRWC1l; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EBenC7/p"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4362507f396so1905444f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 14:50:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770418217; cv=none;
-        d=google.com; s=arc-20240605;
-        b=eSajFGH8IK3GKFA9zf9sg0wwB2Jfs53B2dWBG95R64CfsX2bcJkKK6nKAZjn7FEOW+
-         uDYOZEFw1JFGNrCdRDTP+gF1CtzJBLnXIO22zx/xAqeoK8BM9bxCx/0ilacweTFTqBOR
-         Tnhs4FPW7YbwYnZiwfUsFjPDBlyu1kIb/4FOj6srwgglp3VGbOfu5K3kohv3mR15InSI
-         CP+y/wJeSLucxLFgQoFmLdVmAoVO0ogB90kTT5RiIFEoEHhs7YR6Wc+ysQbh8R9bXBs/
-         tRQsc0+dJE2i+3Ccm4y99dxeVT9waaWrEelSaZqCzkVDKuHyPLZ2L8/QA+RSb/AH5bHG
-         ogQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pKIcE6GoeXBIyuDrXKVfe0dIRC3Ib5hok4aF2odJDyQ=;
-        fh=qVAMft49fdmVpA8kvDcxIIC7FeMq0XEzWFm/v4y/+/g=;
-        b=DuN+0LhzkF6iksKjgVmlNmje2sbDYFqHZfUiRNKIJh4xwmuys4DrBH4VTHyzRHdB+z
-         e3cL6VCJ689i3DPthpz73XahXCZtYNBVknf6qSSLf7NsGAhoN0BFV5PGRW4T4EZK3clI
-         95uhq5kwUuj3HU2OWcyTD3QaQL9ypoOUzaLCkCbzi7UHT4eJW33Sn7p0thsy6L4VYIXQ
-         7xiq0sE/aeZHcobH+17Bfwy1TdGNCdB7Cu55tr4v2bZ33on+vgKZzHIoh6KQit8SJEuL
-         zo9f+0CrLecgJM3dQFtJPKfdmaTkiDeVXIBhRJGugnVmcz4jtvo6V6yMLn+CfJrtGGP+
-         KCNA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g3tRWC1l"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c551edc745eso1210539a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 15:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770418217; x=1771023017; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pKIcE6GoeXBIyuDrXKVfe0dIRC3Ib5hok4aF2odJDyQ=;
-        b=EBenC7/pYvhgt9VftkJ6bdSw/J54P0RsOVJ0hPcw6vvChUP6B7xn7sxeYoynCQcWdf
-         OjB+8MaYsTVCUotPiDeZeMaiDBq8Rx5XM0v4q7QC3K3I5VFKNkE7mngVucC64zSFUHE2
-         P6h1ARTEGoAPuxc8+/dd2nd4CibHOFwQpqz8T0SN8seS99m4HUcC5GhMQ+T5ViGpV82g
-         oEFNst3YKi2BJQtBEZpuQDkJifbUod5XAVnE14b4nip1x8sSvZqRn7/MqhfEARIP4aEB
-         EC3q2OG29GprPWWSdv4it6V7qtblXsM3cjQfJDUhw8mKNP+yv7BEAF0sDdejX6yfTyp2
-         u7fw==
+        d=google.com; s=20230601; t=1770419692; x=1771024492; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=xORO1Htmm6YxNYM1C9oAOOlxqgAaEPMiLYXG8QXy21k=;
+        b=g3tRWC1lBp4G6v57OMNJH/IWhVnKhZkgx/YZiytE6h7F/GblmQyEeomg0JeF945imr
+         3DB0TWRGaESQe070W0BWOsUsHHgvWnyNF6EEwR5gbcMaxsCWtsRq1Fe05Wodqe+0qye2
+         LBmPBBEaSzUa/6BVN4mGd5ytwg0pv9jYELANMZypZY/N1Rk4NZK0jaWANUovaQTw19Op
+         /8LEugHReBQZGwa4owCg//1Vcv3ViHo6xmE5eGqCTRiTfYejf8j7ME+YpxzTkLA9rqSr
+         Q2sFeCKKNGRwrLl2prU/fOIUJF/CpaYN2BHv2qZMRrBdGsbsQA9CbV1GnPE3RBNl1TaN
+         FKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770418217; x=1771023017;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pKIcE6GoeXBIyuDrXKVfe0dIRC3Ib5hok4aF2odJDyQ=;
-        b=WjuKPsV20JzN8rwjud8ALHsKNpCn54TqGPO9z8B89a6tMCnNUlzOqzF9kGvPAyvzV3
-         x+t+TKmP8Rag2cVVfHDb3P9SNiblvnYtv26BlfOBKkCKtf5GfwF9hfGnyjkcqFzpQnsz
-         WI8ekE1OJv2OVODrCWs3FjEHPLA3NHo2xIb3S8gLWXVWvJyiZc0kN1OGdeb+LfwtsVJ4
-         IsCgoG2znVjXmRhGHFtaMhLBikzqw7FIn6aeln6ClryhZsit7oQFmTjoSjITL9uuglPr
-         WkweZz+lWsL5F0z5EUq8yu4h9YzzXIe5YK2+ezpl4t9e1RlN8jlwQYrahjnFnY3YkRdr
-         UALw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkKEO8/8+q3oIz2aU37ySDBX8UJbaSFOB3RSXahhe/GOk4gysvrAcWZ2+9PRV//ffCzRLU16kQIvE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3A2lTqGXHht6CMQztkzECl4qKA5rPtPUi2Kk/irch+kIoNwkE
-	xqMU/IC+2Tv1jJ2wSba/u0w2MA54JartPOGD0snpNtn+iYMdk5HrdIbFZOI8YWCP3qLmwwnWkYQ
-	punS9nqfLpGO/s1mR0Ud/RZ1n05ydrIM=
-X-Gm-Gg: AZuq6aJBhZSZ75rrjy1hiYeSUhrgGEVAozFgl7YlWFu9/WEjyuFeoypaJEqYzyZvP+f
-	uncqpm4lpb4jR1uq31ajwy7eK7a0TZUHJspDNBJsutW3G4KbmqZTlHf5XSGUuYX4Emt8i1b6pgo
-	nMhNMKIYes2uopmt/Gdd/bChvXQF1f33wMuK9vSPWVW2avpruDnWCKqZEeE+Ruqw6RNSQJI1fL6
-	e/FMkAAvqJSZvnylwK+Rd93TpGMSt8VvWDZlP2Zy7jTyNOuOzYpmk8JYOzltvCr/3qzpOxCRA9j
-	8gMlyPfnApuybQakrKpOkLs/i9L/cZ5naj4qkso2Rg0b0z4GGtBglNUUIdv1SrtZnCs7kw==
-X-Received: by 2002:adf:ea06:0:b0:436:307c:b762 with SMTP id
- ffacd0b85a97d-436307cb87bmr1734201f8f.60.1770418216969; Fri, 06 Feb 2026
- 14:50:16 -0800 (PST)
+        d=1e100.net; s=20230601; t=1770419692; x=1771024492;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xORO1Htmm6YxNYM1C9oAOOlxqgAaEPMiLYXG8QXy21k=;
+        b=J4we8Du9xacBeOZUgCFbYs03/DZrYkM9YKMp7SA6Cx65Fg+Exmg0RKl9nskbtcm75p
+         YPb8HR14Oy6lyYEfh55w+zvqTtuesS3thxGqFBImiW0DKmb3STI9N7uLV0av0FDd72ID
+         JfwbwDYwQFvlJTghcLRlBHc9mAl/q1Y/tS8AANmZeK5A5mwarpraT8ZFkylD7N17cvlY
+         5cDRbtAw+py+mXrKcjL34Wa4HS8KPjlgWdhl9I8V7/nK/2XImE6AG9fqLx+QggSBloGc
+         Phwup0touYu2505SQLiyv0v7/gII8qaUhN+LWW7wer3aLsr6VxSE9BwXDoEtBpkJ+1mH
+         W3mg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8ws7FGvJrj/QrLGboi++nAmaiqwyR79lkT+M+N/7N3xS22v7NF1hyF+A5/CVqBeB6vWZfwxLzGos=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAuYFwTPvsnNjiFn95PuLAKgwn7YIcTYoijMEDHfdT9zct4CCK
+	1Zml3LueMid35/KmaM0J1fjWPw2uQH9OCvOKJ6bidRvGGxGARBYJ75t31CZp5XX4+g==
+X-Gm-Gg: AZuq6aJWNJNOQZa6xVLkp/CyAE9cH0lri3NSPS8HdjTLFi1ZPyU6q6p1p3fWnUhkVwl
+	LiMkMReB7uoZVkBcc3D4TOPZvWp76jDIU/Ozs43B+f+MZmEHUxFD8zgE2REupiMnBFF+/s6Ku5V
+	SetfX6brKkpt4GbCuPaseB92dRxB1Z5M0l28wbzvaeK/x+DAUu4aFWn5A0aFMxySrtbhRKl2jz/
+	ecm8espOileRoLafTqUymOnwXUmbVREwb1chWGg8Az/OVOJAleqzA/L/IbAGNR5++BPj8dSMFcC
+	guGF/eELSUC2IGCldvpPnOc+RA4fjv3tVjZfKrWnHWPrgvZs4q2WQV6rHZWITo+uvyIlPQi/o14
+	Th3arl96lnqDRKbByDgG5d+S5D65gizzQOhWavjM/ANzOQ4cc0+FcMaW3B3cafnAqQSfW8nppJO
+	LTpFa5tk0/YDVeSYjO87AqWixlOt2qmVHBpXChvfpjcfIBQruUFg==
+X-Received: by 2002:a17:903:3bcb:b0:2a0:c1ed:c8c2 with SMTP id d9443c01a7336-2a95191f76emr38694515ad.55.1770419692202;
+        Fri, 06 Feb 2026 15:14:52 -0800 (PST)
+Received: from google.com (79.217.168.34.bc.googleusercontent.com. [34.168.217.79])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a9521eb87fsm33865195ad.71.2026.02.06.15.14.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Feb 2026 15:14:51 -0800 (PST)
+Date: Fri, 6 Feb 2026 23:14:46 +0000
+From: David Matlack <dmatlack@google.com>
+To: "Yanjun.Zhu" <yanjun.zhu@linux.dev>
+Cc: Alex Williamson <alex@shazbot.org>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Lukas Wunner <lukas@wunner.de>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Tomita Moeko <tomitamoeko@gmail.com>,
+	Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v2 04/22] vfio/pci: Register a file handler with Live
+ Update Orchestrator
+Message-ID: <aYZ15u120FEa8Qw2@google.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+ <20260129212510.967611-5-dmatlack@google.com>
+ <6dc423bd-36e6-4f97-b2b2-c7030575a3a1@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260206072220.144008-1-jiayuan.chen@linux.dev> <20260206072220.144008-3-jiayuan.chen@linux.dev>
-In-Reply-To: <20260206072220.144008-3-jiayuan.chen@linux.dev>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Fri, 6 Feb 2026 14:50:05 -0800
-X-Gm-Features: AZwV_QjoaGZjUJoZZAUbUNek4v2vd9XA09_63K25KesvtBZQTlzS_xae5VjsBQ0
-Message-ID: <CAKEwX=MgvCHVMOWNprWu1xbQ6=CO4ok_sywH2Cgz05aT_pdZ5A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] selftests/cgroup: add test for zswap
- incompressible pages
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: linux-mm@kvack.org, Jiayuan Chen <jiayuan.chen@shopee.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Yosry Ahmed <yosry.ahmed@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6dc423bd-36e6-4f97-b2b2-c7030575a3a1@linux.dev>
 
-On Thu, Feb 5, 2026 at 11:22=E2=80=AFPM Jiayuan Chen <jiayuan.chen@linux.de=
-v> wrote:
->
-> From: Jiayuan Chen <jiayuan.chen@shopee.com>
->
-> Add test_zswap_incompressible() to verify that the zswap_incomp memcg
-> stat correctly tracks incompressible pages.
->
-> The test allocates memory filled with random data from /dev/urandom,
-> which cannot be effectively compressed by zswap. When this data is
-> swapped out to zswap, it should be stored as-is and tracked by the
-> zswap_incomp counter.
->
-> The test verifies that:
-> 1. Pages are swapped out to zswap (zswpout increases)
-> 2. Incompressible pages are tracked (zswap_incomp increases)
->
-> test:
-> dd if=3D/dev/zero of=3D/swapfile bs=3D1M count=3D2048
-> chmod 600 /swapfile
-> mkswap /swapfile
-> swapon /swapfile
-> echo Y > /sys/module/zswap/parameters/enabled
->
-> ./test_zswap
->  TAP version 13
->  1..8
->  ok 1 test_zswap_usage
->  ok 2 test_swapin_nozswap
->  ok 3 test_zswapin
->  ok 4 test_zswap_writeback_enabled
->  ok 5 test_zswap_writeback_disabled
->  ok 6 test_no_kmem_bypass
->  ok 7 test_no_invasive_cgroup_shrink
->  ok 8 test_zswap_incompressible
->  Totals: pass:8 fail:0 xfail:0 xpass:0 skip:0 error:0
->
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
-> ---
->  tools/testing/selftests/cgroup/test_zswap.c | 96 +++++++++++++++++++++
->  1 file changed, 96 insertions(+)
->
-> diff --git a/tools/testing/selftests/cgroup/test_zswap.c b/tools/testing/=
-selftests/cgroup/test_zswap.c
-> index 64ebc3f3f203..8cb8a131357d 100644
-> --- a/tools/testing/selftests/cgroup/test_zswap.c
-> +++ b/tools/testing/selftests/cgroup/test_zswap.c
-> @@ -5,6 +5,7 @@
->  #include <unistd.h>
->  #include <stdio.h>
->  #include <signal.h>
-> +#include <fcntl.h>
->  #include <sys/sysinfo.h>
->  #include <string.h>
->  #include <sys/wait.h>
-> @@ -574,6 +575,100 @@ static int test_no_kmem_bypass(const char *root)
->         return ret;
->  }
->
-> +static int allocate_random_and_wait(const char *cgroup, void *arg)
-> +{
-> +       size_t size =3D (size_t)arg;
-> +       char *mem;
-> +       int fd;
-> +       ssize_t n;
-> +
-> +       mem =3D malloc(size);
-> +       if (!mem)
-> +               return -1;
-> +
-> +       /* Fill with random data from /dev/urandom - incompressible */
-> +       fd =3D open("/dev/urandom", O_RDONLY);
-> +       if (fd < 0) {
-> +               free(mem);
-> +               return -1;
-> +       }
-> +
-> +       for (size_t i =3D 0; i < size; ) {
-> +               n =3D read(fd, mem + i, size - i);
-> +               if (n <=3D 0)
-> +                       break;
-> +               i +=3D n;
-> +       }
-> +       close(fd);
-> +
-> +       /* Touch all pages to ensure they're faulted in */
-> +       for (size_t i =3D 0; i < size; i +=3D 4096)
-> +               mem[i] =3D mem[i];
-> +
-> +       /* Keep memory alive for parent to reclaim and check stats */
-> +       pause();
-> +       free(mem);
-> +       return 0;
-> +}
-> +
-> +static long get_zswap_incomp(const char *cgroup)
-> +{
-> +       return cg_read_key_long(cgroup, "memory.stat", "zswap_incomp ");
-> +}
-> +
-> +/*
-> + * Test that incompressible pages (random data) are tracked by zswap_inc=
-omp.
-> + *
-> + * Since incompressible pages stored in zswap are charged at full PAGE_S=
-IZE
-> + * (no memory savings), we cannot rely on memory.max pressure to push th=
-em
-> + * into zswap. Instead, we allocate random data within memory.max, then =
-use
-> + * memory.reclaim to proactively push pages into zswap while checking th=
-e stat
-> + * before the child exits (zswap_incomp is a gauge that decreases on fre=
-e).
+On 2026-02-06 02:37 PM, Yanjun.Zhu wrote:
+> On 1/29/26 1:24 PM, David Matlack wrote:
 
-I wonder if we can do MADV_PAGEOUT? Anyway, I'm fine with memory.reclaim to=
-o.
+> > +int __init vfio_pci_liveupdate_init(void)
+> > +{
+> > +	if (!liveupdate_enabled())
+> > +		return 0;
+> 813 int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
+> 814 {
+> 815         struct liveupdate_file_handler *fh_iter;
+> 816         int err;
+> 817
+> 818         if (!liveupdate_enabled())
+> 
+> 819                 return -EOPNOTSUPP;
+> 
+> In the function liveupdate_register_file_handler, liveupdate_enabled is also checked.
+> as such, it is not necessary to check here?
 
-> + */
-> +static int test_zswap_incompressible(const char *root)
-> +{
-> +       int ret =3D KSFT_FAIL;
-> +       char *test_group;
-> +       long zswap_incomp;
-> +       pid_t child_pid;
-> +       int child_status;
-> +
-> +       test_group =3D cg_name(root, "zswap_incompressible_test");
-> +       if (!test_group)
-> +               goto out;
-> +       if (cg_create(test_group))
-> +               goto out;
-> +       if (cg_write(test_group, "memory.max", "32M"))
-> +               goto out;
-> +
-> +       child_pid =3D cg_run_nowait(test_group, allocate_random_and_wait,
-> +                                 (void *)MB(4));
-> +       if (child_pid < 0)
-> +               goto out;
-> +
-> +       /* Wait for child to finish allocating */
-> +       usleep(500000);
-> +
-> +       /* Proactively reclaim to push random pages into zswap */
-> +       cg_write_numeric(test_group, "memory.reclaim", MB(4));
-> +
-> +       zswap_incomp =3D get_zswap_incomp(test_group);
-> +       if (zswap_incomp <=3D 0) {
-> +               ksft_print_msg("zswap_incomp not increased: %ld\n", zswap=
-_incomp);
-> +               goto out_kill;
-> +       }
-> +
-> +       ret =3D KSFT_PASS;
-> +
-> +out_kill:
-> +       kill(child_pid, SIGTERM);
-> +       waitpid(child_pid, &child_status, 0);
-> +out:
-> +       cg_destroy(test_group);
-> +       free(test_group);
-> +       return ret;
-> +}
-
-LGTM :)
-
-Acked-by: Nhat Pham <nphamcs@gmail.com>
+Yeah that is a bit odd. I see that memfd_luo_init() just checks for
+-EOPNOTSUPP. We can do the same thing here.
