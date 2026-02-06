@@ -1,105 +1,187 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585782848A8;
-	Fri,  6 Feb 2026 12:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03055B5AB;
+	Fri,  6 Feb 2026 13:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770381743; cv=none; b=MBvk8MuS/IitTbPGkG1aH6k/CdrFaZk/VTwYv9D2jZQSuflmBb1dsZvQhqJj9u48jdiBw6foa2JU7LGvvc9zZmEThYpbuUHrE0QA7yzkdmT2oBmmjYLA3/48ewqcRPonfD+rUgQyypsXj2YWp0dxLSgaDgmwuTux3C3chzGeni8=
+	t=1770383161; cv=none; b=os+Gwz/YRUI/PS6sB79ACf4Ze3Dd9j3BgAZeHwe77F4m1EIAyOxBp7jU0gCWl4i6VFDiVRyG0r+1OmN/hayWsT8XgLodw4GTA4D1bTtDHvtqPd1qOD6jPRFO7yZJdICl3f+/apCkesxZ0RtNIny1upVhWmMcUSNuZpRqwa44hek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770381743; c=relaxed/simple;
-	bh=DBcnb3P8/rQFglLN+omDWj9BCzQTPUCW5QGfGdd5Gmg=;
-	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=UhGJy3XFQSTwNrFdRyqkncSW4hanANWTLdAr5AfBWO8m4J7+4GqW+xHU/T9hhsFBrn7OuJZ1bN6yBtBg6qnUffKxPQudENL5b5myNoQ3CN4kNEjpuC2L6eajrwJgADUdUmyl2RESnQ0Uy6LacHhy0i4BVZqNjrO2dZQVBFFUd8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
-Received: from [192.168.1.209] (unknown [27.19.236.155])
-	by APP-05 (Coremail) with SMTP id zQCowAAXqg2R4YVpPGybBw--.288S2;
-	Fri, 06 Feb 2026 20:41:54 +0800 (CST)
-Message-ID: <c1e37734-271f-440d-a391-91e958aa89ad@isrc.iscas.ac.cn>
-Date: Fri, 6 Feb 2026 20:41:53 +0800
+	s=arc-20240116; t=1770383161; c=relaxed/simple;
+	bh=T3ezfEtlx8wx+dPQAozxmush5kOuQwr+6KjLAqzdkqs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SEJ0cTAnEXg9Fvq0qaL33yHGrJTshMGZEO4fBClVUgSO8NYHzQCQu/FmR1k1otfiSbmJXX2eZP8oDweyMv4nkdYDiPK14+WWcGfKHOt9Qi7Q25IMhLEJchVY/lzDwRBY140S8ZTd2oNS43Unp+1GqRJ0yC7AtdNlkaPXqfSyRCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UHpeYPUX; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UHpeYPUX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DBC9C116C6;
+	Fri,  6 Feb 2026 13:06:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770383160;
+	bh=T3ezfEtlx8wx+dPQAozxmush5kOuQwr+6KjLAqzdkqs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UHpeYPUXB+BWsKaYOYEy867dRtgMyvNnRwugbHnvVlEaQ72WxfLRDzLiHoD/RQvFo
+	 9di36gC906aBOm9KAFobXjh0WgJ4sZl3r85kQtJgZXOLFa0u71Z+GoCnk37RmoNhTL
+	 wpam3tKYoY6EuBUJbt4zWPK7hhQcuI7GyMrhZ86nK2MevOIkzDSFzjBOZLFVpr2Bob
+	 SemC5hhQEQOmqyhiX66aF2eK2NpmTTRFyhm9uBrRB6T/VNBxeZq/knTuh+Eb47Xi8f
+	 fZX5ATSoCya9cnrMmxUXmhyAAP2clADU6EVaEOduIFxJFa6FOoDmlVQtniiXZq1sFh
+	 b9IprCmsA2hLw==
+Date: Fri, 6 Feb 2026 07:05:59 -0600
+From: Rob Herring <robh@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	marcelo.schmitt1@gmail.com,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v7 6/8] dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216
+ and ADAQ4224
+Message-ID: <20260206130559.GA30712-robh@kernel.org>
+References: <cover.1770309522.git.marcelo.schmitt@analog.com>
+ <4b879f53450e87739afc0dbd832dab5a3f83efb1.1770309522.git.marcelo.schmitt@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Cc: xinrui.riscv@isrc.iscas.ac.cn, Nicolas Schier <nsc@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Jonathan Corbet <corbet@lwn.net>, Conor Dooley <conor@kernel.org>,
- Mingcong Bai <jeffbai@aosc.io>, Han Gao <rabenda.cn@gmail.com>,
- Vivian Wang <wangruikang@iscas.ac.cn>, Jason Montleon <jmontleo@redhat.com>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, llvm@lists.linux.dev,
- linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 2/4] rust: generate a fatal error if BINDGEN_TARGET is
- undefined
-To: Nathan Chancellor <nathan@kernel.org>
-References: <20251230-gcc-rust-v5-v6-0-2ac86ba728c8@isrc.iscas.ac.cn>
- <20251230-gcc-rust-v5-v6-2-2ac86ba728c8@isrc.iscas.ac.cn>
- <20260129224029.GB844102@ax162>
-Content-Language: en-US
-From: Asuna Yang <xinrui.riscv@isrc.iscas.ac.cn>
-In-Reply-To: <20260129224029.GB844102@ax162>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:zQCowAAXqg2R4YVpPGybBw--.288S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jw43Jw1UZF4UtF17Kw4fGrg_yoW3uFc_Xw
-	n2qw4qkF47W39Ik3W3Kr4fJrZrtFW7uryrXryxtrZrW348KFZ3Wa15Gr98t3WSg3yrKFsx
-	Jrs0vr40kw42kjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbVkFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
-	1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IY64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY
-	04v7MxkF7I0En4kS14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-	1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-	b7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0x
-	vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAI
-	cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
-	nxnUUI43ZEXa7sRiuWl3UUUUU==
-X-CM-SenderInfo: x0lq233loux21fy6x21ufox2xfdvhtffof0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4b879f53450e87739afc0dbd832dab5a3f83efb1.1770309522.git.marcelo.schmitt@analog.com>
 
-On 1/30/26 06:40, Nathan Chancellor wrote:
-
-> This might read a little better if it were
+On Thu, Feb 05, 2026 at 01:48:55PM -0300, Marcelo Schmitt wrote:
+> ADAQ4216 and ADAQ4224 are similar to AD4030 except that ADAQ devices have a
+> PGA (programmable gain amplifier) that scales the input signal prior to it
+> reaching the ADC inputs. The PGA is controlled through a couple of pins (A0
+> and A1) that set one of four possible signal gain configurations.
 > 
->    scripts/Makefile.rust is included ..., so we perform ...
+> Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> ---
+> Change log v6 -> v7
+> - No changes.
 > 
-> instead of
+>  .../bindings/iio/adc/adi,ad4030.yaml          | 70 +++++++++++++++++--
+>  1 file changed, 65 insertions(+), 5 deletions(-)
 > 
->    Because ..., we perform ...
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
+> index 564b6f67a96e..3890cd4ba93e 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4030.yaml
+> @@ -19,6 +19,8 @@ description: |
+>    * https://www.analog.com/media/en/technical-documentation/data-sheets/ad4030-24-4032-24.pdf
+>    * https://www.analog.com/media/en/technical-documentation/data-sheets/ad4630-24_ad4632-24.pdf
+>    * https://www.analog.com/media/en/technical-documentation/data-sheets/ad4630-16-4632-16.pdf
+> +  * https://www.analog.com/media/en/technical-documentation/data-sheets/adaq4216.pdf
+> +  * https://www.analog.com/media/en/technical-documentation/data-sheets/adaq4224.pdf
+>  
+>  $ref: /schemas/spi/spi-peripheral-props.yaml#
+>  
+> @@ -31,6 +33,8 @@ properties:
+>        - adi,ad4630-24
+>        - adi,ad4632-16
+>        - adi,ad4632-24
+> +      - adi,adaq4216
+> +      - adi,adaq4224
+>  
+>    reg:
+>      maxItems: 1
+> @@ -54,6 +58,14 @@ properties:
+>      description:
+>        Internal buffered Reference. Used when ref-supply is not connected.
+>  
+> +  vddh-supply:
+> +    description:
+> +      PGIA Positive Power Supply.
+> +
+> +  vdd-fda-supply:
+> +    description:
+> +      FDA Positive Power Supply.
+> +
+>    cnv-gpios:
+>      description:
+>        The Convert Input (CNV). It initiates the sampling conversions.
+> @@ -64,6 +76,13 @@ properties:
+>        The Reset Input (/RST). Used for asynchronous device reset.
+>      maxItems: 1
+>  
+> +  pga-gpios:
+> +    description:
+> +      A0 and A1 pins for gain selection. For devices that have PGA configuration
+> +      input pins, pga-gpios should be defined.
+> +    minItems: 2
+> +    maxItems: 2
+> +
+>    pwms:
+>      description: PWM signal connected to the CNV pin.
+>      maxItems: 1
+> @@ -86,11 +105,29 @@ required:
+>    - vio-supply
+>    - cnv-gpios
+>  
+> -oneOf:
+> -  - required:
+> -      - ref-supply
+> -  - required:
+> -      - refin-supply
+> +allOf:
+> +  - oneOf:
+> +      - required:
+> +          - ref-supply
+> +      - required:
+> +          - refin-supply
+
+Why is this moved under the allOf?
+
+> +  # ADAQ devices require a gain property to indicate how hardware PGA is set
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            pattern: ^adi,adaq
+> +    then:
+> +      required:
+> +        - vddh-supply
+> +        - vdd-fda-supply
+> +        - pga-gpios
+> +      properties:
+> +        ref-supply: false
+> +    else:
+> +      properties:
+> +        pga-gpios: false
+> +
+>  
+>  unevaluatedProperties: false
+>  
+> @@ -114,3 +151,26 @@ examples:
+>              reset-gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
+>          };
+>      };
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    spi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        adc@0 {
+> +            compatible = "adi,adaq4216";
+> +            reg = <0>;
+> +            spi-max-frequency = <80000000>;
+> +            vdd-5v-supply = <&supply_5V>;
+> +            vdd-1v8-supply = <&supply_1_8V>;
+> +            vio-supply = <&supply_1_8V>;
+> +            refin-supply = <&refin_sup>;
+> +            vddh-supply = <&vddh>;
+> +            vdd-fda-supply = <&vdd_fda>;
+> +            cnv-gpios = <&gpio0 0 GPIO_ACTIVE_HIGH>;
+> +            reset-gpios = <&gpio0 1 GPIO_ACTIVE_LOW>;
+> +            pga-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>,
+> +                        <&gpio0 3 GPIO_ACTIVE_HIGH>;
+> +        };
+> +    };
+> +...
+> -- 
+> 2.39.2
 > 
-> or at the very least reversing the phrases
-> 
->    We perform ... because ...
-> 
-> But that could just be personal preference.
-
-I think you're right. Since I'm not a native English speaker, some of my 
-phrasing might not sound quite natural.
-
-However, considering this isn't really a big deal, I'd prefer to skip 
-submitting a new patch to fix it. Unlike GitHub, I'm concerned that a 
-new patch might make too much noise on the mailing list and interrupt 
-the thread.
-
-Or if someone could help modify it when merging this patch, that would 
-be better! I've read the docs, and the kernel tree seems to allow this 
-practice.
-
-Best regards,
-Asuna
-
