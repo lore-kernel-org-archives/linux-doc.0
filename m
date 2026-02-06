@@ -1,387 +1,271 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B3E2D3727
-	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 09:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7830C35E54D;
+	Fri,  6 Feb 2026 09:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770370434; cv=none; b=RhBVdZTfKUSE8bpV+YHc2MoVMPYjisU5oPPvFbMvNjvW9YrjYfroSRW5EKWD5LvLcmru8GzAkj67ySbSlfrLhJ7eCj4c4cXMBxtoBAmVpW7biM7NAt48WNThwyD5n/Y//3aO0X5EfK4zNe+X8yB4olfBDKXTreycPi3YWZ60Y0g=
+	t=1770370592; cv=none; b=fl8wmwBgP88HCHuH2aLZM9BgtFaMQE1NxHiXndaFAuUIh8UCEM6K+7eINIeksnTwQRauHodwaraguT6erslmAhxmJvZL8Bt3wLJTTBrOZohKBq4VgqbGwQZYKHw1ZuIMATOMLOcYG7Ee69IDB0qbwnS303bCfFKI1J04knBwHUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770370434; c=relaxed/simple;
-	bh=c+GiUJQTfwJdt0D4FrdPca+NjRLul/+/cXZFtg415KQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ton5X7dFQYTEPj9nev9vehIgHW+NS32qgKDLOOxtv0iN+CipRZiRamPfXL5/Rsd8MwT73Mv+UGsLl+fUJ28LHQVuGeBJI2YcRZ9pQjxTVSkIDijoqUYDGtZvipjkcRN3/RIXryU2jyRLv1Tfs2+I/OY/3zW7YKBcNye2FWbNUYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=T8s0Lqb1; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1770370592; c=relaxed/simple;
+	bh=l8Fj/023PJxXbH0Z5uzpECT9RXbJgRSHplYgq+pm8fs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FeOa54yxTrM/EXpGKjV9T99fwE1TbkgTcbVNqOLTjXuGAOuzaEwYcHm7NUnUmEulmRAeKaNiZi+ehXV0x0qDWELBvfsju7qL50fHKr4o9y/+bPN6w9TZeZLkqg6WINmQd4pZoHQVrld5NLAlZEzG5VUY0ZaVcBYWvS4PnHGcWPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RtXyxhUl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="T8s0Lqb1"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-47ee0291921so4540555e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 01:33:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770370432; x=1770975232; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=56MUvuCz4kq0jyDggo6mUeNBZRMTvfCb+XKL3S/XDRU=;
-        b=T8s0Lqb1oNsUcQFpml28rmErHuUAn+On6w1dppEGr3pDG5G77o0Py0FeS+MxpyxCyq
-         z5LV1817Pp5NU1nhAEAtGRYvHoFhzixOPIKBwwBxR1Pl8YOw843zYsa+HHYK8UYTXnkj
-         0xHMeujCLFcT69ent5dSbj+ajtJ1Lb2C+0KjKJvikQq5VsW2i2mKqgVMBJ4ukMwRd5Jg
-         Y9qNKTAwX/ExTtrun8sEd7m5mB0sN7sbEDTno4CD/PqbGD8AHMUABwgM7Z3HcGlEGOc4
-         WC91wj+W2kveJQMWR5BT7sljjvvGZfgJwgV1BtI00WRNaW4MfDjFVYkmu0WUgpw6PTpy
-         4vIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770370432; x=1770975232;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=56MUvuCz4kq0jyDggo6mUeNBZRMTvfCb+XKL3S/XDRU=;
-        b=OaMUJXrrjVDrOdZb3lGRTo96q97YklcFP5Bzj5EvLvN9euFQvkHDZAnWHeDhZU+0PJ
-         mC+++tPpSvr+xqpAZ0vQ58zB1mxCBhx/8xoMOwC46J9H9UOrv8cHbyiC3dH09GVJ0IzB
-         shGK2S5j50UyXBT0s8oTozsPLXHaDJKhOiu0sE8IURFMZ6iEO10h93Q3Mq1DWqz35u0/
-         ND9yzIexQLli9eK+Ar7cjSnvxhH9ysblbexyUnKuMHJgKkO8Cfjbl37BzWCq85t3I1Q7
-         LbUkCILM8XrQIOtiWz/Y67inNLgI2L7sZCa7xOIC7qOY/qgKyBbEu50XxQnK+tb3V9fR
-         aZdw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtR99V0vyyPozxiDE6PzagkbuDBh1f6j6dNhbVYz4HjZ8eOz7foBb1V6PNzgr8+v4ZfDYv3TJs8Qk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbfV3cNq6BR3zQ3xEikecdM4OhaiAHRQ8sEH4jSn0TLnL8Iz2n
-	IDQIdO9iZXDVcSjGElnADZB0qpRqvT6a+CmslRR1VRuDm/MFeC0AfettGMd/V3GgJIA=
-X-Gm-Gg: AZuq6aLVkaZ/Yi7dx/OVRw/hk9/bUei/pqf8mZDkoIFxN+lfll6uT3KqaU7Wkryg1e3
-	scG9PQ/rtureSsEj2hMkVr4leZHy1sXxzysxRx+drVbds6NdGFu3dNOQBivuhPBq46uRsNM4l8i
-	qOIEHwgR4PHfrgExF5feWt1q89Urlyuv92L3kTsl1irHKN+moYv4MSrutehdEqpU/Z0JX5CWJgb
-	OnsDhOHUXNu2sZpeNZAB0vYyQBarGcDIHGYYyUkO2T8nlgqxT1kmsgOG7Lrlms/woh9Q9urHlZU
-	dByJIs+XhbRFxd8GE1ww569aUcvTtABUGCKDdNtSGW3pRcLS1s7WMdb/cj72fV9FpDzIxpiYT91
-	AT7rN19aCnFu9LCFoh28SUYa0nRqmFsaB/uXdfQ3vtkUtmCkhL/dmnJnWCegJN51/1YH8qM0m8Y
-	654LyKwr8yeOiCHRygcyE=
-X-Received: by 2002:a05:600c:528a:b0:47f:1a8d:4f30 with SMTP id 5b1f17b1804b1-4832021cd67mr28793385e9.26.1770370432345;
-        Fri, 06 Feb 2026 01:33:52 -0800 (PST)
-Received: from FV6GYCPJ69 ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483203e5b63sm26740685e9.1.2026.02.06.01.33.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Feb 2026 01:33:51 -0800 (PST)
-Date: Fri, 6 Feb 2026 10:33:50 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Tariq Toukan <tariqt@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
-	Moshe Shemesh <moshe@nvidia.com>, Shay Drori <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
-	Or Har-Toov <ohartoov@nvidia.com>
-Subject: Re: [PATCH net-next V2 3/7] devlink: Add port resource netlink
- command
-Message-ID: <d2a44w5lausinhwqagu332nkuxqmdrfjlrvt2piscd5cg3zjgf@jefnbqja5xbh>
-References: <20260205142833.1727929-1-tariqt@nvidia.com>
- <20260205142833.1727929-4-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RtXyxhUl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02F87C116C6;
+	Fri,  6 Feb 2026 09:36:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770370592;
+	bh=l8Fj/023PJxXbH0Z5uzpECT9RXbJgRSHplYgq+pm8fs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RtXyxhUlqdIqL97gdfK2G+tqkx4gG1wk6EyIvfQ2g11VN/Nv2NzFaLMYlDc5LAnS/
+	 l5ceRRf8F169VZTzH2MOPFGaFb7YLAoodmqdt/qnaXbloi/wZgWPxDdYjx22j9eU1D
+	 YNwGiBfVKXOq/YqTvIvudoetXoLHYAD4v+2OYgyWH9yPme1IYRAPvRAHxkf7sYa3w5
+	 YpPccUUgm7tDakvcDeKkBxafXTwsxHphbGcO58DJ94+ntRtweAEDEAo0A/KWpOiWv5
+	 YnHYlJesvXMrFM0/97ZkvQsnSeZsdjqa2su1C9DyTaMZUgx9+JJyq+hzZPYlUnLKvM
+	 dpZPjx10HeldA==
+Message-ID: <3fcbad05-bef2-486a-8d9b-7010a91c85b8@kernel.org>
+Date: Fri, 6 Feb 2026 10:36:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260205142833.1727929-4-tariqt@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv6 11/17] mm/hugetlb: Remove fake head pages
+To: Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
+ Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
+Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20260202155634.650837-1-kas@kernel.org>
+ <20260202155634.650837-12-kas@kernel.org>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20260202155634.650837-12-kas@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thu, Feb 05, 2026 at 03:28:29PM +0100, tariqt@nvidia.com wrote:
->From: Or Har-Toov <ohartoov@nvidia.com>
->
->Add support for userspace to query resources registered on devlink
->ports, allowing drivers to expose per-port resource limits and usage.
->
->Example output:
->
->  $ devlink port resource show
->  pci/0000:03:00.0/196608:
->    name max_SFs size 20 unit entry
->  pci/0000:03:00.1/262144:
->    name max_SFs size 20 unit entry
->
->  $ devlink port resource show pci/0000:03:00.0/196608
->  pci/0000:03:00.0/196608:
->    name max_SFs size 20 unit entry
->
->Signed-off-by: Or Har-Toov <ohartoov@nvidia.com>
->Reviewed-by: Shay Drori <shayd@nvidia.com>
->Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
->---
-> Documentation/netlink/specs/devlink.yaml |  23 ++++++
-> include/uapi/linux/devlink.h             |   3 +
-> net/devlink/netlink.c                    |   2 +-
-> net/devlink/netlink_gen.c                |  32 ++++++-
-> net/devlink/netlink_gen.h                |   6 +-
-> net/devlink/resource.c                   | 101 +++++++++++++++++++++++
-> 6 files changed, 164 insertions(+), 3 deletions(-)
->
->diff --git a/Documentation/netlink/specs/devlink.yaml b/Documentation/netlink/specs/devlink.yaml
->index 837112da6738..0290db1b8393 100644
->--- a/Documentation/netlink/specs/devlink.yaml
->+++ b/Documentation/netlink/specs/devlink.yaml
->@@ -2336,3 +2336,26 @@ operations:
->             - bus-name
->             - dev-name
->             - port-index
->+
->+    -
->+      name: port-resource-get
->+      doc: Get port resources.
->+      attribute-set: devlink
->+      dont-validate: [strict]
->+      do:
->+        pre: devlink-nl-pre-doit-port
->+        post: devlink-nl-post-doit
->+        request:
->+          value: 85
->+          attributes: *port-id-attrs
->+        reply: &port-resource-get-reply
->+          value: 85
->+          attributes:
->+            - bus-name
->+            - dev-name
->+            - port-index
->+            - resource-list
->+      dump:
->+        request:
->+          attributes: *dev-id-attrs
->+        reply: *port-resource-get-reply
->diff --git a/include/uapi/linux/devlink.h b/include/uapi/linux/devlink.h
->index e7d6b6d13470..1cabd1f6cba0 100644
->--- a/include/uapi/linux/devlink.h
->+++ b/include/uapi/linux/devlink.h
->@@ -141,6 +141,9 @@ enum devlink_command {
+On 2/2/26 16:56, Kiryl Shutsemau wrote:
+> HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing most
+> vmemmap pages for huge pages and remapping the freed range to a single
+> page containing the struct page metadata.
 > 
-> 	DEVLINK_CMD_NOTIFY_FILTER_SET,
+> With the new mask-based compound_info encoding (for power-of-2 struct
+> page sizes), all tail pages of the same order are now identical
+> regardless of which compound page they belong to. This means the tail
+> pages can be truly shared without fake heads.
 > 
->+	DEVLINK_CMD_PORT_RESOURCE_GET,	/* can dump */
->+	DEVLINK_CMD_PORT_RESOURCE_SET,
->+
-> 	/* add new commands above here */
-> 	__DEVLINK_CMD_MAX,
-> 	DEVLINK_CMD_MAX = __DEVLINK_CMD_MAX - 1
->diff --git a/net/devlink/netlink.c b/net/devlink/netlink.c
->index 593605c1b1ef..c78c31779622 100644
->--- a/net/devlink/netlink.c
->+++ b/net/devlink/netlink.c
->@@ -367,7 +367,7 @@ struct genl_family devlink_nl_family __ro_after_init = {
-> 	.module		= THIS_MODULE,
-> 	.split_ops	= devlink_nl_ops,
-> 	.n_split_ops	= ARRAY_SIZE(devlink_nl_ops),
->-	.resv_start_op	= DEVLINK_CMD_SELFTESTS_RUN + 1,
->+	.resv_start_op	= DEVLINK_CMD_PORT_RESOURCE_GET + 1,
-> 	.mcgrps		= devlink_nl_mcgrps,
-> 	.n_mcgrps	= ARRAY_SIZE(devlink_nl_mcgrps),
-> 	.sock_priv_size		= sizeof(struct devlink_nl_sock_priv),
->diff --git a/net/devlink/netlink_gen.c b/net/devlink/netlink_gen.c
->index f4c61c2b4f22..692d7862183a 100644
->--- a/net/devlink/netlink_gen.c
->+++ b/net/devlink/netlink_gen.c
->@@ -604,8 +604,21 @@ static const struct nla_policy devlink_notify_filter_set_nl_policy[DEVLINK_ATTR_
-> 	[DEVLINK_ATTR_PORT_INDEX] = { .type = NLA_U32, },
-> };
+> Allocate a single page of initialized tail struct pages per NUMA node
+> per order in the vmemmap_tails[] array in pglist_data. All huge pages of
+> that order on the node share this tail page, mapped read-only into their
+> vmemmap. The head page remains unique per huge page.
 > 
->+/* DEVLINK_CMD_PORT_RESOURCE_GET - do */
->+static const struct nla_policy devlink_port_resource_get_do_nl_policy[DEVLINK_ATTR_PORT_INDEX + 1] = {
->+	[DEVLINK_ATTR_BUS_NAME] = { .type = NLA_NUL_STRING, },
->+	[DEVLINK_ATTR_DEV_NAME] = { .type = NLA_NUL_STRING, },
->+	[DEVLINK_ATTR_PORT_INDEX] = { .type = NLA_U32, },
->+};
->+
->+/* DEVLINK_CMD_PORT_RESOURCE_GET - dump */
->+static const struct nla_policy devlink_port_resource_get_dump_nl_policy[DEVLINK_ATTR_DEV_NAME + 1] = {
->+	[DEVLINK_ATTR_BUS_NAME] = { .type = NLA_NUL_STRING, },
->+	[DEVLINK_ATTR_DEV_NAME] = { .type = NLA_NUL_STRING, },
->+};
->+
-> /* Ops table for devlink */
->-const struct genl_split_ops devlink_nl_ops[74] = {
->+const struct genl_split_ops devlink_nl_ops[76] = {
-> 	{
-> 		.cmd		= DEVLINK_CMD_GET,
-> 		.validate	= GENL_DONT_VALIDATE_STRICT,
->@@ -1284,4 +1297,21 @@ const struct genl_split_ops devlink_nl_ops[74] = {
-> 		.maxattr	= DEVLINK_ATTR_PORT_INDEX,
-> 		.flags		= GENL_CMD_CAP_DO,
-> 	},
->+	{
->+		.cmd		= DEVLINK_CMD_PORT_RESOURCE_GET,
->+		.validate	= GENL_DONT_VALIDATE_STRICT,
->+		.pre_doit	= devlink_nl_pre_doit_port,
->+		.doit		= devlink_nl_port_resource_get_doit,
->+		.post_doit	= devlink_nl_post_doit,
->+		.policy		= devlink_port_resource_get_do_nl_policy,
->+		.maxattr	= DEVLINK_ATTR_PORT_INDEX,
->+		.flags		= GENL_CMD_CAP_DO,
->+	},
->+	{
->+		.cmd		= DEVLINK_CMD_PORT_RESOURCE_GET,
->+		.dumpit		= devlink_nl_port_resource_get_dumpit,
->+		.policy		= devlink_port_resource_get_dump_nl_policy,
->+		.maxattr	= DEVLINK_ATTR_DEV_NAME,
->+		.flags		= GENL_CMD_CAP_DUMP,
->+	},
-> };
->diff --git a/net/devlink/netlink_gen.h b/net/devlink/netlink_gen.h
->index 2817d53a0eba..204a665d2fd2 100644
->--- a/net/devlink/netlink_gen.h
->+++ b/net/devlink/netlink_gen.h
->@@ -18,7 +18,7 @@ extern const struct nla_policy devlink_dl_rate_tc_bws_nl_policy[DEVLINK_RATE_TC_
-> extern const struct nla_policy devlink_dl_selftest_id_nl_policy[DEVLINK_ATTR_SELFTEST_ID_FLASH + 1];
+> Redefine MAX_FOLIO_ORDER using ilog2(). The define has to produce a
+> compile-constant as it is used to specify vmemmap_tail array size.
+> For some reason, compiler is not able to solve get_order() at
+> compile-time, but ilog2() works.
 > 
-> /* Ops table for devlink */
->-extern const struct genl_split_ops devlink_nl_ops[74];
->+extern const struct genl_split_ops devlink_nl_ops[76];
+> Avoid PUD_ORDER to define MAX_FOLIO_ORDER as it adds dependency to
+> <linux/pgtable.h> which generates hard-to-break include loop.
 > 
-> int devlink_nl_pre_doit(const struct genl_split_ops *ops, struct sk_buff *skb,
-> 			struct genl_info *info);
->@@ -146,5 +146,9 @@ int devlink_nl_selftests_get_dumpit(struct sk_buff *skb,
-> int devlink_nl_selftests_run_doit(struct sk_buff *skb, struct genl_info *info);
-> int devlink_nl_notify_filter_set_doit(struct sk_buff *skb,
-> 				      struct genl_info *info);
->+int devlink_nl_port_resource_get_doit(struct sk_buff *skb,
->+				      struct genl_info *info);
->+int devlink_nl_port_resource_get_dumpit(struct sk_buff *skb,
->+					struct netlink_callback *cb);
+> This eliminates fake heads while maintaining the same memory savings,
+> and simplifies compound_head() by removing fake head detection.
 > 
-> #endif /* _LINUX_DEVLINK_GEN_H */
->diff --git a/net/devlink/resource.c b/net/devlink/resource.c
->index 1b06a1f408fa..42ad7c96a740 100644
->--- a/net/devlink/resource.c
->+++ b/net/devlink/resource.c
->@@ -227,6 +227,7 @@ static int devlink_resource_fill(struct genl_info *info,
-> 				 struct list_head *resource_list,
-> 				 enum devlink_command cmd, int flags)
-> {
->+	struct devlink_port *devlink_port = info->user_ptr[1];
-> 	struct devlink *devlink = info->user_ptr[0];
-> 	struct devlink_resource *resource;
-> 	struct nlattr *resources_attr;
->@@ -257,6 +258,10 @@ static int devlink_resource_fill(struct genl_info *info,
-> 	if (devlink_nl_put_handle(skb, devlink))
-> 		goto nla_put_failure;
-> 
->+	if (devlink_port && nla_put_u32(skb, DEVLINK_ATTR_PORT_INDEX,
->+					devlink_port->index))
->+		goto nla_put_failure;
->+
-> 	resources_attr = nla_nest_start_noflag(skb,
-> 					       DEVLINK_ATTR_RESOURCE_LIST);
-> 	if (!resources_attr)
->@@ -576,3 +581,99 @@ void devl_port_resources_unregister(struct devlink_port *devlink_port)
-> 				    &devlink_port->resource_list);
-> }
-> EXPORT_SYMBOL_GPL(devl_port_resources_unregister);
->+
->+static int devlink_nl_port_resource_fill(struct sk_buff *msg,
->+					 struct devlink_port *devlink_port,
->+					 enum devlink_command cmd,
->+					 u32 portid, u32 seq, int flags)
->+{
->+	struct devlink *devlink = devlink_port->devlink;
->+	struct devlink_resource *resource;
->+	struct nlattr *resources_attr;
->+	void *hdr;
->+
->+	if (list_empty(&devlink_port->resource_list))
->+		return 0;
->+
->+	hdr = genlmsg_put(msg, portid, seq, &devlink_nl_family, flags, cmd);
->+	if (!hdr)
->+		return -EMSGSIZE;
->+
->+	if (devlink_nl_put_handle(msg, devlink))
->+		goto nla_put_failure;
->+	if (nla_put_u32(msg, DEVLINK_ATTR_PORT_INDEX, devlink_port->index))
->+		goto nla_put_failure;
->+
->+	resources_attr = nla_nest_start_noflag(msg, DEVLINK_ATTR_RESOURCE_LIST);
->+	if (!resources_attr)
->+		goto nla_put_failure;
->+
->+	list_for_each_entry(resource, &devlink_port->resource_list, list) {
->+		if (devlink_resource_put(devlink, msg, resource)) {
->+			nla_nest_cancel(msg, resources_attr);
->+			goto nla_put_failure;
->+		}
->+	}
->+	nla_nest_end(msg, resources_attr);
->+	genlmsg_end(msg, hdr);
->+	return 0;
->+
->+nla_put_failure:
->+	genlmsg_cancel(msg, hdr);
->+	return -EMSGSIZE;
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> ---
+
+[...]
+
+>   #define node_present_pages(nid)	(NODE_DATA(nid)->node_present_pages)
+> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> index a39a301e08b9..688764c52c72 100644
+> --- a/mm/hugetlb_vmemmap.c
+> +++ b/mm/hugetlb_vmemmap.c
+> @@ -19,6 +19,7 @@
+>   
+>   #include <asm/tlbflush.h>
+>   #include "hugetlb_vmemmap.h"
+> +#include "internal.h"
+>   
+>   /**
+>    * struct vmemmap_remap_walk - walk vmemmap page table
+> @@ -505,6 +506,32 @@ static bool vmemmap_should_optimize_folio(const struct hstate *h, struct folio *
+>   	return true;
+>   }
+>   
+> +static struct page *vmemmap_get_tail(unsigned int order, int node)
+> +{
+> +	struct page *tail, *p;
+> +	unsigned int idx;
+> +
+> +	idx = 
+
+Could do
+
+const unsigned int idx = order - VMEMMAP_TAIL_MIN_ORDER;
+
+above.
+
+> +	tail = READ_ONCE(NODE_DATA(node)->vmemmap_tails[idx]);
+> +	if (tail)
+
+Wondering if a likely() would be a good idea here. I guess we'll usually 
+go through that fast path on a system that has been running for a bit.
+
+> +		return tail;
+> +
+> +	tail = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, 0);
+> +	if (!tail)
+> +		return NULL;
+> +
+> +	p = page_to_virt(tail);
+> +	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+> +		prep_compound_tail(p + i, NULL, order);
+
+This leaves all pageflags, refcount etc. set to 0, which is mostly 
+expected for tail pages.
+
+But, I would have expected something a bit more from 
+__init_single_page() that initialized the page properly.
+
+In particular:
+* set_page_node(page, node), or how is page_to_nid() handled?
+* atomic_set(&page->_mapcount, -1), to not indicate something odd to
+   core-mm where we would suddenly have a page mapping for a hugetlb
+   folio.
+
+> +
+> +	if (cmpxchg(&NODE_DATA(node)->vmemmap_tails[idx], NULL, tail)) {
+> +		__free_page(tail);
+> +		tail = READ_ONCE(NODE_DATA(node)->vmemmap_tails[idx]);
+> +	}
+> +
+> +	return tail;
+> +}
+
+[...]
+
+> --- a/mm/sparse-vmemmap.c
+> +++ b/mm/sparse-vmemmap.c
+> @@ -378,16 +378,44 @@ void vmemmap_wrprotect_hvo(unsigned long addr, unsigned long end,
+>   	}
+>   }
+>   
+> -/*
+> - * Populate vmemmap pages HVO-style. The first page contains the head
+> - * page and needed tail pages, the other ones are mirrors of the first
+> - * page.
+> - */
+> +static __meminit unsigned long vmemmap_get_tail(unsigned int order, int node)
+> +{
+> +	struct page *p, *tail;
+> +	unsigned int idx;
+> +
+> +	BUG_ON(order < VMEMMAP_TAIL_MIN_ORDER);
+> +	BUG_ON(order > MAX_FOLIO_ORDER);
+> +
+> +	idx = order - VMEMMAP_TAIL_MIN_ORDER;
+> +	tail = NODE_DATA(node)->vmemmap_tails[idx];
+> +	if (tail)
+> +		return page_to_pfn(tail);
+> +
+> +	p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
+> +	if (!p)
+> +		return 0;
+> +
+> +	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
+> +		prep_compound_tail(p + i, NULL, order);
+> +
+> +	tail = virt_to_page(p);
+> +	NODE_DATA(node)->vmemmap_tails[idx] = tail;
+> +
+> +	return page_to_pfn(tail);
+> +}
+> +
+>   int __meminit vmemmap_populate_hvo(unsigned long addr, unsigned long end,
+>   				       int node, unsigned long headsize)
+>   {
+> +	unsigned long maddr, len, tail_pfn;
+> +	unsigned int order;
+>   	pte_t *pte;
+> -	unsigned long maddr;
+> +
+> +	len = end - addr;
+> +	order = ilog2(len * sizeof(struct page) / PAGE_SIZE);
 
 
-Why you don't unify this function with existing devlink_resource_fill()?
-Unnecessary code duplication, plus devlink_resource_fill() already know
-how to handle multipart message.
+Could initialize them as const above.
 
+But I am wondering whether it shouldn't be the caller that provides this 
+to use? After all, it's all hugetlb code that allocates and prepares that.
 
-This is related to my request to implement dump for devlink dev
-resources. I would like to see the code unification for dump ops as
-well.
+Then we could maybe change
 
-Thanks!
+#ifdef·CONFIG_SPARSEMEM_VMEMMAP
+	struct·page·*vmemmap_tails[NR_VMEMMAP_TAILS];
+#endif
 
+to be HVO-only.
 
+-- 
+Cheers,
 
->+}
->+
->+int devlink_nl_port_resource_get_doit(struct sk_buff *skb,
->+				      struct genl_info *info)
->+{
->+	struct devlink_port *devlink_port = info->user_ptr[1];
->+	struct sk_buff *msg;
->+	int err;
->+
->+	msg = nlmsg_new(NLMSG_DEFAULT_SIZE, GFP_KERNEL);
->+	if (!msg)
->+		return -ENOMEM;
->+
->+	err = devlink_nl_port_resource_fill(msg, devlink_port,
->+					    DEVLINK_CMD_PORT_RESOURCE_GET,
->+					    info->snd_portid, info->snd_seq, 0);
->+	if (err) {
->+		nlmsg_free(msg);
->+		return err;
->+	}
->+
->+	return genlmsg_reply(msg, info);
->+}
->+
->+static int
->+devlink_nl_port_resource_get_dump_one(struct sk_buff *msg,
->+				      struct devlink *devlink,
->+				      struct netlink_callback *cb, int flags)
->+{
->+	enum devlink_command cmd = DEVLINK_CMD_PORT_RESOURCE_GET;
->+	struct devlink_nl_dump_state *state = devlink_dump_state(cb);
->+	struct devlink_port *devlink_port;
->+	unsigned long port_index;
->+	int err;
->+
->+	xa_for_each_start(&devlink->ports, port_index, devlink_port,
->+			  state->idx) {
->+		err = devlink_nl_port_resource_fill(msg, devlink_port,
->+						    cmd,
->+						    NETLINK_CB(cb->skb).portid,
->+						    cb->nlh->nlmsg_seq, flags);
->+		if (err) {
->+			state->idx = port_index;
->+			return err;
->+		}
->+	}
->+
->+	return 0;
->+}
->+
->+int devlink_nl_port_resource_get_dumpit(struct sk_buff *skb,
->+					struct netlink_callback *cb)
->+{
->+	return devlink_nl_dumpit(skb, cb,
->+				 devlink_nl_port_resource_get_dump_one);
->+}
->-- 
->2.44.0
->
+David
