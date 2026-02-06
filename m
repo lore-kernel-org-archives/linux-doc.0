@@ -1,271 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7830C35E54D;
-	Fri,  6 Feb 2026 09:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5130935EDB8
+	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 09:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770370592; cv=none; b=fl8wmwBgP88HCHuH2aLZM9BgtFaMQE1NxHiXndaFAuUIh8UCEM6K+7eINIeksnTwQRauHodwaraguT6erslmAhxmJvZL8Bt3wLJTTBrOZohKBq4VgqbGwQZYKHw1ZuIMATOMLOcYG7Ee69IDB0qbwnS303bCfFKI1J04knBwHUY=
+	t=1770370595; cv=none; b=Bdjz2bpIh7RVuYRSvKUVwNqeJtK1qsksvqYSlX3avB9EuWCjQSUXTZfTXLbzosnmVlgFXOXuNeAuBwASg1gg+crwagNn22XHqfg8O2uDE5MCsBfFTffT/Igtwfh5on4jnHsPSbdpYlAppzI6U0uJ92zkdIShDZFBOw/lyhIgkc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770370592; c=relaxed/simple;
-	bh=l8Fj/023PJxXbH0Z5uzpECT9RXbJgRSHplYgq+pm8fs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FeOa54yxTrM/EXpGKjV9T99fwE1TbkgTcbVNqOLTjXuGAOuzaEwYcHm7NUnUmEulmRAeKaNiZi+ehXV0x0qDWELBvfsju7qL50fHKr4o9y/+bPN6w9TZeZLkqg6WINmQd4pZoHQVrld5NLAlZEzG5VUY0ZaVcBYWvS4PnHGcWPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RtXyxhUl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770370595; c=relaxed/simple;
+	bh=Lv8uI95dliFeoBdCejcOMOusz6kZTyerXTknQcwPhW0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n8PmBdlncMPGvx8dtG9x/ICWgGRPCIA99VkyeI7N+2ptajDeu/K2VXjxOjXbDohErm7BvzoewoxgZ5hSoBilgus2J+x4jdfywLL/31ScTpjhHS4s1Pvld7oUrpAh6Z5tRUAxHnp+uGFJssHAQmqUX682muPttvkZyIbHhEngLUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=zVTY/2R5; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RtXyxhUl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02F87C116C6;
-	Fri,  6 Feb 2026 09:36:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770370592;
-	bh=l8Fj/023PJxXbH0Z5uzpECT9RXbJgRSHplYgq+pm8fs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RtXyxhUlqdIqL97gdfK2G+tqkx4gG1wk6EyIvfQ2g11VN/Nv2NzFaLMYlDc5LAnS/
-	 l5ceRRf8F169VZTzH2MOPFGaFb7YLAoodmqdt/qnaXbloi/wZgWPxDdYjx22j9eU1D
-	 YNwGiBfVKXOq/YqTvIvudoetXoLHYAD4v+2OYgyWH9yPme1IYRAPvRAHxkf7sYa3w5
-	 YpPccUUgm7tDakvcDeKkBxafXTwsxHphbGcO58DJ94+ntRtweAEDEAo0A/KWpOiWv5
-	 YnHYlJesvXMrFM0/97ZkvQsnSeZsdjqa2su1C9DyTaMZUgx9+JJyq+hzZPYlUnLKvM
-	 dpZPjx10HeldA==
-Message-ID: <3fcbad05-bef2-486a-8d9b-7010a91c85b8@kernel.org>
-Date: Fri, 6 Feb 2026 10:36:24 +0100
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="zVTY/2R5"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4806ce0f97bso16358075e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 01:36:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1770370594; x=1770975394; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pF603AUQdiALGLuf8FGVmdwSpRghR2h7LwnvgLtFhUE=;
+        b=zVTY/2R5AWD/9OiCCPIkxL/zp7SyokQsb3PgBTPTL2nJLbxeNJTyAYtMaAKiMr9XHl
+         1MsawKAON4NOvrcAAKX27jySAT3eYHoXj1rh8Z+naXele+Ukxa3e48gqt+VFJDdbV2gl
+         D+MEEPw6yDZ82N7IOvbnlhsHUram6127pRDfoY/cWN6OP+LfW4XBKJvCgXptTNRsD7F1
+         p5KxChnzmVuHAtzHXtUq/+oSlE4mdhwj+mZobui2lJ59AggOXLIL5eiZtU1ruGxYZdOA
+         +DnxcbrRkwSIQNlf6sxJzv6TXC13VLUfg0gygzAxBbippCOinkjb3hbAU1giZVR4VPEO
+         JVVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770370594; x=1770975394;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pF603AUQdiALGLuf8FGVmdwSpRghR2h7LwnvgLtFhUE=;
+        b=NmfZNfuSkO8afBIG13xLdiVwuwT87RXOMZnM3B65a3yPhBB19pJLJLkxPYv8sPgH8D
+         rUVg+yefpWZIKjzirbe2hb0YvWPr4Ho1BpOh17uMdsP2aAy28hXXn/SWqH2b8qb9KU3d
+         HEMnmmRON9bxkTkqfklSKnA9OjSXZ4fHmkhaHXWA+gLgX8aU4DOWkkiYeIgwn+wPC6Qc
+         +r6OL67rzpa58sXdqaS+ii92fPwo+05MATIkD1WFxAmJNxh/BSARkW0+spKCYqBJXbFW
+         aGuGLO41/Ma2cF7QRU2FJufSbqOmXrzCIMIZkZjT1M+I34jBpim3FX8BrFFGfXiesDvk
+         oYhw==
+X-Forwarded-Encrypted: i=1; AJvYcCVWD29m1NyskV7UOyRv7AaXM9ooQfxoFtHcBV6RphECr+YzaGd5jLgcH89I53ZYZtAxVVAOryxj8yE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzG31np9jCHL6OlTbmFaxbp37ySzh2jWcEUFVbLGruakOr6Nu74
+	ORcmbBPT5jfxWpHRpaDlMhpvl5pzelmGepom4JjfcrVzFVvWwGJ58Uzbrf9QbSGZbO0=
+X-Gm-Gg: AZuq6aKTrrhKBiy9Nev8XukwFfML5PRTwu/T3Eoie5g/JGe0nqlpdIns9QCNMUacicP
+	LGC04tRWKuCQ4eufTwmw5jwVxFi9eVdTAfadQFUGcpikgRSZOC9nk/jwjMDUK9tvZssckMPPCRg
+	VB5HVxiUn3mCFuKmp5PhcAwL84VCAyanqW/AZJQ5cLBmC6uOUlOr7ZHG/tRX+sdGbEwq3DEinLl
+	QUqxmtl55AYVkAz7UmoT71ZcwccPwDQ+jb8QIGCLq0pITD3HnqDLxAa5wA1+toWHcravGSXrslI
+	ZbHSkkgDuG/j+aEBpeUeu1iIdCTA4vVvNz/RJHq3L3V0b5xgo+KBhpsOHmwABeEzVHzDnp/fF5c
+	9RK/XFIeHd65yECJ8ZcG9THxdPqSEl7bl/YQlwO8xxWXRXTFD/u6h5Et4tibWj8spdGkZ8L30kD
+	S4aWgCJ+xBEVZL86Og5f7QDx3SlIHSYg==
+X-Received: by 2002:a05:600c:4449:b0:480:32da:f33e with SMTP id 5b1f17b1804b1-48320216075mr34903245e9.17.1770370593702;
+        Fri, 06 Feb 2026 01:36:33 -0800 (PST)
+Received: from FV6GYCPJ69 ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483179dbdcfsm147111195e9.0.2026.02.06.01.36.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Feb 2026 01:36:33 -0800 (PST)
+Date: Fri, 6 Feb 2026 10:36:31 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
+	Moshe Shemesh <moshe@nvidia.com>, Shay Drori <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
+	Or Har-Toov <ohartoov@nvidia.com>
+Subject: Re: [PATCH net-next V2 4/7] net/mlx5: Register SF resource on PF
+ port representor
+Message-ID: <kmoeavzguajvf67sjwxkh4x5ogbus3cigeatrstagbfcyqyka6@w5ufzb5brkst>
+References: <20260205142833.1727929-1-tariqt@nvidia.com>
+ <20260205142833.1727929-5-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 11/17] mm/hugetlb: Remove fake head pages
-To: Kiryl Shutsemau <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>,
- Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>
-Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-12-kas@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260202155634.650837-12-kas@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205142833.1727929-5-tariqt@nvidia.com>
 
-On 2/2/26 16:56, Kiryl Shutsemau wrote:
-> HugeTLB Vmemmap Optimization (HVO) reduces memory usage by freeing most
-> vmemmap pages for huge pages and remapping the freed range to a single
-> page containing the struct page metadata.
-> 
-> With the new mask-based compound_info encoding (for power-of-2 struct
-> page sizes), all tail pages of the same order are now identical
-> regardless of which compound page they belong to. This means the tail
-> pages can be truly shared without fake heads.
-> 
-> Allocate a single page of initialized tail struct pages per NUMA node
-> per order in the vmemmap_tails[] array in pglist_data. All huge pages of
-> that order on the node share this tail page, mapped read-only into their
-> vmemmap. The head page remains unique per huge page.
-> 
-> Redefine MAX_FOLIO_ORDER using ilog2(). The define has to produce a
-> compile-constant as it is used to specify vmemmap_tail array size.
-> For some reason, compiler is not able to solve get_order() at
-> compile-time, but ilog2() works.
-> 
-> Avoid PUD_ORDER to define MAX_FOLIO_ORDER as it adds dependency to
-> <linux/pgtable.h> which generates hard-to-break include loop.
-> 
-> This eliminates fake heads while maintaining the same memory savings,
-> and simplifies compound_head() by removing fake head detection.
-> 
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> ---
+Thu, Feb 05, 2026 at 03:28:30PM +0100, tariqt@nvidia.com wrote:
+>From: Or Har-Toov <ohartoov@nvidia.com>
+>
+>The device-level "resource show" displays max_local_SFs and
+>max_external_SFs without indicating which port each resource belongs
+>to. Users cannot determine the controller number and pfnum associated
+>with each SF pool.
+>
+>Register max_SFs resource on the Host PF representor port to expose
+>per-port SF limits. Users can correlate the port resource with the
+>controller number and pfnum shown in 'devlink port show'.
+>
+>Future patches will introduce an ECPF that manages multiple PFs,
+>where each PF has its own SF pool.
+>
+>Example usage:
+>
+>  $ devlink port resource show
+>  pci/0000:03:00.0/196608:
+>    name max_SFs size 20 unit entry
+>  pci/0000:03:00.1/262144:
+>    name max_SFs size 20 unit entry
+>
+>  $ devlink port resource show pci/0000:03:00.0/196608
+>  pci/0000:03:00.0/196608:
+>    name max_SFs size 20 unit entry
+>
+>  $ devlink port show pci/0000:03:00.0/196608
+>  pci/0000:03:00.0/196608: type eth netdev pf0hpf flavour pcipf
+>    controller 1 pfnum 0 external true splittable false
+>    function:
+>      hw_addr b8:3f:d2:e1:8f:dc roce enable max_io_eqs 120
+>
+>We can create up to 20 SFs over devlink port pci/0000:03:00.0/196608,
+>with pfnum 0 and controller 1.
+>
+>Signed-off-by: Or Har-Toov <ohartoov@nvidia.com>
+>Reviewed-by: Shay Drori <shayd@nvidia.com>
+>Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
+>Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
 
-[...]
-
->   #define node_present_pages(nid)	(NODE_DATA(nid)->node_present_pages)
-> diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-> index a39a301e08b9..688764c52c72 100644
-> --- a/mm/hugetlb_vmemmap.c
-> +++ b/mm/hugetlb_vmemmap.c
-> @@ -19,6 +19,7 @@
->   
->   #include <asm/tlbflush.h>
->   #include "hugetlb_vmemmap.h"
-> +#include "internal.h"
->   
->   /**
->    * struct vmemmap_remap_walk - walk vmemmap page table
-> @@ -505,6 +506,32 @@ static bool vmemmap_should_optimize_folio(const struct hstate *h, struct folio *
->   	return true;
->   }
->   
-> +static struct page *vmemmap_get_tail(unsigned int order, int node)
-> +{
-> +	struct page *tail, *p;
-> +	unsigned int idx;
-> +
-> +	idx = 
-
-Could do
-
-const unsigned int idx = order - VMEMMAP_TAIL_MIN_ORDER;
-
-above.
-
-> +	tail = READ_ONCE(NODE_DATA(node)->vmemmap_tails[idx]);
-> +	if (tail)
-
-Wondering if a likely() would be a good idea here. I guess we'll usually 
-go through that fast path on a system that has been running for a bit.
-
-> +		return tail;
-> +
-> +	tail = alloc_pages_node(node, GFP_KERNEL | __GFP_ZERO, 0);
-> +	if (!tail)
-> +		return NULL;
-> +
-> +	p = page_to_virt(tail);
-> +	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
-> +		prep_compound_tail(p + i, NULL, order);
-
-This leaves all pageflags, refcount etc. set to 0, which is mostly 
-expected for tail pages.
-
-But, I would have expected something a bit more from 
-__init_single_page() that initialized the page properly.
-
-In particular:
-* set_page_node(page, node), or how is page_to_nid() handled?
-* atomic_set(&page->_mapcount, -1), to not indicate something odd to
-   core-mm where we would suddenly have a page mapping for a hugetlb
-   folio.
-
-> +
-> +	if (cmpxchg(&NODE_DATA(node)->vmemmap_tails[idx], NULL, tail)) {
-> +		__free_page(tail);
-> +		tail = READ_ONCE(NODE_DATA(node)->vmemmap_tails[idx]);
-> +	}
-> +
-> +	return tail;
-> +}
-
-[...]
-
-> --- a/mm/sparse-vmemmap.c
-> +++ b/mm/sparse-vmemmap.c
-> @@ -378,16 +378,44 @@ void vmemmap_wrprotect_hvo(unsigned long addr, unsigned long end,
->   	}
->   }
->   
-> -/*
-> - * Populate vmemmap pages HVO-style. The first page contains the head
-> - * page and needed tail pages, the other ones are mirrors of the first
-> - * page.
-> - */
-> +static __meminit unsigned long vmemmap_get_tail(unsigned int order, int node)
-> +{
-> +	struct page *p, *tail;
-> +	unsigned int idx;
-> +
-> +	BUG_ON(order < VMEMMAP_TAIL_MIN_ORDER);
-> +	BUG_ON(order > MAX_FOLIO_ORDER);
-> +
-> +	idx = order - VMEMMAP_TAIL_MIN_ORDER;
-> +	tail = NODE_DATA(node)->vmemmap_tails[idx];
-> +	if (tail)
-> +		return page_to_pfn(tail);
-> +
-> +	p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
-> +	if (!p)
-> +		return 0;
-> +
-> +	for (int i = 0; i < PAGE_SIZE / sizeof(struct page); i++)
-> +		prep_compound_tail(p + i, NULL, order);
-> +
-> +	tail = virt_to_page(p);
-> +	NODE_DATA(node)->vmemmap_tails[idx] = tail;
-> +
-> +	return page_to_pfn(tail);
-> +}
-> +
->   int __meminit vmemmap_populate_hvo(unsigned long addr, unsigned long end,
->   				       int node, unsigned long headsize)
->   {
-> +	unsigned long maddr, len, tail_pfn;
-> +	unsigned int order;
->   	pte_t *pte;
-> -	unsigned long maddr;
-> +
-> +	len = end - addr;
-> +	order = ilog2(len * sizeof(struct page) / PAGE_SIZE);
-
-
-Could initialize them as const above.
-
-But I am wondering whether it shouldn't be the caller that provides this 
-to use? After all, it's all hugetlb code that allocates and prepares that.
-
-Then we could maybe change
-
-#ifdef·CONFIG_SPARSEMEM_VMEMMAP
-	struct·page·*vmemmap_tails[NR_VMEMMAP_TAILS];
-#endif
-
-to be HVO-only.
-
--- 
-Cheers,
-
-David
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
