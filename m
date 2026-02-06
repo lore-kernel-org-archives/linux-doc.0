@@ -1,369 +1,270 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B30262FEC
-	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 22:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDE42FFDDC
+	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 22:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770418070; cv=pass; b=mt4lnqzaCv9Lp1UvJitxiIgHGDjPUQlSDqs9Q9kbBj+8f5oV4uqrdGzgOt4VYVplRAc12QnwXwaa2vsTFS+eUxTbVS0Om5I0eGccEBe4kc58sHJDWhlh6F5EvAyq5js4Kj0TeaRMu0d2UiUOouOe01ZoS2FmQsR4ukF7XaP5DnU=
+	t=1770418219; cv=pass; b=qdwU1JMCa16fl9KBsko/fSzE4Jmll78nxbgLoNDZSqqiDZyhoHTL5WzmWxbxaY93BgLs31kZIuyGgTtcb1fdbEm3tX03AlYj7ogIi8BB/SEk/l474TRrpdqj/heJecJDSGAeb2rr5ZDafIEXTif+qylvqiCE9Cz0fuGdo9RF5PY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770418070; c=relaxed/simple;
-	bh=KZMki9zsd7xqDhqCfSZ+tkLRxJNln01g4KOtMebtSWw=;
+	s=arc-20240116; t=1770418219; c=relaxed/simple;
+	bh=iQtWeiSNgPEPdaYwgKsUPFq1PwMnhYeNxsLcE4bOo68=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c4MbLk4J7or3It954owHaKwT0KHwhMn3geNf6fAi15MdGF4VnBnVbJPZFCtqPJHHLEKZyss7tt3x+uCGVPyXGWy7fk+ThKingvjm0gyOZo+Lqw5Y4cN0N3VDYNskcXt+ri2kdOQi0s0aNzAmJgrb54G5UZ6feQNRBV4d9bQYHBE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KWeUBFOG; arc=pass smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=kaM5nkiAGhR/B6uDwG3dgxnQuZvvrayUEpI4GQE9/59h5bbsxFIczzU5kDRVfyGBZYu4wkL/2TeF2gcEY6jRRToO652O3iJOqTatJXhUzCjdSusSZOSMfXTjUP9wqcNK+L49TCcxa4r+oz+zeb51uUrePA1H9MeQONlh0hpiwMU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EBenC7/p; arc=pass smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KWeUBFOG"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1270fc2bdf2so608c88.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 14:47:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770418069; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EBenC7/p"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4362507f396so1905444f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 14:50:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770418217; cv=none;
         d=google.com; s=arc-20240605;
-        b=AycwodhqETgPld/Bbe/SZByJJ++InZ1QjQu7tqfUUZIJex42jIKWEQLntZuB++PtO9
-         GJr1loMYR/W6i47fIXbjmlm7yDuhv2bQmP1x0IVrguFNPmqJ4RZzcC36Ov9q3EZ5+3YW
-         rQGchA37lP369vn1aNr1EPF15eZLhs0iv+eJuHJJtOA6vqG0k1OT3HJYTlMYtec+YLn8
-         4fI6QflLakZQ66O5XmfPOkbmKzxJ+8xtBfNx47fFBz1Du62mneydwUgvxb4Of1TAxeJR
-         Paj8oGlUIJ8btBiyVzjK53HaRUXhqdtXwSJqo/HaPwKomnQn+6zlWTmluDcPGjDZFdBH
-         /AYA==
+        b=eSajFGH8IK3GKFA9zf9sg0wwB2Jfs53B2dWBG95R64CfsX2bcJkKK6nKAZjn7FEOW+
+         uDYOZEFw1JFGNrCdRDTP+gF1CtzJBLnXIO22zx/xAqeoK8BM9bxCx/0ilacweTFTqBOR
+         Tnhs4FPW7YbwYnZiwfUsFjPDBlyu1kIb/4FOj6srwgglp3VGbOfu5K3kohv3mR15InSI
+         CP+y/wJeSLucxLFgQoFmLdVmAoVO0ogB90kTT5RiIFEoEHhs7YR6Wc+ysQbh8R9bXBs/
+         tRQsc0+dJE2i+3Ccm4y99dxeVT9waaWrEelSaZqCzkVDKuHyPLZ2L8/QA+RSb/AH5bHG
+         ogQw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=+xzzbafv7IMwH2ifuNO4060POJWB+v1zgMFdCY/APJk=;
-        fh=cmA+r7dKfrQoGVeOl91YE3ZeLuRp5ZAGfa3ZYAiOzlg=;
-        b=dJgU9kJxyyzGD7lOSIhP1T8D5MOuKoaWkB2vykHahmNUyfCB8IGGk6ljec14ylVM0A
-         Bi9d0dGVO0M9ArVdF1qMLgb/m6AxZhgJ7zveOLU++BSmg3r6aeZrGEZp5xztK0li8S34
-         sLqhCjEyKq3EFEi/JqCdfr4Fmg18Aq+sA/laJ9xdHM+m3AFuqQ0P3ORSmftKLfzF3H/1
-         spRtilEh5nKyZBoQYrEoO4QHHj0afzflI/oM8lWkE159qJvpoYWasTG2H0eX9n9MGWzn
-         UHHQ4v1P7U4SY6FF4yDAZHzyFQ68nZ0hJ3QUgbCDmKMaQ0d415tLilDd036zpvad+9co
-         YTZw==;
+        bh=pKIcE6GoeXBIyuDrXKVfe0dIRC3Ib5hok4aF2odJDyQ=;
+        fh=qVAMft49fdmVpA8kvDcxIIC7FeMq0XEzWFm/v4y/+/g=;
+        b=DuN+0LhzkF6iksKjgVmlNmje2sbDYFqHZfUiRNKIJh4xwmuys4DrBH4VTHyzRHdB+z
+         e3cL6VCJ689i3DPthpz73XahXCZtYNBVknf6qSSLf7NsGAhoN0BFV5PGRW4T4EZK3clI
+         95uhq5kwUuj3HU2OWcyTD3QaQL9ypoOUzaLCkCbzi7UHT4eJW33Sn7p0thsy6L4VYIXQ
+         7xiq0sE/aeZHcobH+17Bfwy1TdGNCdB7Cu55tr4v2bZ33on+vgKZzHIoh6KQit8SJEuL
+         zo9f+0CrLecgJM3dQFtJPKfdmaTkiDeVXIBhRJGugnVmcz4jtvo6V6yMLn+CfJrtGGP+
+         KCNA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770418069; x=1771022869; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770418217; x=1771023017; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+xzzbafv7IMwH2ifuNO4060POJWB+v1zgMFdCY/APJk=;
-        b=KWeUBFOGBoO9sLdsqaPOXLQuaUpIjOogPOILMuLMHzNVYcn3MPHiwZvkoj1AvQlNMH
-         co/e/mq7PeRkbPuic/6b1GOlqDWnyYscOFOTfUWHPu9iE0tozBWYNPH+C5lx2rXI9pKO
-         JNqbGTnNi4iXprHBf1qPRl9z9gXNW7vDnAo9sIT9ecP3+HSa3SELxsdSr8WZX5zVuguc
-         rZRO8MFA9UUZYgeA9MWoEfYFyS0PeLOxQBqMI58WQD+m+Ab37B1KfVHzZIk4QhU5smJn
-         CG6iL7xVw8/Yrr4YEtHIJEazx44ytthyblmFVe6h63lBkDz6/pYkwFKElP7YUEbYOdSN
-         MpQg==
+        bh=pKIcE6GoeXBIyuDrXKVfe0dIRC3Ib5hok4aF2odJDyQ=;
+        b=EBenC7/pYvhgt9VftkJ6bdSw/J54P0RsOVJ0hPcw6vvChUP6B7xn7sxeYoynCQcWdf
+         OjB+8MaYsTVCUotPiDeZeMaiDBq8Rx5XM0v4q7QC3K3I5VFKNkE7mngVucC64zSFUHE2
+         P6h1ARTEGoAPuxc8+/dd2nd4CibHOFwQpqz8T0SN8seS99m4HUcC5GhMQ+T5ViGpV82g
+         oEFNst3YKi2BJQtBEZpuQDkJifbUod5XAVnE14b4nip1x8sSvZqRn7/MqhfEARIP4aEB
+         EC3q2OG29GprPWWSdv4it6V7qtblXsM3cjQfJDUhw8mKNP+yv7BEAF0sDdejX6yfTyp2
+         u7fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770418069; x=1771022869;
+        d=1e100.net; s=20230601; t=1770418217; x=1771023017;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+xzzbafv7IMwH2ifuNO4060POJWB+v1zgMFdCY/APJk=;
-        b=O55Kw46Rfvdm4IymMxKGK65tsAAx7b9ysKv6oxTju4MNjfAM38qwNFUUlv4kBY98GR
-         PPLhJQPnnHqHcEZePBZBM3JW5mlPxnvX7KoqnTsRGpCLYwNahB9cZMhfRXmXaW2EYtl2
-         KV7AdcA5nAoVgoNCGgeqZr0r8+q4SXEozCOswWsGdhU9Pu+dG/DsSU0fvLAbOBuK0rae
-         12bu37lcl3ZPCTfssp2OSnX2WlL6JFUfLl92eH37eQ26qgppXHk+IaWBtu/Mdh+Pozt7
-         pM6Pk/hrw0oNNxB0LDq7D6QnUuH/WcG8hBLulElMZ2xZmcFOp8WDgdbsMFUE5vqLELRn
-         jeuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVK25A2SnqqTFEHWrqMSM2bqLCmcB3CtvQRZ+8x4tVYeDdbAqf9nknvCPvVCKv2TtTuOWqeIL4FjDk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcWwwwN2kof6quRN9dReYr/hXaYdTjCjCgnW1CZEzdMTl+zV0T
-	G+SU6mRErgrcajlQPPpLn/DPafI2TXIRppVRt03Dfhp5UnQFbVYClJzqKAkJB9lgEQUF2adOATk
-	Mn8XP7vzM0LF6KwTqAlTQiLbm9g7QhggELPx3btmH
-X-Gm-Gg: AZuq6aIByo8Tnm3sCysn+tQVVvt/F8gdCBt6mF9A6QOXS3dkyFlTU94zPvuaSZuwxrh
-	KX0Zi/xutJp2OrQDRgTU4fddnlC0Wx9wwvN51gU6s3Fg9c99CKD2dTY9f4xLQQMhrf7dLZ1Nj3l
-	zqdQNJoELFVtpRa/9USZrwfgkuv9dDaBS4SNsHfVhMtsHhHm3lCNbjTcq+TdiFvxBgkOYaV7iDK
-	M59/xAIlby/EQWmWhW8RyzHVq0QG73p4EUqU+OKXmAHbDWsqi/3WrcO/SbVu38DxTM7qSrwEpuv
-	I7+VgG61WLN00HjX/1xrny6/bQ==
-X-Received: by 2002:a05:7022:609:b0:11a:b4dc:7773 with SMTP id
- a92af1059eb24-1270eb77341mr35981c88.12.1770418068642; Fri, 06 Feb 2026
- 14:47:48 -0800 (PST)
+        bh=pKIcE6GoeXBIyuDrXKVfe0dIRC3Ib5hok4aF2odJDyQ=;
+        b=WjuKPsV20JzN8rwjud8ALHsKNpCn54TqGPO9z8B89a6tMCnNUlzOqzF9kGvPAyvzV3
+         x+t+TKmP8Rag2cVVfHDb3P9SNiblvnYtv26BlfOBKkCKtf5GfwF9hfGnyjkcqFzpQnsz
+         WI8ekE1OJv2OVODrCWs3FjEHPLA3NHo2xIb3S8gLWXVWvJyiZc0kN1OGdeb+LfwtsVJ4
+         IsCgoG2znVjXmRhGHFtaMhLBikzqw7FIn6aeln6ClryhZsit7oQFmTjoSjITL9uuglPr
+         WkweZz+lWsL5F0z5EUq8yu4h9YzzXIe5YK2+ezpl4t9e1RlN8jlwQYrahjnFnY3YkRdr
+         UALw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkKEO8/8+q3oIz2aU37ySDBX8UJbaSFOB3RSXahhe/GOk4gysvrAcWZ2+9PRV//ffCzRLU16kQIvE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3A2lTqGXHht6CMQztkzECl4qKA5rPtPUi2Kk/irch+kIoNwkE
+	xqMU/IC+2Tv1jJ2wSba/u0w2MA54JartPOGD0snpNtn+iYMdk5HrdIbFZOI8YWCP3qLmwwnWkYQ
+	punS9nqfLpGO/s1mR0Ud/RZ1n05ydrIM=
+X-Gm-Gg: AZuq6aJBhZSZ75rrjy1hiYeSUhrgGEVAozFgl7YlWFu9/WEjyuFeoypaJEqYzyZvP+f
+	uncqpm4lpb4jR1uq31ajwy7eK7a0TZUHJspDNBJsutW3G4KbmqZTlHf5XSGUuYX4Emt8i1b6pgo
+	nMhNMKIYes2uopmt/Gdd/bChvXQF1f33wMuK9vSPWVW2avpruDnWCKqZEeE+Ruqw6RNSQJI1fL6
+	e/FMkAAvqJSZvnylwK+Rd93TpGMSt8VvWDZlP2Zy7jTyNOuOzYpmk8JYOzltvCr/3qzpOxCRA9j
+	8gMlyPfnApuybQakrKpOkLs/i9L/cZ5naj4qkso2Rg0b0z4GGtBglNUUIdv1SrtZnCs7kw==
+X-Received: by 2002:adf:ea06:0:b0:436:307c:b762 with SMTP id
+ ffacd0b85a97d-436307cb87bmr1734201f8f.60.1770418216969; Fri, 06 Feb 2026
+ 14:50:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260120134256.2271710-1-chenridong@huaweicloud.com> <20260120134256.2271710-2-chenridong@huaweicloud.com>
-In-Reply-To: <20260120134256.2271710-2-chenridong@huaweicloud.com>
-From: Yuanchu Xie <yuanchu@google.com>
-Date: Fri, 6 Feb 2026 16:47:31 -0600
-X-Gm-Features: AZwV_Qj0gV48Ve3tLxFlyOkgNoDi9Hpin9IqAYTK628v4lALi6UuflSgTpYRMQQ
-Message-ID: <CAJj2-QEvrgQ+R-nc3LZ-cBfnzjakxfSgmNbqDa-RFBVOpdVaAQ@mail.gmail.com>
-Subject: Re: [RFC PATCH -next 1/7] vmscan: add memcg heat level for reclaim
-To: Chen Ridong <chenridong@huaweicloud.com>
-Cc: akpm@linux-foundation.org, axelrasmussen@google.com, weixugc@google.com, 
-	david@kernel.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, 
-	vbabka@suse.cz, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	corbet@lwn.net, skhan@linuxfoundation.org, hannes@cmpxchg.org, 
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev, 
-	zhengqi.arch@bytedance.com, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, lujialin4@huawei.com, 
-	ryncsn@gmail.com
+References: <20260206072220.144008-1-jiayuan.chen@linux.dev> <20260206072220.144008-3-jiayuan.chen@linux.dev>
+In-Reply-To: <20260206072220.144008-3-jiayuan.chen@linux.dev>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Fri, 6 Feb 2026 14:50:05 -0800
+X-Gm-Features: AZwV_QjoaGZjUJoZZAUbUNek4v2vd9XA09_63K25KesvtBZQTlzS_xae5VjsBQ0
+Message-ID: <CAKEwX=MgvCHVMOWNprWu1xbQ6=CO4ok_sywH2Cgz05aT_pdZ5A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] selftests/cgroup: add test for zswap
+ incompressible pages
+To: Jiayuan Chen <jiayuan.chen@linux.dev>
+Cc: linux-mm@kvack.org, Jiayuan Chen <jiayuan.chen@shopee.com>, Tejun Heo <tj@kernel.org>, 
+	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Yosry Ahmed <yosry.ahmed@linux.dev>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ridong,
-
-Thanks for working to reconcile the gaps between the LRU implementations.
-
-On Tue, Jan 20, 2026 at 7:57=E2=80=AFAM Chen Ridong <chenridong@huaweicloud=
-.com> wrote:
+On Thu, Feb 5, 2026 at 11:22=E2=80=AFPM Jiayuan Chen <jiayuan.chen@linux.de=
+v> wrote:
 >
-> From: Chen Ridong <chenridong@huawei.com>
+> From: Jiayuan Chen <jiayuan.chen@shopee.com>
 >
-> The memcg LRU was originally introduced to improve scalability during
-> global reclaim. However, it is complex and only works with gen lru
-> global reclaim. Moreover, its implementation complexity has led to
-> performance regressions when handling a large number of memory cgroups [1=
-].
+> Add test_zswap_incompressible() to verify that the zswap_incomp memcg
+> stat correctly tracks incompressible pages.
 >
-> This patch introduces a per-memcg heat level for reclaim, aiming to unify
-> gen lru and traditional LRU global reclaim. The core idea is to track
-> per-node per-memcg reclaim state, including heat, last_decay, and
-> last_refault. The last_refault records the total reclaimed data from the
-> previous memcg reclaim. The last_decay is a time-based parameter; the hea=
-t
-> level decays over time if the memcg is not reclaimed again. Both last_dec=
-ay
-> and last_refault are used to calculate the current heat level when reclai=
-m
-> starts.
+> The test allocates memory filled with random data from /dev/urandom,
+> which cannot be effectively compressed by zswap. When this data is
+> swapped out to zswap, it should be stored as-is and tracked by the
+> zswap_incomp counter.
 >
-> Three reclaim heat levels are defined: cold, warm, and hot. Cold memcgs a=
-re
-> reclaimed first; only if cold memcgs cannot reclaim enough pages, warm
-> memcgs become eligible for reclaim. Hot memcgs are reclaimed last.
+> The test verifies that:
+> 1. Pages are swapped out to zswap (zswpout increases)
+> 2. Incompressible pages are tracked (zswap_incomp increases)
 >
-> While this design can be applied to all memcg reclaim scenarios, this pat=
-ch
-> is conservative and only introduces heat levels for traditional LRU globa=
-l
-> reclaim. Subsequent patches will replace the memcg LRU with
-> heat-level-based reclaim.
+> test:
+> dd if=3D/dev/zero of=3D/swapfile bs=3D1M count=3D2048
+> chmod 600 /swapfile
+> mkswap /swapfile
+> swapon /swapfile
+> echo Y > /sys/module/zswap/parameters/enabled
 >
-> Based on tests provided by YU Zhao, traditional LRU global reclaim shows
-> significant performance improvement with heat-level reclaim enabled.
+> ./test_zswap
+>  TAP version 13
+>  1..8
+>  ok 1 test_zswap_usage
+>  ok 2 test_swapin_nozswap
+>  ok 3 test_zswapin
+>  ok 4 test_zswap_writeback_enabled
+>  ok 5 test_zswap_writeback_disabled
+>  ok 6 test_no_kmem_bypass
+>  ok 7 test_no_invasive_cgroup_shrink
+>  ok 8 test_zswap_incompressible
+>  Totals: pass:8 fail:0 xfail:0 xpass:0 skip:0 error:0
 >
-> The results below are from a 2-hour run of the test [2].
->
-> Throughput (number of requests)         before     after        Change
-> Total                                   1734169    2353717      +35%
->
-> Tail latency (number of requests)       before     after        Change
-> [128s, inf)                             1231       1057         -14%
-> [64s, 128s)                             586        444          -24%
-> [32s, 64s)                              1658       1061         -36%
-> [16s, 32s)                              4611       2863         -38%
-
-Do you have any numbers comparing heat-based reclaim to memcg LRU?  I
-know Johannes suggested removing memcg LRU, and what you have here
-applies to more reclaim scenarios.
-
->
-> [1] https://lore.kernel.org/r/20251126171513.GC135004@cmpxchg.org
-> [2] https://lore.kernel.org/all/20221220214923.1229538-1-yuzhao@google.co=
-m/
->
-> Signed-off-by: Chen Ridong <chenridong@huawei.com>
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
 > ---
->  include/linux/memcontrol.h |   7 ++
->  mm/memcontrol.c            |   3 +
->  mm/vmscan.c                | 227 +++++++++++++++++++++++++++++--------
->  3 files changed, 192 insertions(+), 45 deletions(-)
+>  tools/testing/selftests/cgroup/test_zswap.c | 96 +++++++++++++++++++++
+>  1 file changed, 96 insertions(+)
 >
-> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> index af352cabedba..b293caf70034 100644
-> --- a/include/linux/memcontrol.h
-> +++ b/include/linux/memcontrol.h
-> @@ -76,6 +76,12 @@ struct memcg_vmstats;
->  struct lruvec_stats_percpu;
->  struct lruvec_stats;
->
-> +struct memcg_reclaim_state {
-> +       atomic_long_t heat;
-> +       unsigned long last_decay;
-> +       atomic_long_t last_refault;
-> +};
-> +
->  struct mem_cgroup_reclaim_iter {
->         struct mem_cgroup *position;
->         /* scan generation, increased every round-trip */
-> @@ -114,6 +120,7 @@ struct mem_cgroup_per_node {
->         CACHELINE_PADDING(_pad2_);
->         unsigned long           lru_zone_size[MAX_NR_ZONES][NR_LRU_LISTS]=
-;
->         struct mem_cgroup_reclaim_iter  iter;
-> +       struct memcg_reclaim_state      reclaim;
->
->  #ifdef CONFIG_MEMCG_NMI_SAFETY_REQUIRES_ATOMIC
->         /* slab stats for nmi context */
-> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-> index f2b87e02574e..675d49ad7e2c 100644
-> --- a/mm/memcontrol.c
-> +++ b/mm/memcontrol.c
-> @@ -3713,6 +3713,9 @@ static bool alloc_mem_cgroup_per_node_info(struct m=
-em_cgroup *memcg, int node)
->
->         lruvec_init(&pn->lruvec);
->         pn->memcg =3D memcg;
-> +       atomic_long_set(&pn->reclaim.heat, 0);
-> +       pn->reclaim.last_decay =3D jiffies;
-> +       atomic_long_set(&pn->reclaim.last_refault, 0);
->
->         memcg->nodeinfo[node] =3D pn;
->         return true;
-> diff --git a/mm/vmscan.c b/mm/vmscan.c
-> index 4aa73f125772..3759cd52c336 100644
-> --- a/mm/vmscan.c
-> +++ b/mm/vmscan.c
-> @@ -5978,6 +5978,124 @@ static inline bool should_continue_reclaim(struct=
- pglist_data *pgdat,
->         return inactive_lru_pages > pages_for_compaction;
+> diff --git a/tools/testing/selftests/cgroup/test_zswap.c b/tools/testing/=
+selftests/cgroup/test_zswap.c
+> index 64ebc3f3f203..8cb8a131357d 100644
+> --- a/tools/testing/selftests/cgroup/test_zswap.c
+> +++ b/tools/testing/selftests/cgroup/test_zswap.c
+> @@ -5,6 +5,7 @@
+>  #include <unistd.h>
+>  #include <stdio.h>
+>  #include <signal.h>
+> +#include <fcntl.h>
+>  #include <sys/sysinfo.h>
+>  #include <string.h>
+>  #include <sys/wait.h>
+> @@ -574,6 +575,100 @@ static int test_no_kmem_bypass(const char *root)
+>         return ret;
 >  }
 >
-> +enum memcg_scan_level {
-> +       MEMCG_LEVEL_COLD,
-> +       MEMCG_LEVEL_WARM,
-> +       MEMCG_LEVEL_HOT,
-> +       MEMCG_LEVEL_MAX,
-> +};
-> +
-> +#define MEMCG_HEAT_WARM                4
-> +#define MEMCG_HEAT_HOT         8
-> +#define MEMCG_HEAT_MAX         12
-> +#define MEMCG_HEAT_DECAY_STEP  1
-> +#define MEMCG_HEAT_DECAY_INTERVAL      (1 * HZ)
-I agree with Kairui; I'm somewhat concerned about this fixed decay
-interval and how it behaves with many memcgs or heavy pressure.
-
-> +
-> +static void memcg_adjust_heat(struct mem_cgroup_per_node *pn, long delta=
-)
+> +static int allocate_random_and_wait(const char *cgroup, void *arg)
 > +{
-> +       long heat, new_heat;
+> +       size_t size =3D (size_t)arg;
+> +       char *mem;
+> +       int fd;
+> +       ssize_t n;
 > +
-> +       if (mem_cgroup_is_root(pn->memcg))
-> +               return;
+> +       mem =3D malloc(size);
+> +       if (!mem)
+> +               return -1;
 > +
-> +       heat =3D atomic_long_read(&pn->reclaim.heat);
-> +       do {
-> +               new_heat =3D clamp_t(long, heat + delta, 0, MEMCG_HEAT_MA=
-X);
-> +               if (atomic_long_cmpxchg(&pn->reclaim.heat, heat, new_heat=
-) =3D=3D heat)
-> +                       break;
-> +               heat =3D atomic_long_read(&pn->reclaim.heat);
-> +       } while (1);
-> +}
-> +
-> +static void memcg_decay_heat(struct mem_cgroup_per_node *pn)
-> +{
-> +       unsigned long last;
-> +       unsigned long now =3D jiffies;
-> +
-> +       if (mem_cgroup_is_root(pn->memcg))
-> +               return;
-> +
-> +       last =3D READ_ONCE(pn->reclaim.last_decay);
-> +       if (!time_after(now, last + MEMCG_HEAT_DECAY_INTERVAL))
-> +               return;
-> +
-> +       if (cmpxchg(&pn->reclaim.last_decay, last, now) !=3D last)
-> +               return;
-> +
-> +       memcg_adjust_heat(pn, -MEMCG_HEAT_DECAY_STEP);
-> +}
-> +
-> +static int memcg_heat_level(struct mem_cgroup_per_node *pn)
-> +{
-> +       long heat;
-> +
-> +       if (mem_cgroup_is_root(pn->memcg))
-> +               return MEMCG_LEVEL_COLD;
-> +
-> +       memcg_decay_heat(pn);
-The decay here is somewhat counterintuitive given the name memcg_heat_level=
-.
-
-> +       heat =3D atomic_long_read(&pn->reclaim.heat);
-> +
-> +       if (heat >=3D MEMCG_HEAT_HOT)
-> +               return MEMCG_LEVEL_HOT;
-> +       if (heat >=3D MEMCG_HEAT_WARM)
-> +               return MEMCG_LEVEL_WARM;
-> +       return MEMCG_LEVEL_COLD;
-> +}
-> +
-> +static void memcg_record_reclaim_result(struct mem_cgroup_per_node *pn,
-> +                                       struct lruvec *lruvec,
-> +                                       unsigned long scanned,
-> +                                       unsigned long reclaimed)
-> +{
-> +       long delta;
-> +
-> +       if (mem_cgroup_is_root(pn->memcg))
-> +               return;
-> +
-> +       memcg_decay_heat(pn);
-Could you combine the decay and adjust later in this function?
-
-> +
-> +       /*
-> +        * Memory cgroup heat adjustment algorithm:
-> +        * - If scanned =3D=3D 0: mark as hottest (+MAX_HEAT)
-> +        * - If reclaimed >=3D 50% * scanned: strong cool (-2)
-> +        * - If reclaimed >=3D 25% * scanned: mild cool (-1)
-> +        * - Otherwise:  warm up (+1)
-> +        */
-> +       if (!scanned)
-> +               delta =3D MEMCG_HEAT_MAX;
-> +       else if (reclaimed * 2 >=3D scanned)
-> +               delta =3D -2;
-> +       else if (reclaimed * 4 >=3D scanned)
-> +               delta =3D -1;
-> +       else
-> +               delta =3D 1;
-> +
-> +       /*
-> +        * Refault-based heat adjustment:
-> +        * - If refault increase > reclaimed pages: heat up (more cautiou=
-s reclaim)
-> +        * - If no refaults and currently warm:     cool down (allow more=
- reclaim)
-> +        * This prevents thrashing by backing off when refaults indicate =
-over-reclaim.
-> +        */
-> +       if (lruvec) {
-> +               unsigned long total_refaults;
-> +               unsigned long prev;
-> +               long refault_delta;
-> +
-> +               total_refaults =3D lruvec_page_state(lruvec, WORKINGSET_A=
-CTIVATE_ANON);
-> +               total_refaults +=3D lruvec_page_state(lruvec, WORKINGSET_=
-ACTIVATE_FILE);
-> +
-> +               prev =3D atomic_long_xchg(&pn->reclaim.last_refault, tota=
-l_refaults);
-> +               refault_delta =3D total_refaults - prev;
-> +
-> +               if (refault_delta > reclaimed)
-> +                       delta++;
-> +               else if (!refault_delta && delta > 0)
-> +                       delta--;
+> +       /* Fill with random data from /dev/urandom - incompressible */
+> +       fd =3D open("/dev/urandom", O_RDONLY);
+> +       if (fd < 0) {
+> +               free(mem);
+> +               return -1;
 > +       }
-
-I think this metric is based more on the memcg's reclaimability than
-on heat. Though the memcgs are grouped based on absolute metrics and
-not relative to others.
-
 > +
-> +       memcg_adjust_heat(pn, delta);
+> +       for (size_t i =3D 0; i < size; ) {
+> +               n =3D read(fd, mem + i, size - i);
+> +               if (n <=3D 0)
+> +                       break;
+> +               i +=3D n;
+> +       }
+> +       close(fd);
+> +
+> +       /* Touch all pages to ensure they're faulted in */
+> +       for (size_t i =3D 0; i < size; i +=3D 4096)
+> +               mem[i] =3D mem[i];
+> +
+> +       /* Keep memory alive for parent to reclaim and check stats */
+> +       pause();
+> +       free(mem);
+> +       return 0;
 > +}
 > +
->  static void shrink_node_memcgs(pg_data_t *pgdat, struct scan_control *sc=
-)
->  {
-> ...snip
->  }
+> +static long get_zswap_incomp(const char *cgroup)
+> +{
+> +       return cg_read_key_long(cgroup, "memory.stat", "zswap_incomp ");
+> +}
+> +
+> +/*
+> + * Test that incompressible pages (random data) are tracked by zswap_inc=
+omp.
+> + *
+> + * Since incompressible pages stored in zswap are charged at full PAGE_S=
+IZE
+> + * (no memory savings), we cannot rely on memory.max pressure to push th=
+em
+> + * into zswap. Instead, we allocate random data within memory.max, then =
+use
+> + * memory.reclaim to proactively push pages into zswap while checking th=
+e stat
+> + * before the child exits (zswap_incomp is a gauge that decreases on fre=
+e).
 
-Thanks,
-Yuanchu
+I wonder if we can do MADV_PAGEOUT? Anyway, I'm fine with memory.reclaim to=
+o.
+
+> + */
+> +static int test_zswap_incompressible(const char *root)
+> +{
+> +       int ret =3D KSFT_FAIL;
+> +       char *test_group;
+> +       long zswap_incomp;
+> +       pid_t child_pid;
+> +       int child_status;
+> +
+> +       test_group =3D cg_name(root, "zswap_incompressible_test");
+> +       if (!test_group)
+> +               goto out;
+> +       if (cg_create(test_group))
+> +               goto out;
+> +       if (cg_write(test_group, "memory.max", "32M"))
+> +               goto out;
+> +
+> +       child_pid =3D cg_run_nowait(test_group, allocate_random_and_wait,
+> +                                 (void *)MB(4));
+> +       if (child_pid < 0)
+> +               goto out;
+> +
+> +       /* Wait for child to finish allocating */
+> +       usleep(500000);
+> +
+> +       /* Proactively reclaim to push random pages into zswap */
+> +       cg_write_numeric(test_group, "memory.reclaim", MB(4));
+> +
+> +       zswap_incomp =3D get_zswap_incomp(test_group);
+> +       if (zswap_incomp <=3D 0) {
+> +               ksft_print_msg("zswap_incomp not increased: %ld\n", zswap=
+_incomp);
+> +               goto out_kill;
+> +       }
+> +
+> +       ret =3D KSFT_PASS;
+> +
+> +out_kill:
+> +       kill(child_pid, SIGTERM);
+> +       waitpid(child_pid, &child_status, 0);
+> +out:
+> +       cg_destroy(test_group);
+> +       free(test_group);
+> +       return ret;
+> +}
+
+LGTM :)
+
+Acked-by: Nhat Pham <nphamcs@gmail.com>
