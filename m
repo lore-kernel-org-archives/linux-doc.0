@@ -1,146 +1,117 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D85017736;
-	Fri,  6 Feb 2026 14:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7A83A900B;
+	Fri,  6 Feb 2026 14:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770386617; cv=none; b=U7RkXs0l4ttoutjcqFO4a+M6l56acfs4skJ1KOKIqntKFpl041fq95B/w6isM4kVRCv0+ROAiGwMjYyShKAiBoFYk8moahBM624F91Ifj8/CNqELJ289e8f6BI4UVvsb0WUO4s3uI1fvfTnOH6u4ax8TlKdvC7kh+zAm61NHRjA=
+	t=1770386711; cv=none; b=TGyoIVO6No6agq23L+HrWppUmefEAjSpNScaT8WlCP0DYB6O+DhLHg/dyyXh+9SWZbWxp5jkjNnCsC28g8uWrwdVHx2R83CiZ+Yl5+dnY7CssZPeeEPDTDKN/5PCKFzt2jQPFdxlC51XF1LoubnGL7f51TY3oAhLYCF/cQ83zvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770386617; c=relaxed/simple;
-	bh=pkBlRcZDg35pLCdafh0SnKa2v20xt5AJZlxoB437QSM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=JFCmrrleDI4K5qncpdUEtwopzbw3Al8V670DLm+MXBknToMxBeQmy9pIcRqfySXhEc18eNLJ90PujGgF5kEwnQfvszaIs9zHsy/YXO5vbzOhr/JY5CXGcjQ54+dJysUk1NK35a8mPIPTTk0Ou4VMvs7VmnNKattdXjA3RIx7Qbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=fRJJ3L5r; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1770386711; c=relaxed/simple;
+	bh=TaPvEsWxvpYYOThGeX1+fx1sD+0RPf/kwBUPBJTjDY4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XksL90RQ1haizYdMrb5o3drdVPNKVVK/MBEWBRJjWorQKxsRcCeR0uLNC41/AlrN5TnPocjptuoKsFKT0teYARKHeoxHZmaq4SkWFS3czxwutOCD0Icv7flbRD3TxgULSl6pe3PV9wO3m3mo3b80k0g2SEmkXWLZSto34xuwu5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IauM6qxA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="fRJJ3L5r"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id E43D726F31;
-	Fri,  6 Feb 2026 15:03:35 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id niDGZJYQso_o; Fri,  6 Feb 2026 15:03:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1770386608; bh=pkBlRcZDg35pLCdafh0SnKa2v20xt5AJZlxoB437QSM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fRJJ3L5rsKk+doMNzH7Dj0xaCIM2ycpgTeBLv306h4ERH6CMz3hniAwJP/K4H3XZN
-	 nmU/FuLzCeK4PPGsuKhLDEnpnKk13bXsjP1Ja0RoQGgP8P88mm4sHUnLtso0Af7FMo
-	 UBZw08hX1HvwVYMzVqnHSLjkS7VGMHZGrDENq1Q3Rwkyn/PXVHLBGnfhVg0ZgeVbRm
-	 c3O6EbLYxZuXJAjDxipAyXwGzwvsixlbishcAmKawnGFexuhLBiZOvFX2DYPq0/Oxt
-	 kLMnXhH1UU+ljRlSd5Swdgb6Aho64kUnxqoXrYwoW628ZlfqFDYd/kGiZW6ZKPR0zv
-	 UlK9wULJ+ATUw==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IauM6qxA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEEE2C116C6;
+	Fri,  6 Feb 2026 14:05:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770386711;
+	bh=TaPvEsWxvpYYOThGeX1+fx1sD+0RPf/kwBUPBJTjDY4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IauM6qxASUz/Fo2EiCWex3fCTVey671ArIsYwK+3iWyqrXjBxzIIu0605avahH/xr
+	 bSczKKlSeMkMSaXRdtdNAm4UwaNkQISaJ4zChYTk8plrSLGlCORmAIB3y7aPZDe4W3
+	 OMLxLp8FrcOjYrrUT+1D4xG/ZcuP8aTy+c8DrQT5CEluNQJ8y+by7nO9V4JKFd8kDf
+	 gUyBwVFXjeV1lcwrd19xHwLadFcEVKvrpaQx8sJ5EyzqWQJtC6tjjnUlX2y38QsmVO
+	 NavvJ2C/rmXxkBKX2/nuo7Rir0p9ae99WqUXRqq6JjEHoeddDS8lKaqWyY5NfewNXW
+	 EeLaCc7mQMLFw==
+Date: Fri, 6 Feb 2026 15:05:08 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	Andri Yngvason <andri@yngvason.is>, Werner Sembach <wse@tuxedocomputers.com>, 
+	Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v7 02/22] drm: Add new general DRM property "color format"
+Message-ID: <20260206-deft-provocative-perch-6ca9bf@houat>
+References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <20260121-color-format-v7-2-ef790dae780c@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="tlakrgvje6y2sbf2"
+Content-Disposition: inline
+In-Reply-To: <20260121-color-format-v7-2-ef790dae780c@collabora.com>
+
+
+--tlakrgvje6y2sbf2
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Feb 2026 19:33:12 +0530
-Message-Id: <DG7XO4R0QY9W.13JQE6RFCSY5N@disroot.org>
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-To: "Kaustabh Chakraborty" <kauschluss@disroot.org>, "Rob Herring"
- <robh@kernel.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "MyungJoo Ham" <myungjoo.ham@samsung.com>, "Chanwoo
- Choi" <cw00.choi@samsung.com>, "Sebastian Reichel" <sre@kernel.org>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, <linux-leds@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-pm@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
- <linux-rtc@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 02/12] dt-bindings: leds: document Samsung S2M series
- PMIC RGB LED device
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
- <20260126-s2mu005-pmic-v2-2-78f1a75f547a@disroot.org>
- <20260206133837.GA157817-robh@kernel.org>
- <DG7XJ6T9I7HU.1UVHH2QWX31O1@disroot.org>
-In-Reply-To: <DG7XJ6T9I7HU.1UVHH2QWX31O1@disroot.org>
+Subject: Re: [PATCH v7 02/22] drm: Add new general DRM property "color format"
+MIME-Version: 1.0
 
-On 2026-02-06 19:26 +05:30, Kaustabh Chakraborty wrote:
-> On 2026-02-06 07:38 -06:00, Rob Herring wrote:
->> On Mon, Jan 26, 2026 at 12:37:09AM +0530, Kaustabh Chakraborty wrote:
->>> Certain Samsung S2M series PMICs have a three-channel LED device with
->>> independent brightness control for each channel, typically used as
->>> status indicators in mobile phones. Document the devicetree schema from
->>> this device.
->>>=20
->>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->>> ---
->>>  .../bindings/leds/samsung,s2mu005-rgb.yaml         | 34 ++++++++++++++=
-++++++++
->>>  1 file changed, 34 insertions(+)
->>>=20
->>> diff --git a/Documentation/devicetree/bindings/leds/samsung,s2mu005-rgb=
-.yaml b/Documentation/devicetree/bindings/leds/samsung,s2mu005-rgb.yaml
->>> new file mode 100644
->>> index 0000000000000..6806b6d869ff7
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/leds/samsung,s2mu005-rgb.yaml
->>> @@ -0,0 +1,34 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/leds/samsung,s2mu005-rgb.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: RGB LED Controller for Samsung S2M series PMICs
->>> +
->>> +maintainers:
->>> +  - Kaustabh Chakraborty <kauschluss@disroot.org>
->>> +
->>> +description: |
->>> +  The Samsung S2M series PMIC RGB LED is a three-channel LED device wi=
-th
->>> +  8-bit brightness control for each channel, typically used as status
->>> +  indicators in mobile phones.
->>> +
->>> +  This is a part of device tree bindings for S2M and S5M family of Pow=
-er
->>> +  Management IC (PMIC).
->>> +
->>> +  See also Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml =
-for
->>> +  additional information and example.
->>> +
->>> +allOf:
->>> +  - $ref: common.yaml#
->>
->> This looks a bit lacking. Don't you need 3 child nodes for each or=20
->> reference to the multi-color schema?
->
-> 	rgb {
-> 		compatible =3D "samsung,s2mu005-rgb";
-> 		label =3D "notification:rgb:indicator";
-> 		color =3D <LED_COLOR_ID_RGB>;
-> 		function =3D LED_FUNCTION_INDICATOR;
-> 		linux,default-trigger =3D "pattern";
-> 	};
->
+Hi,
 
-Message got deleted somehow? Anyways, the device has three channels but
-a single LED, but is controlled by a single driver interface only. The
-channels are not independent.
+On Wed, Jan 21, 2026 at 03:45:09PM +0100, Nicolas Frattaroli wrote:
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 7eaec37ae1c7..b5604dca728a 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -556,6 +556,16 @@ enum drm_colorspace {
+>  	DRM_MODE_COLORIMETRY_COUNT
+>  };
+> =20
+> +enum drm_color_format {
+> +	DRM_COLOR_FORMAT_AUTO			=3D 0,
+> +	DRM_COLOR_FORMAT_RGB444			=3D BIT(0),
+> +	DRM_COLOR_FORMAT_YCBCR444		=3D BIT(1),
+> +	DRM_COLOR_FORMAT_YCBCR422		=3D BIT(2),
+> +	DRM_COLOR_FORMAT_YCBCR420		=3D BIT(3),
+> +};
+> +
+> +#define DRM_COLOR_FORMAT_COUNT 5
+> +
 
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - samsung,s2mu005-rgb
->>> +
->>> +required:
->>> +  - compatible
->>> +
->>> +unevaluatedProperties: false
->>>=20
->>> --=20
->>> 2.52.0
->>>=20
+I don't really see a reason to expose an enum, with a bunch of values
+that are all mutually exclusive, as a bitmask. It's pretty inconsistent
+with most (all?) the other similar properties we have.
 
+I appreciate you did that to avoid fixing up every driver using those
+values, but then maybe we don't have to? We could create a userspace
+facing enum, and convert to DRM_COLOR_FORMAT internally.
+
+Maxime
+
+--tlakrgvje6y2sbf2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYX1EAAKCRAnX84Zoj2+
+dm20AYC5qAkdhJdQsWaSZelEFrrJKVRqs5zBtYWPBOAMRObg77mefUoSO3ktgK9d
+TYXfpzUBgPXlGrYnILXs7XVYlFu//eO6ufmogZ3qIYuVKGT1yKooE8WKx/MfpzM3
+iY+f6mFzuA==
+=GGG7
+-----END PGP SIGNATURE-----
+
+--tlakrgvje6y2sbf2--
