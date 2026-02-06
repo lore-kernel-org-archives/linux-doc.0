@@ -1,128 +1,325 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACF82D9782;
-	Fri,  6 Feb 2026 16:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245802D97AB;
+	Fri,  6 Feb 2026 16:56:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770396937; cv=none; b=txctyOAqK24MqCUq/TxG0u36aAGe7CMmXbPQpgxWsqnTSMUd58EEtVqqp212ZACqYpdu7zvax8KfKXN18EuiLHWJh1j7YbQ4bUMxu9jBtPl2h32EDXgEPDJgpXkMu1Fgu7p+ItsxmNOeknrZuIx17anQpH0Z/gePI8VTVtv9Fks=
+	t=1770396968; cv=none; b=PMQ1hfeOx349b16/iycHYYoZDYFY1Tprn87dgMB0KuHxUzqBBzJbHqKSjabpKJ6kQEI0ttpBvVreCuaGdCDF/l5fPq5c0QzvEOjtni01mkcl5iiOJ86AGLBpi0vUfrlWwPWLaXQDdcwzqIbsMk9lgg4EXbgfumkdoYUCSSGd+Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770396937; c=relaxed/simple;
-	bh=VAGbAjFRLgzEG5qlKmMk/Zx3k/7uGzz80gHCBWr+3YM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=URJF7jpqDiVf+abZma4iCMPrcDnafKTLPdQi+o12dSwE8KoWNXOVmF8J9kSkN9tFkUfYnXbwT8DXHak2H4fcoxzEjy5Ic8FWmehhhLrI6qR8nFUZOR0l4Wa6kALRA88e8P61ldt0qdDbiMzdJvASVxFdDGfvHnhDLucCrbOiOj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UAOSvIpd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770396968; c=relaxed/simple;
+	bh=LsNBcsYpQWNxZY+OYcBUkLQDjrOQsTsu3TCa53EHVOY=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=uXfWOBr/lOD2qqQ3NahE14YxGoO8lKho4jdOtYdlKbG2auHTIAXW5mzz56KcIEy03JUYfkopoElnevLi9lBX9Tq85nDVtkJ3LiKLZVWp4l3ZEgogcl4+CcS8TBdPIa1ILTZAiP3dI4ODufQHdYcWA3a/zoEYJ4z+cJ8JgqdAFAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=CQ5AcyTN; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UAOSvIpd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0967CC116C6;
-	Fri,  6 Feb 2026 16:55:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770396937;
-	bh=VAGbAjFRLgzEG5qlKmMk/Zx3k/7uGzz80gHCBWr+3YM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UAOSvIpdYYuU9nUSq3XQaGn0LmZo1zdo8cpsXdhcy/5+buUK8zBKivWJsZPShl3Kg
-	 f5RA9zd4uql69vajRUYOVZNfjSIW4oFbpNGNHwlOMbpBJaGopEMpUT5FYz3VNhSTwt
-	 pmEibAdW3g0B2sNOSy+0evb/hbSJSbAjG6ZWvvE/MaZvTl84jyatYazqPdLZP+h0Os
-	 WthU2pI0uTbd5x3zQmfbJGk3msNrDgOy4EDJxHTmSwZnjndOVuOHwOVguHRRuy6fvR
-	 yC9IIWPr2xTNg2LskXggRB4b2xcQUBJvxOcZ930qeNcb3Mzi5SNECuoTdjrU3YfAiB
-	 ovbxroxvUjeAw==
-Message-ID: <26a84810-df70-47b7-a60a-2b74babcd73e@kernel.org>
-Date: Fri, 6 Feb 2026 17:55:33 +0100
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="CQ5AcyTN"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 6168kGFG030403;
+	Fri, 6 Feb 2026 16:55:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=WDHuhm
+	ii8UVkJ/u8uQhZujlayEcsbkKUhzG4qNcIQjA=; b=CQ5AcyTN4H06maY9nH2FS4
+	7GMcCXQ1/qBxmFKoGlzFPdyx+USKHv8TznXLFuHFMriZdI4rjVxHO11d1mvYBWz8
+	wFTMqpCCyPVViA5RD/8My7Dc7hfHDQ7t7s2tCdj6JkGCdn/XTewQCnWtGu++MonF
+	sEhtAeEtnQIu4q1+QDsGsxxWSdOekL4nRYmdTykhWGkWhsXD83DsQz0YZs8Qtz6i
+	7kGp74JVlDksLqKgxjpSsYEwfssEWWBdYUyhXVmXeRNKovOgGfe2wh2/u6+zu5xQ
+	uUdZjF12UeFKn5CVmqSBI+PpqwdTb1vbJl1SCUC/mjdXa4HMCgNOt89K39YlU3zA
+	==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c19cwh9fu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Feb 2026 16:55:32 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 616GtVYL022433;
+	Fri, 6 Feb 2026 16:55:31 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c19cwh9fs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Feb 2026 16:55:31 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 616FwN8T009156;
+	Fri, 6 Feb 2026 16:55:31 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4c1veyf2p6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 06 Feb 2026 16:55:31 +0000
+Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 616GtUnW31654490
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 6 Feb 2026 16:55:30 GMT
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4453D58052;
+	Fri,  6 Feb 2026 16:55:30 +0000 (GMT)
+Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B9BE758065;
+	Fri,  6 Feb 2026 16:55:22 +0000 (GMT)
+Received: from smtpclient.apple (unknown [9.61.249.149])
+	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTPS;
+	Fri,  6 Feb 2026 16:55:22 +0000 (GMT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] add support in hwmon for MCP998X
-To: victor.duicu@microchip.com, linux@roeck-us.net, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net
-Cc: marius.cristea@microchip.com, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260127151823.9728-1-victor.duicu@microchip.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260127151823.9728-1-victor.duicu@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 27/01/2026 16:18, victor.duicu@microchip.com wrote:
-> From: Victor Duicu <victor.duicu@microchip.com>
-> 
-> Add support in hwmon for Microchip MCP998X/33 and MCP998XD/33D Multichannel
-> Automotive Temperature Monitor Family.
-> 
-> The chips in the family have different numbers of external channels,
-> ranging from 1 (MCP9982) to 4 channels (MCP9985).
-> Reading diodes in anti-parallel connection is supported by MCP9984/85/33
-> and MCP9984D/85D/33D. Dedicated hardware shutdown circuitry is present
-> only in MCP998XD and MCP9933D.
-> 
-> The driver supports reading the temperature channels, the temperature
-> limits and their corresponding alarms. The user can set the limits,
-> the update interval and the hysteresis.
-> 
-> This driver is based on the IIO driver for MCP998X:
-> https://lore.kernel.org/all/20250930133131.13797-1-victor.duicu@microchip.com/
-> 
-> Differences related to previous patch:
-> v3:
-
-That's v9 and I already asked you to start numbering this correctly and
-include ENTIRE previous changelog.
-
-What's more important you ignored several people's feedback over the
-time. Did not implement it and did not respond to it. These were several
-people, David, me, Andy, Jonathan - you ignored all of them?
-
-Lack of responses from you mean this review is pointless and I will be
-just NAKing your patches.
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
+Subject: Re: [PATCH V3 0/3] Rust support for powerpc
+From: Venkat <venkat88@linux.ibm.com>
+In-Reply-To: <20260205180429.3280657-1-mkchauras@gmail.com>
+Date: Fri, 6 Feb 2026 22:25:09 +0530
+Cc: linkmauve@linkmauve.fr, ojeda@kernel.org, boqun.feng@gmail.com,
+        gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+        a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
+        dakr@kernel.org, corbet@lwn.net, maddy@linux.ibm.com,
+        mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
+        peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com,
+        rostedt@goodmis.org, ardb@kernel.org, rust-for-linux@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <F9EAA7DA-7CD3-43CB-8C6A-671E519BC963@linux.ibm.com>
+References: <20260205180429.3280657-1-mkchauras@gmail.com>
+To: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
+X-Mailer: Apple Mail (2.3864.300.41.1.7)
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA2MDEyMyBTYWx0ZWRfXwQTrGuZHHBJd
+ rJ/l6bwnIOM33g7LpWXX1Sf23d9MANX9kF+jOK8SopJVeeAsYCm3oUOt47JyvRBoWb/PV5Ccewj
+ r21oBgsA+KHDBOnXwMPwD2WeBbOhjb0MDgjR83F09QzHrHP8r8TLkbFzl6svvqXOEnZwY2xEn8A
+ di8O1weRYpZxe+Fa36aUQ/uW+keWXRc4/qZA55LggQTIQjxBbFses6ZaAECyeezx3x4vT901MWt
+ yKLniss4i/ptrhFadDUiqcYqt2bSo9aJLkJfTpoPY/WMmGV/GEUZAI1MVgqJcP8cagHeNDMwtuK
+ BIpf1fxZdK4B5Keg+lRP1ciI1jACGOKf/jbaroPydSmy4rCz0CgfiugY1hUBv1l5NxLjlDIGsmx
+ u4j5L0VAp5Tt5D8ETIJmYZi6j+m0Xy0afSBI6eRxDx5JDL14V43nZcb2QjNmc7A1nWehoQEC/6Z
+ OVWJ82DaqWszZqw07nQ==
+X-Authority-Analysis: v=2.4 cv=UuRu9uwB c=1 sm=1 tr=0 ts=69861d04 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
+ a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=2MjLW5cuPvDTUXhGF14A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: rKAbCXQU6ntD18MJSrVnl-2QzwLCgd6Q
+X-Proofpoint-GUID: cQ4oq6Q_JzgXBg9zPMTZqe32qENXp67y
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-06_05,2026-02-05_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 adultscore=0 clxscore=1015 phishscore=0
+ malwarescore=0 lowpriorityscore=0 priorityscore=1501 impostorscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2601150000
+ definitions=main-2602060123
 
 
-Best regards,
-Krzysztof
+
+> On 5 Feb 2026, at 11:34=E2=80=AFPM, Mukesh Kumar Chaurasiya (IBM) =
+<mkchauras@gmail.com> wrote:
+>=20
+> Enable experimental rust support for ppc64le and ppc32be. The patch =
+for
+> ppc32 has been provided by Link Mauve[1] and ppc64le support[2] has =
+been=20
+> merged over it. ppc32 needs some toolchain fixes mentioned in the =
+patch=20
+> `rust: Add PowerPC support` and the discussion for that is done =
+here[1].=20
+>=20
+> This has been tested on powernv9 hardware and power10 pseries qemu. I
+> I request Link to test the ppc32 part as i don't have a hardware to =
+test
+> it out.=20
+>=20
+> [1] =
+https://lore.kernel.org/all/20260204030507.8203-1-linkmauve@linkmauve.fr
+> [2] =
+https://lore.kernel.org/all/20260204042417.83903-1-mkchauras@gmail.com
+>=20
+> Changelog:
+> V2 -> V3:
+> - Splited HAVE_RUST in 2 lines
+> - BINDGEN_TARGET_powerpc initialized before assigning the same to
+>  BINDGEN_TARGET
+> V2: =
+https://lore.kernel.org/all/20260204210125.613350-1-mkchauras@gmail.com
+>=20
+> V1 -> V2:
+> - jump label fix for rust has been moved to a separate patch
+> - PPC32 support has been taken
+> - rust support has been marked experimental
+> - target.json dependency has been removed
+> - HAVE_RUST now depends on CPU_LITTLE_ENDIAN for PPC64
+>=20
+> Link Mauve (1):
+>  rust: Add PowerPC support
+>=20
+> Mukesh Kumar Chaurasiya (IBM) (2):
+>  powerpc/jump_label: adjust inline asm to be consistent
+>  powerpc: Enable Rust for ppc64le
+>=20
+> Documentation/rust/arch-support.rst   |  1 +
+> arch/powerpc/Kconfig                  |  2 ++
+> arch/powerpc/Makefile                 |  9 +++++++++
+> arch/powerpc/include/asm/jump_label.h | 23 +++++++++++++----------
+> rust/Makefile                         | 12 +++++++++++-
+> 5 files changed, 36 insertions(+), 11 deletions(-)
+>=20
+> --=20
+> 2.52.0
+>=20
+
+Tested this patch set, by applying on mainline kernel. Attached is the =
+.config file used.
+
+Please add below tag.
+
+Tested-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
+
+Logs:
+
+rustc --version
+rustc 1.95.0-nightly (e96bb7e44 2026-01-27)
+
+llvm-18.1.8-3.el9.ppc64le
+
+sudo insmod samples/rust/rust_minimal.ko
+[   39.532119] rust_minimal: loading out-of-tree module taints kernel.
+[   39.532132] rust_minimal: module verification failed: signature =
+and/or required key missing - tainting kernel
+[   39.532856] rust_minimal: Rust minimal sample (init)
+[   39.532860] rust_minimal: Am I built-in? false
+[   39.532864] rust_minimal: test_parameter: 1
+# dmesg | tail -n 30
+[    3.418850] systemd[1]: Mounted Kernel Trace File System.
+[    3.419194] systemd[1]: Finished Create List of Static Device Nodes.
+[    3.419482] systemd[1]: modprobe@configfs.service: Deactivated =
+successfully.
+[    3.419647] systemd[1]: Finished Load Kernel Module configfs.
+[    3.419913] systemd[1]: modprobe@drm.service: Deactivated =
+successfully.
+[    3.420056] systemd[1]: Finished Load Kernel Module drm.
+[    3.420405] systemd[1]: Finished Read and set NIS domainname from =
+/etc/sysconfig/network.
+[    3.420694] systemd[1]: Finished Generate network units from Kernel =
+command line.
+[    3.422214] systemd[1]: Mounting Kernel Configuration File System...
+[    3.423543] systemd[1]: Finished Apply Kernel Variables.
+[    3.424011] systemd[1]: Mounted Kernel Configuration File System.
+[    3.430589] systemd[1]: Started Journal Service.
+[    3.477706] fuse: init (API version 7.45)
+[    3.548678] EXT4-fs (sda3): re-mounted =
+78691517-64fe-451b-9009-14359b774643 r/w.
+[    3.556791] systemd-journald[640]: Received client request to flush =
+runtime journal.
+[    3.681167] Adding 10485696k swap on /dev/sda2.  Priority:-1 =
+extents:1 across:10485696k SS
+[    3.693490] pseries_rng: Registering IBM pSeries RNG driver
+[    3.693904] cryptd: max_cpu_qlen set to 1000
+[    4.702590] RPC: Registered named UNIX socket transport module.
+[    4.702604] RPC: Registered udp transport module.
+[    4.702607] RPC: Registered tcp transport module.
+[    4.702609] RPC: Registered tcp-with-tls transport module.
+[    4.702612] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    6.701147] block sda: the capability attribute has been deprecated.
+[   10.150485] fbcon: Taking over console
+[   39.532119] rust_minimal: loading out-of-tree module taints kernel.
+[   39.532132] rust_minimal: module verification failed: signature =
+and/or required key missing - tainting kernel
+[   39.532856] rust_minimal: Rust minimal sample (init)
+[   39.532860] rust_minimal: Am I built-in? false
+[   39.532864] rust_minimal: test_parameter: 1
+# sudo rmmod rust_minimal
+[ 4125.461822] rust_minimal: My numbers are [72, 108, 200]
+[ 4125.461839] rust_minimal: Rust minimal sample (exit)
+# sudo insmod samples/rust/rust_print.ko
+[ 4142.492146] rust_print: Rust printing macros sample (init)
+[ 4142.492158] rust_print: Emergency message (level 0) without args
+[ 4142.492161] rust_print: Alert message (level 1) without args
+[ 4142.492163] rust_print: Critical message (level 2) without args
+[ 4142.492166] rust_print: Error message (level 3) without args
+[ 4142.492169] rust_print: Warning message (level 4) without args
+[ 4142.492171] rust_print: Notice message (level 5) without args
+[ 4142.492174] rust_print: Info message (level 6) without args
+[ 4142.492176] rust_print: A line that is continued without args
+[ 4142.492181] rust_print: Emergency message (level 0) with args
+[ 4142.492185] rust_print: Alert message (level 1) with args
+[ 4142.492188] rust_print: Critical message (level 2) with args
+[ 4142.492190] rust_print: Error message (level 3) with args
+[ 4142.492193] rust_print: Warning message (level 4) with args
+[ 4142.492195] rust_print: Notice message (level 5) with args
+[ 4142.492197] rust_print: Info message (level 6) with args
+[ 4142.492200] rust_print: A line that is continued with args
+[ 4142.492205] rust_print: 1
+[ 4142.492206] rust_print: "hello, world"
+[ 4142.492208] rust_print: [rust_print_main.rs:35:5] c =3D "hello, =
+world"
+[ 4142.492213] rust_print: Arc<dyn Display> says 42
+[ 4142.492214] rust_print: Arc<dyn Display> says hello, world
+# dmesg | tail -n 50
+[    3.419913] systemd[1]: modprobe@drm.service: Deactivated =
+successfully.
+[    3.420056] systemd[1]: Finished Load Kernel Module drm.
+[    3.420405] systemd[1]: Finished Read and set NIS domainname from =
+/etc/sysconfig/network.
+[    3.420694] systemd[1]: Finished Generate network units from Kernel =
+command line.
+[    3.422214] systemd[1]: Mounting Kernel Configuration File System...
+[    3.423543] systemd[1]: Finished Apply Kernel Variables.
+[    3.424011] systemd[1]: Mounted Kernel Configuration File System.
+[    3.430589] systemd[1]: Started Journal Service.
+[    3.477706] fuse: init (API version 7.45)
+[    3.548678] EXT4-fs (sda3): re-mounted =
+78691517-64fe-451b-9009-14359b774643 r/w.
+[    3.556791] systemd-journald[640]: Received client request to flush =
+runtime journal.
+[    3.681167] Adding 10485696k swap on /dev/sda2.  Priority:-1 =
+extents:1 across:10485696k SS
+[    3.693490] pseries_rng: Registering IBM pSeries RNG driver
+[    3.693904] cryptd: max_cpu_qlen set to 1000
+[    4.702590] RPC: Registered named UNIX socket transport module.
+[    4.702604] RPC: Registered udp transport module.
+[    4.702607] RPC: Registered tcp transport module.
+[    4.702609] RPC: Registered tcp-with-tls transport module.
+[    4.702612] RPC: Registered tcp NFSv4.1 backchannel transport module.
+[    6.701147] block sda: the capability attribute has been deprecated.
+[   10.150485] fbcon: Taking over console
+[   39.532119] rust_minimal: loading out-of-tree module taints kernel.
+[   39.532132] rust_minimal: module verification failed: signature =
+and/or required key missing - tainting kernel
+[   39.532856] rust_minimal: Rust minimal sample (init)
+[   39.532860] rust_minimal: Am I built-in? false
+[   39.532864] rust_minimal: test_parameter: 1
+[ 4125.461822] rust_minimal: My numbers are [72, 108, 200]
+[ 4125.461839] rust_minimal: Rust minimal sample (exit)
+[ 4142.492146] rust_print: Rust printing macros sample (init)
+[ 4142.492158] rust_print: Emergency message (level 0) without args
+[ 4142.492161] rust_print: Alert message (level 1) without args
+[ 4142.492163] rust_print: Critical message (level 2) without args
+[ 4142.492166] rust_print: Error message (level 3) without args
+[ 4142.492169] rust_print: Warning message (level 4) without args
+[ 4142.492171] rust_print: Notice message (level 5) without args
+[ 4142.492174] rust_print: Info message (level 6) without args
+[ 4142.492176] rust_print: A line that is continued without args
+[ 4142.492181] rust_print: Emergency message (level 0) with args
+[ 4142.492185] rust_print: Alert message (level 1) with args
+[ 4142.492188] rust_print: Critical message (level 2) with args
+[ 4142.492190] rust_print: Error message (level 3) with args
+[ 4142.492193] rust_print: Warning message (level 4) with args
+[ 4142.492195] rust_print: Notice message (level 5) with args
+[ 4142.492197] rust_print: Info message (level 6) with args
+[ 4142.492200] rust_print: A line that is continued with args
+[ 4142.492205] rust_print: 1
+[ 4142.492206] rust_print: "hello, world"
+[ 4142.492208] rust_print: [rust_print_main.rs:35:5] c =3D "hello, =
+world"
+[ 4142.492213] rust_print: Arc<dyn Display> says 42
+[ 4142.492214] rust_print: Arc<dyn Display> says hello, world
+# sudo rmmod rust_print
+[ 4142.492217] rust_print: "hello, world"
+[ 4153.334714] rust_print: Rust printing macros sample (exit)
+
+# sudo rmmod rust_debugfs
+
+Regards,
+Venkat.=
