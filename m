@@ -1,211 +1,130 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36C035F8DF;
-	Fri,  6 Feb 2026 17:12:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A7732A3DA;
+	Fri,  6 Feb 2026 17:13:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770397968; cv=none; b=rqX1gp9EKBSFpJT+Q8YnqEI7upsQWL/xV3lw+0eqRqEheN2x5oSOm84fT5r0nzA4h/sPFEA5Zjyz0CYDEP9IdZmgEwuzMF6byHKb14jRrd2MovxfWlEf8IrdZLE8Lpr1kEHOxtM5PBdxbKaAeScAgi2L0brCIhkC/tqSuzrDRt0=
+	t=1770397998; cv=none; b=CUplVU5F7yDQsBfGIZKLe/SfjKrTY7JGK11C7c35dtMdl7gAQ1RCE3FLrnfZHr6gc56fufUW8ZO5HQJKglAYV2YjtJzynsEqI+Wlj/Q1lbnlV1ovzaS9cN1IpdltlViartOyUVARgl842EOrF3w/8gPMjfiBFgVZWcCpaoDtd1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770397968; c=relaxed/simple;
-	bh=f51fr0RwPbgcilaL5p8ILUT8dwBt1G9K1Ep4iTQCoSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gZnwNZpV6BcTpmiOsE+Sl9Rlmbeg/Sw/M5BnDs3w+bfkQnY73KMo5IgJfBzf3b3/LnCnisNRYNsk81K+kZqi+wgP2qXDFyBTGtSCnL+9uKVJn569Ytd7X3I7aqjEohcrVX41FtCcxOInjhbaE0mvl6u5o3nJtLynawksESZb3kQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CMP7LNGl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770397998; c=relaxed/simple;
+	bh=VusUcOG57uVq4aP95tB6o/KYonI51RwqmHWJ63rGzUM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=lfoAuEEqc+zNu7BVy1qdbx+xofQA982cZm0K64zHqXzu69OpanixhGW42fmOMX5sQuWda8NJBM0rYNSh08yIGqNPHp6SEFgh7wiiRakPiH8hZMxQw6CXCp+w1eCVx/kLraX4XfmC6W3a0gfQ+TlfOPfDduZVMvq7qjeCqxA8AuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RyhQrtAN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CMP7LNGl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1DF7C116C6;
-	Fri,  6 Feb 2026 17:12:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RyhQrtAN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1083C116C6;
+	Fri,  6 Feb 2026 17:13:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770397967;
-	bh=f51fr0RwPbgcilaL5p8ILUT8dwBt1G9K1Ep4iTQCoSs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CMP7LNGlV4Z5pl65Rd7unzogYBQIDSiH0zCtfTSI/EDUAvkpSMrd4HnjKZU17g/CD
-	 BZXra/le1xACKpyF9UI9qrbi98RA1m2+XnuqbCNSbZXoiR7HHqcDRQ4sqLwoGcWIFt
-	 Q0gGqwzFR96kUU/DPD+4x32K3EsCiCXwubYEJFJR671ERQ2Ep2XKeGvPhGyLcWKjSv
-	 fw7+ENfiFAwGhG3sv9DyBKyBpOyMbc9ayAtcqhr+o75aqwj4Q4grNrv/gDBhW/g8Cd
-	 JbLHFv4Zl7PQ8Ml8t4YQFXh/glEDKdROiw6yzoC0OnYLcSsCEqQjmFDxwsLqcxA46k
-	 0vV8F35qk4E1A==
-Date: Fri, 6 Feb 2026 18:12:37 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Petr Pavlu <petr.pavlu@suse.com>, Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Xiu Jianfeng <xiujianfeng@huawei.com>,
-	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
-Message-ID: <aYYhBe9hZsIW8LXP@levanger>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Xiu Jianfeng <xiujianfeng@huawei.com>,
-	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
- <db1ed045-d7b6-49dc-b111-9fea7c30f8ab@suse.com>
- <28cf8d51-7530-41d5-a47b-cad5ecabd269@t-8ch.de>
+	s=k20201202; t=1770397997;
+	bh=VusUcOG57uVq4aP95tB6o/KYonI51RwqmHWJ63rGzUM=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=RyhQrtANOB+D11Wve/m8L2lLmA2sIYZtIVT7zQ/BhQ3fOrDR8nn1qXOzitA6AFauP
+	 jFNpNdriH7tCxOuPCjR6KH6bfyDLu9qNr6V/ZVDeOvQZCpNjaXaqiTIeg9yqQYyg1D
+	 vIb+sgs0lvBbA4M2G+fEJkFNMYGE+AwnsQ7mkKVOnZZs2wSBSsyGEZNh6hARQvRyec
+	 lK9cgEs8C2fBf3C66y/paf8fUmjjfGbkrltqpuhW2AThwChDilq+cxnZiXKDFJ430p
+	 XOSSALCb08kTJLJSXY57IJFBjb3YEOL3zhrE2iMxYwFdZBkzlqceQ/rswM4JhPal97
+	 ivpvFOs16n0mA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <28cf8d51-7530-41d5-a47b-cad5ecabd269@t-8ch.de>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Feb 2026 18:13:06 +0100
+Message-Id: <DG81PJ9QD8FC.2NF6VEKDD3F2Q@kernel.org>
+Subject: Re: [PATCH -next v7 1/2] rust: clist: Add support to interface with
+ C linked lists
+Cc: "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
+ <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
+ <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
+ "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
+ <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
+ Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
+ <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
+ <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, <joel@joelfernandes.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260206004110.1914814-1-joelagnelf@nvidia.com>
+ <20260206004110.1914814-2-joelagnelf@nvidia.com>
+ <DG7ZF1UT98RQ.3F42J3ULGV2OC@garyguo.net>
+ <DG800TDA6OXQ.275PMMS19F1EX@kernel.org>
+ <77ac3274-a962-469d-a2f6-6ccc0670988a@nvidia.com>
+ <DG80FV3VTT6P.2ZP18EM8605GT@garyguo.net>
+In-Reply-To: <DG80FV3VTT6P.2ZP18EM8605GT@garyguo.net>
 
-On Tue, Feb 03, 2026 at 01:55:05PM +0100, Thomas Weißschuh wrote:
-> On 2026-01-30 18:06:20+0100, Petr Pavlu wrote:
-> > On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
-> > > Normally the .ko module files depend on a fully built vmlinux to be
-> > > available for modpost validation and BTF generation. With
-> > > CONFIG_MODULE_HASHES, vmlinux now depends on the modules
-> > > to build a merkle tree. This introduces a dependency cycle which is
-> > > impossible to satisfy. Work around this by building the modules during
-> > > link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
-> > > but before the final module hashes are
-> > 
-> > I wonder if this dependency cycle could be resolved by utilizing the
-> > split into vmlinux.unstripped and vmlinux that occurred last year.
-> > 
-> > The idea is to create the following ordering: vmlinux.unstripped ->
-> > modules -> vmlinux, and to patch in .module_hashes only when building
-> > the final vmlinux.
-> > 
-> > This would require the following:
-> > * Split scripts/Makefile.vmlinux into two Makefiles, one that builds the
-> >   current vmlinux.unstripped and the second one that builds the final
-> >   vmlinux from it.
-> > * Modify the top Makefile to recognize vmlinux.unstripped and update the
-> >   BTF generation rule 'modules: vmlinux' to
-> >   'modules: vmlinux.unstripped'.
-> > * Add the 'vmlinux: modules' ordering in the top Makefile for
-> >   CONFIG_MODULE_HASHES=y.
-> > * Remove the patching of vmlinux.unstripped in scripts/link-vmlinux.sh
-> >   and instead move it into scripts/Makefile.vmlinux when running objcopy
-> >   to produce the final vmlinux.
-> > 
-> > I think this approach has two main advantages:
-> > * CONFIG_MODULE_HASHES can be made orthogonal to
-> >   CONFIG_DEBUG_INFO_BTF_MODULES.
-> > * All dependencies are expressed at the Makefile level instead of having
-> >   scripts/link-vmlinux.sh invoke 'make -f Makefile modules'.
-> > 
-> > Below is a rough prototype that applies on top of this series. It is a
-> > bit verbose due to the splitting of part of scripts/Makefile.vmlinux
-> > into scripts/Makefile.vmlinux_unstripped.
-> 
-> That looks like a feasible alternative. Before adopting it, I'd like to
-> hear the preference of the kbuild folks.
+On Fri Feb 6, 2026 at 5:13 PM CET, Gary Guo wrote:
+> On Fri Feb 6, 2026 at 4:05 PM GMT, Joel Fernandes wrote:
+>>
+>>
+>> On 2/6/2026 10:53 AM, Danilo Krummrich wrote:
+>>> On Fri Feb 6, 2026 at 4:25 PM CET, Gary Guo wrote:
+>>>> On Fri Feb 6, 2026 at 12:41 AM GMT, Joel Fernandes wrote:
+>>>>> diff --git a/drivers/gpu/Kconfig b/drivers/gpu/Kconfig
+>>>>> index 22dd29cd50b5..2c3dec070645 100644
+>>>>> --- a/drivers/gpu/Kconfig
+>>>>> +++ b/drivers/gpu/Kconfig
+>>>>> @@ -1,7 +1,14 @@
+>>>>>  # SPDX-License-Identifier: GPL-2.0
+>>>>> =20
+>>>>> +config RUST_CLIST
+>>>>> +	bool
+>>>>> +	depends on RUST
+>>>>> +	help
+>>>>> +	  Rust abstraction for interfacing with C linked lists.
+>>>>
+>>>> I am not sure if we need extra config entry. This is fully generic so =
+shouldn't
+>>>> generate any code unless there is an user.
+>>>=20
+>>> I also don't think we need a Kconfig for this.
+>>>=20
+>>> In any case, it shouln't be in drivers/gpu/Kconfig.
+>>
+>> Fair point, I believe I was having trouble compiling this into the kerne=
+l crate
+>> without warnings (I believe if !GPU_BUDDY). I'll try to drop it and see =
+if we
+>> can get rid of it.
+>
+> If you run into dead code warnings, I think it is fine to just
+>
+>     #[allow(dead_code, reason =3D "all users might be cfg-ed out")]
+>
+> the overhead of just let rustc type-checking this module isn't worth the =
+extra
+> Kconfig plumbing, I think.
 
-After the first run-through, the proposed alternative sounds good.
-Unfortunately, I ran out of time for this week.  I can give a more
-founded reply in a few days.
+You mean because there are pub(crate) in clist.rs? I don't think the Kconfi=
+g
+would help with that, nothing prevents people from enabling RUST_CLIST, but=
+ none
+of the users.
 
-Kind regards,
-Nicolas
-
-
-
-> > diff --git a/Makefile b/Makefile
-> > index 841772a5a260..19a3beb82fa7 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1259,7 +1259,7 @@ vmlinux_o: vmlinux.a $(KBUILD_VMLINUX_LIBS)
-> >  vmlinux.o modules.builtin.modinfo modules.builtin: vmlinux_o
-> >  	@:
-> >  
-> > -PHONY += vmlinux
-> > +PHONY += vmlinux.unstripped vmlinux
-> >  # LDFLAGS_vmlinux in the top Makefile defines linker flags for the top vmlinux,
-> >  # not for decompressors. LDFLAGS_vmlinux in arch/*/boot/compressed/Makefile is
-> >  # unrelated; the decompressors just happen to have the same base name,
-> > @@ -1270,9 +1270,11 @@ PHONY += vmlinux
-> >  #   https://savannah.gnu.org/bugs/?61463
-> >  # For Make > 4.4, the following simple code will work:
-> >  #  vmlinux: private export LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
-> > -vmlinux: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
-> > -vmlinux: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
-> > -vmlinux: vmlinux.o $(KBUILD_LDS) modpost
-> > +vmlinux.unstripped: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
-> > +vmlinux.unstripped: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
-> > +vmlinux.unstripped: vmlinux.o $(KBUILD_LDS) modpost
-> > +	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux_unstripped
-> > +vmlinux: vmlinux.unstripped
-> >  	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux
-> 
-> Maybe we could keep them together in a single Makefile,
-> and instead have different targets in it.
-> 
-> (...)
-> 
-> > @@ -98,70 +44,15 @@ remove-symbols := -w --strip-unneeded-symbol='__mod_device_table__*'
-> >  # To avoid warnings: "empty loadable segment detected at ..." from GNU objcopy,
-> >  # it is necessary to remove the PT_LOAD flag from the segment.
-> >  quiet_cmd_strip_relocs = OBJCOPY $@
-> > -      cmd_strip_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
-> > -                         $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) $(remove-symbols) $@
-> > +      cmd_script_relocs = $(OBJCOPY) $(patsubst %,--set-section-flags %=noload,$(remove-section-y)) $< $@; \
-> > +                          $(OBJCOPY) $(addprefix --remove-section=,$(remove-section-y)) \
-> > +                                     $(remove-symbols) \
-> > +                                     $(patch-module-hashes) $@
-> 
-> cmd_script_relocs -> cmd_strip_relocs
-> 
-> (...)
-
--- 
-Nicolas
+Besides that, once we have the new build system, the users of CList are lik=
+ely
+in other crates anyways, so I think we should just change things to pub.
