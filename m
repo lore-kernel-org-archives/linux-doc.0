@@ -1,253 +1,342 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020123.outbound.protection.outlook.com [52.101.196.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725D02C0268;
-	Fri,  6 Feb 2026 16:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.123
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770394412; cv=fail; b=lvYdZeQu7a7DdkxLzJoJY7Hr+BV8sYW+gTlWnlEtR9hLVp2i/rX5QzwdZanOyu1zcIx8gRGjRtICP5vLixKAyVAzMzn7hrkEMvasAajeisLUDavAme1aNB5N34P63ecc/C8EhemcdpLhagO3Rjb0yfZOe3+cDbW7gsrcCo/6xKA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770394412; c=relaxed/simple;
-	bh=Zq2lNFLhmbpjJMVQZOaFyqYPqvR1zT+gblj0jKcsVpY=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=QpWluNayT18a+p8Vf/Y4QNpq5a09ls6PVbi7QEdzrcGcaQLyofc2XGwPf+pDjmOIJvP6D1DS0ftUoOeIQItwcEUgYLnSk0/xy94sqRcKWjfb6l+ozSzbRibgxu6vewpRfzpfmkhqn8e9AX1z+N2iL9YP2kUbONy39rwGFmjd/MY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=pxzmmWjw; arc=fail smtp.client-ip=52.101.196.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7CC32C336
+	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 16:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770395282; cv=none; b=diJzokUPy/vhcxC8zpp/BHCRSXcsB+eg4IzDawSJT9FpgC9QjG5s/4/25wIVpR/bZF+0hjJRj0bg7UwdaYIgCDC0/phHdGiR32wh3m0nglr5WyXRfWUe0YlA/D/6pQ1+W3y/fYN8ZyMgH4k4a90xVap7ae+RniC9IyP2kS/bW2w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770395282; c=relaxed/simple;
+	bh=/AiB35Gjy3wlT2sEYVOPPJv9l3gTfwobPX24vwL6p0U=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=uiUTNcD3v7XuFmzMF6NL9WSeD+pARQkODD+j/9yceuyiVED/lL/a1bIvEAs7Q/rpvHmg3DlTL2Ipapp9VcrAmK1zJpmTVA2yz5gkAkn6LbWNx5kmSlNU5CjQZnaTMSogP8dGaaamn2nXib7xHDro4UuIogOwwTfrv0rhXK3dR4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ir0rXcpH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=33m1iJtR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ir0rXcpH; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=33m1iJtR; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="pxzmmWjw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=g1i5O1CDvcvIIgA7RAWvbJ55iO2euUNEKv6Cx4qskfm4NrhD6xdQcZPF4s481qog4ZSjRnaL+f9jlrn7iChoxBVrtlEBhT4iSXuhSk9/s5/7+Rc44O6Xmt4OQNxNskbh7Y6rSvaqgnoZ6AhMdoYHWjSjw0KI1XeL/D2vxNHW8Yl+i3ZH1XT2hBTycy+eyPqnTh0PMlsXylEPNWolAQGKsUKJ3qFHoawxJKU0ao5NGauhwnO5Ag0jEmAC8MQkchDmOVoxL7BuUyLxaebfvp0TqVm9HtbIYo3tMe/a5RB0vuJsrFfeHDrEQ0ulL2hhsy2q+z+ml7tecCP/AeraKthZ5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kwg/Bj3YCXLxkqwlVHV6hoYjss9oBtGFg9qQi7DMymk=;
- b=U2eQ+MHJVf1Y07fDujMgveXe4lM7FHz9fryLhUmrsaWo3Npmu04TUjdGYuLyAStlV/906dO+PHVau9iVCBeWteP4RRegJpaH9Npm9M5Cegrv7szl7+IKFfwHxeRbRp9V6rYYnyJBfZeQEovzsmmqKZR4m6SxJVzXbZPtgnpi9l4uNWXEm2IvP1AoFLflpbRVFAf77AraocYPuuIe/XOlrYhoHhOOEra7po01YaTF0ltC3W0mNCqv6XnYWsDqwlU32j1o4K6RwtVeVXs/7hWGUz+QBMW0QZSo/t4seC0n71isGAQycug+oaik6Ps4vsw9eb3q+vR/EwLTusqPMTXEbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Kwg/Bj3YCXLxkqwlVHV6hoYjss9oBtGFg9qQi7DMymk=;
- b=pxzmmWjwdjiprjPiyNVQSJaY3CIaKK0Lu4KS4iXL2CQxbPJbShH/gpEkH2J/hfNhguiBphvDMpUwtEhmk55U0bZiKTbK8SxtADW+M197EJuXy8/zoAXDVOcPaTXhicGEtjYMpXlTXeMrR4KQ2XRGophFm+Eq9ZddTmyVQE+5HM4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB2018.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:6a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.15; Fri, 6 Feb
- 2026 16:13:28 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9564.016; Fri, 6 Feb 2026
- 16:13:28 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Feb 2026 16:13:27 +0000
-Message-Id: <DG80FV3VTT6P.2ZP18EM8605GT@garyguo.net>
-Subject: Re: [PATCH -next v7 1/2] rust: clist: Add support to interface with
- C linked lists
-From: "Gary Guo" <gary@garyguo.net>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>
-Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
- <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
- <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <joel@joelfernandes.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260206004110.1914814-1-joelagnelf@nvidia.com>
- <20260206004110.1914814-2-joelagnelf@nvidia.com>
- <DG7ZF1UT98RQ.3F42J3ULGV2OC@garyguo.net>
- <DG800TDA6OXQ.275PMMS19F1EX@kernel.org>
- <77ac3274-a962-469d-a2f6-6ccc0670988a@nvidia.com>
-In-Reply-To: <77ac3274-a962-469d-a2f6-6ccc0670988a@nvidia.com>
-X-ClientProxiedBy: LO4P265CA0172.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:312::15) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ir0rXcpH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="33m1iJtR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ir0rXcpH";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="33m1iJtR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A96D25BCC2;
+	Fri,  6 Feb 2026 16:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770395280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k4qA1Ny04PNgcQU9wnD/bgUUvMWrn4w68J5Yz+7Pguc=;
+	b=ir0rXcpHqf2xVjIIu+rCNDBINYTlynqlJWUxlURwbCNxkZjZrwzX/o67hBvhs7GQvQxsSN
+	jEcVmNDg3Ro1cinfDyNB9R2UDhq22DZkBZJyu2nhroN6T4r9z3FFKosf8TQGbVegcsHwXe
+	5w/9EySaenjPFQOfF4DWArcLCkof1PE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770395280;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k4qA1Ny04PNgcQU9wnD/bgUUvMWrn4w68J5Yz+7Pguc=;
+	b=33m1iJtRxi6OPHgs7tUen8+b3QEqDC9IqkeQ+pdAmc68rXQpnRtFYUyGlaOpzCys/S3g+x
+	LDswdmQDjTvvpZAA==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ir0rXcpH;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=33m1iJtR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770395280; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k4qA1Ny04PNgcQU9wnD/bgUUvMWrn4w68J5Yz+7Pguc=;
+	b=ir0rXcpHqf2xVjIIu+rCNDBINYTlynqlJWUxlURwbCNxkZjZrwzX/o67hBvhs7GQvQxsSN
+	jEcVmNDg3Ro1cinfDyNB9R2UDhq22DZkBZJyu2nhroN6T4r9z3FFKosf8TQGbVegcsHwXe
+	5w/9EySaenjPFQOfF4DWArcLCkof1PE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770395280;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k4qA1Ny04PNgcQU9wnD/bgUUvMWrn4w68J5Yz+7Pguc=;
+	b=33m1iJtRxi6OPHgs7tUen8+b3QEqDC9IqkeQ+pdAmc68rXQpnRtFYUyGlaOpzCys/S3g+x
+	LDswdmQDjTvvpZAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D4BAA3EA63;
+	Fri,  6 Feb 2026 16:27:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id LxkPMY8WhmkuSgAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Fri, 06 Feb 2026 16:27:59 +0000
+Message-ID: <1649583d-71c2-425e-a2df-685d5f6dc67d@suse.de>
+Date: Fri, 6 Feb 2026 17:27:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB2018:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed152add-6b46-4b58-6969-08de659aa9f8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?bXFxV01Dcmc2MUxYRHpYcUI4RFo0amJha1BnNE0vZE5sdlFWWkZ0WU5xaUU1?=
- =?utf-8?B?MlRGNkcrcXZWa3Fjc2JKWjNjMFVUODRLdStrWGN5WXNJa05COXB2MmV0M0hD?=
- =?utf-8?B?TmZnY1h0RndXNFZUL21rcE9xRENqeGhoNEgxeFZuTllMbXJqK0dJZmxmMGly?=
- =?utf-8?B?VnptbHJVcUo4WC8zbElsZVRtUFNKWlZBYnkrZjNSbHZaZmVzZDV2Q0lFdzBH?=
- =?utf-8?B?S1lacGFycE1LM0hNYXhMblFCUFl3dkE5aC9iVmpOYVZjYVhLL2NGK0IxQlFY?=
- =?utf-8?B?Q3NWOThGRG9qbkE2MXdyemdQZ2ZwTk90THFvWCtOZVRvcmhBVGVoVVpmSXd5?=
- =?utf-8?B?WWp2bU9YU3VoWU5RY1dlaDJPUDRmbXo1ekhXUjNFRlc3WGwyV3E3dGQwUitE?=
- =?utf-8?B?MDR1YnhTL1o3RUVmd1Y2ZG9BNjhBalcyVWxSYWRDa1hHbHdKS280dk1iWkxW?=
- =?utf-8?B?RFYrQXlla0RjYmJVN1VjRXlQcDhycEVQU1NUUGNLcWxQbno3N1dwQk9INU8x?=
- =?utf-8?B?cEF6cmNMVFB6d213RzkvRmpWR2pMT1V3V2FqMjhaZlRjNXJhZGJzUWtnMmRM?=
- =?utf-8?B?QXBaT01aY1I5a0VVNnBiRTl1c2liNTE2S25NbW1Tc0FuUEZmT2dTTU9kMHFF?=
- =?utf-8?B?bHgrQk02UzJrT1hhWU9UcmoxVWVyWUpMVlFPNjQyQ1FyYjVaOTR6a3pVandS?=
- =?utf-8?B?NTJxNVIwQXhGeEUxVUc4WmlZbGlsczVlZHNwSWlycjBpT3hUL1JqQmpaUHMz?=
- =?utf-8?B?NERtK243ZCtqM3JDRTIvajY3dXVDZ3YxQmJscFMyTEw3SldOU1ViU3h4SEpi?=
- =?utf-8?B?LzZCc1c1cTZSbmpCUzRiM3JFMElxUjV2S2FkbGJtYnI0aUpxelhIYVdXLzlC?=
- =?utf-8?B?Nk01UitjSVlVem1teU42U2tWaDZaZHRHRFNqK1lGdXdBbXA4SEVaRUVHMTMx?=
- =?utf-8?B?R0p1QnNpUlVId3RZOGdoeHYvWmZFdGMvdzRIc1RQdDU5ZzR1NldPR2pQZ2lu?=
- =?utf-8?B?azRSSkxSZ1RWa28rSHZlM2IzdlcvWE1JVnkwcEx1L0F5bG9mb2xiYTAyWUdL?=
- =?utf-8?B?OUdldDF4WVRmak9yNXVSSVFSaGkrVVhzUVF5eGZvTStOcWJCS3lXYWlYK0VN?=
- =?utf-8?B?VkdGZGc2c3l4b2h4Z25tWmZCd0R0UFlwZEgyQ0dQVDNOVHpiUE9ac29DenBr?=
- =?utf-8?B?eDQ0VFdvdlZEeEdtdVNvTlZYWGhOclM1bHovU3RMWEF5WGUvN01NRk9vNXJK?=
- =?utf-8?B?aWdublJzMnNPeUpjRjBtMHA1U3N4bXFzUHp4Y043UTNBL3RFSnUvaXhhaUZL?=
- =?utf-8?B?a1hvZWxaVC9UVzVYbGlySVV1dDlhUHVXT1JGdnVkZDdrWGVhU3lmU1U2N3Zh?=
- =?utf-8?B?MFZHcXYzTndOR0dDQkZWTFUzZjZqanh5S25zTXVYTlZ1MEM2a2k5OWxXNzkw?=
- =?utf-8?B?OVZlQ3pQMm96MEVzMjloS1FxY1diRlB0YlJHUDhDL0pUeDhlMGpoYXR6ZWdk?=
- =?utf-8?B?TnNLNUR2TThHaEZ2dlVWK2dTSklVUmdnZ1o3bWE4NlpLTEVkVWtRaXBBeHB3?=
- =?utf-8?B?M2JsZ2UrUE0vQlJONUZqVWxXNjYzQ1g1QzZSMXBGSXpja2JLdUs3SWt0RS85?=
- =?utf-8?B?QlZUTnBzemV5UE5hc3kydS9EYjlsYmxCdmw2UWd0VVJsa2dFYkZFN0FFU3pl?=
- =?utf-8?B?Rk8vNjBzdFdGa2x3QmFEWENONTFHM1B1TFZjdWdBWVEvZjN4Zm1qOHVRZU5t?=
- =?utf-8?B?T0hZdzlYR1ZQYjF0cTBvWFdwL2UzdGhHSCtZNTA0czQrbnBjb2g3amZ0Q29o?=
- =?utf-8?B?WUs1c002d09tZWxyTWRvVjF5Sk9MY2x4MG04S3dGQXc5dW11MjRLRllsZ3A5?=
- =?utf-8?B?QTJKdTJWc3RRdjJ5SVNQZlZGTjVEbEdrVGlEdG5QOCtPdnRDYU9kdDRpOFUy?=
- =?utf-8?B?RzNRcGdxSDVpNzV1UE5Dakp2L2dqQzNNUC8rTndRWkhVUGk5a1k5NG1uWXJy?=
- =?utf-8?B?UXUyKzcxNVNTeEt2a0Fkb3QwUnlFKzROVERUUWE5VFNtcHVQWjlTb2kwLzNL?=
- =?utf-8?B?ZlczWHA0SW5FdHpSS3VyQzVQYWt1YmFibC8vUG9yM1BSYm93ZE1uSFdZdDl6?=
- =?utf-8?Q?QOCM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V0xhNHVlRUdQd2ZDenJPcmR6N2FMejBhY1YzT0Q1OWJtbEZwZTh4a2hFUG90?=
- =?utf-8?B?VXdndXhPQUUyNHJxSktpY2lVODhUNjBjUVR0alpVdjZZOE8yWjVETmZPaHJ3?=
- =?utf-8?B?cStDUk1iWVo2amtvM3N3aDRtV3lPVHY2MFR5Q015NURoRzVQaDJmNkl0eWlO?=
- =?utf-8?B?a2t6K09NU2VEdDl3ZlcvVlJ6TjZ4ZFptVHBFNEFocGNlUDhkVnQvSDF6VFlV?=
- =?utf-8?B?YTVTdUNYMFRGOGN6dFVDTXQvWWF3bEcvanhYRGFteVo4Z212Y0xkKzZqd3or?=
- =?utf-8?B?VXZlOUdmZE5CSnJSV0h4ZEMyVHBNVldhUGxlaGt4aTBOQ24wNGNYSWlZUXZN?=
- =?utf-8?B?T2xKQWRVc0kyL2QxMGw2SjVpeGNiZU1PM3ROSW94L2x1bHBqL3RsUllNWjQx?=
- =?utf-8?B?bEsvR0tJdjBnUjZPTnVoOVVqc01DaC9vYlNCcjhSMHc2amEwWkZzQ2ZXekh6?=
- =?utf-8?B?ZVJRNnM0NzQ4bVVPQ0hINko3UzcvRWVUYlkwMHlXc1dNc1kyV1d3ZmZtSi9q?=
- =?utf-8?B?eXJhTi83Q1lsRktHZ0p6RzVpUC9OSCtna29BYlE1dC95Ky9xV2cxcm5ERG1y?=
- =?utf-8?B?ZHdhSHZZL2RNMm9ZMTRGSElPOHJWRjFoS3YyK3FBdG9KY2N4UmJyb0JKa096?=
- =?utf-8?B?VXpCbjdiZFd1TlBtRXQ2VnFISUdOWGRrdDhtak4xY3NvZE9pa1pSQkZVelBL?=
- =?utf-8?B?OEExS2dtNFQwY2h3cC81ZUhQblo1UllyYlNLUWtXVXRMOEREUTNuZ1NDZTJo?=
- =?utf-8?B?dFZMSHdFZ0tKVlNHREFnaDI0YnNTU25mRmlRamlzVnVmZHpMcGgza1JodXJB?=
- =?utf-8?B?MG1HOGJUQzk4SjBWY1ovU0UrN2FNQlFxdmluTHMxRU9WWXJuOEpiK2JwSnMv?=
- =?utf-8?B?US9ZbkxuTDBYakpHNHJWNjBzVHFMM1hsWkRveTZ4VmFwNWZwNnFtSWdFTWJT?=
- =?utf-8?B?L1Y4Q09ncmFSWEVRT1lvcGJpWlAvRW1jcFZlZVZTRGxudE5XcTRxeU5SaTJk?=
- =?utf-8?B?TGVSNzhLK05ZZk9qMk5wZVMwd3diZnVhWkNJOGpOY09WOFlYamlxTDhLUnYx?=
- =?utf-8?B?cnhwVkx1SlBwTmJQdEpmYjBCQXhoUWFKU2N0VjRkUkUyanNycGZ3T3dadlJE?=
- =?utf-8?B?a0xZZUpQSkQxOStnbml6ZHM1WHNKYXB2enIzZGxQZ1I5UHVIVjNIY2hlUG1F?=
- =?utf-8?B?S2VuUVF1V1hCSjBKVGRRZ0pvRXpnVFlPY3lrL2tlbjVVTmpWbG9VZFNubnBE?=
- =?utf-8?B?UERiWXZrQk5YRkRqNFpsZGF1RG5hVUJ4ZjFwRG9XVnhncTZnazVMUE5uN0JQ?=
- =?utf-8?B?cXdEaU1LRU8xRUVzMkpPNElCbTN1N1l5OGU2MDBDbUpkckh0V2hXZTlhYzB3?=
- =?utf-8?B?ZklLZGRSMzZxdlpxUWNBMytVUU1yMHpDeC9jR2pidUQ5cW9FVW1zdkJnb0VI?=
- =?utf-8?B?Tk5uVk5sSTRDeklKa2hzbHNPczd2cWlzVHUrbldqbUVMM3hPQ0tUVFVmRUIz?=
- =?utf-8?B?elh6NzUzdElySlJkdjNmOVZYbUFRRHpkbk80MVlTTWdWUkRIeWJqNVZ6TTl3?=
- =?utf-8?B?ZHJSLzF1N2RuUDhlaFNmM2gzMk9SaFpRaWZWcG9HK3FKZDMzZmlDRlpjcTRz?=
- =?utf-8?B?WW5mdEh5YUVwZWxVUjBwTHg2UENGQW9FdURzMWdyYmhsSmVJcGlwbG1WeCsx?=
- =?utf-8?B?RFBYeGdZdExGczNMVHBXMnI1VTlLTnRZcysrVkNiL0xGQXpYYnVXOUVKdkVy?=
- =?utf-8?B?ZU56ZG9ycEpOWWVvV2JKTFRXc21QeWdlVFVCbWQ1WUJpM3RTR2ozQjRUTm9S?=
- =?utf-8?B?d0dQbm9aOEhTOFZiZ3FGNFQ5VTAwSkREZ3VEeVZLWHhWU0FPNzF2NDNTT1ly?=
- =?utf-8?B?NVFEbkhUc2RkUm5Tdy9OYmZ4UlJoS3B3RG52VndmMjRPbDZ4K1dOZCtBT1NR?=
- =?utf-8?B?VDN6VU1zTERydGJSdlJBNnZqUlNhVDR0M25pdHFvcHk2T25zODhrQW1nT2hH?=
- =?utf-8?B?L1RreUppNElNQzFUKzh0TzY5ak5GeHR5bC9PTGM4ak5uWkUzU0pvS0VaSzVS?=
- =?utf-8?B?Y3EyWkl6Rmh5a1B1cUZuQWhWN1pOcEZwb1psdTZpS1Rib3Y5NzdpdmROb3Fy?=
- =?utf-8?B?dVdhSW5zbmRULzNQQnVPMUF0UEd5REt2ZWRhcVlsTnBPZHlaSnZ6OTFWOURu?=
- =?utf-8?B?Y2VrZ1ZkQ0FEbitWaWF2bWZlNGZZTndTWHhiemVWckNndDg2V0dtR1BINTBM?=
- =?utf-8?B?akxqRDJXRGh6R3BJQ2dqNVZ2Wm1CckxTYWVDeTJFaEh6R3NJbzY1ZVVTamRs?=
- =?utf-8?Q?GBsO+7/Bb0JycX+9Ak?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed152add-6b46-4b58-6969-08de659aa9f8
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 16:13:28.5461
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HmbBqhRocyqG7sZFTfIOcT4DbEOtYciyCSERzAzwhaLa8JQsYLTxK4jx30UBurd9W1m7VjaC0TdExmqJpEaRxg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB2018
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC net-next] inet: add ip_retry_random_port sysctl to
+ reduce sequential port retries
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+To: Eric Dumazet <edumazet@google.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, ncardwell@google.com,
+ kuniyu@google.com, dsahern@kernel.org, idosch@nvidia.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thorsten Toepper <thorsten.toepper@sap.com>
+References: <20260203175422.4620-1-fmancera@suse.de>
+ <CANn89i+UUWx5OhPnJnDhiCfr53BPTAGedBucgqYwyfqkidf_Cg@mail.gmail.com>
+ <8d94faf9-2fb6-483d-9767-bd665c4a4b9a@suse.de>
+Content-Language: en-US
+In-Reply-To: <8d94faf9-2fb6-483d-9767-bd665c4a4b9a@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: A96D25BCC2
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-On Fri Feb 6, 2026 at 4:05 PM GMT, Joel Fernandes wrote:
->
->
-> On 2/6/2026 10:53 AM, Danilo Krummrich wrote:
->> On Fri Feb 6, 2026 at 4:25 PM CET, Gary Guo wrote:
->>> On Fri Feb 6, 2026 at 12:41 AM GMT, Joel Fernandes wrote:
->>>> diff --git a/drivers/gpu/Kconfig b/drivers/gpu/Kconfig
->>>> index 22dd29cd50b5..2c3dec070645 100644
->>>> --- a/drivers/gpu/Kconfig
->>>> +++ b/drivers/gpu/Kconfig
->>>> @@ -1,7 +1,14 @@
->>>>  # SPDX-License-Identifier: GPL-2.0
->>>> =20
->>>> +config RUST_CLIST
->>>> +	bool
->>>> +	depends on RUST
->>>> +	help
->>>> +	  Rust abstraction for interfacing with C linked lists.
+On 2/4/26 6:29 PM, Fernando Fernandez Mancera wrote:
+> On 2/4/26 5:49 PM, Eric Dumazet wrote:
+>> On Tue, Feb 3, 2026 at 6:54 PM Fernando Fernandez Mancera
+>> <fmancera@suse.de> wrote:
 >>>
->>> I am not sure if we need extra config entry. This is fully generic so s=
-houldn't
->>> generate any code unless there is an user.
->>=20
->> I also don't think we need a Kconfig for this.
->>=20
->> In any case, it shouln't be in drivers/gpu/Kconfig.
->
-> Fair point, I believe I was having trouble compiling this into the kernel=
- crate
-> without warnings (I believe if !GPU_BUDDY). I'll try to drop it and see i=
-f we
-> can get rid of it.
+>>> With the current port selection algorithm, ports after a reserved port
+>>> or long time used port are used more often than others. This combines
+>>> with cloud environments blocking connections between the application
+>>> server and the database server if there was a previous connection with
+>>> the same source port. This leads to connectivity problems between
+>>> applications on cloud environments.
+>>>
+>>> The situation is that a source tuple is usable again after being closed
+>>> for a maximum lifetime segment of two minutes while in the firewall it's
+>>> still noted as existing for 60 minutes or longer. So in case that the
+>>> port is reused for the same target tuple before the firewall cleans up,
+>>> the connection will fail due to firewall interference which itself will
+>>> reset the activity timeout in its own table. We understand the real
+>>> issue here is that these firewalls cannot cope with standards-compliant
+>>> port reuse. But this is a workaround for such situations and an
+>>> improvement on the distribution of ports selected.
+>>>
+>>> The proposed solution is instead of incrementing the port number,
+>>> performing a re-selection of a new random port within the remaining
+>>> range. This solution is configured via sysctl new option
+>>> "net.ipv4.ip_retry_random_port".
+>>>
+>>> The test run consists of two processes, a client and a server, and loops
+>>> connect to the server sending some bytes back. The results we got are
+>>> promising:
+>>>
+>>> Executed test: Current algorithm
+>>> ephemeral port range: 9000-65499
+>>> simulated selections: 10000000
+>>> retries during simulation: 14197718
+>>> longest retry sequence: 5202
+>>>
+>>> Executed test: Proposed modified algorithm
+>>> ephemeral port range: 9000-65499
+>>> simulated selections: 10000000
+>>> retries during simulation: 3976671
+>>> longest retry sequence: 12
+>>>
+>>> In addition, on graphs generated we can observe that the distribution of
+>>> source ports is more even with the proposed patch.
+>>>
+>>> Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
+>>> Tested-by: Thorsten Toepper <thorsten.toepper@sap.com>
+>>> ---
+>>>   .../networking/net_cachelines/netns_ipv4_sysctl.rst        | 1 +
+>>>   include/net/netns/ipv4.h                                   | 1 +
+>>>   net/ipv4/inet_hashtables.c                                 | 7 ++++++-
+>>>   net/ipv4/sysctl_net_ipv4.c                                 | 7 +++++++
+>>>   4 files changed, 15 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/networking/net_cachelines/ 
+>>> netns_ipv4_sysctl.rst b/Documentation/networking/net_cachelines/ 
+>>> netns_ipv4_sysctl.rst
+>>> index beaf1880a19b..c4041fdca01e 100644
+>>> --- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+>>> +++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+>>> @@ -47,6 +47,7 @@ u8                              sysctl_tcp_ecn
+>>>   u8                              sysctl_tcp_ecn_fallback
+>>>   u8                              
+>>> sysctl_ip_default_ttl                                                                ip4_dst_hoplimit/ip_select_ttl
+>>>   u8                              sysctl_ip_no_pmtu_disc
+>>> +u8                              sysctl_ip_retry_random_port
+>>>   u8                              
+>>> sysctl_ip_fwd_use_pmtu                       
+>>> read_mostly                             ip_dst_mtu_maybe_forward/ 
+>>> ip_skb_dst_mtu
+>>>   u8                              
+>>> sysctl_ip_fwd_update_priority                                                        ip_forward
+>>>   u8                              sysctl_ip_nonlocal_bind
+>>> diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
+>>> index 2dbd46fc4734..d04b07e7c935 100644
+>>> --- a/include/net/netns/ipv4.h
+>>> +++ b/include/net/netns/ipv4.h
+>>> @@ -156,6 +156,7 @@ struct netns_ipv4 {
+>>>
+>>>          u8 sysctl_ip_default_ttl;
+>>>          u8 sysctl_ip_no_pmtu_disc;
+>>> +       u8 sysctl_ip_retry_random_port;
+>>>          u8 sysctl_ip_fwd_update_priority;
+>>>          u8 sysctl_ip_nonlocal_bind;
+>>>          u8 sysctl_ip_autobind_reuse;
+>>> diff --git a/net/ipv4/inet_hashtables.c b/net/ipv4/inet_hashtables.c
+>>> index f5826ec4bcaa..f1c79a7d3fd3 100644
+>>> --- a/net/ipv4/inet_hashtables.c
+>>> +++ b/net/ipv4/inet_hashtables.c
+>>> @@ -1088,8 +1088,13 @@ int __inet_hash_connect(struct 
+>>> inet_timewait_death_row *death_row,
+>>>          for (i = 0; i < remaining; i += step, port += step) {
+>>>                  if (unlikely(port >= high))
+>>>                          port -= remaining;
+>>> -               if (inet_is_local_reserved_port(net, port))
+>>> +               if (inet_is_local_reserved_port(net, port)) {
+>>> +                       if (net->ipv4.sysctl_ip_retry_random_port) {
+>>> +                               port = low + 
+>>> get_random_u32_below(remaining);
+>>> +                               port = ((port & 1) == step) ? port : 
+>>> (port - 1);
+>>> +                       }
+>>
+>> What happens when almost  all ephemeral ports are in use, and
+>> hundreds of ports are reserved ?
+>>
+>> Choosing a random value each time we meet a reserved port is going to
+>> be quite expensive,
+>> and we might return an error from this function even if there are many
+>> available ports.
+>>
+>> Perhaps randomly select @step one time at the beginning of this
+>> function so that  @step/2 and @remaining/2
+>> are relatively prime numbers.
+>>
+> 
+> That actually makes sense. It would ensure all ports are visited before 
+> returning an error. Let me test this out.
+> 
 
-If you run into dead code warnings, I think it is fine to just
+It makes sense. I have tested this approach and we got a more even 
+distribution of source ports when having thousands of reserved ports. No 
+difference at all when not using reserved ports.
 
-    #[allow(dead_code, reason =3D "all users might be cfg-ed out")]
+Please, you can find the distribution graph with the current algorithm 
+[1] and with the random step algorithm [2].
 
-the overhead of just let rustc type-checking this module isn't worth the ex=
-tra
-Kconfig plumbing, I think.
+While I understand that this approach is introducing a call to 
+get_random_u32_below() on every connect, I am wondering if it makes 
+sense to replace the existing algorithm with this variant. What do you 
+think?
 
-Best,
-Gary
+Please, notice the implementation below. I plan to send an official v1 
+once net-next is open. In addition, I am rewriting the commit message as 
+I find the current one confusing.
 
->
->>=20
->>>> +
->>>>  config GPU_BUDDY
->>>>  	bool
->>>> +	select RUST_CLIST if RUST
->>=20
->> If we will have a Kconfig for this, this belongs in the GPU buddy patch.
->
-> You mean, in the GPU buddy bindings patch right? If so, yes, I will move =
-it there.
->
-> Thanks.
+[1] https://0xffsoftware.com/port_graph_current_alg.html
+
+[2] https://0xffsoftware.com/port_graph_random_step_alg.html
+
+Thanks,
+Fernando.
+
+diff --git a/net/ipv4/inet_hashtables.c b/net/ipv4/inet_hashtables.c
+index f5826ec4bcaa..10ecad190bae 100644
+--- a/net/ipv4/inet_hashtables.c
++++ b/net/ipv4/inet_hashtables.c
+@@ -16,6 +16,7 @@
+  #include <linux/wait.h>
+  #include <linux/vmalloc.h>
+  #include <linux/memblock.h>
++#include <linux/gcd.h>
+
+  #include <net/addrconf.h>
+  #include <net/inet_connection_sock.h>
+@@ -1046,11 +1047,11 @@ int __inet_hash_connect(struct 
+inet_timewait_death_row *death_row,
+  	struct net *net = sock_net(sk);
+  	struct inet_bind2_bucket *tb2;
+  	struct inet_bind_bucket *tb;
++	int step, scan_step, l3mdev;
+  	bool tb_created = false;
+  	u32 remaining, offset;
+  	int ret, i, low, high;
+  	bool local_ports;
+-	int step, l3mdev;
+  	u32 index;
+
+  	if (port) {
+@@ -1065,6 +1066,7 @@ int __inet_hash_connect(struct 
+inet_timewait_death_row *death_row,
+
+  	local_ports = inet_sk_get_local_port_range(sk, &low, &high);
+  	step = local_ports ? 1 : 2;
++	scan_step = step;
+
+  	high++; /* [32768, 60999] -> [32768, 61000[ */
+  	remaining = high - low;
+@@ -1083,9 +1085,20 @@ int __inet_hash_connect(struct 
+inet_timewait_death_row *death_row,
+  	 */
+  	if (!local_ports)
+  		offset &= ~1U;
++	if (net->ipv4.sysctl_ip_retry_random_port) {
++		u32 range = (step == 1) ? remaining : (remaining / 2);
++
++		scan_step = 1 + get_random_u32_below(range - 1);
++		while (gcd(scan_step, range) != 1) {
++			scan_step++;
++			if (unlikely(scan_step >= range))
++				scan_step = 1;
++		}
++		scan_step *= step;
++	}
+  other_parity_scan:
+  	port = low + offset;
+-	for (i = 0; i < remaining; i += step, port += step) {
++	for (i = 0; i < remaining; i += step, port += scan_step) {
+  		if (unlikely(port >= high))
+  			port -= remaining;
+  		if (inet_is_local_reserved_port(net, port))
+
+
+> Thank you Eric,
+> Fernando.
+> 
 
