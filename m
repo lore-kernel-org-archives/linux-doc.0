@@ -1,325 +1,131 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245802D97AB;
-	Fri,  6 Feb 2026 16:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770396968; cv=none; b=PMQ1hfeOx349b16/iycHYYoZDYFY1Tprn87dgMB0KuHxUzqBBzJbHqKSjabpKJ6kQEI0ttpBvVreCuaGdCDF/l5fPq5c0QzvEOjtni01mkcl5iiOJ86AGLBpi0vUfrlWwPWLaXQDdcwzqIbsMk9lgg4EXbgfumkdoYUCSSGd+Lg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770396968; c=relaxed/simple;
-	bh=LsNBcsYpQWNxZY+OYcBUkLQDjrOQsTsu3TCa53EHVOY=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=uXfWOBr/lOD2qqQ3NahE14YxGoO8lKho4jdOtYdlKbG2auHTIAXW5mzz56KcIEy03JUYfkopoElnevLi9lBX9Tq85nDVtkJ3LiKLZVWp4l3ZEgogcl4+CcS8TBdPIa1ILTZAiP3dI4ODufQHdYcWA3a/zoEYJ4z+cJ8JgqdAFAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=CQ5AcyTN; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D7936E472
+	for <linux-doc@vger.kernel.org>; Fri,  6 Feb 2026 17:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770397786; cv=pass; b=OncatJqVUS3LI6oqNmesmhnTaRit/25z5ekvn8zW0nS7NKrPVhipSGnst+lgBxAfynk53ROL711TxOIyK6qxXl5NySbE/omaHH+yUXJ5puE5pYB1A8r/piWJJ9b+dwp//dpRVRI7Am+E2JdL1MS2pnYZS7ID3/NhFWaEBgz3e2M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770397786; c=relaxed/simple;
+	bh=2D3+3zXtP4JhUK7/PLg4nJFv+DRLaz8NltH9x+kquWQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PA7nYQIMZUH+9s7wZoJQ+A68AoUKhbFA5eeNr5KcjrhaovnPakgFdqXsDpN2UAuBCloAH60lmNQxsOfdIvW7zs1Lb99s6xd3buzhQMc3IaHGscoOsch2t3ijTG7hLRSWiFq4K4lJwXeKQqdkLVWSwcHEBxVTgZJbYNEI/Kunl6I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fS0z7GCT; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="CQ5AcyTN"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 6168kGFG030403;
-	Fri, 6 Feb 2026 16:55:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=WDHuhm
-	ii8UVkJ/u8uQhZujlayEcsbkKUhzG4qNcIQjA=; b=CQ5AcyTN4H06maY9nH2FS4
-	7GMcCXQ1/qBxmFKoGlzFPdyx+USKHv8TznXLFuHFMriZdI4rjVxHO11d1mvYBWz8
-	wFTMqpCCyPVViA5RD/8My7Dc7hfHDQ7t7s2tCdj6JkGCdn/XTewQCnWtGu++MonF
-	sEhtAeEtnQIu4q1+QDsGsxxWSdOekL4nRYmdTykhWGkWhsXD83DsQz0YZs8Qtz6i
-	7kGp74JVlDksLqKgxjpSsYEwfssEWWBdYUyhXVmXeRNKovOgGfe2wh2/u6+zu5xQ
-	uUdZjF12UeFKn5CVmqSBI+PpqwdTb1vbJl1SCUC/mjdXa4HMCgNOt89K39YlU3zA
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c19cwh9fu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Feb 2026 16:55:32 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.0.8) with ESMTP id 616GtVYL022433;
-	Fri, 6 Feb 2026 16:55:31 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4c19cwh9fs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Feb 2026 16:55:31 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 616FwN8T009156;
-	Fri, 6 Feb 2026 16:55:31 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4c1veyf2p6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 06 Feb 2026 16:55:31 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 616GtUnW31654490
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 6 Feb 2026 16:55:30 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4453D58052;
-	Fri,  6 Feb 2026 16:55:30 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B9BE758065;
-	Fri,  6 Feb 2026 16:55:22 +0000 (GMT)
-Received: from smtpclient.apple (unknown [9.61.249.149])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri,  6 Feb 2026 16:55:22 +0000 (GMT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fS0z7GCT"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-50335b926c2so21741191cf.2
+        for <linux-doc@vger.kernel.org>; Fri, 06 Feb 2026 09:09:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770397785; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Hq95D+Hu0Ud1XdlsJM/Es5/uAEjT74IbiyVB2D/lVRUtOKDMRHSmcMRi7EqXJlW09g
+         Rfgob5u1Em1USnxlk4ihbyh6p1dUdzUdxfl964AX3TBDNZk3I5Y+tx+N7PkW7rAjdB/G
+         qB3lnfQ0/tjTGpMhq6eQx6bhTy2Icoc7zSvpLe7JfUn/l7S9ECbXxmL8MkQakk2Oqw8Z
+         +iZhwcl8fu85phcsjFEk8W1zk8sZPatFOKYOr0i+8d5YjCBJaXqfLQWLCJG6u2Q3jk9Y
+         cB/2IPo9Em9p5G1acwuA7+hosHXW/CjtGtDhBkgvKjoneQKiec/6kbC/VPyGaT6jJO88
+         PHdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2D3+3zXtP4JhUK7/PLg4nJFv+DRLaz8NltH9x+kquWQ=;
+        fh=+ZhEZ6tJAcd1qVP0M14pTrUIhSdEeve8ArTOTjdZTPQ=;
+        b=cjexEgvHW9TdDgfT+2D84DiWsHRE7MZNNF/2hGSrKVMY2uLMgu5eEofIC+CW0gzvZl
+         EMr2mtVMYi0pjzwUBhrGX2iansaykUUHcw8yLWtJna4h3HxHbz+DAzoKZ43I1uRxEW2u
+         q8gu6gzMnK87KEzaQCH3gz10zJxycHfTx25fcJ1O1Qn/RRfyPSHrXgUfZ6C+GOtl2W2J
+         IPkD+zcwDp81T5L6qqWGkoLEn46IUCRQxrNYN9jQfZnIinc/TXAdQc0PyNFKhqNtvoHE
+         nSZRTjFlGmhf8Kl3QDtrybw041OLsC5V76o6vOw5TLMITBPYzwTXjNgbkerrZx8OgJbB
+         HtQA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770397785; x=1771002585; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2D3+3zXtP4JhUK7/PLg4nJFv+DRLaz8NltH9x+kquWQ=;
+        b=fS0z7GCTc6IbYxJbbtmxP1sW7GNzMyPHokXsdBggcMMvZwxD8wcnyVqn58ub5RkARI
+         N29oWTcB97VObPMPz5nSdybnHVRrubxuDLJ4Y9FyEvRsBmPbeQZPpDRATerOu7d1agp+
+         PP+L/WQ1IVILvORZGnV6wje4Zg9toBa3shFmntM3hex8oLQOjj1LoRiThBCX9viYfW98
+         uamfynpWUp/mtfXsFOiMNsV6ARb+GCrBMU98oCaJU8+ZXjwUa7LnJyMKYT0QBWNtckhV
+         qyObzNR+3gLfPFwc5TJ+s6YQOJOgItgxiC/S5cdFrmS+L+22DjPt6hW8p4pjMXAMOF2c
+         Bj2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770397785; x=1771002585;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2D3+3zXtP4JhUK7/PLg4nJFv+DRLaz8NltH9x+kquWQ=;
+        b=rBahoYyxCtF9dTeKv41ZtnWtDvLtHilVVRmeCOwMJQYHa7PC2aXtIpVAMmfkppxpoY
+         DAyVFiNEY3C2q46atsO02VK5mWgleWTYvuIap6JpH6cY/ZndxOpimVYP1CG74/JEvZ3w
+         Z4c1UPU8tQGCLIgyTF0Hr3KdqBDzEqroyANrKXwq222NBfpcbND7DhQtLa3JCpFCh3Ec
+         EgKZueWIZF1adM5XXvjKnE1c9ToGSydk1F4tB/9VxR4VAovUpaQHUCnmu5vHA/6jA/x0
+         1Qd0FwtkbCpVEefOUbXvwGhOzHup17IB/vzbF+PvMPiISQyI4EJCkYEscy+GbX9bUTJ2
+         dqFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV35rVg2cqhov33LfgPwAl4b56lqPlryCH1pCzl0o6XiSpVdQF6xr3AOhqj0ypDED9N4u5b5OlRfLw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu5MilrW+thiZSUxoRJK+BpEqQL5fWD2JRDBKntwCK+4ADTVYQ
+	7Lvmg838+QTQiu/MYXelnFyX1QYMXQF4BLbFuPzlbk1s3VnroR1OTe4ZLnepe+9/bvJGbgRzwey
+	MRUuoZPLeQLRGHfDw9zQIe60Sgu++d3IaIOlpKD4v
+X-Gm-Gg: AZuq6aJYOC8Po6D2P+d5DSl5RXCx5+lyrj8vlxFa8fOWq/vqjMuBjCxW/sGPCtoPIBY
+	mR+ZqMLm0XA9Dnoxt6SyidxGgfblOBn3ZL84Wbx3qjL7Yt4DzOFmw96lYgoUam3Js035Go2fVyC
+	HsnJE8voeHhM+THrh2WEyxsXM+SEUqtRAKUhqaPhNaxYEa8pSjSUyrNFRbnrT7JUMOdJ6C3TS9L
+	gceJ+gEHlGGmf3HnzdfhQPIOVP90yj6aCZjwbuGpNm19SEg/OBeymk1Ss8ajHJamzOjhQ==
+X-Received: by 2002:a05:622a:130f:b0:502:e3c8:2e25 with SMTP id
+ d75a77b69052e-506399c903emr47797061cf.76.1770397785036; Fri, 06 Feb 2026
+ 09:09:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.300.41.1.7\))
-Subject: Re: [PATCH V3 0/3] Rust support for powerpc
-From: Venkat <venkat88@linux.ibm.com>
-In-Reply-To: <20260205180429.3280657-1-mkchauras@gmail.com>
-Date: Fri, 6 Feb 2026 22:25:09 +0530
-Cc: linkmauve@linkmauve.fr, ojeda@kernel.org, boqun.feng@gmail.com,
-        gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
-        a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu,
-        dakr@kernel.org, corbet@lwn.net, maddy@linux.ibm.com,
-        mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
-        peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com,
-        rostedt@goodmis.org, ardb@kernel.org, rust-for-linux@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
+MIME-Version: 1.0
+References: <20260203175422.4620-1-fmancera@suse.de> <CANn89i+UUWx5OhPnJnDhiCfr53BPTAGedBucgqYwyfqkidf_Cg@mail.gmail.com>
+ <8d94faf9-2fb6-483d-9767-bd665c4a4b9a@suse.de> <1649583d-71c2-425e-a2df-685d5f6dc67d@suse.de>
+In-Reply-To: <1649583d-71c2-425e-a2df-685d5f6dc67d@suse.de>
+From: Eric Dumazet <edumazet@google.com>
+Date: Fri, 6 Feb 2026 18:09:32 +0100
+X-Gm-Features: AZwV_Qidxz5uIrMnB8dhKLOScV5vhsNf8LrEzY_iHNMnqdoi8vLbqK75xYPLiXo
+Message-ID: <CANn89iK3Pu2NXxejTSLF-7MhBc03_ZJUjOtZcTC4nMsbsDpbSw@mail.gmail.com>
+Subject: Re: [PATCH RFC net-next] inet: add ip_retry_random_port sysctl to
+ reduce sequential port retries
+To: Fernando Fernandez Mancera <fmancera@suse.de>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org, 
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, ncardwell@google.com, 
+	kuniyu@google.com, dsahern@kernel.org, idosch@nvidia.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Thorsten Toepper <thorsten.toepper@sap.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <F9EAA7DA-7CD3-43CB-8C6A-671E519BC963@linux.ibm.com>
-References: <20260205180429.3280657-1-mkchauras@gmail.com>
-To: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-X-Mailer: Apple Mail (2.3864.300.41.1.7)
-X-TM-AS-GCONF: 00
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjA2MDEyMyBTYWx0ZWRfXwQTrGuZHHBJd
- rJ/l6bwnIOM33g7LpWXX1Sf23d9MANX9kF+jOK8SopJVeeAsYCm3oUOt47JyvRBoWb/PV5Ccewj
- r21oBgsA+KHDBOnXwMPwD2WeBbOhjb0MDgjR83F09QzHrHP8r8TLkbFzl6svvqXOEnZwY2xEn8A
- di8O1weRYpZxe+Fa36aUQ/uW+keWXRc4/qZA55LggQTIQjxBbFses6ZaAECyeezx3x4vT901MWt
- yKLniss4i/ptrhFadDUiqcYqt2bSo9aJLkJfTpoPY/WMmGV/GEUZAI1MVgqJcP8cagHeNDMwtuK
- BIpf1fxZdK4B5Keg+lRP1ciI1jACGOKf/jbaroPydSmy4rCz0CgfiugY1hUBv1l5NxLjlDIGsmx
- u4j5L0VAp5Tt5D8ETIJmYZi6j+m0Xy0afSBI6eRxDx5JDL14V43nZcb2QjNmc7A1nWehoQEC/6Z
- OVWJ82DaqWszZqw07nQ==
-X-Authority-Analysis: v=2.4 cv=UuRu9uwB c=1 sm=1 tr=0 ts=69861d04 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
- a=pGLkceISAAAA:8 a=VnNF1IyMAAAA:8 a=2MjLW5cuPvDTUXhGF14A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: rKAbCXQU6ntD18MJSrVnl-2QzwLCgd6Q
-X-Proofpoint-GUID: cQ4oq6Q_JzgXBg9zPMTZqe32qENXp67y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-06_05,2026-02-05_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 adultscore=0 clxscore=1015 phishscore=0
- malwarescore=0 lowpriorityscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2601150000
- definitions=main-2602060123
 
+On Fri, Feb 6, 2026 at 5:28=E2=80=AFPM Fernando Fernandez Mancera
+<fmancera@suse.de> wrote:
+>
+>
+>
+> It makes sense. I have tested this approach and we got a more even
+> distribution of source ports when having thousands of reserved ports. No
+> difference at all when not using reserved ports.
+>
+> Please, you can find the distribution graph with the current algorithm
+> [1] and with the random step algorithm [2].
+>
+> While I understand that this approach is introducing a call to
+> get_random_u32_below() on every connect, I am wondering if it makes
+> sense to replace the existing algorithm with this variant. What do you
+> think?
 
+I would ask RFC 6056 experts like Fernando Gont what they think.
 
-> On 5 Feb 2026, at 11:34=E2=80=AFPM, Mukesh Kumar Chaurasiya (IBM) =
-<mkchauras@gmail.com> wrote:
->=20
-> Enable experimental rust support for ppc64le and ppc32be. The patch =
-for
-> ppc32 has been provided by Link Mauve[1] and ppc64le support[2] has =
-been=20
-> merged over it. ppc32 needs some toolchain fixes mentioned in the =
-patch=20
-> `rust: Add PowerPC support` and the discussion for that is done =
-here[1].=20
->=20
-> This has been tested on powernv9 hardware and power10 pseries qemu. I
-> I request Link to test the ppc32 part as i don't have a hardware to =
-test
-> it out.=20
->=20
-> [1] =
-https://lore.kernel.org/all/20260204030507.8203-1-linkmauve@linkmauve.fr
-> [2] =
-https://lore.kernel.org/all/20260204042417.83903-1-mkchauras@gmail.com
->=20
-> Changelog:
-> V2 -> V3:
-> - Splited HAVE_RUST in 2 lines
-> - BINDGEN_TARGET_powerpc initialized before assigning the same to
->  BINDGEN_TARGET
-> V2: =
-https://lore.kernel.org/all/20260204210125.613350-1-mkchauras@gmail.com
->=20
-> V1 -> V2:
-> - jump label fix for rust has been moved to a separate patch
-> - PPC32 support has been taken
-> - rust support has been marked experimental
-> - target.json dependency has been removed
-> - HAVE_RUST now depends on CPU_LITTLE_ENDIAN for PPC64
->=20
-> Link Mauve (1):
->  rust: Add PowerPC support
->=20
-> Mukesh Kumar Chaurasiya (IBM) (2):
->  powerpc/jump_label: adjust inline asm to be consistent
->  powerpc: Enable Rust for ppc64le
->=20
-> Documentation/rust/arch-support.rst   |  1 +
-> arch/powerpc/Kconfig                  |  2 ++
-> arch/powerpc/Makefile                 |  9 +++++++++
-> arch/powerpc/include/asm/jump_label.h | 23 +++++++++++++----------
-> rust/Makefile                         | 12 +++++++++++-
-> 5 files changed, 36 insertions(+), 11 deletions(-)
->=20
-> --=20
-> 2.52.0
->=20
+Note that if we use random at each connect(), we defeat one of the principl=
+es
+of ephemeral port selection : try very hard to avoid 4-tuple collision.
 
-Tested this patch set, by applying on mainline kernel. Attached is the =
-.config file used.
-
-Please add below tag.
-
-Tested-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-
-Logs:
-
-rustc --version
-rustc 1.95.0-nightly (e96bb7e44 2026-01-27)
-
-llvm-18.1.8-3.el9.ppc64le
-
-sudo insmod samples/rust/rust_minimal.ko
-[   39.532119] rust_minimal: loading out-of-tree module taints kernel.
-[   39.532132] rust_minimal: module verification failed: signature =
-and/or required key missing - tainting kernel
-[   39.532856] rust_minimal: Rust minimal sample (init)
-[   39.532860] rust_minimal: Am I built-in? false
-[   39.532864] rust_minimal: test_parameter: 1
-# dmesg | tail -n 30
-[    3.418850] systemd[1]: Mounted Kernel Trace File System.
-[    3.419194] systemd[1]: Finished Create List of Static Device Nodes.
-[    3.419482] systemd[1]: modprobe@configfs.service: Deactivated =
-successfully.
-[    3.419647] systemd[1]: Finished Load Kernel Module configfs.
-[    3.419913] systemd[1]: modprobe@drm.service: Deactivated =
-successfully.
-[    3.420056] systemd[1]: Finished Load Kernel Module drm.
-[    3.420405] systemd[1]: Finished Read and set NIS domainname from =
-/etc/sysconfig/network.
-[    3.420694] systemd[1]: Finished Generate network units from Kernel =
-command line.
-[    3.422214] systemd[1]: Mounting Kernel Configuration File System...
-[    3.423543] systemd[1]: Finished Apply Kernel Variables.
-[    3.424011] systemd[1]: Mounted Kernel Configuration File System.
-[    3.430589] systemd[1]: Started Journal Service.
-[    3.477706] fuse: init (API version 7.45)
-[    3.548678] EXT4-fs (sda3): re-mounted =
-78691517-64fe-451b-9009-14359b774643 r/w.
-[    3.556791] systemd-journald[640]: Received client request to flush =
-runtime journal.
-[    3.681167] Adding 10485696k swap on /dev/sda2.  Priority:-1 =
-extents:1 across:10485696k SS
-[    3.693490] pseries_rng: Registering IBM pSeries RNG driver
-[    3.693904] cryptd: max_cpu_qlen set to 1000
-[    4.702590] RPC: Registered named UNIX socket transport module.
-[    4.702604] RPC: Registered udp transport module.
-[    4.702607] RPC: Registered tcp transport module.
-[    4.702609] RPC: Registered tcp-with-tls transport module.
-[    4.702612] RPC: Registered tcp NFSv4.1 backchannel transport module.
-[    6.701147] block sda: the capability attribute has been deprecated.
-[   10.150485] fbcon: Taking over console
-[   39.532119] rust_minimal: loading out-of-tree module taints kernel.
-[   39.532132] rust_minimal: module verification failed: signature =
-and/or required key missing - tainting kernel
-[   39.532856] rust_minimal: Rust minimal sample (init)
-[   39.532860] rust_minimal: Am I built-in? false
-[   39.532864] rust_minimal: test_parameter: 1
-# sudo rmmod rust_minimal
-[ 4125.461822] rust_minimal: My numbers are [72, 108, 200]
-[ 4125.461839] rust_minimal: Rust minimal sample (exit)
-# sudo insmod samples/rust/rust_print.ko
-[ 4142.492146] rust_print: Rust printing macros sample (init)
-[ 4142.492158] rust_print: Emergency message (level 0) without args
-[ 4142.492161] rust_print: Alert message (level 1) without args
-[ 4142.492163] rust_print: Critical message (level 2) without args
-[ 4142.492166] rust_print: Error message (level 3) without args
-[ 4142.492169] rust_print: Warning message (level 4) without args
-[ 4142.492171] rust_print: Notice message (level 5) without args
-[ 4142.492174] rust_print: Info message (level 6) without args
-[ 4142.492176] rust_print: A line that is continued without args
-[ 4142.492181] rust_print: Emergency message (level 0) with args
-[ 4142.492185] rust_print: Alert message (level 1) with args
-[ 4142.492188] rust_print: Critical message (level 2) with args
-[ 4142.492190] rust_print: Error message (level 3) with args
-[ 4142.492193] rust_print: Warning message (level 4) with args
-[ 4142.492195] rust_print: Notice message (level 5) with args
-[ 4142.492197] rust_print: Info message (level 6) with args
-[ 4142.492200] rust_print: A line that is continued with args
-[ 4142.492205] rust_print: 1
-[ 4142.492206] rust_print: "hello, world"
-[ 4142.492208] rust_print: [rust_print_main.rs:35:5] c =3D "hello, =
-world"
-[ 4142.492213] rust_print: Arc<dyn Display> says 42
-[ 4142.492214] rust_print: Arc<dyn Display> says hello, world
-# dmesg | tail -n 50
-[    3.419913] systemd[1]: modprobe@drm.service: Deactivated =
-successfully.
-[    3.420056] systemd[1]: Finished Load Kernel Module drm.
-[    3.420405] systemd[1]: Finished Read and set NIS domainname from =
-/etc/sysconfig/network.
-[    3.420694] systemd[1]: Finished Generate network units from Kernel =
-command line.
-[    3.422214] systemd[1]: Mounting Kernel Configuration File System...
-[    3.423543] systemd[1]: Finished Apply Kernel Variables.
-[    3.424011] systemd[1]: Mounted Kernel Configuration File System.
-[    3.430589] systemd[1]: Started Journal Service.
-[    3.477706] fuse: init (API version 7.45)
-[    3.548678] EXT4-fs (sda3): re-mounted =
-78691517-64fe-451b-9009-14359b774643 r/w.
-[    3.556791] systemd-journald[640]: Received client request to flush =
-runtime journal.
-[    3.681167] Adding 10485696k swap on /dev/sda2.  Priority:-1 =
-extents:1 across:10485696k SS
-[    3.693490] pseries_rng: Registering IBM pSeries RNG driver
-[    3.693904] cryptd: max_cpu_qlen set to 1000
-[    4.702590] RPC: Registered named UNIX socket transport module.
-[    4.702604] RPC: Registered udp transport module.
-[    4.702607] RPC: Registered tcp transport module.
-[    4.702609] RPC: Registered tcp-with-tls transport module.
-[    4.702612] RPC: Registered tcp NFSv4.1 backchannel transport module.
-[    6.701147] block sda: the capability attribute has been deprecated.
-[   10.150485] fbcon: Taking over console
-[   39.532119] rust_minimal: loading out-of-tree module taints kernel.
-[   39.532132] rust_minimal: module verification failed: signature =
-and/or required key missing - tainting kernel
-[   39.532856] rust_minimal: Rust minimal sample (init)
-[   39.532860] rust_minimal: Am I built-in? false
-[   39.532864] rust_minimal: test_parameter: 1
-[ 4125.461822] rust_minimal: My numbers are [72, 108, 200]
-[ 4125.461839] rust_minimal: Rust minimal sample (exit)
-[ 4142.492146] rust_print: Rust printing macros sample (init)
-[ 4142.492158] rust_print: Emergency message (level 0) without args
-[ 4142.492161] rust_print: Alert message (level 1) without args
-[ 4142.492163] rust_print: Critical message (level 2) without args
-[ 4142.492166] rust_print: Error message (level 3) without args
-[ 4142.492169] rust_print: Warning message (level 4) without args
-[ 4142.492171] rust_print: Notice message (level 5) without args
-[ 4142.492174] rust_print: Info message (level 6) without args
-[ 4142.492176] rust_print: A line that is continued without args
-[ 4142.492181] rust_print: Emergency message (level 0) with args
-[ 4142.492185] rust_print: Alert message (level 1) with args
-[ 4142.492188] rust_print: Critical message (level 2) with args
-[ 4142.492190] rust_print: Error message (level 3) with args
-[ 4142.492193] rust_print: Warning message (level 4) with args
-[ 4142.492195] rust_print: Notice message (level 5) with args
-[ 4142.492197] rust_print: Info message (level 6) with args
-[ 4142.492200] rust_print: A line that is continued with args
-[ 4142.492205] rust_print: 1
-[ 4142.492206] rust_print: "hello, world"
-[ 4142.492208] rust_print: [rust_print_main.rs:35:5] c =3D "hello, =
-world"
-[ 4142.492213] rust_print: Arc<dyn Display> says 42
-[ 4142.492214] rust_print: Arc<dyn Display> says hello, world
-# sudo rmmod rust_print
-[ 4142.492217] rust_print: "hello, world"
-[ 4153.334714] rust_print: Rust printing macros sample (exit)
-
-# sudo rmmod rust_debugfs
-
-Regards,
-Venkat.=
+>
+> Please, notice the implementation below. I plan to send an official v1
+> once net-next is open. In addition, I am rewriting the commit message as
+> I find the current one confusing.
+>
+> [1] https://0xffsoftware.com/port_graph_current_alg.html
+>
+> [2] https://0xffsoftware.com/port_graph_random_step_alg.html
