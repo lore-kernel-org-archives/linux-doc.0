@@ -1,100 +1,270 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-e107.zoho.com (sender4-pp-e107.zoho.com [136.143.188.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A576B2475CE
-	for <linux-doc@vger.kernel.org>; Sat,  7 Feb 2026 18:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770489332; cv=none; b=HsAzhAr9/yOdj/cvtk71ilZkTNMTtXhhCALsKS3sL+B954d2Ne9L2ST5j9Uoe7cNcM6uIAgjP77FtAzfgruzlrNkGsCKLT2/mHDUhP+4R9VcZ2fYozPI/KqLvT0N9ysxk6T51hdZzdNJEmgmfnSMxVQ/aMo+2og0J/0ZbxuEtKE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770489332; c=relaxed/simple;
-	bh=XNpbsRYsF2rlv0zb0B6eouOvN5D51trGAHHoO5yraxM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qLh4l1hQsAbHQGxAd11APlAHGXKRutd5QnczxO2y7El5JX8kQwFgxrW0KODacVSzo1HFsTpLoui7n3rcQmsGlB0n8pCCLthMW2/nMs/S2Hl0SggK78TwvfdB5donxFfTTjDWpc+DR5TF5KE7OphSy0feT1wN+OnzqIYdJ33iUh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=l6VsbM/L; arc=none smtp.client-ip=209.85.167.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65551F1534;
+	Sat,  7 Feb 2026 19:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.107
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770492753; cv=pass; b=FdSq9BFHVbMKP2MLiEOU02n9q++ve9VEsf5M/eJYRaUx4PBB1SQIH2Cw80Vb2t+bDasK1b4z2RirMO2yKvHcUwS6JMXUC2LvQ9eBc8pW9LDeLM1eZ1znbzwztfTr73nXzCDAOZBq2TJMzsOMlqxx/1DO5fS69dHXN7oeu08Mopk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770492753; c=relaxed/simple;
+	bh=JhPQ3MGbLlQoIN8QUQog8TFL/jw2tB5M5mCDObF4c3M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Br4aX81dmTwKtBPFRv9pycyOMn0ggCJy3NwzxyOMxQtgBiZBd288KQonCGTwdVJzx4cN3RMQhhDNJU6+ynTangLPq7GR1+p1aXRqlDy3Of9VIObpSWz84xlhENGLWomwZFLWsn9tQJMoSGttEMzUVs5Xu0oTpXEGN2e3bfYBO8g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=evBJTQV4; arc=pass smtp.client-ip=136.143.188.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="l6VsbM/L"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-45f09874c4cso2128868b6e.3
-        for <linux-doc@vger.kernel.org>; Sat, 07 Feb 2026 10:35:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770489330; x=1771094130; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NARnSWeEyQX0QI8rBoQ42GOyDjukxOobZDpLSRoeY1k=;
-        b=l6VsbM/L9qC7D5qDL2bPJA0eG5rteivNxvTXWAOG15wMXr69WIu7OIrrvNbt7c9DPL
-         tMcgLeEu1R1YcBsGxefcFwabW6ZwDlqIqzhLiWLnR9xRUW49ubehS5FQmVSkWaYuqwaz
-         fA8JOILVik7YI/qbjk5Jg2CYPIvm0kyhgJEdO4fSF4qTBP2jvjv13hW+RH95Oafl5Q6H
-         oOLmpWjAj4ckG02XO+PUC5oQDT51sT2/W9Um5znbqUT+XZvG7kKFSJhZUf6UXsVWBUev
-         pjEkbfx+kFqmNFn5xllvBNPU0lNJ31zdJ+5fGSszN3CEG7WsOcuDNJTa1dk+gJXrJK9q
-         xUsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770489330; x=1771094130;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NARnSWeEyQX0QI8rBoQ42GOyDjukxOobZDpLSRoeY1k=;
-        b=X5srTBfYTwavk6yEcjHTRj56i1qZH9luWBodyBLkoqmWyD38IeaJ7IU2ccgUdFe+B1
-         wcaJYDppYEP07vIA688CG0Dc4FeS37tCsNBhTuf0to8/uHptpi9n+Lnm635Ntu3zSQj1
-         EEabWMVYzKcjd4+iDx6b15/sOBK7bw7/oQq+JTyfWdqj0vtW5PQ2BwicCNNH2j2XYwYm
-         +HeenCU0XvPS6Ch/jCaGhdS3ROjpHV8OhQ/+diuv2XERw9N4KkJH7l9PoMG8HwRomLRw
-         k05FjbrjgjLA53o/q9/D52D+ryrQ0NpW2DX4JWYRkt9zC6Kh8eim9/fyl2O+hjD7IDBK
-         2xzg==
-X-Forwarded-Encrypted: i=1; AJvYcCW6+GzroDJtMRyXXBjkk1nPCz2o3SK363rlKMrZo+LWuNR8t+qGnBYWcd1NSwkU85qtwQ2WXZMkEN0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+l0xrg6cQ7tok36faNtvmt8iod4xsf55SHCNC1wOzh7eMQ/Dx
-	7W8gKyxB+Q775rGM+AnWzporxSWaHMlgDaa15vIIL4ltCRYAj1eu5ORgaS9O6mHk8LQ=
-X-Gm-Gg: AZuq6aJ8byY9ZvxwpMfKOFSKNIsId3FV3lzymkg5yKbYtvnq+1WG1j1DWtP+q6vRZZG
-	hwMmREdcU6kB9SwQBenicbjvFoTZUjkKBs3nUtlfIURDCKNRRZUvTSt3UYQO3PP3e3KAyQXvRFV
-	MNOPQNBrs1ikGVSL3I2Qdy4LFgW+GJiZBcfPes47LWKkL3nb5GvVgQleQ87VM+kKhI/2KK5WHJg
-	jR0VkL1OlmbMnqsqgQDzaJy74y/OXrDka1KRWpTq3+MLZDC9MdO53w6LYXYq2gFJ5/1K9Ih521/
-	r/Ywfw3q+0okdOn8QPd/6BXiBJ5jWuOxCpIc1fEr8svPqwW92H5DnPcm77PCwfVHpwwfp7V9mYZ
-	FbMACylg+6/srb4XRWzEHxaJATokzinoR5mmTnBuBM1m0TZ2+jR5uFxowL08NG+Y6lVsPETEsdQ
-	kInbMDnknrxW3TVFwmA7Lfw/QL0+/a+viHi2TksfDkwgZvItLIEt2roFW+oA==
-X-Received: by 2002:a05:6808:158e:b0:45e:f0ef:cd75 with SMTP id 5614622812f47-462fcb77c7amr3236711b6e.65.1770489330578;
-        Sat, 07 Feb 2026 10:35:30 -0800 (PST)
-Received: from ?IPV6:2600:8803:e7e4:500:74a6:843b:f33:21ae? ([2600:8803:e7e4:500:74a6:843b:f33:21ae])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-462feb5455dsm3550699b6e.17.2026.02.07.10.35.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Feb 2026 10:35:29 -0800 (PST)
-Message-ID: <a38f418d-a73e-4f9d-9c58-92566c3db0d4@baylibre.com>
-Date: Sat, 7 Feb 2026 12:35:28 -0600
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="evBJTQV4"
+ARC-Seal: i=1; a=rsa-sha256; t=1770492691; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=RdYdF7c/7RKURWe83WyERwWuC0yeeolV/HdBzGsCxqcpxL0mkFACmfTt3/4NpZ3OPDinHq6e5n7zbReS59t8n4L15hQO7U4nS8Fn2tTltElnkncw44fcngP1AzCyfoM7c8XaQUiSPZqkbCiCu1DktWNekdpxcACDCAt59MRy8aI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1770492691; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=BWnnE4c8SQWwH+plB/G8amDEzU/xZKpBUTD5dL9L0SU=; 
+	b=Re6ehi0jHhfhcXeU5/Wcel1vSM/nbf3eUn4zLT2HuBpR8KwW09QN7DLyDHZbf6ijMUCiRxsF+PCikeRSy3usv/g319xt3au/Kl8FUvyYtHLKZtOGDNMFRu2qD7kpUxw8NRT2SKuuUMvUnFdxsfzPvDT5EKE3EJPl0JkSQmFBjik=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770492691;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=BWnnE4c8SQWwH+plB/G8amDEzU/xZKpBUTD5dL9L0SU=;
+	b=evBJTQV48BJoXeW9eksUfGNDL8f9WrQ191uHnGjm27R4bEhAOi3K2P49kQH5poEp
+	yBkUs87eqn4KX7O6Iw+RewkgV9Vptiu/GBndvntL5vn5lDe9fPnEXqpBgml8bLsfbTW
+	4iwQ1sonD2B0Akv+l6dv8Hf85aL9HNlIGFgwCxX0=
+Received: by mx.zohomail.com with SMTPS id 1770492689402527.0990853831929;
+	Sat, 7 Feb 2026 11:31:29 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 10/22] drm/rockchip: vop2: Fix YUV444 output
+Date: Sat, 07 Feb 2026 20:31:21 +0100
+Message-ID: <1945994.tdWV9SEqCh@workhorse>
+In-Reply-To: <4c9ce287.fbb.19be87814b8.Coremail.andyshrk@163.com>
+References:
+ <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <6631107.DvuYhMxLoT@workhorse>
+ <4c9ce287.fbb.19be87814b8.Coremail.andyshrk@163.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 8/8] iio: adc: ad4030: Support common-mode channels
- with SPI offloading
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
- eblanc@baylibre.com, andy@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, corbet@lwn.net, marcelo.schmitt1@gmail.com
-References: <cover.1770403407.git.marcelo.schmitt@analog.com>
- <1f05069e25e9ea28db2cef9fa3856456be3c2614.1770403407.git.marcelo.schmitt@analog.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <1f05069e25e9ea28db2cef9fa3856456be3c2614.1770403407.git.marcelo.schmitt@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-On 2/6/26 1:02 PM, Marcelo Schmitt wrote:
-> AD4030 and similar devices can read common-mode voltage together with
-> ADC sample data. When enabled, common-mode voltage data is provided in a
-> separate IIO channel since it measures something other than the primary
-> ADC input signal and requires separate scaling to convert to voltage
-> units. The initial SPI offload support patch for AD4030 only provided
-> differential channels. Now, extend the AD4030 driver to also provide
-> common-mode IIO channels when setup with SPI offloading capability.
-> 
-> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
-> ---
-Reviewed-by: David Lechner <dlechner@baylible.com>
+Hi Andy,
+
+On Friday, 23 January 2026 02:29:02 Central European Standard Time Andy Yan=
+ wrote:
+>=20
+> Hello Nicolas,
+>=20
+> =E5=9C=A8 2026-01-22 20:59:41=EF=BC=8C"Nicolas Frattaroli" <nicolas.fratt=
+aroli@collabora.com> =E5=86=99=E9=81=93=EF=BC=9A
+> >On Thursday, 22 January 2026 09:28:54 Central European Standard Time And=
+y Yan wrote:
+> >>=20
+> >> Hello Nicolas=EF=BC=8C
+> >>=20
+> >> At 2026-01-21 22:45:17, "Nicolas Frattaroli" <nicolas.frattaroli@colla=
+bora.com> wrote:
+> >> >YUV444 (aka YCbCr444) output isn't working quite right on RK3588. The
+> >> >resulting image on the display, while identifying itself as YUV444, h=
+as
+> >> >some components swapped, even after adding the necessary DRM formats =
+to
+> >> >the conversion functions.
+> >> >
+> >> >Judging by downstream, this is because YUV444 also needs an rb swap
+> >> >performed in the AFBC case.
+> >> >
+> >> >Add the DRM formats to the appropriate switch statements, and add a
+> >> >function for checking whether an rb swap needs to be performed in the
+> >> >AFBC case.
+> >> >
+> >> >Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
+> >> >Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> >> >---
+> >> > drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 19 +++++++++++++++++++
+> >> > 1 file changed, 19 insertions(+)
+> >> >
+> >> >diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/g=
+pu/drm/rockchip/rockchip_drm_vop2.c
+> >> >index ec3b4fde10db..469c63dd97d5 100644
+> >> >--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >> >+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+> >> >@@ -176,6 +176,7 @@ static enum vop2_data_format vop2_convert_format(=
+u32 format)
+> >> > 	case DRM_FORMAT_ARGB2101010:
+> >> > 	case DRM_FORMAT_XBGR2101010:
+> >> > 	case DRM_FORMAT_ABGR2101010:
+> >> >+	case DRM_FORMAT_VUY101010:
+> >> > 		return VOP2_FMT_XRGB101010;
+> >> > 	case DRM_FORMAT_XRGB8888:
+> >> > 	case DRM_FORMAT_ARGB8888:
+> >> >@@ -184,6 +185,7 @@ static enum vop2_data_format vop2_convert_format(=
+u32 format)
+> >> > 		return VOP2_FMT_ARGB8888;
+> >> > 	case DRM_FORMAT_RGB888:
+> >> > 	case DRM_FORMAT_BGR888:
+> >> >+	case DRM_FORMAT_VUY888:
+> >> > 		return VOP2_FMT_RGB888;
+> >> > 	case DRM_FORMAT_RGB565:
+> >> > 	case DRM_FORMAT_BGR565:
+> >> >@@ -225,6 +227,7 @@ static enum vop2_afbc_format vop2_convert_afbc_fo=
+rmat(u32 format)
+> >> > 	case DRM_FORMAT_ARGB2101010:
+> >> > 	case DRM_FORMAT_XBGR2101010:
+> >> > 	case DRM_FORMAT_ABGR2101010:
+> >> >+	case DRM_FORMAT_VUY101010:
+> >> > 		return VOP2_AFBC_FMT_ARGB2101010;
+> >> > 	case DRM_FORMAT_XRGB8888:
+> >> > 	case DRM_FORMAT_ARGB8888:
+> >> >@@ -233,6 +236,7 @@ static enum vop2_afbc_format vop2_convert_afbc_fo=
+rmat(u32 format)
+> >> > 		return VOP2_AFBC_FMT_ARGB8888;
+> >> > 	case DRM_FORMAT_RGB888:
+> >> > 	case DRM_FORMAT_BGR888:
+> >> >+	case DRM_FORMAT_VUY888:
+> >>=20
+> >> How did you test this format? It seems tools like modetest don=E2=80=
+=99t support testing this pattern.
+> >>=20
+> >
+> >Hi Andy,
+> >
+> >using the rest of this series, which implements the "color format"
+> >DRM property, and the corresponding weston MR that makes use of it[1].
+> >
+> >I create a ~/.config/weston.ini with the following contents:
+> >
+> >    [output]
+> >    name=3DHDMI-A-1
+> >    color-format=3Dyuv444
+> >
+> >This will make Weston try to set the output format to 10-bit YUV444. To
+> >limit it to 8-bit, you can add `max-bpc=3D8`. The monitor's EDID needs to
+> >report YUV444 support, otherwise that Weston version won't let you set
+> >this property.
+> >
+>=20
+>=20
+> This looks a bit strange. Your commit message and the Weston configuratio=
+n here both target the output format,=20
+> but the patch modifies the functions vop2_convert_format and vop2_convert=
+_afbc_format, which are responsible for
+> converting the data formats of planes/framebuffers (fb)=E2=80=94these hav=
+e nothing to do with the output format.
+
+Yep, I've now re-tested this in various ways and this commit doesn't do
+what I thought it did. I think when I authored it, this was still doing
+BCSH based conversion and may have depended on this at some stage. Also
+possible that I didn't do a clean test run of solely these changes to
+come to my conclusions.
+
+YUV444 primary planes aren't supported by RK3588 at all from what I gather,
+so I have no clue where I ran into this and how this fixed it.
+
+Testing on RK3576 without this, and also playing around with gbm-format,
+I also don't ever get into the situation where this is needed for correct
+output; it seems like EGLConfig always only exposes RGBA formats anyway,
+so Panfrost may still lack YUV format support for the buffers.
+
+I'll drop this patch on the next revision, but I'll keep the changes in
+mind if an atomic modesetting test workload that sets YUV plane formats
+ever comes to be.
+
+Thanks for the reviews!
+
+Kind regards,
+Nicolas Frattaroli
+
+>=20
+>=20
+> >Link: https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/185=
+9 [1]
+> >
+> >Kind regards,
+> >Nicolas Frattaroli
+> >
+> >>=20
+> >>=20
+> >> > 		return VOP2_AFBC_FMT_RGB888;
+> >> > 	case DRM_FORMAT_RGB565:
+> >> > 	case DRM_FORMAT_BGR565:
+> >> >@@ -270,6 +274,19 @@ static bool vop2_win_rb_swap(u32 format)
+> >> > 	}
+> >> > }
+> >> >=20
+> >> >+static bool vop2_afbc_rb_swap(u32 format)
+> >> >+{
+> >> >+	switch (format) {
+> >> >+	case DRM_FORMAT_NV24:
+> >> >+	case DRM_FORMAT_NV30:
+> >> >+	case DRM_FORMAT_VUY888:
+> >> >+	case DRM_FORMAT_VUY101010:
+> >> >+		return true;
+> >> >+	default:
+> >> >+		return false;
+> >> >+	}
+> >> >+}
+> >> >+
+> >> > static bool vop2_afbc_uv_swap(u32 format)
+> >> > {
+> >> > 	switch (format) {
+> >> >@@ -1291,6 +1308,7 @@ static void vop2_plane_atomic_update(struct drm=
+_plane *plane,
+> >> > 		 /* It's for head stride, each head size is 16 byte */
+> >> > 		stride =3D ALIGN(stride, block_w) / block_w * 16;
+> >> >=20
+> >> >+		rb_swap =3D vop2_afbc_rb_swap(fb->format->format);
+> >> > 		uv_swap =3D vop2_afbc_uv_swap(fb->format->format);
+> >> > 		/*
+> >> > 		 * This is a workaround for crazy IC design, Cluster
+> >> >@@ -1308,6 +1326,7 @@ static void vop2_plane_atomic_update(struct drm=
+_plane *plane,
+> >> > 			vop2_win_write(win, VOP2_WIN_AFBC_ENABLE, 1);
+> >> > 		vop2_win_write(win, VOP2_WIN_AFBC_FORMAT, afbc_format);
+> >> > 		vop2_win_write(win, VOP2_WIN_AFBC_UV_SWAP, uv_swap);
+> >> >+		vop2_win_write(win, VOP2_WIN_AFBC_RB_SWAP, rb_swap);
+> >> > 		/*
+> >> > 		 * On rk3566/8, this bit is auto gating enable,
+> >> > 		 * but this function is not work well so we need
+> >> >
+> >>=20
+> >
+> >
+> >
+> >
+>=20
+
+
 
 
