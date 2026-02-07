@@ -1,249 +1,151 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A250314D0F;
-	Sat,  7 Feb 2026 01:35:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597E51FE47B;
+	Sat,  7 Feb 2026 01:50:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770428132; cv=none; b=HCgYiAVJUqz/5LDTAV2dabBeY+RD+0/Uvh8XHoZ4Gh9VyokA4hDkWC0SSTjgOcIsCXkwONZ27cz9Jo6+nwKLOEX4pjQXIOYUJ+hNu/7+vVOgGMZeOQuFVsWOcF4DE41YlmGD1sGpkcdSgiUs7wbSA9Vc1wxsXJw61GXYTRhlruc=
+	t=1770429025; cv=none; b=Mx/skDxjEiioc5QKDZb9EQu+jD4QtCxPvAqbvxBEaoimNhVkJYsc2qPC00Ok89TykndXaudsmIpXW9XCCyICgA/hmh3k1PW+yJCElbTyQz31Wf1IvjYm56SYSnuS4oJNNX+p5MHMvrkQbKmLbUS4sZlWk7mDL6Pe+zhPTOqQZpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770428132; c=relaxed/simple;
-	bh=UQZjrgT2+C5sGvrewfIsj+BiY95FtrloV3QjcSk1pj8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=adEOSKRy6lJfBuTFbuVepDnX+NL/4NOVo8RU8DJRechV9n5WajUIWzrbOAk19grQzhdKhpZ5nbF3mD2uiQAgAC7RF86i6lYhWfkSvhY7gvIb48W5Bc19LQVw9v3SDskKUK+rWA0Fi6+0w/oDcg99cSzODKV+I62AaAnmtog8eoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hOBVLw19; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770429025; c=relaxed/simple;
+	bh=AeZzWJJ3eLzOMDYijrOnV9Cvj9sBq8VrqxbcdEVuF9w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EYYUzj9PiQyv+YzEfo9h7BSVafed0vOkEga51mLqJUa1BnJXc4dOjk0SFnbhtJi/83wEkAUvoU+o9yW0bjty7MP5rB6M2tfsI3Vs4z0VHHcINMD6rqFIOVThWiGR/WccY6Zxf8rEmi/KulvduXjjZKSze4GjJ5Tc9rBdA5XJj9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z18bC+bK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hOBVLw19"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB27CC116C6;
-	Sat,  7 Feb 2026 01:35:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z18bC+bK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBD81C116C6;
+	Sat,  7 Feb 2026 01:50:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770428132;
-	bh=UQZjrgT2+C5sGvrewfIsj+BiY95FtrloV3QjcSk1pj8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hOBVLw19hzyNdvsmQFl6r4uIKKUUC1+sKGnWq80YxOP0V9mrY7/cfavno86LKYHvC
-	 o2u/2IvPeLCTwpr1u69Gd2OZgXkYL42bXtGUrDIwhqd3UOwtWE0mB7m5cl52QAK6R8
-	 xMCsnFfJ+YDVX/JfqVs0QW+mix1NbuE4CaB1U1CcoAZ1MgJSK+lbqP4bezSjfJ4/26
-	 W3lx+jo1IkzWOnMHhIJcmYqTlxA7wUQM41TlV1ykOEz+Xq4xVAlzkC6jiK5HhwK6cE
-	 5QnJQSd6q6cEsYsLPl2jtGtCxxqtmDQUmn2NOXUSII1asL/H0uqKNJdVEwSYAC10wO
-	 oVXHqRg9SbsZQ==
-From: SeongJae Park <sj@kernel.org>
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: SeongJae Park <sj@kernel.org>,
-	linux-mm@kvack.org,
-	Jiayuan Chen <jiayuan.chen@shopee.com>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michal Hocko <mhocko@kernel.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Yosry Ahmed <yosry.ahmed@linux.dev>,
-	Nhat Pham <nphamcs@gmail.com>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Shuah Khan <shuah@kernel.org>,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] selftests/cgroup: add test for zswap incompressible pages
-Date: Fri,  6 Feb 2026 17:35:28 -0800
-Message-ID: <20260207013529.69681-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260206072220.144008-3-jiayuan.chen@linux.dev>
-References: 
+	s=k20201202; t=1770429025;
+	bh=AeZzWJJ3eLzOMDYijrOnV9Cvj9sBq8VrqxbcdEVuF9w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Z18bC+bKhdS99kEMAqdiL3lOhQtzzAe24vw1VQN6s4pRbZ/X71enNfEdvDRj0LU6n
+	 e8hj2zTXJ1FGgMcZDkUu/IAOeT/ipsoqE2osqBE1vHkOl8A9GFPHbYttyuCjLwqwqe
+	 FJws9OOttsiv9lIAg+1omzYMwa96uzOhPFa2QcZeKmTxToPpTN2V/d8xNdAO3fuFbD
+	 qwBQUEH3S+BzQVsnGiv/dgKxW9wcQLzgW6HO5PTcI6yRl+IQWLSurt4ZKmvQ+5B5Uz
+	 xyiqJuny1IGalN7NnWRT4FaBlkBWS51JrNjaEcEUuH7QctdZLqfRdI3NRYu9H7e+c9
+	 n2KPnZFcd1ujQ==
+Date: Fri, 6 Feb 2026 17:50:23 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, Gal Pressman
+ <gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Carolina Jubran
+ <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko
+ <jiri@nvidia.com>, Randy Dunlap <rdunlap@infradead.org>, Simon Horman
+ <horms@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH net-next V7 01/14] documentation: networking: add shared
+ devlink documentation
+Message-ID: <20260206175023.34ffd9d6@kernel.org>
+In-Reply-To: <khee3ri33uvtp4ssaqu7a6vy4mkbrp2zq6nghpbmyyc5pup6rq@hyryulfrhfl6>
+References: <20260128112544.1661250-1-tariqt@nvidia.com>
+	<20260128112544.1661250-2-tariqt@nvidia.com>
+	<20260202194023.412bb454@kernel.org>
+	<u7uicnxkcirhacpzjimss2pqsuhbngg4ticqrz45iqchkk2ha2@t3eem6w6hhur>
+	<20260203190105.2cc28e71@kernel.org>
+	<3edheaanzxgutuyryorfzlfjvizlorpj4y3ard5js7mp44hfii@4a36de6wazfd>
+	<20260204180256.1476f537@kernel.org>
+	<khee3ri33uvtp4ssaqu7a6vy4mkbrp2zq6nghpbmyyc5pup6rq@hyryulfrhfl6>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Fri,  6 Feb 2026 15:22:16 +0800 Jiayuan Chen <jiayuan.chen@linux.dev> wrote:
+On Fri, 6 Feb 2026 11:52:21 +0100 Jiri Pirko wrote:
+> Thu, Feb 05, 2026 at 03:02:56AM +0100, kuba@kernel.org wrote:
+> >On Wed, 4 Feb 2026 08:12:00 +0100 Jiri Pirko wrote: =20
+> >> What's the backing device / handle (busname/devname)? Best would be to
+> >> draw a picture, as always :) =20
+> >
+> >Either the bus/dev that shows up first or we go back to index. =20
+>=20
+> That may be tricky in case you bind/unbind the PFs randomly. You may and
+> up with devlink handle of PF1 with only member PF2. Confusing at least.
+> You need to expose the members to the user anyway somehow. That is
+> exactly the list of nested instances these patchset is adding.
 
-> From: Jiayuan Chen <jiayuan.chen@shopee.com>
-> 
-> Add test_zswap_incompressible() to verify that the zswap_incomp memcg
-> stat correctly tracks incompressible pages.
-> 
-> The test allocates memory filled with random data from /dev/urandom,
-> which cannot be effectively compressed by zswap. When this data is
-> swapped out to zswap, it should be stored as-is and tracked by the
-> zswap_incomp counter.
-> 
-> The test verifies that:
-> 1. Pages are swapped out to zswap (zswpout increases)
-> 2. Incompressible pages are tracked (zswap_incomp increases)
-> 
-> test:
-> dd if=/dev/zero of=/swapfile bs=1M count=2048
-> chmod 600 /swapfile
-> mkswap /swapfile
-> swapon /swapfile
-> echo Y > /sys/module/zswap/parameters/enabled
-> 
-> ./test_zswap
->  TAP version 13
->  1..8
->  ok 1 test_zswap_usage
->  ok 2 test_swapin_nozswap
->  ok 3 test_zswapin
->  ok 4 test_zswap_writeback_enabled
->  ok 5 test_zswap_writeback_disabled
->  ok 6 test_no_kmem_bypass
->  ok 7 test_no_invasive_cgroup_shrink
->  ok 8 test_zswap_incompressible
->  Totals: pass:8 fail:0 xfail:0 xpass:0 skip:0 error:0
+Yes, simpler setup would likely be to have one function designated=20
+as "main". This could get fairly complicated, OTOH most current use
+cases are fairly rigid, with the function config being per device SKU.
+=46rom uAPI perspective having the list of currently present functions
+and ports should be flexible for current and future use cases.
 
-Nice test.  This is also testing the functionality of zswap's incompressible
-page handling.
+> >(My main point being that the single instance is strictly better
+> >than shared, ie. no problem exists in single instance multi func
+> >which does not exist in multi instance + extra instance multi func.
+> >But some problems do exist in multi instance which do not in single
+> >like the locking) =20
+>=20
+> I think that my shared and your shared are basically the same as far as
+> the nested PF instances are not really used for anything except the
+> modelling purposes. That should be up to the driver how he wants to play
+> it, shouldn't it?
 
-> 
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@shopee.com>
+Man, seeing the locking shenanigans that the driver developers end up
+doing just in the last two weeks makes me question the "leave it to=20
+the driver" attitude. I'd much rather have code that works than code
+that is adaptive to multiple levels of incompetence.
 
-Reviewed-by: SeongJae Park <sj@kernel.org>
+> >I think I was trying to sell you on "more stable identifiers"=20
+> >as a alternative to ALT_NAMEs for netdevs at some point ;) =20
+>=20
+> I don't recall that. Anyway, everyone loves ALT_NAMEs at this point :)
 
-> ---
->  tools/testing/selftests/cgroup/test_zswap.c | 96 +++++++++++++++++++++
->  1 file changed, 96 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/cgroup/test_zswap.c b/tools/testing/selftests/cgroup/test_zswap.c
-> index 64ebc3f3f203..8cb8a131357d 100644
-> --- a/tools/testing/selftests/cgroup/test_zswap.c
-> +++ b/tools/testing/selftests/cgroup/test_zswap.c
-> @@ -5,6 +5,7 @@
->  #include <unistd.h>
->  #include <stdio.h>
->  #include <signal.h>
-> +#include <fcntl.h>
->  #include <sys/sysinfo.h>
->  #include <string.h>
->  #include <sys/wait.h>
-> @@ -574,6 +575,100 @@ static int test_no_kmem_bypass(const char *root)
->  	return ret;
->  }
->  
-> +static int allocate_random_and_wait(const char *cgroup, void *arg)
-> +{
-> +	size_t size = (size_t)arg;
-> +	char *mem;
-> +	int fd;
-> +	ssize_t n;
-> +
-> +	mem = malloc(size);
-> +	if (!mem)
-> +		return -1;
-> +
-> +	/* Fill with random data from /dev/urandom - incompressible */
-> +	fd = open("/dev/urandom", O_RDONLY);
-> +	if (fd < 0) {
-> +		free(mem);
-> +		return -1;
-> +	}
-> +
-> +	for (size_t i = 0; i < size; ) {
-> +		n = read(fd, mem + i, size - i);
-> +		if (n <= 0)
-> +			break;
-> +		i += n;
-> +	}
-> +	close(fd);
-> +
-> +	/* Touch all pages to ensure they're faulted in */
-> +	for (size_t i = 0; i < size; i += 4096)
+:)
 
-Nit.  I show test_zswapin() is using PAGE_SIZE.  Maybe the above code can also
-use it?
+> >> Okay, what's your suggestion going foreward then? =20
+> >
+> >Add the ID back, make bus/dev optional, forgo the faux dev?
+> >Would that work? Would exiting CLI become very unhappy? :S =20
+>=20
+> Ha, that would break so many things, everything is based on
+> bus/dev on UAPI level :/
+>=20
+> I was thinking about having some sort of *special-bus-name* for indexes,
+> like:
+>=20
+> none/1
+> none/2
+> or
+> devlink_id/1
+> devlink_id/2
+> or something like that.
+>=20
+> But it would be either that or original bus/dev, not both :/
+>=20
+> Perhaps we can add ID attr as optional/alternative handle? Then legacy
+> userspace can use existing bus/dev handle and new can use the ID attr?
+> Then the example output would look something like:
+>=20
+> $ devlink dev
+> pci/0000:08:00.0: id 1
+>   nested_devlink:
+>     auxiliary/mlx5_core.eth.0
+> devlink_id/2: id 2
+>   nested_devlink:
+>     pci/0000:08:00.0
+>     pci/0000:08:00.1
+> auxiliary/mlx5_core.eth.0: id 3
+> pci/0000:08:00.1: id 4
+>   nested_devlink:
+>     auxiliary/mlx5_core.eth.1
+> auxiliary/mlx5_core.eth.1: id 5
+>=20
+> Makes sense?
 
-> +		mem[i] = mem[i];
-> +
-> +	/* Keep memory alive for parent to reclaim and check stats */
-> +	pause();
-> +	free(mem);
-> +	return 0;
-> +}
-> +
-> +static long get_zswap_incomp(const char *cgroup)
-> +{
-> +	return cg_read_key_long(cgroup, "memory.stat", "zswap_incomp ");
-> +}
-> +
-> +/*
-> + * Test that incompressible pages (random data) are tracked by zswap_incomp.
-> + *
-> + * Since incompressible pages stored in zswap are charged at full PAGE_SIZE
-> + * (no memory savings), we cannot rely on memory.max pressure to push them
-> + * into zswap. Instead, we allocate random data within memory.max, then use
-> + * memory.reclaim to proactively push pages into zswap while checking the stat
-> + * before the child exits (zswap_incomp is a gauge that decreases on free).
-> + */
-> +static int test_zswap_incompressible(const char *root)
-> +{
-> +	int ret = KSFT_FAIL;
-> +	char *test_group;
-> +	long zswap_incomp;
-> +	pid_t child_pid;
-> +	int child_status;
-> +
-> +	test_group = cg_name(root, "zswap_incompressible_test");
-> +	if (!test_group)
-> +		goto out;
-> +	if (cg_create(test_group))
-> +		goto out;
-> +	if (cg_write(test_group, "memory.max", "32M"))
-> +		goto out;
-> +
-> +	child_pid = cg_run_nowait(test_group, allocate_random_and_wait,
-> +				  (void *)MB(4));
-> +	if (child_pid < 0)
-> +		goto out;
-> +
-> +	/* Wait for child to finish allocating */
-> +	usleep(500000);
+Yup, seems reasonable.
 
-We might be better to revisit here in future to avoid racy test results.  But
-this seems good enough for now.
+Alternatively we could add a socket or request flag to dumps that
+indicates that user space is aware that some instances will not
+have the bus/dev identifier?
 
-> +
-> +	/* Proactively reclaim to push random pages into zswap */
-> +	cg_write_numeric(test_group, "memory.reclaim", MB(4));
-> +
-> +	zswap_incomp = get_zswap_incomp(test_group);
-> +	if (zswap_incomp <= 0) {
-> +		ksft_print_msg("zswap_incomp not increased: %ld\n", zswap_incomp);
-> +		goto out_kill;
-> +	}
-> +
-> +	ret = KSFT_PASS;
-> +
-> +out_kill:
-> +	kill(child_pid, SIGTERM);
-> +	waitpid(child_pid, &child_status, 0);
-> +out:
-> +	cg_destroy(test_group);
-> +	free(test_group);
-> +	return ret;
-> +}
-> +
->  #define T(x) { x, #x }
->  struct zswap_test {
->  	int (*fn)(const char *root);
-> @@ -586,6 +681,7 @@ struct zswap_test {
->  	T(test_zswap_writeback_disabled),
->  	T(test_no_kmem_bypass),
->  	T(test_no_invasive_cgroup_shrink),
-> +	T(test_zswap_incompressible),
->  };
->  #undef T
->  
-> -- 
-> 2.43.0
-
-
-Thanks,
-SJ
-
-[...]
