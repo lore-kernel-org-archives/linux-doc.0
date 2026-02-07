@@ -1,67 +1,67 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C3333CEA7
-	for <linux-doc@vger.kernel.org>; Sat,  7 Feb 2026 20:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B7E33CEB0
+	for <linux-doc@vger.kernel.org>; Sat,  7 Feb 2026 20:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770495578; cv=none; b=XYr6vpBQwySIaWFZziQ+Hfb2POD6wH4hGUMPAhP+s6tSFFiqtsyCJvHywmMH9z6tYFXzX0XCo+++glzvX8J7ZevwFWIhPpxYSCNFt/GDW9swH0TqQMxIjE47OgM+ZJro2voEqD3PJxZrW5uBBoWvflVwlzE8Y/hFOT9QGn/7GCc=
+	t=1770495608; cv=none; b=dKjHIBBfAH+5uyXKaXA1PKI4mFmRfXRujwszwlL1eiaCyuF9t+Of+iq/Ohaucqb62Y3a+IgbrIMzRzWzflCiZP+sFKoXmTRdpHwl8xqGsemD+TeDRoU4vPONoe0zpVvE0Lum5oxB0ISPjmgKKQu0lODNjvJTZJO8SicOLWPvom4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770495578; c=relaxed/simple;
-	bh=YOvcABvi86FBPIGHFRbcrhtefQ+sifLNtLVYHDYqhb0=;
+	s=arc-20240116; t=1770495608; c=relaxed/simple;
+	bh=ImAYCiSTK6i1+gxOxS9jG+GM+vLaHxdB1SVCmCPXlrI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hqp3QoqHqPUt8VQyrMmqiPpkgzZzncN8OBr1B71BwWnkK0i4+TKL+ULFrjjsxheJx5DaHGmOIHDLxyhFCrNIlRieABJIetbl/yHqXblBIgzVXiT8xHBQ8pC1yenKQjnCrs22UXAT+JLmgpNFgTMyXjNZwQKqLnR1M/vgc2FA4Hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dEsjbI2/; arc=none smtp.client-ip=209.85.128.41
+	 In-Reply-To:Content-Type; b=oUFwCkhpdyQR/mjCoohefA0bmikvicZAs4kuGkdMkPTy92Ih7plH4T0+SalAJaz8+UjYpVotoSI3WgUSVTTL+x+ZCPjW+ihQY8DHRpwpf4mCM7paAyIu48Q6b7BjRBrHqBvm8VR83JY6qrKWVgIPebuO7AafTJV+B5RO4JIei4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PBqajeUO; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dEsjbI2/"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4833115090dso4630775e9.3
-        for <linux-doc@vger.kernel.org>; Sat, 07 Feb 2026 12:19:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PBqajeUO"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-482f2599980so38497825e9.0
+        for <linux-doc@vger.kernel.org>; Sat, 07 Feb 2026 12:20:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770495576; x=1771100376; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770495607; x=1771100407; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=LmE23qjtgb2EulsiY+c7A9BQzukrzPbX/0RgHfT6JCg=;
-        b=dEsjbI2/oSVceaO5SgvhoL1QeYtTq4zLx34miW8ywGggSbyosl62zptBT4s1TXAJJA
-         cNB8EYIlvwfXswEUJhN24lkGCyWUbEKi9hSssIrhVfUUvIaeZVcX9XPpL6EiKh4dar6x
-         6fIyBZIEAfsWnnofEEI+5/S3dqJiG4JOoKfUewj0LqKclvYnc37eap+XDOcP9LF/W0dg
-         zQsYlXLRUSf3OmCxgzBJJAbfPOSm/+V/AT12k6rCSSnl058UurWvia8S2pZyVWUVVFSF
-         FEfCEJjv3NKjtCYv9uElyLNcPr3CeGXpifg46b7EK7UnUm2/pJ8CZENZu3aXnSds568Q
-         4JPA==
+        bh=2CLN/nBgZu1TXV2x2w92nD7nqppwuTNa2tEtzd/B9Hg=;
+        b=PBqajeUO3NBqRKAwo6Emtog/2rVmNiDc6KwTyAq3mOHpqEauRwgY4qFIPA+x0EJhKS
+         drrokrqd1uYu8XqOLPDgc3xu15WI81PSnn53eFlzoZOdU26vUo9t30c0T9L/0XnvoexG
+         vHA1ue9AA6ZlVBF7GPYe4Sdlf0Ry/PFu46L27NTIjfC3pYKm4T0fbp4192eT5EHj92eJ
+         Y2N7OGrPW2pRTcRiqjkSlh4kSn89WVGbWmWbtcV7DEcFN82CW9vbS7wyZiKZldVE1qTr
+         O7aeve90VwuqaP11vGg8hiC2a97kZvmQcZIDqtFt+65ivd9Bq1tIjjtcHz0FriFq6bT5
+         e1/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770495576; x=1771100376;
+        d=1e100.net; s=20230601; t=1770495607; x=1771100407;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LmE23qjtgb2EulsiY+c7A9BQzukrzPbX/0RgHfT6JCg=;
-        b=ZBunbv2GXeFPeeLWZL3n/r35lAo4vGPODghKf5GA7BEHnrw3JZYINsTwE703QRa7Y+
-         6tCKQ/7/O6KCTjTeEwH/nPp398SJ0RiONzENrUimp2kfHy1Pb4o+y5SelG6dbM1alcNU
-         dH10VzUaDHZTBW0hA1XMFBy0zPbX6dPeR4fqt+LKIk4BW9DF3sMRoLWv0zYHr28eFNBU
-         QUqbRP2E8l1cUE78BZOZriy32a3hfvLqdH8k7Xc3VkEii5JICotS8jUxbGcCJNCs1Rl8
-         UWTU+aRjRu6Yww8QCJHGBjrfEG3c89U6QOI3w5Uy/MOEr/WYkmv7KjdOX9NouWv/IwbT
-         Uoow==
-X-Forwarded-Encrypted: i=1; AJvYcCU4a/r/GUvL7bC2zM3qdSHzHIMbXDVUTIoKy0hKLFIIwEjxvyo6CUwDvuliG8/foP7AopxbGd6i3GQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgnCmRpc6kaPhQgvRHjNYlNnoem0mYmTmTnhZH3lnoLA0rba7Y
-	sbOvqJpD62S6Dcm+clEutjVCWLlWfEuoMbMoewhvyYKDmHx8N3aAoVat
-X-Gm-Gg: AZuq6aJcN5tjSGJUF0cRP4iXNBdNkqg3IUPRblrSDJ8TyLeBLC8qacmN9iaZqOFWkZ4
-	6X9zWsL3ut+ptVh37QpJJxcTemO2Csl95bdCYJ2NN0Xy7IQWgtOT0hNfPIgqdkD9WQzliIisMV8
-	vQue5G+z6ZdZhA9em77GlWIJltcWZ0SwQvlFOO3KGmU4V7X3+nyEsXUOvf5ucOQAxhzcL9ghk2k
-	WrKEoXe7kNPpBJnxasjr2Kq1fN9OTHCX7XpKs4j7Wij6Vz8ClcKeH6oQTsool0twxuLJ48i2qJQ
-	Gcws9QXzSYcC/daPl7ipJ1q1eUCmCMT23i52Nh/ngUws988WiD3dBvvTURJEvPUWp17Plp2Bbor
-	L1PxWXeJyijTauCoJvoegC+oexjldxkk/yY3bYHQcVtI8PnSwU8sJAqF2nfvOj7y/KHtYj8XxyL
-	Hbhf7EBTW64amlWOfbqAbmJFvYWMWM9XOGNX6w480tXIbE3PiWZKECruOyLG2oAgO7TGmMNCZEz
-	AGW+NmeIQYVGKg=
-X-Received: by 2002:a05:600c:4f8a:b0:480:3230:6c9b with SMTP id 5b1f17b1804b1-483201dd004mr94651865e9.7.1770495575929;
-        Sat, 07 Feb 2026 12:19:35 -0800 (PST)
+        bh=2CLN/nBgZu1TXV2x2w92nD7nqppwuTNa2tEtzd/B9Hg=;
+        b=Uodru5trJHvJsPB0/kT6u1sfGwuwvJ2K+TN7lHiH66leS5TYIE5VVPVbF7iuBzVyq0
+         HlilbV9MINMMJ8B8akVW8uUgFNDqGoFUMRAfZyvNQElHkpeTu+CLzbGPixY88QM8fFlF
+         F/x0dlYx9WgPCy7ZBPDFuIxLoL8KTmV7zMANbuy/Os3y7EMeyMYEtLsZ05y0TqzvXSHF
+         tPu31TFMcVsBDWQfjA9iyKv4uayL8VLUEoadj3G7cTUY2bb0Qzvt7pk0oI2PRxZsl2Id
+         7Bku/sJFnXPzVyrXtOS7IDJrzjq6kw/7AE2vXxxQEbJSMt7TXumZmH8z7dSYEmI04IB4
+         w70Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUIuwRPk80y4vmWqxC6s+Hhj+MBdw5UexhdkgWam3EVVWTumsM3l4Zml7au+MUAdYqUwEMh5/dXCFE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMvEJk8e+kFxqHM+w4UGr5THyPV6PcYHyx6Oydjplg6P7OoWTl
+	ecduLcuFcgGuA7CQqVQ2COcTY3EdaSzN+0j9n8zE8qgoRFVtoMdakKY1
+X-Gm-Gg: AZuq6aLROlu4Zxt58p/y7YQjsAPBoa+wzZzQ7GpzwrFk50ZL53xoixo36cLXbugIsXh
+	6T87AeF0MPvh7r/0QloXOqACxU87kWB3AAbTNgM9kW/G4rGUX5QXV70HO6wLr61/i0u1cLGawvV
+	psCpgJyx773Tr1oF9DMdXCJXQlMmAvBqOHO65y9K4PXvnkDO4AI8dlL0y68oXmd0S8i4peq4KXJ
+	0T3pQ0H9VgxlgIK6Hys2cjWxEPMOSEKsvuzSe+pOJC3H32xZJWADnpMFNeeCwQ8TSQQlXqxby3D
+	ExvX0u1Bd9b3/FHN3pHitwMEfNa+bYIPZ/VbHzB1LhqsrOGhjH/xlP65psDBf88q28Umz08brSQ
+	gSpBCJBVIKwLn1ZAbPemRNleQZeSE1mvzbOHrr4Zc05Ykle9rnBBkZry/rrsncc5vbk3/j7aVwm
+	6FIeR7z/oiHFJ2Yh52q3Ss5i6SrvNIbN4twJs39rQMUFdwYjLW8qMmWasoHIUosO1iFYXvGKzhu
+	+c1piPngqZGmg0=
+X-Received: by 2002:a05:600c:548d:b0:480:7162:fa48 with SMTP id 5b1f17b1804b1-483201ecd90mr108547085e9.13.1770495606497;
+        Sat, 07 Feb 2026 12:20:06 -0800 (PST)
 Received: from ?IPV6:2a02:6b6f:e752:9400:18cf:c773:ee86:c436? ([2a02:6b6f:e752:9400:18cf:c773:ee86:c436])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483206cc7d3sm131304355e9.5.2026.02.07.12.19.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483209cfd77sm51750705e9.14.2026.02.07.12.20.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 07 Feb 2026 12:19:34 -0800 (PST)
-Message-ID: <fd80736b-7b2a-4675-82a7-1902705c6361@gmail.com>
-Date: Sat, 7 Feb 2026 20:19:34 +0000
+        Sat, 07 Feb 2026 12:20:05 -0800 (PST)
+Message-ID: <f4e66e8d-d285-4362-8bc9-fef00f2f624d@gmail.com>
+Date: Sat, 7 Feb 2026 20:20:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,8 +69,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 07/17] mm: Rework compound_head() for power-of-2
- sizeof(struct page)
+Subject: Re: [PATCHv6 01/17] mm: Move MAX_FOLIO_ORDER definition to mmzone.h
 Content-Language: en-GB
 To: Kiryl Shutsemau <kas@kernel.org>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -86,145 +85,26 @@ Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
  <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
  Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>
 References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-8-kas@kernel.org>
+ <20260202155634.650837-2-kas@kernel.org>
 From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <20260202155634.650837-8-kas@kernel.org>
+In-Reply-To: <20260202155634.650837-2-kas@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
 On 02/02/2026 15:56, Kiryl Shutsemau wrote:
-> For tail pages, the kernel uses the 'compound_info' field to get to the
-> head page. The bit 0 of the field indicates whether the page is a
-> tail page, and if set, the remaining bits represent a pointer to the
-> head page.
+> Move MAX_FOLIO_ORDER definition from mm.h to mmzone.h.
 > 
-> For cases when size of struct page is power-of-2, change the encoding of
-> compound_info to store a mask that can be applied to the virtual address
-> of the tail page in order to access the head page. It is possible
-> because struct page of the head page is naturally aligned with regards
-> to order of the page.
-> 
-> The significant impact of this modification is that all tail pages of
-> the same order will now have identical 'compound_info', regardless of
-> the compound page they are associated with. This paves the way for
-> eliminating fake heads.
-> 
-> The HugeTLB Vmemmap Optimization (HVO) creates fake heads and it is only
-> applied when the sizeof(struct page) is power-of-2. Having identical
-> tail pages allows the same page to be mapped into the vmemmap of all
-> pages, maintaining memory savings without fake heads.
-> 
-> If sizeof(struct page) is not power-of-2, there is no functional
-> changes.
-> 
-> Limit mask usage to HugeTLB vmemmap optimization (HVO) where it makes
-> a difference. The approach with mask would work in the wider set of
-> conditions, but it requires validating that struct pages are naturally
-> aligned for all orders up to the MAX_FOLIO_ORDER, which can be tricky.
+> This is preparation for adding the vmemmap_tails array to struct
+> pglist_data, which requires MAX_FOLIO_ORDER to be available in mmzone.h.
 > 
 > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> Reviewed-by: Muchun Song <muchun.song@linux.dev>
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
-> ---
+> Acked-by: David Hildenbrand (Red Hat) <david@kernel.org>
+> Acked-by: Zi Yan <ziy@nvidia.com>
+> Acked-by: Muchun Song <muchun.song@linux.dev>
 
 Acked-by: Usama Arif <usamaarif642@gmail.com>
-
-Small nit below:
-
->  include/linux/page-flags.h | 81 ++++++++++++++++++++++++++++++++++----
->  mm/slab.h                  | 16 ++++++--
->  mm/util.c                  | 16 ++++++--
->  3 files changed, 97 insertions(+), 16 deletions(-)
-> 
-> diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
-> index d14a17ffb55b..8f2c7fbc739b 100644
-> --- a/include/linux/page-flags.h
-> +++ b/include/linux/page-flags.h
-> @@ -198,6 +198,29 @@ enum pageflags {
->  
->  #ifndef __GENERATING_BOUNDS_H
->  
-> +/*
-> + * For tail pages, if the size of struct page is power-of-2 ->compound_info
-> + * encodes the mask that converts the address of the tail page address to
-> + * the head page address.
-> + *
-> + * Otherwise, ->compound_info has direct pointer to head pages.
-> + */
-> +static __always_inline bool compound_info_has_mask(void)
-> +{
-> +	/*
-> +	 * Limit mask usage to HugeTLB vmemmap optimization (HVO) where it
-> +	 * makes a difference.
-> +	 *
-> +	 * The approach with mask would work in the wider set of conditions,
-> +	 * but it requires validating that struct pages are naturally aligned
-> +	 * for all orders up to the MAX_FOLIO_ORDER, which can be tricky.
-> +	 */
-> +	if (!IS_ENABLED(CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP))
-> +		return false;
-> +
-> +	return is_power_of_2(sizeof(struct page));
-> +}
-> +
->  #ifdef CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP
->  DECLARE_STATIC_KEY_FALSE(hugetlb_optimize_vmemmap_key);
->  
-> @@ -210,6 +233,10 @@ static __always_inline const struct page *page_fixed_fake_head(const struct page
->  	if (!static_branch_unlikely(&hugetlb_optimize_vmemmap_key))
->  		return page;
->  
-> +	/* Fake heads only exists if compound_info_has_mask() is true */
-> +	if (!compound_info_has_mask())
-> +		return page;
-> +
->  	/*
->  	 * Only addresses aligned with PAGE_SIZE of struct page may be fake head
->  	 * struct page. The alignment check aims to avoid access the fields (
-> @@ -223,10 +250,14 @@ static __always_inline const struct page *page_fixed_fake_head(const struct page
->  		 * because the @page is a compound page composed with at least
->  		 * two contiguous pages.
->  		 */
-> -		unsigned long head = READ_ONCE(page[1].compound_info);
-> +		unsigned long info = READ_ONCE(page[1].compound_info);
->  
-> -		if (likely(head & 1))
-> -			return (const struct page *)(head - 1);
-> +		/* See set_compound_head() */
-> +		if (likely(info & 1)) {
-> +			unsigned long p = (unsigned long)page;
-> +
-> +			return (const struct page *)(p & info);
-> +		}
->  	}
->  	return page;
->  }
-> @@ -281,11 +312,26 @@ static __always_inline int page_is_fake_head(const struct page *page)
->  
->  static __always_inline unsigned long _compound_head(const struct page *page)
->  {
-> -	unsigned long head = READ_ONCE(page->compound_info);
-> +	unsigned long info = READ_ONCE(page->compound_info);
->  
-> -	if (unlikely(head & 1))
-> -		return head - 1;
-> -	return (unsigned long)page_fixed_fake_head(page);
-> +	/* Bit 0 encodes PageTail() */
-> +	if (!(info & 1))
-> +		return (unsigned long)page_fixed_fake_head(page);
-> +
-> +	/*
-> +	 * If compound_info_has_mask() is false, the rest of compound_info is
-> +	 * the pointer to the head page.
-> +	 */
-> +	if (!compound_info_has_mask())
-> +		return info - 1;
-> +
-> +	/*
-> +	 * If compoun_info_has_mask() is true the rest of the info encodes
-
-s/compoun_info_has_mask/compound_info_has_mask/
