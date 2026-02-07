@@ -1,108 +1,106 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAAD21A92F;
-	Sat,  7 Feb 2026 14:00:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069E8125A0;
+	Sat,  7 Feb 2026 16:18:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770472859; cv=none; b=FwxtnmLKzMHk18XBi6HtjgK0HkNGF+cEPn/QlLXhVAGUv/6uP4mE+CAx5o6bomhuUxXuMksxMbv6uxdsgJWpbr+betlaKtGskQTL4/7yWBWkHJbVnGkJMgJfkoSWIDQVfdZE1TZk9c13bYwfn0qLyr8c71fmqthqRHsYVI+EF+c=
+	t=1770481099; cv=none; b=VaPE4+5A3KyMdeOXbH3tz4U3JFNRCEqmNS0ppoMCILVmmfrzvFEqCdXJo+NeJ6nBZQY5xTuaRyPOgRmGYH4/IGzm3uuh+pi6q8outz1yDKv42rtL9gu8xlbtJBuphsZX0gf8mbmQc2Fd8eoOSmAMeg1H/KqJq2vPIMjbtWtr2TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770472859; c=relaxed/simple;
-	bh=ipmA27PT7L4J7VlPzxsEb8IpZwj1SopV4GIlkZpo15M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BdYeQJm4HeBf3V61W3l5lRmSENXl40L2SUuX6Cpx/QsfzDvTF/yohWaqbn66eZoKhBVjvwWH43XCObCzOHNahEbiIRijLSj+QwrpF5HhV09pAvKBpw4tUMrt2GxmjfHw9LZLbpxCUgNmHyrgmUqjj8HPboxpHIlLoW4RYoSHbOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DgLx2j9Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770481099; c=relaxed/simple;
+	bh=Q6ceXdrIArpLVGClzYXR3vLOkttPjE6YPnbXEG1ovEc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QLS3iyiPDsjbLuNThFE5J0lPX01FVrZXRDLfSqP8Ys1BPCrqn2ZsIIoUdGLAPYh+9o2PlWwgJmgDmWn/tvMs4h77d77HbbuS+g1XHTnAZPdNn4nIiOF+BSkZ3cr/Vm+K43iAwH+UsI7Y85rHJVyxAHGkDDsrlTTjbNB2zgI1OaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m2Hikhzy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DgLx2j9Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09AA0C116D0;
-	Sat,  7 Feb 2026 14:00:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m2Hikhzy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FC0AC116D0;
+	Sat,  7 Feb 2026 16:18:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770472858;
-	bh=ipmA27PT7L4J7VlPzxsEb8IpZwj1SopV4GIlkZpo15M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DgLx2j9QiaTeIHfN5C/Ip4ZVAqDYFy4VSgcEwAdV551M6TIhtLIXYkeAhvP0vvHxb
-	 F3ozXf/gKDp0o5ABqFSnr23Lme3Y2svkzZcGSUhycf2h3joMYOVEgTYcZh1Y76zTKF
-	 cDmNIFUjYFK8dcLOJgKnmTngWlDGyuQulhOv4u4QRu/CFRfjdIxx3zLQNSefJ1qxLS
-	 Ji7EtF6ZD9mZgcealEUaeO2d+UhFVcq/g8RcV9eG5e3hjm6otW2YtI+60mu2Uger36
-	 q6tSbwhXscCU0GjWe8fa072MreC1qaJBhwlenn/9A4Gk3y9hDE+Agkos4CBaQO0+Wu
-	 Z9C2hlbiL+ASA==
-Date: Sat, 7 Feb 2026 22:00:53 +0800
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Johan Hovold <johan@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Linus Walleij <linusw@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] Revert "revocable: Revocable resource management"
-Message-ID: <aYdFle_Un6du3FZS@tzungbi-laptop>
-References: <20260204142849.22055-1-johan@kernel.org>
- <2026020624-buddhism-clavicle-7a90@gregkh>
+	s=k20201202; t=1770481098;
+	bh=Q6ceXdrIArpLVGClzYXR3vLOkttPjE6YPnbXEG1ovEc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=m2Hikhzy69wg8N1P4EIFMo/Y1e5mMRz89B1LWyACWtmkPLSAXOIJxd0wuHvzsF3J4
+	 TOrun8Xo/64vvCGpFtujZOAYokTJUpHs+R/wo5zpx2jpAQJAQlUkVsChQjy5toMbbM
+	 axjvrA0EGKNDQGRRIkUqUGKZRSNLzZisX2BV2CpXkP4hkLGrQJnf6KhTgMtQR+wAQr
+	 hGOraAhmwk536ShFhHfmSyLjgFLFFys0J5UhOVQ/SYHqCxpMcT9IFVD7CMlqEU9Frb
+	 +JMB/nS28VOa07+rl+R8YodTO1F1rVuv5o7NltNFPhQJEXDBKwN8nInemzd+/svUkl
+	 QeZVX+zUn/uwg==
+Date: Sat, 7 Feb 2026 16:18:08 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Taha Ed-Dafili <0rayn.dev@gmail.com>, Michael.Hennerich@analog.com,
+ andy@kernel.org, corbet@lwn.net, lars@metafoo.de,
+ linux-doc@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel-mentees-archive@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, me@brighamcampbell.com, nuno.sa@analog.com,
+ rdunlap@infradead.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH v2 2/4] iio: core: Add IIO_EV_INFO_SCALE to event info
+Message-ID: <20260207161808.6e5cf265@jic23-huawei>
+In-Reply-To: <745218f5-fe09-4a20-9cff-ee2ca28143e3@baylibre.com>
+References: <afa85a59-07c7-46c9-990a-b0b34599cdc3@baylibre.com>
+	<20260202151939.15893-1-0rayn.dev@gmail.com>
+	<745218f5-fe09-4a20-9cff-ee2ca28143e3@baylibre.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026020624-buddhism-clavicle-7a90@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 06, 2026 at 04:13:00PM +0100, Greg Kroah-Hartman wrote:
-> On Wed, Feb 04, 2026 at 03:28:46PM +0100, Johan Hovold wrote:
-> > I was surprised to learn that the revocable functionality was merged the other
-> > week given the community feedback on list and at LPC, but not least since there
-> > are no users of it, which we are supposed to require to be able to evaluate it
-> > properly.
-> > 
-> > The chromeos ec driver issue which motivated this work turned out not to need
-> > it as was found during review. And the example gpiolib conversion was posted
-> > the very same morning that this was merged which hardly provides enough time
-> > for evaluation (even if Bartosz quickly reported a performance regression).
-> > 
-> > Turns out there are correctness issues with both the gpiolib conversion and
-> > the revocable design itself that can lead to use-after-free and hung tasks (see
-> > [1] and [2]).
-> > 
-> > And as was pointed out repeatedly during review, and again at the day of the
-> > merge, this does not look like the right interface for the chardev unplug
-> > issue.
-> > 
-> > Despite the last-minute attempt at addressing the issues mentioned above
-> > incrementally, the revocable design is still fundamentally flawed (see patch
-> > 3/3).
-> > 
-> > We have processes like requiring a user before merging a new interface so that
-> > issues like these can be identified and the soundness of an API be evaluated.
-> > They also give a sense of when things are expected to happen, which allows our
-> > scarce reviewers to manage their time (e.g. to not be forced to drop everything
-> > else they are doing when things are merged prematurely).
-> > 
-> > There really is no reason to exempt any new interface from this regardless of
-> > whether one likes the underlying concept or not.
-> > 
-> > Revert the revocable implementation until a redesign has been proposed and
-> > evaluated properly.
-> 
-> After thinking about this a lot, and talking it over with Danilo a bit,
-> I've applied this series that reverts these changes.
-> 
-> Kernel developers / maintainers are only "allowed" one major argument /
-> fight a year, and I really don't want to burn my 2026 usage so early in
-> the year :)
-> 
-> Tzung-Bi, can you take the feedback here, and what you have learned from
-> the gpio patch series, and rework this into a "clean" patch series for
-> us to review and comment on for future releases?  That should give us
-> all a baseline on which to work off of, without having to worry about
-> the different versions/fixes floating around at the moment.
+On Mon, 2 Feb 2026 09:31:45 -0600
+David Lechner <dlechner@baylibre.com> wrote:
 
-Acknowledged.  I'll start reworking this into a unified series that
-incorporates the feedback and lessons learned.
+> On 2/2/26 9:19 AM, Taha Ed-Dafili wrote:
+> > Hi David,
+> >=20
+> > Thanks for the feedback. You're right=E2=80=94"missing" was poor wordin=
+g; I=E2=80=99ll
+> > rephrase to "implement support in the core" for v3 to reflect that this
+> > is an infrastructure addition.
+> >=20
+> > Regarding existing users, the current lack of IIO_EV_INFO_SCALE in the =
+core
+> > forces developers into manual workarounds to stay ABI-compliant. For
+> > instance, in drivers/iio/accel/mma8452.c, the developer used
+> > IIO_CONST_ATTR_NAMED to create a manual in_accel_scale and linked it via
+> > .event_attrs. This approach is static and bypasses the standard event_s=
+pec
+> > infrastructure. =20
+>=20
+> OK, so it looks like there is just one existing user of any events/*_scale
+> attribute then. That would explain why there isn't a IIO_EV_INFO_SCALE.
+> It just isn't very common.
+>=20
+> >=20
+> > My goal with adding IIO_EV_INFO_SCALE is to provide a standard path to
+> > report these scales dynamically through read_event_value(), ensuring ABI
+> > compliance without manual sysfs boilerplate.
+> >=20
+> > Does this core infrastructure approach seem like the right architectural
+> > path, or would you prefer I stick to a driver-level attribute for the
+> > ADXL345? Regardless of the path chosen, I will address your other comme=
+nts
+> > in the next version: I'll fix the "in scale" typo and add the new scale
+> > entries to the adxl345 documentation table. =20
+>=20
+> If we think there will be more users of this and we want to make it more
+> discoverable, then adding IIO_EV_INFO_SCALE seems useful.
+>=20
+> I would wait until Jonathan weighs in with his opinion before taking acti=
+on
+> though.
+
+I agree. Makes sense to add this.=20
+
+Jonathan
+
+>=20
+> >=20
+> > Thanks,
+> > Taha =20
+>=20
+
