@@ -1,107 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A09299AAB;
-	Sat,  7 Feb 2026 17:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A576B2475CE
+	for <linux-doc@vger.kernel.org>; Sat,  7 Feb 2026 18:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770485109; cv=none; b=fUUCMKX+nDau9/QyeemKjUPD1qkvp2zoS1iirbhc2yun18JZ9NDHjXIr+gFJz9lk1wsDh1+Jhn441mZIy9aXl7WYKrl3VYS53UIntl5W3BAyxc9nnXkNGjzkgppQJy3NDnvXRU3zGykcznuFjMBpdxB7l3u2jKsuh1v/BzGRphw=
+	t=1770489332; cv=none; b=HsAzhAr9/yOdj/cvtk71ilZkTNMTtXhhCALsKS3sL+B954d2Ne9L2ST5j9Uoe7cNcM6uIAgjP77FtAzfgruzlrNkGsCKLT2/mHDUhP+4R9VcZ2fYozPI/KqLvT0N9ysxk6T51hdZzdNJEmgmfnSMxVQ/aMo+2og0J/0ZbxuEtKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770485109; c=relaxed/simple;
-	bh=h1oFhv/nEudSAq5PW00qDzY1t8sDxQg9k8HK1ITTZow=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ledz+2LbmgczKtAGqaWAaikVN6LHpLYIhRF1aIPnURgG8X1+KL3q9+7KWbBtdEM5W9VHU6+6hs7ZySQmUprOAkGJxdgRXHVIVSSab4ueGa87b2bWbFBdEIR4/bkGdMPkolqoxLyEMnk5KvpJS8Fvt8tboU0C5gWy0ZZqajl1CSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gRxwEmMG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770489332; c=relaxed/simple;
+	bh=XNpbsRYsF2rlv0zb0B6eouOvN5D51trGAHHoO5yraxM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qLh4l1hQsAbHQGxAd11APlAHGXKRutd5QnczxO2y7El5JX8kQwFgxrW0KODacVSzo1HFsTpLoui7n3rcQmsGlB0n8pCCLthMW2/nMs/S2Hl0SggK78TwvfdB5donxFfTTjDWpc+DR5TF5KE7OphSy0feT1wN+OnzqIYdJ33iUh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=l6VsbM/L; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gRxwEmMG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7675C116D0;
-	Sat,  7 Feb 2026 17:25:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770485108;
-	bh=h1oFhv/nEudSAq5PW00qDzY1t8sDxQg9k8HK1ITTZow=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gRxwEmMG+QwY0MCUj8pqE7OKm2rsUqfx3VIspxPte5MplJ3P7/h6f/u/j5Kz0OvU2
-	 /m+l97dRfxaEcXoremhMS1C7n2Fh3bbPBsOJetC2IAcRaD3EgWeQnxDPJkHOnDXcw7
-	 r4uhHFLzq1u7f1prsE1D4i5+/JkIv5loYXMk7A5M7ek5LB93x57hWv7RfISirla/49
-	 lsQaZDH6scIC+vXvm8A+PaVVGj22AG7OlEETfYC2hlGwf7GVAN7rYGNbjbZoDyUGRE
-	 9EoXAVVA0dDIXCUScrJiTmDpSEqIbC80VgKX5BxUjZJxqAQwB3uMrGkkmasgzIIs7Z
-	 spMMsO0o2inuw==
-Date: Sat, 7 Feb 2026 17:24:58 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v6 8/8] Documentation: ABI: testing: add common ABI file
- for iio/frequency
-Message-ID: <20260207172458.7f2cca90@jic23-huawei>
-In-Reply-To: <20260130-adf41513-iio-driver-v6-8-cf46239026bc@analog.com>
-References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
-	<20260130-adf41513-iio-driver-v6-8-cf46239026bc@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="l6VsbM/L"
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-45f09874c4cso2128868b6e.3
+        for <linux-doc@vger.kernel.org>; Sat, 07 Feb 2026 10:35:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770489330; x=1771094130; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NARnSWeEyQX0QI8rBoQ42GOyDjukxOobZDpLSRoeY1k=;
+        b=l6VsbM/L9qC7D5qDL2bPJA0eG5rteivNxvTXWAOG15wMXr69WIu7OIrrvNbt7c9DPL
+         tMcgLeEu1R1YcBsGxefcFwabW6ZwDlqIqzhLiWLnR9xRUW49ubehS5FQmVSkWaYuqwaz
+         fA8JOILVik7YI/qbjk5Jg2CYPIvm0kyhgJEdO4fSF4qTBP2jvjv13hW+RH95Oafl5Q6H
+         oOLmpWjAj4ckG02XO+PUC5oQDT51sT2/W9Um5znbqUT+XZvG7kKFSJhZUf6UXsVWBUev
+         pjEkbfx+kFqmNFn5xllvBNPU0lNJ31zdJ+5fGSszN3CEG7WsOcuDNJTa1dk+gJXrJK9q
+         xUsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770489330; x=1771094130;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NARnSWeEyQX0QI8rBoQ42GOyDjukxOobZDpLSRoeY1k=;
+        b=X5srTBfYTwavk6yEcjHTRj56i1qZH9luWBodyBLkoqmWyD38IeaJ7IU2ccgUdFe+B1
+         wcaJYDppYEP07vIA688CG0Dc4FeS37tCsNBhTuf0to8/uHptpi9n+Lnm635Ntu3zSQj1
+         EEabWMVYzKcjd4+iDx6b15/sOBK7bw7/oQq+JTyfWdqj0vtW5PQ2BwicCNNH2j2XYwYm
+         +HeenCU0XvPS6Ch/jCaGhdS3ROjpHV8OhQ/+diuv2XERw9N4KkJH7l9PoMG8HwRomLRw
+         k05FjbrjgjLA53o/q9/D52D+ryrQ0NpW2DX4JWYRkt9zC6Kh8eim9/fyl2O+hjD7IDBK
+         2xzg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6+GzroDJtMRyXXBjkk1nPCz2o3SK363rlKMrZo+LWuNR8t+qGnBYWcd1NSwkU85qtwQ2WXZMkEN0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+l0xrg6cQ7tok36faNtvmt8iod4xsf55SHCNC1wOzh7eMQ/Dx
+	7W8gKyxB+Q775rGM+AnWzporxSWaHMlgDaa15vIIL4ltCRYAj1eu5ORgaS9O6mHk8LQ=
+X-Gm-Gg: AZuq6aJ8byY9ZvxwpMfKOFSKNIsId3FV3lzymkg5yKbYtvnq+1WG1j1DWtP+q6vRZZG
+	hwMmREdcU6kB9SwQBenicbjvFoTZUjkKBs3nUtlfIURDCKNRRZUvTSt3UYQO3PP3e3KAyQXvRFV
+	MNOPQNBrs1ikGVSL3I2Qdy4LFgW+GJiZBcfPes47LWKkL3nb5GvVgQleQ87VM+kKhI/2KK5WHJg
+	jR0VkL1OlmbMnqsqgQDzaJy74y/OXrDka1KRWpTq3+MLZDC9MdO53w6LYXYq2gFJ5/1K9Ih521/
+	r/Ywfw3q+0okdOn8QPd/6BXiBJ5jWuOxCpIc1fEr8svPqwW92H5DnPcm77PCwfVHpwwfp7V9mYZ
+	FbMACylg+6/srb4XRWzEHxaJATokzinoR5mmTnBuBM1m0TZ2+jR5uFxowL08NG+Y6lVsPETEsdQ
+	kInbMDnknrxW3TVFwmA7Lfw/QL0+/a+viHi2TksfDkwgZvItLIEt2roFW+oA==
+X-Received: by 2002:a05:6808:158e:b0:45e:f0ef:cd75 with SMTP id 5614622812f47-462fcb77c7amr3236711b6e.65.1770489330578;
+        Sat, 07 Feb 2026 10:35:30 -0800 (PST)
+Received: from ?IPV6:2600:8803:e7e4:500:74a6:843b:f33:21ae? ([2600:8803:e7e4:500:74a6:843b:f33:21ae])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-462feb5455dsm3550699b6e.17.2026.02.07.10.35.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Feb 2026 10:35:29 -0800 (PST)
+Message-ID: <a38f418d-a73e-4f9d-9c58-92566c3db0d4@baylibre.com>
+Date: Sat, 7 Feb 2026 12:35:28 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 8/8] iio: adc: ad4030: Support common-mode channels
+ with SPI offloading
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
+ eblanc@baylibre.com, andy@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, corbet@lwn.net, marcelo.schmitt1@gmail.com
+References: <cover.1770403407.git.marcelo.schmitt@analog.com>
+ <1f05069e25e9ea28db2cef9fa3856456be3c2614.1770403407.git.marcelo.schmitt@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <1f05069e25e9ea28db2cef9fa3856456be3c2614.1770403407.git.marcelo.schmitt@analog.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 30 Jan 2026 10:06:49 +0000
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+On 2/6/26 1:02 PM, Marcelo Schmitt wrote:
+> AD4030 and similar devices can read common-mode voltage together with
+> ADC sample data. When enabled, common-mode voltage data is provided in a
+> separate IIO channel since it measures something other than the primary
+> ADC input signal and requires separate scaling to convert to voltage
+> units. The initial SPI offload support patch for AD4030 only provided
+> differential channels. Now, extend the AD4030 driver to also provide
+> common-mode IIO channels when setup with SPI offloading capability.
 > 
-> Add ABI documentation file for PLL/DDS devices with frequency_resolution
-> sysfs entry attribute used by ADF4350 and ADF41513.
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
 > ---
->  Documentation/ABI/testing/sysfs-bus-iio-frequency | 11 +++++++++++
->  MAINTAINERS                                       |  1 +
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-bus-iio-frequency b/Documentation/ABI/testing/sysfs-bus-iio-frequency
-> new file mode 100644
-> index 000000000000..1ce8ae578fd6
-> --- /dev/null
-> +++ b/Documentation/ABI/testing/sysfs-bus-iio-frequency
-> @@ -0,0 +1,11 @@
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_resolution
-> +KernelVersion:	6.20
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +		Stores channel Y frequency resolution/channel spacing in Hz for PLL
-> +		devices. The given value directly influences the operating mode when
-> +		fractional-N synthesis is required, as it derives values for
-> +		configurable modulus parameters used in the calculation of the output
-> +		frequency. It is assumed that the algorithm that is used to compute
-> +		the various dividers, is able to generate proper values for multiples
-> +		of channel spacing.
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0d9b7cf86aec..748eeb6f5bd2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1639,6 +1639,7 @@ M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
->  L:	linux-iio@vger.kernel.org
->  S:	Supported
->  W:	https://ez.analog.com/linux-software-drivers
-> +F:	Documentation/ABI/testing/sysfs-bus-iio-frequency
-I wouldn't add this here. Whilst for now we only use the defined
-ABI in this one driver, I'd not expect it to stay that way.
+Reviewed-by: David Lechner <dlechner@baylible.com>
 
-If we do think it is very drive specific move the file to
-sysfs-bus-iio-frequency-adf41513
-
-
->  F:	Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
->  F:	Documentation/iio/adf41513.rst
->  F:	drivers/iio/frequency/adf41513.c
-> 
 
