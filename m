@@ -1,112 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E12791DE3B5;
-	Sat,  7 Feb 2026 17:02:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F3A14A8B;
+	Sat,  7 Feb 2026 17:19:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770483759; cv=none; b=GzJUyRWgYSn7vGlWZ3GhgfPid6YzF5KqzKbIG8Ifm/DzJpXo6QL8mkx4/ak93ve2094qECDja5Otp94ChnC8sdCUws4uWfv+/ThjrfPLIP7653Fg6Cs5Vvbi47Rs6+QEjMTxCCFO9Tmm9NAxWUeSsSts6EDcHeRj7zMxMbIgMao=
+	t=1770484773; cv=none; b=PaLdgGZCaeCQdnhMiFEA4V1Av9QoDRPliOP64H/d4kc/vUGWg6gkNoeaLpmX9wo34iqneJhvs83zQ5F32IFvjp5UtK7UrgjrA4O4k9RFTcGJfZhzdxCfueuT93QVagJZQgZr9PGLof/xdjFfxCvZmFwvO0Y17kdLyd7CUSmm6TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770483759; c=relaxed/simple;
-	bh=s40Hrrm4dNIEKwWoQ4agNmRWxze8FatK53eM+4F3lVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dh09OiSOdEqSFreisSMSbiRfuoQHKYoQ11rhwRzzM3AHeM1FssVUhNTbeEWZHQcMmm+sBEcPLPxC9LYoOskwWJN4Yf2XJtauwQX2VeQzxu6r0L7BavLjEhM7CftbSuQ746cEPKsBH26D1+BDMAH03rf2XWOI/krPSk1Bg7MskG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nxjUxY5c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770484773; c=relaxed/simple;
+	bh=BMpRmfD1g0lbfx1D4PCIDSZbSDwGb/3Z6iPB3pU+rvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XxkwOl92JeSfeF+RbDZK7l3Y4a8R2vxJNP1v33KDq2gmcIzspi0PQL0NVhoZn1oFD2m2vPNlKvmpoG6TL1rHOllaXyj9ZK67Kd4EZu4gZXcYoxEVuf1LJTaZ7EZL8U++wwWZOS/mFUShKArFxTZt58gXdz+SzhWdzeLDJw3v53c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=ozuUbqpj; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nxjUxY5c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A28CC116D0;
-	Sat,  7 Feb 2026 17:02:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770483758;
-	bh=s40Hrrm4dNIEKwWoQ4agNmRWxze8FatK53eM+4F3lVo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nxjUxY5c9A25VX63WElHWm3+MW2nfwy/qUm9YXGHDYbfWd+RovP1PoJuMpvCooGDj
-	 m8QmgdyBTk+Q9xjNJUhrf4IppV7FShHIVt0Agf/Hq3hetatKoUPdLhOYRod0sfy7+8
-	 UAq9ooUkmguvL7Ttzi07OwlJpP21KNBFFDqADljj/6S2JXpbuwcqKnK4TNaDdRICHI
-	 pCxr4F1SWrzz/g8EjQbFHYSUkD/zjrUS9Y10Lj+4KriUSpnf+A7VoJpofL6tKrwima
-	 EJ39TJfInyk6yn2hSIwqHAbYOjL0BjmMoVcAaWrMI5qvkuL8tjKnlJKy5XROtOs3xx
-	 VTOcD6kVw7Kcw==
-Date: Sat, 7 Feb 2026 17:02:28 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
- rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
- parts
-Message-ID: <20260207170228.2f2bfb35@jic23-huawei>
-In-Reply-To: <aYMgzMVcv_QALJtF@smile.fi.intel.com>
-References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
-	<20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
-	<aYKkv3dq9Vkm3s_3@smile.fi.intel.com>
-	<7tiv33i65unu5ypk7puj3buzybykyhv2qbwp54bhcem5t4rawq@dpfedqmmxbhx>
-	<aYMYJppigidPeLH4@smile.fi.intel.com>
-	<hrhgmum6zdww7etc6ztchivfqecaaqeeul2bbagzyongkxpaeh@q7x4popwel6d>
-	<aYMgzMVcv_QALJtF@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="ozuUbqpj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=1vRm/c/zeE2rytTMdro4Y4OpEv2ZCTvEFTK5hNlIUsU=; b=ozuUbqpj1rLOnjITi47GmO1E/x
+	2sbsDYKZ38TPDatuXaspc5TtpZiW9wS20O1O5ozK9invAmfdN/JW28VPK0DZE6vBofHP5aMEU3sml
+	dvru4rMss3L/OAUxtS7yuUXXV076EXdM/KiDop+OYeXtNGstKaLWncJS7sphN3kSfD1k=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1volxZ-006UWz-NN; Sat, 07 Feb 2026 18:19:05 +0100
+Date: Sat, 7 Feb 2026 18:19:05 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Illusion Wang <illusion.wang@nebula-matrix.com>
+Cc: Dimon <dimon.zhao@nebula-matrix.com>,
+	Alvin <alvin.wang@nebula-matrix.com>,
+	Sam <sam.chen@nebula-matrix.com>, netdev <netdev@vger.kernel.org>,
+	andrew+netdev <andrew+netdev@lunn.ch>, corbet <corbet@lwn.net>,
+	kuba <kuba@kernel.org>, linux-doc <linux-doc@vger.kernel.org>,
+	lorenzo <lorenzo@kernel.org>, pabeni <pabeni@redhat.com>,
+	horms <horms@kernel.org>,
+	"vadim.fedorenko" <vadim.fedorenko@linux.dev>,
+	"lukas.bulwahn" <lukas.bulwahn@redhat.com>,
+	edumazet <edumazet@google.com>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: =?utf-8?B?5Zue5aSN77yaW1BBVENIIHY0IG5l?= =?utf-8?Q?t-next?=
+ 02/11] net/nebula-matrix: add our driver architecture
+Message-ID: <bc3278d8-f614-4a38-ba2e-ebc90268b9c8@lunn.ch>
+References: <20260206021608.85381-1-illusion.wang@nebula-matrix.com>
+ <20260206021608.85381-3-illusion.wang@nebula-matrix.com>
+ <769fbfa8-a881-403f-bc65-56c60c389185@lunn.ch>
+ <8641f978-76d5-464f-a312-414bd913c918.illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8641f978-76d5-464f-a312-414bd913c918.illusion.wang@nebula-matrix.com>
 
-On Wed, 4 Feb 2026 12:34:52 +0200
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
-
-> On Wed, Feb 04, 2026 at 10:28:05AM +0000, Rodrigo Alencar wrote:
-> > On 26/02/04 11:57AM, Andy Shevchenko wrote:  
-> > > On Wed, Feb 04, 2026 at 09:42:55AM +0000, Rodrigo Alencar wrote:  
-> > > > On 26/02/04 03:45AM, Andy Shevchenko wrote:  
-> > > > > On Fri, Jan 30, 2026 at 10:06:43AM +0000, Rodrigo Alencar via B4 Relay wrote:  
+On Fri, Feb 06, 2026 at 05:26:35PM +0800, Illusion Wang wrote:
+> Last time sam had a question
+> "
+> Thank you for your feedback. You might have misunderstood me.
+> Our difficulties lie in the following:
+> 1. Assuming only the mainline version changes the name (Assume name "nbl"),
+>    and our regularly released driver doesn't change its name, then when
+>    customers upgrade to a new kernel (containing the "nbl" driver),
+>    and then want to update our regularly released driver (named "nbl_core"),
+>    the module (ko) conflict will occur.
+> 2. If both our mainline and regularly released drivers change their names,
+>    then customers who are already using the "nbl_core" driver will also
+>    encounter conflict issues when updating to the new driver "nbl".
 > 
-> ...
+> Is it possible to do this: our net driver is also modified to be a driver based
+> on the auxiliary bus, while the PCIe driver only handles PCIe-related processing,
+> and these two drivers share a single kernel module (ko), namely "nbl_core"?"
 > 
-> > > > > There is a development in the parse_integer in the lib/. I reviewed that series
-> > > > > and hopefully it will go in. With that done, we better reuse the lib/ function.
-> > > > > 
-> > > > > https://lore.kernel.org/linux-hardening/20260202115451.290173-1-dmantipov@yandex.ru/  
-> > > > 
-> > > > In this patch, I see that it updates the overflow check, but I am not
-> > > > seeing that function being exposed to other kernel modules.  
-> > > 
-> > > Can the IIO be compiled as a module? If so, then we would need to export that
-> > > function. (Note, we may export only for the exact module(s) in question, so
-> > > nobody else will be able to use it. See EXPORT_SYMBOL_FOR_MODULES() macro.)  
-> > 
-> > Yes, one can have an industrialio.ko.
-> > Then, would it be fine to use:
-> > 
-> > EXPORT_SYMBOL_FOR_MODULES(_parse_integer_limit, "industrialio");
-> > 
-> > in lib/kstrtox.c; and:
-> > 
-> > #include "../../lib/kstrtox.h"
-> > 
-> > in drivers/iio/industrialio-core.c
-> > 
-> > that does not look pretty.  
-> 
-> Yeah, but I think it's fine as long as we have an associated FIXME.
-> In any case Jonathan is the one who makes a decision here.
+> There's no conclusion to this issue yet, so I haven't modified the 'core' parts for now
+> (as mentioned in patch0)
 
-You've lost me. Why do we need to restrict this function to use
-by specific modules?  We normally only bother with that dance when
-there is a big footgun or something deep in core kernel code where
-we want to be very careful who uses it.
+This is all open source, you can do whatever you want with a fork of
+Linux and out of tree drivers. Mainline has no influence about what
+you do in your out of tree driver. So for Mainline, your out of tree
+vendor driver does not really exist, any problems with it are yours to
+solve.
 
-To me it doesn't seem appropriate here.
+However, Mainline cares about Mainline. We expect drivers which get
+merged follow Mainline design principles, look like other mainline
+drivers, and use naming consistent with other Mainline drivers.
 
-Jonathan
+You should also think about how this driver is going to be merged. It
+is going to be in small pieces. It is very unlikely the first merged
+patchset is actually useful for customers. You probably need quite a
+few patchset merged before the driver is useful. If you have customers
+who use Linus releases, they are going to have to deal with these WIP
+driver. Such customers will be building the kernel themselves, so can
+leave the in tree module out of the build. However, do most of your
+customers use a distribution? A distribution is not going to update
+its kernel until the next LTS kernel is release, sometime in
+December. By then, you might have something usable in Mainline, and
+the vendor driver is not needed. Or you might still be in the process
+of rewriting the driver to Mainline standards and it is not
+usable. Your customers then need to handle removing the mainline
+driver and use the vendor driver. Again, that is not Mainlines
+problem.
 
+So, if your "core" driver is purely core, you can call it core, and
+give it an empty tristate. The other drivers which are layered on top
+of it can then select it.
 
+If your "core" driver is actually an Ethernet driver, please drop the
+name core.
 
-> 
-
+     Andrew
