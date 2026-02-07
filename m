@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE60C30DD2A;
-	Sat,  7 Feb 2026 02:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1810B3314B9;
+	Sat,  7 Feb 2026 02:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770431103; cv=none; b=lzgv2/N6a8UhSTQyYlx6wUhnT6ztTWOqWEumR7JoekuGrukv/Ok2A85GmL8UG/ZV4AlAOVjKLrI+Mrnq3lBqLgOx+o1XXoRDdSWhDnsXpTdzRVlxKwMDtHvV3u6f3p0P5DgcgdgrnUe1j6J2yJj12r5+EX6G/TCMAw406N+bMNU=
+	t=1770431106; cv=none; b=VeMDu6J+9bYIMznmmGW2+96tyOMP9t03549vcpp04fohptplq3BjiYgX4Fy4UswE9Nymrs58bD2R0RWEKSW0ND6t0W77n2oqLY8ZKs0uL9p9OwnFn+Ns0BbSCP+JMXFY9mZ1itcbIp2urDlTeI7nzDSBIKYM/5aENAd0fcUpi6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770431103; c=relaxed/simple;
-	bh=PCXbnF2EQLK44+2o8Oz14Mi1hrN0LEzJ+1wsy1UfbXY=;
+	s=arc-20240116; t=1770431106; c=relaxed/simple;
+	bh=O5RxZKcWfHCwHkoJgJXfTdfLHf0/gYoaNp18myJOvQ0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kw4BuOUMSgbttwOFxS++MvzntO7C02ZinKk3R2h2nPMYa5OsBoMmMg7yi1yh9rfBCX/zJTiY3cyhDXkC9bvbfS+3DYtKadx1SlXXqx2IJ4n4gu9r6jobT2GJC0tGtXhBiEAQVS2hUvmaMxT1ydpTdb0yfy4Gl5OwZSZCkwoJ02o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ot9ciEyC; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=cs22GXR96wL2vgALF/DGADvZpM8OWl2VvcNR1qqZR6LdA5nlGMnptOalSpXsORvEc57fosXL2Sp2yijTZL2baQ059PbwZ4/CTGneZVJc1ril6B2b4dtDQ/VDE3hXr6FdxrZRNVmOqaCauCAmnariN1PAlkQPqeforhhlc7Fgvw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jUNABPud; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ot9ciEyC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2329C116C6;
-	Sat,  7 Feb 2026 02:25:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jUNABPud"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B923C116C6;
+	Sat,  7 Feb 2026 02:25:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770431101;
-	bh=PCXbnF2EQLK44+2o8Oz14Mi1hrN0LEzJ+1wsy1UfbXY=;
+	s=k20201202; t=1770431105;
+	bh=O5RxZKcWfHCwHkoJgJXfTdfLHf0/gYoaNp18myJOvQ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ot9ciEyC9Y7Q7C7e493SRWodPfV17QFBDS+zyleKDOtD2WDdRcff03YZ0ET4DdPrY
-	 UoM+v2XSVOI2pUxKHFLi0hkjYWQFZj1aSRyMsFlEENbp6Oz+wnf5y5jcTiw2OdAstQ
-	 zEGMLFAGBl9BBXvSjMhnJ+vna01AUXbASkKMu52AW+QSBDvKB2tzEFiOBspFlGCR0V
-	 JkzT7jNEDfBimYWRMg0FFlR8lH20pUBJJgpXDc3bssblayDNAPEAUycP9LRh93Ic17
-	 PU6OzRo6N83iSZhOcJucisBoMDQfVaAk9uSaMgEZ+wLnSUy0BqVy+3jM1CPdx5JirP
-	 pqOiFn3Io/fqQ==
+	b=jUNABPud0UlM4VE6XfTRrAPtzDeo2yoRYuj0YfQ6SpiGEBiocep3qMvkGGhREEQ/0
+	 lk3WAV+ChzxGEs9NCIs4ba+V7rHBkNR5AK/7VJRSy5kVL3li8KRjXsIWEIutnsg5Mr
+	 D3Tq+Q6nCJtIssCN/FFtcR3YKAghePpDHd3yr/S4lJXyJODRBaCVUYI9ID++U8bZhL
+	 vPTO0L0InWN5ioX00iaSROy4j3Y4EzqvPncseRNe8om0pTorUsJDF0D064xHw23MF3
+	 KqupMeRRx3KcshQHgjL39in7rb7clyUekBXcSQpGwvDZg6tMP10muOILjmYm39fOAM
+	 gFa8JfHk8MFaQ==
 From: Jakub Kicinski <kuba@kernel.org>
 To: illusion.wang@nebula-matrix.com
 Cc: Jakub Kicinski <kuba@kernel.org>,
@@ -43,12 +43,12 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	pabeni@redhat.com,
 	edumazet@google.com,
 	horms@kernel.org
-Subject: Re: [v4,net-next,08/11] net/nebula-matrix: add vsi resource implementation
-Date: Fri,  6 Feb 2026 18:24:59 -0800
-Message-ID: <20260207022459.4017950-1-kuba@kernel.org>
+Subject: Re: [v4,net-next,11/11] net/nebula-matrix: add common dev start/stop operation
+Date: Fri,  6 Feb 2026 18:25:03 -0800
+Message-ID: <20260207022504.4018024-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260206021608.85381-9-illusion.wang@nebula-matrix.com>
-References: <20260206021608.85381-9-illusion.wang@nebula-matrix.com>
+In-Reply-To: <20260206021608.85381-12-illusion.wang@nebula-matrix.com>
+References: <20260206021608.85381-12-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,75 +63,136 @@ it says with a grain of salt."
 
 For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
 ---
-net/nebula-matrix: add vsi resource implementation
+net/nebula-matrix: add common dev start/stop operation
 
-This patch adds vsi (virtual station interface) resource implementation
-to the nebula-matrix driver, including initialization for various
-chip modules such as dped, uped, dsch, ustore, dstore, dvn, uvn, and uqm.
+This commit adds MSI-X interrupt initialization for the common device
+layer, including configuring MSI-X vector mappings, allocating interrupt
+resources, and registering mailbox interrupt handlers.
 
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-> index 837a4591849d..a34dad884b47 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+> index 9927dd3a1791..59d23e93e923 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
 
 [ ... ]
 
-> +static int nbl_ustore_init(struct nbl_hw_mgt *hw_mgt, u8 eth_num)
+> @@ -14,6 +25,179 @@ static void nbl_dev_register_common_irq(struct nbl_dev_mgt *dev_mgt)
+>  	msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num = 1;
+>  }
+>
+> +static int nbl_dev_request_mailbox_irq(struct nbl_dev_mgt *dev_mgt)
+
+[ ... ]
+
+> +static int nbl_dev_configure_msix_map(struct nbl_dev_mgt *dev_mgt)
 > +{
-> +	struct nbl_ustore_port_drop_th drop_th;
-> +	struct ustore_pkt_len pkt_len;
+> +	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
+> +	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
+> +	struct nbl_msix_info *msix_info = &dev_common->msix_info;
+> +	bool mask_en = msix_info->serv_info[NBL_MSIX_NET_TYPE].hw_self_mask_en;
+> +	u16 msix_net_num = msix_info->serv_info[NBL_MSIX_NET_TYPE].num;
+> +	u16 msix_not_net_num = 0;
+> +	int err, i;
+> +
+> +	for (i = NBL_MSIX_NET_TYPE; i < NBL_MSIX_TYPE_MAX; i++)
+> +		msix_info->serv_info[i].base_vector_id =
+> +			msix_info->serv_info[i - 1].base_vector_id +
+> +			msix_info->serv_info[i - 1].num;
+             ^^^^^^
+
+Does this loop cause an array underflow? NBL_MSIX_NET_TYPE equals 0 (from
+the enum in nbl_dev.h), so on the first iteration i=0 and the code accesses
+serv_info[-1].
+
+The serv_info array is declared with NBL_MSIX_TYPE_MAX (2) elements in
+struct nbl_msix_info, giving valid indices [0,1]. Accessing index -1 reads
+uninitialized memory before the array start.
+
+Call chain: nbl_core_start()->nbl_dev_start()->nbl_dev_start_common_dev()
+->nbl_dev_configure_msix_map() guarantees this occurs during device start.
+
+Should the loop start at i=1 (NBL_MSIX_MAILBOX_TYPE) instead, or should
+serv_info[0].base_vector_id be initialized before the loop?
+
+> +
+> +	for (i = NBL_MSIX_MAILBOX_TYPE; i < NBL_MSIX_TYPE_MAX; i++) {
+
+[ ... ]
+
+> +static int nbl_dev_alloc_msix_intr(struct nbl_dev_mgt *dev_mgt)
+> +{
+> +	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
+> +	struct nbl_msix_info *msix_info = &dev_common->msix_info;
+> +	struct nbl_common_info *common = dev_mgt->common;
+> +	int needed = 0;
+> +	int err;
 > +	int i;
 > +
-> +	nbl_hw_rd_regs(hw_mgt, NBL_USTORE_PKT_LEN_ADDR, (u8 *)&pkt_len,
-> +		       sizeof(pkt_len));
-> +	/* min arp packet length 42 (14 + 28) */
-> +	pkt_len.min = 42;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_USTORE_PKT_LEN_ADDR, (u8 *)&pkt_len,
-> +		       sizeof(pkt_len));
+> +	for (i = 0; i < NBL_MSIX_TYPE_MAX; i++)
+> +		needed += msix_info->serv_info[i].num;
 > +
-> +	drop_th.en = 1;
-> +	if (eth_num == 1)
-> +		drop_th.disc_th = NBL_USTORE_SIGNLE_ETH_DROP_TH;
-> +	else if (eth_num == 2)
-> +		drop_th.disc_th = NBL_USTORE_DUAL_ETH_DROP_TH;
-> +	else
-> +		drop_th.disc_th = NBL_USTORE_QUAD_ETH_DROP_TH;
-> +
-> +	for (i = 0; i < 4; i++)
-> +		nbl_hw_wr_regs(hw_mgt, NBL_USTORE_PORT_DROP_TH_REG_ARR(i),
-> +			       (u8 *)&drop_th, sizeof(drop_th));
+> +	err = pci_alloc_irq_vectors(common->pdev, needed, needed,
+> +				    PCI_IRQ_MSIX | PCI_IRQ_AFFINITY);
+> +	if (err < 0) {
+> +		pr_err("pci_enable_msix_range failed, err = %d.\n", err);
+                       ^^^^^^^^
 
-Is the drop_th structure fully initialized before writing to hardware?
-The structure declaration doesn't initialize its fields, and only 'en'
-and 'disc_th' fields are set before the entire structure is written to
-hardware registers. Looking at the structure definition in
-nbl_hw_leonis.h:775, nbl_ustore_port_drop_th has a 19-bit reserved
-field 'rsv':
+This isn't a bug, but the error message says "pci_enable_msix_range failed"
+while the actual function being called is pci_alloc_irq_vectors.
 
-struct nbl_ustore_port_drop_th {
-	u32 disc_th : 12;
-	u32 rsv : 19;
-	u32 en : 1;
-} __packed;
-
-The uninitialized 'rsv' field would contain undefined stack values when
-written to hardware.
-
-Other similar structures in this patch use zero-initialization (e.g.,
-nbl_shaping_dport, nbl_shaping_dvn_dport, dsch_vn_quanta). Would it be
-safer to initialize drop_th with '= { 0 }' to ensure all fields,
-including reserved bits, are zeroed?
+> +		goto enable_msix_failed;
+> +	}
 
 [ ... ]
 
-Andrew Lunn raised a concern in v3 about the NBL_CORE naming in the
-Kconfig (not modified in this commit):
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+> index a16a685e4f29..55ed560624d3 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+> @@ -283,7 +283,38 @@ static struct pci_driver nbl_driver = {
+>  	.remove = nbl_remove,
+>  };
+>
+> -module_pci_driver(nbl_driver);
+> +static int __init nbl_module_init(void)
+> +{
+> +	int status;
+> +
+> +	status = nbl_common_create_wq();
+> +	if (status) {
+> +		pr_err("Failed to create wq, err = %d\n", status);
+> +		goto wq_create_failed;
+> +	}
+> +	status = pci_register_driver(&nbl_driver);
+> +	if (status) {
+> +		pr_err("Failed to register PCI driver, err = %d\n", status);
+> +		goto pci_register_driver_failed;
+> +	}
+> +	pr_info("nbl module loaded\n");
+> +	return 0;
 
-https://lore.kernel.org/netdev/88c7e349-f941-4216-89ca-70a49e82b378@lunn.ch/
+Previous review feedback from Andrew Lunn on v3 noted that the config is
+named 'NBL_CORE' and the module is named 'nbl_core'. He pointed out that
+'_CORE' naming is unusual for a driver - CORE is typically a library shared
+by multiple drivers. The Kconfig still shows:
 
-"_CORE is a bit unusual for a driver. CORE is generally a library which
-is shared by a number of drivers. It does not have a tristate string,
-it is just selected by the drivers which need it."
+config NBL_CORE
+	tristate "Nebula-matrix Ethernet Controller m18100 Family support"
 
-The author acknowledged this feedback but indicated it is still under
-discussion. Will this naming issue be addressed in a follow-up patch?
+Should this be renamed to follow the naming convention for standalone
+drivers?
+
+Link: https://lore.kernel.org/netdev/88c7e349-f941-4216-89ca-70a49e82b378@lunn.ch/
+
+
+Andrew Lunn also noted in v3 that variable declarations should follow
+reverse Christmas tree ordering (longest line first). Looking at functions
+in this commit like nbl_dev_request_mailbox_irq():
+
+	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
+	struct nbl_msix_info *msix_info = &dev_common->msix_info;
+	struct nbl_common_info *common = dev_mgt->common;
+
+the declarations are not in reverse Christmas tree order.
+
+Link: https://lore.kernel.org/netdev/c6d37ecd-7dc6-4f83-b76c-2735a5f116fd@lunn.ch/
