@@ -1,109 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF001E8337;
-	Sun,  8 Feb 2026 14:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748C528750A
+	for <linux-doc@vger.kernel.org>; Sun,  8 Feb 2026 15:05:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770559380; cv=none; b=Ce0VRSKquAp/fx8UJzVdkXV8yx1VmU3wNeATja2V2cmWqsgkhHGGT+wL45ocvHI7+uYjQjoH3sHlU7pRwOq9UYXceDzf+Vn3YIDjdKmNgPGQIa3+pGwtm3Raps3hFHOFkohEXSNWRrYc1c/rkznVyJr86obHHg7WqrPLfhC8pIY=
+	t=1770563130; cv=none; b=IvfeIFmoF3Bc0i3LOxWSvT9Z7KJI5WXKGkct22BS/lke8riN2kqI5pWWOiYj03zKeDXgln7AZYF3Y5nNRstSp9TZVQrBh2whasD6k9DOK0o41u5VFMAP3ZVIkbBhGSpKM3IrtNli+spvRX4AajWNXxTpzgT6TVaWlHsfokM+psY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770559380; c=relaxed/simple;
-	bh=nMGK0BP6OuOVOKaBgR69rVIqcHG7H2GkskKr9RXV4Oc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fq0CklFwsMzqjw9/1zWCY1wAW1aP+dZzErOE7n7rvqxXbWGN81IKJwb/U3oYNU5tBaiwvHf1Q38MbUG9UAxhg7WQ7W22d2LhNJMpxWptaayHby2Y6YJlEQOSfhkFaEIs7BusyyI+p3jmnWGATNk3oItAefS9s2chMA0/VJ7LwHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k0b2r4fl; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770563130; c=relaxed/simple;
+	bh=REzYKaXLBwoE4Plvf1gN5k8tJVJVi4O8VE71Wbri9PQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KXQN7yaDohtdI8jtFJjUwrm5qR7lilIKdFDhgsWLziYKSXDF8wicKU4ffnnno8qbR/VoyxdeF4Jrjgd5QXAzsGFHWP5oOUf8lns0wQhBQYSN90YiHYInIQo4jbDv0Cnvm+bJOSJtdPZ5/AdofLVYMULfv21w5r+uvjWJ3l4FOSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jV3k0c6h; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k0b2r4fl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770559379; x=1802095379;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nMGK0BP6OuOVOKaBgR69rVIqcHG7H2GkskKr9RXV4Oc=;
-  b=k0b2r4fl5zpZKn1aw5kb/mKKsQ9iZzcownfBZntMJ8X0BcXMafcraqGT
-   DUa5+ovAvFGYWyb3kWpH3atksmFaOmDYEN5VZoYm9hHsqg+SpWXiQlcrY
-   sLaPbyksIInYpJG0dASgTjJ9kWFJ0OrwabrOctRElrSXegA6e5jnbzJOu
-   tgwNYOWiRQMCC7oCiiPIcXvzQt3xwIaXyzI1JZcWs0kQEb/bb8eBbw7UY
-   BXMHxj+DdklA95Jf6KR+z53OPG+aZS6OORjHg7uLmZo5hQPVYAVly6iEo
-   iHZhtjpIaD1Jk+0l774HF4hUY8LGc9/ZuNxV2tyD8lvFe3WFXj5j0X7Wl
-   A==;
-X-CSE-ConnectionGUID: hFrywRTWQ5GuYymcznCkeQ==
-X-CSE-MsgGUID: 7PTNbqyAQfKGNGL7cfyecw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="83066187"
-X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
-   d="scan'208";a="83066187"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 06:02:59 -0800
-X-CSE-ConnectionGUID: YlsWcOOaQc2zJnmi4ZFP4A==
-X-CSE-MsgGUID: RlvpBCsHTzWaXv4afxqvOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
-   d="scan'208";a="215848786"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.100])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 06:02:55 -0800
-Date: Sun, 8 Feb 2026 16:02:52 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jic23@kernel.org, michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v8 8/8] iio: adc: ad4030: Support common-mode channels
- with SPI offloading
-Message-ID: <aYiXjCpiMQ_h9Ao4@smile.fi.intel.com>
-References: <cover.1770403407.git.marcelo.schmitt@analog.com>
- <1f05069e25e9ea28db2cef9fa3856456be3c2614.1770403407.git.marcelo.schmitt@analog.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jV3k0c6h"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47fedb7c68dso38763795e9.2
+        for <linux-doc@vger.kernel.org>; Sun, 08 Feb 2026 07:05:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770563129; x=1771167929; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cHsiJILP6hpkRCgoXucesB1BnAyegGp+ZNei85NfukE=;
+        b=jV3k0c6hIdiomZ/9bmD7NuxV1AkHhjvI1PGSbWbRHpn3gkTIZFqF+TC3ItYVsNP3VO
+         F9Y85VdAbweKOPvWMlV9KdUr9PkmxMXdXsXlmz1jUapb6OnIsU18mHJxVu+9I2N6qoz7
+         iAsPmiLhYWhO4KVDknjmCwbCgp5EVVL9Nv2hKYGs+2T1HMqNv8fyPPj+/IsvLgecptxH
+         gQCoEjNWq5d80EwcMqVV9j8f4b7ysiAWCtDcWwiPoqDJgs//f9sMdW6Hb3Pa8/fCUIYo
+         9W2+2RrcttqgmF0oVEkCbtqDERGZm8DHF4HXTUKpnXgIp+Xdfz6UwpTV76RRRyHZJlMP
+         uhVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770563129; x=1771167929;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cHsiJILP6hpkRCgoXucesB1BnAyegGp+ZNei85NfukE=;
+        b=D8VwtZTt0Nn5C+Q23s23G9dRd/D4IJVgNHL5IH098qvQNn/0qlArfi7JtTanRJvLei
+         r/DOZwMtFvrD9GezOryEQvYIRnQnC263FpSHxPWMIQEzyPniSvIa+2h0lH41f5GPXQme
+         B9gTVGtS5CNe6jfJszS2XZm4NoBjVyLpeCM9XcbYWC6cJlfE/kOemGhG7YIQ3l1TbViC
+         Sg7oabPUDlf77AS7QBJKc3zp1ui7fGxgoYGfmgWi/EzFvYTbPzIxnbhrOVs3/sNHZukF
+         AqWeC4j5ZCbraI2wZ7lS846Zg33Yu0G3cqtoAAm75v5DKEytMqw1RnCQCsqagjv1c5A2
+         KXcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW4eDttTuMNvGq3+Ki1BZ2VDFC1ioWE2zEMSwWM3znZUFYhxda1IWqbLeht1h5rJFxprxxw+QKaIYs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjS7BwS25Lj48j+crnXkJsQtxl78+OiNdIS/p9OarXInmtcJ6p
+	O3caz+IY8veNe5JgjYoWXQ3NKYiH4mPXSApLtY0BdWFOkfAyGroejkTJ
+X-Gm-Gg: AZuq6aLkYgZj43v0pUMSrlRGB7iLN5mDwqM3P/rWzQJQtdybcztsCKuJxFlXju0LUfg
+	NyRcDALjND8Uup+damH6KUw8lEDb+jrrE8oNXUyM+kCdQ56buJ2e6rGtzw/WLCGNnlmVLVHY2lm
+	Z8KheBXrG5DRP+Scq0tgUw75vGTOdVGaQQnhnJD9dvZQwh1iZhi8DImSCtmExrAHGb+SXveemTe
+	c61pCWuFWDEiGKVlj53Fdz5SQEmVEZF38McagMjqdgLtUtuj9kHnjOCV+xjZHY8eN/9RsuVKaoV
+	+eUJwCpRw64erpbb0gBz6ogvCTmTMsgmHy4gUfC6Qg0nOgYoRLMbIv3BNoTZQ9Z1jMcl0NGdfgF
+	nlgShIu0NnQjSpkGg+brqfu3mQsL2pbngWEkYBPYH8rHihVOmTzUo8doIfYTi4ZKzEqC6OtAy7z
+	5O/QJYllOULBFK2S1Dzfz+B7aYKKuCI9qjssL8oBSBmhOTNLUsQg==
+X-Received: by 2002:a05:600c:4f4d:b0:47f:f952:d207 with SMTP id 5b1f17b1804b1-4832096698bmr114979165e9.19.1770563128638;
+        Sun, 08 Feb 2026 07:05:28 -0800 (PST)
+Received: from DB-VM.1337.ma ([197.230.240.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483206cc7d3sm179326255e9.5.2026.02.08.07.05.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Feb 2026 07:05:27 -0800 (PST)
+From: Taha Ed-Dafili <0rayn.dev@gmail.com>
+To: jic23@kernel.org
+Cc: dlechner@baylibre.com,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees-archive@lists.linuxfoundation.org,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	corbet@lwn.net,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Taha Ed-Dafili <0rayn.dev@gmail.com>
+Subject: [PATCH v3 0/4] iio: accel: adxl345: Add event scaling and doc fixes
+Date: Sun,  8 Feb 2026 10:05:01 -0500
+Message-ID: <20260208150515.14798-1-0rayn.dev@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1f05069e25e9ea28db2cef9fa3856456be3c2614.1770403407.git.marcelo.schmitt@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 06, 2026 at 04:02:42PM -0300, Marcelo Schmitt wrote:
-> AD4030 and similar devices can read common-mode voltage together with
-> ADC sample data. When enabled, common-mode voltage data is provided in a
-> separate IIO channel since it measures something other than the primary
-> ADC input signal and requires separate scaling to convert to voltage
-> units. The initial SPI offload support patch for AD4030 only provided
-> differential channels. Now, extend the AD4030 driver to also provide
-> common-mode IIO channels when setup with SPI offloading capability.
+This series addresses ADXL345 driver non-compliance with the IIO ABI
+for event thresholds.
 
-...
+Currently, the driver exposes raw values for thresholds (e.g., tap,
+activity) without providing the necessary scale factor to convert them
+to SI units (m/s^2), as mandated by the ABI.
 
-> -#define AD4030_CHAN_CMO(_idx, _ch)  {					\
-> +#define __AD4030_CHAN_CMO(_idx, _ch, _offload)  {			\
->  	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |			\
->  		BIT(IIO_CHAN_INFO_SCALE),				\
->  	.type = IIO_VOLTAGE,						\
+This series implements `IIO_EV_INFO_SCALE` in the IIO core and applies
+it to the ADXL345 driver, ensuring that userspace can correctly
+interpret threshold values. It also cleans up existing documentation
+errors and typos.
 
->  	.scan_index = (_idx),						\
->  	.scan_type = {							\
->  		.sign = 'u',						\
-> -		.storagebits = 8,					\
-> +		.storagebits = (_offload ? 32 : 8),			\
->  		.realbits = 8,						\
-> -		.endianness = IIO_BE,					\
-> +		.endianness = (_offload ? IIO_CPU : IIO_BE),		\
+Changes in v3:
+- Patch 1: Reverted "axis" -> "axes" change in documentation as it is
+  used as an adjective (Randy Dunlap).
+- Patch 2: Reworded commit message to "Implement support for..." instead
+  of "missing from..." (David Lechner).
+- Patch 4: Simplified documentation table by removing repetitive scale
+  values from every row. Added explicit table entries for the new
+  `in_accel_gesture_scale` and `in_accel_mag_scale` attributes instead
+  (Jonathan Cameron).
+- Patch 4: Fixed "inscale" typo in commit message.
 
-Hmm... This is interesting. Does it mean it's designed like this for any
-offloaded SPI case? Wouldn't be better to follow the same endianess in both?
+Changes in v2:
+- Added core infrastructure for IIO_EV_INFO_SCALE.
+- Implemented event scaling (0.612915 m/s^2) for ADXL345.
+- Fixed technical math/decimal errors in existing documentation.
+- Cleaned up grammar and pluralization issues in .rst file.
 
->  	},								\
->  }
+Taha Ed-Dafili (4):
+  docs: iio: adxl345: fix typos and grammar
+  iio: core: Add IIO_EV_INFO_SCALE to event info
+  iio: accel: adxl345: Implement event scaling for ABI compliance
+  docs: iio: adxl345: update math and examples for scaling
 
+ Documentation/iio/adxl345.rst    | 65 +++++++++++++++++++-------------
+ drivers/iio/accel/adxl345_core.c | 28 +++++++++++---
+ drivers/iio/industrialio-event.c |  1 +
+ include/linux/iio/types.h        |  1 +
+ 4 files changed, 63 insertions(+), 32 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.47.3
 
