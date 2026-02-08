@@ -1,162 +1,142 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A56AA25B662
-	for <linux-doc@vger.kernel.org>; Sun,  8 Feb 2026 13:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F28A27D77D;
+	Sun,  8 Feb 2026 13:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770555954; cv=none; b=UvLjW2R5Z6FNiKUeTe/hKk7hWzEfRDaAnUdeQICwWc88OdIvwo3DqckghVVdZrCyw9ZpoGvWWaPvNddYxUDuz4hmvaYGYop0ZdOfahXYeg/KmtZNLF8inbapgohffx+oduEObVybrjgkvzKk6sqBC9+h/izkxLdPnZGwyF0KB/8=
+	t=1770557095; cv=none; b=PzvlvRfto2cM3uAGdXTZJyW1Jk9r3eqgd/H5G1vFUBKt1m7o8ADt/uVPOtJe/ps85O3zPNkeHSzgm2XZ2acFsj9io+EKtDMnem7zf40joqDWCmFCgjVhdxgTX24VrKirURtSrYsTTO5XgYBEI6u6ain/9eD5a4M/712lLf2yJKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770555954; c=relaxed/simple;
-	bh=osT0EUva0gXZ1pK88EukUzwSiu7f4mThiV/KwigTGzQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LkseUiRZ2SapQ19qIFxgyZ1qL8r/0k2Zqp4YetK99+J1Y4l8M1aI0Xn5QDEn0ctSh9cxI21oB/u6E3zv6AzKZXC1hfGg9dg2ATwNKMmw3SC7VuRQAVzjAJlwSDEZ8mbFYgzR98uzzScVG04avAeO2pFDOngYNJZIj9Kz6njZIe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J7EhQkTh; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770557095; c=relaxed/simple;
+	bh=r9gkFRCzEOb1h4nKqkUwgVKmowLhlaAuvj7Xx2k+NcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eshuFm/U1DaN0Se4g7qi3EFbfu4qq960+zj4KNyOvo9ih86nLaMAanBNHGUAuIY59he4NydArCVKSoQWcVvj5HNrQ+2YbhFrDfWoO5JB+NI086VsSbfRiZI3mrvS3/ibEpzjlP161KSdzkID+Nlxt9b0BauudWvI1fAzaBBGNYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oANrs1Ub; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J7EhQkTh"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-47ee3a63300so39467855e9.2
-        for <linux-doc@vger.kernel.org>; Sun, 08 Feb 2026 05:05:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770555953; x=1771160753; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=S6ZaHSw9LpRz01vg6acbUDvWM+cc8+yuVQwbsTXMnoc=;
-        b=J7EhQkThA2l+rof3AOzI/crRVbSKPsQ3H1oU5Cl77W8vHcmN64O4AW36/L0bBRuYao
-         QA1NJCRLmSI7GzB51Sz1funRAp2CG3svzIxhcwGgnGFkx51hK+drRRm6aEagZYEZvBh8
-         FgoJFbogl6kj7vZ88/Qg+r2GfszxFt2Eh5YPT7L2rZbtll8h5oEOuJT2pWOQuBX5dniJ
-         W+3ZgdEuSqtruad4O3g75HBhtOWYQFXCfUzp9oyaGfkpmpEyDhmgEvNNSulny1rj5vd3
-         xlLpRusLQNtvNGtiDwAr6zWXveOzhbRNtCmvfGKLeQugIS1CWKAk/6BdjmBR/a4ZFE4A
-         TzTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770555953; x=1771160753;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S6ZaHSw9LpRz01vg6acbUDvWM+cc8+yuVQwbsTXMnoc=;
-        b=mhMJNaIcUettGeDLKj6Txhq0h9siVy0UZG4TByIJgdx8Gauu5SPGbi1hK+LUi2Xa4r
-         W1xZ/rRH+54omtxCsW29nRQqjZl70EFg/iCptSypS38yIgLTrNJhzCYjk2zeoiEOXGLQ
-         wXS8WkvjxRhGdZCxEcamOzDLEkh08i/RR6ZCdOTaHau9jXdmGhRjHQv2cDcZ8skSVsHs
-         jrM47oeOhxrXaljxH3btEafZRq1ElEUKf9Cb05pK1VLI4w2U1v+X3og2OGfuZFm2e6uN
-         N0iVbOcmn7fb5+uOFxJOW7fp2XPZ4CXb5rPxoLQD5bOs0P95/i+JZBcSWbxCG57cUHz+
-         AR/A==
-X-Forwarded-Encrypted: i=1; AJvYcCULHYbk8apeDjMUit/rq7ez67tHD24FnKs5I5+wJ91AyI+CC7grifxwf04dzj1+S5MRfcSv8jw+1/8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyd5i0LCT62mT/iKVS823wPtdffaVAjFtooNGu5LkW7iBrctD0x
-	RoK2x6oeXXZf2kF9EeuqaOzx7dF7XZcHNUQWoeFUCnhNFJZdAUvcI9qG
-X-Gm-Gg: AZuq6aK5hfuNx5CwaRDZ0gSxzNqvwgV2gsTGsSdJplLVX2yLb4kFd2cejsGErtN+aCB
-	LD/+N863YUYOD9mrgF/WVtb21bXzU/CQ20XUFDZ8wiQx4ijGz6jdeSuFLT/A9ft3BbXR89yM3vz
-	+HFGpBn1W6Z+KMrFFNQI2xMAjJKXuWdXp2UboMbSRykqc6lLed+k9H3KckZMZ2uET21h2MKmzUb
-	DiavCWZ9mDtEphEya1tHBIDyNKN7wzBwyhWl/ZJOzlPSh2eKxXdnqbZDYItG735xYddCrBwgONx
-	lsF3q+4Ma6sXz7WyjWDlEnYvdPkoZytWLrdYvjJAAnkxdpaN2JtfnTM3e99ZvmRZoWRp7DMKgCn
-	TRAtMKlbqZPd7XTQpkdshjYjLe5UeZHOI+edH2HApCOD7CEVZvYGRl5Hf9+Clg2JZoXRizHRbTe
-	wLxAmFBhYRGbLie0lq+6VwGtY=
-X-Received: by 2002:a05:600c:4f54:b0:47d:403e:9cd5 with SMTP id 5b1f17b1804b1-4832020df4emr103964445e9.11.1770555952781;
-        Sun, 08 Feb 2026 05:05:52 -0800 (PST)
-Received: from [192.168.0.131] ([194.183.54.57])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-436296b2110sm19201164f8f.3.2026.02.08.05.05.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Feb 2026 05:05:52 -0800 (PST)
-Message-ID: <0033b0b2-1eb3-4486-abe4-62d25f10b22c@gmail.com>
-Date: Sun, 8 Feb 2026 14:05:50 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oANrs1Ub"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770557095; x=1802093095;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r9gkFRCzEOb1h4nKqkUwgVKmowLhlaAuvj7Xx2k+NcA=;
+  b=oANrs1Ub4VLJYVk3hf+s+HOI07qISO3kScQlalgZev5vIG6zSyoxhfn7
+   kJ2+5lZa/4whPDb58JrJCvWVRRkASsLv+RZZIPL/NJJnVf6zgWmlSqadC
+   hCvaVnwSkEYRjbbFOEIqLdkmYDCZdxW91VInbkXuXXRAcW6ehNaOAWews
+   bAeQtKHfOhCMtQ58cbw490cBGKBG0P068PqpTBj76gbkdr61z25We6QFJ
+   V8ljJ66i/h/LvR/OXDjT7/nd804mzJp+q8gyWs1N91nEi1O2imm9cxXPa
+   OoAwf7TCXKkSjkKsO6GHb0+nnY4tc/TJlWTmvblQUVmYQ1KjDRWlEigO4
+   w==;
+X-CSE-ConnectionGUID: YfhyvntIQQukSAbPRR6+Yw==
+X-CSE-MsgGUID: WJl2OnLVQ3iYKfTeCn94aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="83064599"
+X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
+   d="scan'208";a="83064599"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 05:24:55 -0800
+X-CSE-ConnectionGUID: GgxqGVi1Q+iso5D2FbD6+Q==
+X-CSE-MsgGUID: uKX408q9StamNKiXcMNe2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,280,1763452800"; 
+   d="scan'208";a="210566497"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.100])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Feb 2026 05:24:51 -0800
+Date: Sun, 8 Feb 2026 15:24:49 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>,
+	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v6 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
+Message-ID: <aYiOoZMkq_d48vCZ@smile.fi.intel.com>
+References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
+ <20260130-adf41513-iio-driver-v6-2-cf46239026bc@analog.com>
+ <aYKkv3dq9Vkm3s_3@smile.fi.intel.com>
+ <7tiv33i65unu5ypk7puj3buzybykyhv2qbwp54bhcem5t4rawq@dpfedqmmxbhx>
+ <aYMYJppigidPeLH4@smile.fi.intel.com>
+ <hrhgmum6zdww7etc6ztchivfqecaaqeeul2bbagzyongkxpaeh@q7x4popwel6d>
+ <aYMgzMVcv_QALJtF@smile.fi.intel.com>
+ <20260207170228.2f2bfb35@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/12] dt-bindings: leds: document Samsung S2M series
- PMIC RGB LED device
-To: Kaustabh Chakraborty <kauschluss@disroot.org>,
- Rob Herring <robh@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
- <20260126-s2mu005-pmic-v2-2-78f1a75f547a@disroot.org>
- <20260206133837.GA157817-robh@kernel.org>
- <DG7XJ6T9I7HU.1UVHH2QWX31O1@disroot.org>
-Content-Language: en-US
-From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
-In-Reply-To: <DG7XJ6T9I7HU.1UVHH2QWX31O1@disroot.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260207170228.2f2bfb35@jic23-huawei>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Kaustabh,
+On Sat, Feb 07, 2026 at 05:02:28PM +0000, Jonathan Cameron wrote:
+> On Wed, 4 Feb 2026 12:34:52 +0200
+> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+> > On Wed, Feb 04, 2026 at 10:28:05AM +0000, Rodrigo Alencar wrote:
+> > > On 26/02/04 11:57AM, Andy Shevchenko wrote:  
+> > > > On Wed, Feb 04, 2026 at 09:42:55AM +0000, Rodrigo Alencar wrote:  
+> > > > > On 26/02/04 03:45AM, Andy Shevchenko wrote:  
+> > > > > > On Fri, Jan 30, 2026 at 10:06:43AM +0000, Rodrigo Alencar via B4 Relay wrote:  
 
-On 2/6/26 14:56, Kaustabh Chakraborty wrote:
-> On 2026-02-06 07:38 -06:00, Rob Herring wrote:
->> On Mon, Jan 26, 2026 at 12:37:09AM +0530, Kaustabh Chakraborty wrote:
->>> Certain Samsung S2M series PMICs have a three-channel LED device with
->>> independent brightness control for each channel, typically used as
->>> status indicators in mobile phones. Document the devicetree schema from
->>> this device.
->>>
->>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->>> ---
->>>   .../bindings/leds/samsung,s2mu005-rgb.yaml         | 34 ++++++++++++++++++++++
->>>   1 file changed, 34 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/leds/samsung,s2mu005-rgb.yaml b/Documentation/devicetree/bindings/leds/samsung,s2mu005-rgb.yaml
->>> new file mode 100644
->>> index 0000000000000..6806b6d869ff7
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/leds/samsung,s2mu005-rgb.yaml
->>> @@ -0,0 +1,34 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/leds/samsung,s2mu005-rgb.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: RGB LED Controller for Samsung S2M series PMICs
->>> +
->>> +maintainers:
->>> +  - Kaustabh Chakraborty <kauschluss@disroot.org>
->>> +
->>> +description: |
->>> +  The Samsung S2M series PMIC RGB LED is a three-channel LED device with
->>> +  8-bit brightness control for each channel, typically used as status
->>> +  indicators in mobile phones.
->>> +
->>> +  This is a part of device tree bindings for S2M and S5M family of Power
->>> +  Management IC (PMIC).
->>> +
->>> +  See also Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml for
->>> +  additional information and example.
->>> +
->>> +allOf:
->>> +  - $ref: common.yaml#
->>
->> This looks a bit lacking. Don't you need 3 child nodes for each or
->> reference to the multi-color schema?
+...
+
+> > > > > > There is a development in the parse_integer in the lib/. I reviewed that series
+> > > > > > and hopefully it will go in. With that done, we better reuse the lib/ function.
+> > > > > > 
+> > > > > > https://lore.kernel.org/linux-hardening/20260202115451.290173-1-dmantipov@yandex.ru/  
+> > > > > 
+> > > > > In this patch, I see that it updates the overflow check, but I am not
+> > > > > seeing that function being exposed to other kernel modules.  
+> > > > 
+> > > > Can the IIO be compiled as a module? If so, then we would need to export that
+> > > > function. (Note, we may export only for the exact module(s) in question, so
+> > > > nobody else will be able to use it. See EXPORT_SYMBOL_FOR_MODULES() macro.)  
+> > > 
+> > > Yes, one can have an industrialio.ko.
+> > > Then, would it be fine to use:
+> > > 
+> > > EXPORT_SYMBOL_FOR_MODULES(_parse_integer_limit, "industrialio");
+> > > 
+> > > in lib/kstrtox.c; and:
+> > > 
+> > > #include "../../lib/kstrtox.h"
+> > > 
+> > > in drivers/iio/industrialio-core.c
+> > > 
+> > > that does not look pretty.  
+> > 
+> > Yeah, but I think it's fine as long as we have an associated FIXME.
+> > In any case Jonathan is the one who makes a decision here.
 > 
-> 	rgb {
-> 		compatible = "samsung,s2mu005-rgb";
-> 		label = "notification:rgb:indicator";
-> 		color = <LED_COLOR_ID_RGB>;
-> 		function = LED_FUNCTION_INDICATOR;
-> 		linux,default-trigger = "pattern";
-> 	};
+> You've lost me. Why do we need to restrict this function to use
+> by specific modules?
 
-Having label together with color and function doesn't make sense.
-Please read label documentation in [0].
+Because it should not be used outside the lib/* to begin with.
+The mentioned series relaxed that a bit, but the idea behind is
+still the same. We rather should have a front-end wrappers like
+safe_strtox() or so to do the job, not the parse_integer*() one(s).
 
-[0] Documentation/devicetree/bindings/leds/common.yaml
+> We normally only bother with that dance when
+> there is a big footgun or something deep in core kernel code where
+> we want to be very careful who uses it.
+
+That's exactly the case.
+
+> To me it doesn't seem appropriate here.
 
 -- 
-Best regards,
-Jacek Anaszewski
+With Best Regards,
+Andy Shevchenko
+
 
