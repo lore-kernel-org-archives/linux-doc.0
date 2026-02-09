@@ -1,352 +1,341 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011006.outbound.protection.outlook.com [40.107.74.6])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FF81917ED;
-	Mon,  9 Feb 2026 08:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770625037; cv=none; b=lrekH7XG8rOft+53/LG8SXUxn1zQoh3p7i6uMOBqrFIwoBxV1A3mwj4kpp7H4NU6/+5YX9jJSS0o6IkYpiY8qusxJXn7BHqj7+vBWZ/tnWUXLV1Iaetbb5vEDfI9LvPF4QUxEiWcoN+u1YQSb4vUhDhxVXApyyd86HmnkhOr30c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770625037; c=relaxed/simple;
-	bh=X1jumojE2cr0vMh3mKiPGb62eu9k/7W3dLIR74rTWjU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=e0g8aurmhuhw/uu2uHAInX2NmQ85gkdheW+3vuObSgOAKVkpw+CKrq3RhwVGHOEfq0DmroA8Vy/h1SbqeeU2Y/exsKZLeOt7rRvTqsaUX4mKAtmoaA0f1bX5+I48zY9j3LV3hPFFsh22r3e08EzkxyvMXf2tgfnwBOLw+ZM4j7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4f8cwJ15nPzYQv2m;
-	Mon,  9 Feb 2026 16:16:16 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 564FB40590;
-	Mon,  9 Feb 2026 16:17:13 +0800 (CST)
-Received: from [10.67.111.176] (unknown [10.67.111.176])
-	by APP4 (Coremail) with SMTP id gCh0CgDnR_gGmIlph7o1Gw--.57276S2;
-	Mon, 09 Feb 2026 16:17:12 +0800 (CST)
-Message-ID: <6ad1fb5d-a859-4611-8af9-aa4d37aeeb38@huaweicloud.com>
-Date: Mon, 9 Feb 2026 16:17:10 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF0F22FB630;
+	Mon,  9 Feb 2026 08:25:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770625520; cv=fail; b=U0z5deYOrK3/wOV+KCswfJYVTSp5DBsAgpuFHcHac6spyaNTwMGkGUdiiRmY9Mr0cy53N/obaKWx3ez/0/O3isoJB9uFfL5zAGxW8v1dQIMUt9lfSUShArggozvQCu78rMo81KM8LWlyF1mdHYSY1h3cHTLRMV/OCyoIIZCdCIM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770625520; c=relaxed/simple;
+	bh=Y/EISfrhtCMMPvND42iJGWexfUpaH7Km7hc9IBTsnDI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=t7FblQxoCEaFYJuLYLeh0cCpZrnj0eMwWFtKK+KtdWtnj08kkaGkK9TE1/DNK+AzJYAqX/v6O0ZCT5OTBKp5eNNMCqJYHcE/VW02eDCc+ThAWH9AYIEpI8b8+ehLItvGSmudnnGy6ZfZMoBXPB+566vaZ9Ikb0P+BK7L54Jp+qw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=iBDvt7Pn; arc=fail smtp.client-ip=40.107.74.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="iBDvt7Pn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LhvNk9fpWinHA/FEYkablnfx6WOXhu0wmfGCWfGRLu30DmYrtl6UtxgJDTlU5eFGfFBUh3FwSASFJfIMH4HbIUU80dkIQjO0bj2EyseDmjD7ebGHmUU3/8saFqFF0kQE+KnP/RtuHKmm+MXoHDJox0wJRiJORaCYR+3XNVVmGill4zMJ+D7OwSJTE3u5m4exRFydhrleT7+H2y13NAZi/GGydf0NB6U5m2edWw0KIFwAodw5aRTY9Hk5XdqB7+cSvIAs4nFoEMyJexAA5jXq3ofTR+juO9HLKVqAUssZUbjHXzFZi/ccoqugG9DKwz6EXfVCb9fznZJZumRcGni2GQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Y/EISfrhtCMMPvND42iJGWexfUpaH7Km7hc9IBTsnDI=;
+ b=yXR/zzlVOXU3mR9W38ZoyXZNcYT3nGRZl/gyrX9YQWca9Yu7n36gEm+91/h+mC4SpLZKeV4klzW+DoQualKxf8w/d6A+11aPLpHK5zn9R6qDFlI5YQU6gr1HvpcVEHIzi8yTXuWH4PYkX0CbHapoGTSuKXnO2K7zHlwGU84MAwRO1y44fIzACugYQfkCcnA8jhh/GaPoZab1zTntY/pVjTs6+hTlvUIjhEietLEF4REMBZgksIdzg9S1TJXPY/nRmAIwaSLYVLK9c7iteoi0/+90DUPuOz8LiUCw1hHyLb4lYxX20lMDHj8Q5q0lAQ+Qd75SIrbUOftv0fNbuwT+TQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fujitsu.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y/EISfrhtCMMPvND42iJGWexfUpaH7Km7hc9IBTsnDI=;
+ b=iBDvt7PnkGGHKPKmR2W4e2DPjI2MFFDNoitH+70FIGdqoQigajg5d7K0Kw7RhJ/ii+SKeQwqEpe2rEq/k9iOkTmfA5sn7UpEqW+lRr9/0JUZo1Fk63HGYVHOxkOf6h+D8Wm4uIPKcnFJQxhXQyCddKVfJBgqNFw7n3FmX7MQcrtbaeIvdxHreZms9UbK6zSOOwCh5eHg99Hzx3ch1R3hy4STLRDeGq412PwzJ6aZiLLxQLCcHoYQ0AFOoQtWQ3o2JKBgWIe13mybe40nub5A+HH+zwTcVDVz70rqUf5Wka+6uevrFGhFcVGIHrLo9ee8GBq0+ZKpQh9iNZHl3B3q1w==
+Received: from OSZPR01MB8798.jpnprd01.prod.outlook.com (2603:1096:604:15f::6)
+ by OS7PR01MB11442.jpnprd01.prod.outlook.com (2603:1096:604:243::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.17; Mon, 9 Feb
+ 2026 08:25:16 +0000
+Received: from OSZPR01MB8798.jpnprd01.prod.outlook.com
+ ([fe80::e366:d390:4474:8cfa]) by OSZPR01MB8798.jpnprd01.prod.outlook.com
+ ([fe80::e366:d390:4474:8cfa%5]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
+ 08:25:16 +0000
+From: "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>
+To: Ben Horgan <ben.horgan@arm.com>
+CC: "amitsinght@marvell.com" <amitsinght@marvell.com>,
+	"baisheng.gao@unisoc.com" <baisheng.gao@unisoc.com>,
+	"baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+	"carl@os.amperecomputing.com" <carl@os.amperecomputing.com>,
+	"dave.martin@arm.com" <dave.martin@arm.com>, "david@kernel.org"
+	<david@kernel.org>, "dfustini@baylibre.com" <dfustini@baylibre.com>,
+	"fenghuay@nvidia.com" <fenghuay@nvidia.com>, "gshan@redhat.com"
+	<gshan@redhat.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
+	"kobak@nvidia.com" <kobak@nvidia.com>, "lcherian@marvell.com"
+	<lcherian@marvell.com>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "peternewman@google.com"
+	<peternewman@google.com>, "punit.agrawal@oss.qualcomm.com"
+	<punit.agrawal@oss.qualcomm.com>, "quic_jiles@quicinc.com"
+	<quic_jiles@quicinc.com>, "reinette.chatre@intel.com"
+	<reinette.chatre@intel.com>, "rohit.mathew@arm.com" <rohit.mathew@arm.com>,
+	"scott@os.amperecomputing.com" <scott@os.amperecomputing.com>,
+	"sdonthineni@nvidia.com" <sdonthineni@nvidia.com>, "xhao@linux.alibaba.com"
+	<xhao@linux.alibaba.com>, "catalin.marinas@arm.com"
+	<catalin.marinas@arm.com>, "will@kernel.org" <will@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>,
+	"oupton@kernel.org" <oupton@kernel.org>, "joey.gouly@arm.com"
+	<joey.gouly@arm.com>, "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+	"kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>, "zengheng4@huawei.com"
+	<zengheng4@huawei.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 00/41] arm_mpam: Add KVM/arm64 and resctrl glue code
+Thread-Topic: [PATCH v4 00/41] arm_mpam: Add KVM/arm64 and resctrl glue code
+Thread-Index: AQHclVY3YCku0pTXX0WF2WHphkfTbrV6DFS5
+Date: Mon, 9 Feb 2026 08:25:16 +0000
+Message-ID:
+ <OSZPR01MB87983A126E58D3FE8A73A98F8B65A@OSZPR01MB8798.jpnprd01.prod.outlook.com>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+In-Reply-To: <20260203214342.584712-1-ben.horgan@arm.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Enabled=True;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SiteId=a19f121d-81e1-4858-a9d8-736e267fd4c7;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_SetDate=2026-02-09T08:25:16.270Z;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Name=FUJITSU-RESTRICTED;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_ContentBits=1;MSIP_Label_a7295cc1-d279-42ac-ab4d-3b0f4fece050_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=fujitsu.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: OSZPR01MB8798:EE_|OS7PR01MB11442:EE_
+x-ms-office365-filtering-correlation-id: 4617da2c-c414-4686-252f-08de67b4c148
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|7416014|366016|1800799024|1580799027|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?cnBpanI0a1NtU0x1SmZ4WVN0ZGVLUlJXdDdiTHM2MlowQ3ZLTGErYXFRenl0?=
+ =?utf-8?B?QVJJMzV2YnJFblhTdENqUEpaUkFpYm1hMklGYzBpd2wrV1JRRnIydmREeVRD?=
+ =?utf-8?B?R1FOTjZIS3FEODVteW10QU55NCswWDFzLzJZQTd2OFdGUDlQSnh4TDhIQlN5?=
+ =?utf-8?B?S0djT3N1cXNVTzErQnJER2N3cEcvUGtsaVB4Q3FjOW53ZkN6UXprc3M3Rnh1?=
+ =?utf-8?B?c3NENnFMbm1lY3dMdGh1b0ZqcmlRYzFlSmVUWDNpQ0c2SDA1U2JSM3RQS25S?=
+ =?utf-8?B?NiswWEhwWXdQaEI1SHVZS3FMZnUvNmVHazY4VXQvNHNjQ1YrQVdHaG81NnIv?=
+ =?utf-8?B?VDRiS005aVd3V2xXUW9ML0FpTG5wUi9CQnZXWHQ1SjRkSlI1MGNwOStNVmJa?=
+ =?utf-8?B?STMwQlMvMXNXb0ErZW9Hc0drUkkrdGp4aUtOV2pGL1B0MSs4aFZCZ1ZDcTRa?=
+ =?utf-8?B?dUpnSFgza0NJREJwOU5Fa0lTSE8yQmR0Nmd1U21BUkl6R2FpQ2s1cGxUY243?=
+ =?utf-8?B?bW9pR0M2bEt6RmhvWWpSTjJNcUNHd25NdmNyUisvZXdpUlNNbk9pbTRML0ho?=
+ =?utf-8?B?bUpPMUljOUxHZjNvc2FseWV1aWIzeUlmZi90UWM2Rk5Edy9vSWlBNWkyV1Ra?=
+ =?utf-8?B?L29NcWpGV1pzN0Q4LzFjTjRBaURtYVhQY1hoQitkZUU4eU5XYVFjSGg2Vk45?=
+ =?utf-8?B?RFBTRnMrUkVoVFhsSjVpRGk5OXZ0SXVWdWZPL1poV2wzZGFjc3Z0dnk3Qmd3?=
+ =?utf-8?B?NHZnYTV4MytYVnVLdWNkU0JRSkhGS2pIMkpHWXc2Yk9NbXVNN0syM1FpOUEz?=
+ =?utf-8?B?NldvNHJSR0U2OFNjQVdLbHBHc0J3T3cvNWRFT0llVnpsU1NoU05EVDUwb0ov?=
+ =?utf-8?B?RDUzUWRuK3Bsb1k5RllVUXpNREx5STM1U1oxQktsbTFsZm1YdmdPbkp1bzc4?=
+ =?utf-8?B?dFdDSGpDK2dkTWVLK2trd3pSVEg2eDNUWVlQTDFTc0I2Qzl0ek9XOEJHTEpF?=
+ =?utf-8?B?UlBqMVUwb1pxclJ1N2NZeGVDT01PWGNNRnZPS0hiR2N2V3hJN2pVNHFZVVk2?=
+ =?utf-8?B?UlNtVUx4a1Q2dTZ3aDZiK1M5ejc5bUJ4QVFTaWg3cHhBcmk3RjB4RzdPTW9O?=
+ =?utf-8?B?a1RpQ0dTSG5yd3VzR09SSVdqZ1Y1dW4ybnFhTFdMUnFhUy9SVjNSRi94OEFV?=
+ =?utf-8?B?eXZoK3JMbVJLb1F3SHg5NUtCQ0lFampHUUw4Y3BXbnNkRyt1NTQ2T3VnMmky?=
+ =?utf-8?B?dERpSC9nOGpqSk1neko5WC9pYVBXSUFyaGNUY3VkMnJtb2UxR1puU2RxSzZt?=
+ =?utf-8?B?RzRoYzloQUNUZ1QrYWw2MlNncXBOWUlYaHI1c1lNNUFaNlFzZnNzQWdJRVMx?=
+ =?utf-8?B?TkoxdUFERWpsbzhPVzYybnBCRGRVbDlPUHk3S1dPdFBpVlRUejM1MDR3ejhK?=
+ =?utf-8?B?YnN1bThDSmwvMVg5eW5JeFdNMmRsWXg5YnlDTkVlTTVnUU9kNW5vRTdsT3RD?=
+ =?utf-8?B?NnFjZEpqZ1FGb0JyNDRVODJUWDhYY3lSVnNPM25YZ2ROZk12UjVQR3NvcE9X?=
+ =?utf-8?B?MFozeEJTUm9zeUlrbnl0TWhxdVpHdnhtY2Z0YkcyN1lBbDhtMGc1UzVKbk9m?=
+ =?utf-8?B?TTVqOTFqK1VRVWFkZUVhUzJ4ZDYyd3VrK3RQNXZFM1hIL2VMOTZSUXFYaXhB?=
+ =?utf-8?B?S0IvajlrUUNUeDFxWHBGTzVNUmtXK3A1UGpXNWdBUW1jWnQ3UGNQUC94eXNj?=
+ =?utf-8?B?WmVQSlVHdHJZWmlRdW1BTzhYS05UVmtrbzExWDdkeVJBUXlHSytkRDN5REN6?=
+ =?utf-8?B?WjRGUmxkRmVTUzBGWXJIWE1rRzFGVmFxaThPYk5MSzNnTzJuNUNvQ2pXLzNu?=
+ =?utf-8?B?NFczYkhPRGFIREU0OEZwOEtlVk0rZU9KWjYwNktzYmhxcEs3aGNnVWF5ZzAv?=
+ =?utf-8?B?QWplU2c0RGJ4ZG5Bd3ExQXUwNk51YXhhVmZRSTFtLzFCbkcxd250VHJwK3FJ?=
+ =?utf-8?B?c1U5cG15YUlWSTNuNlZ4NE82K2dCN2VzT0FwOVZpa2F0TGxRTlQ4Ui9WQ1hF?=
+ =?utf-8?B?cEkyRnQwVENFN0JpaWNqM2JWbjI4ZE1WTDI0Ykh2RGkrSFFwZmxxd3Qvei8y?=
+ =?utf-8?B?V1FpazdGR3VISHVNbTNkbW9wOGFHVGV6ZVEyQUNMQmQ2U2V2K2djRzBud0hS?=
+ =?utf-8?B?RGlnSnlKQWdBTGtZYXVicFdMejZpVHJEOFlzMGNGdXZyRW95ZGo3UlhmRFVv?=
+ =?utf-8?B?M1RuM25PT3Z4Vyt1eDV1ZVNKK1RnPT0=?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSZPR01MB8798.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(1580799027)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?ZlNrRU1OWUpuZzRJcnFBcVdHRDVteE9ZTUpoNEo1VHhFV2tFOHIxUWhidGhU?=
+ =?utf-8?B?RXo5U2R6QTV2QUNEUVUwTVBsNDR4ZG0rM3lTbWkzdTM2SHJvNkRYbW1Yc2x0?=
+ =?utf-8?B?TFFpZFlDdTk1NC90UGxpeHM3VVQycUk5bEh4eGU2VXVleGs3ZmhtU3JCOE5y?=
+ =?utf-8?B?TUkzRkJ4ZS80c1cxdy9FeStTMWZiZDFxbFE0aFNHK2xSTTR4Zzd1QTBRdDVK?=
+ =?utf-8?B?RlltbnZpa1NxVTBMSThIM0xYTW9xNjI1N1dqUFlMbGhuSHYrNFdWbHFYb002?=
+ =?utf-8?B?YnBRak9aUkRnMU80VE52bTlROU94VGhWWFlLaG0yWEhScXd6ZDc4dkEwQ2RG?=
+ =?utf-8?B?Sm5GUkVITFIyTStxRU9LRXltU3Bpek1zMWxLeUc1SGN0YWJqaWZybEV0MWxV?=
+ =?utf-8?B?KytOQWVXdnVWdWFhc290Nm9zYTh0cm1aSnFNdUxjTk1WQnl1YTlWbzEvblhm?=
+ =?utf-8?B?MU0wb3NhVXdMYkFiMU1VSlNTTWs1WVRIQW9xZWZ4bngydCtCWWZSNmtEYUFj?=
+ =?utf-8?B?d2pEcHVCWC9GemlqWkJkRXdjS0YyVEt4cm5qd3BVTkpGVGxHcnFyR2RzekVq?=
+ =?utf-8?B?Mjc2QTlXcTZNZ3Bnb29XaXpEL0tXMzVKZjJrVFhCeXNRYmNTU01tOVJJYlpu?=
+ =?utf-8?B?c1luVWZOSWFHRHdvRDAwOE9qWE15clNPa1BodmlxZkJWZVlQNUVsbHBXaTBt?=
+ =?utf-8?B?ekQyS1l2UGVvNEFUNXhPU3NqNElQaXpDcjJXdlU4RWV5b2o0TmRybkd3ejdu?=
+ =?utf-8?B?YzZjSlNnRU1aamd3S29uRU1nRm1GaEFjL2k2T3VQeXJKaG9LQ0s5dVgvcmZE?=
+ =?utf-8?B?RHhmTjNSMEsxTXBDaXVZMFIydFN2S2FzeVhZb09MZXF3R0dDazdxLzZ0S0FK?=
+ =?utf-8?B?VTk5VGhJTUpndDlvWXp0K0xZNmduRGhpcmdlM1FTS0l0L2ZWRVRkMEg0NURu?=
+ =?utf-8?B?OEwrUmRKNHNOWjZZNFhhMXNFUENLaG9YTWo5OWpHWlB4Qzg4ajZ5d3U5Q2pQ?=
+ =?utf-8?B?OHR3WFhwSTBOeDBOUCtTVlZpY0IrbXo4cHMxMEl0RnBNUnk4WE5kck9MTnZp?=
+ =?utf-8?B?V0tzeG84U2dUc0ErYk5VQ09ZSWpkdW9Xd3FjcWx2a0RnTmZmKzBJMjdGR2RM?=
+ =?utf-8?B?WXFJQkRTMng4b3lDQVk3NFRPdWtZUUtsY2pTS1p2WlFkL2RvaWloOEZUUDN3?=
+ =?utf-8?B?Mnl1YlhydllPY255RUlTc3Zqd2d2U3hkTS9qeisrc0tucWZ1VHpIMVQ3aVdv?=
+ =?utf-8?B?R0k0eEdrcFhtM242SkJVWitac3JPcXZoUEdxWkx2VkU2VkZKU1p4Z3FGQ2lp?=
+ =?utf-8?B?aDNNL1pKa0JaeUtIM1R2K0wvUnVuU2dMUlNhTFNucXlxYUM5K0NhZXVCRmxX?=
+ =?utf-8?B?WTdDd2NwN2lScys0dTh5NmR4Zmxyamd0RU1hYTZNUUNTRGw2ZHNyVG5wbVJx?=
+ =?utf-8?B?bFdmbERzUXJzaVJUbkZyTGxJZGY4WnV3MkVtU0owVmdaeUd2b0F1YlFBck1H?=
+ =?utf-8?B?MG1BenNVd0NuNnZKaE43MGthYzZQYVFZWFBvUmlDak9LVHZ6VVVHUFR5UGR4?=
+ =?utf-8?B?NEU3cG9DRHVRK1lhdXlOMVJEODBOUVgrZk4wTFN4SUIvSmR4eExUdWx1aUlt?=
+ =?utf-8?B?RFZOY1JPV3pVeW4xMDF2elBQeDdWUkcvbmlJNVVEa3NFNW5ibmVUVml0N1py?=
+ =?utf-8?B?R0dGRHFGSTRiTXIxVzc3VWc3MDd0YlNESWs2MHNoekh4MDBtWUk1N1d4bTFY?=
+ =?utf-8?B?ekN3WXBxd20yeGIvNHdySkNsSFlmeTRDdldaamFZUHF3K1FIOGJ0cmthOVN5?=
+ =?utf-8?B?RHdpL3hsS1M4WkNSUHNOaW9CbTNlcmFlZmxGcXc2R3h6eDljSlpwQy8yWWlF?=
+ =?utf-8?B?UW1ybUtmWmZYYit2STF1NVlwWDZvbUFDWXRYVmE2ZXN6TlBKcHNWSDZHR0dO?=
+ =?utf-8?B?UnZZd0Q0VzFpdGhHTGJDaEkrR3BralBtQkRlUkhCeGc5dEM3UXNxK1VZWHZq?=
+ =?utf-8?B?Y3ZSZmYwcDhZUm80UDNjdHZha3Vib0VOamJnZWQ4ZjVKdzUrcndxNVFHSFY4?=
+ =?utf-8?B?bXYvcCtwakRNOGpmQXVzMWowdUt5elNjTVMvY0xGM3VFc1FpN1VGMXpWcjdT?=
+ =?utf-8?B?NjRsTW9uVVZ1TVNQRHN6bVFCTUFCU2NOZE9Qc0dUeWJOeFBqMjNzNHp0alBp?=
+ =?utf-8?B?dlovRi9pMDlnYlpqWTRuay9VKzhPakZ6eUYxV1JTSVpQaUFiYjlhR1M3L1Mz?=
+ =?utf-8?B?R0pHWVpYWmNlVTg3VGo0Vk84a09PazNaZDB4SmgxNEt2RmZvREZsYXpoRGUx?=
+ =?utf-8?B?U3Nxb3l1dTdZeUZkYWJycVMvUmx6TXF4eDlKanpwWWZYMjdmaHNIdz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH -next 1/7] vmscan: add memcg heat level for reclaim
-To: Yuanchu Xie <yuanchu@google.com>
-Cc: akpm@linux-foundation.org, axelrasmussen@google.com, weixugc@google.com,
- david@kernel.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
- vbabka@suse.cz, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- corbet@lwn.net, skhan@linuxfoundation.org, hannes@cmpxchg.org,
- roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
- zhengqi.arch@bytedance.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, lujialin4@huawei.com,
- ryncsn@gmail.com
-References: <20260120134256.2271710-1-chenridong@huaweicloud.com>
- <20260120134256.2271710-2-chenridong@huaweicloud.com>
- <CAJj2-QEvrgQ+R-nc3LZ-cBfnzjakxfSgmNbqDa-RFBVOpdVaAQ@mail.gmail.com>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <CAJj2-QEvrgQ+R-nc3LZ-cBfnzjakxfSgmNbqDa-RFBVOpdVaAQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgDnR_gGmIlph7o1Gw--.57276S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3XrWxWw47CFy7XrWkWry7GFg_yoWfZFyfpF
-	Z3JF4ayan7Xr13Kwnaq3WUWr93Aw1xKr1ayrW3KF1fAwsIvr10vw42kr43ZFW5ArWUXr1f
-	ZryYgr13uw4qva7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
-	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07
-	jIksgUUUUU=
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSZPR01MB8798.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4617da2c-c414-4686-252f-08de67b4c148
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Feb 2026 08:25:16.7462
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iYS4LwHb/QNCvjeZXeH6gaifo0XkmVxhg3/AyUHYKqGGO4EDIzwjawikkbL09uMkF7m00M2ed2AMfAvgOCQyGhjreODtjO4UqB1L9Ziiy6Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11442
 
-Hi Yuanchu,
-
-On 2026/2/7 6:47, Yuanchu Xie wrote:
-> Hi Ridong,
-> 
-> Thanks for working to reconcile the gaps between the LRU implementations.
-> 
-> On Tue, Jan 20, 2026 at 7:57 AM Chen Ridong <chenridong@huaweicloud.com> wrote:
->>
->> From: Chen Ridong <chenridong@huawei.com>
->>
->> The memcg LRU was originally introduced to improve scalability during
->> global reclaim. However, it is complex and only works with gen lru
->> global reclaim. Moreover, its implementation complexity has led to
->> performance regressions when handling a large number of memory cgroups [1].
->>
->> This patch introduces a per-memcg heat level for reclaim, aiming to unify
->> gen lru and traditional LRU global reclaim. The core idea is to track
->> per-node per-memcg reclaim state, including heat, last_decay, and
->> last_refault. The last_refault records the total reclaimed data from the
->> previous memcg reclaim. The last_decay is a time-based parameter; the heat
->> level decays over time if the memcg is not reclaimed again. Both last_decay
->> and last_refault are used to calculate the current heat level when reclaim
->> starts.
->>
->> Three reclaim heat levels are defined: cold, warm, and hot. Cold memcgs are
->> reclaimed first; only if cold memcgs cannot reclaim enough pages, warm
->> memcgs become eligible for reclaim. Hot memcgs are reclaimed last.
->>
->> While this design can be applied to all memcg reclaim scenarios, this patch
->> is conservative and only introduces heat levels for traditional LRU global
->> reclaim. Subsequent patches will replace the memcg LRU with
->> heat-level-based reclaim.
->>
->> Based on tests provided by YU Zhao, traditional LRU global reclaim shows
->> significant performance improvement with heat-level reclaim enabled.
->>
->> The results below are from a 2-hour run of the test [2].
->>
->> Throughput (number of requests)         before     after        Change
->> Total                                   1734169    2353717      +35%
->>
->> Tail latency (number of requests)       before     after        Change
->> [128s, inf)                             1231       1057         -14%
->> [64s, 128s)                             586        444          -24%
->> [32s, 64s)                              1658       1061         -36%
->> [16s, 32s)                              4611       2863         -38%
-> 
-> Do you have any numbers comparing heat-based reclaim to memcg LRU?  I
-> know Johannes suggested removing memcg LRU, and what you have here
-> applies to more reclaim scenarios.
-> 
-
-Yes, the test data is provided in patch 5/7.
-
->>
->> [1] https://lore.kernel.org/r/20251126171513.GC135004@cmpxchg.org
->> [2] https://lore.kernel.org/all/20221220214923.1229538-1-yuzhao@google.com/
->>
->> Signed-off-by: Chen Ridong <chenridong@huawei.com>
->> ---
->>  include/linux/memcontrol.h |   7 ++
->>  mm/memcontrol.c            |   3 +
->>  mm/vmscan.c                | 227 +++++++++++++++++++++++++++++--------
->>  3 files changed, 192 insertions(+), 45 deletions(-)
->>
->> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
->> index af352cabedba..b293caf70034 100644
->> --- a/include/linux/memcontrol.h
->> +++ b/include/linux/memcontrol.h
->> @@ -76,6 +76,12 @@ struct memcg_vmstats;
->>  struct lruvec_stats_percpu;
->>  struct lruvec_stats;
->>
->> +struct memcg_reclaim_state {
->> +       atomic_long_t heat;
->> +       unsigned long last_decay;
->> +       atomic_long_t last_refault;
->> +};
->> +
->>  struct mem_cgroup_reclaim_iter {
->>         struct mem_cgroup *position;
->>         /* scan generation, increased every round-trip */
->> @@ -114,6 +120,7 @@ struct mem_cgroup_per_node {
->>         CACHELINE_PADDING(_pad2_);
->>         unsigned long           lru_zone_size[MAX_NR_ZONES][NR_LRU_LISTS];
->>         struct mem_cgroup_reclaim_iter  iter;
->> +       struct memcg_reclaim_state      reclaim;
->>
->>  #ifdef CONFIG_MEMCG_NMI_SAFETY_REQUIRES_ATOMIC
->>         /* slab stats for nmi context */
->> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
->> index f2b87e02574e..675d49ad7e2c 100644
->> --- a/mm/memcontrol.c
->> +++ b/mm/memcontrol.c
->> @@ -3713,6 +3713,9 @@ static bool alloc_mem_cgroup_per_node_info(struct mem_cgroup *memcg, int node)
->>
->>         lruvec_init(&pn->lruvec);
->>         pn->memcg = memcg;
->> +       atomic_long_set(&pn->reclaim.heat, 0);
->> +       pn->reclaim.last_decay = jiffies;
->> +       atomic_long_set(&pn->reclaim.last_refault, 0);
->>
->>         memcg->nodeinfo[node] = pn;
->>         return true;
->> diff --git a/mm/vmscan.c b/mm/vmscan.c
->> index 4aa73f125772..3759cd52c336 100644
->> --- a/mm/vmscan.c
->> +++ b/mm/vmscan.c
->> @@ -5978,6 +5978,124 @@ static inline bool should_continue_reclaim(struct pglist_data *pgdat,
->>         return inactive_lru_pages > pages_for_compaction;
->>  }
->>
->> +enum memcg_scan_level {
->> +       MEMCG_LEVEL_COLD,
->> +       MEMCG_LEVEL_WARM,
->> +       MEMCG_LEVEL_HOT,
->> +       MEMCG_LEVEL_MAX,
->> +};
->> +
->> +#define MEMCG_HEAT_WARM                4
->> +#define MEMCG_HEAT_HOT         8
->> +#define MEMCG_HEAT_MAX         12
->> +#define MEMCG_HEAT_DECAY_STEP  1
->> +#define MEMCG_HEAT_DECAY_INTERVAL      (1 * HZ)
-> I agree with Kairui; I'm somewhat concerned about this fixed decay
-> interval and how it behaves with many memcgs or heavy pressure.
-> 
-
-Yes, a fixed decay interval may not be optimal for all scenarios. It serves as a
-foundational baseline. Perhaps we could expose a BPF hook here for more flexible
-tuning.
-
-The referenced benchmark [2] specifically tests under heavy pressure
-(continuously triggering global reclaim) and with a large number of memory cgroups.
-
-
->> +
->> +static void memcg_adjust_heat(struct mem_cgroup_per_node *pn, long delta)
->> +{
->> +       long heat, new_heat;
->> +
->> +       if (mem_cgroup_is_root(pn->memcg))
->> +               return;
->> +
->> +       heat = atomic_long_read(&pn->reclaim.heat);
->> +       do {
->> +               new_heat = clamp_t(long, heat + delta, 0, MEMCG_HEAT_MAX);
->> +               if (atomic_long_cmpxchg(&pn->reclaim.heat, heat, new_heat) == heat)
->> +                       break;
->> +               heat = atomic_long_read(&pn->reclaim.heat);
->> +       } while (1);
->> +}
->> +
->> +static void memcg_decay_heat(struct mem_cgroup_per_node *pn)
->> +{
->> +       unsigned long last;
->> +       unsigned long now = jiffies;
->> +
->> +       if (mem_cgroup_is_root(pn->memcg))
->> +               return;
->> +
->> +       last = READ_ONCE(pn->reclaim.last_decay);
->> +       if (!time_after(now, last + MEMCG_HEAT_DECAY_INTERVAL))
->> +               return;
->> +
->> +       if (cmpxchg(&pn->reclaim.last_decay, last, now) != last)
->> +               return;
->> +
->> +       memcg_adjust_heat(pn, -MEMCG_HEAT_DECAY_STEP);
->> +}
->> +
->> +static int memcg_heat_level(struct mem_cgroup_per_node *pn)
->> +{
->> +       long heat;
->> +
->> +       if (mem_cgroup_is_root(pn->memcg))
->> +               return MEMCG_LEVEL_COLD;
->> +
->> +       memcg_decay_heat(pn);
-> The decay here is somewhat counterintuitive given the name memcg_heat_level.
-> 
-
-The decay is integrated into the level retrieval. Essentially, whenever
-memcg_heat_level is fetched, we check if the decay interval has elapsed
-(interval > MEMCG_HEAT_DECAY_INTERVAL). If so, the decay is applied.
-
->> +       heat = atomic_long_read(&pn->reclaim.heat);
->> +
->> +       if (heat >= MEMCG_HEAT_HOT)
->> +               return MEMCG_LEVEL_HOT;
->> +       if (heat >= MEMCG_HEAT_WARM)
->> +               return MEMCG_LEVEL_WARM;
->> +       return MEMCG_LEVEL_COLD;
->> +}
->> +
->> +static void memcg_record_reclaim_result(struct mem_cgroup_per_node *pn,
->> +                                       struct lruvec *lruvec,
->> +                                       unsigned long scanned,
->> +                                       unsigned long reclaimed)
->> +{
->> +       long delta;
->> +
->> +       if (mem_cgroup_is_root(pn->memcg))
->> +               return;
->> +
->> +       memcg_decay_heat(pn);
-> Could you combine the decay and adjust later in this function?
-> 
-
-Sure.
-
->> +
->> +       /*
->> +        * Memory cgroup heat adjustment algorithm:
->> +        * - If scanned == 0: mark as hottest (+MAX_HEAT)
->> +        * - If reclaimed >= 50% * scanned: strong cool (-2)
->> +        * - If reclaimed >= 25% * scanned: mild cool (-1)
->> +        * - Otherwise:  warm up (+1)
->> +        */
->> +       if (!scanned)
->> +               delta = MEMCG_HEAT_MAX;
->> +       else if (reclaimed * 2 >= scanned)
->> +               delta = -2;
->> +       else if (reclaimed * 4 >= scanned)
->> +               delta = -1;
->> +       else
->> +               delta = 1;
->> +
->> +       /*
->> +        * Refault-based heat adjustment:
->> +        * - If refault increase > reclaimed pages: heat up (more cautious reclaim)
->> +        * - If no refaults and currently warm:     cool down (allow more reclaim)
->> +        * This prevents thrashing by backing off when refaults indicate over-reclaim.
->> +        */
->> +       if (lruvec) {
->> +               unsigned long total_refaults;
->> +               unsigned long prev;
->> +               long refault_delta;
->> +
->> +               total_refaults = lruvec_page_state(lruvec, WORKINGSET_ACTIVATE_ANON);
->> +               total_refaults += lruvec_page_state(lruvec, WORKINGSET_ACTIVATE_FILE);
->> +
->> +               prev = atomic_long_xchg(&pn->reclaim.last_refault, total_refaults);
->> +               refault_delta = total_refaults - prev;
->> +
->> +               if (refault_delta > reclaimed)
->> +                       delta++;
->> +               else if (!refault_delta && delta > 0)
->> +                       delta--;
->> +       }
-> 
-> I think this metric is based more on the memcg's reclaimability than
-> on heat. Though the memcgs are grouped based on absolute metrics and
-> not relative to others.
-> 
-
-I might be misunderstanding your comment. Could you elaborate?
-
-As designed, the heat level is indeed derived from the memcg's own
-reclaimability (reclaimed/scanned) and refault behavior. In essence, it
-quantifies the difficulty or “heat” of reclaiming memory from that specific
-cgroup. This metric directly correlates to whether a memcg can release memory
-easily or not.
-
->> +
->> +       memcg_adjust_heat(pn, delta);
->> +}
->> +
->>  static void shrink_node_memcgs(pg_data_t *pgdat, struct scan_control *sc)
->>  {
->> ...snip
->>  }
-> 
-> Thanks,
-> Yuanchu
-
--- 
-Best regards,
-Ridong
-
+SGVsbG8gQmVuLAoKPiBUaGlzIG5ldyB2ZXJzaW9uIG9mIHRoZSBtcGFtIG1pc3NpbmcgcGllY2Vz
+IHNlcmllcyBoYXMgYSBmZXcgc2lnbmlmaWNhbnQKPiBjaGFuZ2VzIGluIHRoZSBtcGFtIGRyaXZl
+ciBwYXJ0IG9mIHRoZSBzZXJpZXMuIFRoZSBoZXVyaXN0aWNzIGZvciBkZWNpZGluZwo+IGlmIGZl
+YXR1cmVzIHNob3VsZCBiZSBleHBvc2VkIGFyZSB0aWdodGVuZWQuIFRoaXMgaXMgdG8gZml4IHNv
+bWUKPiBpbmFjY3VyYWNpZXMgYW5kIGF2b2lkIG92ZXJjb21taXR0aW5nIGJlZm9yZSBuZWVkZWQg
+LSBzaG91dCBpZiB0aGlzIGNoYW5nZXMKPiBhbnl0aGluZyBvbiB5b3VyIHBsYXRmb3JtLiBUaGUg
+ZmluYWwgcGF0Y2ggYWRkcyBkb2N1bWVudGF0aW9uIHdoaWNoCj4gZXhwbGFpbnMgd2hpY2ggZmVh
+dHVyZXMgeW91IHNob3VsZCBleHBlY3QuIFRoZSBBQk1DIGVtdWxhdGlvbiBpcyBkcm9wcGVkCj4g
+Zm9yIHRoZSBtb21lbnQgYXMgaXQgcmVxdWlyZXMgcmVzY3RybCBjaGFuZ2VzIHRvIHN1cHBvcnQg
+Zm9yIE1QQU0gd2l0aG91dAo+IGJyZWFraW5nIHRoZSBhYmkuIFRoZSBkZWZhdWx0IDUlIGdhcCBm
+b3IgbWluX2J3IGlzIGRyb3BwZWQgaW4gZmF2b3VyIG9mIGEKPiBzaW1wbGUgZGVmYXVsdCAoa2Vw
+dCBmb3IgZ3JhY2UpLiBUaGUgc2VyaWVzIGlzIGJhc2VkIG9uIHg4Ni9yZXNjdHJsIFsxXSBhcwo+
+IHJlc2N0cmwgaGFzIHRlbGVtZXRyeSBwYXRjaGVzIHF1ZXVlZCB3aGljaCBjaGFuZ2UgdGhlIGFy
+Y2ggaW50ZXJmYWNlLgoKQ291bGQgeW91IHBsZWFzZSBlbGFib3JhdGUgb24gd2h5IGZzL3Jlc2N0
+cmwgY2hhbmdlcyBhcmUgcmVxdWlyZWQgdG8gc3VwcG9ydCBvbmx5IHRoZSBjb3VudGVyIGFzc2ln
+bm1lbnQgcGFydCBvZiBBQk1DPwpDdXJyZW50bHksIG1hbnkgU29DIGNoaXBzIGhhdmUgYW4gaW5z
+dWZmaWNpZW50IG51bWJlciBvZiBtZW1vcnkgYmFuZHdpZHRoIG1vbml0b3JzLgpXZSB3b3VsZCBi
+ZSBncmF0ZWZ1bCBpZiB5b3UgY291bGQgc3VwcG9ydCB0aGUgY291bnRlciBhc3NpZ25tZW50IHBh
+cnQgb2YgQUJNQy4KCkJlc3QgcmVnYXJkcywKU2hhb3BlbmcgVEFOCgoKPiBGaXhlcyB0aGF0IGFy
+ZSBpbiA2LjE5LXJjOCBhcmUgZHJvcHBlZCBmcm9tIHRoZSBzZXJpZXMgYnV0Cj4gYjlmNWMzOGU0
+YWYxICgiYXJtX21wYW06IFVzZSBub24tYXRvbWljIGJpdG9wcyB3aGVuIG1vZGlmeWluZyBmZWF0
+dXJlIGJpdG1hcCIpCj4gaXMgcmVxdWlyZWQgdG8gYXZvaWQgYW4gYWxpZ25tZW50IGZhdWx0IGlu
+IHRoZSBrdW5pdCB0ZXN0cy4KPiAKPiBUaGFuayB5b3UgZm9yIGFsbCB0aGUgdGVzdGluZyBhbmQg
+cmV2aWV3aW5nIHNvIGZhciEgSXQgYWxsIGhlbHBzLgo+IAo+IENoYW5nZWxvZ3MgaW4gcGF0Y2hl
+cwo+IAo+IEZyb20gSmFtZXMnIGNvdmVyIGxldHRlcjoKPiAKPiBUaGlzIGlzIHRoZSBtaXNzaW5n
+IHBpZWNlIHRvIG1ha2UgTVBBTSB1c2FibGUgcmVzY3RybCBpbiB1c2VyLXNwYWNlLiBUaGlzIGhh
+cwo+IHNoZWQgaXRzIGRlYnVnZnMgY29kZSBhbmQgdGhlIHJlYWQvd3JpdGUgJ2V2ZW50IGNvbmZp
+Z3VyYXRpb24nIGZvciB0aGUgbW9uaXRvcnMKPiB0byBtYWtlIHRoZSBzZXJpZXMgc21hbGxlci4K
+PiAKPiBUaGlzIGFkZHMgdGhlIGFyY2ggY29kZSBhbmQgS1ZNIHN1cHBvcnQgZmlyc3QuIEkgYW50
+aWNpcGF0ZSB0aGUgd2hvbGUgdGhpbmcKPiBnb2luZyB2aWEgYXJtNjQsIGJ1dCBpZiBnb2VzIHZp
+YSB0aXAgaW5zdGVhZCwgdGhlIGFuIGltbXV0YWJsZSBicmFuY2ggd2l0aCB0aG9zZQo+IHBhdGNo
+ZXMgc2hvdWxkIGJlIGVhc3kgdG8gZG8uCj4gCj4gR2VuZXJhbGx5IHRoZSByZXNjdHJsIGdsdWUg
+Y29kZSB3b3JrcyBieSBwaWNraW5nIHdoYXQgTVBBTSBmZWF0dXJlcyBpdCBjYW4gZXhwb3NlCj4g
+ZnJvbSB0aGUgTVBBTSBkcml2ZSwgdGhlbiBjb25maWd1cmluZyB0aGUgc3RydWN0cyB0aGF0IGJh
+Y2sgdGhlIHJlc2N0cmwgaGVscGVycy4KPiBJZiB5b3VyIHBsYXRmb3JtIGlzIHN1ZmZpY2llbnRs
+eSBYZW9uIHNoYXBlZCwgeW91IHNob3VsZCBiZSBhYmxlIHRvIGdldCBMMi9MMyBDUE9SCj4gYml0
+bWFwcyBleHBvc2VkIHZpYSByZXNjdHJsLiBDU1UgY291bnRlcnMgd29yayBpZiB0aGV5IGFyZSBv
+bi9hZnRlciB0aGUgTDMuIE1CV1UKPiBjb3VudGVycyBhcmUgY29uc2lkZXJhYmx5IG1vcmUgaGFp
+cnksIGFuZCBkZXBlbmQgb24gaHVlcmlzdGljcyBhcm91bmQgdGhlIHRvcG9sb2d5LAo+IGFuZCBh
+IGJ1bmNoIG9mIHN0dWZmIHRyeWluZyB0byBlbXVsYXRlIEFCTUMuCj4gSWYgaXQgZGlkbid0IHBp
+Y2sgd2hhdCB5b3Ugd2FudGVkIGl0IHRvLCBwbGVhc2Ugc2hhcmUgdGhlIGRlYnVnIG1lc3NhZ2Vz
+IHByb2R1Y2VkCj4gd2hlbiBlbmFibGluZyBkeW5hbWljIGRlYnVnIGFuZCBib290aW5nIHdpdGg6
+Cj4gfCBkeW5kYmc9ImZpbGUgbXBhbV9yZXNjdHJsLmMgK3BsIgo+IAo+IEkndmUgbm90IGZvdW5k
+IGEgcGxhdGZvcm0gdGhhdCBjYW4gdGVzdCBhbGwgdGhlIGJlaGF2aW91cnMgYXJvdW5kIHRoZSBt
+b25pdG9ycywKPiBzbyB0aGlzIGlzIHdoZXJlIEknZCBleHBlY3QgdGhlIG1vc3QgYnVncy4KPiAK
+PiBUaGUgTVBBTSBzcGVjIHRoYXQgZGVzY3JpYmVzIGFsbCB0aGUgc3lzdGVtIGFuZCBNTUlPIHJl
+Z2lzdGVycyBjYW4gYmUgZm91bmQgaGVyZToKPiBodHRwczovL2RldmVsb3Blci5hcm0uY29tL2Rv
+Y3VtZW50YXRpb24vZGRpMDU5OC9kYi8/bGFuZz1lbgo+IChJZ25vcmVkIHRoZSAnUkVUSVJFRCcg
+d2FybmluZyAtIHRoYXQgaXMganVzdCBhcm0gbW92aW5nIHRoZSBkb2N1bWVudGF0aW9uIGFyb3Vu
+ZC4KPiDCoFRoaXMgZG9jdW1lbnQgaGFzIHRoZSBiZXN0IG92ZXJ2aWV3KQo+IAo+IEJhc2VkIG9u
+Ogo+IFsxXSBnaXQ6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4L2tlcm5lbC9naXQvdGlw
+L3RpcC5naXQgeDg2L2NhY2hlCj4gKFRvIGluY2x1ZGUgdGVsZW1ldHJ5IGNvZGUgd2hpY2ggY2hh
+bmdlcyB0aGUgcmVzY3RybCBhcmNoIGludGVyZmFjZSkKPiAKPiBUaGUgc2VyaWVzIGNhbiBiZSBy
+ZXRyaWV2ZWQgZnJvbToKPiBodHRwczovL2dpdGxhYi5hcm0uY29tL2xpbnV4LWFybS9saW51eC1i
+aC5naXQgbXBhbV9yZXNjdHJsX2dsdWVfdjQKPiAoRmluYWwgY29tbWl0IGlzIGEgZml4IGFscmVh
+ZHkgaW4gNi4xOS1yYzgpCj4gCj4gdjMgY2FuIGJlIGZvdW5kIGF0Ogo+IGh0dHBzOi8vbG9yZS5r
+ZXJuZWwub3JnL2xpbnV4LWFybS1rZXJuZWwvMjAyNjAxMTIxNjU5MTQuNDA4NjY5Mi0xLWJlbi5o
+b3JnYW5AYXJtLmNvbS8KPiAKPiB2MiBjYW4gYmUgZm91bmQgYXQ6Cj4gaHR0cHM6Ly9sb3JlLmtl
+cm5lbC5vcmcvbGludXgtYXJtLWtlcm5lbC8yMDI1MTIxOTE4MTE0Ny4zNDA0MDcxLTEtYmVuLmhv
+cmdhbkBhcm0uY29tLwo+IAo+IHJmYyBjYW4gYmUgZm91bmQgYXQ6Cj4gaHR0cHM6Ly9sb3JlLmtl
+cm5lbC5vcmcvbGludXgtYXJtLWtlcm5lbC8yMDI1MTIwNTIxNTkwMS4xNzc3Mi0xLWphbWVzLm1v
+cnNlQGFybS5jb20vCj4gCj4gCj4gQmVuIEhvcmdhbiAoMTApOgo+IMKgIGFybTY0L3N5c3JlZzog
+QWRkIE1QQU1TTV9FTDEgcmVnaXN0ZXIKPiDCoCBLVk06IGFybTY0OiBQcmVzZXJ2ZSBob3N0IE1Q
+QU0gY29uZmlndXJhdGlvbiB3aGVuIGNoYW5naW5nIHRyYXBzCj4gwqAgS1ZNOiBhcm02NDogTWFr
+ZSBNUEFNU01fRUwxIGFjY2Vzc2VzIFVOREVGCj4gwqAgYXJtNjQ6IG1wYW06IERyb3AgdGhlIENP
+TkZJR19FWFBFUlQgcmVzdHJpY3Rpb24KPiDCoCBhcm02NDogbXBhbTogSW5pdGlhbGlzZSBhbmQg
+Y29udGV4dCBzd2l0Y2ggdGhlIE1QQU1TTV9FTDEgcmVnaXN0ZXIKPiDCoCBLVk06IGFybTY0OiBV
+c2Uga2VybmVsLXNwYWNlIHBhcnRpZCBjb25maWd1cmF0aW9uIGZvciBoeXBlcmNhbGxzCj4gwqAg
+YXJtX21wYW06IHJlc2N0cmw6IEFkZCBybWlkIGluZGV4IGhlbHBlcnMKPiDCoCBhcm1fbXBhbTog
+cmVzY3RybDogQWRkIGt1bml0IHRlc3QgZm9yIHJtaWQgaWR4IGNvbnZlcnNpb25zCj4gwqAgYXJt
+X21wYW06IHJlc2N0cmw6IFdhaXQgZm9yIGNhY2hlaW5mbyB0byBiZSByZWFkeQo+IMKgIGFybTY0
+OiBtcGFtOiBBZGQgaW5pdGlhbCBNUEFNIGRvY3VtZW50YXRpb24KPiAKPiBEYXZlIE1hcnRpbiAo
+Mik6Cj4gwqAgYXJtX21wYW06IHJlc2N0cmw6IENvbnZlcnQgdG8vZnJvbSBNUEFNcyBmaXhlZC1w
+b2ludCBmb3JtYXRzCj4gwqAgYXJtX21wYW06IHJlc2N0cmw6IEFkZCBrdW5pdCB0ZXN0IGZvciBj
+b250cm9sIGZvcm1hdCBjb252ZXJzaW9ucwo+IAo+IEphbWVzIE1vcnNlICgyNSk6Cj4gwqAgYXJt
+NjQ6IG1wYW06IENvbnRleHQgc3dpdGNoIHRoZSBNUEFNIHJlZ2lzdGVycwo+IMKgIGFybTY0OiBt
+cGFtOiBSZS1pbml0aWFsaXNlIE1QQU0gcmVncyB3aGVuIENQVSBjb21lcyBvbmxpbmUKPiDCoCBh
+cm02NDogbXBhbTogQWR2ZXJ0aXNlIHRoZSBDUFVzIE1QQU0gbGltaXRzIHRvIHRoZSBkcml2ZXIK
+PiDCoCBhcm02NDogbXBhbTogQWRkIGNwdV9wbSBub3RpZmllciB0byByZXN0b3JlIE1QQU0gc3lz
+cmVncwo+IMKgIGFybTY0OiBtcGFtOiBBZGQgaGVscGVycyB0byBjaGFuZ2UgYSB0YXNrIG9yIGNw
+dSdzIE1QQU0gUEFSVElEL1BNRwo+IMKgwqDCoCB2YWx1ZXMKPiDCoCBLVk06IGFybTY0OiBGb3Jj
+ZSBndWVzdCBFTDEgdG8gdXNlIHVzZXItc3BhY2UncyBwYXJ0aWQgY29uZmlndXJhdGlvbgo+IMKg
+IGFybV9tcGFtOiByZXNjdHJsOiBBZGQgYm9pbGVycGxhdGUgY3B1aHAgYW5kIGRvbWFpbiBhbGxv
+Y2F0aW9uCj4gwqAgYXJtX21wYW06IHJlc2N0cmw6IFNvcnQgdGhlIG9yZGVyIG9mIHRoZSBkb21h
+aW4gbGlzdHMKPiDCoCBhcm1fbXBhbTogcmVzY3RybDogUGljayB0aGUgY2FjaGVzIHdlIHdpbGwg
+dXNlIGFzIHJlc2N0cmwgcmVzb3VyY2VzCj4gwqAgYXJtX21wYW06IHJlc2N0cmw6IEltcGxlbWVu
+dCByZXNjdHJsX2FyY2hfcmVzZXRfYWxsX2N0cmxzKCkKPiDCoCBhcm1fbXBhbTogcmVzY3RybDog
+QWRkIHJlc2N0cmxfYXJjaF9nZXRfY29uZmlnKCkKPiDCoCBhcm1fbXBhbTogcmVzY3RybDogSW1w
+bGVtZW50IGhlbHBlcnMgdG8gdXBkYXRlIGNvbmZpZ3VyYXRpb24KPiDCoCBhcm1fbXBhbTogcmVz
+Y3RybDogQWRkIHBsdW1iaW5nIGFnYWluc3QgYXJtNjQgdGFzayBhbmQgY3B1IGhvb2tzCj4gwqAg
+YXJtX21wYW06IHJlc2N0cmw6IEFkZCBDRFAgZW11bGF0aW9uCj4gwqAgYXJtX21wYW06IHJlc2N0
+cmw6IEFkZCBzdXBwb3J0IGZvciAnTUInIHJlc291cmNlCj4gwqAgYXJtX21wYW06IHJlc2N0cmw6
+IEFkZCBzdXBwb3J0IGZvciBjc3UgY291bnRlcnMKPiDCoCBhcm1fbXBhbTogcmVzY3RybDogUGlj
+ayBjbGFzc2VzIGZvciB1c2UgYXMgbWJtIGNvdW50ZXJzCj4gwqAgYXJtX21wYW06IHJlc2N0cmw6
+IFByZS1hbGxvY2F0ZSBmcmVlIHJ1bm5pbmcgbW9uaXRvcnMKPiDCoCBhcm1fbXBhbTogcmVzY3Ry
+bDogQWxsb3cgcmVzY3RybCB0byBhbGxvY2F0ZSBtb25pdG9ycwo+IMKgIGFybV9tcGFtOiByZXNj
+dHJsOiBBZGQgcmVzY3RybF9hcmNoX3JtaWRfcmVhZCgpIGFuZAo+IMKgwqDCoCByZXNjdHJsX2Fy
+Y2hfcmVzZXRfcm1pZCgpCj4gwqAgYXJtX21wYW06IHJlc2N0cmw6IFVwZGF0ZSB0aGUgcm1pZCBy
+ZWFsbG9jYXRpb24gbGltaXQKPiDCoCBhcm1fbXBhbTogcmVzY3RybDogQWRkIGVtcHR5IGRlZmlu
+aXRpb25zIGZvciBhc3NvcnRlZCByZXNjdHJsCj4gwqDCoMKgIGZ1bmN0aW9ucwo+IMKgIGFybTY0
+OiBtcGFtOiBTZWxlY3QgQVJDSF9IQVNfQ1BVX1JFU0NUUkwKPiDCoCBhcm1fbXBhbTogcmVzY3Ry
+bDogQ2FsbCByZXNjdHJsX2luaXQoKSBvbiBwbGF0Zm9ybXMgdGhhdCBjYW4gc3VwcG9ydAo+IMKg
+wqDCoCByZXNjdHJsCj4gwqAgYXJtX21wYW06IFF1aXJrIENNTi02NTAncyBDU1UgTlJEWSBiZWhh
+dmlvdXIKPiAKPiBTaGFua2VyIERvbnRoaW5lbmkgKDQpOgo+IMKgIGFybV9tcGFtOiBBZGQgcXVp
+cmsgZnJhbWV3b3JrCj4gwqAgYXJtX21wYW06IEFkZCB3b3JrYXJvdW5kIGZvciBUMjQxLU1QQU0t
+MQo+IMKgIGFybV9tcGFtOiBBZGQgd29ya2Fyb3VuZCBmb3IgVDI0MS1NUEFNLTQKPiDCoCBhcm1f
+bXBhbTogQWRkIHdvcmthcm91bmQgZm9yIFQyNDEtTVBBTS02Cj4gCj4gwqBEb2N1bWVudGF0aW9u
+L2FyY2gvYXJtNjQvaW5kZXgucnN0wqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgMSArCj4gwqBE
+b2N1bWVudGF0aW9uL2FyY2gvYXJtNjQvbXBhbS5yc3TCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDC
+oCA5MyArCj4gwqBEb2N1bWVudGF0aW9uL2FyY2gvYXJtNjQvc2lsaWNvbi1lcnJhdGEucnN0IHzC
+oMKgwqAgOSArCj4gwqBhcmNoL2FybTY0L0tjb25maWfCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoMKgIDYgKy0KPiDCoGFyY2gvYXJtNjQvaW5j
+bHVkZS9hc20vZWwyX3NldHVwLmjCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAzICstCj4gwqBh
+cmNoL2FybTY0L2luY2x1ZGUvYXNtL21wYW0uaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+fMKgwqAgOTYgKwo+IMKgYXJjaC9hcm02NC9pbmNsdWRlL2FzbS9yZXNjdHJsLmjCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIHzCoMKgwqAgMiArCj4gwqBhcmNoL2FybTY0L2luY2x1ZGUvYXNtL3RocmVh
+ZF9pbmZvLmjCoMKgwqDCoMKgwqDCoCB8wqDCoMKgIDMgKwo+IMKgYXJjaC9hcm02NC9rZXJuZWwv
+TWFrZWZpbGXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgMSArCj4g
+wqBhcmNoL2FybTY0L2tlcm5lbC9jcHVmZWF0dXJlLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8wqDCoCAyMSArLQo+IMKgYXJjaC9hcm02NC9rZXJuZWwvbXBhbS5jwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqAgNjIgKwo+IMKgYXJjaC9hcm02NC9rZXJuZWwv
+cHJvY2Vzcy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCA3ICsKPiDC
+oGFyY2gvYXJtNjQva3ZtL2h5cC9pbmNsdWRlL2h5cC9zd2l0Y2guaMKgwqDCoMKgIHzCoMKgIDEy
+ICstCj4gwqBhcmNoL2FybTY0L2t2bS9oeXAvbnZoZS9oeXAtbWFpbi5jwqDCoMKgwqDCoMKgwqDC
+oMKgIHzCoMKgwqAgOSArCj4gwqBhcmNoL2FybTY0L2t2bS9oeXAvdmhlL3N5c3JlZy1zci5jwqDC
+oMKgwqDCoMKgwqDCoMKgIHzCoMKgIDEzICsKPiDCoGFyY2gvYXJtNjQva3ZtL3N5c19yZWdzLmPC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAyICsKPiDCoGFyY2gv
+YXJtNjQvdG9vbHMvc3lzcmVnwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8wqDCoMKgIDggKwo+IMKgZHJpdmVycy9yZXNjdHJsL0tjb25maWfCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoMKgwqAgOSArLQo+IMKgZHJpdmVycy9yZXNjdHJs
+L01ha2VmaWxlwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgwqDCoCAx
+ICsKPiDCoGRyaXZlcnMvcmVzY3RybC9tcGFtX2RldmljZXMuY8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIHzCoCAyNTcgKystCj4gwqBkcml2ZXJzL3Jlc2N0cmwvbXBhbV9pbnRlcm5hbC5owqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAxMDUgKy0KPiDCoGRyaXZlcnMvcmVzY3RybC9tcGFt
+X3Jlc2N0cmwuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMTg2MSArKysrKysrKysrKysr
+KysrKysrCj4gwqBkcml2ZXJzL3Jlc2N0cmwvdGVzdF9tcGFtX3Jlc2N0cmwuY8KgwqDCoMKgwqDC
+oMKgwqAgfMKgIDM2NCArKysrCj4gwqBpbmNsdWRlL2xpbnV4L2FybV9tcGFtLmjCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAzMiArCj4gwqAyNCBmaWxlcyBjaGFu
+Z2VkLCAyOTQ5IGluc2VydGlvbnMoKyksIDI4IGRlbGV0aW9ucygtKQo+IMKgY3JlYXRlIG1vZGUg
+MTAwNjQ0IERvY3VtZW50YXRpb24vYXJjaC9hcm02NC9tcGFtLnJzdAo+IMKgY3JlYXRlIG1vZGUg
+MTAwNjQ0IGFyY2gvYXJtNjQvaW5jbHVkZS9hc20vbXBhbS5oCj4gwqBjcmVhdGUgbW9kZSAxMDA2
+NDQgYXJjaC9hcm02NC9pbmNsdWRlL2FzbS9yZXNjdHJsLmgKPiDCoGNyZWF0ZSBtb2RlIDEwMDY0
+NCBhcmNoL2FybTY0L2tlcm5lbC9tcGFtLmMKPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJz
+L3Jlc2N0cmwvbXBhbV9yZXNjdHJsLmMKPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL3Jl
+c2N0cmwvdGVzdF9tcGFtX3Jlc2N0cmwuYwo+IAo+IC0tIAo+IDIuNDMuMAo+IAo+IAo+IAo=
