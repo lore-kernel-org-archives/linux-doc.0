@@ -1,136 +1,352 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16A6B33C19E
-	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 08:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FF81917ED;
+	Mon,  9 Feb 2026 08:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770624811; cv=none; b=fQqPn5qQjCemrEgRLRW+PKuCTMYRU+HWfOuKOHehiJQYd15YQgoFAV+Fq8vJ3ddeEuhM866SWcVKTZUpQkVei6bekkTDv/aCE+yMa20PYeEKJZR8+kAO7zQ3V+Vd9+jptzQeNlvc+TN4XKVPUiMzSePct7D4oD8bEiR5IMU4Rks=
+	t=1770625037; cv=none; b=lrekH7XG8rOft+53/LG8SXUxn1zQoh3p7i6uMOBqrFIwoBxV1A3mwj4kpp7H4NU6/+5YX9jJSS0o6IkYpiY8qusxJXn7BHqj7+vBWZ/tnWUXLV1Iaetbb5vEDfI9LvPF4QUxEiWcoN+u1YQSb4vUhDhxVXApyyd86HmnkhOr30c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770624811; c=relaxed/simple;
-	bh=Q+TmxulfMcavgr+JesAtNFoH4Xtiev43+iyad3YhA6A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JhzMhsEL4kXQkWz6V1hCf/yjdmXSD6vuDU6amcGgeaGGR0DNu361TGfN7sntyo1oogiM6gkFhc69pR5vGVRW2P7P77TT9BOgIqU0QKT/PkeCZ4zeJokU0E4f8bevUNdoCZT8atNHQsjtm4ChPLVptCP7bsnfddSu/Qoy6oQWeuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IoFde1PB; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IoFde1PB"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2aadac3e23dso5001375ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 00:13:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770624810; x=1771229610; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=u7ECsemPt0+8hrEaXFS0vyfUJpZDXufVX7a966wW9n4=;
-        b=IoFde1PBRGATcmLZexFmGdKT48OSkODkaGR6biP47Vdjof/rtWJpLMPhM22kwzQcCI
-         WJb1f22LVXZ3p0A1va0EAg5Yr3oPkxdLJwKgQ/pXP+lzQo4oiHiThvx51i/mnjqhZ2pv
-         x9rl5JoyH0YFS6qsYgTXjQBRuRtODMxLUVAOiI14m75u31udeXVHVsDxkqgDkYYHUqyg
-         X+W1iWAgNIynb4SN5pRoIrEfLXQgnZX+kT0BKlv8z13CZL2S66VWlUigA7Cr6jA38cCw
-         uh2p5e93uBEr/oaysqIVVZATIElKHrQrng8ndM5G78NsexMn4rJVqcm6k8MsgzZ0rqGV
-         SdRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770624810; x=1771229610;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u7ECsemPt0+8hrEaXFS0vyfUJpZDXufVX7a966wW9n4=;
-        b=Tx4fu+t/lC+R30YHeLV8na4daLYEVcsNdSeMV0GPB1p820t0xF8OFHKTq4XzYVGKV/
-         WZOGa2dxu2wWLQ3igdnKRc724P3L8D/uxRztC+nQO7RE6K6iYpDXkzoRMK4tEUOA1Yk7
-         Y+w0L1C7AI7Dl4saiVuxsg+2uY1/e0LvHUoVErBVMw9hCmN6XdrfHUH9OHBdznMpnxV0
-         jhr5RY4D/nTNoDDTKh7YHR9b84BeGDV5gCueFG0wuQ4oRJigr/kES+FhCntvpVyjd5cT
-         NlYKvZPma9JIRW2DSJnSSDxmogT6TCWWYcqe49FW5RhdPbLdwjMlTfGUJoJyEvlBLmN1
-         L6rg==
-X-Gm-Message-State: AOJu0YxUpYGB+03LyZKR1lX/T0QksI915VyCszOxSfljDNN/hRCFHd56
-	st7L3HsEwYTpGpHwjQwm4r8WpMIZugi595wn+e6BKnJa0kl4yKMWevSY
-X-Gm-Gg: AZuq6aJrp00bIsIPgB7de7YWHYypXM0CGJ8+z0zIfR861t7gQvA7QQspDBIQ6LVjB7a
-	ukJUsBxR1JRmt6y+2mIL0/xI3Jg/OJ7sHrvBinMMKhdfhgis2FyPoNbeGwMnNA36ERJMytCGiJd
-	KVes03CFbXTOAyLzMc5qeMo+EgKXj4qjCD/YKzwhTbHHMIIvsrfrpyIz+/EihL3RMkKmMRHy8oM
-	n6Oe4IkfauzTaflyIFaWP7VAGUL0mHSqY9KIF4LAVkJgk6pvuMyGzEjin7In2EdinRTnpc7O1Lc
-	CEDf+AoOOU2LcMzvxu+4FnJvIt/XUsOMU3whGA5wLsOW46YMxAFHe1P5/SpUVWheYncNPZaS250
-	8SIw2Oiuo034oGuCJzZP/90NOa6S7KsB9j+oTPDmPs0p6urGK7vl3UFjhn2ytn0FdYdJ+7tuzYm
-	OYXRPGWn2XY5mAbZgFQVBwRWyiArU4PSYvuJjFdL0HbpKXZ0BseyjWTPHMWPYMfaZYdORZyeNLr
-	g==
-X-Received: by 2002:a17:902:f681:b0:2a7:80ac:85b0 with SMTP id d9443c01a7336-2a9516089bfmr97678645ad.2.1770624810288;
-        Mon, 09 Feb 2026 00:13:30 -0800 (PST)
-Received: from localhost.localdomain (123-194-188-82.dynamic.kbronet.com.tw. [123.194.188.82])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a9521f8cb6sm101205775ad.79.2026.02.09.00.13.28
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 09 Feb 2026 00:13:29 -0800 (PST)
-From: Min-Hsun Chang <chmh0624@gmail.com>
-To: corbet@lwn.net,
-	akpm@linux-foundation.org
-Cc: linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Min-Hsun Chang <chmh0624@gmail.com>
-Subject: [PATCH] Docs/mm: fix typos and grammar in page_tables.rst
-Date: Mon,  9 Feb 2026 16:13:23 +0800
-Message-ID: <20260209081323.68339-1-chmh0624@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1770625037; c=relaxed/simple;
+	bh=X1jumojE2cr0vMh3mKiPGb62eu9k/7W3dLIR74rTWjU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=e0g8aurmhuhw/uu2uHAInX2NmQ85gkdheW+3vuObSgOAKVkpw+CKrq3RhwVGHOEfq0DmroA8Vy/h1SbqeeU2Y/exsKZLeOt7rRvTqsaUX4mKAtmoaA0f1bX5+I48zY9j3LV3hPFFsh22r3e08EzkxyvMXf2tgfnwBOLw+ZM4j7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.177])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4f8cwJ15nPzYQv2m;
+	Mon,  9 Feb 2026 16:16:16 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id 564FB40590;
+	Mon,  9 Feb 2026 16:17:13 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP4 (Coremail) with SMTP id gCh0CgDnR_gGmIlph7o1Gw--.57276S2;
+	Mon, 09 Feb 2026 16:17:12 +0800 (CST)
+Message-ID: <6ad1fb5d-a859-4611-8af9-aa4d37aeeb38@huaweicloud.com>
+Date: Mon, 9 Feb 2026 16:17:10 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH -next 1/7] vmscan: add memcg heat level for reclaim
+To: Yuanchu Xie <yuanchu@google.com>
+Cc: akpm@linux-foundation.org, axelrasmussen@google.com, weixugc@google.com,
+ david@kernel.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+ vbabka@suse.cz, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ corbet@lwn.net, skhan@linuxfoundation.org, hannes@cmpxchg.org,
+ roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
+ zhengqi.arch@bytedance.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, lujialin4@huawei.com,
+ ryncsn@gmail.com
+References: <20260120134256.2271710-1-chenridong@huaweicloud.com>
+ <20260120134256.2271710-2-chenridong@huaweicloud.com>
+ <CAJj2-QEvrgQ+R-nc3LZ-cBfnzjakxfSgmNbqDa-RFBVOpdVaAQ@mail.gmail.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <CAJj2-QEvrgQ+R-nc3LZ-cBfnzjakxfSgmNbqDa-RFBVOpdVaAQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:gCh0CgDnR_gGmIlph7o1Gw--.57276S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3XrWxWw47CFy7XrWkWry7GFg_yoWfZFyfpF
+	Z3JF4ayan7Xr13Kwnaq3WUWr93Aw1xKr1ayrW3KF1fAwsIvr10vw42kr43ZFW5ArWUXr1f
+	ZryYgr13uw4qva7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26r4a6rW5MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWr
+	XwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
+	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
+	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07
+	jIksgUUUUU=
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-Correct several spelling and grammatical errors in the page tables
-documentation. This includes:
-- Fixing "a address" to "an address"
-- Fixing "pfs" to "pfns"
-- Correcting the possessive "Torvald's" to "Torvalds'"
-- Fixing "instruction that want" to "instruction that wants"
-- Fixing "code path" to "code paths"
+Hi Yuanchu,
 
-Signed-off-by: Min-Hsun Chang <chmh0624@gmail.com>
----
- Documentation/mm/page_tables.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+On 2026/2/7 6:47, Yuanchu Xie wrote:
+> Hi Ridong,
+> 
+> Thanks for working to reconcile the gaps between the LRU implementations.
+> 
+> On Tue, Jan 20, 2026 at 7:57 AM Chen Ridong <chenridong@huaweicloud.com> wrote:
+>>
+>> From: Chen Ridong <chenridong@huawei.com>
+>>
+>> The memcg LRU was originally introduced to improve scalability during
+>> global reclaim. However, it is complex and only works with gen lru
+>> global reclaim. Moreover, its implementation complexity has led to
+>> performance regressions when handling a large number of memory cgroups [1].
+>>
+>> This patch introduces a per-memcg heat level for reclaim, aiming to unify
+>> gen lru and traditional LRU global reclaim. The core idea is to track
+>> per-node per-memcg reclaim state, including heat, last_decay, and
+>> last_refault. The last_refault records the total reclaimed data from the
+>> previous memcg reclaim. The last_decay is a time-based parameter; the heat
+>> level decays over time if the memcg is not reclaimed again. Both last_decay
+>> and last_refault are used to calculate the current heat level when reclaim
+>> starts.
+>>
+>> Three reclaim heat levels are defined: cold, warm, and hot. Cold memcgs are
+>> reclaimed first; only if cold memcgs cannot reclaim enough pages, warm
+>> memcgs become eligible for reclaim. Hot memcgs are reclaimed last.
+>>
+>> While this design can be applied to all memcg reclaim scenarios, this patch
+>> is conservative and only introduces heat levels for traditional LRU global
+>> reclaim. Subsequent patches will replace the memcg LRU with
+>> heat-level-based reclaim.
+>>
+>> Based on tests provided by YU Zhao, traditional LRU global reclaim shows
+>> significant performance improvement with heat-level reclaim enabled.
+>>
+>> The results below are from a 2-hour run of the test [2].
+>>
+>> Throughput (number of requests)         before     after        Change
+>> Total                                   1734169    2353717      +35%
+>>
+>> Tail latency (number of requests)       before     after        Change
+>> [128s, inf)                             1231       1057         -14%
+>> [64s, 128s)                             586        444          -24%
+>> [32s, 64s)                              1658       1061         -36%
+>> [16s, 32s)                              4611       2863         -38%
+> 
+> Do you have any numbers comparing heat-based reclaim to memcg LRU?  I
+> know Johannes suggested removing memcg LRU, and what you have here
+> applies to more reclaim scenarios.
+> 
 
-diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
-index e7c69cc32493..d5a2c37b05e4 100644
---- a/Documentation/mm/page_tables.rst
-+++ b/Documentation/mm/page_tables.rst
-@@ -26,9 +26,9 @@ Physical memory address 0 will be *pfn 0* and the highest pfn will be
- the last page of physical memory the external address bus of the CPU can
- address.
- 
--With a page granularity of 4KB and a address range of 32 bits, pfn 0 is at
-+With a page granularity of 4KB and an address range of 32 bits, pfn 0 is at
- address 0x00000000, pfn 1 is at address 0x00001000, pfn 2 is at 0x00002000
--and so on until we reach pfn 0xfffff at 0xfffff000. With 16KB pages pfs are
-+and so on until we reach pfn 0xfffff at 0xfffff000. With 16KB pages pfns are
- at 0x00004000, 0x00008000 ... 0xffffc000 and pfn goes from 0 to 0x3ffff.
- 
- As you can see, with 4KB pages the page base address uses bits 12-31 of the
-@@ -38,8 +38,8 @@ address, and this is why `PAGE_SHIFT` in this case is defined as 12 and
- Over time a deeper hierarchy has been developed in response to increasing memory
- sizes. When Linux was created, 4KB pages and a single page table called
- `swapper_pg_dir` with 1024 entries was used, covering 4MB which coincided with
--the fact that Torvald's first computer had 4MB of physical memory. Entries in
--this single table were referred to as *PTE*:s - page table entries.
-+the fact that Torvalds' first computer had 4MB of physical memory. Entries in
-+this single table were referred to as *PTEs* - page table entries.
- 
- The software page table hierarchy reflects the fact that page table hardware has
- become hierarchical and that in turn is done to save page table memory and
-@@ -212,7 +212,7 @@ threshold.
- Additionally, page faults may be also caused by code bugs or by maliciously
- crafted addresses that the CPU is instructed to access. A thread of a process
- could use instructions to address (non-shared) memory which does not belong to
--its own address space, or could try to execute an instruction that want to write
-+its own address space, or could try to execute an instruction that wants to write
- to a read-only location.
- 
- If the above-mentioned conditions happen in user-space, the kernel sends a
-@@ -277,5 +277,5 @@ To conclude this high altitude view of how Linux handles page faults, let's
- add that the page faults handler can be disabled and enabled respectively with
- `pagefault_disable()` and `pagefault_enable()`.
- 
--Several code path make use of the latter two functions because they need to
-+Several code paths make use of the latter two functions because they need to
- disable traps into the page faults handler, mostly to prevent deadlocks.
+Yes, the test data is provided in patch 5/7.
+
+>>
+>> [1] https://lore.kernel.org/r/20251126171513.GC135004@cmpxchg.org
+>> [2] https://lore.kernel.org/all/20221220214923.1229538-1-yuzhao@google.com/
+>>
+>> Signed-off-by: Chen Ridong <chenridong@huawei.com>
+>> ---
+>>  include/linux/memcontrol.h |   7 ++
+>>  mm/memcontrol.c            |   3 +
+>>  mm/vmscan.c                | 227 +++++++++++++++++++++++++++++--------
+>>  3 files changed, 192 insertions(+), 45 deletions(-)
+>>
+>> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+>> index af352cabedba..b293caf70034 100644
+>> --- a/include/linux/memcontrol.h
+>> +++ b/include/linux/memcontrol.h
+>> @@ -76,6 +76,12 @@ struct memcg_vmstats;
+>>  struct lruvec_stats_percpu;
+>>  struct lruvec_stats;
+>>
+>> +struct memcg_reclaim_state {
+>> +       atomic_long_t heat;
+>> +       unsigned long last_decay;
+>> +       atomic_long_t last_refault;
+>> +};
+>> +
+>>  struct mem_cgroup_reclaim_iter {
+>>         struct mem_cgroup *position;
+>>         /* scan generation, increased every round-trip */
+>> @@ -114,6 +120,7 @@ struct mem_cgroup_per_node {
+>>         CACHELINE_PADDING(_pad2_);
+>>         unsigned long           lru_zone_size[MAX_NR_ZONES][NR_LRU_LISTS];
+>>         struct mem_cgroup_reclaim_iter  iter;
+>> +       struct memcg_reclaim_state      reclaim;
+>>
+>>  #ifdef CONFIG_MEMCG_NMI_SAFETY_REQUIRES_ATOMIC
+>>         /* slab stats for nmi context */
+>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+>> index f2b87e02574e..675d49ad7e2c 100644
+>> --- a/mm/memcontrol.c
+>> +++ b/mm/memcontrol.c
+>> @@ -3713,6 +3713,9 @@ static bool alloc_mem_cgroup_per_node_info(struct mem_cgroup *memcg, int node)
+>>
+>>         lruvec_init(&pn->lruvec);
+>>         pn->memcg = memcg;
+>> +       atomic_long_set(&pn->reclaim.heat, 0);
+>> +       pn->reclaim.last_decay = jiffies;
+>> +       atomic_long_set(&pn->reclaim.last_refault, 0);
+>>
+>>         memcg->nodeinfo[node] = pn;
+>>         return true;
+>> diff --git a/mm/vmscan.c b/mm/vmscan.c
+>> index 4aa73f125772..3759cd52c336 100644
+>> --- a/mm/vmscan.c
+>> +++ b/mm/vmscan.c
+>> @@ -5978,6 +5978,124 @@ static inline bool should_continue_reclaim(struct pglist_data *pgdat,
+>>         return inactive_lru_pages > pages_for_compaction;
+>>  }
+>>
+>> +enum memcg_scan_level {
+>> +       MEMCG_LEVEL_COLD,
+>> +       MEMCG_LEVEL_WARM,
+>> +       MEMCG_LEVEL_HOT,
+>> +       MEMCG_LEVEL_MAX,
+>> +};
+>> +
+>> +#define MEMCG_HEAT_WARM                4
+>> +#define MEMCG_HEAT_HOT         8
+>> +#define MEMCG_HEAT_MAX         12
+>> +#define MEMCG_HEAT_DECAY_STEP  1
+>> +#define MEMCG_HEAT_DECAY_INTERVAL      (1 * HZ)
+> I agree with Kairui; I'm somewhat concerned about this fixed decay
+> interval and how it behaves with many memcgs or heavy pressure.
+> 
+
+Yes, a fixed decay interval may not be optimal for all scenarios. It serves as a
+foundational baseline. Perhaps we could expose a BPF hook here for more flexible
+tuning.
+
+The referenced benchmark [2] specifically tests under heavy pressure
+(continuously triggering global reclaim) and with a large number of memory cgroups.
+
+
+>> +
+>> +static void memcg_adjust_heat(struct mem_cgroup_per_node *pn, long delta)
+>> +{
+>> +       long heat, new_heat;
+>> +
+>> +       if (mem_cgroup_is_root(pn->memcg))
+>> +               return;
+>> +
+>> +       heat = atomic_long_read(&pn->reclaim.heat);
+>> +       do {
+>> +               new_heat = clamp_t(long, heat + delta, 0, MEMCG_HEAT_MAX);
+>> +               if (atomic_long_cmpxchg(&pn->reclaim.heat, heat, new_heat) == heat)
+>> +                       break;
+>> +               heat = atomic_long_read(&pn->reclaim.heat);
+>> +       } while (1);
+>> +}
+>> +
+>> +static void memcg_decay_heat(struct mem_cgroup_per_node *pn)
+>> +{
+>> +       unsigned long last;
+>> +       unsigned long now = jiffies;
+>> +
+>> +       if (mem_cgroup_is_root(pn->memcg))
+>> +               return;
+>> +
+>> +       last = READ_ONCE(pn->reclaim.last_decay);
+>> +       if (!time_after(now, last + MEMCG_HEAT_DECAY_INTERVAL))
+>> +               return;
+>> +
+>> +       if (cmpxchg(&pn->reclaim.last_decay, last, now) != last)
+>> +               return;
+>> +
+>> +       memcg_adjust_heat(pn, -MEMCG_HEAT_DECAY_STEP);
+>> +}
+>> +
+>> +static int memcg_heat_level(struct mem_cgroup_per_node *pn)
+>> +{
+>> +       long heat;
+>> +
+>> +       if (mem_cgroup_is_root(pn->memcg))
+>> +               return MEMCG_LEVEL_COLD;
+>> +
+>> +       memcg_decay_heat(pn);
+> The decay here is somewhat counterintuitive given the name memcg_heat_level.
+> 
+
+The decay is integrated into the level retrieval. Essentially, whenever
+memcg_heat_level is fetched, we check if the decay interval has elapsed
+(interval > MEMCG_HEAT_DECAY_INTERVAL). If so, the decay is applied.
+
+>> +       heat = atomic_long_read(&pn->reclaim.heat);
+>> +
+>> +       if (heat >= MEMCG_HEAT_HOT)
+>> +               return MEMCG_LEVEL_HOT;
+>> +       if (heat >= MEMCG_HEAT_WARM)
+>> +               return MEMCG_LEVEL_WARM;
+>> +       return MEMCG_LEVEL_COLD;
+>> +}
+>> +
+>> +static void memcg_record_reclaim_result(struct mem_cgroup_per_node *pn,
+>> +                                       struct lruvec *lruvec,
+>> +                                       unsigned long scanned,
+>> +                                       unsigned long reclaimed)
+>> +{
+>> +       long delta;
+>> +
+>> +       if (mem_cgroup_is_root(pn->memcg))
+>> +               return;
+>> +
+>> +       memcg_decay_heat(pn);
+> Could you combine the decay and adjust later in this function?
+> 
+
+Sure.
+
+>> +
+>> +       /*
+>> +        * Memory cgroup heat adjustment algorithm:
+>> +        * - If scanned == 0: mark as hottest (+MAX_HEAT)
+>> +        * - If reclaimed >= 50% * scanned: strong cool (-2)
+>> +        * - If reclaimed >= 25% * scanned: mild cool (-1)
+>> +        * - Otherwise:  warm up (+1)
+>> +        */
+>> +       if (!scanned)
+>> +               delta = MEMCG_HEAT_MAX;
+>> +       else if (reclaimed * 2 >= scanned)
+>> +               delta = -2;
+>> +       else if (reclaimed * 4 >= scanned)
+>> +               delta = -1;
+>> +       else
+>> +               delta = 1;
+>> +
+>> +       /*
+>> +        * Refault-based heat adjustment:
+>> +        * - If refault increase > reclaimed pages: heat up (more cautious reclaim)
+>> +        * - If no refaults and currently warm:     cool down (allow more reclaim)
+>> +        * This prevents thrashing by backing off when refaults indicate over-reclaim.
+>> +        */
+>> +       if (lruvec) {
+>> +               unsigned long total_refaults;
+>> +               unsigned long prev;
+>> +               long refault_delta;
+>> +
+>> +               total_refaults = lruvec_page_state(lruvec, WORKINGSET_ACTIVATE_ANON);
+>> +               total_refaults += lruvec_page_state(lruvec, WORKINGSET_ACTIVATE_FILE);
+>> +
+>> +               prev = atomic_long_xchg(&pn->reclaim.last_refault, total_refaults);
+>> +               refault_delta = total_refaults - prev;
+>> +
+>> +               if (refault_delta > reclaimed)
+>> +                       delta++;
+>> +               else if (!refault_delta && delta > 0)
+>> +                       delta--;
+>> +       }
+> 
+> I think this metric is based more on the memcg's reclaimability than
+> on heat. Though the memcgs are grouped based on absolute metrics and
+> not relative to others.
+> 
+
+I might be misunderstanding your comment. Could you elaborate?
+
+As designed, the heat level is indeed derived from the memcg's own
+reclaimability (reclaimed/scanned) and refault behavior. In essence, it
+quantifies the difficulty or “heat” of reclaiming memory from that specific
+cgroup. This metric directly correlates to whether a memcg can release memory
+easily or not.
+
+>> +
+>> +       memcg_adjust_heat(pn, delta);
+>> +}
+>> +
+>>  static void shrink_node_memcgs(pg_data_t *pgdat, struct scan_control *sc)
+>>  {
+>> ...snip
+>>  }
+> 
+> Thanks,
+> Yuanchu
+
 -- 
-2.50.1
+Best regards,
+Ridong
 
