@@ -1,170 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658F037997D;
-	Mon,  9 Feb 2026 14:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEDB37A496;
+	Mon,  9 Feb 2026 14:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770645987; cv=none; b=sAHTamyL63o1JUzIH3O5daYofL7X8pKnLIFlFc4kQpXJQycRYPm/rNT9vwFDvvhcfswhss9vDE6jUQMvtBSivToRZiqcXzsYkLmUGywyBEYTrsCPOWEjh+ZEWIbWzGb+xawr3jcCaivzhmMB4KMbooXmvVFRgbPSpvu6Y7CiQKg=
+	t=1770647337; cv=none; b=ltT7bne4tOTnt2/C5CXdmaAdyKcQkWSXAJuHN0GhyjnSlEcJOLQ3TbmbuFCQlhMK6pRXNsKDrshREoZGitwX0+g4k+zq4pOV4kEyrBMghpNOB7bl4BMmQkWvb9ZZJQGuocMVs4On7SaD3ZhPwszkxhIfj6wAoJXhLnKHvfz31Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770645987; c=relaxed/simple;
-	bh=WYECX5SXJ228M5jBGqJxP6dlxH7z8FBmfDhplBvQyNA=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=VYhD8N7s4Z6v8O/mekhitWkQWZw9gEhnRmTmdp/ovnI44kJ5JYTQj7NNCbwTifxFHPA6J7IQ7Eh+S8EcZQ8nDFhSLvGWg+SU9aoWqSubkamywpojhG0xBucdYHr6MF4iwj3OvHwccpKFLlQw0NkuQ3p/eMOJIueT4X+ZoM9ao3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qJYeldRk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770647337; c=relaxed/simple;
+	bh=Cw2W2XFQZ7L4Wfc0lHy31V0hm10GGFMTax8KYg/YI+Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j/CBFH//4rKFy1Hy5KyCsiY5nGN0e/CB820yK66eKwL+LJZO+bzxwVAAFh9KA1+9+aC7n5o0VIKR1a0SxwBrRwdgOy5+ZEhn+tZdPq1GKA35JMF6HOSSmfEGGTpEp3rYbavHdji/VE6abPqTgrYt2GevPGJHTNdAXkeNMMfTbVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=CgDKPToJ; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qJYeldRk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B209C16AAE;
-	Mon,  9 Feb 2026 14:06:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770645987;
-	bh=WYECX5SXJ228M5jBGqJxP6dlxH7z8FBmfDhplBvQyNA=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=qJYeldRkukWFxC+GUEs5v29/m/MI/Jd5J/fqRB8DASUDo2L/UUNgiXj+QyfryUXA1
-	 +zl8/9H/OX7KvgRJW4yoIjFobWVHUq2CPrKYlCd4i4vkes7P6Lvpz5WTh9ghhEa5zu
-	 s4mzMLAQQusCMADYhTP0dSyKPueeDQQjMP5ROiulGyeBCsejhDqRt4pE3CsPwxGhIO
-	 p2gYGfO8x+1uGuwqPwB5FAcyff+JTev4Md54lQscZRNrsOiiJw7Ko7nrBWsLVHB+HR
-	 R/p+m3qqUzdclMNjVO/Z6rTtu0ONRzclHhKw8Nr199hWHKx/itatYVzK1FzJVSE3h0
-	 LAMBf6idSe9Cg==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 1BD8AF40068;
-	Mon,  9 Feb 2026 09:06:25 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-01.internal (MEProxy); Mon, 09 Feb 2026 09:06:25 -0500
-X-ME-Sender: <xms:4emJaTad_Wco9m3j7o3lgpax2A6VgGCE8LZeGlO9i5g2yHyEDNUiHw>
-    <xme:4emJadNHkb9EKjKmR5ad65jXJKhI9WcoOxoazz_YJlip6wBxlVxBeuygzzZ21Nwrv
-    KHso3jK22jchQasdrWQMQ3oh9QNVDuPbfnhAnDLDBRUXmvb2K1YWAo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdduleejtddtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrugcu
-    uehivghshhgvuhhvvghlfdcuoegrrhgusgeskhgvrhhnvghlrdhorhhgqeenucggtffrrg
-    htthgvrhhnpedtgefgheeutdeivdegiefgueeghfekhfffhfetheeggefhheeuvdegieev
-    tdefudenucffohhmrghinhepthhrvghntghhsghoohhtrdhorhhgpdhkvghrnhgvlhdroh
-    hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegr
-    rhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieejtdehtddtjeelqd
-    effedvudeigeduhedqrghruggspeepkhgvrhhnvghlrdhorhhgseifohhrkhhofhgrrhgu
-    rdgtohhmpdhnsggprhgtphhtthhopeefuddpmhhouggvpehsmhhtphhouhhtpdhrtghpth
-    htohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepnhhivhgvughithgrsegrlhhu
-    mhdrmhhithdrvgguuhdprhgtphhtthhopehluhhtohesrghmrggtrghpihhtrghlrdhnvg
-    htpdhrtghpthhtohepughpshhmihhthhesrghpvghrthhushhsohhluhhtihhonhhsrdgt
-    ohhmpdhrtghpthhtoheprghnughrvgifrdgtohhophgvrhefsegtihhtrhhigidrtghomh
-    dprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohep
-    phgvthgvrhhhuhgvfigvsehgmhigrdguvgdprhgtphhtthhopehhvghrsggvrhhtsehgoh
-    hnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthhtohepthhrvghntghhsghoohht
-    qdguvghvvghlsehgohhoghhlvghgrhhouhhpshdrtghomh
-X-ME-Proxy: <xmx:4emJaQzUmyPR98OS0DVfVCBs7nP2yOprhVntmSFyFqqjCmSR2Op5vA>
-    <xmx:4emJaYjdE9_HEUdD0T7A9LUZNY5kj5IvupGKg9KTA8aXMCOAi4HI0Q>
-    <xmx:4emJafQ6xQcu41rnAo5XeQjx4pSSvTX8JVKYhyLWPcyn_t6QftTgKQ>
-    <xmx:4emJadPScFbmSVydk2_hRmtKQrY0ItBJpYwS2Vv8kIokJLoMdP3xtA>
-    <xmx:4emJacGg1Yqc0Zi7oImUY8WRMQf-r0h2LVcpe4s-75BQFRJhA66uOmpp>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id DEDB1700065; Mon,  9 Feb 2026 09:06:24 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="CgDKPToJ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ADcr7MHeE4Wfa+rW+wWhUw4Yt3swRnjusQVf8Yvintg=; b=CgDKPToJEwvMWABCeYQbO42oJ7
+	D91kxQf19eLqrPivJsLPizip9ylwh2/MUNvPRMw5zC8jvYgSPGnn7IL9MRuVxShAXo9k8SnjEYF0b
+	m7TFQn0cL6iRuX0KEQ1XPEp1N//LZ3dtX0sgrVZ7foF4LG9xHtIqeqnozjcBccwHPxEhQTTPymKdF
+	n8LnJN2CSfPjskbV5vhITfH8jO/Rm3IytlexAaXkrlVre0NO7cOakWYbCbWglcLpHIAw2Ui/bTxT8
+	BxSpIQDDX/FM7DXo8Rtp7D3DtZvWM+GkiwvlLOE5czLyV2LbXQo+onRnyYdyD/gUG/xa8a3tJ9f8j
+	+Bl/gZ3Q==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1vpSFp-009Xzj-Rf; Mon, 09 Feb 2026 14:28:46 +0000
+Date: Mon, 9 Feb 2026 06:28:40 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>, Oliver O'Halloran <oohall@gmail.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, kbusch@kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org, 
+	dcostantino@meta.com, rneu@meta.com, kernel-team@meta.com
+Subject: Re: [PATCH] PCI/AER: Add option to panic on unrecoverable errors
+Message-ID: <aYnour-Z8rm8pW2D@gmail.com>
+References: <20260206-pci-v1-1-85160f02d956@debian.org>
+ <20260206185232.GA70936@bhelgaas>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AAnEvm6syrbF
-Date: Mon, 09 Feb 2026 15:04:36 +0100
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Ross Philipson" <ross.philipson@oracle.com>,
- linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev
-Cc: dpsmith@apertussolutions.com, "Thomas Gleixner" <tglx@linutronix.de>,
- mingo@redhat.com, bp@alien8.de, "H . Peter Anvin" <hpa@zytor.com>,
- dave.hansen@linux.intel.com, mjg59@srcf.ucam.org,
- James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jarkko@kernel.org,
- jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu,
- herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net,
- ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com,
- kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
- trenchboot-devel@googlegroups.com
-Message-Id: <b5f2b5a5-b984-4ed3-a023-c06d634f9146@app.fastmail.com>
-In-Reply-To: <20251215233316.1076248-1-ross.philipson@oracle.com>
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
-Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260206185232.GA70936@bhelgaas>
+X-Debian-User: leitao
 
-On Tue, 16 Dec 2025, at 00:32, Ross Philipson wrote:
-> Secure Launch is a vendor-neutral approach to implementing TGC Dynamic
-> Root of Trust (DRTM) support in the kernel. This is complementary to
-> better known Static Root of Trust (SRTM) schemes such as UEFI SecureBoot.
+Hello Bjorn,
+
+On Fri, Feb 06, 2026 at 12:52:32PM -0600, Bjorn Helgaas wrote:
+> On Fri, Feb 06, 2026 at 10:23:11AM -0800, Breno Leitao wrote:
+> Is there anything we could do to improve the logging to make the issue
+> more recognizable?  I assume you already look for KERN_CRIT, KERN_ERR,
+> etc., but it looks like the current message is just KERN_INFO.  I
+> think we could make a good case for at least KERN_WARNING.
 >
-> This series provides the common infrastructure along with Intel TXT
-> support, without needing the tboot exokernel. Support for AMD SKINIT is
-> pending the common infrastructure getting nailed down, and ARM are
-> looking to build on it too.
+> But I guess you probably want something that's just impossible to
+> ignore.
 >
-> Originally, tboot were approached to see if they'd take support for
-> other vendors, but they elected not to. Hence this approach instead.
->
-> Work is being coordinated by the Trenchboot project, 
-> https://trenchboot.org/,
-> organising Secure Launch support for upstream open source projects 
-> including
-> Grub, iPXE and Xen. The goal of the Trenchboot project is to make DTRM 
-> easy
-> to use.  e.g. for Grub, it's simply adding "slaunch" as a command in 
-> the boot
-> stanza.  See 
-> https://trenchboot.org/user-docs/QUICKSTART/#linux-quick-start-guide
-> for more details
->
-> Patch set based on commit:
-> torvalds/master/fd57572253bc356330dbe5b233c2e1d8426c66fd
->
-> Depends on v3 of the following TPM patch set (note this patch
-> set is being actively worked on separately):
-> [PATCH v3 00/10]  tpm: Decouple Trenchboot dependencies
-> Message ID: 20250929194832.2913286-1-jarkko@kernel.org
->
-> Finally we would like to thank everyone for their input and
-> assistance. It has all been very helpful in improving the quality of
-> our solution and in reviewing/strengthening our security posture.
->
+> Are there any other similar flags you already use that we could
+> piggy-back on?  E.g., if we raised the level to KERN_WARNING, maybe
+> the existing "panic_on_warn" would be enough?
 
-Hi Daniel and Ross,
+Let me provide context on what we observe in production environments.
 
-I have finally gotten around to getting the right hardware and building GRUB and Linux with your patches, and I have managed to get them running on an old Skylake HP laptop successfully.
+We manage a fleet of machines that regularly encounter AER errors. The
+typical failure pattern we see involves:
 
-Surprisingly, even when doing a secure launch, the EFI runtime services still work happily, which means (AIUI) that code that was excluded from the D-RTM TCB is still being executed at ring 0? Doesn't this defeat D-RTM entirely in the case some exploit is hidden in the EFI runtime code? Should we measure the contents of EfiRuntimeServicesCode regions too?
+1) AER errors on devices (sometimes with proprietary drivers):
 
-In any case, I am aware that upstreaming this work has been a painful experience so far. Unfortunately, I don't think we're quite there yet.
+	{2}[Hardware Error]: Hardware error from APEI Generic Hardware Error Source: 302
+	 	0009:01:00.0:    [22] UncorrIntErr
 
-The way the work is divided between GRUB and Linux seems to be predicated entirely (at least originally) on the idea that the GRUB->Linux handover and the secure launch should be one and the same. I.e., GRUB sets the stage, pokes the ACM, which returns to the loaded linux image and boots it. This requires a lot of coordination, e.g., putting a MLE header in the kernel image and exposing it to GRUB in a certain manner, resource tables and other things that have to remain in sync between both sides.
+2) The device enters an unrecoverable state where any subsequent access
+   triggers additional failures.
 
-There also appears to be an assumption that the fact that the ACM returns to the loaded image in 32-bit mode requires a round trip through the decompressor, which may relocate itself in memory and do other things that the slaunch code then has to work around again.
+3) The driver continues attempting hardware access, which generates
+   cascading errors. On arm64, we observe sequences like:
 
-Due to the changes to the EFI boot path, this design has been watered down a bit already, in the sense that GRUB invokes the EFI entry point as usual, and only later, the pivot via the ACM is made.
+	arm-smmu-v3 arm-smmu-v3.13.auto: unexpected global error reported (0x00000001), this could be serious
+	arm-smmu-v3 arm-smmu-v3.13.auto: CMDQ error (cons 0x030120f3): ATC invalidate timeout
+	..
+	watchdog: CPU75: Watchdog detected hard LOCKUP on cpu 76
 
-Other than the SHA-1 debate [*], the main issue I have with this approach is that it adds things to the boot ABI that are closely tied to TXT on the one hand, and bzImage oddities on the other (kernel_info, setup block etc). IOW, the complete lack of abstractions is going to make this a maintenance burden going forward.
+4) For NIC uncorrectable errors, we see:
 
-I've had a stab at implementing all of this in a manner that is more idiomatic for EFI boot:
-
-- GRUB does minimal TXT related preparation upfront, and exposes the remaining functionality via a protocol that is attached to the loaded image by GRUB
-- The SL stub is moved to the core kernel, with some startup code added to pivot to long mode
-- the EFI stub executes and decompresses the kernel as usual
-- if the protocol is present, the EFI stub calls it to pass the bootparams pointer, the base and size of the MLE and the header offset back to the GRUB code
-- after calling ExitBootServices(), it calls another protocol method to trigger the secure launch.
-
-The only pre-launch ABI that is being added here is a GRUB-specific protocol that is not necessarily tied to TXT. (For legacy boot, it should be feasible to call back into GRUB too, although it would be more of a ad-hoc construction, via the SLR table perhaps.) But no kernel_info and MLE headers etc being added to the ABI surface. Also, there is no longer a need for the GRUB code to understand how the decompressor is constructed, with a setup block etc, or take special care to perform PMR checks when its moves itself around in memory.
-
-Code can be found here:
-
-https://git.kernel.org/pub/scm/linux/kernel/git/ardb/grub.git/log/?h=sl-v2
-https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git/log/?h=x86-slaunch
-
-I am aware that this is not the feedback you are waiting for at this point, given that we're at v15 already. But there are some warts in the current design that really need to be addressed before we can proceed with this IMHO.
-
--- 
-Ard.
+	pcieport 0007:00:00.0: DPC: containment event, status:0x2009: unmasked uncorrectable error detected
+	mlx5_core 0017:01:00.0 eth1: ERR CQE on SQ: 0x128b
+	mlx5_core 0017:01:00.0 eth1: hw csum failure
+	mlx5_core 0007:01:00.0 eth0: mlx5e_ethtool_get_link_ksettings: query port ptys failed: -67
+	WARNING: CPU: 32 PID: 0 at drivers/iommu/dma-iommu.c:1237 iommu_dma_unmap_phys+0xd0/0xe0 (in a loop)
 
 
-[*] which I still don't get: why is it fine to cap other banks with a single 0x1 byte [as the ACM does too, apparently], but do we require an SHA-1 implementation for capping the SHA-1 banks? Also, the TXT spec dropped all support for TPM1.2 so I wonder if that should be dropped from this series as well.
+Keith and I discussed several approaches (all untested except the last
+one -- this patch):
+
+a) Mark the device as disconnected when recovery fails:
+
+	diff --git a/drivers/pci/pcie/err.c b/drivers/pci/pcie/err.c
+	index 6b697654d654..405aac6085a1 100644
+	--- a/drivers/pci/pcie/err.c
+	+++ b/drivers/pci/pcie/err.c
+	@@ -271,6 +271,7 @@ pci_ers_result_t pcie_do_recovery(struct pci_dev *dev,
+	     return status;
+
+	 failed:
+	+    pci_walk_bridge(bridge, pci_dev_set_disconnected, NULL);
+	     pci_walk_bridge(bridge, pci_pm_runtime_put, NULL);
+
+	     pci_uevent_ers(bridge, PCI_ERS_RESULT_DISCONNECT);
+
+b) Remove the device from the bus entirely:
+
+	diff --git a/drivers/pci/pcie/err.c b/drivers/pci/pcie/err.c
+	index 6b697654d6546..33559a0022318 100644
+	--- a/drivers/pci/pcie/err.c
+	+++ b/drivers/pci/pcie/err.c
+
+		cb(bridge, userdata);
+	}
+
+	+static void pci_err_detach_subordinate(struct pci_dev *bridge)
+	+{
+	+    struct pci_dev *dev, *tmp;
+	+    int ret;
+	+
+	+    pci_walk_bus(parent, pci_dev_set_disconnected, NULL);
+	+
+	+    ret = pci_trylock_rescan_remove(bridge);
+	+    if (!ret)
+	+        return;
+	+
+	+    list_for_each_entry_safe_reverse(dev, tmp, &bridge->devices, bus_list) {
+	+        pci_dev_get(dev);
+	+        pci_stop_and_remove_bus_device(dev);
+	+        pci_dev_put(dev);
+	+    }
+	+    pci_unlock_rescan_remove();
+	+}
+	+
+	pci_ers_result_t pcie_do_recovery(struct pci_dev *dev,
+		pci_channel_state_t state,
+		pci_ers_result_t (*reset_subordinates)(struct pci_dev *pdev))
+	@@ -271,6 +290,7 @@ pci_ers_result_t pcie_do_recovery(struct pci_dev *dev,
+	return status;
+
+	failed:
+	+    pci_err_detach_subordinate(bridge);
+	pci_walk_bridge(bridge, pci_pm_runtime_put, NULL);
+
+	pci_uevent_ers(bridge, PCI_ERS_RESULT_DISCONNECT);
+
+c) Panic the system (this patch).
+
+The key issue is that simply raising the log level to KERN_WARNING
+wouldn't address the fundamental problem. Once recovery fails, the system
+becomes unstable and eventually crashes with varied symptoms (soft lockup,
+hard lockup, BUG). These different crash signatures make correlation
+difficult and prevent effective tracking of the root cause.
+
+As Keith suggested, panicking immediately when a device is unrecoverable
+appears to be the most appropriate approach for our use case. While the
+other options may have merit in different scenarios, they don't adequately
+address our stability requirements.
+
+Thanks for the review and suggestions,
+--breno
