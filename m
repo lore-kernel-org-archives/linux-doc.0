@@ -1,63 +1,63 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C56368297
-	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 10:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC8D36920E
+	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 10:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770634515; cv=none; b=I6wgUIqftbjYM+JCUvqdxY/rpFHxvPU14XHLKMueSZMFID0Z+466bft2XQsP0xvm6utG7Qbuq7MMWj56YSnEqQRr2TefXS+6I3vLqR4LKZyAmmy1/4+5cU4S5EkPV8AN8nlg4D3fMfpg4zzax0yVLpcIMbHfDIU4FyP3unkmbek=
+	t=1770634521; cv=none; b=AQQo9mipWNZg37D65VvI8ds9IUtyL9Szfm1j9Zxcl/LjQpfcna1Ya1lQwV2Z5xO0GDTqB4q4LSMaPicMX5aFg6Qpe0e6k2Hsl7jqPwUHeujofBsJgUNwjJindctMuoU/P5RNri4QQfXrYP7ql1jA7Ff/rpaVj+5cHGT4iw6ASIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770634515; c=relaxed/simple;
-	bh=63ZYZ44YU4LogYL8Tr91C4w7OlzNcXn3CNTZsrHwj9U=;
+	s=arc-20240116; t=1770634521; c=relaxed/simple;
+	bh=xG+iKu12LZBylrATKh/futyKH7FfBK8l0BhELtv+O7c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BMWW3PqIbfnSB+qmeJQrXhSwrmkVAnFDGFnx/GwEDdoPMyvd20QoG267fYGruBkt0jBBD0fkWo90vdaX+mBXaOfmeVcwWP/5plynxKyfWJZJlDRpwEZiV+hieJzAIcJ14fdYviSnUBYWPA/rm0qhD1E3FzkBfSMinM1D3ry8TLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=akFW4LhZ; arc=none smtp.client-ip=209.85.210.176
+	 MIME-Version:Content-Type; b=BmSJWo74lXgN7EZ278yjJ38GXQ3xv+8X6LhNZ/G32tJNXx/vc10em9qJ4VdJYnAT3aeSJfZIoNge8wHAYcT5UykRWwfGwzQvoyEPqpnf+FH9Shr+QRWOiPGT8SgZZejWuI4kPZ3wGHMK2QFOfNygt7TkeYyt64EvBPc6TDcT1M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QqWg/Tc1; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="akFW4LhZ"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-82418b0178cso2356297b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 02:55:15 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QqWg/Tc1"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-823c56765fdso2368654b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 02:55:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770634514; x=1771239314; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1770634521; x=1771239321; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GWQDA/EkiuOrnzzQZpTgk67yZSDsyGvnGU0WBzxGHSc=;
-        b=akFW4LhZ34aWCZ94guGPCqCgiqrrQYm/Pv32JTMAqNB+0DogJ707hel0JXp/XXhtfN
-         CTLCqB1Gm11zUI+W2FQGwxIDronxBw59GRb2ly3so2mdkYK5Kw30PWR5qaBD0QdbBTKD
-         6imnv/zMm3sDL8s0k/+rlQ788NyO5Z4M+ZS5118aF6hk0Mow8NTpTql4j4f40VquFhjX
-         JoRBqXr4qz9TXBJgFEdy1H1ZFS3hr0gNoxqI6L1jO3vY7onnvOWdlIhwAqL9jgeB5Niq
-         WFZhYtzC+DNdEeCb6Lh8cwaWC3M5M0OyvI1i4k4WQHzs5LuYoa6DJkim5XO+94e9joTs
-         2jXg==
+        bh=Cqa51jQ51mIYrhUu71vdVarPvI31OG/fcLZs5WN5E9s=;
+        b=QqWg/Tc1BAOvbEr7rLeB4YJuRSFtgG4eIsRQ49ZjLGD7JtFXfakUrB39Bwzf3wjJDn
+         oodm2jpiGVr5sQLlQWdcftJJZeIFr5jl72Y3UDTrDBiKYbasONfgYU2SPJZCq3UOEl6h
+         XeCkzt3Fkni91SijVHTWKI4POrq7jBt3Y+a02eusHRHdYhsE5ONJz9TCIHyWMA54593Z
+         Dp1Jks+Y3xKXdZ/v8O/Xd9b1GgxmPeC9c40mdkpJE9PFSdJ/eUJp0F+Aj1L9STQENmBC
+         YTMrSbHLQMmTYtGpy+DJKgw6fgFxzvjdn8bf2gULFIVZ1xQibog4SNBi9rz1A0biLbGU
+         ermA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770634514; x=1771239314;
+        d=1e100.net; s=20230601; t=1770634521; x=1771239321;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=GWQDA/EkiuOrnzzQZpTgk67yZSDsyGvnGU0WBzxGHSc=;
-        b=lXmsutEcim+nPfalZS/bfaH52tYDjNdt+yR8a+zjUeLT50tuQWtnqB2cF2U9zYB68n
-         ZvDv0YLRjo1YLmDg/do0T7gwS4k9JXKrzTde+Ma+qVKDZ7yw1KBsBUa9og+KDt5iCHFT
-         4LM4Eb32uf/tSQEI+Es0+X2hmJHWaehCR73PYzQBmAyJPtwOhVrC9SL1rL1fkCdnFSFQ
-         5ufmBAAG2kXTv0hV0+7hPPELcf/LJok+WHTdby37e7XlivAlzUjwmvNg9Po0JbVE3kQA
-         R1/JA6t7aQ4xaOXR/m7o3yNRVuAnebNWq/icpzSwOShF01K4fIWum7Dv5kJPHdXcd+QO
-         9fUg==
-X-Forwarded-Encrypted: i=1; AJvYcCW3i9zZ8G8FbePVVuTgLg2sffxBp5lPSgsFuMMviUa8M4TEGrHOyNrOxuA3yIX9XBHPlW4FF7UQDTA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyc+XQXityNnbPkCJbZE67zFHv63zq8elMkDvhtS5dThht7EX5p
-	ZXM7cFuVDupPLj+8Yg0fGEeLOeLi5ScJlvo8+akFPqlAwq5GN1lYiHCO
-X-Gm-Gg: AZuq6aKrzhiD8cDO0JRCT6d6/Dg+J6XwcoF+zWlw+DHY4k7aBphuGZ+3j1MN/DLOWyf
-	Zz99R3foRhMAqIxmSSwhoKZl5QWTq+dQHtSsyNGeVoMabKeljtg+RLz+wVdeJhMrc+qINWqT9B2
-	zTvi/OX8cLROqJGls+aATZaleMZCuUQAbYiei4U/Ui0jsTtymYyusUOPr8bouMuWB1VUoIecABE
-	Ahrq476piqSMv8ClmZ7tV10GSiqwqJKzepwd1ZOtEnNgYhgGZj4l586qwIEOeDa7B4Ye5TTwXRD
-	g/fCRrXy0OC9HKLzCBL8BQNWiBFDx2NKXRIlTvZJqZfVxoFvQRGjf5dhVAUkQWEL1S1YW9QDahk
-	Znym9/KQaA6FqW9kpvfiZzDr5KXIbicM2jmxhsm0DmaDcpkiEqeidvKpelCocB6VH/cen/aNJ/Z
-	sP+AAM/es89lOHy6AGlqM3F+U47i6iIL8zIaXDxDP3PqSW4Il7DI43De4Qn80=
-X-Received: by 2002:a05:6a00:2d9d:b0:81e:5d52:53b8 with SMTP id d2e1a72fcca58-8244172c5ddmr9473132b3a.50.1770634514410;
-        Mon, 09 Feb 2026 02:55:14 -0800 (PST)
+        bh=Cqa51jQ51mIYrhUu71vdVarPvI31OG/fcLZs5WN5E9s=;
+        b=vdhVc4TYKIB23mY5qEu2OVEu46vFf04WmtpmqiJC1255aRmGw+GBa5bDPzNXSO+Cga
+         OVy4rkAYg9x7GnheZKomyoTlRXTeubaI8D9j5uFzZFHHjN1D1W3MoLZTGOmqwlF21Kdd
+         GwrQpmRrqYcjMRdqOjtbqJi+KzZGt+1rNjQbMy9Nz5DqDGad31UWgjTzBiHxEG358W86
+         BgdSjVTDoABQd6OeJIXhKnnfnqEzl8pUvbVl+KLIxF6OZkV8SeUSwrr9BkYde79kYpgj
+         wGLBKJT1rXn2HH+dspa1Ddsf62VU4GZCjoGtQAWTqjObDsr0PIyoJoLJR27zep25ATKn
+         CCbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVv/TIQj9IQHKlRm1rV9PUolHSnetvqJ6atYvqAG52hGCCkovhlYn86SZq9aFe7u7vGAOTwT37LHSQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfYB41seacg/7XnGKFu1/BmxNFOzq4jRtO/j03zHZZAdP9W6XU
+	7q44hc4Wb2f51dYDk0uPEeAY6pnTxrs0jjw5+5Pulh0bd/oMBPMfY/jg
+X-Gm-Gg: AZuq6aIJPi/Ji76z3QOeaFzIK9VcYv1/gcINkBCBrGNn/Z6u7itPi/z7e3vLSMLiLc/
+	SwTCMKB0DbYOHN9WGuOk0Hc7fNxg1MpJD3ki3LVWmvoQF3sOn9Tc4mm4MunD6zuyd0cZcrP2ldE
+	TOtYNhAtG2k39QFQABXXXjeMzYg+1G1BPwuRDlJg+Kb0/FogSzrgxgc24HynrFORldaq2P+pat7
+	5OLIVWg+dmWxL9hDuPND+A1P+u3BePyYQSzLKWTGsJRGQJncBvcqERQI7JrCEeayg481shxQPPe
+	1tQaIK0AOicElGfaNZjRGmUslXMWpjyuIte3vhzu9nRq6KNoY0AzXbGpFB+0iIGa2kGRbQDrBUx
+	qLv+kfXE7W2XnN2xznE4b9bUOaNPTWQg2ohP6Q2DfGAgOpSLVNQsbM5rAMhmLUCX8VPSaJB2nMv
+	Ls7Jc6tAI/Ivab+5MCQHZime0R2tYKctD/Rn4/Kl6MR5CiZaQ6Pbj1P7kAIBmWb2/HxCg5ig==
+X-Received: by 2002:a05:6a00:17a3:b0:823:244f:1f91 with SMTP id d2e1a72fcca58-82441612afdmr9001382b3a.11.1770634520745;
+        Mon, 09 Feb 2026 02:55:20 -0800 (PST)
 Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.in.ibm.com ([129.41.58.2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824418b31c2sm10635974b3a.50.2026.02.09.02.55.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824418b31c2sm10635974b3a.50.2026.02.09.02.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 02:55:14 -0800 (PST)
+        Mon, 09 Feb 2026 02:55:20 -0800 (PST)
 From: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
 To: linkmauve@linkmauve.fr,
 	ojeda@kernel.org,
@@ -84,9 +84,9 @@ To: linkmauve@linkmauve.fr,
 	linux-kernel@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org
 Cc: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Subject: [PATCH V4 1/3] powerpc/jump_label: adjust inline asm to be consistent
-Date: Mon,  9 Feb 2026 16:24:54 +0530
-Message-ID: <20260209105456.1551677-2-mkchauras@gmail.com>
+Subject: [PATCH V4 2/3] rust: Add PowerPC support
+Date: Mon,  9 Feb 2026 16:24:55 +0530
+Message-ID: <20260209105456.1551677-3-mkchauras@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260209105456.1551677-1-mkchauras@gmail.com>
 References: <20260209105456.1551677-1-mkchauras@gmail.com>
@@ -96,64 +96,89 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Added support for a new macro ARCH_STATIC_BRANCH_ASM in powerpc
-to avoid duplication of inline asm between C and Rust. This is
-inline with commit aecaf181651c '("jump_label: adjust inline asm to be consistent")'
+From: Link Mauve <linkmauve@linkmauve.fr>
 
-Co-developed-by: Madhavan Srinivasan <maddy@linux.ibm.com>
-Signed-off-by: Madhavan Srinivasan <maddy@linux.ibm.com>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-Reviewed-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+For now only Big Endian 32-bit PowerPC is supported, as that is the only
+hardware I have.  This has been tested on the Nintendo Wii so far, but I
+plan on also using it on the GameCube, Wii U and Apple G4.
+
+These changes aren’t the only ones required to get the kernel to compile
+and link on PowerPC, libcore will also have to be changed to not use
+integer division to format u64, u128 and core::time::Duration, otherwise
+__udivdi3() and __umoddi3() will have to be added.  I have tested this
+change by replacing the three implementations with unimplemented!() and
+it linked just fine.
+
+Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
 Signed-off-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
 ---
- arch/powerpc/include/asm/jump_label.h | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ Documentation/rust/arch-support.rst | 1 +
+ arch/powerpc/Kconfig                | 1 +
+ arch/powerpc/Makefile               | 2 ++
+ rust/Makefile                       | 4 +++-
+ 4 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/arch/powerpc/include/asm/jump_label.h b/arch/powerpc/include/asm/jump_label.h
-index d4eaba459a0e..a6b211502bfe 100644
---- a/arch/powerpc/include/asm/jump_label.h
-+++ b/arch/powerpc/include/asm/jump_label.h
-@@ -15,14 +15,20 @@
- #define JUMP_ENTRY_TYPE		stringify_in_c(FTR_ENTRY_LONG)
- #define JUMP_LABEL_NOP_SIZE	4
+diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
+index 6e6a515d0899..e26a94808e97 100644
+--- a/Documentation/rust/arch-support.rst
++++ b/Documentation/rust/arch-support.rst
+@@ -18,6 +18,7 @@ Architecture   Level of support  Constraints
+ ``arm``        Maintained        ARMv7 Little Endian only.
+ ``arm64``      Maintained        Little Endian only.
+ ``loongarch``  Maintained        \-
++``powerpc``    Experimental      32-bit Big Endian only.
+ ``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
+ ``um``         Maintained        \-
+ ``x86``        Maintained        ``x86_64`` only.
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 9537a61ebae0..17db23b82e91 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -283,6 +283,7 @@ config PPC
+ 	select HAVE_REGS_AND_STACK_ACCESS_API
+ 	select HAVE_RELIABLE_STACKTRACE
+ 	select HAVE_RSEQ
++	select HAVE_RUST			if PPC32
+ 	select HAVE_SAMPLE_FTRACE_DIRECT	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
+ 	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
+ 	select HAVE_SETUP_PER_CPU_AREA		if PPC64
+diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
+index a58b1029592c..9fd82c75dcbd 100644
+--- a/arch/powerpc/Makefile
++++ b/arch/powerpc/Makefile
+@@ -61,6 +61,8 @@ else
+ KBUILD_LDFLAGS_MODULE += $(objtree)/arch/powerpc/lib/crtsavres.o
+ endif
  
-+#define JUMP_TABLE_ENTRY(key, label)			\
-+	".pushsection __jump_table,  \"aw\"	\n\t"	\
-+	".long 1b - ., " label " - .		\n\t"	\
-+	JUMP_ENTRY_TYPE key " - .		\n\t"	\
-+	".popsection 				\n\t"
++KBUILD_RUSTFLAGS += --target=powerpc-unknown-linux-gnu
 +
-+#define ARCH_STATIC_BRANCH_ASM(key, label)		\
-+	"1:	nop				\n\t"	\
-+	JUMP_TABLE_ENTRY(key,label)
-+
- static __always_inline bool arch_static_branch(struct static_key *key, bool branch)
- {
--	asm goto("1:\n\t"
--		 "nop # arch_static_branch\n\t"
--		 ".pushsection __jump_table,  \"aw\"\n\t"
--		 ".long 1b - ., %l[l_yes] - .\n\t"
--		 JUMP_ENTRY_TYPE "%c0 - .\n\t"
--		 ".popsection \n\t"
-+	asm goto(
-+		 ARCH_STATIC_BRANCH_ASM("%c0", "%l[l_yes]")
- 		 : :  "i" (&((char *)key)[branch]) : : l_yes);
+ ifdef CONFIG_CPU_LITTLE_ENDIAN
+ KBUILD_CPPFLAGS	+= -mlittle-endian
+ KBUILD_LDFLAGS	+= -EL
+diff --git a/rust/Makefile b/rust/Makefile
+index 4dcc2eff51cb..ae22f2c5f0b3 100644
+--- a/rust/Makefile
++++ b/rust/Makefile
+@@ -384,13 +384,15 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
+ 	-fstrict-flex-arrays=% -fmin-function-alignment=% \
+ 	-fzero-init-padding-bits=% -mno-fdpic \
+ 	-fdiagnostics-show-context -fdiagnostics-show-context=% \
+-	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference
++	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference \
++	-ffixed-r2 -mmultiple -mno-readonly-in-sdata
  
- 	return false;
-@@ -34,10 +40,7 @@ static __always_inline bool arch_static_branch_jump(struct static_key *key, bool
- {
- 	asm goto("1:\n\t"
- 		 "b %l[l_yes] # arch_static_branch_jump\n\t"
--		 ".pushsection __jump_table,  \"aw\"\n\t"
--		 ".long 1b - ., %l[l_yes] - .\n\t"
--		 JUMP_ENTRY_TYPE "%c0 - .\n\t"
--		 ".popsection \n\t"
-+		 JUMP_TABLE_ENTRY("%c0", "%l[l_yes]")
- 		 : :  "i" (&((char *)key)[branch]) : : l_yes);
+ # Derived from `scripts/Makefile.clang`.
+ BINDGEN_TARGET_x86	:= x86_64-linux-gnu
+ BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
+ BINDGEN_TARGET_arm	:= arm-linux-gnueabi
+ BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
++BINDGEN_TARGET_powerpc	:= powerpc-linux-gnu
+ BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
+ BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
  
- 	return false;
 -- 
 2.53.0
 
