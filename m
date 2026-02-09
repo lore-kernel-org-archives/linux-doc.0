@@ -1,135 +1,98 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60F1C318B92;
-	Mon,  9 Feb 2026 11:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12BAF318B92;
+	Mon,  9 Feb 2026 11:35:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770636927; cv=none; b=XJO64LKckZijKOp8eLnp41JWM6r9rFFjbj53lbbv5BUN4OYONO1gieREdFYhmntF7/OuxhkFCLjx2ZkvczkKRIcisp62IPHI9ZspNTUYTPGZYULcPgJuGZXBXjqeOv7VRved7UiB5FMjcmJWdUgHpbZp/rzbTDzeZCQtTff6X+I=
+	t=1770636938; cv=none; b=fNMvpLU90yY9Cf7/X61/OyizBnAPc6Vz4SDxZp9+QUkFJ2KAnel+VGuSF5hFRo0eubJtawRp8hcLTZ2zMyGUiEkTP9sDdmSQ1jbsiGWKY7D+lygpDP5MTYXFxyePHTbOiYgh0Mi6GcSok8vv61Ukp+HcWBqADOB3sA4TZCo7gcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770636927; c=relaxed/simple;
-	bh=Xwaqb36Nvj3ZWe9RdJQ2KBhRmKitRe0XNRuCltuMInM=;
+	s=arc-20240116; t=1770636938; c=relaxed/simple;
+	bh=bwgsJsBgS327LLJQnYRB/5b25RtRD7UBzxz5b/BD1c0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zt9Xg6oYP61iALfx9K+tLbs8EBToQN0W/muIO8b/NvRwJb1NItudibQNAeBAs7m+yGrYO/dBfGn1LC2nKlJGHtYca+PIwRGzsLklNBxMskMe2c2yflxaJJfqQph+3fD2Pjea8olgEi89b2cPKnOr+DhuhcG+amzC7afvmyZ85Zw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fgkb65Pv; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=MXaVUFSVPGG2DkMYtkRvmHWLDhtBosgSKaSi531DBS7RJPYLtQufgROKIHUMbRYuT4v6n9NbTp9p0XI8nxVL3SPEcSqj2EkwFI2gCTipIG7RlrdVQNeMJoz6YS7XpTzuoPpa0NS3zDnu65qYlVwxNV6TL90TVnoGgNyEa215GBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q5R4WzHy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fgkb65Pv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770636926; x=1802172926;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Xwaqb36Nvj3ZWe9RdJQ2KBhRmKitRe0XNRuCltuMInM=;
-  b=fgkb65PvveYIsMU8V3L3AyS4goNOZff7OK9R3IE6fYngIDfIdOT16Lh5
-   5s/hNolK6N2p/4jeqsAnvq49OB/0MeU016S61RqiR5nOlw2t2OR50E8OD
-   r9YZauuDA+VJVIV8UJnxhA8GjvkfDUWjgSgpeOWacSzI3vim3uyM0DeoH
-   ZXvC0ItwARJ1YnQ2+ieo6tZFI0Gl2vAsbRm8TEMjksNs3DraV9hzMuRph
-   qAqe6wqA+b963dTLeMYk3yTs2SCsyjVrrb2UfX7GUwndFyC9Ww7LT+3y8
-   kGc83V4mwQvH75ryIn6cXNbnVOnh4N72Jmn4EYXJkkTL+eMBdBu8gaVTp
-   w==;
-X-CSE-ConnectionGUID: MKEqjKGHSE+BaKUWPBRBcQ==
-X-CSE-MsgGUID: fvqfX0EXQ66Pk1fZLJrngA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11695"; a="82388016"
-X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="82388016"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 03:35:25 -0800
-X-CSE-ConnectionGUID: ZxoVSCP1Sv6TJkkP0NM1Qg==
-X-CSE-MsgGUID: XrdCgqgDQnK0u4xyIQwZog==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,282,1763452800"; 
-   d="scan'208";a="216051310"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.128])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 03:35:17 -0800
-Date: Mon, 9 Feb 2026 13:35:14 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [RFC PATCH 0/4] hwspinlock: refactor headers into public
- provider/consumer pair
-Message-ID: <aYnGcsK3jq2wrOHL@smile.fi.intel.com>
-References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
- <aXc7DxsqiCGdfzxi@smile.fi.intel.com>
- <aXc-Zxw05XQLb1Dy@ninjato>
- <aXdAB2bLTy6u8G8c@smile.fi.intel.com>
- <aXdCBu6kzdw1NWay@ninjato>
- <aXikZ5wc6bvgRqF6@ninjato>
- <aYnBrN0JRCf9-UjB@ninjato>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q5R4WzHy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EAEBC116C6;
+	Mon,  9 Feb 2026 11:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770636938;
+	bh=bwgsJsBgS327LLJQnYRB/5b25RtRD7UBzxz5b/BD1c0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q5R4WzHyld5bm0v+Kep4muSPKwKjGly94mUl9A8Fuhd6dFoOCXej2xB9z0hzuJZR+
+	 DYl98LN1QtT88okD0+Iluk0tglK5/4j+vkQuvCsy6sMcEVGLuh0gjdsGHra1lYbbSZ
+	 7mWbiRAmR+y3d1NQKR82l3bn9Uywv3unIZoXFulYjXg04pIc6IlLWARGD9+GryFb63
+	 KVQleVgoqFtFS/uselWRJmNOYvm8A4MpkW1ryjqH0E5MK866AyzpOZzjNDnwrqSmTl
+	 f0TWzsJtTUy4B5IroFXwgoVPfvplwEJ5ABJ1TOhA0FvbaQrcDaIK/8E0WsZ42350+P
+	 L+JEMJL8GOUag==
+Date: Mon, 9 Feb 2026 17:05:28 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Koichiro Den <den@valinux.co.jp>
+Cc: cassel@kernel.org, kwilczynski@kernel.org, kishon@kernel.org, 
+	bhelgaas@google.com, corbet@lwn.net, jingoohan1@gmail.com, lpieralisi@kernel.org, 
+	robh@kernel.org, Frank.Li@nxp.com, linux-pci@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] PCI: dwc: ep: Fix BAR update handling with
+ in-place epf_bar reuse
+Message-ID: <jovr3iwtwtcbalzm2zklhe7gmvk2edao57a67oh3shf5lsdnfs@5qohmaxx5zlj>
+References: <20260202145407.503348-1-den@valinux.co.jp>
+ <vgqd74pmc6av25d2zy6alfm26sjir5nyhxjisisebuawpeqcor@gjxevxzjnbbe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aYnBrN0JRCf9-UjB@ninjato>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <vgqd74pmc6av25d2zy6alfm26sjir5nyhxjisisebuawpeqcor@gjxevxzjnbbe>
 
-On Mon, Feb 09, 2026 at 12:14:52PM +0100, Wolfram Sang wrote:
-
-> > > > > Providers need it, especially the 'priv' member. Consumers won't see it.
-> > > > 
-> > > > But can't we make it opaque?
-> > > > 
-> > > > We may have getters and setters for the priv member...
-> > > 
-> > > I think we could do that.
-> > > 
-> > > Two drivers use the bank member, but only for the device
-> > > (lock->bank->dev). That can probably be refactored away, I'd guess.
+On Mon, Feb 09, 2026 at 02:40:13PM +0900, Koichiro Den wrote:
+> On Mon, Feb 02, 2026 at 11:54:05PM +0900, Koichiro Den wrote:
+> > Hi,
 > > 
-> > I am willing to develop this series in the above direction. Before
-> > though, I'd like to know from hwspinlock maintainers if they agree to
-> > this refactoring in general.
+> > This patch series is a follow-up to a side discussion that started from
+> > Niklas' comment at:
+> > https://lore.kernel.org/all/aXtrW7viGZfMNZur@ryzen/
+> > 
+> > This series:
+> >   1) Makes BAR Match vs Address Match teardown in DesignWare EP explicit
+> >      by returning right after clearing a BAR-match inbound mapping.
+> >   2) Fixes the dw_pcie_ep_set_bar() mapping-update path to run
+> >      dw_pcie_ep_clear_ib_maps() unconditionally, since the driver cannot
+> >      reliably distinguish BAR Match -> BAR Match from Address Match ->
+> >      BAR Match transitions when the same epf_bar instance is updated in
+> >      place and passed in again.
+> > 
+> > Base: controller/dwc branch, latest:
+> > commit a24149881558 ("PCI: dwc: ep: Add comment explaining controller level
+> >                       PTM access in multi PF setup")
+> > 
+> > Changes since v1:
+> >   - Switched from the v1 approach (Y) to the alternative approach (X)
+> >     that was proposed earlier in the discussion.
+> >     Details of the v1 (Y) vs v2 (X) are described at:
+> >     https://lore.kernel.org/all/sextbnbmsur2xjfoun2l4lr5vekmpzae7sx6or2ird44t6ud6d@yprcz43tpq4p/
+> >   - Changed the subject.
+> > 
+> > v1: https://lore.kernel.org/all/20260131133655.218018-1-den@valinux.co.jp/
+> > 
+> > Thanks,
 > 
-> Moving maintainers from CC to To ;) Do you, in general, approve this
-> change to the headers? I think it is more modern and e.g. the mailbox
-> subsystem has a similar structure, a header for the client and a header
-> for the controller. And do you also prefer an opaque 'priv' member?
+> Hi Mani,
+> 
+> Just following up on this series.
+> If this looks fine to you, would you mind picking it up when you have a
+> chance?
+> (Niklas has also commented here: https://lore.kernel.org/all/aYSZxCtACmQyC0XT@ryzen/)
+> 
 
-I'm in To and I am fine with this change (but not sure if I'm anyhow
-a maintainer in the matter of the series).
+Sorry, I cannot get this series for 7.0 as it is too late. I'll try to get it
+early once 7.0-rc1 is released.
+
+- Mani
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+மணிவண்ணன் சதாசிவம்
