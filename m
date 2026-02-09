@@ -1,96 +1,200 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36ED8371051
-	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 15:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770650475; cv=pass; b=fawskNHnAaJ5mwevnJPtPyEHzTyKKQ5+0dHv6CMQPnOgDDsal2DXDbrRexjiSVVd+6f0L6Gu89uOKVdhR4fH93dS7SZC1FVsP4IchWXxKuqp1/FMRrIoca8eorkAbujI2LY0zPyKkES7z6xJVMcagWQHNOblf3MAmNR76pD5b8E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770650475; c=relaxed/simple;
-	bh=CzEgkhzt5xOodhN+SSSPDZf/L8KCSTMOudC0ptwCdYk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g0LSwSQQLe6e16hS6Bxt8s9UC2z5iW59e1qyt8e3rEoJQuXfEjyR1mJkhUxK5MiPh6lh1G83B+DZUA8CKATs8yzCAqA5nhIVw13XbEEudUBkyKaPP3p1GiJHzTYZiGuXCyHYPQWaDZ6mtPU+N9RjKzpqx0aqTBPv3aYAp73I+mg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=egCtHbfe; arc=pass smtp.client-ip=209.85.217.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409362C0F72
+	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 15:26:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770650762; cv=none; b=VvICGMpvmnvmIHxbeGZnjveb7vjHWUS7bo/wKiTtlwEzmmEiwKe/T7v8Ifb5fJYoCwjcOGl3A8o2ANfXWCSabq/JdoZEeFQIQiyLXAhIGEUZ59X6t/SVRkDQ2Fzcya2PF2aESxHY7pdZ/8UWGcx92fLbzTzdvpp/gGBOFygK7bc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770650762; c=relaxed/simple;
+	bh=8sf12bdDZSlGSccRjkyFc4DzSqXFDuafZoAwDn99dy0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LSc95SSY2L0KUxS41j9Cwpm42Q79XvrjvTyeNkrq5n1AWlbZXGcViScp3+yZz7ctS3eZHsBCfbn2nHX/qIhccuUxfU7RL/qjcE1dd14Q5KxERopVkV0r2j5AXXkcDbihXNQqapCQt/wNoIIbxNycHKv1idjQkMS+qfrJLxzjs5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dVe4aC8U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ahVUEU0o; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dVe4aC8U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ahVUEU0o; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="egCtHbfe"
-Received: by mail-vs1-f51.google.com with SMTP id ada2fe7eead31-5fada0925c8so791002137.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 07:21:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770650474; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dUP6PKXkFcgsaVwUBO970xrHXklfJLYNGIn8KPFOrhzns0AXDfLDBszVi66/Popml7
-         KWAznbKk7u5eGIAnRYDfV8tkLq6/oTSm0xjDfj3ac7J3iPaB7rTGi4w6a0wz7Jq8Ybdk
-         IX4kmUO1WI+FW4FcBJu09hHPQvn1/v5p5zF0l5oQ2rd4ILchVLiwcOWouqFS/+wniEYX
-         jf8ahLbZW0gVStW6ywANnQupoeRs8FLJ0eNbirDBr0kYgVmutRfCG9JyZMBxubGq0S0f
-         wB4sb1rTCu96wa86rUsOXSc3D/e8ZodwX9KijhriH9gKGPeM629bRQFHFG7qCWyEYTgM
-         l9lg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=CzEgkhzt5xOodhN+SSSPDZf/L8KCSTMOudC0ptwCdYk=;
-        fh=mB17x5rqGxmM+7qYlkkKHcyqHfKb71+xzxpMQjlDlVw=;
-        b=bleQT/3lo2liHlBPiFwM/DZNKJCb3cMnKDQXCuZk2G0XBztSTRriO/HRGKnVmMbQnk
-         0wJrZqMAT58ivPOWfQrC2tCfJhxjS7XKnhjCXCOp37u31/NcIG/rJJx3euhpDF4kNz+a
-         /SqN+kKAHxqJyIhkJnO/TcBzS/wYbVr4fWoM4wvNzTJxh2P651+LBXHBz9y+ya/6SdfU
-         c5nG3bNSFXrzJmqP8xVIQ+qnq1gigkoPpqFqxr3DolfaY2VBStbjh2NryoQzbADjUNp2
-         CFYbxC/22GJDBlkkDOvfqPThHFFN2bR7VxCHx5fKCXblVLyfNiFRZC3Aj9cdvMuxrMvM
-         C3RA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770650474; x=1771255274; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CzEgkhzt5xOodhN+SSSPDZf/L8KCSTMOudC0ptwCdYk=;
-        b=egCtHbfeh+v/IwgtSVQPJoCY6Sd3vERcZd6ZFAioTxRgq9sbYW31LBv/eKhanpSpQK
-         ugGjGAoMef1t2tCuK38MpkwNS/soDnoG1skVgL/f7SDkioEPqqf7nbY3UnuonNWk6mkp
-         FtHz+CsXeYVNY6zyIGa65m8hEsCFwsrb7xx/UAHJNqeW3AtU/9Lr+NPKK4+/t3ABZWZP
-         ojgGNt+2yavibIepp01tOt3d8Hv62l2eGS9BRMr48zThWVGbDsURbF3aRynz+wURl37G
-         CeP3ywljl80zs11l92g6JKS8VtB84rtadSmnLtrGhEfepOOmms/Jl2E5KiEZCoT8Uxfa
-         wE+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770650474; x=1771255274;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CzEgkhzt5xOodhN+SSSPDZf/L8KCSTMOudC0ptwCdYk=;
-        b=YvxkWOvAg9jgWk+2Og7NBv1KgLCal7geidshG5gs3rLUik8Hf16kykoyxYDCR2t+h4
-         /rGMS5Hm6X+DyPfi3Pf/Mnmq0zOWBPRK62I7i2ZbJxexR6sKR8jKplD/QtuEx1FgppwF
-         qBSjRIBvOes6uYmPvvlML/pxbkNZh0LLwme+XXLqQh7ezX6L7/ITYYU45gWKn+94UWXA
-         wMXbi1W5/HFURezWMWCwIwop17ogBV8Yilkupb9nfTE9s1HrIR57JVd7DYtMU6lMcoaW
-         9p2zTorxChfKipldWvqlf4DdL3kIJoiC8Zw5nPNB9Y5EDutP0rm8ozryQOzBSzhVtXXJ
-         akaA==
-X-Forwarded-Encrypted: i=1; AJvYcCWCihJIE8odPKFV9PnE9v7bcygmdu5B0Wyv73H5KzQuWHndEnpTIDSt0XrdeEQJ85RZo/ljwvYpxac=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrZKH8R2+yA8vIEX1KiN3FN8XPCO7ppH3s84CPRrAmu3uYMAWz
-	Bb2HJ3mD16MvFYuBjjd8IThMbsspcDQ/OQuq5sYmJzV4rFILB7DS0U9r2VBx9+M588K10AioTT2
-	t31DG9IR9G39HyxY/Ak3SSbEE2oQwoSI=
-X-Gm-Gg: AZuq6aIFtCkJzq6I0WtTPEVfDlnFM/VAASUQ1IGBad4A968QUuOqSxVwxMqyTA+UmKr
-	tnWTmoCqvR3kM24p9MJkKVY63T2TQvQQXg9Fg7hPb9p2SufLXduW7NIf2wGeSXPbgLvYksbvQDs
-	5zN/H3tJKqk1OZwjVfaFVwmlPiLimZQFZQInymSa6La9NdYhbp/xUNeDTA8LtkhNoaKqh9AzUm9
-	gVm9HCJsP7TdVeYRLzebmTZkNfe8qaHgI8G9gnhZgRZ6hYC5es+vyvWMnBy1ijWesPcCSrR
-X-Received: by 2002:a05:6102:374f:b0:5f5:459f:9860 with SMTP id
- ada2fe7eead31-5fae8ba8026mr2979003137.28.1770650474093; Mon, 09 Feb 2026
- 07:21:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dVe4aC8U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ahVUEU0o";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dVe4aC8U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ahVUEU0o"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6076D3E712;
+	Mon,  9 Feb 2026 15:26:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770650760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/t3djtqceczc/kumZH/3BRs3t1izpbgkuB3k4cyq1LU=;
+	b=dVe4aC8UMGE8KQGJx/+IsBkhtOLhUxg+O7l3196R65K0WqisVv3ib8fFTPJV4o13K/H7oi
+	RALU9B8rmNkihxyZiHw1GF83hSnO0/gbbf2xxUoQZyRmL3w6OJji3zLOLpB0RnxSvvPlrb
+	Ceqsta/6IoPez/gWmiyvPLx3sc99K5g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770650760;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/t3djtqceczc/kumZH/3BRs3t1izpbgkuB3k4cyq1LU=;
+	b=ahVUEU0oENpqE3omnQgpD5vkq5W3aIWsekqTc6ZuUM16siyQ8T+PI3UmOYw/fOAdtoodB1
+	3vxPcbiiS5IW2pCQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dVe4aC8U;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ahVUEU0o
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770650760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/t3djtqceczc/kumZH/3BRs3t1izpbgkuB3k4cyq1LU=;
+	b=dVe4aC8UMGE8KQGJx/+IsBkhtOLhUxg+O7l3196R65K0WqisVv3ib8fFTPJV4o13K/H7oi
+	RALU9B8rmNkihxyZiHw1GF83hSnO0/gbbf2xxUoQZyRmL3w6OJji3zLOLpB0RnxSvvPlrb
+	Ceqsta/6IoPez/gWmiyvPLx3sc99K5g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770650760;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/t3djtqceczc/kumZH/3BRs3t1izpbgkuB3k4cyq1LU=;
+	b=ahVUEU0oENpqE3omnQgpD5vkq5W3aIWsekqTc6ZuUM16siyQ8T+PI3UmOYw/fOAdtoodB1
+	3vxPcbiiS5IW2pCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 85A1E3EA63;
+	Mon,  9 Feb 2026 15:25:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id tn61HYf8iWlMPQAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Mon, 09 Feb 2026 15:25:59 +0000
+Message-ID: <641a1a66-705e-46ee-9612-db35d92729cf@suse.de>
+Date: Mon, 9 Feb 2026 16:25:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260209081323.68339-1-chmh0624@gmail.com> <87wm0m9dn1.fsf@trenco.lwn.net>
- <CABzB-hZpQOR5uxjUKGf2DcfcNXSwpaBf3mmKdmCU0T5=uDVz1g@mail.gmail.com>
-In-Reply-To: <CABzB-hZpQOR5uxjUKGf2DcfcNXSwpaBf3mmKdmCU0T5=uDVz1g@mail.gmail.com>
-From: =?UTF-8?B?5by16ZaU5Yub?= <chmh0624@gmail.com>
-Date: Mon, 9 Feb 2026 23:21:02 +0800
-X-Gm-Features: AZwV_QjQtB8CakyLgAcnNdduNhbYX3xfuqNQ2zE0V2aPgIsvvIiBlBwIebLBdgo
-Message-ID: <CABzB-hab1V2oKCmnpYjY-FDXbVoMbJnXjXnnU8YqP-CypkXdng@mail.gmail.com>
-Subject: Re: [PATCH] Docs/mm: fix typos and grammar in page_tables.rst
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: akpm@linux-foundation.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC net-next] inet: add ip_retry_random_port sysctl to
+ reduce sequential port retries
+To: longxie86@protonmail.com
+Cc: Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ corbet@lwn.net, ncardwell@google.com, kuniyu@google.com, dsahern@kernel.org,
+ idosch@nvidia.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thorsten Toepper <thorsten.toepper@sap.com>
+References: <20260203175422.4620-1-fmancera@suse.de>
+ <CANn89i+UUWx5OhPnJnDhiCfr53BPTAGedBucgqYwyfqkidf_Cg@mail.gmail.com>
+ <8d94faf9-2fb6-483d-9767-bd665c4a4b9a@suse.de>
+ <1649583d-71c2-425e-a2df-685d5f6dc67d@suse.de>
+ <CANn89iK3Pu2NXxejTSLF-7MhBc03_ZJUjOtZcTC4nMsbsDpbSw@mail.gmail.com>
+ <d76cd8c3-deb0-4f39-b5b9-a711d155cd5f@suse.de>
+ <egIQQeDF4RIP_614tU-XIK-01DgThdPOU3KA253uNHvZv76zymXyBFhey1G7wj5mA2nwHpdT7VBoGuFnATSO-PS0hUb0Qrt0AyN5JNbpATg=@protonmail.com>
+Content-Language: en-US
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+In-Reply-To: <egIQQeDF4RIP_614tU-XIK-01DgThdPOU3KA253uNHvZv76zymXyBFhey1G7wj5mA2nwHpdT7VBoGuFnATSO-PS0hUb0Qrt0AyN5JNbpATg=@protonmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -4.51
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[protonmail.com];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[protonmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,protonmail.com:email,0xffsoftware.com:url]
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Rspamd-Queue-Id: 6076D3E712
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
 
-Thanks for the feedback, Jon! You're right, there's only one Linus. I
-have just sent out a v2 with "Torvalds's" corrected.
+On 2/9/26 2:53 PM, longxie86@protonmail.com wrote:
+> On Monday, February 9th, 2026 at 12:57 PM, Fernando Fernandez Mancera <fmancera@suse.de> wrote:
+> 
+>>
+>>
+>> On 2/6/26 6:09 PM, Eric Dumazet wrote:
+>>
+>>> On Fri, Feb 6, 2026 at 5:28 PM Fernando Fernandez Mancera
+>>> fmancera@suse.de wrote:
+>>>
+>>>> It makes sense. I have tested this approach and we got a more even
+>>>> distribution of source ports when having thousands of reserved ports. No
+>>>> difference at all when not using reserved ports.
+>>>>
+>>>> Please, you can find the distribution graph with the current algorithm
+>>>> [1] and with the random step algorithm [2].
+>>>>
+>>>> While I understand that this approach is introducing a call to
+>>>> get_random_u32_below() on every connect, I am wondering if it makes
+>>>> sense to replace the existing algorithm with this variant. What do you
+>>>> think?
+>>>
+>>> I would ask RFC 6056 experts like Fernando Gont what they think.
+>>>
+>>> Note that if we use random at each connect(), we defeat one of the principles
+>>> of ephemeral port selection : try very hard to avoid 4-tuple collision.
+>>
+>>
+>> Right. I will reach out to him and get his opinion. I have plenty of
+>> time before net-next open again. I am also collecting some metrics
+>> regarding the 4-tuple collision frequency.
+>>
+> 
+> We have had this problem in AWS for a long time. The patch works on our system. What is needed for it to be included in the next Linux release?
+> 
+
+This just an RFC, I discourage using it in production yet. An official 
+v1 will be sent once net-next is open and there it needs to be reviewed 
+and approved by the maintainers.
+
+> Please bring this to the stable versions.
+> 
+
+I don't think that will happen. This is an improvement not a "fix" per 
+definition. Anyway, you could ask for a backport to your 
+vendor/distribution.
+
+Thanks,
+Fernando.
+
+>>>> Please, notice the implementation below. I plan to send an official v1
+>>>> once net-next is open. In addition, I am rewriting the commit message as
+>>>> I find the current one confusing.
+>>>>
+>>>> [1] https://0xffsoftware.com/port_graph_current_alg.html
+>>>>
+>>>> [2] https://0xffsoftware.com/port_graph_random_step_alg.html
+>>
+>>
+
