@@ -1,178 +1,120 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D3DE2F5A3D;
-	Mon,  9 Feb 2026 15:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE6D25F7B9;
+	Mon,  9 Feb 2026 15:48:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770651400; cv=none; b=meKO8friQLAzVrdmWz6aM1/4JQFyQgzpsw6TYJW31V6CjCItaQsqwFsbJCsm7bikp1+zPKNv4pn+xPXWBOaiiddsZirwtwfleG3K+3fSi5DWc1P1po6oZQi2FXbvi/nZF52sSHYQ1QjxT8AKhg45XRXjtk8U5fwqVVF3pKiYmZM=
+	t=1770652136; cv=none; b=We2frvmMwdpn1P+PbG2xZ0l5Iv2Iqrsn87DIDOtovzcA1IyZBylasJKjSKmke/dvvLdE5jmst4WzmBZ3x36fP7gFnC3nTKXyHYtm/07YC0fN7wVav7A7zLWuGzWobQWk7MHop/M0ZZxxIy0ObhTJusudLba9RJcxgQ71euGsnko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770651400; c=relaxed/simple;
-	bh=HIoSMO9egrZ4A6UCPVzGa9X1jJVWkQH0s0LiFyimx2U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P2h2G7FQPvDGbdumjDTLP4MeBcFGBSsAeFh3gUhbY1cFUX+licYaGpXnGvvUmtzXTUDkTwLWos51CcWLWYNKUnVjvaMDNWG05Kt9FfkP1KCz7CUgBkn4MGRtHcAMUf2OJiameIKKb8XLvIx0o/UDTtcpcglxj9rAUi1Ly5/SMlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 800B8339;
-	Mon,  9 Feb 2026 07:36:33 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 93DFE3F740;
-	Mon,  9 Feb 2026 07:36:34 -0800 (PST)
-Message-ID: <7a0953ff-6475-4311-b34c-47eed9d38cb1@arm.com>
-Date: Mon, 9 Feb 2026 15:36:32 +0000
+	s=arc-20240116; t=1770652136; c=relaxed/simple;
+	bh=FMtcv9Ix8+Vr6nzGWRRsgTCLzlhgG8J1kiyA3JCne8M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SzCz7AMI3F1SlK8ZkGccR0Qm9Hx1vc/SThMNJsppuvheXVY+spxqZLBbiA66awLYRAra/9eeacv5OnBkNlagn4VvYkYa7fPiCaS1uooHG7co5M0+A+PUDNKv9yjvfwwqR3V0872xhrLCpSz6GVONqkVn5i2uouqQwLMJTsS1kLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nmOjylNv; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nmOjylNv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=D4nGYWiGOfNXdVY+uWCPGlOgSj0sGcvKWLRnuu+D02Y=; b=nmOjylNvplNe7giU4xqfOfUmJU
+	eHbhPCPsVxTvU9KnVqo6OBcmtBhVwhKTegmz1FTX0bzkabYdyeTYS1NF1oFA+ixhLXso+4CSwgm8G
+	GpIB8zAK4rgSbf46I/s/9h//HxjyX3oW+H3n/+78v2JrcZqGyle02Xw1CILtpPmZw9ogNAUYlDbys
+	l+a8NkdFYBnkcjrKV2s9EatUmDxRICT09+ZXNmTB0pCENAx6vLNMzO31GUqxrFa0EvOI43iF0mQA5
+	gxjNtwSKm7kOfAoLmGd1sF4/Xszn7tteYcLH/eFB4h3rBA1SgrljlTzQUvMgRsBKmhEqzEzctpCxB
+	z+4+6lRA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vpTVN-00000009iFw-0nJs;
+	Mon, 09 Feb 2026 15:48:53 +0000
+Date: Mon, 9 Feb 2026 15:48:52 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Min-Hsun Chang <chmh0624@gmail.com>
+Cc: corbet@lwn.net, akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v2] Docs/mm: fix typos and grammar in page_tables.rst
+Message-ID: <aYoB5JatO60ouaMD@casper.infradead.org>
+References: <20260209145603.96664-1-chmh0624@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 20/41] arm_mpam: resctrl: Add CDP emulation
-To: Fenghua Yu <fenghuay@nvidia.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com,
- kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, punit.agrawal@oss.qualcomm.com,
- quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
- scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
- joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
- zengheng4@huawei.com, linux-doc@vger.kernel.org,
- Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-References: <20260203214342.584712-1-ben.horgan@arm.com>
- <20260203214342.584712-21-ben.horgan@arm.com>
- <2271224c-1796-4823-8c2c-6f529814e645@nvidia.com>
-From: Ben Horgan <ben.horgan@arm.com>
-Content-Language: en-US
-In-Reply-To: <2271224c-1796-4823-8c2c-6f529814e645@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209145603.96664-1-chmh0624@gmail.com>
 
-Hi Fenghua,
+On Mon, Feb 09, 2026 at 10:56:03PM +0800, Min-Hsun Chang wrote:
+> Correct several spelling and grammatical errors in the page tables
+> documentation. This includes:
+> - Fixing "a address" to "an address"
+> - Fixing "pfs" to "pfns"
+> - Correcting the possessive "Torvald's" to "Torvalds's"
+> - Fixing "instruction that want" to "instruction that wants"
+> - Fixing "code path" to "code paths"
 
-On 2/9/26 01:16, Fenghua Yu wrote:
-> Hi, Ben,
+It'd be polite to cc the original author.  Added.
+
+(also see one question below)
+
+Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+
+> Signed-off-by: Min-Hsun Chang <chmh0624@gmail.com>
+> ---
+>  Documentation/mm/page_tables.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> On 2/3/26 13:43, Ben Horgan wrote:
->> From: James Morse <james.morse@arm.com>
->>
->> Intel RDT's CDP feature allows the cache to use a different control value
->> depending on whether the accesses was for instruction fetch or a data
->> access. MPAM's equivalent feature is the other way up: the CPU assigns a
->> different partid label to traffic depending on whether it was instruction
->> fetch or a data access, which causes the cache to use a different control
->> value based solely on the partid.
->>
->> MPAM can emulate CDP, with the side effect that the alternative partid is
->> seen by all MSC, it can't be enabled per-MSC.
->>
->> Add the resctrl hooks to turn this on or off. Add the helpers that
->> match a
->> closid against a task, which need to be aware that the value written to
->> hardware is not the same as the one resctrl is using.
->>
->> Update the 'arm64_mpam_global_default' variable the arch code uses during
->> context switch to know when the per-cpu value should be used instead.
->> Also,
->> update these per-cpu values and sync the resulting mpam partid/pmg
->> configuration to hardware.
->>
->> Awkwardly, the MB controls don't implement CDP. To emulate this, the MPAM
->> equivalent needs programming twice by the resctrl glue, as resctrl
->> expects
->> the bandwidth controls to be applied independently for both data and
->> instruction-fetch.
->>
->> Tested-by: Gavin Shan <gshan@redhat.com>
->> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
->> Tested-by: Peter Newman <peternewman@google.com>
->> CC: Dave Martin <Dave.Martin@arm.com>
->> CC: Amit Singh Tomar <amitsinght@marvell.com>
->> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
->> Signed-off-by: James Morse <james.morse@arm.com>
->> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
->> ---
->> Changes since rfc:
->> Fail cdp initialisation if there is only one partid
->> Correct data/code confusion
->>
->> Changes since v2:
->> Don't include unused header
->>
->> Changes since v3:
->> Update the per-cpu values and sync to h/w
->> ---
->>   arch/arm64/include/asm/mpam.h  |   1 +
->>   drivers/resctrl/mpam_resctrl.c | 117 +++++++++++++++++++++++++++++++++
->>   include/linux/arm_mpam.h       |   2 +
->>   3 files changed, 120 insertions(+)
->>
->> diff --git a/arch/arm64/include/asm/mpam.h b/arch/arm64/include/asm/
->> mpam.h
->> index 05aa71200f61..70d396e7b6da 100644
->> --- a/arch/arm64/include/asm/mpam.h
->> +++ b/arch/arm64/include/asm/mpam.h
->> @@ -4,6 +4,7 @@
->>   #ifndef __ASM__MPAM_H
->>   #define __ASM__MPAM_H
->>   +#include <linux/arm_mpam.h>
->>   #include <linux/bitfield.h>
->>   #include <linux/jump_label.h>
->>   #include <linux/percpu.h>
->> diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/
->> mpam_resctrl.c
->> index cd52ca279651..12017264530a 100644
->> --- a/drivers/resctrl/mpam_resctrl.c
->> +++ b/drivers/resctrl/mpam_resctrl.c
->> @@ -38,6 +38,10 @@ static DEFINE_MUTEX(domain_list_lock);
->>   static bool exposed_alloc_capable;
->>   static bool exposed_mon_capable;
->>   +/*
->> + * MPAM emulates CDP by setting different PARTID in the I/D fields of
->> MPAM0_EL1.
->> + * This applies globally to all traffic the CPU generates.
->> + */
->>   static bool cdp_enabled;
->>     bool resctrl_arch_alloc_capable(void)
->> @@ -50,6 +54,72 @@ bool resctrl_arch_mon_capable(void)
->>       return exposed_mon_capable;
->>   }
->>   +bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level rid)
->> +{
->> +    switch (rid) {
->> +    case RDT_RESOURCE_L2:
->> +    case RDT_RESOURCE_L3:
->> +        return cdp_enabled;
->> +    case RDT_RESOURCE_MBA:
->> +    default:
->> +        /*
->> +         * x86's MBA control doesn't support CDP, so user-space doesn't
+> diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
+> index e7c69cc32493..126c87628250 100644
+> --- a/Documentation/mm/page_tables.rst
+> +++ b/Documentation/mm/page_tables.rst
+> @@ -26,9 +26,9 @@ Physical memory address 0 will be *pfn 0* and the highest pfn will be
+>  the last page of physical memory the external address bus of the CPU can
+>  address.
+>  
+> -With a page granularity of 4KB and a address range of 32 bits, pfn 0 is at
+> +With a page granularity of 4KB and an address range of 32 bits, pfn 0 is at
+>  address 0x00000000, pfn 1 is at address 0x00001000, pfn 2 is at 0x00002000
+> -and so on until we reach pfn 0xfffff at 0xfffff000. With 16KB pages pfs are
+> +and so on until we reach pfn 0xfffff at 0xfffff000. With 16KB pages pfns are
+>  at 0x00004000, 0x00008000 ... 0xffffc000 and pfn goes from 0 to 0x3ffff.
+>  
+>  As you can see, with 4KB pages the page base address uses bits 12-31 of the
+> @@ -38,8 +38,8 @@ address, and this is why `PAGE_SHIFT` in this case is defined as 12 and
+>  Over time a deeper hierarchy has been developed in response to increasing memory
+>  sizes. When Linux was created, 4KB pages and a single page table called
+>  `swapper_pg_dir` with 1024 entries was used, covering 4MB which coincided with
+> -the fact that Torvald's first computer had 4MB of physical memory. Entries in
+> -this single table were referred to as *PTE*:s - page table entries.
+> +the fact that Torvalds's first computer had 4MB of physical memory. Entries in
+> +this single table were referred to as *PTEs* - page table entries.
+
+I'm unsure about this change of "*PTE*:s" to "*PTEs*".  Is that special
+rst syntax to keep PTE highlighted without highlighting the 's'?
+
+>  The software page table hierarchy reflects the fact that page table hardware has
+>  become hierarchical and that in turn is done to save page table memory and
+> @@ -212,7 +212,7 @@ threshold.
+>  Additionally, page faults may be also caused by code bugs or by maliciously
+>  crafted addresses that the CPU is instructed to access. A thread of a process
+>  could use instructions to address (non-shared) memory which does not belong to
+> -its own address space, or could try to execute an instruction that want to write
+> +its own address space, or could try to execute an instruction that wants to write
+>  to a read-only location.
+>  
+>  If the above-mentioned conditions happen in user-space, the kernel sends a
+> @@ -277,5 +277,5 @@ To conclude this high altitude view of how Linux handles page faults, let's
+>  add that the page faults handler can be disabled and enabled respectively with
+>  `pagefault_disable()` and `pagefault_enable()`.
+>  
+> -Several code path make use of the latter two functions because they need to
+> +Several code paths make use of the latter two functions because they need to
+>  disable traps into the page faults handler, mostly to prevent deadlocks.
+> -- 
+> 2.50.1
 > 
-> s/x86's/ARM's/
-
-In CPUs supporting MPAM the instruction/data distinction is made at the
-CPU so doesn't depend on the specific control. The point this comment is
-trying to make is that as x86 doesn't support CDP on MBA, resctrl, which
-was initially x86 specific, expected CDP not to be supported on MBA and
-hence MPAM/ARM64 has to match this behaviour. Therefore, the MPAM driver
-doesn't support CDP on MBA either. In essence, the MPAM driver emulates
-the x86 CDP behaviour. Having said that, this comment relies on the
-reader knowing this historical context, and so I'll update it to not
-reference x86 and just mention that it is the expectation of the resctrl
-interface.
-
 > 
-> Thanks.
-> 
-> -Fenghua
-> 
-> [SNIP]
-
-Thanks,
-
-Ben
-
