@@ -1,199 +1,126 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE243366056;
-	Mon,  9 Feb 2026 09:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 025CE2BEC45;
+	Mon,  9 Feb 2026 10:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770631137; cv=none; b=e8FpewXDR4VLbpiDgmTNmfYnNodpyNQuYHnCJmTsEd+Df08S9Whfi6FEWauN2wA8r8Qn25vBkPbb/zhsksMNmD/zlHc7TxMSUl2EVzMKpUAvB86hyeWYfqiTLeRvBhM5FkWU1fCPZuRmWt3SkvJdnpsE2agqDi9ugc8KxtTJWYI=
+	t=1770631449; cv=none; b=RTJmMOWvYpCVU0RDat5zDDMTGd5uhOvyxdafQkIPEB56VzH7h5EAr2h1XXPwmzKH7UQmjqt1mCzJEZGFUdkqhzAVg3QbvKKR/jY6nBCr58xT3R1eacG5qej0GvjFz8D8hK37cDRFYq1QJi5ziwgTJZciTKLuFcAJ2dxV70JAHa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770631137; c=relaxed/simple;
-	bh=kPp08hOtBy5cWAPmLgWiyhydkjrVAyDroAU4R1BpvRM=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h2NPfVFsFJhOBaBRJC88dTiZ7O6uMLAAmwhFqm0zcVGH7PXrpkGkOI9t/k5zGe3UAXVORnJqUvoPpo1U4Z/ojVmsBvSY6/GCTShOifcHILj8BTIov8ZHmT5dH6t0K3cnfT4OXmEpIBm8yp32IQRN0Vng3R6VNq5zu4jEZ6xns1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=h5H8990a; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=h5H8990a; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="h5H8990a";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="h5H8990a"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=YVvErhcLYV4itnPda9WUOO4QThxcu8i0dNjpoO/OHEg=;
-	b=h5H8990aHafU4N24CkwodLjJkA5s9tr/07JslHl4bWqjKgyC/MSHMDwBRI0h5SFtpP/FfBNW3
-	+FsQ6KqQrghOIquBjrxm8gk84Do7nzyra5fZZhOGfsefsZTd+UfK8JxYPCpXSawPTMTeqrnIxdf
-	/Hkn23Hp6TiBMiI5u5DUnxM=
-Received: from canpmsgout03.his.huawei.com (unknown [172.19.92.159])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4f8g9k36JJz1BFwm;
-	Mon,  9 Feb 2026 17:58:02 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=YVvErhcLYV4itnPda9WUOO4QThxcu8i0dNjpoO/OHEg=;
-	b=h5H8990aHafU4N24CkwodLjJkA5s9tr/07JslHl4bWqjKgyC/MSHMDwBRI0h5SFtpP/FfBNW3
-	+FsQ6KqQrghOIquBjrxm8gk84Do7nzyra5fZZhOGfsefsZTd+UfK8JxYPCpXSawPTMTeqrnIxdf
-	/Hkn23Hp6TiBMiI5u5DUnxM=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4f8g5b14j5zpStQ;
-	Mon,  9 Feb 2026 17:54:27 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9EDE820168;
-	Mon,  9 Feb 2026 17:58:46 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
- (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 9 Feb
- 2026 17:58:43 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <corbet@lwn.net>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<chenhuacai@kernel.org>, <kernel@xen0n.name>, <maddy@linux.ibm.com>,
-	<mpe@ellerman.id.au>, <npiggin@gmail.com>, <chleroy@kernel.org>,
-	<pjw@kernel.org>, <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>,
-	<alex@ghiti.fr>, <tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
-	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
-	<bhe@redhat.com>, <vgoyal@redhat.com>, <dyoung@redhat.com>,
-	<rdunlap@infradead.org>, <pmladek@suse.com>, <feng.tang@linux.alibaba.com>,
-	<pawan.kumar.gupta@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
-	<arnd@arndb.de>, <lirongqing@baidu.com>, <fvdl@google.com>,
-	<leitao@debian.org>, <rppt@kernel.org>, <ardb@kernel.org>, <jbohac@suse.cz>,
-	<sourabhjain@linux.ibm.com>, <osandov@fb.com>, <ryan.roberts@arm.com>,
-	<cfsworks@gmail.com>, <tangyouling@kylinos.cn>, <ritesh.list@gmail.com>,
-	<thuth@redhat.com>, <hbathini@linux.ibm.com>, <eajames@linux.ibm.com>,
-	<bjorn@rivosinc.com>, <songshuaishuai@tinylab.org>, <kevin.brodsky@arm.com>,
-	<samuel.holland@sifive.com>, <vishal.moola@gmail.com>,
-	<junhui.liu@pigmoral.tech>, <dwmw@amazon.co.uk>, <pbonzini@redhat.com>,
-	<thomas.lendacky@amd.com>, <kai.huang@intel.com>, <ubizjak@gmail.com>,
-	<coxu@redhat.com>, <liaoyuanhong@vivo.com>, <fuqiang.wang@easystack.cn>,
-	<brgerst@gmail.com>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-riscv@lists.infradead.org>, <kexec@lists.infradead.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v4 3/3] riscv: kexec: Add support for crashkernel CMA reservation
-Date: Mon, 9 Feb 2026 17:59:31 +0800
-Message-ID: <20260209095931.2813152-4-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260209095931.2813152-1-ruanjinjie@huawei.com>
-References: <20260209095931.2813152-1-ruanjinjie@huawei.com>
+	s=arc-20240116; t=1770631449; c=relaxed/simple;
+	bh=N38vbDeMMBRSF9rOlC/b2KTnP4Nk87rzrATIvwEGPWM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=L1FziAgisD6T2mHLPtnE3lmK6Mvf+gmXJ4N0S6bUZTAShDEpkGa4Fns4HHO6l1iFIkKOklXrXMMnPeI4pp5i6BzmUqb6jlgvbaGd/bUnuSPIEig7ChKQH5nOG83K9SpVJYYX4VjX+KaGM8un97r0y0vRX1BtK5Nnpo1s0o0MsG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 055A3339;
+	Mon,  9 Feb 2026 02:04:02 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 480D03F632;
+	Mon,  9 Feb 2026 02:04:03 -0800 (PST)
+Message-ID: <9a8a163e-887a-45fc-aae5-45e564360c8b@arm.com>
+Date: Mon, 9 Feb 2026 10:04:01 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/41] arm_mpam: Add KVM/arm64 and resctrl glue code
+To: "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>
+Cc: "amitsinght@marvell.com" <amitsinght@marvell.com>,
+ "baisheng.gao@unisoc.com" <baisheng.gao@unisoc.com>,
+ "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+ "carl@os.amperecomputing.com" <carl@os.amperecomputing.com>,
+ "dave.martin@arm.com" <dave.martin@arm.com>,
+ "david@kernel.org" <david@kernel.org>,
+ "dfustini@baylibre.com" <dfustini@baylibre.com>,
+ "fenghuay@nvidia.com" <fenghuay@nvidia.com>,
+ "gshan@redhat.com" <gshan@redhat.com>,
+ "james.morse@arm.com" <james.morse@arm.com>,
+ "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
+ "kobak@nvidia.com" <kobak@nvidia.com>,
+ "lcherian@marvell.com" <lcherian@marvell.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "peternewman@google.com" <peternewman@google.com>,
+ "punit.agrawal@oss.qualcomm.com" <punit.agrawal@oss.qualcomm.com>,
+ "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+ "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+ "rohit.mathew@arm.com" <rohit.mathew@arm.com>,
+ "scott@os.amperecomputing.com" <scott@os.amperecomputing.com>,
+ "sdonthineni@nvidia.com" <sdonthineni@nvidia.com>,
+ "xhao@linux.alibaba.com" <xhao@linux.alibaba.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+ "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>,
+ "joey.gouly@arm.com" <joey.gouly@arm.com>,
+ "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "zengheng4@huawei.com" <zengheng4@huawei.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+ <OSZPR01MB87983A126E58D3FE8A73A98F8B65A@OSZPR01MB8798.jpnprd01.prod.outlook.com>
+From: Ben Horgan <ben.horgan@arm.com>
+Content-Language: en-US
+In-Reply-To: <OSZPR01MB87983A126E58D3FE8A73A98F8B65A@OSZPR01MB8798.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
-crashkernel= command line option") and commit ab475510e042 ("kdump:
-implement reserve_crashkernel_cma") added CMA support for kdump
-crashkernel reservation. This allows the kernel to dynamically allocate
-contiguous memory for crash dumping when needed, rather than permanently
-reserving a fixed region at boot time.
+Hi Shaopeng,
 
-So extend crashkernel CMA reservation support to riscv. The following
-changes are made to enable CMA reservation:
+On 2/9/26 08:25, Shaopeng Tan (Fujitsu) wrote:
+> Hello Ben,
+> 
+>> This new version of the mpam missing pieces series has a few significant
+>> changes in the mpam driver part of the series. The heuristics for deciding
+>> if features should be exposed are tightened. This is to fix some
+>> inaccuracies and avoid overcommitting before needed - shout if this changes
+>> anything on your platform. The final patch adds documentation which
+>> explains which features you should expect. The ABMC emulation is dropped
+>> for the moment as it requires resctrl changes to support for MPAM without
+>> breaking the abi. The default 5% gap for min_bw is dropped in favour of a
+>> simple default (kept for grace). The series is based on x86/resctrl [1] as
+>> resctrl has telemetry patches queued which change the arch interface.
+> 
+> Could you please elaborate on why fs/resctrl changes are required to support only the counter assignment part of ABMC?
+> Currently, many SoC chips have an insufficient number of memory bandwidth monitors.
 
-- Parse and obtain the CMA reservation size along with other crashkernel
-  parameters.
-- Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
-- Include the CMA-reserved ranges for kdump kernel to use.
-- Exclude the CMA-reserved ranges from the crash kernel memory to
-  prevent them from being exported through /proc/vmcore, which is already
-  done in the crash core.
+Sure. When the counter assignment mode is 'mbm_event; resctrl assumes the mbm events are configurable. 
+The 'event_filter' files at
+    info/L3_MON/event_configs/<event>/event_filter 
+are used to display and set this configuration.
 
-Update kernel-parameters.txt to document CMA support for crashkernel on
-riscv architecture.
+In MPAM event configuration is not supported and so showing a read/writable 'event_filter' file is 
+misleading to the user and needs to be hidden for MPAM support.
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++--------
- arch/riscv/kernel/machine_kexec_file.c          | 14 +++++++++++++-
- arch/riscv/mm/init.c                            |  5 +++--
- 3 files changed, 24 insertions(+), 11 deletions(-)
+Just to give you a flavour of the change, here's a hack to show the correct thing for MPAM:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 36bb642a7edd..3b92324d3a03 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1119,14 +1119,14 @@ Kernel parameters
- 			It will be ignored when crashkernel=X,high is not used
- 			or memory reserved is below 4G.
- 	crashkernel=size[KMG],cma
--			[KNL, X86, ARM64, ppc] Reserve additional crash kernel memory from
--			CMA. This reservation is usable by the first system's
--			userspace memory and kernel movable allocations (memory
--			balloon, zswap). Pages allocated from this memory range
--			will not be included in the vmcore so this should not
--			be used if dumping of userspace memory is intended and
--			it has to be expected that some movable kernel pages
--			may be missing from the dump.
-+			[KNL, X86, ARM64, RISCV, ppc] Reserve additional crash
-+			kernel memory from CMA. This reservation is usable by
-+			the first system's userspace memory and kernel movable
-+			allocations (memory balloon, zswap). Pages allocated
-+			from this memory range will not be included in the vmcore
-+			so this should not be used if dumping of userspace memory
-+			is intended and it has to be expected that some movable
-+			kernel pages may be missing from the dump.
+--- a/fs/resctrl/rdtgroup.c
++++ b/fs/resctrl/rdtgroup.c
+@@ -2338,6 +2338,9 @@ static int resctrl_mkdir_event_configs(struct rdt_resource *r, struct kernfs_nod
+                if (ret)
+                        goto out;
  
- 			A standard crashkernel reservation, as described above,
- 			is still needed to hold the crash kernel and initrd.
-diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kernel/machine_kexec_file.c
-index 2f0e7bbeb2f0..bc10ff157cf0 100644
---- a/arch/riscv/kernel/machine_kexec_file.c
-+++ b/arch/riscv/kernel/machine_kexec_file.c
-@@ -64,8 +64,20 @@ static int prepare_elf64_ram_headers_callback(struct resource *res, void *arg)
- 
- int arch_prepare_elf64_ram_headers(struct crash_mem *cmem)
- {
-+	int ret, i;
++               if (!resctrl_arch_is_evt_configurable(mevt->evtid))
++                       continue;
 +
- 	cmem->nr_ranges = 0;
--	return walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers_callback);
-+	ret = walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers_callback);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < crashk_cma_cnt; i++) {
-+		cmem->ranges[cmem->nr_ranges].start = crashk_cma_ranges[i].start;
-+		cmem->ranges[cmem->nr_ranges].end = crashk_cma_ranges[i].end;
-+		cmem->nr_ranges++;
-+	}
-+
-+	return 0;
- }
- 
- static char *setup_kdump_cmdline(struct kimage *image, char *cmdline,
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index addb8a9305be..074d2d5f79ee 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -1404,7 +1404,7 @@ static inline void setup_vm_final(void)
-  */
- static void __init arch_reserve_crashkernel(void)
- {
--	unsigned long long low_size = 0;
-+	unsigned long long low_size = 0, cma_size = 0;
- 	unsigned long long crash_base, crash_size;
- 	bool high = false;
- 	int ret;
-@@ -1414,11 +1414,12 @@ static void __init arch_reserve_crashkernel(void)
- 
- 	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
- 				&crash_size, &crash_base,
--				&low_size, NULL, &high);
-+				&low_size, &cma_size, &high);
- 	if (ret)
- 		return;
- 
- 	reserve_crashkernel_generic(crash_size, crash_base, low_size, high);
-+	reserve_crashkernel_cma(cma_size);
- }
- 
- void __init paging_init(void)
--- 
-2.34.1
+
+
+> We would be grateful if you could support the counter assignment part of ABMC.
+
+It is not a big change in resctrl but I thought it best to not gate the rest of this series on
+an additional change in another subsystem. I am current looking into this and hope to get the 
+patches on the list early in the next cycle.
+
+> 
+> Best regards,
+> Shaopeng TAN
+> 
+> 
+Thanks,
+
+Ben
 
