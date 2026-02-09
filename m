@@ -1,136 +1,123 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2263237BE6B
-	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 15:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770649670; cv=none; b=FOeRUUmikdgHRFoE46zjRN5VXIQ3B7cO99/gruj9Q1hTBelbps9Ttmpbi7WLis11SmzCZjI+WE7WNRKAMfhxi1ZPKyasdUUDkqBKStIc6uS0QoKqPG7RJmqxChQEk6AZjmW+9g9S3Vmq0VL1EabZGm03JL6Ti9L9BcjGAk7L1O0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770649670; c=relaxed/simple;
-	bh=nKQd8+9i68Gtr8N+mWaKdJG1XrBMfVdStaWsoSmWIaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qoNE1+5haVgpGkfH2rniQezlxXnKEahbODi0i1z7Ja8oczNtI/apdmVIzjblpgGDyAxU/DpDamx+9XvYJtL6DXYq5iYPSAkwWOOUETKg6hXHj2ueg0i/3VTnYGAtHfzMys7++BpaEjFSyyimsac29YMaQWt6LWGLhtx/CP8lfwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TsnS4VfO; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4654637E2F8
+	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 15:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770650337; cv=pass; b=o7qUgKnFp2+AFD8enlI1reEl8ehH3xD/utl2NcfqdPXg9cmvbJw2VJAzdGgbOb+kx8y8MwjlBrjwgHqJ14/qRShNYoZtGbvLRx/US+wmkTzlPDE/Q1SCtABC4j9fF9jeFAhb9r9+3tywJ2kEyP8jZW0cfkkgdraYeFg+pT0E1Hc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770650337; c=relaxed/simple;
+	bh=e3bUDvDDCERCxLHccqCKh5cXslCrqGzgEb8uS+QsJ98=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sLu5vUwsbyoH+rTqvPQ6N8CuoH9FM4eBR8Kkcm7XC0u94jjtuZ0IHoEYOUpvFXg1cr2LfYfyxdRG0FuBMHGL5KVdXOz/18V8jWlLHaqy09UHkMqmFrCyir8PbSf6V8TJCk3s7DSoWf0oVQi+LrKs+ReoDQ7SRCIDMTlVtJ6urXM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LKoGnH63; arc=pass smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TsnS4VfO"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-794fe16d032so36018577b3.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 07:07:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LKoGnH63"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-7927b1620ddso64526467b3.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 07:18:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770650336; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GZA2PYO4BCsgxEyxrRoFiHaCZuBeECHkp2/k9SFAKXdBmXEh+iTBdO5ax4tUgNLrmR
+         p512B6DunVbEFFAGrPDNuito819vbQ1ZVPTdBVNJKsCg6kwdnuevhJuYWuG0guIXmXPD
+         OkQS499o9Vo6IhHFKnmPQ8zig2kZgCkvbHmhxQ4woB6fqZawbbeNUuOb2mu49n3Z89gJ
+         RMuLDMHN5sWX5aCwTy9kOK8iXMyCcNpW10gxfHvo7HBg1gou2u+MvwA8COWCehjTkS22
+         D2vkkjf0UR30mn6/u7pw7TAtdBGyhm6+VmccRfUoJelB4dYrUuFWWd4TZO7+tvYHw2pB
+         p2KA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=e3bUDvDDCERCxLHccqCKh5cXslCrqGzgEb8uS+QsJ98=;
+        fh=WsHOXDl5JLbhX9qaaXvpQwnGNYjPqkvJTzEkrF2mbfA=;
+        b=JNokxtvFon1oAzfeTimh+47DxKKGOegS+xIPo2BGDDtWgdIrq4+E6wbUC/LerYAJS+
+         CMbrKW829pCanLdGESFQdYRpW95AWP26/JENb+T8ecg2nvzT2ETi5kWzS6YePunbvcf5
+         90282ue9Pr8t+mFC2pONB8AEdHv7CqQQaMOWqfZhmzytymr0hChbJF64jGl4v4i5YwBK
+         5bzC+ts+3RVWuesIGnArw2yRnEdizOU0T8Mc6n3sBtr6FYTrWSwcCZ3oonKpmOJxf16e
+         iAKcyM6PV4aSpYOelMxq2TquSsn2evtG3lOclLN+lkLIWIW9C3OkiFoslqOpWkH1awWq
+         8dcA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770649669; x=1771254469; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3umIUrvoVFMcqhsX0diux6puJqsZRUyyQBsPVdUoAFg=;
-        b=TsnS4VfOjaHW/R5FuW4NeH/WVXsuXY5RAb+PWS/OfGS5pV2pWXJ/UhbB9ml8hyCGQY
-         TNRd1YSVrN3/pSxznukBawS+UuJum4CoT6q1kgP3m0xW5qTX6qjWSgxR/ZXOlu6NAXYP
-         WQ73IhzI3PwKozstsiSbMTBI9CTfV+0WkYiXPjKXvIA85tuIRUwo3eKEKhrECAziHgXy
-         UffzRpFNcbaTneYTIFde3bucAAcaGmRGmmruaEEjNrjFnzShcyDILkQP2dehDanVyayG
-         3T5IIbd14H8lBOMiHEYHcjq3VWl81iF949ZzsKe913a09Pr3hO5mJsaKL4BRXMBvsptn
-         Ml8A==
+        d=linaro.org; s=google; t=1770650336; x=1771255136; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=e3bUDvDDCERCxLHccqCKh5cXslCrqGzgEb8uS+QsJ98=;
+        b=LKoGnH63YlYTTc2EIEVciBLSbEozVqYrEQBhkRJIkpiAtwcmgege5rWCHdYgIz6CZ/
+         KLC73lgO1wpVMp19dGD4PfVCAYOqFQp2HSFIVPmRT8QvDvj7TyOx/yF6xGUATLAYJv+f
+         Yp6XuheWTZhNVWe49qlpUGI7GTWmO0Xk1BFbILzHm2bwipWkLNrgoiQKQJumvOU5b6c9
+         tkLIYzmYePQJL7+FxatCuXFWFpujuYzclSemiCpYhtI++E8QWZzWB9rn+yBWUw9aa2gN
+         6GVNeQpMCdNB9i3So36vnniCPXmys1AjdIHqNp1BPExc8ojus28BCkacoD6wR+CUBb0P
+         JtOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770649669; x=1771254469;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3umIUrvoVFMcqhsX0diux6puJqsZRUyyQBsPVdUoAFg=;
-        b=GT5SwH9NdxER6mREC+dhw1u7KI1Gx1UkxnGcS3WcVb5GxMCM37VgQcgUOdK3WviI5Q
-         8Rw6ScLawLcL3hHKRbrCferRZl5M1M2FvMTPRPaJPT+tRbs+sVEquFV/jtMPx04GkCQ0
-         7TVgusQAlIY8ukD04fcKK3y69pQrIaK1pI7SfFaDtD43Md1697ScY1Av5uCbvXcd9F4N
-         GBq1FS8kqE14b0roaRomNqkH/ArRaYU2KPWVWjRTSJM/eEm7O4hUScoAjZYRwABiA1nv
-         rxtgODiAuV2ybKHh0LRZvLerCP8ZyAShVklws93TUWdEOWCEhlNHAHVyWTyrf2SgU81h
-         XtTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUObYktyf7csndNFAYwCTCT7s4DqmJrSBNfMGXX6wWDNzjkq9xJpIOeg3LTTY3zkMXSnp0NOPZuYi4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDh+fWr5GwH5VRohUJDIB5mo4s9rGrcDarnwsl04ML33BV9lrZ
-	Gq52inQF5JM5BL2Yy1uHaiG3K7ogY38aCyFi5izLNMsVe9idn/6aPlLM
-X-Gm-Gg: AZuq6aJNm6XMbpq0yyffDEs3qcwrzoFlJisHrmMXTgbqHFk0TX1yVUxHXuZi/Cu9C1O
-	Tfcz8K7skDF1vUzaJ3+0ip7uag5tqhkHDsMgNkPCb20uMIlKEzkCaLfNWZyO8nPis7ggHVhC7Gb
-	J85872aQl6dOxT/xu7wwfvfDRRBsxXSr90TmBtBuge/E6CrgrRa5l+7Favq3fKj8Czxai+X5q6M
-	ekgep7gRaB12xP7nVWPB/Qiv33ofVDr9vAR0yXrnk2ew3fLnhXPDyEWr0Eel5kJo8M/rJrXRRe4
-	KqCX3Z7Ua8k9by0OWzoKnQgmKS4TVlZLFPU++OHXgOFd2W9MyA3wz8CQHTEdZ8bnMTz1bI3jzVu
-	i3bgAfqTje2MuJoq/VPykELp0eJIkrFEry3H6fqvX2Bfz0LKBd6VkGX4F6lVWk7DP0J9eGtTfR/
-	zAwN2Xfi1qInpAIPFlktY5
-X-Received: by 2002:a05:690c:399:b0:78f:c2f3:141 with SMTP id 00721157ae682-7952ab20ff0mr124248997b3.35.1770649669011;
-        Mon, 09 Feb 2026 07:07:49 -0800 (PST)
-Received: from localhost ([2804:30c:163a:1300:9b68:dd2c:feb4:459b])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7965705d5a1sm7741137b3.46.2026.02.09.07.07.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 07:07:48 -0800 (PST)
-Date: Mon, 9 Feb 2026 12:08:15 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net
-Subject: Re: [PATCH v8 8/8] iio: adc: ad4030: Support common-mode channels
- with SPI offloading
-Message-ID: <aYn4Xxj9TIXvYn7z@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1770403407.git.marcelo.schmitt@analog.com>
- <1f05069e25e9ea28db2cef9fa3856456be3c2614.1770403407.git.marcelo.schmitt@analog.com>
- <aYiXjCpiMQ_h9Ao4@smile.fi.intel.com>
+        d=1e100.net; s=20230601; t=1770650336; x=1771255136;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e3bUDvDDCERCxLHccqCKh5cXslCrqGzgEb8uS+QsJ98=;
+        b=BHf9o8/+9euK+KvxsIJuPJChS2Nsh30TQg3kuZazZYqPQiVPQKFP4jDYJlf4JB8p15
+         pQqS669JdRDNMP88qRahlVeBpSxuhRgtqXTNgcpPR8cOwwie6JSvbjj9wjRWs0c6hWyY
+         F6zlA0t4H0SZkLQf2oIWutri3oxkmRPGeFxyKe43jA1kshA7EWC8Di9dedvgn5OHCXZj
+         0AHVMh4apXlurltgaeBPjIM+8YejZt0hk4Akp9myKCqrOzXcbQz1he6LjEvhNzYRXuXG
+         wvV+UGgO5Uj25Kfvy3WF2r6xD+v4hrGgHKEqSNZG+0truhZPmK2ENz+7B0wBepcPDoG/
+         PIeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRvkvIlb2mMsvZEkOtzQ9P41Z4Mx0U8+BNomAGfLAARv3VOdmFc1C179tT4D1m23OObiHtdZsl4sM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjJrQBSCDkb0fk8ltKATQPddDmD2SjRcUwMjm+JE2suovB2M0G
+	rVKUfE/rc0ABfPB8nWXeV/3mze2gIL9/pcdJjrfOOqHO9w4s26ykHySEqU61AEt81b3adlfuAOg
+	Wii9ZD5mkf51LXg+GzR0+Y4fMv6P1BQ+NcEoRmxRlhQ==
+X-Gm-Gg: AZuq6aISe8pMq69GaIWaSY6lfSwkwIKdQmOxtqgi+HJVgVcxdFM+o41wO4MqOSn0+oR
+	G9y1UiJ7Y1+ehwSrCVOzwR10iVcRrZrTGXXImUr+N2cjl+wUjEAjw6rMeMEGQsi2gihAyPJ80xa
+	/ni7DkIfE3r8s0UYvYEHBZwzO8Ai6Fh265/r2GXZOIrKKLZPgKW+cuAYP/nksN+VU1OInv1PwXD
+	WlueOH9ARb1oZUOPMxI3FISSC/seUPst0+CBfuimN7RA0Pa0Hddw1gQkvnrHnWRmAK9aOpIWG+Y
+	dm+tQE+Ud5HEblNYJWgo8DQkfec7cnz9tGWc/SrA1jhnsGAvppxUiRs=
+X-Received: by 2002:a05:690c:e08:b0:794:87bf:76ef with SMTP id
+ 00721157ae682-7952a63ec7amr99106367b3.7.1770650335943; Mon, 09 Feb 2026
+ 07:18:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aYiXjCpiMQ_h9Ao4@smile.fi.intel.com>
+References: <20251223-kvm-arm64-sme-v9-0-8be3867cb883@kernel.org> <20251223-kvm-arm64-sme-v9-10-8be3867cb883@kernel.org>
+In-Reply-To: <20251223-kvm-arm64-sme-v9-10-8be3867cb883@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 9 Feb 2026 15:18:43 +0000
+X-Gm-Features: AZwV_Qj3JfZxsU8iVNrT9S4IUwlHEkuMD3WG7W3HRrHxULDnwFPH-_uH0mM-meA
+Message-ID: <CAFEAcA-nhHdwuQODmT4-dBCEuiut-jbHsCGVYByoMF77-UWbCg@mail.gmail.com>
+Subject: Re: [PATCH v9 10/30] KVM: arm64: Document the KVM ABI for SME
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Eric Auger <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 02/08, Andy Shevchenko wrote:
-> On Fri, Feb 06, 2026 at 04:02:42PM -0300, Marcelo Schmitt wrote:
-> > AD4030 and similar devices can read common-mode voltage together with
-> > ADC sample data. When enabled, common-mode voltage data is provided in a
-> > separate IIO channel since it measures something other than the primary
-> > ADC input signal and requires separate scaling to convert to voltage
-> > units. The initial SPI offload support patch for AD4030 only provided
-> > differential channels. Now, extend the AD4030 driver to also provide
-> > common-mode IIO channels when setup with SPI offloading capability.
-> 
-> ...
-> 
-> > -#define AD4030_CHAN_CMO(_idx, _ch)  {					\
-> > +#define __AD4030_CHAN_CMO(_idx, _ch, _offload)  {			\
-> >  	.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |			\
-> >  		BIT(IIO_CHAN_INFO_SCALE),				\
-> >  	.type = IIO_VOLTAGE,						\
-> 
-> >  	.scan_index = (_idx),						\
-> >  	.scan_type = {							\
-> >  		.sign = 'u',						\
-> > -		.storagebits = 8,					\
-> > +		.storagebits = (_offload ? 32 : 8),			\
-> >  		.realbits = 8,						\
-> > -		.endianness = IIO_BE,					\
-> > +		.endianness = (_offload ? IIO_CPU : IIO_BE),		\
-> 
-> Hmm... This is interesting. Does it mean it's designed like this for any
-> offloaded SPI case? Wouldn't be better to follow the same endianess in both?
+On Tue, 23 Dec 2025 at 01:22, Mark Brown <broonie@kernel.org> wrote:
+>
+> SME, the Scalable Matrix Extension, is an arm64 extension which adds
+> support for matrix operations, with core concepts patterned after SVE.
 
-Yes, as far as I'm aware of, the only SPI controller supporting offloading is
-SPI Engine. And SPI Engine offloading pushes data to DMA in CPU endianness.
-It would be easier to deal with only one endianness (BE in this case since the
-device pushes out data in BE). But BE is currently not an oppion for offloaded
-transfers. Making it IIO_CPU for all cases/setups would make it unsuable in
-some setups that don't have SPI offload (e.g. raspberry pi only supports 8
-bits_per_word would push data in BE to IIO buffers). Ideally, we would check
-what are the endiannesses the controller supports for offload tranfers but there
-is no offload provider other than SPI Engine so driver have been having it like
-that so far.
+A late reply, but I just noticed that the cover letter says:
 
-> 
-> >  	},								\
-> >  }
-> 
-> 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-> 
+> Userspace access to ZA and (if configured) ZT0 is always available, they
+> will be zeroed when the guest runs if disabled in SVCR and the value
+> read will be zero if the guest stops with them disabled. This mirrors
+> the behaviour of the architecture, enabling access causes ZA and ZT0 to
+> be zeroed, while allowing access to SVCR, ZA and ZT0 to be performed in
+> any order.
+
+but the doc patch itself says:
+
+> +Access to the ZA and ZT0 registers is only available if SVCR.ZA is set
+> +to 1.
+
+Which one is the intention here ?
+
+thanks
+-- PMM
