@@ -1,43 +1,64 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE6D25F7B9;
-	Mon,  9 Feb 2026 15:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28EFC3815CE;
+	Mon,  9 Feb 2026 16:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770652136; cv=none; b=We2frvmMwdpn1P+PbG2xZ0l5Iv2Iqrsn87DIDOtovzcA1IyZBylasJKjSKmke/dvvLdE5jmst4WzmBZ3x36fP7gFnC3nTKXyHYtm/07YC0fN7wVav7A7zLWuGzWobQWk7MHop/M0ZZxxIy0ObhTJusudLba9RJcxgQ71euGsnko=
+	t=1770653640; cv=none; b=VCtLf1iXro1nHrQbYcs8pJiz7qKN9duvcnoP0eMtF58sCasfYwDDZTvgVSUAXseOxdZjyQboYAfE+cfhDMfeZRsYZEBaEVfyQuOPpHOPJLym8dzvS5CXKQ2Pw1eSeUpIJNVRW/kFEjnRnkFSgL1XuxHFZ4OQPAnCZbMqCzRh+5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770652136; c=relaxed/simple;
-	bh=FMtcv9Ix8+Vr6nzGWRRsgTCLzlhgG8J1kiyA3JCne8M=;
+	s=arc-20240116; t=1770653640; c=relaxed/simple;
+	bh=LOJcn+SmxysmVh2uPMIzBp5pbzxzu9seMnrYNsHRBSg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SzCz7AMI3F1SlK8ZkGccR0Qm9Hx1vc/SThMNJsppuvheXVY+spxqZLBbiA66awLYRAra/9eeacv5OnBkNlagn4VvYkYa7fPiCaS1uooHG7co5M0+A+PUDNKv9yjvfwwqR3V0872xhrLCpSz6GVONqkVn5i2uouqQwLMJTsS1kLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nmOjylNv; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=oyEdr1shpiAKsjhQeOAJ+lSkRQ+N9YWlzC0urKftPwpN095HYyT1X2bkIDTgWbgPWHwPBqnu11JPWDWFl5nL01qxOzhr3/nvp1/9RaSnDB6Ns0vToDQMaCQXaeK1GPUKEp/mqy8KjkOgvyUjLjKfvRFOCh9lxgQVSe5eybm7YWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eUZjPza7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nmOjylNv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=D4nGYWiGOfNXdVY+uWCPGlOgSj0sGcvKWLRnuu+D02Y=; b=nmOjylNvplNe7giU4xqfOfUmJU
-	eHbhPCPsVxTvU9KnVqo6OBcmtBhVwhKTegmz1FTX0bzkabYdyeTYS1NF1oFA+ixhLXso+4CSwgm8G
-	GpIB8zAK4rgSbf46I/s/9h//HxjyX3oW+H3n/+78v2JrcZqGyle02Xw1CILtpPmZw9ogNAUYlDbys
-	l+a8NkdFYBnkcjrKV2s9EatUmDxRICT09+ZXNmTB0pCENAx6vLNMzO31GUqxrFa0EvOI43iF0mQA5
-	gxjNtwSKm7kOfAoLmGd1sF4/Xszn7tteYcLH/eFB4h3rBA1SgrljlTzQUvMgRsBKmhEqzEzctpCxB
-	z+4+6lRA==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vpTVN-00000009iFw-0nJs;
-	Mon, 09 Feb 2026 15:48:53 +0000
-Date: Mon, 9 Feb 2026 15:48:52 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Min-Hsun Chang <chmh0624@gmail.com>
-Cc: corbet@lwn.net, akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v2] Docs/mm: fix typos and grammar in page_tables.rst
-Message-ID: <aYoB5JatO60ouaMD@casper.infradead.org>
-References: <20260209145603.96664-1-chmh0624@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eUZjPza7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 632F9C16AAE;
+	Mon,  9 Feb 2026 16:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770653640;
+	bh=LOJcn+SmxysmVh2uPMIzBp5pbzxzu9seMnrYNsHRBSg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eUZjPza7FPFYtADnlPyrvUQeLkRIftNqUBdxCxWsmcAxTSEC7h1y3EogopI2EN5yo
+	 OHmOM4kRW0mWYsaSBWeGG94SFkrQlwoy9ERbFTMTpJ0Io+NbOKNgJNMpqw5vPFTiY6
+	 qwp352Vg3bCuD/ikfLM+KvmjcmjKBagsBMSXIrGiWJHNZaw4RYV4gPr0yrtQYiRF+s
+	 XbzUgmmGAWxnPB125eA5XmC+pOpdmCHQCX7Td/XoBgVqmJ4gjH0csPg+S7wNLwyOwO
+	 QrRRMXCGGZHPIJ2qZsnFaSW8sWMnKrw3L0+d4bXLpB3/vn47IMQEV+DuyQG5OfBMsM
+	 AqPkD6R2UBZ+g==
+Date: Mon, 9 Feb 2026 10:13:54 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, linux-renesas-soc@vger.kernel.org, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Andy Shevchenko <andy@kernel.org>, 
+	Antonio Borneo <antonio.borneo@foss.st.com>, Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Danilo Krummrich <dakr@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-iio@vger.kernel.org, linux-omap@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Srinivas Kandagatla <srini@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>, 
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>, Will Deacon <will@kernel.org>
+Subject: Re: [RFC PATCH 0/4] hwspinlock: refactor headers into public
+ provider/consumer pair
+Message-ID: <yl4bbbev7lgrmnqys2izkolo5egzg24faukvqar5eh26q5ra7p@42rcegfpqqt6>
+References: <20260125184654.17843-6-wsa+renesas@sang-engineering.com>
+ <aXc7DxsqiCGdfzxi@smile.fi.intel.com>
+ <aXc-Zxw05XQLb1Dy@ninjato>
+ <aXdAB2bLTy6u8G8c@smile.fi.intel.com>
+ <aXdCBu6kzdw1NWay@ninjato>
+ <aXikZ5wc6bvgRqF6@ninjato>
+ <aYnBrN0JRCf9-UjB@ninjato>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,75 +67,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260209145603.96664-1-chmh0624@gmail.com>
+In-Reply-To: <aYnBrN0JRCf9-UjB@ninjato>
 
-On Mon, Feb 09, 2026 at 10:56:03PM +0800, Min-Hsun Chang wrote:
-> Correct several spelling and grammatical errors in the page tables
-> documentation. This includes:
-> - Fixing "a address" to "an address"
-> - Fixing "pfs" to "pfns"
-> - Correcting the possessive "Torvald's" to "Torvalds's"
-> - Fixing "instruction that want" to "instruction that wants"
-> - Fixing "code path" to "code paths"
-
-It'd be polite to cc the original author.  Added.
-
-(also see one question below)
-
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-
-> Signed-off-by: Min-Hsun Chang <chmh0624@gmail.com>
-> ---
->  Documentation/mm/page_tables.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+On Mon, Feb 09, 2026 at 12:14:52PM +0100, Wolfram Sang wrote:
+> Hi Bjorn, Baolin Wang,
 > 
-> diff --git a/Documentation/mm/page_tables.rst b/Documentation/mm/page_tables.rst
-> index e7c69cc32493..126c87628250 100644
-> --- a/Documentation/mm/page_tables.rst
-> +++ b/Documentation/mm/page_tables.rst
-> @@ -26,9 +26,9 @@ Physical memory address 0 will be *pfn 0* and the highest pfn will be
->  the last page of physical memory the external address bus of the CPU can
->  address.
->  
-> -With a page granularity of 4KB and a address range of 32 bits, pfn 0 is at
-> +With a page granularity of 4KB and an address range of 32 bits, pfn 0 is at
->  address 0x00000000, pfn 1 is at address 0x00001000, pfn 2 is at 0x00002000
-> -and so on until we reach pfn 0xfffff at 0xfffff000. With 16KB pages pfs are
-> +and so on until we reach pfn 0xfffff at 0xfffff000. With 16KB pages pfns are
->  at 0x00004000, 0x00008000 ... 0xffffc000 and pfn goes from 0 to 0x3ffff.
->  
->  As you can see, with 4KB pages the page base address uses bits 12-31 of the
-> @@ -38,8 +38,8 @@ address, and this is why `PAGE_SHIFT` in this case is defined as 12 and
->  Over time a deeper hierarchy has been developed in response to increasing memory
->  sizes. When Linux was created, 4KB pages and a single page table called
->  `swapper_pg_dir` with 1024 entries was used, covering 4MB which coincided with
-> -the fact that Torvald's first computer had 4MB of physical memory. Entries in
-> -this single table were referred to as *PTE*:s - page table entries.
-> +the fact that Torvalds's first computer had 4MB of physical memory. Entries in
-> +this single table were referred to as *PTEs* - page table entries.
-
-I'm unsure about this change of "*PTE*:s" to "*PTEs*".  Is that special
-rst syntax to keep PTE highlighted without highlighting the 's'?
-
->  The software page table hierarchy reflects the fact that page table hardware has
->  become hierarchical and that in turn is done to save page table memory and
-> @@ -212,7 +212,7 @@ threshold.
->  Additionally, page faults may be also caused by code bugs or by maliciously
->  crafted addresses that the CPU is instructed to access. A thread of a process
->  could use instructions to address (non-shared) memory which does not belong to
-> -its own address space, or could try to execute an instruction that want to write
-> +its own address space, or could try to execute an instruction that wants to write
->  to a read-only location.
->  
->  If the above-mentioned conditions happen in user-space, the kernel sends a
-> @@ -277,5 +277,5 @@ To conclude this high altitude view of how Linux handles page faults, let's
->  add that the page faults handler can be disabled and enabled respectively with
->  `pagefault_disable()` and `pagefault_enable()`.
->  
-> -Several code path make use of the latter two functions because they need to
-> +Several code paths make use of the latter two functions because they need to
->  disable traps into the page faults handler, mostly to prevent deadlocks.
-> -- 
-> 2.50.1
+> > > > > Providers need it, especially the 'priv' member. Consumers won't see it.
+> > > > 
+> > > > But can't we make it opaque?
+> > > > 
+> > > > We may have getters and setters for the priv member...
+> > > 
+> > > I think we could do that.
+> > > 
+> > > Two drivers use the bank member, but only for the device
+> > > (lock->bank->dev). That can probably be refactored away, I'd guess.
+> > 
+> > I am willing to develop this series in the above direction. Before
+> > though, I'd like to know from hwspinlock maintainers if they agree to
+> > this refactoring in general.
 > 
+> Moving maintainers from CC to To ;) Do you, in general, approve this
+> change to the headers?
+
+Certainly, I don't think we should force unnatural slicing of drivers
+across the source tree.
+
+> I think it is more modern and e.g. the mailbox subsystem has a similar
+> structure, a header for the client and a header for the controller.
+
+gpio, regulators, resets to name a few more.
+
+> And do you also prefer an opaque 'priv' member?
+> 
+
+'priv' is already opaque, so I presume you're asking if we can make
+struct hwspinlock internal to hwspinlock_core.c?
+
+I can see the allure of making hwspinlock::lock internal to the core,
+but (luckily) I don't see it to be a matter of just slapping some OOP it
+and call it solved. It would have to come with a new model for how we
+create the hwspinlock in the first place - as this is currently
+allocated as a whole by the provider driver.
+
+I've always found the current model unergonomic, resolving this part
+might very well have the side effect that Andy is looking for (and I'd
+welcome that).
+
+Regards,
+Bjorn
+
+> Happy hacking,
+> 
+>    Wolfram
 > 
