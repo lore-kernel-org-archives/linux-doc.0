@@ -1,140 +1,174 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CDE0349AEE
-	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 11:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770637961; cv=pass; b=I7mFGAohD1dOXCRdNfz7q+s6jaQZ/Rc6tcxKF73+9gmgVyqiFEjwOBXBSsEdOt4iLATM2NrawlZyDW2NZzHY+XPxEu2ata97KkXJpbAtcROejOB/rqRbzH78RF0BGlOvyS9qU+O/hKjirwV2I8ECBzoS5YMCGDrt3JOtc7dueoQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770637961; c=relaxed/simple;
-	bh=Zzq7Vs681aqPWze8v3VJWnqjtVrKWx8sUWRtzAo7pl4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mxwGX8ixdYpRxg9e2ymHkgsqUTr+x2z6IsirLdcYSoi73rpFZBEkJzNvA/Z8FdsR3aDB65ZWrfBqkgtiOthZxiPPZ6cVtAX4jmqDiSN4L+n7U+XDofqkXNppQpXiHbDQmfRa+qTolTjTmrZaK8ErtkaEKb20nRab4GI8dtYcw1w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lTVPfV8c; arc=pass smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9455366578
+	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 11:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770638235; cv=none; b=cBU95p7ek6qceo2N3A247Khci5hylwxYKF2I1wEz/L2SkEWu41ea+JTmq7OWQbyr6nXNIQzltcZxNRGIb8W8j232HQEwRerl84kHg6IaANKAsEK3if7HAjict1lNx8ijOUlPiQvfZ1+8cJign4K8xzKedJnGhicF6JdJ/soAW3k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770638235; c=relaxed/simple;
+	bh=ZG1N/MjOHF9XpE9oCKezmaofYM9c9/vDo81q2GRU+70=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=orUATypEwcX4A8ytPBMCfeswXmdB8TDJj29L7ac1ipMrPTfLi5EsB8EwI4H1vMN8E0yXvdL6GZzui2wEZdV+gkLMHDMBOtR/BSewXj2TJuiOGT0lsNJIVjqwNwrPij3jZWroIcBsZRZ/UjZYp3Zh9wWsdsQjzZwaTyvhdTFFfuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QwMWAhtj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=/sY770O0; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=08D8sHvU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2ZXFGEvR; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lTVPfV8c"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2ba7eb6022eso21482eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 03:52:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770637960; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TDWxp+0+ykvBrS6m12NNzFceFsI+R/6ToZg3HF7Su4xBngal2nlfTvA0lPGRu09Yc0
-         6VHyYD+J/AxTnqxKytIahqdT7KTeyMINChpxs2Ys4w7t/HjtJZGe+iTFEXf+EiK68aEN
-         hJsinNfxi/TmnmJnXRfTLpco/yGWXmqfStJ27WQIMS/vGrIyngMFi1ED47wY+tG0WrdJ
-         w0DDAj54eDYXGir18K8s2vggPc66/s06s0ZYdO0OxvqHmPOaToBfcMOUC8vblFWdeEB+
-         H3utwJaDTvNCdPDE2aB4N8oE9TS67thFUI76jY0JdA1THO7JrEJdC5JvkV2wi2Mh1ky4
-         pcPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TY6n6lWqMAjZ459keizyTELNtiM7fikiKNyHcAG5eMA=;
-        fh=UH611dj7GO34rRzc+ldxWNSg3/y8MtNYcGti3zmb2dA=;
-        b=ImjIcolR1HIGhRnKcmklB6Wz4L5YJSA0D7VmrVfvdwTqKlu8iRfqIklXE/rwn7ude0
-         CjxmdzUA0DnGh4zu/J0srcERGwcVRcrAHzJgpMsxsES15IObn5OCrGzJ6U6Qz2f9YnJ6
-         p/mFBZ8GoPtknQOk8Q2pnmhvobG7gFMbbX7dbgmAjBOEVdbWjd3Y0EmO79MTOi9DIG3x
-         7f9S1r4PHovh2n7nFTPNa7/xfk9/IbZ5MJPcPAJX9JsnNksJXnlpNTiv/9TpqD/I+nLo
-         mFzUCSEOzzDWlzjgIZUcFRc3l/1eEFkXAr91F5DfsZBdZUvHOEDRfBmUisA7jvdFCOay
-         cHig==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770637960; x=1771242760; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TY6n6lWqMAjZ459keizyTELNtiM7fikiKNyHcAG5eMA=;
-        b=lTVPfV8cJ4pBf0kouP2OSkraq/sqGY/u4ZhZ2xIqWNEH5053iCNzWuChrAIlcOgjOt
-         pKEeUAlTqwxbFOdqLLJru/LsHSU3xytRZDO/CqoJyRIt89wjn4ib5FXEamdvTW7U9Nyv
-         KCkfhiJHeC8veWZxpWwnDwAqyLoRjPnPhmC1ViFI6joZARYBxgmGwHawDrNQe5D6rOU5
-         v1FKidRUcjkk0dXy8XcK+QkMTeDVbkamNk47Nf/SNz8T6HdB7NACv1CjIGnQVgQpSnvn
-         7xCoIatKH2oTFPH8kXmNFemhBOpI5ZJ+fhRwO5Mc0M35TH4sbNVYHWvY6dIHa9AgA4uH
-         lG0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770637960; x=1771242760;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TY6n6lWqMAjZ459keizyTELNtiM7fikiKNyHcAG5eMA=;
-        b=BE5j5xTUpIkWiuTCqlNNHDhaOyo/hcDjFhXAWvVGpfh6L7jJT9fWp7+naJCF2MJEnk
-         7zqPc3V6xwBEhiSbiXGNIqqpexZTQ66+vHsuS6C2PQp/lUpOcAQAjVldCAz0l6U0eSIG
-         orQf97YbEsvd9e6hLswULmAK2bpoX0bINKhU7mg/NtQikrOsGVXGeMeuGveC1mnbzTjb
-         qvMSw6TNdCwHxDGvJz9Y1LIcTxX7ZJ6NLvoIZdGwX54TQ1z7P0Zs5ZNE6jaoONbO+hMM
-         yF5VfUglmeQvIAY0q2YUiZxP/YaXSEmpqMvETOkZtHG/2EjXXNY/LTiesLBEXNI/e0Lz
-         V68g==
-X-Forwarded-Encrypted: i=1; AJvYcCUXPnEWmZRi5ItsCSugH/SgejPyvuIl6zlSkmDIa41Yt0jldRMnHMPlD2kgrH6Ji1UJjZxNCNgcyLg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/sv10KvOgMZGNlaNKYl5nETl6YYBxcmzik8d964Q9Pqa/H3sQ
-	ofvjcJgnkxTqP1h44EQ+66+kb9FgDL1Vvi0MbaCiwPbMWLLRFwyqfMg+xBK9f61CqouQ1SU+Uk1
-	o/XlyjZuq+9I8oMSZYq6XIQBZAamDrZU=
-X-Gm-Gg: AZuq6aJlIwnkq/X6G8W7KeRPo7gwlLXcIKwbutMOGnOA8MT5E/FpMfOYinw4Y4LqzCj
-	2jynPvUXRyGJ3Au66MPFGtS0j+qUsXeD+mtCxK/2IH+mV564veudXwqA4mkLDrgJZXpxp4VcsGQ
-	JY6dYyfBo+etRhFAgrIZ008pRQEtJSybHybe83wipn9vdv2Ja3z5QXey7qfl4lzfrUmQ6IxpkUT
-	gkDB+oR9UhmM+ySRU3ub4RA0PgEtpO48ZwpAOrsGK1hfDDeeS8eoHRqFmOARR0fUk+jBm+bGPYi
-	Z+W5usuOYI5Cxz8H42TMK+DJnHaarjeebuUk6JmYCLEbDMY66lgZh+FrjyrMLe8xpVwGk1BhWKg
-	jO5X/6z0O4BqZ9fRjJElckoE=
-X-Received: by 2002:a05:7300:caca:b0:2b7:103a:7697 with SMTP id
- 5a478bee46e88-2b856a4c911mr2268911eec.5.1770637959977; Mon, 09 Feb 2026
- 03:52:39 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QwMWAhtj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="/sY770O0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="08D8sHvU";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2ZXFGEvR"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 102CF3E6F5;
+	Mon,  9 Feb 2026 11:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770638233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NgQb4rjIV3uuOqT/ANzRAmp+D+By/bwgN2YDqg4mxPk=;
+	b=QwMWAhtjSvQ/vuInss53V93Ktux2RRPj612DfPznLhS16dllHv7O1QUOMCy2wm2VUNBURS
+	BwFQrJteSFZnQ1dwbz2DAbNcbtx2l/pgbPlVu3dL3Uu4lcLHekPkDlgaKEd41N8sirtHnb
+	wOYyWLpNRR26VS2q/JjU5KKAiMrf0IQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770638233;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NgQb4rjIV3uuOqT/ANzRAmp+D+By/bwgN2YDqg4mxPk=;
+	b=/sY770O0GkYLEBsDDWjlKPIQ7WrL+8hP77QSjAYHOvYEe01dunB+3dE7RmpNWuVmtdyJrd
+	K7Exk97B9wNUreCg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=08D8sHvU;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=2ZXFGEvR
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1770638232; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NgQb4rjIV3uuOqT/ANzRAmp+D+By/bwgN2YDqg4mxPk=;
+	b=08D8sHvUAW4GDurT1P01URFrHEPSzBXOEG67zb2ZTfRdP2toffHuOVAAUdXoemWMvmaGTb
+	PVkOsqDQwxP8qGoIUaJagABJgyri65OFnsry85Y3gP2tzo+weUAqoAORAD0g9H8I5OnAa8
+	d4vqyIcG8Qf+KsK2BR9Dl71PsbrvoUo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1770638232;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NgQb4rjIV3uuOqT/ANzRAmp+D+By/bwgN2YDqg4mxPk=;
+	b=2ZXFGEvR/di2drbDEuyCLfmBbGEIIU4c0m0NhPq8Q3r9zIjLePFB0+3FSVEX829Tf+bPv8
+	gtJtUSyC4PVcvEAA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 316BB3EA63;
+	Mon,  9 Feb 2026 11:57:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ok7zCJfLiWklJAAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Mon, 09 Feb 2026 11:57:11 +0000
+Message-ID: <d76cd8c3-deb0-4f39-b5b9-a711d155cd5f@suse.de>
+Date: Mon, 9 Feb 2026 12:56:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260209105456.1551677-1-mkchauras@gmail.com> <20260209105456.1551677-4-mkchauras@gmail.com>
-In-Reply-To: <20260209105456.1551677-4-mkchauras@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 9 Feb 2026 12:52:26 +0100
-X-Gm-Features: AZwV_QjceG8JgoEw5aRWMbymspplt_fvQ7_cjaWkDrX-7uHBvZ_bbKxcTrecCgA
-Message-ID: <CANiq72=V4yyOwsxvWzGkXQAcMhoTaFZ8aNAe15Aa4BU9JtDGhA@mail.gmail.com>
-Subject: Re: [PATCH V4 3/3] powerpc: Enable Rust for ppc64le
-To: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Cc: linkmauve@linkmauve.fr, ojeda@kernel.org, boqun.feng@gmail.com, 
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, 
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
-	dakr@kernel.org, corbet@lwn.net, maddy@linux.ibm.com, mpe@ellerman.id.au, 
-	npiggin@gmail.com, chleroy@kernel.org, peterz@infradead.org, 
-	jpoimboe@kernel.org, jbaron@akamai.com, rostedt@goodmis.org, ardb@kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC net-next] inet: add ip_retry_random_port sysctl to
+ reduce sequential port retries
+To: Eric Dumazet <edumazet@google.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, ncardwell@google.com,
+ kuniyu@google.com, dsahern@kernel.org, idosch@nvidia.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Thorsten Toepper <thorsten.toepper@sap.com>
+References: <20260203175422.4620-1-fmancera@suse.de>
+ <CANn89i+UUWx5OhPnJnDhiCfr53BPTAGedBucgqYwyfqkidf_Cg@mail.gmail.com>
+ <8d94faf9-2fb6-483d-9767-bd665c4a4b9a@suse.de>
+ <1649583d-71c2-425e-a2df-685d5f6dc67d@suse.de>
+ <CANn89iK3Pu2NXxejTSLF-7MhBc03_ZJUjOtZcTC4nMsbsDpbSw@mail.gmail.com>
+Content-Language: en-US
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+In-Reply-To: <CANn89iK3Pu2NXxejTSLF-7MhBc03_ZJUjOtZcTC4nMsbsDpbSw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Rspamd-Queue-Id: 102CF3E6F5
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spam-Level: 
 
-On Mon, Feb 9, 2026 at 11:55=E2=80=AFAM Mukesh Kumar Chaurasiya (IBM)
-<mkchauras@gmail.com> wrote:
->
-> diff --git a/rust/Makefile b/rust/Makefile
-> index ae22f2c5f0b3..14febe9c7643 100644
-> --- a/rust/Makefile
-> +++ b/rust/Makefile
-> @@ -392,7 +392,15 @@ BINDGEN_TARGET_x86 :=3D x86_64-linux-gnu
->  BINDGEN_TARGET_arm64   :=3D aarch64-linux-gnu
->  BINDGEN_TARGET_arm     :=3D arm-linux-gnueabi
->  BINDGEN_TARGET_loongarch       :=3D loongarch64-linux-gnusf
-> +
-> +ifdef CONFIG_PPC64
-> +ifdef CONFIG_CPU_LITTLE_ENDIAN
-> +BINDGEN_TARGET_powerpc :=3D powerpc64le-linux-gnu
-> +endif
-> +else
->  BINDGEN_TARGET_powerpc :=3D powerpc-linux-gnu
-> +endif
-> +
->  BINDGEN_TARGET_um      :=3D $(BINDGEN_TARGET_$(SUBARCH))
->  BINDGEN_TARGET         :=3D $(BINDGEN_TARGET_$(SRCARCH))
+On 2/6/26 6:09 PM, Eric Dumazet wrote:
+> On Fri, Feb 6, 2026 at 5:28 PM Fernando Fernandez Mancera
+> <fmancera@suse.de> wrote:
+>>
+>>
+>>
+>> It makes sense. I have tested this approach and we got a more even
+>> distribution of source ports when having thousands of reserved ports. No
+>> difference at all when not using reserved ports.
+>>
+>> Please, you can find the distribution graph with the current algorithm
+>> [1] and with the random step algorithm [2].
+>>
+>> While I understand that this approach is introducing a call to
+>> get_random_u32_below() on every connect, I am wondering if it makes
+>> sense to replace the existing algorithm with this variant. What do you
+>> think?
+> 
+> I would ask RFC 6056 experts like Fernando Gont what they think.
+> 
+> Note that if we use random at each connect(), we defeat one of the principles
+> of ephemeral port selection : try very hard to avoid 4-tuple collision.
+> 
 
-This looks reasonable.
+Right. I will reach out to him and get his opinion. I have plenty of 
+time before net-next open again. I am also collecting some metrics 
+regarding the 4-tuple collision frequency.
 
-My only nit is that we could trigger an error in the nested if since
-you wrote the if already. Otherwise, we could remove the nested one
-until ppc64 is supported, or am I missing something?
+>>
+>> Please, notice the implementation below. I plan to send an official v1
+>> once net-next is open. In addition, I am rewriting the commit message as
+>> I find the current one confusing.
+>>
+>> [1] https://0xffsoftware.com/port_graph_current_alg.html
+>>
+>> [2] https://0xffsoftware.com/port_graph_random_step_alg.html
+> 
 
-Either way, for the Rust bits if powerpc maintainers are taking this:
-
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
-
-Thanks!
-
-Cheers,
-Miguel
