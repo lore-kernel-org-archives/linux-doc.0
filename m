@@ -1,159 +1,74 @@
-Received: from mail-oa1-f74.google.com (mail-oa1-f74.google.com [209.85.160.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CC332B9A3
-	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 22:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7D11D6193
+	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 22:50:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770676869; cv=none; b=FPhDVqRyjO4EwNj0c4ST9EWLm4DiElOPv79uswdVOlopkbU8rBUxg5tuQglYgRCi5eZJLwcMj28wDw8tP1JofrlWY3ZrVOP7aJlob/RDqFhemVd2XUlL4Y3V8oSzS6gw2LqV29ZDDJyCwN3kD3NRs06ye9DjCppxdXLH3LegdxM=
+	t=1770677432; cv=none; b=qA69NfosoaFA1E6QfxvkCkLF/N1O8q7neFbmsf0ZdyJajV5/5rZINsVPlQb4i7Lma0jzms1D33LxfYXgvB8WXnPayBBkbrncCjp6B3NdyxdnUmw/RyWWmYt1e1UjLW5diYFyQXEfWG9w/YE3MjXtfO9ui4L2Fk2gww/mExABUeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770676869; c=relaxed/simple;
-	bh=SHVJoQZ+YflPOx5JrxGn/C/DEC5GjFnR/d7ZsgewPiA=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=XDnDbQCXKO4Z1j1VUkiyK0imW8rfk30hDLEDOsFxRtR6XH3YnaquBi7C7/qHxWXi1SSy0ytc2Q/MI088lBZryz2s0/fJ/GZJ0VjmNECdjCeNCI7q5xWhQAj0OOHvSl8EKNxBTdTa/GQT+r4A+vK7Gn3GJ2nc+0DozOXWxnXLp68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Pw/KYaU+; arc=none smtp.client-ip=209.85.160.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1770677432; c=relaxed/simple;
+	bh=R9MKdhFtpSULQjsDpvbhBccI+DmenJD+Gpy8FqQR0p4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PxyDxNSycyLpvOMkQELlkIZGSQbHmhWAqomPCi5PHc7Eju3sCo6CDUXHKq6LxnjYmGTYKR6DFhmjK0KCAoGfCvIRR2CL3p7D8J2+2wSUQ4egCujd2D3l/yLWyHJWqUgQQiMrmsoeqx1HG0uW3Jja9Onnanu0RCeXu4WL8+7nr/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qxrNPhhu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Pw/KYaU+"
-Received: by mail-oa1-f74.google.com with SMTP id 586e51a60fabf-4040b9ea153so9288872fac.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 14:41:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770676865; x=1771281665; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/TKm1gU8lTLqEcn/8yRmMV0Zp5pYjSJjWs0bsDB+GUI=;
-        b=Pw/KYaU+p47J7laFb8fSu+8hF3BsYRID8xNIgkrXkcmy+RRBqixWMeT9jZhtrlVw+Y
-         ixbrgc00LemqRbOGxA1onA2IiqPtldaMvXiEKm9lnSZn5RLSjy8mLzm/vPyfOEh3MCMU
-         EZErxxS7e1QLWSLAU60HhwxYSSTKl45QBBi93y03k32/SpD30eDXeJaapGZKwIEm4k++
-         uKSFGpifrk7ibEsUghklcJ269upu9a7BM1PxHGzSZhq1QBbmoDgFJPOnIcjrkErti90E
-         2LkjWOCYZWrtBWOPRefkt54hopSRjAN95dx17iR1rVb8maf6uaUOxIxLACkJwLcs17p4
-         H8ag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770676865; x=1771281665;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/TKm1gU8lTLqEcn/8yRmMV0Zp5pYjSJjWs0bsDB+GUI=;
-        b=B8zf5d2cXWSIMmYiv5d+/1LosPCC/L+cjqZPE4uwHWTEEG6e+LEo99Zse/b2rPzkvr
-         m5nhaYFzokmHHA/4Q0T6q2aWzp7m39EX79skAB/eLBDyGbBLnvEeh4nG0fkX5E/JNlkA
-         GVggm7V8EOmPoHFZMyzh5BQ9JCZ4WvDWXVOtx627piY3pfuvTDVgjyFHOIfesIc8j9vL
-         OwPIbO3rEkVr3h5prluh8jh3Q8IrpQFiBOOMRH8zE94GUgbPraZO/ci+T5Y4p7YMO+p2
-         r/lu6OcRMqRPT8JIyCNK5CzY7Q35T66Vy4yWSMqqDSxdLgtgqXEo59sCiIDyBS7MOy8a
-         B17A==
-X-Forwarded-Encrypted: i=1; AJvYcCVmnO8x99Y18DzIyxQJ28da+JVbceXPkQHpeF9/XobebCxSY7xGTTfhiBlpJ8F+K3xKb5B87BfIsaA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvGhp77CRE78e7bFiH5PdPDgftTp9y4W0yhYESt/p5RCmm7gky
-	L21uUfgqkSVxd+secawtliI+KO9KeNRamFCx7R1FHHPpdlQc1j5/MfuOV/CxJedNwW1UaAgv+M0
-	mkEkpJjNGX9UlNNn62WUiSKHUjA==
-X-Received: from jaox17.prod.google.com ([2002:a05:6638:111:b0:5ca:fdfb:2007])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6820:f015:b0:663:610:cb67 with SMTP id 006d021491bc7-66d0a477b40mr5663839eaf.28.1770676865086;
- Mon, 09 Feb 2026 14:41:05 -0800 (PST)
-Date: Mon,  9 Feb 2026 22:14:14 +0000
-In-Reply-To: <20260209221414.2169465-1-coltonlewis@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qxrNPhhu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E229C116C6
+	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 22:50:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770677432;
+	bh=R9MKdhFtpSULQjsDpvbhBccI+DmenJD+Gpy8FqQR0p4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=qxrNPhhuAu5eF1PoOhG8dUedHlgPNoW4PUCNrobCBqS5NTmc7hX7yljaDxBrcQ6Lx
+	 UYaPnzz4ZBm/n/mvsgQzN44ATdJWC3D1c9t8oOud1K9mOAmO2SeTUlNstBCAPSHmeN
+	 yq+KHTUik68qouxxHFNv7u7d+uJWVfLim/jkTEO7gkaGQZCt6Xr4+W6z2UKVYihmYy
+	 ec2Ugfd5R7t1jytnUxBZ3KgaWFYJbv4z9rBOHTXcYTGWOoubfafIjVi0Y7d7WPqnHk
+	 hFeQHCyE1QNLVSM1Z+9zy5gkBf+4OLrIJXha8x0cPCdAK4eteNDSwBUvnwOD52DuL3
+	 GzD9QIDyNJwNw==
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-64aea64bf15so258278d50.2
+        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 14:50:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVCiNtew2HXSJTQJQ6gsCfGgvauYsG2KDHFe8LlpbZ11eUy2k35N5vL7lVrzW1JhFrtIhBMTicPMTs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzotA6Af/dmJJMmSyfgcX0uhUlqHqOk/qR10gRZofXQleZsO4nh
+	dJUuPJParLm/Z+FyImyJ2f2O7PNYu5sfWgPnwGs79mG6QFPk2JWqvjFPXT+9Ty8ptoUTNGiUV2/
+	+YC6XRqDwLXUsqbwYMN+LsHL4Cp3sMjA=
+X-Received: by 2002:a05:690c:9b01:b0:794:71b7:2adb with SMTP id
+ 00721157ae682-7952ab24f48mr245741577b3.38.1770677431642; Mon, 09 Feb 2026
+ 14:50:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260209221414.2169465-1-coltonlewis@google.com>
-X-Mailer: git-send-email 2.53.0.rc2.204.g2597b5adb4-goog
-Message-ID: <20260209221414.2169465-20-coltonlewis@google.com>
-Subject: [PATCH v6 19/19] KVM: arm64: selftests: Relax testing for exceptions
- when partitioned
-From: Colton Lewis <coltonlewis@google.com>
-To: kvm@vger.kernel.org
-Cc: Alexandru Elisei <alexandru.elisei@arm.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Russell King <linux@armlinux.org.uk>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, Mingwei Zhang <mizhang@google.com>, 
-	Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Shuah Khan <shuah@kernel.org>, Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Colton Lewis <coltonlewis@google.com>
+MIME-Version: 1.0
+References: <20260209145603.96664-1-chmh0624@gmail.com>
+In-Reply-To: <20260209145603.96664-1-chmh0624@gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Mon, 9 Feb 2026 23:50:20 +0100
+X-Gmail-Original-Message-ID: <CAD++jLmrjE1nybNxEKq7V8_qKTBMSVGzpSj09H=ZtWdgaShRHg@mail.gmail.com>
+X-Gm-Features: AZwV_QiO2NIubg8cGJdgLEZDlv2-SClkZ8UoxzwH3YBxo3o0_74mGBqwpMzKsBo
+Message-ID: <CAD++jLmrjE1nybNxEKq7V8_qKTBMSVGzpSj09H=ZtWdgaShRHg@mail.gmail.com>
+Subject: Re: [PATCH v2] Docs/mm: fix typos and grammar in page_tables.rst
+To: Min-Hsun Chang <chmh0624@gmail.com>
+Cc: corbet@lwn.net, akpm@linux-foundation.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Because the Partitioned PMU must lean heavily on underlying hardware
-support, it can't guarantee an exception occurs when accessing an
-invalid pmc index.
+On Mon, Feb 9, 2026 at 3:56=E2=80=AFPM Min-Hsun Chang <chmh0624@gmail.com> =
+wrote:
 
-The ARM manual specifies that accessing PMEVCNTR<n>_EL0 where n is
-greater than the number of counters on the system is constrained
-unpredictable when FEAT_FGT is not implemented, and it is desired the
-Partitioned PMU still work without FEAT_FGT.
+> Correct several spelling and grammatical errors in the page tables
+> documentation. This includes:
+> - Fixing "a address" to "an address"
+> - Fixing "pfs" to "pfns"
+> - Correcting the possessive "Torvald's" to "Torvalds's"
+> - Fixing "instruction that want" to "instruction that wants"
+> - Fixing "code path" to "code paths"
+>
+> Signed-off-by: Min-Hsun Chang <chmh0624@gmail.com>
 
-Though KVM could enforce exceptions here since all PMU accesses
-without FEAT_FGT are trapped, that creates further difficulties. For
-one example, the manual also says that after writing a value to
-PMSELR_EL0 greater than the number of counters on a system, direct
-reads will return an unknown value, meaning KVM could not rely on the
-hardware register to hold the correct value.
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Signed-off-by: Colton Lewis <coltonlewis@google.com>
----
- .../selftests/kvm/arm64/vpmu_counter_access.c | 20 ++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
-
-diff --git a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-index 9702f1d43b832..27b7d7b2a059a 100644
---- a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-+++ b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-@@ -38,10 +38,14 @@ const char *pmu_impl_str[] = {
- struct vpmu_vm {
- 	struct kvm_vm *vm;
- 	struct kvm_vcpu *vcpu;
-+};
-+
-+struct guest_context {
- 	bool pmu_partitioned;
- };
- 
- static struct vpmu_vm vpmu_vm;
-+static struct guest_context guest_context;
- 
- struct pmreg_sets {
- 	uint64_t set_reg_id;
-@@ -342,11 +346,16 @@ static void test_access_invalid_pmc_regs(struct pmc_accessor *acc, int pmc_idx)
- 	/*
- 	 * Reading/writing the event count/type registers should cause
- 	 * an UNDEFINED exception.
-+	 *
-+	 * If the pmu is partitioned, we can't guarantee it because
-+	 * hardware doesn't.
- 	 */
--	TEST_EXCEPTION(ESR_ELx_EC_UNKNOWN, acc->read_cntr(pmc_idx));
--	TEST_EXCEPTION(ESR_ELx_EC_UNKNOWN, acc->write_cntr(pmc_idx, 0));
--	TEST_EXCEPTION(ESR_ELx_EC_UNKNOWN, acc->read_typer(pmc_idx));
--	TEST_EXCEPTION(ESR_ELx_EC_UNKNOWN, acc->write_typer(pmc_idx, 0));
-+	if (!guest_context.pmu_partitioned) {
-+		TEST_EXCEPTION(ESR_ELx_EC_UNKNOWN, acc->read_cntr(pmc_idx));
-+		TEST_EXCEPTION(ESR_ELx_EC_UNKNOWN, acc->write_cntr(pmc_idx, 0));
-+		TEST_EXCEPTION(ESR_ELx_EC_UNKNOWN, acc->read_typer(pmc_idx));
-+		TEST_EXCEPTION(ESR_ELx_EC_UNKNOWN, acc->write_typer(pmc_idx, 0));
-+	}
- 	/*
- 	 * The bit corresponding to the (unimplemented) counter in
- 	 * {PMCNTEN,PMINTEN,PMOVS}{SET,CLR} registers should be RAZ.
-@@ -459,7 +468,7 @@ static void create_vpmu_vm(void *guest_code, enum pmu_impl impl)
- 		vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL, KVM_ARM_VCPU_PMU_V3_ENABLE_PARTITION);
- 	if (!ret) {
- 		vcpu_ioctl(vpmu_vm.vcpu, KVM_SET_DEVICE_ATTR, &part_attr);
--		vpmu_vm.pmu_partitioned = partition;
-+		guest_context.pmu_partitioned = partition;
- 		pr_debug("Set PMU partitioning: %d\n", partition);
- 	}
- 
-@@ -511,6 +520,7 @@ static void test_create_vpmu_vm_with_nr_counters(
- 		TEST_ASSERT(!ret, KVM_IOCTL_ERROR(KVM_SET_DEVICE_ATTR, ret));
- 
- 	vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL, KVM_ARM_VCPU_PMU_V3_INIT, NULL);
-+	sync_global_to_guest(vpmu_vm.vm, guest_context);
- }
- 
- /*
--- 
-2.53.0.rc2.204.g2597b5adb4-goog
-
+Yours,
+Linus Walleij
