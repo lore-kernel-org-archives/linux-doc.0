@@ -1,553 +1,506 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011013.outbound.protection.outlook.com [40.93.194.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F388F38759B;
-	Mon,  9 Feb 2026 19:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770665572; cv=none; b=dYfvm1AQa67qHMzYpdIoPEUM4lQaH4lNIMdd3PLLT1oRlxpx5jpm6OvGpnj/6x3YxFWqShejQAPYGqV5CqpPLu4l1wTIbMA0ArUYdY0nGE0yBq0Leooy1NLMUDaPzX+JnxAkFr0ii4EEueSxWnUYDiBJjV35q4ELfWoikCgNHDE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770665572; c=relaxed/simple;
-	bh=fesA/G7VZxxGIydyRYLiHx2PzdJvExsjsxS5xUruvz8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DM8gmfftRVN8UiqDtvPxpcSqZGYD9jIW+8D8mfH1Jf0SnNGylC+8BRDvr6s8tu4HixXcHm+0NGEV9zknvt8BXR+ezfj3n7gP+XMwNoGU/q6nDBNz/Fy+deRTswewDfO2XVOTjmMmMh2xFjqJL0zKnnWPS2zW6zhtORNEJPiDydY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sSmmHDlc; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1152338946B;
+	Mon,  9 Feb 2026 19:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770666093; cv=fail; b=DIEuQnKMZ1Qo+h361Jbv/AzyVOUw6YtxPqRyzgCQOPwAnx3y7mpFVsB5SdcJbOpSbOQUed6Z0Ry3kXZNdnW9VdgWWc+VrXlDf+hdq7FEqPhYgg7XHYlygWYhYpBK99W8vmZlcPLzWPrnwiogCn2Q1wqAorb6sgiRg+YqJUzFZtE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770666093; c=relaxed/simple;
+	bh=o0RAMDhae7xVq7C7wi4Xy3Mco2a2ra7U3SxtLgLBDPw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Y3TUyj2aUY6A+KSjDa9CI1UV/vyFy+HMUB/8vzCjKrLQUpwS9ASS4nO1kOeM4v5RR9bdfXumhH4D19tkNR+gS7R5BRLUhesxjaAXD9C2atNulrq3KxfHezXbd3ou0NLn808uLUrEfnGT/9JF8forYO/E55MJ2fVvNn9JOlt1Vq0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=W4dK3Lr+; arc=fail smtp.client-ip=40.93.194.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sSmmHDlc"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 489FA40C3E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1770665571; bh=sANzSvFr6Cl0aKz6SU9xr/MQzcm8MulIlAB5LhDHzMg=;
-	h=From:To:Cc:Subject:Date:From;
-	b=sSmmHDlcGOdiYA+OIiWP+qLB1dYAYofg6XU5O5QkVyHW2oeyp4B+K37y5/HUgjLEN
-	 tFRBXOzhLcQGryr6/lzwemjJbg9zRP1wRGA8YikMac4e8g+HjJ11mntT9ynYz3FaH8
-	 iMmAG0xd/baJWsvUY/76ZL52cTRYOS6Cl73OjYm8gKpiO7ugL24h3etTGk9x5D/cHg
-	 z7GEMXaaQLBtDkKQRTL3TIpOJZ6Ohd2+tubaWV54iKL4RrdpvE+muNHzx5qGFuERvS
-	 HtAoCm9NHELxTyNukj01L77pFhh7A7CXYwcow2XklMRfHdMJFjjZOuHUJLuncahp/d
-	 CUi9Ri6o0pNQw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 489FA40C3E;
-	Mon,  9 Feb 2026 19:32:51 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Shuah Khan
- <shuah@kernel.org>
-Subject: [GIT PULL] Documentation for 7.0
-Date: Mon, 09 Feb 2026 12:32:50 -0700
-Message-ID: <87ikc590gt.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="W4dK3Lr+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ocCUbL1T+GtgJD1oFEMzNA6BEoDBlXqOIxT7FD7OKoPbd3CiNQeegWslBgQWrfAwt3+p5bkfCbRZQrb8ENTkHkoiLmb5L6GUNApHbVCiBLbc+7F9HMFCQCjUSybOHzwPO7XlwAkV5WvI1WbWMzju664RAXQrcW18QFTciEyzZOr6WSHVxAPGSfEBk2HBk2YtJ+PhJRgTJnZu6MUUf2+vd7uDkQ3S9oEKDnf/mUQrStUSopz4zLqP3vYVkBQD53/UCDvDXzCSTdzYTyfoQZ8BVOBUjjTT7354XuaxzqZ+sN+e9dzk4N51UzMzj+jjIhHBCrQ0VTs0ZbBVWeOxhRy4rA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fmCbmbZaUMg6dEt3/6LpYv/TocF0j85eJxxEHlHzJ2U=;
+ b=BciCHqqIe7+B/KWZN86552oFLALvesHi6MlIPC3irGms52kwAK+2hEf47GTh4ehsJxiIK9qIqcEuczH7jEj2oQHCSbt5LhX1ecMftU9iCWVFMoePlLJNY6v5MFSakLPpw0PAxC4gzHhhw3NUaGFgzXCCkg/iRG9Rb4ritleuiGhAa/zPSf2YMnePrCuTpuSW+wdRDGYsg5/Bp+rRoyxOjKGM+pOL6IbeweF4UMbu6TPxy6ojWiJMy16TtL99zW5iSA5n6/m0Zv+8npjtBeTgNezoy029uvlO6ul9r0iEYvTgxi5SL4giDCa/Uah1FkwJR2m3tedVMGhdD1qXqIGN1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fmCbmbZaUMg6dEt3/6LpYv/TocF0j85eJxxEHlHzJ2U=;
+ b=W4dK3Lr+oZp/N3n9xKssUBSwPiLvncPxr0fi4shqfpcGFIzCfvCv4YWPMgAp4+6ZmW5ldZ+wE/DhhUHyRnEs8CUC8PHPh6jnCY1V6jO373qS9zG+CO73RhhIliih/rtEmpJH+GaboQO2YOSJbk9x/j0JAgCwilqTNbBTcjhR8+S2u1gIwlvy0ogwDwQIXe0XzY3hNMGB3cPJ9An4oWt5Zg8zSH40OcYN1oA6XXy76UV092CCCalwBIZaAxuRczLfIgZCZmui/QjCiVdgcoaltzvmM/Lwr6WhIDqeu7+2R1qID0AFJ39mqCj6bhD+D/Q8epnpyRAombqLX19FqGBERQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ IA1PR12MB6329.namprd12.prod.outlook.com (2603:10b6:208:3e5::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9520.4; Mon, 9 Feb
+ 2026 19:41:26 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9587.017; Mon, 9 Feb 2026
+ 19:41:26 +0000
+Message-ID: <859dbf29-dafe-4c04-a0ea-d88c26fd4995@nvidia.com>
+Date: Mon, 9 Feb 2026 14:41:22 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH -next v7 1/2] rust: clist: Add support to interface with C
+ linked lists
+To: Gary Guo <gary@garyguo.net>, linux-kernel@vger.kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
+ <elle@weathered-steel.dev>, Daniel Almeida <daniel.almeida@collabora.com>,
+ joel@joelfernandes.org, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20260206004110.1914814-1-joelagnelf@nvidia.com>
+ <20260206004110.1914814-2-joelagnelf@nvidia.com>
+ <DG7ZF1UT98RQ.3F42J3ULGV2OC@garyguo.net>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <DG7ZF1UT98RQ.3F42J3ULGV2OC@garyguo.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN0PR04CA0002.namprd04.prod.outlook.com
+ (2603:10b6:208:52d::13) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|IA1PR12MB6329:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8aee98ba-91ae-4020-ab79-08de68133695
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|7416014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dmRJR1F1UWwzTWNJYTBXSHVsZEtxZWZyWjlDVWdhV0VmTC8ySWhVTk44K1hp?=
+ =?utf-8?B?TGxRTlZ3bkp4WDBWSFBxdjd0VExOaUthNHBjQm9OeDNBTzlVaWtvZnRMa0tv?=
+ =?utf-8?B?c2dxdWRjb2gwM3l6RlU1TU9YS00xQm80WDRYOGd3emhLYWUxU3lBSVIrOG1E?=
+ =?utf-8?B?TThvWExTYzYxc0Qrck44d0NIUlc3MElBVTJSdWJtSmtjUGwzd203cGgramJt?=
+ =?utf-8?B?NzkwSHMzV0RpOXRFTllMOU93VjhaNDJhUXNkcmdGTUNwUEhETWpjeTY3TXRZ?=
+ =?utf-8?B?MHlGa2dSNmdZTWxTTjFXRXdMYlJzckg2b3ZCQ3dLZWVCR2dCVFpicVo2eGhq?=
+ =?utf-8?B?LzZoZU5YN1h2MWNxdnY2SjQ3S0hKSndzN2cyeHZ5YktPRVJ6cmxzN0R3TGV1?=
+ =?utf-8?B?QmNUMno5OEFHWmhKdmpENlNmZWpHdktnT2Z6dVAwUFgvci81VUxqclQxNGpT?=
+ =?utf-8?B?dVdmS1JLWkRkdnYrdkRaQURCYVJoUEpRbkpxUEFYMGR5ZXg5WUl3RUNxVVpV?=
+ =?utf-8?B?N05UeHRzWDQ4OW9DTVl0SEFCMUVPZ1AvN21SU2J0czZTV2FjSU05NFFIUFVQ?=
+ =?utf-8?B?YmV4RUhRaGFST2J5M3RLOXFRekpqNDF3WTBHZDVtdk1WZVowUEZRQTRGMHNy?=
+ =?utf-8?B?K2xnd2FsRGYvNnVORGFidzk0d2Z4OFVmVnZFUUR5ajg4V01BSFdkdnk0NEV2?=
+ =?utf-8?B?ZGY3SCtHbmp4STY1Q0h1eGgwMlBBMlNOaFNkZHlXbDVZWVAzSmcrMVNTNzhP?=
+ =?utf-8?B?SFdLZTRXSk4zVTR1V0NJcG4rNWQ0RTN4ckNMeWdtUGdSRjYvcFBDSFIxbU5p?=
+ =?utf-8?B?YnNlN1h2ZmpOME9sS1dkcWpQbGQzUWJBSlBUeDdjTmlNdDRzQThhMUZMVTdj?=
+ =?utf-8?B?am41c1p3TDdkeVdPYXpCS1JKWDhadVFCWXBzY2lmRHdrdjdNdEkyOEVJdkp5?=
+ =?utf-8?B?UHI0Uk8vbG96TlUxaGlEdVBPeUpPUUpiU3hxbERWMHczZGkxQlNaVUJDRHVk?=
+ =?utf-8?B?dUwrTDhPN1Rib2lBRmdTaXZsOURBbDJab3V4QUMreUprektDSnBaUVZHMGo2?=
+ =?utf-8?B?aVJWNzBTeFFmakt2cU0xYmh5VmVpYWhaZTZxN0JESGpGYXc4L2NGQittSzAy?=
+ =?utf-8?B?R2ZkSldpUEdEUlVxS1hxM1JqWThNL0UrR0VCOTFhQ2J5RnY4cElwd3FRYTNY?=
+ =?utf-8?B?TTVIRnRLeVVVUTVNN1hFNDF1YzU4TEdhZGZWR3hxNUJhMThYUllKMVF5bjJ6?=
+ =?utf-8?B?NWxTL2puTXdydGdveUJtd2dFbFVDOXprZk1HcVZURSt4L0V4b0VxUE5zc3JK?=
+ =?utf-8?B?bnpaRHVIU1I2eHhsaVFHaU1iZHVlSCs1RERpRzRJcE10YlVoL1p4MzRVRm05?=
+ =?utf-8?B?OENpMW1xOEhSYlpYNUFzait1UldleEtWa3ZMTkM5S1FIcE5TcWJZZ0o0Y21p?=
+ =?utf-8?B?R0hJZXlvellFSnVYSWRhb3lFQWVzbzhIK3QxRHVSRzNjQlNiZlUxUGR5aUxB?=
+ =?utf-8?B?REtEdW03Y0hiMG8rN09yRXRJUmVMUHIyYStnckNNSUtCbjZnUGplbnJwZnhY?=
+ =?utf-8?B?SWtMRGFOeEZad1pPMi9VWldQcDhXdVhYN0VETnc2bURFL1VTa0pwdVBtb0xS?=
+ =?utf-8?B?cHdEOWdzWWU4MExaVVFXenlwdXU0MTVKeGZ1OHlzTW51SWFVdktPMkRlY3Er?=
+ =?utf-8?B?bUYwZVRUUVRkK2pKU0wvOVhVRmtJSW5QeVMvWmFVdGhvTUdyNzZyTklHc1Fv?=
+ =?utf-8?B?MUtqbWUzYzNiek13TllHVEtrSitEVUNET3N0aElqMlZJYXRhSHdEemwydzFn?=
+ =?utf-8?B?WmRCeHRLVmkyVU1uQlNzOHZYeGlncXRyTDFxZ25HUjNxOWJIL2dJVDNzTzAv?=
+ =?utf-8?B?Rmp4SU9Ja2haclpGenlpUHczU0toSUVRYTVvaUhpemdWYlFyaStsYzd0SEcz?=
+ =?utf-8?B?SGpDQWhhcCtHZGxCWW9aak0rblcrUGdBZkdQdWwzM21EcThYaUNCVmN5dGR0?=
+ =?utf-8?B?bmhqeFhDNiticDZHVHBaSXlya2IxbFNIVGZTTk5NZHBlNzV0YXRVL01VM2hX?=
+ =?utf-8?B?VGRkWU1jb1FGUitvK1JwcWtCVnd6L2Q3dGRORk1xTU14MkQ1VjNIaGtPY0px?=
+ =?utf-8?Q?RTfc=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YUJkaUg4TVpmVmFrbFJsYWRlTzdIaHlCOWo0Ty9HbXJIRTMrWWRkZTVpdVVv?=
+ =?utf-8?B?QjZScWRaV05iczFyYWVPVGFPVmJYb0VyNUIwUi9PR3RrOWlaaUxwZ1FTd0wy?=
+ =?utf-8?B?OWFTYkxIVEVUK3pQTGhlV1loRnhJalgyUHlFeGZCUHRrbEdJT3hORTQrZkd0?=
+ =?utf-8?B?MkF6alg4YXRkS0ozdVIwVmlpcjVsUzdKeDc1cG1hdHY5RVcwUWVTajFDR2hF?=
+ =?utf-8?B?am1YOERMVWpSVFBuVXh5bm1KbFRlNUl6TkZ0UGZ4NXZFeEdZZkN3OHdqRU9o?=
+ =?utf-8?B?eWxRTTFIeGpTRWNYVTN2MVBadVc2eFBobE1ua3krNTNEdGlpU25PV3dRTnp3?=
+ =?utf-8?B?d3RGMEVEUGErWmdaRkp2bTQ5UDBhNEl3Lzl0TS84blpjazhFcWx6Z0wrVXVt?=
+ =?utf-8?B?OHR3bVZMVkdCWXdnSXJoYVNHWWV1RmdNblFicW5Ld1hwcWc3SXpobWRob1BN?=
+ =?utf-8?B?NE93MkpFN0NqbVZwbEJ2QlBtRmtGS016SG9Dd3c3Skd0eU5TRzY1a2l6YUJC?=
+ =?utf-8?B?TElwanR1SnNjYjlQamlzTTBPbHJDSHBBNDBhaGhjLzB1dUVwNkRoQlc2UERa?=
+ =?utf-8?B?Tmp3bUw5T2sxTUR4c1Uyb0htbVBLSXdSaDA0RXA5M0gxMTVxOU82b2RrMHF0?=
+ =?utf-8?B?ZDY3aUdvSkZmWkNtK1YraVhseGphVGYvVXBxQlRNRm0weExwY05VU2p0Vmx0?=
+ =?utf-8?B?dHBSVGJvVllqaXdhcnovSXViNW41M3FseVNiWmFCcXIzUU05bEVrQmZEVkdi?=
+ =?utf-8?B?ZXNPL3dOb0g2N0FZWEFkWGtkSmhzY3hHWmZPeXJ4ZG9KOGwvaDYrMUxGNmgy?=
+ =?utf-8?B?c1RSakNURWZLd2JSa3FKWjIrNzZsWVExeUtmdlFWWUg4NTloNWNEY1lWS1Vl?=
+ =?utf-8?B?dlRYK29lUVkrTnhMVERvZEh5eXRPbjVxVmovM3BZTnE5cElGTy9RWGV0TERM?=
+ =?utf-8?B?Wjdxd3FPT0RlL0FHaTFxZ3Byd2JDMVU3ZVhkZXNZdjhqeFRYc090UmF2ME1p?=
+ =?utf-8?B?RndrUjJkS29NVFBCSkt2UWhkSlNBUXZDVjJNQThPUStRelFVSzZlV1pGZE90?=
+ =?utf-8?B?aVNlYkdxekE5UWl0cHhVZUNIOE5aTkJTRE1JN01oWFZ5NlRCS0xwWmNVRlIv?=
+ =?utf-8?B?VERhNUNLN3FqcWdUcU1NNjlZNlB2WGc0aXFzS1ZUamQ3elg2OHBhbUZBMXJE?=
+ =?utf-8?B?b3VlTVNvRDlOM1QwTkE5ek1Nc0x0OWhhd2hXYTU3QWZPNXFQRkIxOVh3K2Q1?=
+ =?utf-8?B?SzJnN3Y0WkIvVllwdXIzM2hnWU5QdnYxL1U0VFZCeWtXaDBYakFUUHFoeVhx?=
+ =?utf-8?B?Q3hpbGkzWVdPbnNHOG9sb3BmdHZVZ1hoMnVETHZWK0l4RW9wRG5UcUtEbHYx?=
+ =?utf-8?B?QUhIcFpMVk1zNGZ6VWZtQlozN0xhQUxDdEZuOUVFSVRwSlhOZTJKUWVuWWZt?=
+ =?utf-8?B?cEpRTHZHSDBKaGhNTExvaEpSeEFHVldFUVdiMWlhWEp2ZFVVaDJPT21oOXlN?=
+ =?utf-8?B?ZXE3RjBUaWFoQUs4QXlpb296YzlIQUNkMTR6NCt5MHE5WTVOSERjS2ZLa3Vq?=
+ =?utf-8?B?b25yM253UjE1VmFyU2NpMDNuK3JCYVoyUDFFT0hrOFBva2FBSkpvaFNCTVVj?=
+ =?utf-8?B?aG1ycnlNakJuNkVZT0lNZ1RTNVlTeThKN0pmOGh2OUIxZllkM0x5RmJoRVA2?=
+ =?utf-8?B?ZzRyOFZJYUpZcC9LamRzdnVUTXF4b29DWkVWVUdQQ0wwa0FNbWlrNzE3eXU0?=
+ =?utf-8?B?NU05OUhlVk1Ia0pmTjRsWEo2b3U0U3FNUU9ubEhlZCt3QU05aUFwa2hqalMx?=
+ =?utf-8?B?OGxUM0YvUXNKSURvUGQ1U2xORFk3U0U0YUhuZ2JtOXhBaFpMdlNQK3hOcHBV?=
+ =?utf-8?B?aERzVWNQNkNLQUhxYU9qek1EY0tvMjFSdDRNSkNRdnR4VXY1Z3dOcWFtdUl4?=
+ =?utf-8?B?KzlzOThSSnRwOHBkNzVTR0d3dW8rajRQMjErcGdMNGZkV2hKc0pIZFdWZTJ5?=
+ =?utf-8?B?WTlKQWJGOXdmSGFPcnNEUXJ4U1dxZFp2V3NPSlVvamcyUFpnS3ltZGwvMmFv?=
+ =?utf-8?B?WWhoSUFlWk9lYm5SWDQ4YVFmYW9pajRwWWYzWWJYZ1lpY1ZXbmJna0Y2YnVi?=
+ =?utf-8?B?SXI1Umg3Y2J3L0JNWmJDdDJTTW9LTkgxK0F0bGtHdktiMWIrVGVHa1hPQkI4?=
+ =?utf-8?B?bXlGMHdiR3QxWnpNUHd2VzRrbWpYUXBaN1FubkVtWHRyWG1PMDhNc3Y4R3Mw?=
+ =?utf-8?B?RjlSSURyaFA5RnlOSHFEU2tDVUMvd3FPakZBeG1kY2V1QnBIWjZIVGc0NjZ0?=
+ =?utf-8?B?NFYxczRiY2xsUWtHUGlhdlJjd2ZUR0VQRWdoa0lkZGJvQVlkL1ozdz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8aee98ba-91ae-4020-ab79-08de68133695
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2026 19:41:26.5131
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oechHnPuJAHGpzlqApaP179VUFqW+OpgrVYsLYPQTkUJfbg1KllZzGoYrV/WGNq0uaXRPheny6rxybS4nToBkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6329
 
-The following changes since commit 9448598b22c50c8a5bb77a9103e2d49f134c9578:
 
-  Linux 6.19-rc2 (2025-12-21 15:52:04 -0800)
 
-are available in the Git repository at:
+On 2/6/2026 10:25 AM, Gary Guo wrote:
+> On Fri Feb 6, 2026 at 12:41 AM GMT, Joel Fernandes wrote:
+>> Add a new module `clist` for working with C's doubly circular linked
+>> lists. Provide low-level iteration over list nodes.
+>>
+>> Typed iteration over actual items is provided with a `clist_create`
+>> macro to assist in creation of the `CList` type.
+>>
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>>  MAINTAINERS            |   7 +
+>>  drivers/gpu/Kconfig    |   7 +
+>>  rust/helpers/helpers.c |   1 +
+>>  rust/helpers/list.c    |  21 +++
+>>  rust/kernel/clist.rs   | 315 +++++++++++++++++++++++++++++++++++++++++
+>>  rust/kernel/lib.rs     |   2 +
+>>  6 files changed, 353 insertions(+)
+>>  create mode 100644 rust/helpers/list.c
+>>  create mode 100644 rust/kernel/clist.rs
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 900fc00b73e6..310bb479260c 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -23204,6 +23204,13 @@ S:	Maintained
+>>  T:	git https://github.com/Rust-for-Linux/linux.git rust-analyzer-next
+>>  F:	scripts/generate_rust_analyzer.py
+>>  
+>> +RUST TO C LIST INTERFACES
+>> +M:	Joel Fernandes <joelagnelf@nvidia.com>
+>> +M:	Alexandre Courbot <acourbot@nvidia.com>
+>> +L:	rust-for-linux@vger.kernel.org
+>> +S:	Maintained
+>> +F:	rust/kernel/clist.rs
+> 
+> I still think we should try to work on a more powerful list infra that works for
+> both C and Rust, but I reckon that is a longer term effort, and shouldn't
+> prevent a simpler version from getting in and be used by abstractions that need
+> it. So
+> 
+> Acked-by: Gary Guo <gary@garyguo.net>
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/docs/linux.git tags/docs-7.0
+Thanks! I also replied below.
 
-for you to fetch changes up to 0a83293322fde69f1fb4722bd3c79c2d52eef436:
+> 
+> Some nits below:
+> 
+>> +
+>>  RXRPC SOCKETS (AF_RXRPC)
+>>  M:	David Howells <dhowells@redhat.com>
+>>  M:	Marc Dionne <marc.dionne@auristor.com>
+>> diff --git a/drivers/gpu/Kconfig b/drivers/gpu/Kconfig
+>> index 22dd29cd50b5..2c3dec070645 100644
+>> --- a/drivers/gpu/Kconfig
+>> +++ b/drivers/gpu/Kconfig
+>> @@ -1,7 +1,14 @@
+>>  # SPDX-License-Identifier: GPL-2.0
+>>  
+>> +config RUST_CLIST
+>> +	bool
+>> +	depends on RUST
+>> +	help
+>> +	  Rust abstraction for interfacing with C linked lists.
+> 
+> I am not sure if we need extra config entry. This is fully generic so shouldn't
+> generate any code unless there is an user.
 
-  doc: development-process: add notice on testing (2026-02-02 10:02:05 -070=
-0)
+Yes, I am dropping it now. As per the other discussions, I will change the
+module level and all the items in the module to pub. And then we will not need
+this config.
 
-----------------------------------------------------------------
-A slightly calmer cycle for docs this time around, though there is still a
-fair amount going on, including:
+> 
+>> +
+>>  config GPU_BUDDY
+>>  	bool
+>> +	select RUST_CLIST if RUST
+>>  	help
+>>  	  A page based buddy allocator for GPU memory.
+>>  
+>> diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
+>> index a3c42e51f00a..724fcb8240ac 100644
+>> --- a/rust/helpers/helpers.c
+>> +++ b/rust/helpers/helpers.c
+>> @@ -35,6 +35,7 @@
+>>  #include "io.c"
+>>  #include "jump_label.c"
+>>  #include "kunit.c"
+>> +#include "list.c"
+>>  #include "maple_tree.c"
+>>  #include "mm.c"
+>>  #include "mutex.c"
+>> diff --git a/rust/helpers/list.c b/rust/helpers/list.c
+>> new file mode 100644
+>> index 000000000000..3390b154fa36
+>> --- /dev/null
+>> +++ b/rust/helpers/list.c
+>> @@ -0,0 +1,21 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +/*
+>> + * Helpers for C Circular doubly linked list implementation.
+>> + */
+>> +
+>> +#include <linux/list.h>
+>> +
+>> +#ifndef __rust_helper
+>> +#define __rust_helper
+>> +#endif
+> 
+> This shouldn't be needed.
 
-- Some signs of life on the long-moribund Japanese translation
+I had to add this because a patch was missing in the DRM tree it depended on. I
+believe I should not need it anymore, so I will drop it. Thank you for pointing
+that out.
+>> +
+>> +__rust_helper void rust_helper_INIT_LIST_HEAD(struct list_head *list)
+>> +{
+>> +	INIT_LIST_HEAD(list);
+>> +}
+>> +
+>> +__rust_helper void rust_helper_list_add_tail(struct list_head *new, struct list_head *head)
+>> +{
+>> +	list_add_tail(new, head);
+>> +}
+>> diff --git a/rust/kernel/clist.rs b/rust/kernel/clist.rs
+>> new file mode 100644
+>> index 000000000000..1f6d4db13c1d
+>> --- /dev/null
+>> +++ b/rust/kernel/clist.rs
+>> @@ -0,0 +1,315 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +
+>> +//! A C doubly circular intrusive linked list interface for rust code.
+>> +//!
+>> +//! # Examples
+>> +//!
+>> +//! ```
+>> +//! use kernel::{
+>> +//!     bindings,
+>> +//!     clist_create,
+>> +//!     types::Opaque, //
+>> +//! };
+>> +//! # // Create test list with values (0, 10, 20) - normally done by C code but it is
+>> +//! # // emulated here for doctests using the C bindings.
+>> +//! # use core::mem::MaybeUninit;
+>> +//! #
+>> +//! # /// C struct with embedded `list_head` (typically will be allocated by C code).
+>> +//! # #[repr(C)]
+>> +//! # pub(crate) struct SampleItemC {
+>> +//! #     pub value: i32,
+>> +//! #     pub link: bindings::list_head,
+>> +//! # }
+>> +//! #
+>> +//! # let mut head = MaybeUninit::<bindings::list_head>::uninit();
+>> +//! #
+>> +//! # let head = head.as_mut_ptr();
+>> +//! # // SAFETY: head and all the items are test objects allocated in this scope.
+>> +//! # unsafe { bindings::INIT_LIST_HEAD(head) };
+>> +//! #
+>> +//! # let mut items = [
+>> +//! #     MaybeUninit::<SampleItemC>::uninit(),
+>> +//! #     MaybeUninit::<SampleItemC>::uninit(),
+>> +//! #     MaybeUninit::<SampleItemC>::uninit(),
+>> +//! # ];
+>> +//! #
+>> +//! # for (i, item) in items.iter_mut().enumerate() {
+>> +//! #     let ptr = item.as_mut_ptr();
+>> +//! #     // SAFETY: pointers are to allocated test objects with a list_head field.
+>> +//! #     unsafe {
+>> +//! #         (*ptr).value = i as i32 * 10;
+>> +//! #         // addr_of_mut!() computes address of link directly as link is uninitialized.
+>> +//! #         bindings::INIT_LIST_HEAD(core::ptr::addr_of_mut!((*ptr).link));
+>> +//! #         bindings::list_add_tail(&mut (*ptr).link, head);
+>> +//! #     }
+>> +//! # }
+>> +//!
+>> +//! // Rust wrapper for the C struct.
+>> +//! // The list item struct in this example is defined in C code as:
+>> +//! //   struct SampleItemC {
+>> +//! //       int value;
+>> +//! //       struct list_head link;
+>> +//! //   };
+>> +//! //
+>> +//! #[repr(transparent)]
+>> +//! pub(crate) struct Item(Opaque<SampleItemC>);
+>> +//!
+>> +//! impl Item {
+>> +//!     pub(crate) fn value(&self) -> i32 {
+>> +//!         // SAFETY: [`Item`] has same layout as [`SampleItemC`].
+>> +//!         unsafe { (*self.0.get()).value }
+>> +//!     }
+>> +//! }
+>> +//!
+>> +//! // Create typed [`CList`] from sentinel head.
+>> +//! // SAFETY: head is valid, items are [`SampleItemC`] with embedded `link` field.
+>> +//! let list = unsafe { clist_create!(head, Item, SampleItemC, link) };
+>> +//!
+>> +//! // Iterate directly over typed items.
+>> +//! let mut found_0 = false;
+>> +//! let mut found_10 = false;
+>> +//! let mut found_20 = false;
+>> +//!
+>> +//! for item in list.iter() {
+>> +//!     let val = item.value();
+>> +//!     if val == 0 { found_0 = true; }
+>> +//!     if val == 10 { found_10 = true; }
+>> +//!     if val == 20 { found_20 = true; }
+>> +//! }
+>> +//!
+>> +//! assert!(found_0 && found_10 && found_20);
+>> +//! ```
+>> +
+>> +use core::{
+>> +    iter::FusedIterator,
+>> +    marker::PhantomData, //
+>> +};
+>> +
+>> +use crate::{
+>> +    bindings,
+>> +    types::Opaque, //
+>> +};
+>> +
+>> +use pin_init::PinInit;
+>> +
+>> +/// Wraps a `list_head` object for use in intrusive linked lists.
+>> +///
+>> +/// # Invariants
+>> +///
+>> +/// - [`CListHead`] represents an allocated and valid `list_head` structure.
+>> +/// - Once a [`CListHead`] is created in Rust, it will not be modified by non-Rust code.
+>> +/// - All `list_head` for individual items are not modified for the lifetime of [`CListHead`].
+>> +#[repr(transparent)]
+>> +pub(crate) struct CListHead(Opaque<bindings::list_head>);
+>> +
+>> +impl CListHead {
+>> +    /// Create a `&CListHead` reference from a raw `list_head` pointer.
+>> +    ///
+>> +    /// # Safety
+>> +    ///
+>> +    /// - `ptr` must be a valid pointer to an allocated and initialized `list_head` structure.
+>> +    /// - `ptr` must remain valid and unmodified for the lifetime `'a`.
+>> +    #[inline]
+>> +    pub(crate) unsafe fn from_raw<'a>(ptr: *mut bindings::list_head) -> &'a Self {
+>> +        // SAFETY:
+>> +        // - [`CListHead`] has same layout as `list_head`.
+>> +        // - `ptr` is valid and unmodified for 'a.
+>> +        unsafe { &*ptr.cast() }
+>> +    }
+>> +
+>> +    /// Get the raw `list_head` pointer.
+>> +    #[inline]
+>> +    pub(crate) fn as_raw(&self) -> *mut bindings::list_head {
+>> +        self.0.get()
+>> +    }
+>> +
+>> +    /// Get the next [`CListHead`] in the list.
+>> +    #[inline]
+>> +    pub(crate) fn next(&self) -> &Self {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY:
+>> +        // - `self.as_raw()` is valid per type invariants.
+>> +        // - The `next` pointer is guaranteed to be non-NULL.
+>> +        unsafe { Self::from_raw((*raw).next) }
+>> +    }
+>> +
+>> +    /// Check if this node is linked in a list (not isolated).
+>> +    #[inline]
+>> +    pub(crate) fn is_linked(&self) -> bool {
+>> +        let raw = self.as_raw();
+>> +        // SAFETY: self.as_raw() is valid per type invariants.
+>> +        unsafe { (*raw).next != raw && (*raw).prev != raw }
+>> +    }
+>> +
+>> +    /// Pin-initializer that initializes the list head.
+>> +    pub(crate) fn new() -> impl PinInit<Self> {
+>> +        // SAFETY: `INIT_LIST_HEAD` initializes `slot` to a valid empty list.
+>> +        unsafe {
+>> +            pin_init::pin_init_from_closure(move |slot: *mut Self| {
+> 
+> pin_init::ffi_init should be used for this.
+> 
 
-- Documentation on policies around the use of generative tools for patch
-  submissions, and a separate document intended for consumption by
-  generative tools.
+Will do, thanks.
 
-- The completion of the move of the documentation tools to tools/docs.  For
-  now we're leaving a /scripts/kernel-doc symlink behind to avoid breaking
-  scripts.
+>> +                bindings::INIT_LIST_HEAD(slot.cast());
+>> +                Ok(())
+>> +            })
+>> +        }
+>> +    }
+>> +}
+>> +
+>> +// SAFETY: [`CListHead`] can be sent to any thread.
+>> +unsafe impl Send for CListHead {}
+>> +
+>> +// SAFETY: [`CListHead`] can be shared among threads as it is not modified
+>> +// by non-Rust code per type invariants.
+>> +unsafe impl Sync for CListHead {}
+>> +
+>> +impl PartialEq for CListHead {
+> 
+> #[inline]
 
-- Ongoing build-system work includes the incorporation of documentation in
-  Python code, better support for documenting variables, and lots of
-  improvements and fixes.
+Will do.
 
-- Automatic linking of man-page references -- cat(1), for example -- to
-  the online pages in the HTML build.
+Thanks,
+-- 
+Joel Fernandes
 
-...and the usual array of typo fixes and such.
-
-Additional notes:
-
-The removal of a bunch of indexing boilerplate has created a few merge
-conflicts with various trees; the resolution is generally to take both
-sides for every index.rst collision.
-
-The kernel.org tree is new, but how I plan to do things in the future;
-hopefully it's all set up right.  If all else fails, the git.lwn.net
-tree is still current as well:
-
-  git://git.lwn.net/linux.git tags/docs-7.0
-
-----------------------------------------------------------------
-Addison English (1):
-      docs: fix typo in clang-format documentation
-
-Akiyoshi Kurita (4):
-      docs: keystone: fix typo in knav-qmss documentation
-      docs: spufs: fix ppc64 architecture line break
-      docs: ja_JP: Start translation of submitting-patches
-      docs: ja_JP: process: translate 'Obtain a current source tree'
-
-Andy Shevchenko (1):
-      docs: Update documentation to avoid mentioning of kernel.h
-
-Bagas Sanjaya (3):
-      Documentation: kernel-hacking: Remove current macro annotation
-      Documentation: kernel-hacking: Do not italicize EXPORT_SYMBOL{,_GPL}(=
-) references
-      Documentation: kernel-hacking: Convert internal links
-
-Changbin Du (1):
-      tools: jobserver: Prevent deadlock caused by incorrect jobserver conf=
-iguration and enhance error reporting
-
-Chen Pei (1):
-      docs: kbuild: Fix typos in makefiles.rst
-
-Danilo Krummrich (1):
-      driver-core: improve driver binding documentation
-
-Dave Hansen (1):
-      Documentation: Provide guidelines for tool-generated content
-
-Diego Viola (1):
-      CREDITS: add whitespace before opening parentheses
-
-Dmitry Antipov (1):
-      doc: development-process: add notice on testing
-
-Gabriel Whigham (1):
-      docs: ioctl-number: fix a typo in ioctl-number.rst
-
-Geert Uytterhoeven (1):
-      Documentation: mailbox: mbox_chan_ops.flush() is optional
-
-Jani Nikula (1):
-      Documentation: use a source-read extension for the index link boilerp=
-late
-
-Jonathan Corbet (8):
-      Merge branch 'mauro-vars' into docs-mw
-      docs: kdoc: remove support for an external kernel-doc from sphinx
-      docs: kdoc: move kernel-doc to tools/docs
-      docs: sphinx-build-wrapper: stop setting kerneldoc_bin for Sphinx
-      docs: add a scripts/kernel-doc symbolic link
-      jobserver: Split up the big try: block
-      Merge branch 'mauro' into docs-mw
-      Merge branch 'mauro' into docs-mw
-
-Lukas Bulwahn (2):
-      Documentation: update config name in real-time architecture support
-      MAINTAINERS: Add doc files on real-time support to Real-time Linux
-
-Marc Herbert (1):
-      docs: make kptr_restrict and hash_pointers reference each other
-
-Masaharu Noguchi (3):
-      docs/ja_JP: fix typos and duplicated phrases in kernel development gu=
-ide
-      docs/ja_JP: fix translation of freestanding C environment
-      docs/ja_JP: fix typos in submit-checklist.rst
-
-Mauro Carvalho Chehab (41):
-      kernel-doc: add support for handling global variables
-      kernel-doc: add support to handle DEFINE_ variables
-      docs: media: v4l2-ioctl.h: document two global variables
-      docs: kernel-doc.rst: don't let automarkup mangle with consts
-      docs: kernel-doc.rst: document the new "var" kernel-doc markup
-      docs: kernel-doc.rst: Parse DEFINE_ macros without prefixes
-      docs: kdoc: fix logic to handle unissued warnings
-      docs: kdoc: avoid error_count overflows
-      docs: kdoc: ensure that comments are using our coding style
-      docs: kdoc: some fixes to kernel-doc comments
-      docs: kdoc: move the return values to the helper message
-      docs: kdoc: improve description of MsgFormatter
-      docs: conf.py: get rid of the now unused kerneldoc_bin env var
-      docs: custom.css: prevent li marker to override text
-      docs: conf.py: don't use doctree with a different meaning
-      docs: conf: don't rely on cwd to get documentation location
-      docs: enable Sphinx autodoc extension to allow documenting python
-      docs: custom.css: add CSS for python
-      docs: kdoc: latex_fonts: Improve docstrings and comments
-      docs: kdoc_files: Improve docstrings and comments
-      docs: kdoc_item: Improve docstrings and comments
-      docs: kdoc_parser: Improve docstrings and comments
-      docs: kdoc_output: Improve docstrings and comments
-      docs: kdoc_re: Improve docstrings and comments
-      docs: kdoc: parse_data_structs: Improve docstrings and comments
-      docs: kdoc: enrich_formatter: Improve docstrings and comments
-      docs: kdoc: python_version: Improve docstrings and comments
-      docs: add kernel-doc modules documentation
-      docs: add kabi modules documentation
-      docs: python: abi_parser: do some improvements at documentation
-      docs: python: abi_regex: do some improvements at documentation
-      docs: kabi: system_symbols: end docstring phrases with a dot
-      docs: kabi: helpers: add helper for debug bits 7 and 8
-      docs: kabi: helpers: add documentation for each "enum" value
-      docs: add jobserver module documentation
-      docs: jobserver: do some documentation improvements
-      docs: add parse_features module documentation
-      docs: parse_features: make documentation more consistent
-      docs: kdoc: Fix pdfdocs build for tools
-      docs: sphinx-build-wrapper: allow -v override -q
-      tools: sphinx-build-wrapper: improve its help message
-
-Max Nikulin (2):
-      docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
-      docs: admin: devices: remove /dev/cdwriter
-
-Mustafa Elrasheid (1):
-      docs: Makefile: wrap SPHINXDIRS help text
-
-Nauman Sabir (1):
-      Documentation: Fix typos and grammatical errors
-
-Petr Vorel (5):
-      Documentation: bug-hunting.rst: Remove wrong 'file:' syntax
-      Documentation/trace: Fix links to other documents
-      Documentation: Remove :manpage: from non-existing man pages
-      Documentation: Link man pages to https://man7.org/
-      Documentation: CSS: Improve man page font
-
-Randy Dunlap (2):
-      docs: find-unused-docs.sh: fixup directory usage
-      docs: filesystems: add fs/open.c to api-summary
-
-Rhys Tumelty (1):
-      docs: fix 're-use' -> 'reuse' in documentation
-
-Sasha Levin (1):
-      docs: add AI Coding Assistants documentation
-
-Sebastian Andrzej Siewior (1):
-      Documentation: Add some hardware hints for real-time
-
-SeongJae Park (2):
-      docs: submitting-patches: suggest adding previous version links
-      Docs/translations/ko_KR: remove memory-barriers
-
-Shuah Khan (1):
-      MAINTAINERS: Update for the doc subsystem
-
-Shubham Sharma (1):
-      Documentation: arm: keystone: update DT binding reference
-
-Soham Metha (1):
-      Documentation/rv: Fix dead link to monitor_synthesis.rst
-
-Steven Price (1):
-      kdoc: allow dots in inline @param names
-
-Thomas B=C3=B6hler (1):
-      docs: filesystems: ensure proc pid substitutable is complete
-
-Thomas Wei=C3=9Fschuh (4):
-      tools/docs: sphinx-build-wrapper: generate rust docs only once
-      tools/docs: sphinx-build-wrapper: make 'rustdoc' a local variable
-      tools/docs: sphinx-build-wrapper: compute sphinxdirs_list earlier
-      tools/docs: sphinx-build-wrapper: only generate rust docs when reques=
-ted
-
-Thorsten Blum (2):
-      Documentation: kernel-hacking: Remove comma
-      Documentation: kernel-hacking: Remove :c:func: annotations
-
-Uwe Kleine-K=C3=B6nig (1):
-      Documentation: Improve wording on requirements for a free Nitrokey
-
-Vincent Mailhol (2):
-      docs: process: email-client: add Thunderbird "Toggle Line Wrap" exten=
-sion
-      doc-guide: kernel-doc: specify that W=3Dn does not check header files
-
-Volodymyr Kot (1):
-      Doc: correct spelling and wording mistakes
-
-Willy Tarreau (1):
-      Documentation: insist on the plain-text requirement for security repo=
-rts
-
-Wu Canhong (1):
-      doc: input: fix typos in input.rst
-
-Yiwei Lin (1):
-      scsi: docs: Add description for missing options of link_power_managem=
-ent_policy
-
-Yu Liao (1):
-      Documentation/kernel-parameters: Add tsa under mitigations=3Doff
-
-junan (1):
-      doc: kgdb: Add description about rodata=3Doff kernel parameter
-
-wheatfox (1):
-      docs: automarkup.py: Skip common English words as C identifiers
-
- CREDITS                                            |    8 +-
- Documentation/ABI/testing/pstore                   |    2 +-
- Documentation/Makefile                             |    3 +-
- Documentation/RCU/index.rst                        |    7 -
- Documentation/accel/index.rst                      |    7 -
- Documentation/admin-guide/README.rst               |    2 +-
- Documentation/admin-guide/aoe/index.rst            |    7 -
- Documentation/admin-guide/auxdisplay/index.rst     |    7 -
- Documentation/admin-guide/bug-hunting.rst          |    6 +-
- Documentation/admin-guide/cgroup-v1/hugetlb.rst    |   18 +-
- Documentation/admin-guide/cgroup-v1/index.rst      |    7 -
- Documentation/admin-guide/cgroup-v2.rst            |    2 +-
- Documentation/admin-guide/cifs/index.rst           |    7 -
- Documentation/admin-guide/device-mapper/index.rst  |    7 -
- Documentation/admin-guide/devices.rst              |   10 +-
- Documentation/admin-guide/devices.txt              |    6 +-
- Documentation/admin-guide/gpio/index.rst           |    7 -
- Documentation/admin-guide/index.rst                |    7 -
- Documentation/admin-guide/initrd.rst               |    2 +-
- Documentation/admin-guide/kdump/index.rst          |    7 -
- Documentation/admin-guide/kdump/kdump.rst          |    2 +-
- Documentation/admin-guide/kernel-parameters.txt    |    4 +
- Documentation/admin-guide/mm/nommu-mmap.rst        |    2 +-
- Documentation/admin-guide/sysctl/kernel.rst        |    3 +
- Documentation/arch/arc/index.rst                   |    7 -
- Documentation/arch/arm/index.rst                   |    8 -
- Documentation/arch/arm/keystone/knav-qmss.rst      |    2 +-
- Documentation/arch/arm/keystone/overview.rst       |    2 +-
- Documentation/arch/arm64/arm-acpi.rst              |    4 +-
- Documentation/arch/arm64/index.rst                 |    7 -
- Documentation/arch/loongarch/index.rst             |    7 -
- Documentation/arch/m68k/index.rst                  |    7 -
- Documentation/arch/mips/index.rst                  |    7 -
- Documentation/arch/openrisc/index.rst              |    7 -
- Documentation/arch/parisc/index.rst                |    7 -
- Documentation/arch/powerpc/index.rst               |    7 -
- Documentation/arch/riscv/index.rst                 |    7 -
- Documentation/arch/s390/driver-model.rst           |    2 +-
- Documentation/arch/s390/index.rst                  |    7 -
- Documentation/arch/x86/shstk.rst                   |    2 +-
- Documentation/bpf/index.rst                        |    7 -
- Documentation/cdrom/index.rst                      |    7 -
- Documentation/conf.py                              |   55 +-
- Documentation/core-api/index.rst                   |    7 -
- Documentation/core-api/kho/index.rst               |    2 -
- Documentation/core-api/kobject.rst                 |    2 +-
- .../core-api/real-time/architecture-porting.rst    |    3 +-
- Documentation/core-api/real-time/hardware.rst      |  132 +
- Documentation/core-api/real-time/index.rst         |    1 +
- Documentation/dev-tools/checkpatch.rst             |    2 +-
- Documentation/dev-tools/clang-format.rst           |    2 +-
- Documentation/dev-tools/index.rst                  |    8 -
- Documentation/doc-guide/index.rst                  |    7 -
- Documentation/doc-guide/kernel-doc.rst             |   63 +-
- Documentation/driver-api/80211/index.rst           |    7 -
- Documentation/driver-api/basics.rst                |   17 +-
- Documentation/driver-api/coco/index.rst            |    2 -
- Documentation/driver-api/crypto/iaa/index.rst      |    7 -
- Documentation/driver-api/crypto/index.rst          |    7 -
- Documentation/driver-api/cxl/index.rst             |    2 -
- Documentation/driver-api/dmaengine/index.rst       |    7 -
- Documentation/driver-api/driver-model/binding.rst  |    9 +-
- .../driver-api/driver-model/design-patterns.rst    |    2 +-
- Documentation/driver-api/driver-model/index.rst    |    7 -
- Documentation/driver-api/early-userspace/index.rst |    7 -
- Documentation/driver-api/firmware/index.rst        |    7 -
- Documentation/driver-api/index.rst                 |    7 -
- Documentation/driver-api/mailbox.rst               |    2 +-
- Documentation/driver-api/memory-devices/index.rst  |    7 -
- Documentation/driver-api/pci/index.rst             |    7 -
- Documentation/driver-api/phy/index.rst             |    8 -
- Documentation/driver-api/phy/phy.rst               |    2 +-
- Documentation/driver-api/pm/index.rst              |    7 -
- Documentation/driver-api/serial/index.rst          |    7 -
- Documentation/driver-api/soundwire/index.rst       |    7 -
- .../surface_aggregator/clients/index.rst           |    7 -
- .../driver-api/surface_aggregator/index.rst        |    7 -
- Documentation/driver-api/tty/tty_ldisc.rst         |    2 +-
- Documentation/driver-api/usb/gadget.rst            |    2 +-
- Documentation/driver-api/usb/index.rst             |    7 -
- Documentation/driver-api/xilinx/index.rst          |    7 -
- Documentation/fault-injection/index.rst            |    7 -
- Documentation/fb/index.rst                         |    7 -
- Documentation/filesystems/api-summary.rst          |    3 +
- Documentation/filesystems/erofs.rst                |    2 +-
- Documentation/filesystems/proc.rst                 |    6 +-
- Documentation/filesystems/relay.rst                |    2 +-
- Documentation/filesystems/resctrl.rst              |    2 +-
- Documentation/filesystems/spufs/spu_create.rst     |    4 +-
- Documentation/filesystems/spufs/spu_run.rst        |    4 +-
- .../firmware-guide/acpi/DSD-properties-rules.rst   |    2 +-
- Documentation/firmware-guide/acpi/enumeration.rst  |    2 +-
- Documentation/fpga/index.rst                       |    7 -
- Documentation/gpu/drivers.rst                      |    7 -
- Documentation/gpu/index.rst                        |    7 -
- Documentation/hwmon/index.rst                      |    7 -
- Documentation/i2c/index.rst                        |    7 -
- Documentation/infiniband/index.rst                 |    7 -
- Documentation/input/devices/index.rst              |    7 -
- Documentation/input/gamepad.rst                    |    2 +-
- Documentation/input/index.rst                      |    7 -
- Documentation/input/input.rst                      |    2 +-
- Documentation/isdn/index.rst                       |    7 -
- Documentation/kbuild/index.rst                     |    7 -
- Documentation/kbuild/kbuild.rst                    |    2 +-
- Documentation/kbuild/kconfig-language.rst          |    2 +-
- Documentation/kbuild/makefiles.rst                 |    2 +-
- Documentation/kernel-hacking/hacking.rst           |  183 +-
- Documentation/livepatch/index.rst                  |    7 -
- Documentation/locking/index.rst                    |    7 -
- Documentation/mhi/index.rst                        |    7 -
- Documentation/netlabel/index.rst                   |    7 -
- .../networking/device_drivers/atm/index.rst        |    7 -
- .../networking/device_drivers/can/index.rst        |    7 -
- .../networking/device_drivers/cellular/index.rst   |    7 -
- .../networking/device_drivers/ethernet/index.rst   |    7 -
- .../ethernet/mellanox/mlx5/index.rst               |    7 -
- .../networking/device_drivers/fddi/index.rst       |    7 -
- .../networking/device_drivers/hamradio/index.rst   |    7 -
- Documentation/networking/device_drivers/index.rst  |    7 -
- .../networking/device_drivers/wifi/index.rst       |    7 -
- .../networking/device_drivers/wwan/index.rst       |    7 -
- Documentation/networking/diagnostic/index.rst      |    7 -
- Documentation/networking/index.rst                 |    7 -
- Documentation/pcmcia/index.rst                     |    7 -
- Documentation/peci/index.rst                       |    7 -
- Documentation/power/index.rst                      |    7 -
- Documentation/process/1.Intro.rst                  |    2 +-
- Documentation/process/2.Process.rst                |    2 +-
- Documentation/process/4.Coding.rst                 |    6 +-
- Documentation/process/5.Posting.rst                |    7 +-
- Documentation/process/7.AdvancedTopics.rst         |    2 +-
- Documentation/process/adding-syscalls.rst          |   20 +-
- Documentation/process/changes.rst                  |    2 +-
- Documentation/process/coding-assistants.rst        |   59 +
- Documentation/process/coding-style.rst             |   12 +-
- Documentation/process/debugging/index.rst          |    9 -
- Documentation/process/debugging/kgdb.rst           |    7 +
- Documentation/process/email-clients.rst            |    9 +-
- Documentation/process/generated-content.rst        |  109 +
- Documentation/process/index.rst                    |    9 +-
- Documentation/process/maintainer-pgp-guide.rst     |    4 +-
- Documentation/process/security-bugs.rst            |    6 +-
- Documentation/process/submitting-patches.rst       |    6 +-
- Documentation/rust/index.rst                       |    7 -
- Documentation/scheduler/index.rst                  |    7 -
- Documentation/scsi/ChangeLog.sym53c8xx             |    6 +-
- .../scsi/link_power_management_policy.rst          |   23 +-
- Documentation/sound/hd-audio/notes.rst             |    2 +-
- Documentation/sound/index.rst                      |    7 -
- Documentation/sphinx-includes/subproject-index.rst |    7 +
- Documentation/sphinx-static/custom.css             |   20 +-
- Documentation/sphinx/automarkup.py                 |   10 +
- Documentation/sphinx/kerneldoc.py                  |   60 +-
- Documentation/spi/index.rst                        |    7 -
- Documentation/staging/rpmsg.rst                    |    7 +-
- Documentation/target/index.rst                     |    7 -
- Documentation/tee/index.rst                        |    7 -
- Documentation/timers/index.rst                     |    7 -
- Documentation/tools/feat.rst                       |   10 +
- Documentation/tools/index.rst                      |    8 +-
- Documentation/tools/jobserver.rst                  |   10 +
- Documentation/tools/kabi.rst                       |   13 +
- Documentation/tools/kabi_helpers.rst               |   11 +
- Documentation/tools/kabi_parser.rst                |   10 +
- Documentation/tools/kabi_regex.rst                 |   10 +
- Documentation/tools/kabi_symbols.rst               |   10 +
- Documentation/tools/kdoc.rst                       |   12 +
- Documentation/tools/kdoc_ancillary.rst             |   46 +
- Documentation/tools/kdoc_output.rst                |   14 +
- Documentation/tools/kdoc_parser.rst                |   29 +
- Documentation/tools/python.rst                     |   13 +
- Documentation/tools/rtla/index.rst                 |    7 -
- Documentation/tools/rv/index.rst                   |    7 -
- Documentation/trace/fprobe.rst                     |    2 +-
- Documentation/trace/ftrace-uses.rst                |    2 +-
- Documentation/trace/index.rst                      |    7 -
- .../trace/rv/da_monitor_instrumentation.rst        |    6 +-
- .../translations/it_IT/doc-guide/kernel-doc.rst    |    8 +-
- .../translations/it_IT/process/adding-syscalls.rst |   16 +-
- Documentation/translations/ja_JP/index.rst         |    1 +
- Documentation/translations/ja_JP/process/howto.rst |    6 +-
- .../ja_JP/process/submit-checklist.rst             |    4 +-
- .../ja_JP/process/submitting-patches.rst           |   56 +
- .../ko_KR/core-api/wrappers/memory-barriers.rst    |   18 -
- Documentation/translations/ko_KR/index.rst         |    1 -
- .../translations/ko_KR/memory-barriers.txt         | 2952 ----------------=
-----
- .../translations/sp_SP/process/adding-syscalls.rst |   16 +-
- .../translations/sp_SP/process/coding-style.rst    |    2 +-
- .../translations/zh_CN/doc-guide/kernel-doc.rst    |   10 +-
- Documentation/translations/zh_CN/kbuild/kbuild.rst |    2 +-
- .../translations/zh_CN/process/coding-style.rst    |    2 +-
- .../translations/zh_TW/process/coding-style.rst    |    2 +-
- Documentation/usb/index.rst                        |    7 -
- Documentation/userspace-api/gpio/index.rst         |    7 -
- Documentation/userspace-api/index.rst              |    7 -
- Documentation/userspace-api/ioctl/ioctl-number.rst |    2 +-
- Documentation/virt/index.rst                       |    7 -
- Documentation/w1/index.rst                         |    7 -
- Documentation/watchdog/index.rst                   |    7 -
- Documentation/wmi/devices/index.rst                |    7 -
- Documentation/wmi/index.rst                        |    8 -
- MAINTAINERS                                        |    5 +-
- Makefile                                           |    2 +-
- README                                             |   12 +
- drivers/gpu/drm/i915/Makefile                      |    2 +-
- include/linux/util_macros.h                        |    2 +-
- include/media/v4l2-ioctl.h                         |   15 +
- scripts/kernel-doc                                 |    2 +-
- tools/docs/find-unused-docs.sh                     |    4 +-
- scripts/kernel-doc.py =3D> tools/docs/kernel-doc     |   89 +-
- tools/docs/sphinx-build-wrapper                    |  125 +-
- tools/lib/python/abi/abi_parser.py                 |   33 +-
- tools/lib/python/abi/abi_regex.py                  |   26 +-
- tools/lib/python/abi/helpers.py                    |   42 +-
- tools/lib/python/abi/system_symbols.py             |   14 +-
- tools/lib/python/feat/parse_features.py            |   27 +-
- tools/lib/python/jobserver.py                      |  158 +-
- tools/lib/python/kdoc/enrich_formatter.py          |   20 +-
- tools/lib/python/kdoc/kdoc_files.py                |   23 +-
- tools/lib/python/kdoc/kdoc_item.py                 |   18 +
- tools/lib/python/kdoc/kdoc_output.py               |  104 +-
- tools/lib/python/kdoc/kdoc_parser.py               |  287 +-
- tools/lib/python/kdoc/kdoc_re.py                   |   28 +-
- tools/lib/python/kdoc/latex_fonts.py               |   95 +-
- tools/lib/python/kdoc/parse_data_structs.py        |   62 +-
- tools/lib/python/kdoc/python_version.py            |   20 +-
- 227 files changed, 1806 insertions(+), 4378 deletions(-)
- create mode 100644 Documentation/core-api/real-time/hardware.rst
- create mode 100644 Documentation/process/coding-assistants.rst
- create mode 100644 Documentation/process/generated-content.rst
- create mode 100644 Documentation/sphinx-includes/subproject-index.rst
- create mode 100644 Documentation/tools/feat.rst
- create mode 100644 Documentation/tools/jobserver.rst
- create mode 100644 Documentation/tools/kabi.rst
- create mode 100644 Documentation/tools/kabi_helpers.rst
- create mode 100644 Documentation/tools/kabi_parser.rst
- create mode 100644 Documentation/tools/kabi_regex.rst
- create mode 100644 Documentation/tools/kabi_symbols.rst
- create mode 100644 Documentation/tools/kdoc.rst
- create mode 100644 Documentation/tools/kdoc_ancillary.rst
- create mode 100644 Documentation/tools/kdoc_output.rst
- create mode 100644 Documentation/tools/kdoc_parser.rst
- create mode 100644 Documentation/tools/python.rst
- create mode 100644 Documentation/translations/ja_JP/process/submitting-pat=
-ches.rst
- delete mode 100644 Documentation/translations/ko_KR/core-api/wrappers/memo=
-ry-barriers.rst
- delete mode 100644 Documentation/translations/ko_KR/memory-barriers.txt
- rename scripts/kernel-doc.py =3D> tools/docs/kernel-doc (88%)
