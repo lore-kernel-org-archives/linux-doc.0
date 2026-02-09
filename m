@@ -1,81 +1,25 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409362C0F72
-	for <linux-doc@vger.kernel.org>; Mon,  9 Feb 2026 15:26:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D3DE2F5A3D;
+	Mon,  9 Feb 2026 15:36:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770650762; cv=none; b=VvICGMpvmnvmIHxbeGZnjveb7vjHWUS7bo/wKiTtlwEzmmEiwKe/T7v8Ifb5fJYoCwjcOGl3A8o2ANfXWCSabq/JdoZEeFQIQiyLXAhIGEUZ59X6t/SVRkDQ2Fzcya2PF2aESxHY7pdZ/8UWGcx92fLbzTzdvpp/gGBOFygK7bc=
+	t=1770651400; cv=none; b=meKO8friQLAzVrdmWz6aM1/4JQFyQgzpsw6TYJW31V6CjCItaQsqwFsbJCsm7bikp1+zPKNv4pn+xPXWBOaiiddsZirwtwfleG3K+3fSi5DWc1P1po6oZQi2FXbvi/nZF52sSHYQ1QjxT8AKhg45XRXjtk8U5fwqVVF3pKiYmZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770650762; c=relaxed/simple;
-	bh=8sf12bdDZSlGSccRjkyFc4DzSqXFDuafZoAwDn99dy0=;
+	s=arc-20240116; t=1770651400; c=relaxed/simple;
+	bh=HIoSMO9egrZ4A6UCPVzGa9X1jJVWkQH0s0LiFyimx2U=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LSc95SSY2L0KUxS41j9Cwpm42Q79XvrjvTyeNkrq5n1AWlbZXGcViScp3+yZz7ctS3eZHsBCfbn2nHX/qIhccuUxfU7RL/qjcE1dd14Q5KxERopVkV0r2j5AXXkcDbihXNQqapCQt/wNoIIbxNycHKv1idjQkMS+qfrJLxzjs5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dVe4aC8U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ahVUEU0o; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dVe4aC8U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ahVUEU0o; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dVe4aC8U";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ahVUEU0o";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dVe4aC8U";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ahVUEU0o"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 6076D3E712;
-	Mon,  9 Feb 2026 15:26:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770650760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/t3djtqceczc/kumZH/3BRs3t1izpbgkuB3k4cyq1LU=;
-	b=dVe4aC8UMGE8KQGJx/+IsBkhtOLhUxg+O7l3196R65K0WqisVv3ib8fFTPJV4o13K/H7oi
-	RALU9B8rmNkihxyZiHw1GF83hSnO0/gbbf2xxUoQZyRmL3w6OJji3zLOLpB0RnxSvvPlrb
-	Ceqsta/6IoPez/gWmiyvPLx3sc99K5g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770650760;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/t3djtqceczc/kumZH/3BRs3t1izpbgkuB3k4cyq1LU=;
-	b=ahVUEU0oENpqE3omnQgpD5vkq5W3aIWsekqTc6ZuUM16siyQ8T+PI3UmOYw/fOAdtoodB1
-	3vxPcbiiS5IW2pCQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dVe4aC8U;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ahVUEU0o
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1770650760; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/t3djtqceczc/kumZH/3BRs3t1izpbgkuB3k4cyq1LU=;
-	b=dVe4aC8UMGE8KQGJx/+IsBkhtOLhUxg+O7l3196R65K0WqisVv3ib8fFTPJV4o13K/H7oi
-	RALU9B8rmNkihxyZiHw1GF83hSnO0/gbbf2xxUoQZyRmL3w6OJji3zLOLpB0RnxSvvPlrb
-	Ceqsta/6IoPez/gWmiyvPLx3sc99K5g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1770650760;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/t3djtqceczc/kumZH/3BRs3t1izpbgkuB3k4cyq1LU=;
-	b=ahVUEU0oENpqE3omnQgpD5vkq5W3aIWsekqTc6ZuUM16siyQ8T+PI3UmOYw/fOAdtoodB1
-	3vxPcbiiS5IW2pCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 85A1E3EA63;
-	Mon,  9 Feb 2026 15:25:59 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tn61HYf8iWlMPQAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Mon, 09 Feb 2026 15:25:59 +0000
-Message-ID: <641a1a66-705e-46ee-9612-db35d92729cf@suse.de>
-Date: Mon, 9 Feb 2026 16:25:54 +0100
+	 In-Reply-To:Content-Type; b=P2h2G7FQPvDGbdumjDTLP4MeBcFGBSsAeFh3gUhbY1cFUX+licYaGpXnGvvUmtzXTUDkTwLWos51CcWLWYNKUnVjvaMDNWG05Kt9FfkP1KCz7CUgBkn4MGRtHcAMUf2OJiameIKKb8XLvIx0o/UDTtcpcglxj9rAUi1Ly5/SMlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 800B8339;
+	Mon,  9 Feb 2026 07:36:33 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 93DFE3F740;
+	Mon,  9 Feb 2026 07:36:34 -0800 (PST)
+Message-ID: <7a0953ff-6475-4311-b34c-47eed9d38cb1@arm.com>
+Date: Mon, 9 Feb 2026 15:36:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,118 +27,152 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC net-next] inet: add ip_retry_random_port sysctl to
- reduce sequential port retries
-To: longxie86@protonmail.com
-Cc: Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
- davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, ncardwell@google.com, kuniyu@google.com, dsahern@kernel.org,
- idosch@nvidia.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Thorsten Toepper <thorsten.toepper@sap.com>
-References: <20260203175422.4620-1-fmancera@suse.de>
- <CANn89i+UUWx5OhPnJnDhiCfr53BPTAGedBucgqYwyfqkidf_Cg@mail.gmail.com>
- <8d94faf9-2fb6-483d-9767-bd665c4a4b9a@suse.de>
- <1649583d-71c2-425e-a2df-685d5f6dc67d@suse.de>
- <CANn89iK3Pu2NXxejTSLF-7MhBc03_ZJUjOtZcTC4nMsbsDpbSw@mail.gmail.com>
- <d76cd8c3-deb0-4f39-b5b9-a711d155cd5f@suse.de>
- <egIQQeDF4RIP_614tU-XIK-01DgThdPOU3KA253uNHvZv76zymXyBFhey1G7wj5mA2nwHpdT7VBoGuFnATSO-PS0hUb0Qrt0AyN5JNbpATg=@protonmail.com>
+Subject: Re: [PATCH v4 20/41] arm_mpam: resctrl: Add CDP emulation
+To: Fenghua Yu <fenghuay@nvidia.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com,
+ kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ zengheng4@huawei.com, linux-doc@vger.kernel.org,
+ Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+ <20260203214342.584712-21-ben.horgan@arm.com>
+ <2271224c-1796-4823-8c2c-6f529814e645@nvidia.com>
+From: Ben Horgan <ben.horgan@arm.com>
 Content-Language: en-US
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-In-Reply-To: <egIQQeDF4RIP_614tU-XIK-01DgThdPOU3KA253uNHvZv76zymXyBFhey1G7wj5mA2nwHpdT7VBoGuFnATSO-PS0hUb0Qrt0AyN5JNbpATg=@protonmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <2271224c-1796-4823-8c2c-6f529814e645@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -4.51
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[protonmail.com];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[protonmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,protonmail.com:email,0xffsoftware.com:url]
-X-Spam-Level: 
-X-Rspamd-Action: no action
-X-Rspamd-Queue-Id: 6076D3E712
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
 
-On 2/9/26 2:53 PM, longxie86@protonmail.com wrote:
-> On Monday, February 9th, 2026 at 12:57 PM, Fernando Fernandez Mancera <fmancera@suse.de> wrote:
-> 
->>
->>
->> On 2/6/26 6:09 PM, Eric Dumazet wrote:
->>
->>> On Fri, Feb 6, 2026 at 5:28 PM Fernando Fernandez Mancera
->>> fmancera@suse.de wrote:
->>>
->>>> It makes sense. I have tested this approach and we got a more even
->>>> distribution of source ports when having thousands of reserved ports. No
->>>> difference at all when not using reserved ports.
->>>>
->>>> Please, you can find the distribution graph with the current algorithm
->>>> [1] and with the random step algorithm [2].
->>>>
->>>> While I understand that this approach is introducing a call to
->>>> get_random_u32_below() on every connect, I am wondering if it makes
->>>> sense to replace the existing algorithm with this variant. What do you
->>>> think?
->>>
->>> I would ask RFC 6056 experts like Fernando Gont what they think.
->>>
->>> Note that if we use random at each connect(), we defeat one of the principles
->>> of ephemeral port selection : try very hard to avoid 4-tuple collision.
->>
->>
->> Right. I will reach out to him and get his opinion. I have plenty of
->> time before net-next open again. I am also collecting some metrics
->> regarding the 4-tuple collision frequency.
->>
-> 
-> We have had this problem in AWS for a long time. The patch works on our system. What is needed for it to be included in the next Linux release?
-> 
+Hi Fenghua,
 
-This just an RFC, I discourage using it in production yet. An official 
-v1 will be sent once net-next is open and there it needs to be reviewed 
-and approved by the maintainers.
-
-> Please bring this to the stable versions.
+On 2/9/26 01:16, Fenghua Yu wrote:
+> Hi, Ben,
 > 
+> On 2/3/26 13:43, Ben Horgan wrote:
+>> From: James Morse <james.morse@arm.com>
+>>
+>> Intel RDT's CDP feature allows the cache to use a different control value
+>> depending on whether the accesses was for instruction fetch or a data
+>> access. MPAM's equivalent feature is the other way up: the CPU assigns a
+>> different partid label to traffic depending on whether it was instruction
+>> fetch or a data access, which causes the cache to use a different control
+>> value based solely on the partid.
+>>
+>> MPAM can emulate CDP, with the side effect that the alternative partid is
+>> seen by all MSC, it can't be enabled per-MSC.
+>>
+>> Add the resctrl hooks to turn this on or off. Add the helpers that
+>> match a
+>> closid against a task, which need to be aware that the value written to
+>> hardware is not the same as the one resctrl is using.
+>>
+>> Update the 'arm64_mpam_global_default' variable the arch code uses during
+>> context switch to know when the per-cpu value should be used instead.
+>> Also,
+>> update these per-cpu values and sync the resulting mpam partid/pmg
+>> configuration to hardware.
+>>
+>> Awkwardly, the MB controls don't implement CDP. To emulate this, the MPAM
+>> equivalent needs programming twice by the resctrl glue, as resctrl
+>> expects
+>> the bandwidth controls to be applied independently for both data and
+>> instruction-fetch.
+>>
+>> Tested-by: Gavin Shan <gshan@redhat.com>
+>> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+>> Tested-by: Peter Newman <peternewman@google.com>
+>> CC: Dave Martin <Dave.Martin@arm.com>
+>> CC: Amit Singh Tomar <amitsinght@marvell.com>
+>> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+>> Signed-off-by: James Morse <james.morse@arm.com>
+>> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+>> ---
+>> Changes since rfc:
+>> Fail cdp initialisation if there is only one partid
+>> Correct data/code confusion
+>>
+>> Changes since v2:
+>> Don't include unused header
+>>
+>> Changes since v3:
+>> Update the per-cpu values and sync to h/w
+>> ---
+>>   arch/arm64/include/asm/mpam.h  |   1 +
+>>   drivers/resctrl/mpam_resctrl.c | 117 +++++++++++++++++++++++++++++++++
+>>   include/linux/arm_mpam.h       |   2 +
+>>   3 files changed, 120 insertions(+)
+>>
+>> diff --git a/arch/arm64/include/asm/mpam.h b/arch/arm64/include/asm/
+>> mpam.h
+>> index 05aa71200f61..70d396e7b6da 100644
+>> --- a/arch/arm64/include/asm/mpam.h
+>> +++ b/arch/arm64/include/asm/mpam.h
+>> @@ -4,6 +4,7 @@
+>>   #ifndef __ASM__MPAM_H
+>>   #define __ASM__MPAM_H
+>>   +#include <linux/arm_mpam.h>
+>>   #include <linux/bitfield.h>
+>>   #include <linux/jump_label.h>
+>>   #include <linux/percpu.h>
+>> diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/
+>> mpam_resctrl.c
+>> index cd52ca279651..12017264530a 100644
+>> --- a/drivers/resctrl/mpam_resctrl.c
+>> +++ b/drivers/resctrl/mpam_resctrl.c
+>> @@ -38,6 +38,10 @@ static DEFINE_MUTEX(domain_list_lock);
+>>   static bool exposed_alloc_capable;
+>>   static bool exposed_mon_capable;
+>>   +/*
+>> + * MPAM emulates CDP by setting different PARTID in the I/D fields of
+>> MPAM0_EL1.
+>> + * This applies globally to all traffic the CPU generates.
+>> + */
+>>   static bool cdp_enabled;
+>>     bool resctrl_arch_alloc_capable(void)
+>> @@ -50,6 +54,72 @@ bool resctrl_arch_mon_capable(void)
+>>       return exposed_mon_capable;
+>>   }
+>>   +bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level rid)
+>> +{
+>> +    switch (rid) {
+>> +    case RDT_RESOURCE_L2:
+>> +    case RDT_RESOURCE_L3:
+>> +        return cdp_enabled;
+>> +    case RDT_RESOURCE_MBA:
+>> +    default:
+>> +        /*
+>> +         * x86's MBA control doesn't support CDP, so user-space doesn't
+> 
+> s/x86's/ARM's/
 
-I don't think that will happen. This is an improvement not a "fix" per 
-definition. Anyway, you could ask for a backport to your 
-vendor/distribution.
+In CPUs supporting MPAM the instruction/data distinction is made at the
+CPU so doesn't depend on the specific control. The point this comment is
+trying to make is that as x86 doesn't support CDP on MBA, resctrl, which
+was initially x86 specific, expected CDP not to be supported on MBA and
+hence MPAM/ARM64 has to match this behaviour. Therefore, the MPAM driver
+doesn't support CDP on MBA either. In essence, the MPAM driver emulates
+the x86 CDP behaviour. Having said that, this comment relies on the
+reader knowing this historical context, and so I'll update it to not
+reference x86 and just mention that it is the expectation of the resctrl
+interface.
+
+> 
+> Thanks.
+> 
+> -Fenghua
+> 
+> [SNIP]
 
 Thanks,
-Fernando.
 
->>>> Please, notice the implementation below. I plan to send an official v1
->>>> once net-next is open. In addition, I am rewriting the commit message as
->>>> I find the current one confusing.
->>>>
->>>> [1] https://0xffsoftware.com/port_graph_current_alg.html
->>>>
->>>> [2] https://0xffsoftware.com/port_graph_random_step_alg.html
->>
->>
+Ben
 
