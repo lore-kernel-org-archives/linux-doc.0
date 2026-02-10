@@ -1,111 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1044926ED3E;
-	Tue, 10 Feb 2026 05:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5BA25228C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 06:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770702938; cv=none; b=Bm+oWhSgpftQLL+sYJ3HjAo549EshZH338bAfCnEpCtx9YfDpyRh1YYOitBu/HputJDHsXrXlFL9O9iqWIdIuOeuwlV6TREaMjU5dGvTMe1vZ0L4+FVRp/Z1iDOOeeSs3jOV7YZmyPJNvaYppqOODNUowBs6NwVWVajC1vgJmGM=
+	t=1770703752; cv=none; b=Y2GTNuTH88LsUhtPC4mF28BAmi8wPpAZMO1I4yTyC6jcRyFDEPMr7sJ/OujC1hQzTsu79E5cMyZw627AqzusKgTxPN7kuzpVZ0Dnvn5jcFkPTD9k98Kua98ke84o6ard5S0OH3H17dLeAmB2uNaNMVuELdMoujTW0O7Ze3XuGQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770702938; c=relaxed/simple;
-	bh=9nnWMdj/22l/UeayrTX5T1lj3a2Zm8Tv6HcRko/maj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KAPvyCXIdo0cph6KsBT0xAcBN8cHNQTSxc5Duf9lAokZNjJSPO2ArwB4VKkgbGvIjwS7uTe2u2LRYkyu4Hl2Z60vC0L7F8Q/sSZ7k7gwtENd3Ul23TOJw4X4JvgOQwHd5Jd7aQk3bre2YLsfBv1EQnbyMA5ewnHUgG7sX8ZmcqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aNtOSgt1; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770703752; c=relaxed/simple;
+	bh=Sm6alnGtkJd2Vwm8RJudinOjw9tPVgXu68YtS7LFBoM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CQAKjv42VcoTsJJJeO27claKthPHy2XeusWamDpWuUHTl/Jvhk5tRwQWbPgvoK63K1vgWRsFjBh2nV+t91/x+pMRy1raPV9zUP8PgXr9SCTiCg5bYrIZqk94j4OphSkJIQqFl50vqZzFvz7qHdT1dMuiE/gTnBxhkUsJVNY2DGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DTs6XS8s; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aNtOSgt1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770702937; x=1802238937;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9nnWMdj/22l/UeayrTX5T1lj3a2Zm8Tv6HcRko/maj4=;
-  b=aNtOSgt17uYI0ZhRJCdfu0cwXuayJe6shmzrNQpPle7+SVkMUgTGn3gh
-   xhTeIk/1M4eBwHydAx1D9IZaLyC9zQL3OyvgM13UuBVMTChzGvgfnh4KN
-   OX26Pm8uLbzLQ4Ffpr69iIxMURuYrfpQrxFHFCEOxIl+7J3GUIiqlJgaR
-   ql4rpi/jioag67EdVkWGK7Pc9EM1opVf47jofoiQ3qXMg8CoaBIYqGM/Z
-   I3oX3Zh0HkC9dWXgX+GnfENrU/bZzcVHr07MlheBEDPn+HAKrunV6to/0
-   SXWks6BMu+9opE8vSQdO+Ll7Vl6npXeQ7CIEqWKivTR4W/t2roTSQFF89
-   g==;
-X-CSE-ConnectionGUID: kbMsJ551QjixW4ymF8gCMQ==
-X-CSE-MsgGUID: 7fR5unBxRxmMMvdDevSBDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82552879"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="82552879"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 21:55:30 -0800
-X-CSE-ConnectionGUID: arSyvb8yT9+dGXp6koLMDA==
-X-CSE-MsgGUID: OiiH5N3LTQOp/Uz4oFV5Lw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211845844"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Feb 2026 21:55:24 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vpgiY-00000000ogW-0ClM;
-	Tue, 10 Feb 2026 05:55:22 +0000
-Date: Tue, 10 Feb 2026 13:55:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Colton Lewis <coltonlewis@google.com>
-Subject: Re: [PATCH v6 16/19] KVM: arm64: Add vCPU device attr to partition
- the PMU
-Message-ID: <202602101354.lZex1CmW-lkp@intel.com>
-References: <20260209221414.2169465-17-coltonlewis@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DTs6XS8s"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c6dd5b01e14so198733a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 22:09:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770703750; x=1771308550; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6G0TTk+DKwqC0qssTfjz0S1C9npwQozCQAXb+0qprpU=;
+        b=DTs6XS8sEHeQqgwRSbKZRJODjcXoT3CfIvpXv2CKmSFh5ldgA759cgZk5dZ/tR3jZq
+         UGAE0w+YskBllO0o3axfrnvc+4h3DPJGCyQe2SU80+gIysxJIymqvS2k5O7bQOq5y+4r
+         1mDQx4WkLYpjmq8tuySqlU2WJ3IgB1rceo/39SGa6DEi30bNxWRzSVVT4s9VRw2wPOEM
+         tAaa8P1WCyE6k+pqLwijiDQO20Z5qm8IkQA6mr6+BVu8X0YOuZUy4/XE0UQ4kIV2UmT0
+         PIr4bQAN2aliS9K6Tvu9otzZ3DXs6VsimBk06alQ0QZSEBW2Qj64pNCBcyFDE0c38wQy
+         BefQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770703750; x=1771308550;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6G0TTk+DKwqC0qssTfjz0S1C9npwQozCQAXb+0qprpU=;
+        b=YLAXoNrFylkcHrWIb10SGT2E0OSSYGLAWWdHdBBDI0wBO21/o9tMN10rLMORj97YF2
+         2TFwasWYiW6+8dEjC2mk+gmgY3gfl0IltAjYH7uvGhLiygxSD6QDFs2ekP1spHQ2CpDX
+         KyeKR6sPE0lmHOPqUh3sLArbSdDlMWnNj+L9sR6ZZK2J2zPw+sMbJkPrmJJ28jHf8hvR
+         oVKdX/xX9u4GiOj+yYb0PawlL80Ru1WP+RSq6mOEU0ZYzkGt9Jkkd4GgLt9+MmIuJeSE
+         7wKtCJS04pnJutEH1omwKAFDwPfNf2iO8i+/vBOAbRL9X28Cez/2jTE9ppUprfnQArRK
+         dy3g==
+X-Forwarded-Encrypted: i=1; AJvYcCXhZNZ1PWT/7YhPhoAlzmzUlUCSRTW2hE0oLkEQlDPTtx/xN2o5rGzzcZ5XmHWPfmWLnovdGDENGd8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXGX0fNqgVqzYA8fJEun5A9OwMp9/CRYMjOC0Xc0VNSs2LI8lA
+	hh3sswLmYC1qF1jmeKW5o/x91Jyz844iv7QSol0RDKwjOg7IrYS4KhHn
+X-Gm-Gg: AZuq6aKO0YLA6w+2/sFBYxAQog126mSzwvxdT4dan+Urqqdv+Hw/5e4+cUUL3aotIU6
+	pLGrqVFG70bKCHYg2aAdkN9esHl0zJfAW066d0xn8E8q+bjvvy703Xen3vYoFmyYDLbDhE5YuQw
+	qVQK9/IEhcA/B13TYsLautjlGLBTmY8KLVnfrFvixjMLDTx2OT2saVZR7HiEo/mURL+n3RzH3m5
+	kKyjk6Va9L1PdNwNo51b6Z2MDADXstzS6TsWDthoL7WuIsSJXL3fc1NiVhM/gQdF0VjHwgN12jO
+	whxQRLIiveg7vWEvOxv2pDNHRUjQSueCKWgTn6AKOak1iwju7ubuZGbx8AtAJ2QonAh3MtOgJ7s
+	hErCD8yG/EOURa3Qu2kRWZrspMLsv2w9rTA/zcWkY7MiCxf5tx7GVSRYrHv/3uI8r6MRm61fhB5
+	APwruaUx9XZwYmYfE2hUN1RrgoXMQfS5pvOMEiU2dhlD9zn2I0OE5POjhwHQWVQgb14ePk5O4As
+	Zounj/DX/54Zw==
+X-Received: by 2002:a05:6a21:a95:b0:35d:2172:5ffb with SMTP id adf61e73a8af0-393ad30704cmr14156801637.47.1770703750390;
+        Mon, 09 Feb 2026 22:09:10 -0800 (PST)
+Received: from localhost.localdomain (123-194-188-82.dynamic.kbronet.com.tw. [123.194.188.82])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c6dcb542c36sm11520990a12.16.2026.02.09.22.09.08
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 09 Feb 2026 22:09:09 -0800 (PST)
+From: Min-Hsun Chang <chmh0624@gmail.com>
+To: corbet@lwn.net
+Cc: rob@landley.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Min-Hsun Chang <chmh0624@gmail.com>
+Subject: [PATCH] Docs/core-api: fix typos in rbtree.rst
+Date: Tue, 10 Feb 2026 14:08:29 +0800
+Message-ID: <20260210060829.42975-1-chmh0624@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260209221414.2169465-17-coltonlewis@google.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Colton,
+Correct minor typographical errors in the red-black tree documentation:
+- Remove redundant "a" in the cached rbtrees section.
+- Fix "updated" to "update" in the augmented rbtrees section.
+- Fix "be looking" to "by looking" in the interval tree sample usage.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Min-Hsun Chang <chmh0624@gmail.com>
+---
+ Documentation/core-api/rbtree.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-[auto build test WARNING on 63804fed149a6750ffd28610c5c1c98cce6bd377]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20260210-064939
-base:   63804fed149a6750ffd28610c5c1c98cce6bd377
-patch link:    https://lore.kernel.org/r/20260209221414.2169465-17-coltonlewis%40google.com
-patch subject: [PATCH v6 16/19] KVM: arm64: Add vCPU device attr to partition the PMU
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260210/202602101354.lZex1CmW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101354.lZex1CmW-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602101354.lZex1CmW-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: arch/arm64/kvm/pmu-direct.c:55 function parameter 'vcpu' not described in 'kvm_vcpu_pmu_is_partitioned'
->> Warning: arch/arm64/kvm/pmu-direct.c:55 expecting prototype for kvm_pmu_is_partitioned(). Prototype was for kvm_vcpu_pmu_is_partitioned() instead
-
+diff --git a/Documentation/core-api/rbtree.rst b/Documentation/core-api/rbtree.rst
+index ed1a9fbc779e..cce80e19087b 100644
+--- a/Documentation/core-api/rbtree.rst
++++ b/Documentation/core-api/rbtree.rst
+@@ -197,7 +197,7 @@ Cached rbtrees
+ --------------
+ 
+ Computing the leftmost (smallest) node is quite a common task for binary
+-search trees, such as for traversals or users relying on a the particular
++search trees, such as for traversals or users relying on the particular
+ order for their own logic. To this end, users can use 'struct rb_root_cached'
+ to optimize O(logN) rb_first() calls to a simple pointer fetch avoiding
+ potentially expensive tree iterations. This is done at negligible runtime
+@@ -255,7 +255,7 @@ affected subtrees.
+ 
+ When erasing a node, the user must call rb_erase_augmented() instead of
+ rb_erase(). rb_erase_augmented() calls back into user provided functions
+-to updated the augmented information on affected subtrees.
++to update the augmented information on affected subtrees.
+ 
+ In both cases, the callbacks are provided through struct rb_augment_callbacks.
+ 3 callbacks must be defined:
+@@ -293,7 +293,7 @@ way making it possible to do efficient lookup and exact match.
+ 
+ This "extra information" stored in each node is the maximum hi
+ (max_hi) value among all the nodes that are its descendants. This
+-information can be maintained at each node just be looking at the node
++information can be maintained at each node just by looking at the node
+ and its immediate children. And this will be used in O(log n) lookup
+ for lowest match (lowest start address among all possible matches)
+ with something like::
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.50.1
+
