@@ -1,96 +1,99 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7289D8632B
-	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 15:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C9D374724;
+	Tue, 10 Feb 2026 15:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770736449; cv=none; b=S79Sm6x5HG8JIiicOX1VZg6fnunJJ1bwac3c05AmndFYSLM6n/D0/6C6ry0MGrSWYV2s+j4nVp/iYp6x3UbvAG6p43hWNQAqGOK8N6+E8RXQY1zZtNOFr6FJ8SLBvGTrsJj+WXEP2ilqmz5oUia2k2P9zDd9tzIm3EDrlOM59k0=
+	t=1770736458; cv=none; b=cjoxXJhPZFg+gZOy+4yAz+CqvsUhz/2gRx7/0EIeYsLnXnE2U0k/YAVv86zw0NsPOpuSMYt7u/cf9X0Bcp36aUG+BpHtDTK+ykxwPv+2tjxhQ3m4Bos2qbNWwI4kmijzxvhaDLV9IsnkaKgQUsCyYblLIQ5CTFRpxdbVHjZGC1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770736449; c=relaxed/simple;
-	bh=Fky/A0HSLBaPAC2FMAAHg1RwSk2RgsSA58KAaAaNikE=;
+	s=arc-20240116; t=1770736458; c=relaxed/simple;
+	bh=5XHstcK3GNmPCCnMCyYj61+dg73mEfAPf1RQMlNT978=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evzS5ps8ve/xtgN3cFHadMSKiiftbuy1ZZg4NA/F8fjCIdk8wY0m/neH9hiwl0HBGjPK/bh9SpRhGtjdOxLeP0G1vkHHNG7apgdghYW7Xc9L8F9NTawZTn8Mz7EveNM5TBUg7uA8yr5Is/VEeBHa6ONhekMR0VNXRwqd8WdwE9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NX1VcfCd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IiW+r+/1; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=J+wGropnpKZWPJKmR3p27aKG47OnVrpergeOvAoIU3K7FsvWVPYKoDDLXQ0c5lhvPwnqh8RaLkcPQTvg6hei3dOENsDzgVf5UZX7AwkpsPE3p9piV8V9Tv/V+qhMgDLoEuz9ZfFvc3gaLsFbpwET1pcZpoBFN9LULPHViQMHeSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSQnuzSg; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NX1VcfCd";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IiW+r+/1"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61AE86TL2169443
-	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 15:14:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=J/AjyONAcOKw9fyP71DvmCeZ
-	OABxEcpsqNv9Hd6xYDg=; b=NX1VcfCdUZ6k023yTa5nrcUU8+rXqC4qmvc3V+wN
-	IvsFXBnkF1DKmJPleq0rG0PC8nNyA3XJ8sYwgGRfSpVd3fNM2htCsX+ujwJhuCAG
-	B/1VWlGTHZPq0aLQkoq7zmRM+/3+tl3ZpO6oN1dXvNcnROVbaP3VZebAc4mv1rQo
-	HPOdbsPzzMbEveD1CR0Q0MAf5nQGtQNG266CUE6o+DqXMI9X004HzRFVfWw/uDgB
-	XCzk42+eQgaeN5EhDnRQI0ucbZqT/i4jmiJDgTsdUCVCQjJZK0/FcyPO2pfRDA7T
-	5Ug9Hm7fQBcbRbBg8AJBdcp/QYqygAr0iYCa1TWtTV/a0g==
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c80drsed5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 15:14:07 +0000 (GMT)
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-2b81ff82e3cso2877123eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 07:14:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1770736447; x=1771341247; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J/AjyONAcOKw9fyP71DvmCeZOABxEcpsqNv9Hd6xYDg=;
-        b=IiW+r+/1BVt2uZpVxp5zWj1KMXsDYrw4MvPQAj4ZWzDHQuP1wzaBGSM8w70WhJhZTc
-         3w9G/x8M9tXpCBijxY1Rkc7mXXmFSjfM2cKCeTfB/6smixZAO+xWmdUvb8Tfus2b8fKH
-         k/HwYIB9w0rIUwdlfy5J3+PsOYtSDBw8ziwDHf/ULFwoTTpicMA8OFL4btjZe8mN01Kr
-         CW9/AD5nXIzb6WaG7AKCLZrh4dR8A/3ZbmgVBuLNqgVTgcsbSE8JAJqGWk4aU6FYprQl
-         Kj+AezylS0HmZzMPvRmWhUvQQjKrhtjJRZbupksuC3rurLv/bM3UkgmB6yhqPcFQHtSb
-         uHGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770736447; x=1771341247;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=J/AjyONAcOKw9fyP71DvmCeZOABxEcpsqNv9Hd6xYDg=;
-        b=jpurP+MqKMJPu87jzfbpuk8vVsAwhkUPX7dKhpAerhFN+rmmPBJGgqvxqO5jtX63PC
-         krxzIw+lAdtGj2bKGseQqFxwEmOi7hRJ9BQPPyTOyhVvb7BQC/Kzzfs3KqorMWA3n3qb
-         +Ai7n94VbkvOdYkQpKdojTaqA3vmHjwMpU8jLz2riMY2Rxdy6stBG+NWanx1W+L8HDr8
-         459k5yKLoCMmP/CWQC4GlxLNWCJOPld8nIDGPLScgMvppjeM2eTE0X+Ve548277F+XPd
-         E3dYQqWM6bJYfFJNzU19KzvxNolKXb84m3QeDxfTRxYQkwyoU7p8yxj0KNmEQBbOe3x6
-         zTjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWYBgSSvExYGi/Q7soapHAuHedJpSsuBeG7u95P/niuF0f8W04LpUaanMzBcZrpaviIPP64YSIJ1x8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcnemWZi92G3Sll750pX7vc/ZM1NDANJhaEsTjLVO9PZG1uBt6
-	ISuyn+mLPECY0/nYQQ9IH1CfdwwZLi5CJ+0jl2HPRinMbDsCQ+xM1xL6FSNkbaOvwCjpXMklJaI
-	+N3bKG3ddKFinVeOD+WeHnOITO2qe0O6Bl+Xo5UVypBN8i/j8uQbYWR69jCBLJd8=
-X-Gm-Gg: AZuq6aI7r2ico586Tdvfv/skumGcWt/nSLVenMsc++8Q5lY5GrT5vlYSmxFJSOPb2p3
-	+K4s3icX5jJxb+YcWqkyxTqrxdFDdvRkb8XiHuDNwSqxrfD0a75Gn503XiT83PUiexf5CNiESpA
-	XABPdgkOt98xSiCHWcVnXr7oU96wxplUvxPnF1jxOXDUtj9iEO5f3V6kGqbHO+YYFvg6FclNgs5
-	ZGOP7KRmbWPSTKHIYdhYSO7gmCR19EldDXrgwOpaBwec2Zoi+tjdA+iiM6XbimNRhWa8I91+aAV
-	e6ynf/bjooo1Zlx0PUecoRHHhuxcbggmEy2Yk/jCNkhU6jwFaJ4xxBtrUjaWmaI2/G+dqK9R5R/
-	wV1QNpHH3+2MCi+yTXHQFQD9oRhfnIP0=
-X-Received: by 2002:a05:7301:d19:b0:2b8:3b47:8951 with SMTP id 5a478bee46e88-2ba89c5d6ecmr1033879eec.1.1770736446929;
-        Tue, 10 Feb 2026 07:14:06 -0800 (PST)
-X-Received: by 2002:a05:7301:d19:b0:2b8:3b47:8951 with SMTP id 5a478bee46e88-2ba89c5d6ecmr1033853eec.1.1770736446266;
-        Tue, 10 Feb 2026 07:14:06 -0800 (PST)
-Received: from localhost ([140.82.166.162])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-127041d9c91sm12648462c88.2.2026.02.10.07.14.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 07:14:05 -0800 (PST)
-Date: Tue, 10 Feb 2026 09:14:03 -0600
-From: Andrew Jones <andrew.jones@oss.qualcomm.com>
-To: Guodong Xu <guodong@riscstar.com>
-Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/8] riscv: cpufeature: Add parsing for B
-Message-ID: <hguygejzvtgelem453ercld5udahdy6vydkw6skqjqcsnes4fz@ux5w63fezg4s>
-References: <20260207-isa-ext-parse-export-v1-0-a64d3a8bc20a@riscstar.com>
- <20260207-isa-ext-parse-export-v1-1-a64d3a8bc20a@riscstar.com>
- <rbhjt6qmraoxsdur74mhl2ugy7orr2mb237ynq2sxrraqkl5zm@yc6kim3ic6as>
- <CAH1PCMYMrJoYF4i9vFg1MBkMW+9H9p96RMxqdiQFNC3-KS=7YA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSQnuzSg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770736458; x=1802272458;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5XHstcK3GNmPCCnMCyYj61+dg73mEfAPf1RQMlNT978=;
+  b=OSQnuzSg5WZqJFW9A3B/2TlHUCGhhR4xdYEwcnexMzQOr7w2JVnGLYfe
+   VcCZe4PEOJnJ0VrM4ZmzLnOB5W7PRV3IsHEkpgUWW0g/gRh6CExvibJ+Q
+   grGKGqoDkzV5WrEC8LFmwMOdzAquitfP+9MPLtEkiGqUEhKBIQLPOQVNE
+   Tl2h87ES70u+rz8y8gNDY7qPFru6eSuxlNiToJ9TUHw1Zs9wlxe4gwO6J
+   NCy+7wG18t0rc6ntSTibCipCprWgFGCXyOIy2Yu13V4PGNGVBvsfmVtd2
+   HxlrKqWG+oTj44jAOQ5/7R1XuJQ8WISjgIirz7NyCtOaJUykzsTMBz/kU
+   Q==;
+X-CSE-ConnectionGUID: LsmFXGVNQC6B3xsfHQMW/Q==
+X-CSE-MsgGUID: U/l5H4XdTJObaefFa95t3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="82505014"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="82505014"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 07:14:16 -0800
+X-CSE-ConnectionGUID: PLTW0sgvRr+sZIyjb4ObHQ==
+X-CSE-MsgGUID: 0j9FHxy/Qi2fCSVgALjwlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="211778201"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.131])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 07:14:08 -0800
+Date: Tue, 10 Feb 2026 17:14:04 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [RFC PATCH 0/4] hwspinlock: refactor headers into public
+ provider/consumer pair
+Message-ID: <aYtLPHmZTg8oFxfL@smile.fi.intel.com>
+References: <aXc7DxsqiCGdfzxi@smile.fi.intel.com>
+ <aXc-Zxw05XQLb1Dy@ninjato>
+ <aXdAB2bLTy6u8G8c@smile.fi.intel.com>
+ <aXdCBu6kzdw1NWay@ninjato>
+ <aXikZ5wc6bvgRqF6@ninjato>
+ <aYnBrN0JRCf9-UjB@ninjato>
+ <yl4bbbev7lgrmnqys2izkolo5egzg24faukvqar5eh26q5ra7p@42rcegfpqqt6>
+ <aYo60vooftdem4Lt@ninjato>
+ <aYrcVE9HsDNAwqIB@smile.fi.intel.com>
+ <aYsMCVf1qpLSCXTs@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -99,47 +102,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAH1PCMYMrJoYF4i9vFg1MBkMW+9H9p96RMxqdiQFNC3-KS=7YA@mail.gmail.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEwMDEyOCBTYWx0ZWRfX7E4OuJcDBUec
- MqsoBBBJ95gJLS7Ld2qkXQtAcBX5l2o4e1PCiGikF7sD4cDawbMG/IgloGpYgCabGbxXSxZIsRg
- RtaLwSXUxkrLX6ptR2tagpUW127zHzSDXJPVMaKwZJRnT9RC5EB/Ib7wUPG90iaetpyM5ZlIHkL
- bqvy/BEnIrpRo1431ds+2tLRKUEdm/tsoiqx+Ig8IWxcmKrAiohEKs8MTihQmcgX2mOZdmdYl10
- CgutaT79tGvwuSO6er7/8FkdS0A9Nq0nKRlYS1MkMDjEB0yt4fTA/O9G5anLVWNnz4znYk0j34Z
- Nn0t6byen3Eix8Rs8FhpA7SNER8A1bwL45mpRKIs8y/VUUGABAhuG9LMYeP3SGlKnzKZeMC4hTQ
- nTnOxpUaeFqVAhbhY+UIkA7pjIWZdErOaXQc6DuSHEvRM4oiokNojOhC3na1J8hJKWZcAyH+Rm5
- 2WlW0QXWRAsit2oHoOg==
-X-Authority-Analysis: v=2.4 cv=fd+gCkQF c=1 sm=1 tr=0 ts=698b4b3f cx=c_pps
- a=cFYjgdjTJScbgFmBucgdfQ==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
- a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=YXCq-Yzi1OOEYlFisuAA:9 a=CjuIK1q_8ugA:10
- a=scEy_gLbYbu1JhEsrz4S:22
-X-Proofpoint-ORIG-GUID: 1TShPPnlzb1DYrRHek3KmAmrWkXtUgV6
-X-Proofpoint-GUID: 1TShPPnlzb1DYrRHek3KmAmrWkXtUgV6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-10_01,2026-02-10_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
- bulkscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602100128
+In-Reply-To: <aYsMCVf1qpLSCXTs@shikoro>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Feb 10, 2026 at 04:15:52PM +0800, Guodong Xu wrote:
-...
-> > [1] https://lore.kernel.org/all/20260206002349.96740-1-andrew.jones@oss.qualcomm.com/
+On Tue, Feb 10, 2026 at 11:44:25AM +0100, Wolfram Sang wrote:
+
+> > > And if so, would be this series acceptable
+> > > as-is then (modulo the better include-sorting mentioned by Andy)?
+> > 
+> > *From my experience it's not the Q "will they or not?", the Q is "when?"
+> >  they start abusing it. I really prefer to hide as much as possible from
 > 
-> With the patches in [1], I would drop the duplicated
-> ones from my series (5 of them if I counted correctly),
-> and keep only the 3 patches which add SHA and other
-> S extensions.
+> I totally agree with you on that.
 > 
-> Would you prefer I send a v2 based on your series, or
-> would it be easier for you to pick them up directly?
-> Either way works for me.
+> >  day 1. Maybe the structure can be split to two? Currently IIO has a
+> 
+> I also thought that keeping some internal header might provide that
+> safety. When looking into it, I didn't see an obvious and somewhat
+> elegant way. Even more, I got a better picture of why Bjorn named the
+> current approach "unergonomic". I got some ideas which look doable in my
+> time frame. I will try going the full route, after all.
 
-I can pick yours up, which would allow me to get rid of some
-TODOs I have in my patch10.
+Thanks!
+Looking forward for the rest, the cleanup is quite good, no added lines.
 
-Thanks,
-drew
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
