@@ -1,145 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC243382D6;
-	Tue, 10 Feb 2026 21:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B63B337BA4
+	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 21:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770757814; cv=none; b=EwirOnxER11hzg6ofhZqh/ZEr1z7IryMFHVPae2hCReClJZ2Bez8qDy83Qe4v/YfeCSYfp/b386DaC/wLhC51NfoJrBstSGEdH/peqaZY07YPLawjDt6Kug1SMp8s3C9/RtTPBGpR76rOZir2HkFPzjqjnh6xVs71hAOxJKy3Ws=
+	t=1770758074; cv=none; b=mK36fWgN8Fw5KNpLczOnQnHSJw4fgWmwbPHqWRiUvDwti8057wHtwdHuimbdZtdzTRVT9K6ucbf5lMglpB/lqt35Wx8Q19Y8oCiDRZol6a0cZcXu2aOPNQZ//i8TSc5F9l/f8P+78QdBXxsBR9uPNe611E2HHsjZmGivjBk+3tk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770757814; c=relaxed/simple;
-	bh=UWSb7wjpHsusRVvieXLpHdxv/4zDaCUkIgy7QUYN+Qw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=PTkPu1SfvLpVugE15GTACVlBUbXaxb+5KwQzAUZyL6+QMylXFYIgxG/AxkefyTkcxyQCB7oAmDfKWWXLFUkMErFTsiZQlOeyUwQvDXSj1omHI9IEB53/xCfTP5iDpwLpDpObTTKp36mIGeAaRxV1FWYNucxb0vs/IIm0nHxN1YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e3bgbA3B; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770758074; c=relaxed/simple;
+	bh=qO92ZMhArGYgyGIX4QpgjDk76nDRI10pvEdc/CMH+9Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f1A0OTcCNbrNruZFd5DaKbvOdrX632Zb2AI9ErMcEYi8c13v5PUt11hIPKiDIa42KDA98MuMuBF2wmnzbT7+kbNmhFdRRueGu0sAEUy59jJkquHBA1/0wqYpSd1UI+y5AUBI3zo6V5sQ//Y8BBo0mjE2v3ywj1W2aHvZykMIUUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EfAiVoF0; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e3bgbA3B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5337C116C6;
-	Tue, 10 Feb 2026 21:10:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770757814;
-	bh=UWSb7wjpHsusRVvieXLpHdxv/4zDaCUkIgy7QUYN+Qw=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=e3bgbA3BYcAKRl8iwbdJVkgrkS7A1nttqBdEge3iUnUgQ4wnLXe5M9C/gQST9Vazx
-	 mTI9eXXs9l8hK1+3phBxmaosKEOsPCLxUv5EoIxnCTNTBXSuoHSTgXEX0nmjSSlBZX
-	 etqvR3ijBk3JxLIBdOJr71PBelaIdS29Pmh3twzOnqsJQaHHOvHi5vSYlOe+9p0kul
-	 amTGI376pQKDV+W8QZ05JdpeYMoYXT6yjUSFUxUT538ypdEgXgY3IbkeRQMh1ipnz5
-	 4JBp6ySOVNWzst9QfT3XNGf2Nm6PjMXLJK3bbMV+LMDWQxjUetTaCqnbm7f9wN/NfH
-	 NKHT6RpV1wiCA==
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EfAiVoF0"
+Date: Tue, 10 Feb 2026 21:14:15 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1770758061;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZD2QQlyuCd2R95LSt20FsvwjTTPGfL3ZMei1mP3UCQo=;
+	b=EfAiVoF0YsIrmUMeIEQ4F23T5zYuZ3JgZsJzg7evmEIDwro+6Gt/Ek/AVgXIvNvbb+tWXq
+	tcVUMs1ahbmZEVXkgXRqeV6eLO6eJ0/QgAqcClGHEUOcYCtBZvI4B+PcNjpowmp2FwPpNV
+	I4FwRpo0U7SYl1+aWjZ5WIF5SR+f3JA=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yosry Ahmed <yosry.ahmed@linux.dev>
+To: Jim Mattson <jmattson@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Josh Hilke <jrhilke@google.com>
+Subject: Re: [PATCH v2] Introduce KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC
+Message-ID: <cjmbfd5uexxzqzfzzwpgbehpyv7iqz6du4wfvwqnrenwlaaujs@42fhftddlgyx>
+References: <20260205231537.1278753-1-jmattson@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 10 Feb 2026 22:10:02 +0100
-Message-Id: <DGBL94I0E5UB.4LNH3JODOKPV@kernel.org>
-Subject: Re: [PATCH -next v8 2/3] rust: gpu: Add GPU buddy allocator
- bindings
-Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
- <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Vivi Rodrigo" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Rui Huang" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "John Hubbard" <jhubbard@nvidia.com>, "Alistair
- Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
- <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, <joel@joelfernandes.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260209214246.2783990-1-joelagnelf@nvidia.com>
- <20260209214246.2783990-3-joelagnelf@nvidia.com>
- <DGB9G697GSWO.3VBFGU5MKFPMR@kernel.org>
- <1770754015.1979311.8126@nvidia.com>
-In-Reply-To: <1770754015.1979311.8126@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260205231537.1278753-1-jmattson@google.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue Feb 10, 2026 at 9:09 PM CET, Joel Fernandes wrote:
->>> +impl GpuBuddyInner {
->>> +    /// Create a pin-initializer for the buddy allocator.
->>> +    fn new(params: &GpuBuddyParams) -> impl PinInit<Self, Error> {
->>=20
->> I think we can just pass them by value, they shouldn't be needed anymore=
- after
->> the GpuBuddy instance has been constructed.
->
-> Dave Airlie specifically reviewed this in RFC v6 and recommended passing =
-by
-> reference rather than by value [2]:
->
->   "maybe we should pass them as non-mutable references, but I don't think
->    there is any point in passing them by value ever."
->
-> The params are also reused in practice -- the doc examples show the same
-> `GpuBuddyParams` being used repeatedly. References
-> avoid unnecessary copies for this reuse pattern.
+On Thu, Feb 05, 2026 at 03:15:26PM -0800, Jim Mattson wrote:
+> Add KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC to allow L1 to set FREEZE_IN_SMM
+> in vmcs12's GUEST_IA32_DEBUGCTL field, as permitted prior to
+> commit 6b1dd26544d0 ("KVM: VMX: Preserve host's DEBUGCTLMSR_FREEZE_IN_SMM
+> while running the guest").  The quirk is enabled by default for backwards
+> compatibility; userspace can disable it via KVM_CAP_DISABLE_QUIRKS2 for
+> consistency with the constraints on WRMSR(IA32_DEBUGCTL).
+> 
+> Note that the quirk only bypasses the consistency check. The vmcs02 bit is
+> still owned by the host, and PMCs are not frozen during virtualized SMM.
+> In particular, if a host administrator decides that PMCs should not be
+> frozen during physical SMM, then L1 has no say in the matter.
+> 
+> Fixes: 095686e6fcb4 ("KVM: nVMX: Check vmcs12->guest_ia32_debugctl on nested VM-Enter")
+> Signed-off-by: Jim Mattson <jmattson@google.com>
+> ---
+>  Documentation/virt/kvm/api.rst  | 10 ++++++++++
+>  arch/x86/include/asm/kvm_host.h |  3 ++-
+>  arch/x86/include/uapi/asm/kvm.h |  1 +
+>  arch/x86/kvm/vmx/nested.c       | 23 +++++++++++++++++++----
+>  4 files changed, 32 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index d04b4bdd60c1..325e565ff99e 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -8482,6 +8482,16 @@ KVM_X86_QUIRK_IGNORE_GUEST_PAT      By default, on Intel platforms, KVM ignores
+>                                      guest software, for example if it does not
+>                                      expose a bochs graphics device (which is
+>                                      known to have had a buggy driver).
+> +
+> +KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC
+> +				    By default, KVM relaxes the consistency
+> +				    check for GUEST_IA32_DEBUGCTL in vmcb12
 
-Well, that's for GpuBuddyAllocParams, those are indeed reused and shouldn't=
- be
-copied all the time.
+vmcs12*
 
-But my comment was about GpuBuddyParams, I don't see a reason those are reu=
-sed
-(neither are they in the example), so it makes more sense to pass them by v=
-alue,
-such that they are consumed. (I.e.  I'm not asking for adding Copy/Clone.)
+> +				    to allow FREEZE_IN_SMM to be set.  When
+> +				    this quirk is disabled, KVM requires
+> +				    this bit to be cleared.  Note that the
+> +				    vmcs02 bit is still completely
+> +				    controlled by the host, regardless of
+> +				    the quirk setting.
+>  =================================== ============================================
+>  
+>  7.32 KVM_CAP_MAX_VCPU_ID
+> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+> index ff07c45e3c73..1669d4797f0b 100644
+> --- a/arch/x86/include/asm/kvm_host.h
+> +++ b/arch/x86/include/asm/kvm_host.h
+> @@ -2485,7 +2485,8 @@ int memslot_rmap_alloc(struct kvm_memory_slot *slot, unsigned long npages);
+>  	 KVM_X86_QUIRK_MWAIT_NEVER_UD_FAULTS |	\
+>  	 KVM_X86_QUIRK_SLOT_ZAP_ALL |		\
+>  	 KVM_X86_QUIRK_STUFF_FEATURE_MSRS |	\
+> -	 KVM_X86_QUIRK_IGNORE_GUEST_PAT)
+> +	 KVM_X86_QUIRK_IGNORE_GUEST_PAT |	\
+> +	 KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC)
+>  
+>  #define KVM_X86_CONDITIONAL_QUIRKS		\
+>  	(KVM_X86_QUIRK_CD_NW_CLEARED |		\
+> diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
+> index 846a63215ce1..76128958bbca 100644
+> --- a/arch/x86/include/uapi/asm/kvm.h
+> +++ b/arch/x86/include/uapi/asm/kvm.h
+> @@ -476,6 +476,7 @@ struct kvm_sync_regs {
+>  #define KVM_X86_QUIRK_SLOT_ZAP_ALL		(1 << 7)
+>  #define KVM_X86_QUIRK_STUFF_FEATURE_MSRS	(1 << 8)
+>  #define KVM_X86_QUIRK_IGNORE_GUEST_PAT		(1 << 9)
+> +#define KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC	(1 << 10)
+>  
+>  #define KVM_STATE_NESTED_FORMAT_VMX	0
+>  #define KVM_STATE_NESTED_FORMAT_SVM	1
+> diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+> index 248635da6766..9bd29b9375fb 100644
+> --- a/arch/x86/kvm/vmx/nested.c
+> +++ b/arch/x86/kvm/vmx/nested.c
+> @@ -3300,10 +3300,25 @@ static int nested_vmx_check_guest_state(struct kvm_vcpu *vcpu,
+>  	if (CC(vmcs12->guest_cr4 & X86_CR4_CET && !(vmcs12->guest_cr0 & X86_CR0_WP)))
+>  		return -EINVAL;
+>  
+> -	if ((vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS) &&
+> -	    (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
+> -	     CC(!vmx_is_valid_debugctl(vcpu, vmcs12->guest_ia32_debugctl, false))))
+> -		return -EINVAL;
+> +	if (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_DEBUG_CONTROLS) {
+> +		u64 debugctl = vmcs12->guest_ia32_debugctl;
+> +
+> +		/*
+> +		 * FREEZE_IN_SMM is not virtualized, but allow L1 to set it
+> +		 * in VMCB12's DEBUGCTL under a quirk for backwards
 
->
-> [2] https://lore.kernel.org/all/CAPM=3D9tyL_Cq3+qWc4A41p7eqnNDLS1APUEeUba=
-QyJ46YDkipVw@mail.gmail.com/
->
->>> +    pub fn new(params: &GpuBuddyParams) -> Result<Self> {
->>=20
->> Same here, we should be able to take this by value.
->
-> Same reasoning as above.
->
->>> +    pub fn alloc_blocks(&self, params: &GpuBuddyAllocParams) -> Result=
-<Arc<AllocatedBlocks>> {
->>=20
->> Why do we force a reference count here? I think we should just return
->> impl PinInit<AllocatedBlocks, Error> and let the driver decide where to
->> initialize the object, no?
->>=20
->> I.e. what if the driver wants to store additional data in a driver priva=
-te
->> structure? Then we'd need two allocations otherwise and another referenc=
-e count
->> in the worst case.
->
-> Good point. The reason I had `Arc` was to anticipate potential shared own=
-ership
-> use cases, but at the moment there is no such use case
-> in nova-core -- each `AllocatedBlocks` has a single owner.
+VMCS12's
 
-Sure, but drivers can always pass an impl PinInit to Arc::pin_init() themse=
-lves.
+> +		 * compatibility.  Note that the quirk only relaxes the
+> +		 * consistency check. The vmcb02 bit is still under the
 
-> I'll change this to return `impl PinInit<AllocatedBlocks, Error>` in the =
-next
-> version. If a shared ownership use case arises later, we
-> can always add an `Arc`-returning convenience wrapper.
+vmcs02
 
-I don't think we should, don't give drivers a reason to go for more allocat=
-ions
-they actually need for convinience.
+> +		 * control of the host. In particular, if a host
+> +		 * administrator decides to clear the bit, then L1 has no
+> +		 * say in the matter.
+> +		 */
+> +		if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_VMCS12_FREEZE_IN_SMM_CC))
+> +			debugctl &= ~DEBUGCTLMSR_FREEZE_IN_SMM;
+> +
+> +		if (CC(!kvm_dr7_valid(vmcs12->guest_dr7)) ||
+> +		    CC(!vmx_is_valid_debugctl(vcpu, debugctl, false)))
+> +			return -EINVAL;
+> +	}
+>  
+>  	if ((vmcs12->vm_entry_controls & VM_ENTRY_LOAD_IA32_PAT) &&
+>  	    CC(!kvm_pat_valid(vmcs12->guest_ia32_pat)))
+> 
+> base-commit: e944fe2c09f405a2e2d147145c9b470084bc4c9a
+> -- 
+> 2.53.0.rc2.204.g2597b5adb4-goog
+> 
