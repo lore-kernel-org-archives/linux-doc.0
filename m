@@ -1,198 +1,145 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BD931A545
-	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 15:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7289D8632B
+	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 15:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770736211; cv=none; b=o+APQ9g4ztckwhqayao/BWAhIlkO/Es7R9NknvEdl17BpFQDr+TCyVaCwxY62tLhebq1F96ohFeFzollRKyYermjx36Px903yJmlKVL4f0ROESke02eu2FELtDsMbIy2KRwNVdFalpE2yhkz6dQm3Jze95l3KICaueXZ7H9FD+U=
+	t=1770736449; cv=none; b=S79Sm6x5HG8JIiicOX1VZg6fnunJJ1bwac3c05AmndFYSLM6n/D0/6C6ry0MGrSWYV2s+j4nVp/iYp6x3UbvAG6p43hWNQAqGOK8N6+E8RXQY1zZtNOFr6FJ8SLBvGTrsJj+WXEP2ilqmz5oUia2k2P9zDd9tzIm3EDrlOM59k0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770736211; c=relaxed/simple;
-	bh=AdoSBSnAZ1cDBSiwCKv8yv3YN/nevwG9XZ5F1j+ZYQI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LEvkAiBNbw8agRo9e0RwUsNfvDR98clj1TbE082IzE+B0oqaSlwTNz3u7HMqWLTJ4J3mPebyT3LU/+s3EC6yUyR65WqsSwPP+C6xY9fL3G4uf8yL2f9jVISeRREPvQ2EfJmGLAl+H63Y1cdjRaffm9ymX7U//lN5ZDQHDLqsTXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FzKhpDen; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vonB70wL; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=FzKhpDen; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=vonB70wL; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1770736449; c=relaxed/simple;
+	bh=Fky/A0HSLBaPAC2FMAAHg1RwSk2RgsSA58KAaAaNikE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=evzS5ps8ve/xtgN3cFHadMSKiiftbuy1ZZg4NA/F8fjCIdk8wY0m/neH9hiwl0HBGjPK/bh9SpRhGtjdOxLeP0G1vkHHNG7apgdghYW7Xc9L8F9NTawZTn8Mz7EveNM5TBUg7uA8yr5Is/VEeBHa6ONhekMR0VNXRwqd8WdwE9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NX1VcfCd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IiW+r+/1; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FzKhpDen";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vonB70wL";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="FzKhpDen";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="vonB70wL"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0C5113E6FE;
-	Tue, 10 Feb 2026 15:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770736208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=2UHkOqQwjD7PPM/fhQZDO8c7lSC7w0EmY0aytb/bPRY=;
-	b=FzKhpDenlGYp4eihH7/g+3KJ1ATytDedkanO4kaeyJuBR6rVUm2iBP+6iZPVQ7bCu1zFT+
-	Vz1Tjr9e9Fz5DMAQZVkO44WljuSt+be+I8bsF+SjEwimi49rGvkw401/aMia9hpFXmVpPA
-	iMhRF70CYQZu8wPxx4M8MF8Q1sfe0hE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770736208;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=2UHkOqQwjD7PPM/fhQZDO8c7lSC7w0EmY0aytb/bPRY=;
-	b=vonB70wLfhLr26yqHPyH8yQaxYfS/DxAI36Xae8txXOyzk6aou4QhxzE4Z079QFPMLuDq6
-	AvMM/BSIeSroQOBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=FzKhpDen;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=vonB70wL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770736208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=2UHkOqQwjD7PPM/fhQZDO8c7lSC7w0EmY0aytb/bPRY=;
-	b=FzKhpDenlGYp4eihH7/g+3KJ1ATytDedkanO4kaeyJuBR6rVUm2iBP+6iZPVQ7bCu1zFT+
-	Vz1Tjr9e9Fz5DMAQZVkO44WljuSt+be+I8bsF+SjEwimi49rGvkw401/aMia9hpFXmVpPA
-	iMhRF70CYQZu8wPxx4M8MF8Q1sfe0hE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770736208;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=2UHkOqQwjD7PPM/fhQZDO8c7lSC7w0EmY0aytb/bPRY=;
-	b=vonB70wLfhLr26yqHPyH8yQaxYfS/DxAI36Xae8txXOyzk6aou4QhxzE4Z079QFPMLuDq6
-	AvMM/BSIeSroQOBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B966D3EA62;
-	Tue, 10 Feb 2026 15:10:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mHH8LE9Ki2n3EwAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 10 Feb 2026 15:10:07 +0000
-Message-ID: <a1c53239-aade-47e5-bbe2-cfcaa599be49@suse.cz>
-Date: Tue, 10 Feb 2026 16:10:07 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NX1VcfCd";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IiW+r+/1"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61AE86TL2169443
+	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 15:14:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=J/AjyONAcOKw9fyP71DvmCeZ
+	OABxEcpsqNv9Hd6xYDg=; b=NX1VcfCdUZ6k023yTa5nrcUU8+rXqC4qmvc3V+wN
+	IvsFXBnkF1DKmJPleq0rG0PC8nNyA3XJ8sYwgGRfSpVd3fNM2htCsX+ujwJhuCAG
+	B/1VWlGTHZPq0aLQkoq7zmRM+/3+tl3ZpO6oN1dXvNcnROVbaP3VZebAc4mv1rQo
+	HPOdbsPzzMbEveD1CR0Q0MAf5nQGtQNG266CUE6o+DqXMI9X004HzRFVfWw/uDgB
+	XCzk42+eQgaeN5EhDnRQI0ucbZqT/i4jmiJDgTsdUCVCQjJZK0/FcyPO2pfRDA7T
+	5Ug9Hm7fQBcbRbBg8AJBdcp/QYqygAr0iYCa1TWtTV/a0g==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4c80drsed5-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 15:14:07 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-2b81ff82e3cso2877123eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 07:14:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1770736447; x=1771341247; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J/AjyONAcOKw9fyP71DvmCeZOABxEcpsqNv9Hd6xYDg=;
+        b=IiW+r+/1BVt2uZpVxp5zWj1KMXsDYrw4MvPQAj4ZWzDHQuP1wzaBGSM8w70WhJhZTc
+         3w9G/x8M9tXpCBijxY1Rkc7mXXmFSjfM2cKCeTfB/6smixZAO+xWmdUvb8Tfus2b8fKH
+         k/HwYIB9w0rIUwdlfy5J3+PsOYtSDBw8ziwDHf/ULFwoTTpicMA8OFL4btjZe8mN01Kr
+         CW9/AD5nXIzb6WaG7AKCLZrh4dR8A/3ZbmgVBuLNqgVTgcsbSE8JAJqGWk4aU6FYprQl
+         Kj+AezylS0HmZzMPvRmWhUvQQjKrhtjJRZbupksuC3rurLv/bM3UkgmB6yhqPcFQHtSb
+         uHGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770736447; x=1771341247;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J/AjyONAcOKw9fyP71DvmCeZOABxEcpsqNv9Hd6xYDg=;
+        b=jpurP+MqKMJPu87jzfbpuk8vVsAwhkUPX7dKhpAerhFN+rmmPBJGgqvxqO5jtX63PC
+         krxzIw+lAdtGj2bKGseQqFxwEmOi7hRJ9BQPPyTOyhVvb7BQC/Kzzfs3KqorMWA3n3qb
+         +Ai7n94VbkvOdYkQpKdojTaqA3vmHjwMpU8jLz2riMY2Rxdy6stBG+NWanx1W+L8HDr8
+         459k5yKLoCMmP/CWQC4GlxLNWCJOPld8nIDGPLScgMvppjeM2eTE0X+Ve548277F+XPd
+         E3dYQqWM6bJYfFJNzU19KzvxNolKXb84m3QeDxfTRxYQkwyoU7p8yxj0KNmEQBbOe3x6
+         zTjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYBgSSvExYGi/Q7soapHAuHedJpSsuBeG7u95P/niuF0f8W04LpUaanMzBcZrpaviIPP64YSIJ1x8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcnemWZi92G3Sll750pX7vc/ZM1NDANJhaEsTjLVO9PZG1uBt6
+	ISuyn+mLPECY0/nYQQ9IH1CfdwwZLi5CJ+0jl2HPRinMbDsCQ+xM1xL6FSNkbaOvwCjpXMklJaI
+	+N3bKG3ddKFinVeOD+WeHnOITO2qe0O6Bl+Xo5UVypBN8i/j8uQbYWR69jCBLJd8=
+X-Gm-Gg: AZuq6aI7r2ico586Tdvfv/skumGcWt/nSLVenMsc++8Q5lY5GrT5vlYSmxFJSOPb2p3
+	+K4s3icX5jJxb+YcWqkyxTqrxdFDdvRkb8XiHuDNwSqxrfD0a75Gn503XiT83PUiexf5CNiESpA
+	XABPdgkOt98xSiCHWcVnXr7oU96wxplUvxPnF1jxOXDUtj9iEO5f3V6kGqbHO+YYFvg6FclNgs5
+	ZGOP7KRmbWPSTKHIYdhYSO7gmCR19EldDXrgwOpaBwec2Zoi+tjdA+iiM6XbimNRhWa8I91+aAV
+	e6ynf/bjooo1Zlx0PUecoRHHhuxcbggmEy2Yk/jCNkhU6jwFaJ4xxBtrUjaWmaI2/G+dqK9R5R/
+	wV1QNpHH3+2MCi+yTXHQFQD9oRhfnIP0=
+X-Received: by 2002:a05:7301:d19:b0:2b8:3b47:8951 with SMTP id 5a478bee46e88-2ba89c5d6ecmr1033879eec.1.1770736446929;
+        Tue, 10 Feb 2026 07:14:06 -0800 (PST)
+X-Received: by 2002:a05:7301:d19:b0:2b8:3b47:8951 with SMTP id 5a478bee46e88-2ba89c5d6ecmr1033853eec.1.1770736446266;
+        Tue, 10 Feb 2026 07:14:06 -0800 (PST)
+Received: from localhost ([140.82.166.162])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-127041d9c91sm12648462c88.2.2026.02.10.07.14.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Feb 2026 07:14:05 -0800 (PST)
+Date: Tue, 10 Feb 2026 09:14:03 -0600
+From: Andrew Jones <andrew.jones@oss.qualcomm.com>
+To: Guodong Xu <guodong@riscstar.com>
+Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/8] riscv: cpufeature: Add parsing for B
+Message-ID: <hguygejzvtgelem453ercld5udahdy6vydkw6skqjqcsnes4fz@ux5w63fezg4s>
+References: <20260207-isa-ext-parse-export-v1-0-a64d3a8bc20a@riscstar.com>
+ <20260207-isa-ext-parse-export-v1-1-a64d3a8bc20a@riscstar.com>
+ <rbhjt6qmraoxsdur74mhl2ugy7orr2mb237ynq2sxrraqkl5zm@yc6kim3ic6as>
+ <CAH1PCMYMrJoYF4i9vFg1MBkMW+9H9p96RMxqdiQFNC3-KS=7YA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 04/17] mm: Move set/clear_compound_head() next to
- compound_head()
-Content-Language: en-US
-To: Kiryl Shutsemau <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>,
- Frank van der Linden <fvdl@google.com>
-Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-5-kas@kernel.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <20260202155634.650837-5-kas@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[kernel.org,linux-foundation.org,linux.dev,redhat.com,infradead.org,gmail.com,google.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLduzbn1medsdpg3i8igc4rk67)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,linux.dev:email,suse.cz:mid,suse.cz:dkim,suse.cz:email]
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: 0C5113E6FE
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAH1PCMYMrJoYF4i9vFg1MBkMW+9H9p96RMxqdiQFNC3-KS=7YA@mail.gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEwMDEyOCBTYWx0ZWRfX7E4OuJcDBUec
+ MqsoBBBJ95gJLS7Ld2qkXQtAcBX5l2o4e1PCiGikF7sD4cDawbMG/IgloGpYgCabGbxXSxZIsRg
+ RtaLwSXUxkrLX6ptR2tagpUW127zHzSDXJPVMaKwZJRnT9RC5EB/Ib7wUPG90iaetpyM5ZlIHkL
+ bqvy/BEnIrpRo1431ds+2tLRKUEdm/tsoiqx+Ig8IWxcmKrAiohEKs8MTihQmcgX2mOZdmdYl10
+ CgutaT79tGvwuSO6er7/8FkdS0A9Nq0nKRlYS1MkMDjEB0yt4fTA/O9G5anLVWNnz4znYk0j34Z
+ Nn0t6byen3Eix8Rs8FhpA7SNER8A1bwL45mpRKIs8y/VUUGABAhuG9LMYeP3SGlKnzKZeMC4hTQ
+ nTnOxpUaeFqVAhbhY+UIkA7pjIWZdErOaXQc6DuSHEvRM4oiokNojOhC3na1J8hJKWZcAyH+Rm5
+ 2WlW0QXWRAsit2oHoOg==
+X-Authority-Analysis: v=2.4 cv=fd+gCkQF c=1 sm=1 tr=0 ts=698b4b3f cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=cvcws7F5//HeuvjG1O1erQ==:17
+ a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=YXCq-Yzi1OOEYlFisuAA:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22
+X-Proofpoint-ORIG-GUID: 1TShPPnlzb1DYrRHek3KmAmrWkXtUgV6
+X-Proofpoint-GUID: 1TShPPnlzb1DYrRHek3KmAmrWkXtUgV6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-10_01,2026-02-10_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 phishscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
+ bulkscore=0 lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602100128
 
-On 2/2/26 16:56, Kiryl Shutsemau wrote:
-> Move set_compound_head() and clear_compound_head() to be adjacent to the
-> compound_head() function in page-flags.h.
+On Tue, Feb 10, 2026 at 04:15:52PM +0800, Guodong Xu wrote:
+...
+> > [1] https://lore.kernel.org/all/20260206002349.96740-1-andrew.jones@oss.qualcomm.com/
 > 
-> These functions encode and decode the same compound_info field, so
-> keeping them together makes it easier to verify their logic is
-> consistent, especially when the encoding changes.
+> With the patches in [1], I would drop the duplicated
+> ones from my series (5 of them if I counted correctly),
+> and keep only the 3 patches which add SHA and other
+> S extensions.
 > 
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> Reviewed-by: Muchun Song <muchun.song@linux.dev>
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Would you prefer I send a v2 based on your series, or
+> would it be easier for you to pick them up directly?
+> Either way works for me.
 
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+I can pick yours up, which would allow me to get rid of some
+TODOs I have in my patch10.
 
-
+Thanks,
+drew
