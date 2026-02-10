@@ -1,174 +1,229 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013036.outbound.protection.outlook.com [52.101.83.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2F931E0FB;
-	Tue, 10 Feb 2026 17:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770743005; cv=none; b=hUC3tIj6R1Fu3t6rebyq8I5waNz16VQKk7q70QUf5+K5qYHOLp+1A1bz0r8H2E4RHWvjCK3TaV4KYMNDfj7dukn7F4N2HitTIE7J+hayvT2dkd9GnMY2DP6MRkOUYWSiIrddZRK2NW2sNEbGJYqy8uHmGPp7EXMSz/7Q32DR5V0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770743005; c=relaxed/simple;
-	bh=YLgcpRDnWTHgN5iEvcrgGHQykKQfZ6+q//x2uAoTL2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uaA4e9y3ocPj2iwjWhxeCdAeH9Fc24MAsKRXta5gU1+8F0PUsttFPPBUQrzucJBdWZJBbT4j3txHLxgp+FsNIZ5ZjqVazPo2Y07H9WJztPdHMoFY1sOLB5sdXmIo25Kz60CVaHKeinJz13SIeeu4p1mwyvKH2Xr/TBeeosCcKBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UbiQl67K; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 959BA326947;
+	Tue, 10 Feb 2026 17:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770743140; cv=fail; b=Oa5N7TscWdB5bxsVKSxPhXmKuUEbI1APYuaUsE9pmwJrNztH1R2spjMlMUkXvJ+TTmS954oDYQWqf8U3cTJ72cv9RlpczVo+O+LJTm9qIesyqPtv0zODbQS6tThQhOiMV1gyWqKOJNaUBmUKOA3WqMxsw2eQ7yk8EZKpDybGlSM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770743140; c=relaxed/simple;
+	bh=bSxKG/pQ0BH8w86eztxt6YUa1tdwWgAkGYE1VdFdG0c=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=H6h615L0AqEJewWPw3+sioDYOLs092dHm4xYNFsPrv66SYf1bCiQrNjfsRHqRMFh9565hHiD8SVhPfWJFvSbaFUZlRJ9VjeCoHL8mjPID+xSyf2x9rYCin6yPhC/jhzs7S2yeL/7cvHTyrMbkVHHipRDTBG3j8NzNjmMGUGlBZw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=fEpHbwRF; arc=fail smtp.client-ip=52.101.83.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UbiQl67K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAFE9C116C6;
-	Tue, 10 Feb 2026 17:03:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770743005;
-	bh=YLgcpRDnWTHgN5iEvcrgGHQykKQfZ6+q//x2uAoTL2Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UbiQl67KXho6dNAGklbzIoKY/CuPlIJmYXE2CfYzHTIJToITEXD9N+eJzfXKt3SHM
-	 lSwwfms3XZg5cG1604q/3nRhYxZODV132zqUHy30bF0Dh0anrvl14BTtczFIKaSiYm
-	 zJTXSfV6rqXSV50GwWyl6vA1rVF3ciiUruOnRDGq6DnYFjeRsSyoJqUWBM3Pbtn2jn
-	 LJJWnwEsxMQrAdj/juSXJYCtctRajep/Kh0DdrCh6UAdgmSTLXq5zrsB5ZVAJneeZu
-	 VtIJfcfdhuQmgZ/ahhSGGz/a0V5r6TH0Q5Q+pRphfFKzqvrlRShcEj+B874bueM1vH
-	 ii6vUvQ94znzA==
-Date: Tue, 10 Feb 2026 18:03:22 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	Andri Yngvason <andri@yngvason.is>, Werner Sembach <wse@tuxedocomputers.com>, 
-	Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v7 02/22] drm: Add new general DRM property "color format"
-Message-ID: <20260210-imported-ant-of-defiance-7cdb42@houat>
-References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
- <20260121-color-format-v7-2-ef790dae780c@collabora.com>
- <20260206-deft-provocative-perch-6ca9bf@houat>
- <6318997.lOV4Wx5bFT@workhorse>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="fEpHbwRF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KiQZoINPybH2/EsQJQYtM8ymYY/82T3rJOA01PZmyfi4dRuN5tjiEzIk5PXTXO8x4bcUvVkrWepMxrAdGFmmKMevj3tHAXK9YAP/n4BC6cze3PwdccJ14k6v5JjSIOwUVwnZ2bxcLu54aRUNVAmPjUun3/uVk6s6uq4n+NayhU4vUIPoAChrtk6klt64dtVeYiVvzyFCr2rYWZ6/57JL0zuIYoNM0IUHmLZjy6NMhdzxXoJUvlyo8e6098NVUxkOexbV+ncsS/ZXlDywrIAXmLGnEMZHXxRz+lWCXbv3uPg95J3Zcw22Lh/l/QAr8fn94EkoxneGBAP5VaMRjEvAHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wtbFpYrTdulEgD2DiQFMOvshLaHY6WPXpa/V5WFFW2w=;
+ b=R+/FtphWlDKtdkC0RkN8ueQitvhGdTgdid89ZTqSqCyQppYRlKXrMrQ23Hr2sS8dtFJvze52tPHG1WNYvVRo5jyTVVoKMLQSazsci77Vl81f7CO6ySNSN80YaW2YTagXRCycAFTqC7PUOHQ44l3eVkxy9NnNbAWRkIJ+1c6Ef051KiBT/+LUp9f/4BT2WeCnwUYVbhfhpJCacnoPSea3dQ1BOI3OnINc5RqYYidiKjs58goY6qrpr+1BwkTiobI/TuOxllSrReYBL32Udk5HXaeU+EumQK60vn+bQChedrmb1JHq5oteJ2rbVm0oBNJONdNcyIRgq6fnF96FbEksLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wtbFpYrTdulEgD2DiQFMOvshLaHY6WPXpa/V5WFFW2w=;
+ b=fEpHbwRFE+/ctH68dA7x7g9XFWKnKothTo1EnKs7N02naePFYBZeXzC5rOimRoROlXVyoPnKhCUAaUIsmwUPjHJSdzRWYOcJwYHbEg3aa7MSDkmo56Trd7fqdjv4V413vQcGt+tWdKG3YB7QpIsUagirGHe9dRqP8v5TRORcIcd8AfKmNljK7oBtlzeE7WkNsxLUI+cq7ttYqr+ty8wE7zdy0fX6Yvpmv4kDYy7b1VxYQYt/9ZwijEo9kZekuHhlTR/vpGd3q0XXqzixxKXn5QfhXZ26iSFEU8pagQ2Q7+sqrI6p5qctMpZBCP0E8GhM6whyJLcjRMLZp9EpPxVxtw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
+ by DB9PR04MB8362.eurprd04.prod.outlook.com (2603:10a6:10:241::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Tue, 10 Feb
+ 2026 17:05:35 +0000
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb]) by PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb%4]) with mapi id 15.20.9611.006; Tue, 10 Feb 2026
+ 17:05:34 +0000
+From: Shenwei Wang <shenwei.wang@nxp.com>
+To: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shenwei Wang <shenwei.wang@nxp.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-imx@nxp.com,
+	arnaud.pouliquen@foss.st.com
+Subject: [PATCH v7 0/4] Enable Remote GPIO over RPMSG on i.MX Platform
+Date: Tue, 10 Feb 2026 11:04:34 -0600
+Message-ID: <20260210170439.406513-1-shenwei.wang@nxp.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PH0PR07CA0052.namprd07.prod.outlook.com
+ (2603:10b6:510:e::27) To PAXPR04MB9185.eurprd04.prod.outlook.com
+ (2603:10a6:102:231::11)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="bzvkctnspkvgvs72"
-Content-Disposition: inline
-In-Reply-To: <6318997.lOV4Wx5bFT@workhorse>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9185:EE_|DB9PR04MB8362:EE_
+X-MS-Office365-Filtering-Correlation-Id: fa51869e-3ccb-4e57-9309-08de68c69b00
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|52116014|7416014|376014|1800799024|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?EYBH8VRqWJ8NOIoBfLRq2z+7GQTiKxKW910Hfpz6Jhx1axXBMj1qxEKzx5rj?=
+ =?us-ascii?Q?SZzKgbJQnFbeSGydg3pckycaelMWimukQnL0DpA1NLn4iMerLgKxnV5irg6s?=
+ =?us-ascii?Q?OnaPidbbOP0PdX+XwxYdPomYyRwKcL0UehZL+UZ95jVPqxb4AssGvWRP8aDg?=
+ =?us-ascii?Q?p1jqWT0SLdIzA3hl0NBjGB4AvbELyccrm6q576cobo6pBtvVoPm0Ho40nOgN?=
+ =?us-ascii?Q?YDO33W1Z6yT+bXL0YIBy1eZsfavmeQKzXEi10GQfngL/XUgO+EuF4d8KQ2lS?=
+ =?us-ascii?Q?ldif9TXXuwYAiBAGi3FzJ6fkHWFKp/lkwG/nWosX35skG6BkNmrXXIvMtZSn?=
+ =?us-ascii?Q?RJY/+j59wx6NfodkiW1Xen7tnZtrc3tkh+RgdwdK/C/0FZ5PdRtMx2jKrULB?=
+ =?us-ascii?Q?fp44Hu7dpxtdKziNicyaLFSsCVxRwNxHHDKYXFQuj0zmoOUn3mnXqFaSgX5i?=
+ =?us-ascii?Q?t06Con5/vgICbVHm3fZadubuyCKfUeVk2ZTgN+Tu+a8yEgMLE/kTwc8NUyXe?=
+ =?us-ascii?Q?CgRZoCoMpczWhzdBAOGbdMj05MpWwq9Gn1vN0BJBcJxCMV7L+zxMe/2KhfRc?=
+ =?us-ascii?Q?uFTkgUt5vNi3F9aQadh5UGtN5tkrKsxEvEiQqXUWgMT/LU3r5gLBy2XxPH4J?=
+ =?us-ascii?Q?oSNXvStCJ7B3PxfSDj6ZWP+cC5SZnDZ6Wr5X344GAwc5s0kaxz9kXE0QZcoK?=
+ =?us-ascii?Q?IjBD5NHxq0+ZsRhw3DBcGsGjtl1eK8BRd+SowWewxNiNs8NC3TX3Jpsljzur?=
+ =?us-ascii?Q?XZ/xVCHf2LvPCdQDtDVCHnTI/Tl8m7sNhaAyTnSAitxVAkGVIvzIkTdvT+TQ?=
+ =?us-ascii?Q?q23SFfAHX7HpQ6pZhr9lzBZhNy6f43Si4b/PA2n/z9uw/R5Knhs/sFsNuGAG?=
+ =?us-ascii?Q?ZgYEPB7Uj+Wf3hb6t5O/vni+zw0iq2tvtM9sxe7aVow0u6GUN5U5zdOz3l7z?=
+ =?us-ascii?Q?KXE9vEk5b6GwAjimn4FO/yPnL8b3k9vowt1opirNijxTNe9SzYEel+cYiAge?=
+ =?us-ascii?Q?j83FV7ZkXyGG9sclT+VoCAJEPQVIO8ZCqzoelZ4kFnWYRsr0bUJXk9ZZ8BZw?=
+ =?us-ascii?Q?VXTqtWp3oatgSxc8eB3CsIeGUwHeWrh7uRBGGD/iGSD4f1tJePq3XS6vMtxN?=
+ =?us-ascii?Q?j/NZCVx7rjLxc9voiei6a5XyrlSe2Dl/caw1isGTHLxkTL3iLxBj/CEI9XK3?=
+ =?us-ascii?Q?egy4CyMZkBQbwa5wfeBteNBQAUBzNICjv+NZHMiZBKht/gLDeSdCd+9jl5Zp?=
+ =?us-ascii?Q?xvU52a1wovKPSk/gwIA6VJYUgSM20FRtBirNRUu0NDfZTSFPgiL0kxVqEQEl?=
+ =?us-ascii?Q?m14uRcLcN+rRl2cUfz9/4z3h0eQTDepKA0Pd9PgldQGiKm/7VEq4wTL8vn2O?=
+ =?us-ascii?Q?ozl6RRjusVkjZL4yeOX1VGSAMelonaOhlHhO636L5sQo+8SQtUnIB2Q20MsL?=
+ =?us-ascii?Q?WY1KBe7h+35qk7jxpmsg2ihnb784yn4208PRN04dZf+YiXG+jz9Gxmvb76Rs?=
+ =?us-ascii?Q?2hRGPue2daFwZd26z/GsbfcKcUVSI0YTBKj9C7IMDEpTV5vN1s5PySyEhpOP?=
+ =?us-ascii?Q?gY3xgJ0wi2Rm+6wYuVLRlJWVjrdWMd1Eqg6SVjqxDWlnOIn2bR8O1qvyw85S?=
+ =?us-ascii?Q?iKIy6Y+r4FW+p54eHwFyNPUSWvjjTKGoeJjwDnDRynVO?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(52116014)(7416014)(376014)(1800799024)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?HbJl5UhVgQ7eECfAaFkL7naX+LHgJF2OuXlCC8rT1klVKgZd3quZPtAnA4ZA?=
+ =?us-ascii?Q?6tw/WJVSL4uhwMPj3U6cGSW2iAo9JjcmtT9hW/QjacRx+G6qTBGctYheXt83?=
+ =?us-ascii?Q?rHzO2H/9odEJaXAu9Gl9HUY/UUrWsDyP5yis9L4KU2HnD0xjaj+qg1FvqBCR?=
+ =?us-ascii?Q?r5LTM2wK/BnblXBkvVVEWGuL9G+HJKusaG3EFeAp5ZIsz66TdvsrldNNQLf9?=
+ =?us-ascii?Q?UqNWYEZ8YnJ16WdejhHTXyy2DESAwUntAaHfmneHisdQ3pvGPCWm4DrpjyRL?=
+ =?us-ascii?Q?Xdy3YZ+3gKVidGWAZAznlVQ9SYyUD7OPFkXmLGrYCSdymaRKgLMfq6ENhRep?=
+ =?us-ascii?Q?Sw5yJvw4wIyE6pf5hraoPSZY3pLBxSZIkqrwVEwUpQjmpfdWVFYlwO84w4R7?=
+ =?us-ascii?Q?Jpdj5rQz2XtHVPPMVlDHy6eRShPsLjVbbAEyBmFcSNEPMe09gCwsjvSM1DpV?=
+ =?us-ascii?Q?ia1Q6oR492hq/rDwFxqEFRf+2VQqJKZf5gWrj7tsQ8OOc/oYLosNnhnxZCWc?=
+ =?us-ascii?Q?cVn1hjkcdu2dPFvQXwDwc9PW/AM/AieY4zPbjesKZqeioJWAZaxuDy53nXN5?=
+ =?us-ascii?Q?/MoR5SNLLUF2PN1oe+mqRZXlIw058AoQO4RplgpWT+Ui75cQfixf6k+GouAV?=
+ =?us-ascii?Q?UHXEEFMIe9ppPQWQgunxsoOXcJa/NRf1z0vaWIcjeukey46SDQh8bmit+QfZ?=
+ =?us-ascii?Q?B/7J33Eql3ptPqPaxIn8TUE2WJINDq5wCxKuHHGjVr5Wp7rekdrvINaSzOgP?=
+ =?us-ascii?Q?yD2PrLkrF45pDs9kSAD+Q1PdLGx78Wuk1N11Yv64CDZ5JqDGyMLRTlglU0n1?=
+ =?us-ascii?Q?svRCX4zZsab95AivvG0P7tQFYMWI4MirN0WNjJV9Ic2fmrxRAAhQjzBywM8t?=
+ =?us-ascii?Q?iZkYxifpzytb2uC8O/6ap9OwHqFb9MBWk9HfB2gERhxPrxn/VSPOhxqkrAFX?=
+ =?us-ascii?Q?kp9WFn7mL2DE+lhOqkTtGvTUe+DWNHRp3ZpsxsjvX7TMK0VKYCiKAY3ltF3o?=
+ =?us-ascii?Q?uWB89LZWe4tqEOC1zql6UoaO4TcRaYegYxzsdoSdj5PsIKfJCqinaDnVL7ox?=
+ =?us-ascii?Q?PSpy2cS1h5+hzs8jSuryyIKf1mbyHGVSqxle7SzoejfiPVdrACQnlTt+L72I?=
+ =?us-ascii?Q?0iafQu0HND/PRYdrv4bcLLYVeNaIZshDnbrRy9x+h7Vez1GKer5IQBU4cGZd?=
+ =?us-ascii?Q?QhKhUEq9S3yHqd0dgSgn8C4rhetClbGESjZKN5muYre37ScAFFJQhxBFEfAQ?=
+ =?us-ascii?Q?eFYFpuqAOF354DTYBaSgjWsUp3LS4GLtOPI2oO5pDsPncpIqrXUe0vwS8igo?=
+ =?us-ascii?Q?PGU4bTBzpzhwCWH2O+W1JLAkf6WFEBqzjmI1vpHB+UTNRWTcuA5ustgTBHfq?=
+ =?us-ascii?Q?vJaKXHQeH0xQNoCy8ZlvWqDN+uZiRU2iyHzT0AoxaOWPDo/kRXcIVLXHiaZQ?=
+ =?us-ascii?Q?TmaOS2cVS+8+f3dwaRJxnkX1yLxJ9+OcOf49ag9/HXLWU9u50nR0Q5nxIXMF?=
+ =?us-ascii?Q?7OLlKKlwTpnp8vV4zV7KVQlolsRvEPfMwxlJq+VbaCjTJu8MFhAI4sG4rsmJ?=
+ =?us-ascii?Q?W4NdOMzbwYrt6IJXNhTo8PJFQwc1/14ryBf3ZWZ4d73xDJqpPe1KwFGi6Wat?=
+ =?us-ascii?Q?vX+05MO5NQgeHeBO5Bw3tdR2ZpGD3fAN46Va3k4jzzi5MF7hDOKpUJSYd34O?=
+ =?us-ascii?Q?mjVJIdUxwD0vTY6irFmEwh522gkb+wDZeE9zQDrX9BhGd+t7Z3+mxYhHtMol?=
+ =?us-ascii?Q?yHbVTt1F/w=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa51869e-3ccb-4e57-9309-08de68c69b00
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 17:05:34.9067
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yxwoeOJ6nN58FJ12RvNnXRL7zbz6THeyw+ZUD+hwgEhc4JSuUHllMDbhzdTjeGZgjacftauVpVG0T34NCQX4Hw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8362
 
+Support the remote devices on the remote processor via the RPMSG bus on
+i.MX platform.
 
---bzvkctnspkvgvs72
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 02/22] drm: Add new general DRM property "color format"
-MIME-Version: 1.0
+Changes in v7:
+ - Reworked the driver to use the rpmsg_driver framework instead of
+   platform_driver, based on feedback from Bjorn and Arnaud.
+ - Updated gpio-rpmsg.yaml and imx_rproc.yaml according to comments from
+   Rob and Arnaud.
+ - Further refinements to gpio-rpmsg.yaml per Arnaud's feedback.
 
-Hi,
+Changes in v6:
+ - make the driver more generic with the actions below:
+     rename the driver file to gpio-rpmsg.c
+     remove the imx related info in the function and variable names
+     rename the imx_rpmsg.h to rpdev_info.h
+     create a gpio-rpmsg.yaml and refer it in imx_rproc.yaml
+ - update the gpio-rpmsg.rst according to the feedback from Andrew and
+   move the source file to driver-api/gpio
+ - fix the bug reported by Zhongqiu Han
+ - remove the I2C related info
 
-On Fri, Feb 06, 2026 at 04:26:56PM +0100, Nicolas Frattaroli wrote:
-> On Friday, 6 February 2026 15:05:08 Central European Standard Time Maxime=
- Ripard wrote:
-> > On Wed, Jan 21, 2026 at 03:45:09PM +0100, Nicolas Frattaroli wrote:
-> > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> > > index 7eaec37ae1c7..b5604dca728a 100644
-> > > --- a/include/drm/drm_connector.h
-> > > +++ b/include/drm/drm_connector.h
-> > > @@ -556,6 +556,16 @@ enum drm_colorspace {
-> > >  	DRM_MODE_COLORIMETRY_COUNT
-> > >  };
-> > > =20
-> > > +enum drm_color_format {
-> > > +	DRM_COLOR_FORMAT_AUTO			=3D 0,
-> > > +	DRM_COLOR_FORMAT_RGB444			=3D BIT(0),
-> > > +	DRM_COLOR_FORMAT_YCBCR444		=3D BIT(1),
-> > > +	DRM_COLOR_FORMAT_YCBCR422		=3D BIT(2),
-> > > +	DRM_COLOR_FORMAT_YCBCR420		=3D BIT(3),
-> > > +};
-> > > +
-> > > +#define DRM_COLOR_FORMAT_COUNT 5
-> > > +
-> >=20
-> > I don't really see a reason to expose an enum, with a bunch of values
-> > that are all mutually exclusive, as a bitmask. It's pretty inconsistent
-> > with most (all?) the other similar properties we have.
-> >=20
-> > I appreciate you did that to avoid fixing up every driver using those
-> > values, but then maybe we don't have to? We could create a userspace
-> > facing enum, and convert to DRM_COLOR_FORMAT internally.
->=20
-> This is what the series did at v5 and earlier. IMHO it was kind of
-> counter-productive, because we then had two different things for the
-> same purpose, and some conversion logic between them. I think it's more
-> error prone to do it that way (think: mixing up the two), and doesn't
-> have a clear benefit. Just to give a picture of how bad things get:
->=20
-> 1. we have the HDMI color format (aka "HDMI_COLORSPACE")
-> 2. we have driver specific output color formats, e.g. the intel ones
-> 3. we have DRM_COLOR_FORMAT
-> 4. we have the bus formats (multiple per color format)
-> 5. we have the DRM plane formats (again, multiple per color format)
->=20
-> Adding a sixth into the mix feels a bit bad because we'll then need to
-> justify why we should have another layer of switch-case statements.
+Changes in v5:
+ - move the gpio-rpmsg.rst from admin-guide to staging directory after
+   discussion with Randy Dunlap.
+ - add include files with some code improvements per Bartosz's comments.
 
-Yeah, but they are all semantically different:
+Changes in v4:
+ - add a documentation to describe the transport protocol per Andrew's
+   comments.
+ - add a new handler to get the gpio direction.
 
-* The userspace one you want to introduce is going to be a superset of
-  all the valid output format for all the output busses we support (so,
-  HDMI + DP + etc.)
+Changes in v3:
+ - fix various format issue and return value check per Peng 's review
+   comments.
+ - add the logic to also populate the subnodes which are not in the
+   device map per Arnaud's request. (in imx_rproc.c)
+ - update the yaml per Frank's review comments.
 
-* plane formats are the input format, we have much more variation there,
-  and we will never output these. We can ignore these.
+Changes in v2:
+ - re-implemented the gpio driver per Linus Walleij's feedback by using
+   GPIOLIB_IRQCHIP helper library.
+ - fix various format issue per Mathieu/Peng 's review comments.
+ - update the yaml doc per Rob's feedback
 
-* bus formats are somewhat similar, they are more about the wiring
-  between bridges than anything else, and they are not exposed to
-  userspace. We can ignore these too.
+Shenwei Wang (4):
+  dt-bindings: remoteproc: imx_rproc: Add "rpmsg" subnode support
+  docs: driver-api: gpio: rpmsg gpio driver over rpmsg bus
+  gpio: rpmsg: add generic rpmsg GPIO driver
+  arm64: dts: imx8ulp: Add rpmsg node under imx_rproc
 
-* DRM_COLOR_FORMAT are definitely redundant.
+ .../devicetree/bindings/gpio/gpio-rpmsg.yaml  |  55 ++
+ .../bindings/remoteproc/fsl,imx-rproc.yaml    |  53 ++
+ Documentation/driver-api/gpio/gpio-rpmsg.rst  | 236 +++++++
+ Documentation/driver-api/gpio/index.rst       |   1 +
+ arch/arm64/boot/dts/freescale/imx8ulp.dtsi    |  27 +
+ drivers/gpio/Kconfig                          |  16 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-rpmsg.c                     | 583 ++++++++++++++++++
+ 8 files changed, 972 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/gpio/gpio-rpmsg.yaml
+ create mode 100644 Documentation/driver-api/gpio/gpio-rpmsg.rst
+ create mode 100644 drivers/gpio/gpio-rpmsg.c
 
-* The intel color formats are also redundant, but also internal. I would
-  expect them to converge to whatever we come up here eventually (but
-  really don't expect you to do that work).
+--
+2.43.0
 
-* And HDMI_COLORSPACE is really mandated by the HDMI spec, and is only
-  about HDMI connectors. It will never fully overlap with what we come
-  up with here, if only because HDMI cares about things we don't.
-
-So we really have two formats in my opinion: the one exposed through the
-uapi, and the internal one exposed to driver.
-
-In my view, the internal -> uapi conversion is trivial because the uapi
-one is a superset of the internal one (if only for auto). The uapi ->
-internal one needs to deal and resolve what auto means, but your code
-already does that.
-
-I don't really care about the internal format, as long as drivers don't
-have to be smart about it, so auto shouldn't be exposed to drivers. As
-far as I'm concerned, DRM_COLOR_FORMAT would fit that bill if it wasn't
-for the fact that it's both a bitmask and an enum depending on the
-context, which makes it pretty weird and error prone to deal with.
-
-Maxime
-
---bzvkctnspkvgvs72
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYtk1QAKCRAnX84Zoj2+
-dtH+AX9icXQp+NxFc1ZKirTjKLdjN/aWcl/dtMD8J4ci+mTqPt3KkSi4+FSK/s7a
-WNYTGwkBgOD8I055eaRKcNaaDGxQykXaPnfDkqAkw+xuNqdU6H6Fu+Om0bh+yw2H
-icXSLJ4gYw==
-=puI2
------END PGP SIGNATURE-----
-
---bzvkctnspkvgvs72--
