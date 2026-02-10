@@ -1,134 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C9D374724;
-	Tue, 10 Feb 2026 15:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363D6327C1C;
+	Tue, 10 Feb 2026 15:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770736458; cv=none; b=cjoxXJhPZFg+gZOy+4yAz+CqvsUhz/2gRx7/0EIeYsLnXnE2U0k/YAVv86zw0NsPOpuSMYt7u/cf9X0Bcp36aUG+BpHtDTK+ykxwPv+2tjxhQ3m4Bos2qbNWwI4kmijzxvhaDLV9IsnkaKgQUsCyYblLIQ5CTFRpxdbVHjZGC1o=
+	t=1770737275; cv=none; b=SjDXZ+RjRCN+N5qHBIOHa+/29E0wtVOnqsatoFZDiy9wUCboi7WhJGPujlazeszXl7s+YfvIdkZReiHqI8zGqzHAzUGnuyDWFTQFe5z8hGWhywwKUNMKkicwq68ekL5W+t2rnLcIeMzrKRVeV81ZZTpIy2NCbPbY623t2N6vkck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770736458; c=relaxed/simple;
-	bh=5XHstcK3GNmPCCnMCyYj61+dg73mEfAPf1RQMlNT978=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J+wGropnpKZWPJKmR3p27aKG47OnVrpergeOvAoIU3K7FsvWVPYKoDDLXQ0c5lhvPwnqh8RaLkcPQTvg6hei3dOENsDzgVf5UZX7AwkpsPE3p9piV8V9Tv/V+qhMgDLoEuz9ZfFvc3gaLsFbpwET1pcZpoBFN9LULPHViQMHeSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSQnuzSg; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770737275; c=relaxed/simple;
+	bh=/+KOAp07MLHz2UajjqRp0iV6Ut1gJSwomndWsRRW/lM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EmKgNVODh0EQABK/nJMqofOolq18EXhiQlvMtLhqJMXm5gG1in7sKddWFvsWTd/5pvBqrKmR+19gMwQIlX5pkkE93rSI59sElDVfnVDhySGIozPGCDCgFmhAScL6833F6PDQzSmHu8z3/3u/RocB9ZUSHk3oVVF+vhD4l6om9nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkbDL2+0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSQnuzSg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770736458; x=1802272458;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5XHstcK3GNmPCCnMCyYj61+dg73mEfAPf1RQMlNT978=;
-  b=OSQnuzSg5WZqJFW9A3B/2TlHUCGhhR4xdYEwcnexMzQOr7w2JVnGLYfe
-   VcCZe4PEOJnJ0VrM4ZmzLnOB5W7PRV3IsHEkpgUWW0g/gRh6CExvibJ+Q
-   grGKGqoDkzV5WrEC8LFmwMOdzAquitfP+9MPLtEkiGqUEhKBIQLPOQVNE
-   Tl2h87ES70u+rz8y8gNDY7qPFru6eSuxlNiToJ9TUHw1Zs9wlxe4gwO6J
-   NCy+7wG18t0rc6ntSTibCipCprWgFGCXyOIy2Yu13V4PGNGVBvsfmVtd2
-   HxlrKqWG+oTj44jAOQ5/7R1XuJQ8WISjgIirz7NyCtOaJUykzsTMBz/kU
-   Q==;
-X-CSE-ConnectionGUID: LsmFXGVNQC6B3xsfHQMW/Q==
-X-CSE-MsgGUID: U/l5H4XdTJObaefFa95t3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="82505014"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="82505014"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 07:14:16 -0800
-X-CSE-ConnectionGUID: PLTW0sgvRr+sZIyjb4ObHQ==
-X-CSE-MsgGUID: 0j9FHxy/Qi2fCSVgALjwlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="211778201"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.131])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 07:14:08 -0800
-Date: Tue, 10 Feb 2026 17:14:04 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	linux-renesas-soc@vger.kernel.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>, Boqun Feng <boqun.feng@gmail.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [RFC PATCH 0/4] hwspinlock: refactor headers into public
- provider/consumer pair
-Message-ID: <aYtLPHmZTg8oFxfL@smile.fi.intel.com>
-References: <aXc7DxsqiCGdfzxi@smile.fi.intel.com>
- <aXc-Zxw05XQLb1Dy@ninjato>
- <aXdAB2bLTy6u8G8c@smile.fi.intel.com>
- <aXdCBu6kzdw1NWay@ninjato>
- <aXikZ5wc6bvgRqF6@ninjato>
- <aYnBrN0JRCf9-UjB@ninjato>
- <yl4bbbev7lgrmnqys2izkolo5egzg24faukvqar5eh26q5ra7p@42rcegfpqqt6>
- <aYo60vooftdem4Lt@ninjato>
- <aYrcVE9HsDNAwqIB@smile.fi.intel.com>
- <aYsMCVf1qpLSCXTs@shikoro>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkbDL2+0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1BB2C116C6;
+	Tue, 10 Feb 2026 15:27:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770737274;
+	bh=/+KOAp07MLHz2UajjqRp0iV6Ut1gJSwomndWsRRW/lM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EkbDL2+00gX1IMxuRnq4mK8Ym8kww+9pO5Rrwf7Vqp2vLiKMA1nkLu88PWLG7KkjB
+	 HhS9qW0B+tLklTRD0PSzDMtGPx26Sh0+33n3lIfL7DdwdwY3x4CjbrGylcPZ2uF7bV
+	 CYxzU/3C05ngmoNVbprorCvWA0BskBs17aw5Kw1OkeCEksANHB9xK3x7hCSytEhHHC
+	 uISUMmkk7vnyjP6UMdpesngvg9Q5wJmtf981+xRlBrOXgVApLBTmf9AnNMy9iSQ5qo
+	 wnb8qRI5Fs+c+ZXWP4r24sTEJe09CIQRn5zVqZqDStWK15khf8HMLYxAzSU0aTLMM5
+	 v5urAt/+HtZkg==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vppeZ-000000009O1-3uH1;
+	Tue, 10 Feb 2026 16:27:52 +0100
+Date: Tue, 10 Feb 2026 16:27:49 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: "David S. Miller" <davem@davemloft.net>, Alexander Lobakin
+ <aleksander.lobakin@intel.com>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Jakub Kicinski <kuba@kernel.org>, Jesper
+ Dangaard Brouer <hawk@kernel.org>, John Fastabend
+ <john.fastabend@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Richard Cochran <richardcochran@gmail.com>, bpf@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, Randy Dunlap
+ <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>, Stanislav
+ Fomichev <sdf@fomichev.me>
+Subject: Re: [PATCH v2 00/25] kernel-doc: make it parse new functions and
+ structs
+Message-ID: <20260210162749.30e84be5@localhost>
+In-Reply-To: <87ecn97ild.fsf@trenco.lwn.net>
+References: <cover.1769617841.git.mchehab+huawei@kernel.org>
+	<87ecn97ild.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aYsMCVf1qpLSCXTs@shikoro>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 10, 2026 at 11:44:25AM +0100, Wolfram Sang wrote:
+On Wed, 28 Jan 2026 10:27:58 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> > > And if so, would be this series acceptable
-> > > as-is then (modulo the better include-sorting mentioned by Andy)?
-> > 
-> > *From my experience it's not the Q "will they or not?", the Q is "when?"
-> >  they start abusing it. I really prefer to hide as much as possible from
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> I totally agree with you on that.
+> > Hi Jon,
+> >
+> > It is impressive how a single patch became a series with 25 ones ;-)  
 > 
-> >  day 1. Maybe the structure can be split to two? Currently IIO has a
+> *sigh*
 > 
-> I also thought that keeping some internal header might provide that
-> safety. When looking into it, I didn't see an obvious and somewhat
-> elegant way. Even more, I got a better picture of why Bjorn named the
-> current approach "unergonomic". I got some ideas which look doable in my
-> time frame. I will try going the full route, after all.
+> I will try to have a good look at these shortly.  It seems pretty clear
+> that this isn't 7.0 material at this point, though.
 
-Thanks!
-Looking forward for the rest, the cleanup is quite good, no added lines.
+I ended missing your e-mail...
+
+Yeah, it is too late for 7.0.
+
+> 
+> One thing that jumped at me:
+> 
+> > Ah, due to the complexity of NestedMatch, I opted to write
+> > some unit tests to verify that the logic there is correct.
+> > We can use it to add other border cases.
+> >
+> > Using it is as easy as running:
+> >
+> > 	$ tools/unittests/nested_match.py
+> >
+> > (I opted to create a separate directory for it, as this
+> > is not really documentation)  
+> 
+> Do we really need another unit-testing setup in the kernel?  I can't say
+> I'm familiar enough with kunit to say whether it would work for
+> non-kernel code; have you looked and verified that it isn't suitable?
+
+I'm familiar with kunit: I wrote myself a bunch of tests using
+it for some DRM stuff.
+
+Kunit is focused on testing kernel content. It basically adds
+a way for a python script to run self-test logic inside a kernel 
+module. It is not meant to test things outside the Kernel.
+
+Also, I'm using the python internal library for it. The only
+"fancy" thing I added is a helper module to better work with
+unit tests:
+
+- it formats unittest output;
+- it passes some parameters to the unittest discover to make
+  it more useable;
+- it adds argparse parameters to filter tests and control their
+  verbosity levels;
+- it adds a way to pass argparse values to the tests, as
+  some tests may require parameters (like passing a different
+  yaml file to a dynamically-generated unit test).
+
+- 
+
+Anyway, I intend to send a new version of this series either
+later this week or at the next one.
+
+I'll probably split the unittest part from the part meant to
+avoid new warnings after merging from linux-next.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Mauro
