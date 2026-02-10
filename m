@@ -1,105 +1,258 @@
-Received: from out198-3.us.a.mail.aliyun.com (out198-3.us.a.mail.aliyun.com [47.90.198.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9579115624B;
-	Tue, 10 Feb 2026 02:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.3
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59A2526A1AC;
+	Tue, 10 Feb 2026 02:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770689244; cv=none; b=WQH8jUgwWr4KCBTQeYlKMvXmLlGitukziF/KcPNUU/5457xx1ofPE4HDRG2PZF6lXJzTFpnyjqH2ohCYjAJxd6+2drLYW6U95ByayHs5d65iSYsVy8noEtUWySpRZH5Gj0ZIyQTyRKnqirDNd/5r0HC18vu3Uh7SuiY638YMY5I=
+	t=1770691522; cv=none; b=dRKs4B4/isf2pSKWZQKYXvJT+1uh2VDF4y1tniXsmOwsu/jIvj+MSvnbcIPVvbBypadlo0ib2c+sWQBkTu+4bVITX8ZTDCqrGC/8hGPc6Bgl6MEmKGOsSi9XHsG43EFs16XnjL53Mf1WXE2D7xbPd9ViaWzdd+ylSzivG3QppEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770689244; c=relaxed/simple;
-	bh=d1va5f67LxQ4KETMLfVwDpV5Tk/SVUHyF9eb2TlH8bw=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=NItjmMz5S3TGETyCTqi4I2mmgqUe5U5xH6MynBcia+SQ+Twbk3CpXFtakkOMbCZhsm0Ncop1RYukxbR98SoGCHkLTnL+HQVIWcYtkN+f/LU/XXST4SUQkshoovmOw3vMz4gEtQtMMvn5pTu+8amdGvZ2qDW2du0shM6i5+uPAjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.073901|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0277738-0.00636233-0.965864;FP=14661280663008586946|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033045018182;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=15;RT=15;SR=0;TI=W4_0.2.3_214495E4_1770688381328_o7001c876;
-Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_214495E4_1770688381328_o7001c876] cluster:ay29) at Tue, 10 Feb 2026 10:07:01 +0800
-Date: Tue, 10 Feb 2026 10:07:01 +0800
-From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-To: "Jakub Kicinski" <kuba@kernel.org>
-Cc: "Sam" <sam.chen@nebula-matrix.com>,
-  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-  "Dimon" <dimon.zhao@nebula-matrix.com>,
-  "netdev" <netdev@vger.kernel.org>,
-  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-  "open list" <linux-kernel@vger.kernel.org>,
-  "corbet" <corbet@lwn.net>,
-  "lorenzo" <lorenzo@kernel.org>,
-  "Alvin" <alvin.wang@nebula-matrix.com>,
-  "andrew+netdev" <andrew+netdev@lunn.ch>,
-  "linux-doc" <linux-doc@vger.kernel.org>,
-  "pabeni" <pabeni@redhat.com>,
-  "edumazet" <edumazet@google.com>,
-  "horms" <horms@kernel.org>
-Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-Message-ID: <8620f8c9-c7ff-427d-bad4-0ed860b998ea.Illusion.Wang@nebula-matrix.com>
-Subject: =?UTF-8?B?5Zue5aSN77yaW3Y0LG5ldC1uZXh0LDExLzExXSBuZXQvbmVidWxhLW1hdHJpeDogYWRkIGNv?=
-  =?UTF-8?B?bW1vbiBkZXYgc3RhcnQvc3RvcCBvcGVyYXRpb24=?=
-X-Mailer: [Alimail-Mailagent][W4_0.2.3][null][Chrome]
+	s=arc-20240116; t=1770691522; c=relaxed/simple;
+	bh=iimXFNTW0Y0FV1Kt92CR+LtA1IqNTgPL19DamWwNvck=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=suG77lF85EHAYW41DzY40jjT8/pMgwW4pLwnAvGTijDEq5VM7qtIEexbkqieM4/zUQ1qSPAxoLeHUhd/bYJ87Fl6bY7UwG4UFrWX1agLzcZtMmpHccP/wDKcfR/o2w/FS78WBm1K8327y/z7J0vzQsAh+4LnYChTbQWBS10iBZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.62])
+	by gateway (Coremail) with SMTP id _____8AxDMO8m4ppi0kRAA--.55420S3;
+	Tue, 10 Feb 2026 10:45:16 +0800 (CST)
+Received: from [10.20.42.62] (unknown [10.20.42.62])
+	by front1 (Coremail) with SMTP id qMiowJCxWeC2m4ppMJ5DAA--.61292S3;
+	Tue, 10 Feb 2026 10:45:13 +0800 (CST)
+Subject: Re: [PATCH v5] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+To: Zixing Liu <liushuyu@aosc.io>, WANG Xuerui <kernel@xen0n.name>,
+ Huacai Chen <chenhuacai@kernel.org>
+Cc: Kexy Biscuit <kexybiscuit@aosc.io>, Mingcong Bai <jeffbai@aosc.io>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Tianrui Zhao <zhaotianrui@loongson.cn>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20260205051822.1318253-1-liushuyu@aosc.io>
+From: Bibo Mao <maobibo@loongson.cn>
+Message-ID: <aa35c7a6-6361-9f83-a726-89d7deff8560@loongson.cn>
+Date: Tue, 10 Feb 2026 10:42:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-x-aliyun-im-through: {"version":"v1.0"}
-References: <20260206021608.85381-12-illusion.wang@nebula-matrix.com>,<20260207022504.4018024-1-kuba@kernel.org>
-x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjEwLVJlbGVhc2UuMjYwMjAzMDA3KSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
-In-Reply-To: <20260207022504.4018024-1-kuba@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+In-Reply-To: <20260205051822.1318253-1-liushuyu@aosc.io>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJCxWeC2m4ppMJ5DAA--.61292S3
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBj93XoW3WryfZryftFWUKr18tF15KFX_yoWxJryUpr
+	yYkrZ7WrWUKF9rKF18Zr1a9F1UXFs2y3y5Zry3KFZ2yrs8ZrW5Jw10kr9xKFy5J34rZF4I
+	9wn5Cw4a9r4kt3cCm3ZEXasCq-sJn29KB7ZKAUJUUUUk529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	Gr0_Gr1UM2kKe7AKxVWUtVW8ZwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYI
+	kI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWr
+	XwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMx
+	k0xIA0c2IEe2xFo4CEbIxvr21lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l
+	4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxV
+	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI
+	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+	4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUstxhDUUUU
 
-VGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrCkJ1dAplbnVtIG5ibF9tc2l4X3NlcnZfdHlwZSB7
-CgkvKiB2aXJ0aW9fZGV2IGhhcyBhIGNvbmZpZyB2ZWN0b3JfaWQsIGFuZCB0aGUgdmVjdG9yX2lk
-IG5lZWQgaXMgMCAqLwoJTkJMX01TSVhfVklSVElPX1RZUEUgPSAwLAoJTkJMX01TSVhfTkVUX1RZ
-UEUsCglOQkxfTVNJWF9NQUlMQk9YX1RZUEUsCglOQkxfTVNJWF9UWVBFX01BWAp9OwpOQkxfTVNJ
-WF9ORVRfVFlQRSBlcXVhbHMgMe+8jHNvIHRoaXMgZnVuY3Rpb24gaGFzIG5vIHByb2JsZW3vvJ8K
-Ci0taWxsdXNpb24ud2FuZwoKPiArc3RhdGljIGludCBuYmxfZGV2X2NvbmZpZ3VyZV9tc2l4X21h
-cChzdHJ1Y3QgbmJsX2Rldl9tZ3QgKmRldl9tZ3QpCj4gK3sKPiArIHN0cnVjdCBuYmxfZGlzcGF0
-Y2hfb3BzICpkaXNwX29wcyA9IGRldl9tZ3QtPmRpc3Bfb3BzX3RibC0+b3BzOwo+ICsgc3RydWN0
-IG5ibF9kZXZfY29tbW9uICpkZXZfY29tbW9uID0gZGV2X21ndC0+Y29tbW9uX2RldjsKPiArIHN0
-cnVjdCBuYmxfbXNpeF9pbmZvICptc2l4X2luZm8gPSAmZGV2X2NvbW1vbi0+bXNpeF9pbmZvOwo+
-ICsgYm9vbCBtYXNrX2VuID0gbXNpeF9pbmZvLT5zZXJ2X2luZm9bTkJMX01TSVhfTkVUX1RZUEVd
-Lmh3X3NlbGZfbWFza19lbjsKPiArIHUxNiBtc2l4X25ldF9udW0gPSBtc2l4X2luZm8tPnNlcnZf
-aW5mb1tOQkxfTVNJWF9ORVRfVFlQRV0ubnVtOwo+ICsgdTE2IG1zaXhfbm90X25ldF9udW0gPSAw
-Owo+ICsgaW50IGVyciwgaTsKPiArCj4gKyBmb3IgKGkgPSBOQkxfTVNJWF9ORVRfVFlQRTsgaSA8
-IE5CTF9NU0lYX1RZUEVfTUFYOyBpKyspCj4gK8KgIG1zaXhfaW5mby0+c2Vydl9pbmZvW2ldLmJh
-c2VfdmVjdG9yX2lkID0KPiArIMKgIG1zaXhfaW5mby0+c2Vydl9pbmZvW2kgLSAxXS5iYXNlX3Zl
-Y3Rvcl9pZCArCj4gKyDCoCBtc2l4X2luZm8tPnNlcnZfaW5mb1tpIC0gMV0ubnVtOwogwqAgwqAg
-wqAgwqAgwqAgwqAgXl5eXl5eCgpEb2VzIHRoaXMgbG9vcCBjYXVzZSBhbiBhcnJheSB1bmRlcmZs
-b3c/IE5CTF9NU0lYX05FVF9UWVBFIGVxdWFscyAwIChmcm9tCnRoZSBlbnVtIGluIG5ibF9kZXYu
-aCksIHNvIG9uIHRoZSBmaXJzdCBpdGVyYXRpb24gaT0wIGFuZCB0aGUgY29kZSBhY2Nlc3Nlcwpz
-ZXJ2X2luZm9bLTFdLgoKVGhlIHNlcnZfaW5mbyBhcnJheSBpcyBkZWNsYXJlZCB3aXRoIE5CTF9N
-U0lYX1RZUEVfTUFYICgyKSBlbGVtZW50cyBpbgpzdHJ1Y3QgbmJsX21zaXhfaW5mbywgZ2l2aW5n
-IHZhbGlkIGluZGljZXMgWzAsMV0uIEFjY2Vzc2luZyBpbmRleCAtMSByZWFkcwp1bmluaXRpYWxp
-emVkIG1lbW9yeSBiZWZvcmUgdGhlIGFycmF5IHN0YXJ0LgoKQ2FsbCBjaGFpbjogbmJsX2NvcmVf
-c3RhcnQoKS0+bmJsX2Rldl9zdGFydCgpLT5uYmxfZGV2X3N0YXJ0X2NvbW1vbl9kZXYoKQotPm5i
-bF9kZXZfY29uZmlndXJlX21zaXhfbWFwKCkgZ3VhcmFudGVlcyB0aGlzIG9jY3VycyBkdXJpbmcg
-ZGV2aWNlIHN0YXJ0LgoKU2hvdWxkIHRoZSBsb29wIHN0YXJ0IGF0IGk9MSAoTkJMX01TSVhfTUFJ
-TEJPWF9UWVBFKSBpbnN0ZWFkLCBvciBzaG91bGQKc2Vydl9pbmZvWzBdLmJhc2VfdmVjdG9yX2lk
-IGJlIGluaXRpYWxpemVkIGJlZm9yZSB0aGUgbG9vcD8KCj4gKwo+ICsgZm9yIChpID0gTkJMX01T
-SVhfTUFJTEJPWF9UWVBFOyBpIDwgTkJMX01TSVhfVFlQRV9NQVg7IGkrKykgewoKWyAuLi4gXQoK
-ClRoYW5rIHlvdSBmb3IgcG9pbnRpbmcgdGhpcyBvdXQhIFVwb24gcmV2aWV3aW5nIHRoZSBjb2Rl
-IGFnYWluLCBJIGJlbGlldmUKdGhlIHZhcmlhYmxlIGRlY2xhcmF0aW9ucyBpbiBuYmxfZGV2X3Jl
-cXVlc3RfbWFpbGJveF9pcnEoKSBhbHJlYWR5IGZvbGxvdwp0aGUgcmV2ZXJzZSBDaHJpc3RtYXMg
-dHJlZSBjb252ZW50aW9uOgoKZGV2X2NvbW1vbiAobG9uZ2VzdCBpZGVudGlmaWVyKSBpcyBkZWNs
-YXJlZCBmaXJzdCwgYXMgaXQgaXMgcmVxdWlyZWQgZm9yCnN1YnNlcXVlbnQgZGVjbGFyYXRpb25z
-LgoKVGhlIHJlbWFpbmluZyB2YXJpYWJsZXMgKG1zaXhfaW5mbyBhbmQgY29tbW9uKSBhcmUgb3Jk
-ZXJlZCBieSBkZWNyZWFzaW5nIApkZW50aWZpZXIgbGVuZ3RoLCBhbGlnbmluZyB3aXRoIHRoZSBz
-dHlsZSBndWlkZS4KSG93ZXZlciwgSSBhcHByZWNpYXRlIHRoZSBjbGFyaWZpY2F0aW9uIG9wcG9y
-dHVuaXR54oCUaWYgdGhlcmXigJlzIGEgbnVhbmNlCknigJltIG1pc3NpbmcgKGUuZy4sIHN0cmlj
-dGVyIGFkaGVyZW5jZSB0byBpZGVudGlmaWVyIGxlbmd0aCBvdmVyIGRlcGVuZGVuY3kKb3JkZXIp
-LCBJ4oCZZCBiZSBoYXBweSB0byBhZGp1c3QgdGhlIGNvZGUgYWNjb3JkaW5nbHkuY3JlYXNpbmcg
-aWRlbnRpZmllcgpsZW5ndGgsIGFsaWduaW5nIHdpdGggdGhlIHN0eWxlIGd1aWRlLgoKLS0taWxs
-dXNpb24ud2FuZwoKCkFuZHJldyBMdW5uIGFsc28gbm90ZWQgaW4gdjMgdGhhdCB2YXJpYWJsZSBk
-ZWNsYXJhdGlvbnMgc2hvdWxkIGZvbGxvdwpyZXZlcnNlIENocmlzdG1hcyB0cmVlIG9yZGVyaW5n
-IChsb25nZXN0IGxpbmUgZmlyc3QpLiBMb29raW5nIGF0IGZ1bmN0aW9ucwppbiB0aGlzIGNvbW1p
-dCBsaWtlIG5ibF9kZXZfcmVxdWVzdF9tYWlsYm94X2lycSgpOgoKIHN0cnVjdCBuYmxfZGV2X2Nv
-bW1vbiAqZGV2X2NvbW1vbiA9IGRldl9tZ3QtPmNvbW1vbl9kZXY7CiBzdHJ1Y3QgbmJsX21zaXhf
-aW5mbyAqbXNpeF9pbmZvID0gJmRldl9jb21tb24tPm1zaXhfaW5mbzsKIHN0cnVjdCBuYmxfY29t
-bW9uX2luZm8gKmNvbW1vbiA9IGRldl9tZ3QtPmNvbW1vbjsKCnRoZSBkZWNsYXJhdGlvbnMgYXJl
-IG5vdCBpbiByZXZlcnNlIENocmlzdG1hcyB0cmVlIG9yZGVyLgoKTGluazogaHR0cHM6Ly9sb3Jl
-Lmtlcm5lbC5vcmcvbmV0ZGV2L2M2ZDM3ZWNkLTdkYzYtNGY4My1iNzZjLTI3MzVhNWYxMTZmZEBs
-dW5uLmNoLwoK
+
+
+On 2026/2/5 下午1:18, Zixing Liu wrote:
+> This ioctl can be used by the userspace applications to determine which
+> (special) registers are get/set-able in a meaningful way.
+> 
+> This can be very useful for cross-platform VMMs so that they do not have
+> to hardcode register indices for each supported architectures.
+> 
+> Signed-off-by: Zixing Liu <liushuyu@aosc.io>
+> ---
+>   Documentation/virt/kvm/api.rst |   2 +-
+>   arch/loongarch/kvm/vcpu.c      | 120 +++++++++++++++++++++++++++++++++
+>   2 files changed, 121 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 01a3abef8abb..f46dd8be282f 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -3603,7 +3603,7 @@ VCPU matching underlying host.
+>   ---------------------
+>   
+>   :Capability: basic
+> -:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
+> +:Architectures: arm64, loongarch, mips, riscv, x86 (if KVM_CAP_ONE_REG)
+>   :Type: vcpu ioctl
+>   :Parameters: struct kvm_reg_list (in/out)
+>   :Returns: 0 on success; -1 on error
+> diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
+> index 656b954c1134..de02e409ae39 100644
+> --- a/arch/loongarch/kvm/vcpu.c
+> +++ b/arch/loongarch/kvm/vcpu.c
+> @@ -5,6 +5,7 @@
+>   
+>   #include <linux/kvm_host.h>
+>   #include <asm/fpu.h>
+> +#include <asm/kvm_host.h>
+>   #include <asm/lbt.h>
+>   #include <asm/loongarch.h>
+>   #include <asm/setup.h>
+> @@ -14,6 +15,8 @@
+>   #define CREATE_TRACE_POINTS
+>   #include "trace.h"
+>   
+> +#define NUM_LBT_REGS 6
+> +
+>   const struct _kvm_stats_desc kvm_vcpu_stats_desc[] = {
+>   	KVM_GENERIC_VCPU_STATS(),
+>   	STATS_DESC_COUNTER(VCPU, int_exits),
+> @@ -1186,6 +1189,105 @@ static int kvm_loongarch_vcpu_set_attr(struct kvm_vcpu *vcpu,
+>   	return ret;
+>   }
+>   
+> +static int kvm_loongarch_walk_csrs(struct kvm_vcpu *vcpu, u64 __user *uindices)
+> +{
+> +	unsigned int i, count;
+> +	const unsigned int csrs_to_save[] = {
+> +		LOONGARCH_CSR_CRMD,	  LOONGARCH_CSR_PRMD,
+> +		LOONGARCH_CSR_EUEN,	  LOONGARCH_CSR_MISC,
+> +		LOONGARCH_CSR_ECFG,	  LOONGARCH_CSR_ESTAT,
+> +		LOONGARCH_CSR_ERA,	  LOONGARCH_CSR_BADV,
+> +		LOONGARCH_CSR_BADI,	  LOONGARCH_CSR_EENTRY,
+> +		LOONGARCH_CSR_TLBIDX,	  LOONGARCH_CSR_TLBEHI,
+> +		LOONGARCH_CSR_TLBELO0,	  LOONGARCH_CSR_TLBELO1,
+> +		LOONGARCH_CSR_ASID,	  LOONGARCH_CSR_PGDL,
+> +		LOONGARCH_CSR_PGDH,	  LOONGARCH_CSR_PGD,
+> +		LOONGARCH_CSR_PWCTL0,	  LOONGARCH_CSR_PWCTL1,
+> +		LOONGARCH_CSR_STLBPGSIZE, LOONGARCH_CSR_RVACFG,
+> +		LOONGARCH_CSR_CPUID,	  LOONGARCH_CSR_PRCFG1,
+> +		LOONGARCH_CSR_PRCFG2,	  LOONGARCH_CSR_PRCFG3,
+> +		LOONGARCH_CSR_KS0,	  LOONGARCH_CSR_KS1,
+> +		LOONGARCH_CSR_KS2,	  LOONGARCH_CSR_KS3,
+> +		LOONGARCH_CSR_KS4,	  LOONGARCH_CSR_KS5,
+> +		LOONGARCH_CSR_KS6,	  LOONGARCH_CSR_KS7,
+> +		LOONGARCH_CSR_TMID,	  LOONGARCH_CSR_CNTC,
+> +		LOONGARCH_CSR_TINTCLR,	  LOONGARCH_CSR_LLBCTL,
+> +		LOONGARCH_CSR_IMPCTL1,	  LOONGARCH_CSR_IMPCTL2,
+> +		LOONGARCH_CSR_TLBRENTRY,  LOONGARCH_CSR_TLBRBADV,
+> +		LOONGARCH_CSR_TLBRERA,	  LOONGARCH_CSR_TLBRSAVE,
+> +		LOONGARCH_CSR_TLBRELO0,	  LOONGARCH_CSR_TLBRELO1,
+> +		LOONGARCH_CSR_TLBREHI,	  LOONGARCH_CSR_TLBRPRMD,
+> +		LOONGARCH_CSR_DMWIN0,	  LOONGARCH_CSR_DMWIN1,
+> +		LOONGARCH_CSR_DMWIN2,	  LOONGARCH_CSR_DMWIN3,
+> +		LOONGARCH_CSR_TVAL,	  LOONGARCH_CSR_TCFG,
+> +	};
+this increases much kernel stack size usage :)
+
+Please wait a moment, I am considering how to cleanup code about CSR 
+registers. And KVM_GET_REG_LIST is not so urgent, else there is 
+KVM_read_from_REG_LIST/KVM_write_from_REG_LIST ioctl commands to access 
+registers in batch mode.
+
+Regards
+Bibo Mao
+
+> +
+> +	for (i = 0, count = 0;
+> +	     i < sizeof(csrs_to_save) / sizeof(csrs_to_save[0]); i++) {
+> +		const u64 reg = KVM_IOC_CSRID(i);
+> +		if (uindices && put_user(reg, uindices++))
+> +			return -EFAULT;
+> +		count++;
+> +	}
+> +
+> +	/* Skip PMU CSRs if not supported by the guest */
+> +	if (!kvm_guest_has_pmu(&vcpu->arch))
+> +		return count;
+> +	for (i = LOONGARCH_CSR_PERFCTRL0; i <= LOONGARCH_CSR_PERFCNTR3; i++) {
+> +		const u64 reg = KVM_IOC_CSRID(i);
+> +		if (uindices && put_user(reg, uindices++))
+> +			return -EFAULT;
+> +		count++;
+> +	}
+> +
+> +	return count;
+> +}
+> +
+> +static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
+> +{
+> +	/* +1 for the KVM_REG_LOONGARCH_COUNTER register */
+> +	unsigned long res =
+> +		kvm_loongarch_walk_csrs(vcpu, NULL) + KVM_MAX_CPUCFG_REGS + 1;
+> +
+> +	if (kvm_guest_has_lbt(&vcpu->arch))
+> +		res += NUM_LBT_REGS;
+> +
+> +	return res;
+> +}
+> +
+> +static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
+> +					  u64 __user *uindices)
+> +{
+> +	u64 reg;
+> +	unsigned int i;
+> +
+> +	i = kvm_loongarch_walk_csrs(vcpu, uindices);
+> +	if (i < 0)
+> +		return i;
+> +	uindices += i;
+> +
+> +	for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
+> +		reg = KVM_IOC_CPUCFG(i);
+> +		if (put_user(reg, uindices++))
+> +			return -EFAULT;
+> +	}
+> +
+> +	reg = KVM_REG_LOONGARCH_COUNTER;
+> +	if (put_user(reg, uindices++))
+> +		return -EFAULT;
+> +
+> +	if (!kvm_guest_has_lbt(&vcpu->arch))
+> +		return 0;
+> +
+> +	for (i = 1; i <= NUM_LBT_REGS; i++) {
+> +		reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
+> +		if (put_user(reg, uindices++))
+> +			return -EFAULT;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   long kvm_arch_vcpu_ioctl(struct file *filp,
+>   			 unsigned int ioctl, unsigned long arg)
+>   {
+> @@ -1251,6 +1353,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>   		r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
+>   		break;
+>   	}
+> +	case KVM_GET_REG_LIST: {
+> +		struct kvm_reg_list __user *user_list = argp;
+> +		struct kvm_reg_list reg_list;
+> +		unsigned n;
+> +
+> +		r = -EFAULT;
+> +		if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
+> +			break;
+> +		n = reg_list.n;
+> +		reg_list.n = kvm_loongarch_num_regs(vcpu);
+> +		if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
+> +			break;
+> +		r = -E2BIG;
+> +		if (n < reg_list.n)
+> +			break;
+> +		r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
+> +		break;
+> +	}
+>   	default:
+>   		r = -ENOIOCTLCMD;
+>   		break;
+> 
+
