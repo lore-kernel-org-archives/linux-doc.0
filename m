@@ -1,206 +1,316 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F3A3876DF;
-	Tue, 10 Feb 2026 16:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770739877; cv=none; b=chA61To8mJ/02B67GOLlU6WLJhaQPPUA2jwqC5JK73gYCdFBRUj4C5B2uyIqubga+cXW0F/8TmOgA9RcWqdRGf0zzxDKE4GuY4n5R0R8D4ghiKZ6wYwoE9Kk984Ko3Qkt76bZpWEjQHyQn5Xk3mbFYdRwJKjVddp1cXsWY27Ysc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770739877; c=relaxed/simple;
-	bh=ITzsRriLdI5AlO8qTFsF93iE7x8hevfEpKEaEvWHfiY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sKjQOkXBPa1sbO21S5wVLdab7d3tsiGDcEhlZdMIy6WECBVHeCMtOFo1ZNPk4JeZZe+m4YWTqzLFnlBAf8QbW7iEQz/nLik+fekjnUmRzXPxMmAXuDYSxH2eIVAlTaFrFovO58qPrxdJAdC2gTqddAxdXdxKxQO6K28vqjEC1JE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XSXXGD/3; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007E92DA75A;
+	Tue, 10 Feb 2026 16:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770740273; cv=fail; b=f/i3P6wYIWRf0CguLT0LWQ8/RsuNIp4XSrh3uexuTV7ZHanR6FAMYF3ucn9+gyCzng56WnXyTel8K7N4FbkhRojXz3zHb87y5US69WXLf4+Rw/KR4w7RxzxEZVd7s44qIfStLN2Zm9nI7CD8xV+6KMQJl1GGzOxdEBKZ6MkofQo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770740273; c=relaxed/simple;
+	bh=5IwsImknE4wrF5JlIH9lrmo12pjxWXB6NKjj0x744Ds=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=eJDMkpPFnk+byyRdQsJma0dF6/V0eVlzr/9B54jrPfBsz0xi8DOHunX4v9y1CbSlRfRZ64jopiatG/mleu3ZOTiPpyzEtC0xTqNcCzlz1zcAXqL6acesHVu/8ErlaPJzQOA6Kbl30LJb1+Zgr0g9ndsSqX7Rfal9DstI0jIG9g8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cwa5se3k; arc=fail smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XSXXGD/3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67E66C116C6;
-	Tue, 10 Feb 2026 16:11:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770739876;
-	bh=ITzsRriLdI5AlO8qTFsF93iE7x8hevfEpKEaEvWHfiY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XSXXGD/3560UYv7bxgkmpAZgbTUAwlwIcztwT5II4ShE8gEXmGpMND8quWyNmJi+g
-	 He+nm9YGb92CvSobiaD08rbOxRJgi00yV7zkNyfq5zpOgtZphiJ2+T6rSlw3U2o/K7
-	 UuhDTCszBnAB5Fe5T3XVhC5W5sZOMKv4lDaIpiecXfluZb/8+G4xp/Zs4XjnkXZ++T
-	 mvpvlotwNKRfDGVlQuio+OqM1/fF0Ui+GTmnME01SH3J4QlTKv843SYRg+JGERs1ye
-	 Hxd+P+8wcYXukEJ/MdkL74ar3rtG+mvvnR2B1TzRuc/iWzz60MWYo/P9z1pfa7MEtU
-	 I8W9RRabxeYBQ==
-Date: Tue, 10 Feb 2026 17:11:14 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 21/22] drm/tests: bridge: Add KUnit tests for bridge
- chain format selection
-Message-ID: <20260210-dancing-thankful-booby-dab0ed@houat>
-References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
- <20260121-color-format-v7-21-ef790dae780c@collabora.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwa5se3k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770740272; x=1802276272;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=5IwsImknE4wrF5JlIH9lrmo12pjxWXB6NKjj0x744Ds=;
+  b=cwa5se3k2KFvzu4OLaLmm4wgbD8Ra5pjpMXN6OiNgVNUMBdET0XT/U8T
+   ghN+Ae7b16XJTjS2ag7LiaWEab7cv0LpbpFd1PFEQofdYRhH4Z4GIurWJ
+   nmS0GnEsJyyRvfHb2/eEdAeZBT+DfTQ+OE7G3QizXluTTq5pUvqhZtRJ1
+   Wk/1K+0Z5FFBVTNgAaA+1ba07emnTTKIw6DY4pjDGZFbG7M9ZxAhUa07q
+   bmGm+y3bFiYlBN3ISfH4o3UO5w8mGAl/CAjscB59240EQhwkEJ9ZWCIrY
+   wKSeNEN3Ysam7cnOLUnZSk2cpOsHDKp9TDj1C3XYIB8YgAKJZJwlMHv5D
+   A==;
+X-CSE-ConnectionGUID: FjAXuK84RtWC9IIhErEXhw==
+X-CSE-MsgGUID: 7/6f9kOzSFKcPwPRWaZPTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="71083583"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="71083583"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 08:17:51 -0800
+X-CSE-ConnectionGUID: ql3Ifg+UQU6D6hfElNgD8A==
+X-CSE-MsgGUID: HDoO/ossTymM5xJf5U2uCA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="211289163"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 08:17:50 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Tue, 10 Feb 2026 08:17:49 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35 via Frontend Transport; Tue, 10 Feb 2026 08:17:49 -0800
+Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.2) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.35; Tue, 10 Feb 2026 08:17:49 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CRaAdLTVYHj2mlZaZDtcr4s1X0CoO2+bc5Z92vSH0RsUKsOPk/Gc0XnvFGpE9E+UgSFGaZJv/Q+YZ+hv95Pz6lyNqPt36BfXxnsmIxNfMPz8E5gpxMPHBKjvxF5RiONZWlLFeab/rinY3N63bq2zNqkLAV2oKQeOPy7jg/e+WzBbkssgP0VtVCl7KUjubNF51u1e9p7BoNfqZb3rGTuePDbMuTLTp1535tRSSO6lg1pxTtShvPg5tSWeAAJR1/Ii0MpRtZjwZOY2onDsCem2ycMB5hJ44FteMxz0YWo37M1qbS4y8nOp47Ld3WscaB1uJAXwMuH8g7ZhAKmHxTWuiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GEyR02biKPSSDrxtCrjzLquB5G6v1EoKFNUY5fvOi1k=;
+ b=FNrz0xjLW3PPTSUkabb1f6Dl9AQHo73hXeQJBn40lQNLBYD6WoJh17TGe0AkoGP4+6/FSwUplNGIx+s3Jxp8Ny4CxU4sJQ8jKZpUDh6SBHZZgzpWd7fF9CXM2BSSU872CDCDK1o5QsJiiEqikC7E2E121TgYgP1SzPX/qpeqMnue4GyjeRR2o2ZaE49fgd39DtAW0wbOrTZhM4uq1Hf4uhTBPOztyvJCc9SPpj/4Om5fFsxCPAvL8cF3SIOG5XOiA8KpMyFEY2dOpG9loeq0e0PwMi5tlQFehCbwF7/CrfaMIka3AwJsLMUSPRc7s7i/TQR54bK+ve6eFa2Is7+acA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by BY1PR11MB7983.namprd11.prod.outlook.com (2603:10b6:a03:52b::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.16; Tue, 10 Feb
+ 2026 16:17:45 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bfe:4ce1:556:4a9d]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bfe:4ce1:556:4a9d%6]) with mapi id 15.20.9587.017; Tue, 10 Feb 2026
+ 16:17:44 +0000
+Message-ID: <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
+Date: Tue, 10 Feb 2026 08:17:40 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
+ context switch handling
+To: "Moger, Babu" <bmoger@amd.com>, "Moger, Babu" <Babu.Moger@amd.com>, "Luck,
+ Tony" <tony.luck@intel.com>
+CC: "corbet@lwn.net" <corbet@lwn.net>, "Dave.Martin@arm.com"
+	<Dave.Martin@arm.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
+	<peterz@infradead.org>, "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>, "rostedt@goodmis.org"
+	<rostedt@goodmis.org>, "bsegall@google.com" <bsegall@google.com>,
+	"mgorman@suse.de" <mgorman@suse.de>, "vschneid@redhat.com"
+	<vschneid@redhat.com>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "pawan.kumar.gupta@linux.intel.com"
+	<pawan.kumar.gupta@linux.intel.com>, "pmladek@suse.com" <pmladek@suse.com>,
+	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
+	"kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+	"fvdl@google.com" <fvdl@google.com>, "lirongqing@baidu.com"
+	<lirongqing@baidu.com>, "bhelgaas@google.com" <bhelgaas@google.com>,
+	"seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
+	"Shukla, Manali" <Manali.Shukla@amd.com>, "dapeng1.mi@linux.intel.com"
+	<dapeng1.mi@linux.intel.com>, "chang.seok.bae@intel.com"
+	<chang.seok.bae@intel.com>, "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+	"naveen@kernel.org" <naveen@kernel.org>, "elena.reshetova@intel.com"
+	<elena.reshetova@intel.com>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "peternewman@google.com"
+	<peternewman@google.com>, "eranian@google.com" <eranian@google.com>, "Shenoy,
+ Gautham Ranjal" <gautham.shenoy@amd.com>
+References: <cover.1769029977.git.babu.moger@amd.com>
+ <17c9c0c252dcfe707dffe5986e7c98cd121f7cef.1769029977.git.babu.moger@amd.com>
+ <aXk8hRtv6ATEjW8A@agluck-desk3>
+ <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
+ <aXpDdUQHCnQyhcL3@agluck-desk3>
+ <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
+ <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4P220CA0010.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:303:115::15) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="g6geynrgndywzzd4"
-Content-Disposition: inline
-In-Reply-To: <20260121-color-format-v7-21-ef790dae780c@collabora.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|BY1PR11MB7983:EE_
+X-MS-Office365-Filtering-Correlation-Id: db1f3385-ba75-4639-963f-08de68bfec2c
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZWxKSFFTY3NOeEg1Q3JwZzBpS2xCbjlhSUJHeXNhWjF0YzNUNEF0djlQNWpW?=
+ =?utf-8?B?VWd1WEFNMElZZzVQdXV0RVZyVmVjZlgvN3ZnZWdkMksrVzRpZ0NyV2pFWjlN?=
+ =?utf-8?B?KzJ3OUcxWjN6cjZza1ZNVFhNRzFDUjFMNW4zVWVUVzRMQXFJSUdKNElkTENP?=
+ =?utf-8?B?eWU0MzNxSGFuc2lvQXN2V0xnRnBvSFRBelk5RXhKUE5Ba0ZFeE1ydXRlK2R3?=
+ =?utf-8?B?ZmlVc1FGc3JIYnlBeGlWeDdzRjJrQ2Y4bFpQb3BPTXgyUW1yTHBMd3JDSFVL?=
+ =?utf-8?B?cUc1eGh5dTFZa2VmRXZCNFJzNE1lWGduYzNxSE82bXpRVWRrNEx1NHVHU0xs?=
+ =?utf-8?B?MThSZnJMS1NRVmJSR0F3aHNsNVBEdnhSUXMwcncyOUNRQ3ljaFlud3JxUFAw?=
+ =?utf-8?B?aGR5a2paTWV4MXBMYnBEdjZBb2M5NDBtdmhBQ2xpVEdtUEVFYXdoRVkrZVFC?=
+ =?utf-8?B?b3NLWVNqSWdNK215SEtGR0VrOFBvZHVEN0FTSWhDMzFyRVg5SVpiTTVkenNO?=
+ =?utf-8?B?K2lUMVZBTGczUUc4QnJ5RmRMQ2JjcC9jVUFodVRrSnNIZG1kVnBjM1VCaXB3?=
+ =?utf-8?B?NldQTFFobjd2VUFGQVI1eTVneGl4djZJT2oyakZTZjJyRlltTm4yOXFrU0l1?=
+ =?utf-8?B?QlNyVDBmYXNaQjY5Y2g3Yyt5OE41dWNONEhKSVExSXlYY0htTHR5M1NVVjgx?=
+ =?utf-8?B?QTd2WU95UTVZRElhd2FieElvMXBwaUoyNEM2TzQwRU9rZEFiRDZJSVJoeWl0?=
+ =?utf-8?B?YnlkdWd3UXBCMUp0M0ZtRWM2eGRFaGZob05PSm11SkZlM2xSendEVFNEZC9P?=
+ =?utf-8?B?cnB2b1RDUjEvc2p2d21SdmNEMFFYeEVxNjAyWE9rWVFZdnI2cm1JWWY0eEcw?=
+ =?utf-8?B?VW4rUndoTkRrNzFGZTZyc1phcmNLaDN2T0Jtb1lxMXBjTlFsaHhMcWgyTUl2?=
+ =?utf-8?B?NWV0RjQwc0djcHVRVGpCMlRYWVQ3UVVkcFBMak50UHBQR2ZmZnNiZ3hKU1RD?=
+ =?utf-8?B?TFk5RW4vTzMxVG5ubWx5TnhEU1JPeTRqS3FlZkhtZGZMRFllMXVPd204SzlI?=
+ =?utf-8?B?dkkvT05yNHplcEJieG5EbTlINDVQQ0JmYURMOTQxSTNUeUNnKzlnWlhGTHVY?=
+ =?utf-8?B?SHNxSGkyZkRCNjNwSmRDVDhneXlYdmk3OXNZM2dOcjg2WUZ5VksxQ3BVdW94?=
+ =?utf-8?B?VlhMYzdPbFE3SU9UZ0xrUWZPUXNtdE9nb21zbUlYQnFlMjFncGVnc0pYdnht?=
+ =?utf-8?B?NU8zWnRNV2hVdkVoUkpGUnlwRkdsczRQc1pBVkxkcFZnQ2JZczJXQnAzTk85?=
+ =?utf-8?B?S2ZyV3RDTWVOekhCV0kzd2NSMCtNTkJ3YmJuSTNJRWI1L21aSlhNa242d2pC?=
+ =?utf-8?B?R04zV1FUY29TNzRTNHVvUGt2TGdweUdpcW5jeHQ2QkJKT1M5TWJKejYvbzUy?=
+ =?utf-8?B?Ujd6cjUxWTdpWXJqbDRSNFA0MVFIZ3E0c2dqbU5Rdkw0bVhYTnRDa2NKV3FL?=
+ =?utf-8?B?VFF6b05ZSTBBd0ZwaW9sVkVZS2dtM3hOTkQ3THRzOUUrQ1VNSS9PaDhvMXcz?=
+ =?utf-8?B?WWE0YTErb0h6aWZxNUJWY2ZiTXhHUVpjNVgvZFJNVkR5dWlxVVcranpudENW?=
+ =?utf-8?B?QzFDRDFXTXZwYWNwblBYOWwzUnVpemwrczQyRVhncHpiV3pwWnNVanJBZmkx?=
+ =?utf-8?B?eXZUOHppbTRKQnRGanhzWkVwTTlHQ3pvc0NaZUdGU1czRjZLYkNLaXVIa05G?=
+ =?utf-8?B?VHZ0MzY3dzZNQVVxQlJDcEVyVDduTEx6VlBrTUZBNDhYbXVIV2t4amJlU0FV?=
+ =?utf-8?B?Wk5NRDZxdEFxbXB3Tm5sOFdoU281dnp3VmhpejZpRExCanNhN1lMdE5pTUVE?=
+ =?utf-8?B?bDV4ZWxqOXVuUUJZcDFtMXY0QVNCS1N0RFJQUTVzaSt5dmJRZDE1VFlhUjZE?=
+ =?utf-8?B?cDdDcjAxQ09BbDg3NndJYjVCalZsVkRVSzRoYWowQUU3eW9uZ1VrUTE2WW5r?=
+ =?utf-8?B?VksvQ2kyTzNadTJJYThyQjA1QTRreGE1OWx5cTN1MFNOUDNYcUtqZm5HRkxn?=
+ =?utf-8?B?d1lkNi90ZzE2RWcyblVCRnZ2d0M1a3JsczVieVV5YzRhdFZOMnE1ZG05U2tX?=
+ =?utf-8?Q?LMkU=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YXVxeXJWVnJGZkY2QzBIcWd4WERtalJmYyszZGhWcm9VSEg1bzdjUHFlR2U0?=
+ =?utf-8?B?NnhnMVNEb0phbnFLL0NuS2NBT2FKOExyc3Q2VjRvK0t6VndRZzFDOWNhd1Bh?=
+ =?utf-8?B?YWZiVkovZ3grN0Vwa3Q4RHlHUWxzWVd3UFBTQU9VS1A0NXZVRERuVmxmVkVS?=
+ =?utf-8?B?VnFsMFovT1RWa3pJRmRDRmVlckJJamRMMWVLSktWMDJIL3JMd3FjbEpybkVM?=
+ =?utf-8?B?Tms0VEJCSDRVRGh3bHNzeW45WStFUFlNblBHYmxkVTg4Y1NkeG5pZitiang1?=
+ =?utf-8?B?dnpQa2FCN01TUHhadk1VK0kxb29TMWo5TDJaT3VDWHFsWXRYYjNOc1huMlBJ?=
+ =?utf-8?B?NGtJMXdQUUQrUENYYlFSUnR2NjZ2UEQ1WWQ5ckZHZTRqbTlNbUY0WjV4N0hu?=
+ =?utf-8?B?dWlVQnNiUU9vTkpmeEcrczg0SnRpa3FIQ1BVMFBpTHJLcUtZZi8xMWtWTFVV?=
+ =?utf-8?B?NlErUEIyUUhQOFFKWHR2STBLTnEvYjRvcWRGSnA5ZFBKY3EvVGpTREsxVWRq?=
+ =?utf-8?B?Uk9aL3MrZTIvZDQ0VjB5cnJXcFd2OGp3RW5HMEZEQXRvZXFiSGh3bVRHNzQ4?=
+ =?utf-8?B?OEJGa05RN2ZXUm02ZTdzWTFYOGpzWEprY2s2RWtMTU92eS9lMlpmMmRqUis0?=
+ =?utf-8?B?a00xWkRxR3hqM3ZKaXVKMGxEcEtEMGQ1MTNzcllhcitudGVRL2RSaHJkdU1a?=
+ =?utf-8?B?TzFyNjdmME45bGd3eHlGQTRoMzhBNjVnenNZejVxaHJ4WDZpeVdBM0JNYW1h?=
+ =?utf-8?B?bWY0WVpmcVVZSkNTWFdSajQ3bU15RzBWaGZHU0JrSmtLUWRvQVc0cWo0blVI?=
+ =?utf-8?B?Q1IvUE9VR1pKb2ZRazQxK0tEYS9JOTFUdXlBa2Z5WmhrNm9Rdlk5bHVscVgr?=
+ =?utf-8?B?ZmhTVGg0MTB6Z2I1eWFKTWFwS0pMei9BTksvcDRvU0Rsb1I2TTVKVE9ldVox?=
+ =?utf-8?B?OGJXUlhSVjZFT3djY3MwMEhPWkN5SDhjcnRZOUNHMjZ6UGJkV0hJS0tHNXQ2?=
+ =?utf-8?B?bE1YcDQ4aGErYkNWVGR4UlltemhndHJwK2lrUDV3akdURThldEtTRk1mZzAr?=
+ =?utf-8?B?TWJzYkY5V29KVnFYYllHQ2doREFmNFloeE9DL2k2OXFzb3BaNm16b1p1aWhD?=
+ =?utf-8?B?ZGpzTHgyakMzQzVwSDAyb3VVdWVFaC9lcHZpenNnVHVwZWFBb0VTa3djYVlI?=
+ =?utf-8?B?KzNoZEhKOU5zenJmRW43K2hGV29wMWFrQlJDampoQUl2Vi9KWFlneGVQZEc4?=
+ =?utf-8?B?ckJnL251UFpTWjJWVlFMWXN1akxXV3N6dUorTzRWQjNkSG00TE0xeHhQMHFD?=
+ =?utf-8?B?RDA2RzB2VEV2QmNZQ3FoMjFwcGVkR29vR3RYa3NjbXZSNWpzUGRzZlhNYXBS?=
+ =?utf-8?B?d1BGWmtYcXRZekdLRGVFOE9wcFVOTUc4U0JrRXI2RnlkM2xaclg4ZklvYVJJ?=
+ =?utf-8?B?OEJKdU5YSXo1RVdZYlliMlpCc0s1YzllTXhJN3JRNUZBRnltZi81aWgvbVo1?=
+ =?utf-8?B?U0F6QTNxMStZcmthQ21Ib1FCakVsY2NRVW5COEd5ZmdwWHdMdTdGU3ZMdGhh?=
+ =?utf-8?B?OGU3NFFtYURxUmNWbWxTTkdPbFVKVG9tbnZxb3dCUXFzbFBJZmNNQlVYMmw0?=
+ =?utf-8?B?aDR5TFBBclVmQWxwdk56dFRyQTQ2UVN6VUo5VEx3dm82OXE1TXJuZmhNOUxQ?=
+ =?utf-8?B?aytHSStkVCtKeG5JOVEwZlh2bmo1SW9zMGsrc1pWTGhwK1JiZzg3azJwNmli?=
+ =?utf-8?B?ZVhOVzNvWlE4azRITEJvTFNnSzRKR2hpZnZUMjVHQUVraTJWS2h6TDZBaWJN?=
+ =?utf-8?B?STgxYVBjRDdCdGpoVlgvUXBpaVRvK1VNQ1ZmakliTGF5SnhyK0NwTUswT2Vy?=
+ =?utf-8?B?Tkdselg0MFEvZDhGclNmK2VnK2lTS1FIdlpLUmMza3hLRWFXN09NSTlMR1dx?=
+ =?utf-8?B?K2pXdTBRVzZsS0taZFFYanJ5ZU5SL3JpOW5ROGVaL3VsUUtQcnJxdlM5NDZ1?=
+ =?utf-8?B?SEozNWlYUWV5dEQ0ZGhmdTFLSUpnbnNZZm40aUFUamtpN3FySFJUNUdhaGZY?=
+ =?utf-8?B?cXBBYlo3cWx6WEhUc1liOVhVMHNJc3RZcEJWc2w1N0VEeUNhTDRiVnZ0bG05?=
+ =?utf-8?B?Y3BuT05Obk1VM3libExKL3R6YTcrL0E0SlBQQWgrY2lBelhzVStHbi8wRmJt?=
+ =?utf-8?B?L3Bnd2owY1NTOHU4NGNqejdld1RWMW5aSDJHUXIyRmpHOXF0RUN6clN1K3I4?=
+ =?utf-8?B?VFpWc3pORFd2R0tBNnJJSHdvVEtxYjlCTklYZ2V4aHByU3QvVXdWU1plTlBo?=
+ =?utf-8?B?eTVDT0NzbVV1S1pBRkZ0d0FPSjVMbVJzNWhQcDF2ODEyU1ZBMWhsMnhUUUsw?=
+ =?utf-8?Q?K09kp/+2xcv5CJEU=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: db1f3385-ba75-4639-963f-08de68bfec2c
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 16:17:44.6549
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 40SUyuiih3ekKTaPm0UuVv/yx/Kn3uZLEeWrq/DeEU8tCGg79NNf8MlRKkOkUE+hB/OjhRYODZbCuA/nOhvcEhv/B+yl11YIWhAW/B5Y34c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR11MB7983
+X-OriginatorOrg: intel.com
 
+Hi Babu,
 
---g6geynrgndywzzd4
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 21/22] drm/tests: bridge: Add KUnit tests for bridge
- chain format selection
-MIME-Version: 1.0
+On 1/28/26 9:44 AM, Moger, Babu wrote:
+> 
+> 
+> On 1/28/2026 11:41 AM, Moger, Babu wrote:
+>>> On Wed, Jan 28, 2026 at 10:01:39AM -0600, Moger, Babu wrote:
+>>>> On 1/27/2026 4:30 PM, Luck, Tony wrote:
+>>> Babu,
+>>>
+>>> I've read a bit more of the code now and I think I understand more.
+>>>
+>>> Some useful additions to your explanation.
+>>>
+>>> 1) Only one CTRL group can be marked as PLZA
+>>
+>> Yes. Correct.
 
-Hi,
+Why limit it to one CTRL_MON group and why not support it for MON groups?
 
-On Wed, Jan 21, 2026 at 03:45:28PM +0100, Nicolas Frattaroli wrote:
-> With the "color format" property, the bridge chain format selection has
-> gained increased complexity. Instead of simply finding any sequence of
-> bus formats that works, the bridge chain format selection needs to pick
-> a sequence that results in the requested color format.
->=20
-> Add KUnit tests for this new logic. These take the form of some pleasant
-> preprocessor macros to make it less cumbersome to define test bridges
-> with a set of possible input and output formats.
->=20
-> The input and output formats are defined for bridges in the form of
-> tuples, where the first member defines the input format, and the second
-> member defines the output format that can be produced from this input
-> format. This means the tests can construct scenarios in which not all
-> inputs can be converted to all outputs.
->=20
-> Some tests are added to test interesting scenarios to exercise the bus
-> format selection in the presence of a specific color format request.
->=20
-> Furthermore, tests are added to verify that bridge chains that end in an
-> HDMI connector will always prefer RGB when the color format is
-> DRM_COLOR_FORMAT_AUTO, as is the behaviour in the HDMI state helpers.
->=20
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  drivers/gpu/drm/tests/drm_bridge_test.c | 812 ++++++++++++++++++++++++++=
-++++++
->  1 file changed, 812 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/te=
-sts/drm_bridge_test.c
-> index 887020141c7f..ac86f3dfe518 100644
-> --- a/drivers/gpu/drm/tests/drm_bridge_test.c
-> +++ b/drivers/gpu/drm/tests/drm_bridge_test.c
-> @@ -2,15 +2,23 @@
->  /*
->   * Kunit test for drm_bridge functions
->   */
-> +#include <linux/cleanup.h>
-> +#include <linux/media-bus-format.h>
-> +
->  #include <drm/drm_atomic_state_helper.h>
-> +#include <drm/drm_atomic_uapi.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_bridge_connector.h>
->  #include <drm/drm_bridge_helper.h>
-> +#include <drm/drm_edid.h>
->  #include <drm/drm_kunit_helpers.h>
-> +#include <drm/drm_managed.h>
-> =20
->  #include <kunit/device.h>
->  #include <kunit/test.h>
-> =20
-> +#include "drm_kunit_edid.h"
-> +
->  /*
->   * Mimick the typical "private" struct defined by a bridge driver, which
->   * embeds a bridge plus other fields.
-> @@ -37,6 +45,27 @@ struct drm_bridge_init_priv {
->  	bool destroyed;
->  };
-> =20
-> +struct drm_bridge_chain_priv {
-> +	struct drm_device drm;
-> +	struct drm_encoder encoder;
-> +	struct drm_plane *plane;
-> +	struct drm_crtc *crtc;
-> +	struct drm_connector *connector;
-> +	unsigned int num_bridges;
-> +
-> +	/**
-> +	 * @test_bridges: array of pointers to &struct drm_bridge_priv entries
-> +	 *                of which the first @num_bridges entries are valid.
-> +	 */
-> +	struct drm_bridge_priv **test_bridges;
-> +	/**
-> +	 * @destroyed: bool array of size @num_bridges serving the same function
-> +	 *             as &struct drm_bridge_init_priv::destroyed does for a
-> +	 *             single bridge test.
-> +	 */
-> +	bool *destroyed;
+Limiting it to a single CTRL group seems restrictive in a few ways:
+1) It requires that the "PLZA" group has a dedicated CLOSID. This reduces the
+   number of use cases that can be supported. Consider, for example, an existing
+   "high priority" resource group and a "low priority" resource group. The user may
+   just want to let the tasks in the "low priority" resource group run as "high priority"
+   when in CPL0. This of course may depend on what resources are allocated, for example
+   cache may need more care, but if, for example, user is only interested in memory
+   bandwidth allocation this seems a reasonable use case?
+2) Similar to what Tony [1] mentioned this does not enable what the hardware is
+   capable of in terms of number of different control groups/CLOSID that can be
+   assigned to MSR_IA32_PQR_PLZA_ASSOC. Why limit PLZA to one CLOSID?
+3) The feature seems to support RMID in MSR_IA32_PQR_PLZA_ASSOC similar to
+   MSR_IA32_PQR_ASSOC. With this, it should be possible for user space to, for
+   example, create a resource group that contains tasks of interest and create
+   a monitor group within it that monitors all tasks' bandwidth usage when in CPL0.
+   This will give user space better insight into system behavior and from what I can
+   tell is supported by the feature but not enabled?
 
-AFAIK, the destroyed field was added to test the refcounting work. We
-don't really need it here, so there's no point in adding it I.
+>>
+>>> 2) It can't be the root/default group
+>>
+>> This is something I added to keep the default group in a un-disturbed,
 
-> +};
-> +
->  static struct drm_bridge_priv *bridge_to_priv(struct drm_bridge *bridge)
->  {
->  	return container_of(bridge, struct drm_bridge_priv, bridge);
-> @@ -50,6 +79,21 @@ static void drm_test_bridge_priv_destroy(struct drm_br=
-idge *bridge)
->  	priv->destroyed =3D true;
->  }
-> =20
-> +static void drm_test_bridge_chain_priv_destroy(struct drm_bridge *bridge)
-> +{
-> +	struct drm_bridge_priv *bridge_priv =3D bridge_to_priv(bridge);
-> +	struct drm_bridge_chain_priv *priv =3D (struct drm_bridge_chain_priv *)=
-bridge_priv->data;
-> +	unsigned int i;
-> +
-> +	for (i =3D 0; i < priv->num_bridges; i++) {
-> +		if (priv->test_bridges[i] !=3D bridge_priv)
-> +			continue;
-> +
-> +		priv->destroyed[i] =3D true;
-> +		break;
-> +	}
-> +}
-> +
+Why was this needed?
 
-And similarly, we probably can drop that hook.
+>>
+>>> 3) It can't have sub monitor groups
 
-With this fixed,
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Why not?
 
-Maxime
+>>> 4) It can't be pseudo-locked
+>>
+>> Yes.
+>>
+>>>
+>>> Would a potential use case involve putting *all* tasks into the PLZA group? That
+>>> would avoid any additional context switch overhead as the PLZA MSR would never
+>>> need to change.
+>>
+>> Yes. That can be one use case.
+>>
+>>>
+>>> If that is the case, maybe for the PLZA group we should allow user to
+>>> do:
+>>>
+>>> # echo '*' > tasks
 
---g6geynrgndywzzd4
-Content-Type: application/pgp-signature; name="signature.asc"
+Dedicating a resource group to "PLZA" seems restrictive while also adding many
+complications since this designation makes resource group behave differently and
+thus the files need to get extra "treatments" to handle this "PLZA" designation.
 
------BEGIN PGP SIGNATURE-----
+I am wondering if it will not be simpler to introduce just one new file, for example
+"tasks_cpl0" in both CTRL_MON and MON groups. When user space writes a task ID to the
+file it "enables" PLZA for this task and that group's CLOSID and RMID is the associated
+task's "PLZA" CLOSID and RMID. This gives user space the flexibility to use the same
+resource group to manage user space and kernel space allocations while also supporting
+various monitoring use cases. This still supports the "dedicate a resource group to PLZA"
+use case where user space can create a new resource group with certain allocations but the
+"tasks" file will be empty and "tasks_cpl0" contains the tasks needing to run with
+the resource group's allocations when in CPL0.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYtYoQAKCRAnX84Zoj2+
-di5iAYD/lFm+vxmy4mdgQYgEVgUJL+5WwxuOrzELYFH6kZKY4kAa6NiKoFehFooW
-3mN/uVsBfAq2ELgOmtJcqmMvvYIagFtwn5RS9WWH7gcGFwEMpd6VXibLSJV9d/2M
-arOHW5vuZw==
-=rs25
------END PGP SIGNATURE-----
+Reinette
 
---g6geynrgndywzzd4--
+[1] https://lore.kernel.org/lkml/aXpgragcLS2L8ROe@agluck-desk3/
