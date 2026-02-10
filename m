@@ -1,105 +1,107 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECA32DCC08
-	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 08:44:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA981CEAC2;
+	Tue, 10 Feb 2026 08:50:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770713069; cv=none; b=Rryw+xsIz2dHac7a7eIiTnXEvo4Jm5+Sj1711edkfRkz1WvKxfzn08EOwSoiDO9LFNkIpyHj4dxL8iY4altMsH/q/GZvHMrGb9pSe46A4Dwmt16MffMs7Kupye2tiJK0vR4uAyaemUC7g9BiK53v1y3UdC08YFnlPEmv2xM7mw0=
+	t=1770713403; cv=none; b=kmIhVWULlqfuXrnXF+0o72YyPs42Cl6urrWoxwxSDr10l1lqWx6U6VC1OeE8C5PW08dMgCom9U98WUdN0fwBFl34K2lT0J1k62lxoWNKasYgQc3rZJJh8IJyyBcuZcI6apVKaZwKLACR/ObzyYdhC9xWzgy4lcWVUOdoW2LJc/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770713069; c=relaxed/simple;
-	bh=OUxjBS4Rkr6nocfLv8sYXTRp05YRB0jmAsFlvQZFJoY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rw/5T1i1FfGz3MMgEAkFAGvcYixgZbrdC3vE4KQVTFc/CnxPBubWZs5r5pzgcmzfr4rTmYWoF0vEcD890/EDMKKNzJ8l2C4CWX+JyCqh2ynGyyDDFBYMZv8Q2GCG/1OGgcL3beprphFNPO4niGaUOnPAsGn5Ll4aoPRcTJVozCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YfZLeIsn; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770713403; c=relaxed/simple;
+	bh=Si2j2OamdKyuLhvOjLLri8raYiy2rhxS+VNLI8ItD0E=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lj6Nq9MNOcFWpIgablmAlN5Xx20eFuackNY1zXPuyg8IhqqxPQncCbBX2MKFtEz3FEh+rDK73H2+y0BiM+4Xe62R+1kbuE77699rhri4dG+f4vC8T6fDfYkGX1Xf/m0sIqZHB+Icu3cOfbwVNpQxVSeSU6W9m8kgpwYCgjmhdL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YULiDm7y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YfZLeIsn"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c61342a69b9so1390327a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 00:44:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770713068; x=1771317868; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vtWtfkgKaXxmdLN3poPHKX+M4yianssOSoYxmXvp2DQ=;
-        b=YfZLeIsnYfjyFbB8wZJnh0q0XJGubl6cMq5PuX5E7N++4Tc4xniMVFiwcJYAS08Xix
-         65ppLjmDJp14R8hfmRvl1OPhbqZ8e6Yxmgi2vGPiW2UHBxW12Mv9UG0AMqtzbxDh9Gy+
-         Gr5a0pbAKJyiwKTLfnF0u0BJ8hLtUAWZrFpNpr/u79yXWqTTSSm3EdD+0aQ9g20DSjm7
-         GlpeWStofSi0fYsdToxrd6r4/V/rSAU+bK/7mG7/a2hD904lCYAvX42EF58e0c+CNvs3
-         Ec5HZz+fvdyoJ8Vi4L1L4/hYG/AU9zOd65p6byOEBe1tfNuR5EJYPmzZdwnt3g8BrRkN
-         Nk1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770713068; x=1771317868;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vtWtfkgKaXxmdLN3poPHKX+M4yianssOSoYxmXvp2DQ=;
-        b=VY/2e7oM69pRSjtBKEfNEBa8ULnw5nXnrOLdKtUj4yNkQER+Y1mVuuCISTaXZ1dtUB
-         knJRnplX0wOyRcLHArRciw2CyyrMYwjLgBatdpg+3Uxyelp8NAQDz/VfgBpcgkm6vhOP
-         6a1tEKjjCRZf0bdP+se8KjPhujSCi4BCXYFvbQpxL1fCeZck1iKEoT0nYKbUekanCY+Y
-         EJTSEQZDj6f0nA40z93rPvxBuut3Z0hN8sQioN1PUzajKkGYUcecTtEcY9obplC8gK1H
-         EeV7bU/qgye5OIs+hRmtGxAybDFMa7k/rjpUy9iu/5NrWEw0ICHe9G2SwMecR+SzpftX
-         2JwA==
-X-Forwarded-Encrypted: i=1; AJvYcCXVfXP1eE70L5ErtBpUpBpU8cq1szevTB/FkEaM55nfVEvkvBFpMWpVpiBhc0QPSL8T4w8aFGDPvQQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzl+JQKGrXSdGukBJ3B5cLlLY6NZDhHR2NZfRQ/O6u4dVlK+GTv
-	RxwWU6frRMSG4IrcBr+PNLLSSLULooE4uEk4N7iJNkPynjohMDGHHCsU
-X-Gm-Gg: AZuq6aJUVV5vBaOghP/AQgdqwYpayQukwf+5ID5J0MQHOwqOkj8WnrUKrO+sRaf/yUI
-	MbbnDnVuWOjMyk3sVKIpawE4W7UKCKT8/ozS2TAvmCC9TIAv5G+FMIc84Qs1ialfADNldhW1mSh
-	uwVbn7zYNzWBq+3Tv0vb/buQzNZAOd2gyZLwclWBUGirah7p6eQeZYkeH6Mxm6u3AqTF1mpe31p
-	qEMnBhlp1HfwwnoNONFBgy3V9U5s9i7Vn6SIszYcbh2mHfrbwNTzCr9wKCwxMe/WAXs47tiN+5+
-	4A3FOxuz3REHnUah8RdmhwV8BWKa6JhWbTzXLKgbR8Bdtl9tFldvjIC03veT9aKy7VkMbCTUxrL
-	+99a1g9txoEw3tmlqIbYZMmEKsonVmWy58rBfo/QypShvJ3dE9Fdxb3is0fndF4I30yQi7GoIdG
-	qwgA8SsnqXuYJvn4159nx7eJ9YpqE7+IYSzarGjksyz4Hg81TPSfB14Sc9yUmwDHGcRw0=
-X-Received: by 2002:a17:903:1aa7:b0:2a7:9ded:9b46 with SMTP id d9443c01a7336-2a951633be2mr147756965ad.17.1770713067767;
-        Tue, 10 Feb 2026 00:44:27 -0800 (PST)
-Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([129.41.58.2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a951c809desm125873775ad.30.2026.02.10.00.44.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Feb 2026 00:44:27 -0800 (PST)
-Date: Tue, 10 Feb 2026 14:14:17 +0530
-From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: linkmauve@linkmauve.fr, ojeda@kernel.org, boqun.feng@gmail.com, 
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, 
-	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, dakr@kernel.org, 
-	corbet@lwn.net, maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
-	chleroy@kernel.org, peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com, 
-	rostedt@goodmis.org, ardb@kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH V5 3/3] powerpc: Enable Rust for ppc64le
-Message-ID: <aYrvZB0FeiV5NzpD@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
-References: <20260210053756.2088302-1-mkchauras@gmail.com>
- <20260210053756.2088302-4-mkchauras@gmail.com>
- <CANiq72=nc901311qq3C_Lg7rZObFjTkZ7sQoCP1UpufOOkp3eQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YULiDm7y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93512C116C6;
+	Tue, 10 Feb 2026 08:50:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770713402;
+	bh=Si2j2OamdKyuLhvOjLLri8raYiy2rhxS+VNLI8ItD0E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YULiDm7y4e6NWsk69SA37Ym2P/kMkdwfXgqOKL/WfmPH2grAXUuICIzya//ACFRil
+	 SBDa9yZisRh7dwXFBh6KMkGZMzlS6g0DzaCt2tEWUqhzOAhWY6lS6t8ktjTshUQEsN
+	 KLlyoDD7Cq96kMv8nIeEtyR4P8F2hEi9JWz0VqTvDGEPnwu7pc+2FJkH9a30hxGqar
+	 51VFK/Ms1JJFNG2BoQzOjRUazH5UOuBurIQPiwmJUogXYJ3+ARRZ7X00ELjPt8KG3/
+	 nsiughIMp2/0Y8EjI6eAt0wb/XYm3jTTt9IAprnZ0mTM0Kl27YJi6TYrg9Vk2QR0kd
+	 r/MfTJ9KLLJXg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vpjRX-00000009zjd-3spB;
+	Tue, 10 Feb 2026 08:50:00 +0000
+Date: Tue, 10 Feb 2026 08:49:59 +0000
+Message-ID: <86v7g5asp4.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Colton Lewis <coltonlewis@google.com>
+Cc: kvm@vger.kernel.org,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Mingwei Zhang <mizhang@google.com>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 00/19] ARM64 PMU Partitioning
+In-Reply-To: <20260209221414.2169465-1-coltonlewis@google.com>
+References: <20260209221414.2169465-1-coltonlewis@google.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72=nc901311qq3C_Lg7rZObFjTkZ7sQoCP1UpufOOkp3eQ@mail.gmail.com>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: coltonlewis@google.com, kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com, corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, mizhang@google.com, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Tue, Feb 10, 2026 at 09:22:36AM +0100, Miguel Ojeda wrote:
-> On Tue, Feb 10, 2026 at 8:18 AM Mukesh Kumar Chaurasiya (IBM)
-> <mkchauras@gmail.com> wrote:
-> >
-> > -``powerpc``    Experimental      32-bit Big Endian only.
-> > +``powerpc``    Experimental      64-bit Little Endian. 32-bit Big Endian.
+On Mon, 09 Feb 2026 22:13:55 +0000,
+Colton Lewis <coltonlewis@google.com> wrote:
 > 
-> As I mentioned in the previous version, this is not a valid level
-> (same in the previous patch).
+> This series creates a new PMU scheme on ARM, a partitioned PMU that
+> allows reserving a subset of counters for more direct guest access,
+> significantly reducing overhead. More details, including performance
+> benchmarks, can be read in the v1 cover letter linked below.
 > 
-Ah sorry, 
-Will fix this.
+> An overview of what this series accomplishes was presented at KVM
+> Forum 2025. Slides [1] and video [2] are linked below.
+> 
+> IMPORTANT: This iteration does not yet implement the dynamic counter
+> reservation approach suggested by Will Deacon in January [3]. I am
+> working on it, but wanted to send this version first to keep momentum
+> going and ensure I've addressed all issues besides that.
 
-Regards,
-Mukesh
-> Thanks!
-> 
-> Cheers,
-> Miguel
+[...]
+
+As I have asked before, this is missing an example of how userspace is
+going to use this. Without it, it is impossible to correctly review
+this series.
+
+Please consider this as a blocker.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
