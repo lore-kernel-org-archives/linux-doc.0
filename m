@@ -1,203 +1,274 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010058.outbound.protection.outlook.com [52.101.85.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F362DAFDD;
-	Tue, 10 Feb 2026 18:38:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770748695; cv=none; b=YoCdDMcA0TlzM5H/YH6Gy/Kp7M6ngcdyqmZAKj6G9ow6UCOgR0oyTqwZLRNgixIKJ8dipROHKrFBh295YFQU/EXUQNn2zxCIK4d80TUyw38ql+245Kg14AikS++8q5eQ7CkreooazNTbvV7o1bDSsfqaX5nM8xUGWh0bG0aelfw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770748695; c=relaxed/simple;
-	bh=0S3RJow1qD7PFdkhzxVnh4+LwnKI1lU+DZNFvWp386o=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=IEMU4ezDBk+Vbxh/DBdeT43dXi0lGeDejK/E2XZFs+34CtvYMdyQwhA9lDpI6FyW8irZHco7BmovELi7LWOwWPQxA1TAKGtbsILUhRMQiQCzqS1QEMMavSBGY4SubMFmDSsv5rdvEVBcEEq/8yLE9T3A3Okw/ldy9xHT0WnT0+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=QJaR+wE+; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B332F49F0;
+	Tue, 10 Feb 2026 19:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770752663; cv=fail; b=ODJLCHV3qOsRKn8XLK33OgxaP0rXkcDUpUw1OFhIqkOMa1qPq0BI+ITnNpfi+mfKOibYchavpHpw8UEB8k5aN0JcQnY3DpaGp4aO4gSIlW6hD/Zhe+yr+JH8mTaREA3rOJdIiidMOCRahNLVzSv2GHU2D0/DeM/JNRpQzMWrVcs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770752663; c=relaxed/simple;
+	bh=pcxeL9trPZvPmD+0m399Rim1/QXeTmg/lGxPrzrcfXs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=CHa03V3rUf56zQvzRJ8kGdninviDqpX1Xi8GkVKeh4WR+tQbFcGaAG1VhpE8WsbrRAhR5CuV/d5Uf5OpfL7Mg12Abij/rmHbxMDG7vLbZFbEe0+Bg3dU/NW3idN3bN6O2ws3wIRMnwrkQ16kcYlCwqLcP/x9WK3hlmscMNtXo1M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OI57wnfq; arc=fail smtp.client-ip=52.101.85.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="QJaR+wE+"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 65D9826E45;
-	Tue, 10 Feb 2026 19:38:05 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id hxMFZOdYNC1j; Tue, 10 Feb 2026 19:38:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1770748684; bh=0S3RJow1qD7PFdkhzxVnh4+LwnKI1lU+DZNFvWp386o=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To;
-	b=QJaR+wE+1zXkxKP4PgxVfqx8aPct1wMFu6bp0neQIu2LEWMCyFNZBTq6TEW5EAsMu
-	 e1JBYnTsrnXckubEcRNki6Jci1tPDUrr+DLpjDmNaIBJc3AIqgNnI2j0bOtqMyjliQ
-	 3Mq2G1Vl/K6xwoGHbmkN+Ar/re1/CKwQZUaGbnBlu1Yai9OOBhvk+l9zrmEOt0SnCU
-	 o8dU44CF7kTCn8xQ92CFCmUob9CxQ5r+XYzYDGs9xTLCUj6RwUHeEZB252FDEDVAXC
-	 Ds+Mc89LfdcrpXGs+nqEexg1J/p5qoe5b7tW3XprZQSUuvJbUPBGWK41S959DanCBF
-	 4ZkcqIcVWvGPA==
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OI57wnfq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CqfRWct9jWKrpKQv1rP5wckojO40cUDrtwK37UG8TlNiiij161toW+wtJwybqFI5IbjR0HQW3nkMxzZ5HEl91vdJZttb1t+94m0nA+TX+Ct32DZB8PwiUpe21mUrkklD10xiZv4IdFgdL5RpTDIj3RyEzA366tDxAa7uFTFkjrisVWPJ0XyeWOSa89WLej8fAWmUfu1NOFt8ikfGoMczod/Yra1QtwT6W7s8TJSsBXIkAUt91I6jzbGksoQ7j90Bs7cUA/SakaalQlKOeeCaF1oGDHHL6Gy1XhSOQD5qdHMF8p886EqziTo5XyMPttClpo9qHB2BJe7eWfRy14wmXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/NpSv1vWcBa00FUuveIaluWz0/qF4Zbt+RtvPEMq/Bg=;
+ b=VuTZPums262sQJodRqRAIB26+uIdZhyDC7PLqBpuwpC61HIanULHOE8qwvQP/Sv7VvACecXk/+ePgVDyoRS2J7AQpnRJ1xT6aeZX0rVjvnze2FfvSdEh+hFVSNVQj+iPNpH8RAeswR2cxDx+jW/BtuoVfcJev6ebHukrRXENcmTIDEBFUklFAM0rIWvXyzuE6zlR6z8leZlO+k+4IZAFp3LHBwNV7yrY4LmhQepc4ZdyqHU/O8livUOouhyJo5ZL4ildrg0pXE7oC6Bw5eScRhicHfnm5IjNvQH5r2ZnmCTt2gGoQGnDxEGT2l+fmmtBs0e95sDBaGMcqVzTyrT7PA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/NpSv1vWcBa00FUuveIaluWz0/qF4Zbt+RtvPEMq/Bg=;
+ b=OI57wnfqFwHTDsoGrnnA9OZZMRwawVy6ILqox0MfsbBJyISVjyFb/IDKf4ZRkz8/8vOcehQe1/jdn6v4Znd6wZs0WeVp4mFqpcgccQu1+UFwjKchzFReE6kfRS3Qihgf7E4JergFUiAZ5x9GNc5okKY0lAsZXcQT8f3CeKSwRrw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by SN7PR12MB8169.namprd12.prod.outlook.com
+ (2603:10b6:806:32f::6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.18; Tue, 10 Feb
+ 2026 19:44:19 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::4d0e:603a:42fc:7c0]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::4d0e:603a:42fc:7c0%3]) with mapi id 15.20.9611.006; Tue, 10 Feb 2026
+ 19:44:18 +0000
+Message-ID: <b815f822-83e7-4ab5-8464-7f53485ba362@amd.com>
+Date: Tue, 10 Feb 2026 13:44:14 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 04/19] fs/resctrl: Add the documentation for Global
+ Memory Bandwidth Allocation
+To: Reinette Chatre <reinette.chatre@intel.com>, Babu Moger <bmoger@amd.com>,
+ "Luck, Tony" <tony.luck@intel.com>
+Cc: corbet@lwn.net, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, akpm@linux-foundation.org,
+ pawan.kumar.gupta@linux.intel.com, pmladek@suse.com,
+ feng.tang@linux.alibaba.com, kees@kernel.org, arnd@arndb.de,
+ fvdl@google.com, lirongqing@baidu.com, bhelgaas@google.com,
+ seanjc@google.com, xin@zytor.com, manali.shukla@amd.com,
+ dapeng1.mi@linux.intel.com, chang.seok.bae@intel.com,
+ mario.limonciello@amd.com, naveen@kernel.org, elena.reshetova@intel.com,
+ thomas.lendacky@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org, peternewman@google.com,
+ eranian@google.com, gautham.shenoy@amd.com
+References: <cover.1769029977.git.babu.moger@amd.com>
+ <d58f70592a4ce89e744e7378e49d5a36be3fd05e.1769029977.git.babu.moger@amd.com>
+ <aYE6mhsx6OQqeXG4@agluck-desk3>
+ <e0c79c53-489d-47bf-89b9-f1bb709316c6@amd.com>
+ <493bd87b-6f91-4fbb-9215-c07fd8105393@intel.com>
+Content-Language: en-US
+From: Babu Moger <babu.moger@amd.com>
+In-Reply-To: <493bd87b-6f91-4fbb-9215-c07fd8105393@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SA9PR13CA0035.namprd13.prod.outlook.com
+ (2603:10b6:806:22::10) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Feb 2026 00:07:50 +0530
-Message-Id: <DGBI0L4E59ZY.24OGXR0XUDH4Z@disroot.org>
-Cc: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 08/12] leds: flash: add support for Samsung S2M
- series PMIC flash LED device
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-To: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, "Kaustabh
- Chakraborty" <kauschluss@disroot.org>, "Lee Jones" <lee@kernel.org>, "Pavel
- Machek" <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "MyungJoo Ham" <myungjoo.ham@samsung.com>, "Chanwoo Choi"
- <cw00.choi@samsung.com>, "Sebastian Reichel" <sre@kernel.org>, "Krzysztof
- Kozlowski" <krzk@kernel.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>
-References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
- <20260126-s2mu005-pmic-v2-8-78f1a75f547a@disroot.org>
- <e34d429e27392eba894b9592724a77fa82fc8009.camel@linaro.org>
- <DG75VP6IIUXD.1VA6YSMNTPJQ6@disroot.org>
- <9dad174d88c814d3ad2086a31e8dfc222fd431e4.camel@linaro.org>
-In-Reply-To: <9dad174d88c814d3ad2086a31e8dfc222fd431e4.camel@linaro.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|SN7PR12MB8169:EE_
+X-MS-Office365-Filtering-Correlation-Id: e3334c23-d65c-49c3-7e15-08de68dcc7b2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?N0w1bngyTllNcVFvRTdVelFiUmY5N3Z4NE1CSTRnSVQvUDVTTko5Mk5xbTZt?=
+ =?utf-8?B?dVIzeVd6QkJWR0V0UVNDbkFQQzN2K1QvcVR6T1k2YVl1azM1RUhOMlNMNG1Y?=
+ =?utf-8?B?SnBhMUN4NzAyK0hZR3ZpUittOC9QK1ROVWhERjltWXZtTkF1MWwzR2NpWmhh?=
+ =?utf-8?B?dmtsTTY1Ly9Kb05MMFl2KzR6dldFYmVXaGZUVUhURnlBemtkT25RNEJ3WVNX?=
+ =?utf-8?B?b2V2UERKdm5XUVVHdmFUOG5KbnBQQ0d1by9wY21aY3VaVEhlbXIwSHJ5U3hJ?=
+ =?utf-8?B?b05IcVBIcnY2N1ZtY3FXNWFqN2w3MEFiQnpQRlFhZXg5MDdqengyOFhRL0th?=
+ =?utf-8?B?dTZNdTV5N3lVaWR0akNyVjRwalpqdUpVUi9yUmZsRThMTllxUUJ4RUdCRFR2?=
+ =?utf-8?B?T0NxeFVUNTF1U25BcU1vTG9mbHQ1NlRzRE9IanFwV05tWkpHV1Z3c3R1emRW?=
+ =?utf-8?B?WG5lck1vRzZSSzFkaFdYK1o0WUxkWHJDV0ZnWkFkSVNad1ZITmp5NmR4NThK?=
+ =?utf-8?B?RDBURkt3Q3lXaGtrT1hMNXpiRThVY2lQcGxZOStUb2Y4UTN0bXhqL1lwY0Zj?=
+ =?utf-8?B?VHVqR0Y3TDBPN0VuR004a0E5bVRjdVNpTEprZDNWdld0aGFXREM2bmoxRmJJ?=
+ =?utf-8?B?YnBVNEFFR2I1OUUwWlE5WXJLa2FodU1MclYxN3A1U0t0Z3NZbCtRNzF1eTdD?=
+ =?utf-8?B?ajFpUE9kSVlLakVjeTFOZmtzcFFzNVo2K3duQ0JRSlVZWG9hdG11YTJPWnZa?=
+ =?utf-8?B?cVlNb1VVbE9SaDNaOThQOGRzckxTOXF0VmU1R0duWmZrQWRMMldaK1RKd3p3?=
+ =?utf-8?B?SldpYnFpL2xvL0hzMUdRdnFmY2Fna2pHN1BWNE05WkM2S3VlZ1JKUmp4ZjJj?=
+ =?utf-8?B?NmZ4aTB1YWZyTFdjRVczUlQwMUVvNVRlSURKVk80S0ErUlhDaXR6ZnM3bCtz?=
+ =?utf-8?B?aDRwaGRJc1F4aDQyUHJjRytyNk9jdXR1ZVVuaUM3ZFVkTFZVQ2pnQTFjYll6?=
+ =?utf-8?B?TTVNWG0yUzVzSzFqRFdndEpaa2p2TUFUYUZiSk9GazRLUVd1aGNpcHBGeWIz?=
+ =?utf-8?B?S0lNYWhKRStvVnJwaTlpZ0Jjc2N4a1UycGtiNldRak9xVXVuRmI1QTVid2c4?=
+ =?utf-8?B?VWNYRklXTzk4RTNTdy9hWWwzV2c3d2RYSnFQVFZIcFIrNmtteXdRNEJJem82?=
+ =?utf-8?B?ZGRsaVpYeTkwVzRIMHc1OXBQRlhLU3phcDExa0xnV1p5WFhTSFU4UDNwd3B5?=
+ =?utf-8?B?V1c0VzFNaDNta0hlSWhnb3BqM0ZtRVhtWGZ4SjdFWkRPaWRScDMzWnhLdmRN?=
+ =?utf-8?B?T1ZFRzkycVRCTjZHUm5UazdHWXFTTzNYQ0tkRXVQNk0weEdRbFBvNnAxZlp5?=
+ =?utf-8?B?ZlhqbDM2S3M1L1hyZDdOVzRTRXBxVkl2emZ3aXNjeEJVeHdRdmQ3M3pBZHhO?=
+ =?utf-8?B?Q1RZZ1Rob29QZmxocEd1YmFPUStkVWdKbmdsZXFhUjhZaGI0RTlSUTRBQTEy?=
+ =?utf-8?B?Z1NUcks1MVRxOGF1NE9HQmtqMHUxOGFnd3p2QTA3SFZZL3AxdlhGVkFFa0hH?=
+ =?utf-8?B?QmM3blBrZEFRZmticndHRGVsbFJSbUFkSnM0a3N0cDh4eFZLTS8yQlBuR3Fq?=
+ =?utf-8?B?Tkt5ckM1Q2FtNlZ1djdpWmJIVHMyL1BkWTE4bnhENGFiMnM3OHdGTnZ6TzQz?=
+ =?utf-8?B?aXhBK0F2VExUaU1FVlpYc20zMGV3U2Y4dzlwWk9ucWJaUkZXOTRPRlZMZzA1?=
+ =?utf-8?B?eTVPMkpTdDBvVjFDYXVRdGUxSitxTExQTU1rMU9CcnRxRXRkSjlXLzlKMVAz?=
+ =?utf-8?B?cTVNY1ZjL1dTNnVRdWhwKzFpQUw0cmcra3RsbGJHZ1lHMmZmZWllNWJTaS9u?=
+ =?utf-8?B?SHJjQzdkaGNzaVpoaVlQczRXeCtRNGYzTkNNOXErSDE0R2JBZUh0WS9oZURo?=
+ =?utf-8?B?KzgvTEp6ZWFxN3I3enoxRlZhYjk4b2kwU3FRK1VFZWl4bHlGNWdTdWJaMXl1?=
+ =?utf-8?B?c2hvOFdvc2ppVlNJNHN4amZsTjVjZTRYcDNMazlETWUwL29oa051enZkU0xQ?=
+ =?utf-8?B?Tnc0Z29qZ3VRTHcvVnBoc2g0MllkZGNJVGI0aVRySXp2N0pwKzhRSWIwUVVt?=
+ =?utf-8?Q?iKh8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dGdFQzd1MmJKMzRvRkxJT0ozMXBrU1FCWnZ0dzJCdjNiaWFITVF3NGI0TVFk?=
+ =?utf-8?B?UFRqdGRqdzNzc1FwR2ptNHF4ckYzUFRRa3RnbmhMQjEycWpGUzUvWTcyWGxh?=
+ =?utf-8?B?aUkvQ25zMjFWd0dZdlBJUGo4bU1Xa1hrcjJWTHlRRkZrdUJsQnQwa202VDhO?=
+ =?utf-8?B?L2VzcHJDK0VPWlplYTBPaytLMjJDdFBKcTdrT0J5b1BSdEczanRPRlZLUitr?=
+ =?utf-8?B?eTVPMlhDSkVRUEtRRTlaTW1xRVJLaGtLRS9nWTYwdCs1MDVJcmFINHJSM0xE?=
+ =?utf-8?B?RXBqU0JMOEpsbkRSeklDT2RIZjgvbXk1MzQramJ5aTdocGI1ZExMRlVXOWZ4?=
+ =?utf-8?B?eWNxYmljVmtnS1VWRTI1d2poMmpOenlVM3ladC9uYVJhYUlYYWJIN1g3N3Rr?=
+ =?utf-8?B?QjJxVTR4dlFUUFF1YmZHblROZk52aW1rWWlZcFEwRHVvU29DM0c4SllrSEVq?=
+ =?utf-8?B?TXR1Wm5FdzN1TVVtMEhQazA3djZxcHlwekc2YnNLcVVJSTZPWTkwaTdsWHB3?=
+ =?utf-8?B?c3hMMXQxMXgxa1JzUlpPcFJzVjdMQlhTTG4vcjNMRFJvdDlxQ3BnYVNmN1pY?=
+ =?utf-8?B?blRCQmlhdHcrN3lhZmJoN3hjU1N3SldCSUw5a1plVk9BZDErdzVVb0xiWHBR?=
+ =?utf-8?B?bWxTVEV4RmZEL0VxN3FUOHJOUkQxWFRjdW9KY3NHaXVsTEdBMzZKN2cvWU9u?=
+ =?utf-8?B?TUovTDZUSUFXZ3FXa0VjM1g4b3d6eVpRMXFlMDVYa2k1a2dXM1dRWUgxK1Bv?=
+ =?utf-8?B?ZVZUSmVkSHNNa0JyVTJCTWpGc1A0QzMwbFBQNVJRTjN0NEVHd1dYVmM0MWdn?=
+ =?utf-8?B?NXBIVURTM2s1cXlwVHpVU0xra1l4UklYdVo2dHp2NFBzOFovQnk4czRDaU9E?=
+ =?utf-8?B?MWgzSW5nN05aNFVQZnZZV3NBUkVqUEswNVRubnNteWpoaWVac0tkRkpnZTZP?=
+ =?utf-8?B?QnA1RzNYUGxGempTRWJTQnpVTWh6TzB5U0tacE02SGtGKzFlRmN4cVNYVml2?=
+ =?utf-8?B?azJKM2dlUUg4a2VlRTNtaXJ4b2hseUp6K0I5dXNJNzdFQ0dhbUVCQ3BnbEl0?=
+ =?utf-8?B?bFp6cCtTQ2xHLzBLOHozTWlXcFFTSndQR0FOZjNMRXpUeTh0MUJMYUFPanpK?=
+ =?utf-8?B?K293NzFzQkhWSTB2SW91QW9wdkx0WmlyVGdQbGVaaUlDZ2htaVZjK3kxclVo?=
+ =?utf-8?B?V3l6THVQck81d2VSY3dwRkNtMXB0RVptWlpDNnJROHkwU2F2aDdOcVVkZUxF?=
+ =?utf-8?B?RTBpclFPS0lPSWlqcE4rMDd1NmN2UStsbm9FL3JEeWlLOTVCRXN3dUpDdUhz?=
+ =?utf-8?B?VWEzdEJ6QjdEbEJTVzRXK3Y4aFB0SFNYc0ZUbmNmSlZYcDBrMWVsT2xOS25p?=
+ =?utf-8?B?K2lRZDlkSHJLS3hxY2tCVDJjemNZZkNrcnpOVHNCdmh4TTQrS2xSaDRVWm92?=
+ =?utf-8?B?anc1cGZTME5KbWM4OWlrWTZ5V0lmZ1RiKzEzMHg5MXIyZ3ZyNVk2VWJKSGVX?=
+ =?utf-8?B?QVg5Szl1Q1FvWW5pcTlSd2xKanNDU3VGcTBrYm1ybXREK09NeVlmYTlZTTZo?=
+ =?utf-8?B?eFVGMFZIQloxaWJ3MGxzNThzU05Wbm1kOVo3ODBscVV5WjI5dTNOVmNMb0pD?=
+ =?utf-8?B?T1B4VnA0dStoRkU1UWUwOE1XNUswdjZZOUswWE1TekV4S3B3QlV4bkphdUI4?=
+ =?utf-8?B?OWJUMHFyLzVnWHhrRTBOSDdpWWdoY2xrUWZ5U3EwdU5NOWd5dnU1OCt2Tm1h?=
+ =?utf-8?B?OVR5UTZiMCtnNHhCaXB4N2pVRzcvOUZWYm1VWUlIS3hHWEV3ck1WMW92TEJC?=
+ =?utf-8?B?RkwxcXBhUDFCVml0aDhwUFpuNWxubTRJRzNtekFEeGdrdlI4aENqZFcwTkFs?=
+ =?utf-8?B?S1VtaUs0VFFBaXFBcXV4cTFYYllSM2VOc3k1QWlTQUtKRG40aHBrUklrWTRZ?=
+ =?utf-8?B?MXRvL3plWTRDU0RHenBMcmh2cW1DNHlrdUxJUHJ4dGxwYmdtbXVUNVcyNVZU?=
+ =?utf-8?B?aStkNjNTRDhWR1pRby9yZnM3VWZnOUExUVRSSTlNVlhaZ056STRTd3VYaFhB?=
+ =?utf-8?B?THQ1eTMxZ2dlM0NFNW1YdEthelg4a3VDMkdzTGZCQ0lVOEVrZ3Q2Uk5LYURZ?=
+ =?utf-8?B?eVdIOGdoU0dhWkY0SHNBTndQUnBPNlNINVZCSDJ6SGVXcTMwZXA3cStIZy8v?=
+ =?utf-8?B?S3FpbWpqN29CMEhGV2MwZXFEdnVyb2lZWWtudnRZQ2Z0ZG9iZWVOU3ZqMEk2?=
+ =?utf-8?B?YndqTUVla0lrUEVodHJaKzhEQ2d5V1NWa0p6QzE5RGNXRUFscXF4N2pjSk5P?=
+ =?utf-8?Q?ARFcCGr7XxKxusAlXk?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3334c23-d65c-49c3-7e15-08de68dcc7b2
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 19:44:18.7550
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hJCCv9wR3ZfHeOytznH4vM1Evi/yrPaYKXCs7PFwCXMN6fBxuJyC+f2omfGNEn6V
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8169
 
-On 2026-02-10 10:03 +00:00, Andr=C3=A9 Draszik wrote:
-> On Thu, 2026-02-05 at 21:46 +0530, Kaustabh Chakraborty wrote:
->> On 2026-02-04 16:55 +00:00, Andr=C3=A9 Draszik wrote:
->> > Hi,
->> >=20
->> > On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
->> > > Add support for flash LEDs found in certain Samsung S2M series PMICs=
-.
->> > > The device has two channels for LEDs, typically for the back and fro=
-nt
->> > > cameras in mobile devices. Both channels can be independently
->> > > controlled, and can be operated in torch or flash modes.
->> > >=20
->> > > The driver includes initial support for the S2MU005 PMIC flash LEDs.
->> > >=20
->> > > Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->> > > ---
->> > > =C2=A0drivers/leds/flash/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 12 ++
->> > > =C2=A0drivers/leds/flash/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->> > > =C2=A0drivers/leds/flash/leds-s2m-flash.c | 410 ++++++++++++++++++++=
-++++++++++++++++
->> > > =C2=A03 files changed, 423 insertions(+)
->> > >=20
->> > > diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
->> > > index 5e08102a67841..be62e05277429 100644
->> > > --- a/drivers/leds/flash/Kconfig
->> > > +++ b/drivers/leds/flash/Kconfig
->> > > @@ -114,6 +114,18 @@ config LEDS_RT8515
->> > > =C2=A0	=C2=A0 To compile this driver as a module, choose M here: the=
- module
->> > > =C2=A0	=C2=A0 will be called leds-rt8515.
->> > > =C2=A0
->> > > +config LEDS_S2M_FLASH
->> > > +	tristate "Samsung S2M series PMICs flash/torch LED support"
->> > > +	depends on LEDS_CLASS
->> > > +	depends on MFD_SEC_CORE
->> > > +	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
->> > > +	select REGMAP_IRQ
->> > > +	help
->> > > +	=C2=A0 This option enables support for the flash/torch LEDs found =
-in
->> > > +	=C2=A0 certain Samsung S2M series PMICs, such as the S2MU005. It h=
-as
->> > > +	=C2=A0 a LED channel dedicated for every physical LED. The LEDs ca=
-n
->> > > +	=C2=A0 be controlled in flash and torch modes.
->> > > +
->> > > =C2=A0config LEDS_SGM3140
->> > > =C2=A0	tristate "LED support for the SGM3140"
->> > > =C2=A0	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
->> > > diff --git a/drivers/leds/flash/Makefile b/drivers/leds/flash/Makefi=
-le
->> > > index 712fb737a428e..44e6c1b4beb37 100644
->> > > --- a/drivers/leds/flash/Makefile
->> > > +++ b/drivers/leds/flash/Makefile
->> > > @@ -10,6 +10,7 @@ obj-$(CONFIG_LEDS_MAX77693)	+=3D leds-max77693.o
->> > > =C2=A0obj-$(CONFIG_LEDS_QCOM_FLASH)	+=3D leds-qcom-flash.o
->> > > =C2=A0obj-$(CONFIG_LEDS_RT4505)	+=3D leds-rt4505.o
->> > > =C2=A0obj-$(CONFIG_LEDS_RT8515)	+=3D leds-rt8515.o
->> > > +obj-$(CONFIG_LEDS_S2M_FLASH)	+=3D leds-s2m-flash.o
->> > > =C2=A0obj-$(CONFIG_LEDS_SGM3140)	+=3D leds-sgm3140.o
->> > > =C2=A0obj-$(CONFIG_LEDS_SY7802)	+=3D leds-sy7802.o
->> > > =C2=A0obj-$(CONFIG_LEDS_TPS6131X)	+=3D leds-tps6131x.o
->> > > diff --git a/drivers/leds/flash/leds-s2m-flash.c b/drivers/leds/flas=
-h/leds-s2m-flash.c
->> > > new file mode 100644
->> > > index 0000000000000..1be2745c475bf
->> > > --- /dev/null
->> > > +++ b/drivers/leds/flash/leds-s2m-flash.c
->> > > @@ -0,0 +1,410 @@
->> > > +// SPDX-License-Identifier: GPL-2.0
->> > > +/*
->> > > + * Flash and Torch LED Driver for Samsung S2M series PMICs.
->> > > + *
->> > > + * Copyright (c) 2015 Samsung Electronics Co., Ltd
->> > > + * Copyright (c) 2025 Kaustabh Chakraborty <kauschluss@disroot.org>
->> > > + */
->> > > +
->> > > +#include <linux/container_of.h>
->> > > +#include <linux/led-class-flash.h>
->> > > +#include <linux/mfd/samsung/core.h>
->> > > +#include <linux/mfd/samsung/s2mu005.h>
->> > > +#include <linux/module.h>
->> > > +#include <linux/of.h>
->> > > +#include <linux/platform_device.h>
->> > > +#include <linux/regmap.h>
->> > > +#include <media/v4l2-flash-led-class.h>
->> > > +
->> > > +#define MAX_CHANNELS	2
->> > > +
->> > > +struct s2m_fled {
->> > > +	struct device *dev;
->> > > +	struct regmap *regmap;
->> > > +	struct led_classdev_flash cdev;
->> > > +	struct v4l2_flash *v4l2_flash;
->> > > +	struct mutex lock;
->> >=20
->> > Please add a (brief) comment describing what the mutex protects.
->>=20
->> The mutex object prevents the concurrent access of flash control
->> registers by the LED and V4L2 subsystems. -- will add this.
->>=20
->> > > +
->> > > +	/*
->> > > +	 * Get the LED enable register address. Revision EVT0 has the
->> > > +	 * register at CTRL4, while EVT1 and higher have it at CTRL6.
->> > > +	 */
->> > > +	if (priv->pmic_revision =3D=3D 0)
->> > > +		reg_enable =3D S2MU005_REG_FLED_CTRL4;
->> > > +	else
->> > > +		reg_enable =3D S2MU005_REG_FLED_CTRL6;
->> >=20
->> > You could REG_FIELD() and friends for this and everywhere else with
->> > similar if / else.
->> >=20
->>=20
->> REG_FIELD(), from what I understood, is for selecting a bit field inside
->> a single register. However this code chooses between two separate
->> registers. I believe your interpretation was incorrect? Please clarify.
+Hi Reinette,
+
+On 2/9/26 10:32, Reinette Chatre wrote:
+> Hi Babu and Tony,
 >
-> The first argument to REG_FIELD is the register itself, so reg fields can
-> be used to describe this difference. See e.g. drivers/leds/rgb/leds-mt637=
-0-rgb.c
-> Of course, you could have a member variable instead to hold the register
-> index if all bits are the same in both revisions. Either way would avoid
-> having to constantly check the revision during runtime.
+> On 2/3/26 8:38 AM, Babu Moger wrote:
+>> Hi Tony,
+>>
+>> On 2/2/26 18:00, Luck, Tony wrote:
+>>> On Wed, Jan 21, 2026 at 03:12:42PM -0600, Babu Moger wrote:
+>>>> +Global Memory bandwidth Allocation
+>>>> +-----------------------------------
+>>>> +
+>>>> +AMD hardware supports Global Memory Bandwidth Allocation (GMBA) provides
+>>>> +a mechanism for software to specify bandwidth limits for groups of threads
+>>>> +that span across multiple QoS domains. This collection of QOS domains is
+>>>> +referred to as GMBA control domain. The GMBA control domain is created by
+>>>> +setting the same GMBA limits in one or more QoS domains. Setting the default
+>>>> +max_bandwidth excludes the QoS domain from being part of GMBA control domain.
+>>> I don't see any checks that the user sets the *SAME* GMBA limits.
+>>>
+>>> What happens if the user ignores the dosumentation and sets different
+>>> limits?
+>> Good point. Adding checks could be challenging when users update each schema individually with different values. We don't know which one value is the one he is intending to keep.
+>>
+>>> ... snip ...
+>>>
+>>> +  # cat schemata
+>>> +    GMB:0=2048;1=2048;2=2048;3=2048
+>>> +     MB:0=4096;1=4096;2=4096;3=4096
+>>> +     L3:0=ffff;1=ffff;2=ffff;3=ffff
+>>> +
+>>> +  # echo "GMB:0=8;2=8" > schemata
+>>> +  # cat schemata
+>>> +    GMB:0=   8;1=2048;2=   8;3=2048
+>>> +     MB:0=4096;1=4096;2=4096;3=4096
+>>> +     L3:0=ffff;1=ffff;2=ffff;3=ffff
+>>>
+>>> Can the user go on to set:
+>>>
+>>>      # echo "GMB:1=10;3=10" > schemata
+>>>
+>>> and have domains 0 & 2 with a combined 8GB limit,
+>>> while domains 1 & 3 run with a combined 10GB limit?
+>>> Or is there a single "GMBA domain"?
+>> In that case, it  is still treated as a single GMBA domain, but the behavior becomes unpredictable. The hardware expert mentioned that it will default to the lowest value among all inputs in this case, 8GB.
+>>
+>>
+>>> Will using "2048" as the "this domain isn't limited
+>>> by GMBA" value come back to haunt you when some
+>>> system has much more than 2TB bandwidth to divide up?
+>> It is actually 4096 (4TB). I made a mistake in the example.  I am assuming it may not an issue in the current generation.
+>>
+>> It is expected to go up in next generation.
+>>
+>> GMB:0=4096;1=4096;2=4096;3=4096;
+>>     MB:0=8192;1=8192;2=8192;3=8192;
+>>      L3:0=ffff;1=ffff;2=ffff;3=ffff
+>>
+>>
+>>> Should resctrl have a non-numeric "unlimited" value
+>>> in the schemata file for this?
+>> The value 4096 corresponds to 12th bit set.  It is called U-bit. If the U bit is set then that domain is not part of the GMBA domain.
+>>
+>> I was thinking of displaying the "U" in those cases.  It may be good idea to do something like this.
+>>
+>> GMB:0=      8;1=      U;2=     8 ;3=      U;
+>>     MB:0=8192;1=8192;2=8192;3=8192;
+>>      L3:0=ffff;1=ffff;2=ffff;3=ffff
+>>
+>>
+>>> The "mba_MBps" feature used U32_MAX as the unlimited
+>>> value. But it looks somewhat ugly in the schemata
+>>> file:
+>> Yes, I agree. Non-numeric would have been better.
+> How would such a value be described in a generic way as part of the new schema
+> description format?
 
-Wow, this is a great way of abstraction, thanks. I will try to implement
-this in all drivers, let's see.
 
+I dont think we need any special handling.  We should report the actual 
+numeric value for max in new format.
+
+> Since the proposed format contains a maximum I think just using that
+> value may be simplest while matching what is currently displayed for
+> "unlimited" MB, no?
 >
-> Cheers,
-> Andre'
+Yea.  I t should be ok to display the max value here.
+
+Thanks
+
+Babu
 
