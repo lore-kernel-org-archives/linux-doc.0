@@ -1,223 +1,174 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45B231D72D
-	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 16:45:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D2F931E0FB;
+	Tue, 10 Feb 2026 17:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770741917; cv=none; b=uH/kCkSQQpczIFjIPu2VVplDWz76hgWVzJkqUyuAK42a1TgkSdkNTntYYSkR3K8G1ldAOfO+kwy3YziQ9j6gMN5lustchn6oinzO9OMNy1EelecZpr2z5L+OM6rEuEtd9lFIxvPDX05XSv4kFvlIIHXKROt7AdCO2xv6a/4hjrU=
+	t=1770743005; cv=none; b=hUC3tIj6R1Fu3t6rebyq8I5waNz16VQKk7q70QUf5+K5qYHOLp+1A1bz0r8H2E4RHWvjCK3TaV4KYMNDfj7dukn7F4N2HitTIE7J+hayvT2dkd9GnMY2DP6MRkOUYWSiIrddZRK2NW2sNEbGJYqy8uHmGPp7EXMSz/7Q32DR5V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770741917; c=relaxed/simple;
-	bh=OHHP/QkSP2fk/d5JGh2ah48gfhoR44j5R2X6vbCK8jc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=swTG97FmlpdLj8tjTgH4ZiU6UBiXtZ6iDmCvs6z5q0Wjb00zMmUTaNnO5wt/DIALiDqPBOjOsSrgdAveu7E+Qhp/lo96HNbhOCTE1Y26KlPxWguYZTS9m5bui/BaHaOgI2ouJLGGCzHbEHLm+1YEnmmQNEW90yQVBk9T+ebBKa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=P/GwZ3bH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1FRppl9e; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=P/GwZ3bH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=1FRppl9e; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1770743005; c=relaxed/simple;
+	bh=YLgcpRDnWTHgN5iEvcrgGHQykKQfZ6+q//x2uAoTL2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uaA4e9y3ocPj2iwjWhxeCdAeH9Fc24MAsKRXta5gU1+8F0PUsttFPPBUQrzucJBdWZJBbT4j3txHLxgp+FsNIZ5ZjqVazPo2Y07H9WJztPdHMoFY1sOLB5sdXmIo25Kz60CVaHKeinJz13SIeeu4p1mwyvKH2Xr/TBeeosCcKBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UbiQl67K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="P/GwZ3bH";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1FRppl9e";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="P/GwZ3bH";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="1FRppl9e"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id EFE815BD6B;
-	Tue, 10 Feb 2026 16:45:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770741914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yeaH7+vlyRcZLcRTTBOYd4ClLWs7uv7EFXOnFep6uuM=;
-	b=P/GwZ3bHN8WQ53C7mFMuQDtS9mEOBKn70al+4Dd/NsxMaNXctyvhHVM8sSK4Osh7P2Yes1
-	Mt6BuxPNRcxF+DQHXNVg1Pgq+1Hr6DZvcUwT+rG1DB5dLoYwFMv7fZB4zfMLST7KlEaxow
-	mjPNW8mz4hy/StHg/Wf/P3//7xuFc3s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770741914;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yeaH7+vlyRcZLcRTTBOYd4ClLWs7uv7EFXOnFep6uuM=;
-	b=1FRppl9eHyXofmsLCOAX+siCbC6Hs9pQmvxyOs29M8FaZgEpXz/FRZDk+GHG2fQUqG01gc
-	VGgpSdITMDQ+wIBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b="P/GwZ3bH";
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=1FRppl9e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1770741914; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yeaH7+vlyRcZLcRTTBOYd4ClLWs7uv7EFXOnFep6uuM=;
-	b=P/GwZ3bHN8WQ53C7mFMuQDtS9mEOBKn70al+4Dd/NsxMaNXctyvhHVM8sSK4Osh7P2Yes1
-	Mt6BuxPNRcxF+DQHXNVg1Pgq+1Hr6DZvcUwT+rG1DB5dLoYwFMv7fZB4zfMLST7KlEaxow
-	mjPNW8mz4hy/StHg/Wf/P3//7xuFc3s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1770741914;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=yeaH7+vlyRcZLcRTTBOYd4ClLWs7uv7EFXOnFep6uuM=;
-	b=1FRppl9eHyXofmsLCOAX+siCbC6Hs9pQmvxyOs29M8FaZgEpXz/FRZDk+GHG2fQUqG01gc
-	VGgpSdITMDQ+wIBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC2CB3EA62;
-	Tue, 10 Feb 2026 16:45:13 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 1rFTKJlgi2lUDAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 10 Feb 2026 16:45:13 +0000
-Message-ID: <abf27055-cf2f-4ac2-a9cc-7b28bf4dbf5a@suse.cz>
-Date: Tue, 10 Feb 2026 17:45:13 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UbiQl67K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAFE9C116C6;
+	Tue, 10 Feb 2026 17:03:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770743005;
+	bh=YLgcpRDnWTHgN5iEvcrgGHQykKQfZ6+q//x2uAoTL2Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UbiQl67KXho6dNAGklbzIoKY/CuPlIJmYXE2CfYzHTIJToITEXD9N+eJzfXKt3SHM
+	 lSwwfms3XZg5cG1604q/3nRhYxZODV132zqUHy30bF0Dh0anrvl14BTtczFIKaSiYm
+	 zJTXSfV6rqXSV50GwWyl6vA1rVF3ciiUruOnRDGq6DnYFjeRsSyoJqUWBM3Pbtn2jn
+	 LJJWnwEsxMQrAdj/juSXJYCtctRajep/Kh0DdrCh6UAdgmSTLXq5zrsB5ZVAJneeZu
+	 VtIJfcfdhuQmgZ/ahhSGGz/a0V5r6TH0Q5Q+pRphfFKzqvrlRShcEj+B874bueM1vH
+	 ii6vUvQ94znzA==
+Date: Tue, 10 Feb 2026 18:03:22 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	Andri Yngvason <andri@yngvason.is>, Werner Sembach <wse@tuxedocomputers.com>, 
+	Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v7 02/22] drm: Add new general DRM property "color format"
+Message-ID: <20260210-imported-ant-of-defiance-7cdb42@houat>
+References: <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <20260121-color-format-v7-2-ef790dae780c@collabora.com>
+ <20260206-deft-provocative-perch-6ca9bf@houat>
+ <6318997.lOV4Wx5bFT@workhorse>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv6 17/17] mm/slab: Use compound_head() in page_slab()
-Content-Language: en-US
-To: Kiryl Shutsemau <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@redhat.com>,
- Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>,
- Frank van der Linden <fvdl@google.com>
-Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-18-kas@kernel.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- m6M14QORSWTLRg==
-In-Reply-To: <20260202155634.650837-18-kas@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RLduzbn1medsdpg3i8igc4rk67)];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,linux-foundation.org,linux.dev,redhat.com,infradead.org,gmail.com,google.com];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Rspamd-Queue-Id: EFE815BD6B
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-
-On 2/2/26 16:56, Kiryl Shutsemau wrote:
-> page_slab() contained an open-coded implementation of compound_head().
-> 
-> Replace the duplicated code with a direct call to compound_head().
-> 
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="bzvkctnspkvgvs72"
+Content-Disposition: inline
+In-Reply-To: <6318997.lOV4Wx5bFT@workhorse>
 
 
-> 
-> ---
-> 
-> I am not sure if this open-coded version is intentional and required for
-> memdesc transition. Drop the patch if it is.
-> ---
->  mm/slab.h | 14 +-------------
->  1 file changed, 1 insertion(+), 13 deletions(-)
-> 
-> diff --git a/mm/slab.h b/mm/slab.h
-> index f68c3ac8126f..970a13ac5b8e 100644
-> --- a/mm/slab.h
-> +++ b/mm/slab.h
-> @@ -137,19 +137,7 @@ static_assert(IS_ALIGNED(offsetof(struct slab, freelist), sizeof(struct freelist
->   */
->  static inline struct slab *page_slab(const struct page *page)
->  {
-> -	unsigned long info;
-> -
-> -	info = READ_ONCE(page->compound_info);
-> -	if (info & 1) {
-> -		/* See compound_head() */
-> -		if (compound_info_has_mask()) {
-> -			unsigned long p = (unsigned long)page;
-> -			page = (struct page *)(p & info);
-> -		} else {
-> -			page = (struct page *)(info - 1);
-> -		}
-> -	}
-> -
-> +	page = compound_head(page);
->  	if (data_race(page->page_type >> 24) != PGTY_slab)
->  		page = NULL;
->  
+--bzvkctnspkvgvs72
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 02/22] drm: Add new general DRM property "color format"
+MIME-Version: 1.0
 
+Hi,
+
+On Fri, Feb 06, 2026 at 04:26:56PM +0100, Nicolas Frattaroli wrote:
+> On Friday, 6 February 2026 15:05:08 Central European Standard Time Maxime=
+ Ripard wrote:
+> > On Wed, Jan 21, 2026 at 03:45:09PM +0100, Nicolas Frattaroli wrote:
+> > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > > index 7eaec37ae1c7..b5604dca728a 100644
+> > > --- a/include/drm/drm_connector.h
+> > > +++ b/include/drm/drm_connector.h
+> > > @@ -556,6 +556,16 @@ enum drm_colorspace {
+> > >  	DRM_MODE_COLORIMETRY_COUNT
+> > >  };
+> > > =20
+> > > +enum drm_color_format {
+> > > +	DRM_COLOR_FORMAT_AUTO			=3D 0,
+> > > +	DRM_COLOR_FORMAT_RGB444			=3D BIT(0),
+> > > +	DRM_COLOR_FORMAT_YCBCR444		=3D BIT(1),
+> > > +	DRM_COLOR_FORMAT_YCBCR422		=3D BIT(2),
+> > > +	DRM_COLOR_FORMAT_YCBCR420		=3D BIT(3),
+> > > +};
+> > > +
+> > > +#define DRM_COLOR_FORMAT_COUNT 5
+> > > +
+> >=20
+> > I don't really see a reason to expose an enum, with a bunch of values
+> > that are all mutually exclusive, as a bitmask. It's pretty inconsistent
+> > with most (all?) the other similar properties we have.
+> >=20
+> > I appreciate you did that to avoid fixing up every driver using those
+> > values, but then maybe we don't have to? We could create a userspace
+> > facing enum, and convert to DRM_COLOR_FORMAT internally.
+>=20
+> This is what the series did at v5 and earlier. IMHO it was kind of
+> counter-productive, because we then had two different things for the
+> same purpose, and some conversion logic between them. I think it's more
+> error prone to do it that way (think: mixing up the two), and doesn't
+> have a clear benefit. Just to give a picture of how bad things get:
+>=20
+> 1. we have the HDMI color format (aka "HDMI_COLORSPACE")
+> 2. we have driver specific output color formats, e.g. the intel ones
+> 3. we have DRM_COLOR_FORMAT
+> 4. we have the bus formats (multiple per color format)
+> 5. we have the DRM plane formats (again, multiple per color format)
+>=20
+> Adding a sixth into the mix feels a bit bad because we'll then need to
+> justify why we should have another layer of switch-case statements.
+
+Yeah, but they are all semantically different:
+
+* The userspace one you want to introduce is going to be a superset of
+  all the valid output format for all the output busses we support (so,
+  HDMI + DP + etc.)
+
+* plane formats are the input format, we have much more variation there,
+  and we will never output these. We can ignore these.
+
+* bus formats are somewhat similar, they are more about the wiring
+  between bridges than anything else, and they are not exposed to
+  userspace. We can ignore these too.
+
+* DRM_COLOR_FORMAT are definitely redundant.
+
+* The intel color formats are also redundant, but also internal. I would
+  expect them to converge to whatever we come up here eventually (but
+  really don't expect you to do that work).
+
+* And HDMI_COLORSPACE is really mandated by the HDMI spec, and is only
+  about HDMI connectors. It will never fully overlap with what we come
+  up with here, if only because HDMI cares about things we don't.
+
+So we really have two formats in my opinion: the one exposed through the
+uapi, and the internal one exposed to driver.
+
+In my view, the internal -> uapi conversion is trivial because the uapi
+one is a superset of the internal one (if only for auto). The uapi ->
+internal one needs to deal and resolve what auto means, but your code
+already does that.
+
+I don't really care about the internal format, as long as drivers don't
+have to be smart about it, so auto shouldn't be exposed to drivers. As
+far as I'm concerned, DRM_COLOR_FORMAT would fit that bill if it wasn't
+for the fact that it's both a bitmask and an enum depending on the
+context, which makes it pretty weird and error prone to deal with.
+
+Maxime
+
+--bzvkctnspkvgvs72
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaYtk1QAKCRAnX84Zoj2+
+dtH+AX9icXQp+NxFc1ZKirTjKLdjN/aWcl/dtMD8J4ci+mTqPt3KkSi4+FSK/s7a
+WNYTGwkBgOD8I055eaRKcNaaDGxQykXaPnfDkqAkw+xuNqdU6H6Fu+Om0bh+yw2H
+icXSLJ4gYw==
+=puI2
+-----END PGP SIGNATURE-----
+
+--bzvkctnspkvgvs72--
