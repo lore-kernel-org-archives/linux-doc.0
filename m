@@ -1,185 +1,111 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE322868B5
-	for <linux-doc@vger.kernel.org>; Tue, 10 Feb 2026 05:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1044926ED3E;
+	Tue, 10 Feb 2026 05:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770701902; cv=none; b=S26JYsPPrn7pP7of/lua/usDTnGyPRM1DPD17poZIMuZk8/NbRMd+m7vpZO9eOraCYlzVXvj0YLONT6vAHZ6QCWoRPf7YK9APCDz/yQpeS1xakm6OB67XzT547u6WifgGj1Zbzc4kFYCEh5S17NRogKMeHrvQ6UE7kV0Rf+4r7E=
+	t=1770702938; cv=none; b=Bm+oWhSgpftQLL+sYJ3HjAo549EshZH338bAfCnEpCtx9YfDpyRh1YYOitBu/HputJDHsXrXlFL9O9iqWIdIuOeuwlV6TREaMjU5dGvTMe1vZ0L4+FVRp/Z1iDOOeeSs3jOV7YZmyPJNvaYppqOODNUowBs6NwVWVajC1vgJmGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770701902; c=relaxed/simple;
-	bh=xG+iKu12LZBylrATKh/futyKH7FfBK8l0BhELtv+O7c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=m8iooQS4sp4foig7B4n/DAI/jARh1N2bGhbVEcek78Zie1XvlfHzajNfxtU2svJ7vUNYDtqikLlE5g375eQJM7D5mM4lQIAjG4TKA9Wuhe3BeHluTmIAgc17W8+4xcc5Wds12B4P++NIlG1XvUtl8GMh9m9AjiwYrRKBZKMSXic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KaKqUwu4; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770702938; c=relaxed/simple;
+	bh=9nnWMdj/22l/UeayrTX5T1lj3a2Zm8Tv6HcRko/maj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KAPvyCXIdo0cph6KsBT0xAcBN8cHNQTSxc5Duf9lAokZNjJSPO2ArwB4VKkgbGvIjwS7uTe2u2LRYkyu4Hl2Z60vC0L7F8Q/sSZ7k7gwtENd3Ul23TOJw4X4JvgOQwHd5Jd7aQk3bre2YLsfBv1EQnbyMA5ewnHUgG7sX8ZmcqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aNtOSgt1; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KaKqUwu4"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-823075fed75so3068864b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Feb 2026 21:38:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770701901; x=1771306701; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cqa51jQ51mIYrhUu71vdVarPvI31OG/fcLZs5WN5E9s=;
-        b=KaKqUwu4f6JJUpT06wW+dtpwtIDJ8eTjhLPpbl6TVIIvkcgolVxKS9f973CRIQO7KA
-         u9cIaVZ4eZUa2OzQUku71OffzIQ7HuToeI5mCUGbWUxH+3r6B+4diw8UvnofI6h2d/dG
-         V9Ikenr1J63OGlDwi2T/nFzQbL5Gksz2UNDfwhzAD4dFTbbuEsoUnjvsGp4PsAqNEU5W
-         j1jvKmqDEujicKwM2Uik52IZqpFtDr/o6AJU1eG9e1afXSqJM6tqhASin3PjL2AMw6La
-         O0p8gWp3VHnFKKcKD0Xug0ZIkicmk9zCnrP5K6ep64Mp5f+EnbljWTKtdtN6JU9zYAw0
-         XQfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770701901; x=1771306701;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Cqa51jQ51mIYrhUu71vdVarPvI31OG/fcLZs5WN5E9s=;
-        b=iAB9m170DAsoXEdoSp/ThlWiiIehsCp6Hge31waJXgNiV4lECXYA61ZOKEG1Hz5lsV
-         TUs1j3+C/LlIN2HvZ8d75ZBUHiPrbReWybEpc6rzDN8RaRy0zEJb9F06cmwxQGb+M8J+
-         Dq975pdcFN1uzHbZYixNtlD0G8Xo5k3VCR1mGvfllnr21L4Gb8y9L0A1/qJbTD9M4Zv4
-         hScumXPCzjEnh1hFEYU0efMQS317aUKfkwt5EeTxthe97+sdBJ+AiwXvJnJibvpJFXJJ
-         lsN/8ZMJK+NDqv0jHINq3WPW53v2tL7YB+R8bunCEbVK2M2WYkO3j/iUxtxhZCvprP9g
-         a27Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUj8GQ2KQ59qfVcAAdgTABiRea+Udt0MQN2/7lrQkRF3jUWtgSXWXqQsyPztIj9+tkcCejwd8dVPNM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2rGiWvmolyb7nQFUv+K6xuxew7Sr5xOK8m6b0wrhTTElBZo4M
-	soBAKFkZTVcy49UCTFcrgh2XhNOkBgsn8mMF5Z3xXQ+ByKsSvth1sQQZ
-X-Gm-Gg: AZuq6aLQQ1/yShLY1Ap8MSusqs7aqOyv2Fo7/mj3abLiX2TmulHaE8rfLpi7SB5V2Dz
-	jFIo6B9EFr81XK4AxQoTFDdbEPc/9q5K7AruRzGSvqwUQTAzqklpJwz2EXxGb8hdgJ4pRt4KJJT
-	l3T23BfQgcoJnoDOC17zIYp2ZwZ+SWgvitbM2rOIo8vurRE+bPSY9D20FoeF0tLzu4CDJbsjRDw
-	TD3nMEn20cG4suECnCip6oxobwoeiHYmk2Ndmil5W1Irt/Xjl0wVbbxsx9US9CnB/sXJgkcS9e5
-	c05GV7HZOrZ2SOC5MHqd3tprcKsJAegj1/z9w3rsWQSmrS3JKgLWeNdjVNm7C4OIlH5mnl6chry
-	cS1VvDFRXuvItbc0Us1blqOK+sNv6rMWHhCTZBNy1gIqXT2SI2FgH6i73XRjLrbFk6sIHvzsMNt
-	vFZhprp3XA3T2k9M3AyJeX19Mj/R1lw8YboEn7gAt5UuoDszfgnC8/paY9JUld/d9hytctzYRyZ
-	GJfgyr+VQ==
-X-Received: by 2002:a05:6a00:22c8:b0:81f:4e1c:1d3b with SMTP id d2e1a72fcca58-824877d3c6fmr1007679b3a.23.1770701900828;
-        Mon, 09 Feb 2026 21:38:20 -0800 (PST)
-Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.in.ibm.com ([129.41.58.2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8245b62d773sm7529056b3a.36.2026.02.09.21.38.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Feb 2026 21:38:20 -0800 (PST)
-From: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-To: linkmauve@linkmauve.fr,
-	ojeda@kernel.org,
-	boqun.feng@gmail.com,
-	gary@garyguo.net,
-	bjorn3_gh@protonmail.com,
-	lossin@kernel.org,
-	a.hindborg@kernel.org,
-	aliceryhl@google.com,
-	tmgross@umich.edu,
-	dakr@kernel.org,
-	corbet@lwn.net,
-	maddy@linux.ibm.com,
-	mpe@ellerman.id.au,
-	npiggin@gmail.com,
-	chleroy@kernel.org,
-	peterz@infradead.org,
-	jpoimboe@kernel.org,
-	jbaron@akamai.com,
-	rostedt@goodmis.org,
-	ardb@kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Cc: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>
-Subject: [PATCH V5 2/3] rust: Add PowerPC support
-Date: Tue, 10 Feb 2026 11:07:55 +0530
-Message-ID: <20260210053756.2088302-3-mkchauras@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260210053756.2088302-1-mkchauras@gmail.com>
-References: <20260210053756.2088302-1-mkchauras@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aNtOSgt1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770702937; x=1802238937;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9nnWMdj/22l/UeayrTX5T1lj3a2Zm8Tv6HcRko/maj4=;
+  b=aNtOSgt17uYI0ZhRJCdfu0cwXuayJe6shmzrNQpPle7+SVkMUgTGn3gh
+   xhTeIk/1M4eBwHydAx1D9IZaLyC9zQL3OyvgM13UuBVMTChzGvgfnh4KN
+   OX26Pm8uLbzLQ4Ffpr69iIxMURuYrfpQrxFHFCEOxIl+7J3GUIiqlJgaR
+   ql4rpi/jioag67EdVkWGK7Pc9EM1opVf47jofoiQ3qXMg8CoaBIYqGM/Z
+   I3oX3Zh0HkC9dWXgX+GnfENrU/bZzcVHr07MlheBEDPn+HAKrunV6to/0
+   SXWks6BMu+9opE8vSQdO+Ll7Vl6npXeQ7CIEqWKivTR4W/t2roTSQFF89
+   g==;
+X-CSE-ConnectionGUID: kbMsJ551QjixW4ymF8gCMQ==
+X-CSE-MsgGUID: 7fR5unBxRxmMMvdDevSBDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11696"; a="82552879"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="82552879"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Feb 2026 21:55:30 -0800
+X-CSE-ConnectionGUID: arSyvb8yT9+dGXp6koLMDA==
+X-CSE-MsgGUID: OiiH5N3LTQOp/Uz4oFV5Lw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="211845844"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 09 Feb 2026 21:55:24 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vpgiY-00000000ogW-0ClM;
+	Tue, 10 Feb 2026 05:55:22 +0000
+Date: Tue, 10 Feb 2026 13:55:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alexandru Elisei <alexandru.elisei@arm.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Colton Lewis <coltonlewis@google.com>
+Subject: Re: [PATCH v6 16/19] KVM: arm64: Add vCPU device attr to partition
+ the PMU
+Message-ID: <202602101354.lZex1CmW-lkp@intel.com>
+References: <20260209221414.2169465-17-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260209221414.2169465-17-coltonlewis@google.com>
 
-From: Link Mauve <linkmauve@linkmauve.fr>
+Hi Colton,
 
-For now only Big Endian 32-bit PowerPC is supported, as that is the only
-hardware I have.  This has been tested on the Nintendo Wii so far, but I
-plan on also using it on the GameCube, Wii U and Apple G4.
+kernel test robot noticed the following build warnings:
 
-These changes aren’t the only ones required to get the kernel to compile
-and link on PowerPC, libcore will also have to be changed to not use
-integer division to format u64, u128 and core::time::Duration, otherwise
-__udivdi3() and __umoddi3() will have to be added.  I have tested this
-change by replacing the three implementations with unimplemented!() and
-it linked just fine.
+[auto build test WARNING on 63804fed149a6750ffd28610c5c1c98cce6bd377]
 
-Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
-Signed-off-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
----
- Documentation/rust/arch-support.rst | 1 +
- arch/powerpc/Kconfig                | 1 +
- arch/powerpc/Makefile               | 2 ++
- rust/Makefile                       | 4 +++-
- 4 files changed, 7 insertions(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20260210-064939
+base:   63804fed149a6750ffd28610c5c1c98cce6bd377
+patch link:    https://lore.kernel.org/r/20260209221414.2169465-17-coltonlewis%40google.com
+patch subject: [PATCH v6 16/19] KVM: arm64: Add vCPU device attr to partition the PMU
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20260210/202602101354.lZex1CmW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260210/202602101354.lZex1CmW-lkp@intel.com/reproduce)
 
-diff --git a/Documentation/rust/arch-support.rst b/Documentation/rust/arch-support.rst
-index 6e6a515d0899..e26a94808e97 100644
---- a/Documentation/rust/arch-support.rst
-+++ b/Documentation/rust/arch-support.rst
-@@ -18,6 +18,7 @@ Architecture   Level of support  Constraints
- ``arm``        Maintained        ARMv7 Little Endian only.
- ``arm64``      Maintained        Little Endian only.
- ``loongarch``  Maintained        \-
-+``powerpc``    Experimental      32-bit Big Endian only.
- ``riscv``      Maintained        ``riscv64`` and LLVM/Clang only.
- ``um``         Maintained        \-
- ``x86``        Maintained        ``x86_64`` only.
-diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
-index 9537a61ebae0..17db23b82e91 100644
---- a/arch/powerpc/Kconfig
-+++ b/arch/powerpc/Kconfig
-@@ -283,6 +283,7 @@ config PPC
- 	select HAVE_REGS_AND_STACK_ACCESS_API
- 	select HAVE_RELIABLE_STACKTRACE
- 	select HAVE_RSEQ
-+	select HAVE_RUST			if PPC32
- 	select HAVE_SAMPLE_FTRACE_DIRECT	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
- 	select HAVE_SAMPLE_FTRACE_DIRECT_MULTI	if HAVE_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
- 	select HAVE_SETUP_PER_CPU_AREA		if PPC64
-diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-index a58b1029592c..9fd82c75dcbd 100644
---- a/arch/powerpc/Makefile
-+++ b/arch/powerpc/Makefile
-@@ -61,6 +61,8 @@ else
- KBUILD_LDFLAGS_MODULE += $(objtree)/arch/powerpc/lib/crtsavres.o
- endif
- 
-+KBUILD_RUSTFLAGS += --target=powerpc-unknown-linux-gnu
-+
- ifdef CONFIG_CPU_LITTLE_ENDIAN
- KBUILD_CPPFLAGS	+= -mlittle-endian
- KBUILD_LDFLAGS	+= -EL
-diff --git a/rust/Makefile b/rust/Makefile
-index 4dcc2eff51cb..ae22f2c5f0b3 100644
---- a/rust/Makefile
-+++ b/rust/Makefile
-@@ -384,13 +384,15 @@ bindgen_skip_c_flags := -mno-fp-ret-in-387 -mpreferred-stack-boundary=% \
- 	-fstrict-flex-arrays=% -fmin-function-alignment=% \
- 	-fzero-init-padding-bits=% -mno-fdpic \
- 	-fdiagnostics-show-context -fdiagnostics-show-context=% \
--	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference
-+	--param=% --param asan-% -fno-isolate-erroneous-paths-dereference \
-+	-ffixed-r2 -mmultiple -mno-readonly-in-sdata
- 
- # Derived from `scripts/Makefile.clang`.
- BINDGEN_TARGET_x86	:= x86_64-linux-gnu
- BINDGEN_TARGET_arm64	:= aarch64-linux-gnu
- BINDGEN_TARGET_arm	:= arm-linux-gnueabi
- BINDGEN_TARGET_loongarch	:= loongarch64-linux-gnusf
-+BINDGEN_TARGET_powerpc	:= powerpc-linux-gnu
- BINDGEN_TARGET_um	:= $(BINDGEN_TARGET_$(SUBARCH))
- BINDGEN_TARGET		:= $(BINDGEN_TARGET_$(SRCARCH))
- 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602101354.lZex1CmW-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: arch/arm64/kvm/pmu-direct.c:55 function parameter 'vcpu' not described in 'kvm_vcpu_pmu_is_partitioned'
+>> Warning: arch/arm64/kvm/pmu-direct.c:55 expecting prototype for kvm_pmu_is_partitioned(). Prototype was for kvm_vcpu_pmu_is_partitioned() instead
+
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
