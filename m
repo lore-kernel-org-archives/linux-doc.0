@@ -1,147 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mail-m49201.qiye.163.com (mail-m49201.qiye.163.com [45.254.49.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28B130EF94;
-	Wed, 11 Feb 2026 05:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D179E32C929;
+	Wed, 11 Feb 2026 07:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770789443; cv=none; b=D+sJTeaJrtyC3F6/Sb90sRtD+tZeLtnQCcPhjVGfxmKTfQbJe+0kojcUdxipx60HNij59j78R//jBrnwTx4Cxf2lxQ6+LvXvHFyG1ycpHeqjzkhGnhU7zFagE5t9py7Ts8YLpnRStHMMER3bc+YoSSB/wYCSSUU9sUB7V/KtnfY=
+	t=1770795151; cv=none; b=K7DDQ6VvB7k+2GEeGl9452QNUxqQYDpckXjTTJANod6YRsikW901zfnBWlVBxMyFxZw25m9GDcBiVnkAtIXvs9TppGB4NGmjVfVR3zq/bNRX9ZfoD5aj1ylz7gv4kBToqU3BVDRJCLu/ALwr+/+KG90+hRxRG7b6KKvDL2sPKoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770789443; c=relaxed/simple;
-	bh=WnpB/MHUvOu0MxaG9qXi+XunVyvMIMGcsZJjH30GK1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nMVk7aV3ZQzQU9mVTph3JjoOH3X9RV39Wbm3sAvgF3sd6MTZUBfxGeJomRJ4gUsXKP4YCkId38EJkPsADLA3BBQ5GcitKKsCZD0uVQwg5Zqbh5cHQ22QpXmjzu+mD5WnjV/d6ihQPCrsQpWu+0WMlEOs8IyX3AJReoChI8w+wRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NX2TBbv1; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1770795151; c=relaxed/simple;
+	bh=41FlcwNioZ88g31eXuDyQVh3Dqp0ef6QyLPNmyndQdQ=;
+	h=Cc:Subject:To:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=YgoDWL2BGm5dfap+1yXaOGkoS7wjthXVXo2knlgqn5rgsZYQFyFL0tZUeEP+kvGsjDAZbVTwWxsFSJTUXLMojHp8dFzm1a8UQH3E+RziC58dilO1upE+450hF3ywr4Tb/MgvbjhwTEYCekFuPpWd3a7SGFFzdIHTBcw1tg1oo74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=ame38AOD; arc=none smtp.client-ip=45.254.49.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NX2TBbv1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770789442; x=1802325442;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WnpB/MHUvOu0MxaG9qXi+XunVyvMIMGcsZJjH30GK1s=;
-  b=NX2TBbv1xhrHswGVJURVxU3XzgKWSE4ETUlYUuzHoK16HCXXjusbfQWB
-   Ajnx1SuFy/T+X9ks2aOT1BMoBADM9/I6s/tYWxHDItRtBM4XDzo3hdVwK
-   EWsKQY9G+xTLTtBC5KU9eEZKvMANa1MrwznzvkotZFO8idSYaAbco7ds6
-   2ELNtUyeAX83PSBHbX+Xx8djkSdk4hMmFrZ+HZlvYE+2vyQ0tOL0KxTST
-   bVQQyOKr4AzZf/1vQVaJ6Cc2UhALkKvhKudvLpKRVl2DlBRKQJ7TuHlD8
-   8eHfm7L+kmwSgSk2p0hroZZy5L1iTgYoB8TxfJffWuqLu9u6k9je1voTZ
-   g==;
-X-CSE-ConnectionGUID: UbHVe8RET1SbHgwpe0DJbw==
-X-CSE-MsgGUID: m3w9gAj+SNiM6IC3s0bS/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="94569681"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="94569681"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 21:57:21 -0800
-X-CSE-ConnectionGUID: Cp3x9V8wSLW7rubOh6WZ5A==
-X-CSE-MsgGUID: H3wgMnd3QcCarV66oRkcfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="212176563"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Feb 2026 21:57:15 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vq3Ds-00000000piq-4C4o;
-	Wed, 11 Feb 2026 05:57:13 +0000
-Date: Wed, 11 Feb 2026 13:56:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shenwei Wang <shenwei.wang@nxp.com>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-imx@nxp.com,
-	arnaud.pouliquen@foss.st.com, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v7 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <202602111320.C3eHRtNV-lkp@intel.com>
-References: <20260210170814.406883-4-shenwei.wang@nxp.com>
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="ame38AOD"
+Received: from [172.16.12.14] (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 33d65732f;
+	Wed, 11 Feb 2026 15:27:12 +0800 (GMT+08:00)
+Cc: shawn.lin@rock-chips.com, Bjorn Helgaas <bhelgaas@google.com>,
+ linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+ Bjorn Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH] Documentation: PCI: Clarify pci_free_irq_vectors() usage
+ for managed devices
+To: phasta@kernel.org
+References: <20260206223304.GA99007@bhelgaas>
+ <5fb5bc0ecbd4f51791b6c330088879588a1518ac.camel@mailbox.org>
+From: Shawn Lin <shawn.lin@rock-chips.com>
+Message-ID: <68347b24-fb59-eece-2b48-0fd90917c75b@rock-chips.com>
+Date: Wed, 11 Feb 2026 15:27:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260210170814.406883-4-shenwei.wang@nxp.com>
+In-Reply-To: <5fb5bc0ecbd4f51791b6c330088879588a1518ac.camel@mailbox.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9c4b98d09109cckunm8a859971d6021
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ04ZGFYZQkhPGR9DTU5MQklWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+	hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=ame38AODlW5B+VxaoNlZ1HjbV6FATMDpX46nJY6FMcrGxlEGqtd5a1JgLW5+/3lIECDDp8RyzJabDRfWk6Ls9YH4hN+Eienu4HAZNhIKdMt7TLlaHqrMZpKn02GRfzCOYH5uw5ROcqd1HVdGUG7QuQpdyiBESbZCW0DD6yJP+hU=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=lHoajEgjenqD27eClZ8ttgA/7VF9D+tkev7LFV+E/XM=;
+	h=date:mime-version:subject:message-id:from;
 
-Hi Shenwei,
+在 2026/02/09 星期一 16:05, Philipp Stanner 写道:
+> On Fri, 2026-02-06 at 16:33 -0600, Bjorn Helgaas wrote:
+>> [+cc Philipp, any comment? would like your ack if possible]
+> 
+> The patch is a good idea and desirable. I think, however, that it
+> should be a series with a second patch informing about this behavior in
+> pci_free_irq_vectors() docu, too. I think that more people read
+> function API documentation than the generated full docs, especially
+> when hacking something together quickly.
+> 
+>>
+>> On Mon, Jan 26, 2026 at 10:57:13AM +0800, Shawn Lin wrote:
+>>> Update the msi-howto.rst documentation to clarify that drivers using the
+>>> resource-managed function pcim_enable_device()
+>>>
+> 
+> pcim_enable_device() can be called a "resource-managed function"
+> because itself is managed in the sense of it setting up a consequence
+> for its own actions, which is automatic device-enablement. I.e., after
+> calling it, calling pci_disable_device() becomes obsolete.
+> 
+> That's, however, not decisive here. What is decisive is that it also
+> switches those MSI functions into "hybrid mode" so that they suddenly
+> have side-effects. So pcim_enable_device() does *two* things.
+> 
+> Depending on what you want to achieve with your detailed commit
+> message, you might want to point that out. Some inspiration might come
+> from my commits in various drivers. To make it bullet proof, I would
+> say sth like:
+> 
+> "For legacy reasons, pcim_enable_device() switched several, normally
+> un-managed, functions into managed mode. Since various cleanups, the
+> only function affected in such a way by pcim_enable_device() today are
+> callers of pcim_setup_msi_release(). This behavior is dangerous and
+> confusing and should be removed from the kernel."
+> 
+> depending on how verbose you want to be. This could be merged with the
+> below, of course.
+> 
+>>>   must not call pci_free_irq_vectors().
+>>> This is because such devices have automatic IRQ vector management via pcim_msi_release(),
+>>> which is registered by pci_setup_msi_context() when pdev->is_managed is true.
+> 
+> There is unfortunately also pdev->is_msi_managed in addition to
+> is_managed.
+> 
+> I think you don't need to hint at the internal implementation in the
+> commit message – but a separate patch with a code TODO in pci/msi/msi.c
+> where you point out that this is broken and should be removed sounds
+> like a good idea to me.
+> 
+> Could also be put on a PCI TODO list if there is one (Bjorn?)
+> 
+>>>
+>>> Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
+>>> ---
+>>>
+>>>   Documentation/PCI/msi-howto.rst | 7 +++++--
+>>>   1 file changed, 5 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/PCI/msi-howto.rst b/Documentation/PCI/msi-howto.rst
+>>> index 667ebe2..dc85f1e 100644
+>>> --- a/Documentation/PCI/msi-howto.rst
+>>> +++ b/Documentation/PCI/msi-howto.rst
+>>> @@ -113,8 +113,11 @@ vectors, use the following function::
+>>>   
+>>>     int pci_irq_vector(struct pci_dev *dev, unsigned int nr);
+>>>   
+>>> -Any allocated resources should be freed before removing the device using
+>>> -the following function::
+>>> +If the driver enables the device using the resource-managed function
+>>> +pcim_enable_device(),
+> 
+> Same, "resource-managed" is not the decisive criterium. I would simply
+> state "pcim_enable_device() activates automatic management for IRQ
+> vectors".
+> 
+> (I'm a bit nitty; here it's not that important, but in the commit
+> message I would address this).
+> 
+> 
+> You can keep me on Cc, I can do a review for the next revision.
+> 
 
-kernel test robot noticed the following build errors:
+Thanks for these helpful review, will work on v2.
 
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on robh/for-next remoteproc/rproc-next linus/master v6.19 next-20260210]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/dt-bindings-remoteproc-imx_rproc-Add-rpmsg-subnode-support/20260211-011505
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20260210170814.406883-4-shenwei.wang%40nxp.com
-patch subject: [PATCH v7 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-config: nios2-randconfig-r054-20260211 (https://download.01.org/0day-ci/archive/20260211/202602111320.C3eHRtNV-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602111320.C3eHRtNV-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602111320.C3eHRtNV-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   nios2-linux-ld: drivers/gpio/gpio-rpmsg.o: in function `rpmsg_get_channel_ofnode':
->> drivers/gpio/gpio-rpmsg.c:473: undefined reference to `rproc_get_by_child'
->> drivers/gpio/gpio-rpmsg.c:473:(.text+0x454): relocation truncated to fit: R_NIOS2_CALL26 against `rproc_get_by_child'
-   nios2-linux-ld: drivers/gpio/gpio-rpmsg.o: in function `rpmsg_get_rproc_node_name':
-   drivers/gpio/gpio-rpmsg.c:450: undefined reference to `rproc_get_by_child'
-   drivers/gpio/gpio-rpmsg.c:450:(.text+0x4e0): relocation truncated to fit: R_NIOS2_CALL26 against `rproc_get_by_child'
-
-
-vim +473 drivers/gpio/gpio-rpmsg.c
-
-   466	
-   467	static struct device_node *
-   468	rpmsg_get_channel_ofnode(struct rpmsg_device *rpdev, char *chan_name)
-   469	{
-   470		struct device_node *np_chan = NULL, *np;
-   471		struct rproc *rproc;
-   472	
- > 473		rproc = rproc_get_by_child(&rpdev->dev);
-   474		if (!rproc)
-   475			return NULL;
-   476	
-   477		np = of_node_get(rproc->dev.of_node);
-   478		if (!np && rproc->dev.parent)
-   479			np = of_node_get(rproc->dev.parent->of_node);
-   480	
-   481		if (np) {
-   482			/* Balance the of_node_put() performed by of_find_node_by_name(). */
-   483			of_node_get(np);
-   484			np_chan = of_find_node_by_name(np, chan_name);
-   485			of_node_put(np);
-   486		}
-   487	
-   488		return np_chan;
-   489	}
-   490	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> And thanks for picking this up!
+> 
+> Philipp
+> 
+>>>   the driver shouldn't call pci_free_irq_vectors()
+>>> +because the IRQ vectors are automatically managed. Otherwise, the driver
+>>> +should free any allocated IRQ vectors before removing the device using the
+>>> +following function::
+>>>   
+>>>     void pci_free_irq_vectors(struct pci_dev *dev);
+>>>   
+>>> -- 
+>>> 2.7.4
+>>>
+> 
+> 
+> 
