@@ -1,100 +1,179 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5574A1E0DCB
-	for <linux-doc@vger.kernel.org>; Wed, 11 Feb 2026 18:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747F7313552;
+	Wed, 11 Feb 2026 18:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770833721; cv=none; b=ZViMFba/al6AHjpogCDmSaoLbDXiA/TR43JQ8xuDlIZfavV95QBnawNGrNdjFpaRhT1//gzYZdam1o5TWEKQ+IJjQY6fqDzU4sWEbDCKobzfD80GhYrGoeEBmZfamJ2skNBlCOAbqY5cwA6cQEuwZ9VTOobmU+2X098nYANyyoc=
+	t=1770834431; cv=none; b=Zl3a1wP6W6qLZyOp+x9YJL/HPwQ/z1+4vx8qdZ6KN4WmDG0qr04UR8WsSC/6tzeR1yocOEMUwp2ne7W+cWMUt1jkcXs0yPlJ+zRR9nU4kAy2vklVmBiJMceKcCoDyQs5zwfI7NLkO79ocayQoP5ST5+BtrjhNut0fheLjQYaO6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770833721; c=relaxed/simple;
-	bh=oYbuBPvKTBuIg7/UdNT3jk8bVDpuZgxN8MJT00linvQ=;
+	s=arc-20240116; t=1770834431; c=relaxed/simple;
+	bh=DA75yQkDj/Z2tNiQKbeA1QvuEo25JclknMPaMA/g9jI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AmCk5K8UuzewZMJD6qJoVcHJAoxFJcG1vbU6lMg5cUJepmd6iqAAHXf8oM/xW3IFVynqm5PEcLr0eku2+TvsRh/4jfmbdCNcPfhUqTg4BeY/7HFEhiW/0IACFlWvBiu0eQHaYPCO2a/sgWPmqaB3vuKTF50VMLhLOgGf/qzgNUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=TYOrP/uG; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="TYOrP/uG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=q0b/9mHXAHkCPQF6gj490znq+sb7w5XclW4QCSC8pSw=; b=TYOrP/uGrV77kDLeFcNNMBGk2o
-	T8Tjirthzd16f1R0GZMmVz4YKJfkqcHn2r0ard0/GK+XlrcN+VSAXk7Pu4p2vg7eokxQyPuYy3gIu
-	wf0Szeqy7s3Rh8UhFuawsNFdK0TV0bzjqSTZFMCHyMJOx7d7NhT6/evzn/BBjFUyRbXOzH7Vz3eZv
-	mZoyr7TrHvMBQ/IK66uV9nhwjU+hTOSblcPA6AUp3ewog1/xAcYcHOvGILQkY5ue5GFG6k4q+ZbCs
-	Xaa4g6sIGjFonS7g6kL/3EcSAI0jy5o1RtX1ac3xEXFODtjDZVYmMlzY0QB/Q8vs5ShB+BxGY7pOE
-	aLYTtBgw==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:32944)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vqEk6-000000003cF-2Avd;
-	Wed, 11 Feb 2026 18:15:14 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vqEk3-000000003yM-1PDT;
-	Wed, 11 Feb 2026 18:15:11 +0000
-Date: Wed, 11 Feb 2026 18:15:11 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Vladimir Oltean <olteanv@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-phy@lists.infradead.org
-Subject: Re: [PATCH net-next] doc: generic phy: update generic PHY
- documentation
-Message-ID: <aYzHL1qwew5p-xoq@shell.armlinux.org.uk>
-References: <E1vo0mF-00000007kbg-1OeA@rmk-PC.armlinux.org.uk>
- <20260211154839.lbh4uovxr5b5s4nv@skbuf>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CGQuJCq5cLG+rikkW46mZvO80tncFRinJowFnLZ4K7HrlqltWutA2CQvp3L2NiaFyAIrl1lqS7tlZPIB3V8o4CerOiNwWS9l+yo68up0n4Hzr4X1tP1TjsFHGvlXPyToTXnQ+JnZK+Ois/JgjRA8TwhkMw6rkmlBJyoIGFn1kEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 953B559211;
+	Wed, 11 Feb 2026 18:26:58 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf03.hostedemail.com (Postfix) with ESMTPA id DE05260010;
+	Wed, 11 Feb 2026 18:26:48 +0000 (UTC)
+Date: Wed, 11 Feb 2026 12:26:47 -0600
+From: John Groves <john@groves.net>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	John Groves <jgroves@fastmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V5 09/19] famfs_fuse: magic.h: Add famfs magic numbers
+Message-ID: <aYy_c3Wh6RbJflvs@groves.net>
+References: <20260116125831.953.compound@groves.net>
+ <20260116185911.1005-10-john@jagalactic.com>
+ <20260116185911.1005-1-john@jagalactic.com>
+ <0100019bc831c807-bc90f4c0-d112-4c14-be08-d16839a7bcb6-000000@email.amazonses.com>
+ <aXoarMgfbL6rh6xi@groves.net>
+ <CAJnrk1bvomN7_MZOO8hwf85qLztZys4LfCjfcs_ZUq8+YBk5Wg@mail.gmail.com>
+ <0100019c05067b3b-b9ab2963-ace5-481f-8969-c11f80a74423-000000@email.amazonses.com>
+ <CAJnrk1Y6HayeS-C3sOEOc_CgaS_K=SedZNpHASAXAkgZyp3Xsg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260211154839.lbh4uovxr5b5s4nv@skbuf>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1Y6HayeS-C3sOEOc_CgaS_K=SedZNpHASAXAkgZyp3Xsg@mail.gmail.com>
+X-Stat-Signature: mszmxb1niyybftty888ayigfeewrxk5w
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: DE05260010
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+KXnzzANVxzbiGeTDo5d+sSgfjIkuJfLM=
+X-HE-Tag: 1770834408-954054
+X-HE-Meta: U2FsdGVkX1+7bvXhDhZh4y00uxQaD/gK/MyNUYhY/zCkfqrEwHZLdWxm68ym0hX2uElF0aWR0ZllEr9HXUvIpxr8eTG+soW3z5OCPe9+awVkjGXTDYdJQ/xjeO3619mAysxgE+e9wNmSh75m3d2KYJrRUs4yoxY3gktZ3P49RQJI/g9mo56oFQahnU4YpJk7jWSqezC4s5hI1dey4atCG/eYyw8PxoPpAA3qHrapHVqGa8LK0Uo/VE3l7taAmp11vyWefYpdB4+XSJDFZ5KrnKAnpqYgaaBjNuua16PBQCbPiI+yZOoeGlewPsB+Qjg6TNbNXDqZuvVLAHOsf2/9Odc/in2wB7D7i4V/DocTXH5lQjIUfeCaR4wlOjfMEGJHHX5lC4IB+/3NpUdp50DTyQmWf9WKQ5ft8PnsnB0Jo4OiMfcBQLzNQp2g4P1nKFeGubd3IZl6786MDF1/5WWDjA==
 
-On Wed, Feb 11, 2026 at 05:48:39PM +0200, Vladimir Oltean wrote:
-> My 2 cents: I would actually remove any reference to any sort of preferred
-> call order. There's nothing in the framework to back up such a concept.
-> Just say that it is recommended for PHY provider drivers to not rely on
-> a particular calling order, such that PHY consumers have the freedom to
-> choose depending on what suits them best.
+On 26/01/28 10:54AM, Joanne Koong wrote:
+> On Wed, Jan 28, 2026 at 6:33 AM John Groves <john@jagalactic.com> wrote:
+> >
+> > On 26/01/27 01:55PM, Joanne Koong wrote:
+> > > On Fri, Jan 16, 2026 at 11:52 AM John Groves <john@jagalactic.com> wrote:
+> > > >
+> > > > From: John Groves <john@groves.net>
+> > > >
+> > > > Famfs distinguishes between its on-media and in-memory superblocks. This
+> > > > reserves the numbers, but they are only used by the user space
+> > > > components of famfs.
+> > > >
+> > > > Signed-off-by: John Groves <john@groves.net>
+> > > > ---
+> > > >  include/uapi/linux/magic.h | 2 ++
+> > > >  1 file changed, 2 insertions(+)
+> > > >
+> > > > diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
+> > > > index 638ca21b7a90..712b097bf2a5 100644
+> > > > --- a/include/uapi/linux/magic.h
+> > > > +++ b/include/uapi/linux/magic.h
+> > > > @@ -38,6 +38,8 @@
+> > > >  #define OVERLAYFS_SUPER_MAGIC  0x794c7630
+> > > >  #define FUSE_SUPER_MAGIC       0x65735546
+> > > >  #define BCACHEFS_SUPER_MAGIC   0xca451a4e
+> > > > +#define FAMFS_SUPER_MAGIC      0x87b282ff
+> > > > +#define FAMFS_STATFS_MAGIC      0x87b282fd
+> > >
+> > > Could you explain why this needs to be added to uapi? If they are used
+> > > only by userspace, does it make more sense for these constants to live
+> > > in the userspace code instead?
+> > >
+> > > Thanks,
+> > > Joanne
+> >
+> > Hi Joanne,
+> >
+> > I think this is where it belongs; one function of uapi/linux/magic.h is as
+> > a "registry" of magic numbers, which do need to be unique because they're
+> > the first step of recognizing what is on a device.
+> >
+> > This is a well-established ecosystem with block devices. Blkid / libblkid
+> > scan block devices and keep a database of what devices exist and what
+> > appears to be on them. When one adds a magic number that applies to block
+> > devices, one sends a patch to util-linux (where blkid lives) to add ability
+> > to recognize your media format (which IIRC includes the second recognition
+> > step - if the magic # matches, verify the superblock checksum).
+> >
+> > For character dax devices the ecosystem isn't really there yet, but the
+> > pattern is the same - and still makes sense.
+> >
+> > Also, 2 years ago in the very first public famfs patch set (pre-fuse),
+> > Christian Brauner told me they belong here [1].
 
-Sending out this patch was a last ditch attempt to get a response to
-improve the "generic" PHY subsystem, However, as the issue is now
-almost two weeks old, and the current patch series causes a regression
-according to Mohd's testing, I've rewritten the series to be a finer
-set of smaller incremental changes.
+Apologies for not responding to this sooner.
 
-This has meant dropping the idea of using the "generic" PHY subsystem
-in generic code, because as "generic" PHY drivers are currently
-written, that's just impossible given the current state of "generic"
-PHY.
+First, FAMFS_STATFS_MAGIC will be dropped for sure. At one point I thought
+I'd be able to override FUSE_SUPER_MAGIC in the output from statfs, but
+that's not currently true. I've had to take a different approach in the 
+famfs user space for definitively identifying whether a path falls in a 
+famfs file system...
 
-There are "generic" PHY drivers that require to be powered up for
-any of the phy_set_*() functions to not error out. There are also
-"generic" PHY drivers that require the PHY to be powered down
-before calling phy_set_*() before the new setting taking effect
-at PHY power up time. In this group there are drivers that error
-out if phy_set_*() is called while the PHY is powered, and there
-are drivers that silently accept the call, returning success, but
-do not change the PHY mode.
+> 
+> Hi John,
+> 
+> Thanks for the context. I was under the impression include/uapi/ was
+> only for constants the kernel exposes as part of its ABI. If I'm
+> understanding it correctly, FAMFS_SUPER_MAGIC is used purely as an
+> on-disk format marker for identification by userspace tools. Why
+> doesn't having the magic number defined in the equivalent of
+> blkid/libblkid for dax devices and defined/used in the famfs
+> server-side implementation suffice for that purpose? I'm asking in
+> part because it seems like a slippery slope to me where any fuse
+> server could make the same argument in the future that their magic
+> constant should be added to uapi.
 
-This makes it pretty much impossible for platform independent code to
-know the correct order to call the functions, and what to do if an
-error or success is returned from any particular API call.
+Right now there is no equivalent of util-linux/blkid for character device
+superblock identification. Therefore this seems better than nothing to
+record FAMFS_SUPER_MAGIC, since keeping it unique is a public good and
+it is an actual on-media magic number. Although it's not currently used
+on block devices, there is a very real possibility of famfs on block
+devices in the future (pmem is block, and fs-dax, supporting that with
+famfs would be straightforward, and there are problems for which it's a
+good solution...)
 
-In other words, it's a trainwreck as currently implemented, and this
-was my attempt to try and get some consistency.
+There doesn't seem to be an explicit maintainer of magic.h; if somebody
+can speak for the intent, or the rules etc., that would be helpful. I don't
+want to abandon this based on general uapi guidelines alone. Is there
+anybody in particular who should make a ruling here?
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+I don't really see a slippery slope; this isn't an arbitrary constant, 
+it's an actual on-media magic number. 
+
+> 
+> For Christian's comment, my understanding was that with the pre-fuse
+> patchset, it did need to be in uapi because the kernel explicitly set
+> sb->s_magic to it, but with famfs now going through fuse, sb->s_magic
+> uses FUSE_SUPER_MAGIC.
+
+Even in the before-times with standalone famfs, on media (in-memory)
+metadata was not accessed directly from the kernel module. So that didn't 
+change with the fuse port (though it's possible that detail of the prior
+implementation wasn't broadly understood...).
+
+Would anybody like to weigh in to swing consensus here?
+
+Thanks,
+John
+
