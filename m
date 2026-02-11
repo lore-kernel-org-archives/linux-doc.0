@@ -1,313 +1,159 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DBAA303CAE;
-	Wed, 11 Feb 2026 15:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C9B30C60D;
+	Wed, 11 Feb 2026 15:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770824216; cv=none; b=qNdbFlKR5Rf/QkjpMEDJcOZVSFtPR08k3iJNhDPt5tfw9pGKRJERcK6B3ZpZ3AYIuJxMT3rXM5k0aXmG4Dj6Bbrhu3H+BWzgHrcbdZeP1blntNCmAr+eBviF64kV+ot6K+ofQXx74Uo1PPedpU8XQZgH5k2xmiZXRXd5gj96HWU=
+	t=1770824435; cv=none; b=VGoSN+eCeQDiX60yZDZBBuUUBa4HBIONCgeJTdo8+SJ4hUpRgc2JKE4CCm/kvuOBEKKZyRcKlelIiilpjisIvwdj3YtjNyEjs5miXPIT+swFvtOabftwzlAViiEN+cSuWDbl0otXWIRkB+M0A0i2u7tzU6XJr9lmmSOiP2f8Ccw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770824216; c=relaxed/simple;
-	bh=9eodLtiKiUBne97H3ZMFNsvvchRXNaUKeHTqVd37dgE=;
+	s=arc-20240116; t=1770824435; c=relaxed/simple;
+	bh=4XK13jjYLred8II2iFJoWFOdf1Y9k6sr2e/uAGf5JAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IJY175sXhAmkxS+T6018/+07TtDr2yRX2Y/OrdUAUmt5aKPUR7qGDQtVBS9sHwf8Fbt7w7NWJopH6G7sTdEOI5UNSnL3TkNAkWcsO9sIMOE1rIjgj2jyGkEYBaY1m3ern8DrLSzhPWScdkY7DGho0p48/P0IMSO5uf24PTELROk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34CA2339;
-	Wed, 11 Feb 2026 07:36:47 -0800 (PST)
-Received: from e134344.arm.com (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25FC83F63F;
-	Wed, 11 Feb 2026 07:36:48 -0800 (PST)
-Date: Wed, 11 Feb 2026 15:36:45 +0000
-From: Ben Horgan <ben.horgan@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
-	baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
-	dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
-	fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
-	jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	peternewman@google.com, punit.agrawal@oss.qualcomm.com,
-	quic_jiles@quicinc.com, rohit.mathew@arm.com,
-	scott@os.amperecomputing.com, sdonthineni@nvidia.com,
-	tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com,
-	catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
-	maz@kernel.org, oupton@kernel.org, joey.gouly@arm.com,
-	suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
-	zengheng4@huawei.com, linux-doc@vger.kernel.org,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-Subject: Re: [PATCH v4 13/41] arm_mpam: resctrl: Add boilerplate cpuhp and
- domain allocation
-Message-ID: <aYyiDRD6u6p4a98h@e134344.arm.com>
-References: <20260203214342.584712-1-ben.horgan@arm.com>
- <20260203214342.584712-14-ben.horgan@arm.com>
- <f2951303-6fe9-4674-bd16-0dbef39cc1d4@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=vGdylnsmVFuMrwpBJu6KLac3gm7rhsm+MpvIzDXB0ofWsjslHrmH9LjhXv7+4CBTblLe9Vb/t6fTHU0eZzspvb/QqSROUMMKdarw9h+aunpyStrox9I50uaRMUfcfNufnIQZ0MeCLlczVbrJzeKl2bkydnjjYhHIlX/F2j24sNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Osf1+son; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Osf1+son"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E6D8C4CEF7;
+	Wed, 11 Feb 2026 15:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770824435;
+	bh=4XK13jjYLred8II2iFJoWFOdf1Y9k6sr2e/uAGf5JAY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Osf1+sonyielfcfujsc2iqg2UF+lVBoIHnyPSvXNLhEj+wiJlUY7u3mDE0d93zCzE
+	 zBpVIqAZfadRZsH27h80LwM9BD0DSwj5cnui9xvD9fUafzn7f0owQ9Uq1ji2Owlwpo
+	 Z4s8PcmJBy8StkHpDAil94og0/4FRu5S+tbUBlzhwRuWJxa79omP4GgLLrh+kRBlYH
+	 0oU2c8wRD5ooc9cUjEyj4ly0fTzufA5SbP4ZpE4vLJxNYiGci+frhgviGdMTK5BCa8
+	 Huv/5f4XXc6H66h5N4v3lOaLSO49WYhSRPqQD61EimKM8C6aQodJSCEI2ajsqeGca8
+	 M7AnWKSbXHOIg==
+Date: Wed, 11 Feb 2026 21:10:26 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Shawn Lin <shawn.lin@rock-chips.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, 
+	linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>
+Subject: Re: [PATCH v4 0/3] PCI Controller event and LTSSM tracepoint support
+Message-ID: <u3es7h4mgzdqfhvpl52s3x4vcisrpazcm4qb6x7lu4srmagxpn@hca2begqypeu>
+References: <1769047340-113287-1-git-send-email-shawn.lin@rock-chips.com>
+ <9e06e69c-d10a-1f21-cbf7-204319549612@rock-chips.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f2951303-6fe9-4674-bd16-0dbef39cc1d4@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9e06e69c-d10a-1f21-cbf7-204319549612@rock-chips.com>
 
-Hi Reinette,
-
-On Tue, Feb 10, 2026 at 02:57:29PM -0800, Reinette Chatre wrote:
-> Hi Ben,
+On Wed, Feb 11, 2026 at 09:13:50PM +0800, Shawn Lin wrote:
+> 在 2026/01/22 星期四 10:02, Shawn Lin 写道:
+> > This patch-set adds new pci controller event and LTSSM tracepoint used by host drivers
+> > which provide LTSSM trace functionality. The first user is pcie-dw-rockchip with a 256
+> > Bytes FIFO for recording LTSSM transition.
+> > 
 > 
-> On 2/3/26 1:43 PM, Ben Horgan wrote:
-> ...
-> > diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
-> > new file mode 100644
-> > index 000000000000..4c2248c92955
-> > --- /dev/null
-> > +++ b/drivers/resctrl/mpam_resctrl.c
-> > @@ -0,0 +1,343 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +// Copyright (C) 2025 Arm Ltd.
-> > +
-> > +#define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
-> > +
-> > +#include <linux/arm_mpam.h>
-> > +#include <linux/cacheinfo.h>
-> > +#include <linux/cpu.h>
-> > +#include <linux/cpumask.h>
-> > +#include <linux/errno.h>
-> > +#include <linux/list.h>
-> > +#include <linux/printk.h>
-> > +#include <linux/rculist.h>
-> > +#include <linux/resctrl.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/types.h>
-> > +
-> > +#include <asm/mpam.h>
-> > +
-> > +#include "mpam_internal.h"
-> > +
-> > +/*
-> > + * The classes we've picked to map to resctrl resources, wrapped
-> > + * in with their resctrl structure.
-> > + * Class pointer may be NULL.
-> > + */
-> > +static struct mpam_resctrl_res mpam_resctrl_controls[RDT_NUM_RESOURCES];
-> > +
-> > +#define for_each_mpam_resctrl_control(res, rid)					\
-> > +	for (rid = 0, res = &mpam_resctrl_controls[rid];			\
-> > +	     rid < RDT_NUM_RESOURCES;						\
-> > +	     rid++, res = &mpam_resctrl_controls[rid])
-> > +
-> > +/* The lock for modifying resctrl's domain lists from cpuhp callbacks. */
-> > +static DEFINE_MUTEX(domain_list_lock);
-> > +
-> > +static bool exposed_alloc_capable;
-> > +static bool exposed_mon_capable;
-> > +
-> > +bool resctrl_arch_alloc_capable(void)
-> > +{
-> > +	return exposed_alloc_capable;
-> > +}
-> > +
-> > +bool resctrl_arch_mon_capable(void)
-> > +{
-> > +	return exposed_mon_capable;
-> > +}
-> > +
-> > +/*
-> > + * MSC may raise an error interrupt if it sees an out or range partid/pmg,
-> > + * and go on to truncate the value. Regardless of what the hardware supports,
-> > + * only the system wide safe value is safe to use.
-> > + */
-> > +u32 resctrl_arch_get_num_closid(struct rdt_resource *ignored)
-> > +{
-> > +	return mpam_partid_max + 1;
-> > +}
-> > +
-> > +struct rdt_resource *resctrl_arch_get_resource(enum resctrl_res_level l)
-> > +{
-> > +	if (l >= RDT_NUM_RESOURCES)
-> > +		return NULL;
-> > +
-> > +	return &mpam_resctrl_controls[l].resctrl_res;
-> > +}
-> > +
-> > +static int mpam_resctrl_control_init(struct mpam_resctrl_res *res)
-> > +{
-> > +	/* TODO: initialise the resctrl resources */
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int mpam_resctrl_pick_domain_id(int cpu, struct mpam_component *comp)
-> > +{
-> > +	struct mpam_class *class = comp->class;
-> > +
-> > +	if (class->type == MPAM_CLASS_CACHE)
-> > +		return comp->comp_id;
-> > +
-> > +	/* TODO: repaint domain ids to match the L3 domain ids */
-> > +	/* Otherwise, expose the ID used by the firmware table code. */
-> > +	return comp->comp_id;
-> > +}
-> > +
-> > +static void mpam_resctrl_domain_hdr_init(int cpu, struct mpam_component *comp,
-> > +					 struct rdt_domain_hdr *hdr)
-> > +{
-> > +	lockdep_assert_cpus_held();
-> > +
-> > +	INIT_LIST_HEAD(&hdr->list);
-> > +	hdr->id = mpam_resctrl_pick_domain_id(cpu, comp);
-> > +	cpumask_set_cpu(cpu, &hdr->cpu_mask);
-> 
-> One addition via the resctrl telemetry enabling is a new rdt_domain_hdr::rid
-> used for some additional checks on the header.
-> https://lore.kernel.org/all/20251217172121.12030-2-tony.luck@intel.com/
-> I may be missing something here though since the additional checking that this
-> new field supports should have complained loudly ... unless this was tested with
-> only the L3 resource that happens to be 0.
-
-Hmmm, thanks for pointing this out. I think I've been getting away with this as
-in the resctrl common code checking for 'rid' only happens for monitors which we
-do keep on the L3 resource and the control checking is only in the x86.  I'll
-look into this a bit more and update for this change.
-
-> 
-> ...
-> 
-> > +static struct mpam_resctrl_dom *
-> > +mpam_resctrl_get_domain_from_cpu(int cpu, struct mpam_resctrl_res *res)
-> > +{
-> > +	struct mpam_resctrl_dom *dom;
-> > +	struct rdt_resource *r = &res->resctrl_res;
-> > +
-> > +	lockdep_assert_cpus_held();
-> > +
-> > +	list_for_each_entry_rcu(dom, &r->ctrl_domains, resctrl_ctrl_dom.hdr.list) {
-> > +		if (cpumask_test_cpu(cpu, &dom->ctrl_comp->affinity))
-> > +			return dom;
-> > +	}
-> 
-> I notice here that that only the ctrl_domains list is searched ...
-
-The monitor searching is added in:
- [PATCH v4 28/41] arm_mpam: resctrl: Pick classes for use as mbm counters
-This does seems like a bad code split. Even more so as csu counters are
-added before the mbm counters.
-
-> 
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +int mpam_resctrl_online_cpu(unsigned int cpu)
-> > +{
-> > +	struct mpam_resctrl_res *res;
-> > +	enum resctrl_res_level rid;
-> > +
-> > +	guard(mutex)(&domain_list_lock);
-> > +	for_each_mpam_resctrl_control(res, rid) {
-> > +		struct mpam_resctrl_dom *dom;
-> > +
-> > +		if (!res->class)
-> > +			continue;	// dummy_resource;
-> > +
-> > +		dom = mpam_resctrl_get_domain_from_cpu(cpu, res);
-> 
-> Consider a system that only supports monitoring (exposed_alloc_capable == false,
-> exposed_mon_capable == true). Since mpam_resctrl_get_domain_from_cpu() only
-> searches control domains then it looks to me as though dom will always be false
-> here?
-> 
-> > +		if (!dom) {
-> > +			dom = mpam_resctrl_alloc_domain(cpu, res);
-> 
-> Would this (on hypothetical exposed_alloc_capable == false, exposed_mon_capable == true system)
-> then cause a new domain to be allocated for each CPU with a single CPU in its cpumask
-> instead of allocating a single monitoring domain with multiple CPUs in its mask?
-> 
-> > +		} else {
-> > +			if (exposed_alloc_capable) {
-> > +				struct rdt_ctrl_domain *ctrl_d = &dom->resctrl_ctrl_dom;
-> > +
-> > +				mpam_resctrl_online_domain_hdr(cpu, &ctrl_d->hdr);
-> > +			}
-> > +			if (exposed_mon_capable) {
-> > +				struct rdt_l3_mon_domain *mon_d = &dom->resctrl_mon_dom;
-> > +
-> > +				mpam_resctrl_online_domain_hdr(cpu, &mon_d->hdr);
-> > +			}
-> > +		}
-> > +		if (IS_ERR(dom))
-> > +			return PTR_ERR(dom);
-> > +	}
-> > +
-> > +	resctrl_online_cpu(cpu);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +void mpam_resctrl_offline_cpu(unsigned int cpu)
-> > +{
-> > +	struct mpam_resctrl_res *res;
-> > +	enum resctrl_res_level rid;
-> > +
-> > +	resctrl_offline_cpu(cpu);
-> > +
-> > +	guard(mutex)(&domain_list_lock);
-> > +	for_each_mpam_resctrl_control(res, rid) {
-> > +		struct mpam_resctrl_dom *dom;
-> > +		struct rdt_l3_mon_domain *mon_d;
-> > +		struct rdt_ctrl_domain *ctrl_d;
-> > +		bool ctrl_dom_empty, mon_dom_empty;
-> > +
-> > +		if (!res->class)
-> > +			continue;	// dummy resource
-> > +
-> > +		dom = mpam_resctrl_get_domain_from_cpu(cpu, res);
-> > +		if (WARN_ON_ONCE(!dom))
-> 
-> Similar to above ... it looks to me as though this WARN may always be
-> encountered on a system that only supports monitoring.
-
-I think monitor only systems, (exposed_alloc_capable == false,
-exposed_mon_capable == true), are handled properly from
-[PATCH v4 28/41] arm_mpam: resctrl: Pick classes for use as mbm counters
-onwards in the series.
-
-I'll look into making the division into commits better.
-
-> 
-> > +			continue;
-> > +
-> > +		if (exposed_alloc_capable) {
-> > +			ctrl_d = &dom->resctrl_ctrl_dom;
-> > +			ctrl_dom_empty = mpam_resctrl_offline_domain_hdr(cpu, &ctrl_d->hdr);
-> > +			if (ctrl_dom_empty)
-> > +				resctrl_offline_ctrl_domain(&res->resctrl_res, ctrl_d);
-> > +		} else {
-> > +			ctrl_dom_empty = true;
-> > +		}
-> > +
-> > +		if (exposed_mon_capable) {
-> > +			mon_d = &dom->resctrl_mon_dom;
-> > +			mon_dom_empty = mpam_resctrl_offline_domain_hdr(cpu, &mon_d->hdr);
-> > +			if (mon_dom_empty)
-> > +				resctrl_offline_mon_domain(&res->resctrl_res, &mon_d->hdr);
-> > +		} else {
-> > +			mon_dom_empty = true;
-> > +		}
-> > +
-> > +		if (ctrl_dom_empty && mon_dom_empty)
-> > +			kfree(dom);
-> > +	}
-> > +}
-> > +
-> 
-> Reinette
-> 
+> Gentle ping...
 > 
 
-Thanks,
+Merge window is open now, so we can't accept any patches until -rc1. And I'm
+also waiting for an Ack from Steven for the tracing part.
 
-Ben
+- Mani
+
+> > Testing
+> > =========
+> > 
+> > This series was tested on RK3588/RK3588s EVB1 with NVMe SSD connected to PCIe3 and PCIe2
+> > root ports.
+> > 
+> > echo 1 > /sys/kernel/debug/tracing/events/pci_controller/pcie_ltssm_state_transition/enable
+> > cat /sys/kernel/debug/tracing/trace_pipe
+> > 
+> >   # tracer: nop
+> >   #
+> >   # entries-in-buffer/entries-written: 64/64   #P:8
+> >   #
+> >   #                                _-----=> irqs-off/BH-disabled
+> >   #                               / _----=> need-resched
+> >   #                              | / _---=> hardirq/softirq
+> >   #                              || / _--=> preempt-depth
+> >   #                              ||| / _-=> migrate-disable
+> >   #                              |||| /     delay
+> >   #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+> >   #              | |         |   |||||     |         |
+> >        kworker/0:0-9       [000] .....     5.600194: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_ACT rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600198: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_WAIT rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600199: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_ACT rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600201: pcie_ltssm_state_transition: dev: a40000000.pcie state: POLL_ACTIVE rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600202: pcie_ltssm_state_transition: dev: a40000000.pcie state: POLL_CONFIG rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600204: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LINKWD_START rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600206: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LINKWD_ACEPT rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600207: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LANENUM_WAI rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600208: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LANENUM_ACEPT rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600210: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_COMPLETE rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600212: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_IDLE rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600213: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 2.5 GT/s
+> >        kworker/0:0-9       [000] .....     5.600214: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600216: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600217: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_SPEED rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600218: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600220: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ1 rate: Unknown
+> >        kworker/0:0-9       [000] .....     5.600221: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ2 rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600222: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ3 rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600224: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600225: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600226: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600227: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600228: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600229: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600231: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600232: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600233: pcie_ltssm_state_transition: dev: a40000000.pcie state: L123_SEND_EIDLE rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600234: pcie_ltssm_state_transition: dev: a40000000.pcie state: L1_IDLE rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600236: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600237: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600238: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
+> >        kworker/0:0-9       [000] .....     5.600239: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
+> > 
+> > 
+> > Changes in v4:
+> > - use TRACE_EVENT_FN to notify when to start and stop the tracepoint,
+> >    and export pci_ltssm_tp_enabled() for host drivers to use
+> > - skip trace if pci_ltssm_tp_enabled() is false.(Steven)
+> > - wrap into 80 columns(Bjorn)
+> > 
+> > Changes in v3:
+> > - add TRACE_DEFINE_ENUM for all enums(Steven Rostedt)
+> > - Add toctree entry in Documentation/trace/index.rst(Bagas Sanjaya)
+> > - fix mismatch section underline length(Bagas Sanjaya)
+> > - Make example snippets in code block(Bagas Sanjaya)
+> > - warp context into 80 columns and fix the file name(Bjorn)
+> > - reorder variables(Mani)
+> > - rename loop to i; rename en to enable(Mani)
+> > - use FIELD_GET(Mani)
+> > - add comment about how the FIFO works(Mani)
+> > 
+> > Changes in v2:
+> > - use tracepoint
+> > 
+> > Shawn Lin (3):
+> >    PCI: trace: Add PCI controller LTSSM transition tracepoint
+> >    Documentation: tracing: Add PCI controller event documentation
+> >    PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
+> > 
+> >   Documentation/trace/events-pci-controller.rst |  42 ++++++++++
+> >   Documentation/trace/index.rst                 |   1 +
+> >   drivers/pci/controller/dwc/pcie-dw-rockchip.c | 111 ++++++++++++++++++++++++++
+> >   drivers/pci/trace.c                           |  20 +++++
+> >   include/linux/pci.h                           |   4 +
+> >   include/trace/events/pci_controller.h         |  57 +++++++++++++
+> >   6 files changed, 235 insertions(+)
+> >   create mode 100644 Documentation/trace/events-pci-controller.rst
+> >   create mode 100644 include/trace/events/pci_controller.h
+> > 
+
+-- 
+மணிவண்ணன் சதாசிவம்
