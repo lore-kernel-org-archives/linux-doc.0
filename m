@@ -1,89 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C769033120D;
-	Wed, 11 Feb 2026 09:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D14362DC781;
+	Wed, 11 Feb 2026 10:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770801838; cv=none; b=pGVnWJsVetG5ts7Kaav/cvLzVuE1SY+XdaA8zkKoKM1K2dk+x5CvrrPNhHlrsaZm/dIqHdxGrCQmUsxsBl2rON70bOHtdfDLEv3Q2QgSGNMlHRfFjABi1Ha0w0E7NlKuwGeUAug4BLxr/pd2KwlWVmRJa2VKnMbC7lAgcojw7O0=
+	t=1770807062; cv=none; b=Elf/1t2k03IgAseyNu5t5OqGpf+kYildoc+EChTpuKKLYiaayxrpOrNm1aWRZqGHi92ihK170HlOi/9u+jDvamZkEwnKt1sCV/nMEuL+I0CBQAcF1AAJU1/BeThU40n2ZbxxRq5SgoPSo+T5ztshTxIGdk01+eZhhOHUGuEnwMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770801838; c=relaxed/simple;
-	bh=zMMHzAbccCElgZnTTHunt2AaMFlxEi2Wrnpcdd+qN3s=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=uoL/9j0Tby4XhX4Q4dePn7ulvzqcweNqX0j2eC51E4pCKcaIdmtJk8mBXcJbG9lDGZCYuPZ79D4zV8OmTIbR+IjR8UlH+3rxHTAQiYorrVc0W5aulCzqoDwIfowMXeb7Xf+/RCXL1SV1ide3bn1VhCroDkXuiFD019Lhnav02Dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tskr0izw; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tskr0izw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 996A8C4CEF7;
-	Wed, 11 Feb 2026 09:23:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770801838;
-	bh=zMMHzAbccCElgZnTTHunt2AaMFlxEi2Wrnpcdd+qN3s=;
-	h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
-	b=Tskr0izwQHtPS47ll8VMuwygb2B8/DvwdW0zs9mUMb8ojVZDptC61rB+AcbAm2pjz
-	 nUqmYFe3UJPLOXlmQw9n66sar+7+PSp/cC8GmrS1MmQ9iG0KyMdAPLMKJUdCoxZF6I
-	 9QbdsW4ZD65VV4kE1kktJCbrC6FPhk4Anm7UehAEK8qt/6YjOcQmLzp/ssYL5WZ6TW
-	 MOXtvGDeRQT+oeG5fGA60KBgPkEGN7WpwC8TBKR5a0M1xmiKZofqk5hKsAPEpN4lyF
-	 4Y0TF8++5DSzOgzUVPh2w+ypiVibGAMNBJsmzUnE+jpZwjzko6xDzXMyQDyWcW852Z
-	 dmaT1NPn5BAbw==
+	s=arc-20240116; t=1770807062; c=relaxed/simple;
+	bh=Yl2PPkBaVN1AzxBHAty9XACl9vzViOcyOW0heW6L7lc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iab/mSbSyOTYH7yvWPZJj5cKQ5klY/PbTybSDfuuxeMsQguC6LqvL1WQVRJ4xE6n33DDKh65YP6IyU65PU9ATMbT/t00LgHCXuS8aLgcwVkt1DbcjnKSx+usvlgzY5ELjuZREMcwH4KPJym5rlciVZd9mASDm917L3yYbr7QjbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8171339;
+	Wed, 11 Feb 2026 02:50:45 -0800 (PST)
+Received: from e134344.arm.com (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D668F3F632;
+	Wed, 11 Feb 2026 02:50:46 -0800 (PST)
+Date: Wed, 11 Feb 2026 10:50:38 +0000
+From: Ben Horgan <ben.horgan@arm.com>
+To: Fenghua Yu <fenghuay@nvidia.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+	baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+	dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+	gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com,
+	kobak@nvidia.com, lcherian@marvell.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+	quic_jiles@quicinc.com, reinette.chatre@intel.com,
+	rohit.mathew@arm.com, scott@os.amperecomputing.com,
+	sdonthineni@nvidia.com, tan.shaopeng@fujitsu.com,
+	xhao@linux.alibaba.com, catalin.marinas@arm.com, will@kernel.org,
+	corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+	joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+	zengheng4@huawei.com, linux-doc@vger.kernel.org,
+	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+Subject: Re: [PATCH v4 20/41] arm_mpam: resctrl: Add CDP emulation
+Message-ID: <aYxe_rFXLSru5p-J@e134344.arm.com>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+ <20260203214342.584712-21-ben.horgan@arm.com>
+ <2271224c-1796-4823-8c2c-6f529814e645@nvidia.com>
+ <7a0953ff-6475-4311-b34c-47eed9d38cb1@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Feb 2026 10:23:47 +0100
-Message-Id: <DGC0UXBRSOPZ.PG0X6KTEA3RJ@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH -next v9 1/3] rust: clist: Add support to interface with
- C linked lists
-Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>,
- "Alex Deucher" <alexander.deucher@amd.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
- "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, "Alistair Popple" <apopple@nvidia.com>,
- "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea Righi"
- <arighi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "David Airlie"
- <airlied@gmail.com>, "Edwin Peer" <epeer@nvidia.com>, "John Hubbard"
- <jhubbard@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Balbir Singh"
- <balbirs@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- <joel@joelfernandes.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-fbdev@vger.kernel.org>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>
-References: <20260210233204.790524-1-joelagnelf@nvidia.com>
- <20260210233204.790524-2-joelagnelf@nvidia.com>
-In-Reply-To: <20260210233204.790524-2-joelagnelf@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7a0953ff-6475-4311-b34c-47eed9d38cb1@arm.com>
 
-On Wed Feb 11, 2026 at 12:32 AM CET, Joel Fernandes wrote:
-> Add a new module `clist` for working with C's doubly circular linked
-> lists. Provide low-level iteration over list nodes.
->
-> Typed iteration over actual items is provided with a `clist_create`
-> macro to assist in creation of the `CList` type.
->
-> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Acked-by: Gary Guo <gary@garyguo.net>
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+On Mon, Feb 09, 2026 at 03:36:32PM +0000, Ben Horgan wrote:
+> Hi Fenghua,
+> 
+> On 2/9/26 01:16, Fenghua Yu wrote:
+> > Hi, Ben,
+> > 
+> > On 2/3/26 13:43, Ben Horgan wrote:
+> >> From: James Morse <james.morse@arm.com>
+> >>
+> >> Intel RDT's CDP feature allows the cache to use a different control value
+> >> depending on whether the accesses was for instruction fetch or a data
+> >> access. MPAM's equivalent feature is the other way up: the CPU assigns a
+> >> different partid label to traffic depending on whether it was instruction
+> >> fetch or a data access, which causes the cache to use a different control
+> >> value based solely on the partid.
+> >>
+> >> MPAM can emulate CDP, with the side effect that the alternative partid is
+> >> seen by all MSC, it can't be enabled per-MSC.
+> >>
+> >> Add the resctrl hooks to turn this on or off. Add the helpers that
+> >> match a
+> >> closid against a task, which need to be aware that the value written to
+> >> hardware is not the same as the one resctrl is using.
+> >>
+> >> Update the 'arm64_mpam_global_default' variable the arch code uses during
+> >> context switch to know when the per-cpu value should be used instead.
+> >> Also,
+> >> update these per-cpu values and sync the resulting mpam partid/pmg
+> >> configuration to hardware.
+> >>
+> >> Awkwardly, the MB controls don't implement CDP. To emulate this, the MPAM
+> >> equivalent needs programming twice by the resctrl glue, as resctrl
+> >> expects
+> >> the bandwidth controls to be applied independently for both data and
+> >> instruction-fetch.
+> >>
+> >> Tested-by: Gavin Shan <gshan@redhat.com>
+> >> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> >> Tested-by: Peter Newman <peternewman@google.com>
+> >> CC: Dave Martin <Dave.Martin@arm.com>
+> >> CC: Amit Singh Tomar <amitsinght@marvell.com>
+> >> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> >> Signed-off-by: James Morse <james.morse@arm.com>
+> >> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> >> ---
+> >> Changes since rfc:
+> >> Fail cdp initialisation if there is only one partid
+> >> Correct data/code confusion
+> >>
+> >> Changes since v2:
+> >> Don't include unused header
+> >>
+> >> Changes since v3:
+> >> Update the per-cpu values and sync to h/w
+> >> ---
+> >>   arch/arm64/include/asm/mpam.h  |   1 +
+> >>   drivers/resctrl/mpam_resctrl.c | 117 +++++++++++++++++++++++++++++++++
+> >>   include/linux/arm_mpam.h       |   2 +
+> >>   3 files changed, 120 insertions(+)
+> >>
+> >> diff --git a/arch/arm64/include/asm/mpam.h b/arch/arm64/include/asm/
+> >> mpam.h
+> >> index 05aa71200f61..70d396e7b6da 100644
+> >> --- a/arch/arm64/include/asm/mpam.h
+> >> +++ b/arch/arm64/include/asm/mpam.h
+> >> @@ -4,6 +4,7 @@
+> >>   #ifndef __ASM__MPAM_H
+> >>   #define __ASM__MPAM_H
+> >>   +#include <linux/arm_mpam.h>
+> >>   #include <linux/bitfield.h>
+> >>   #include <linux/jump_label.h>
+> >>   #include <linux/percpu.h>
+> >> diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/
+> >> mpam_resctrl.c
+> >> index cd52ca279651..12017264530a 100644
+> >> --- a/drivers/resctrl/mpam_resctrl.c
+> >> +++ b/drivers/resctrl/mpam_resctrl.c
+> >> @@ -38,6 +38,10 @@ static DEFINE_MUTEX(domain_list_lock);
+> >>   static bool exposed_alloc_capable;
+> >>   static bool exposed_mon_capable;
+> >>   +/*
+> >> + * MPAM emulates CDP by setting different PARTID in the I/D fields of
+> >> MPAM0_EL1.
+> >> + * This applies globally to all traffic the CPU generates.
+> >> + */
+> >>   static bool cdp_enabled;
+> >>     bool resctrl_arch_alloc_capable(void)
+> >> @@ -50,6 +54,72 @@ bool resctrl_arch_mon_capable(void)
+> >>       return exposed_mon_capable;
+> >>   }
+> >>   +bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level rid)
+> >> +{
+> >> +    switch (rid) {
+> >> +    case RDT_RESOURCE_L2:
+> >> +    case RDT_RESOURCE_L3:
+> >> +        return cdp_enabled;
+> >> +    case RDT_RESOURCE_MBA:
+> >> +    default:
+> >> +        /*
+> >> +         * x86's MBA control doesn't support CDP, so user-space doesn't
+> > 
+> > s/x86's/ARM's/
+> 
+> In CPUs supporting MPAM the instruction/data distinction is made at the
+> CPU so doesn't depend on the specific control. The point this comment is
+> trying to make is that as x86 doesn't support CDP on MBA, resctrl, which
+> was initially x86 specific, expected CDP not to be supported on MBA and
+> hence MPAM/ARM64 has to match this behaviour. Therefore, the MPAM driver
+> doesn't support CDP on MBA either. In essence, the MPAM driver emulates
+> the x86 CDP behaviour. Having said that, this comment relies on the
+> reader knowing this historical context, and so I'll update it to not
+> reference x86 and just mention that it is the expectation of the resctrl
+> interface.
 
-I think you forgot to address my comments from [1].
+Looking a bit deeper into CDP I notice a couple of issues here that will make
+code change. The resctrl mount options for L2 and L3 cdp are separate and so
+they need to be considered separately here too.  Secondly, as 'CDP' in MPAM is
+controlled at the cpu interface rather than the component it needs to be hidden
+for the resources that it's not enabled for. (In MPAM, when 'CDP' is enabled
+PARTID_D and PARTID_I to different values in MPAMx_ELy and they take the same
+value when disabled.) As mbw_max is a per-partid maximum setting the same
+configuration for 2 partids is not the same as setting the value for a single
+partid. Furthermore, there is no way to pretend convincingly that the 2 partids
+are a a single partid. Hence, in MPAM the MBA resource can't hide CDP and needs
+to be disabled when MBA is enabled.
 
-[1] https://lore.kernel.org/all/DGB75XMWML8M.DFZY5L52EBQF@kernel.org/
+In the future, a resctrl mount option to enable CDP for the MBA resource could
+be considered. Some more thought is needed here though as it's not obvious how
+this would work with the software controller and would likely not work on other
+architectures.
+
+> 
+> > 
+> > Thanks.
+> > 
+> > -Fenghua
+> > 
+> > [SNIP]
+> 
+> Thanks,
+> 
+> Ben
+> 
+> 
