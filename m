@@ -1,52 +1,76 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA03927AC4C;
-	Wed, 11 Feb 2026 14:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5ABC183CC3;
+	Wed, 11 Feb 2026 14:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770820303; cv=none; b=ux9GgmGzzqQsCyvJAcfO997OXzp231L415+fQIxu947m6EHUOxOdN1K4OXb78w9HsAV5FnRae9ImzQ2FDPpsXst9g9eKdFGyU/2CUJG4dFZYl1HbYz2VVEOm0fkpQO2EhsYfE0UuTY+qusMblyag7GoTgslAYmG2chgEP0ENYwA=
+	t=1770820663; cv=none; b=qQS20iAPov+II/bwvPwrQH+WA3PdRYksZ4YxlHTp6lHz0dKh5gMSZ/I6dEuRPckKYR/REKZ513zUkxHs1xN7bBbcAAD0+eYr+OYR26PsnPO1fZrGdv2WQ1Bej0YLuIfdVTPIgHDSStqC3svU4TOuvmgurw6+Gqpbogp2fffU3UE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770820303; c=relaxed/simple;
-	bh=OBwfBDOtRxOg+R3bb3Yi0+4D8h91T4cO9da6oMYbtC8=;
+	s=arc-20240116; t=1770820663; c=relaxed/simple;
+	bh=6a6C1Oo2VXTtwxfCgh52YB7e/Bvv2ZnnllQSS7+LNqk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZctLl344uSuhYO2BWxn8z7mj6W7SYTz43L0Q1C8TuSUo78kfnbqZUYmFDw7ZmFhEkNjMe06bXlNPTMz3IlPJ11MrJM153lFD+9LxHZ0qpE8HY1gxbblYhwD6Ap6IwOAwc7eqs215Sa/VIEL4ka4BYKsbp5F3hKqXKSBimc88CUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 487E758C7D;
-	Wed, 11 Feb 2026 14:31:30 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf10.hostedemail.com (Postfix) with ESMTPA id E436132;
-	Wed, 11 Feb 2026 14:31:19 +0000 (UTC)
-Date: Wed, 11 Feb 2026 08:31:18 -0600
-From: John Groves <John@groves.net>
-To: Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V4 0/2] ndctl: Add daxctl support for the new "famfs"
- mode of devdax
-Message-ID: <aYyRBy5rBjTLSJQ6@groves.net>
-References: <0100019bd33a16b4-6da11a99-d883-4cfc-b561-97973253bc4a-000000@email.amazonses.com>
- <20260118223548.92823-1-john@jagalactic.com>
- <0100019bd34040d9-0b6e9e4c-ecd4-464d-ab9d-88a251215442-000000@email.amazonses.com>
- <aYpp_ShERlNvt4T_@aschofie-mobl2.lan>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NZG6pAKiqMDOxdwVIsDMQSQXiwYY6Q+X2GN74Zsr0ks39lHn3qsE1CRSj1N0n+YnUZSWM2C3rt4JOA8vlO3Iiz1iCRXCKwc/PBQ6rE1loT8//x01Itw0J7X8NGieeodr279H2KRmdCM4+dOxmRDrCLBL0SiiRRuPOEFX28yhQS0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QiHHMXte; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QiHHMXte"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770820661; x=1802356661;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6a6C1Oo2VXTtwxfCgh52YB7e/Bvv2ZnnllQSS7+LNqk=;
+  b=QiHHMXteZNhlfHyCFWZJM0u6+3nJpOdbIOgmoq7KiG4kpBEh3DSzoX5+
+   iq7lLM3R+LbO4D6GSs47sbO57d8mGcRGymBUjzTdfeUxpdzvNT71fIszw
+   nQ8bL7fESwb4VWLfH3HfbG4Qy1KLeJCc4GZPZFkzNFtqQ9i1SyC+RY7I2
+   HM0PFiySGIhwE7SrwR9sSDX7V93wBAKUL37WZCxcs6w+EMnDP3kM5ve+i
+   9chrVjAIsJoOtrhUYwLE6K5P3LsJJv76OcGmPOur2sN1kr9A1Rqi7QKJY
+   Heehr15gEiSan5wouf9CCBFK/joQ6QmKVsOkCOXqAzz2mYFQyN0nkEJsS
+   w==;
+X-CSE-ConnectionGUID: 8BUAK+DlQ+SdBjRzA86YLw==
+X-CSE-MsgGUID: 7+5ij7IXRtu4fJ+CUuulqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11698"; a="83410591"
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="83410591"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Feb 2026 06:37:40 -0800
+X-CSE-ConnectionGUID: 1olVpYRZQImHZO61gK3Adw==
+X-CSE-MsgGUID: WJelymD/S8WHbDyy+MdGww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
+   d="scan'208";a="212094960"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 11 Feb 2026 06:37:34 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vqBLQ-00000000q4e-2HC3;
+	Wed, 11 Feb 2026 14:37:32 +0000
+Date: Wed, 11 Feb 2026 22:37:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shenwei Wang <shenwei.wang@nxp.com>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-imx@nxp.com,
+	arnaud.pouliquen@foss.st.com, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v7 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Message-ID: <202602112252.gWFirLCA-lkp@intel.com>
+References: <20260210170814.406883-4-shenwei.wang@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,77 +79,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aYpp_ShERlNvt4T_@aschofie-mobl2.lan>
-X-Stat-Signature: bz6hwcxgps4omkj531ayzua3gwddyxmw
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: E436132
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+hsuGVOzSoRmhG2uC2cMlG3mLFFMoUNX0=
-X-HE-Tag: 1770820279-956788
-X-HE-Meta: U2FsdGVkX1/48tJ62rULMSB9K53/6K/1QehgF1yV9X74ahT4djs79150XoNYT9tLpZ+HpETC+WgoG/+rw+TvfcABVoQERj6emgHLLpO26wBrInhGj5bdC+1T3lVP5KKb48pfb5KTtBc4olxUi9NSS0f2cwo6BDjr7I+hNooZsy+yDYFZXSLnXpR4rhHRWP20kd0CybImaKcTcuGAyfNUOnGOf0zhGiWPTrZaHa6JUWPefJSpVNnXEqOnmez5o1oFvNv9Rw0AAk+ks7ICUARcoqPLcRLY/Cu+kwdgj9cl10LYHIzyPtmLXg8+r0g7hit4FTehOcoMnU8c9Wl0MzfpfskKIegTIeZhgBQvHA5ufkzFwTUpHk8A61I28+ymnJ1K
+In-Reply-To: <20260210170814.406883-4-shenwei.wang@nxp.com>
 
-On 26/02/09 03:13PM, Alison Schofield wrote:
-> On Sun, Jan 18, 2026 at 10:36:02PM +0000, John Groves wrote:
-> > From: John Groves <john@groves.net>
-> > 
-> > No change since V2 - re-sending due to technical challenges.
-> > 
-> > No change since V1 - reposting as V2 to keep this with the related
-> > kernel (dax and fuse) patches and libfuse patches.
-> > 
-> > This short series adds support and tests to daxctl for famfs[1]. The
-> > famfs kernel patch series, under the same "compound cover" as this
-> > series, adds a new 'fsdev_dax' driver for devdax. When that driver
-> > is bound (instead of device_dax), the device is in 'famfs' mode rather
-> > than 'devdax' mode.
-> > 
-> 
-> Hi John, 
-> 
-> I fired this all up and ran it. It got through all but it's last test
-> case before failing.
-> 
-> Three things appended:
-> 1) the diff I applied to daxctl-famfs.sh to run the test
-> 2) testlog.txt output of the test
-> 3) RIP: 0010:is_free_buddy_page+0x39/0x60 kernel log
-> 
-> 
-> 1) Diff I applied to execute the test:
-> 
-> diff --git a/test/daxctl-famfs.sh b/test/daxctl-famfs.sh
-> index 12fbfefa3144..a4e8d87b9762 100755
-> --- a/test/daxctl-famfs.sh
-> +++ b/test/daxctl-famfs.sh
-> @@ -9,6 +9,17 @@ rc=77
->  
->  trap 'cleanup $LINENO' ERR
->  
-> +# Use cxl-test module to get the DAX device of the CXL auto region,
-> +# which also makes this test NON destructive.
-> +#
-> +# The $CXL list below is a delay because find_daxdev() was not
-> +# finding the DAX region without it.
-> +#
-> +modprobe -r cxl-test
-> +modprobe cxl-test
-> +$CXL list
-> +
-> +
->  daxdev=""
->  original_mode=""
+Hi Shenwei,
 
-[snip]
+kernel test robot noticed the following build errors:
 
-Thank you Allison! I'm still working to reproduce the BUG you found (and 
-cover this in my jenkins automation), but I think I have the fix already: 
-when existing famfs mode (unbinding drivers/dax/fsdev.c), a
-fsdev_clear_folio_state() call is needed. I've added that for v8 as a devm
-action...
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on robh/for-next remoteproc/rproc-next linus/master v6.19 next-20260210]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I'm not 100% up to speed on how to use the test infrastructure, and may
-ping you with questions later...
+url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/dt-bindings-remoteproc-imx_rproc-Add-rpmsg-subnode-support/20260211-011505
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20260210170814.406883-4-shenwei.wang%40nxp.com
+patch subject: [PATCH v7 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+config: sparc-randconfig-r133-20260211 (https://download.01.org/0day-ci/archive/20260211/202602112252.gWFirLCA-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260211/202602112252.gWFirLCA-lkp@intel.com/reproduce)
 
-Regards,
-John
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602112252.gWFirLCA-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   sparc-linux-ld: drivers/gpio/gpio-rpmsg.o: in function `rpmsg_gpio_channel_probe':
+>> gpio-rpmsg.c:(.text+0x788): undefined reference to `rproc_get_by_child'
+>> sparc-linux-ld: gpio-rpmsg.c:(.text+0x834): undefined reference to `rproc_get_by_child'
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
