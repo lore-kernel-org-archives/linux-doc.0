@@ -1,277 +1,247 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EAA33A9F9;
-	Tue, 10 Feb 2026 23:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770766804; cv=fail; b=Aur05630tbg4PTA+mSDQDby5npyYkT7p5eDjX0FOzBcAiLyEfWpHYxpqvno1LBaX3ezBjQcArIDZxfQDvPMt6IRXvoCdRgQ/eawAbuXShgDO8S4a6pCBkBER7ta4eRkSFXgFUaWOEcgRxnqXUOcr24vLQxQ810Uuukil+T1NAAA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770766804; c=relaxed/simple;
-	bh=xgJNUKmgmm7l7OFmqW690eqoaIWsUVngNSrv24qSyfw=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=teofgGXDxpgh5tPcgA/vNEGk80/FNcZV4uHLZd1VMw5zCje+7H2CdTYJ+bw+4EUyk9km6SAWIBaY9PWVYb1pHIwtny7ShYIhvTIX5Wotjp5sgZ096FLaJjJ4yQH18Go+tfZGWDP37SthJF4LM5YGIjM+HP1TEMrsD+gbnYA8m5A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I75dhibv; arc=fail smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F08A3C465;
+	Wed, 11 Feb 2026 00:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770768571; cv=none; b=SCUELKP5niMSc2Jzvy163z8VvLKFUY2nLghF1sDa39wZZ/VhZg0yQZIYWLQIHL6ZLEznF421YbH7ZZzpsLe+6JWI23X5a617FnUnBQiMI3cs6Vb42H1e16qm/YHLOmh6VdjfPE6cR8EzTDco583/aQgkYVVCBEymyQUunslpr/A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770768571; c=relaxed/simple;
+	bh=PGSjreK4laPXnFm1B/0xauo/R+rULx+muFKhDH1hA7E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FB01CsrRl1qx8iVKeAYcxsC7rJhSgVAoRBTV2DxgzOy+FTSqkM4I5WzHaHdZ86ZTy+ng/U/hJnnfT395SxasfiRzsYDbKlipoAlcEsLuujd5iXdJujz95uKQPZkc+BbKsZAFXUbkhq0WyMSUicLPkXQ46D246vdbgUYCx8hKjQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=aey7S7E6; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I75dhibv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770766800; x=1802302800;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=xgJNUKmgmm7l7OFmqW690eqoaIWsUVngNSrv24qSyfw=;
-  b=I75dhibvnqrPEJAj78DYsWXoS50Xn8Hm5uDU6uqvyV/Spl71WLtBf2Ex
-   0BCNwQVRsr9ofZktMjSpMJ+RBvORyPrFGiSwWNE1YiXMF6NQFHcOf6Pgz
-   kxCzkzJljZ3FJYlUJM7eP5S7vL9eJzV3QCFA/fqOLwWbH7Q8d2DDRPaFM
-   g3CbVHcvSWCwT26VOczIlJUyNY8SSnMelbdb97gPxw8ahWj3ss13LkRIX
-   2J1Qncgi09o29Kd470TDXZH5kGKf7LqiE/zcAGo1b8xPDnH0E5wX16I3U
-   perW+64sS81p6nvGDBLY4FeJFkiUJ9elbo+eRpYgsN6NANKFa289wyacQ
-   g==;
-X-CSE-ConnectionGUID: 7569yVMwTquBsLEeOxNrqw==
-X-CSE-MsgGUID: DdazgN7CQoSAcUe8W+xE3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11697"; a="59475385"
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="59475385"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 15:39:59 -0800
-X-CSE-ConnectionGUID: jZd+wizEQJ2eaH1uPRa7Og==
-X-CSE-MsgGUID: +u79lyAySYiVcT0j0jykfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,283,1763452800"; 
-   d="scan'208";a="212102490"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2026 15:39:59 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 10 Feb 2026 15:39:58 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Tue, 10 Feb 2026 15:39:58 -0800
-Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.25) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 10 Feb 2026 15:39:58 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Nhj0wyu/ezN/fkKq1e8ZEz/Id9vQKlRYrTwsR2ow7H0RbYZtQ+4ukTcgSCnnyc0ltgYa3Bgmgt7Y91OTHYd8nT9Gg4tCd7kKr9YYKfu0yJ5Mxp86BaKDWhQEHtApvOOO4CXobed1+TaL9c2LmrW2Z/u7xeoCYGQlD4TOKe/SYbvN3Ra4CD6L+geb+hJeRaf2Z67E+tkzC3Nuc2e2wNXH4rs/zF2lRqTlw9KGLQKZHXHBKmQSL0xiXjdxdcmkP7pwcgeEuxqjnWpZSUO37jnusk5BzyEIuhwfrmBaBWTqfKyKr6r7/zSqmtSv3NY7ZELdIfYTMgVqn1Q9YAP+i+eOhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0sbdgXOZgWOodGDvQbAeOuUVQ9OiZTQ7JF/wf39fv/Y=;
- b=ND+EYPHLcZrauawNoJ8FbpAzyzyAlOii2HiaupKBmLIyhZ8qK7XrnGQDOQZSFqUNjcm1dVNaNhZd/6Fk1XZFv/JCi2lZN4X4s+GvhiTcRaI7d4eck1NzCj5chJuH/YNpWPMY2Wu/ARMRMUQYCkb7uwf3sQOVF8+c/WT+RFVatUy07fM8iMKVEXYxtPjVg+55B/7bwf+QVKJGHKcGloNwo5EgOZAPfPMxzSk58HSTKu1zktji/XbIuAC7WCN3v/Cj6prCddEywJAMl5dTQmdkM5Qr6anmj0nqdQ1GMcpN2G9rksyFEOkE6A3qdYd0qs6i+suz+3vJcGW9rkMsvm+JFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by SJ0PR11MB5135.namprd11.prod.outlook.com (2603:10b6:a03:2db::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.19; Tue, 10 Feb
- 2026 23:39:55 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::bfe:4ce1:556:4a9d]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::bfe:4ce1:556:4a9d%6]) with mapi id 15.20.9587.017; Tue, 10 Feb 2026
- 23:39:55 +0000
-Message-ID: <c8d53e59-5661-4ac2-bc8f-0661cde59967@intel.com>
-Date: Tue, 10 Feb 2026 15:39:51 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 15/41] arm_mpam: resctrl: Pick the caches we will use
- as resctrl resources
-To: Ben Horgan <ben.horgan@arm.com>
-CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
-	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
-	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
-	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
-	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
-	<quic_jiles@quicinc.com>, <rohit.mathew@arm.com>,
-	<scott@os.amperecomputing.com>, <sdonthineni@nvidia.com>,
-	<tan.shaopeng@fujitsu.com>, <xhao@linux.alibaba.com>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
-	<maz@kernel.org>, <oupton@kernel.org>, <joey.gouly@arm.com>,
-	<suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>, <zengheng4@huawei.com>,
-	<linux-doc@vger.kernel.org>, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-References: <20260203214342.584712-1-ben.horgan@arm.com>
- <20260203214342.584712-16-ben.horgan@arm.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <20260203214342.584712-16-ben.horgan@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0113.namprd04.prod.outlook.com
- (2603:10b6:303:83::28) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="aey7S7E6"
+Received: from [10.14.34.58] (unknown [131.107.1.186])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2A37720B7167;
+	Tue, 10 Feb 2026 16:09:24 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2A37720B7167
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1770768564;
+	bh=qdq0OTS1cnyJKI0m4amY0YNcRP9yyMsIbRMtck1kkLs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aey7S7E6dFJfF+SJpKGBWtuIRPLT/O0a8+T2rjo65cSHz4GHhH/CJHbfTToD7zroC
+	 U9+DsNiigCfytfwSvSIzgXn+m8CuKEzNCdbdSu497y+8xjrtVpS/hiPZGdMP/865pC
+	 dnbN1IYzcBY2G3Q8bLJTvPC7LSkrjd2UnXWXc8ck=
+Message-ID: <8db7000e-56ef-43cb-b5f6-bd55c1da0237@linux.microsoft.com>
+Date: Tue, 10 Feb 2026 16:09:22 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SJ0PR11MB5135:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5f77f1e-3735-4f91-5516-08de68fdb1a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cHdpbGp4c0Q1azJQUE5RQkpXU01TZVVLNFoxZGhyNUtuZ0VtbTVzdVh6UFhR?=
- =?utf-8?B?eWpiclJLMVFRa3AxR3UvVUUrb0xGUVh5Yjd6ajZhRHhPVkxuV2kwZ2c3OEl0?=
- =?utf-8?B?K3NKbTBybUt0OE5wdjNteVN6RlBWZ2hER2tzUTJndHhHc3ZwclI0dWRDRFBD?=
- =?utf-8?B?bFF0MldTQ3BjT0UwQWNtZ1VURDh2MWRJTVJBTlQvV1kwbUYycEpSTng0S1B2?=
- =?utf-8?B?NXBnL3NzSUdDTG5jaGs0ZFA3QmNyNFdRWmVGSnFUUjB3VjFrK1lnY3o4L0Jy?=
- =?utf-8?B?a2ZqNzMwYUxXQ21YRkN3bFhNY1hqa3pSTXVtSWhsL3ZZN3hCL1lHWnZ0Qkd1?=
- =?utf-8?B?L3M0bllEUms2YXlqVzEwb2oxM1owMlJocGNDUnJycGlhVDg0TlViTXJ5UTBG?=
- =?utf-8?B?cU01bHNXUjdmbDB5U2N6d3dZNFB4UWlNSzRveERzNlk1VVJ6clljSzVmQVlj?=
- =?utf-8?B?OXBpbVF3Ny9XUzVvVnpOM3l0LzVaOGdYOHBlNHdVWFhSRDhjcTRtWlArM3BT?=
- =?utf-8?B?WXJtL3h1MERoVnNjVlFDTlM4QWJZcUY2MFZsS1RyTFRCU3g2cmw3cC80WWFG?=
- =?utf-8?B?cWkvcmd0MG50MXIyTnpMTFlDTzFLeHE1WlZ4U2J2d2FmaHJhWVNkMkp6UDg1?=
- =?utf-8?B?Z0tBT1BMTzR5NnROUXU3c2luMTlGcVJLTDVwMEYyLzhuZTdsQldRSzY3cWd2?=
- =?utf-8?B?ZTdKL0o1dDNzNk42QTF6a25ETFJXOXpWaGJrOFhBSnNxUFRrNElCNGNhWnZ2?=
- =?utf-8?B?cVJZbzNIVkNqbXYxWVowR29WWkRadkRYMTQxVWg2NGtoNTJzZU5WUjFKaFRO?=
- =?utf-8?B?Nm9FQ2VTWVBpckptY3k3VzJwS3BTWHZGNGtkR2lmRlNKeFkvalNnYVcxZTBZ?=
- =?utf-8?B?NE1GWk9iRWJHQlVpc0RNalI5ckdPSVJOR1I5VHdRQmJkK1htSHJ4eDRUUWVk?=
- =?utf-8?B?RzFTdzE4ckd0ajQrYmlOSWZ2ZHpIWjAwc0l3MUFlQ1p6UjV2MG1IVE9NeDV4?=
- =?utf-8?B?MkNyMlFlSWR6N0VWVzEzUjU5d25aVlJwZFErR2lHZ3FlWENjaW4xN0JLVmY1?=
- =?utf-8?B?bVNiOGNQWU5jUlRiRVRIK0F1Wkx6bnBPTXVuZ09XMUdUb0ltUVJYZ3ZlNW4r?=
- =?utf-8?B?dDY0VGJyaVRQNUh4U2toRkcxYTRIQkxtaWlYdElwWEx4Y2VwWmd2VjJQbEV3?=
- =?utf-8?B?TVBaTjBqK3lmd1R0TkpHZnNzaWJ6QVMxWkRSUFJIbnE5TlZSTzNrYnhVanJG?=
- =?utf-8?B?TDhwRWM1WXU1Zlp3Z3Z1cGxqTFNZR1hRSUxzamIvMVhkd1BiK1BtN1A5VHA3?=
- =?utf-8?B?WUZFWHN5cHRyZGZhSHN0dXVDTlgyOE1RbzAySlVLaGplRjI3R250bDlGN3BW?=
- =?utf-8?B?NENHeEdveHhrSHdlRHZxWkF0bHRrTzdvcy9CRE5vYitPZ2VDdGJvaG9HTkJX?=
- =?utf-8?B?MlBRMC8yeDFFeUhuYTdFR21LOWVqc2ZZM1J5ekJycVFmMHlsZ3dIczU4Mk1o?=
- =?utf-8?B?T21rV0Vvb2k3MlF4VElrc0p1OXF1SVF5V2Z5MXQ3WkszNVd1bmFheUN5Ymly?=
- =?utf-8?B?SFZHNUJobXlNTG9pWlRVYmI3bWRHNjdHYW50empiUG5vWHZ5NUxWQ0x4SHE2?=
- =?utf-8?B?dllzSXhBRW9SblZ0VEl3aWEyK200Wm9YQk9qQldVK0hVODZ0WTdZbE9qMlo5?=
- =?utf-8?B?YSsybC9rTm5uSllGdmVVVEJtc3hXc1JvOGZnbUpnQURzMmRQcWd6M1R5Vi9F?=
- =?utf-8?B?NklBRGVMaWpLcXRJZ00xZlFGbEhNdDhMbkhwK0dXQk5Mc2lOb24zNzZlckl0?=
- =?utf-8?B?RkYxUWg0WlhZRVFwdXpSelV0bE9RK1B6UnpqcjVnc0hqWkZvMC9BV3JrYWwy?=
- =?utf-8?B?U2IrdkNweDU0OHlyVWZJdjM3Ti9rQWZxdUZGdk9leFVpUERUOW5OV0tiYzRQ?=
- =?utf-8?B?MTVHa0dvL2RwSGh4dCtPTGlyVUdXZzZMOTQ0Z0gyRFA4SlVQdTEyS0tKczA5?=
- =?utf-8?B?c0ViWlM4TkFuL1FNM2ltQ0dEUDNRbWFZbmFGMTJxNExVbWxRZ3F2TUFETStl?=
- =?utf-8?B?bFhsRFhCLzFYYmZqVSs4UjA2SnVQMzZHaWRuZ3UwNXBnVml0LzhHeGM4YlVq?=
- =?utf-8?Q?CGu4=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cStReXU1QXdIMHEwRUlsMTlTbVdGSmhaTGFQRzFQQkkzVGorQTBNVWRaaTNz?=
- =?utf-8?B?c00wZ1BQUDB6NXZVOUllUHE4T24rOUxnN2h5RGVya09ha2ZtS2N5QmpWV1FH?=
- =?utf-8?B?ZmFQaWpXQnBUMTBkeHoyZURsTEI3S1FTTEdkTWk4VTFYNjduOWpvTUZXYVlG?=
- =?utf-8?B?MC96VXpKeFNJdWNPMzlyZHBnT2NZR245c3BNbFJVOHlxemxVa0h2WkdqQVZi?=
- =?utf-8?B?Sy83S3BmVm9YYk5SZ1dPcEZDN0ZKVzR2NFNNNzhMeXF6NG92THRvbWVTVHRF?=
- =?utf-8?B?dDdzTjRqRXRUUFoySEVFRHpZTCtWTitnTTlnaUdCV1c3bGRnY3E0MjF3Q3B4?=
- =?utf-8?B?QkNqbksybkU1QlROMGNkY0g5VUpzdWZ6aWVicnFGU0psRWhubzJ2NlNuYTJp?=
- =?utf-8?B?OWNxRUF0Z0RvaWpRaDVtMXY3TVNUaHJ0Tk9reG1WbVI4dXlWV2ZOanBWL2VK?=
- =?utf-8?B?Wm4zekNYYVpLVksrZTlldnRrWXZacFY2WGhkTjY5ZWNCK0dkcWEzbE5RYSsy?=
- =?utf-8?B?b1h0YnZBcm1ZQlNOWDVDako5Ry9LUVBBTW1KSVNNT2YwWVRrL2hsUGJMeXJ4?=
- =?utf-8?B?ek5wRlp4Vm9qb3JTdWw2RUxHa0VMV1BmTWo3WVl5N3dVRmlGUGUzWUU3UHJ2?=
- =?utf-8?B?bmM1YkhmVXlSRkFmWGd0YmJobTEweXhpYXBjaEk0RHI1cFMzK213SEZldDJq?=
- =?utf-8?B?amFLVmlpT0lXaGxWd0VzMHkyWlhYSWd3aVllWFM4UG9qRDk4b2JtMXdLUHdL?=
- =?utf-8?B?Umx5aVNJTTB0NFVUVlRhZHYyRE9XeXpOcVlTTGhNY1JVYlZGY2xNWlU2cUxj?=
- =?utf-8?B?dTRsWVFscVBuMVA2WVcxYlpOYzhISlFMajBrUG04MmFDNEJhNGRNOE51KzlQ?=
- =?utf-8?B?d2hodytyaWF6aERVc0N1RzVNaVdjQjF6bEpLTEhZMlI4Wm5uRlNPaERiVUhP?=
- =?utf-8?B?aU1hSW9MTGY3YmtLVEJRS2loRzFrYzBRR052TFFkdjZPNXFmYThkWitmSGpk?=
- =?utf-8?B?aHJrT0RPVTRpdUVxclJIQW9CS1lQQ3FZK0FmeHJrbHkzdUdoOXpIdlBrTWhZ?=
- =?utf-8?B?aVdTOU5JdTNJSmdadFI1VllRQUFLdjJCSUE2TW9KR2JTMXVZMjVxUzgyS1NR?=
- =?utf-8?B?VGVxUWpjV0xsM0JKUXRrSVc1d1cydjRyM281RGxLcG5lNHBtU0ZKb0ZFckNG?=
- =?utf-8?B?bDNmb2I4Z2xvREhIK3NjcnJIaThIOXFjNk4vbXhXd0tycVdDN2E4bHVRRDZO?=
- =?utf-8?B?Q29XWEJIU2FBWDFpNEQ1S2ozVlphVExkTWNJMitPaTR5ZkNtc3RGY1BRN05F?=
- =?utf-8?B?SUJHUzd5cnhWT2Y2UHlHREhHNS9CRlRVV3UvNXZ2OUM3VlNtQUcxM1lqeFVL?=
- =?utf-8?B?eGFidXVHWjJqUmJrR1hyZVdnckEyN0h0TjBWdnNlaEgwbVlzN3lZT0JDMUo0?=
- =?utf-8?B?R2xTWDVKcGp2M2R1bVgwR3djbUd1UVpYbTZ6cE83QVQrYTlFdXcvdGhoeU1K?=
- =?utf-8?B?TGJZWUpzQ1JiWmdGTGtjeE80SFVBazMyb1BqUlRvMzV5RE81RDJ5ckhOZFRp?=
- =?utf-8?B?bWE0S0hYMnNXN0NCT1Urcm5DMGNwZ2tJR0lrMlpuN2k1SEpFQkxEM0ZRcE42?=
- =?utf-8?B?UzJlNGJvdE9UTFlVL2EyV3F6STFmaDJza0M1K1FWeEdSdVBFTVZJQ1djTng5?=
- =?utf-8?B?VkxGRjZsMDB6dTNmOXhaaS9mNFhBcy85L2Z6cnptL0NDa1BSM1JLSy9hdEJ4?=
- =?utf-8?B?eEYwenppUDRMZHd6K3lLSTZtSHpKMGxmYWRoSDJ0ZDluVmpaU1IxTGMwWHhR?=
- =?utf-8?B?YUtXaVA2NlN5bXR4aHRCZGwzS0ZsaElNRGlPM0c0OXdOLzJpZVBNL0dZZDkv?=
- =?utf-8?B?cWhCL2JTYm9qT0VtQ0sxS2Q2MXpTV201TzExWk1YbWtDaDM2R3Y0ZjBBTnJW?=
- =?utf-8?B?dmNrdUtNdGdvNzVyWFVTakwvcStTaXgyekY2eDV5MUo0QVpTejBnN09va0Jn?=
- =?utf-8?B?U3RkSjM0anA1U21yZVlKd0NJVC9iSWRpQmxCbktKdFEzWTlWa0pLTzF3M09T?=
- =?utf-8?B?RW53R2hCRG1nU1VYd2d0TnJKcUFWNVVMWlRnb216THlCTXBDRjkyb1VCdnFO?=
- =?utf-8?B?S0FkdnNqaEdTRWl3ZGVERmNEU2NMTGJVTHp3TVNkN2M4UDhheDRRdzVxRXV4?=
- =?utf-8?B?RjVUUGJOUVkrZDlaMzVqMjZhQm5sTjhwdWVnT0hUTzNpTmxWSCtYUVc5emw0?=
- =?utf-8?B?S1ZUczAxN0dSNWFISUtFbEFnMUtVTlV2VWdTTzJCZWo0N280QUlxNElyUXMz?=
- =?utf-8?B?TjBwcVdUZEplcldjcjNyNzJEdXBpbTZYSytFUXlkZmxHYmtUUG9pdzNFK25w?=
- =?utf-8?Q?/WSWewoidMwNqjAM=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5f77f1e-3735-4f91-5516-08de68fdb1a6
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2026 23:39:55.0985
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OZLjaOi1kQysChAFYtY0gaN9Pa6NyprjxBtioaMt8oRyJsl6obUN0NDF4eKos6ElzVbE3G7FSQaK48bkLV7u+fkJH5empqoSQ10x/SsHUow=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5135
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH v2] ima: Add support for staging measurements for
+ deletion and trimming
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+ zohar@linux.ibm.com, dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com,
+ paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ steven chen <chenste@linux.microsoft.com>
+References: <20251212171932.316676-1-roberto.sassu@huaweicloud.com>
+ <6b36d6b3-34e8-4bdc-bd68-d71ddf44eba8@linux.microsoft.com>
+ <52069703-98fc-4667-8c29-446ea73249cb@huaweicloud.com>
+Content-Language: en-US
+From: steven chen <chenste@linux.microsoft.com>
+In-Reply-To: <52069703-98fc-4667-8c29-446ea73249cb@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Ben,
+On 1/29/2026 12:20 AM, Roberto Sassu wrote:
+> On 1/28/2026 10:30 PM, steven chen wrote:
+>> On 12/12/2025 9:19 AM, Roberto Sassu wrote:
+>>> From: Roberto Sassu <roberto.sassu@huawei.com>
+>>>
+>>> Introduce the ability of staging the entire (or a portion of the) IMA
+>>> measurement list for deletion. Staging means moving the current 
+>>> content of
+>>> the measurement list to a separate location, and allowing users to 
+>>> read and
+>>> delete it. This causes the measurement list to be atomically truncated
+>>> before new measurements can be added. Staging can be done only once 
+>>> at a
+>>> time. In the event of kexec(), staging is reverted and staged 
+>>> entries will
+>>> be carried over to the new kernel.
+>>>
+>>> User space is responsible to concatenate the staged IMA measurements 
+>>> list
+>>> portions following the temporal order in which the operations were 
+>>> done,
+>>> together with the current measurement list. Then, it can send the 
+>>> collected
+>>> data to the remote verifiers.
+>>>
+>>> Also introduce the ability of trimming N measurements entries from 
+>>> the IMA
+>>> measurements list, provided that user space has already read them. 
+>>> Trimming
+>>> combines staging and deletion in one operation.
+>>>
+>>> The benefit of these solutions is the ability to free precious kernel
+>>> memory, in exchange of delegating user space to reconstruct the full
+>>> measurement list from the chunks. No trust needs to be given to user 
+>>> space,
+>>> since the integrity of the measurement list is protected by the TPM.
+>>>
+>>> By default, staging/trimming the measurements list does not alter 
+>>> the hash
+>>> table. When staging/trimming are done, IMA is still able to detect
+>>> collisions on the staged and later deleted measurement entries, by 
+>>> keeping
+>>> the entry digests (only template data are freed).
+>>>
+>>> However, since during the measurements list serialization only the SHA1
+>>> digest is passed, and since there are no template data to 
+>>> recalculate the
+>>> other digests from, the hash table is currently not populated with 
+>>> digests
+>>> from staged/deleted entries after kexec().
+>>>
+>>> Introduce the new kernel option ima_flush_htable to decide whether 
+>>> or not
+>>> the digests of staged measurement entries are flushed from the hash 
+>>> table.
+>>>
+>>> Then, introduce ascii_runtime_measurements_staged_<algo> and
+>>> binary_runtime_measurement_staged_<algo> interfaces to 
+>>> stage/trim/delete
+>>> the measurements. Use 'echo A > <IMA interface>' and
+>>> 'echo D > <IMA interface>' to respectively stage and delete the entire
+>>> measurements list. Use 'echo N > <IMA interface>', with N between 1 and
+>>> LONG_MAX, to stage the selected portion of the measurements list, and
+>>> 'echo -N > <IMA interface>' to trim N measurements entries.
+>>>
+>>> The ima_measure_users counter (protected by the ima_measure_lock 
+>>> mutex) has
+>>> been introduced to protect access to the measurements list and the 
+>>> staged
+>>> part. The open method of all the measurement interfaces has been 
+>>> extended
+>>> to allow only one writer at a time or, in alternative, multiple 
+>>> readers.
+>>> The write permission is used to stage/trim/delete the measurements, the
+>>> read permission to read them. Write requires also the CAP_SYS_ADMIN
+>>> capability.
+>>>
+>>> Finally, introduce and maintain dedicate counters for the number of
+>>> measurement entries and binary size, for the current measurements list
+>>> (BINARY_SIZE), for the current measurements list plus staged entries
+>>> (BINARY_SIZE_STAGED) useful for kexec() segment allocation, and for the
+>>> entire measurement list without staging/trimming (BINARY_SIZE_FULL) 
+>>> useful
+>>> for the kexec-related critical data records.
+>> Is the following possible race condition for staged list:
+>>
+>> Agent A: create staged list            Staged list A1
+>>           new measurement added    Measurement list M1
+>>           Two lists in kernel: A1 and M1
+>>
+>> Agent B: read staged list (A1) to do verification
+>>           new measurement added    Measurement list M2
+>>           Two lists in kernel: A1 and M2
+>>
+>> Agent A: verified and remove staged list (A1)
+>>           new measurement added    Measurement list M3
+>>           One list in kernel: M3
+>>
+>> Agent C: create staged list            Staged list C1
+>>           new measurement added    Measurement list M4
+>>           Two lists in kernel: C1 and M4
+>>
+>> Agent B: remove staged list (?), C1 removed ---this will cause problem
+>>           new measurement added    Measurement list M5
+>>           One list in kernel: M5
+>>
+>> Agent C: try to remove staged list(?)
+>
+> If you remember the patch, we added a read-write protection to the 
+> measurements interfaces. As long as you keep the interface open for 
+> write no one else can make change on the staging. Sure, you can drop 
+> the write, and reopen for read, but then you should expect someone 
+> else to operate on the interface.
+>
+> If you want to be sure no one else changes the staged measurements, 
+> just keep the interface open for write, read the staged measurements 
+> and delete them.
+>
+> Roberto
+>
+For different use cases, we can compare lock time for both staged method 
+and trim N method:
 
-On 2/3/26 1:43 PM, Ben Horgan wrote:
-...
-> +
->  static int mpam_resctrl_control_init(struct mpam_resctrl_res *res)
->  {
-> -	/* TODO: initialise the resctrl resources */
-> +	struct mpam_class *class = res->class;
-> +	struct rdt_resource *r = &res->resctrl_res;
-> +
-> +	switch (r->rid) {
-> +	case RDT_RESOURCE_L2:
-> +	case RDT_RESOURCE_L3:
-> +		r->alloc_capable = true;
-> +		r->schema_fmt = RESCTRL_SCHEMA_BITMAP;
-> +		r->cache.arch_has_sparse_bitmasks = true;
-> +
-> +		r->cache.cbm_len = class->props.cpbm_wd;
-> +		/* mpam_devices will reject empty bitmaps */
-> +		r->cache.min_cbm_bits = 1;
-> +
-> +		if (r->rid == RDT_RESOURCE_L2) {
-> +			r->name = "L2";
+t1: user space measurement list lock time
+t2: kernel measurement list lock time
 
-This code is fine but highlights that resctrl fs should not let the
-arch need to do this since this name is used as part of user interface.
+     Stage approach use case 1:
+               1. read PCR quote
+               2. read list
+               3. attestation
+               4. get N from attestation response
+---          5. hold the list in the user space
+  ^   ---    6. hold the measurement list
+        ^     7. stage the list
+t1    t2   8. trim N
+        v     9. put the rest of stage back to measurement list
+  v   ---    10. release the measurement list
+---          11. release the list in the user space
+  For this case, agent race condition may happen
 
-> +			r->ctrl_scope = RESCTRL_L2_CACHE;
-> +		} else {
-> +			r->name = "L3";
-> +			r->ctrl_scope = RESCTRL_L3_CACHE;
-> +		}
-> +
-> +		/*
-> +		 * Which bits are shared with other ...things...
-> +		 * Unknown devices use partid-0 which uses all the bitmap
-> +		 * fields. Until we configured the SMMU and GIC not to do this
-> +		 * 'all the bits' is the correct answer here.
-> +		 */
-> +		r->cache.shareable_bits = resctrl_get_default_ctrl(r);
+   Stage approach use case 2:
+               1. read PCR quote
+---          2. hold the list in the user space
+  ^           3. stage the list
+               4. read list
+               5. attestation
+t1    ---  6. hold the measurement list
+          ^   7. get N from attestation response
+          t2  8. trim N
+          v    9. put the rest of stage back to measurement list
+  v    ---   10. release the measurement list
+---          11. release the list in the user space
+  For this case, no agent race condition happen
 
-I would like to recommend one style change to set r->alloc_capable as the final
-setting. This is the setting that informs resctrl fs that this resource needs
-attention. The reason I recommend this to be done last is if/when a future
-change adds some configuration here that may fail then it should not fail with
-r->alloc_capable as true while partially initialized.
+the following use case for trim N method
 
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
->  
->  	return 0;
->  }
-> @@ -324,7 +409,8 @@ int mpam_resctrl_setup(void)
->  		res->resctrl_res.rid = rid;
->  	}
->  
-> -	/* TODO: pick MPAM classes to map to resctrl resources */
-> +	/* Find some classes to use for controls */
-> +	mpam_resctrl_pick_caches();
->  
->  	/* Initialise the resctrl structures from the classes */
->  	for_each_mpam_resctrl_control(res, rid) {
+    Trim N approach use case:
+              1. read total trimmed T
+              2. read PCR quote
+              3. read list,
+              4. attestation
+              5. get N from attestation response
+---         6. hold the list in the user space
+  ^   ---   7. hold the measurement list
+        ^
+t1   t2   8. trim with format T:N, update T
+        v
+  v   ---    9 . release the measurement list
+---          10. release the list in the user space
+     no agent race condition happen
 
-Reinette
+For all use cases, I think for both t1 and t2, trim N method has better 
+result.
+
+Steven
+
+>> Possible solution?
+>>    Save the total number trimmed T or tag
+>>
+>>    Trim request sync this parameter to trim the staged list
+>>
+>> Regards,
+>>
+>> Steven
+>>
+>>> Note: This code derives from the Alt-IMA Huawei project, and is being
+>>>        released under the dual license model (GPL-2.0 OR MIT).
+>>>
+>>> Link: https://github.com/linux-integrity/linux/issues/1
+>>> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+>>> --- 
+
