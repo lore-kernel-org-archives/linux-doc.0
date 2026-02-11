@@ -1,169 +1,204 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012045.outbound.protection.outlook.com [40.107.209.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968AC2DB7BF
-	for <linux-doc@vger.kernel.org>; Wed, 11 Feb 2026 15:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770824926; cv=none; b=gL6V08y2La+CNxk+dPhxhEiiqqDCMhU7EqYg4nx0GPBYbjFcj6gQPTtQAGw48YXSg2qSbwPqYhp+oshgPh//iaU+vdkaYspW8IdklesrVF/10WXFwGqBXiG2TG7HGWEW/Oa9tEALju0HydzxXfZDxaKdcaH+R2iwfWEAyx5jSGk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770824926; c=relaxed/simple;
-	bh=JuUdPkH25cCxwPFA1XouZJFR/geXAtZmuNACigwymFM=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=akKYLZqLP6u9SxqPfG2vElZBPJcirfhIQLqIrTtNF7MOmdSgiPiAsyfJD2h46ZJ1YnJD3E7DYr/i4ATptYCOkpv1TRXntv8HCpZq4RDmaNTgAEpVdh6Q9WloiZY21Kv8D88HPjELywYi1prtn0g5rdaM+n7j3JxhoSXzk3lvzs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZ8zF+dp; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4042223324;
+	Wed, 11 Feb 2026 16:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770827301; cv=fail; b=QwT8NMk6lAjUhSpUBTq9alXo/7o/IR7cpq48xPOg6Wy+SWgmkV2iMoiSKnuewitnNzfmQUxF5qbYYRVZKMJLEtWsbd5DNzbGp2ruCHl9WauYku83eLPBpJYanzopJ6SI1GHIALK6WrYLfNOgT4Sd75RxSntYulBrQXKVzWQfa7A=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770827301; c=relaxed/simple;
+	bh=y0y1IblXVUASRBH1AlXr7ycB++czFdUsM5JfzGqIWdc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=tOT+aUbmim64MAh5VrKF7gb3sKae4RoMYJnidqjCQVMNG/mMJKRz2LWMCqx4shKXdIYVV518vUzP+ugI3iocR8nKFxbMxmj1x+yvhZ4ls+F0AAEJLV53d/SYU+CFvlU3wG38D7VJMRKW3vr4/845LvsaAouxGNVBThdkmvOLooU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DGtuI1b7; arc=fail smtp.client-ip=40.107.209.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZ8zF+dp"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-4830f029407so10089095e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Feb 2026 07:48:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770824923; x=1771429723; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kUog19f3UA9QhTl6kEgUYlRzsmDFYZZB3pA0WGtflsQ=;
-        b=CZ8zF+dpNZKl6+9korVuEHUtjQcyKph5/xuVnhQ/zHKDD4GHw5oC9outveW2qMyR84
-         FlQYaqG+L+A7ZbVtwu6dNIuBC6/3HCTn8GkkL4nouo5Z8dqMMHL5HuE/S4LDwfZS+wxS
-         H2uaomOuoc1wQsetz4MgeYj0kTzWUOdkbZXLYGXfkdm/OFykNXK1uBNAlHdDTdWW+Nn4
-         mKRqCMq2gDv5xd0MXPAyBE/DZNiDjNq9kS32hs0OmrJbTErx49shurLbL50caoY8LmAC
-         gLVTAaAI86nhaTiCx9J92JdImssWpQbgMvmDMb7YoGcYj5aa3UeIkeNEW0zf4ZZBjdf6
-         sE8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770824923; x=1771429723;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kUog19f3UA9QhTl6kEgUYlRzsmDFYZZB3pA0WGtflsQ=;
-        b=aWKNukaR4zJTwTvas/8ykwgxlXRNp3GndCedTX8N8iYvmArLN/qFTnBMFfqtJ3ABWb
-         6XjRGZgtsr/9USLfWDZwDxxk3QkHa6gSlknU5bou9EH2C6CluL5EKcDMwCLwtlcbS1Ct
-         tXoI1DUDTNHX7nOeB2PQOemS7q8qrC3Te13J4B1J7WE6pVblkCrHYtGEHi0J0pAQEge1
-         QWcOVFtOJ694A8YQns3dYi/yhg9reXYpgXF0kQIBelM1sqjLKbRYIQsRKgOtg3AbROLG
-         QFLeNI48PCPCfls3MHT4L3SUqoMEVwUa4CqKgJeb0iw/5tJQTSnW2JXjCL0hHt39U6Yn
-         kx7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWKAPBkBxnGWS1f8fZziYGd3SsYpBLpn6ygjk30zw/aJjxsFLu6YQb8lgRQYKHmFhpfeo7ikJq+dgc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxFWQIJuvyZtiB6B52WK0H/70kMx7Obx1PzzQEKawifuVoEU29
-	kX9CR84g/ESsbhRX6nY6V8vqTu6l6VQyT16a+Q5nMzUU8GdtioTeGvJ7
-X-Gm-Gg: AZuq6aItAHcCk8db0XRUwpLaSntnnem2M+er74WaydROtGdUusvYT8avliMTw3y6Yem
-	jCtj++OKChMnVYzfF0inFEOvFx3nr05FGPVdsRrVOXHnlxzLfzPARP9zeWE9tsEopkf8ULeV2X6
-	Pr+cGDcFk16Hy2eb/iST3FT62C9hi5xwa7XX0t+F8GnAbmsA1gB2lYVQWQNZ9/Hh+r6ZcL/81im
-	1m4TNrdqmMEeMNC+/gD2646wkuJbYhDfetG9Y7/UUqLdod5/SyZCzowOy1qYv8jTmZsJ0x3nvOE
-	vxFw+TjjaJaklGApa+l9oKZltEiScNoEozkwa9rXwz4whRlYt1gd5g/E3v2VRRUgwEzFHWZLPZD
-	/8mj02y/k76+uieImCc7P0JDsZ1O+0bqsK7hg4ENVUZzYP00q7zd8RMDXb+TOz73jrr8BnX0+fC
-	K2QijmoEeSa/o4LMKAURVhsgY=
-X-Received: by 2002:a05:600c:8214:b0:475:d7b8:8505 with SMTP id 5b1f17b1804b1-4835e2dca60mr23446085e9.7.1770824922660;
-        Wed, 11 Feb 2026 07:48:42 -0800 (PST)
-Received: from skbuf ([2a02:2f04:d501:d900:d8ac:c964:9b43:1b13])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d82a4c4sm246760765e9.10.2026.02.11.07.48.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Feb 2026 07:48:42 -0800 (PST)
-From: Vladimir Oltean <olteanv@gmail.com>
-X-Google-Original-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-Date: Wed, 11 Feb 2026 17:48:39 +0200
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-phy@lists.infradead.org
-Subject: Re: [PATCH net-next] doc: generic phy: update generic PHY
- documentation
-Message-ID: <20260211154839.lbh4uovxr5b5s4nv@skbuf>
-References: <E1vo0mF-00000007kbg-1OeA@rmk-PC.armlinux.org.uk>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DGtuI1b7"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wzi1xOAri2qTFswhMql5AZbG0xhXQo1bNjQIFG4tFCkeiaen8TmzTdIFX0oim2owbcKHsdRBEKLOKQ+WHSuWpCl7DYj4+m0BmIbbR7zDBNvKBsTqJiATMZAZDRc2N68w9s0O7UZF1FQLJksKn4nz8EGTNHJ3uYTsYPCmLIKi9bw5NcRSt3TfiY+Kk4v/szVAWR6VLk8mYBHoGsnxzHsUMKQ/CfpHNm3BeSciIPzOS5my8uH8hQ9PgcZH2zpTcWSgt7RczOlpKxoxYuXeP8vB+I2AYU8c1Hvmp8Iqe9zbtjIFnrZAaxVV/GrU2RpNuVGBbYVkwBkuyR17E4tVVFtFdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y0y1IblXVUASRBH1AlXr7ycB++czFdUsM5JfzGqIWdc=;
+ b=JGZ23aywWgjGcIZrM2IJlhW4BhRaCSqtbmA13Oqukhwjatujc/mxE67hv0T/sf6CC6lwFes/akVqrZRfhGzmDbc8cQAXzBOXmxXZUpEz1xENThqKij5ZuLj4iPDvYUZkFs239DOPDgVH8itYtqllzC7A9uld40Lx+F+nYSvCbPyUwRLZXZsbSkWGrMoIcHeBSOoY0141ZTG8vXkPeAskLYB3f5Nb7ySg3hNn8YAxxZg6N4IPzS9oLg25eGpZXdHBFxNbXJQGgZbcdPlizvqzBsjvQme2Mv1o1shEuOJBbU/vgp3dqZufYP8KA9zmDQ7hfUorxdZYQzY4KTqaSajUsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y0y1IblXVUASRBH1AlXr7ycB++czFdUsM5JfzGqIWdc=;
+ b=DGtuI1b7MdH46prdnE/EOKBICBkAAQzXAF+3Ycs2zDgV5WwGrlQ/X9072EvuXRpHvW6GmsWaEL3lHXm8RUquhIJYWCTIfkF6TygJ9juyDn48pKLGBPZhoFLcHHEZqJGAqUYk1nnY9aa9s994gLDcXjhgXF7iLjApQGaEptX71YNf8e3ke9Q2p87RPRnMcd87B93ZB4bv1eQvISdIhwoQDbKZyv10qL9dPaOCcejhaD2JySEOC4G3z1QPvQmZypKkHZcsYxM8nMw1RrPm0pRjB+z5DvHLiZCHbaM+wHkWufYf8VboU/fUV/6KUsYRuHD6fxEaEw6K0DUQHVsFfFT+Rw==
+Received: from DS5PPF266051432.namprd12.prod.outlook.com
+ (2603:10b6:f:fc00::648) by CH2PR12MB4279.namprd12.prod.outlook.com
+ (2603:10b6:610:af::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.10; Wed, 11 Feb
+ 2026 16:28:14 +0000
+Received: from DS5PPF266051432.namprd12.prod.outlook.com
+ ([fe80::8e88:51e7:15c9:25fd]) by DS5PPF266051432.namprd12.prod.outlook.com
+ ([fe80::8e88:51e7:15c9:25fd%6]) with mapi id 15.20.9587.013; Wed, 11 Feb 2026
+ 16:28:14 +0000
+From: Cosmin Ratiu <cratiu@nvidia.com>
+To: Tariq Toukan <tariqt@nvidia.com>, "kuba@kernel.org" <kuba@kernel.org>
+CC: "corbet@lwn.net" <corbet@lwn.net>, "andrew+netdev@lunn.ch"
+	<andrew+netdev@lunn.ch>, "donald.hunter@gmail.com" <donald.hunter@gmail.com>,
+	"davem@davemloft.net" <davem@davemloft.net>, "leon@kernel.org"
+	<leon@kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>, "jiri@resnulli.us"
+	<jiri@resnulli.us>, "pabeni@redhat.com" <pabeni@redhat.com>, Jiri Pirko
+	<jiri@nvidia.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Carolina Jubran <cjubran@nvidia.com>, "horms@kernel.org" <horms@kernel.org>,
+	Mark Bloch <mbloch@nvidia.com>, "rdunlap@infradead.org"
+	<rdunlap@infradead.org>, Saeed Mahameed <saeedm@nvidia.com>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Gal Pressman
+	<gal@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, "krzk@kernel.org"
+	<krzk@kernel.org>
+Subject: Re: [PATCH net-next V7 07/14] devlink: Add parent dev to devlink API
+Thread-Topic: [PATCH net-next V7 07/14] devlink: Add parent dev to devlink API
+Thread-Index: AQHckEk1EtX0RVdGw063saWAUYQpRbVwYrmAgA1jhgA=
+Date: Wed, 11 Feb 2026 16:28:14 +0000
+Message-ID: <9d3d4e49cec85473619eb5166f01168a6ae3fd85.camel@nvidia.com>
+References: <20260128112544.1661250-1-tariqt@nvidia.com>
+	 <20260128112544.1661250-8-tariqt@nvidia.com>
+	 <20260202200035.742f9500@kernel.org>
+In-Reply-To: <20260202200035.742f9500@kernel.org>
+Reply-To: Cosmin Ratiu <cratiu@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS5PPF266051432:EE_|CH2PR12MB4279:EE_
+x-ms-office365-filtering-correlation-id: 889f26b2-9f2d-47a9-d97d-08de698a8e1d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|7416014|366016|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?aUMrcEdHWjZTZDN2UWxuK2JNSzhnVlVUOC9IL1BxVXp3OURFV3JKS2hxWE9T?=
+ =?utf-8?B?RUF3RGRJUDVLTUJuL2t5RCs5eStHdVRrRStyYW1YcEtiR0Rta0xxUHVOY3NE?=
+ =?utf-8?B?ZmU4Y1JKb1Y1ejhHRHRMSDV4cUtiMnBkdS9HYWRFRjczNjBUcUxDdWsvc2Ny?=
+ =?utf-8?B?d2JYRkI2OHBuMHdrSnAwTFIrbmpVbGs3cDUwWE1TelAveWlQUVNPR1lBOFFm?=
+ =?utf-8?B?d05LT1FuSG9DeXFDZHhEVjROcy9pK1ZwWkx2U01NMHBWbmU0a1NmTmV2ZTJ3?=
+ =?utf-8?B?WXlwcS9wdWNmZklQTUlHRFR5R0IxVGQ2ejQxN21VMENSRkVxek1vT2Y0SjZS?=
+ =?utf-8?B?UHhCMjMrOUZsQXNEN0VmYlNaQVpwL1FWbG9ZN3FERHdSOGR1MkViYVFQOEIw?=
+ =?utf-8?B?UTZRZEtUWG41Y3dkM2phbHBVSjlKVzN2ZWpFSXVCOFFBVE9IUDJnOG95eW10?=
+ =?utf-8?B?N3drKzNJSXA3MS9aOXJmRGZONDdhZVQ4TE1EUUtybzE4MWNhcWZubTBUSCtX?=
+ =?utf-8?B?V1FBbzlqSUo3akk5cnp0RnBtb29DblplZ3Iyc01kUmJLR3g5SEMxTEplTVYz?=
+ =?utf-8?B?OStxQTJsLzV4Rm5WWDQ5eU9xL24yTmVCVGFGK3IrNVNnZ1Vtb282NExQcU5m?=
+ =?utf-8?B?dVBGWlVnZkliUWpxRzNtaEovU0V3VWFRK0g5bUdMQjRXRWxoNnFxcjVWdEQ3?=
+ =?utf-8?B?cmFlcGFCNDBUSSt1czVxVGlVNXpSUVNKT1ZyYXkvaVpzYUIvWlV6SGpCUDZS?=
+ =?utf-8?B?M0JXUW5PbnlXblhzdU56NEUvend0d3hRKy9Pd2lsNWNWMndXbDloSFZ3c0NI?=
+ =?utf-8?B?dWtZUnM1S1lMWHoxU0lzQW5oMkhBOFRnTzROT2c4bW5xWVR0MTgycUd1V3d0?=
+ =?utf-8?B?YjlESXNLSWE0UFVhc2RxUStEYWFVZTBnOExTNTlvbGg1VEdORGNRckxRckdh?=
+ =?utf-8?B?K05kVGNMQUxWSHZYOXZaUVBOUGZJTE9pL1BKT1lKZzdrcjNlMDRDNUNFZlNh?=
+ =?utf-8?B?KzM1ZUxwd21KMm1RTWw0WjdhK3ZlUWZKUjZsOXhhNk1RQnJYRElBWDl4Z3VE?=
+ =?utf-8?B?Nm9BMC9hdXozRHlScXVRbmpVdlhvRGpwTC9TQUJaUHE1eUh4a2cxTGhEOTRJ?=
+ =?utf-8?B?bXl3T0tFTU9Sc3UvZkcvalZ4R0JXazNFQmtwU3hiSUt2NU5CTmtnUDI1STNP?=
+ =?utf-8?B?bjZGcmFCWkQxbjVtOVJtRkVJbVpVQ2Zjd0xtODhuT2ZzM1pxQjJOUTg3Nis3?=
+ =?utf-8?B?MTVtY1NuUEszV1lVTXBSb25MQWpVRHFDa0VNVWxoRTJLY1R4dyszVU84dHJ1?=
+ =?utf-8?B?TU1hN1UwSWRNMEZhTmw4TjZjbkxYMTlsOGM5anlZK0FPVXRxQmJMcXhhUVB1?=
+ =?utf-8?B?UU16ZE5jaEM1bU1nSkIxWjZ2T2tvTy84SzArVWRpcnB1UkNVWVpkazAxMWVE?=
+ =?utf-8?B?SFdJSmlOMm44cU1hTmhKclQ3QUx0Z0lCV21uZVJuRk9UZk1DL2tIRHN6Kzh2?=
+ =?utf-8?B?YWQzc3RSNzl0aG1NQ1ZPMG5IbDdueDFBYzFzc2pmeWd4bjJWWGxsRG96dnU3?=
+ =?utf-8?B?MzByYWkzM3JHZ0dmREVFUWJTZTk0UTZQY0xwcWt0QlhJaWU0MGF0ZUZzckQx?=
+ =?utf-8?B?SjcxYU9pSWZhRmlPak1CTU53d1hKdDdkdWNxa3dLRHhOaHJWckw1OFZVeHZH?=
+ =?utf-8?B?aU5HWXo0ajRSTU9hNXMzTnlFTjJ2WFZnUDJXRk5TeGl4NUZjSzR1Z0ZSVXd4?=
+ =?utf-8?B?ekNnb2p4T0h3SWdZNGErZklyS1NuelF1RTlDQ3cybkdGbGpGdXRDaDQzSXlz?=
+ =?utf-8?B?K01DRlRjbFNsUElXYjJHclh4dHMwNWZCbkx0Y2VtWFpIaEJFQzJrYmlxd2tt?=
+ =?utf-8?B?MUEzWDEwQlJDcVFaN1VvLzBzVm9UbW15eXNXUG5KTW1sMmx0UE5sZkc3MjB5?=
+ =?utf-8?B?bWxoMnlMZHJGQStUZGJCOTJlcHB1OFRaRDJESUkwb1VQQnFZNFZzaWUvaUx2?=
+ =?utf-8?B?bkRIL1dpQk5nOTdtY1RVSlFxN1kvM3V3dTduMHVNb0UrRGticXhZcEt6dC9S?=
+ =?utf-8?B?Z2QxZ0hFakFLTCt4dU9lNzlOaWV0c1V1NHRxZGlRaDBBMjVNNGZiTGw1Qlgw?=
+ =?utf-8?B?SlY0RFFmWVFldHFaR1VuemRHYzJYcjc0QVR1WXloUFBsb1l4VTZ1b1B4NC9H?=
+ =?utf-8?Q?svBHZSW2nuNDVuQoSWLUjmM=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS5PPF266051432.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?a0VtWlp0VXRBbnhjVitQbVNJaDBhOTVjV1JKM1ZnVlN0WDRpT0hWdUNLNUc2?=
+ =?utf-8?B?a3dQMitnTGR0am5ZeUFsbHdKZytOdktZMFlkVzBSMHFTdUJ4cTh4cGFBMEx2?=
+ =?utf-8?B?bTY4Zjl3b0ZCUEN4QzZXdUtXMHNKU2xmSmpYZC8wT0U2N0tMVjVERHMySmFX?=
+ =?utf-8?B?dU1MTXNMazhXMW9UZWh4UDcwS0xXK1NQQWxFenlqYWozRzlNeE9iWVgyMU5O?=
+ =?utf-8?B?RUtobUJQTFZnWXRwZklDN3FiN0hzVklaaldwRS94Tk9pMEJXUTU2ckZHMUtj?=
+ =?utf-8?B?WWFRNWh0T1RaNFFuN0lGTUxJVnBSUnhzQkNsejBsbGI0RnM3eUM5blNQUGdY?=
+ =?utf-8?B?dktOdEg5Z3hmdmZTWnZoUk1xaGV6ZXplamp6b0RXU1R1TnJRZEl4YXBWOWpu?=
+ =?utf-8?B?bWdETnFHcTFsbUdENGNxNzljT2ZCaXJKaFQxQlRML0wrOWhwU2ZjZGN4ekMw?=
+ =?utf-8?B?YlUvMlVxNmk5S3M0ajlEQnJtdlJTZXBCbDJ5NlRsdE0xditmMnVsdlFmd2Rs?=
+ =?utf-8?B?T2FoUjVUVDhyTG5PMGFuN2NlTlAxNXJzbHYrLytVZEVpQ2JXNUQ3TnBiQjJw?=
+ =?utf-8?B?S3h1K0NJdDNyZ1hjLzBDM3RlNDdVR2VBbkxlS2lFMTlCREpBWndkTHAxRTZG?=
+ =?utf-8?B?WEo3YXpYcDZyOU1BSkdmVG5ZWUZ0SWdFUnQ5VWhGVDBHd3BibFhzYkdTU25w?=
+ =?utf-8?B?M3kvdFJSbDB4QWhhVHc0VmRKcDNVY2JST05yWWhya1F1SXh6OEtxVjFNSStR?=
+ =?utf-8?B?dWd5aVo2SDlwQkhxc3VKVG9MaGZUWG12Q3VmL3RrNnFzOUI1Wm80R1JhV2Jl?=
+ =?utf-8?B?dFJOSjAraXlMZ204ZU80OFkvQ0VraENHcHBUOE1YOGJrdmZEVHdVTjUwQ1g4?=
+ =?utf-8?B?OHlPRUhLN2ZCT2g0OE12ZG1hNTFWWHF3R0NqVzJrWUswVEtUUFdBM3ZMNyty?=
+ =?utf-8?B?TEdjOWs2NDUraDdVdXdSaFVaMXFqK29VWEg0b2JENHhGN082T2ozZEdYK0tz?=
+ =?utf-8?B?Q3lZVnlhd2UxS3BJOFI3SjA5clFIcGpvM0djRDhDMi9wT1ZpNm14NVNmS0hz?=
+ =?utf-8?B?YWpGOXZXUHJ6RUhBTVk2Z2pWa0xxQnU5aTdSMmIwYndBSXl2dkRBT0JrbDh2?=
+ =?utf-8?B?TWQ3TUhxTmx4UTJJaVp6SVBlZ1BzeVdkYlNzL1VjTW9maWlzQStDcFBDNmp6?=
+ =?utf-8?B?RGZCc2tsS05jSHEwN29ESE9Sd1RBenk0MlJQcUI1MjdpeVhnOGlwZVNlMVRO?=
+ =?utf-8?B?NVQrL29HZ24vVmd0QTVMNDlISGlZZ0xuMzJFUklrK2Nzb3lJMXU4eTlReGts?=
+ =?utf-8?B?UWJDeHVYajhiWTVMYnBvRWhvMjlLWExza2EwQUFqOS9IN2ZIVG5KaUluaU1v?=
+ =?utf-8?B?am43WmhzTklHU294WFdJK09sMFFhSDN6YkxhRlUvMXZMeXhQS0YyRnhoZE1W?=
+ =?utf-8?B?YXdWcEJZMXlHVktNSG1KNFRyV3Fsc3NzTkFTTjVBekk2ZHM1QUhNMnpHeFFS?=
+ =?utf-8?B?VlhyclFCY3F5RE12S0poWWtJV1hEVHdIWlR0Nk8zRWhiVC91cktQelNjVTJp?=
+ =?utf-8?B?STUxU3MyRk1telhJMWRsVHJBZVZ1RkU4a2NpUVNvN1E1UGZ6U3h5aW0rYUkz?=
+ =?utf-8?B?UDdBZ1JOSVI2WFZOanJrd3JCWFd5SFVGV1ZQRVk3WjljV3JYcUhUVmpzOTN0?=
+ =?utf-8?B?SFRwb1FtQjYwMFA2V21HVXJxN21aOTNBTUJ6SzJhUHIwMm5KbzY2TzBLeVBn?=
+ =?utf-8?B?eWlmTmt3czduQVVGVUQ5OUZXV2xTSEc5aUJoYWpGNlZJZTRGSmpNUzdwM2Rw?=
+ =?utf-8?B?RXZEdUFaOEowQWFSRm1DdTJYbGtDRjQzc3I4b2RIbjVMOUFrYnVhd05sdGtE?=
+ =?utf-8?B?ajc2SmFaRVd0bnUvQmI4ZG5rNWFyV25ON2J6b2oweFNDc1hPaCtRR1RFNWxC?=
+ =?utf-8?B?emRwMmh4c1RhWXN3OWV5YjlPdzRpQVNWSHlYdUg1RDJBbER4M3AzUU5JdWVT?=
+ =?utf-8?B?bWlRU2pKbVNZNWJVM09FNUFvS21wV3RTd1RTTm9TakNwc0trRWkzcVFzUzRB?=
+ =?utf-8?B?dGw4ZHkyQ2FkdHRqakROc1V1dHl3NFlhK1pIV21ibFg3RXJZTmFqSG5teGdv?=
+ =?utf-8?B?SUdOQWxycG15NEpJNktmZnBOY3RvTmcreXdVQ3FJWmN3NDJrQW1xdGMrdE5x?=
+ =?utf-8?B?VmxpUGtNcVNiNlpOK2VSbHloa2VDQ0M1Mk1rQW9xbFpKOTU0Uk5nSFhOaUE3?=
+ =?utf-8?B?U3kzMmRmUU9pUzNNTEVLUkdOS1VFUnNBUE1pNklSWVhXL2ZnTzJGM01naW9Q?=
+ =?utf-8?B?dEE4bHlQTGo3SGQ2YzRtVGVUMzRTaHk1MmZYaENENU5CQjNXMUFJZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7C7082663EA17D459120DB7A63A88786@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <E1vo0mF-00000007kbg-1OeA@rmk-PC.armlinux.org.uk>
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS5PPF266051432.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 889f26b2-9f2d-47a9-d97d-08de698a8e1d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Feb 2026 16:28:14.3328
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /EO0+ng1N3Y/iWxjDFSOtGAnL1e19cMP0mBD9qm1DcotS1/zKI0iiTIWoL8nK9XrcUeo0xLxWqCGtbVS8CsjSA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4279
 
-On Thu, Feb 05, 2026 at 02:56:15PM +0000, Russell King (Oracle) wrote:
-> Update the generic PHY documentation as a result of the discussion for
-> the s32g submission.
-> 
-> Link: https://lore.kernel.org/r/aXtvDn_-pCuKPrnf@vaman
-> Signed-off-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> ---
-> I didn't get any replies to my follow-up question to Vinod:
-> 
->   Please also indicate in the documentation whether changing the submode
->   of the serdes (particularly for ethernet) is permitted without doing a
->   phy_power_down()..phy_power_up() dance around the phy_set_mode_ext()
->   call.
-
-There's certainly nothing *not* permitting that call sequence.
-
-> I also didn't get any response to:
-> 
->   For drivers such as stmmac, it will be important that details such as
->   whether phy_est_mode*() can be called with the PHY powered on are
->   riveted down and not left up to the generic PHY driver author - without
->   that, generic PHYs basically aren't usable from SoC/platform
->   independent code, and stmmac has bazillions of platform specific glue
->   already because of (a) bad code structuring and (b) lack of
->   generalisation through standardised interfaces that abstract platform
->   differences.
-> 
->   I want to be able for core stmmac code, or even phylink code (which
->   is even more platform generic) to be able to make use of generic PHY
->   stuff, but if the calls that can be made into generic PHY are platform
->   dependent, that is a blocking issue against that, and makes me question
->   why we have the generic PHY subsystem... it's not very generic if it
->   exposes the differences of each implementation to users of its
->   interfaces.
-
-It may well be that the "one consumer, multiple PHY providers, requiring
-unified behaviour" situation you bring up is sufficiently unique here,
-with stmmac/phylink, that local conventions are not sufficient.
-
-I'm not sure that precise answers exist for your questions. Rather,
-it's best if you could lay out common sense requirements, and generic
-PHY reviewers will make sure they are followed.
-
-As far as the framework is concerned, power and mode are fundamentally
-decoupled, so I think the documentation is actually muddying the waters,
-more than anything, by talking about a preferred calling order.
-If there's any connection between power and mode, it should be handled
-internally by the PHY provider driver.
-
->  Documentation/driver-api/phy/phy.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/driver-api/phy/phy.rst b/Documentation/driver-api/phy/phy.rst
-> index 719a2b3fd2ab..cf73e4fb0951 100644
-> --- a/Documentation/driver-api/phy/phy.rst
-> +++ b/Documentation/driver-api/phy/phy.rst
-> @@ -142,6 +142,7 @@ Order of API calls
->  
->      [devm_][of_]phy_get()
->      phy_init()
-> +    [phy_set_mode[_ext]()]
->      phy_power_on()
->      [phy_set_mode[_ext]()]
->      ...
-> @@ -154,7 +155,7 @@ but controllers should always call these functions to be compatible with other
->  PHYs. Some PHYs may require :c:func:`phy_set_mode <phy_set_mode_ext>`, while
->  others may use a default mode (typically configured via devicetree or other
->  firmware). For compatibility, you should always call this function if you know
-> -what mode you will be using. Generally, this function should be called after
-> +what mode you will be using. Generally, this function should be called before
->  :c:func:`phy_power_on`, although some PHY drivers may allow it at any time.
-
-My 2 cents: I would actually remove any reference to any sort of preferred
-call order. There's nothing in the framework to back up such a concept.
-Just say that it is recommended for PHY provider drivers to not rely on
-a particular calling order, such that PHY consumers have the freedom to
-choose depending on what suits them best.
-
->  
->  Releasing a reference to the PHY
-> -- 
-> 2.47.3
-> 
-> 
-> -- 
-> linux-phy mailing list
-> linux-phy@lists.infradead.org
-> https://lists.infradead.org/mailman/listinfo/linux-phy
+T24gTW9uLCAyMDI2LTAyLTAyIGF0IDIwOjAwIC0wODAwLCBKYWt1YiBLaWNpbnNraSB3cm90ZToN
+Cj4gPiArCQlpbmZvLT51c2VyX3B0clsxXSA9IHBhcmVudF9kZXZsaW5rOw0KPiANCj4gTGV0J3Mg
+Y29udmVydCBkZXZsaW5rIHRvIHVzZSBwcm9wZXIgb3ZlcmxheSBzdHJ1Y3Qgb3ZlciBpbmZvLT5j
+YiA/DQo+IFRoZSB1c2VyX3B0ciBhcnJheSBvbmx5IGhhcyB0d28gZW50cmllcyBzbyBkZXZsaW5r
+IHN0dWZmcyBhbGwgdGhlDQo+IGV4dHJhIHBvaW50ZXJzIGludG8gdGhlIHNlY29uZCBzbG90LiBC
+dXQgdGhlIGNiIGlzIG11Y2ggbGFyZ2VyIC0gNDhCDQo+IHNvIHdlIGNhbiBlYXNpbHkgZ2l2ZSBl
+YWNoIG9mIHRoZXNlIHZhbHVlcyBhIGRlZGljYXRlZCBwb2ludGVyLg0KDQpJIGFzc3VtZSB5b3Ug
+YXJlIHJlZmVycmluZyB0byBpbmZvLT5jdHgsIGFkZGVkIGJ5IFBhb2xvIGFzIHBhcnQgb2YgdGhl
+DQpuZXRzaGFwZXIgc2VyaWVzLiBJZiB0aGF0J3MgdGhlIGNhc2UsIHN1cmUsIEknbGwgY29udmVy
+dCBkZXZsaW5rIHRvDQp0aGF0IGFzIHBhcnQgb2YgdGhlIG5leHQgdmVyc2lvbiBvZiB0aGlzIHNl
+cmllcy4NCg0KPiANCj4gPiArCQkvKiBEcm9wIHRoZSBwYXJlbnQgZGV2bGluayBsb2NrIGJ1dCBk
+b24ndCByZWxlYXNlDQo+ID4gdGhlIHJlZmVyZW5jZS4NCj4gPiArCQkgKiBUaGlzIHdpbGwga2Vl
+cCBpdCBhbGl2ZSB1bnRpbCB0aGUgZW5kIG9mIHRoZQ0KPiA+IHJlcXVlc3QuDQo+ID4gKwkJICov
+DQo+IA0KPiBUbyBiZSBjbGVhciAtLSBkZXZsaW5rIGluc3RhbmNlcyBkbyBub3QgYmVoYXZlIGxp
+a2UgbmV0ZGV2IGluc3RhbmNlcy4NCj4gbmV0ZGV2IGluc3RhbmNlcyBwcmV2ZW50IHVucmVnaXN0
+cmF0aW9uIG9mIHRoZSBuZXRkZXYuDQo+IGRldmxpbmsgcmVmcyBhcmUgbm9ybWFsIHJlZnMsIHRo
+ZXkganVzdCBrZWVwIHRoZSBtZW1vcnkgYXJvdW5kLg0KPiBJZiBtZW1vcnkgc2VydmVzIG1lLi4N
+Cg0KSWYgbm8gcmVmZXJlbmNlIGlzIGhlbGQsIGEgY29uY3VycmVudCB1c2VyIG9wIGNvdWxkIHJl
+bGVhc2UgdGhlIHBhcmVudA0KZGV2bGluayBpbnN0YW5jZSBhbHRvZ2V0aGVyLCBhbmQgZnJlZSBp
+dHMgbWVtb3J5LCB0aGF0J3MgdGhlIHJlYXNvbiBmb3INCmtlZXBpbmcgYSByZWYgYWxpdmUgZm9y
+IHRoZSBkdXJhdGlvbiBvZiB0aGlzIHJlcXVlc3QuDQoNCkNvc21pbi4NCg==
