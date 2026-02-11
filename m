@@ -1,213 +1,84 @@
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47427324B0C;
-	Wed, 11 Feb 2026 08:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770799696; cv=pass; b=qxuemohowyt1QiAh/sDsG2PWOqNHwRiCaQWopfCV0juyVzXNQ/U2eq/yZwOdMK2r8yTYl4OlCOhie0C/811zA79gr3FB7kya3n0UJOmSd7wspVJMKdEyhpc+fQ5k0OwY+z9hIEjtmr7HW2yXsmh6stV0pTfHyX+f8R7WoGiJmyM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770799696; c=relaxed/simple;
-	bh=f+G8Ggd6Q1brldySKoXnnOrfgmS2m/dbULCycTeMqcE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SaWhxh1VTCtUTitM1zAEObwexkjeXWCpYspp85KlRjmn0gDK2tXl/PGMBg2fmtmpAafwCSoUZ/uaBVS6/m5usWJ+huugMsrHfavq+N6GrSsOlvDI5sBxWyZi+sex2zmjWQkRyLnvMM2z5ZQBaiL6hBf86+P50bXzQRFxxkEUzfw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=fcRExfDl; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1418B311597;
+	Wed, 11 Feb 2026 09:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770801561; cv=none; b=sbidF6NaTEy4G0bzsEs7taF4uWjPB5r5OGfnCfulbWqqAWAxgVPjYYYnPkSKCceVSXAhg9dVewJRcAtIFWSBDgrJZVVEqhKvZNitVhYmtQAiG4p9P6jcqcxciJAXRGEP6CbkZnOENYqnkNMkIJpzy1uMaQ8/ngpC/fQ3jryTiY0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770801561; c=relaxed/simple;
+	bh=78vTmn6thDBzfMtB97lbGjUwbhyWjHfpO01rDAwelEE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=KZISYO2d1UTcXUWMn3Nm1PApW4bldVTF4j5j+4rfZw0XBzt2uU2GGVbwgasIOyhg/iignWKATra9bSqypPAFlTC6zYwtphWsjCD6hqeLX4ebU3ROnAJA3cT3gELGIPOS/NkBetG4RqYslH8BV3R5K7/HRVt3B0e9xg6Je76dqkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVn6Hz7e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="fcRExfDl"
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 61B82PBK016725
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 11 Feb 2026 17:02:26 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 9437E109EFDF7;
-	Wed, 11 Feb 2026 17:02:24 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id HtAwUPxqo9H4; Wed, 11 Feb 2026 17:02:20 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id BEA4B109EFDEC; Wed, 11 Feb 2026 17:02:20 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1770796940;
-	cv=none; b=AibvlmCasadlIuImwfMfPyCIxbpiH3ZLgOqBbPhIq1bSqtX/B8RjM5Qks6Xdlw3ne+MvpJ+mnnlFvvvUkBuCfaRvKfUJxR5LhhqFYn4Ql1sUFkYZWBQqx9UNmYN5RuL3y2djc7lJmTTOVquVawR4gn06XP7hOsqPD1voW15+qpE=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1770796940; c=relaxed/relaxed;
-	bh=fLcNQu9Lddq2dLDqGsBdy7LUbO7A+xafv3J0/srrfe0=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding; b=ucVIqbRbFjj6ArGGlWXAI5IiPBXUsPLZDknSE+TS4/1qXSMqBF+c99mrWuHISCFympQfQREaNpO/aqqZweZGRJppjWzE5DYtz61egPgz0GPKj4x4Mv+jEfFhN0MmahAY1Dp5jDibXBDrzco9AMyxutZInQOAHqfB45O/rWtQVsE=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org BEA4B109EFDEC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1770796940;
-	bh=fLcNQu9Lddq2dLDqGsBdy7LUbO7A+xafv3J0/srrfe0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fcRExfDluC3+RGVT2hbak/T4IGWEq/HbHctHhSH3IDxPsvzU42BbrBWSCpEmcn4f8
-	 nzqcyqyWJ7414N9F0+QzjXg/bV9QxshLGh56L1zGKtQfTZuBWF710f4mHCOIWrv+0+
-	 ae5spvpvzmTPWm37sBJZvM3A6BM+bdXQku40FrWQ=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: corbet@lwn.net
-Cc: akiyks@gmail.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH v1] docs: ja_JP: process: translate 'Describe your changes'
-Date: Wed, 11 Feb 2026 17:02:18 +0900
-Message-ID: <20260211080218.890115-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVn6Hz7e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC37CC4CEF7;
+	Wed, 11 Feb 2026 09:19:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770801560;
+	bh=78vTmn6thDBzfMtB97lbGjUwbhyWjHfpO01rDAwelEE=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=aVn6Hz7exp0YJcrbUnRdD+gd17f1RCAA1sl62249pmqhZS29AgnCdsbpjMH8vQ6gs
+	 cSQv5HLMWxo2QDS1hKjJFEG/YQ3uBYw43zlB4S1skWSy39hiqhsDcP+QPulot0nfxO
+	 N8j7Uh02sfUFF5Jhx0zgR69nlFtP2B/SzwZCUn2oP0aJmSZAl8Ua0YFXABPQFIKkDM
+	 A5yL2AFL3lts4OTxoYgANVJoQuhUr1/6YkJ2GPgK/rEbSvM6fi6j8ESdROE7LSLGad
+	 OUlqfK9D+aK85lrsm9/ouuaH1cbTAOZNYb2LkVWX8e2xjyzD6r3ZBk4ldQggiNdhql
+	 8+jd/QPt2oy9w==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 11 Feb 2026 10:19:09 +0100
+Message-Id: <DGC0RDIBDEYB.195QJ6S6GF9WL@kernel.org>
+Subject: Re: [PATCH -next v9 0/3] rust: Add CList and GPU buddy allocator
+ bindings
+Cc: <linux-kernel@vger.kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Alex Deucher" <alexander.deucher@amd.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
+ <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
+ <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
+ "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Helge Deller" <deller@gmx.de>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>, "Alistair Popple" <apopple@nvidia.com>,
+ "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea Righi"
+ <arighi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Philipp Stanner"
+ <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "David Airlie"
+ <airlied@gmail.com>, "Edwin Peer" <epeer@nvidia.com>, "John Hubbard"
+ <jhubbard@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Balbir Singh"
+ <balbirs@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ <joel@joelfernandes.org>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <linux-fbdev@vger.kernel.org>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260210233204.790524-1-joelagnelf@nvidia.com>
+In-Reply-To: <20260210233204.790524-1-joelagnelf@nvidia.com>
 
-Translate the "Describe your changes" section in
-Documentation/translations/ja_JP/process/submitting-patches.rst.
+On Wed Feb 11, 2026 at 12:32 AM CET, Joel Fernandes wrote:
+> Link to v8: https://lore.kernel.org/all/20260209214246.2783990-1-joelagne=
+lf@nvidia.com/
+> Link to v7: https://lore.kernel.org/all/20260206004110.1914814-1-joelagne=
+lf@nvidia.com/
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- .../ja_JP/process/submitting-patches.rst      | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
+I already asked about this in [1], can you please add a changlog to your se=
+ries?
 
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
-t b/Documentation/translations/ja_JP/process/submitting-patches.rst
-index d61583399ef4..daf02b8983cf 100644
---- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -54,3 +54,34 @@ Documentation/devicetree/bindings/submitting-patches.rst=
- =E3=82=92=E8=AA=AD=E3=82=93=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=95
-=20
- =E5=A4=89=E6=9B=B4=E5=86=85=E5=AE=B9=E3=82=92=E8=AA=AC=E6=98=8E=E3=81=99=
-=E3=82=8B
- ------------------
-+
-+=E5=95=8F=E9=A1=8C=E3=82=92=E8=AA=AC=E6=98=8E=E3=81=97=E3=81=A6=E3=81=8F=
-=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E3=
-=83=91=E3=83=83=E3=83=81=E3=81=8C 1 =E8=A1=8C=E3=81=AE=E3=83=90=E3=82=B0=E4=
-=BF=AE=E6=AD=A3=E3=81=A7=E3=81=82=E3=81=A3=E3=81=A6=E3=82=82=E3=80=81
-+5000 =E8=A1=8C=E3=81=AE=E6=96=B0=E6=A9=9F=E8=83=BD=E3=81=A7=E3=81=82=E3=81=
-=A3=E3=81=A6=E3=82=82=E3=80=81=E3=81=9D=E3=82=8C=E3=82=92=E8=A1=8C=E3=81=86=
-=E5=8B=95=E6=A9=9F=E3=81=A8=E3=81=AA=E3=81=A3=E3=81=9F=E6=A0=B9=E6=9C=AC=E7=
-=9A=84=E3=81=AA=E5=95=8F=E9=A1=8C=E3=81=8C=E5=BF=85=E3=81=9A=E3=81=82=E3=82=
-=8B=E3=81=AF=E3=81=9A=E3=81=A7=E3=81=99=E3=80=82
-+=E4=BF=AE=E6=AD=A3=E3=81=99=E3=81=B9=E3=81=8D=E4=BE=A1=E5=80=A4=E3=81=AE=
-=E3=81=82=E3=82=8B=E5=95=8F=E9=A1=8C=E3=81=8C=E5=AD=98=E5=9C=A8=E3=81=97=E3=
-=80=81=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=8C=E6=9C=80=E5=88=
-=9D=E3=81=AE=E6=AE=B5=E8=90=BD=E4=BB=A5=E9=99=8D=E3=82=92=E8=AA=AD=E3=82=80=
-=E6=84=8F=E5=91=B3=E3=81=8C=E3=81=82=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92
-+=E7=B4=8D=E5=BE=97=E3=81=95=E3=81=9B=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=
-=E3=81=84=E3=80=82
-+
-+=E3=83=A6=E3=83=BC=E3=82=B6=E3=83=BC=E3=81=8B=E3=82=89=E8=A6=8B=E3=81=88=
-=E3=82=8B=E5=BD=B1=E9=9F=BF=E3=82=92=E8=AA=AC=E6=98=8E=E3=81=97=E3=81=A6=E3=
-=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=82=AF=E3=83=A9=E3=83=83=E3=82=
-=B7=E3=83=A5=E3=82=84=E3=83=8F=E3=83=B3=E3=82=B0=EF=BC=88=E3=83=AD=E3=83=83=
-=E3=82=AF=E3=82=A2=E3=83=83=E3=83=97=EF=BC=89=E3=81=AF
-+=E5=88=86=E3=81=8B=E3=82=8A=E3=82=84=E3=81=99=E3=81=84=E3=81=A7=E3=81=99=
-=E3=81=8C=E3=80=81=E3=81=99=E3=81=B9=E3=81=A6=E3=81=AE=E3=83=90=E3=82=B0=E3=
-=81=8C=E3=81=9D=E3=81=93=E3=81=BE=E3=81=A7=E9=9C=B2=E9=AA=A8=E3=81=A8=E3=81=
-=AF=E9=99=90=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82=E3=81=9F=E3=81=A8=
-=E3=81=88=E3=82=B3=E3=83=BC=E3=83=89=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E4=
-=B8=AD=E3=81=AB
-+=E8=A6=8B=E3=81=A4=E3=81=8B=E3=81=A3=E3=81=9F=E5=95=8F=E9=A1=8C=E3=81=A7=
-=E3=81=82=E3=81=A3=E3=81=A6=E3=82=82=E3=80=81=E3=83=A6=E3=83=BC=E3=82=B6=E3=
-=83=BC=E3=81=AB=E3=81=A9=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E5=BD=B1=E9=9F=
-=BF=E3=81=8C=E3=81=82=E3=82=8A=E5=BE=97=E3=82=8B=E3=81=8B=E3=82=92=E8=AA=AC=
-=E6=98=8E=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+Linux =E3=81=AE=E5=A4=9A=E3=81=8F=E3=81=AE=E7=92=B0=E5=A2=83=E3=81=AF=E3=
-=80=81=E4=B8=8A=E6=B5=81=E3=81=8B=E3=82=89=E7=89=B9=E5=AE=9A=E3=81=AE=E3=83=
-=91=E3=83=83=E3=83=81=E3=81=A0=E3=81=91=E3=82=92=E5=8F=96=E3=82=8A=E8=BE=BC=
-=E3=82=80=E4=BA=8C=E6=AC=A1=E7=9A=84=E3=81=AA=E5=AE=89=E5=AE=9A=E7=89=88=E3=
-=83=84=E3=83=AA=E3=83=BC=E3=82=84
-+=E3=83=99=E3=83=B3=E3=83=80=E3=83=BC=EF=BC=8F=E8=A3=BD=E5=93=81=E5=9B=BA=
-=E6=9C=89=E3=81=AE=E3=83=84=E3=83=AA=E3=83=BC=E3=81=AE=E3=82=AB=E3=83=BC=E3=
-=83=8D=E3=83=AB=E3=81=A7=E5=8B=95=E3=81=84=E3=81=A6=E3=81=84=E3=81=BE=E3=81=
-=99=E3=80=82=E3=81=97=E3=81=9F=E3=81=8C=E3=81=A3=E3=81=A6=E3=80=81=E5=A4=89=
-=E6=9B=B4=E3=82=92=E4=B8=8B=E6=B5=81=E3=81=B8
-+=E9=81=A9=E5=88=87=E3=81=AB=E6=B5=81=E3=81=99=E5=8A=A9=E3=81=91=E3=81=AB=
-=E3=81=AA=E3=82=8B=E6=83=85=E5=A0=B1=EF=BC=88=E7=99=BA=E7=94=9F=E6=9D=A1=E4=
-=BB=B6=E3=80=81dmesg =E3=81=AE=E6=8A=9C=E7=B2=8B=E3=80=81=E3=82=AF=E3=83=A9=
-=E3=83=83=E3=82=B7=E3=83=A5=E5=86=85=E5=AE=B9=E3=80=81=E6=80=A7=E8=83=BD=E5=
-=8A=A3=E5=8C=96=E3=80=81
-+=E3=83=AC=E3=82=A4=E3=83=86=E3=83=B3=E3=82=B7=E3=81=AE=E3=82=B9=E3=83=91=
-=E3=82=A4=E3=82=AF=E3=80=81=E3=83=8F=E3=83=B3=E3=82=B0=EF=BC=8F=E3=83=AD=E3=
-=83=83=E3=82=AF=E3=82=A2=E3=83=83=E3=83=97=E7=AD=89=EF=BC=89=E3=81=8C=E3=81=
-=82=E3=82=8C=E3=81=B0=E8=A8=98=E8=BC=89=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=
-=E3=81=95=E3=81=84=E3=80=82
-+
-+=E6=9C=80=E9=81=A9=E5=8C=96=E3=81=A8=E3=83=88=E3=83=AC=E3=83=BC=E3=83=89=
-=E3=82=AA=E3=83=95=E3=82=92=E5=AE=9A=E9=87=8F=E7=9A=84=E3=81=AB=E7=A4=BA=E3=
-=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=83=91=E3=83=
-=95=E3=82=A9=E3=83=BC=E3=83=9E=E3=83=B3=E3=82=B9=E3=80=81=E3=83=A1=E3=83=A2=
-=E3=83=AA=E6=B6=88=E8=B2=BB=E9=87=8F=E3=80=81
-+=E3=82=B9=E3=82=BF=E3=83=83=E3=82=AF=E3=83=95=E3=83=83=E3=83=88=E3=83=97=
-=E3=83=AA=E3=83=B3=E3=83=88=E3=80=81=E3=83=90=E3=82=A4=E3=83=8A=E3=83=AA=E3=
-=82=B5=E3=82=A4=E3=82=BA=E3=81=AE=E6=94=B9=E5=96=84=E3=82=92=E4=B8=BB=E5=BC=
-=B5=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E3=81=9D=E3=82=8C=
-=E3=82=92=E8=A3=8F=E4=BB=98=E3=81=91=E3=82=8B=E6=95=B0=E5=80=A4=E3=82=92
-+=E8=A8=98=E8=BC=89=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
-=E3=80=82=E3=81=BE=E3=81=9F=E3=80=81=E7=9B=AE=E3=81=AB=E8=A6=8B=E3=81=88=E3=
-=81=AA=E3=81=84=E3=82=B3=E3=82=B9=E3=83=88=E3=81=AB=E3=81=A4=E3=81=84=E3=81=
-=A6=E3=82=82=E8=AA=AC=E6=98=8E=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=
-=E3=81=84=E3=80=82=E6=9C=80=E9=81=A9=E5=8C=96=E3=81=AF=E9=80=9A=E5=B8=B8=E3=
-=80=81
-+CPU=E3=80=81=E3=83=A1=E3=83=A2=E3=83=AA=E3=80=81=E5=8F=AF=E8=AA=AD=E6=80=
-=A7=E3=81=AA=E3=81=A9=E3=81=AE=E3=82=B3=E3=82=B9=E3=83=88=E3=82=92=E4=BC=B4=
-=E3=81=84=E3=81=BE=E3=81=99=E3=80=82=E3=83=92=E3=83=A5=E3=83=BC=E3=83=AA=E3=
-=82=B9=E3=83=86=E3=82=A3=E3=82=AF=E3=82=B9=E3=81=AE=E5=A0=B4=E5=90=88=E3=81=
-=AF=E3=80=81=E7=95=B0=E3=81=AA=E3=82=8B
-+=E3=83=AF=E3=83=BC=E3=82=AF=E3=83=AD=E3=83=BC=E3=83=89=E9=96=93=E3=81=AE=
-=E3=83=88=E3=83=AC=E3=83=BC=E3=83=89=E3=82=AA=E3=83=95=E3=82=82=E7=99=BA=E7=
-=94=9F=E3=81=97=E3=81=BE=E3=81=99=E3=80=82=E3=83=AC=E3=83=93=E3=83=A5=E3=83=
-=BC=E3=82=A2=E3=81=8C=E3=82=B3=E3=82=B9=E3=83=88=E3=81=A8=E3=83=A1=E3=83=AA=
-=E3=83=83=E3=83=88=E3=82=92=E6=AF=94=E8=BC=83=E6=A4=9C=E8=A8=8E=E3=81=A7=E3=
-=81=8D=E3=82=8B=E3=82=88=E3=81=86=E3=80=81
-+=E6=9C=80=E9=81=A9=E5=8C=96=E3=81=AB=E3=82=88=E3=81=A3=E3=81=A6=E4=BA=88=
-=E6=83=B3=E3=81=95=E3=82=8C=E3=82=8B=E3=83=87=E3=83=A1=E3=83=AA=E3=83=83=E3=
-=83=88=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=82=82=E8=AA=AC=E6=98=8E=E3=81=
-=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E5=95=8F=E9=A1=8C=E3=81=8C=E7=89=B9=E5=AE=9A=E3=81=A7=E3=81=8D=E3=81=9F=
-=E3=82=89=E3=80=81=E5=AE=9F=E9=9A=9B=E3=81=AB=E3=81=A9=E3=81=AE=E3=82=88=E3=
-=81=86=E3=81=AA=E5=AF=BE=E7=AD=96=E3=82=92=E8=AC=9B=E3=81=98=E3=81=A6=E3=81=
-=84=E3=82=8B=E3=81=8B=E3=82=92=E6=8A=80=E8=A1=93=E7=9A=84=E3=81=AB=E8=A9=B3=
-=E3=81=97=E3=81=8F=E8=AA=AC=E6=98=8E=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=
-=81=95=E3=81=84=E3=80=82
-+=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=8C=E3=82=B3=E3=83=BC=
-=E3=83=89=E3=81=8C=E6=84=8F=E5=9B=B3=E3=81=97=E3=81=9F=E3=81=A8=E3=81=8A=E3=
-=82=8A=E3=81=AB=E5=8B=95=E4=BD=9C=E3=81=97=E3=81=A6=E3=81=84=E3=82=8B=E3=81=
-=8B=E3=82=92=E7=A2=BA=E8=AA=8D=E3=81=A7=E3=81=8D=E3=82=8B=E3=82=88=E3=81=86=
-=E3=80=81=E5=A4=89=E6=9B=B4=E5=86=85=E5=AE=B9=E3=82=92=E5=B9=B3=E6=98=93=E3=
-=81=AA=E8=A8=80=E8=91=89=E3=81=A7
-+=E8=AA=AC=E6=98=8E=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E9=87=8D=
-=E8=A6=81=E3=81=A7=E3=81=99=E3=80=82
-+
-+=E3=83=91=E3=83=83=E3=83=81=E8=AA=AC=E6=98=8E=E3=82=92 Linux =E3=81=AE=E3=
-=82=BD=E3=83=BC=E3=82=B9=E3=82=B3=E3=83=BC=E3=83=89=E7=AE=A1=E7=90=86=E3=82=
-=B7=E3=82=B9=E3=83=86=E3=83=A0 ``git`` =E3=81=AE=E3=80=8C=E3=82=B3=E3=83=9F=
-=E3=83=83=E3=83=88=E3=83=AD=E3=82=B0=E3=80=8D=E3=81=A8=E3=81=97=E3=81=A6=E3=
-=81=9D=E3=81=AE=E3=81=BE=E3=81=BE
-+=E5=8F=96=E3=82=8A=E8=BE=BC=E3=82=81=E3=82=8B=E5=BD=A2=E3=81=A7=E6=9B=B8=
-=E3=81=91=E3=81=B0=E3=80=81=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=AF=E5=
-=8A=A9=E3=81=8B=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=
-=AF :ref:`the_canonical_patch_format` =E3=82=92
-+=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
-=E3=80=82
-+
-+1 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=A7=E3=81=AF 1 =E3=81=
-=A4=E3=81=AE=E5=95=8F=E9=A1=8C=E3=81=A0=E3=81=91=E3=82=92=E8=A7=A3=E6=B1=BA=
-=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E8=AA=AC=E6=
-=98=8E=E3=81=8C=E9=95=B7=E3=81=8F=E3=81=AA=E3=82=8A=E5=A7=8B=E3=82=81=E3=81=
-=9F=E3=82=89=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=82=92
-+=E5=88=86=E5=89=B2=E3=81=99=E3=81=B9=E3=81=8D=E3=82=B5=E3=82=A4=E3=83=B3=
-=E3=81=A7=E3=81=99=E3=80=82:ref:`split_changes` =E3=82=92=E5=8F=82=E7=85=A7=
-=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-
-base-commit: a592a36e49372172d7c7551ec19ed18184c935e1
-prerequisite-patch-id: 5569479a56e04681cfd6b22f5de9d850e10c8f5f
---=20
-2.47.3
-
+[1] https://lore.kernel.org/all/DG0MRL6T7ACW.25G3GLJMP7PN1@kernel.org/
