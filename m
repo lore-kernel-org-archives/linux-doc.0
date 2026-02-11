@@ -1,148 +1,313 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4850F4A32;
-	Wed, 11 Feb 2026 15:19:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DBAA303CAE;
+	Wed, 11 Feb 2026 15:36:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770823184; cv=none; b=AFOo3/rdb1sqImhNblCGIJ7OKooddJC9vVCmYCf+5ObtZpKdmgjXcI2gHe9Pqp0lDIdccMHIZJrin7wnBbX1OjwRfUuE8NnEbPP8gyKCPusFRL2jft2Y8LHVTUdvl1mi9lci9bFN6YDLYQd6llwlFqdQgvEIA4aOpRvIxoMd3kM=
+	t=1770824216; cv=none; b=qNdbFlKR5Rf/QkjpMEDJcOZVSFtPR08k3iJNhDPt5tfw9pGKRJERcK6B3ZpZ3AYIuJxMT3rXM5k0aXmG4Dj6Bbrhu3H+BWzgHrcbdZeP1blntNCmAr+eBviF64kV+ot6K+ofQXx74Uo1PPedpU8XQZgH5k2xmiZXRXd5gj96HWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770823184; c=relaxed/simple;
-	bh=KS1e7CmG0w1tPJUBX/Ojww7iQLgyqXI8VM7PXu/UY2k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R7/dpQ1Kla3p0iTRgwIUP9k/+UQeS3E/or3tCo71fCuwAfgdWyT/ZirNrlRF2gRrFqdr0x+6ZUsJXVv6AYVdMj4DxiALR5PsCBCu82o2jpHYDiIhvXnRg1YCO5h2KtUT5n5SZyJnKRSqGFEaplfWBnN5AhoY1PW8bcFuWeM/TFw=
+	s=arc-20240116; t=1770824216; c=relaxed/simple;
+	bh=9eodLtiKiUBne97H3ZMFNsvvchRXNaUKeHTqVd37dgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IJY175sXhAmkxS+T6018/+07TtDr2yRX2Y/OrdUAUmt5aKPUR7qGDQtVBS9sHwf8Fbt7w7NWJopH6G7sTdEOI5UNSnL3TkNAkWcsO9sIMOE1rIjgj2jyGkEYBaY1m3ern8DrLSzhPWScdkY7DGho0p48/P0IMSO5uf24PTELROk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 47853339;
-	Wed, 11 Feb 2026 07:19:36 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0706C3F63F;
-	Wed, 11 Feb 2026 07:19:35 -0800 (PST)
-Message-ID: <a212711a-7af1-4daa-86e7-124ae15a9521@arm.com>
-Date: Wed, 11 Feb 2026 15:19:34 +0000
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34CA2339;
+	Wed, 11 Feb 2026 07:36:47 -0800 (PST)
+Received: from e134344.arm.com (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25FC83F63F;
+	Wed, 11 Feb 2026 07:36:48 -0800 (PST)
+Date: Wed, 11 Feb 2026 15:36:45 +0000
+From: Ben Horgan <ben.horgan@arm.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+	baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+	dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+	fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
+	jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+	quic_jiles@quicinc.com, rohit.mathew@arm.com,
+	scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+	tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com,
+	catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net,
+	maz@kernel.org, oupton@kernel.org, joey.gouly@arm.com,
+	suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+	zengheng4@huawei.com, linux-doc@vger.kernel.org,
+	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+Subject: Re: [PATCH v4 13/41] arm_mpam: resctrl: Add boilerplate cpuhp and
+ domain allocation
+Message-ID: <aYyiDRD6u6p4a98h@e134344.arm.com>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+ <20260203214342.584712-14-ben.horgan@arm.com>
+ <f2951303-6fe9-4674-bd16-0dbef39cc1d4@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 09/19] x86/resctrl: Add plza_capable in rdt_resource
- data structure
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
- reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, peterz@infradead.org,
- juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, akpm@linux-foundation.org,
- pawan.kumar.gupta@linux.intel.com, pmladek@suse.com,
- feng.tang@linux.alibaba.com, kees@kernel.org, arnd@arndb.de,
- fvdl@google.com, lirongqing@baidu.com, bhelgaas@google.com,
- seanjc@google.com, xin@zytor.com, manali.shukla@amd.com,
- dapeng1.mi@linux.intel.com, chang.seok.bae@intel.com,
- mario.limonciello@amd.com, naveen@kernel.org, elena.reshetova@intel.com,
- thomas.lendacky@amd.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, peternewman@google.com,
- eranian@google.com, gautham.shenoy@amd.com
-References: <cover.1769029977.git.babu.moger@amd.com>
- <7b7507eac245988473e7b769a559bd193321e046.1769029977.git.babu.moger@amd.com>
-From: Ben Horgan <ben.horgan@arm.com>
-Content-Language: en-US
-In-Reply-To: <7b7507eac245988473e7b769a559bd193321e046.1769029977.git.babu.moger@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f2951303-6fe9-4674-bd16-0dbef39cc1d4@intel.com>
 
-Hi Babu,
+Hi Reinette,
 
-On 1/21/26 21:12, Babu Moger wrote:
-> Add plza_capable field to the rdt_resource structure to indicate whether
-> Privilege Level Zero Association (PLZA) is supported for that resource
-> type.
+On Tue, Feb 10, 2026 at 02:57:29PM -0800, Reinette Chatre wrote:
+> Hi Ben,
 > 
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
->  arch/x86/kernel/cpu/resctrl/core.c     | 6 ++++++
->  arch/x86/kernel/cpu/resctrl/rdtgroup.c | 5 +++++
->  include/linux/resctrl.h                | 3 +++
->  3 files changed, 14 insertions(+)
+> On 2/3/26 1:43 PM, Ben Horgan wrote:
+> ...
+> > diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
+> > new file mode 100644
+> > index 000000000000..4c2248c92955
+> > --- /dev/null
+> > +++ b/drivers/resctrl/mpam_resctrl.c
+> > @@ -0,0 +1,343 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +// Copyright (C) 2025 Arm Ltd.
+> > +
+> > +#define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
+> > +
+> > +#include <linux/arm_mpam.h>
+> > +#include <linux/cacheinfo.h>
+> > +#include <linux/cpu.h>
+> > +#include <linux/cpumask.h>
+> > +#include <linux/errno.h>
+> > +#include <linux/list.h>
+> > +#include <linux/printk.h>
+> > +#include <linux/rculist.h>
+> > +#include <linux/resctrl.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/types.h>
+> > +
+> > +#include <asm/mpam.h>
+> > +
+> > +#include "mpam_internal.h"
+> > +
+> > +/*
+> > + * The classes we've picked to map to resctrl resources, wrapped
+> > + * in with their resctrl structure.
+> > + * Class pointer may be NULL.
+> > + */
+> > +static struct mpam_resctrl_res mpam_resctrl_controls[RDT_NUM_RESOURCES];
+> > +
+> > +#define for_each_mpam_resctrl_control(res, rid)					\
+> > +	for (rid = 0, res = &mpam_resctrl_controls[rid];			\
+> > +	     rid < RDT_NUM_RESOURCES;						\
+> > +	     rid++, res = &mpam_resctrl_controls[rid])
+> > +
+> > +/* The lock for modifying resctrl's domain lists from cpuhp callbacks. */
+> > +static DEFINE_MUTEX(domain_list_lock);
+> > +
+> > +static bool exposed_alloc_capable;
+> > +static bool exposed_mon_capable;
+> > +
+> > +bool resctrl_arch_alloc_capable(void)
+> > +{
+> > +	return exposed_alloc_capable;
+> > +}
+> > +
+> > +bool resctrl_arch_mon_capable(void)
+> > +{
+> > +	return exposed_mon_capable;
+> > +}
+> > +
+> > +/*
+> > + * MSC may raise an error interrupt if it sees an out or range partid/pmg,
+> > + * and go on to truncate the value. Regardless of what the hardware supports,
+> > + * only the system wide safe value is safe to use.
+> > + */
+> > +u32 resctrl_arch_get_num_closid(struct rdt_resource *ignored)
+> > +{
+> > +	return mpam_partid_max + 1;
+> > +}
+> > +
+> > +struct rdt_resource *resctrl_arch_get_resource(enum resctrl_res_level l)
+> > +{
+> > +	if (l >= RDT_NUM_RESOURCES)
+> > +		return NULL;
+> > +
+> > +	return &mpam_resctrl_controls[l].resctrl_res;
+> > +}
+> > +
+> > +static int mpam_resctrl_control_init(struct mpam_resctrl_res *res)
+> > +{
+> > +	/* TODO: initialise the resctrl resources */
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int mpam_resctrl_pick_domain_id(int cpu, struct mpam_component *comp)
+> > +{
+> > +	struct mpam_class *class = comp->class;
+> > +
+> > +	if (class->type == MPAM_CLASS_CACHE)
+> > +		return comp->comp_id;
+> > +
+> > +	/* TODO: repaint domain ids to match the L3 domain ids */
+> > +	/* Otherwise, expose the ID used by the firmware table code. */
+> > +	return comp->comp_id;
+> > +}
+> > +
+> > +static void mpam_resctrl_domain_hdr_init(int cpu, struct mpam_component *comp,
+> > +					 struct rdt_domain_hdr *hdr)
+> > +{
+> > +	lockdep_assert_cpus_held();
+> > +
+> > +	INIT_LIST_HEAD(&hdr->list);
+> > +	hdr->id = mpam_resctrl_pick_domain_id(cpu, comp);
+> > +	cpumask_set_cpu(cpu, &hdr->cpu_mask);
 > 
-> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
-> index 2de3140dd6d1..e41fe5fa3f30 100644
-> --- a/arch/x86/kernel/cpu/resctrl/core.c
-> +++ b/arch/x86/kernel/cpu/resctrl/core.c
-> @@ -295,6 +295,9 @@ static __init bool __rdt_get_mem_config_amd(struct rdt_resource *r)
->  
->  	r->alloc_capable = true;
->  
-> +	if (rdt_cpu_has(X86_FEATURE_PLZA))
-> +		r->plza_capable = true;
-> +
->  	return true;
->  }
->  
-> @@ -314,6 +317,9 @@ static void rdt_get_cache_alloc_cfg(int idx, struct rdt_resource *r)
->  	if (boot_cpu_data.x86_vendor == X86_VENDOR_INTEL)
->  		r->cache.arch_has_sparse_bitmasks = ecx.split.noncont;
->  	r->alloc_capable = true;
-> +
-> +	if (rdt_cpu_has(X86_FEATURE_PLZA))
-> +		r->plza_capable = true;
->  }
->  
->  static void rdt_get_cdp_config(int level)
-> diff --git a/arch/x86/kernel/cpu/resctrl/rdtgroup.c b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> index 885026468440..540e1e719d7f 100644
-> --- a/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> +++ b/arch/x86/kernel/cpu/resctrl/rdtgroup.c
-> @@ -229,6 +229,11 @@ bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level l)
->  	return rdt_resources_all[l].cdp_enabled;
->  }
->  
-> +bool resctrl_arch_get_plza_capable(enum resctrl_res_level l)
-> +{
-> +	return rdt_resources_all[l].r_resctrl.plza_capable;
-> +}
-> +
->  void resctrl_arch_reset_all_ctrls(struct rdt_resource *r)
->  {
->  	struct rdt_hw_resource *hw_res = resctrl_to_arch_res(r);
-> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-> index 63d74c0dbb8f..ae252a0e6d92 100644
-> --- a/include/linux/resctrl.h
-> +++ b/include/linux/resctrl.h
-> @@ -319,6 +319,7 @@ struct resctrl_mon {
->   * @name:		Name to use in "schemata" file.
->   * @schema_fmt:		Which format string and parser is used for this schema.
->   * @cdp_capable:	Is the CDP feature available on this resource
-> + * @plza_capable:	Is Privilege Level Zero Association capable?
->   */
->  struct rdt_resource {
->  	int			rid;
-> @@ -334,6 +335,7 @@ struct rdt_resource {
->  	char			*name;
->  	enum resctrl_schema_fmt	schema_fmt;
->  	bool			cdp_capable;
-> +	bool			plza_capable;
+> One addition via the resctrl telemetry enabling is a new rdt_domain_hdr::rid
+> used for some additional checks on the header.
+> https://lore.kernel.org/all/20251217172121.12030-2-tony.luck@intel.com/
+> I may be missing something here though since the additional checking that this
+> new field supports should have complained loudly ... unless this was tested with
+> only the L3 resource that happens to be 0.
 
-Why are you making plza a resource property? Certainly for MPAM we'd
-want this to be global across resources and I see above that you are
-just checking a cpu property rather then anything per resource.
+Hmmm, thanks for pointing this out. I think I've been getting away with this as
+in the resctrl common code checking for 'rid' only happens for monitors which we
+do keep on the L3 resource and the control checking is only in the x86.  I'll
+look into this a bit more and update for this change.
 
->  };
->  
->  /*
-> @@ -481,6 +483,7 @@ static inline u32 resctrl_get_config_index(u32 closid,
->  
->  bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level l);
->  int resctrl_arch_set_cdp_enabled(enum resctrl_res_level l, bool enable);
-> +bool resctrl_arch_get_plza_capable(enum resctrl_res_level l);
->  
->  /**
->   * resctrl_arch_mbm_cntr_assign_enabled() - Check if MBM counter assignment
+> 
+> ...
+> 
+> > +static struct mpam_resctrl_dom *
+> > +mpam_resctrl_get_domain_from_cpu(int cpu, struct mpam_resctrl_res *res)
+> > +{
+> > +	struct mpam_resctrl_dom *dom;
+> > +	struct rdt_resource *r = &res->resctrl_res;
+> > +
+> > +	lockdep_assert_cpus_held();
+> > +
+> > +	list_for_each_entry_rcu(dom, &r->ctrl_domains, resctrl_ctrl_dom.hdr.list) {
+> > +		if (cpumask_test_cpu(cpu, &dom->ctrl_comp->affinity))
+> > +			return dom;
+> > +	}
+> 
+> I notice here that that only the ctrl_domains list is searched ...
 
+The monitor searching is added in:
+ [PATCH v4 28/41] arm_mpam: resctrl: Pick classes for use as mbm counters
+This does seems like a bad code split. Even more so as csu counters are
+added before the mbm counters.
+
+> 
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> > +int mpam_resctrl_online_cpu(unsigned int cpu)
+> > +{
+> > +	struct mpam_resctrl_res *res;
+> > +	enum resctrl_res_level rid;
+> > +
+> > +	guard(mutex)(&domain_list_lock);
+> > +	for_each_mpam_resctrl_control(res, rid) {
+> > +		struct mpam_resctrl_dom *dom;
+> > +
+> > +		if (!res->class)
+> > +			continue;	// dummy_resource;
+> > +
+> > +		dom = mpam_resctrl_get_domain_from_cpu(cpu, res);
+> 
+> Consider a system that only supports monitoring (exposed_alloc_capable == false,
+> exposed_mon_capable == true). Since mpam_resctrl_get_domain_from_cpu() only
+> searches control domains then it looks to me as though dom will always be false
+> here?
+> 
+> > +		if (!dom) {
+> > +			dom = mpam_resctrl_alloc_domain(cpu, res);
+> 
+> Would this (on hypothetical exposed_alloc_capable == false, exposed_mon_capable == true system)
+> then cause a new domain to be allocated for each CPU with a single CPU in its cpumask
+> instead of allocating a single monitoring domain with multiple CPUs in its mask?
+> 
+> > +		} else {
+> > +			if (exposed_alloc_capable) {
+> > +				struct rdt_ctrl_domain *ctrl_d = &dom->resctrl_ctrl_dom;
+> > +
+> > +				mpam_resctrl_online_domain_hdr(cpu, &ctrl_d->hdr);
+> > +			}
+> > +			if (exposed_mon_capable) {
+> > +				struct rdt_l3_mon_domain *mon_d = &dom->resctrl_mon_dom;
+> > +
+> > +				mpam_resctrl_online_domain_hdr(cpu, &mon_d->hdr);
+> > +			}
+> > +		}
+> > +		if (IS_ERR(dom))
+> > +			return PTR_ERR(dom);
+> > +	}
+> > +
+> > +	resctrl_online_cpu(cpu);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +void mpam_resctrl_offline_cpu(unsigned int cpu)
+> > +{
+> > +	struct mpam_resctrl_res *res;
+> > +	enum resctrl_res_level rid;
+> > +
+> > +	resctrl_offline_cpu(cpu);
+> > +
+> > +	guard(mutex)(&domain_list_lock);
+> > +	for_each_mpam_resctrl_control(res, rid) {
+> > +		struct mpam_resctrl_dom *dom;
+> > +		struct rdt_l3_mon_domain *mon_d;
+> > +		struct rdt_ctrl_domain *ctrl_d;
+> > +		bool ctrl_dom_empty, mon_dom_empty;
+> > +
+> > +		if (!res->class)
+> > +			continue;	// dummy resource
+> > +
+> > +		dom = mpam_resctrl_get_domain_from_cpu(cpu, res);
+> > +		if (WARN_ON_ONCE(!dom))
+> 
+> Similar to above ... it looks to me as though this WARN may always be
+> encountered on a system that only supports monitoring.
+
+I think monitor only systems, (exposed_alloc_capable == false,
+exposed_mon_capable == true), are handled properly from
+[PATCH v4 28/41] arm_mpam: resctrl: Pick classes for use as mbm counters
+onwards in the series.
+
+I'll look into making the division into commits better.
+
+> 
+> > +			continue;
+> > +
+> > +		if (exposed_alloc_capable) {
+> > +			ctrl_d = &dom->resctrl_ctrl_dom;
+> > +			ctrl_dom_empty = mpam_resctrl_offline_domain_hdr(cpu, &ctrl_d->hdr);
+> > +			if (ctrl_dom_empty)
+> > +				resctrl_offline_ctrl_domain(&res->resctrl_res, ctrl_d);
+> > +		} else {
+> > +			ctrl_dom_empty = true;
+> > +		}
+> > +
+> > +		if (exposed_mon_capable) {
+> > +			mon_d = &dom->resctrl_mon_dom;
+> > +			mon_dom_empty = mpam_resctrl_offline_domain_hdr(cpu, &mon_d->hdr);
+> > +			if (mon_dom_empty)
+> > +				resctrl_offline_mon_domain(&res->resctrl_res, &mon_d->hdr);
+> > +		} else {
+> > +			mon_dom_empty = true;
+> > +		}
+> > +
+> > +		if (ctrl_dom_empty && mon_dom_empty)
+> > +			kfree(dom);
+> > +	}
+> > +}
+> > +
+> 
+> Reinette
+> 
+> 
 
 Thanks,
 
 Ben
-
