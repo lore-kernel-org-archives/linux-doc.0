@@ -1,65 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A21345725;
-	Wed, 11 Feb 2026 17:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770829424; cv=none; b=d7MHBE3SOvHb7AdLPvtkQaCAzPALr93qh/o+NFEYcJJrDTUFXQcK0mN/3YOBrsdbB2NVr+wkJrsYCcPKUa3I5d7cSN4bVKqUY4IpmxarXnpYyB4yoh9kq3Cl5x7NygE5TxDqc/aV4WOFHCIsVT1TKX8l+K5n8VFWTqI+7eHMcE4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770829424; c=relaxed/simple;
-	bh=E99E2loPe1XNp/4rNcxLKLp/1fEYb2lWU2cfOaniQfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ax1ucAFObH52a3dhINqu9CzwffVQglEf1VHFjS2kFe3TOMZfYK/foPLe21l6HYrg8xvotcuPQ6UVvZvZ6HC3dsK3+AOq0y0M4DR3VG+WqAmXrATqC8oXQm766Thjx9zpGWeP2w/2kLvKxtKyz+mruzDSQKR8R2jjPOcbNueySK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jMFlzRlF; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540FF34678E;
+	Wed, 11 Feb 2026 17:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770829888; cv=pass; b=XTy8pzB8bcUE611moIVcgTqrvtn5LdG363P/Qxx00GnyW/UP/I6vp0hjyoJH9A6835EIuAe1wA59n2q0UH4Dp/+S3vYhJdvAJeb44pzapFz21TS9UqPifr0UOl6nMJ8Ynirdr9bxSEvzeW3qHLWz5qVEOQjsrJdV9YZ+7A0aBKY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770829888; c=relaxed/simple;
+	bh=bCs5ST1s5NYuxBUa2NN+nbYUrDP9cxkUlLQtY1sPJ58=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ar5Csm+KEWbHAxlXKB5g99LVPghHc9Q8Cx27xTqCf/KqDLhhJdpk9rU1WFwbN9d6egmyDCL0WzOU5FNpiXf53EJ+PBO9fbYBuIus4sQLVcIF2Ed2/+jA1v5mRvECO3I/HsSZYqEkbj4LbGXUhP8adIcseif+Ps8jtlAqMRM+sx4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=YQqrxTW8; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jMFlzRlF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 731C0C19423;
-	Wed, 11 Feb 2026 17:03:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770829423;
-	bh=E99E2loPe1XNp/4rNcxLKLp/1fEYb2lWU2cfOaniQfc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=jMFlzRlFXIsiNrEqUqXhlSVsdXOgiUqKehMm6RtDeDD0gdBAuiB4Nrxx7miCl27Dv
-	 47577Cbis/av4coUEQfVSRhzfwgx8g2LzgsRy3nuOVBl3Rx7afW75c5xSTavkV993R
-	 ypqKS/7ypaOVauvJITohr1PpKpO+C4sGWmO7XVvem/0D0+j83D/2p9Gsv9l942EkiK
-	 tBp/+KNeUxhi1pXeNMasd6ORr1ruhpv9CQ8oJXeoAfFUh9KJ+Ok+Bv/D2SIf9b3bNi
-	 FPdBrI4H5OQtrgLiZVw7zPXwdk92EERZhSYpkRJ0uNOhlseq5T0F/0V+MgIL/jEp1E
-	 1z3zaG2V74psA==
-Date: Wed, 11 Feb 2026 09:03:42 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Yohei Kojima <yk@y-koj.net>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2] docs: ethtool: clarify the bit-by-bit
- bitset format description
-Message-ID: <20260211090342.561a9d54@kernel.org>
-In-Reply-To: <f43999612ed9d17fb7fe8f21e777e1c784f23c46.1770457868.git.yk@y-koj.net>
-References: <f43999612ed9d17fb7fe8f21e777e1c784f23c46.1770457868.git.yk@y-koj.net>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="YQqrxTW8"
+ARC-Seal: i=1; a=rsa-sha256; t=1770829830; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GR7lKyC+ozaWg05oGsrqz0Z7rDS9ZIOYDtgmfUS9yF8SGsv5hLRBebSLLDot9wWTiPzrScyHd1uc1cH6tCAqkEaDLVlhG/9q//xhGaCZM5na149IiIrTOSzqQdfzSK0uZAQjX1MaL0OC2MNTBjUnA2K5ISt7h8ZObYSjndqEqQ0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1770829830; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=0Dl0Z2RybvDxucJFvyk0rYh+K+gwu9CR8COPAfPaa6E=; 
+	b=NKYhL+OqEH99ViXECN4WyH9CMsuK1vCMRqR2WtwAdscA0R8g5M0y0c2e3RfqDb9jUC5IZaPlkG/OstQPMWZNl7RkNL1pI8qGhYOURVBChPmks2lej2W0Mt6+0hrkM+6nVTD4V5Is57RwzMY7Vx0JTTOawjmXP0WHC61ax4qiFQk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770829830;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=0Dl0Z2RybvDxucJFvyk0rYh+K+gwu9CR8COPAfPaa6E=;
+	b=YQqrxTW8kGhGYrH+a120mKUsZ4yMJMBXI1KYvdR3zSb+MvINyxPnAaGAThZTRNtV
+	XNtcgjNA6v8n4VOAUn7uY/ttvmgO3lGGIh1q9ZIZGdAsVHJuwFL7uzAIPH0SqdU3PgO
+	x6yJHpRLXjsytia4XH7HYMs7925RGM+XxwbVKn0A=
+Received: by mx.zohomail.com with SMTPS id 1770829827913685.3686734865292;
+	Wed, 11 Feb 2026 09:10:27 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Marius Vlad <marius.vlad@collabora.com>
+Subject:
+ Re: [PATCH v7 03/22] drm: Add enum conversions between DRM_COLOR_FORMAT and
+ HDMI_COLORSPACE
+Date: Wed, 11 Feb 2026 18:10:18 +0100
+Message-ID: <4732908.LvFx2qVVIh@workhorse>
+In-Reply-To: <20260210-prophetic-elk-of-superiority-b0ab03@houat>
+References:
+ <20260121-color-format-v7-0-ef790dae780c@collabora.com>
+ <2028270.PYKUYFuaPT@workhorse>
+ <20260210-prophetic-elk-of-superiority-b0ab03@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Sat,  7 Feb 2026 19:25:38 +0900 Yohei Kojima wrote:
-> Clarify the bit-by-bit bitset format's behavior around mandatory
-> attributes and bit identification. More specifically, the following
-> changes are made:
+On Tuesday, 10 February 2026 18:24:46 Central European Standard Time Maxime Ripard wrote:
+> Hi,
 > 
-> * Rephrase a misleading sentence which implies name and index are
->   mutually exclusive
-> * Describe that ETHTOOL_A_BITSET_BITS nest is mandatory
-> * Describe that a request fails if inconsistent identifiers are given
+> On Sat, Feb 07, 2026 at 08:55:16PM +0100, Nicolas Frattaroli wrote:
+> > On Friday, 6 February 2026 15:08:46 Central European Standard Time Maxime Ripard wrote:
+> > > On Wed, Jan 21, 2026 at 03:45:10PM +0100, Nicolas Frattaroli wrote:
+> > > > While the two enums have similar values, they're not identical, and
+> > > > HDMI's enum is defined as per the HDMI standard.
+> > > > 
+> > > > Add a simple conversion function from DRM to HDMI. Unexpected inputs
+> > > > aren't handled in any clever way, DRM_COLOR_FORMAT_AUTO and any other
+> > > > value that doesn't cleanly map to HDMI just gets returned as
+> > > > HDMI_COLORSPACE_RGB.
+> > > > 
+> > > > Add a second conversion function that gets a DRM_COLOR_FORMAT from an
+> > > > HDMI_COLORSPACE as well. In this case, reserved HDMI values that can't
+> > > > be converted will result in an -EINVAL return value.
+> > > > 
+> > > > Co-developed-by: Marius Vlad <marius.vlad@collabora.com>
+> > > > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> > > > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > > > ---
+> > > >  include/drm/drm_connector.h | 54 +++++++++++++++++++++++++++++++++++++++++++++
+> > > >  1 file changed, 54 insertions(+)
+> > > > 
+> > > > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > > > index b5604dca728a..ffeb42f3b4a3 100644
+> > > > --- a/include/drm/drm_connector.h
+> > > > +++ b/include/drm/drm_connector.h
+> > > > @@ -2612,6 +2612,60 @@ int drm_connector_attach_color_format_property(struct drm_connector *connector);
+> > > >  
+> > > >  const char *drm_get_color_format_name(enum drm_color_format color_fmt);
+> > > >  
+> > > > +/**
+> > > > + * drm_color_format_to_hdmi_colorspace - convert DRM color format to HDMI
+> > > > + * @fmt: the &enum drm_color_format to convert
+> > > > + *
+> > > > + * Convert a given &enum drm_color_format to an equivalent
+> > > > + * &enum hdmi_colorspace. For non-representable values and
+> > > > + * %DRM_COLOR_FORMAT_AUTO, the value %HDMI_COLORSPACE_RGB is returned.
+> > > > + *
+> > > > + * Returns: the corresponding &enum hdmi_colorspace value
+> > > > + */
+> > > > +static inline enum hdmi_colorspace __pure
+> > > > +drm_color_format_to_hdmi_colorspace(enum drm_color_format fmt)
+> > > > +{
+> > > > +	switch (fmt) {
+> > > > +	default:
+> > > > +	case DRM_COLOR_FORMAT_AUTO:
+> > > > +	case DRM_COLOR_FORMAT_RGB444:
+> > > > +		return HDMI_COLORSPACE_RGB;
+> > > 
+> > > I don't think that's correct. What auto ends up as totally depends on
+> > > the atomic state it comes with.
+> > > 
+> > > At the very least, you should output a warning there, because that case
+> > > should never happen.
+> > 
+> > Yeah, my hope was to keep this function __pure so that the compiler
+> > has maximum freedom to do whatever. With a WARN, it's got side-effects
+> > now, and we're no longer pure. With a status return value and an output
+> > parameter, it's no longer pure either, because the output parameter is
+> > not local memory.
+> > 
+> > The limiting factor here is that as I understand correctly, I can't
+> > really extend the hdmi_colorspace enum, as it's basically 1:1 from
+> > the standard. Doing this would be the ideal solution, because we'd
+> > keep the function pure and without surprise conversions happening.
 > 
-> Signed-off-by: Yohei Kojima <yk@y-koj.net>
+> I feel like this kind of loops back into the other two reviews I did:
+> you paint yourself into a corner by having auto in the enum, and by
+> passing it directly to that function.
+> 
+> If, instead, you don't allow auto in the drm_color_format enum, and
+> resolve auto in the hdmi_compute_config function instead of passing it
+> directly, then we don't have to deal with it here.
 
-I'm no native speaker but FWIW:
+You're right. Though that means I need to figure out how I'll handle
+the conversion from enum to bitfield for !HDMI cases. I guess for DP,
+I can do this in drm_dp_helper or something. I don't know if i915 or
+amdgpu call into that at all though, but it's as good of a time as any
+to start doing so now if not. Just also learned about the existence of
+`enum dp_pixelformat`, which imho has the best naming out of all of
+these enums. (I hope "HDMI Colorspace" to describe pixel formats is
+straight from the standard because if it's something we in the kernel
+came up with then I will put renaming it on my list of long-term
+kernel tasks to get around to some day.)
 
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
+And yes I will add the necessary KUnit tests for the DP helper side of
+things as well. :)
+
+Nothing registers the property for DSI so we should be good on that front
+for now.
+
+Thanks for the reviews.
+
+Kind regards,
+Nicolas Frattaroli
+
+> > Looking at hdmi_colorspace_get_name in drivers/video/hdmi.c, it returns
+> > "Invalid" for any value not in the enum itself. Would it be allowable
+> > to tack an HDMI_COLORSPACE_INVALID at the end of the enum with perhaps
+> > a negative value, or is there a different approach you'd prefer?
+> 
+> And again, if we only ever have to deal with RGB, YUV420, 444 or 422,
+> then we always have valid values for HDMI_COLORSPACE.
+> 
+> Plus, the hdmi_colorspace enum matches what the hdmi spec defines, so we
+> can't really extend it, and most importantly, hdmi_colorspace_get_name()
+> is only ever used for debugging / logging purposes, it's never in the
+> "functional" path.
+> 
+> Maxime
+> 
+
+
+
+
