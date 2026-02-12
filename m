@@ -1,146 +1,160 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DEC824BD;
-	Thu, 12 Feb 2026 14:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB531E868;
+	Thu, 12 Feb 2026 15:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770908139; cv=none; b=qhsVH/CdAzhraebKHzPo3+eX+U/o1MZS8JvZLEHLdyDf57XjDfJT6vBIXZgvGjTWZdfriSybXeVhIo/93s8jZz0Hw9Z7s5OfvjSJCW7U5CxatHXazkpPgGrB+DGwuHaU5Ap5R2LWPnF8CGNJasieMkiqHxIT0cpSfuB8tc26BLA=
+	t=1770909798; cv=none; b=cNurdr94iCit0A8xYbxx8NLof0Z4srVhWTeA6CDHYDgeEjT07NWcecmERi346/y6vCuS860E4EkV9K07x+gDQkE2du+zLjRyB/TALGnjbNj2RAmYleraFvjOZnxeSbLFQrv0jU37sE1VksAgqxI4EE+BYJmw99JtBEyPmxjUmsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770908139; c=relaxed/simple;
-	bh=4+EeQgLatoi/k2Vy6EeWadd2Qq9OeWiKpyeHSroI1u4=;
+	s=arc-20240116; t=1770909798; c=relaxed/simple;
+	bh=CXREZTqBenKo9jtPZTzM+VTNbxYZim0gWfWTgptwF30=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Su7PiNnL3RweOk3b0EG/3U3gPfesEXA6MYh8E+Y9PewsL18F2YqeyUpiO3lBpPTwtJzgkCf20WiC2be0u+YcDQAha1+apPzqj+PrUwtFJKdicusmqXIu7/nR9J8lJk6LzwOVQWJ7OO8yQm82STmRMBmlhsNeGFq1SSZ5G6/ILYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aUZXC1nz; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=N/DZc+SwgthQKYIP020Zo3AqcdDbm5mGJa122q9Yi44evo3dUNPTxyiWDYF09kF9g8YOsTnfOzCK4rdWa6Kx0YDxG+ta9vNG0YIzOj0md58m9TV+Ad25bdu7zhpIZCRdu2SU/3oUsxNO7BozO2TEkxiRu+Bytm6UHPTP+QiAmfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wngCniLs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aUZXC1nz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1770908137; x=1802444137;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4+EeQgLatoi/k2Vy6EeWadd2Qq9OeWiKpyeHSroI1u4=;
-  b=aUZXC1nzCyXbodYBDjFcV9doX5AknEeJfxE54ZeLX/WS9WolE5QHVdpz
-   aOJb1tF+8POTuFGYvmBzkN3wFqnOfkA6IHVbPgVujoCco7JQEj/bIS+ph
-   eAyDW4gH3mgKQBGcyw3tPfCWd3xmzyMmSHTYUq6OFoIZUvxkI+joETEKN
-   fOkrX2UXahg72m+LTgib00AZ2qgM4o+LG4OEl4T89hyH4ZItkjHgf2RS7
-   zHbOgzSocvKRk+D85XqlD5STf3+gNxejkJXzckjR3L+wPd2vXudfGNeeU
-   I2yrlqliktJ4v60KHJs8RCynVYZIHHBmpMNGHqES7wyMovw2CyxwxH14I
-   w==;
-X-CSE-ConnectionGUID: L65qf0jJRU6DgWoLQUepgA==
-X-CSE-MsgGUID: zKg4/UtRT/2Pqj9bmF2Xzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="71281768"
-X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
-   d="scan'208";a="71281768"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 06:55:36 -0800
-X-CSE-ConnectionGUID: 9HgJGD9ORZCobKnmbXsd1A==
-X-CSE-MsgGUID: frgiFmuUQIeSuqf2hYebJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
-   d="scan'208";a="216826311"
-Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 Feb 2026 06:55:33 -0800
-Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vqY6N-00000000rFA-29A7;
-	Thu, 12 Feb 2026 14:55:31 +0000
-Date: Thu, 12 Feb 2026 22:55:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Stoyan Bogdanov <sbogdanov@baylibre.com>, jbrunet@baylibre.com,
-	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wngCniLs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BFDAC4CEF7;
+	Thu, 12 Feb 2026 15:23:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1770909797;
+	bh=CXREZTqBenKo9jtPZTzM+VTNbxYZim0gWfWTgptwF30=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=wngCniLsYobfy+cnJ0iQ8hJvHAE59mq29LzSxEBhVQD6cI6RhSToLCotLXlve5lyC
+	 8O9Cv1a38Xqxsewi18XZ0aua6LyV4dre6Smx82wZWl8uDMPY+BtIhiLNMp0LTdQ+lo
+	 QrW8b4Sy7tngQXd9V3e/ck2hvS4+DiaRwSdmf39A=
+Date: Thu, 12 Feb 2026 16:23:14 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Gabriele Paoloni <gpaoloni@redhat.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, arnd@arndb.de,
+	brendan.higgins@linux.dev, raemoar63@gmail.com,
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Stoyan Bogdanov <sbogdanov@baylibre.com>
-Subject: Re: [PATCH v1 1/3] hwmon: (pmbus/tps25990): Rework TPS25990 non
- standatd direct conversion
-Message-ID: <202602122220.QLj7Hqb7-lkp@intel.com>
-References: <20260212084502.1795-2-sbogdanov@baylibre.com>
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	acarminati@nvidia.com, linux-mm@kvack.org,
+	safety-architecture@lists.elisa.tech, kstewart@linuxfoundation.org,
+	chuckwolber@gmail.com
+Subject: Re: [RFC PATCH v3 1/6] Documentation: extend the 'Function
+ documentation' with expected behavior and constraints of use
+Message-ID: <2026021207-hatchery-spore-2800@gregkh>
+References: <20260212124923.222484-1-gpaoloni@redhat.com>
+ <20260212124923.222484-2-gpaoloni@redhat.com>
+ <2026021221-grading-clatter-b7bf@gregkh>
+ <CA+wEVJaFX4AE5ruKLvgYZhmNsOabovLp=2LAaLUYe5B9r51qEA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260212084502.1795-2-sbogdanov@baylibre.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+wEVJaFX4AE5ruKLvgYZhmNsOabovLp=2LAaLUYe5B9r51qEA@mail.gmail.com>
 
-Hi Stoyan,
+On Thu, Feb 12, 2026 at 03:00:01PM +0100, Gabriele Paoloni wrote:
+> On Thu, Feb 12, 2026 at 1:59 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Thu, Feb 12, 2026 at 01:49:18PM +0100, Gabriele Paoloni wrote:
+> > > Extend the longer description section of a function kernel-doc
+> > > header with an itemised list of function's behaviors and
+> > > constraints of use.
+> > > These are useful to link and trace test cases (e.g. KUnit) to
+> > > the different behavior IDs and define the constraints to be
+> > > met by the function's caller.
+> > >
+> > > Signed-off-by: Gabriele Paoloni <gpaoloni@redhat.com>
+> > > ---
+> > >  Documentation/doc-guide/kernel-doc.rst | 19 +++++++++++++++++++
+> > >  1 file changed, 19 insertions(+)
+> > >
+> > > diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+> > > index 8d2c09fb36e4..23e6c4b45b14 100644
+> > > --- a/Documentation/doc-guide/kernel-doc.rst
+> > > +++ b/Documentation/doc-guide/kernel-doc.rst
+> > > @@ -83,6 +83,25 @@ The general format of a function and function-like macro kernel-doc comment is::
+> > >     *
+> > >     * The longer description may have multiple paragraphs.
+> > >     *
+> > > +   * When specifying testable code behaviour the longer description must contain
+> > > +   * a paragraph formatted as follows:
+> > > +   *
+> > > +   * function_name behavior:
+> > > +   * [ID1] - [expected behavior]
+> > > +   *
+> > > +   * [ID2] - [expected behavior]
+> > > +   *
+> > > +   * [...]
+> > > +   *
+> > > +   * [IDn] - [expected behavior]
+> > > +   *
+> > > +   * function_name constraints of use:
+> > > +   * [ID1] - [constraint to be met by the caller]
+> > > +   *
+> > > +   * [ID2] - [constraint to be met by the caller]
+> > > +   *
+> > > +   * [IDn] - [constraint to be met by the caller]
+> >
+> > So the same "id" is used for a behavior, AND a constraint?
+> 
+> The idea is to have a specific behaviour or constraint of use
+> identified by the tuple [function_name behavior][ID].
+> So I think we could have a problem for duplicated symbols (but
+> it is a sort of corner case...)
 
-kernel test robot noticed the following build errors:
+I am trying to say that you have ID1 listed in two places above.  So
+that's not unique with a [function_name][ID] pair, where does the
+"behavior" part come in?
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.19 next-20260211]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+What is now parsing these comments to ensure that they are unique, in
+correct order, and are used elsewhere?  What is the text for such a
+behavior and constraint?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stoyan-Bogdanov/hwmon-pmbus-tps25990-Rework-TPS25990-non-standatd-direct-conversion/20260212-164903
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20260212084502.1795-2-sbogdanov%40baylibre.com
-patch subject: [PATCH v1 1/3] hwmon: (pmbus/tps25990): Rework TPS25990 non standatd direct conversion
-config: powerpc64-randconfig-001-20260212 (https://download.01.org/0day-ci/archive/20260212/202602122220.QLj7Hqb7-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 9b8addffa70cee5b2acc5454712d9cf78ce45710)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602122220.QLj7Hqb7-lkp@intel.com/reproduce)
+Heck, what does a "constraint" mean?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602122220.QLj7Hqb7-lkp@intel.com/
+> > And what defines an "id"?  I see in your example you use number.number,
+> > but is that specified?
+> 
+> I thought that there is no need to specify an ID format as long as the ID is
+> unique and referenced by the kunit tests testing the symbol.
+> Basically I thought that in some cases it is easier to enumerate 1, 2, 3,
+> whereas in others a, b, c can be used or even a mix 1a, 1b, 2a, 2b etc.
+> So I wanted to leave such freedom to the programmer.
 
-All errors (new ones prefixed by >>):
+Ok, so be aware that people will then put whatever they want in there,
+making it impossible for you to parse :(
 
->> drivers/hwmon/pmbus/tps25990.c:463:11: error: use of undeclared identifier 'ENOTSUP'
-     463 |                 return -ENOTSUP;
-         |                         ^~~~~~~
-   1 error generated.
+> > And how is a id going to stay in sync across different files?  That
+> > feels impossible to maintain for any length of time, and puts a burden
+> > on the developer who wishes to add/remove a test or "id", AND a
+> > maintainer who has to remember to go and look in multiple places for
+> > such an id sync up.
+> 
+> Well given that the tested ids are defined by the tuples mentioned above,
+> the relation between a kunit test and the tested tuples should be not
+> ambiguous.
 
+How do I "know" that there is a test that matches the tuple at all?
+Your patch series proves this, it adds the tuple in one, and then the
+test in another.  If you add another patch that adds another comment,
+how do I as a maintainer know if this refers to an existing test, or a
+new one somewhere else?
 
-vim +/ENOTSUP +463 drivers/hwmon/pmbus/tps25990.c
+> Also I thought that, when writing a kunit test, the tester should know which
+> behavior is being tested and hence it should be easy to define the tested
+> tuples in the kunit header.
+> So I do not see much of a burden, but maybe I am missing something here...
 
-   447	
-   448	static int tps25990_probe(struct i2c_client *client)
-   449	{
-   450		struct device *dev = &client->dev;
-   451		struct tps25990_data *data;
-   452		u32 rimon = TPS25990_DEFAULT_RIMON;
-   453		struct pmbus_driver_info *info_get;
-   454		struct local_direct_value *info_local_get;
-   455		int ret;
-   456	
-   457		ret = device_property_read_u32(dev, "ti,rimon-micro-ohms", &rimon);
-   458		if (ret < 0 && ret != -EINVAL)
-   459			return dev_err_probe(dev, ret, "failed to get rimon\n");
-   460	
-   461		data = (struct tps25990_data *)of_device_get_match_data(dev);
-   462		if (!data)
- > 463			return -ENOTSUP;
-   464	
-   465		info_get = data->info;
-   466		/* Make copy of pmbus_info and replace it to preserve original values */
-   467		data->info = devm_kmemdup(dev, info_get, sizeof(*info_get), GFP_KERNEL);
-   468		if (!data->info)
-   469			return -ENOMEM;
-   470	
-   471		info_local_get = data->info_local;
-   472		/* Make copy of pmbus_info and replace it to preserve original values */
-   473		data->info_local = devm_kmemdup(dev, info_local_get, sizeof(*info_local_get), GFP_KERNEL);
-   474		if (!data->info_local)
-   475			return -ENOMEM;
-   476	
-   477		/* Adapt the current and power scale for each instance */
-   478		tps25990_set_m(&data->info->m[PSC_CURRENT_IN], rimon);
-   479		tps25990_set_m(&data->info->m[PSC_POWER], rimon);
-   480	
-   481		return pmbus_do_probe(client, data->info);
-   482	}
-   483	
+if there is no automatic way of linking a comment to a test, the ids
+WILL get out of sync.  We have 20+ years of history for "simple" things
+like enums and strings getting out of sync in the same exact file.
+Whenever you are going to allow a free-form structure like this, and yet
+expect a maintainer and developer to always know how to keep it in sync,
+that's just an impossible task, please do not do that.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+And let's go back to the root issue, why have an id at all?  Who
+benefits from this?  Who requires it?  Who wants it?  Who will do the
+work to add/maintain/update them all?
+
+thanks,
+
+greg k-h
