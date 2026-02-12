@@ -1,103 +1,144 @@
-Received: from outbound.st.icloud.com (p-east2-cluster3-host2-snip4-10.eps.apple.com [57.103.77.231])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D1635E542
-	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 16:46:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.77.231
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770914776; cv=none; b=YxU2begTTJpIxh9g5KbTkAiuLaXIqitnBmQAMKBkdCF1GKJwdnshOrW3UiRtOvOvafXYixIqnCNWotW20NjFlkiQmd0R7U9UjhRvq2SDYVMf7E31ir2yVvIgjEl4kyLRWLMcCJw31B7alX7lVWubzCrEBKOVmGWapoGTF1b1EBg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770914776; c=relaxed/simple;
-	bh=h3BIh+xKb99MFMyx5fA5/y8xgOkkOyCiY+I8v/3z8YU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGyutcfmxpJIgyXmMmxjDgkHlwPAIYMRgTAFqnqb1dGo04+bJ6BR1wkOyFNkp5DqLqKMwA1rEdpzxVidcJ3t8vXKGeJmmxxGJnDCPhW6D/bW7rz2AyVpQmZPpVhNwTV06rkbTzG3OsThunyxTqw/mZrwF90PV8w9HhVaQR6UO6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net; spf=pass smtp.mailfrom=y-koj.net; dkim=fail (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b=qz2QMYoh reason="key not found in DNS"; arc=none smtp.client-ip=57.103.77.231
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=y-koj.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33611258CE5
+	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 17:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770917956; cv=pass; b=QiFKKTJ4Q3JPv08iXk9aQ6opelY5ICTYzrH/rEJmBKns56Mg9kxW5RCifZwBubH+uZ1Z5DuAOcxs23AHDOC+A/NaC2+ZmAQI6KY65mZMQRVein+iwEwsqPagnTiT0EfOQzu7u92wV8Lu750I7fO9RYReECYh5NRirJZVTOGHe5I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770917956; c=relaxed/simple;
+	bh=PmDSu9rHdkQKCyukTIemQGDTasI1Oy6wKb2WDyCVFJM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RQu0Ig6yPmyKNpTIrHwwRS9oK/8sJkC1HBxFP1j+uszwN33vsMhMVUtx7oNdLnBo8OAGiA9G/LwFg6Zt5/4ZVj8peSQHJXEy+McyetQyJr1Bu97PJsMJ7udeuPxE/Val9rb5z70OoQZYdGyBnYpVzv+OVxWGzdgTCxyXwHBS+h8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VJ002zIr; arc=pass smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b="qz2QMYoh"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-2 (Postfix) with ESMTPS id 3B8681800385;
-	Thu, 12 Feb 2026 16:46:09 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=y-koj.net; s=sig1; t=1770914771; x=1773506771; bh=lx/q+HqmswEdLHARgaDdqtXI3jrwjUkBrv3ty7Hecv0=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=qz2QMYohPbmKUkJQL3Maysbc1U8mbxSt9LP3NsetGLij7owrlV+cPFE8ivctpoVYXMJJtpqas9X6dt1+FMpFNLjSJE7hl+5VxcykZhZjjHSHuNygN+r/GPtQ44v1HGGDOXuCX4YOx0l/q6iZm6C3ggDtWmc1uRzTGXH7r1cqFVfXB9sAT64y0Azn63sSa5WSMkcbYhN57S5HW1BtMdAld3XLB1viyFwHy44NuBDu814cs4RUC9F5OQFtntDz7MI/TxidtZp6AuboIThkzKe9V+XrEGp6ZEo083TSHOeKhMzhIQo6LiQomryKjgmRRrHQscXY4rtFMOdGeB7hZOydmg==
-mail-alias-created-date: 1719758601013
-Received: from desktop.y-koj.net (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-2 (Postfix) with ESMTPSA id BAD0C1800200;
-	Thu, 12 Feb 2026 16:46:06 +0000 (UTC)
-Date: Fri, 13 Feb 2026 01:46:03 +0900
-From: Yohei Kojima <yk@y-koj.net>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2] docs: ethtool: clarify the bit-by-bit bitset
- format description
-Message-ID: <aY4Dy4JALgoc5_s8@desktop.y-koj.net>
-References: <f43999612ed9d17fb7fe8f21e777e1c784f23c46.1770457868.git.yk@y-koj.net>
- <f2882370-a531-4a83-ab39-cf73878c0d03@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VJ002zIr"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-48336a6e932so600005e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 09:39:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770917954; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gv/J0EG20W5vb73DrH0YnTh9dfuLZE6NZTGHkFcnYekyYx6E8Yu4g8BeUctgRYpiNm
+         D/dypQeMQUICLJ3de8v6h2ywvvSJFlim5AL55/7EvgPqYTVANXPkOAE7pbG/b2yG052z
+         fq3BncDXzzkXYiZLdF0xwqhSUbKwOOW+F/wq9HzdJOLqSbh41mZhVxGKw/Uh9U/SAf6N
+         bIB5GvEHUEjGyvcuo9jNrdK2r7uuC9aSiZ7PSeXKb6sE4jaz1vjOQVUiLpALemUPfQoS
+         ayZ33on/67brkK0umLGFw+fSlZFtO2g5FcERB32lvNImkQ11IXFiPZJu+EP99OKGmfgI
+         E56A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PmDSu9rHdkQKCyukTIemQGDTasI1Oy6wKb2WDyCVFJM=;
+        fh=kHhDC+14rPWBMmqlBy1TyFdcgsBa/bUZfrlA0qTQEjA=;
+        b=VjAsQKFq5lOcv5VbZi8U0GmurBiHws3wrVeVDINFq4IJIOKN9HeQRs9SExc9n315tk
+         TJhJ6GMynzU7l75A24nHnj7OA2vByr3r6oCi6NpYXVkBWNbqzRBk5qx5qozCOw7T6x8n
+         LH7Dd98zOSbmDW6JOtpaNLioFsvf7v1RGQEljJ2zrRnnXy7VhJQnRLzmJciXMKD1jwP7
+         0hjvfz2em7uWe3pGJirmNYKxizvOUUUFpdevnu1R+Zt8Z8kxDmv3Bbiql4LOwTY/I0Rs
+         1YjtJgWgCoeKOPPAfQcYhsB/xrc2Pdy0qW2iR6JNiqAHZZfqmmXC0JUY3BeaVU3mWD6e
+         ar2Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770917954; x=1771522754; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PmDSu9rHdkQKCyukTIemQGDTasI1Oy6wKb2WDyCVFJM=;
+        b=VJ002zIrSGN0A6MqtaKVxxFHhMWJHZLF62T013hbmajgRuiCB/RrRvYPUuXR8lW88U
+         wMPATjWmk3EafYrGU5JK6KjGjdsWwJiI0xURqiHd9ln7Ih+plAe3iGXyTjQCBNU0CK7E
+         vqtG7iCL9D4VZTHTOAUfdg2cjeFFVh7cagy7KZgKO9OreUuiqlzoTWn1ybTU+RvCCsGZ
+         dY1aDpSAczaUoZHEzO81akbrwEqSf5S5UFt6Bmvcm3a1g+wfp2HQDtzsTr8yr7LNDh6R
+         3mUIuJjdS37JC/VkREUQdbVntjUfZK7GRMnBUTK5ZCdg2QXCPClI4Or0P7suCldW1dvD
+         Gq0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770917954; x=1771522754;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PmDSu9rHdkQKCyukTIemQGDTasI1Oy6wKb2WDyCVFJM=;
+        b=pBZVPoqP6+x2VzS/p12Fv+Ec/SV5Xq5dOUxYKtqDgKe7NvyPSxXK2KmiJHlM5hbqJ/
+         tlp1nw4WAE7SxBDUkdwCQ20VcEUDlji4ltVTWyZ50fDwLhhF5OaWyq485wOu4xT3GtCn
+         hC68U604seLLBsQ6Dp3yd2U3ZEkFrsqZQXZo9Z5zTE+GWv/cYq3oMpY5ikz71CpTmOCV
+         nJKFMAHOL+nPWlTWFp/ujrF0gdG9JZP19rcFO4qgHGc0VJC1SJUSZHYO5Ej2cdCdkH52
+         QTcVnY0K46J8BtFQFckF39Dsb73/EU/CBc77/lQuQ+AQmHNjfLraZZTZP0ok6zEEymdW
+         5hbg==
+X-Forwarded-Encrypted: i=1; AJvYcCXKRjP58yRg3z/MGSfVw/PesGpTodT3rYMahrn6T66+iY9bExN5g5yE2elcS9iTTfTtpL4bMVEQhvM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv20jsKOgrKGvcIFEaeVTm+ODsReYoIkxaXYQMTxVp1y3wHD3n
+	NEOVdszM8Gn3fsu9iPhymM1pa57sxsUF4xbOTr9qqJh8bpjYwd5j5aJewx91EPGhYpkUlJ9b8e7
+	HaHK/Uqp4vhxcRzV1n5ZU2v+HG/37cZ0=
+X-Gm-Gg: AZuq6aJlxxnSvWdj2f1Q+Zm1ka+2vi6gEC9WFZhLJm69gFaSL2v9XQbqfdag23eZwp8
+	mV93Bs5KD4b4wTb/EVE/ARfzTfK/SF2Gn5hwKcBvyJ4i7Bpm32k90PlZrFSK/kzReADEa0YGk35
+	M35YgHud8dqUCUIh8ytUnDYHfk0ngW31e8w3RGhOATHLbp+jyruS/IKNOUI3AtHwy6vsiK9PoHB
+	ILS5CSyDmoKxXrS67wJ6S+KBt8kuHt7n89wozcfLZAGrrMZcyFx7WQVPBhFg3hYfHj/YsyuWFDR
+	MpB95S1YaPiPony65rEfTFjeB+/Hq529o030n/I=
+X-Received: by 2002:a05:6000:4024:b0:436:1b1:6cbb with SMTP id
+ ffacd0b85a97d-4378aa01106mr5591885f8f.7.1770917953341; Thu, 12 Feb 2026
+ 09:39:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f2882370-a531-4a83-ab39-cf73878c0d03@redhat.com>
-X-Proofpoint-ORIG-GUID: OeFxtA_vWDdqp2A-CksUiD7PdsHIuPUU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjEyMDEyNiBTYWx0ZWRfX3sL8vy0kZSii
- 3hwbsFK69D3bPxjtbMW28vEZ12XpQVse+YvuoNW995YAz/5o6rhI4diZAOKJlQAm5FbwKw4wvtg
- EfUSCRUiGupF8JzjaAfn8bMv8Mc8ybFpPaMyZnM1VpTSRxdDGXCmEp3Rbm+RClXzrdAaPGapj9+
- Wd5b4O2CEvDcVAkpTxia526ASHaBeRcdmBOklttyoo6qkm9McHgAxFDLZWG0pmMg3sBa9OB0hPA
- mrdsGdOtT+WdM2upUtGrZxydpJGykBS2nx6YOzhzrfzAaeib1qrfmXON+o2aD3Vwpx0Q2LBmqkP
- 9mzVTuD0UWgKOQI0INWiJg2Ar4SA3KkVso5jDS1yUy3YxhRXLletGEr1kV1Otw=
-X-Authority-Info-Out: v=2.4 cv=AqvjHe9P c=1 sm=1 tr=0 ts=698e03d1
- cx=c_apl:c_apl_out:c_pps a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=kj9zAlcOel0A:10 a=HzLeVaNsDn8A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22
- a=jnl5ZKOAAAAA:8 a=GezhIzodDrykCbhU_jUA:9 a=CjuIK1q_8ugA:10
- a=RNrZ5ZR47oNZP8zBN2PD:22
-X-Proofpoint-GUID: OeFxtA_vWDdqp2A-CksUiD7PdsHIuPUU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-12_05,2026-02-12_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 mlxlogscore=859 suspectscore=0 adultscore=0 lowpriorityscore=0
- bulkscore=0 clxscore=1030 malwarescore=0 phishscore=0 classifier=spam
- authscore=0 adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602120126
-X-JNJ: AAAAAAABIZK6QK2kicOR2UZfbLws9NFEGoTwO3F1/nDque+JkIsnZe+p/ENLAYM0AdVdYvGDhAvybui2p9s8zmF0+9jHsb4e9JA+6R0tWU3J//7Ut6/tf1djMbB2KJELd+t96uKJy9b0TXS3Z4D0GW5aeaCA83muRol7JdOgkt4TWG+4KqdB2rnCmZwEpaiK0wly2KaSaN3slxnHKB++G5F9xvcMC0sms15t3KWjqXYbAGq9/5X1gxD57DL+1eEKA68OJEyp6sYKkwa4K7V2NsmqAakKcsVxKc8hQ+wTvURESLHu0QlqVDy7SHG/aiKYhUU/2ZHhuiv9ZJlc+FeDZ87ElTQGaoN+JmpWIYF0rl79DmFHy5mQNemJ5Ct56CrdGSY40+wCqMCNuSv8k96qfZlh24sS08M+zKa1gQHdgd0RQ7s5yCgPGJAhfi+so85VaxjXM6HPdgxp2vshgPzoDE9jfH21HCCPzo0797+EvhNHyfoM/Q/LLy/dmTL0Iol6sOq6KfYA/hxGtG/tOFWHn+o1KGspSnGNCXWpeLzGTUBhSbKcmH8t3ryt9sKrl1Mwyi6EnVGYNWFgm1Ysun6wWZKganKXJYqg9YwosA1fbVCtt/UO4HNQHqzLYis6WC+cC73kvXL6PMFo8XM9xq6FrzM6XcNov8Z+p80HK7iocHdGKOQqtAgP0+TiPTqrhamaC93gfVaLCwjSlIgFQvP+QsSg3dkaTt87LhKC/Pb7Ebl44Ttm0Z+u49xv/0ppr40=
+References: <20260208215839.87595-1-nphamcs@gmail.com> <CAKEwX=OvuVPJzQsSQm8F+zsRgJFnbMmW2JMJbGebp=U8+jMRYA@mail.gmail.com>
+ <13e3cada-60a3-4451-ab7e-16dfbab3c352@kernel.org> <CAKEwX=Pww3ZNw=VGZBa46NhKuvefRM7wnVuZy0aADoCoE1KSzA@mail.gmail.com>
+In-Reply-To: <CAKEwX=Pww3ZNw=VGZBa46NhKuvefRM7wnVuZy0aADoCoE1KSzA@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Thu, 12 Feb 2026 09:39:02 -0800
+X-Gm-Features: AZwV_QinV0WPB7Xpdl--Xq3J6j8mlfT34orj9Pvsm2hWI8SWmVi_aDb838NayvE
+Message-ID: <CAKEwX=Oqn5vZrYnURqwoNBhBmA5xU9jy5-5ti8vzFs2DHDaWYg@mail.gmail.com>
+Subject: Re: [PATCH v3 00/20] Virtual Swap Space
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-mm@kvack.org, akpm@linux-foundation.org, hannes@cmpxchg.org, 
+	hughd@google.com, yosry.ahmed@linux.dev, mhocko@kernel.org, 
+	roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev, 
+	len.brown@intel.com, chengming.zhou@linux.dev, kasong@tencent.com, 
+	chrisl@kernel.org, huang.ying.caritas@gmail.com, ryan.roberts@arm.com, 
+	shikemeng@huaweicloud.com, viro@zeniv.linux.org.uk, baohua@kernel.org, 
+	bhe@redhat.com, osalvador@suse.de, lorenzo.stoakes@oracle.com, 
+	christophe.leroy@csgroup.eu, pavel@kernel.org, kernel-team@meta.com, 
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org, 
+	linux-pm@vger.kernel.org, peterx@redhat.com, riel@surriel.com, 
+	joshua.hahnjy@gmail.com, npache@redhat.com, gourry@gourry.net, 
+	axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com, 
+	rafael@kernel.org, jannh@google.com, pfalcato@suse.de, 
+	zhengqi.arch@bytedance.com, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, 
+	=?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, tglx@kernel.org, 
+	Peter Zijlstra <peterz@infradead.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, lenb@kernel.org, 
+	Zi Yan <ziy@nvidia.com>, dev.jain@arm.com, lance.yang@linux.dev, 
+	matthew.brost@intel.com, rakie.kim@sk.com, byungchul@sk.com, 
+	"Huang, Ying" <ying.huang@linux.alibaba.com>, apopple@nvidia.com, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 11, 2026 at 12:55:55PM +0100, Paolo Abeni wrote:
-> On 2/7/26 11:25 AM, Yohei Kojima wrote:
-> > Clarify the bit-by-bit bitset format's behavior around mandatory
-> > attributes and bit identification. More specifically, the following
-> > changes are made:
-> > 
-> > * Rephrase a misleading sentence which implies name and index are
-> >   mutually exclusive
-> > * Describe that ETHTOOL_A_BITSET_BITS nest is mandatory
-> > * Describe that a request fails if inconsistent identifiers are given
-> > 
-> > Signed-off-by: Yohei Kojima <yk@y-koj.net>
-> > ---
-> > Current ethtool-netlink documentation doesn't describe several behavior
-> > around bit-by-bit bitset, which makes it hard to develop a ethtool
-> > library without digging into the kernel code. This patch eases the gap
-> > between the kernel behavior and the documentation by adding descriptions
-> > around the mandatory attribute and bit identification.
-> 
-> This needs review by someone provided with English natural language
-> skills far better than mine. I'm wrapping the net-next PR right now;
-> this has to be deferred after the merge window, I'm sorry.
+On Thu, Feb 12, 2026 at 9:29=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrote=
+:
+>
+> On Thu, Feb 12, 2026 at 4:23=E2=80=AFAM David Hildenbrand (Arm)
+> <david@kernel.org> wrote:
+> >>
+> > Are you CCing all maintainers that get_maintainers.pl suggests you to c=
+c?
+> >
+> > --
+> > Cheers,
+> >
+> > David
+>
+> I hope so... did I miss someone? If so, my apologies - I manually add
+> them one at a time to be completely honest. The list is huge...
+>
+> I'll probably use a script to convert that huge output next time into "--=
+cc".
+>
 
-Thank you for the response. It's okay, I understand maintainers are
-super busy during this period.
+Ok let's try... this :) Probably should have done it from the start,
+but better late than never...
 
-FYI I've received a Reviewed-by from Jakub, so I believe it's ready for
-merge after the merge window.
-
-Thank you,
-Yohei
+Not sure who was missing from the first run - my apologies if I did
+that.... I'll be more careful with huge cc list next time and just
+scriptify it.
