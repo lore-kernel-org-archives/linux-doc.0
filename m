@@ -1,155 +1,115 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B2F22BD597;
-	Thu, 12 Feb 2026 10:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D3B2E8B87
+	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 10:02:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770890447; cv=none; b=aZDeMM2rr8j7YFVu6YLdB+zdejrZlrn6over0D4cZETktwhaRHerbCQ4JhiOf/b2+wMFHXMkHEgPndvEeW4BC23zEt+h7b5mj5wjUsDWU9zfg04z82leok3XbKIOn1wv5b38lCWSjieSMdbS63aRdsM/iy+5HgoOJqxE+mEc2w8=
+	t=1770890528; cv=none; b=Dz9PgRPYomXDWafCMk86OTeKDYV6NCe+mMh8uSm3vPBdXNlVnIswIPWqY7ICDCjtvOJUOREy6+wA5F56ZuOmp+BhPchGT4xsD9pbuGzz6MVw62FlKFA6x/p0KCGdbTNC6xDvqStkjfHQ7b79r23eKn+OVQg5shxXnyAk/I9fRK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770890447; c=relaxed/simple;
-	bh=7ZYRuBH1NIP7D3LUQw8ro0uWe3uounX6XdBjRPCMBfU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WyjEVVoUJq/uALzcit5/pd29srVMYk1ACZZrxv0h+9Aj9d4FImLuiY4QZb9qeh50TIlTE5GUZ28YuYk/ik+9EUdJDB7n17kwfgoceFDw1uSmx4n4WPSYYdckiCZs3PC5LxbuaYHzabURsgyk97moRLfE2TzO+3/rFp3TE/dGScY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF2F7339;
-	Thu, 12 Feb 2026 02:00:38 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 779903F632;
-	Thu, 12 Feb 2026 02:00:38 -0800 (PST)
-Message-ID: <c779ce82-4d8a-4943-b7ec-643e5a345d6c@arm.com>
-Date: Thu, 12 Feb 2026 10:00:36 +0000
+	s=arc-20240116; t=1770890528; c=relaxed/simple;
+	bh=/7e03aoRAzJatMcMcYL9HpLCnGrFke6EEZPqpgB6UJc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tyEJvI60u1kvz8dMVghow7a7GCzKwFHoJ8PeIRGJGGjHDTgA9JsDv/lcycz1pes7wbdmdXIpWSQcEmTR3lDIer7M0S5QrU/hyLiS/0AYnfcfyGVBMF91SOfpsMVBgnvtUX6hKXscyf2HULtiKIM6jRmbXJD+fhLMfXWwJofX1aQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=SyMnRx2h; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="SyMnRx2h"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Sx3Q5aNefX7HOT6b+kVI2kTR6lTX/IZfs9lrMdrOZB0=; b=SyMnRx2ho6g7oa6+GW5/0Ecy1i
+	LXaOUWjuAGc1HmkoCo9QzGPi3owD439E1/suseOi8rYnK4IUpcQopebJ0t9VWT4gqsNkP9U2fOqlP
+	3kMjwGrJdvcp8SzQeLV8/wjFyNz3m0c1YXArdF5jsSeRHequxNCHx46wWXtkE/dofzrJavounDWCY
+	zphmv9HUuxfFO2gIgslwfgdW5lH7swhgQF37+xtaubYfYpTV289wir6qxuGDfzIA7ZdACJZZwJ7sq
+	qbHWSMN6G3gGcuoJcrk6USQGPrx8seW72xotnP547b3Mj6eEYoeyCvtMjiQ1L1fuIcbpKYnzTlWpz
+	/lHISLgQ==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:48140)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1vqTWJ-000000004OQ-4AYb;
+	Thu, 12 Feb 2026 10:02:00 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1vqTWH-000000004gQ-2r0T;
+	Thu, 12 Feb 2026 10:01:57 +0000
+Date: Thu, 12 Feb 2026 10:01:57 +0000
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Vladimir Oltean <olteanv@gmail.com>
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-phy@lists.infradead.org
+Subject: Re: [PATCH net-next] doc: generic phy: update generic PHY
+ documentation
+Message-ID: <aY2lFTIALH7qEJmM@shell.armlinux.org.uk>
+References: <E1vo0mF-00000007kbg-1OeA@rmk-PC.armlinux.org.uk>
+ <20260211154839.lbh4uovxr5b5s4nv@skbuf>
+ <E1vo0mF-00000007kbg-1OeA@rmk-PC.armlinux.org.uk>
+ <20260211154839.lbh4uovxr5b5s4nv@skbuf>
+ <aYzHL1qwew5p-xoq@shell.armlinux.org.uk>
+ <aYzHL1qwew5p-xoq@shell.armlinux.org.uk>
+ <20260211193006.ad2piivyoqhvg22r@skbuf>
+ <aYznE1FIbs_0OcPR@shell.armlinux.org.uk>
+ <aY1hs4XKZSpvKd3B@vaman>
+ <20260212091332.qcpi3qyynmdp4acv@skbuf>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-To: "Moger, Babu" <bmoger@amd.com>, "Luck, Tony" <tony.luck@intel.com>,
- Babu Moger <babu.moger@amd.com>
-Cc: corbet@lwn.net, reinette.chatre@intel.com, Dave.Martin@arm.com,
- james.morse@arm.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, akpm@linux-foundation.org,
- pawan.kumar.gupta@linux.intel.com, pmladek@suse.com,
- feng.tang@linux.alibaba.com, kees@kernel.org, arnd@arndb.de,
- fvdl@google.com, lirongqing@baidu.com, bhelgaas@google.com,
- seanjc@google.com, xin@zytor.com, manali.shukla@amd.com,
- dapeng1.mi@linux.intel.com, chang.seok.bae@intel.com,
- mario.limonciello@amd.com, naveen@kernel.org, elena.reshetova@intel.com,
- thomas.lendacky@amd.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, peternewman@google.com,
- eranian@google.com, gautham.shenoy@amd.com
-References: <cover.1769029977.git.babu.moger@amd.com>
- <17c9c0c252dcfe707dffe5986e7c98cd121f7cef.1769029977.git.babu.moger@amd.com>
- <aXk8hRtv6ATEjW8A@agluck-desk3>
- <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
-From: Ben Horgan <ben.horgan@arm.com>
-Content-Language: en-US
-In-Reply-To: <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260212091332.qcpi3qyynmdp4acv@skbuf>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-Hi Babu,
+On Thu, Feb 12, 2026 at 11:13:32AM +0200, Vladimir Oltean wrote:
+> Also thinking out loud, we could do something else - introduce something
+> similar in spirit to CONFIG_DEBUG_TEST_DRIVER_REMOVE, which would be a
+> debug option that sees what power state the PHY is in during the
+> phy_set_mode_ext() call, flips it before calling ->set_mode() (calling
+> either ->power_on() or ->power_off()), and restores it after the call.
+> 
+> Having this option should also give PHY provider developers a quick way
+> of testing both calling orders without modifying the consumers.
 
-On 1/28/26 16:01, Moger, Babu wrote:
-> Hi Tony,
-> 
-> Thanks for the comment.
-> 
-> On 1/27/2026 4:30 PM, Luck, Tony wrote:
->> On Wed, Jan 21, 2026 at 03:12:51PM -0600, Babu Moger wrote:
->>> @@ -138,6 +143,20 @@ static inline void __resctrl_sched_in(struct
->>> task_struct *tsk)
->>>           state->cur_rmid = rmid;
->>>           wrmsr(MSR_IA32_PQR_ASSOC, rmid, closid);
->>>       }
->>> +
->>> +    if (static_branch_likely(&rdt_plza_enable_key)) {
->>> +        tmp = READ_ONCE(tsk->plza);
->>> +        if (tmp)
->>> +            plza = tmp;
->>> +
->>> +        if (plza != state->cur_plza) {
->>> +            state->cur_plza = plza;
->>> +            wrmsr(MSR_IA32_PQR_PLZA_ASSOC,
->>> +                  RMID_EN | state->plza_rmid,
->>> +                  (plza ? PLZA_EN : 0) | CLOSID_EN | state-
->>> >plza_closid);
->>> +        }
->>> +    }
->>> +
->>
->> Babu,
->>
->> This addition to the context switch code surprised me. After your talk
->> at LPC I had imagined that PLZA would be a single global setting so that
->> every syscall/page-fault/interrupt would run with a different CLOSID
->> (presumably one configured with more cache and memory bandwidth).
->>
->> But this patch series looks like things are more flexible with the
->> ability to set different values (of RMID as well as CLOSID) per group.
-> 
-> Yes. this similar what we have with MSR_IA32_PQR_ASSOC. The association
-> can be done either thru CPUs (just one MSR write) or task based
-> association(more MSR write as task moves around).
->>
->> It looks like it is possible to have some resctrl group with very
->> limited resources just bump up a bit when in ring0, while other
->> groups may get some different amount.
->>
->> The additions for plza to the Documentation aren't helping me
->> understand how users will apply this.
->>
->> Do you have some more examples?
-> 
-> Group creation is similar to what we have currently.
-> 
-> 1. create a regular group and setup the limits.
->    # mkdir /sys/fs/resctrl/group
-> 
-> 2. Assign tasks or CPUs.
->    # echo 1234 > /sys/fs/resctrl/group/tasks
-> 
->    This is a regular group.
-> 
-> 3. Now you figured that you need to change things in CPL0 for this task.
-> 
-> 4. Now create a PLZA group now and tweek the limits,
-> 
->    # mkdir /sys/fs/resctrl/group1
-> 
->    # echo 1 > /sys/fs/resctrl/group1/plza
-> 
->    # echo "MB:0=100" > /sys/fs/resctrl/group1/schemata
-> 
-> 5. Assign the same task to the plza group.
-> 
->    # echo 1234 > /sys/fs/resctrl/group1/tasks
+I don't think anyone would enable that option, beause clearly what
+happens is they develop their generic PHY driver, and also develop
+the consumer of that generic PHY driver. Once it works, they say
+"job done" and submit it.
 
-Reusing 'tasks' files for kernel configuration risks confusing existing
-user space tools that don't know about the new plza option. E.g. this
-may be a problem if the user manually set the plza and then tried to use
-their existing tool for understanding or configuring resctrl settings.
+I was thinking that maybe some automated testing is needed, but
+that runs into other problems:
 
-> 
-> 
-> Now the task 1234 will be using the limits from group1 when running in
-> CPL0.
-> 
-> I will add few more details in my next revision.
-> 
-> Thanks
-> Babu
-> 
+1. any test code doesn't have any way to determine what a PHY
+   driver supports, because phy_validate() is optional. So it has
+   no way to know whether e.g. PHY_MODE_ETHERNET is supported or
+   not. Calling phy_set_mode() isn't sufficient, if ->set_mode()
+   isn't implemented, this is effectively a no-op.
 
-Thanks,
+2. drivers that just return success for ->set_mode() irrespective
+   of the PHY power state but don't program the hardware would be
+   undetectable.
 
-Ben
+I'm also going to point out that phy-core allows ->set_mode() to be
+unimplemented, yet the phy_mode is stored. It looks to me like this is
+intentional part of the API, which means that phy_set_mode*() is not
+expected to always result in the hardware being programmed. That
+brings up the obvious question: if phy_set_mode() is not expected to
+always reprogram the hardware, then what phy API call should follow
+this to ensure the hardware is reprogrammed.
 
+On the other hand, if the API intention was that ->set_mode() must be
+implemented if phy_set_mode*() is to be accepted, then surely
+phy_set_mode_ext() should be checking that phy->ops->set_mode exists,
+and returning -EOPNOTSUPP if it doesn't.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
