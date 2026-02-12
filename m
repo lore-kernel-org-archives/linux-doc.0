@@ -1,113 +1,130 @@
-Received: from mail-oa1-f73.google.com (mail-oa1-f73.google.com [209.85.160.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DB71D5147
-	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 21:08:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A710C1D130E;
+	Thu, 12 Feb 2026 21:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770930520; cv=none; b=gQhYxrh/Jluc3MJIS09qByxIszwtps9FplA+ZVMrJepsFMFpK7i87DJPiT5JEoDO6CdiorD8hsNnGLar1xonFxcMPlJKNB1H7M8d+1/4DpKN2g+BRTiN3rU3rgszRnv/L7AY1L6YmYYqfbZ6+kD/c8tEJvdKTz+oIY93snc/xZo=
+	t=1770930733; cv=none; b=C65HSrNwkNTF2aN1AA5zfS2EwOsc7yYuYF2ch5YvJCWnTTYFlZCSOacA/wGHLACnN3fp8j/wgqcbUkm6nWK0lbFu87t06sWX+omWYto0UJoT4yNnpviOLY9bIEn3H0BM+HNy09FnVKGucyirlP2bELELuhwr++3h4rh7dAQF+Xg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770930520; c=relaxed/simple;
-	bh=Si4a3lubEVIsFr5xg//zf0cPvmnb0GNinNu5h5MauAE=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=DGj+YT9ZbGw1yNI5cNSx15z+A95HVXkADzkTsPDhe2BPKrg59tNGztwWWNlks27euaVfZ+DeD4k/DxsOPDWRSOIkOjXjU1+SFQKCwc1DOGfxHMQDDULaHS3iPW0xvLzpcMN7gUUMIOkvREVWXQbFVOXxfy1q+uW4ZuKU/J3Etxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f8jy3zsw; arc=none smtp.client-ip=209.85.160.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1770930733; c=relaxed/simple;
+	bh=+s+4P6HGCAeRYpPcFFirWuyM7SRq/7NhLTjERkoTthM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=tnKk94fvSiy1kFSp/GuS0zrYg4yFlygCRROVjk3C8AkVh8N7R1s3MAlHD/lU0fHa1aS87IO6oMsTLTnT8azUF4UXiFKiQcC2HTqEiQsCRuomeiarvxSPWDzm3A4LMI0OSsXvULAyGELnSifBU5JbfLZRl4pPB/ENqlwAHUt0KoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ocqfJnoa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f8jy3zsw"
-Received: by mail-oa1-f73.google.com with SMTP id 586e51a60fabf-409ef98c150so884237fac.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 13:08:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770930518; x=1771535318; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DEi6lE69DtAre9+98et1Td5y86Gv96d2+RPCeTq+27M=;
-        b=f8jy3zsw9Uhk0b4rInPMiIs/KIJkcZftveWo2R13oY5ZXtqJoVJZKhiYEPY/PzrFzr
-         mpCP0oOH9McaaBPWnQyEGSqZLIs47USxQ5YmisJIjhA5xl/cXYd7krqkBh1h6BWqk/gY
-         EoiZIuUnBCzmJmrlmECggq37K3gNx+6mbmCqHLWVeCri9A7STJDwzVovNcnMG5KBoiNt
-         wlj8rrJ9h7bFf3Cow96e3Voems+MqtAm5rjlVWu9fmRAnvzIMRK4TlvkKl68BmVNYIG6
-         uhw3Mw4o+HOsOgeTRuu067BqT9eBnV5WK0CeqSH7vIt5vMEOQKnzzVO0qsErxTxKkAXF
-         eH2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770930518; x=1771535318;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DEi6lE69DtAre9+98et1Td5y86Gv96d2+RPCeTq+27M=;
-        b=scsI02egzS1oMaYNfuBArhSXeVTAwuv5XjfbxXFfZdrR2rVaw9mc4BckhDy7CqndZh
-         JoTv5r5vuM2KwJFTLZdHEknQHEhxStixHaYFXpFj2ii4fP9XFVmeDo+zDZDfO3JDoQVm
-         c6I1I2nuJDewSGHJmqNZT5KS4FTQCFGnMbMJ5vU4hZ8zcxXO7u0Lju3oLJNBCsF27W8h
-         mVl3VxxbjknPT4gBR/acfBSoh5MSxxHb4W9YcoWCrtG+GtMes0xYXWORznSPdWCgF0e0
-         N/+yGXvAhU9f7cRBhPPUItn405toFQ9K2ZizwDUuDQN9qU72JmDsOsWM+wa2MBI8gvQm
-         vYBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUEHvayX+v5NH2Rk3jFzgKLiomzORvO2l5mHs+Zyb6VnOBu6XqTXIGgZO6AI7W11x9VtnsTwKsYH84=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwsC1KIzMtDMsrSG8HWxyWdCjrkKzm4mHrBGl54T1ZqlX1NPTz
-	ap9PA74qRomN/Ut8b2vIoSJEThUKVhIrXm50mWyZTjXg88TTPY12d6s816GoZa55maHW6ICgJtx
-	sd40I1Nqf6QR1Ml0WnkB3XEIHWw==
-X-Received: from ilmv6.prod.google.com ([2002:a92:c6c6:0:b0:468:4e21:6fcf])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6820:61d:b0:663:2b12:14f1 with SMTP id 006d021491bc7-677243b521amr65721eaf.83.1770930517469;
- Thu, 12 Feb 2026 13:08:37 -0800 (PST)
-Date: Thu, 12 Feb 2026 21:08:36 +0000
-In-Reply-To: <86v7g5asp4.wl-maz@kernel.org> (message from Marc Zyngier on Tue,
- 10 Feb 2026 08:49:59 +0000)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ocqfJnoa"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6538DC16AAE;
+	Thu, 12 Feb 2026 21:12:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1770930733;
+	bh=+s+4P6HGCAeRYpPcFFirWuyM7SRq/7NhLTjERkoTthM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=ocqfJnoa2CNR5K9okIe4dKxZOfbQ+N+Lv/phLhZqEIEuaN4Dz3GY0yCkQzeNliQD8
+	 3Kkz1M2DKRmB39Bj7iKAmJjz9dVhn62dSccYMv03O9RXCQyYoaznO5AAu4wiNujsn+
+	 hiem/an1AB7f1egMD8w+2wuP5rmlj03VspRXN+IG8fT5SvfLd6lMIxkx8ORdbfxwfd
+	 Fxc1orJOgWw/5V/TaIBBmPbLKdYMK21Jta2M/8spXBsoB2U+qIrzIskypznKPQyiCJ
+	 t+8Wzh8+xJbQ2DyGNJh9Nc2UX+Vwd4gfuykorl+r1gS7nMbWKTqb2MaYitUAGdGg2v
+	 6r+9QsnautiQg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 586A4EEA850;
+	Thu, 12 Feb 2026 21:12:13 +0000 (UTC)
+From: Mayank Rungta via B4 Relay <devnull+mrungta.google.com@kernel.org>
+Date: Thu, 12 Feb 2026 14:12:10 -0700
+Subject: [PATCH 1/4] watchdog/hardlockup: Always update saved interrupts
+ during check
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsnt8qcxhdpn.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v6 00/19] ARM64 PMU Partitioning
-From: Colton Lewis <coltonlewis@google.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com, 
-	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
-	will@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260212-hardlockup-watchdog-fixes-v1-1-745f1dce04c3@google.com>
+References: <20260212-hardlockup-watchdog-fixes-v1-0-745f1dce04c3@google.com>
+In-Reply-To: <20260212-hardlockup-watchdog-fixes-v1-0-745f1dce04c3@google.com>
+To: Jonathan Corbet <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>, 
+ Jinchao Wang <wangjinchao600@gmail.com>, 
+ Yunhui Cui <cuiyunhui@bytedance.com>, Stephane Eranian <eranian@google.com>, 
+ Ian Rogers <irogers@google.com>, Li Huafei <lihuafei1@huawei.com>, 
+ Feng Tang <feng.tang@linux.alibaba.com>, 
+ Max Kellermann <max.kellermann@ionos.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Douglas Anderson <dianders@chromium.org>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Mayank Rungta <mrungta@google.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1770930732; l=2116;
+ i=mrungta@google.com; s=20260212; h=from:subject:message-id;
+ bh=jeXyM9Zz7zH/TkvXATjr1ijroPIgJAbT1ZySlVxvX+0=;
+ b=EmrlxcFLuYgP97uSm+OPQWshCcXqiYiX/U9ySJP+u6v+S8ri2MGxrjnlbzHiWziBLLVQq67/z
+ PyUOFRmfLP/Bu/cARWpsnG6+ROx7Q8wk3Ov4Zum4cfI4UiAHhwZ5Hts
+X-Developer-Key: i=mrungta@google.com; a=ed25519;
+ pk=2Bjwbv/ibL10QnyvK9G7DoKpffXy7z6+M4NawEYgYDI=
+X-Endpoint-Received: by B4 Relay for mrungta@google.com/20260212 with
+ auth_id=634
+X-Original-From: Mayank Rungta <mrungta@google.com>
+Reply-To: mrungta@google.com
 
-Hey Marc, thanks for the review.
+From: Mayank Rungta <mrungta@google.com>
 
-Marc Zyngier <maz@kernel.org> writes:
+Currently, arch_touch_nmi_watchdog() causes an early return that
+skips updating hrtimer_interrupts_saved. This leads to stale
+comparisons and delayed lockup detection.
 
-> On Mon, 09 Feb 2026 22:13:55 +0000,
-> Colton Lewis <coltonlewis@google.com> wrote:
+Update the saved interrupt count before checking the touched flag
+to ensure detection timeliness.
 
->> This series creates a new PMU scheme on ARM, a partitioned PMU that
->> allows reserving a subset of counters for more direct guest access,
->> significantly reducing overhead. More details, including performance
->> benchmarks, can be read in the v1 cover letter linked below.
+Signed-off-by: Mayank Rungta <mrungta@google.com>
+---
+ kernel/watchdog.c | 23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
->> An overview of what this series accomplishes was presented at KVM
->> Forum 2025. Slides [1] and video [2] are linked below.
+diff --git a/kernel/watchdog.c b/kernel/watchdog.c
+index 7d675781bc917d709aa3fb499629eeac86934f55..b71aa814edcf9ad8f73644eb5bcd1eeb3264e4ed 100644
+--- a/kernel/watchdog.c
++++ b/kernel/watchdog.c
+@@ -186,7 +186,21 @@ static void watchdog_hardlockup_kick(void)
+ 
+ void watchdog_hardlockup_check(unsigned int cpu, struct pt_regs *regs)
+ {
++	bool is_hl;
+ 	int hardlockup_all_cpu_backtrace;
++	/*
++	 * Check for a hardlockup by making sure the CPU's timer
++	 * interrupt is incrementing. The timer interrupt should have
++	 * fired multiple times before we overflow'd. If it hasn't
++	 * then this is a good indication the cpu is stuck
++	 *
++	 * Purposely check this _before_ checking watchdog_hardlockup_touched
++	 * so we make sure we still update the saved value of the interrupts.
++	 * Without that we'll take an extra round through this function before
++	 * we can detect a lockup.
++	 */
++
++	is_hl = is_hardlockup(cpu);
+ 
+ 	if (per_cpu(watchdog_hardlockup_touched, cpu)) {
+ 		per_cpu(watchdog_hardlockup_touched, cpu) = false;
+@@ -195,13 +209,8 @@ void watchdog_hardlockup_check(unsigned int cpu, struct pt_regs *regs)
+ 
+ 	hardlockup_all_cpu_backtrace = (hardlockup_si_mask & SYS_INFO_ALL_BT) ?
+ 					1 : sysctl_hardlockup_all_cpu_backtrace;
+-	/*
+-	 * Check for a hardlockup by making sure the CPU's timer
+-	 * interrupt is incrementing. The timer interrupt should have
+-	 * fired multiple times before we overflow'd. If it hasn't
+-	 * then this is a good indication the cpu is stuck
+-	 */
+-	if (is_hardlockup(cpu)) {
++
++	if (is_hl) {
+ 		unsigned int this_cpu = smp_processor_id();
+ 		unsigned long flags;
+ 
 
->> IMPORTANT: This iteration does not yet implement the dynamic counter
->> reservation approach suggested by Will Deacon in January [3]. I am
->> working on it, but wanted to send this version first to keep momentum
->> going and ensure I've addressed all issues besides that.
+-- 
+2.53.0.273.g2a3d683680-goog
 
-> [...]
 
-> As I have asked before, this is missing an example of how userspace is
-> going to use this. Without it, it is impossible to correctly review
-> this series.
-
-> Please consider this as a blocker.
-
-Understood. I remember you asking for a QEMU patch specifically.
-
-I had hoped that the use in the selftest was sufficient to show how to
-use the uAPI. If not, I can send out an example QEMU patch to the QEMU
-ARM mailing list.
-
-> Thanks,
-
-> 	M.
-
-> --
-> Without deviation from the norm, progress is not possible.
