@@ -1,131 +1,123 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2510A2DAFA8
-	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 10:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128B92E6CD2;
+	Thu, 12 Feb 2026 10:09:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770890742; cv=none; b=N9G7BmNmBfoenK8DrjzNTIF8ewPZJpmZn+Y+eRFd2QrlLMezTFP4H706TJwXl010qEFGfDyLQccyaYqoDLd6CX4n1/ySNEaubT/SzbGxAjlx2HobUlrxkmfsFfOpp2zkYRwUODkbpa/7uCNGte72S5o5xrNyBgOITzpB+v2R9oo=
+	t=1770890955; cv=none; b=VKWKhE0TNsAhzR3GhvJwekngjtMlhGqVt0/WrvCt6oRMqq1GCVL0C8baR6UycUNr2zeT9abnQjmifn6XHLjKX3UxcOiUwcJ6lotFH8owCWxHynZDvCU/bALovsPjhLd5Gw44FhY310hknIcS1KBDfjkwilNO59ghCvx1lqWd5YM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770890742; c=relaxed/simple;
-	bh=2ZESek0F7JmK9uZ004GfMTv49kI/SFXtzWjcGEo+9Tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EXxnYcKOlJQJ5zQ7GIQ3kJJirbBwjcx0QDE8eDsMn1/LAGb2BKhpZuNyPIbrgiISHVRqtstVRco2exKjOunLGTS6lwNuG93HMEQx8njiMTH14ewEXb3XFzqAhWXm1uQbdFYjhUIH5CIDRHUvnvgG44PbqMJKU7aI0YNv0LSc+4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=HyhOvWsT; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1770890955; c=relaxed/simple;
+	bh=Z3/yqr5/aYsIp4SbahJ37hdAqlUbKuLTT6ft2jLHBJY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ru9gexEd+ZVl/3BtZ2wJDZiIPow0EW0t47bTpCeSe1Ei/LRrIsn8re3y9luiA0LmWHpKlM9pyw+9xqL+WMll5coA5F9yk8kx4N2oFj6bWATyHiV0m3GlOPMMFNtYQuYmM457gL1ym5uX0iqhqUl/v0njKk1XZtg8sDug4voS/pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=N1Lb/dyT; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="HyhOvWsT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=avMG8SoJujkdEZaQJCR7zVj6TeIgcCLDNF+ZZQfHE2s=; b=HyhOvWsT9MqMOm9yM35LpPlh8Z
-	MfDuyINGgezrTFzQszVrgKXw8JkJYFRR9gQz0njDnZcuL/V3dHw3/XDZvGrauVgP9KaigzsCxjV4y
-	xVz5fdhSKxDo4W/gKSO/m3HZ4QT1+ue1CQ21BnYS7nCk9cuJ8XqmJmDWMDkDAfFgOuJXx4a2o3pRz
-	h8mKAtd0wO4jOa0EJ79enxP9nn31o2XtC73m0AyNGNQZvcs1JXmIuEsIYeqU6ixkqGSmF/9zVxnN0
-	4sVPuDKr9Y3+3mwZWqz1KtHRVJXnkJ9/2q///ndk3+CG+nfCqzvHzVEnADMRTF1XMvZTB3O6gkTNg
-	ZWebTCqA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:58696)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1vqTZq-000000004P2-0qls;
-	Thu, 12 Feb 2026 10:05:38 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.98.2)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1vqTZo-000000004gY-18aD;
-	Thu, 12 Feb 2026 10:05:36 +0000
-Date: Thu, 12 Feb 2026 10:05:36 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Vladimir Oltean <olteanv@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-phy@lists.infradead.org
-Subject: Re: [PATCH net-next] doc: generic phy: update generic PHY
- documentation
-Message-ID: <aY2l8LgKyrohB2rP@shell.armlinux.org.uk>
-References: <20260211154839.lbh4uovxr5b5s4nv@skbuf>
- <E1vo0mF-00000007kbg-1OeA@rmk-PC.armlinux.org.uk>
- <20260211154839.lbh4uovxr5b5s4nv@skbuf>
- <aYzHL1qwew5p-xoq@shell.armlinux.org.uk>
- <aYzHL1qwew5p-xoq@shell.armlinux.org.uk>
- <20260211193006.ad2piivyoqhvg22r@skbuf>
- <aYznE1FIbs_0OcPR@shell.armlinux.org.uk>
- <aY1hs4XKZSpvKd3B@vaman>
- <20260212091332.qcpi3qyynmdp4acv@skbuf>
- <aY2lFTIALH7qEJmM@shell.armlinux.org.uk>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="N1Lb/dyT"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=DJBahsVO2buYBRo6uanQ4akOube4lASCcn5Wc5JuHA0=;
+	b=N1Lb/dyTE2h5HOJHrh+NRJNvn9yj1KvCbqkIn6VqWUGF70dIauXoQMrrYoYNwdNWlg3+8a/E2
+	vGe1QBnODc9pH2mKsoaHcQbTyBL1aa76SvP3u+XYQm95+qiCFBlYzCsJrRLeFozkScfrLE4vows
+	heKtPwy0ISFWrMHfm+RuWZA=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4fBW9p5KLtzRhTq;
+	Thu, 12 Feb 2026 18:04:30 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id C35A4201EB;
+	Thu, 12 Feb 2026 18:09:08 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
+ (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 12 Feb
+ 2026 18:09:06 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <akpm@linux-foundation.org>, <bhe@redhat.com>,
+	<vgoyal@redhat.com>, <dyoung@redhat.com>, <rdunlap@infradead.org>,
+	<kees@kernel.org>, <elver@google.com>, <paulmck@kernel.org>, <arnd@arndb.de>,
+	<ruanjinjie@huawei.com>, <fvdl@google.com>, <thuth@redhat.com>,
+	<ardb@kernel.org>, <leitao@debian.org>, <rppt@kernel.org>, <osandov@fb.com>,
+	<cfsworks@gmail.com>, <sourabhjain@linux.ibm.com>, <ryan.roberts@arm.com>,
+	<tangyouling@kylinos.cn>, <eajames@linux.ibm.com>, <hbathini@linux.ibm.com>,
+	<ritesh.list@gmail.com>, <songshuaishuai@tinylab.org>, <bjorn@rivosinc.com>,
+	<samuel.holland@sifive.com>, <kevin.brodsky@arm.com>,
+	<junhui.liu@pigmoral.tech>, <vishal.moola@gmail.com>, <dwmw@amazon.co.uk>,
+	<pbonzini@redhat.com>, <kai.huang@intel.com>, <ubizjak@gmail.com>,
+	<coxu@redhat.com>, <fuqiang.wang@easystack.cn>, <liaoyuanhong@vivo.com>,
+	<brgerst@gmail.com>, <jbohac@suse.cz>, <x86@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
+	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+	<kexec@lists.infradead.org>
+Subject: [PATCH v5 0/4] arm64/riscv: Add support for crashkernel CMA reservation
+Date: Thu, 12 Feb 2026 18:09:57 +0800
+Message-ID: <20260212101001.343158-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aY2lFTIALH7qEJmM@shell.armlinux.org.uk>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On Thu, Feb 12, 2026 at 10:01:57AM +0000, Russell King (Oracle) wrote:
-> On Thu, Feb 12, 2026 at 11:13:32AM +0200, Vladimir Oltean wrote:
-> > Also thinking out loud, we could do something else - introduce something
-> > similar in spirit to CONFIG_DEBUG_TEST_DRIVER_REMOVE, which would be a
-> > debug option that sees what power state the PHY is in during the
-> > phy_set_mode_ext() call, flips it before calling ->set_mode() (calling
-> > either ->power_on() or ->power_off()), and restores it after the call.
-> > 
-> > Having this option should also give PHY provider developers a quick way
-> > of testing both calling orders without modifying the consumers.
-> 
-> I don't think anyone would enable that option, beause clearly what
-> happens is they develop their generic PHY driver, and also develop
-> the consumer of that generic PHY driver. Once it works, they say
-> "job done" and submit it.
-> 
-> I was thinking that maybe some automated testing is needed, but
-> that runs into other problems:
-> 
-> 1. any test code doesn't have any way to determine what a PHY
->    driver supports, because phy_validate() is optional. So it has
->    no way to know whether e.g. PHY_MODE_ETHERNET is supported or
->    not. Calling phy_set_mode() isn't sufficient, if ->set_mode()
->    isn't implemented, this is effectively a no-op.
-> 
-> 2. drivers that just return success for ->set_mode() irrespective
->    of the PHY power state but don't program the hardware would be
->    undetectable.
-> 
-> I'm also going to point out that phy-core allows ->set_mode() to be
-> unimplemented, yet the phy_mode is stored. It looks to me like this is
-> intentional part of the API, which means that phy_set_mode*() is not
-> expected to always result in the hardware being programmed. That
-> brings up the obvious question: if phy_set_mode() is not expected to
-> always reprogram the hardware, then what phy API call should follow
-> this to ensure the hardware is reprogrammed.
-> 
-> On the other hand, if the API intention was that ->set_mode() must be
-> implemented if phy_set_mode*() is to be accepted, then surely
-> phy_set_mode_ext() should be checking that phy->ops->set_mode exists,
-> and returning -EOPNOTSUPP if it doesn't.
+Exclude crash kernel memory in crash core to avoid duplication. Also move
+the size calculation (and the realloc if needed) into crash core.
 
-I'll also point out that other parts of the API don't even give the
-driver the opportunity to program hardware. E.g.:
+And add support for crashkernel CMA reservation for arm64 and riscv.
 
-static inline void phy_set_bus_width(struct phy *phy, int bus_width)
-{
-        phy->attrs.bus_width = bus_width;
-}
+Changes in v5:
+- Fix the kernel test robot build warnings.
+- Sort crash memory ranges before preparing elfcorehdr for powerpc
+- Link to v4: https://lore.kernel.org/all/20260209095931.2813152-1-ruanjinjie@huawei.com/
 
-So, in order for this hardware configuration to take effect, some other
-PHY API call is necessary after calling this function.
+Changes in v4:
+- Move the size calculation (and the realloc if needed) into the
+  generic crash.
+- Link to v3: https://lore.kernel.org/all/20260204093728.1447527-1-ruanjinjie@huawei.com/
 
-(While not relevant for ethernet, I think this needs to be considered
-in this discussion, since it's all related to how the generic PHY API
-should be used.)
+Changs in v3:
+- Exclude crash kernel memory in crash core as Mike suggested.
+- Add acked-by.
+
+Jinjie Ruan (3):
+  crash: Exclude crash kernel memory in crash core
+  arm64: kexec: Add support for crashkernel CMA reservation
+  riscv: kexec: Add support for crashkernel CMA reservation
+
+Sourabh Jain (1):
+  powerpc/crash: sort crash memory ranges before preparing elfcorehdr
+
+ .../admin-guide/kernel-parameters.txt         |  16 +--
+ arch/arm64/include/asm/kexec.h                |   9 +-
+ arch/arm64/kernel/machine_kexec_file.c        |  43 +++-----
+ arch/arm64/mm/init.c                          |   5 +-
+ arch/loongarch/include/asm/kexec.h            |   9 +-
+ arch/loongarch/kernel/machine_kexec_file.c    |  41 +++----
+ arch/powerpc/include/asm/kexec.h              |  13 +++
+ arch/powerpc/include/asm/kexec_ranges.h       |   1 -
+ arch/powerpc/kexec/crash.c                    |  67 ++++++-----
+ arch/powerpc/kexec/file_load_64.c             |  17 +--
+ arch/powerpc/kexec/ranges.c                   | 103 +----------------
+ arch/riscv/include/asm/kexec.h                |   9 +-
+ arch/riscv/kernel/machine_kexec_file.c        |  39 +++----
+ arch/riscv/mm/init.c                          |   5 +-
+ arch/x86/include/asm/kexec.h                  |   9 ++
+ arch/x86/kernel/crash.c                       | 104 ++----------------
+ include/linux/crash_core.h                    |  75 ++++++++++++-
+ kernel/crash_core.c                           |  85 ++++++++++++--
+ 18 files changed, 314 insertions(+), 336 deletions(-)
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+2.34.1
+
