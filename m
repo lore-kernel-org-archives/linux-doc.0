@@ -1,213 +1,148 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D084E2C234A
-	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 14:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770904821; cv=pass; b=jsHYThEsNUykeFV0nQd9wxaGZOZeRHNmd/RM154ap+PU8BjQDPnIcu4tWyTufIcfcXNhxT4O53v1JSEcMwaTo3HJWDW3fycgsKwhsB423VXS/BjVDaKX8Fz4PDXDVDhXOiODvgRNo7UtAMaCMruD39kUglbQEVx84W3Pahf6Auc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770904821; c=relaxed/simple;
-	bh=5So+AYlnYBUG8P833D7MIJ51WXhXlMTuvQnknuIF3Mw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iSagzu7FZ4MBXL7DALzks3GC5fhJC7eSahPYM9VJjywwo1RJ5ahtIwhfs8SiiweGSub8azd3fttpbz02gKDcFginN78bThWSGlKvn+YKp6xrnC5tY+Jnb3nYfw9t0oiGehMigGRqIKR7XeqS8T+7MbZRmD7lbHG0RW7euU69BUY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Dgd5EN7P; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=pKMFrLBR; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D51A2C234A;
+	Thu, 12 Feb 2026 14:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770905017; cv=none; b=W5D8nM4cl9udt/WwSBQZc1xClATZuy3ny+Z4m5E35re+hCNh7aU2kA1djrbxrJqANA2dvG/ZKB6VlHip+475m8tJ5Yxh5a+OJCiVtYn5KWIhESazYgXWKindnE6D9AFhvB69/kGovMPAIxFm9ghUGeh4IVsbb4HhDpiJj0V1BgA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770905017; c=relaxed/simple;
+	bh=EyQunCWi4Z1DGhSr1/8zGP7hAM9s1Yj4u4pyQcPZisY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hzmLkyEI7WAkGZABzb39aOAVHkHFD92asZvxo4gHFy2UwPLD4Z8ltADvcWB80waIf73bUzGpDmbMhTi7W1JDcC28CnLMl743AA3OcdYQUyr/3xqTF+AijmOXBB7Q9El4HIM5qZqcnWsoUmuFBMDobYfCyLGNgDoD/gLodozeSbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HIbQ4AtR; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dgd5EN7P";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="pKMFrLBR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1770904817;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6fqDi3KyffDsVgAKVUvyPTS3GAkTlVPCfSZBYkz2v2U=;
-	b=Dgd5EN7PSphaoxCFK59BorPwGi0fxfu+z4c/rQCtwE7TfzVTfIwFDpcVQ401Xi+cQRoK8P
-	1EqTJByiHckw6y/+g0XgdgoJ9prgZftXzkFUq1WFtGiUIJB51vQQ4QWArryfurVyBjBlUX
-	Pi8kswWFAHnGEhdkNew8FDe3/L7AVTo=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-136-_FQiODiWPx-mDP-2trKi2A-1; Thu, 12 Feb 2026 09:00:16 -0500
-X-MC-Unique: _FQiODiWPx-mDP-2trKi2A-1
-X-Mimecast-MFC-AGG-ID: _FQiODiWPx-mDP-2trKi2A_1770904816
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-506a1ce5d31so1365881cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 06:00:16 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1770904816; cv=none;
-        d=google.com; s=arc-20240605;
-        b=RYWteryhfL8dKTkz9YDnB6sdVUr/5fMUv39875PRGdvjpLMjo1RdE7XOgyZYMfhK+a
-         ktUAujzYqNnDCJ6FtOdHtnfdMibWUpe8IRNenzbQO75FJ4XEzyolxSYFwX4A0Tij249z
-         EcnKMwD8v8J1no7s+dKGEl0U7+MPDhNRPz8tK2ksOxCZ6TR7+z+SRUF28hRBvqXK/UHc
-         MhEE6fg/FtSNeHPmFSIigrbtwrSN9hMM9mp332Vs69RiBPW3IGPeOGINEYwqzasYqAPI
-         fu4tSKNqlGEXioEiUm4rF6/N+ojBH0mkuiccUdrKOu5A5sjW1O+sG4UlikLn82tY7UQn
-         NPvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6fqDi3KyffDsVgAKVUvyPTS3GAkTlVPCfSZBYkz2v2U=;
-        fh=jaVqxVpndP5ENlE+0wBSIg7R/k1Oh++aAbMSW6NHK38=;
-        b=idP2AkMRtIbudqJi/eGt+BmR8p0Rjd1EDlpeeTtpSMvFJyXl/CVQ/NvPSDSM3hx5X8
-         HQKOtpSD2UnzY+a8C5f9+vOr2l3+Dq1XC97dqL9VTehZMreOzrMfdEwExGCDBXkt5ZLz
-         H+o+CbBdUnhC30PDzk9kI1UJVH18YarTWHRKUJiYAAH4FbvpHAhmZwlqrGcmbg3nMu9u
-         0hgumXL06DSaiT17QHhsFpc0TxMnLleRpekkPaiGc2DiR1VqwbUeV9smBYGsR2iLtGLg
-         PYfxVnkA+FYDWX0kpCtkQTJyPchvjIRhsfp657Gn/AWQ2mLcAAJajPTpq+89wiGIWmTV
-         RLJg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1770904816; x=1771509616; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6fqDi3KyffDsVgAKVUvyPTS3GAkTlVPCfSZBYkz2v2U=;
-        b=pKMFrLBRPjpERF5RzQTv35LRHOlJwWFvtearKzZ6oUSz2KTvmVy7JT7Ydg+CWWTW6u
-         SPf0tg3ivRcS2jJ5msEQfYrSnpQlbdZJqwZEseN8P5LQBdFZFLssJsHGiCZJAhk0epUh
-         CbR4XNUt1kNESYqo4PwbxgO/Hqx3ezXkgat6I1L397qb3/5S9FDDX4muCvJt0fBmj9k2
-         Bi+Vw51zfIqeDDOOINLnm6xmBs+KheV5rDKSCRowv+O/ACrt0ENtOyUEL+FsCAVsVT95
-         a+hCjjfqDuJcKsyjP5KYnmsiqmWMvXBqcKFE3tSRNhYY79uG0dvqzQ8ZApludjeJuJps
-         ReHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770904816; x=1771509616;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6fqDi3KyffDsVgAKVUvyPTS3GAkTlVPCfSZBYkz2v2U=;
-        b=Cfp2zvB9KRCVvGRQyuM5dmcl0UEbpKMbqMGXRfJFFkU4fcOjY35J/iDGFAcWB4P8/m
-         1Yqy/P0CRoltDwv4YiUdVCFp91boHhFayIlI4ugeN/NfoAdi6Yzr8rqU+LPnUcgvOy8V
-         WI89TUolXu32prjja1ru4SgupnFW97twgEF28ISxzeW0+fRoY0j72Qaer5ZTLqTD+KDP
-         mvHAV2qbqOatAR7YGJhYNHB02zrSGBOdjTHPupnhIp4WdQgKSyxyvmMJQbV/qqYAPCdf
-         jTPRwbp3T3xSFZzja6LD0I1yWgUGOZtwXDVlOupV9bo2HghqsgqMpdq99muUU54T03EH
-         Tstg==
-X-Forwarded-Encrypted: i=1; AJvYcCUUijTi9GLoIu8H1KCsL2rAoQwJVVwgYe5s6PPv84eaFUNm/60rKHJatbW0fcXYua1M9hfy6S8nE/M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8a60ScCmw8LB8cu+VbC9LjYPCv2W+uECL6acRkVOXipKvqoRK
-	daDRvrgO+/1B4+hv89CkvdJTauDBEas60QvBomgKN/1QHJpRkt/F/fznZmLuNFmgHU/JQVUQHkc
-	N3iC3OQwU8Zau/sh2T5j1kEizOK5HRpB0rKGizQz3Sov4vFxos/wa/Au1LdKGqBtb7g2uzI7Ib0
-	TRaHWJ8TBk6563KYDdLYCsl3rHpMJZssx2xrnZ
-X-Gm-Gg: AZuq6aK4lN5NdOAgrSn63IBbSrfcUnmWBKYGF9uZHpA1Or+AqUwjOxHfH4Vz0Opz22A
-	QBMj9CG6i9YxJXnNH/aEkU2ALcfxuw1cjfCaS/JXvxqXnpTq+6FC+PqRak9Y0TUd4XFU9HfLe3t
-	vs1s8O94d6mJCv+94Opa9WQeniVDigkT1KUW0drtyXxv3Ia5bEwK5Rlo+NmaEq+hw61FOjnEJFp
-	NjdEZhhGfN9ZjrQbSXtugnbjVrClhVUFHC3WeI=
-X-Received: by 2002:a05:622a:4d2:b0:506:217e:b0e5 with SMTP id d75a77b69052e-5069471b3bdmr22134591cf.0.1770904815503;
-        Thu, 12 Feb 2026 06:00:15 -0800 (PST)
-X-Received: by 2002:a05:622a:4d2:b0:506:217e:b0e5 with SMTP id
- d75a77b69052e-5069471b3bdmr22132021cf.0.1770904813375; Thu, 12 Feb 2026
- 06:00:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HIbQ4AtR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1770905016; x=1802441016;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EyQunCWi4Z1DGhSr1/8zGP7hAM9s1Yj4u4pyQcPZisY=;
+  b=HIbQ4AtRUazPzYsqClhfkLVAmx8EVct7RfdCdSbkFOjbFgAjuBsErXkn
+   oCsGdh43kHYGNwWAMqD4Hi4ix1yQ5JgqRre09iY6eyK4e/SYNiSdYHQNs
+   rlhv6ANt2uTPTlDjbFJ67WdwdDA1OZUl2RQXBBTjO5MhHw+DtRHLQ20jO
+   inUW39mlEcGy0TQriSRZDNZqYI1BklKMbKTpUR1cvBJahJVVKybCHSOxa
+   CECCg/97mBffOLqAIpJccTtLkhZ3j4YnrQqrzfqg3Ys3AhskMqVuQU30J
+   c54b3hrvN4AkGUAh8nvWqZ+K0X+XNTK8Bg9Zvme70j/CKZwpOXZoSO1Ek
+   g==;
+X-CSE-ConnectionGUID: jhujUUZsS4eErCSq89rb+Q==
+X-CSE-MsgGUID: y8KGPU/xRgmHZeEkLCT09A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11699"; a="71976922"
+X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
+   d="scan'208";a="71976922"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Feb 2026 06:03:35 -0800
+X-CSE-ConnectionGUID: b9UPKEm5RXKY0a9hXxjt7A==
+X-CSE-MsgGUID: sIgKH/6ER8+H6qHzV4ooXA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,286,1763452800"; 
+   d="scan'208";a="211861087"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 12 Feb 2026 06:03:32 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vqXI1-00000000rDE-3YFM;
+	Thu, 12 Feb 2026 14:03:29 +0000
+Date: Thu, 12 Feb 2026 22:03:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Stoyan Bogdanov <sbogdanov@baylibre.com>, jbrunet@baylibre.com,
+	linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Stoyan Bogdanov <sbogdanov@baylibre.com>
+Subject: Re: [PATCH v1 1/3] hwmon: (pmbus/tps25990): Rework TPS25990 non
+ standatd direct conversion
+Message-ID: <202602122114.dKAeIkiK-lkp@intel.com>
+References: <20260212084502.1795-2-sbogdanov@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260212124923.222484-1-gpaoloni@redhat.com> <20260212124923.222484-2-gpaoloni@redhat.com>
- <2026021221-grading-clatter-b7bf@gregkh>
-In-Reply-To: <2026021221-grading-clatter-b7bf@gregkh>
-From: Gabriele Paoloni <gpaoloni@redhat.com>
-Date: Thu, 12 Feb 2026 15:00:01 +0100
-X-Gm-Features: AZwV_QjUUvlcQ1gY_oM6dV3H03_w17i2jymN17xZ8bDIyjGg9gzhLqYbN4-NK1k
-Message-ID: <CA+wEVJaFX4AE5ruKLvgYZhmNsOabovLp=2LAaLUYe5B9r51qEA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/6] Documentation: extend the 'Function
- documentation' with expected behavior and constraints of use
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, arnd@arndb.de, 
-	brendan.higgins@linux.dev, raemoar63@gmail.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, acarminati@nvidia.com, linux-mm@kvack.org, 
-	safety-architecture@lists.elisa.tech, kstewart@linuxfoundation.org, 
-	chuckwolber@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260212084502.1795-2-sbogdanov@baylibre.com>
 
-Hi Greg
+Hi Stoyan,
 
-thanks for the quick response
+kernel test robot noticed the following build errors:
 
-On Thu, Feb 12, 2026 at 1:59=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Thu, Feb 12, 2026 at 01:49:18PM +0100, Gabriele Paoloni wrote:
-> > Extend the longer description section of a function kernel-doc
-> > header with an itemised list of function's behaviors and
-> > constraints of use.
-> > These are useful to link and trace test cases (e.g. KUnit) to
-> > the different behavior IDs and define the constraints to be
-> > met by the function's caller.
-> >
-> > Signed-off-by: Gabriele Paoloni <gpaoloni@redhat.com>
-> > ---
-> >  Documentation/doc-guide/kernel-doc.rst | 19 +++++++++++++++++++
-> >  1 file changed, 19 insertions(+)
-> >
-> > diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc=
--guide/kernel-doc.rst
-> > index 8d2c09fb36e4..23e6c4b45b14 100644
-> > --- a/Documentation/doc-guide/kernel-doc.rst
-> > +++ b/Documentation/doc-guide/kernel-doc.rst
-> > @@ -83,6 +83,25 @@ The general format of a function and function-like m=
-acro kernel-doc comment is::
-> >     *
-> >     * The longer description may have multiple paragraphs.
-> >     *
-> > +   * When specifying testable code behaviour the longer description mu=
-st contain
-> > +   * a paragraph formatted as follows:
-> > +   *
-> > +   * function_name behavior:
-> > +   * [ID1] - [expected behavior]
-> > +   *
-> > +   * [ID2] - [expected behavior]
-> > +   *
-> > +   * [...]
-> > +   *
-> > +   * [IDn] - [expected behavior]
-> > +   *
-> > +   * function_name constraints of use:
-> > +   * [ID1] - [constraint to be met by the caller]
-> > +   *
-> > +   * [ID2] - [constraint to be met by the caller]
-> > +   *
-> > +   * [IDn] - [constraint to be met by the caller]
->
-> So the same "id" is used for a behavior, AND a constraint?
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.19 next-20260211]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The idea is to have a specific behaviour or constraint of use
-identified by the tuple [function_name behavior][ID].
-So I think we could have a problem for duplicated symbols (but
-it is a sort of corner case...)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stoyan-Bogdanov/hwmon-pmbus-tps25990-Rework-TPS25990-non-standatd-direct-conversion/20260212-164903
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20260212084502.1795-2-sbogdanov%40baylibre.com
+patch subject: [PATCH v1 1/3] hwmon: (pmbus/tps25990): Rework TPS25990 non standatd direct conversion
+config: parisc-randconfig-002-20260212 (https://download.01.org/0day-ci/archive/20260212/202602122114.dKAeIkiK-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260212/202602122114.dKAeIkiK-lkp@intel.com/reproduce)
 
->
-> And what defines an "id"?  I see in your example you use number.number,
-> but is that specified?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602122114.dKAeIkiK-lkp@intel.com/
 
-I thought that there is no need to specify an ID format as long as the ID i=
-s
-unique and referenced by the kunit tests testing the symbol.
-Basically I thought that in some cases it is easier to enumerate 1, 2, 3,
-whereas in others a, b, c can be used or even a mix 1a, 1b, 2a, 2b etc.
-So I wanted to leave such freedom to the programmer.
+All errors (new ones prefixed by >>):
 
->
-> And how is a id going to stay in sync across different files?  That
-> feels impossible to maintain for any length of time, and puts a burden
-> on the developer who wishes to add/remove a test or "id", AND a
-> maintainer who has to remember to go and look in multiple places for
-> such an id sync up.
+   drivers/hwmon/pmbus/tps25990.c: In function 'tps25990_probe':
+>> drivers/hwmon/pmbus/tps25990.c:463:11: error: 'ENOTSUP' undeclared (first use in this function); did you mean 'ENOTSUPP'?
+      return -ENOTSUP;
+              ^~~~~~~
+              ENOTSUPP
+   drivers/hwmon/pmbus/tps25990.c:463:11: note: each undeclared identifier is reported only once for each function it appears in
 
-Well given that the tested ids are defined by the tuples mentioned above,
-the relation between a kunit test and the tested tuples should be not
-ambiguous.
-Also I thought that, when writing a kunit test, the tester should know whic=
-h
-behavior is being tested and hence it should be easy to define the tested
-tuples in the kunit header.
-So I do not see much of a burden, but maybe I am missing something here...
 
-Gab
+vim +463 drivers/hwmon/pmbus/tps25990.c
 
->
-> That's just not going to work, sorry.
->
-> greg k-h
->
+   447	
+   448	static int tps25990_probe(struct i2c_client *client)
+   449	{
+   450		struct device *dev = &client->dev;
+   451		struct tps25990_data *data;
+   452		u32 rimon = TPS25990_DEFAULT_RIMON;
+   453		struct pmbus_driver_info *info_get;
+   454		struct local_direct_value *info_local_get;
+   455		int ret;
+   456	
+   457		ret = device_property_read_u32(dev, "ti,rimon-micro-ohms", &rimon);
+   458		if (ret < 0 && ret != -EINVAL)
+   459			return dev_err_probe(dev, ret, "failed to get rimon\n");
+   460	
+   461		data = (struct tps25990_data *)of_device_get_match_data(dev);
+   462		if (!data)
+ > 463			return -ENOTSUP;
+   464	
+   465		info_get = data->info;
+   466		/* Make copy of pmbus_info and replace it to preserve original values */
+   467		data->info = devm_kmemdup(dev, info_get, sizeof(*info_get), GFP_KERNEL);
+   468		if (!data->info)
+   469			return -ENOMEM;
+   470	
+   471		info_local_get = data->info_local;
+   472		/* Make copy of pmbus_info and replace it to preserve original values */
+   473		data->info_local = devm_kmemdup(dev, info_local_get, sizeof(*info_local_get), GFP_KERNEL);
+   474		if (!data->info_local)
+   475			return -ENOMEM;
+   476	
+   477		/* Adapt the current and power scale for each instance */
+   478		tps25990_set_m(&data->info->m[PSC_CURRENT_IN], rimon);
+   479		tps25990_set_m(&data->info->m[PSC_POWER], rimon);
+   480	
+   481		return pmbus_do_probe(client, data->info);
+   482	}
+   483	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
