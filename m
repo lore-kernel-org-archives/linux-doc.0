@@ -1,101 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39575F50F;
-	Thu, 12 Feb 2026 09:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05068347C6
+	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 09:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770887274; cv=none; b=USUufp7/MC0mE7gJ5Nj+jnDtC13KLPK7HkrS3PEibZnpoPS+2rb906iceoPSDKU7dR4+M3UWmHdJ7Rs8f2zFjK+ZCMCGAcg9sQ1254mLZspQsw7rHwNGLEDZyTDaMMt77SqhyIgmr4hTD2PDBYcvcpxADJw55QFlkY8UJcuVy9k=
+	t=1770887618; cv=none; b=Rem/BPvjIAGXPJ2KFs1Ayd/9JR7aHY8+HOyBQihYoDB7WJeZo3vzD2uJNAe6UVZBCWp3actgc6AASym8j6hzGPse4FjGHFSwwiPsEm72cF7ljakP/yyYxaVOnrt9cMpnWwO7mBQVfqzikbNqAgBvH+/lbUKp+E8FPnqcOsfXokE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770887274; c=relaxed/simple;
-	bh=7X/ZE+464SFMrcWXG+fw9L92P1t1gtPIejSOE1mm8Sg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CRYqH6osKWZFuXlKUnqfxev2UCZyTQthLX7UK7YTtsqGd2Tqj2AEMx0ya7YCvyARL+3UHvUXbEUo4zK720XJ6qTwW/vHkf0+cy0jJBArRUnyh/yfVtlWu9NPZT/c9eJdQrqSh15Mk2C2lFdzYDLJO4nvgOmj2pHjoMJwLKInlsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRDzJd4y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770887618; c=relaxed/simple;
+	bh=6g/CfwrSiSpX4PzjT+5c0IfwtZX96ZQZE35njKJMIAc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vBBgTYyG9RH7yBJkg48RpDZ0Aj+qG9h3w6FRTQ3eb2/rm2FvXT6oplClxY9vy/5gzXQv/5N7qVESbonP+SGuYtD5PFreZ2D9zCptcM7N2nhc078Up2qCZJB2Rd8aqrfjM7v287ZUoovX1IA8uIornQxscDF/DANxLne2B6zB6ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ae75wrbv; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRDzJd4y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1428BC4CEF7;
-	Thu, 12 Feb 2026 09:07:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770887274;
-	bh=7X/ZE+464SFMrcWXG+fw9L92P1t1gtPIejSOE1mm8Sg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=SRDzJd4y7pdwghuIRwEX+milR/vWqoeZRao4cczsY/oRSB7rXxGuJLbC8pO7iCSw4
-	 /1fHpKlD9QC8Pr36ty9iBxiTNpXaDNYp9kxfY175hoKc70tInFruadKyuacdByotDw
-	 giDuJK9Yv4AbMPDUN5IleiHk09y0vDFg4IFOf1Va0BfXrwqu9s3EcPhdfYle0DOYSg
-	 Po0zabmL17OlVZC5nq6r8y/4vDgWU5l1/ykpkYYbjQp+nF7oNrOcToyCcJwcrWAWRT
-	 TlUDUSJIbuvgS7XUw4PVNj+qOU1x9wo3jckCVZzmRgQeTQjpQnhNQht/dATAuEMT5X
-	 Wv6weRnqIFc7A==
-Received: from [185.219.108.64] (helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vqSfv-0000000AYzI-2Zos;
-	Thu, 12 Feb 2026 09:07:51 +0000
-Date: Thu, 12 Feb 2026 09:07:33 +0000
-Message-ID: <86ldgyba96.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: kvm@vger.kernel.org,
-	Alexandru Elisei <alexandru.elisei@arm.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Mingwei Zhang <mizhang@google.com>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-perf-users@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v6 09/19] KVM: arm64: Write fast path PMU register handlers
-In-Reply-To: <20260209221414.2169465-10-coltonlewis@google.com>
-References: <20260209221414.2169465-1-coltonlewis@google.com>
-	<20260209221414.2169465-10-coltonlewis@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ae75wrbv"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-4836d9d54f6so102145e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 01:13:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770887615; x=1771492415; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=v52+nJkOYCsoxRiSmOJCpaAdmkTUJTGO81WVi4TlMMY=;
+        b=ae75wrbv27NJBkqia5zFq4uGl30qQGFAFZ9roM0PqWnTAqxsYRuOKyRxyH19xb46GY
+         UBvW3W94b9xZySqlkFV1VIP4BKH6i8Q6E8nSyjgSVt+K9R0yKRcCNvqmYbtWKijtSk5P
+         wLeXkDn4uf9CPPj3E+NsBfqQR2hdnNIAwZ3Q9hOPgYXUe0r2Dh3GFul3KOCpdG6U21Bt
+         VI6e6a+hfkXQEl0DePAW5++8CZJZVRACJ1YA1Ki5kTFhsPHlCNM8zYkksH9kTANKuWOv
+         wx1QAjla32poRWM1H4CAtBDlnTmIkeprmvSkM9pvvCOO7sco5LQuXMqCeAbneKE/7aGr
+         oM2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770887615; x=1771492415;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v52+nJkOYCsoxRiSmOJCpaAdmkTUJTGO81WVi4TlMMY=;
+        b=FWaS7dQaZzl9lU99MmIna024XUHLCAy3ymd6wnubeM8gezTaMKybjA/+63flQ1YOyw
+         +BE4m947Ho2glJL6eRB9ODItPhA2y0ViUFnjN05S7fnbeJodC9M1juQATRmNx5yKpN+C
+         +0vN6uxWZt2hkOAp7l+bFZARikn2haaAwChYpbCVSYOYCnvPEZrFgsk/lHl6KfqJzFpB
+         kODzgWKyFMvSX287rmEqHnvkMHHOAa4YQKa+M6j5G8NwOhpnpTBbvI+T4+ebe8QrcmcG
+         o0KERe8ylUUiui1iR9tJ5nt0BhRbzjMq4rllcYsmm2O39spRO3O6Yyl8JTuVdF5g5swL
+         qb8g==
+X-Forwarded-Encrypted: i=1; AJvYcCXb0N7M5EKBP94AevTnCs3FzEkIFh0bMdwsQ6Wn76FfypXnVocaDdWINoUKPxgmU4hYL4M7Fg38xOk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrWO5qTT7P7pJYRThPFdI4JJwlaVletJ6cx5OtLfcce7/2BKqy
+	mmP2uc4ZwU33hyg/u6s6vOfXlXR8JMhduW2EluIprroMx2jNQsPopt3Y
+X-Gm-Gg: AZuq6aKg7+oF3sROnuSZJADpWB19neMWjfRWoa3nFBfikehftr54WE/K5t5VcJCZ80f
+	EfuqE4hlkVG1s96eWW5B0BXHUlOFB82/sipyle5qQxZgqBbnvs84AJOBoFXVenLuxFbkKlT8iXF
+	VrudQ6zDTv7kExKWObFhJyqyTd3RvtIJOzbY7ZSyCYUbHNbg7vfkk5YZhdWX++hPGMJnhno1kKo
+	WM3aCWDxZ2+NblC9QQuRfE3Ei8z9np54Vg3JDFR9S/jyztBCXYB3lbC5trinibpDmq41reb2vgT
+	hF1Hwolq9BtPa9nvZsT0GN2W/U+6YdeU06IrE9qdZ7uINccRzm/2tiHFw1HFfpNGa7exlNzeVrf
+	50kc69E1+gTB/a2Evm/eTHhzhSyZc/OXjCpQ6/owm8CB8Y9GfYZ+2/sz+ei4PYYJieu4kPV15ar
+	Si4tDqfkny3NuUxj4=
+X-Received: by 2002:a05:600c:1d9a:b0:47d:6f12:de57 with SMTP id 5b1f17b1804b1-4836570b489mr15560455e9.4.1770887615033;
+        Thu, 12 Feb 2026 01:13:35 -0800 (PST)
+Received: from skbuf ([2a02:2f04:d501:d900:2f75:bf70:f0b9:4586])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4836131d52bsm34123735e9.28.2026.02.12.01.13.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Feb 2026 01:13:34 -0800 (PST)
+Date: Thu, 12 Feb 2026 11:13:32 +0200
+From: Vladimir Oltean <olteanv@gmail.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-phy@lists.infradead.org
+Subject: Re: [PATCH net-next] doc: generic phy: update generic PHY
+ documentation
+Message-ID: <20260212091332.qcpi3qyynmdp4acv@skbuf>
+References: <E1vo0mF-00000007kbg-1OeA@rmk-PC.armlinux.org.uk>
+ <20260211154839.lbh4uovxr5b5s4nv@skbuf>
+ <E1vo0mF-00000007kbg-1OeA@rmk-PC.armlinux.org.uk>
+ <20260211154839.lbh4uovxr5b5s4nv@skbuf>
+ <aYzHL1qwew5p-xoq@shell.armlinux.org.uk>
+ <aYzHL1qwew5p-xoq@shell.armlinux.org.uk>
+ <20260211193006.ad2piivyoqhvg22r@skbuf>
+ <aYznE1FIbs_0OcPR@shell.armlinux.org.uk>
+ <aY1hs4XKZSpvKd3B@vaman>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: coltonlewis@google.com, kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com, corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, will@kernel.org, oliver.upton@linux.dev, mizhang@google.com, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aY1hs4XKZSpvKd3B@vaman>
 
-On Mon, 09 Feb 2026 22:14:04 +0000,
-Colton Lewis <coltonlewis@google.com> wrote:
+On Thu, Feb 12, 2026 at 10:44:27AM +0530, Vinod Koul wrote:
+> Lets document that call order is immaterial and driver is expected to
+> work both ways? As I said earlier logically people would set things up
+> and power up, and on the fly mode changes can be handled internally in
+> the driver by doing off-set-on dance.
+
+FWIW, I already started telling people during review to not rely on call
+order:
+https://lore.kernel.org/linux-phy/20260210193516.temrg46yozxma7xb@skbuf
+
+I don't mind continuing to scan for this in new submissions. Then, only
+the topic of existing drivers remains to be resolved.
+
+> Thinking out loud, we can also move this into framework and ensure when
+> modes are set, we do off-set-on dance so that onus on providers is
+> removed. Moving into fwk might expose some bugs in drivers though...
 > 
-> We may want a partitioned PMU but not have FEAT_FGT to untrap the
-> specific registers that would normally be untrapped. Add a handler for
-> those registers in the fast path so we can still get a performance
-> boost from partitioning.
+> One thing I agree is that we should have consistency. How we drive that
+> can be agreed upon.
 > 
-> The idea is to handle traps for all the PMU registers quickly by
-> writing directly to the hardware when possible instead of hooking into
-> the emulated vPMU as the standard handlers in sys_regs.c do.
+> Thanks
+> -- 
+> ~Vinod
 
-This seems extremely premature. My assumption is that PMU traps are
-rare, and that doing a full exit should be acceptable. Until you
-demonstrate the contrary, I don't want this sort of massive bloat in
-the most performance-critical path.
+I kind of like the fact that the framework doesn't have power vs mode
+assumptions built in.
 
-"Start walking before you try to run".
+Also thinking out loud, we could do something else - introduce something
+similar in spirit to CONFIG_DEBUG_TEST_DRIVER_REMOVE, which would be a
+debug option that sees what power state the PHY is in during the
+phy_set_mode_ext() call, flips it before calling ->set_mode() (calling
+either ->power_on() or ->power_off()), and restores it after the call.
 
-	M.
-
--- 
-Without deviation from the norm, progress is not possible.
+Having this option should also give PHY provider developers a quick way
+of testing both calling orders without modifying the consumers.
