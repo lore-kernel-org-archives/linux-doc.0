@@ -1,158 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f73.google.com (mail-oa1-f73.google.com [209.85.160.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4BC26E6FA;
-	Thu, 12 Feb 2026 20:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9DB71D5147
+	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 21:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770928817; cv=none; b=TOctLu6Vr0rD6/raxX/RYnsTwipOJsvYxp8byjvyI71V5U/PuADYy8irkxJs+fu6wzoiAw1Qv9rslviLxmBlbDlH37gBeoeVzLNVhbx3lh7Wkhg5NzDedSJTYE2kVjo5T2vLQrTkU9RJVQkBbWtb5UDoHMJDAX+iEXZWkQHR+7w=
+	t=1770930520; cv=none; b=gQhYxrh/Jluc3MJIS09qByxIszwtps9FplA+ZVMrJepsFMFpK7i87DJPiT5JEoDO6CdiorD8hsNnGLar1xonFxcMPlJKNB1H7M8d+1/4DpKN2g+BRTiN3rU3rgszRnv/L7AY1L6YmYYqfbZ6+kD/c8tEJvdKTz+oIY93snc/xZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770928817; c=relaxed/simple;
-	bh=9Gc0/ilN7j5yF1KCkiGbXMqDqnOtVI+V0w9htJ9T/qI=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=qCWvvv1SEC4cMy31y/YJl+ZLYKS/a6HEXxaekgNW+LSkWKe7UP3UHOFCtnzWn365CWy3zDEncDZTDriPGl2jNGkcj3SAnobKhHY2ZOmqOmDnsteGaj2TuKiUDz9/r8nI8aXQBj7EfTkCjWbWva5MTW++4LYDKWtHJwqIhAMzpHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXzgwHy4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770930520; c=relaxed/simple;
+	bh=Si4a3lubEVIsFr5xg//zf0cPvmnb0GNinNu5h5MauAE=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=DGj+YT9ZbGw1yNI5cNSx15z+A95HVXkADzkTsPDhe2BPKrg59tNGztwWWNlks27euaVfZ+DeD4k/DxsOPDWRSOIkOjXjU1+SFQKCwc1DOGfxHMQDDULaHS3iPW0xvLzpcMN7gUUMIOkvREVWXQbFVOXxfy1q+uW4ZuKU/J3Etxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f8jy3zsw; arc=none smtp.client-ip=209.85.160.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXzgwHy4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00C70C4AF0B;
-	Thu, 12 Feb 2026 20:40:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770928816;
-	bh=9Gc0/ilN7j5yF1KCkiGbXMqDqnOtVI+V0w9htJ9T/qI=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=KXzgwHy4ws7X1BseHR09zXzvHUamgT75fcqq05Sw/siWUxQifEmpBeqR9qldRbbCl
-	 kBV3/0LlJQnSDu6h4Jii2YbfG9mu5nFg9S+A6e3HmcFofVMw3lFdgna2wEPcssfHTj
-	 +kNmlcORJkQTBe3XEbhzFpAVhSkDgM1mIK2vKSHKHDZE8wpBLUuXaXBLcg/Y0LI7Jx
-	 NcpmoTg6GPUDn6Q/rrN48+M7JDCHtAh15cnNfDimi9U3foFQXJsJ4br4ZCW9PNj3fj
-	 GtK9xyT2rz/8X/sSNn20jxKMihQFgTHT8VTe5ntFJ77AsGBwxJgGpHGfdBkP2EFWDo
-	 wrPTYuAgZ6NvA==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id AE1FCF4006C;
-	Thu, 12 Feb 2026 15:40:14 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-01.internal (MEProxy); Thu, 12 Feb 2026 15:40:14 -0500
-X-ME-Sender: <xms:rjqOaX0QLjTIfy27c3wPaNPIRvNddaaHAuyOUVu65QyF9gEOyAs6zg>
-    <xme:rjqOaQ4nOA_FKbInLAEV68q_4hRhnK5woPvU4rhlsRJsEeBhoAP1d3gKSotK4yszU
-    diS42BC7lux8IKxLTptldNVApg6wW4ayjZ8Tsqczw3Wf-rNLaD_vxBU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvtdeifeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegouf
-    hushhpvggtthffohhmrghinhculdegledmnecujfgurhepofggfffhvfevkfgjfhfutgfg
-    sehtjeertdertddtnecuhfhrohhmpedftehrugcuuehivghshhgvuhhvvghlfdcuoegrrh
-    gusgeskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpeefieefjeetgefhieff
-    vdekkeduvdejvddtgfduteehgeefjeekudeltefhkeeugeenucffohhmrghinhepghhith
-    hhuhgsrdhiohenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
-    ohhmpegrrhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieejtdehtd
-    dtjeelqdeffedvudeigeduhedqrghruggspeepkhgvrhhnvghlrdhorhhgseifohhrkhho
-    fhgrrhgurdgtohhmpdhnsggprhgtphhtthhopeefuddpmhhouggvpehsmhhtphhouhhtpd
-    hrtghpthhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepnhhivhgvughithgr
-    segrlhhumhdrmhhithdrvgguuhdprhgtphhtthhopehluhhtohesrghmrggtrghpihhtrg
-    hlrdhnvghtpdhrtghpthhtohepughpshhmihhthhesrghpvghrthhushhsohhluhhtihho
-    nhhsrdgtohhmpdhrtghpthhtoheprghnughrvgifrdgtohhophgvrhefsegtihhtrhhigi
-    drtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghp
-    thhtohepphgvthgvrhhhuhgvfigvsehgmhigrdguvgdprhgtphhtthhopehhvghrsggvrh
-    htsehgohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthhtohepthhrvghntghh
-    sghoohhtqdguvghvvghlsehgohhoghhlvghgrhhouhhpshdrtghomh
-X-ME-Proxy: <xmx:rjqOadtbwIiIHCnUd_j9VP7bPDaeG7coXIhqRD0RRlF78n6PWXxVDA>
-    <xmx:rjqOaauqeXbCkuhSUhTE9F-LaZrj4ZUdQ7dIm_TxvXkV89BcojG4Kw>
-    <xmx:rjqOadsEr2p-s1zIBvnLMZp83TwcrlzaN8RCINinXrErvtqAAuGemQ>
-    <xmx:rjqOaS5UVfIV_ibP30J--5sFuG6QylqzdCiG0GQBcc3n12cZjFu8gw>
-    <xmx:rjqOaYB2PGF9YI179RUmYGnz5ol4bRje39RPhYrrBFzGH_3ioDmVMikp>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 7FC76700065; Thu, 12 Feb 2026 15:40:14 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f8jy3zsw"
+Received: by mail-oa1-f73.google.com with SMTP id 586e51a60fabf-409ef98c150so884237fac.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 13:08:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1770930518; x=1771535318; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DEi6lE69DtAre9+98et1Td5y86Gv96d2+RPCeTq+27M=;
+        b=f8jy3zsw9Uhk0b4rInPMiIs/KIJkcZftveWo2R13oY5ZXtqJoVJZKhiYEPY/PzrFzr
+         mpCP0oOH9McaaBPWnQyEGSqZLIs47USxQ5YmisJIjhA5xl/cXYd7krqkBh1h6BWqk/gY
+         EoiZIuUnBCzmJmrlmECggq37K3gNx+6mbmCqHLWVeCri9A7STJDwzVovNcnMG5KBoiNt
+         wlj8rrJ9h7bFf3Cow96e3Voems+MqtAm5rjlVWu9fmRAnvzIMRK4TlvkKl68BmVNYIG6
+         uhw3Mw4o+HOsOgeTRuu067BqT9eBnV5WK0CeqSH7vIt5vMEOQKnzzVO0qsErxTxKkAXF
+         eH2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770930518; x=1771535318;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DEi6lE69DtAre9+98et1Td5y86Gv96d2+RPCeTq+27M=;
+        b=scsI02egzS1oMaYNfuBArhSXeVTAwuv5XjfbxXFfZdrR2rVaw9mc4BckhDy7CqndZh
+         JoTv5r5vuM2KwJFTLZdHEknQHEhxStixHaYFXpFj2ii4fP9XFVmeDo+zDZDfO3JDoQVm
+         c6I1I2nuJDewSGHJmqNZT5KS4FTQCFGnMbMJ5vU4hZ8zcxXO7u0Lju3oLJNBCsF27W8h
+         mVl3VxxbjknPT4gBR/acfBSoh5MSxxHb4W9YcoWCrtG+GtMes0xYXWORznSPdWCgF0e0
+         N/+yGXvAhU9f7cRBhPPUItn405toFQ9K2ZizwDUuDQN9qU72JmDsOsWM+wa2MBI8gvQm
+         vYBQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUEHvayX+v5NH2Rk3jFzgKLiomzORvO2l5mHs+Zyb6VnOBu6XqTXIGgZO6AI7W11x9VtnsTwKsYH84=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwsC1KIzMtDMsrSG8HWxyWdCjrkKzm4mHrBGl54T1ZqlX1NPTz
+	ap9PA74qRomN/Ut8b2vIoSJEThUKVhIrXm50mWyZTjXg88TTPY12d6s816GoZa55maHW6ICgJtx
+	sd40I1Nqf6QR1Ml0WnkB3XEIHWw==
+X-Received: from ilmv6.prod.google.com ([2002:a92:c6c6:0:b0:468:4e21:6fcf])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6820:61d:b0:663:2b12:14f1 with SMTP id 006d021491bc7-677243b521amr65721eaf.83.1770930517469;
+ Thu, 12 Feb 2026 13:08:37 -0800 (PST)
+Date: Thu, 12 Feb 2026 21:08:36 +0000
+In-Reply-To: <86v7g5asp4.wl-maz@kernel.org> (message from Marc Zyngier on Tue,
+ 10 Feb 2026 08:49:59 +0000)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-ThreadId: AAnEvm6syrbF
-Date: Thu, 12 Feb 2026 21:39:53 +0100
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Daniel P. Smith" <dpsmith@apertussolutions.com>,
- "Ross Philipson" <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev, dave.hansen@linux.intel.com
-Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
- "Borislav Petkov" <bp@alien8.de>, "H . Peter Anvin" <hpa@zytor.com>,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, "Jarkko Sakkinen" <jarkko@kernel.org>, jgg@ziepe.ca,
- luto@amacapital.net, nivedita@alum.mit.edu,
- "Herbert Xu" <herbert@gondor.apana.org.au>, davem@davemloft.net,
- corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
- baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-Message-Id: <49d169bf-0ad2-49be-b7d7-fceb9e7f831a@app.fastmail.com>
-In-Reply-To: <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com>
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
- <b5f2b5a5-b984-4ed3-a023-c06d634f9146@app.fastmail.com>
- <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com>
-Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Message-ID: <gsnt8qcxhdpn.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v6 00/19] ARM64 PMU Partitioning
+From: Colton Lewis <coltonlewis@google.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com, 
+	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
+	will@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-On Thu, 12 Feb 2026, at 20:49, Daniel P. Smith wrote:
-> On 2/9/26 09:04, Ard Biesheuvel wrote:
-...
->> Surprisingly, even when doing a secure launch, the EFI runtime services still work happily, which means (AIUI) that code that was excluded from the D-RTM TCB is still being executed at ring 0? Doesn't this defeat D-RTM entirely in the case some exploit is hidden in the EFI runtime code? Should we measure the contents of EfiRuntimeServicesCode regions too?
->
-> Yes, in fact in the early days I specifically stated that we should 
-> provide for the ability to measure the RS blocks. Particularly if you 
-> are not in an environment where you can isolate the calls to RS from the 
-> TCB. While the RS can pose runtime corruption risks, the larger concern 
-> is integrating the D-RTM validation of the Intel System Resources 
-> Defense (ISRD), aka SMI isolation/SMM Supervisor, provided by the Intel 
-> System Security Report (ISSR). Within the ISSR is a list of memory 
-> regions which the SMM Policy Shim (SPS) restricts a SMI handler's access 
-> when running. This allows a kernel to restrict what access a SMI handler 
-> are able to reach, thus allowing them to be removed from the TCB when 
-> the appropriate guards are put in place.
->
-> If you are interested in understanding these further, Satoshi Tanda has 
-> probably the best technical explanation without Intel market speak.
->
-> ISRD: https://tandasat.github.io/blog/2024/02/29/ISRD.html
-> ISSR: https://tandasat.github.io/blog/2024/03/18/ISSR.html
->
+Hey Marc, thanks for the review.
 
-Thanks, I'll take a look at those.
+Marc Zyngier <maz@kernel.org> writes:
 
-But would it be better to disable the runtime services by default when doing a secure launch? PREEMPT_RT already does the same.
+> On Mon, 09 Feb 2026 22:13:55 +0000,
+> Colton Lewis <coltonlewis@google.com> wrote:
 
-> While you all care about Linux specifically, the 
-> goal for TrenchBoot is to build a common approach that we can implement
-> across any other open source OS.
->
+>> This series creates a new PMU scheme on ARM, a partitioned PMU that
+>> allows reserving a subset of counters for more direct guest access,
+>> significantly reducing overhead. More details, including performance
+>> benchmarks, can be read in the v1 cover letter linked below.
 
-I'd argue that relying on things like setup_header, boot_params and kernel_info is not a great way to achieve that. The reason I care about this is that you are relying on those things even when doing EFI boot, which makes your approach highly Linux/x86 specific.
+>> An overview of what this series accomplishes was presented at KVM
+>> Forum 2025. Slides [1] and video [2] are linked below.
 
-Given that arm64 has no decompressor at all, it is highly likely (and acceptable) that only EFI boot can do a secure launch. It also implies that the core kernel is the only place where we can put the pieces that execute afterwards. So adopting a model now for x86 that we know does not generalize well across other architectures is something I am not keen on.
+>> IMPORTANT: This iteration does not yet implement the dynamic counter
+>> reservation approach suggested by Will Deacon in January [3]. I am
+>> working on it, but wanted to send this version first to keep momentum
+>> going and ensure I've addressed all issues besides that.
 
-...
->> I've had a stab at implementing all of this in a manner that is more idiomatic for EFI boot:
->> 
->> - GRUB does minimal TXT related preparation upfront, and exposes the remaining functionality via a protocol that is attached to the loaded image by GRUB
->> - The SL stub is moved to the core kernel, with some startup code added to pivot to long mode
->> - the EFI stub executes and decompresses the kernel as usual
->> - if the protocol is present, the EFI stub calls it to pass the bootparams pointer, the base and size of the MLE and the header offset back to the GRUB code
->> - after calling ExitBootServices(), it calls another protocol method to trigger the secure launch.
->> 
-...
->
-> I think this is a great approach for UEFI, though we need to reconcile 
-> this with non-UEFI situations such as booting under coreboot.
+> [...]
 
-There are two approaches that I think are feasible for coreboot in this model:
+> As I have asked before, this is missing an example of how userspace is
+> going to use this. Without it, it is impossible to correctly review
+> this series.
 
-- just unpack the ELF and boot that - there is already prior art for that with Xen. We can stick the MLE header offset in an ELF note where any loader can find it.
+> Please consider this as a blocker.
 
-- stick with the current approach as much as possible, i.e., disable physical KASLR so that the decompressed kernel will end up right where the decompressor was loaded, which allows much of the secure launch preparation to be done as before. Only the final bits (including the call into the ACM itself) need to be deferred, and we can propose a generic mechanism for that via boot_params.
+Understood. I remember you asking for a QEMU patch specifically.
 
-I'm working on a prototype of the latter, but GRUB is an odd beast and my x86 fu is weak.
+I had hoped that the use in the selftest was sufficient to show how to
+use the uAPI. If not, I can send out an example QEMU patch to the QEMU
+ARM mailing list.
 
-I'd be happy to have a call to compare notes and see if we can come up with something we can all agree on (modulo the SHA-1 :-))
+> Thanks,
 
+> 	M.
 
+> --
+> Without deviation from the norm, progress is not possible.
