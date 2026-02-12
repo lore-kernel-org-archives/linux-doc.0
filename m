@@ -1,62 +1,64 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0DF2D9EF9
-	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 08:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604512DB7A1
+	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 08:45:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770885910; cv=none; b=UF++gzuMTEv/nKyauofqKmSluL6mLfmSEx3SUGCf4tPWrijjUl4tzWWvE7JGfansr9J2OZbHR9rrB20w0GkgmU+4NqPpCTkM8OIQDBkcbLI3DgZExTh8W0MBRQ12S3R6Y9D+cz6OKYkhKkvj7sf5DYcHR0TyUa7HDIH9BQKBGXo=
+	t=1770885911; cv=none; b=krq6b15G4GQiBn9dgBYN8dALQXG3vGLpeNxnRL88DkGBd6y1mXsyDQY4iej8ryloivg7A+8vj1MtsOLusrzCExdr91KFUG69DTxiWoM8fEV3C/Splcqk85IipBuxBeFnN7Bo+Dfn/aatuI4MjlY5ITks2EjiEgA4OKuPB/w04hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770885910; c=relaxed/simple;
-	bh=FMWBPm49ifKRkjLl8zUDWt9HyBY6118sqYd1if5HkLQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pUghGBg84+bsmBaGQBou3Trxxp+Is1BDu8I5bhTK6LtTSWsxsHapAv6ESDSs8jBTAZJ/gB6FHfpacL1nJBpsS3cDqFyUUtcTL0rNoKl7eThfrPfWLbu/7T8lEOzCXL+FtSZvFdBzceVafBUtMhSXK3k6hxb6wyGRV8OtM11Qbgs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=jhnR9Aw4; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1770885911; c=relaxed/simple;
+	bh=S4LjTcY8WIdOz/Fa9CMVBB3lEWE7ucfcbiatZtIUpyw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=S8frYoJRDOMXPzxrlPW97dUmNlUuRK3fRuA0qhzCIqjpupBLd0OPqh72IVnXTCP35wi0cRF/jaf2Sb0LO/17LPCLMZvOdgBZryGXeNUtf2rBCPtutigFOMkFxQ5ShaMLkMHNpnf2l54IgquSVwUc/NPGGRm7crURJ7RtTVqMHiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=DoRu0aph; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="jhnR9Aw4"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48039fdc8aeso18323335e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 00:45:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="DoRu0aph"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47ff94b46afso17167685e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 00:45:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770885905; x=1771490705; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kB22oilQpbKLorleBbZlAN5tq3XvDpZ40Y2OzAeJ9vU=;
-        b=jhnR9Aw4p09D4nim/WxVyE/4G07/vKHDeiW7qc1iaLBN7lRXwGLdZ70LXoPC5EpTzD
-         jBHO+uX9BJG3AzEPY5XBDMCggqkTH/8pceZ5zOjtmCh+k4jpXgJlBI/qS34GD1RNxvG2
-         jM9tiiQt6713E/UCsIVch7Ms5oNIxzRob7dHptLNq96nQnsXTcytqrvYoajoBcEOh4lQ
-         z+ULOeopTbixpkPxmatuB/gE8TnqgHumunFfbN36p9vPs05GD1VRN0LnnT9UrbiGLc7z
-         rPvUtsg67cxgI8h9oq41SSGeQfuTA9l6rrMvDom0uA0xLipNZ6LkGhSGUrHpams+eeMY
-         uCaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770885905; x=1771490705;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1770885908; x=1771490708; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kB22oilQpbKLorleBbZlAN5tq3XvDpZ40Y2OzAeJ9vU=;
-        b=vt3BmVK4jiwuZq5IM8LNxkI0jNBdT0G8b9Rohdz0H0P1e/1Xl9VNvpkoXKGdIQst+J
-         8WZbW1dTmLeZ+KwXoMqmEXImGA3fFBsMXZtdZhWwZLbfQvdCVOegnagSiIgThi/1Sep9
-         Km89FMq1L5i9wmcSWBq6m28rl1Zp24oBSzq3+6cxyIF4vcq+NAhQ6Src+AQ4Va2BTYNV
-         jvWisEbnYKp/oYQl58lzSofUoTscxoUOF9tw/muEJDKlMz22+GUvD0ZdC0it4TMimy5Q
-         vgQ78hKkEQcyxkrUyzzK8w8pYxdhEooY3fC1jgdN8g4RSkb9YLQ389xu5C5R7uphBUqv
-         YPVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWD1TpmpKJh2vPHwU13Gm7p13aXz/MXK3emPXQtp71i5ZV8YyQa0AEbdBlD9mgPnWyhHWsSQK0FtH0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7DLm2ObLtYeYDrcLnDTxFv2x9xOXNgaiKthAeDvXyU2bfqLRU
-	wfnlVzhTw1UYpLvD4othshk6C/ykB4Nc5/+v6nUNIzGe1umd1rvWZ96176geN06+DKA=
-X-Gm-Gg: AZuq6aJ1UZMHbhDfsIzUjxzDR/5JaTLb/GJXOun4zpxAsIFAWwllgDsXEIclzj0VRVy
-	i4Wy3jELqAE7nD5hWYWRIOdhi7+V4xJsZzQ5U7lyKBUjaR1ubBJ43IFUrBd2Pk//Y9EPjoJxilR
-	XGEEPrD6OEdcSCq5hGLouNVu4CnjpOfzgEPVfwYTvg7skjkXyaVB5du481eOauyVIEJ3NumrDpn
-	sS9wMqdTIATOgHAOigw/0e2E9fU0XOCbGT3Gzfui80dJZCDOGvkgsEiMTYX3zhAegHMfc9GqphG
-	cSAjY82sbSzzn3TMVX7HtYxpujqfmn8yEv5MbS8V4tSAtKUqIPO55dnEhkJaHY9EJ95N/0135cX
-	COvGadgyXlghA0BGEqC0nDyTBHtGWCdXJwLUSQiuGfGZgo0vNx6phdqyB9qTFtbyVD+zh5Bb4DA
-	WNLvmgbbEGLzR5kvUfjO1fxhywbrn0EsocFgrw1AotZLa40c7thi1H+aH9fwbbYmkUnZzOZQU6F
-	3prAKCjQw==
-X-Received: by 2002:a05:600c:818c:b0:483:2c98:435e with SMTP id 5b1f17b1804b1-4836717eb60mr20304835e9.34.1770885905577;
-        Thu, 12 Feb 2026 00:45:05 -0800 (PST)
+        bh=2NGh5IYyCcy/eOuT/iqO1H2zbkd7MZApIvvP1+BGFLo=;
+        b=DoRu0aphxfMikLEkIws/gZ35AFAAaWq50/8p/ZB3104FdVmD5QkUvLccyEFLbs0JCV
+         dI79B4H/pkuoUWFy72hZ0J06XCkQZPkDLqcI0QrNZM9JQn01FgqfodRKsVJ5XdW651EH
+         WUMeViR+kCkUytG7nyxYOze/8yXBYF9Bi/r/wpCPBMUeiVZySfrYRhmS8IhpF9Gg4Cd1
+         +K9lnwc2guj77uAYJsQ02ilAa60L3Oo1xtiVA11hTLoz2OBLwqAuJJvVh36eYdYlYc4q
+         P9olHw5Hz+pkazv+l7oVHbbbxpRdT1ZqfZaffvlmpWtkLcnwPl3DkdySR+4LeK3xxCjw
+         gmHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770885908; x=1771490708;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2NGh5IYyCcy/eOuT/iqO1H2zbkd7MZApIvvP1+BGFLo=;
+        b=mYInI9PxKMVjQ253NlycyNqlMITqEczIrRtJlAhER9tFbGi478MtMs38vTkewQ/ycq
+         Ys9RiNgr9zS738ZfOoulDSN5YBiOI8fZKoxJg0Q+bTIllYPyZtuG5Mr6dhnhl3uqxXUp
+         9EZOzpbcQ6oN+p1uQN/OjzrK91QQhb4Nr/+L+3knUek98/PuG4Bt6maYPWoVre0OWIEO
+         2jPAHrIrA1BzmpyXYArpRZyBEgP9B0P7z030zHKZ87pHGdgHPmvMrYLvVRdQF/e7boDl
+         t1uuhZojaWMMcJG4eHQ6t+89wqEGbLJZ6W9e7kuSGP1CQjw4xwDTLsRZ1Jw8ONb+m8O3
+         R82w==
+X-Forwarded-Encrypted: i=1; AJvYcCWTDEhgbVUjNNmEoOlXMqYKEYy9r8SFXX4DQOQh1aRL0xvw6gGHjps7/M8Q61UnLvbflZFC0U1L4Fk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPJWYig3uayrGrpQ+UmdHrcDd1sZUPqJQgTNQpIeVVHAWYxSuI
+	jARbUExSY2lZM4CZLh24ILzhaiulMH5LKMLNhHFeiHBnDd69R6EBajBu8gvKFVoOi4M=
+X-Gm-Gg: AZuq6aLwbWBfBsFBeb+qTAOoto7/LVuLNJBQILy+V11dvjptU5LDOFUCJ3B4TB3wVz0
+	nDeBqVlDPnp7aSFuNaPoP9rLEyuBwAfPDKOpSJjlgQVkV1DKo+4dw/D7OivF1U21wjy1pucPAIp
+	sRiJ/fyOZWXYZkxzrNdLwKzym5374MilY+fPTgesEhPSMo6qqXfNiQ/OHuIz9oH+kzK8vV1EzyF
+	wcamUC0/LsAcsFC3IrjIAbAGNoe5Inb7vJO/YjG1MWsMBndr6R95CKW6a+iHoGAs5H5pfm5lDl4
+	BzfHSE+cfdQFAIxbcg57B2cshPfmkcxnKCZdj7TCRN77blUYmABQF3QZsEhN85z/KmlftyEEPvh
+	8dB1litYnR15kqGhNyCqsmx09IXzms0wCp/lZGRxM/xChs6f0hr6LRP9omB9iXw59YhlUV6/FJH
+	yNT0G0wD2/kiBQalfXj9C50152wx/F+PjLNsShkMVGQ0ZvH/dektpSBj2/DJsoRfpefRXV5zF4R
+	3Lbd2yDSQ==
+X-Received: by 2002:a05:600c:4e4f:b0:47d:333d:99c with SMTP id 5b1f17b1804b1-483660425a9mr22340565e9.18.1770885907761;
+        Thu, 12 Feb 2026 00:45:07 -0800 (PST)
 Received: from silence.. ([46.10.240.40])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835dd0e15bsm82753705e9.13.2026.02.12.00.45.04
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4835dd0e15bsm82753705e9.13.2026.02.12.00.45.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Feb 2026 00:45:05 -0800 (PST)
+        Thu, 12 Feb 2026 00:45:07 -0800 (PST)
 From: Stoyan Bogdanov <sbogdanov@baylibre.com>
 To: jbrunet@baylibre.com,
 	linux@roeck-us.net,
@@ -70,10 +72,12 @@ Cc: linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Stoyan Bogdanov <sbogdanov@baylibre.com>
-Subject: [PATCH v1 0/3] Add TI TPS1689 pmbus eFuse
-Date: Thu, 12 Feb 2026 10:44:59 +0200
-Message-Id: <20260212084502.1795-1-sbogdanov@baylibre.com>
+Subject: [PATCH v1 2/3] dt-bindings: hwmon: pmbus/tps1689: Add TPS1689 support
+Date: Thu, 12 Feb 2026 10:45:01 +0200
+Message-Id: <20260212084502.1795-3-sbogdanov@baylibre.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260212084502.1795-1-sbogdanov@baylibre.com>
+References: <20260212084502.1795-1-sbogdanov@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,28 +86,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rework TPS25990 eFuse pmbus driver to provide more unified way for
-non standard direct conversions.Remove existing defines for TPS25990
-conversions and replace them with enum listing all supported parameters
-and structure using m, b, R. Add fucntion to covert raw to real value
-and real value back to raw. Add data structure to hold pmbus_driver_info
-and local_direct_values for direct conversion.
+Add device compatible support for TPS1689
 
-Add support TPS1689 support to TPS25990 driver, since both
-chips are sharing a lot of similar internal functions with exception of
-work range like Voltage and Current.
+Signed-off-by: Stoyan Bogdanov <sbogdanov@baylibre.com>
+---
+ .../devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml          | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Stoyan Bogdanov (3):
-  hwmon: (pmbus/tps25990): Rework TPS25990 non standatd direct
-    conversion
-  dt-bindings: hwmon: pmbus/tps1689: Add TPS1689 support
-  hwmon: (pmbus/tps1689): Add TPS1689 support
-
- .../bindings/hwmon/pmbus/ti,tps25990.yaml     |   4 +-
- Documentation/hwmon/tps25990.rst              |  15 +-
- drivers/hwmon/pmbus/tps25990.c                | 185 +++++++++++++++---
- 3 files changed, 171 insertions(+), 33 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
+index f4115870e450..973ee00c2c49 100644
+--- a/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
++++ b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
+@@ -16,7 +16,9 @@ description:
+ 
+ properties:
+   compatible:
+-    const: ti,tps25990
++    enum:
++      - ti,tps1689
++      - ti,tps25990
+ 
+   reg:
+     maxItems: 1
 -- 
 2.34.1
 
