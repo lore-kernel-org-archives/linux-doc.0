@@ -1,158 +1,158 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D4729B8E5;
-	Thu, 12 Feb 2026 20:11:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4BC26E6FA;
+	Thu, 12 Feb 2026 20:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770927103; cv=none; b=Tkk0GHoBdhSz/kGA8uppqmxtU4HZGP+xk+3+qHWvDBpwGtMfJPzD+ZJqwVtIxKKnNFQcUO4ZX2SauTNMpMLHLtctdw+szWZDfuJhyIoksvn3T4u8ldOUQCGn+sjKPTT7W6kFjbq2vxkjbk+NbF+OUffLf0fGnCtmRkVxytVqQmI=
+	t=1770928817; cv=none; b=TOctLu6Vr0rD6/raxX/RYnsTwipOJsvYxp8byjvyI71V5U/PuADYy8irkxJs+fu6wzoiAw1Qv9rslviLxmBlbDlH37gBeoeVzLNVhbx3lh7Wkhg5NzDedSJTYE2kVjo5T2vLQrTkU9RJVQkBbWtb5UDoHMJDAX+iEXZWkQHR+7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770927103; c=relaxed/simple;
-	bh=IK0IJJY+g3N4QvkWaeqbKCUCsjOumbBwKibhA3wujiQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jtinjz+EyLFrWuYvzHE7bn9Mf87eRjM9807Ywq6lRB+Z7VMNJQpA7aUdKdJtIRGZpbgL8PeDc0SmAF6tIsiuDsPOEtIe4U1LxVUJXfmm5/Zw7By9luJ/ZkmD/nJMGOoCsATwXRiAyY3Rgg+60Cd1g5F/vfZ19uAOs4BAPdNoIRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SLgEkl3q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1770928817; c=relaxed/simple;
+	bh=9Gc0/ilN7j5yF1KCkiGbXMqDqnOtVI+V0w9htJ9T/qI=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=qCWvvv1SEC4cMy31y/YJl+ZLYKS/a6HEXxaekgNW+LSkWKe7UP3UHOFCtnzWn365CWy3zDEncDZTDriPGl2jNGkcj3SAnobKhHY2ZOmqOmDnsteGaj2TuKiUDz9/r8nI8aXQBj7EfTkCjWbWva5MTW++4LYDKWtHJwqIhAMzpHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXzgwHy4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SLgEkl3q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67DA9C4CEF7;
-	Thu, 12 Feb 2026 20:11:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXzgwHy4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00C70C4AF0B;
+	Thu, 12 Feb 2026 20:40:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1770927103;
-	bh=IK0IJJY+g3N4QvkWaeqbKCUCsjOumbBwKibhA3wujiQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SLgEkl3qH1H9gvePXVgNN/M0OR9dEJENlFkGVLYWohrsWiBivqvy64ZgXdmrJ5/W7
-	 wHziasqG2oFVk+dhxk9JD0jysxNh0OP+1k/UcEmA8gAhCFU7xztPHspsFjvY2037vz
-	 S5BoF2r8xL/nU/KPvMhmliF+g3hrQFYdYZFzMF7yRtEOYiRW7Pl5ggRLP++cIVSxcM
-	 CxXRwg/Re7Iiq+KLvE45bcRviD1LtBDkoe9sN/w+xWXz0AYd4fAvakG/Xq+O8Xgivs
-	 xQZ3uswjxURZq/xxGb+7WVvlLSr7umaWBI+uiCj+Ma43D4cI33gAahLDALtigluRPI
-	 laFvedRIaqZeQ==
-Message-ID: <dbfff44a-1a05-43be-8583-8aa59d49b8a2@kernel.org>
-Date: Thu, 12 Feb 2026 21:11:28 +0100
+	s=k20201202; t=1770928816;
+	bh=9Gc0/ilN7j5yF1KCkiGbXMqDqnOtVI+V0w9htJ9T/qI=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=KXzgwHy4ws7X1BseHR09zXzvHUamgT75fcqq05Sw/siWUxQifEmpBeqR9qldRbbCl
+	 kBV3/0LlJQnSDu6h4Jii2YbfG9mu5nFg9S+A6e3HmcFofVMw3lFdgna2wEPcssfHTj
+	 +kNmlcORJkQTBe3XEbhzFpAVhSkDgM1mIK2vKSHKHDZE8wpBLUuXaXBLcg/Y0LI7Jx
+	 NcpmoTg6GPUDn6Q/rrN48+M7JDCHtAh15cnNfDimi9U3foFQXJsJ4br4ZCW9PNj3fj
+	 GtK9xyT2rz/8X/sSNn20jxKMihQFgTHT8VTe5ntFJ77AsGBwxJgGpHGfdBkP2EFWDo
+	 wrPTYuAgZ6NvA==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id AE1FCF4006C;
+	Thu, 12 Feb 2026 15:40:14 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-01.internal (MEProxy); Thu, 12 Feb 2026 15:40:14 -0500
+X-ME-Sender: <xms:rjqOaX0QLjTIfy27c3wPaNPIRvNddaaHAuyOUVu65QyF9gEOyAs6zg>
+    <xme:rjqOaQ4nOA_FKbInLAEV68q_4hRhnK5woPvU4rhlsRJsEeBhoAP1d3gKSotK4yszU
+    diS42BC7lux8IKxLTptldNVApg6wW4ayjZ8Tsqczw3Wf-rNLaD_vxBU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvtdeifeehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegouf
+    hushhpvggtthffohhmrghinhculdegledmnecujfgurhepofggfffhvfevkfgjfhfutgfg
+    sehtjeertdertddtnecuhfhrohhmpedftehrugcuuehivghshhgvuhhvvghlfdcuoegrrh
+    gusgeskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpeefieefjeetgefhieff
+    vdekkeduvdejvddtgfduteehgeefjeekudeltefhkeeugeenucffohhmrghinhepghhith
+    hhuhgsrdhiohenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
+    ohhmpegrrhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieejtdehtd
+    dtjeelqdeffedvudeigeduhedqrghruggspeepkhgvrhhnvghlrdhorhhgseifohhrkhho
+    fhgrrhgurdgtohhmpdhnsggprhgtphhtthhopeefuddpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepnhhivhgvughithgr
+    segrlhhumhdrmhhithdrvgguuhdprhgtphhtthhopehluhhtohesrghmrggtrghpihhtrg
+    hlrdhnvghtpdhrtghpthhtohepughpshhmihhthhesrghpvghrthhushhsohhluhhtihho
+    nhhsrdgtohhmpdhrtghpthhtoheprghnughrvgifrdgtohhophgvrhefsegtihhtrhhigi
+    drtghomhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghp
+    thhtohepphgvthgvrhhhuhgvfigvsehgmhigrdguvgdprhgtphhtthhopehhvghrsggvrh
+    htsehgohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthhtohepthhrvghntghh
+    sghoohhtqdguvghvvghlsehgohhoghhlvghgrhhouhhpshdrtghomh
+X-ME-Proxy: <xmx:rjqOadtbwIiIHCnUd_j9VP7bPDaeG7coXIhqRD0RRlF78n6PWXxVDA>
+    <xmx:rjqOaauqeXbCkuhSUhTE9F-LaZrj4ZUdQ7dIm_TxvXkV89BcojG4Kw>
+    <xmx:rjqOadsEr2p-s1zIBvnLMZp83TwcrlzaN8RCINinXrErvtqAAuGemQ>
+    <xmx:rjqOaS5UVfIV_ibP30J--5sFuG6QylqzdCiG0GQBcc3n12cZjFu8gw>
+    <xmx:rjqOaYB2PGF9YI179RUmYGnz5ol4bRje39RPhYrrBFzGH_3ioDmVMikp>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 7FC76700065; Thu, 12 Feb 2026 15:40:14 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/20] Virtual Swap Space
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: linux-mm@kvack.org, akpm@linux-foundation.org, hannes@cmpxchg.org,
- hughd@google.com, yosry.ahmed@linux.dev, mhocko@kernel.org,
- roman.gushchin@linux.dev, shakeel.butt@linux.dev, muchun.song@linux.dev,
- len.brown@intel.com, chengming.zhou@linux.dev, kasong@tencent.com,
- chrisl@kernel.org, huang.ying.caritas@gmail.com, ryan.roberts@arm.com,
- shikemeng@huaweicloud.com, viro@zeniv.linux.org.uk, baohua@kernel.org,
- bhe@redhat.com, osalvador@suse.de, lorenzo.stoakes@oracle.com,
- christophe.leroy@csgroup.eu, pavel@kernel.org, kernel-team@meta.com,
- linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
- linux-pm@vger.kernel.org, peterx@redhat.com, riel@surriel.com,
- joshua.hahnjy@gmail.com, npache@redhat.com, gourry@gourry.net,
- axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
- rafael@kernel.org, jannh@google.com, pfalcato@suse.de,
- zhengqi.arch@bytedance.com, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
- =?UTF-8?Q?Suren_Baghdasaryan=EF=BF=BC?= <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- tglx@kernel.org, Peter Zijlstra <peterz@infradead.org>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, lenb@kernel.org,
- Zi Yan <ziy@nvidia.com>, dev.jain@arm.com, lance.yang@linux.dev,
- matthew.brost@intel.com, rakie.kim@sk.com, byungchul@sk.com,
- "Huang, Ying" <ying.huang@linux.alibaba.com>, apopple@nvidia.com,
- linux-doc@vger.kernel.org
-References: <20260208215839.87595-1-nphamcs@gmail.com>
- <CAKEwX=OvuVPJzQsSQm8F+zsRgJFnbMmW2JMJbGebp=U8+jMRYA@mail.gmail.com>
- <13e3cada-60a3-4451-ab7e-16dfbab3c352@kernel.org>
- <CAKEwX=Pww3ZNw=VGZBa46NhKuvefRM7wnVuZy0aADoCoE1KSzA@mail.gmail.com>
- <CAKEwX=Oqn5vZrYnURqwoNBhBmA5xU9jy5-5ti8vzFs2DHDaWYg@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAKEwX=Oqn5vZrYnURqwoNBhBmA5xU9jy5-5ti8vzFs2DHDaWYg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AAnEvm6syrbF
+Date: Thu, 12 Feb 2026 21:39:53 +0100
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Daniel P. Smith" <dpsmith@apertussolutions.com>,
+ "Ross Philipson" <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev, dave.hansen@linux.intel.com
+Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, "H . Peter Anvin" <hpa@zytor.com>,
+ mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, "Jarkko Sakkinen" <jarkko@kernel.org>, jgg@ziepe.ca,
+ luto@amacapital.net, nivedita@alum.mit.edu,
+ "Herbert Xu" <herbert@gondor.apana.org.au>, davem@davemloft.net,
+ corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
+ baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+ andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
+Message-Id: <49d169bf-0ad2-49be-b7d7-fceb9e7f831a@app.fastmail.com>
+In-Reply-To: <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com>
+References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+ <b5f2b5a5-b984-4ed3-a023-c06d634f9146@app.fastmail.com>
+ <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com>
+Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On 2/12/26 18:39, Nhat Pham wrote:
-> On Thu, Feb 12, 2026 at 9:29 AM Nhat Pham <nphamcs@gmail.com> wrote:
->>
->> On Thu, Feb 12, 2026 at 4:23 AM David Hildenbrand (Arm)
->> <david@kernel.org> wrote:
->>> Are you CCing all maintainers that get_maintainers.pl suggests you to cc?
->>>
->>> --
->>> Cheers,
->>>
->>> David
->>
->> I hope so... did I miss someone? If so, my apologies - I manually add
->> them one at a time to be completely honest. The list is huge...
->>
->> I'll probably use a script to convert that huge output next time into "--cc".
->>
-> 
-> Ok let's try... this :) Probably should have done it from the start,
-> but better late than never...
-> 
+On Thu, 12 Feb 2026, at 20:49, Daniel P. Smith wrote:
+> On 2/9/26 09:04, Ard Biesheuvel wrote:
+...
+>> Surprisingly, even when doing a secure launch, the EFI runtime services still work happily, which means (AIUI) that code that was excluded from the D-RTM TCB is still being executed at ring 0? Doesn't this defeat D-RTM entirely in the case some exploit is hidden in the EFI runtime code? Should we measure the contents of EfiRuntimeServicesCode regions too?
+>
+> Yes, in fact in the early days I specifically stated that we should 
+> provide for the ability to measure the RS blocks. Particularly if you 
+> are not in an environment where you can isolate the calls to RS from the 
+> TCB. While the RS can pose runtime corruption risks, the larger concern 
+> is integrating the D-RTM validation of the Intel System Resources 
+> Defense (ISRD), aka SMI isolation/SMM Supervisor, provided by the Intel 
+> System Security Report (ISSR). Within the ISSR is a list of memory 
+> regions which the SMM Policy Shim (SPS) restricts a SMI handler's access 
+> when running. This allows a kernel to restrict what access a SMI handler 
+> are able to reach, thus allowing them to be removed from the TCB when 
+> the appropriate guards are put in place.
+>
+> If you are interested in understanding these further, Satoshi Tanda has 
+> probably the best technical explanation without Intel market speak.
+>
+> ISRD: https://tandasat.github.io/blog/2024/02/29/ISRD.html
+> ISSR: https://tandasat.github.io/blog/2024/03/18/ISSR.html
+>
 
-It's usually not as easy as copying the output to the cover letter via Cc:.
+Thanks, I'll take a look at those.
 
-Sometimes you want to CC all maintainers+reviewers of some subsystem, 
-sometimes only the maintainers (heads-up, mostly simplistic unrelated 
-changes that don't need any real subsystem-specific review).
+But would it be better to disable the runtime services by default when doing a secure launch? PREEMPT_RT already does the same.
 
-Fine line between flooding people with patches or annoying people with 
-patches :)
+> While you all care about Linux specifically, the 
+> goal for TrenchBoot is to build a common approach that we can implement
+> across any other open source OS.
+>
 
-> Not sure who was missing from the first run - my apologies if I did
-> that.... I'll be more careful with huge cc list next time and just
-> scriptify it.
+I'd argue that relying on things like setup_header, boot_params and kernel_info is not a great way to achieve that. The reason I care about this is that you are relying on those things even when doing EFI boot, which makes your approach highly Linux/x86 specific.
 
-No worries, I was just surprised to spot a v3 already!
+Given that arm64 has no decompressor at all, it is highly likely (and acceptable) that only EFI boot can do a secure launch. It also implies that the core kernel is the only place where we can put the pieces that execute afterwards. So adopting a model now for x86 that we know does not generalize well across other architectures is something I am not keen on.
 
--- 
-Cheers,
+...
+>> I've had a stab at implementing all of this in a manner that is more idiomatic for EFI boot:
+>> 
+>> - GRUB does minimal TXT related preparation upfront, and exposes the remaining functionality via a protocol that is attached to the loaded image by GRUB
+>> - The SL stub is moved to the core kernel, with some startup code added to pivot to long mode
+>> - the EFI stub executes and decompresses the kernel as usual
+>> - if the protocol is present, the EFI stub calls it to pass the bootparams pointer, the base and size of the MLE and the header offset back to the GRUB code
+>> - after calling ExitBootServices(), it calls another protocol method to trigger the secure launch.
+>> 
+...
+>
+> I think this is a great approach for UEFI, though we need to reconcile 
+> this with non-UEFI situations such as booting under coreboot.
 
-David
+There are two approaches that I think are feasible for coreboot in this model:
+
+- just unpack the ELF and boot that - there is already prior art for that with Xen. We can stick the MLE header offset in an ELF note where any loader can find it.
+
+- stick with the current approach as much as possible, i.e., disable physical KASLR so that the decompressed kernel will end up right where the decompressor was loaded, which allows much of the secure launch preparation to be done as before. Only the final bits (including the call into the ACM itself) need to be deferred, and we can propose a generic mechanism for that via boot_params.
+
+I'm working on a prototype of the latter, but GRUB is an odd beast and my x86 fu is weak.
+
+I'd be happy to have a call to compare notes and see if we can come up with something we can all agree on (modulo the SHA-1 :-))
+
+
