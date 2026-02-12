@@ -1,187 +1,128 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2B82ED84C;
-	Thu, 12 Feb 2026 10:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F1223F424
+	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 10:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770890969; cv=none; b=ABZjg9zkeghIFp0AO4HViJSJ5vRiPKMF3XwRg56pQsi7/VvAuVC15PIrt+054QD6PChUGO0YjB0DJwqZaEGHmnYqs/eNZKI/6CK+K+Dn71UGuwoZZ4VDCYm6lGOl+AtQof2UPoWes1B09u5eorHbKBDCHNxyBdOXHbPXhJ9VZY8=
+	t=1770892689; cv=none; b=FWOU98iSBGf0ehFaGWbJjsvFNVc7NixOs0zzJHhjo6aDCuzBQkDZKZflkpe3TWWekBKVSpqzGsNsXU08d4BmeiQhOtIV4WEVV+evsFxYjk8laQzFS/u3vVgkare5wbIXauZWrpLbcTl8ka/9J+O3RQbKDVzDXSnUlIV8AUdILx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770890969; c=relaxed/simple;
-	bh=G7A4daDnIZmUBrGiK8VbVrFXofysLssg7zOYhJ4dJr8=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S2pvaOkEh0OtsIi15CgQw3gPK6hFjpz7lif7lIK7JVjx8F7MYE7qwjQ3wzMqLHG2TFjHMqutEKmAfG6olor7ukCxWbbE8SJe5pyH4e8alHjU+zPl1GA7CxNR57Ml2K0Y6N48wS+rnsSOHF7lKwGwcd+kfgp4dJflDu9o0XP2oPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=LRBlxtXx; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1770892689; c=relaxed/simple;
+	bh=YMSEKQ20QRpw7d3IGth6vDRvfP4mhaig8cgdZ4qypig=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SCuDBLXhP7mdcK+YXjYbHr5yrLK1DPjgjdVPQ6L/2ZE5p56R7XHeec1YENtZIwWdlg/45LlxClBkFwl7ZQZI+0I7y/wr3sgxoydY/8RMXpCaRc90wVar729gzUzTCOgEz1D9tKobT+rzMXWrYc/yHWQ8hxze4pBZU3ZR1KtOORM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SvMbxJRT; arc=none smtp.client-ip=209.85.221.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="LRBlxtXx"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=VtIO3omn8+PnTjjnD8spJPG7DsNFFnKCkMyH1MFJ9iU=;
-	b=LRBlxtXxNIhJUpIXnCI0UUrNFItuoyFQorrQRUdZrd/efDRrIa9FBhjtnlJESaBSGzxQs1CSM
-	/z1ydjV90abpxBtjreG9cwQ44wc0KiK+S/l1VZoX45KemCZ+AW3x7pCvV1Hsto62RViiW314c2E
-	4q3ASiodvKeF5Ix7Ei7gpeU=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4fBW9x4BbyzmVCn;
-	Thu, 12 Feb 2026 18:04:37 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7224F4056D;
-	Thu, 12 Feb 2026 18:09:17 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
- (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 12 Feb
- 2026 18:09:15 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
-	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <akpm@linux-foundation.org>, <bhe@redhat.com>,
-	<vgoyal@redhat.com>, <dyoung@redhat.com>, <rdunlap@infradead.org>,
-	<kees@kernel.org>, <elver@google.com>, <paulmck@kernel.org>, <arnd@arndb.de>,
-	<ruanjinjie@huawei.com>, <fvdl@google.com>, <thuth@redhat.com>,
-	<ardb@kernel.org>, <leitao@debian.org>, <rppt@kernel.org>, <osandov@fb.com>,
-	<cfsworks@gmail.com>, <sourabhjain@linux.ibm.com>, <ryan.roberts@arm.com>,
-	<tangyouling@kylinos.cn>, <eajames@linux.ibm.com>, <hbathini@linux.ibm.com>,
-	<ritesh.list@gmail.com>, <songshuaishuai@tinylab.org>, <bjorn@rivosinc.com>,
-	<samuel.holland@sifive.com>, <kevin.brodsky@arm.com>,
-	<junhui.liu@pigmoral.tech>, <vishal.moola@gmail.com>, <dwmw@amazon.co.uk>,
-	<pbonzini@redhat.com>, <kai.huang@intel.com>, <ubizjak@gmail.com>,
-	<coxu@redhat.com>, <fuqiang.wang@easystack.cn>, <liaoyuanhong@vivo.com>,
-	<brgerst@gmail.com>, <jbohac@suse.cz>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-	<kexec@lists.infradead.org>
-Subject: [PATCH v5 4/4] riscv: kexec: Add support for crashkernel CMA reservation
-Date: Thu, 12 Feb 2026 18:10:01 +0800
-Message-ID: <20260212101001.343158-5-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260212101001.343158-1-ruanjinjie@huawei.com>
-References: <20260212101001.343158-1-ruanjinjie@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SvMbxJRT"
+Received: by mail-wr1-f66.google.com with SMTP id ffacd0b85a97d-436333dcc42so686962f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 02:38:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770892687; x=1771497487; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EHvH2NxXNZ50ASeOsz2aD1KixOOY7ZptsiQm52Vzawc=;
+        b=SvMbxJRTAM8pM8Xh7BPkAb6zzJ2tK4F1m0N+JB9HJTR5ESqkb++/RuNEuaWRxCfatV
+         /Lj4R6M27z4GcvfUd4BJwkshCVGDZZbP2g3ZCraofxRZElrydvrWpsxXDFmp0pc4zyLF
+         YNdZ9sCfbDDO/X3BsTVe/umJn3fNORa86vwl5/H9mYSixvBO0IM1u4Pm/v7Bilez+fCy
+         UKIOBc48SRcMyi61csAf4+HEtZfnwjKirlLa6gqRUD3HS5NhzsIti2ZwO6n7EIBaz0A9
+         eIexMUCKLoz1qEAu6+e5c4nmA+EZvcBKmu50tFBbFO+mkOW2HdeKfYJ5exXOw1apa2L+
+         dGgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770892687; x=1771497487;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EHvH2NxXNZ50ASeOsz2aD1KixOOY7ZptsiQm52Vzawc=;
+        b=ivE7MzH4vXuDvo/5rpTdH/92ESxp5WWw3urjIcF2DcVW8Qmjj5UiugJzbIbpj3jz7G
+         xrCQLfLSGg1/OXnYwArVYYe0wdYJDZJCNvL09blIkWwP/ZrPY6NzbA2p6Etjz0QeOdbL
+         XCfQgQPBW7ilXsn+mS4aRadDVdEKelioLeS+R2rjujpKW6wlTZFF2fb3ZeGAxBgIVx5c
+         s3RvKrBXLlPSMXAJhv3elFpfcDpPI5uyIyCeQ5xCyjg6nhV8yzdJF5FrKyhX3K0AfS5t
+         gQnoTrpeye+QnaWfFj2+qVhGjDjGaR/spZ1frZD4FrP/FtmyK/NFYf2EiLN5jlCxqhGS
+         CuUg==
+X-Forwarded-Encrypted: i=1; AJvYcCXXjE97OJqtgo7fwH6fKyEfryXSW34VyM9ghHtMGHuwqGDc5cdJ67LpLj0S6yXhh0hO+V+vvbYutXs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyjbs1FsbNIk2F3ljDtywKl6Oqo3jsbly/pfN7AmaAnTqYBqRsY
+	H4FuCp9guj9JlnggUZdozuKGRwe24KSzp2wO5p/m9GIhCDq/VfVy8qmm
+X-Gm-Gg: AZuq6aKMaW7+t7AAsLU9xB0yYzlo4PoYCwv4Wr/h4ZOskjCKEbmEZB3vJocPKWJ2l9J
+	Z5mdMPDs58ZF0z9kzyCrKIV7Eukk8jFt7r7/Iw6lXeQUSDnOOZvthrvWqvJ55hPunw/ZQFX1Sf6
+	2ToyV9JEffa3+La2evnZWryYz8tY1Lry1haIsCdGZGYJBVZ4HoepzaWs0W2fUGZ95r5nLnWGl9A
+	bcxLgmAyxRRtgFdddiVaH6503xBRGo+Ag3Fc2oRoCjmXiNxvnEamITv3YnVrlsIqFMEgrOFBB1D
+	pSveCuHFCavj4dgFMkQ/L10ru3/Ualmfyna9rIEvE0tAuLqfWkXMLx+Ytwcu/UoBYlzfBaMvYMQ
+	Dh1hIuOxsjIcxpaG6p46b79HrYhKXVUOk2SDwDV0ZHbYXu2L4RKvyMO2Fi4w1Rc1dHFbIqpQJc1
+	873PRNAyOUALeuPto=
+X-Received: by 2002:a05:600c:c16f:b0:477:9dd9:ac57 with SMTP id 5b1f17b1804b1-4836561a23bmr17586025e9.0.1770892686309;
+        Thu, 12 Feb 2026 02:38:06 -0800 (PST)
+Received: from skbuf ([2a02:2f04:d501:d900:2f75:bf70:f0b9:4586])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4834d835f6bsm167527835e9.14.2026.02.12.02.38.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Feb 2026 02:38:05 -0800 (PST)
+Date: Thu, 12 Feb 2026 12:38:03 +0200
+From: Vladimir Oltean <olteanv@gmail.com>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-phy@lists.infradead.org
+Subject: Re: [PATCH net-next] doc: generic phy: update generic PHY
+ documentation
+Message-ID: <20260212103803.xut4sjbypgb26mo4@skbuf>
+References: <20260211154839.lbh4uovxr5b5s4nv@skbuf>
+ <E1vo0mF-00000007kbg-1OeA@rmk-PC.armlinux.org.uk>
+ <20260211154839.lbh4uovxr5b5s4nv@skbuf>
+ <aYzHL1qwew5p-xoq@shell.armlinux.org.uk>
+ <aYzHL1qwew5p-xoq@shell.armlinux.org.uk>
+ <20260211193006.ad2piivyoqhvg22r@skbuf>
+ <aYznE1FIbs_0OcPR@shell.armlinux.org.uk>
+ <aY1hs4XKZSpvKd3B@vaman>
+ <20260212091332.qcpi3qyynmdp4acv@skbuf>
+ <aY2lFTIALH7qEJmM@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aY2lFTIALH7qEJmM@shell.armlinux.org.uk>
 
-Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
-crashkernel= command line option") and commit ab475510e042 ("kdump:
-implement reserve_crashkernel_cma") added CMA support for kdump
-crashkernel reservation. This allows the kernel to dynamically allocate
-contiguous memory for crash dumping when needed, rather than permanently
-reserving a fixed region at boot time.
+On Thu, Feb 12, 2026 at 10:01:57AM +0000, Russell King (Oracle) wrote:
+> I'm also going to point out that phy-core allows ->set_mode() to be
+> unimplemented, yet the phy_mode is stored. It looks to me like this is
+> intentional part of the API, which means that phy_set_mode*() is not
+> expected to always result in the hardware being programmed. That
+> brings up the obvious question: if phy_set_mode() is not expected to
+> always reprogram the hardware, then what phy API call should follow
+> this to ensure the hardware is reprogrammed.
+> 
+> On the other hand, if the API intention was that ->set_mode() must be
+> implemented if phy_set_mode*() is to be accepted, then surely
+> phy_set_mode_ext() should be checking that phy->ops->set_mode exists,
+> and returning -EOPNOTSUPP if it doesn't.
 
-So extend crashkernel CMA reservation support to riscv. The following
-changes are made to enable CMA reservation:
+This is a relatively new development.
 
-- Parse and obtain the CMA reservation size along with other crashkernel
-  parameters.
-- Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
-- Include the CMA-reserved ranges for kdump kernel to use.
-- Exclude the CMA-reserved ranges from the crash kernel memory to
-  prevent them from being exported through /proc/vmcore, which is already
-  done in the crash core.
+commit d58c04e305afbaa9dda7969151f06c4efe2c98b0
+Author: Dmitry Baryshkov <lumag@kernel.org>
+Date:   Sun Feb 9 14:31:45 2025 +0200
 
-Update kernel-parameters.txt to document CMA support for crashkernel on
-riscv architecture.
+    phy: core: don't require set_mode() callback for phy_get_mode() to work
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++--------
- arch/riscv/kernel/machine_kexec_file.c          | 14 +++++++++++++-
- arch/riscv/mm/init.c                            |  5 +++--
- 3 files changed, 24 insertions(+), 11 deletions(-)
+    As reported by Damon Ding, the phy_get_mode() call doesn't work as
+    expected unless the PHY driver has a .set_mode() call. This prompts PHY
+    drivers to have empty stubs for .set_mode() for the sake of being able
+    to get the mode.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a2c7c22c60e4..037002b5b867 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1121,14 +1121,14 @@ Kernel parameters
- 			It will be ignored when crashkernel=X,high is not used
- 			or memory reserved is below 4G.
- 	crashkernel=size[KMG],cma
--			[KNL, X86, ARM64, ppc] Reserve additional crash kernel memory from
--			CMA. This reservation is usable by the first system's
--			userspace memory and kernel movable allocations (memory
--			balloon, zswap). Pages allocated from this memory range
--			will not be included in the vmcore so this should not
--			be used if dumping of userspace memory is intended and
--			it has to be expected that some movable kernel pages
--			may be missing from the dump.
-+			[KNL, X86, ARM64, RISCV, ppc] Reserve additional crash
-+			kernel memory from CMA. This reservation is usable by
-+			the first system's userspace memory and kernel movable
-+			allocations (memory balloon, zswap). Pages allocated
-+			from this memory range will not be included in the vmcore
-+			so this should not be used if dumping of userspace memory
-+			is intended and it has to be expected that some movable
-+			kernel pages may be missing from the dump.
- 
- 			A standard crashkernel reservation, as described above,
- 			is still needed to hold the crash kernel and initrd.
-diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kernel/machine_kexec_file.c
-index 2f0e7bbeb2f0..bc10ff157cf0 100644
---- a/arch/riscv/kernel/machine_kexec_file.c
-+++ b/arch/riscv/kernel/machine_kexec_file.c
-@@ -64,8 +64,20 @@ static int prepare_elf64_ram_headers_callback(struct resource *res, void *arg)
- 
- int arch_prepare_elf64_ram_headers(struct crash_mem *cmem)
- {
-+	int ret, i;
-+
- 	cmem->nr_ranges = 0;
--	return walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers_callback);
-+	ret = walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers_callback);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < crashk_cma_cnt; i++) {
-+		cmem->ranges[cmem->nr_ranges].start = crashk_cma_ranges[i].start;
-+		cmem->ranges[cmem->nr_ranges].end = crashk_cma_ranges[i].end;
-+		cmem->nr_ranges++;
-+	}
-+
-+	return 0;
- }
- 
- static char *setup_kdump_cmdline(struct kimage *image, char *cmdline,
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index addb8a9305be..074d2d5f79ee 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -1404,7 +1404,7 @@ static inline void setup_vm_final(void)
-  */
- static void __init arch_reserve_crashkernel(void)
- {
--	unsigned long long low_size = 0;
-+	unsigned long long low_size = 0, cma_size = 0;
- 	unsigned long long crash_base, crash_size;
- 	bool high = false;
- 	int ret;
-@@ -1414,11 +1414,12 @@ static void __init arch_reserve_crashkernel(void)
- 
- 	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
- 				&crash_size, &crash_base,
--				&low_size, NULL, &high);
-+				&low_size, &cma_size, &high);
- 	if (ret)
- 		return;
- 
- 	reserve_crashkernel_generic(crash_size, crash_base, low_size, high);
-+	reserve_crashkernel_cma(cma_size);
- }
- 
- void __init paging_init(void)
--- 
-2.34.1
+    Make .set_mode() callback truly optional and update PHY's mode even if
+    it there is none.
 
+    Cc: Damon Ding <damon.ding@rock-chips.com>
+    Link: https://lore.kernel.org/r/96f8310f-93f1-4bcb-8637-137e1159ff83@rock-chips.com
+    Tested-by: Damon Ding <damon.ding@rock-chips.com>
+    Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+    Link: https://lore.kernel.org/r/20250209-phy-fix-set-moe-v2-1-76e248503856@linaro.org
+    Signed-off-by: Vinod Koul <vkoul@kernel.org>
+
+If only lore.kernel.org wasn't down, so I could see the back story in
+the link...
