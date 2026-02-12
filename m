@@ -1,297 +1,326 @@
-Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com [209.85.160.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B49DDC5
-	for <linux-doc@vger.kernel.org>; Thu, 12 Feb 2026 00:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF2E199252;
+	Thu, 12 Feb 2026 03:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770855290; cv=none; b=pgYAm3wMksvJHdoN5i3Z1ixaEaTDl4/pcI4cqimSOigKu6aYlR5AV2xa8APVQtEVuGnlZ1WZLwDTIXmPoE86zOHjeSW1/HdKOkAV/lw+qBFfJPvqOjAvlJs+pna/CTpOqNy/sYvNGMO7GKkCtY8iiZnPMIXD+q/kSL0cmF/pVeM=
+	t=1770866938; cv=none; b=oCSy6aPxYw/MyQNuVLavKh1XWzktf5IZ//tYFRN5o8qWJVQU8It3IM15z01immI5gL5MfLX3EPDfOq37RM9JjpYWo8kLzgrOgFuFDwcmyFeB/cvZawfesJgMPsdQlLT62K6++b/LO5SZWBL6Xa/65coUYalvV2ZV4EHBYtfJyfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770855290; c=relaxed/simple;
-	bh=1+Gk1wrp2G7JsJ3mKRZOtQ8q8HMv75sNbrro9fnWjmQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gfCjL4RqRR4MMKLc3I307d0cSIc0eL+biugGmWoM0E4XfAmOfdbVf1cxD8f0kzweYuIrNbg1nY8s9Nu7YUmMn2Won7GoS0UCXR8nnV4qKWH5PdigtHCnbanaD/RFDTUoatRD2HpD3ZBy9lznj/H5F0tGeuCZ40ooyPicg26xK/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QsWnqiEF; arc=none smtp.client-ip=209.85.160.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1770866938; c=relaxed/simple;
+	bh=/hJXl8P8KRPeoAl1PZPqloc/AO104jBQ2+3QgzeJoJ4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=RJzDfdVgGP1S3stcYxQ+mSeXbhhRa1BFlePMvjo8BlN5r/2eGP2WthDK+v0AV102UdvIw+KNBgcw/u+Hb4uGJlYO38IVjhYRuARS+jKWLf32cKPn5SgjI2xz8VVIg6eHXd5KL4ajHRa6Voxm5iBYdRyOB72yd5wUVqxEK+Zme3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=cXMfoad+; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QsWnqiEF"
-Received: by mail-oa1-f65.google.com with SMTP id 586e51a60fabf-404254ffe8aso943025fac.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Feb 2026 16:14:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1770855288; x=1771460088; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZMVfUVm5fgbPd/qSnAtgDoNjTpRp4guFY8KxOPZIX64=;
-        b=QsWnqiEFkWg+O9BWi5OfmfmhStI2s6Og77b87X355jw9O8mzaqI2SMELzA9zRMeMn4
-         OyJw1NmBZeG97236Was8PpjNjwIrPAQ0mV93h3Zob8EnTRxM6K61uDRi3f729ld5TgT5
-         4NQteZ0Sn28fY2Y+MnEv1TSW5IqilVlvxP2j0LbyihSBUyzlSXkp6d/8ja85nwNQvgdE
-         05wM9tcDyEJeTDS5XuqU5KaMBGMbSb48ZPF6hF+tjD22wVMTfX7BXOfzklfJrWuHQvDk
-         yEvCsoTJHDR7wv2h2cfAa0bNZu8VKMpJZnB28zk+/ej/SrO0iUBWwoFn0SFI4NWD8o/i
-         G6QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770855288; x=1771460088;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZMVfUVm5fgbPd/qSnAtgDoNjTpRp4guFY8KxOPZIX64=;
-        b=E7hWWadNUhJCn3NtaHcQI+4H46xsW8p5eN+8c2AasrzejR8TLN+S+UO9d9Po8TQFPW
-         4wX8EDcGBZ/7HEVPeRlmDAI7rIS6P+S09FI1MYLcGOCsT32dlS4787USjSgsJMouWJzO
-         xZbagTYERtsjImwmZ64dv9KOrCEgv4FldwJ+V9XEzapgO0ddwD0irtcgilXCJp3905H2
-         kZUSM/q1L9/ax+ndguVfdyNTV/saiPcz4+AUiEhnJG7wryf8XbI4pgqXqXOz8HmHOV9b
-         z48BB4RTrltMDPYWJwljWvoWX1QIVkiXQGYhwLT5FQbcTOMWLhFfCr1u+xyJ+EgaMZDh
-         hJYA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2KsbZutNGj6ahiH8uw9LUzsaEtNsKSg5VIeJhh9HB6wFDi8d+k5xc/k58gJnEM75/wE4seYA5fm8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxs78DV70QSH3x4Qb59YbLuXaS6FY5DCXarkoTBtAIV1ohfBfGN
-	LLQ/WbF0MFnrOxuC+HUk9KHDUFyIvwefmIhEC1DNAJPHQHc3UFU1OXQR
-X-Gm-Gg: AZuq6aKsl7q3yssIJSZMBKHW90fjlsJNNUvaSchoqfCt8QY6GlgTjlFXPrj6FreawTK
-	WxqtdiIkqBAdGpQgFwgd/qv/ve48HvD0H/adc2WLnUgOIK80qdFIwWnZfq20xfxsNvAFyw+5INi
-	Zg6Ea+PrrhO7q2lg0bC4mM2wZ1097Glj7p2J5sCAZJr4dSwPaM1ZbGuG/+cz9m8jsuJgTP9g/Ag
-	Tu66jyDNcAX6wW+MvHvAUPCXLB3QaSuMApBHQPPSl6q9PgALPVy29awyX4vAfTiHESgu1iNiLva
-	eWUaouroj78YG5bQyJ3BRsHndws3sO7pEefPyGgqb7eep3W8S9UFLO19SCehUGyt6M1Cn0F5Euv
-	TATXayGnXXPsCmBFChGpmjV1/baOujMC5DYH7UpDrpLgkYrVThfbrQROLgA6y5fW2NXN4XMGBkN
-	kxgaDxDYm8M9r65Ok7OzxgzYQfaZEit0wtzKJrGMtmEXnVSVdCGD3T
-X-Received: by 2002:a05:6870:e3ce:b0:409:5df2:a266 with SMTP id 586e51a60fabf-40ec88597a9mr503090fac.12.1770855287622;
-        Wed, 11 Feb 2026 16:14:47 -0800 (PST)
-Received: from godzilla (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-40eaf1062ffsm2331939fac.13.2026.02.11.16.14.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Feb 2026 16:14:46 -0800 (PST)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: dri-devel@lists.freedesktop.org,
-	intel-gfx-trybot@lists.freedesktop.org
-Cc: Jim Cromie <jim.cromie@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 32/61] docs/dyndbg: add classmap info to howto
-Date: Wed, 11 Feb 2026 17:13:27 -0700
-Message-ID: <20260212001359.97296-33-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260212001359.97296-32-jim.cromie@gmail.com>
-References: <20260212001359.97296-1-jim.cromie@gmail.com>
- <20260212001359.97296-2-jim.cromie@gmail.com>
- <20260212001359.97296-3-jim.cromie@gmail.com>
- <20260212001359.97296-4-jim.cromie@gmail.com>
- <20260212001359.97296-5-jim.cromie@gmail.com>
- <20260212001359.97296-6-jim.cromie@gmail.com>
- <20260212001359.97296-7-jim.cromie@gmail.com>
- <20260212001359.97296-8-jim.cromie@gmail.com>
- <20260212001359.97296-9-jim.cromie@gmail.com>
- <20260212001359.97296-10-jim.cromie@gmail.com>
- <20260212001359.97296-11-jim.cromie@gmail.com>
- <20260212001359.97296-12-jim.cromie@gmail.com>
- <20260212001359.97296-13-jim.cromie@gmail.com>
- <20260212001359.97296-14-jim.cromie@gmail.com>
- <20260212001359.97296-15-jim.cromie@gmail.com>
- <20260212001359.97296-16-jim.cromie@gmail.com>
- <20260212001359.97296-17-jim.cromie@gmail.com>
- <20260212001359.97296-18-jim.cromie@gmail.com>
- <20260212001359.97296-19-jim.cromie@gmail.com>
- <20260212001359.97296-20-jim.cromie@gmail.com>
- <20260212001359.97296-21-jim.cromie@gmail.com>
- <20260212001359.97296-22-jim.cromie@gmail.com>
- <20260212001359.97296-23-jim.cromie@gmail.com>
- <20260212001359.97296-24-jim.cromie@gmail.com>
- <20260212001359.97296-25-jim.cromie@gmail.com>
- <20260212001359.97296-26-jim.cromie@gmail.com>
- <20260212001359.97296-27-jim.cromie@gmail.com>
- <20260212001359.97296-28-jim.cromie@gmail.com>
- <20260212001359.97296-29-jim.cromie@gmail.com>
- <20260212001359.97296-30-jim.cromie@gmail.com>
- <20260212001359.97296-31-jim.cromie@gmail.com>
- <20260212001359.97296-32-jim.cromie@gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="cXMfoad+"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=RZTcbKUpf2wubcUUQwFd4TLSwyssXimapX4rFbyIz5A=;
+	b=cXMfoad+w/Ix+LI9YndMWoNmF4Iu3IJhXflwlT1MxUXYGZVZzdihNCJKOT0lufO87rj8TPJxq
+	3rCoLyHgE6YQfJO7OcmMQHWBZTvKnoxt4QdFUAjcXo3Ou/NK7Ychs3Q1erI52ZOjhspHUesfzbk
+	tjGTeV7nVTLFy9vfIpqFDy4=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4fBLHs1w6bzRhSh;
+	Thu, 12 Feb 2026 11:24:09 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7371340567;
+	Thu, 12 Feb 2026 11:28:47 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 12 Feb 2026 11:28:43 +0800
+Message-ID: <31c2ae53-cbb7-bfad-9b8f-f9e1a254491e@huawei.com>
+Date: Thu, 12 Feb 2026 11:28:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v4 1/3] crash: Exclude crash kernel memory in crash core
+Content-Language: en-US
+To: Sourabh Jain <sourabhjain@linux.ibm.com>, <corbet@lwn.net>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <chenhuacai@kernel.org>,
+	<kernel@xen0n.name>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
+	<npiggin@gmail.com>, <chleroy@kernel.org>, <pjw@kernel.org>,
+	<palmer@dabbelt.com>, <aou@eecs.berkeley.edu>, <alex@ghiti.fr>,
+	<tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<bhe@redhat.com>, <vgoyal@redhat.com>, <dyoung@redhat.com>,
+	<rdunlap@infradead.org>, <pmladek@suse.com>, <feng.tang@linux.alibaba.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+	<arnd@arndb.de>, <lirongqing@baidu.com>, <fvdl@google.com>,
+	<leitao@debian.org>, <rppt@kernel.org>, <ardb@kernel.org>, <jbohac@suse.cz>,
+	<osandov@fb.com>, <ryan.roberts@arm.com>, <cfsworks@gmail.com>,
+	<tangyouling@kylinos.cn>, <ritesh.list@gmail.com>, <thuth@redhat.com>,
+	<hbathini@linux.ibm.com>, <eajames@linux.ibm.com>, <bjorn@rivosinc.com>,
+	<songshuaishuai@tinylab.org>, <kevin.brodsky@arm.com>,
+	<samuel.holland@sifive.com>, <vishal.moola@gmail.com>,
+	<junhui.liu@pigmoral.tech>, <dwmw@amazon.co.uk>, <pbonzini@redhat.com>,
+	<thomas.lendacky@amd.com>, <kai.huang@intel.com>, <ubizjak@gmail.com>,
+	<coxu@redhat.com>, <liaoyuanhong@vivo.com>, <fuqiang.wang@easystack.cn>,
+	<brgerst@gmail.com>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <kexec@lists.infradead.org>
+References: <20260209095931.2813152-1-ruanjinjie@huawei.com>
+ <20260209095931.2813152-2-ruanjinjie@huawei.com>
+ <50693f0c-c610-4347-86aa-40d50dc681fc@linux.ibm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <50693f0c-c610-4347-86aa-40d50dc681fc@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-Describe the 3 API macros providing dynamic_debug's classmaps
 
-DYNAMIC_DEBUG_CLASSMAP_DEFINE - create & export a classmap
-DYNAMIC_DEBUG_CLASSMAP_USE    - refer to exported map
-DYNAMIC_DEBUG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNAMIC_DEBUG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
 
-NB: The _DEFINE & _USE model makes the user dependent on the definer,
-just like EXPORT_SYMBOL(__drm_debug) already does.
+On 2026/2/10 20:30, Sourabh Jain wrote:
+> Hello Jinjie,
+> 
+> On 09/02/26 15:29, Jinjie Ruan wrote:
+>> The exclude of crashk_res, crashk_low_res and crashk_cma memory
+>> are almost identical across different architectures, handling them
+>> in the crash core would eliminate a lot of duplication, so do
+>> them in the common code.
+>>
+>> And move the size calculation (and the realloc if needed) into the
+>> generic crash core so that:
+>>
+>> - New CMA regions or future crash-memory types can automatically
+>>    accounted for in crash core;
+>>
+>> - Each architecture no longer has to play whack-a-mole with
+>>    its private array size.
+>>
+>> To achieve the above goal, 4 architecture-specific functions are
+>> introduced:
+>>
+>> - arch_get_system_nr_ranges() and arch_prepare_elf64_ram_headers().
+>>    The 1st function pre-counts the number of memory ranges, and
+>>    the 2st function fill the memory ranges into the cmem->ranges[] array,
+>>    and count the actual number of ranges filled. The default
+>> implementation
+>>    is consistent with arm64 and loongson.
+>>
+>> - arch_crash_exclude_mem_range(). Realloc for powerpc. The default
+>>    implementation is crash_exclude_mem_range(), and use
+>>    crash_exclude_mem_range_guarded() to implement the arch version
+>>    for powerpc.
+>>
+>> - arch_get_crash_memory_ranges(). Get crash memory ranges for arch and
+>>    the default implementation is generic across x86, arm64, riscv, and
+>>    loongson by using the first two arch functions above. powerpc has its
+>>    own implementation by calling get_crash_memory_ranges().
+>>
+>> Tested on x86, arm64 and riscv with QEMU.
+>>
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> ---
+>>   arch/arm64/kernel/machine_kexec_file.c     |  47 +--------
+>>   arch/loongarch/kernel/machine_kexec_file.c |  45 +-------
+>>   arch/powerpc/include/asm/kexec.h           |  13 +++
+>>   arch/powerpc/kexec/crash.c                 |  52 ++++++----
+>>   arch/powerpc/kexec/file_load_64.c          |  17 ++-
+>>   arch/powerpc/kexec/ranges.c                |  18 +---
+>>   arch/riscv/include/asm/kexec.h             |  10 ++
+>>   arch/riscv/kernel/machine_kexec_file.c     |  37 ++-----
+>>   arch/x86/include/asm/kexec.h               |  10 ++
+>>   arch/x86/kernel/crash.c                    | 104 ++-----------------
+>>   include/linux/crash_core.h                 | 114 +++++++++++++++++++--
+>>   kernel/crash_core.c                        |  71 +++++++++++--
+>>   12 files changed, 269 insertions(+), 269 deletions(-)
+>>
 
-cc: linux-doc@vger.kernel.org
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- .../admin-guide/dynamic-debug-howto.rst       | 132 ++++++++++++++++--
- 1 file changed, 122 insertions(+), 10 deletions(-)
+[...]
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 0a42b9de55ac..734be0b5fe9a 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -146,6 +146,9 @@ keywords are::
-   "1-30" is valid range but "1 - 30" is not.
- 
- 
-+Keywords
-+--------
-+
- The meanings of each keyword are:
- 
- func
-@@ -194,16 +197,6 @@ format
- 	format "nfsd: SETATTR"  // a neater way to match a format with whitespace
- 	format 'nfsd: SETATTR'  // yet another way to match a format with whitespace
- 
--class
--    The given class_name is validated against each module, which may
--    have declared a list of known class_names.  If the class_name is
--    found for a module, callsite & class matching and adjustment
--    proceeds.  Examples::
--
--	class DRM_UT_KMS	# a DRM.debug category
--	class JUNK		# silent non-match
--	// class TLD_*		# NOTICE: no wildcard in class names
--
- line
-     The given line number or range of line numbers is compared
-     against the line number of each ``pr_debug()`` callsite.  A single
-@@ -218,6 +211,25 @@ line
- 	line -1605          // the 1605 lines from line 1 to line 1605
- 	line 1600-          // all lines from line 1600 to the end of the file
- 
-+class
-+
-+    The given class_name is validated against each module, which may
-+    have declared a list of class_names it accepts.  If the class_name
-+    accepted by a module, callsite & class matching and adjustment
-+    proceeds.  Examples::
-+
-+	class DRM_UT_KMS	# a drm.debug category
-+	class JUNK		# silent non-match
-+	// class TLD_*		# NOTICE: no wildcard in class names
-+
-+.. note::
-+
-+    Unlike other keywords, classes are "name-to-change", not
-+    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
-+
-+Flags
-+-----
-+
- The flags specification comprises a change operation followed
- by one or more flag characters.  The change operation is one
- of the characters::
-@@ -239,6 +251,11 @@ The flags are::
-   l    Include line number
-   d    Include call trace
- 
-+.. note::
-+
-+   * To query without changing	``+_`` or ``-_``.
-+   * To clear all flags		``=_`` or ``-fslmpt``.
-+
- For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
- the ``p`` flag has meaning, other flags are ignored.
- 
-@@ -395,3 +412,98 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+.. _dyndbg-classmaps:
-+
-+Dynamic Debug Classmaps
-+=======================
-+
-+The "class" keyword selects prdbgs based on author supplied,
-+domain-oriented names.  This complements the nested-scope keywords:
-+module, file, function, line.
-+
-+The main difference from the others: classes must be named to be
-+changed.  This protects them from unintended overwrite::
-+
-+  # IOW this cannot undo any drm.debug settings
-+  :#> ddcmd -p
-+
-+This protection is needed; /sys/module/drm/parameters/debug is ABI.
-+drm.debug is authoritative when dyndbg is not used, dyndbg-under-DRM
-+is an implementation detail, and must not behave erratically, just
-+because another admin fed >control something unrelated.
-+
-+So each class must be enabled individually (no wildcards)::
-+
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+That makes direct >control wordy and annoying, but it is a secondary
-+interface; it is not intended to replace the ABI, just slide in
-+underneath and reimplement the guaranteed behavior.  So DRM would keep
-+using the convenient way, and be able to trust it::
-+
-+  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-+
-+That said, since the sysfs/kparam is the ABI, if the author omits the
-+CLASSMAP_PARAM, theres no ABI to guard, and he probably wants a less
-+pedantic >control interface.  In this case, protection is dropped.
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DYNAMIC_DEBUG_CLASSMAP_DEFINE(clname,type,_base,classnames) - this maps
-+classnames (a list of strings) onto class-ids consecutively, starting
-+at _base.
-+
-+DYNAMIC_DEBUG_CLASSMAP_USE(clname) & _USE_(clname,_base) - modules
-+call this to refer to the var _DEFINEd elsewhere (and exported).
-+
-+DYNAMIC_DEBUG_CLASSMAP_PARAM(clname) - creates the sysfs/kparam,
-+maps/exposes bits 0..N as class-names.
-+
-+Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-+dyndbg to update those named classes.  "class FOO" queries are
-+validated against the classes defined or used by the module, this
-+finds the classid to alter; classes are not directly selectable by
-+their classid.
-+
-+Classnames are global in scope, so subsystems (module-groups) should
-+prepend a subsystem name; unqualified names like "CORE" are discouraged.
-+
-+NB: It is an inherent API limitation (due to class_id's int type) that
-+the following are possible:
-+
-+  // these errors should be caught in review
-+  __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
-+  __pr_debug_cls(62, "un-known classid msg"); // this compiles, does nothing
-+
-+There are 2 types of classmaps:
-+
-+* DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
-+* DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-+refers to a DEFINEd classmap, and associates it to the param's
-+data-store.  This state is then applied to DEFINEr and USEr modules
-+when they're modprobed.
-+
-+The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself.  There is no implied meaning in names like "V4"
-+or "PL_ERROR" vs "PL_WARNING".
-+
-+Modules or subsystems (drm & drivers) can define multiple classmaps,
-+as long as they (all the classmaps) share the limited 0..62
-+per-module-group _class_id range, without overlap.
-+
-+If a module encounters a conflict between 2 classmaps it is _USEing or
-+_DEFINEing, it can invoke the extended _USE_(name,_base) macro to
-+de-conflict the respective ranges.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.53.0
+>>   extern void crash_ipi_callback(struct pt_regs *regs);
+>> diff --git a/arch/powerpc/kexec/crash.c b/arch/powerpc/kexec/crash.c
+>> index a325c1c02f96..5ade9a853fb0 100644
+>> --- a/arch/powerpc/kexec/crash.c
+>> +++ b/arch/powerpc/kexec/crash.c
+>> @@ -419,30 +419,21 @@ unsigned int arch_crash_get_elfcorehdr_size(void)
+>>       return sizeof(struct elfhdr) + (phdr_cnt * sizeof(Elf64_Phdr));
+>>   }
+>>   -/**
+>> - * update_crash_elfcorehdr() - Recreate the elfcorehdr and replace it
+>> with old
+>> - *                   elfcorehdr in the kexec segment array.
+>> - * @image: the active struct kimage
+>> - * @mn: struct memory_notify data handler
+>> - */
+>> -static void update_crash_elfcorehdr(struct kimage *image, struct
+>> memory_notify *mn)
+>> +int arch_get_crash_memory_ranges(struct crash_mem **cmem, unsigned
+>> long *nr_mem_ranges,
+>> +                 struct kimage *image, struct memory_notify *mn)
+>>   {
+>> +    unsigned long base_addr, size;
+>>       int ret;
+>> -    struct crash_mem *cmem = NULL;
+>> -    struct kexec_segment *ksegment;
+>> -    void *ptr, *mem, *elfbuf = NULL;
+>> -    unsigned long elfsz, memsz, base_addr, size;
+>>   -    ksegment = &image->segment[image->elfcorehdr_index];
+>> -    mem = (void *) ksegment->mem;
+>> -    memsz = ksegment->memsz;
+>> -
+>> -    ret = get_crash_memory_ranges(&cmem);
+>> +    ret = get_crash_memory_ranges(cmem);
+>>       if (ret) {
+>>           pr_err("Failed to get crash mem range\n");
+>> -        return;
+>> +        return ret;
+>>       }
+>>   +    if (!image || !mn)
+>> +        return 0;
+>> +
+>>       /*
+>>        * The hot unplugged memory is part of crash memory ranges,
+>>        * remove it here.
+>> @@ -450,14 +441,34 @@ static void update_crash_elfcorehdr(struct
+>> kimage *image, struct memory_notify *
+>>       if (image->hp_action == KEXEC_CRASH_HP_REMOVE_MEMORY) {
+>>           base_addr = PFN_PHYS(mn->start_pfn);
+>>           size = mn->nr_pages * PAGE_SIZE;
+>> -        ret = remove_mem_range(&cmem, base_addr, size);
+>> +        ret = remove_mem_range(cmem, base_addr, size);
+> 
+> I like the overall design for handling crashkernel memory exclusion
+> in this patch series, especially the way you managed to free the
+> crash_mem object (mem) in the generic code (crash_prepare_elf64_headers()).
 
+Thanks for the review.
+
+> 
+> However, the way crash memory is prepared after a memory hotplug
+> event on powerpc by calling remove_mem_range(), can leave the crash
+> memory ranges unsorted. This can cause issues in the generic code
+> when excluding crashkernel memory, because crash_exclude_mem_range()
+> expects crash_mem to be sorted.
+
+You are absolutely correct.
+
+> 
+> So I wrote a simple patch to cover this scenario. Including the
+> patch below as the first patch in this series would be helpful.
+> https://lore.kernel.org/all/20260210120803.433978-1-sourabhjain@linux.ibm.com/
+
+Thanks for the additional patch. I'll add it as the first patch in the
+next revision to ensure crash_mem remains sorted after memory hotplug
+events on powerpc.
+
+Best regards,
+Jinjie
+
+> 
+> Jinjie, will it be possible for you to include the above patch in this
+> patch series?
+
+My pleasure.
+
+>>           if (ret) {
+>>               pr_err("Failed to remove hot-unplugged memory from crash
+>> memory ranges\n");
+>> -            goto out;
+>> +            return ret;
+>>           }
+>>       }
+>>   -    ret = crash_prepare_elf64_headers(cmem, false, &elfbuf, &elfsz);
+>> +    return 0;
+>> +}
+>> +
+>> +/**
+>> + * update_crash_elfcorehdr() - Recreate the elfcorehdr and replace it
+>> with old
+>> + *                   elfcorehdr in the kexec segment array.
+>> + * @image: the active struct kimage
+>> + * @mn: struct memory_notify data handler
+>> + */
+>> +static void update_crash_elfcorehdr(struct kimage *image, struct
+>> memory_notify *mn)
+>> +{
+>> +    void *ptr, *mem, *elfbuf = NULL;
+>> +    struct kexec_segment *ksegment;
+>> +    unsigned long elfsz, memsz;
+>> +    int ret;
+>> +
+>> +    ksegment = &image->segment[image->elfcorehdr_index];
+>> +    mem = (void *) ksegment->mem;
+>> +    memsz = ksegment->memsz;
+>> +
+>> +    ret = crash_prepare_elf64_headers(false, &elfbuf, &elfsz, NULL,
+>> image, mn);
+>>       if (ret) {
+>>           pr_err("Failed to prepare elf header\n");
+>>           goto out;
+>> @@ -486,7 +497,6 @@ static void update_crash_elfcorehdr(struct kimage
+>> *image, struct memory_notify *
+>>           xchg(&kexec_crash_image, image);
+>>       }
+>>   out:
+>> -    kvfree(cmem);
+>>       kvfree(elfbuf);
+>>   }
+
+[...]
+
+>> +int crash_prepare_elf64_headers(int need_kernel_map, void **addr,
+>> +                unsigned long *sz, unsigned long *nr_mem_ranges,
+>> +                struct kimage *image, struct memory_notify *mn)
+>>   {
+>> -    Elf64_Ehdr *ehdr;
+>> -    Elf64_Phdr *phdr;
+>>       unsigned long nr_cpus = num_possible_cpus(), nr_phdr, elf_sz;
+>> -    unsigned char *buf;
+>> -    unsigned int cpu, i;
+>>       unsigned long long notes_addr;
+>> +    struct crash_mem *mem = NULL;
+>>       unsigned long mstart, mend;
+>> +    unsigned int cpu, i;
+>> +    unsigned char *buf;
+>> +    Elf64_Ehdr *ehdr;
+>> +    Elf64_Phdr *phdr;
+>> +    int ret = 0;
+>> +
+>> +    ret = arch_get_crash_memory_ranges(&mem, nr_mem_ranges, image, mn);
+>> +    if (ret)
+>> +        return ret;
+>> +
+>> +    if (mem) {
+>> +        ret = crash_exclude_mem_ranges(mem, nr_mem_ranges);
+>> +        if (ret)
+>> +            goto out;
+>> +    }
+>>         /* extra phdr for vmcoreinfo ELF note */
+>>       nr_phdr = nr_cpus + 1;
+>> @@ -192,8 +240,10 @@ int crash_prepare_elf64_headers(struct crash_mem
+>> *mem, int need_kernel_map,
+>>       elf_sz = ALIGN(elf_sz, ELF_CORE_HEADER_ALIGN);
+>>         buf = vzalloc(elf_sz);
+>> -    if (!buf)
+>> -        return -ENOMEM;
+>> +    if (!buf) {
+>> +        ret = -ENOMEM;
+>> +        goto out;
+>> +    }
+>>         ehdr = (Elf64_Ehdr *)buf;
+>>       phdr = (Elf64_Phdr *)(ehdr + 1);
+>> @@ -262,7 +312,10 @@ int crash_prepare_elf64_headers(struct crash_mem
+>> *mem, int need_kernel_map,
+>>         *addr = buf;
+>>       *sz = elf_sz;
+>> -    return 0;
+>> +
+>> +out:
+>> +    kvfree(mem);
+>> +    return ret;
+>>   }
+>>     /**
+> 
