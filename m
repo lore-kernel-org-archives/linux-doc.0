@@ -1,171 +1,172 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011006.outbound.protection.outlook.com [40.93.194.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D95350A30
-	for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 11:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770983480; cv=none; b=La7gLcjSpKlOItslNx91bpIZcmu82sxvMZNjS8D/F0ztq5QFNWOWV6Dg+5qY7YHq3vFFEtargyyf9WpxPGcTSQfehXnBt093ozKFmOkmdfLFf5r1xkXNrRsiqEdrUyd/1ZLZH26G/DzpoRv65Km+SBlz7YG+KoInOd1hTgj2TIY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770983480; c=relaxed/simple;
-	bh=o1U/AW+9c8uIQ2cLYfOvQNLg0AKgTqaqFLJ6LfTtD/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pxmHjv3QLWjW6LUO7p90y1eCF03uK8eZ+pw4381KYRubNVKBFEp1L48zs3Bp0s6ojUZY4z21vQQuUM6mM1Od/9772LKCMy74G3uh7Y1Ibqfn9Niha6NWl0MEfrtHwxfOvRC6i/aaHx3utvU+tMOPksCCHFa3rYBMNZW5+4ZzXr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jdxfzcHR; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA1516CD33;
+	Fri, 13 Feb 2026 12:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770986174; cv=fail; b=DucI6/NRt+YTj53EWP2ZAOEIaSyeMNhGWfnVvnbPzNTVUxDDXSV4/ulI2x043duES+eo0AwrF22Y82X4Ief9WPaaMByUXWnEQtTR2Q7n+TiwbVRY9dxyvarpImm5HXWMXIEPTZU4BiRQ4XjwL+yv5I8NWJA2pwMAixlkpUZnO9c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770986174; c=relaxed/simple;
+	bh=jNwDU/Oyr43JVZkSZka7LuRN4Rf6Movx2qxGRIZnP8I=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gRtFfhSAcsEPizp8qHnL9mhV8bG3Zqj88OktiBrvIyxKwSbC4thvwyk0lcx+noZtD4MwxJacQIBNrE0cFKmNwUMr1EeU5L+6CUJk9AwXj+LF9+9N78dFQafcJSVBSkkvAodthO6eY3yT8OV7JQvkVdAIDymoL8jjbLkiMueTvFo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=aWanimx4; arc=fail smtp.client-ip=40.93.194.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jdxfzcHR"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-65a3c6f587cso1102986a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 03:51:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1770983477; x=1771588277; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1sfEh3PBJWD07hYds4N9dI7mviBas2gIyECRd0DbjpM=;
-        b=jdxfzcHRaKy94VfAvan/IR6g7yaGngyYGgBH/YYjGn6frkXC1hA3HbrEMOKdqFWvT7
-         zEIF47xKuPI7LXNm01JC/eRy8OXlflQZmCUpOEcO32E3IetLzzlhORt3+2GlVkzgMzBM
-         sPqBOQmidy0oIVxRNns9UXfveg3V35HcSZeZiohHe2A3L5YLi2odaSIjdWB+9kbV/5WK
-         eIo1Z7DrOi/PTIYvIKbZiWWG651f7aR2p0MxKt2XkE5TR8T9llHMl7k5wUjiXynjD7zI
-         LKcXsAdp98LpSyghjrpDSRGJJRlz0520efritxH3WQ6GjDUzbW9GqUeMK62kznQfN6/E
-         JaAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1770983477; x=1771588277;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=1sfEh3PBJWD07hYds4N9dI7mviBas2gIyECRd0DbjpM=;
-        b=A1xfyH5kw5QNhtqec6LytyCofqHLi6pjFdmQwDjvPbj6TiRBzi2Du5OPSOgtHWmsd7
-         QJuG1XpSu9UcZBSUMv2T8iZmj0wkGEsKQMzKNmdoOwO7TBmgcF++B8p8KouUc+QDZPAK
-         CNS05kduiXery/40to53lZkjSWC/4ILHnmftkyBydM/9Kaq0n87IpD5eBuqyH5sMQRhe
-         hNF2NlcsJ7goK/uq5sh2a/FbUu8uyt20sze2JVC1m3X3Y2zqSPTyQjecT0PXKwfsA3YL
-         6Y4OmQiXD8BZBeBAeqQNHsB6WbFjSZQvkhcGdtYtnoAjvLBQ3TL5WTo7b1cmrgDhTpkR
-         wiig==
-X-Forwarded-Encrypted: i=1; AJvYcCVfrUFWL6C7BMph5xBB9colOu5jDHXuc/ZEgr0HICQD7RGPF3/c6FmGmeOC5xnRmcNajNvAqUiPlT8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzVuB+g/RZUYULBqFtZ2rH6jx0imoOAGh5EZFHPXg0LQkJuu9ic
-	NH4biX1y3PQW5cfEtsre/yc+RWLLpPMm9hQkRV1efk0BezB0AB4rTb2fw1JX9Oi8Lg==
-X-Gm-Gg: AZuq6aKarwrTYvG9BqqyCxT23/woWhDngX25KtyEaikbC4wjfxEScytlprcv/g4aivn
-	kSVI6qtaqCq7MTHqdcHvRS2JfzqKpmjt+lXziqxMx+wU4ppE5xzgrNBV4o17lFlQCvUPIcuxNc1
-	KGoypi5KmObZSZz0EpO7QY77PdNKpod3GB0z0uQvDpXerzSRjPpOsJ8dpIAXwOOVcHhn8Ft9RKL
-	l+30+3gjycssb+aVx9nim+HoOoTIT3hx8QAXFQFXnJ5c/3vs5bKEB/MCgODP3NehUo2oic9ZzvR
-	vEkV1HUKre8fjPdkxPakgZRx9i0FREKF7LgRYtsAPHLjx9p6iRDX7TkzcmNHLxfPe2XkAySDxgI
-	OVt0+P7dv5Fg4xuVNSfrY1cG/WGn57FUEUQJ/q1LDqfkJ7zzNvDdMctfOGJomsJOk5SOZESFNby
-	5VF7hB3OMrHmvDP4XS43osCYJ9Pjb0ooDMozKoddfui2OXpiWsmotoysFUlVxX
-X-Received: by 2002:a05:6402:5252:b0:65a:39ad:d655 with SMTP id 4fb4d7f45d1cf-65bb116de4amr646620a12.20.1770983477058;
-        Fri, 13 Feb 2026 03:51:17 -0800 (PST)
-Received: from google.com (105.165.204.35.bc.googleusercontent.com. [35.204.165.105])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65bad3f0d09sm585900a12.25.2026.02.13.03.51.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Feb 2026 03:51:15 -0800 (PST)
-Date: Fri, 13 Feb 2026 12:51:07 +0100
-From: =?utf-8?Q?Pierre-Cl=C3=A9ment?= Tosi <ptosi@google.com>
-To: catalin.marinas@arm.com, will@kernel.org, suzuki.poulose@arm.com, 
-	maz@kernel.org, corbet@lwn.net
-Cc: yee.lee@mediatek.com, ascull@google.com, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH] arm64: Optionally disable EL0 MTE via command-line
-Message-ID: <plslbeuzfag5dfizunxmhyw5axxbuz7r3jdlhjluzdwrm4rtzk@bm5xmxzmy6v3>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="aWanimx4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=o9NdCgVy4wTRgh18lwgjHvF6/3Z+Pq/1KWn8SmrU9rgGy52DUjoi4MZRyQ7eIf6GBD8mAehCDg0SLLzAv4thmui1IJfQvZvfzRoyBoKf3kkGQgKps9F/upHJ23/hczi0bI9BoYPfzkWEI5T2xSbsCESEzII4N36/9HQpe9WX7/d9BEV72cApoMYMZwc4MwZu9ehzH6xbyZQxVMNRcTQ1pgr6eCLjIQGk3jL6tGDRvb6RPopgQuNcP9nnlFS/O/IliPF360lF3ReC7Rmg6HftbqeLzIicQDyb6OukMmOgP5Oy9ja2VH8xJyfwgXksX2w9QM4oy8tHQHC+a/pT0Zx8TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KxOQJRW615k/5FMHwG7V99pt/BTJm5/XlpmsucldVQE=;
+ b=suKUJHVgSEUpxF/96KRJCissaVko2G9wQuc/0LS2ivWoOj0ZXv3W+XgFtcnu2f5mARljhKdlyc8J56CUN7xSQliBX4TrXSx6NccSzECgwdgOyLcRTfeGHOSqKs9zbAHW/ozQ3SPj8iBCEsw6K5KtVW1ezvjlQGQumjyJLqrePeIRfqtak9k8WgTI7U98jZV2eqENbZKbuZ7PSGFuQk16/mNv3VtSLQEleA96GXTGPPY40BZ9wJR+15+JjOgq2blRz6etBr63Nm0sV2bMKL0voxxHPQGOFuVB0xWquBLufZK/i97oEZ2q45OWB/FdIPxnsRIXdQjr1oKX2IP5Udz6Ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.194) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KxOQJRW615k/5FMHwG7V99pt/BTJm5/XlpmsucldVQE=;
+ b=aWanimx4kk/vu6gMtkLrFKFbRQ70nGJQVSKwwu00vrktMY2tnv0I1nntBY9kLzdWg9sSxJOX+IpBo0uLq4BzhgQ1mlkFZ+j2+gV6B0L/E6m4oQrNzU/k9uywl6kHoaSLDB63APF9ZTlJ3tzsmwJOWckDHt2KqqhtCoFng3bHTH4=
+Received: from MN2PR18CA0007.namprd18.prod.outlook.com (2603:10b6:208:23c::12)
+ by BLAPR10MB4932.namprd10.prod.outlook.com (2603:10b6:208:325::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.13; Fri, 13 Feb
+ 2026 12:36:11 +0000
+Received: from BL6PEPF00020E61.namprd04.prod.outlook.com
+ (2603:10b6:208:23c:cafe::38) by MN2PR18CA0007.outlook.office365.com
+ (2603:10b6:208:23c::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9611.13 via Frontend Transport; Fri,
+ 13 Feb 2026 12:35:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
+Received: from lewvzet200.ext.ti.com (198.47.23.194) by
+ BL6PEPF00020E61.mail.protection.outlook.com (10.167.249.22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9611.8 via Frontend Transport; Fri, 13 Feb 2026 12:36:10 +0000
+Received: from DLEE212.ent.ti.com (157.170.170.114) by lewvzet200.ext.ti.com
+ (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 13 Feb
+ 2026 06:36:10 -0600
+Received: from DLEE201.ent.ti.com (157.170.170.76) by DLEE212.ent.ti.com
+ (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 13 Feb
+ 2026 06:36:09 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE201.ent.ti.com
+ (157.170.170.76) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 13 Feb 2026 06:36:09 -0600
+Received: from a0507033-hp.dhcp.ti.com (a0507033-hp.dhcp.ti.com [172.24.231.225])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61DCa6A6751418;
+	Fri, 13 Feb 2026 06:36:06 -0600
+From: Aksh Garg <a-garg7@ti.com>
+To: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<bhelgaas@google.com>, <corbet@lwn.net>, <cassel@kernel.org>
+CC: <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<s-vadapalli@ti.com>, <danishanwar@ti.com>, <srk@ti.com>, <a-garg7@ti.com>
+Subject: [RFC PATCH 0/4] PCI: Add DOE support for endpoint
+Date: Fri, 13 Feb 2026 18:05:59 +0530
+Message-ID: <20260213123603.420941-1-a-garg7@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF00020E61:EE_|BLAPR10MB4932:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1b62315b-e88f-429a-4ff3-08de6afc77c4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?UyXZWNA4B2EpI+S7+ZC1ikGneANrmPSTjF79VgFXd6WGbOWtbrYtLM2dkinz?=
+ =?us-ascii?Q?auROBcLbo2TrYkT4DzzS+NpIt/n+lvludZbSup0Lbqj56bqLKOMgIeXe4vIt?=
+ =?us-ascii?Q?JMTi7qd30XEF5GB+Ojh3sRINF9Ol1d+u0i2vDASHrKU6KfBP6lYccKHzV71f?=
+ =?us-ascii?Q?rmux8z/OS6EJ7p40WzrWHHVyMAY+ml68Sy+v6OlocWFErYNlfdHC1Csq8W7x?=
+ =?us-ascii?Q?w+dDd8WeFpzdT/p7h6zqjgTrSHZGl/dCknjpS3l1wvrYGJgAGbg7Br4shmPT?=
+ =?us-ascii?Q?EoBVZXqRD+Tbj4kic+cfIWzbUGbfH2R9eaow86R8klLgMr1CBwGORS2wh7ri?=
+ =?us-ascii?Q?tzev6sr81G4c7wjsy8dfnDT9be/zfLRhjp32uY8UZnZeZ4sCtp/bxCDZ4SMT?=
+ =?us-ascii?Q?zVg/yP3WH3XPPFIh2bMuEVr31N4IKZrTt2l053eZ7EEybWwCxwg0F1NJf73y?=
+ =?us-ascii?Q?dhqrwlnihRsFZ/Rsu65+nokDhhbMDYsUIclSyxK8vq8I2VUsPfGzGq0hYCZf?=
+ =?us-ascii?Q?RKLGy2sl0CljfxTWcrbwhB/HjLPzA1SiVbb8glxmb0t8OA8+zoUtgbSEJIuI?=
+ =?us-ascii?Q?OFkKQXqhitPKpWug1U0cNtjORibUKQWLJXS6tcY7W/5zxSYThO3b0AhIbKxx?=
+ =?us-ascii?Q?0Nu/QolzTfwCiSL62ybvYFdECv3jSqKcxho3p4gNtfUKwHyBq2KnRzoFBmkM?=
+ =?us-ascii?Q?8ZvKDFEaff1oidQpCc1yd6h3pqiI2i+lo7QLb447FZ9n+Kr/6zJctEXNBEuW?=
+ =?us-ascii?Q?F8VC5pG93AW5XUiJnjnxB+PyU0NmV50gwQLds+m5uk2T5yaV2G10Gvsb3jnh?=
+ =?us-ascii?Q?yapK7YwhR+LjAH6MVGa2jLKjNt0TlKH3mDPbfcOuS/2X1Wozh9UJNiG3jdvd?=
+ =?us-ascii?Q?E+l+mG5kPeHUS1FqYyAVkm5Bkx/DprHpyc6ZAHiqr2eaO+T2ATs5CEORY2YI?=
+ =?us-ascii?Q?x3ExatqtWtmBQDWk4YT+os3e1D7SuZ7a8N2+c7WTFpQndyl/C186366+DhL5?=
+ =?us-ascii?Q?vklHxkMNqWDaMeZM5R3KkIZfv5T1coUgboMV1LH42l4KJH4mA4MHJ/bQRuIj?=
+ =?us-ascii?Q?ProWFqQFwqQap/L1VRXI4acJjeOJCkrf1H5Rg4Ov155EqPxUn5b3fFxipVdR?=
+ =?us-ascii?Q?QsxvQNVYzKaeF4SHlHSLGhq/19FMiEx4ac0nnvUDvVc/XJg+Hm883n2xjtRl?=
+ =?us-ascii?Q?si15BL0FMltTzI3LP3T/x6NIF+o4caDSPLLXTRlW78zqhpgjmqt4kiQZbvPp?=
+ =?us-ascii?Q?VKci+qq/C/f4ml4voh6SHEqX15Qn1eCrcYuraaEs/U9AY3uEVw/dm+IAVRGE?=
+ =?us-ascii?Q?hwZT0bFj+0y0+w9Q8CZPFNi8Mbn9lqojmx5WiKjGaKReVmKDabFUGSVAvsp/?=
+ =?us-ascii?Q?KX9ZyvU325CwLZpFNpg4Vzzfvq2NbJIjZ+3xnxPcrBkEDj2xAOns2lt2/tZM?=
+ =?us-ascii?Q?BkfbLNgtXAItZMDvrHxEMUQFgOI/L+bwNzQVjlvFprVFReoGa4lacNJwh3Fp?=
+ =?us-ascii?Q?Esmw0u1cWLk9r7ePWF3O/4D54vrc8ksXUpOL45Cd6fwWuFnDt91G57CO25Ad?=
+ =?us-ascii?Q?a67qaJhfAyRBQctsaEpjiVbhHFGACED78Be3J0t6pOeHfNMHI+pXbM2TVPXf?=
+ =?us-ascii?Q?QzlQWFL1UjKF5KOH55E0C1v6fC6mVDXB6KMbG91wZycs8Od89Muh1g0NJU4U?=
+ =?us-ascii?Q?vIQxow=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	CgYulBTRSExbJcXq9c4CW3ktq0DG/hZdUfXkgxKfV6+JzT3jQllim9PIm4utE5rs4C/iPrmxfgPhkJmWQBKsSDy2XoFMnSyzq9TCgwrW8z5Pb6EaMAduPPU+EqSmCfG8k/5Lql1SVfzPObbET5Avi5hx2bMBGteJnhjcWVz/xbbYw+tb4tUbJg8yQ90vTKOeuP+9ZJhgkKuapQwFvZDZcVDXtNEW3GEfx5K914F7CDMlznJKCjwLHufj2Of9EyIEnJEGmcQ1f6HVHZ9u2X6frng8EaFok2JMTKkMhr418DaXc9SJuioB8M+SZVmwevMKye3OALqcwKM86CKHnK9gcL4EdZp4sr+HOe9lhjwXJ+vBrDR3qkCRVVBJgoTMEctZXWLuuJrd8NmK2jVNl17ljjPOtd/uo34u7O+uL+pvBsnJ5eYMZRA8JdWgL6AuIssE
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2026 12:36:10.5665
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1b62315b-e88f-429a-4ff3-08de6afc77c4
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF00020E61.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4932
 
-Although it is currently possible to fully disable MTE on MTE-capable
-CPUs (with arm64.nomte or id_aa64pfr1.mte=0) and to only use MTE in
-userspace (with kasan=off), there is no way to limit the use of MTE to
-the kernel because CPU capabilities are traditionally exposed directly
-to userspace.
+This patch series introduces the framework for supporting the Data
+Object Exchange (DOE) feature for PCIe endpoint devices. Please refer
+to the documentation added in patch 1 for details on the feature and
+implementation architecture.
 
-To address this, introduce a new cmdline argument (inspired by the
-existing arm64.nomte) to only expose the MTE capability of the CPU to
-the kernel. Combined with KASAN, this results in only the kernel using
-the feature, while HWCAP2_MTE and the corresponding MSR ID_AA64PFR1_EL1
-field are hidden from userspace.
+The implementation provides a common framework for all PCIe endpoint
+controllers, not specific to any particular SoC vendor.
 
-Implement it as a software-only feature override, similar to nokaslr.
+Posting this as an RFC patch series to get feedback on the design and
+implementation.
 
-Signed-off-by: Pierre-Clément Tosi <ptosi@google.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 3 +++
- arch/arm64/include/asm/cpufeature.h             | 1 +
- arch/arm64/kernel/cpufeature.c                  | 8 ++++++++
- arch/arm64/kernel/pi/idreg-override.c           | 2 ++
- 4 files changed, 14 insertions(+)
+Aksh Garg (4):
+  PCI: Add documentation for DOE endpoint support
+  PCI/DOE: Move common definitions to the header file
+  PCI/DOE: Add DOE mailbox support for endpoint functions
+  PCI: Document APIs for endpoint DOE implementation
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0869294363b3..4d138c1826f0 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -564,6 +564,9 @@ Kernel parameters
- 	arm64.nomte	[ARM64] Unconditionally disable Memory Tagging Extension
- 			support
- 
-+	arm64.nomte_el0	[ARM64] Unconditionally disable Memory Tagging Extension
-+			support for userspace
-+
- 	arm64.nopauth	[ARM64] Unconditionally disable Pointer Authentication
- 			support
- 
-diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
-index 4de51f8d92cb..0944ff5084a2 100644
---- a/arch/arm64/include/asm/cpufeature.h
-+++ b/arch/arm64/include/asm/cpufeature.h
-@@ -18,6 +18,7 @@
- #define ARM64_SW_FEATURE_OVERRIDE_NOKASLR	0
- #define ARM64_SW_FEATURE_OVERRIDE_HVHE		4
- #define ARM64_SW_FEATURE_OVERRIDE_RODATA_OFF	8
-+#define ARM64_SW_FEATURE_OVERRIDE_NOMTE_EL0	12
- 
- #ifndef __ASSEMBLER__
- 
-diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-index 6044d463d3fb..81ea00050e56 100644
---- a/arch/arm64/kernel/cpufeature.c
-+++ b/arch/arm64/kernel/cpufeature.c
-@@ -2412,6 +2412,14 @@ static void user_feature_fixup(void)
- 		if (regp)
- 			regp->user_mask &= ~ID_AA64PFR1_EL1_SSBS_MASK;
- 	}
-+
-+	if (arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_NOMTE_EL0)) {
-+		struct arm64_ftr_reg *regp;
-+
-+		regp = get_arm64_ftr_reg(SYS_ID_AA64PFR1_EL1);
-+		if (regp)
-+			regp->user_mask &= ~ID_AA64PFR1_EL1_MTE_MASK;
-+	}
- }
- 
- static void elf_hwcap_fixup(void)
-diff --git a/arch/arm64/kernel/pi/idreg-override.c b/arch/arm64/kernel/pi/idreg-override.c
-index bc57b290e5e7..758141bf9e37 100644
---- a/arch/arm64/kernel/pi/idreg-override.c
-+++ b/arch/arm64/kernel/pi/idreg-override.c
-@@ -211,6 +211,7 @@ static const struct ftr_set_desc sw_features __prel64_initconst = {
- 		FIELD("nokaslr", ARM64_SW_FEATURE_OVERRIDE_NOKASLR, NULL),
- 		FIELD("hvhe", ARM64_SW_FEATURE_OVERRIDE_HVHE, hvhe_filter),
- 		FIELD("rodataoff", ARM64_SW_FEATURE_OVERRIDE_RODATA_OFF, NULL),
-+		FIELD("nomte_el0", ARM64_SW_FEATURE_OVERRIDE_NOMTE_EL0, NULL),
- 		{}
- 	},
- };
-@@ -244,6 +245,7 @@ static const struct {
- 	  "id_aa64isar2.gpa3=0 id_aa64isar2.apa3=0"	   },
- 	{ "arm64.nomops",		"id_aa64isar2.mops=0" },
- 	{ "arm64.nomte",		"id_aa64pfr1.mte=0" },
-+	{ "arm64.nomte_el0",		"arm64_sw.nomte_el0=1" },
- 	{ "nokaslr",			"arm64_sw.nokaslr=1" },
- 	{ "rodata=off",			"arm64_sw.rodataoff=1" },
- 	{ "arm64.nolva",		"id_aa64mmfr2.varange=0" },
--- 
-2.53.0.273.g2a3d683680-goog
-
+ Documentation/PCI/index.rst      |   1 +
+ Documentation/PCI/pci-doe-ep.rst | 297 ++++++++++++++
+ drivers/pci/Kconfig              |  14 +
+ drivers/pci/Makefile             |   1 +
+ drivers/pci/doe-ep.c             | 671 +++++++++++++++++++++++++++++++
+ drivers/pci/doe.c                |  11 -
+ include/linux/pci-doe.h          | 107 ++++-
+ include/linux/pci-epc.h          |   4 +
+ 8 files changed, 1090 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/PCI/pci-doe-ep.rst
+ create mode 100644 drivers/pci/doe-ep.c
 
 -- 
-Pierre
+2.34.1
+
