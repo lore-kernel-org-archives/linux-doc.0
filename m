@@ -1,82 +1,82 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879363612C5
-	for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 16:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E721E9B3A
+	for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 16:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771000222; cv=none; b=qZU7c5DEFOlVtXlH1AwTemVAkDd9pVTf1+7v3/EiFH+2JI1ozeqkY9goPg/1gFdYGeRDXtYjBFckx/oUWNVeLmxdDBldbZM+yLjjVgQfigxm25rFRhYglN29hp8lDjEE2YiqFBzwCRia4iDTPTHRO6lA/O4/LleQdPx0xLeHKc4=
+	t=1771000235; cv=none; b=pZctZfJBU+bS6evyMJzHbW8w9igDy6LavAlTkaj+4bNEiUKBeWd8DTlSdEXADl3tnU8113KflRj8rBAjplMBpmcE/fZXO9wbAPHREGmNwKFIulWrINcD3Ct4DZcuSxNjGw3H1xXWXyvud8oFrONe4fvSEfVdFmnLqObmPrzLj18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771000222; c=relaxed/simple;
-	bh=ER1XypOkXsKTywpffh6Eub9NJrh8j5WXLLNmChtu/NU=;
+	s=arc-20240116; t=1771000235; c=relaxed/simple;
+	bh=2IZdT97SZKaiVPXs9mj3Shgbw4NBR9uBPcXDZ0MT45Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M3E3I8AMVjjUoMlu3THgmZWP1md4nVFVy3oujWtiyYqTGRSxuz0jCPVikn1M0JIuYutz/KKlY63wHJNTZpSk8gr8dD+Zj7v0X/pyouw7nOHdkkv6VS4EJW9mIxgNSVxIkNHk0sqYVo25Lg3z/GV0nd1LSNgVVnuImrSXVXyHd34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MtyDrA9U; arc=none smtp.client-ip=209.85.218.50
+	 To:Cc:Content-Type; b=cXP9NUjZLySzvKJNUD7rJQo3i9r56T/o70uZSAJet3tjeK2Jc6r24TE/y1XIKLlm8Psvv/F30TAns/KszopB/POPbioFnZDapBr1i3UtpYujpZoAZnujQ5NUzbyU8suLhC+1IuCVT9DyypLIMFzRpo9+tUPfw/SR7hvnPRAwk0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ksYzGBbk; arc=none smtp.client-ip=209.85.208.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MtyDrA9U"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b88593aa4dcso126192766b.3
-        for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 08:30:21 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ksYzGBbk"
+Received: by mail-ed1-f66.google.com with SMTP id 4fb4d7f45d1cf-65807298140so1727921a12.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 08:30:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1771000217; x=1771605017; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1771000230; x=1771605030; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Gr+VqNeJZ3352+M4sd0QzbD+WBZuE3yZS+hQ+POPMDc=;
-        b=MtyDrA9UN9bBMCdheBjAZO++J1ru8NzKUHsbHeVSa5GOhjVpFY/pVCsLTk2bcDmkfB
-         fegxM+14JB1I0h5Qrg/Q1SZTk7mTrIBd9/2hfgfLE4rT7pVb5/ScNNzazM8nEwZfUL6i
-         kQu7arJzXQcWZoTgj+bLd8UGqhYxXobGO9JsY=
+        bh=YKJCw15NBFToE7px/oywClbneCWIeYYLdAR0EKBcGMY=;
+        b=ksYzGBbkTkUqIvDA/UZ3360HzN1LbafrmbpLK3yj2RyWUmQ+g2KUy83hHtvibBUfbd
+         qC9S4cJHEaFpRpWSf096exwaNmkd/loxBzBt+kOF/3vqNGNyAuWPZiDQ9zuJKbLZOX8/
+         tHAHQcpibW+hyY31Ko/KD60OPY/Ol/O9JPfYM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771000217; x=1771605017;
+        d=1e100.net; s=20230601; t=1771000230; x=1771605030;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Gr+VqNeJZ3352+M4sd0QzbD+WBZuE3yZS+hQ+POPMDc=;
-        b=Cf3lY36F8o7EdPUWAPV08c0y2JFA1w4iTQeHHH30fccxwbG2hh39eB+9+dfPYrLHxv
-         8k76ed/PFHC4xQRU+jQ/dOzRRWn5cIuTOKyjjcEKAFFx/LOZBmSmcN/SSFOCA+BlKsCP
-         bDmRB62RkQSrelabfBdYe5Et8mMv1t4wl9N5RT8nZSzLSKftlUsT3NOasMPIiSyAFlRz
-         zIPclB/KCd39QeWe7ewEjvx0i+yGkd+KG4kbNOPLtsnDczsh9BKz8JzkF9PG7i/VSKBA
-         ij2LV+S0/lms8jHIr2yRYScuAIwslq+NKkOu2P1L60XV5xRnk3ahReeRBmEgbB3j9q9l
-         sfBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVSWBaXwa2zGjAUCcM4uKiL6pyqa2ycB9+aFMqV/mgiA8LMHII8KgF47Wt4XzXc1HNsxmQnVg97xrM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfzhR0Ra5ht3Sey+ijGjS2uL1nlyo5Zvse6y6BLNoX7R+t5V7k
-	T0NXetSKqL2jhnMP+DPUjAdm8ovpqccugXOBFApvhBxanhdOOE2CvB2Sg4jXZbJihDroyuMKby5
-	71q30Dg==
-X-Gm-Gg: AZuq6aKW9GCtDEta1JlTyuuUUqnqWztVndEGQf5HCML3yaDFXq6QLLuFraZKkLdkDke
-	J+ZfchcAySck8YPFZKU1j2GeHQl1PekhL3ZjE1hjadvRoRL3ajTPgI56SxwEcPpd8B/4c/B99Fd
-	XFLumh47MnF/LU9tL5WZuZ7vCIQyqSs2dWOsdTHOn+/JMqh+ccvYa2gW3RcS7Og/6l2F6SKXN82
-	sWQ5/6sDQy0QyjDTfY8NsOuhV8P/knAtrl8Da0jmHMaMx3UWb5zNEcPhHE7hGyMtQvX9wD7bcP/
-	dvUR2YXc2Fu2DiEnhK0rzkKp1IkHDJc5Y9+EijsvcYHglyqgikG41qnFxdAydJxaW3qJe7KrjVO
-	IVpMzJZnNpgJKykcUm2YAgCtSFntye5FJabJi3sC8F07rylflQahyQZOC+HU5gBUdK5pbcP3ifD
-	bma4VGnEvtDGlfy9MkJiqGhfK0v+L+FKr8rL+BQe3g/FdwTOEDE95KzEsf17b4Ig==
-X-Received: by 2002:a17:907:782:b0:b8e:3957:f0d5 with SMTP id a640c23a62f3a-b8fb4266394mr127899966b.25.1771000217043;
-        Fri, 13 Feb 2026 08:30:17 -0800 (PST)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8f83e1a853sm230245866b.19.2026.02.13.08.30.15
+        bh=YKJCw15NBFToE7px/oywClbneCWIeYYLdAR0EKBcGMY=;
+        b=Dpu0MSCewhAp3G/uT9+71R3XlfHad8fHDuNlYWTLvDJSGPhPD3/OMOmAbR2Qn/99bd
+         kmad/8sLr190w878ah4LFId1OxMKjHvecisMN8AHvkC1PkK1Rsr3SSukh+ZzZCjJwLHQ
+         Vkw5bdW22+YVNJJonEcei/Ow+zwhPVXF+k4fQmrYyK9VlJAaUTW0wIopbZ75oKKiPqx5
+         bQa/qsDrcMNu/jUllBafLcRsOQ2zN/VWemzmFZ588RtoYyYu2pq1AwbXUbrEhFauN/s6
+         nASnJ7QEuPUQS7BA5yI4LyGdyOTBu8sZ5BnorgtUnWm19KlDBiNLMLt91F/zFBZe71Yv
+         EBYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUwpQXLNURh/7BNGgvw4Ewdf1sqA3bB57vzu4bY2VgNopAJAJIVywSyMIrP6XIAW3u5LOXh/So20jU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2m5b+kMFLX3NRbpNplcxwurwKzjQSY7G05i0AvR0W/VEYopA9
+	6VOFcL38bJUx1D4WEd0iUJJ/dmSR+w0YVaMGY86+M//+d1VODIHQdS/+DbSHUAsg822xKYM/5xs
+	BkVcKJYDR
+X-Gm-Gg: AZuq6aLiI5A7bxNftSF5MtrKdZkrpyG+StMUBsSbR9jI6f8WO/+r1GnJmdMs9BgUFjg
+	r16M3BXIFQy3d22PoPD4b3KkR1/YOOak6uRbYukGoMbwrOg5gCa2wJ3p+memEtBsTrYTUgj/p6A
+	23qcnggelR95rr4WnATruDnUMjfEZ+i6lIQgp9D8+T99VntlUc/HISBRmydk8sUgpuyhZyOixpz
+	ka3uFDP5CiwXLNOcpBED9AVFcag89gqCDDzssmyNn4E1accbQFn0ZPmu216/PjnuonObt5s0FqH
+	4UjEDGeOVOdQl4PX2y0kx2LBszkphpGDeQNZB4N1jxJQHPABRmEH1UqLmaW7k/JU4ShxUefOYMa
+	VcBGL4oI1unimTcoIE1rVc0wcmJ4yoGFtWd855GUUTYBMxvaeTfUv0FADfjwgP5jcgNWtWeyocw
+	9XfXsWxC2/WrOFiRYkxsl88ZS7Rk50bMERSQ9pGFLCAPLlWnZ/GLP+Jye+YVzAxg==
+X-Received: by 2002:a05:6402:5202:b0:64d:540e:c68e with SMTP id 4fb4d7f45d1cf-65bb12ac7dfmr1188165a12.26.1771000230329;
+        Fri, 13 Feb 2026 08:30:30 -0800 (PST)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-65bad19be17sm785342a12.4.2026.02.13.08.30.28
         for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Feb 2026 08:30:15 -0800 (PST)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4836f363ad2so12773205e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 08:30:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUB3Eki2R6xZRrB0O+1FNdiK0U7TC1U4wNX2ujbZIhguAvp6m/FCEQExsvbRddL+J0jzSnyf9c922o=@vger.kernel.org
-X-Received: by 2002:a05:600c:458a:b0:483:6f37:1b33 with SMTP id
- 5b1f17b1804b1-48373a58babmr35260935e9.30.1771000214215; Fri, 13 Feb 2026
- 08:30:14 -0800 (PST)
+        Fri, 13 Feb 2026 08:30:30 -0800 (PST)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4376acce52eso801567f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 08:30:28 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW5IgwceSr7qxHw2L6tjgTZKt6nR2Ic/quq8BWfDXV4lVD8wBqFmXBe4pqrtP30k45s9xGnm3mDfMQ=@vger.kernel.org
+X-Received: by 2002:a05:6000:2481:b0:436:8061:7f91 with SMTP id
+ ffacd0b85a97d-437979132f0mr4833706f8f.41.1771000227152; Fri, 13 Feb 2026
+ 08:30:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260212-hardlockup-watchdog-fixes-v1-0-745f1dce04c3@google.com> <20260212-hardlockup-watchdog-fixes-v1-3-745f1dce04c3@google.com>
-In-Reply-To: <20260212-hardlockup-watchdog-fixes-v1-3-745f1dce04c3@google.com>
+References: <20260212-hardlockup-watchdog-fixes-v1-0-745f1dce04c3@google.com> <20260212-hardlockup-watchdog-fixes-v1-4-745f1dce04c3@google.com>
+In-Reply-To: <20260212-hardlockup-watchdog-fixes-v1-4-745f1dce04c3@google.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Fri, 13 Feb 2026 08:30:03 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=V16Fdr3VEPgb19usGEU1gCJ_39KJJXiTorQpKFvEV9Ww@mail.gmail.com>
-X-Gm-Features: AZwV_Qi04lOxTgOYce2VxbaFcCzpFuviN4h7UGDKciIWTgmP3CPd-IXK2yMI2Hc
-Message-ID: <CAD=FV=V16Fdr3VEPgb19usGEU1gCJ_39KJJXiTorQpKFvEV9Ww@mail.gmail.com>
-Subject: Re: [PATCH 3/4] watchdog/hardlockup: improve buddy system detection timeliness
+Date: Fri, 13 Feb 2026 08:30:15 -0800
+X-Gmail-Original-Message-ID: <CAD=FV=X4WVK_8Ks5EMfGSnSkgUrgn-MiuT4ZqARnHV5BrC=1OQ@mail.gmail.com>
+X-Gm-Features: AZwV_Qgu9JKQ7NGS-LMaYVzou2xp3aeIz6Di4CgKlxK064qABDwz73C91BvXcqU
+Message-ID: <CAD=FV=X4WVK_8Ks5EMfGSnSkgUrgn-MiuT4ZqARnHV5BrC=1OQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] doc: watchdog: Document buddy detector
 To: mrungta@google.com
 Cc: Jonathan Corbet <corbet@lwn.net>, Petr Mladek <pmladek@suse.com>, 
 	Jinchao Wang <wangjinchao600@gmail.com>, Yunhui Cui <cuiyunhui@bytedance.com>, 
@@ -92,29 +92,29 @@ Hi,
 On Thu, Feb 12, 2026 at 1:12=E2=80=AFPM Mayank Rungta via B4 Relay
 <devnull+mrungta.google.com@kernel.org> wrote:
 >
-> @@ -21,6 +21,7 @@ static unsigned int watchdog_next_cpu(unsigned int cpu)
+> From: Mayank Rungta <mrungta@google.com>
 >
->  int __init watchdog_hardlockup_probe(void)
->  {
-> +       watchdog_hardlockup_miss_thresh =3D 3;
->         return 0;
->  }
+> The current documentation generalizes the hardlockup detector as primaril=
+y
+> NMI-perf-based and lacks details on the SMP "Buddy" detector.
 >
-> @@ -86,14 +87,6 @@ void watchdog_buddy_check_hardlockup(int hrtimer_inter=
-rupts)
->  {
->         unsigned int next_cpu;
+> Update the documentation to add a detailed description of the Buddy
+> detector, and also restructure the "Implementation" section to explicitly
+> separate "Softlockup Detector", "Hardlockup Detector (NMI/Perf)", and
+> "Hardlockup Detector (Buddy)".
 >
-> -       /*
-> -        * Test for hardlockups every 3 samples. The sample period is
-> -        *  watchdog_thresh * 2 / 5, so 3 samples gets us back to slightl=
-y over
-> -        *  watchdog_thresh (over by 20%).
-> -        */
-> -       if (hrtimer_interrupts % 3 !=3D 0)
-> -               return;
+> Clarify that the softlockup hrtimer acts as the heartbeat generator for
+> both hardlockup mechanisms and centralize the configuration details in a
+> "Frequency and Heartbeats" section.
+>
+> Signed-off-by: Mayank Rungta <mrungta@google.com>
+> ---
+>  Documentation/admin-guide/lockup-watchdogs.rst | 149 +++++++++++++++++--=
+------
+>  1 file changed, 101 insertions(+), 48 deletions(-)
 
-I really like that this solution achieves a tighter detection range
-without any downside (no extra wakeups, etc). :-)
+Thank you for updating the docs! I consider it my bug that I didn't
+think to update this doc when the buddy lockup detector first landed.
+I'm glad it's updated now, at least! :-)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
