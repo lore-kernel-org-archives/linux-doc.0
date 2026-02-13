@@ -1,363 +1,500 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7D7286A9;
-	Fri, 13 Feb 2026 17:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06E22C21F1
+	for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 17:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771002161; cv=fail; b=NWIji40+64KlMvc3EVxiVtMuRj1TI7I4KaLIulSKCJdXVPZLhC2oHhuikr2c1H3mCxHsyC7yV2uFCQlSPZzA5IxI4XtC+F+fgi8DbuwutWRfeZINCeODEL8UBHwYLTdvl3TY9uW/vUy1lSMqqx4lMOt5eFSn6+p0Nhb+s+nKnos=
+	t=1771002850; cv=pass; b=Tsn65EjK/OEzDUVqLqPLQRQRWDDbCV6HRGQZBNwSAzpqW3wCLFFc2RqL/gZPzLKQ0JKg0z9f1BaPJ6eFInbKOEbjSjm/6HkwYPzZQ+kAaeuc8gl0ibANhW3JpItQSku8I9xK3JUYVWj1iENMBbO2KZfZiT7eU8UjJ5ESZCy3SK4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771002161; c=relaxed/simple;
-	bh=DP+aSwx0kufKUS4+mIaDxdigF/Yse5a5yuQESmSJXk4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ox4cpNd76GVQ/AQrC9ja+n9nnj82NN8nlPtW6tMrAespH5EK1sTADsfUptR46Yf7Cjds3JTqH9NCDNAfbZxQi6JwYQ3oNPsmYC5yCwKt+BaLulonRFaNemCocROGjddREiNy5bCJVjfrWt9HlnjzuNIW/ggPPggo5tv2apJJOgk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i8QwRXtY; arc=fail smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771002850; c=relaxed/simple;
+	bh=3eyyW+vRU09CEScy4G1JdDlh19izB4UbxnvRukE2JSA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d+nfy1zzAO/wlFjKHMy6bPkNYXJAzIj7esr+wx0lQ/0Y8Vtl2iMSBJytdMbzqKr5joqEAhxBOryOAGuWneL8Wxikdo1c2pkVyBX70ZVQfI2l5KZjswkRz+Fg61EcUcPtUt4X5eFkUEOEe90ZviSwaYffYmmTcVQUPW1mDXjchEA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hkFpYz4/; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FM+Dy5Av; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i8QwRXtY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771002161; x=1802538161;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=DP+aSwx0kufKUS4+mIaDxdigF/Yse5a5yuQESmSJXk4=;
-  b=i8QwRXtYA8gZwzyPJzJjoxjFHnKJVFoRq/gqBNtc40NvbykMCeM14lcv
-   krDYQn3pO9umA8iNvLiBxMsrdmD/+HLxZKthhvY1yIllVnvod8m0jhcx7
-   +IqPC01JWrujdskdaaS3QhaXNoGDSb+zi8ARmuzUuHqU0NJALoQG5FOnJ
-   Wo5syAR9IFG/lnP53TA7GC3f+5lg56DajHOE9QbUXgNdCmZo3jlVR00Xw
-   cIpHAExE+HYaN9crPma2U+r9clJW5R8d4EtsIk+gnqe/ft2BhocKKVc4p
-   DeLPhH6aWbH4n2S9LggV6BvGuAnfLzFoLzohTgpMqcc27AHuLqE5t+x+Z
-   g==;
-X-CSE-ConnectionGUID: 5ga+NoL0R+q5wQtvD0WVzw==
-X-CSE-MsgGUID: JGNGXlvoQeWog2a8TDRI+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11700"; a="72084006"
-X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="72084006"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 09:02:39 -0800
-X-CSE-ConnectionGUID: 37fb9lqbRiGRrWEz+KcvmQ==
-X-CSE-MsgGUID: u9GtqgLlQAGUX+ttEkguFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,288,1763452800"; 
-   d="scan'208";a="213072636"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Feb 2026 09:02:38 -0800
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Fri, 13 Feb 2026 09:02:34 -0800
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Fri, 13 Feb 2026 09:02:34 -0800
-Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.53) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Fri, 13 Feb 2026 09:02:33 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=w0cDfCRZnSbpUU4v9qy0Fu786ogNDYHQzzzNqp1NQxc7Maoz3vl0LoWWBf0QdnkNPwtF5B5ESIFi94eXqTUAeC5dcj7MEVnywfEvE/o108laW07lYl7kJAjAJG9CxEsAmtP4xH9EpX0CRre4TPnFpFOQtxfkBgsLteKJ3BSuqf6Lt1Za7DLwRd1Hph7NqViVz75cQW86m1Vb59L6XjkQut2Yke/IEXmwjI2Cg6N+pimGbELBCMzSWs0RciUrEdXdZvPI4y+VielTvS94NbFcOsG4SYxBXyaOB0qd6SZRwKMdDfmiUzg4Bfjasu9eGD/4my04SdRV9jqnAC96qcXFow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K0iMbxYee5mvcvM4q6+HifhBElByjgHWtuSFNcwHQUU=;
- b=gQmaC/ICzPbcsQ8ik2o25Ttq7GbkcJU5YXc1zelmrlHVBBQqvgkm/IxmK6gAr6066YZ/gFcYNTMmIKYuzqDZTVKJuRWqdiTVx/8ma8TBTjXFj/ykfhUxkpUFIsp7lN9sr48dTcPSMyORA8Xok48+j4sAbDs1tVZ/DBL4MWRd93hCamaZVSvAvXouczj5/kv81rwAvyTqgU9p7A2iCTE9hl7W+g0+jYhptT2medovoilt1KDJBxT/ln110zanARcw+JrsVBgMG38gs3PBQAkbyRcxnO4Z2MbT63w1BxnZD9+CH/tErYz2dwthxSHvnxbYG53Ox7PbeE0eQSK1+ZScVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
- by DM4PR11MB6120.namprd11.prod.outlook.com (2603:10b6:8:af::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.13; Fri, 13 Feb
- 2026 17:02:25 +0000
-Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
- ([fe80::3454:2577:75f2:60a6%3]) with mapi id 15.20.9611.012; Fri, 13 Feb 2026
- 17:02:25 +0000
-Date: Fri, 13 Feb 2026 09:02:23 -0800
-From: "Luck, Tony" <tony.luck@intel.com>
-To: "Moger, Babu" <bmoger@amd.com>
-CC: Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu"
-	<Babu.Moger@amd.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"Dave.Martin@arm.com" <Dave.Martin@arm.com>, "james.morse@arm.com"
-	<james.morse@arm.com>, "tglx@kernel.org" <tglx@kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
-	<peterz@infradead.org>, "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>, "rostedt@goodmis.org"
-	<rostedt@goodmis.org>, "bsegall@google.com" <bsegall@google.com>,
-	"mgorman@suse.de" <mgorman@suse.de>, "vschneid@redhat.com"
-	<vschneid@redhat.com>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "pawan.kumar.gupta@linux.intel.com"
-	<pawan.kumar.gupta@linux.intel.com>, "pmladek@suse.com" <pmladek@suse.com>,
-	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
-	"kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
-	"fvdl@google.com" <fvdl@google.com>, "lirongqing@baidu.com"
-	<lirongqing@baidu.com>, "bhelgaas@google.com" <bhelgaas@google.com>,
-	"seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
-	"Shukla, Manali" <Manali.Shukla@amd.com>, "dapeng1.mi@linux.intel.com"
-	<dapeng1.mi@linux.intel.com>, "chang.seok.bae@intel.com"
-	<chang.seok.bae@intel.com>, "Limonciello, Mario" <Mario.Limonciello@amd.com>,
-	"naveen@kernel.org" <naveen@kernel.org>, "elena.reshetova@intel.com"
-	<elena.reshetova@intel.com>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "peternewman@google.com"
-	<peternewman@google.com>, "eranian@google.com" <eranian@google.com>, "Shenoy,
- Gautham Ranjal" <gautham.shenoy@amd.com>
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-Message-ID: <aY9ZH9YXAfnIKTL-@agluck-desk3>
-References: <cover.1769029977.git.babu.moger@amd.com>
- <17c9c0c252dcfe707dffe5986e7c98cd121f7cef.1769029977.git.babu.moger@amd.com>
- <aXk8hRtv6ATEjW8A@agluck-desk3>
- <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
- <aXpDdUQHCnQyhcL3@agluck-desk3>
- <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
- <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
- <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
- <abb049fa-3a3d-4601-9ae3-61eeb7fd8fcf@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <abb049fa-3a3d-4601-9ae3-61eeb7fd8fcf@amd.com>
-X-ClientProxiedBy: BYAPR02CA0067.namprd02.prod.outlook.com
- (2603:10b6:a03:54::44) To SJ1PR11MB6083.namprd11.prod.outlook.com
- (2603:10b6:a03:48a::9)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hkFpYz4/";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FM+Dy5Av"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771002848;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=48MPXs8uydZg3IJ9byQcByCwujOFhfoWvJ4s77ZzRZI=;
+	b=hkFpYz4/dRiHZI0WDNcHDdLqlaFhHfF/Ef5G4dWwOm9TYv9QYEva8LE/IOxM4GwC4DcIsT
+	Z5XhJboB4YxGzpZwETF3wlcZH3FcC8/REPYPhMnQtd+Asva/SK7UB69j3C+GrsaRGF3I3k
+	8uf+vxJnVZk7EPQdLdJt4hna0fv6Yuw=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-679-FHmJKJyjObaeZ17hlGvngg-1; Fri, 13 Feb 2026 12:14:04 -0500
+X-MC-Unique: FHmJKJyjObaeZ17hlGvngg-1
+X-Mimecast-MFC-AGG-ID: FHmJKJyjObaeZ17hlGvngg_1771002844
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-506a07740bdso83306841cf.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Feb 2026 09:14:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771002844; cv=none;
+        d=google.com; s=arc-20240605;
+        b=UAFAR5GtM8hp1RHud2YFLNv7Dq8zR3ezuCMEXzlGhlGwvp/jt2Fyt+y6WOrk+NTGdZ
+         b5CoKWpdLF33N5mUTwZ/tdITTlI25VDdxxZ6A7QNO5KqZ6tOARt/AWmuMdYq8xp6gMdG
+         igjoo6iLUuADxwCxcbH3xNLRH3cV8BPzX+peI09M/NA6JtgS8abCxeI85OZzTV+NzS+l
+         3cNazdSr47AU+dbBp0YYn2LsEDJAgnZ5M8PdoyAeEyRNLt981S6QbGCLSiaE8okK4cLi
+         fl2xiplOatHlGuWgRoygjm5LoKliSYQwaauMUhmeNs9gb9o1Yc5oTxWW8PZVc7mgB8aY
+         Z6qA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=48MPXs8uydZg3IJ9byQcByCwujOFhfoWvJ4s77ZzRZI=;
+        fh=WIG1s1x+55tVyd82XGMYi+TJbzjCZYBaRe/MutAQ6Dc=;
+        b=ih40YdNZ4PSO9rEpS0oOeLeBY+CnbcD5ou21lswI/VY6BLKHS09Z3NkhB6ZZH3SZPF
+         EGLOVMNA/VEppoae/gGeXgwRcXcyq3m90LXUvJYj4kaZL5ioW1+0YkQUe5F7XUpRnEt7
+         UfsShsJbemP9HwLroZByoD808qpH1igM3SNUySfMnw11k67eXtN9QvjDq8hD+aE8lGLX
+         ZcJA2SF+wDJVcUI2lEiYMi4eQrSUCKTjiJPZ/OvEqpO62OxrDkqgZQ9SYUJBq3GjTH5y
+         fgOc4acxZHilHFKoMaHLHXQ+awOvkXqLykUQZCQ+of7SNpG8qGK5Ebw0LZpSOweLnTKm
+         DxeA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1771002844; x=1771607644; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=48MPXs8uydZg3IJ9byQcByCwujOFhfoWvJ4s77ZzRZI=;
+        b=FM+Dy5AvvHWQpj4k/tWwcg7Bibj1XRnMwgW/tkUzpD8qo8/Z1NfcEOUgDFh06CVx4v
+         LYRkw/hUg0SwCQI0Zq5ToQSL+wYE8hWcIXKtGWjYx3Gx5U2LDLYY079QqnvUqIVrYpDI
+         yniWTZN1wCVZwjUgVnzUmbuLLJNLWM+aLuE7pQtU5YRH7xYPOaY0eLWS9jKWPaFqoKiR
+         2E6m5h0trE8OtiOkKMI8Jopj4vyonI/8KzGono/L3Z4t0DXbJ331rS43LJuQ9gQrMWhi
+         NDWGQel+a1EE12/tsZ/9KPaoeSrbgMUWm/qkXoqHNWXySf/hGJxEwszhtBrogFYDFoIP
+         phbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771002844; x=1771607644;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=48MPXs8uydZg3IJ9byQcByCwujOFhfoWvJ4s77ZzRZI=;
+        b=ajBt2e10VloyB/kmhUaLZLS4LmYa+XIVDjmePPx7TsWPyM5HXopbTHcJ5sW5dI0i++
+         GAEqap6a3Sr/scoq3m90rSIjBqAIqrGQCdJa72GgYMSNTKUpA/yBEtI9zfSJpP9mVugQ
+         1VeEklM7w0Rf9DfXlfwY/H51ApqHbYSXzZRpgnWUQHR2hPLn5cRwjbytZm3s49ncJMhx
+         foSLgoo1Bg/CWDA1fHziHmBAk8j9WGW69nOm5AXxQjsO3m/ROl5+LdmcMnTZqzUqVN4h
+         zbmm/3stQpK1J/ZtQQq28LmG0gtbUrCC/oHTrzm2Pagl2LeLGsOXZLOcLBAc9scz0abh
+         jxZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVKt8GiA/wPDLrnFB+8rIJjCY/JQzGp8LmWino6F6QwfTq0qFnuz7L7CbNqQQHBfItQB4O/g0I0zu0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YygASlbg6f2ZSlQamNxhuQG+NLeGEBz1T4m+s5dQZiyrqByR+O1
+	kP4RDjynElw+ayUsstxW4ojxZUcGW4SJPdD2xqC1B4cVkMRttPIsuJ6G8Z8wCeiKOr6crXw8nyO
+	J4mcC5GP7BOssnz1sTsHRcbL3UFbeqY/70eCgNWmjy5WwpEU5sOrwOcdO0UnNZSWtGpHBGElBly
+	mj4HvaVHWDRrIgfa0TomTmg0rPlyhpyg1+qvSN
+X-Gm-Gg: AZuq6aIbz2VlDipVuROSs65LmhT7rJ4sZzDYpqYmbZLV7U3omKLxjcaNYWGoDUxJR+A
+	v00zf5+4mDhsK13zw/7m7glprKdImTnNaG4U9WJO134g6Ji0hvVtfLlNKivyTkYB+Cf4iIZ+n7P
+	+1H65wIm75NV3aIKV95Kz0g1PxngWsb8L70p7D+TIUwTjcxqndNFbKyIJJdigrQxfzSPjvolzgk
+	ZPbeiex3ySYhaZqQ1GjyECDC5dMw4pPzezCju0=
+X-Received: by 2002:ac8:58d2:0:b0:501:4e87:70b7 with SMTP id d75a77b69052e-506b3f7dafcmr2115841cf.1.1771002844077;
+        Fri, 13 Feb 2026 09:14:04 -0800 (PST)
+X-Received: by 2002:ac8:58d2:0:b0:501:4e87:70b7 with SMTP id
+ d75a77b69052e-506b3f7dafcmr2115341cf.1.1771002843486; Fri, 13 Feb 2026
+ 09:14:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|DM4PR11MB6120:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92067b3a-49b1-4058-f476-08de6b21a947
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?LY/KvDD92s55S1LGilFtGFJJ4Ii5AUBV8TcgxafBuj7jcDvQgfO79Jgf+Q1e?=
- =?us-ascii?Q?4/Wlgh77gNcz4+9EGY5b04URhysTWYNjYTOykm+8iMMplbmEF+o27RdStbz2?=
- =?us-ascii?Q?NO3Bqd0+EmxFUcTHD87kgWnYsSm3KAzjKAhmerAxP74WE47oHjIjougbZt04?=
- =?us-ascii?Q?K9s+VqcDHZw5ZhMYtw2QA5DmDiWsle2tFe+Brfx7s8HUxUp89PXEhZLKI3tk?=
- =?us-ascii?Q?RiBLi0diZ568aT7MXlBI74srprel+aR7LxFaKmG6Lvx3/gfTOcGwABuZYpbS?=
- =?us-ascii?Q?Caq0TPeM9jKpVq2+whoxeYodBUhzyaPjC3HLtaL0HgkpfDvhnMGXAuq9axfT?=
- =?us-ascii?Q?LU/IMHTdx826QVeFpm6yb+1cV0DCMPjdT7RNsyG6z2uC3c8Ev7jeaChweUNy?=
- =?us-ascii?Q?xnEQAQ/6OCYfWtLLmi3mGAftdZfIRuy4LEVybA70NjJ6a+Li//UZudHXHlVn?=
- =?us-ascii?Q?kVsGR6M4jKstTXQfhavGFIbrIENK4CSCb2Ux607f+5MUVVFas8e29WbcnaA/?=
- =?us-ascii?Q?o2VI/RQye5GmKfG6AgvbIyxuDV9k6yX/Bs63xtOdtwMPeQ/wrqkBBcmd3ec5?=
- =?us-ascii?Q?Gc2LkRE9egRhQctIgqIs+OL6KI/1nphsfIxac1IzsJLOn6UgXtWlmZmIQC6i?=
- =?us-ascii?Q?46LiXCDjqW4JrebFFehdteOE/9mjUf2w3d7lDl3ekW9S0hA6J4SLhuQdI54I?=
- =?us-ascii?Q?xeFxKGobRDUx3hGkKlxACzsabinZurGLRaZs8y8AUMX1dQohvkVJKduWwLrd?=
- =?us-ascii?Q?KNndirDlj1lU+XUq5CREfluFMP5v5faDESIGAZansZl4XNVBBL4e0YDIsTvd?=
- =?us-ascii?Q?On4FEjs1gBcmYcknOiDZOaMaTjQQ/bQJ0qpNkQYP72Y5mJTFF18mnEwOybEJ?=
- =?us-ascii?Q?8mOSHzkujcDj6JPDNO5E6tCyFijYDrz6JPQBpsl0VAkpwJvIZeiPS0evCdq0?=
- =?us-ascii?Q?Ekhgnq68NvDWJRghdzRQsaQCeJgrAU+nWYpaCotYgayNERyX/pcGF1HWJVTg?=
- =?us-ascii?Q?lVr2zIMxBmdewg7hyYlFrIpc5krhlYMqtrGdzmwk44TyRtyX0OBwaGRU9/A0?=
- =?us-ascii?Q?6H3nSQsrSfMEEjqztXZvJadvYbY5Kw/6YDq+xgb1iJ9E2aJZbWPk28c6vPb4?=
- =?us-ascii?Q?XEkGEnBkuPMwKQq5ttttzaC2NnY2zR1D3B+X7xvxPBMGq/NGf9uAHhCtYLeJ?=
- =?us-ascii?Q?PfAMcn6myygPI0s2OT3fdUwtnRiHb4kadQq+Us33Nl0x3sYwfBTZBw8U7HwK?=
- =?us-ascii?Q?BaExDZU+ki9xuVGw2lyNQA2Ag1imUC0NkUAB24A0AQ1Ogd+lNzfMELXfOmkC?=
- =?us-ascii?Q?S6WznT3tGXC7xTQlskZI5pz5Zf0nVIB45iVhj3A+UpCLPUk0SOuGk9zFXjL3?=
- =?us-ascii?Q?X5tf3abbAkjk0jCat52hrc6Jz/3mWadYbEgjYgWtlibRk2dxlnn95Rkj7PdE?=
- =?us-ascii?Q?LTNHZVTMISkll0T92N0Xgew6h7WIZRYQN3DJo2NEXD/PFpKwIEVzYKAFlODa?=
- =?us-ascii?Q?avwC39O/TSvvAl84Hf6lyJQeolfo23GD4ruSZeOzW7rLKjFnq3P3u/69NPAf?=
- =?us-ascii?Q?NxJ8vd4y10FcVfXjqPQ=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?3NptQ4jFCDyLYargh8WqTZkIQw3MTJ4hVHCvdeF4834aQ9/mylkdILJqpjp7?=
- =?us-ascii?Q?vST79JI0INoKAPnfblEMuMecbVDmVbfvLChEiLyQAYY24Yym7b+Yqu6IXAWr?=
- =?us-ascii?Q?h8jFRZz4Zr/0mlqlhT+ST1Wfxr/VyRJEaQRZ2/OtH/d349Pdhrdw0PJMNahu?=
- =?us-ascii?Q?0TjpSnLe7CGgQAhdVQOLlrZX8CFmlLtna42cT5bLyyqKNYAvfr/tJb8nyit6?=
- =?us-ascii?Q?eYpZn+romlElxB/gNaiwrp56mFFwu4bDCYiMlgIWwLONBmGot5Zt2ra1yoMk?=
- =?us-ascii?Q?oPNYPey7CI82sehomXpPSy2cdWK/QEl4PvlVrWfvu/eeeAYA06hqAAyN/2dZ?=
- =?us-ascii?Q?wjLlJ8EDxZWDPtomCr3nugHvEeY6wbehhMt5HfNu8SMikbKEYJr8h1bNhGop?=
- =?us-ascii?Q?ptqd3FdN02ssvW/LqL/BOdh6MGbwowv4SDw9Y9K0WVzUgopMnPtxeskKrJsB?=
- =?us-ascii?Q?MYLlYMwy9kIRrF+StE/zFjlhzFfOZq0jXFo6cypQp/91ssrjGq2UmdwTSaWS?=
- =?us-ascii?Q?+6l4ttmWFraUlSJ1hII1hdUxhRT6JZlmFjsP3iJiPd9K23yrdYk5gdO576Kc?=
- =?us-ascii?Q?33zSij1fhOrCk8jqAymmK0PxpKobtGXD7QF9E6z1sUHmcBNV8YD4Q4yiZrMb?=
- =?us-ascii?Q?04k5iSeuK8wPdPhO9qxVboZFzI8xcDfirRa3iXA09kaRDTq9R/xUWCNdNTQ6?=
- =?us-ascii?Q?kQ2kH+zIyDEig+kqr59GuZayuJ2EHnnvzhowDgDqYt0CiyPtcjVgttM4yw50?=
- =?us-ascii?Q?Bgy1PzS0lhDqlWGZdO8DJJslXVg0aMkSj3QITmRMQTBqmYCxfuAOgxGnLYcQ?=
- =?us-ascii?Q?XVOhXeLJTTAjZZ7ie+3lqegocBWctnhRA3x5Xp6vwTM4mKZdj/CpJSyRgkKc?=
- =?us-ascii?Q?YVcS9HOe8MmZ1PcynK8mVY9mFARisGipTMuV3Pc4DmNF5sWvDFoNiwupw8KM?=
- =?us-ascii?Q?eUsN+vVxaWXgw6fm3Vh6T8rUFY5JB6+sM4agKFmamYSEzzyTn1SywMAChurJ?=
- =?us-ascii?Q?MAUl8cx0ITCbZdTzlbsnQ8bOwzQQ27yvZPhAnoYtrIr/nXb6ta07PK5cABF0?=
- =?us-ascii?Q?4hGgCOhO6V9Py2dHRbLDVbWO6Thr552GwnDcPno8JBF1nSQpS1z6z+jz3DHv?=
- =?us-ascii?Q?d73Y0/KF1LOV6sk6L8M8kZgSc9iyGVJu/sGcS3TE/pDopdv04eI/3XShW06c?=
- =?us-ascii?Q?cJewWd47oOa6Qhs2/MT2IZBr7YrOG7RZ+/Kr8Hd3dknrY60r/E0i0+mHNktd?=
- =?us-ascii?Q?CgXiYGmJ5+jIr++WRDQ8aswalHuNQyOc4bNhSXDR4d72L23y+kl3uFE0PG8G?=
- =?us-ascii?Q?/tEMFImZMfwKrGG5goKB5SLuJ96xu4/fXPFSIx2RcSqc1EixiSJEo+IGUTmb?=
- =?us-ascii?Q?kK5OWP3FNdh7UDxATS+Hrx3zDD8RPpVDkgPwuhEG5P5ehfisK0QAOXqRXTsT?=
- =?us-ascii?Q?mYPeLWRrVHndNx3Lf6i65uoFYPjvopWCWCuI6HagDZEnFJW33Duw7KU4CbhA?=
- =?us-ascii?Q?zXG4LanzQs+AWmPfYQJQE99RY0C6ridjWJuMWu5MV9T5zBYTiggMSrv5OhOH?=
- =?us-ascii?Q?XOw+up7jEnbooK83qzFPUa6NGCIuBuV9Mt025mAs8lUepy2h9zJGtgKEkgbT?=
- =?us-ascii?Q?+1m4/GghKXgnQijtkmBPAzKn0p181hy1BR2v4Hpo32Rc7154NrK5IsBbubyq?=
- =?us-ascii?Q?MMHcyCM3P2mBNK4IOl9ef000XjXIg0t0xHey5l04mdMnOvYf+2dUF5hl6jsn?=
- =?us-ascii?Q?XM9phFVNrw=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92067b3a-49b1-4058-f476-08de6b21a947
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2026 17:02:25.3168
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AdRdp9R+KoZMS9yCrFfAL1ktYGqed9/rCiKpuzby/izILnQV6vqY/QrtaPofEEvXMmX9X/y8baSAcvDJ+sVyPQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6120
-X-OriginatorOrg: intel.com
+References: <20260212124923.222484-1-gpaoloni@redhat.com> <20260212124923.222484-2-gpaoloni@redhat.com>
+ <2026021221-grading-clatter-b7bf@gregkh> <CA+wEVJaFX4AE5ruKLvgYZhmNsOabovLp=2LAaLUYe5B9r51qEA@mail.gmail.com>
+ <2026021207-hatchery-spore-2800@gregkh>
+In-Reply-To: <2026021207-hatchery-spore-2800@gregkh>
+From: Gabriele Paoloni <gpaoloni@redhat.com>
+Date: Fri, 13 Feb 2026 18:13:51 +0100
+X-Gm-Features: AZwV_QiiIwRP90JuNH3-RopOFaXtZYGeRpSsElT4AgkFJTEVPZTkMgMRh4ssB44
+Message-ID: <CA+wEVJbhtDD2G4V=auecrcTmO9s7bE8VagjMmoPaetASJAh0Vw@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/6] Documentation: extend the 'Function
+ documentation' with expected behavior and constraints of use
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, arnd@arndb.de, 
+	brendan.higgins@linux.dev, raemoar63@gmail.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, acarminati@nvidia.com, linux-mm@kvack.org, 
+	safety-architecture@lists.elisa.tech, kstewart@linuxfoundation.org, 
+	chuckwolber@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 13, 2026 at 10:37:48AM -0600, Moger, Babu wrote:
-> Hi Reinette,
-> 
-> On 2/10/2026 10:17 AM, Reinette Chatre wrote:
-> > Hi Babu,
-> > 
-> > On 1/28/26 9:44 AM, Moger, Babu wrote:
-> > > 
-> > > 
-> > > On 1/28/2026 11:41 AM, Moger, Babu wrote:
-> > > > > On Wed, Jan 28, 2026 at 10:01:39AM -0600, Moger, Babu wrote:
-> > > > > > On 1/27/2026 4:30 PM, Luck, Tony wrote:
-> > > > > Babu,
-> > > > > 
-> > > > > I've read a bit more of the code now and I think I understand more.
-> > > > > 
-> > > > > Some useful additions to your explanation.
-> > > > > 
-> > > > > 1) Only one CTRL group can be marked as PLZA
-> > > > 
-> > > > Yes. Correct.
-> > 
-> > Why limit it to one CTRL_MON group and why not support it for MON groups?
-> 
-> There can be only one PLZA configuration in a system. The values in the
-> MSR_IA32_PQR_PLZA_ASSOC register (RMID, RMID_EN, CLOSID, CLOSID_EN) must be
-> identical across all logical processors. The only field that may differ is
-> PLZA_EN.
-> 
-> I was initially unsure which RMID should be used when PLZA is enabled on MON
-> groups.
-> 
-> After re-evaluating, enabling PLZA on MON groups is still feasible:
-> 
-> 1. Only one group in the system can have PLZA enabled.
-> 2. If PLZA is enabled on CTRL_MON group then we cannot enable PLZA on MON
-> group.
-> 3. If PLZA is enabled on the CTRL_MON group, then the CLOSID and RMID of the
-> CTRL_MON group can be written.
-> 4. If PLZA is enabled on a MON group, then the CLOSID of the CTRL_MON group
-> can be used, while the RMID of the MON group can be written.
-> 
-> I am thinking this approach should work.
+On Thu, Feb 12, 2026 at 4:23=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Thu, Feb 12, 2026 at 03:00:01PM +0100, Gabriele Paoloni wrote:
+> > On Thu, Feb 12, 2026 at 1:59=E2=80=AFPM Greg KH <gregkh@linuxfoundation=
+.org> wrote:
+> > >
+> > > On Thu, Feb 12, 2026 at 01:49:18PM +0100, Gabriele Paoloni wrote:
+> > > > Extend the longer description section of a function kernel-doc
+> > > > header with an itemised list of function's behaviors and
+> > > > constraints of use.
+> > > > These are useful to link and trace test cases (e.g. KUnit) to
+> > > > the different behavior IDs and define the constraints to be
+> > > > met by the function's caller.
+> > > >
+> > > > Signed-off-by: Gabriele Paoloni <gpaoloni@redhat.com>
+> > > > ---
+> > > >  Documentation/doc-guide/kernel-doc.rst | 19 +++++++++++++++++++
+> > > >  1 file changed, 19 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation=
+/doc-guide/kernel-doc.rst
+> > > > index 8d2c09fb36e4..23e6c4b45b14 100644
+> > > > --- a/Documentation/doc-guide/kernel-doc.rst
+> > > > +++ b/Documentation/doc-guide/kernel-doc.rst
+> > > > @@ -83,6 +83,25 @@ The general format of a function and function-li=
+ke macro kernel-doc comment is::
+> > > >     *
+> > > >     * The longer description may have multiple paragraphs.
+> > > >     *
+> > > > +   * When specifying testable code behaviour the longer descriptio=
+n must contain
+> > > > +   * a paragraph formatted as follows:
+> > > > +   *
+> > > > +   * function_name behavior:
+> > > > +   * [ID1] - [expected behavior]
+> > > > +   *
+> > > > +   * [ID2] - [expected behavior]
+> > > > +   *
+> > > > +   * [...]
+> > > > +   *
+> > > > +   * [IDn] - [expected behavior]
+> > > > +   *
+> > > > +   * function_name constraints of use:
+> > > > +   * [ID1] - [constraint to be met by the caller]
+> > > > +   *
+> > > > +   * [ID2] - [constraint to be met by the caller]
+> > > > +   *
+> > > > +   * [IDn] - [constraint to be met by the caller]
+> > >
+> > > So the same "id" is used for a behavior, AND a constraint?
+> >
+> > The idea is to have a specific behaviour or constraint of use
+> > identified by the tuple [function_name behavior][ID].
+> > So I think we could have a problem for duplicated symbols (but
+> > it is a sort of corner case...)
+>
+> I am trying to say that you have ID1 listed in two places above.  So
+> that's not unique with a [function_name][ID] pair, where does the
+> "behavior" part come in?
 
-I can see why a user might want to accumulate all kerrnel resource usage
-in one RMID, separately from application resource usage. But wanting to
-subdivide that between different tasks seems a stretch.
+Maybe it is not clear from the patch above (and I can find a better way
+to describe it), however if we take one example from patch 2 we have:
 
-Remember that there are 3 main reasons why the kernel may be entered
-while an application is running:
+[...]
++ * read_mem behavior:
++ * 1. it checks if the requested physical memory range [ppos, ppos + count=
+ - 1]
++ *    is valid;
++ * 2. for each page in the requested range, it checks if user space access=
+ is
++ *    allowed;
+[...]
 
-1) Application makes a system call
-2) A trap or fault (most common = pagefault?)
-3) An interrupt
+So in the end a unique identifier is "[read_mem behavior] [1]" and if the s=
+ame
+IDx is used for both behavior and constraint there would be no issues since
+the tuple is the actual unique identifier.
+So for example in partch 2 we have:
+[...]
++ * memory_open behavior:
++ * 1. This function retrieves the minor number associated with the input i=
+node
++ *    and the memory device corresponding to such a minor number;
+[...]
++ * memory_open constraints of use:
++ * 1. The input inode and filp are expected to be valid.
+[...]
 
-The application has some limited control over 1 & 2. None at
-all over 3.
+In this case while 1 is used as IDx for both the behavior and a
+constraint of use
+the is no ambiguity since the unique identifiers are "[memory_open behavior=
+][1]"
+and "[memory_open constraints of use][1]"
 
-So I'd like to hear some real use cases before resctrl commits
-to adding this complexity.
+>
+> What is now parsing these comments to ensure that they are unique, in
+> correct order, and are used elsewhere?  What is the text for such a
+> behavior and constraint?
 
-> 
-> > 
-> > Limiting it to a single CTRL group seems restrictive in a few ways:
-> > 1) It requires that the "PLZA" group has a dedicated CLOSID. This reduces the
-> >     number of use cases that can be supported. Consider, for example, an existing
-> >     "high priority" resource group and a "low priority" resource group. The user may
-> >     just want to let the tasks in the "low priority" resource group run as "high priority"
-> >     when in CPL0. This of course may depend on what resources are allocated, for example
-> >     cache may need more care, but if, for example, user is only interested in memory
-> >     bandwidth allocation this seems a reasonable use case?
-> > 2) Similar to what Tony [1] mentioned this does not enable what the hardware is
-> >     capable of in terms of number of different control groups/CLOSID that can be
-> >     assigned to MSR_IA32_PQR_PLZA_ASSOC. Why limit PLZA to one CLOSID?
-> > 3) The feature seems to support RMID in MSR_IA32_PQR_PLZA_ASSOC similar to
-> >     MSR_IA32_PQR_ASSOC. With this, it should be possible for user space to, for
-> >     example, create a resource group that contains tasks of interest and create
-> >     a monitor group within it that monitors all tasks' bandwidth usage when in CPL0.
-> >     This will give user space better insight into system behavior and from what I can
-> >     tell is supported by the feature but not enabled?
-> 
-> 
-> Yes, as long as PLZA is enabled on only one group in the entire system
-> 
-> > 
-> > > > 
-> > > > > 2) It can't be the root/default group
-> > > > 
-> > > > This is something I added to keep the default group in a un-disturbed,
-> > 
-> > Why was this needed?
-> > 
-> 
-> With the new approach mentioned about we can enable in default group also.
-> 
-> > > > 
-> > > > > 3) It can't have sub monitor groups
-> > 
-> > Why not?
-> 
-> Ditto. With the new approach mentioned about we can enable in default group
-> also.
-> 
-> > 
-> > > > > 4) It can't be pseudo-locked
-> > > > 
-> > > > Yes.
-> > > > 
-> > > > > 
-> > > > > Would a potential use case involve putting *all* tasks into the PLZA group? That
-> > > > > would avoid any additional context switch overhead as the PLZA MSR would never
-> > > > > need to change.
-> > > > 
-> > > > Yes. That can be one use case.
-> > > > 
-> > > > > 
-> > > > > If that is the case, maybe for the PLZA group we should allow user to
-> > > > > do:
-> > > > > 
-> > > > > # echo '*' > tasks
-> > 
-> > Dedicating a resource group to "PLZA" seems restrictive while also adding many
-> > complications since this designation makes resource group behave differently and
-> > thus the files need to get extra "treatments" to handle this "PLZA" designation.
-> > 
-> > I am wondering if it will not be simpler to introduce just one new file, for example
-> > "tasks_cpl0" in both CTRL_MON and MON groups. When user space writes a task ID to the
-> > file it "enables" PLZA for this task and that group's CLOSID and RMID is the associated
-> > task's "PLZA" CLOSID and RMID. This gives user space the flexibility to use the same
-> > resource group to manage user space and kernel space allocations while also supporting
-> > various monitoring use cases. This still supports the "dedicate a resource group to PLZA"
-> > use case where user space can create a new resource group with certain allocations but the
-> > "tasks" file will be empty and "tasks_cpl0" contains the tasks needing to run with
-> > the resource group's allocations when in CPL0.
-> 
-> Yes. We should be able do that. We need both tasks_cpl0 and cpus_cpl0.
-> 
-> We need make sure only one group can configured in the system and not allow
-> in other groups when it is already enabled.
-> 
-> Thanks
-> Babu
-> 
-> > 
-> > Reinette
-> > 
-> > [1] https://lore.kernel.org/lkml/aXpgragcLS2L8ROe@agluck-desk3/
-> > 
+Right now I have not implemented any check to make sure the identifiers (in
+terms of tuples as explained above) are correct and unique, however maybe
+a check can be added in kdoc_parser.py to make sure no duplicate tuples exi=
+st
+in the same file (I guess that we do not need to check tuples uniqueness ac=
+ross
+multiple files)
 
--Tony
+>
+> Heck, what does a "constraint" mean?
+
+A constraint to be met by the caller of the function (e.g. passing a
+valid pointer
+when the function is missing checks on the validity of it, invoking a funct=
+ion
+with a certain mutex locked, avoiding certain ranges of input parameters )
+
+>
+> > > And what defines an "id"?  I see in your example you use number.numbe=
+r,
+> > > but is that specified?
+> >
+> > I thought that there is no need to specify an ID format as long as the =
+ID is
+> > unique and referenced by the kunit tests testing the symbol.
+> > Basically I thought that in some cases it is easier to enumerate 1, 2, =
+3,
+> > whereas in others a, b, c can be used or even a mix 1a, 1b, 2a, 2b etc.
+> > So I wanted to leave such freedom to the programmer.
+>
+> Ok, so be aware that people will then put whatever they want in there,
+> making it impossible for you to parse :(
+
+Once we have a check on the uniqueness of the tuples within a single
+file, we can add another check when building kunit tests that look-up
+identifiers documented in the test headers to match the tuples from the
+source code being tested.
+
+So for example in patch 5 we have:
+[...]
++/**
++ * read_mem_zero_count_test - Verify behavior when @count is 0
++ * @test: KUnit test context.
++ *
++ * Confirms that read_mem() correctly handles a zero-length read.
++ * Per POSIX semantics, this may either return 0 or return an error
++ * if parameter validation is performed.
++ *
++ * Expected test behavior:
++ *  - the input @buf user space buffer is not written;
++ *  - @ppos is not modified;
++ *  - 0 or -EFAULT is returned.
++ *
++ * Tested behavior:
++ * [read_mem.1]
++ */
+[...]
+This means that this test is testing "[read_mem behavior] [1]".
+Having said that, technically this policy allows for very human unfriendly
+itemized lists, but I hope developers' common sense and the maintainers'
+judgement to be sufficient for this not to happen.
+
+>
+> > > And how is a id going to stay in sync across different files?  That
+> > > feels impossible to maintain for any length of time, and puts a burde=
+n
+> > > on the developer who wishes to add/remove a test or "id", AND a
+> > > maintainer who has to remember to go and look in multiple places for
+> > > such an id sync up.
+> >
+> > Well given that the tested ids are defined by the tuples mentioned abov=
+e,
+> > the relation between a kunit test and the tested tuples should be not
+> > ambiguous.
+>
+> How do I "know" that there is a test that matches the tuple at all?
+
+As mentioned above the test cases descriptors define the tuples that
+are tested. So using a tool like BASIL or StrictDoc it is possible to
+generate a graph tracing tests to the corresponding tuples
+
+> Your patch series proves this, it adds the tuple in one, and then the
+> test in another.  If you add another patch that adds another comment,
+> how do I as a maintainer know if this refers to an existing test, or a
+> new one somewhere else?
+
+I would say
+- If the patch is modifying the text of an existing tuple the maintainer
+would directly see it and, by using a traceability tool, he would know
+the impacted tests
+- if the patch is adding a new tuple by definition it is a new behavior
+or constraints (so the gap will be identified by the lack of tests tracing
+to it)
+- if the patch adds a comment that is outside the list of tuples, such a
+change must be reviewed by the maintainer to figure out if the comment
+is appropriate as an informative note or if instead should be part of eithe=
+r
+lists (probably if there is also a code change it is more likely that the
+behaviors and constraints of use must be updated)
+
+>
+> > Also I thought that, when writing a kunit test, the tester should know =
+which
+> > behavior is being tested and hence it should be easy to define the test=
+ed
+> > tuples in the kunit header.
+> > So I do not see much of a burden, but maybe I am missing something here=
+...
+>
+> if there is no automatic way of linking a comment to a test, the ids
+> WILL get out of sync.  We have 20+ years of history for "simple" things
+> like enums and strings getting out of sync in the same exact file.
+> Whenever you are going to allow a free-form structure like this, and yet
+> expect a maintainer and developer to always know how to keep it in sync,
+> that's just an impossible task, please do not do that.
+
+Got it, so I wonder if the extra checks I mentioned above WRT kdoc_parser.p=
+y
+and the kunit build process together with the traceability tool (BASIL
+or StrictDoc or
+others) would help to address this issue...
+
+>
+> And let's go back to the root issue, why have an id at all?  Who
+> benefits from this?  Who requires it?  Who wants it?  Who will do the
+> work to add/maintain/update them all?
+
+Ok, here I assume that we agree on the value of having function specificati=
+ons
+and kunit tests.
+So I guess that the key question is why adding traceability provides value.
+To this point traceability makes it easier to understand the test cases aga=
+inst
+specifications, allows to spot specifications that are lacking tests and al=
+lows
+to easily spot tests that require modifications following a
+specifications' update.
+
+If you do not see value in traceability for /dev/mem I can drop patch 1 and
+just re-submit using simple bullets and removing the tuples references from
+the kunit tests, otherwise I could work on the implementation of the checke=
+rs
+mentioned above when building kernel-doc and kunits so that it would be
+easier for a maintainer to manage such a traceability....
+
+Thanks and regards
+Gab
+
+>
+> thanks,
+>
+> greg k-h
+>
+
+On Thu, Feb 12, 2026 at 4:23=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Thu, Feb 12, 2026 at 03:00:01PM +0100, Gabriele Paoloni wrote:
+> > On Thu, Feb 12, 2026 at 1:59=E2=80=AFPM Greg KH <gregkh@linuxfoundation=
+.org> wrote:
+> > >
+> > > On Thu, Feb 12, 2026 at 01:49:18PM +0100, Gabriele Paoloni wrote:
+> > > > Extend the longer description section of a function kernel-doc
+> > > > header with an itemised list of function's behaviors and
+> > > > constraints of use.
+> > > > These are useful to link and trace test cases (e.g. KUnit) to
+> > > > the different behavior IDs and define the constraints to be
+> > > > met by the function's caller.
+> > > >
+> > > > Signed-off-by: Gabriele Paoloni <gpaoloni@redhat.com>
+> > > > ---
+> > > >  Documentation/doc-guide/kernel-doc.rst | 19 +++++++++++++++++++
+> > > >  1 file changed, 19 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation=
+/doc-guide/kernel-doc.rst
+> > > > index 8d2c09fb36e4..23e6c4b45b14 100644
+> > > > --- a/Documentation/doc-guide/kernel-doc.rst
+> > > > +++ b/Documentation/doc-guide/kernel-doc.rst
+> > > > @@ -83,6 +83,25 @@ The general format of a function and function-li=
+ke macro kernel-doc comment is::
+> > > >     *
+> > > >     * The longer description may have multiple paragraphs.
+> > > >     *
+> > > > +   * When specifying testable code behaviour the longer descriptio=
+n must contain
+> > > > +   * a paragraph formatted as follows:
+> > > > +   *
+> > > > +   * function_name behavior:
+> > > > +   * [ID1] - [expected behavior]
+> > > > +   *
+> > > > +   * [ID2] - [expected behavior]
+> > > > +   *
+> > > > +   * [...]
+> > > > +   *
+> > > > +   * [IDn] - [expected behavior]
+> > > > +   *
+> > > > +   * function_name constraints of use:
+> > > > +   * [ID1] - [constraint to be met by the caller]
+> > > > +   *
+> > > > +   * [ID2] - [constraint to be met by the caller]
+> > > > +   *
+> > > > +   * [IDn] - [constraint to be met by the caller]
+> > >
+> > > So the same "id" is used for a behavior, AND a constraint?
+> >
+> > The idea is to have a specific behaviour or constraint of use
+> > identified by the tuple [function_name behavior][ID].
+> > So I think we could have a problem for duplicated symbols (but
+> > it is a sort of corner case...)
+>
+> I am trying to say that you have ID1 listed in two places above.  So
+> that's not unique with a [function_name][ID] pair, where does the
+> "behavior" part come in?
+>
+> What is now parsing these comments to ensure that they are unique, in
+> correct order, and are used elsewhere?  What is the text for such a
+> behavior and constraint?
+>
+> Heck, what does a "constraint" mean?
+>
+> > > And what defines an "id"?  I see in your example you use number.numbe=
+r,
+> > > but is that specified?
+> >
+> > I thought that there is no need to specify an ID format as long as the =
+ID is
+> > unique and referenced by the kunit tests testing the symbol.
+> > Basically I thought that in some cases it is easier to enumerate 1, 2, =
+3,
+> > whereas in others a, b, c can be used or even a mix 1a, 1b, 2a, 2b etc.
+> > So I wanted to leave such freedom to the programmer.
+>
+> Ok, so be aware that people will then put whatever they want in there,
+> making it impossible for you to parse :(
+>
+> > > And how is a id going to stay in sync across different files?  That
+> > > feels impossible to maintain for any length of time, and puts a burde=
+n
+> > > on the developer who wishes to add/remove a test or "id", AND a
+> > > maintainer who has to remember to go and look in multiple places for
+> > > such an id sync up.
+> >
+> > Well given that the tested ids are defined by the tuples mentioned abov=
+e,
+> > the relation between a kunit test and the tested tuples should be not
+> > ambiguous.
+>
+> How do I "know" that there is a test that matches the tuple at all?
+> Your patch series proves this, it adds the tuple in one, and then the
+> test in another.  If you add another patch that adds another comment,
+> how do I as a maintainer know if this refers to an existing test, or a
+> new one somewhere else?
+>
+> > Also I thought that, when writing a kunit test, the tester should know =
+which
+> > behavior is being tested and hence it should be easy to define the test=
+ed
+> > tuples in the kunit header.
+> > So I do not see much of a burden, but maybe I am missing something here=
+...
+>
+> if there is no automatic way of linking a comment to a test, the ids
+> WILL get out of sync.  We have 20+ years of history for "simple" things
+> like enums and strings getting out of sync in the same exact file.
+> Whenever you are going to allow a free-form structure like this, and yet
+> expect a maintainer and developer to always know how to keep it in sync,
+> that's just an impossible task, please do not do that.
+>
+> And let's go back to the root issue, why have an id at all?  Who
+> benefits from this?  Who requires it?  Who wants it?  Who will do the
+> work to add/maintain/update them all?
+>
+> thanks,
+>
+> greg k-h
+>
+
