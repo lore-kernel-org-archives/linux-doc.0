@@ -1,529 +1,514 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012002.outbound.protection.outlook.com [52.101.53.2])
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19B546B5;
-	Fri, 13 Feb 2026 01:51:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770947515; cv=fail; b=HOb5FfsnK8xRN5YaTIwxjGEZTFvxgl3XuIR1tKBA1Y1NnYi7pWw5xZcLGnTLiMSNxJSlBy/Vgjwom4PQCpaSLVsRQxq0Vk9eQAWqgfsYOcz1gCASzsUgNkkJbafqgTktZ/hLsgXfN75fLBCIsfUS6d37HOQIKDdJVkWIhXjO/GQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770947515; c=relaxed/simple;
-	bh=s3vvwcVscF34YwtJJPq2/XOdUjnTFFcXyPI/6+QQAic=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=h4ykT+51gU+fMrXcHjqJebexFB9BwFILPsfAzuqeE6wzG8gZi8/qhnfSOyvRFaaHCOi1LoitgJVjD65tWWjDM2xGy1duDNdAW8VdBZfJi4paHCGOPfiRIG9BD1hZ3gAI20+8/6HbUguT+JRCGcg1shRG0v0EavvfqKfpwSdELq0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=fzlkpuoN; arc=fail smtp.client-ip=52.101.53.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2731D95A3;
+	Fri, 13 Feb 2026 03:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1770951781; cv=none; b=mImy6ANDSWqxkUX2vMTDmExGwzaVTFllWeyw6Wk1Nojhmt9gxizwvxB4nLMrhIyzvpRZY0AWxPNFexqTpUqGOvquaujnjUtXKZE5C9Y/2lv/LRMs2j0ZpP31SLTNr4jdAYpqKFjekUnGfY4boUiPrG6S0PHw7axX+JN2k6TBd28=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1770951781; c=relaxed/simple;
+	bh=je/dj1iBmLEs25UMcA43CWVwdLnxHmSiV9gBpGRn8FQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=kpoltQ6/OQG+r/rBaZoJZHENCVqIKM3CR9BHbEMPr0Dj4+HW8jYVRApst8kGrC/eTCyMxgkq9mvV/sHTEjYOGYN2+usrZhjlmGFvOoXXo87LzcLdDf758Df0cHwbUjytAbNTQXYQhN2/SuIzER/G2KsWb5j/PrsyW4yIiCr/lWg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=tSVQdw+J; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="fzlkpuoN"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=I8HJJrSQ6mg9Ej5USPltkokRkPdA/KnZQYdHTSZg2fKwXsVwxrCqrpVVpAQVunferSGhp/DWD+MMMCRnIYe8S7VRC7Y54y7Et9ZlFWKOZXwEd2n4+yKBoMmqrIVg320tVWDtKFA6n/2uOTc3L1NihQCkigpMAPy0AnUmLZLmjgVT4zS291TC9mXDIVRv+cefUgWTQSwQP5qFs47VXSFxKuFKa9RFEtOWry3uee4jP5of9jVLYZIhPgG6G/LjpedQVlj09er00A1dwQEPG/xdjPcCDjugvitD4EvPtTU7tIb86jdN3QQLoxmvD9wK6rCCnFTc/KUSVeDu2jo9+tWByw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VAZaI8NaGb7/Tq6WXh7MNidXlQ925hZI1bhkD/gjJxE=;
- b=NguwamRFe2u+zpu2a3yD4tzU387LfMpVbKhDch5mlBY3SWfx8A5lhhzCcgpWvTDdXL9VasAINzBEdkYqMIXRfY3/qb6If9SHko4uS93d5ledtbQ5b9lZMpWH8oYhFJitBRHfUd+B2fuSth1JfwHgDoex4O3C5/LUI0pd5oYaeCIKX5I/+BENTEqqJVZD5O61DuzfJP/QWx2xb1xgQybsjtnlQ2KMUcTMOWe8Chj18O43YlJSNpAIgHiUYnNkShc+iiHi0GL3WssAdKf4RyDPAXrO3tFm9XnYEPdCGDNF0d0z6V0gQOC4i47uLEFk6KsXpDEZxcNt1Qd5Af0o3v4hKA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VAZaI8NaGb7/Tq6WXh7MNidXlQ925hZI1bhkD/gjJxE=;
- b=fzlkpuoNYwvmzXmKqTpqHLBJo2WYU2I6ori3ms2/FzRRpU9KkLbN+ZGkPjG0MjrEkjmKnpFPdFlcTAWHfE39U4qLrNuW5VI5UsI0f5fJSZs7ca50gG4O/mWkYEf7opCbwbE6oDPHjcO2ySVSf8TrI20IDlYVfzJo0Ldr4MPbA6c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by CYYPR12MB8856.namprd12.prod.outlook.com
- (2603:10b6:930:c0::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.11; Fri, 13 Feb
- 2026 01:51:49 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::4d0e:603a:42fc:7c0]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::4d0e:603a:42fc:7c0%3]) with mapi id 15.20.9611.008; Fri, 13 Feb 2026
- 01:51:49 +0000
-Message-ID: <f72a62af-e646-40ae-aa16-11c7d98ecf03@amd.com>
-Date: Thu, 12 Feb 2026 19:51:43 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/19] x86,fs/resctrl: Add support for Global
- Bandwidth Enforcement (GLBE)
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
- Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org, mingo@redhat.com,
- bp@alien8.de, dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, peterz@infradead.org,
- juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, akpm@linux-foundation.org,
- pawan.kumar.gupta@linux.intel.com, pmladek@suse.com,
- feng.tang@linux.alibaba.com, kees@kernel.org, arnd@arndb.de,
- fvdl@google.com, lirongqing@baidu.com, bhelgaas@google.com,
- seanjc@google.com, xin@zytor.com, manali.shukla@amd.com,
- dapeng1.mi@linux.intel.com, chang.seok.bae@intel.com,
- mario.limonciello@amd.com, naveen@kernel.org, elena.reshetova@intel.com,
- thomas.lendacky@amd.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, peternewman@google.com,
- eranian@google.com, gautham.shenoy@amd.com
-References: <cover.1769029977.git.babu.moger@amd.com>
- <aba70a013c12383d53104de0b19cfbf87690c0c3.1769029977.git.babu.moger@amd.com>
- <eb4b7b12-7674-4a1e-925d-2cec8c3f43d2@intel.com>
- <f0f2e3eb-0fdb-4498-9eb8-73111b1c5a84@amd.com>
- <9b02dfc6-b97c-4695-b765-8cb34a617efb@intel.com>
- <3a7c17c0-bb51-4aad-a705-d8d1853ea68a@amd.com>
- <06a237bd-c370-4d3f-99de-124e8c50e711@intel.com>
- <91d50431-41f3-49d7-a9e6-a3bee2de5162@amd.com>
- <557a3a1e-4917-4c8c-add6-13b9db39eecb@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <557a3a1e-4917-4c8c-add6-13b9db39eecb@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0PR07CA0013.namprd07.prod.outlook.com
- (2603:10b6:610:32::18) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="tSVQdw+J"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=K5cL1rUjW8lH3PpXOjpFyvJ0RBVPGunsEahu80kYEIM=;
+	b=tSVQdw+JNJXAf1MY/KPskhRvBv85Okf/IgHzgOt+2D5eEBLWqfzS9u47OjAJeMtqzAfWdPhtd
+	HvIv83mJ7r9/qriS+SpF+6Ahl4Ra1bl7OmirckSWin+B1oIOwAthF/yVPEQMD+PQghmwUwCG5Ek
+	a6V35f7r3GC+IrEZG7cqb78=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4fBxgN1HdXz1prmP;
+	Fri, 13 Feb 2026 10:58:08 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 07D9940570;
+	Fri, 13 Feb 2026 11:02:50 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 13 Feb 2026 11:02:40 +0800
+Message-ID: <efb16ebb-a6e3-01e8-2277-98ac1347d084@huawei.com>
+Date: Fri, 13 Feb 2026 11:02:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|CYYPR12MB8856:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9ebd4dc6-cf59-4008-5780-08de6aa273b1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MXdQa1kzMHFndCtrV0RJTzBzdldyRmFPNE5nSks4cW5DVzEwNWtja21yd29y?=
- =?utf-8?B?WnhrVm14Y3dPb0ZDL0dnS2dEeVBKNzB3SkNtb1hKRlN0cjhFOURIQ0tqTTNa?=
- =?utf-8?B?YUdYbUgwOEFNZDRQeDJ3TDJ5QTNZK3hONkRORG53Y2QzcjltbHA2ekJZTE1o?=
- =?utf-8?B?Sld2S21aZWNIQWFSeEpvY1BtV3pQaHdzeUh1VGl1a1A3bTlkdlczaXdMUHhi?=
- =?utf-8?B?eEFGWU8xWCs1L2x3QmUvSUhHZ3gyUlF2RElZMWVIOHRtWUh2eE1LaXd5QW9j?=
- =?utf-8?B?VVVMaUlqWkxrL1VGMmkzUzkxM05GbkdiWnd6N3V4WWx5MWgxQlpodnhCaW5S?=
- =?utf-8?B?Q2tKZmVHYWZGRFg3SUhkTFg0bktlZm0rNjJERFJCZzN1ZFB4YlJ0Z1ZXUEo4?=
- =?utf-8?B?OHA4ZHdJc0N2ZEVQRFVDYjlhZTVDV1ZwTVpYVGRnN2Y1TnZuVlBVeW9WeEZ3?=
- =?utf-8?B?RzI0dDJTZEpaNDFtamdQejB6R0RaZnNPd1hXNEVPMTBENVNxbUhxQnY1M1pj?=
- =?utf-8?B?cjJtRldub3BYK1VRdTdNdUQ1S254V1JId09TNlgwbHRoZEl1WDVJTHZiRmlG?=
- =?utf-8?B?YTBKMG52bzhDMFhUVnVvb1pGMkZBRVJRQkFvTWNIVnVTLzVoUENDVTU5a2tR?=
- =?utf-8?B?MlI1aXlVSVFRTmpWeFpzNFl2bDNTZjdnMWRUZm5lNzBjNW1PTEYzTjJmTzVj?=
- =?utf-8?B?OWFXNXBwTHpySnlHK1o5clhxWllMNE5sK1p6UkV6NWZTcm5yaTIyalpQNmsv?=
- =?utf-8?B?clhVWVg0bkdvMGQySy9HZ3dZRUxMVzVvQUs2N2RoZVlEYXpIWHVQUzdTU0ZH?=
- =?utf-8?B?Y2hIWEJiWXZaS0djTHJ3MHQxUlJZanM5ZFZLWlN3Y01lem1ScFc5SEVFMmJV?=
- =?utf-8?B?LzFVQkJtZnV6NUNLTnFnK1NzUWVMdUhxUHBHYWRJN1MxS2VTcnJ6RXlyTk1E?=
- =?utf-8?B?OTVxNkZhclZEMXpMdDMrYmN1eXNnUFMveU40aUsrMVVVcFdUQXBNb0c2Zy9C?=
- =?utf-8?B?MzhBWmtVU1pNSW9Ic2hZTjk1SzF1ZG1jSzhkZm93d05wR0tuSi9vMTZoWGRO?=
- =?utf-8?B?M2tIYlNMcldJZkJvM0lBeDVwTTM2RTUzaDRkYjV3a2prT1BuaGhyRUxaQ21Q?=
- =?utf-8?B?RUVHNksyRHVmeTFWY21oUzBIbTJPMCtlSHppWk9udDJmN20yRWZsMUV4c0VT?=
- =?utf-8?B?WVEvV0VFWVpSR2k1eWNKWUZzTVZSOEpaREtqcnhmV25jL2o4ZmhVZHI1Nmw2?=
- =?utf-8?B?Zzc2bld5V3RtSExVc0NEN0gxVUZnMmdxSmNqMHowNlhBRlIzSUZvRHdpWUJN?=
- =?utf-8?B?clFvUW9yeThQR1U2QksrTkI2dW90OTcyZXZFUFdjUlFwaXNYTnYvc1F4Q0Yv?=
- =?utf-8?B?c1Z1S3JGd0hXeVdRTkE0cDQ2RmhhWXpBWHdnZ01FVHlJMEhBWmpZVGZjSk16?=
- =?utf-8?B?d2poNWVlQXpiLzVzbmpCdSs1VnVsUW5yaHVXeENDZGhVQnlsZEhmTkhkQXlK?=
- =?utf-8?B?RWwrdkpVZ040cS9SM25MaElqMEdBdEVYVklySUdjbWJNRlErZGdha01ic0hD?=
- =?utf-8?B?RFltUjlOc0gySWliZVpVdWRFbUQvUVZ0cFV0RWc2Z1ZvckpydGJhVjc1VHN0?=
- =?utf-8?B?S1lGWithSW5oM1RBZEdwSHJhQng5UndBdk5wY0VXbkVKMjgwRnFPTFdzRFF3?=
- =?utf-8?B?cmFCYjVyZEtVSWhINXJLM0hESHQyamNxZllpcSs2ZFFxTnJQWUFHMWpTRWxl?=
- =?utf-8?B?UUJKUEZqMVhoV3VmZE9IVkNBdHV5UWJRdHpaNXZJMFNzT1dzTVRNN3VWbmo1?=
- =?utf-8?B?bGloSmw5Vk1YV0NTVGhuT2ZidmxkUkVBK1pEbmZYOGpsVnZmRzA2ckF6djRV?=
- =?utf-8?B?QzJaK2src2l1cUw3VlpNUW9zTzF4R013bmFlc3drbDRJNVBHMnA5YjIvZzE2?=
- =?utf-8?B?azBmZXFIT2lrNms0bWRRVkFWZzZxSlI0dUlUSWl4Z2REeVkwblBqVS96QjhC?=
- =?utf-8?B?US9GSTdYTXBha05XNFlRZ3VvZ0VnMzUxamhiTkpMTEZ2akdHQ1V4SjU2QWFx?=
- =?utf-8?B?VTFQdm0rK3NQaklqcUxpUnV2a2FsdFZpQ2JHTmtEZkowaFJTdEdCYjB2Yms3?=
- =?utf-8?B?NWI0Q0tXVDN6RTR3TG5oSW5MbjdsaEk3VHJUUjkyVzl0V2lZN2pHdFppQ1JF?=
- =?utf-8?B?TFE9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QlhYTUUrOVFKdXhLakRXSTJVR1Z6Qk1ZNDZucnVML0xCNkQ4SFJWMjAvR3c3?=
- =?utf-8?B?VzQ4SGZLcmZRSzR4OHowc3RsdGhRVWhVa1pzRmU0Q0JZR1Q0M0tLYWpNSUt6?=
- =?utf-8?B?Yit3aUcwbFVTZUtWM3o4b1kvaW5wUGY2TE5pV1RxcTAxZ1VmRmlEakFwQ044?=
- =?utf-8?B?ZE1Wa2hGNTBoNGUwRzhFK1ZXL1JDaU52M1ZGclNFZjBRL1dGSkxncUlXY0M1?=
- =?utf-8?B?YUFBRUVwM25SZ1NWb1c2eXZzTnRWRTJjUml4TnRHVXhnd3B4cDRMRXpkb0RE?=
- =?utf-8?B?ak03RlVBSERxam9aVk5jU3Q4VTgvajhWNS9kVXhHUjNCeWpDamJ0NWE1YkJB?=
- =?utf-8?B?YUpSbTJRWGV5SktoWk5Pc3hSamErQS9kRXBrclE1L2F0NTh4SWM5VFhpb1lE?=
- =?utf-8?B?K2MvUFRNbGtkVXpSRkNZTUJPd0ljQ2l1UGFRaHlLeUp0NXFHWFArK0JaNWcz?=
- =?utf-8?B?RHlsUFJReSthcWNjaHJJbDlvL2RiQ3dMNW02UGVBYmswQThLL0R5V3hPSkRm?=
- =?utf-8?B?aURuZ3FkYVcwaUVmTVJ1bUIwUkhFaExQdEVaTmpINXJab3dBOSttZXAxSVB6?=
- =?utf-8?B?TmFEeWhWR05USEVOZlNHRnFXZC9KdzhUd3cwcE5GQStacTV3UmV3NERkbHh1?=
- =?utf-8?B?ZlZkdVFVZlIwNlRPL09TUDFWN3BVQzdVd3dDYlBMZExiRmlRS0FrRFhrMWlj?=
- =?utf-8?B?TTErVW1TVTUzTllrN0h6Rzd3d09XaUNUMjI5VjFFLzl0aDgxRllKK2xaMGVp?=
- =?utf-8?B?NkNuc1QwZWxJTUVLeCtLUjErSGdrVklVelFubkM4WUVKcklFb2xINUs1bFBt?=
- =?utf-8?B?WjYwS3k3RDhaeldZcTZwUGV3dkhua1daamt0SGw5a0ZNTUwySGpudDhrL2Rw?=
- =?utf-8?B?NW56c3dDSkZHendaNnkzZWN2OEh4UEt3SnJNS2dGMVRnNG1oZzFWbkRnRSs0?=
- =?utf-8?B?RE9ZcmFaV0RyZXhOVWgvOE5JRmwvZlVNUGU5bVh3VXNQdWQyTzdaUnV1dCtr?=
- =?utf-8?B?aDNOUHlqUXlrV3lQdlZyeHB3M3g5eC9xeHFObExJa1hBSzJOWVNUSWlDWW1J?=
- =?utf-8?B?KzNVK3ZDMTl3ZHJkcHFsdnNxRm1vUXZxbkRrWnBYNmZ2THVXUkxzUUtWQXM0?=
- =?utf-8?B?NDB6a3dWNEJqdWU3RDNGMGs3cll0TjFONERUa094MTNMUEhralJ0RjQrZU1X?=
- =?utf-8?B?OEE0NFdQRVBNdGUrUVVJcjAxSnF5Vk13ZFREMTdzK2dOL2JGVFU1WFQxZFhm?=
- =?utf-8?B?ZFhXaG9XMlc1VUg2Y3czVkVLMWFEY2FjU3VBcDhtaklQVHNoTlpuU1lYZ21v?=
- =?utf-8?B?OUFRUlpLNWFQbXBqTTM1MXEzVmFPcjAyUUs3U2crRVRZYVdBRHNpeks1RDNV?=
- =?utf-8?B?dHB4RkRPSGdRYTA1RHFQdjlUYVJWclE1MUN4aUpiaWdaOVY2RG0zMUpOdG1p?=
- =?utf-8?B?TngyN1Z2SE13VlNueUdZR3hXQzhwNDRUa01OS2JUdlNQTnVyZkhRSlNhZzNl?=
- =?utf-8?B?OVRkR2FEWDhZNVI3ellDYlpqc1g3TWQ5SkxqVUlSaXZWNDVQSVNSOU01VHl3?=
- =?utf-8?B?WFI5c1hxZWhtK25WcU9yT3YwcGJNclgvWHFEbGpmb2tlb0tSc0ZDS3d6d1ls?=
- =?utf-8?B?eHFDcW9WS2s3T2llWmRHNytSZ2kvNUVDYk81a1lnWGZMaFRIMmZnY3o5S2VY?=
- =?utf-8?B?WDJON2dwVm82cTg0Q2U0bEVhTGhRcEJ3QjlkQ0U5ZE15akwwdm96QlFGeTdu?=
- =?utf-8?B?MDRpMFBGekQ1cnF1dUFvTTFrR0NoZGxBV1E4bUdsZ2pCLzh3OU9sV2Q1cnVk?=
- =?utf-8?B?d0hqK2MvM01US3VXSXZOMjJkRi9mTkp1Y0h0a1orZW1lY041eUxJMkg3MzB5?=
- =?utf-8?B?N0R4aDVncHNrNnQ5MEpGODZMc0lNOUkyTVFaZ3VBaDBVTUVIU2VxWUM0VHZn?=
- =?utf-8?B?elNHQnFtTElZWG9DSFZyZlVEcVQxc1RRamoyZWo5ZWpzbll3REM4YzZFRDJv?=
- =?utf-8?B?dFdaMitUaGFJSnRYTS9aRDdDcWk1WkRhaG01MTFaT0lDRWkzclYzSE4ydlFD?=
- =?utf-8?B?cHVuMUR5SURZWG5aemt3cm5FdzJvZmljc25DWlRieVUzdDR1dmY2N0lUZzhY?=
- =?utf-8?B?a1paSGFRTlBqb2NRWUFZaFFmUDlISE9SSDJPUmpYZHQyZHk4N04yVUZhYkhS?=
- =?utf-8?B?ZmlTbEdxQnIrU0hsdUZqUzJUZWV1NS9KU2M0N3J5cXJUVFZ4alB4VzNKWDhF?=
- =?utf-8?B?ZnRLaEVmV0JRZ1oxcmt6eXBWTFFoTGJoYlgrZE9hd1RRT0ppZmw5cEdRMmti?=
- =?utf-8?Q?m6Q6neJBgsKVosRHu+?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ebd4dc6-cf59-4008-5780-08de6aa273b1
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Feb 2026 01:51:49.3434
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Plh41LcrS5IsiLc2+VR1QHy/kFS9SHVKbnby77ojaesmTmcOY0iaj5ibAP4d47T2
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8856
-
-Hi Reinette,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v5 2/4] crash: Exclude crash kernel memory in crash core
+Content-Language: en-US
+To: Mike Rapoport <rppt@kernel.org>
+CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <akpm@linux-foundation.org>, <bhe@redhat.com>,
+	<vgoyal@redhat.com>, <dyoung@redhat.com>, <rdunlap@infradead.org>,
+	<kees@kernel.org>, <elver@google.com>, <paulmck@kernel.org>, <arnd@arndb.de>,
+	<fvdl@google.com>, <thuth@redhat.com>, <ardb@kernel.org>,
+	<leitao@debian.org>, <osandov@fb.com>, <cfsworks@gmail.com>,
+	<sourabhjain@linux.ibm.com>, <ryan.roberts@arm.com>,
+	<tangyouling@kylinos.cn>, <eajames@linux.ibm.com>, <hbathini@linux.ibm.com>,
+	<ritesh.list@gmail.com>, <songshuaishuai@tinylab.org>, <bjorn@rivosinc.com>,
+	<samuel.holland@sifive.com>, <kevin.brodsky@arm.com>,
+	<junhui.liu@pigmoral.tech>, <vishal.moola@gmail.com>, <dwmw@amazon.co.uk>,
+	<pbonzini@redhat.com>, <kai.huang@intel.com>, <ubizjak@gmail.com>,
+	<coxu@redhat.com>, <fuqiang.wang@easystack.cn>, <liaoyuanhong@vivo.com>,
+	<brgerst@gmail.com>, <jbohac@suse.cz>, <x86@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
+	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
+	<kexec@lists.infradead.org>
+References: <20260212101001.343158-1-ruanjinjie@huawei.com>
+ <20260212101001.343158-3-ruanjinjie@huawei.com> <aY4izR61SWal5BAg@kernel.org>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <aY4izR61SWal5BAg@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
 
-On 2/12/2026 6:05 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 2/12/26 11:09 AM, Babu Moger wrote:
->> Hi Reinette,
->>
->> On 2/11/26 21:51, Reinette Chatre wrote:
->>> Hi Babu,
->>>
->>> On 2/11/26 1:18 PM, Babu Moger wrote:
->>>> On 2/11/26 10:54, Reinette Chatre wrote:
->>>>> On 2/10/26 5:07 PM, Moger, Babu wrote:
->>>>>> On 2/9/2026 12:44 PM, Reinette Chatre wrote:
->>>>>>> On 1/21/26 1:12 PM, Babu Moger wrote:
-> 
-> ...
-> 
->>>>> Another question, when setting aside possible differences between MB and GMB.
->>>>>
->>>>> I am trying to understand how user may expect to interact with these interfaces ...
->>>>>
->>>>> Consider the starting state example as below where the MB and GMB ceilings are the
->>>>> same:
->>>>>
->>>>>      # cat schemata
->>>>>      GMB:0=2048;1=2048;2=2048;3=2048
->>>>>      MB:0=2048;1=2048;2=2048;3=2048
->>>>>
->>>>> Would something like below be accurate? Specifically, showing how the GMB limit impacts the
->>>>> MB limit:
->>>>>         # echo"GMB:0=8;2=8" > schemata
->>>>>      # cat schemata
->>>>>      GMB:0=8;1=2048;2=8;3=2048
->>>>>      MB:0=8;1=2048;2=8;3=2048
->>>> Yes. That is correct.  It will cap the MB setting to  8.   Note that we are talking about unit differences to make it simple.
->>> Thank you for confirming.
->>>
->>>>> ... and then when user space resets GMB the MB can reset like ...
->>>>>
->>>>>      # echo"GMB:0=2048;2=2048" > schemata
->>>>>      # cat schemata
->>>>>      GMB:0=2048;1=2048;2=2048;3=2048
->>>>>      MB:0=2048;1=2048;2=2048;3=2048
->>>>>
->>>>> if I understand correctly this will only apply if the MB limit was never set so
->>>>> another scenario may be to keep a previous MB setting after a GMB change:
->>>>>
->>>>>      # cat schemata
->>>>>      GMB:0=2048;1=2048;2=2048;3=2048
->>>>>      MB:0=8;1=2048;2=8;3=2048
->>>>>
->>>>>      # echo"GMB:0=8;2=8" > schemata
->>>>>      # cat schemata
->>>>>      GMB:0=8;1=2048;2=8;3=2048
->>>>>      MB:0=8;1=2048;2=8;3=2048
->>>>>
->>>>>      # echo"GMB:0=2048;2=2048" > schemata
->>>>>      # cat schemata
->>>>>      GMB:0=2048;1=2048;2=2048;3=2048
->>>>>      MB:0=8;1=2048;2=8;3=2048
->>>>>
->>>>> What would be most intuitive way for user to interact with the interfaces?
->>>> I see that you are trying to display the effective behaviors above.
->>> Indeed. My goal is to get an idea how user space may interact with the new interfaces and
->>> what would be a reasonable expectation from resctrl be during these interactions.
->>>
->>>> Please keep in mind that MB and GMB units differ. I recommend showing only the values the user has explicitly configured, rather than the effective settings, as displaying both may cause confusion.
->>> hmmm ... this may be subjective. Could you please elaborate how presenting the effective
->>> settings may cause confusion?
->>
->> I mean in many cases, we cannot determine the effective settings correctly. It depends on benchmarks or applications running on the system.
->>
->> Even with MB (without GMB support), even though we set the limit to 10GB, it may not use the whole 10GB.  Memory is shared resource. So, the effective bandwidth usage depends on other applications running on the system.
-> 
-> Sounds like we interpret "effective limits" differently. To me the limits(*) are deterministic.
-> If I understand correctly, if the GMB limit for domains A and B is set to x GB then that places
-> an x GB limit on MB for domains A and B also. Displaying any MB limit in the schemata that is
-> larger than x GB for domain A or domain B would be inaccurate, no?
 
-Yea. But, I was thinking not to mess with values written at registers.
+On 2026/2/13 2:58, Mike Rapoport wrote:
+> Hi,
+> 
+> On Thu, Feb 12, 2026 at 06:09:59PM +0800, Jinjie Ruan wrote:
+>> The exclude of crashk_res, crashk_low_res and crashk_cma memory
+>> are almost identical across different architectures, handling them
+>> in the crash core would eliminate a lot of duplication, so do
+>> them in the common code.
+>>
+>> And move the size calculation (and the realloc if needed) into the
+>> generic crash core so that:
+>>
+>> - New CMA regions or future crash-memory types can automatically
+>>   accounted for in crash core;
+>>
+>> - Each architecture no longer has to play whack-a-mole with
+>>   its private array size.
+>>
+>> To achieve the above goal, 4 architecture-specific functions are
+>> introduced:
+>>
+>> - arch_get_system_nr_ranges() and arch_prepare_elf64_ram_headers().
+>>   The 1st function pre-counts the number of memory ranges, and
+>>   the 2st function fill the memory ranges into the cmem->ranges[] array,
+>>   and count the actual number of ranges filled.
+> 
+> The names should reflect that these function deal with crash memory ranges.
+>  
+>> - arch_crash_exclude_mem_range(). Realloc for powerpc. The default
+>>   implementation is crash_exclude_mem_range(), and use
+>>   crash_exclude_mem_range_guarded() to implement the arch version
+>>   for powerpc.
+>>
+>> - arch_get_crash_memory_ranges(). Get crash memory ranges for arch and
+>>   the default implementation is generic across x86, arm64, riscv, and
+>>   loongson by using the first two arch functions above. powerpc has its
+>>   own implementation by calling get_crash_memory_ranges().
+> 
+> Hmm, powerpc seems too different from the rest, maybe we shouldn't try to
+> squeeze it in?
+> 
+>> Tested on x86, arm64 and riscv with QEMU.
+>>
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> ---
+>>  arch/arm64/include/asm/kexec.h             |   9 +-
+>>  arch/arm64/kernel/machine_kexec_file.c     |  41 +++-----
+>>  arch/loongarch/include/asm/kexec.h         |   9 +-
+>>  arch/loongarch/kernel/machine_kexec_file.c |  41 +++-----
+>>  arch/powerpc/include/asm/kexec.h           |  13 +++
+>>  arch/powerpc/include/asm/kexec_ranges.h    |   3 -
+>>  arch/powerpc/kexec/crash.c                 |  68 ++++++++------
+>>  arch/powerpc/kexec/file_load_64.c          |  17 ++--
+>>  arch/powerpc/kexec/ranges.c                |  18 +---
+>>  arch/riscv/include/asm/kexec.h             |   9 +-
+>>  arch/riscv/kernel/machine_kexec_file.c     |  37 +++-----
+>>  arch/x86/include/asm/kexec.h               |   9 ++
+>>  arch/x86/kernel/crash.c                    | 104 +++------------------
+>>  include/linux/crash_core.h                 |  75 +++++++++++++--
+>>  kernel/crash_core.c                        |  85 +++++++++++++++--
+>>  15 files changed, 289 insertions(+), 249 deletions(-)
+> 
+> TBH, I'd expect this to produce negative diffstat :/
 
-> 
-> When considering your example where the MB limit is 10GB.
-> 
-> Consider an example where there are two domains in this example with a configuration like below.
-> (I am using a different syntax from schemata file that will hopefully make it easier to exchange
-> ideas when not having to interpret the different GMB and MB units):
-> 
-> 	MB:0=10GB;1=10GB
-> 
-> If user space can create a GMB domain that limits shared bandwidth to 10GB that can be displayed
-> as below and will be accurate:
-> 
-> 	MB:0=10GB;1=10GB
-> 	GMB:0=10GB;1=10GB
-> 
-> If user space then reduces the combined bandwidth to 2GB then the MB limit is wrong since it
-> is actually capped by the GMB limit:
-> 
-> 	MB:0=10GB;1=10GB <==== Does reflect possible per-domain memory bandwidth which is now capped by GMB
-> 	GMB:0=2GB;1=2GB
-> 
-> Would something like below not be more accurate that reflects that the maximum average bandwidth
-> each domain could achieve is 2GB?
-> 
-> 	MB:0=2GB;1=2GB <==== Reflects accurate possible per-domain memory bandwidth
-> 	GMB:0=2GB;1=2GB
+Forcing compatibility with powerpc has brought a lot of inconvenience.
 
-That is reasonable. Will check how we can accommodate that.
+>  
+>> diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
+>> index 892e5bebda95..67f790e3ba14 100644
+>> --- a/arch/arm64/include/asm/kexec.h
+>> +++ b/arch/arm64/include/asm/kexec.h
+>> @@ -119,6 +119,7 @@ struct kimage_arch {
+>>  };
+>>  
+>>  #ifdef CONFIG_KEXEC_FILE
+>> +struct crash_mem;
+>>  extern const struct kexec_file_ops kexec_image_ops;
+>>  
+>>  int arch_kimage_file_post_load_cleanup(struct kimage *image);
+>> @@ -128,7 +129,13 @@ extern int load_other_segments(struct kimage *image,
+>>  		unsigned long kernel_load_addr, unsigned long kernel_size,
+>>  		char *initrd, unsigned long initrd_len,
+>>  		char *cmdline);
+>> -#endif
+>> +
+>> +int arch_get_system_nr_ranges(unsigned int *nr_ranges);
+>> +#define arch_get_system_nr_ranges arch_get_system_nr_ranges
+>> +
+>> +int arch_prepare_elf64_ram_headers(struct crash_mem *cmem);
+>> +#define arch_prepare_elf64_ram_headers arch_prepare_elf64_ram_headers
+> 
+> I think a better practice would be to declare all functions that an
+> architecture may override in include/linux/crash_core.h and provide a
+> default __weak implementation in kernel/crash_core.c.
+
+This would avoid many function declarations in architecture-specific code.
 
 > 
-> (*) As a side-note we may have to start being careful with how we use "limits" because of the planned
-> introduction of a "MAX" as a bandwidth control that is an actual limit as opposed to the
-> current control that is approximate.
->   
->>>> We also need to track the previous settings so we can revert to the earlier value when needed. The best approach is to document this behavior clearly.
->>> Yes, this will require resctrl to maintain more state.
->>>
->>> Documenting behavior is an option but I think we should first consider if there are things
->>> resctrl can do to make the interface intuitive to use.
->>>
->>>>>>>>    From the description it sounds as though there is a new "memory bandwidth
->>>>>>> ceiling/limit" that seems to imply that MBA allocations are limited by
->>>>>>> GMBA allocations while the proposed user interface present them as independent.
->>>>>>>
->>>>>>> If there is indeed some dependency here ... while MBA and GMBA CLOSID are
->>>>>>> enumerated separately, under which scenario will GMBA and MBA support different
->>>>>>> CLOSID? As I mentioned in [1] from user space perspective "memory bandwidth"
->>>>>> I can see the following scenarios where MBA and GMBA can operate independently:
->>>>>> 1. If the GMBA limit is set to ‘unlimited’, then MBA functions as an independent CLOS.
->>>>>> 2. If the MBA limit is set to ‘unlimited’, then GMBA functions as an independent CLOS.
->>>>>> I hope this clarifies your question.
->>>>> No. When enumerating the features the number of CLOSID supported by each is
->>>>> enumerated separately. That means GMBA and MBA may support different number of CLOSID.
->>>>> My question is: "under which scenario will GMBA and MBA support different CLOSID?"
->>>> No. There is not such scenario.
->>>>> Because of a possible difference in number of CLOSIDs it seems the feature supports possible
->>>>> scenarios where some resource groups can support global AND per-domain limits while other
->>>>> resource groups can just support global or just support per-domain limits. Is this correct?
->>>> System can support up to 16 CLOSIDs. All of them support all the features LLC, MB, GMB, SMBA.   Yes. We have separate enumeration for  each feature.  Are you suggesting to change it ?
->>> It is not a concern to have different CLOSIDs between resources that are actually different,
->>> for example, having LLC or MB support different number of CLOSIDs. Having the possibility to
->>> allocate the *same* resource (memory bandwidth) with varying number of CLOSIDs does present a
->>> challenge though. Would it be possible to have a snippet in the spec that explicitly states
->>> that MB and GMB will always enumerate with the same number of CLOSIDs?
->>
->> I have confirmed that is the case always.  All current and planned implementations, MB and GMB will have the same number of CLOSIDs.
+>> +#endif /* CONFIG_KEXEC_FILE */
+>>  
+>>  #endif /* __ASSEMBLER__ */
+>>  
+>> diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
+>> index 410060ebd86d..506a165117b1 100644
+>> --- a/arch/arm64/kernel/machine_kexec_file.c
+>> +++ b/arch/arm64/kernel/machine_kexec_file.c
+>> @@ -40,23 +40,22 @@ int arch_kimage_file_post_load_cleanup(struct kimage *image)
+>>  }
+>>  
+>>  #ifdef CONFIG_CRASH_DUMP
+>> -static int prepare_elf_headers(void **addr, unsigned long *sz)
+>> +int arch_get_system_nr_ranges(unsigned int *nr_ranges)
+>>  {
+>> -	struct crash_mem *cmem;
+>> -	unsigned int nr_ranges;
+>> -	int ret;
+>> -	u64 i;
+>>  	phys_addr_t start, end;
+>> +	u64 i;
+>>  
+>> -	nr_ranges = 2; /* for exclusion of crashkernel region */
+>>  	for_each_mem_range(i, &start, &end)
+>> -		nr_ranges++;
+>> +		(*nr_ranges)++;
+>> +
 > 
-> Thank you very much for confirming. Is this something the architects would be willing to
-> commit to with a snippet in the PQoS spec?
+> Won't be simpler to make it 
 
-I checked on that. Here is the response.
-
-"I do not plan to add a statement like that to the spec.  The CPUID 
-enumeration allows for them to have different number of CLOS's supported 
-for each.  However, it is true that for all current and planned 
-implementations, MB and GMB will have the same number of CLOS."
-
+This is indeed much cleaner.
 
 > 
->>> Please see below where I will try to support this request more clearly and you can decide if
->>> it is reasonable.
->>>    
->>>>>>> can be seen as a single "resource" that can be allocated differently based on
->>>>>>> the various schemata associated with that resource. This currently has a
->>>>>>> dependency on the various schemata supporting the same number of CLOSID which
->>>>>>> may be something that we can reconsider?
->>>>>> After reviewing the new proposal again, I’m still unsure how all the pieces will fit together. MBA and GMBA share the same scope and have inter-dependencies. Without the full implementation details, it’s difficult for me to provide meaningful feedback on new approach.
->>>>> The new approach is not final so please provide feedback to help improve it so
->>>>> that the features you are enabling can be supported well.
->>>> Yes, I am trying. I noticed that the proposal appears to affect how the schemata information is displayed(in info directory). It seems to introduce additional resource information. I don't see any harm in displaying it if it benefits certain architecture.
->>> It benefits all architectures.
->>>
->>> There are two parts to the current proposals.
->>>
->>> Part 1: Generic schema description
->>> I believe there is consensus on this approach. This is actually something that is long
->>> overdue and something like this would have been a great to have with the initial AMD
->>> enabling. With the generic schema description forming part of resctrl the user can learn
->>> from resctrl how to interact with the schemata file instead of relying on external information
->>> and documentation.
->>
->> ok.
->>
->>> For example, on an Intel system that uses percentage based proportional allocation for memory
->>> bandwidth the new resctrl files will display:
->>> info/MB/resource_schemata/MB/type:scalar linear
->>> info/MB/resource_schemata/MB/unit:all
->>> info/MB/resource_schemata/MB/scale:1
->>> info/MB/resource_schemata/MB/resolution:100
->>> info/MB/resource_schemata/MB/tolerance:0
->>> info/MB/resource_schemata/MB/max:100
->>> info/MB/resource_schemata/MB/min:10
->>>
->>>
->>> On an AMD system that uses absolute allocation with 1/8 GBps steps the files will display:
->>> info/MB/resource_schemata/MB/type:scalar linear
->>> info/MB/resource_schemata/MB/unit:GBps
->>> info/MB/resource_schemata/MB/scale:1
->>> info/MB/resource_schemata/MB/resolution:8
->>> info/MB/resource_schemata/MB/tolerance:0
->>> info/MB/resource_schemata/MB/max:2048
->>> info/MB/resource_schemata/MB/min:1
->>>
->>> Having such interface will be helpful today. Users do not need to first figure out
->>> whether they are on an AMD or Intel system, and then read the docs to learn the AMD units,
->>> before interacting with resctrl. resctrl will be the generic interface it intends to be.
->>
->> Yes. That is a good point.
->>
->>> Part 2: Supporting multiple controls for a single resource
->>> This is a new feature on which there also appears to be consensus that is needed by MPAM and
->>> Intel RDT where it is possible to use different controls for the same resource. For example,
->>> there can be a minimum and maximum control associated with the memory bandwidth resource.
->>>
->>> For example,
->>> info/
->>>    └─ MB/
->>>        └─ resource_schemata/
->>>            ├─ MB/
->>>            ├─ MB_MIN/
->>>            ├─ MB_MAX/
->>>            ┆
->>>
->>>
->>> Here is where the big question comes in for GLBE - is this actually a new resource
->>> for which resctrl needs to add interfaces to manage its allocation, or is it instead
->>> an additional control associated with the existing memory bandwith resource?
->>
->> It is not a new resource. It is new control mechanism to address limitation with memory bandwidth resource.
->>
->> So, it is a new control for the existing memory bandwidth resource.
+> 	unsigned int arch_get_system_nr_ranges(void)
 > 
-> Thank you for confirming.
+> count the ranges and return the result?
 > 
->>
->>> For me things are actually pointing to GLBE not being a new resource but instead being
->>> a new control for the existing memory bandwidth resource.
->>>
->>> I understand that for a PoC it is simplest to add support for GLBE as a new resource as is
->>> done in this series but when considering it as an actual unique resource does not seem
->>> appropriate since resctrl already has a "memory bandwidth" resource. User space expects
->>> to find all the resources that it can allocate in info/ - I do not think it is correct
->>> to have two separate directories/resources for memory bandwidth here.
->>>
->>> What if, instead, it looks something like:
->>>
->>> info/
->>> └── MB/
->>>       └── resource_schemata/
->>>           ├── GMB/
->>>           │   ├──max:4096
->>>           │   ├──min:1
->>>           │   ├──resolution:1
->>>           │   ├──scale:1
->>>           │   ├──tolerance:0
->>>           │   ├──type:scalar linear
->>>           │   └──unit:GBps
->>>           └── MB/
->>>               ├──max:8192
->>>               ├──min:1
->>>               ├──resolution:8
->>>               ├──scale:1
->>>               ├──tolerance:0
->>>               ├──type:scalar linear
->>>               └──unit:GBps
->>
->> Yes. It definitely looks very clean.
->>
->>> With an interface like above GMB is just another control/schema used to allocate the
->>> existing memory bandwidth resource. With the planned files it is possible to express the
->>> different maximums and units used by the MB and GMB schema. Users no longer need to
->>> dig for the unit information in the docs, it is available in the interface.
->>
->>
->> Yes. That is reasonable.
->>
->> Is the plan to just update the resource information in /sys/fs/resctrl/info/<resource_name>  ?
+>> +	return 0;
+>> +}
+>>  
+>> -	cmem = kmalloc(struct_size(cmem, ranges, nr_ranges), GFP_KERNEL);
+>> -	if (!cmem)
+>> -		return -ENOMEM;
+>> +int arch_prepare_elf64_ram_headers(struct crash_mem *cmem)
+>> +{
 > 
-> I do not see any resource information that needs to change. As you confirmed,
-> MB and GMB have the same number of CLOSIDs and looking at the rest of the
-> enumeration done in patch #2 all other properties exposed in top level of
-> /sys/fs/resctrl/info/MB is the same for MB and GMB. Specifically,
-> thread_throttle_mode, delay_linear, min_bandwidth, and bandwidth_gran have
-> the same values for MB and GMB. All other content in
-> /sys/fs/resctrl/info/MB would be new as part of the new "resource_schemata"
-> sub-directory.
-> 
-> Even so, I believe we could expect that a user using any new schemata file entry
-> introduced after the "resource_schemata" directory is introduced is aware of how
-> the properties are exposed and will not use the top level files in /sys/fs/resctrl/info/MB
-> (for example min_bandwidth and bandwidth_gran) to understand how to interact with
-> the new schema.
-> 
-> 
->>
->> Also, will the display of /sys/fs/resctrl/schemata change ?
-> 
-> There are no plans to change any of the existing schemata file entries.
-> 
->>
->> Current display:
-> 
-> When viewing "current" as what this series does in schemata file ...
-> 
->>
->>   GMB:0=4096;1=4096;2=4096;3=4096
->>    MB:0=8192;1=8192;2=8192;3=8192
-> 
-> yes, the schemata file should look like this on boot when all is done. All other
-> user facing changes are to the info/ directory where user space learns about
-> the new control for the resource and how to interact with the control.
-> 
->>> Doing something like this does depend on GLBE supporting the same number of CLOSIDs
->>> as MB, which seems to be how this will be implemented. If there is indeed a confirmation
->>> of this from AMD architecture then we can do something like this in resctrl.
->>
->> I don't see this being an issue. I will get consensus on it.
->>
->> I am wondering about the time frame and who is leading this change. Not sure if that is been discussed already.
->> I can definitely help.
-> 
-> A couple of features depend on the new schema descriptions as well as support for multiple
-> controls: min/max bandwidth controls on the MPAM side, region aware MBA and MBM on the Intel
-> side, and GLBE on the AMD side. I am hoping that the folks working on these features can
-> collaborate on the needed foundation. Since there are no patches for this yet I cannot say
-> if there is a leader for this work yet, at this time this role appears to be available if you
-> would like to see this moving forward in order to meet your goals.
+> It seems that this function collects the memory ranges and fills them into
+> cmem rather than prepares elf headers.
 
+Yes, the function names were taken from the x86 and riscv
+implementations, which caused some confusion.
 
-I joined this feature effort a bit later, so I may not yet have full 
-context on the MPAM and region‑aware requirements. I’m happy to provide 
-all the necessary information for GMB and MB from the AMD side, and I’m 
-also available to help with reviews and testing.
+> 
+>> +	phys_addr_t start, end;
+>> +	u64 i;
+>>  
+>> -	cmem->max_nr_ranges = nr_ranges;
+>>  	cmem->nr_ranges = 0;
+>>  	for_each_mem_range(i, &start, &end) {
+>>  		cmem->ranges[cmem->nr_ranges].start = start;
+>> @@ -64,22 +63,7 @@ static int prepare_elf_headers(void **addr, unsigned long *sz)
+>>  		cmem->nr_ranges++;
+>>  	}
+>>  
+>> -	/* Exclude crashkernel region */
+>> -	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+>> -	if (ret)
+>> -		goto out;
+>> -
+>> -	if (crashk_low_res.end) {
+>> -		ret = crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
+>> -		if (ret)
+>> -			goto out;
+>> -	}
+>> -
+>> -	ret = crash_prepare_elf64_headers(cmem, true, addr, sz);
+>> -
+>> -out:
+>> -	kfree(cmem);
+>> -	return ret;
+>> +	return 0;
+>>  }
+>>  #endif
+>>  
+>> @@ -109,7 +93,8 @@ int load_other_segments(struct kimage *image,
+>>  	void *headers;
+>>  	unsigned long headers_sz;
+>>  	if (image->type == KEXEC_TYPE_CRASH) {
+>> -		ret = prepare_elf_headers(&headers, &headers_sz);
+>> +		ret = crash_prepare_elf64_headers(true, &headers, &headers_sz,
+>> +						  NULL, NULL, NULL);
+>>  		if (ret) {
+>>  			pr_err("Preparing elf core header failed\n");
+>>  			goto out_err;
+> 
+> Same comments as for arm64 apply for other architectures as well. 
+> 
+>> diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
+>> index d35726d6a415..3105d28fd0c6 100644
+>> --- a/include/linux/crash_core.h
+>> +++ b/include/linux/crash_core.h
+>> @@ -2,11 +2,14 @@
+>>  #ifndef LINUX_CRASH_CORE_H
+>>  #define LINUX_CRASH_CORE_H
+>>  
+>> -#include <linux/linkage.h>
+>>  #include <linux/elfcore.h>
+>>  #include <linux/elf.h>
+>> +#include <linux/kexec.h>
+>> +#include <linux/linkage.h>
+>> +#include <linux/vmalloc.h>
+>>  
+>>  struct kimage;
+>> +struct memory_notify;
+>>  
+>>  struct crash_mem {
+>>  	unsigned int max_nr_ranges;
+>> @@ -54,6 +57,66 @@ static inline int arch_crash_hotplug_support(struct kimage *image, unsigned long
+>>  }
+>>  #endif
+>>  
+>> +extern int crash_exclude_mem_range(struct crash_mem *mem,
+>> +				   unsigned long long mstart,
+>> +				   unsigned long long mend);
+>> +
+>> +#ifndef arch_crash_exclude_mem_range
+>> +static __always_inline int arch_crash_exclude_mem_range(struct crash_mem **mem_ranges,
+>> +							unsigned long long mstart,
+>> +							unsigned long long mend)
+>> +{
+>> +	return crash_exclude_mem_range(*mem_ranges, mstart, mend);
+>> +}
+>> +#endif
+>> +
+>> +#ifndef arch_get_system_nr_ranges
+>> +static inline int arch_get_system_nr_ranges(unsigned int *nr_ranges)
+>> +{
+>> +	return -EINVAL;
+>> +}
+>> +#endif
+>> +
+>> +#ifndef arch_prepare_elf64_ram_headers
+>> +static inline int arch_prepare_elf64_ram_headers(struct crash_mem *cmem)
+>> +{
+>> +	return -EINVAL;
+>> +}
+>> +#endif
+>> +
+>> +#ifndef arch_get_crash_memory_ranges
+>> +static inline int arch_get_crash_memory_ranges(struct crash_mem **cmem,
+>> +					       unsigned long *nr_mem_ranges,
+>> +					       struct kimage *image,
+>> +					       struct memory_notify *mn)
+>> +{
+>> +	unsigned int nr_ranges;
+>> +	int ret;
+>> +
+>> +	/*
+>> +	 * Exclusion of crash region, crashk_low_res and/or crashk_cma_ranges
+>> +	 * may cause range splits. So add extra slots here.
+>> +	 */
+>> +	nr_ranges = 1 + (crashk_low_res.end != 0) + crashk_cma_cnt;
+>> +	ret = arch_get_system_nr_ranges(&nr_ranges);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	*cmem = kvzalloc(struct_size(*cmem, ranges, nr_ranges), GFP_KERNEL);
+>> +	if (!(*cmem))
+>> +		return -ENOMEM;
+>> +
+>> +	(*cmem)->max_nr_ranges = nr_ranges;
+>> +	ret = arch_prepare_elf64_ram_headers(*cmem);
+>> +	if (ret) {
+>> +		kvfree(*cmem);
+>> +		return ret;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+> 
+> This function is quite large for an inline, should be in
+> kernel/crash_core.c IMHO.
 
-Thanks
-Babu
+Right，inlinie large functions will lead to code bloat.
 
+> 
+>> +#endif
+>> +
+>>  #ifndef crash_get_elfcorehdr_size
+>>  static inline unsigned int crash_get_elfcorehdr_size(void) { return 0; }
+>>  #endif
+>> @@ -61,11 +124,11 @@ static inline unsigned int crash_get_elfcorehdr_size(void) { return 0; }
+>>  /* Alignment required for elf header segment */
+>>  #define ELF_CORE_HEADER_ALIGN   4096
+>>  
+>> -extern int crash_exclude_mem_range(struct crash_mem *mem,
+>> -				   unsigned long long mstart,
+>> -				   unsigned long long mend);
+>> -extern int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+>> -				       void **addr, unsigned long *sz);
+>> +extern int crash_prepare_elf64_headers(int need_kernel_map,
+>> +				       void **addr, unsigned long *sz,
+>> +				       unsigned long *nr_mem_ranges,
+>> +				       struct kimage *image,
+>> +				       struct memory_notify *mn);
+>>  
+>>  struct kimage;
+>>  struct kexec_segment;
+>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+>> index 99dac1aa972a..99a0d6abf88e 100644
+>> --- a/kernel/crash_core.c
+>> +++ b/kernel/crash_core.c
+>> @@ -18,6 +18,7 @@
+>>  #include <linux/memblock.h>
+>>  #include <linux/kmemleak.h>
+>>  #include <linux/crash_core.h>
+>> +#include <linux/crash_reserve.h>
+>>  #include <linux/reboot.h>
+>>  #include <linux/btf.h>
+>>  #include <linux/objtool.h>
+>> @@ -161,19 +162,80 @@ static inline resource_size_t crash_resource_size(const struct resource *res)
+>>  	return !res->end ? 0 : resource_size(res);
+>>  }
+>>  
+>> +static int crash_exclude_mem_ranges(struct crash_mem *cmem,
+>> +				    unsigned long *nr_mem_ranges)
+>> +{
+>> +	int ret, i;
+>> +
+>> +#if defined(CONFIG_X86_64) || defined(CONFIG_X86_32)
+>> +	/*
+>> +	 * Exclusion of low 1M may not cause another range split, because the
+>> +	 * range of exclude is [0, 1M] and the condition for splitting a new
+>> +	 * region is that the start, end parameters are both in a certain
+>> +	 * existing region in cmem and cannot be equal to existing region's
+>> +	 * start or end. Obviously, the start of [0, 1M] cannot meet this
+>> +	 * condition.
+>> +	 *
+>> +	 * But in order to lest the low 1M could be changed in the future,
+>> +	 * (e.g. [start, 1M]), add a extra slot.
+>> +	 */
+>> +	cmem->max_nr_ranges++;
+>>  
+>> +	/* Exclude the low 1M because it is always reserved */
+>> +	ret = arch_crash_exclude_mem_range(&cmem, 0, SZ_1M - 1);
+>> +	if (ret)
+>> +		return ret;
+>> +#endif
+> 
+> This should remain in x86.
+
+Yes, this should not be in the generic code.
+
+> 
+>>  
+>> +	/* Exclude crashkernel region */
+>> +	ret = arch_crash_exclude_mem_range(&cmem, crashk_res.start, crashk_res.end);
+>> +	if (ret)
+>> +		return ret;
+>>  
+>> -int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_map,
+>> -			  void **addr, unsigned long *sz)
+>> +	if (crashk_low_res.end) {
+>> +		ret = arch_crash_exclude_mem_range(&cmem, crashk_low_res.start, crashk_low_res.end);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+>> +
+>> +	for (i = 0; i < crashk_cma_cnt; ++i) {
+>> +		ret = arch_crash_exclude_mem_range(&cmem, crashk_cma_ranges[i].start,
+>> +						   crashk_cma_ranges[i].end);
+>> +		if (ret)
+>> +			return ret;
+>> +	}
+>> +
+>> +	/* Return the computed number of memory ranges, for hotplug usage */
+>> +	if (nr_mem_ranges)
+>> +		*nr_mem_ranges = cmem->nr_ranges;
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +int crash_prepare_elf64_headers(int need_kernel_map, void **addr,
+>> +				unsigned long *sz, unsigned long *nr_mem_ranges,
+>> +				struct kimage *image, struct memory_notify *mn)
+> 
+> Hmm, we are adding image and mn parameters only for powerpc and we already
+> have arch_crash_exclude_mem_range() and arch_get_crash_memory_ranges() to
+> accommodate powerpc differences.
+
+Yes, accommodating powerpc has brought a lot of trouble.
+
+> 
+> I'd suggest to take a slightly different approach. I'm thinking that we can
+> add crash_prepare_elf_headers() that will be similar to current
+> x86/arm64/loongarch prepare_elf_headers(), leave
+> crash_prepare_elf64_headers() alone and add a helper to exclude common
+> ranges, e.g crash_exclude_core_ranges(struct crash_mem *mem).
+> 
+> The crash_prepare_headers() would be something like this (error handling
+> omitted):
+> 
+> int crash_prepare_headers(int need_kernel_map, void **addr, unsigned long *sz)
+> {
+> 	unsigned int nr;
+> 	struct crash_mem *cmem;
+> 
+> 	nr = arch_get_system_nr_ranges();
+> 	cmem = alloc_cmem(nr);
+> 	arch_crash_populate_cmem(cmem);
+> 	crash_exclude_core_ranges(cmem);
+> 	arch_crash_exclude_ranges(cmem);
+> 	crash_prepare_elf64_headers(cmem, need_kernel_map, addr, sz);
+> }
+
+This looks fine to me and it can indeed avoid impacting other
+architectures that use `crash_prepare_elf64_headers()` but do not use
+our generic code.
+
+> 
+> powerpc could reuse crash_exclude_core_ranges() provided the latter call
+> an overridable arch_crash_exclude_range()
+
+We can do this in two steps: first switch x86/arm64/riscv/loongarch to
+the above approach, and then switch powerpc over. This will make the
+code easier to review.
+
+> 
+> What do you think?
+
+ I think your proposed approach is more elegant and reduces the
+disruption to existing code.
+
+> 
