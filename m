@@ -1,150 +1,193 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AF0256C8B
-	for <linux-doc@vger.kernel.org>; Sat, 14 Feb 2026 16:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771088364; cv=pass; b=bNKcRU3wU6GLGrpokoCf3zxag78sVLh9hZ8oMeugBqStYswd8ptC8ccg/buU0S/h3D/3uL4X1VFFRKxhLiOGQh1PteSFzycfDDvkbqLVX0BjDBpz3Jy+aUYNNpXvoZ1AdQK/4D2HxActLKwZAyVr9nk2dzDS+/EcT6DFyE7mQyo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771088364; c=relaxed/simple;
-	bh=Byx+/V/grJZVAlt+nWwgbeivlWIFK5ntFSsPqDpKAU4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=RadtXzu0KPtZxFk7BQjQPYbAAOaQjAhrvYsf2nNvRcHNNOV7Hd41VfMxiS1YfKLySXyPdA6u0HSjvkLZiwubhTV5Pj5Bj0BjgOkV55GN0YdhyGvCaVD24nauDZCpPHSF34BhAwhn7qecw+5kuZvXqy28VWfahnRohI0Hv0fjWdg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=axqJiW/j; arc=pass smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5F238FA3
+	for <linux-doc@vger.kernel.org>; Sat, 14 Feb 2026 17:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771088548; cv=none; b=hlvTUFBcpA7I1RX6O9p3PDvBkXOmgLaH8R/f8oNbXveR+OWPqaXkhPRl2zOw86z6bcP4WQg3V1iWOroB3DPDdfjEmrnHLWMRhWL9rTCCSajhwelfbXS4YFd/cOE1RLDkO9mgZjkvozyWpezwypniBRhp9iPN6kspgqx71o/j3po=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771088548; c=relaxed/simple;
+	bh=IWe8bBazU2PkA3rgswWuKDmjpnVTc8WXdHKYy0hVDDU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ynr7P8fwFMYHL0uDw69v+nIw53sErotVylBkCAZ1S4qNoBzjmR+snFHLEsRCiPQfz6DmkVanDh3qJ6wvYjSvbjb6FA71tr6LWW+dtgA8IATPkip6V5bQTmUAjFtbpbLp/eXvM5FbfpbmMNfkWXOfcDgDIPFzsTbhNIzsi9V4Nvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Jw6w6uPh; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="axqJiW/j"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7d1890f7ee4so1158920a34.0
-        for <linux-doc@vger.kernel.org>; Sat, 14 Feb 2026 08:59:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771088362; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HKQq02JTXrnxvaB9Xgn4Ec7o0fr+ZoPrDxi3+fGnH6lrvDhfpBX7pcb4b39JSm/wsu
-         qg3wMiMUnTWjGivsgdwM0Ferb/2V8cAl/2Zit1DReq8tv4yZ476iLxtzFlc5/pc1Izt3
-         i7AQ2+xHOM0MirydWFfHNVo+DGXPuJoTJMrcLoEw2iR+D2jtviWvWO5CnOQgKYygxxoL
-         KrxbUxDdHz1FbLcmFVIjUvUpRNoeqF81Q+lYdHQ8lerDeESAX/K7a0NCZ+tJ79HOGsi0
-         TnJ6tmm3lag+UEUmqn79qqNDj4mwIm1mRJyFWXwZUPI1tgGHLm0YmvmAHvNlSwMcmADs
-         hPwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=6rJVk/bdEpEUkQN/gp0qTcKqFCDGpMds/0JFJsTv7lo=;
-        fh=GtPsU0iZkXXN0mq9PsNxYZu22apEQXmVpGcPYSN+ym0=;
-        b=gyyH1JFvPLhR1eKjQo2ULsbgs6E5igYl5C2/w2o2+9FqsVS+nAufBMhNQR7FM8QnHN
-         1UtKFtIIutubtgHuxheYBBHGNj60hEvfdL62hP/FeM/LpKCNNL+CdBkax683T4PUrZJ4
-         kuQP2HebBk2DWPAggpRPG/54TPm3HOzSZc0ompmBl0cdW6Mu0lNokOzpkxhjVrRcrIKd
-         7yaoBjIrfcSkqXoPw1Cru3C3QQ+9tJLASA+wIE88+XLn3HlDER7I5e7ctg2DjPhgfpU9
-         O9o7H6iS/xOHvmmqIikAUosuerg2D7XoKeFUG+vaYlb/r6FxrqmcLJyiVnfmnEMqLPHz
-         HVsg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Jw6w6uPh"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4639279c7a6so660222b6e.1
+        for <linux-doc@vger.kernel.org>; Sat, 14 Feb 2026 09:02:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771088362; x=1771693162; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6rJVk/bdEpEUkQN/gp0qTcKqFCDGpMds/0JFJsTv7lo=;
-        b=axqJiW/jET35VBc9OzeNPNiaEzv+iJacdmHZ06FliWrYqgrWBQk4Bsf1ulRhCjPDzE
-         ZjHCsfSU8AasdvTWD8jWGzoEnPd/t8GjaJP3VIA+cW+MGnNwwYdSg+64pvvpXf6nv7vK
-         n2rtBZpFuF+jf6DGQQifZead5ZsWZbJh0mWAyqGGlzROeaICNIiNsxeSOuE9D0FkLyis
-         YBf7nOnz7f2dodY8sqjYQJZiHoUvxINP+rKdlVeiiWkn2aFP7eZ6z0/SvTnm+/T5Scdw
-         SW7VUnHqqL+U9pp8ug33KqFRbDsQAr5QfbvVL+Upgt3Wod4kLr531iMyVR1GrsCdVGU4
-         QKng==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771088544; x=1771693344; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wE+4Pe3Qwx4PDX3LtFLuC8UoLqhBg7N/8yceyc0Nk2k=;
+        b=Jw6w6uPh3ATEBGzdRa796J8Tv55p1UQk1hz0jmdJafbxKm0l7EFkFO6ZliAsDo7HQT
+         UD8IWiT08lbJ3bYQt7E/bH8+H0eBqJQspa6ORYm7IgZ29AoJHQ8JdkmjI9nxiwgQJDY6
+         Hhpm4bTCGFw5xAj5+5YOF64uHF0A189mo+n4lA0MYPikEFyyEMZe8XKVL15udzQ59P1D
+         0aoh4SgdcXnz6zymCnYhhoBJEhZtcDF4jL8pKGdcY9MtaDvciFpvB2MuHSRELcz7XAgl
+         /rVHsOlIljNJCdViMWI0e28E7v4O81xvPUT5YeYCZprUr7AolvLTeU6FhDuCe1GVrVJO
+         UKvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771088362; x=1771693162;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6rJVk/bdEpEUkQN/gp0qTcKqFCDGpMds/0JFJsTv7lo=;
-        b=BX9EjT3zBMquxV1seSgAhZusjBuzaRd7U2ZUEMJyj0TZLJWP4OePnnR0Kl3yuB5Hbn
-         D072tbpTm1XyiqNH9vzWL5rxaFdPS04UvRl89LfDkdmKTas1Sa0s4GMFEXFB28qTHFNX
-         ikeSbWMUwRcP3o9bMvdszEZIMi3mpxJ4yEENYIN3bn+3UlrJChq/nGU1Hauepzrw4xa8
-         xFIakQM+KgQPa9oGyHiX4T8wY356ottnlHm7jubv54YgjnfdqdTGrUGxANitlM/zem7S
-         VHRpVlhgdl/Mli+eYSM2m8LH0r5vHmFT9LoFnWju/1eZ4/roRm7MkTCp0k6pZ9s4P0va
-         vgSw==
-X-Gm-Message-State: AOJu0Yw81el0NQ9IHAFoD9s6iF+ZlTm+7pbpwfBAw3HP15DicXDsr+SQ
-	uwXM1O8Ri0/m3gwKdCIwHUBLNZ2ZlsOjMbxqLFlRfVFV05B3wuvCkrGqv7K3eZq9n76bHKgcKrj
-	56V7v+eCi3/GjUdL02x5fS/iy1GU3nTE=
-X-Gm-Gg: AZuq6aJVZKN5wdx+QliJaRxlK+f0dEKNvafvAD5Yih4FD1JpHwsM341nRkX3JT3qvF+
-	5pAHhpuXWszFBVLC6/HrcbncRDwV3/M+ukLhs7vRPSDCp3YGEeUzejP+6v7bW/B52e+Tn2zPBGr
-	vzGs2YLkK3CSnmDyD6GFrMj0To2NgvFFhVem7eQFG2Jzngz4WgX9S+l0o9kBNocrmoVbOtA+Gu0
-	PQWAED7fFMNT3PPY97Xv1Vt+ykwQoVWjizMF8mIy8UpIwpld9wgJBRFSZ0UEGDsxk7qhmq3PbKV
-	8j+Qtlfewu8cGdbXbeuRAjJmEJ/11o3wS/HNBVbwozmSdR4JsecaAw==
-X-Received: by 2002:a05:6830:82a8:b0:7c9:5ac6:12de with SMTP id
- 46e09a7af769-7d4c2fe5d0dmr3761447a34.5.1771088362280; Sat, 14 Feb 2026
- 08:59:22 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771088544; x=1771693344;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wE+4Pe3Qwx4PDX3LtFLuC8UoLqhBg7N/8yceyc0Nk2k=;
+        b=HkmfRFMUo/v9X/UFlSeCcO1WNW+7h62zl9QXIoBLiRM3j3xKjFSSPZdb6XSps5MTxF
+         P3U5EI2W1B9doBZTEfoXuh8uFlknKyNIviBKemvphFCgaZUfdUmQiGNOsvP2wi9mwWan
+         Saooz/g6WLPFeadnP0/o3IHZSkNFUxXs8cCE/H/CdqQvecRWgM9CTQZkTjDVA/vuUCqe
+         +sMOWGtWwfh3DWjcVBrz+aNJixQy0v47AEH6tB1TX4LIpbmDWRIFgJXRu+wnZmpGBdmx
+         bq9oUdZEUlTF58l84htrjb49oBqh5KcK5VP301a2GuxWQzt5FgWxn27AOIyHoqGQ0mPN
+         710Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW4wdTVYhNuvsOOsJ1xpIyeOAT+u3oL/sW6gd3VQ9GScx+rak3GyqKQSVOoECa/FaQyid4ktUkz/CA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6ngIdTZOgW22ek8Ev69EaOCy21QZp3IkNejq0hyuW15KUyJed
+	DSQ2B3Tt5oOhAx3X4rsay8PRexwryVmg3mp/Jw3O+1UEVpzsIn3JQB3ZAXq8YJ94PTc=
+X-Gm-Gg: AZuq6aL7ir9U7FXO2hj4s2qOn0plDHemwwTnZj7COssQamkEVzv3VZxPTB6VNE60qcK
+	+iHUqVFQ0UvehAiXAV5q78c8xpNugkZU10Crt8tXg5RRbYsi17wUo4OxfrDyQUiewROfTuG4PN7
+	L9bbm+ER5llT4xYJ9cJnnG2lQ/8qXTzVRTk0zrXSlRfxBSavitlZMTYb92jY8k48tbgeue/8qa7
+	Hc8vKmwQSDam7qCa4CSbf+5gCB0LvGA/zDFkiRlaaCdOiDskaEuq5dyDaPL0LLGqdECg0jUCm/P
+	XlkqeKzz2M1U5qXlXRyikLiN72Z++DK7JzGFk+5/DKRQ+Vwh4oVDpVzqMhdMqbIPN3NcuZgbfJa
+	ryxVEh50GAQIBXlggKU1R1M0Cszq9SItrbGDwD9EmZ/OKEWx4ErJZwrrz36GJs6IjgP/sHnbpfa
+	nWnMEo1UeDNPpa6S5l9UQPMmgHE/vLGFr5/m27BdKLR1S7j8JVPyS17OAeBji4m04vfaLuwEV7+
+	GvwNszZ
+X-Received: by 2002:a05:6808:398d:b0:45f:f8a:1886 with SMTP id 5614622812f47-463b404a5b9mr1655779b6e.35.1771088543997;
+        Sat, 14 Feb 2026 09:02:23 -0800 (PST)
+Received: from ?IPV6:2600:8803:e7e4:500:109:393c:254e:962e? ([2600:8803:e7e4:500:109:393c:254e:962e])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-463be5433ebsm983732b6e.17.2026.02.14.09.02.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 14 Feb 2026 09:02:23 -0800 (PST)
+Message-ID: <af774bb9-817d-4d88-9fe3-54468949ea54@baylibre.com>
+Date: Sat, 14 Feb 2026 11:02:22 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Wojciech <wojciech.develop@gmail.com>
-Date: Sat, 14 Feb 2026 17:59:11 +0100
-X-Gm-Features: AaiRm50kydXZsFl4_Wloace2fxxbWycbvsGQn1DJF-jb9ndu95KmkFAndiZR-pw
-Message-ID: <CALGt97_8_oYByt5-Eghz8FR9x0v90OEvVr9t8Dz2U9wOt0N=jQ@mail.gmail.com>
-Subject: [PATCH] docs: scheduler: remove extra whitespace in sched-debug.rst
- and sched-deadline.rst
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/4] iio: accel: adxl345: Implement event scaling for
+ ABI compliance
+To: Taha Ed-Dafili <0rayn.dev@gmail.com>, jic23@kernel.org
+Cc: rdunlap@infradead.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees-archive@lists.linuxfoundation.org, nuno.sa@analog.com,
+ andy@kernel.org, corbet@lwn.net, lars@metafoo.de,
+ Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260208150515.14798-1-0rayn.dev@gmail.com>
+ <20260208150515.14798-4-0rayn.dev@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20260208150515.14798-4-0rayn.dev@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From 8c49fd00f04b0a4281d40cc69071b2182cd36498 Mon Sep 17 00:00:00 2001
-From: "Wojciech S." <wojciech.develop@gmail.com>
-Date: Sat, 14 Feb 2026 17:48:16 +0100
-Subject: [PATCH] docs: scheduler: remove extra whitespace in
-sched-debug.rst and sched-deadline.rst
+On 2/8/26 9:05 AM, Taha Ed-Dafili wrote:
+> The ADXL345 uses a fixed threshold resolution of 62.5 mg/LSB for
+> event-related registers. Previously, the driver reported raw
+> values without a scale factor.
+> 
+> Implement IIO_EV_INFO_SCALE for all event types to provide the
+> conversion factor (0.612915 m/s^2) as required by the IIO ABI.
+> 
+> Suggested-by: Jonathan Cameron <jic23@kernel.org>
+> Signed-off-by: Taha Ed-Dafili <0rayn.dev@gmail.com>
+> ---
+>  drivers/iio/accel/adxl345_core.c | 28 ++++++++++++++++++++++------
+>  1 file changed, 22 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/iio/accel/adxl345_core.c b/drivers/iio/accel/adxl345_core.c
+> index 78e3f799ecc1..dfe3169ffc5f 100644
+> --- a/drivers/iio/accel/adxl345_core.c
+> +++ b/drivers/iio/accel/adxl345_core.c
+> @@ -212,7 +212,8 @@ static const struct iio_event_spec adxl345_events[] = {
+>  		.type = IIO_EV_TYPE_MAG,
+>  		.dir = IIO_EV_DIR_RISING,
+>  		.mask_shared_by_type =
+> -			BIT(IIO_EV_INFO_ENABLE) |
+> +			BIT(IIO_EV_INFO_ENABLE)	|
+> +			BIT(IIO_EV_INFO_SCALE)	|
+>  			BIT(IIO_EV_INFO_VALUE),
 
-Signed-off-by: Wojciech S. <wojciech.develop@gmail.com>
----
- Documentation/scheduler/sched-deadline.rst | 2 +-
- Documentation/scheduler/sched-debug.rst    | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Would be nice to be consistent and put scale after value as the ones
+at the end.
 
-diff --git a/Documentation/scheduler/sched-deadline.rst
-b/Documentation/scheduler/sched-deadline.rst
-index ec543a12f..87f8baa14 100644
---- a/Documentation/scheduler/sched-deadline.rst
-+++ b/Documentation/scheduler/sched-deadline.rst
-@@ -54,7 +54,7 @@ Deadline Task Scheduling
-  "deadline", to schedule tasks. A SCHED_DEADLINE task should receive
-  "runtime" microseconds of execution time every "period" microseconds, and
-  these "runtime" microseconds are available within "deadline" microseconds
-- from the beginning of the period.  In order to implement this behavior,
-+ from the beginning of the period. In order to implement this behavior,
-  every time the task wakes up, the scheduler computes a "scheduling deadline"
-  consistent with the guarantee (using the CBS[2,3] algorithm). Tasks are then
-  scheduled using EDF[1] on these scheduling deadlines (the task with the
-diff --git a/Documentation/scheduler/sched-debug.rst
-b/Documentation/scheduler/sched-debug.rst
-index b5a92a39e..ea874690b 100644
---- a/Documentation/scheduler/sched-debug.rst
-+++ b/Documentation/scheduler/sched-debug.rst
-@@ -10,7 +10,7 @@ numa_balancing
- ==============
+>  	},
+>  	{
+> @@ -221,6 +222,7 @@ static const struct iio_event_spec adxl345_events[] = {
+>  		.dir = IIO_EV_DIR_RISING,
+>  		.mask_shared_by_type =
+>  			BIT(IIO_EV_INFO_ENABLE) |
+> +			BIT(IIO_EV_INFO_SCALE)	|
+>  			BIT(IIO_EV_INFO_VALUE),
+>  	},
+>  	{
+> @@ -228,15 +230,19 @@ static const struct iio_event_spec adxl345_events[] = {
+>  		.type = IIO_EV_TYPE_GESTURE,
+>  		.dir = IIO_EV_DIR_SINGLETAP,
+>  		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
+> -		.mask_shared_by_type = BIT(IIO_EV_INFO_VALUE) |
+> +		.mask_shared_by_type =
+> +			BIT(IIO_EV_INFO_VALUE)	|
+> +			BIT(IIO_EV_INFO_SCALE)	|
 
- `numa_balancing` directory is used to hold files to control NUMA
--balancing feature.  If the system overhead from the feature is too
-+balancing feature. If the system overhead from the feature is too
- high then the rate the kernel samples for NUMA hinting faults may be
- controlled by the `scan_period_min_ms, scan_delay_ms,
- scan_period_max_ms, scan_size_mb` files.
-@@ -21,15 +21,15 @@ scan_period_min_ms, scan_delay_ms,
-scan_period_max_ms, scan_size_mb
+What is the units for gesture that we are scaling to?
 
- Automatic NUMA balancing scans tasks address space and unmaps pages to
- detect if pages are properly placed or if the data should be migrated to a
--memory node local to where the task is running.  Every "scan delay" the task
-+memory node local to where the task is running. Every "scan delay" the task
- scans the next "scan size" number of pages in its address space. When the
- end of the address space is reached the scanner restarts from the beginning.
+>  			BIT(IIO_EV_INFO_TIMEOUT),
+>  	},
+>  	{
+>  		/* double tap */
+>  		.type = IIO_EV_TYPE_GESTURE,
+>  		.dir = IIO_EV_DIR_DOUBLETAP,
+> -		.mask_shared_by_type = BIT(IIO_EV_INFO_ENABLE) |
+> -			BIT(IIO_EV_INFO_RESET_TIMEOUT) |
+> +		.mask_shared_by_type =
+> +			BIT(IIO_EV_INFO_ENABLE)		|
+> +			BIT(IIO_EV_INFO_RESET_TIMEOUT)	|
+> +			BIT(IIO_EV_INFO_SCALE)		|
 
- In combination, the "scan delay" and "scan size" determine the scan rate.
--When "scan delay" decreases, the scan rate increases.  The scan delay and
-+When "scan delay" decreases, the scan rate increases. The scan delay and
- hence the scan rate of every task is adaptive and depends on historical
- behaviour. If pages are properly placed then the scan delay increases,
--otherwise the scan delay decreases.  The "scan size" is not adaptive but
-+otherwise the scan delay decreases. The "scan size" is not adaptive but
- the higher the "scan size", the higher the scan rate.
+There is no value here, so scale doesn't make sense (plus it is gesture
+as above.
 
- Higher scan rates incur higher system overhead as page faults must be
--- 
-2.47.3
+>  			BIT(IIO_EV_INFO_TAP2_MIN_DELAY),
+>  	},
+>  };
+> @@ -274,7 +280,8 @@ static const struct iio_event_spec adxl345_fake_chan_events[] = {
+>  		.dir = IIO_EV_DIR_FALLING,
+>  		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
+>  		.mask_shared_by_type =
+> -			BIT(IIO_EV_INFO_VALUE) |
+> +			BIT(IIO_EV_INFO_VALUE)	|
+> +			BIT(IIO_EV_INFO_SCALE)	|
+>  			BIT(IIO_EV_INFO_PERIOD),
+>  	},
+>  	{
+> @@ -283,7 +290,8 @@ static const struct iio_event_spec adxl345_fake_chan_events[] = {
+>  		.dir = IIO_EV_DIR_FALLING,
+>  		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
+>  		.mask_shared_by_type =
+> -			BIT(IIO_EV_INFO_VALUE) |
+> +			BIT(IIO_EV_INFO_VALUE)	|
+> +			BIT(IIO_EV_INFO_SCALE)	|
+>  			BIT(IIO_EV_INFO_PERIOD),
+>  	},
+>  };
+> @@ -1367,6 +1375,14 @@ static int adxl345_read_event_value(struct iio_dev *indio_dev,
+>  				return ret;
+>  			*val = sign_extend32(tap_threshold, 7);
+>  			return IIO_VAL_INT;
+> +		case IIO_EV_INFO_SCALE:
+> +			/*
+> +			 * The event threshold LSB is fixed at 62.5 mg/LSB
+> +			 * 0.0625 * 9.80665 = 0.612915625 m/s^2
+> +			 */
+> +			*val = 0;
+> +			*val2 = 612915;
+> +			return IIO_VAL_INT_PLUS_MICRO;
+>  		case IIO_EV_INFO_TIMEOUT:
+>  			*val = st->tap_duration_us;
+>  			*val2 = MICRO;
+
