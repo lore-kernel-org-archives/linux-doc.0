@@ -1,83 +1,103 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692981A9FBC;
-	Sat, 14 Feb 2026 17:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33563285C8E;
+	Sat, 14 Feb 2026 17:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771089581; cv=none; b=AY4vaeALnB8vD1UYkCud1Ha7u7BtNgDgtJP8d06h6qdNCJdwWsorSOFEaQxhJAjYAMII5PVszefeL9hYjfHtIOmKZXqH92p6Wxu9AVbC3hXc5sq/meXHf0EQwUb03PczwPzhwvhPXlLiw32zLys/w9oZNDmZqSQQClZe6zVClR0=
+	t=1771089716; cv=none; b=LxrKPWdA3A9xhV2KtAlgcSSxJhLMvOTeTGBUh2q087WcXmMvdddvlLvqee+liH7YnD14/5dA1J/KhHx/eg7TrXVSndzWBFlc4HZadM4cnDCP2rppEXCAg360LjB+ZKag5n1U0YAIHSqftc7xAIjX8Df5cgiASPhRI0lDCF/YmlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771089581; c=relaxed/simple;
-	bh=yqGapZ3QXFbeAXaniAxIGuQHYTtzFjoEiPDSxTjei1w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jorsoKavJB94/pX2yjWSFRlYbtBU2311Q4yJpa0OQVzbzVTanVAOGDGX9SjnSvZr+4aVWg6vBKkisPBHoVbI/nSMzI4wNCZ4Fyka7oYIy3UyOQ7T5q9ZAy7qyU/OJFaan6ygK2oPoZ6faDGqUvtDH2wm+l2u1PD5xVH4N4DV1aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=aljd6Hn2; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1771089716; c=relaxed/simple;
+	bh=1i7gSbu41hFYgTCQF1arKUFvWp4WQocuuxlQ71+EUnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sYqBXQVMfAj0aTqU4HA8MPReTx+XyrzRH9ZfHvW0pKgX/v5cK6JbPJPax2d9bSWOJORsNmR/j10AFSZKu21mAoZ2qXqaUbbgz9JrrYZEWPifNLtsI44NV/HAkfAe9/r/uvhBYNaqBchjJum0iau3tj+56aU8bYpWcivLsngDXno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i0ZqRKau; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="aljd6Hn2"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 93C95411EC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1771089579; bh=Q4WnyOnH1ZA632IaUS9uEGNzFCiC5AlyvhabOQbMS9M=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=aljd6Hn2XqYgvpNsJrMZ6EGZUAiwsEMNv7ptl9vL2IPKr+C7YCfI5VoZ2Ibp9xdBg
-	 rYiTZS9+GM7oxi5KN270pPWVvNGK5XnubN5JCcKt2+x1qRvHg17xzT8kFCcVB5E8uu
-	 kRgwtvBAGcQtjVaCz/lRUoCnP/ZftmAAgyEf535HEjgHi9V4ziRdjU8FwI6T69PSk1
-	 NLLJIkenQ8HtB0MkLzdp8Oc0tnVYHOZoxCxfQzZ6ZT4ozlW05LQgiwmSw4BDAel5Fc
-	 dYIykdo0qnb5NBcjSzG5+JIqcU+h8hZoYosgbJe5SM3ZiPBrcKdRdrzy55kwpAffFM
-	 QUgvDghV8g1vg==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 93C95411EC;
-	Sat, 14 Feb 2026 17:19:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: b@berkeantar.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Berke Antar
- <b@berkeantar.com>
-Subject: Re: [PATCH] docs: toshiba_haps: fix grammar error in SSD warning
-In-Reply-To: <b9085090-e70f-46ac-aad0-96da1fc7cdcc@smtp-relay.sendinblue.com>
-References: <b9085090-e70f-46ac-aad0-96da1fc7cdcc@smtp-relay.sendinblue.com>
-Date: Sat, 14 Feb 2026 10:19:38 -0700
-Message-ID: <87a4xbqm39.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i0ZqRKau"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638D4C16AAE;
+	Sat, 14 Feb 2026 17:21:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771089715;
+	bh=1i7gSbu41hFYgTCQF1arKUFvWp4WQocuuxlQ71+EUnI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=i0ZqRKauN6Fd1sn2OtSYTf8S5LDExvFq2oxtrsi3n+cb8XpVL9ev8Y437Q4HTVvuJ
+	 nYHU6PSOEPV6t4ATsGxT0hdM6CYLC8pUwMa14AJNLTo/Dyce++tnYR3zRTE0DG+JsK
+	 rA+/WLUCOiF848cFBEcbF9zObAbGrEnE7qZKsGuq+0qqCzlrajsok2iUYZ6Moue304
+	 TCvPSkkw9J31wadZ2Sf5sUJQycDpIR1usX+5yWnHFDakGMkU0VqQT0BhBOjBXcD0S/
+	 rfOleePvxM7VwQFTUn/kxmTBxmZqwmpmYtevUfCitCQkBQOJyFAbm548HwiVWcZ8YR
+	 HKv54UmRrZQ+Q==
+Date: Sat, 14 Feb 2026 17:21:45 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Taha Ed-Dafili <0rayn.dev@gmail.com>
+Cc: dlechner@baylibre.com, rdunlap@infradead.org, skhan@linuxfoundation.org,
+ linux-kernel-mentees-archive@lists.linuxfoundation.org, nuno.sa@analog.com,
+ andy@kernel.org, corbet@lwn.net, lars@metafoo.de,
+ Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] iio: accel: adxl345: Add event scaling and doc
+ fixes
+Message-ID: <20260214172145.69cab531@jic23-huawei>
+In-Reply-To: <20260208150515.14798-1-0rayn.dev@gmail.com>
+References: <20260208150515.14798-1-0rayn.dev@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-<b@berkeantar.com> writes:
+On Sun,  8 Feb 2026 10:05:01 -0500
+Taha Ed-Dafili <0rayn.dev@gmail.com> wrote:
 
-> From: Berke Antar <b@berkeantar.com>
->
-> Replace "make this driver to fail" with "cause this driver to fail"
-> to correct the grammar.
->
-> Signed-off-by: Berke Antar <b@berkeantar.com>
-> ---
->  Documentation/admin-guide/laptops/toshiba_haps.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/admin-guide/laptops/toshiba_haps.rst b/Documentation/admin-guide/laptops/toshiba_haps.rst
-> index d28b6c3f2849..0226225b82e1 100644
-> --- a/Documentation/admin-guide/laptops/toshiba_haps.rst
-> +++ b/Documentation/admin-guide/laptops/toshiba_haps.rst
-> @@ -43,7 +43,7 @@ RSSS    Shuts down the HDD protection interface for a few seconds,
->  ====	=====================================================================
->  
->  Note:
-> -  The presence of Solid State Drives (SSD) can make this driver to fail loading,
-> +  The presence of Solid State Drives (SSD) can cause this driver to fail loading,
->    given the fact that such drives have no movable parts, and thus, not requiring
+> This series addresses ADXL345 driver non-compliance with the IIO ABI
+> for event thresholds.
+> 
+> Currently, the driver exposes raw values for thresholds (e.g., tap,
+> activity) without providing the necessary scale factor to convert them
+> to SI units (m/s^2), as mandated by the ABI.
+> 
+> This series implements `IIO_EV_INFO_SCALE` in the IIO core and applies
+> it to the ADXL345 driver, ensuring that userspace can correctly
+> interpret threshold values. It also cleans up existing documentation
+> errors and typos.
 
-So I've applied this, but ... this document was added in 2014 and has
-not been touched since.  I do have to wonder if it has any relevance to
-current users...  but the driver is still there, so I guess we should
-keep it.
+Nice series thanks!
 
-Thanks,
+Applied to the testing branch of iio.git which I'll rebase once rc1 is available.
 
-jon
+Jonathan
+
+> 
+> Changes in v3:
+> - Patch 1: Reverted "axis" -> "axes" change in documentation as it is
+>   used as an adjective (Randy Dunlap).
+> - Patch 2: Reworded commit message to "Implement support for..." instead
+>   of "missing from..." (David Lechner).
+> - Patch 4: Simplified documentation table by removing repetitive scale
+>   values from every row. Added explicit table entries for the new
+>   `in_accel_gesture_scale` and `in_accel_mag_scale` attributes instead
+>   (Jonathan Cameron).
+> - Patch 4: Fixed "inscale" typo in commit message.
+> 
+> Changes in v2:
+> - Added core infrastructure for IIO_EV_INFO_SCALE.
+> - Implemented event scaling (0.612915 m/s^2) for ADXL345.
+> - Fixed technical math/decimal errors in existing documentation.
+> - Cleaned up grammar and pluralization issues in .rst file.
+> 
+> Taha Ed-Dafili (4):
+>   docs: iio: adxl345: fix typos and grammar
+>   iio: core: Add IIO_EV_INFO_SCALE to event info
+>   iio: accel: adxl345: Implement event scaling for ABI compliance
+>   docs: iio: adxl345: update math and examples for scaling
+> 
+>  Documentation/iio/adxl345.rst    | 65 +++++++++++++++++++-------------
+>  drivers/iio/accel/adxl345_core.c | 28 +++++++++++---
+>  drivers/iio/industrialio-event.c |  1 +
+>  include/linux/iio/types.h        |  1 +
+>  4 files changed, 63 insertions(+), 32 deletions(-)
+> 
+
