@@ -1,104 +1,133 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CD91DF987
-	for <linux-doc@vger.kernel.org>; Sat, 14 Feb 2026 13:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8921D26A1B9;
+	Sat, 14 Feb 2026 14:45:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771075774; cv=none; b=k+lzykCc3Y7usKqLSScC5gmsy9S/IpKhy2kY1J7bqgi2xnVULySoLVKVFiuEEz7G9hdttdQlllQ3z39gBYumQBuwYBQ+P2foFO/dt6TUPNSDUP4ffBB7eTPDKpFRH5S4jryAvWJIhhbvVWVo23xiqKPcZHjjjTqbGSISjaK2+6c=
+	t=1771080303; cv=none; b=bFVk7cRY2cou3H4SMbA28NfmYn3KQs8bh1pn0eOW9Q3TSL0gXIRNJZwzPq1Y0pxRXU+vDk1hdygIJ+6UMCY9SSqTeGuOOILIZWHK8nFc9C3ztY4HG0Iqr7JQWw4AbMrABlb0cIaJbgAHpRADiZtKtgIXPFwFKOrHX6ostw387T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771075774; c=relaxed/simple;
-	bh=yOOR5kJ/8OGkEgRJL1D/NeQP7sOD0BGGev1FnoimY1o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mp5CJGdoiL8FnmJVEq5ugPYtNg9/FaSlFYvT9Xeo41VpzUeBna5oiQuIqeDl966981HnNb85yBCM7EaYVNHMPMYCkzTwKxomOwsGqhRGtde+uRN/YbsWsq5Z8ynVzojDgmCXSnZNuD6zQu1uoVdrQ9I2ipC3zE45NQC18CrOnBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bPbVAmHl; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771080303; c=relaxed/simple;
+	bh=CF/5eeY/NhfYqnkk8kJ44dO3asGUtj6TD0iFxk+uyWE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=js8FXHy0fugqZAyTU7hXnrG3s21585XKyyNuuW9jNZrUdvf0+RtZWGEJ5mz2TfUduhEGtK02G7z2wcECgNmhnl6rJKCyNne0laZHBbMtMt0U/TeeHTfhkpteOvKYDf1eMzNU7RBJLew6c9DOucMR/i0lGdn4qqYRE6MBSiyuYDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A5KxUf0M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bPbVAmHl"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2aaf9191da3so11956065ad.2
-        for <linux-doc@vger.kernel.org>; Sat, 14 Feb 2026 05:29:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771075773; x=1771680573; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6DMpRrIULTPRMkxRcIaO9MgcwXfSRvlZN5DUlgk4+9Q=;
-        b=bPbVAmHlu74VjSIX4NsRZ6hM1ejY+Vre4sc2TXfTTyrdADZgnUxjEboJE9/IGdMrHF
-         r21wcgFA4m57q96J2gIuiYyZmEJ81hyH+TxV2j90AxY4xQefrqK1L2PvP7rKQZbAshIa
-         ucSxpLTXQsUjGQgPhwvG0xloAK4c9qlocfsVmqloAt8zm2jj6+jXJzwzuewI1Q2JiBna
-         GCenWv9YVcHjrf2XyGSgZ2EmJhkF4/p2C/AieIYVxwofzBEMgLSmt9CPbRtKjcbyh04x
-         LlPsZrCwoCnWI7qqhBKdWqv7AHPUrcoGiaPCKv46wCj3XU32E/AIuwtreGClAwqUtFZY
-         IMpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771075773; x=1771680573;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6DMpRrIULTPRMkxRcIaO9MgcwXfSRvlZN5DUlgk4+9Q=;
-        b=jB+rpAs+9KiQHZCKlIl0Z1l+Y/b0FuXqDBjWHwXTD8ExAq5yoMQ0dU05OAAczSOU12
-         r087mGETS8dFJ8wOkNkOYDl1Hl25IynhC1kudiPu22VLM9hDFWpG0vusueqtJ7GHbfhS
-         W81tpoJZv8BtlOQaTCoqRCmH9MDpTdnZexrIVGLI+Jc/8g5xs0giwQqVopOCMLMT0vsP
-         +9TMDUrvAxDaOIaUH8VLZp8kjmUqIcwko96BGC31Do1EOFnEK5+ICNzWpU57yLybPEus
-         uIWuVbYX8K7dnayYspx1LMOhcJPTzyA21z5bxSzdlob2VY3naeIzpRsG9KlN9yil3Rer
-         vN4A==
-X-Gm-Message-State: AOJu0YwKnu/6kNmtwjmv0s9g66Tks1beNCKzkX4FZ/VdroD2g2bmStkB
-	kkh/8RTj5asRumobRxITrSIzo62FEhb7kKvsJnIf5E1dz7bOr19bOLDPdH8dDhey
-X-Gm-Gg: AZuq6aKY7/iJyjmC/sfuq3CcBP0Ld8aauN/jApQvsEg/P1MpiAG7aOxmFlEtkZO9Nw0
-	u0EUaXsLXGZwuDxCsJw2PsAByVNNy6LRY6oQMMVY4t7wnKexDzqCoxzGm36/Oa8xTYNsXYXdSmm
-	Wof9De3f9XuRMS2Wf2X5T/9y3Es78v7o20BdhUJncTut0XXQKUbW1mpg+MBPwsBK11R9BgUpYlL
-	pGj31HPMlQkW2TRfE9V5oSItvTKqWw+Xung8yEvRGq+SnfeQ62Xvxkv3oE12MWtAdCQLyNz2Oc6
-	ooZK4hTVqN9Lvxs4BcypwX6bifn3c3n0XKpCOt8mZwQ0gDFz4K3Oke05M6FgzZTjx8eZDo7OkJ7
-	GMAj06FJXOFQ+M0RV9jCSMt5QPWg2eKlHk5RGd6FJ4wGCIUkEOJyvezH3dUDkAx2WUS+J63oU54
-	x4vCKNa9SaSsIkZG919o5/Y+r5DpYtw35D5g961u+XFWEPlQ==
-X-Received: by 2002:a17:902:f712:b0:2a0:d05c:7de3 with SMTP id d9443c01a7336-2ab50548680mr58093735ad.15.1771075772916;
-        Sat, 14 Feb 2026 05:29:32 -0800 (PST)
-Received: from localhost ([103.251.247.21])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad1a738220sm22312605ad.37.2026.02.14.05.29.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Feb 2026 05:29:32 -0800 (PST)
-From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-Subject: [PATCH] docs: clarify wording in programming-language.rst
-Date: Sat, 14 Feb 2026 19:28:41 +0600
-Message-ID: <20260214132842.1161-1-islamarifulshoikat@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A5KxUf0M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7483C16AAE;
+	Sat, 14 Feb 2026 14:44:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771080303;
+	bh=CF/5eeY/NhfYqnkk8kJ44dO3asGUtj6TD0iFxk+uyWE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=A5KxUf0ML4z3JkNGrRcVZ41xkM5ipCBbT2GgmGVESB/UuXAeNiIM2abnqpZdr1J4c
+	 71OVZztJcJAUe1tLxdhr9dw5lSrgtFnB86SkPznK1RX7bTNUly7RJ3fHUNJZWvwQZf
+	 21PSowU4duZwGXDVsdkr2Of9FtZhjRkAtuIcO87KeNCxNBwtYxKBhKb1TntykoZfX9
+	 0OrYIvqyftE9iVv6qDgkHFtvtc8pea6SvY9JuPpSTL2LPxh7wIOycp2Ht+pWJhFW7Q
+	 3xGrsg2dhZOHCPMEmZZYIOrZR9DWpfjSwhIw5t/dEBn2M8klutGuYeCk1Q/aHjDOff
+	 1DQ7RO/w3yUtA==
+Date: Sat, 14 Feb 2026 14:44:53 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>,
+ rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v6 8/8] Documentation: ABI: testing: add common ABI file
+ for iio/frequency
+Message-ID: <20260214144453.349fc0a1@jic23-huawei>
+In-Reply-To: <ecfpri6dr4kidvecyulzip7m2bmuw5refocls7vdtruqinrklc@dzm5vmk7ul5r>
+References: <20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com>
+	<20260130-adf41513-iio-driver-v6-8-cf46239026bc@analog.com>
+	<20260207172458.7f2cca90@jic23-huawei>
+	<ecfpri6dr4kidvecyulzip7m2bmuw5refocls7vdtruqinrklc@dzm5vmk7ul5r>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Clarify that the Linux kernel is written in C and improve
-punctuation in the clang sentence.
+On Wed, 11 Feb 2026 13:52:18 +0000
+Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
 
-Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
----
- Documentation/process/programming-language.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> On 26/02/07 05:24PM, Jonathan Cameron wrote:
+> > On Fri, 30 Jan 2026 10:06:49 +0000
+> > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> >   
+> > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > > 
+> > > Add ABI documentation file for PLL/DDS devices with frequency_resolution
+> > > sysfs entry attribute used by ADF4350 and ADF41513.  
+> 
+> Here it mentions that this would also work for ADF4350.
+> 
+> > > 
+> > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > > ---
+> > >  Documentation/ABI/testing/sysfs-bus-iio-frequency | 11 +++++++++++
+> > >  MAINTAINERS                                       |  1 +
+> > >  2 files changed, 12 insertions(+)
+> > > 
+> > > diff --git a/Documentation/ABI/testing/sysfs-bus-iio-frequency b/Documentation/ABI/testing/sysfs-bus-iio-frequency
+> > > new file mode 100644
+> > > index 000000000000..1ce8ae578fd6
+> > > --- /dev/null
+> > > +++ b/Documentation/ABI/testing/sysfs-bus-iio-frequency
+> > > @@ -0,0 +1,11 @@
+> > > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency_resolution
+> > > +KernelVersion:	6.20
+> > > +Contact:	linux-iio@vger.kernel.org
+> > > +Description:
+> > > +		Stores channel Y frequency resolution/channel spacing in Hz for PLL
+> > > +		devices. The given value directly influences the operating mode when
+> > > +		fractional-N synthesis is required, as it derives values for
+> > > +		configurable modulus parameters used in the calculation of the output
+> > > +		frequency. It is assumed that the algorithm that is used to compute
+> > > +		the various dividers, is able to generate proper values for multiples
+> > > +		of channel spacing.
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 0d9b7cf86aec..748eeb6f5bd2 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -1639,6 +1639,7 @@ M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > >  L:	linux-iio@vger.kernel.org
+> > >  S:	Supported
+> > >  W:	https://ez.analog.com/linux-software-drivers
+> > > +F:	Documentation/ABI/testing/sysfs-bus-iio-frequency  
+> > I wouldn't add this here. Whilst for now we only use the defined
+> > ABI in this one driver, I'd not expect it to stay that way.
+> > 
+> > If we do think it is very drive specific move the file to
+> > sysfs-bus-iio-frequency-adf41513  
+> 
+> The file Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4350
+> contains the same ABI description, should that be removed there
+> in favor or this one? If so, in MAINTAINERS, what is the best place
+> for this ABI file?
 
-diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
-index f39d1d3dd9ce..c18e307ccb56 100644
---- a/Documentation/process/programming-language.rst
-+++ b/Documentation/process/programming-language.rst
-@@ -3,10 +3,10 @@
- Programming Language
- ====================
- 
--The kernel is written in the C programming language [c-language]_.
--More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
-+The Linux kernel is written in the C programming language [c-language]_.
-+More precisely, it is typically compiled with ``gcc`` [gcc]_
- under ``-std=gnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO C11.
--``clang`` [clang]_ is also supported, see docs on
-+``clang`` [clang]_ is also supported; see documentation on
- :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
- 
- This dialect contains many extensions to the language [gnu-extensions]_,
--- 
-2.43.0
+For sysfs ABI we can't have repeats in multiple files (it breaks the
+docs generation IIRC).  So if we have it used in multiple drivers
+then it needs to go in the more generic files as you have it.
+
+For maintainers, either don't bother with an explicit entry  (the subsystem
+ones will catch it) or add I suppose we could have one for
+drivers/iio/frequency/ that calls out this specific file + all the drivers
+in that directory.   I'm not sure that's worthwhile - so I'd go with just
+not listing it (ignore the checkpatch warning).
+
+Jonathan
+
+
+> If not, for simplicity, I may just rename the file to
+> sysfs-bus-iio-frequency-adf41513, as you suggested.
+>  
 
