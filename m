@@ -1,74 +1,95 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27444285C8E;
-	Sat, 14 Feb 2026 17:21:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA4542A9D;
+	Sat, 14 Feb 2026 17:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771089720; cv=none; b=DD/q3sWMsrUCu3iNb8952SELuqw0UA6BT3GccHE8aZLCqnZA611p4kdFfOlY9nW7ozHDD0h1PMrBExCrtidHpYsVQgQ2qhkp2RfR+DyPu4wJV1BF6jfKIjlxTzBhS8suL4HBRjk/hAb68IfZaONBMa90uP76tczxNU2VsppiVGw=
+	t=1771091739; cv=none; b=d+VsEVpxzqBneddHc4YXfYXX9Mw15eeLWaHQ3ynmYb/cTuMpUxQllQ3xtllvb3P9jr3UZAWYGKgaOWdkU9qPZ5WoawGghmalNxOFKhpK+PLGdeEb9v9uLPBhD/po/EJX+YaXeayfxbb9qx0bvpubNvBFE+DX+54dMH4tnJdjeF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771089720; c=relaxed/simple;
-	bh=N9T+zbfHzgyrLOaI3vjQtkbfWeMqDJoJqnWEiaDWMng=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=qrg3Expi27UOFuDa1rXE+9nP/lLF6OX4HOB8MxO8gVFI9FJN0QCyiaV8CycUrfq/JEgST1cxF1Nyhffwk0DuWlfRT4KOD5B7JK7InBSdm0qacstFeVMFp/F7EYWGqiW5jziKRoOJTWYFjJavbYIJq8fnnDsgFp9OxMzezr+3egE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=l6y8isUx; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1771091739; c=relaxed/simple;
+	bh=8k9p35h4k1nHlxAsWZiTzXWplhkVW7scDXKOelaLXoQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XCIPrF2QIAp1QFMEt7/I2wbOEnZ7/5sL3GYs5gWji/HD0Xm86mY2/Thvf+ZxIiVDnC9gOx3UlrzW0WkrX5tsueWh1dHGhiURHnjAFF7V+14FMzoEteqPfAG8tenBy+9ILiXoc6y0Da3So0VwnSPNsqfcT0EZNJQXh9DaCEmTFm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=g9JeU5hR; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="l6y8isUx"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 72684411EC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1771089718; bh=gKdDdhNDbgEsDA959WLUu16pu3nunc7c4LJArrBSIP4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=l6y8isUxADjohqVpW37+rcdflG9eNxzcL6Wp8v0jaZo5yhRLkaSjrZbHm0lyK+CgE
-	 bpX6BFvaqxP0F2p3ckvHM+jZMNkZbO1s9W8/E3qqFqfRVu/6OFZc1G0f4NzPDVGpZt
-	 TZ5ljbX/g83tVRWPlc9W2VtTIXFNDXexKqvs0lRBYpYEktpUggVGTjNai/DGsEqHyP
-	 mLs4/YqQsYznnbx5Qgww7u8zyNwz56KIy/1vNO3aMKW2zprV3D6c6d0WA8ZXUTgB0X
-	 6GE2CxfWwWvQO4peZM4YRiUatfYhZoeYD3ftDjy1yz1z31lBAL+xk28oRfmk1LWSgC
-	 2U151JZICHV7Q==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 72684411EC;
-	Sat, 14 Feb 2026 17:21:58 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Wojciech <wojciech.develop@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: scheduler: remove extra whitespace in
- sched-debug.rst and sched-deadline.rst
-In-Reply-To: <CALGt97_8_oYByt5-Eghz8FR9x0v90OEvVr9t8Dz2U9wOt0N=jQ@mail.gmail.com>
-References: <CALGt97_8_oYByt5-Eghz8FR9x0v90OEvVr9t8Dz2U9wOt0N=jQ@mail.gmail.com>
-Date: Sat, 14 Feb 2026 10:21:57 -0700
-Message-ID: <875x7zqlze.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="g9JeU5hR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=ZXyKMHp2eF9MbF3RSLLokv0H96duorRO1W4c3XjM0U4=; b=g9JeU5hRSv8Cxbkc4GMpENLkoq
+	Juy8SXTbJEOW7szrX//LL/iHgXvnL2W2pXzrzCouW80ngIQUuhAsK+Edx+N5kL/etVfoft8+5LHVG
+	tfqH+rIO1AUqFJ4Oz05ewF+Br7opcfriREBgK5ni4ixyD0Iq8fY7RFUBy++Cmikxs1Bf0tNFWXtNx
+	qUKtYIR9Yn1BN1CKGssLWb8DU7O/xVSUkngqgP63AjtOHQprz+Z3xWm0GZtcnYmUmAojhQH9ewhzV
+	09/Esk3l7a1mkZ4605BnYl3yDJ4vYFeK/Mz79xKLM4mAvE1MrDmGCuhmgza7LHykYGSdKB5ORiqNO
+	4G748meg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vrJrg-00000004orp-3ECM;
+	Sat, 14 Feb 2026 17:55:32 +0000
+Message-ID: <156baf88-cd00-4bbc-917a-0b1b9b79b2cd@infradead.org>
+Date: Sat, 14 Feb 2026 09:55:32 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: clarify wording in programming-language.rst
+To: Jonathan Corbet <corbet@lwn.net>,
+ Ariful Islam Shoikot <islamarifulshoikat@gmail.com>,
+ linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260214132842.1161-1-islamarifulshoikat@gmail.com>
+ <87ms1bqmh0.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <87ms1bqmh0.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Wojciech <wojciech.develop@gmail.com> writes:
 
-> From 8c49fd00f04b0a4281d40cc69071b2182cd36498 Mon Sep 17 00:00:00 2001
-> From: "Wojciech S." <wojciech.develop@gmail.com>
-> Date: Sat, 14 Feb 2026 17:48:16 +0100
-> Subject: [PATCH] docs: scheduler: remove extra whitespace in
-> sched-debug.rst and sched-deadline.rst
->
-> Signed-off-by: Wojciech S. <wojciech.develop@gmail.com>
 
-This patch has the same problems as the previous one I replied to:
+On 2/14/26 9:11 AM, Jonathan Corbet wrote:
+> Ariful Islam Shoikot <islamarifulshoikat@gmail.com> writes:
+> 
+>> Clarify that the Linux kernel is written in C and improve
+>> punctuation in the clang sentence.
+>>
+>> Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+>> ---
+>>  Documentation/process/programming-language.rst | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
+>> index f39d1d3dd9ce..c18e307ccb56 100644
+>> --- a/Documentation/process/programming-language.rst
+>> +++ b/Documentation/process/programming-language.rst
+>> @@ -3,10 +3,10 @@
+>>  Programming Language
+>>  ====================
+>>  
+>> -The kernel is written in the C programming language [c-language]_.
+>> -More precisely, the kernel is typically compiled with ``gcc`` [gcc]_
+>> +The Linux kernel is written in the C programming language [c-language]_.
+>> +More precisely, it is typically compiled with ``gcc`` [gcc]_
+>>  under ``-std=gnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO C11.
+>> -``clang`` [clang]_ is also supported, see docs on
+>> +``clang`` [clang]_ is also supported; see documentation on
+>>  :ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
+> 
+> So you have tidied up the language, but not addressed the fact that the
+> information is somewhat outdated.  Clang is a first-class option these
+> days, and the documentation should probably reflect that.
+> 
+> Oh well, I've applied this as a good start :)
 
-- The above header information should not be in the changelog.  Please
-  try sending patches just to yourself until you can verify that the
-  formatting is correct.
 
-- Two spaces after a period is not an error in need of correction.
-  Since that is the only thing this patch is changing, I have to say
-  that it really is not needed at all.
+Maybe mention Rust as well?
+-- 
+~Randy
 
-Thanks,
-
-jon
