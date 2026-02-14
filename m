@@ -1,103 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33563285C8E;
-	Sat, 14 Feb 2026 17:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27444285C8E;
+	Sat, 14 Feb 2026 17:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771089716; cv=none; b=LxrKPWdA3A9xhV2KtAlgcSSxJhLMvOTeTGBUh2q087WcXmMvdddvlLvqee+liH7YnD14/5dA1J/KhHx/eg7TrXVSndzWBFlc4HZadM4cnDCP2rppEXCAg360LjB+ZKag5n1U0YAIHSqftc7xAIjX8Df5cgiASPhRI0lDCF/YmlE=
+	t=1771089720; cv=none; b=DD/q3sWMsrUCu3iNb8952SELuqw0UA6BT3GccHE8aZLCqnZA611p4kdFfOlY9nW7ozHDD0h1PMrBExCrtidHpYsVQgQ2qhkp2RfR+DyPu4wJV1BF6jfKIjlxTzBhS8suL4HBRjk/hAb68IfZaONBMa90uP76tczxNU2VsppiVGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771089716; c=relaxed/simple;
-	bh=1i7gSbu41hFYgTCQF1arKUFvWp4WQocuuxlQ71+EUnI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sYqBXQVMfAj0aTqU4HA8MPReTx+XyrzRH9ZfHvW0pKgX/v5cK6JbPJPax2d9bSWOJORsNmR/j10AFSZKu21mAoZ2qXqaUbbgz9JrrYZEWPifNLtsI44NV/HAkfAe9/r/uvhBYNaqBchjJum0iau3tj+56aU8bYpWcivLsngDXno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i0ZqRKau; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771089720; c=relaxed/simple;
+	bh=N9T+zbfHzgyrLOaI3vjQtkbfWeMqDJoJqnWEiaDWMng=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=qrg3Expi27UOFuDa1rXE+9nP/lLF6OX4HOB8MxO8gVFI9FJN0QCyiaV8CycUrfq/JEgST1cxF1Nyhffwk0DuWlfRT4KOD5B7JK7InBSdm0qacstFeVMFp/F7EYWGqiW5jziKRoOJTWYFjJavbYIJq8fnnDsgFp9OxMzezr+3egE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=l6y8isUx; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i0ZqRKau"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 638D4C16AAE;
-	Sat, 14 Feb 2026 17:21:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771089715;
-	bh=1i7gSbu41hFYgTCQF1arKUFvWp4WQocuuxlQ71+EUnI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=i0ZqRKauN6Fd1sn2OtSYTf8S5LDExvFq2oxtrsi3n+cb8XpVL9ev8Y437Q4HTVvuJ
-	 nYHU6PSOEPV6t4ATsGxT0hdM6CYLC8pUwMa14AJNLTo/Dyce++tnYR3zRTE0DG+JsK
-	 rA+/WLUCOiF848cFBEcbF9zObAbGrEnE7qZKsGuq+0qqCzlrajsok2iUYZ6Moue304
-	 TCvPSkkw9J31wadZ2Sf5sUJQycDpIR1usX+5yWnHFDakGMkU0VqQT0BhBOjBXcD0S/
-	 rfOleePvxM7VwQFTUn/kxmTBxmZqwmpmYtevUfCitCQkBQOJyFAbm548HwiVWcZ8YR
-	 HKv54UmRrZQ+Q==
-Date: Sat, 14 Feb 2026 17:21:45 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Taha Ed-Dafili <0rayn.dev@gmail.com>
-Cc: dlechner@baylibre.com, rdunlap@infradead.org, skhan@linuxfoundation.org,
- linux-kernel-mentees-archive@lists.linuxfoundation.org, nuno.sa@analog.com,
- andy@kernel.org, corbet@lwn.net, lars@metafoo.de,
- Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] iio: accel: adxl345: Add event scaling and doc
- fixes
-Message-ID: <20260214172145.69cab531@jic23-huawei>
-In-Reply-To: <20260208150515.14798-1-0rayn.dev@gmail.com>
-References: <20260208150515.14798-1-0rayn.dev@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="l6y8isUx"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 72684411EC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1771089718; bh=gKdDdhNDbgEsDA959WLUu16pu3nunc7c4LJArrBSIP4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=l6y8isUxADjohqVpW37+rcdflG9eNxzcL6Wp8v0jaZo5yhRLkaSjrZbHm0lyK+CgE
+	 bpX6BFvaqxP0F2p3ckvHM+jZMNkZbO1s9W8/E3qqFqfRVu/6OFZc1G0f4NzPDVGpZt
+	 TZ5ljbX/g83tVRWPlc9W2VtTIXFNDXexKqvs0lRBYpYEktpUggVGTjNai/DGsEqHyP
+	 mLs4/YqQsYznnbx5Qgww7u8zyNwz56KIy/1vNO3aMKW2zprV3D6c6d0WA8ZXUTgB0X
+	 6GE2CxfWwWvQO4peZM4YRiUatfYhZoeYD3ftDjy1yz1z31lBAL+xk28oRfmk1LWSgC
+	 2U151JZICHV7Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 72684411EC;
+	Sat, 14 Feb 2026 17:21:58 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Wojciech <wojciech.develop@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: scheduler: remove extra whitespace in
+ sched-debug.rst and sched-deadline.rst
+In-Reply-To: <CALGt97_8_oYByt5-Eghz8FR9x0v90OEvVr9t8Dz2U9wOt0N=jQ@mail.gmail.com>
+References: <CALGt97_8_oYByt5-Eghz8FR9x0v90OEvVr9t8Dz2U9wOt0N=jQ@mail.gmail.com>
+Date: Sat, 14 Feb 2026 10:21:57 -0700
+Message-ID: <875x7zqlze.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Sun,  8 Feb 2026 10:05:01 -0500
-Taha Ed-Dafili <0rayn.dev@gmail.com> wrote:
+Wojciech <wojciech.develop@gmail.com> writes:
 
-> This series addresses ADXL345 driver non-compliance with the IIO ABI
-> for event thresholds.
-> 
-> Currently, the driver exposes raw values for thresholds (e.g., tap,
-> activity) without providing the necessary scale factor to convert them
-> to SI units (m/s^2), as mandated by the ABI.
-> 
-> This series implements `IIO_EV_INFO_SCALE` in the IIO core and applies
-> it to the ADXL345 driver, ensuring that userspace can correctly
-> interpret threshold values. It also cleans up existing documentation
-> errors and typos.
+> From 8c49fd00f04b0a4281d40cc69071b2182cd36498 Mon Sep 17 00:00:00 2001
+> From: "Wojciech S." <wojciech.develop@gmail.com>
+> Date: Sat, 14 Feb 2026 17:48:16 +0100
+> Subject: [PATCH] docs: scheduler: remove extra whitespace in
+> sched-debug.rst and sched-deadline.rst
+>
+> Signed-off-by: Wojciech S. <wojciech.develop@gmail.com>
 
-Nice series thanks!
+This patch has the same problems as the previous one I replied to:
 
-Applied to the testing branch of iio.git which I'll rebase once rc1 is available.
+- The above header information should not be in the changelog.  Please
+  try sending patches just to yourself until you can verify that the
+  formatting is correct.
 
-Jonathan
+- Two spaces after a period is not an error in need of correction.
+  Since that is the only thing this patch is changing, I have to say
+  that it really is not needed at all.
 
-> 
-> Changes in v3:
-> - Patch 1: Reverted "axis" -> "axes" change in documentation as it is
->   used as an adjective (Randy Dunlap).
-> - Patch 2: Reworded commit message to "Implement support for..." instead
->   of "missing from..." (David Lechner).
-> - Patch 4: Simplified documentation table by removing repetitive scale
->   values from every row. Added explicit table entries for the new
->   `in_accel_gesture_scale` and `in_accel_mag_scale` attributes instead
->   (Jonathan Cameron).
-> - Patch 4: Fixed "inscale" typo in commit message.
-> 
-> Changes in v2:
-> - Added core infrastructure for IIO_EV_INFO_SCALE.
-> - Implemented event scaling (0.612915 m/s^2) for ADXL345.
-> - Fixed technical math/decimal errors in existing documentation.
-> - Cleaned up grammar and pluralization issues in .rst file.
-> 
-> Taha Ed-Dafili (4):
->   docs: iio: adxl345: fix typos and grammar
->   iio: core: Add IIO_EV_INFO_SCALE to event info
->   iio: accel: adxl345: Implement event scaling for ABI compliance
->   docs: iio: adxl345: update math and examples for scaling
-> 
->  Documentation/iio/adxl345.rst    | 65 +++++++++++++++++++-------------
->  drivers/iio/accel/adxl345_core.c | 28 +++++++++++---
->  drivers/iio/industrialio-event.c |  1 +
->  include/linux/iio/types.h        |  1 +
->  4 files changed, 63 insertions(+), 32 deletions(-)
-> 
+Thanks,
 
+jon
