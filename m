@@ -1,212 +1,172 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB9C24677B;
-	Sun, 15 Feb 2026 19:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3DFD30B535
+	for <linux-doc@vger.kernel.org>; Sun, 15 Feb 2026 22:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771183751; cv=none; b=A3hea2reaZgpEsOHNkzpIY6QXzlE3vEL7nw83+lnL9lQvnDEwg1TZxrQusPbetRi1alvJK/HkGDpnEbVC3d0f88azjqHQ0rltoWY6/7r/p1Rdqk8CgrpAsWGUnpsi2ZkI0r54LqdGpOgAGe/a+h8P3fpCCIl0LiKlsxq/EvONXI=
+	t=1771196117; cv=none; b=VUePaUETMTN/38vo+l6y25q/AEbdv1D2OK+ixyGq+jYsAmsSK7UvBRATLKDuLdDCxFRXc2wVhGlNqjRA9dFOn/gmUQm4B7HK3lU5j0pORHpqLFonPXWaleWVhJTbnV8VJOjJ/fUF36VDKuctTbJLAdFQbFTmpcMZmyFTifGPMzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771183751; c=relaxed/simple;
-	bh=zLaLcmSNawlbGGGAGMLWaP3Vsa9W85lOOL+d7+YYtJs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EV9MZtHALeD9eVpe4DVE3KWY7YqwcPF9gGxHgUl5HCPDjxw8VTuwccO9eMltY00xKxqa+om2ZNQHy1t1wtPJYui/iKJhsx2OPXsqMkGWwGFJLQ/qCTNMSqb4BPICj7JKrb4WYDMy16+bY1r3ZyTzlqj56MKHIEbUZA3rtM7AMDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FM0UmNY+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771196117; c=relaxed/simple;
+	bh=TNyRzSBr/AtNCce67q749OZFUSphAmrWNkHgydf587w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GlNYYSzaEq8XF/Yn5bF3zg9fO2J/z3FZczUvKLakIqHNlAvjsKb9Ik28d5fNORzGpRE55mgLAgk9so3/nat1IW1PvCIdvZwCfxigP4r6c+SeNYvrDGas8YT3P8SjQjWyNHLe/DxgP/BGMvixBakDOX07hmWFVjNsVaNcWF7tvfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Khem6T/L; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FM0UmNY+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D08EC4CEF7;
-	Sun, 15 Feb 2026 19:29:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771183751;
-	bh=zLaLcmSNawlbGGGAGMLWaP3Vsa9W85lOOL+d7+YYtJs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=FM0UmNY+OiJQR8mSiLgp3yCTghxX1wt5w7ZEBbWWiA6NLULw0pfXFeIBHJHNto/5c
-	 2y/ykTHEUQChp94CKPXOXhT2vvxuUyCzQc4ek3RzJL0PvtDHN212AdrmhhMC+teJy0
-	 BiKhhEvhoWe55cl51IciTSimU2Cs6L+swoSrtp9xMMEzVM/Wv67KxBHw+9xjQ0SsHj
-	 XGIcXYGPJ/Xbnm3iHOTBX60QbdVE4gKwy8lAKxsXE4aPBKvkfVe/grJrOh/5N/Y6Kp
-	 MY/vYZbsZXeOK40K+i4M4Chm0DzkU/LTz1eue5vzOv7HWd/WI0Z9saufQLBf13QSc+
-	 30/6eqqnyalcQ==
-Date: Sun, 15 Feb 2026 19:29:01 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Taha Ed-Dafili <0rayn.dev@gmail.com>, rdunlap@infradead.org,
- skhan@linuxfoundation.org,
- linux-kernel-mentees-archive@lists.linuxfoundation.org, nuno.sa@analog.com,
- andy@kernel.org, corbet@lwn.net, lars@metafoo.de,
- Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] docs: iio: adxl345: update math and examples for
- scaling
-Message-ID: <20260215192901.0aa23e20@jic23-huawei>
-In-Reply-To: <53cb71bb-4943-4e2f-bd26-9adeada84852@baylibre.com>
-References: <20260208150515.14798-1-0rayn.dev@gmail.com>
-	<20260208150515.14798-5-0rayn.dev@gmail.com>
-	<53cb71bb-4943-4e2f-bd26-9adeada84852@baylibre.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Khem6T/L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=fjqK1CnmMLnynK
+	mUkq2NGNXQxQWHiqDXRDV1cxXQMFc=; b=Khem6T/LPXw9DcbGo2IAw6sOzSG6U5
+	H+3X7IjRDdV59N8cB8IV56DQabVc5sY0EGs7isNQKWgzIcrflS0xfTsyWykrOCIN
+	uXqpNDup5wRHcdl/ovjJEz4Kph6I3yNxxllxraRzP/cLNeSBfT24ixK4hIpVTbFu
+	KPhRq0XDDSGz0w/xy9Jv1AYH2A9nrni1JQ2Z+U+GiSqkbGNbWo9dEOvx68PTFusm
+	BA+a4Gt8A7K2lky5w3aEzE14WxR8ylMT5G5nh+AxRcgKht+aPrFfq2KQigyR28W+
+	r4SDphAActIw7+YT8hOnwMb1RpfMPbwjCPddRcsyeOy0MBMvVqYD3Zag==
+Received: (qmail 3011230 invoked from network); 15 Feb 2026 23:55:04 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Feb 2026 23:55:04 +0100
+X-UD-Smtp-Session: l3s3148p1@reycuuRKXIQujns5
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: [RFC v2 PATCH 00/13] hwspinlock: move device alloc into core and refactor includes
+Date: Sun, 15 Feb 2026 23:54:40 +0100
+Message-ID: <20260215225501.6365-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, 14 Feb 2026 11:11:41 -0600
-David Lechner <dlechner@baylibre.com> wrote:
+My ultimate goal is to allow hwspinlock provider drivers outside of the
+subsystem directory. It turned out that a simple split of the headers
+files into a public provider and a public consumer header file is not
+enough because core internal structure need to stay hidden. Even more,
+their opaqueness could and should even be increased. That would also
+allow the core to handle the de-/allocation of the hwspinlock device
+itself.
 
-> On 2/8/26 9:05 AM, Taha Ed-Dafili wrote:
-> > Update the documentation to reflect the addition of event scaling
-> > and correct existing technical errors in scale values.
-> >=20
-> > key changes:
-> > - Fix the 62.5 g/LSB typo to 62.5 mg/LSB and add SI unit conversion.
-> > - Correct decimal precision of in_accel_scale and
-> > in_accel_scale_available to match actual SI unit (m/s^2)
-> > values reported by the driver.
-> > - Add sysfs example showing how to read and interpret the
-> > newly implemented event scale factor.
-> >=20
-> > Suggested-by: Jonathan Cameron <jic23@kernel.org>
-> > Signed-off-by: Taha Ed-Dafili <0rayn.dev@gmail.com>
-> > ---
-> >  Documentation/iio/adxl345.rst | 41 +++++++++++++++++++++++------------
-> >  1 file changed, 27 insertions(+), 14 deletions(-)
-> >=20
-> > diff --git a/Documentation/iio/adxl345.rst b/Documentation/iio/adxl345.=
-rst
-> > index 3ca6a78feb5b..321565699817 100644
-> > --- a/Documentation/iio/adxl345.rst
-> > +++ b/Documentation/iio/adxl345.rst
-> > @@ -13,7 +13,12 @@ This driver supports Analog Device's ADXL345/375 on =
-SPI/I2C bus.
-> >  * `ADXL375 <https://www.analog.com/ADXL375>`_
-> > =20
-> >  The ADXL345 is a general-purpose, low-power, 3-axis accelerometer with=
- selectable
-> > -measurement ranges. The ADXL345 supports the =C2=B12 g, =C2=B14 g, =C2=
-=B18 g, and =C2=B116 g ranges.
-> > +measurement ranges. The ADXL345 supports the following ranges:
-> > +
-> > +- =C2=B12g  (approx. =C2=B119.61 m/s^2)
-> > +- =C2=B14g  (approx. =C2=B139.23 m/s^2)
-> > +- =C2=B18g  (approx. =C2=B178.45 m/s^2)
-> > +- =C2=B116g (approx. =C2=B1156.91 m/s^2)
-> > =20
-> >  2. Device Attributes
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > @@ -98,23 +103,23 @@ listed.
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> >  | in_accel_gesture_singletap_timeout          | Single tap duration in=
- [us]                 |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> > -| in_accel_gesture_singletap_value            | Single tap threshold v=
-alue in 62.5/LSB      |
-> > +| in_accel_gesture_singletap_value            | Single tap threshold v=
-alue                  |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> >  | in_accel_mag_falling_period                 | Inactivity time in sec=
-onds                  |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> > -| in_accel_mag_falling_value                  | Inactivity threshold v=
-alue in 62.5/LSB      |
-> > +| in_accel_mag_falling_value                  | Inactivity threshold v=
-alue                  |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> >  | in_accel_mag_adaptive_rising_en             | Enable AC coupled acti=
-vity on X axis        |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> >  | in_accel_mag_adaptive_falling_period        | AC coupled inactivity =
-time in seconds       |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> > -| in_accel_mag_adaptive_falling_value         | AC coupled inactivity =
-threshold in 62.5/LSB |
-> > +| in_accel_mag_adaptive_falling_value         | AC coupled inactivity =
-threshold             |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> > -| in_accel_mag_adaptive_rising_value          | AC coupled activity th=
-reshold in 62.5/LSB   |
-> > +| in_accel_mag_adaptive_rising_value          | AC coupled activity th=
-reshold               |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> >  | in_accel_mag_rising_en                      | Enable activity detect=
-ion on X axis         |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> > -| in_accel_mag_rising_value                   | Activity threshold val=
-ue in 62.5/LSB        |
-> > +| in_accel_mag_rising_value                   | Activity threshold val=
-ue                    |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> >  | in_accel_x_gesture_singletap_en             | Enable single tap dete=
-ction on X axis       |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> > @@ -126,6 +131,10 @@ listed.
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> >  | in_accel_z_gesture_singletap_en             | Enable single tap dete=
-ction on Z axis       |
-> >  +---------------------------------------------+-----------------------=
-----------------------+
-> > +| in_accel_gesture_scale                      | Tap threshold scale (0=
-.612915 m/s^2).       |
-> > ++---------------------------------------------+-----------------------=
-----------------------+
-> > +| in_accel_mag_scale                          | Activity threshold sca=
-le (0.612915 m/s^2).  |
-> > ++---------------------------------------------+-----------------------=
-----------------------+ =20
+This series does all that. Patches 1-7 abstract access to internal
+structures away using helpers. Patch 8 then move hwspinlock device
+handling to the core, simplifying drivers. The remaining patches
+refactor the headers until the internal one is gone and the public ones
+are divided into provider and consumer parts. More details are given in
+the patch descriptions.
 
-Does it?  See below,
+One note about using a callback to initialize hwspinlock priv: I also
+experimented with a dedicated 'set_priv' helper function. It felt a bit
+clumsy to me. Drivers would need to save the 'bank' pointer again and
+iterate over it. Because most drivers will only have a simple callback
+anyhow, it looked leaner to me.
 
->=20
-> It looks like the others are in alphabetical order (or , so would
-> be nice to insert the new ones in the appropriate order.
->=20
-> (in_accel_mag_falling is also out of order, so that could be part
-> of the precursor cleanup patch)
->=20
-> Also, missing in_accel_mag_adaptive_scale (it was added in
-> the driver changes.)
+This series is based on the cleanup series "hwspinlock: remove
+platform_data from subsystem" and has been tested on a Renesas
+SparrowHawk board (R-Car V4H) with a yet-to-be-upstreamed hwspinlock
+driver for the MFIS IP core. A branch can be found here (the MFIS driver
+is still WIP):
 
-That missing is particularly interesting as I think Claude code + Chris's p=
-rompts found an issue
-(took a while as I ran out of tokens yesterday!)
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
 
-Issue: IIO_EV_INFO_SCALE is added to mask_shared_by_type for MAG and
-  MAG_ADAPTIVE event types (both rising and falling), but
-  adxl345_read_mag_value() doesn't handle IIO_EV_INFO_SCALE =E2=80=94 it fa=
-lls
-  through to default: return -EINVAL. The sysfs attributes
-  in_accel_mag_scale and in_accel_mag_adaptive_scale will be created
-  by the IIO core but reading them returns -EINVAL. The scale case
-  is only handled for IIO_EV_TYPE_GESTURE events.
+Buildbots seem to be happy, too.
 
-Which i think is right:
-The code is only added in patch 3 for the TYPE_GESTURE, but the relevant
-bit is set to create the interface you call out as missing... + indeed
-in_accel_mag_scale.
+Looking forward to comments. I especially wonder if the last patch
+should stay as-is or if it should be broken out, so individual
+subsystems can pick up their part (with a fallback in place, of course,
+until the last user is converted).
 
-Taha assuming this bug report is correct, please up your testing game.
-This stuff is much easier for an author to find by actually looking at
-what new files are created and checking they respond as expected than
-it is for reviewers to figure out from patches.
+Happy hacking,
 
-Jonathan
+   Wolfram
 
 
+Wolfram Sang (13):
+  hwspinlock: add helpers to retrieve core data
+  hwspinlock: add callback to fill private data of a hwspinlock
+  hwspinlock: omap: use new callback to initialize hwspinlock priv
+  hwspinlock: qcom: use new callback to initialize hwspinlock priv
+  hwspinlock: sprd: use new callback to initialize hwspinlock priv
+  hwspinlock: stm32: use new callback to initialize hwspinlock priv
+  hwspinlock: sun6i: use new callback to initialize hwspinlock priv
+  hwspinlock: handle hwspinlock device allocation in the core
+  hwspinlock: move entries from internal to public header
+  hwspinlock: remove internal header
+  hwspinlock: sort include and update copyright
+  hwspinlock: refactor provider.h from public header
+  hwspinlock: refactor consumer.h from public header
 
+ Documentation/locking/hwspinlock.rst          |   2 +-
+ MAINTAINERS                                   |   2 +-
+ drivers/base/regmap/regmap.c                  |   2 +-
+ drivers/hwspinlock/hwspinlock_core.c          | 129 +++++++++++++-----
+ drivers/hwspinlock/hwspinlock_internal.h      |  72 ----------
+ drivers/hwspinlock/omap_hwspinlock.c          |  29 ++--
+ drivers/hwspinlock/qcom_hwspinlock.c          |  69 +++++-----
+ drivers/hwspinlock/sprd_hwspinlock.c          |  41 +++---
+ drivers/hwspinlock/stm32_hwspinlock.c         |  28 ++--
+ drivers/hwspinlock/sun6i_hwspinlock.c         |  38 ++----
+ drivers/iio/adc/sc27xx_adc.c                  |   2 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |   2 +-
+ drivers/mfd/syscon.c                          |   2 +-
+ drivers/nvmem/sc27xx-efuse.c                  |   2 +-
+ drivers/nvmem/sprd-efuse.c                    |   2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c         |   2 +-
+ drivers/soc/qcom/smem.c                       |   2 +-
+ drivers/spi/spi-sprd-adi.c                    |   2 +-
+ .../{hwspinlock.h => hwspinlock/consumer.h}   |  29 +---
+ include/linux/hwspinlock/provider.h           |  60 ++++++++
+ 20 files changed, 268 insertions(+), 249 deletions(-)
+ delete mode 100644 drivers/hwspinlock/hwspinlock_internal.h
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (93%)
+ create mode 100644 include/linux/hwspinlock/provider.h
 
->=20
+-- 
+2.51.0
 
