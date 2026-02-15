@@ -1,87 +1,89 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail.cock.li (unknown [37.120.193.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1E22E40B;
-	Sun, 15 Feb 2026 17:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434B4946C;
+	Sun, 15 Feb 2026 17:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.120.193.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771175970; cv=none; b=UcPFMjf4zV5oqQsx22rR0lIvAikT0Zkn8c+une4zZtG+dCLw3haoQlaqfZoD59MiOPRNSMY8FutCD1yfW1BODE53A8ccZMlFuKnaqbWn0wzBY02WNvx/DAeO6niI9jzYC4Da5BBtxe78nqKxs8LZ3/CQUwElpMpZ/gF49nSEcr4=
+	t=1771177187; cv=none; b=hkMv5DudhdJ77+hRUYzdLP2AiFTYs7STyBTdXjs8eYHlWwXrVTy7E1G79YbrByEx90m8v3w3BGy80OP62eOXAjeTKxSAQdCdrhbQV9sQat1RK7DWxMY91aOq1TysckOW3jUesPX6QkQnMFfuzS3s99Bo3WhgKwMcPOLrUDIVWsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771175970; c=relaxed/simple;
-	bh=UD7EjHwgToBu4e1/EyL2ZjM+ykC9wBzNC/lQ9ndldvg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hc5KO5dPzINhqHECWxOewppWQnM7F3iodCC6bLzaUvetawCLePSSWEBu1eE05SGDKqD/MyaOgO3gdh/ilFsSfZkJjMhxj2hPS+uZDRZGvbUFmtJarw9if/jeYDbkluVJla/iYJKYCDaDUxP7uvG18ZN1+E64ksb4W87g2kflxrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=U780CeNX; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1771177187; c=relaxed/simple;
+	bh=l33Ycp65CACdWx2WqacgidSqbewyIBYP11DWGz6olW8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GEETzElnCC4HSuCCtBItu9CEoOOK1yZuhtt+K1xHyttOVR6j5cGxlUCHGRmTJdEJiG0z0S+UgQN15pxbSmXvtNwZ7WOZNgnDqCVP7EKUNJZ+zLMKP6HtfEX2D8iJjvGUI4+oMwZA0zoQ+jKz3C2x/ClCUt/Q4Ar+cMH3QCKa8Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc; spf=pass smtp.mailfrom=airmail.cc; dkim=pass (2048-bit key) header.d=airmail.cc header.i=@airmail.cc header.b=lUIdOqbf; arc=none smtp.client-ip=37.120.193.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airmail.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U780CeNX"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7A14B40C8B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1771175968; bh=ejTkC9IlaWmy3OQvC2bJ6uYnHOcq+02v2MmzJ/f+x+0=;
+	dkim=pass (2048-bit key) header.d=airmail.cc header.i=@airmail.cc header.b="lUIdOqbf"
+From: Hans Anda <hansa@airmail.cc>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=airmail.cc; s=mail;
+	t=1771177171; bh=l33Ycp65CACdWx2WqacgidSqbewyIBYP11DWGz6olW8=;
 	h=From:To:Cc:Subject:Date:From;
-	b=U780CeNX78IgjCSl45N1wzpF+Wm0ib9v8OKTnclmAxE39G5mpKmvKcPX+9lSj5ZP5
-	 Fi8nw7kJftps84qiQIlMbXLhvpe1Lf8lk560nWqBfReAcL+3x12jpY9HYlUWLRtWjj
-	 A7m8/2xFXWfyA+DBqSL/2yU+Smy/nQ2VmEG81VdUGUlcWE69Cghn0bnOH5scruAMfz
-	 RfQlNz/bzjeciymJnDTKovUESBokm5LBNKZgG0DYA6++gvi36CWuKOh8RM3C9y+UVO
-	 ifxIGjQJc953/EZzXkTReXnz96lSyqH2GH8hAlwXlij9RvwtiXWrjrjNuSoYTxHnJ/
-	 c0m90Ud6PT/vw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7A14B40C8B;
-	Sun, 15 Feb 2026 17:19:28 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Shuah Khan
- <shuah@kernel.org>
-Subject: [GIT PULL] Documentation fixes for 7.0
-Date: Sun, 15 Feb 2026 10:19:27 -0700
-Message-ID: <87wm0dq600.fsf@trenco.lwn.net>
+	b=lUIdOqbfoC/U+MNsa7yfCQ3UMZi0gP9e3uo3QbM2EQuT6mKkO9ghtHO5oA3RXwCyZ
+	 gjMUQZQwKslzqr+CCR7jj5hyRRm0o7IGetgwFk+CUwKR+xi6SUeN+VAB+KuaHzdA/o
+	 1whDuR+j9zUxHGe1htgr9MzLcmOwBz9OhrOHodgtS7OqhH/H1bvXN9nakdLK7uQZcd
+	 7UrkxZt0vcM/nercuD0hX4R1JkJYSv3IMpByrd0oM1ehGNNjCLSiuPTUNBcqnG7kLB
+	 kfe+3wCbPfWpQ8uHwMEv6Bisqfbvrgrw0FN6+QUzUWvDgNWU5imDKK2LDoynaukOEu
+	 UmDr009s0o1rA==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hans Anda <hansa@airmail.cc>
+Subject: [PATCH] Documentation: Text referrals -> Links
+Date: Sun, 15 Feb 2026 18:38:59 +0100
+Message-ID: <20260215173858.53653-2-hansa@airmail.cc>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit 0a83293322fde69f1fb4722bd3c79c2d52eef436:
+Replace text files with the content "This file has moved to *"
+with links pointing there. The file /Documentation/Changes serves
+as a model for this patch.
 
-  doc: development-process: add notice on testing (2026-02-02 10:02:05 -0700)
+Signed-off-by: Hans Anda <hansa@airmail.cc>
+---
+ Documentation/CodingStyle       | 2 +-
+ Documentation/SubmittingPatches | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ mode change 100644 => 120000 Documentation/CodingStyle
+ mode change 100644 => 120000 Documentation/SubmittingPatches
 
-are available in the Git repository at:
+diff --git a/Documentation/CodingStyle b/Documentation/CodingStyle
+deleted file mode 100644
+index 320983ca114e..000000000000
+--- a/Documentation/CodingStyle
++++ /dev/null
+@@ -1 +0,0 @@
+-This file has moved to process/coding-style.rst
+diff --git a/Documentation/CodingStyle b/Documentation/CodingStyle
+new file mode 120000
+index 000000000000..b4a9864269eb
+--- /dev/null
++++ b/Documentation/CodingStyle
+@@ -0,0 +1 @@
++process/coding-style.rst
+\ No newline at end of file
+diff --git a/Documentation/SubmittingPatches b/Documentation/SubmittingPatches
+deleted file mode 100644
+index 81455705e4a6..000000000000
+--- a/Documentation/SubmittingPatches
++++ /dev/null
+@@ -1 +0,0 @@
+-This file has moved to process/submitting-patches.rst
+diff --git a/Documentation/SubmittingPatches b/Documentation/SubmittingPatches
+new file mode 120000
+index 000000000000..ffff4a70bb54
+--- /dev/null
++++ b/Documentation/SubmittingPatches
+@@ -0,0 +1 @@
++process/submitting-patches.rst
+\ No newline at end of file
+-- 
+2.52.0
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/docs/linux.git tags/docs-7.0-2
-
-for you to fetch changes up to e1e828a1e9a79af76a7cdc271e0a506e496c2eaa:
-
-  docs: toshiba_haps: fix grammar error in SSD warning (2026-02-14 10:17:20 -0700)
-
-----------------------------------------------------------------
-A handful of small, late-arriving documentation fixes.
-
-----------------------------------------------------------------
-Amitabh Srivastava (1):
-      docs: process: maintainer-pgp-guide: update kernel.org docs link
-
-Ariful Islam Shoikot (1):
-      docs: clarify wording in programming-language.rst
-
-Berke Antar (1):
-      docs: toshiba_haps: fix grammar error in SSD warning
-
-Min-Hsun Chang (2):
-      Docs/core-api: fix typos in rbtree.rst
-      Docs/mm: fix typos and grammar in page_tables.rst
-
-Randy Dunlap (1):
-      docs: kdoc_parser: allow __exit in function prototypes
-
- Documentation/admin-guide/laptops/toshiba_haps.rst |  2 +-
- Documentation/core-api/rbtree.rst                  |  6 +++---
- Documentation/mm/page_tables.rst                   | 12 ++++++------
- Documentation/process/maintainer-pgp-guide.rst     |  4 +++-
- Documentation/process/programming-language.rst     |  6 +++---
- tools/lib/python/kdoc/kdoc_parser.py               |  1 +
- 6 files changed, 17 insertions(+), 14 deletions(-)
