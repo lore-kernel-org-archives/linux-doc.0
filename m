@@ -1,123 +1,212 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B036517A30A
-	for <linux-doc@vger.kernel.org>; Sun, 15 Feb 2026 19:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771183281; cv=pass; b=YPrjurKpBwVqeJwFMoWhHZRpE3Oj8Uxdy7y7kAoNmsZhnPSCx6KIQ5XITBhC9n0VdB9fNQhSwpQ/AE11l2S4zN1GGtX0IbhAqz4cd8gcHdBEW74VWdBEPl5+W0gwihR15rB6EX7OPlKAe6Sac9C1OAdBvCaaio6cQ3AUZtVPeFg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771183281; c=relaxed/simple;
-	bh=NSOrKvmY/rr6cfABVZ+oQuS33aHDqokQESj3t9ejXFY=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=Mt45krhiAspGzfe//USARCwbcR0IqDppaNY9jgSyDOS9ahhukh2CGGlkZr6sWB/2J3kO/n7Dd2e4rrJE0Z20sOSaSioLNtzlX1Wem+BkO1xLSrS9y2l9+l0YycKmQ3HM5FoN2eIB1vPEAk5ahBVPS6PwqaXKQaPGu6BdY9ESH44=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PQx9+N9k; arc=pass smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB9C24677B;
+	Sun, 15 Feb 2026 19:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771183751; cv=none; b=A3hea2reaZgpEsOHNkzpIY6QXzlE3vEL7nw83+lnL9lQvnDEwg1TZxrQusPbetRi1alvJK/HkGDpnEbVC3d0f88azjqHQ0rltoWY6/7r/p1Rdqk8CgrpAsWGUnpsi2ZkI0r54LqdGpOgAGe/a+h8P3fpCCIl0LiKlsxq/EvONXI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771183751; c=relaxed/simple;
+	bh=zLaLcmSNawlbGGGAGMLWaP3Vsa9W85lOOL+d7+YYtJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EV9MZtHALeD9eVpe4DVE3KWY7YqwcPF9gGxHgUl5HCPDjxw8VTuwccO9eMltY00xKxqa+om2ZNQHy1t1wtPJYui/iKJhsx2OPXsqMkGWwGFJLQ/qCTNMSqb4BPICj7JKrb4WYDMy16+bY1r3ZyTzlqj56MKHIEbUZA3rtM7AMDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FM0UmNY+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PQx9+N9k"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b8850aa5b56so363785366b.2
-        for <linux-doc@vger.kernel.org>; Sun, 15 Feb 2026 11:21:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771183278; cv=none;
-        d=google.com; s=arc-20240605;
-        b=V9V0pqRpxfYBz24KgQdjsJjKe5idedsUaCVAbT05zogiUozSZSffDFWRHCMgEf8WSb
-         hWlQvQOqFJk9k1IvlmBNrUjkFi90Qt6Ss1Ew/KqPWkWmLXO5q6HJ7Bm0S1qWrOgMQQcj
-         1m4gSdQwHVDibrACK+DpFBmHnBAn7f3LYCC2ZRBQPgCmG2sd0jcXsTh/shC3L7HtmsFV
-         WL488aO8VF3wxpfnnwTV7TXFqXTobkzSBs2pVLd2oNUUlhTeOaFcm3BqEVEeROk4gLSd
-         09cvCSMRpABx5bWWqEZrKIT82mTHgGZ/9Gh21rQG1NTddOme1tux4w4MZNXRDZfbHS+S
-         P6OQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=CYaPFQOWi3H502o7/++oXMT48MJbCgrizb61GZOID+0=;
-        fh=ZbonjbzJJsFV/lWPP+WlMJ1nkxs7eEVT2jwfomzjfAY=;
-        b=N2c0x0iGOpueYoCIjUZPca6TiC25gTBmc32EsqWuDWERZlXh4/r+4Ln5l0sABouaio
-         9DtDPlVo7u4Ab6IRZOwivK5x/YE1SeBMgvFrFY4xfU8J/RB09q65sR2krOuqJbJlIicW
-         G23AtPzKmz+15sJxdqxq4ra0w5I/enxw9ioUPJZIAE39oT7UpbhJs+tebjcus3nAQmSd
-         wJN4CmGWeG3cAFihN3SRe0b/bGMZYE/3TwHJd63ft8/y+WXcN63CJ3Q+kuDTmHCH5JYj
-         zUw70Q9D2ghI2KOvgmsdNJ4onDy+pIFzSLTBhJ64RbXDgFZ5ODqIMS/vNmUGF0OvNuwA
-         eicQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771183278; x=1771788078; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=CYaPFQOWi3H502o7/++oXMT48MJbCgrizb61GZOID+0=;
-        b=PQx9+N9kZMHi8XQooXDAWKPwW65HZHwlmTR2XfkkPOQZOvzIcRjlfAPnaE/gfXHKMw
-         nG1x9836CUw8ccsrXw8rScoBYUa7yBqb69pcKiSS79EYo3pDTRi7oUjx0r8/L9JcQWzh
-         OVEsjR0PO/WnjPvk9G6MrYkNXQWiwbjA/A2VvFK6HBlZ6gtYisVJX2z5HIor9Yb69YVv
-         AHZmxYob1U4ydoc8yon0DN1hRs2SeH1XJW7dmsYM0LjCnaKvUUoDQvs1OBdtfNPcyand
-         8lvzUJNbrxIf98qxo/Fb2h2jEYVkWWfxiiW2bo1+vJh1lQRHSjenv4r5uxUbL2iBvKjr
-         VaZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771183278; x=1771788078;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CYaPFQOWi3H502o7/++oXMT48MJbCgrizb61GZOID+0=;
-        b=dFUOFeFAw+rIwZaLhK9OCCLMjGm+LAW2/+m8cVC996qwFWySuBYNpi+pSX6wfgtPch
-         sgXYUeS4ckqyRKQrsmOJwwsI5R0z97tIU8SijQKOsXi0RX1lcxTP3MOXnZNJAbQRjTqW
-         dxO04h+xSJ7BMK2YIL4I/mJhTa9c/gM6DxR9etnWyiz/pcHyP09iQVDJifwBMPiAvfT/
-         wiAazZ7K78ta7w0gxSxUIHEhB2nsS204OrbCwLy4YeR74i971fdlOZujkNpKEKlcoqh/
-         jKb96GXRJteubtxFSoOv1XdGoXxvZSTXfm0WP1Av8IMSPLSefnhLiDD3i97UPqr0pC/q
-         deUQ==
-X-Gm-Message-State: AOJu0YytdXuzCJ/2gEJXFitC1ICo/rx4M7Q/xqnFHRWDR8IYG2jGnRdw
-	geKC5RP+jR3NaYyzmBKPOpQXAVeF+Nsud4EGaaG1uzFWqrgvWw6jGScW1u5GwFZOIJXqoX5BAxz
-	5fjXTja8zJTPImfMkYmoeO0gFpDuopMXOdj97CUaOGw==
-X-Gm-Gg: AZuq6aJIwiGnTrJ1p6vqbEc/IYhGpelG4P6/E4D/hrXc1Ez0vPIuDBfrnwXrojObbjq
-	VqAGVqooquJC/MO9nC1Qgb7i8iIc9FwikeHojjip3pTaz5SF+C2up+OyDXyvTvqI2uC+jOf+4W1
-	oLbZyvOdQvzWOnsZb1EcDj5OFkrKyzSi4vC/TC/dOF3U0UcKShaRYjQ6/Vjv3ADtOxCLKJif6gu
-	foIGVT3OhkafjVc1WmAHA5p/q1ANXkKt5Xdf9mO0xLlIvONjORjZ2VEZWdYF8De7VNkXOd9qsMb
-	oW8OgQ7o
-X-Received: by 2002:a17:907:6e8d:b0:b87:365d:26b8 with SMTP id
- a640c23a62f3a-b8face249a3mr465105766b.35.1771183277651; Sun, 15 Feb 2026
- 11:21:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FM0UmNY+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D08EC4CEF7;
+	Sun, 15 Feb 2026 19:29:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771183751;
+	bh=zLaLcmSNawlbGGGAGMLWaP3Vsa9W85lOOL+d7+YYtJs=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FM0UmNY+OiJQR8mSiLgp3yCTghxX1wt5w7ZEBbWWiA6NLULw0pfXFeIBHJHNto/5c
+	 2y/ykTHEUQChp94CKPXOXhT2vvxuUyCzQc4ek3RzJL0PvtDHN212AdrmhhMC+teJy0
+	 BiKhhEvhoWe55cl51IciTSimU2Cs6L+swoSrtp9xMMEzVM/Wv67KxBHw+9xjQ0SsHj
+	 XGIcXYGPJ/Xbnm3iHOTBX60QbdVE4gKwy8lAKxsXE4aPBKvkfVe/grJrOh/5N/Y6Kp
+	 MY/vYZbsZXeOK40K+i4M4Chm0DzkU/LTz1eue5vzOv7HWd/WI0Z9saufQLBf13QSc+
+	 30/6eqqnyalcQ==
+Date: Sun, 15 Feb 2026 19:29:01 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Taha Ed-Dafili <0rayn.dev@gmail.com>, rdunlap@infradead.org,
+ skhan@linuxfoundation.org,
+ linux-kernel-mentees-archive@lists.linuxfoundation.org, nuno.sa@analog.com,
+ andy@kernel.org, corbet@lwn.net, lars@metafoo.de,
+ Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/4] docs: iio: adxl345: update math and examples for
+ scaling
+Message-ID: <20260215192901.0aa23e20@jic23-huawei>
+In-Reply-To: <53cb71bb-4943-4e2f-bd26-9adeada84852@baylibre.com>
+References: <20260208150515.14798-1-0rayn.dev@gmail.com>
+	<20260208150515.14798-5-0rayn.dev@gmail.com>
+	<53cb71bb-4943-4e2f-bd26-9adeada84852@baylibre.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Sharqawy Wael <sharqawycs@gmail.com>
-Date: Sun, 15 Feb 2026 21:21:06 +0200
-X-Gm-Features: AaiRm50GFAMbIk32M0WTarZLEd3sSf9DmE-APzJFjroSpmcBsv9TVCHW9P6IFbs
-Message-ID: <CAP25jw1Nx-vNWK3tzCXt8Rua=DcxVOFLJVQibQtFp=mPtxMv1A@mail.gmail.com>
-Subject: [PATCH] docs: fix typo in networking doc ('not possible' -> 'not be possible')
-To: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-From 7552253e49a4091baf1228667448908715bcb6e3 Mon Sep 17 00:00:00 2001
-From: Sharqawy Wael <sharqawycs@gmail.com>
-Date: Sun, 15 Feb 2026 19:40:14 +0200
-Subject: [PATCH] docs: fix typo in networking doc ('not possible' -> 'not be
- possible')
+On Sat, 14 Feb 2026 11:11:41 -0600
+David Lechner <dlechner@baylibre.com> wrote:
 
-in `Documentation/networking/ip-sysctl.rst` in line 3014
+> On 2/8/26 9:05 AM, Taha Ed-Dafili wrote:
+> > Update the documentation to reflect the addition of event scaling
+> > and correct existing technical errors in scale values.
+> >=20
+> > key changes:
+> > - Fix the 62.5 g/LSB typo to 62.5 mg/LSB and add SI unit conversion.
+> > - Correct decimal precision of in_accel_scale and
+> > in_accel_scale_available to match actual SI unit (m/s^2)
+> > values reported by the driver.
+> > - Add sysfs example showing how to read and interpret the
+> > newly implemented event scale factor.
+> >=20
+> > Suggested-by: Jonathan Cameron <jic23@kernel.org>
+> > Signed-off-by: Taha Ed-Dafili <0rayn.dev@gmail.com>
+> > ---
+> >  Documentation/iio/adxl345.rst | 41 +++++++++++++++++++++++------------
+> >  1 file changed, 27 insertions(+), 14 deletions(-)
+> >=20
+> > diff --git a/Documentation/iio/adxl345.rst b/Documentation/iio/adxl345.=
+rst
+> > index 3ca6a78feb5b..321565699817 100644
+> > --- a/Documentation/iio/adxl345.rst
+> > +++ b/Documentation/iio/adxl345.rst
+> > @@ -13,7 +13,12 @@ This driver supports Analog Device's ADXL345/375 on =
+SPI/I2C bus.
+> >  * `ADXL375 <https://www.analog.com/ADXL375>`_
+> > =20
+> >  The ADXL345 is a general-purpose, low-power, 3-axis accelerometer with=
+ selectable
+> > -measurement ranges. The ADXL345 supports the =C2=B12 g, =C2=B14 g, =C2=
+=B18 g, and =C2=B116 g ranges.
+> > +measurement ranges. The ADXL345 supports the following ranges:
+> > +
+> > +- =C2=B12g  (approx. =C2=B119.61 m/s^2)
+> > +- =C2=B14g  (approx. =C2=B139.23 m/s^2)
+> > +- =C2=B18g  (approx. =C2=B178.45 m/s^2)
+> > +- =C2=B116g (approx. =C2=B1156.91 m/s^2)
+> > =20
+> >  2. Device Attributes
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > @@ -98,23 +103,23 @@ listed.
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> >  | in_accel_gesture_singletap_timeout          | Single tap duration in=
+ [us]                 |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> > -| in_accel_gesture_singletap_value            | Single tap threshold v=
+alue in 62.5/LSB      |
+> > +| in_accel_gesture_singletap_value            | Single tap threshold v=
+alue                  |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> >  | in_accel_mag_falling_period                 | Inactivity time in sec=
+onds                  |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> > -| in_accel_mag_falling_value                  | Inactivity threshold v=
+alue in 62.5/LSB      |
+> > +| in_accel_mag_falling_value                  | Inactivity threshold v=
+alue                  |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> >  | in_accel_mag_adaptive_rising_en             | Enable AC coupled acti=
+vity on X axis        |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> >  | in_accel_mag_adaptive_falling_period        | AC coupled inactivity =
+time in seconds       |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> > -| in_accel_mag_adaptive_falling_value         | AC coupled inactivity =
+threshold in 62.5/LSB |
+> > +| in_accel_mag_adaptive_falling_value         | AC coupled inactivity =
+threshold             |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> > -| in_accel_mag_adaptive_rising_value          | AC coupled activity th=
+reshold in 62.5/LSB   |
+> > +| in_accel_mag_adaptive_rising_value          | AC coupled activity th=
+reshold               |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> >  | in_accel_mag_rising_en                      | Enable activity detect=
+ion on X axis         |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> > -| in_accel_mag_rising_value                   | Activity threshold val=
+ue in 62.5/LSB        |
+> > +| in_accel_mag_rising_value                   | Activity threshold val=
+ue                    |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> >  | in_accel_x_gesture_singletap_en             | Enable single tap dete=
+ction on X axis       |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> > @@ -126,6 +131,10 @@ listed.
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> >  | in_accel_z_gesture_singletap_en             | Enable single tap dete=
+ction on Z axis       |
+> >  +---------------------------------------------+-----------------------=
+----------------------+
+> > +| in_accel_gesture_scale                      | Tap threshold scale (0=
+.612915 m/s^2).       |
+> > ++---------------------------------------------+-----------------------=
+----------------------+
+> > +| in_accel_mag_scale                          | Activity threshold sca=
+le (0.612915 m/s^2).  |
+> > ++---------------------------------------------+-----------------------=
+----------------------+ =20
 
-The line previously read:
-    From now on it will not possible to add addresses/routes
-    to the selected interface.
+Does it?  See below,
 
-This is grammatically incorrect. Corrected it to:
-    From now on it will not be possible **to** add addresses/routes
-    to the selected interface.
+>=20
+> It looks like the others are in alphabetical order (or , so would
+> be nice to insert the new ones in the appropriate order.
+>=20
+> (in_accel_mag_falling is also out of order, so that could be part
+> of the precursor cleanup patch)
+>=20
+> Also, missing in_accel_mag_adaptive_scale (it was added in
+> the driver changes.)
 
-This is my first contriubtion into Linux and my first patch
----
- Documentation/networking/ip-sysctl.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That missing is particularly interesting as I think Claude code + Chris's p=
+rompts found an issue
+(took a while as I ran out of tokens yesterday!)
 
-diff --git a/Documentation/networking/ip-sysctl.rst
-b/Documentation/networking/ip-sysctl.rst
-index 28c7e4f5ecf9..594f3d9b8612 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -3011,7 +3011,7 @@ disable_ipv6 - BOOLEAN
+Issue: IIO_EV_INFO_SCALE is added to mask_shared_by_type for MAG and
+  MAG_ADAPTIVE event types (both rising and falling), but
+  adxl345_read_mag_value() doesn't handle IIO_EV_INFO_SCALE =E2=80=94 it fa=
+lls
+  through to default: return -EINVAL. The sysfs attributes
+  in_accel_mag_scale and in_accel_mag_adaptive_scale will be created
+  by the IIO core but reading them returns -EINVAL. The scale case
+  is only handled for IIO_EV_TYPE_GESTURE events.
 
-        When this value is changed from 0 to 1 (IPv6 is being disabled),
-        it will dynamically delete all addresses and routes on the given
--       interface. From now on it will not possible to add addresses/routes
-+       interface. From now on it will not be possible to add addresses/routes
-        to the selected interface.
+Which i think is right:
+The code is only added in patch 3 for the TYPE_GESTURE, but the relevant
+bit is set to create the interface you call out as missing... + indeed
+in_accel_mag_scale.
 
- accept_dad - INTEGER
--- 
-2.53.0
+Taha assuming this bug report is correct, please up your testing game.
+This stuff is much easier for an author to find by actually looking at
+what new files are created and checking they respond as expected than
+it is for reviewers to figure out from patches.
+
+Jonathan
+
+
+
+
+>=20
+
