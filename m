@@ -1,86 +1,162 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3CC81A9F91;
-	Sun, 15 Feb 2026 23:14:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E701F9ECB
+	for <linux-doc@vger.kernel.org>; Mon, 16 Feb 2026 01:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771197259; cv=none; b=k9nZ6f6a2/OJtg56r+7rjNyMHZl59OENNYU31C2AVN5/JJ7nNSiC3yUuQcRcWt/qfrTopddeZs/wx/U/BXlajGs3sjrZpwkO+8y9Js7UTYsiIO2PZzHMmpCEVeDLq2U6KEc+/yBmLFxCtlCjVAQ8VgTpl1dCxdetSGbs8aNoesM=
+	t=1771206432; cv=none; b=G8ZrVunDqPcCEUbXDJpMA0/qbNMAIXrvMqzswSH/dj/SwbjlQ/b4GXmbZpMyiU0sqN3XOiixcaVG699QpryClE93ljWaVCVgefo/X+ZlZp85QwOIa4WnC0dcHB5EtuqYtIzrw2vHdo6bUlJ6auA6Xlic/cjqQpKu7EyWRlssjwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771197259; c=relaxed/simple;
-	bh=F0LAK3YWrgUb4yAqU75Ie/YcGfuVcgaDhx8BTx15Wbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A7HFue/SWUAJSY5FPoAj0jV8R6ELmqJWR7aRvNQTlt8FflQm2N1mBac1LTi8A2ulFK0KilyObaeJWOHK0frHBxiOQOFp76POq3IdW3BbtACOxH1qbfjjBtKq8qzqTJW4Z0+g2L+gSchR010e6P9SrQ6INWqps3x0izKM/Ld8who=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Tq38ZBkw; arc=none smtp.client-ip=90.155.50.34
+	s=arc-20240116; t=1771206432; c=relaxed/simple;
+	bh=fCS7ADNlKDN4aSsEiuypi8RH1iuNpnMjldvF4u5oWZY=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=BDHGEqlFOSd+yo6xRLnreK4kBohYPxioQBV+fjZm5PMh3dyclb1kdWVbQ0dlljMCJ1qca493ZhGZ9offn0Oj7DPWSZSuz/VKB0IDpoxWPQuXXK5qgLuJirzWc+WFSWosQbjQSiwqIpWM+SCo3krtqUwKndiAoesqmE7lMcJXPM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CXx8W3nl; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Tq38ZBkw"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CXx8W3nl"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Orx67w0OdZsiD/sxqMgXoLutvDapJy44psufStBNd34=; b=Tq38ZBkwHinLdgKHuJ2F6wb0Lw
-	nuKJ0utimPTEs5necEg4OiOp93omwKGRX71185wTqzVACW8X/Btm5RQFtI2l9t/0LXp/dZlyaIOLM
-	GehWSFz/SBsnkXJyZynrq8iJyDwnyPiZ75nYhPdeisBx/mBVpuALLKyyepWJzVzLGdsoKKXUpVTrP
-	UiG1h5BkIqArcpktGdrJGEQfcuC7wHIfdw2rR8FSTBse3ekOr3x0SqqKT2TOwpGA16cFQh9WQ4mcJ
-	1LELudn4ti3SdkfASP4GSMU16UMLBkxEsG2Ob5cpm0F+uWJ/zPQ4zd/VuW57a7wmiDUp7TXRaurH9
-	jJ6U3oAw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vrlJH-00000001duk-2IlM;
-	Sun, 15 Feb 2026 23:13:51 +0000
-Date: Sun, 15 Feb 2026 23:13:51 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	David Hildenbrand <david@redhat.com>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Frank van der Linden <fvdl@google.com>,
-	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	kernel-team@meta.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCHv6 08/17] mm: Make page_zonenum() use head page
-Message-ID: <aZJTLwV2SaaKu1k_@casper.infradead.org>
-References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-9-kas@kernel.org>
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:Subject:From:To:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=+4JBxTT8hbS4Z36DTerQBmCWlO3RN27BtJPwgjxhseQ=; b=CXx8W3nlyBOVm54WoeyeFYDJZH
+	AL80kPEuOfBvpV+GNlHE8Jh/UxtuC5tOxGkGsHSIQBfFe/kAzN/Iktiqu8sxgtrbC3QBs9h7uNGwn
+	aXnfWelzwGIfNXW/ZKCS+hYLTbuxo5D7hjdPsSK6+2BgNf8FfxZ6v1ZnHRJG25u1Dx2TUZsHru/6q
+	Q3jKFknSTK5cxSYaWWFWmn0RiWFaDXUlfRYvlXc7Y9d4zkL8zPLe9A+0e2WSD9UMVUuXPDayh5mKl
+	hGWDjpKErKRiEVbLZXJiHWJt+uTJCVThymvxEQrnK7YahQZIJfwMkIZtIvcnEmA3Ee/dICmLgvUiS
+	m38OiXCw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vrnhb-00000005rJc-48F5;
+	Mon, 16 Feb 2026 01:47:08 +0000
+Message-ID: <1c1eb223-8fb6-464e-9d32-4abfd15afec3@infradead.org>
+Date: Sun, 15 Feb 2026 17:47:07 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260202155634.650837-9-kas@kernel.org>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Linux Documentation <linux-doc@vger.kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+From: Randy Dunlap <rdunlap@infradead.org>
+Subject: kernel-doc for nested structs/unions
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 02, 2026 at 03:56:24PM +0000, Kiryl Shutsemau wrote:
-> With the upcoming changes to HVO, a single page of tail struct pages
-> will be shared across all huge pages of the same order on a node. Since
-> huge pages on the same node may belong to different zones, the zone
-> information stored in shared tail page flags would be incorrect.
-> 
-> Always fetch zone information from the head page, which has unique and
-> correct zone flags for each compound page.
+Hi,
 
-You're right that different pages in the same folio can have different
-zone number.  But does it matter ... or to put it another way, why is
-returning the zone number of the head page the correct way to resolve
-this?
+I have run into some confusing discrepancies (differences) in how
+kernel-doc handles some nested unions and structs.
 
-Arguably, the caller is asking for the zone number of _this page_, and
-does not care about the zone number of the head page.  It would be good
-to have a short discussion of this in the commit message (but probably
-not worth putting this in a comment).
+Examples:
+in include/linux/property.h, struct property_entry, there is this
+nested union:
+
+	union {
+		const void *pointer;
+		union {
+			u8 u8_data[sizeof(u64) / sizeof(u8)];
+			u16 u16_data[sizeof(u64) / sizeof(u16)];
+			u32 u32_data[sizeof(u64) / sizeof(u32)];
+			u64 u64_data[sizeof(u64) / sizeof(u64)];
+			const char *str[sizeof(u64) / sizeof(char *)];
+		} value;
+	};
+
+Running kernel-doc -none on this file reports:
+
+Warning: include/linux/property.h:406 struct member 'u8_data' not described in 'property_entry'
+Warning: include/linux/property.h:406 struct member 'u16_data' not described in 'property_entry'
+Warning: include/linux/property.h:406 struct member 'u32_data' not described in 'property_entry'
+Warning: include/linux/property.h:406 struct member 'u64_data' not described in 'property_entry'
+Warning: include/linux/property.h:406 struct member 'str' not described in 'property_entry'
+
+If I follow the instructions in Documentation/doc-guide/kernel-doc.rst
+for using kernel-doc with nested structs/unions, I should add @value.u8_data
+etc. for these 5 missing kernel-doc entries.
+However, that still fails with the same warnings as above.
+Adding only @u8_data: etc. for these file struct members satisfies
+kernel-doc.
+Conclusion: don't use the nested union member name (contrary to
+the kernel-doc documentation).
+
+~~~~~
+Now if we look at include/linux/soc/ti/knav_dma.h, there is a struct:
+
+struct knav_dma_cfg {
+	enum dma_transfer_direction direction;
+	union {
+		struct knav_dma_tx_cfg	tx;
+		struct knav_dma_rx_cfg	rx;
+	} u;
+};
+
+Running kernel-doc -none reports:
+Warning: include/linux/soc/ti/knav_dma.h:127 struct member 'direction' not described in 'knav_dma_cfg'
+Warning: include/linux/soc/ti/knav_dma.h:127 struct member 'u' not described in 'knav_dma_cfg'
+
+After adding comments for @direction and @u, kernel-doc -none reports:
+no problems with this struct, where the struct kernel-doc looks like:
+
+/**
+ * struct knav_dma_cfg:	Pktdma channel configuration
+ * @direction:		DMA transfer information
+ * @u:			@tx or @rx configuration
+ * @tx:			Tx channel configuration
+ * @rx:			Rx flow configuration
+ */
+
+so kernel-doc is happy with @tx and @rx without having the union name prepended.
+Well, this is again: Don't use the nested member union name.
+OTOH, if I do add the "u." to the @tx and @rx members,
+kernel-doc is still happy (no warnings here).
+
+~~~~~
+Looking at include/asm-generic/msi.h, kernel-doc reports:
+
+Warning: include/asm-generic/msi.h:31 struct member 'flags' not described in 'msi_alloc_info'
+
+Easy to fix. Add that and kernel-doc is happy. Now we have:
+
+/**
+ * struct msi_alloc_info - Default structure for MSI interrupt allocation.
+ * @desc:	Pointer to msi descriptor
+ * @hwirq:	Associated hw interrupt number in the domain
+ * @flags:	Bits from MSI_ALLOC_FLAGS_...
+ * @scratchpad:	Storage for implementation specific scratch data
+ *
+ * Architectures can provide their own implementation by not including
+ * asm-generic/msi.h into their arch specific header file.
+ */
+typedef struct msi_alloc_info {
+	struct msi_desc			*desc;
+	irq_hw_number_t			hwirq;
+	unsigned long			flags;
+	union {
+		unsigned long		ul;
+		void			*ptr;
+	} scratchpad[NUM_MSI_ALLOC_SCRATCHPAD_REGS];
+} msi_alloc_info_t;
+
+
+Two questions here:
+(1) Why are @ul and @ptr not causing kernel-doc warnings?
+(1b) Should they be @scratchpad.ul and @scratchpad.ptr?
+(2) Is the typedef confusing things here?
+
+~~~~~
+For include/soc/fsl/dpaa2-fd.h, kernel-doc reports:
+Warning: include/soc/fsl/dpaa2-fd.h:51 struct member 'simple' not described in 'dpaa2_fd'
+
+Adding a @simple entry satisfies kernel-doc, but isn't kernel-doc required
+for @simple's struct member fields also?
+
+Well, feels like I am rambling. I thought that I had a case of
+the enclosing struct or union name being _required_, but so far all
+that I have shown is that it's not required (in these cases).
+
+-- 
+~Randy
