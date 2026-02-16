@@ -1,91 +1,262 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CE914F112;
-	Mon, 16 Feb 2026 15:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E01101D5CD1;
+	Mon, 16 Feb 2026 15:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771256250; cv=none; b=l2Z6P724Mjw+iO41o8qrikgvk2Yw9gjqXHmOnpXBzO3JbEsyTbT3t/ra5prmc2Yx6Ugw0LVpMohAFGNVKzVLtjwCCNMVIiPDwnqA/tWxT4VuLmbLmMxhCdP9QBlyTSDGWRdP/hET5/oMMpyVXrdKRKLQdLHjrTAyVkEFAfeUJUM=
+	t=1771256480; cv=none; b=fxX8Mi4LLTebo6gT6iik7LVAOXO695Z5eWXT9pn412ZkVtHN0qugoLtU2WMx7OayRzYQB5QbvBaj6m0NYZz0z0gSFCy1NtBR4wS5oPEFiqmmQUtDVm2vmf/LyNqg7D+EM9Zr3YElVJt5vWc7gsDQU6x+NDTEFI8xcg1Px2QtAEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771256250; c=relaxed/simple;
-	bh=DO7n9ub1334CdLYQKXYxluQ/HCaAr+zP3EqnRHksSNg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WoNsIRctnidvoXGcv6IwigeqJtV/QYW7uAAExwtlULdQPjJUjL12Fp/TZoVYDW0ISejARLN+YIYr7EwRnweKqt1Avf6iwICnU2K22dq5Gd0RnyfgOvTE+CrOAKJ4qa+SapwehDwadYssv+mAuLI7mbKArpdHQaEs4fsS+kCfHkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pa3zoM5U; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pa3zoM5U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FFA1C116C6;
-	Mon, 16 Feb 2026 15:37:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771256250;
-	bh=DO7n9ub1334CdLYQKXYxluQ/HCaAr+zP3EqnRHksSNg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pa3zoM5UCaHRTmc+OeISBP2lKge/L6zsncYONYLtMrCRy4i6jcwYVEGGPq0huPhsj
-	 T+Jykn9tukz7L3+2t21ewReiOA5ijsdgf6Zp1WtNKM/YNLkMNEAPIxV8piwXzDuO2o
-	 UzzpkpSoLZ/6UoUhSpmjXKuB4Sh6grEL8RuPn2Iyh4SkAZg8CY66EdY908gzcxUBld
-	 B///9me/RUb7g/g4qnF7x93JNBTXnS6JlkhLHcCXms0eF//+R4dSVkpnniiug9YmqP
-	 3y7K28amUYM958fhV1xn67u48yAd+rKOcmak84vfpsREP9gmwDB7MAhRIYwdkIUINY
-	 x8YgAJEGf/mWQ==
-Date: Mon, 16 Feb 2026 15:37:25 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] linux-next: update maintainer info.
-Message-ID: <3b4deb86-4684-42c9-a170-1dc335d230d6@sirena.org.uk>
-References: <20260216060739.2791462-1-rdunlap@infradead.org>
- <20260216091648.7a6a0e3a@canb.auug.org.au>
+	s=arc-20240116; t=1771256480; c=relaxed/simple;
+	bh=5KhSdcSou1ZE1u/xUJA2YoZVJ7k/SAZ3rFQ6U4OxN28=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CIbkdpWwDdoHCbv11GzJkzLje/WTcmwQzXPYKiAqWywFbbAM4h+XvqR5efIZxmLZVTEAOraoNXm21RNukl6oNSnEFXs1ajFsZvO29tXN0vc4C3xXg+3XRowg2q8t+Zxgz9LlGchQKiEh8uP6lqo72MZAyPS3gCGcPlvMlJ4cELo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E0A8A1576;
+	Mon, 16 Feb 2026 07:41:11 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C4D63F632;
+	Mon, 16 Feb 2026 07:41:11 -0800 (PST)
+Message-ID: <fd7e0779-7e29-461d-adb6-0568a81ec59e@arm.com>
+Date: Mon, 16 Feb 2026 15:41:09 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RJhE/fR3iI+SBkRV"
-Content-Disposition: inline
-In-Reply-To: <20260216091648.7a6a0e3a@canb.auug.org.au>
-X-Cookie: Beware the one behind you.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
+ context switch handling
+To: Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu"
+ <bmoger@amd.com>, "Moger, Babu" <Babu.Moger@amd.com>,
+ "Luck, Tony" <tony.luck@intel.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>,
+ "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+ "james.morse@arm.com" <james.morse@arm.com>,
+ "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+ "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+ "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+ "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
+ <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+ "pmladek@suse.com" <pmladek@suse.com>,
+ "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
+ "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+ "fvdl@google.com" <fvdl@google.com>,
+ "lirongqing@baidu.com" <lirongqing@baidu.com>,
+ "bhelgaas@google.com" <bhelgaas@google.com>,
+ "seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
+ "Shukla, Manali" <Manali.Shukla@amd.com>,
+ "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
+ "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+ "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+ "naveen@kernel.org" <naveen@kernel.org>,
+ "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
+ "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "peternewman@google.com" <peternewman@google.com>,
+ "eranian@google.com" <eranian@google.com>,
+ "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
+References: <cover.1769029977.git.babu.moger@amd.com>
+ <17c9c0c252dcfe707dffe5986e7c98cd121f7cef.1769029977.git.babu.moger@amd.com>
+ <aXk8hRtv6ATEjW8A@agluck-desk3>
+ <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
+ <aXpDdUQHCnQyhcL3@agluck-desk3>
+ <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
+ <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
+ <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
+ <abb049fa-3a3d-4601-9ae3-61eeb7fd8fcf@amd.com>
+ <1a0a7306-f833-45a8-8f2b-c6d2e8b98ff5@intel.com>
+From: Ben Horgan <ben.horgan@arm.com>
+Content-Language: en-US
+In-Reply-To: <1a0a7306-f833-45a8-8f2b-c6d2e8b98ff5@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi Babu, Reinette,
 
---RJhE/fR3iI+SBkRV
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 2/14/26 00:10, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 2/13/26 8:37 AM, Moger, Babu wrote:
+>> Hi Reinette,
+>>
+>> On 2/10/2026 10:17 AM, Reinette Chatre wrote:
+>>> Hi Babu,
+>>>
+>>> On 1/28/26 9:44 AM, Moger, Babu wrote:
+>>>>
+>>>>
+>>>> On 1/28/2026 11:41 AM, Moger, Babu wrote:
+>>>>>> On Wed, Jan 28, 2026 at 10:01:39AM -0600, Moger, Babu wrote:
+>>>>>>> On 1/27/2026 4:30 PM, Luck, Tony wrote:
+>>>>>> Babu,
+>>>>>>
+>>>>>> I've read a bit more of the code now and I think I understand more.
+>>>>>>
+>>>>>> Some useful additions to your explanation.
+>>>>>>
+>>>>>> 1) Only one CTRL group can be marked as PLZA
+>>>>>
+>>>>> Yes. Correct.
+>>>
+>>> Why limit it to one CTRL_MON group and why not support it for MON groups?
+>>
+>> There can be only one PLZA configuration in a system. The values in the MSR_IA32_PQR_PLZA_ASSOC register (RMID, RMID_EN, CLOSID, CLOSID_EN) must be identical across all logical processors. The only field that may differ is PLZA_EN.
 
-On Mon, Feb 16, 2026 at 08:16:48PM +1100, Stephen Rothwell wrote:
-> On Sun, 15 Feb 2026 22:07:39 -0800 Randy Dunlap <rdunlap@infradead.org> wrote:
+Does this have any effect on hypervisors?
 
-> >  LINUX-NEXT TREE
-> > -M:	Stephen Rothwell <sfr@canb.auug.org.au>
-> >  M:	Mark Brown <broonie@kernel.org>
-> >  L:	linux-next@vger.kernel.org
-> >  S:	Supported
+> 
+> ah - this is a significant part that I missed. Since this is a per-CPU register it seems
 
-> Acked-by: Stephen Rothwell <sfr@canb.auug.org.au>
+I also missed that.
 
-You've escaped!  :P
+> to have the ability for expanded use in the future where different CLOSID and RMID may be
+> written to it? Is PLZA leaving room for such future enhancement or does the spec contain
+> the text that state "The values in the MSR_IA32_PQR_PLZA_ASSOC register (RMID, RMID_EN,
+> CLOSID, CLOSID_EN) must be identical across all logical processors."? That is, "forever
+> and always"?
+> 
+> If I understand correctly MPAM could have different PARTID and PMG for kernel use so we
+> need to consider these different architectural behaviors.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Yes, MPAM has a per-cpu register MPAM1_EL1.
 
-> Maybe update the CREDITS file?  ;-)
+> 
+>> I was initially unsure which RMID should be used when PLZA is enabled on MON groups.
+>>
+>> After re-evaluating, enabling PLZA on MON groups is still feasible:
+>>
+>> 1. Only one group in the system can have PLZA enabled.
+>> 2. If PLZA is enabled on CTRL_MON group then we cannot enable PLZA on MON group.
+>> 3. If PLZA is enabled on the CTRL_MON group, then the CLOSID and RMID of the CTRL_MON group can be written.
+>> 4. If PLZA is enabled on a MON group, then the CLOSID of the CTRL_MON group can be used, while the RMID of the MON group can be written.
 
-Good idea..
+Given that CLOSID and RMID are fixed once in the PLZA configuration
+could this be simplified by just assuming they have the values of the
+default group, CLOSID=0 and RMID=0 and let the user base there
+configuration on that?
 
---RJhE/fR3iI+SBkRV
-Content-Type: application/pgp-signature; name="signature.asc"
+>>
+>> I am thinking this approach should work.
+>>
+>>>
+>>> Limiting it to a single CTRL group seems restrictive in a few ways:
+>>> 1) It requires that the "PLZA" group has a dedicated CLOSID. This reduces the
+>>>     number of use cases that can be supported. Consider, for example, an existing
+>>>     "high priority" resource group and a "low priority" resource group. The user may
+>>>     just want to let the tasks in the "low priority" resource group run as "high priority"
+>>>     when in CPL0. This of course may depend on what resources are allocated, for example
+>>>     cache may need more care, but if, for example, user is only interested in memory
+>>>     bandwidth allocation this seems a reasonable use case?
+>>> 2) Similar to what Tony [1] mentioned this does not enable what the hardware is
+>>>     capable of in terms of number of different control groups/CLOSID that can be
+>>>     assigned to MSR_IA32_PQR_PLZA_ASSOC. Why limit PLZA to one CLOSID?
+>>> 3) The feature seems to support RMID in MSR_IA32_PQR_PLZA_ASSOC similar to
+>>>     MSR_IA32_PQR_ASSOC. With this, it should be possible for user space to, for
+>>>     example, create a resource group that contains tasks of interest and create
+>>>     a monitor group within it that monitors all tasks' bandwidth usage when in CPL0.
+>>>     This will give user space better insight into system behavior and from what I can
+>>>     tell is supported by the feature but not enabled?
+>>
+>>
+>> Yes, as long as PLZA is enabled on only one group in the entire system
+>>
+>>>
+>>>>>
+>>>>>> 2) It can't be the root/default group
+>>>>>
+>>>>> This is something I added to keep the default group in a un-disturbed,
+>>>
+>>> Why was this needed?
+>>>
+>>
+>> With the new approach mentioned about we can enable in default group also.
+>>
+>>>>>
+>>>>>> 3) It can't have sub monitor groups
+>>>
+>>> Why not?
+>>
+>> Ditto. With the new approach mentioned about we can enable in default group also.
+>>
+>>>
+>>>>>> 4) It can't be pseudo-locked
+>>>>>
+>>>>> Yes.
+>>>>>
+>>>>>>
+>>>>>> Would a potential use case involve putting *all* tasks into the PLZA group? That
+>>>>>> would avoid any additional context switch overhead as the PLZA MSR would never
+>>>>>> need to change.
+>>>>>
+>>>>> Yes. That can be one use case.
+>>>>>
+>>>>>>
+>>>>>> If that is the case, maybe for the PLZA group we should allow user to
+>>>>>> do:
+>>>>>>
+>>>>>> # echo '*' > tasks
+>>>
+>>> Dedicating a resource group to "PLZA" seems restrictive while also adding many
+>>> complications since this designation makes resource group behave differently and
+>>> thus the files need to get extra "treatments" to handle this "PLZA" designation.
+>>>
+>>> I am wondering if it will not be simpler to introduce just one new file, for example
+>>> "tasks_cpl0" in both CTRL_MON and MON groups. When user space writes a task ID to the
+>>> file it "enables" PLZA for this task and that group's CLOSID and RMID is the associated
+>>> task's "PLZA" CLOSID and RMID. This gives user space the flexibility to use the same
+>>> resource group to manage user space and kernel space allocations while also supporting
+>>> various monitoring use cases. This still supports the "dedicate a resource group to PLZA"
+>>> use case where user space can create a new resource group with certain allocations but the
+>>> "tasks" file will be empty and "tasks_cpl0" contains the tasks needing to run with
+>>> the resource group's allocations when in CPL0.
+>>
+>> Yes. We should be able do that. We need both tasks_cpl0 and cpus_cpl0.
+>>
+>> We need make sure only one group can configured in the system and not allow in other groups when it is already enabled.
+> 
+> As I understand this means that only one group can have content in its
+> tasks_cpl0/tasks_kernel file. There should not be any special handling for
+> the remaining files of the resource group since the resource group is not
+> dedicated to kernel work and can be used as a user space resource group also.
+> If user space wants to create a dedicated kernel resource group there can be
+> a new resource group with an empty tasks file.
+> 
+> hmmm ... but if user space writes a task ID to a tasks_cpl0/tasks_kernel file then
+> resctrl would need to create new syntax to remove that task ID.
+> 
+> Possibly MPAM can build on this by allowing user space to write to multiple
+> tasks_cpl0/tasks_kernel files? (and the next version of PLZA may too)
+> 
+> Reinette
+> 
+> 
+>>
+>> Thanks
+>> Babu
+>>
+>>>
+>>> Reinette
+>>>
+>>> [1] https://lore.kernel.org/lkml/aXpgragcLS2L8ROe@agluck-desk3/
+>>>
+>>
+> 
+> 
 
------BEGIN PGP SIGNATURE-----
+Thanks,
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmmTObQACgkQJNaLcl1U
-h9Ak6Af/flyrXLfm6nv84hJ3Ji329g/NjAzPhAy6Mp3AlKs/s+dLmVi1tZX4yVdh
-lf8lbr2vZ/waC0KXKnoWONaZ6ZxJxFDC6Z82LzPpq3rVUqjy7pGoEfeNR4nDbJwD
-lkYyWLDgqZiZ8x0924Vpec43eliyJwBfudVKt6TkkkQu5f/7pePY6zajQbE+nmcI
-jR5NRsmhHnAeb58sAzc+JQkvW+Ap5QiRZDk1JruCnF1WU3uGC/u9RtOghxkVmBt+
-xYY8uU+2ZB8z2i3ws9z9jg7GIncmBLsMNOwTaVHOF+kl9FZmPu/wDKHAaWtIFM93
-o+CPkMrydyzGGV6j8A8es5zzvoAyPQ==
-=Qeiw
------END PGP SIGNATURE-----
+Ben
 
---RJhE/fR3iI+SBkRV--
