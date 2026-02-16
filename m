@@ -1,66 +1,80 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BDA2690C0
-	for <linux-doc@vger.kernel.org>; Mon, 16 Feb 2026 11:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C801523A9B3
+	for <linux-doc@vger.kernel.org>; Mon, 16 Feb 2026 11:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771239767; cv=none; b=LWO+CYv3KGbVJAykyCVBf9yjXow9uWQPjV7t271mjqWxdyx/46md65cDsrEM7NIP681slTPpT7yo3Y0YLN5BwjURY69LB1suA4qRXbeDmWobSug6GHTzxLLb84AuQQA3BAiV4TDsLQkQBpCaEm1KFot5/CXzrhtJ96OUzogFq24=
+	t=1771240810; cv=none; b=key+ejWCxjX70eytx6lhx2WC/5mv4o3SvjkVS5j+AnHAUxqW7+EXDwmBzd/43CqbYgx31jlzWvBwwD66NnEzUrRnml7z8RxnioYLlz2j9ux5aMzhFu2vME7JGPLjjmvgncTLdFGSp3/EUk6+3VfiqU3BHCyjITtYJBWjmWlX0oM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771239767; c=relaxed/simple;
-	bh=B5vsZd0jOrQm9Tq0/XcLLhtFU5nd/z0PQV4i6K3kwCo=;
+	s=arc-20240116; t=1771240810; c=relaxed/simple;
+	bh=vxnvz5W8M4Razb2NGLkJyOZ2DnWrmdekM7iS3Ab3Bvg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MWzXocxW87pQ5nWjbVlDN2mo2HUgZEE7YFyyzqYCpLbpbSNPHy3EXdKzPV0J7y/2nyQuFOwDvCxCw6RXugcvH8NicBkFGJmJXaJS+bhCWL84SHsVBrWJt9ca9p9p0rxV2cqL2MSzKfTLwu/XZs7Wb/legNC97JJS9KiOqXPrGt0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H92Tk+5W; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=m8g9WRs52SMQfhI8/uGjxh+QG4RjRS2Ybv0XR5eu7w7NV7qHQoonGTMUiXAFjsOgkQbpNSB/FoflscxcW7Pi/ZDBNQjE55Axg+0eLx1jUmiWt7UHbNKvDfAHKOZEp0u3ANz/53YNSzBr17sjsro6tWVJITPWZXCvggLT9AbcyxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1h2bkYjg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Wh+Z0PPm; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=1h2bkYjg; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Wh+Z0PPm; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H92Tk+5W"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8231061d234so2201973b3a.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Feb 2026 03:02:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771239766; x=1771844566; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eFUw9ED0xnwsT+WAIvTLqztDgmm4irwEKt8qY4bn2zQ=;
-        b=H92Tk+5W5I2kK3x47SvrBY1uY7IUVnNfU8b88omvkbjh1RazJF6L1CYBOk8D4Szb5M
-         5e4J6TKi9BqmYAqXXoQxjvjj/BnX5EFt7bAkFvcV2gESkd+UzxoBVnYBO4U0Bn5B7fPC
-         8Dd/hD8U+yh/UyhshVt8luW27OjdkqHOi42VkselwWEuEHQr7fxITX2JeMr668onuwoP
-         yg9d8F9alDAgZ81lyPAtDrFWqPa6HLRq/H/zcg7RZFyO/2z6+BVNcOi1bcdGtsSSoUE5
-         9sDdMCQLR6yXz9qbC8mUzfQ4rdNMWjhlRpafbQbQu0rqYBRTFtBCzA4TSC1j1vC2mUpB
-         pDmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771239766; x=1771844566;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eFUw9ED0xnwsT+WAIvTLqztDgmm4irwEKt8qY4bn2zQ=;
-        b=OiMmtTvehQvmqfvFUNlc4xR7HzTk1KZnQeBG9EcMRxqrhouECuVrRZGIljMVE6jc3P
-         9kCZqpCDWdCFpUbEtvpyr1x2A8APihFHVzHkBi+vl1GQjNGXXbsoZQSCg+dCWe474aeh
-         tNKv0FYr59ksROJKJVCkN1wM/Jz7cPyC7q1iDRr5QJY9bvxgmAE1DvbC9yDVGDwzViUY
-         8C5fNpysxIiWR1Hy6SEYT/ROUZYVgv+90ghXLROw5RR+jsihkIwWweg+gdGNieh0DR+s
-         DDysoqiXpM0s3hp4eomSrzPAvMJ6RFXY0lUYqEG5sM9lY43S/+ohYoG/5XBDH19lFN4x
-         IFZg==
-X-Gm-Message-State: AOJu0Yx5fFVGJR4SMwQz7BFHKD5kid76rDfgghMML+cIpYLjc3ZsPl0I
-	SscSkgvGSFCA1gP1eEKtz8NoXPhS37yBh+oZUv3fiAfuhTToiCJQ0Cta
-X-Gm-Gg: AZuq6aJvvwAkXOPF8Pxm4PwEp0jnBPUQX4wxdoAHpb/6GvHTugBKGy6CIM0amfK015+
-	fYWyog/VMfLst8pDaorArwZnvc6xAU3eG5EupXdb4M2JJcF+jEV7GHHwSCDoH5vsmKETQNHajAx
-	PgJDmCIlV7lGb1v7zpIugQk9/sJ0E1NKR8Hldf/5+NHqzMOZhZYJphFkR+WPLb+PuFhc+NGUekM
-	Lisj3XOW6/h/6d3RwxZyp4wWu8OTRw5SElXLzpE4jpo4WbGLcPrUIGZy/6dAk7LwAnvpA3T9XzO
-	1U39cCHJRMgPgN6sLo7i8FTf5APBS70AQb8AcUPkS7qiOH1LDV+igbT3ivEG2nQaKRhZ4dW1oR3
-	fRZreaLAHo/vxX1Zx2uG+tiZTntJroE9pyFqbwhsHt/BFv0PpQib5stebN8zeqzyNC/jTB9RsJo
-	aYqw1txNUG5uft3CpOYZ6eIICkuWr98+WdQq8iwMVslqB/sGkToX9x0ElWcECm6aIESzhQs6kL5
-	JR/PdA=
-X-Received: by 2002:a05:6a00:1746:b0:7b9:420:cc0f with SMTP id d2e1a72fcca58-824c944be26mr8529755b3a.14.1771239765712;
-        Mon, 16 Feb 2026 03:02:45 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824c6bb34b0sm9716270b3a.60.2026.02.16.03.02.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Feb 2026 03:02:45 -0800 (PST)
-Message-ID: <74c8d602-91ef-4d22-ace5-006ff710565f@gmail.com>
-Date: Mon, 16 Feb 2026 20:02:44 +0900
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1h2bkYjg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Wh+Z0PPm";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="1h2bkYjg";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Wh+Z0PPm"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0EF343E6D7;
+	Mon, 16 Feb 2026 11:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771240807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=PkBeeZVr8B29Z/3z8eE/N0ouHBNVef5cV12hX5biciA=;
+	b=1h2bkYjgZEmnbCrgsRupqQRL98BilkGpRMnV5wPXrt/v/a82Tb9wwCynD91kBzalpn96LT
+	Z1KrYRTpzNo84mt8Hsmnz9LtMc0Yk/gFmJKdvozpFwkODJIH7y58W3d4+uYvzrE9ZwZUHl
+	KzxVYOEv43HwZV0UF2tr5LzU87U5PgY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771240807;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=PkBeeZVr8B29Z/3z8eE/N0ouHBNVef5cV12hX5biciA=;
+	b=Wh+Z0PPmdugjtjUNhnfSOFAC3CEvCAdAen3J6baKl5jqFKpV46OTsM489HD1MbFADRsqJ+
+	lvpajPoNGiiDfnBg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1771240807; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=PkBeeZVr8B29Z/3z8eE/N0ouHBNVef5cV12hX5biciA=;
+	b=1h2bkYjgZEmnbCrgsRupqQRL98BilkGpRMnV5wPXrt/v/a82Tb9wwCynD91kBzalpn96LT
+	Z1KrYRTpzNo84mt8Hsmnz9LtMc0Yk/gFmJKdvozpFwkODJIH7y58W3d4+uYvzrE9ZwZUHl
+	KzxVYOEv43HwZV0UF2tr5LzU87U5PgY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1771240807;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=PkBeeZVr8B29Z/3z8eE/N0ouHBNVef5cV12hX5biciA=;
+	b=Wh+Z0PPmdugjtjUNhnfSOFAC3CEvCAdAen3J6baKl5jqFKpV46OTsM489HD1MbFADRsqJ+
+	lvpajPoNGiiDfnBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A0ED3EA62;
+	Mon, 16 Feb 2026 11:20:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 6UJ7HGb9kmnSbAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 16 Feb 2026 11:20:06 +0000
+Message-ID: <ac1d589c-a02f-421e-a432-9d65f3e2ce99@suse.cz>
+Date: Mon, 16 Feb 2026 12:20:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,90 +82,139 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] docs: ja_JP: process: translate 'Describe your
- changes'
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
- Akira Yokosawa <akiyks@gmail.com>
-References: <20260211080218.890115-1-weibu@redadmin.org>
+Subject: Re: [PATCHv6 08/17] mm: Make page_zonenum() use head page
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260211080218.890115-1-weibu@redadmin.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>, Oscar Salvador <osalvador@suse.de>,
+ Mike Rapoport <rppt@kernel.org>, Lorenzo Stoakes
+ <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20260202155634.650837-1-kas@kernel.org>
+ <20260202155634.650837-9-kas@kernel.org>
+ <aZJTLwV2SaaKu1k_@casper.infradead.org>
+ <ec4a9a1e-8c08-4879-a787-3b9e0bc38160@kernel.org>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ xsFNBFZdmxYBEADsw/SiUSjB0dM+vSh95UkgcHjzEVBlby/Fg+g42O7LAEkCYXi/vvq31JTB
+ KxRWDHX0R2tgpFDXHnzZcQywawu8eSq0LxzxFNYMvtB7sV1pxYwej2qx9B75qW2plBs+7+YB
+ 87tMFA+u+L4Z5xAzIimfLD5EKC56kJ1CsXlM8S/LHcmdD9Ctkn3trYDNnat0eoAcfPIP2OZ+
+ 9oe9IF/R28zmh0ifLXyJQQz5ofdj4bPf8ecEW0rhcqHfTD8k4yK0xxt3xW+6Exqp9n9bydiy
+ tcSAw/TahjW6yrA+6JhSBv1v2tIm+itQc073zjSX8OFL51qQVzRFr7H2UQG33lw2QrvHRXqD
+ Ot7ViKam7v0Ho9wEWiQOOZlHItOOXFphWb2yq3nzrKe45oWoSgkxKb97MVsQ+q2SYjJRBBH4
+ 8qKhphADYxkIP6yut/eaj9ImvRUZZRi0DTc8xfnvHGTjKbJzC2xpFcY0DQbZzuwsIZ8OPJCc
+ LM4S7mT25NE5kUTG/TKQCk922vRdGVMoLA7dIQrgXnRXtyT61sg8PG4wcfOnuWf8577aXP1x
+ 6mzw3/jh3F+oSBHb/GcLC7mvWreJifUL2gEdssGfXhGWBo6zLS3qhgtwjay0Jl+kza1lo+Cv
+ BB2T79D4WGdDuVa4eOrQ02TxqGN7G0Biz5ZLRSFzQSQwLn8fbwARAQABzSBWbGFzdGltaWwg
+ QmFia2EgPHZiYWJrYUBzdXNlLmN6PsLBlAQTAQoAPgIbAwULCQgHAwUVCgkICwUWAgMBAAIe
+ AQIXgBYhBKlA1DSZLC6OmRA9UCJPp+fMgqZkBQJnyBr8BQka0IFQAAoJECJPp+fMgqZkqmMQ
+ AIbGN95ptUMUvo6aAdhxaOCHXp1DfIBuIOK/zpx8ylY4pOwu3GRe4dQ8u4XS9gaZ96Gj4bC+
+ jwWcSmn+TjtKW3rH1dRKopvC07tSJIGGVyw7ieV/5cbFffA8NL0ILowzVg8w1ipnz1VTkWDr
+ 2zcfslxJsJ6vhXw5/npcY0ldeC1E8f6UUoa4eyoskd70vO0wOAoGd02ZkJoox3F5ODM0kjHu
+ Y97VLOa3GG66lh+ZEelVZEujHfKceCw9G3PMvEzyLFbXvSOigZQMdKzQ8D/OChwqig8wFBmV
+ QCPS4yDdmZP3oeDHRjJ9jvMUKoYODiNKsl2F+xXwyRM2qoKRqFlhCn4usVd1+wmv9iLV8nPs
+ 2Db1ZIa49fJet3Sk3PN4bV1rAPuWvtbuTBN39Q/6MgkLTYHb84HyFKw14Rqe5YorrBLbF3rl
+ M51Dpf6Egu1yTJDHCTEwePWug4XI11FT8lK0LNnHNpbhTCYRjX73iWOnFraJNcURld1jL1nV
+ r/LRD+/e2gNtSTPK0Qkon6HcOBZnxRoqtazTU6YQRmGlT0v+rukj/cn5sToYibWLn+RoV1CE
+ Qj6tApOiHBkpEsCzHGu+iDQ1WT0Idtdynst738f/uCeCMkdRu4WMZjteQaqvARFwCy3P/jpK
+ uvzMtves5HvZw33ZwOtMCgbpce00DaET4y/UzsBNBFsZNTUBCACfQfpSsWJZyi+SHoRdVyX5
+ J6rI7okc4+b571a7RXD5UhS9dlVRVVAtrU9ANSLqPTQKGVxHrqD39XSw8hxK61pw8p90pg4G
+ /N3iuWEvyt+t0SxDDkClnGsDyRhlUyEWYFEoBrrCizbmahOUwqkJbNMfzj5Y7n7OIJOxNRkB
+ IBOjPdF26dMP69BwePQao1M8Acrrex9sAHYjQGyVmReRjVEtv9iG4DoTsnIR3amKVk6si4Ea
+ X/mrapJqSCcBUVYUFH8M7bsm4CSxier5ofy8jTEa/CfvkqpKThTMCQPNZKY7hke5qEq1CBk2
+ wxhX48ZrJEFf1v3NuV3OimgsF2odzieNABEBAAHCwXwEGAEKACYCGwwWIQSpQNQ0mSwujpkQ
+ PVAiT6fnzIKmZAUCZ8gcVAUJFhTonwAKCRAiT6fnzIKmZLY8D/9uo3Ut9yi2YCuASWxr7QQZ
+ lJCViArjymbxYB5NdOeC50/0gnhK4pgdHlE2MdwF6o34x7TPFGpjNFvycZqccSQPJ/gibwNA
+ zx3q9vJT4Vw+YbiyS53iSBLXMweeVV1Jd9IjAoL+EqB0cbxoFXvnjkvP1foiiF5r73jCd4PR
+ rD+GoX5BZ7AZmFYmuJYBm28STM2NA6LhT0X+2su16f/HtummENKcMwom0hNu3MBNPUOrujtW
+ khQrWcJNAAsy4yMoJ2Lw51T/5X5Hc7jQ9da9fyqu+phqlVtn70qpPvgWy4HRhr25fCAEXZDp
+ xG4RNmTm+pqorHOqhBkI7wA7P/nyPo7ZEc3L+ZkQ37u0nlOyrjbNUniPGxPxv1imVq8IyycG
+ AN5FaFxtiELK22gvudghLJaDiRBhn8/AhXc642/Z/yIpizE2xG4KU4AXzb6C+o7LX/WmmsWP
+ Ly6jamSg6tvrdo4/e87lUedEqCtrp2o1xpn5zongf6cQkaLZKQcBQnPmgHO5OG8+50u88D9I
+ rywqgzTUhHFKKF6/9L/lYtrNcHU8Z6Y4Ju/MLUiNYkmtrGIMnkjKCiRqlRrZE/v5YFHbayRD
+ dJKXobXTtCBYpLJM4ZYRpGZXne/FAtWNe4KbNJJqxMvrTOrnIatPj8NhBVI0RSJRsbilh6TE
+ m6M14QORSWTLRg==
+In-Reply-To: <ec4a9a1e-8c08-4879-a787-3b9e0bc38160@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	TO_DN_SOME(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,linux.dev,gmail.com,google.com,suse.de,kernel.org,oracle.com,nvidia.com,redhat.com,suse.com,cmpxchg.org,lwn.net,xen0n.name,dabbelt.com,sifive.com,eecs.berkeley.edu,ghiti.fr,meta.com,kvack.org,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	R_RATELIMIT(0.00)[to_ip_from(RL8ogcagzi1y561i1mcnzpnkwh)];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 
-Hi Kurita-san,
-
-Thank you for your continued efforts.
-
-On Wed, 11 Feb 2026 17:02:18 +0900, Akiyoshi Kurita wrote:
-> Translate the "Describe your changes" section in
-
-Didn't you want to say, 'Translate the first half of "Describe your
-changes" section' ?
-
-> Documentation/translations/ja_JP/process/submitting-patches.rst.
+On 2/16/26 10:06, David Hildenbrand (Arm) wrote:
+> On 2/16/26 00:13, Matthew Wilcox wrote:
+>> On Mon, Feb 02, 2026 at 03:56:24PM +0000, Kiryl Shutsemau wrote:
+>>> With the upcoming changes to HVO, a single page of tail struct pages
+>>> will be shared across all huge pages of the same order on a node. Since
+>>> huge pages on the same node may belong to different zones, the zone
+>>> information stored in shared tail page flags would be incorrect.
+>>>
+>>> Always fetch zone information from the head page, which has unique and
+>>> correct zone flags for each compound page.
+>> 
+>> You're right that different pages in the same folio can have different
+>> zone number.  But does it matter ... or to put it another way, why is
+>> returning the zone number of the head page the correct way to resolve
+>> this?
 > 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
->  .../ja_JP/process/submitting-patches.rst      | 31 +++++++++++++++++++
->  1 file changed, 31 insertions(+)
+> How can a folio cross zones?
 > 
-> diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rst b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> index d61583399ef4..daf02b8983cf 100644
-> --- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> @@ -54,3 +54,34 @@ Documentation/devicetree/bindings/submitting-patches.rst を読んでくださ
->  
->  変更内容を説明する
->  ------------------
-> +
-> +問題を説明してください。あなたのパッチが 1 行のバグ修正であっても、
-> +5000 行の新機能であっても、それを行う動機となった根本的な問題が必ずあるはずです。
-> +修正すべき価値のある問題が存在し、レビューアが最初の段落以降を読む意味があることを
-> +納得させてください。
-> +
-> +ユーザーから見える影響を説明してください。クラッシュやハング（ロックアップ）は
-> +分かりやすいですが、すべてのバグがそこまで露骨とは限りません。たとえコードレビュー中に
-> +見つかった問題であっても、ユーザーにどのような影響があり得るかを説明してください。
-> +Linux の多くの環境は、上流から特定のパッチだけを取り込む二次的な安定版ツリーや
-> +ベンダー／製品固有のツリーのカーネルで動いています。したがって、変更を下流へ
-> +適切に流す助けになる情報（発生条件、dmesg の抜粋、クラッシュ内容、性能劣化、
-> +レイテンシのスパイク、ハング／ロックアップ等）があれば記載してください。
-> +
-> +最適化とトレードオフを定量的に示してください。パフォーマンス、メモリ消費量、
-> +スタックフットプリント、バイナリサイズの改善を主張する場合は、それを裏付ける数値を
-> +記載してください。また、目に見えないコストについても説明してください。最適化は通常、
-> +CPU、メモリ、可読性などのコストを伴います。ヒューリスティクスの場合は、異なる
-> +ワークロード間のトレードオフも発生します。レビューアがコストとメリットを比較検討できるよう、
-> +最適化によって予想されるデメリットについても説明してください。
-> +
-> +問題が特定できたら、実際にどのような対策を講じているかを技術的に詳しく説明してください。
-> +レビューアがコードが意図したとおりに動作しているかを確認できるよう、変更内容を平易な言葉で
-> +説明することが重要です。
-> +
-> +パッチ説明を Linux のソースコード管理システム ``git`` の「コミットログ」としてそのまま
-> +取り込める形で書けば、メンテナは助かります。詳細は :ref:`the_canonical_patch_format` を
-
-Do we want a cross-ref to the section of the English doc here?
-
-Probably, it might be better not to use a cross-ref for the moment, but
-to put a hint for future work, and convert it into a file-local
-cross-reference when its destination is ready.
-
-Also, your translation is a bit wide.  Please wrap at 74 columns
-(37 wide-chars) or so.
-
-> +参照してください。
-> +
-> +1 つのパッチでは 1 つの問題だけを解決してください。説明が長くなり始めたら、パッチを
-> +分割すべきサインです。:ref:`split_changes` を参照してください。
-
-Ditto.
-
-Thanks, Akira
-
+> Runtime allocated hugetlb folios from the CMA/buddy (alloc_contig_range) 
+> definitely fall into a single zone.
 > 
-> base-commit: a592a36e49372172d7c7551ec19ed18184c935e1
-> prerequisite-patch-id: 5569479a56e04681cfd6b22f5de9d850e10c8f5f
+> So is it about ones allocated early during boot, where, by chance, we 
+> manage to cross ZONE_NORMAL + ZONE_MOVABLE etc?
+> 
+> I thought that it's also not allowed there, and I wonder whether we 
+> should disallow it if it's possible.
+
+I would be surprised if things didn't break horribly if we allowed crossing
+zones in a single folio. I'd rather not allow it.
+
+(And I still don't like how this patch solves the issue)
+
+>> 
+>> Arguably, the caller is asking for the zone number of _this page_, and
+>> does not care about the zone number of the head page.  It would be good
+>> to have a short discussion of this in the commit message (but probably
+>> not worth putting this in a comment).
+> 
+> Agreed, in particular, if there would be a functional change. So far I 
+> assumed there would be no such change.
+> 
+> Things like shrink_zone_span() really need to know the zone of that 
+> page, not the one of the head; unless both fall into the same zone.
+> 
 
