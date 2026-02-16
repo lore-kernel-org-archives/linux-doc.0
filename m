@@ -1,45 +1,45 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2192D63F6;
-	Mon, 16 Feb 2026 13:03:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 137C52BE641;
+	Mon, 16 Feb 2026 13:03:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771247018; cv=pass; b=VLzec49qUpQ+OWRIwfRXv8vlwHoXCXZCZZF7C8VC2BIZ9S3ZqHjsvIOxbBzgEeSOT2O1es7re42QwszP3Jq875ak2GY9zA4CJGLWHCYl3HJIDmKQPY/s5jfL/cDmbZEzT48xTlnDNNwEfKBNyD5Ybd91//dKp6qp6V5tGTDlCQE=
+	t=1771247031; cv=pass; b=V6K7+sEvx7sTt8Bp30BMuZPXCFOhYD4Y0QqKTDFZaoHgVtPNrhxWQ9J0caSxDl40kGT3x7qT7DK0618TfaWXzKYg45bE5ONsnXXoVwtyyIOp0c4xkjTekOfH//EV2DH9zQY4kFJH/HUl3SrAxloIqFAoOpoM7qd1vAbjtPDZWGM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771247018; c=relaxed/simple;
-	bh=OVI/5v52rwpj9NA8/VcYrpmYXMUR3dgtwMClNO2lIQc=;
+	s=arc-20240116; t=1771247031; c=relaxed/simple;
+	bh=zp3RRxLE65hsnv+xQdzZziJnBWqoafwIu+84dQtOAcM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=To2Rh8BRK7/CctcJwGHv3iVbha2egu6mv2Xaun8ZpRtrRJpVIsM1gFEzRccTMrDmsxsgIJsrkvhdZnWCp876LeaV9zzKw8dvonh4CguhS6bI9YiG0oWTEccIOcjokPlf2/IUPXpyevywOwFp7dw8+jAcC2yhfJlLOj49WzUU02k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=hBWQA4pH; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:To:Cc; b=ckJOmg1LqdI+UDpxJl/w0AS9S+8c5TC7dFOjD4hsxWAUkT1TWQ5Fp02Vglf/iJ12fi5HuSP/cWshzFU8GboPFY49gkxrhztuz6uVT4EmfvaHS1c49Na9a2+z5Is6HlCL4Asq0AJ3U2xAqgpME2UDBRzgT0QVWKGfwuLK57eawKI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=UPoAtcYQ; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="hBWQA4pH"
-ARC-Seal: i=1; a=rsa-sha256; t=1771246973; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="UPoAtcYQ"
+ARC-Seal: i=1; a=rsa-sha256; t=1771246979; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=UQBk8q8c6m7yZHJ0i2nuEj50inrlgIURKKTR/19ybTipGgB2eU1mo/cn/Mz9xrTfynEbpvB5Juo9ymHQlHrr0QO6ShHX77sE+nGxyAI6f0kSW1FMEcAdotQMncLiqER7N6/cA8SLVNb89peBBD05AUgXWKLklIt1s0XyDBbZKNk=
+	b=hb4/Cbi7DNQ6KDoQm10/Ijs/Jy3/AIW3XimFlwuaVjpUSrfNRyZqd97HcxO5w6YrZAdBr5OozCPlg+KMfMFKx/Oqt3YCTm3IMaGb+khhnRoyt0bFKDSHXUd9GtBNAneD2UNo7q3EVyhCcfqquWrceTfd1J+U7nam436QfCdefIY=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1771246973; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=UuzjSqQYzz1QT9FVEJ1JRFDYSrnS9/+HLRLUmTr5oYU=; 
-	b=ZNoMEWYmgum3qZ3FGD1YpxpbRQ/b9/VljFjOuUtpThXkOCAsiXoTns1ivA8Sd/lcYGze0etuHI+RtFOgwC+WPnTHheQib1kASCRDO5Jt6vW1Sb3qmcBQhqAi8jPHc7GAprmXhKQ0Q2FjDxxp8f68iYjqdWgsOYNEPHE61tud6NQ=
+	t=1771246979; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=v3cuHWp4ZUczC8K8xwIJtvmVhWuzP8cUhPMUU9ertxo=; 
+	b=md4DwTaqKzhyP+BrkssRAkZaDW2VT+bLvQ9hhLiDlmseBP4KfGfZnShU1BC7du+dIMsC3ZuV38TkrNh5RD96jKiIaJdDYcwslfPxcSg3yUwofqdf1OZaLtzL+KpA27oTmZQCQM/tv0E9Z92X47m0Eohvi3ikhKn4xSR8y4yc3JY=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771246973;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771246979;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=UuzjSqQYzz1QT9FVEJ1JRFDYSrnS9/+HLRLUmTr5oYU=;
-	b=hBWQA4pHSkD6bhon4/zr6kTe+my6k4WFo7X2xiu//NGme8Ho3tRNysfiafPnOWb6
-	hjd5N9U7KUvt6Cus6qMeCdmRbBXKFd0XCj4uLBssZuqM5UBFL3P2nGmqqiHUisr5tSk
-	1A4zRkhMYAuXtW9RLimRo/q0Jim4GKpeJ6qzRwa8=
-Received: by mx.zohomail.com with SMTPS id 1771246971429982.6699440107166;
-	Mon, 16 Feb 2026 05:02:51 -0800 (PST)
+	bh=v3cuHWp4ZUczC8K8xwIJtvmVhWuzP8cUhPMUU9ertxo=;
+	b=UPoAtcYQLIYvG1+6trdymlUouWmEulPjp1bHrgAPfHgaB0SiLxshgt/cmdh6EI5k
+	LpOd8mcwhrf6L+wczvWAUc3oU0cq9ov7p7mZDq1kubmLScqGLfZ1AdHoX3FrPm8urFT
+	Emzk1O1x9Er1Zf9xbCLNLhCoZ/Y/TuXxKgIoZzZA=
+Received: by mx.zohomail.com with SMTPS id 177124697831043.703670429346744;
+	Mon, 16 Feb 2026 05:02:58 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 16 Feb 2026 14:01:24 +0100
-Subject: [PATCH v8 10/20] drm/rockchip: vop2: Add RK3576 to the RG swap
- special case
+Date: Mon, 16 Feb 2026 14:01:25 +0100
+Subject: [PATCH v8 11/20] drm/rockchip: vop2: Recognise 10-bit YUV422 as
+ YUV format
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260216-color-format-v8-10-5722ce175dd5@collabora.com>
+Message-Id: <20260216-color-format-v8-11-5722ce175dd5@collabora.com>
 References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
 In-Reply-To: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -76,37 +76,37 @@ Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  linux-doc@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Andy Yan <andyshrk@163.com>
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 X-Mailer: b4 0.14.3
 
-Much like RK3588, RK3576 requires an RG swap to be performed for YUV444
-8-bit and YUV444 10-bit bus formats.
+The Rockchip VOP2 video output driver has a "is_yuv_output" function,
+which returns true when a given bus format is a YUV format, and false
+otherwise.
 
-Add its version to the already existing check for RK3588, so that YUV444
-output is correct on this platform.
+This switch statement is lacking the bus format used for YUV422 10-bit.
 
-Fixes: 944757a4cba6 ("drm/rockchip: vop2: Add support for rk3576")
-Reviewed-by: Andy Yan <andyshrk@163.com>
+Add the two component orderings of the YUV422 10-bit bus formats to the
+switch statement.
+
+Fixes: 604be85547ce ("drm/rockchip: Add VOP2 driver")
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-index ec3b4fde10db..7c0a93f129f3 100644
+index 7c0a93f129f3..130fd1ac3cd5 100644
 --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
 +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
-@@ -337,7 +337,8 @@ static bool vop2_output_uv_swap(u32 bus_format, u32 output_mode)
- 
- static bool vop2_output_rg_swap(struct vop2 *vop2, u32 bus_format)
- {
--	if (vop2->version == VOP_VERSION_RK3588) {
-+	if (vop2->version == VOP_VERSION_RK3588 ||
-+	    vop2->version == VOP_VERSION_RK3576) {
- 		if (bus_format == MEDIA_BUS_FMT_YUV8_1X24 ||
- 		    bus_format == MEDIA_BUS_FMT_YUV10_1X30)
- 			return true;
+@@ -352,6 +352,8 @@ static bool is_yuv_output(u32 bus_format)
+ 	switch (bus_format) {
+ 	case MEDIA_BUS_FMT_YUV8_1X24:
+ 	case MEDIA_BUS_FMT_YUV10_1X30:
++	case MEDIA_BUS_FMT_YUYV10_1X20:
++	case MEDIA_BUS_FMT_UYVY10_1X20:
+ 	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+ 	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+ 	case MEDIA_BUS_FMT_YUYV8_2X8:
 
 -- 
 2.53.0
