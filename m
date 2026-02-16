@@ -1,481 +1,572 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D344320A0E;
-	Mon, 16 Feb 2026 15:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771255117; cv=none; b=sj+kk5+nEoWwnJmlgHzuCioSOjqaHmCkca8wJgUx2PNx5CFjzCDl0Q6sm9SKYhG9TgoolhRFAE9Rz97xfewze47xyPCbHIl4rNp6wtBp/O4iDJ917vXftql/T+hjPPFpuFnZb4CUd4xJu8aXR2VqBpvDmVPh00/KhWF5+JM4MOc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771255117; c=relaxed/simple;
-	bh=LYDUDlkmV/ZomaWRkhyzFmAgpvxN5pBf9JWAxuLADLg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TO6j0NhOnVR+lByBA89/65IjWQwZkGoWOFqZ/zqwK/APX7JoR5Zh3oivUWhBH86tKv0+eEdQtAWB7PDpxN+0mcX97HUBnId/z2Gi7RExAX0rd1OXs2PfYcvcnDS6snUZlq24rTF0IOF+TRqEZAxpO2CZ54mhOiXsxVJGJR051jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 617691570;
-	Mon, 16 Feb 2026 07:18:27 -0800 (PST)
-Received: from e134344.arm.com (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFE2C3F632;
-	Mon, 16 Feb 2026 07:18:26 -0800 (PST)
-Date: Mon, 16 Feb 2026 15:18:17 +0000
-From: Ben Horgan <ben.horgan@arm.com>
-To: Reinette Chatre <reinette.chatre@intel.com>
-Cc: "Moger, Babu" <bmoger@amd.com>, "Moger, Babu" <Babu.Moger@amd.com>,
-	"Luck, Tony" <tony.luck@intel.com>,
-	Drew Fustini <fustini@kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"Dave.Martin@arm.com" <Dave.Martin@arm.com>,
-	"james.morse@arm.com" <james.morse@arm.com>,
-	"tglx@kernel.org" <tglx@kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"peterz@infradead.org" <peterz@infradead.org>,
-	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
-	"rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"bsegall@google.com" <bsegall@google.com>,
-	"mgorman@suse.de" <mgorman@suse.de>,
-	"vschneid@redhat.com" <vschneid@redhat.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"pmladek@suse.com" <pmladek@suse.com>,
-	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
-	"kees@kernel.org" <kees@kernel.org>,
-	"arnd@arndb.de" <arnd@arndb.de>,
-	"fvdl@google.com" <fvdl@google.com>,
-	"lirongqing@baidu.com" <lirongqing@baidu.com>,
-	"bhelgaas@google.com" <bhelgaas@google.com>,
-	"seanjc@google.com" <seanjc@google.com>,
-	"xin@zytor.com" <xin@zytor.com>,
-	"Shukla, Manali" <Manali.Shukla@amd.com>,
-	"dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
-	"chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
-	"Limonciello, Mario" <Mario.Limonciello@amd.com>,
-	"naveen@kernel.org" <naveen@kernel.org>,
-	"elena.reshetova@intel.com" <elena.reshetova@intel.com>,
-	"Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"peternewman@google.com" <peternewman@google.com>,
-	"eranian@google.com" <eranian@google.com>,
-	"Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-Message-ID: <aZM1OY7FALkPWmh6@e134344.arm.com>
-References: <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
- <aXpDdUQHCnQyhcL3@agluck-desk3>
- <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
- <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
- <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
- <1f703c24-a4a9-416e-ae43-21d03f35f0be@intel.com>
- <aYyxAPdTFejzsE42@e134344.arm.com>
- <679dcd01-05e5-476a-91dd-6d1d08637b3e@intel.com>
- <aY3bvKeOcZ9yG686@e134344.arm.com>
- <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C253242DD;
+	Mon, 16 Feb 2026 15:21:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771255293; cv=fail; b=LeP6qALb1KqDlmiXToav/+yX67Wxtporfww5j3eHNbMyzAJpS8KFhhDJ0aficKx5ZkD2Jk1JPqplEM713fF9e9S2bRKGFDDYh8y3N1f32rpfK4P0qdhnLaMDwG/17XelPiR8/7utkhDyl33miy2C1zn/rqsm7Td6nIz98PxUNKU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771255293; c=relaxed/simple;
+	bh=nYijlr3TnZm9MQ4nOlE16LJvQKsomg9wrM3lXnTL95I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=QdKy9yt4YZcjo5tu9nX5fkGnhekDoWPMr1fVwt/rNosJR0foLFvRg+0VDaHQBeWjuySv9Q0QFmvTJC27zEQQ7YRy7UcJawo3Fv4FNxPxta4EiEuCvxVeaSpp+AWlAeqsQlkI3/iotKzIwfBV186k9xCr34qdv/QxRyi3yUTMlMg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=NLhrQkGW; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=EHV8k+du; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="NLhrQkGW";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="EHV8k+du"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61GET6IC638622;
+	Mon, 16 Feb 2026 15:20:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=2A4ZBTPywd5tP+DbRmrl2Ek10KXvfpMhjo3+uPLz32M=; b=
+	NLhrQkGWmV1e/NN9fJhNZEfpMOAIfOgGWJUrDNJo8VGMynqPYfgcoK2YrkbR0/q7
+	TpMF7JY3zpr6p0vkSk+qkDfDxsGRCvG37XnnGFnEqUIFfvkau+WHHS3P+sHpPZBV
+	RhWLEH+wiMkdAzNUVIyCnE/R5wWnBfO4632j1lZfKtWmvisvg6DKFPnNLXuymDj5
+	Q4kvWY8gzez3nct5JoOMpEW8baITKbKFyMWfhU1CeD56bwL8EHDt7eYDVjzZUpQQ
+	X7YApD2he2AxmtClB1cpiE1N75kwX7NJm0o7bWgvVXWwZqIhxlwCbBS6fFRqVwzn
+	eHWi3y1/nivgYBzTEvCYHg==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4caj6ma7t1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 16 Feb 2026 15:20:41 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 61GD8gVG033555;
+	Mon, 16 Feb 2026 15:20:40 GMT
+Received: from ch5pr02cu005.outbound.protection.outlook.com (mail-northcentralusazon11012069.outbound.protection.outlook.com [40.107.200.69])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4cafgcg5yg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 16 Feb 2026 15:20:40 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E50ohLkXjL8whciCDYFMSNIJjESGj2wkUkn4tWgdXl5p3bAdnyMZHvtqXmvA5BPUnGcJrfZyS3V649L+EacJFWiL7VHxYaGOno30NLUh6n1q4ToTJgLtn3yo//dz/rmgr/CdF2Bw8k3PaF6MNufsVHvO1ABv5c/R6OEOJtPebtx2/B+kH5So+vIvA3E9nF5+Kg/BLBxRS9h/1shh9s+PnwrdKgibqSZKiurCAbqJEJxFggokLIx8LU59uOJkIm7ePKK22f/i4YFMJXyldfRTh5WOTkJqyEzT8s/M/FpvfeE5mQcRfcAGGJWF9RrrkpnhCFEYDfFRa5x+/Hs6c0zzcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2A4ZBTPywd5tP+DbRmrl2Ek10KXvfpMhjo3+uPLz32M=;
+ b=bK7kYFXH1kilFtW2ZplWhlaR95AxQoYSjJuhX1Tsfgs/XGC1y+AaNYX/oYZIrJevvpj1gZvnjh3fRY3gdT1D29t4SbcFZ8rpkXYqlKJAz5wPPymFTZSeByxVFwhDzd1D+NH5ee0F1gGeld4Ws/bfdYCvYuVtQsrrNU/oEOHcWQgprtn1buxhZj+D8ld8c5BLm7NlOqJgCaa+3qZB4RIC05bsC2G+YX5xo7IdvpP5BWfL7gQ0c7139Fey6DiA2IvDQElpUdYYuZenV4ApoikWLEhRBp8R3dGFPUG0XL6ZepL2KcfoZzycB6r76D8Hqa7/PRLUaeTDKrBTRKpSd+y+4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2A4ZBTPywd5tP+DbRmrl2Ek10KXvfpMhjo3+uPLz32M=;
+ b=EHV8k+ducnR0eLk0slREk8cDQOVRHQ4ls6Jbqf1R/w5JV3lXyBNlNwlegBm/DRAOgASZd3WprnT8cgguaft+tnHnqCDIn0NSKMUgHGPHYAwTL9HxjlSdXwAwL51uW9/zXzJXs+vGdh59eAeuuHKjyQOjdA6FteJX6tBwqLn2eiM=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by SJ0PR10MB4782.namprd10.prod.outlook.com (2603:10b6:a03:2dc::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Mon, 16 Feb
+ 2026 15:20:33 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::f3ea:674e:7f2e:b711]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::f3ea:674e:7f2e:b711%4]) with mapi id 15.20.9587.017; Mon, 16 Feb 2026
+ 15:20:33 +0000
+Date: Mon, 16 Feb 2026 15:20:31 +0000
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        akpm@linux-foundation.org, david@kernel.org, ziy@nvidia.com,
+        baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+        ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
+        lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org,
+        surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+        rostedt@goodmis.org, mhiramat@kernel.org,
+        mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
+        joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
+        gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
+        jannh@google.com, pfalcato@suse.de, jackmanb@google.com,
+        hannes@cmpxchg.org, willy@infradead.org, peterx@redhat.com,
+        wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+        sunnanyong@huawei.com, vishal.moola@gmail.com,
+        thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+        kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
+        anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
+        will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+        cl@gentwo.org, jglisse@google.com, zokeefe@google.com,
+        rientjes@google.com, rdunlap@infradead.org, hughd@google.com,
+        richard.weiyang@gmail.com
+Subject: Re: [PATCH mm-unstable v14 08/16] khugepaged: generalize
+ collapse_huge_page for mTHP collapse
+Message-ID: <1e7f2456-79db-4096-8bbd-aafd9acd8e0a@lucifer.local>
+References: <20260122192841.128719-1-npache@redhat.com>
+ <20260122192841.128719-9-npache@redhat.com>
+ <599ebe0a-086a-4701-b797-dcd801ad02fb@lucifer.local>
+ <CAA1CXcCCbiV9j+_SVNJrkfVRqKPXjGg+Lt3YnyNUhDHWkRjHGQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAA1CXcCCbiV9j+_SVNJrkfVRqKPXjGg+Lt3YnyNUhDHWkRjHGQ@mail.gmail.com>
+X-ClientProxiedBy: CPCP307CA0005.DNKP307.PROD.OUTLOOK.COM (2603:10a6:380::14)
+ To DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|SJ0PR10MB4782:EE_
+X-MS-Office365-Filtering-Correlation-Id: f34b2a41-1b77-4d27-3dc4-08de6d6eed4a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TjlGSDdMK3BydTE2M3FOOVV4U1Jwd2YzMllOd00rK0NQclN5RnFkaWFYVUh2?=
+ =?utf-8?B?T21RYkJmZ1o3dWU2SFhEcDlzNSsxSUs4S2pjZ04rSGFkZFdKUWRJeXlLWXJh?=
+ =?utf-8?B?dlRDaDJtbW9zS0FNWlppM01lYktic0pXRThIWmUzOFF2OW9wS0YzV2xHR0V1?=
+ =?utf-8?B?UytmQTRHdTBvenkyMzMreGhUQW5kK1luUTRERUZwV3dvYjQzZXJtRTMxVE1D?=
+ =?utf-8?B?elh5TXhwQ1ZmakdwYkpkUjlUdUZLTHl2TzQxaHFPZWZDWHRteWt1K3lyRU5u?=
+ =?utf-8?B?aWZTaCtrZmhsZXQ1Y3R6Q0grRlRuMzlweWMxeFV0aVVGRmtLSFlPTis2aER3?=
+ =?utf-8?B?NU0yUTltZUlta2c3SlU0ZjJaM1JGUG5mYmZvWlEzUmphbVBtRlpmSjExRjI5?=
+ =?utf-8?B?YU9aMXUwSHpPRmM2NCtnWFVZclRlaUJIUEFzci9vWm1qeUtZZ3hLWE1IdUVu?=
+ =?utf-8?B?WnJMbVlIbWZFWnRqQVB3cDdTbnMrQmxnQVhsTFNjbjhXTW43RTZ6NWhPekJk?=
+ =?utf-8?B?MzdrOVFqUFpUbkU2MDRBQ3I1UXBtUlRVMHlQSXppQUdraWlRa0huNlRWMzZC?=
+ =?utf-8?B?M0J1TkRnS3dhS1g1QnUxY1JLcXdLVlR5dmZEUU05VmNta214UEpUK3NTamxh?=
+ =?utf-8?B?WndLOEIxYnpqS0VpQkRNaW5jKytNell3OXpoWjF1WXA4NzBXT1F2NzE4SVJq?=
+ =?utf-8?B?alFjZmp2THVBcm5vdXBnb0lqOERabTFIc2RiZms2dUJXaW9rUWhaTytXU1I2?=
+ =?utf-8?B?Q0xDU2pRTkFNaGdtT1MzSVB6Tk9kY3pReEJJbXlLbDUyT1JRT2U2TW9idFhx?=
+ =?utf-8?B?Z0IrRzMydENKeU5NekRjTkZKZWxUQ2JiNkg5V1ZUY3R0N2xkbUU0YlZOM1gy?=
+ =?utf-8?B?YWMvL3hHSGszVmdjM1ZFUUdLOXBaVDJPbVZQL2p6aTBwMGhuRWREVWxlNDBB?=
+ =?utf-8?B?ZU50OEJTMUpEaEVJbjVaQlVnV1E4aVNCaFZTbUZWaU9RY25mRCtJMkZoWFB6?=
+ =?utf-8?B?SVNqZHFvSzBvNFh5V3gzcXNVR1Rxd3A3S20rQm1pNHhkVXlGTGhqeGlBQzNI?=
+ =?utf-8?B?RjY5SWJpYXZRRDdYMTV6OHBOTjdIZS9VT1pWb296N3V1KzBnWHdzT2lBS0ZI?=
+ =?utf-8?B?UkZZdWxZWUlhK2g1L0pOS1kyckVCc0U0aUxvZ1BpSDV0Q0NlQjF5MzRPT1lv?=
+ =?utf-8?B?cm9zcld0RnZDQzN5dDlJMXF3Tm5ScWpJV2p2SFFNMVpERHVhVnlUMkdvTkNI?=
+ =?utf-8?B?MCs0N0VtZ2QzcVdrQUZOZmRtTGpVQTRwdE15TzRpdnEwZ2h6RkYxbk0za0Zi?=
+ =?utf-8?B?K0FNZUdaSG5QbCtqdnMydTM0bnFwZ05zaGdKc29mRmtDR2FOUGU1dXlScWgv?=
+ =?utf-8?B?MXVkUnJMTnJoaEphZDd5dCtDandSTHhscFdZanl6dWxxK2ZzSjZiYXF5KzJS?=
+ =?utf-8?B?ZHNCcFh6TjFBSXFYZDNkRllCN1czOWJZYncwOHZ3b1RldjZxZGYvdkJqQzVv?=
+ =?utf-8?B?Zzh0RnhRU3c0UWdBbkpVZkYxTXk4U1ByTEZrb0JCMXpEaWJLbU5RNUlMQWZl?=
+ =?utf-8?B?cTgxcEdhdFVmMDBBM1ZmUDZHVDhQYnQvYUx4R0FVWi9Ha3Q1Y1IyU0lTUk9E?=
+ =?utf-8?B?ZlFYNmNnNmszZnRXRlIzMUVxVmZOOFVIdVZCMjZqTmZ2WWVnY1hPYkJ3SzVo?=
+ =?utf-8?B?VlV0WGRObFB0RzJNTi91OW9sZWMvVzBOQjRqM1YrdU1xOUdpcEtsZ0piWWRw?=
+ =?utf-8?B?L0QvaG9VdWo1anRKK2ZKSHFwb0REelo5aDRjK2ZsZmE3bjRVbllpNFRFSHVD?=
+ =?utf-8?B?YVZLRkJvUmlzVW9VWWxVdlZzbTdpazlNeWUrRy9DYWNzUWE3WXF6K2o5ZWND?=
+ =?utf-8?B?Y3NsYndMbUlXK2RqRnJwMWUzNkhtd29hazlVK05sOFlpWDBtc0hGUm9vazFu?=
+ =?utf-8?B?eFV4Ulc4N1d4blVZblRhS2FlTTBjSXNKdzUzaEk2ejlaeXk0djN2YmVvMWc1?=
+ =?utf-8?B?UzNJeFppZk1uU0dEeWxEMnpIMThaZm4ybExESnpocFlTYlV5ZUNPKytJcG45?=
+ =?utf-8?B?SFFpTmpUZkRmOHRKbzF2SHlISThYaGZyR3hRNENvdmdoV0VUSVNHVWtjN2Vt?=
+ =?utf-8?Q?tglo=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ejB5NVlpaCtvUjBZTU5KNHNud1VGeHNMSUJCMjJvVmNNRjhKVXBDVTJENmM0?=
+ =?utf-8?B?OUgzOS9DTFEzTDdEN2MvS3lKT09GcWpEQVVRYkJFZFA1M3A5QStCZDNhbzA5?=
+ =?utf-8?B?MHllK096YXZWVzg0MWt2bmNxaTRKS25NQjFXelFUYjJZZmN0Nm1rZEZXSmow?=
+ =?utf-8?B?QmtMSmlZMTViVHlqTjdzcUgzTEJXWWtjbHc4KzFJQXp0TlhlWXpwSkY5R0x0?=
+ =?utf-8?B?MmdOSElTNXNPamMvdllxaXN2Sm9jalFaRVIwVkFqSG9MeU5FdThuQ0VmWTQv?=
+ =?utf-8?B?eVZTdUhrWUU0Uy9JRmJqcTZMbkVhVlVuYy9aV3JRTGdUQVZzNXpmdlFLaGV6?=
+ =?utf-8?B?YkZsVUVSWWtpRzVUS0gxV0pWVGowS21zeCtCZmNMblhJcHNQS2p4WGRlSFRQ?=
+ =?utf-8?B?Mk1DbTUwQXoyZlVrOVVtbks1SHdTajdmbm1PRkJieSt0MmVYRDZqbnEyN0Rj?=
+ =?utf-8?B?UFFvaXJYTHVIeG1wTlNFMXhzSXhRSmoySjJDTzhteFlOTUFqcWRkcGdWV1pO?=
+ =?utf-8?B?dit2Y0dUdm5tcmJnc0Y2UXNHdlBzVDU4MWdsRTFxVXBOUTNMaVV3aGREWnBT?=
+ =?utf-8?B?RkUvRnMxTFU2elp0TXN4NzNvNUJNSll3WlhWeHM0TTZyS1BTRU9PK05DTGxF?=
+ =?utf-8?B?cUxwUlA4NEgxMmdDWTQxWnBmVGlja3E0NDdtSVNYNC9XblUveUkyZEtWU0Jj?=
+ =?utf-8?B?MWthNmV2Q1lkWjJPTUJCSXduQ0RmNkhzb0ZMZSs0b01JSUxNWEc5RUpsM3B4?=
+ =?utf-8?B?SHBUTFUwK2h0ZFVCMi9ISXB4aGNmTjZ4Sko0VmdpcXcybWNOVDRoaWRqMGxN?=
+ =?utf-8?B?WmhuNmFabTU3U1Z4SXhFeWlaUFN6MEY5MHFzdmNyK09iNWQvaXBvelFzRjRp?=
+ =?utf-8?B?ZkMrbFcrY1llK2NVRmhvRGMyNmc1WkIrU3JaZk1XL0lSMHlsRGQrWFluOE4z?=
+ =?utf-8?B?SFlGQm5kNjk3NXMrYWVqS3UvN0tmMmhOYVZHQk91SUJBQUN3WkVucFBERnR5?=
+ =?utf-8?B?TEY3ZEZ5US9CYUNQeDJHMzQvRU1xMnd6Nm01aEpYaGU3dHJsMy9vanliSTNI?=
+ =?utf-8?B?Z0FYWHpIY244UDRZSUExb1RLNnZHNkt3Zlg1Uzl1enB2VUVNZWxQUjlZTkhu?=
+ =?utf-8?B?YWQ5UldNUER5bGdHaTZGVG1rdzBHdk1vLytud2UyRlR3WS8yekt2WDBCNmJI?=
+ =?utf-8?B?dlZrc3E4VUxmSEtET05YTWRsUUVFbWkwem8yL084N2p0TmNMWEdkUEZ6a25h?=
+ =?utf-8?B?ZWZrZHlHNEZSYXlZOGp5eFVZME00QnY0Zjdwem9IRUZxSUNidjVDM3ZuNThm?=
+ =?utf-8?B?cmQ1QVpvUmVuc1NXRDRseDEzeExwNTBjOEp5WkEza1dEVVhzdDlmbkZqa3Yz?=
+ =?utf-8?B?SXlPRThsR3BNUUszV3dhckpXWERQckFDbDVhTVA2dC9kekcxZHltL3g4Yk1Q?=
+ =?utf-8?B?QmtlRkZTRUFhTFgxeWFvN1RrdWd3NnNVV0gyYTQrTnFjUjhHZ1RXV0FmY2sr?=
+ =?utf-8?B?SW9TamttdS9jYWNvTFpUWXNvcEZrQWd5UVdPQkVIZkYvdHBzUHYwRnFQSzA0?=
+ =?utf-8?B?Y3NVWmdSNE5zamtYTERLeFgzMEU2c2ZXcm45TWxjUEVlTGV5Q0I4N05JVUsy?=
+ =?utf-8?B?Uzc2ZStKRmZQVzJBVXlvV25tZ3JxWXNUditjWWRTKzRHVjViYXdhdkhjNmIw?=
+ =?utf-8?B?ZkxUS3RyODlzdjlzNk93UUNWNnlzczV2TUhzZEkyMWQwTVRzQlZqancxVCts?=
+ =?utf-8?B?ZG10S3lNV21hSXkvNkhhQndsMGNPaE43bVAxaGNrY294SG5TKzhoZFpETmlh?=
+ =?utf-8?B?YVRRdHJNVUh5M0VyUzhFenlzZXRHd3VLbVY0NmFNMm03UlpIR1ZwZDNiTE50?=
+ =?utf-8?B?U1J2ZWZJd0ZQUGZFd3BrQytPRXcvNnhndHF4MVJmcDlYWTVLRnRKL0tKMWpm?=
+ =?utf-8?B?UFNOLzM5N1hCWm9PclRBcCswQ2NUMnlIK3ZQQUdZa21nZjM1NVN4MTJZczBu?=
+ =?utf-8?B?cVJTRHZoamI0eUpsUDM0c0NqNnU3TzJyMUJQdGdxRFBsblZ4aUErZ0c0Tzlp?=
+ =?utf-8?B?Z2tweGZQM3BldHp4aW5QT1pnMWwzL3A0THRpNTViYW91UTJraVJNSlVwcE5j?=
+ =?utf-8?B?VUZDa2RrU3Y2UlJqRVZZdW9VcUt2VWd0bTBsbmpKckY0WFVrS2xTWkp1U3BV?=
+ =?utf-8?B?akVKV2sxUmQ2UDFuWWMzankyTnBWSXZvSG5kRkFndHBpR3lyNlFvenErcUkz?=
+ =?utf-8?B?WmhWL2dic0VpMUF4ZkZFRzk0bjBoc090MExGdDZjQXdEaXBSQmo1OEQ0VGxo?=
+ =?utf-8?B?QXNaeFRpRzVUV1NLVjhRVWFpclpHVEN6Q1RUVmVmU3VVYzM0bThWaEJJeGUv?=
+ =?utf-8?Q?mFKxGSFBlKBUd3G0=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	aSuOQnOZ75kKwD9BizQUXEPsx72u4gd6R8btCsNj6eURkH1MK7Sk13Bxujc6zKlDYUe57lhVcz4L6xKeVh2tamPAy7XzMq1SKINZT9AF125ogfkSvdBpZXI/pO9RNoWzSce2UdqeC/9C+VTPda3oK/cpz8HaEOpzR2pJEddkBjsuFxqmnIkjc6+aJhix2R57MN4SnO7JRVsCQTNvLVw2Kgr4BBS6tniRtT4ueCq0ZfdtboEnCuxvB4m63iAPIfLGT6i8SJsL+ym0K9pQwTv46xZMXte+TAjfQltwju0shbr1nyeM7IKoUROR5tJVsCF41qn95/frDL59IGPgcGDgfNDJWdicL4oawqfLHqUk59gMmzEpVtyAfBIk2tqFMsySDR62TTfhOML5sBQ1BH1tpo2965HaEupi/1WB2dFv2jC1nL3ycWGHcfhpH0PIpXE4svgwVedSTV/ybmujnM2It5NvDTq+gKif+bK0or1eqvpsRBk/Q//K14ttKvuSv3Ct7Z/rHSsJqw9OqBFihowRijZoxxQjpMRHdbT0Ky+SwkoGi9kGzXY8N9l233UmpHJWlcqG05IdLtw9+x7hWZktSepp9e070K2H4ph61uZAFxE=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f34b2a41-1b77-4d27-3dc4-08de6d6eed4a
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 15:20:33.1077
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wx7nbhfTOOyk5YrhjVGoCj60/sgE0HXtYvjHV/n+OE4/M7rRdrXbtNNSFmYZ4iqCjHMkVhZAZj5jNbVnZ/45fHHHbUJVaZ2vo2NovsLIwcE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4782
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-16_04,2026-02-16_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 spamscore=0 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2601150000 definitions=main-2602160130
+X-Proofpoint-GUID: XIuZJv5VnLQkvSeBw0ySgVLhJx7ooD1q
+X-Proofpoint-ORIG-GUID: XIuZJv5VnLQkvSeBw0ySgVLhJx7ooD1q
+X-Authority-Analysis: v=2.4 cv=JO82csKb c=1 sm=1 tr=0 ts=699335c9 b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=yPCof4ZbAAAA:8
+ a=SRrdq9N9AAAA:8 a=20KFwNOVAAAA:8 a=S7gJEkJEHN-xwhIT7fUA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 cc=ntf awl=host:13801
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE2MDEzMCBTYWx0ZWRfXzHU0zXymLZ9d
+ O6hHeVi+/o1+z2XT1HpxEJe+QTA9QrIpbc2PSDTSf6i8w+BFOOYFWDwiCXFfhrDUcxKHkzlfmPC
+ /EVpR4NShhYuixXNA9oaKjVcKBUbbRLi8Kj8SAWdifOx8Lk6FkDDAL/6hBKoBEv5ZVRBSIGyg3A
+ +8km/2OilXdUujenRjoJx5L7MyVlTAQ70cGRfN5phd3Fk87Gh5voVzoYs3Mvhqois0QPgEv98oh
+ qwJtTEH4T+5RFlUKb0xqheyOBYvpe459b0AXhc8FwUnzIk66nkHSe+tsM2SvHL1pzzZLm13wXlU
+ /Q5UmNdrQKfm4XyDjh8h6mKxpNxO+g8YiPfCoPWwfQrLoVkVLM25T/MVdLeY+2DKBICU3qCdm02
+ q/fkWnCk5wXSNNLFPYgkP6phs30rCooGD37zKyk/egyFC/xlckvHEtiGZlLo2yy5KnLEQUqKkAd
+ RPsUOkC6ZjgnxRHsqtZzsNs6Crqo0zL+boAiHK2M=
 
-Hi Reinette,
+On Wed, Feb 04, 2026 at 03:00:57PM -0700, Nico Pache wrote:
+> On Tue, Feb 3, 2026 at 6:13 AM Lorenzo Stoakes
+> <lorenzo.stoakes@oracle.com> wrote:
+> >
+> > On Thu, Jan 22, 2026 at 12:28:33PM -0700, Nico Pache wrote:
+> > > Pass an order and offset to collapse_huge_page to support collapsing anon
+> > > memory to arbitrary orders within a PMD. order indicates what mTHP size we
+> > > are attempting to collapse to, and offset indicates were in the PMD to
+> > > start the collapse attempt.
+> > >
+> > > For non-PMD collapse we must leave the anon VMA write locked until after
+> > > we collapse the mTHP-- in the PMD case all the pages are isolated, but in
+> > > the mTHP case this is not true, and we must keep the lock to prevent
+> > > changes to the VMA from occurring.
+> > >
+> > > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > > Tested-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > > Signed-off-by: Nico Pache <npache@redhat.com>
+> > > ---
+> > >  mm/khugepaged.c | 111 +++++++++++++++++++++++++++++++-----------------
+> > >  1 file changed, 71 insertions(+), 40 deletions(-)
+> > >
+> > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > > index 9b7e05827749..76cb17243793 100644
+> > > --- a/mm/khugepaged.c
+> > > +++ b/mm/khugepaged.c
+> > > @@ -1151,44 +1151,54 @@ static enum scan_result alloc_charge_folio(struct folio **foliop, struct mm_stru
+> > >       return SCAN_SUCCEED;
+> > >  }
+> > >
+> > > -static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long address,
+> > > -             int referenced, int unmapped, struct collapse_control *cc)
+> > > +static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long start_addr,
+> > > +             int referenced, int unmapped, struct collapse_control *cc,
+> > > +             bool *mmap_locked, unsigned int order)
+> > >  {
+> > >       LIST_HEAD(compound_pagelist);
+> > >       pmd_t *pmd, _pmd;
+> > > -     pte_t *pte;
+> > > +     pte_t *pte = NULL;
+> > >       pgtable_t pgtable;
+> > >       struct folio *folio;
+> > >       spinlock_t *pmd_ptl, *pte_ptl;
+> > >       enum scan_result result = SCAN_FAIL;
+> > >       struct vm_area_struct *vma;
+> > >       struct mmu_notifier_range range;
+> > > +     bool anon_vma_locked = false;
+> > > +     const unsigned long nr_pages = 1UL << order;
+> > > +     const unsigned long pmd_address = start_addr & HPAGE_PMD_MASK;
+> > >
+> > > -     VM_BUG_ON(address & ~HPAGE_PMD_MASK);
+> > > +     VM_WARN_ON_ONCE(pmd_address & ~HPAGE_PMD_MASK);
+> > >
+> > >       /*
+> > >        * Before allocating the hugepage, release the mmap_lock read lock.
+> > >        * The allocation can take potentially a long time if it involves
+> > >        * sync compaction, and we do not need to hold the mmap_lock during
+> > >        * that. We will recheck the vma after taking it again in write mode.
+> > > +      * If collapsing mTHPs we may have already released the read_lock.
+> > >        */
+> > > -     mmap_read_unlock(mm);
+> > > +     if (*mmap_locked) {
+> > > +             mmap_read_unlock(mm);
+> > > +             *mmap_locked = false;
+> > > +     }
+> > >
+> > > -     result = alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
+> > > +     result = alloc_charge_folio(&folio, mm, cc, order);
+> > >       if (result != SCAN_SUCCEED)
+> > >               goto out_nolock;
+> > >
+> > >       mmap_read_lock(mm);
+> > > -     result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
+> > > -                                      HPAGE_PMD_ORDER);
+> > > +     *mmap_locked = true;
+> > > +     result = hugepage_vma_revalidate(mm, pmd_address, true, &vma, cc, order);
+> >
+> > Why would we use the PMD address here rather than the actual start address?
+>
+> The revalidation relies on the pmd_addr not the start_addr. It (only)
+> uses this to make sure the VMA is still at least PMD sized, and it
+> uses the order to validate that the target order is allowed. I left a
+> small comment about this in the revalidate function.
 
-On Thu, Feb 12, 2026 at 10:37:21AM -0800, Reinette Chatre wrote:
-> Hi Ben,
-> 
-> On 2/12/26 5:55 AM, Ben Horgan wrote:
-> > On Wed, Feb 11, 2026 at 02:22:55PM -0800, Reinette Chatre wrote:
-> >> On 2/11/26 8:40 AM, Ben Horgan wrote:
-> >>> On Tue, Feb 10, 2026 at 10:04:48AM -0800, Reinette Chatre wrote:
-> >>>> On 2/10/26 8:17 AM, Reinette Chatre wrote:
-> >>>>> On 1/28/26 9:44 AM, Moger, Babu wrote:
-> >>>>>>
-> >>>>>>
-> >>>>>> On 1/28/2026 11:41 AM, Moger, Babu wrote:
-> >>>>>>>> On Wed, Jan 28, 2026 at 10:01:39AM -0600, Moger, Babu wrote:
-> >>>>>>>>> On 1/27/2026 4:30 PM, Luck, Tony wrote:
-> >>>>>>>> Babu,
-> >>>>>>>>
-> >>>>>>>> I've read a bit more of the code now and I think I understand more.
-> >>>>>>>>
-> >>>>>>>> Some useful additions to your explanation.
-> >>>>>>>>
-> >>>>>>>> 1) Only one CTRL group can be marked as PLZA
-> >>>>>>>
-> >>>>>>> Yes. Correct.
-> >>>>>
-> >>>>> Why limit it to one CTRL_MON group and why not support it for MON groups?
-> >>>>>
-> >>>>> Limiting it to a single CTRL group seems restrictive in a few ways:
-> >>>>> 1) It requires that the "PLZA" group has a dedicated CLOSID. This reduces the
-> >>>>>    number of use cases that can be supported. Consider, for example, an existing
-> >>>>>    "high priority" resource group and a "low priority" resource group. The user may
-> >>>>>    just want to let the tasks in the "low priority" resource group run as "high priority"
-> >>>>>    when in CPL0. This of course may depend on what resources are allocated, for example
-> >>>>>    cache may need more care, but if, for example, user is only interested in memory
-> >>>>>    bandwidth allocation this seems a reasonable use case?
-> >>>>> 2) Similar to what Tony [1] mentioned this does not enable what the hardware is
-> >>>>>    capable of in terms of number of different control groups/CLOSID that can be
-> >>>>>    assigned to MSR_IA32_PQR_PLZA_ASSOC. Why limit PLZA to one CLOSID?
-> >>>>> 3) The feature seems to support RMID in MSR_IA32_PQR_PLZA_ASSOC similar to
-> >>>>>    MSR_IA32_PQR_ASSOC. With this, it should be possible for user space to, for
-> >>>>>    example, create a resource group that contains tasks of interest and create
-> >>>>>    a monitor group within it that monitors all tasks' bandwidth usage when in CPL0.
-> >>>>>    This will give user space better insight into system behavior and from what I can
-> >>>>>    tell is supported by the feature but not enabled?
-> >>>>>
-> >>>>>>>
-> >>>>>>>> 2) It can't be the root/default group
-> >>>>>>>
-> >>>>>>> This is something I added to keep the default group in a un-disturbed,
-> >>>>>
-> >>>>> Why was this needed?
-> >>>>>
-> >>>>>>>
-> >>>>>>>> 3) It can't have sub monitor groups
-> >>>>>
-> >>>>> Why not?
-> >>>>>
-> >>>>>>>> 4) It can't be pseudo-locked
-> >>>>>>>
-> >>>>>>> Yes.
-> >>>>>>>
-> >>>>>>>>
-> >>>>>>>> Would a potential use case involve putting *all* tasks into the PLZA group? That
-> >>>>>>>> would avoid any additional context switch overhead as the PLZA MSR would never
-> >>>>>>>> need to change.
-> >>>>>>>
-> >>>>>>> Yes. That can be one use case.
-> >>>>>>>
-> >>>>>>>>
-> >>>>>>>> If that is the case, maybe for the PLZA group we should allow user to
-> >>>>>>>> do:
-> >>>>>>>>
-> >>>>>>>> # echo '*' > tasks
-> >>>>>
-> >>>>> Dedicating a resource group to "PLZA" seems restrictive while also adding many
-> >>>>> complications since this designation makes resource group behave differently and
-> >>>>> thus the files need to get extra "treatments" to handle this "PLZA" designation.
-> > 
-> > As I commented on another thread, I'm wary of this reuse of existing file types
-> > as they can confuse existing user-space tools.
-> 
-> I agree. Changing how user space interacts with existing files is a change that would
-> require a mount option and this can be avoided by using new files instead.
-> 
-> >>>>> I am wondering if it will not be simpler to introduce just one new file, for example
-> >>>>> "tasks_cpl0" in both CTRL_MON and MON groups. When user space writes a task ID to the
-> >>>>> file it "enables" PLZA for this task and that group's CLOSID and RMID is the associated
-> >>>>> task's "PLZA" CLOSID and RMID. This gives user space the flexibility to use the same
-> >>>>> resource group to manage user space and kernel space allocations while also supporting
-> >>>>> various monitoring use cases. This still supports the "dedicate a resource group to PLZA"
-> >>>>> use case where user space can create a new resource group with certain allocations but the
-> >>>>> "tasks" file will be empty and "tasks_cpl0" contains the tasks needing to run with
-> >>>>> the resource group's allocations when in CPL0.
-> >>>
-> >>> If there is a "tasks_cpl0"  then I'd expect a "cpus_cpl0" too.
-> >>
-> >> That is reasonable, yes.
-> > 
-> > I think the "tasks_cpl0" approach suffers from one of the same faults as the
-> > "kernel_groups" approach. If you want to run a task with userspace configuration
-> > closid-A rmid-Y but to run in kernel space in closid-B but the same rmid-Y then
-> > there can't exist monitor_group in resctrl for both.
-> 
-> This assumes that "tasks" and "tasks_cpl0"/"tasks_kernel" have the same rules for
-> task assignment. When a user assigns a task to the "tasks" file of a MON group it
-> is required that the task is a member of the parent CTRL_MON group and if so, that
-> task's CLOSID and RMID are both updated. Theoretically there could be different rules
-> for task assignment to the "tasks_cpl0"/"tasks_kernel" file that does not place such
-> restriction and only updates CLOSID when moving to a CTRL_MON group and only updates
-> RMID when moving to a MON group. 
-> 
-> You are correct that resctrl cannot have monitor groups to track such configuration
-> and there may indeed be some consequences that I have not considered.
-> 
-> I understand this is not something that MPAM can support and I also do not know if this
-> is even a valid use case. If doing something like this user space will need to take care
-> since the monitoring data will be presented with the allocations used when tasks are in
-> user space but also contain the monitoring data for allocations used when tasks are in
-> kernel space that are tracked in another control group hierarchy (to which I expect the
-> task's kernel space monitoring can move when the MON group is deleted).
-> 
-> 
-> >>>> It looks like MPAM has a few more capabilities here and the Arm levels are numbered differently
-> >>>> with EL0 meaning user space. We should thus aim to keep things as generic as possible. For example,
-> >>>> instead of CPL0 using something like "kernel" or ... ?
-> >>>
-> >>> Yes, PLZA does open up more possibilities for MPAM usage.  I've talked to James
-> >>> internally and here are a few thoughts.
-> >>>
-> >>> If the user case is just that an option run all tasks with the same closid/rmid
-> >>> (partid/pmg) configuration when they are running in the kernel then I'd favour a
-> >>> mount option. The resctrl filesytem interface doesn't need to change and
-> >>
-> >> I view mount options as an interface of last resort. Why would a mount option be needed
-> >> in this case? The existence of the file used to configure the feature seems sufficient?
-> > 
-> > If we are taking away a closid from the user then the number of CTRL_MON groups
-> > that can be created changes. It seems reasonable for user-space to expect
-> > num_closid to be a fixed value.
-> 
-> I do you see why we need to take away a CLOSID from the user. Consider a user space that
+Yeah having these different addresses is a bit icky, easy to make mistakes here.
 
-Yes, just slightly simpler to take away a CLOSID but could just go with the
-default CLOSID is also used for the kernel. I would be ok with a file saying the
-mode, like the mbm_event file does for counter assignment. It slightly misleading
-that a configuration file is under info but necessary as we don't have another
-location global to the resctrl mount.
+Oh how we need to refactor all of these...
 
-> runs with just two resource groups, for example, "high priority" and "low priority", it seems
-> reasonable to make it possible to let the "low priority" tasks run with "high priority"
-> allocations when in kernel space without needing to dedicate a new CLOSID? More reasonable
-> when only considering memory bandwidth allocation though.
-> 
-> > 
-> >>
-> >> Also ...
-> >>
-> >> I do not think resctrl should unnecessarily place constraints on what the hardware
-> >> features are capable of. As I understand, both PLZA and MPAM supports use case where
-> >> tasks may use different CLOSID/RMID (PARTID/PMG) when running in the kernel. Limiting
-> >> this to only one CLOSID/PARTID seems like an unmotivated constraint to me at the moment.
-> >> This may be because I am not familiar with all the requirements here so please do
-> >> help with insight on how the hardware feature is intended to be used as it relates
-> >> to its design.
-> >>
-> >> We have to be very careful when constraining a feature this much  If resctrl does something
-> >> like this it essentially restricts what users could do forever.
-> > 
-> > Indeed, we don't want to unnecessarily restrict ourselves here. I was hoping a
-> > fixed kernel CLOSID/RMID configuration option might just give all we need for
-> > usecases we know we have and be minimally intrusive enough to not preclude a
-> > more featureful PLZA later when new usecases come about.
-> 
-> Having ability to grow features would be ideal. I do not see how a fixed kernel CLOSID/RMID
-> configuration leaves room to build on top though. Could you please elaborate?
+>
+> >
+> > Also please add /*expect_anon=*/ before the 'true' because it's hard to
+> > understand what that references.
+>
+> ack
+>
+> >
+> > >       if (result != SCAN_SUCCEED) {
+> > >               mmap_read_unlock(mm);
+> > > +             *mmap_locked = false;
+> > >               goto out_nolock;
+> > >       }
+> > >
+> > > -     result = find_pmd_or_thp_or_none(mm, address, &pmd);
+> > > +     result = find_pmd_or_thp_or_none(mm, pmd_address, &pmd);
+> > >       if (result != SCAN_SUCCEED) {
+> > >               mmap_read_unlock(mm);
+> > > +             *mmap_locked = false;
+> > >               goto out_nolock;
+> > >       }
+> > >
+> > > @@ -1198,13 +1208,16 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> > >                * released when it fails. So we jump out_nolock directly in
+> > >                * that case.  Continuing to collapse causes inconsistency.
+> > >                */
+> > > -             result = __collapse_huge_page_swapin(mm, vma, address, pmd,
+> > > -                                                  referenced, HPAGE_PMD_ORDER);
+> > > -             if (result != SCAN_SUCCEED)
+> > > +             result = __collapse_huge_page_swapin(mm, vma, start_addr, pmd,
+> > > +                                                  referenced, order);
+> > > +             if (result != SCAN_SUCCEED) {
+> > > +                     *mmap_locked = false;
+> > >                       goto out_nolock;
+> > > +             }
+> > >       }
+> > >
+> > >       mmap_read_unlock(mm);
+> > > +     *mmap_locked = false;
+> > >       /*
+> > >        * Prevent all access to pagetables with the exception of
+> > >        * gup_fast later handled by the ptep_clear_flush and the VM
+> > > @@ -1214,20 +1227,20 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> > >        * mmap_lock.
+> > >        */
+> > >       mmap_write_lock(mm);
+> > > -     result = hugepage_vma_revalidate(mm, address, true, &vma, cc,
+> > > -                                      HPAGE_PMD_ORDER);
+> > > +     result = hugepage_vma_revalidate(mm, pmd_address, true, &vma, cc, order);
+> > >       if (result != SCAN_SUCCEED)
+> > >               goto out_up_write;
+> > >       /* check if the pmd is still valid */
+> > >       vma_start_write(vma);
+> > > -     result = check_pmd_still_valid(mm, address, pmd);
+> > > +     result = check_pmd_still_valid(mm, pmd_address, pmd);
+> > >       if (result != SCAN_SUCCEED)
+> > >               goto out_up_write;
+> > >
+> > >       anon_vma_lock_write(vma->anon_vma);
+> > > +     anon_vma_locked = true;
+> > >
+> > > -     mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, address,
+> > > -                             address + HPAGE_PMD_SIZE);
+> > > +     mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, start_addr,
+> > > +                             start_addr + (PAGE_SIZE << order));
+> > >       mmu_notifier_invalidate_range_start(&range);
+> > >
+> > >       pmd_ptl = pmd_lock(mm, pmd); /* probably unnecessary */
+> > > @@ -1239,24 +1252,21 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> > >        * Parallel GUP-fast is fine since GUP-fast will back off when
+> > >        * it detects PMD is changed.
+> > >        */
+> > > -     _pmd = pmdp_collapse_flush(vma, address, pmd);
+> > > +     _pmd = pmdp_collapse_flush(vma, pmd_address, pmd);
+> > >       spin_unlock(pmd_ptl);
+> > >       mmu_notifier_invalidate_range_end(&range);
+> > >       tlb_remove_table_sync_one();
+> > >
+> > > -     pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
+> > > +     pte = pte_offset_map_lock(mm, &_pmd, start_addr, &pte_ptl);
+> > >       if (pte) {
+> > > -             result = __collapse_huge_page_isolate(vma, address, pte, cc,
+> > > -                                                   HPAGE_PMD_ORDER,
+> > > -                                                   &compound_pagelist);
+> > > +             result = __collapse_huge_page_isolate(vma, start_addr, pte, cc,
+> > > +                                                   order, &compound_pagelist);
+> > >               spin_unlock(pte_ptl);
+> > >       } else {
+> > >               result = SCAN_NO_PTE_TABLE;
+> > >       }
+> > >
+> > >       if (unlikely(result != SCAN_SUCCEED)) {
+> > > -             if (pte)
+> > > -                     pte_unmap(pte);
+> > >               spin_lock(pmd_ptl);
+> > >               BUG_ON(!pmd_none(*pmd));
+> > >               /*
+> > > @@ -1266,21 +1276,21 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> > >                */
+> > >               pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+> > >               spin_unlock(pmd_ptl);
+> > > -             anon_vma_unlock_write(vma->anon_vma);
+> > >               goto out_up_write;
+> > >       }
+> > >
+> > >       /*
+> > > -      * All pages are isolated and locked so anon_vma rmap
+> > > -      * can't run anymore.
+> > > +      * For PMD collapse all pages are isolated and locked so anon_vma
+> > > +      * rmap can't run anymore. For mTHP collapse we must hold the lock
+> > >        */
+> > > -     anon_vma_unlock_write(vma->anon_vma);
+> > > +     if (is_pmd_order(order)) {
+> > > +             anon_vma_unlock_write(vma->anon_vma);
+> > > +             anon_vma_locked = false;
+> > > +     }
+> > >
+> > >       result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
+> > > -                                        vma, address, pte_ptl,
+> > > -                                        HPAGE_PMD_ORDER,
+> > > -                                        &compound_pagelist);
+> > > -     pte_unmap(pte);
+> > > +                                        vma, start_addr, pte_ptl,
+> > > +                                        order, &compound_pagelist);
+> > >       if (unlikely(result != SCAN_SUCCEED))
+> > >               goto out_up_write;
+> > >
+> > > @@ -1290,20 +1300,42 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+> > >        * write.
+> > >        */
+> > >       __folio_mark_uptodate(folio);
+> > > -     pgtable = pmd_pgtable(_pmd);
+> > > +     if (is_pmd_order(order)) { /* PMD collapse */
+> > > +             pgtable = pmd_pgtable(_pmd);
+> > >
+> > > -     spin_lock(pmd_ptl);
+> > > -     BUG_ON(!pmd_none(*pmd));
+> > > -     pgtable_trans_huge_deposit(mm, pmd, pgtable);
+> > > -     map_anon_folio_pmd_nopf(folio, pmd, vma, address);
+> > > +             spin_lock(pmd_ptl);
+> > > +             WARN_ON_ONCE(!pmd_none(*pmd));
+> > > +             pgtable_trans_huge_deposit(mm, pmd, pgtable);
+> > > +             map_anon_folio_pmd_nopf(folio, pmd, vma, pmd_address);
+> > > +     } else { /* mTHP collapse */
+> > > +             pte_t mthp_pte = mk_pte(folio_page(folio, 0), vma->vm_page_prot);
+> > > +
+> > > +             mthp_pte = maybe_mkwrite(pte_mkdirty(mthp_pte), vma);
+> > > +             spin_lock(pmd_ptl);
+> > > +             WARN_ON_ONCE(!pmd_none(*pmd));
+> > > +             folio_ref_add(folio, nr_pages - 1);
+> > > +             folio_add_new_anon_rmap(folio, vma, start_addr, RMAP_EXCLUSIVE);
+> > > +             folio_add_lru_vma(folio, vma);
+> > > +             set_ptes(vma->vm_mm, start_addr, pte, mthp_pte, nr_pages);
+> > > +             update_mmu_cache_range(NULL, vma, start_addr, pte, nr_pages);
+> > > +
+> > > +             smp_wmb(); /* make PTEs visible before PMD. See pmd_install() */
+> > > +             pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+> >
+> > I seriously hate this being open-coded, can we separate it out into another
+> > function?
+>
+> Yeah I think we've discussed this before. I started to generalize
+> this, and apply it to other parts of the kernel that maintain a
+> similar pattern, but each potential user of the helper was slightly
+> different in its approach and I was unable to find a quick solution to
+> make it apply to all. I think it will require a lot more thought to
+> cleanly refactor this. I figured I could leave this to the later
+> cleanup work, or I could just create a static function just for
+> khugepaged for now?
 
-If we initially go with a single new configuration file, e.g. kernel_mode, which
-could be "match_user" or "use_root, this would be the only initial change to the
-interface needed. If more usecases present themselves a new mode could be added,
-e.g. "configurable", and an interface to actually change the rmid/closid for the
-kernel could be added.
+Yeah let's at least separate it out for this logic anyway.
 
-> 
-> I wonder if the benefit of the fixed CLOSID/RMID is perhaps mostly in the cost of
-> context switching which I do not think is a concern for MPAM but it may be for PLZA?
-> 
-> One option to support fixed kernel CLOSID/RMID at the beginning and leave room to build
-> may be to create the kernel_group or "tasks_kernel" interface as a baseline but in first
-> implementation only allow user space to write the same group to all "kernel_group" files or
-> to only allow to write to one of the "tasks_kernel" files in the resctrl fs hierarchy. At
-> that time the associated CLOSID/RMID would become the "fixed configuration" and attempts to
-> write to others can return "ENOSPC"?
+Really we should have done the refactoring in advance of these changes, but that
+ship has sailed :)
 
-I think we'd have to be sure of the final interface if we go this way.
+>
+> >
+> > > +     }
+> > >       spin_unlock(pmd_ptl);
+> > >
+> > >       folio = NULL;
+> > >
+> > >       result = SCAN_SUCCEED;
+> > >  out_up_write:
+> > > +     if (anon_vma_locked)
+> > > +             anon_vma_unlock_write(vma->anon_vma);
+> >
+> > Thanks it's much better tracking this specifically.
+> >
+> > The whole damn thing needs refactoring (by this I mean - khugepaged and really
+> > THP in general to be clear :) but it's not your fault.
+>
+> Yeah it has not been the prettiest code to try and understand/work on!
 
-> 
-> From what I can tell this still does not require to take away a CLOSID/RMID from user space
-> though. Dedicating a CLOSID/RMID to kernel work can still be done but be in control of user
-> that can, for example leave the "tasks" and "cpus" files empty.
-> 
-> > One complication is that for fixed kernel CLOSID/RMID option is that for x86 you
-> > may want to be able to monitor a tasks resource usage whether or not it is in
-> > the kernel or userspace and so only have a fixed CLOSID. However, for MPAM this
-> > wouldn't work as PMG (~RMID) is scoped to PARTID (~CLOSID).
-> > 
-> >>
-> >>> userspace software doesn't need to change. This could either take away a
-> >>> closid/rmid from userspace and dedicate it to the kernel or perhaps have a
-> >>> policy to have the default group as the kernel group. If you use the default
-> >>
-> >> Similar to above I do not see PLZA or MPAM preventing sharing of CLOSID/RMID (PARTID/PMG)
-> >> between user space and kernel. I do not see a motivation for resctrl to place such
-> >> constraint.
-> >>
-> >>> configuration, at least for MPAM, the kernel may not be running at the highest
-> >>> priority as a minimum bandwidth can be used to give a priority boost. (Once we
-> >>> have a resctrl schema for this.)
-> >>>
-> >>> It could be useful to have something a bit more featureful though. Is there a
-> >>> need for the two mappings, task->cpl0 config and task->cpl1 to be independent or
-> >>> would as task->(cp0 config, cp1 config) be sufficient? It seems awkward that
-> >>> it's not a single write to move a task. If a single mapping is sufficient, then
-> >>
-> >> Moving a task in x86 is currently two writes by writing the CLOSID and RMID separately.
-> >> I think the MPAM approach is better and there may be opportunity to do this in a similar
-> >> way and both architectures use the same field(s) in the task_struct.
-> > 
-> > I was referring to the userspace file write but unifying on a the same fields in
-> > task_struct could be good. The single write is necessary for MPAM as PMG is
-> > scoped to PARTID and I don't think x86 behaviour changes if it moves to the same
-> > approach.
-> > 
-> 
-> ah - I misunderstood. You are suggesting to have one file that user writes to
-> to set both user space and kernel space CLOSID/RMID? This sounds like what the
+:)
 
-Yes, the kernel_groups idea does partially have this as once you've set the
-kernel_group for a CTRL_MON or MON group then the user space configuration
-dictates the kernel space configuration. As you pointed out, this is also
-a draw back of the kernel_groups idea.
+>
+> >
+> > Could I ask though whether you might help out with some cleanups after this
+> > lands :)
+> >
+> > I feel like we all need to do our bit to pay down some technical debt!
+>
+>
+> Yes ofc! I had already planned on doing so. I have some in mind, and I
+> believe others have already tackled some. After this land, let's
+> discuss further plans (discussion thread or THP meeting).
 
-> existing "tasks" file does but only supports the same CLOSID/RMID for both user
-> space and kernel space. To support the new hardware features where the CLOSID/RMID
-> can be different we cannot just change "tasks" interface and would need to keep it
-> backward compatible. So far I assumed that it would be ok for the "tasks" file
-> to essentially get new meaning as the CLOSID/RMID for just user space work, which 
-> seems to require a second file for kernel space as a consequence? So far I have
-> not seen an option that does not change meaning of the "tasks" file.
+Yeah, I'll get that TODO list discussed in meeting shared soon...
 
-Would it make sense to have some new type of entries in the tasks file,
-e.g. k_ctrl_<pid>, k_mon_<pid> to say, in the kernel, use the closid of this
-CTRL_MON for this task pid or use the rmid of this CTRL_MON/MON group for this task
-pid? We would still probably need separate files for the cpu configuration.
+>
+> Cheers,
+> -- Nico
+>
+> >
+> > > +     if (pte)
+> > > +             pte_unmap(pte);
+> > >       mmap_write_unlock(mm);
+> > > +     *mmap_locked = false;
+> > >  out_nolock:
+> > > +     WARN_ON_ONCE(*mmap_locked);
+> > >       if (folio)
+> > >               folio_put(folio);
+> > >       trace_mm_collapse_huge_page(mm, result == SCAN_SUCCEED, result);
+> > > @@ -1471,9 +1503,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+> > >       pte_unmap_unlock(pte, ptl);
+> > >       if (result == SCAN_SUCCEED) {
+> > >               result = collapse_huge_page(mm, start_addr, referenced,
+> > > -                                         unmapped, cc);
+> > > -             /* collapse_huge_page will return with the mmap_lock released */
+> > > -             *mmap_locked = false;
+> > > +                                         unmapped, cc, mmap_locked,
+> > > +                                         HPAGE_PMD_ORDER);
+> > >       }
+> > >  out:
+> > >       trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
+> > > --
+> > > 2.52.0
+> > >
+> >
+> > Cheers, Lorenzo
+> >
+>
 
-If separate files make more sense, then we might need 2 extra tasks files to
-decouple closid and rmid, e.g. tasks_k_ctrl and task_k_mon. The task_k_mon would
-be in all CTRL_MON and MON groups and determine the rmid and tasks_k_ctrl just
-in a CTRL_MON group and determine a closid.
-
-> 
-> >>> as single new file, kernel_group,per CTRL_MON group (maybe MON groups) as
-> >>> suggested above but rather than a task that file could hold a path to the
-> >>> CTRL_MON/MON group that provides the kernel configuraion for tasks running in
-> >>> that group. So that this can be transparent to existing software an empty string
-> >>
-> >> Something like this would force all tasks of a group to run with the same CLOSID/RMID
-> >> (PARTID/PMG) when in kernel space. This seems to restrict what the hardware supports
-> >> and may reduce the possible use case of this feature.
-> >>
-> >> For example,
-> >> - There may be a scenario where there is a set of tasks with a particular allocation 
-> >>   when running in user space but when in kernel these tasks benefit from different
-> >>   allocations. Consider for example below arrangement where tasks 1, 2, and 3 run in
-> >>   user space with allocations from resource_groupA. While these tasks are ok with this
-> >>   allocation when in user space they have different requirements when it comes to
-> >>   kernel space. There may be a resource_groupB that allocates a lot of resources ("high
-> >>   priority") that task 1 should use for kernel work and a resource_groupC that allocates
-> >>   fewer resources that tasks 2 and 3 should use for kernel work ("medium priority").  
-> >>   
-> >>   resource_groupA:
-> >> 	schemata: <average allocations that work for tasks 1, 2, and 3 when in user space>
-> >> 	tasks when in user space: 1, 2, 3
-> >>
-> >>   resource_groupB:
-> >> 	schemata: <high priority allocations>
-> >> 	tasks when in kernel space: 1
-> >>
-> >>   resource_groupC:
-> >> 	schemata: <medium priority allocations>
-> >> 	tasks when in kernel space: 2, 3
-> > 
-> > I'm not sure if this would happen in the real world or not.
-> 
-> Ack. I would like to echo Tony's request for feedback from resctrl users
->  https://lore.kernel.org/lkml/aYzcpuG0PfUaTdqt@agluck-desk3/
-
-Indeed. This is all getting a bit complicated.
-
-Thanks,
-
-Ben
-
-> 
-> > 
-> >>
-> >>   If user space is forced to have the same tasks have the same user space and kernel
-> >>   allocations then that will force user space to create additional resource groups that
-> >>   will use up CLOSID/PARTID that is a scarce resource.
-> > 
-> > This may be undesirable even if CLOSID/PARTID were unlimited as controls which set
-> > a per-CLOSID/PARTID maximum don't have the same effect if the tasks are spread across
-> > more than one CLOSID/PARTID.
-> 
-> Thank you for bringing this up. I did not consider the mechanics of the memory bandwidth
-> controls.
-> 
-> > 
-> >>
-> >> - There may be a scenario where the user is attempting to understand system behavior by
-> >>   monitoring individual or subsets of tasks' bandwidth usage when in kernel space. 
-> > 
-> > This seems useful to me.
-> > 
-> >>
-> >> - From what I can tell PLZA also supports *different* allocations when in user vs
-> >>   kernel space while using the *same* monitoring group for both. This does not seem
-> >>   transferable to MPAM and would take more effort to support in resctrl but it is
-> >>   a use case that the hardware enables. 
-> > 
-> > Ah yes, I think this ends the 'kernel_group' idea then. I was too focused on
-> > MPAM and forgotten to consider the case where PMG and PARTID are independent.
-> 
-> Of course we would want user space to have consistent experience from resctrl no matter the
-> architecture so these places where architectures behave different needs more care.
-> 
-> >> When enabling a feature I would of course prefer not to add unnecessary complexity. Even so,
-> >> resctrl is expected to expose hardware capabilities to user space. There seems to be some
-> >> opinions on how user space will now and forever interact with these features that
-> >> are not clear to me so I would appreciate more insight in why these constraints are
-> >> appropriate.
-> > 
-> > Yes, care definitely needs to be taken here in order to not back ourselves into
-> > a corner.
-> 
-> I really appreciate the discussions to help create a useful interface.
-> 
-> Reinette
-> 
-> > 
-> >>
-> >> Reinette
-> >>
-> >>> can mean use the current group's when in the kernel (as well as for
-> >>> userspace). A slash, /, could be used to refer to the default group. This would
-> >>> give something like the below under /sys/fs/resctrl.
-> >>>
-> >>> .
-> >>> ├── cpus
-> >>> ├── tasks
-> >>> ├── ctrl1
-> >>> │   ├── cpus
-> >>> │   ├── kernel_group -> mon_groups/mon1
-> >>> │   └── tasks
-> >>> ├── kernel_group -> ctrl1
-> >>> └── mon_groups
-> >>>     └── mon1
-> >>>         ├── cpus
-> >>>         ├── kernel_group -> ctrl1
-> >>>         └── tasks
-> >>>
-> >>>>
-> >>>> I have not read anything about the RISC-V side of this yet.
-> >>>>
-> >>>> Reinette
-> >>>>
-> >>>>>
-> >>>>> Reinette
-> >>>>>
-> >>>>> [1] https://lore.kernel.org/lkml/aXpgragcLS2L8ROe@agluck-desk3/
-> >>>>
-> >>>
-> >>> Thanks,
-> >>>
-> >>> Ben
-> >>
-> > 
-> > Thanks,
-> > 
-> > Ben
-> 
+Cheers, Lorenzo
