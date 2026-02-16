@@ -1,45 +1,45 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1972D2BE641;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603A42D63F6;
 	Mon, 16 Feb 2026 13:02:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771246965; cv=pass; b=pvVnM+HJ7QP4M5nZJTkS34eEJ8z6LGdoeLcj1QA0CMYyZY0xAh0aitx5Ej3ZJT7S5OJNvI8WGHb6N/W+wIXeMEG561bP6VRvAAOH2FGdeEoxLjASpiqIdAjKfPXmPbJTk5toRChXpZDa89rfJLVPMeMyYaKIaOkNCwImKNwNUAA=
+	t=1771246965; cv=pass; b=VAhDHfy2cBmJFabYrwek8UwR0yhVkqalYkCQHn4Ve9jRjtmMC+sT/FueqOf7YWEyaSKoPg/9tt4fCF3YnliZrwamey6+fFrZ1LvT58VjLuCia3xjbUweRJGzMI8r7Tx5w9PR4H4tEFDmh/jV0lxb2klOe9ClwogAF9fPdZQEBIE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1771246965; c=relaxed/simple;
-	bh=Lbdlk6GhhHTsc464Ci4AHXwR19aO0HurSyaZnD7z9kY=;
+	bh=NFondsDQ0hWFa8TjIDEK+znsqzFDtuf71ClJf1bwM0E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jZ2fGJ8Qc+CkMocfQ2YpZA0N8G3/DBI7lAlJH9KTFh/5Fd4uSGKxAKrple7pmuQpteDw9PSEabYc+iAGQmUwyx+5LfK33eZ6qxL4+oF8rRAVx7mVK71t2w6FSr2+Z4pfVo6lYAsrjfMmQAk/XTl1alBDVzNU/nufz7K+eZZ9wO4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=FpBVMtkJ; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:To:Cc; b=hzosetEZOxp1wvW9mYO8BWiZTZWbjW2KuZJndQzBm2vthuZ66xKNPxePG+YaB52d96Mds9998Nu6WsiPb2QjEiXLV0E4S4V5WJ7mLlm+X6Ynqe/Y/ZvLmHWWGj888K2eIMIqXU9rElkySub4sZMuqF9ZAnpfly/9UK9Cd9T/ofQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=XV++WV77; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="FpBVMtkJ"
-ARC-Seal: i=1; a=rsa-sha256; t=1771246923; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="XV++WV77"
+ARC-Seal: i=1; a=rsa-sha256; t=1771246908; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=eZVJThR2gA+t6hkkAUI5SiueBkenMCTQGNboTDOT65PQZMu3+zq00/VhZBiglKzBsk1jA2N07djIqRDFnII5j26Eu8F9DhZmFII2ZesM8ylBZJQFSb1iaYzRXJ9JnSUXARypRiFxyyc05s4RH8+nJYSuDOxeuaiNR+x0MZxyxcs=
+	b=PUg9XPHq9tlDtYY08V8VS65c7SMplaU94ZnHHgp4VEpLUfuERE9d4blVkDCoUfBu7gmaQzB8aSZIacdmrmGPpz8+wr1FoOA9VR0NAbFL1iEi51+d9Q4HzFj6wZO65n6epMdMK/w1IS4ao/H1Vkt6fK/8OoQodkryr3q1Tc/jGeM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1771246923; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=E6/IL9T9r6JCufl0RYsNc7jJmCuMbPJaKhaRNoo53fQ=; 
-	b=KRAM4C9X2fTMr9MLZ2xbdRCP7NvnMxvBcYwYIrRrMnO1tuVg+DRiwOsRO1nUZ/z9d7GIFTl5aTm/ZMlA6caww4W/QcW6DK/JGiGJlN8bP7qjNM4MsMJXW4DbdcOoNjfpqLJqx7qLBjMFrVLNR61kz57mPiieoLytaA4mRXUtrK4=
+	t=1771246908; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Ocgvj144ox473HVw3OzpKSQwBrz1+ydErGS9mpLqcwI=; 
+	b=VoGXtpPGfMscs1D9+dnUM1SMEp5FVyE8e8z2Dwc33kfYV3cTHWGpUp9vSW6IilxeEQfTpcH1uwaBP+a6JqGmpiKbYSUcfzH0XogR0qACVH7x53qL/86DjljDtlW6VM9ZOC/O/11qX5DnKeCKX7yyXvVQAHgFZ/uZRBGru08Omp4=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771246923;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771246908;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=E6/IL9T9r6JCufl0RYsNc7jJmCuMbPJaKhaRNoo53fQ=;
-	b=FpBVMtkJwvPluuKs/sxzKjDlt1CbhDZFt4WkGb9BSe4LMlPQW1yoSMu69gTAt74y
-	HpVAFcu5AdSRH1ubBHV+nepgFnJpdvIBDjRHU5DX4mp8uaN9D1PdaLLIxQ3qdSCjuJe
-	7weY5+F2NQaz25CVMfZb17kXtAL7ShwL1ChjauVc=
-Received: by mx.zohomail.com with SMTPS id 1771246921436134.4296104447676;
-	Mon, 16 Feb 2026 05:02:01 -0800 (PST)
+	bh=Ocgvj144ox473HVw3OzpKSQwBrz1+ydErGS9mpLqcwI=;
+	b=XV++WV770yx+WNog9Vn6oDiAuencbbWHXjEgEG7N9zuHXB1h6ZilPByCMsMU5fjU
+	uemr7429IHMxiO7K5Y0HkxxSCWkGXT/ECGSGsguPlCiyNzXMl2TjPoWg/RDY8Lv6A52
+	yxY4IZjpEu6JDj8V7pzUUtqnupxs0xXFesvs6Z8I=
+Received: by mx.zohomail.com with SMTPS id 1771246906640653.8907133675959;
+	Mon, 16 Feb 2026 05:01:46 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 16 Feb 2026 14:01:17 +0100
-Subject: [PATCH v8 03/20] drm: Add enum conversions for
- drm_color_format_enum
+Date: Mon, 16 Feb 2026 14:01:15 +0100
+Subject: [PATCH v8 01/20] drm/amd/display: Remove unnecessary
+ SIGNAL_TYPE_HDMI_TYPE_A check
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260216-color-format-v8-3-5722ce175dd5@collabora.com>
+Message-Id: <20260216-color-format-v8-1-5722ce175dd5@collabora.com>
 References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
 In-Reply-To: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -77,96 +77,51 @@ Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  linux-doc@vger.kernel.org, 
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Marius Vlad <marius.vlad@collabora.com>
+ Werner Sembach <wse@tuxedocomputers.com>, 
+ Andri Yngvason <andri@yngvason.is>
 X-Mailer: b4 0.14.3
 
-While the drm_color_format_enum enum and the hdmi_colorspace enum have
-similar values, they're not identical, and HDMI's enum is defined as per
-the HDMI standard.
+From: Werner Sembach <wse@tuxedocomputers.com>
 
-Meanwhile, each DRM_COLOR_FORMAT_* define has a corresponding
-drm_color_format_enum, which allows conversion from the bitshifted
-defines to the enum values.
+Remove unnecessary SIGNAL_TYPE_HDMI_TYPE_A check that was performed in the
+drm_mode_is_420_only() case, but not in the drm_mode_is_420_also() &&
+force_yuv420_output case.
 
-Implement conversion functions from DRM_COLOR_FORMAT bitshifted defines
-to drm_color_format_enum, and from hdmi_colorspace enum values to
-drm_color_format_enum enum values.
+Without further knowledge if YCbCr 4:2:0 is supported outside of HDMI,
+there is no reason to use RGB when the display
+reports drm_mode_is_420_only() even on a non HDMI connection.
 
-In both conversions, an unexpected input results in a
-DRM_COLOR_FORMAT_ENUM_INVALID result. The functions are kept inline
-__pure to give the compiler maximum freedom to do as it pleases.
+This patch also moves both checks in the same if-case. This  eliminates an
+extra else-if-case.
 
-Co-developed-by: Marius Vlad <marius.vlad@collabora.com>
-Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Signed-off-by: Andri Yngvason <andri@yngvason.is>
+Tested-by: Andri Yngvason <andri@yngvason.is>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- include/drm/drm_connector.h | 53 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 18bd875b6918..886defdd069b 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -2694,6 +2694,59 @@ int drm_connector_attach_color_format_property(struct drm_connector *connector);
- 
- const char *drm_get_color_format_name(enum drm_color_format_enum color_fmt);
- 
-+/**
-+ * drm_color_format_to_enum - convert a single DRM_COLOR_FORMAT\_ to enum
-+ * @fmt: One of the possible DRM_COLOR_FORMAT\_ values
-+ *
-+ * Converts a single DRM_COLOR_FORMAT\_ value to a corresponding
-+ * &enum drm_color_format_enum value. Bitmasks of multiple DRM_COLOR_FORMAT\_
-+ * values are not supported, as they would not map to a single enum value.
-+ *
-+ * Returns converted enum value on success, or %DRM_COLOR_FORMAT_ENUM_INVALID on
-+ * failure.
-+ */
-+static inline enum drm_color_format_enum __pure
-+drm_color_format_to_enum(u32 fmt)
-+{
-+	switch (fmt) {
-+	case DRM_COLOR_FORMAT_RGB444:
-+		return DRM_COLOR_FORMAT_ENUM_RGB444;
-+	case DRM_COLOR_FORMAT_YCBCR444:
-+		return DRM_COLOR_FORMAT_ENUM_YCBCR444;
-+	case DRM_COLOR_FORMAT_YCBCR422:
-+		return DRM_COLOR_FORMAT_ENUM_YCBCR422;
-+	case DRM_COLOR_FORMAT_YCBCR420:
-+		return DRM_COLOR_FORMAT_ENUM_YCBCR420;
-+	default:
-+		return DRM_COLOR_FORMAT_ENUM_INVALID;
-+	}
-+}
-+
-+/**
-+ * drm_color_format_enum_from_hdmi_colorspace - convert hdmi_colorspace enum to
-+ *                                              drm_color_format_enum
-+ * @fmt: The &enum hdmi_colorspace to convert
-+ *
-+ * Returns the converted result on success, or %DRM_COLOR_FORMAT_ENUM_INVALID on
-+ * failure.
-+ */
-+static inline enum drm_color_format_enum __pure
-+drm_color_format_enum_from_hdmi_colorspace(enum hdmi_colorspace fmt)
-+{
-+	switch (fmt) {
-+	case HDMI_COLORSPACE_RGB:
-+		return DRM_COLOR_FORMAT_ENUM_RGB444;
-+	case HDMI_COLORSPACE_YUV444:
-+		return DRM_COLOR_FORMAT_ENUM_YCBCR444;
-+	case HDMI_COLORSPACE_YUV422:
-+		return DRM_COLOR_FORMAT_ENUM_YCBCR422;
-+	case HDMI_COLORSPACE_YUV420:
-+		return DRM_COLOR_FORMAT_ENUM_YCBCR420;
-+	default:
-+		return DRM_COLOR_FORMAT_ENUM_INVALID;
-+	}
-+}
-+
- /**
-  * drm_for_each_connector_iter - connector_list iterator macro
-  * @connector: &struct drm_connector pointer used as cursor
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 47749ccc9c43..0db787ff24f3 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6704,12 +6704,9 @@ static void fill_stream_properties_from_drm_display_mode(
+ 	timing_out->v_border_top = 0;
+ 	timing_out->v_border_bottom = 0;
+ 	/* TODO: un-hardcode */
+-	if (drm_mode_is_420_only(info, mode_in)
+-			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
+-		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+-	else if (drm_mode_is_420_also(info, mode_in)
+-			&& aconnector
+-			&& aconnector->force_yuv420_output)
++	if (drm_mode_is_420_only(info, mode_in) ||
++	    (aconnector && aconnector->force_yuv420_output &&
++	     drm_mode_is_420_also(info, mode_in)))
+ 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+ 	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR422)
+ 			&& aconnector
 
 -- 
 2.53.0
