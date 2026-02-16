@@ -1,44 +1,45 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6FF52FF669;
-	Mon, 16 Feb 2026 13:03:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2192D63F6;
+	Mon, 16 Feb 2026 13:03:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771247007; cv=pass; b=nRil7F4q426S2qoENTMSRCzmvnBRuf6uORaeLsfNeL5o8F+gQ4xw4bsfyiVYjblE/emH8OqH6m0+TDJcg6Gx5P57paV0c0BI3dUgiC+Ns+ZpF0T3USq0tFjOMzYt20k2PfW5ZyE7mYmdf2hZYWhJjoVYcAdv6TecyTxp7BEIM8s=
+	t=1771247018; cv=pass; b=VLzec49qUpQ+OWRIwfRXv8vlwHoXCXZCZZF7C8VC2BIZ9S3ZqHjsvIOxbBzgEeSOT2O1es7re42QwszP3Jq875ak2GY9zA4CJGLWHCYl3HJIDmKQPY/s5jfL/cDmbZEzT48xTlnDNNwEfKBNyD5Ybd91//dKp6qp6V5tGTDlCQE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771247007; c=relaxed/simple;
-	bh=6mFN69Fi9UqOFeFl+tDYIgZNi4k0CVALSSvKM1vAP/o=;
+	s=arc-20240116; t=1771247018; c=relaxed/simple;
+	bh=OVI/5v52rwpj9NA8/VcYrpmYXMUR3dgtwMClNO2lIQc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=KSw1MP1AfcdCKADftadnWjciR/4sIzWJPH3iIuqQBWy7Sj1Gz+tAf9Sbj4IpddscA3UVbrlAOE8Nrg2iKZqBC4R/Y1h+VpmD0ORvx+09/fgXCCJbWeYjc+HPE7gr0pmmvd9uW0pENR89hIDy/CboTBtHvujL6o8XuEkqM+URlEo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=VLPsNnCF; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:To:Cc; b=To2Rh8BRK7/CctcJwGHv3iVbha2egu6mv2Xaun8ZpRtrRJpVIsM1gFEzRccTMrDmsxsgIJsrkvhdZnWCp876LeaV9zzKw8dvonh4CguhS6bI9YiG0oWTEccIOcjokPlf2/IUPXpyevywOwFp7dw8+jAcC2yhfJlLOj49WzUU02k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=hBWQA4pH; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="VLPsNnCF"
-ARC-Seal: i=1; a=rsa-sha256; t=1771246959; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="hBWQA4pH"
+ARC-Seal: i=1; a=rsa-sha256; t=1771246973; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=n3XO2lgay6t9xN+lJkB4yf7dYGqnTuGgJt6r6XAxcL9tSxp4E2SbwZdz+tR7Z9JiTLKfTAoWdYGKPGCe15HH+i/Y//+Ow/oGkhkFWi0JeBr3itAb1RTV+XM4LivLrtfdHOM5Wpy7IZRgfgMg+y9dzbunTxIIur7pFTOwFHSijjE=
+	b=UQBk8q8c6m7yZHJ0i2nuEj50inrlgIURKKTR/19ybTipGgB2eU1mo/cn/Mz9xrTfynEbpvB5Juo9ymHQlHrr0QO6ShHX77sE+nGxyAI6f0kSW1FMEcAdotQMncLiqER7N6/cA8SLVNb89peBBD05AUgXWKLklIt1s0XyDBbZKNk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1771246959; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ls+9lbbR6IRLb8BtqpinfauUYeJELiE55SB742as75o=; 
-	b=lCz+hLeY6ltHzS4wWoJAmanDYG/dcfQzpFvnUveUyPpQi7SzS3tSnKW78YLMi5M7H19HVlEBYx0up+QsHWZ5RMaJlNsp0qNXDiYA3/Xf70WCaT8dCVeQHKyQBNuwTcLORoLmYNqyV5Kuusw+4M5IUeAFTQIKdKVzZVWZfjpbIzg=
+	t=1771246973; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=UuzjSqQYzz1QT9FVEJ1JRFDYSrnS9/+HLRLUmTr5oYU=; 
+	b=ZNoMEWYmgum3qZ3FGD1YpxpbRQ/b9/VljFjOuUtpThXkOCAsiXoTns1ivA8Sd/lcYGze0etuHI+RtFOgwC+WPnTHheQib1kASCRDO5Jt6vW1Sb3qmcBQhqAi8jPHc7GAprmXhKQ0Q2FjDxxp8f68iYjqdWgsOYNEPHE61tud6NQ=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771246959;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771246973;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=ls+9lbbR6IRLb8BtqpinfauUYeJELiE55SB742as75o=;
-	b=VLPsNnCFmchFj1SinktyTqtUbhCmVObXXZi58KMRxD5xLl698bdK2UMGDuHwBNOJ
-	IFpcVX63s4yPChdOVB7+eU7e/3GNYGw+fL9r0M7+1JaG6gRCyhm05Wfe9yV6wRNruwC
-	k2VGctk9QFD6foXfVmGa9mL7rbs5Jo3DE1j2VFcw=
-Received: by mx.zohomail.com with SMTPS id 1771246957273548.7527543997456;
-	Mon, 16 Feb 2026 05:02:37 -0800 (PST)
+	bh=UuzjSqQYzz1QT9FVEJ1JRFDYSrnS9/+HLRLUmTr5oYU=;
+	b=hBWQA4pHSkD6bhon4/zr6kTe+my6k4WFo7X2xiu//NGme8Ho3tRNysfiafPnOWb6
+	hjd5N9U7KUvt6Cus6qMeCdmRbBXKFd0XCj4uLBssZuqM5UBFL3P2nGmqqiHUisr5tSk
+	1A4zRkhMYAuXtW9RLimRo/q0Jim4GKpeJ6qzRwa8=
+Received: by mx.zohomail.com with SMTPS id 1771246971429982.6699440107166;
+	Mon, 16 Feb 2026 05:02:51 -0800 (PST)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 16 Feb 2026 14:01:22 +0100
-Subject: [PATCH v8 08/20] drm/amdgpu: Implement "color format" DRM property
+Date: Mon, 16 Feb 2026 14:01:24 +0100
+Subject: [PATCH v8 10/20] drm/rockchip: vop2: Add RK3576 to the RG swap
+ special case
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,7 +48,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260216-color-format-v8-8-5722ce175dd5@collabora.com>
+Message-Id: <20260216-color-format-v8-10-5722ce175dd5@collabora.com>
 References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
 In-Reply-To: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -76,203 +77,36 @@ Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  linux-doc@vger.kernel.org, 
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Werner Sembach <wse@tuxedocomputers.com>, 
- Andri Yngvason <andri@yngvason.is>, Marius Vlad <marius.vlad@collabora.com>
+ Andy Yan <andyshrk@163.com>
 X-Mailer: b4 0.14.3
 
-The "color format" DRM property allows userspace to explicitly pick a
-color format to use. If an unsupported color format is requested,
-userspace will be given an error instead of silently having its request
-disobeyed.
+Much like RK3588, RK3576 requires an RG swap to be performed for YUV444
+8-bit and YUV444 10-bit bus formats.
 
-The default case, which is AUTO, picks YCbCr 4:2:0 if it's a 4:2:0-only
-mode, and RGB in all other cases.
+Add its version to the already existing check for RK3588, so that YUV444
+output is correct on this platform.
 
-Co-developed-by: Werner Sembach <wse@tuxedocomputers.com>
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Co-developed-by: Andri Yngvason <andri@yngvason.is>
-Signed-off-by: Andri Yngvason <andri@yngvason.is>
-Co-developed-by: Marius Vlad <marius.vlad@collabora.com>
-Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+Fixes: 944757a4cba6 ("drm/rockchip: vop2: Add support for rk3576")
+Reviewed-by: Andy Yan <andyshrk@163.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 87 +++++++++++++++++++---
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    | 13 ++++
- 2 files changed, 90 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 0db787ff24f3..b0544ddc1ca7 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6686,11 +6686,14 @@ static void fill_stream_properties_from_drm_display_mode(
- 	const struct dc_stream_state *old_stream,
- 	int requested_bpc)
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index ec3b4fde10db..7c0a93f129f3 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -337,7 +337,8 @@ static bool vop2_output_uv_swap(u32 bus_format, u32 output_mode)
+ 
+ static bool vop2_output_rg_swap(struct vop2 *vop2, u32 bus_format)
  {
-+	bool is_dp_or_hdmi = dc_is_hdmi_signal(stream->signal) || dc_is_dp_signal(stream->signal);
- 	struct dc_crtc_timing *timing_out = &stream->timing;
- 	const struct drm_display_info *info = &connector->display_info;
- 	struct amdgpu_dm_connector *aconnector = NULL;
- 	struct hdmi_vendor_infoframe hv_frame;
- 	struct hdmi_avi_infoframe avi_frame;
-+	bool want_420;
-+	bool want_422;
- 	ssize_t err;
- 
- 	if (connector->connector_type != DRM_MODE_CONNECTOR_WRITEBACK)
-@@ -6703,20 +6706,39 @@ static void fill_stream_properties_from_drm_display_mode(
- 	timing_out->h_border_right = 0;
- 	timing_out->v_border_top = 0;
- 	timing_out->v_border_bottom = 0;
--	/* TODO: un-hardcode */
--	if (drm_mode_is_420_only(info, mode_in) ||
--	    (aconnector && aconnector->force_yuv420_output &&
--	     drm_mode_is_420_also(info, mode_in)))
-+
-+	want_420 = (aconnector && aconnector->force_yuv420_output) ||
-+		   (connector_state->color_format == DRM_COLOR_FORMAT_ENUM_YCBCR420);
-+	want_422 = (aconnector && aconnector->force_yuv422_output) ||
-+		   (connector_state->color_format == DRM_COLOR_FORMAT_ENUM_YCBCR422);
-+
-+	if (drm_mode_is_420_only(info, mode_in) && (want_420 || !connector_state->color_format)) {
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
--	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR422)
--			&& aconnector
--			&& aconnector->force_yuv422_output)
-+	} else if (drm_mode_is_420_also(info, mode_in) && want_420) {
-+		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
-+	} else if ((info->color_formats & DRM_COLOR_FORMAT_ENUM_YCBCR422)
-+		   && want_422 && is_dp_or_hdmi) {
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR422;
--	else if ((connector->display_info.color_formats & DRM_COLOR_FORMAT_YCBCR444)
--			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
-+	} else if (connector_state->color_format == DRM_COLOR_FORMAT_ENUM_YCBCR444 &&
-+		   (info->color_formats & DRM_COLOR_FORMAT_ENUM_YCBCR444) && is_dp_or_hdmi) {
- 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR444;
--	else
-+	} else if ((connector_state->color_format == DRM_COLOR_FORMAT_ENUM_RGB444 ||
-+		   !connector_state->color_format)) {
- 		timing_out->pixel_encoding = PIXEL_ENCODING_RGB;
-+	} else {
-+		/*
-+		 * If a format was explicitly requested but the requested format
-+		 * can't be satisfied, set it to an invalid value so that an
-+		 * error bubbles up to userspace. This way, userspace knows it
-+		 * needs to make a better choice.
-+		 */
-+		if (connector_state->color_format)
-+			timing_out->pixel_encoding = PIXEL_ENCODING_UNDEFINED;
-+		else if (drm_mode_is_420_only(info, mode_in))
-+			timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
-+		else
-+			timing_out->pixel_encoding = PIXEL_ENCODING_RGB;
-+	}
- 
- 	timing_out->timing_3d_format = TIMING_3D_FORMAT_NONE;
- 	timing_out->display_color_depth = convert_color_depth_from_display_info(
-@@ -8066,6 +8088,38 @@ static enum dc_status dm_validate_stream_and_context(struct dc *dc,
- 	return dc_result;
- }
- 
-+static enum dc_status
-+dm_validate_stream_color_format(const struct drm_connector_state *drm_state,
-+				const struct dc_stream_state *stream)
-+{
-+	enum dc_pixel_encoding encoding;
-+
-+	if (!drm_state->color_format)
-+		return DC_OK;
-+
-+	switch (drm_state->color_format) {
-+	case DRM_COLOR_FORMAT_ENUM_AUTO:
-+	case DRM_COLOR_FORMAT_ENUM_RGB444:
-+		encoding = PIXEL_ENCODING_RGB;
-+		break;
-+	case DRM_COLOR_FORMAT_ENUM_YCBCR444:
-+		encoding = PIXEL_ENCODING_YCBCR444;
-+		break;
-+	case DRM_COLOR_FORMAT_ENUM_YCBCR422:
-+		encoding = PIXEL_ENCODING_YCBCR422;
-+		break;
-+	case DRM_COLOR_FORMAT_ENUM_YCBCR420:
-+		encoding = PIXEL_ENCODING_YCBCR420;
-+		break;
-+	default:
-+		encoding = PIXEL_ENCODING_UNDEFINED;
-+		break;
-+	}
-+
-+	return encoding == stream->timing.pixel_encoding ?
-+		DC_OK : DC_UNSUPPORTED_VALUE;
-+}
-+
- struct dc_stream_state *
- create_validate_stream_for_sink(struct drm_connector *connector,
- 				const struct drm_display_mode *drm_mode,
-@@ -8112,6 +8166,9 @@ create_validate_stream_for_sink(struct drm_connector *connector,
- 		if (dc_result == DC_OK)
- 			dc_result = dm_validate_stream_and_context(adev->dm.dc, stream);
- 
-+		if (dc_result == DC_OK)
-+			dc_result = dm_validate_stream_color_format(drm_state, stream);
-+
- 		if (dc_result != DC_OK) {
- 			drm_dbg_kms(connector->dev, "Pruned mode %d x %d (clk %d) %s %s -- %s\n",
- 				      drm_mode->hdisplay,
-@@ -8935,6 +8992,12 @@ static const u32 supported_colorspaces =
- 	BIT(DRM_MODE_COLORIMETRY_BT2020_RGB) |
- 	BIT(DRM_MODE_COLORIMETRY_BT2020_YCC);
- 
-+static const u32 supported_colorformats =
-+	DRM_COLOR_FORMAT_RGB444 |
-+	DRM_COLOR_FORMAT_YCBCR444 |
-+	DRM_COLOR_FORMAT_YCBCR422 |
-+	DRM_COLOR_FORMAT_YCBCR420;
-+
- void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
- 				     struct amdgpu_dm_connector *aconnector,
- 				     int connector_type,
-@@ -9056,6 +9119,10 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
- 
- 		if (adev->dm.hdcp_workqueue)
- 			drm_connector_attach_content_protection_property(&aconnector->base, true);
-+
-+		if (!drm_mode_create_color_format_property(&aconnector->base,
-+							   supported_colorformats))
-+			drm_connector_attach_color_format_property(&aconnector->base);
- 	}
- 
- 	if (connector_type == DRM_MODE_CONNECTOR_eDP) {
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-index 5e92eaa67aa3..a7b1274ead8d 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-@@ -52,6 +52,12 @@
- 
- #define PEAK_FACTOR_X1000 1006
- 
-+static const u32 supported_colorformats =
-+	DRM_COLOR_FORMAT_RGB444 |
-+	DRM_COLOR_FORMAT_YCBCR444 |
-+	DRM_COLOR_FORMAT_YCBCR422 |
-+	DRM_COLOR_FORMAT_YCBCR420;
-+
- /*
-  * This function handles both native AUX and I2C-Over-AUX transactions.
-  */
-@@ -679,6 +685,13 @@ dm_dp_add_mst_connector(struct drm_dp_mst_topology_mgr *mgr,
- 	if (connector->max_bpc_property)
- 		drm_connector_attach_max_bpc_property(connector, 8, 16);
- 
-+	connector->color_format_property = master->base.color_format_property;
-+	if (connector->color_format_property) {
-+		if (!drm_mode_create_color_format_property(&aconnector->base,
-+							   supported_colorformats))
-+			drm_connector_attach_color_format_property(&aconnector->base);
-+	}
-+
- 	connector->vrr_capable_property = master->base.vrr_capable_property;
- 	if (connector->vrr_capable_property)
- 		drm_connector_attach_vrr_capable_property(connector);
+-	if (vop2->version == VOP_VERSION_RK3588) {
++	if (vop2->version == VOP_VERSION_RK3588 ||
++	    vop2->version == VOP_VERSION_RK3576) {
+ 		if (bus_format == MEDIA_BUS_FMT_YUV8_1X24 ||
+ 		    bus_format == MEDIA_BUS_FMT_YUV10_1X30)
+ 			return true;
 
 -- 
 2.53.0
