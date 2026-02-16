@@ -1,298 +1,481 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4856131D39A;
-	Mon, 16 Feb 2026 15:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771255038; cv=fail; b=Ze7FsoyVEhW4yGAT0eprNmRJ/TH4WXHDj7VuiMhatITlU4iR/6lpk9WvA4GemVqAJlz9B80RdFJ3bFxYGwqfZmIueCL2JPl5Gz3IA0iNVw1L1czZ4wKtDYM1tnk9febHfq5zecPsHseMMJPU9EzItPkvEeSpnG6ghDt3d99xMb8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771255038; c=relaxed/simple;
-	bh=gcNI4J8lKqvBdGV7ci0lhynBq253fWoh+nYcHVXmQaI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=UUeeDdgLD0yTGGko9h9IhEjCM3j6c9UtGRVkwlacuAcIuXTo8gB4TEyskcdNhPr8suxebWp3YdChCfWamw1bybQT26lXe1SrRNlwyalrxqZnCkDgieGF5NLmfTVdNwt11XxkWdAzD2qCPLIYEbu//crtO/CBBdEI6o/ufZki2/A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=rX+Pucew; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=mZmZfyBX; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="rX+Pucew";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="mZmZfyBX"
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61GESp4r440346;
-	Mon, 16 Feb 2026 15:16:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=1g0FLvEDGJWRcDeMEHAdLuCpQz9uQlKr8CBUJqXdeHM=; b=
-	rX+Pucewz5pi7XIy5CUPSvRE+sdmkcYaWvn5gtOo84kgzdLnm3ObDpn7QDN+D18s
-	6H8NLFbQXU7GVFHpV7Z4nBw1JNNrSefb8MFCTfiYkrIdPzoxAn5KpbqI5d2K2A83
-	rb0fAtfnRiKuXRTZljmkXvDZMVVIPLeuFokkG6bc9Ogd2L9VEA/XoPczRdqwfIAj
-	OPLFmhje5VkFVLQQp5+8vEs2RF5anmq987/8iJYa86UNkjNe213ffnKwevfgzKJg
-	K3ayBrnh1r1aLjctK4WZhXAhwjG0DDTjKZ9dkdXDFqJdVNaWV4B65FpmFix491eg
-	QY6B1Xt+FF2ciqLdWVF9Zw==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4caj4at7p8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Feb 2026 15:16:27 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 61GEdTav023027;
-	Mon, 16 Feb 2026 15:16:26 GMT
-Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010061.outbound.protection.outlook.com [52.101.61.61])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4cafg87e8b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Feb 2026 15:16:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u1mPKfPEXt/w5vuNsNbfyZmga1A6sQHX7iRk8DQWY930AS4lomibocGJxJX+UQqxv3SHr6DF3IurGZNHmmOsiXbjCAsScCLtWdJ3o98mmzg7WPXEJZAvgu0D9+x902xI0K2GMR6SgJcd/8FchEeL7m9va2+deCI4c74KcML7nJ3Z7axRJLX3+5ihusO50JvFVRjs6YSCiP07oiScqA3yV1vU3guRTYllxVjQvvDRVBx6Sj5C4fORekBU2RUutD8g3SZoJWtZtAZuBI6PZHk6nj4aQih7wZNo5PBMzDkMdlwL/PZ9adek4N66EHhXhM+4CJvxTFuG8H2BYxqluQcuKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1g0FLvEDGJWRcDeMEHAdLuCpQz9uQlKr8CBUJqXdeHM=;
- b=jdQaIXFLV26Ie++tb0GnOIMJhFHEVw0Ok6I7VoWqZ6yJ5GhtaIEtRK1EjGYJgp+lYK8if1Z04ChWztFgoYybKO7pi6gbEFnaCcvW10lz9gAR+IbCPViJJAaDkrf1NbUB8NL3bNtqFw5HTzmeBaP4JcyAeseam2SqGD6/YolPD8FhxGTNLV586lnnsKiaFlbun2i09ClVy+yZO+xfN1bI6dt8+CwthfEznB8dc6OKTIrhMjkd2fJSWlSe+iJXkJUbyLcLnngGS7SOR9d2l3xtDtnHQuWOttBVQtjOb2p21W3Byg6oLN/Cua5pQwS7pMFHPaEEVC8gYv6W0JTkVd7qkQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1g0FLvEDGJWRcDeMEHAdLuCpQz9uQlKr8CBUJqXdeHM=;
- b=mZmZfyBXiEuYT5kbSHqeO9PId6GoppCeXHy3q6krXA89+tWOj5SbuDhlM6UEAwfeNLj58a9qlTIt1QGc9khLPnj+qCmfwaEs60P7cI0xqb3j7AFJbxH1U//QDWdEE/UsUxSusLdjALSaq7QhD/tEk/fMaMWiIiZ8o0DuMYhFeT0=
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
- by CY5PR10MB6213.namprd10.prod.outlook.com (2603:10b6:930:32::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Mon, 16 Feb
- 2026 15:16:18 +0000
-Received: from DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::f3ea:674e:7f2e:b711]) by DM4PR10MB8218.namprd10.prod.outlook.com
- ([fe80::f3ea:674e:7f2e:b711%4]) with mapi id 15.20.9587.017; Mon, 16 Feb 2026
- 15:16:18 +0000
-Date: Mon, 16 Feb 2026 15:16:16 +0000
-From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        akpm@linux-foundation.org, david@kernel.org, ziy@nvidia.com,
-        baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
-        ryan.roberts@arm.com, dev.jain@arm.com, baohua@kernel.org,
-        lance.yang@linux.dev, vbabka@suse.cz, rppt@kernel.org,
-        surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-        rostedt@goodmis.org, mhiramat@kernel.org,
-        mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
-        joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
-        gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
-        jannh@google.com, pfalcato@suse.de, jackmanb@google.com,
-        hannes@cmpxchg.org, willy@infradead.org, peterx@redhat.com,
-        wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
-        sunnanyong@huawei.com, vishal.moola@gmail.com,
-        thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
-        kas@kernel.org, aarcange@redhat.com, raquini@redhat.com,
-        anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
-        will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
-        cl@gentwo.org, jglisse@google.com, zokeefe@google.com,
-        rientjes@google.com, rdunlap@infradead.org, hughd@google.com,
-        richard.weiyang@gmail.com
-Subject: Re: [PATCH mm-unstable v14 07/16] khugepaged: introduce
- collapse_max_ptes_none helper function
-Message-ID: <ee1a11ac-ea08-42ea-af41-2671691b9bfd@lucifer.local>
-References: <20260122192841.128719-1-npache@redhat.com>
- <20260122192841.128719-8-npache@redhat.com>
- <db10946c-9743-49e0-a845-7f53a60778a6@lucifer.local>
- <CAA1CXcBQWPD=AxX9mCOdAOv85LTk+FPJQeEudQur-ymg4vbp5g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA1CXcBQWPD=AxX9mCOdAOv85LTk+FPJQeEudQur-ymg4vbp5g@mail.gmail.com>
-X-ClientProxiedBy: CPCP307CA0008.DNKP307.PROD.OUTLOOK.COM (2603:10a6:380::10)
- To DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D344320A0E;
+	Mon, 16 Feb 2026 15:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771255117; cv=none; b=sj+kk5+nEoWwnJmlgHzuCioSOjqaHmCkca8wJgUx2PNx5CFjzCDl0Q6sm9SKYhG9TgoolhRFAE9Rz97xfewze47xyPCbHIl4rNp6wtBp/O4iDJ917vXftql/T+hjPPFpuFnZb4CUd4xJu8aXR2VqBpvDmVPh00/KhWF5+JM4MOc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771255117; c=relaxed/simple;
+	bh=LYDUDlkmV/ZomaWRkhyzFmAgpvxN5pBf9JWAxuLADLg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TO6j0NhOnVR+lByBA89/65IjWQwZkGoWOFqZ/zqwK/APX7JoR5Zh3oivUWhBH86tKv0+eEdQtAWB7PDpxN+0mcX97HUBnId/z2Gi7RExAX0rd1OXs2PfYcvcnDS6snUZlq24rTF0IOF+TRqEZAxpO2CZ54mhOiXsxVJGJR051jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 617691570;
+	Mon, 16 Feb 2026 07:18:27 -0800 (PST)
+Received: from e134344.arm.com (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFE2C3F632;
+	Mon, 16 Feb 2026 07:18:26 -0800 (PST)
+Date: Mon, 16 Feb 2026 15:18:17 +0000
+From: Ben Horgan <ben.horgan@arm.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Moger, Babu" <bmoger@amd.com>, "Moger, Babu" <Babu.Moger@amd.com>,
+	"Luck, Tony" <tony.luck@intel.com>,
+	Drew Fustini <fustini@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"tglx@kernel.org" <tglx@kernel.org>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"bsegall@google.com" <bsegall@google.com>,
+	"mgorman@suse.de" <mgorman@suse.de>,
+	"vschneid@redhat.com" <vschneid@redhat.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"pmladek@suse.com" <pmladek@suse.com>,
+	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
+	"kees@kernel.org" <kees@kernel.org>,
+	"arnd@arndb.de" <arnd@arndb.de>,
+	"fvdl@google.com" <fvdl@google.com>,
+	"lirongqing@baidu.com" <lirongqing@baidu.com>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	"seanjc@google.com" <seanjc@google.com>,
+	"xin@zytor.com" <xin@zytor.com>,
+	"Shukla, Manali" <Manali.Shukla@amd.com>,
+	"dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
+	"chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+	"Limonciello, Mario" <Mario.Limonciello@amd.com>,
+	"naveen@kernel.org" <naveen@kernel.org>,
+	"elena.reshetova@intel.com" <elena.reshetova@intel.com>,
+	"Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"peternewman@google.com" <peternewman@google.com>,
+	"eranian@google.com" <eranian@google.com>,
+	"Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
+Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
+ context switch handling
+Message-ID: <aZM1OY7FALkPWmh6@e134344.arm.com>
+References: <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
+ <aXpDdUQHCnQyhcL3@agluck-desk3>
+ <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
+ <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
+ <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
+ <1f703c24-a4a9-416e-ae43-21d03f35f0be@intel.com>
+ <aYyxAPdTFejzsE42@e134344.arm.com>
+ <679dcd01-05e5-476a-91dd-6d1d08637b3e@intel.com>
+ <aY3bvKeOcZ9yG686@e134344.arm.com>
+ <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|CY5PR10MB6213:EE_
-X-MS-Office365-Filtering-Correlation-Id: f44f9c30-f126-4b2d-2cba-08de6d6e5596
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?SGF0cElESEZnUlpRTGovUFBySWdva2VnZ2wydktLTko5Ui8xTGlGNGp1b2d5?=
- =?utf-8?B?UmhzM1Y3RjZUL2NKNUJtVzFrMGRBZ01jMThVdXJBOWlYRWg5ZkVMVXI0dUFD?=
- =?utf-8?B?VFY4WFptUFJTWXhjWEZzWHNZRWtuOWlQbmdxVXZ3YVlDVXI0NWtDdGRlcENZ?=
- =?utf-8?B?SnpsN3JPd08vZ21BaHJiU1VPQzRrMXJjVkNxOGhtWG00ekZiRVh5YStXcEx2?=
- =?utf-8?B?Slc3UjJwOFowZlJsTHFyUXVPMWRXZlJWcS9PNGJIM1hhV3QwRnZXb1Roeng4?=
- =?utf-8?B?Nld1UWIvQW5qUHJoYVltRTAveVlaRm5EUkJzLzV6c0xBVGtDOGMveFc3VEtr?=
- =?utf-8?B?NjhDMkd4UjFJUWNnOHJiV3YrVEdmRlFVZWsveVkxZ2tRUE5sWVJpc2g3Mll2?=
- =?utf-8?B?aG4ybkozUWRLVSt6MUR5Zzh2T3FrZGVCNER1RENzekNBQzltRGY3Uk1VNHlC?=
- =?utf-8?B?bGN6cVUvNjdpQ3RYYksxaGs2aHJVNGxpTm0vTC8vZERvbWd3MklVQzgxZGdq?=
- =?utf-8?B?MjBuZXNkTWEyOEV5dER1ejd3ZEpTbUJzVnhFemt5c2hHUjlEMG9KZ2VtNCtp?=
- =?utf-8?B?czBhUmVESFdMOExUcks5ZWhjNDliQzdsSGZ3ajFJQWRTbGsyUDhhN3hTbWlk?=
- =?utf-8?B?L3lFZnJxYUR0WnR4eXdPNlppWEh1L2tUWlhZR3VzOVhSODVja2JpWDcwSC84?=
- =?utf-8?B?THBLNXIvbzhqK0dhb0JYamxtdFRpazNUY284TjhrUlV6QzFtRWVEK1hQWFBq?=
- =?utf-8?B?Q3Z1d1NiSkpRZGxMVEdFTS9OUzIweXZRSFgySWF0ZC94YjE1YnptYmdsMGdn?=
- =?utf-8?B?bi9ZNkVoRHF0RndldWNreEdFT0Q0WGJKQ2dSUE1obGl6M2s4bi9rRnFkTUFv?=
- =?utf-8?B?MnNPTFFqZTNPRXRwK2NwbWI1MWw5cHh2R013OXdCbTVQVEZsaXNiRW9RblVr?=
- =?utf-8?B?K0xOcjJ2dDFtYnlNdnA1QkdTaGFZNzhqM0s5UEp3dFlhbmVoc3JvaFpnYTAr?=
- =?utf-8?B?anFGWm14MFhDOXkrQzgwRWpvY1RFMDlOWC9wR1VOUUNlanpRazZMUHdId2dI?=
- =?utf-8?B?U3d0enJtWnFFM0FVRmNQaXd5TFJlQmxVOVhwYjZOeUxBWktQK3FCVVdDbkJu?=
- =?utf-8?B?eit2RWl1VVpNZW55bklWVmtlbmdZaVlOWUpGZWNlQWsrRDd1Nm50WlkzY1dh?=
- =?utf-8?B?Uzk2amxwVWdoWGhvcUI5VjVURVdlQjNYcjVmNDVRMUhXMXNHNm1xRWhDcjRh?=
- =?utf-8?B?SXJud3lRalFYSVpOUGtZVnl1TjNUc3NNRmRwK2xtUytBWkJqYXZMMmZLNERF?=
- =?utf-8?B?S2liVklScTZxMTNXNGErbmE5OS9hNG1wWVR1T0RpVEtFc2JRY0lSRTNiVDlR?=
- =?utf-8?B?N21GOE9yenlKQ0dnRDlKRU9mcUVqaFl3bVdPR0lnWGZMY2RpbVJneWJNRkx6?=
- =?utf-8?B?YjJTTi9xdlVBeFBNOWsrTGhJeWNBMkZyL3MwNnc0UjFLRFkwNW5ra24yTkhS?=
- =?utf-8?B?ZWNRZk9LQi8yZHdvVHg1bVhEN1FjYWljMjlHQmg3VmYzcWJJVHk1ZWtLZjhJ?=
- =?utf-8?B?Ym9oYWloeHJOcFZ6bWVvVnZZQmJYYVl2NHRmcmhCVlFaSXYzUENwMUdPbkdZ?=
- =?utf-8?B?K0pCUkFBV3U1cWgvaU9UYXJIUHo4c1A2V09XL21uMzN0SnBsNEtYM1NtbmZt?=
- =?utf-8?B?WnBydjRkcjQza1FMZmx5MHF3WXhoaGtDc0lKL2c1bDl6eGI0cXh1YjE4Vm1J?=
- =?utf-8?B?RGJDNGNkQ1A0WXZBNGVyTkM1eE8wTVZmc1pVK3RmaDVEY3ozS2Z3VzlPbFNk?=
- =?utf-8?B?RmhaUThhWHVkSXg4NjFidVNTa3FTRE9tci9VODdVME9vckZDSURWY0h3YWFU?=
- =?utf-8?B?bU95Lzg2MDRIYUF5cVp5UXJReC81VktzcVNtclE4YlVzMGtYZjltYXhvKytG?=
- =?utf-8?B?bnV1cFh5RUdjRHBDcXBBYnhlNUg1cVA5UEhkb29DSHhiWHpheDZ5OFRJT1k3?=
- =?utf-8?B?K0hIQVVWYUQrMVoveGNNOW9lSENUM3paSDFxa2xYK3MvNmFhSUhqN2JnM2Qw?=
- =?utf-8?B?VzJGZkNXc2VteFNhNlAxVDZnS1cwc0g4NmcvQmZRNFZDSGdhWmQvVURmNXB1?=
- =?utf-8?Q?ZL8g=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YTZReUlienUwK2RneXdYQ0gyQUIxODNnU0hnTXJ3MCs2bzZIYkpNVGI3SXB4?=
- =?utf-8?B?aDBwSDRwVUxQQUJFdlQweXFNMXNsWDZlQ2d1L3BOWWp0VmZ1U3hWUUo5Z0Yv?=
- =?utf-8?B?VFF2QkVva0ErMVBoVG5aMTQ3R2pIaG9wVjE0K0cyZEpWbm1FRmFIU0FITnRt?=
- =?utf-8?B?NWR5emNYc2Q0Z2pIY1dKU1pLNmUwWGNjc21DTFMwQzFSUS9nMThGV3B5cnJz?=
- =?utf-8?B?aWYxQ3RRNk9rQ1UxNnNTYlozcVE2U3R3Q0NlRVZ4aG01eExkc21BODl0bE0v?=
- =?utf-8?B?Nkw4VGRkTndsbkQwRjFwZUJCZnQ4ZXF6R2FmVHZJM1ZmUUxSTkRqK1dNTFFt?=
- =?utf-8?B?VElpdWEvNTJPakxqdGxRdWRyRkloNUZnMFJKMFdrT2xEc0xJdUNXVm11VlYr?=
- =?utf-8?B?UHJrenlkclhkclY2WWFLcCs5M0V1TzF4YTZleElyQkQ3S0Q2cVNTM2tlMGg3?=
- =?utf-8?B?eDdCeE1jaW1PRkNKUGE1RU5TS3dpQ1ZEY3JVRjhNSXVRbmxzRUpIMFEyTWxu?=
- =?utf-8?B?c1JhSXMvK2xMWGpBNkZkV0VJMzA0WXhVa0ZuaW81WERBSTRTRnZ4ZjVMWXFP?=
- =?utf-8?B?NmUyOEE5NTJJbU95dEZSUGlNaEtVdlRZK0xjZDUrT0RWVXl4S0RxaVVNVTBy?=
- =?utf-8?B?aGxlb0FoeXVxK1ZOYUxZRnBnZEVZZ2pZRHZ5aVFaVWdQMnczSjY5b0JVMEd4?=
- =?utf-8?B?b1JYTnhDZ3dFNXBlMGFGaC9DOHlxeTd2bUdQS3AwMy9pNGRyUm5Pc1RpTktG?=
- =?utf-8?B?QUdsemFlOFU1cTBvN1hwUHNMSW93OWVMWWR5QTUxYWNUNkE4WjNXQVIvZTIx?=
- =?utf-8?B?akROaElUUW9jT25HY1ZDclhHbm1ycGUrWHRGcUJSWUd1bmRzSG5HUHVkdkZ0?=
- =?utf-8?B?YzN6NU5RWC85ZDVmQmJsdmZ4Z2lORkMwNW9HaENwK0hOU3kzVUR4RlkyYVZt?=
- =?utf-8?B?MXNRaXlwbVZRalByZHMrS21ZZzdWT1c4SmlrcnVWQ2xrbERXVGVCM0sxc2cx?=
- =?utf-8?B?OGNId3ZRdzZRb05YZDBlUysrMTVnYlBCVWtueHk0VDBLc051TzB4SkphNUo5?=
- =?utf-8?B?R2FmbnUxaWE0NlBXYnRFUU1FbStjMk0rcmtZa2lHK2pDSVVIbWhHQS8vVzQw?=
- =?utf-8?B?anJOUG9JVjNvVFc0cmVTS2N3M1JQV3Y2b1FCRjl4R2ZURldpWTFrTVZHSDdO?=
- =?utf-8?B?ZkRsT1FFTlltait3RENUL2lCckVFeFFQWG1JTlVJMndwTFJZc2hsL1RjRysz?=
- =?utf-8?B?WTZoamZUM0hRUGVxaytaek5lSnhDVXdnY1cydHJsd0E0OTdiN2RVbFlLS2Nr?=
- =?utf-8?B?eCt1Smo3RjQzUnVsWVZhdDREZGNORXRvRjRqMUpua1IwMk8xNm1BM3lra0RT?=
- =?utf-8?B?bnNNRzg2SnNGV1RxUnIxVm1sZm4vL0hITmlUYWtNbTVLbHVqTysxZlNpVFMv?=
- =?utf-8?B?NnlBS05MZEhCK0tVNzQweDRYeG1UVzZ4Tkx6azRBZEU3WWJMd3N1WFovMGtx?=
- =?utf-8?B?L0MwSUNsVjJPM21kY2RVc3lSUEJlcUxCcTlQQm94cFNITGxPU0wwK1lYWDYx?=
- =?utf-8?B?bHMyMEFFanM5MkZFeDRrZ0JIMzZsTFk2OUYvOHNvcmtrOWdPaUNOdUw5RDB1?=
- =?utf-8?B?R0h3dmdxL0JQeDJ6MkJNQ2ZpR0FBTnl0bnBURUtMK2dEOXd2NDdhYWRXWCt4?=
- =?utf-8?B?V2w3ck9ic2thSXFOblBqY2NZdzQ0M08zempMS05RQ1AzTFg3b1pUc0t6TlBG?=
- =?utf-8?B?S3VPNlZrbHhBdjVrZitMTTdYOWVOTjNpRjd3U3owaHBiM0hBVmlSWDVyTVVp?=
- =?utf-8?B?TzNWNWlTWEkrTVZPQnRZUWhSRHZqT3V3YWJPR0llU3Vmb2RXT3dFenFQRVhN?=
- =?utf-8?B?SFg0UzdqSFMwMmtSdHY5akk0ZEtvSk1TaVdOYmVpRmhBWU9vMUhlalM1dWh4?=
- =?utf-8?B?SS9DMWZyQkY4eSt2WC9aNjMzTUZvQTltd1BYb2VWem1Xbml3ZFh4OWJXWENi?=
- =?utf-8?B?STR4bDA2Wk12dEtFMEVFb2NONjRUbFZjM3MxQnZnTEZkT2ZSekRQd1RNTGlJ?=
- =?utf-8?B?YWhpbFc4RDNpUVNPSWM2SlZGbk9VVmpHYUZVWEx2WFBWVmRlT2F3ZFM3L0No?=
- =?utf-8?B?eXpBSVJaMWVZUlM5V0ZRVE9VWXA2UjQrT01LNGduSFphRndQemsyMWVLTWlS?=
- =?utf-8?B?bzZCaEtKYmIxcDNackI5RlpIcTV5OHZSVU5Ja2Yrd1ZtYkljTTF4VWdMQ3Zl?=
- =?utf-8?B?dzB4RDFQdXg4aUdYYm5MTW9VVmF0WE85ZGRJanlCZk5CTytic1ZpZERPZXl6?=
- =?utf-8?B?bVpUUEphYWZXdXFrZmRha0RqWmZ3UjNQQzNpL0RBUDN6Y0o5RVFENG9FdGN1?=
- =?utf-8?Q?pRBamZigJge9HvMU=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	teAORPv/AkUlS+yOGndDpfNkMCeZrWGonmvh32HMqga8SqEY9jvoU9tJxxLOLzSpDOk9PZ6GCvMqTWkZ4CTHyPBtH8wDSrKlaAsOmF6Y3p60MRSm9wzNKtDRsp2GviRRJL2BCrbP8oM0fUKDM+CbA8z0zfEMhaYs6U2owX5xCnohgPtMdUsBm6O5EgOi6uwtzfa+qXFBwTq0mzM3RdtdnNo01lWE2J0UatBK1og44onBUHhwZlWbaY1zpS2c945NcAacFazzz1jKkG3Em5jQTYwLKCZR68kSdf1PYm+o5CzEUvVT0ycoluk0gYh+eqkRvre0xkoTHmYEinv2l5uB4HodjGcaE3aDfbGidkrHpStUFU9/ZD0rGUffB1b3MRnWeHHddyJdT7G5f1i4BTxqIEGZAQSbaiuFrb5KGSz0OLetvKX7trROgClagKnM591rDtauZo+0YopnsO/i5ksN87J91WOVeKy3ENf8D8vN2pDwxGKLieJCUSFigaMhJrmRZFquJ9Za/f5xC4GtPeerqGQEqlqFYfVsEzpRwllHg+rIGOY5np2U3FEnnBR8T/S2p+/TnbFleQ9guAHFVZrnO5f59uDp6DGdK9IN97GpJ0A=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f44f9c30-f126-4b2d-2cba-08de6d6e5596
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2026 15:16:18.4515
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1QpwJmfS1aI//HUAkUT+9MrSfF/jqisKErx6Q4/GjMi5JHCHo7MzTXLgcob3bamC22M8bXAQ2Egc98IUM6aTBBgmGrW5yE7GpJhdcqBpwhA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR10MB6213
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-16_04,2026-02-16_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- spamscore=0 mlxscore=0 adultscore=0 malwarescore=0 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2601150000 definitions=main-2602160130
-X-Proofpoint-ORIG-GUID: 5Ma5-LEb1oxGVfaLynZCFgfu3gTZv2Zm
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE2MDEzMCBTYWx0ZWRfX45/J9b6wpZDo
- o0DgHLtpFMEMOWILWRxqzxeTaHsJWNit3bEMVYFy8L/boPrRGs3WBMhcgmJmgAKebQcWZLiSIHG
- WWyr67c1yy2y/sm115pLK9rbf6q9Pzp90HLHW+5gPC/KLsOM+iZUTF+vzM+T7TfNg+zqoeETyuh
- ekYpRbOWaDg/rhEAyrKGVbIsAyG/BzaKkdAAjnT5lsHBAvov0jy9eRmp7EIsSrTCO/Z4AxOHdIq
- 1YXPWr7dytRiFnLVce1ZSa+tKVWS7W7PW+tYD1JzgeUZGEoothGLhIhziz23dWu18BIHjw2C2g5
- WV8MC5GkXln/Yb/gnvizxg8F8YXAMU2q7wvBaevk92hdLTBNtD8CpML+k9+f1FRygPbJf87DH3J
- BvwbCcFts92lacVyxXPrFTRXyg7HmQgDGVVsLHrrtc1rRLOTGBnislfDNc9FrJJ6rfvv1hdZTq3
- UFDXdAsWfDOg6g8H4hQ==
-X-Authority-Analysis: v=2.4 cv=SI9PlevH c=1 sm=1 tr=0 ts=699334cb cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=oDpMrTkGYTetUCWMMwwA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: 5Ma5-LEb1oxGVfaLynZCFgfu3gTZv2Zm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
 
-On Fri, Feb 06, 2026 at 10:44:03AM -0700, Nico Pache wrote:
-> On Tue, Feb 3, 2026 at 5:09 AM Lorenzo Stoakes
-> > > ---
-> > >  mm/khugepaged.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 42 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > > index 0f68902edd9a..9b7e05827749 100644
-> > > --- a/mm/khugepaged.c
-> > > +++ b/mm/khugepaged.c
-> > > @@ -460,6 +460,44 @@ void __khugepaged_enter(struct mm_struct *mm)
-> > >               wake_up_interruptible(&khugepaged_wait);
-> > >  }
-> > >
-> > > +/**
-> > > + * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for collapse
-> > > + * @order: The folio order being collapsed to
-> > > + * @full_scan: Whether this is a full scan (ignore limits)
-> > > + *
-> > > + * For madvise-triggered collapses (full_scan=true), all limits are bypassed
-> > > + * and allow up to HPAGE_PMD_NR - 1 empty PTEs.
-> > > + *
-> > > + * For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the configured
-> > > + * khugepaged_max_ptes_none value.
-> > > + *
-> > > + * For mTHP collapses, we currently only support khugepaged_max_pte_none values
-> > > + * of 0 or (HPAGE_PMD_NR - 1). Any other value will emit a warning and no mTHP
-> > > + * collapse will be attempted
-> > > + *
-> > > + * Return: Maximum number of empty PTEs allowed for the collapse operation
-> > > + */
-> > > +static unsigned int collapse_max_ptes_none(unsigned int order, bool full_scan)
-> > > +{
-> > > +     /* ignore max_ptes_none limits */
-> > > +     if (full_scan)
-> > > +             return HPAGE_PMD_NR - 1;
-> >
-> > I wonder if, given we are effectively doing:
-> >
-> >         const unsigned int nr_pages = collapse_max_ptes_none(order, /*full_scan=*/true);
-> >
-> >         ...
-> >
-> >         foo(nr_pages);
-> >
-> > In places where we ignore limits, whether we would be better off putting
-> > HPAGE_PMD_NR - 1 into a define and just using that in these cases, like:
-> >
-> > #define COLLAPSE_MAX_PTES_LIM (HPAGE_PMD_NR - 1)
->
-> Would a shorter name be appropriate? COLLAPSE_MAX_PTES_LIM(IT) is
-> quite long. Can we call it MAX_PTES_LIMIT or KHUGE_MAX_PTES_LIM?
+Hi Reinette,
 
-Yeah sure re: shorter/better name :) to be fair my suggestion is pretty
-terrible, kinda just getting at the notion of there being _some_ define.
+On Thu, Feb 12, 2026 at 10:37:21AM -0800, Reinette Chatre wrote:
+> Hi Ben,
+> 
+> On 2/12/26 5:55 AM, Ben Horgan wrote:
+> > On Wed, Feb 11, 2026 at 02:22:55PM -0800, Reinette Chatre wrote:
+> >> On 2/11/26 8:40 AM, Ben Horgan wrote:
+> >>> On Tue, Feb 10, 2026 at 10:04:48AM -0800, Reinette Chatre wrote:
+> >>>> On 2/10/26 8:17 AM, Reinette Chatre wrote:
+> >>>>> On 1/28/26 9:44 AM, Moger, Babu wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On 1/28/2026 11:41 AM, Moger, Babu wrote:
+> >>>>>>>> On Wed, Jan 28, 2026 at 10:01:39AM -0600, Moger, Babu wrote:
+> >>>>>>>>> On 1/27/2026 4:30 PM, Luck, Tony wrote:
+> >>>>>>>> Babu,
+> >>>>>>>>
+> >>>>>>>> I've read a bit more of the code now and I think I understand more.
+> >>>>>>>>
+> >>>>>>>> Some useful additions to your explanation.
+> >>>>>>>>
+> >>>>>>>> 1) Only one CTRL group can be marked as PLZA
+> >>>>>>>
+> >>>>>>> Yes. Correct.
+> >>>>>
+> >>>>> Why limit it to one CTRL_MON group and why not support it for MON groups?
+> >>>>>
+> >>>>> Limiting it to a single CTRL group seems restrictive in a few ways:
+> >>>>> 1) It requires that the "PLZA" group has a dedicated CLOSID. This reduces the
+> >>>>>    number of use cases that can be supported. Consider, for example, an existing
+> >>>>>    "high priority" resource group and a "low priority" resource group. The user may
+> >>>>>    just want to let the tasks in the "low priority" resource group run as "high priority"
+> >>>>>    when in CPL0. This of course may depend on what resources are allocated, for example
+> >>>>>    cache may need more care, but if, for example, user is only interested in memory
+> >>>>>    bandwidth allocation this seems a reasonable use case?
+> >>>>> 2) Similar to what Tony [1] mentioned this does not enable what the hardware is
+> >>>>>    capable of in terms of number of different control groups/CLOSID that can be
+> >>>>>    assigned to MSR_IA32_PQR_PLZA_ASSOC. Why limit PLZA to one CLOSID?
+> >>>>> 3) The feature seems to support RMID in MSR_IA32_PQR_PLZA_ASSOC similar to
+> >>>>>    MSR_IA32_PQR_ASSOC. With this, it should be possible for user space to, for
+> >>>>>    example, create a resource group that contains tasks of interest and create
+> >>>>>    a monitor group within it that monitors all tasks' bandwidth usage when in CPL0.
+> >>>>>    This will give user space better insight into system behavior and from what I can
+> >>>>>    tell is supported by the feature but not enabled?
+> >>>>>
+> >>>>>>>
+> >>>>>>>> 2) It can't be the root/default group
+> >>>>>>>
+> >>>>>>> This is something I added to keep the default group in a un-disturbed,
+> >>>>>
+> >>>>> Why was this needed?
+> >>>>>
+> >>>>>>>
+> >>>>>>>> 3) It can't have sub monitor groups
+> >>>>>
+> >>>>> Why not?
+> >>>>>
+> >>>>>>>> 4) It can't be pseudo-locked
+> >>>>>>>
+> >>>>>>> Yes.
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>> Would a potential use case involve putting *all* tasks into the PLZA group? That
+> >>>>>>>> would avoid any additional context switch overhead as the PLZA MSR would never
+> >>>>>>>> need to change.
+> >>>>>>>
+> >>>>>>> Yes. That can be one use case.
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>> If that is the case, maybe for the PLZA group we should allow user to
+> >>>>>>>> do:
+> >>>>>>>>
+> >>>>>>>> # echo '*' > tasks
+> >>>>>
+> >>>>> Dedicating a resource group to "PLZA" seems restrictive while also adding many
+> >>>>> complications since this designation makes resource group behave differently and
+> >>>>> thus the files need to get extra "treatments" to handle this "PLZA" designation.
+> > 
+> > As I commented on another thread, I'm wary of this reuse of existing file types
+> > as they can confuse existing user-space tools.
+> 
+> I agree. Changing how user space interacts with existing files is a change that would
+> require a mount option and this can be avoided by using new files instead.
+> 
+> >>>>> I am wondering if it will not be simpler to introduce just one new file, for example
+> >>>>> "tasks_cpl0" in both CTRL_MON and MON groups. When user space writes a task ID to the
+> >>>>> file it "enables" PLZA for this task and that group's CLOSID and RMID is the associated
+> >>>>> task's "PLZA" CLOSID and RMID. This gives user space the flexibility to use the same
+> >>>>> resource group to manage user space and kernel space allocations while also supporting
+> >>>>> various monitoring use cases. This still supports the "dedicate a resource group to PLZA"
+> >>>>> use case where user space can create a new resource group with certain allocations but the
+> >>>>> "tasks" file will be empty and "tasks_cpl0" contains the tasks needing to run with
+> >>>>> the resource group's allocations when in CPL0.
+> >>>
+> >>> If there is a "tasks_cpl0"  then I'd expect a "cpus_cpl0" too.
+> >>
+> >> That is reasonable, yes.
+> > 
+> > I think the "tasks_cpl0" approach suffers from one of the same faults as the
+> > "kernel_groups" approach. If you want to run a task with userspace configuration
+> > closid-A rmid-Y but to run in kernel space in closid-B but the same rmid-Y then
+> > there can't exist monitor_group in resctrl for both.
+> 
+> This assumes that "tasks" and "tasks_cpl0"/"tasks_kernel" have the same rules for
+> task assignment. When a user assigns a task to the "tasks" file of a MON group it
+> is required that the task is a member of the parent CTRL_MON group and if so, that
+> task's CLOSID and RMID are both updated. Theoretically there could be different rules
+> for task assignment to the "tasks_cpl0"/"tasks_kernel" file that does not place such
+> restriction and only updates CLOSID when moving to a CTRL_MON group and only updates
+> RMID when moving to a MON group. 
+> 
+> You are correct that resctrl cannot have monitor groups to track such configuration
+> and there may indeed be some consequences that I have not considered.
+> 
+> I understand this is not something that MPAM can support and I also do not know if this
+> is even a valid use case. If doing something like this user space will need to take care
+> since the monitoring data will be presented with the allocations used when tasks are in
+> user space but also contain the monitoring data for allocations used when tasks are in
+> kernel space that are tracked in another control group hierarchy (to which I expect the
+> task's kernel space monitoring can move when the MON group is deleted).
+> 
+> 
+> >>>> It looks like MPAM has a few more capabilities here and the Arm levels are numbered differently
+> >>>> with EL0 meaning user space. We should thus aim to keep things as generic as possible. For example,
+> >>>> instead of CPL0 using something like "kernel" or ... ?
+> >>>
+> >>> Yes, PLZA does open up more possibilities for MPAM usage.  I've talked to James
+> >>> internally and here are a few thoughts.
+> >>>
+> >>> If the user case is just that an option run all tasks with the same closid/rmid
+> >>> (partid/pmg) configuration when they are running in the kernel then I'd favour a
+> >>> mount option. The resctrl filesytem interface doesn't need to change and
+> >>
+> >> I view mount options as an interface of last resort. Why would a mount option be needed
+> >> in this case? The existence of the file used to configure the feature seems sufficient?
+> > 
+> > If we are taking away a closid from the user then the number of CTRL_MON groups
+> > that can be created changes. It seems reasonable for user-space to expect
+> > num_closid to be a fixed value.
+> 
+> I do you see why we need to take away a CLOSID from the user. Consider a user space that
 
-But MAX_PTES_LIMIT or KHUGE_MAX_PTES_LIM I think are unclear.
+Yes, just slightly simpler to take away a CLOSID but could just go with the
+default CLOSID is also used for the kernel. I would be ok with a file saying the
+mode, like the mbm_event file does for counter assignment. It slightly misleading
+that a configuration file is under info but necessary as we don't have another
+location global to the resctrl mount.
 
-MAX_COLLAPSE_PTES?
+> runs with just two resource groups, for example, "high priority" and "low priority", it seems
+> reasonable to make it possible to let the "low priority" tasks run with "high priority"
+> allocations when in kernel space without needing to dedicate a new CLOSID? More reasonable
+> when only considering memory bandwidth allocation though.
+> 
+> > 
+> >>
+> >> Also ...
+> >>
+> >> I do not think resctrl should unnecessarily place constraints on what the hardware
+> >> features are capable of. As I understand, both PLZA and MPAM supports use case where
+> >> tasks may use different CLOSID/RMID (PARTID/PMG) when running in the kernel. Limiting
+> >> this to only one CLOSID/PARTID seems like an unmotivated constraint to me at the moment.
+> >> This may be because I am not familiar with all the requirements here so please do
+> >> help with insight on how the hardware feature is intended to be used as it relates
+> >> to its design.
+> >>
+> >> We have to be very careful when constraining a feature this much  If resctrl does something
+> >> like this it essentially restricts what users could do forever.
+> > 
+> > Indeed, we don't want to unnecessarily restrict ourselves here. I was hoping a
+> > fixed kernel CLOSID/RMID configuration option might just give all we need for
+> > usecases we know we have and be minimally intrusive enough to not preclude a
+> > more featureful PLZA later when new usecases come about.
+> 
+> Having ability to grow features would be ideal. I do not see how a fixed kernel CLOSID/RMID
+> configuration leaves room to build on top though. Could you please elaborate?
 
-Cheers, Lorenzo
+If we initially go with a single new configuration file, e.g. kernel_mode, which
+could be "match_user" or "use_root, this would be the only initial change to the
+interface needed. If more usecases present themselves a new mode could be added,
+e.g. "configurable", and an interface to actually change the rmid/closid for the
+kernel could be added.
+
+> 
+> I wonder if the benefit of the fixed CLOSID/RMID is perhaps mostly in the cost of
+> context switching which I do not think is a concern for MPAM but it may be for PLZA?
+> 
+> One option to support fixed kernel CLOSID/RMID at the beginning and leave room to build
+> may be to create the kernel_group or "tasks_kernel" interface as a baseline but in first
+> implementation only allow user space to write the same group to all "kernel_group" files or
+> to only allow to write to one of the "tasks_kernel" files in the resctrl fs hierarchy. At
+> that time the associated CLOSID/RMID would become the "fixed configuration" and attempts to
+> write to others can return "ENOSPC"?
+
+I think we'd have to be sure of the final interface if we go this way.
+
+> 
+> From what I can tell this still does not require to take away a CLOSID/RMID from user space
+> though. Dedicating a CLOSID/RMID to kernel work can still be done but be in control of user
+> that can, for example leave the "tasks" and "cpus" files empty.
+> 
+> > One complication is that for fixed kernel CLOSID/RMID option is that for x86 you
+> > may want to be able to monitor a tasks resource usage whether or not it is in
+> > the kernel or userspace and so only have a fixed CLOSID. However, for MPAM this
+> > wouldn't work as PMG (~RMID) is scoped to PARTID (~CLOSID).
+> > 
+> >>
+> >>> userspace software doesn't need to change. This could either take away a
+> >>> closid/rmid from userspace and dedicate it to the kernel or perhaps have a
+> >>> policy to have the default group as the kernel group. If you use the default
+> >>
+> >> Similar to above I do not see PLZA or MPAM preventing sharing of CLOSID/RMID (PARTID/PMG)
+> >> between user space and kernel. I do not see a motivation for resctrl to place such
+> >> constraint.
+> >>
+> >>> configuration, at least for MPAM, the kernel may not be running at the highest
+> >>> priority as a minimum bandwidth can be used to give a priority boost. (Once we
+> >>> have a resctrl schema for this.)
+> >>>
+> >>> It could be useful to have something a bit more featureful though. Is there a
+> >>> need for the two mappings, task->cpl0 config and task->cpl1 to be independent or
+> >>> would as task->(cp0 config, cp1 config) be sufficient? It seems awkward that
+> >>> it's not a single write to move a task. If a single mapping is sufficient, then
+> >>
+> >> Moving a task in x86 is currently two writes by writing the CLOSID and RMID separately.
+> >> I think the MPAM approach is better and there may be opportunity to do this in a similar
+> >> way and both architectures use the same field(s) in the task_struct.
+> > 
+> > I was referring to the userspace file write but unifying on a the same fields in
+> > task_struct could be good. The single write is necessary for MPAM as PMG is
+> > scoped to PARTID and I don't think x86 behaviour changes if it moves to the same
+> > approach.
+> > 
+> 
+> ah - I misunderstood. You are suggesting to have one file that user writes to
+> to set both user space and kernel space CLOSID/RMID? This sounds like what the
+
+Yes, the kernel_groups idea does partially have this as once you've set the
+kernel_group for a CTRL_MON or MON group then the user space configuration
+dictates the kernel space configuration. As you pointed out, this is also
+a draw back of the kernel_groups idea.
+
+> existing "tasks" file does but only supports the same CLOSID/RMID for both user
+> space and kernel space. To support the new hardware features where the CLOSID/RMID
+> can be different we cannot just change "tasks" interface and would need to keep it
+> backward compatible. So far I assumed that it would be ok for the "tasks" file
+> to essentially get new meaning as the CLOSID/RMID for just user space work, which 
+> seems to require a second file for kernel space as a consequence? So far I have
+> not seen an option that does not change meaning of the "tasks" file.
+
+Would it make sense to have some new type of entries in the tasks file,
+e.g. k_ctrl_<pid>, k_mon_<pid> to say, in the kernel, use the closid of this
+CTRL_MON for this task pid or use the rmid of this CTRL_MON/MON group for this task
+pid? We would still probably need separate files for the cpu configuration.
+
+If separate files make more sense, then we might need 2 extra tasks files to
+decouple closid and rmid, e.g. tasks_k_ctrl and task_k_mon. The task_k_mon would
+be in all CTRL_MON and MON groups and determine the rmid and tasks_k_ctrl just
+in a CTRL_MON group and determine a closid.
+
+> 
+> >>> as single new file, kernel_group,per CTRL_MON group (maybe MON groups) as
+> >>> suggested above but rather than a task that file could hold a path to the
+> >>> CTRL_MON/MON group that provides the kernel configuraion for tasks running in
+> >>> that group. So that this can be transparent to existing software an empty string
+> >>
+> >> Something like this would force all tasks of a group to run with the same CLOSID/RMID
+> >> (PARTID/PMG) when in kernel space. This seems to restrict what the hardware supports
+> >> and may reduce the possible use case of this feature.
+> >>
+> >> For example,
+> >> - There may be a scenario where there is a set of tasks with a particular allocation 
+> >>   when running in user space but when in kernel these tasks benefit from different
+> >>   allocations. Consider for example below arrangement where tasks 1, 2, and 3 run in
+> >>   user space with allocations from resource_groupA. While these tasks are ok with this
+> >>   allocation when in user space they have different requirements when it comes to
+> >>   kernel space. There may be a resource_groupB that allocates a lot of resources ("high
+> >>   priority") that task 1 should use for kernel work and a resource_groupC that allocates
+> >>   fewer resources that tasks 2 and 3 should use for kernel work ("medium priority").  
+> >>   
+> >>   resource_groupA:
+> >> 	schemata: <average allocations that work for tasks 1, 2, and 3 when in user space>
+> >> 	tasks when in user space: 1, 2, 3
+> >>
+> >>   resource_groupB:
+> >> 	schemata: <high priority allocations>
+> >> 	tasks when in kernel space: 1
+> >>
+> >>   resource_groupC:
+> >> 	schemata: <medium priority allocations>
+> >> 	tasks when in kernel space: 2, 3
+> > 
+> > I'm not sure if this would happen in the real world or not.
+> 
+> Ack. I would like to echo Tony's request for feedback from resctrl users
+>  https://lore.kernel.org/lkml/aYzcpuG0PfUaTdqt@agluck-desk3/
+
+Indeed. This is all getting a bit complicated.
+
+Thanks,
+
+Ben
+
+> 
+> > 
+> >>
+> >>   If user space is forced to have the same tasks have the same user space and kernel
+> >>   allocations then that will force user space to create additional resource groups that
+> >>   will use up CLOSID/PARTID that is a scarce resource.
+> > 
+> > This may be undesirable even if CLOSID/PARTID were unlimited as controls which set
+> > a per-CLOSID/PARTID maximum don't have the same effect if the tasks are spread across
+> > more than one CLOSID/PARTID.
+> 
+> Thank you for bringing this up. I did not consider the mechanics of the memory bandwidth
+> controls.
+> 
+> > 
+> >>
+> >> - There may be a scenario where the user is attempting to understand system behavior by
+> >>   monitoring individual or subsets of tasks' bandwidth usage when in kernel space. 
+> > 
+> > This seems useful to me.
+> > 
+> >>
+> >> - From what I can tell PLZA also supports *different* allocations when in user vs
+> >>   kernel space while using the *same* monitoring group for both. This does not seem
+> >>   transferable to MPAM and would take more effort to support in resctrl but it is
+> >>   a use case that the hardware enables. 
+> > 
+> > Ah yes, I think this ends the 'kernel_group' idea then. I was too focused on
+> > MPAM and forgotten to consider the case where PMG and PARTID are independent.
+> 
+> Of course we would want user space to have consistent experience from resctrl no matter the
+> architecture so these places where architectures behave different needs more care.
+> 
+> >> When enabling a feature I would of course prefer not to add unnecessary complexity. Even so,
+> >> resctrl is expected to expose hardware capabilities to user space. There seems to be some
+> >> opinions on how user space will now and forever interact with these features that
+> >> are not clear to me so I would appreciate more insight in why these constraints are
+> >> appropriate.
+> > 
+> > Yes, care definitely needs to be taken here in order to not back ourselves into
+> > a corner.
+> 
+> I really appreciate the discussions to help create a useful interface.
+> 
+> Reinette
+> 
+> > 
+> >>
+> >> Reinette
+> >>
+> >>> can mean use the current group's when in the kernel (as well as for
+> >>> userspace). A slash, /, could be used to refer to the default group. This would
+> >>> give something like the below under /sys/fs/resctrl.
+> >>>
+> >>> .
+> >>> ├── cpus
+> >>> ├── tasks
+> >>> ├── ctrl1
+> >>> │   ├── cpus
+> >>> │   ├── kernel_group -> mon_groups/mon1
+> >>> │   └── tasks
+> >>> ├── kernel_group -> ctrl1
+> >>> └── mon_groups
+> >>>     └── mon1
+> >>>         ├── cpus
+> >>>         ├── kernel_group -> ctrl1
+> >>>         └── tasks
+> >>>
+> >>>>
+> >>>> I have not read anything about the RISC-V side of this yet.
+> >>>>
+> >>>> Reinette
+> >>>>
+> >>>>>
+> >>>>> Reinette
+> >>>>>
+> >>>>> [1] https://lore.kernel.org/lkml/aXpgragcLS2L8ROe@agluck-desk3/
+> >>>>
+> >>>
+> >>> Thanks,
+> >>>
+> >>> Ben
+> >>
+> > 
+> > Thanks,
+> > 
+> > Ben
+> 
