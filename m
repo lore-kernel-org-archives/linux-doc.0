@@ -1,46 +1,46 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40AFB2ECEAC;
-	Mon, 16 Feb 2026 06:07:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95128946C;
+	Mon, 16 Feb 2026 06:37:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771222062; cv=none; b=DEpoSDXysKD1zxH9YdC184ata+MPE0jETUGONoYH8+w18+p6l8ZjZ3QSiLijXnTIvA8qLvpiURWzSYC35TlJs3ajTLLDHBVdu2acneQY0tcsoBaLMU9SUQatjC/YlkhcDG4WCQjVcdxZinwUCyTZZVJKSghc6D7tqCc1UsSzTMM=
+	t=1771223854; cv=none; b=r90KXXWWcawoESHXyzD1Y5tf5KWWSnM3bR8xYfySRu6DruAJKUCQY7KtihBIu4gsQAzOnxauUBvfHNiLOfu3bDPj/B56E9qFCiy0iywudcxvqy5U79eYP4OKPcGnjlMuKAVtraSPcQggsZBN7bm4XA4y/16nDab/rkRdHpUXhmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771222062; c=relaxed/simple;
-	bh=fVhqriy7oD2fxsLnildZNf0upge6DB1yH7yA+AQc7fU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NA9m0MbXEuEBe2tQQnRmJ4zO0vW1wLV6eaEb7TTsNvDZk4zz7dp+OXQwiQULef3zRxCBfYoVfmXimtrbvc78n03b9LQCVdi3+CnkIoGjV9618IccirhYk8YoHWqffSy0f48AqtBeW2yjUia5ZYRzFxqc5N6yd0yIP2VHZ2sHwtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IRU1xdvB; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1771223854; c=relaxed/simple;
+	bh=Xhkiutca+Sd+5ukm8nZDPsEdWoyAe7zko5DbSkPedvc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jVcaLD8fQIMA9tYYTPDB5IcVcoywCTpbVRUcbFGByHVP1odDhgQgpzpWX8xd8ucnOlupPWbi+azRr6ixORAGmEHBWIoYD56JCOLQgiMxOcTeyML9jx1k/1zz0WC97ag49x+a6ay329nhbJZ61TFVdzOWoyCBPvv8TBB2OzaV+TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BrhchNkZ; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IRU1xdvB"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BrhchNkZ"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
 	Content-ID:Content-Description:In-Reply-To:References;
-	bh=VacMt1CMOibezwUMmM/iNXVEh3MyDR4UboRRmFE4KHs=; b=IRU1xdvBrpNblyZoEtr+CZKvSF
-	x9mxMESz0oGgDKiUq6Q8kJE/4dsCvliuT8WvZudBz/F1Qw7IwoYD36znkl3s0kDMP2vpWc+nr/GBC
-	fOeCZehOFYH33rqDfXlYzD9hJYMSMppCodzZ/cmx2+JO8Q+44jb31VjHLmDxnQuTpjD/QqKyQC08J
-	bvuxoirIsWd/6+nGlLeZZq9qF5aFzDPhDMcF30LYei5yKQahcO6h0WLb/xrWnvX5yZQgo1qIz09xW
-	I504UeFDdZhzwC4IHmLhfW09VI9Jnmf45+chEslF8lyDMm0LghEEGW7iBLlOL3tpisLYHqAz/Yhox
-	Si48A9DQ==;
+	bh=WfIFegw59wH6+2nvb8K6oXw6l4iG6M2qjkp0LELe9aQ=; b=BrhchNkZYqnfrzMCxvg9IQw3g6
+	2X6cHQQXkI0ijhAmcV+6nvd/u7z4UzjLC2tbqEHr5AOFwdTDeJjVh1iv2zRWU5ERhOH8LdyzBCoBu
+	d2wl2PO6EDF1kcve+sTpdbW6N495SrbmXWxHxwxNj/9nagUrJfMpOFwyUlVP1ol6oh2Y3fm0tdUEn
+	1qHhS16DLfYbWwvtnKP9lqQlx1oT0Pcw3CNOx8WjTXt4awgSj8ntUOK0TxLnkUw3XawBK3YGkIWk7
+	wDVle1t+B2vg/U45WXNZlPp1oJKFqovNm/aTWeqyi3VnsfNMj94A2xYeKZcav8FaLAd+DNuAUlVLN
+	k5TGB2qw==;
 Received: from [50.53.43.113] (helo=bombadil.infradead.org)
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vrrlk-000000060cd-07X9;
-	Mon, 16 Feb 2026 06:07:40 +0000
+	id 1vrsEb-000000062lu-2uRn;
+	Mon, 16 Feb 2026 06:37:29 +0000
 From: Randy Dunlap <rdunlap@infradead.org>
 To: linux-kernel@vger.kernel.org
 Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>,
-	Mark Brown <broonie@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	David Gow <davidgow@google.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] linux-next: update maintainer info.
-Date: Sun, 15 Feb 2026 22:07:39 -0800
-Message-ID: <20260216060739.2791462-1-rdunlap@infradead.org>
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v2] docs: admin-guide: update tiny script for number of taint flags
+Date: Sun, 15 Feb 2026 22:37:29 -0800
+Message-ID: <20260216063729.2832770-1-rdunlap@infradead.org>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -50,42 +50,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Update the MAINTAINERS file and Documentation/process/2.Process.rst
-with the current linux-next maintainer information.
+Account for 2 new taint flags being added by increasing the number of
+bits handled by the tiny show-tainted-flags example script.
 
-Translations of 2.Process.rst should also be updated.
-
+Fixes: 8eea4e744758 ("taint: Add TAINT_FWCTL")
+Fixes: 2852ca7fba9f ("panic: Taint kernel if tests are run")
 Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: David Gow <davidgow@google.com>
 ---
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
+v2: rebase and resend
+
+@Jason: the note that you asked to be added to kernel/panic.c has
+already been merged: commit ed4bbe7e8fa1:
+  Author: Randy Dunlap <rdunlap@infradead.org>
+  Date:   Wed Oct 15 15:16:26 2025 -0700
+    taint: add reminder about updating docs and scripts
+
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: David Gow <davidgow@google.com>
 Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: workflows@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+---
+ Documentation/admin-guide/tainted-kernels.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/process/2.Process.rst |    2 +-
- MAINTAINERS                         |    1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
-
---- linux-next-20260213.orig/Documentation/process/2.Process.rst
-+++ linux-next-20260213/Documentation/process/2.Process.rst
-@@ -291,7 +291,7 @@ Use of the MMOTM tree is likely to be a
- there is a definite chance that it will not even compile.
+--- linux-next-20260213.orig/Documentation/admin-guide/tainted-kernels.rst
++++ linux-next-20260213/Documentation/admin-guide/tainted-kernels.rst
+@@ -74,7 +74,7 @@ a particular type of taint. It's best to
+ script, but if you need something quick you can use this shell command to check
+ which bits are set::
  
- The primary tree for next-cycle patch merging is linux-next, maintained by
--Stephen Rothwell.  The linux-next tree is, by design, a snapshot of what
-+Mark Brown.  The linux-next tree is, by design, a snapshot of what
- the mainline is expected to look like after the next merge window closes.
- Linux-next trees are announced on the linux-kernel and linux-next mailing
- lists when they are assembled; they can be downloaded from:
---- linux-next-20260213.orig/MAINTAINERS
-+++ linux-next-20260213/MAINTAINERS
-@@ -14749,7 +14749,6 @@ F:	Documentation/memory-barriers.txt
- F:	tools/memory-model/
+-	$ for i in $(seq 18); do echo $(($i-1)) $(($(cat /proc/sys/kernel/tainted)>>($i-1)&1));done
++	$ for i in $(seq 20); do echo $(($i-1)) $(($(cat /proc/sys/kernel/tainted)>>($i-1)&1));done
  
- LINUX-NEXT TREE
--M:	Stephen Rothwell <sfr@canb.auug.org.au>
- M:	Mark Brown <broonie@kernel.org>
- L:	linux-next@vger.kernel.org
- S:	Supported
+ Table for decoding tainted state
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
