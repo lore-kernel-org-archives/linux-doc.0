@@ -1,245 +1,134 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D905A1E32CF;
-	Mon, 16 Feb 2026 14:23:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB0E313272;
+	Mon, 16 Feb 2026 14:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771251839; cv=none; b=OTmmy10TMIEdI48S0byrp6a/SiUmVW8o74krCx6PbyWxT0NMP1yVkGQlmpl2pKkyzVgHF7PRzGWN+3H3i3akTh44rOD2j8b0dSJHApjHLTJDmn7Mx9gdU1DvbQd3Ytm2VIaU9XLVUYCpF1yDX1+YDgav3yl99O5cQmf9H6NoZ3s=
+	t=1771253958; cv=none; b=WYtkEp1qKbc+RJtvcHkcLiKhK98Miiz2XHQLQZKYze4E+hyD1NlKwZ/dI2jKJAV3942/VojGt2nK4SMT1NmjocC6t8OpUM6j1XGzgUM90/SknGRLl21o5gDk56bS03LtfwqI5KZnzOMJpRREhQljUcLCRFaWT6cb8MtPWhcjn9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771251839; c=relaxed/simple;
-	bh=h4EVJb+so6gFAvC6RverNt6a6WKtvFMUD66Iqt4pGvA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TAfqOMEyrAVunB2ioYeQ+6+eyTwjSqA5GCj4rbHwhVZDCqybOZBj1Tiq+QdF/GxioQF8TgDfht0uLSBj49nAgL6Rw/tDiSGauKOqij64ayiHpcDgaxV7+T+dzZ8UpX74civp9ldQC9uN81jDE+Ut813RL0WW/L9glq8u/3FpVuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D50EA1570;
-	Mon, 16 Feb 2026 06:23:50 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E4F463F73F;
-	Mon, 16 Feb 2026 06:23:51 -0800 (PST)
-Message-ID: <a5bc5d67-4dab-4699-8a11-5a92ca334159@arm.com>
-Date: Mon, 16 Feb 2026 14:23:50 +0000
+	s=arc-20240116; t=1771253958; c=relaxed/simple;
+	bh=mwcRSWwfqOp4TWS/pNZt2R8xoraxRdEm2u/SUXYyDxY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XlUCwMZuR+4AbMk/WoX+VRiWpBqOk9KL1DxZE18yKuAHXxXiCZqBJrRNtjXAS7MUezuMx2ReJL24lNiDfA4Rd3EGh4UQ50PiD1x1AtatRGxsjaYPohKT6otV2whWiGZkbGdb/B+YenLmXOCZ8Kg9kiXk4AB8y7PQnz+9CsOnqlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=KEXhPqJG; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="KEXhPqJG"
+Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61G9mhtc3758413;
+	Mon, 16 Feb 2026 09:59:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=V4Tt6adLe1NSBmdxy2cFnH8KSLI
+	ieYTLwZC3hfgVLa4=; b=KEXhPqJG/eIE5cObiMXJ0Y9k+qG6dNeDegJOmWDgFn6
+	YDGt7DxpIJ6difswqbZ097toDuNpfMYVlJ70tpxi0EkVSTrhwbRDGayW39u6Xdl+
+	umnEvboOWm2Cfu41S/i1lwZCKwi5WmPTyqFUS3cGI+ZQdAkITiMiPO4g5W9JlfZr
+	wKLSD/VrMD0huwYLtR9s33lczEDP9eBkoKl0R61a1ithzPHQxSbfT8I6myyK+mTV
+	6+AbqwxAn7MGj5AN3kOtREZgbjdxTAauWKyIuOpzXB7l9IGCBJEkRLqoEit0bg7H
+	rAFN3ib5vr8lTOcAMAnyzIZXJ9vxS274ipgaOFcieIQ==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4capu4fawh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 16 Feb 2026 09:59:12 -0500 (EST)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 61GExBeA019658
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 16 Feb 2026 09:59:11 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Mon, 16 Feb
+ 2026 09:59:11 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Mon, 16 Feb 2026 09:59:11 -0500
+Received: from work.ad.analog.com (HYB-hERzalRezfV.ad.analog.com [10.65.205.9])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 61GEwsNm016011;
+	Mon, 16 Feb 2026 09:58:57 -0500
+From: Marcelo Schmitt <marcelo.schmitt@analog.com>
+To: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <jic23@kernel.org>, <michael.hennerich@analog.com>, <nuno.sa@analog.com>,
+        <eblanc@baylibre.com>, <dlechner@baylibre.com>, <andy@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>
+Subject: [PATCH v9 0/8] Add SPI offload support to AD4030
+Date: Mon, 16 Feb 2026 11:58:54 -0300
+Message-ID: <cover.1771253601.git.marcelo.schmitt@analog.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 18/41] arm_mpam: resctrl: Implement helpers to update
- configuration
-To: Zeng Heng <zengheng4@huawei.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
- jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, punit.agrawal@oss.qualcomm.com,
- quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
- scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
- joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
- linux-doc@vger.kernel.org, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-References: <20260203214342.584712-1-ben.horgan@arm.com>
- <20260203214342.584712-19-ben.horgan@arm.com>
- <d7de359e-9bf3-e41d-b00d-985ca7263ad8@huawei.com>
-From: Ben Horgan <ben.horgan@arm.com>
-Content-Language: en-US
-In-Reply-To: <d7de359e-9bf3-e41d-b00d-985ca7263ad8@huawei.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjE2MDEyOCBTYWx0ZWRfX5pYHarEdnGAL
+ YG9N83af2ZKwRtoHb3aby2U6mLyakVUDDXmWKFVXjj5eWPDlSzoR9wwtqE8jZgTmR7FwgUsk98S
+ k/QM7sJud+MrYEXH3+5qFijMzFdugPZsiCi3TVSzlAAaN/Mpo6ljmO51rLdef7bqKmAOryEIV3s
+ 1rDQHpt3RRNI+h5U5w/zBeTunKmxWouREDjVbp1D1d9GRXSbDuDsCJMKJmppcVZmIMdYAop0N9A
+ QGoElyO37Wq26Ld8g75LdjWol6nyln/t47FrAS2P3VTdFrlyaIn04PujYOGDOrZG9adeqSoJg19
+ pas8DfAKwCr1KwaMO8lBqooujsl5bWfOA/ZrETcW7NznWnTEmSh1K/x9yyiz4df8Wh8UY73H6Fp
+ T5wYpgiw8P4gl5LsCW8bvGIJGBzIoFKTs/OEFVRbr1N55djProu5PTotV3yQLADbUzvoya53SiV
+ GcZclDw0eMH/TSXzZww==
+X-Proofpoint-ORIG-GUID: O4EZYO3zGpFqC_t7CB7Z3DmxTSShf1ip
+X-Proofpoint-GUID: O4EZYO3zGpFqC_t7CB7Z3DmxTSShf1ip
+X-Authority-Analysis: v=2.4 cv=EZnFgfmC c=1 sm=1 tr=0 ts=699330c0 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
+ a=gAnH3GRIAAAA:8 a=8sbwDmDZewnIFtcHbR0A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-16_04,2026-02-16_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602160128
 
-Hi Zeng,
+This set adds high speed data capture with AD4030/AD4630 and similar ADCs. It
+also adds support for ADAQ4216 and ADAQ4224.
 
-On 2/14/26 10:39, Zeng Heng wrote:
-> Hi Ben,
-> 
-> On 2026/2/4 5:43, Ben Horgan wrote:
->> From: James Morse <james.morse@arm.com>
->>
->> resctrl has two helpers for updating the configuration.
->> resctrl_arch_update_one() updates a single value, and is used by the
->> software-controller to apply feedback to the bandwidth controls, it
->> has to
->> be called on one of the CPUs in the resctrl:domain.
->>
->> resctrl_arch_update_domains() copies multiple staged configurations,
->> it can
->> be called from anywhere.
->>
->> Both helpers should update any changes to the underlying hardware.
->>
->> Implement resctrl_arch_update_domains() to use
->> resctrl_arch_update_one(). Neither need to be called on a specific CPU as
->> the mpam driver will send IPIs as needed.
->>
->> Tested-by: Gavin Shan <gshan@redhat.com>
->> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
->> Tested-by: Peter Newman <peternewman@google.com>
->> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
->> Signed-off-by: James Morse <james.morse@arm.com>
->> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
->> ---
->> Changes since rfc:
->> list_for_each_entry -> list_for_each_entry_rcu
->> return 0
->> Restrict scope of local variables
->>
->> Changes since v2:
->> whitespace fix
->> ---
->>   drivers/resctrl/mpam_resctrl.c | 70 ++++++++++++++++++++++++++++++++++
->>   1 file changed, 70 insertions(+)
->>
->> diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/
->> mpam_resctrl.c
->> index ecf00386edca..48d047510089 100644
->> --- a/drivers/resctrl/mpam_resctrl.c
->> +++ b/drivers/resctrl/mpam_resctrl.c
->> @@ -212,6 +212,76 @@ u32 resctrl_arch_get_config(struct rdt_resource
->> *r, struct rdt_ctrl_domain *d,
->>       }
->>   }
->>   +int resctrl_arch_update_one(struct rdt_resource *r, struct
->> rdt_ctrl_domain *d,
->> +                u32 closid, enum resctrl_conf_type t, u32 cfg_val)
->> +{
->> +    u32 partid;
->> +    struct mpam_config cfg;
->> +    struct mpam_props *cprops;
->> +    struct mpam_resctrl_res *res;
->> +    struct mpam_resctrl_dom *dom;
->> +
->> +    lockdep_assert_cpus_held();
->> +    lockdep_assert_irqs_enabled();
->> +
->> +    /*
->> +     * No need to check the CPU as mpam_apply_config() doesn't care, and
->> +     * resctrl_arch_update_domains() relies on this.
->> +     */
->> +    res = container_of(r, struct mpam_resctrl_res, resctrl_res);
->> +    dom = container_of(d, struct mpam_resctrl_dom, resctrl_ctrl_dom);
->> +    cprops = &res->class->props;
->> +
->> +    partid = resctrl_get_config_index(closid, t);
-> 
-> 
-> As a victim, I must admit I cannot verify this feedback on my local
-> Kunpeng environment since MB functionality is not yet supported by the
-> driver. However, after careful consideration, I believe this is worth
-> bringing up for discussion.
+Rebased on top of spi-multi-lane change set [1].
+Requires ("units: Add HZ_PER_GHZ") patch to build [2].
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git tags/spi-multi-lane
+[2]: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/include/linux/units.h?h=next-20260204&id=5083dba0fde5446c00ee1a82a3911c8f88a2c72e
 
-Thank you for thinking and finding problems beyond your platform.
+Change log v8 -> v9
+[DT]
+- No changes.
+[IIO]
+- Picked up David's review tag for offload common-mode channels.
+- Added comment about potential side effects of PWM update over ADC conversion period.
+- Use floats in ADAQ gain comments.
 
-> 
-> Regarding the MB configuration flow, the partid conversion should
-> include the mpam_resctrl_hide_cdp() condition check. Here's the
-> rationale:
-> 
-> After resctrl parsing schemata update, MB configuration is set via
-> parse_bw() or rdtgroup_init_mba(), which stores the updated
-> configuration in dom->staged_config[CDP_NONE]. If the MB configuration
-> update directly uses t = CDP_NONE, it would result in MB obtaining the
-> wrong partid and cfg[partid].
-> 
-> The specific fix would be like:
-> 
-> -       partid = resctrl_get_config_index(closid, t);
-> +       if (mpam_resctrl_hide_cdp(r->rid))
-> +        /* The configuration of CDP_DATA is same as the CDP_CODE one. */
-> +               partid = resctrl_get_config_index(closid, CDP_DATA);
-> +       else
-> +               partid = resctrl_get_config_index(closid, t);
-
-The CDP emulation support is added later in the series in patch 20, Add
-CDP emulation. However, I think you have spotted an actual problem. With
-hidden CDP the cfg is first found with
-
-resctrl_get_config_index(closid, t) when CDP_NONE
-but then the setting does use CDP_CODE and CDP_DATA.
-
-CDP in general is proving to be quite tricky.
-
-> 
-> Similarly, in resctrl_arch_get_config() requires the same treatment to
-> ensure consistency.
-
-I don't see the problem here but maybe I'm missing something?
-
-Isn't this handled by:
-
-	/*
-	 * When CDP is enabled, but the resource doesn't support it,
-	 * the control is cloned across both partids.
-	 * Pick one at random to read:
-	 */
-	if (mpam_resctrl_hide_cdp(r->rid))
-		type = CDP_DATA;
-
-I think we could do similar in resctrl_arch_update_one()
-
-> 
-> 
-> Best regards,
-> and happy Lunar New Year!
-> 
-> Zeng Heng
-> 
-> 
->> +    if (!r->alloc_capable || partid >= resctrl_arch_get_num_closid(r)) {
->> +        pr_debug("Not alloc capable or computed PARTID out of range\n");
->> +        return -EINVAL;
->> +    }
->> +
->> +    /*
->> +     * Copy the current config to avoid clearing other resources when
->> the
->> +     * same component is exposed multiple times through resctrl.
->> +     */
->> +    cfg = dom->ctrl_comp->cfg[partid]; > +
->> +    switch (r->rid) {
->> +    case RDT_RESOURCE_L2:
->> +    case RDT_RESOURCE_L3:
->> +        cfg.cpbm = cfg_val;
->> +        mpam_set_feature(mpam_feat_cpor_part, &cfg);
->> +        break;
->> +    default:
->> +        return -EINVAL;
->> +    }
->> +
->> +    return mpam_apply_config(dom->ctrl_comp, partid, &cfg);
->> +}
->> +
->> +int resctrl_arch_update_domains(struct rdt_resource *r, u32 closid)
->> +{
->> +    int err;
->> +    struct rdt_ctrl_domain *d;
->> +
->> +    lockdep_assert_cpus_held();
->> +    lockdep_assert_irqs_enabled();
->> +
->> +    list_for_each_entry_rcu(d, &r->ctrl_domains, hdr.list) {
->> +        for (enum resctrl_conf_type t = 0; t < CDP_NUM_TYPES; t++) {
->> +            struct resctrl_staged_config *cfg = &d->staged_config[t];
->> +
->> +            if (!cfg->have_new_ctrl)
->> +                continue;
->> +
->> +            err = resctrl_arch_update_one(r, d, closid, t,
->> +                              cfg->new_ctrl);
->> +            if (err)
->> +                return err;
->> +        }
->> +    }
->> +
->> +    return 0;
->> +}
-
+Link to v8: https://lore.kernel.org/linux-iio/cover.1770403407.git.marcelo.schmitt@analog.com/
 
 Thanks,
+Marcelo
 
-Ben
+Marcelo Schmitt (8):
+  dt-bindings: iio: adc: adi,ad4030: Reference spi-peripheral-props
+  Docs: iio: ad4030: Add double PWM SPI offload doc
+  dt-bindings: iio: adc: adi,ad4030: Add PWM
+  iio: adc: ad4030: Use BIT macro to improve code readability
+  iio: adc: ad4030: Add SPI offload support
+  dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216 and ADAQ4224
+  iio: adc: ad4030: Add support for ADAQ4216 and ADAQ4224
+  iio: adc: ad4030: Support common-mode channels with SPI offloading
+
+ .../bindings/iio/adc/adi,ad4030.yaml          |  64 ++
+ Documentation/iio/ad4030.rst                  |  39 ++
+ drivers/iio/adc/Kconfig                       |   5 +
+ drivers/iio/adc/ad4030.c                      | 647 +++++++++++++++++-
+ 4 files changed, 732 insertions(+), 23 deletions(-)
+
+
+base-commit: 0ec5ed7c95d1ba6a74491928ff38abb351dbed36
+prerequisite-patch-id: f3b2f63f86731322c9b10e1bae0952a12219258a
+-- 
+2.39.2
 
