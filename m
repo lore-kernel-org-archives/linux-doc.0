@@ -1,322 +1,111 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010062.outbound.protection.outlook.com [52.101.193.62])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC89E335BC0;
-	Tue, 17 Feb 2026 16:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771346349; cv=fail; b=jf28S97kWHzIqG5oymYz6p80brJZzyrnB+8HpxZCybUP11t0gxW6qjN1qNmDH+Sq4zq4u3ewO+zGu96PotcWZqKpxvNejqkn7UpZtstz5bdqPxqvpDzLBoEhZfIPpoGFMBNG8vscejfjf24zl1oAFV0MVbx46vdSHntL5OsrSb0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771346349; c=relaxed/simple;
-	bh=xzrNd6KyxoMFviZiDMFNMQtCf1bhEHmSPxJAlOJ09T4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=t4j7LqTJT4y6SzgdRueXvxoOShABi+klag9wtGHbBkwjqZwZvtF9IQo16A9tjIlj52J71dqAIyO9WBuEfUyJlEgD/nwNUx2E/ho8Xzf2Sf+bBJM/ft940aUTy3qLWmLBb2lHbq2aDq9KhsQIGduZ54DLV9by/dwZLoRWvgrH3UU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sIfScgfn; arc=fail smtp.client-ip=52.101.193.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A18737107D;
+	Tue, 17 Feb 2026 17:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771349879; cv=none; b=aAONJMYFqWN13K6UBrtY8hw+SAGdp6b0/eUkITHdQu0InKPJFHz7fkUKJXV1sCqjc1tCRxpC5yooLRfK/wwHPvG0E1ubfIfzis3rYiomZdKM50bg0mo28SX32XOLJXtEtc0yZH5vCLECHCWa5e9IcuRUDF7uG7xbdshYcm3wMQM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771349879; c=relaxed/simple;
+	bh=c0eLjxbJ+JYIp4tuQWsxqvXN+OxfmcSd+XrBhArs5UY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=URw4YE96fFO6/0kfgW6PqCv6L6QLKU2xKFlv9pcQLGTXMGzEIDKaq/6FP/q8RY9vWdaEBQwufaquefRAj2YkI3xhi6axam59eKBgpnMBP9PxsF/Ur371olJ25smBoLneV+Pk9i4VJ2UK6clJIzqSJVUe7PRTIQvcDBy6On4hpR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XyfELRde; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sIfScgfn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dTDvDlLzKpmt9KUnBLiJ6bWdUBeYQLsom/v5eNFFSQH7fCQRuOOgWhyfqKYMGB4jmsaA/LU7FuXEXWEtvm45qTKW0Yi4q1rbzgiJfJMP4y5819qUF9ZFIgBUyfn/QbS6RxQ2NB+Dk7XExEfJXXe9PmJ5GlA+ukKPSCnGg9Q5ybQKPKw6kBSwGy+l45E61+RuEc1lV1qhRWBI/ZHzaj4VwHm9aW3SlRVuGePJrLiD6pnG680Ocqe4PQsnTCJv3B8Ots7q1KkWs/g58VJsaUlbk35vnzcDgDTZMPHwrzGMkRuW47m64TRbjgWTf7Go4bd0qCJ96SZopAzZWgVdJKolqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oqX/L+nySKWDDY2opFCgHkdffPHTFRcwt13JayVOLDg=;
- b=wiyCeCnTomfTJZYhv52kdHsTVQ1cxgQWEOfunUUfK6WbI30q1r9YsyV2PFF6jOkVEJtme0iSDjnxjQaCbfKgKDR8q3qGk2nawou7putMxXmcRryek1ckrG4yFMBdbOpL4bPX1dy8Aym31fQBbmXKu5voR460CCAHshu2O4eRFceHOzNs1Ru7mAN/tLSv1hDvYppx/gQiQomg6f1cbdG91gTu3VnTwvuNWIKy76df/x4BKt+Ia0e+9FXT01Q/ZVkTIdqMEdHjp0ftdkXd3cHNJiZN8WZHCVG0P+Rw9v/qI3lG/DlKWeci0PCthu2MnRCpRnqeAkAf5X6Ve9HMZm6cGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oqX/L+nySKWDDY2opFCgHkdffPHTFRcwt13JayVOLDg=;
- b=sIfScgfnFHpTltQeBTAMAkQzVET0pQwlIjL8GKfVeGfvx9mhuSO9SwywKuL8JlMJ/OFES58FJTzwoXB8I3g/nxi/7hwKRqpC/+jsmMm/cDtSaCvVxgCxxn7FL1u+CtXSs0XqDQEHKFS6OCM9e2NIuVUfMJJbDio3g+pLrdFhWpg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by SA0PR12MB4365.namprd12.prod.outlook.com
- (2603:10b6:806:96::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Tue, 17 Feb
- 2026 16:39:03 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::4d0e:603a:42fc:7c0]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::4d0e:603a:42fc:7c0%3]) with mapi id 15.20.9611.008; Tue, 17 Feb 2026
- 16:39:02 +0000
-Message-ID: <1e91b8ed-b4b3-4d95-94e2-916b06511185@amd.com>
-Date: Tue, 17 Feb 2026 10:38:58 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-To: Ben Horgan <ben.horgan@arm.com>, "Moger, Babu" <bmoger@amd.com>,
- Reinette Chatre <reinette.chatre@intel.com>, "Luck, Tony"
- <tony.luck@intel.com>
-Cc: "corbet@lwn.net" <corbet@lwn.net>,
- "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
- "james.morse@arm.com" <james.morse@arm.com>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
- "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
- "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
- <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
- "pmladek@suse.com" <pmladek@suse.com>,
- "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
- "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "fvdl@google.com" <fvdl@google.com>,
- "lirongqing@baidu.com" <lirongqing@baidu.com>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
- "Shukla, Manali" <Manali.Shukla@amd.com>,
- "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
- "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "naveen@kernel.org" <naveen@kernel.org>,
- "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "peternewman@google.com" <peternewman@google.com>,
- "eranian@google.com" <eranian@google.com>,
- "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
-References: <cover.1769029977.git.babu.moger@amd.com>
- <17c9c0c252dcfe707dffe5986e7c98cd121f7cef.1769029977.git.babu.moger@amd.com>
- <aXk8hRtv6ATEjW8A@agluck-desk3>
- <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
- <aXpDdUQHCnQyhcL3@agluck-desk3>
- <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
- <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
- <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
- <abb049fa-3a3d-4601-9ae3-61eeb7fd8fcf@amd.com>
- <1a0a7306-f833-45a8-8f2b-c6d2e8b98ff5@intel.com>
- <fd7e0779-7e29-461d-adb6-0568a81ec59e@arm.com>
- <fbaa21b3-d010-4b89-8e87-f13d3f176ea3@amd.com>
- <951b9a1f-a9d7-4834-b6b8-61417e984f2f@arm.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <951b9a1f-a9d7-4834-b6b8-61417e984f2f@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9PR11CA0016.namprd11.prod.outlook.com
- (2603:10b6:806:6e::21) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XyfELRde"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771349878; x=1802885878;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c0eLjxbJ+JYIp4tuQWsxqvXN+OxfmcSd+XrBhArs5UY=;
+  b=XyfELRde3yFwBGmDJ5AEfuVmCjrIO0dUeAIc90bwZHc9EW8P1TtXjodT
+   hhXTPbAFKSY+QHiHX4yT5qa1KS1Bq/K02Js4ByFW7AeeUZ7bPLhi6p/M/
+   g/UjcmFhRxs8Mgp+TZIAmPNydGPY2Q3HiTPsNi2YiiFYOkUekpkvO06nb
+   NrvxzFsUhmwhnMaohm4WSZTji2/zlwRDOQSvbpnKYsw2TnSpS4DjSzaxn
+   goWxfF6yEX8ng9ptTX19FJF8jHuk9Gzxq069+bwzlqm58g6lnFOL8q4xz
+   kZ/IxF8ktg9NnU5rNyRN5A8LM1FgLKdDPsOAPHxOJXobMf6eIv21MSYkw
+   Q==;
+X-CSE-ConnectionGUID: 5kJJA0hwQTyBxlq+3lOwCw==
+X-CSE-MsgGUID: Wez49xxuQs2NxSKjcOPy4w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11704"; a="72470897"
+X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
+   d="scan'208";a="72470897"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Feb 2026 09:37:58 -0800
+X-CSE-ConnectionGUID: wmuDun/uTZqz/bXRySrkfQ==
+X-CSE-MsgGUID: K77oRrEaTpWvMXkUYsQJbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,296,1763452800"; 
+   d="scan'208";a="213190873"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 17 Feb 2026 09:37:56 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vsP1F-0000000033p-2iOH;
+	Tue, 17 Feb 2026 17:37:53 +0000
+Date: Tue, 17 Feb 2026 18:37:40 +0100
+From: kernel test robot <lkp@intel.com>
+To: Ian Ray <ian.ray@gehealthcare.com>, Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ian Ray <ian.ray@gehealthcare.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: (ina2xx) Add support for INA234
+Message-ID: <202602171807.LY5U6PB6-lkp@intel.com>
+References: <20260217092325.15867-2-ian.ray@gehealthcare.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|SA0PR12MB4365:EE_
-X-MS-Office365-Filtering-Correlation-Id: c1e16a38-3ea0-4c9d-3d1d-08de6e430eff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WWZWTTZFdmZORERKUnBRZ25yL0cwbG5CNTZmM1RrcE14QTI5dU94UzJJYy9Q?=
- =?utf-8?B?anVBUWZ3S0txL25XSHZKOVQxRVA0c1hJRlRKT0VCWGJFYVZOQVljTWVyejFB?=
- =?utf-8?B?K21xVDc0RmN2SGRvQTcvWXRpRWxYOVYyU2k5YWd3VzBzVTNUZytKTmI0Ymc1?=
- =?utf-8?B?LzVmaTBrdGQzY2VYU3diZTBiRzZxYUdFQ3BKNys3THhMOHZKUUx2QjJpUDRy?=
- =?utf-8?B?VjJSTHd2U3NQQlg2NDRiYmw4VFh3Tk41N1JkRlBxQkQ0S1ZFUjlodzR2dXFU?=
- =?utf-8?B?KzdqeTlqN0QxdHBUTmFwTFdTZWdLMWs1MFg4Rk94RzNpVXNtMmU0Z1MvS1Nq?=
- =?utf-8?B?eFNueWFISGNnYXFKNWNITU1oL2hLTFY1ajg3OUdKRUtEUlNQRXZ3U2NWU0I5?=
- =?utf-8?B?UFFQOFRYaHdTU2J1VUkyN0VzMU5mekJIc2tWd0g2cFRTWmxKUzFZd3ZzbWlQ?=
- =?utf-8?B?RlA2eGxOQVdUK05qMFpwYmV0OTcvcm95Mm9kcFVWQjl0RzgxazRNYVFCalJ4?=
- =?utf-8?B?STQwbEMvaVEweXR1QU5ZWUZ2cXQzdW0rbkNtWFZ3WUlrUnhlUmV6WGI2T09M?=
- =?utf-8?B?K3VhbDFPTXZXQlgwem5uK0tDVG1nR1FEdk96eThKOC9MS2V1YXl3NWdtblUx?=
- =?utf-8?B?ZmhQdEpIalYxR0g5TTlBU2RNS05rRlZFU1cvZzBvaFpFbW1PbWlRcEN2WHJJ?=
- =?utf-8?B?dmdDUW9TdTMzaDR4dHA4TEFLWmU3SGYzVzFBNk9QYTZ5a3p6UGJFb3JCelNu?=
- =?utf-8?B?VnFxK0ZhdDE1dUlzT0ppaGRMcUptQmRzaTFkUmhsV2kyeFA5TSs1YWZESkVU?=
- =?utf-8?B?Zm5LZ3pOM3VkK0hvVGl2ckd1Ujd0M1Fvbkh2SER5RTUrZC8wSDFOejFEdFZa?=
- =?utf-8?B?bGl2Y1FnVVAxT3oyTHJVaElNSE01YUMydTBudGtFeXMyMy9HNEpJSnFjUVlI?=
- =?utf-8?B?QlU5NStDWGYySzFZUi9RQ0luVmV4Y0NpQTNiQ3k2RTVVUWkxWHR0RXIwamRF?=
- =?utf-8?B?QUEyV3Z2UmpWenBrRktTMkxmdFZuc1RNL1pZK2dmekx1YVlCVXRzRGFwYURW?=
- =?utf-8?B?QXZldnQ0c01wNW50M1RIVVBYQ1g2aWZqNE8wTXI1amYyR29KSEZwQ3U0QW9V?=
- =?utf-8?B?RjNuT2M0S1NFMjFpU25IaldELzg0aGtFK1RERlptcGR3UHI2Q3VvSktSVy9w?=
- =?utf-8?B?UmovenlwbFMrMDFZbjloWE5YU1MyOTRxYkJKdDFuUjFRWWlmZUVDVkEyNUpY?=
- =?utf-8?B?OGdnbjlEcVNFeDZ0MGc0VWVLNVpQdkxDOXVDcnF5RVYyaGRaUVIvOGtnL0p3?=
- =?utf-8?B?VEE0ekltd0tvNDFFNWdwQ01GdFR2aCtISjBoZEEydmFvT1BjL2JMTWhCVUUx?=
- =?utf-8?B?ZEtSME1xYmQwcEdrV3hGWnovRWk5YWlmZnVxVlViOW0vaTFFZEhCSnlZamVT?=
- =?utf-8?B?NHBEMzJHREVUOXBYZjgycjF5NHVTVytHdmdEa05hVERObWh1MW1obVowejNl?=
- =?utf-8?B?dFR0cCtOK0V0a2FVUkpyTVdKeXl4Zk1wRFBJZ0plem5TQVZ3N0lUNXJocVhz?=
- =?utf-8?B?SVZWenYyK0hzMm00a1ZKaUU5aGxvYVlISTV2VlhERmI4dXFGSlh4THVJL3Ju?=
- =?utf-8?B?V2ZqS1R5NkF5eS9VVTBScEwrZi9qQ2tqNk5GcG5YY3YxR3p6YkJGUmNZSE1W?=
- =?utf-8?B?d3ROTytJckxhVUxQZGROcDMvUXlOd2s5OUFFTm8vMzd0eEYrV09LU2hmTk04?=
- =?utf-8?B?aW13aGQ2YlVGVm0xTVUxKytuVFdxNGY1aXN4azhUL09oWTFBUmh5cnZyeC9h?=
- =?utf-8?B?Unp5Rm02MTJRSHpXWW1KdmYxaGlqUy9Da0plc0VEcmI5ZVc5cFMxVnBpb3Vw?=
- =?utf-8?B?M3ErYkc4TDVlbHd5TStQNmhuMWh6dlh1ckp4amEzd1JmeWgvQmVEdFJKZ2dK?=
- =?utf-8?B?bzExME11dEhNeXNiQkh1ODZHdCtiWlJnemMybHZveE9sU2c5Tm5RSFhkdDds?=
- =?utf-8?B?Wm5zMDNiaEUwUEJ4SVBIVWZodEkzZmx0YjJ1TDZ4dXR6MlhabXRySWxjTEVp?=
- =?utf-8?B?NFVZaTllZnk1bEdGaE01R241eW9DNU5TNExpZzBJajVrb2NPWWEwcklld0Z4?=
- =?utf-8?Q?1Pmw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TThQZ3dpTGZaUEQ0QUtpMFhLaE5oVTZUVjE1Z3N4emN2R1VDZC9GUmV6WERK?=
- =?utf-8?B?RExqcThiOTZsTzUrUWxzVWxPZ0NzckZISk55aWo4SG15Zjl6eC9lT0ZmY1dO?=
- =?utf-8?B?QmcybkhCS3pVWXVSYWZvYWNHMEROdVp6bXd3cTh5eS84ZGtscW1HNVYvc2h3?=
- =?utf-8?B?a0ljS1JlekRUVm9BZ2szSzZWbUthb2wzTUJUcHBDQ3k3U0xJaFdFdWgveEgx?=
- =?utf-8?B?SmVPV0hqWUd3dkFiU08reXhqV05mc3FYdHptaW5YTldCT21ubXBRb2pjbkxn?=
- =?utf-8?B?MCtKRWloREU1ZldJNDVLYmMwZWc3SVRNYjErQk1kaFZuaVVaQ0J4U0R0NkxT?=
- =?utf-8?B?OGdicVdIWUYvL2F1NlFXQWFRNGVOQzVGMmEvYlRXVFhzT2tNdlVvMDJuSkV2?=
- =?utf-8?B?bFo2a0hIS2MyTEVtZUhvbFZiRVl0OXVOSzM5bVNkWTVkZmtRd2NoM3VheUZL?=
- =?utf-8?B?ZGQ2aGxXakF2Ny9Hb0hiRStFcWl4UEFUYU82K0tYK0N0VzN5NXZDOHF2d3Vn?=
- =?utf-8?B?UlQxa0lCM3ZES0ZiYXY2VGhpb3ovT0V5UGhROWlHdlpLYlN3SURYdEhlU203?=
- =?utf-8?B?emdBQTUvODlrSEZYS1BvbkVaNWlRMGxueXpNaVpmTzBidUk2WUwrZjZMaGM4?=
- =?utf-8?B?VytvRXhNeVNybW1Wd25TaDF5MXErQzFDckcrU0QxQklEZmxqMFBSTitCRnpn?=
- =?utf-8?B?YVZjazV4Y0lWVUpEN1FVOEQ3a0ZpWFFjZmRMdkNrc0VLV05ib3g5c2hzR01l?=
- =?utf-8?B?TkJ4SHRMZGpMRVlvMk9oN3c2dXNoUk1aSFJ5U0kycE9IMkdWcmV3dXU0SzBR?=
- =?utf-8?B?Y3Bieit3S0hYM2VDMCtLVHlWVUxnd25PVFZ2Wmh1c20wMndzWDhsZTFrUWV3?=
- =?utf-8?B?TTdBdjlBWlNodElmYXdYcWJNQ0N0VDdzRlprMVhDb3BSTGZCZzliaDNQYVhU?=
- =?utf-8?B?emY1R2l2QXFDQXM3S002VFl6RlYxc1VoVUxyZ3pIOWxscUpjTVFqb1RWMWxG?=
- =?utf-8?B?eWs2c0tjRnFSY0UwRjY1cUVsN0hiUGNRbXVEeUNteDI5SmdLcVdwbTlZaSsr?=
- =?utf-8?B?VkhUMVZKZEZCY093ZUltQ3BJY2JzaTB5RUFaMkw1UVpVc0IzZVpvT3NzOENR?=
- =?utf-8?B?L2tONng3eERsekZ1dyszYTgxM2pvSFdIYlptRWJ0R2pFdzJIWkc0N3NqNFVa?=
- =?utf-8?B?cHNDcnBuNTAwbS9IVURDdHJya2FQVkI4Tm9EY3VzQnZhR1BHQzdwRFNEemlo?=
- =?utf-8?B?dms4TXhHdlpDbDRsS2lUOHFXclR5WktqZFN6U1pzb3VnR25EU2M2Wmg0bERM?=
- =?utf-8?B?bHl4YzBGL3U4bXBoRXZuZnJ5S1ZWcUg2NXI4ZnVraW1lenNRTWRueGxBRDZy?=
- =?utf-8?B?YVQ1SUxFbEZJbVFISzgrOGVxRElvNHFFdUtmRG5abW1oK2xCTEZSUmhvb1lX?=
- =?utf-8?B?aU5nWnR4ZFpIa0k0bmQ0VUp3ekpaNjNiZy9PTnNwSGp1OWIwK0hVazk0cXdh?=
- =?utf-8?B?allYdldUbFlEY3B0cTJEckdIeERKcjJuTW1NdEQ3eWtFL2JMTEVaUWVtVVZN?=
- =?utf-8?B?STU2cFR2VzVvQmZrNVhlUnIzTmZ6eEFqL3lzdDJtbXdTSnAybmtaM0Rieitn?=
- =?utf-8?B?OERTYkZBQS9mRlpnS054aXBnbmN0Z0hMUTF5ODhnc0p3WlJvd3ExeFdZUlg0?=
- =?utf-8?B?VFAwRFU5SmwxWVl1VXhUejlFUWN6dnZhOGV1c1U2elFOMGVla2ZVWjVYb3Qx?=
- =?utf-8?B?VFUyTXpXWW03ZzVZYmJPWEhTMCtleEI3TDJUNTVPbXlXRHJhNHAxbkxidFB2?=
- =?utf-8?B?SVJOTXpSajVUVHhZMElpcmRXY01jQzRHMmhuTzR5Z1hUQUpSNHRia3ZLQ0Nn?=
- =?utf-8?B?aXZMSTc4NldDYzVrenFybWdlMmFvT2tFQzZXSU9lTkp5Tkd1bWhPN2pSV2Rp?=
- =?utf-8?B?OGxvZjdXN3ZZbS9Zd1JvWWRNWHNEVVNvMUVRL1JpQTBkc1VpbGtBQmh1ZVhY?=
- =?utf-8?B?dFRDQi82TnR2WE44bnNrRHB6c3phN3IzNTNpMWRNMXdwZVVJMUduaDRReUZw?=
- =?utf-8?B?UUFORUJkRURmbUVKeDJPbXFuZS9wQm0rSmEvVjhsSktpTHNxMDU4b2JqSldZ?=
- =?utf-8?B?dmhnTHNJSE9WVm1zRG5yZXg4UHFHd3VxdGpnSDlpOTh0MnRjaXF5Z1RuLzdO?=
- =?utf-8?B?SUFmeFlmVG5JSHgxT2h3VExvMktNNVA0M3kxbkR0RHVnUlZia3ZrY2g5NVlK?=
- =?utf-8?B?Wlc4SEt1MHFIMnllMGlKTmt1SkhHQ0l0aWdldHlISWt2dS9IOHo0QXoycXBk?=
- =?utf-8?Q?iUDcZmbEGD1nJnLs52?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1e16a38-3ea0-4c9d-3d1d-08de6e430eff
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2026 16:39:02.8455
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lQk91H7gzfRm2/qeC7/UrxEHQEygGyLfxnpPgBlizsInO5SJUQR7X5D1GOVAkhr3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4365
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260217092325.15867-2-ian.ray@gehealthcare.com>
 
-Hi Ben,
+Hi Ian,
 
-On 2/17/26 09:56, Ben Horgan wrote:
-> Hi Babu,
->
-> On 2/16/26 22:52, Moger, Babu wrote:
->> Hi Ben,
->>
->> On 2/16/2026 9:41 AM, Ben Horgan wrote:
->>> Hi Babu, Reinette,
->>>
->>> On 2/14/26 00:10, Reinette Chatre wrote:
->>>> Hi Babu,
->>>>
->>>> On 2/13/26 8:37 AM, Moger, Babu wrote:
->>>>> Hi Reinette,
->>>>>
->>>>> On 2/10/2026 10:17 AM, Reinette Chatre wrote:
->>>>>> Hi Babu,
->>>>>>
->>>>>> On 1/28/26 9:44 AM, Moger, Babu wrote:
->>>>>>>
->>>>>>> On 1/28/2026 11:41 AM, Moger, Babu wrote:
->>>>>>>>> On Wed, Jan 28, 2026 at 10:01:39AM -0600, Moger, Babu wrote:
->>>>>>>>>> On 1/27/2026 4:30 PM, Luck, Tony wrote:
->>>>>>>>> Babu,
->>>>>>>>>
->>>>>>>>> I've read a bit more of the code now and I think I understand more.
->>>>>>>>>
->>>>>>>>> Some useful additions to your explanation.
->>>>>>>>>
->>>>>>>>> 1) Only one CTRL group can be marked as PLZA
->>>>>>>> Yes. Correct.
->>>>>> Why limit it to one CTRL_MON group and why not support it for MON
->>>>>> groups?
->>>>> There can be only one PLZA configuration in a system. The values in
->>>>> the MSR_IA32_PQR_PLZA_ASSOC register (RMID, RMID_EN, CLOSID,
->>>>> CLOSID_EN) must be identical across all logical processors. The only
->>>>> field that may differ is PLZA_EN.
->>> Does this have any effect on hypervisors?
->> Because hypervisor runs at CPL0, there could be some use case. I have
->> not completely understood that part.
->>
->>>> ah - this is a significant part that I missed. Since this is a per-
->>>> CPU register it seems
->>> I also missed that.
->>>
->>>> to have the ability for expanded use in the future where different
->>>> CLOSID and RMID may be
->>>> written to it? Is PLZA leaving room for such future enhancement or
->>>> does the spec contain
->>>> the text that state "The values in the MSR_IA32_PQR_PLZA_ASSOC
->>>> register (RMID, RMID_EN,
->>>> CLOSID, CLOSID_EN) must be identical across all logical processors."?
->>>> That is, "forever
->>>> and always"?
->>>>
->>>> If I understand correctly MPAM could have different PARTID and PMG
->>>> for kernel use so we
->>>> need to consider these different architectural behaviors.
->>> Yes, MPAM has a per-cpu register MPAM1_EL1.
->>>
->> oh ok.
->>
->>>>> I was initially unsure which RMID should be used when PLZA is
->>>>> enabled on MON groups.
->>>>>
->>>>> After re-evaluating, enabling PLZA on MON groups is still feasible:
->>>>>
->>>>> 1. Only one group in the system can have PLZA enabled.
->>>>> 2. If PLZA is enabled on CTRL_MON group then we cannot enable PLZA
->>>>> on MON group.
->>>>> 3. If PLZA is enabled on the CTRL_MON group, then the CLOSID and
->>>>> RMID of the CTRL_MON group can be written.
->>>>> 4. If PLZA is enabled on a MON group, then the CLOSID of the
->>>>> CTRL_MON group can be used, while the RMID of the MON group can be
->>>>> written.
->>> Given that CLOSID and RMID are fixed once in the PLZA configuration
->>> could this be simplified by just assuming they have the values of the
->>> default group, CLOSID=0 and RMID=0 and let the user base there
->>> configuration on that?
->>>
->> I didn't understand this question. There are 16 CLOSIDs and 1024 RMIDs.
->> We can use any one of these to enable PLZA.  It is not fixed in that sense.
-> Sorry, I wasn't clear. What I'm trying to understand is what you gain by
-> this flexibility. Given that the values CLOSID and the RMID are just
-> identifiers within the hardware and have only the meaning they are given
-> by the grouping and controls/monitors set up by resctrl (or any other
-> software interface) would you lose anything by just saying the PLZA
-> group has CLOSID=0 and RMID=0. Is there value in changing the PLZA
-> CLOSID and RMID or can the same effect happen by just changing the
-> resctrl configuration?
->
-> I was also wondering if using the default group this way would mean that
-> you wouldn't need to reserve the group for only kernel use.
+kernel test robot noticed the following build warnings:
 
-Yes, that is an option, but it becomes too restrictive. Would this 
-approach work for the ARM implementation?
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next krzk-dt/for-next next-20260216]
+[cannot apply to linus/master v6.16-rc1]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-If a user wants to keep a selective set of tasks running at different 
-allocation levels, they would need to create another new group, move all 
-tasks  from default group to new group, and leave only the selected 
-tasks in the default group.
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Ray/hwmon-ina2xx-Add-support-for-INA234/20260217-172450
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20260217092325.15867-2-ian.ray%40gehealthcare.com
+patch subject: [PATCH 2/2] hwmon: (ina2xx) Add support for INA234
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260217/202602171807.LY5U6PB6-lkp@intel.com/reproduce)
 
-And if that group is later deleted, all tasks will automatically return 
-to the default group.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602171807.LY5U6PB6-lkp@intel.com/
 
-Thanks,
-Babu
+All warnings (new ones prefixed by >>):
 
+   Runtime Survivability
+   ===================== [docutils]
+>> Documentation/hwmon/ina2xx.rst:138: WARNING: Title underline too short.
+
+
+vim +138 Documentation/hwmon/ina2xx.rst
+
+9a629d7ada78c3 Documentation/hwmon/ina2xx     Nicolin Chen 2018-11-19  136  
+d97d11d21ca0a7 Documentation/hwmon/ina2xx.rst Ian Ray      2026-02-17  137  Additional sysfs entries for ina226, ina230, ina231, ina234, ina260, and sy24655
+52172ad87a22ed Documentation/hwmon/ina2xx.rst Wenliang Yan 2024-11-06 @138  ------------------------------------------------------------------------
+9a629d7ada78c3 Documentation/hwmon/ina2xx     Nicolin Chen 2018-11-19  139  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
