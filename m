@@ -1,107 +1,355 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077734A32;
-	Tue, 17 Feb 2026 15:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3645280A29;
+	Tue, 17 Feb 2026 15:56:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771341417; cv=none; b=I7t5+HYPE2R11Obv7ucOs/yVT6oU1cyOth0MfzhGCD2v9/Q+eAXwAs7TPDTLeK1JKa3FFN1utZ8OQ6/m9s4RXr3WtxKbRpcEyw+Pw0+P7uo4i+90bZT0aopoyBf+o4shawZaPs6R+WNthSflFYCjFSkm4kseAa7dnuaaBUVCNeE=
+	t=1771343816; cv=none; b=ucz3Z0HHNOcPFZPRgF+FRb1hLpSt1Fd4QyzbFJldJ55PvsCB5e9l2AHUWloXCjt1pGuKikyvJhwOlU5FBtT02Et9s1Z0MHATxtn2b4PTPFN7EUeAyDnbHtOG5fYNSt06PROrkgJV6COEGlX0iAXk0xU0vhIu57+vw3KK9JkFGUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771341417; c=relaxed/simple;
-	bh=PQS9MrJH71dUd00Df5gWcVQOg7DLwo2jFHIJ+AkIGv4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F98/CrvubEVKnvp9IVD5ERDusif0Xnvf5O5cXulL+g+NzEYSURtUBWRKkUV3G9jaksUDp3pu8Sh8tR8QXwrpz06WBqWhLO7yaxYCttVikgnAEl6VIv/zdks38SDG3j9S0lR0Sc64HuicpCZ0KH1e5qz/Bu3rzBy8GlWMiQ1L6eI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAPjneMR; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAPjneMR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5950C4CEF7;
-	Tue, 17 Feb 2026 15:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771341416;
-	bh=PQS9MrJH71dUd00Df5gWcVQOg7DLwo2jFHIJ+AkIGv4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hAPjneMROTU4OT7z0D+nLcriH2LhEVLvcEgtEx+eiFvVC7zqc6kyx2oAcj9sPd7Rt
-	 aNPZcVn7bXBsuuyfmByENnRHJinNEUAuwmcsk82qbiGrF8r8SZ5LdgFzfjb7Wv8YWJ
-	 C4KjPGoLMLe2UpozsT3P262ulzou8bkR0X7HbYLgqxjGoOku+tNTMxLEDC+j4JQ6C3
-	 2PcQQRLU+Sz48OnGoFwYHv2rN4vMHSshDUKo7EFlTemP87gcQsNYBWgoOdZjs0Y8Sb
-	 /0QbHwytK0uCChT1bxfbHitM1u0zJpyFv+cebPvcGu7U9avwDep5BsvD8bz4g1LWNm
-	 ttfZwgF+DLstg==
-Date: Tue, 17 Feb 2026 15:16:51 +0000
-From: Will Deacon <will@kernel.org>
-To: =?iso-8859-1?Q?Pierre-Cl=E9ment?= Tosi <ptosi@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, suzuki.poulose@arm.com,
-	maz@kernel.org, corbet@lwn.net, yee.lee@mediatek.com,
-	ascull@google.com, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] arm64: Optionally disable EL0 MTE via command-line
-Message-ID: <aZSGY_yeNEeEr4U_@willie-the-truck>
-References: <plslbeuzfag5dfizunxmhyw5axxbuz7r3jdlhjluzdwrm4rtzk@bm5xmxzmy6v3>
- <aZRIHZ2Wq81S-FZY@arm.com>
- <p7wloz3ospiwaytzzns43hbyfrxfjoca6ljols3dq4hpha5y2v@weadvhpdng7a>
- <aZRY9UTSgw0Zf2Y-@willie-the-truck>
- <2evhrm4tg52nxru7xeegs5ut7alnnczv5w2xsgkvhgbdlxdrht@shdj2wb4wcql>
+	s=arc-20240116; t=1771343816; c=relaxed/simple;
+	bh=0tsck5TBobyttukqvd7S/d8zwnn7EnoYfkthuK0nksw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=B78B4JQBVurmckHh9BoduGiqhw5yeyfeIeW5Skhm2ikCuZ52GyteFxGAlaui8d9WwC3A+hKrJqW+WSCrAIVhJ6ucMv6xJdk601QR7/4oV02Kk4hYKi5ZTtnt7oCW66KG+DK6JH4n9/hxi7t1tREz3fYRs/Wmn/WblkkE52bunME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 382E61477;
+	Tue, 17 Feb 2026 07:56:46 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B9FB33F632;
+	Tue, 17 Feb 2026 07:56:45 -0800 (PST)
+Message-ID: <951b9a1f-a9d7-4834-b6b8-61417e984f2f@arm.com>
+Date: Tue, 17 Feb 2026 15:56:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+From: Ben Horgan <ben.horgan@arm.com>
+Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
+ context switch handling
+To: "Moger, Babu" <bmoger@amd.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu"
+ <Babu.Moger@amd.com>, "Luck, Tony" <tony.luck@intel.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>,
+ "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+ "james.morse@arm.com" <james.morse@arm.com>,
+ "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+ "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+ "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+ "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
+ <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+ "pmladek@suse.com" <pmladek@suse.com>,
+ "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
+ "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+ "fvdl@google.com" <fvdl@google.com>,
+ "lirongqing@baidu.com" <lirongqing@baidu.com>,
+ "bhelgaas@google.com" <bhelgaas@google.com>,
+ "seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
+ "Shukla, Manali" <Manali.Shukla@amd.com>,
+ "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
+ "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+ "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+ "naveen@kernel.org" <naveen@kernel.org>,
+ "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
+ "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "peternewman@google.com" <peternewman@google.com>,
+ "eranian@google.com" <eranian@google.com>,
+ "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
+References: <cover.1769029977.git.babu.moger@amd.com>
+ <17c9c0c252dcfe707dffe5986e7c98cd121f7cef.1769029977.git.babu.moger@amd.com>
+ <aXk8hRtv6ATEjW8A@agluck-desk3>
+ <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
+ <aXpDdUQHCnQyhcL3@agluck-desk3>
+ <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
+ <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
+ <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
+ <abb049fa-3a3d-4601-9ae3-61eeb7fd8fcf@amd.com>
+ <1a0a7306-f833-45a8-8f2b-c6d2e8b98ff5@intel.com>
+ <fd7e0779-7e29-461d-adb6-0568a81ec59e@arm.com>
+ <fbaa21b3-d010-4b89-8e87-f13d3f176ea3@amd.com>
+Content-Language: en-US
+In-Reply-To: <fbaa21b3-d010-4b89-8e87-f13d3f176ea3@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <2evhrm4tg52nxru7xeegs5ut7alnnczv5w2xsgkvhgbdlxdrht@shdj2wb4wcql>
 
-On Tue, Feb 17, 2026 at 01:31:49PM +0100, Pierre-Cl�ment Tosi wrote:
-> On Tue, Feb 17, 2026 at 12:03:01PM +0000, Will Deacon wrote:
-> > On Tue, Feb 17, 2026 at 12:20:02PM +0100, Pierre-Cl�ment Tosi wrote:
-> > > Hi Catalin,
-> > > 
-> > > On Tue, Feb 17, 2026 at 10:51:24AM +0000, Catalin Marinas wrote:
-> > > > On Fri, Feb 13, 2026 at 12:51:07PM +0100, Pierre-Cl�ment Tosi wrote:
-> > > > > Although it is currently possible to fully disable MTE on MTE-capable
-> > > > > CPUs (with arm64.nomte or id_aa64pfr1.mte=0) and to only use MTE in
-> > > > > userspace (with kasan=off), there is no way to limit the use of MTE to
-> > > > > the kernel because CPU capabilities are traditionally exposed directly
-> > > > > to userspace.
-> > > > > 
-> > > > > To address this, introduce a new cmdline argument (inspired by the
-> > > > > existing arm64.nomte) to only expose the MTE capability of the CPU to
-> > > > > the kernel. Combined with KASAN, this results in only the kernel using
-> > > > > the feature, while HWCAP2_MTE and the corresponding MSR ID_AA64PFR1_EL1
-> > > > > field are hidden from userspace.
-> > > > [...]
-> > > > > +	arm64.nomte_el0	[ARM64] Unconditionally disable Memory Tagging Extension
-> > > > > +			support for userspace
-> > > > 
-> > > > Why would we need this? It's a user-space choice whether it uses MTE or
-> > > > not. It's not like the kernel is forcing it onto the user processes.
-> > > 
-> > > Correct. This patch is useful when working with a pre-compiled distribution to
-> > > ensure that a MTE-enabled userspace falls back to untagged allocations, without
-> > > the need to introduce system-wide policies (and ABIs) for said distribution,
-> > > which would also be inherently less robust than this kernel-level gating.
-> > > 
-> > > In Android, we can simply append the flag to the kernel cmdline instead of
-> > > relying on sysprops (or similar early userspace concepts) and hoping that all
-> > > users are properly gated on that sysprop, etc. This can be used for A/B testing
-> > > of the feature or as a highly-reliable "remote kill switch", for example.
-> > 
-> > Why isn't arm64.nomte sufficient for that? It seems weird to insist on
-> > tag-based KASAN support for the purposes of userspace A/B testing...
+Hi Babu,
+
+On 2/16/26 22:52, Moger, Babu wrote:
+> Hi Ben,
 > 
-> For a given architecture (and product goals), profiling of MTE might lead to the
-> performance overhead being acceptable in the kernel - where security concerns
-> are more prominent - but not in userspace, resulting in tag-based KASAN being
-> required while a robust switch is needed to disable MTE in userspace but
-> arm64.nomte is too coarse for that.
+> On 2/16/2026 9:41 AM, Ben Horgan wrote:
+>> Hi Babu, Reinette,
+>>
+>> On 2/14/26 00:10, Reinette Chatre wrote:
+>>> Hi Babu,
+>>>
+>>> On 2/13/26 8:37 AM, Moger, Babu wrote:
+>>>> Hi Reinette,
+>>>>
+>>>> On 2/10/2026 10:17 AM, Reinette Chatre wrote:
+>>>>> Hi Babu,
+>>>>>
+>>>>> On 1/28/26 9:44 AM, Moger, Babu wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 1/28/2026 11:41 AM, Moger, Babu wrote:
+>>>>>>>> On Wed, Jan 28, 2026 at 10:01:39AM -0600, Moger, Babu wrote:
+>>>>>>>>> On 1/27/2026 4:30 PM, Luck, Tony wrote:
+>>>>>>>> Babu,
+>>>>>>>>
+>>>>>>>> I've read a bit more of the code now and I think I understand more.
+>>>>>>>>
+>>>>>>>> Some useful additions to your explanation.
+>>>>>>>>
+>>>>>>>> 1) Only one CTRL group can be marked as PLZA
+>>>>>>>
+>>>>>>> Yes. Correct.
+>>>>>
+>>>>> Why limit it to one CTRL_MON group and why not support it for MON
+>>>>> groups?
+>>>>
+>>>> There can be only one PLZA configuration in a system. The values in
+>>>> the MSR_IA32_PQR_PLZA_ASSOC register (RMID, RMID_EN, CLOSID,
+>>>> CLOSID_EN) must be identical across all logical processors. The only
+>>>> field that may differ is PLZA_EN.
+>>
+>> Does this have any effect on hypervisors?
+> 
+> Because hypervisor runs at CPL0, there could be some use case. I have
+> not completely understood that part.
+> 
+>>
+>>>
+>>> ah - this is a significant part that I missed. Since this is a per-
+>>> CPU register it seems
+>>
+>> I also missed that.
+>>
+>>> to have the ability for expanded use in the future where different
+>>> CLOSID and RMID may be
+>>> written to it? Is PLZA leaving room for such future enhancement or
+>>> does the spec contain
+>>> the text that state "The values in the MSR_IA32_PQR_PLZA_ASSOC
+>>> register (RMID, RMID_EN,
+>>> CLOSID, CLOSID_EN) must be identical across all logical processors."?
+>>> That is, "forever
+>>> and always"?
+>>>
+>>> If I understand correctly MPAM could have different PARTID and PMG
+>>> for kernel use so we
+>>> need to consider these different architectural behaviors.
+>>
+>> Yes, MPAM has a per-cpu register MPAM1_EL1.
+>>
+> 
+> oh ok.
+> 
+>>>
+>>>> I was initially unsure which RMID should be used when PLZA is
+>>>> enabled on MON groups.
+>>>>
+>>>> After re-evaluating, enabling PLZA on MON groups is still feasible:
+>>>>
+>>>> 1. Only one group in the system can have PLZA enabled.
+>>>> 2. If PLZA is enabled on CTRL_MON group then we cannot enable PLZA
+>>>> on MON group.
+>>>> 3. If PLZA is enabled on the CTRL_MON group, then the CLOSID and
+>>>> RMID of the CTRL_MON group can be written.
+>>>> 4. If PLZA is enabled on a MON group, then the CLOSID of the
+>>>> CTRL_MON group can be used, while the RMID of the MON group can be
+>>>> written.
+>>
+>> Given that CLOSID and RMID are fixed once in the PLZA configuration
+>> could this be simplified by just assuming they have the values of the
+>> default group, CLOSID=0 and RMID=0 and let the user base there
+>> configuration on that?
+>>
+> 
+> I didn't understand this question. There are 16 CLOSIDs and 1024 RMIDs.
+> We can use any one of these to enable PLZA.  It is not fixed in that sense.
 
-Then tell userspace not to use it? As Catalin pointed out, the kernel
-doesn't force MTE on for userspace.
+Sorry, I wasn't clear. What I'm trying to understand is what you gain by
+this flexibility. Given that the values CLOSID and the RMID are just
+identifiers within the hardware and have only the meaning they are given
+by the grouping and controls/monitors set up by resctrl (or any other
+software interface) would you lose anything by just saying the PLZA
+group has CLOSID=0 and RMID=0. Is there value in changing the PLZA
+CLOSID and RMID or can the same effect happen by just changing the
+resctrl configuration?
 
-So the existing kernel cmdline option solve your A/B testing scenario
-and I would've thought you could use SECCOMP to block the relevant
-prctl()s if userspace isn't doing what you want.
+I was also wondering if using the default group this way would mean that
+you wouldn't need to reserve the group for only kernel use.
 
-Also, using MTE as a security feature is a joke.
+> 
+> 
+>>>>
+>>>> I am thinking this approach should work.
+>>>>
+>>>>>
+>>>>> Limiting it to a single CTRL group seems restrictive in a few ways:
+>>>>> 1) It requires that the "PLZA" group has a dedicated CLOSID. This
+>>>>> reduces the
+>>>>>      number of use cases that can be supported. Consider, for
+>>>>> example, an existing
+>>>>>      "high priority" resource group and a "low priority" resource
+>>>>> group. The user may
+>>>>>      just want to let the tasks in the "low priority" resource
+>>>>> group run as "high priority"
+>>>>>      when in CPL0. This of course may depend on what resources are
+>>>>> allocated, for example
+>>>>>      cache may need more care, but if, for example, user is only
+>>>>> interested in memory
+>>>>>      bandwidth allocation this seems a reasonable use case?
+>>>>> 2) Similar to what Tony [1] mentioned this does not enable what the
+>>>>> hardware is
+>>>>>      capable of in terms of number of different control groups/
+>>>>> CLOSID that can be
+>>>>>      assigned to MSR_IA32_PQR_PLZA_ASSOC. Why limit PLZA to one
+>>>>> CLOSID?
+>>>>> 3) The feature seems to support RMID in MSR_IA32_PQR_PLZA_ASSOC
+>>>>> similar to
+>>>>>      MSR_IA32_PQR_ASSOC. With this, it should be possible for user
+>>>>> space to, for
+>>>>>      example, create a resource group that contains tasks of
+>>>>> interest and create
+>>>>>      a monitor group within it that monitors all tasks' bandwidth
+>>>>> usage when in CPL0.
+>>>>>      This will give user space better insight into system behavior
+>>>>> and from what I can
+>>>>>      tell is supported by the feature but not enabled?
+>>>>
+>>>>
+>>>> Yes, as long as PLZA is enabled on only one group in the entire system
+>>>>
+>>>>>
+>>>>>>>
+>>>>>>>> 2) It can't be the root/default group
+>>>>>>>
+>>>>>>> This is something I added to keep the default group in a un-
+>>>>>>> disturbed,
+>>>>>
+>>>>> Why was this needed?
+>>>>>
+>>>>
+>>>> With the new approach mentioned about we can enable in default group
+>>>> also.
+>>>>
+>>>>>>>
+>>>>>>>> 3) It can't have sub monitor groups
+>>>>>
+>>>>> Why not?
+>>>>
+>>>> Ditto. With the new approach mentioned about we can enable in
+>>>> default group also.
+>>>>
+>>>>>
+>>>>>>>> 4) It can't be pseudo-locked
+>>>>>>>
+>>>>>>> Yes.
+>>>>>>>
+>>>>>>>>
+>>>>>>>> Would a potential use case involve putting *all* tasks into the
+>>>>>>>> PLZA group? That
+>>>>>>>> would avoid any additional context switch overhead as the PLZA
+>>>>>>>> MSR would never
+>>>>>>>> need to change.
+>>>>>>>
+>>>>>>> Yes. That can be one use case.
+>>>>>>>
+>>>>>>>>
+>>>>>>>> If that is the case, maybe for the PLZA group we should allow
+>>>>>>>> user to
+>>>>>>>> do:
+>>>>>>>>
+>>>>>>>> # echo '*' > tasks
+>>>>>
+>>>>> Dedicating a resource group to "PLZA" seems restrictive while also
+>>>>> adding many
+>>>>> complications since this designation makes resource group behave
+>>>>> differently and
+>>>>> thus the files need to get extra "treatments" to handle this "PLZA"
+>>>>> designation.
+>>>>>
+>>>>> I am wondering if it will not be simpler to introduce just one new
+>>>>> file, for example
+>>>>> "tasks_cpl0" in both CTRL_MON and MON groups. When user space
+>>>>> writes a task ID to the
+>>>>> file it "enables" PLZA for this task and that group's CLOSID and
+>>>>> RMID is the associated
+>>>>> task's "PLZA" CLOSID and RMID. This gives user space the
+>>>>> flexibility to use the same
+>>>>> resource group to manage user space and kernel space allocations
+>>>>> while also supporting
+>>>>> various monitoring use cases. This still supports the "dedicate a
+>>>>> resource group to PLZA"
+>>>>> use case where user space can create a new resource group with
+>>>>> certain allocations but the
+>>>>> "tasks" file will be empty and "tasks_cpl0" contains the tasks
+>>>>> needing to run with
+>>>>> the resource group's allocations when in CPL0.
+>>>>
+>>>> Yes. We should be able do that. We need both tasks_cpl0 and cpus_cpl0.
+>>>>
+>>>> We need make sure only one group can configured in the system and
+>>>> not allow in other groups when it is already enabled.
+>>>
+>>> As I understand this means that only one group can have content in its
+>>> tasks_cpl0/tasks_kernel file. There should not be any special
+>>> handling for
+>>> the remaining files of the resource group since the resource group is
+>>> not
+>>> dedicated to kernel work and can be used as a user space resource
+>>> group also.
+>>> If user space wants to create a dedicated kernel resource group there
+>>> can be
+>>> a new resource group with an empty tasks file.
+>>>
+>>> hmmm ... but if user space writes a task ID to a tasks_cpl0/
+>>> tasks_kernel file then
+>>> resctrl would need to create new syntax to remove that task ID.
+>>>
+>>> Possibly MPAM can build on this by allowing user space to write to
+>>> multiple
+>>> tasks_cpl0/tasks_kernel files? (and the next version of PLZA may too)
+>>>
+>>> Reinette
+>>>
+>>>
+>>>>
+>>>> Thanks
+>>>> Babu
+>>>>
+>>>>>
+>>>>> Reinette
+>>>>>
+>>>>> [1] https://lore.kernel.org/lkml/aXpgragcLS2L8ROe@agluck-desk3/
+>>>>>
+>>>>
+>>>
+>>>
+>>
+>> Thanks,
+>>
+>> Ben
+>>
+>>
+> 
 
-Will
+Thanks,
+
+Ben
+
