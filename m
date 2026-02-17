@@ -1,64 +1,64 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6422B2D8798
-	for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 08:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791682DECDF
+	for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 08:12:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771315934; cv=none; b=rdC3NFSgn4GUhU4+uFi9SsZuD/KXzk+EH5hQg9pWrRL4TIZwnitGCpWioVb6NV6Za2R5Sbus66olIabP1X1Wfzd3szzR84ocQHAzeIsL/3yjOpUZolpfvy72guFPQX6tfGA8qS9ExTa/F2sRLGCiZvOHUHUA8apxO0qvehWyx+M=
+	t=1771315936; cv=none; b=aTcqOKYPSrXZpcm4EwQZvEFNaFgvFREUBSAZ2VtDWpXDxkFeFSzoywbxWDRIRAAiZhxFak07ab7/8Bl8x4AKJR3hp5MtPNiZ0UnY5wFURp3lv8gWTWmM1kQHy59UtchR+YnGdu6FNa6810GXgy/hryMxzNzuj+Zt5uF5V5CWwxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771315934; c=relaxed/simple;
-	bh=fUJ50nNqzEo25SE79AYPaMX7LUUHzTN5oOiZ4xAgcTU=;
+	s=arc-20240116; t=1771315936; c=relaxed/simple;
+	bh=S8Cd2E8SKugiVyOxMAARAlFbe35TOZ5k+jrtw5MSFHQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OfQMdd0URDLCWzOiSiPfRpgQPsK96s4jU+ZRkK2C5omLdfHHrzYVFkMEGT13wNYP5oCEJ6rYBe5L17NeJQqBdUgDV+mHeoyQMx/77JMp2u+FJ4vmG2DFyjh8MZ0t09dt1sKuh8bhSLZcHiW8por88REN5Jluvg49DlqoRc0E+LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=kCqAREtM; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=Nu4S25cNViXomCgvK6VIwPAOH1VUH6acIuC4vh0oKycgfxfCWT/b1BkNp2wOYKR/2e/MD372gixKWmJcexU1hH0RbYmJTkiWx+wN9CY6r8wlx++P+8hEGQa8aXUbLBMbZ9azAQ8PSbu2pJARKz0dOdUDOtCrOTE8ugLiBYSRWUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=cgUBJ5MB; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kCqAREtM"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48371119eacso36419665e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 00:12:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="cgUBJ5MB"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-436356740e6so4643594f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 00:12:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771315932; x=1771920732; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771315933; x=1771920733; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hkC79iRLW3tdZGeGE0h/zKnK7gWxEm2JpK3spSL5h0k=;
-        b=kCqAREtMYHy/35mt+VLAhNORUCi8CPSW3SH4WBjof5HePcmaMBLzji9Tr1EkIwjUNu
-         8Lv47IxLWN817CnjY8hqtMeghkq85/5a4uif+Y4hTncxdEaOECWqkS+SjUXbB2T6yk3m
-         1Cfmtq8XneIU0HN53bse1WMPhU0Q0JhwT0fZXpOj7MWs4v+J8PUK8uO/H6Wj69uOoqJp
-         lbEiGMyKusehWy6Hbcrb4HSCG3oihzqMFA/YKnF9kCOtaeJOkMvsIERVn+/qaaoOpUAu
-         09b/rhhuix4K7C0y5fkj7kIxnOArw945uksXk14EK5JnHQHG2whPquCe1w7OaprR37Or
-         KQUA==
+        bh=f64XWOiLeopfzc8m0vbWs3v53yiP6RzpjdTcY0IqlPk=;
+        b=cgUBJ5MBzOnccyxBEGrchpD5ZArfBjNucd/kJXMUWTIcFLFBASq/YNtUT6EvzQd0hP
+         5xGN6HeQz2xJBmL2au7pE0fVqjjCsT7YR7JdRqngQMa86+27+jhPyxDEejwTNhBuXiaG
+         1Bn7TDolS7l/X4E3xSDL4+JJ2PQ5riULtSPK4PSTumbuJmMaodWyoT/iETDz28qS3QOM
+         cybm4MbOy1dxXYrTLlmfGMNPcQlTZMmPF5Bo8ybP95Mu92gPWWnZjpZpDy9w7eKWkh45
+         O9MBcy2NtfOAbtC7YLVXdji8pRIDAff9FIyguA83GMXfTlLJ3zgXtlb0/Q96Ney7t+m3
+         s/Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771315932; x=1771920732;
+        d=1e100.net; s=20230601; t=1771315933; x=1771920733;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=hkC79iRLW3tdZGeGE0h/zKnK7gWxEm2JpK3spSL5h0k=;
-        b=uaJM78HKsI/gJH32WgtB6jkTBgE6ni3A36Cs+OX6P/fD+PX+gBIEgmtNAdXrKaJoJm
-         ewlCBlQg0cBXaADkRj5EA4MttwjCrJo8e8yFV/evusKaRvrwYYtujJI7TbMSvx7XZOQQ
-         MTd94rvGBGhnDqpcjPrSWhQI0/vhVXc1oK5rwlmTaE+KBiV43cyWACkYdj9gQumXdzu0
-         mMcoE7PPusNIO80Ujas13261NRagYp/NJg3KG4h568599cLmgZx6+HzyAw6LNw3PQ5wH
-         aEtlW3mUyvLTkIJmWrxAjCn10n1zzj2Hb/am1BgLWC231W0VAyyLWf13MEm/RS48O4k5
-         Ol2w==
-X-Forwarded-Encrypted: i=1; AJvYcCU0E6lCvmCAxQUv6FuM4AXfCPJDSa8G6tbe5r3vUPt+eyrH8uLD2TLzOhvmPQ+J7kqP6wWqNxtBBTU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEk9mspGN6hFWv14Q7U0rLbhimeo+DnK6UXawIDq/7x8gFkyAH
-	ooGBEXuuvdJWfGnNQKMHDy4mFIIb+dEico//0Vw84HTkeeScTRXLkeLRkQ/XBLJtdRk=
-X-Gm-Gg: AZuq6aIl1yJmyjqb5j48xwrYl04arraPnAJdJc5jP3ts5CdIzDqQG+cG5XUqzTxccDG
-	AgEG0gWMRRFQvjgOC46z8S5nwBoI1X1NI4g2GZi2FENtRYzo1//vc2Gummswc8IDD1wWJ3Ts+cY
-	YdbPTN9cazyYfwVfMlCE6qwHTg1EsOqQg1BLe6l1NdcECfC9Oi2aQtkuebI0hf9gLMS1o/CDw2y
-	bm3WoXjoo2KWQFqHnLJq7+g4TBH3WaaxQkz0W77GtHcOjN/bqQnddZGutIqBCJe3T3GQmd/W7yP
-	Owkya21LdNBL1d/PGADsiUv4Rw1CAk0dcKCubPZrg3WmpXFMXKOjJTgJkvFNXAgO0mCSv6plXS/
-	g1v5npb/seGf4S3mzZVBmZTvWp5yxTlME1O4xCLoIsVKqe8I1GU8lrjDbgCMhRX9ZJXnICTVDPR
-	MA4XF4KqEdSvrvS8xqb2nT/fuNlgrKCv+KHPcQjzDXpVfY11/BJkR7UVgnRLzBYlC11d9Oeq2p2
-	FPjfNAvag==
-X-Received: by 2002:a05:600c:1f8d:b0:47e:e87b:af8 with SMTP id 5b1f17b1804b1-48373a5ba01mr233760545e9.21.1771315931619;
-        Tue, 17 Feb 2026 00:12:11 -0800 (PST)
+        bh=f64XWOiLeopfzc8m0vbWs3v53yiP6RzpjdTcY0IqlPk=;
+        b=v5Y2Ukn4hjPb4UFaJEuC+4hEij81/I9XpqOH1E5sjxODpckd1lkRBlcLD+hKv2pQPq
+         AbLoszi8fnZrr2nOH+k97erm2zN5IvgyGl19YKbsajQWW8mi5kFZ9S/LJgsmL84V9QVU
+         WDX9y1oCTGB2U+TZ/ubzJVd8eGNL81QJGtgrvVFivtA20Y77J7+M3gmfIGUtB3iY60Tz
+         uU6H0C3LeTlkGh3dwowKW2RkRDEcLiruCoAf9OSHA67qZHbunVqD3KIB0lssWyVj/GrI
+         M/H0WouduDxnXH4kzWTF8ZO/g4lA9CQa3Q+zkqWV8eNUh7oNxGVS/Rn8O9Xa1cIdd2eD
+         LIMw==
+X-Forwarded-Encrypted: i=1; AJvYcCU5mUZUhSmLB1eM2OQoRdjFTpr7gzz/uTW306FAUdAX/03jmtlQhs6VbBd62INo7GQCGbJac9D8qYg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtTPEFn6MOX2bgPhxmXRnbqfLpqfd8qIZlabFo6MSrlY6QTl5s
+	Xbntk5vKEypjmuSfio+ZVn3h1wEm4rbJFm6JKDSamt55Hrz+H2sWG0C5tbbLW1yUSvw=
+X-Gm-Gg: AZuq6aIXolt4rEoBnnTI9o6SKgjbXsvsoV5In5JS8A/lU644hTA5JAbjooMS761Fl+3
+	Fz8vEVD7oPD843qBh45WcZXr5dAY4PHbHqbp5Vq9Sc+J59JtGNN5fYpnqVJlA7R0/7VUtv1WEJq
+	lmexnUOzCOOWcvGxRFRhsm5OsX2cgGDonmeBy1wSh5viYp/vcuvauVxqY1LHV2UvgxBrBQAywxK
+	a+q+sj174PZKwWmjcK36mohcBYFZ4gEDh/ra3jVNNH+WKbGlEvHwtWvKZscSwCVTZr0Cb7tDA6g
+	M7wpVmoffyBCWPso2q7rhgAmr1ObNQJCaVW4TDFrnUFa+uTRgWhkXHW0NtnsMceyBXFml4C/jSF
+	GryRuqGNHbOCE4pyn9lq8ASffdPzWMrzxVszpKOfPRDESHsfCTaRLe1JtJYChMXaWS/4SzVsKNl
+	Di8eppftXfg4z7trujIW7GwaVezbk+WQ5c8V0JtnArq3mmBtghXIfIgkddNF8HOf1995ULhTNHD
+	8VzYEZZUA==
+X-Received: by 2002:a05:6000:2001:b0:435:96ec:679e with SMTP id ffacd0b85a97d-4379db61cccmr19577529f8f.23.1771315932698;
+        Tue, 17 Feb 2026 00:12:12 -0800 (PST)
 Received: from silence.. ([46.10.240.40])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5d156sm35757690f8f.5.2026.02.17.00.12.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5d156sm35757690f8f.5.2026.02.17.00.12.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 00:12:11 -0800 (PST)
+        Tue, 17 Feb 2026 00:12:12 -0800 (PST)
 From: Stoyan Bogdanov <sbogdanov@baylibre.com>
 To: jbrunet@baylibre.com,
 	linux@roeck-us.net,
@@ -71,11 +71,10 @@ Cc: linux-hwmon@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Stoyan Bogdanov <sbogdanov@baylibre.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH v3 2/3] dt-bindings: hwmon: pmbus/tps1689: Add TPS1689
-Date: Tue, 17 Feb 2026 10:12:02 +0200
-Message-Id: <20260217081203.1792025-3-sbogdanov@baylibre.com>
+	Stoyan Bogdanov <sbogdanov@baylibre.com>
+Subject: [PATCH v3 3/3] hwmon: (pmbus/tps1689): Add TPS1689 support
+Date: Tue, 17 Feb 2026 10:12:03 +0200
+Message-Id: <20260217081203.1792025-4-sbogdanov@baylibre.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260217081203.1792025-1-sbogdanov@baylibre.com>
 References: <20260217081203.1792025-1-sbogdanov@baylibre.com>
@@ -87,29 +86,219 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add device compatible support for TPS1689
+Extend tps25990 existing driver to support tps1689 eFuse,
+since they are sharing command interface and functionality
+Update documentation for tps1689
 
 Signed-off-by: Stoyan Bogdanov <sbogdanov@baylibre.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- .../devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml          | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Documentation/hwmon/tps25990.rst | 15 ++++--
+ drivers/hwmon/pmbus/tps25990.c   | 91 ++++++++++++++++++++++++++++----
+ 2 files changed, 92 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
-index f4115870e450..973ee00c2c49 100644
---- a/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/pmbus/ti,tps25990.yaml
-@@ -16,7 +16,9 @@ description:
+diff --git a/Documentation/hwmon/tps25990.rst b/Documentation/hwmon/tps25990.rst
+index 04faec780d26..e8bc9a550bda 100644
+--- a/Documentation/hwmon/tps25990.rst
++++ b/Documentation/hwmon/tps25990.rst
+@@ -9,26 +9,31 @@ Supported chips:
  
- properties:
-   compatible:
--    const: ti,tps25990
-+    enum:
-+      - ti,tps1689
-+      - ti,tps25990
+     Prefix: 'tps25990'
  
-   reg:
-     maxItems: 1
+-  * Datasheet
++    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
+ 
+-    Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
++  * TI TPS1689
++
++    Prefix: 'tps1689'
++
++    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps1689
+ 
+ Author:
+ 
+ 	Jerome Brunet <jbrunet@baylibre.com>
++	Stoyan Bogdanov <sbogdanov@baylibre.com>
+ 
+ Description
+ -----------
+ 
+-This driver implements support for TI TPS25990 eFuse.
++This driver implements support for TI TPS25990 and TI TPS1689 eFuse chips.
+ This is an integrated, high-current circuit protection and power
+ management device with PMBUS interface
+ 
+-Device compliant with:
++Devices are compliant with:
+ 
+ - PMBus rev 1.3 interface.
+ 
+-Device supports direct format for reading input voltages,
++Devices supports direct format for reading input voltages,
+ output voltage, input current, input power and temperature.
+ 
+ Due to the specificities of the chip, all history reset attributes
+diff --git a/drivers/hwmon/pmbus/tps25990.c b/drivers/hwmon/pmbus/tps25990.c
+index 33f6367f797c..f9ff4edadf53 100644
+--- a/drivers/hwmon/pmbus/tps25990.c
++++ b/drivers/hwmon/pmbus/tps25990.c
+@@ -58,34 +58,38 @@ struct tps25990_data {
+ 	struct local_direct_value *info_local;
+ };
+ 
+-static int tps25990_raw_to_value(struct i2c_client *client, int param, int raw)
++static int tps25990_raw_to_value(struct i2c_client *client, int param, u32 raw)
+ {
+ 	struct tps25990_data *data = (struct tps25990_data *)of_device_get_match_data(&client->dev);
+ 	struct local_direct_value *info_local = data->info_local;
++	int val;
+ 
+ 	/* Formula : X = (Y / 10^R - b) / m */
+ 	if (info_local->R[param] >= 0)
+-		raw /= int_pow(10, info_local->R[param]);
++		val = DIV_ROUND_CLOSEST_ULL(raw, int_pow(10, info_local->R[param]));
+ 	else
+-		raw *= int_pow(10, -info_local->R[param]);
++		val = raw * int_pow(10, -info_local->R[param]);
+ 
+-	return DIV_ROUND_CLOSEST(raw - info_local->b[param], info_local->m[param]);
++	val = DIV_ROUND_CLOSEST(val - info_local->b[param], info_local->m[param]);
++
++	return val;
+ }
+ 
+ static unsigned int tps25990_value_to_raw(struct i2c_client *client, int param, int val)
+ {
+ 	struct tps25990_data *data = (struct tps25990_data *)of_device_get_match_data(&client->dev);
+ 	struct local_direct_value *info_local = data->info_local;
++	u32 raw; // return raw up to u16 -> u32
+ 
+ 	/* Formula : Y = ( m * X + b) * 10^R */
+-	val = (long)val * info_local->m[param] + info_local->b[param];
++	raw = ((long)val * info_local->m[param]) + info_local->b[param];
+ 
+ 	if (info_local->R[param] >= 0)
+-		val *= int_pow(10, info_local->R[param]);
++		raw *= int_pow(10, info_local->R[param]);
+ 	else
+-		val = DIV_ROUND_CLOSEST(val, int_pow(10, -info_local->R[param]));
++		raw = DIV_ROUND_CLOSEST_ULL(raw, int_pow(10, -info_local->R[param]));
+ 
+-	return val;
++	return raw;
+ }
+ 
+ /*
+@@ -281,7 +285,6 @@ static int tps25990_write_word_data(struct i2c_client *client,
+ 		value = clamp_val(value, 0, 0xff);
+ 		ret = pmbus_write_word_data(client, page, reg, value);
+ 		break;
+-
+ 	case PMBUS_VIN_OV_FAULT_LIMIT:
+ 		value = tps25990_value_to_raw(client, TPS25990_VIN_OVF, value);
+ 		value = clamp_val(value, 0, 0xf);
+@@ -370,6 +373,15 @@ static const struct regulator_desc tps25990_reg_desc[] = {
+ };
+ #endif
+ 
++struct local_direct_value tps1689_local_info = {
++	.m[TPS25990_VIN_OVF] = 3984,
++	.b[TPS25990_VIN_OVF] = -63750,
++	.R[TPS25990_VIN_OVF] = -3,
++	.m[TPS25990_IIN_OCF] = 7111,
++	.b[TPS25990_IIN_OCF] = -2133,
++	.R[TPS25990_IIN_OCF] = -2,
++};
++
+ struct local_direct_value tps25590_local_info = {
+ 	.m[TPS25990_VIN_OVF] = 10163,
+ 	.b[TPS25990_VIN_OVF] = -30081,
+@@ -379,6 +391,60 @@ struct local_direct_value tps25590_local_info = {
+ 	.R[TPS25990_IIN_OCF] = -6,
+ };
+ 
++static struct pmbus_driver_info tps1689_base_info = {
++	.pages = 1,
++	.format[PSC_VOLTAGE_IN] = direct,
++	.m[PSC_VOLTAGE_IN] = 1166,
++	.b[PSC_VOLTAGE_IN] = 0,
++	.R[PSC_VOLTAGE_IN] = -2,
++	.format[PSC_VOLTAGE_OUT] = direct,
++	.m[PSC_VOLTAGE_OUT] = 1166,
++	.b[PSC_VOLTAGE_OUT] = 0,
++	.R[PSC_VOLTAGE_OUT] = -2,
++	.format[PSC_TEMPERATURE] = direct,
++	.m[PSC_TEMPERATURE] = 140,
++	.b[PSC_TEMPERATURE] = 32103,
++	.R[PSC_TEMPERATURE] = -2,
++	/*
++	 * Current and Power measurement depends on the ohm value
++	 * of Rimon. m is multiplied by 1000 below to have an integer
++	 * and -3 is added to R to compensate.
++	 */
++	.format[PSC_CURRENT_IN] = direct,
++	.m[PSC_CURRENT_IN] = 9548,
++	.b[PSC_CURRENT_IN] = 0,
++	.R[PSC_CURRENT_IN] = -6,
++	.format[PSC_CURRENT_OUT] = direct,
++	.m[PSC_CURRENT_OUT] = 24347,
++	.b[PSC_CURRENT_OUT] = 0,
++	.R[PSC_CURRENT_OUT] = -3,
++	.format[PSC_POWER] = direct,
++	.m[PSC_POWER] = 2775,
++	.b[PSC_POWER] = 0,
++	.R[PSC_POWER] = -4,
++	.func[0] = (PMBUS_HAVE_VIN |
++		    PMBUS_HAVE_VOUT |
++		    PMBUS_HAVE_VMON |
++		    PMBUS_HAVE_IIN |
++		    PMBUS_HAVE_PIN |
++		    PMBUS_HAVE_TEMP |
++		    PMBUS_HAVE_STATUS_VOUT |
++		    PMBUS_HAVE_STATUS_IOUT |
++		    PMBUS_HAVE_STATUS_INPUT |
++		    PMBUS_HAVE_STATUS_TEMP |
++		    PMBUS_HAVE_SAMPLES),
++
++	.read_word_data = tps25990_read_word_data,
++	.write_word_data = tps25990_write_word_data,
++	.read_byte_data = tps25990_read_byte_data,
++	.write_byte_data = tps25990_write_byte_data,
++
++#if IS_ENABLED(CONFIG_SENSORS_TPS25990_REGULATOR)
++	.reg_desc = tps25990_reg_desc,
++	.num_regulators = ARRAY_SIZE(tps25990_reg_desc),
++#endif
++};
++
+ static struct pmbus_driver_info tps25990_base_info = {
+ 	.pages = 1,
+ 	.format[PSC_VOLTAGE_IN] = direct,
+@@ -428,18 +494,25 @@ static struct pmbus_driver_info tps25990_base_info = {
+ #endif
+ };
+ 
++struct tps25990_data data_tps1689 = {
++	.info = &tps1689_base_info,
++	.info_local = &tps1689_local_info,
++};
++
+ struct tps25990_data data_tps25990 = {
+ 	.info = &tps25990_base_info,
+ 	.info_local = &tps25590_local_info,
+ };
+ 
+ static const struct i2c_device_id tps25990_i2c_id[] = {
++	{ .name = "tps1689", .driver_data = (kernel_ulong_t)&data_tps1689 },
+ 	{ .name = "tps25990", .driver_data = (kernel_ulong_t)&data_tps25990 },
+ 	{}
+ };
+ MODULE_DEVICE_TABLE(i2c, tps25990_i2c_id);
+ 
+ static const struct of_device_id tps25990_of_match[] = {
++	{ .compatible = "ti,tps1689", .data = &data_tps1689 },
+ 	{ .compatible = "ti,tps25990", .data = &data_tps25990 },
+ 	{}
+ };
 -- 
 2.34.1
 
