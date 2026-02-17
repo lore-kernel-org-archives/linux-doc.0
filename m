@@ -1,123 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6956427472;
-	Tue, 17 Feb 2026 13:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1219A355039
+	for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 13:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771333225; cv=none; b=se6BXoRPfumghFnw/9Ezts1JI932BcUre1mNGQeOSX3M3hVblqP7JIxK6LQ0Z2HjNqdO3y+hppjpvbOSHBAWgcIEb4CrKzillYUnyCBZL4pKfsvRi8skPW/QXpt3E2ECFVGRhSpfykHXX+SqJ7Vouo6OB5qIQZQjtXG15bXGcd0=
+	t=1771335542; cv=none; b=ew4k6lCLxXnkV1QVtlDWiOZhz6YpMVC5fBN/KpYnB9f0T0+RxJVOZGQ2B+pJeWLrcaiXSJNJb+pSdHttUOEtama/KU1GN2/RvfhTuLsekVaFdFwk1SztHlTPvBbHBeRFexY+8Bhtd5cd1btPCw1GeEVcdhtT/Xjb768oYyR4lM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771333225; c=relaxed/simple;
-	bh=/jgRvAH6/qkall4xmNykuaxBNxUpJABVCi9DbhjS4MA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V4XJbHdgT0vIT/pY9aOa9uC24YtyZQobpCVJdHVSrIGaAuMjzZL9OpQoIZUrirqzIzQZN8PPr099RBhBtDHTvsgfNBMDyrJ+sCy0PxjgF5Of5vz/On7gq51JP2kwysQYn2N0MnRpU/KxOVXtTpiFu138dShX2KoPviOQ26wPqxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cT4kbB5d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771335542; c=relaxed/simple;
+	bh=Y0LzAqFzQUi2i67EjcX1opPvpHEPT9peUMvypNvEKzo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qwlh1lsn1I1FfbnIGh0Al0UCnC1jup4sK3jjqe0CD1RJLOkDPSinCaDP+o5gP09C5lERUFH8lVZDczIOxMWYTrjlF3Yh+JvVZ0XimWO0yMtgr302qxLToGTT9R//PjPG+ipAKki/Mj2AoyIGgiL4SGNqpd6FP54q3lqpEWoUZ68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WZI6QteZ; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cT4kbB5d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2E0DC4CEF7;
-	Tue, 17 Feb 2026 13:00:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771333224;
-	bh=/jgRvAH6/qkall4xmNykuaxBNxUpJABVCi9DbhjS4MA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=cT4kbB5ddNQH8+xhRR7XQ/oRHj/qtrdD/iKNe9GUkLEK6Bo0ZsemDKZbmQ3TVNser
-	 YiIWtJTk8voFjG+aCdjyr/bGj987pEa9gNy4EHhF3lemUEoYXHtztORcb69uliWvL8
-	 MUDSbg68YFfyx0/ZkFAsdH3lGFlW1rSO9SU+6tZeZwtGKpXPW+y1r2wMW/PklUJraS
-	 l6zVc8R+HWjWbuQt+3719wWhdQZ22YxUjuUjPk66Db+z92MSbKGhB5sq+5KragJjAH
-	 qtYv6BjohyvhXAskjV4Wp9TRkyxgf/W0XAhtSDrj5rwkiqLO9O5/URKFm+51rrNbyh
-	 WiuWh6MmQEoYg==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vsKgf-0000000BdQk-3sf5;
-	Tue, 17 Feb 2026 13:00:22 +0000
-Date: Tue, 17 Feb 2026 13:00:21 +0000
-Message-ID: <86342zbk4a.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: =?UTF-8?B?UGllcnJlLUNsw6ltZW50?= Tosi <ptosi@google.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	will@kernel.org,
-	suzuki.poulose@arm.com,
-	corbet@lwn.net,
-	yee.lee@mediatek.com,
-	ascull@google.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] arm64: Optionally disable EL0 MTE via command-line
-In-Reply-To: <p7wloz3ospiwaytzzns43hbyfrxfjoca6ljols3dq4hpha5y2v@weadvhpdng7a>
-References: <plslbeuzfag5dfizunxmhyw5axxbuz7r3jdlhjluzdwrm4rtzk@bm5xmxzmy6v3>
-	<aZRIHZ2Wq81S-FZY@arm.com>
-	<p7wloz3ospiwaytzzns43hbyfrxfjoca6ljols3dq4hpha5y2v@weadvhpdng7a>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WZI6QteZ"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4836e3288cdso26165645e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 05:39:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771335539; x=1771940339; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Y0LzAqFzQUi2i67EjcX1opPvpHEPT9peUMvypNvEKzo=;
+        b=WZI6QteZt0KNkQj0bahiBgNfht7XTEJia8MSAgBvmjiLoNF+OlK2EIMEHKcdMIQh1i
+         Tid313EfmeAubjoOQpWcNNwDf3ufU6xuCqwbgX71sPcnSRraXTaw2fwgR7B4e/SCDQIZ
+         MjXd5B8lE6ZlCV8bVz/S6woZu0X24pRzP6HZm/x8LvNBa+wqRlBKCZkvWqt8xCKajXKt
+         bdDRhPIzp03lqhJEKhNZ/bb3KOCLVm1d2dwD69lO6zt2DAnKns2OuQjGikEFwDnIC53Z
+         vWd2CIvz4HUVOfpwfPxmboweA0RzcHHg6/5qBTgdkjYhEKV85kEyZ9i4gyf0cggFZ8bA
+         rsLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771335539; x=1771940339;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y0LzAqFzQUi2i67EjcX1opPvpHEPT9peUMvypNvEKzo=;
+        b=SwQ5ns0KZ3L866rWm4PR8baQISIpOQfijvjLZKjQugvHYdc6ZnNJ9v8O+vVO1m7SFX
+         oPY8Zy5P4NPqkPaLk1FhpKeaX2zzbB/ADz4WM5jZp+n4ema4OR4/2RALEaEM7QF4Pgi+
+         l88tucAmHWhAWxaknon5cmfVcKW6+kurPiv8lSIJUYqKcn8OnUuipAr6mL6hmtTwNIGt
+         Pbi9r7OGTt0mBE9MI5onkeCiVSYOMA5GCi3u5NUmMV6a6VB8qCXxRaV6VkfBz9QBmMPO
+         mm329dIHeSgLBAii9IOJA2ovmqWZMNIvXnQU9p0gKERff5r6xnSyu6jtH5AZ3rJn7TtM
+         XZvg==
+X-Forwarded-Encrypted: i=1; AJvYcCXA8w7t/PPCQ6KqQAvwib6Uz7Cr+zIy4e5Xpbc4j4jU+xXjRDSmRK08fPWll+ChS5VRUE68jbszzlo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxUloGnQ3WtJcZx6L3j1a6GyXwy++YoV/Ea0L56URSIgWz+dDm
+	qBAF/VUeZI7Zvivljg2kegU9RxDWmBlX4vt4GPJ8DLxrGH5639osDPVW
+X-Gm-Gg: AZuq6aJqBrU73ed3+R2nC24ob+XkwmSGJT4UsBL3J1QEobtqy2wJ0dcoOWT7QwH2Lu7
+	tzsG0571YDcrBVlzKEWY4ZcapJGXcZfZEP3DpdWc4eolsSczoyz+duwLWDmMiRf4mZPPjwxNi4+
+	5WC2by3JsL4TZlj0NS1GnQRNSfFsj89+Pgz0G2g8MsLGXqjQ2BaYY0u0STjJ1rXRMcCCySZM5Fx
+	+IU3f/RdVF8aq1bk4a10Lpv3Cw6TpHxCBlUCwD2EYJDiiUkbKZiLqCJgfvpSOXYkFW236E6mxrY
+	97lS5j5/zTAKLkYRQ+cJ0jGYKI9DbNsJTeTM+wOAQ+vH9q1fflt+nV9htFyRR4R3cgW+y1pv1Wf
+	/WyIPXBAx7AkY41+QGi/xEjG6f7QFE/SeWxAuQ8qsUzg4RLbyX2AYQMYDoTUZBokaJmfh+GCOtS
+	/W7aRBqb3Yj51hWgqRg8zeVQ1KcVl5ahQ=
+X-Received: by 2002:a05:600c:4e8e:b0:477:991c:a17c with SMTP id 5b1f17b1804b1-48378d62cbdmr212671725e9.6.1771335539392;
+        Tue, 17 Feb 2026 05:38:59 -0800 (PST)
+Received: from [192.168.1.187] ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5b07fsm33883088f8f.2.2026.02.17.05.38.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Feb 2026 05:38:59 -0800 (PST)
+Message-ID: <4a9ecd101d502515d25a7f27a8043b6b592f510c.camel@gmail.com>
+Subject: Re: [PATCH v5 0/3] hwmon: Add support for the LTC4283 Hot Swap
+ Controller
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>, nuno.sa@analog.com, 
+	linux-hwmon@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>,  Jean Delvare <jdelvare@suse.com>, Jonathan Corbet
+ <corbet@lwn.net>, Linus Walleij <linus.walleij@linaro.org>,  Bartosz
+ Golaszewski	 <brgl@bgdev.pl>, "Rob Herring (Arm)" <robh@kernel.org>, Linus
+ Walleij	 <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Date: Tue, 17 Feb 2026 13:39:42 +0000
+In-Reply-To: <0ae2d448-06e3-41f6-89aa-8aa3f939d64f@roeck-us.net>
+References: <20251223-ltc4283-support-v5-0-1152bff59a61@analog.com>
+	 <0ae2d448-06e3-41f6-89aa-8aa3f939d64f@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: ptosi@google.com, catalin.marinas@arm.com, will@kernel.org, suzuki.poulose@arm.com, corbet@lwn.net, yee.lee@mediatek.com, ascull@google.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
 
-On Tue, 17 Feb 2026 11:20:02 +0000,
-Pierre-Cl=C3=A9ment Tosi <ptosi@google.com> wrote:
+On Sat, 2026-01-17 at 16:27 -0800, Guenter Roeck wrote:
+> Hi Nuno,
 >=20
-> Hi Catalin,
->=20
-> On Tue, Feb 17, 2026 at 10:51:24AM +0000, Catalin Marinas wrote:
-> > On Fri, Feb 13, 2026 at 12:51:07PM +0100, Pierre-Cl=C3=A9ment Tosi wrot=
-e:
-> > > Although it is currently possible to fully disable MTE on MTE-capable
-> > > CPUs (with arm64.nomte or id_aa64pfr1.mte=3D0) and to only use MTE in
-> > > userspace (with kasan=3Doff), there is no way to limit the use of MTE=
- to
-> > > the kernel because CPU capabilities are traditionally exposed directly
-> > > to userspace.
-> > >=20
-> > > To address this, introduce a new cmdline argument (inspired by the
-> > > existing arm64.nomte) to only expose the MTE capability of the CPU to
-> > > the kernel. Combined with KASAN, this results in only the kernel using
-> > > the feature, while HWCAP2_MTE and the corresponding MSR ID_AA64PFR1_E=
-L1
-> > > field are hidden from userspace.
-> > [...]
-> > > +	arm64.nomte_el0	[ARM64] Unconditionally disable Memory Tagging Exte=
-nsion
-> > > +			support for userspace
+> On 12/23/25 04:21, Nuno S=C3=A1 via B4 Relay wrote:
+> > This is v3 for the LTC4283 how swap controller. Main change is that I'm
+> > now using the auxiliary bus for adding the GPIO device (done depending
+> > on FW properties).
 > >=20
-> > Why would we need this? It's a user-space choice whether it uses MTE or
-> > not. It's not like the kernel is forcing it onto the user processes.
+> > Similar to the LTC4282 device, we're clearing some fault logs in the
+> > reset_history attributes.
+> >=20
+> > Guenter, in [1] you can find some replies for some questions you had in
+> > v2 that likely you don't remember anymore. Regarding the regmap story I
+> > ended up adding a secong regmap for the 16 bit wide registers which
+> > seems like a clean solution (if I'm not missing nothing).
+> >=20
 >=20
-> Correct. This patch is useful when working with a pre-compiled distributi=
-on to
-> ensure that a MTE-enabled userspace falls back to untagged allocations, w=
-ithout
-> the need to introduce system-wide policies (and ABIs) for said distributi=
-on,
-> which would also be inherently less robust than this kernel-level gating.
+> Sorry for the long delay.
 >=20
-> In Android, we can simply append the flag to the kernel cmdline instead of
-> relying on sysprops (or similar early userspace concepts) and hoping that=
- all
-> users are properly gated on that sysprop, etc. This can be used for A/B t=
-esting
-> of the feature or as a highly-reliable "remote kill switch", for example.
+> Actually I prefer the solution used in the lm75 driver: Map all registers
+> to 16-bit registers using a regmap bus. Would that be possible ?
+
+Hi Guenter,
+
+I intend to send the next iteration by the end of the week (finally!) but t=
+here's something
+I wanted to know if you have any strong opinion on.
+
+So, the above is a bit annoying because of the energy reading which is 6 by=
+tes long (so, 6 regmap
+reads). Given that our custom bus will now have val_bits =3D 16 that won't =
+work out of the box. So:
+
+1. Either I directly use the i2c block API to get the 6 bytes.
+2. Or I use regmap_bulk_read() with val_count of 3.
+
+I don't like much of mixing regmap with "plain" bus calls but given it's on=
+ly in one place, might
+not be that bad. OTOH, to use regmap I do need to account for it (and yet a=
+nother corner case) in
+the read callback (so I do not use the i2c swapped version for the energy r=
+eading).
+
+I do not have any strong opinion but I'm more tempted in going with 1.
+
+- Nuno S=C3=A1
 >=20
-> I should have mentioned this in the commit message and will in an eventua=
-l v2.
-
-What I find odd is that nothing seems to enforce this "disabled at
-EL0" behaviour. It is not advertised, but crucially SCTLR_EL1.ATA0
-appears to be set.
-
-	M.
-
---=20
-Without deviation from the norm, progress is not possible.
