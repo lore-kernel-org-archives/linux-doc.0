@@ -1,167 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A81D36BCF3
-	for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 15:08:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077734A32;
+	Tue, 17 Feb 2026 15:16:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771340935; cv=none; b=PNkZ7kqCRCTNh5bFvZwrxgJDavTyRHrKge904E9jSK7lfd+djVQYU8yG/f55G2P4IGNq/JOWRwvnAQ8ud/plOz6g6m2W9MLslUeugYringGVtADWYC/qBFiBo28sPv7QFpZvsyIvLIJ911UP91MgWY+cCNAv+4NSmJlil5Edd6g=
+	t=1771341417; cv=none; b=I7t5+HYPE2R11Obv7ucOs/yVT6oU1cyOth0MfzhGCD2v9/Q+eAXwAs7TPDTLeK1JKa3FFN1utZ8OQ6/m9s4RXr3WtxKbRpcEyw+Pw0+P7uo4i+90bZT0aopoyBf+o4shawZaPs6R+WNthSflFYCjFSkm4kseAa7dnuaaBUVCNeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771340935; c=relaxed/simple;
-	bh=FATg9XsSiPlYwAbae8L/USKuKRBil6Mn8gqbYCmEG2I=;
+	s=arc-20240116; t=1771341417; c=relaxed/simple;
+	bh=PQS9MrJH71dUd00Df5gWcVQOg7DLwo2jFHIJ+AkIGv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fDFk40iNdzPuPKGA6oy6fKzP+HLSEYhXzhg7dy9zkigm6iKlssUSN0tzDvfaT+B3sIE8g2OM+KipnfXvEXHWBwZ5LMbYifGlUYw/5viYNBQRlW1jvDC6AjKjCD2NfoUnDvDU3rnjinWRDYY+o4z4k9t/2bs52Z3Bphi+pEt88TM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cNeaDh9G; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q2wmJ0DP; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=F98/CrvubEVKnvp9IVD5ERDusif0Xnvf5O5cXulL+g+NzEYSURtUBWRKkUV3G9jaksUDp3pu8Sh8tR8QXwrpz06WBqWhLO7yaxYCttVikgnAEl6VIv/zdks38SDG3j9S0lR0Sc64HuicpCZ0KH1e5qz/Bu3rzBy8GlWMiQ1L6eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAPjneMR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cNeaDh9G";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q2wmJ0DP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771340933;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jEc67c+eucBHPlMa8Z8GafQvzyfH5CJQ48/ZIvcQG9w=;
-	b=cNeaDh9GMewGjsMFeYSHua2ChE6tehApHILnL7kiAjWin9ln/0CV1hBgNhGHD5IKzqqJRw
-	lq7TVxJNqd5LcFKQ+a/KjZojKYEICgp9Xk9Bq3WFglyg2IwRnnm3omZhh8pVm+/piYg5JN
-	nQ42RlfFVY7fAixXKYCeohlzyF69Ec0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-642-NCJfr1qXN4WeQt8qPLjYjg-1; Tue, 17 Feb 2026 10:08:42 -0500
-X-MC-Unique: NCJfr1qXN4WeQt8qPLjYjg-1
-X-Mimecast-MFC-AGG-ID: NCJfr1qXN4WeQt8qPLjYjg_1771340921
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4836e35292cso34161845e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 07:08:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1771340921; x=1771945721; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jEc67c+eucBHPlMa8Z8GafQvzyfH5CJQ48/ZIvcQG9w=;
-        b=Q2wmJ0DPwomE3lsee1BYstQjxqAnEoTsy5rJ+GWkPVk8D2TXrPTr+q9n8RfHUtq6SU
-         QkMKme1nOLQPh3W91U2V+9xYt6kUNqX56HkI+vksqVJHb6CzSYBoBA04iEkLOkgvJfCN
-         Ak9ZVvabnKDg1E6BW13xVNL6Sa8FLyHglfTZqy7QFyBj+p/48xxZCUIIJM4N+rEyGXRS
-         fKIP2GV0s0i0ZcDAVrdZ+qjYM5Z0bSsjw5cdpD8bvUd3kH5FphEqA1D4QKB6MteiGUIV
-         yfznMv6w5ra0fpKcDt+HWEkfAb+DPIZNnqqil2+Y7sk0/jNVnCXcsc9CyiIpOav8I+n5
-         dBPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771340921; x=1771945721;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jEc67c+eucBHPlMa8Z8GafQvzyfH5CJQ48/ZIvcQG9w=;
-        b=g8W5Q6sY9lEyVQEh7EA5+vYUX6I63zig5vF+KKj9M27tDNeK+X9W085sVzdTaqW2An
-         9Yf4Cc1hXTYsstAKcZruMFsCZbPvIYF0jn6NavQzDgOFHWM+wPrWtgVlB7aXaSmqzPZA
-         nVph/CnqRRbx7vBkN+sUkkcmgnjrp5u2ShTn3Cg9UdqBFgsH+oe/sWLH/VqfAwDSXwlZ
-         yYc5Ei2OUMh+eCA6zC7EwFHimxecnw6evZgfI+QaJlgW0uvYzaXfGTwONagZyndsbQTs
-         K5EG45HE1O+jtZMUtfprh67ewuugXW8KEfIuqbXsc4J7G+cfckGdytX8Lv1VL4GtNz63
-         li1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUMJCrtu332aiVEcT02tkjEqm628OSo/BtwDgyGlTBuNT3i0UV14+VNphuBVo8nGAMM59hlKM4FZiE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysxYC+cKzc7eWk+CbAFqBGVaFvILiKHZ/pAALLRA/F87wF6Zz0
-	JhM8ORNwXFEQFQflWnlDKwU4HwtoSWC6gulDCcRk8Zcj/CsvvymSVs/+SzKgk0P2zYLbpBogupE
-	qnfvnX65MSdz055k0eFurI4CQJ45/MLRdAUGH8bmrtP0JedXBaATDGSmtr7I3+g==
-X-Gm-Gg: AZuq6aIxXCaMN+KMQZibXRsRPzg7fa7ZPgXBMK7Efc87cdiYow0v4/K4HC4n8iFIeZi
-	S+T/RLTUoZtNyIxvGqHjYOTk61bML3Bu4IQQla6ZD8sFvbN69IQC9PoEz08lnw9mMOJQlutAX1s
-	yrUNG0DKNzpjdln4yNP5Cd0hRQAlhO+InhWr1kFtyth9TQYsmoTu6sjmiJ6E/veAzsZFK0MEHLE
-	1nag+8kf3ejUA9QEH5FoAR6Wi3VrI8gLwb3aMW4gnMe/wl8hNb202T1cEETgPhR0sGyUhsdace2
-	lKGTWgJ9FuGkZvAInXQ2q2IMvsERTnpRx+00AtFQcwQ1E2dqpPZ1WpmdR9hTVGPYCUsHJdFPtMi
-	4evg6plP4o4MxTEgxSszRCq8RqBw5udL25E1rM9RSAgTvjNDBwyX0wKIG9vMu1bI4vHUSCtI=
-X-Received: by 2002:a05:600c:1c1c:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-483739ff8damr256414535e9.7.1771340920683;
-        Tue, 17 Feb 2026 07:08:40 -0800 (PST)
-X-Received: by 2002:a05:600c:1c1c:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-483739ff8damr256413865e9.7.1771340920135;
-        Tue, 17 Feb 2026 07:08:40 -0800 (PST)
-Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4837b64b08bsm102571985e9.6.2026.02.17.07.08.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 07:08:39 -0800 (PST)
-Date: Tue, 17 Feb 2026 16:08:33 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Daan De Meyer <daan.j.demeyer@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Bryan Tan <bryan-bt.tan@broadcom.com>, Vishnu Dasa <vishnu.dasa@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
-	netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, berrange@redhat.com, Sargun Dhillon <sargun@sargun.me>, 
-	linux-doc@vger.kernel.org, Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v16 01/12] vsock: add netns to vsock core
-Message-ID: <aZNNBc390y6V09qO@sgarzare-redhat>
-References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
- <20260121-vsock-vmtest-v16-1-2859a7512097@meta.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAPjneMR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5950C4CEF7;
+	Tue, 17 Feb 2026 15:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771341416;
+	bh=PQS9MrJH71dUd00Df5gWcVQOg7DLwo2jFHIJ+AkIGv4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hAPjneMROTU4OT7z0D+nLcriH2LhEVLvcEgtEx+eiFvVC7zqc6kyx2oAcj9sPd7Rt
+	 aNPZcVn7bXBsuuyfmByENnRHJinNEUAuwmcsk82qbiGrF8r8SZ5LdgFzfjb7Wv8YWJ
+	 C4KjPGoLMLe2UpozsT3P262ulzou8bkR0X7HbYLgqxjGoOku+tNTMxLEDC+j4JQ6C3
+	 2PcQQRLU+Sz48OnGoFwYHv2rN4vMHSshDUKo7EFlTemP87gcQsNYBWgoOdZjs0Y8Sb
+	 /0QbHwytK0uCChT1bxfbHitM1u0zJpyFv+cebPvcGu7U9avwDep5BsvD8bz4g1LWNm
+	 ttfZwgF+DLstg==
+Date: Tue, 17 Feb 2026 15:16:51 +0000
+From: Will Deacon <will@kernel.org>
+To: =?iso-8859-1?Q?Pierre-Cl=E9ment?= Tosi <ptosi@google.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, suzuki.poulose@arm.com,
+	maz@kernel.org, corbet@lwn.net, yee.lee@mediatek.com,
+	ascull@google.com, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] arm64: Optionally disable EL0 MTE via command-line
+Message-ID: <aZSGY_yeNEeEr4U_@willie-the-truck>
+References: <plslbeuzfag5dfizunxmhyw5axxbuz7r3jdlhjluzdwrm4rtzk@bm5xmxzmy6v3>
+ <aZRIHZ2Wq81S-FZY@arm.com>
+ <p7wloz3ospiwaytzzns43hbyfrxfjoca6ljols3dq4hpha5y2v@weadvhpdng7a>
+ <aZRY9UTSgw0Zf2Y-@willie-the-truck>
+ <2evhrm4tg52nxru7xeegs5ut7alnnczv5w2xsgkvhgbdlxdrht@shdj2wb4wcql>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260121-vsock-vmtest-v16-1-2859a7512097@meta.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2evhrm4tg52nxru7xeegs5ut7alnnczv5w2xsgkvhgbdlxdrht@shdj2wb4wcql>
 
-Hi,
+On Tue, Feb 17, 2026 at 01:31:49PM +0100, Pierre-Clément Tosi wrote:
+> On Tue, Feb 17, 2026 at 12:03:01PM +0000, Will Deacon wrote:
+> > On Tue, Feb 17, 2026 at 12:20:02PM +0100, Pierre-Clément Tosi wrote:
+> > > Hi Catalin,
+> > > 
+> > > On Tue, Feb 17, 2026 at 10:51:24AM +0000, Catalin Marinas wrote:
+> > > > On Fri, Feb 13, 2026 at 12:51:07PM +0100, Pierre-Clément Tosi wrote:
+> > > > > Although it is currently possible to fully disable MTE on MTE-capable
+> > > > > CPUs (with arm64.nomte or id_aa64pfr1.mte=0) and to only use MTE in
+> > > > > userspace (with kasan=off), there is no way to limit the use of MTE to
+> > > > > the kernel because CPU capabilities are traditionally exposed directly
+> > > > > to userspace.
+> > > > > 
+> > > > > To address this, introduce a new cmdline argument (inspired by the
+> > > > > existing arm64.nomte) to only expose the MTE capability of the CPU to
+> > > > > the kernel. Combined with KASAN, this results in only the kernel using
+> > > > > the feature, while HWCAP2_MTE and the corresponding MSR ID_AA64PFR1_EL1
+> > > > > field are hidden from userspace.
+> > > > [...]
+> > > > > +	arm64.nomte_el0	[ARM64] Unconditionally disable Memory Tagging Extension
+> > > > > +			support for userspace
+> > > > 
+> > > > Why would we need this? It's a user-space choice whether it uses MTE or
+> > > > not. It's not like the kernel is forcing it onto the user processes.
+> > > 
+> > > Correct. This patch is useful when working with a pre-compiled distribution to
+> > > ensure that a MTE-enabled userspace falls back to untagged allocations, without
+> > > the need to introduce system-wide policies (and ABIs) for said distribution,
+> > > which would also be inherently less robust than this kernel-level gating.
+> > > 
+> > > In Android, we can simply append the flag to the kernel cmdline instead of
+> > > relying on sysprops (or similar early userspace concepts) and hoping that all
+> > > users are properly gated on that sysprop, etc. This can be used for A/B testing
+> > > of the feature or as a highly-reliable "remote kill switch", for example.
+> > 
+> > Why isn't arm64.nomte sufficient for that? It seems weird to insist on
+> > tag-based KASAN support for the purposes of userspace A/B testing...
+> 
+> For a given architecture (and product goals), profiling of MTE might lead to the
+> performance overhead being acceptable in the kernel - where security concerns
+> are more prominent - but not in userspace, resulting in tag-based KASAN being
+> required while a robust switch is needed to disable MTE in userspace but
+> arm64.nomte is too coarse for that.
 
-On Wed, Jan 21, 2026 at 02:11:41PM -0800, Bobby Eshleman wrote:
->From: Bobby Eshleman <bobbyeshleman@meta.com>
->
->Add netns logic to vsock core. Additionally, modify transport hook
->prototypes to be used by later transport-specific patches (e.g.,
->*_seqpacket_allow()).
->
->Namespaces are supported primarily by changing socket lookup functions
->(e.g., vsock_find_connected_socket()) to take into account the socket
->namespace and the namespace mode before considering a candidate socket a
->"match".
->
->This patch also introduces the sysctl /proc/sys/net/vsock/ns_mode to
->report the mode and /proc/sys/net/vsock/child_ns_mode to set the mode
->for new namespaces.
+Then tell userspace not to use it? As Catalin pointed out, the kernel
+doesn't force MTE on for userspace.
 
-talking about this new feature with Daan (in CC) we were discussing a 
-possible change to `child_ns_mode`.
+So the existing kernel cmdline option solve your A/B testing scenario
+and I would've thought you could use SECCOMP to block the relevant
+prctl()s if userspace isn't doing what you want.
 
-Currently, if two or more administrator processes in the same namespace 
-set `child_ns_mode`, they compete. Obviously, after unshare()/clone(), 
-the process can always access `ns_mode` to check if everything went well 
-and eventually retry.
+Also, using MTE as a security feature is a joke.
 
-Daan suggested a more conservative approach, allowing `child_ns_mode` to 
-be written only once (a bit like we did in the old version when the 
-child could change the mode only once). This way, most users who want 
-isolation write `local` in `child_ns_mode` at startup in the init_ns. At 
-that point the user  and can be sure that no other process (including 
-administrators, e.g., container managers) can change it, so all new 
-namespaces will have `local` mode.
-
-I think we should support this option in some way, because it seems to 
-simplify the user space in most common cases (ensure isolation). I see 
-few options for doing this:
-
-1. Change the behavior of `child_ns_mode` to be written only once, but 
-this would limit other possible use cases where `child_ns_mode` can be 
-changed more than once (I don't know if Bobby had any in mind).
-
-2. Add a new sysctl `child_ns_mode_lockin` (or something similar), which 
-can only be written once with a mode (local or global). A write on this 
-will also locks `child_ns_mode`, of course.
-
-3. Add a new `local-locked` mode, reusing the same sysctl.
-
-
-If we go for 1, maybe we can do it in 7.0, or not?
-
-2 and 3, on the other hand, may have to wait until the next release.
-
-What do you think? Any comments?
-
-Thanks,
-Stefano
-
+Will
