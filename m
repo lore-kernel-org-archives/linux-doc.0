@@ -1,202 +1,167 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61A6D338584
-	for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 14:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771339714; cv=pass; b=qDJvYjjQ4PeZZ6tTq5KUeK4BxFlFElJEykjKust9pc0PQxMQcOxZ7Lts3Z1w9G4yApNbF/VE4HpLwUx+iq/kJMAK4+5DDacQwPSd+KqAUbioKmmw0C963FV91PfFLEnP8BgV8dZCH1n1k6qw5cXRco1a5ge+jX3KFDKN6S/jzKI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771339714; c=relaxed/simple;
-	bh=BdwdGKvnO7fFw0MoaFXmtoP5xcQ32uwyD+1ybxKNc1o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YaxxiphA84lj22xC+5/26ir4KZwyyBNoBpmOouA1NwBBMWa8zdvYOpJUD0Uptlj6ekuvkUmJHj8YW4hvfx011FiCoAWlMZn9cc+PEFrFeixRCnjHHveuZZk+c4y0lJRiSaW/y2nM0ewOlP3phwpjcMn8melPF3SWW4Oe0jAr3HY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cz3swEMt; arc=pass smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A81D36BCF3
+	for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 15:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771340935; cv=none; b=PNkZ7kqCRCTNh5bFvZwrxgJDavTyRHrKge904E9jSK7lfd+djVQYU8yG/f55G2P4IGNq/JOWRwvnAQ8ud/plOz6g6m2W9MLslUeugYringGVtADWYC/qBFiBo28sPv7QFpZvsyIvLIJ911UP91MgWY+cCNAv+4NSmJlil5Edd6g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771340935; c=relaxed/simple;
+	bh=FATg9XsSiPlYwAbae8L/USKuKRBil6Mn8gqbYCmEG2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fDFk40iNdzPuPKGA6oy6fKzP+HLSEYhXzhg7dy9zkigm6iKlssUSN0tzDvfaT+B3sIE8g2OM+KipnfXvEXHWBwZ5LMbYifGlUYw/5viYNBQRlW1jvDC6AjKjCD2NfoUnDvDU3rnjinWRDYY+o4z4k9t/2bs52Z3Bphi+pEt88TM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cNeaDh9G; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Q2wmJ0DP; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cz3swEMt"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4377174e1ebso3252124f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 06:48:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771339712; cv=none;
-        d=google.com; s=arc-20240605;
-        b=O5N7yeHdMayXxM/hOSGClZzKYPIJG57EfVLlfaLRaK+FJzHg9aohFxs5JIg+l4uc5o
-         PysCTcORLjIdr+ykpsi09kbYuy6JD6mcRw5daiU5feV8xovvN1UBQ6mhOkGGvywcw2DM
-         5hrva3KjK/KK/Hz3JuZUMGkQJ+NXenlsscA1AzKQwR94J4g8xGScFOgwLA09PYVo5R5Z
-         BIxoqXf0R+OsDwaMU3XBZpyqp1b2OKz+BsBDzgeeHF0wEIaQCM/dAQ1V2Yo4XrraAuqV
-         KQtzdXWY85DK+N2whqZxctWKzilm9HWDA2TRN2pFrTcgi/m1KMWAo419dHLjuec0FtjU
-         pXNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=eLr2cRWBw8S0/OXlKOzbRmg5bkPMrPDlaj10p1kdwTE=;
-        fh=hFg9F/zq+VRiVl7JmXZciPTbIixTFeqNWpcC3zQfgic=;
-        b=caQ6oKcYB2AxdZpbd29KKsUuM4e7nj/1Zuy1Z4qCzu4jex28kG1oQv5P8KJQJKdfYq
-         x4WA7qclpxrFZEPDE/7YSQl9m/sO1W3jSb871RoDQl35tkItwKop3YXU7jejOVePxJQ4
-         WDKfOLAnenuUIBs+yLT9VC3aPZbwIueQlxyYhkjt68NcsAgow1vKY2lbY/EcpQLee/jn
-         PTwdOpY1cUG29mwYMI7xkmhMIbKK8Oak1anv8UOtvSPRq1nj2ZJ5BFNdJw46yRul4rWY
-         MiRsFgt4PoiLPqqs4Xp61KnlqpNUQfS4P7EaokIl+V/gTg/0aUkKe974tyTZCpt+yAjW
-         +Ufw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cNeaDh9G";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Q2wmJ0DP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771340933;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=jEc67c+eucBHPlMa8Z8GafQvzyfH5CJQ48/ZIvcQG9w=;
+	b=cNeaDh9GMewGjsMFeYSHua2ChE6tehApHILnL7kiAjWin9ln/0CV1hBgNhGHD5IKzqqJRw
+	lq7TVxJNqd5LcFKQ+a/KjZojKYEICgp9Xk9Bq3WFglyg2IwRnnm3omZhh8pVm+/piYg5JN
+	nQ42RlfFVY7fAixXKYCeohlzyF69Ec0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-642-NCJfr1qXN4WeQt8qPLjYjg-1; Tue, 17 Feb 2026 10:08:42 -0500
+X-MC-Unique: NCJfr1qXN4WeQt8qPLjYjg-1
+X-Mimecast-MFC-AGG-ID: NCJfr1qXN4WeQt8qPLjYjg_1771340921
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4836e35292cso34161845e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 07:08:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1771339712; x=1771944512; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=eLr2cRWBw8S0/OXlKOzbRmg5bkPMrPDlaj10p1kdwTE=;
-        b=cz3swEMtk3PN2RvOTaW1z9hz0lQ4TdrxSP5U4gFFonwIFdUREVJHg2O0IHPFiUgqAI
-         /uLteasIn9nknhnHTDUkGJRc/i5uKsLd3jaXqFXT6zVXHjGWz3C3yloiJNOqXQcqBBsV
-         jCokeQ61LqCfTqKJ2wcPo/zgjmO2BiS6tkgRih/Gi0XRIYCABxADDHT98I2HVyvzU/A1
-         djJbUeL74d4jMn70Bev0C9NAjMdbKk7xepPqG4QNTrbsgHaylLMgTa9tfmO37CODknEu
-         +E1/4EBZQWP3owZXPGPNAZJoaJoGF/43yIGsyO5nvGgSTyu+nuWPqb8WztbMWQUYhWMi
-         OoWg==
+        d=redhat.com; s=google; t=1771340921; x=1771945721; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jEc67c+eucBHPlMa8Z8GafQvzyfH5CJQ48/ZIvcQG9w=;
+        b=Q2wmJ0DPwomE3lsee1BYstQjxqAnEoTsy5rJ+GWkPVk8D2TXrPTr+q9n8RfHUtq6SU
+         QkMKme1nOLQPh3W91U2V+9xYt6kUNqX56HkI+vksqVJHb6CzSYBoBA04iEkLOkgvJfCN
+         Ak9ZVvabnKDg1E6BW13xVNL6Sa8FLyHglfTZqy7QFyBj+p/48xxZCUIIJM4N+rEyGXRS
+         fKIP2GV0s0i0ZcDAVrdZ+qjYM5Z0bSsjw5cdpD8bvUd3kH5FphEqA1D4QKB6MteiGUIV
+         yfznMv6w5ra0fpKcDt+HWEkfAb+DPIZNnqqil2+Y7sk0/jNVnCXcsc9CyiIpOav8I+n5
+         dBPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771339712; x=1771944512;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eLr2cRWBw8S0/OXlKOzbRmg5bkPMrPDlaj10p1kdwTE=;
-        b=U8FQMFbvAM0eV3UhpFfdLckU+Tb2WkvvQxIdWXJ+VFqrrPTrPmy1ABLblr4GMxt8w1
-         9oJFN+E6nvRhtHZRR0DEEkBlqJmYmFnTiT9EV5DXeDEx7CMpCGD0JYohF1BCuzVOaIxw
-         bTietCN01OQAfy9WvDWyYbQDYOZ+rFs71N/BjdHqdhnYCRvC0oCEk9KBUxtG6uIxamHH
-         wotvMZeF89Sl3fUyFs06t5UNMGSMHsXbaUtQGDPLsnbxfaB6q8os4CezZrCVSrZtdi0R
-         E9v8slSbK8d75N5lWR62mDZ/Vzdav2CL1zQy78nk5T2WOdanRmo7Dhf7/zyssQAYjaWK
-         Cb2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUSXN6Q8rOUshs5vS/U06D941nOnDXQz6g7QhQArIf2tWgwgW2OizxBTGIo5G4KDRaX2vPU0AouRRs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxz9bkgbxFzUfnydSGRSuaD+TfNaIJszTrcVEzSIIZ87Bgt41vI
-	80LxOYHjKqYMjCAVbH7PHnjGhWazAvoTYkT/+7CJXEeIAdTyU/pLPHf8rksJTLt/P1b7n92EAUE
-	2Ye6BFvyMxwMTWG7KJKqTMNT9+YLLa21DuN00SUmH9g==
-X-Gm-Gg: AZuq6aISjr4UA2QhuAipsy8VO9BW0PXjtKW24jwBbSAF2AWRHWbkOvBKdNPPemDkVs6
-	oKsQxftYlpKG/idYCZedjVsTh6mN0H/s0FjcnyolAMvM4aWJDreBOx+3FIwnlOYhf2tRcmuEPyw
-	/pKKNhT8nWsFKvHWwR62LWB4kVNgRGlzC27uxfJBozQ7S8z2+qJO9A9//v56r5SG5lpqhC9NrN+
-	TXXEx7El38Wd/WkRPDCaF8+tKdnU3FR/JUmN62lUdDbBU/DKCe0nFzSNErWCbjovdf9Gt0ehX02
-	BcG5HzG41KFoskO8feodmVFUd6et0wQ7vw5Zaa8uCiKOhSilNV+NWoztGgBc+kNQkr4fYUuBeob
-	xmE78
-X-Received: by 2002:a05:6000:1a8e:b0:435:8f88:7235 with SMTP id
- ffacd0b85a97d-4379790e98amr27190797f8f.33.1771339711651; Tue, 17 Feb 2026
- 06:48:31 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771340921; x=1771945721;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jEc67c+eucBHPlMa8Z8GafQvzyfH5CJQ48/ZIvcQG9w=;
+        b=g8W5Q6sY9lEyVQEh7EA5+vYUX6I63zig5vF+KKj9M27tDNeK+X9W085sVzdTaqW2An
+         9Yf4Cc1hXTYsstAKcZruMFsCZbPvIYF0jn6NavQzDgOFHWM+wPrWtgVlB7aXaSmqzPZA
+         nVph/CnqRRbx7vBkN+sUkkcmgnjrp5u2ShTn3Cg9UdqBFgsH+oe/sWLH/VqfAwDSXwlZ
+         yYc5Ei2OUMh+eCA6zC7EwFHimxecnw6evZgfI+QaJlgW0uvYzaXfGTwONagZyndsbQTs
+         K5EG45HE1O+jtZMUtfprh67ewuugXW8KEfIuqbXsc4J7G+cfckGdytX8Lv1VL4GtNz63
+         li1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUMJCrtu332aiVEcT02tkjEqm628OSo/BtwDgyGlTBuNT3i0UV14+VNphuBVo8nGAMM59hlKM4FZiE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysxYC+cKzc7eWk+CbAFqBGVaFvILiKHZ/pAALLRA/F87wF6Zz0
+	JhM8ORNwXFEQFQflWnlDKwU4HwtoSWC6gulDCcRk8Zcj/CsvvymSVs/+SzKgk0P2zYLbpBogupE
+	qnfvnX65MSdz055k0eFurI4CQJ45/MLRdAUGH8bmrtP0JedXBaATDGSmtr7I3+g==
+X-Gm-Gg: AZuq6aIxXCaMN+KMQZibXRsRPzg7fa7ZPgXBMK7Efc87cdiYow0v4/K4HC4n8iFIeZi
+	S+T/RLTUoZtNyIxvGqHjYOTk61bML3Bu4IQQla6ZD8sFvbN69IQC9PoEz08lnw9mMOJQlutAX1s
+	yrUNG0DKNzpjdln4yNP5Cd0hRQAlhO+InhWr1kFtyth9TQYsmoTu6sjmiJ6E/veAzsZFK0MEHLE
+	1nag+8kf3ejUA9QEH5FoAR6Wi3VrI8gLwb3aMW4gnMe/wl8hNb202T1cEETgPhR0sGyUhsdace2
+	lKGTWgJ9FuGkZvAInXQ2q2IMvsERTnpRx+00AtFQcwQ1E2dqpPZ1WpmdR9hTVGPYCUsHJdFPtMi
+	4evg6plP4o4MxTEgxSszRCq8RqBw5udL25E1rM9RSAgTvjNDBwyX0wKIG9vMu1bI4vHUSCtI=
+X-Received: by 2002:a05:600c:1c1c:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-483739ff8damr256414535e9.7.1771340920683;
+        Tue, 17 Feb 2026 07:08:40 -0800 (PST)
+X-Received: by 2002:a05:600c:1c1c:b0:477:7b16:5fb1 with SMTP id 5b1f17b1804b1-483739ff8damr256413865e9.7.1771340920135;
+        Tue, 17 Feb 2026 07:08:40 -0800 (PST)
+Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4837b64b08bsm102571985e9.6.2026.02.17.07.08.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Feb 2026 07:08:39 -0800 (PST)
+Date: Tue, 17 Feb 2026 16:08:33 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Daan De Meyer <daan.j.demeyer@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jason Wang <jasowang@redhat.com>, Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "K. Y. Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
+	Bryan Tan <bryan-bt.tan@broadcom.com>, Vishnu Dasa <vishnu.dasa@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Shuah Khan <shuah@kernel.org>, Long Li <longli@microsoft.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, virtualization@lists.linux.dev, 
+	netdev@vger.kernel.org, kvm@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, berrange@redhat.com, Sargun Dhillon <sargun@sargun.me>, 
+	linux-doc@vger.kernel.org, Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v16 01/12] vsock: add netns to vsock core
+Message-ID: <aZNNBc390y6V09qO@sgarzare-redhat>
+References: <20260121-vsock-vmtest-v16-0-2859a7512097@meta.com>
+ <20260121-vsock-vmtest-v16-1-2859a7512097@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260206182336.1397715-1-neelx@suse.com> <20260206182336.1397715-9-neelx@suse.com>
- <64126c50-063e-40e4-a536-233cce94b65e@infradead.org>
-In-Reply-To: <64126c50-063e-40e4-a536-233cce94b65e@infradead.org>
-From: Daniel Vacek <neelx@suse.com>
-Date: Tue, 17 Feb 2026 15:48:20 +0100
-X-Gm-Features: AaiRm51hHUsbfTUEHtSwC9qIQM4TJ160IJ28Zz9PQrmVkFY3H02cMBpf6HPloMc
-Message-ID: <CAPjX3FfLFDS5Q32BzbhPgohsX250f8+JX_YbKPLVaGqVGcfV6g@mail.gmail.com>
-Subject: Re: [PATCH v6 08/43] fscrypt: add documentation about extent encryption
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim <jaegeuk@kernel.org>, Jens Axboe <axboe@kernel.dk>, 
-	David Sterba <dsterba@suse.com>, Jonathan Corbet <corbet@lwn.net>, linux-block@vger.kernel.org, 
-	linux-fscrypt@vger.kernel.org, linux-btrfs@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260121-vsock-vmtest-v16-1-2859a7512097@meta.com>
 
-On Fri, 6 Feb 2026 at 19:43, Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 2/6/26 10:22 AM, Daniel Vacek wrote:
-> > From: Josef Bacik <josef@toxicpanda.com>
-> >
-> > Add a couple of sections to the fscrypt documentation about per-extent
-> > encryption.
-> >
-> > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> > Signed-off-by: Daniel Vacek <neelx@suse.com>
-> > ---
-> >
-> > v5: https://lore.kernel.org/linux-btrfs/7b2cc4dd423c3930e51b1ef5dd209164ff11c05a.1706116485.git.josef@toxicpanda.com/
-> >  * No changes since.
-> > ---
-> >  Documentation/filesystems/fscrypt.rst | 41 +++++++++++++++++++++++++++
-> >  1 file changed, 41 insertions(+)
-> >
-> > diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
-> > index 70af896822e1..8afec55dd913 100644
-> > --- a/Documentation/filesystems/fscrypt.rst
-> > +++ b/Documentation/filesystems/fscrypt.rst
-> > @@ -283,6 +283,21 @@ alternative master keys or to support rotating master keys.  Instead,
-> >  the master keys may be wrapped in userspace, e.g. as is done by the
-> >  `fscrypt <https://github.com/google/fscrypt>`_ tool.
-> >
-> > +Per-extent encryption keys
-> > +--------------------------
-> > +
-> > +For certain file systems, such as btrfs, it's desired to derive a
-> > +per-extent encryption key.  This is to enable features such as snapshots
-> > +and reflink, where you could have different inodes pointing at the same
-> > +extent.  When a new extent is created fscrypt randomly generates a
-> > +16-byte nonce and the file system stores it along side the extent.
->
->                                                alongside
->
-> > +Then, it uses a KDF (as described in `Key derivation function`_) to
-> > +derive the extent's key from the master key and nonce.
-> > +
-> > +Currently the inode's master key and encryption policy must match the
-> > +extent, so you cannot share extents between inodes that were encrypted
-> > +differently.
-> > +
-> >  DIRECT_KEY policies
-> >  -------------------
-> >
-> > @@ -1488,6 +1503,27 @@ by the kernel and is used as KDF input or as a tweak to cause
-> >  different files to be encrypted differently; see `Per-file encryption
-> >  keys`_ and `DIRECT_KEY policies`_.
-> >
-> > +Extent encryption context
-> > +-------------------------
-> > +
-> > +The extent encryption context mirrors the important parts of the above
-> > +`Encryption context`_, with a few ommisions.  The struct is defined as
->
->                                      omissions
->
-> > +follows::
-> > +
-> > +        struct fscrypt_extent_context {
-> > +                u8 version;
-> > +                u8 encryption_mode;
-> > +                u8 master_key_identifier[FSCRYPT_KEY_IDENTIFIER_SIZE];
-> > +                u8 nonce[FSCRYPT_FILE_NONCE_SIZE];
-> > +        };
-> > +
-> > +Currently all fields much match the containing inode's encryption
-> > +context, with the exception of the nonce.
-> > +
-> > +Additionally extent encryption is only supported with
-> > +FSCRYPT_EXTENT_CONTEXT_V2 using the standard policy, all other policies
->
->                                                 policy; all other policies
->
-> > +are disallowed.
-> > +
-> >  Data path changes
-> >  -----------------
-> >
-> > @@ -1511,6 +1547,11 @@ buffer.  Some filesystems, such as UBIFS, already use temporary
-> >  buffers regardless of encryption.  Other filesystems, such as ext4 and
-> >  F2FS, have to allocate bounce pages specially for encryption.
-> >
-> > +Inline encryption is not optional for extent encryption based file
-> > +systems, the amount of objects required to be kept around is too much.
->
->    systems; the amount of
+Hi,
 
-Thanks Randy. I'll amend all these in the next iteration.
-
---nX
-
-> > +Inline encryption handles the object lifetime details which results in a
-> > +cleaner implementation.
-> > +
-> >  Filename hashing and encoding
-> >  -----------------------------
-> >
+On Wed, Jan 21, 2026 at 02:11:41PM -0800, Bobby Eshleman wrote:
+>From: Bobby Eshleman <bobbyeshleman@meta.com>
 >
-> --
-> ~Randy
+>Add netns logic to vsock core. Additionally, modify transport hook
+>prototypes to be used by later transport-specific patches (e.g.,
+>*_seqpacket_allow()).
 >
+>Namespaces are supported primarily by changing socket lookup functions
+>(e.g., vsock_find_connected_socket()) to take into account the socket
+>namespace and the namespace mode before considering a candidate socket a
+>"match".
+>
+>This patch also introduces the sysctl /proc/sys/net/vsock/ns_mode to
+>report the mode and /proc/sys/net/vsock/child_ns_mode to set the mode
+>for new namespaces.
+
+talking about this new feature with Daan (in CC) we were discussing a 
+possible change to `child_ns_mode`.
+
+Currently, if two or more administrator processes in the same namespace 
+set `child_ns_mode`, they compete. Obviously, after unshare()/clone(), 
+the process can always access `ns_mode` to check if everything went well 
+and eventually retry.
+
+Daan suggested a more conservative approach, allowing `child_ns_mode` to 
+be written only once (a bit like we did in the old version when the 
+child could change the mode only once). This way, most users who want 
+isolation write `local` in `child_ns_mode` at startup in the init_ns. At 
+that point the user  and can be sure that no other process (including 
+administrators, e.g., container managers) can change it, so all new 
+namespaces will have `local` mode.
+
+I think we should support this option in some way, because it seems to 
+simplify the user space in most common cases (ensure isolation). I see 
+few options for doing this:
+
+1. Change the behavior of `child_ns_mode` to be written only once, but 
+this would limit other possible use cases where `child_ns_mode` can be 
+changed more than once (I don't know if Bobby had any in mind).
+
+2. Add a new sysctl `child_ns_mode_lockin` (or something similar), which 
+can only be written once with a mode (local or global). A write on this 
+will also locks `child_ns_mode`, of course.
+
+3. Add a new `local-locked` mode, reusing the same sysctl.
+
+
+If we go for 1, maybe we can do it in 7.0, or not?
+
+2 and 3, on the other hand, may have to wait until the next release.
+
+What do you think? Any comments?
+
+Thanks,
+Stefano
+
