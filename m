@@ -1,304 +1,285 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010026.outbound.protection.outlook.com [52.101.46.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791682DECDF
-	for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 08:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771315936; cv=none; b=aTcqOKYPSrXZpcm4EwQZvEFNaFgvFREUBSAZ2VtDWpXDxkFeFSzoywbxWDRIRAAiZhxFak07ab7/8Bl8x4AKJR3hp5MtPNiZ0UnY5wFURp3lv8gWTWmM1kQHy59UtchR+YnGdu6FNa6810GXgy/hryMxzNzuj+Zt5uF5V5CWwxA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771315936; c=relaxed/simple;
-	bh=S8Cd2E8SKugiVyOxMAARAlFbe35TOZ5k+jrtw5MSFHQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Nu4S25cNViXomCgvK6VIwPAOH1VUH6acIuC4vh0oKycgfxfCWT/b1BkNp2wOYKR/2e/MD372gixKWmJcexU1hH0RbYmJTkiWx+wN9CY6r8wlx++P+8hEGQa8aXUbLBMbZ9azAQ8PSbu2pJARKz0dOdUDOtCrOTE8ugLiBYSRWUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=cgUBJ5MB; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABEB227B33B;
+	Tue, 17 Feb 2026 09:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.26
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771320216; cv=fail; b=S/PyPbjSuwjk0YE3GLlPVYvhq+3HJINXMsd7IIsMC+Tx8XTqJd8Ws6gCgU7ZihXixw9bvHbZq7khxDn8kZETqrTk170Kw2F7CVtxH6KePMHs9iChpkiN+mSuy9Zx2Yo+Lvvhos9oEsQXuEN0MbgYWbmK/2ej7zwMZPEkS9hsdy4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771320216; c=relaxed/simple;
+	bh=v+J1ms67J+Mj4u5hliu81QUq2o/HR3c8B9GczF7Gs1M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Mao4WbMsRgB7DNHDsANiugxXSRMWK0i/7nusz+Y7l8p6eGEUL5/HySBYZClZx+sAAoN/A8YtkoXKK6cSye86rHY/mWtHiK1e1EgyfKpjnOsxiaD2X60b/PXgR+Kx4cW2hFs2PT+r/swZF4crS7IOC5dGp/Vo1XvpX4R3DbZT3Xs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com; spf=pass smtp.mailfrom=gehealthcare.com; dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b=nUknFZ67; arc=fail smtp.client-ip=52.101.46.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gehealthcare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="cgUBJ5MB"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-436356740e6so4643594f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 00:12:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771315933; x=1771920733; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f64XWOiLeopfzc8m0vbWs3v53yiP6RzpjdTcY0IqlPk=;
-        b=cgUBJ5MBzOnccyxBEGrchpD5ZArfBjNucd/kJXMUWTIcFLFBASq/YNtUT6EvzQd0hP
-         5xGN6HeQz2xJBmL2au7pE0fVqjjCsT7YR7JdRqngQMa86+27+jhPyxDEejwTNhBuXiaG
-         1Bn7TDolS7l/X4E3xSDL4+JJ2PQ5riULtSPK4PSTumbuJmMaodWyoT/iETDz28qS3QOM
-         cybm4MbOy1dxXYrTLlmfGMNPcQlTZMmPF5Bo8ybP95Mu92gPWWnZjpZpDy9w7eKWkh45
-         O9MBcy2NtfOAbtC7YLVXdji8pRIDAff9FIyguA83GMXfTlLJ3zgXtlb0/Q96Ney7t+m3
-         s/Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771315933; x=1771920733;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=f64XWOiLeopfzc8m0vbWs3v53yiP6RzpjdTcY0IqlPk=;
-        b=v5Y2Ukn4hjPb4UFaJEuC+4hEij81/I9XpqOH1E5sjxODpckd1lkRBlcLD+hKv2pQPq
-         AbLoszi8fnZrr2nOH+k97erm2zN5IvgyGl19YKbsajQWW8mi5kFZ9S/LJgsmL84V9QVU
-         WDX9y1oCTGB2U+TZ/ubzJVd8eGNL81QJGtgrvVFivtA20Y77J7+M3gmfIGUtB3iY60Tz
-         uU6H0C3LeTlkGh3dwowKW2RkRDEcLiruCoAf9OSHA67qZHbunVqD3KIB0lssWyVj/GrI
-         M/H0WouduDxnXH4kzWTF8ZO/g4lA9CQa3Q+zkqWV8eNUh7oNxGVS/Rn8O9Xa1cIdd2eD
-         LIMw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5mUZUhSmLB1eM2OQoRdjFTpr7gzz/uTW306FAUdAX/03jmtlQhs6VbBd62INo7GQCGbJac9D8qYg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtTPEFn6MOX2bgPhxmXRnbqfLpqfd8qIZlabFo6MSrlY6QTl5s
-	Xbntk5vKEypjmuSfio+ZVn3h1wEm4rbJFm6JKDSamt55Hrz+H2sWG0C5tbbLW1yUSvw=
-X-Gm-Gg: AZuq6aIXolt4rEoBnnTI9o6SKgjbXsvsoV5In5JS8A/lU644hTA5JAbjooMS761Fl+3
-	Fz8vEVD7oPD843qBh45WcZXr5dAY4PHbHqbp5Vq9Sc+J59JtGNN5fYpnqVJlA7R0/7VUtv1WEJq
-	lmexnUOzCOOWcvGxRFRhsm5OsX2cgGDonmeBy1wSh5viYp/vcuvauVxqY1LHV2UvgxBrBQAywxK
-	a+q+sj174PZKwWmjcK36mohcBYFZ4gEDh/ra3jVNNH+WKbGlEvHwtWvKZscSwCVTZr0Cb7tDA6g
-	M7wpVmoffyBCWPso2q7rhgAmr1ObNQJCaVW4TDFrnUFa+uTRgWhkXHW0NtnsMceyBXFml4C/jSF
-	GryRuqGNHbOCE4pyn9lq8ASffdPzWMrzxVszpKOfPRDESHsfCTaRLe1JtJYChMXaWS/4SzVsKNl
-	Di8eppftXfg4z7trujIW7GwaVezbk+WQ5c8V0JtnArq3mmBtghXIfIgkddNF8HOf1995ULhTNHD
-	8VzYEZZUA==
-X-Received: by 2002:a05:6000:2001:b0:435:96ec:679e with SMTP id ffacd0b85a97d-4379db61cccmr19577529f8f.23.1771315932698;
-        Tue, 17 Feb 2026 00:12:12 -0800 (PST)
-Received: from silence.. ([46.10.240.40])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43796a5d156sm35757690f8f.5.2026.02.17.00.12.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Feb 2026 00:12:12 -0800 (PST)
-From: Stoyan Bogdanov <sbogdanov@baylibre.com>
-To: jbrunet@baylibre.com,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b="nUknFZ67"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JmgQFuxviAc/D+VreK+x+nh8pe3CoAG663rC82kGI/AN6O0P4AfGelYaToy+l8w3RQ2zYWyGpnXP/NOw+rFmMMlGGZiJQwA7azgMilHr86HNcpuofu4hKiLXPXovkYgCnf3OXuzV9x+WMc/36S+H4fBbe0UZsAzKQAdICgrLgeB3XNTzw0cWtUEn+WF2q/FWEGTzxCNtbroW1wHd3aAg2xOG+9Su0hfp6nB2lW9OFBO40ue9OE1FCfkSQ+kpIfKNF0sokvnBwYouMwQCPksK9HZPjfpk89SXPvrR0YpwYeJP4p6rQ/N3lMdynuJ25XXS4IO1fX+Eq4PURpcgw0BCvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=68FdqE8Erime5GPGN7fgOfGvbm1EoNWfvchnyAYhGEw=;
+ b=mGeJVemZ4VqW8spHPk33AFAyWvJQrS2ZCFfMDSrJ6g2IReN7Lq7Sf8j2QO5rXFFLrva97d7vAK3nZ5+lIuM6BrwXbqXLxlk+vJmN194xHyf3dxbxwa2nAw1pLdkEvtv9hvFdgfSmzQDjDttH+kA/mIFowpIzN8D96X7OkyP6gDeWbYbQIquMRJGbzx5SiV8IKOksx7OWxP+/AfekwQYdOLPfvoD8aaezqKVxFLB5cbQ5Y5O1iTPCuTITJMIKrFimxiHLegBDYjrfaCmFIbL/zv7UFNHPiRD+kxqHkijBdtdHm3gnL8/4EOz+r+XtDT6ED7sfzRjDMBqLmFp3je21EA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 165.85.157.49) smtp.rcpttodomain=vger.kernel.org
+ smtp.mailfrom=gehealthcare.com; dmarc=fail (p=quarantine sp=quarantine
+ pct=100) action=quarantine header.from=gehealthcare.com; dkim=none (message
+ not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehealthcare.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=68FdqE8Erime5GPGN7fgOfGvbm1EoNWfvchnyAYhGEw=;
+ b=nUknFZ67NMJpDwDUAoB9HjH3+GTLTlNuWuZ0Mv3Vw6quzPkE8CnupgUbZBRkQmF6LVjtMX4D9Od44kb4xj7qvdiCtlkQ6hbVGa3+A6QuwiupZQQnbWIObcs1Gvq1Vs6VnlvMoiNQyBrb5xNIdgjacKx/HzX230RfGNld9Q9phWJD1EqadULYFB8/O+Tm+568PGkLxKirJLPd8kPjr4BE5/FqogpJ1bo8ICAiCLUWRQFzVuJgRK88sHrlvL7pCOGdUi+FfWAXSvdWxxxG3OM6WbEWYuPdHMZXBDWvpSK+/hOXTQLgd52Oow3lqIPMwfG3LSqEVYW/iirjpd9mnYX/7Q==
+Received: from SJ0PR13CA0016.namprd13.prod.outlook.com (2603:10b6:a03:2c0::21)
+ by BY1PR22MB5599.namprd22.prod.outlook.com (2603:10b6:a03:4ad::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.16; Tue, 17 Feb
+ 2026 09:23:32 +0000
+Received: from SJ1PEPF00002314.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c0:cafe::52) by SJ0PR13CA0016.outlook.office365.com
+ (2603:10b6:a03:2c0::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.13 via Frontend Transport; Tue,
+ 17 Feb 2026 09:23:17 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 165.85.157.49)
+ smtp.mailfrom=gehealthcare.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=gehealthcare.com;
+Received-SPF: Fail (protection.outlook.com: domain of gehealthcare.com does
+ not designate 165.85.157.49 as permitted sender)
+ receiver=protection.outlook.com; client-ip=165.85.157.49;
+ helo=mkerelay1.compute.ge-healthcare.net;
+Received: from mkerelay1.compute.ge-healthcare.net (165.85.157.49) by
+ SJ1PEPF00002314.mail.protection.outlook.com (10.167.242.168) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Tue, 17 Feb 2026 09:23:31 +0000
+Received: from zeus.fihel.lab.ge-healthcare.net (zoo13.fihel.lab.ge-healthcare.net [10.168.174.111])
+	by builder1.fihel.lab.ge-healthcare.net (Postfix) with ESMTP id BA5E3F884B;
+	Tue, 17 Feb 2026 11:23:28 +0200 (EET)
+From: Ian Ray <ian.ray@gehealthcare.com>
+To: Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Ian Ray <ian.ray@gehealthcare.com>,
+	linux-hwmon@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Stoyan Bogdanov <sbogdanov@baylibre.com>
-Subject: [PATCH v3 3/3] hwmon: (pmbus/tps1689): Add TPS1689 support
-Date: Tue, 17 Feb 2026 10:12:03 +0200
-Message-Id: <20260217081203.1792025-4-sbogdanov@baylibre.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260217081203.1792025-1-sbogdanov@baylibre.com>
-References: <20260217081203.1792025-1-sbogdanov@baylibre.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] hwmon: (ina2xx) Add support for INA234
+Date: Tue, 17 Feb 2026 11:23:22 +0200
+Message-ID: <20260217092325.15867-2-ian.ray@gehealthcare.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20260217092325.15867-1-ian.ray@gehealthcare.com>
+References: <20260217092325.15867-1-ian.ray@gehealthcare.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00002314:EE_|BY1PR22MB5599:EE_
+X-MS-Office365-Filtering-Correlation-Id: b44c63ad-f480-4535-be48-08de6e0637f7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VG9veGREVVF4ZmRCb2NDZUNLOHR2Zy9wTjY5L1QxTHlsTVlWK1FkUEUxZTlT?=
+ =?utf-8?B?dytuWDNVaVNsY2xTZXZrMG1FOXBkRys5alR4MnExNmZmNHZVVUE4Ti82RU15?=
+ =?utf-8?B?a20vV2xLMW1ZTVYycEVFdlRmVG9hcXFtSFJCVVB2eWxna2pHSWNOczRCcHV2?=
+ =?utf-8?B?cGlPMGtXK2UxUjN4RVVlUk1qQm41NjQ2UkV0eG1RMURBOFRuVUdTSUF2SDRQ?=
+ =?utf-8?B?WCs1UVYzbGhFSWI2enVueHFOTjg5azQyc0NnYXJqS3dhQVBIa1NCNmpzbUoz?=
+ =?utf-8?B?ZHZJMW1XUHpsVVZoNGdWQ1IrMTROVk03YmxjTUMzWkViTUVuNHJ4L0JPL0hI?=
+ =?utf-8?B?QUphNFVrWFJRNXVEUSsyNDVDS3B0OU92Zk80QmpiVSs3eHRoZEFmSU1HeVh3?=
+ =?utf-8?B?QzdhYmVHblljQWRuMkhXWk15ajhnS2t3MVJTSzA4bG1yMEJEZmE3LzNINmRy?=
+ =?utf-8?B?K3QvNTYwS1J4VUZWZmtJWXpOYTdyOWFhVDFZSU9YVXY5Vm8rM0c3MVVOUXds?=
+ =?utf-8?B?RnJCSERiQ3B2MEV6RzB0NU92WGR6TXVMZXhSV2VVbWFTTFU3dlpvY20vUzVI?=
+ =?utf-8?B?RWt6c0xXc0VTTmluNjE2MDFXSGFwSzkrcFRkM3VzNVFIU0FNbnZNL3FOdUFX?=
+ =?utf-8?B?N1ZyTzUrbzFvcFE5V0FMMWl4bWMwVSswRTRVb0szTXIrRlVEQ3dZaytRTGkv?=
+ =?utf-8?B?VW1vTW9NYjZzZ040ZmV5MVdZVmNLR3hOSjBlVkhvRGsxNTVHczNDaElncmp3?=
+ =?utf-8?B?dzBUcU8vQ2lnZ3VLaUhJMlNsbmxMcEdJcExSUWU4UUdyMVBBRmNYd3Jsby9i?=
+ =?utf-8?B?UGdWYVJOYjJDWFZkcVM3LzdJMkpuYVB1V0VzZXJxV0phaFFhc3ZScElveDB1?=
+ =?utf-8?B?L2hDcTkvQ1RFNHExdmZ3OHNndDRDTjNNSlhZT1dCSGhQQVV2RURUYVpCZjJV?=
+ =?utf-8?B?SVBqNktzZ3hwVHRtZjR5Mmxqa0EwTjdlNmhUcEMrZThQMkltMm92RlJ2NmFB?=
+ =?utf-8?B?Z0xzdituU3JWMEhoYTkyTHN5S2p5cnpPSjlhbTZFSU9pcnhQNy92enRaUkU4?=
+ =?utf-8?B?V2VEaXZ5SGJRdDV4ZnlOZHdmM0xDb3o0TG9kTCt0c1NXL2tmbHE4QWpJMSs2?=
+ =?utf-8?B?RENJQ2sraEI4VXNyektOVll0R2Y3MmlVN1JkS0VSTCt3Mkt6UU0xZW5MdElG?=
+ =?utf-8?B?Tmh5bDl0RGJWODhxNzRvQk93MjdzaGN2N3JlNkg5ckwzUHA1OUQzNmlkZk5o?=
+ =?utf-8?B?bU14RlhwOXdqUStpdmpVTW9uN0RUNXY3eUlHdUx1MG93UU1BaFNwbUEreVJk?=
+ =?utf-8?B?MHk4NGNMcFpQdVNXc1VCcDdlT3NyT0pkMDR1NkpGd0wyYWpMdm5KMzZoZU9P?=
+ =?utf-8?B?TC9kNU1ydzVxS0VSZCtxS2Q3WENxVHpTTnFFcEU4eW9SbXc3Sy9QdTlUSERG?=
+ =?utf-8?B?ZnFzb2p2a0ZIWTVTS09XbmtMWjVzdDFWbTRXMEJ4aHR3TEVYbld5TjBHdHd3?=
+ =?utf-8?B?djgrOUVpU0QwMTlNell3V09mWHNFWGJCaEVBZytJU29ZVlZTNi9xdm9SQTJq?=
+ =?utf-8?B?U0daYU53eGZydFgvY0NBY21tRWtEdG9jVGlTcmNHRkM5THk1ajRIWExhZ0Zh?=
+ =?utf-8?B?R3NyWTJwTGZZU3pHcUx3Tm5PNldSYi9EY0lKZk45WHhjQUhqbWJhQ3JDWWJG?=
+ =?utf-8?B?S2g5YmpzR1FXYjRPMm9Wd0Z3NnhSUWdYNHVOUnBJUVQ3UUlpN0ZiTlZrNVZF?=
+ =?utf-8?B?dGtBaUV6OU9ac01KTEhTcGVEckJIWktQYTVGVldzSDBCVmk1MEhrVStBMmdv?=
+ =?utf-8?B?UVZsYzZtOUhaTnlPUGZUMmZYZGJMU2FFU0VibzFwNlN4S2xpM09KV3pSdUtY?=
+ =?utf-8?B?cW93S3F2VkJYUGhKWkd5ZGc2eEdNSDhTL0pvblNyalp4OVhKUzBDdjMxRFI4?=
+ =?utf-8?B?UWxRY202L2hGbDM5RUFnOXplZ0JoQ1hYRTlGZ0lpUDJqaE1OeElGRmlxTjgy?=
+ =?utf-8?B?cmFnQ21Ud3lYVUcrOEU5cVhUOXJNZkVMc0tySHVIRjdJY3JmMHQyMHFOWGpr?=
+ =?utf-8?B?Qmkvanc2ZjRLQnYwU2JJNGRXSUFLNllGOFU4R1lrampWczhhVEhOc0UrWjdr?=
+ =?utf-8?B?U282T0o5U1ptbWZPcUtOTVpXTkpUZ09VeHVJSUZLUlJLZytNdVVkd21KMkZS?=
+ =?utf-8?B?Y3c9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mkerelay1.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	S6nKd1fyH+rcmRyPwyEBWid5sfEtQR5wFizEgTtGmee1E3crKrkvKG8fs7gY/1Tyy7C9LTt51FFYUJvAOmzM52V5FqNGdpQVjAfEpQ8ulVwBNUGASYzLJzWpyKrFA2yq+xuX0AtRIMOurIdqwU2q+CQmg8Xw8lly0JQ6qkdKcZWAwXYJ+Lm0hM1T6IUoh6GNfTM3I/Rm2rv1lsf2a4YP3s2hmpNSuZpElzq+XtGteytEhZwNuvOrFKyJidH8ZZXNWZTCy0H8knmch1QlyUbvM/VXo1Yfu4P0qMhof5H7ngt5jMp1ZoXmJ0+lrlBjdPYwtaWVwE0WHwYg7831BqhtAtHZDADGIDG8R3rdOzkw1o8/X6uFaBnFY31KRQw/VxUkEEUx5+EA7AFxKQRQP4kpmyn55V1DBMZSI3BAtbNYn0fBUobbYoWRaCWq+/C32zM4
+X-OriginatorOrg: gehealthcare.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Feb 2026 09:23:31.7305
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b44c63ad-f480-4535-be48-08de6e0637f7
+X-MS-Exchange-CrossTenant-Id: 9a309606-d6ec-4188-a28a-298812b4bbbf
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=9a309606-d6ec-4188-a28a-298812b4bbbf;Ip=[165.85.157.49];Helo=[mkerelay1.compute.ge-healthcare.net]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-SJ1PEPF00002314.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR22MB5599
 
-Extend tps25990 existing driver to support tps1689 eFuse,
-since they are sharing command interface and functionality
-Update documentation for tps1689
+INA234 is register compatible to INA226 (excepting manufacturer and die
+or device id registers) but has different scaling.
 
-Signed-off-by: Stoyan Bogdanov <sbogdanov@baylibre.com>
+While the manufacturer and die/device id registers are different, these
+are currently unused.  Comment INA226_DIE_ID to aid future maintenance.
+
+Signed-off-by: Ian Ray <ian.ray@gehealthcare.com>
 ---
- Documentation/hwmon/tps25990.rst | 15 ++++--
- drivers/hwmon/pmbus/tps25990.c   | 91 ++++++++++++++++++++++++++++----
- 2 files changed, 92 insertions(+), 14 deletions(-)
+ Documentation/hwmon/ina2xx.rst | 14 ++++++++++++--
+ drivers/hwmon/Kconfig          |  2 +-
+ drivers/hwmon/ina2xx.c         | 21 +++++++++++++++++++--
+ 3 files changed, 32 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/hwmon/tps25990.rst b/Documentation/hwmon/tps25990.rst
-index 04faec780d26..e8bc9a550bda 100644
---- a/Documentation/hwmon/tps25990.rst
-+++ b/Documentation/hwmon/tps25990.rst
-@@ -9,26 +9,31 @@ Supported chips:
+diff --git a/Documentation/hwmon/ina2xx.rst b/Documentation/hwmon/ina2xx.rst
+index a3860aae444c..4c05bd5e24fb 100644
+--- a/Documentation/hwmon/ina2xx.rst
++++ b/Documentation/hwmon/ina2xx.rst
+@@ -74,6 +74,16 @@ Supported chips:
+ 	       https://us1.silergy.com/
  
-     Prefix: 'tps25990'
  
--  * Datasheet
-+    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
- 
--    Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
-+  * TI TPS1689
++  * Texas Instruments INA234
 +
-+    Prefix: 'tps1689'
++    Prefix: 'ina234'
 +
-+    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps1689
- 
- Author:
- 
- 	Jerome Brunet <jbrunet@baylibre.com>
-+	Stoyan Bogdanov <sbogdanov@baylibre.com>
++    Addresses: I2C 0x40 - 0x43
++
++    Datasheet: Publicly available at the Texas Instruments website
++
++	       https://www.ti.com/
++
+ Author: Lothar Felten <lothar.felten@gmail.com>
  
  Description
- -----------
+@@ -89,7 +99,7 @@ interface. The INA220 monitors both shunt drop and supply voltage.
+ The INA226 is a current shunt and power monitor with an I2C interface.
+ The INA226 monitors both a shunt voltage drop and bus supply voltage.
  
--This driver implements support for TI TPS25990 eFuse.
-+This driver implements support for TI TPS25990 and TI TPS1689 eFuse chips.
- This is an integrated, high-current circuit protection and power
- management device with PMBUS interface
+-INA230 and INA231 are high or low side current shunt and power monitors
++INA230, INA231, and INA234 are high or low side current shunt and power monitors
+ with an I2C interface. The chips monitor both a shunt voltage drop and
+ bus supply voltage.
  
--Device compliant with:
-+Devices are compliant with:
+@@ -124,7 +134,7 @@ power1_input		Power(uW) measurement channel
+ shunt_resistor		Shunt resistance(uOhm) channel (not for ina260)
+ ======================= ===============================================
  
- - PMBus rev 1.3 interface.
+-Additional sysfs entries for ina226, ina230, ina231, ina260, and sy24655
++Additional sysfs entries for ina226, ina230, ina231, ina234, ina260, and sy24655
+ ------------------------------------------------------------------------
  
--Device supports direct format for reading input voltages,
-+Devices supports direct format for reading input voltages,
- output voltage, input current, input power and temperature.
+ ======================= ====================================================
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 41c381764c2b..6aa8a89f4747 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -2284,7 +2284,7 @@ config SENSORS_INA2XX
+ 	select REGMAP_I2C
+ 	help
+ 	  If you say yes here you get support for INA219, INA220, INA226,
+-	  INA230, INA231, INA260, and SY24655 power monitor chips.
++	  INA230, INA231, INA234, INA260, and SY24655 power monitor chips.
  
- Due to the specificities of the chip, all history reset attributes
-diff --git a/drivers/hwmon/pmbus/tps25990.c b/drivers/hwmon/pmbus/tps25990.c
-index 33f6367f797c..f9ff4edadf53 100644
---- a/drivers/hwmon/pmbus/tps25990.c
-+++ b/drivers/hwmon/pmbus/tps25990.c
-@@ -58,34 +58,38 @@ struct tps25990_data {
- 	struct local_direct_value *info_local;
+ 	  The INA2xx driver is configured for the default configuration of
+ 	  the part as described in the datasheet.
+diff --git a/drivers/hwmon/ina2xx.c b/drivers/hwmon/ina2xx.c
+index 69ac0468dee4..923f8c953e8f 100644
+--- a/drivers/hwmon/ina2xx.c
++++ b/drivers/hwmon/ina2xx.c
+@@ -49,6 +49,8 @@
+ /* INA226 register definitions */
+ #define INA226_MASK_ENABLE		0x06
+ #define INA226_ALERT_LIMIT		0x07
++
++/* INA226-specific register definitions */
+ #define INA226_DIE_ID			0xFF
+ 
+ /* SY24655 register definitions */
+@@ -59,6 +61,7 @@
+ /* settings - depend on use case */
+ #define INA219_CONFIG_DEFAULT		0x399F	/* PGA=8 */
+ #define INA226_CONFIG_DEFAULT		0x4527	/* averages=16 */
++#define INA234_CONFIG_DEFAULT		0x4527	/* averages=16 */
+ #define INA260_CONFIG_DEFAULT		0x6527	/* averages=16 */
+ #define SY24655_CONFIG_DEFAULT		0x4527	/* averages=16 */
+ 
+@@ -135,7 +138,7 @@ static const struct regmap_config ina2xx_regmap_config = {
+ 	.writeable_reg = ina2xx_writeable_reg,
  };
  
--static int tps25990_raw_to_value(struct i2c_client *client, int param, int raw)
-+static int tps25990_raw_to_value(struct i2c_client *client, int param, u32 raw)
- {
- 	struct tps25990_data *data = (struct tps25990_data *)of_device_get_match_data(&client->dev);
- 	struct local_direct_value *info_local = data->info_local;
-+	int val;
+-enum ina2xx_ids { ina219, ina226, ina260, sy24655 };
++enum ina2xx_ids { ina219, ina226, ina234, ina260, sy24655 };
  
- 	/* Formula : X = (Y / 10^R - b) / m */
- 	if (info_local->R[param] >= 0)
--		raw /= int_pow(10, info_local->R[param]);
-+		val = DIV_ROUND_CLOSEST_ULL(raw, int_pow(10, info_local->R[param]));
- 	else
--		raw *= int_pow(10, -info_local->R[param]);
-+		val = raw * int_pow(10, -info_local->R[param]);
- 
--	return DIV_ROUND_CLOSEST(raw - info_local->b[param], info_local->m[param]);
-+	val = DIV_ROUND_CLOSEST(val - info_local->b[param], info_local->m[param]);
-+
-+	return val;
- }
- 
- static unsigned int tps25990_value_to_raw(struct i2c_client *client, int param, int val)
- {
- 	struct tps25990_data *data = (struct tps25990_data *)of_device_get_match_data(&client->dev);
- 	struct local_direct_value *info_local = data->info_local;
-+	u32 raw; // return raw up to u16 -> u32
- 
- 	/* Formula : Y = ( m * X + b) * 10^R */
--	val = (long)val * info_local->m[param] + info_local->b[param];
-+	raw = ((long)val * info_local->m[param]) + info_local->b[param];
- 
- 	if (info_local->R[param] >= 0)
--		val *= int_pow(10, info_local->R[param]);
-+		raw *= int_pow(10, info_local->R[param]);
- 	else
--		val = DIV_ROUND_CLOSEST(val, int_pow(10, -info_local->R[param]));
-+		raw = DIV_ROUND_CLOSEST_ULL(raw, int_pow(10, -info_local->R[param]));
- 
--	return val;
-+	return raw;
- }
+ struct ina2xx_config {
+ 	u16 config_default;
+@@ -204,6 +207,15 @@ static const struct ina2xx_config ina2xx_config[] = {
+ 		.has_ishunt = false,
+ 		.has_power_average = true,
+ 	},
++	[ina234] = {
++		.config_default = INA234_CONFIG_DEFAULT,
++		.calibration_value = 2048,
++		.shunt_div = 400, /* 2.5 µV/LSB raw ADC reading from INA2XX_SHUNT_VOLTAGE */
++		.bus_voltage_shift = 4,
++		.bus_voltage_lsb = 25600,
++		.power_lsb_factor = 32,
++		.has_alerts = true,
++	},
+ };
  
  /*
-@@ -281,7 +285,6 @@ static int tps25990_write_word_data(struct i2c_client *client,
- 		value = clamp_val(value, 0, 0xff);
- 		ret = pmbus_write_word_data(client, page, reg, value);
- 		break;
--
- 	case PMBUS_VIN_OV_FAULT_LIMIT:
- 		value = tps25990_value_to_raw(client, TPS25990_VIN_OVF, value);
- 		value = clamp_val(value, 0, 0xf);
-@@ -370,6 +373,15 @@ static const struct regulator_desc tps25990_reg_desc[] = {
- };
- #endif
- 
-+struct local_direct_value tps1689_local_info = {
-+	.m[TPS25990_VIN_OVF] = 3984,
-+	.b[TPS25990_VIN_OVF] = -63750,
-+	.R[TPS25990_VIN_OVF] = -3,
-+	.m[TPS25990_IIN_OCF] = 7111,
-+	.b[TPS25990_IIN_OCF] = -2133,
-+	.R[TPS25990_IIN_OCF] = -2,
-+};
-+
- struct local_direct_value tps25590_local_info = {
- 	.m[TPS25990_VIN_OVF] = 10163,
- 	.b[TPS25990_VIN_OVF] = -30081,
-@@ -379,6 +391,60 @@ struct local_direct_value tps25590_local_info = {
- 	.R[TPS25990_IIN_OCF] = -6,
- };
- 
-+static struct pmbus_driver_info tps1689_base_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = direct,
-+	.m[PSC_VOLTAGE_IN] = 1166,
-+	.b[PSC_VOLTAGE_IN] = 0,
-+	.R[PSC_VOLTAGE_IN] = -2,
-+	.format[PSC_VOLTAGE_OUT] = direct,
-+	.m[PSC_VOLTAGE_OUT] = 1166,
-+	.b[PSC_VOLTAGE_OUT] = 0,
-+	.R[PSC_VOLTAGE_OUT] = -2,
-+	.format[PSC_TEMPERATURE] = direct,
-+	.m[PSC_TEMPERATURE] = 140,
-+	.b[PSC_TEMPERATURE] = 32103,
-+	.R[PSC_TEMPERATURE] = -2,
-+	/*
-+	 * Current and Power measurement depends on the ohm value
-+	 * of Rimon. m is multiplied by 1000 below to have an integer
-+	 * and -3 is added to R to compensate.
-+	 */
-+	.format[PSC_CURRENT_IN] = direct,
-+	.m[PSC_CURRENT_IN] = 9548,
-+	.b[PSC_CURRENT_IN] = 0,
-+	.R[PSC_CURRENT_IN] = -6,
-+	.format[PSC_CURRENT_OUT] = direct,
-+	.m[PSC_CURRENT_OUT] = 24347,
-+	.b[PSC_CURRENT_OUT] = 0,
-+	.R[PSC_CURRENT_OUT] = -3,
-+	.format[PSC_POWER] = direct,
-+	.m[PSC_POWER] = 2775,
-+	.b[PSC_POWER] = 0,
-+	.R[PSC_POWER] = -4,
-+	.func[0] = (PMBUS_HAVE_VIN |
-+		    PMBUS_HAVE_VOUT |
-+		    PMBUS_HAVE_VMON |
-+		    PMBUS_HAVE_IIN |
-+		    PMBUS_HAVE_PIN |
-+		    PMBUS_HAVE_TEMP |
-+		    PMBUS_HAVE_STATUS_VOUT |
-+		    PMBUS_HAVE_STATUS_IOUT |
-+		    PMBUS_HAVE_STATUS_INPUT |
-+		    PMBUS_HAVE_STATUS_TEMP |
-+		    PMBUS_HAVE_SAMPLES),
-+
-+	.read_word_data = tps25990_read_word_data,
-+	.write_word_data = tps25990_write_word_data,
-+	.read_byte_data = tps25990_read_byte_data,
-+	.write_byte_data = tps25990_write_byte_data,
-+
-+#if IS_ENABLED(CONFIG_SENSORS_TPS25990_REGULATOR)
-+	.reg_desc = tps25990_reg_desc,
-+	.num_regulators = ARRAY_SIZE(tps25990_reg_desc),
-+#endif
-+};
-+
- static struct pmbus_driver_info tps25990_base_info = {
- 	.pages = 1,
- 	.format[PSC_VOLTAGE_IN] = direct,
-@@ -428,18 +494,25 @@ static struct pmbus_driver_info tps25990_base_info = {
- #endif
- };
- 
-+struct tps25990_data data_tps1689 = {
-+	.info = &tps1689_base_info,
-+	.info_local = &tps1689_local_info,
-+};
-+
- struct tps25990_data data_tps25990 = {
- 	.info = &tps25990_base_info,
- 	.info_local = &tps25590_local_info,
- };
- 
- static const struct i2c_device_id tps25990_i2c_id[] = {
-+	{ .name = "tps1689", .driver_data = (kernel_ulong_t)&data_tps1689 },
- 	{ .name = "tps25990", .driver_data = (kernel_ulong_t)&data_tps25990 },
- 	{}
- };
- MODULE_DEVICE_TABLE(i2c, tps25990_i2c_id);
- 
- static const struct of_device_id tps25990_of_match[] = {
-+	{ .compatible = "ti,tps1689", .data = &data_tps1689 },
- 	{ .compatible = "ti,tps25990", .data = &data_tps25990 },
- 	{}
- };
+@@ -768,7 +780,7 @@ static umode_t ina2xx_is_visible(const void *_data, enum hwmon_sensor_types type
+ 	case hwmon_chip:
+ 		switch (attr) {
+ 		case hwmon_chip_update_interval:
+-			if (chip == ina226 || chip == ina260)
++			if (chip == ina226 || chip == ina234 || chip == ina260)
+ 				return 0644;
+ 			break;
+ 		default:
+@@ -982,6 +994,7 @@ static const struct i2c_device_id ina2xx_id[] = {
+ 	{ "ina226", ina226 },
+ 	{ "ina230", ina226 },
+ 	{ "ina231", ina226 },
++	{ "ina234", ina234 },
+ 	{ "ina260", ina260 },
+ 	{ "sy24655", sy24655 },
+ 	{ }
+@@ -1013,6 +1026,10 @@ static const struct of_device_id __maybe_unused ina2xx_of_match[] = {
+ 		.compatible = "ti,ina231",
+ 		.data = (void *)ina226
+ 	},
++	{
++		.compatible = "ti,ina234",
++		.data = (void *)ina234
++	},
+ 	{
+ 		.compatible = "ti,ina260",
+ 		.data = (void *)ina260
 -- 
-2.34.1
+2.49.0
 
