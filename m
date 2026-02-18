@@ -1,313 +1,221 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010041.outbound.protection.outlook.com [52.101.193.41])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE37834A3AB;
-	Wed, 18 Feb 2026 20:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771448400; cv=fail; b=cSG3ZXtnm+RViZaWiMFouF1TmZsxvL4mDpbHyMr1hYjKohN1bpk7voja+dpAhTlZr5DnREwzjnscr44o1rRnHkm8plYdh5VXoScsxi+T451Z7qdpgBOcBviKPRcABPQFEoYnqBqW1XY8qPQKoo4LfBzPoeyL4D9EEa+kEEdhInw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771448400; c=relaxed/simple;
-	bh=KsVD/tY3gLOc9DH7CpTsJKXZiNpqnxa8bNImA6V6rJQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=i5L1hlbZ9VFzUhQ8FLeRMeWz2I9+Xdf8Vjaxe+mlJD5pDsrAR706fQ+fuzysGQajYg9Ms28II/rDRCQ6+4DTr/Drq5RNXQLgVpQlB7xTzcRc+qlRZkUCQ/V6364Cm10OaHJMkKCQoVF686kiqOuPETVxD3oKeG/OTTrvmxb3/Fo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=N5up36Xy; arc=fail smtp.client-ip=52.101.193.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0D334A76E
+	for <linux-doc@vger.kernel.org>; Wed, 18 Feb 2026 21:04:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771448651; cv=none; b=U+kK4XpkDbMQPGB+rR8y6rjdhIkgGsK9W0MOUpoJ4Pza76YWCdYfsIm5GUSuGTV+RT4ENMqwIBT981EN88XtSoBs6oYugAbqQzikVfDVsnMuXBM/+/vLxG7Pkow0i1pxTsJzBAABQZMMVbLYsVBIHIZgFAaTfBvoFNmaej4z8Vc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771448651; c=relaxed/simple;
+	bh=qBtd2CO59a+HKvdpME8+RXTr+DLTGtsE5jPI2nVtVKA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HFigcOhg2tasoTPInUUJ5kcQfaqLznbeSwEG5Zb2C00u6nnoonTR/9wq6Rslk520SIz3Py7q5LiIxFqmXV12XanKc5uFeAqxFI4vuUd0vD7aY16vjrM5gw6WOWIrCCoiIJUHWfwm0XfY0PAo/RD7MFbEUN4s66Cl+K6LBLJuLbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XUdB4z/2; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=N5/oQMW7; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="N5up36Xy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yWP4QneLQwATYX0z6ks1E6ePBj51QDaMr5GUXamc/wGo+ZTJuIDjtkn8/P57htU1KQXtDyFJ5ZbXI5EZ62k8Wg0bYM5WpwM2L4GpX45xJuTENYdGA8hDl8ghGPek0LIjYA5diaZHUsVGv93hDNfqXnJEthXIpv0+ZM+jpy6N6Ht0pWhPepNBIXNXBGwZWqChMPEjlETBtNLiRwr+/5QKQcazcI6YXPAoE9y5yzjqWVs80e3eNCKfjf6gYYRex7ezpWypMK2wlgI8O60H3Pn7iyIPEkgTGQFY8DifkNmeIflRYkHmXZ1Hl4vcE+cNv2jGAfnqMLOeNgkgn6uOWpLQug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tYgsoYQyhBG2hCC3MQWegrjwSyjupOyn+HPDCIAAUa8=;
- b=okdUcYbVqdQ3Am1ojnJNH/17yXzkHsqwZhtNqnDX/bEnlxJ2v5MPvBkaXWIiqhAfP7Zz2HALWFpbPgeg/3VTBKaWbjP9dkXQHfXg8cb1BmmT9Z4D2HRr1CMNGAhOu5J+cx3SgtD1+v3hqZsf/OY9atn3OMAPTJM9oISdQmK+66xZCC2jnt39q04o31ykuP0sfA2IJfVSODlK3r7qOi5wES+KgBUGaW840adb0dfVEpxnwzv53rTuIZ1chjReggRYNJdMKD2/dPF0tpzdDy32wi65ymDOYC66nWUV6cBHQPpdTWubzgk5TIEaiQKiKqkX9Kf1COnElNlzHcYgEuIQ4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tYgsoYQyhBG2hCC3MQWegrjwSyjupOyn+HPDCIAAUa8=;
- b=N5up36XySmyhIxhcUQhRvgQ7GjHctRGdLezK9Wtb9vjRx1B/op1bTndN8YVQUQXL86hnep8U2R3XgmhEYOTy67SMHaV4/2b9ZRRe6FYwuJeribH8K/sR5Zp1gCN4WnIvl44xP7jmuhf+8MCzpnwSJjO+Thgo899DRgKwa/6MZajjID/mGQjk1FwdgQBxTkLVKGDKQUcSGWAnK9L1SQR478MWMOJ3ijAhL6V4STZK+Jz8ptU4P/FofW8aDGdYpntDwU3g1zo4x18ZmSWzIKFRMgju/bIJw+LLn3Pi9I/zG2lmNRovfgYBxOqaA0sSVVGFSaz98c450eQ2Yt2dIRGYiQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- IA1PR12MB7517.namprd12.prod.outlook.com (2603:10b6:208:41a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Wed, 18 Feb
- 2026 20:59:53 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.010; Wed, 18 Feb 2026
- 20:59:53 +0000
-Message-ID: <e7b74497-7cfb-4b8c-a73c-afa2acbc7b6e@nvidia.com>
-Date: Wed, 18 Feb 2026 15:59:49 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/8] Preparatory patches for nova-core memory
- management
-To: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>
-Cc: Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Nikola Djukic <ndjukic@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Danilo Krummrich <dakr@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
- John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
- Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
- Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- Elle Rhumsaa <elle@weathered-steel.dev>,
- Daniel Almeida <daniel.almeida@collabora.com>, joel@joelfernandes.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Joel Fernandes <joelagnelf@nvidia.com>
-References: <20260218205507.689429-1-joelagnelf@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <20260218205507.689429-1-joelagnelf@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1P223CA0008.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:208:2c4::13) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XUdB4z/2";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="N5/oQMW7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771448648;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pPcRNxiA9VF/PkhlksjBanylvA2gRYuNpURfmKx7ewA=;
+	b=XUdB4z/2ooGyyR1GFO/q6nUzsd6shssqEe5S3WTR+HSCOm61Tx+8x+4IZS7rhb5cFDHCcu
+	2gV8+dDb+NWs11HPktnfXUporxv7KdST3HfRB0YR7aOlMraWCBdDipjxI50Ej0dm+wRC3C
+	5Mtr0xNThT+0noB6uLqho2E84dOMc6Y=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-577-xatzwdMyPBC3CDQvM5kLpA-1; Wed, 18 Feb 2026 16:04:06 -0500
+X-MC-Unique: xatzwdMyPBC3CDQvM5kLpA-1
+X-Mimecast-MFC-AGG-ID: xatzwdMyPBC3CDQvM5kLpA_1771448646
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cb4817f3c8so138000985a.3
+        for <linux-doc@vger.kernel.org>; Wed, 18 Feb 2026 13:04:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1771448646; x=1772053446; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:organization
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=pPcRNxiA9VF/PkhlksjBanylvA2gRYuNpURfmKx7ewA=;
+        b=N5/oQMW77slCy5JJJssOVI61DoD9V2Vh5jAI0A0dy1ggfKFWmj7c7IzVs3r7hpZfoa
+         TR07yOgyUIaNQAdEiOACUUr8lHyahS46iLIKE4X5/ShcXOa+H1xf5hqpUqE7uECij6Sq
+         G9/Mkc4mtRVVSqPw64TQWf+nOLIWol9QOoxj+FoBVjE0lVP+TllAd+QlhjEuI2s+0Brd
+         TR+yjGXWReX5vcEC60gwpahYdmldMBtgeT6GNlqeoKRgckcIB26ciiVPe3U7pCbKl3tv
+         YDJw8TQ8VyMXtArM/M1Gj0sdeMnt3EkffcnAl6XyEH836KSsdVoFPnQrVHlsRVbwwqKd
+         0G0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771448646; x=1772053446;
+        h=mime-version:user-agent:content-transfer-encoding:organization
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pPcRNxiA9VF/PkhlksjBanylvA2gRYuNpURfmKx7ewA=;
+        b=HiNmYxft0aWZxW/gpaT2toLtDanx6w0lKjp8qhVoFsYKmUtb3Xl8QncapjhEOWspmz
+         nWQZCTk50dZUs5At2bq/IAyiPqQzBoNPOtnn9/4jn14EjVPBBqe90qUIYhJ+zi9cSK1P
+         3PM3IMXrF6iUt5n11eTy+NJfxBbuFlwIdSXFA5cRiAzo8cMd55i7EowQp3k4V11JPgsQ
+         v1DIlEBILYPhItZE/DcCfckYnai6rDj2+GpHw1mf2ch6Omc2bIVTwnRSvlWrpk/r5gYe
+         VdwVeQA6NgibWQfaeKdFskNSELn12TuxRPbjer483owjxYuTTuIEtAQqceSomTX1NSvw
+         mU2A==
+X-Forwarded-Encrypted: i=1; AJvYcCVq/AmdDmpm/ho2A6RvWjc9gJ//gHy+cF+C7ebeJzwwirwVHNichwZuuyAyttI6QPGHkenhgur36lc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyqVae7f4ehdNWy3s5XpexgRPCPd+0sD4PHCo19Z6OPwEqfDDn
+	Orv9mdUjEA3wbtFDcIyKYAB+RSVsf8Yx5bTEwZa7u0j0m1hxZs6DcNlpdes/kL1sCsh5b30y9Br
+	X4A6HZxm+HTaNGn5YB0aAQWeH50xc7Pd6QTwSKswEZfWqYt4hKTooCrzquj/q3w==
+X-Gm-Gg: AZuq6aKApwOsoq2XxLhNxsblHUdNjER/8kZ5NRLXNgapqg+UWVR2fA1ZflxQRQgU0ED
+	pZoEsIx3RC09HHe/xLycEsM7cIizld+ga5YmPrX6YbxkoUfIJG0PfACqVx2iG7Qp/KHeb+3727r
+	JZFBUUdGjfw/UqESqj2CToXzzH35aiOAIUllfLUnDIOuEjpPXFRMsfE2TfvtyeKEr2a1E6YVYgh
+	r6kq/FkTl2P4ZH6KD++eJEHcb+cz7hD5htCbvB7PoTgxjcKXRxUxc1+KoVBpLj0OXeHYsbu99PR
+	xbh6nkYyWiEKD3Jpte0E5wJJEQyyXkEaVP3Q0CxJEAeXC/jc8TC+3yOA1dwUZ0CrhBaamVdnM4O
+	9BcJwB8eTJwS2ODWc
+X-Received: by 2002:a05:620a:4689:b0:8cb:4dc4:61be with SMTP id af79cd13be357-8cb4dc46babmr1909604085a.49.1771448646112;
+        Wed, 18 Feb 2026 13:04:06 -0800 (PST)
+X-Received: by 2002:a05:620a:4689:b0:8cb:4dc4:61be with SMTP id af79cd13be357-8cb4dc46babmr1909597185a.49.1771448645565;
+        Wed, 18 Feb 2026 13:04:05 -0800 (PST)
+Received: from m8.users.ipa.redhat.com ([2603:7000:9400:fe80::7a7])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb2b1c7ef7sm2079117785a.28.2026.02.18.13.04.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Feb 2026 13:04:04 -0800 (PST)
+Message-ID: <32e62cef7b89d9691bdd4120388ce752fd041230.camel@redhat.com>
+Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
+From: Simo Sorce <simo@redhat.com>
+To: Andy Lutomirski <luto@amacapital.net>, "H. Peter Anvin" <hpa@zytor.com>
+Cc: Ard Biesheuvel <ardb@kernel.org>, "Daniel P. Smith"	
+ <dpsmith@apertussolutions.com>, Ross Philipson <ross.philipson@oracle.com>,
+ 	linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-integrity@vger.kernel.org, 	linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, 	kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev, 
+	dave.hansen@linux.intel.com, Thomas Gleixner <tglx@linutronix.de>, Ingo
+ Molnar	 <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ mjg59@srcf.ucam.org, 	James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, Jarkko Sakkinen	 <jarkko@kernel.org>, jgg@ziepe.ca,
+ nivedita@alum.mit.edu, Herbert Xu	 <herbert@gondor.apana.org.au>,
+ davem@davemloft.net, corbet@lwn.net, 	ebiederm@xmission.com,
+ dwmw2@infradead.org, baolu.lu@linux.intel.com, 	kanth.ghatraju@oracle.com,
+ andrew.cooper3@citrix.com, 	trenchboot-devel@googlegroups.com
+Date: Wed, 18 Feb 2026 16:04:03 -0500
+In-Reply-To: <CALCETrWzG1Mjb-RcwLQ5-tGFZ15WKHjZbqtLvyif+UPuVKJ_5g@mail.gmail.com>
+References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+	 <b5f2b5a5-b984-4ed3-a023-c06d634f9146@app.fastmail.com>
+	 <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com>
+	 <49d169bf-0ad2-49be-b7d7-fceb9e7f831a@app.fastmail.com>
+	 <CALCETrUE8c-dxRWhtHKz_PojwZuWMXJSzOsFQf2vt5LS3ATwpA@mail.gmail.com>
+	 <1BBD7449-8420-43FD-930B-A4E1BA38FFC6@zytor.com>
+	 <CALCETrWzG1Mjb-RcwLQ5-tGFZ15WKHjZbqtLvyif+UPuVKJ_5g@mail.gmail.com>
+Organization: Red Hat
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|IA1PR12MB7517:EE_
-X-MS-Office365-Filtering-Correlation-Id: c3b285b5-6d1c-4e0a-f897-08de6f30a9bb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?d2FmZHkzMXJrd2pra0RUVk44R1JTVklrQkFWd0VkWnpMTDZBaklKV0JaTXRt?=
- =?utf-8?B?WDNBODRXUzI3bGdkQnFWVlpVNHR4V3MzeHBPaU9UNFM4RllvL3l1dmNxQlp5?=
- =?utf-8?B?RVd1NHZUaDZzaTlHUjZGRnZmTk5EU3NhaUhxNFNaY1lpZC9adTlQR2RsNFdX?=
- =?utf-8?B?ZTBlSVpYRHRUa2dHU2RjTHZsVlJiZWovaGhpRGpySHlqWlZVMWg0YStZSFdB?=
- =?utf-8?B?a0l1dkVjay80OXBRR2ZOUHZ0RWErUTcvV0F3UCtpcGlZOElxcTg0TFRSRlBV?=
- =?utf-8?B?TThqQ1JFVWZlOTYyWGNWQmZpWGkzbDFhNm5qdUNmb29OQ3NiZzhqT1RoOWxr?=
- =?utf-8?B?OGZ0SWJQdUFYT2lZN1ZYd0sxZVVtUzAxbzdiT2RYaVdreFVkQ0c0dk1GQlpj?=
- =?utf-8?B?YVRETldzU0ZwOG11RDBNVnpKRnhGNkJwSDcva24xbE03N2g2bkhmcGVlYzEx?=
- =?utf-8?B?RDFOaFROV08rcklXT2VleWVRQVZRQzJ3VXQ4WEhWZnZ6VEJCalg2UE1YdTVW?=
- =?utf-8?B?VlNFeSsyMDBtVEJIVFJpbUx4T2U0d00wTEV4SlE3NDJYaGUwRmloVGNzTHZE?=
- =?utf-8?B?ckZuaEhzYzNYcW9ERG4vbC9YOTREeHFPNGI0WStKTElpb3YyUktZcjNhdlox?=
- =?utf-8?B?VTNEeTFTTVE0WjYwTktvNlE2Ui9aR3lXOG51K3hBdGxQcm11QVNnbzE1aW9E?=
- =?utf-8?B?bjlNME9ISXVJdTArMzg4ajJIZlo2TFZMUWFYSDg0REp2OVZRNGtZWHVyTU4w?=
- =?utf-8?B?WWd5Z1JlbnB4dklaNDJTZVdmcUF6Ykl5cmtzRlNVNENBdEVZUlEwQ1JWcHU1?=
- =?utf-8?B?T3ZpN3ZORTRQYis4WjBRUmQvazR0ZkdWZ1YyVFpndkVQdG1tSDRKOC9CM21J?=
- =?utf-8?B?SXV3L0djSzhZWEdoZzh6Z1hIam05V1h5UXJ5dHUrblZvdWZEM3lVQ0hMR3gy?=
- =?utf-8?B?UVVUdWhpbGRHUEhKdnB5Z0xPS0FFeG9kU0I2OWNxM09DaEhUdnVXazRoampi?=
- =?utf-8?B?ZlVVb1R4cEdLREk4RWZMT29VWk9YKzA1MVNoZXQwNjM4R3pnZ1dDNExHdE9K?=
- =?utf-8?B?dysyNnhuTkl2KzBIbGhqeWxlbHdyNVdsclpZUitaeDJIWjRjNitFTEFMTkJa?=
- =?utf-8?B?WUlYcmRBQWJpeFEvRG1IVTNGVDZBMERsMDBReEVHZzNjRys3OUJGb25LUFlz?=
- =?utf-8?B?ZTN3Z0l1TGFySER5YVU2SXRjc2svYlQzRzRZZ0JlUEFHYm0zMytneFJuZHR2?=
- =?utf-8?B?OE1ibmNnZXlSQUJuUno3V0hnVXVaMGhZcjRIOEJobjI4N29wcjZhN2MxYU4z?=
- =?utf-8?B?QzRmRkZndkVvY2lIeU1GR0F6UXQ5RHk2ZTBxanY4UDZ3WU1rQzJ2ei9RVmNl?=
- =?utf-8?B?OFBDV3FpSjVGelQ3dmV2MCtBWlYwWTd1eVV3L1lxRTREck82LzFoVlNXQnQw?=
- =?utf-8?B?SE9TR2NPSmZwM0NrY09XNjFCYndlZzk0WFFoOTQrcGt6NWpYUnhnVlhLWi95?=
- =?utf-8?B?K0RsRmpRcVMzY3BZTVpVMU96Q0p0SHlvaURwTXVUdmx0dUpYajdvUXE1ZFQv?=
- =?utf-8?B?cWN6RlBxclhxb2pUWUdEdjF0NUNaOXcwbk1tWVZQWFhBK0tEZ0l4ZE9ocXkv?=
- =?utf-8?B?YkVwdnFvWjJqYWRyaEZTRHBJb0diWjYvbVNZMHlaYitkam1tZlBOMW15V0g2?=
- =?utf-8?B?UzhpYW9KVHZjWitxYXI5TytMcnhuYVZQcU5VUjdSOHQ1dWF1VFJlaXhTOU1W?=
- =?utf-8?B?WGEvcFdLMXNtdzM0QzhmOWQ2MHhWYkJwMDZ0elVpWFRMRVBOTXV2SlRKaGFR?=
- =?utf-8?B?d1hGcjZ2UVk2VTlzWjZPb1BUMFBpRVNDNGtqKy8rQTZxSXRFZzRWWWFBWWhR?=
- =?utf-8?B?eWFwNEFyWk1tR2toR3EwL1c3TGdXWHdvMlRhc2Q2bHJoWFBjcmxlaHJVZWI0?=
- =?utf-8?B?UmwvY0dLUFlCakdmZlVGeFJ4WmNoL3Q0NzE1MnBHODFJdTZVaHR0ZlVNTkdr?=
- =?utf-8?B?eVkzcmVMcWlpTmw4WWd3V1orNnBmVmswbGQrbGErVldUUERyMFEzK0xYZnNU?=
- =?utf-8?B?dVBXUGU1TjlWdXRteVI1WHp6WU12OG1hMmZUWHhUNjBxRkhIUnZNYXhrQWt3?=
- =?utf-8?B?L2JjWGV3S2tiS2xnVHh1eDB0VDJDS2FCby9sQkVNVzk2dmxFT0hJSFlaRTB4?=
- =?utf-8?B?K2c9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WjdBQWxaR2kzUFV0STQybVN1SGIwd3lsK1l0UVVKN0IwTHpZRDgwLzVpVEpo?=
- =?utf-8?B?RUtFY3BRMldOMXQ5TEVBOXZuQjc3c1Jsbm9NM3NCYmNhalQwOU1oRGxhUnUy?=
- =?utf-8?B?SWI3YVhWR3kyUmdtSE5kVm80a3AxWXpxdGx5TTl0NStQYTdlSFhvYk5KUmZa?=
- =?utf-8?B?dFA1YXJ3TENOMWFpRkhzSDJ2ekJyTDBsQzlMMXdCakM1RGVoT1R2alJrcmlt?=
- =?utf-8?B?WEdDdW5BakhTZU9MQmYvYXhmUXJsZEF3V1dST3J2ekd2aTlTNGVzOEQ2bDFW?=
- =?utf-8?B?RS9uRVhZemRlbWxmZTVLa3ZBZnR1RWhyRkt2WTJWaE1xbG9BUUhyUVZQNzNm?=
- =?utf-8?B?SWtzRkFQRTNHUCsxa2Faa2ZlcXV3ZDk1bHhOWDVNUVZFdTBXWmhpRG9ad293?=
- =?utf-8?B?RzZ0QnI2ZEphQ0k4L2xIYjVNazU1VEYxaXFycGhTWElEcVVtbng4TVk3OVlI?=
- =?utf-8?B?ajhGOXRVcmZqTVBvdHAyYXJzb2ZCQ0J4OXVueW1KVm1xaldPdHR1T1cwbjdF?=
- =?utf-8?B?cHhZSWxlTU9VREFXQURwcHpoY29DY2RjQ3dOaXRxUkY4bGM3U0U2eDZCSWNG?=
- =?utf-8?B?TDdWOFlqblgyMG81MnozbHhKOFpLcTg4UXN6cUVwSDdqckhtZnhNQkFPcFVS?=
- =?utf-8?B?M285MHlsNHVhMnlNeFo4VkduOXk1RG5iSkYrL09LeUVDays0VGpJMG9jbElJ?=
- =?utf-8?B?ZFNIOXd1cUtzQ1pVNnI1QWJXQU55Q0lmcTdSQXEvdlJKb0hvNjhHVE5Gc1VT?=
- =?utf-8?B?STR4R2pVVzA1QjczcjBBVUJVekNKR2wvaFVmQm5oV1VwS0hKWkpYQ0lkWjhV?=
- =?utf-8?B?dkZQRmducUVmeTdBbE9OM2xDUFpZQkNyL0lnbS8rdXEzb080M3RpRWRtcnJs?=
- =?utf-8?B?R3YwVW1sdkltNUdqNWtNejdNWDEwK1ZqR2hMa25JT1NhUWdNSDZKZ1YrVEJw?=
- =?utf-8?B?ejVuQTk4T2orV3pZaGpFYVBOZTV3enA2TEdsVVMyT3haNjZhK2tyTDZSc3hU?=
- =?utf-8?B?STJkeGxQZ3ZBZDl3YmFHS3g0OVhvaGpicHk2ejN6aXp6bEUyclF6OHFub055?=
- =?utf-8?B?ME94dkFWeGxQQWZQQzU5UytiazE0aWZTcUplTEFzWlhLYWdIRDVrYm44OFhU?=
- =?utf-8?B?VXFVK2dhcllZT3R5eUhIODdWenl2Q29KakpjSzNWNkRnWWtMNFNnU2RCNnJU?=
- =?utf-8?B?V2QxanRjSlZhYXVnMEhWNERVMUhERVpnckVZZVBnUkFIZnRLaFFBUFF0TmdW?=
- =?utf-8?B?T0psKzFLREZTVDNMaHVJeVdkdTBhNXp5UUFmeEhucFJVVUpqbkRSV3pXQVZV?=
- =?utf-8?B?V21WSFpGQ2VWUG1IS09lTklaVm9hUEt3K29ld0k5OHdOVndFbEM5bXZrUjJV?=
- =?utf-8?B?Y1YwVHVnVVk3VW91ZnQ2OVIzcjBvYS8vaDJqRUk4eDJVYXE0NTFzTnoxbEE2?=
- =?utf-8?B?ZU8zZXE3QnozNVd3dEVWdi9kSWVmUkEvOGllbUljeVJXV3NqcGNndko2endR?=
- =?utf-8?B?eEtldDZLZmt2Y25hdlFXQlpLMGRvY0QwMnBYRzRJS2lGUHdmOTZLRmt1SGwx?=
- =?utf-8?B?N2hxZ2FNRHhVYTl0TWg4V1hIWWF0UlJpOTArVmhPenAxN002U1VTblQzM21M?=
- =?utf-8?B?QUpiWFVJM0d5aVFESmV6aS93ZmI1Z2hMZ1ZmSVRqVmttNFBLR0VURDZKMG5P?=
- =?utf-8?B?ZnJkNXdmWEFqcDBjUWxhMFRYSi9MNFl6SUlSQkdBNndRTy9MeGo0TnFxeWlV?=
- =?utf-8?B?aWx4Qnd1Y2ZUS2dyTjBYU3lSaFRtR3Z1RzVRaUl6NmhGb2pGVHBXSGl4SzBX?=
- =?utf-8?B?Q2JPSEJNc0M0ZFNkajUybTJVODRENitTWHhMTU9CdkFveHI2QVV3V3Arek0r?=
- =?utf-8?B?RllLYXZsSHpoRlhqSWZaRXZxRy9zL1RZeW1hdXYrNEptZmcvM0xHa0VmRGFQ?=
- =?utf-8?B?U1RCWXVyMGNwTnV3eHByTUl1T3RyZ3NHc2dwN3pUUVZHdnJ2OFp3Qm12dytn?=
- =?utf-8?B?d0hyRVBCenBlV1RILy9CaTZEOVhQZ2pVV2JzM2x3dzUzSWVleGg1Q05YSWtZ?=
- =?utf-8?B?dFQyUkJDUnJYNE1US0ZldlFick1LUFNyQzZWYTJQZlhVdTkybWZ6MzlVQnJH?=
- =?utf-8?B?a1BuelV6Sm53UVhOS0t4dkkxNXZLc3dqZCt3RjZKV0hLQlI2Snp5Z3ZkNmRS?=
- =?utf-8?B?N3JqSFdVTUxkandsRTR4azZmZ2pzTzBpVS9hT1pId0U1OVZHMFNxTGJoZmRz?=
- =?utf-8?B?N3B1bC82UjRnR3FaSGtWT0lNMFBySmZPWVF5ODRlRjBMUi9ML1EvUXY5NGxK?=
- =?utf-8?B?QUprWDRnQ3RJTTR4NnQrKy81M0FUUU9STXNOWDlmRCsyREpmVmMwdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3b285b5-6d1c-4e0a-f897-08de6f30a9bb
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 20:59:53.1777
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t5ZmQqLZ71C479WYFThQN+eGDTqUb5a8hc2cpELOxoVonv0TDNCOTye5rOmIPV0DRgomHPHodwRmTp6NEUeOvA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7517
 
-My CC list missed a lot of folks, sorry about that. Adding more CC's to this
-email to make people aware of the posting. Thankfully it got posted to the
-archives so for those on rust-for-linux, dri-devel and nouveau lore lists, they
-would get it.
+On Wed, 2026-02-18 at 12:34 -0800, Andy Lutomirski wrote:
+> On Wed, Feb 18, 2026 at 12:29=E2=80=AFPM H. Peter Anvin <hpa@zytor.com> w=
+rote:
+> >=20
+> > On February 18, 2026 12:03:27 PM PST, Andy Lutomirski <luto@amacapital.=
+net> wrote:
+> > > On Thu, Feb 12, 2026 at 12:40=E2=80=AFPM Ard Biesheuvel <ardb@kernel.=
+org> wrote:
+> > > >=20
+> > > > On Thu, 12 Feb 2026, at 20:49, Daniel P. Smith wrote:
+> > > > > On 2/9/26 09:04, Ard Biesheuvel wrote:
+> > > > ...
+> > > > > > Surprisingly, even when doing a secure launch, the EFI runtime =
+services still work happily, which means (AIUI) that code that was excluded=
+ from the D-RTM TCB is still being executed at ring 0? Doesn't this defeat =
+D-RTM entirely in the case some exploit is hidden in the EFI runtime code? =
+Should we measure the contents of EfiRuntimeServicesCode regions too?
+> > > > >=20
+> > > > > Yes, in fact in the early days I specifically stated that we shou=
+ld
+> > > > > provide for the ability to measure the RS blocks. Particularly if=
+ you
+> > > > > are not in an environment where you can isolate the calls to RS f=
+rom the
+> > > > > TCB. While the RS can pose runtime corruption risks, the larger c=
+oncern
+> > > > > is integrating the D-RTM validation of the Intel System Resources
+> > > > > Defense (ISRD), aka SMI isolation/SMM Supervisor, provided by the=
+ Intel
+> > > > > System Security Report (ISSR). Within the ISSR is a list of memor=
+y
+> > > > > regions which the SMM Policy Shim (SPS) restricts a SMI handler's=
+ access
+> > > > > when running. This allows a kernel to restrict what access a SMI =
+handler
+> > > > > are able to reach, thus allowing them to be removed from the TCB =
+when
+> > > > > the appropriate guards are put in place.
+> > > > >=20
+> > > > > If you are interested in understanding these further, Satoshi Tan=
+da has
+> > > > > probably the best technical explanation without Intel market spea=
+k.
+> > > > >=20
+> > > > > ISRD: https://tandasat.github.io/blog/2024/02/29/ISRD.html
+> > > > > ISSR: https://tandasat.github.io/blog/2024/03/18/ISSR.html
+> > > > >=20
+> > > >=20
+> > > > Thanks, I'll take a look at those.
+> > > >=20
+> > > > But would it be better to disable the runtime services by default w=
+hen doing a secure launch? PREEMPT_RT already does the same.
+> > >=20
+> > > So I have a possible way to disable EFI runtime service without losin=
+g
+> > > the ability to write EFI vars.  We come up with a simple file format
+> > > to store deferred EFI var updates and we come up with a place to put
+> > > it so that we find it early-ish in boot the next time around.  (This
+> > > could be done via integration with systemd-boot or shim some other
+> > > boot loader or it could actually be part of the kernel.)  And then,
+> > > instead of writing variables directly, we write them to the deferred
+> > > list and then update them on reboot (before TXT launch, etc).  [0]
+> > > This would be a distincly nontrivial project and would not work for
+> > > all configurations.
+> > >=20
+> > > As a maybe less painful option, we could disable EFI runtime services
+> > > but have a root-writable thing in sysfs that (a) turns them back on
+> > > but (b) first extends a PCR to say that they're turned back on.
+> > >=20
+> > > (Or someone could try running runtime services at CPL3...)
+> > >=20
+> > > [0] I have thought for years that Intel and AMD should do this on
+> > > their end, too.  Keep the sensitive part of SMI flash entirely locked
+> > > after boot and, instead of using magic SMM stuff to validate that
+> > > write attempts have the appropriate permissions and signatures, queue
+> > > them up as deferred upates and validate the signatures on the next
+> > > boot before locking flash.
+> > >=20
+> >=20
+> > *If* a physical EFI partition exists there is a lot to be said for this=
+ approach.
+> >=20
+> > The only issue with this that I can see is for things like network or C=
+D/DVD booting where there isn't necessarily any EFI boot partition, it migh=
+t not be writable, or it might not be persistent (e.g. http booting typical=
+ly uses a ramdisk, like the old Linux initrd.)
+>=20
+> Hmm, I guess my approach is a 100% complete nonstarter for installing
+> Linux from a CD, and it's really not awesome for installing Linux from
+> a USB stick.
 
-Thanks,
+Doing any of this on a removable device feels generally like a trap.
+You get your USB disk in, try to boot, and it saves vars, but reboot
+fails for whatever reason, you plug it in another machine ... and it
+tries to "continue" from there? The amount of validation needed and
+testing for failure modes across reboots sounds really painful.
 
---
-Joel Fernandes
 
-On 2/18/2026 3:54 PM, Joel Fernandes wrote:
-> These are initial preparatory patches needed for nova-core memory management
-> support. The series moves the DRM buddy allocator one level up so it can be
-> shared across GPU subsystems, adds Rust FFI and clist bindings, and creates
-> Rust GPU buddy allocator bindings.
-> 
-> The clist/ffi patches are ready, reviewed by Gary and Danilo. Miguel, can you
-> pull those via the rust tree?
-> 
-> The non-Rust DRM buddy related patches are already being pulled into upstream
-> by Dave Airlie but I have included them here as they are needed for the rest of
-> the patches (thanks to Dave for reworking them so they applied).
-> 
-> I will post the nova-core memory management patches as a separate follow-up
-> series just after this one.
-> 
-> The git tree with all these patches can be found at:
-> git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (tag: nova/mm)
-> 
-> Joel Fernandes (7):
->   gpu: Move DRM buddy allocator one level up (part one)
->   gpu: Move DRM buddy allocator one level up (part two)
->   rust: ffi: Convert pub use to pub mod and create ffi module
->   rust: clist: Add support to interface with C linked lists
->   rust: gpu: Add GPU buddy allocator bindings
->   nova-core: mm: Select GPU_BUDDY for VRAM allocation
->   nova-core: Kconfig: Sort select statements alphabetically
-> 
-> Koen Koning (1):
->   gpu: Fix uninitialized buddy for built-in drivers
-> 
->  Documentation/gpu/drm-mm.rst                  |   10 +-
->  MAINTAINERS                                   |   15 +-
->  drivers/gpu/Kconfig                           |   13 +
->  drivers/gpu/Makefile                          |    3 +-
->  drivers/gpu/buddy.c                           | 1322 +++++++++++++++++
->  drivers/gpu/drm/Kconfig                       |    5 +-
->  drivers/gpu/drm/Kconfig.debug                 |    1 -
->  drivers/gpu/drm/Makefile                      |    1 -
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |    2 +-
->  .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    |   12 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |   79 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h  |   20 +-
->  drivers/gpu/drm/drm_buddy.c                   | 1277 +---------------
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |    2 +-
->  drivers/gpu/drm/i915/i915_scatterlist.c       |   10 +-
->  drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |   55 +-
->  drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |    4 +-
->  .../drm/i915/selftests/intel_memory_region.c  |   20 +-
->  drivers/gpu/drm/tests/Makefile                |    1 -
->  drivers/gpu/drm/tests/drm_exec_test.c         |    2 -
->  drivers/gpu/drm/tests/drm_mm_test.c           |    2 -
->  .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |    4 +-
->  drivers/gpu/drm/ttm/tests/ttm_mock_manager.c  |   18 +-
->  drivers/gpu/drm/ttm/tests/ttm_mock_manager.h  |    4 +-
->  drivers/gpu/drm/xe/xe_res_cursor.h            |   34 +-
->  drivers/gpu/drm/xe/xe_svm.c                   |   12 +-
->  drivers/gpu/drm/xe/xe_ttm_vram_mgr.c          |   71 +-
->  drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h    |    4 +-
->  drivers/gpu/nova-core/Kconfig                 |    3 +-
->  drivers/gpu/tests/Makefile                    |    4 +
->  .../gpu_buddy_test.c}                         |  416 +++---
->  .../lib/drm_random.c => tests/gpu_random.c}   |   18 +-
->  .../lib/drm_random.h => tests/gpu_random.h}   |   18 +-
->  drivers/video/Kconfig                         |    1 +
->  include/drm/drm_buddy.h                       |  163 +-
->  include/linux/gpu_buddy.h                     |  177 +++
->  rust/bindings/bindings_helper.h               |   11 +
->  rust/helpers/gpu.c                            |   23 +
->  rust/helpers/helpers.c                        |    2 +
->  rust/helpers/list.c                           |   17 +
->  rust/kernel/ffi/clist.rs                      |  327 ++++
->  rust/kernel/ffi/mod.rs                        |    9 +
->  rust/kernel/gpu/buddy.rs                      |  537 +++++++
->  rust/kernel/gpu/mod.rs                        |    5 +
->  rust/kernel/lib.rs                            |    5 +-
->  45 files changed, 2893 insertions(+), 1846 deletions(-)
->  create mode 100644 drivers/gpu/Kconfig
->  create mode 100644 drivers/gpu/buddy.c
->  create mode 100644 drivers/gpu/tests/Makefile
->  rename drivers/gpu/{drm/tests/drm_buddy_test.c => tests/gpu_buddy_test.c} (67%)
->  rename drivers/gpu/{drm/lib/drm_random.c => tests/gpu_random.c} (59%)
->  rename drivers/gpu/{drm/lib/drm_random.h => tests/gpu_random.h} (53%)
->  create mode 100644 include/linux/gpu_buddy.h
->  create mode 100644 rust/helpers/gpu.c
->  create mode 100644 rust/helpers/list.c
->  create mode 100644 rust/kernel/ffi/clist.rs
->  create mode 100644 rust/kernel/ffi/mod.rs
->  create mode 100644 rust/kernel/gpu/buddy.rs
->  create mode 100644 rust/kernel/gpu/mod.rs
-> 
-> Cc: Nikola Djukic <ndjukic@nvidia.com>
-> base-commit: 2961f841b025fb234860bac26dfb7fa7cb0fb122
-
--- 
-Joel Fernandes
+--=20
+Simo Sorce
+Distinguished Engineer
+RHEL Crypto Team
+Red Hat, Inc
 
