@@ -1,75 +1,220 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028B92045AD;
-	Wed, 18 Feb 2026 01:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9124C20468E
+	for <linux-doc@vger.kernel.org>; Wed, 18 Feb 2026 02:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771378215; cv=none; b=mi8AfgPuK1KxZRPfD3Jk/Ibbq0NSPm1mjSpA8Ye8Kt24aMSklnBuWoRiSuIdDUIx301D1GELBTy8oA5x1xwqaFLyRsUxaONKOmGr/Z8v7Elt0/nsP2YV6TpckG5JeblA7AO1aIrG/0n/20ecGc0LTyeLviGh9+u4XEKl1Tpu7I0=
+	t=1771380233; cv=none; b=e8eaX1M1Tp4/tlhXoVB2qzPME6iNzc36fpCB20/N+n2AeMsJMRjjg0gvMlg+OZFaQeyMIHIPHzSHxFZzVTAjcbLaezSbE551hA+tP/c3HI+nVYsf7FAQ/V2g5yJ50CTdYW75i7VRkm0LKtwYkd1GzVEbFk8xEbhLR3VPgaw5xuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771378215; c=relaxed/simple;
-	bh=xkxgtwOqTuscVznoPfqbn+834pLIXjwcEuelZLOm+HY=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=FZNZO/HO8Ircrnj8ZNptoAaAqMCRVeQ8BJw1ONiSEO2qoQ1rD0rMt3jdQ7G5nI13kZLaUdVw9zaudE9LeISngvKP6I3YMzAZn8/SDUmLYH5tFF+1QuhjRSGq/q/s1b+HCTqlzQL4egKK4Ojd3awoNH/YclwvHghP03ye+bQMvpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ENi4CT6J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771380233; c=relaxed/simple;
+	bh=PUEtUvlnxfRwbku097xynciK1P/oSr9Kiu2SbUO2/mA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ixHsL+Q4KQwen9uOWtmJA/28A4u4dGXVWozYQ80aukUR+vJDg2l3auF24PqQiSCBeazzVe19Bbgy4MbT3kBzCjy4yUd0sX3CRvCtiWA6zxfpSZe0fxcTHVIAmaFDUJouVNCVlClJ77aJ3lrgA76FYtPVfcJMBL9aoMIItz9YiHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=L3Cq/OUm; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=YWy+wtxm; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ENi4CT6J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 981A4C4CEF7;
-	Wed, 18 Feb 2026 01:30:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771378214;
-	bh=xkxgtwOqTuscVznoPfqbn+834pLIXjwcEuelZLOm+HY=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=ENi4CT6JlGxice07AIasrPLdRak58LNBs/+TUaGv646F/Vze35eGVEOntTXdspALo
-	 VwafnERMnImcSBQQpHDairpogMeLcpLMRAIJJmPkiyyDCHtqjzrmsOyahoTOuWhUuc
-	 c4msPLW7c57/f3PFdfKGlCvE3UuoUz7fqAd625cRGbwlNVJBkVJAe6zpH2kEAkUa+w
-	 6E8Q7/7OPk4kWXIRqewBotGZQmpHkik7We7/EgAMr4tPCTFRhUcANWwwIYlnFhFmKq
-	 0fSoyp0sZay8mGR3EDzB7HhapLRGeKhep++ZFXNLObzVBHXJLHfzxzUhdmiZzcxPY5
-	 KdmfcvjFTDVxQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 853F63806667;
-	Wed, 18 Feb 2026 01:30:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="L3Cq/OUm";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="YWy+wtxm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771380231;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=o4cHvKSBZESAOv4yzpaqvORLgvpDRThGyDvq3HOoF2s=;
+	b=L3Cq/OUmE39lqbDMi4RD6vO0nKtNjMPE/ztjEMWsLNVlvhTOqH32r9XGzP0KVBn0aRAxFL
+	ECWwUisKahCsLGqWNef6y4+tDeZl1lkLIBUtMqQnU21mpb2qa6F7gP0gTMVMYLcLDLChC5
+	RNeehsEWsOmhFqPRegVtRrvWEoWC158=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-618-yd_21DuWMBypL17VH9HegA-1; Tue, 17 Feb 2026 21:03:50 -0500
+X-MC-Unique: yd_21DuWMBypL17VH9HegA-1
+X-Mimecast-MFC-AGG-ID: yd_21DuWMBypL17VH9HegA_1771380230
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-896f84e69b6so726247166d6.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Feb 2026 18:03:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1771380230; x=1771985030; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=o4cHvKSBZESAOv4yzpaqvORLgvpDRThGyDvq3HOoF2s=;
+        b=YWy+wtxmB0bLqsN7dnF5fxttInQrdOCeHQdYzNDBMe8JTFqaSi1PMTChdpWqeltjxH
+         RPdTzO9Ub3DILfh+YFLW/PtTN8nXkcfqnr+b0dfKdxjQSs0W7d2pqn3V/2nRPG/Ie8vo
+         jgyza9poN9/KNMeCLoTyGRTS8ZQaVl8SvYV3Pvgihyow+EB8FEP98Pk27PlHY00tff/V
+         +8S8jZ16WTombYS9c3X9B82idlrc/ddh1DjOvjLx2AuiXibL8RjbdELtqetsrd9uGW+2
+         gAk7S1XPPYVeWP3seHpoP4fnhU4J6kZ4awz7v0l15kcxK0MmkdVQGaHjtsV+ET2RlrVB
+         j1Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771380230; x=1771985030;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o4cHvKSBZESAOv4yzpaqvORLgvpDRThGyDvq3HOoF2s=;
+        b=nN6ZB0jazmwdZbWZlP/fGdz6yxH2gu3t1BwMUiDZRFKANUSVEua06fxuMvz2hoJdJX
+         UL3Kh9zJH5U4j7s3AoqplYogK7pcA6jxCJf/VAqypexFKV7zv0ewFsTfqs3tkn3mtFQP
+         n12Scst4RD+VcHKMD5R8iDkAuX/P8WRkAYnV07109CBP+Q50EuCyuNKo0mBOTasRIc6d
+         j90Xtsg9Crc7mbNUchbZ4ZEHc2PauciTNA9gSIkTg/Dn2ftcA6ADonMwFYfpzkTvr/0D
+         v6EQHSMTwl+qUwFJnf/6VxnZCWxO4gVSDiEq8aTAt8yVUdgrk+RUyGTNuuGXLCkAmdmv
+         lurg==
+X-Forwarded-Encrypted: i=1; AJvYcCVpvYI9r86SFLyZq125UmvDzhMTFc5UOA95c7NYM5kR5Q3o5zp/JuhAYiG3hutp3UwVg7wkwfavtOo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywd0aM2t760m5Q74rJo7k95weV5h3FUuMw/UBuVe0a0uheKuIq7
+	y0L5BXyAOy8Wc+LXtGjccQXtsUevxkRStZekjFDdHfVHToy+gfgoeeJEEkZd/EHHziqamyXEG00
+	ZkW5FwtLgFkwsYwNHeX7VAE2th9wCqxGWGLa5PlTgR1kJSubyBLMlyN04gnZwRg==
+X-Gm-Gg: AZuq6aKA1X2DI6UcVZHFvr8zTj55JGcr663LmswfBSKD5G47rN4EFDB6pdmXQw7+VLK
+	t9FohCq1iqxhKrsp3/+WrTYa7LmRv5ZRRQchUkQC2/n3TJQVlX9MH97g3yt26Gr/VuIXz5nODd7
+	WLObkbuuwLSf8n+igh/upYprdHzQwa/RXIPGr/4gHQ356AftL3uLWhhXVZL313sSaHNGsVFsyZ1
+	+Aowmy82mMoGyLW/XAS2Dvs0Oi/xg37EFIL2BtVZP3es3h+PvG07WWmXOkYTmQYjqO9RkVzJrz5
+	I+wwk6u2YtSnSgBd7CeDbVq0XB/PHL8oUgDTsPfPOICzo0CBz6E/8Xt0a604TOWXUxscJUu02Mm
+	DxFWI4YjFZzrvSUBkR7wZfA==
+X-Received: by 2002:ad4:5dee:0:b0:894:6cb7:da94 with SMTP id 6a1803df08f44-897402c95aamr190213136d6.8.1771380229550;
+        Tue, 17 Feb 2026 18:03:49 -0800 (PST)
+X-Received: by 2002:ad4:5dee:0:b0:894:6cb7:da94 with SMTP id 6a1803df08f44-897402c95aamr190212556d6.8.1771380228953;
+        Tue, 17 Feb 2026 18:03:48 -0800 (PST)
+Received: from localhost ([2607:f2c0:b1e3:9a00:3d5c:8422:4052:e7a6])
+        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-8971cc7dc1csm176656526d6.10.2026.02.17.18.03.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Feb 2026 18:03:48 -0800 (PST)
+Date: Tue, 17 Feb 2026 21:03:47 -0500
+From: Peter Colberg <pcolberg@redhat.com>
+To: Dirk Behme <dirk.behme@de.bosch.com>
+Cc: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>, Xu Yilun <yilun.xu@intel.com>,
+	Tom Rix <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, linux-pci@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
+	driver-core@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v2 10/10] samples: rust: add SR-IOV driver sample
+Message-ID: <aZUeA1hmYlZIILQg@earendel>
+References: <20260205-rust-pci-sriov-v2-0-ef9400c7767b@redhat.com>
+ <20260205-rust-pci-sriov-v2-10-ef9400c7767b@redhat.com>
+ <0e762787-7270-426f-81ee-b24761617c18@de.bosch.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] vsock: document namespace mode sysctls
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177137820633.768688.8259297791486279198.git-patchwork-notify@kernel.org>
-Date: Wed, 18 Feb 2026 01:30:06 +0000
-References: <20260216163147.236844-1-sgarzare@redhat.com>
-In-Reply-To: <20260216163147.236844-1-sgarzare@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: netdev@vger.kernel.org, skhan@linuxfoundation.org, bobbyeshleman@meta.com,
- linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0e762787-7270-426f-81ee-b24761617c18@de.bosch.com>
 
-Hello:
+Hi Dirk,
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Mon, 16 Feb 2026 17:31:47 +0100 you wrote:
-> From: Stefano Garzarella <sgarzare@redhat.com>
+On Mon, Feb 16, 2026 at 09:27:44AM +0100, Dirk Behme wrote:
+> Hi Peter,
 > 
-> Add documentation for the vsock per-namespace sysctls (`ns_mode` and
-> `child_ns_mode`) to Documentation/admin-guide/sysctl/net.rst.
-> These sysctls were introduced by by commit eafb64f40ca4 ("vsock: add
-> netns to vsock core").
+> On 05.02.2026 21:59, Peter Colberg wrote:
+> > Add a new SR-IOV driver sample that demonstrates how to enable and
+> > disable the Single Root I/O Virtualization capability for a PCI device.
+> > 
+> > The sample may be exercised using QEMU's 82576 (igb) emulation.
+> > 
+> > Link: https://www.qemu.org/docs/master/system/devices/igb.html
+> > Signed-off-by: Peter Colberg <pcolberg@redhat.com>
+> > ---
+> > Changes in v2:
+> > - Use "kernel vertical" style on imports.
+> > - Demonstrate how to reach driver data of PF device from VF device.
+> > ---
+> >   MAINTAINERS                       |   1 +
+> >   samples/rust/Kconfig              |  11 ++++
+> >   samples/rust/Makefile             |   1 +
+> >   samples/rust/rust_driver_sriov.rs | 127 ++++++++++++++++++++++++++++++++++++++
+> >   4 files changed, 140 insertions(+)
+> > 
+> ...
+> > diff --git a/samples/rust/rust_driver_sriov.rs b/samples/rust/rust_driver_sriov.rs
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..84d057629c7b03d743179a4e05ccc092f814bf6b
+> > --- /dev/null
+> > +++ b/samples/rust/rust_driver_sriov.rs
+> > @@ -0,0 +1,127 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +//! Rust SR-IOV driver sample based on QEMU's 82576 ([igb]) emulation.
+> > +//!
+> > +//! To make this driver probe, QEMU must be run with `-device igb`.
+> > +//!
+> > +//! Further, enable [vIOMMU] with interrupt remapping using, e.g.,
+> > +//!
+> > +//! `-M q35,accel=kvm,kernel-irqchip=split -device intel-iommu,intremap=on,caching-mode=on`
+> > +//!
+> > +//! and append `intel_iommu=on` to the guest kernel arguments.
+> > +//!
+> > +//! [igb]: https://www.qemu.org/docs/master/system/devices/igb.html
+> > +//! [vIOMMU]: https://wiki.qemu.org/Features/VT-d
+> > +
+> > +use kernel::{
+> > +    device::Core,
+> > +    pci,
+> > +    prelude::*,
+> > +    sync::aref::ARef, //
+> > +};
+> > +
+> > +use core::any::TypeId;
+> > +
+> > +#[pin_data(PinnedDrop)]
+> > +struct SampleDriver {
+> > +    pdev: ARef<pci::Device>,
+> > +    private: TypeId,
+> > +}
+> > +
+> > +kernel::pci_device_table!(
+> > +    PCI_TABLE,
+> > +    MODULE_PCI_TABLE,
+> > +    <SampleDriver as pci::Driver>::IdInfo,
+> > +    [
+> > +        // E1000_DEV_ID_82576
+> > +        (pci::DeviceId::from_id(pci::Vendor::INTEL, 0x10c9), ()),
+> > +        // E1000_DEV_ID_82576_VF
+> > +        (pci::DeviceId::from_id(pci::Vendor::INTEL, 0x10ca), ())
+> > +    ]
+> > +);
+> > +
+> > +#[vtable]
+> > +impl pci::Driver for SampleDriver {
+> > +    type IdInfo = ();
+> > +
+> > +    const ID_TABLE: pci::IdTable<Self::IdInfo> = &PCI_TABLE;
+> > +
+> > +    fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, Error> {
+> > +        pin_init::pin_init_scope(move || {
+> > +            dev_info!(
+> > +                pdev.as_ref(),
 > 
-> [...]
+> The `as_ref()` in the `dev_*()` prints can be dropped. Example:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/samples/rust/rust_driver_pci.rs?id=600de1c008b2302b56d69ff27d12a9d8d14892ac
 
-Here is the summary with links:
-  - [net] vsock: document namespace mode sysctls
-    https://git.kernel.org/netdev/net/c/a07c33c6f2fc
+Thank you for the pointer, dropped in v3.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Peter
 
+> 
+> Best regards
+> 
+> Dirk
+> 
 
