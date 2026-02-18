@@ -1,221 +1,267 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012007.outbound.protection.outlook.com [40.93.195.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0D334A76E
-	for <linux-doc@vger.kernel.org>; Wed, 18 Feb 2026 21:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771448651; cv=none; b=U+kK4XpkDbMQPGB+rR8y6rjdhIkgGsK9W0MOUpoJ4Pza76YWCdYfsIm5GUSuGTV+RT4ENMqwIBT981EN88XtSoBs6oYugAbqQzikVfDVsnMuXBM/+/vLxG7Pkow0i1pxTsJzBAABQZMMVbLYsVBIHIZgFAaTfBvoFNmaej4z8Vc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771448651; c=relaxed/simple;
-	bh=qBtd2CO59a+HKvdpME8+RXTr+DLTGtsE5jPI2nVtVKA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HFigcOhg2tasoTPInUUJ5kcQfaqLznbeSwEG5Zb2C00u6nnoonTR/9wq6Rslk520SIz3Py7q5LiIxFqmXV12XanKc5uFeAqxFI4vuUd0vD7aY16vjrM5gw6WOWIrCCoiIJUHWfwm0XfY0PAo/RD7MFbEUN4s66Cl+K6LBLJuLbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XUdB4z/2; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=N5/oQMW7; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02009326927;
+	Wed, 18 Feb 2026 21:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771449668; cv=fail; b=VKhLy7mh5qommASDItvTuXka2Q3oamBPnVzptGyLmcvWLGvRbl7jhqlBt5W8xTVZFuZNeVEguaXPgCgTMblgHwgB3AVc9WIjD2pooA8a0MSt0gOlZLpO5TFoAemYS7GumQxwROVVstMZVzZhw+wfmkNQA059jQ3BCUxJLbfdTS8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771449668; c=relaxed/simple;
+	bh=7kuABHigSczgmqaTVkLj7GTKfxsaGyFUgbDXpCvao/8=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=qv+69b1xwyIV50H4nzDkqCwRZIBIuNwDgkHT3t7N8UNI4kjccbi3MmfzzIsgZ13v3Z6LISO0JRZnwggM+FbM1ciTNbvlf7lPKZyJIKuAgKGj4bExKtcDrzZuRtp4qk0p+2801Nlb31WgZWUFmj4KllKhIW3HNInMQ9pRom72yso=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qIEyXs+s; arc=fail smtp.client-ip=40.93.195.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XUdB4z/2";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="N5/oQMW7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771448648;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pPcRNxiA9VF/PkhlksjBanylvA2gRYuNpURfmKx7ewA=;
-	b=XUdB4z/2ooGyyR1GFO/q6nUzsd6shssqEe5S3WTR+HSCOm61Tx+8x+4IZS7rhb5cFDHCcu
-	2gV8+dDb+NWs11HPktnfXUporxv7KdST3HfRB0YR7aOlMraWCBdDipjxI50Ej0dm+wRC3C
-	5Mtr0xNThT+0noB6uLqho2E84dOMc6Y=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-577-xatzwdMyPBC3CDQvM5kLpA-1; Wed, 18 Feb 2026 16:04:06 -0500
-X-MC-Unique: xatzwdMyPBC3CDQvM5kLpA-1
-X-Mimecast-MFC-AGG-ID: xatzwdMyPBC3CDQvM5kLpA_1771448646
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cb4817f3c8so138000985a.3
-        for <linux-doc@vger.kernel.org>; Wed, 18 Feb 2026 13:04:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1771448646; x=1772053446; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:organization
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=pPcRNxiA9VF/PkhlksjBanylvA2gRYuNpURfmKx7ewA=;
-        b=N5/oQMW77slCy5JJJssOVI61DoD9V2Vh5jAI0A0dy1ggfKFWmj7c7IzVs3r7hpZfoa
-         TR07yOgyUIaNQAdEiOACUUr8lHyahS46iLIKE4X5/ShcXOa+H1xf5hqpUqE7uECij6Sq
-         G9/Mkc4mtRVVSqPw64TQWf+nOLIWol9QOoxj+FoBVjE0lVP+TllAd+QlhjEuI2s+0Brd
-         TR+yjGXWReX5vcEC60gwpahYdmldMBtgeT6GNlqeoKRgckcIB26ciiVPe3U7pCbKl3tv
-         YDJw8TQ8VyMXtArM/M1Gj0sdeMnt3EkffcnAl6XyEH836KSsdVoFPnQrVHlsRVbwwqKd
-         0G0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771448646; x=1772053446;
-        h=mime-version:user-agent:content-transfer-encoding:organization
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pPcRNxiA9VF/PkhlksjBanylvA2gRYuNpURfmKx7ewA=;
-        b=HiNmYxft0aWZxW/gpaT2toLtDanx6w0lKjp8qhVoFsYKmUtb3Xl8QncapjhEOWspmz
-         nWQZCTk50dZUs5At2bq/IAyiPqQzBoNPOtnn9/4jn14EjVPBBqe90qUIYhJ+zi9cSK1P
-         3PM3IMXrF6iUt5n11eTy+NJfxBbuFlwIdSXFA5cRiAzo8cMd55i7EowQp3k4V11JPgsQ
-         v1DIlEBILYPhItZE/DcCfckYnai6rDj2+GpHw1mf2ch6Omc2bIVTwnRSvlWrpk/r5gYe
-         VdwVeQA6NgibWQfaeKdFskNSELn12TuxRPbjer483owjxYuTTuIEtAQqceSomTX1NSvw
-         mU2A==
-X-Forwarded-Encrypted: i=1; AJvYcCVq/AmdDmpm/ho2A6RvWjc9gJ//gHy+cF+C7ebeJzwwirwVHNichwZuuyAyttI6QPGHkenhgur36lc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyqVae7f4ehdNWy3s5XpexgRPCPd+0sD4PHCo19Z6OPwEqfDDn
-	Orv9mdUjEA3wbtFDcIyKYAB+RSVsf8Yx5bTEwZa7u0j0m1hxZs6DcNlpdes/kL1sCsh5b30y9Br
-	X4A6HZxm+HTaNGn5YB0aAQWeH50xc7Pd6QTwSKswEZfWqYt4hKTooCrzquj/q3w==
-X-Gm-Gg: AZuq6aKApwOsoq2XxLhNxsblHUdNjER/8kZ5NRLXNgapqg+UWVR2fA1ZflxQRQgU0ED
-	pZoEsIx3RC09HHe/xLycEsM7cIizld+ga5YmPrX6YbxkoUfIJG0PfACqVx2iG7Qp/KHeb+3727r
-	JZFBUUdGjfw/UqESqj2CToXzzH35aiOAIUllfLUnDIOuEjpPXFRMsfE2TfvtyeKEr2a1E6YVYgh
-	r6kq/FkTl2P4ZH6KD++eJEHcb+cz7hD5htCbvB7PoTgxjcKXRxUxc1+KoVBpLj0OXeHYsbu99PR
-	xbh6nkYyWiEKD3Jpte0E5wJJEQyyXkEaVP3Q0CxJEAeXC/jc8TC+3yOA1dwUZ0CrhBaamVdnM4O
-	9BcJwB8eTJwS2ODWc
-X-Received: by 2002:a05:620a:4689:b0:8cb:4dc4:61be with SMTP id af79cd13be357-8cb4dc46babmr1909604085a.49.1771448646112;
-        Wed, 18 Feb 2026 13:04:06 -0800 (PST)
-X-Received: by 2002:a05:620a:4689:b0:8cb:4dc4:61be with SMTP id af79cd13be357-8cb4dc46babmr1909597185a.49.1771448645565;
-        Wed, 18 Feb 2026 13:04:05 -0800 (PST)
-Received: from m8.users.ipa.redhat.com ([2603:7000:9400:fe80::7a7])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cb2b1c7ef7sm2079117785a.28.2026.02.18.13.04.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 13:04:04 -0800 (PST)
-Message-ID: <32e62cef7b89d9691bdd4120388ce752fd041230.camel@redhat.com>
-Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
-From: Simo Sorce <simo@redhat.com>
-To: Andy Lutomirski <luto@amacapital.net>, "H. Peter Anvin" <hpa@zytor.com>
-Cc: Ard Biesheuvel <ardb@kernel.org>, "Daniel P. Smith"	
- <dpsmith@apertussolutions.com>, Ross Philipson <ross.philipson@oracle.com>,
- 	linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-integrity@vger.kernel.org, 	linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, 	kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev, 
-	dave.hansen@linux.intel.com, Thomas Gleixner <tglx@linutronix.de>, Ingo
- Molnar	 <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- mjg59@srcf.ucam.org, 	James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, Jarkko Sakkinen	 <jarkko@kernel.org>, jgg@ziepe.ca,
- nivedita@alum.mit.edu, Herbert Xu	 <herbert@gondor.apana.org.au>,
- davem@davemloft.net, corbet@lwn.net, 	ebiederm@xmission.com,
- dwmw2@infradead.org, baolu.lu@linux.intel.com, 	kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, 	trenchboot-devel@googlegroups.com
-Date: Wed, 18 Feb 2026 16:04:03 -0500
-In-Reply-To: <CALCETrWzG1Mjb-RcwLQ5-tGFZ15WKHjZbqtLvyif+UPuVKJ_5g@mail.gmail.com>
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
-	 <b5f2b5a5-b984-4ed3-a023-c06d634f9146@app.fastmail.com>
-	 <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com>
-	 <49d169bf-0ad2-49be-b7d7-fceb9e7f831a@app.fastmail.com>
-	 <CALCETrUE8c-dxRWhtHKz_PojwZuWMXJSzOsFQf2vt5LS3ATwpA@mail.gmail.com>
-	 <1BBD7449-8420-43FD-930B-A4E1BA38FFC6@zytor.com>
-	 <CALCETrWzG1Mjb-RcwLQ5-tGFZ15WKHjZbqtLvyif+UPuVKJ_5g@mail.gmail.com>
-Organization: Red Hat
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qIEyXs+s"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SNLOJ6NwSzF4LS8dkQv0iS5VGzDAy1yFRQNeb7sGLWceZf+Ww7asugPgAyZ4fvHvehA6UqZ2xkytGj42RW961cE0/12u4+clSdzT32p93NMIp5BX+PUc/tcHphDf3TcNKoNQYENOzuUODzzOV8D8c7YRzi+1yD17Gg/HWO/5rK3OE0RtRf+ciCJQ9w7cEK8OmlDMfQECuP06c7VxOPw2QgKoCz63ftOor2riyxP2JT2+asrwQLn/LI+0n1LwdhH97Gv/SOiVmaKN+PqFau54B6ycYytcG5GCaaIsXkoik71byUxQw/NzFYrMvJTWu21VG8PIPrOSzSdXB6qCcIrT/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9+htc6zTSproVUfOMlzedV76A6QuNQnGjUGGd6VFeSo=;
+ b=J4H6/saFETdVBb9748F/YX5mockTo65rHO3UqJuQDGZ5ae+bSABtnJFPqaEBu/Od9A9rOT1r+b8Si/VVc4YYrs7sgn2JenpRmD/6rArmLlq/MPLayYqb1oNVw8kDeBLLTAsnct4N8qikmoBnXWo+fu8x/hIwnR0Ea5SFMIiGGDCXJ5CDVsQgfoTM2XQpd3xXx4MV2mijpZsc5pManmg/rwoFbpCXzLGs06nlJDcfQ3Ag/Uu2DuyoLqMU+oA4sgVAkUAj9HjPUmTlkdWHhQDRITuBzHQIVbtGr9TUlIy0uIbmc1bw8iYg4YNjIpRGT7QiawYc+umPCk2WeaSgmZ410g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9+htc6zTSproVUfOMlzedV76A6QuNQnGjUGGd6VFeSo=;
+ b=qIEyXs+sWkXL+gSujjg/VfXaOcwk/Tw6D42vvcM5N8KQ/h3yPDeZAIvYSzDkoKClOI8pBFCwT2zqVcCwC6OwQRGOd7SDtfnoYh8mELOp7SkVSzef8PUBBKDYOAvkjt2nCfcJZ7iO9ZtuyPbhyRDWGX3zB6i88f3SLkoZV4TIxcK0ggwhHhJozGqa3P25yoqKcRMdE7I/3kYOxTPFGS06G8Q6f0LccSURDtaKuiB1gZpt1XHab4p2ShjaPrRG0Jxbbvl72vyLo8ZzOAn82ORkY3eUEoB3b6JEXWqyIApQVYfxMsKgLQ/i4urXecEGGC4TpOZescUwIUsaIbfKR/JYng==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ PH0PR12MB999111.namprd12.prod.outlook.com (2603:10b6:510:38d::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Wed, 18 Feb
+ 2026 21:21:03 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.010; Wed, 18 Feb 2026
+ 21:21:03 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Huang Rui <ray.huang@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Helge Deller <deller@gmx.de>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Timur Tabi <ttabi@nvidia.com>,
+	Edwin Peer <epeer@nvidia.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Andy Ritger <aritger@nvidia.com>,
+	Zhi Wang <zhiw@nvidia.com>,
+	Balbir Singh <balbirs@nvidia.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Elle Rhumsaa <elle@weathered-steel.dev>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Eliot Courtney <ecourtney@nvidia.com>,
+	joel@joelfernandes.org,
+	nouveau@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	Joel Fernandes <joelagnelf@nvidia.com>
+Subject: [PATCH v7 00/23] nova-core: Add memory management support
+Date: Wed, 18 Feb 2026 16:19:57 -0500
+Message-Id: <20260218212020.800836-1-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BLAPR05CA0032.namprd05.prod.outlook.com
+ (2603:10b6:208:335::13) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH0PR12MB999111:EE_
+X-MS-Office365-Filtering-Correlation-Id: a82d24e7-5f4f-4905-a0c1-08de6f339e92
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?tlt2an0AAUu90NDNMwC/7hTRgfDO2Bc+fce9XL3gsDh/1ulsBB6f+oIWZB2B?=
+ =?us-ascii?Q?6O9JpT400DbbVpdXhTJy6ZT9S1YTpKlKAqqvpL66mrIHQbAnTJTPv5vSmsdL?=
+ =?us-ascii?Q?Wp9yTxaiPgmcJgQNdGCejQjJ5I15TzCdi5LABf9a2OFyywQ2fBH5zDTNzYNq?=
+ =?us-ascii?Q?ht+mtaMcg8rVxOBzbn0mLR3rDjubJzinz7ypEqN9AN6QcHmBNAoRnz2cw9jx?=
+ =?us-ascii?Q?jEvhcG/N/12WFclIuhaX1uboGzaKRBSfDPE/mLK1jkiTxyPugYa89vKLnu9i?=
+ =?us-ascii?Q?u0SPANAlIynh9QrwkMNFeM1o1eZ93kd9w9YGGzzdFBEKKM0qeLI21NOiB/p3?=
+ =?us-ascii?Q?EJcCIJrThGwluEbxIz2qc7vSxKc2Y3CBsr7LzQZDAXl0ehetbgBM0RMoz5Y/?=
+ =?us-ascii?Q?I+YBE83x6kka77mM0CLeFU5JUY2lPNU3poqeqz9liJLypfCOt4hhk1Sla00f?=
+ =?us-ascii?Q?NTJmLagzgTP6oHphBtGC+A5FWTFqH/wYJAZdOEB5DyZ2N+R1X/4//940fMDb?=
+ =?us-ascii?Q?Sl3RDz5NDeRRUMEUcuAo031MerAtRD/7dHCp56R6W6bjBkSOsbMpwswUeAgC?=
+ =?us-ascii?Q?pCZj+9G+v7BvreVpcszpwtz4+jJIZp3nCmx1ZSIQQNFqcmjQitcnuEQOUFHT?=
+ =?us-ascii?Q?8oaT+Oxv3RJUez8vYZPBC2ERtwco2MMlqdsIIj72rzbAMO6frJ3jI+uJj2vI?=
+ =?us-ascii?Q?7A8qJE2LmcpIgaPH7V+qC0yKQz8fHYKMeyaHrJsp36+WbJmNg5q9mMQFKugU?=
+ =?us-ascii?Q?cU4lVpBKPHCIhwKdcy5EMopiVs35alJGTWGtxFu0hF7xbcQhlxKIYvFtGWdK?=
+ =?us-ascii?Q?JODiQ0bIyMbC0prjQ8TH18QaTrHAZ4O5JH07BOQlOeCDznN0zdJ6hAD4WTP5?=
+ =?us-ascii?Q?D/aC/sgJ+l9vHLntZwaQmD10/gtk2XRRosrBzOk00lNAFQqs8/2nSzxMN42s?=
+ =?us-ascii?Q?HrQfiAThS01VrhRrTRly4Tqz+cqewuZjOwPrB/rrFwwIFP40PCauGV9Q7TDS?=
+ =?us-ascii?Q?aqOFVz7Xvxrqz4HGkZB34udjKSL/W+FR1FD1NKI7dSVlkpRQXcW1l/1PQmwG?=
+ =?us-ascii?Q?DMTaSOxnkR3X0WR/ov2p0gv2qgrO4FUDPRrH3Y953xaxRMwBJfhTpIfJQb1K?=
+ =?us-ascii?Q?xSCEOmCuyUQcEHVPqSJ2ySblS5YaOeXj4CaGhYoFQWYtI0X3gunA59YsBgca?=
+ =?us-ascii?Q?X6tCv5n5s00N/2NVR+bT+lhDbF2Gmuv5vyjdKKx31aGzLJWro6zP44+qoB5U?=
+ =?us-ascii?Q?5biFuf0yLvO/GXmiqiAa6foxKczv2LsX/Wx/yZ+qcN3xVW7tzORO03tOlzHM?=
+ =?us-ascii?Q?qQbI6r5Ml2SUZAP6XonmbxlyggJNErngESnAUegzFaY8IakTdvPmzWG3CR1t?=
+ =?us-ascii?Q?q5/rbmwMwNeCgIVQWINSCDIIaqc7VUI8O1Gpkiqd7iC3Pu/4WqK/Ol3PRTOw?=
+ =?us-ascii?Q?yFBcRh3Zvm4353jTvqEUIF7MomX5bdPRlGVUekIvEjxm+kEvcqXcZfgJC541?=
+ =?us-ascii?Q?Z16t1DlIswdv9SMLXBTWgmBmkskfyLrJ1pR9tDgCDwtHin+kNDSVEXs6cRJ7?=
+ =?us-ascii?Q?kU/4o6CzAXJmBvqot7w=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?BLSPyB2pLqorRuzX+uCKW2NDc+FFdfY2+oDKE0o/j5pTwr5gvtwIOGVr9/kI?=
+ =?us-ascii?Q?kvyALljPoyNMxdMgjecr/4HEaS4/9Ie1zjcuRHVLyimhuS1+X+CEpk1vRr8L?=
+ =?us-ascii?Q?8Mr1STuRZ++aMiJE+013gJdDP+UwFVoE3qLUabr1L3+dMgK+l37gz+A5PIhr?=
+ =?us-ascii?Q?qqYOrQJJ6u9/Ytkw9KGqf9gh2ZplvbMbJTGBG0sgHyxweQbpi7wUJKBiXvrb?=
+ =?us-ascii?Q?exvFmKytWJSXIVpWEWLiFzxRKX932H2aS6jW3Z/p64p7P4cP1iD2t25OOO7w?=
+ =?us-ascii?Q?mXffesEyegCMJ8EVDOz6ADe/YOU/hAPHxpFeAmHCHNMKBU+SY0jtx+9zr/CM?=
+ =?us-ascii?Q?5GHgQ/f/GURrCdga13PAY5z23L4uFiXFh/opnOzNKrx7XXg39CwRGqq4IDIK?=
+ =?us-ascii?Q?kDilH3QV7NJgFK+By/Zv0w1I4QdOWr5Sl++Vxi6Nw8JRW6XxTYedFciUxrJN?=
+ =?us-ascii?Q?US/fX+DoSsHff7M/TmkCZIlteklS4k5MtJGvFGB9Sc87rgHi+7rMNjiq+gum?=
+ =?us-ascii?Q?RHV4JYm2Rn9VnIfLTvOjbMsnnJTueQIyAZIZ7+4eAFv56qVGfuIYbss661Iv?=
+ =?us-ascii?Q?Hc6iJvJ67ddy+OqziWULUbj7xoWbJMhvF1SrgVNli/TQsSusCB+Ws2hJ8xnK?=
+ =?us-ascii?Q?2avqYG8cDjGhswTylrEPZtaLNomGvzMRCpKGiX+sa9JiU4sNFeIoNSIrdl6h?=
+ =?us-ascii?Q?5W2NRXfQOHK+3Cv74oJrzSjaf1bVd+UPvj1iUUnqcBSkQ1ObqqNt7vaVTQ7K?=
+ =?us-ascii?Q?eTUmid2kupHUNIz7QYIXlVZneDBVcfHsWcBS+0J4vzgljT0xu29G7CxxpZIt?=
+ =?us-ascii?Q?KAQzYsXL8r5ibBqOTx4HOaHye/DuyfzdnnrmhsURkun3K8/vcOGGU5zrIjHo?=
+ =?us-ascii?Q?eD3UCloqrGkfl7XtSEg34N+JpxC9sxMwvrGrxrjNPDvdhDEjUXfa2tSZH2L/?=
+ =?us-ascii?Q?jReP4i/jrCdFpFLpbI5bvapHpQV0E7jCALj7XrM+kL9LhdFy+hhsdQFjURAN?=
+ =?us-ascii?Q?DZ06eJH+XMhKL7bHuKiZFYTcsAZ3Hi3AojddWIgg4Yca+XQgFHNeq3ry2Ww3?=
+ =?us-ascii?Q?Q+IU8+vRllzp4dr9Z6A0x9u/JGV4HUVA+4kDQ3EQJP7j/7holFvMUz7lIrsr?=
+ =?us-ascii?Q?jbCnnVnvUE+5W0LWL+CnMi0ZpFruvf9BrX5+fqdRRU+LNew//8nWC/1urK97?=
+ =?us-ascii?Q?gK6Gcyv84TiK5z0gsURMU/79NOO9HgT9vfO9Gx4Gbi7qsci4Ys8fZmjBiuGy?=
+ =?us-ascii?Q?dNjHs3MZ5PHNzRZ3GYbAU0X/hZ5Ipr6bxaUMRsnz7MtTxcoS1c5LegDQXMnm?=
+ =?us-ascii?Q?TVsrkGfmv+mgLxFe1Jsn+GuVwbAdMdiFuh6tvTe04kuSASUGQOwYrrboWbbv?=
+ =?us-ascii?Q?7J0qxav5mp+E/JvtG+QSWQ42wqjGfVGVXabtPhH4xfDZzOl8AXfzdc4D51xv?=
+ =?us-ascii?Q?6iGTbcabjkgx46zcJTYEreXCaFklkkdtq6w9FuG9LdQRv50PrwqMs77Qee67?=
+ =?us-ascii?Q?nTQG3HfxTF4gM/eZZvcJYrO2FZMmpiG2Ca/YJnULRmrJEiaCxelaa6XMgzsv?=
+ =?us-ascii?Q?MZ6UFd+2FSY/2vzx68UsK+czc0Rs5TVKqbAzq7i2J+g/3kBAL6KobPOpLGv7?=
+ =?us-ascii?Q?9UXQbZU/9TAi1uQ/RtqPUYoxhOHX7rAPNzf40zqUo9JzBZvgkB9omsrG+8rq?=
+ =?us-ascii?Q?5MZwD0uu+tEGS6xt0bn6088mi/OBlk2JtqOPM1kDllAXCR4srzS/n4dM4eKM?=
+ =?us-ascii?Q?cCcUGi/alw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a82d24e7-5f4f-4905-a0c1-08de6f339e92
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2026 21:21:03.0379
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ax+Mn7RSdzablwZEQgDU3OFrzOVJE4ZxkNoNhtp0gB5F+LuD3ipGSmOug6RztinG/nILooBHtk3OKX3zjiL/Dw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB999111
 
-On Wed, 2026-02-18 at 12:34 -0800, Andy Lutomirski wrote:
-> On Wed, Feb 18, 2026 at 12:29=E2=80=AFPM H. Peter Anvin <hpa@zytor.com> w=
-rote:
-> >=20
-> > On February 18, 2026 12:03:27 PM PST, Andy Lutomirski <luto@amacapital.=
-net> wrote:
-> > > On Thu, Feb 12, 2026 at 12:40=E2=80=AFPM Ard Biesheuvel <ardb@kernel.=
-org> wrote:
-> > > >=20
-> > > > On Thu, 12 Feb 2026, at 20:49, Daniel P. Smith wrote:
-> > > > > On 2/9/26 09:04, Ard Biesheuvel wrote:
-> > > > ...
-> > > > > > Surprisingly, even when doing a secure launch, the EFI runtime =
-services still work happily, which means (AIUI) that code that was excluded=
- from the D-RTM TCB is still being executed at ring 0? Doesn't this defeat =
-D-RTM entirely in the case some exploit is hidden in the EFI runtime code? =
-Should we measure the contents of EfiRuntimeServicesCode regions too?
-> > > > >=20
-> > > > > Yes, in fact in the early days I specifically stated that we shou=
-ld
-> > > > > provide for the ability to measure the RS blocks. Particularly if=
- you
-> > > > > are not in an environment where you can isolate the calls to RS f=
-rom the
-> > > > > TCB. While the RS can pose runtime corruption risks, the larger c=
-oncern
-> > > > > is integrating the D-RTM validation of the Intel System Resources
-> > > > > Defense (ISRD), aka SMI isolation/SMM Supervisor, provided by the=
- Intel
-> > > > > System Security Report (ISSR). Within the ISSR is a list of memor=
-y
-> > > > > regions which the SMM Policy Shim (SPS) restricts a SMI handler's=
- access
-> > > > > when running. This allows a kernel to restrict what access a SMI =
-handler
-> > > > > are able to reach, thus allowing them to be removed from the TCB =
-when
-> > > > > the appropriate guards are put in place.
-> > > > >=20
-> > > > > If you are interested in understanding these further, Satoshi Tan=
-da has
-> > > > > probably the best technical explanation without Intel market spea=
-k.
-> > > > >=20
-> > > > > ISRD: https://tandasat.github.io/blog/2024/02/29/ISRD.html
-> > > > > ISSR: https://tandasat.github.io/blog/2024/03/18/ISSR.html
-> > > > >=20
-> > > >=20
-> > > > Thanks, I'll take a look at those.
-> > > >=20
-> > > > But would it be better to disable the runtime services by default w=
-hen doing a secure launch? PREEMPT_RT already does the same.
-> > >=20
-> > > So I have a possible way to disable EFI runtime service without losin=
-g
-> > > the ability to write EFI vars.  We come up with a simple file format
-> > > to store deferred EFI var updates and we come up with a place to put
-> > > it so that we find it early-ish in boot the next time around.  (This
-> > > could be done via integration with systemd-boot or shim some other
-> > > boot loader or it could actually be part of the kernel.)  And then,
-> > > instead of writing variables directly, we write them to the deferred
-> > > list and then update them on reboot (before TXT launch, etc).  [0]
-> > > This would be a distincly nontrivial project and would not work for
-> > > all configurations.
-> > >=20
-> > > As a maybe less painful option, we could disable EFI runtime services
-> > > but have a root-writable thing in sysfs that (a) turns them back on
-> > > but (b) first extends a PCR to say that they're turned back on.
-> > >=20
-> > > (Or someone could try running runtime services at CPL3...)
-> > >=20
-> > > [0] I have thought for years that Intel and AMD should do this on
-> > > their end, too.  Keep the sensitive part of SMI flash entirely locked
-> > > after boot and, instead of using magic SMM stuff to validate that
-> > > write attempts have the appropriate permissions and signatures, queue
-> > > them up as deferred upates and validate the signatures on the next
-> > > boot before locking flash.
-> > >=20
-> >=20
-> > *If* a physical EFI partition exists there is a lot to be said for this=
- approach.
-> >=20
-> > The only issue with this that I can see is for things like network or C=
-D/DVD booting where there isn't necessarily any EFI boot partition, it migh=
-t not be writable, or it might not be persistent (e.g. http booting typical=
-ly uses a ramdisk, like the old Linux initrd.)
->=20
-> Hmm, I guess my approach is a 100% complete nonstarter for installing
-> Linux from a CD, and it's really not awesome for installing Linux from
-> a USB stick.
+This series adds support for nova-core memory management, including VRAM
+allocation, PRAMIN, VMM, page table walking, and BAR 1 read/writes.
+These are critical for channel management, vGPU, and all memory
+management uses.
 
-Doing any of this on a removable device feels generally like a trap.
-You get your USB disk in, try to boot, and it saves vars, but reboot
-fails for whatever reason, you plug it in another machine ... and it
-tries to "continue" from there? The amount of validation needed and
-testing for failure modes across reboots sounds really painful.
+These patches depend on the following preparatory patches:
+https://lore.kernel.org/all/20260218205507.689429-1-joelagnelf@nvidia.com/T/#t
 
+All patches (including the preparatory patches from the other series) can
+be found at:
+git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (branch nova/mm or tag: nova-mm-v7-20260218)
 
---=20
-Simo Sorce
-Distinguished Engineer
-RHEL Crypto Team
-Red Hat, Inc
+Earlier series of these patches:
+https://lore.kernel.org/linux-fbdev/DG0MRL6T7ACW.25G3GLJMP7PN1@kernel.org/T/#t
+https://lore.kernel.org/linux-fbdev/20260210233204.790524-1-joelagnelf@nvidia.com/
+
+Joel Fernandes (23):
+  nova-core: mm: Add support to use PRAMIN windows to write to VRAM
+  docs: gpu: nova-core: Document the PRAMIN aperture mechanism
+  nova-core: Add BAR1 aperture type and size constant
+  nova-core: gsp: Add BAR1 PDE base accessors
+  nova-core: mm: Add common memory management types
+  nova-core: mm: Add common types for all page table formats
+  nova-core: mm: Add MMU v2 page table types
+  nova-core: mm: Add MMU v3 page table types
+  nova-core: mm: Add unified page table entry wrapper enums
+  nova-core: mm: Add TLB flush support
+  nova-core: mm: Add GpuMm centralized memory manager
+  nova-core: mm: Add page table walker for MMU v2/v3
+  nova-core: mm: Add Virtual Memory Manager
+  nova-core: mm: Add virtual address range tracking to VMM
+  nova-core: mm: Add multi-page mapping API to VMM
+  nova-core: mm: Add BAR1 user interface
+  nova-core: gsp: Return GspStaticInfo and FbLayout from boot()
+  nova-core: mm: Add BAR1 memory management self-tests
+  nova-core: mm: Add PRAMIN aperture self-tests
+  nova-core: gsp: Extract usable FB region from GSP
+  nova-core: fb: Add usable_vram field to FbLayout
+  nova-core: mm: Use usable VRAM region for buddy allocator
+  nova-core: mm: Add BarUser to struct Gpu and create at boot
+
+ Documentation/gpu/nova/core/pramin.rst     | 125 ++++++
+ Documentation/gpu/nova/index.rst           |   1 +
+ drivers/gpu/nova-core/Kconfig              |  10 +
+ drivers/gpu/nova-core/driver.rs            |   9 +-
+ drivers/gpu/nova-core/fb.rs                |  23 +-
+ drivers/gpu/nova-core/gpu.rs               | 135 +++++-
+ drivers/gpu/nova-core/gsp/boot.rs          |  22 +-
+ drivers/gpu/nova-core/gsp/commands.rs      |  18 +-
+ drivers/gpu/nova-core/gsp/fw/commands.rs   |  38 ++
+ drivers/gpu/nova-core/mm/bar_user.rs       | 318 ++++++++++++++
+ drivers/gpu/nova-core/mm/mod.rs            | 241 +++++++++++
+ drivers/gpu/nova-core/mm/pagetable/mod.rs  | 479 +++++++++++++++++++++
+ drivers/gpu/nova-core/mm/pagetable/ver2.rs | 199 +++++++++
+ drivers/gpu/nova-core/mm/pagetable/ver3.rs | 302 +++++++++++++
+ drivers/gpu/nova-core/mm/pagetable/walk.rs | 213 +++++++++
+ drivers/gpu/nova-core/mm/pramin.rs         | 454 +++++++++++++++++++
+ drivers/gpu/nova-core/mm/tlb.rs            |  92 ++++
+ drivers/gpu/nova-core/mm/vmm.rs            | 473 ++++++++++++++++++++
+ drivers/gpu/nova-core/nova_core.rs         |   1 +
+ drivers/gpu/nova-core/regs.rs              |  38 ++
+ 20 files changed, 3182 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/gpu/nova/core/pramin.rst
+ create mode 100644 drivers/gpu/nova-core/mm/bar_user.rs
+ create mode 100644 drivers/gpu/nova-core/mm/mod.rs
+ create mode 100644 drivers/gpu/nova-core/mm/pagetable/mod.rs
+ create mode 100644 drivers/gpu/nova-core/mm/pagetable/ver2.rs
+ create mode 100644 drivers/gpu/nova-core/mm/pagetable/ver3.rs
+ create mode 100644 drivers/gpu/nova-core/mm/pagetable/walk.rs
+ create mode 100644 drivers/gpu/nova-core/mm/pramin.rs
+ create mode 100644 drivers/gpu/nova-core/mm/tlb.rs
+ create mode 100644 drivers/gpu/nova-core/mm/vmm.rs
+
+-- 
+2.34.1
 
