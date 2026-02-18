@@ -1,128 +1,87 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E99629E114
-	for <linux-doc@vger.kernel.org>; Wed, 18 Feb 2026 19:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C19D345741;
+	Wed, 18 Feb 2026 19:57:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771444215; cv=none; b=LfHD102z6saXoSo55BBO7LeB+r1RTql6+0PgKZ9PX2FUKNul++P++llPRNMitmfd4iNRedAWxTBKZKdP0UtaQ4FkT7x9mXe3cXN97Onq9ExObHe3WHrUnUOOfCSHlCJOT9UUVXtQRbymbZNoAKx9WpcBodpmqdE2Gh3V2W94+n0=
+	t=1771444630; cv=none; b=VuKklZuxmTXk5cNmNAfOdBK438PNJAdQJXKCPejoFjI3PA0Xd10MCJjCaPOWq13pJH+naW5cR/rR27JW1vBHtXEMo5IX+TGvdGCJ7HAK6caY1BgDkJ4BEDnTdPeMg26iwgjC0wbvdlZXNwgwMqZ9H6bDY4Uj0sIxbi7hKO46eWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771444215; c=relaxed/simple;
-	bh=vBUAyAbacjfaRDxMQvWcGcFT+qxiW9zxnAxYnB8luFk=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oxMkxR2OEZDKobH/B4L4Z1Res/fsx1u2U1NXCb1E9MqahahPxT066IDf/wr0AuMTeKWNehnoB3RSfRVL8GTNvtRYNTvNvNdzOuFTaEh7UElt7IjWyDFvvpZY1eowsp+ph09sEEswuDDc/yKxzYUwlGY+g+5bQQV05+4vmNWCYfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jVbuwURM; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771444630; c=relaxed/simple;
+	bh=gat+rnnrUbK/Y6WytC8CslzBWIw44IxAUqnSKe3YTrY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RbZUhAVcZA6bX/0Q9gFSDztrWQRZ1xL4wluKxnNK8VRg++AX/BZoOEWC6n6Ikuo7nx4p+TIgZgB1nmA/iAuDK0BPdL1/ceFgfmd5wzaJ+DxUZA0tguXqO/ecb8mwpT64kd2eQMSu4xJmY2LG4ZY/i6btWuX1HiHpwJ7rGhpXXLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aU14TGs1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jVbuwURM"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-8cb3e22435fso98628585a.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Feb 2026 11:50:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771444213; x=1772049013; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wD8Ttwe5Tegj8OFrv2Q7m/YBq2wmzpAVQJC0WJWjYy8=;
-        b=jVbuwURMGnIT8wZnEoDOKBVuYcPZa0FvLLJWn6II3NWQOwxbE5qA72CQQz4IdD8zD3
-         BxCvNxVOU3Ey0PUWpRWCpFpGLiuIv5KY6Tqpv5sOp1RbDihMGN5Qccrs3i15JS/fAzyd
-         7OouAo50xoDSMkPYVaLLH6F/7KeTBz02CAQjPpE07IrEneG237rqMTacB/PQ5hydpy/i
-         e3P5c2PfOLcgcbCT/LLpjZ21hF/PFd6NindCvhmX/r5aypBby1gIHAjAVOi8QwTyHJuy
-         KUFQGdw6hPqTTdTu8pBFlmWErnY4BTq/4bPzcQADZBkSqR0yMwEn6ftyykosbArpKQcn
-         19zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771444213; x=1772049013;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wD8Ttwe5Tegj8OFrv2Q7m/YBq2wmzpAVQJC0WJWjYy8=;
-        b=D38BJhCQPCSNdRyvnadd3X3tIDXjr68g8MyR5ARjFDVJrzyqWGljzos0nGTFcn9Hsb
-         jMr3gdKHWPQpNar82KlQHwrbbZlcUoREmTYLasV1ntKruENi3V4/KxuQJHRP9p322/I4
-         TgO3IXw/XVMwc3nxpo2Kl58MxtkDsbC40DSj6tCObDvvnZbg94OMYZp9RKriiY5pqsjy
-         6LXnUw9M134NQCTxnUB+Tum7LFNw0gEIBzT6h8hr9SYjYcabYL5i3lcJAVuoYjy9M8zn
-         Osq+6GZ1BkzjR6cWQ0LedHPq6AOdlweGgpn/2WHKbXotw6yg+8SqOZpWqng/c5Sk5YF2
-         0QBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUmqXVioqKwD198HGaclKsFXwVeoshjVTFSIQ8kbzFpfI6Dxog3DxyjwgYgdIJg3gh02yqx/Bn7ruQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4tTUAMZRyAn1k7xgCbB66gEdjdY7E1S8YzHR15tl5akCABlTt
-	TT+xPQKXR8RoXm9lhPHewIlLp4sEQSFPXlHzl+7YX7J6xZs0HlMJb7IhPLChZg==
-X-Gm-Gg: AZuq6aImoVa5S0hAi/LY7CObUlXGAJItDeRCwXwkF0RpDr1tMnsKzyAThvh3e0LrGL4
-	CEmjHTIy2bPHz5BxAZi7L61aRZ19NW5zhWGJ3EQDnJAwDH5xwVEhuS1pU8rtjDbw+/lwLivYqKA
-	AwAmmvm5eVdkyk4UUDf2Haa1ycMKXE3Ik+0jC4TJ+OhKZUptulmXTB6xRe36egNiq3/13nf5hI2
-	oBklqHN3GnWDk2oGTp3ykGRle2arBB5clUYeG9XPDXOnQ5aEmviQfNFa7tHDaSQVk/fy8HQjCJg
-	+9I6789VYgWElEIKO2QYbmAj3szWhxK2S/WH4Sr6BQcWxCW9TwPiCsIwTRQa+32thKHD7fEdsn0
-	y1Oqm2NFoZ40BMIiCOa407C0fFqUPs5w7+3TCFSGH5eJK6UdjVMZNwk3CU8A4Gv+TgqCr0uSeI1
-	QerUDyGsfpwnOJRv/ImE8MyA==
-X-Received: by 2002:a53:b118:0:b0:63f:b605:b7f2 with SMTP id 956f58d0204a3-64c557eae43mr2160180d50.10.1771438271298;
-        Wed, 18 Feb 2026 10:11:11 -0800 (PST)
-Received: from localhost ([2a03:2880:25ff:49::])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64c22fb1d22sm6051799d50.17.2026.02.18.10.11.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Feb 2026 10:11:11 -0800 (PST)
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Subject: [PATCH net v2 0/3] vsock: add write-once semantics to
- child_ns_mode
-Date: Wed, 18 Feb 2026 10:10:35 -0800
-Message-Id: <20260218-vsock-ns-write-once-v2-0-19e4c50d509a@meta.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aU14TGs1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBA95C19422;
+	Wed, 18 Feb 2026 19:56:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771444630;
+	bh=gat+rnnrUbK/Y6WytC8CslzBWIw44IxAUqnSKe3YTrY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aU14TGs1bcBdcieOvY4AjyQhrda6+MkmVlhMOuzrvau4aRL1lBtCrYeKF/2apBpWE
+	 mtVLTp11y3++lF+DvWTLWjTb3rlyub4/6jOkIIVa5jeoZLNmR0DC96Ra7y7J1/lxuZ
+	 2GVQh9+zp74dG9vcowhY3oIVqAYtnMacHVkIUgmCIYAltAz/P72ZBvohIaHePwfsqv
+	 Yu/fx6ueqX3LNWeImBl2d5Z60hIyYgqacrdddRFOO+r45TjKGzXtYHZ9QeMOub1KOH
+	 iDZxYI8pQ4LyAQeZ1R2jHqYJit4AjCi3njx2mjkvP8M/su6w101t1y/Y32+YMWQ0rs
+	 qpK63qWL1ooJg==
+Date: Wed, 18 Feb 2026 19:56:51 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, Andy Shevchenko
+ <andriy.shevchenko@intel.com>, linux-arm-kernel@lists.infradead.org, Bjorn
+ Andersson <andersson@kernel.org>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng
+ <boqun@kernel.org>, Waiman Long <longman@redhat.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Mark Brown
+ <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich
+ <dakr@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
+ Thomas Gleixner <tglx@kernel.org>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Lee Jones <lee@kernel.org>, Arnd Bergmann
+ <arnd@arndb.de>, Srinivas Kandagatla <srini@kernel.org>, Antonio Borneo
+ <antonio.borneo@foss.st.com>, Linus Walleij <linusw@kernel.org>, Konrad
+ Dybcio <konradybcio@kernel.org>, linux-remoteproc@vger.kernel.org,
+ linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-gpio@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-spi@vger.kernel.org
+Subject: Re: [RFC PATCH v2 13/13] hwspinlock: refactor consumer.h from
+ public header
+Message-ID: <20260218195651.6a3fe5e8@jic23-huawei>
+In-Reply-To: <20260215225501.6365-14-wsa+renesas@sang-engineering.com>
+References: <20260215225501.6365-1-wsa+renesas@sang-engineering.com>
+	<20260215225501.6365-14-wsa+renesas@sang-engineering.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJwAlmkC/33NQQqDMBBA0auEWTsliWKjq96juEjjWIdiIklIW
- 8S7F3KArj+8f0CiyJRgFAdEKpw4eBiFbgS41fonIc8wCtBS91KrK5YU3At9wnfkTBi8IzSm7eb
- edCSthkbAHmnhT1Xv4CnD1AhYOeUQv/VUVE1/0aJQoVXLo5WLNoMdbhtle3Fhg+k8zx//dlzIu
- gAAAA==
-X-Change-ID: 20260217-vsock-ns-write-once-8834d684e0a2
-To: Stefano Garzarella <sgarzare@redhat.com>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Shuah Khan <shuah@kernel.org>, Bobby Eshleman <bobbyeshleman@meta.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: virtualization@lists.linux.dev, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- Daan De Meyer <daan.j.demeyer@gmail.com>
-X-Mailer: b4 0.14.3
 
-Two administrator processes may race when setting child_ns_mode: one
-sets it to "local" and creates a namespace, but another changes it to
-"global" in between. The first process ends up with a namespace in the
-wrong mode. Make child_ns_mode write-once so that a namespace manager
-can set it once, check the value, and be guaranteed it won't change
-before creating its namespaces. Writing a different value after the
-first write returns -EBUSY.
+On Sun, 15 Feb 2026 23:54:53 +0100
+Wolfram Sang <wsa+renesas@sang-engineering.com> wrote:
 
-One patch for the implementation, one for docs, and one for tests.
+> Factor out the entries only needed for consumers from the generic public
+> header. This allows for a clean separation between providers and
+> consumers.
+> 
+> FIXME: separate driver changes?
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
----
-Changes in v2:
-- break docs, tests, and implementation into separate patches
-- clarify commit message
-- only use child_ns_mode, do not add additional child_ns_mode_locked
-  variable
-- add documentation to Documentation/
-- Link to v1: https://lore.kernel.org/r/20260217-vsock-ns-write-once-v1-1-a1fb30f289a9@meta.com
+for the IIO one.
 
----
-Bobby Eshleman (3):
-      selftests/vsock: change tests to respect write-once child ns mode
-      vsock: lock down child_ns_mode as write-once
-      vsock: document write-once behavior of the child_ns_mode sysctl
+Thanks,
 
- Documentation/admin-guide/sysctl/net.rst | 10 ++++++---
- include/net/af_vsock.h                   | 20 +++++++++++++++---
- include/net/netns/vsock.h                |  9 +++++++-
- net/vmw_vsock/af_vsock.c                 | 15 +++++++++-----
- tools/testing/selftests/vsock/vmtest.sh  | 35 +++++++++++++++-----------------
- 5 files changed, 58 insertions(+), 31 deletions(-)
----
-base-commit: ccd8e87748ad083047d6c8544c5809b7f96cc8df
-change-id: 20260217-vsock-ns-write-once-8834d684e0a2
-
-Best regards,
--- 
-Bobby Eshleman <bobbyeshleman@meta.com>
+Jonathan
 
