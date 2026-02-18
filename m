@@ -1,48 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001C03563E7;
-	Wed, 18 Feb 2026 10:13:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019A33587A9;
+	Wed, 18 Feb 2026 10:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771409614; cv=none; b=THfdkkx4PMSbhSGt7JJnP2d81U2pa+hxdUBMFdLxpCvB06Zz2KhDOYqah5LC/u0QUbSOJJ+EukmtLunegajNYv8Y/1CHmT+NCdUOhPiCLCe2qJ6VOdmuabBJc5aafiT+2l8BoN5LSKdK8YWkasYifKWmB3n59J9iVXQviaI+Xek=
+	t=1771409615; cv=none; b=DIKXpX0Gtcq5SNvPakPR6vyfcvhci2X2ASjFmYTOa5MIBTrZ2nzA++jTwcR21wimk6SE9KpSlSNy+aNiDEmSjxpVRUI1aX08JyskSfduL+clkkkIe1LVY5cZv39gTMuBsfBUH3FN1K5spWmtiMS14yrKbaJIGYPYIE3G/aFX4pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771409614; c=relaxed/simple;
-	bh=fvMjJpvYeiR5dsEmac23+IArGmOBOLOmIiyyzQVBvqE=;
+	s=arc-20240116; t=1771409615; c=relaxed/simple;
+	bh=93FI6HCbFuKLoTGysvIesP/671jVJYX05qdlxtKR9Kk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PMKFitAWbedQ47DRgKVNmdw8nOm6dWzURkyazwC1jE2Cm9G7R4V8EA5Ieo/jqR+Ywd1cH4zox5cLAAWzR5QGy23RgMC+fw+Uy3Xm8AMJ7W6Olv7dQzfarHN9bGXr9nUOlfFPo6s24X7dXCwtFveQXn1VDf5barUmU+VPxaHXEdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCXs+vDn; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=I6gkn67e6PwvL3n6c2Hfda+AnQOK8yqxVJTKbjlprcmjl1Y5edSIX2Cm6iCeiYhNNJPXo4ZK/Gjz2fzMZvgmKDDrtxU2PtpMx50Izm0ybIRlnV3oNDOV+fq9Zh3bCvFLlpIdFxtcUVuVqjm5plSsx1M5s8/raEmT794ZjyhzHmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D6zqkt/3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCXs+vDn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D708EC2BC9E;
-	Wed, 18 Feb 2026 10:13:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D6zqkt/3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26B82C19421;
+	Wed, 18 Feb 2026 10:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771409613;
-	bh=fvMjJpvYeiR5dsEmac23+IArGmOBOLOmIiyyzQVBvqE=;
+	s=k20201202; t=1771409611;
+	bh=93FI6HCbFuKLoTGysvIesP/671jVJYX05qdlxtKR9Kk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XCXs+vDn55NbKpqXTFsPi7CJOEdjC9jxLinK6EHOS/f1g9uf/z3PDR5iM8HgJvv2N
-	 mw6006xk6eMPrrhZWZ3gUeQXlVDshIklV6mSZyA2lgJ13YDwgHo2gn2K8nzXG/bpJP
-	 n39uFySI2zwLYiZOkjEYdwgNtOW2LtrKhR7rgIWrEZRbzr7rC8K23c/KG2zdDUwpV5
-	 UOBj0eJUJmFgIO08ARmNG+Siz2Z6OmI5KuPjSBDbx9dowDPlrvTK01Sir9ICF4Ut/c
-	 aEvWGuUJcbwKyygGrOWVxR2JEgz6iA8qCHMFu5BmbAekRIl1Bf2Y2UDdWBfrOFHzN+
-	 45IuDdYQRZx+A==
+	b=D6zqkt/3NUB6EpxHEputgfvaw1vHtc0NsZ65QNN3AAKsJuHWSBcq82NKFzJu8llkR
+	 S+1bk/UPxulyqkqcMbYtUMX/IIRr09HFtRuwNOA1NPlhPHsSPUiXhECDzbmymTKCPU
+	 JmPJyAld8CPADXng3h49bxxTnDEx8O6tZ/7uUMOx2P8DlevrZHSEFbuD7SA01tAoZe
+	 Wy2GDlPrU1hQLkRN135ojO5oHWcW9ckY5i4kcvDUXG5i7xXrBHkp+i3T/cZga64Syq
+	 yIzxySQ3SnLG+PqvN40MnLlrYGZ278mb8gxtsx2bB1lNqpGUgxCJ6tFZMhIOwetkTl
+	 /MxbF5cjFyQRg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vseYm-00000000M4p-0GPz;
-	Wed, 18 Feb 2026 11:13:32 +0100
+	id 1vseYj-00000000Lxe-1kJB;
+	Wed, 18 Feb 2026 11:13:29 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	intel-wired-lan@lists.osuosl.org,
 	linux-hardening@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 38/38] docs: kdoc_output: pick a better default for modulename
-Date: Wed, 18 Feb 2026 11:13:08 +0100
-Message-ID: <45159d8100d22567a592a90769a71a5335f0a085.1771408406.git.mchehab+huawei@kernel.org>
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 32/38] docs: kdoc_files: document KernelFiles() ABI
+Date: Wed, 18 Feb 2026 11:13:02 +0100
+Message-ID: <ca064642fd70b1dd2fa2c72a119a3a579ef0a3c2.1771408406.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1771408406.git.mchehab+huawei@kernel.org>
 References: <cover.1771408406.git.mchehab+huawei@kernel.org>
@@ -56,153 +55,75 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Instead of placing the same data for modulename for all generated
-man pages, use the directory from the filename used to produce
-kernel docs as basis.
+The KernelFiles is the main entry point to run kernel-doc,
+being used by both tools/docs/kernel-doc and
+Documentation/sphinx/kerneldoc.py.
+
+It is also used on QEMU, which also uses the kernel-doc
+libraries from tools/lib/python/kdoc.
+
+Properly describe its ABI contract.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/kernel-doc                |  1 -
- tools/lib/python/kdoc/kdoc_output.py | 41 +++++++++++++++++-----------
- 2 files changed, 25 insertions(+), 17 deletions(-)
+ tools/lib/python/kdoc/kdoc_files.py | 44 ++++++++++++++++++++++++++++-
+ 1 file changed, 43 insertions(+), 1 deletion(-)
 
-diff --git a/tools/docs/kernel-doc b/tools/docs/kernel-doc
-index aed09f9a54dd..3a932f95bdf5 100755
---- a/tools/docs/kernel-doc
-+++ b/tools/docs/kernel-doc
-@@ -210,7 +210,6 @@ def main():
-                         help="Enable debug messages")
+diff --git a/tools/lib/python/kdoc/kdoc_files.py b/tools/lib/python/kdoc/kdoc_files.py
+index c35e033cf123..8c2059623949 100644
+--- a/tools/lib/python/kdoc/kdoc_files.py
++++ b/tools/lib/python/kdoc/kdoc_files.py
+@@ -91,7 +91,49 @@ class KernelFiles():
+     """
+     Parse kernel-doc tags on multiple kernel source files.
  
-     parser.add_argument("-M", "-modulename", "--modulename",
--                        default="Kernel API",
-                         help="Allow setting a module name at the output.")
- 
-     parser.add_argument("-l", "-enable-lineno", "--enable_lineno",
-diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-index 1e3dc47bc696..44e40a6e8ca6 100644
---- a/tools/lib/python/kdoc/kdoc_output.py
-+++ b/tools/lib/python/kdoc/kdoc_output.py
-@@ -589,7 +589,8 @@ class ManFormat(OutputFormat):
-     ``modulename``
-         Defines the module name to be used at the troff ``.TH`` output.
- 
--        This argument is mandatory.
-+        This argument is optional. If not specified, it will be filled
-+        with the directory which contains the documented file.
- 
-     ``section``
-         Usually a numeric value from 0 to 9, but man pages also accept
-@@ -634,14 +635,21 @@ class ManFormat(OutputFormat):
-         "%m %d %Y",
-     ]
- 
--    def emit_th(self, name):
-+    def emit_th(self, name, args):
-         """Emit a title header line."""
--        name = name.strip()
-+        title = name.strip()
-+        module = self.modulename(args)
- 
--        self.data += f'.TH "{name}" {self.section} "{self.date}" '
--        self.data += f' "{self.modulename}" "{self.manual}"\n'
-+        self.data += f'.TH "{title}" {self.section} "{self.date}" '
-+        self.data += f' "{module}" "{self.manual}"\n'
- 
--    def __init__(self, modulename, section="9", manual="Kernel API Manual"):
-+    def modulename(self, args):
-+        if self._modulename:
-+            return self._modulename
+-    There are two type of parsers defined here:
++    This is the main entry point to run kernel-doc. This class is initialized
++    using a series of optional arguments:
 +
-+        return os.path.dirname(args.fname)
++    ``verbose``
++        If True, enables kernel-doc verbosity. Default: False.
 +
-+    def __init__(self, modulename=None, section="9", manual="Kernel API Manual"):
-         """
-         Creates class variables.
- 
-@@ -651,7 +659,7 @@ class ManFormat(OutputFormat):
- 
-         super().__init__()
- 
--        self.modulename = modulename
-+        self._modulename = modulename
-         self.section = section
-         self.manual = manual
- 
-@@ -685,7 +693,8 @@ class ManFormat(OutputFormat):
-         dtype = args.type
- 
-         if dtype == "doc":
--            return self.modulename
-+            return name
-+#            return os.path.basename(self.modulename(args))
- 
-         if dtype in ["function", "typedef"]:
-             return name
-@@ -762,7 +771,7 @@ class ManFormat(OutputFormat):
- 
-         out_name = self.arg_name(args, name)
- 
--        self.emit_th(out_name)
-+        self.emit_th(out_name, args)
- 
-         for section, text in args.sections.items():
-             self.data += f'.SH "{section}"' + "\n"
-@@ -772,7 +781,7 @@ class ManFormat(OutputFormat):
- 
-         out_name = self.arg_name(args, name)
- 
--        self.emit_th(out_name)
-+        self.emit_th(out_name, args)
- 
-         self.data += ".SH NAME\n"
-         self.data += f"{name} \\- {args['purpose']}\n"
-@@ -818,7 +827,7 @@ class ManFormat(OutputFormat):
-     def out_enum(self, fname, name, args):
-         out_name = self.arg_name(args, name)
- 
--        self.emit_th(out_name)
-+        self.emit_th(out_name, args)
- 
-         self.data += ".SH NAME\n"
-         self.data += f"enum {name} \\- {args['purpose']}\n"
-@@ -851,7 +860,7 @@ class ManFormat(OutputFormat):
-         out_name = self.arg_name(args, name)
-         full_proto = args.other_stuff["full_proto"]
- 
--        self.emit_th(out_name)
-+        self.emit_th(out_name, args)
- 
-         self.data += ".SH NAME\n"
-         self.data += f"{name} \\- {args['purpose']}\n"
-@@ -868,11 +877,11 @@ class ManFormat(OutputFormat):
-             self.output_highlight(text)
- 
-     def out_typedef(self, fname, name, args):
--        module = self.modulename
-+        module = self.modulename(args)
-         purpose = args.get('purpose')
-         out_name = self.arg_name(args, name)
- 
--        self.emit_th(out_name)
-+        self.emit_th(out_name, args)
- 
-         self.data += ".SH NAME\n"
-         self.data += f"typedef {name} \\- {purpose}\n"
-@@ -882,12 +891,12 @@ class ManFormat(OutputFormat):
-             self.output_highlight(text)
- 
-     def out_struct(self, fname, name, args):
--        module = self.modulename
-+        module = self.modulename(args)
-         purpose = args.get('purpose')
-         definition = args.get('definition')
-         out_name = self.arg_name(args, name)
- 
--        self.emit_th(out_name)
-+        self.emit_th(out_name, args)
- 
-         self.data += ".SH NAME\n"
-         self.data += f"{args.type} {name} \\- {purpose}\n"
++    ``out_style``
++        Class to be used to format output. If None (default),
++        only report errors.
++
++    ``xforms``
++        Transforms to be applied to C prototypes and data structs.
++        If not specified, defaults to xforms = CFunction()
++
++    ``werror``
++        If True, treat warnings as errors, retuning an error code on warnings.
++
++        Default: False.
++
++    ``wreturn``
++        If True, warns about the lack of a return markup on functions.
++
++        Default: False.
++    ``wshort_desc``
++        If True, warns if initial short description is missing.
++
++        Default: False.
++
++    ``wcontents_before_sections``
++        If True, warn if there are contents before sections (deprecated).
++        This option is kept just for backward-compatibility, but it does
++        nothing, neither here nor at the original Perl script.
++
++        Default: False.
++
++    ``logger``
++        Optional logger class instance.
++
++        If not specified, defaults to use: ``logging.getLogger("kernel-doc")``
++
++    Note:
++        There are two type of parsers defined here:
++
+         - self.parse_file(): parses both kernel-doc markups and
+           ``EXPORT_SYMBOL*`` macros;
+         - self.process_export_file(): parses only ``EXPORT_SYMBOL*`` macros.
 -- 
 2.52.0
 
