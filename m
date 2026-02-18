@@ -1,25 +1,25 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AACDF322753;
-	Wed, 18 Feb 2026 16:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97F8032ED37;
+	Wed, 18 Feb 2026 16:42:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771432823; cv=none; b=BOuRx68cc9hohaNuumeusP7to+zI28c8+BDOAFLfQVcp74B31/GVm04BMlP+sZsDouE+f5JqrBbW6nnqCJyQQf8utjGnKl4u8a8mBPDij4XihF1SbAoquD2jrMFTdKCD9k4lslfYBCqtIVJAjLAB/lMaDQ57FPJzD+GBy51qMbc=
+	t=1771432947; cv=none; b=BYUo1/iqh+kcws14IXfttx07gWAjST/qo+vaVr21DnlNdfbTriCHOA09f+Ecj6d9/QDxpkkFc1LA/J21eJO2oOx9KEAHGJiQudVHoVPPjvTyb3qm8NP1hGw2LJc/0uP4KQQ5x/P5O9lwIPbTBD0jDxQzz++Ddxzy6XfrNtLzvQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771432823; c=relaxed/simple;
-	bh=0T8hRZ66LQ3ynJgz/3aFsXpB0Fv+h9P7bbgzk+7CwwY=;
+	s=arc-20240116; t=1771432947; c=relaxed/simple;
+	bh=QFJ80ZejVD3OJcw4POFeYv5atW2IP+NwxY2WLHTmoj8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SUx3b8d9A5v8ahIM8/0B7SBGIOSqpmJLyFotxjF8INwJKRDWMNGEZz8C54eLZaiG7o4KKwqBTwVVCXoX8DdVNZuTScmV87vAqmQxm/+xBJ+RmhaCjRa438j+VwdVgf4OmOYz0+l6Yz/DRJCBmQwQzHMm2q/oLttnYxdKG9qKkzg=
+	 In-Reply-To:Content-Type; b=d5W6p6fSlwys0H1h1VI67Fp0taoNBrQdNVCMlxDvFbSHTbVRise/WmzkHZDJM5/Dn3xxtEJ9lSy0rGdcOmcuX9v8hFW1xKwsMtN82m69Pk25boQMDvCOPDdSLhPrfMExJOy5eLcsw1rvxJNuKJrHJhiXhe8tEO3xUDMgoNZT5qI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B312C339;
-	Wed, 18 Feb 2026 08:40:13 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 961A3339;
+	Wed, 18 Feb 2026 08:42:19 -0800 (PST)
 Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DBC983F62B;
-	Wed, 18 Feb 2026 08:40:14 -0800 (PST)
-Message-ID: <35f1f327-a464-4299-b91b-ec036059a675@arm.com>
-Date: Wed, 18 Feb 2026 16:40:13 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C15FF3F62B;
+	Wed, 18 Feb 2026 08:42:20 -0800 (PST)
+Message-ID: <b761ec67-5ba8-480e-965e-b163f9056da2@arm.com>
+Date: Wed, 18 Feb 2026 16:42:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -28,34 +28,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 26/41] arm_mpam: resctrl: Add support for 'MB' resource
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
- kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, punit.agrawal@oss.qualcomm.com,
- quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
- scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
- joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
- zengheng4@huawei.com, linux-doc@vger.kernel.org
+To: "Shaopeng Tan (Fujitsu)" <tan.shaopeng@fujitsu.com>
+Cc: "amitsinght@marvell.com" <amitsinght@marvell.com>,
+ "baisheng.gao@unisoc.com" <baisheng.gao@unisoc.com>,
+ "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+ "carl@os.amperecomputing.com" <carl@os.amperecomputing.com>,
+ "dave.martin@arm.com" <dave.martin@arm.com>,
+ "david@kernel.org" <david@kernel.org>,
+ "dfustini@baylibre.com" <dfustini@baylibre.com>,
+ "fenghuay@nvidia.com" <fenghuay@nvidia.com>,
+ "gshan@redhat.com" <gshan@redhat.com>,
+ "james.morse@arm.com" <james.morse@arm.com>,
+ "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
+ "kobak@nvidia.com" <kobak@nvidia.com>,
+ "lcherian@marvell.com" <lcherian@marvell.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "peternewman@google.com" <peternewman@google.com>,
+ "punit.agrawal@oss.qualcomm.com" <punit.agrawal@oss.qualcomm.com>,
+ "quic_jiles@quicinc.com" <quic_jiles@quicinc.com>,
+ "reinette.chatre@intel.com" <reinette.chatre@intel.com>,
+ "rohit.mathew@arm.com" <rohit.mathew@arm.com>,
+ "scott@os.amperecomputing.com" <scott@os.amperecomputing.com>,
+ "sdonthineni@nvidia.com" <sdonthineni@nvidia.com>,
+ "xhao@linux.alibaba.com" <xhao@linux.alibaba.com>,
+ "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+ "will@kernel.org" <will@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+ "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org" <oupton@kernel.org>,
+ "joey.gouly@arm.com" <joey.gouly@arm.com>,
+ "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+ "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+ "zengheng4@huawei.com" <zengheng4@huawei.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
 References: <20260203214342.584712-1-ben.horgan@arm.com>
  <20260203214342.584712-27-ben.horgan@arm.com>
- <20260205165018.0000089c@huawei.com>
+ <OSZPR01MB8798A3301B1E802173FF551E8B62A@OSZPR01MB8798.jpnprd01.prod.outlook.com>
 From: Ben Horgan <ben.horgan@arm.com>
 Content-Language: en-US
-In-Reply-To: <20260205165018.0000089c@huawei.com>
+In-Reply-To: <OSZPR01MB8798A3301B1E802173FF551E8B62A@OSZPR01MB8798.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Jonathan,
+Hi Shaopeng,
 
-On 2/5/26 16:50, Jonathan Cameron wrote:
-> On Tue, 3 Feb 2026 21:43:27 +0000
-> Ben Horgan <ben.horgan@arm.com> wrote:
+On 2/10/26 06:20, Shaopeng Tan (Fujitsu) wrote:
+> Hello Ben,
 > 
 >> From: James Morse <james.morse@arm.com>
 >>
@@ -71,17 +89,6 @@ On 2/5/26 16:50, Jonathan Cameron wrote:
 >> bitmaps is not used as its tricky to pick which bits to use to avoid
 >> contention, and may be possible to expose this as something other than a
 >> percentage in the future.
-> 
-> I'm very curious to know whether this heuristic is actually useful on many
-> systems or whether many / most of them fail this 'shape' heuristic.
-> 
-> Otherwise, just comments on the placement of __free related declarations.
-> See the guidance in cleanup.h for that.
-> 
-> With those moved, 
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> 
-> 
 >>
 >> CC: Zeng Heng <zengheng4@huawei.com>
 >> Co-developed-by: Dave Martin <Dave.Martin@arm.com>
@@ -100,47 +107,27 @@ On 2/5/26 16:50, Jonathan Cameron wrote:
 >> update comment on candidate_class update, only mbm_total
 >> drop tags due to rework
 >> ---
->>  drivers/resctrl/mpam_resctrl.c | 275 ++++++++++++++++++++++++++++++++-
->>  1 file changed, 274 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
->> index 25950e667077..4cca3694978d 100644
->> --- a/drivers/resctrl/mpam_resctrl.c
->> +++ b/drivers/resctrl/mpam_resctrl.c
-> 
+
 >> +/*
->> + * topology_matches_l3() - Is the provided class the same shape as L3
->> + * @victim:		The class we'd like to pretend is L3.
->> + *
->> + * resctrl expects all the world's a Xeon, and all counters are on the
->> + * L3. We allow some mapping counters on other classes. This requires
->> + * that the CPU->domain mapping is the same kind of shape.
->> + *
->> + * Using cacheinfo directly would make this work even if resctrl can't
->> + * use the L3 - but cacheinfo can't tell us anything about offline CPUs.
->> + * Using the L3 resctrl domain list also depends on CPUs being online.
->> + * Using the mpam_class we picked for L3 so we can use its domain list
->> + * assumes that there are MPAM controls on the L3.
->> + * Instead, this path eventually uses the mpam_get_cpumask_from_cache_id()
->> + * helper which can tell us about offline CPUs ... but getting the cache_id
->> + * to start with relies on at least one CPU per L3 cache being online at
->> + * boot.
->> + *
->> + * Walk the victim component list and compare the affinity mask with the
->> + * corresponding L3. The topology matches if each victim:component's affinity
->> + * mask is the same as the CPU's corresponding L3's. These lists/masks are
->> + * computed from firmware tables so don't change at runtime.
+>> + * Test if the traffic for a class matches that at egress from the L3. For
+>> + * MSC at memory controllers this is only possible if there is a single L3
+>> + * as otherwise the counters at the memory can include bandwidth from the
+>> + * non-local L3.
 >> + */
->> +static bool topology_matches_l3(struct mpam_class *victim)
->> +{
->> +	int cpu, err;
->> +	struct mpam_component *victim_iter;
->> +	cpumask_var_t __free(free_cpumask_var) tmp_cpumask = CPUMASK_VAR_NULL;
+>> +static bool traffic_matches_l3(struct mpam_class *class) {
 > 
-> Same as below.  Move it down right next to the alloc.
+> An error reported by checkpatch.pl is as follows.
+> 
+> ERROR: open brace '{' following function definitions go on the next line
+> #826: FILE: drivers/resctrl/mpam_resctrl.c:826:
+> +static bool traffic_matches_l3(struct mpam_class *class) {
 
-I've moved both.
+Not sure how I let that slip through. Fixed now.
 
+> 
+> 
+> Best regards,
+> Shaopeng TAN
 Thanks,
 
 Ben
