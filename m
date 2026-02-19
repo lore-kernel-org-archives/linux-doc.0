@@ -1,270 +1,149 @@
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B487633507C
-	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 12:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C961E9919
+	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 12:38:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771503293; cv=none; b=Tr46VX9ADXH5rm6JpgR8KiCNCYdR3MQRTK+eUibmhvwkDQ7ZEQU4ooJmJOcEkqZlVJCMrvO4lec+HVAoBLq3d6c92acgKBhKtafFycaDJaV8406e4v0bGl9CbHdtBL1EvA+HWjPkMQi21deYTIROHC0Ey+k1KbbQwf7IqmN/1wM=
+	t=1771504740; cv=none; b=l89h95wS2hewUPSdzAgB6d/+o21GbbS868cB5XSmEOTy0792CGTMcgXF/6h0ifefzIUNRaa4ZQF5FHZkp4TLyIOQwsdxoVEL+JzM3uIAlKh+jflVei7db3nf4wgmd3YWs5xzng57XZYFsNwMGu0OSRuU3rSt7iZ8vk1SXNo3NC4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771503293; c=relaxed/simple;
-	bh=N7QWx8lvrILyEvgp6mZjh3HPkzg9pLQ3PAPFD0z2DLQ=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Oh2kih9kOKSnm6c5FivkSTveOIXF0rHSnTo4p4Ze9FjFZpJRRZdFlkM8m6OFd4gEGkNL4MthsQ7NtdvHhxTAh/1hGIK4IqJqy8qnuw8F/kjZQp9aJLmK3iRiXSaJ7h3p8smjsXBK4xLLp2YMs9pYw5YUIfun/+G7ZmbtbShuML4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QAJBt5d2; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1771504740; c=relaxed/simple;
+	bh=zaEyoKufr8kJjMPlauNC6hFcaNXmh0VL7nMLWJY7Dms=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=il7hePE+AzLp53fFiaxxsKzAgsQzT3VOuLpHhWA+2unOePy8wHngRIYceQrVwmQoTypw8/YMqRjsb/UbHpDwBR6oPernqNwsHPHGRECozDCjo/M97f9FcAMvLiX9tjX3KiD8FWF066Wmxjt7yKCSn7sJjNUNsqwQG5DGGqRpFU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OIZSOYoD; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QAJBt5d2"
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-435af2d3144so573827f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 04:14:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OIZSOYoD"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56641b5a471so796142e0c.2
+        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 04:38:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771503290; x=1772108090; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xNwX8+RHMQ84U1GAHoDn1BhLLCMkOCjMDxLLvceuQlk=;
-        b=QAJBt5d2ezObTBI2rkFxQn+AFj707HihxLFV2A4nafIpKcXkAH7338EcHMrs4T32we
-         eXORDxetdfwVc1WAnWTCtsm5D65z4IM+jb2w149XXvH/WyXO2f5Gsyf9sqy/K3IbKSzZ
-         NaLeXyt+UvYXLPVAAi2FMc3sbDypbL1ra5dYKJ580mDI6z9SeLZuydrStRPXsCskyLg5
-         OiNaJsSDNudG7YID6WU+r+ikVx2m28xLttITuENoxqooaeUlc5adY0IAwBf/KCm/JGTo
-         1Y5/goIXyyK+wdhP4+r8Nvjyut8TbWyQEQCHfqB8uxozvgfs83WglI9S7OfUyDPazrYb
-         9sUA==
+        d=gmail.com; s=20230601; t=1771504738; x=1772109538; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=b/Yeq/h1sK2QWMwvAHMWW/0uWsIY9PKo2xaxo2nKMJU=;
+        b=OIZSOYoDia7EmFVoG/umYjRoJBDojJiGAhfJ2qIV0YfcFtDj2LOzj7355Y9RyCy06+
+         6R1e0lQpXVUktj6MSO0XosuRbH3vD6/ymlv5R2erRNRish3i8SUtPYfB0GQgHR10t71T
+         ctai1O588nyTR+igdUDogAr1KWcBG8UQqhZbwT4HrumZjPnoW66YYEWpSKujmFGsNNwx
+         h+a44NyBcqdFQUgl71rMn5ZPylsTHkoxAkpKOSDzDYmuEnvkHIhwtRjdho3dpjG1s7O3
+         ADspgEDvZDyT0Lq4A3QGMjfeCaxTtyZuwcf8RBqipgZjIm+0dZP70Stx9q1aHD+us2XI
+         +W4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771503290; x=1772108090;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xNwX8+RHMQ84U1GAHoDn1BhLLCMkOCjMDxLLvceuQlk=;
-        b=rIbaelX47Fakih/LXJ+mlZNYIDvUTQYGcJCvXPSk4sVN7Y5uw1iz8wfbdEt7eow9aX
-         M6fniIcX+0gEaD9twWu/fDK0S72WxCtn6jpptiUupyqbJo3sfKJg48U4w5ejGKQXd7fu
-         fEGvIf+/EWA9IJ/oKK8U63QZLlE1Kpt1emJ8wCQZJ3zrc+odnO2RyUmqB4/Cx6Bghdb9
-         WKGy1tIM/I+4nJIo1rWAtvRW1kNr09UJjI/G5OeqIMlroG3IU67F+y6IWUFgFMPUmxOg
-         lAz6Pf4sWCPMxWRG2PwmfIuuxN0Rwh6kg3mn1x0zfolNPi1U7FkOzwPdCx7uqWTFQk7p
-         hYzg==
-X-Forwarded-Encrypted: i=1; AJvYcCWwGFCXJRO3iaipEbvzKsvL792JHiGN81mXC1ksXtp+GJmEJ5XniMFYjlwERxDm+UvyS8c0Utwyo+I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBeS06NlHAxLIBcH5BJNykkB/5OX/jBfjY7nri7h3VqRK/6pHm
-	w/NnLT5xDgkfyuWH8ifPXxEKG2cTPY/HsYdsSGFYPDJDi5PYBrXniglgWCct6QYxKsPKxh0dvwh
-	dC5nB7/2sUIwNSAvXkA==
-X-Received: from wrsi7.prod.google.com ([2002:adf:fdc7:0:b0:437:6cf0:16b6])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6000:24ca:b0:435:e3fe:7409 with SMTP id ffacd0b85a97d-4379dba6985mr31372338f8f.44.1771503289833;
- Thu, 19 Feb 2026 04:14:49 -0800 (PST)
-Date: Thu, 19 Feb 2026 12:14:39 +0000
+        d=1e100.net; s=20230601; t=1771504738; x=1772109538;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b/Yeq/h1sK2QWMwvAHMWW/0uWsIY9PKo2xaxo2nKMJU=;
+        b=fdERBcE8DGQxfbINrjVtrEHUMsQ6hIrcn7kwj/MhqpF6doQtQfgvjPUqFxkhNyHdFT
+         KIRukZ3GUUXe43C9eT5PzEQ8k/egtDxwPbsi5awkP2pNP4zNTXjMD4zXYGQrogNU0p/p
+         O0qubL/xL/5/csuVXY4Aqgg0y+okE5FqmkxL+9JiKbxmXaqL5XRSpmxmUCVmuOJz5DzQ
+         aZnPe8TG4JvswEM1yFgIjOI/YP09gUt5ca2vPu59rzATindZ81+APvCgcfRFPEi+NfYU
+         UNWrXlNrNejDiBn2cbhcvjaVnP5AGtQZ8vAujRw70bkIeNtcfTMcwQ6i57DsI8Dsygvs
+         VNDg==
+X-Forwarded-Encrypted: i=1; AJvYcCVNel6aZwj7BvLN/+STXh4ffFarFS2IRPZzYaS7NjbhzSpraxpmi5CHfYFvS047T9yHuT1CtKUvQDY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9V1INkW7u8MxzILH6l38iWOP29a8KqHRK6OIL2nush64WYm2x
+	KqAdIuxIp9RZLoA6qwZE2pkRmygH0KJ2af4QtlkQ3FRQ2Mqau2d46J8R
+X-Gm-Gg: AZuq6aIKrHkoz6VWnMy64Jc8auWyJMbpVRcVRCD3OXLAt2Ru2yQ005PuVFVoCzeQt16
+	P7PTt4qhf1kq9qKc6Gg3DF9FQ3gaVgzRQqtqMe7dXmpw3ccJfAG7I6/NXPrd/gHWnS+DBdrLFhL
+	AcVzGL9zu1GEMJjWdvDKVgidCzhFgAU+7/SAJ2BJ9k6KOYJJgEDeaVTVtcbQTxQrr18PruKpr30
+	ZrTrsBtTnXanYAUF0oL5Htt84l1HreVvaTcuumpv/ENXfn5CfLFOlojNVi7gC9+oyYuQwVy3zsk
+	tyvar0TM/rMi3B0J3yl76gXD0IqZgJ3rbVcpnAlpu2DB3uWgxjJd6vD6KPNUS69hf46FAYg04B6
+	x4eZAvNJ43PaSBnFvMZslxQgC13K3g+0+MC97WfuERlM5DzSglYZg9y9uQVL+Z6OknPiRrIcpjz
+	yvLi+VoHf4zO0jC528ZRD1q+SXfvgfuYo=
+X-Received: by 2002:a05:6122:3214:b0:566:271c:b48d with SMTP id 71dfb90a1353d-56889d4a600mr7345546e0c.18.1771504737800;
+        Thu, 19 Feb 2026 04:38:57 -0800 (PST)
+Received: from localhost ([2804:30c:942:5700:6773:2626:ab8c:582e])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5674bfe5ec0sm13742463e0c.5.2026.02.19.04.38.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Feb 2026 04:38:56 -0800 (PST)
+Date: Thu, 19 Feb 2026 09:39:27 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, jic23@kernel.org,
+	michael.hennerich@analog.com, nuno.sa@analog.com,
+	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	corbet@lwn.net
+Subject: Re: [PATCH v9 7/8] iio: adc: ad4030: Add support for ADAQ4216 and
+ ADAQ4224
+Message-ID: <aZcEf75cOHXLKvNm@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1771253601.git.marcelo.schmitt@analog.com>
+ <39ebbb49619d5d588efe590560046d747dd46ad5.1771253601.git.marcelo.schmitt@analog.com>
+ <aZRikNMXKxW0JjTC@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIAK7+lmkC/22NwQ7CIBBEf6Xh7EZANLW/YjxAGZUYWl2gMTH+u
- 7R68OBxdufNe4oEDkiia56CMYUUxqEGtWpEf7HDGRR8zUJLvZNa7YkRxwmUbboSSvCk9jBOSgc
- 4iIrdGKfwWCYPx09m3Etdzp+jcDaB+jHGkLum3FJm2LiONmWw+BV3zVeriUvKNOtOym2s2fatb E03qf/9DbkwePBCWG3gsa0f287E8fV6A/Dplav3AAAA
-X-Change-Id: 20260219-remove-task-euid-19e4b00beebe
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6289; i=aliceryhl@google.com;
- h=from:subject:message-id; bh=pgENU55oRl9YsBWeca4kTA4C+Z4cu5tY3IBLBOhVcjM=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBplv604Zmxkr2xkRsjnY6AEffWGY74I0bXCkFNY
- yr6DmU724GJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCaZb+tAAKCRAEWL7uWMY5
- Rhw1D/9sglLFe0zTHxMABBHx1bzG7WsYxxsGynhhZSF2mUqROkv2Ij/7+DcnlOYGRvyNeZiuHNM
- 7CqR6zqcO0uDAFBlDceW0ETzWOIb8YTqlRaLZ7sUYBROp3nVdVBqoOmBEC9MXLSio1J3ZMF0Jrp
- C5YX/bgi0qp9R49AFJ+BobX8ndwr0s0PYAAysrzdklRn+Z/+iSFW2BE50Mmr/90qtZqHIDFoC9D
- j/RSWaCrcchhPTusBXNN58Ph6yEDL66VMYZNMzS4zly10psqpq9sQOHonlubI6w+AQiD8Wfg5xZ
- 3XA8ZW9N3BYYSBjBsQ4v9GleLTmP+DpySoqvsosGbM56OTGSh8y1jI3sRxJfrJED3xbRAItiEeV
- P2tKKN1gyv71d826qZloJ/1kIIvoOiKCmfejdQJ8XNFRX9NeO/efpGmU+lOEKq5lKUxUb10vJ/h
- N+VHJl6JIgsgILgyzKdPIMCVMqLpPYMFTV8L0XsxXQkmBArv/f5d1m5Erl0FMAkFgzl5cEDns2o
- c0v4ejxcu/h8IVGsTrqDLALF7xg+5gbDF7FQKy93f09Ia4QH55Dtu21SBQzKlsMTbsxVeZODnqO
- FxuSg3COcGnL9L/XGYfyHfcZGOAWMr2qW5J7kmm9mqRPQJbfC/VlYc69F8AcY3F5EmopkIjJBEB x1/WV9YXqNzRuaQ==
-X-Mailer: b4 0.14.2
-Message-ID: <20260219-remove-task-euid-v1-1-904060826e07@google.com>
-Subject: [PATCH] task: delete task_euid()
-From: Alice Ryhl <aliceryhl@google.com>
-To: Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?q?Bj=C3=B6rn_Roy_Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, linux-security-module@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, Jann Horn <jannh@google.com>, 
-	Alice Ryhl <aliceryhl@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aZRikNMXKxW0JjTC@smile.fi.intel.com>
 
-task_euid() is a very weird operation. You can see how weird it is by
-grepping for task_euid() - binder is its only user. task_euid() obtains
-the objective effective UID - it looks at the credentials of the task
-for purposes of acting on it as an object, but then accesses the
-effective UID (which the credentials.7 man page describes as "[...] used
-by the kernel to determine the permissions that the process will have
-when accessing shared resources [...]").
+Hi Andy,
 
-Since usage in Binder has now been removed, get rid of the resulting
-dead code.
+On 02/17, Andy Shevchenko wrote:
+> On Mon, Feb 16, 2026 at 12:01:12PM -0300, Marcelo Schmitt wrote:
+> > ADAQ4216 and ADAQ4224 are similar to AD4030, but feature a PGA circuitry
+> > that scales the analog input signal prior to it reaching the ADC. The PGA
+> > is controlled through a pair of pins (A0 and A1) whose state define the
+> > gain that is applied to the input signal.
+> > 
+> > Add support for ADAQ4216 and ADAQ4224. Provide a list of PGA options
+> > through the IIO device channel scale available interface and enable control
+> > of the PGA through the channel scale interface.
+> 
+...
+> > +static int ad4030_setup_pga(struct device *dev, struct iio_dev *indio_dev,
+> > +			    struct ad4030_state *st)
+> > +{
+> > +	unsigned int i;
+> > +	int pga_gain_dB;
+> > +	int ret;
+> > +
+> > +	ret = device_property_read_u32(dev, "adi,pga-gain-db", &pga_gain_dB);
+> > +	if (ret == -EINVAL) {
+> 
+> Actually instead of custom error hunting, this should be rather
 
-Changes to the zh_CN translation was carried out with the help of
-Gemini and Google Translate.
+Sorry, I messed up when preparing the patches. "adi,pga-gain-db" is not going
+to be a dt property and this should have been just the 'GPIOs for PGA control'
+below. Anyway, thanks for reviewing this. I'll hopefully recall this error
+handling pattern in future contributions.
 
-Suggested-by: Jann Horn <jannh@google.com>
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
----
-Depends on these two changes:
-https://lore.kernel.org/all/20260212-rust-uid-v1-1-deff4214c766@google.com/
-https://lore.kernel.org/all/20260213-binder-uid-v1-0-7b795ae05523@google.co=
-m/
----
- Documentation/security/credentials.rst                    |  6 ++----
- Documentation/translations/zh_CN/security/credentials.rst |  6 ++----
- include/linux/cred.h                                      |  1 -
- rust/helpers/task.c                                       |  5 -----
- rust/kernel/task.rs                                       | 10 ----------
- 5 files changed, 4 insertions(+), 24 deletions(-)
-
-diff --git a/Documentation/security/credentials.rst b/Documentation/securit=
-y/credentials.rst
-index d0191c8b8060edb7b272402c019cff941ec22743..81d3b5737d85bde9b77bff94dfb=
-93ed8037b2302 100644
---- a/Documentation/security/credentials.rst
-+++ b/Documentation/security/credentials.rst
-@@ -393,16 +393,14 @@ the credentials so obtained when they're finished wit=
-h.
-    The result of ``__task_cred()`` should not be passed directly to
-    ``get_cred()`` as this may race with ``commit_cred()``.
-=20
--There are a couple of convenience functions to access bits of another task=
-'s
--credentials, hiding the RCU magic from the caller::
-+There is a convenience function to access bits of another task's credentia=
-ls,
-+hiding the RCU magic from the caller::
-=20
- 	uid_t task_uid(task)		Task's real UID
--	uid_t task_euid(task)		Task's effective UID
-=20
- If the caller is holding the RCU read lock at the time anyway, then::
-=20
- 	__task_cred(task)->uid
--	__task_cred(task)->euid
-=20
- should be used instead.  Similarly, if multiple aspects of a task's creden=
-tials
- need to be accessed, RCU read lock should be used, ``__task_cred()`` calle=
-d,
-diff --git a/Documentation/translations/zh_CN/security/credentials.rst b/Do=
-cumentation/translations/zh_CN/security/credentials.rst
-index 88fcd9152ffe91d79fc10bfc7b2a37d301b4938a..f0b2efec342438b81be415dc513=
-622c961bb7e59 100644
---- a/Documentation/translations/zh_CN/security/credentials.rst
-+++ b/Documentation/translations/zh_CN/security/credentials.rst
-@@ -337,15 +337,13 @@ const=E6=8C=87=E9=92=88=E4=B8=8A=E6=93=8D=E4=BD=9C=EF=
-=BC=8C=E5=9B=A0=E6=AD=A4=E4=B8=8D=E9=9C=80=E8=A6=81=E8=BF=9B=E8=A1=8C=E7=B1=
-=BB=E5=9E=8B=E8=BD=AC=E6=8D=A2=EF=BC=8C=E4=BD=86=E9=9C=80=E8=A6=81=E4=B8=B4=
-=E6=97=B6=E6=94=BE=E5=BC=83
-    ``__task_cred()`` =E7=9A=84=E7=BB=93=E6=9E=9C=E4=B8=8D=E5=BA=94=E7=9B=
-=B4=E6=8E=A5=E4=BC=A0=E9=80=92=E7=BB=99 ``get_cred()`` =EF=BC=8C
-    =E5=9B=A0=E4=B8=BA=E8=BF=99=E5=8F=AF=E8=83=BD=E4=B8=8E ``commit_cred()`=
-` =E5=8F=91=E7=94=9F=E7=AB=9E=E4=BA=89=E6=9D=A1=E4=BB=B6=E3=80=82
-=20
--=E8=BF=98=E6=9C=89=E4=B8=80=E4=BA=9B=E6=96=B9=E4=BE=BF=E7=9A=84=E5=87=BD=
-=E6=95=B0=E5=8F=AF=E4=BB=A5=E8=AE=BF=E9=97=AE=E5=8F=A6=E4=B8=80=E4=B8=AA=E4=
-=BB=BB=E5=8A=A1=E5=87=AD=E6=8D=AE=E7=9A=84=E7=89=B9=E5=AE=9A=E9=83=A8=E5=88=
-=86=EF=BC=8C=E5=B0=86RCU=E6=93=8D=E4=BD=9C=E5=AF=B9=E8=B0=83=E7=94=A8=E6=96=
-=B9=E9=9A=90=E8=97=8F=E8=B5=B7=E6=9D=A5::
-+=E6=9C=89=E4=B8=80=E4=B8=AA=E6=96=B9=E4=BE=BF=E7=9A=84=E5=87=BD=E6=95=B0=
-=E5=8F=AF=E7=94=A8=E4=BA=8E=E8=AE=BF=E9=97=AE=E5=8F=A6=E4=B8=80=E4=B8=AA=E4=
-=BB=BB=E5=8A=A1=E5=87=AD=E6=8D=AE=E7=9A=84=E7=89=B9=E5=AE=9A=E9=83=A8=E5=88=
-=86=EF=BC=8C=E4=BB=8E=E8=80=8C=E5=AF=B9=E8=B0=83=E7=94=A8=E6=96=B9=E9=9A=90=
-=E8=97=8FRCU=E6=9C=BA=E5=88=B6::
-=20
- 	uid_t task_uid(task)		Task's real UID
--	uid_t task_euid(task)		Task's effective UID
-=20
--=E5=A6=82=E6=9E=9C=E8=B0=83=E7=94=A8=E6=96=B9=E5=9C=A8=E6=AD=A4=E6=97=B6=
-=E5=B7=B2=E7=BB=8F=E6=8C=81=E6=9C=89RCU=E8=AF=BB=E9=94=81=EF=BC=8C=E5=88=99=
-=E5=BA=94=E4=BD=BF=E7=94=A8::
-+=E5=A6=82=E6=9E=9C=E8=B0=83=E7=94=A8=E6=96=B9=E5=9C=A8=E6=AD=A4=E6=97=B6=
-=E5=B7=B2=E7=BB=8F=E6=8C=81=E6=9C=89RCU=E8=AF=BB=E9=94=81=EF=BC=8C=E5=88=99=
-=E5=BA=94=E6=94=B9=E4=B8=BA=E4=BD=BF=E7=94=A8::
-=20
- 	__task_cred(task)->uid
--	__task_cred(task)->euid
-=20
- =E7=B1=BB=E4=BC=BC=E5=9C=B0=EF=BC=8C=E5=A6=82=E6=9E=9C=E9=9C=80=E8=A6=81=
-=E8=AE=BF=E9=97=AE=E4=BB=BB=E5=8A=A1=E5=87=AD=E6=8D=AE=E7=9A=84=E5=A4=9A=E4=
-=B8=AA=E6=96=B9=E9=9D=A2=EF=BC=8C=E5=BA=94=E4=BD=BF=E7=94=A8RCU=E8=AF=BB=E9=
-=94=81=EF=BC=8C=E8=B0=83=E7=94=A8 ``__task_cred()``
- =E5=87=BD=E6=95=B0=EF=BC=8C=E5=B0=86=E7=BB=93=E6=9E=9C=E5=AD=98=E5=82=A8=
-=E5=9C=A8=E4=B8=B4=E6=97=B6=E6=8C=87=E9=92=88=E4=B8=AD=EF=BC=8C=E7=84=B6=E5=
-=90=8E=E4=BB=8E=E4=B8=B4=E6=97=B6=E6=8C=87=E9=92=88=E4=B8=AD=E8=B0=83=E7=94=
-=A8=E5=87=AD=E6=8D=AE=E7=9A=84=E5=90=84=E4=B8=AA=E6=96=B9=E9=9D=A2=EF=BC=8C=
-=E6=9C=80=E5=90=8E=E9=87=8A=E6=94=BE=E9=94=81=E3=80=82
-diff --git a/include/linux/cred.h b/include/linux/cred.h
-index ed1609d78cd7b16ed1434c937176495a4f38cf6e..b40ec3c72ee6673c7be5210a166=
-7e3912cba9620 100644
---- a/include/linux/cred.h
-+++ b/include/linux/cred.h
-@@ -367,7 +367,6 @@ DEFINE_FREE(put_cred, struct cred *, if (!IS_ERR_OR_NUL=
-L(_T)) put_cred(_T))
- })
-=20
- #define task_uid(task)		(task_cred_xxx((task), uid))
--#define task_euid(task)		(task_cred_xxx((task), euid))
- #define task_ucounts(task)	(task_cred_xxx((task), ucounts))
-=20
- #define current_cred_xxx(xxx)			\
-diff --git a/rust/helpers/task.c b/rust/helpers/task.c
-index c0e1a06ede78c0b0641707b52a82725543e2c02c..b46b1433a67e8eb341a7ee32ca4=
-247b304bf675f 100644
---- a/rust/helpers/task.c
-+++ b/rust/helpers/task.c
-@@ -28,11 +28,6 @@ __rust_helper kuid_t rust_helper_task_uid(struct task_st=
-ruct *task)
- 	return task_uid(task);
- }
-=20
--__rust_helper kuid_t rust_helper_task_euid(struct task_struct *task)
--{
--	return task_euid(task);
--}
--
- #ifndef CONFIG_USER_NS
- __rust_helper uid_t rust_helper_from_kuid(struct user_namespace *to, kuid_=
-t uid)
- {
-diff --git a/rust/kernel/task.rs b/rust/kernel/task.rs
-index e07d0ddd76f6917adc91ca3d17bb7719153ee17f..169ff1dde9363afc8914b431fe3=
-1f2238b213ada 100644
---- a/rust/kernel/task.rs
-+++ b/rust/kernel/task.rs
-@@ -218,16 +218,6 @@ pub fn uid(&self) -> Kuid {
-         Kuid::from_raw(unsafe { bindings::task_uid(self.as_ptr()) })
-     }
-=20
--    /// Returns the objective effective UID of the given task.
--    ///
--    /// You should probably not be using this; the effective UID is normal=
-ly
--    /// only relevant in subjective credentials.
--    #[inline]
--    pub fn euid(&self) -> Kuid {
--        // SAFETY: It's always safe to call `task_euid` on a valid task.
--        Kuid::from_raw(unsafe { bindings::task_euid(self.as_ptr()) })
--    }
--
-     /// Determines whether the given task has pending signals.
-     #[inline]
-     pub fn signal_pending(&self) -> bool {
-
----
-base-commit: 2961f841b025fb234860bac26dfb7fa7cb0fb122
-change-id: 20260219-remove-task-euid-19e4b00beebe
-prerequisite-change-id: 20260212-rust-uid-f1b3a45c8084:v1
-prerequisite-patch-id: 7ec4933af3a7f4c6bb0403c34a6dd41306836295
-prerequisite-change-id: 20260213-binder-uid-a24ede5026a8:v1
-prerequisite-patch-id: 7be0128bd8902879bb271d0587ac98bf242cf612
-prerequisite-patch-id: 4a9d0f595d2084b3f8982a2d0d8b3df35b9fae0e
-
-Best regards,
---=20
-Alice Ryhl <aliceryhl@google.com>
-
+The other suggestions look good but I'll wait a bit more before sending v10.
+> 
+> 	if (device_property_present(dev, "adi,pga-gain-db")) {
+> 		ret = device_property_read_u32(dev, "adi,pga-gain-db", &pga_gain_dB);
+> 		if (ret)
+> 			return dev_err_probe(dev, ret, "Failed to get PGA value.\n");
+> 	} else {
+> 
+> > +		/* Setup GPIOs for PGA control */
+> > +		st->pga_gpios = devm_gpiod_get_array(dev, "pga", GPIOD_OUT_LOW);
+> > +		if (IS_ERR(st->pga_gpios))
+> > +			return dev_err_probe(dev, PTR_ERR(st->pga_gpios),
+> > +					     "Failed to get PGA gpios.\n");
+> > +
+> > +		if (st->pga_gpios->ndescs != ADAQ4616_PGA_PINS)
+> > +			return dev_err_probe(dev, -EINVAL,
+> > +					     "Expected 2 GPIOs for PGA control.\n");
+> > +
+> > +		st->scale_avail_size = ARRAY_SIZE(adaq4216_hw_gains_db);
+> > +		st->pga_index = 0;
+> > +		return 0;
+> 
+> > +	} else if (ret) {
+> > +		return dev_err_probe(dev, ret, "Failed to get PGA value.\n");
+> > +	}
+> 
+... 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+Thanks,
+Marcelo
