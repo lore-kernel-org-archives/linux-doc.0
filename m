@@ -1,48 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B3B318BAC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED4631B108;
 	Thu, 19 Feb 2026 23:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771544292; cv=none; b=YQNhmBZcJqe3y5N3UA1NJv0M2LMP9G9/P0teFnRI2rnzJmqqSwhDKsqTlYxIsB0n+XRTTbInwRh3/Xhtwk6yaituwOeLyFknRlGlDMNuvm6T+rQjGIoBs4cUxvz7M3pL4M2CneIa3rEIc+j1B/qoY/YgqjgGvf9twgbPEeA1bqs=
+	t=1771544293; cv=none; b=lPdG8OQb559q2pArhq8O/wTnoKXhresG8CjnhcnyOHWafvDr/RrpnRgYLUPXwjDXKgD3aPq6KvPki891HYxz848hNUa3JfzYpeNw8qV127LieIe7obgeYrLKRHzO0ssd9gzLiMdPKs9E65rPoq77wU3KMvjWfcvAPXEUTvRMtPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771544292; c=relaxed/simple;
-	bh=sSsR4pwoJ92DEAcXzaojB/1nkH/EgjXqXgmy2XE2Q38=;
+	s=arc-20240116; t=1771544293; c=relaxed/simple;
+	bh=vH54bd3bnODuU9YcmKZXZsBBTrynsYxwRm8fyHLVIK0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ikNBdSfvKV0YYifgufmrxl8gkZDzn1ZSshIGcfV1jdcYGAVLJjzApOegMGsz/vc3khBty3EPJtCYzU5kjyYN+U8Ym6UagqxKrG9gFs3ZLPSffa1O++3B7q5gUHyY3dHQRYfdXH3xzRpOQtMTmtCDozb9UsvOjgKQLRjkwxld8F0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S/Y1bhLD; arc=none smtp.client-ip=198.175.65.18
+	 MIME-Version; b=uRk5macQVESuR/b/pWJdu02Y9sYX5xTMj5FF9VEtFvo/Z5XRDQ9XqYIGszrLImOkGYJVfuaoOtDKTU+mQAsYbWv6bgMK9P+JbMLxWgqwzmJ87b8X6NdAiX+sg9koJDB2koeVOY7YxJS18KpHKuzjuP6furQSf0xmWFCHTjkCjGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hFxc3XSZ; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S/Y1bhLD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFxc3XSZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771544291; x=1803080291;
+  t=1771544292; x=1803080292;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=sSsR4pwoJ92DEAcXzaojB/1nkH/EgjXqXgmy2XE2Q38=;
-  b=S/Y1bhLDxiBTfeTcBQ2sp2AGuM14S918jNLfjXQWM2F+la85XZ1J2Usx
-   w7LFM4eMpa6yJhVh8F8Bv1ai7jX6UUZv0oufA/qrXi/KuzW8iPltIqe6E
-   fjzrKHuovPuar1mqgOZv/0/pDMZJHAPQ+Gv2OZfNo7diAR0EzXvp5oFNV
-   88V4BtR+zl8WS1AsPDqpcjebVurOVyGTRy2XA4Ln6o/RufCUAL5+WkqSf
-   EQ799s/oqJCVzsHIW3ARHmtfP6NHXOGapXcT98X2DD90l/ANVqgRZxesA
-   192UHqQM3lfhuNDXbUOeHDm5Uudjx0qK8Farrf99XbdWaolIJGTx1kWTO
-   w==;
-X-CSE-ConnectionGUID: Gcm71SV9Skq9hdNohEcpcQ==
-X-CSE-MsgGUID: ZZ3MAlX8TvSLaiRwblUQiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="72685740"
+  bh=vH54bd3bnODuU9YcmKZXZsBBTrynsYxwRm8fyHLVIK0=;
+  b=hFxc3XSZp31wvszXvVV+20YsAxk9LP6Q5RTICUIv45omOSdjkazVLiQS
+   QGh009UrMg4oKYyCwYcEfmJUViGTnkZ4qQqKRkRhco5JR6cJq4Xk+SEJ7
+   S6YfcjZaNkHjzZztwxT3EMH1rp+ceok+yIXWYwZ3XiSdDpp29dZjCdhTW
+   9M72TVnReMiBiuuZsNjE5UuQG1gqITWF7+Iqtl/2ftwhPtdqY3O8djOH2
+   H1MzQjBkrjVN5gE94Ge+246OS1YCVsIMylJtGcfv6N897gN7ZCDR5yMgO
+   agf7AezKlYRcoUzgyjNPicvE9d+265CZDx1/xXU7+TFqg6Xaumogj8J3O
+   A==;
+X-CSE-ConnectionGUID: owWDhfvERb6KpqT8MIvfNg==
+X-CSE-MsgGUID: zcqspG0sRUGgW3fcNrvbzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="72685755"
 X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="72685740"
+   d="scan'208";a="72685755"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 15:38:10 -0800
-X-CSE-ConnectionGUID: QtTT3sP2Rhe5K9vTdkp6+g==
-X-CSE-MsgGUID: 72PuIhxnQIWYFHmmgoLlhw==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 15:38:11 -0800
+X-CSE-ConnectionGUID: bdB+jvocRIesOgkrLgHFOw==
+X-CSE-MsgGUID: p3tWiBwnRX+mvdC6QEpnuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="214805201"
+   d="scan'208";a="214805207"
 Received: from sohilmeh.sc.intel.com ([172.25.103.65])
-  by orviesa007.jf.intel.com with ESMTP; 19 Feb 2026 15:38:10 -0800
+  by orviesa007.jf.intel.com with ESMTP; 19 Feb 2026 15:38:11 -0800
 From: Sohil Mehta <sohil.mehta@intel.com>
 To: Dave Hansen <dave.hansen@linux.intel.com>,
 	x86@kernel.org,
@@ -67,9 +67,9 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/5] x86/vsyscall: Disable LASS if vsyscall mode is set to EMULATE
-Date: Thu, 19 Feb 2026 15:35:59 -0800
-Message-ID: <20260219233600.154313-5-sohil.mehta@intel.com>
+Subject: [PATCH 5/5] x86/cpu: Remove LASS restriction on vsyscall emulation
+Date: Thu, 19 Feb 2026 15:36:00 -0800
+Message-ID: <20260219233600.154313-6-sohil.mehta@intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260219233600.154313-1-sohil.mehta@intel.com>
 References: <20260219233600.154313-1-sohil.mehta@intel.com>
@@ -81,69 +81,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The EMULATE mode of vsyscall maps the vsyscall page with a high kernel
-address directly into user address space. Reading the vsyscall page in
-EMULATE mode would cause LASS to trigger a #GP.
+As vsyscall emulation is now supported during #GP, remove the
+restriction on LASS when vsyscall emulation is compiled in.
 
-Fixing the LASS violation in EMULATE mode would require complex
-instruction decoding because the resulting #GP does not include any
-useful error information, and the vsyscall address is not readily
-available in the RIP.
-
-The EMULATE mode has been deprecated since 2022 and can only be enabled
-using the command line parameter vsyscall=emulate. See commit
-bf00745e7791 ("x86/vsyscall: Remove CONFIG_LEGACY_VSYSCALL_EMULATE") for
-details. At this point, no one is expected to be using this insecure
-mode. The rare usages that need it obviously do not care about security.
-
-Disable LASS when EMULATE mode is requested to avoid breaking legacy
-user software. Also, update the vsyscall documentation to reflect this.
-LASS will only be supported if vsyscall mode is set to XONLY (default)
-or NONE.
+As a result, there is no need for setup_lass() anymore. LASS is enabled
+by default through a late_initcall().
 
 Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-Reviewed-by: Rick Edgecombe <rick.p.edgecombe@intel.com>
 ---
-Eventually, the plan is to get rid of the EMULATE mode altogether. Linus
-and AndyL seem to be okay with such a change. However, those changes are
-beyond the scope of this series.
----
- Documentation/admin-guide/kernel-parameters.txt | 4 +++-
- arch/x86/entry/vsyscall/vsyscall_64.c           | 6 ++++++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ arch/x86/kernel/cpu/common.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 9e3ae4071c4b..28aaebd9ca49 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8283,7 +8283,9 @@ Kernel parameters
+diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
+index 3557f0e6b3aa..02472fc763d9 100644
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -406,20 +406,6 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
+ 	cr4_clear_bits(X86_CR4_UMIP);
+ }
  
- 			emulate     Vsyscalls turn into traps and are emulated
- 			            reasonably safely.  The vsyscall page is
--				    readable.
-+				    readable.  This disables the Linear
-+				    Address Space Separation (LASS) security
-+				    feature and makes the system less secure.
+-static __always_inline void setup_lass(struct cpuinfo_x86 *c)
+-{
+-	if (!cpu_feature_enabled(X86_FEATURE_LASS))
+-		return;
+-
+-	/*
+-	 * Legacy vsyscall page access causes a #GP when LASS is active.
+-	 * Disable LASS because the #GP handler doesn't support vsyscall
+-	 * emulation.
+-	 */
+-	if (IS_ENABLED(CONFIG_X86_VSYSCALL_EMULATION))
+-		setup_clear_cpu_cap(X86_FEATURE_LASS);
+-}
+-
+ static int enable_lass(unsigned int cpu)
+ {
+ 	cr4_set_bits(X86_CR4_LASS);
+@@ -2061,7 +2047,6 @@ static void identify_cpu(struct cpuinfo_x86 *c)
+ 	setup_smep(c);
+ 	setup_smap(c);
+ 	setup_umip(c);
+-	setup_lass(c);
  
- 			xonly       [default] Vsyscalls turn into traps and are
- 			            emulated reasonably safely.  The vsyscall
-diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
-index b34c8763d5e9..e0faa4ca0382 100644
---- a/arch/x86/entry/vsyscall/vsyscall_64.c
-+++ b/arch/x86/entry/vsyscall/vsyscall_64.c
-@@ -62,6 +62,12 @@ static int __init vsyscall_setup(char *str)
- 		else
- 			return -EINVAL;
- 
-+		if (cpu_feature_enabled(X86_FEATURE_LASS) && vsyscall_mode == EMULATE) {
-+			cr4_clear_bits(X86_CR4_LASS);
-+			setup_clear_cpu_cap(X86_FEATURE_LASS);
-+			pr_warn_once("x86/cpu: Disabling LASS due to vsyscall=emulate\n");
-+		}
-+
- 		return 0;
- 	}
- 
+ 	/* Enable FSGSBASE instructions if available. */
+ 	if (cpu_has(c, X86_FEATURE_FSGSBASE)) {
 -- 
 2.43.0
 
