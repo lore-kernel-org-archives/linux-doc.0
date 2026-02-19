@@ -1,87 +1,247 @@
-Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9BD1EB9E1;
-	Thu, 19 Feb 2026 16:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.136.29.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B633F21A444;
+	Thu, 19 Feb 2026 16:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771518540; cv=none; b=Nca3P8EF0Fnylv4e4OH2GPG6z0PLtMM7ugr8gupyPxtbzkI0jbb7MEbrz1ZAVRIJcQLm8L5UyXjIivO8LPtMB2lfZTtkkBFoyJ+m6TEng9+xNngWV41MqFn++1gjJkwmDXNww+esPiWqTJpir0wesz2+fBw5tZcTr1DtFcAdq+I=
+	t=1771518822; cv=none; b=My0BCAgPUxZYOPPjVIUz8PBAVWaJwYOirVYJxGfmfirxarDUSMcbhAVuXq3ueoE74VYEOYQ/bLUd2uWEguj08AzRbFUgy9RhlV3Tm5GHShdQ5XcrD3fwMD3QypZFChK1cQYpXcw04wI7KYL0gA9RywhaKP//KmvqIdoaF/BMF94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771518540; c=relaxed/simple;
-	bh=Lc8htHD2TqjT/LzXCol2qwK8bhaGPjt6Ytomi4CXJoI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MzjJl20Z0YYvHKknvV1/49eNKZUkHHXoo5JmXRL0GaGOg/UsPTuDN1fhXxyTSeXQ+3+jOLnFlOA/fy32cb0V/Yby7pA1xI+YPQ23pA6IS7sWwSr0kgamLLcqBkDpmSXCvqw5qhDoxj+hz4O+Qgx9OoPsv9MlDlQPLiKugZl3uJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com; spf=pass smtp.mailfrom=proxmox.com; arc=none smtp.client-ip=94.136.29.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
-	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id EEA03475E3;
-	Thu, 19 Feb 2026 17:22:06 +0100 (CET)
-From: Gabriel Goller <g.goller@proxmox.com>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next] docs: net: document neigh gc_interval and gc_stale_time sysctls
-Date: Thu, 19 Feb 2026 17:21:58 +0100
-Message-ID: <20260219162200.510325-1-g.goller@proxmox.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1771518822; c=relaxed/simple;
+	bh=HcnGHINgEGT5Xiu43clzTLxVroTc1PypRcM9ag1ryk8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MZqtNfvZNYEPYNbxAylA9zvlUY7azDNEUSFfwYUeUGfCAZdK5UheOtKu0owlhQPOwS13ZgGwHZfovMjgUR4488jjYTHG0LHZwA7KFu6tgjwJodUxo57gQ07hG27uclWoaO+DREih5ZEehr4+alkNYbP2AEF8fp9lEyYnGuP2SBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UFfqr9/v; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UFfqr9/v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771518821; x=1803054821;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=HcnGHINgEGT5Xiu43clzTLxVroTc1PypRcM9ag1ryk8=;
+  b=UFfqr9/vgxZiGt0qxN7igUg2Dqps7hHHfLkUzEPXUhgaL//YNWBbSMVg
+   dwRoFtw5UlJyK6CzBJkyTF102HFbCPAE9EqZ63AaqLktF+8L4ocr5mWaK
+   ++5tKkv7Mue30RuhSSeDSG9mJQGkoI4KJlLwC5Zt07lERY9BRcAUoxvOS
+   qgjS24hLZwmMY5EikpiV33mp3OWK2Ahu7bLSNOmqWnM9S4WyTqYJSo+mJ
+   JUMZ6mqkM1qDAsUMuh/u1YOWw1vtmzmKFVzgUcqTWLhKXf6ADxbFZ8ad1
+   aD5kdO2XPu58iz0QjfylPLi3bYzlhZB8yw0hJa25lb2dsYdlpExaZHL8p
+   Q==;
+X-CSE-ConnectionGUID: GiTnA0MzSK+sTA/KQzSzVQ==
+X-CSE-MsgGUID: WjzdbcODQkKc3ecFb/ZByw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="83232724"
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
+   d="scan'208";a="83232724"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 08:33:35 -0800
+X-CSE-ConnectionGUID: ttabUF5AR5yeBhkvdwUZFA==
+X-CSE-MsgGUID: /XtpdxBfTNKiKHP86Xzqhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
+   d="scan'208";a="213216451"
+Received: from dnelso2-mobl.amr.corp.intel.com (HELO [10.125.110.20]) ([10.125.110.20])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 08:33:32 -0800
+Message-ID: <50969479-3e9a-4d46-94bf-4e0525f6ddad@intel.com>
+Date: Thu, 19 Feb 2026 09:33:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Bm-Milter-Handled: 55990f41-d878-4baa-be0a-ee34c49e34d2
-X-Bm-Transport-Timestamp: 1771518116948
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V7 10/19] famfs_fuse: Update macro
+ s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
+ Bernd Schubert <bschubert@ddn.com>,
+ Alison Schofield <alison.schofield@intel.com>
+Cc: John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ David Hildenbrand <david@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>,
+ Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
+ Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+ Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
+ Ajay Joshi <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
+ <20260118223235.92498-1-john@jagalactic.com>
+ <0100019bd33d3cb8-384cf5f0-5f7c-4d18-936c-f73381e1933c-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019bd33d3cb8-384cf5f0-5f7c-4d18-936c-f73381e1933c-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add missing documentation for two neighbor table garbage collector
-sysctl parameters in ip-sysctl.rst:
 
- * neigh/default/gc_interval: controls how often the garbage collector
-   runs for neighbor entries (default: 30 seconds)
- * neigh/default/gc_stale_time: controls how long an unused neighbor
-   entry is kept before becoming eligible for garbage collection
-   (default: 60 seconds)
 
-Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
----
- Documentation/networking/ip-sysctl.rst | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+On 1/18/26 3:32 PM, John Groves wrote:
+> From: John Groves <john@groves.net>
+> 
+> Virtio_fs now needs to determine if an inode is DAX && not famfs.
+> This relaces the FUSE_IS_DAX() macro with FUSE_IS_VIRTIO_DAX(),
+> in preparation for famfs in later commits. The dummy
+> fuse_file_famfs() macro will be replaced with a working
+> function.
+> 
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> Signed-off-by: John Groves <john@groves.net>
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 28c7e4f5ecf9..033e18303d79 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -202,6 +202,21 @@ neigh/default/gc_thresh3 - INTEGER
- 
- 	Default: 1024
- 
-+neigh/default/gc_interval - INTEGER
-+	How often the garbage collector for neighbor entries should run. This
-+	value applies to the entire table, not individual entries.
-+
-+	Default: 30 seconds
-+
-+neigh/default/gc_stale_time - INTEGER
-+	Determines how long a neighbor entry can remain unused before it is
-+	considered stale and eligible for garbage collection. Entries that have
-+	not been used for longer than this time will be removed by the garbage
-+	collector, unless they have active references, are marked as PERMANENT,
-+	or carry the NTF_EXT_LEARNED or NTF_EXT_VALIDATED flag.
-+
-+	Default: 60 seconds
-+
- neigh/default/unres_qlen_bytes - INTEGER
- 	The maximum number of bytes which may be used by packets
- 	queued for each	unresolved address by other network layers.
--- 
-2.47.3
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
 
+> ---
+>  fs/fuse/dir.c    |  2 +-
+>  fs/fuse/file.c   | 13 ++++++++-----
+>  fs/fuse/fuse_i.h |  9 ++++++++-
+>  fs/fuse/inode.c  |  4 ++--
+>  fs/fuse/iomode.c |  2 +-
+>  5 files changed, 20 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 4b6b3d2758ff..1400c9d733ba 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -2153,7 +2153,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		is_truncate = true;
+>  	}
+>  
+> -	if (FUSE_IS_DAX(inode) && is_truncate) {
+> +	if (FUSE_IS_VIRTIO_DAX(fi) && is_truncate) {
+>  		filemap_invalidate_lock(mapping);
+>  		fault_blocked = true;
+>  		err = fuse_dax_break_layouts(inode, 0, -1);
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 01bc894e9c2b..093569033ed1 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -252,7 +252,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  	int err;
+>  	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
+>  	bool is_wb_truncate = is_truncate && fc->writeback_cache;
+> -	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
+> +	bool dax_truncate = is_truncate && FUSE_IS_VIRTIO_DAX(fi);
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+> @@ -1812,11 +1812,12 @@ static ssize_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>  	struct file *file = iocb->ki_filp;
+>  	struct fuse_file *ff = file->private_data;
+>  	struct inode *inode = file_inode(file);
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+>  
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		return fuse_dax_read_iter(iocb, to);
+>  
+>  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> @@ -1833,11 +1834,12 @@ static ssize_t fuse_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+>  	struct file *file = iocb->ki_filp;
+>  	struct fuse_file *ff = file->private_data;
+>  	struct inode *inode = file_inode(file);
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+>  
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		return fuse_dax_write_iter(iocb, from);
+>  
+>  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> @@ -2370,10 +2372,11 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
+>  	struct fuse_file *ff = file->private_data;
+>  	struct fuse_conn *fc = ff->fm->fc;
+>  	struct inode *inode = file_inode(file);
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  	int rc;
+>  
+>  	/* DAX mmap is superior to direct_io mmap */
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		return fuse_dax_mmap(file, vma);
+>  
+>  	/*
+> @@ -2934,7 +2937,7 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+>  		.mode = mode
+>  	};
+>  	int err;
+> -	bool block_faults = FUSE_IS_DAX(inode) &&
+> +	bool block_faults = FUSE_IS_VIRTIO_DAX(fi) &&
+>  		(!(mode & FALLOC_FL_KEEP_SIZE) ||
+>  		 (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)));
+>  
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 7f16049387d1..45e108dec771 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -1508,7 +1508,14 @@ void fuse_free_conn(struct fuse_conn *fc);
+>  
+>  /* dax.c */
+>  
+> -#define FUSE_IS_DAX(inode) (IS_ENABLED(CONFIG_FUSE_DAX) && IS_DAX(inode))
+> +static inline bool fuse_file_famfs(struct fuse_inode *fuse_inode) /* Will be superseded */
+> +{
+> +	(void)fuse_inode;
+> +	return false;
+> +}
+> +#define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
+> +					&& IS_DAX(&fuse_inode->inode)  \
+> +					&& !fuse_file_famfs(fuse_inode))
+>  
+>  ssize_t fuse_dax_read_iter(struct kiocb *iocb, struct iov_iter *to);
+>  ssize_t fuse_dax_write_iter(struct kiocb *iocb, struct iov_iter *from);
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index 819e50d66622..ed667920997f 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -162,7 +162,7 @@ static void fuse_evict_inode(struct inode *inode)
+>  	/* Will write inode on close/munmap and in all other dirtiers */
+>  	WARN_ON(inode_state_read_once(inode) & I_DIRTY_INODE);
+>  
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		dax_break_layout_final(inode);
+>  
+>  	truncate_inode_pages_final(&inode->i_data);
+> @@ -170,7 +170,7 @@ static void fuse_evict_inode(struct inode *inode)
+>  	if (inode->i_sb->s_flags & SB_ACTIVE) {
+>  		struct fuse_conn *fc = get_fuse_conn(inode);
+>  
+> -		if (FUSE_IS_DAX(inode))
+> +		if (FUSE_IS_VIRTIO_DAX(fi))
+>  			fuse_dax_inode_cleanup(inode);
+>  		if (fi->nlookup) {
+>  			fuse_queue_forget(fc, fi->forget, fi->nodeid,
+> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+> index 3728933188f3..31ee7f3304c6 100644
+> --- a/fs/fuse/iomode.c
+> +++ b/fs/fuse/iomode.c
+> @@ -203,7 +203,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+>  	 * io modes are not relevant with DAX and with server that does not
+>  	 * implement open.
+>  	 */
+> -	if (FUSE_IS_DAX(inode) || !ff->args)
+> +	if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)
+>  		return 0;
+>  
+>  	/*
 
