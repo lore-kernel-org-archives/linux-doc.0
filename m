@@ -1,130 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED4631B108;
-	Thu, 19 Feb 2026 23:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F98D3191D8;
+	Thu, 19 Feb 2026 23:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771544293; cv=none; b=lPdG8OQb559q2pArhq8O/wTnoKXhresG8CjnhcnyOHWafvDr/RrpnRgYLUPXwjDXKgD3aPq6KvPki891HYxz848hNUa3JfzYpeNw8qV127LieIe7obgeYrLKRHzO0ssd9gzLiMdPKs9E65rPoq77wU3KMvjWfcvAPXEUTvRMtPM=
+	t=1771544479; cv=none; b=KgjGesJHe6O0q08C902uHstS7YQxjHhLCZVpcgwoPEstAaSHHuZG7zuGpsGRFT3oxWsjNIEk8voQuJ7BUCDsvAWZ6gJL7XklGtxlzyiZYtZFRRZZwFEBJxrVLO0BpL71436GZr3Yi2+/2hHxyWeHRjoBxEpDm0FUAImsbM4GKwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771544293; c=relaxed/simple;
-	bh=vH54bd3bnODuU9YcmKZXZsBBTrynsYxwRm8fyHLVIK0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uRk5macQVESuR/b/pWJdu02Y9sYX5xTMj5FF9VEtFvo/Z5XRDQ9XqYIGszrLImOkGYJVfuaoOtDKTU+mQAsYbWv6bgMK9P+JbMLxWgqwzmJ87b8X6NdAiX+sg9koJDB2koeVOY7YxJS18KpHKuzjuP6furQSf0xmWFCHTjkCjGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hFxc3XSZ; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771544479; c=relaxed/simple;
+	bh=VTQ95hJqzOo2h7kigE+Yn3hWdRxeEherTHC6Y3ja1R0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=md5+N9/bJpoIF7T+Ic7fnR/ggeSABaMY+AcQgM2DyrdTUytKSE4h+LWsHFNqRyZalTWWXYVMPU9/ufRhZEdS4rXE/E4ejFutBdJMI9cERiw20KqywHhdVslkqe0XEFi1I98RgbahWYuWWvxAJDjiyfuUQgbOsy7UoPD9KPvuNmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com; spf=fail smtp.mailfrom=mssola.com; dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b=pQKUJmWr; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mssola.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFxc3XSZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771544292; x=1803080292;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=vH54bd3bnODuU9YcmKZXZsBBTrynsYxwRm8fyHLVIK0=;
-  b=hFxc3XSZp31wvszXvVV+20YsAxk9LP6Q5RTICUIv45omOSdjkazVLiQS
-   QGh009UrMg4oKYyCwYcEfmJUViGTnkZ4qQqKRkRhco5JR6cJq4Xk+SEJ7
-   S6YfcjZaNkHjzZztwxT3EMH1rp+ceok+yIXWYwZ3XiSdDpp29dZjCdhTW
-   9M72TVnReMiBiuuZsNjE5UuQG1gqITWF7+Iqtl/2ftwhPtdqY3O8djOH2
-   H1MzQjBkrjVN5gE94Ge+246OS1YCVsIMylJtGcfv6N897gN7ZCDR5yMgO
-   agf7AezKlYRcoUzgyjNPicvE9d+265CZDx1/xXU7+TFqg6Xaumogj8J3O
-   A==;
-X-CSE-ConnectionGUID: owWDhfvERb6KpqT8MIvfNg==
-X-CSE-MsgGUID: zcqspG0sRUGgW3fcNrvbzg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="72685755"
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="72685755"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 15:38:11 -0800
-X-CSE-ConnectionGUID: bdB+jvocRIesOgkrLgHFOw==
-X-CSE-MsgGUID: p3tWiBwnRX+mvdC6QEpnuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="214805207"
-Received: from sohilmeh.sc.intel.com ([172.25.103.65])
-  by orviesa007.jf.intel.com with ESMTP; 19 Feb 2026 15:38:11 -0800
-From: Sohil Mehta <sohil.mehta@intel.com>
-To: Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	Andy Lutomirski <luto@kernel.org>,
-	Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Brendan Jackman <jackmanb@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Nam Cao <namcao@linutronix.de>,
-	Cedric Xing <cedric.xing@intel.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] x86/cpu: Remove LASS restriction on vsyscall emulation
-Date: Thu, 19 Feb 2026 15:36:00 -0800
-Message-ID: <20260219233600.154313-6-sohil.mehta@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260219233600.154313-1-sohil.mehta@intel.com>
-References: <20260219233600.154313-1-sohil.mehta@intel.com>
+	dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b="pQKUJmWr"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fH8ym0N3Rz9smk;
+	Fri, 20 Feb 2026 00:41:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mssola.com; s=MBO0001;
+	t=1771544464;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xFceRmR8Q2zbOemIjUsCxHLvvbJHP4BrivlhG/ClUsQ=;
+	b=pQKUJmWrtXVMoVdr5Zf4qnDTcNN7sKIg/id6TJmSlPChP5H3NZ/4vdyEHKcXJGNr1gTRxm
+	nGERj4NfoXtOt3qhNf2S15wL5zqNf8nvbtjWQ13QvDbfAplHSBtLtlODOGq8bRDwYVmxmX
+	Ix8tYsXi9sN+lxEM5t/hHvfdXIvaDsR6QMp9Ln7yivGW2r7sG4O/0X3Zm1V+Nmp1UFxMuG
+	2gxDGj0uUioxiWvTbgsGKQZcf00rDncX7s1OOTiZ8DLKd3yFxdqs/JUHCR12KY3MICo7RW
+	N3Atyo72Ddy1VdFAJ1ImAv+FFdPa+b8MQdI0OX28/f7nSt+L02OvdK7US2B9qg==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=softfail (outgoing_mbo_mout: 2001:67c:2050:b231:465::1 is neither permitted nor denied by domain of mssola@mssola.com) smtp.mailfrom=mssola@mssola.com
+From: =?UTF-8?q?Miquel=20Sabat=C3=A9=20Sol=C3=A0?= <mssola@mssola.com>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	=?UTF-8?q?Miquel=20Sabat=C3=A9=20Sol=C3=A0?= <mssola@mssola.com>
+Subject: [PATCH] documentation: update arch features
+Date: Fri, 20 Feb 2026 00:40:40 +0100
+Message-ID: <20260219234040.3260616-1-mssola@mssola.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4fH8ym0N3Rz9smk
 
-As vsyscall emulation is now supported during #GP, remove the
-restriction on LASS when vsyscall emulation is compiled in.
+PA-RISC has perf-event support since commit 610cb23bcc75 ("parisc: Add
+initial kernel-side perf_event support"); and s390 has stackprotector
+support since commit f5730d44e05e ("s390: Add stackprotector support").
 
-As a result, there is no need for setup_lass() anymore. LASS is enabled
-by default through a late_initcall().
-
-Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+Signed-off-by: Miquel Sabaté Solà <mssola@mssola.com>
 ---
- arch/x86/kernel/cpu/common.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+ Documentation/features/debug/stackprotector/arch-support.txt | 2 +-
+ Documentation/features/perf/perf-regs/arch-support.txt       | 2 +-
+ Documentation/features/perf/perf-stackdump/arch-support.txt  | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 3557f0e6b3aa..02472fc763d9 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -406,20 +406,6 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
- 	cr4_clear_bits(X86_CR4_UMIP);
- }
- 
--static __always_inline void setup_lass(struct cpuinfo_x86 *c)
--{
--	if (!cpu_feature_enabled(X86_FEATURE_LASS))
--		return;
--
--	/*
--	 * Legacy vsyscall page access causes a #GP when LASS is active.
--	 * Disable LASS because the #GP handler doesn't support vsyscall
--	 * emulation.
--	 */
--	if (IS_ENABLED(CONFIG_X86_VSYSCALL_EMULATION))
--		setup_clear_cpu_cap(X86_FEATURE_LASS);
--}
--
- static int enable_lass(unsigned int cpu)
- {
- 	cr4_set_bits(X86_CR4_LASS);
-@@ -2061,7 +2047,6 @@ static void identify_cpu(struct cpuinfo_x86 *c)
- 	setup_smep(c);
- 	setup_smap(c);
- 	setup_umip(c);
--	setup_lass(c);
- 
- 	/* Enable FSGSBASE instructions if available. */
- 	if (cpu_has(c, X86_FEATURE_FSGSBASE)) {
+diff --git a/Documentation/features/debug/stackprotector/arch-support.txt b/Documentation/features/debug/stackprotector/arch-support.txt
+index de8f43f2e5d6..43e49c71612e 100644
+--- a/Documentation/features/debug/stackprotector/arch-support.txt
++++ b/Documentation/features/debug/stackprotector/arch-support.txt
+@@ -21,7 +21,7 @@
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+     |       riscv: |  ok  |
+-    |        s390: | TODO |
++    |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: | TODO |
+     |          um: | TODO |
+diff --git a/Documentation/features/perf/perf-regs/arch-support.txt b/Documentation/features/perf/perf-regs/arch-support.txt
+index 09431518b0e8..4c9a5a012075 100644
+--- a/Documentation/features/perf/perf-regs/arch-support.txt
++++ b/Documentation/features/perf/perf-regs/arch-support.txt
+@@ -18,7 +18,7 @@
+     |        mips: |  ok  |
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+-    |      parisc: | TODO |
++    |      parisc: |  ok  |
+     |     powerpc: |  ok  |
+     |       riscv: |  ok  |
+     |        s390: |  ok  |
+diff --git a/Documentation/features/perf/perf-stackdump/arch-support.txt b/Documentation/features/perf/perf-stackdump/arch-support.txt
+index f9db4dd8ef79..dd362b5cb638 100644
+--- a/Documentation/features/perf/perf-stackdump/arch-support.txt
++++ b/Documentation/features/perf/perf-stackdump/arch-support.txt
+@@ -18,7 +18,7 @@
+     |        mips: |  ok  |
+     |       nios2: | TODO |
+     |    openrisc: | TODO |
+-    |      parisc: | TODO |
++    |      parisc: |  ok  |
+     |     powerpc: |  ok  |
+     |       riscv: |  ok  |
+     |        s390: |  ok  |
 -- 
-2.43.0
+2.53.0
 
