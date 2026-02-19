@@ -1,282 +1,221 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010057.outbound.protection.outlook.com [52.101.84.57])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22A57325715
-	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 20:55:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771534558; cv=none; b=YFWt848fZhJutxDN4Dx2VHAvatMkc3KjBE+DLL/swztNSk/fZAMxeKM6Z4UXYShKHCqrjfkqkOsaQi6UfQcfFlZnZg6PBmmbfi3esxn87KmXvWn23hDDuxtMEzznsRS4ZsWPFLoorrehIERZdc5P1bJdOM4YHe4g2mMZRO8Qgxk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771534558; c=relaxed/simple;
-	bh=BmM1rmPoXawhxPfoovQiyZAor2BEmD6x+G18DKsUqIM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tAWexLGGZrGtm9rwL6vZZmcr7nDokbTIy+/Q2dtkNcy+JzCE10i32h74cpUjYUfm4lGzxkwaxrhnOVDftqxbmi68BlgRKBkB7kUDNZ9vc6/CkReH82ZvqLlpkDC/azrrvIEMpzlAUY0ccAlitXjXNE1XxvOiI3rZIUX65sLaP9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q7Pa2Oks; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998CD326D63;
+	Thu, 19 Feb 2026 21:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771535545; cv=fail; b=bYRvY+ZntgCH5YP8VfmbwP7YIz+DlBwkAf+FV23aSvObf6hxmL5kQ9d03t8vteIPW/9lJH4ZVl3jmygZHgCy+az6I6/hRgiZyK7ZYTzzXUxffeYL0sNeyX3n7uxz03RRmcl4TWIWvMig5Nt+5SNmxld6+yrKFELlLJJc4Z4SdI8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771535545; c=relaxed/simple;
+	bh=JuKUHVgQp120mGjxdfo1gL8JixVgbp9ZukMSkcedjbk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=IOs7POKYVCDuK0qABj+VZRFwGT8MTw8wFRoJli134IMym+/e8HC0D7h2yamTO5cTQP1HybU2PFJZpbDa7Ca4xMB65IlYmZx9rXkrkn20iHK1DhxJPNHyNKN//X1PrTuHIbqITHwBEDLHQ/jdwY57gHqGpHvcKJjTOYVlp6pCJT0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=jSN0byUp; arc=fail smtp.client-ip=52.101.84.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q7Pa2Oks"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59e5f52b13eso1689107e87.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 12:55:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771534554; x=1772139354; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kgzXRvDQQZ7oZ2PSsmR9Q6xUfKyeNrmd2q6O6qdJQOY=;
-        b=Q7Pa2Oksp7Mq3eAHZZFoYp9NhToOpEuqtnM8YMnrBhQSrfCF9i343TTDshBWi2OUGK
-         q09LC0Q9AaDgIMN6TJ9LQ7RPUcoLbV6FVjir0dwu2uyXfWoRxi4rzQ3iFdGncRVVcaWV
-         ym7h6XBJgQFH7YFwyKuaemQO5JriWfGLhBGJYSipg2yeR+/xvueU3NO8vcanUnKisCX6
-         Mjiy8XQrfffWHjoTjSQOI5CbEK509J/iTJsz+BNfC+4ptXJ8Yvv8eQbbdfsd66fqg3Ru
-         xhbds3tU/FAGGktViZweAEqdVo3jZXw4J2HcgkfGsmC33akYcou9nBjiFFwd9u1dyOxD
-         7AhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771534554; x=1772139354;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kgzXRvDQQZ7oZ2PSsmR9Q6xUfKyeNrmd2q6O6qdJQOY=;
-        b=murxrHi5oaZEpn7kRY/8nlasagBtPLWRk9N6k1QFWBx4lsagmRxsxk6fOR1DsY5hjp
-         v/yZxeBndNdwjmJywVbzkKby9MCCgw8FDIwK33+YCAi+N0D1aWNf13RfrvK895oRfeJm
-         Q4FLSydZwr8/mjrWrMownWvKz7viE18mZXBYereoECUePIzBXyEklgDDUVgoG7sR5JZK
-         g/SJCuCNlWNa2+MFs53usIL7zAXJQay9NfzC3NtZxugoIDQGE9CoNIKCf/29wQ/Vat24
-         UdIC+lCzclqsLSQjS7ElJFz9tK2CYPSlGW2o3N0IeKwSHHZyGlJfuE4luPRYGc1dPxIR
-         lx2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXvP6tVBhRr41hRo0ITQbUqOWqyGaYwmIRjUiRaZAJsYuxvl9lpLLqMbgZ0+tk1IYtWiNspDERervE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRclyvgd9oJDa+MlOeHU5tEPzgSC0ormhQm7qgETlHWTV0qEm9
-	+bcw6Yr85fsriAOJwksekRpUKeIt1G4VYkKER4oylTpk0gro8Ufp0v8h
-X-Gm-Gg: AZuq6aJH9T7T3reN2pZTQxic2Av/HmYTbcewG1EB4WdCJ2GZvVciiIVYyOPQ1dKt7eQ
-	GGng51eRz2HmaJwxxdrod6aHmO15gROypGsCPMXP8P2rpEay70zI35Lsl+9j3v7XPo/3Dc+kK2m
-	LfpAeTeXP1jN9SnA53nLjjlO2UrJzslcQ/oQnyqkM1BSMjTOuumWpOcsp1L05XO64KGJaMXX/2V
-	a4LIk+4cJfAkZNJyAmXUUUJuKT672p4MC3n6rurdwYrecP/bdMN3pGFCiYksCGpdQBJ7VfkIbyh
-	E+3Clvtw35uPyGrChOqyMMvZQTDSUQZ/LC7lNjlZC2VKUSTdjVqY69GYJufRCRAQx04dSGbNZ+V
-	5+f4ct2ccsgsl9Zp4g/hknQ0bjhna9AE+QNMBR2HdFTVDFWXOrHQuuuhw/dixzsId8EZg+jibnK
-	lKHQkIzqpJcZeyW153wILRQYqO0UttygXVDL5rGnL7Ba/avcSx8xRdIoACf1V89yUqR1/nBExPP
-	EwaR/vqZqaXt6Lypj8er5HEH93t+N85lbQ=
-X-Received: by 2002:a05:6512:b86:b0:59e:5b5a:c9b3 with SMTP id 2adb3069b0e04-59f6d353df0mr6133972e87.12.1771534554044;
-        Thu, 19 Feb 2026 12:55:54 -0800 (PST)
-Received: from buildhost.darklands.se (h-94-254-104-176.A469.priv.bahnhof.se. [94.254.104.176])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59e5f89a356sm5443917e87.92.2026.02.19.12.55.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 12:55:53 -0800 (PST)
-From: Magnus Lindholm <linmag7@gmail.com>
-To: richard.henderson@linaro.org,
-	mattst88@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-alpha@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org
-Cc: glaubitz@physik.fu-berlin.de,
-	macro@orcam.me.uk,
-	macro@redhat.com,
-	mcree@orcon.net.nz,
-	ink@unseen.parts,
-	Magnus Lindholm <linmag7@gmail.com>
-Subject: [PATCH 1/1] alpha: enable DMA CMA support (HAVE_DMA_CONTIGUOUS)
-Date: Thu, 19 Feb 2026 21:53:49 +0100
-Message-ID: <20260219205514.4434-2-linmag7@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260219205514.4434-1-linmag7@gmail.com>
-References: <20260219205514.4434-1-linmag7@gmail.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="jSN0byUp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bz8LsPF70zDb+i1x+/xogPk7FbLsb2wdRPouRBJai1TBnD20xPJq+CuPgFECaNQP1T51NtSW7wLkvKivczPXx0vcPo6aHWqVA9haLmi0MBSQqUTEk2OzUeJVSAc3WEekt6Js15sH9i/mRcI9XljYeYLj6xFwCsLaAcMbMvUPEW34JAqZYa6oWspD8Dydu5PtsnxhE3pzyo3SiwEb3QAnERwCyG6dMwMnthAo0FvC3zwsYsKnllrnve9Ve5y7kvAXWinV0jjpyj2cd4YnGcNLVjQ/BPWiPS4GaY0HlKdJHmlvT6kiClhzOTjdtFK16edzjuPV8ycnb8VveH230B41+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A+Rmmzjz3EZ4t0RoWec6g5AfSe0PI6mliMrYOadLQ2g=;
+ b=aSMNG0yZUxGzklnyfAY3bE2FskbIdiQGlO19L+SQv3Qh/WMEEKeK5qFsnhCaHYn40v2tAAUR8r2ojFAoZ4ubKjOzyLNDATg1XEkVmEqROsJzgPSv3/uJBqZzKTrgCRuPCVu36X6/rSqTl6pxSyeOueEAZE0hafdxWJFg0TMQ7s600OhRy1QYpugLzaAQEiM+4JnAbPU0QpLhGEBjVv9P62U3w+AS3VBmhB4qrxBZfNJQC86JkPG/ohtyM4LbRwum7Ib7kkUWHMXaMi92PKgKQ4fxdvyPw8HvLwt+Zjjom3QS8i6zYwEoMNz1GHNKbjXAKg/HT46t/Mm0wmoZ6N6SHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A+Rmmzjz3EZ4t0RoWec6g5AfSe0PI6mliMrYOadLQ2g=;
+ b=jSN0byUpMS8+00QTcHZiibeXKnk1NYtVGxp7lreQJniBvIYw04V58D5dubsHXCVbo8v5hLquL9EzJT97UUavv3Q9E9bcRTNRllBKsThYDNUkKqzDnPDZgWeIvd5YW+pdbkv2eYC9NgQGoYHnIxoHxRMjdhJSMtH1IIvwx8g6lZNndhTXTbTxfZ152tUgkPofYxqGPwONQLJAhtMUnQYU0k5DjEpyxWd9RLAIDcBpDlco8WLMpqQ1DOWRtJSvrUcqZUTLc/Z0igyeUajRpRrfIfzl9wgfUw6L86SyEXQdEj5fUgL938xwJeZQtzDEC6Oal0THJC5HR8RtjhU0lBGUug==
+Received: from AS8PR04MB9176.eurprd04.prod.outlook.com (2603:10a6:20b:44b::7)
+ by AS5PR04MB10059.eurprd04.prod.outlook.com (2603:10a6:20b:680::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Thu, 19 Feb
+ 2026 21:12:19 +0000
+Received: from AS8PR04MB9176.eurprd04.prod.outlook.com
+ ([fe80::ba87:1cd1:53d9:fcd7]) by AS8PR04MB9176.eurprd04.prod.outlook.com
+ ([fe80::ba87:1cd1:53d9:fcd7%6]) with mapi id 15.20.9632.015; Thu, 19 Feb 2026
+ 21:12:19 +0000
+From: Shenwei Wang <shenwei.wang@nxp.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, Linus Walleij
+	<linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
+	<andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, Frank
+ Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan
+	<skhan@linuxfoundation.org>, "linux-gpio@vger.kernel.org"
+	<linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Pengutronix Kernel Team
+	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan
+	<peng.fan@nxp.com>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
+	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
+	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Thread-Topic: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Thread-Index: AQHcoeRuhGAMnODcU0y5b19xK+plTQ==
+Date: Thu, 19 Feb 2026 21:12:19 +0000
+Message-ID:
+ <AS8PR04MB9176F61DCC8EBFD0A63E7A22896BA@AS8PR04MB9176.eurprd04.prod.outlook.com>
+References: <20260212213656.662437-1-shenwei.wang@nxp.com>
+ <20260212213656.662437-4-shenwei.wang@nxp.com>
+ <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
+ <PAXPR04MB918582EE33F7BD5C26259BB2896BA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <d3215b75-46c9-4875-abd7-fe17eb139820@lunn.ch>
+In-Reply-To: <d3215b75-46c9-4875-abd7-fe17eb139820@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR04MB9176:EE_|AS5PR04MB10059:EE_
+x-ms-office365-filtering-correlation-id: cbf9f278-2f79-4770-bbc4-08de6ffb9119
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|19092799006|1800799024|366016|7416014|376014|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?vaY+qekZF4SPLv40ZyKjAhSRR9pFYd3pJjOp28HGEtPkCNUyGy3MtnSwrzLK?=
+ =?us-ascii?Q?JHYRYdaIIoJw0wXWwoXhaVXAzXAy+M7TEn2iy7ZpaiXofoLv8mOgy7l4hMeN?=
+ =?us-ascii?Q?oeb5Zelx/UHF9YArt/396FJV3McFuLCHFFlqIXSEoVsn8CtO1EG6+yfow00M?=
+ =?us-ascii?Q?wu8it0Y2PWG8gF1pbFBdDyGb3C+Ec7SufAc4nzONWY2S/oNJBHLfRiA0V/Sm?=
+ =?us-ascii?Q?xoYLKpH8RbbQVvCjiurYU1HKq4TsdMLcMO7fhz2Iyp0dS8DOdERTnwG7Ujjt?=
+ =?us-ascii?Q?xLD75M/n2/0McILxAPaY2i4P0EFuXKhyreL7dUUoRZJpuIP/jTMJhmTm24HV?=
+ =?us-ascii?Q?w7xze/+ZwHTnOescLdTO+nNZJ87lv+BFKwnIbL5h4weMhSTCDe0pu1PRvajY?=
+ =?us-ascii?Q?TP3KD5WJP0DqbijPQayhOvEjb36LYYr236h1p8BvLU1g5byG+vCI+z48swQQ?=
+ =?us-ascii?Q?Je/5N+CjWAljRLym85DVKwOejOfpXWrDakFcdSNi5ct7gEOj0qNgwmR9Ua9c?=
+ =?us-ascii?Q?umaW5m1I+dECdb/W972ojUqim0q2/azETFQPopE7RsaLOWtqRZeNFh6XmbtV?=
+ =?us-ascii?Q?3AEGn8YKK9Hdc1xnOVo4eL4Y5KSUGkT0qw1Rl3B8vFtA6AvHErLSTl3dxhfc?=
+ =?us-ascii?Q?tAwg9cPU85xY+XTKJ2tRri3FhC4VJ1MtO1Yu+qpiNRFfoy7HdXHfHyQGzQOD?=
+ =?us-ascii?Q?V2s/U+mkiEZcKcX2KV/ndTJy/FEx3H/cuBAYLj9ukW0wHcwutKEhW/E/L2aO?=
+ =?us-ascii?Q?urXR7ykXUkNCNeXMMh4D9FxIo5qwPfcbYXbsirShHgnsgetXoTse4RPOURHx?=
+ =?us-ascii?Q?/KRrl6pvg1El6R3bCUUDfDT/yHpKeB653S0J0PkAJG/OyGgAENW6Gm7r7fbG?=
+ =?us-ascii?Q?opLjbKyrnCU8aWQfqd+yOW5YFBGaPly0lWYCSWP3OI4/l/iZZtZg68TzAw/o?=
+ =?us-ascii?Q?BLWOevsEwZmyxYcXuOlQw/XwkUUVOvSeZ5c8b//2n4HEtEVYUyEWr4maA410?=
+ =?us-ascii?Q?roSjpfyQzRBfaCcu4wjE0yRUGopkfElRj8QbCunMnPx3CFJYN0awupniJ2vd?=
+ =?us-ascii?Q?YtMvw06kF31jNy4C+Jgf8ji2GFA+oMu4nbXKdUCrpcyvSwow6VMPV+gJyOZS?=
+ =?us-ascii?Q?Y2V5KOP3ZbY+9x5lJdljLDpvTQ6BrhMajG/iSV9mQaqw/WMKBUC5woSjuFxm?=
+ =?us-ascii?Q?g5HY7Zc7qBAkRHSOMayeXXMufpHwtf5TYZH2vltw3ylQdRuYhUaV3uAX8N0+?=
+ =?us-ascii?Q?EKRXMp3pRH41mwaG9fdK/hWqxpfZrLgEUWK0bhe9sVI6qq6TRk0UuHqSD8b5?=
+ =?us-ascii?Q?cfnAcY0rmbygR/Wjpol5Mx8DjKwIcvczZ4aMU+od6kgswlf38rVx6a8w8A24?=
+ =?us-ascii?Q?5Wl3wEFwrXv1BABgKJDWKe9pII8QUBJ90sLokitMAMBym646769PU9bR4QOl?=
+ =?us-ascii?Q?B3f1hRpNmJOxTOYyWHnOZfxM+ZotY/jDGUQ/D3hZTdq8OtTRxJfw5iuD+SBv?=
+ =?us-ascii?Q?cHVLH0Wfu44a/1iTxThnousw5QSJ3XVTlh8NwWtrEkG+3jkmuqo2vFistWUq?=
+ =?us-ascii?Q?V8FDLauuvw8d9HeCZM0icHMhin9CEnblHyN3o1C/KX/wBWev5Do7aGHkbK6q?=
+ =?us-ascii?Q?LLbfEmO9NM5qh74rmneGJxw=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9176.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(366016)(7416014)(376014)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?X0khiNXyubN8+63zc+CeTp61CvVbrjsHUYVK7sWte4PfcgxvVvZT72AbPF2q?=
+ =?us-ascii?Q?OIYD2g77CPMcfJ02vj3/v3x3hKWkjk8ZgR3+GaZQ6+cIzQG9y3g1smb1tnKl?=
+ =?us-ascii?Q?fdopUEiubZ0hUra2yE98cKinauXtzqqECQd3ucbig8yWksMEX4Hz/niUlFVo?=
+ =?us-ascii?Q?g9gs9DmE+/4kDTNTvllJJciyiWuSwpqBOtDcBre4m0lkqMxXWOUTym286nIJ?=
+ =?us-ascii?Q?U35zIpeuz/PUU97pUbE+GPSiLEra5sOyoRo3pR/tvAB3WT9JOxMhkDMqKiyX?=
+ =?us-ascii?Q?dJl4veRcnOISDcFjV15Km5sObh0930gYoKpLSDCW8P4ISEtmS+HBljVLWMha?=
+ =?us-ascii?Q?W5eokVOVA6zvn3MtzdkorQci8fcN8+SO/uVPTXqY9qw+d9ksDkjilI/v1y9K?=
+ =?us-ascii?Q?f/X9h1UDdNcAZczvFM/pZ8nl+ouURxP5b+vKmYnP4U3zvn7iviFfKtqyK96a?=
+ =?us-ascii?Q?9z65CBuXLBgD5utXjU9ggevXh3ZJ+HMsulMy/T0J5clqlzMeRTdzrXHICz6S?=
+ =?us-ascii?Q?0+Y8sTLkdlUKm0daB5iIljHz0WwAc8dvuF9rJPBz1P3M5o/eoMFXM9CUH4A6?=
+ =?us-ascii?Q?60bvD5G8B7GgjHuvzJkPxciF7fqPCTBWPWxCcZ2QV6oM8mCKfNWAvWaNFqhZ?=
+ =?us-ascii?Q?rK3rJp3uxtkv9V66BIdQ9EJUrC4nhwpK9guJqWz9RZ0yBQfrBPNLk/atxzTD?=
+ =?us-ascii?Q?pttrTwu8ZB54K8DVtWcJrHV/otsES8CG+GXB6JitYZFQ5jdu3Pg6J59JllEu?=
+ =?us-ascii?Q?qDH8+YljfLwYU5LZG3i375B55IjQaXH8UrTDriqfqQcn0GJue0ONYeeVLFuY?=
+ =?us-ascii?Q?2qX7VtqnBilaurImgikNP919rnYoMxyo0O8t2A2fWJsBEOQd7CKaxkaotq/+?=
+ =?us-ascii?Q?9lRQNn1s/bqhfa80rcOedQyIiRGBw1PYvmy8ORFnRPY5SDRIeV0WoHM0kqUO?=
+ =?us-ascii?Q?QBDanTL68pncjzgov3Y5BAYFoYnRv5s5quaVbmOWOMn586TnRhiJ6aLVR8NZ?=
+ =?us-ascii?Q?ZbloMsQ6Ag9484y9SlmoDUe/S5qqfjko0LFnFlLSlDO/f0m4z/1lPFbNNbcG?=
+ =?us-ascii?Q?FaWu9Ze55IYhs7AAEgeS+w//e/puAadCnfgkUipPnahRYfCFalCb510BKPEf?=
+ =?us-ascii?Q?2z9UG0xLvyKHxbln3hf76/1dCfrvgwQrwCFL+G0+Cxi4yJYpalDHk6Iz/1yC?=
+ =?us-ascii?Q?1vFbxHMa+Gk0QRpVHteBx+ZX6QKsXQ6aZV4N1Su7Rr2rHWl4iSgBAEhlvoau?=
+ =?us-ascii?Q?dh10gJ7sSFCtM4e0nJUMToZfwXbvRJgWwj5rl34edufcGDe+mDpiRj633vo4?=
+ =?us-ascii?Q?a9QTA5uUS0d/N7cT/XxWglE/5SKu9uVW6ARZkA+PTjnLRK3B5gfKHd1KdD8n?=
+ =?us-ascii?Q?SJMNgZQKTUvHqEi2mxksqA6LlVvXftKYi/znkEG0ApQuLOMYCUJuw0Ae1eCI?=
+ =?us-ascii?Q?gJUBjnp1c6rPDn1dqK+0e5bSMiXtMi1Ukj7O2z5EGfd9FVbXmx2s+wDDoHwW?=
+ =?us-ascii?Q?M8P/E6K99dYYy5uLP9pSahfcr4OKtievwVV2aJzfuk/22pegQhxRxjiCZSDu?=
+ =?us-ascii?Q?kXhdExCubeolx4EYPM+fWu6N1J/z3qiesHayTr7/coEtg5NyTqvxey44ZxvI?=
+ =?us-ascii?Q?WTRMRU/HbGyrvMweOLk70b34IFFWHnB6daqE+IKk+i9usQQNvEcGahQ0gmHm?=
+ =?us-ascii?Q?jbYax7tquri2brLUC9tTf3Nu+zaP1GDj9fNbXVsV45jqIY45?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9176.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbf9f278-2f79-4770-bbc4-08de6ffb9119
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2026 21:12:19.4509
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xp1AWEP4zbKso5Mswxn1gEL8VBpgUN9CiAStnRS8lakDC2HUUKHpH2rHdC88L/Ao4LOE31jk+AbVTx2lzSJCxA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB10059
 
-Alpha currently does not support CONFIG_DMA_CMA, even though the
-generic CMA infrastructure is available. As a result, coherent DMA
-allocations rely solely on the buddy allocator and may fail for large
-contiguous buffers.
 
-Add architecture support for HAVE_DMA_CONTIGUOUS by:
 
-  - Selecting HAVE_DMA_CONTIGUOUS in arch/alpha/Kconfig.
-  - Ensuring early command-line parameters are parsed in setup_arch()
-    after Alpha-specific command line handling, so that the "cma="
-    early parameter is honored.
-  - Calling dma_contiguous_reserve() during early memory setup while
-    memblock is active.
-  - Extending alpha_pci_alloc_coherent() to fall back to
-    dma_alloc_from_contiguous() when __get_free_pages() fails.
-  - Extending alpha_pci_free_coherent() to release CMA-backed
-    allocations via dma_release_from_contiguous().
+> -----Original Message-----
+> From: Andrew Lunn <andrew@lunn.ch>
+> Sent: Thursday, February 19, 2026 2:51 PM
+> To: Shenwei Wang <shenwei.wang@nxp.com>
+> Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>; Linus Walleij
+> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corb=
+et
+> <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
+> <andersson@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Fra=
+nk Li
+> <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>; Shuah Khan
+> <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix Kernel Tea=
+m
+> <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
+> <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
+> remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Bartosz
+> Golaszewski <brgl@bgdev.pl>
+> Subject: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO dri=
+ver
+> > > Any reason to use __packed and alignement here?
+> > > This structure will be copied in a vring buffer right?
+> > >
+> >
+> > Using __packed together with an explicit alignment is a common pattern
+> > for defining communication packets. The goal is to ensure a stable and
+> > predictable layout across different architectures and compilers.
+>=20
+> Being mostly a netdev person, i can say that the network Maintainers actu=
+ally
+> refuses patches with __packed. If you have designed your protocol correct=
+ly,
+> defined your structure correctly, you should not need them.
+>=20
 
-With these changes, Alpha systems can successfully reserve and use
-CMA-backed physically contiguous memory for DMA allocations.
+The fact is that there are many __packed usages just under the Ethernet dir=
+ectory.
+$ grep -rn __packed drivers/net/ethernet | wc -l
+553
 
-Tested on a DS10 with cma=64M:
-  - CMA reservation is correctly sized from the command line.
+Regards,
+Shenwei
 
-Signed-off-by: Magnus Lindholm <linmag7@gmail.com>
----
- .../io/dma-contiguous/arch-support.txt        |  2 +-
- arch/alpha/Kconfig                            |  1 +
- arch/alpha/kernel/pci_iommu.c                 | 46 +++++++++++++++++++
- arch/alpha/kernel/setup.c                     | 16 +++++++
- 4 files changed, 64 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/features/io/dma-contiguous/arch-support.txt b/Documentation/features/io/dma-contiguous/arch-support.txt
-index 3c6ce35d704f..6cd205a991f6 100644
---- a/Documentation/features/io/dma-contiguous/arch-support.txt
-+++ b/Documentation/features/io/dma-contiguous/arch-support.txt
-@@ -6,7 +6,7 @@
-     -----------------------
-     |         arch |status|
-     -----------------------
--    |       alpha: | TODO |
-+    |       alpha: |  ok  |
-     |         arc: | TODO |
-     |         arm: |  ok  |
-     |       arm64: |  ok  |
-diff --git a/arch/alpha/Kconfig b/arch/alpha/Kconfig
-index 6c7dbf0adad6..e3ff6f7d93ab 100644
---- a/arch/alpha/Kconfig
-+++ b/arch/alpha/Kconfig
-@@ -2,6 +2,7 @@
- config ALPHA
- 	bool
- 	default y
-+	select HAVE_DMA_CONTIGUOUS
- 	select ARCH_32BIT_USTAT_F_TINODE
- 	select ARCH_HAS_CURRENT_STACK_POINTER
- 	select ARCH_HAS_DMA_OPS if PCI
-diff --git a/arch/alpha/kernel/pci_iommu.c b/arch/alpha/kernel/pci_iommu.c
-index 955b6ca61627..08c18d49ca8e 100644
---- a/arch/alpha/kernel/pci_iommu.c
-+++ b/arch/alpha/kernel/pci_iommu.c
-@@ -15,6 +15,7 @@
- #include <linux/iommu-helper.h>
- #include <linux/string_choices.h>
- 
-+#include <linux/dma-map-ops.h>
- #include <asm/io.h>
- #include <asm/hwrpb.h>
- 
-@@ -409,12 +410,34 @@ static void *alpha_pci_alloc_coherent(struct device *dev, size_t size,
- 	struct pci_dev *pdev = alpha_gendev_to_pci(dev);
- 	void *cpu_addr;
- 	long order = get_order(size);
-+	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-+	struct page *cma_page = NULL;
- 
-+	/* Match existing behavior: prefer normal memory first. */
- 	gfp &= ~GFP_DMA;
- 
- try_again:
- 	cpu_addr = (void *)__get_free_pages(gfp | __GFP_ZERO, order);
- 	if (! cpu_addr) {
-+		/*
-+		 * Fallback to CMA if enabled: this can migrate/compact
-+		 * movable pages out of the CMA area to form a contiguous bloc
-+		 */
-+		if (IS_ENABLED(CONFIG_DMA_CMA)) {
-+			cma_page = dma_alloc_from_contiguous(dev, count, order, gfp);
-+			if (cma_page) {
-+				cpu_addr = page_address(cma_page);
-+				if (!cpu_addr) {
-+					/* Very unlikely on Alpha, but be safe. */
-+					dma_release_from_contiguous(dev, cma_page, count);
-+					cma_page = NULL;
-+				} else {
-+					memset(cpu_addr, 0, size);
-+					goto have_mem;
-+				}
-+			}
-+		}
-+
- 		printk(KERN_INFO "pci_alloc_consistent: "
- 		       "get_free_pages failed from %ps\n",
- 			__builtin_return_address(0));
-@@ -422,11 +445,24 @@ static void *alpha_pci_alloc_coherent(struct device *dev, size_t size,
- 		   with vmalloc and sg if we can't find contiguous memory.  */
- 		return NULL;
- 	}
-+	/* __GFP_ZERO already did this, but keep the old behavior explicit. */
- 	memset(cpu_addr, 0, size);
- 
-+have_mem:
- 	*dma_addrp = pci_map_single_1(pdev, virt_to_phys(cpu_addr), size, 0);
- 	if (*dma_addrp == DMA_MAPPING_ERROR) {
-+		/*
-+		 * Free the memory using the right backend:
-+		 * - If it came from CMA, release to CMA
-+		 * - Otherwise free_pages()
-+		 */
-+		if (IS_ENABLED(CONFIG_DMA_CMA)) {
-+			if (dma_release_from_contiguous(dev, virt_to_page(cpu_addr), count))
-+				goto map_failed_freed;
-+		}
- 		free_pages((unsigned long)cpu_addr, order);
-+
-+map_failed_freed:
- 		if (alpha_mv.mv_pci_tbi || (gfp & GFP_DMA))
- 			return NULL;
- 		/* The address doesn't fit required mask and we
-@@ -452,9 +488,19 @@ static void alpha_pci_free_coherent(struct device *dev, size_t size,
- 				    unsigned long attrs)
- {
- 	struct pci_dev *pdev = alpha_gendev_to_pci(dev);
-+	unsigned long count = PAGE_ALIGN(size) >> PAGE_SHIFT;
-+
- 	dma_unmap_single(&pdev->dev, dma_addr, size, DMA_BIDIRECTIONAL);
-+
-+	if (IS_ENABLED(CONFIG_DMA_CMA)) {
-+		/* Returns true if cpu_addr belongs to a CMA allocation. */
-+		if (dma_release_from_contiguous(dev, virt_to_page(cpu_addr), count))
-+			goto out;
-+	}
-+
- 	free_pages((unsigned long)cpu_addr, get_order(size));
- 
-+out:
- 	DBGA2("pci_free_consistent: [%llx,%zx] from %ps\n",
- 	      dma_addr, size, __builtin_return_address(0));
- }
-diff --git a/arch/alpha/kernel/setup.c b/arch/alpha/kernel/setup.c
-index f0af444a69a4..24893bca39f5 100644
---- a/arch/alpha/kernel/setup.c
-+++ b/arch/alpha/kernel/setup.c
-@@ -46,6 +46,7 @@
- #include <asm/io.h>
- #include <linux/log2.h>
- #include <linux/export.h>
-+#include <linux/dma-map-ops.h>
- 
- static int alpha_panic_event(struct notifier_block *, unsigned long, void *);
- static struct notifier_block alpha_panic_block = {
-@@ -513,6 +514,13 @@ setup_arch(char **cmdline_p)
- 	/* Replace the command line, now that we've killed it with strsep.  */
- 	strcpy(command_line, boot_command_line);
- 
-+	/*
-+	 * Alpha mutates command_line with strsep() above, so make sure
-+	 * early params (including "cma=") are parsed from the restored
-+	 * command line before any CMA reservation happens.
-+	 */
-+	parse_early_param();
-+
- 	/* If we want SRM console printk echoing early, do it now. */
- 	if (alpha_using_srm && srmcons_output) {
- 		register_srm_console();
-@@ -648,6 +656,14 @@ setup_arch(char **cmdline_p)
- 		printk("Max ASN from HWRPB is bad (0x%lx)\n", hwrpb->max_asn);
-  	}
- 
-+#ifdef CONFIG_CMA
-+	/*
-+	 * Reserve CMA now that memblock knows RAM layout and early params
-+	 * (including cma=) have been parsed.
-+	 */
-+	dma_contiguous_reserve(0);
-+#endif
-+
- 	/*
- 	 * Identify the flock of penguins.
- 	 */
--- 
-2.52.0
-
+> We do however accept things like
+>=20
+>         BUILD_BUG_ON(sizeof(strcut foo) !=3D 8);
+>=20
+> just to make sure the compile is doing what you expect.
+>=20
+>         Andrew
