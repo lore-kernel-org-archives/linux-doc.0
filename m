@@ -1,235 +1,169 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013001.outbound.protection.outlook.com [52.101.83.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B511E33A9D2;
-	Thu, 19 Feb 2026 14:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.1
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771510651; cv=fail; b=YW4X/QAGj0BNL9oxcvv9F3H2cdYBSSieg2s8A++is5QoOtiLvbpwPFr7wV6jcXQ2TzMrLMCPrr3hm2RACyh91qGaiD/kgRnWEhu7L+TuHG72jCK+qALP7pf1/DovWgzi8MYn4cGOqneYuppRvTCnL77W22jFKSFXsVYqv9s5po4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771510651; c=relaxed/simple;
-	bh=NuGOLd+Hz+X7d0KsCeHDOvGiN1gWYuTZKdZDmV3uIGg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=WLsj4CWiDaDGdA+FUpSWkc1ssp3iI+WBPfmIy5t4R7VLjau1fM/dEj/PDA2jh2lS8I08fOmbX1timJDPa1O87y9yFTlks22WYVMzVu/0WUreZdDfPZmA3QuPyC4eDIS/NnZxj2zmEXEg9ns4mc6d8yOP8QWavi6kajfb+69fBe4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=McisqliU; arc=fail smtp.client-ip=52.101.83.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A77C33374F
+	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 14:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771511240; cv=none; b=Nen2fakdcbxKqffZV1zt9e9MhgCSyZgsAnAiZv2CTrf9BJTDVGYScR/X8KN8rXq11jL/1qxJUdoZTHd5w09leMp7lub5mYJe38CgOIbbk56Fi7tFjr1HIzk7z1xOHWOfRS5SRQ8xkT3I1zPGlPRcJyGddYnXsH0gQeDrP9Yomec=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771511240; c=relaxed/simple;
+	bh=fFFjkseekXvGYoGHHkDvbbj+CFQfCypI5+YXQEHeZys=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jas4zSZsR2SmP8A4ZRwNKVYf+gaW6yKh0wjMsVdt6oniXQkZ0n4g4N3TaGanWUv5YEuije4hvQUwAA82QTCYvEcDsbRekUkYjcgsfrfOA/qTlcgB2deT+p8m784w0DGmUmtqyaCcWacm4kgvMYsxUMAarwuK3k5kL4+RWBhnUG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mTKJYUCu; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="McisqliU"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=u7tZvGfwxxYsdcPFUulovsr5PRyt4YkN1R2NYMjRFvAx6Qq3QcmHuKh/M31765tq/VGao4EnVK2SxvyJ0mpu5yGULlkU0dSLcxgQRaYjFEUFT0ltSLrRl2jiZNaTr3Pc3jWz/XynK32KBgadOQocQyyAscy0vHAF8r165+6N9djhxZOK2iWC+DGhoapvvC7DHQ7aGUaqSMELTcLXmytfI+sbKS8ATbNGYDszxbTsUA1B6cy2j8AXjEsbXaFemSB6gZcB6O5FXWdd2j2sIKvzOuIuLo/weRRwf8mHJLbpXKFwnMnekK8QvO5RVHFHyGHlZTr1TkxaXgUkUISr0OTB3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QAJzsSbFYSV0mo3JnATjCdFlJKmKAfw6B/Pp/mHCZOs=;
- b=NJbv5p1JOEHRJ6BHskFFOx4AjT7FMtgh8wOU/GTEY7/rHyeosHw5jVxtj3VNKiqIwzrIytg6wsBCpMDG1dra5iF1Gd5khBVrm8sASu6OLYf5WA1P9YBSQ8YezrX88HeINW6ZJdD4s+7wFkKeYdLhwDtkG2pH8q32OfsiKWnSm87cAiXtbG4TMv0MC+XQLIMrVaocyrpwVVfk6bKLC3GzXk4oMblXFPk8zlVLk5OsKyzVUv7flXGxiyGo+DWIDdLSqqNTjsgoyfbckjnKlkE/7HuOM//gUaGbFptV9dP6ov1Y3995DslKZNERIvzUs058QJ/WmOUjMMQx0KOdiCXBkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QAJzsSbFYSV0mo3JnATjCdFlJKmKAfw6B/Pp/mHCZOs=;
- b=McisqliUbROABRe6SkA1w+BE0rwkPr/OFWKcszJJHiXDjaZ0Hq4B8gApRLNl+G51y5jjloUGwMpin+Ux6cmXc556y8NNoMzHKRT0OcoDTxXO3/212v0U/oODJO5xEBJef/PTRGfcJLnOf1mwSmMNJohQNZ3Ah16AToltp6OurszOigjiH5/VEdHIHLiUh6zTcB9qUAd6UKdWWbIOAXzuKd4Mfc94KwVS9ftZt7mIVD2dotNcDqBC5lw20/ZvRq6IqasEPFGQ/4ZDE5IGtl00NBKMSdzHvQpZvWh9S2LtbGHxzTaAo5VnVOUolLog30LvG2AZyv7+PdqJ/Lzf7fotCg==
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
- by PA1PR04MB11384.eurprd04.prod.outlook.com (2603:10a6:102:4f5::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Thu, 19 Feb
- 2026 14:17:26 +0000
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::b4c0:6119:2228:2ceb]) by PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::b4c0:6119:2228:2ceb%4]) with mapi id 15.20.9632.010; Thu, 19 Feb 2026
- 14:17:26 +0000
-From: Shenwei Wang <shenwei.wang@nxp.com>
-To: Andrew Lunn <andrew@lunn.ch>, Arnaud POULIQUEN
-	<arnaud.pouliquen@foss.st.com>
-CC: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn
- Andersson <andersson@kernel.org>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>, Frank Li <frank.li@nxp.com>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng
- Fan <peng.fan@nxp.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
-	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
-	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Thread-Topic: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Thread-Index: AQHcoap5g1PdfUk0tUynC8pppyXvGg==
-Date: Thu, 19 Feb 2026 14:17:26 +0000
-Message-ID:
- <PAXPR04MB9185EFFB8C73462E215EF486896BA@PAXPR04MB9185.eurprd04.prod.outlook.com>
-References: <20260212213656.662437-1-shenwei.wang@nxp.com>
- <20260212213656.662437-4-shenwei.wang@nxp.com>
- <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
- <44804825-5e61-4c3c-96bf-e5a3f3eacec1@lunn.ch>
-In-Reply-To: <44804825-5e61-4c3c-96bf-e5a3f3eacec1@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|PA1PR04MB11384:EE_
-x-ms-office365-filtering-correlation-id: 167057d1-498f-43e4-5dbc-08de6fc19bb1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|19092799006|1800799024|366016|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?444sAA7tAto1rG6upm51u2pA4BUDyWJ5dgKK6+JYiW9ivWh1g4LRP8s7IGGo?=
- =?us-ascii?Q?jNUlHtc38GDM0uQhVtWMvbKJNodzqFVzKMJ0WeJzQoQqUqZOkNKEvpE1T25P?=
- =?us-ascii?Q?/mHYpfE41n2pbj+uDvAOOp9RcwsFA2I+Nib4+5rhGUWQ05HmYOxNv9mehqR8?=
- =?us-ascii?Q?FtU2a25yw/BVihfipbpSkcASwD0SSrIDvzxmNtbk3IY7fBGARwaVkxl1Qjbx?=
- =?us-ascii?Q?mp6J5GLu2k+Hvz8cu2cTElpbFLys65lV8loLVO6vd+iFVRwBuhAA1QK1z63P?=
- =?us-ascii?Q?YFMgPfvM49ogDGboAWRp63ORqKLgqwBbDO6FLGYo5dEv1hl32CItgj//9Imx?=
- =?us-ascii?Q?8Tp23lihgRMQl6+RBKcT2rT904KT0bdAKMoWMDDRaEvOYYS4HvkImg8nweRH?=
- =?us-ascii?Q?UtSjS0E93nU7HWGDiZlB1iA7WbvEO/HlHhv1xGSP05n/Hy4LbNciFfUMTFA5?=
- =?us-ascii?Q?idl3t1MRWFIfb1l/EHK+wngF8l9xV+Smlqh0ueJe1HzboCfQVrL4uLFgsLFj?=
- =?us-ascii?Q?m2QNH462VWofzGqwKvWA5qDbGDxRg2Fm9ihgH4bqR9gSO2bhvgN9Ba6gEJRJ?=
- =?us-ascii?Q?sPbsCK10H2c+2KIqDeGNsEylwtuCSr+e1QX07zsCVKioGSJI6WFVrsAZJjQQ?=
- =?us-ascii?Q?ycKNBovCEYTgh8WhZvV5VbQ2HrYoDnTueHZ/vdKnXRTzZjTzVhj/boeo1Hmc?=
- =?us-ascii?Q?bB02KeVrMDR/gsdpDjQXYxcCnlUUlA9P8QcUxiRydXN8snU97EMbVKXCH+oF?=
- =?us-ascii?Q?ep1ksIVvr71m6GO5aaOk/TvYtm3/utxP0jIZVTFfZQTQkHlJzwe0kAmWLjH2?=
- =?us-ascii?Q?xfYgAIe/060QnL2jr1MSVB9S9w88k4Rneff2vSV86EjP4GdMZfq/lsYqOzeC?=
- =?us-ascii?Q?M6J9oa09iDfDBdaqk4IWTPaaQrzH47Zff5KX44JGs6JeDaO/CkVltzWoNKMo?=
- =?us-ascii?Q?n4lXn1kG6T0UpEn5+ast+olaW+2qS60sL3Gw48yh/TuU5lr5oMM3amOXLVpV?=
- =?us-ascii?Q?eNy9rv7fFhKBmPK0bIDAeLTIoPO7s5yv5LKrl4aZd88itKX7tFWRc3GEublY?=
- =?us-ascii?Q?9ApWZdgag2en+io0jXwEgU6EmUwEIhfkDjxQXjyomYklDISRGCNZY962HY4+?=
- =?us-ascii?Q?ysdTtbRxlaMq0wInJCd+8CaseBHJapfV1nQDMWeFjq0NmAIZ5d8nGaT63V8Z?=
- =?us-ascii?Q?W6O7PDCCO3Iv6mcnUh3kGm2wwOokSsKYvS5kF5KCFFsf4MYb570yUT2/ngwc?=
- =?us-ascii?Q?j/ygaWwGvu2n5zsYlS2paIZBeDkZcdXnyWxj35EQ0uDrqpPC1BDPDE/WqCBp?=
- =?us-ascii?Q?V/hT+tIGSARzOSf6AP8yogYS8NpgQCLxQ57GE9UvScVs4IUuU+AwPhnem+VI?=
- =?us-ascii?Q?GkitGe4CoAm3slCyvXg7NqZUtZ6Ee+mItjDvWeh9+cu6coVnXr+0/3QvkyIh?=
- =?us-ascii?Q?k0gh3x2WPA8kQoQLBGPrGK24W6hEQqqlCIWxa0EMTpdvuvNFAe5Mtrl8PhsH?=
- =?us-ascii?Q?BlO+QRl1bDxqC9p7vMj1AG2RnVJaT1P0i5ZKFo81ThFLwCqpT10Xwszx68Qh?=
- =?us-ascii?Q?QPITL4hdKOixEc3/almo99mwysePhv0lsk/PT0SXqeA17BM9WNqen8pMQ98D?=
- =?us-ascii?Q?Dscpcy0My/GBVkD2FRuC5SE=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(19092799006)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?V090pyO2lfpznOAIAHxkFRC5p/jQnRPnPqacDB1wI07dPbPjaK4GSrNZmEAZ?=
- =?us-ascii?Q?Q+5dEB41mKGBhdcLNVmoyy196BEmECngfu/rytUg7TewWqp286BYmP/ADtzK?=
- =?us-ascii?Q?fM0tKW+OAFiqCb7Tj/akmdRXN/z5JpfLQvMGA2EzPIPXJxOYF+FfbU11gFU/?=
- =?us-ascii?Q?hoLbnIx4eJ7uGPinQG5AGJkeit8j9WJSf6PSu101/QygqRJU7K0V6UFaf4NK?=
- =?us-ascii?Q?RqCJwi9AfVubzVhJDUiaJEiuPFFSKlDUuBPJ+MHvR0RgopBCpJrzzmzRfQMr?=
- =?us-ascii?Q?kq0uFzj2+iY7PAs9/YiGkmoCqxVyxJQKwTd0Aekf6rIndGD101Y7CCbSa+46?=
- =?us-ascii?Q?FvDvPpk0xZVIEuMzJhjiPGSHr9GnPsQM6qWfc3jPDoFR0zx+R7FcmItlcByQ?=
- =?us-ascii?Q?+EGrcyBdGo8IOLdy9WOqIEuF8Ibtm5fzkcr/QOYd6EeU5ZNHsmZZWh+Q40+w?=
- =?us-ascii?Q?AcFsFe30kARXh9uAghq7U/HzJOZ1qPF2RuVfWT8iTxDAdh1eY/qj+b2fNlJD?=
- =?us-ascii?Q?X6LNf8k6wrBSA4EDMBOqM2M9YmdXDOUy3rzMKrw98oMwbvcJsHJMFMA/+Kd0?=
- =?us-ascii?Q?OkLfb5YR4ubxpt+hdmkMfg1rJ/tHY4NMw6QZYNo24H7ZrCwOpXQIfqKOgfzg?=
- =?us-ascii?Q?c7GhqNJQmiG3NNIc+W15IeJohlwSZ+uUix1TMZghzYj8QBYr9mWCAUpGu2gt?=
- =?us-ascii?Q?wI5+ii3iTUD8qFaeCiVXnY1ImQKpTt5qWBxpePk/tVJP0MYgXbGgNQnZdpCE?=
- =?us-ascii?Q?LAFKi4ny8IPbE1MPpL6/7NrG9PHXS+/DbcYryD1LuFv0zl6vcFfb6lGxspSY?=
- =?us-ascii?Q?TEiS6pMrYJw/dluIA6abTcGABjeKiJ4kpL0Q61RhyHQpCLxu06Xj67o1LOit?=
- =?us-ascii?Q?p1C9C0LW9r0hD0rGFY0x0Q2vL+OBBqNe9lJSt1X2EajS2bRfNaNogqvPdc8O?=
- =?us-ascii?Q?1gUbT6vqqfvUhYkS8xseNAmFFRRURmlg1thn0il5IljLWOVK+Rr5cQx6xgco?=
- =?us-ascii?Q?VslpxQh2D5H43Q334ktSTs/rUuTROisbpVqDKdkd3yCMtfmLlNb6VlWb6oiT?=
- =?us-ascii?Q?UURwvkjGBgyMCGP6lIXFuHzzllr2vbPbvUaFn9qSE+0BNlri/sPSMakGqBmG?=
- =?us-ascii?Q?OL/QPTTKx2oUbkSkHiEl5HnOFHovYW086zqWEX3bWwC1UGRsYfWmDeyZmZY/?=
- =?us-ascii?Q?odHYhYgnjSxIsr3UUtAHP0SyEz/PwN9ix6KYAr2TIN31EnlfaVe/WLfLwA/8?=
- =?us-ascii?Q?eBBkOp8O//IdvCnm8DlmfuqxnoTbRJ6Hw/BKsUdLwS6Up91jq8C92On7VXJL?=
- =?us-ascii?Q?WT86OrU9pMFgyADRN9rKY8snzmxZ1ydlhviTVQbbpP8+g80AZ8wtNCJdqEOj?=
- =?us-ascii?Q?a+9VUSM4Uc0c/tjerpXZtM6SOZ6eOCtAHwJoElzWXnhiAO8cREGUx6JgKqmq?=
- =?us-ascii?Q?FUvJNgBV09aoQL4ZE+0DNEFxc5DDl2eXXjrmjWfxDp3Ddx16X6HqBxcLAdT/?=
- =?us-ascii?Q?ygTwYhzdENIeaLplHaz2oBsIXMKqOLDsufQMr1dURhgYZwGB5NIyrwaRWeUG?=
- =?us-ascii?Q?/kCyOUagIhc/tSlt50sJb0fJf/RB3hbbc1E609Qb9RQ5/hGjiI11Rm9A7XFi?=
- =?us-ascii?Q?7l2G82jPO8nQMvD8ulE1Hhdg47IMrcS1GM+Ywy38JaOzheLScjYQTjThmjSv?=
- =?us-ascii?Q?jjNjghHiMAP/TZk1YIBUT5v2w94S2oJguArYw12IR560CERZ?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTKJYUCu"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2aae146b604so6679375ad.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 06:27:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771511239; x=1772116039; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QUt8gjFDI6W7zJiz3u2Nn1UdNatjAJ3oKKX8MoonuYU=;
+        b=mTKJYUCugpcn5L5mDXdK+YRi2UNxKjfLhPZDzkq9uL2gWuXt5GfBk+YRqBoCvSizv7
+         T0ZzF0FqkaNIbu43klTvaVMV32XKzclXitql0gtOptcBXs7XggysZRWE62OR1VtS9c+D
+         xsKr/L+2M9oz/lxvYf6HHScQb9piufGqG8lHKyHiyVzFJXoCb8+WB7WY5fLWtR6pwE3G
+         feGKgcVqrcwm7tL7NSSjf8r7myNfNU8hsp3WIwSWe2h0GfZ8PuHW9Fy3rs9A/DrYYEUs
+         fY3UwTUZzkJLE4GUZFgbWwlF3dYd1dEsKPy2DoyMUan8pYYIKR9r1uE0ARa/zVxECMyv
+         +SjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771511239; x=1772116039;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QUt8gjFDI6W7zJiz3u2Nn1UdNatjAJ3oKKX8MoonuYU=;
+        b=wjy1hTzRHDphOGLMk6AyGJM8dv6BRdgJ12QM+2RBrci7vyKTgHUahXbqKVCLmE5A7m
+         eb8k5KKn6c7fSDS2zd/aF8MTS/20YR5HKvRbnSjQYP9PabaTE4oXYQnBxQPwX75SkTRK
+         6kqW3kGUPbS/gvxuuYxtb/B2jWjDB/LDux2O6jgq6dF0tT49riaBpkfNPKp3JjOT5SyD
+         ya+H4jTGiUA/YB59BO1gGS1U6QGHUszun6djGXfoFybd5XUvXxFSx9iI8biiSxAZdvfO
+         dyQu81bI1eFaZlb8IR+NIq6cmWMUuj5tQJ8q6YA2inhzrScdHeelbGwf2BtDhN368zG5
+         Qt5w==
+X-Forwarded-Encrypted: i=1; AJvYcCX0lxBI12JwZyS+RWNVECAs4gtbrvNDv1IkEUBLiNPBUf8aYGaaeu+up5sQO2Z6M0kl1x/vzPTGuRQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YziZQrZJeSQ5Hg8iCJaq8sHwQTtW+3SXMgWLyAdMjXsVrOhH4ZN
+	AuvHGEeaz0DiYErPV/kQo5U4TYeu4CU+xOo4GgfH+u70cKdrpKL9HwRl
+X-Gm-Gg: AZuq6aJkfP42mmKf4mc+IKHNlfNbmVPTgGfqXYwxkkx4jo5VvtQb0A8xywtZvJhfh40
+	hETbuqUebuZ1ZLCGYwni4B18hTP2G5o1nUu5+7PmRjZQAvDGtc12twMZlqldnUE656M6q28sKA8
+	Gje0uw3UAaG7ePJDjIP8Buk6qMhhZUEGtnf5iKh3sNbFBhzFn4+LncIN2USbj07uBc6dlkU9iWP
+	Pq4cd/3Ctn5eJHUbafQe5LqqhPIXqmQpMsEdOh59NyuiQvfe1I6wTZfEECXniLan4HCy3jR5L5d
+	flyVwqkVVSZNgt7oES0POe0+K5YPTtRuF7ZR9wETiDARKuVJQQeYsZSy7ry0+Axxo+h3KNJmQiH
+	i0AlVqjjIrd3yvfX/I3aO1f4VWalaFdKD5S2GZyJtDN9Pk+sZ3cnwFCQSDcscjv73fE3hBM4UBS
+	JiXxp9PQ514K18UtjIGQMVgpmzuaqmP+m53RdfzyAsWNG9IH1Dyw8JGExw6AZUNyll
+X-Received: by 2002:a17:903:388c:b0:2a0:d636:71e7 with SMTP id d9443c01a7336-2ab4cf7c628mr180445875ad.13.1771511238647;
+        Thu, 19 Feb 2026 06:27:18 -0800 (PST)
+Received: from ?IPV6:240e:38a:19d2:ad01:4c90:983:b066:e0db? ([240e:38a:19d2:ad01:4c90:983:b066:e0db])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad1a9d5c4csm166275275ad.53.2026.02.19.06.27.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Feb 2026 06:27:18 -0800 (PST)
+Message-ID: <c2b65a8f-b0cc-4bba-8ef9-7a079314d52d@gmail.com>
+Date: Thu, 19 Feb 2026 22:27:01 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 167057d1-498f-43e4-5dbc-08de6fc19bb1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Feb 2026 14:17:26.4389
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: o63tU1OnPVvSdOh7s6MpuD++T3mwqRWoX37r+pVFmJTW9y3ZwpGFIPKij0ntSAA2cIdNNgpKvtNyU/8g3HY4qg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB11384
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] task: delete task_euid()
+To: Alice Ryhl <aliceryhl@google.com>, Paul Moore <paul@paul-moore.com>,
+ Serge Hallyn <sergeh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, linux-security-module@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, Jann Horn <jannh@google.com>
+References: <20260219-remove-task-euid-v1-1-904060826e07@google.com>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <20260219-remove-task-euid-v1-1-904060826e07@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
 
-> -----Original Message-----
-> From: Andrew Lunn <andrew@lunn.ch>
-> Sent: Thursday, February 19, 2026 7:27 AM
-> To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-> Cc: Shenwei Wang <shenwei.wang@nxp.com>; Linus Walleij
-> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corb=
-et
-> <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
-> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
-> <andersson@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Fra=
-nk Li
-> <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>; Shuah Khan
-> <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
-> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix Kernel Tea=
-m
-> <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
-> <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
-> remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Bartosz
-> Golaszewski <brgl@bgdev.pl>
-> Subject: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO dri=
-ver
->=20
-> > > +   if (sync) {
-> > > +           err =3D wait_for_completion_timeout(&info->cmd_complete,
-> > > +                                             msecs_to_jiffies(RPMSG_=
-TIMEOUT));
-> > > +           if (err =3D=3D 0) {
-> > > +                   dev_err(&info->rpdev->dev, "rpmsg_send timeout!\n=
-");
-> > > +                   return -ETIMEDOUT;
-> >
-> > strange condition you return an error if err =3D=3D 0, for redability u=
-se 'ret'
-> > variable or simply:
-> >
-> >               if(!wait_for_completion_timeout(&info->cmd_complete,
-> >                                 msecs_to_jiffies(RPMSG_TIMEOUT)) {
-> >                       dev_err(&info->rpdev->dev, "rpmsg_send timeout!\n=
-");
-> >                       return -ETIMEDOUT;
-> >               }
->=20
-> This will be from a comment i made. It appears that
-> do_wait_for_common() can return -ERESTARTSYS. I assume that should be
-> returned to user space?
->=20
+On 2026/2/19 20:14, Alice Ryhl wrote:
+> task_euid() is a very weird operation. You can see how weird it is by
+> grepping for task_euid() - binder is its only user. task_euid() obtains
+> the objective effective UID - it looks at the credentials of the task
+> for purposes of acting on it as an object, but then accesses the
+> effective UID (which the credentials.7 man page describes as "[...] used
+> by the kernel to determine the permissions that the process will have
+> when accessing shared resources [...]").
+> 
+> Since usage in Binder has now been removed, get rid of the resulting
+> dead code.
+> 
+> Changes to the zh_CN translation was carried out with the help of
+> Gemini and Google Translate.
+> 
+> Suggested-by: Jann Horn<jannh@google.com>
+> Signed-off-by: Alice Ryhl<aliceryhl@google.com>
+> ---
+> Depends on these two changes:
+> https://lore.kernel.org/all/20260212-rust-uid-v1-1-deff4214c766@google.com/
+> https://lore.kernel.org/all/20260213-binder-uid- 
+> v1-0-7b795ae05523@google.com/
+> ---
+>   Documentation/security/credentials.rst                    |  6 ++----
+>   Documentation/translations/zh_CN/security/credentials.rst |  6 ++----
+>   include/linux/cred.h                                      |  1 -
+>   rust/helpers/task.c                                       |  5 -----
+>   rust/kernel/task.rs                                       | 10 ----------
+>   5 files changed, 4 insertions(+), 24 deletions(-)
+> 
+> diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
+> index d0191c8b8060edb7b272402c019cff941ec22743..81d3b5737d85bde9b77bff94dfb93ed8037b2302 100644
+> --- a/Documentation/security/credentials.rst
+> +++ b/Documentation/security/credentials.rst
+> @@ -393,16 +393,14 @@ the credentials so obtained when they're finished with.
+>      The result of ``__task_cred()`` should not be passed directly to
+>      ``get_cred()`` as this may race with ``commit_cred()``.
+>   
+> -There are a couple of convenience functions to access bits of another task's
+> -credentials, hiding the RCU magic from the caller::
+> +There is a convenience function to access bits of another task's credentials,
+> +hiding the RCU magic from the caller::
+>   
+>   	uid_t task_uid(task)		Task's real UID
+> -	uid_t task_euid(task)		Task's effective UID
+>   
+>   If the caller is holding the RCU read lock at the time anyway, then::
+>   
+>   	__task_cred(task)->uid
+> -	__task_cred(task)->euid
+>   
+>   should be used instead.  Similarly, if multiple aspects of a task's credentials
+>   need to be accessed, RCU read lock should be used, ``__task_cred()`` called,
+> diff --git a/Documentation/translations/zh_CN/security/credentials.rst b/Documentation/translations/zh_CN/security/credentials.rst
+> index 88fcd9152ffe91d79fc10bfc7b2a37d301b4938a..f0b2efec342438b81be415dc513622c961bb7e59 100644
+> --- a/Documentation/translations/zh_CN/security/credentials.rst
+> +++ b/Documentation/translations/zh_CN/security/credentials.rst
+> @@ -337,15 +337,13 @@ const指针上操作，因此不需要进行类型转换，但需要临时放弃
+>      ``__task_cred()`` 的结果不应直接传递给 ``get_cred()`` ，
+>      因为这可能与 ``commit_cred()`` 发生竞争条件。
+>   
+> -还有一些方便的函数可以访问另一个任务凭据的特定部分，将RCU操作对调用方隐藏起来::
+> +有一个方便的函数可用于访问另一个任务凭据的特定部分，从而对调用方隐藏RCU机制::
 
-It looks like there might be a bit of confusion around what wait_for_comple=
-tion_timeout()=20
-actually returns. That function never returns -ERESTARTSYS. Instead, its be=
-havior is pretty=20
-simple:
+LGTM.
 
-- 0 means the wait timed out
-- A positive value means the completion happened (the value is just the rem=
-aining jiffies)
+>   
+>   	uid_t task_uid(task)		Task's real UID
+> -	uid_t task_euid(task)		Task's effective UID
+>   
+> -如果调用方在此时已经持有RCU读锁，则应使用::
+> +如果调用方在此时已经持有RCU读锁，则应改为使用::
 
-So the driver returns the timeout error, and the upper application can deci=
-de how it wants
-to handle that situation, for example restart or ignore.
+Please keep the old version. the new one is a bit ambiguous.
 
-Thanks,
-Shenwei
-
->         Andrew
-
+Thanks
+Alex
