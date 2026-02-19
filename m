@@ -1,164 +1,291 @@
-Received: from mail-yw1-f194.google.com (mail-yw1-f194.google.com [209.85.128.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D0A349B19
-	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 16:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770602D3ECF;
+	Thu, 19 Feb 2026 16:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771517168; cv=none; b=Ad3hIU8+2ZEHejjWaPkPtwb4qRfYL047LTOJbIAcXHFCByZDDdc1LaJtfYEkpbQzWhaUOGR9F7avJoZuvuAEJljanYYxNuK1lW+vrgWZ2442mn3/9Y5VPGUnqzqjHIO9xJeSE1bra+bPH+VmwD0P3IQgMrodeaeoh4q1qi1oPbs=
+	t=1771517280; cv=none; b=lgGz85G+xG6l2SU/EBQjR255kEJRrFcY5qyE6bUq4S9cpQv4SAfquUAf/taF8WMIjRi7KaGQWI45K0rIIsnCG0Pp3WmQZxeJ3Il+k3v15yazv2/Cm/KXODxV0OKt4857PFkM+SjR6bP1Pg65YjZUP/Lh0aBFcQo5sB8g6nNB/sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771517168; c=relaxed/simple;
-	bh=4yMC99NeJMMCPXT8o7FBF9zbcjvh5tyBVPAtjWfERlY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q3s3/kn10Jmd+RiQ5a7rtTPdFGZEm2jzAdAZILkbR0ekj0Oo6iQxSX/9sc9ejtAmMmtQwAJ+VTHt1d70zmgyn7nDvCLYAeE3QfofsIYCeWYgb7JPwGBo+TfW05DjW4dYc1RFLlQ3wfCBBRvhHSUhn+SSNLW9RgYET8hCm/l3cPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KTKRA9Yb; arc=none smtp.client-ip=209.85.128.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771517280; c=relaxed/simple;
+	bh=zlPqV4I0bErDRfP8a/M2jtQm4fY10/MZ0I7ZNyxtfzg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uo1GKCW+l9P8ur+GVxxCDLl2DAEdDgB7tVHsfmMx39p9PhAsmi0OBb3p6puQqMrkTfe64CuD0KVcJ2gaTumlf644wGobuuWColowpZ3qLhivLRyc7vjpK4odNpbfKCipaG+8FBppDknrGnU+jAjshyq6qXa1AhzSxnML+SK1CYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0UhgStd; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KTKRA9Yb"
-Received: by mail-yw1-f194.google.com with SMTP id 00721157ae682-7950881727cso7559597b3.3
-        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 08:06:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771517166; x=1772121966; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pJXEV0fGE0delcXeFKX2uACQoYyrpadO3o4R7qcFW9g=;
-        b=KTKRA9YbazNu4TqwFhNxX59aOrp4Bfarg2kUPhdqFTSL+QYD0G35e6yUd2F6zM4TFs
-         pQyqh1x0isberlefOWaH84y4gz7qinX4PeFFvXAH+feHCFxnRT73YRCqwsUZyD9phlga
-         cueD7ZcuWCwYP2C7oXyDClKe3Af0YGZapEECrJY27ZqN5s0Gnhv8lMgvNGKL9wgXLuLP
-         m6RLkbt04EpZ7JRtyvL0PuPsJaciyLOyPIyjTewh78YblNhYi4060Tg+hfbgyhvymz91
-         3WkBX0b2MATxczn2pB/hBzLPDmJskzMw0gjo8bgdn7Zd1EEHClku4uNHywliEt2sBjPw
-         zTTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771517166; x=1772121966;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pJXEV0fGE0delcXeFKX2uACQoYyrpadO3o4R7qcFW9g=;
-        b=msAIHYbtS2/Ts4fD8fyMSohxQ9V0bPerNDwBBX/gGe40QKpzdhkb8R9C7s2BpNGkw9
-         3LFAG44xPPQ4IciQZXF6myfEV3gB0qXzKcJXsDnbJ7SY2qJ1RSTJuQ1ZGtuU09bdISnY
-         d4ah4wteB+xFjUSU659fYUKJ7DP2kXvlUKWxQYUjLA/zFRGEYWClv10aI3M3Q1j/8uM5
-         hPQvjUDHeuPR6u6OVlApkXxccRd//y6eot9cAlF6jVl0irKk5RG69v5rL7Qu52OgfpQy
-         bRJiteN6vJ2fpoddkBghKuA3BUrXoRjSSt0TGAU+naXwlEs8irFrrffh0gGnpH2OSEal
-         zY/w==
-X-Forwarded-Encrypted: i=1; AJvYcCXTszfYp/hE9kPXNNgvLYQe/sVKfn1O5uXvk04Meo00RsaE1IlId6pXyBRT6MX22UYogGK/3b/qzdk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzw8mFDtVNsXtpik33HafT/04t6vSif1UaHE9cZlEAQnX1CN8R1
-	b3f/hEf583ClTxurVbUL3pMpTXUJ2nUGHlwKa/nz/28j+7Za35J96F8zQRWOFKFT
-X-Gm-Gg: AZuq6aIfDDNQx0WBUfQon56ieZ7DzgspOw4djvUaN/rswbVYPei4l64c0BDfPHnBjex
-	eWSM9W4yCZPT9beR0R6tje7OvrfKrDqLmy3alFLf6xtaP6suNqETWS5Z85JGNOOn1WZGwzobnqj
-	SVQK9BolwOcWmrLG4O87Zw1YsED7n6+X/aTdWqorYHAlMmy2wIAdw29/JGRlVrFl+JTK6UGiUHX
-	EgQYRjGDNeptHz9TZ3jA4+mDMxkOxBVXqnA0uGxcdFWhfI4MXhsDGoHO+vspph8z7ravQnexNhM
-	YWzSHaKZhJgkQn4sJjryHDtY91r5IbAD2go6UGX1MTGFOK78yFe5EinqzNKeeG9fe5s/2DoAY3e
-	hE2rXCOb7haFhJMjVHL79NyehfOdPse/TLzRT4oTvdLBGAAxNrQv7hxscW+4ScRUYOB7pelmJjH
-	73Kp/29A2H1ca6+KqiikCYDLqG4MqWujj1kuMeS7wMB/2JNeE=
-X-Received: by 2002:a05:690c:6c86:b0:795:c78:b633 with SMTP id 00721157ae682-797f73f4d48mr49916427b3.62.1771517165867;
-        Thu, 19 Feb 2026 08:06:05 -0800 (PST)
-Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:56::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7966c18b464sm135320017b3.13.2026.02.19.08.06.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 08:06:05 -0800 (PST)
-Date: Thu, 19 Feb 2026 08:06:04 -0800
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Bobby Eshleman <bobbyeshleman@meta.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	virtualization@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net v2 3/3] vsock: document write-once behavior of the
- child_ns_mode sysctl
-Message-ID: <aZc07N4BFw0hhnoZ@devvm11784.nha0.facebook.com>
-References: <20260218-vsock-ns-write-once-v2-0-19e4c50d509a@meta.com>
- <20260218-vsock-ns-write-once-v2-3-19e4c50d509a@meta.com>
- <aZbN8fXtCkhItSV8@sgarzare-redhat>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0UhgStd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771517278; x=1803053278;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=zlPqV4I0bErDRfP8a/M2jtQm4fY10/MZ0I7ZNyxtfzg=;
+  b=b0UhgStdinbLr+68Fa9ktWEZNy33u9hrnFavFlelZBDP27Hm7qQlX4VQ
+   VVWLjiEh5XsLh+hi92Kxm0RSiYkosSPCNyem2jL7e0D3a+YWrXj7UhRbW
+   MhlQl8mVxblEGtLpmDpFnYEt0LBA+1jMri9g6VtacVWLFkK6p7G0Pzk5k
+   vQyXk5UYRoSQfsq1Ea1wyGVAth390OD8MYkT3wqjxeCIj7fLpH2+plnn+
+   9N60WIdrnxl8E3g1xc23uy1bYhj7o6NbTVC5EtJgGmPqgqap49/SCzxdc
+   yumiCS55aSlZnrKp5AmG+Tvz/fs/eREGMWfh09+MUdHk3LNoktZlPf2bV
+   w==;
+X-CSE-ConnectionGUID: bRHb3rbpQ6qef80eHb/+eA==
+X-CSE-MsgGUID: HVKLjGsfRa6k6aUnDHUBoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="98069411"
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
+   d="scan'208";a="98069411"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 08:07:57 -0800
+X-CSE-ConnectionGUID: 6d2q8Js5Qcm5WNvx9MFPSg==
+X-CSE-MsgGUID: oDWZHOUoQUONBagjlmy7rw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
+   d="scan'208";a="219095070"
+Received: from dnelso2-mobl.amr.corp.intel.com (HELO [10.125.110.20]) ([10.125.110.20])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 08:07:55 -0800
+Message-ID: <47780ff4-27ff-4e14-98cc-a10064d7fe13@intel.com>
+Date: Thu, 19 Feb 2026 09:07:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aZbN8fXtCkhItSV8@sgarzare-redhat>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V7 07/19] dax: Add fs_dax_get() func to prepare dax for
+ fs-dax usage
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
+ Bernd Schubert <bschubert@ddn.com>,
+ Alison Schofield <alison.schofield@intel.com>
+Cc: John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ David Hildenbrand <david@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>,
+ Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
+ Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+ Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
+ Ajay Joshi <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
+ <20260118223206.92430-1-john@jagalactic.com>
+ <0100019bd33cc18d-83012e03-8214-45a4-91cf-c8b598cd4535-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019bd33cc18d-83012e03-8214-45a4-91cf-c8b598cd4535-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 19, 2026 at 11:36:40AM +0100, Stefano Garzarella wrote:
-> On Wed, Feb 18, 2026 at 10:10:38AM -0800, Bobby Eshleman wrote:
-> > From: Bobby Eshleman <bobbyeshleman@meta.com>
-> > 
-> > Update the vsock child_ns_mode documentation to include the new the
-> 
-> nit: s/the new the/the new
-> 
-> > write-once semantics of setting child_ns_mode. The semantics are
-> > implemented in a different patch in this series.
-> 
-> s/different/preceding ?
-> 
-> IMO this can be squashed with the previous patch, but not sure netdev policy
-> about that. Not a strong opinion, it's fine also in this way.
-> 
-> > 
-> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
-> > ---
-> > Documentation/admin-guide/sysctl/net.rst | 10 +++++++---
-> > 1 file changed, 7 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-> > index c10530624f1e..976a176fb451 100644
-> > --- a/Documentation/admin-guide/sysctl/net.rst
-> > +++ b/Documentation/admin-guide/sysctl/net.rst
-> > @@ -581,9 +581,9 @@ The init_net mode is always ``global``.
-> > child_ns_mode
-> > -------------
-> > 
-> > -Controls what mode newly created child namespaces will inherit. At namespace
-> > -creation, ``ns_mode`` is inherited from the parent's ``child_ns_mode``. The
-> > -initial value matches the namespace's own ``ns_mode``.
-> > +Write-once. Controls what mode newly created child namespaces will inherit. At
-> > +namespace creation, ``ns_mode`` is inherited from the parent's
-> > +``child_ns_mode``. The initial value matches the namespace's own ``ns_mode``.
-> > 
-> > Values:
-> > 
-> > @@ -594,6 +594,10 @@ Values:
-> > 	  their sockets will only be able to connect within their own
-> > 	  namespace.
-> > 
-> > +``child_ns_mode`` can only be written once per namespace. Writing the same
-> > +value that is already set succeeds. Writing a different value after the first
-> > +write returns ``-EBUSY``.
-> 
-> nit: instead of saying that it can only be written once, we could say that
-> the first write locks the value, to be closer to the actual behavior,
-> something like this:
-> 
->   The first write to ``child_ns_mode`` locks its value. Subsequent
->   writes of the same value succeed, but writing a different value
->   returns ``-EBUSY``.
-> 
-> 
-> Thanks,
-> Stefano
 
-Sounds good! I agree that is more clear. I'll also remove the change
-above that adds "Write-once" at the beginning of the paragraph, since
-this clause does a better job explaining how it actually works.
 
+On 1/18/26 3:32 PM, John Groves wrote:
+> From: John Groves <john@groves.net>
 > 
-> > +
-> > Changing ``child_ns_mode`` only affects namespaces created after the change;
-> > it does not modify the current namespace or any existing children.
-> > 
-> > 
-> > -- 
-> > 2.47.3
-> > 
+> The fs_dax_get() function should be called by fs-dax file systems after
+> opening a fsdev dax device. This adds holder_operations, which provides
+> a memory failure callback path and effects exclusivity between callers
+> of fs_dax_get().
 > 
+> fs_dax_get() is specific to fsdev_dax, so it checks the driver type
+> (which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
+> not bound to the memory.
+> 
+> This function serves the same role as fs_dax_get_by_bdev(), which dax
+> file systems call after opening the pmem block device.
+> 
+> This can't be located in fsdev.c because struct dax_device is opaque
+> there.
+> 
+> This will be called by fs/fuse/famfs.c in a subsequent commit.
+> 
+> Signed-off-by: John Groves <john@groves.net>
+> ---
+>  drivers/dax/bus.c   |  2 --
+>  drivers/dax/bus.h   |  2 ++
+>  drivers/dax/super.c | 58 ++++++++++++++++++++++++++++++++++++++++++++-
+>  include/linux/dax.h | 20 ++++++++++------
+>  4 files changed, 72 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> index e79daf825b52..01402d5103ef 100644
+> --- a/drivers/dax/bus.c
+> +++ b/drivers/dax/bus.c
+> @@ -39,8 +39,6 @@ static int dax_bus_uevent(const struct device *dev, struct kobj_uevent_env *env)
+>  	return add_uevent_var(env, "MODALIAS=" DAX_DEVICE_MODALIAS_FMT, 0);
+>  }
+>  
+> -#define to_dax_drv(__drv)	container_of_const(__drv, struct dax_device_driver, drv)
+> -
+>  static struct dax_id *__dax_match_id(const struct dax_device_driver *dax_drv,
+>  		const char *dev_name)
+>  {
+> diff --git a/drivers/dax/bus.h b/drivers/dax/bus.h
+> index 880bdf7e72d7..dc6f112ac4a4 100644
+> --- a/drivers/dax/bus.h
+> +++ b/drivers/dax/bus.h
+> @@ -42,6 +42,8 @@ struct dax_device_driver {
+>  	void (*remove)(struct dev_dax *dev);
+>  };
+>  
+> +#define to_dax_drv(__drv) container_of_const(__drv, struct dax_device_driver, drv)
+> +
+>  int __dax_driver_register(struct dax_device_driver *dax_drv,
+>  		struct module *module, const char *mod_name);
+>  #define dax_driver_register(driver) \
+> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> index ba0b4cd18a77..00c330ef437c 100644
+> --- a/drivers/dax/super.c
+> +++ b/drivers/dax/super.c
+> @@ -14,6 +14,7 @@
+>  #include <linux/fs.h>
+>  #include <linux/cacheinfo.h>
+>  #include "dax-private.h"
+> +#include "bus.h"
+>  
+>  /**
+>   * struct dax_device - anchor object for dax services
+> @@ -111,6 +112,10 @@ struct dax_device *fs_dax_get_by_bdev(struct block_device *bdev, u64 *start_off,
+>  }
+>  EXPORT_SYMBOL_GPL(fs_dax_get_by_bdev);
+>  
+> +#endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
+> +
+> +#if IS_ENABLED(CONFIG_FS_DAX)
+> +
+>  void fs_put_dax(struct dax_device *dax_dev, void *holder)
+>  {
+>  	if (dax_dev && holder &&
+> @@ -119,7 +124,58 @@ void fs_put_dax(struct dax_device *dax_dev, void *holder)
+>  	put_dax(dax_dev);
+>  }
+>  EXPORT_SYMBOL_GPL(fs_put_dax);
+> -#endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
+> +
+> +/**
+> + * fs_dax_get() - get ownership of a devdax via holder/holder_ops
+> + *
+> + * fs-dax file systems call this function to prepare to use a devdax device for
+> + * fsdax. This is like fs_dax_get_by_bdev(), but the caller already has struct
+> + * dev_dax (and there is no bdev). The holder makes this exclusive.
+> + *
+> + * @dax_dev: dev to be prepared for fs-dax usage
+> + * @holder: filesystem or mapped device inside the dax_device
+> + * @hops: operations for the inner holder
+> + *
+> + * Returns: 0 on success, <0 on failure
+> + */
+> +int fs_dax_get(struct dax_device *dax_dev, void *holder,
+> +	const struct dax_holder_operations *hops)
+> +{
+> +	struct dev_dax *dev_dax;
+> +	struct dax_device_driver *dax_drv;
+> +	int id;
+> +
+> +	id = dax_read_lock();
+> +	if (!dax_dev || !dax_alive(dax_dev) || !igrab(&dax_dev->inode)) {
+> +		dax_read_unlock(id);
+> +		return -ENODEV;
+> +	}
+> +	dax_read_unlock(id);
+> +
+> +	/* Verify the device is bound to fsdev_dax driver */
+> +	dev_dax = dax_get_private(dax_dev);
+> +	if (!dev_dax || !dev_dax->dev.driver) {
+
+Don't you need to hold the dev_dax->dev device lock in order to check the driver?
+
+DJ
+
+> +		iput(&dax_dev->inode);
+> +		return -ENODEV;
+> +	}
+> +
+> +	dax_drv = to_dax_drv(dev_dax->dev.driver);
+> +	if (dax_drv->type != DAXDRV_FSDEV_TYPE) {
+> +		iput(&dax_dev->inode);
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (cmpxchg(&dax_dev->holder_data, NULL, holder)) {
+> +		iput(&dax_dev->inode);
+> +		return -EBUSY;
+> +	}
+> +
+> +	dax_dev->holder_ops = hops;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(fs_dax_get);
+> +#endif /* CONFIG_FS_DAX */
+>  
+>  enum dax_device_flags {
+>  	/* !alive + rcu grace period == no new operations / mappings */
+> diff --git a/include/linux/dax.h b/include/linux/dax.h
+> index 5aaaca135737..6897c5736543 100644
+> --- a/include/linux/dax.h
+> +++ b/include/linux/dax.h
+> @@ -52,9 +52,6 @@ struct dax_holder_operations {
+>  #if IS_ENABLED(CONFIG_DAX)
+>  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
+>  
+> -#if IS_ENABLED(CONFIG_DEV_DAX_FS)
+> -struct dax_device *inode_dax(struct inode *inode);
+> -#endif
+>  void *dax_holder(struct dax_device *dax_dev);
+>  void put_dax(struct dax_device *dax_dev);
+>  void kill_dax(struct dax_device *dax_dev);
+> @@ -134,7 +131,6 @@ int dax_add_host(struct dax_device *dax_dev, struct gendisk *disk);
+>  void dax_remove_host(struct gendisk *disk);
+>  struct dax_device *fs_dax_get_by_bdev(struct block_device *bdev, u64 *start_off,
+>  		void *holder, const struct dax_holder_operations *ops);
+> -void fs_put_dax(struct dax_device *dax_dev, void *holder);
+>  #else
+>  static inline int dax_add_host(struct dax_device *dax_dev, struct gendisk *disk)
+>  {
+> @@ -149,12 +145,13 @@ static inline struct dax_device *fs_dax_get_by_bdev(struct block_device *bdev,
+>  {
+>  	return NULL;
+>  }
+> -static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
+> -{
+> -}
+>  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
+>  
+>  #if IS_ENABLED(CONFIG_FS_DAX)
+> +void fs_put_dax(struct dax_device *dax_dev, void *holder);
+> +int fs_dax_get(struct dax_device *dax_dev, void *holder,
+> +	       const struct dax_holder_operations *hops);
+> +struct dax_device *inode_dax(struct inode *inode);
+>  int dax_writeback_mapping_range(struct address_space *mapping,
+>  		struct dax_device *dax_dev, struct writeback_control *wbc);
+>  int dax_folio_reset_order(struct folio *folio);
+> @@ -168,6 +165,15 @@ dax_entry_t dax_lock_mapping_entry(struct address_space *mapping,
+>  void dax_unlock_mapping_entry(struct address_space *mapping,
+>  		unsigned long index, dax_entry_t cookie);
+>  #else
+> +static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
+> +{
+> +}
+> +
+> +static inline int fs_dax_get(struct dax_device *dax_dev, void *holder,
+> +			     const struct dax_holder_operations *hops)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+>  static inline struct page *dax_layout_busy_page(struct address_space *mapping)
+>  {
+>  	return NULL;
+
