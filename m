@@ -1,247 +1,410 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B633F21A444;
-	Thu, 19 Feb 2026 16:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FEF34C815
+	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 16:37:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771518822; cv=none; b=My0BCAgPUxZYOPPjVIUz8PBAVWaJwYOirVYJxGfmfirxarDUSMcbhAVuXq3ueoE74VYEOYQ/bLUd2uWEguj08AzRbFUgy9RhlV3Tm5GHShdQ5XcrD3fwMD3QypZFChK1cQYpXcw04wI7KYL0gA9RywhaKP//KmvqIdoaF/BMF94=
+	t=1771519023; cv=none; b=ste2pWJPAqydccWNOIZXQS+QaKs0CvtmpHY9rChcbjhiq9P9wmWn9UmTKKyyj1OYnArzw8s85JSHKRSEWUzgtBbf7Ap/6PU4fPPzG/fBM57Gusa+rn318vGloAsqglOeG1wtTLgMqlexIigKHDu+sWJG8lJuhDX3nnMRwc8yeFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771518822; c=relaxed/simple;
-	bh=HcnGHINgEGT5Xiu43clzTLxVroTc1PypRcM9ag1ryk8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MZqtNfvZNYEPYNbxAylA9zvlUY7azDNEUSFfwYUeUGfCAZdK5UheOtKu0owlhQPOwS13ZgGwHZfovMjgUR4488jjYTHG0LHZwA7KFu6tgjwJodUxo57gQ07hG27uclWoaO+DREih5ZEehr4+alkNYbP2AEF8fp9lEyYnGuP2SBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UFfqr9/v; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771519023; c=relaxed/simple;
+	bh=GimOjTtkj+Qh0mFg757O7AZS+Rj88Nyv1jZP7OEiLeQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cOt+7moE/Sm7IazogQbNAz8Bm+X1UxjN/C77tJvI2/5TLX89V2UTMik45s9+3olMpGHOigSfQIOI9K9qB1/FeBEYsF63KpXhWFXYX9eoUXXCf1HeaormvuFhkHioWsgk8VYe8i9xtg6cgi+n7bC+YYfltTHClCru0UB2/0J1QXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IWGXdMKj; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=KB/elRmU; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UFfqr9/v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771518821; x=1803054821;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=HcnGHINgEGT5Xiu43clzTLxVroTc1PypRcM9ag1ryk8=;
-  b=UFfqr9/vgxZiGt0qxN7igUg2Dqps7hHHfLkUzEPXUhgaL//YNWBbSMVg
-   dwRoFtw5UlJyK6CzBJkyTF102HFbCPAE9EqZ63AaqLktF+8L4ocr5mWaK
-   ++5tKkv7Mue30RuhSSeDSG9mJQGkoI4KJlLwC5Zt07lERY9BRcAUoxvOS
-   qgjS24hLZwmMY5EikpiV33mp3OWK2Ahu7bLSNOmqWnM9S4WyTqYJSo+mJ
-   JUMZ6mqkM1qDAsUMuh/u1YOWw1vtmzmKFVzgUcqTWLhKXf6ADxbFZ8ad1
-   aD5kdO2XPu58iz0QjfylPLi3bYzlhZB8yw0hJa25lb2dsYdlpExaZHL8p
-   Q==;
-X-CSE-ConnectionGUID: GiTnA0MzSK+sTA/KQzSzVQ==
-X-CSE-MsgGUID: WjzdbcODQkKc3ecFb/ZByw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="83232724"
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="83232724"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 08:33:35 -0800
-X-CSE-ConnectionGUID: ttabUF5AR5yeBhkvdwUZFA==
-X-CSE-MsgGUID: /XtpdxBfTNKiKHP86Xzqhw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="213216451"
-Received: from dnelso2-mobl.amr.corp.intel.com (HELO [10.125.110.20]) ([10.125.110.20])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 08:33:32 -0800
-Message-ID: <50969479-3e9a-4d46-94bf-4e0525f6ddad@intel.com>
-Date: Thu, 19 Feb 2026 09:33:31 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IWGXdMKj";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="KB/elRmU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771519021;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=IQ8bsDMIos16G3LMgZToDczfvhE/AlQZdpWJFe/yuRQ=;
+	b=IWGXdMKjmaj0gTjzBFLGZdzB5YWQ3k+9xZOPk04t7bBNcPw5zhEfLMk5hbifATX+kQgfnO
+	odgy9rlOimzdLrRJNWP6JgY59y2ec+w7Vj+UyeHQrAdhhAOUFJYHXesKgbni7UqZ8ZiP4A
+	dh9at2YLHOna8wI5brvGk6Cu0zfYi3U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-578-EYt30WdKMnWxoeNXAoZTGg-1; Thu, 19 Feb 2026 11:36:58 -0500
+X-MC-Unique: EYt30WdKMnWxoeNXAoZTGg-1
+X-Mimecast-MFC-AGG-ID: EYt30WdKMnWxoeNXAoZTGg_1771519017
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4837b9913c9so12576115e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 08:36:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1771519017; x=1772123817; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=IQ8bsDMIos16G3LMgZToDczfvhE/AlQZdpWJFe/yuRQ=;
+        b=KB/elRmUruPpFohnecMLzOAiRhcYn7QAyFJybN3NsB6/kB+iKExlRFBWY+a+L47uNa
+         J73MPzl6GhCDd4omPe4AkB7psHZTARXwN+iP7S5neqOlSFVIvwLhi+09k+VwDFpeGjRx
+         jzFze79m49uylixCrhlwmBLLb0NleUvTlJwue2BKM+jcaAkMwNwayag2MBfjZFszCr9J
+         y7HP2NCORXdUSgMPtGxFDoU120KGtjC9d5h/9jLn6uAggvQyMqVc2qaLx+t+hn3NNgLE
+         OZ66DwLTJRajyAGH5QxQftDomo2auoGGKZ2OZxo9vrrTzv7ZoMO4cuSFYhzhScdbP3iG
+         IT+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771519017; x=1772123817;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IQ8bsDMIos16G3LMgZToDczfvhE/AlQZdpWJFe/yuRQ=;
+        b=iEc7rCJrxG41V/8ttTsznamkEYLW5u+2Z81izj1NMNmx2QQyaop8aqlPXRrysJE7lP
+         +TJPNkGwwIAQijrSrBSTdCI75AADfTbo+I1heHo1lcnq6E2dIrGIdPslHG1aDgzrXiTo
+         glaayrIN7b5ThI056vPmqQONH052VFJRVrmNiUjZRjyCtCqrs9cNJIHZMlgqZl1wW2J5
+         EkR1Jx7QL15Z+wAm1pYtXWxrTaFj2KxWZ37QAvbbt6XzMWdaRfDkH9FGwCFM2yKvxlaF
+         94K4Jf/eXVddLPuJLYHheJrLR7zT01wtNtZEwNVUrv66LYe9hnwscoOmydSHhnsZqLVz
+         ggCA==
+X-Forwarded-Encrypted: i=1; AJvYcCVPpfDv27MTNTosHhELki9sb9AYlf9MOl7xIorKyf0JXnXxBFJ6HdAUysEbdfjEKktTfdg3G4MxCAY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/yrvOwPnZmOyjmkAGUOisNITdcA/5vpUtoAshQJ5lhXPyjJhx
+	UPs22+AGT+zJqpHpnx3YDXHe9su7J/zS07O6ZtlP7guswDV2EvvPmv013Ujv+1FIL+9I9IbqiGY
+	Vi8+LaJFxywnBwa5D0NvDuOpNT1Dr4q0Dw/T5yv/4FH/Of0v6o3rwRhH052nv2Q==
+X-Gm-Gg: AZuq6aK0U1VrsjXFgZ+2IaiikQjPfe7CpW9EP+L9lzB13JHOqzDyKg6wUwis+PZCEZ6
+	D4OxAdaYKb7RrWk/0TL+LOHJI69+GJyhtIQmQWUn3UmKYWe8Xt5egCC7unkBUAtoreKk4vqOC61
+	VwOT4ViJkB6zo9++YULY3ucLftf1wt0QlM29WWxf0XTvQ4VtgO+Dta3nhgycb2r1DRbJv7N/lhC
+	8oOJX1UC8zKb6DrVd6TdThV5vzUNiOTadFS3wyDFKUrmlajewn0pfcTvTbJsfVlnqLCzrbQKxB+
+	DGP7EkzgX1fY5U+uB7SRLJlpTvq+Jn1coPS16+HjUJMV5UUn2D0iotrHPjGWQuBJxbZDAMPwpAg
+	l54MO9X+XmhfFljaSY6DHHzHpKb+govmra2ea5njjr5LGILHPzR6+tHLXLG3soazDa92BmKY=
+X-Received: by 2002:a05:600c:83c6:b0:483:6f82:9719 with SMTP id 5b1f17b1804b1-4839e6370d5mr43687955e9.2.1771519016931;
+        Thu, 19 Feb 2026 08:36:56 -0800 (PST)
+X-Received: by 2002:a05:600c:83c6:b0:483:6f82:9719 with SMTP id 5b1f17b1804b1-4839e6370d5mr43687445e9.2.1771519016285;
+        Thu, 19 Feb 2026 08:36:56 -0800 (PST)
+Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a31b3e0dsm22057385e9.1.2026.02.19.08.36.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Feb 2026 08:36:55 -0800 (PST)
+Date: Thu, 19 Feb 2026 17:36:50 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Bobby Eshleman <bobbyeshleman@meta.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Daan De Meyer <daan.j.demeyer@gmail.com>
+Subject: Re: [PATCH net v2 2/3] vsock: lock down child_ns_mode as write-once
+Message-ID: <aZc6HUoEDJKbEynT@sgarzare-redhat>
+References: <20260218-vsock-ns-write-once-v2-0-19e4c50d509a@meta.com>
+ <20260218-vsock-ns-write-once-v2-2-19e4c50d509a@meta.com>
+ <aZbR2H2oDyIAxDef@sgarzare-redhat>
+ <aZc4ZgTDtMPDWYxH@devvm11784.nha0.facebook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V7 10/19] famfs_fuse: Update macro
- s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
- Bernd Schubert <bschubert@ddn.com>,
- Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- David Hildenbrand <david@kernel.org>, Christian Brauner
- <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
- Amir Goldstein <amir73il@gmail.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
- <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>,
- Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
- Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
- Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
- Ajay Joshi <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
- <20260118223235.92498-1-john@jagalactic.com>
- <0100019bd33d3cb8-384cf5f0-5f7c-4d18-936c-f73381e1933c-000000@email.amazonses.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <0100019bd33d3cb8-384cf5f0-5f7c-4d18-936c-f73381e1933c-000000@email.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <aZc4ZgTDtMPDWYxH@devvm11784.nha0.facebook.com>
 
+On Thu, Feb 19, 2026 at 08:20:54AM -0800, Bobby Eshleman wrote:
+>On Thu, Feb 19, 2026 at 11:35:52AM +0100, Stefano Garzarella wrote:
+>> On Wed, Feb 18, 2026 at 10:10:37AM -0800, Bobby Eshleman wrote:
+>> > From: Bobby Eshleman <bobbyeshleman@meta.com>
+>> >
+>> > Two administrator processes may race when setting child_ns_mode as one
+>> > process sets child_ns_mode to "local" and then creates a namespace, but
+>> > another process changes child_ns_mode to "global" between the write and
+>> > the namespace creation. The first process ends up with a namespace in
+>> > "global" mode instead of "local". While this can be detected after the
+>> > fact by reading ns_mode and retrying, it is fragile and error-prone.
+>> >
+>> > Make child_ns_mode write-once so that a namespace manager can set it
+>> > once and be sure it won't change. Writing a different value after the
+>> > first write returns -EBUSY. This applies to all namespaces, including
+>> > init_net, where an init process can write "local" to lock all future
+>> > namespaces into local mode.
+>> >
+>> > Fixes: eafb64f40ca4 ("vsock: add netns to vsock core")
+>> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+>> > Suggested-by: Daan De Meyer <daan.j.demeyer@gmail.com>
+>> > Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
+>>
+>> nit: usually the S-o-b of the author is the last when sending a patch.
+>
+>Ah good to know, thanks. Will change.
+>
+>>
+>> > ---
+>> > include/net/af_vsock.h    | 20 +++++++++++++++++---
+>> > include/net/netns/vsock.h |  9 ++++++++-
+>> > net/vmw_vsock/af_vsock.c  | 15 ++++++++++-----
+>> > 3 files changed, 35 insertions(+), 9 deletions(-)
+>> >
+>> > diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+>> > index d3ff48a2fbe0..9bd42147626d 100644
+>> > --- a/include/net/af_vsock.h
+>> > +++ b/include/net/af_vsock.h
+>> > @@ -276,15 +276,29 @@ static inline bool vsock_net_mode_global(struct vsock_sock *vsk)
+>> > 	return vsock_net_mode(sock_net(sk_vsock(vsk))) == VSOCK_NET_MODE_GLOBAL;
+>> > }
+>> >
+>> > -static inline void vsock_net_set_child_mode(struct net *net,
+>> > +static inline bool vsock_net_set_child_mode(struct net *net,
+>> > 					    enum vsock_net_mode mode)
+>> > {
+>> > -	WRITE_ONCE(net->vsock.child_ns_mode, mode);
+>> > +	int locked = mode + VSOCK_NET_MODE_LOCKED;
+>> > +	int cur;
+>> > +
+>> > +	cur = READ_ONCE(net->vsock.child_ns_mode);
+>> > +	if (cur == locked)
+>> > +		return true;
+>> > +	if (cur >= VSOCK_NET_MODE_LOCKED)
+>> > +		return false;
+>> > +
+>> > +	if (try_cmpxchg(&net->vsock.child_ns_mode, &cur, locked))
+>> > +		return true;
+>> > +
+>> > +	return cur == locked;
+>>
+>> Sorry, it took me a while to get it entirely :-(
+>> This overcomplication is exactly what I wanted to avoid when I proposed the
+>> change in v1:
+>> https://lore.kernel.org/netdev/aZWUmbiH11Eh3Y4v@sgarzare-redhat/
+>
+>Glad you thought so too, because I actually think your original proposed
+>snippet in that thread is the best/simplest so far.
+>
+>>
+>>
+>> > }
+>> >
+>> > static inline enum vsock_net_mode vsock_net_child_mode(struct net *net)
+>> > {
+>> > -	return READ_ONCE(net->vsock.child_ns_mode);
+>> > +	int mode = READ_ONCE(net->vsock.child_ns_mode);
+>> > +
+>> > +	return mode & (VSOCK_NET_MODE_LOCKED - 1);
+>>
+>> This is working just because VSOCK_NET_MODE_LOCKED == 2, so IMO this should
+>> at least set as value in the enum and documented on top of vsock_net_mode.
+>>
+>> > }
+>> >
+>> > /* Return true if two namespaces pass the mode rules. Otherwise, return false.
+>> > diff --git a/include/net/netns/vsock.h b/include/net/netns/vsock.h
+>> > index b34d69a22fa8..d20ab6269342 100644
+>> > --- a/include/net/netns/vsock.h
+>> > +++ b/include/net/netns/vsock.h
+>> > @@ -7,6 +7,7 @@
+>> > enum vsock_net_mode {
+>> > 	VSOCK_NET_MODE_GLOBAL,
+>> > 	VSOCK_NET_MODE_LOCAL,
+>> > +	VSOCK_NET_MODE_LOCKED,
+>>
+>> This is not really a mode, so IMO should not be part of `enum
+>> vsock_net_mode`. If you really want it, maybe we can add both
+>> VSOCK_NET_MODE_GLOBAL_LOCKED and VSOCK_NET_MODE_LOCAL_LOCKED, which can be
+>> less error prone if we will touch this enum one day.
+>>
+>> > };
+>> >
+>> > struct netns_vsock {
+>> > @@ -16,6 +17,12 @@ struct netns_vsock {
+>> > 	u32 port;
+>> >
+>> > 	enum vsock_net_mode mode;
+>> > -	enum vsock_net_mode child_ns_mode;
+>> > +
+>> > +	/* 0 (GLOBAL)
+>> > +	 * 1 (LOCAL)
+>> > +	 * 2 (GLOBAL + LOCKED)
+>> > +	 * 3 (LOCAL + LOCKED)
+>> > +	 */
+>> > +	int child_ns_mode;
+>>
+>> Sorry, I don't like this too much, since it seems too complicated to read
+>> and to maintain, If we really want to use just one variable, maybe we can
+>> use -1 as UNSET for child_ns_mode. If it is UNSET, vsock_net_child_mode()
+>> can just return `mode` since it's the default that we also documented, if
+>> it's set, it means that is locked with the value specified.
+>>
+>> Maybe with code is easier, I mean something like this:
+>>
+>> diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+>> index d3ff48a2fbe0..fcd5b538df35 100644
+>> --- a/include/net/af_vsock.h
+>> +++ b/include/net/af_vsock.h
+>> @@ -276,15 +276,25 @@ static inline bool vsock_net_mode_global(struct vsock_sock *vsk)
+>>  	return vsock_net_mode(sock_net(sk_vsock(vsk))) == VSOCK_NET_MODE_GLOBAL;
+>>  }
+>> -static inline void vsock_net_set_child_mode(struct net *net,
+>> +static inline bool vsock_net_set_child_mode(struct net *net,
+>>  					    enum vsock_net_mode mode)
+>>  {
+>> -	WRITE_ONCE(net->vsock.child_ns_mode, mode);
+>> +	int old = VSOCK_NET_CHILD_NS_UNSET;
+>> +
+>> +	if (try_cmpxchg(&net->vsock.child_ns_mode, &old, mode))
+>> +		return true;
+>> +
+>> +	return old == mode;
+>>  }
+>>  static inline enum vsock_net_mode vsock_net_child_mode(struct net *net)
+>>  {
+>> -	return READ_ONCE(net->vsock.child_ns_mode);
+>> +	int mode = READ_ONCE(net->vsock.child_ns_mode);
+>> +
+>> +	if (mode == VSOCK_NET_CHILD_NS_UNSET)
+>> +		return net->vsock.mode;
+>> +
+>> +	return mode;
+>>  }
+>>  /* Return true if two namespaces pass the mode rules. Otherwise, return false.
+>> diff --git a/include/net/netns/vsock.h b/include/net/netns/vsock.h
+>> index b34d69a22fa8..bf52baf7d7a7 100644
+>> --- a/include/net/netns/vsock.h
+>> +++ b/include/net/netns/vsock.h
+>> @@ -9,6 +9,8 @@ enum vsock_net_mode {
+>>  	VSOCK_NET_MODE_LOCAL,
+>>  };
+>> +#define VSOCK_NET_CHILD_NS_UNSET (-1)
+>> +
+>>  struct netns_vsock {
+>>  	struct ctl_table_header *sysctl_hdr;
+>> @@ -16,6 +18,13 @@ struct netns_vsock {
+>>  	u32 port;
+>>  	enum vsock_net_mode mode;
+>> -	enum vsock_net_mode child_ns_mode;
+>> +
+>> +	/* Write-once child namespace mode, must be initialized to
+>> +	 * VSOCK_NET_CHILD_NS_UNSET. Transitions once from UNSET to a
+>> +	 * vsock_net_mode value via try_cmpxchg on first sysctl write.
+>> +	 * While UNSET, vsock_net_child_mode() returns the namespace's
+>> +	 * own mode since it's the default.
+>> +	 */
+>> +	int child_ns_mode;
+>>  };
+>>  #endif /* __NET_NET_NAMESPACE_VSOCK_H */
+>> diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+>> index 9880756d9eff..f0cb7c6a8212 100644
+>> --- a/net/vmw_vsock/af_vsock.c
+>> +++ b/net/vmw_vsock/af_vsock.c
+>> @@ -2853,7 +2853,8 @@ static int vsock_net_child_mode_string(const struct ctl_table *table, int write,
+>>  		    new_mode == VSOCK_NET_MODE_GLOBAL)
+>>  			return -EPERM;
+>> -		vsock_net_set_child_mode(net, new_mode);
+>> +		if (!vsock_net_set_child_mode(net, new_mode))
+>> +			return -EBUSY;
+>>  	}
+>>  	return 0;
+>> @@ -2922,7 +2923,7 @@ static void vsock_net_init(struct net *net)
+>>  	else
+>>  		net->vsock.mode = vsock_net_child_mode(current->nsproxy->net_ns);
+>> -	net->vsock.child_ns_mode = net->vsock.mode;
+>> +	net->vsock.child_ns_mode = VSOCK_NET_CHILD_NS_UNSET;
+>>  }
+>>  static __net_init int vsock_sysctl_init_net(struct net *net)
+>>
+>> If you like it, please add my Co-developed-by and S-o-b.
+>
+>Will do!
+>
+>>
+>> BTW, let's discuss here more about it and agree before sending a new
+>> version, so this should also allow other to comment eventually.
+>>
+>> Thanks,
+>> Stefano
+>
+>Tbh, I like your original proposal from v1 best (copied below). I like
+>that the whole locking mechanism is self-contained there in one place,
+>and doesn't ripple out elsewhere into the code (e.g.,
+>vsock_net_child_mode() carrying logic around UNSET). Wdyt?
 
+Initially, yes, I liked that one too, especially because, being a patch 
+for net, it remains very small and clear to read. But now, after 
+spending some time on how to reuse `child_ns_mode` for that, I also like 
+the last version I sent using UNSET so that we don't have the same 
+information in two variables.
 
-On 1/18/26 3:32 PM, John Groves wrote:
-> From: John Groves <john@groves.net>
-> 
-> Virtio_fs now needs to determine if an inode is DAX && not famfs.
-> This relaces the FUSE_IS_DAX() macro with FUSE_IS_VIRTIO_DAX(),
-> in preparation for famfs in later commits. The dummy
-> fuse_file_famfs() macro will be replaced with a working
-> function.
-> 
-> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
-> Signed-off-by: John Groves <john@groves.net>
+I'm truly conflicted, but not a strong preference, so if you like more 
+the one with `child_ns_mode_locked`, let's go with that, we can always 
+change it in the future.
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+Jacub, Paolo, any preference?
 
-> ---
->  fs/fuse/dir.c    |  2 +-
->  fs/fuse/file.c   | 13 ++++++++-----
->  fs/fuse/fuse_i.h |  9 ++++++++-
->  fs/fuse/inode.c  |  4 ++--
->  fs/fuse/iomode.c |  2 +-
->  5 files changed, 20 insertions(+), 10 deletions(-)
-> 
-> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> index 4b6b3d2758ff..1400c9d733ba 100644
-> --- a/fs/fuse/dir.c
-> +++ b/fs/fuse/dir.c
-> @@ -2153,7 +2153,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
->  		is_truncate = true;
->  	}
->  
-> -	if (FUSE_IS_DAX(inode) && is_truncate) {
-> +	if (FUSE_IS_VIRTIO_DAX(fi) && is_truncate) {
->  		filemap_invalidate_lock(mapping);
->  		fault_blocked = true;
->  		err = fuse_dax_break_layouts(inode, 0, -1);
-> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
-> index 01bc894e9c2b..093569033ed1 100644
-> --- a/fs/fuse/file.c
-> +++ b/fs/fuse/file.c
-> @@ -252,7 +252,7 @@ static int fuse_open(struct inode *inode, struct file *file)
->  	int err;
->  	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
->  	bool is_wb_truncate = is_truncate && fc->writeback_cache;
-> -	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
-> +	bool dax_truncate = is_truncate && FUSE_IS_VIRTIO_DAX(fi);
->  
->  	if (fuse_is_bad(inode))
->  		return -EIO;
-> @@ -1812,11 +1812,12 @@ static ssize_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
->  	struct file *file = iocb->ki_filp;
->  	struct fuse_file *ff = file->private_data;
->  	struct inode *inode = file_inode(file);
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
->  
->  	if (fuse_is_bad(inode))
->  		return -EIO;
->  
-> -	if (FUSE_IS_DAX(inode))
-> +	if (FUSE_IS_VIRTIO_DAX(fi))
->  		return fuse_dax_read_iter(iocb, to);
->  
->  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
-> @@ -1833,11 +1834,12 @@ static ssize_t fuse_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
->  	struct file *file = iocb->ki_filp;
->  	struct fuse_file *ff = file->private_data;
->  	struct inode *inode = file_inode(file);
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
->  
->  	if (fuse_is_bad(inode))
->  		return -EIO;
->  
-> -	if (FUSE_IS_DAX(inode))
-> +	if (FUSE_IS_VIRTIO_DAX(fi))
->  		return fuse_dax_write_iter(iocb, from);
->  
->  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
-> @@ -2370,10 +2372,11 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
->  	struct fuse_file *ff = file->private_data;
->  	struct fuse_conn *fc = ff->fm->fc;
->  	struct inode *inode = file_inode(file);
-> +	struct fuse_inode *fi = get_fuse_inode(inode);
->  	int rc;
->  
->  	/* DAX mmap is superior to direct_io mmap */
-> -	if (FUSE_IS_DAX(inode))
-> +	if (FUSE_IS_VIRTIO_DAX(fi))
->  		return fuse_dax_mmap(file, vma);
->  
->  	/*
-> @@ -2934,7 +2937,7 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
->  		.mode = mode
->  	};
->  	int err;
-> -	bool block_faults = FUSE_IS_DAX(inode) &&
-> +	bool block_faults = FUSE_IS_VIRTIO_DAX(fi) &&
->  		(!(mode & FALLOC_FL_KEEP_SIZE) ||
->  		 (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)));
->  
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index 7f16049387d1..45e108dec771 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -1508,7 +1508,14 @@ void fuse_free_conn(struct fuse_conn *fc);
->  
->  /* dax.c */
->  
-> -#define FUSE_IS_DAX(inode) (IS_ENABLED(CONFIG_FUSE_DAX) && IS_DAX(inode))
-> +static inline bool fuse_file_famfs(struct fuse_inode *fuse_inode) /* Will be superseded */
-> +{
-> +	(void)fuse_inode;
-> +	return false;
-> +}
-> +#define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
-> +					&& IS_DAX(&fuse_inode->inode)  \
-> +					&& !fuse_file_famfs(fuse_inode))
->  
->  ssize_t fuse_dax_read_iter(struct kiocb *iocb, struct iov_iter *to);
->  ssize_t fuse_dax_write_iter(struct kiocb *iocb, struct iov_iter *from);
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index 819e50d66622..ed667920997f 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -162,7 +162,7 @@ static void fuse_evict_inode(struct inode *inode)
->  	/* Will write inode on close/munmap and in all other dirtiers */
->  	WARN_ON(inode_state_read_once(inode) & I_DIRTY_INODE);
->  
-> -	if (FUSE_IS_DAX(inode))
-> +	if (FUSE_IS_VIRTIO_DAX(fi))
->  		dax_break_layout_final(inode);
->  
->  	truncate_inode_pages_final(&inode->i_data);
-> @@ -170,7 +170,7 @@ static void fuse_evict_inode(struct inode *inode)
->  	if (inode->i_sb->s_flags & SB_ACTIVE) {
->  		struct fuse_conn *fc = get_fuse_conn(inode);
->  
-> -		if (FUSE_IS_DAX(inode))
-> +		if (FUSE_IS_VIRTIO_DAX(fi))
->  			fuse_dax_inode_cleanup(inode);
->  		if (fi->nlookup) {
->  			fuse_queue_forget(fc, fi->forget, fi->nodeid,
-> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
-> index 3728933188f3..31ee7f3304c6 100644
-> --- a/fs/fuse/iomode.c
-> +++ b/fs/fuse/iomode.c
-> @@ -203,7 +203,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
->  	 * io modes are not relevant with DAX and with server that does not
->  	 * implement open.
->  	 */
-> -	if (FUSE_IS_DAX(inode) || !ff->args)
-> +	if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)
->  		return 0;
->  
->  	/*
+>
+>static inline bool vsock_net_set_child_mode(struct net *net,
+>					    enum vsock_net_mode mode)
+>{
+>	int new_locked = mode + 1;
+>	int old_locked = 0;
+
+If we are going to use this one, maybe a macro for 0, or a comment here 
++ on top of child_ns_mode_locked should be better.
+
+Thanks,
+Stefano
+
+>
+>	if (try_cmpxchg(&net->vsock.child_ns_mode_locked,
+>			&old_locked, new_locked)) {
+>		WRITE_ONCE(net->vsock.child_ns_mode, mode);
+>		return true;
+>	}
+>
+>	return old_locked == new_locked;
+>}
+>
+>
+>Best,
+>Bobby
+>
+>>
+>> > };
+>> > #endif /* __NET_NET_NAMESPACE_VSOCK_H */
+>> > diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+>> > index 9880756d9eff..50044a838c89 100644
+>> > --- a/net/vmw_vsock/af_vsock.c
+>> > +++ b/net/vmw_vsock/af_vsock.c
+>> > @@ -90,16 +90,20 @@
+>> >  *
+>> >  *   - /proc/sys/net/vsock/ns_mode (read-only) reports the current namespace's
+>> >  *     mode, which is set at namespace creation and immutable thereafter.
+>> > - *   - /proc/sys/net/vsock/child_ns_mode (writable) controls what mode future
+>> > + *   - /proc/sys/net/vsock/child_ns_mode (write-once) controls what mode future
+>> >  *     child namespaces will inherit when created. The initial value matches
+>> >  *     the namespace's own ns_mode.
+>> >  *
+>> >  *   Changing child_ns_mode only affects newly created namespaces, not the
+>> >  *   current namespace or existing children. A "local" namespace cannot set
+>> > - *   child_ns_mode to "global". At namespace creation, ns_mode is inherited
+>> > - *   from the parent's child_ns_mode.
+>> > + *   child_ns_mode to "global". child_ns_mode is write-once, so that it may be
+>> > + *   configured and locked down by a namespace manager. Writing a different
+>> > + *   value after the first write returns -EBUSY. At namespace creation, ns_mode
+>> > + *   is inherited from the parent's child_ns_mode.
+>> >  *
+>> > - *   The init_net mode is "global" and cannot be modified.
+>> > + *   The init_net mode is "global" and cannot be modified. The init_net
+>> > + *   child_ns_mode is also write-once, so an init process (e.g. systemd) can
+>> > + *   set it to "local" to ensure all new namespaces inherit local mode.
+>> >  *
+>> >  *   The modes affect the allocation and accessibility of CIDs as follows:
+>> >  *
+>> > @@ -2853,7 +2857,8 @@ static int vsock_net_child_mode_string(const struct ctl_table *table, int write,
+>> > 		    new_mode == VSOCK_NET_MODE_GLOBAL)
+>> > 			return -EPERM;
+>> >
+>> > -		vsock_net_set_child_mode(net, new_mode);
+>> > +		if (!vsock_net_set_child_mode(net, new_mode))
+>> > +			return -EBUSY;
+>> > 	}
+>> >
+>> > 	return 0;
+>> >
+>> > --
+>> > 2.47.3
+>> >
+>>
+>
 
