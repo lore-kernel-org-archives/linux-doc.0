@@ -1,156 +1,231 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10C4199920;
-	Thu, 19 Feb 2026 15:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3051734A76E;
+	Thu, 19 Feb 2026 15:45:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771515393; cv=none; b=R8VgNODAZE0cUyAK5+fppQdmUvKtGDmMWbt+K+sYmCn/SKEAl6C63O3p5rajmvvHf4VTsvEaMT8AHKg7/XJn4YZ+rJzhM6Xfkwixk5lZitcnifATnoZEe5xAKvIz5Ki7qi3wdW9BtYKYRxvb2Xxp6KYFHIaxTZS7nzkRANO4X9I=
+	t=1771515931; cv=none; b=YpZQWQ0699m+/ePZwu1YFKxMW3sXDLZ0tMfcYGMQDPE8LEDIzFDo0qhgWBD6ld8ZbQug9LlCUA8PRJ7z4QxlBFlPNsxK94ZKqF0roNpbyu9hTnI06W4Cf+lRGQVdkhzaiOwRIU3p/NC/7mv0vBEuG4UzsqOeQloD0hjVsezIn4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771515393; c=relaxed/simple;
-	bh=xvGScHjuinZ0ATzJQB4XWDn+7FfGiPuiuds790maVJM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7sWn0jm99MR6P+3O/mWsftjTZwxoTw0GUmasEgn2q0BAfoR1us1GepskVekNBO4fI+I6gm8+7g6ZKRhrwtndNTcYaEhw5aIbNQC0qIkucgSwuqKBi5jEMAkbIgTlCxLqKeMwuoP0snYrQ+eK7DtluI3Da4z15eL7e4+At+mWWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X9Y8eQbd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771515931; c=relaxed/simple;
+	bh=2tel+xr7GLPTXAeWWTV0pNMbxcro+AF4/Zk3M5cR9sc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vCU2FONYBtTBRwTbgHLm4t3ThPvltLEPhQEkPp2984NvWuLSP3mSsePg/Y8dH56jgaVZaU98/8USDhkHjNAXERZqE3J5QZJIJWzPaAdjB+e/uJOSwPtuOImpQrE+p46ZboXiW+KPzvkMmdKq7Y3EAf6z1iDQI5A73WsAtsoNtGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBb7ndUW; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X9Y8eQbd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1105BC4CEF7;
-	Thu, 19 Feb 2026 15:36:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771515392;
-	bh=xvGScHjuinZ0ATzJQB4XWDn+7FfGiPuiuds790maVJM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X9Y8eQbdJ27k5PgYNvucYbCou7PyhGWqSaSw5zQ9BMp5TfRnUEdlq6LpQNPShYF5f
-	 5+FQ33fjy0j5phsKwCSp4c7vnv/kHZcBDSSjYmZlxE1Rtj1KPTdsrqJGBOt45xASBq
-	 44TBES2c3aRoJck462y43Jn27YvOo7ETxGA06SfCErH9+rqHx3PFjCIsihwiliYBCg
-	 veM9FYkRpCNI2Sz3gH5imjY0d+gVJfxUt6b95uJIf9Q9ucaEOWthJTA5KvIjlhbXNZ
-	 UhYdrRsiVZ56wQU95sEc+CesXOgk3pKmiLRxYkB6wDl85KBhED/TFJPanXaK4uOKHr
-	 DM1nWzuo7fGxA==
-Date: Thu, 19 Feb 2026 15:27:56 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Petr Pavlu <petr.pavlu@suse.com>, Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Xiu Jianfeng <xiujianfeng@huawei.com>,
-	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
-Message-ID: <aZcd7PpetL8J6CM4@derry.ads.avm.de>
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
- <db1ed045-d7b6-49dc-b111-9fea7c30f8ab@suse.com>
- <28cf8d51-7530-41d5-a47b-cad5ecabd269@t-8ch.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBb7ndUW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771515928; x=1803051928;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=2tel+xr7GLPTXAeWWTV0pNMbxcro+AF4/Zk3M5cR9sc=;
+  b=KBb7ndUWvK8jmmjRYAN/U3nkUUcJ56ZZoyo3jyEtSAf7PcSXxpQPfXCb
+   NgQTE7ly+5uQsm3xzc9TZdv6irXkzFGfEogyv9hjbukT9uKPcAbffTMM5
+   n+DdPTOFVx71NmaEpZcuS76dt58dtOtv689f05VWNdT1DK3I0jvwLddW5
+   p16s5+3hTRUhsw64WJGVRrllKjFcu+8dkQUVKkgqLS3HnF/ovDLrgjKLD
+   L1yrestfM4E5cJ/22HnigKGtl2ZRUCk1W6MfNoE50ZgrCrwRuIUNVLDop
+   8EpnRs49vHrd7LzGtlCddW1tMhVcakI0yjmg2Jvk0XrPYru0S1U/ECFh8
+   A==;
+X-CSE-ConnectionGUID: iQ4CNZr/QSu4hccEnHVG0w==
+X-CSE-MsgGUID: ggKRObpEQWyqzWrY+L21MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="90011824"
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
+   d="scan'208";a="90011824"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 07:41:48 -0800
+X-CSE-ConnectionGUID: 2UNbJJT1QwWcglV/ZWOzMQ==
+X-CSE-MsgGUID: 2+Zeibn4Samq6kR6s/gMAQ==
+X-ExtLoop1: 1
+Received: from dnelso2-mobl.amr.corp.intel.com (HELO [10.125.110.20]) ([10.125.110.20])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 07:41:45 -0800
+Message-ID: <3d4f6d14-4b5e-42e4-bab6-2d055088de7b@intel.com>
+Date: Thu, 19 Feb 2026 08:41:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <28cf8d51-7530-41d5-a47b-cad5ecabd269@t-8ch.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V7 06/19] dax: Add dax_set_ops() for setting
+ dax_operations at bind time
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
+ Bernd Schubert <bschubert@ddn.com>,
+ Alison Schofield <alison.schofield@intel.com>
+Cc: John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ David Hildenbrand <david@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>,
+ Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
+ Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+ Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
+ Ajay Joshi <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
+ <20260118223157.92407-1-john@jagalactic.com>
+ <0100019bd33c9e30-6de962ed-6feb-4481-a68a-c225ee8808ff-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019bd33c9e30-6de962ed-6feb-4481-a68a-c225ee8808ff-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 03, 2026 at 01:55:05PM +0100, Thomas Weißschuh wrote:
-> On 2026-01-30 18:06:20+0100, Petr Pavlu wrote:
-> > On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
-> > > Normally the .ko module files depend on a fully built vmlinux to be
-> > > available for modpost validation and BTF generation. With
-> > > CONFIG_MODULE_HASHES, vmlinux now depends on the modules
-> > > to build a merkle tree. This introduces a dependency cycle which is
-> > > impossible to satisfy. Work around this by building the modules during
-> > > link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
-> > > but before the final module hashes are
-> > 
-> > I wonder if this dependency cycle could be resolved by utilizing the
-> > split into vmlinux.unstripped and vmlinux that occurred last year.
-> > 
-> > The idea is to create the following ordering: vmlinux.unstripped ->
-> > modules -> vmlinux, and to patch in .module_hashes only when building
-> > the final vmlinux.
-> > 
-> > This would require the following:
-> > * Split scripts/Makefile.vmlinux into two Makefiles, one that builds the
-> >   current vmlinux.unstripped and the second one that builds the final
-> >   vmlinux from it.
-> > * Modify the top Makefile to recognize vmlinux.unstripped and update the
-> >   BTF generation rule 'modules: vmlinux' to
-> >   'modules: vmlinux.unstripped'.
-> > * Add the 'vmlinux: modules' ordering in the top Makefile for
-> >   CONFIG_MODULE_HASHES=y.
-> > * Remove the patching of vmlinux.unstripped in scripts/link-vmlinux.sh
-> >   and instead move it into scripts/Makefile.vmlinux when running objcopy
-> >   to produce the final vmlinux.
-> > 
-> > I think this approach has two main advantages:
-> > * CONFIG_MODULE_HASHES can be made orthogonal to
-> >   CONFIG_DEBUG_INFO_BTF_MODULES.
-> > * All dependencies are expressed at the Makefile level instead of having
-> >   scripts/link-vmlinux.sh invoke 'make -f Makefile modules'.
-> > 
-> > Below is a rough prototype that applies on top of this series. It is a
-> > bit verbose due to the splitting of part of scripts/Makefile.vmlinux
-> > into scripts/Makefile.vmlinux_unstripped.
-> 
-> That looks like a feasible alternative. Before adopting it, I'd like to
-> hear the preference of the kbuild folks.
-> 
-> > diff --git a/Makefile b/Makefile
-> > index 841772a5a260..19a3beb82fa7 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1259,7 +1259,7 @@ vmlinux_o: vmlinux.a $(KBUILD_VMLINUX_LIBS)
-> >  vmlinux.o modules.builtin.modinfo modules.builtin: vmlinux_o
-> >  	@:
-> >  
-> > -PHONY += vmlinux
-> > +PHONY += vmlinux.unstripped vmlinux
-> >  # LDFLAGS_vmlinux in the top Makefile defines linker flags for the top vmlinux,
-> >  # not for decompressors. LDFLAGS_vmlinux in arch/*/boot/compressed/Makefile is
-> >  # unrelated; the decompressors just happen to have the same base name,
-> > @@ -1270,9 +1270,11 @@ PHONY += vmlinux
-> >  #   https://savannah.gnu.org/bugs/?61463
-> >  # For Make > 4.4, the following simple code will work:
-> >  #  vmlinux: private export LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
-> > -vmlinux: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
-> > -vmlinux: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
-> > -vmlinux: vmlinux.o $(KBUILD_LDS) modpost
-> > +vmlinux.unstripped: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
-> > +vmlinux.unstripped: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
-> > +vmlinux.unstripped: vmlinux.o $(KBUILD_LDS) modpost
-> > +	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux_unstripped
-> > +vmlinux: vmlinux.unstripped
-> >  	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux
-> 
-> Maybe we could keep them together in a single Makefile,
-> and instead have different targets in it.
-> 
 
-yes, I think so, too.  I like the Petr's alternative.
 
-Kind regards,
-Nicolas
+On 1/18/26 3:32 PM, John Groves wrote:
+> From: John Groves <John@Groves.net>
+> 
+> Add a new dax_set_ops() function that allows drivers to set the
+> dax_operations after the dax_device has been allocated. This is needed
+> for fsdev_dax where the operations need to be set during probe and
+> cleared during unbind.
+> 
+> The fsdev driver uses devm_add_action_or_reset() for cleanup consistency,
+> avoiding the complexity of mixing devm-managed resources with manual
+> cleanup in a remove() callback. This ensures cleanup happens automatically
+> in the correct reverse order when the device is unbound.
+> 
+> Signed-off-by: John Groves <john@groves.net>
+
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+
+> ---
+>  drivers/dax/fsdev.c | 16 ++++++++++++++++
+>  drivers/dax/super.c | 38 +++++++++++++++++++++++++++++++++++++-
+>  include/linux/dax.h |  1 +
+>  3 files changed, 54 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> index 5d17ad39227f..4949aa41dcf4 100644
+> --- a/drivers/dax/fsdev.c
+> +++ b/drivers/dax/fsdev.c
+> @@ -119,6 +119,13 @@ static void fsdev_kill(void *dev_dax)
+>  	kill_dev_dax(dev_dax);
+>  }
+>  
+> +static void fsdev_clear_ops(void *data)
+> +{
+> +	struct dev_dax *dev_dax = data;
+> +
+> +	dax_set_ops(dev_dax->dax_dev, NULL);
+> +}
+> +
+>  /*
+>   * Page map operations for FS-DAX mode
+>   * Similar to fsdax_pagemap_ops in drivers/nvdimm/pmem.c
+> @@ -301,6 +308,15 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
+>  	if (rc)
+>  		return rc;
+>  
+> +	/* Set the dax operations for fs-dax access path */
+> +	rc = dax_set_ops(dax_dev, &dev_dax_ops);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = devm_add_action_or_reset(dev, fsdev_clear_ops, dev_dax);
+> +	if (rc)
+> +		return rc;
+> +
+>  	run_dax(dax_dev);
+>  	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
+>  }
+> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> index c00b9dff4a06..ba0b4cd18a77 100644
+> --- a/drivers/dax/super.c
+> +++ b/drivers/dax/super.c
+> @@ -157,6 +157,9 @@ long dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff, long nr_pages,
+>  	if (!dax_alive(dax_dev))
+>  		return -ENXIO;
+>  
+> +	if (!dax_dev->ops)
+> +		return -EOPNOTSUPP;
+> +
+>  	if (nr_pages < 0)
+>  		return -EINVAL;
+>  
+> @@ -207,6 +210,10 @@ int dax_zero_page_range(struct dax_device *dax_dev, pgoff_t pgoff,
+>  
+>  	if (!dax_alive(dax_dev))
+>  		return -ENXIO;
+> +
+> +	if (!dax_dev->ops)
+> +		return -EOPNOTSUPP;
+> +
+>  	/*
+>  	 * There are no callers that want to zero more than one page as of now.
+>  	 * Once users are there, this check can be removed after the
+> @@ -223,7 +230,7 @@ EXPORT_SYMBOL_GPL(dax_zero_page_range);
+>  size_t dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
+>  		void *addr, size_t bytes, struct iov_iter *iter)
+>  {
+> -	if (!dax_dev->ops->recovery_write)
+> +	if (!dax_dev->ops || !dax_dev->ops->recovery_write)
+>  		return 0;
+>  	return dax_dev->ops->recovery_write(dax_dev, pgoff, addr, bytes, iter);
+>  }
+> @@ -307,6 +314,35 @@ void set_dax_nomc(struct dax_device *dax_dev)
+>  }
+>  EXPORT_SYMBOL_GPL(set_dax_nomc);
+>  
+> +/**
+> + * dax_set_ops - set the dax_operations for a dax_device
+> + * @dax_dev: the dax_device to configure
+> + * @ops: the operations to set (may be NULL to clear)
+> + *
+> + * This allows drivers to set the dax_operations after the dax_device
+> + * has been allocated. This is needed when the device is created before
+> + * the driver that needs specific ops is bound (e.g., fsdev_dax binding
+> + * to a dev_dax created by hmem).
+> + *
+> + * When setting non-NULL ops, fails if ops are already set (returns -EBUSY).
+> + * When clearing ops (NULL), always succeeds.
+> + *
+> + * Return: 0 on success, -EBUSY if ops already set
+> + */
+> +int dax_set_ops(struct dax_device *dax_dev, const struct dax_operations *ops)
+> +{
+> +	if (ops) {
+> +		/* Setting ops: fail if already set */
+> +		if (cmpxchg(&dax_dev->ops, NULL, ops) != NULL)
+> +			return -EBUSY;
+> +	} else {
+> +		/* Clearing ops: always allowed */
+> +		dax_dev->ops = NULL;
+> +	}
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(dax_set_ops);
+> +
+>  bool dax_alive(struct dax_device *dax_dev)
+>  {
+>  	lockdep_assert_held(&dax_srcu);
+> diff --git a/include/linux/dax.h b/include/linux/dax.h
+> index fe1315135fdd..5aaaca135737 100644
+> --- a/include/linux/dax.h
+> +++ b/include/linux/dax.h
+> @@ -247,6 +247,7 @@ static inline void dax_break_layout_final(struct inode *inode)
+>  
+>  bool dax_alive(struct dax_device *dax_dev);
+>  void *dax_get_private(struct dax_device *dax_dev);
+> +int dax_set_ops(struct dax_device *dax_dev, const struct dax_operations *ops);
+>  long dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff, long nr_pages,
+>  		enum dax_access_mode mode, void **kaddr, unsigned long *pfn);
+>  size_t dax_copy_from_iter(struct dax_device *dax_dev, pgoff_t pgoff, void *addr,
+
