@@ -1,170 +1,445 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A70C327C05
-	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 10:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E70323BD1D;
+	Thu, 19 Feb 2026 11:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771497408; cv=none; b=mj3OKjTPU11aMj9qN16EsG1U7QKFiSYQlpNDt7Gi4VtrTHmynge+KY06x/2hYF5GzYfMZ2LRow91c0P5XA8IvB/T9S0byfMKw1f3ckgsnfXJGLr9x5A035A0p8W/CsqE15Cmkcg5s2NBRXJ3aq75voOccbndGORxyKHQn+Ee0Eo=
+	t=1771499186; cv=none; b=WQzHvM2VhLssnBA5rVyoI4MMhWaHGWgJ3FQbMXejfMRejBwxWydNTV2XnDU+sqd50KaDhLxWAEIqA15rEJ4KobaMHj4E22AVPhUr3XEytXPK+znka+NWX7jN9nMrNrp+WSZY/JBpbNnx3kIw2/yPXYLrVDGQsVdgMyMWg1NOFU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771497408; c=relaxed/simple;
-	bh=oqw0KlNKIPYnEI20309wgxqKSge7eobGKUbr1LdjuGY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PaOq9/Ik/TLD1f769v+8UFLzUmMC2Z5tfpHyvc9Vh2I0Wc/fYwAe31eZdvmXDBA9eyY8X1cBnK0eEwjILVUIfKvm7Im3XBiW7UedRIzuI1gpDGB7vfDHOWJJAatEGqRt+Ez+0qMg/UuHWVJ3gN63G31IStjqInIeh6P+0sAJcsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IMvTI7vh; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qIsEgonr; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IMvTI7vh";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qIsEgonr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771497406;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0HuCXThfRUEeEl7yH4RijL3+g7m+evVIDET2wFtyGPA=;
-	b=IMvTI7vhk3vuRkMM2kkV41ium5VGv7PT9IoyOLKQfO/Eu8PZ5TdwKuDhseOAlr5k5vvo12
-	b1/S3HPV55lD4FePO7TyemdOfj4e8w2Y1lh3/O1oE2Zxw0PoCyKtTEzgcH7w49ej97W6oF
-	WOjlcHbTBcQNG0DsJ2XQeW5Kr6iENdE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-590-o4d91YAAN766vyq6U4kFaw-1; Thu, 19 Feb 2026 05:36:45 -0500
-X-MC-Unique: o4d91YAAN766vyq6U4kFaw-1
-X-Mimecast-MFC-AGG-ID: o4d91YAAN766vyq6U4kFaw_1771497404
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-48372facfedso12901165e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 02:36:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1771497404; x=1772102204; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0HuCXThfRUEeEl7yH4RijL3+g7m+evVIDET2wFtyGPA=;
-        b=qIsEgonrPfvZJWqC1SF7flDp7dYt/nEHIjpY99Jbl9Yo4ZoBYfcrfBxW98RFMYJStX
-         OhWdWkrrmR7WZe1IoL+EnvtqZyDTl5catuoBvtFPloxY/FDnMEW4aySa9FLP3I+23f6w
-         AQVPSUQZcFHfTcJurL3NXkg5ArIZZt22k7TQ/WeBEreojzEvkvBTguymSNbQOBciACG0
-         IuVknXHwPhcfjTQegTSKy6f7mp3eMYtKk2puiPpfKWRr1jhAdat/JTLt+3zgvTlsH9vs
-         uw9UGWpTEBDOLfX/KaVNCH9rWBOuI6o22LJpmnBKjXJoBwHlfuO0lzW/fF0yksVGrL+L
-         P/gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771497404; x=1772102204;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0HuCXThfRUEeEl7yH4RijL3+g7m+evVIDET2wFtyGPA=;
-        b=q/9ZdR/RbuxkO9kld8OHBk0UjdJUpggXRMmH++X74x2ja22ChXI/v2Zuu40Qs6/iop
-         Xoj9je8XwiCSg/ynDnGhNdY3h12BkdKSvUTZXrMRxzunvYON7jSgIksMp1plPdRF7Ulb
-         Hc7pvJ0KfgBtTw8LPrZiWIlsJvwp9+wv7QguOERFw2lNZy1Up4Y++o9KoR8YjfDiaoMw
-         LktBLdYM9PTX8Gz/tQDnv69PzhopYrAQ33xZe27KvYuy6bF/YybKitS7242P581YCfRc
-         ZSg/TBY/JoWx8Rb2d8BdAC5AX21pzRyAAFw2bcqoilozIvMpsgbbWRGO2vj9O0213cHd
-         uiAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXISVJMKzSH1ijaD+JMbnfq4rB16ANEhfqZUUHUWw/Lg/yMgTwH+4zlbt4lS8igG18UV/2Qer0VuU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz+5XJOwVCnm9AuwcKtANo914U6iUD0GBRd0aYf29q4WKrgYlF
-	8D2lRlvpGHo9LYq4P8N4PSFNSLIbsV9cvDA5/X00UGRV3jUwIocHKdI4beBkWKPKcWF9w80/r47
-	3lRrumE5bFQ8Q/u51mb7aWgKSDM4AYO6YHxA4WtfKPC1vF9Q9ca2bv6N7EfPZ/g==
-X-Gm-Gg: AZuq6aLxhTLjsb+T07JH3OhjHLGMxWFwKoIodYub7fwRoXczA1poTmSjvICpURHaEtP
-	mI25mzi/ophsseilyBGt6ui7+aRfaorKo2d3y1bByyakI+sUT2//7f56ex+izTIa+8Hq5H/tkLq
-	g4HQR3MM7l/bWnmAw/3s7UuFGI5G3I1CJhdh9vI9kPO1VJWiMRK/cBfzPZbLCuw+vs+XcijxuCG
-	5DTJLiTJNu0cKHOn50GZHcxkTNlyOKCYo6aHH4jkHPQWGkKv37LHl3nD+APY5H1SWTJTpKJdNqD
-	Gw95qRJ+CNbtMkMr0YOAHmP+S6EAOQQMQxF1EjpxMIAO5dVLG+qN4MJZ5+Q4g5SiZnWK0XmpXR1
-	+lb5YMTu/x7ji3v9f6h2vgHlXQpfs3NpmPe31CxpbGbD4xa3VQKlYSEpLcODkaRyX4E4zUjg=
-X-Received: by 2002:a05:600c:214b:b0:47e:e051:79ee with SMTP id 5b1f17b1804b1-4839fe90522mr18467545e9.3.1771497403794;
-        Thu, 19 Feb 2026 02:36:43 -0800 (PST)
-X-Received: by 2002:a05:600c:214b:b0:47e:e051:79ee with SMTP id 5b1f17b1804b1-4839fe90522mr18467255e9.3.1771497403315;
-        Thu, 19 Feb 2026 02:36:43 -0800 (PST)
-Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4839f99067dsm17354955e9.29.2026.02.19.02.36.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 02:36:42 -0800 (PST)
-Date: Thu, 19 Feb 2026 11:36:40 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Bobby Eshleman <bobbyeshleman@meta.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net v2 3/3] vsock: document write-once behavior of the
- child_ns_mode sysctl
-Message-ID: <aZbN8fXtCkhItSV8@sgarzare-redhat>
-References: <20260218-vsock-ns-write-once-v2-0-19e4c50d509a@meta.com>
- <20260218-vsock-ns-write-once-v2-3-19e4c50d509a@meta.com>
+	s=arc-20240116; t=1771499186; c=relaxed/simple;
+	bh=DdsdJPC4N6BgU/09EygoLkWbF5qbGpKqJ73bRH9Vsn4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k3sKDSNNZMQrcsIekOyNLLCZy+WuJ0GlyO6h2VBC7Y/WqpomukHeWdAuKrlwK19TKOwSUjdeujkVrYjG/Nxh3Ml6TKHzmCiQOTxY7Au1suVCGryg1efGFeh9mzCHc7S7uS+N84KhBIqdHh4J/0G5YsRe7b25ejmTjhc7VQvG3I8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 28FF3339;
+	Thu, 19 Feb 2026 03:06:17 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4470C3F7F5;
+	Thu, 19 Feb 2026 03:06:16 -0800 (PST)
+Message-ID: <d995e00d-2b90-4df4-a067-c4c76979e499@arm.com>
+Date: Thu, 19 Feb 2026 11:06:14 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260218-vsock-ns-write-once-v2-3-19e4c50d509a@meta.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
+ context switch handling
+To: "Luck, Tony" <tony.luck@intel.com>,
+ Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Moger, Babu" <bmoger@amd.com>, "Moger, Babu" <Babu.Moger@amd.com>,
+ Drew Fustini <fustini@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+ "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+ "james.morse@arm.com" <james.morse@arm.com>,
+ "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+ "bp@alien8.de" <bp@alien8.de>,
+ "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "peterz@infradead.org" <peterz@infradead.org>,
+ "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+ "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+ "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
+ "rostedt@goodmis.org" <rostedt@goodmis.org>,
+ "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
+ <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+ "pmladek@suse.com" <pmladek@suse.com>,
+ "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
+ "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+ "fvdl@google.com" <fvdl@google.com>,
+ "lirongqing@baidu.com" <lirongqing@baidu.com>,
+ "bhelgaas@google.com" <bhelgaas@google.com>,
+ "seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
+ "Shukla, Manali" <Manali.Shukla@amd.com>,
+ "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
+ "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
+ "Limonciello, Mario" <Mario.Limonciello@amd.com>,
+ "naveen@kernel.org" <naveen@kernel.org>,
+ "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
+ "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "peternewman@google.com" <peternewman@google.com>,
+ "eranian@google.com" <eranian@google.com>,
+ "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>,
+ Zeng Heng <zengheng4@huawei.com>
+References: <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
+ <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
+ <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
+ <1f703c24-a4a9-416e-ae43-21d03f35f0be@intel.com>
+ <aYyxAPdTFejzsE42@e134344.arm.com>
+ <679dcd01-05e5-476a-91dd-6d1d08637b3e@intel.com>
+ <aY3bvKeOcZ9yG686@e134344.arm.com>
+ <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
+ <aZM1OY7FALkPWmh6@e134344.arm.com>
+ <d704ea1f-ed9f-4814-8fce-81db40b1ee3c@intel.com>
+ <aZThTzdxVcBkLD7P@agluck-desk3>
+From: Ben Horgan <ben.horgan@arm.com>
+Content-Language: en-US
+In-Reply-To: <aZThTzdxVcBkLD7P@agluck-desk3>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 18, 2026 at 10:10:38AM -0800, Bobby Eshleman wrote:
->From: Bobby Eshleman <bobbyeshleman@meta.com>
++Zeng
+
+Discussion of resctrl configuration when running in the kernel. You
+previously commented on similar on the MPAM series.
+
+On 2/17/26 21:44, Luck, Tony wrote:
+>>>>> I'm not sure if this would happen in the real world or not.
+>>>>
+>>>> Ack. I would like to echo Tony's request for feedback from resctrl users
+>>>>  https://lore.kernel.org/lkml/aYzcpuG0PfUaTdqt@agluck-desk3/
+>>>
+>>> Indeed. This is all getting a bit complicated.
+>>>
+>>
+>> ack
+> 
+> We have several proposals so far:
+
+Thanks for making the summary.
+
+> 
+> 1) Ben's suggestion to use the default group (either with a Babu-style
+> "plza" file just in that group, or a configuration file under "info/").
+> 
+> This is easily the simplest for implementation, but has no flexibility.
+> Also requires users to move all the non-critical workloads out to other
+> CTRL_MON groups. Doesn't steal a CLOSID/RMID.
+> 
+> 2) My thoughts are for a separate group that is only used to configure
+> the schemata. This does allocate a dedicated CLOSID/RMID pair. Those
+> are used for all tasks when in kernel mode.
+
+If you mark the group somehow can you avoid a dedicated CLOSID/RMID
+pair? (MPAM systems are often sized so you can use a partid per cpu,
+num_partids=num_cpus.) The tasks/cpus files in the group could just be
+used as normal for userspace configuration.
+
+For 1,2 I think we need to be able to have an option where the rmid is
+fixed to the userspace value and one where it isn't.
+
+> 
+> No context switch overhead. Has some flexibility.
+> 
+> 3) Babu's RFC patch. Designates an existing CTRL_MON group as the one
+> that defines kernel CLOSID/RMID. Tasks and CPUs can be assigned to this
+> group in addition to belonging to another group than defines schemata
+> resources when running in non-kernel mode.
+> Tasks aren't required to be in the kernel group, in which case they
+> keep the same CLOSID in both user and kernel mode. When used in this
+> way there will be context switch overhead when changing between tasks
+> with different kernel CLOSID/RMID.
+> 
+> 4) Even more complex scenarios with more than one user configurable
+> kernel group to give more options on resources available in the kernel.
+
+
+If we are going to add more files to resctrl we should perhaps think of
+a reserved prefix so they won't conflict with the names of user created
+CTRL_MON groups.
+
 >
->Update the vsock child_ns_mode documentation to include the new the
+> > I had a quick pass as coding my option "2". My UI to designate the
+> group to use for kernel mode is to reserve the name "kernel_group"
 
-nit: s/the new the/the new
+I think we need to keep it possible for the kernel group to be the
+default group. In MPAM systems the firmware and MPAM hypervisors are
+likely to run with partid=0,pmg=0 and we may want the kernel to follow suit.
 
->write-once semantics of setting child_ns_mode. The semantics are
->implemented in a different patch in this series.
+I need to check on an rdt system but I think the kernel also always runs
+the idle thread with the default configuration. (Writing 0 to the tasks
+file changes the configuration for the current task rather than the idle
+tasks. I think this is missing from the documentation so I'll create a
+patch to add it.)
 
-s/different/preceding ?
-
-IMO this can be squashed with the previous patch, but not sure netdev 
-policy about that. Not a strong opinion, it's fine also in this way.
-
->
->Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
->---
-> Documentation/admin-guide/sysctl/net.rst | 10 +++++++---
-> 1 file changed, 7 insertions(+), 3 deletions(-)
->
->diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
->index c10530624f1e..976a176fb451 100644
->--- a/Documentation/admin-guide/sysctl/net.rst
->+++ b/Documentation/admin-guide/sysctl/net.rst
->@@ -581,9 +581,9 @@ The init_net mode is always ``global``.
-> child_ns_mode
-> -------------
->
->-Controls what mode newly created child namespaces will inherit. At namespace
->-creation, ``ns_mode`` is inherited from the parent's ``child_ns_mode``. The
->-initial value matches the namespace's own ``ns_mode``.
->+Write-once. Controls what mode newly created child namespaces will inherit. At
->+namespace creation, ``ns_mode`` is inherited from the parent's
->+``child_ns_mode``. The initial value matches the namespace's own ``ns_mode``.
->
-> Values:
->
->@@ -594,6 +594,10 @@ Values:
-> 	  their sockets will only be able to connect within their own
-> 	  namespace.
->
->+``child_ns_mode`` can only be written once per namespace. Writing the same
->+value that is already set succeeds. Writing a different value after the first
->+write returns ``-EBUSY``.
-
-nit: instead of saying that it can only be written once, we could say 
-that the first write locks the value, to be closer to the actual 
-behavior, something like this: 
-
-   The first write to ``child_ns_mode`` locks its value. Subsequent
-   writes of the same value succeed, but writing a different value
-   returns ``-EBUSY``.
-
+> when making CTRL_MON groups. Some tweaks to avoid creating the
+> "tasks", "cpus", and "cpus_list" files (which might be done more
+> elegantly), and "mon_groups" directory in this group.
+> 
+> I just have stubs in the arch/x86 core.c file for enumeration and
+> enable/disable. Just realized I'm missing a call to disable on
+> unmount of the resctrl file system.
+> 
+> Apart from umount, I think it is more or less complete, and fairly
+> compact:
+> 
+>  arch/x86/kernel/cpu/resctrl/core.c |   25 +++++++++++++++++++++++++
+>  fs/resctrl/internal.h              |    9 +++++++--
+>  fs/resctrl/rdtgroup.c              |   49 ++++++++++++++++++++++++++++++++++++-------------
+>  include/linux/resctrl.h            |    4 ++++
+>  4 files changed, 72 insertions(+), 15 deletions(-)
+> 
+> -Tony
+> 
+> ---
+> 
+> diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
+> index 006e57fd7ca5..540ab9d7621a 100644
+> --- a/include/linux/resctrl.h
+> +++ b/include/linux/resctrl.h
+> @@ -702,6 +702,10 @@ bool resctrl_arch_get_io_alloc_enabled(struct rdt_resource *r);
+>  extern unsigned int resctrl_rmid_realloc_threshold;
+>  extern unsigned int resctrl_rmid_realloc_limit;
+>  
+> +bool resctrl_arch_kernel_group_is_supported(void);
+> +void resctrl_arch_kernel_group_enable(u32 closid, u32 rmid);
+> +void resctrl_arch_kernel_group_disable(void);
+> +
+>  int resctrl_init(void);
+>  void resctrl_exit(void);
+>  
+> diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
+> index 1a9b29119f88..99fbdcaf3c63 100644
+> --- a/fs/resctrl/internal.h
+> +++ b/fs/resctrl/internal.h
+> @@ -156,6 +156,7 @@ extern bool resctrl_mounted;
+>  enum rdt_group_type {
+>  	RDTCTRL_GROUP = 0,
+>  	RDTMON_GROUP,
+> +	RDTKERNEL_GROUP,
+>  	RDT_NUM_GROUP,
+>  };
+>  
+> @@ -245,6 +246,8 @@ struct rdtgroup {
+>  
+>  #define RFTYPE_BASE			BIT(1)
+>  
+> +#define RFTYPE_TASKS_CPUS		BIT(2)
+> +
+>  #define RFTYPE_CTRL			BIT(4)
+>  
+>  #define RFTYPE_MON			BIT(5)
+> @@ -267,9 +270,11 @@ struct rdtgroup {
+>  
+>  #define RFTYPE_TOP_INFO			(RFTYPE_INFO | RFTYPE_TOP)
+>  
+> -#define RFTYPE_CTRL_BASE		(RFTYPE_BASE | RFTYPE_CTRL)
+> +#define RFTYPE_CTRL_BASE		(RFTYPE_BASE | RFTYPE_TASKS_CPUS | RFTYPE_CTRL)
+> +
+> +#define RFTYPE_MON_BASE			(RFTYPE_BASE | RFTYPE_TASKS_CPUS | RFTYPE_MON)
+>  
+> -#define RFTYPE_MON_BASE			(RFTYPE_BASE | RFTYPE_MON)
+> +#define RFTYPE_KERNEL_BASE		(RFTYPE_BASE | RFTYPE_CTRL)
+>  
+>  /* List of all resource groups */
+>  extern struct list_head rdt_all_groups;
+> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+> index 7667cf7c4e94..94d20b200e47 100644
+> --- a/arch/x86/kernel/cpu/resctrl/core.c
+> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+> @@ -733,6 +733,28 @@ static void clear_closid_rmid(int cpu)
+>  	      RESCTRL_RESERVED_CLOSID);
+>  }
+>  
+> +static bool kernel_group_is_enabled;
+> +static u32 kernel_group_closid, kernel_group_rmid;
+> +
+> +bool resctrl_arch_kernel_group_is_supported(void)
+> +{
+> +	return true;
+> +}
+> +
+> +void resctrl_arch_kernel_group_enable(u32 closid, u32 rmid)
+> +{
+> +	pr_info("Enable kernel group on all CPUs here closid=%u rmid=%u\n", closid, rmid);
+> +	kernel_group_closid = closid;
+> +	kernel_group_rmid = rmid;
+> +	kernel_group_is_enabled = true;
+> +}
+> +
+> +void resctrl_arch_kernel_group_disable(void)
+> +{
+> +	pr_info("Disable kernel group on all CPUs here\n");
+> +	kernel_group_is_enabled = false;
+> +}
+> +
+>  static int resctrl_arch_online_cpu(unsigned int cpu)
+>  {
+>  	struct rdt_resource *r;
+> @@ -743,6 +765,9 @@ static int resctrl_arch_online_cpu(unsigned int cpu)
+>  	mutex_unlock(&domain_list_lock);
+>  
+>  	clear_closid_rmid(cpu);
+> +	if (kernel_group_is_enabled)
+> +		pr_info("Enable kernel group on CPU:%d closid=%u rmid=%u\n",
+> +			cpu, kernel_group_closid, kernel_group_rmid);
+>  	resctrl_online_cpu(cpu);
+>  
+>  	return 0;
+> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+> index ba8d503551cd..0d396569a76a 100644
+> --- a/fs/resctrl/rdtgroup.c
+> +++ b/fs/resctrl/rdtgroup.c
+> @@ -2046,7 +2046,7 @@ static struct rftype res_common_files[] = {
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.write		= rdtgroup_cpus_write,
+>  		.seq_show	= rdtgroup_cpus_show,
+> -		.fflags		= RFTYPE_BASE,
+> +		.fflags		= RFTYPE_BASE | RFTYPE_TASKS_CPUS,
+>  	},
+>  	{
+>  		.name		= "cpus_list",
+> @@ -2055,7 +2055,7 @@ static struct rftype res_common_files[] = {
+>  		.write		= rdtgroup_cpus_write,
+>  		.seq_show	= rdtgroup_cpus_show,
+>  		.flags		= RFTYPE_FLAGS_CPUS_LIST,
+> -		.fflags		= RFTYPE_BASE,
+> +		.fflags		= RFTYPE_BASE | RFTYPE_TASKS_CPUS,
+>  	},
+>  	{
+>  		.name		= "tasks",
+> @@ -2063,14 +2063,14 @@ static struct rftype res_common_files[] = {
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.write		= rdtgroup_tasks_write,
+>  		.seq_show	= rdtgroup_tasks_show,
+> -		.fflags		= RFTYPE_BASE,
+> +		.fflags		= RFTYPE_BASE | RFTYPE_TASKS_CPUS,
+>  	},
+>  	{
+>  		.name		= "mon_hw_id",
+>  		.mode		= 0444,
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.seq_show	= rdtgroup_rmid_show,
+> -		.fflags		= RFTYPE_MON_BASE | RFTYPE_DEBUG,
+> +		.fflags		= RFTYPE_BASE | RFTYPE_MON | RFTYPE_DEBUG,
+>  	},
+>  	{
+>  		.name		= "schemata",
+> @@ -2078,7 +2078,7 @@ static struct rftype res_common_files[] = {
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.write		= rdtgroup_schemata_write,
+>  		.seq_show	= rdtgroup_schemata_show,
+> -		.fflags		= RFTYPE_CTRL_BASE,
+> +		.fflags		= RFTYPE_BASE | RFTYPE_CTRL,
+>  	},
+>  	{
+>  		.name		= "mba_MBps_event",
+> @@ -2093,14 +2093,14 @@ static struct rftype res_common_files[] = {
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.write		= rdtgroup_mode_write,
+>  		.seq_show	= rdtgroup_mode_show,
+> -		.fflags		= RFTYPE_CTRL_BASE,
+> +		.fflags		= RFTYPE_BASE | RFTYPE_CTRL,
+>  	},
+>  	{
+>  		.name		= "size",
+>  		.mode		= 0444,
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.seq_show	= rdtgroup_size_show,
+> -		.fflags		= RFTYPE_CTRL_BASE,
+> +		.fflags		= RFTYPE_BASE | RFTYPE_CTRL,
+>  	},
+>  	{
+>  		.name		= "sparse_masks",
+> @@ -2114,7 +2114,7 @@ static struct rftype res_common_files[] = {
+>  		.mode		= 0444,
+>  		.kf_ops		= &rdtgroup_kf_single_ops,
+>  		.seq_show	= rdtgroup_closid_show,
+> -		.fflags		= RFTYPE_CTRL_BASE | RFTYPE_DEBUG,
+> +		.fflags		= RFTYPE_BASE | RFTYPE_CTRL | RFTYPE_DEBUG,
+>  	},
+>  };
+>  
+> @@ -3788,11 +3788,15 @@ static int mkdir_rdt_prepare(struct kernfs_node *parent_kn,
+>  	}
+>  
+>  	if (rtype == RDTCTRL_GROUP) {
+> -		files = RFTYPE_BASE | RFTYPE_CTRL;
+> +		files = RFTYPE_CTRL_BASE;
+> +		if (resctrl_arch_mon_capable())
+> +			files |= RFTYPE_MON_BASE;
+> +	} else if (rtype == RDTKERNEL_GROUP) {
+> +		files = RFTYPE_KERNEL_BASE;
+>  		if (resctrl_arch_mon_capable())
+>  			files |= RFTYPE_MON;
+>  	} else {
+> -		files = RFTYPE_BASE | RFTYPE_MON;
+> +		files = RFTYPE_MON_BASE;
+>  	}
+>  
+>  	ret = rdtgroup_add_files(kn, files);
+> @@ -3866,12 +3870,21 @@ static int rdtgroup_mkdir_mon(struct kernfs_node *parent_kn,
+>  static int rdtgroup_mkdir_ctrl_mon(struct kernfs_node *parent_kn,
+>  				   const char *name, umode_t mode)
+>  {
+> +	enum rdt_group_type rtype = RDTCTRL_GROUP;
+>  	struct rdtgroup *rdtgrp;
+>  	struct kernfs_node *kn;
+>  	u32 closid;
+>  	int ret;
+>  
+> -	ret = mkdir_rdt_prepare(parent_kn, name, mode, RDTCTRL_GROUP, &rdtgrp);
+> +	if (!strcmp(name, "kernel_group")) {
+> +		if (!resctrl_arch_kernel_group_is_supported()) {
+> +			rdt_last_cmd_puts("No support for kernel group\n");
+> +			return -EINVAL;
+> +		}
+> +		rtype = RDTKERNEL_GROUP;
+> +	}
+> +
+> +	ret = mkdir_rdt_prepare(parent_kn, name, mode, rtype, &rdtgrp);
+>  	if (ret)
+>  		return ret;
+>  
+> @@ -3898,7 +3911,7 @@ static int rdtgroup_mkdir_ctrl_mon(struct kernfs_node *parent_kn,
+>  
+>  	list_add(&rdtgrp->rdtgroup_list, &rdt_all_groups);
+>  
+> -	if (resctrl_arch_mon_capable()) {
+> +	if (rtype == RDTCTRL_GROUP && resctrl_arch_mon_capable()) {
+>  		/*
+>  		 * Create an empty mon_groups directory to hold the subset
+>  		 * of tasks and cpus to monitor.
+> @@ -3912,6 +3925,9 @@ static int rdtgroup_mkdir_ctrl_mon(struct kernfs_node *parent_kn,
+>  			rdtgrp->mba_mbps_event = mba_mbps_default_event;
+>  	}
+>  
+> +	if (rtype == RDTKERNEL_GROUP)
+> +		resctrl_arch_kernel_group_enable(rdtgrp->closid, rdtgrp->mon.rmid);
+> +
+>  	goto out_unlock;
+>  
+>  out_del_list:
+> @@ -4005,6 +4021,11 @@ static int rdtgroup_rmdir_ctrl(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
+>  	u32 closid, rmid;
+>  	int cpu;
+>  
+> +	if (rdtgrp->type == RDTKERNEL_GROUP) {
+> +		resctrl_arch_kernel_group_disable();
+> +		goto skip_tasks_and_cpus;
+> +	}
+> +
+>  	/* Give any tasks back to the default group */
+>  	rdt_move_group_tasks(rdtgrp, &rdtgroup_default, tmpmask);
+>  
+> @@ -4025,6 +4046,7 @@ static int rdtgroup_rmdir_ctrl(struct rdtgroup *rdtgrp, cpumask_var_t tmpmask)
+>  	cpumask_or(tmpmask, tmpmask, &rdtgrp->cpu_mask);
+>  	update_closid_rmid(tmpmask, NULL);
+>  
+> +skip_tasks_and_cpus:
+>  	rdtgroup_unassign_cntrs(rdtgrp);
+>  
+>  	free_rmid(rdtgrp->closid, rdtgrp->mon.rmid);
+> @@ -4073,7 +4095,8 @@ static int rdtgroup_rmdir(struct kernfs_node *kn)
+>  	 * If the rdtgroup is a mon group and parent directory
+>  	 * is a valid "mon_groups" directory, remove the mon group.
+>  	 */
+> -	if (rdtgrp->type == RDTCTRL_GROUP && parent_kn == rdtgroup_default.kn &&
+> +	if ((rdtgrp->type == RDTCTRL_GROUP || rdtgrp->type == RDTKERNEL_GROUP) &&
+> +	    parent_kn == rdtgroup_default.kn &&
+>  	    rdtgrp != &rdtgroup_default) {
+>  		if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP ||
+>  		    rdtgrp->mode == RDT_MODE_PSEUDO_LOCKED) {
 
 Thanks,
-Stefano
 
->+
-> Changing ``child_ns_mode`` only affects namespaces created after the change;
-> it does not modify the current namespace or any existing children.
->
->
->-- 
->2.47.3
->
+Ben
 
