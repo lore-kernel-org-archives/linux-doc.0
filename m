@@ -1,372 +1,712 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7A2354AD0;
-	Thu, 19 Feb 2026 18:14:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771524879; cv=fail; b=FDGByW6ISJXrjH3rHbFo9KfJn7uq7JH1RFk0KwECLLhU95V7Oxh6YPh079XHjJifpYqFzKIo90S2y1cQu1Z8yf0lzXck0ZE/Z/Kf0vZqi+5QIOAvHPY1JzTMlW5B7RdCU0j7YHfXhrBiotY8qNMqE4PG3xDhYIPTE3Wt8FI1hEQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771524879; c=relaxed/simple;
-	bh=GLk/Lqc1Wgju/LFjSMKYD/N1+GCZPN/DPX6+QwVaS88=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZinBstDNsedbbkCyNvd5Jm44kRSqkIDgS5OcNPGvTk7G50Pj3Itcl+t3zQQz20q85A38svPOI7CqlO6KieWvEqyiErcuGSu+ijy+c8D6hyIDJIoTntSHXFl6ilGgQPdV1NpXPq7iuBsPtvzDYHk+7AMYIOnHT5jduqXSh5Lrpek=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BiQev25y; arc=fail smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2678257ACF;
+	Thu, 19 Feb 2026 18:31:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771525910; cv=none; b=NfluwCPVMZjaVLHGO/E1uYQmaBE482SCQ1W8YyL6r+dMGTqjLkTrzsUW+Ds5pp0IUk1EOxqpoPeUnDUeDMuaRCBeQmfWLHoe0Y3z/5tcwUZZOAo7yJoe2LimuugiGQvfqrzYMYGmRmirRbbCzHm4lBSoeBQnEoOMP+9mcIanfmM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771525910; c=relaxed/simple;
+	bh=SxoMu7CgUpi4iaRKe8p3VrSwJZnapMFeuxshtF2MGBA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pyKhQZEzIXCNyFn+xpY2j3/dGP31xy1ldHJXu3yoa01sHx8n2XbTfZV4xkyHE6qM1gPXmhFUHd6Lnh6x6yW4wuHS4ZnK5bCsRAubE9OpS6JLOQcgcz8k4bg95wzGhNj2lkZ3spIUgN5fUt6KRdAgbW+e1K+IKNQhV8RJaDcnjFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TPyjLCjY; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BiQev25y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TPyjLCjY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771524877; x=1803060877;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=GLk/Lqc1Wgju/LFjSMKYD/N1+GCZPN/DPX6+QwVaS88=;
-  b=BiQev25yMMfbDIYLIVDFjCJnrXxOZujJAD1VzwQjIGijMk5Vndq0NKxx
-   DS3lT5I1gY2Za0UBE+xhIsJLy+gKv5vliG95yTMhsyRlounu0CQYqnq9s
-   UvsiwwAC9Cpi/sSH9mO82P+xqpVoTviPZICnFmJFRDTDiYHA/oHqM14qu
-   9TCRHN26q9XNSfZel5h6klHKtGPaKdNrcJo6y5tAkOtZjZbk+GknnS2QR
-   GLy0hnXXp9ZmIaXN7KxYQfWREFwz6hJT0DFdt5nAZPTVIFvz+DId6rQCo
-   Rfs7ryyU6rPbU45Y4ecrkQbgeFpdrzd0HLhfw6R2UAcdSCbJgBVp3K9wa
-   g==;
-X-CSE-ConnectionGUID: tdkCICkXQF2WnnD7RPpiDg==
-X-CSE-MsgGUID: pL0wqtrLTyKcRdQvPrljUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="71824619"
+  t=1771525908; x=1803061908;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=SxoMu7CgUpi4iaRKe8p3VrSwJZnapMFeuxshtF2MGBA=;
+  b=TPyjLCjYKjrO2WebtubbweSbs/rEcHJGkhrrcUujWSPKH82SP2JAsb9v
+   7kUCSeUXex59is0EjubQ/X41xp2MdIXYsl+ibiF6ifCd+iDQ9mUBDfvXq
+   n8u1MX7jmq89ANZwsxFoDufcUV50oz1OdokC1rkwtcJ40+n6RRLCDmtA6
+   kADkgiW+SHAephOgki5pjfAPDmv/4HxS27bFRAL3bCyApvUEqmHCzdiBC
+   nS5CFY7w8bAt59+oZ2X+fRrqM+VvNVz3XKJc/5JlfTLdscz3E7Bxplwnn
+   prN7FELDerR67BoXuUx1OAx1QbP0Dcb0lw1YziuxlFJlLz7sT5ey/lXQV
+   Q==;
+X-CSE-ConnectionGUID: ISObWcMGS3CQZwDn81CvXw==
+X-CSE-MsgGUID: +shbCGrvTYKsYV/cpzc9Dg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="60196897"
 X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="71824619"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 10:14:36 -0800
-X-CSE-ConnectionGUID: Q8tUCdadR425H9Lq6VDNqQ==
-X-CSE-MsgGUID: ABvqafWKQie95KaCe2nJBA==
+   d="scan'208";a="60196897"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 10:31:47 -0800
+X-CSE-ConnectionGUID: pR9ZXqF0S4iJ1/nMscNcQA==
+X-CSE-MsgGUID: +v+yVNvORs+ncOOZBAZySg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="218759499"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 10:14:36 -0800
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 19 Feb 2026 10:14:35 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Thu, 19 Feb 2026 10:14:35 -0800
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.39) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Thu, 19 Feb 2026 10:14:35 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Uro7lZJe2xmSoPt0/gbUl1F/YrSi+Eec3tnXh7T9L4n5Ut9jqiPTU9q/6gQVWfi8g5fMXbdH6TbXOZnqX7ufNzvRgSpKfcGp/4YCbqTXKqaFtRiVrnXQh8l1iCgcmXp2CYc4c2eVpIp/1CdDgoZRBlV78YlkodK+q6QGN4VMeKNYkoip7nsY0VqAzDXILyLcD8yFtO7I1xkQ83iHJ1XVktMhK8GhqH2u0/eJkJDDEm02+p3cDn8qRwQThWe9twPNLmEKTnj+bVTUXM0ko0YgqImFYzulY9W9ZCULh0dFOlt0dqtJvSITv1TC1BAjTZbXk5QXfRKPCjykQB7ayCHKvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1edwiFXfSLnSxYkSmMKwjkbbMLEs1OS5mnIcVYIv/II=;
- b=VDDC/UhHMr+N5jhPvgAusbn+nL07It2g3RaN4TywBJRRRPCmVjK1l+Iv053ej9I0sDC4urNwWKq4D4B5yx+JkuJBQeigFl2zV7QB9uzqRFrrwagJ9W1O553BE4xEbC3VJfh2rU9RtbJ8UiMg+q5WhN5u9zJ+w6Sdrutml1g/e8h3iiBkuOCMn2wF4ja/y4kYi+D+KdFmJE5VIHO1/3UAb0Ksv/lb2h7o8GKRc0LWgMIKQfHL72JVkXRfH8DmNMJbhYoJwbY4goR4Z/QXM1XNLAARye8QtJquHjW7WHndY0vohSB12qm9phgXDYp1EsvQkmzc/UzfPXP/i5lGxD7fTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by LV8PR11MB8723.namprd11.prod.outlook.com (2603:10b6:408:1f8::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Thu, 19 Feb
- 2026 18:14:31 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::bfe:4ce1:556:4a9d]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::bfe:4ce1:556:4a9d%6]) with mapi id 15.20.9632.010; Thu, 19 Feb 2026
- 18:14:31 +0000
-Message-ID: <f9b08563-4958-4f3c-ad6c-1e7fa3047896@intel.com>
-Date: Thu, 19 Feb 2026 10:14:02 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-To: Ben Horgan <ben.horgan@arm.com>
-CC: "Moger, Babu" <bmoger@amd.com>, "Moger, Babu" <Babu.Moger@amd.com>, "Luck,
- Tony" <tony.luck@intel.com>, Drew Fustini <fustini@kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>, "Dave.Martin@arm.com"
-	<Dave.Martin@arm.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
-	<peterz@infradead.org>, "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>, "rostedt@goodmis.org"
-	<rostedt@goodmis.org>, "bsegall@google.com" <bsegall@google.com>,
-	"mgorman@suse.de" <mgorman@suse.de>, "vschneid@redhat.com"
-	<vschneid@redhat.com>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "pawan.kumar.gupta@linux.intel.com"
-	<pawan.kumar.gupta@linux.intel.com>, "pmladek@suse.com" <pmladek@suse.com>,
-	"feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
-	"kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
-	"fvdl@google.com" <fvdl@google.com>, "lirongqing@baidu.com"
-	<lirongqing@baidu.com>, "bhelgaas@google.com" <bhelgaas@google.com>,
-	"seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
-	"Shukla, Manali" <Manali.Shukla@amd.com>, "dapeng1.mi@linux.intel.com"
-	<dapeng1.mi@linux.intel.com>, "chang.seok.bae@intel.com"
-	<chang.seok.bae@intel.com>, "Limonciello, Mario" <Mario.Limonciello@amd.com>,
-	"naveen@kernel.org" <naveen@kernel.org>, "elena.reshetova@intel.com"
-	<elena.reshetova@intel.com>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "peternewman@google.com"
-	<peternewman@google.com>, "eranian@google.com" <eranian@google.com>, "Shenoy,
- Gautham Ranjal" <gautham.shenoy@amd.com>
-References: <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
- <aXpDdUQHCnQyhcL3@agluck-desk3>
- <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
- <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
- <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
- <1f703c24-a4a9-416e-ae43-21d03f35f0be@intel.com>
- <aYyxAPdTFejzsE42@e134344.arm.com>
- <679dcd01-05e5-476a-91dd-6d1d08637b3e@intel.com>
- <aY3bvKeOcZ9yG686@e134344.arm.com>
- <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
- <aZM1OY7FALkPWmh6@e134344.arm.com>
- <d704ea1f-ed9f-4814-8fce-81db40b1ee3c@intel.com>
- <b746428e-1a91-4ed9-8800-c9769e86df97@arm.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
-Content-Language: en-US
-In-Reply-To: <b746428e-1a91-4ed9-8800-c9769e86df97@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR03CA0050.namprd03.prod.outlook.com
- (2603:10b6:303:8e::25) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+   d="scan'208";a="237594938"
+Received: from dnelso2-mobl.amr.corp.intel.com (HELO [10.125.110.20]) ([10.125.110.20])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 10:31:44 -0800
+Message-ID: <987f1b61-3471-4779-a05c-a00f3f8e9a5e@intel.com>
+Date: Thu, 19 Feb 2026 11:31:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|LV8PR11MB8723:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2790d68a-54a9-470e-4968-08de6fe2ba6b
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UkU2VUMrZThxS3NNZzBCS2Q2K0dnaUpYdlczK2tIaEcwUzZHbVdNZDFJdERa?=
- =?utf-8?B?cStBVnU5WlAreUtucTJ6dm1QK2kvb21TcS9vT1l2RWNqT0tsTURneDVWVnNH?=
- =?utf-8?B?cW5JV0FHeHc0VkJVcElCVU0rOFdIWUZlY0I0Myt4Q3EyTWZTdTNmK2ZxZ3hy?=
- =?utf-8?B?c2F6ejAyVkxORENaNFcrdGNOd3cvbkR2WkpQMERJTm5UbFFuQXJEbDlCWWl6?=
- =?utf-8?B?cFV3VzRqODJnUTNRNzdNTFY4M0E0OU1GOE9JaUtPd09kdVJIWHJQR2Z6RTB3?=
- =?utf-8?B?RU0vZnBVMlpyNjQvWkpLeWt6bGhhOGFXWmRvTFNoMmVMMWFJRXpYbWhicTNp?=
- =?utf-8?B?ZlEza3dxcDF4aVRkS1RxTzBKRWZCMnFLRlk0ek1yVnFxRm91eFFVM0pGdHRX?=
- =?utf-8?B?R2xaek9YcGxZeXpTblZJZEVKeGtjZHo2QlRmc1RIR3Z1TlFEMjFWVS9jUkRs?=
- =?utf-8?B?YThpVFRncXVDQkpOeXhsZTE5L1Z1bWxRV1R3Q3UyK0ZZV1hJSjN5ZTAwMUJM?=
- =?utf-8?B?WVhYak9sSkV1YTZpOW5GeXE5aUZxaTl2enBhU2FEVU1nWHM0d29udFhya2xN?=
- =?utf-8?B?UEhOM0hWRXZjUnN4MHdBbzRRRnN0Y0pCemN0bm5xVHRFZTIyTEZoaVp3RlE2?=
- =?utf-8?B?MVJRZ0NVS1VHUjNjaHZoQ3ozbWJuRmlqRXlielVyemFWd2k5K25CZkV0OVVV?=
- =?utf-8?B?OUNyTmE3RzN4NEdpTFZaOGt5TjRUaW8ySDFzNitlOG0xN1NpOWhNRkRrY1Ro?=
- =?utf-8?B?YzA3V1RYd0t0SW1UWjA1ZmF1Wk50THNBMmJYb3R5bUxyOThtZWdFTlZremEx?=
- =?utf-8?B?L3R3SUwxQkgvWGZoUEthZm1zbXlPaVVpTjUzbnovMTBRMGgyMUQ4Unhsajc5?=
- =?utf-8?B?L0FtT2pKKys0S0QwSks4NjBYV3l5OXdGb2UwOWY0MW1lY3RLR3FUWHp6blI3?=
- =?utf-8?B?RTRLVW9xNUhDRml0WTRjZlpzRUZ1TERwMzFBTnRLZHVKV3oydkgwWWpEazlO?=
- =?utf-8?B?RXF1WnMyOXJBMXFkNVEyMGVpU3A4L0VZbytiT2dzZVBrVFh6UjV2ODhya3dL?=
- =?utf-8?B?eU04cmdaRmlaNGg3cGN4TUFxdTFBdFRtOXhZVkI0UmNHZk8wTEQxOHN1Nytx?=
- =?utf-8?B?cnBBa2NuNUJBVEpPcGFheU5hKy9jdEJndVZ4cGw1cmNPQy9tdzdqYkd3eW9n?=
- =?utf-8?B?MEl3VDlJM3JWV3lBTVZuUUhtemJDNXZRYnNPTFE3NmRNOWlyZVBkVmxHY3Bm?=
- =?utf-8?B?elM1bk95N25JT2RRamdVU25FMithTmJ4YnhVMnlGNVAwNVZObUxlUlQ5R092?=
- =?utf-8?B?dEdnN1pSb1IvQ3VoaG1DcVhFTHRud2hKSFlyckREZmk5ZWc2bzVHZXNZSGo5?=
- =?utf-8?B?Q3E3aTY2dUROTFFIaW96UjFmNWowL2x2T2N0V0VvMmV3V09oV0JxbmpFcGhQ?=
- =?utf-8?B?Szg2bWU4bk1SL3VjSklacUJ0SGlTWkJSeHNlTWJoVGlodHFwbS9DL1lTWUdM?=
- =?utf-8?B?MndzYjRxdDQrK2U4YmJhUnV1ZzdDQWpoRUlYaitoN2YyWTZ4eHdHYlMwd0lp?=
- =?utf-8?B?UEVXZlNWU1I0bC91YnlIMWhOaWQvbDhNb2x5eGprcmViOWtMU3ZiWWZqZ0dI?=
- =?utf-8?B?YzIzaGhCWGpoQmF2Nk5GV3JZeTBFc3I4ME02TWs4ZWpCdUZkNDFVQkIxZU1Q?=
- =?utf-8?B?L1VBcSttRTd2b2JWN3MvSURwcGozVjJkcnhrVjVLQVZuMDRlaXdRWWNuK3NT?=
- =?utf-8?B?Y0RtNlRUYTNXWllFOUs4bTh5eCt5L2U4ZGZLSkJ2eGNOd0xaOU05Z1puU20v?=
- =?utf-8?B?VDhXMzF4a1pldFJyeGpxa1hFdXozOStDay9xT2svSEFRWS9zaDJUMlNhMWsz?=
- =?utf-8?B?cTJXSXY3ZWw2YkRiK3VzcXRlUWM3VHBUaHlIMFZKOWc3STcwV05FbkxLTGZO?=
- =?utf-8?B?clJ5amo0dUpjeUYxZTdKTUJTaWlCM3NDTS9GdFRNZWh5RGhzNUtCQVMybm1I?=
- =?utf-8?B?dVRuQmNXejJVMWJMQzkwaENZcHpBVnhIZE1XZHZwN3dEUUN4K28rc0dwQmQ5?=
- =?utf-8?Q?ytC5Am?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aHkxaEh0Qm45YlZXYWxmVitvdER5R25pUmc2TTRrSjR0L0NQWWEzTVd1clhl?=
- =?utf-8?B?V0VZQkZCTWpIdUJzaWw0WTVYTzJBZHBmYXlBMGNwNS9XQXRQME9sUDdzSmN4?=
- =?utf-8?B?clFKQWU0SGdIK3RFZ1llVmxuTm9FMlJRVWpmRXB2M1crVm9LN21Zd0RJQXZL?=
- =?utf-8?B?THMvMEdmN2dkUWRvemV0ZUhjalVpSEoyLzh1MlUzQXRWcjdVQzFRNGtyNmF2?=
- =?utf-8?B?Q0pCWWQ2UWhVcFBUeGpVbnpwQXd5TUZnc3pRZVVVanhkZ0I3Q2l2QVhEOGZk?=
- =?utf-8?B?TEprQUNieEdPT1VzL25WYzlVdzV5RHJYWDZRdGRrZHNhbTk4TFNFSk9acXF5?=
- =?utf-8?B?QnczL2RBelVwZFJZTEF4RGx4cmxqM0drdVJRZjJidGFlRnZldldTSFY5ZTJD?=
- =?utf-8?B?Smk4Rm1iUTd3RXVjaUpWaVhyazdwUGJHbGZCQk16a3JWOUZORUtmQXFzZUpP?=
- =?utf-8?B?cXZ1LzB2UThlL2Q1WHNlelVna3dBVHhBQkFMeVMxVG1lbDR6ekFmTVlMa1ZU?=
- =?utf-8?B?d0NGM2JiaWZ3aENkY04zQTE0THVYa3RFOTEzU1ZBNHR0elh1QnlLblZEcEEy?=
- =?utf-8?B?aTQ1QlVpYlBPTExSSDZNZHlFNDk2WjFubzlDUUR3Wnk5aWJzMGY3YjhOLzNM?=
- =?utf-8?B?cGNUK2RBSGxydFNObk5jOUNlZGh6WGhsQzVpVWN6SExCdDZ5b01GU1VxdXk0?=
- =?utf-8?B?S01jbzVMYitUM3crUXp5K09tbHlXcmRzNTR5elAzTHlydkFEMFpJS1hKNzY1?=
- =?utf-8?B?ZFNEV3VVazg3VVFRLy8zNVBMZ2xWd3hIWVo4NG1odWR2YW5mZG1YWFlKMHdz?=
- =?utf-8?B?M1g2RVpseEFDQTlvbGJCTWErWFB5SmRzVUpRYTd6TWVJOXBLUGw3S0czT2o0?=
- =?utf-8?B?YUtrc0VOR3lQYjgyK0V1UFNIV3dobWc1MG9yV292clBuMFZJZW51RUdIZXR1?=
- =?utf-8?B?TEVCYS9nbThRUlZHcjJIMW1nM3FiQUVHMStuc1ZQT2M2ZTJSUlE5eWdHeFBw?=
- =?utf-8?B?cE5qcXFCYkhaYk9RRnMzb0lOeUxyVTdWd2dYRUt5K013YmVhWGhvaXdEMTVv?=
- =?utf-8?B?WDdpaEZ4YjFsR3JXcW50amRvaDBWK3Qza3pJR09RR2g0NlJ3NmhPK1JKN3pS?=
- =?utf-8?B?anJEeS9nSiswTDRyaklGWGZQa3RzZzRHcjN0NlNudE8wbmNvL3B5T2JBMVUx?=
- =?utf-8?B?RUZoK2gvRFljMld3RWs5ZGg0MS9pWmVORzEwVENQcFc1RUFyMjd0eU5JL1NH?=
- =?utf-8?B?OVQvZFNUMythdkRsWk4wZXB4S0MvMHh4YU5wdEtjcXhKZ0YzWWJyUTloQjgw?=
- =?utf-8?B?cXZ3T29xQlFJNE1pS3JuSWtxUjVLS3ZTYkFwcWlOWGRWalJKQWZDdUpKdXJm?=
- =?utf-8?B?b2Jpcyt5MnF3aUJRZ0VUUW5mcmhGbU0rVmVycXE5VU40UWJpL3BIQnBXUDJw?=
- =?utf-8?B?Rk55THhvSVAvM1RBby9FUmtNSytPbEdzTjhIcjFGSlBDV0p2TFdrZUtGV0Zw?=
- =?utf-8?B?eXdQeTdxZkNYRkREME16Tk9PUzR1L3hlQ3J3d2VCNHRJR2V3M3lHUUtpQ3Rx?=
- =?utf-8?B?S3UwQ0MyZUhIT2lBQnRCdHZxNDFpTEhFc3djMTgxOEowT0gwcUtNYk1ncktI?=
- =?utf-8?B?eVlheHlLZVJIbHlQVndhUmsyYjJka1FMdG5RTmE4SnkxNUdrbUVNQ0k3Mjgx?=
- =?utf-8?B?TklybjA0V0ZPdS9Nb1lXZ1F1WDIyMk9nTElJd3IxdHgvR0E3b01keTNOaVlj?=
- =?utf-8?B?K1hHanp5dEJiR2RkaWIzbUJOSmc4ZER6bWQ4cVAzUjQxbWVrcWhmaTlsYkoz?=
- =?utf-8?B?Uy83T09oWG9TbWVFSXJwMDRUWFZiSWxsWElITndTSjFrNzlVUGk5cmc1Q3JM?=
- =?utf-8?B?bEtnSGpTUENPNS9mNlErV0RzVEJHWXpmY3cwYTkwcE1Tb0pNR28wRXJ4VkFM?=
- =?utf-8?B?ZldJTUVmZ0FXSk95NmNabVU3Zkt1V21IMEU5Rlc0d3BGajNwbnFsWGFIMFRK?=
- =?utf-8?B?WlpyT2cvTjNJQ29yV2lKZjJ3RVRHYlo5bkEwSUZ4M0szTUd0K2ZJOW11dzdi?=
- =?utf-8?B?VzJaQVJ6dWxmekt2MXlESWRyelZsM0ZlM1ljYzRUWXcwdy9DYmNBYXlKZ2R5?=
- =?utf-8?B?Qnp3T21OQlI5UnI4Y210NU4yaHlHeThHWS9lclNCNGlFZFdxUUNVd0hoZkJK?=
- =?utf-8?B?UmFldHZMQVlXY3UvdzErdFR3eHdmbjVUMm9MTmtMd1A0Qmg5aXpiZ2JQd2Yy?=
- =?utf-8?B?aDNRNkdLRlI1YklJUndvdlROclArUHpneGczejdDSk1ZcVlxeW5HbjlFMUUy?=
- =?utf-8?B?UGhJZnIvc1hXNW9XbDBjVEM4TEVpVGdKd0NDMUkwWXRvT0VtU1h6ZkNIeWVu?=
- =?utf-8?Q?9epAXMCqaAjBPvi0=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2790d68a-54a9-470e-4968-08de6fe2ba6b
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Feb 2026 18:14:31.5694
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dsvNB9yRpujtdGr0cGjqy6bzQUj7Mq2AH3xoxtapO9VrNP27gYrAesn+JHFC63TfMKdsMxWto9JGYxTSgVUcHih+KTAt5SFT+gU6qhfbCGk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR11MB8723
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V7 13/19] famfs_fuse: Create files with famfs fmaps
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
+ Bernd Schubert <bschubert@ddn.com>,
+ Alison Schofield <alison.schofield@intel.com>
+Cc: John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ David Hildenbrand <david@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>,
+ Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
+ Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+ Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
+ Ajay Joshi <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
+ <20260118223307.92562-1-john@jagalactic.com>
+ <0100019bd33daee6-f6b270fd-c943-4643-8d21-5621fdef3572-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019bd33daee6-f6b270fd-c943-4643-8d21-5621fdef3572-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Ben,
 
-On 2/19/26 2:21 AM, Ben Horgan wrote:
-> On 2/17/26 18:51, Reinette Chatre wrote:
->> On 2/16/26 7:18 AM, Ben Horgan wrote:
->>> On Thu, Feb 12, 2026 at 10:37:21AM -0800, Reinette Chatre wrote:
->>>> On 2/12/26 5:55 AM, Ben Horgan wrote:
->>>>> On Wed, Feb 11, 2026 at 02:22:55PM -0800, Reinette Chatre wrote:
->>>>>> On 2/11/26 8:40 AM, Ben Horgan wrote:
->>>>>>> On Tue, Feb 10, 2026 at 10:04:48AM -0800, Reinette Chatre wrote:
->>
->>>>>>>> It looks like MPAM has a few more capabilities here and the Arm levels are numbered differently
->>>>>>>> with EL0 meaning user space. We should thus aim to keep things as generic as possible. For example,
->>>>>>>> instead of CPL0 using something like "kernel" or ... ?
->>>>>>>
->>>>>>> Yes, PLZA does open up more possibilities for MPAM usage.  I've talked to James
->>>>>>> internally and here are a few thoughts.
->>>>>>>
->>>>>>> If the user case is just that an option run all tasks with the same closid/rmid
->>>>>>> (partid/pmg) configuration when they are running in the kernel then I'd favour a
->>>>>>> mount option. The resctrl filesytem interface doesn't need to change and
->>>>>>
->>>>>> I view mount options as an interface of last resort. Why would a mount option be needed
->>>>>> in this case? The existence of the file used to configure the feature seems sufficient?
->>>>>
->>>>> If we are taking away a closid from the user then the number of CTRL_MON groups
->>>>> that can be created changes. It seems reasonable for user-space to expect
->>>>> num_closid to be a fixed value.
->>>>
->>>> I do you see why we need to take away a CLOSID from the user. Consider a user space that
->>>
->>> Yes, just slightly simpler to take away a CLOSID but could just go with the
->>> default CLOSID is also used for the kernel. I would be ok with a file saying the
->>> mode, like the mbm_event file does for counter assignment. It slightly misleading
->>> that a configuration file is under info but necessary as we don't have another
->>> location global to the resctrl mount.
->>
->> Indeed, the "info" directory has evolved more into a "config" directory.
->>
->>>> runs with just two resource groups, for example, "high priority" and "low priority", it seems
->>>> reasonable to make it possible to let the "low priority" tasks run with "high priority"
->>>> allocations when in kernel space without needing to dedicate a new CLOSID? More reasonable
->>>> when only considering memory bandwidth allocation though.
->>>>
->>>>>
->>>>>>
->>>>>> Also ...
->>>>>>
->>>>>> I do not think resctrl should unnecessarily place constraints on what the hardware
->>>>>> features are capable of. As I understand, both PLZA and MPAM supports use case where
->>>>>> tasks may use different CLOSID/RMID (PARTID/PMG) when running in the kernel. Limiting
->>>>>> this to only one CLOSID/PARTID seems like an unmotivated constraint to me at the moment.
->>>>>> This may be because I am not familiar with all the requirements here so please do
->>>>>> help with insight on how the hardware feature is intended to be used as it relates
->>>>>> to its design.
->>>>>>
->>>>>> We have to be very careful when constraining a feature this much  If resctrl does something
->>>>>> like this it essentially restricts what users could do forever.
->>>>>
->>>>> Indeed, we don't want to unnecessarily restrict ourselves here. I was hoping a
->>>>> fixed kernel CLOSID/RMID configuration option might just give all we need for
->>>>> usecases we know we have and be minimally intrusive enough to not preclude a
->>>>> more featureful PLZA later when new usecases come about.
->>>>
->>>> Having ability to grow features would be ideal. I do not see how a fixed kernel CLOSID/RMID
->>>> configuration leaves room to build on top though. Could you please elaborate?
->>>
->>> If we initially go with a single new configuration file, e.g. kernel_mode, which
->>> could be "match_user" or "use_root, this would be the only initial change to the
->>> interface needed. If more usecases present themselves a new mode could be added,
->>> e.g. "configurable", and an interface to actually change the rmid/closid for the
->>> kernel could be added.
->>
->> Something like this could be a base to work from. I think only the two ("match_user" and
->> "use_root") are a bit limiting for even the initial implementation though.
->> As I understand, "use_root" implies using the allocations of the default group but
->> does not indicate what MON group (which RMID/PMG) should be used to monitor the
->> work done in kernel space. A way to specify the actual group may be needed?
+
+On 1/18/26 3:33 PM, John Groves wrote:
+> From: John Groves <john@groves.net>
 > 
-> Yeah, I'm not sure that flexibility is strictly necessary but will make
-> the interface easier to use.
-
-I find your proposal to be a good foundation to build on. I am in process of trying out
-some ideas around it for consideration and comparison to other ideas.
-
-...
-
->>>> existing "tasks" file does but only supports the same CLOSID/RMID for both user
->>>> space and kernel space. To support the new hardware features where the CLOSID/RMID
->>>> can be different we cannot just change "tasks" interface and would need to keep it
->>>> backward compatible. So far I assumed that it would be ok for the "tasks" file
->>>> to essentially get new meaning as the CLOSID/RMID for just user space work, which 
->>>> seems to require a second file for kernel space as a consequence? So far I have
->>>> not seen an option that does not change meaning of the "tasks" file.
->>>
->>> Would it make sense to have some new type of entries in the tasks file,
->>> e.g. k_ctrl_<pid>, k_mon_<pid> to say, in the kernel, use the closid of this
->>> CTRL_MON for this task pid or use the rmid of this CTRL_MON/MON group for this task
->>> pid? We would still probably need separate files for the cpu configuration.
->>
->> I am obligated to nack such a change to the tasks file since it would impact any
->> existing user space parsing of this file.
->>
+> On completion of GET_FMAP message/response, setup the full famfs
+> metadata such that it's possible to handle read/write/mmap directly to
+> dax. Note that the devdax_iomap plumbing is not in yet...
 > 
-> Good to know. Do you consider the format of the tasks file fully fixed?
+> * Add famfs_kfmap.h: in-memory structures for resolving famfs file maps
+>   (fmaps) to dax.
+> * famfs.c: allocate, initialize and free fmaps
+> * inode.c: only allow famfs mode if the fuse server has CAP_SYS_RAWIO
+> * Update MAINTAINERS for the new file.
+> 
+> Signed-off-by: John Groves <john@groves.net>
+> ---
+>  MAINTAINERS               |   1 +
+>  fs/fuse/famfs.c           | 339 +++++++++++++++++++++++++++++++++++++-
+>  fs/fuse/famfs_kfmap.h     |  67 ++++++++
+>  fs/fuse/fuse_i.h          |   8 +-
+>  fs/fuse/inode.c           |  19 ++-
+>  include/uapi/linux/fuse.h |  56 +++++++
+>  6 files changed, 480 insertions(+), 10 deletions(-)
+>  create mode 100644 fs/fuse/famfs_kfmap.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e3d0aa5eb361..6f8a7c813c2f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10386,6 +10386,7 @@ L:	linux-cxl@vger.kernel.org
+>  L:	linux-fsdevel@vger.kernel.org
+>  S:	Supported
+>  F:	fs/fuse/famfs.c
+> +F:	fs/fuse/famfs_kfmap.h
+>  
+>  FUTEX SUBSYSTEM
+>  M:	Thomas Gleixner <tglx@kernel.org>
+> diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
+> index 615819cc922d..a9728e11f1dd 100644
+> --- a/fs/fuse/famfs.c
+> +++ b/fs/fuse/famfs.c
+> @@ -18,9 +18,339 @@
+>  #include <linux/namei.h>
+>  #include <linux/string.h>
+>  
+> +#include "famfs_kfmap.h"
+>  #include "fuse_i.h"
+>  
+>  
+> +/***************************************************************************/
+> +
+> +void __famfs_meta_free(void *famfs_meta)
+> +{
+> +	struct famfs_file_meta *fmap = famfs_meta;
+> +
+> +	if (!fmap)
+> +		return;
+> +
+> +	switch (fmap->fm_extent_type) {
+> +	case SIMPLE_DAX_EXTENT:
+> +		kfree(fmap->se);
+> +		break;
+> +	case INTERLEAVED_EXTENT:
+> +		if (fmap->ie) {
+> +			for (int i = 0; i < fmap->fm_niext; i++)
+> +				kfree(fmap->ie[i].ie_strips);
+> +		}
+> +		kfree(fmap->ie);
+> +		break;
+> +	default:
+> +		pr_err("%s: invalid fmap type\n", __func__);
+> +		break;
+> +	}
+> +
+> +	kfree(fmap);
+> +}
+> +DEFINE_FREE(__famfs_meta_free, void *, if (_T) __famfs_meta_free(_T))
+> +
+> +static int
+> +famfs_check_ext_alignment(struct famfs_meta_simple_ext *se)
+> +{
+> +	int errs = 0;
+> +
+> +	if (se->dev_index != 0)
+> +		errs++;
+> +
+> +	/* TODO: pass in alignment so we can support the other page sizes */
+> +	if (!IS_ALIGNED(se->ext_offset, PMD_SIZE))
+> +		errs++;
+> +
+> +	if (!IS_ALIGNED(se->ext_len, PMD_SIZE))
+> +		errs++;
+> +
+> +	return errs;
+> +}
+> +
+> +/**
+> + * famfs_fuse_meta_alloc() - Allocate famfs file metadata
+> + * @fmap_buf:  fmap buffer from fuse server
+> + * @fmap_buf_size: size of fmap buffer
+> + * @metap:         pointer where 'struct famfs_file_meta' is returned
+> + *
+> + * Returns: 0=success
+> + *          -errno=failure
+> + */
+> +static int
+> +famfs_fuse_meta_alloc(
+> +	void *fmap_buf,
+> +	size_t fmap_buf_size,
+> +	struct famfs_file_meta **metap)
+> +{
+> +	struct famfs_file_meta *meta __free(__famfs_meta_free) = NULL;
 
-At this point I believe it is fully fixed, yes. For this we need to consider both
-how it is documented to be used and how it is used. For the former we of course have
-Documentation/filesystems/resctrl.rst but for the latter it becomes difficult.
+declare when it gets allocated
 
-On the documentation side I also find existing documentation to be specific in how
-"tasks" file should be interpreted: "Reading this file shows the list of all tasks
-that belong to this group.". I do not find there to be a lot of room for changing
-interpretation here.
+> +	struct fuse_famfs_fmap_header *fmh;
+> +	size_t extent_total = 0;
+> +	size_t next_offset = 0;
+> +	int errs = 0;
+> +	int i, j;
+> +
+> +	fmh = fmap_buf;
+> +
+> +	/* Move past fmh in fmap_buf */
+> +	next_offset += sizeof(*fmh);
+> +	if (next_offset > fmap_buf_size) {
+> +		pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
+> +		       __func__, __LINE__, next_offset, fmap_buf_size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (fmh->nextents < 1) {
+> +		pr_err("%s: nextents %d < 1\n", __func__, fmh->nextents);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (fmh->nextents > FUSE_FAMFS_MAX_EXTENTS) {
+> +		pr_err("%s: nextents %d > max (%d) 1\n",
+> +		       __func__, fmh->nextents, FUSE_FAMFS_MAX_EXTENTS);
+> +		return -E2BIG;
+> +	}
 
-An interface change as you suggest is reasonable for a file that is consumed by a
-human - somebody can read the file and immediately notice the change and it may even
-be intuitive. We know that there is a lot of tooling built around resctrl fs though
-so we should evaluate impact of any interface changes on such automation. Not all of this
-tooling is public so this is where things become difficult to predict the impact so
-we tend to be conservative in assumptions here.
+Both checks for nextents can be -ERANGE?
 
-There is one open source resctrl fs tool, the "pqos" utility [1], that is getting a lot of
-usage and it could be a predictor (albeit not decider) of such interface change impact.
-A peek at how it parses the "tasks" file confirms that it only expects a number, see
-resctrl_alloc_task_read() at https://github.com/intel/intel-cmt-cat/blob/master/lib/resctrl_alloc.c#L437 
-I thus expect that a user running pqos on a kernel that contains such a change to the
-"tasks" file will fail which confirms changing syntax of "tasks" file should be avoided.
+> +
+> +	meta = kzalloc(sizeof(*meta), GFP_KERNEL);
+> +	if (!meta)
+> +		return -ENOMEM;
+> +
+> +	meta->error = false;
+> +	meta->file_type = fmh->file_type;
+> +	meta->file_size = fmh->file_size;
+> +	meta->fm_extent_type = fmh->ext_type;
+> +
+> +	switch (fmh->ext_type) {
+> +	case FUSE_FAMFS_EXT_SIMPLE: {
+> +		struct fuse_famfs_simple_ext *se_in;
+> +
+> +		se_in = fmap_buf + next_offset;
+> +
+> +		/* Move past simple extents */
+> +		next_offset += fmh->nextents * sizeof(*se_in);
+> +		if (next_offset > fmap_buf_size) {
+> +			pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
+> +			       __func__, __LINE__, next_offset, fmap_buf_size);
+> +			return -EINVAL;
+> +		}
+> +
+> +		meta->fm_nextents = fmh->nextents;
+> +
+> +		meta->se = kcalloc(meta->fm_nextents, sizeof(*(meta->se)),
+> +				   GFP_KERNEL);
+> +		if (!meta->se)
+> +			return -ENOMEM;
+> +
+> +		if ((meta->fm_nextents > FUSE_FAMFS_MAX_EXTENTS) ||
+> +		    (meta->fm_nextents < 1))
+> +			return -EINVAL;
+> +> +		for (i = 0; i < fmh->nextents; i++) {
+> +			meta->se[i].dev_index  = se_in[i].se_devindex;
+> +			meta->se[i].ext_offset = se_in[i].se_offset;
+> +			meta->se[i].ext_len    = se_in[i].se_len;
+> +
+> +			/* Record bitmap of referenced daxdev indices */
+> +			meta->dev_bitmap |= (1 << meta->se[i].dev_index);
+> +
+> +			errs += famfs_check_ext_alignment(&meta->se[i]);
+> +
+> +			extent_total += meta->se[i].ext_len;
+> +		}
+> +		break;
+> +	}
+> +
+> +	case FUSE_FAMFS_EXT_INTERLEAVE: {
+> +		s64 size_remainder = meta->file_size;
+> +		struct fuse_famfs_iext *ie_in;
+> +		int niext = fmh->nextents;
+> +
+> +		meta->fm_niext = niext;
+> +
+> +		/* Allocate interleaved extent */
+> +		meta->ie = kcalloc(niext, sizeof(*(meta->ie)), GFP_KERNEL);
+> +		if (!meta->ie)
+> +			return -ENOMEM;
+> +
+> +		/*
+> +		 * Each interleaved extent has a simple extent list of strips.
+> +		 * Outer loop is over separate interleaved extents
+> +		 */
+> +		for (i = 0; i < niext; i++) {
+> +			u64 nstrips;
+> +			struct fuse_famfs_simple_ext *sie_in;
+> +
+> +			/* ie_in = one interleaved extent in fmap_buf */
+> +			ie_in = fmap_buf + next_offset;
+> +
+> +			/* Move past one interleaved extent header in fmap_buf */
+> +			next_offset += sizeof(*ie_in);
+> +			if (next_offset > fmap_buf_size) {
+> +				pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
+> +				       __func__, __LINE__, next_offset,
+> +				       fmap_buf_size);
+> +				return -EINVAL;
+> +			}
+> +
+> +			if (!IS_ALIGNED(ie_in->ie_chunk_size, PMD_SIZE)) {
+> +				pr_err("%s: chunk_size %lld not PMD-aligned\n",
+> +				       __func__, meta->ie[i].fie_chunk_size);
+> +				return -EINVAL;
+> +			}
+> +
+> +			if (ie_in->ie_nbytes == 0) {
+> +				pr_err("%s: zero-length interleave!\n",
+> +				       __func__);
+> +				return -EINVAL;
+> +			}
+> +
+> +			nstrips = ie_in->ie_nstrips;
+> +			meta->ie[i].fie_chunk_size = ie_in->ie_chunk_size;
+> +			meta->ie[i].fie_nstrips    = ie_in->ie_nstrips;
+> +			meta->ie[i].fie_nbytes     = ie_in->ie_nbytes;
+> +
+> +			/* sie_in = the strip extents in fmap_buf */
+> +			sie_in = fmap_buf + next_offset;
+> +
+> +			/* Move past strip extents in fmap_buf */
+> +			next_offset += nstrips * sizeof(*sie_in);
+> +			if (next_offset > fmap_buf_size) {
+> +				pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
+> +				       __func__, __LINE__, next_offset,
+> +				       fmap_buf_size);
+> +				return -EINVAL;
+> +			}
+> +
+> +			if ((nstrips > FUSE_FAMFS_MAX_STRIPS) || (nstrips < 1)) {
+> +				pr_err("%s: invalid nstrips=%lld (max=%d)\n",
+> +				       __func__, nstrips,
+> +				       FUSE_FAMFS_MAX_STRIPS);
+> +				errs++;
+> +			}
+> +
+> +			/* Allocate strip extent array */
+> +			meta->ie[i].ie_strips =
+> +				kcalloc(ie_in->ie_nstrips,
+> +					sizeof(meta->ie[i].ie_strips[0]),
+> +					GFP_KERNEL);
+> +			if (!meta->ie[i].ie_strips)
+> +				return -ENOMEM;
+> +
+> +			/* Inner loop is over strips */
+> +			for (j = 0; j < nstrips; j++) {
+> +				struct famfs_meta_simple_ext *strips_out;
+> +				u64 devindex = sie_in[j].se_devindex;
+> +				u64 offset   = sie_in[j].se_offset;
+> +				u64 len      = sie_in[j].se_len;
+> +
+> +				strips_out = meta->ie[i].ie_strips;
+> +				strips_out[j].dev_index  = devindex;
+> +				strips_out[j].ext_offset = offset;
+> +				strips_out[j].ext_len    = len;
+> +
+> +				/* Record bitmap of referenced daxdev indices */
+> +				meta->dev_bitmap |= (1 << devindex);
+> +
+> +				extent_total += len;
+> +				errs += famfs_check_ext_alignment(&strips_out[j]);
+> +				size_remainder -= len;
+> +			}
+> +		}
+> +
+> +		if (size_remainder > 0) {
+> +			/* Sum of interleaved extent sizes is less than file size! */
+> +			pr_err("%s: size_remainder %lld (0x%llx)\n",
+> +			       __func__, size_remainder, size_remainder);
+> +			return -EINVAL;
+> +		}
+> +		break;
+> +	}
+> +
+> +	default:
+> +		pr_err("%s: invalid ext_type %d\n", __func__, fmh->ext_type);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (errs > 0) {
+> +		pr_err("%s: %d alignment errors found\n", __func__, errs);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* More sanity checks */
+> +	if (extent_total < meta->file_size) {
+> +		pr_err("%s: file size %ld larger than map size %ld\n",
+> +		       __func__, meta->file_size, extent_total);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (cmpxchg(metap, NULL, meta) != NULL) {
+> +		pr_debug("%s: fmap race detected\n", __func__);
+> +		return 0; /* fmap already installed */
+> +	}
+> +	meta = NULL; /* disarm __free() - the meta struct was consumed */
 
-Reinette
+I think you can do:
+retain_and_null_ptr(meta);
 
-[1] https://github.com/intel/intel-cmt-cat
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * famfs_file_init_dax() - init famfs dax file metadata
+> + *
+> + * @fm:        fuse_mount
+> + * @inode:     the inode
+> + * @fmap_buf:  fmap response message
+> + * @fmap_size: Size of the fmap message
+> + *
+> + * Initialize famfs metadata for a file, based on the contents of the GET_FMAP
+> + * response
+> + *
+> + * Return: 0=success
+> + *          -errno=failure
+> + */
+> +int
+> +famfs_file_init_dax(
+> +	struct fuse_mount *fm,
+> +	struct inode *inode,
+> +	void *fmap_buf,
+> +	size_t fmap_size)
+> +{
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	struct famfs_file_meta *meta = NULL;
+> +	int rc;
+> +
+> +	if (fi->famfs_meta) {
+> +		pr_notice("%s: i_no=%ld fmap_size=%ld ALREADY INITIALIZED\n",
+> +			  __func__,
+> +			  inode->i_ino, fmap_size);
+> +		return 0;
+> +	}
+> +
+> +	rc = famfs_fuse_meta_alloc(fmap_buf, fmap_size, &meta);
+> +	if (rc)
+> +		goto errout;
+> +
+> +	/* Publish the famfs metadata on fi->famfs_meta */
+> +	inode_lock(inode);
+> +
+> +	if (famfs_meta_set(fi, meta) == NULL) {
+> +		i_size_write(inode, meta->file_size);
+> +		inode->i_flags |= S_DAX;
+> +	} else {
+> +		pr_debug("%s: file already had metadata\n", __func__);
+> +		__famfs_meta_free(meta);
+> +		/* rc is 0 - the file is valid */
+> +	}
+> +
+> +	inode_unlock(inode);
+> +	return 0;
+> +
+> +errout:
+> +	if (rc)
+> +		__famfs_meta_free(meta);
+> +
+> +	return rc;
+> +}
+> +
+>  #define FMAP_BUFSIZE PAGE_SIZE
+>  
+>  int
+> @@ -64,11 +394,8 @@ fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
+>  	}
+>  	fmap_size = rc;
+>  
+> -	/* We retrieved the "fmap" (the file's map to memory), but
+> -	 * we haven't used it yet. A call to famfs_file_init_dax() will be added
+> -	 * here in a subsequent patch, when we add the ability to attach
+> -	 * fmaps to files.
+> -	 */
+> +	/* Convert fmap into in-memory format and hang from inode */
+> +	rc = famfs_file_init_dax(fm, inode, fmap_buf, fmap_size);
+>  
+> -	return 0;
+> +	return rc;
+>  }
+> diff --git a/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h
+> new file mode 100644
+> index 000000000000..18ab22bcc5a1
+> --- /dev/null
+> +++ b/fs/fuse/famfs_kfmap.h
+> @@ -0,0 +1,67 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * famfs - dax file system for shared fabric-attached memory
+> + *
+> + * Copyright 2023-2026 Micron Technology, Inc.
+> + */
+> +#ifndef FAMFS_KFMAP_H
+> +#define FAMFS_KFMAP_H
+> +
+> +/*
+> + * The structures below are the in-memory metadata format for famfs files.
+> + * Metadata retrieved via the GET_FMAP response is converted to this format
+> + * for use in resolving file mapping faults.
+> + *
+> + * The GET_FMAP response contains the same information, but in a more
+> + * message-and-versioning-friendly format. Those structs can be found in the
+> + * famfs section of include/uapi/linux/fuse.h (aka fuse_kernel.h in libfuse)
+> + */
+> +
+> +enum famfs_file_type {
+> +	FAMFS_REG,
+> +	FAMFS_SUPERBLOCK,
+> +	FAMFS_LOG,
+> +};
+> +
+> +/* We anticipate the possibility of supporting additional types of extents */
+> +enum famfs_extent_type {
+> +	SIMPLE_DAX_EXTENT,
+> +	INTERLEAVED_EXTENT,
+> +	INVALID_EXTENT_TYPE,
+> +};
+> +
+> +struct famfs_meta_simple_ext {
+> +	u64 dev_index;
+> +	u64 ext_offset;
+> +	u64 ext_len;
+> +};
+> +
+> +struct famfs_meta_interleaved_ext {
+> +	u64 fie_nstrips;
+> +	u64 fie_chunk_size;
+> +	u64 fie_nbytes;
+> +	struct famfs_meta_simple_ext *ie_strips;
+> +};
+> +
+> +/*
+> + * Each famfs dax file has this hanging from its fuse_inode->famfs_meta
+> + */
+> +struct famfs_file_meta {
+> +	bool                   error;
+> +	enum famfs_file_type   file_type;
+> +	size_t                 file_size;
+> +	enum famfs_extent_type fm_extent_type;
+> +	u64 dev_bitmap; /* bitmap of referenced daxdevs by index */
+> +	union {
+> +		struct {
+> +			size_t         fm_nextents;
+> +			struct famfs_meta_simple_ext  *se;
+> +		};
+> +		struct {
+> +			size_t         fm_niext;
+> +			struct famfs_meta_interleaved_ext *ie;
+> +		};
+> +	};
+> +};
+> +
+> +#endif /* FAMFS_KFMAP_H */
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index b66b5ca0bc11..dbfec5b9c6e1 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -1642,6 +1642,9 @@ extern void fuse_sysctl_unregister(void);
+>  /* famfs.c */
+>  
+>  #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +int famfs_file_init_dax(struct fuse_mount *fm,
+> +			struct inode *inode, void *fmap_buf,
+> +			size_t fmap_size);
+>  void __famfs_meta_free(void *map);
+>  
+>  /* Set fi->famfs_meta = NULL regardless of prior value */
+> @@ -1659,7 +1662,10 @@ static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
+>  
+>  static inline void famfs_meta_free(struct fuse_inode *fi)
+>  {
+> -	famfs_meta_set(fi, NULL);
+> +	if (fi->famfs_meta != NULL) {
+> +		__famfs_meta_free(fi->famfs_meta);
+> +		famfs_meta_set(fi, NULL);
+> +	}
+>  }
+>  
+>  static inline int fuse_file_famfs(struct fuse_inode *fi)
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index f2d742d723dc..b9933d0fbb9f 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1464,8 +1464,21 @@ static void process_init_reply(struct fuse_mount *fm, struct fuse_args *args,
+>  				timeout = arg->request_timeout;
+>  
+>  			if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&
+> -			    flags & FUSE_DAX_FMAP)
+> -				fc->famfs_iomap = 1;
+> +			    flags & FUSE_DAX_FMAP) {
+> +				/* famfs_iomap is only allowed if the fuse
+> +				 * server has CAP_SYS_RAWIO. This was checked
+> +				 * in fuse_send_init, and FUSE_DAX_IOMAP was
+> +				 * set in in_flags if so. Only allow enablement
+> +				 * if we find it there. This function is
+> +				 * normally not running in fuse server context,
+> +				 * so we can't do the capability check here...
+> +				 */
+> +				u64 in_flags = ((u64)ia->in.flags2 << 32)
 
+FIELD_PREP()?
+
+DJ
+
+> +						| ia->in.flags;
+> +
+> +				if (in_flags & FUSE_DAX_FMAP)
+> +					fc->famfs_iomap = 1;
+> +			}
+>  		} else {
+>  			ra_pages = fc->max_read / PAGE_SIZE;
+>  			fc->no_lock = 1;
+> @@ -1527,7 +1540,7 @@ static struct fuse_init_args *fuse_new_init(struct fuse_mount *fm)
+>  		flags |= FUSE_SUBMOUNTS;
+>  	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+>  		flags |= FUSE_PASSTHROUGH;
+> -	if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
+> +	if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) && capable(CAP_SYS_RAWIO))
+>  		flags |= FUSE_DAX_FMAP;
+>  
+>  	/*
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index 9eff9083d3b5..cf678bebbfe0 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -243,6 +243,13 @@
+>   *
+>   *  7.46
+>   *  - Add FUSE_DAX_FMAP capability - ability to handle in-kernel fsdax maps
+> + *  - Add the following structures for the GET_FMAP message reply components:
+> + *    - struct fuse_famfs_simple_ext
+> + *    - struct fuse_famfs_iext
+> + *    - struct fuse_famfs_fmap_header
+> + *  - Add the following enumerated types
+> + *    - enum fuse_famfs_file_type
+> + *    - enum famfs_ext_type
+>   */
+>  
+>  #ifndef _LINUX_FUSE_H
+> @@ -1318,6 +1325,55 @@ struct fuse_uring_cmd_req {
+>  
+>  /* Famfs fmap message components */
+>  
+> +#define FAMFS_FMAP_VERSION 1
+> +
+>  #define FAMFS_FMAP_MAX 32768 /* Largest supported fmap message */
+> +#define FUSE_FAMFS_MAX_EXTENTS 32
+> +#define FUSE_FAMFS_MAX_STRIPS 32
+> +
+> +enum fuse_famfs_file_type {
+> +	FUSE_FAMFS_FILE_REG,
+> +	FUSE_FAMFS_FILE_SUPERBLOCK,
+> +	FUSE_FAMFS_FILE_LOG,
+> +};
+> +
+> +enum famfs_ext_type {
+> +	FUSE_FAMFS_EXT_SIMPLE = 0,
+> +	FUSE_FAMFS_EXT_INTERLEAVE = 1,
+> +};
+> +
+> +struct fuse_famfs_simple_ext {
+> +	uint32_t se_devindex;
+> +	uint32_t reserved;
+> +	uint64_t se_offset;
+> +	uint64_t se_len;
+> +};
+> +
+> +struct fuse_famfs_iext { /* Interleaved extent */
+> +	uint32_t ie_nstrips;
+> +	uint32_t ie_chunk_size;
+> +	uint64_t ie_nbytes; /* Total bytes for this interleaved_ext;
+> +			     * sum of strips may be more
+> +			     */
+> +	uint64_t reserved;
+> +};
+> +
+> +struct fuse_famfs_fmap_header {
+> +	uint8_t file_type; /* enum famfs_file_type */
+> +	uint8_t reserved;
+> +	uint16_t fmap_version;
+> +	uint32_t ext_type; /* enum famfs_log_ext_type */
+> +	uint32_t nextents;
+> +	uint32_t reserved0;
+> +	uint64_t file_size;
+> +	uint64_t reserved1;
+> +};
+> +
+> +static inline int32_t fmap_msg_min_size(void)
+> +{
+> +	/* Smallest fmap message is a header plus one simple extent */
+> +	return (sizeof(struct fuse_famfs_fmap_header)
+> +		+ sizeof(struct fuse_famfs_simple_ext));
+> +}
+>  
+>  #endif /* _LINUX_FUSE_H */
 
