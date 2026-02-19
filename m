@@ -1,175 +1,156 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B460F3033FD;
-	Thu, 19 Feb 2026 15:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10C4199920;
+	Thu, 19 Feb 2026 15:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771514717; cv=none; b=N8BmcjSNzRr09qCgCmQOZCF8EL3E37wHQmReStFs6+PpxG617NoMNKaiWtFlcFe+hA9XY8vmcnOrl/um5p+snNlARnITChSSx/f3kMs4k+/RJfch1JYlIIgGw2TKaG8h1lRO2YoTZ8gHFBhHOGdXqTy2+PN7BXuRulekDoLCIZ0=
+	t=1771515393; cv=none; b=R8VgNODAZE0cUyAK5+fppQdmUvKtGDmMWbt+K+sYmCn/SKEAl6C63O3p5rajmvvHf4VTsvEaMT8AHKg7/XJn4YZ+rJzhM6Xfkwixk5lZitcnifATnoZEe5xAKvIz5Ki7qi3wdW9BtYKYRxvb2Xxp6KYFHIaxTZS7nzkRANO4X9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771514717; c=relaxed/simple;
-	bh=gi8Twbxo+Bi4tBD2h8CtYYswZk1dZz9KjAqpID7UBqU=;
+	s=arc-20240116; t=1771515393; c=relaxed/simple;
+	bh=xvGScHjuinZ0ATzJQB4XWDn+7FfGiPuiuds790maVJM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RbM+g0k9+pPw5x8dGLGrfhEmUODztUx++h7nS+s74HuyiKTczL+xfJgzGuCaVFYvUo9cQaYwli7JNehAIwFi+ch+i95Fa9Tqgii50p5TXyHuTn0Bm5nilvL/EIw/lfn4gBcMBexw7QwmyhyhM3EyR0WJxvOyBLIF5nNoiyKxDwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=iIEEhClb; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=i7sWn0jm99MR6P+3O/mWsftjTZwxoTw0GUmasEgn2q0BAfoR1us1GepskVekNBO4fI+I6gm8+7g6ZKRhrwtndNTcYaEhw5aIbNQC0qIkucgSwuqKBi5jEMAkbIgTlCxLqKeMwuoP0snYrQ+eK7DtluI3Da4z15eL7e4+At+mWWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X9Y8eQbd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="iIEEhClb"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=Fidi+2ln7umxrDQrxUrSCVpfHVT2QnpMsuI3rE07J/w=; b=iIEEhClbtSqJowi0yjw0/pFAb7
-	R/9wjkxlPiTsX1rNPko4Azu4BG4gERyauQmLJFpDyX0BItUmhIbdcMjj+rGH8i350WZ46AOMirRtj
-	uF81P4gGItjk4fbR574O15VhXOCkClBoh7HVleQB0O550D3Z5ANdl6ABcHpxdRgqrXTg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vt5to-007vz6-SH; Thu, 19 Feb 2026 16:25:04 +0100
-Date: Thu, 19 Feb 2026 16:25:04 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Frank Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <5e227857-7e33-43ad-8330-5304fa3616d5@lunn.ch>
-References: <20260212213656.662437-1-shenwei.wang@nxp.com>
- <20260212213656.662437-4-shenwei.wang@nxp.com>
- <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
- <44804825-5e61-4c3c-96bf-e5a3f3eacec1@lunn.ch>
- <PAXPR04MB9185EFFB8C73462E215EF486896BA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X9Y8eQbd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1105BC4CEF7;
+	Thu, 19 Feb 2026 15:36:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771515392;
+	bh=xvGScHjuinZ0ATzJQB4XWDn+7FfGiPuiuds790maVJM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X9Y8eQbdJ27k5PgYNvucYbCou7PyhGWqSaSw5zQ9BMp5TfRnUEdlq6LpQNPShYF5f
+	 5+FQ33fjy0j5phsKwCSp4c7vnv/kHZcBDSSjYmZlxE1Rtj1KPTdsrqJGBOt45xASBq
+	 44TBES2c3aRoJck462y43Jn27YvOo7ETxGA06SfCErH9+rqHx3PFjCIsihwiliYBCg
+	 veM9FYkRpCNI2Sz3gH5imjY0d+gVJfxUt6b95uJIf9Q9ucaEOWthJTA5KvIjlhbXNZ
+	 UhYdrRsiVZ56wQU95sEc+CesXOgk3pKmiLRxYkB6wDl85KBhED/TFJPanXaK4uOKHr
+	 DM1nWzuo7fGxA==
+Date: Thu, 19 Feb 2026 15:27:56 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Petr Pavlu <petr.pavlu@suse.com>, Nathan Chancellor <nathan@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Xiu Jianfeng <xiujianfeng@huawei.com>,
+	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
+	Arnout Engelen <arnout@bzzt.net>,
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+	Christian Heusel <christian@heusel.eu>,
+	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
+Message-ID: <aZcd7PpetL8J6CM4@derry.ads.avm.de>
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+ <db1ed045-d7b6-49dc-b111-9fea7c30f8ab@suse.com>
+ <28cf8d51-7530-41d5-a47b-cad5ecabd269@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <PAXPR04MB9185EFFB8C73462E215EF486896BA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <28cf8d51-7530-41d5-a47b-cad5ecabd269@t-8ch.de>
 
-On Thu, Feb 19, 2026 at 02:17:26PM +0000, Shenwei Wang wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Andrew Lunn <andrew@lunn.ch>
-> > Sent: Thursday, February 19, 2026 7:27 AM
-> > To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-> > Cc: Shenwei Wang <shenwei.wang@nxp.com>; Linus Walleij
-> > <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corbet
-> > <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
-> > <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
-> > <andersson@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Frank Li
-> > <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>; Shuah Khan
-> > <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
-> > doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix Kernel Team
-> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
-> > <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
-> > remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> > kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Bartosz
-> > Golaszewski <brgl@bgdev.pl>
-> > Subject: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+On Tue, Feb 03, 2026 at 01:55:05PM +0100, Thomas Weißschuh wrote:
+> On 2026-01-30 18:06:20+0100, Petr Pavlu wrote:
+> > On 1/13/26 1:28 PM, Thomas Weißschuh wrote:
+> > > Normally the .ko module files depend on a fully built vmlinux to be
+> > > available for modpost validation and BTF generation. With
+> > > CONFIG_MODULE_HASHES, vmlinux now depends on the modules
+> > > to build a merkle tree. This introduces a dependency cycle which is
+> > > impossible to satisfy. Work around this by building the modules during
+> > > link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
+> > > but before the final module hashes are
 > > 
-> > > > +   if (sync) {
-> > > > +           err = wait_for_completion_timeout(&info->cmd_complete,
-> > > > +                                             msecs_to_jiffies(RPMSG_TIMEOUT));
-> > > > +           if (err == 0) {
-> > > > +                   dev_err(&info->rpdev->dev, "rpmsg_send timeout!\n");
-> > > > +                   return -ETIMEDOUT;
-> > >
-> > > strange condition you return an error if err == 0, for redability use 'ret'
-> > > variable or simply:
-> > >
-> > >               if(!wait_for_completion_timeout(&info->cmd_complete,
-> > >                                 msecs_to_jiffies(RPMSG_TIMEOUT)) {
-> > >                       dev_err(&info->rpdev->dev, "rpmsg_send timeout!\n");
-> > >                       return -ETIMEDOUT;
-> > >               }
+> > I wonder if this dependency cycle could be resolved by utilizing the
+> > split into vmlinux.unstripped and vmlinux that occurred last year.
 > > 
-> > This will be from a comment i made. It appears that
-> > do_wait_for_common() can return -ERESTARTSYS. I assume that should be
-> > returned to user space?
+> > The idea is to create the following ordering: vmlinux.unstripped ->
+> > modules -> vmlinux, and to patch in .module_hashes only when building
+> > the final vmlinux.
 > > 
+> > This would require the following:
+> > * Split scripts/Makefile.vmlinux into two Makefiles, one that builds the
+> >   current vmlinux.unstripped and the second one that builds the final
+> >   vmlinux from it.
+> > * Modify the top Makefile to recognize vmlinux.unstripped and update the
+> >   BTF generation rule 'modules: vmlinux' to
+> >   'modules: vmlinux.unstripped'.
+> > * Add the 'vmlinux: modules' ordering in the top Makefile for
+> >   CONFIG_MODULE_HASHES=y.
+> > * Remove the patching of vmlinux.unstripped in scripts/link-vmlinux.sh
+> >   and instead move it into scripts/Makefile.vmlinux when running objcopy
+> >   to produce the final vmlinux.
+> > 
+> > I think this approach has two main advantages:
+> > * CONFIG_MODULE_HASHES can be made orthogonal to
+> >   CONFIG_DEBUG_INFO_BTF_MODULES.
+> > * All dependencies are expressed at the Makefile level instead of having
+> >   scripts/link-vmlinux.sh invoke 'make -f Makefile modules'.
+> > 
+> > Below is a rough prototype that applies on top of this series. It is a
+> > bit verbose due to the splitting of part of scripts/Makefile.vmlinux
+> > into scripts/Makefile.vmlinux_unstripped.
 > 
-> It looks like there might be a bit of confusion around what wait_for_completion_timeout() 
-> actually returns. That function never returns -ERESTARTSYS. Instead, its behavior is pretty 
-> simple:
+> That looks like a feasible alternative. Before adopting it, I'd like to
+> hear the preference of the kbuild folks.
 > 
-> - 0 means the wait timed out
-> - A positive value means the completion happened (the value is just the remaining jiffies)
+> > diff --git a/Makefile b/Makefile
+> > index 841772a5a260..19a3beb82fa7 100644
+> > --- a/Makefile
+> > +++ b/Makefile
+> > @@ -1259,7 +1259,7 @@ vmlinux_o: vmlinux.a $(KBUILD_VMLINUX_LIBS)
+> >  vmlinux.o modules.builtin.modinfo modules.builtin: vmlinux_o
+> >  	@:
+> >  
+> > -PHONY += vmlinux
+> > +PHONY += vmlinux.unstripped vmlinux
+> >  # LDFLAGS_vmlinux in the top Makefile defines linker flags for the top vmlinux,
+> >  # not for decompressors. LDFLAGS_vmlinux in arch/*/boot/compressed/Makefile is
+> >  # unrelated; the decompressors just happen to have the same base name,
+> > @@ -1270,9 +1270,11 @@ PHONY += vmlinux
+> >  #   https://savannah.gnu.org/bugs/?61463
+> >  # For Make > 4.4, the following simple code will work:
+> >  #  vmlinux: private export LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
+> > -vmlinux: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
+> > -vmlinux: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
+> > -vmlinux: vmlinux.o $(KBUILD_LDS) modpost
+> > +vmlinux.unstripped: private _LDFLAGS_vmlinux := $(LDFLAGS_vmlinux)
+> > +vmlinux.unstripped: export LDFLAGS_vmlinux = $(_LDFLAGS_vmlinux)
+> > +vmlinux.unstripped: vmlinux.o $(KBUILD_LDS) modpost
+> > +	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux_unstripped
+> > +vmlinux: vmlinux.unstripped
+> >  	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.vmlinux
 > 
-> So the driver returns the timeout error, and the upper application can decide how it wants
-> to handle that situation, for example restart or ignore.
+> Maybe we could keep them together in a single Makefile,
+> and instead have different targets in it.
+> 
 
-wait_for_completion_timeout():
-	return wait_for_common(x, timeout, TASK_UNINTERRUPTIBLE);
+yes, I think so, too.  I like the Petr's alternative.
 
-wait_for_common():
-	return __wait_for_common(x, io_schedule_timeout, timeout, state);
-
-__wait_for_common():
-	timeout = do_wait_for_common(x, action, timeout, state);
-	...
-	return timeout;
-
-do_wait_for_common():
-
-		do {
-			if (signal_pending_state(state, current)) {
-				timeout = -ERESTARTSYS;
-				break;
-			}
-...		
-		} while (!x->done && timeout);
-...
-		if (!x->done)
-			return timeout;
-...
-	return timeout ?: 1;
-
-This last line is interesting, and i had to go look at the
-documentation:
-
-https://gcc.gnu.org/onlinedocs/gcc/Conditionals.html
-
-So this is equivalent to
-
-        return timeout ? timeout : 1;
-
-Hence, it does appear wait_for_completion_timeout() can return
--ERESTARTSYS
-
-There is however a comment in include/linux/errno.h
-
-/*
- * These should never be seen by user programs.  To return one of ERESTART*
- * codes, signal_pending() MUST be set.  Note that ptrace can observe these
- * at syscall exit tracing, but they will never be left for the debugged user
- * process to see.
- */
-#define ERESTARTSYS	512
-
-So we do seem to be talking about a corner case, allowing gdb(1) to
-know about it, but not user space.
-
-	Andrew
+Kind regards,
+Nicolas
