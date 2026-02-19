@@ -1,123 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F68734BA2E;
-	Thu, 19 Feb 2026 16:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9BD1EB9E1;
+	Thu, 19 Feb 2026 16:28:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.136.29.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771518117; cv=none; b=MrsX8kaRSNozxCxaWrJkKqvhqxoKj1qaX6n0WKRZuhKtPEVdIF2zQ+HmHPTpV9P4jG7LbkjpXyDsQsvrQao2aNLNwLZE1CiHLfYnUuw3mOaJtkzw5dCOn8vL6Ii53sS+e+/ULbUWHZfDNvjoYWvJI977TMEpYFzg0yQ72Tpt40M=
+	t=1771518540; cv=none; b=Nca3P8EF0Fnylv4e4OH2GPG6z0PLtMM7ugr8gupyPxtbzkI0jbb7MEbrz1ZAVRIJcQLm8L5UyXjIivO8LPtMB2lfZTtkkBFoyJ+m6TEng9+xNngWV41MqFn++1gjJkwmDXNww+esPiWqTJpir0wesz2+fBw5tZcTr1DtFcAdq+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771518117; c=relaxed/simple;
-	bh=bbrvKuUbJMxjfPRyQn5a0x4qovBxvrZ93fIJ/R5aibE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gf2g01RWDTGDVPpk6DQAlutEakB38S0d8OMov/I+FRZjgG9bhw0kafVU2dzCSU2QgkGdYKD2DIAMDTAgSS/AJ4MVSHcdtY5omXuwjvVUwaviTIehcxZ/EO6YFsf0ugSDl+CbkeQSc91E5z07ngrh4x7n7udN9uL4fBnRgG0EixA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2ST6qXQ; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2ST6qXQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771518117; x=1803054117;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=bbrvKuUbJMxjfPRyQn5a0x4qovBxvrZ93fIJ/R5aibE=;
-  b=A2ST6qXQqolv97prPEDiMrL5HVQWHpbW6ELTSkDdchU6f/TI4jNMRAY6
-   xoZ2hd5jEKFHbjZe8T/WvDF8f7dB0TMQJYcRmMxDc2s00rGAZeMIvPa/N
-   mUocYbMJQ3/T3NKrpMNYPkaeQ8B8PX+Mmbuhl3TJQHU05mnd8dhl8McNc
-   jHmwBnLoO4giip2zOwNEcCNSxO61Y0abRzsvixRRhojBFdnb+OwAI+X0m
-   aMPfmhFCGq/5ZxDSXBOASvKLXswwgk10ToEaujb3W1UICWmSWQMHmz553
-   n1PZRyimRym6HIwa/aJJXwKphs/yh4ghJsMXajceETyYdLc+KWblMUjVu
-   A==;
-X-CSE-ConnectionGUID: hfKSseHISYOiUY4OLMzfag==
-X-CSE-MsgGUID: YINsGrktRM2DjE7DmJSMGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="72650251"
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="72650251"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 08:21:56 -0800
-X-CSE-ConnectionGUID: LS+mcgySQ3SV8kcPkNMX5Q==
-X-CSE-MsgGUID: wzAgoTZ4SkCSlQfRdX22PQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
-   d="scan'208";a="212483558"
-Received: from dnelso2-mobl.amr.corp.intel.com (HELO [10.125.110.20]) ([10.125.110.20])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 08:21:52 -0800
-Message-ID: <cdcebdb0-9231-4561-8e88-6379bb93268e@intel.com>
-Date: Thu, 19 Feb 2026 09:21:51 -0700
+	s=arc-20240116; t=1771518540; c=relaxed/simple;
+	bh=Lc8htHD2TqjT/LzXCol2qwK8bhaGPjt6Ytomi4CXJoI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MzjJl20Z0YYvHKknvV1/49eNKZUkHHXoo5JmXRL0GaGOg/UsPTuDN1fhXxyTSeXQ+3+jOLnFlOA/fy32cb0V/Yby7pA1xI+YPQ23pA6IS7sWwSr0kgamLLcqBkDpmSXCvqw5qhDoxj+hz4O+Qgx9OoPsv9MlDlQPLiKugZl3uJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com; spf=pass smtp.mailfrom=proxmox.com; arc=none smtp.client-ip=94.136.29.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id EEA03475E3;
+	Thu, 19 Feb 2026 17:22:06 +0100 (CET)
+From: Gabriel Goller <g.goller@proxmox.com>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next] docs: net: document neigh gc_interval and gc_stale_time sysctls
+Date: Thu, 19 Feb 2026 17:21:58 +0100
+Message-ID: <20260219162200.510325-1-g.goller@proxmox.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V7 09/19] famfs_fuse: magic.h: Add famfs magic numbers
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
- Bernd Schubert <bschubert@ddn.com>,
- Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>,
- Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- David Hildenbrand <david@kernel.org>, Christian Brauner
- <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
- Amir Goldstein <amir73il@gmail.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
- <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>,
- Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
- Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
- Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
- Ajay Joshi <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
- <20260118223224.92472-1-john@jagalactic.com>
- <0100019bd33d0dd3-81bc3562-6f64-4689-9312-6b6cec095540-000000@email.amazonses.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <0100019bd33d0dd3-81bc3562-6f64-4689-9312-6b6cec095540-000000@email.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Bm-Milter-Handled: 55990f41-d878-4baa-be0a-ee34c49e34d2
+X-Bm-Transport-Timestamp: 1771518116948
 
+Add missing documentation for two neighbor table garbage collector
+sysctl parameters in ip-sysctl.rst:
 
+ * neigh/default/gc_interval: controls how often the garbage collector
+   runs for neighbor entries (default: 30 seconds)
+ * neigh/default/gc_stale_time: controls how long an unused neighbor
+   entry is kept before becoming eligible for garbage collection
+   (default: 60 seconds)
 
-On 1/18/26 3:32 PM, John Groves wrote:
-> From: John Groves <john@groves.net>
-> 
-> Famfs distinguishes between its on-media and in-memory superblocks. This
-> reserves the numbers, but they are only used by the user space
-> components of famfs.
-> 
-> Signed-off-by: John Groves <john@groves.net>
+Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
+---
+ Documentation/networking/ip-sysctl.rst | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 28c7e4f5ecf9..033e18303d79 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -202,6 +202,21 @@ neigh/default/gc_thresh3 - INTEGER
+ 
+ 	Default: 1024
+ 
++neigh/default/gc_interval - INTEGER
++	How often the garbage collector for neighbor entries should run. This
++	value applies to the entire table, not individual entries.
++
++	Default: 30 seconds
++
++neigh/default/gc_stale_time - INTEGER
++	Determines how long a neighbor entry can remain unused before it is
++	considered stale and eligible for garbage collection. Entries that have
++	not been used for longer than this time will be removed by the garbage
++	collector, unless they have active references, are marked as PERMANENT,
++	or carry the NTF_EXT_LEARNED or NTF_EXT_VALIDATED flag.
++
++	Default: 60 seconds
++
+ neigh/default/unres_qlen_bytes - INTEGER
+ 	The maximum number of bytes which may be used by packets
+ 	queued for each	unresolved address by other network layers.
+-- 
+2.47.3
 
-squash the defines with usage patch?
-
-> ---
->  include/uapi/linux/magic.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/include/uapi/linux/magic.h b/include/uapi/linux/magic.h
-> index 638ca21b7a90..712b097bf2a5 100644
-> --- a/include/uapi/linux/magic.h
-> +++ b/include/uapi/linux/magic.h
-> @@ -38,6 +38,8 @@
->  #define OVERLAYFS_SUPER_MAGIC	0x794c7630
->  #define FUSE_SUPER_MAGIC	0x65735546
->  #define BCACHEFS_SUPER_MAGIC	0xca451a4e
-> +#define FAMFS_SUPER_MAGIC	0x87b282ff
-> +#define FAMFS_STATFS_MAGIC      0x87b282fd
->  
->  #define MINIX_SUPER_MAGIC	0x137F		/* minix v1 fs, 14 char names */
->  #define MINIX_SUPER_MAGIC2	0x138F		/* minix v1 fs, 30 char names */
 
