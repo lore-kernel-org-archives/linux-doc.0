@@ -1,184 +1,432 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDF6D34CFD7;
-	Thu, 19 Feb 2026 17:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1496334A3DA;
+	Thu, 19 Feb 2026 17:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771521074; cv=none; b=qClpwlzPd69Lq3fjpt0Vck1ubswCIo6dQJIyk4b8xb2DAFRr5ZwOHQsgGiu5wRCJpY6svMFFe802KrSbAigpuTdn2YMXiJldK7OQjUTwDRFT/AtRmwDDWP4HCiMvfAg3dpzAozZLG+/U3SSWvkqi2SEZOfxxWImdxnqRdXcQoCs=
+	t=1771521146; cv=none; b=gyvTrRWQm9VdKKn4wF/QxvCkuo7LQ8SxTRXwR0dxtwFHP2UmQ/4Qbq2VqAnYQ6V+q2w/TwaIbtJCCkAueZ72+8Tbekhs41ZX8s9w/rtAVSIzPgX6Zeto8JLpX8s1mNDCSgKdqDjRe3qCfLRoHdUxLtx7V5mRHz2qhdHqJ+AIbNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771521074; c=relaxed/simple;
-	bh=YsjWyAGSyAzJqcz0jlZAz0lznVHz9OA+6mfXetjPUxQ=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=s48aMWDjiD5z9Z67yU1rF+9m3LcDyn40wtURrYWz7+gK5Uza6zdTGwEsTJYMmVtT3Dn9OlkJP1i9saOiZac6FWXftaMEZH1cXkHmTTwaPjm09QqfUTtMwrIOeT2f9wOSqi6jaZU0cOIDQEv4IF5NIcqdzo2q6iFTl1rWZudAikQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=qi9a6aXI; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1771521146; c=relaxed/simple;
+	bh=j+bBJdGxslnhOQvbE4Qpk62+ae5bZlMHiWrTGW376pI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iDGZQh68Xcv1dSZvPCXW2Ty7MbQZXjBBq+yQTsvdT+KZ8ShyYPkKMGDSUZf86GVGvOJ6aZArP258yYTfyQXzL/cito8yV7NhMESoS+0ktOdkhgwesgxhOWtMDoXm799Ocm6V8nUrdhqT4/lw0m0aMLSHwyHEMDIJv3pWWTIAvJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j1plIJiA; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="qi9a6aXI"
-Received: from ehlo.thunderbird.net (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 61JHA6mF061543
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Thu, 19 Feb 2026 09:10:07 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 61JHA6mF061543
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026012301; t=1771521011;
-	bh=kccVFgKV/Gov4dZzwLE1ZqBthUx7ayVQs5AokW/GCIk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=qi9a6aXIYjVNA1t7lLg6lec45w4xiw/YNvwOXsl/BeUiwX3xR8D9fg6pp9oKGexCZ
-	 6D3eyWIxQARRqjXrLiPOKFSwMuvLa3SxUpYrik5QBcJlaohTjifVD4ietFKfvE7YN0
-	 wGeIqxEW8FdjCO8akb1R+UoMvl4JtQ7/RU8Xif3Ylgo+7pe4T+aNWgPHm1TKvr0DBT
-	 h5QK/ukeiKE88Z1agf+xXaZbQMsQlIdbiodoT0w2TISCu7dIboN8odsnzmqr+SnZuM
-	 duXP5P8r7zdUdBl8CEBY5fTSLz/lMWYG/QiQKEhgKr0CyRp8VCM0Z1hAXRxr36F9Jq
-	 mAhHSoO2EMSOA==
-Date: Thu, 19 Feb 2026 09:10:01 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Ard Biesheuvel <ardb@kernel.org>, Andy Lutomirski <luto@amacapital.net>,
-        Simo Sorce <simo@redhat.com>
-CC: "Daniel P. Smith" <dpsmith@apertussolutions.com>,
-        Ross Philipson <ross.philipson@oracle.com>,
-        linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-        linux-efi@vger.kernel.org, iommu@lists.linux.dev,
-        dave.hansen@linux.intel.com, Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
-        peterhuewe@gmx.de, Jarkko Sakkinen <jarkko@kernel.org>, jgg@ziepe.ca,
-        nivedita@alum.mit.edu, Herbert Xu <herbert@gondor.apana.org.au>,
-        davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
-        dwmw2@infradead.org, baolu.lu@linux.intel.com,
-        kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
-        trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
-User-Agent: K-9 Mail for Android
-In-Reply-To: <558d0f28-01fb-4447-891c-2ffbf869c077@app.fastmail.com>
-References: <20251215233316.1076248-1-ross.philipson@oracle.com> <b5f2b5a5-b984-4ed3-a023-c06d634f9146@app.fastmail.com> <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com> <49d169bf-0ad2-49be-b7d7-fceb9e7f831a@app.fastmail.com> <CALCETrUE8c-dxRWhtHKz_PojwZuWMXJSzOsFQf2vt5LS3ATwpA@mail.gmail.com> <1BBD7449-8420-43FD-930B-A4E1BA38FFC6@zytor.com> <CALCETrWzG1Mjb-RcwLQ5-tGFZ15WKHjZbqtLvyif+UPuVKJ_5g@mail.gmail.com> <32e62cef7b89d9691bdd4120388ce752fd041230.camel@redhat.com> <CALCETrUMR0RvOFXGzL7=F4c-3veL+1Sm2xf-BprHTK4=UKw8yA@mail.gmail.com> <558d0f28-01fb-4447-891c-2ffbf869c077@app.fastmail.com>
-Message-ID: <4AF70D88-AD0C-4421-B8D5-2055D6B5E736@zytor.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j1plIJiA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771521144; x=1803057144;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=j+bBJdGxslnhOQvbE4Qpk62+ae5bZlMHiWrTGW376pI=;
+  b=j1plIJiADdtH1272KY66r538RXjtH6iaSzmXq7nuk4VcUp/wXRd7XHfh
+   +ke+NtwbzWmsaxmVI7Gf0je/5StoPUvmErkEuK7iLF6yGm4a62lZoAln7
+   osZpoBu3/65SAA5+BGlXDiAAEo+LhojNfeShuxyLvz5GXVdDzUB8CaEW5
+   CFi9K1SSuweQEpY8vhBf+9AMcUNPcFdOMJAu2EcvFxCoUpNrhwAE6BfKq
+   Xopm+uVIdbjIrtBIlKQi1boqMlBqw9XEO4/qSXnmP+lV7mTaZGqR09TWj
+   vgXrArPjph4DRhoQ5R0d/JkPEfHUBQBm7BHrl1OAJuFPzuOEM6vuqdPNd
+   Q==;
+X-CSE-ConnectionGUID: EE793CKHQmaSzdJaX2Nqqg==
+X-CSE-MsgGUID: 3Im6oYJ7TY6lAuUqAKKQTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="71819322"
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
+   d="scan'208";a="71819322"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 09:12:21 -0800
+X-CSE-ConnectionGUID: SCfhtgPlR0qt4pIIlJ9hSQ==
+X-CSE-MsgGUID: ysB3y6DvSK+wOoAeUfeg+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,300,1763452800"; 
+   d="scan'208";a="219099046"
+Received: from dnelso2-mobl.amr.corp.intel.com (HELO [10.125.110.20]) ([10.125.110.20])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 09:12:19 -0800
+Message-ID: <489212dc-7f99-4748-b631-218bf78737a7@intel.com>
+Date: Thu, 19 Feb 2026 10:12:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V7 12/19] famfs_fuse: Plumb the GET_FMAP message/response
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
+ Bernd Schubert <bschubert@ddn.com>,
+ Alison Schofield <alison.schofield@intel.com>
+Cc: John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
+ Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ David Hildenbrand <david@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
+ <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
+ Bagas Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>,
+ Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
+ Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+ Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
+ Ajay Joshi <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
+ <20260118223257.92539-1-john@jagalactic.com>
+ <0100019bd33d8b0a-05af2fc2-66c2-45e7-9091-42ca2efa6780-000000@email.amazonses.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <0100019bd33d8b0a-05af2fc2-66c2-45e7-9091-42ca2efa6780-000000@email.amazonses.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On February 18, 2026 11:54:55 PM PST, Ard Biesheuvel <ardb@kernel=2Eorg> wr=
-ote:
->On Wed, 18 Feb 2026, at 22:54, Andy Lutomirski wrote:
->> On Wed, Feb 18, 2026 at 1:04=E2=80=AFPM Simo Sorce <simo@redhat=2Ecom> =
-wrote:
->>>
->>> On Wed, 2026-02-18 at 12:34 -0800, Andy Lutomirski wrote:
->>> > On Wed, Feb 18, 2026 at 12:29=E2=80=AFPM H=2E Peter Anvin <hpa@zytor=
-=2Ecom> wrote:
->>> > >
->>> > > On February 18, 2026 12:03:27 PM PST, Andy Lutomirski <luto@amacap=
-ital=2Enet> wrote:
->>> > > > On Thu, Feb 12, 2026 at 12:40=E2=80=AFPM Ard Biesheuvel <ardb@ke=
-rnel=2Eorg> wrote:
->>> > > > >
->>> > > > > On Thu, 12 Feb 2026, at 20:49, Daniel P=2E Smith wrote:
->>> > > > > > On 2/9/26 09:04, Ard Biesheuvel wrote:
->>> > > > > =2E=2E=2E
->>> > > > > But would it be better to disable the runtime services by defa=
-ult when doing a secure launch? PREEMPT_RT already does the same=2E
->>> > > >
->>> > > > So I have a possible way to disable EFI runtime service without =
-losing
->>> > > > the ability to write EFI vars=2E  We come up with a simple file =
-format
->>> > > > to store deferred EFI var updates and we come up with a place to=
- put
->>> > > > it so that we find it early-ish in boot the next time around=2E =
- (This
->>> > > > could be done via integration with systemd-boot or shim some oth=
-er
->>> > > > boot loader or it could actually be part of the kernel=2E)  And =
-then,
->>> > > > instead of writing variables directly, we write them to the defe=
-rred
->>> > > > list and then update them on reboot (before TXT launch, etc)=2E =
- [0]
->>> > > > This would be a distincly nontrivial project and would not work =
-for
->>> > > > all configurations=2E
->>> > > >
->>> > > > As a maybe less painful option, we could disable EFI runtime ser=
-vices
->>> > > > but have a root-writable thing in sysfs that (a) turns them back=
- on
->>> > > > but (b) first extends a PCR to say that they're turned back on=
-=2E
->>> > > >
->>> > > > (Or someone could try running runtime services at CPL3=2E=2E=2E)
->>> > > >
->>> > > > [0] I have thought for years that Intel and AMD should do this o=
-n
->>> > > > their end, too=2E  Keep the sensitive part of SMI flash entirely=
- locked
->>> > > > after boot and, instead of using magic SMM stuff to validate tha=
-t
->>> > > > write attempts have the appropriate permissions and signatures, =
-queue
->>> > > > them up as deferred upates and validate the signatures on the ne=
-xt
->>> > > > boot before locking flash=2E
->>> > > >
->>> > >
->>> > > *If* a physical EFI partition exists there is a lot to be said for=
- this approach=2E
->>> > >
->>> > > The only issue with this that I can see is for things like network=
- or CD/DVD booting where there isn't necessarily any EFI boot partition, it=
- might not be writable, or it might not be persistent (e=2Eg=2E http bootin=
-g typically uses a ramdisk, like the old Linux initrd=2E)
->>> >
->>> > Hmm, I guess my approach is a 100% complete nonstarter for installin=
-g
->>> > Linux from a CD, and it's really not awesome for installing Linux fr=
-om
->>> > a USB stick=2E
->>>
->>> Doing any of this on a removable device feels generally like a trap=2E
->>> You get your USB disk in, try to boot, and it saves vars, but reboot
->>> fails for whatever reason, you plug it in another machine =2E=2E=2E an=
-d it
->>> tries to "continue" from there? The amount of validation needed and
->>> testing for failure modes across reboots sounds really painful=2E
->>
->> I kind of stand by my other previous suggestion, though:
->>
->> As a maybe less painful option, we could disable EFI runtime services
->> but have a root-writable thing in sysfs that (a) turns them back on
->> but (b) first extends a PCR to say that they're turned back on=2E
->>
->
->After setting the EFI boot path to GRUB (or systemd-boot or whatever) at =
-installation time, what other meaningful interactions do we expect with the=
- EFI runtime services?
->
->And given that the secure launch is orchestrated by the bootloader , with=
- which the kernel has a backchannel via its configuration file, it should b=
-e rather straight-forward to implement the staging of variable updates ther=
-e if we really need it=2E=20
->
->Doing any of this at the EFI/spec level might lead to a situation where t=
-he OS now has to guess which of the provided APIs to manipulate variables i=
-s the least broken=2E
->
->Of course, for readinf variables, dumping the RT variables into a memory =
-buffer at boot time and exposing it via a EFI config table would be rather =
-straight-forward, but it is also something I feel should be the job of the =
-boot component that takes part in the decision to shield the runtime servic=
-es from the OS=2E
->
->
->
->
 
-The statement "that the kernel has a backchannel to" is *not true in gener=
-al*=2E
+
+On 1/18/26 3:33 PM, John Groves wrote:
+> From: John Groves <john@groves.net>
+> 
+> Upon completion of an OPEN, if we're in famfs-mode we do a GET_FMAP to
+> retrieve and cache up the file-to-dax map in the kernel. If this
+> succeeds, read/write/mmap are resolved direct-to-dax with no upcalls.
+> 
+> Signed-off-by: John Groves <john@groves.net>
+> ---
+>  MAINTAINERS               |  8 +++++
+>  fs/fuse/Makefile          |  1 +
+>  fs/fuse/famfs.c           | 74 +++++++++++++++++++++++++++++++++++++++
+>  fs/fuse/file.c            | 14 +++++++-
+>  fs/fuse/fuse_i.h          | 70 +++++++++++++++++++++++++++++++++---
+>  fs/fuse/inode.c           |  8 ++++-
+>  fs/fuse/iomode.c          |  2 +-
+>  include/uapi/linux/fuse.h |  7 ++++
+>  8 files changed, 176 insertions(+), 8 deletions(-)
+>  create mode 100644 fs/fuse/famfs.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 10aa5120d93f..e3d0aa5eb361 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10379,6 +10379,14 @@ F:	fs/fuse/
+>  F:	include/uapi/linux/fuse.h
+>  F:	tools/testing/selftests/filesystems/fuse/
+>  
+> +FUSE [FAMFS Fabric-Attached Memory File System]
+> +M:	John Groves <jgroves@micron.com>
+> +M:	John Groves <John@Groves.net>
+> +L:	linux-cxl@vger.kernel.org
+> +L:	linux-fsdevel@vger.kernel.org
+> +S:	Supported
+> +F:	fs/fuse/famfs.c
+> +
+>  FUTEX SUBSYSTEM
+>  M:	Thomas Gleixner <tglx@kernel.org>
+>  M:	Ingo Molnar <mingo@redhat.com>
+> diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
+> index 22ad9538dfc4..3f8dcc8cbbd0 100644
+> --- a/fs/fuse/Makefile
+> +++ b/fs/fuse/Makefile
+> @@ -17,5 +17,6 @@ fuse-$(CONFIG_FUSE_DAX) += dax.o
+>  fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o backing.o
+>  fuse-$(CONFIG_SYSCTL) += sysctl.o
+>  fuse-$(CONFIG_FUSE_IO_URING) += dev_uring.o
+> +fuse-$(CONFIG_FUSE_FAMFS_DAX) += famfs.o
+>  
+>  virtiofs-y := virtio_fs.o
+> diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
+> new file mode 100644
+> index 000000000000..615819cc922d
+> --- /dev/null
+> +++ b/fs/fuse/famfs.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * famfs - dax file system for shared fabric-attached memory
+> + *
+> + * Copyright 2023-2026 Micron Technology, Inc.
+> + *
+> + * This file system, originally based on ramfs the dax support from xfs,
+> + * is intended to allow multiple host systems to mount a common file system
+> + * view of dax files that map to shared memory.
+> + */
+> +
+> +#include <linux/cleanup.h>
+> +#include <linux/fs.h>
+> +#include <linux/mm.h>
+> +#include <linux/dax.h>
+> +#include <linux/iomap.h>
+> +#include <linux/path.h>
+> +#include <linux/namei.h>
+> +#include <linux/string.h>
+> +
+> +#include "fuse_i.h"
+> +
+> +
+> +#define FMAP_BUFSIZE PAGE_SIZE
+> +
+> +int
+> +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
+
+keep the return int on the same line?
+
+> +{
+> +	void *fmap_buf __free(kfree) = NULL;
+
+Should do the variable declaration when you do the kzalloc(). That way you can avoid any potential use before check issues.
+
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+> +	size_t fmap_bufsize = FMAP_BUFSIZE;
+> +	u64 nodeid = get_node_id(inode);
+> +	ssize_t fmap_size;
+> +	int rc;
+> +
+> +	FUSE_ARGS(args);
+> +
+> +	/* Don't retrieve if we already have the famfs metadata */
+> +	if (fi->famfs_meta)
+> +		return 0;
+> +
+> +	fmap_buf = kzalloc(FMAP_BUFSIZE, GFP_KERNEL);
+> +	if (!fmap_buf)
+> +		return -EIO;
+
+-ENOMEM?
+
+DJ
+> +
+> +	args.opcode = FUSE_GET_FMAP;
+> +	args.nodeid = nodeid;
+> +
+> +	/* Variable-sized output buffer
+> +	 * this causes fuse_simple_request() to return the size of the
+> +	 * output payload
+> +	 */
+> +	args.out_argvar = true;
+> +	args.out_numargs = 1;
+> +	args.out_args[0].size = fmap_bufsize;
+> +	args.out_args[0].value = fmap_buf;
+> +
+> +	/* Send GET_FMAP command */
+> +	rc = fuse_simple_request(fm, &args);
+> +	if (rc < 0) {
+> +		pr_err("%s: err=%d from fuse_simple_request()\n",
+> +		       __func__, rc);
+> +		return rc;
+> +	}
+> +	fmap_size = rc;
+> +
+> +	/* We retrieved the "fmap" (the file's map to memory), but
+> +	 * we haven't used it yet. A call to famfs_file_init_dax() will be added
+> +	 * here in a subsequent patch, when we add the ability to attach
+> +	 * fmaps to files.
+> +	 */
+> +
+> +	return 0;
+> +}
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index 093569033ed1..1f64bf68b5ee 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -277,6 +277,16 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  	err = fuse_do_open(fm, get_node_id(inode), file, false);
+>  	if (!err) {
+>  		ff = file->private_data;
+> +
+> +		if ((fm->fc->famfs_iomap) && (S_ISREG(inode->i_mode))) {
+> +			/* Get the famfs fmap - failure is fatal */
+> +			err = fuse_get_fmap(fm, inode);
+> +			if (err) {
+> +				fuse_sync_release(fi, ff, file->f_flags);
+> +				goto out_nowrite;
+> +			}
+> +		}
+> +
+>  		err = fuse_finish_open(inode, file);
+>  		if (err)
+>  			fuse_sync_release(fi, ff, file->f_flags);
+> @@ -284,12 +294,14 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  			fuse_truncate_update_attr(inode, file);
+>  	}
+>  
+> +out_nowrite:
+>  	if (is_wb_truncate || dax_truncate)
+>  		fuse_release_nowrite(inode);
+>  	if (!err) {
+>  		if (is_truncate)
+>  			truncate_pagecache(inode, 0);
+> -		else if (!(ff->open_flags & FOPEN_KEEP_CACHE))
+> +		else if (!(ff->open_flags & FOPEN_KEEP_CACHE) &&
+> +			 !fuse_file_famfs(fi))
+>  			invalidate_inode_pages2(inode->i_mapping);
+>  	}
+>  	if (dax_truncate)
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 2839efb219a9..b66b5ca0bc11 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -223,6 +223,14 @@ struct fuse_inode {
+>  	 * so preserve the blocksize specified by the server.
+>  	 */
+>  	u8 cached_i_blkbits;
+> +
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +	/* Pointer to the file's famfs metadata. Primary content is the
+> +	 * in-memory version of the fmap - the map from file's offset range
+> +	 * to DAX memory
+> +	 */
+> +	void *famfs_meta;
+> +#endif
+>  };
+>  
+>  /** FUSE inode state bits */
+> @@ -1511,11 +1519,8 @@ void fuse_free_conn(struct fuse_conn *fc);
+>  
+>  /* dax.c */
+>  
+> -static inline bool fuse_file_famfs(struct fuse_inode *fuse_inode) /* Will be superseded */
+> -{
+> -	(void)fuse_inode;
+> -	return false;
+> -}
+> +static inline int fuse_file_famfs(struct fuse_inode *fi); /* forward */
+> +
+>  #define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
+>  					&& IS_DAX(&fuse_inode->inode)  \
+>  					&& !fuse_file_famfs(fuse_inode))
+> @@ -1634,4 +1639,59 @@ extern void fuse_sysctl_unregister(void);
+>  #define fuse_sysctl_unregister()	do { } while (0)
+>  #endif /* CONFIG_SYSCTL */
+>  
+> +/* famfs.c */
+> +
+> +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> +void __famfs_meta_free(void *map);
+> +
+> +/* Set fi->famfs_meta = NULL regardless of prior value */
+> +static inline void famfs_meta_init(struct fuse_inode *fi)
+> +{
+> +	fi->famfs_meta = NULL;
+> +}
+> +
+> +/* Set fi->famfs_meta iff the current value is NULL */
+> +static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
+> +						  void *meta)
+> +{
+> +	return cmpxchg(&fi->famfs_meta, NULL, meta);
+> +}
+> +
+> +static inline void famfs_meta_free(struct fuse_inode *fi)
+> +{
+> +	famfs_meta_set(fi, NULL);
+> +}
+> +
+> +static inline int fuse_file_famfs(struct fuse_inode *fi)
+> +{
+> +	return (READ_ONCE(fi->famfs_meta) != NULL);
+> +}
+> +
+> +int fuse_get_fmap(struct fuse_mount *fm, struct inode *inode);
+> +
+> +#else /* !CONFIG_FUSE_FAMFS_DAX */
+> +
+> +static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
+> +						  void *meta)
+> +{
+> +	return NULL;
+> +}
+> +
+> +static inline void famfs_meta_free(struct fuse_inode *fi)
+> +{
+> +}
+> +
+> +static inline int fuse_file_famfs(struct fuse_inode *fi)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline int
+> +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode)
+> +{
+> +	return 0;
+> +}
+> +
+> +#endif /* CONFIG_FUSE_FAMFS_DAX */
+> +
+>  #endif /* _FS_FUSE_I_H */
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index acabf92a11f8..f2d742d723dc 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -120,6 +120,9 @@ static struct inode *fuse_alloc_inode(struct super_block *sb)
+>  	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+>  		fuse_inode_backing_set(fi, NULL);
+>  
+> +	if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
+> +		famfs_meta_set(fi, NULL);
+> +
+>  	return &fi->inode;
+>  
+>  out_free_forget:
+> @@ -141,6 +144,9 @@ static void fuse_free_inode(struct inode *inode)
+>  	if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+>  		fuse_backing_put(fuse_inode_backing(fi));
+>  
+> +	if (S_ISREG(inode->i_mode) && fuse_file_famfs(fi))
+> +		famfs_meta_free(fi);
+> +
+>  	kmem_cache_free(fuse_inode_cachep, fi);
+>  }
+>  
+> @@ -162,7 +168,7 @@ static void fuse_evict_inode(struct inode *inode)
+>  	/* Will write inode on close/munmap and in all other dirtiers */
+>  	WARN_ON(inode_state_read_once(inode) & I_DIRTY_INODE);
+>  
+> -	if (FUSE_IS_VIRTIO_DAX(fi))
+> +	if (FUSE_IS_VIRTIO_DAX(fi) || fuse_file_famfs(fi))
+>  		dax_break_layout_final(inode);
+>  
+>  	truncate_inode_pages_final(&inode->i_data);
+> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+> index 31ee7f3304c6..948148316ef0 100644
+> --- a/fs/fuse/iomode.c
+> +++ b/fs/fuse/iomode.c
+> @@ -203,7 +203,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+>  	 * io modes are not relevant with DAX and with server that does not
+>  	 * implement open.
+>  	 */
+> -	if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)
+> +	if (FUSE_IS_VIRTIO_DAX(fi) || fuse_file_famfs(fi) || !ff->args)
+>  		return 0;
+>  
+>  	/*
+> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> index 25686f088e6a..9eff9083d3b5 100644
+> --- a/include/uapi/linux/fuse.h
+> +++ b/include/uapi/linux/fuse.h
+> @@ -669,6 +669,9 @@ enum fuse_opcode {
+>  	FUSE_STATX		= 52,
+>  	FUSE_COPY_FILE_RANGE_64	= 53,
+>  
+> +	/* Famfs / devdax opcodes */
+> +	FUSE_GET_FMAP           = 54,
+> +
+>  	/* CUSE specific operations */
+>  	CUSE_INIT		= 4096,
+>  
+> @@ -1313,4 +1316,8 @@ struct fuse_uring_cmd_req {
+>  	uint8_t padding[6];
+>  };
+>  
+> +/* Famfs fmap message components */
+> +
+> +#define FAMFS_FMAP_MAX 32768 /* Largest supported fmap message */
+> +
+>  #endif /* _LINUX_FUSE_H */
+
