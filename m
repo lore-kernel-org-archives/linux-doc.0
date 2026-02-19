@@ -1,83 +1,178 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F37B31C567;
-	Thu, 19 Feb 2026 13:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E49450FE
+	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 13:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771507634; cv=none; b=fAaOkzVSbnW0YHC0TtM5ZEuNkBYAAe+AsngMYdizv5mjbTg57YFISlF/QHT/yH5PhZjNFATXFkFemeurOEGlgbHuW+dT1Z44hT8csaNUc7omgKByxzr5BdaptfNBCxPkDdzzfH2332FB5HgNQtOfFT8i/y/jDkOFCS38MWYOtms=
+	t=1771507807; cv=none; b=pCu/WI1DGskLlBzAbwoE+Xr7fWy1fUK1sQR9AeI6gPoOYRKBSYbMxH1asgiMzqr3eaIbFuECVTlYHLIrsplm7o7v84MuDUxTOKvQ6GksluYfoXqV9+2aUDgW5q9fGKioqaxoRiGv4oI05Lta8eh4QkJxvUVjdldciJtvr3QYzCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771507634; c=relaxed/simple;
-	bh=fYby79ddVirT7D8yoSoby7rf0tIAQwLqM1soMItKJoQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lwta85JJvxXeP49cN2lwgRFCIg7rg0grJmaNU26d6S+/FHMOZ7kcj+oQKXv9AUC9n4D4brWHtIQljlqg6C1/54aQu0afOGUsFCE8FZG0tOdNA4fB0Ht7HLuWebCrr7l1PoefHeLbSWM2HU+wAGpbasSdDCbjRzrMxinUDziVHJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=klslBckA; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1771507807; c=relaxed/simple;
+	bh=CFeAzVK4aX+UimM9XjRNhz3UZ0HH3VXJPizLHgu7x4Y=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HML+8iU3GCmYf8rTDDc+WP26pJ7vJv/LXSZWBmpHjJDa4yWTlldAlGhtkRm0A0hLAoQPA9UnGFlp3vjm4DxeYk2z4innglvpDJ19olrjbnbVIhSMI/2xWk8QoJrOChNPiWHAtr2wvVd5mB+/bH6gYjHHbRQyN5BtyGOlY6XXToA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cBp9QOCA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="klslBckA"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=OTx5xYUSGsOyZu92DsCx1SvBwbu3nc6Z9peJKy6aG94=; b=klslBckAQ9ua5SE2P5JljVjvSQ
-	ZD6yujfTr8QwvZqsbYgjbIsmmFx0ZZtWMBtuGoRKA1BpMNh5P+uzGinNCZG3EolLk1Hn+auQTOD/W
-	kmgjnUO3B2S70xdA4KFlmZaPFjs27Ls79w0i19HUi0OK6VdUrP7LZFlx4vrsFPG8K2eI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vt43S-007uuW-8t; Thu, 19 Feb 2026 14:26:54 +0100
-Date: Thu, 19 Feb 2026 14:26:54 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-Cc: Shenwei Wang <shenwei.wang@nxp.com>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com, Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <44804825-5e61-4c3c-96bf-e5a3f3eacec1@lunn.ch>
-References: <20260212213656.662437-1-shenwei.wang@nxp.com>
- <20260212213656.662437-4-shenwei.wang@nxp.com>
- <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cBp9QOCA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FA88C116C6
+	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 13:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771507807;
+	bh=CFeAzVK4aX+UimM9XjRNhz3UZ0HH3VXJPizLHgu7x4Y=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=cBp9QOCAueMoYsyX4D14rJsVW7dHuumNXCYYOh08Emjr7EpSZESoHg6B6nKo/ffm3
+	 H/w9tfo+ISxCbR4P0v+BlcU97WwAjFJgrg1SbeyUJ6XPFoUmjEt9d+xgfrTTq1wE3m
+	 Sv/3GbtHpLb8Dgg/rC+aQnUTsDvSKvcp8UxDnQ5hVUunF3cgKTh7c/7XcFssRFjiAe
+	 a5QhWUV4cxwOkWq5v/406hjW/vdKRvsa1il9edEygpExx2ePj1pUG79lCykQL5k3QS
+	 Ed1cjsfN2oYIbFaKo3IloWo/xGN9G7CfeOfcz2Ls/3AEIDlsOLz2GPXSAQSTn15CyW
+	 juHpYnyNLd0vQ==
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3870acaf78eso6942511fa.2
+        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 05:30:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU9XYebthv3VXHd1BdZ1bFBofdLhAv51vy7pRr2QwzL6L+UvlPDBfDYXwD3RNvf7EhqVwQZ3FCrwBA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwLxjr1mz8ydRQnExIzu5xxwDFf8zXHg2qmZI6EA/mD8k9pOW07
+	ydVMNMSk+GM+pJMxAtDOP0yI5oMLpzZf4v3JNi+9xuxPMi2rqcu4vDD2qt2L25/NBpdS0WxK46L
+	bGQu1n8cQjCKVmCWb2hb9Qew13QgzYnqBA/kgWoOsow==
+X-Received: by 2002:a2e:bc23:0:b0:383:2074:ed34 with SMTP id
+ 38308e7fff4ca-388104fb2a3mr61679151fa.2.1771507805728; Thu, 19 Feb 2026
+ 05:30:05 -0800 (PST)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 19 Feb 2026 07:30:04 -0600
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 19 Feb 2026 07:30:04 -0600
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <ana2ugshqjicqscwpdgo6knv53n4zzuwqp376qil27spco5vwh@ck7wmplz52qs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
+References: <aUF2gj_0svpygHmD@vaman> <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
+ <aUpyrIvu_kG7DtQm@vaman> <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
+ <aVZh3hb32r1oVcwG@vaman> <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
+ <aVf5WUe9cAXZHxPJ@vaman> <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
+ <aWBndOfbtweRr0uS@vaman> <CAMRc=McPz+W4GOCbNMx-tpSav3+wuUrLT2CF5FhoV5U29oiK6A@mail.gmail.com>
+ <ana2ugshqjicqscwpdgo6knv53n4zzuwqp376qil27spco5vwh@ck7wmplz52qs>
+Date: Thu, 19 Feb 2026 07:30:04 -0600
+X-Gmail-Original-Message-ID: <CAMRc=MevcsQ+sWsERQzod-a9A+F8feoLnbBXSkZrUk4zBPYCSQ@mail.gmail.com>
+X-Gm-Features: AaiRm53cx-KfiZAxdpSywJ7B0Zb2jcx9rzKgIzLaCRlF3zG9P5JOSW9yiPZ0nm4
+Message-ID: <CAMRc=MevcsQ+sWsERQzod-a9A+F8feoLnbBXSkZrUk4zBPYCSQ@mail.gmail.com>
+Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Bartosz Golaszewski <brgl@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> > +	if (sync) {
-> > +		err = wait_for_completion_timeout(&info->cmd_complete,
-> > +						  msecs_to_jiffies(RPMSG_TIMEOUT));
-> > +		if (err == 0) {
-> > +			dev_err(&info->rpdev->dev, "rpmsg_send timeout!\n");
-> > +			return -ETIMEDOUT;
-> 
-> strange condition you return an error if err == 0, for redability use 'ret'
-> variable or simply:
-> 
-> 		if(!wait_for_completion_timeout(&info->cmd_complete,
-> 				  msecs_to_jiffies(RPMSG_TIMEOUT)) {
-> 			dev_err(&info->rpdev->dev, "rpmsg_send timeout!\n");
-> 			return -ETIMEDOUT;
-> 		}
+On Thu, 19 Feb 2026 13:12:09 +0100, Manivannan Sadhasivam
+<mani@kernel.org> said:
+> On Fri, Jan 09, 2026 at 03:15:38PM +0100, Bartosz Golaszewski wrote:
+>> On Fri, Jan 9, 2026 at 3:27=E2=80=AFAM Vinod Koul <vkoul@kernel.org> wro=
+te:
+>> >
+>> > >
+>> > > We need an API because we send a locking descriptor, then a regular
+>> > > descriptor (or descriptors) for the actual transaction(s) and then a=
+n
+>> > > unlocking descriptor. It's a thing the user of the DMA engine needs =
+to
+>> > > decide on, not the DMA engine itself.
+>> >
+>> > I think downstream sends lock descriptor always. What is the harm in
+>> > doing that every time if we go down that path?
+>>
+>> No, in downstream it too depends on the user setting the right bits.
+>> Currently the only user of the BAM locking downstream is the NAND
+>> driver. I don't think the code where the crypto driver uses it is
+>> public yet.
+>>
+>> And yes, there is harm - it slightly impacts performance. For QCE it
+>> doesn't really matter as any users wanting to offload skcipher or SHA
+>> are better off using the Arm Crypto Extensions anyway as they are
+>> faster by an order of magnitude (!). It's also the default upstream,
+>> where the priorities are set such that the ARM CEs are preferred over
+>> the QCE. QCE however, is able to coordinate with the TrustZone and
+>> will be used to support the DRM use-cases.
+>>
+>> I prefer to avoid impacting any other users of BAM DMA.
+>>
+>
+> Sorry for jumping late. But I disagree with the argument that the client =
+drivers
+> have to set the LOCK/UNLOCK bit. These bits are specific to BAM DMA IP fo=
+r
+> serializing the command descriptors from multiple entities. So DMA client=
+s like
+> Crypto/NAND have no business in setting this flag. It is the job of the B=
+AM
+> dmaengine driver to set/unset it at the start and end of the descriptor c=
+hain.
+>
 
-This will be from a comment i made. It appears that
-do_wait_for_common() can return -ERESTARTSYS. I assume that should be
-returned to user space?
+But what if a given client does not need locking? We don't want to enable i=
+t
+for everyone - as I explained before.
 
-	Andrew
+>> > Reg Dmitry question above, this is dma hw capability, how will client
+>> > know if it has to lock on older rev of hardware or not...?
+>> >
+>> > > Also: only the crypto engine needs it for now, not all the other use=
+rs
+>> > > of the BAM engine.
+>> >
+>>
+>> Trying to set the lock/unlock bits will make
+>> dmaengine_desc_attach_metadata() fail if HW does not support it.
+>>
+>
+> The BAM dmaengine driver *must* know based on the IP version whether it s=
+upports
+> the LOCK/UNLOCK bits or not, not the client drivers. How can the client d=
+rivers
+> know about the BAM DMA IP capability?
+>
+
+FYI: the current version of this is v10[1].
+
+In it (and in this one too but let's discuss the current one) the BAM drive=
+r
+*does* know *based on IP version* whether is supports locking or not. The c=
+lient
+requests a lock but this will fail if the BAM does not support it. The
+client does
+not check the BAM IP revision. So yes: it's the BAM driver that's in charge=
+.
+
+> For all these reasons, BAM driver should handle the locking mechanism int=
+ernaly.
+> This will allow the client drivers to work without any modifications.
+>
+
+Ok, I'm open to alternatives but please help me figure out the "hows": How =
+do
+you tell the BAM driver that the client needs (or does not) locking? How do
+you handle the case where we need to lock the BAM, send an arbitrary number
+of descriptors from the client and then unlock it? How can the BAM know *wh=
+en*
+to lock/unlock?
+
+> FWIW, NAND driver too is impacted by this missing feature in the BAM driv=
+er as
+> both Modem and Linux tries to driver BAM and currently Linux BAM driver d=
+oesn't
+> set these bits leading to crashes.
+>
+
+Yes, downstream handles that in a very dirty way (same as downstream QCE).
+
+Bart
+
+[1] https://lore.kernel.org/all/20251219-qcom-qce-cmd-descr-v10-0-ff7e4bf7d=
+ad4@oss.qualcomm.com/
