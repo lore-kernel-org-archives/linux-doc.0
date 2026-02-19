@@ -1,178 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E49450FE
-	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 13:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0EF2EB87E
+	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 13:38:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771507807; cv=none; b=pCu/WI1DGskLlBzAbwoE+Xr7fWy1fUK1sQR9AeI6gPoOYRKBSYbMxH1asgiMzqr3eaIbFuECVTlYHLIrsplm7o7v84MuDUxTOKvQ6GksluYfoXqV9+2aUDgW5q9fGKioqaxoRiGv4oI05Lta8eh4QkJxvUVjdldciJtvr3QYzCs=
+	t=1771508309; cv=none; b=cUt9KgTcD+7l/2N5Y+pYgVpmdp7qQ83NJNbb6nd4ulDik5+P1lWO4O/Sq+R3P0kYM4HciohMa387i5Vj+9TJDzLA/UXVy/DCQ3iSeMnOy+t//yU2LtO0TzlC9fw+dbCrE7iyurFTcRIuG7F3Kaf9b2pvWSnd5O6Fja5YL45QE/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771507807; c=relaxed/simple;
-	bh=CFeAzVK4aX+UimM9XjRNhz3UZ0HH3VXJPizLHgu7x4Y=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HML+8iU3GCmYf8rTDDc+WP26pJ7vJv/LXSZWBmpHjJDa4yWTlldAlGhtkRm0A0hLAoQPA9UnGFlp3vjm4DxeYk2z4innglvpDJ19olrjbnbVIhSMI/2xWk8QoJrOChNPiWHAtr2wvVd5mB+/bH6gYjHHbRQyN5BtyGOlY6XXToA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cBp9QOCA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771508309; c=relaxed/simple;
+	bh=cSw1phAcmiq0kZN7Wwxl0rDlV1qs6y+K54cRfWcVd4E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BG/+q/vOegH5Rl15HF1/yaoVMJTtD2Mz5lSfDipiVdh8SefA5TU0kOYvHSSv9CKaLN6D/GvHZUHjPmRriIfI6mAG77ytFqK3S71yQ3HiHHzCy89g/xkXi+nm2b9qnoWlRfdmQezV5FMaeEplwTYEfG+L6AkUsIVVFdGgiZ8v588=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Xo4IlU9U; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cBp9QOCA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FA88C116C6
-	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 13:30:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771507807;
-	bh=CFeAzVK4aX+UimM9XjRNhz3UZ0HH3VXJPizLHgu7x4Y=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=cBp9QOCAueMoYsyX4D14rJsVW7dHuumNXCYYOh08Emjr7EpSZESoHg6B6nKo/ffm3
-	 H/w9tfo+ISxCbR4P0v+BlcU97WwAjFJgrg1SbeyUJ6XPFoUmjEt9d+xgfrTTq1wE3m
-	 Sv/3GbtHpLb8Dgg/rC+aQnUTsDvSKvcp8UxDnQ5hVUunF3cgKTh7c/7XcFssRFjiAe
-	 a5QhWUV4cxwOkWq5v/406hjW/vdKRvsa1il9edEygpExx2ePj1pUG79lCykQL5k3QS
-	 Ed1cjsfN2oYIbFaKo3IloWo/xGN9G7CfeOfcz2Ls/3AEIDlsOLz2GPXSAQSTn15CyW
-	 juHpYnyNLd0vQ==
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-3870acaf78eso6942511fa.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 05:30:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCU9XYebthv3VXHd1BdZ1bFBofdLhAv51vy7pRr2QwzL6L+UvlPDBfDYXwD3RNvf7EhqVwQZ3FCrwBA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLxjr1mz8ydRQnExIzu5xxwDFf8zXHg2qmZI6EA/mD8k9pOW07
-	ydVMNMSk+GM+pJMxAtDOP0yI5oMLpzZf4v3JNi+9xuxPMi2rqcu4vDD2qt2L25/NBpdS0WxK46L
-	bGQu1n8cQjCKVmCWb2hb9Qew13QgzYnqBA/kgWoOsow==
-X-Received: by 2002:a2e:bc23:0:b0:383:2074:ed34 with SMTP id
- 38308e7fff4ca-388104fb2a3mr61679151fa.2.1771507805728; Thu, 19 Feb 2026
- 05:30:05 -0800 (PST)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 19 Feb 2026 07:30:04 -0600
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 19 Feb 2026 07:30:04 -0600
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <ana2ugshqjicqscwpdgo6knv53n4zzuwqp376qil27spco5vwh@ck7wmplz52qs>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xo4IlU9U"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771508307;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=aOeIg9jPXgnnqCaV4kmsvRxqIOtd7FL+w1fHgOoShuM=;
+	b=Xo4IlU9UJQpG6c5JWYSrCkA4H93b7i4aTdOs6PnmWmYpr8HRq1taMfX9gSDVMabZCz3K7g
+	s/40/MdmJ+XZmiCel8USG9eiU2vjU5T9FjIHJ8tSBdIfcjmB6qr3609E47VzlEkAo+0s4H
+	/YrJYxX6Iu/9CYeNoWxCqAuzrCVa/gk=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-624-8rgNG8P9O9iIH6NoaYwXmg-1; Thu,
+ 19 Feb 2026 08:38:24 -0500
+X-MC-Unique: 8rgNG8P9O9iIH6NoaYwXmg-1
+X-Mimecast-MFC-AGG-ID: 8rgNG8P9O9iIH6NoaYwXmg_1771508302
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 95AF41956063;
+	Thu, 19 Feb 2026 13:38:21 +0000 (UTC)
+Received: from jlelli-thinkpadt14gen4.remote.csb (unknown [10.45.224.38])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1534519560A7;
+	Thu, 19 Feb 2026 13:38:14 +0000 (UTC)
+From: Juri Lelli <juri.lelli@redhat.com>
+Subject: [PATCH RFC 0/4] sched/deadline: Add soft/reclaim mode via
+ SCHED_OTHER demotion
+Date: Thu, 19 Feb 2026 14:37:33 +0100
+Message-Id: <20260219-upstream-deadline-demotion-v1-0-528b96e53d12@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aUF2gj_0svpygHmD@vaman> <CAMRc=McO-Fbb=O3VjFk5C14CD6oVA4UmLroN4_ddCVxtfxr03A@mail.gmail.com>
- <aUpyrIvu_kG7DtQm@vaman> <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
- <aVZh3hb32r1oVcwG@vaman> <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
- <aVf5WUe9cAXZHxPJ@vaman> <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
- <aWBndOfbtweRr0uS@vaman> <CAMRc=McPz+W4GOCbNMx-tpSav3+wuUrLT2CF5FhoV5U29oiK6A@mail.gmail.com>
- <ana2ugshqjicqscwpdgo6knv53n4zzuwqp376qil27spco5vwh@ck7wmplz52qs>
-Date: Thu, 19 Feb 2026 07:30:04 -0600
-X-Gmail-Original-Message-ID: <CAMRc=MevcsQ+sWsERQzod-a9A+F8feoLnbBXSkZrUk4zBPYCSQ@mail.gmail.com>
-X-Gm-Features: AaiRm53cx-KfiZAxdpSywJ7B0Zb2jcx9rzKgIzLaCRlF3zG9P5JOSW9yiPZ0nm4
-Message-ID: <CAMRc=MevcsQ+sWsERQzod-a9A+F8feoLnbBXSkZrUk4zBPYCSQ@mail.gmail.com>
-Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
- BAM locking
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Bartosz Golaszewski <brgl@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWMywrCMBBFf6XM2kAmGF9bwQ9wKy5ic9URm5ZMK
+ kLpvxt1d8+FcyZSZIHSrpko4yUqfarAi4bae0g3GImVyVm3so43Zhy0ZITORIT4lIQ6ur5UzfD
+ WM2O9ZOs91cCQcZX3L36i42FP5/+p4+WBtnyzNM8fqCzVjYMAAAA=
+X-Change-ID: 20260218-upstream-deadline-demotion-19511e741055
+To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Vincent Guittot <vincent.guittot@linaro.org>, 
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>, 
+ Qais Yousef <qyousef@google.com>, Clark Williams <williams@redhat.com>, 
+ Gabriele Monaco <gmonaco@redhat.com>, 
+ Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>, 
+ Luca Abeni <luca.abeni@santannapisa.it>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Juri Lelli <juri.lelli@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771508294; l=4943;
+ i=juri.lelli@redhat.com; s=20250626; h=from:subject:message-id;
+ bh=cSw1phAcmiq0kZN7Wwxl0rDlV1qs6y+K54cRfWcVd4E=;
+ b=S6lpBNtHabq9IcseSchz6U9UM6Wo4x1CzJ7YX6vdb+QDkxq3MMNy6tjaZyCh7N5nVkt2h6q4N
+ dl6RaxghlaYDLWzIAiIZDKCVv49EhueQO0wsAXpSubo2Wu8rp5gydcV
+X-Developer-Key: i=juri.lelli@redhat.com; a=ed25519;
+ pk=kSwf88oiY/PYrNMRL/tjuBPiSGzc+U3bD13Zag6wO5Q=
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Thu, 19 Feb 2026 13:12:09 +0100, Manivannan Sadhasivam
-<mani@kernel.org> said:
-> On Fri, Jan 09, 2026 at 03:15:38PM +0100, Bartosz Golaszewski wrote:
->> On Fri, Jan 9, 2026 at 3:27=E2=80=AFAM Vinod Koul <vkoul@kernel.org> wro=
-te:
->> >
->> > >
->> > > We need an API because we send a locking descriptor, then a regular
->> > > descriptor (or descriptors) for the actual transaction(s) and then a=
-n
->> > > unlocking descriptor. It's a thing the user of the DMA engine needs =
-to
->> > > decide on, not the DMA engine itself.
->> >
->> > I think downstream sends lock descriptor always. What is the harm in
->> > doing that every time if we go down that path?
->>
->> No, in downstream it too depends on the user setting the right bits.
->> Currently the only user of the BAM locking downstream is the NAND
->> driver. I don't think the code where the crypto driver uses it is
->> public yet.
->>
->> And yes, there is harm - it slightly impacts performance. For QCE it
->> doesn't really matter as any users wanting to offload skcipher or SHA
->> are better off using the Arm Crypto Extensions anyway as they are
->> faster by an order of magnitude (!). It's also the default upstream,
->> where the priorities are set such that the ARM CEs are preferred over
->> the QCE. QCE however, is able to coordinate with the TrustZone and
->> will be used to support the DRM use-cases.
->>
->> I prefer to avoid impacting any other users of BAM DMA.
->>
->
-> Sorry for jumping late. But I disagree with the argument that the client =
-drivers
-> have to set the LOCK/UNLOCK bit. These bits are specific to BAM DMA IP fo=
-r
-> serializing the command descriptors from multiple entities. So DMA client=
-s like
-> Crypto/NAND have no business in setting this flag. It is the job of the B=
-AM
-> dmaengine driver to set/unset it at the start and end of the descriptor c=
-hain.
->
+Hi All,
 
-But what if a given client does not need locking? We don't want to enable i=
-t
-for everyone - as I explained before.
+This RFC introduces a bandwidth reclaiming mechanism for SCHED_DEADLINE
+tasks through temporary demotion to SCHED_NORMAL when runtime is
+exhausted. This resurrects and refines the demotion concept from the
+original SCHED_DEADLINE development circa 2010, focusing exclusively on
+SCHED_NORMAL demotion.
 
->> > Reg Dmitry question above, this is dma hw capability, how will client
->> > know if it has to lock on older rev of hardware or not...?
->> >
->> > > Also: only the crypto engine needs it for now, not all the other use=
-rs
->> > > of the BAM engine.
->> >
->>
->> Trying to set the lock/unlock bits will make
->> dmaengine_desc_attach_metadata() fail if HW does not support it.
->>
->
-> The BAM dmaengine driver *must* know based on the IP version whether it s=
-upports
-> the LOCK/UNLOCK bits or not, not the client drivers. How can the client d=
-rivers
-> know about the BAM DMA IP capability?
->
+Discussions about the feature have been resurfacing over the years and I
+wanted to check for feasibility and real interest. Found a little time
+to play around with the idea and this is the result of that.
 
-FYI: the current version of this is v10[1].
+When a DEADLINE task with SCHED_FLAG_DL_DEMOTION exhausts its runtime
+budget, the scheduler demotes it to SCHED_NORMAL rather than throttling
+it until the next period. The task continues execution competing fairly
+with other normal tasks, using the nice value specified in
+sched_attr.sched_nice. At the next period boundary, the replenishment
+timer automatically promotes the task back to SCHED_DEADLINE with a
+fresh runtime budget.
 
-In it (and in this one too but let's discuss the current one) the BAM drive=
-r
-*does* know *based on IP version* whether is supports locking or not. The c=
-lient
-requests a lock but this will fail if the BAM does not support it. The
-client does
-not check the BAM IP revision. So yes: it's the BAM driver that's in charge=
-.
+This provides a "soft(er) real-time" mode where tasks get timing
+guarantees when within budget but gracefully degrade to best-effort
+execution during overruns rather than being suspended. The bandwidth
+reservation remains in place during demotion, making the mechanism
+transparent from an admission control perspective similar to throttling.
 
-> For all these reasons, BAM driver should handle the locking mechanism int=
-ernaly.
-> This will allow the client drivers to work without any modifications.
->
+Key design aspects:
 
-Ok, I'm open to alternatives but please help me figure out the "hows": How =
-do
-you tell the BAM driver that the client needs (or does not) locking? How do
-you handle the case where we need to lock the BAM, send an arbitrary number
-of descriptors from the client and then unlock it? How can the BAM know *wh=
-en*
-to lock/unlock?
+The implementation focuses solely on SCHED_NORMAL demotion, unlike
+earlier proposals that suggested multiple demotion targets including RT
+and DL postponement. Simpler and maybe enough?
 
-> FWIW, NAND driver too is impacted by this missing feature in the BAM driv=
-er as
-> both Modem and Linux tries to driver BAM and currently Linux BAM driver d=
-oesn't
-> set these bits leading to crashes.
->
+The feature reuses the existing sched_attr.sched_nice field to specify
+the nice value during demotion, avoiding new UAPI additions while
+maintaining ABI compatibility. This is orthogonal to GRUB
+(SCHED_FLAG_RECLAIM) - tasks can combine both mechanisms for
+opportunistic reclaiming through accounting and continued execution
+through demotion (at least in principle, didn't actually test it yet :).
 
-Yes, downstream handles that in a very dirty way (same as downstream QCE).
+Demoted tasks cannot migrate between CPUs. This simplification keeps
+bandwidth accounting straightforward by ensuring the reservation stays
+on the original CPU throughout demotion. Migration is re-enabled after
+promotion or explicit parameter changes via sched_setattr().
 
-Bart
+The bandwidth accounting follows the throttling model rather than full
+class switching. Dequeue operations omit DEQUEUE_SAVE to keep the
+reservation in this_bw (admission control bandwidth). Running bandwidth
+(enforcement) is handled at 0-lag time for tasks that sleep while
+demoted, maintaining correct GRUB accounting.
 
-[1] https://lore.kernel.org/all/20251219-qcom-qce-cmd-descr-v10-0-ff7e4bf7d=
-ad4@oss.qualcomm.com/
+Explicit sched_setattr() calls on demoted tasks cancel the demotion
+state and perform full bandwidth cleanup including inactive timer
+handling and cpuset tracking. The replenishment timer remains armed but
+fires harmlessly when it detects the task is no longer DEADLINE.
+
+This posting is very much experimental. I added AI generated tests
+(included here just for reference) that helped checking a few cases
+during implementation. However, I am quite sure I'm missing several
+additional cases that can cause breakage. Test it at your own risk! :P
+
+Based on original work by Dario Faggioli:
+https://lore.kernel.org/lkml/1288334546.8661.161.camel@Palantir/
+
+As always comments and questions are more than welcome.
+
+Series also available at
+
+git@github.com:jlelli/linux.git upstream/deadline-demotion
+
+Signed-off-by: Juri Lelli <juri.lelli@redhat.com>
+---
+Juri Lelli (4):
+      sched/deadline: Implement reclaim/soft mode through SCHED_OTHER demotion
+      sched/doc: Document SCHED_DEADLINE demotion feature
+      DEBUG selftests/sched: Add tests for SCHED_DEADLINE demotion feature
+      DEBUG selftests/sched: Add simple demonstration of SCHED_DEADLINE demotion
+
+ Documentation/scheduler/sched-deadline.rst         |  54 +++
+ include/linux/sched.h                              |  10 +
+ include/uapi/linux/sched.h                         |   4 +-
+ include/uapi/linux/sched/types.h                   |   8 +
+ kernel/sched/deadline.c                            | 213 +++++++++-
+ kernel/sched/fair.c                                |   8 +
+ kernel/sched/sched.h                               |  15 +-
+ kernel/sched/syscalls.c                            |   8 +
+ tools/testing/selftests/sched/.gitignore           |   3 +
+ tools/testing/selftests/sched/Makefile             |   4 +-
+ tools/testing/selftests/sched/README_dl_demotion   |  83 ++++
+ tools/testing/selftests/sched/dl_demotion_demo.c   | 239 +++++++++++
+ tools/testing/selftests/sched/dl_demotion_stress.c | 208 ++++++++++
+ tools/testing/selftests/sched/dl_demotion_test.c   | 460 +++++++++++++++++++++
+ .../selftests/sched/run_dl_demotion_with_trace.sh  |  71 ++++
+ 15 files changed, 1382 insertions(+), 6 deletions(-)
+---
+base-commit: e34881c84c255bc300f24d9fe685324be20da3d1
+change-id: 20260218-upstream-deadline-demotion-19511e741055
+
+Best regards,
+--  
+Juri Lelli <juri.lelli@redhat.com>
+
