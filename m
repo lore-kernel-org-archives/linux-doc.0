@@ -1,255 +1,284 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCFF5286891;
-	Thu, 19 Feb 2026 17:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771522409; cv=none; b=tmkMjLS5xl90HRV92vZJuvJbU1p0uiUD7Hny10gxw4Qc7TwuZSpPSMypWu1EFPGQIdI+2QS7gRQ06F8vfiCi/zkROmJ6CCYmk4xeH27fWXIFUQccrdT5YsC3QJWe+ZIo8jWENT00oyEPeIuGphZwf0Ewwb9dB8wzkWZrSL4ci8k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771522409; c=relaxed/simple;
-	bh=YBfqhAyJBBi8jQ5+S2gpiyWB9sQOFUWNV2K7dd7lm3I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uQA6ROT/UmWgbjHDeZqRAG+BDclypDz8+In+oxYSq+KPBqhp51ot1JdjgR7waJ+dKq7lgYxU3QsLbQ2RjISu/qr69FhULeXLJghEHm5TEGtGru/VLZSmh5rLoTIZ55A37bZT7vBEMo5JFMNZmRCxfXJdrKKRb97kzOQNBYfEwak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 79EC5339;
-	Thu, 19 Feb 2026 09:33:20 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA58F3F7D8;
-	Thu, 19 Feb 2026 09:33:19 -0800 (PST)
-Message-ID: <feaa16a5-765c-4c24-9e0b-c1f4ef87a66f@arm.com>
-Date: Thu, 19 Feb 2026 17:33:18 +0000
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F6634D909
+	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 17:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771522487; cv=pass; b=ETP1uGni3cQLYj22dltYu/Tv7FrqlyAZybgIMICNIu3uLxR0KlHvozai6XCYUFgbrGkA/4E9qqYCg89vVnFET2ft+5ZeIm20VOmRrgoEBKgsTmikaxaVtkPPmkX6T6GyszeKpCHdBShoQzmw3XGl02QZXuwK3gH7qkdC07JRD0E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771522487; c=relaxed/simple;
+	bh=Nhfo6WowGFqZTaUMQKHqG7rfam1cmV6bFODpXkitYV8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TzqWVOCs4BB80debvD3TMhaQe8dtgmt54hZ55WQVzBYNpyuC46yy+LQljJ4skkChZinoDYPPGOAIi3Q+9gZG9pp84bwb2W4F8TGRFC5lZrMspmbMY1NxpXBVOHGzYGCmmoJECJnEzBwudOsMyXsG6uwLJ4NM+U/mPON7M8G1JFg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b=YisUY52t; arc=pass smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=amacapital-net.20230601.gappssmtp.com header.i=@amacapital-net.20230601.gappssmtp.com header.b="YisUY52t"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-59e60925251so1266790e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 09:34:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771522484; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CEi/gOGvyhdpLM7NXZhhyK1C3pYYZFUCCGGcl0eD8LT8yoPcLQAKHV7EohV8PgYTZv
+         r3t+0s7kBA1m6ukT12KeIhvU9REdmjHQZDUK2TRzfDRYklFEty7oRzzJ9cIxazrR2hEN
+         MsBvQo7xBnDvVIbwepUDT/AGgkoKrMqYWAjPDIur54Uac2435cTRX5+GHEBBhQD2RiZ5
+         mAqc49V7yKuceOxNsW8SgW+MvKVWhEfiLWZDQKDZj/7A6+TP3VFK9VBVIsSexGNxO73W
+         MBHaR7PE6SusU2Zi8j0JQr4o18eS0QiNdMWt5AabJ8tHQRY6qvUXMfEL6dNtt8y5as7H
+         9LnQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UUE/Joru8hXMHvDVf62I8TaujuFRVcwhp9CDDO4vFKM=;
+        fh=G5Ljc7qR2Bq1nFrg8z9IokclKli6XDmBhC+fh4tSfCg=;
+        b=jqS9jVnbxowL9dpMms4hq9oxwbPTrfbWrwcIKILheXKBQCtgwxXM+Y3W9Zaw+/FKZQ
+         7LfxP+wz4xBGQLSc8t0viYyJAe/l9TLv2EipC/DW5yPRjO6KgJ0ltXpoF2GmyUdpyxpG
+         saFfhsyhaulejLC3DaroFGsi4TDlAI5IYJSlholi8iwUM4meIBqMQMOfc8CspHEUIz2h
+         OmBzBdTT6feReCu/b3IXwW+ryBFD7d/LyI2eKITXEqg19xwC1fd7K1HYJA0B+OjiUNAs
+         /VoXkkKSeukC794KUUPiIkNlPxqeg4NdqaFfoTOt1ik8EoPSIniVxhRJCXswZ4QzMg8+
+         HDYQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20230601.gappssmtp.com; s=20230601; t=1771522484; x=1772127284; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UUE/Joru8hXMHvDVf62I8TaujuFRVcwhp9CDDO4vFKM=;
+        b=YisUY52t5F2N/Mobb4iTxZEVeKpzj/NwpGCrpnX98cKCyu72Crp4S65evd7o3/gUnq
+         kUf8f0uZvpuHyTdpNbsmCcSowPwHEgYx9eFolMJakQM2Hlc0/T3uL6WNEuZneHliVl9y
+         9YJ/bvVzv1wG7wM7ZJHJqWYKr8oVhFlPpL98bcBNEBJy/kISp8PyGHgEKj+B/O2KKV89
+         zvbbnskMu/qBi0FSMDwJZeeasVrZl249OKLf6uchp1XVBVei8h9N6L3SXk4sJWCINPW0
+         wvsRp68zBzk6M8HAcGDucSXPQ7o0AbQ7Yp8Sc9APee63y8nbN642bNhP8jJRPXqJ8x7b
+         R8tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771522484; x=1772127284;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UUE/Joru8hXMHvDVf62I8TaujuFRVcwhp9CDDO4vFKM=;
+        b=ISfxdgMzmj/TwCU6nLcjFBf9e7dOg1U55VrHLnK7zo9eXQOqGSmGFNQ8Vflgfw0hqe
+         NGjupEJmqhJl21NANc6XaDg7JMauPyWMO0sPTAGAJOiWuL44i2IZmeStJTMz9CbTZrft
+         fQgzQGIkw0vDFtcGNrMUzWsGpmzHtG/h+74XepUBZxpQmvMykETMzd29d2xLZWYs9GI8
+         Qk+Z2ctuqHOAmmiMdqClTJXsz6F6oOTP66VqElKXOIOrKOOumVFVzunx6j0Q3B0hVuul
+         ADJIM3YuaMXIJQ0D1ycjSo0U53mWIvY+6Fn5ihBs4A8nWmY96hsqFVMbxTE3rBOmjarm
+         pRyg==
+X-Forwarded-Encrypted: i=1; AJvYcCWIaPWM1eUl2k3FkI8pmjp62bcHu8ykykEW6MKDXXOVLFyQtS3rUon8fH768fyNF7ScAAg2uxxUdPc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDI2qF2/NkS1szda2mP9/sLERv/UhJQykekrwTAMsn4y8RnlKD
+	fvy2jOVV8yW49qhsw7WRUKFXMR/AGhy11tUvt+yB7fKtWMw4cWGfaq1UNTjN0AtKsDFk3WpImHU
+	+uTMkfHUxhP6lHqkhtWLGnTI7pZQpeXWdg6n+i/Kl
+X-Gm-Gg: AZuq6aLAsil/FvkheY1GtmnN596M6DME93iP5Kvxoi/n7dCxguKqbMLH7VQ+h0FegsV
+	QJB3KTgqexL/pK17p/OyBe/G/xSCd5r7s8Jna9rOvK42GIXlUzur0oZ/LZX0j7h8felshlL9pOM
+	8cdzFBEBFiYPGn4g3j0FHGdJ5/dmdld+ehh63zbi1hgdks+23FnTiGsxmyDZ26wV0I4XRH46kdi
+	az9n00qCWV1qkdbtbF2g+7LBbeRFl/+eR7aP3HvCoeX/4fnI1b3ak+LzFXsv9VDWXGAE/NMJpk0
+	x87H
+X-Received: by 2002:a05:6512:2242:b0:59e:5e07:17fc with SMTP id
+ 2adb3069b0e04-59f69c28542mr6061794e87.18.1771522483387; Thu, 19 Feb 2026
+ 09:34:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-To: "Luck, Tony" <tony.luck@intel.com>,
- Reinette Chatre <reinette.chatre@intel.com>
-Cc: "Moger, Babu" <bmoger@amd.com>, "Moger, Babu" <Babu.Moger@amd.com>,
- Drew Fustini <fustini@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
- "james.morse@arm.com" <james.morse@arm.com>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
- "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
- "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
- <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
- "pmladek@suse.com" <pmladek@suse.com>,
- "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
- "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "fvdl@google.com" <fvdl@google.com>,
- "lirongqing@baidu.com" <lirongqing@baidu.com>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
- "Shukla, Manali" <Manali.Shukla@amd.com>,
- "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
- "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "naveen@kernel.org" <naveen@kernel.org>,
- "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "peternewman@google.com" <peternewman@google.com>,
- "eranian@google.com" <eranian@google.com>,
- "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
-References: <aYyxAPdTFejzsE42@e134344.arm.com>
- <679dcd01-05e5-476a-91dd-6d1d08637b3e@intel.com>
- <aY3bvKeOcZ9yG686@e134344.arm.com>
- <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
- <aZM1OY7FALkPWmh6@e134344.arm.com>
- <d704ea1f-ed9f-4814-8fce-81db40b1ee3c@intel.com>
- <aZThTzdxVcBkLD7P@agluck-desk3>
- <2416004a-5626-491d-819c-c470abbe0dd0@intel.com>
- <aZTxJTWzfQGRqg-R@agluck-desk3>
- <65c279fd-0e89-4a6a-b217-3184bd570e23@intel.com>
- <aZXsihgl0B-o1DI6@agluck-desk3>
-From: Ben Horgan <ben.horgan@arm.com>
-Content-Language: en-US
-In-Reply-To: <aZXsihgl0B-o1DI6@agluck-desk3>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+ <b5f2b5a5-b984-4ed3-a023-c06d634f9146@app.fastmail.com> <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com>
+ <49d169bf-0ad2-49be-b7d7-fceb9e7f831a@app.fastmail.com> <CALCETrUE8c-dxRWhtHKz_PojwZuWMXJSzOsFQf2vt5LS3ATwpA@mail.gmail.com>
+ <1BBD7449-8420-43FD-930B-A4E1BA38FFC6@zytor.com> <CALCETrWzG1Mjb-RcwLQ5-tGFZ15WKHjZbqtLvyif+UPuVKJ_5g@mail.gmail.com>
+ <32e62cef7b89d9691bdd4120388ce752fd041230.camel@redhat.com>
+ <CALCETrUMR0RvOFXGzL7=F4c-3veL+1Sm2xf-BprHTK4=UKw8yA@mail.gmail.com> <558d0f28-01fb-4447-891c-2ffbf869c077@app.fastmail.com>
+In-Reply-To: <558d0f28-01fb-4447-891c-2ffbf869c077@app.fastmail.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Thu, 19 Feb 2026 09:34:31 -0800
+X-Gm-Features: AaiRm522PbtXXP376kUUKctZtEGG7xWnV2UAINAeVODac9_j4h5cpV1OS3ViHZU
+Message-ID: <CALCETrWynypSD7vEjJNLcym3JhBw4k0ovDiR_3YuOHh92TnM=A@mail.gmail.com>
+Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: Simo Sorce <simo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>, 
+	"Daniel P. Smith" <dpsmith@apertussolutions.com>, Ross Philipson <ross.philipson@oracle.com>, 
+	linux-kernel@vger.kernel.org, x86@kernel.org, linux-integrity@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-efi@vger.kernel.org, iommu@lists.linux.dev, 
+	dave.hansen@linux.intel.com, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, mjg59@srcf.ucam.org, 
+	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, 
+	Jarkko Sakkinen <jarkko@kernel.org>, jgg@ziepe.ca, nivedita@alum.mit.edu, 
+	Herbert Xu <herbert@gondor.apana.org.au>, davem@davemloft.net, corbet@lwn.net, 
+	ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
+	kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com, 
+	trenchboot-devel@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tony,
-
-On 2/18/26 16:44, Luck, Tony wrote:
-> On Tue, Feb 17, 2026 at 03:55:44PM -0800, Reinette Chatre wrote:
->> Hi Tony,
->>
->> On 2/17/26 2:52 PM, Luck, Tony wrote:
->>> On Tue, Feb 17, 2026 at 02:37:49PM -0800, Reinette Chatre wrote:
->>>> Hi Tony,
->>>>
->>>> On 2/17/26 1:44 PM, Luck, Tony wrote:
->>>>>>>>> I'm not sure if this would happen in the real world or not.
->>>>>>>>
->>>>>>>> Ack. I would like to echo Tony's request for feedback from resctrl users
->>>>>>>>  https://lore.kernel.org/lkml/aYzcpuG0PfUaTdqt@agluck-desk3/
->>>>>>>
->>>>>>> Indeed. This is all getting a bit complicated.
->>>>>>>
->>>>>>
->>>>>> ack
->>>>>
->>>>> We have several proposals so far:
->>>>>
->>>>> 1) Ben's suggestion to use the default group (either with a Babu-style
->>>>> "plza" file just in that group, or a configuration file under "info/").
->>>>>
->>>>> This is easily the simplest for implementation, but has no flexibility.
->>>>> Also requires users to move all the non-critical workloads out to other
->>>>> CTRL_MON groups. Doesn't steal a CLOSID/RMID.
->>>>>
->>>>> 2) My thoughts are for a separate group that is only used to configure
->>>>> the schemata. This does allocate a dedicated CLOSID/RMID pair. Those
->>>>> are used for all tasks when in kernel mode.
->>>>>
->>>>> No context switch overhead. Has some flexibility.
->>>>>
->>>>> 3) Babu's RFC patch. Designates an existing CTRL_MON group as the one
->>>>> that defines kernel CLOSID/RMID. Tasks and CPUs can be assigned to this
->>>>> group in addition to belonging to another group than defines schemata
->>>>> resources when running in non-kernel mode.
->>>>> Tasks aren't required to be in the kernel group, in which case they
->>>>> keep the same CLOSID in both user and kernel mode. When used in this
->>>>> way there will be context switch overhead when changing between tasks
->>>>> with different kernel CLOSID/RMID.
->>>>>
->>>>> 4) Even more complex scenarios with more than one user configurable
->>>>> kernel group to give more options on resources available in the kernel.
->>>>>
->>>>>
->>>>> I had a quick pass as coding my option "2". My UI to designate the
->>>>> group to use for kernel mode is to reserve the name "kernel_group"
->>>>> when making CTRL_MON groups. Some tweaks to avoid creating the
->>>>> "tasks", "cpus", and "cpus_list" files (which might be done more
->>>>> elegantly), and "mon_groups" directory in this group.
->>>>
->>>> Should the decision of whether context switch overhead is acceptable
->>>> not be left up to the user? 
->>>
->>> When someone comes up with a convincing use case to support one set of
->>> kernel resources when interrupting task A, and a different set of
->>> resources when interrupting task B, we should certainly listen.
->>
->> Absolutely. Someone can come up with such use case at any time tough. This
->> could be, and as has happened with some other resctrl interfaces, likely will be
->> after this feature has been supported for a few kernel versions. What timeline
->> should we give which users to share their use cases with us? Even if we do hear
->> from some users will that guarantee that no such use case will arise in the
->> future? Such predictions of usage are difficult for me and I thus find it simpler
->> to think of flexible ways to enable the features that we know the hardware supports.
->>
->> This does not mean that a full featured solution needs to be implemented from day 1.
->> If folks believe there are "no valid use cases" today resctrl still needs to prepare for
->> how it can grow to support full hardware capability and hardware designs in the
->> future.
->>
->> Also, please also consider not just resources for kernel work but also monitoring for
->> kernel work. I do think, for example, a reasonable use case may be to determine
->> how much memory bandwidth the kernel uses on behalf of certain tasks.
->>  
->>>> I assume that, just like what is currently done for x86's MSR_IA32_PQR_ASSOC,
->>>> the needed registers will only be updated if there is a new CLOSID/RMID needed
->>>> for kernel space.
->>>
->>> Babu's RFC does this.
->>
->> Right.
->>
->>>
->>>>                   Are you suggesting that just this checking itself is too
->>>> expensive to justify giving user space more flexibility by fully enabling what
->>>> the hardware supports? If resctrl does draw such a line to not enable what
->>>> hardware supports it should be well justified.
->>>
->>> The check is likley light weight (as long as the variables to be
->>> compared reside in the same cache lines as the exisitng CLOSID
->>> and RMID checks). So if there is a use case for different resources
->>> when in kernel mode, then taking this path will be fine.
->>
->> Why limit this to knowing about a use case? As I understand this feature can be
->> supported in a flexible way without introducing additional context switch overhead
->> if the user prefers to use just one allocation for all kernel work. By being
->> configurable and allowing resctrl to support more use cases in the future resctrl
->> does not paint itself into a corner. This allows resctrl to grow support so that
->> the user can use all capabilities of the hardware with understanding that it will
->> increase context switch time.
->>
->> Reinette
-> 
-> How about this idea for extensibility.
-> 
-> Rename Babu's "plza" file to "plza_mode". Instead of just being an
-> on/off switch, it may accept multiple possible requests.
-
-If we're making global configuration choices then I think it should be
-visible in a global location. It doesn't seem good to have to check all
-CTRL_MON group.
-
-> 
-> Humorous version:
-> 
-> # echo "babu" > plza_mode
-> 
-> This results in behavior of Babu's RFC. The CLOSID and RMID assigned to
-> the CTRL_MON group are used when in kernel mode, but only for tasks that
-> have their task-id written to the "tasks" file or for tasks in the
-> default group in the "cpus" or "cpus_list" files are used to assign
-> CPUs to this group.
-> 
-> # echo "tony" > plza_mode
-> 
-> All tasks run with the CLOSID/RMID for this group. The "tasks", "cpus" and
-> "cpus_list" files and the "mon_groups" directory are removed.
-> 
-> # echo "ben" > plza_mode"
-> 
-> Only usable in the top-level default CTRL_MON directory. CLOSID=0/RMID=0
-> are used for all tasks in kernel mode.
-> 
-> # echo "stephane" > plza_mode
-> 
-> The RMID for this group is freed. All tasks run in kernel mode with the
-> CLOSID for this group, but use same RMID for both user and kernel.
-> In addition to files removed in "tony" mode, the mon_data directory is
-> removed.
-
-For these option with a single group set as plza we could have a global
-option and then just a plza marker.
-
-> 
-> # echo "some-future-name" > plza_mode
-> 
-> Somebody has a new use case. Resctrl can be extended by allowing some
-> new mode.
+On Wed, Feb 18, 2026 at 11:55=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> w=
+rote:
 >
-> > Likely real implementation:
-> 
-> Sub-components of each of the ideas above are encoded as a bitmask that
-> is written to plza_mode. There is a file in the info/ directory listing
-> which bits are supported on the current system (e.g. the "keep the same
-> RMID" mode may be impractical on ARM, so it would not be listed as an
-> option.)
-> 
-> -Tony
+> On Wed, 18 Feb 2026, at 22:54, Andy Lutomirski wrote:
+> > On Wed, Feb 18, 2026 at 1:04=E2=80=AFPM Simo Sorce <simo@redhat.com> wr=
+ote:
+> >>
+> >> On Wed, 2026-02-18 at 12:34 -0800, Andy Lutomirski wrote:
+> >> > On Wed, Feb 18, 2026 at 12:29=E2=80=AFPM H. Peter Anvin <hpa@zytor.c=
+om> wrote:
+> >> > >
+> >> > > On February 18, 2026 12:03:27 PM PST, Andy Lutomirski <luto@amacap=
+ital.net> wrote:
+> >> > > > On Thu, Feb 12, 2026 at 12:40=E2=80=AFPM Ard Biesheuvel <ardb@ke=
+rnel.org> wrote:
+> >> > > > >
+> >> > > > > On Thu, 12 Feb 2026, at 20:49, Daniel P. Smith wrote:
+> >> > > > > > On 2/9/26 09:04, Ard Biesheuvel wrote:
+> >> > > > > ...
+> >> > > > > But would it be better to disable the runtime services by defa=
+ult when doing a secure launch? PREEMPT_RT already does the same.
+> >> > > >
+> >> > > > So I have a possible way to disable EFI runtime service without =
+losing
+> >> > > > the ability to write EFI vars.  We come up with a simple file fo=
+rmat
+> >> > > > to store deferred EFI var updates and we come up with a place to=
+ put
+> >> > > > it so that we find it early-ish in boot the next time around.  (=
+This
+> >> > > > could be done via integration with systemd-boot or shim some oth=
+er
+> >> > > > boot loader or it could actually be part of the kernel.)  And th=
+en,
+> >> > > > instead of writing variables directly, we write them to the defe=
+rred
+> >> > > > list and then update them on reboot (before TXT launch, etc).  [=
+0]
+> >> > > > This would be a distincly nontrivial project and would not work =
+for
+> >> > > > all configurations.
+> >> > > >
+> >> > > > As a maybe less painful option, we could disable EFI runtime ser=
+vices
+> >> > > > but have a root-writable thing in sysfs that (a) turns them back=
+ on
+> >> > > > but (b) first extends a PCR to say that they're turned back on.
+> >> > > >
+> >> > > > (Or someone could try running runtime services at CPL3...)
+> >> > > >
+> >> > > > [0] I have thought for years that Intel and AMD should do this o=
+n
+> >> > > > their end, too.  Keep the sensitive part of SMI flash entirely l=
+ocked
+> >> > > > after boot and, instead of using magic SMM stuff to validate tha=
+t
+> >> > > > write attempts have the appropriate permissions and signatures, =
+queue
+> >> > > > them up as deferred upates and validate the signatures on the ne=
+xt
+> >> > > > boot before locking flash.
+> >> > > >
+> >> > >
+> >> > > *If* a physical EFI partition exists there is a lot to be said for=
+ this approach.
+> >> > >
+> >> > > The only issue with this that I can see is for things like network=
+ or CD/DVD booting where there isn't necessarily any EFI boot partition, it=
+ might not be writable, or it might not be persistent (e.g. http booting ty=
+pically uses a ramdisk, like the old Linux initrd.)
+> >> >
+> >> > Hmm, I guess my approach is a 100% complete nonstarter for installin=
+g
+> >> > Linux from a CD, and it's really not awesome for installing Linux fr=
+om
+> >> > a USB stick.
+> >>
+> >> Doing any of this on a removable device feels generally like a trap.
+> >> You get your USB disk in, try to boot, and it saves vars, but reboot
+> >> fails for whatever reason, you plug it in another machine ... and it
+> >> tries to "continue" from there? The amount of validation needed and
+> >> testing for failure modes across reboots sounds really painful.
+> >
+> > I kind of stand by my other previous suggestion, though:
+> >
+> > As a maybe less painful option, we could disable EFI runtime services
+> > but have a root-writable thing in sysfs that (a) turns them back on
+> > but (b) first extends a PCR to say that they're turned back on.
+> >
+>
+> After setting the EFI boot path to GRUB (or systemd-boot or whatever) at =
+installation time, what other meaningful interactions do we expect with the=
+ EFI runtime services?
+>
+> And given that the secure launch is orchestrated by the bootloader , with=
+ which the kernel has a backchannel via its configuration file, it should b=
+e rather straight-forward to implement the staging of variable updates ther=
+e if we really need it.
+>
+> Doing any of this at the EFI/spec level might lead to a situation where t=
+he OS now has to guess which of the provided APIs to manipulate variables i=
+s the least broken.
+>
+> Of course, for readinf variables, dumping the RT variables into a memory =
+buffer at boot time and exposing it via a EFI config table would be rather =
+straight-forward, but it is also something I feel should be the job of the =
+boot component that takes part in the decision to shield the runtime servic=
+es from the OS.
 
-Thanks,
+So there's sort of a usability issue here.  On the one hand, this can
+all be orchestrated to work.  We build a kernel, and the kernel
+supports secure launch.  Someone makes an installer image, and that
+image is configured to skip secure launch, then install to disk, then
+program EFI vars, then reboot.  And the installed image is configured
+to do the secure launch, and EFI variable writes are turned off.
 
-Ben
+On the other hand, this all sucks.  I'm getting sick of having the
+kernel tell me that I am not permitted to do things.  I'm sick of
+writing software that deals with unnecessary restrictions.  If I were
+writing an OS with a USB stick-based installer, I might want to be
+able to boot the thing and decide later whether I'm installing an OS
+to disk.  (In fact, many USB installers work this way.)  But, in the
+model where EFI variable writes are hard-disabled on a secure launch,
+the decision to do the secure launch happens before the decision to
+install an OS, and we all lose.
 
+So I'm proposing that EFI variable writes be treated a bit like kexec
+[0] -- root (which is already part of the TCB for any practical
+purpose) is going to decide, like a grown up, to execute some code
+that it doesn't fully trust -- in this case, the EFI variable writes.
+And root will coordinate, correctly, with whomever it's busy using the
+TPM to coordinate with, and tell it that it's going to do something
+that will change its trustworthiness.  So it works like this:
+
+1. Secure launch the environment on the stick.  (At this stage,
+neither the boot loader nor the kernel has the faintest clue whether
+anyone needs that secure launch, but this doesn't matter.)
+
+2. The owner of the machine clicks "install".
+
+3. The installer makes some partitions and writes some files.
+
+(Up until now, the security posture of the running environment has not chan=
+ged.)
+
+4. The installer decides that it's now time to do untrustworthy
+things, namely writing EFI vars.  So it unmounts anything it mounted
+using TPM-sealed keys (or not -- this is between the distro and
+whoever trusts the distro), and it does:
+
+# echo 1 >/sys/.../extend_pcr_and_unlock_efi
+
+which *first* extends a PCR because we are about to change our
+security posture and *second* sets whatever flag permits use of EFI
+runtime services.
+
+5. The installer writes to EFI variables.  And the installer can no
+longer generate attestations to its previous security posture, which
+is the correct behavior.  And maybe the user can no longer unlock
+their home directory or whatever until they reboot.  Which is not
+really a big deal.
+
+(This is *dynamic* root of trust.  In theory the system could do a
+DRTM re-launch and recover its security posture, but I don't think
+this is implemented.)
+
+
+One thing I like about this is that it involves very little code.
+
+[0] Do we actually handle kexec intelligently?  I have no idea.  I'm
+still getting used to the time that gdb fails half the time because
+someone has a strange concept of security.
