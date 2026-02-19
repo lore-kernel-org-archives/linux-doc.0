@@ -1,237 +1,210 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE1101DF25F;
-	Thu, 19 Feb 2026 10:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2DB32ABCE
+	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 10:35:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771496882; cv=none; b=iPSn97Ql4kIBsGZjWn9tMew1XZlYzh9s0yZCj0cYORMwYUZytTGD0CXRr68/brbV4QrF/fBQa7bIIaldyDT1gt14boU1IlljZ9g7UBWuopJaRpXiKlZ+eaX8F6AeeTxdkuW12QLhyOCkf9sEA0mvTwkIxmIN7DL312p648hTgq0=
+	t=1771497328; cv=none; b=uzSHHFpCasooR9ilED3hiA2fEpTNw4XXgu3eRbu8pTmqhICuWVSNXWJ6uWpZDx0oeJ7r2sJKudCBdCTP6g9x3Fr7zczGZwzH9yZ3yWjXy06uwIp1ozInFcu28N0aWj3M2Y7QBs1EXIPRNj7QuHUwXkphzT+UUpZ/In4uchs8KOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771496882; c=relaxed/simple;
-	bh=PIkcWsEBxeMOjH8xd0HX5SyYO3lSlkQBKWQVsGNAJlk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=IqZcAfcSmN9uSd/4MBJTiXB7OexSttznxR4Bn527KCFcxRKFpy8MiaqzFJeUXFF0h9NcQ1r2YH0z1x9JOd1ziA5D09RbMM7Bzua3eyObWpq+SIlmgkSgC1xLf/xaDJqRY3lF7jNk3X2jhhfV2uriNa9sQ0jeHcw4ZmaX4F0Mj/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CCBCE339;
-	Thu, 19 Feb 2026 02:27:52 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F61C3F62B;
-	Thu, 19 Feb 2026 02:27:52 -0800 (PST)
-Message-ID: <6293c484-ee54-46a2-b11c-e1e3c736e578@arm.com>
-Date: Thu, 19 Feb 2026 10:27:50 +0000
+	s=arc-20240116; t=1771497328; c=relaxed/simple;
+	bh=JzgTJfCZThD8ADnrrzOcTouopRq3PU+mfSlCjHNTIqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ueT5vjad0i6Drvd2WS917GJ/oIh5UIRpmGBOcsO++Zabrd42boTPRur8H2SkQlg1Trhka/HBdioZTbkVFBcJ1aH+FUQoyWZcA7aAh2empw/299VzXPXJR8fAAob8TYRfQnCed3vnh0ByRpwdhHbDW6OQDtKHn3AHgk3Ji32fFoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OnG8/tQg; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=oQV4QSAi; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OnG8/tQg";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="oQV4QSAi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771497326;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3F3zYoVrT9qjM5rAq+b6pbd+/hnAt//GBzSEVJjvXTQ=;
+	b=OnG8/tQggtNY3Lr8AVEqC7zh+Z9YSUah4pY0sWAoRIIuSTRkvgs6IF4gZ0p/eAp0HPkIJl
+	AylTvKx/xPsLLPhd6v+kEDs83ueNQjuD48QiNLTnnCJ5RsSp1alM34hMg5nOA4tXb9SQ5D
+	xXCtUegkUnaM24GQp9g9qfKoIwXmhYk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-52-5XUBMUd9Oze6iQ0miU7FUg-1; Thu, 19 Feb 2026 05:35:24 -0500
+X-MC-Unique: 5XUBMUd9Oze6iQ0miU7FUg-1
+X-Mimecast-MFC-AGG-ID: 5XUBMUd9Oze6iQ0miU7FUg_1771497324
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4837b6f6b93so6480705e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 02:35:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1771497323; x=1772102123; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3F3zYoVrT9qjM5rAq+b6pbd+/hnAt//GBzSEVJjvXTQ=;
+        b=oQV4QSAim8zkAt72BCdWOW/0atkiHhZffjQCtYsgFklc3kS/jwjCiz8u1e7HRW5oTk
+         Wuv9hWwMByh8Msm3JXH3PJoq9LT/SkPDTNWr08vO4/QUVKyZ5Ef6pWjWLG/SGaar/x0S
+         yUNvU0yGNfcEd+sd6IyJwSqnz1lnRE+oqlWP6drNX6iy52JR/THCXp86qo9MMdqmR6HB
+         9aHAbROjJoIxgfIgUhjHChfivheG1D8prFps4MwahKkkiCI/8DqBkdyJIr8ifNVepgJ1
+         EM2rgXoUInohlTguN+Y9HTXjJenj7LRm0Sntz03CRG3ZDhlzaJNpzgqhSrzTdYLCWCgQ
+         vZYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771497323; x=1772102123;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3F3zYoVrT9qjM5rAq+b6pbd+/hnAt//GBzSEVJjvXTQ=;
+        b=i1zYViSHUyE+RkLldVYmiZUnrWm1u+OuiAski6FhaKLLSaUh3OG9LZFZboPETH7JHf
+         53FtMEBV7aXGlq85j9uwJvJGkSEfvjhKNDtqlNK7CUz76llYrMWfnTfdWXBmSYeGrYqa
+         QpMI7xLCjcLatPAlycIIAwLKAG5Qp+gmGAYrBSNcvup4dl6hZpkrDMGYZpeHpCAZRC0Y
+         U16pgh/hA5okAU8avJJunYs70WUFzjFvx0R8ojkZTmOhvcVFPeblaggq5w585Rrzlpn/
+         YYUwSwCu1w8dAa/yFpYi1zy787n4CkYTeieaWzeckAuFSl6AzU8O/JOO4wJhczZt8LtC
+         2LEw==
+X-Forwarded-Encrypted: i=1; AJvYcCWT3CnJ2bC3fjzy2GgKebdB4Oe9QxhGj63WjJUajvZ6E/93VAQQJW3Lu/UMtvsofCAvqegPsDAnUgI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywl628u4UAsxrLMa6YaGIMi5QGiiBEHlnl5UkDrm7w4Mji45GrY
+	tv/jyO92urRWTiM2vZxPlIhK3/HjoNrZtmZBAQ3pLOiIDPVUiN6IxPPGGjUhZBPTfkCN8KBsjLD
+	UW9s1bReezCOEywfAEd4KNhCZgZJ2P2CtBVJKZxbhQQyk7lYftluIG9ibvGSdZw==
+X-Gm-Gg: AZuq6aJnJvn7lwi5Ws5qaomVAR1Pd0F480i8JN11zPAm88hY/+G9eXZPoDkf+imksH5
+	jlAvZYbFMHQvA+u6O+wK8SbzZbw7CarPph1XKwf6bxSaYJyrJpmmag3jYlbwcV3M2B3KPpFa5GA
+	8kR6Y/zB9MbOeME7AO1UNvqWNufr8oII0JoP3CixakA6/++OjTOJbJ+WZpUq12tZ52Tc/7RBUjY
+	MG8EjhnMlyGUw6Yb2DeZ0s1weOSF9rIQN2ZGEMtaKpVFr8Aktaz7q4/emJaEdWgI5eyMFjN8QFR
+	fZ6M6i9l932H2JbRWk40WZM5WP/FNeD4eFxpYsKwiF6XXV2tuKf/VzzWoO0yZFXhs7o+CY2sGn1
+	fTDrst+awp5qruCOeVDc3VzQp/2PiH9Oag6MrrgPrGDPzFsSogW60nBe4DswPFVGF8fwLO3c=
+X-Received: by 2002:a05:600c:4eca:b0:483:6d4a:7e6d with SMTP id 5b1f17b1804b1-48379be60camr248733885e9.30.1771497323442;
+        Thu, 19 Feb 2026 02:35:23 -0800 (PST)
+X-Received: by 2002:a05:600c:4eca:b0:483:6d4a:7e6d with SMTP id 5b1f17b1804b1-48379be60camr248733415e9.30.1771497322976;
+        Thu, 19 Feb 2026 02:35:22 -0800 (PST)
+Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4839f96967bsm19658265e9.3.2026.02.19.02.35.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Feb 2026 02:35:21 -0800 (PST)
+Date: Thu, 19 Feb 2026 11:35:19 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Bobby Eshleman <bobbyeshleman@meta.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net v2 1/3] selftests/vsock: change tests to respect
+ write-once child ns mode
+Message-ID: <aZbNwPMSd6ridmBn@sgarzare-redhat>
+References: <20260218-vsock-ns-write-once-v2-0-19e4c50d509a@meta.com>
+ <20260218-vsock-ns-write-once-v2-1-19e4c50d509a@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-From: Ben Horgan <ben.horgan@arm.com>
-To: Stephane Eranian <eranian@google.com>
-Cc: "Moger, Babu" <bmoger@amd.com>,
- Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu"
- <Babu.Moger@amd.com>, "Luck, Tony" <tony.luck@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "Dave.Martin@arm.com"
- <Dave.Martin@arm.com>, "james.morse@arm.com" <james.morse@arm.com>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
- "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
- "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
- <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
- "pmladek@suse.com" <pmladek@suse.com>,
- "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
- "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "fvdl@google.com" <fvdl@google.com>,
- "lirongqing@baidu.com" <lirongqing@baidu.com>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
- "Shukla, Manali" <Manali.Shukla@amd.com>,
- "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
- "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "naveen@kernel.org" <naveen@kernel.org>,
- "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "peternewman@google.com" <peternewman@google.com>,
- "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
-References: <cover.1769029977.git.babu.moger@amd.com>
- <17c9c0c252dcfe707dffe5986e7c98cd121f7cef.1769029977.git.babu.moger@amd.com>
- <aXk8hRtv6ATEjW8A@agluck-desk3>
- <5ec19557-6a62-4158-af82-c70bac75226f@amd.com>
- <aXpDdUQHCnQyhcL3@agluck-desk3>
- <IA0PPF9A76BB3A655A28E9695C8AD1CC59F9591A@IA0PPF9A76BB3A6.namprd12.prod.outlook.com>
- <bbe80a9a-70f0-4cd1-bd6a-4a45212aa80b@amd.com>
- <7a4ea07d-88e6-4f0f-a3ce-4fd97388cec4@intel.com>
- <abb049fa-3a3d-4601-9ae3-61eeb7fd8fcf@amd.com>
- <1a0a7306-f833-45a8-8f2b-c6d2e8b98ff5@intel.com>
- <fd7e0779-7e29-461d-adb6-0568a81ec59e@arm.com>
- <fbaa21b3-d010-4b89-8e87-f13d3f176ea3@amd.com>
- <951b9a1f-a9d7-4834-b6b8-61417e984f2f@arm.com>
- <CABPqkBSq=cgn-am4qorA_VN0vsbpbfDePSi7gubicpROB1=djw@mail.gmail.com>
- <845587f3-4c27-46d9-83f8-6b38ccc54183@arm.com>
-Content-Language: en-US
-In-Reply-To: <845587f3-4c27-46d9-83f8-6b38ccc54183@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260218-vsock-ns-write-once-v2-1-19e4c50d509a@meta.com>
 
-Hi Stephane,
+On Wed, Feb 18, 2026 at 10:10:36AM -0800, Bobby Eshleman wrote:
+>From: Bobby Eshleman <bobbyeshleman@meta.com>
+>
+>The child_ns_mode sysctl parameter becomes write-once in a future patch
+>in this series, which breaks existing tests. This patch updates the
+>tests to respect this new policy. No additional tests are added.
+>
+>Add "global-parent" and "local-parent" namespaces as intermediaries to
+>spawn namespaces in the given modes. This avoids the need to change
+>"child_ns_mode" in the init_ns. nsenter must be used because ip netns
+>unshares the mount namespace so nested "ip netns add" breaks exec calls
+>from the init ns. Adds nsenter to the deps check.
+>
+>Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+>---
+> tools/testing/selftests/vsock/vmtest.sh | 35 +++++++++++++++------------------
+> 1 file changed, 16 insertions(+), 19 deletions(-)
 
-On 2/18/26 09:35, Ben Horgan wrote:
-> Hi Stephane,
-> 
-> On 2/18/26 06:22, Stephane Eranian wrote:
->> On Tue, Feb 17, 2026 at 7:56 AM Ben Horgan <ben.horgan@arm.com> wrote:
->>>
->>> Hi Babu,
->>>
->>> On 2/16/26 22:52, Moger, Babu wrote:
->>>> Hi Ben,
->>>>
->>>> On 2/16/2026 9:41 AM, Ben Horgan wrote:
->>>>> Hi Babu, Reinette,
->>>>>
->>>>> On 2/14/26 00:10, Reinette Chatre wrote:
->>>>>> Hi Babu,
->>>>>>
->>>>>> On 2/13/26 8:37 AM, Moger, Babu wrote:
->>>>>>> Hi Reinette,
->>>>>>>
->>>>>>> On 2/10/2026 10:17 AM, Reinette Chatre wrote:
->>>>>>>> Hi Babu,
->>>>>>>>
->>>>>>>> On 1/28/26 9:44 AM, Moger, Babu wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> On 1/28/2026 11:41 AM, Moger, Babu wrote:
->>>>>>>>>>> On Wed, Jan 28, 2026 at 10:01:39AM -0600, Moger, Babu wrote:
->>>>>>>>>>>> On 1/27/2026 4:30 PM, Luck, Tony wrote:
->>>>>>>>>>> Babu,
->>>>>>>>>>>
->>>>>>>>>>> I've read a bit more of the code now and I think I understand more.
->>>>>>>>>>>
->>>>>>>>>>> Some useful additions to your explanation.
->>>>>>>>>>>
->>>>>>>>>>> 1) Only one CTRL group can be marked as PLZA
->>>>>>>>>>
->>>>>>>>>> Yes. Correct.
->>>>>>>>
->>>>>>>> Why limit it to one CTRL_MON group and why not support it for MON
->>>>>>>> groups?
->>>>>>>
->>>>>>> There can be only one PLZA configuration in a system. The values in
->>>>>>> the MSR_IA32_PQR_PLZA_ASSOC register (RMID, RMID_EN, CLOSID,
->>>>>>> CLOSID_EN) must be identical across all logical processors. The only
->>>>>>> field that may differ is PLZA_EN.
->>>>>
->>>>> Does this have any effect on hypervisors?
->>>>
->>>> Because hypervisor runs at CPL0, there could be some use case. I have
->>>> not completely understood that part.
->>>>
->>>>>
->>>>>>
->>>>>> ah - this is a significant part that I missed. Since this is a per-
->>>>>> CPU register it seems
->>>>>
->>>>> I also missed that.
->>>>>
->>>>>> to have the ability for expanded use in the future where different
->>>>>> CLOSID and RMID may be
->>>>>> written to it? Is PLZA leaving room for such future enhancement or
->>>>>> does the spec contain
->>>>>> the text that state "The values in the MSR_IA32_PQR_PLZA_ASSOC
->>>>>> register (RMID, RMID_EN,
->>>>>> CLOSID, CLOSID_EN) must be identical across all logical processors."?
->>>>>> That is, "forever
->>>>>> and always"?
->>>>>>
->>>>>> If I understand correctly MPAM could have different PARTID and PMG
->>>>>> for kernel use so we
->>>>>> need to consider these different architectural behaviors.
->>>>>
->>>>> Yes, MPAM has a per-cpu register MPAM1_EL1.
->>>>>
->>>>
->>>> oh ok.
->>>>
->>>>>>
->>>>>>> I was initially unsure which RMID should be used when PLZA is
->>>>>>> enabled on MON groups.
->>>>>>>
->>>>>>> After re-evaluating, enabling PLZA on MON groups is still feasible:
->>>>>>>
->>>>>>> 1. Only one group in the system can have PLZA enabled.
->>>>>>> 2. If PLZA is enabled on CTRL_MON group then we cannot enable PLZA
->>>>>>> on MON group.
->>>>>>> 3. If PLZA is enabled on the CTRL_MON group, then the CLOSID and
->>>>>>> RMID of the CTRL_MON group can be written.
->>>>>>> 4. If PLZA is enabled on a MON group, then the CLOSID of the
->>>>>>> CTRL_MON group can be used, while the RMID of the MON group can be
->>>>>>> written.
->>>>>
->>>>> Given that CLOSID and RMID are fixed once in the PLZA configuration
->>>>> could this be simplified by just assuming they have the values of the
->>>>> default group, CLOSID=0 and RMID=0 and let the user base there
->>>>> configuration on that?
->>>>>
->>>>
->>>> I didn't understand this question. There are 16 CLOSIDs and 1024 RMIDs.
->>>> We can use any one of these to enable PLZA.  It is not fixed in that sense.
->>>
->>> Sorry, I wasn't clear. What I'm trying to understand is what you gain by
->>> this flexibility. Given that the values CLOSID and the RMID are just
->>> identifiers within the hardware and have only the meaning they are given
->>> by the grouping and controls/monitors set up by resctrl (or any other
->>> software interface) would you lose anything by just saying the PLZA
->>> group has CLOSID=0 and RMID=0. Is there value in changing the PLZA
->>> CLOSID and RMID or can the same effect happen by just changing the
->>> resctrl configuration?
->>>
->> Not quite.
->> When you enter the kernel, you want to run unthrottled to avoid
->> priority inversion situations.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-In cases where you want to reserve a cache region for one program you
-may want to avoid giving the kernel access to that region so it doesn't
-pollute it.
-
->> But at the same time, you still want to be able to monitor the
->> bandwidth for your thread or job, i..e, keep the same
->> RMID you have in user space.
-> 
-> Thanks for sharing your usecase.
-> 
->>
->> The kernel is by construction shared by all threads running in the
->> system. It should run unrestricted or with the
->> bandwidth allocated to the highest priority tasks.
->>
->> PLZA should not change the RMID at all.
-> 
-> Would the above with RMID_EN=0 give you this usecase?
-> 
-> Unfortunately, this isn't possible when rmid/pmg is scoped to
-> closid/partid as is the case in MPAM, i.e. the monitors require a match
-> on the pair (closid, partid). Hence, I think we need to support the case
-> where both RMID and CLOSID change.
-> 
-
-
-Thanks,
-
-Ben
+>
+>diff --git a/tools/testing/selftests/vsock/vmtest.sh b/tools/testing/selftests/vsock/vmtest.sh
+>index dc8dbe74a6d0..e1e78b295e41 100755
+>--- a/tools/testing/selftests/vsock/vmtest.sh
+>+++ b/tools/testing/selftests/vsock/vmtest.sh
+>@@ -210,16 +210,17 @@ check_result() {
+> }
+>
+> add_namespaces() {
+>-	local orig_mode
+>-	orig_mode=$(cat /proc/sys/net/vsock/child_ns_mode)
+>+	ip netns add "global-parent" 2>/dev/null
+>+	echo "global" | ip netns exec "global-parent" \
+>+		tee /proc/sys/net/vsock/child_ns_mode &>/dev/null
+>+	ip netns add "local-parent" 2>/dev/null
+>+	echo "local" | ip netns exec "local-parent" \
+>+		tee /proc/sys/net/vsock/child_ns_mode &>/dev/null
+>
+>-	for mode in "${NS_MODES[@]}"; do
+>-		echo "${mode}" > /proc/sys/net/vsock/child_ns_mode
+>-		ip netns add "${mode}0" 2>/dev/null
+>-		ip netns add "${mode}1" 2>/dev/null
+>-	done
+>-
+>-	echo "${orig_mode}" > /proc/sys/net/vsock/child_ns_mode
+>+	nsenter --net=/var/run/netns/global-parent ip netns add "global0" 2>/dev/null
+>+	nsenter --net=/var/run/netns/global-parent ip netns add "global1" 2>/dev/null
+>+	nsenter --net=/var/run/netns/local-parent ip netns add "local0" 2>/dev/null
+>+	nsenter --net=/var/run/netns/local-parent ip netns add "local1" 2>/dev/null
+> }
+>
+> init_namespaces() {
+>@@ -237,6 +238,8 @@ del_namespaces() {
+> 		log_host "removed ns ${mode}0"
+> 		log_host "removed ns ${mode}1"
+> 	done
+>+	ip netns del "global-parent" &>/dev/null
+>+	ip netns del "local-parent" &>/dev/null
+> }
+>
+> vm_ssh() {
+>@@ -287,7 +290,7 @@ check_args() {
+> }
+>
+> check_deps() {
+>-	for dep in vng ${QEMU} busybox pkill ssh ss socat; do
+>+	for dep in vng ${QEMU} busybox pkill ssh ss socat nsenter; do
+> 		if [[ ! -x $(command -v "${dep}") ]]; then
+> 			echo -e "skip:    dependency ${dep} not found!\n"
+> 			exit "${KSFT_SKIP}"
+>@@ -1231,12 +1234,8 @@ test_ns_local_same_cid_ok() {
+> }
+>
+> test_ns_host_vsock_child_ns_mode_ok() {
+>-	local orig_mode
+>-	local rc
+>-
+>-	orig_mode=$(cat /proc/sys/net/vsock/child_ns_mode)
+>+	local rc="${KSFT_PASS}"
+>
+>-	rc="${KSFT_PASS}"
+> 	for mode in "${NS_MODES[@]}"; do
+> 		local ns="${mode}0"
+>
+>@@ -1246,15 +1245,13 @@ test_ns_host_vsock_child_ns_mode_ok() {
+> 			continue
+> 		fi
+>
+>-		if ! echo "${mode}" > /proc/sys/net/vsock/child_ns_mode; then
+>-			log_host "child_ns_mode should be writable to ${mode}"
+>+		if ! echo "${mode}" | ip netns exec "${ns}" \
+>+			tee /proc/sys/net/vsock/child_ns_mode &>/dev/null; then
+> 			rc="${KSFT_FAIL}"
+> 			continue
+> 		fi
+> 	done
+>
+>-	echo "${orig_mode}" > /proc/sys/net/vsock/child_ns_mode
+>-
+> 	return "${rc}"
+> }
+>
+>
+>-- 
+>2.47.3
+>
 
