@@ -1,149 +1,147 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C961E9919
-	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 12:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771504740; cv=none; b=l89h95wS2hewUPSdzAgB6d/+o21GbbS868cB5XSmEOTy0792CGTMcgXF/6h0ifefzIUNRaa4ZQF5FHZkp4TLyIOQwsdxoVEL+JzM3uIAlKh+jflVei7db3nf4wgmd3YWs5xzng57XZYFsNwMGu0OSRuU3rSt7iZ8vk1SXNo3NC4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771504740; c=relaxed/simple;
-	bh=zaEyoKufr8kJjMPlauNC6hFcaNXmh0VL7nMLWJY7Dms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=il7hePE+AzLp53fFiaxxsKzAgsQzT3VOuLpHhWA+2unOePy8wHngRIYceQrVwmQoTypw8/YMqRjsb/UbHpDwBR6oPernqNwsHPHGRECozDCjo/M97f9FcAMvLiX9tjX3KiD8FWF066Wmxjt7yKCSn7sJjNUNsqwQG5DGGqRpFU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OIZSOYoD; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACBB19F13F
+	for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 12:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771505040; cv=pass; b=PdTrJmXFvII8bfDobzpbnDtxrQ2KYlXtjhy25+sEF058lebvfy3CyhUGcXALbbhwOgEsGsg0yYudsl+yJ9VYBN3AzWBUM8RuEvIgoto2nk5u66xnmriRO1flXY/R3y3WIzf4PUMrPn6fNo8KNN2WW3koClsiMe7/aHzqQtAhP00=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771505040; c=relaxed/simple;
+	bh=aes4AHs+AOWhWj2FYmgytAYSf1U9HD0Qri/K8EHmzMk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SznnjMUodRYHhNuhVk2kQ86DSr/elOAKpo5xTVcotcqvOFJVP+f0tKYtNHPeyyzh5GJiRyidWnT+R/tb/Obtek6YEUEEcIBE1fGsEDbVVgZnKXLzrFGnB/Qg+DUwwuKsb8dBE0Skm3qZL0dz7c+Azulq+h5TpLcloLYZTVuS/DE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=y2XdxYxl; arc=pass smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OIZSOYoD"
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56641b5a471so796142e0c.2
-        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 04:38:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="y2XdxYxl"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-5033b64256dso506521cf.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 04:43:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771505038; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Z8YAUexsbUEgfFqFLJl+altx8ec7iu0tPHSqihjx6jjRt6d7Ny1fHhDdqNVf/WKU4w
+         J9zNuIkf3VbBSj315wBKJ/L1DUrdlZgj386qyb3Hx/ycEql/SzYTRuv+7EmnWQdx6kN1
+         NA0za/7g8cvDhD8HU45DXFIUvksPBGJoTJrh/F0Z7/+jYpiTn4iUDLRFZzq8F/9tWfJr
+         LAom2r20Uq2dQQvn7YewASioxBpb4b/hwPpgyckLVMukfuyeDKhRtmTKPTyYFa+ZUZJe
+         xf8uP8Z0qeHI2G21n8JdRWsswc7OMqGPdCIN/OFIKCOQk3K2nKsXC8WSW1cg3oZx1vL1
+         zSwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=o9bs+Ht8G4EwUkix0oJqONw0G8EjLC3MyIbQ69wavOs=;
+        fh=9AXXFJrXyYtXJ59Mo1u2Wtn6CZR7oPhJlQW7M3Zy2Xw=;
+        b=b6oPn0KN15SYv1HBkAtUpeHRv/aFGvNcDBLnsZ6Rzx+gYQSlFPT8ria0txddCc9mbd
+         OvUeBhRVpur8+Yeqy/dXJw5dPKM6BJ4QYsZxsTyb2Od2GsOan8Q6DafQ025qK5K256sP
+         xkl/eN/ISozJqMqPTxBiC1Tjmb9R4rQZuMXI+OO9h/mJJl2qJc8LycKQIoHKf9jtczIw
+         LRnRJzsBtbu890VV3a6c6YKyNFL3k6ZnYkQWjoyc0IGIOuH/qOI8F1ARoTAFkU/NQ1yl
+         EbFlclZJt3HQ1TAMh3Zv2Ez1vKaJqolJE0Lr8O8fKYVidw04EIogP5knmlEwvqE4xPSV
+         Mhhg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771504738; x=1772109538; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b/Yeq/h1sK2QWMwvAHMWW/0uWsIY9PKo2xaxo2nKMJU=;
-        b=OIZSOYoDia7EmFVoG/umYjRoJBDojJiGAhfJ2qIV0YfcFtDj2LOzj7355Y9RyCy06+
-         6R1e0lQpXVUktj6MSO0XosuRbH3vD6/ymlv5R2erRNRish3i8SUtPYfB0GQgHR10t71T
-         ctai1O588nyTR+igdUDogAr1KWcBG8UQqhZbwT4HrumZjPnoW66YYEWpSKujmFGsNNwx
-         h+a44NyBcqdFQUgl71rMn5ZPylsTHkoxAkpKOSDzDYmuEnvkHIhwtRjdho3dpjG1s7O3
-         ADspgEDvZDyT0Lq4A3QGMjfeCaxTtyZuwcf8RBqipgZjIm+0dZP70Stx9q1aHD+us2XI
-         +W4Q==
+        d=google.com; s=20230601; t=1771505038; x=1772109838; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=o9bs+Ht8G4EwUkix0oJqONw0G8EjLC3MyIbQ69wavOs=;
+        b=y2XdxYxl5B3qEvIH/7EiyUej4zu02zEh9V+uDaCvJARejtyhqCZB8IMShpk9DVW4yg
+         DTY+BbcwGWxPF5A4vAA3CZdXqDijVHjcjqmrzK45AiqlGN1BaKNePYguDXF6K9t/X9wI
+         siW+NqVc+3yFrf5NvuIj3giYLezlvipPZWL53de5kU/mYRkiOEJX5yGiuvIUFAgjSrkJ
+         DCYe77MNFT+sBHoglLREmJpBgpDHFrcfpTqkwuhBuUisth9R9C/dsWdbNnPB8QTh8+/B
+         JAuqbx+v247CdBrVHzMIfB7U43HXT4ikfSJpeQ+wEzdYYmP7KAS5KmpLCz3Gc32hMh/q
+         Fe9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771504738; x=1772109538;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b/Yeq/h1sK2QWMwvAHMWW/0uWsIY9PKo2xaxo2nKMJU=;
-        b=fdERBcE8DGQxfbINrjVtrEHUMsQ6hIrcn7kwj/MhqpF6doQtQfgvjPUqFxkhNyHdFT
-         KIRukZ3GUUXe43C9eT5PzEQ8k/egtDxwPbsi5awkP2pNP4zNTXjMD4zXYGQrogNU0p/p
-         O0qubL/xL/5/csuVXY4Aqgg0y+okE5FqmkxL+9JiKbxmXaqL5XRSpmxmUCVmuOJz5DzQ
-         aZnPe8TG4JvswEM1yFgIjOI/YP09gUt5ca2vPu59rzATindZ81+APvCgcfRFPEi+NfYU
-         UNWrXlNrNejDiBn2cbhcvjaVnP5AGtQZ8vAujRw70bkIeNtcfTMcwQ6i57DsI8Dsygvs
-         VNDg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNel6aZwj7BvLN/+STXh4ffFarFS2IRPZzYaS7NjbhzSpraxpmi5CHfYFvS047T9yHuT1CtKUvQDY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9V1INkW7u8MxzILH6l38iWOP29a8KqHRK6OIL2nush64WYm2x
-	KqAdIuxIp9RZLoA6qwZE2pkRmygH0KJ2af4QtlkQ3FRQ2Mqau2d46J8R
-X-Gm-Gg: AZuq6aIKrHkoz6VWnMy64Jc8auWyJMbpVRcVRCD3OXLAt2Ru2yQ005PuVFVoCzeQt16
-	P7PTt4qhf1kq9qKc6Gg3DF9FQ3gaVgzRQqtqMe7dXmpw3ccJfAG7I6/NXPrd/gHWnS+DBdrLFhL
-	AcVzGL9zu1GEMJjWdvDKVgidCzhFgAU+7/SAJ2BJ9k6KOYJJgEDeaVTVtcbQTxQrr18PruKpr30
-	ZrTrsBtTnXanYAUF0oL5Htt84l1HreVvaTcuumpv/ENXfn5CfLFOlojNVi7gC9+oyYuQwVy3zsk
-	tyvar0TM/rMi3B0J3yl76gXD0IqZgJ3rbVcpnAlpu2DB3uWgxjJd6vD6KPNUS69hf46FAYg04B6
-	x4eZAvNJ43PaSBnFvMZslxQgC13K3g+0+MC97WfuERlM5DzSglYZg9y9uQVL+Z6OknPiRrIcpjz
-	yvLi+VoHf4zO0jC528ZRD1q+SXfvgfuYo=
-X-Received: by 2002:a05:6122:3214:b0:566:271c:b48d with SMTP id 71dfb90a1353d-56889d4a600mr7345546e0c.18.1771504737800;
-        Thu, 19 Feb 2026 04:38:57 -0800 (PST)
-Received: from localhost ([2804:30c:942:5700:6773:2626:ab8c:582e])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5674bfe5ec0sm13742463e0c.5.2026.02.19.04.38.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 04:38:56 -0800 (PST)
-Date: Thu, 19 Feb 2026 09:39:27 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, jic23@kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net
-Subject: Re: [PATCH v9 7/8] iio: adc: ad4030: Add support for ADAQ4216 and
- ADAQ4224
-Message-ID: <aZcEf75cOHXLKvNm@debian-BULLSEYE-live-builder-AMD64>
-References: <cover.1771253601.git.marcelo.schmitt@analog.com>
- <39ebbb49619d5d588efe590560046d747dd46ad5.1771253601.git.marcelo.schmitt@analog.com>
- <aZRikNMXKxW0JjTC@smile.fi.intel.com>
+        d=1e100.net; s=20230601; t=1771505038; x=1772109838;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o9bs+Ht8G4EwUkix0oJqONw0G8EjLC3MyIbQ69wavOs=;
+        b=W945wCtgaW+K1rEKfprTKy7WEeziZKX+aEU0aoKd7KK8TSqpNyG4ctU1mgPXQBqRmj
+         puKV5wR/bySjafFFIs6wxMspQYa2QtXH/ouSbTw/HfIFVWN2gOUtOEZch1KLgSJSqZmM
+         6gwrDNPo5XEUnvl6XKB1A/P9qR8DtfSXQoGAB+8XGlCl08cafbgw8oHSiW7rHxjgtxHq
+         xkQL7g3sYrrzXo2r2Sn8MjxVIaANRi9gfFV9U0U3JtNE/V9RkGTMh+upN0+RL/o/KNyT
+         zHXOUGuzpZ7LbggTCMvPigICR1uer5xXATzLMvspOtpjgXEAGNLK66KhyCzbe9HT1ZcS
+         gu8g==
+X-Forwarded-Encrypted: i=1; AJvYcCUZ7T+PU4xlmkv6gA1FOgxJ8WyGiSKgfYMZMm4lUyAQ777Am/fmKIZSPJLvAZDgBKyNnpMF3014zHo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgR/yaUa4zeU1c2Vhn7s6+bJvEFq8NZHD1aiUNAtL+BRuH22yC
+	GZEXXc8clxKzcflCBbI3vaDVoxjcyaz4ifjeaBCkUCDQE5FBb2r7L9S4aegTbLc+QwEJVugjBGk
+	pWXx52B81FBZlSyPTYVzDJg73O/FsB4TqHBYWSc2q
+X-Gm-Gg: AZuq6aK4Yu2wj3jWFC0x+CV4uyjytgEd5NAYZJYKGoiSawX4YnzSDgQwy/tF9wnbJbJ
+	qAzORR8kNXn1VOhvU7rYPGM3rsZcb0mUP4yJGNjR7h1Yzj0V69Y5rkrRL5mGge9xCtG5+t9jBJX
+	XcLL6nmxOtF927barL5tklL5GRz7aSs2BCnqx/7kHaFT879I8Yrr9W1olyYyLTTi0dcr4QxPaIm
+	6KZ8V7rUeEZRgWwruBqYen96rLpm7uMaZ35PbRk016L3pcjx0Gu9B16AD7aSzl9NDT/BZ8+hRWt
+	BktRJvDV
+X-Received: by 2002:ac8:7f0c:0:b0:501:4539:c81 with SMTP id
+ d75a77b69052e-506f1dbd2e8mr6722271cf.2.1771505037357; Thu, 19 Feb 2026
+ 04:43:57 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aZRikNMXKxW0JjTC@smile.fi.intel.com>
+References: <cover.1770071243.git.ackerleytng@google.com> <86ad28b767524e1e654b9c960e39ca8bfb24c114.1770071243.git.ackerleytng@google.com>
+ <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
+In-Reply-To: <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Thu, 19 Feb 2026 12:43:20 +0000
+X-Gm-Features: AaiRm52i2AVuoNuRooDCBFkBdqWWQyvSpL3Y8tHflFey7_du661FzMtD72y3RC4
+Message-ID: <CA+EHjTwax_DW58a-hQ=TtsqbjTbBDBDeGvkL1fcDOnY4B-SjeQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 09/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, bp@alien8.de, 
+	brauner@kernel.org, chao.p.peng@intel.com, chao.p.peng@linux.intel.com, 
+	chenhuacai@kernel.org, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	david@kernel.org, hpa@zytor.com, ira.weiny@intel.com, jgg@nvidia.com, 
+	jmattson@google.com, jroedel@suse.de, jthoughton@google.com, 
+	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
+	mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
+	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
+	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, seanjc@google.com, shivankg@amd.com, shuah@kernel.org, 
+	steven.price@arm.com, tglx@linutronix.de, vannapurve@google.com, 
+	vbabka@suse.cz, willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Andy,
+Hi Ackerley,
 
-On 02/17, Andy Shevchenko wrote:
-> On Mon, Feb 16, 2026 at 12:01:12PM -0300, Marcelo Schmitt wrote:
-> > ADAQ4216 and ADAQ4224 are similar to AD4030, but feature a PGA circuitry
-> > that scales the analog input signal prior to it reaching the ADC. The PGA
-> > is controlled through a pair of pins (A0 and A1) whose state define the
-> > gain that is applied to the input signal.
-> > 
-> > Add support for ADAQ4216 and ADAQ4224. Provide a list of PGA options
-> > through the IIO device channel scale available interface and enable control
-> > of the PGA through the channel scale interface.
-> 
-...
-> > +static int ad4030_setup_pga(struct device *dev, struct iio_dev *indio_dev,
-> > +			    struct ad4030_state *st)
-> > +{
-> > +	unsigned int i;
-> > +	int pga_gain_dB;
-> > +	int ret;
-> > +
-> > +	ret = device_property_read_u32(dev, "adi,pga-gain-db", &pga_gain_dB);
-> > +	if (ret == -EINVAL) {
-> 
-> Actually instead of custom error hunting, this should be rather
+Sorry, but I completely missed this!
 
-Sorry, I messed up when preparing the patches. "adi,pga-gain-db" is not going
-to be a dt property and this should have been just the 'GPIOs for PGA control'
-below. Anyway, thanks for reviewing this. I'll hopefully recall this error
-handling pattern in future contributions.
+[...snip...]
 
-The other suggestions look good but I'll wait a bit more before sending v10.
-> 
-> 	if (device_property_present(dev, "adi,pga-gain-db")) {
-> 		ret = device_property_read_u32(dev, "adi,pga-gain-db", &pga_gain_dB);
-> 		if (ret)
-> 			return dev_err_probe(dev, ret, "Failed to get PGA value.\n");
-> 	} else {
-> 
-> > +		/* Setup GPIOs for PGA control */
-> > +		st->pga_gpios = devm_gpiod_get_array(dev, "pga", GPIOD_OUT_LOW);
-> > +		if (IS_ERR(st->pga_gpios))
-> > +			return dev_err_probe(dev, PTR_ERR(st->pga_gpios),
-> > +					     "Failed to get PGA gpios.\n");
-> > +
-> > +		if (st->pga_gpios->ndescs != ADAQ4616_PGA_PINS)
-> > +			return dev_err_probe(dev, -EINVAL,
-> > +					     "Expected 2 GPIOs for PGA control.\n");
-> > +
-> > +		st->scale_avail_size = ARRAY_SIZE(adaq4216_hw_gains_db);
-> > +		st->pga_index = 0;
-> > +		return 0;
-> 
-> > +	} else if (ret) {
-> > +		return dev_err_probe(dev, ret, "Failed to get PGA value.\n");
-> > +	}
-> 
-... 
-> -- 
-> With Best Regards,
-> Andy Shevchenko
-> 
-Thanks,
-Marcelo
+> 4. guest_memfd ioctl flag
+>    SET_MEMORY_ATTRIBUTES2_FLAG_PRESERVE_CONTENTS. -EINVAL if kernel and
+>    vendor don't support content preservation
+>
+> Specifying a flag to choose whether content should be preserved at
+> conversion-time is the current best suggestion.
+>
+> What does the rest of the community think of a conversion ioctl flag to
+> choose whether to preserve memory contents on conversion?
+>
+> Fuad, I think you also made a related comment on an earlier internal
+> version we were working on. What do you/pKVM think?
+
+Introducing PRESERVE_CONTENTS seems like the correct architectural
+approach to me. pKVM fully supports requiring the PRESERVE_CONTENTS
+flag on every conversion where data retention is expected. As you
+know, pKVM operates at EL2 with control over Stage-2 page tables, so
+we intrinsically support in-place state transitions. Requiring the VMM
+to explicitly pass this flag when injecting payloads ensures we have
+explicit userspace intent without artificially restricting pKVM's
+capabilities.
+
+If userspace omits the PRESERVE_CONTENTS flag, KVM must zero the page
+contents in software and proceed. Returning -EINVAL would be incorrect
+because it would make the flag mandatory, eliminating userspace's
+ability to request clean-slate, destructive conversions when needed.
+Additionally, software zeroing ensures deterministic behavior across
+pKVM, TDX, and SNP. The guest is guaranteed a clean page, isolating
+the KVM uAPI from micro-architectural data destruction nuances.
+
+Cheers,
+/fuad
