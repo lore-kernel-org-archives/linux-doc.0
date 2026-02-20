@@ -1,296 +1,207 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E413D24169D;
-	Fri, 20 Feb 2026 08:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771576245; cv=none; b=QKklWGJYIz7MDsysjtGvxPRcO2ZipjSrYlCmc36zNtI487V+w9V+gSKTVD5ImgQYIevbbixTXnxR0c3GBcMlwbEeHZZkZamrVMzB/uT96pY/1X5sK4vKY5Lj5Xu6jX2rNclumaNqpREo3leLrMOYCdHKaA0Q0JBD41nfVZ/3JNQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771576245; c=relaxed/simple;
-	bh=OOkNKzJWZ2PKiWVeYu871t9knsMGA4JMCfqoaCA5Qc0=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Wf2JvZosiPJ7llNITqDCgxir+oU0qA0THzrfo4HvP0tNxxW9Wbo4MYxf5Owi5izvuLrgzjpIHLX9huBZGrfB7YcKdHdw+4snIcptYC/ckWZAdr3fWJoaucAE9uy0d/1eh5toBnp9GKXPiEFLbF1PT9sPAma4hOEHFC+ElEIb8YU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aPwL1llw; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4C03101C6
+	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 08:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771577896; cv=pass; b=COPw9c0cbACVp4b2xy8VGfbr5aqR7teb3ROKy2jhFsGgnasVQedj174swFJllkN22n9acNzbbasmFw0jVWPtaEHTGJm3OBn9ECY/ZokWkeL6HJCiO9l9tDMg372j9+FE+W7NniD/KVPnK5cmnDm9j0G2oXgTQmwZTQoh30QhDXc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771577896; c=relaxed/simple;
+	bh=AEujbFKlh5JFD3bI6CQBE5KWHB6cC0DGmBfxGY4HZZM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aCswpPdCFs7ywyFE01fnpCNafcwtrpoU3ahj470hjqedvFe0Y3Y/HE2AObUk90F6bGPuNiuTL1+XL7korz2tcubhezGj46wM9XXRTmvKw15Njb2z5ASB38yWn4USv8yGLKyyUV0UEBQRG96Cr5kZJq8VDZMBqVQZCtlYJUgGTxM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2yjdCw5w; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aPwL1llw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66FF9C116C6;
-	Fri, 20 Feb 2026 08:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771576244;
-	bh=OOkNKzJWZ2PKiWVeYu871t9knsMGA4JMCfqoaCA5Qc0=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=aPwL1llwYZ0PhJbYJjiccMMsFKNTpSN3h6HKEogc0SQMz0qNQ95k7ksQcMyHLRjzK
-	 V60/YPqUhDW73lmKblFgu8a0slvOz89MYLjGDR+YttCGKKNianvSxnuMy9ax4BfD14
-	 lZU0a4EmplrZP3FXNHbo6CJoWZS4W9XjwvCLq4/ylA8nJQ0Lulhq0hN7rX3Gx52dEn
-	 36cwfpbnut6G1KNsmrkILyKkomEwq3EsuUQ6xL4TCJYqfZhZ8qmk0A48pXktKFzez/
-	 RDCSP8cYbJqnbb50y21F212txXq/CGSZ2GdpPOCoOov13wP8rjvPAnbGqej0BOJA5Y
-	 3J8X2mNNwPAMg==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id EF254F40069;
-	Fri, 20 Feb 2026 03:30:41 -0500 (EST)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-01.internal (MEProxy); Fri, 20 Feb 2026 03:30:42 -0500
-X-ME-Sender: <xms:sRuYaZtdO-kEDZ6jyrUg29QVVJFQrny0pZ3ezNCYPVygXUo8kPT68Q>
-    <xme:sRuYadTw0jR6o4mFsXaOb3AWdfxTdgAv1HFsKo5j_w9sORkvJLEhzV-q3spNFynOh
-    2Ubtqz0ZMXu-WayYa5VUA01TJLh6XvD099OkNR3ywFqD-joIDr8dsw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvvdejleehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepofggfffhvfevkfgjfhfutgfgsehtqhertdertdejnecuhfhrohhmpedftehrugcu
-    uehivghshhgvuhhvvghlfdcuoegrrhgusgeskhgvrhhnvghlrdhorhhgqeenucggtffrrg
-    htthgvrhhnpeeuteeiudeigeekjedvheduieehteetgfdtuefghfejgffhfedtleehvdeh
-    fffhvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grrhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieejtdehtddtjeel
-    qdeffedvudeigeduhedqrghruggspeepkhgvrhhnvghlrdhorhhgseifohhrkhhofhgrrh
-    gurdgtohhmpdhnsggprhgtphhtthhopeefvddpmhhouggvpehsmhhtphhouhhtpdhrtghp
-    thhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepnhhivhgvughithgrsegrlh
-    humhdrmhhithdrvgguuhdprhgtphhtthhopehluhhtohesrghmrggtrghpihhtrghlrdhn
-    vghtpdhrtghpthhtohepughpshhmihhthhesrghpvghrthhushhsohhluhhtihhonhhsrd
-    gtohhmpdhrtghpthhtoheprghnughrvgifrdgtohhophgvrhefsegtihhtrhhigidrtgho
-    mhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtoh
-    epphgvthgvrhhhuhgvfigvsehgmhigrdguvgdprhgtphhtthhopehhvghrsggvrhhtsehg
-    ohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthhtohepthhrvghntghhsghooh
-    htqdguvghvvghlsehgohhoghhlvghgrhhouhhpshdrtghomh
-X-ME-Proxy: <xmx:sRuYaSE41zy-0gKhEDntCwr9EkMSTDAbWBC6gFogmaZORdtSCZazBg>
-    <xmx:sRuYaQuD_PamJME6yIMQvHwc-vTB6378FCneQDrqKdQkZr2d7YsGNg>
-    <xmx:sRuYaYKiRTSt0NGzQEf8b1tar7A2Ez8t7wct0zTn-wFVaEhdpoQwBw>
-    <xmx:sRuYafx_Sf8aIzNhbGWpWKYWTwuFMiqozbcCiCP20ySSLcMVutcyMg>
-    <xmx:sRuYaT4yNHzt4j55xgiWueu0sefZ18usY5pqg8AA7-I87bnf8eokGbBA>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id BE6FD700069; Fri, 20 Feb 2026 03:30:41 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2yjdCw5w"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-506c02ec1b3so21301511cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 00:58:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771577893; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LotaIH6g9ZK7xveI3ihAt9NedPekHOhE/HHn1kVRRtZM2w9fnaLaH327YKvDHPM6Cr
+         RghiQAJ6sDIq/aSlyuao1GDvgG3blx40+kNwrpxJhr+TKZiJflRfR+O0hHbMemjN+osZ
+         J5HMlFoE7SL7TODq9qXUhpW5hSTaHgK2VyBHhMNuAosSpc2KoeaNOJrCdIbB7mnQWtVw
+         Uqe2Y5X5OG5wPtXJ1LujjmkClRFtOMfHQFG5+ETiFhNPeKsDfebJDapLTZN4+BydOifc
+         O8plXkbxwDfAt5T3zvxee/0ZL9gU+v8KoEkP3YRmhBoU/7EdkboiEtA56sREo+AzOSQF
+         W1GQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YyFN0Kson+AYNlRNbkY4e10Iy1AdaN1ujO4FPzKIE34=;
+        fh=UEP1Wit2EPAcvNxz5ZkdjyAw9zjvzBLzXvs0NwKzxRE=;
+        b=PCQHi0U8HDWeKpNRL8FsdekVVKdwaE5zOKQHQuQ8Ru6bUo/Qqtz8mhqswcAYsakMAZ
+         sMdA6OKvLq2m9N9YuXovYC0EaKlsbD4qQVIrLLRvZnWRBNv6WmYe55NTdmxjahd2drHE
+         JMa2V4eo8aq1kdTHLg+mV4eyayq/V6bhhPFzACM6qe582EgS2w6p2ESTqOLqG4+qsBEd
+         571wte9UBVmFeXn8p3+SjRb6mQf6grtzEGOAm1QC4BYtfAWqRY5bY36Si1qxnezffADS
+         04uV1A0DwAZqfLULUtiLIeEC0QjpYHLte7kR9IUDZnTbv3KQtf2zTfVtHOGtYxug/q0r
+         DgOA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771577893; x=1772182693; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YyFN0Kson+AYNlRNbkY4e10Iy1AdaN1ujO4FPzKIE34=;
+        b=2yjdCw5woH1kQa/4t8QQasjpBpkrkO0nh2t0avKUumsWB65E0P4K5askFl3cTTm6Ch
+         AZFzvJr9I2wzS8IJbULFOzOmZZ6ngGYLVL8xZYc42yUdqTItetbOZXqXSnCI6nyP+vBd
+         Dtq+Eg8s7wo5AdGfzAIPHSqFuskTrHa6wCNXzpzzrPQiYsKfKwH/qotLJZBEyPV0vaou
+         4Fx8g6FG0iA3i4CwRe1Cpu3/Qk8p4QihtjBA8+r9E6Y9+g3i/L8uJscmKqWFRJdks4OA
+         R6XG6KETxtNWTNSSqC7YnHo+DVX0jp7fdFZO5D2L9XPGcdhNO1x4zFDgEEqyY4NIYxUa
+         7/XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771577893; x=1772182693;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=YyFN0Kson+AYNlRNbkY4e10Iy1AdaN1ujO4FPzKIE34=;
+        b=V2rvDU2H/Vngd/CTi1UTIvRqcRTGSpb856Vg4ayMPLmRi7z9NzwGOOCvqvWaVMs+E5
+         MTql02AIKHemO/+dACzKS/eukd+tJuuerDNjj+mnCb6MSxKxmMtWiu3ZZOm2xxHIh6Qs
+         LIoi+17OFU5+v8WrA3SIuWPACsVDnYeO7ep551jNne7ALsmZxc44hSF/roRr7pF4Sb2Y
+         0Hck6QOhxDPmsYGOqU/oqMwjUDUSxIX7+o6Q3iw8SEnuAGmCgrhTl1RKJGJdDJNj8G7y
+         hfdTbiSUYcyEG4Ig2pINI4YLhMdb3PkJqcChadW4+F+knN/K2GGkrMl/YbL86vwm4L/r
+         MOGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUWUU7Q/rl8y9EIiNsKjJ6QhREPegby12e+L+ca4l7oordZ/33Kv7Fkefn8jN7iGn6rv+ZE+SH8mz0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGgDBvKSF9Qm+1Cj3pVWDQtnPb59QShLvWWmq71bRaZWNYszH7
+	qfVcWNBhwnzvnAZfolOfHRCY7uuMTPv1vHgi/rTmbIg6fpA/UEoWLu/FO5FrKY0pqrFgtfrWE3s
+	e4oxOV8v8gWivMLYzoPUV8Xb3elRGCaU2VI2mX/h1
+X-Gm-Gg: AZuq6aLfn2j/1AQYoGh1eOPlU7edSBrtzMrB2KRmX1hL+vXrolF3UjkntOd5vCEBwMe
+	FC5KVUl78++aqiRxxYBC2IaF4MHpOd3Cae00GjxF2We8GfSgiJ7yF91qzFH3M9WXuG9dcJnyPC/
+	edQnepknXsr5aMD0Gg5RdarOPoynWnRwQWPzu6dNR3zCmYhhvP0VdHnKakzNE3RkgJKP3OJ6aag
+	RHIRSF/VBSYbvu8evHZed6p/QaAPv1bml7pBqaoEpWoCkVgErYyJqKNqJ68UgwQn2YScHsjEsom
+	RXKbpw==
+X-Received: by 2002:ac8:5acc:0:b0:506:a394:ca77 with SMTP id
+ d75a77b69052e-5070034506cmr7771591cf.13.1771577892700; Fri, 20 Feb 2026
+ 00:58:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AAnEvm6syrbF
-Date: Fri, 20 Feb 2026 09:30:21 +0100
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Andy Lutomirski" <luto@amacapital.net>
-Cc: "Simo Sorce" <simo@redhat.com>, "H . Peter Anvin" <hpa@zytor.com>,
- "Daniel P. Smith" <dpsmith@apertussolutions.com>,
- "Ross Philipson" <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev,
- dave.hansen@linux.intel.com, "Thomas Gleixner" <tglx@linutronix.de>,
- "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, "Jarkko Sakkinen" <jarkko@kernel.org>, jgg@ziepe.ca,
- nivedita@alum.mit.edu, "Herbert Xu" <herbert@gondor.apana.org.au>,
- davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
- dwmw2@infradead.org, baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-Message-Id: <9034c6a1-ebce-40b6-9ac8-0b8cc5a50dd4@app.fastmail.com>
-In-Reply-To: 
- <CALCETrWynypSD7vEjJNLcym3JhBw4k0ovDiR_3YuOHh92TnM=A@mail.gmail.com>
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
- <b5f2b5a5-b984-4ed3-a023-c06d634f9146@app.fastmail.com>
- <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com>
- <49d169bf-0ad2-49be-b7d7-fceb9e7f831a@app.fastmail.com>
- <CALCETrUE8c-dxRWhtHKz_PojwZuWMXJSzOsFQf2vt5LS3ATwpA@mail.gmail.com>
- <1BBD7449-8420-43FD-930B-A4E1BA38FFC6@zytor.com>
- <CALCETrWzG1Mjb-RcwLQ5-tGFZ15WKHjZbqtLvyif+UPuVKJ_5g@mail.gmail.com>
- <32e62cef7b89d9691bdd4120388ce752fd041230.camel@redhat.com>
- <CALCETrUMR0RvOFXGzL7=F4c-3veL+1Sm2xf-BprHTK4=UKw8yA@mail.gmail.com>
- <558d0f28-01fb-4447-891c-2ffbf869c077@app.fastmail.com>
- <CALCETrWynypSD7vEjJNLcym3JhBw4k0ovDiR_3YuOHh92TnM=A@mail.gmail.com>
-Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
-Content-Type: text/plain; charset=utf-8
+References: <20260220-tcp_rfc7323_retract_wnd_rfc-v1-0-904942561479@gmail.com>
+In-Reply-To: <20260220-tcp_rfc7323_retract_wnd_rfc-v1-0-904942561479@gmail.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Fri, 20 Feb 2026 09:58:00 +0100
+X-Gm-Features: AaiRm53-S4oAp4GvF5WoYf1aBo1ioPswOgMfvyIgUiOruJtUswhbFk9_n4l6ygY
+Message-ID: <CANn89iLd=P2nftdMReVkc+d-8+0PGi1ACxhrhnVCxFVxNOhvJg@mail.gmail.com>
+Subject: Re: [PATCH RFC net-next 0/4] tcp: RFC 7323-compliant window
+ retraction handling
+To: gmbnomis@gmail.com
+Cc: Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, David Ahern <dsahern@kernel.org>, 
+	Stefano Brivio <sbrivio@redhat.com>, Jon Maloy <jmaloy@redhat.com>, 
+	Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com, 
+	Shuah Khan <shuah@kernel.org>, Christian Ebner <c.ebner@proxmox.com>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-
-
-On Thu, 19 Feb 2026, at 18:34, Andy Lutomirski wrote:
-> On Wed, Feb 18, 2026 at 11:55=E2=80=AFPM Ard Biesheuvel <ardb@kernel.o=
-rg> wrote:
->>
->> On Wed, 18 Feb 2026, at 22:54, Andy Lutomirski wrote:
->> > On Wed, Feb 18, 2026 at 1:04=E2=80=AFPM Simo Sorce <simo@redhat.com=
-> wrote:
->> >>
->> >> On Wed, 2026-02-18 at 12:34 -0800, Andy Lutomirski wrote:
->> >> > On Wed, Feb 18, 2026 at 12:29=E2=80=AFPM H. Peter Anvin <hpa@zyt=
-or.com> wrote:
->> >> > >
->> >> > > On February 18, 2026 12:03:27 PM PST, Andy Lutomirski <luto@am=
-acapital.net> wrote:
->> >> > > > On Thu, Feb 12, 2026 at 12:40=E2=80=AFPM Ard Biesheuvel <ard=
-b@kernel.org> wrote:
->> >> > > > >
->> >> > > > > On Thu, 12 Feb 2026, at 20:49, Daniel P. Smith wrote:
->> >> > > > > > On 2/9/26 09:04, Ard Biesheuvel wrote:
->> >> > > > > ...
->> >> > > > > But would it be better to disable the runtime services by =
-default when doing a secure launch? PREEMPT_RT already does the same.
->> >> > > >
->> >> > > > So I have a possible way to disable EFI runtime service with=
-out losing
->> >> > > > the ability to write EFI vars.  We come up with a simple fil=
-e format
->> >> > > > to store deferred EFI var updates and we come up with a plac=
-e to put
->> >> > > > it so that we find it early-ish in boot the next time around=
-.  (This
->> >> > > > could be done via integration with systemd-boot or shim some=
- other
->> >> > > > boot loader or it could actually be part of the kernel.)  An=
-d then,
->> >> > > > instead of writing variables directly, we write them to the =
-deferred
->> >> > > > list and then update them on reboot (before TXT launch, etc)=
-.  [0]
->> >> > > > This would be a distincly nontrivial project and would not w=
-ork for
->> >> > > > all configurations.
->> >> > > >
->> >> > > > As a maybe less painful option, we could disable EFI runtime=
- services
->> >> > > > but have a root-writable thing in sysfs that (a) turns them =
-back on
->> >> > > > but (b) first extends a PCR to say that they're turned back =
-on.
->> >> > > >
->> >> > > > (Or someone could try running runtime services at CPL3...)
->> >> > > >
->> >> > > > [0] I have thought for years that Intel and AMD should do th=
-is on
->> >> > > > their end, too.  Keep the sensitive part of SMI flash entire=
-ly locked
->> >> > > > after boot and, instead of using magic SMM stuff to validate=
- that
->> >> > > > write attempts have the appropriate permissions and signatur=
-es, queue
->> >> > > > them up as deferred upates and validate the signatures on th=
-e next
->> >> > > > boot before locking flash.
->> >> > > >
->> >> > >
->> >> > > *If* a physical EFI partition exists there is a lot to be said=
- for this approach.
->> >> > >
->> >> > > The only issue with this that I can see is for things like net=
-work or CD/DVD booting where there isn't necessarily any EFI boot partit=
-ion, it might not be writable, or it might not be persistent (e.g. http =
-booting typically uses a ramdisk, like the old Linux initrd.)
->> >> >
->> >> > Hmm, I guess my approach is a 100% complete nonstarter for insta=
-lling
->> >> > Linux from a CD, and it's really not awesome for installing Linu=
-x from
->> >> > a USB stick.
->> >>
->> >> Doing any of this on a removable device feels generally like a tra=
-p.
->> >> You get your USB disk in, try to boot, and it saves vars, but rebo=
-ot
->> >> fails for whatever reason, you plug it in another machine ... and =
-it
->> >> tries to "continue" from there? The amount of validation needed and
->> >> testing for failure modes across reboots sounds really painful.
->> >
->> > I kind of stand by my other previous suggestion, though:
->> >
->> > As a maybe less painful option, we could disable EFI runtime servic=
-es
->> > but have a root-writable thing in sysfs that (a) turns them back on
->> > but (b) first extends a PCR to say that they're turned back on.
->> >
->>
->> After setting the EFI boot path to GRUB (or systemd-boot or whatever)=
- at installation time, what other meaningful interactions do we expect w=
-ith the EFI runtime services?
->>
->> And given that the secure launch is orchestrated by the bootloader , =
-with which the kernel has a backchannel via its configuration file, it s=
-hould be rather straight-forward to implement the staging of variable up=
-dates there if we really need it.
->>
->> Doing any of this at the EFI/spec level might lead to a situation whe=
-re the OS now has to guess which of the provided APIs to manipulate vari=
-ables is the least broken.
->>
->> Of course, for readinf variables, dumping the RT variables into a mem=
-ory buffer at boot time and exposing it via a EFI config table would be =
-rather straight-forward, but it is also something I feel should be the j=
-ob of the boot component that takes part in the decision to shield the r=
-untime services from the OS.
+On Fri, Feb 20, 2026 at 12:56=E2=80=AFAM Simon Baatz via B4 Relay
+<devnull+gmbnomis.gmail.com@kernel.org> wrote:
 >
-> So there's sort of a usability issue here.  On the one hand, this can
-> all be orchestrated to work.  We build a kernel, and the kernel
-> supports secure launch.  Someone makes an installer image, and that
-> image is configured to skip secure launch, then install to disk, then
-> program EFI vars, then reboot.  And the installed image is configured
-> to do the secure launch, and EFI variable writes are turned off.
+> Hi,
 >
-> On the other hand, this all sucks.  I'm getting sick of having the
-> kernel tell me that I am not permitted to do things.  I'm sick of
-> writing software that deals with unnecessary restrictions.  If I were
-> writing an OS with a USB stick-based installer, I might want to be
-> able to boot the thing and decide later whether I'm installing an OS
-> to disk.  (In fact, many USB installers work this way.)  But, in the
-> model where EFI variable writes are hard-disabled on a secure launch,
-> the decision to do the secure launch happens before the decision to
-> install an OS, and we all lose.
+> this series implements the receiver-side requirements for TCP window
+> retraction as specified in RFC 7323 and adds packetdrill tests to
+> cover the new behavior.
 >
-> So I'm proposing that EFI variable writes be treated a bit like kexec
-> [0] -- root (which is already part of the TCB for any practical
-> purpose) is going to decide, like a grown up, to execute some code
-> that it doesn't fully trust -- in this case, the EFI variable writes.
-> And root will coordinate, correctly, with whomever it's busy using the
-> TPM to coordinate with, and tell it that it's going to do something
-> that will change its trustworthiness.  So it works like this:
+> It addresses a regression with somewhat complex causes; see my message
+> "Re: [regression] [PATCH net-next 7/8] tcp: stronger sk_rcvbuf checks"
+> (https://lkml.kernel.org/netdev/aXaHEk_eRJyhYfyM@gandalf.schnuecks.de/).
 >
-> 1. Secure launch the environment on the stick.  (At this stage,
-> neither the boot loader nor the kernel has the faintest clue whether
-> anyone needs that secure launch, but this doesn't matter.)
+> Please see the first patch for background and implementation details.
 >
-> 2. The owner of the machine clicks "install".
+> This is an RFC because a few open questions remain:
 >
-> 3. The installer makes some partitions and writes some files.
+> - Placement of the new rcv_mwnd_seq field in tcp_sock:
 >
-> (Up until now, the security posture of the running environment has not=
- changed.)
+>   rcv_mwnd_seq is updated together with rcv_wup and rcv_wnd in
+>   tcp_select_window. However, rcv_wup is documented as RX read_write
+>   only (even though it is updated in tcp_select_window), and rcv_wnd
+>   is TX read_write / RX read_mostly.
 >
-> 4. The installer decides that it's now time to do untrustworthy
-> things, namely writing EFI vars.  So it unmounts anything it mounted
-> using TPM-sealed keys (or not -- this is between the distro and
-> whoever trusts the distro), and it does:
+>   rcv_mwnd_seq is only updated in tcp_select_window and, as far as I
+>   can tell, is not used on the RX fast path.
 >
-> # echo 1 >/sys/.../extend_pcr_and_unlock_efi
+>   If I understand the placement rules correctly, this means that
+>   rcv_mwnd_seq, rcv_wup, and rcv_wnd end up in different cacheline
+>   groups, which feels odd. Guidance on where rcv_mwnd_seq should live
+>   would be appreciated.
 >
-> which *first* extends a PCR because we are about to change our
-> security posture and *second* sets whatever flag permits use of EFI
-> runtime services.
+> - In tcp_minisocks.c, it is not clear to me whether we should change
+>   "tcptw->tw_rcv_wnd =3D tcp_receive_window(tp)" to
+>   "tcptw->tw_rcv_wnd =3D tcp_max_receive_window(tp)". I could not find a
+>   case where this makes a practical difference and have left the
+>   existing behavior unchanged.
 >
-> 5. The installer writes to EFI variables.  And the installer can no
-> longer generate attestations to its previous security posture, which
-> is the correct behavior.  And maybe the user can no longer unlock
-> their home directory or whatever until they reboot.  Which is not
-> really a big deal.
+> - Packetdrill tests: Some of these seem rather brittle to me; I
+>   included them mostly to document what I have tested. Suggestions
+>   for making them more robust are welcome.
 >
-> (This is *dynamic* root of trust.  In theory the system could do a
-> DRTM re-launch and recover its security posture, but I don't think
-> this is implemented.)
+> - MPTCP seems to modify tp->rcv_wnd of subflows. I haven't looked at
+>   this, since I wanted to get feedback on the overall approach first.
 >
+> - Although this series addresses a regression triggered by commit
+>   d2fbaad7cd8 ("tcp: stronger sk_rcvbuf checks") the underlying
+>   problem is shrinking the window. Thus I added "Fixes" headers for
+>   the commits that introduced window shrinking.
 >
-> One thing I like about this is that it involves very little code.
+> I would appreciate feedback on the overall approach and on these
+> questions.
 >
 
-It does seem rather straight-forward, and it doesn't have to be specific=
- to TXT either. I.e., we should probably always measure the runtime enab=
-led/disabled state into the PCRs.
+Hi Simon, thanks for the clean series.
 
-But given the actual problem at hand (untrustworthy glue code running in=
- ring 3 that does little more than poke SMM, which itself fundamentally =
-remains part of the TCB), it would be nice if we could just sandbox that=
- code using virtualization.
+I would guess you use some AI ? This is fine, just curious.
 
-This came up in a separate discussion regarding ACPI PRM (the new dumpin=
-g ground for evil vendor code now that SMM has gone out of fashion), alt=
-hough there it should be feasible to run it unprivileged, as the spec re=
-quires that capability for the PRM payloads.
+Can you add more tests, in memory stress situations ?
+
+Like :
+
+A receiver grew the RWIN over time up to 8 MB.
+
+Then the application (or the kernel under stress) used SO_RCVBUF to 16K.
+
+I want to make sure the socket wont accept packets to fill the prior
+window and consume 8MB
+
+8MB seems fine, unless the host has 100,000 sockets in the same situation.
+
+Thanks
+
+> Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
+> ---
+> Simon Baatz (4):
+>       tcp: implement RFC 7323 window retraction receiver requirements
+>       selftests/net: packetdrill: add tcp_rcv_wnd_shrink_nomem.pkt
+>       selftests/net: packetdrill: add tcp_rcv_wnd_shrink_allowed.pkt
+>       selftests/net: packetdrill: add tcp_rcv_toobig_back_to_back.pkt
+>
+>  .../networking/net_cachelines/tcp_sock.rst         |   1 +
+>  include/linux/tcp.h                                |   1 +
+>  include/net/tcp.h                                  |  14 +++
+>  net/ipv4/tcp_fastopen.c                            |   1 +
+>  net/ipv4/tcp_input.c                               |   6 +-
+>  net/ipv4/tcp_minisocks.c                           |   1 +
+>  net/ipv4/tcp_output.c                              |  12 +++
+>  .../net/packetdrill/tcp_rcv_big_endseq.pkt         |   2 +-
+>  .../packetdrill/tcp_rcv_toobig_back_to_back.pkt    |  27 +++++
+>  .../net/packetdrill/tcp_rcv_wnd_shrink_allowed.pkt |  35 +++++++
+>  .../net/packetdrill/tcp_rcv_wnd_shrink_nomem.pkt   | 109 +++++++++++++++=
+++++++
+>  11 files changed, 206 insertions(+), 3 deletions(-)
+> ---
+> base-commit: 8bf22c33e7a172fbc72464f4cc484d23a6b412ba
+> change-id: 20260220-tcp_rfc7323_retract_wnd_rfc-c8a2d2baebde
+>
+> Best regards,
+> --
+> Simon Baatz <gmbnomis@gmail.com>
+>
+>
