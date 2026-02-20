@@ -1,64 +1,64 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEF4331A5B
-	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 07:06:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBCA331A7A
+	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 07:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771571165; cv=none; b=gxIUHnymTRyMyvykfpUSu9jdeFIkGrFG36sehEalNnHU6SYrqEINc9w/4OWWv3zxd8ySsNB7wQFXe6EyqELq3So4xQ772akdf+FwXiLT4yxvoEWsil6VGzVCI62cMgxAhVosFk3Or4NdgEKyS7Y5vt2ox7163bPCrzfQ0IrjXOc=
+	t=1771571166; cv=none; b=JtEI5rd4j2wk62d1i/ooBk0EoVF9+HJxpRfnlrh23ZPq5Y5xJNNiezns4vnYsIhOEZ+X65Wnbu0aInDkrhsTBCJyqBiQBWzObay/phvDG8ZD/CGz8Vw6AGo/Mwe7sHzM6juz/EBI8qGWJShxSgE2icMknbbA0ymm4FZK3DN/wJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771571165; c=relaxed/simple;
-	bh=DpQI60Hq4ElxT1fLg8bQws2GkkyiuTlr/2qLo9hol+Y=;
+	s=arc-20240116; t=1771571166; c=relaxed/simple;
+	bh=GlUZT/HLo+GD7n4X1p/J1FMYZbG+BVL2U/ZxVhirBfU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SH47O4rFXFQgzXSfZCKLW6Au+rc7WA+idvxC6JXI93Pr/3ub5AgdkSzzui9L40JrZl9fMG5ntuKbAIKwa2dAqX9fzaZ+eqGj26pwz6vzu2RfoUm2eg0iLEQ+tAJrSY9PzTCjF4Pipy3zLjuEV0BYdQKUrW0yp+OVw1evRZZ2t8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lJ6mn/7k; arc=none smtp.client-ip=74.125.82.171
+	 MIME-Version; b=m/cXWM3uxb62yQaNVVlHUSR9ap2Gk1kxlMaD2bVw2cCgxcj8HzCPwEnLqLS5LK2fEf1JeBSEX+5XWBjlvBGvnO5HlXwgTA+pbEj51F2/d0MgubTwIWtGWVMMrPgvxUkbze5JaoXEVJYDmJEQ7rzcuRYbrGF9wRj3gLmZxncxvdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k60DvCh6; arc=none smtp.client-ip=74.125.82.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJ6mn/7k"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2b86ce04c5cso3446845eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 23:06:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k60DvCh6"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2bab70f8c8aso1581337eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Feb 2026 23:06:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1771571163; x=1772175963; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PZ1cqGUaISKR5MY1Wda/cmxfMo3Y3UStzlounSzAtj0=;
-        b=lJ6mn/7kLrE8iqoXKQlL7TuC3w1pMReaOjhRjfEA51HusL50DBXXdWaBCVPp6jrVKq
-         X/qQuvSEdgfrYdSFqL6U2sAhoU69mJzeKXkYq5p13QM6KTTYOwKpmJujiLXRi+/92rg+
-         lGbCy6RHZV8B3veOYXElPDQJIzqPV1N2K/VqF4wF8JILTYZgtacZiTaagKoRAWWX7JR6
-         j5D8TrFH30IPTh0WUy35A6cRvTPCOCP5C0vrMAhMEuQLaNowgQrg19x3T7jq0ZiWpUf6
-         JG5O4HRKrbyRinRW0W851q1BFaAK5C7W4rc74C65O4VIo1ZHI99wSKB13gZkrMOrP345
-         0Pew==
+        bh=ho4nlHycelakbKu3/3x0iLmv+R5QP/vjh1LtRyDnvrA=;
+        b=k60DvCh6t+/5bEHmEahWiYyw4iPxBBQCnjRWEfPGI3YBLHN/+GavUB3ir47YkLK4XV
+         ZTjnKjV6ElIUeYyNcL/HNhGKXvLB6oDPu9krQpOgEw2iPyJus0l8X+T91yXGI2Dy5yGi
+         iJ3nHSrMLhDouKvV+X15AsSr+zWVkppd17gNxDaRfVZ/O1+tkrQt0AN8mTFeKood/P7O
+         Kb0UV3IfKFNB4hxb7AoRAZrNRjsf/GGRr98Z5pswOAYxpYbtAb6YlmvBtIsXfm4u45aY
+         n+i3/0WK/d/l1JwQo5by0P2uHNzjfCd4EQI0RJCiW0uCHKyJTcT+BRaJHu/fHyycnyaU
+         ZLvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1771571163; x=1772175963;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PZ1cqGUaISKR5MY1Wda/cmxfMo3Y3UStzlounSzAtj0=;
-        b=Pj6DD/dxyVa4k1mWGOgQloQ5Z9BRntgHtOnOEU1zHeW9ZbLDUzaj6qE1g3skJPTcp7
-         4k4MVHy1sisxIrE9O3UdtvYf8zqRQnNLGKuevX2Hq5cWKm6nzrfzDY1Wgbz6hjKgy7Zl
-         gJ3JrWfWeltHFk1JKASCQ9SRaz8KplYL2P8ISt4VHBm47SsEeEGjOopJjEK1QiIvmjBv
-         viIH6ASXV9q5Jy+JpXu8VHkNwMGwxcAcr9yNUIqkQb24uXMK4ydrLCZP/jhjJ9kg6sU5
-         TAn1LWoRDo3WPXbZhgTZwcDLWk7nUAFiIhig5VVxLTrAWwOVgfwUjDvLbds9vxgD41yw
-         cqHA==
-X-Forwarded-Encrypted: i=1; AJvYcCVffeYBlWX1D5Yo6AHxOAlSLI7tbHy4VWt/yKDU0h9b1HA4+6hWHP7Y9qvxaeinITFBVZMvytjjRDk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPMuWIS+01XQsYc+riDr8KByXFAGBURQFoqxMAC2EjRQ3m7zwR
-	OZOgBixW2KzoHbt+zMbQDSfHivAEuUA4B24ImDRiSm+42cCHXs0jpM9FQ1TZ8w==
-X-Gm-Gg: AZuq6aIVJMzwWi5Bi4gmzuREzkiFH8Y7QTmatxgrkLy8zIKLRTsF3WcvWP80bhLDZnB
-	/oMh3hnaDYNCbHD2PpOq4UI6E2ae4FQYShhLAQYKfH+Dq6/boUuygFks6cchfEJcNS7vb7jC+Ka
-	b5GhVZoHSWStTkmq/WSuDsevq4jWgPVyKMmgkHh9P1ljqMRqF9vsn8jPX4WSNVBRgd/HmNB16Ku
-	+wRKxQ4IFlg6MX1dyEYsicm+eyCZJuieYEsPxOVFzv9ZJngdtFqx7Chr304q7/hZmhUwZbetAEP
-	MgRE9jt7SSJtY/MZjNZJpALcyMDP90Ec2yJ241T6+R7T34La8+4kRHedGfKPH1ZhwCMN4y/Xi9y
-	ZsjLV85P1+fLrGuX+RCTo7FpMxbZkRgoqt5u0k2cZSp+ADw0PxOqZch9hMdCZnDe0+/gncmuxI+
-	s5ApTFHTOCqiu8rwFVUqT4bp6y5RQuB3EpeCr1MZkUGlZJh4wiRoYWOzpafZ1B/wMUOGiwwUDEC
-	M1sTTVREBAv6w==
-X-Received: by 2002:a05:693c:3108:b0:2b8:66f3:2502 with SMTP id 5a478bee46e88-2bd73342a4cmr254437eec.1.1771571162659;
-        Thu, 19 Feb 2026 23:06:02 -0800 (PST)
+        bh=ho4nlHycelakbKu3/3x0iLmv+R5QP/vjh1LtRyDnvrA=;
+        b=jgatyPVq38x9LwjE4thDfyHNNZ7J5wwbT/zBJFQZ01x3Sj9GRzMECbsd8F0kKf8Jfz
+         wHqx9fe+MIM9D3X9im0Hf0q2y0czzGZF5dphUcr+lvFZO8mMr25P0cHOhXiT1myunVQ/
+         XCX58NpeLapPQLY+oNbt7RBpdXNTjeUrOVYtQ5rzvTJ+j+lFyg3kzfyU8kbZUTwIFnI0
+         SNonKZkPErr7+Nk7G1iIdTbF+tdzfbp0EtAt7vo+I/SUXpZ8c707uGFCIlAAFwBotnTF
+         myxfYjfUCTpnpNdZIVH48x4m+3017hqaxXwRYN+lgMbC7BvcrTRlQrbcOnXTbapcIsrV
+         ouSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWixiJgAJnMTwRmbtaxgZ326fwDLl4r4iu//JQOjIopzIR7JV7mNa/2sYFDjcmLb5zhhzG5MVVWFdU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzi1oof5PLClWjN5IdSU/8fE8qYFmXT0mv9j3QYH6Hy/XfQo70U
+	m54RLsAeTOz98Gi3EI+hB8I4eOTiUYvEuscPUbBRkL/ZYgxoAq20d4T8VQiUQg==
+X-Gm-Gg: AZuq6aKJoIaNxsaXbPGXUE6Ojv4ltSjIuccbfhFOsLlsXlDq62Z/LU/alqATO8Ejeu2
+	SJLv8a84IepPrrsFDz0sUrlZcrzIIH7i9d1XJbgZfVHS3Ug7a67aOYm1I25Z9tZMgE49u/ZHxHe
+	eo7rKk0G09krmsbVdJwMosNwgR/hJojoZP8vUj3nHPvewTKb2ZD+KIh3vOJ9SKsrPs+dO6SZE8G
+	CFsYt1DXRfvjqCNz29jsB2J31Cx3t2q8O/j+M6AfZIM58u1MJxzvBFBLxS25rB/z7KODnnOU0DH
+	pr9xTimJVxTkppcQZmiVYH4CFQwPi/UtSZCQObESk4TQqYAOSjFujmnLepGWES7LG8+f+2EZPGR
+	acApONzeoIJeLSJ49Uus5xl9O+Ez8jOxYng7b44GTMB+/McWYfPunMfSLTfkmiK+6F9Ipxbpwou
+	KNlmKSKjmgyDGVYtHcLBugqImXGhkry1OP5XDtljIFaxVq3oud0y1KwVm//45hmjTor8ny8aWTc
+	Rs=
+X-Received: by 2002:a05:7300:d70c:b0:2b7:ee0e:e9ca with SMTP id 5a478bee46e88-2bd5008f728mr3384090eec.13.1771571163366;
+        Thu, 19 Feb 2026 23:06:03 -0800 (PST)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bacb669f7dsm22163335eec.23.2026.02.19.23.06.01
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bacb669f7dsm22163335eec.23.2026.02.19.23.06.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Feb 2026 23:06:01 -0800 (PST)
+        Thu, 19 Feb 2026 23:06:03 -0800 (PST)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>
@@ -72,9 +72,9 @@ Cc: Richard Hughes <hughsient@gmail.com>,
 	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 06/16] HID: hid-lenovo-go: Add RGB LED control interface
-Date: Fri, 20 Feb 2026 07:05:19 +0000
-Message-ID: <20260220070533.4083667-7-derekjohn.clark@gmail.com>
+Subject: [PATCH v4 07/16] HID: hid-lenovo-go: Add Calibration Settings
+Date: Fri, 20 Feb 2026 07:05:20 +0000
+Message-ID: <20260220070533.4083667-8-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260220070533.4083667-1-derekjohn.clark@gmail.com>
 References: <20260220070533.4083667-1-derekjohn.clark@gmail.com>
@@ -86,128 +86,137 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds an LED multicolor class device and attribute group for controlling
-the RGB of the Left and right handles. In addition to the standard
-led_cdev attributes, additional attributes that allow for the control of
-the effect (monocolor, breathe, rainbow, and chroma), speed of the
-effect change, an enable toggle, and profile.
+Adds calibration enable and last calibration status indicators for the
+triggers, joysticks, and handle gyros.
 
 Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
- drivers/hid/hid-lenovo-go.c | 472 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 472 insertions(+)
+ drivers/hid/hid-lenovo-go.c | 284 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 283 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-lenovo-go.c b/drivers/hid/hid-lenovo-go.c
-index e7f44400accf8..70dd5d5d690b8 100644
+index 70dd5d5d690b8..b5a1d3e1988f2 100644
 --- a/drivers/hid/hid-lenovo-go.c
 +++ b/drivers/hid/hid-lenovo-go.c
-@@ -18,12 +18,15 @@
- #include <linux/hid.h>
- #include <linux/jiffies.h>
- #include <linux/kstrtox.h>
-+#include <linux/led-class-multicolor.h>
- #include <linux/mutex.h>
- #include <linux/printk.h>
- #include <linux/sysfs.h>
- #include <linux/types.h>
- #include <linux/unaligned.h>
- #include <linux/usb.h>
-+#include <linux/workqueue.h>
-+#include <linux/workqueue_types.h>
- 
- #include "hid-ids.h"
- 
-@@ -33,7 +36,9 @@
- #define GO_PACKET_SIZE		64
- 
- struct hid_go_cfg {
-+	struct delayed_work go_cfg_setup;
- 	struct completion send_cmd_complete;
-+	struct led_classdev *led_cdev;
- 	struct hid_device *hdev;
+@@ -43,8 +43,11 @@ struct hid_go_cfg {
  	struct mutex cfg_mutex; /*ensure single synchronous output report*/
  	u8 fps_mode;
-@@ -65,7 +70,11 @@ struct hid_go_cfg {
- 	u32 mcu_version_product;
- 	u32 mcu_version_protocol;
- 	u32 mouse_dpi;
-+	u8 rgb_effect;
- 	u8 rgb_en;
-+	u8 rgb_mode;
-+	u8 rgb_profile;
-+	u8 rgb_speed;
- 	u8 tp_en;
- 	u8 tp_vibration_en;
- 	u8 tp_vibration_intensity;
-@@ -220,6 +229,41 @@ static const char *const rumble_mode_text[] = {
+ 	u8 gp_left_auto_sleep_time;
++	u8 gp_left_gyro_cal_status;
++	u8 gp_left_joy_cal_status;
+ 	u8 gp_left_notify_en;
+ 	u8 gp_left_rumble_mode;
++	u8 gp_left_trigg_cal_status;
+ 	u32 gp_left_version_firmware;
+ 	u8 gp_left_version_gen;
+ 	u32 gp_left_version_hardware;
+@@ -52,8 +55,11 @@ struct hid_go_cfg {
+ 	u32 gp_left_version_protocol;
+ 	u8 gp_mode;
+ 	u8 gp_right_auto_sleep_time;
++	u8 gp_right_gyro_cal_status;
++	u8 gp_right_joy_cal_status;
+ 	u8 gp_right_notify_en;
+ 	u8 gp_right_rumble_mode;
++	u8 gp_right_trigg_cal_status;
+ 	u32 gp_right_version_firmware;
+ 	u8 gp_right_version_gen;
+ 	u32 gp_right_version_hardware;
+@@ -227,7 +233,41 @@ static const char *const rumble_mode_text[] = {
+ 	[RUMBLE_MODE_RPG] = "rpg",
+ };
  
- #define FPS_MODE_DPI           0x02
+-#define FPS_MODE_DPI           0x02
++#define FPS_MODE_DPI		0x02
++#define TRIGGER_CALIBRATE	0x04
++#define JOYSTICK_CALIBRATE	0x04
++#define GYRO_CALIBRATE		0x06
++
++enum cal_device_type {
++	CALDEV_GYROSCOPE = 0x01,
++	CALDEV_JOYSTICK,
++	CALDEV_TRIGGER,
++	CALDEV_JOY_TRIGGER,
++};
++
++enum cal_enable {
++	CAL_UNKNOWN,
++	CAL_START,
++	CAL_STOP,
++};
++
++static const char *const cal_enabled_text[] = {
++	[CAL_UNKNOWN] = "unknown",
++	[CAL_START] = "start",
++	[CAL_STOP] = "stop",
++};
++
++enum cal_status_index {
++	CAL_STAT_UNKNOWN,
++	CAL_STAT_SUCCESS,
++	CAL_STAT_FAILURE,
++};
++
++static const char *const cal_status_text[] = {
++	[CAL_STAT_UNKNOWN] = "unknown",
++	[CAL_STAT_SUCCESS] = "success",
++	[CAL_STAT_FAILURE] = "failure",
++};
  
-+enum rgb_config_index {
-+	LIGHT_CFG_ALL = 0x01,
-+	LIGHT_MODE_SEL,
-+	LIGHT_PROFILE_SEL,
-+	USR_LIGHT_PROFILE_1,
-+	USR_LIGHT_PROFILE_2,
-+	USR_LIGHT_PROFILE_3,
-+};
-+
-+enum rgb_mode_index {
-+	RGB_MODE_UNKNOWN,
-+	RGB_MODE_DYNAMIC,
-+	RGB_MODE_CUSTOM,
-+};
-+
-+static const char *const rgb_mode_text[] = {
-+	[RGB_MODE_UNKNOWN] = "unknown",
-+	[RGB_MODE_DYNAMIC] = "dynamic",
-+	[RGB_MODE_CUSTOM] = "custom",
-+};
-+
-+enum rgb_effect_index {
-+	RGB_EFFECT_MONO,
-+	RGB_EFFECT_BREATHE,
-+	RGB_EFFECT_CHROMA,
-+	RGB_EFFECT_RAINBOW,
-+};
-+
-+static const char *const rgb_effect_text[] = {
-+	[RGB_EFFECT_MONO] = "monocolor",
-+	[RGB_EFFECT_BREATHE] = "breathe",
-+	[RGB_EFFECT_CHROMA] = "chroma",
-+	[RGB_EFFECT_RAINBOW] = "rainbow",
+ enum rgb_config_index {
+ 	LIGHT_CFG_ALL = 0x01,
+@@ -264,6 +304,13 @@ static const char *const rgb_effect_text[] = {
+ 	[RGB_EFFECT_RAINBOW] = "rainbow",
+ };
+ 
++enum device_status_index {
++	GET_CAL_STATUS = 0x02,
++	GET_UPGRADE_STATUS,
++	GET_MACRO_REC_STATUS,
++	GET_HOTKEY_TRIGG_STATUS,
 +};
 +
  static int hid_go_version_event(struct command_report *cmd_rep)
  {
  	switch (cmd_rep->sub_cmd) {
-@@ -437,6 +481,33 @@ static int hid_go_fps_dpi_event(struct command_report *cmd_rep)
- 	return 0;
+@@ -508,6 +555,44 @@ static int hid_go_light_event(struct command_report *cmd_rep)
+ 	}
  }
  
-+static int hid_go_light_event(struct command_report *cmd_rep)
++static int hid_go_device_status_event(struct command_report *cmd_rep)
 +{
-+	struct led_classdev_mc *mc_cdev;
-+
-+	switch (cmd_rep->sub_cmd) {
-+	case LIGHT_MODE_SEL:
-+		drvdata.rgb_mode = cmd_rep->data[0];
-+		return 0;
-+	case LIGHT_PROFILE_SEL:
-+		drvdata.rgb_profile = cmd_rep->data[0];
-+		return 0;
-+	case USR_LIGHT_PROFILE_1:
-+	case USR_LIGHT_PROFILE_2:
-+	case USR_LIGHT_PROFILE_3:
-+		mc_cdev = lcdev_to_mccdev(drvdata.led_cdev);
-+		drvdata.rgb_effect = cmd_rep->data[0];
-+		mc_cdev->subled_info[0].intensity = cmd_rep->data[1];
-+		mc_cdev->subled_info[1].intensity = cmd_rep->data[2];
-+		mc_cdev->subled_info[2].intensity = cmd_rep->data[3];
-+		drvdata.led_cdev->brightness = cmd_rep->data[4];
-+		drvdata.rgb_speed = cmd_rep->data[5];
-+		return 0;
++	switch (cmd_rep->device_type) {
++	case LEFT_CONTROLLER:
++		switch (cmd_rep->data[0]) {
++		case CALDEV_GYROSCOPE:
++			drvdata.gp_left_gyro_cal_status = cmd_rep->data[1];
++			return 0;
++		case CALDEV_JOYSTICK:
++			drvdata.gp_left_joy_cal_status = cmd_rep->data[1];
++			return 0;
++		case CALDEV_TRIGGER:
++			drvdata.gp_left_trigg_cal_status = cmd_rep->data[1];
++			return 0;
++		default:
++			return -EINVAL;
++		}
++		break;
++	case RIGHT_CONTROLLER:
++		switch (cmd_rep->data[0]) {
++		case CALDEV_GYROSCOPE:
++			drvdata.gp_right_gyro_cal_status = cmd_rep->data[1];
++			return 0;
++		case CALDEV_JOYSTICK:
++			drvdata.gp_right_joy_cal_status = cmd_rep->data[1];
++			return 0;
++		case CALDEV_TRIGGER:
++			drvdata.gp_right_trigg_cal_status = cmd_rep->data[1];
++			return 0;
++		default:
++			return -EINVAL;
++		}
++		break;
 +	default:
 +		return -EINVAL;
 +	}
@@ -216,446 +225,248 @@ index e7f44400accf8..70dd5d5d690b8 100644
  static int hid_go_set_event_return(struct command_report *cmd_rep)
  {
  	if (cmd_rep->data[0] != 0)
-@@ -490,9 +561,13 @@ static int hid_go_raw_event(struct hid_device *hdev, struct hid_report *report,
- 		case GET_DPI_CFG:
- 			ret = hid_go_fps_dpi_event(cmd_rep);
+@@ -564,10 +649,16 @@ static int hid_go_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 		case GET_RGB_CFG:
+ 			ret = hid_go_light_event(cmd_rep);
  			break;
-+		case GET_RGB_CFG:
-+			ret = hid_go_light_event(cmd_rep);
++		case GET_DEVICE_STATUS:
++			ret = hid_go_device_status_event(cmd_rep);
 +			break;
  		case SET_FEATURE_STATUS:
  		case SET_MOTOR_CFG:
  		case SET_DPI_CFG:
-+		case SET_RGB_CFG:
+ 		case SET_RGB_CFG:
++		case SET_TRIGGER_CFG:
++		case SET_JOYSTICK_CFG:
++		case SET_GYRO_CFG:
  			ret = hid_go_set_event_return(cmd_rep);
  			break;
  		default:
-@@ -1082,6 +1157,274 @@ static ssize_t fps_mode_dpi_index_show(struct device *dev,
+@@ -1157,6 +1248,101 @@ static ssize_t fps_mode_dpi_index_show(struct device *dev,
  	return sysfs_emit(buf, "500 800 1200 1800\n");
  }
  
-+static int rgb_cfg_call(struct hid_device *hdev, enum mcu_command_index cmd,
-+			enum rgb_config_index index, u8 *val, size_t size)
++static ssize_t device_status_show(struct device *dev,
++				  struct device_attribute *attr, char *buf,
++				  enum device_status_index index,
++				  enum dev_type device_type,
++				  enum cal_device_type cal_type)
 +{
-+	if (cmd != SET_RGB_CFG && cmd != GET_RGB_CFG)
++	u8 i;
++
++	switch (index) {
++	case GET_CAL_STATUS:
++		switch (device_type) {
++		case LEFT_CONTROLLER:
++			switch (cal_type) {
++			case CALDEV_GYROSCOPE:
++				i = drvdata.gp_left_gyro_cal_status;
++				break;
++			case CALDEV_JOYSTICK:
++				i = drvdata.gp_left_joy_cal_status;
++				break;
++			case CALDEV_TRIGGER:
++				i = drvdata.gp_left_trigg_cal_status;
++				break;
++			default:
++				return -EINVAL;
++			}
++			break;
++		case RIGHT_CONTROLLER:
++			switch (cal_type) {
++			case CALDEV_GYROSCOPE:
++				i = drvdata.gp_right_gyro_cal_status;
++				break;
++			case CALDEV_JOYSTICK:
++				i = drvdata.gp_right_joy_cal_status;
++				break;
++			case CALDEV_TRIGGER:
++				i = drvdata.gp_right_trigg_cal_status;
++				break;
++			default:
++				return -EINVAL;
++			}
++			break;
++		default:
++			return -EINVAL;
++		}
++		break;
++	default:
++		return -EINVAL;
++	};
++
++	if (i >= ARRAY_SIZE(cal_status_text))
 +		return -EINVAL;
 +
-+	if (index < LIGHT_CFG_ALL || index > USR_LIGHT_PROFILE_3)
-+		return -EINVAL;
-+
-+	return mcu_property_out(hdev, MCU_CONFIG_DATA, cmd, index, UNSPECIFIED,
-+				val, size);
++	return sysfs_emit(buf, "%s\n", cal_status_text[i]);
 +}
 +
-+static int rgb_attr_show(void)
++static ssize_t calibrate_config_store(struct device *dev,
++				      struct device_attribute *attr,
++				      const char *buf, u8 cmd, u8 sub_cmd,
++				      size_t count, enum dev_type device_type)
 +{
-+	enum rgb_config_index index;
-+
-+	index = drvdata.rgb_profile + 3;
-+
-+	return rgb_cfg_call(drvdata.hdev, GET_RGB_CFG, index, 0, 0);
-+};
-+
-+static ssize_t rgb_effect_store(struct device *dev,
-+				struct device_attribute *attr, const char *buf,
-+				size_t count)
-+{
-+	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(drvdata.led_cdev);
-+	enum rgb_config_index index;
-+	u8 effect;
++	size_t size = 1;
++	u8 val = 0;
 +	int ret;
 +
-+	ret = sysfs_match_string(rgb_effect_text, buf);
++	ret = sysfs_match_string(cal_enabled_text, buf);
 +	if (ret < 0)
-+		return ret;
-+
-+	effect = ret;
-+	index = drvdata.rgb_profile + 3;
-+	u8 rgb_profile[6] = { effect,
-+			      mc_cdev->subled_info[0].intensity,
-+			      mc_cdev->subled_info[1].intensity,
-+			      mc_cdev->subled_info[2].intensity,
-+			      drvdata.led_cdev->brightness,
-+			      drvdata.rgb_speed };
-+
-+	ret = rgb_cfg_call(drvdata.hdev, SET_RGB_CFG, index, rgb_profile, 6);
-+	if (ret)
-+		return ret;
-+
-+	drvdata.rgb_effect = effect;
-+	return count;
-+};
-+
-+static ssize_t rgb_effect_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf)
-+{
-+	int ret;
-+
-+	ret = rgb_attr_show();
-+	if (ret)
-+		return ret;
-+
-+	if (drvdata.rgb_effect >= ARRAY_SIZE(rgb_effect_text))
-+		return -EINVAL;
-+
-+	return sysfs_emit(buf, "%s\n", rgb_effect_text[drvdata.rgb_effect]);
-+}
-+
-+static ssize_t rgb_effect_index_show(struct device *dev,
-+				     struct device_attribute *attr, char *buf)
-+{
-+	ssize_t count = 0;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(rgb_effect_text); i++)
-+		count += sysfs_emit_at(buf, count, "%s ", rgb_effect_text[i]);
-+
-+	if (count)
-+		buf[count - 1] = '\n';
-+
-+	return count;
-+}
-+
-+static ssize_t rgb_speed_store(struct device *dev,
-+			       struct device_attribute *attr, const char *buf,
-+			       size_t count)
-+{
-+	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(drvdata.led_cdev);
-+	enum rgb_config_index index;
-+	int val = 0;
-+	int ret;
-+
-+	ret = kstrtoint(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val < 0 || val > 100)
-+		return -EINVAL;
-+
-+	index = drvdata.rgb_profile + 3;
-+	u8 rgb_profile[6] = { drvdata.rgb_effect,
-+			      mc_cdev->subled_info[0].intensity,
-+			      mc_cdev->subled_info[1].intensity,
-+			      mc_cdev->subled_info[2].intensity,
-+			      drvdata.led_cdev->brightness,
-+			      val };
-+
-+	ret = rgb_cfg_call(drvdata.hdev, SET_RGB_CFG, index, rgb_profile, 6);
-+	if (ret)
-+		return ret;
-+
-+	drvdata.rgb_speed = val;
-+
-+	return count;
-+};
-+
-+static ssize_t rgb_speed_show(struct device *dev, struct device_attribute *attr,
-+			      char *buf)
-+{
-+	int ret;
-+
-+	ret = rgb_attr_show();
-+	if (ret)
-+		return ret;
-+
-+	if (drvdata.rgb_speed > 100)
-+		return -EINVAL;
-+
-+	return sysfs_emit(buf, "%hhu\n", drvdata.rgb_speed);
-+}
-+
-+static ssize_t rgb_speed_range_show(struct device *dev,
-+				    struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "0-100\n");
-+}
-+
-+static ssize_t rgb_mode_store(struct device *dev, struct device_attribute *attr,
-+			      const char *buf, size_t count)
-+{
-+	int ret;
-+	u8 val;
-+
-+	ret = sysfs_match_string(rgb_mode_text, buf);
-+	if (ret <= 0)
 +		return ret;
 +
 +	val = ret;
++	if (!val)
++		size = 0;
 +
-+	ret = rgb_cfg_call(drvdata.hdev, SET_RGB_CFG, LIGHT_MODE_SEL, &val, 1);
-+	if (ret)
++	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, cmd, sub_cmd,
++			       device_type, &val, size);
++	if (ret < 0)
 +		return ret;
-+
-+	drvdata.rgb_mode = val;
 +
 +	return count;
-+};
++}
 +
-+static ssize_t rgb_mode_show(struct device *dev, struct device_attribute *attr,
-+			     char *buf)
-+{
-+	int ret;
-+
-+	ret = rgb_cfg_call(drvdata.hdev, GET_RGB_CFG, LIGHT_MODE_SEL, 0, 0);
-+	if (ret)
-+		return ret;
-+
-+	if (drvdata.rgb_mode >= ARRAY_SIZE(rgb_mode_text))
-+		return -EINVAL;
-+
-+	return sysfs_emit(buf, "%s\n", rgb_mode_text[drvdata.rgb_mode]);
-+};
-+
-+static ssize_t rgb_mode_index_show(struct device *dev,
-+				   struct device_attribute *attr, char *buf)
++static ssize_t calibrate_config_options(struct device *dev,
++					struct device_attribute *attr,
++					char *buf)
 +{
 +	ssize_t count = 0;
 +	unsigned int i;
 +
-+	for (i = 1; i < ARRAY_SIZE(rgb_mode_text); i++)
-+		count += sysfs_emit_at(buf, count, "%s ", rgb_mode_text[i]);
++	for (i = 1; i < ARRAY_SIZE(cal_enabled_text); i++)
++		count += sysfs_emit_at(buf, count, "%s ", cal_enabled_text[i]);
 +
-+	if (count)
-+		buf[count - 1] = '\n';
-+
-+	return count;
-+}
-+
-+static ssize_t rgb_profile_store(struct device *dev,
-+				 struct device_attribute *attr, const char *buf,
-+				 size_t count)
-+{
-+	size_t size = 1;
-+	int ret;
-+	u8 val;
-+
-+	ret = kstrtou8(buf, 10, &val);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (val < 1 || val > 3)
-+		return -EINVAL;
-+
-+	ret = rgb_cfg_call(drvdata.hdev, SET_RGB_CFG, LIGHT_PROFILE_SEL, &val,
-+			   size);
-+	if (ret)
-+		return ret;
-+
-+	drvdata.rgb_profile = val;
++	buf[count - 1] = '\n';
 +
 +	return count;
-+};
-+
-+static ssize_t rgb_profile_show(struct device *dev,
-+				struct device_attribute *attr, char *buf)
-+{
-+	int ret;
-+
-+	ret = rgb_cfg_call(drvdata.hdev, GET_RGB_CFG, LIGHT_PROFILE_SEL, 0,
-+			   0);
-+	if (ret)
-+		return ret;
-+
-+	if (drvdata.rgb_profile < 1 || drvdata.rgb_profile > 3)
-+		return -EINVAL;
-+
-+	return sysfs_emit(buf, "%hhu\n", drvdata.rgb_profile);
-+};
-+
-+static ssize_t rgb_profile_range_show(struct device *dev,
-+				      struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "1-3\n");
 +}
 +
-+static void hid_go_brightness_set(struct led_classdev *led_cdev,
-+				  enum led_brightness brightness)
-+{
-+	struct led_classdev_mc *mc_cdev = lcdev_to_mccdev(drvdata.led_cdev);
-+	enum rgb_config_index index;
-+	int ret;
-+
-+	if (brightness > led_cdev->max_brightness) {
-+		dev_err(led_cdev->dev, "Invalid argument\n");
-+		return;
-+	}
-+
-+	index = drvdata.rgb_profile + 3;
-+	u8 rgb_profile[6] = { drvdata.rgb_effect,
-+			      mc_cdev->subled_info[0].intensity,
-+			      mc_cdev->subled_info[1].intensity,
-+			      mc_cdev->subled_info[2].intensity,
-+			      brightness,
-+			      drvdata.rgb_speed };
-+
-+	ret = rgb_cfg_call(drvdata.hdev, SET_RGB_CFG, index, rgb_profile, 6);
-+	switch (ret) {
-+	case 0:
-+		led_cdev->brightness = brightness;
-+		break;
-+	case -ENODEV: /* during switch to IAP -ENODEV is expected */
-+	case -ENOSYS: /* during rmmod -ENOSYS is expected */
-+		dev_dbg(led_cdev->dev, "Failed to write RGB profile: %i\n", ret);
-+		break;
-+	default:
-+		dev_err(led_cdev->dev, "Failed to write RGB profile: %i\n", ret);
-+	};
-+}
-+
- #define LEGO_DEVICE_ATTR_RW(_name, _attrname, _dtype, _rtype, _group)         \
- 	static ssize_t _name##_store(struct device *dev,                      \
- 				     struct device_attribute *attr,           \
-@@ -1392,6 +1735,109 @@ static const struct attribute_group *top_level_attr_groups[] = {
- 	&touchpad_attr_group,	  NULL,
- };
- 
-+/* RGB */
-+struct go_cfg_attr rgb_enabled = { FEATURE_LIGHT_ENABLE };
-+
-+LEGO_DEVICE_ATTR_RW(rgb_enabled, "enabled", UNSPECIFIED, index, feature_status);
-+static DEVICE_ATTR_RO_NAMED(rgb_effect_index, "effect_index");
-+static DEVICE_ATTR_RO_NAMED(rgb_enabled_index, "enabled_index");
-+static DEVICE_ATTR_RO_NAMED(rgb_mode_index, "mode_index");
-+static DEVICE_ATTR_RO_NAMED(rgb_profile_range, "profile_range");
-+static DEVICE_ATTR_RO_NAMED(rgb_speed_range, "speed_range");
-+static DEVICE_ATTR_RW_NAMED(rgb_effect, "effect");
-+static DEVICE_ATTR_RW_NAMED(rgb_mode, "mode");
-+static DEVICE_ATTR_RW_NAMED(rgb_profile, "profile");
-+static DEVICE_ATTR_RW_NAMED(rgb_speed, "speed");
-+
-+static struct attribute *go_rgb_attrs[] = {
-+	&dev_attr_rgb_effect.attr,
-+	&dev_attr_rgb_effect_index.attr,
-+	&dev_attr_rgb_enabled.attr,
-+	&dev_attr_rgb_enabled_index.attr,
-+	&dev_attr_rgb_mode.attr,
-+	&dev_attr_rgb_mode_index.attr,
-+	&dev_attr_rgb_profile.attr,
-+	&dev_attr_rgb_profile_range.attr,
-+	&dev_attr_rgb_speed.attr,
-+	&dev_attr_rgb_speed_range.attr,
-+	NULL,
-+};
-+
-+static struct attribute_group rgb_attr_group = {
-+	.attrs = go_rgb_attrs,
-+};
-+
-+struct mc_subled go_rgb_subled_info[] = {
-+	{
-+		.color_index = LED_COLOR_ID_RED,
-+		.brightness = 0x50,
-+		.intensity = 0x24,
-+		.channel = 0x1,
-+	},
-+	{
-+		.color_index = LED_COLOR_ID_GREEN,
-+		.brightness = 0x50,
-+		.intensity = 0x22,
-+		.channel = 0x2,
-+	},
-+	{
-+		.color_index = LED_COLOR_ID_BLUE,
-+		.brightness = 0x50,
-+		.intensity = 0x99,
-+		.channel = 0x3,
-+	},
-+};
-+
-+struct led_classdev_mc go_cdev_rgb = {
-+	.led_cdev = {
-+		.name = "go:rgb:joystick_rings",
-+		.color = LED_COLOR_ID_RGB,
-+		.brightness = 0x50,
-+		.max_brightness = 0x64,
-+		.brightness_set = hid_go_brightness_set,
-+	},
-+	.num_colors = ARRAY_SIZE(go_rgb_subled_info),
-+	.subled_info = go_rgb_subled_info,
-+};
-+
-+static void cfg_setup(struct work_struct *work)
-+{
-+	int ret;
-+
-+	/* RGB */
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA,
-+			       GET_FEATURE_STATUS, FEATURE_LIGHT_ENABLE,
-+			       UNSPECIFIED, 0, 0);
-+	if (ret < 0) {
-+		dev_err(drvdata.led_cdev->dev,
-+			"Failed to retrieve RGB enabled: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_RGB_CFG,
-+			       LIGHT_MODE_SEL, UNSPECIFIED, 0, 0);
-+	if (ret < 0) {
-+		dev_err(drvdata.led_cdev->dev,
-+			"Failed to retrieve RGB Mode: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_RGB_CFG,
-+			       LIGHT_PROFILE_SEL, UNSPECIFIED, 0, 0);
-+	if (ret < 0) {
-+		dev_err(drvdata.led_cdev->dev,
-+			"Failed to retrieve RGB Profile: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = rgb_attr_show();
-+	if (ret < 0) {
-+		dev_err(drvdata.led_cdev->dev,
-+			"Failed to retrieve RGB Profile Data: %i\n", ret);
-+		return;
-+	}
-+}
-+
- static int hid_go_cfg_probe(struct hid_device *hdev,
- 			    const struct hid_device_id *_id)
+ static int rgb_cfg_call(struct hid_device *hdev, enum mcu_command_index cmd,
+ 			enum rgb_config_index index, u8 *val, size_t size)
  {
-@@ -1413,14 +1859,40 @@ static int hid_go_cfg_probe(struct hid_device *hdev,
- 		return ret;
- 	}
+@@ -1463,6 +1649,30 @@ static void hid_go_brightness_set(struct led_classdev *led_cdev,
+ 	}                                                                     \
+ 	static DEVICE_ATTR_RO_NAMED(_name, _attrname)
  
-+	ret = devm_led_classdev_multicolor_register(&hdev->dev, &go_cdev_rgb);
-+	if (ret) {
-+		dev_err_probe(&hdev->dev, ret, "Failed to create RGB device\n");
-+		return ret;
-+	}
++#define LEGO_CAL_DEVICE_ATTR(_name, _attrname, _scmd, _dtype, _rtype)         \
++	static ssize_t _name##_store(struct device *dev,                      \
++				     struct device_attribute *attr,           \
++				     const char *buf, size_t count)           \
++	{                                                                     \
++		return calibrate_config_store(dev, attr, buf, _name.index,    \
++					      _scmd, count, _dtype);          \
++	}                                                                     \
++	static ssize_t _name##_##_rtype##_show(                               \
++		struct device *dev, struct device_attribute *attr, char *buf) \
++	{                                                                     \
++		return calibrate_config_options(dev, attr, buf);              \
++	}                                                                     \
++	static DEVICE_ATTR_WO_NAMED(_name, _attrname)
 +
-+	ret = devm_device_add_group(go_cdev_rgb.led_cdev.dev, &rgb_attr_group);
-+	if (ret) {
-+		dev_err_probe(&hdev->dev, ret,
-+			      "Failed to create RGB configuration attributes\n");
-+		return ret;
-+	}
++#define LEGO_DEVICE_STATUS_ATTR(_name, _attrname, _scmd, _dtype)              \
++	static ssize_t _name##_show(struct device *dev,                       \
++				    struct device_attribute *attr, char *buf) \
++	{                                                                     \
++		return device_status_show(dev, attr, buf, _name.index, _scmd, \
++					  _dtype);                            \
++	}                                                                     \
++	static DEVICE_ATTR_RO_NAMED(_name, _attrname)
 +
-+	drvdata.led_cdev = &go_cdev_rgb.led_cdev;
-+
- 	init_completion(&drvdata.send_cmd_complete);
+ /* Gamepad - MCU */
+ struct go_cfg_attr version_product_mcu = { PRODUCT_VERSION };
+ LEGO_DEVICE_ATTR_RO(version_product_mcu, "product_version", USB_MCU, version);
+@@ -1600,9 +1810,45 @@ LEGO_DEVICE_ATTR_RW(rumble_notification_left, "rumble_notification",
+ static DEVICE_ATTR_RO_NAMED(rumble_notification_left_index,
+ 			    "rumble_notification_index");
  
-+	/* Executing calls prior to returning from probe will lock the MCU. Schedule
-+	 * initial data call after probe has completed and MCU can accept calls.
-+	 */
-+	INIT_DELAYED_WORK(&drvdata.go_cfg_setup, &cfg_setup);
-+	ret = schedule_delayed_work(&drvdata.go_cfg_setup, msecs_to_jiffies(2));
-+	if (!ret) {
-+		dev_err(&hdev->dev,
-+			"Failed to schedule startup delayed work\n");
-+		return -ENODEV;
-+	}
- 	return 0;
- }
++struct go_cfg_attr cal_trigg_left = { TRIGGER_CALIBRATE };
++LEGO_CAL_DEVICE_ATTR(cal_trigg_left, "calibrate_trigger", SET_TRIGGER_CFG,
++		     LEFT_CONTROLLER, index);
++static DEVICE_ATTR_RO_NAMED(cal_trigg_left_index, "calibrate_trigger_index");
++
++struct go_cfg_attr cal_joy_left = { JOYSTICK_CALIBRATE };
++LEGO_CAL_DEVICE_ATTR(cal_joy_left, "calibrate_joystick", SET_JOYSTICK_CFG,
++		     LEFT_CONTROLLER, index);
++static DEVICE_ATTR_RO_NAMED(cal_joy_left_index, "calibrate_joystick_index");
++
++struct go_cfg_attr cal_gyro_left = { GYRO_CALIBRATE };
++LEGO_CAL_DEVICE_ATTR(cal_gyro_left, "calibrate_gyro", SET_GYRO_CFG,
++		     LEFT_CONTROLLER, index);
++static DEVICE_ATTR_RO_NAMED(cal_gyro_left_index, "calibrate_gyro_index");
++
++struct go_cfg_attr cal_trigg_left_status = { GET_CAL_STATUS };
++LEGO_DEVICE_STATUS_ATTR(cal_trigg_left_status, "calibrate_trigger_status",
++			LEFT_CONTROLLER, CALDEV_TRIGGER);
++
++struct go_cfg_attr cal_joy_left_status = { GET_CAL_STATUS };
++LEGO_DEVICE_STATUS_ATTR(cal_joy_left_status, "calibrate_joystick_status",
++			LEFT_CONTROLLER, CALDEV_JOYSTICK);
++
++struct go_cfg_attr cal_gyro_left_status = { GET_CAL_STATUS };
++LEGO_DEVICE_STATUS_ATTR(cal_gyro_left_status, "calibrate_gyro_status",
++			LEFT_CONTROLLER, CALDEV_GYROSCOPE);
++
+ static struct attribute *left_gamepad_attrs[] = {
+ 	&dev_attr_auto_sleep_time_left.attr,
+ 	&dev_attr_auto_sleep_time_left_range.attr,
++	&dev_attr_cal_gyro_left.attr,
++	&dev_attr_cal_gyro_left_index.attr,
++	&dev_attr_cal_gyro_left_status.attr,
++	&dev_attr_cal_joy_left.attr,
++	&dev_attr_cal_joy_left_index.attr,
++	&dev_attr_cal_joy_left_status.attr,
++	&dev_attr_cal_trigg_left.attr,
++	&dev_attr_cal_trigg_left_index.attr,
++	&dev_attr_cal_trigg_left_status.attr,
+ 	&dev_attr_imu_bypass_left.attr,
+ 	&dev_attr_imu_bypass_left_index.attr,
+ 	&dev_attr_imu_enabled_left.attr,
+@@ -1671,9 +1917,45 @@ LEGO_DEVICE_ATTR_RW(rumble_notification_right, "rumble_notification",
+ static DEVICE_ATTR_RO_NAMED(rumble_notification_right_index,
+ 			    "rumble_notification_index");
  
- static void hid_go_cfg_remove(struct hid_device *hdev)
- {
- 	guard(mutex)(&drvdata.cfg_mutex);
-+	cancel_delayed_work_sync(&drvdata.go_cfg_setup);
- 	sysfs_remove_groups(&hdev->dev.kobj, top_level_attr_groups);
- 	hid_hw_close(hdev);
- 	hid_hw_stop(hdev);
++struct go_cfg_attr cal_trigg_right = { TRIGGER_CALIBRATE };
++LEGO_CAL_DEVICE_ATTR(cal_trigg_right, "calibrate_trigger", SET_TRIGGER_CFG,
++		     RIGHT_CONTROLLER, index);
++static DEVICE_ATTR_RO_NAMED(cal_trigg_right_index, "calibrate_trigger_index");
++
++struct go_cfg_attr cal_joy_right = { JOYSTICK_CALIBRATE };
++LEGO_CAL_DEVICE_ATTR(cal_joy_right, "calibrate_joystick", SET_JOYSTICK_CFG,
++		     RIGHT_CONTROLLER, index);
++static DEVICE_ATTR_RO_NAMED(cal_joy_right_index, "calibrate_joystick_index");
++
++struct go_cfg_attr cal_gyro_right = { GYRO_CALIBRATE };
++LEGO_CAL_DEVICE_ATTR(cal_gyro_right, "calibrate_gyro", SET_GYRO_CFG,
++		     RIGHT_CONTROLLER, index);
++static DEVICE_ATTR_RO_NAMED(cal_gyro_right_index, "calibrate_gyro_index");
++
++struct go_cfg_attr cal_trigg_right_status = { GET_CAL_STATUS };
++LEGO_DEVICE_STATUS_ATTR(cal_trigg_right_status, "calibrate_trigger_status",
++			RIGHT_CONTROLLER, CALDEV_TRIGGER);
++
++struct go_cfg_attr cal_joy_right_status = { GET_CAL_STATUS };
++LEGO_DEVICE_STATUS_ATTR(cal_joy_right_status, "calibrate_joystick_status",
++			RIGHT_CONTROLLER, CALDEV_JOYSTICK);
++
++struct go_cfg_attr cal_gyro_right_status = { GET_CAL_STATUS };
++LEGO_DEVICE_STATUS_ATTR(cal_gyro_right_status, "calibrate_gyro_status",
++			RIGHT_CONTROLLER, CALDEV_GYROSCOPE);
++
+ static struct attribute *right_gamepad_attrs[] = {
+ 	&dev_attr_auto_sleep_time_right.attr,
+ 	&dev_attr_auto_sleep_time_right_range.attr,
++	&dev_attr_cal_gyro_right.attr,
++	&dev_attr_cal_gyro_right_index.attr,
++	&dev_attr_cal_gyro_right_status.attr,
++	&dev_attr_cal_joy_right.attr,
++	&dev_attr_cal_joy_right_index.attr,
++	&dev_attr_cal_joy_right_status.attr,
++	&dev_attr_cal_trigg_right.attr,
++	&dev_attr_cal_trigg_right_index.attr,
++	&dev_attr_cal_trigg_right_status.attr,
+ 	&dev_attr_imu_bypass_right.attr,
+ 	&dev_attr_imu_bypass_right_index.attr,
+ 	&dev_attr_imu_enabled_right.attr,
 -- 
 2.52.0
 
