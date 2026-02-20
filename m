@@ -1,75 +1,65 @@
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B232DC349
-	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 20:28:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AAF264617;
+	Fri, 20 Feb 2026 20:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771619291; cv=none; b=ZxMSJrsZiubaA+GJmxb9E7m4I5VR2ETqWuCtYljrrk4RZ5XxI2mdm2M7Y25tW2fJYKTkv6ZZ8lGWiE0YtU7IYf9a/TZIaOysSKUIdgT4xPK3qcR7DUgjO0sgYwNyHjpahNNj2j1YpvxwM0YN3y4vpG9XAHsjKaSlxObYayuhPKg=
+	t=1771619879; cv=none; b=qFmHaiJPRaEmZpho5WjLGqknqDP67GFReYS25Nka7Om2XlIobx0ulXr2WU7Czd4bsC6w2kfkK78rhD/TaZeNXx6hayejhqrcyC8v1T7dWwhgdTOwPZfZ7J4jQkyMANfFy4sTtf/rO370Sz7yPHLajQkXLmagdUozFlDdz9UboxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771619291; c=relaxed/simple;
-	bh=453Nn33A6CH7Mz/45At7JAf2+k/ZAtcCyKZ2EEaamaI=;
+	s=arc-20240116; t=1771619879; c=relaxed/simple;
+	bh=ckjKERshFRnI0P3yH87wL8uIgFebZFNlaKRVVAP3lPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y60TK+6z1U2Kd6GdF9wh5hidxyQjiS5OKQtLlj5PSrBsPvX4LfhfUYx0lA8NpADhels/VEdprwL3b3H0wfc8llFQ31LT3TujoT16CHi5QgzSQ05UenEFOolOyfxLpUmsPPTY8Ws/cMSZNdnLwQaarJh2ZasK/Qd6npZGwwJbGzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IPrSUvWK; arc=none smtp.client-ip=74.125.82.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bw9I53c0TeEJ6ksaJTKqR12noyCH9tklDuetRoZhoEJ8Vh3jHBHSFAs/+BUttCH6Pl7KMYhFzcKipLk0yobsUuq6sE1PiZ6ViaxezJcI5WRaU8jRD97a7EfGZJGkmqYsfhoV8Hg4kWNN+3ESbeyeX/DM1Ih7+IiRbo8GigqOySQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j4yRJIVT; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IPrSUvWK"
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1273349c56bso3108196c88.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 12:28:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771619290; x=1772224090; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2NoEzpa83rpLl4Wtm4BAGaxdkwBWEUosdcFCYVTg8N0=;
-        b=IPrSUvWKyX5/3eeG6EA8pz4cg/2ohAVCaViII0p1t/Z6B6Apcf9+MyGFnA+teKWhBB
-         MeRkFWfbnkRYUQeZdQu0E5UwEgP8VQ4SlztRgZypGD5R7IBeCvcyqCvlcfaZpidNoNFF
-         0++V9CZ1rxx80MQsGfXozx28YwRghxrGO/ZSOHDgbukipqvTZzfQrDSgzqXXalU1ObvC
-         A3dtAfrditgPi3ut4NI7NOr2G3CzPIU4Db6/dD9R3G51zDu/CQ+bfjaFZXRtCtp5nvoT
-         RHxkf6K97j35uZRc/fmsEWMXM6b9RpHHbtIpoAPQQDl42dgz9eeAaYaOrl1QJyamdK+c
-         xDig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771619290; x=1772224090;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2NoEzpa83rpLl4Wtm4BAGaxdkwBWEUosdcFCYVTg8N0=;
-        b=w/xFcVHBvpa6PvzljGn2tokEyOMON1tauV5agqmClgzDhdRHZyQiYmlbNEm987nQCs
-         2h2fPNcpXK+3+xC7VjicQtY4q0Cb+doK2K4mDzdpYrzISaTAfnp7TCyElWjVEfeRckV+
-         jKsUWdlwFu+7oU3cr4olBNZe/Y5M7czmpE8bJBJPHxCeuBlyd6Ilfp5wqnq867lzF+5m
-         8o+zIMX81EUsIJBNPR/N2oXB6tkrpyLttvTeaXAli1OwlaU3hQSRI6u0jVUOM4XwqrvA
-         CULDLh3tCWbgKg026OD5cWjSHCAEnHNLEOGRkOZRazMHT0UFlpxDALzo3tTIWuo62fdh
-         b04A==
-X-Forwarded-Encrypted: i=1; AJvYcCX/A+SNlmFS+Dv9PsFC6/QNwDLLouwmeLgtu3ak7KvlbVMlQgJnUBB7ECf1OARjhPGkCqp/3yf663Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxg+DQGxXKn7DHmM3GyTV3EaeqTUj6kvp3mGb/IXtWRSEjJHTMb
-	kXH6fIj7sjCRnGqy3rLt74a04bsQ6iysW+HakTIfCfhT6vPKpqjNSH/s
-X-Gm-Gg: AZuq6aKT2Lvci8smCYqr944Jw83BhwvYk4VLTw04s6hfCSroYz1bIBr/1npw454HFNK
-	hPPwI/mdVpeoacDfKcQh48oBMIrw3yDvienESoJDiL8dG0lSSvSKbYHLwCsXZnT672HRR53Uz1k
-	t/UlkdyS/8/gBYvFF5d+j/srefqpz0XdSOZyhuoOk/pivPTTG9MwOpgR1V5DVf96I6FWmc206m4
-	GSN5o4v0iPYyPDx5t6CrV6IgnWHvYsXFgHhvpZGLDIjo+76BEQ4LUUL/kOy9O8/NB011pYfUW9S
-	iZVLldQOsiZSMYBLqBY1rWQDcbAqgRJoiPbJWb+OORpVDPwvhqASrEz4qd7b1z67RwLSGsZImqM
-	XZ1GnD/yCJat1wwEtyIejNYBT/zSsifzn3WLyZkPzaNJbo7W00N+63pvlFpyU+AnpI+1Ikqnw8e
-	0T8Pn4JQjpiUcQ17q5vz9TUpcEHS6s7TeZA+F0qj6q5fe6W10=
-X-Received: by 2002:a05:7022:603:b0:11d:c04a:dc5b with SMTP id a92af1059eb24-1276ad2e360mr394054c88.30.1771619289545;
-        Fri, 20 Feb 2026 12:28:09 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1276af2edd7sm510403c88.8.2026.02.20.12.28.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Feb 2026 12:28:08 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 20 Feb 2026 12:28:08 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Eugene Shalygin <eugene.shalygin@gmail.com>
-Cc: Varasina Farmadani <sina@sinanonym.my.id>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (asus-ec-sensors) add ROG STRIX X470-F GAMING
-Message-ID: <6fe53fd7-fbb6-4b0a-b4e8-3daaef3d9a55@roeck-us.net>
-References: <20260215151743.20138-1-eugene.shalygin@gmail.com>
- <20260215151743.20138-4-eugene.shalygin@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j4yRJIVT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771619878; x=1803155878;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ckjKERshFRnI0P3yH87wL8uIgFebZFNlaKRVVAP3lPU=;
+  b=j4yRJIVTg2gswtHpy04rgGa6QhsWUwGCucllT6lZKlt08MjUf5auolZf
+   PGvGShSZhT1Z/AQQI78ZLG3L91nipOn6Rv9s/P0624IzHZloRm5y2sJjm
+   IVJ6IvwkxyzdBdt8hVDs0gM2Qi4Pm3w3Ujd1eKbb5Cho8yRH8GVXt3Khu
+   qFgvoIqT1kj6iD5rPPZFKv51fYazq2GmVZEN8+2vKBnE//sdhs5bHPiHL
+   7R9+ybbTMx/keJfH4O1CKYJGFdYkElYCTovQcWnMHfBpu8wnWiKo5llqG
+   u872m1I9As30oWhs8GADR/SHxn6E9M1m64lNsMj+uAiS2dUd2dHufUX8T
+   g==;
+X-CSE-ConnectionGUID: XlbRH5idRae9El4OW3YT0Q==
+X-CSE-MsgGUID: g4wkRLR5TrWWcrda70biCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="98179019"
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="98179019"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 12:37:58 -0800
+X-CSE-ConnectionGUID: X46EyZRnQnWMaZUnF4j4JA==
+X-CSE-MsgGUID: vJF2LLuERbesSX+Lp8dI8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="213971517"
+Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Feb 2026 12:37:54 -0800
+Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vtXG3-000000004Gz-2pO2;
+	Fri, 20 Feb 2026 20:37:51 +0000
+Date: Fri, 20 Feb 2026 21:37:24 +0100
+From: kernel test robot <lkp@intel.com>
+To: Ahmed Tiba <ahmed.tiba@arm.com>, devicetree@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ahmed Tiba <ahmed.tiba@arm.com>,
+	Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
+	robh@kernel.org, rafael@kernel.org, will@kernel.org,
+	conor@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, krzk+dt@kernel.org,
+	Michael.Zhao2@arm.com, tony.luck@intel.com
+Subject: Re: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
+Message-ID: <202602202148.CB8O9os9-lkp@intel.com>
+References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,17 +68,111 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260215151743.20138-4-eugene.shalygin@gmail.com>
+In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b@arm.com>
 
-On Sun, Feb 15, 2026 at 04:16:19PM +0100, Eugene Shalygin wrote:
-> From: Varasina Farmadani <sina@sinanonym.my.id>
-> 
-> Add support for ROG STRIX X470-F GAMING
-> 
-> Signed-off-by: Varasina Farmadani <sina@sinanonym.my.id>
-> Signed-off-by: Eugene Shalygin <eugene.shalygin@gmail.com>
+Hi Ahmed,
 
-Applied.
+kernel test robot noticed the following build errors:
 
-Thanks,
-Guenter
+[auto build test ERROR on 8bf22c33e7a172fbc72464f4cc484d23a6b412ba]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Tiba/ACPI-APEI-GHES-share-macros-via-a-private-header/20260220-214812
+base:   8bf22c33e7a172fbc72464f4cc484d23a6b412ba
+patch link:    https://lore.kernel.org/r/20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b%40arm.com
+patch subject: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260220/202602202148.CB8O9os9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602202148.CB8O9os9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602202148.CB8O9os9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/acpi/apei/ghes_cper.c: In function 'ghes_handle_arm_hw_error':
+>> drivers/acpi/apei/ghes_cper.c:261:34: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     261 |                                  FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
+         |                                  ^~~~~~~~~
+
+
+vim +/FIELD_GET +261 drivers/acpi/apei/ghes_cper.c
+
+   202	
+   203	bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
+   204					     int sev, bool sync)
+   205	{
+   206		struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
+   207		int flags = sync ? MF_ACTION_REQUIRED : 0;
+   208		int length = gdata->error_data_length;
+   209		char error_type[120];
+   210		bool queued = false;
+   211		int sec_sev, i;
+   212		char *p;
+   213	
+   214		sec_sev = ghes_severity(gdata->error_severity);
+   215		if (length >= sizeof(*err)) {
+   216			log_arm_hw_error(err, sec_sev);
+   217		} else {
+   218			pr_warn(FW_BUG "arm error length: %d\n", length);
+   219			pr_warn(FW_BUG "length is too small\n");
+   220			pr_warn(FW_BUG "firmware-generated error record is incorrect\n");
+   221			return false;
+   222		}
+   223	
+   224		if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
+   225			return false;
+   226	
+   227		p = (char *)(err + 1);
+   228		length -= sizeof(err);
+   229	
+   230		for (i = 0; i < err->err_info_num; i++) {
+   231			struct cper_arm_err_info *err_info;
+   232			bool is_cache, has_pa;
+   233	
+   234			/* Ensure we have enough data for the error info header */
+   235			if (length < sizeof(*err_info))
+   236				break;
+   237	
+   238			err_info = (struct cper_arm_err_info *)p;
+   239	
+   240			/* Validate the claimed length before using it */
+   241			length -= err_info->length;
+   242			if (length < 0)
+   243				break;
+   244	
+   245			is_cache = err_info->type & CPER_ARM_CACHE_ERROR;
+   246			has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
+   247	
+   248			/*
+   249			 * The field (err_info->error_info & BIT(26)) is fixed to set to
+   250			 * 1 in some old firmware of HiSilicon Kunpeng920. We assume that
+   251			 * firmware won't mix corrected errors in an uncorrected section,
+   252			 * and don't filter out 'corrected' error here.
+   253			 */
+   254			if (is_cache && has_pa) {
+   255				queued = ghes_do_memory_failure(err_info->physical_fault_addr, flags);
+   256				p += err_info->length;
+   257				continue;
+   258			}
+   259	
+   260			cper_bits_to_str(error_type, sizeof(error_type),
+ > 261					 FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
+   262					 cper_proc_error_type_strs,
+   263					 ARRAY_SIZE(cper_proc_error_type_strs));
+   264	
+   265			pr_warn_ratelimited(FW_WARN GHES_PFX
+   266					    "Unhandled processor error type 0x%02x: %s%s\n",
+   267					    err_info->type, error_type,
+   268					    (err_info->type & ~CPER_ARM_ERR_TYPE_MASK) ? " with reserved bit(s)" : "");
+   269			p += err_info->length;
+   270		}
+   271	
+   272		return queued;
+   273	}
+   274	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
