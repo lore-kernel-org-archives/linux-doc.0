@@ -1,692 +1,1106 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011029.outbound.protection.outlook.com [40.107.130.29])
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022078.outbound.protection.outlook.com [52.101.126.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5472BDC32;
-	Fri, 20 Feb 2026 15:47:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDD63B2A0;
+	Fri, 20 Feb 2026 16:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.78
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771602453; cv=fail; b=SdiZrKKVmx/BLzdo6LHQzKHcYqqDVECOsLYWU+z2tU051t+2Hr6xByLZKxmVbCXnWTGrJy93XkXqgRo3sZEow67+9DJEeii4lpT8o+eLKFzrrYwltK//ipv73KIWV4E9V4BVXWBXFldZyCncVTndYOqsHDvFstQkOEQmy6dhHQ4=
+	t=1771603348; cv=fail; b=j8Qt6HbE/+wAH+MLmmtSB0osBv36yfKsAFAwiSQBv2QOlb8gxITtU5M8sTFxzuhgprgdlPPw891Kj0sADf6iz+dOu879Ftpwqo5AvzDwm/m/bK06+N4OEyLHykEKTYjUdGip8KNMp48su/hASzFg1+SAIkXpoldnDYgUSEQse00=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771602453; c=relaxed/simple;
-	bh=4/Cbm5x+TQ4ar9A99O5nljyVLEDMlpFMJ/oqZcE9wPY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=khkMnk1qRIsaVanWnSlrKJfGG/uLEC4PuM46as4vqag9xVBwAtoVf7CQseG9fFk4ciwrqsM/RQwiwjXjlbUFQoOOa1bdixpqNE3gfvKAj0o5BtOu+8t4fNixD0FtHiV3gZ1Z4FMsIlQW970L+cnPsmiZozT0A6ydbdo/aawAEd0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=gbklS4+f; arc=fail smtp.client-ip=40.107.130.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1771603348; c=relaxed/simple;
+	bh=kg1q7N0RT/JPIgmzUOAlLGdbYkokMSYVX4D0tSAEP6s=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=emrYZOZFKPtoJ69p/DWe/qp20OyepUo90MGnDb/1GWtvI4HKbUNEuN75lBonwUgTKJeKRShIRk4EGyCOozY0U4MF6FMcYTqL8BkrmzFmm+Nd/9S+XF2WfEIUwM1x21XbyJq4Qe/zOYPnv6au4dHrK1spnVR83rECMnZhc5Gm5KA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=furdevs.cn; spf=pass smtp.mailfrom=furdevs.cn; dkim=pass (2048-bit key) header.d=furdevs.cn header.i=@furdevs.cn header.b=BLLkzzKV; arc=fail smtp.client-ip=52.101.126.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=furdevs.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=furdevs.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="gbklS4+f"
+	dkim=pass (2048-bit key) header.d=furdevs.cn header.i=@furdevs.cn header.b="BLLkzzKV"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LbZMFb7zWoJ5TaPqga8iyn0RqOa3cy2e8lMJzOXH/Dlg3KTF9ceVuBdo6QYssj2gRiXvfgxTT0CAiwSq0lr96e2B1CJmGR0A2q+LgpF55VkUKZqzjbnwZ1oIAa9D2g8+TJHkMyK8/GZn8UIl/1qVULDkS+bGq7DYagSOgkz8DUAgXEjPJyEBmbWEBC3VYQcl1QdICOnbiWJW0RXmuCtLNPr036HiWP6dcvrFM0i/cR8OoC3h5koT0vjhlOhz8B8jjuU/hE3I+NqlyVAq8PsTK+RmPSE3MMjZZc2onAH5hcQE5fkhDhnbdZc2COq1LJV+x547iEVsRI/V8AUiBdb6kA==
+ b=q+g5Emye8c7B4PtZYUhqS9WxXdCX1lzGZaCVP5Sptdx0nFKhYyH7nplKhtcSoM6YUi/Xb4ETL5g/o7IGfry1paTrCyU5of7KXBmMaVXkykF/NDT9j2iIZvwzEqjtxhNPrCSa8NwCvGqAN9n9nRUgMWmiSLEmd/JJUSczHzRpRJAC003bgCiv3fkwR5Jlnd/ODgCbHijpcW6zvLLbOggQj3RFljF1OsZ3xwucCkDQE9hucGCvjkOmJFwgRg4R37MSE5UkI5g4Z8yG64Mrxdw6Gx+GGi0z4fqwF3cF+EEHjs3AIjK8EhF28MthdvhKbtTCqhMkt0h55t08YGzg4LR9nA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4/Cbm5x+TQ4ar9A99O5nljyVLEDMlpFMJ/oqZcE9wPY=;
- b=B7L+U+BdE/S1TXJWJ1Mr58XXgY3KuK0swcmFHz0v/C2AyTC8NUEhCmtcanb05aFh0p8o/nHyxz6sZZ8Q8PE8Y2RKyZrHr6lgJdiQs6mqdE5m4rvV85LzIqwOnSNCZgWEGXwIRsS7WJ+6YXVa5d6Hize4RccyQ+gjrA86id6jo1kdUKavABEPuK6ShEp+rDfVzmOnhxt7S4Z2G/TAy21GyhG9v0JjQuOhMBKi/KqZCbpuZUrfUDa7PcfgT/v5qRHVWy4n74mB+3YdKlgq0KlOsULFC0+vccSPbxHmMFXE7ZNfHUayTDIgob5tMAnv0EviQRav9AKuZl7KKuYgaX6UIA==
+ bh=AyhSgfT2YXu4kk4WlYFo8199JzTXV702ZK8YE5l940Q=;
+ b=ZvdSAMtBtsFeRrc5W/reid+gyxggbf7kzbuVG9F09Ym8dAzjShWUaNXjtXTYam5nHlVlaM0vlM7AoHWqqN2XUU1ps8OEUa1XX94AdmuVLf56wsuOjm+P788TZE+S74wJvr9R2k8borwvzjyhdhv3XgZaABVb9p0e1eKPlUnj8dl9fL5kp6iHuaSNzykGImWujnCb32qqw3oMm8FnFrqNcbhFL9SyBeziBz8Vlcqzlc9BH4vdvSettBGCd16hMh52if+RL+d6sIn4eKoFOh0Y7ulSWX7aKV+ZmdmD1BOg3TU5/ZL1uoMW6pfGGF+B3dhdrC2NGszQarfZFrVqfpAshA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ smtp.mailfrom=furdevs.cn; dmarc=pass action=none header.from=furdevs.cn;
+ dkim=pass header.d=furdevs.cn; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=furdevs.cn;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4/Cbm5x+TQ4ar9A99O5nljyVLEDMlpFMJ/oqZcE9wPY=;
- b=gbklS4+fdexzE2l2F0tiWgz1x7fXeVzeW8Q2FPeSJAhBOjw/2rkHzoMI6bp76tF+ng1gP0D+SQtoNwcfxUZS3vRmqw+wjrm0lkYLr2BoYH/+PK790v+TdJrs+BFpUPyeIbv6tyDQk4jX4+0gp1lHWyh18n8imG5HhbefMYQGAA5LI9Oo+S0+D8JuOuHTgJzFSkpJquMiZ17oH//UA8+NQvfTpDIKEhsTiEl3Y3NCiBuKeIdVAZo44uyBM4We45Q+yEOUI8IjfSwTbml38C2Xye9KL00BdTiwX+RWn6Q442vh8/VWrkrQryq6G6xMF4xwFqd0//4uQ12H90OAYbGPkw==
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
- by PA4PR04MB8047.eurprd04.prod.outlook.com (2603:10a6:102:cf::21) with
+ bh=AyhSgfT2YXu4kk4WlYFo8199JzTXV702ZK8YE5l940Q=;
+ b=BLLkzzKVF98xTw0GpE83mzGw3aEOGUNeg7ux5Hu602wjbCd/up+KqRn0BPghK2aeSiQENDF0EU0ZsKJQZQQmTybeCVq7WuRVh0nQHJJXiWonIe5k2ge8jYNOv9w6q6zm47ZrTn8gAjfX4s3HPYrocFAUG1laJkOKa/PTT7+YGJSRg6+T+CCOnc6fg9SmgbsgSCxiN/cmLtU45Mt64vxMeOW0DT4hffOQ69gSK3T9JVCiKM/Bs+n7OainbCbDCGzZd7G9Ifl3E9yQI1c4WFhazjZDFwOixtZYu5dL7kb+mLL1PaeMMy2Wsk47sieCzvSpHnOk6MHR1yUrqADMxMyveg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=furdevs.cn;
+Received: from TYSPR04MB7125.apcprd04.prod.outlook.com (2603:1096:400:477::12)
+ by KU2PPFB255AF57A.apcprd04.prod.outlook.com (2603:1096:d18::560) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.15; Fri, 20 Feb
- 2026 15:47:27 +0000
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::b4c0:6119:2228:2ceb]) by PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::b4c0:6119:2228:2ceb%4]) with mapi id 15.20.9632.015; Fri, 20 Feb 2026
- 15:47:27 +0000
-From: Shenwei Wang <shenwei.wang@nxp.com>
-To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, Linus Walleij
-	<linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
-	<andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, Frank
- Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>
-CC: Shuah Khan <skhan@linuxfoundation.org>, "linux-gpio@vger.kernel.org"
-	<linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Pengutronix Kernel Team
-	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan
-	<peng.fan@nxp.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
-	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
-	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Thread-Topic: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Thread-Index: AQHcooA2xLWGunpbJkSO9I7eOGgIww==
-Date: Fri, 20 Feb 2026 15:47:27 +0000
-Message-ID:
- <PAXPR04MB91858E7125B2A4F21DDB78FD8968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
-References: <20260212213656.662437-1-shenwei.wang@nxp.com>
- <20260212213656.662437-4-shenwei.wang@nxp.com>
- <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
- <PAXPR04MB918582EE33F7BD5C26259BB2896BA@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <7669d7dd-96a5-48a9-b051-875e9fbdad58@foss.st.com>
-In-Reply-To: <7669d7dd-96a5-48a9-b051-875e9fbdad58@foss.st.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|PA4PR04MB8047:EE_
-x-ms-office365-filtering-correlation-id: 9b10f482-c670-492d-f6d6-08de7097593c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|376014|7416014|366016|19092799006|921020|38070700021;
-x-microsoft-antispam-message-info:
- =?utf-8?B?NmIwcE8zNjZIeXFrUXJ2YTcvVmRnRmdZdllsaGllK2FzQ1NPYUpzcnNqUy9K?=
- =?utf-8?B?NEpCQTZ4VzVTV0pQS0JJa2FJaS94ZVhrWDFPNlVvRDFmdzh1ZzVRNVlxbnU2?=
- =?utf-8?B?aG05MituWktsaDZUQ3Q4N0xKVkZ6d0lJYlgyS0E3Zy9HLzBsVzVBYk5oVVQ0?=
- =?utf-8?B?SDExd0JLQnhQTHhDaXdiNjJXZDB3NkJDcUE3dDIwcCtuY1FwTitvdTU4Y244?=
- =?utf-8?B?ajB0VU9SdXNveWpYRmRwcURMazBxY0RyMjJrWCtudFgzT01SRHU2UURnempz?=
- =?utf-8?B?V2lyQnJxY05yRVpFd0NaS0x6QnVqVEVLWU1WeW9ZZ3lIaWx0Z0RaQ0pYYUtt?=
- =?utf-8?B?YXhqQTZPTW5DYWVqQTJ3SndzODJlL1JiY1V6Nkd0eEw2a2pmdzlUcFRXUnE2?=
- =?utf-8?B?c1VsODZiVE9mNXpWSlo4N2h1KzR6KzllZVBEdWtDREF4a0Q4RG9TYmE4OW9k?=
- =?utf-8?B?T0hyZjd0UGxIQlhWbTlVcm9FN1B1R21XelFwTWpqbEVVV0U5eUtJRXdrZHo2?=
- =?utf-8?B?MUhQQVdienM4WTliM0JGQzVEejNzSHoxc0pONlkwSGNqMjI3cVVWMWpzZGc1?=
- =?utf-8?B?cEpOVVlLd2pZK0dCTEJVT3R4Z3lySldVSVFubk5IOXJPNTZEbWhSWllZbUc2?=
- =?utf-8?B?RlVlaWlnNkw0YS9iNDJYNVFvUnZiek9qamk3L3ZOSzRPd08wVWhoM0w0a3pI?=
- =?utf-8?B?UDBvbjBFL3NMNURPemVYTE9EaGtzdi9ySXhIa2pzN1VRMmJoQnJoWktvdVNx?=
- =?utf-8?B?d0tod0I2SWZFajB1YlE1dWhNRzBSbEpKU3MxTDF1cXIvcmVLa3RiQXRURWhm?=
- =?utf-8?B?TU1rM24rS05EcWhRYTFyZW94VldjbkRncUtVWHcySVNLcy94SzhkUWx2UG5O?=
- =?utf-8?B?WC9JTzI0ZnJ4WldyNTQ0Q2RTRzIweUVvckV5bW9EMlFZeDNtczRuUlNKcUxv?=
- =?utf-8?B?dGI4eXRFdG9XYzVaV09jVHJ2MlFOd2FuZnVHVU9vdDJENWorWXhLaVVsYm5E?=
- =?utf-8?B?cE1WR1huT0k5ZzNYeWk3ZFpWek9PbFlQa0wzWHN4Wk5QS0I4ekM4c28zOU95?=
- =?utf-8?B?Mi9EY0R4OU9pMkJxWFFlK0dscE1ZSjM0MXVyOWVFQVp5M0FqMG5qRjNUYSty?=
- =?utf-8?B?bXBjVlBYTlBpMWhRRVN4OEwxR3JBaXJDNHpwUGw5TW9RemVOa1ArYy92Y0hP?=
- =?utf-8?B?Z0wrTzhZdUVjRTNlV3Q1bWRSdTV0OEloekgvd0J1RGd6NGVQWjJzVFBwS1pt?=
- =?utf-8?B?YVdOY29Ddlh3OUdxcURzUU1BdkllZnRjQ21Rclc3WjgzTTh3c25MR3JTMm9v?=
- =?utf-8?B?aEJRK2VaSXNNWmh4c0VMd2RXa0RLTGM0TytKNzdyZUVscHphUDFUR0o5aDlH?=
- =?utf-8?B?WStFUjhrQVNITDFHWnlvVm1ad01ZdGgrY2ZjRGVtVlVBeVhiaU96elphSHZJ?=
- =?utf-8?B?SXJ6YTRWb3J0Q25kMjNRMElld0lVVHNwM2xBc09yY084WkNURGhyVHBBSGxE?=
- =?utf-8?B?U0VNVTd0QVlRQVdYcjZlUThFUmxzTXkvbUNISUtvQm81ZzRmVUdQN0FwSkxE?=
- =?utf-8?B?eDduSHQ4b2pFZHIxd0NoNGNPN0s1a1ErdGwwdEhBT1NPVnhDYWJrSnE0VEk1?=
- =?utf-8?B?aHdFUk5FT0JwWFVGWDF4RWpDLzY3MVVLQ2NVUDQ5bTFQbFZmaVoybzdhOWo3?=
- =?utf-8?B?cW9SRDRtN2MxMjZqQXlkZWZ4R2Q0R3NyWXFSOVZJTmNJaldnbDFmb1A2T3pJ?=
- =?utf-8?B?MnVOSk1aSlp2R1ZjRHFnODM0VEh3clJSRGdPdE5IN21Pc1lGUDJhVmM1VnBl?=
- =?utf-8?B?d2JhS1g2aTRkUlFHNmVjc0h1WUhhaG1SM1hYdTVIL3NkVVZPVE9zMkZYUTho?=
- =?utf-8?B?L1BQZk10bmRLMnF1M3ZnWFc4bS96dW5sb2x0UGkyQWRwTG9ubzI4a2IvWnFX?=
- =?utf-8?B?T2d3Mmw2MkhoRHc4S3pWcUY3akdINVQrc1ZIWmNPMkdCQU5mZmhuN2RHRjl1?=
- =?utf-8?B?Qnh2a3FpQjZYaW1KdkpNRkFCV0VtQjdYdUxHZ0l4dkovdGtkb09YVmtCSVNa?=
- =?utf-8?B?REMrazNwdHVGMU9ydkE5NmlaaWJENjFDQmtabGJ6dE1BcDFFb1pxOTBIMGIz?=
- =?utf-8?B?Y0piNU0yaUJvdm1EWk8vMVU0dDVndHVwTGMxWU5palRkd0xCSzRyakkxRkZo?=
- =?utf-8?Q?0dH8bIeRdjRmwBAY/hoTi+PvSCqrKaxe0ADiVUN5CLn/?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(19092799006)(921020)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?bkZKRW01RlpVZllBNlVCTUt2bHJ0SU16QWdDcUtoWFlEM09jcWRsdnZ2WmJW?=
- =?utf-8?B?dVJVbzR5UVMrTyttcm1vK2R2cEthNEpIRWhsNmh3SXovbHlvaVdCaFd4aFF0?=
- =?utf-8?B?TVZnZER5cytra3lCQ05HUjh2ZHJPc2Irc2NTZXVEK2RQWnk0WWZWdVVBdU03?=
- =?utf-8?B?VERXSWYrRU5Mc1YxQmFtQlJheTdjQ0o2VXkxRVZZL080NTR6dndxYUp3T215?=
- =?utf-8?B?UU4vNXdId0VjclhSUkp2THBGemh2dG9lSmxjR1pDcXliQTRSVkx4U2ljWEpI?=
- =?utf-8?B?UVNSeTFCZ1Zmdy9xcU10VVdJRXBrNlgvbWVmVHVpc201aGpKU0FPQmk5dDlO?=
- =?utf-8?B?ZGw0TDA5RE5oQUxZTXlHVm1jL2VDTURsVDdGbFZHMFc1M1N5Rk55Y0xKT3p4?=
- =?utf-8?B?c25sSC9Ra2NZdjhyL3NKZm4xTTFCc0NiczZ2MXBtRkxPUlZEb3Y1M21oVDVG?=
- =?utf-8?B?d1BiamJJQnlWWTdGakRHSlNDcnBJTnhEZDVJMllwZU9SdWk2dnViYTlRYTRL?=
- =?utf-8?B?WnFkZkpWbmhnWHlwbWhkYmFwTTkrNTFvb1BoVTI1T3haU2RkL1hOSW9hc0di?=
- =?utf-8?B?dE5IczVRYkFGWFFxenhQMVRMdE10OTJNZ25uMmc4aUJ6MC9HS0ZFSTdLWTNp?=
- =?utf-8?B?N0M3Z2k5SWc2VFFQMXErVmVYcDdWL044dUlJZ0FoU1krOHZodXVOb3B6SFlR?=
- =?utf-8?B?Ymk5bTlBMmhWeUN6Q2MvVGlIVlVWRWJwU05QR3ZzZnp1Q2hXVkhmRDdHZHp1?=
- =?utf-8?B?cE9OazQ0UWs1WFRDQTRldERPcTlEb2EwckZ5S0pBS0JqMXEwb3RkVjBwWHFI?=
- =?utf-8?B?SVpVSTdGZzJCVlMrbE5oMWxHZUdOdHBWZ2wwbHpCRUJZVE11bjFQbld6M1hD?=
- =?utf-8?B?b3IvRXZ0TkhDSFM3ZElnS3R0TUZ2endMTHkzM0t4emhjc2svMXB6ck5EZGhI?=
- =?utf-8?B?T1hNWHh5QXg3Y1BwN1hpYWlncWVEVWpOVmNTaW9GajJFVDBMOGU3MzNQdzZU?=
- =?utf-8?B?NjhPS1FVYnMyM2xBUmpTNllZdVpLRjNzVEFRUnVsSFExWkxKRlRwak5ML2cr?=
- =?utf-8?B?SGJqSFRqUUZ5Nmh2Z2ZSQXp2YUowbmtPa2M0Zk5qU2lxWWtZYm9adkZjT2xa?=
- =?utf-8?B?SmpyTm13Yko1czluNlY4UHQwd2hNajcxMytsQ2JyNWVtSXRJNGFZeG1mRGNk?=
- =?utf-8?B?R0pNZXlOVzdvb1g5RTBPazFoRjVmQ1BqYjE1enFlcWNOYW4zR1I2YzVWQU0y?=
- =?utf-8?B?dzZ1OWN0R3dRSTB6Z2pzNXRmd0gvSnZwcEQ5T1hsRnZ4YTZ6TW1uQzBLK3ZG?=
- =?utf-8?B?MkVNTWVuUENSd05YQkNpbHhwSDFKMHBkd210VkhzczhKcGVXQ1FueDkrblFs?=
- =?utf-8?B?dGluT3M1aThtWUZROGxMSVdScXBSUVJxYjBCeEd3TU5jaWVDbEdjYmtQYXp0?=
- =?utf-8?B?YTNkZko0OUNtcXBuMlJHUWt0aHQ4Z2daRFprMjZoTHh0N2cwYUZwYjM0QjZG?=
- =?utf-8?B?b21scWZ3NVRwaElVZHYwdnlxVWVTUEJOQ0E4QitqbG1peVVpTzJkWkp2dkxX?=
- =?utf-8?B?dWlGbm0xOUJidFRrenJqQWwvbEVzYnpDVDFURWRZa2tjcVlyanpad25GVktE?=
- =?utf-8?B?ajBsV3UrRWpiQk9KSmQ0NHFtQXhTZ20zSkpmUkllZk5ZSWNkZ09wK2ZuTlEr?=
- =?utf-8?B?ckRWRzBsQ1U4ZEtybUZyZHFNZUxmRFlKWDZneEVZaDlHbG13dkVIMWVNZmtL?=
- =?utf-8?B?dnlXOGpQVHRkRVlEUmZHMVlSN1lLMDY1YTVRZ0c4ZmVHWmNHdUZMaFFjUjhv?=
- =?utf-8?B?c05qM0tHbVM4bGpZZFdUUXg0MEx6YVJ0b3UrWjlCbkMvY0V4NlliUGs0NThR?=
- =?utf-8?B?S2l1dlkzcnZVTytYQW0zcTZRbFF6TDBkcGYrM0U2Y1pJeHVtWXRDbXZVcjJz?=
- =?utf-8?B?bkZqNXk1UU5tMnZXLzFMd25nRERNbXpicTNJT2pOd0lqemwrNjM0ZFRHRGVy?=
- =?utf-8?B?bWtKenYrS1ptQW1TUlp0SmQrZFdJU1BPNnRPYlh4K0hNODV6OGpMSklka0Rs?=
- =?utf-8?B?cFZxOStNT3AyQk1nWnIyWW45LzhSQUp4ZmhMUmNnYWErS0tJcEhuMzkxdTls?=
- =?utf-8?B?UFhadDA4WDc5SFZmbkNpaXpDZlpEQWMvQ29XSGdxZklPRkM1NXg2bTcxZDZh?=
- =?utf-8?B?RTBFb0hrQ1VCK2F4dzVUams1Uko4blZNT0FLVTR3MTM1NlVhcEljV2lGVHYw?=
- =?utf-8?B?RzlkTlczbExiZVg0djNVY1d3OGdSbmFVUjBMRVdTRFZkR2VVV2NmZzZrdHBD?=
- =?utf-8?Q?IkDCowJ88xoDDrT8nB?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9611.11; Fri, 20 Feb
+ 2026 16:02:20 +0000
+Received: from TYSPR04MB7125.apcprd04.prod.outlook.com
+ ([fe80::a2b:ba98:33bb:56fc]) by TYSPR04MB7125.apcprd04.prod.outlook.com
+ ([fe80::a2b:ba98:33bb:56fc%5]) with mapi id 15.20.9632.015; Fri, 20 Feb 2026
+ 16:02:19 +0000
+From: Haowen Hu <srcres258@furdevs.cn>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haowen Hu <srcres258@furdevs.cn>
+Subject: [PATCH 1/2] docs/zh_TW: update personal information
+Date: Sat, 21 Feb 2026 00:01:25 +0800
+Message-ID: <20260220160201.41149-1-srcres258@furdevs.cn>
+X-Mailer: git-send-email 2.51.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: TP0P295CA0002.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:2::15) To TYSPR04MB7125.apcprd04.prod.outlook.com
+ (2603:1096:400:477::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYSPR04MB7125:EE_|KU2PPFB255AF57A:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3b36803e-edf7-44a9-b5e6-08de70996d0b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|786006|366016|41320700013|376014|14052099004|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?N25yM01YWDF0UzlZckN2aGpzeGtvbVIwVGgwSU9TZktKQS9iMEdjcVBHTkQ2?=
+ =?utf-8?B?Nmw0ZXJtRUxUMVJZeGRpdXkwRnV1ZnZsZlNVSWM2NHJudVhZclBIRk9JT3lo?=
+ =?utf-8?B?bDRIY09zOFBoaUpxN204cEVFc1MvRENacUdsR1lPWGZqWTRmSUpWUTF4V3FG?=
+ =?utf-8?B?cnNpRzF5azJIbW1vMEduSm9veUVlOUlrNFI4Umh1SHpHSFhOZktCTkYreUR3?=
+ =?utf-8?B?K3FmeGd0U0FKaHNxc3JIV0NzZStleUZxU3k4ZmViYlprR0g5VHdjeHBZV3Qx?=
+ =?utf-8?B?UThycXZRSXBRMHdGM2Joc0RlWVQ1emlWYjZob1FQeDFBektMY0Q4KzRTdTBD?=
+ =?utf-8?B?T3VhcWpMWTZLckZvNHBwbmNFY1g1VjlPTWRxOWlybmRTUXpMZkpiMjB4eEl5?=
+ =?utf-8?B?VndndmFrZzExUGtDY0tNd1BXQUtHVVBSZUVPRTBYb29JRFo4OXpCblBJdCtw?=
+ =?utf-8?B?QjNqZWVLU2t0TmQ2Szc5U0pZQi9RK3JiUFhtZHpLZXI1dFB2TmdVU3VxcFhL?=
+ =?utf-8?B?aWlLbndhdHZDc2E3akJ0ejBQL0Vqakl3elAzcHJCc3QxMFRobFc0S29lTnhY?=
+ =?utf-8?B?YWhpUkRzUElsUkZyeHk5MW1sSzR6cXRtMkZqM2tzUkFaTzFMNjlTZEYzOThG?=
+ =?utf-8?B?SlQydVZjV2JlbVpCRjhmWDNJcDA4Qkh6MVphU2Q2NHpmQ3c2WWZlaWM5YzBL?=
+ =?utf-8?B?VU00TVNpVnd2YTBUZzc2NkVHZW1hMEx4OTM4OTYyOWtHa3hHWEdrZDFwMjdO?=
+ =?utf-8?B?cXFaRTFGbFpvVEdRb2FJeksyaVB3Z3g4SDkyWVZ5RGNMd2pSNUl4cW1rQ2JJ?=
+ =?utf-8?B?YVZRWlVjNS9zQlptdmZhVzAwbWN4U2wvblBia2Vxc1JEVkNHaElYMU5GL3lP?=
+ =?utf-8?B?aGx6NzdyVG9FaU1rMW8vVXVONHVwemRDankzTUFDdHFDVm1WOTB3d3ZPT2RK?=
+ =?utf-8?B?c2RCUU15c3ZJc1IrbHpWZ0ptUnNDTjdXdnZtNmlHK2lXSkd0NlhqVjZ3N1lK?=
+ =?utf-8?B?UVg0Vi94emZ0VEx5WWRDN2NTbllUWERwSWlwVXBXZUNuZFBMcDRzUHRnLzlE?=
+ =?utf-8?B?ZGdVR0dzNnJOQ28xb29sZ0g2cTllbDNwLzV6Z3NmNjdCdGFOeS9WaTJiajBK?=
+ =?utf-8?B?aVk2QTU2NWFCM0pOQjhoNFpNT09RU0UxNWRjcDNLNWlzdWtvVXgxMTUzcldC?=
+ =?utf-8?B?MzNxVnlmSzlmVVU4bSttVVJaRWJZSEZjK0tVU2pYTzhRYldkR0V0MnA4dkxN?=
+ =?utf-8?B?YmFVZFRoVzVjV0s2KzJhWGlsSHhEOVV6RWtHQ1lUUTkxWm03L3RwRjg2YlpB?=
+ =?utf-8?B?YmY5dEs4aG95T205VVpKRURMYWF1SkRlam9nSS9pWHZ4eWJpbWRFOE1kUm1u?=
+ =?utf-8?B?eGRDcUgyU0xWeGZPbWcrL05oN2pDbERVekNnV0FxVUM5TjJKelMwSkN4NTBV?=
+ =?utf-8?B?MGh1bzZvaEU3TUZjVW5FazU4KzFkK3ZtTE85OE51d1ZzSEtWMTlOS1IxaHJV?=
+ =?utf-8?B?Q3lPSExRejJ4U3o5d1U4ZlZGMUkySllSN1NCZ2FiaXZDT29VZUdCcHRZWTl2?=
+ =?utf-8?B?alc5Z0orT2krbWxKTmlRbjIxUGtwL1g1YkJ5R3o0bVZ1ckUyMjlHQTB6cVdV?=
+ =?utf-8?B?VDRubTNkM1ZyRE9iS2ozV0k5eXI0Y25RMG5zWlYrTi8xUFNySkszQ0FGWkVh?=
+ =?utf-8?B?b2RBOEFBQVJVWDZnM3ZYR21JWXMreHdaNWhLajdyUElvTmV3OHVPL2VWNUx3?=
+ =?utf-8?B?SHdyL3NNTTNGQWFlM0NLSWVvZGRqWG9BWTBCMzZJUUFnVW1ZVklKNEY1ajhx?=
+ =?utf-8?B?YW14WDYxL1k4TzZPYyt6S1RIYTQ3OUtRQ0NLQkJqckoxUGtWZXpmOTdXZ0lk?=
+ =?utf-8?B?bXJnZm9GZDZ0eHF1NUpFakJieVFJOXk3RnlLVEtoY216VlM4alRleTNMY1Vw?=
+ =?utf-8?B?bmxWVnRVamJDU3NxcERuYkZNY0ttdzA0UEpCSFpFdjVKNFZiVGxEZEZuZVhK?=
+ =?utf-8?B?ZE9FcXZ3Z2h3OFdVczFTUktxQlVxS3FUcjRCUFQwcW4zS0xTTllYQnhvYWEz?=
+ =?utf-8?Q?jWLv8/?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYSPR04MB7125.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(786006)(366016)(41320700013)(376014)(14052099004)(13003099007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MHJaeXhCUDZpdFNsaWRBOTVPK2RLU21POTBWOHJGWm0yS0JQR3BILzR1b0py?=
+ =?utf-8?B?ejIyZE5rVC9UR0lraVNDbHM4MFV2NFhiYlU3MitTbC85L1VhRTZkWFlYSm5l?=
+ =?utf-8?B?cC91QVhvWVNRdWorclhJYnY2bHNITnV2U1ZGbXdOK1QwV0xSRmF0RHA5VXNj?=
+ =?utf-8?B?Nk9GcnlGdXE2NFNLU0ZxMEh3MEFhQUQ4KzZXQkFTNmk2WkVEaFB4WS9HMFVP?=
+ =?utf-8?B?bWkySHVHT1NWdXZPMnNxNStXSFM5TFVEYllQUk1kYmhFRlBxNERHRmVkSDFD?=
+ =?utf-8?B?RTFVb1lJRno2Rjdjckg2cEwvcXdLVUFSM2lYQVRIK2dIYzA3eGFDcHVYckFm?=
+ =?utf-8?B?aEJmOE5ja0hGS3VhSk1PUE0wUWNQRVp5OFR2Mk5vRW83WkxpM2NJNFp3RUlk?=
+ =?utf-8?B?aWcvc1JxdUZjamEzZW43RWg5bkIvMGZSaUpNbWd6Nnc5L2dxcHpQMEt1cTlq?=
+ =?utf-8?B?TUxEeVVaSFpnMFRmVzg1WEQwUXFRWVNJbzdBRXMwclpMOUhBVmFJZXZ5SWF1?=
+ =?utf-8?B?QkpYTDJkUG1qWG9lMEZKalAxNXNOZVdTZVRxeVVpWnhNejhUWHBTSlhaNzYy?=
+ =?utf-8?B?TjBscTFBRDZzelkzUnFZY1lmU2xvdklpL0puamd0OGZ1ZkhNTmd5alJoeU5s?=
+ =?utf-8?B?aEIvS09ITE8wTFFIWXYvTXpLdzNKSTkrWXp3cldLVzhQb1BQa3BxN1RmN0pq?=
+ =?utf-8?B?UXI1YStyUW5BV1VjaGhMRXhkU21ITzNQRlhHS0J2RHRrWHJUZ1Eya1piL1ZT?=
+ =?utf-8?B?a2ZLY09KSjRNN0hpd2xpLzFVcXl6ai9XblFXY05LNkcvck5JVDhBbjhEWlpU?=
+ =?utf-8?B?S3VjcDhPMGIwMGFpSDlOVHA3SHFHSnQ1MEhpZ1QwZG1yRGIyaVVmUytCQ0Rp?=
+ =?utf-8?B?QVJMRmFPbVZZY0VsekhxQUJCaHovZk94TGU1UTV0ak5MUjNwTjJHRUpsNmRq?=
+ =?utf-8?B?S05zMnByeGN1QkszLzNiSzZXd0ZkUWJjNTU3M3JkOTlYTERwd0ZlMFZEMUQz?=
+ =?utf-8?B?RjRpeUM1aVZNTXptQlhwS3Y1RFRLSkZ2SC8yeGY5eXQrS1VyWjBwNzlzMUlH?=
+ =?utf-8?B?L1lkenBMSFdjUHhtYkpuV3NQWG5FYnE1UjBUL3VIdUF6dG9WUjNqTjJVVVpu?=
+ =?utf-8?B?eU1lWEtPbVNEQUVFUExTaVU2S0xMTGRLeFpEcWxkTEE5enZiZWNzSVJSblUw?=
+ =?utf-8?B?b3oxV1BESXFVSkh1U3ZjRE11bTZzZ2F2L3ArajdNWmhSYk42RWdnOXhuZmxm?=
+ =?utf-8?B?eFRwL0tOM2U1emVSRWJDYXpOR3B1VHNSZnRkRmpFRWFuVUJPczczRGlzWXdx?=
+ =?utf-8?B?aHloZFdKT0JOOHh5YjhzbEU0dS9SM3Vzd3ZaMERYekdlbGVCaFIyUXhvdS9o?=
+ =?utf-8?B?cFZDOTNiZGpxU3VCZUFmS0piWjRNc1dMZ1VYdCtDRDZKQVpZUW10NXRGcmsr?=
+ =?utf-8?B?Mm1JZEg4T1NESit5VUN5WDBmczBaRklMSUgvS2lySUlyQWtSeTlTYkU2Y3Ns?=
+ =?utf-8?B?Z21vdnhzRko0WTN2UWxJRVVWelo2d3FXM0xscDlRV1Y3MmhpTWhPZ2pybzYw?=
+ =?utf-8?B?ZEh1dW05VkFEUHBLVkQySEJJZGpzRGdDZmpFa01IaG0xazZzRXdYcHRCbEZm?=
+ =?utf-8?B?b2VkRm55aERLbVZ5VHY0VzZkNHd2NDdidW05N3hiSDNsd0hlVTlJSjBDa29r?=
+ =?utf-8?B?bDlpU3QrQ0JWaXlHd2kvdVNrQnpzWHU1eVdOSThkSE0vOHI5TjBRZVF3cXRS?=
+ =?utf-8?B?d0owS3Vyb2xHWnk2bVRNK0gva2Vtc01RelNURjdqalRBd2p5VHJyU1ZpUkhw?=
+ =?utf-8?B?RklqRjVSWkxGZUVTZVdXM1dWMy9JSWxJMkpzM3gvS0lWMmtkekU2QVdrZDc2?=
+ =?utf-8?B?VjBiTVJtK2NkSmIwa2xERW9zcXRPOXRXRFFzT0dFdWZpSmxZTDZreTBHUEMy?=
+ =?utf-8?B?NDZmTlhoNnZ3eGRoS3h5WEdhSmZhaVZDdzZxQ3huZFlXOTNzd1ZOa2M5UDJ1?=
+ =?utf-8?B?V05FZzIyZXE5d2xaQjdZQnFyM1F4Z1ZhcDJKYU5vWmlDODJxOVVvODM3a2Rv?=
+ =?utf-8?B?VklBemJwVmlpdmlZemVJMjcyOVRDbFlRU1QwbWNyWEp6NXVyV0oyaFFDaTRX?=
+ =?utf-8?B?ZWtoeG02YkpWV0R0ZHlOaEhJZ2ZZdFJTbTVqSndRbDJjYStLV0QwTSsrS241?=
+ =?utf-8?B?a0w5QVM0WVdGbjdWcVlna3NCM21FVU52K0haTW05S1FHcTlXR3FBZGV1UFpY?=
+ =?utf-8?B?c1RmZGMvaENUNk5BR21KV0RUdXI1YTc3MVpEWk9UQ0FxY1NVZEJEUEVaRUp1?=
+ =?utf-8?B?elVsRnpuUUh5WG9ZeVBNN2F2aGo2K3NtRGNNL01tbFpRTGsyNlhUUT09?=
+X-OriginatorOrg: furdevs.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b36803e-edf7-44a9-b5e6-08de70996d0b
+X-MS-Exchange-CrossTenant-AuthSource: TYSPR04MB7125.apcprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b10f482-c670-492d-f6d6-08de7097593c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2026 15:47:27.2580
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2026 16:02:19.8516
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Tqg3s3HoTm+mO6RQlOGuOsHBpAnFo9dlxh0mIWZVeay4veMQjUDAcPOPhfYuKWKQDklPORgWPP2iMGvIkjP+ow==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB8047
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c15d1683-7bd7-4720-8850-c10d9a967b56
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BtnI/FtQASm8yZm01ZOgpnZ69XfVfZI1vuFx+Z3Tm+c7wj6VfG5TY0UQJd20VJcB2p4c0TGx2yNFq9MZJAb3NA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KU2PPFB255AF57A
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQXJuYXVkIFBPVUxJUVVF
-TiA8YXJuYXVkLnBvdWxpcXVlbkBmb3NzLnN0LmNvbT4NCj4gU2VudDogRnJpZGF5LCBGZWJydWFy
-eSAyMCwgMjAyNiAzOjEzIEFNDQo+IFRvOiBTaGVud2VpIFdhbmcgPHNoZW53ZWkud2FuZ0BueHAu
-Y29tPjsgTGludXMgV2FsbGVpag0KPiA8bGludXN3QGtlcm5lbC5vcmc+OyBCYXJ0b3N6IEdvbGFz
-emV3c2tpIDxicmdsQGtlcm5lbC5vcmc+OyBKb25hdGhhbiBDb3JiZXQNCj4gPGNvcmJldEBsd24u
-bmV0PjsgUm9iIEhlcnJpbmcgPHJvYmhAa2VybmVsLm9yZz47IEtyenlzenRvZiBLb3psb3dza2kN
-Cj4gPGtyemsrZHRAa2VybmVsLm9yZz47IENvbm9yIERvb2xleSA8Y29ub3IrZHRAa2VybmVsLm9y
-Zz47IEJqb3JuIEFuZGVyc3Nvbg0KPiA8YW5kZXJzc29uQGtlcm5lbC5vcmc+OyBNYXRoaWV1IFBv
-aXJpZXIgPG1hdGhpZXUucG9pcmllckBsaW5hcm8ub3JnPjsgRnJhbmsgTGkNCj4gPGZyYW5rLmxp
-QG54cC5jb20+OyBTYXNjaGEgSGF1ZXIgPHMuaGF1ZXJAcGVuZ3V0cm9uaXguZGU+DQo+IENjOiBT
-aHVhaCBLaGFuIDxza2hhbkBsaW51eGZvdW5kYXRpb24ub3JnPjsgbGludXgtZ3Bpb0B2Z2VyLmtl
-cm5lbC5vcmc7IGxpbnV4LQ0KPiBkb2NAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdl
-ci5rZXJuZWwub3JnOyBQZW5ndXRyb25peCBLZXJuZWwgVGVhbQ0KPiA8a2VybmVsQHBlbmd1dHJv
-bml4LmRlPjsgRmFiaW8gRXN0ZXZhbSA8ZmVzdGV2YW1AZ21haWwuY29tPjsgUGVuZyBGYW4NCj4g
-PHBlbmcuZmFuQG54cC5jb20+OyBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgbGludXgtDQo+
-IHJlbW90ZXByb2NAdmdlci5rZXJuZWwub3JnOyBpbXhAbGlzdHMubGludXguZGV2OyBsaW51eC1h
-cm0tDQo+IGtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnOyBkbC1saW51eC1pbXggPGxpbnV4LWlt
-eEBueHAuY29tPjsgQmFydG9zeg0KPiBHb2xhc3pld3NraSA8YnJnbEBiZ2Rldi5wbD47IEFuZHJl
-dyBMdW5uIDxhbmRyZXdAbHVubi5jaD4NCj4gU3ViamVjdDogW0VYVF0gUmU6IFtQQVRDSCB2OCAz
-LzRdIGdwaW86IHJwbXNnOiBhZGQgZ2VuZXJpYyBycG1zZyBHUElPIGRyaXZlcg0KPiA+Pj4gQEAg
-LTE1OCw2ICsxNTgsNyBAQCBvYmotJChDT05GSUdfR1BJT19SREMzMjFYKSAgICAgICAgICAgICAg
-ICArPSBncGlvLQ0KPiA+PiByZGMzMjF4Lm8NCj4gPj4+ICAgIG9iai0kKENPTkZJR19HUElPX1JF
-QUxURUtfT1RUTykgICAgICAgICAgICAgKz0gZ3Bpby1yZWFsdGVrLW90dG8ubw0KPiA+Pj4gICAg
-b2JqLSQoQ09ORklHX0dQSU9fUkVHKSAgICAgICAgICAgICAgICAgICAgICArPSBncGlvLXJlZy5v
-DQo+ID4+PiAgICBvYmotJChDT05GSUdfR1BJT19ST0NLQ0hJUCkgKz0gZ3Bpby1yb2NrY2hpcC5v
-DQo+ID4+PiArb2JqLSQoQ09ORklHX0dQSU9fUlBNU0cpICAgICAgICAgICAgICs9IGdwaW8tcnBt
-c2cubw0KPiA+Pj4gICAgb2JqLSQoQ09ORklHX0dQSU9fUlREKSAgICAgICAgICAgICAgICAgICAg
-ICArPSBncGlvLXJ0ZC5vDQo+ID4+PiAgICBvYmotJChDT05GSUdfQVJDSF9TQTExMDApICAgICAg
-ICAgICArPSBncGlvLXNhMTEwMC5vDQo+ID4+PiAgICBvYmotJChDT05GSUdfR1BJT19TQU1BNUQy
-X1BJT0JVKSAgICArPSBncGlvLXNhbWE1ZDItcGlvYnUubw0KPiA+Pj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvZ3Bpby9ncGlvLXJwbXNnLmMgYi9kcml2ZXJzL2dwaW8vZ3Bpby1ycG1zZy5jDQo+ID4+
-PiBuZXcgZmlsZSBtb2RlIDEwMDY0NCBpbmRleCAwMDAwMDAwMDAwMDAuLjE2M2Y1MWZkNDViNQ0K
-PiA+Pj4gLS0tIC9kZXYvbnVsbA0KPiA+Pj4gKysrIGIvZHJpdmVycy9ncGlvL2dwaW8tcnBtc2cu
-Yw0KPiA+Pj4gQEAgLTAsMCArMSw1ODggQEANCj4gPj4+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRp
-ZmllcjogR1BMLTIuMC1vbmx5DQo+ID4+PiArLyoNCj4gPj4+ICsgKiBDb3B5cmlnaHQgMjAyNiBO
-WFANCj4gPj4+ICsgKg0KPiA+Pj4gKyAqIFRoZSBkcml2ZXIgZXhwb3J0cyBhIHN0YW5kYXJkIGdw
-aW9jaGlwIGludGVyZmFjZSB0byBjb250cm9sDQo+ID4+PiArICogdGhlIEdQSU8gY29udHJvbGxl
-cnMgdmlhIFJQTVNHIG9uIGEgcmVtb3RlIHByb2Nlc3Nvci4NCj4gPj4+ICsgKi8NCj4gPj4+ICsj
-aW5jbHVkZSA8bGludXgvY29tcGxldGlvbi5oPg0KPiA+Pj4gKyNpbmNsdWRlIDxsaW51eC9kZXZp
-Y2UuaD4NCj4gPj4+ICsjaW5jbHVkZSA8bGludXgvZXJyLmg+DQo+ID4+PiArI2luY2x1ZGUgPGxp
-bnV4L2dwaW8vZHJpdmVyLmg+DQo+ID4+PiArI2luY2x1ZGUgPGxpbnV4L2luaXQuaD4NCj4gPj4+
-ICsjaW5jbHVkZSA8bGludXgvaXJxZG9tYWluLmg+DQo+ID4+PiArI2luY2x1ZGUgPGxpbnV4L21v
-ZF9kZXZpY2V0YWJsZS5oPg0KPiA+Pj4gKyNpbmNsdWRlIDxsaW51eC9tb2R1bGUuaD4NCj4gPj4+
-ICsjaW5jbHVkZSA8bGludXgvbXV0ZXguaD4NCj4gPj4+ICsjaW5jbHVkZSA8bGludXgvb2YuaD4N
-Cj4gPj4+ICsjaW5jbHVkZSA8bGludXgvb2ZfZGV2aWNlLmg+DQo+ID4+PiArI2luY2x1ZGUgPGxp
-bnV4L29mX3BsYXRmb3JtLmg+DQo+ID4+PiArI2luY2x1ZGUgPGxpbnV4L3BsYXRmb3JtX2Rldmlj
-ZS5oPg0KPiA+Pj4gKyNpbmNsdWRlIDxsaW51eC9yZW1vdGVwcm9jLmg+DQo+ID4+PiArI2luY2x1
-ZGUgPGxpbnV4L3JwbXNnLmg+DQo+ID4+PiArDQo+ID4+PiArI2RlZmluZSBSUE1TR19HUElPX0lE
-ICAgICAgICAgICAgICAgIDUNCj4gPj4+ICsjZGVmaW5lIFJQTVNHX1ZFTkRPUiAgICAgICAgIDEN
-Cj4gPj4+ICsjZGVmaW5lIFJQTVNHX1ZFUlNJT04gICAgICAgICAgICAgICAgMA0KPiA+Pj4gKw0K
-PiA+Pj4gKyNkZWZpbmUgR1BJT1NfUEVSX1BPUlRfREVGQVVMVCAgICAgICAzMg0KPiA+Pj4gKyNk
-ZWZpbmUgUlBNU0dfVElNRU9VVCAgICAgICAgICAgICAgICAxMDAwDQo+ID4+PiArDQo+ID4+PiAr
-LyogR1BJTyBSUE1TRyBoZWFkZXIgdHlwZSAqLw0KPiA+Pj4gKyNkZWZpbmUgR1BJT19SUE1TR19T
-RVRVUCAgICAgMA0KPiA+Pj4gKyNkZWZpbmUgR1BJT19SUE1TR19SRVBMWSAgICAgMQ0KPiA+Pj4g
-KyNkZWZpbmUgR1BJT19SUE1TR19OT1RJRlkgICAgMg0KPiA+Pj4gKw0KPiA+Pj4gKy8qIEdQSU8g
-SW50ZXJydXB0IHRyaWdnZXIgdHlwZSAqLw0KPiA+Pj4gKyNkZWZpbmUgR1BJT19SUE1TR19UUklf
-SUdOT1JFICAgICAgICAgICAgICAgIDANCj4gPj4+ICsjZGVmaW5lIEdQSU9fUlBNU0dfVFJJX1JJ
-U0lORyAgICAgICAgICAgICAgICAxDQo+ID4+PiArI2RlZmluZSBHUElPX1JQTVNHX1RSSV9GQUxM
-SU5HICAgICAgICAgICAgICAgMg0KPiA+Pj4gKyNkZWZpbmUgR1BJT19SUE1TR19UUklfQk9USF9F
-REdFICAgICAzDQo+ID4+PiArI2RlZmluZSBHUElPX1JQTVNHX1RSSV9MT1dfTEVWRUwgICAgIDQN
-Cj4gPj4+ICsjZGVmaW5lIEdQSU9fUlBNU0dfVFJJX0hJR0hfTEVWRUwgICAgNQ0KPiA+Pj4gKw0K
-PiA+Pj4gKy8qIEdQSU8gUlBNU0cgY29tbWFuZHMgKi8NCj4gPj4+ICsjZGVmaW5lIEdQSU9fUlBN
-U0dfSU5QVVRfSU5JVCAgICAgICAgICAgICAgICAwDQo+ID4+PiArI2RlZmluZSBHUElPX1JQTVNH
-X09VVFBVVF9JTklUICAgICAgICAgICAgICAgMQ0KPiA+Pj4gKyNkZWZpbmUgR1BJT19SUE1TR19J
-TlBVVF9HRVQgICAgICAgICAyDQo+ID4+PiArI2RlZmluZSBHUElPX1JQTVNHX0RJUkVDVElPTl9H
-RVQgICAgIDMNCj4gPj4+ICsNCj4gPj4+ICsjZGVmaW5lIE1BWF9QT1JUX1BFUl9DSEFOTkVMICAg
-IDEwDQo+ID4+PiArDQo+ID4+PiArLyoNCj4gPj4+ICsgKiBAcnByb2NfbmFtZTogdGhlIG5hbWUg
-b2YgdGhlIHJlbW90ZSBwcm9jLg0KPiA+Pj4gKyAqIEBjaGFubmVsX2RldmljZXM6IGFuIGFycmF5
-IG9mIHRoZSBkZXZpY2VzIHJlbGF0ZWQgdG8gdGhlIHJwZGV2Lg0KPiA+Pj4gKyAqLw0KPiA+Pj4g
-K3N0cnVjdCBycGRldl9kcnZkYXRhIHsNCj4gPj4+ICsgICAgIGNvbnN0IGNoYXIgKnJwcm9jX25h
-bWU7DQo+ID4+PiArICAgICB2b2lkICpjaGFubmVsX2RldmljZXNbTUFYX1BPUlRfUEVSX0NIQU5O
-RUxdOw0KPiA+Pj4gK307DQo+ID4+PiArDQo+ID4+PiArc3RydWN0IGdwaW9fcnBtc2dfaGVhZCB7
-DQo+ID4+DQo+ID4+IFNvbWV0aW1lIHRoZSBwcmVmaXggaXMgZ3Bpb19ycG1zZywgc29tZXRpbWUg
-cnBtc2dfZ3BpbyBvciBqdXN0IGdwaW8sDQo+ID4+IGNvdWxkIHlvdSB1c2UgInJwbXNnX2dwaW8i
-IHByZWZpeCBpbiB0aGUgd2hvbGUgZHJpdmVyPw0KPiA+Pg0KPiA+DQo+ID4gQWxsIHRoZSB0eXBl
-cyB1c2UgcHJlZml4IGdwaW9fcnBtc2cuIEFsbCB0aGUgZnVuY3Rpb25zIHVzZSBycG1zZ19ncGlv
-Lg0KPiA+DQo+ID4+PiArICAgICB1OCBpZDsgICAgICAgICAgLyogTWVzc2FnZSBJRCBDb2RlICov
-DQo+ID4+PiArICAgICB1OCB2ZW5kb3I7ICAgICAgLyogVmVuZG9yIElEIG51bWJlciAqLw0KPiA+
-Pg0KPiA+PiBEb2VzIHRoaXMgZmllbGRzIGFib3ZlIGFyZSBtYW5kYXRvcnksIHNlZW1zIHRoYXQg
-aXQgaXMganVzdCBzb21lDQo+ID4+IGNvbnN0YW50IHZhbHVlcyB0aGF0IGFyZSB1c2VsZXNzLg0K
-PiA+Pg0KPiA+Pj4gKyAgICAgdTggdmVyc2lvbjsgICAgIC8qIFZlbmRvci1zcGVjaWZpYyB2ZXJz
-aW9uIG51bWJlciAqLw0KPiA+Pg0KPiA+PiBXaHkgaXQgaXMgdmVuZG9yIHNwZWNpZmljPyB0aGUg
-dmVyc2lvbiBzaG91bGQgcmVwcmVzZW50IHRoZSBycG1zZy10dHkNCj4gPj4gcHJvdG9jb2wgdmVy
-c2lvbi4NCj4gPj4NCj4gPj4+ICsgICAgIHU4IHR5cGU7ICAgICAgICAvKiBNZXNzYWdlIHR5cGUg
-Ki8NCj4gPj4+ICsgICAgIHU4IGNtZDsgICAgICAgICAvKiBDb21tYW5kIGNvZGUgKi8NCj4gPj4+
-ICsgICAgIHU4IHJlc2VydmVkWzVdOw0KPiA+Pg0KPiA+PiBXaGF0IGlzIHRoZSBwdXJwb3NlIG9m
-IHRoaXMgcmVzZXJ2ZWQgZmllbGQ/DQo+ID4+DQo+ID4+PiArfSBfX3BhY2tlZDsNCj4gPj4+ICsN
-Cj4gPj4+ICtzdHJ1Y3QgZ3Bpb19ycG1zZ19wYWNrZXQgew0KPiA+Pj4gKyAgICAgc3RydWN0IGdw
-aW9fcnBtc2dfaGVhZCBoZWFkZXI7DQo+ID4+PiArICAgICB1OCBwaW5faWR4Ow0KPiA+Pj4gKyAg
-ICAgdTggcG9ydF9pZHg7DQo+ID4+PiArICAgICB1bmlvbiB7DQo+ID4+PiArICAgICAgICAgICAg
-IHU4IGV2ZW50Ow0KPiA+Pj4gKyAgICAgICAgICAgICB1OCByZXRjb2RlOw0KPiA+Pj4gKyAgICAg
-ICAgICAgICB1OCB2YWx1ZTsNCj4gPj4+ICsgICAgIH0gb3V0Ow0KPiA+Pj4gKyAgICAgdW5pb24g
-ew0KPiA+Pj4gKyAgICAgICAgICAgICB1OCB3YWtldXA7DQo+ID4+PiArICAgICAgICAgICAgIHU4
-IHZhbHVlOw0KPiA+Pj4gKyAgICAgfSBpbjsNCj4gPj4+ICt9IF9fcGFja2VkIF9fYWxpZ25lZCg4
-KTsNCj4gPj4NCj4gPj4gQW55IHJlYXNvbiB0byB1c2UgX19wYWNrZWQgYW5kIGFsaWduZW1lbnQg
-aGVyZT8NCj4gPj4gVGhpcyBzdHJ1Y3R1cmUgd2lsbCBiZSBjb3BpZWQgaW4gYSB2cmluZyBidWZm
-ZXIgcmlnaHQ/DQo+ID4+DQo+ID4NCj4gPiBVc2luZyBfX3BhY2tlZCB0b2dldGhlciB3aXRoIGFu
-IGV4cGxpY2l0IGFsaWdubWVudCBpcyBhIGNvbW1vbiBwYXR0ZXJuDQo+ID4gZm9yIGRlZmluaW5n
-IGNvbW11bmljYXRpb24gcGFja2V0cy4gVGhlIGdvYWwgaXMgdG8gZW5zdXJlIGEgc3RhYmxlIGFu
-ZA0KPiA+IHByZWRpY3RhYmxlIGxheW91dCBhY3Jvc3MgZGlmZmVyZW50IGFyY2hpdGVjdHVyZXMg
-YW5kIGNvbXBpbGVycy4gRXZlbg0KPiA+IHRob3VnaCB0aGlzIHN0cnVjdHVyZSBpcyBjb3BpZWQg
-aW50byBhIHZyaW5nIGJ1ZmZlciwgZW5mb3JjaW5nIHRoZQ0KPiA+IGxheW91dCBhdm9pZHMgcG90
-ZW50aWFsIEFCSSBvciBwYWRkaW5nIGRpZmZlcmVuY2VzIHRoYXQgY291bGQgbGVhZCB0bw0KPiBj
-b21wYXRpYmlsaXR5IGlzc3VlcyB3aGVuIHRoZSBkYXRhIGlzIHBhcnNlZCBvbiB0aGUgb3RoZXIg
-c2lkZS4NCj4gPg0KPiANCj4gUGxlYXNlIGNvdWxkIHlvdSBnaXZlIGEgY29uY3JldGUgZXhhbXBs
-ZSBmb3IgdGhpcyBycG1zZywgSSBjYW4gbm90IHNlZSBhIHNpdHVhdGlvbg0KPiB3aGVyZSBhZGRp
-bmcgcGFkZGluZyBhdCB0aGUgZW5kIG9mIHRoZSBSUE1zZyBpcyB1c2VmdWxsPw0KPiANCg0KSSBh
-c2tlZCB0aGUgQUkgdG8gcHJvdmlkZSB0aGUgZm9sbG93aW5nIGV4YW1wbGVzLg0KDQpFeGFtcGxl
-OiAzMuKAkWJpdCBBUk0gdnMgNjTigJFiaXQgQVJNIChBQXJjaDMyIHZzIEFBcmNoNjQpDQpDb25z
-aWRlciB0aGlzIG1lc3NhZ2UgaGVhZGVyOg0Kc3RydWN0IG1zZ19oZHIgeyAgICANCiAgICB1OCAg
-aWQ7DQogICAgdTMyIHNpemU7DQogICAgdTggIGZsYWdzOw0KfTsNCg0KV2hhdCBoYXBwZW5zIHdp
-dGhvdXQgX19wYWNrZWQ6DQoNCk9uIEFBcmNoMzIgKEFSTXY3KSwgdTMyIGlzIDTigJFieXRlIGFs
-aWduZWQsIGJ1dCB0aGUgY29tcGlsZXIgbWF5IGluc2VydCAxIGJ5dGUgb2YgcGFkZGluZyBiZXR3
-ZWVuIGlkIGFuZCBzaXplLCANCmFuZCB0aGVuIDMgYnl0ZXMgb2YgcGFkZGluZyBiZXR3ZWVuIGZs
-YWdzIGFuZCB0aGUgZW5kIG9mIHRoZSBzdHJ1Y3QsIG1ha2luZyB0aGUgbGF5b3V0Og0KDQpCeXRl
-IG9mZnNldHMgKEFBcmNoMzIpOg0KMDogaWQNCjEtMzogcGFkZGluZw0KNC03OiBzaXplDQo4OiBm
-bGFncw0KOS0xMTogcGFkZGluZyAgIDwtLSB0cmFpbGluZyBwYWRkaW5nIG1heSBiZSBhZGRlZA0K
-c3RydWN0IHNpemUgPSAxMiBieXRlcw0KDQoNCk9uIEFBcmNoNjQsIGNvbXBpbGVycyBtYXkgY2hv
-b3NlIGEgZGlmZmVyZW50IHBhZGRpbmcgc3RyYXRlZ3kgKGUuZy4sIHVzaW5nIDjigJFieXRlIGFs
-aWdubWVudCBydWxlcyksIHJlc3VsdGluZyBpbjoNCg0KQnl0ZSBvZmZzZXRzIChBQXJjaDY0KToN
-CjA6IGlkDQoxLTc6IHBhZGRpbmcgICAgPC0tIGxhcmdlciBwYWRkaW5nIG1heSBhcHBlYXINCjgt
-MTE6IHNpemUNCjEyOiBmbGFncw0KMTMtMTU6IHBhZGRpbmcNCnN0cnVjdCBzaXplID0gMTYgYnl0
-ZXMNCg0KQ29tcGlsZXLigJFzcGVjaWZpYyBleGFtcGxlIChHQ0MgdnMgQ2xhbmcpDQpHQ0MgYW5k
-IENsYW5nIGhpc3RvcmljYWxseSBkaWZmZXJlZCBpbiBob3cgdGhleSBhbGlnbiBtaXhlZOKAkXR5
-cGUgZmllbGRzIG9uIEFSTToNCnN0cnVjdCBleGFtcGxlIHsNCiAgICB1OCBhOw0KICAgIHUxNiBi
-Ow0KICAgIHUzMiBjOw0KfTsNCg0KV2l0aG91dCBfX3BhY2tlZDoNCg0KR0NDIG9uIEFSTSBtaWdo
-dCBwbGFjZToNCg0KMSBieXRlIHBhZGRpbmcgYWZ0ZXIgYQ0KYWxpZ24gYiBhdCBvZmZzZXQgMg0K
-YWxpZ24gYyBhdCBvZmZzZXQgNA0KDQpDbGFuZyBvbiBBUk0gZm9yIHRoZSBzYW1lIHN0cnVjdHVy
-ZSBtYXkgdXNlOg0KDQoxIGJ5dGUgcGFkZGluZyBhZnRlciBhDQoyIGJ5dGVzIHBhZGRpbmcgYWZ0
-ZXIgYg0KYWxpZ24gYyBhdCBvZmZzZXQgNCAoc2FtZSksIGJ1dCBwcm9kdWNlIGRpZmZlcmVudCB0
-b3RhbCBzaXplLg0KDQpUaGlzIGRpZmZlcmVuY2UgYWxvbmUgaXMgZW5vdWdoIHRvIGNvcnJ1cHQg
-UlBNc2cgcGF5bG9hZCBpbnRlcnByZXRhdGlvbiBpZiBvbmUgc2lkZSBleHBlY3RzIG9mZnNldHMg
-Y29tcHV0ZWQgYnkgR0NDIGFuZCB0aGUgb3RoZXIgY29tcGlsZWQgd2l0aCBDbGFuZy4NCg0KVGhh
-bmtzLA0KU2hlbndlaQ0KDQo+IA0KPiA+Pj4gKw0KPiA+Pj4gK3N0cnVjdCBncGlvX3JwbXNnX3Bp
-biB7DQo+ID4+PiArICAgICB1OCBpcnFfc2h1dGRvd247DQo+ID4+PiArICAgICB1OCBpcnFfdW5t
-YXNrOw0KPiA+Pj4gKyAgICAgdTggaXJxX21hc2s7DQo+ID4+PiArICAgICB1MzIgaXJxX3dha2Vf
-ZW5hYmxlOw0KPiA+Pj4gKyAgICAgdTMyIGlycV90eXBlOw0KPiA+Pj4gKyAgICAgc3RydWN0IGdw
-aW9fcnBtc2dfcGFja2V0IG1zZzsNCj4gPj4+ICt9Ow0KPiA+Pj4gKw0KPiA+Pj4gK3N0cnVjdCBn
-cGlvX3JwbXNnX2luZm8gew0KPiA+Pj4gKyAgICAgc3RydWN0IHJwbXNnX2RldmljZSAqcnBkZXY7
-DQo+ID4+PiArICAgICBzdHJ1Y3QgZ3Bpb19ycG1zZ19wYWNrZXQgKnJlcGx5X21zZzsNCj4gPj4+
-ICsgICAgIHN0cnVjdCBjb21wbGV0aW9uIGNtZF9jb21wbGV0ZTsNCj4gPj4+ICsgICAgIHN0cnVj
-dCBtdXRleCBsb2NrOw0KPiA+Pj4gKyAgICAgdm9pZCAqKnBvcnRfc3RvcmU7DQo+ID4+PiArfTsN
-Cj4gPj4+ICsNCj4gPj4+ICtzdHJ1Y3QgcnBtc2dfZ3Bpb19wb3J0IHsNCj4gPj4+ICsgICAgIHN0
-cnVjdCBncGlvX2NoaXAgZ2M7DQo+ID4+PiArICAgICBzdHJ1Y3QgZ3Bpb19ycG1zZ19waW4gZ3Bp
-b19waW5zW0dQSU9TX1BFUl9QT1JUX0RFRkFVTFRdOw0KPiA+Pj4gKyAgICAgc3RydWN0IGdwaW9f
-cnBtc2dfaW5mbyBpbmZvOw0KPiA+Pj4gKyAgICAgdTMyIG5ncGlvczsNCj4gPj4+ICsgICAgIHUz
-MiBpZHg7DQo+ID4+PiArfTsNCj4gPj4+ICsNCj4gPj4+ICtzdGF0aWMgaW50IGdwaW9fc2VuZF9t
-ZXNzYWdlKHN0cnVjdCBycG1zZ19ncGlvX3BvcnQgKnBvcnQsDQo+ID4+DQo+ID4+IHMvZ3Bpb19z
-ZW5kX21lc3NhZ2UvcnBtc2dfZ3Bpb19zZW5kX21lc3NhZ2UNCj4gPj4NCj4gPj4+ICsgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHN0cnVjdCBncGlvX3JwbXNnX3BhY2tldCAqbXNnLA0KPiA+Pj4g
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgYm9vbCBzeW5jKSB7DQo+ID4+PiArICAgICBzdHJ1
-Y3QgZ3Bpb19ycG1zZ19pbmZvICppbmZvID0gJnBvcnQtPmluZm87DQo+ID4+PiArICAgICBpbnQg
-ZXJyOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgcmVpbml0X2NvbXBsZXRpb24oJmluZm8tPmNtZF9j
-b21wbGV0ZSk7DQo+ID4+PiArICAgICBlcnIgPSBycG1zZ19zZW5kKGluZm8tPnJwZGV2LT5lcHQs
-IG1zZywgc2l6ZW9mKHN0cnVjdA0KPiBncGlvX3JwbXNnX3BhY2tldCkpOw0KPiA+Pj4gKyAgICAg
-aWYgKGVycikgew0KPiA+Pj4gKyAgICAgICAgICAgICBkZXZfZXJyKCZpbmZvLT5ycGRldi0+ZGV2
-LCAicnBtc2dfc2VuZCBmYWlsZWQ6ICVkXG4iLCBlcnIpOw0KPiA+Pj4gKyAgICAgICAgICAgICBy
-ZXR1cm4gZXJyOw0KPiA+Pj4gKyAgICAgfQ0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgaWYgKHN5bmMp
-IHsNCj4gPj4+ICsgICAgICAgICAgICAgZXJyID0gd2FpdF9mb3JfY29tcGxldGlvbl90aW1lb3V0
-KCZpbmZvLT5jbWRfY29tcGxldGUsDQo+ID4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBtc2Vjc190b19qaWZmaWVzKFJQTVNHX1RJTUVPVVQpKTsNCj4g
-Pj4+ICsgICAgICAgICAgICAgaWYgKGVyciA9PSAwKSB7DQo+ID4+PiArICAgICAgICAgICAgICAg
-ICAgICAgZGV2X2VycigmaW5mby0+cnBkZXYtPmRldiwgInJwbXNnX3NlbmQgdGltZW91dCFcbiIp
-Ow0KPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRVRJTUVET1VUOw0KPiA+Pg0K
-PiA+PiBzdHJhbmdlIGNvbmRpdGlvbiB5b3UgcmV0dXJuIGFuIGVycm9yIGlmIGVyciA9PSAwLCBm
-b3IgcmVkYWJpbGl0eSB1c2UNCj4gPj4gJ3JldCcgdmFyaWFibGUgb3INCj4gPj4gc2ltcGx5Og0K
-PiA+Pg0KPiA+DQo+ID4gQWdyZWUuIENoYW5naW5nIHRvICJyZXQiIGlzIGNsZWFyZXIgaGVyZS4N
-Cj4gPg0KPiA+PiAgICAgICAgICAgICAgICAgIGlmKCF3YWl0X2Zvcl9jb21wbGV0aW9uX3RpbWVv
-dXQoJmluZm8tPmNtZF9jb21wbGV0ZSwNCj4gPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICBtc2Vjc190b19qaWZmaWVzKFJQTVNHX1RJTUVPVVQpKSB7DQo+ID4+ICAgICAgICAg
-ICAgICAgICAgICAgICAgICBkZXZfZXJyKCZpbmZvLT5ycGRldi0+ZGV2LCAicnBtc2dfc2VuZCB0
-aW1lb3V0IVxuIik7DQo+ID4+ICAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gLUVUSU1F
-RE9VVDsNCj4gPj4gICAgICAgICAgICAgICAgICB9DQo+ID4+DQo+ID4+PiArDQo+ID4+PiArICAg
-ICAgICAgICAgIGlmIChpbmZvLT5yZXBseV9tc2ctPm91dC5yZXRjb2RlICE9IDApIHsNCj4gPj4+
-ICsgICAgICAgICAgICAgICAgICAgICBkZXZfZXJyKCZpbmZvLT5ycGRldi0+ZGV2LCAicmVtb3Rl
-IGNvcmUgcmVwbGllcyBhbg0KPiBlcnJvcjogJWQhXG4iLA0KPiA+Pj4gKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgaW5mby0+cmVwbHlfbXNnLT5vdXQucmV0Y29kZSk7DQo+ID4+PiArICAg
-ICAgICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7DQo+ID4+PiArICAgICAgICAgICAgIH0N
-Cj4gPj4+ICsNCj4gPj4+ICsgICAgICAgICAgICAgLyogY29weSB0aGUgcmVwbHkgbWVzc2FnZSAq
-Lw0KPiA+Pj4gKyAgICAgICAgICAgICBtZW1jcHkoJnBvcnQtPmdwaW9fcGluc1tpbmZvLT5yZXBs
-eV9tc2ctPnBpbl9pZHhdLm1zZywNCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgIGluZm8tPnJl
-cGx5X21zZywgc2l6ZW9mKCppbmZvLT5yZXBseV9tc2cpKTsNCj4gPj4+ICsgICAgIH0NCj4gPj4+
-ICsNCj4gPj4+ICsgICAgIHJldHVybiAwOw0KPiA+Pj4gK30NCj4gPj4+ICsNCj4gPj4+ICtzdGF0
-aWMgc3RydWN0IGdwaW9fcnBtc2dfcGFja2V0ICpncGlvX3NldHVwX21zZ19jb21tb24oc3RydWN0
-DQo+ID4+IHJwbXNnX2dwaW9fcG9ydCAqcG9ydCwNCj4gPj4+ICsgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgaW50IG9mZnNldCwNCj4g
-Pj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-dTggY21kKSB7DQo+ID4+PiArICAgICBzdHJ1Y3QgZ3Bpb19ycG1zZ19wYWNrZXQgKm1zZyA9ICZw
-b3J0LT5ncGlvX3BpbnNbb2Zmc2V0XS5tc2c7DQo+ID4+PiArDQo+ID4+PiArICAgICBtZW1zZXQo
-bXNnLCAwLCBzaXplb2Yoc3RydWN0IGdwaW9fcnBtc2dfcGFja2V0KSk7DQo+ID4+PiArICAgICBt
-c2ctPmhlYWRlci5pZCA9IFJQTVNHX0dQSU9fSUQ7DQo+ID4+PiArICAgICBtc2ctPmhlYWRlci52
-ZW5kb3IgPSBSUE1TR19WRU5ET1I7DQo+ID4+PiArICAgICBtc2ctPmhlYWRlci52ZXJzaW9uID0g
-UlBNU0dfVkVSU0lPTjsNCj4gPj4+ICsgICAgIG1zZy0+aGVhZGVyLnR5cGUgPSBHUElPX1JQTVNH
-X1NFVFVQOw0KPiA+Pj4gKyAgICAgbXNnLT5oZWFkZXIuY21kID0gY21kOw0KPiA+Pj4gKyAgICAg
-bXNnLT5waW5faWR4ID0gb2Zmc2V0Ow0KPiA+Pj4gKyAgICAgbXNnLT5wb3J0X2lkeCA9IHBvcnQt
-PmlkeDsNCj4gPj4+ICsNCj4gPj4+ICsgICAgIHJldHVybiBtc2c7DQo+ID4+PiArfQ0KPiA+Pj4g
-Kw0KPiA+Pj4gK3N0YXRpYyBpbnQgcnBtc2dfZ3Bpb19nZXQoc3RydWN0IGdwaW9fY2hpcCAqZ2Ms
-IHVuc2lnbmVkIGludCBncGlvKSB7DQo+ID4+PiArICAgICBzdHJ1Y3QgcnBtc2dfZ3Bpb19wb3J0
-ICpwb3J0ID0gZ3Bpb2NoaXBfZ2V0X2RhdGEoZ2MpOw0KPiA+Pj4gKyAgICAgc3RydWN0IGdwaW9f
-cnBtc2dfcGFja2V0ICptc2c7DQo+ID4+PiArICAgICBpbnQgcmV0Ow0KPiA+Pj4gKw0KPiA+Pj4g
-KyAgICAgZ3VhcmQobXV0ZXgpKCZwb3J0LT5pbmZvLmxvY2spOw0KPiA+Pj4gKw0KPiA+Pj4gKyAg
-ICAgbXNnID0gZ3Bpb19zZXR1cF9tc2dfY29tbW9uKHBvcnQsIGdwaW8sIEdQSU9fUlBNU0dfSU5Q
-VVRfR0VUKTsNCj4gPj4+ICsNCj4gPj4+ICsgICAgIHJldCA9IGdwaW9fc2VuZF9tZXNzYWdlKHBv
-cnQsIG1zZywgdHJ1ZSk7DQo+ID4+PiArICAgICBpZiAoIXJldCkNCj4gPj4+ICsgICAgICAgICAg
-ICAgcmV0ID0gISFwb3J0LT5ncGlvX3BpbnNbZ3Bpb10ubXNnLmluLnZhbHVlOw0KPiA+Pj4gKw0K
-PiA+Pj4gKyAgICAgcmV0dXJuIHJldDsNCj4gPj4+ICt9DQo+ID4+PiArDQo+ID4+PiArc3RhdGlj
-IGludCBycG1zZ19ncGlvX2dldF9kaXJlY3Rpb24oc3RydWN0IGdwaW9fY2hpcCAqZ2MsIHVuc2ln
-bmVkDQo+ID4+PiAraW50IGdwaW8pIHsNCj4gPj4+ICsgICAgIHN0cnVjdCBycG1zZ19ncGlvX3Bv
-cnQgKnBvcnQgPSBncGlvY2hpcF9nZXRfZGF0YShnYyk7DQo+ID4+PiArICAgICBzdHJ1Y3QgZ3Bp
-b19ycG1zZ19wYWNrZXQgKm1zZzsNCj4gPj4+ICsgICAgIGludCByZXQ7DQo+ID4+PiArDQo+ID4+
-PiArICAgICBndWFyZChtdXRleCkoJnBvcnQtPmluZm8ubG9jayk7DQo+ID4+PiArDQo+ID4+PiAr
-ICAgICBtc2cgPSBncGlvX3NldHVwX21zZ19jb21tb24ocG9ydCwgZ3BpbywNCj4gPj4+ICsgR1BJ
-T19SUE1TR19ESVJFQ1RJT05fR0VUKTsNCj4gPj4+ICsNCj4gPj4+ICsgICAgIHJldCA9IGdwaW9f
-c2VuZF9tZXNzYWdlKHBvcnQsIG1zZywgdHJ1ZSk7DQo+ID4+PiArICAgICBpZiAoIXJldCkNCj4g
-Pj4+ICsgICAgICAgICAgICAgcmV0ID0gISFwb3J0LT5ncGlvX3BpbnNbZ3Bpb10ubXNnLmluLnZh
-bHVlOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgcmV0dXJuIHJldDsNCj4gPj4+ICt9DQo+ID4+PiAr
-DQo+ID4+PiArc3RhdGljIGludCBycG1zZ19ncGlvX2RpcmVjdGlvbl9pbnB1dChzdHJ1Y3QgZ3Bp
-b19jaGlwICpnYywNCj4gPj4+ICt1bnNpZ25lZCBpbnQgZ3Bpbykgew0KPiA+Pj4gKyAgICAgc3Ry
-dWN0IHJwbXNnX2dwaW9fcG9ydCAqcG9ydCA9IGdwaW9jaGlwX2dldF9kYXRhKGdjKTsNCj4gPj4+
-ICsgICAgIHN0cnVjdCBncGlvX3JwbXNnX3BhY2tldCAqbXNnOw0KPiA+Pj4gKw0KPiA+Pj4gKyAg
-ICAgZ3VhcmQobXV0ZXgpKCZwb3J0LT5pbmZvLmxvY2spOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAg
-bXNnID0gZ3Bpb19zZXR1cF9tc2dfY29tbW9uKHBvcnQsIGdwaW8sDQo+ID4+PiArIEdQSU9fUlBN
-U0dfSU5QVVRfSU5JVCk7DQo+ID4+PiArDQo+ID4+PiArICAgICByZXR1cm4gZ3Bpb19zZW5kX21l
-c3NhZ2UocG9ydCwgbXNnLCB0cnVlKTsgfQ0KPiA+Pj4gKw0KPiA+Pj4gK3N0YXRpYyBpbnQgcnBt
-c2dfZ3Bpb19zZXQoc3RydWN0IGdwaW9fY2hpcCAqZ2MsIHVuc2lnbmVkIGludCBncGlvLA0KPiA+
-Pj4gK2ludCB2YWwpIHsNCj4gPj4+ICsgICAgIHN0cnVjdCBycG1zZ19ncGlvX3BvcnQgKnBvcnQg
-PSBncGlvY2hpcF9nZXRfZGF0YShnYyk7DQo+ID4+PiArICAgICBzdHJ1Y3QgZ3Bpb19ycG1zZ19w
-YWNrZXQgKm1zZzsNCj4gPj4+ICsNCj4gPj4+ICsgICAgIGd1YXJkKG11dGV4KSgmcG9ydC0+aW5m
-by5sb2NrKTsNCj4gPj4+ICsNCj4gPj4+ICsgICAgIG1zZyA9IGdwaW9fc2V0dXBfbXNnX2NvbW1v
-bihwb3J0LCBncGlvLA0KPiBHUElPX1JQTVNHX09VVFBVVF9JTklUKTsNCj4gPj4+ICsgICAgIG1z
-Zy0+b3V0LnZhbHVlID0gdmFsOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgcmV0dXJuIGdwaW9fc2Vu
-ZF9tZXNzYWdlKHBvcnQsIG1zZywgdHJ1ZSk7IH0NCj4gPj4+ICsNCj4gPj4+ICtzdGF0aWMgaW50
-IHJwbXNnX2dwaW9fZGlyZWN0aW9uX291dHB1dChzdHJ1Y3QgZ3Bpb19jaGlwICpnYywNCj4gPj4+
-ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1bnNpZ25lZCBpbnQgZ3BpbywN
-Cj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBpbnQgdmFsKSB7DQo+
-ID4+PiArICAgICByZXR1cm4gcnBtc2dfZ3Bpb19zZXQoZ2MsIGdwaW8sIHZhbCk7IH0NCj4gPj4+
-ICsNCj4gPj4+ICtzdGF0aWMgaW50IGdwaW9fcnBtc2dfaXJxX3NldF90eXBlKHN0cnVjdCBpcnFf
-ZGF0YSAqZCwgdTMyIHR5cGUpIHsNCj4gPj4+ICsgICAgIHN0cnVjdCBycG1zZ19ncGlvX3BvcnQg
-KnBvcnQgPSBpcnFfZGF0YV9nZXRfaXJxX2NoaXBfZGF0YShkKTsNCj4gPj4+ICsgICAgIHUzMiBn
-cGlvX2lkeCA9IGQtPmh3aXJxOw0KPiA+Pj4gKyAgICAgaW50IGVkZ2UgPSAwOw0KPiA+Pj4gKyAg
-ICAgaW50IHJldCA9IDA7DQo+ID4+PiArDQo+ID4+PiArICAgICBzd2l0Y2ggKHR5cGUpIHsNCj4g
-Pj4+ICsgICAgIGNhc2UgSVJRX1RZUEVfRURHRV9SSVNJTkc6DQo+ID4+PiArICAgICAgICAgICAg
-IGVkZ2UgPSBHUElPX1JQTVNHX1RSSV9SSVNJTkc7DQo+ID4+PiArICAgICAgICAgICAgIGlycV9z
-ZXRfaGFuZGxlcl9sb2NrZWQoZCwgaGFuZGxlX3NpbXBsZV9pcnEpOw0KPiA+Pj4gKyAgICAgICAg
-ICAgICBicmVhazsNCj4gPj4+ICsgICAgIGNhc2UgSVJRX1RZUEVfRURHRV9GQUxMSU5HOg0KPiA+
-Pj4gKyAgICAgICAgICAgICBlZGdlID0gR1BJT19SUE1TR19UUklfRkFMTElORzsNCj4gPj4+ICsg
-ICAgICAgICAgICAgaXJxX3NldF9oYW5kbGVyX2xvY2tlZChkLCBoYW5kbGVfc2ltcGxlX2lycSk7
-DQo+ID4+PiArICAgICAgICAgICAgIGJyZWFrOw0KPiA+Pj4gKyAgICAgY2FzZSBJUlFfVFlQRV9F
-REdFX0JPVEg6DQo+ID4+PiArICAgICAgICAgICAgIGVkZ2UgPSBHUElPX1JQTVNHX1RSSV9CT1RI
-X0VER0U7DQo+ID4+PiArICAgICAgICAgICAgIGlycV9zZXRfaGFuZGxlcl9sb2NrZWQoZCwgaGFu
-ZGxlX3NpbXBsZV9pcnEpOw0KPiA+Pj4gKyAgICAgICAgICAgICBicmVhazsNCj4gPj4+ICsgICAg
-IGNhc2UgSVJRX1RZUEVfTEVWRUxfTE9XOg0KPiA+Pj4gKyAgICAgICAgICAgICBlZGdlID0gR1BJ
-T19SUE1TR19UUklfTE9XX0xFVkVMOw0KPiA+Pj4gKyAgICAgICAgICAgICBpcnFfc2V0X2hhbmRs
-ZXJfbG9ja2VkKGQsIGhhbmRsZV9sZXZlbF9pcnEpOw0KPiA+Pj4gKyAgICAgICAgICAgICBicmVh
-azsNCj4gPj4+ICsgICAgIGNhc2UgSVJRX1RZUEVfTEVWRUxfSElHSDoNCj4gPj4+ICsgICAgICAg
-ICAgICAgZWRnZSA9IEdQSU9fUlBNU0dfVFJJX0hJR0hfTEVWRUw7DQo+ID4+PiArICAgICAgICAg
-ICAgIGlycV9zZXRfaGFuZGxlcl9sb2NrZWQoZCwgaGFuZGxlX2xldmVsX2lycSk7DQo+ID4+PiAr
-ICAgICAgICAgICAgIGJyZWFrOw0KPiA+Pj4gKyAgICAgZGVmYXVsdDoNCj4gPj4+ICsgICAgICAg
-ICAgICAgcmV0ID0gLUVJTlZBTDsNCj4gPj4+ICsgICAgICAgICAgICAgaXJxX3NldF9oYW5kbGVy
-X2xvY2tlZChkLCBoYW5kbGVfYmFkX2lycSk7DQo+ID4+PiArICAgICAgICAgICAgIGJyZWFrOw0K
-PiA+Pj4gKyAgICAgfQ0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgcG9ydC0+Z3Bpb19waW5zW2dwaW9f
-aWR4XS5pcnFfdHlwZSA9IGVkZ2U7DQo+ID4+PiArDQo+ID4+PiArICAgICByZXR1cm4gcmV0Ow0K
-PiA+Pj4gK30NCj4gPj4+ICsNCj4gPj4+ICtzdGF0aWMgaW50IGdwaW9fcnBtc2dfaXJxX3NldF93
-YWtlKHN0cnVjdCBpcnFfZGF0YSAqZCwgdTMyIGVuYWJsZSkgew0KPiA+Pj4gKyAgICAgc3RydWN0
-IHJwbXNnX2dwaW9fcG9ydCAqcG9ydCA9IGlycV9kYXRhX2dldF9pcnFfY2hpcF9kYXRhKGQpOw0K
-PiA+Pj4gKyAgICAgdTMyIGdwaW9faWR4ID0gZC0+aHdpcnE7DQo+ID4+PiArDQo+ID4+PiArICAg
-ICBwb3J0LT5ncGlvX3BpbnNbZ3Bpb19pZHhdLmlycV93YWtlX2VuYWJsZSA9IGVuYWJsZTsNCj4g
-Pj4+ICsNCj4gPj4+ICsgICAgIHJldHVybiAwOw0KPiA+Pj4gK30NCj4gPj4+ICsNCj4gPj4+ICsv
-Kg0KPiA+Pj4gKyAqIFRoaXMgdW5tYXNrL21hc2sgZnVuY3Rpb24gaXMgaW52b2tlZCBpbiB0d28g
-c2l0dWF0aW9uczoNCj4gPj4+ICsgKiAgIC0gd2hlbiBhbiBpbnRlcnJ1cHQgaXMgYmVpbmcgc2V0
-IHVwLCBhbmQNCj4gPj4+ICsgKiAgIC0gYWZ0ZXIgYW4gaW50ZXJydXB0IGhhcyBvY2N1cnJlZC4N
-Cj4gPj4+ICsgKg0KPiA+Pj4gKyAqIFRoZSBHUElPIGRyaXZlciBkb2VzIG5vdCBhY2Nlc3MgaGFy
-ZHdhcmUgcmVnaXN0ZXJzIGRpcmVjdGx5Lg0KPiA+Pj4gKyAqIEluc3RlYWQsIGl0IGNhY2hlcyBh
-bGwgcmVsZXZhbnQgaW5mb3JtYXRpb24gbG9jYWxseSwgYW5kIHRoZW4NCj4gPj4+ICtzZW5kcw0K
-PiA+Pj4gKyAqIHRoZSBhY2N1bXVsYXRlZCBzdGF0ZSB0byB0aGUgcmVtb3RlIHN5c3RlbSBhdCB0
-aGlzIHN0YWdlLg0KPiA+Pj4gKyAqLw0KPiA+Pj4gK3N0YXRpYyB2b2lkIGdwaW9fcnBtc2dfdW5t
-YXNrX2lycShzdHJ1Y3QgaXJxX2RhdGEgKmQpIHsNCj4gPj4+ICsgICAgIHN0cnVjdCBycG1zZ19n
-cGlvX3BvcnQgKnBvcnQgPSBpcnFfZGF0YV9nZXRfaXJxX2NoaXBfZGF0YShkKTsNCj4gPj4+ICsg
-ICAgIHUzMiBncGlvX2lkeCA9IGQtPmh3aXJxOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgcG9ydC0+
-Z3Bpb19waW5zW2dwaW9faWR4XS5pcnFfdW5tYXNrID0gMTsgfQ0KPiA+Pj4gKw0KPiA+Pj4gK3N0
-YXRpYyB2b2lkIGdwaW9fcnBtc2dfbWFza19pcnEoc3RydWN0IGlycV9kYXRhICpkKSB7DQo+ID4+
-PiArICAgICBzdHJ1Y3QgcnBtc2dfZ3Bpb19wb3J0ICpwb3J0ID0gaXJxX2RhdGFfZ2V0X2lycV9j
-aGlwX2RhdGEoZCk7DQo+ID4+PiArICAgICB1MzIgZ3Bpb19pZHggPSBkLT5od2lycTsNCj4gPj4+
-ICsNCj4gPj4+ICsgICAgIC8qDQo+ID4+PiArICAgICAgKiBXaGVuIGFuIGludGVycnVwdCBvY2N1
-cnMsIHRoZSByZW1vdGUgc3lzdGVtIG1hc2tzIHRoZSBpbnRlcnJ1cHQNCj4gPj4+ICsgICAgICAq
-IGFuZCB0aGVuIHNlbmRzIGEgbm90aWZpY2F0aW9uIHRvIExpbnV4LiBBZnRlciBMaW51eCBwcm9j
-ZXNzZXMNCj4gPj4+ICsgICAgICAqIHRoYXQgbm90aWZpY2F0aW9uLCBpdCBzZW5kcyBhbiBSUE1z
-ZyBjb21tYW5kIGJhY2sgdG8gdGhlIHJlbW90ZQ0KPiA+Pj4gKyAgICAgICogc3lzdGVtIHRvIHVu
-bWFzayB0aGUgaW50ZXJydXB0IGFnYWluLg0KPiA+Pj4gKyAgICAgICovDQo+ID4+PiArICAgICBw
-b3J0LT5ncGlvX3BpbnNbZ3Bpb19pZHhdLmlycV9tYXNrID0gMTsgfQ0KPiA+Pj4gKw0KPiA+Pj4g
-K3N0YXRpYyB2b2lkIGdwaW9fcnBtc2dfaXJxX3NodXRkb3duKHN0cnVjdCBpcnFfZGF0YSAqZCkg
-ew0KPiA+Pj4gKyAgICAgc3RydWN0IHJwbXNnX2dwaW9fcG9ydCAqcG9ydCA9IGlycV9kYXRhX2dl
-dF9pcnFfY2hpcF9kYXRhKGQpOw0KPiA+Pj4gKyAgICAgdTMyIGdwaW9faWR4ID0gZC0+aHdpcnE7
-DQo+ID4+PiArDQo+ID4+PiArICAgICBwb3J0LT5ncGlvX3BpbnNbZ3Bpb19pZHhdLmlycV9zaHV0
-ZG93biA9IDE7IH0NCj4gPj4+ICsNCj4gPj4+ICtzdGF0aWMgdm9pZCBncGlvX3JwbXNnX2lycV9i
-dXNfbG9jayhzdHJ1Y3QgaXJxX2RhdGEgKmQpIHsNCj4gPj4+ICsgICAgIHN0cnVjdCBycG1zZ19n
-cGlvX3BvcnQgKnBvcnQgPSBpcnFfZGF0YV9nZXRfaXJxX2NoaXBfZGF0YShkKTsNCj4gPj4+ICsN
-Cj4gPj4+ICsgICAgIG11dGV4X2xvY2soJnBvcnQtPmluZm8ubG9jayk7DQo+ID4+PiArfQ0KPiA+
-Pj4gKw0KPiA+Pj4gK3N0YXRpYyB2b2lkIGdwaW9fcnBtc2dfaXJxX2J1c19zeW5jX3VubG9jayhz
-dHJ1Y3QgaXJxX2RhdGEgKmQpIHsNCj4gPj4+ICsgICAgIHN0cnVjdCBycG1zZ19ncGlvX3BvcnQg
-KnBvcnQgPSBpcnFfZGF0YV9nZXRfaXJxX2NoaXBfZGF0YShkKTsNCj4gPj4+ICsgICAgIHN0cnVj
-dCBncGlvX3JwbXNnX3BhY2tldCAqbXNnID0gTlVMTDsNCj4gPj4+ICsgICAgIHUzMiBncGlvX2lk
-eCA9IGQtPmh3aXJxOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgLyoNCj4gPj4+ICsgICAgICAqIEZv
-ciBtYXNrIGlycSwgZG8gbm90aGluZyBoZXJlLg0KPiA+Pj4gKyAgICAgICogVGhlIHJlbW90ZSBz
-eXN0ZW0gd2lsbCBtYXNrIGludGVycnVwdCBhZnRlciBhbiBpbnRlcnJ1cHQgb2NjdXJzLA0KPiA+
-Pj4gKyAgICAgICogYW5kIHRoZW4gc2VuZCBhIG5vdGlmeSB0byBMaW51eCBzeXN0ZW0uDQo+ID4+
-PiArICAgICAgKiBBZnRlciBMaW51eCBzeXN0ZW0gZGVhbHQgd2l0aCB0aGUgbm90aWZ5LCBpdCB3
-aWxsIHNlbmQgYW4gcnBtc2cgdG8NCj4gPj4+ICsgICAgICAqIHRoZSByZW1vdGUgc3lzdGVtIHRv
-IHVubWFzayB0aGlzIGludGVycnVwdCBhZ2Fpbi4NCj4gPj4+ICsgICAgICAqLw0KPiA+Pj4gKyAg
-ICAgaWYgKHBvcnQtPmdwaW9fcGluc1tncGlvX2lkeF0uaXJxX21hc2sgJiYgIXBvcnQtDQo+ID4+
-PiBncGlvX3BpbnNbZ3Bpb19pZHhdLmlycV91bm1hc2spIHsNCj4gPj4+ICsgICAgICAgICAgICAg
-cG9ydC0+Z3Bpb19waW5zW2dwaW9faWR4XS5pcnFfbWFzayA9IDA7DQo+ID4+PiArICAgICAgICAg
-ICAgIG11dGV4X3VubG9jaygmcG9ydC0+aW5mby5sb2NrKTsNCj4gPj4+ICsgICAgICAgICAgICAg
-cmV0dXJuOw0KPiA+Pj4gKyAgICAgfQ0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgbXNnID0gZ3Bpb19z
-ZXR1cF9tc2dfY29tbW9uKHBvcnQsIGdwaW9faWR4LA0KPiA+Pj4gKyBHUElPX1JQTVNHX0lOUFVU
-X0lOSVQpOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgaWYgKHBvcnQtPmdwaW9fcGluc1tncGlvX2lk
-eF0uaXJxX3NodXRkb3duKSB7DQo+ID4+PiArICAgICAgICAgICAgIG1zZy0+b3V0LmV2ZW50ID0g
-R1BJT19SUE1TR19UUklfSUdOT1JFOw0KPiA+Pj4gKyAgICAgICAgICAgICBtc2ctPmluLndha2V1
-cCA9IDA7DQo+ID4+PiArICAgICAgICAgICAgIHBvcnQtPmdwaW9fcGluc1tncGlvX2lkeF0uaXJx
-X3NodXRkb3duID0gMDsNCj4gPj4+ICsgICAgIH0gZWxzZSB7DQo+ID4+PiArICAgICAgICAgICAg
-IC8qIGlmIG5vdCBzZXQgaXJxIHR5cGUsIHRoZW4gdXNlIGxvdyBsZXZlbCBhcyB0cmlnZ2VyIHR5
-cGUgKi8NCj4gPj4+ICsgICAgICAgICAgICAgbXNnLT5vdXQuZXZlbnQgPSBwb3J0LT5ncGlvX3Bp
-bnNbZ3Bpb19pZHhdLmlycV90eXBlOw0KPiA+Pj4gKyAgICAgICAgICAgICBpZiAoIW1zZy0+b3V0
-LmV2ZW50KQ0KPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgIG1zZy0+b3V0LmV2ZW50ID0gR1BJ
-T19SUE1TR19UUklfTE9XX0xFVkVMOw0KPiA+Pj4gKyAgICAgICAgICAgICBpZiAocG9ydC0+Z3Bp
-b19waW5zW2dwaW9faWR4XS5pcnFfdW5tYXNrKSB7DQo+ID4+PiArICAgICAgICAgICAgICAgICAg
-ICAgbXNnLT5pbi53YWtldXAgPSAwOw0KPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgIHBvcnQt
-PmdwaW9fcGluc1tncGlvX2lkeF0uaXJxX3VubWFzayA9IDA7DQo+ID4+PiArICAgICAgICAgICAg
-IH0gZWxzZSAvKiBpcnEgc2V0IHdha2UgKi8NCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICBt
-c2ctPmluLndha2V1cCA9IHBvcnQtPmdwaW9fcGluc1tncGlvX2lkeF0uaXJxX3dha2VfZW5hYmxl
-Ow0KPiA+Pj4gKyAgICAgfQ0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgZ3Bpb19zZW5kX21lc3NhZ2Uo
-cG9ydCwgbXNnLCBmYWxzZSk7DQo+ID4+PiArICAgICBtdXRleF91bmxvY2soJnBvcnQtPmluZm8u
-bG9jayk7IH0NCj4gPj4+ICsNCj4gPj4+ICtzdGF0aWMgY29uc3Qgc3RydWN0IGlycV9jaGlwIGdw
-aW9fcnBtc2dfaXJxX2NoaXAgPSB7DQo+ID4+PiArICAgICAuaXJxX21hc2sgPSBncGlvX3JwbXNn
-X21hc2tfaXJxLA0KPiA+Pj4gKyAgICAgLmlycV91bm1hc2sgPSBncGlvX3JwbXNnX3VubWFza19p
-cnEsDQo+ID4+PiArICAgICAuaXJxX3NldF93YWtlID0gZ3Bpb19ycG1zZ19pcnFfc2V0X3dha2Us
-DQo+ID4+PiArICAgICAuaXJxX3NldF90eXBlID0gZ3Bpb19ycG1zZ19pcnFfc2V0X3R5cGUsDQo+
-ID4+PiArICAgICAuaXJxX3NodXRkb3duID0gZ3Bpb19ycG1zZ19pcnFfc2h1dGRvd24sDQo+ID4+
-PiArICAgICAuaXJxX2J1c19sb2NrID0gZ3Bpb19ycG1zZ19pcnFfYnVzX2xvY2ssDQo+ID4+PiAr
-ICAgICAuaXJxX2J1c19zeW5jX3VubG9jayA9IGdwaW9fcnBtc2dfaXJxX2J1c19zeW5jX3VubG9j
-aywNCj4gPj4+ICsgICAgIC5mbGFncyA9IElSUUNISVBfSU1NVVRBQkxFLA0KPiA+Pj4gK307DQo+
-ID4+PiArDQo+ID4+PiArc3RhdGljIHZvaWQgcnBtc2dfZ3Bpb19yZW1vdmVfYWN0aW9uKHZvaWQg
-KmRhdGEpIHsNCj4gPj4+ICsgICAgIHN0cnVjdCBycG1zZ19ncGlvX3BvcnQgKnBvcnQgPSBkYXRh
-Ow0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgcG9ydC0+aW5mby5wb3J0X3N0b3JlW3BvcnQtPmlkeF0g
-PSBOVUxMOyB9DQo+ID4+PiArDQo+ID4+PiArc3RhdGljIGludCBycG1zZ19ncGlvY2hpcF9yZWdp
-c3RlcihzdHJ1Y3QgcnBtc2dfZGV2aWNlICpycGRldiwNCj4gPj4+ICtzdHJ1Y3QgZGV2aWNlX25v
-ZGUgKm5wKSB7DQo+ID4+PiArICAgICBzdHJ1Y3QgcnBkZXZfZHJ2ZGF0YSAqZHJ2ZGF0YSA9IGRl
-dl9nZXRfZHJ2ZGF0YSgmcnBkZXYtPmRldik7DQo+ID4+PiArICAgICBzdHJ1Y3QgcnBtc2dfZ3Bp
-b19wb3J0ICpwb3J0Ow0KPiA+Pj4gKyAgICAgc3RydWN0IGdwaW9faXJxX2NoaXAgKmdpcnE7DQo+
-ID4+PiArICAgICBzdHJ1Y3QgZ3Bpb19jaGlwICpnYzsNCj4gPj4+ICsgICAgIGludCByZXQ7DQo+
-ID4+PiArDQo+ID4+PiArICAgICBwb3J0ID0gZGV2bV9remFsbG9jKCZycGRldi0+ZGV2LCBzaXpl
-b2YoKnBvcnQpLCBHRlBfS0VSTkVMKTsNCj4gPj4+ICsgICAgIGlmICghcG9ydCkNCj4gPj4+ICsg
-ICAgICAgICAgICAgcmV0dXJuIC1FTk9NRU07DQo+ID4+PiArDQo+ID4+PiArICAgICByZXQgPSBv
-Zl9wcm9wZXJ0eV9yZWFkX3UzMihucCwgInJlZyIsICZwb3J0LT5pZHgpOw0KPiA+Pj4gKyAgICAg
-aWYgKHJldCkNCj4gPj4+ICsgICAgICAgICAgICAgcmV0dXJuIHJldDsNCj4gPj4+ICsNCj4gPj4+
-ICsgICAgIGlmIChwb3J0LT5pZHggPj0gTUFYX1BPUlRfUEVSX0NIQU5ORUwpDQo+ID4+PiArICAg
-ICAgICAgICAgIHJldHVybiAtRUlOVkFMOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgcmV0ID0gZGV2
-bV9tdXRleF9pbml0KCZycGRldi0+ZGV2LCAmcG9ydC0+aW5mby5sb2NrKTsNCj4gPj4+ICsgICAg
-IGlmIChyZXQpDQo+ID4+PiArICAgICAgICAgICAgIHJldHVybiByZXQ7DQo+ID4+PiArDQo+ID4+
-PiArICAgICByZXQgPSBvZl9wcm9wZXJ0eV9yZWFkX3UzMihucCwgIm5ncGlvcyIsICZwb3J0LT5u
-Z3Bpb3MpOw0KPiA+Pj4gKyAgICAgaWYgKHJldCkNCj4gPj4+ICsgICAgICAgICAgICAgcG9ydC0+
-bmdwaW9zID0gR1BJT1NfUEVSX1BPUlRfREVGQVVMVDsNCj4gPj4+ICsNCj4gPj4+ICsgICAgIGlu
-aXRfY29tcGxldGlvbigmcG9ydC0+aW5mby5jbWRfY29tcGxldGUpOw0KPiA+Pj4gKyAgICAgcG9y
-dC0+aW5mby5yZXBseV9tc2cgPSBkZXZtX2t6YWxsb2MoJnJwZGV2LT5kZXYsDQo+ID4+PiArICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzaXplb2Yoc3RydWN0IGdwaW9f
-cnBtc2dfcGFja2V0KSwNCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIEdGUF9LRVJORUwpOw0KPiA+Pj4gKyAgICAgcG9ydC0+aW5mby5wb3J0X3N0b3JlID0g
-ZHJ2ZGF0YS0+Y2hhbm5lbF9kZXZpY2VzOw0KPiA+Pj4gKyAgICAgcG9ydC0+aW5mby5wb3J0X3N0
-b3JlW3BvcnQtPmlkeF0gPSBwb3J0Ow0KPiA+Pj4gKyAgICAgcG9ydC0+aW5mby5ycGRldiA9IHJw
-ZGV2Ow0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgZ2MgPSAmcG9ydC0+Z2M7DQo+ID4+PiArICAgICBn
-Yy0+b3duZXIgPSBUSElTX01PRFVMRTsNCj4gPj4+ICsgICAgIGdjLT5wYXJlbnQgPSAmcnBkZXYt
-PmRldjsNCj4gPj4+ICsgICAgIGdjLT5md25vZGUgPSBvZl9md25vZGVfaGFuZGxlKG5wKTsNCj4g
-Pj4+ICsgICAgIGdjLT5uZ3BpbyA9IHBvcnQtPm5ncGlvczsNCj4gPj4+ICsgICAgIGdjLT5iYXNl
-ID0gLTE7DQo+ID4+PiArICAgICBnYy0+bGFiZWwgPSBkZXZtX2thc3ByaW50ZigmcnBkZXYtPmRl
-diwgR0ZQX0tFUk5FTCwgIiVzLWdwaW8lZCIsDQo+ID4+PiArICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBkcnZkYXRhLT5ycHJvY19uYW1lLCBwb3J0LT5pZHgpOw0KPiA+Pj4gKw0KPiA+
-Pj4gKyAgICAgZ2MtPmRpcmVjdGlvbl9pbnB1dCA9IHJwbXNnX2dwaW9fZGlyZWN0aW9uX2lucHV0
-Ow0KPiA+Pj4gKyAgICAgZ2MtPmRpcmVjdGlvbl9vdXRwdXQgPSBycG1zZ19ncGlvX2RpcmVjdGlv
-bl9vdXRwdXQ7DQo+ID4+PiArICAgICBnYy0+Z2V0X2RpcmVjdGlvbiA9IHJwbXNnX2dwaW9fZ2V0
-X2RpcmVjdGlvbjsNCj4gPj4+ICsgICAgIGdjLT5nZXQgPSBycG1zZ19ncGlvX2dldDsNCj4gPj4+
-ICsgICAgIGdjLT5zZXQgPSBycG1zZ19ncGlvX3NldDsNCj4gPj4+ICsNCj4gPj4+ICsgICAgIGdp
-cnEgPSAmZ2MtPmlycTsNCj4gPj4+ICsgICAgIGdwaW9faXJxX2NoaXBfc2V0X2NoaXAoZ2lycSwg
-JmdwaW9fcnBtc2dfaXJxX2NoaXApOw0KPiA+Pj4gKyAgICAgZ2lycS0+cGFyZW50X2hhbmRsZXIg
-PSBOVUxMOw0KPiA+Pj4gKyAgICAgZ2lycS0+bnVtX3BhcmVudHMgPSAwOw0KPiA+Pj4gKyAgICAg
-Z2lycS0+cGFyZW50cyA9IE5VTEw7DQo+ID4+PiArICAgICBnaXJxLT5jaGlwLT5uYW1lID0gZGV2
-bV9rYXNwcmludGYoJnJwZGV2LT5kZXYsIEdGUF9LRVJORUwsDQo+ID4+PiArICIlcy0NCj4gPj4g
-Z3BpbyVkIiwNCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBk
-cnZkYXRhLT5ycHJvY19uYW1lLA0KPiA+Pj4gKyBwb3J0LT5pZHgpOw0KPiA+Pj4gKw0KPiA+Pj4g
-KyAgICAgcmV0ID0gZGV2bV9hZGRfYWN0aW9uX29yX3Jlc2V0KCZycGRldi0+ZGV2LA0KPiA+PiBy
-cG1zZ19ncGlvX3JlbW92ZV9hY3Rpb24sIHBvcnQpOw0KPiA+Pj4gKyAgICAgaWYgKHJldCkNCj4g
-Pj4+ICsgICAgICAgICAgICAgcmV0dXJuIHJldDsNCj4gPj4+ICsNCj4gPj4+ICsgICAgIHJldHVy
-biBkZXZtX2dwaW9jaGlwX2FkZF9kYXRhKCZycGRldi0+ZGV2LCBnYywgcG9ydCk7IH0NCj4gPj4+
-ICsNCj4gPj4+ICtzdGF0aWMgY29uc3QgY2hhciAqcnBtc2dfZ2V0X3Jwcm9jX25vZGVfbmFtZShz
-dHJ1Y3QgcnBtc2dfZGV2aWNlDQo+ID4+PiArKnJwZGV2KSB7DQo+ID4+PiArICAgICBjb25zdCBj
-aGFyICpuYW1lID0gTlVMTDsNCj4gPj4+ICsgICAgIHN0cnVjdCBkZXZpY2Vfbm9kZSAqbnA7DQo+
-ID4+PiArICAgICBzdHJ1Y3QgcnByb2MgKnJwcm9jOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgcnBy
-b2MgPSBycHJvY19nZXRfYnlfY2hpbGQoJnJwZGV2LT5kZXYpOw0KPiA+Pj4gKw0KPiA+Pj4gKyAg
-ICAgaWYgKCFycHJvYykNCj4gPj4+ICsgICAgICAgICAgICAgcmV0dXJuIE5VTEw7DQo+ID4+PiAr
-DQo+ID4+PiArICAgICBucCA9IG9mX25vZGVfZ2V0KHJwcm9jLT5kZXYub2Zfbm9kZSk7DQo+ID4+
-PiArICAgICBpZiAoIW5wICYmIHJwcm9jLT5kZXYucGFyZW50KQ0KPiA+Pj4gKyAgICAgICAgICAg
-ICBucCA9IG9mX25vZGVfZ2V0KHJwcm9jLT5kZXYucGFyZW50LT5vZl9ub2RlKTsNCj4gPj4+ICsN
-Cj4gPj4+ICsgICAgIGlmIChucCkgew0KPiA+Pj4gKyAgICAgICAgICAgICBuYW1lID0gZGV2bV9r
-c3RyZHVwKCZycGRldi0+ZGV2LCBucC0+bmFtZSwgR0ZQX0tFUk5FTCk7DQo+ID4+PiArICAgICAg
-ICAgICAgIG9mX25vZGVfcHV0KG5wKTsNCj4gPj4+ICsgICAgIH0NCj4gPj4NCj4gPj4gV2hhdCBh
-Ym91dCBzaW1wbHkgcmV0dXJuaW5nIHJwcm9jLT5uYW1lPw0KPiA+Pg0KPiA+DQo+ID4gcnByb2Mt
-Pm5hbWUgZG9lc27igJl0IHNlcnZlIHRoZSBwdXJwb3NlIGhlcmUuIEl0IG9ubHkgcmVmbGVjdHMg
-dGhlDQo+ID4gcnByb2MtPnJlbW90ZXByb2MgZHJpdmVy4oCZcyBuYW1lLA0KPiA+IG5vdCB0aGUg
-aWRlbnRpdHkgb2YgYSBzcGVjaWZpYyByZW1vdGVwcm9jIGluc3RhbmNlLiBXaGF0IHdlIG5lZWQg
-aXMgYQ0KPiA+IHVuaXF1ZSBhbmQgbWVhbmluZ2Z1bCBpZGVudGlmaWVyIGZvciB0aGlzIHBhcnRp
-Y3VsYXIgaW5zdGFuY2UsIGFuZCB1c2luZyB0aGUgRFQNCj4gbm9kZSBuYW1lIHByb3ZpZGVzIGV4
-YWN0bHkgdGhhdC4NCj4gDQo+IEl0IHNob3VsZCwgcnByb2MtPm5hbWUgaXMgdXNlZCBmb3IgZmlu
-ZCB0aGUgL2Rldi9yZW1vdGVwcm9jL3JlbW90ZXByb2M8WD4NCj4gaW5zdGFuY2UNCj4gDQo+IFJl
-Z2FyZHMsDQo+IEFybmF1ZA0KPiANCj4gPg0KPiA+IFRoYW5rcywNCj4gPiBTaGVud2VpDQo+ID4N
-Cj4gPj4+ICsNCj4gPj4+ICsgICAgIHJldHVybiBuYW1lOw0KPiA+Pj4gK30NCj4gPj4+ICsNCj4g
-Pj4+ICtzdGF0aWMgc3RydWN0IGRldmljZV9ub2RlICoNCj4gPj4+ICtycG1zZ19nZXRfY2hhbm5l
-bF9vZm5vZGUoc3RydWN0IHJwbXNnX2RldmljZSAqcnBkZXYsIGNoYXINCj4gPj4+ICsqY2hhbl9u
-YW1lKSB7DQo+ID4+PiArICAgICBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5wX2NoYW4gPSBOVUxMLCAq
-bnA7DQo+ID4+PiArICAgICBzdHJ1Y3QgcnByb2MgKnJwcm9jOw0KPiA+Pj4gKw0KPiA+Pj4gKyAg
-ICAgcnByb2MgPSBycHJvY19nZXRfYnlfY2hpbGQoJnJwZGV2LT5kZXYpOw0KPiA+Pj4gKyAgICAg
-aWYgKCFycHJvYykNCj4gPj4+ICsgICAgICAgICAgICAgcmV0dXJuIE5VTEw7DQo+ID4+PiArDQo+
-ID4+PiArICAgICBucCA9IG9mX25vZGVfZ2V0KHJwcm9jLT5kZXYub2Zfbm9kZSk7DQo+ID4+PiAr
-ICAgICBpZiAoIW5wICYmIHJwcm9jLT5kZXYucGFyZW50KQ0KPiA+Pj4gKyAgICAgICAgICAgICBu
-cCA9IG9mX25vZGVfZ2V0KHJwcm9jLT5kZXYucGFyZW50LT5vZl9ub2RlKTsNCj4gPj4NCj4gPj4g
-SXMgYSB0b3BvbG9neSB3aGVyZSB0aGV5IGlzIG5vIHJwcm9jLT5kZXYgbm9kZSBidXQgYSBwYXJl
-bnQgbm9kZSBleGlzdD8NCj4gPj4NCj4gPj4+ICsNCj4gPj4+ICsgICAgIGlmIChucCkgew0KPiA+
-Pj4gKyAgICAgICAgICAgICAvKiBCYWxhbmNlIHRoZSBvZl9ub2RlX3B1dCgpIHBlcmZvcm1lZCBi
-eQ0KPiBvZl9maW5kX25vZGVfYnlfbmFtZSgpLg0KPiA+PiAqLw0KPiA+Pj4gKyAgICAgICAgICAg
-ICBvZl9ub2RlX2dldChucCk7DQo+ID4+PiArICAgICAgICAgICAgIG5wX2NoYW4gPSBvZl9maW5k
-X25vZGVfYnlfbmFtZShucCwgY2hhbl9uYW1lKTsNCj4gPj4+ICsgICAgICAgICAgICAgb2Zfbm9k
-ZV9wdXQobnApOw0KPiA+Pj4gKyAgICAgfQ0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgcmV0dXJuIG5w
-X2NoYW47DQo+ID4+PiArfQ0KPiA+Pj4gKw0KPiA+Pj4gK3N0YXRpYyBpbnQNCj4gPj4+ICtycG1z
-Z19ncGlvX2NoYW5uZWxfY2FsbGJhY2soc3RydWN0IHJwbXNnX2RldmljZSAqcnBkZXYsIHZvaWQg
-KmRhdGEsDQo+ID4+PiArICAgICAgICAgICAgICAgICAgICAgICAgIGludCBsZW4sIHZvaWQgKnBy
-aXYsIHUzMiBzcmMpIHsNCj4gPj4+ICsgICAgIHN0cnVjdCBncGlvX3JwbXNnX3BhY2tldCAqbXNn
-ID0gZGF0YTsNCj4gPj4+ICsgICAgIHN0cnVjdCBycG1zZ19ncGlvX3BvcnQgKnBvcnQgPSBOVUxM
-Ow0KPiA+Pj4gKyAgICAgc3RydWN0IHJwZGV2X2RydmRhdGEgKmRydmRhdGE7DQo+ID4+PiArDQo+
-ID4+PiArICAgICBkcnZkYXRhID0gZGV2X2dldF9kcnZkYXRhKCZycGRldi0+ZGV2KTsNCj4gPj4+
-ICsgICAgIGlmIChkcnZkYXRhICYmIG1zZyAmJiBtc2ctPnBvcnRfaWR4IDwgTUFYX1BPUlRfUEVS
-X0NIQU5ORUwpDQo+ID4+PiArICAgICAgICAgICAgIHBvcnQgPSBkcnZkYXRhLT5jaGFubmVsX2Rl
-dmljZXNbbXNnLT5wb3J0X2lkeF07DQo+ID4+PiArDQo+ID4+PiArICAgICBpZiAoIXBvcnQpDQo+
-ID4+PiArICAgICAgICAgICAgIHJldHVybiAtRU5PREVWOw0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAg
-aWYgKG1zZy0+aGVhZGVyLnR5cGUgPT0gR1BJT19SUE1TR19SRVBMWSkgew0KPiA+Pj4gKyAgICAg
-ICAgICAgICAqcG9ydC0+aW5mby5yZXBseV9tc2cgPSAqbXNnOw0KPiA+Pj4gKyAgICAgICAgICAg
-ICBjb21wbGV0ZSgmcG9ydC0+aW5mby5jbWRfY29tcGxldGUpOw0KPiA+Pg0KPiA+PiBXaGF0IGhh
-cHBlbiBpZiB0aGUgcmVtb3RlcHJvY2Vzc29yIGFuc3dlciBhZnRlciB0aGUgY29tcGxldGlvbiB0
-aW1lb3V0Pw0KPiA+PiBDb3VsZCBpdCByZXN1bHQgaW4gZGVzeW5jaHJvbml6YXRpb24gYmV0d2Vl
-biB0aGUgcmVxdWVzdCBhbmQgdGhlIGFuc3dlcj8NCj4gPj4NCj4gPj4gSGF2aW5nIGEgY21kX2Nv
-dW50ZXIgaW4gZ3Bpb19ycG1zZ19oZWFkIGNvdWxkIGhlbHAgdG8gaWRlbnRpZnkNCj4gPj4gY3Vy
-cmVudCByZXF1ZXN0IGFuZCBhbnN3ZXINCj4gPj4NCj4gPj4gdGhlIHVzZSBvZiByZWluaXRfY29t
-cGxldGlvbiBjb3VsZCBiZSBhbHNvIG5lZWRlZA0KPiA+Pg0KPiA+Pj4gKyAgICAgfSBlbHNlIGlm
-IChtc2ctPmhlYWRlci50eXBlID09IEdQSU9fUlBNU0dfTk9USUZZKSB7DQo+ID4+PiArICAgICAg
-ICAgICAgIGdlbmVyaWNfaGFuZGxlX2RvbWFpbl9pcnFfc2FmZShwb3J0LT5nYy5pcnEuZG9tYWlu
-LCBtc2ctDQo+ID5waW5faWR4KTsNCj4gPj4+ICsgICAgIH0gZWxzZQ0KPiA+Pj4gKyAgICAgICAg
-ICAgICBkZXZfZXJyKCZycGRldi0+ZGV2LCAid3JvbmcgY29tbWFuZCB0eXBlIVxuIik7DQo+ID4+
-DQo+ID4+IENvdWxkIHlvdSBwcmludCB0aGUgbXNnLT5oZWFkZXIudHlwZSB2YWx1ZSB0byBoZWxw
-IGZvciBkZWJ1Zz8NCj4gPj4NCj4gPj4+ICsNCj4gPj4+ICsgICAgIHJldHVybiAwOw0KPiA+Pj4g
-K30NCj4gPj4+ICsNCj4gPj4+ICtzdGF0aWMgaW50IHJwbXNnX2dwaW9fY2hhbm5lbF9wcm9iZShz
-dHJ1Y3QgcnBtc2dfZGV2aWNlICpycGRldikgew0KPiA+Pj4gKyAgICAgc3RydWN0IGRldmljZSAq
-ZGV2ID0gJnJwZGV2LT5kZXY7DQo+ID4+PiArICAgICBzdHJ1Y3QgcnBkZXZfZHJ2ZGF0YSAqZHJ2
-ZGF0YTsNCj4gPj4+ICsgICAgIHN0cnVjdCBkZXZpY2Vfbm9kZSAqbnA7DQo+ID4+PiArICAgICBp
-bnQgcmV0Ow0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgaWYgKCFkZXYtPm9mX25vZGUpIHsNCj4gPj4+
-ICsgICAgICAgICAgICAgbnAgPSBycG1zZ19nZXRfY2hhbm5lbF9vZm5vZGUocnBkZXYsIHJwZGV2
-LT5pZC5uYW1lKTsNCj4gPj4+ICsgICAgICAgICAgICAgaWYgKG5wKSB7DQo+ID4+PiArICAgICAg
-ICAgICAgICAgICAgICAgZGV2LT5vZl9ub2RlID0gbnA7DQo+ID4+PiArICAgICAgICAgICAgICAg
-ICAgICAgc2V0X3ByaW1hcnlfZndub2RlKGRldiwgb2ZfZndub2RlX2hhbmRsZShucCkpOw0KPiA+
-Pj4gKyAgICAgICAgICAgICB9DQo+ID4+PiArICAgICAgICAgICAgIHJldHVybiAtRVBST0JFX0RF
-RkVSOw0KPiA+Pj4gKyAgICAgfQ0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgZHJ2ZGF0YSA9IGRldm1f
-a3phbGxvYyhkZXYsIHNpemVvZigqZHJ2ZGF0YSksIEdGUF9LRVJORUwpOw0KPiA+Pj4gKyAgICAg
-aWYgKCFkcnZkYXRhKQ0KPiA+Pj4gKyAgICAgICAgICAgICByZXR1cm4gLUVOT01FTTsNCj4gPj4+
-ICsNCj4gPj4+ICsgICAgIGRydmRhdGEtPnJwcm9jX25hbWUgPSBycG1zZ19nZXRfcnByb2Nfbm9k
-ZV9uYW1lKHJwZGV2KTsNCj4gPj4+ICsgICAgIGRldl9zZXRfZHJ2ZGF0YShkZXYsIGRydmRhdGEp
-Ow0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgZm9yX2VhY2hfY2hpbGRfb2Zfbm9kZV9zY29wZWQoZGV2
-LT5vZl9ub2RlLCBjaGlsZCkgew0KPiA+Pj4gKyAgICAgICAgICAgICBpZiAoIW9mX2RldmljZV9p
-c19hdmFpbGFibGUoY2hpbGQpKQ0KPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgIGNvbnRpbnVl
-Ow0KPiA+Pj4gKw0KPiA+Pj4gKyAgICAgICAgICAgICBpZiAoIW9mX21hdGNoX25vZGUoZGV2LT5k
-cml2ZXItPm9mX21hdGNoX3RhYmxlLCBjaGlsZCkpDQo+ID4+PiArICAgICAgICAgICAgICAgICAg
-ICAgY29udGludWU7DQo+ID4+PiArDQo+ID4+PiArICAgICAgICAgICAgIHJldCA9IHJwbXNnX2dw
-aW9jaGlwX3JlZ2lzdGVyKHJwZGV2LCBjaGlsZCk7DQo+ID4+PiArICAgICAgICAgICAgIGlmIChy
-ZXQgPCAwKQ0KPiA+Pj4gKyAgICAgICAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiRmFpbGVk
-IHRvIHJlZ2lzdGVyOiAlcE9GXG4iLCBjaGlsZCk7DQo+ID4+PiArICAgICB9DQo+ID4+PiArDQo+
-ID4+PiArICAgICByZXR1cm4gMDsNCj4gPj4NCj4gPj4gcmV0dXJuIHJldA0KPiA+PiBvciBpbmRp
-Y2F0ZSB3aHkgdGhlIHJldHVybiBvZiBycG1zZ19ncGlvY2hpcF9yZWdpc3RlciBpcyBub3QgdGFr
-ZW4NCj4gPj4gaW50byBhY2NvdW50DQo+ID4+DQo+ID4+DQo+ID4+PiArfQ0KPiA+Pj4gKw0KPiA+
-Pj4gK3N0YXRpYyB2b2lkIHJwbXNnX2dwaW9fY2hhbm5lbF9yZW1vdmUoc3RydWN0IHJwbXNnX2Rl
-dmljZSAqcnBkZXYpIHsNCj4gPj4+ICsgICAgIGRldl9pbmZvKCZycGRldi0+ZGV2LCAicnBtc2cg
-Z3BpbyBjaGFubmVsIGRyaXZlciBpcw0KPiA+Pj4gK3JlbW92ZWRcbiIpOyB9DQo+ID4+PiArDQo+
-ID4+PiArc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgcnBtc2dfZ3Bpb19kdF9pZHNb
-XSA9IHsNCj4gPj4+ICsgICAgIHsgLmNvbXBhdGlibGUgPSAicnBtc2ctZ3BpbyIgfSwNCj4gPj4+
-ICsgICAgIHsgLyogc2VudGluZWwgKi8gfQ0KPiA+Pj4gK307DQo+ID4+PiArDQo+ID4+PiArc3Rh
-dGljIHN0cnVjdCBycG1zZ19kZXZpY2VfaWQgcnBtc2dfZ3Bpb19jaGFubmVsX2lkX3RhYmxlW10g
-PSB7DQo+ID4+PiArICAgICB7IC5uYW1lID0gInJwbXNnLWlvLWNoYW5uZWwiIH0sDQo+ID4+DQo+
-ID4+IEkgd291bGQgcmVtb3ZlIHRoZSAiLWNoYW5uZWwiIHN1ZmZpeCB0byBoYXZlIHNpbWlsYXIg
-bmFtaW5nIHRoYW4NCj4gPj4gInJwbXNnLXR0eSIgYW5kICJycG1zZy1yYXciDQo+ID4+DQo+ID4+
-IFJlZ2FyZHMsDQo+ID4+IEFybmF1ZA0KPiA+Pg0KPiA+Pj4gKyAgICAgeyB9LA0KPiA+Pj4gK307
-DQo+ID4+PiArTU9EVUxFX0RFVklDRV9UQUJMRShycG1zZywgcnBtc2dfZ3Bpb19jaGFubmVsX2lk
-X3RhYmxlKTsNCj4gPj4+ICsNCj4gPj4+ICtzdGF0aWMgc3RydWN0IHJwbXNnX2RyaXZlciBycG1z
-Z19ncGlvX2NoYW5uZWxfY2xpZW50ID0gew0KPiA+Pj4gKyAgICAgLmRydi5uYW1lICAgICAgID0g
-S0JVSUxEX01PRE5BTUUsDQo+ID4+PiArICAgICAuZHJ2Lm9mX21hdGNoX3RhYmxlID0gcnBtc2df
-Z3Bpb19kdF9pZHMsDQo+ID4+PiArICAgICAuaWRfdGFibGUgICAgICAgPSBycG1zZ19ncGlvX2No
-YW5uZWxfaWRfdGFibGUsDQo+ID4+PiArICAgICAucHJvYmUgICAgICAgICAgPSBycG1zZ19ncGlv
-X2NoYW5uZWxfcHJvYmUsDQo+ID4+PiArICAgICAuY2FsbGJhY2sgICAgICAgPSBycG1zZ19ncGlv
-X2NoYW5uZWxfY2FsbGJhY2ssDQo+ID4+PiArICAgICAucmVtb3ZlICAgICAgICAgPSBycG1zZ19n
-cGlvX2NoYW5uZWxfcmVtb3ZlLA0KPiA+Pj4gK307DQo+ID4+PiArbW9kdWxlX3JwbXNnX2RyaXZl
-cihycG1zZ19ncGlvX2NoYW5uZWxfY2xpZW50KTsNCj4gPj4+ICsNCj4gPj4+ICtNT0RVTEVfQVVU
-SE9SKCJTaGVud2VpIFdhbmcgPHNoZW53ZWkud2FuZ0BueHAuY29tPiIpOw0KPiA+Pj4gK01PRFVM
-RV9ERVNDUklQVElPTigiZ2VuZXJpYyBycG1zZyBncGlvIGRyaXZlciIpOw0KPiA+Pj4gK01PRFVM
-RV9MSUNFTlNFKCJHUEwiKTsNCj4gPg0KDQo=
+Get my personal information updated in the Linux kernel Documentation.
+Mainly on:
+
+  * The legacy e-mail (2023002089@link.tyut.edu.cn) had some issue and
+    is not accessible now. Replace it with my current e-mail
+    (srcres258@furdevs.cn).
+
+  * Correct the spelling of my name. "Hu" is my last name in reality,
+    so it is better to pronounce my name in English grammar (Haowen Hu)
+    rather than in Chinese spelling order (Hu Haowen).
+
+  * The main branch has been shifted into "i18n" from "doc-zh-tw", so
+    get it updated as well.
+
+Signed-off-by: Haowen Hu <srcres258@furdevs.cn>
+---
+ .../translations/zh_CN/dev-tools/testing-overview.rst     | 2 +-
+ Documentation/translations/zh_TW/IRQ.txt                  | 8 ++++----
+ Documentation/translations/zh_TW/admin-guide/README.rst   | 2 +-
+ .../translations/zh_TW/admin-guide/bug-bisect.rst         | 2 +-
+ .../translations/zh_TW/admin-guide/bug-hunting.rst        | 2 +-
+ .../translations/zh_TW/admin-guide/clearing-warn-once.rst | 2 +-
+ Documentation/translations/zh_TW/admin-guide/cpu-load.rst | 2 +-
+ Documentation/translations/zh_TW/admin-guide/index.rst    | 2 +-
+ Documentation/translations/zh_TW/admin-guide/init.rst     | 2 +-
+ .../translations/zh_TW/admin-guide/reporting-issues.rst   | 2 +-
+ .../translations/zh_TW/admin-guide/security-bugs.rst      | 2 +-
+ .../translations/zh_TW/admin-guide/tainted-kernels.rst    | 2 +-
+ Documentation/translations/zh_TW/admin-guide/unicode.rst  | 2 +-
+ Documentation/translations/zh_TW/arch/arm64/amu.rst       | 2 +-
+ Documentation/translations/zh_TW/arch/arm64/booting.txt   | 4 ++--
+ .../translations/zh_TW/arch/arm64/elf_hwcaps.rst          | 2 +-
+ .../translations/zh_TW/arch/arm64/hugetlbpage.rst         | 2 +-
+ Documentation/translations/zh_TW/arch/arm64/index.rst     | 2 +-
+ .../translations/zh_TW/arch/arm64/legacy_instructions.txt | 4 ++--
+ Documentation/translations/zh_TW/arch/arm64/memory.txt    | 4 ++--
+ Documentation/translations/zh_TW/arch/arm64/perf.rst      | 2 +-
+ .../translations/zh_TW/arch/arm64/silicon-errata.txt      | 4 ++--
+ .../translations/zh_TW/arch/arm64/tagged-pointers.txt     | 4 ++--
+ Documentation/translations/zh_TW/dev-tools/sparse.rst     | 6 +++---
+ .../translations/zh_TW/dev-tools/testing-overview.rst     | 2 +-
+ Documentation/translations/zh_TW/disclaimer-zh_TW.rst     | 2 +-
+ Documentation/translations/zh_TW/filesystems/debugfs.rst  | 2 +-
+ Documentation/translations/zh_TW/filesystems/index.rst    | 2 +-
+ Documentation/translations/zh_TW/filesystems/sysfs.txt    | 2 +-
+ Documentation/translations/zh_TW/filesystems/virtiofs.rst | 2 +-
+ Documentation/translations/zh_TW/index.rst                | 2 +-
+ Documentation/translations/zh_TW/io_ordering.txt          | 8 ++++----
+ Documentation/translations/zh_TW/process/1.Intro.rst      | 2 +-
+ Documentation/translations/zh_TW/process/2.Process.rst    | 2 +-
+ .../translations/zh_TW/process/3.Early-stage.rst          | 2 +-
+ Documentation/translations/zh_TW/process/4.Coding.rst     | 2 +-
+ Documentation/translations/zh_TW/process/5.Posting.rst    | 2 +-
+ .../translations/zh_TW/process/6.Followthrough.rst        | 2 +-
+ .../translations/zh_TW/process/7.AdvancedTopics.rst       | 2 +-
+ Documentation/translations/zh_TW/process/8.Conclusion.rst | 2 +-
+ .../zh_TW/process/code-of-conduct-interpretation.rst      | 2 +-
+ .../translations/zh_TW/process/code-of-conduct.rst        | 2 +-
+ Documentation/translations/zh_TW/process/coding-style.rst | 2 +-
+ .../translations/zh_TW/process/development-process.rst    | 2 +-
+ .../translations/zh_TW/process/email-clients.rst          | 2 +-
+ .../zh_TW/process/embargoed-hardware-issues.rst           | 2 +-
+ Documentation/translations/zh_TW/process/howto.rst        | 2 +-
+ Documentation/translations/zh_TW/process/index.rst        | 2 +-
+ .../zh_TW/process/kernel-driver-statement.rst             | 2 +-
+ .../zh_TW/process/kernel-enforcement-statement.rst        | 2 +-
+ .../translations/zh_TW/process/license-rules.rst          | 2 +-
+ Documentation/translations/zh_TW/process/magic-number.rst | 2 +-
+ .../translations/zh_TW/process/management-style.rst       | 2 +-
+ .../translations/zh_TW/process/programming-language.rst   | 2 +-
+ .../translations/zh_TW/process/stable-api-nonsense.rst    | 2 +-
+ .../translations/zh_TW/process/stable-kernel-rules.rst    | 2 +-
+ .../translations/zh_TW/process/submit-checklist.rst       | 2 +-
+ .../translations/zh_TW/process/submitting-patches.rst     | 2 +-
+ .../zh_TW/process/volatile-considered-harmful.rst         | 2 +-
+ MAINTAINERS                                               | 4 ++--
+ 60 files changed, 74 insertions(+), 74 deletions(-)
+
+diff --git a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+index 286ed6b01f65..567e911ea259 100644
+--- a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
++++ b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+@@ -3,7 +3,7 @@
+ .. include:: ../disclaimer-zh_CN.rst
+
+ :Original: Documentation/dev-tools/testing-overview.rst
+-:Translator: 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++:Translator: 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ ============
+ 内核测试指南
+diff --git a/Documentation/translations/zh_TW/IRQ.txt b/Documentation/translations/zh_TW/IRQ.txt
+index 8115a7618307..9b27b1f19355 100644
+--- a/Documentation/translations/zh_TW/IRQ.txt
++++ b/Documentation/translations/zh_TW/IRQ.txt
+@@ -7,7 +7,7 @@ help.  Contact the Chinese maintainer if this translation is outdated
+ or if there is a problem with the translation.
+
+ Maintainer: Eric W. Biederman <ebiederman@xmission.com>
+-Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
++Traditional Chinese maintainer: Haowen Hu <srcres258@furdevs.cn>
+ ---------------------------------------------------------------------
+ Documentation/core-api/irq/index.rst 的繁體中文翻譯
+
+@@ -16,9 +16,9 @@ Documentation/core-api/irq/index.rst 的繁體中文翻譯
+ 者翻譯存在問題，請聯繫繁體中文版維護者。
+
+ 英文版維護者： Eric W. Biederman <ebiederman@xmission.com>
+-繁體中文版維護者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+-繁體中文版翻譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+-繁體中文版校譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++繁體中文版維護者： Haowen Hu <srcres258@furdevs.cn>
++繁體中文版翻譯者： Haowen Hu <srcres258@furdevs.cn>
++繁體中文版校譯者： Haowen Hu <srcres258@furdevs.cn>
+
+
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/admin-guide/README.rst b/Documentation/translations/zh_TW/admin-guide/README.rst
+index c8b7ccfaa656..6e89d1608639 100644
+--- a/Documentation/translations/zh_TW/admin-guide/README.rst
++++ b/Documentation/translations/zh_TW/admin-guide/README.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ Linux內核6.x版本 <http://kernel.org/>
+ =========================================
+diff --git a/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst b/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst
+index 1efe913b8da0..82b90a6d1d1a 100644
+--- a/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst
++++ b/Documentation/translations/zh_TW/admin-guide/bug-bisect.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 二分（bisect）缺陷
+ +++++++++++++++++++
+diff --git a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
+index c677dff826f5..c4f95ec6177d 100644
+--- a/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
++++ b/Documentation/translations/zh_TW/admin-guide/bug-hunting.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 追蹤缺陷
+ =========
+diff --git a/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst b/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
+index a3e82ff9daac..9d3cf1aab20e 100644
+--- a/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
++++ b/Documentation/translations/zh_TW/admin-guide/clearing-warn-once.rst
+@@ -2,7 +2,7 @@
+
+ .. include:: ../disclaimer-zh_TW.rst
+
+-:Translator: 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++:Translator: 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 清除 WARN_ONCE
+ --------------
+diff --git a/Documentation/translations/zh_TW/admin-guide/cpu-load.rst b/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
+index 4c25a2105b39..3cdecd6a06ea 100644
+--- a/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
++++ b/Documentation/translations/zh_TW/admin-guide/cpu-load.rst
+@@ -2,7 +2,7 @@
+
+ .. include:: ../disclaimer-zh_TW.rst
+
+-:Translator: 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++:Translator: 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ ========
+ CPU 負載
+diff --git a/Documentation/translations/zh_TW/admin-guide/index.rst b/Documentation/translations/zh_TW/admin-guide/index.rst
+index 9335c0e9105d..24cb20e4b89b 100644
+--- a/Documentation/translations/zh_TW/admin-guide/index.rst
++++ b/Documentation/translations/zh_TW/admin-guide/index.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :doc:`../../../admin-guide/index`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++             胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ Linux 內核用戶和管理員指南
+ ==========================
+diff --git a/Documentation/translations/zh_TW/admin-guide/init.rst b/Documentation/translations/zh_TW/admin-guide/init.rst
+index 4cef1994c650..25fea615e697 100644
+--- a/Documentation/translations/zh_TW/admin-guide/init.rst
++++ b/Documentation/translations/zh_TW/admin-guide/init.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 解釋“No working init found.”啓動掛起消息
+ =========================================
+diff --git a/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst b/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
+index 1d4e4c7a6750..5fbbd191a157 100644
+--- a/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
++++ b/Documentation/translations/zh_TW/admin-guide/reporting-issues.rst
+@@ -9,7 +9,7 @@
+ :譯者:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+
+ 報告問題
+diff --git a/Documentation/translations/zh_TW/admin-guide/security-bugs.rst b/Documentation/translations/zh_TW/admin-guide/security-bugs.rst
+index cfe1e58e116b..f3173b6ce7fe 100644
+--- a/Documentation/translations/zh_TW/admin-guide/security-bugs.rst
++++ b/Documentation/translations/zh_TW/admin-guide/security-bugs.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 安全缺陷
+ =========
+diff --git a/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst b/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
+index 0d8046576d04..9bce875fff6d 100644
+--- a/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
++++ b/Documentation/translations/zh_TW/admin-guide/tainted-kernels.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 受污染的內核
+ -------------
+diff --git a/Documentation/translations/zh_TW/admin-guide/unicode.rst b/Documentation/translations/zh_TW/admin-guide/unicode.rst
+index f43edb2b5ed0..99b9d0b62846 100644
+--- a/Documentation/translations/zh_TW/admin-guide/unicode.rst
++++ b/Documentation/translations/zh_TW/admin-guide/unicode.rst
+@@ -7,7 +7,7 @@
+ :譯者:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ Unicode（統一碼）支持
+ ======================
+diff --git a/Documentation/translations/zh_TW/arch/arm64/amu.rst b/Documentation/translations/zh_TW/arch/arm64/amu.rst
+index 3726c1671ab6..0ff8b28dcaaf 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/amu.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/amu.rst
+@@ -5,7 +5,7 @@
+ :Original: :ref:`Documentation/arch/arm64/amu.rst <amu_index>`
+
+ Translator: Bailu Lin <bailu.lin@vivo.com>
+-            Hu Haowen <2023002089@link.tyut.edu.cn>
++            Haowen Hu <srcres258@furdevs.cn>
+
+ ==================================
+ AArch64 Linux 中擴展的活動監控單元
+diff --git a/Documentation/translations/zh_TW/arch/arm64/booting.txt b/Documentation/translations/zh_TW/arch/arm64/booting.txt
+index f1ac96370ace..f80b7a35f3f7 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/booting.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/booting.txt
+@@ -10,7 +10,7 @@ or if there is a problem with the translation.
+
+ M:	Will Deacon <will.deacon@arm.com>
+ zh_CN:	Fu Wei <wefu@redhat.com>
+-zh_TW:	Hu Haowen <2023002089@link.tyut.edu.cn>
++zh_TW:	Haowen Hu <srcres258@furdevs.cn>
+ C:	55f058e7574c3615dea4615573a19bdb258696c6
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/booting.rst 的中文翻譯
+@@ -23,7 +23,7 @@ Documentation/arch/arm64/booting.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者： 胡皓文  Hu Haowen <2023002089@link.tyut.edu.cn>
++繁體中文版校譯者： 胡皓文  Haowen Hu <srcres258@furdevs.cn>
+ 本文翻譯提交時的 Git 檢出點爲： 55f058e7574c3615dea4615573a19bdb258696c6
+
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst b/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
+index cada25303e8d..3b490b05b49e 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/elf_hwcaps.rst
+@@ -5,7 +5,7 @@
+ :Original: :ref:`Documentation/arch/arm64/elf_hwcaps.rst <elf_hwcaps_index>`
+
+ Translator: Bailu Lin <bailu.lin@vivo.com>
+-            Hu Haowen <2023002089@link.tyut.edu.cn>
++            Haowen Hu <srcres258@furdevs.cn>
+
+ ================
+ ARM64 ELF hwcaps
+diff --git a/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst b/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
+index b6849935e028..6e06c8aa8bfd 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/hugetlbpage.rst
+@@ -5,7 +5,7 @@
+ :Original: :ref:`Documentation/arch/arm64/hugetlbpage.rst <hugetlbpage_index>`
+
+ Translator: Bailu Lin <bailu.lin@vivo.com>
+-            Hu Haowen <2023002089@link.tyut.edu.cn>
++            Haowen Hu <srcres258@furdevs.cn>
+
+ =====================
+ ARM64中的 HugeTLBpage
+diff --git a/Documentation/translations/zh_TW/arch/arm64/index.rst b/Documentation/translations/zh_TW/arch/arm64/index.rst
+index 86014346792e..eced9980cb00 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/index.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/index.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :ref:`Documentation/arch/arm64/index.rst <arm64_index>`
+ :Translator: Bailu Lin <bailu.lin@vivo.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_arm64_index:
+
+diff --git a/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt b/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt
+index 5c664555a71a..6795522267a8 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/legacy_instructions.txt
+@@ -11,7 +11,7 @@ or if there is a problem with the translation.
+ Maintainer: Punit Agrawal <punit.agrawal@arm.com>
+             Suzuki K. Poulose <suzuki.poulose@arm.com>
+ Chinese maintainer: Fu Wei <wefu@redhat.com>
+-Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
++Traditional Chinese maintainer: Haowen Hu <srcres258@furdevs.cn>
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/legacy_instructions.rst 的中文翻譯
+
+@@ -26,7 +26,7 @@ Documentation/arch/arm64/legacy_instructions.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者：胡皓文  Hu Haowen <2023002089@link.tyut.edu.cn>
++繁體中文版校譯者：胡皓文  Haowen Hu <srcres258@furdevs.cn>
+
+ 以下爲正文
+ ---------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/arch/arm64/memory.txt b/Documentation/translations/zh_TW/arch/arm64/memory.txt
+index 6ee2239c293f..aa206ef501dd 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/memory.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/memory.txt
+@@ -10,7 +10,7 @@ or if there is a problem with the translation.
+
+ Maintainer: Catalin Marinas <catalin.marinas@arm.com>
+ Chinese maintainer: Fu Wei <wefu@redhat.com>
+-Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
++Traditional Chinese maintainer: Haowen Hu <srcres258@furdevs.cn>
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/memory.rst 的中文翻譯
+
+@@ -24,7 +24,7 @@ Documentation/arch/arm64/memory.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者： 胡皓文  Hu Haowen <2023002089@link.tyut.edu.cn>
++繁體中文版校譯者： 胡皓文  Haowen Hu <srcres258@furdevs.cn>
+
+ 以下爲正文
+ ---------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/arch/arm64/perf.rst b/Documentation/translations/zh_TW/arch/arm64/perf.rst
+index ce083ba63872..0473c0e8c7fb 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/perf.rst
++++ b/Documentation/translations/zh_TW/arch/arm64/perf.rst
+@@ -5,7 +5,7 @@
+ :Original: :ref:`Documentation/arch/arm64/perf.rst <perf_index>`
+
+ Translator: Bailu Lin <bailu.lin@vivo.com>
+-            Hu Haowen <2023002089@link.tyut.edu.cn>
++            Haowen Hu <srcres258@furdevs.cn>
+
+ =============
+ Perf 事件屬性
+diff --git a/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt b/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
+index 16d73b6c309f..fc5ba2be1cf8 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/silicon-errata.txt
+@@ -10,7 +10,7 @@ or if there is a problem with the translation.
+
+ M:	Will Deacon <will.deacon@arm.com>
+ zh_CN:	Fu Wei <wefu@redhat.com>
+-zh_TW:	Hu Haowen <2023002089@link.tyut.edu.cn>
++zh_TW:	Haowen Hu <srcres258@furdevs.cn>
+ C:	1926e54f115725a9248d0c4c65c22acaf94de4c4
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/silicon-errata.rst 的中文翻譯
+@@ -23,7 +23,7 @@ Documentation/arch/arm64/silicon-errata.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者： 胡皓文  Hu Haowen <2023002089@link.tyut.edu.cn>
++繁體中文版校譯者： 胡皓文  Haowen Hu <srcres258@furdevs.cn>
+ 本文翻譯提交時的 Git 檢出點爲： 1926e54f115725a9248d0c4c65c22acaf94de4c4
+
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt b/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt
+index e86ffa893ef6..40184c803a09 100644
+--- a/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt
++++ b/Documentation/translations/zh_TW/arch/arm64/tagged-pointers.txt
+@@ -10,7 +10,7 @@ or if there is a problem with the translation.
+
+ Maintainer: Will Deacon <will.deacon@arm.com>
+ Chinese maintainer: Fu Wei <wefu@redhat.com>
+-Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
++Traditional Chinese maintainer: Haowen Hu <srcres258@furdevs.cn>
+ ---------------------------------------------------------------------
+ Documentation/arch/arm64/tagged-pointers.rst 的中文翻譯
+
+@@ -22,7 +22,7 @@ Documentation/arch/arm64/tagged-pointers.rst 的中文翻譯
+ 中文版維護者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版翻譯者： 傅煒  Fu Wei <wefu@redhat.com>
+ 中文版校譯者： 傅煒  Fu Wei <wefu@redhat.com>
+-繁體中文版校譯者： 胡皓文  Hu Haowen <2023002089@link.tyut.edu.cn>
++繁體中文版校譯者： 胡皓文  Haowen Hu <srcres258@furdevs.cn>
+
+ 以下爲正文
+ ---------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/dev-tools/sparse.rst b/Documentation/translations/zh_TW/dev-tools/sparse.rst
+index 55f0ad2c0beb..c7c56cd76622 100644
+--- a/Documentation/translations/zh_TW/dev-tools/sparse.rst
++++ b/Documentation/translations/zh_TW/dev-tools/sparse.rst
+@@ -6,7 +6,7 @@ communicating in English you can also ask the Chinese maintainer for
+ help.  Contact the Chinese maintainer if this translation is outdated
+ or if there is a problem with the translation.
+
+-Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
++Traditional Chinese maintainer: Haowen Hu <srcres258@furdevs.cn>
+ -------------------------------------------------------------------------
+ Documentation/dev-tools/sparse.rst 的繁體中文翻譯
+
+@@ -14,8 +14,8 @@ Documentation/dev-tools/sparse.rst 的繁體中文翻譯
+ 交流有困難的話，也可以向繁體中文版維護者求助。如果本翻譯更新不及時或
+ 者翻譯存在問題，請聯繫繁體中文版維護者。
+
+-繁體中文版維護者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+-繁體中文版翻譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++繁體中文版維護者： 胡皓文 Haowen Hu <srcres258@furdevs.cn>
++繁體中文版翻譯者： 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 以下爲正文
+ -------------------------------------------------------------------------
+diff --git a/Documentation/translations/zh_TW/dev-tools/testing-overview.rst b/Documentation/translations/zh_TW/dev-tools/testing-overview.rst
+index 3b08aad1da00..8ba6a9a8a52a 100644
+--- a/Documentation/translations/zh_TW/dev-tools/testing-overview.rst
++++ b/Documentation/translations/zh_TW/dev-tools/testing-overview.rst
+@@ -3,7 +3,7 @@
+ .. include:: ../disclaimer-zh_TW.rst
+
+ :Original: Documentation/dev-tools/testing-overview.rst
+-:Translator: 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++:Translator: 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ ============
+ 內核測試指南
+diff --git a/Documentation/translations/zh_TW/disclaimer-zh_TW.rst b/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
+index 28b734c223b6..705fa65eac5c 100644
+--- a/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
++++ b/Documentation/translations/zh_TW/disclaimer-zh_TW.rst
+@@ -7,5 +7,5 @@
+
+ .. note::
+      如果您發現本文檔與原始文件有任何不同或者有翻譯問題，請聯繫該文件的譯者，
+-     或者發送電子郵件給胡皓文以獲取幫助：<2023002089@link.tyut.edu.cn>。
++     或者發送電子郵件給胡皓文以獲取幫助：<srcres258@furdevs.cn>。
+
+diff --git a/Documentation/translations/zh_TW/filesystems/debugfs.rst b/Documentation/translations/zh_TW/filesystems/debugfs.rst
+index cda7d0e18b9b..e7234ab23c28 100644
+--- a/Documentation/translations/zh_TW/filesystems/debugfs.rst
++++ b/Documentation/translations/zh_TW/filesystems/debugfs.rst
+@@ -14,7 +14,7 @@ Debugfs
+ 	中文版維護者： 羅楚成 Chucheng Luo <luochucheng@vivo.com>
+ 	中文版翻譯者： 羅楚成 Chucheng Luo <luochucheng@vivo.com>
+ 	中文版校譯者:  羅楚成 Chucheng Luo <luochucheng@vivo.com>
+-	繁體中文版校譯者: 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++	繁體中文版校譯者: 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+
+
+diff --git a/Documentation/translations/zh_TW/filesystems/index.rst b/Documentation/translations/zh_TW/filesystems/index.rst
+index 88f0e632bfe2..771b8f654011 100644
+--- a/Documentation/translations/zh_TW/filesystems/index.rst
++++ b/Documentation/translations/zh_TW/filesystems/index.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :ref:`Documentation/filesystems/index.rst <filesystems_index>`
+ :Translator: Wang Wenhu <wenhu.wang@vivo.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_filesystems_index:
+
+diff --git a/Documentation/translations/zh_TW/filesystems/sysfs.txt b/Documentation/translations/zh_TW/filesystems/sysfs.txt
+index d1cee02ef1de..e60f1ca8107c 100644
+--- a/Documentation/translations/zh_TW/filesystems/sysfs.txt
++++ b/Documentation/translations/zh_TW/filesystems/sysfs.txt
+@@ -22,7 +22,7 @@ Documentation/filesystems/sysfs.rst 的中文翻譯
+ 中文版維護者： 傅煒 Fu Wei <tekkamanninja@gmail.com>
+ 中文版翻譯者： 傅煒 Fu Wei <tekkamanninja@gmail.com>
+ 中文版校譯者： 傅煒 Fu Wei <tekkamanninja@gmail.com>
+-繁體中文版校譯者：胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++繁體中文版校譯者：胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/filesystems/virtiofs.rst b/Documentation/translations/zh_TW/filesystems/virtiofs.rst
+index 704a0ee44fd2..c66694898ea5 100644
+--- a/Documentation/translations/zh_TW/filesystems/virtiofs.rst
++++ b/Documentation/translations/zh_TW/filesystems/virtiofs.rst
+@@ -10,7 +10,7 @@
+ 	中文版維護者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
+ 	中文版翻譯者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
+ 	中文版校譯者： 王文虎 Wang Wenhu <wenhu.wang@vivo.com>
+-	繁體中文版校譯者：胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++	繁體中文版校譯者：胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ ===========================================
+ virtiofs: virtio-fs 主機<->客機共享文件系統
+diff --git a/Documentation/translations/zh_TW/index.rst b/Documentation/translations/zh_TW/index.rst
+index 660a74d2023c..e055607caa68 100644
+--- a/Documentation/translations/zh_TW/index.rst
++++ b/Documentation/translations/zh_TW/index.rst
+@@ -15,7 +15,7 @@
+
+ .. note::
+    內核文檔繁體中文版的翻譯工作正在進行中。如果您願意並且有時間參與這項工
+-   作，歡迎提交補丁給胡皓文 <2023002089@link.tyut.edu.cn>。
++   作，歡迎提交補丁給胡皓文 <srcres258@furdevs.cn>。
+
+ 與Linux 內核社區一起工作
+ ------------------------
+diff --git a/Documentation/translations/zh_TW/io_ordering.txt b/Documentation/translations/zh_TW/io_ordering.txt
+index 00b374092d7e..53991a4cd984 100644
+--- a/Documentation/translations/zh_TW/io_ordering.txt
++++ b/Documentation/translations/zh_TW/io_ordering.txt
+@@ -6,7 +6,7 @@ communicating in English you can also ask the Chinese maintainer for
+ help.  Contact the Chinese maintainer if this translation is outdated
+ or if there is a problem with the translation.
+
+-Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
++Traditional Chinese maintainer: Haowen Hu <srcres258@furdevs.cn>
+ ---------------------------------------------------------------------
+ Documentation/driver-api/io_ordering.rst 的繁體中文翻譯
+
+@@ -14,9 +14,9 @@ Documentation/driver-api/io_ordering.rst 的繁體中文翻譯
+ 交流有困難的話，也可以向繁體中文版維護者求助。如果本翻譯更新不及時或
+ 者翻譯存在問題，請聯繫繁體中文版維護者。
+
+-繁體中文版維護者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+-繁體中文版翻譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
+-繁體中文版校譯者： 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++繁體中文版維護者： 胡皓文 Haowen Hu <srcres258@furdevs.cn>
++繁體中文版翻譯者： 胡皓文 Haowen Hu <srcres258@furdevs.cn>
++繁體中文版校譯者： 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+
+ 以下爲正文
+diff --git a/Documentation/translations/zh_TW/process/1.Intro.rst b/Documentation/translations/zh_TW/process/1.Intro.rst
+index 345c4cbe9b55..119d6d0c01db 100644
+--- a/Documentation/translations/zh_TW/process/1.Intro.rst
++++ b/Documentation/translations/zh_TW/process/1.Intro.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_development_process_intro:
+
+diff --git a/Documentation/translations/zh_TW/process/2.Process.rst b/Documentation/translations/zh_TW/process/2.Process.rst
+index f45ddba6238f..34255bbe3c0c 100644
+--- a/Documentation/translations/zh_TW/process/2.Process.rst
++++ b/Documentation/translations/zh_TW/process/2.Process.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_development_process:
+
+diff --git a/Documentation/translations/zh_TW/process/3.Early-stage.rst b/Documentation/translations/zh_TW/process/3.Early-stage.rst
+index a58fc9e0ea99..c75d9a4ce4ab 100644
+--- a/Documentation/translations/zh_TW/process/3.Early-stage.rst
++++ b/Documentation/translations/zh_TW/process/3.Early-stage.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_development_early_stage:
+
+diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
+index e90a6b51fb98..b0bbde25efcc 100644
+--- a/Documentation/translations/zh_TW/process/4.Coding.rst
++++ b/Documentation/translations/zh_TW/process/4.Coding.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_development_coding:
+
+diff --git a/Documentation/translations/zh_TW/process/5.Posting.rst b/Documentation/translations/zh_TW/process/5.Posting.rst
+index 38f3a6d618eb..6eef1c3c69f7 100644
+--- a/Documentation/translations/zh_TW/process/5.Posting.rst
++++ b/Documentation/translations/zh_TW/process/5.Posting.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_development_posting:
+
+diff --git a/Documentation/translations/zh_TW/process/6.Followthrough.rst b/Documentation/translations/zh_TW/process/6.Followthrough.rst
+index f3b195966632..d36f9bec089c 100644
+--- a/Documentation/translations/zh_TW/process/6.Followthrough.rst
++++ b/Documentation/translations/zh_TW/process/6.Followthrough.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_development_followthrough:
+
+diff --git a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+index b449d67e3ad9..7f61e8b103f3 100644
+--- a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
++++ b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+@@ -11,7 +11,7 @@
+ :校譯:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_development_advancedtopics:
+
+diff --git a/Documentation/translations/zh_TW/process/8.Conclusion.rst b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+index d1634421b62c..f0a1e08359c5 100644
+--- a/Documentation/translations/zh_TW/process/8.Conclusion.rst
++++ b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+@@ -10,7 +10,7 @@
+ :校譯:
+
+  吳想成 Wu XiangCheng <bobwxc@email.cn>
+- 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_development_conclusion:
+
+diff --git a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+index fbe66b001322..2bec4ffb8728 100644
+--- a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
++++ b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :ref:`Documentation/process/code-of-conduct-interpretation.rst <code_of_conduct_interpretation>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_code_of_conduct_interpretation:
+
+diff --git a/Documentation/translations/zh_TW/process/code-of-conduct.rst b/Documentation/translations/zh_TW/process/code-of-conduct.rst
+index d24f1695bd02..239f52e5c3ec 100644
+--- a/Documentation/translations/zh_TW/process/code-of-conduct.rst
++++ b/Documentation/translations/zh_TW/process/code-of-conduct.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :ref:`Documentation/process/code-of-conduct.rst <code_of_conduct>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_code_of_conduct:
+
+diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
+index 311c6f6bad0b..436a4a7caeac 100644
+--- a/Documentation/translations/zh_TW/process/coding-style.rst
++++ b/Documentation/translations/zh_TW/process/coding-style.rst
+@@ -17,7 +17,7 @@
+  - 管旭東 Xudong Guan <xudong.guan@gmail.com>
+  - Li Zefan <lizf@cn.fujitsu.com>
+  - Wang Chen <wangchen@cn.fujitsu.com>
+- - Hu Haowen <2023002089@link.tyut.edu.cn>
++ - Haowen Hu <srcres258@furdevs.cn>
+
+ Linux 內核代碼風格
+ ==================
+diff --git a/Documentation/translations/zh_TW/process/development-process.rst b/Documentation/translations/zh_TW/process/development-process.rst
+index 305d9472b017..627f233de163 100644
+--- a/Documentation/translations/zh_TW/process/development-process.rst
++++ b/Documentation/translations/zh_TW/process/development-process.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :ref:`Documentation/process/development-process.rst <development_process_main>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_development_process_main:
+
+diff --git a/Documentation/translations/zh_TW/process/email-clients.rst b/Documentation/translations/zh_TW/process/email-clients.rst
+index 4543c447d797..ec4f59f2da1a 100644
+--- a/Documentation/translations/zh_TW/process/email-clients.rst
++++ b/Documentation/translations/zh_TW/process/email-clients.rst
+@@ -15,7 +15,7 @@
+  - Yinglin Luan <synmyth@gmail.com>
+  - Xiaochen Wang <wangxiaochen0@gmail.com>
+  - yaxinsn <yaxinsn@163.com>
+- - Hu Haowen <2023002089@link.tyut.edu.cn>
++ - Haowen Hu <srcres258@furdevs.cn>
+
+ Linux郵件客戶端配置信息
+ =======================
+diff --git a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+index 93d21fd88910..6ce7d438e4e7 100644
+--- a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
++++ b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :ref:`Documentation/process/embargoed-hardware-issues.rst <embargoed_hardware_issues>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ 被限制的硬件問題
+ ================
+diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
+index 80c416483e73..2da73b2de42b 100644
+--- a/Documentation/translations/zh_TW/process/howto.rst
++++ b/Documentation/translations/zh_TW/process/howto.rst
+@@ -16,7 +16,7 @@
+                    鍾宇  TripleX Chung <xxx.phy@gmail.com>
+                    陳琦  Maggie Chen <chenqi@beyondsoft.com>
+                    王聰  Wang Cong <xiyou.wangcong@gmail.com>
+-                   胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++                   胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 如何參與Linux內核開發
+ =====================
+diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
+index 65922d9faa20..3a9c08217c6d 100644
+--- a/Documentation/translations/zh_TW/process/index.rst
++++ b/Documentation/translations/zh_TW/process/index.rst
+@@ -9,7 +9,7 @@
+
+ :Original: :ref:`Documentation/process/index.rst <process_index>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_process_index:
+
+diff --git a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
+index 23d5cae9685b..29877a76b84e 100644
+--- a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
++++ b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
+@@ -6,7 +6,7 @@
+
+ :Original: :ref:`Documentation/process/kernel-driver-statement.rst <process_statement_driver>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ 內核驅動聲明
+ ------------
+diff --git a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+index 524eb4ac26cc..3fda271581c6 100644
+--- a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
++++ b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+@@ -6,7 +6,7 @@
+
+ :Original: :ref:`Documentation/process/kernel-enforcement-statement.rst <process_statement_kernel>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ Linux 內核執行聲明
+ ------------------
+diff --git a/Documentation/translations/zh_TW/process/license-rules.rst b/Documentation/translations/zh_TW/process/license-rules.rst
+index 594255856b68..e856ffc63939 100644
+--- a/Documentation/translations/zh_TW/process/license-rules.rst
++++ b/Documentation/translations/zh_TW/process/license-rules.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :ref:`Documentation/process/license-rules.rst <kernel_licensing>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_kernel_licensing:
+
+diff --git a/Documentation/translations/zh_TW/process/magic-number.rst b/Documentation/translations/zh_TW/process/magic-number.rst
+index 5582df6d7ca7..3d1f0cf82819 100644
+--- a/Documentation/translations/zh_TW/process/magic-number.rst
++++ b/Documentation/translations/zh_TW/process/magic-number.rst
+@@ -12,7 +12,7 @@
+         中文版維護者： 賈威威 Jia Wei Wei <harryxiyou@gmail.com>
+         中文版翻譯者： 賈威威 Jia Wei Wei <harryxiyou@gmail.com>
+         中文版校譯者： 賈威威 Jia Wei Wei <harryxiyou@gmail.com>
+-                      胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++                      胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ Linux 魔術數
+ ============
+diff --git a/Documentation/translations/zh_TW/process/management-style.rst b/Documentation/translations/zh_TW/process/management-style.rst
+index 7cb912e89032..9b36099e3bce 100644
+--- a/Documentation/translations/zh_TW/process/management-style.rst
++++ b/Documentation/translations/zh_TW/process/management-style.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :ref:`Documentation/process/management-style.rst <managementstyle>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_managementstyle:
+
+diff --git a/Documentation/translations/zh_TW/process/programming-language.rst b/Documentation/translations/zh_TW/process/programming-language.rst
+index d2c64a5599e8..1bf850a9eb43 100644
+--- a/Documentation/translations/zh_TW/process/programming-language.rst
++++ b/Documentation/translations/zh_TW/process/programming-language.rst
+@@ -4,7 +4,7 @@
+
+ :Original: :ref:`Documentation/process/programming-language.rst <programming_language>`
+ :Translator: Alex Shi <alex.shi@linux.alibaba.com>
+-             Hu Haowen <2023002089@link.tyut.edu.cn>
++             Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_programming_language:
+
+diff --git a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
+index 4b8597fed5ae..88e68c8d987e 100644
+--- a/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
++++ b/Documentation/translations/zh_TW/process/stable-api-nonsense.rst
+@@ -12,7 +12,7 @@
+         中文版維護者： 鍾宇  TripleX Chung <xxx.phy@gmail.com>
+         中文版翻譯者： 鍾宇  TripleX Chung <xxx.phy@gmail.com>
+         中文版校譯者： 李陽  Li Yang <leoyang.li@nxp.com>
+-                      胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++                      胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ Linux 內核驅動接口
+ ==================
+diff --git a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+index 2f8f064f8629..42c156bcf30a 100644
+--- a/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
++++ b/Documentation/translations/zh_TW/process/stable-kernel-rules.rst
+@@ -15,7 +15,7 @@
+         中文版校譯者：
+             - 李陽  Li Yang <leoyang.li@nxp.com>
+             - Kangkai Yin <e12051@motorola.com>
+-            - 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++            - 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 所有你想知道的事情 - 關於linux穩定版發佈
+ ========================================
+diff --git a/Documentation/translations/zh_TW/process/submit-checklist.rst b/Documentation/translations/zh_TW/process/submit-checklist.rst
+index a0cb91a6945f..26a3a63db253 100644
+--- a/Documentation/translations/zh_TW/process/submit-checklist.rst
++++ b/Documentation/translations/zh_TW/process/submit-checklist.rst
+@@ -6,7 +6,7 @@
+ :Translator:
+  - Alex Shi <alexs@kernel.org>
+  - Wu XiangCheng <bobwxc@email.cn>
+- - Hu Haowen <2023002089@link.tyut.edu.cn>
++ - Haowen Hu <srcres258@furdevs.cn>
+
+ .. _tw_submitchecklist:
+
+diff --git a/Documentation/translations/zh_TW/process/submitting-patches.rst b/Documentation/translations/zh_TW/process/submitting-patches.rst
+index 64de92c07906..62f3969b5a97 100644
+--- a/Documentation/translations/zh_TW/process/submitting-patches.rst
++++ b/Documentation/translations/zh_TW/process/submitting-patches.rst
+@@ -14,7 +14,7 @@
+ :校譯:
+  - 李陽 Li Yang <leoyang.li@nxp.com>
+  - 王聰 Wang Cong <xiyou.wangcong@gmail.com>
+- - 胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++ - 胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+
+ 提交補丁：如何讓你的改動進入內核
+diff --git a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
+index e2723f3cbbb0..2f4a21c4a8fa 100644
+--- a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
++++ b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
+@@ -17,7 +17,7 @@
+         中文版校譯者： 張漢輝  Eugene Teo <eugeneteo@kernel.sg>
+                        楊瑞  Dave Young <hidave.darkstar@gmail.com>
+                        時奎亮 Alex Shi <alex.shi@linux.alibaba.com>
+-                       胡皓文 Hu Haowen <2023002089@link.tyut.edu.cn>
++                       胡皓文 Haowen Hu <srcres258@furdevs.cn>
+
+ 爲什麼不應該使用“volatile”類型
+ ==============================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e08767323763..6984f01bf49d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -26538,10 +26538,10 @@ F:	kernel/trace/trace_osnoise.c
+ F:	kernel/trace/trace_sched_wakeup.c
+
+ TRADITIONAL CHINESE DOCUMENTATION
+-M:	Hu Haowen <2023002089@link.tyut.edu.cn>
++M:	Haowen Hu <srcres258@furdevs.cn>
+ S:	Maintained
+ W:	https://github.com/srcres258/linux-doc
+-T:	git https://github.com/srcres258/linux-doc.git doc-zh-tw
++T:	git https://github.com/srcres258/linux-doc.git i18n
+ F:	Documentation/translations/zh_TW/
+
+ TRIGGER SOURCE
+--
+2.51.2
+
