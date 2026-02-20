@@ -1,408 +1,84 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D98931B10B;
-	Fri, 20 Feb 2026 10:07:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D52E33DEE5
+	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 10:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771582062; cv=none; b=O5yjSA6o9yDknHemnWo6a83qSrv5OE3twIqnO7cQ5Qw0kfTx2xZ4fAS4a/RS5zlBB0f4aF9otmU0tVxMOgDcUZptAU33oyfDO0/dmEpTDACJN95pt1qHCJYjWkzCY/dtS0VqMMOM7qpCbng6SHmSFnu5gWW7JSQbQ6VveVR+65Y=
+	t=1771584241; cv=none; b=TE0tfMgECdRX2gYqx9CzBYPBgTWN5VnkE9GN2+iyCyNHCTh11QkX6A8Qg14NO+ZmDJmgXOH0xsYwwDznRcfeU8i4wrLFYdgw76u49T8KdBzgRbRCald0yFccydqR1csZ8jiriX58Z+TNmFg6WkeizK6UMbJOAKMWBPn072QYt/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771582062; c=relaxed/simple;
-	bh=dqcTIDASLwjYCRqOiN1LbO1jTNkrivLooM/JqzFVLQA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rYwCHlOFg4X1yDrPa7XXZfMQCAmmyM/enMcbt3X8RmFt6PfCc9rddwfHQoHSH0OROAR9efbRQA1nKqPpydltiwzHplgMFahXB9bts8Hy8SfZdDTSODm++YOyTkd5gQjbK65RBIxLGzHZ6jUQHL3pJUnA/dqaCkrnAEE6Vg3NRxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BF51339;
-	Fri, 20 Feb 2026 02:07:32 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7BFBC3F62B;
-	Fri, 20 Feb 2026 02:07:31 -0800 (PST)
-Message-ID: <5857f3a0-999a-46ed-a36f-d2b02d04274a@arm.com>
-Date: Fri, 20 Feb 2026 10:07:29 +0000
+	s=arc-20240116; t=1771584241; c=relaxed/simple;
+	bh=6oat1xU8anNE+fKnMu7RuV5yY2BMoQVNebDQXBXTHyo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=XW9TeAhUT/Hlbd3VvSRlFuro+SydlVTuB+1ahI1OKZc6nuYBnBqBO5qituFCsg5ZfvMyhkpQgUayZlun/JMd2WJdOoOCYGAMruXRfp247dofpKAmF0CK67Kl1HJsPrrHcOyFXKU1fTos+a2ap+1GRm9N54XsVdXMqdEdBHcxslQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Zx7VlbDB; arc=none smtp.client-ip=209.85.218.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Zx7VlbDB"
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-b8f9734e619so142174666b.3
+        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 02:43:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771584238; x=1772189038; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=159VoEA5XmeLqnnj1kbXT6hpp/0sD1qh3nTegzxwn4M=;
+        b=Zx7VlbDBH1k04UAoGS92zbRtSEp0U+Kl7E0rx79M8A3M+MGPRdQwRYKTAWDB3V0hBK
+         RRBQ39m2UWtqjSKIEfo06UZ+o/6N+Jy2aZ1w9d4TEgNmRDlFGqs5SZ371tD3MMGVmofd
+         NCWOfrfsL8peSZ2qgx9o2z0qHHlc7ejygNop5WAVOnhI9j0s3nCbhZnd1gpxHNkjpQSi
+         +BpJSgXlYZeZsAgzeBWbh1f9yV/Y0rXDUmIyEVOEpJGn8TxOdpMKnK8AV0cLxVncoi1e
+         hBIPD08fSz6/smyWNEqFlzMUfYqwHVmDSC3W0q0gRJCW8SU3OGZ23vOoWzqnS8ABQ11k
+         yrmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771584238; x=1772189038;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=159VoEA5XmeLqnnj1kbXT6hpp/0sD1qh3nTegzxwn4M=;
+        b=DO5Vo7iR3sT+5PgpLkpLmYVjZCxyHCg4ec1m9IxaTMBy61tago8qz2J3A3Klds++UZ
+         5lBYesvXbZS3ivxRs1IijlWV1UNvrJ+mqt9yMmKy5aGkdosZMW/MdZvsIjO6qEcq9wtA
+         LE0xLp7DWiQqPevFanYVjYMiUSEFCh36dGFJMvvXELb45gLahYJu6SVsnCD7G3mViLnV
+         15cvBN8wAgKgJV4DaWe+DBaKM5ZBoWlQH6xOAVQ6BQWuvrQhqtYu38XvjPhxTGfm3W6m
+         vHAjFqPpRAaPGlvARUVYFH5fad3yZ62vXSRPRcWDB23glSmzLLihhwGBOjF45RxhllfH
+         5VsA==
+X-Forwarded-Encrypted: i=1; AJvYcCW2du/eqai9RecYgUHrmyvLY7RDHyl9mMZkOQOG4a35C6eVvhH6AI/atPerIaIWSlEQYqtYREu0Jsc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGX7/7NTnky7AjIX3+dNw4hHpr4h65HrodD7buDO/f/X9QZDk9
+	9XNG2BQTCdhWRLaFP15ufaNSDJ6xu8LpfJcEIif3ui43UsXrGktmWVMnpCG1IW+GSXiK4Dbo0Ig
+	yKzTfImwLdiPQ9XihGg==
+X-Received: from ejcxl37.prod.google.com ([2002:a17:907:d865:b0:b8f:9da9:5701])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:906:f586:b0:b87:daee:a6c4 with SMTP id a640c23a62f3a-b903dc9993cmr479899666b.36.1771584237418;
+ Fri, 20 Feb 2026 02:43:57 -0800 (PST)
+Date: Fri, 20 Feb 2026 10:43:56 +0000
+In-Reply-To: <20260219-remove-task-euid-v1-1-904060826e07@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 01/19] x86,fs/resctrl: Add support for Global
- Bandwidth Enforcement (GLBE)
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, "Moger, Babu" <bmoger@amd.com>,
- corbet@lwn.net, tony.luck@intel.com, Dave.Martin@arm.com,
- james.morse@arm.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, peterz@infradead.org,
- juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
- vschneid@redhat.com, akpm@linux-foundation.org,
- pawan.kumar.gupta@linux.intel.com, pmladek@suse.com,
- feng.tang@linux.alibaba.com, kees@kernel.org, arnd@arndb.de,
- fvdl@google.com, lirongqing@baidu.com, bhelgaas@google.com,
- seanjc@google.com, xin@zytor.com, manali.shukla@amd.com,
- dapeng1.mi@linux.intel.com, chang.seok.bae@intel.com,
- mario.limonciello@amd.com, naveen@kernel.org, elena.reshetova@intel.com,
- thomas.lendacky@amd.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, peternewman@google.com,
- eranian@google.com, gautham.shenoy@amd.com
-References: <cover.1769029977.git.babu.moger@amd.com>
- <aba70a013c12383d53104de0b19cfbf87690c0c3.1769029977.git.babu.moger@amd.com>
- <eb4b7b12-7674-4a1e-925d-2cec8c3f43d2@intel.com>
- <f0f2e3eb-0fdb-4498-9eb8-73111b1c5a84@amd.com>
- <9b02dfc6-b97c-4695-b765-8cb34a617efb@intel.com>
- <3a7c17c0-bb51-4aad-a705-d8d1853ea68a@amd.com>
- <06a237bd-c370-4d3f-99de-124e8c50e711@intel.com>
-From: Ben Horgan <ben.horgan@arm.com>
-Content-Language: en-US
-In-Reply-To: <06a237bd-c370-4d3f-99de-124e8c50e711@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260219-remove-task-euid-v1-1-904060826e07@google.com>
+Message-ID: <aZg67K1Il3Dq3-Ap@google.com>
+Subject: Re: [PATCH] task: delete task_euid()
+From: Alice Ryhl <aliceryhl@google.com>
+To: Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, linux-security-module@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, Jann Horn <jannh@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-Hi Reinette, Babu,
+On Thu, Feb 19, 2026 at 12:14:39PM +0000, Alice Ryhl wrote:
+>  include/linux/cred.h                                      |  1 -
 
-On 2/12/26 03:51, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 2/11/26 1:18 PM, Babu Moger wrote:
->> On 2/11/26 10:54, Reinette Chatre wrote:
->>> On 2/10/26 5:07 PM, Moger, Babu wrote:
->>>> On 2/9/2026 12:44 PM, Reinette Chatre wrote:
->>>>> On 1/21/26 1:12 PM, Babu Moger wrote:
->>>>>> On AMD systems, the existing MBA feature allows the user to set a bandwidth
->>>>>> limit for each QOS domain. However, multiple QOS domains share system
->>>>>> memory bandwidth as a resource. In order to ensure that system memory
->>>>>> bandwidth is not over-utilized, user must statically partition the
->>>>>> available system bandwidth between the active QOS domains. This typically
->>>>> How do you define "active" QoS Domain?
->>>> Some domains may not have any CPUs associated with that CLOSID. Active meant, I'm referring to domains that have CPUs assigned to the CLOSID.
->>> To confirm, is this then specific to assigning CPUs to resource groups via
->>> the cpus/cpus_list files? This refers to how a user needs to partition
->>> available bandwidth so I am still trying to understand the message here since
->>> users still need to do this even when CPUs are not assigned to resource
->>> groups.
->>>
->> It is not specific to CPU assignment. It applies to task assignment also.
->>  
->> For example:  We have 4 domains;
->>
->> # cat schemata
->>   MB:0=8192;1=8192;2=8192;3=8192
->>
->> If this group has the CPUs assigned to only first two domains. Then the group has only two active domains. Then we will only update the first two domains. The MB values in other domains does not matter.
-> 
-> I see, thank you. As I understand an "active QoS domain" is something only user
-> space can designate. It may be possible for resctrl to get a sense of which QoS domains
-> are "active" when only CPUs are assigned to a resource group but when it comes to task
-> assignment it is user space that controls where tasks belonging to a group can be
-> scheduled and thus which QoS domains are "active" or not. 
-> 
->>
->> #echo "MB:0=8;1=8" > schemata
->>
->> # cat schemata
->>   MB:0=8;1=8;2=8192;3=8192
->>
->> The combined bandwidth can go up to 16(8+8) units. Each unit is 1/8 GB.
->>
->> With GMBA, we can set the combined limit higher level and total bandwidth will not exceed GMBA limit.
-> 
-> Thank you for the confirmation.
-> 
->>
->>>>>> results in system memory being under-utilized since not all QOS domains are
->>>>>> using their full bandwidth Allocation.
->>>>>>
->>>>>> AMD PQoS Global Bandwidth Enforcement(GLBE) provides a mechanism
->>>>>> for software to specify bandwidth limits for groups of threads that span
->>>>>> multiple QoS Domains. This collection of QOS domains is referred to as GLBE
->>>>>> control domain. The GLBE ceiling sets a maximum limit on a memory bandwidth
->>>>>> in GLBE control domain. Bandwidth is shared by all threads in a Class of
->>>>>> Service(COS) across every QoS domain managed by the GLBE control domain.
->>>>> How does this bandwidth allocation limit impact existing MBA? For example, if a
->>>>> system has two domains (A and B) that user space separately sets MBA
->>>>> allocations for while also placing both domains within a "GLBE control domain"
->>>>> with a different allocation, does the individual MBA allocations still matter?
->>>> Yes. Both ceilings are enforced at their respective levels.
->>>> The MBA ceiling is applied at the QoS domain level.
->>>> The GLBE ceiling is applied at the GLBE control  domain level.
->>>> If the MBA ceiling exceeds the GLBE ceiling, the effective MBA limit will be capped by the GLBE ceiling.
->>> It sounds as though MBA and GMBA/GLBE operates within the same parameters wrt
->>> the limits but in examples in this series they have different limits. For example,
->>> in the documentation patch [1] there is this:
->>>
->>>   # cat schemata
->>>      GMB:0=2048;1=2048;2=2048;3=2048
->>>      MB:0=4096;1=4096;2=4096;3=4096
->>>      L3:0=ffff;1=ffff;2=ffff;3=ffff
->>>
->>> followed up with what it will look like in new generation [2]:
->>>
->>>     GMB:0=4096;1=4096;2=4096;3=4096
->>>      MB:0=8192;1=8192;2=8192;3=8192
->>>       L3:0=ffff;1=ffff;2=ffff;3=ffff
->>>
->>> In both examples the per-domain MB ceiling is higher than the global GMB ceiling. With
->>> above showing defaults and you state "If the MBA ceiling exceeds the GLBE ceiling,
->>> the effective MBA limit will be capped by the GLBE ceiling." - does this mean that
->>> MB ceiling can never be higher than GMB ceiling as shown in the examples?
->>
->> That is correct.  There is one more information here.   The MB unit is in 1/8 GB and GMB unit is 1GB.  I have added that in documentation in patch 4.
-> 
-> ah - right. I did not take the different units into account.
-> 
->>
->> The GMB limit defaults to max value 4096 (bit 12 set) when the new group is created.  Meaning GMB limit does not apply by default.
->>
->> When setting the limits, it should be set to same value in all the domains in GMB control domain.  Having different value in each domain results in unexpected behavior.
->>
->>>
->>> Another question, when setting aside possible differences between MB and GMB.
->>>
->>> I am trying to understand how user may expect to interact with these interfaces ...
->>>
->>> Consider the starting state example as below where the MB and GMB ceilings are the
->>> same:
->>>
->>>    # cat schemata
->>>    GMB:0=2048;1=2048;2=2048;3=2048
->>>    MB:0=2048;1=2048;2=2048;3=2048
->>>
->>> Would something like below be accurate? Specifically, showing how the GMB limit impacts the
->>> MB limit:
->>>       # echo "GMB:0=8;2=8" > schemata
->>>    # cat schemata
->>>    GMB:0=8;1=2048;2=8;3=2048
->>>    MB:0=8;1=2048;2=8;3=2048
->>
->> Yes. That is correct.  It will cap the MB setting to  8.   Note that we are talking about unit differences to make it simple.
-> 
-> Thank you for confirming.
-> 
->>
->>
->>> ... and then when user space resets GMB the MB can reset like ...
->>>
->>>    # echo "GMB:0=2048;2=2048" > schemata
->>>    # cat schemata
->>>    GMB:0=2048;1=2048;2=2048;3=2048
->>>    MB:0=2048;1=2048;2=2048;3=2048
->>>
->>> if I understand correctly this will only apply if the MB limit was never set so
->>> another scenario may be to keep a previous MB setting after a GMB change:
->>>
->>>    # cat schemata
->>>    GMB:0=2048;1=2048;2=2048;3=2048
->>>    MB:0=8;1=2048;2=8;3=2048
->>>
->>>    # echo "GMB:0=8;2=8" > schemata
->>>    # cat schemata
->>>    GMB:0=8;1=2048;2=8;3=2048
->>>    MB:0=8;1=2048;2=8;3=2048
->>>
->>>    # echo "GMB:0=2048;2=2048" > schemata
->>>    # cat schemata
->>>    GMB:0=2048;1=2048;2=2048;3=2048
->>>    MB:0=8;1=2048;2=8;3=2048
->>>
->>> What would be most intuitive way for user to interact with the interfaces?
->>
->> I see that you are trying to display the effective behaviors above.
-> 
-> Indeed. My goal is to get an idea how user space may interact with the new interfaces and
-> what would be a reasonable expectation from resctrl be during these interactions.
-> 
->>
->> Please keep in mind that MB and GMB units differ. I recommend showing only the values the user has explicitly configured, rather than the effective settings, as displaying both may cause confusion.
-> 
-> hmmm ... this may be subjective. Could you please elaborate how presenting the effective 
-> settings may cause confusion?
-> 
->>
->> We also need to track the previous settings so we can revert to the earlier value when needed. The best approach is to document this behavior clearly.
-> 
-> Yes, this will require resctrl to maintain more state.
-> 
-> Documenting behavior is an option but I think we should first consider if there are things
-> resctrl can do to make the interface intuitive to use.
-> 
->>>>>>  From the description it sounds as though there is a new "memory bandwidth
->>>>> ceiling/limit" that seems to imply that MBA allocations are limited by
->>>>> GMBA allocations while the proposed user interface present them as independent.
->>>>>
->>>>> If there is indeed some dependency here ... while MBA and GMBA CLOSID are
->>>>> enumerated separately, under which scenario will GMBA and MBA support different
->>>>> CLOSID? As I mentioned in [1] from user space perspective "memory bandwidth"
->>>> I can see the following scenarios where MBA and GMBA can operate independently:
->>>> 1. If the GMBA limit is set to ‘unlimited’, then MBA functions as an independent CLOS.
->>>> 2. If the MBA limit is set to ‘unlimited’, then GMBA functions as an independent CLOS.
->>>> I hope this clarifies your question.
->>> No. When enumerating the features the number of CLOSID supported by each is
->>> enumerated separately. That means GMBA and MBA may support different number of CLOSID.
->>> My question is: "under which scenario will GMBA and MBA support different CLOSID?"
->> No. There is not such scenario.
->>>
->>> Because of a possible difference in number of CLOSIDs it seems the feature supports possible
->>> scenarios where some resource groups can support global AND per-domain limits while other
->>> resource groups can just support global or just support per-domain limits. Is this correct?
->>
->> System can support up to 16 CLOSIDs. All of them support all the features LLC, MB, GMB, SMBA.   Yes. We have separate enumeration for  each feature.  Are you suggesting to change it ?
-> 
-> It is not a concern to have different CLOSIDs between resources that are actually different,
-> for example, having LLC or MB support different number of CLOSIDs. Having the possibility to
-> allocate the *same* resource (memory bandwidth) with varying number of CLOSIDs does present a
-> challenge though. Would it be possible to have a snippet in the spec that explicitly states
-> that MB and GMB will always enumerate with the same number of CLOSIDs? 
-> 
-> Please see below where I will try to support this request more clearly and you can decide if
-> it is reasonable.
->   
->>>>> can be seen as a single "resource" that can be allocated differently based on
->>>>> the various schemata associated with that resource. This currently has a
->>>>> dependency on the various schemata supporting the same number of CLOSID which
->>>>> may be something that we can reconsider?
->>>> After reviewing the new proposal again, I’m still unsure how all the pieces will fit together. MBA and GMBA share the same scope and have inter-dependencies. Without the full implementation details, it’s difficult for me to provide meaningful feedback on new approach.
->>> The new approach is not final so please provide feedback to help improve it so
->>> that the features you are enabling can be supported well.
->>
->> Yes, I am trying. I noticed that the proposal appears to affect how the schemata information is displayed(in info directory). It seems to introduce additional resource information. I don't see any harm in displaying it if it benefits certain architecture.
-> 
-> It benefits all architectures.
-> 
-> There are two parts to the current proposals.
-> 
-> Part 1: Generic schema description
-> I believe there is consensus on this approach. This is actually something that is long
-> overdue and something like this would have been a great to have with the initial AMD
-> enabling. With the generic schema description forming part of resctrl the user can learn
-> from resctrl how to interact with the schemata file instead of relying on external information
-> and documentation.
-> 
-> For example, on an Intel system that uses percentage based proportional allocation for memory
-> bandwidth the new resctrl files will display:
-> info/MB/resource_schemata/MB/type:scalar linear
-> info/MB/resource_schemata/MB/unit:all
-> info/MB/resource_schemata/MB/scale:1
-> info/MB/resource_schemata/MB/resolution:100
-> info/MB/resource_schemata/MB/tolerance:0
-> info/MB/resource_schemata/MB/max:100
-> info/MB/resource_schemata/MB/min:10
-> 
-> 
-> On an AMD system that uses absolute allocation with 1/8 GBps steps the files will display:
-> info/MB/resource_schemata/MB/type:scalar linear
-> info/MB/resource_schemata/MB/unit:GBps
-> info/MB/resource_schemata/MB/scale:1
-> info/MB/resource_schemata/MB/resolution:8
-> info/MB/resource_schemata/MB/tolerance:0
-> info/MB/resource_schemata/MB/max:2048
-> info/MB/resource_schemata/MB/min:1
-> 
-> Having such interface will be helpful today. Users do not need to first figure out
-> whether they are on an AMD or Intel system, and then read the docs to learn the AMD units,
-> before interacting with resctrl. resctrl will be the generic interface it intends to be.
-> 
-> Part 2: Supporting multiple controls for a single resource
-> This is a new feature on which there also appears to be consensus that is needed by MPAM and
-> Intel RDT where it is possible to use different controls for the same resource. For example,
-> there can be a minimum and maximum control associated with the memory bandwidth resource.
-> 
-> For example, 
-> info/
->  └─ MB/
->      └─ resource_schemata/
->          ├─ MB/
->          ├─ MB_MIN/
->          ├─ MB_MAX/
->          ┆
-> 
-> 
-> Here is where the big question comes in for GLBE - is this actually a new resource
-> for which resctrl needs to add interfaces to manage its allocation, or is it instead 
-> an additional control associated with the existing memory bandwith resource?
-> 
-> For me things are actually pointing to GLBE not being a new resource but instead being
-> a new control for the existing memory bandwidth resource.
-> 
-> I understand that for a PoC it is simplest to add support for GLBE as a new resource as is
-> done in this series but when considering it as an actual unique resource does not seem
-> appropriate since resctrl already has a "memory bandwidth" resource. User space expects
-> to find all the resources that it can allocate in info/ - I do not think it is correct
-> to have two separate directories/resources for memory bandwidth here.
-> 
-> What if, instead, it looks something like:
-> 
-> info/
-> └── MB/
->     └── resource_schemata/
->         ├── GMB/
->         │   ├── max:4096
->         │   ├── min:1
->         │   ├── resolution:1
->         │   ├── scale:1
->         │   ├── tolerance:0
->         │   ├── type:scalar linear
->         │   └── unit:GBps
->         └── MB/
->             ├── max:8192
->             ├── min:1
->             ├── resolution:8
->             ├── scale:1
->             ├── tolerance:0
->             ├── type:scalar linear
->             └── unit:GBps
-> 
-> With an interface like above GMB is just another control/schema used to allocate the
-> existing memory bandwidth resource. With the planned files it is possible to express the
-> different maximums and units used by the MB and GMB schema. Users no longer need to
-> dig for the unit information in the docs, it is available in the interface.
-> 
-> Doing something like this does depend on GLBE supporting the same number of CLOSIDs
-> as MB, which seems to be how this will be implemented. If there is indeed a confirmation
-> of this from AMD architecture then we can do something like this in resctrl.
+I guess the title of this should probably be
 
-I haven't fully understood what GLBE is but in MPAM we have an optional
-feature in MSC (MPAM devices) called partid narrowing. For some MSC
-there are limited controls and the incoming partid is mapped to an
-effective partid using a mapping. This mapping is software controllable.
-Dave (with Shaopeng and Zeng) has a proposal to use this to use partid
-bits as pmg bits, [1]. This usage would have to be opt-in as it changes
-the number of closid/rmid that MPAM presents to resctrl. If however, the
-user doesn't use that scheme then the controls could be presented as
-controls for groups of closid in resctrl. Is this similar/usable with
-the same interface as GLBE or have I misunderstood?
+	cred: delete task_euid()
 
-[1]
-https://lore.kernel.org/linux-arm-kernel/20241212154000.330467-1-Dave.Martin@arm.com/
+rather than use the 'task:' prefix.
 
-> 
-> There is a "part 3" to the proposals that attempts to address the new requirement where
-> some of the controls allocate at a different scope while also requiring monitoring at
-> that new scope. After learning more about GLBE this does not seem relevant to GLBE but is
-> something to return to for the "MPAM CPU-less" work. We could already prepare for this
-> by adding the new "scope" schema property though. 
-> 
-> 
-> Reinette
-> 
->>
->> Thanks
->>
->> Babu
->>
->>
->>>
->>> Reinette
->>>
->>> [1] https://lore.kernel.org/lkml/d58f70592a4ce89e744e7378e49d5a36be3fd05e.1769029977.git.babu.moger@amd.com/
->>> [2] https://lore.kernel.org/lkml/e0c79c53-489d-47bf-89b9-f1bb709316c6@amd.com/
->>>
-> 
-> 
-
-
-Thanks,
-
-Ben
-
+Alice
