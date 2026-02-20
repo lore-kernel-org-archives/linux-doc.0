@@ -1,137 +1,112 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7F3318BB9
-	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 17:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D7B3358D2;
+	Fri, 20 Feb 2026 17:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771607687; cv=none; b=tny0u+2HyX9qauG2leTUJACYk0r9YuDypnHxdy3grZiCEPsE88qKQDdU29XeLV0rlnOATgAEv0PGRQfFsqOJ8smC5VwInSuCrCT7DnYdvPPp0jjRF5lDBMTjk18XlFjxupys23CZB5wUY6hGeZ2AZNmzOkMHByMWr5wzGngdZaM=
+	t=1771609340; cv=none; b=P50lHXxbn0qbEzD9wv0ojZnMRN0Q9kprdpLqJgFdfNOXc3RYWsSVboYW3N6LrCQKKhkf/2DVkSjPbUMItlTdPT1OMTGvHmO9sT31ds8K8HdWfCle9j0cLZiFfB+49l2uAdVrLBxqPOPLfvj+cGMAsP3EpgqOIYxVKk38D10iFnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771607687; c=relaxed/simple;
-	bh=DvzLmmTmGIEXJipqMkyrOyMSJNYmtbbGvkQZzkrbQLc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ibUBcIPXNCJd2p7lK+2yQQgtkAT6wVIJP7dTAvuNLTp+c9lcETscg1uzp1+4ACr53MJ8YFO5cqwevl3j1DjfneLUMonut2bFxiZ2fpt/8znjk2R5/sZ0T1wDaK076B0iQoUnluXjWJlfMJ/ze31C2XvuIikPz0suTWz/Of6Kxc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RwvMdCQz; arc=none smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1771609340; c=relaxed/simple;
+	bh=Z/YROkrVmESRZ8RkdQlsESe9sZcMqjo+0c2DoGATHLo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fBtP8K9AbbtkCy8lBiUqvdoIh68zjmOof6p6sSaNPJUu3KS/Me4mQo+ElnM3h3SGZl/Hgy4FBvVuwqMbqRPxB7EM+TO7V7gnj8cdjDUFTP6NyBtqK2UJVBdSKWpRcQdkhkp0XsbrJ4mQX9jVdssYoOITd5Lm7RCnEKl56rDzsC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=i8sVh473; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RwvMdCQz"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7d4cb7e10efso1958746a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 09:14:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1771607682; x=1772212482; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vsnV0KnS1YOp7VZb6auwm2tmyLKlmybBeSxb+5S1qS8=;
-        b=RwvMdCQzusXt9GMuIO8Ahz71wgOSyNvILu5gDnhzjO8Gk+5jpZhHmDi5MX5E5rYEvZ
-         /Uj9nnAkQPeL/Jarg7nQxReruWb4sop8znHko28FOvGoL680TfETdbliuobKXfQLWtFR
-         OP4l8YjzAyAoY+oAwFItmEdO/ceLK/iG1PBmM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771607682; x=1772212482;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vsnV0KnS1YOp7VZb6auwm2tmyLKlmybBeSxb+5S1qS8=;
-        b=hlpl/WzcmcZdwIdLjBuCVKDwfIjDP1a0GaH+f7JhSnB1p487vvP0MihyOZLnMwl7Nt
-         rGp+yIh0bfR+s3fOd0jsPheuJ7xP+T+t3gg+tVv7ru15qrSmEAWKzp1bmlFZCIYcTxaP
-         /9qs0urbAI2huQSd1H2kS1bPioeEpsE+gvJe3taV/S2+semuPNHTDFMQTV4TohBqK7dj
-         YXyLYZE5BPY6OTyK1J3RCU8D7N6CVJRmZE3vq0NJuQFFJWGki8azevzHul1xBkIR5LYH
-         mR41iJNS5ZneY8g4u2uvfHnXN/2DBV+ilcnL1wfuEnwJiNPba1YCEeiSCk/1bT41ycPm
-         Ksbw==
-X-Forwarded-Encrypted: i=1; AJvYcCVd/3EUIY+Ic+7T3CSeDqbRI5B8xFWJzdKwfFgqp7bQEQevup9NSwMl+X0itrQjFeoL5kSWlBIQcFM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZi8uNDuNCSeEMXf1XIYBBw8FPkbUhWmUiTyusHGDV6l9/BUsw
-	ddnxVeD9ZLjRLhktDIesr8LE2v6nWuK1fw9JAA7+fP4IzneB/dba8vGilhlfV6cmEt4=
-X-Gm-Gg: AZuq6aI3lZBxWoGbtRcNGPyYVwrQTcDkAnUliHlgLthfgxudmuGufbfFFdVoFcUS+Bf
-	pc0CgeGFvkMwJMFCqQfMDM1upVOe5ywHa0R09RaoVfYtHdizovV1cdV8ugJjpR3UyvufEsJDPNo
-	L4552JwKlp/6RHoAvcmfFBgOR7cHTse5+4CzpIcp8NonELU/acVZTyHpGHncM7cy1UAcWms7gdc
-	kmM4mifZU4SwKrXanK0LCYsXpjsJLH8y4zooy0P8f+E+5cXUizgfMThTQc6bK14CoQ2jWVJocNY
-	/sKzWc7zMJ3LggBcdTY5UTbVkD15b93xFn7FxmNccTwJ0xK2LWjuzz6I/N7wxdzHSonI7qD1I2Z
-	Seh2ICoMCiR0ZcYdFHxF0RoUND95Ed6uF4SKbyVjR4BTttMid9hHi3JhL7EeNXEQLOGWywrjj1+
-	kdIiPQGJHPhd3nqITDJQRH2unDsbg/YlcIwcVhvbGxIp9oHA==
-X-Received: by 2002:a05:6830:4407:b0:7d1:8e7c:c54 with SMTP id 46e09a7af769-7d52bf21ae0mr304350a34.21.1771607682225;
-        Fri, 20 Feb 2026 09:14:42 -0800 (PST)
-Received: from [192.168.1.14] ([38.175.187.108])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d52d0725dbsm23545a34.29.2026.02.20.09.14.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Feb 2026 09:14:41 -0800 (PST)
-Message-ID: <20f492c5-4857-4d4a-95dc-3c694cd332fb@linuxfoundation.org>
-Date: Fri, 20 Feb 2026 10:14:40 -0700
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="i8sVh473"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=vdZF070E8JEKFJ0ME18+O+yF2DoTp5fyPreGsFn+SZ0=; b=i8
+	sVh473vtyNr0NN+4ABdvFxzHyvBLjizBTrtIxTnRKAjRoaWKMkWJHu463u8nW+OWkYS3tckuj74YM
+	uAKLnhkU90bukc0fg8jxUzzyKyBpfRlORCLdxZN1V4t1wHtvdvuD2p6pVW1EcjeUHrr5dEJSO2EVx
+	jdU0AIYbJQG9X1Q=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vtUVx-008670-UJ; Fri, 20 Feb 2026 18:42:05 +0100
+Date: Fri, 20 Feb 2026 18:42:05 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Frank Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Message-ID: <68c5f96c-124f-4d81-9dda-8e4b6bacbeab@lunn.ch>
+References: <20260212213656.662437-1-shenwei.wang@nxp.com>
+ <20260212213656.662437-4-shenwei.wang@nxp.com>
+ <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
+ <PAXPR04MB918582EE33F7BD5C26259BB2896BA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <7669d7dd-96a5-48a9-b051-875e9fbdad58@foss.st.com>
+ <PAXPR04MB91858E7125B2A4F21DDB78FD8968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <c9d73e40-ab27-4403-9ff6-a3503568fe3d@lunn.ch>
+ <PAXPR04MB91851BF97AEF1C5B728865448968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] linux-next: update maintainer info.
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260216060739.2791462-1-rdunlap@infradead.org>
- <20260216091648.7a6a0e3a@canb.auug.org.au>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260216091648.7a6a0e3a@canb.auug.org.au>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PAXPR04MB91851BF97AEF1C5B728865448968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
 
-On 2/16/26 02:16, Stephen Rothwell wrote:
-> Hi Randy,
+> > > struct msg_hdr {
+> > >     u8  id;
+> > >     u32 size;
+> > >     u8  flags;
+> > > };
+> > 
+> > That is just a bad design. The point of not allowing __packed is that it forces you
+> > to design your structures correctly. Maybe AI has no idea of taste, but Maintainer
+> > do and would not allow a u32 to be unaligned like this.
+> > 
 > 
-> On Sun, 15 Feb 2026 22:07:39 -0800 Randy Dunlap <rdunlap@infradead.org> wrote:
->>
->> Update the MAINTAINERS file and Documentation/process/2.Process.rst
->> with the current linux-next maintainer information.
->>
->> Translations of 2.Process.rst should also be updated.
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
->> ---
->> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
->> Cc: Mark Brown <broonie@kernel.org>
->> Cc: Jonathan Corbet <corbet@lwn.net>
->> Cc: Shuah Khan <skhan@linuxfoundation.org>
->> Cc: workflows@vger.kernel.org
->> Cc: linux-doc@vger.kernel.org
->>
->>   Documentation/process/2.Process.rst |    2 +-
->>   MAINTAINERS                         |    1 -
->>   2 files changed, 1 insertion(+), 2 deletions(-)
->>
->> --- linux-next-20260213.orig/Documentation/process/2.Process.rst
->> +++ linux-next-20260213/Documentation/process/2.Process.rst
->> @@ -291,7 +291,7 @@ Use of the MMOTM tree is likely to be a
->>   there is a definite chance that it will not even compile.
->>   
->>   The primary tree for next-cycle patch merging is linux-next, maintained by
->> -Stephen Rothwell.  The linux-next tree is, by design, a snapshot of what
->> +Mark Brown.  The linux-next tree is, by design, a snapshot of what
->>   the mainline is expected to look like after the next merge window closes.
->>   Linux-next trees are announced on the linux-kernel and linux-next mailing
->>   lists when they are assembled; they can be downloaded from:
->> --- linux-next-20260213.orig/MAINTAINERS
->> +++ linux-next-20260213/MAINTAINERS
->> @@ -14749,7 +14749,6 @@ F:	Documentation/memory-barriers.txt
->>   F:	tools/memory-model/
->>   
->>   LINUX-NEXT TREE
->> -M:	Stephen Rothwell <sfr@canb.auug.org.au>
->>   M:	Mark Brown <broonie@kernel.org>
->>   L:	linux-next@vger.kernel.org
->>   S:	Supported
+> Let’s keep the discussion technical instead of taste. 😊
 > 
-> Acked-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> 
-> Maybe update the CREDITS file?  ;-)
+> My point with the earlier example was simply to illustrate how layout differences can 
+> happen across architectures or compilers. I’m more interested in understanding how 
+> you would prefer this specific structure to be defined so that it avoids unaligned fields 
+> while still maintaining a stable on‑wire format.
 
-Thank you Stephen for shepherding linux-next all these years and
-keeping us all sane. You will be missed. Good luck with your next
-adventure.
+struct msg_hdr {
+    u32 size;
+    u8  id;
+    u8  flags;
+};
 
-thanks,
--- Shuah
+The compiler will lay this out as you expect, it won't add any padding
+between the fields.
+
+You need to be careful with sizeof(struct msg_hdr). On 8 and 16 bit
+machines, it is probably 6. On 32, or 64 bit machine it is probably 8.
+
+I would say having a 6 byte message is probably a bad design, and you
+should try to make the u32 a u16 if you can. Again, not using the
+__packed is making you think about the design, and probably makes the
+design better as a result.
+
+    Andrew
 
