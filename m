@@ -1,267 +1,115 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011061.outbound.protection.outlook.com [52.101.62.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FF732F74D;
-	Fri, 20 Feb 2026 11:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771586437; cv=fail; b=aHoIzf8ckPjh4nWVEOGDE8ibmvcyc+3PZln6e3KzXZ1Du+h5DlTUzXDk13H74KtMvXcwsW/otctnTOgIbpbZJW6scl7R5nmGc/++sUzmMzv/4L44inaxC/+Jc/jZTlOTtvqchpd5ZYDMlRBx1cKl7v6LWuuykVwoEidG9kg36dQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771586437; c=relaxed/simple;
-	bh=tA7nvkXGKnh3Fg/NYcGIScu+nJ1iOLGu6EbHNvTsHhs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jqA1MUH2MLxE7PSpceKP5alLTMA9ZPNZ23oMV/RCmkXDdbiGEeUZTVoqH3kZfUgygSaGfOME/jqhTnRfJcewTCMeVwvXmztwi8ZCKOsNlaHJ5UzVlLQ0H57CeVy3EngsFrejpOZTjfGeONojppjxH06xB8RN8XDlcOKpbqfz6S8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com; spf=pass smtp.mailfrom=gehealthcare.com; dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b=SBouBhTN; arc=fail smtp.client-ip=52.101.62.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gehealthcare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gehealthcare.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C94B346E58
+	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 13:30:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771594205; cv=none; b=nVD5QNMYaXo6I0/dvaprY1vOTwX+ioE2BRh9nsTfkSoz7YI3Hs0CMRH2efo8gJq48vuZgfUB4GClADTqDk4uyEOujbT9GIuW7hTB4UPDpPwlE4rjUMSeavHwr8Kojxh2dQefz6753Y3Uj64e4zY1jitISK/c1New9gt8LxKYubc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771594205; c=relaxed/simple;
+	bh=LGPe+usfcJCKf/UAlz7Wan07KA1SbhndzIWG9nbBskM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iH4PrG8HBJkfAEDzZ1x9QUfMQvcLkzv0DBQYxSPANMrmA1gQ0m/93LQIJErtdug5caD5/GGnUH+PSOH8GWFnf1+A6Kk5DibU/cCG/4QIBG3h3K891kV/j5VShTa6yOsk7mAWgtsLA0kZFQw9TMpEeEYWEZS6td8a0yhZfPZV2iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SiJFrT/k; arc=none smtp.client-ip=209.85.215.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gehealthcare.com header.i=@gehealthcare.com header.b="SBouBhTN"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=j9yqx2fDg0y3Jfcjs1Wq3ts60HE31gO/tMxJdwdU0+kt4HblQTw8paBNH4l7EjnB1RlCU2cu7gEWKL6WVYXfOSPlQt0Ru099a8JegYNNh8+Pd9G8Cu4Mkzy54VnXocM21eTcMBAxMkLkBCXmxzxeN7+Y0/wgIoNVkye/DaNwR5Px/P8Utd4Tkps4n+LYMzvBrRLHOto8c0ejUsvYkRhpwVshezSbdtvpYHNve3dB/AjrKyDpStYRhhrWTJtw42dc3S7EcWrGv0zMNVtYtsGrnhtAfKsQJ6H8ccaktEzXl/uVqNPduFFeLjvlh5egAv01CgcBIDDFO2m9Ccg0hFcbOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=trsTXgYxKLvvSW9Ye4G9qUzbRhMVpNV0IBkiskZPB9Y=;
- b=qwvPS/KDwtIGtCMZgjPJPb1Ztxj66hbakxcWq9CfDIcKY0rbzLqfP0dOuTMr1YJRiNQNS6Y7OZASgpwF9ezDVsLbete7lT+HNGPl1FOaG3CGtuwnrrBcBYbYDA64y+KTeH8QpTDbQ0i2f+0O91mQ7XldOk1x6axafG4K5k0M6VfSiuaWGaxrz5sO55rozl+m0Eg2nU6H3wfNOM37qXz3KXSzh2aZo8djG3YRP0JED4UsqGGei+n0OHxLjL2BL8raxsD9Q44MoHySoAzuUa6IgQOZd7fhELvncEgAilrnaaa/cwk3ZDjRsQ991aWuBD+e1FTlh+KZUHhzqB9P2TVZRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 165.85.157.49) smtp.rcpttodomain=vger.kernel.org
- smtp.mailfrom=gehealthcare.com; dmarc=fail (p=quarantine sp=quarantine
- pct=100) action=quarantine header.from=gehealthcare.com; dkim=none (message
- not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gehealthcare.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=trsTXgYxKLvvSW9Ye4G9qUzbRhMVpNV0IBkiskZPB9Y=;
- b=SBouBhTN8ZgEVEVq1RWEwR8ZItGIeBV858L93801WH1HC6sC8IZWWwf4qhjRG2rbYcNSr1Y76EVvEKamRlf/6PZPGWU9m0QN5wK0AuOIZt8ung/hcMoJDuO9wbT4arSWPLISv+pHTo078JadeYUQfQ7q52Ek4ZxwCzYokZxSE9AaXHMGf/xMoiP+nhqGsICLurOwdKUWTQqIimxIuzi/XThmPk3CiiTIftyX29pOusYFCoG6S3c/hziFrNGPXNicWUWALvJEHVAj3Las4O8UR+Rxfbj6hXQj3GsoQkBjs4BFJiPdA5MfSsgWp50ZS38rxX5fDX0EjyPF8xh4PKZe+w==
-Received: from MN2PR05CA0035.namprd05.prod.outlook.com (2603:10b6:208:c0::48)
- by LV3PR22MB4848.namprd22.prod.outlook.com (2603:10b6:408:1de::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Fri, 20 Feb
- 2026 11:20:30 +0000
-Received: from BN2PEPF00004FBF.namprd04.prod.outlook.com
- (2603:10b6:208:c0:cafe::f) by MN2PR05CA0035.outlook.office365.com
- (2603:10b6:208:c0::48) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.16 via Frontend Transport; Fri,
- 20 Feb 2026 11:20:29 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 165.85.157.49)
- smtp.mailfrom=gehealthcare.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=gehealthcare.com;
-Received-SPF: Fail (protection.outlook.com: domain of gehealthcare.com does
- not designate 165.85.157.49 as permitted sender)
- receiver=protection.outlook.com; client-ip=165.85.157.49;
- helo=atlrelay1.compute.ge-healthcare.net;
-Received: from atlrelay1.compute.ge-healthcare.net (165.85.157.49) by
- BN2PEPF00004FBF.mail.protection.outlook.com (10.167.243.185) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.12 via Frontend Transport; Fri, 20 Feb 2026 11:20:30 +0000
-Received: from zeus.fihel.lab.ge-healthcare.net (zoo13.fihel.lab.ge-healthcare.net [10.168.174.111])
-	by builder1.fihel.lab.ge-healthcare.net (Postfix) with ESMTP id 75576FD310;
-	Fri, 20 Feb 2026 13:20:26 +0200 (EET)
-From: Ian Ray <ian.ray@gehealthcare.com>
-To: Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Ian Ray <ian.ray@gehealthcare.com>,
-	=?UTF-8?q?Bence=20Cs=C3=B3k=C3=A1s?= <bence98@sch.bme.hu>,
-	=?UTF-8?q?Toma=C5=BE=20Zaman?= <tomaz@mono.si>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: [PATCH V3 2/3] hwmon: (ina2xx) Make it easier to add more devices
-Date: Fri, 20 Feb 2026 13:20:21 +0200
-Message-ID: <20260220112024.97446-3-ian.ray@gehealthcare.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260220112024.97446-1-ian.ray@gehealthcare.com>
-References: <20260220112024.97446-1-ian.ray@gehealthcare.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SiJFrT/k"
+Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-c54f700b5b1so1326019a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 05:30:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771594203; x=1772199003; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/0o/RmLTUMvz6io+AT/DPftRCk0iXRLPXeaFhwBdO5I=;
+        b=SiJFrT/k6Yi5dOd8e7opIncHECRsXwfXsaF5A0G8duyyom8krpgdWJIt7O5LG5rI0I
+         VnDAoKyp3/R1J9JsuAThGfz1v96J0KMxVTcFD1cWQzH6h2cRKmxq5pmGS42LIaTK21YQ
+         +Xdp4DxDN1+XiOf37oxJfBfS0q3c/Ncs3q94fhzZNknqYg9aqJMv0ak864gDTBB+Jrdm
+         DFODLuk4HYNPV9AG7rQG5FqEd4VfOUrU+mg+NdpZDRt3p7CBGyVmwTeBv2XwHF1bEhux
+         MnHtFRLGWy4uAIe/dqsoRL6a6cdlxrHApT759d0lj+5IUI4IlwGmXpwZFBmTuA+n4Ow0
+         nUAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771594203; x=1772199003;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/0o/RmLTUMvz6io+AT/DPftRCk0iXRLPXeaFhwBdO5I=;
+        b=mHZ6RL6AsOduRKDZWzGjSdU+bLw4ZYtEkWQ6O/p+5puqW9xK+3pOtSSfM4Ah2AglOx
+         ohIzZkmYEWckUm8bxjeCM4AvMwLVf5JCUHBhFgNSYsgoSlRotNwvk4ysNmMpEh8kvku0
+         CGwnkYVRjU5Q1NrxirFXHi+r8k+CAVww+otmf5iHpsdD6z7uye4gHioy5q4X4RuALZnz
+         NE2+i33uKNLLSCvSlSK4v+76/2Dt0/ck8l7heesi3RCHseeiOegiDpLg2GEEa+c1KflN
+         H0oWuGV5Moo81hHSVfNL5GAweb3d/yozQmOkkVz8uw2AAqDPihe06QRbqx9Zvc4GcoTN
+         ku+g==
+X-Gm-Message-State: AOJu0YzIPVsoUSJnBHmSFne5OObysRPp8bXGT53h1V0TSkLSO4oQMSZ1
+	n+EAgKZd9Um0HPsoDOv23+lJCq8xf0U7RF7oFNLFZ77f7B5/aDa3faknpoMKnvbqm4I=
+X-Gm-Gg: AZuq6aITfrQPc3reSUNRft9alxR9pA8nV5ixZMqvCYKNJm+FJ4RgXk+UCnEXk3HeWxd
+	JBSqgfwgXoe8SfhMc9um6AAwMAvKoVrrreXkzeCiwueOmW1wf2r6n18NKhQ/X5Q4UGkWK4ZgCWP
+	uwxIYatYPfTDs+0t3Dtvp119MTTovCwTafS2LJTcqDGb6LSaSDl0WaQv7lrzqc/19gYqaKg4lrz
+	4jX3TBdmluwqUkDHbuKFL94o4o54NeAoU/EctzVYjfnJ4QBQejH/TUMuoOmvfaC8cpYXWRKX6Ch
+	aLp1OzhKvlnN05gRT902Da7ZD1IyOfPcNhXe03DymiFKYjlrKzeYp+Vel4JlM59BZdZJdZZCQTJ
+	WNeDuSyQCG3gh2J8NNkKNZgxZKD3b74RWUlMRnQlaDsxnC3J4n0fCViBn64HRqqim9oSozX9GxY
+	9W65jK18OaAJOOCaGiLwNQ61DKMJIOwMJvDIA=
+X-Received: by 2002:a05:6a21:7a4a:b0:394:5ae0:2921 with SMTP id adf61e73a8af0-39483aa0b89mr19127593637.62.1771594203427;
+        Fri, 20 Feb 2026 05:30:03 -0800 (PST)
+Received: from localhost ([103.251.247.23])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824cc22f4d9sm21119904b3a.39.2026.02.20.05.30.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Feb 2026 05:30:03 -0800 (PST)
+From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: greg@kroah.com,
+	Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+Subject: [PATCH] Documentation: polish Executive Summary and Intro in stable-api-nonsense.rst
+Date: Fri, 20 Feb 2026 19:29:09 +0600
+Message-ID: <20260220132910.9645-1-islamarifulshoikat@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBF:EE_|LV3PR22MB4848:EE_
-X-MS-Office365-Filtering-Correlation-Id: f02e7044-5478-4c1c-5c62-08de70720e9c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Tjc5RHo4a0hJbVRBMTBFcmlVMnJ4ZXdmTDJPV1FvZWJZWW91eW1jdFdURExF?=
- =?utf-8?B?c1NKT2xpM2dZZ2xGeWlEZEZrQ2N5TlRrTkM5RTZQVjRadGk5eHBVWVR6bDZZ?=
- =?utf-8?B?QkJVN3JYa1hRd2ZNNVBZMkRPQlVranMzTDA3cmhDTjdqUEF3R1Y1enRFSHUx?=
- =?utf-8?B?OWFoUUxsZERoZUkyb1NwUm1PNDFzdXgyYzVtQSt0ekc1QmRMcFFHY3cyN2hl?=
- =?utf-8?B?ZmplN3pYQS85bFUvYm1sR0lHTk95Y1pGblFNSE5kb1VqUEdvMzdvaWl3T21S?=
- =?utf-8?B?WElTU0Ftam1IMzQ0NmxzRFlZdTJYU2NvTFBuSzBIOXdPMFo4U25ZVG95V3RY?=
- =?utf-8?B?aU5VRGw4MWR4NUx1ZTYvejNmUEZlaG5XNGJiQzM3eEQvWE5YRGhkUTQ5K1Ix?=
- =?utf-8?B?UmsyMHJYdkg1RjIyU1YzMnNmOU9TN1k5NHR6Q0dXZ0NxaUN0SGNObEo2V00x?=
- =?utf-8?B?Y1JNWXFVUjN2QlBodXQrbDhDOVVSZFJXRVgzb2cySHFwWkJNaU5WSGhBU0xL?=
- =?utf-8?B?ZEpqZThjaHBZTVY1OWdoZUZlY0dKQkNZRTZrV3lSUHlyb0VQUXVZcGMwZFlu?=
- =?utf-8?B?SEVsdjN6TDM3cmtDcHlRVkMxQWNxTXJUZXVOUmI1TWpZdGpOdzQzVE5JVHNG?=
- =?utf-8?B?NXdLajJNYXJKWXNnRDZmRDFQL3Q1a2cwT0NvK255YlAyNHpZYmFobEpNNmdm?=
- =?utf-8?B?TU94SFhSRDEyeUFpTTlWMVY2TEpMWUNWNFFHR013cjY5SjVZcU9qKzZSQXNP?=
- =?utf-8?B?ditDaXJCWWEyY2VKbWhCRFFhdjkyZXdkMFRsM1FYZEJ5VUIyOGVQbGRIbHpz?=
- =?utf-8?B?ZE5yMGlGV09JVzZtK2xaN0RWTTVRMG1IVDdxcy82ZkViSHJtdjJuYVRURGE5?=
- =?utf-8?B?alJZRjI1eGVhR2RJZlpteElETkZnd0VpWkVJTVpyUjI0c1JqUUlRMFB0ZFlW?=
- =?utf-8?B?blF0YU1wSWljYlNhMnlMRVJVREtzU1lXMUczcDJobmtQWXFIbklZYmJNYU43?=
- =?utf-8?B?YUlNS2lUTDJIckNtTElBVXk1MU1aMXhjck9aUHptcWg0VHB4b3pZQmJra1Jw?=
- =?utf-8?B?ZmZwNkJ3M0FxYXRqVnI3RC9nYTRjRTU2YkZZOEFORGFJZFdwUi9UcFRDaHQ0?=
- =?utf-8?B?Q3M4aGV3VTVWdVJxQ2Y3R3NNK28rYmkrdW81ZG1xUnhrVlV4Sm5rbmhEU0RD?=
- =?utf-8?B?VXVtWDR1UHNodkdDQUkxT0FYVmlYWlNISUdoVW9yOWxpdkY1aWkzUlI4bnlC?=
- =?utf-8?B?bjVFWUN6RUo4Q09ZT1Nkb3hneCsyNk5qK2lrNVNqZDl6azhXMFNMTTdjQ0pr?=
- =?utf-8?B?bWJPUkNPUGR4d1U3QjRtWENWc05sdExvL2t1ZmdlWjI0Wk16TnZ6KzNQdUZ0?=
- =?utf-8?B?aXlSY3NqeG9JMSt0MXBHTngwcTM5Q25OOFpxRjJ0Y0VtOFdHVHlLOTFNcXBJ?=
- =?utf-8?B?ZHh4czgyMElNQ3VhSlRoWXJlQ1JGSm8za3RCdklteFpRYkVkOGVOS0MvdGZY?=
- =?utf-8?B?Zkp3UGMwWUQwQmVoc2ZBR1lxVGt3dGcreG54L2hKdVJXRHc4RUhkZ3JVbnJK?=
- =?utf-8?B?ZUdEcUtPQS9yREUrV25iMU9zRDJtL0pUUTNCSThKN0p5UEJiS01kRGhyWjh3?=
- =?utf-8?B?TnRKUXlFbEpnZWhZcjB1YzgxUU1KaXdMaGd1aW00ZXdES2Y0Z09OYlE3anV4?=
- =?utf-8?B?SE9jaFVvS2RtQ1ZYR3JScFc0bWw1WHozMCsxQUZYQkpWRzdjeHR1VWFBRmtF?=
- =?utf-8?B?Q3UrWmVNMXJORllCN0pmTnRpamRaOVJaZFRtZE9HTXZTd1ZFaTJkWG50Mm5y?=
- =?utf-8?B?c0FXWm96MlhYNmNwQ1NhWHE0M0IxMmZTMjA4R0pYRVhjUmgrZzVGeVFRdmdP?=
- =?utf-8?B?QVorVTUrVWZZMVpwUWxHd3F3N2grdjVhWDM3WGJCRHVQblhpcUpOcXhqYXJN?=
- =?utf-8?B?Yi9IYW40ZEl1V3ZJM3d0cmMrWmF1bERLVUlPdGNVS054VXRuNHNEOSt4RVMr?=
- =?utf-8?B?VUVhQ3ZIZ2dKSDNKWEZ0TW1Oc09OMnJicDI2anVkK21IZ0NySWNML2dxdXAz?=
- =?utf-8?B?aS91azhSVGhyQWNoa1JwWFA2WmtzcFVLd1FkaFY1WjhzQUMxRTJ5QStoL1R4?=
- =?utf-8?B?Y3NRalJqbm1FK1RwVzZYQWx1ZUNyTE5iQzNOTTFvQjlWOXRzK0lJdjN3S1lW?=
- =?utf-8?B?aDE2bTZZWVhYbTZleXNGZ3ltK0dqUERBdTV5S3pzQUJJaTBxKzYxK3VEVG82?=
- =?utf-8?B?OEY3N2dKcEtZdysxcVREeUlOMHVnPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:165.85.157.49;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:atlrelay1.compute.ge-healthcare.net;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	W0RR5QdM1Kz9mV+jS4R9GNgQDLRMsUWYiVBlxC1hVgqEj30uK314/kifWkzgNU9HfwpbPpIACwXYLiMoJdmBsPRsljaYGH9rWYUHfwlYcjg/pH05SH23PWZ4bZDEMpgnpycjEkwhzoa8nVSpXDVPSkklsbGIIY7G4Wxq5QoeM1SjMeAIU4rC5rG6/OcQRNGVmbtDK2jRtLI00vNPz2hKoULwShRTimMsxQ8NzEeyJZR8vAX1VIHGFjaF9xHWk/cymKlnY4t7Dr16ECfUkUWFB7FIF2vkKNfQb+q8ZbeUtTGckgj1Sg11Ee/HK+VQb6u1yVORpcHbbEXgoMaaA8XBAUuOTtO8DxYCyJYGwUOYBLPgXx7AEUcC1aZ8NQOjVUu9e42UmusGdZzyADQjUscCSe7xYLEMzL0OZB/+qX/cnRPnlxVmx+8X+bcIAV99CZpf
-X-OriginatorOrg: gehealthcare.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2026 11:20:30.3692
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f02e7044-5478-4c1c-5c62-08de70720e9c
-X-MS-Exchange-CrossTenant-Id: 9a309606-d6ec-4188-a28a-298812b4bbbf
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=9a309606-d6ec-4188-a28a-298812b4bbbf;Ip=[165.85.157.49];Helo=[atlrelay1.compute.ge-healthcare.net]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-BN2PEPF00004FBF.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR22MB4848
 
-* Make sysfs entries documentation easier to maintain.
-* Use multi-line enum.
-* Correct "has_power_average" comment.
-
-Create a new "has_update_interval" member for chips which support
-averaging.
-
-Signed-off-by: Ian Ray <ian.ray@gehealthcare.com>
-Reviewed-by: Bence Csókás <bence98@sch.bme.hu> # v2
+Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
 ---
- Documentation/hwmon/ina2xx.rst | 12 ++++++++++--
- drivers/hwmon/ina2xx.c         | 18 ++++++++++++++----
- 2 files changed, 24 insertions(+), 6 deletions(-)
+ Documentation/process/stable-api-nonsense.rst | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/hwmon/ina2xx.rst b/Documentation/hwmon/ina2xx.rst
-index a3860aae444c..a4ddf4bd2b08 100644
---- a/Documentation/hwmon/ina2xx.rst
-+++ b/Documentation/hwmon/ina2xx.rst
-@@ -124,8 +124,16 @@ power1_input		Power(uW) measurement channel
- shunt_resistor		Shunt resistance(uOhm) channel (not for ina260)
- ======================= ===============================================
+diff --git a/Documentation/process/stable-api-nonsense.rst b/Documentation/process/stable-api-nonsense.rst
+index a9625ab1fdc2..120c10ec2ab1 100644
+--- a/Documentation/process/stable-api-nonsense.rst
++++ b/Documentation/process/stable-api-nonsense.rst
+@@ -17,7 +17,7 @@ kernel interface, nor does it have a stable kernel interface**.
  
--Additional sysfs entries for ina226, ina230, ina231, ina260, and sy24655
--------------------------------------------------------------------------
-+Additional sysfs entries
-+------------------------
+   The kernel to userspace interface is the one that application programs use,
+   the syscall interface.  That interface is **very** stable over time, and
+-  will not break.  I have old programs that were built on a pre 0.9something
++  will not break.  I have old programs that were built on a pre 0.9 something
+   kernel that still work just fine on the latest 2.6 kernel release.
+   That interface is the one that users and application programmers can count
+   on being stable.
+@@ -25,13 +25,13 @@ kernel interface, nor does it have a stable kernel interface**.
+ 
+ Executive Summary
+ -----------------
+-You think you want a stable kernel interface, but you really do not, and
+-you don't even know it.  What you want is a stable running driver, and
+-you get that only if your driver is in the main kernel tree.  You also
+-get lots of other good benefits if your driver is in the main kernel
+-tree, all of which has made Linux into such a strong, stable, and mature
+-operating system which is the reason you are using it in the first
+-place.
 +
-+Additional entries are available for the following chips:
-+
-+  * ina226
-+  * ina230
-+  * ina231
-+  * ina260
-+  * sy24655
++You might think you want a stable kernel interface, but you really do not - and
++you may not even realize it. What you truly want is a stable, running driver,
++which you get only if your driver is in the main kernel tree. Being in the main
++kernel tree also provides many additional benefits, all of which have helped 
++make Linux a strong, stable, and mature operating system - the very reason you 
++are using it today.
  
- ======================= ====================================================
- curr1_lcrit		Critical low current
-diff --git a/drivers/hwmon/ina2xx.c b/drivers/hwmon/ina2xx.c
-index 69ac0468dee4..cd0d39ee7616 100644
---- a/drivers/hwmon/ina2xx.c
-+++ b/drivers/hwmon/ina2xx.c
-@@ -135,13 +135,19 @@ static const struct regmap_config ina2xx_regmap_config = {
- 	.writeable_reg = ina2xx_writeable_reg,
- };
  
--enum ina2xx_ids { ina219, ina226, ina260, sy24655 };
-+enum ina2xx_ids {
-+	ina219,
-+	ina226,
-+	ina260,
-+	sy24655
-+};
- 
- struct ina2xx_config {
- 	u16 config_default;
- 	bool has_alerts;	/* chip supports alerts and limits */
- 	bool has_ishunt;	/* chip has internal shunt resistor */
--	bool has_power_average;	/* chip has internal shunt resistor */
-+	bool has_power_average;	/* chip supports average power */
-+	bool has_update_interval;
- 	int calibration_value;
- 	int shunt_div;
- 	int bus_voltage_shift;
-@@ -171,6 +177,7 @@ static const struct ina2xx_config ina2xx_config[] = {
- 		.has_alerts = false,
- 		.has_ishunt = false,
- 		.has_power_average = false,
-+		.has_update_interval = false,
- 	},
- 	[ina226] = {
- 		.config_default = INA226_CONFIG_DEFAULT,
-@@ -182,6 +189,7 @@ static const struct ina2xx_config ina2xx_config[] = {
- 		.has_alerts = true,
- 		.has_ishunt = false,
- 		.has_power_average = false,
-+		.has_update_interval = true,
- 	},
- 	[ina260] = {
- 		.config_default = INA260_CONFIG_DEFAULT,
-@@ -192,6 +200,7 @@ static const struct ina2xx_config ina2xx_config[] = {
- 		.has_alerts = true,
- 		.has_ishunt = true,
- 		.has_power_average = false,
-+		.has_update_interval = true,
- 	},
- 	[sy24655] = {
- 		.config_default = SY24655_CONFIG_DEFAULT,
-@@ -203,6 +212,7 @@ static const struct ina2xx_config ina2xx_config[] = {
- 		.has_alerts = true,
- 		.has_ishunt = false,
- 		.has_power_average = true,
-+		.has_update_interval = false,
- 	},
- };
- 
-@@ -706,7 +716,7 @@ static umode_t ina2xx_is_visible(const void *_data, enum hwmon_sensor_types type
- 	const struct ina2xx_data *data = _data;
- 	bool has_alerts = data->config->has_alerts;
- 	bool has_power_average = data->config->has_power_average;
--	enum ina2xx_ids chip = data->chip;
-+	bool has_update_interval = data->config->has_update_interval;
- 
- 	switch (type) {
- 	case hwmon_in:
-@@ -768,7 +778,7 @@ static umode_t ina2xx_is_visible(const void *_data, enum hwmon_sensor_types type
- 	case hwmon_chip:
- 		switch (attr) {
- 		case hwmon_chip_update_interval:
--			if (chip == ina226 || chip == ina260)
-+			if (has_update_interval)
- 				return 0644;
- 			break;
- 		default:
+ Intro
 -- 
-2.49.0
+2.43.0
 
