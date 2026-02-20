@@ -1,477 +1,114 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 967AD34A3C4;
-	Fri, 20 Feb 2026 13:43:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25E5E3EBF10;
+	Fri, 20 Feb 2026 13:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771594996; cv=none; b=FaKimW2AE3m2tx6GXrm2ytGCtB02gzHlYJusYATGdZFU853RIeFIayW+mtMCfU4U0VclVO6YWjK+x2kjL7U53w3ofyQOwOTlrfPryvZ3D4JPUM49AQc2W/jIqIs3gYtr/j7zEMINFAT6t0veT6oa0V1s+2ZkB782pHOJWKNhQno=
+	t=1771595344; cv=none; b=qMgPywE6hIh8tKTv402XdUYmNZshXzjOF4Y00CpiFDO+Hz74rOPmvx/tFlxZxwfgZydz7BS2nsaiq+0Sp9XSJSZkGI9tZc9hXeu6p1KnmUW0NHjGgvDHCpxI/8a/CPGFwJUwp9xYuC5Aw7YfP/fY9x5Ckdw0EiRvSgbT9z35rLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771594996; c=relaxed/simple;
-	bh=q5Y+NMfzaEZFlIpt9eEfOCVoag40RqvPXOBQm2fjhXU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FUXoTRD6GsDqYpoz332e7hyst4HQv7FGvzCdHb4Ss6cTGrhUQGnuQSPS5sPNsNpHYRSsK//fRsBdONBfBSzxpRiOk504I1G6COxd9ZoalJLTrK3iJ0sRsr76BDlJ9pXEP179XfoipZEgLS+VaBNzfRnlgfjVOY0spgvzQR0jldk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DFDE5339;
-	Fri, 20 Feb 2026 05:43:07 -0800 (PST)
-Received: from e134710.arm.com (e134710.arm.com [10.33.10.82])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7686B3F7D8;
-	Fri, 20 Feb 2026 05:43:12 -0800 (PST)
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-Date: Fri, 20 Feb 2026 13:42:29 +0000
-Subject: [PATCH v2 11/11] RAS: add DeviceTree firmware-first CPER provider
+	s=arc-20240116; t=1771595344; c=relaxed/simple;
+	bh=3BXF1tM0USpaMojgevZ6kSlIUvvjsOnZvrR0swOJu3A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mCCMJCzfDyKA0YDwk9vo8QwBSiZnItjnuTPT9oMyQcMnX9YGguDxJHYQeYXlmRS0wMLrUcrZ4vYEU7rNk+aCec7OEDILbX4YCX72S+BuenxvmUqCJcVfZJUUBFiVFkMCTESC7L8fdlTY4ulhIWAFwE7FfMBBzvJOEE5faN0xOg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=dmnFieFE; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="dmnFieFE"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=wgcfjCXrMQA1cT1ghZ4LtmW9Dgt8xRzzWMSxnFexXNU=; b=dmnFieFEh1bv6Oa0n9DtfZi6b4
+	0tfsxqocUapp/UnR5xKWfCqM2MFoQs+ypcZK8CModT83x1f1RDRNar40G5Wca+Zaf7biknwSiEH3f
+	80daJaSI+HdSociiI7+bdjiqVr6k0dAob755Ub8hodVzhPga0//nfyjgd67hehzGur3w=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vtQsG-0084jE-3N; Fri, 20 Feb 2026 14:48:52 +0100
+Date: Fri, 20 Feb 2026 14:48:52 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+Cc: Shenwei Wang <shenwei.wang@nxp.com>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com, Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Message-ID: <396819f2-dd00-4c09-8bc7-c035a5282a56@lunn.ch>
+References: <20260212213656.662437-1-shenwei.wang@nxp.com>
+ <20260212213656.662437-4-shenwei.wang@nxp.com>
+ <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
+ <13f9d767-61d6-4e29-b36e-6dcc860ccb11@lunn.ch>
+ <fd257c80-d97f-45b0-a12f-3a1888ba81db@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-11-347fa2d7351b@arm.com>
-References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
-In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
-To: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org
-Cc: Ahmed Tiba <ahmed.tiba@arm.com>, Dmitry.Lamerov@arm.com, 
- catalin.marinas@arm.com, bp@alien8.de, robh@kernel.org, rafael@kernel.org, 
- will@kernel.org, conor@kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-doc@vger.kernel.org, krzk+dt@kernel.org, Michael.Zhao2@arm.com, 
- tony.luck@intel.com
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771594970; l=12203;
- i=ahmed.tiba@arm.com; s=20260219; h=from:subject:message-id;
- bh=q5Y+NMfzaEZFlIpt9eEfOCVoag40RqvPXOBQm2fjhXU=;
- b=mMzJcs8z9K2XuVz8RkBwmBO7oCXKn4WKHrxrQUMNCJE1K3SfvZKcAQRyYh7l9PH4Igm1pEs1h
- sQCrknbfRivAsJzQhmXZq1xMtTP7VWIA1YwWC6SBj+MNC/S3WLiB76v
-X-Developer-Key: i=ahmed.tiba@arm.com; a=ed25519;
- pk=xVOtd+Qklh/4tuM3tB+BEZD4jj5a6W59C3KCNX6v7OE=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fd257c80-d97f-45b0-a12f-3a1888ba81db@foss.st.com>
 
-Add a DeviceTree firmware-first CPER provider that reuses the shared
-GHES helpers, wire it into the RAS Kconfig/Makefile and document it in
-the admin guide. Update MAINTAINERS now that the driver exists.
+On Fri, Feb 20, 2026 at 10:16:42AM +0100, Arnaud POULIQUEN wrote:
+> 
+> 
+> On 2/19/26 14:42, Andrew Lunn wrote:
+> > > > +	u8 id;		/* Message ID Code */
+> > > > +	u8 vendor;	/* Vendor ID number */
+> > > 
+> > > Does this fields above are mandatory, seems that it is just some constant
+> > > values that are useless.
+> > > 
+> > > > +	u8 version;	/* Vendor-specific version number */
+> > > 
+> > > Why it is vendor specific? the version should represent the rpmsg-tty
+> > > protocol version.
+> > > 
+> > > > +	u8 type;	/* Message type */
+> > > > +	u8 cmd;		/* Command code */
+> > > > +	u8 reserved[5];
+> > > 
+> > > What is the purpose of this reserved field?
+> > 
+> > They have an implementation of the other end running on there systems,
+> > and it sounds like it is widely deployed, and they are trying to keep
+> > backwards compatibility. The protocol also implements more than
+> > GPIO. There is also I2C, maybe watchdog, i don't remember, but early
+> > versions of this patchset had a list. Some of these fields are used
+> > for some of these other devices.
+> > 
+> > I've been arguing it should be a clean design, with the protocol
+> > focusing on GPIO. And that the rpmsg channel makes it clear this is a
+> > GPIO device, the protocol itself does not need to include fields to
+> > differentiate between GPIO, I2C etc.
+> > 
+> > When they start submitting I2C over rpmsg, i expect the same sort of
+> > discussion will start again, so the likelihood of keeping backwards
+> > compatible with there firmware seems low to me.
+> 
+> Agree with you.
 
-Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
----
- Documentation/admin-guide/RAS/main.rst |  18 +++
- MAINTAINERS                            |   1 +
- drivers/acpi/apei/apei-internal.h      |  10 +-
- drivers/acpi/apei/ghes_cper.c          |   2 +
- drivers/ras/Kconfig                    |  12 ++
- drivers/ras/Makefile                   |   1 +
- drivers/ras/esource-dt.c               | 264 +++++++++++++++++++++++++++++++++
- include/acpi/ghes_cper.h               |   9 ++
- 8 files changed, 308 insertions(+), 9 deletions(-)
+Hi Shenwei
 
-diff --git a/Documentation/admin-guide/RAS/main.rst b/Documentation/admin-guide/RAS/main.rst
-index 5a45db32c49b..4ffabaaeabb1 100644
---- a/Documentation/admin-guide/RAS/main.rst
-+++ b/Documentation/admin-guide/RAS/main.rst
-@@ -205,6 +205,24 @@ Architecture (MCA)\ [#f3]_.
- .. [#f3] For more details about the Machine Check Architecture (MCA),
-   please read Documentation/arch/x86/x86_64/machinecheck.rst at the Kernel tree.
- 
-+Firmware-first CPER via DeviceTree
-+----------------------------------
-+
-+Some systems expose Common Platform Error Record (CPER) data
-+via DeviceTree instead of ACPI HEST tables.
-+Enable ``CONFIG_RAS_ESOURCE_DT`` to build the ``drivers/ras/esource-dt.c``
-+driver and describe the CPER error source buffer with the
-+``Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml`` binding.
-+The driver reuses the GHES CPER helper object in
-+``drivers/acpi/apei/ghes_cper.c`` so the logging, notifier chains, and
-+memory failure handling match the ACPI GHES behaviour even when
-+ACPI is disabled.
-+
-+Once a platform describes a firmware-first provider, both ACPI GHES and the
-+DeviceTree driver reuse the same code paths. This keeps the behaviour
-+consistent regardless of whether the error source is described via ACPI
-+tables or DeviceTree.
-+
- EDAC - Error Detection And Correction
- *************************************
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 47db7877b485..fa6113b482b7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22031,6 +22031,7 @@ RAS ERROR STATUS
- M:	Ahmed Tiba <ahmed.tiba@arm.com>
- S:	Maintained
- F:	Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml
-+F:	drivers/ras/esource-dt.c
- 
- RAS INFRASTRUCTURE
- M:	Tony Luck <tony.luck@intel.com>
-diff --git a/drivers/acpi/apei/apei-internal.h b/drivers/acpi/apei/apei-internal.h
-index 77c10a7a7a9f..c16ac541f15b 100644
---- a/drivers/acpi/apei/apei-internal.h
-+++ b/drivers/acpi/apei/apei-internal.h
-@@ -8,6 +8,7 @@
- #define APEI_INTERNAL_H
- 
- #include <linux/acpi.h>
-+#include <acpi/ghes_cper.h>
- 
- struct apei_exec_context;
- 
-@@ -120,15 +121,6 @@ int apei_exec_collect_resources(struct apei_exec_context *ctx,
- struct dentry;
- struct dentry *apei_get_debugfs_dir(void);
- 
--static inline u32 cper_estatus_len(struct acpi_hest_generic_status *estatus)
--{
--	if (estatus->raw_data_length)
--		return estatus->raw_data_offset + \
--			estatus->raw_data_length;
--	else
--		return sizeof(*estatus) + estatus->data_length;
--}
--
- int apei_osc_setup(void);
- 
- int einj_get_available_error_type(u32 *type, int einj_action);
-diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
-index 29b790160e91..9b2d1b8cf9f4 100644
---- a/drivers/acpi/apei/ghes_cper.c
-+++ b/drivers/acpi/apei/ghes_cper.c
-@@ -42,7 +42,9 @@
- #include <asm/fixmap.h>
- #include <asm/tlbflush.h>
- 
-+#ifdef CONFIG_ACPI_APEI
- #include "apei-internal.h"
-+#endif
- 
- ATOMIC_NOTIFIER_HEAD(ghes_report_chain);
- 
-diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
-index fc4f4bb94a4c..ea6d96713020 100644
---- a/drivers/ras/Kconfig
-+++ b/drivers/ras/Kconfig
-@@ -34,6 +34,18 @@ if RAS
- source "arch/x86/ras/Kconfig"
- source "drivers/ras/amd/atl/Kconfig"
- 
-+config RAS_ESOURCE_DT
-+	bool "DeviceTree firmware-first CPER error source block provider"
-+	depends on OF
-+	depends on ARM64
-+	select GHES_CPER_HELPERS
-+	help
-+	  Enable support for firmware-first Common Platform Error Record (CPER)
-+	  error source block providers that are described via DeviceTree
-+	  instead of ACPI HEST tables. The driver reuses the existing GHES
-+	  CPER helpers so the error processing matches the ACPI code paths,
-+	  but it can be built even when ACPI is disabled.
-+
- config RAS_FMPM
- 	tristate "FRU Memory Poison Manager"
- 	default m
-diff --git a/drivers/ras/Makefile b/drivers/ras/Makefile
-index 11f95d59d397..53558a1707b3 100644
---- a/drivers/ras/Makefile
-+++ b/drivers/ras/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_RAS)	+= ras.o
- obj-$(CONFIG_DEBUG_FS)	+= debugfs.o
- obj-$(CONFIG_RAS_CEC)	+= cec.o
-+obj-$(CONFIG_RAS_ESOURCE_DT)	+= esource-dt.o
- 
- obj-$(CONFIG_RAS_FMPM)	+= amd/fmpm.o
- obj-y			+= amd/atl/
-diff --git a/drivers/ras/esource-dt.c b/drivers/ras/esource-dt.c
-new file mode 100644
-index 000000000000..b575a2258536
---- /dev/null
-+++ b/drivers/ras/esource-dt.c
-@@ -0,0 +1,264 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * DeviceTree provider for firmware-first CPER error source block.
-+ *
-+ * This driver shares the GHES CPER helpers so we keep the reporting and
-+ * notifier behaviour identical to ACPI GHES
-+ *
-+ * Copyright (C) 2025 ARM Ltd.
-+ * Author: Ahmed Tiba <ahmed.tiba@arm.com>
-+ */
-+
-+#include <linux/atomic.h>
-+#include <linux/bitops.h>
-+#include <linux/device.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/io-64-nonatomic-lo-hi.h>
-+#include <linux/module.h>
-+#include <linux/of_address.h>
-+#include <linux/of_irq.h>
-+#include <linux/panic.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+#include <linux/spinlock.h>
-+
-+#include <acpi/ghes.h>
-+#include <acpi/ghes_cper.h>
-+
-+static atomic_t ghes_ffh_source_ids = ATOMIC_INIT(0);
-+
-+struct ghes_ffh_ack {
-+	void __iomem *addr;
-+	u64 preserve;
-+	u64 set;
-+	u8 width;
-+	bool present;
-+};
-+
-+struct ghes_ffh {
-+	struct device *dev;
-+	void __iomem *status;
-+	size_t status_len;
-+
-+	struct ghes_ffh_ack ack;
-+
-+	struct acpi_hest_generic *generic;
-+	struct acpi_hest_generic_status *estatus;
-+
-+	bool sync;
-+	int irq;
-+
-+	/* Serializes access to the firmware-owned buffer. */
-+	spinlock_t lock;
-+};
-+
-+static int ghes_ffh_init_pool(void)
-+{
-+	if (ghes_estatus_pool)
-+		return 0;
-+
-+	return ghes_estatus_pool_init(1);
-+}
-+
-+static int ghes_ffh_copy_status(struct ghes_ffh *ctx)
-+{
-+	memcpy_fromio(ctx->estatus, ctx->status, ctx->status_len);
-+	return 0;
-+}
-+
-+static void ghes_ffh_ack(struct ghes_ffh *ctx)
-+{
-+	u64 val;
-+
-+	if (!ctx->ack.present)
-+		return;
-+
-+	if (ctx->ack.width == 64) {
-+		val = readq(ctx->ack.addr);
-+		val &= ctx->ack.preserve;
-+		val |= ctx->ack.set;
-+		writeq(val, ctx->ack.addr);
-+	} else {
-+		val = readl(ctx->ack.addr);
-+		val &= (u32)ctx->ack.preserve;
-+		val |= (u32)ctx->ack.set;
-+		writel(val, ctx->ack.addr);
-+	}
-+}
-+
-+static void ghes_ffh_fatal(struct ghes_ffh *ctx)
-+{
-+	__ghes_print_estatus(KERN_EMERG, ctx->generic, ctx->estatus);
-+	add_taint(TAINT_MACHINE_CHECK, LOCKDEP_STILL_OK);
-+	panic("GHES: fatal firmware-first CPER record from %s\n",
-+	      dev_name(ctx->dev));
-+}
-+
-+static void ghes_ffh_process(struct ghes_ffh *ctx)
-+{
-+	unsigned long flags;
-+	int sev;
-+
-+	spin_lock_irqsave(&ctx->lock, flags);
-+
-+	if (ghes_ffh_copy_status(ctx))
-+		goto out;
-+
-+	sev = ghes_severity(ctx->estatus->error_severity);
-+	if (sev >= GHES_SEV_PANIC)
-+		ghes_ffh_fatal(ctx);
-+
-+	if (!ghes_estatus_cached(ctx->estatus)) {
-+		if (ghes_print_estatus(NULL, ctx->generic, ctx->estatus))
-+			ghes_estatus_cache_add(ctx->generic, ctx->estatus);
-+	}
-+
-+	ghes_cper_handle_status(ctx->dev, ctx->generic, ctx->estatus, ctx->sync);
-+
-+	ghes_ffh_ack(ctx);
-+
-+out:
-+	spin_unlock_irqrestore(&ctx->lock, flags);
-+}
-+
-+static irqreturn_t ghes_ffh_irq(int irq, void *data)
-+{
-+	struct ghes_ffh *ctx = data;
-+
-+	ghes_ffh_process(ctx);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int ghes_ffh_init_ack(struct platform_device *pdev,
-+			     struct ghes_ffh *ctx)
-+{
-+	struct resource *res;
-+	size_t size;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-+	if (!res)
-+		return 0;
-+
-+	ctx->ack.addr = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(ctx->ack.addr))
-+		return PTR_ERR(ctx->ack.addr);
-+
-+	size = resource_size(res);
-+	switch (size) {
-+	case 4:
-+		ctx->ack.width = 32;
-+		ctx->ack.preserve = ~0U;
-+		break;
-+	case 8:
-+		ctx->ack.width = 64;
-+		ctx->ack.preserve = ~0ULL;
-+		break;
-+	default:
-+		dev_err(&pdev->dev, "Unsupported ack resource size %zu\n", size);
-+		return -EINVAL;
-+	}
-+
-+	ctx->ack.set = BIT_ULL(0);
-+	ctx->ack.present = true;
-+	return 0;
-+}
-+
-+static int ghes_ffh_probe(struct platform_device *pdev)
-+{
-+	struct ghes_ffh *ctx;
-+	struct resource *res;
-+	int rc;
-+
-+	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	spin_lock_init(&ctx->lock);
-+	ctx->dev = &pdev->dev;
-+	ctx->sync = of_property_read_bool(pdev->dev.of_node, "arm,sea-notify");
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!res) {
-+		dev_err(&pdev->dev, "status region missing\n");
-+		return -EINVAL;
-+	}
-+
-+	ctx->status_len = resource_size(res);
-+	if (!ctx->status_len) {
-+		dev_err(&pdev->dev, "Status region has zero length\n");
-+		return -EINVAL;
-+	}
-+
-+	ctx->status = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(ctx->status))
-+		return PTR_ERR(ctx->status);
-+
-+	rc = ghes_ffh_init_ack(pdev, ctx);
-+	if (rc)
-+		return rc;
-+
-+	rc = ghes_ffh_init_pool();
-+	if (rc)
-+		return rc;
-+
-+	ctx->estatus = devm_kzalloc(&pdev->dev, ctx->status_len, GFP_KERNEL);
-+	if (!ctx->estatus)
-+		return -ENOMEM;
-+
-+	ctx->generic = devm_kzalloc(&pdev->dev, sizeof(*ctx->generic), GFP_KERNEL);
-+	if (!ctx->generic)
-+		return -ENOMEM;
-+
-+	ctx->generic->header.type = ACPI_HEST_TYPE_GENERIC_ERROR;
-+	ctx->generic->header.source_id =
-+		atomic_inc_return(&ghes_ffh_source_ids);
-+	ctx->generic->notify.type = ctx->sync ?
-+		ACPI_HEST_NOTIFY_SEA : ACPI_HEST_NOTIFY_EXTERNAL;
-+	ctx->generic->error_block_length = ctx->status_len;
-+
-+	ctx->irq = platform_get_irq_optional(pdev, 0);
-+	if (ctx->irq <= 0) {
-+		if (ctx->irq == -EPROBE_DEFER)
-+			return ctx->irq;
-+		dev_err(&pdev->dev, "interrupt is required (%d)\n", ctx->irq);
-+		return -EINVAL;
-+	}
-+
-+	rc = devm_request_threaded_irq(&pdev->dev, ctx->irq,
-+				       NULL, ghes_ffh_irq,
-+				       IRQF_ONESHOT,
-+				       dev_name(&pdev->dev), ctx);
-+	if (rc)
-+		return rc;
-+
-+	platform_set_drvdata(pdev, ctx);
-+	dev_info(&pdev->dev, "Firmware-first CPER status provider (interrupt)\n");
-+	return 0;
-+}
-+
-+static void ghes_ffh_remove(struct platform_device *pdev)
-+{
-+}
-+
-+static const struct of_device_id ghes_ffh_of_match[] = {
-+	{ .compatible = "arm,ras-ffh" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, ghes_ffh_of_match);
-+
-+static struct platform_driver ghes_ffh_driver = {
-+	.driver = {
-+		.name = "esource-dt",
-+		.of_match_table = ghes_ffh_of_match,
-+	},
-+	.probe = ghes_ffh_probe,
-+	.remove = ghes_ffh_remove,
-+};
-+
-+module_platform_driver(ghes_ffh_driver);
-+
-+MODULE_AUTHOR("Ahmed Tiba <ahmed.tiba@arm.com>");
-+MODULE_DESCRIPTION("Firmware-first CPER provider for DeviceTree platforms");
-+MODULE_LICENSE("GPL");
-diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
-index f7c9fba62585..d43185c020ee 100644
---- a/include/acpi/ghes_cper.h
-+++ b/include/acpi/ghes_cper.h
-@@ -75,6 +75,15 @@ static inline bool is_hest_sync_notify(struct ghes *ghes)
- 	return notify_type == ACPI_HEST_NOTIFY_SEA;
- }
- 
-+static inline u32 cper_estatus_len(struct acpi_hest_generic_status *estatus)
-+{
-+	if (estatus->raw_data_length)
-+		return estatus->raw_data_offset + \
-+			estatus->raw_data_length;
-+	else
-+		return sizeof(*estatus) + estatus->data_length;
-+}
-+
- struct ghes_vendor_record_entry {
- 	struct work_struct work;
- 	int error_severity;
+We now have two Maintainers who think you should make a clean
+design...
 
--- 
-2.43.0
+You should go talk with your Management and decide what they want to
+do. Drop this patch series and only support the out of tree driver? Or
+rework this driver and the firmware to the liking of the mainline
+Maintainers.
 
+	Andrew
