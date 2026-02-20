@@ -1,90 +1,178 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9C52F6193;
-	Fri, 20 Feb 2026 20:59:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571FB194C95;
+	Fri, 20 Feb 2026 21:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771621175; cv=none; b=S/dkJjVOyMKSZ+eDg+wF+aND1qXqUDfFKHa78K9Px1LU1ICiEIhjA/Rg11uSRjUlX3D9xlOOPFbLGD/kDSFMkLKchxlWzAd56yEinXmAkhGFjpnwfwXzW6rOtLGYqHUS3L77Z1iR8aZwVbI2vGigoy+Rz0NEg3F4+NjfZftKhDA=
+	t=1771622196; cv=none; b=kdRjpwnaoBvruBiGpDj2xCXpSjYHihE/Ng+UaSsbYEn7Za6PwULnspANOY8oe2l7l53AEkbQwbmogM/pqImKKN7DUIzpwl8pKsCakn5spPu5cCpP6xFE7ehD+Mge0FLkKdoCjWQGrvcb8QqEJGFPz2avYnElQfwdpo9y4OKHJiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771621175; c=relaxed/simple;
-	bh=NF3RD8w2e+i2HbNI61LUPbQNGkgQShmXAQXzQTmBY9c=;
+	s=arc-20240116; t=1771622196; c=relaxed/simple;
+	bh=/A8VHbK1+BXizuqbisUIPEpsfmgGvZL7TH/qol9/xoM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R15QRxG4Rw3+zhyjaAIe4dmoMLxLNY5kujf8c7vMNsSLWCa+UFwaXf1TidnHE2e+XEdzECDNjcm4SLkt/yLj0lyd2aXtbaZturTgeKnwP6tS2/O6ZZli5ka1nRRE0SBDKW4HrCgrGF6NergpebgWYN0hCEwIT3Hk2siyH+KQ+PY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=yw1sgS3y; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=d7wOqD6+nH9MYxIfB2PI12ldoDQ8VcOyMG4cs3OS05e3Sohx5+Yu9EV36OdQs0gsBrcq+rzhXFhHWAZWn1D+7xvNLNaBS5hYfkw10bn1aNjqYEvegzJLCu0RJzowjNOt6q16KXAU2v2cvnYT2lRoq08djdufvh5tt2N8Bagw6VQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gbGgw0G3; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="yw1sgS3y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=Ln2swUO6OKNe/xut5byeHoDeC3Te1ToIYkmL42YPz7c=; b=yw
-	1sgS3y4FpeML578FE1nCmSlnikdcoAbwFPYalB1jrF17Y7jJD93y5nR2aImCat/3ern4PvADYVjVS
-	j75hj/aAhyLTimzqEn+OHf5hQU3+Pp+M+2BUXwjHKPFP8UnNv0+R0rRxp707T4mz6m+QjtGntYlzA
-	+zn8kl1dxcfslLY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vtXao-0086v1-Iw; Fri, 20 Feb 2026 21:59:18 +0100
-Date: Fri, 20 Feb 2026 21:59:18 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Frank Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <72cc9040-f6a8-4b10-89d2-21b386d5553e@lunn.ch>
-References: <20260212213656.662437-1-shenwei.wang@nxp.com>
- <20260212213656.662437-4-shenwei.wang@nxp.com>
- <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
- <13f9d767-61d6-4e29-b36e-6dcc860ccb11@lunn.ch>
- <fd257c80-d97f-45b0-a12f-3a1888ba81db@foss.st.com>
- <396819f2-dd00-4c09-8bc7-c035a5282a56@lunn.ch>
- <PAXPR04MB9185A908F5090F0CA4FF05F78968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <b21b9ee5-d84e-47f8-86b5-c111ecc3d43d@lunn.ch>
- <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gbGgw0G3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771622196; x=1803158196;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/A8VHbK1+BXizuqbisUIPEpsfmgGvZL7TH/qol9/xoM=;
+  b=gbGgw0G3A2ARrRnRClfFYkaLv3zx7+IlGBI1whS3ITEqeh8gmyOWPjBa
+   D3q+Mje/wm+270Cknb7SbNjeRIMjHelkPbmazymMgg7KuZXQ0PBM37Zd9
+   moirrIMLdmP9D6w1cEW2+57nALNtB9v+7P7YyldCF2Yg4T/DlraVcrtIh
+   1OsKNUfXJw5p4fpfr6dIF8MaC2ANh0vBfU2ZokJB+dvUCvygcDHDdb42y
+   yi+azchuf4cnge/4zHAYCFX7++c1NzRhcrrudtNH2NdyfOFbEc5IOhWhN
+   Tycj8a78IIdZsYt6pKJ+IAJhQ6FeJnlBnvuu4lrtEIXBiR+wLY7Yby/K9
+   g==;
+X-CSE-ConnectionGUID: cFwGwASaQvOsuDH3G15i4Q==
+X-CSE-MsgGUID: kZwYpL8pTGGCBc1nlUIrGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="90127567"
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="90127567"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 13:16:35 -0800
+X-CSE-ConnectionGUID: jrP7HSslSDuM1x7mg4dhKQ==
+X-CSE-MsgGUID: 9CmteDAqQwyS+15UzI/jaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
+   d="scan'208";a="213976415"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 20 Feb 2026 13:16:30 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vtXrQ-000000014U0-2XCC;
+	Fri, 20 Feb 2026 21:16:28 +0000
+Date: Sat, 21 Feb 2026 05:16:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ahmed Tiba <ahmed.tiba@arm.com>, devicetree@vger.kernel.org,
+	linux-acpi@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ahmed Tiba <ahmed.tiba@arm.com>, Dmitry.Lamerov@arm.com,
+	catalin.marinas@arm.com, bp@alien8.de, robh@kernel.org,
+	rafael@kernel.org, will@kernel.org, conor@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	krzk+dt@kernel.org, Michael.Zhao2@arm.com, tony.luck@intel.com
+Subject: Re: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
+Message-ID: <202602210530.ukbF5fjB-lkp@intel.com>
+References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b@arm.com>
 
-> To clarify: is Linux moving toward supporting only fully open hardware platforms? I’m 
-> not aware of any rule that prevents a company from upstreaming a driver that implements 
-> support for an existing hardware/firmware interface.
+Hi Ahmed,
 
-You are not the first to be requested to implement a clean generic
-interface which is vendor neutral for these sorts of peripherals, with
-firmware on the other side. Look back in the archives, there was a USB
-attached microcontroller offering GPIO, I2C, SPI, etc. In the end the
-vendor decided to keep with there out of tree driver. But if it had
-progressed, it might of been possible for you to implement that same
-protocol over rpmsg, rather than USB. They are similar. And there is
-also greybus, which is also a solution in this problem space.
+kernel test robot noticed the following build errors:
 
-	 Andrew
+[auto build test ERROR on 8bf22c33e7a172fbc72464f4cc484d23a6b412ba]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Tiba/ACPI-APEI-GHES-share-macros-via-a-private-header/20260220-214812
+base:   8bf22c33e7a172fbc72464f4cc484d23a6b412ba
+patch link:    https://lore.kernel.org/r/20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b%40arm.com
+patch subject: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
+config: x86_64-randconfig-004-20260220 (https://download.01.org/0day-ci/archive/20260221/202602210530.ukbF5fjB-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260221/202602210530.ukbF5fjB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602210530.ukbF5fjB-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/acpi/apei/ghes_cper.c:261:6: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     261 |                                  FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
+         |                                  ^
+   1 error generated.
+
+
+vim +/FIELD_GET +261 drivers/acpi/apei/ghes_cper.c
+
+   202	
+   203	bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
+   204					     int sev, bool sync)
+   205	{
+   206		struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
+   207		int flags = sync ? MF_ACTION_REQUIRED : 0;
+   208		int length = gdata->error_data_length;
+   209		char error_type[120];
+   210		bool queued = false;
+   211		int sec_sev, i;
+   212		char *p;
+   213	
+   214		sec_sev = ghes_severity(gdata->error_severity);
+   215		if (length >= sizeof(*err)) {
+   216			log_arm_hw_error(err, sec_sev);
+   217		} else {
+   218			pr_warn(FW_BUG "arm error length: %d\n", length);
+   219			pr_warn(FW_BUG "length is too small\n");
+   220			pr_warn(FW_BUG "firmware-generated error record is incorrect\n");
+   221			return false;
+   222		}
+   223	
+   224		if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
+   225			return false;
+   226	
+   227		p = (char *)(err + 1);
+   228		length -= sizeof(err);
+   229	
+   230		for (i = 0; i < err->err_info_num; i++) {
+   231			struct cper_arm_err_info *err_info;
+   232			bool is_cache, has_pa;
+   233	
+   234			/* Ensure we have enough data for the error info header */
+   235			if (length < sizeof(*err_info))
+   236				break;
+   237	
+   238			err_info = (struct cper_arm_err_info *)p;
+   239	
+   240			/* Validate the claimed length before using it */
+   241			length -= err_info->length;
+   242			if (length < 0)
+   243				break;
+   244	
+   245			is_cache = err_info->type & CPER_ARM_CACHE_ERROR;
+   246			has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
+   247	
+   248			/*
+   249			 * The field (err_info->error_info & BIT(26)) is fixed to set to
+   250			 * 1 in some old firmware of HiSilicon Kunpeng920. We assume that
+   251			 * firmware won't mix corrected errors in an uncorrected section,
+   252			 * and don't filter out 'corrected' error here.
+   253			 */
+   254			if (is_cache && has_pa) {
+   255				queued = ghes_do_memory_failure(err_info->physical_fault_addr, flags);
+   256				p += err_info->length;
+   257				continue;
+   258			}
+   259	
+   260			cper_bits_to_str(error_type, sizeof(error_type),
+ > 261					 FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
+   262					 cper_proc_error_type_strs,
+   263					 ARRAY_SIZE(cper_proc_error_type_strs));
+   264	
+   265			pr_warn_ratelimited(FW_WARN GHES_PFX
+   266					    "Unhandled processor error type 0x%02x: %s%s\n",
+   267					    err_info->type, error_type,
+   268					    (err_info->type & ~CPER_ARM_ERR_TYPE_MASK) ? " with reserved bit(s)" : "");
+   269			p += err_info->length;
+   270		}
+   271	
+   272		return queued;
+   273	}
+   274	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
