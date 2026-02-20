@@ -1,205 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12E22ED87F;
-	Thu, 19 Feb 2026 23:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BB31A9F8D;
+	Fri, 20 Feb 2026 01:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771545364; cv=none; b=Xi788jA95M1j5h9UyvpbixQ5F8A0TyQlg1IPZMs4TzFrCX6NIGowMscm/t2knPvuykCQBK2HQ+Cc8c2vXBQvDV19IjyjYx34JcMnyRwXCPifFpkxazgnGISIBpnNOdqTBlpFHC32kXUdKIqSkF6T+3BKmzeJhXtYaU1kjTF+BIc=
+	t=1771550039; cv=none; b=JnYlADoW7oARvdOkjn676ku4Ccgy+nvgZcj46leuRR9BxlRpi2buN83dookCeToPD+j90Qb1mhOSYdA0QH2OwJQuKTzXwjL70QOkpov0NAlTpNCp2SnAWO1YgQXjqUFLgLQRxHqbpZWWCztdDKKZta4QOU4CFdifOn0Ohs7hkmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771545364; c=relaxed/simple;
-	bh=nnhiT6ZUoBIIwK9hYrVwvo6oH8ocKEYayfMouTwAbpI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gOHDS/3z6Q+AKHZSaWdOTUrcpYuTizK5hWwrcm6kql1bi+QF/0BdAs4FSL4gW2h6q08pIdsPor9eKBKZYPs48kM3jslBCm5gtRCxTKROcT1cGeEn92ZV2SVWfdOCpHRCKlTXIifARHEKrKAaGsV+RTsmBDnBtFP5oLz4MC15XLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWSpiKVG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771550039; c=relaxed/simple;
+	bh=Uq4XQS8dU09FtCJ8bnNQfMf26F15Ik2f8EpY3Wa09Z4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RaVx8OozlTLBZ3qMOBTy1FmVX2Rrh+vmqFVmH7o7ZD3WXcZ7doP8nPQPH88uEWarVew6U0SWvoYka0fJ7D40vpgBPbiGcKNI+/M2k//8d4GoF5N40myG7mjWElWQdyMgX+Ad3h3PRI1JLLou4OeEP5xzCFFhnuDa7UWSUl7o2kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aKxlCoqP; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWSpiKVG"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 81DCDC2BC9E;
-	Thu, 19 Feb 2026 23:56:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771545364;
-	bh=nnhiT6ZUoBIIwK9hYrVwvo6oH8ocKEYayfMouTwAbpI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=IWSpiKVGNH9Soo0gm7aZGetFEeG6O7AcuxJI3o2/CrLhxsHhDqxH288Ear+2O+AL4
-	 VDyMttvNJG8QteOVCXDwkFDzjFiIIo6H3R1xVOGe5DfpuzufF9xvu42A/Clptii0Lm
-	 59SANax8jrI/n4UVuyZ+gy0KYYOkHKhHWqqDw8FCIB8XplYcXQCbTg5PaX1kBRWOI1
-	 /8+Ay1GygifScYTDboGc4JVFjTwjd5L6KKTxB5gG+tc1XsCENPItb8Zyh1l17NJjGZ
-	 ZSl3dz9dSRt4pBUz7bALAYLziwrSuiSNAtQRozVdErCgLZMPFUE+CGzIm3A0I7mh3x
-	 1W7fyIsTGtgVQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BFCC531F4;
-	Thu, 19 Feb 2026 23:56:04 +0000 (UTC)
-From: Simon Baatz via B4 Relay <devnull+gmbnomis.gmail.com@kernel.org>
-Date: Fri, 20 Feb 2026 00:55:15 +0100
-Subject: [PATCH RFC net-next 2/4] selftests/net: packetdrill: add
- tcp_rcv_wnd_shrink_nomem.pkt
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKxlCoqP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1771550037; x=1803086037;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Uq4XQS8dU09FtCJ8bnNQfMf26F15Ik2f8EpY3Wa09Z4=;
+  b=aKxlCoqPGXf/3phYGN1QPCuPTw6ruL25fb8JK+MAVQxk/FkED4B0ZJrs
+   m5zujorxP4BPTTNdzALj05FwSv/i87c6glQAHpC7D1LmiBvqIOwr3adq2
+   h/CtoHT8LKPoNqpMWyqVdDOoLsneXyKshC4d+K2D4p28Sgm0Nv2JZ/iCa
+   RDYmbMYHbOwdRy9hLC37hDZhTahl/T8/IvrnY0Qj2sEAGATdfXUBEuCJR
+   ocXpjjyvawINBVs2VL5mTZvYgmZOpFVdW9tv8ancLcUQHC47hHGXh6qfC
+   MJMU1NyKJKwG048XbyeApcm5S+7ZWeimmXdBKcvPCFHV5ZNmh0PuA4TVB
+   w==;
+X-CSE-ConnectionGUID: ruhqB8fiTUix7SjLiwD/qw==
+X-CSE-MsgGUID: EubmqbdgS2mJGgauFF8fTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11706"; a="90232786"
+X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
+   d="scan'208";a="90232786"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2026 17:13:57 -0800
+X-CSE-ConnectionGUID: Hh94V0sQRrSdFC5OGfN1hA==
+X-CSE-MsgGUID: HZApc8IJQdqIOVtNmEtqsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,301,1763452800"; 
+   d="scan'208";a="213939680"
+Received: from lkp-server01.sh.intel.com (HELO 765f4a05e27f) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 19 Feb 2026 17:13:54 -0800
+Received: from kbuild by 765f4a05e27f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vtF5b-000000013gW-1zU3;
+	Fri, 20 Feb 2026 01:13:51 +0000
+Date: Fri, 20 Feb 2026 09:13:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ian Ray <ian.ray@gehealthcare.com>, Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ian Ray <ian.ray@gehealthcare.com>,
+	Bence =?iso-8859-1?B?Q3Pza+Fz?= <bence98@sch.bme.hu>,
+	=?utf-8?B?VG9tYcW+?= Zaman <tomaz@mono.si>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH V2 2/3] hwmon: (ina2xx) Make it easier to add more devices
+Message-ID: <202602200951.bP8YVa4Y-lkp@intel.com>
+References: <20260219130127.87901-3-ian.ray@gehealthcare.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260220-tcp_rfc7323_retract_wnd_rfc-v1-2-904942561479@gmail.com>
-References: <20260220-tcp_rfc7323_retract_wnd_rfc-v1-0-904942561479@gmail.com>
-In-Reply-To: <20260220-tcp_rfc7323_retract_wnd_rfc-v1-0-904942561479@gmail.com>
-To: Eric Dumazet <edumazet@google.com>, 
- Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- David Ahern <dsahern@kernel.org>, Stefano Brivio <sbrivio@redhat.com>, 
- Jon Maloy <jmaloy@redhat.com>, Jason Xing <kerneljasonxing@gmail.com>, 
- mfreemon@cloudflare.com, Shuah Khan <shuah@kernel.org>
-Cc: Christian Ebner <c.ebner@proxmox.com>, netdev@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Simon Baatz <gmbnomis@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771545363; l=4471;
- i=gmbnomis@gmail.com; s=20260220; h=from:subject:message-id;
- bh=shV3LeyDSvHNPDJqS+FQdEgy1T49GBnnSnb8us2W3og=;
- b=xGZKGivQ75Ms7KtqBRvjePpsdXIw+/G4oWgp1g+CzycNYrcnAwOtWiY9hsL4KToDT8FLXToES
- V0voxoqwpiwC3C/MBoJt0pk1a0rHfpEh0iEq+0x32DiNfMH1ITfTLKw
-X-Developer-Key: i=gmbnomis@gmail.com; a=ed25519;
- pk=T/JIz/6F5bf1uQJr69lmyi7czVG+F9TVZ/8x5z9Wtqw=
-X-Endpoint-Received: by B4 Relay for gmbnomis@gmail.com/20260220 with
- auth_id=641
-X-Original-From: Simon Baatz <gmbnomis@gmail.com>
-Reply-To: gmbnomis@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260219130127.87901-3-ian.ray@gehealthcare.com>
 
-From: Simon Baatz <gmbnomis@gmail.com>
+Hi Ian,
 
-This test verifies the sequence number checks using the maximum
-advertised window sequence number. Cases:
+kernel test robot noticed the following build warnings:
 
-1. The window is reduced to zero because of memory
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next linus/master v6.19 next-20260219]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-2. The window grows again but still does not reach the originally
-   advertised window
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Ray/dt-bindings-hwmon-ti-ina2xx-Add-INA234-device/20260219-210940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20260219130127.87901-3-ian.ray%40gehealthcare.com
+patch subject: [PATCH V2 2/3] hwmon: (ina2xx) Make it easier to add more devices
+config: x86_64-randconfig-014-20260219 (https://download.01.org/0day-ci/archive/20260220/202602200951.bP8YVa4Y-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602200951.bP8YVa4Y-lkp@intel.com/reproduce)
 
-Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
----
- .../net/packetdrill/tcp_rcv_wnd_shrink_nomem.pkt   | 109 +++++++++++++++++++++
- 1 file changed, 109 insertions(+)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602200951.bP8YVa4Y-lkp@intel.com/
 
-diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_wnd_shrink_nomem.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_wnd_shrink_nomem.pkt
-new file mode 100644
-index 0000000000000000000000000000000000000000..cd761300d02df449ff68cd6ff6f3b8ac62d5f27b
---- /dev/null
-+++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_wnd_shrink_nomem.pkt
-@@ -0,0 +1,109 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+--mss=1000
-+
-+`./defaults.sh
-+sysctl -q net.ipv4.tcp_rmem="4096 32768 $((32*1024*1024))"`
-+
-+    0 `nstat -n`
-+
-+// Establish a connection.
-+   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
-+   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
-+   +0 bind(3, ..., ...) = 0
-+   +0 listen(3, 1) = 0
-+
-+   +0 < S 0:0(0) win 32792 <mss 1000,nop,wscale 7>
-+   +0 > S. 0:0(0) ack 1 <mss 1460,nop,wscale 10>
-+   +0 < . 1:1(0) ack 1 win 257
-+
-+  +0 accept(3, ..., ...) = 4
-+
-+  +0 < P. 1:10001(10000) ack 1 win 257
-+   * > .  1:1(0) ack 10001 win 16
-+
-+// Segments smaller than the window scale factor do not allow to reduce the adv. window
-+  +0 < P. 10001:11024(1023) ack 1 win 257
-+  * > .  1:1(0) ack 11024 win 16
-+  +0 < P. 11024:12047(1023) ack 1 win 257
-+  * > .  1:1(0) ack 12047 win 16
-+  +0 < P. 12047:13070(1023) ack 1 win 257
-+  * > .  1:1(0) ack 13070 win 16
-+  +0 < P. 13070:14093(1023) ack 1 win 257
-+  * > .  1:1(0) ack 14093 win 16
-+  +0 < P. 14093:15116(1023) ack 1 win 257
-+  * > .  1:1(0) ack 15116 win 16
-+  +0 < P. 15116:16139(1023) ack 1 win 257
-+  * > .  1:1(0) ack 16139 win 16
-+  +0 < P. 16139:17162(1023) ack 1 win 257
-+  * > .  1:1(0) ack 17162 win 16
-+  +0 < P. 17162:18185(1023) ack 1 win 257
-+  * > .  1:1(0) ack 18185 win 16
-+  +0 < P. 18185:19208(1023) ack 1 win 257
-+  * > .  1:1(0) ack 19208 win 16
-+  +0 < P. 19208:20231(1023) ack 1 win 257
-+  * > .  1:1(0) ack 20231 win 16
-+  +0 < P. 20231:21254(1023) ack 1 win 257
-+  * > .  1:1(0) ack 21254 win 16
-+  +0 < P. 21254:22277(1023) ack 1 win 257
-+  * > .  1:1(0) ack 22277 win 16
-+  +0 < P. 22277:23300(1023) ack 1 win 257
-+  * > .  1:1(0) ack 23300 win 16
-+  +0 < P. 23300:24323(1023) ack 1 win 257
-+  * > .  1:1(0) ack 24323 win 16
-+  +0 < P. 24323:25346(1023) ack 1 win 257
-+  * > .  1:1(0) ack 25346 win 16
-+  +0 < P. 25346:26369(1023) ack 1 win 257
-+  * > .  1:1(0) ack 26369 win 16
-+  +0 < P. 26369:27392(1023) ack 1 win 257
-+  * > .  1:1(0) ack 27392 win 16
-+  +0 < P. 27392:28415(1023) ack 1 win 257
-+  * > .  1:1(0) ack 28415 win 16
-+  +0 < P. 28415:29438(1023) ack 1 win 257
-+  * > .  1:1(0) ack 29438 win 16
-+  +0 < P. 29438:30461(1023) ack 1 win 257
-+  * > .  1:1(0) ack 30461 win 16
-+  +0 < P. 30461:31484(1023) ack 1 win 257
-+  * > .  1:1(0) ack 31484 win 16
-+  +0 < P. 31484:32507(1023) ack 1 win 257
-+  * > .  1:1(0) ack 32507 win 16
-+  +0 < P. 32507:33530(1023) ack 1 win 257
-+  * > .  1:1(0) ack 33530 win 16
-+
-+// rcv buffer out of memory
-+  +0 < P. 33530:49914(16384) ack 1 win 257
-+  +0 > .  1:1(0) ack 33530 win 0
-+
-+// max window seq advertised 33530 + 16*1024 = 49914
-+
-+  +0 write(4, ..., 1000) = 1000
-+  +0 > P.  1:1001(1000) ack 33530 win 0
-+
-+// LINUX_MIB_BEYOND_WINDOW: segment is beyond the max window sequence
-+  +0 < . 49915:49915(0) ack 1001 win 257
-+  +0 > . 1001:1001(0) ack 33530 win 0
-+
-+  +0 < . 49914:49914(0) ack 1001 win 257
-+
-+  +0 %{
-+assert tcpi_bytes_acked == 1000, tcpi_bytes_acked
-+}%
-+
-+  +0 read(4, ..., 10000) = 10000
-+  +0 > .  1001:1001(0) ack 33530 win 9
-+
-+  +0 write(4, ..., 1000) = 1000
-+  +0 > P.  1001:2001(1000) ack 33530 win 9
-+
-+  // advertise right edge is 33530 + 9*1024 = 42746, but we still need to regard our maximum offer 49914 as in window
-+  +0 < . 49914:49914(0) ack 2001 win 257
-+
-+  +0 %{
-+assert tcpi_bytes_acked == 2000, tcpi_bytes_acked
-+}%
-+
-+  +0 < P. 33530:42746(9216) ack 2001 win 257
-+   * > .  2001:2001(0) ack 42746 win 0
-+
-+// Check LINUX_MIB_BEYOND_WINDOW has been incremented once
-+  +0 `nstat | grep TcpExtBeyondWindow | grep -q " 1 "`
+All warnings (new ones prefixed by >>):
+
+   drivers/hwmon/ina2xx.c: In function 'ina2xx_is_visible':
+>> drivers/hwmon/ina2xx.c:722:25: warning: unused variable 'chip' [-Wunused-variable]
+     722 |         enum ina2xx_ids chip = data->chip;
+         |                         ^~~~
+
+
+vim +/chip +722 drivers/hwmon/ina2xx.c
+
+5a56a39be7ffb4 Alex Qiu      2020-05-04  714  
+814db9f1b8ec1c Guenter Roeck 2024-07-24  715  static umode_t ina2xx_is_visible(const void *_data, enum hwmon_sensor_types type,
+814db9f1b8ec1c Guenter Roeck 2024-07-24  716  				 u32 attr, int channel)
+814db9f1b8ec1c Guenter Roeck 2024-07-24  717  {
+814db9f1b8ec1c Guenter Roeck 2024-07-24  718  	const struct ina2xx_data *data = _data;
+de0da6ae1908b4 Guenter Roeck 2024-08-27  719  	bool has_alerts = data->config->has_alerts;
+52172ad87a22ed Wenliang Yan  2024-11-06  720  	bool has_power_average = data->config->has_power_average;
+0337abb760db03 Ian Ray       2026-02-19  721  	bool has_update_interval = data->config->has_update_interval;
+814db9f1b8ec1c Guenter Roeck 2024-07-24 @722  	enum ina2xx_ids chip = data->chip;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  723  
+814db9f1b8ec1c Guenter Roeck 2024-07-24  724  	switch (type) {
+814db9f1b8ec1c Guenter Roeck 2024-07-24  725  	case hwmon_in:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  726  		switch (attr) {
+814db9f1b8ec1c Guenter Roeck 2024-07-24  727  		case hwmon_in_input:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  728  			return 0444;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  729  		case hwmon_in_lcrit:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  730  		case hwmon_in_crit:
+de0da6ae1908b4 Guenter Roeck 2024-08-27  731  			if (has_alerts)
+814db9f1b8ec1c Guenter Roeck 2024-07-24  732  				return 0644;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  733  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  734  		case hwmon_in_lcrit_alarm:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  735  		case hwmon_in_crit_alarm:
+de0da6ae1908b4 Guenter Roeck 2024-08-27  736  			if (has_alerts)
+814db9f1b8ec1c Guenter Roeck 2024-07-24  737  				return 0444;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  738  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  739  		default:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  740  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  741  		}
+814db9f1b8ec1c Guenter Roeck 2024-07-24  742  		break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  743  	case hwmon_curr:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  744  		switch (attr) {
+814db9f1b8ec1c Guenter Roeck 2024-07-24  745  		case hwmon_curr_input:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  746  			return 0444;
+4d5c2d986757e4 Guenter Roeck 2024-08-28  747  		case hwmon_curr_lcrit:
+4d5c2d986757e4 Guenter Roeck 2024-08-28  748  		case hwmon_curr_crit:
+de0da6ae1908b4 Guenter Roeck 2024-08-27  749  			if (has_alerts)
+4d5c2d986757e4 Guenter Roeck 2024-08-28  750  				return 0644;
+4d5c2d986757e4 Guenter Roeck 2024-08-28  751  			break;
+4d5c2d986757e4 Guenter Roeck 2024-08-28  752  		case hwmon_curr_lcrit_alarm:
+4d5c2d986757e4 Guenter Roeck 2024-08-28  753  		case hwmon_curr_crit_alarm:
+de0da6ae1908b4 Guenter Roeck 2024-08-27  754  			if (has_alerts)
+4d5c2d986757e4 Guenter Roeck 2024-08-28  755  				return 0444;
+4d5c2d986757e4 Guenter Roeck 2024-08-28  756  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  757  		default:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  758  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  759  		}
+814db9f1b8ec1c Guenter Roeck 2024-07-24  760  		break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  761  	case hwmon_power:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  762  		switch (attr) {
+814db9f1b8ec1c Guenter Roeck 2024-07-24  763  		case hwmon_power_input:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  764  			return 0444;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  765  		case hwmon_power_crit:
+de0da6ae1908b4 Guenter Roeck 2024-08-27  766  			if (has_alerts)
+814db9f1b8ec1c Guenter Roeck 2024-07-24  767  				return 0644;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  768  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  769  		case hwmon_power_crit_alarm:
+de0da6ae1908b4 Guenter Roeck 2024-08-27  770  			if (has_alerts)
+814db9f1b8ec1c Guenter Roeck 2024-07-24  771  				return 0444;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  772  			break;
+52172ad87a22ed Wenliang Yan  2024-11-06  773  		case hwmon_power_average:
+52172ad87a22ed Wenliang Yan  2024-11-06  774  			if (has_power_average)
+52172ad87a22ed Wenliang Yan  2024-11-06  775  				return 0444;
+52172ad87a22ed Wenliang Yan  2024-11-06  776  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  777  		default:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  778  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  779  		}
+814db9f1b8ec1c Guenter Roeck 2024-07-24  780  		break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  781  	case hwmon_chip:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  782  		switch (attr) {
+814db9f1b8ec1c Guenter Roeck 2024-07-24  783  		case hwmon_chip_update_interval:
+0337abb760db03 Ian Ray       2026-02-19  784  			if (has_update_interval)
+814db9f1b8ec1c Guenter Roeck 2024-07-24  785  				return 0644;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  786  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  787  		default:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  788  			break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  789  		}
+814db9f1b8ec1c Guenter Roeck 2024-07-24  790  		break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  791  	default:
+814db9f1b8ec1c Guenter Roeck 2024-07-24  792  		break;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  793  	}
+814db9f1b8ec1c Guenter Roeck 2024-07-24  794  	return 0;
+814db9f1b8ec1c Guenter Roeck 2024-07-24  795  }
+814db9f1b8ec1c Guenter Roeck 2024-07-24  796  
 
 -- 
-2.52.0
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
