@@ -1,804 +1,818 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013039.outbound.protection.outlook.com [40.93.201.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B1C30FC23;
-	Fri, 20 Feb 2026 22:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771627500; cv=fail; b=i9+ujzQdPpcdShzSSTQIABbdFD7T36HKv9SIx+Hb+lXwFzvAl0537/SGk6sKytEV/T+ogc2VM8hIWVdO9aD+Pmys2AYl0E9542liw5R8IzxnuYOZ+AqD4ecN0hj0HKtrW2K3D2npXJDjCkh4IeA7XzE0UO4DQMAHt0P5eNvKFdc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771627500; c=relaxed/simple;
-	bh=0QiXFBXKbvaQGY0WsAe1dfMIzuHtSA/W3ZYOTswQgBY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=TNko88Kg62iB3ocmPoL1/CtOBYx9wxn/9otKEn6hwUX3hRiy5ikrQd6tOI3soYPeT6Khjr4uHqlN6Q8j0cE8HwPkZCpDuOvv80Fq4EarJycwqDQvaVpfQ/IgLf0QMGOTjNgvxmFVP2UB09PKrWCxhTBu1AY5squinKgENsvOp5w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EeP/XC/M; arc=fail smtp.client-ip=40.93.201.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8010F313E20
+	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 22:57:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771628268; cv=none; b=UKDUVBOAD4ifAQvUfYVaM1ms7HW4HygsoXf8dCQXaqnxgfaBs/OgjMqWU8lQJCKR6+8U544RAlyHvXUHAhnJgFOn49/JY1GL7EyoCc9EsBWT2RFwQ9xCUm5lfmNfrT7NM1Ct9N8MafgQ0bmlvuoisyY9vfRYd0gCeiwfWx68DV4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771628268; c=relaxed/simple;
+	bh=CErc1Cc+3h2ZneEzfwDGZEbOO+w6VY+iLEp30+TKX/c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TK3ZJZrJcS7Km0XlKa2L6pTncGeLH2hJEmT0NWEnvY8m85Z6Uzp7DG88iL6Fa58fDKVsgVIbLItwXFVRHVxUnyo64JEZbWZw/b2mqV4ic+dYe51zdhHAxRKUEQI0wtwk7w36Lrh4TGLQaAYTR3bKim6vTf2dfyFqFcDzmKj3/vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NrBTDy1D; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EeP/XC/M"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N63DL5QhGn3bkxuZHk08hBEbDBcPqM6yaKh8Hp/oQ2E6O3SU1rsp+XGl9F7U5YFa17Om5xkz91ptMHV75FQMVXM6ROh+7Z7NwD/uzhobVhpp3lLwGgo+rihS2ckls2G2oxk8ud2G9CKmHlEdeelsCeFSKEc7ckaCWcGSANjeN2xNWMYQWs2dF5+qxAibMWNTW2dIMmkD5FRvzoj4fdb4GtEAfzPL+Pj6tJKwT1aDAi8yc/anMMq4AaH/o0e/5XqLRIXB0a7KPEFSHsvXfiMeejcQnlr7mVIMnrBDhwWclWxd1FZ9QvE+fpXKhJ/eSgV7ah8W3XR3hds1I76uIADP2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4orHArMAhQT6aDbzBJ0gB9B6AtF6WaANOf71v3Qkh3c=;
- b=JsXEwijdTjhM2d8/l7i0RYa2HKo+Gj5AzzJ9wwTae7f9w6eVtd1h/Vd/9QH//f+cUQpO+MopN6ghxtZGjZgeOE0bnVUb3mo9jMuCUHcHlsOA786bFg1g5c/zHoCZFvRgfj0pEyBL1Nm/yxtekRZ/tN4n2RrZbhpQTq+9K5Eh4RRG8gndLMU7Ptg5VI77RXph+gMLmaIP0C+J/TtdMxf5tSQmYk6UY8xaCuS3P5xVF3qgsglQT21eouzdHX1GvKxOJx/2EbdsGhF1AXEVAXgK3ejoNXfq/SMeT72+JmFiy9k9HWwHg8EjwMAR04FzYQSj0eGGt0+f/yg5CFsCKOqs7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4orHArMAhQT6aDbzBJ0gB9B6AtF6WaANOf71v3Qkh3c=;
- b=EeP/XC/MFHvQh48cW6xaOsgBljBxqJQfJwC3XzsJ+dnRSi4whPtpl6YHUeHlltsC/sUjusTMY9On0ep7f+RsQtXqFzsGCcjtHjzXVGAhjDe5l+H4wmkA9sWhOvLzOZ9M/HwI9UCOP+sN21Ja2FuWJAu7MylwE5acu9FGX6vpjM4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by MN0PR12MB6365.namprd12.prod.outlook.com
- (2603:10b6:208:3c2::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.14; Fri, 20 Feb
- 2026 22:44:53 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::4d0e:603a:42fc:7c0]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::4d0e:603a:42fc:7c0%3]) with mapi id 15.20.9611.008; Fri, 20 Feb 2026
- 22:44:53 +0000
-Message-ID: <427e1550-94b1-4c58-828f-1f79e5c16847@amd.com>
-Date: Fri, 20 Feb 2026 16:44:47 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-To: Reinette Chatre <reinette.chatre@intel.com>,
- "Luck, Tony" <tony.luck@intel.com>, Ben Horgan <ben.horgan@arm.com>,
- "Moger, Babu" <Babu.Moger@amd.com>, "eranian@google.com" <eranian@google.com>
-Cc: Drew Fustini <fustini@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
- "james.morse@arm.com" <james.morse@arm.com>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
- "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
- "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
- <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
- "pmladek@suse.com" <pmladek@suse.com>,
- "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
- "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "fvdl@google.com" <fvdl@google.com>,
- "lirongqing@baidu.com" <lirongqing@baidu.com>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
- "Shukla, Manali" <Manali.Shukla@amd.com>,
- "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
- "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "naveen@kernel.org" <naveen@kernel.org>,
- "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "peternewman@google.com" <peternewman@google.com>,
- "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
-References: <aYyxAPdTFejzsE42@e134344.arm.com>
- <679dcd01-05e5-476a-91dd-6d1d08637b3e@intel.com>
- <aY3bvKeOcZ9yG686@e134344.arm.com>
- <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
- <aZM1OY7FALkPWmh6@e134344.arm.com>
- <d704ea1f-ed9f-4814-8fce-81db40b1ee3c@intel.com>
- <aZThTzdxVcBkLD7P@agluck-desk3>
- <2416004a-5626-491d-819c-c470abbe0dd0@intel.com>
- <aZTxJTWzfQGRqg-R@agluck-desk3>
- <65c279fd-0e89-4a6a-b217-3184bd570e23@intel.com>
- <aZXsihgl0B-o1DI6@agluck-desk3>
- <2ab556af-095b-422b-9396-f845c6fd0342@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <2ab556af-095b-422b-9396-f845c6fd0342@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0312.namprd03.prod.outlook.com
- (2603:10b6:610:118::21) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NrBTDy1D"
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8c9f6b78ca4so311495185a.0
+        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 14:57:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771628265; x=1772233065; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4ysaqx8k04M5ZyWb6NfqEX6Ito7kZyTdQoQ1l4hgF4A=;
+        b=NrBTDy1D7ID9BNn7FHs8j5qS5FlHMl71itzYSNbHSRwH8x+7r2VX2LrCjS4Pikr/Nr
+         rkNIaYkaMJs/eJ4lk29vDwzkTV8FjZrhv3jn7yVy9t0OwJTcgPzbbp/Kdlx0RnB7Rpna
+         PpOTyT9bz3mXC0Oe9NpqqkAakNn60/ro45X8wkUejZAu6qRpx4MfUxJTbjQObo6DmX15
+         z3npWZgYHrnLJzkyK+7ioTyc1T9WrghqjIjFMKyV7XhAQFjEHGxMxDQJ7xlSBhd3SPPQ
+         ujPYjN0N+gI54P4FkAvpzab3ymjfig4R1N8H17iMRjXPW5yzZo/aySXrmjpPHzcmNImV
+         yFiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771628265; x=1772233065;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4ysaqx8k04M5ZyWb6NfqEX6Ito7kZyTdQoQ1l4hgF4A=;
+        b=ONYu51gS72Y6BRq/3n62Yuh/mC2wm5iEzUWjwxwkFhQ/L5k5pJt6DHvGBpB9mP7igr
+         gmreKcunyRR8QawdI/0UC2d4zHQ2ll8wzJQI8bVyU+JL+Mml+Uq0xWnAlAV3lnYpNktf
+         AnVOWsfxOQF7MsvEGoHxn63Q8IOpks1GlHR2AsiPl6hmbQAkTwrQvHMNeEtxAouPVB+Q
+         FMTM+6aCMel0FvAQmRBLRypgGdVAqWM+MsgSIpO8g68KswWOTwRKU3taR36V5mlYcdw9
+         ZIV5XYThR7DULn05MR/c7WHI8Pr56LQOWLVRj++cju8EFUkwz6OJbv+5cmEGiinlCxwT
+         KhAg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOGRokjzIsCW5HqgRxiU8cCTlMSWHfPDI42mAon60UzmhyPG6ehSAmusGp3+xNgo6NC4yXXeZP7Io=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yydq7GMh2SePMgmwp9bLAAcZ77lSFpmm8GIcchpMU9ojZWp8V4j
+	4MnTJc7I8jFK9UutKlrwLmpmctEXgKMWEhHZMgLrMM1s7aX2rHArC4yE
+X-Gm-Gg: AZuq6aIVj4rFC5M/zTx51D8IxjnKwLvreuXq+sG2JKqMWAc85i8vuDK0vrIjNzbtBhY
+	CTq4ys1DrGp8m1PQ8jGDgtr6xlBfCpOgU1LsN2oFNPYrE6Xq76f7P/sZRmA0f7OOcrnyb++7L9n
+	I/4XIZsD/XoFeIUk96Bh6P75Co4IbbOzI3WmfpzKsTc6znZBkcX8QIMidynq6uk2sPqrFMJKtMa
+	UU2kkqOufmoriMFZlXGzQt4jAhjacx8vGfhFUqgMebwX4TuLaoJ6ygNfuIEi3+DkTjqXi8iVad2
+	uBy+fa4vOmFmkM3Zdkgh/W0XMzEmESvkdLtoTSQIiZEqBXwmNjq0pp38jSm7Tgb7CpzOf4iPPMX
+	LLJ4YFc8wVOGjyzWYQGeuqXvAc++l7Qy8CRrlBA+TOM1p3FcnOX1vnULYDtHPqf0Dq+S7FOevy4
+	5kB5aCNvPwKZUkGkihUks845fZOx8iCckItBg+7k26/ggr
+X-Received: by 2002:a05:6820:188a:b0:66e:10ca:fcd5 with SMTP id 006d021491bc7-679c424cbe9mr582827eaf.12.1771621540600;
+        Fri, 20 Feb 2026 13:05:40 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff:8::])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-679c56ec56dsm363029eaf.12.2026.02.20.13.05.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Feb 2026 13:05:40 -0800 (PST)
+From: Nhat Pham <nphamcs@gmail.com>
+To: kasong@tencent.com
+Cc: Liam.Howlett@oracle.com,
+	akpm@linux-foundation.org,
+	apopple@nvidia.com,
+	axelrasmussen@google.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	bhe@redhat.com,
+	byungchul@sk.com,
+	cgroups@vger.kernel.org,
+	chengming.zhou@linux.dev,
+	chrisl@kernel.org,
+	corbet@lwn.net,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jannh@google.com,
+	joshua.hahnjy@gmail.com,
+	lance.yang@linux.dev,
+	lenb@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-pm@vger.kernel.org,
+	lorenzo.stoakes@oracle.com,
+	matthew.brost@intel.com,
+	mhocko@suse.com,
+	muchun.song@linux.dev,
+	npache@redhat.com,
+	nphamcs@gmail.com,
+	pavel@kernel.org,
+	peterx@redhat.com,
+	peterz@infradead.org,
+	pfalcato@suse.de,
+	rafael@kernel.org,
+	rakie.kim@sk.com,
+	roman.gushchin@linux.dev,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shakeel.butt@linux.dev,
+	shikemeng@huaweicloud.com,
+	surenb@google.com,
+	tglx@kernel.org,
+	vbabka@suse.cz,
+	weixugc@google.com,
+	ying.huang@linux.alibaba.com,
+	yosry.ahmed@linux.dev,
+	yuanchu@google.com,
+	zhengqi.arch@bytedance.com,
+	ziy@nvidia.com,
+	kernel-team@meta.com,
+	riel@surriel.com
+Subject: [PATCH] vswap: fix poor batching behavior of vswap free path
+Date: Fri, 20 Feb 2026 13:05:39 -0800
+Message-ID: <20260220210539.989603-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com>
+References: <CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|MN0PR12MB6365:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b413f25-6345-43be-23ca-08de70d1a9db
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|18082099003|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dnQ4OTYyWEZJQWN1UkVwTmdUdlo0VTZYR09aZmJMV1c2Ym80ZTZGTzR2WG5o?=
- =?utf-8?B?ZWRnMDdKMmxNZDZsMDlPUHo0UDVqdTFJZWtlTnBHeEk2YzU2ZCtNN1ZwSWhM?=
- =?utf-8?B?YVBEOHhUVnA3TE5seG8xc0FxcFFNUWNGZFl0RjI5UjBVb05ncTREeHFFTGNo?=
- =?utf-8?B?RkpCN1F2MkE0cW1oTmc3NHh5OGxMT2NHV3NpNVhkVVlxalpJVHIvc2lEeTgz?=
- =?utf-8?B?Qjg2b0xGVDVOZXJJY2NDazV2RVc4dk50SnRsendoaXJUQWxwU0FXM0RGTGp0?=
- =?utf-8?B?a0ZvckVMYkh5N3FldDRRL09QTFRqMmJubGpLS0dCVTZSWlZQQVhkQjU5NFRI?=
- =?utf-8?B?L3p0VHFOTDVDZjgrTy9ML3lSMEpocklMZ2JmVEdRUWFrY2g0dGQ4M0UwVjlN?=
- =?utf-8?B?cHhhd0g3YXo2Mi9Ic2lRejQ3YlB2a2lmclEyS0twcTZVUkxDSGVTQlUwY2Ft?=
- =?utf-8?B?TVVWSFplRGNETHFGeFhoYWUwYm5ROEg5SVRqSTFWcnlhcUIzQU1tRGxoZ0x1?=
- =?utf-8?B?M2tNYVpaZlYzS2pBY3dGVHNFT1lVZEV0T2xhOG1LTkJmUVU5S3VadkhQcEx5?=
- =?utf-8?B?MjNvR1pEUndPd2M5RnZzRU5vSU14ek84dEVEeVpUMmlwUk5BV1BwblFqRTky?=
- =?utf-8?B?Z0RPRjMvUXlkNDZ0WXc0bEZ4NjdGZUNjZERINHJkUVpiQTVEa3ZtdkplNGpX?=
- =?utf-8?B?STlKZTFxZU1ZcWh0UUdobkxEdDBoUUUxaVZ4SUNSeXhTdEdkNUNaNWk3VUd5?=
- =?utf-8?B?YmdSQS82aHI5c1Q2L1RTY0x4Y1RhSm9vV0tGdDRzV3p3ZlJYQWtTMGJxdGUv?=
- =?utf-8?B?cW9yTDlLTGoyVEgrN0p6R1RaYXBtaDJGdDJGcTlVTHlIZ29DL3JSanZ3WEtL?=
- =?utf-8?B?alc4SFZMdXcwL1dRZ0tuMDZKTTJHVk5LV05xN2lPZDRmWEcxOC9qSFRzRncv?=
- =?utf-8?B?REFOREZ4YzM2OXBFZDZRWnJ6NncyTitNdDhCaURVWGZicDZObE9XUU5jV1pz?=
- =?utf-8?B?US9BNCtBRzF2MUhQdlhQMU5NTFpYYy9zOEZjaTNnTVQ1WXBjM29KMHBBSHZL?=
- =?utf-8?B?RXpGMXRqK3JYSENlbGxpQnBuNy90Z2ttRG1WcTd0TSsxaWZXMjhITmxFV2Rn?=
- =?utf-8?B?RkYwK1gxbTZqVVFqT1VndVVKb3RpRkEyUlJVb0dqMkNFZGJrTEtsZjZybUlj?=
- =?utf-8?B?c0w1M0ZPRkJwYnhsQzBKem1DR3hUTTZ0TlM5STRIeTlFOEtabDB4UWRVTDNk?=
- =?utf-8?B?QjUzSklJNDZhV040YytIb1RRUXByOG9tOFBoMmk2UU9SZjhBSmdwTTNzaERR?=
- =?utf-8?B?MkVvQ1JuT2pEOVlJZkcyQTdOQ0xFUWdtRnNvUVVEWG5GNzdEMG1DbnR3OFNL?=
- =?utf-8?B?enpkZlRMSzdTbEM0dGxtbm01THNFSHdrMmJobFh3QVdBWVBtQmNNUWdoUWpX?=
- =?utf-8?B?TUxzeWdUaE1maHIwUG1XTWF5TVlQeWpBbTJsL0llRDZ4NGtYYkNIelU5UUFa?=
- =?utf-8?B?by82N2w5a0t4TWxJOUJEdWNneURFTS9TdGlqYXV0OStGanh2NWhVeGE4U1BZ?=
- =?utf-8?B?N2ZDY3hHbldsK0xHaitBWWNVSHZXVFdCZjUrVDRxUGc0eTliaThCcVppZlJo?=
- =?utf-8?B?akdVQzVkZVF0ZDZHeWVrRC84c0JsTjB6bUhMTFJuZEp0TkhDRm8wQ1NZRXgy?=
- =?utf-8?B?RStTcVV0bnVKWVkrNDY5R2lXRHYyT1I5cFdrMHNEVzAySENkajh2ZjhWMGcy?=
- =?utf-8?B?NlM1Nm1sYWQ1czArQlhpSlpYTWlnR0xMbHVPcHJ2WXhJTzJDOEQwUHpaRTlh?=
- =?utf-8?B?OCtUR2NvVFJtenIxelhyMFdoUmNqeHFnN3A4T2t1ZmxsQkx3dmFWQXVYVmlt?=
- =?utf-8?B?TkR1dG8rUGZaR3hLQXZ5NFkzS21kdFB5WUxMU045UkhwbVloSlJNWlRhd3ZV?=
- =?utf-8?B?VExBM3p1NSs2NmlKOEk1bFZGYzF6SGFQRjhlaVZYRkhZamNDeVRuMUtEWUdr?=
- =?utf-8?B?WjBUVWMwQXJzUnA4M2pXWlNSdmI2Q3IvNHBmMndSemhwTW5sQkhWNlE2UTVu?=
- =?utf-8?B?ZXpURUM2eGVONXFxUGZxUkhVMGsyY1hwbFpwTm1yVERHb0JXb3Exa2FIbW5W?=
- =?utf-8?Q?lWyFFeLOAKdojuLZWveRMsSyI?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(18082099003)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RjJiQi9aelFZQm9TU05PTjJPYTJva2ZjUkRUNHNYaU1GUWZuM3RQRk5vM3gr?=
- =?utf-8?B?QUxBLzVPa3pxYnM4UXo3Ym11Q1VmMm1oZ28rSEFSWFBYWFk3dzRqa1RvaFRr?=
- =?utf-8?B?M29KMjQwb29vQXY2VHc4ZUFhYzc3QUEzZDRLU0tRMlJPOXVZWjRIKzFWU0xV?=
- =?utf-8?B?T2JiNG1hekh6MEUwYW8rNXpRYVZ5dmk4VUJGOEtsSTZNMUpBMEJhbFRkTTFK?=
- =?utf-8?B?alg4ckJzY25WWWNzK2podWxQOWR3M29wV05JNTJzSHhyUVVZT2MrVllsWDlY?=
- =?utf-8?B?bFF1TVdRdytDQmJYZzUxWU1XWFFGRDc1VWw3a0tYREllMFF0NGFLNDdjcFA3?=
- =?utf-8?B?V3dzb2Q5Tkdjb3lFQkV3bXlvdTJGRzJnVExNTllvNjk1Q3pVZ0Y2TE9DUVpU?=
- =?utf-8?B?eUswSGQzQm1aMDVsVkVlYmxqWE4xRi9sL2Z1cGZ1OFJTbGhoTGg1VUdycHNK?=
- =?utf-8?B?UGhvNThMM1NsSE1vVFpMVVEzSGlRRHhlbEFTSFZuZ3hQMGx2KzhFNU9ycTkr?=
- =?utf-8?B?Vm5TMmNSb3YvOUNSek13R2F3NjBkUW1aMjMxOVpibW5tcE5tcWxyd3dPaS9I?=
- =?utf-8?B?eHBvdjNiKzgrR3ZjNG5LKzB0WlUraTBGNitQZGgzenJtaW9nTTlxYlJ1SERv?=
- =?utf-8?B?QWtPMWhCdGNuU0tIbDJNQVRJUCs5Z1RpU0tWWC9iazdDNHNkUE5jMmJBQ1Fa?=
- =?utf-8?B?VlVVWldUZU54Y3VodGZualpFOW1XaUJXOHpwSk9IRUpVaVNMY2gvVXkzRXdM?=
- =?utf-8?B?UXF0aDEreHY1UzFtOGp6K3V4QnlaQ0cyREZGWThhR2wyTjFML0tJVlNqdC9W?=
- =?utf-8?B?YXEyWkl3MGRsR2lVRkVQWEFZaUJ5dFh1OVhRWTAwc245cmhTSC9vRDB6aGhO?=
- =?utf-8?B?UDdEaHNYZmtNZ1dvZ2VObWNCVGlKYWd5VWxrQk9DNVppUlk4dEQ4VXZUVlAr?=
- =?utf-8?B?dEdGM3RNNnQzSDBKRlgyUjd4L0srMTZkb1FtYW0xV0pTdUJnNlpYbmdFNm45?=
- =?utf-8?B?OS9MSjhDSElHeHhtN1VDOGpEZzQrMVNiQlVhTHd5NG5qZ0FKYVhUQXNNdXJC?=
- =?utf-8?B?V2VuSEE5OUJPUVJkekdmWUM5UmE1VmVjbkVFT0lCVGI3TG5wWlZXN2xaMXo3?=
- =?utf-8?B?R0FRVDBsY0w5WjBZN3JsWEtiektQdmloTHBHTVN2c2RKbWhraFl5TlRyeVA1?=
- =?utf-8?B?VTVPd1JxL1lSbmdaWHlZOUZOYlNwYzdYWmUrYlM5VE9jK0tmdkxucWRRMm5O?=
- =?utf-8?B?QXhpc1NDQWNJQWFkaDgzWHdDTHdNa1hvbHhFUUIrKzV4b3oreTExZG9vU1Yr?=
- =?utf-8?B?QUY5dkZVY2UvSWM4MHl6MmZHYm1yTmF4VzAyVHRRVlRmNEIxVFBpMkpoUFZa?=
- =?utf-8?B?QnVDV3lhRHkvNU8zM3gwMGYxcllVWjRVNmwxUGRjampKUGwzK0dIU093ajR4?=
- =?utf-8?B?MUxIOEZuY0NveThPeTA2M05WQk9FV1pwaXBESVN1MkpTNHdMcnlETFlsb3Jn?=
- =?utf-8?B?MnVZQXlCTzM5OHFsdFl5NWlFRVMvdWNjbTBXRVVpYlpTc2VMRUxmbTBpdmNG?=
- =?utf-8?B?M0xCTjlVbnBlVkIwNzk4TXk4aVU3OHNUbHgyUHRwaFk1YmREY2xLajYwWGZU?=
- =?utf-8?B?NEdycnprNUFlWmhhckFMZVR1cDhUQWtkcGlkeXN1ODc5NHhLcCtKYjJIMS9N?=
- =?utf-8?B?N0pqY081QlhXaGlQeGNsei95RVpCeXk3Q2tpTy9sNEVEWFR3L2MveGdVeUNF?=
- =?utf-8?B?cFpia2FTTDI3L0x2elRjayt6eFNTczJYdHBNbTUydHFoUUhzWTUvZE0zMk1T?=
- =?utf-8?B?SFZrNkVZT0t2Ymd3Y2EwRUhBWWRySXBxZ1RrQnhhT0t0RzU2TTZ5MXhlOHlV?=
- =?utf-8?B?eWhqcTNnUksycThQZWdiaEhJejEyQ0FOQ01hSHZIeGtuMzg3aXNkVTNkSUZr?=
- =?utf-8?B?QW9Ma1J0cFNjSUF3dGNvcHJlTW9WWlM3WmtJb2d5dTNRdFpIVVNlb1VIMlo5?=
- =?utf-8?B?VXltOVJaZ25EMXJmK2RoNTNXK3F4Sms2N21BQ0hpdDJxVllvbzkrR3AxYU9k?=
- =?utf-8?B?OUdNTWdSYjU5c29jbW5URlVyTE54MldOWkxzUnpIR1FSNUdSSGZldXgrK2h1?=
- =?utf-8?B?bTljMkJjTTBwL2ZZYzQyQkFzOXY5YStta0ZvTW5ZTXFkTGxNTEZpQ2xQWlFX?=
- =?utf-8?B?OGowVmE0UUJqekwvb2Nnd2M3U0xSdlBtVlZTcjJkWkh1UnZpVzQ1NU9lcnF4?=
- =?utf-8?B?bVYwaW5jMmszMWMzMk5Lbm4rUW9EbDZ0UEVFVjQySFlWRVlTWmRMMkY4SVlU?=
- =?utf-8?Q?cURPNuN1fyu2M8CrZC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b413f25-6345-43be-23ca-08de70d1a9db
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2026 22:44:53.6480
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QSCOygvURTvv304saAbZlfdtmHJ6LDK+xm5CWPS3aJF1I5pzXRZwocESePyW2L9z
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6365
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
+Kairui, could you apply this patch on top of the vswap series and run it
+on your test suite? It runs fairly well on my system (I actually rerun
+the benchmark on a different host to double check as well), but I'd love
+to get some data from your ends as well.
 
-Thanks for the detailed summary and proposal.
+If there are serious discrepancies, could you also include your build
+config etc.? There might be differences in our setups, but since I
+managed to reproduce the free time regression on my first try I figured
+I should just fix it first :)
 
-On 2/19/2026 8:53 PM, Reinette Chatre wrote:
-> Hi Tony, Ben, Babu, and Stephane,
-> 
-> On 2/18/26 8:44 AM, Luck, Tony wrote:
->> On Tue, Feb 17, 2026 at 03:55:44PM -0800, Reinette Chatre wrote:
->>> Hi Tony,
->>>
->>> On 2/17/26 2:52 PM, Luck, Tony wrote:
->>>> On Tue, Feb 17, 2026 at 02:37:49PM -0800, Reinette Chatre wrote:
->>>>> Hi Tony,
->>>>>
->>>>> On 2/17/26 1:44 PM, Luck, Tony wrote:
->>>>>>>>>> I'm not sure if this would happen in the real world or not.
->>>>>>>>>
->>>>>>>>> Ack. I would like to echo Tony's request for feedback from resctrl users
->>>>>>>>>   https://lore.kernel.org/lkml/aYzcpuG0PfUaTdqt@agluck-desk3/
->>>>>>>>
->>>>>>>> Indeed. This is all getting a bit complicated.
->>>>>>>>
->>>>>>>
->>>>>>> ack
->>>>>>
->>>>>> We have several proposals so far:
->>>>>>
->>>>>> 1) Ben's suggestion to use the default group (either with a Babu-style
->>>>>> "plza" file just in that group, or a configuration file under "info/").
->>>>>>
->>>>>> This is easily the simplest for implementation, but has no flexibility.
->>>>>> Also requires users to move all the non-critical workloads out to other
->>>>>> CTRL_MON groups. Doesn't steal a CLOSID/RMID.
->>>>>>
->>>>>> 2) My thoughts are for a separate group that is only used to configure
->>>>>> the schemata. This does allocate a dedicated CLOSID/RMID pair. Those
->>>>>> are used for all tasks when in kernel mode.
->>>>>>
->>>>>> No context switch overhead. Has some flexibility.
->>>>>>
->>>>>> 3) Babu's RFC patch. Designates an existing CTRL_MON group as the one
->>>>>> that defines kernel CLOSID/RMID. Tasks and CPUs can be assigned to this
->>>>>> group in addition to belonging to another group than defines schemata
->>>>>> resources when running in non-kernel mode.
->>>>>> Tasks aren't required to be in the kernel group, in which case they
->>>>>> keep the same CLOSID in both user and kernel mode. When used in this
->>>>>> way there will be context switch overhead when changing between tasks
->>>>>> with different kernel CLOSID/RMID.
->>>>>>
->>>>>> 4) Even more complex scenarios with more than one user configurable
->>>>>> kernel group to give more options on resources available in the kernel.
->>>>>>
->>>>>>
->>>>>> I had a quick pass as coding my option "2". My UI to designate the
->>>>>> group to use for kernel mode is to reserve the name "kernel_group"
->>>>>> when making CTRL_MON groups. Some tweaks to avoid creating the
->>>>>> "tasks", "cpus", and "cpus_list" files (which might be done more
->>>>>> elegantly), and "mon_groups" directory in this group.
->>>>>
->>>>> Should the decision of whether context switch overhead is acceptable
->>>>> not be left up to the user?
->>>>
->>>> When someone comes up with a convincing use case to support one set of
->>>> kernel resources when interrupting task A, and a different set of
->>>> resources when interrupting task B, we should certainly listen.
->>>
->>> Absolutely. Someone can come up with such use case at any time tough. This
->>> could be, and as has happened with some other resctrl interfaces, likely will be
->>> after this feature has been supported for a few kernel versions. What timeline
->>> should we give which users to share their use cases with us? Even if we do hear
->>> from some users will that guarantee that no such use case will arise in the
->>> future? Such predictions of usage are difficult for me and I thus find it simpler
->>> to think of flexible ways to enable the features that we know the hardware supports.
->>>
->>> This does not mean that a full featured solution needs to be implemented from day 1.
->>> If folks believe there are "no valid use cases" today resctrl still needs to prepare for
->>> how it can grow to support full hardware capability and hardware designs in the
->>> future.
->>>
->>> Also, please also consider not just resources for kernel work but also monitoring for
->>> kernel work. I do think, for example, a reasonable use case may be to determine
->>> how much memory bandwidth the kernel uses on behalf of certain tasks.
->>>   
->>>>> I assume that, just like what is currently done for x86's MSR_IA32_PQR_ASSOC,
->>>>> the needed registers will only be updated if there is a new CLOSID/RMID needed
->>>>> for kernel space.
->>>>
->>>> Babu's RFC does this.
->>>
->>> Right.
->>>
->>>>
->>>>>                    Are you suggesting that just this checking itself is too
->>>>> expensive to justify giving user space more flexibility by fully enabling what
->>>>> the hardware supports? If resctrl does draw such a line to not enable what
->>>>> hardware supports it should be well justified.
->>>>
->>>> The check is likley light weight (as long as the variables to be
->>>> compared reside in the same cache lines as the exisitng CLOSID
->>>> and RMID checks). So if there is a use case for different resources
->>>> when in kernel mode, then taking this path will be fine.
->>>
->>> Why limit this to knowing about a use case? As I understand this feature can be
->>> supported in a flexible way without introducing additional context switch overhead
->>> if the user prefers to use just one allocation for all kernel work. By being
->>> configurable and allowing resctrl to support more use cases in the future resctrl
->>> does not paint itself into a corner. This allows resctrl to grow support so that
->>> the user can use all capabilities of the hardware with understanding that it will
->>> increase context switch time.
->>>
->>> Reinette
->>
->> How about this idea for extensibility.
->>
->> Rename Babu's "plza" file to "plza_mode". Instead of just being an
->> on/off switch, it may accept multiple possible requests.
->>
->> Humorous version:
->>
->> # echo "babu" > plza_mode
->>
->> This results in behavior of Babu's RFC. The CLOSID and RMID assigned to
->> the CTRL_MON group are used when in kernel mode, but only for tasks that
->> have their task-id written to the "tasks" file or for tasks in the
->> default group in the "cpus" or "cpus_list" files are used to assign
->> CPUs to this group.
->>
->> # echo "tony" > plza_mode
->>
->> All tasks run with the CLOSID/RMID for this group. The "tasks", "cpus" and
->> "cpus_list" files and the "mon_groups" directory are removed.
->>
->> # echo "ben" > plza_mode"
->>
->> Only usable in the top-level default CTRL_MON directory. CLOSID=0/RMID=0
->> are used for all tasks in kernel mode.
->>
->> # echo "stephane" > plza_mode
->>
->> The RMID for this group is freed. All tasks run in kernel mode with the
->> CLOSID for this group, but use same RMID for both user and kernel.
->> In addition to files removed in "tony" mode, the mon_data directory is
->> removed.
->>
->> # echo "some-future-name" > plza_mode
->>
->> Somebody has a new use case. Resctrl can be extended by allowing some
->> new mode.
->>
->>
->> Likely real implementation:
->>
->> Sub-components of each of the ideas above are encoded as a bitmask that
->> is written to plza_mode. There is a file in the info/ directory listing
->> which bits are supported on the current system (e.g. the "keep the same
->> RMID" mode may be impractical on ARM, so it would not be listed as an
->> option.)
-> 
-> I like the idea of a global file that indicates what is supported on the
-> system. I find this to match Ben's proposal of a "kernel_mode" file in
-> info/ that looks to be a good foundation to build on. Ben also reiterated support
-> for this in
-> https://lore.kernel.org/lkml/feaa16a5-765c-4c24-9e0b-c1f4ef87a66f@arm.com/
-> 
-> As I mentioned in https://lore.kernel.org/lkml/5c19536b-aca0-42ce-a9d5-211fbbdbb485@intel.com/
-> the suggestions surrounding the per-resource group "plza_mode" file
-> are unexpected since they ignore earlier comments about impact on user space.
-> Specifically, this proposal does not address:
-> https://lore.kernel.org/lkml/aY3bvKeOcZ9yG686@e134344.arm.com/
-> https://lore.kernel.org/lkml/c779ce82-4d8a-4943-b7ec-643e5a345d6c@arm.com/
-> 
-> Below I aim to summarize the discussions as they relate to constraints and
-> requirements. I intended to capture all that has been mentioned in these
-> discussions so far so if I did miss something it was not intentional and
-> please point this out to help make this summary complete.
-> 
-> I hope by starting with this we can start with at least agreeing what
-> resctrl needs to support and how user space could interact with resctrl
-> to meet requirements.
-> 
-> After the summary of what resctrl needs to support I aim to combine
-> capabilities from the various proposals to meet the constraints and
-> requirements as I understand them so far. This aims to build on all that
-> has been shared until now.
-> 
-> Any comments are appreciated.
-> 
-> Summary of considerations surrounding CLOSID/RMID (PARTID/PMG) assignment for kernel work
-> =========================================================================================
-> 
-> - PLZA currently only supports global assignment (only PLZA_EN of
->    MSR_IA32_PQR_PLZA_ASSOC may differ on logical processors). Even so, current
->    speculation is that RMID_EN=0 implies that user space RMID is used to monitor
->    kernel work that could appear to user as "kernel mode" supporting multiple RMIDs.
->    https://lore.kernel.org/lkml/abb049fa-3a3d-4601-9ae3-61eeb7fd8fcf@amd.com/
+---------------
 
-Yes. RMID_EN=0 means dont use separate RMID for plza.
+Fix two issues that make the swap free path inefficient:
 
-> 
-> - MPAM can set unique PARTID and PMG on every logical processor.
->    https://lore.kernel.org/lkml/fd7e0779-7e29-461d-adb6-0568a81ec59e@arm.com/
-> 
-> - While current PLZA only supports global assignment it may in future generations
->    not require MSR_IA32_PQR_PLZA_ASSOC to be same on logical processors. resctrl
->    thus needs to be flexible here.
->    https://lore.kernel.org/lkml/fa45088b-1aea-468e-8253-3238e91f76c7@amd.com/
-> 
+1. At the PTE zapping step, we are unnecessarily resolving the backends,
+   and fall back to batch size of 1, even though virtual swap
+   infrastructure now already supports freeing of mixed backend ranges
+   (as long the PTEs contain virtually contiguous swap slots).
+2. Optimize vswap_free() by batching consecutive free operations, and
+   avoid releasing locks unnecessarily (most notably, when we release
+   non-disk-swap backends).
 
-Good point.
+Per a report from Kairui Song ([1]), I have run the following benchmark:
 
-> - No equivalent feature on RISC-V.
->    https://lore.kernel.org/lkml/aYvP98xGoKPrDBCE@gen8/
-> 
-> - Impact on context switch delay is a concern and unnecessary context switch delay should
->    be avoided.
->    https://lore.kernel.org/lkml/aZThTzdxVcBkLD7P@agluck-desk3/
->    https://lore.kernel.org/lkml/CABPqkBSq=cgn-am4qorA_VN0vsbpbfDePSi7gubicpROB1=djw@mail.gmail.com/
-> 
-> - There is no requirement that a CLOSID/PARTID should be dedicated to kernel work.
->    Specifically, same CLOSID/PARTID can be used for user space and kernel work.
->    Also directly requested to not make kernel work CLOSID/PARTID exclusive:
->    https://lore.kernel.org/lkml/c8268b2a-50d7-44b4-ac3f-5ce6624599b1@arm.com/
-> 
-> - Only use case presented so far is related to memory bandwidth allocation where
->    all kernel work is done unthrottled or equivalent to highest priority tasks while
->    monitoring remains associated to task self.
->    https://lore.kernel.org/lkml/CABPqkBSq=cgn-am4qorA_VN0vsbpbfDePSi7gubicpROB1=djw@mail.gmail.com/
->    PLZA can support this with its global allocation (assuming RMID_EN=0 associates user
->    RMID with kernel work) To support this use case MPAM would need to be able to
->    change both PARTID and PMG:
->    https://lore.kernel.org/lkml/845587f3-4c27-46d9-83f8-6b38ccc54183@arm.com/
-> 
-> - Motivation of this work is to run kernel work with more/all/unthrottled
->    resources to avoid priority inversions. We need to be careful with such
->    generalization since not all resource allocations are alike yet a CLOSID/PARTID
->    assignment applies to all resources. For example, user may designate a cache
->    portion for high priority user space work and then needs to choose which cache
->    portions the kernel may allocate into.
->    https://lore.kernel.org/lkml/6293c484-ee54-46a2-b11c-e1e3c736e578@arm.com/
->    - If all kernel work is done using the same allocation/CLOSID/PARTID then user
->      needs to decide whether the kernel work's cache allocation overlaps the high
->      priority tasks or not. To avoid evicting high priority task work it may be
->      simplest for kernel allocation to not overlap high priority work but kernel work
->      done on behalf of high priority work would then risk eviction by low priority
->      work.
->    - When considering cache allocation it seems more flexible to have high priority
->      work keep its cache allocation when entering the kernel? This implies more than
->      one CLOSID/PARTID may need to be used for kernel work.
-> 
-> 
-> TBD
-> ===
-> - What is impact of different controls (for example the upcoming MAX) when tasks are
->    spread across multiple control groups?
->    https://lore.kernel.org/lkml/aY3bvKeOcZ9yG686@e134344.arm.com/
-> 
-> How can MPAM support the "monitor kernel work with user space work" use case?
-> =============================================================================
-> This considers how MPAM could support the use case presented in:
-> https://lore.kernel.org/lkml/CABPqkBSq=cgn-am4qorA_VN0vsbpbfDePSi7gubicpROB1=djw@mail.gmail.com/
-> 
-> To support this use case in MPAM the control group that dictates the allocations
-> used in kernel work has to have monitor group(s) where this usage is tracked and user
-> space would need to sum the kernel and user space usage. The number of PMG may vary
-> and resctrl cannot assume that the kernel control group would have sufficient monitor
-> groups to map 1:1 with user space control and monitor groups. Mapping user space
-> control and monitor groups to kernel monitor groups thus seems best to be done by
-> user space.
-> 
-> Some examples:
-> Consider allocation and monitoring setup for user space work:
-> 	/sys/fs/resctrl <= User space default allocations
-> 	/sys/fs/resctrl/g1 <= User space allocations g1
-> 	/sys/fs/resctrl/g1/mon_groups/g1m1 <= User space monitoring group g1m1
-> 	/sys/fs/resctrl/g1/mon_groups/g1m2 <= User space monitoring group g1m2
-> 	/sys/fs/resctrl/g2 <= User space allocations g2
-> 	/sys/fs/resctrl/g2/mon_groups/g2m1 <= User space monitoring group g2m1
-> 	/sys/fs/resctrl/g2/mon_groups/g2m2 <= User space monitoring group g2m2
-> 
-> Having a single control group for kernel work and a system that supports
-> 7 PMG per PARTID makes it possible to have a monitoring group for each user space
-> monitoring group:
-> (will go more into how such assignments can be made later)
-> 
-> 	/sys/fs/resctrl/kernel <= Kernel space allocations
-> 	/sys/fs/resctrl/kernel/mon_data               <= Kernel space monitoring default group
-> 	/sys/fs/resctrl/kernel/mon_groups/kernel_g1   <= Kernel space monitoring group g1
-> 	/sys/fs/resctrl/kernel/mon_groups/kernel_g1m1 <= Kernel space monitoring group g1m1
-> 	/sys/fs/resctrl/kernel/mon_groups/kernel_g1m2 <= Kernel space monitoring group g1m2
-> 	/sys/fs/resctrl/kernel/mon_groups/kernel_g2   <= Kernel space monitoring group g2
-> 	/sys/fs/resctrl/kernel/mon_groups/kernel_g2m1 <= Kernel space monitoring group g2m1
-> 	/sys/fs/resctrl/kernel/mon_groups/kernel_g2m2 <= Kernel space monitoring group g2m2
-> 
-> With a configuration as above user space can sum the monitoring events of the user space
-> groups and associated kernel space groups to obtain counts of all work done on behalf of
-> associated tasks.
-> 
-> It may not be possible to have such 1:1 relationship and user space would have to
-> arrange groups to match its usage. For example if system only supports two PMG per PARTID
-> then user space may find it best to track monitoring as below:
-> 	/sys/fs/resctrl/kernel <= Kernel space allocations
-> 	/sys/fs/resctrl/kernel/mon_data               <= Kernel space monitoring for all of default and g1
-> 	/sys/fs/resctrl/kernel/mon_groups/kernel_g2   <= Kernel space monitoring for all of g2
-> 
-> 
-> Requirements
-> ============
-> Based on understanding of what PLZA and MPAM is (and could be) capable of while considering the
-> use case presented thus far it seems that resctrl has to:
-> - support global assignment of resource group for kernel work
-> - support per-resource group assignment for kernel work
-> 
+free -m
+               total        used        free      shared  buff/cache   available
+Mem:           31596        5094       11667          19       15302       26502
+Swap:          65535          33       65502
 
-Yes. That is correct.
+Running the usemem benchmark with n = 1, 56G for 5 times, and average
+out the result:
 
+Baseline (6.19):
 
-> How can resctrl support the requirements?
-> =========================================
-> 
-> New global resctrl fs files
-> ===========================
-> info/kernel_mode (always visible)
-> info/kernel_mode_assignment (visibility and content depends on active setting in info/kernel_mode)
+real: mean: 190.93s, stdev: 5.09s
+user: mean: 46.62s, stdev: 0.27s
+sys: mean: 128.51s, stdev: 5.17s
+throughput: mean: 382093 KB/s, stdev: 11173.6 KB/s
+free time: mean: 7916690.2 usecs, stdev: 88923.0 usecs
 
-Probably good idea to drop "assign" for this work. We already have 
-mbm_assign mode and related work.
+VSS without this patch:
+real: mean: 194.59s, stdev: 7.61s
+user: mean: 46.71s, stdev: 0.46s
+sys: mean: 131.97s, stdev: 7.93s
+throughput: mean: 379236.4 KB/s, stdev: 15912.26 KB/s
+free time: mean: 10115572.2 usecs, stdev: 108318.35 usecs
 
-info/kernel_mode_assoc or info/kernel_mode_association? Or We can wait 
-later to rename appropriately.
+VSS with this patch:
+real: mean: 187.66s, stdev: 5.67s
+user: mean: 46.5s, stdev: 0.16s
+sys: mean: 125.3s, stdev: 5.58s
+throughput: mean: 387506.4 KB/s, stdev: 12556.56 KB/s
+free time: mean: 7029733.8 usecs, stdev: 124661.34 usecs
 
-> 
-> info/kernel_mode
-> ================
-> - Displays the currently active as well as possible features available to user
->    space.
-> - Single place where user can query "kernel mode" behavior and capabilities of the
->    system.
-> - Some possible values:
->    - inherit_ctrl_and_mon <=== previously named "match_user", just renamed for consistency with other names
->       When active, kernel and user space use the same CLOSID/RMID. The current status
->       quo for x86.
->    - global_assign_ctrl_inherit_mon
->       When active, CLOSID/control group can be assigned for *all* (hence, "global")
->       kernel work while all kernel work uses same RMID as user space.
->       Can only be supported on architecture where CLOSID and RMID are independent.
->       An arch may support this in hardware (RMID_EN=0?) or this can be done by resctrl during
->       context switch if the RMID is independent and the context switches cost is
->       considered "reasonable".
->       This supports use case https://lore.kernel.org/lkml/CABPqkBSq=cgn-am4qorA_VN0vsbpbfDePSi7gubicpROB1=djw@mail.gmail.com/
->       for PLZA.
->    - global_assign_ctrl_assign_mon
->       When active the same resource group (CLOSID and RMID) can be assigned to
->       *all* kernel work. This could be any group, including the default group.
->       There may not be a use case for this but it could be useful as an intemediate
->       step of the mode that follow (more later).
->    - per_group_assign_ctrl_assign_mon
->       When active every resource group can be associated with another (or the same)
->       resource group. This association maps the resource group for user space work
->       to resource group for kernel work. This is similar to the "kernel_group" idea
->       presented in:
->       https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/
->       This addresses use case https://lore.kernel.org/lkml/CABPqkBSq=cgn-am4qorA_VN0vsbpbfDePSi7gubicpROB1=djw@mail.gmail.com/
->       for MPAM.
+[1]: https://lore.kernel.org/linux-mm/CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com/
 
-All these new names and related information will go in global structure.
+Signed-off-by: Nhat Pham <nphamcs@gmail.com>
+---
+ include/linux/memcontrol.h |   6 +
+ mm/internal.h              |  18 ++-
+ mm/madvise.c               |   2 +-
+ mm/memcontrol.c            |   2 +-
+ mm/memory.c                |   8 +-
+ mm/vswap.c                 | 294 ++++++++++++++++++-------------------
+ 6 files changed, 165 insertions(+), 165 deletions(-)
 
-Something like this..
-
-Struct kern_mode {
-        enum assoc_mode;
-        struct rdtgroup *k_rdtgrp;
-        ...
-};
-
-Not sure what other information will be required here. Will know once I 
-stared working on it.
-
-This structure will be updated based on user echo's in "kernel_mode" and 
-"kernel_mode_assignment".
-
-
-> - Additional values can be added as new requirements arise, for example "per_task"
->    assignment. Connecting visibility of info/kernel_mode_assignment to mode in
->    info/kernel_mode enables resctrl to later support additional modes that may require
->    different configuration files, potentially per-resource group like the "tasks_kernel"
->    (or perhaps rather "kernel_mode_tasks" to have consistent prefix for this feature)
->    and "cpus_kernel" ("kernel_mode_cpus"?) discussed in these threads.
-
-So, per resource group file "kernel_mode_tasks" and "kernel_mode_cpus" 
-are not required right now. Correct?
-
-
->    
-> User can view active and supported modes:
-> 
-> 	# cat info/kernel_mode
-> 	[inherit_ctrl_and_mon]
-> 	global_assign_ctrl_inherit_mon
-> 	global_assign_ctrl_assign_mon
-> 
-> User can switch modes:
-> 	# echo global_assign_ctrl_inherit_mon > kernel_mode
-> 	# cat kernel_mode
-> 	inherit_ctrl_and_mon
-> 	[global_assign_ctrl_inherit_mon]
-> 	global_assign_ctrl_assign_mon
-> 
-> 
-> info/kernel_mode_assignment
-> ===========================
-> - Visibility depends on active mode in info/kernel_mode.
-> - Content depends on active mode in info/kernel_mode
-> - Syntax to identify resource groups can use the syntax created as part of earlier ABMC work
->    that supports default group https://lore.kernel.org/lkml/cover.1737577229.git.babu.moger@amd.com/
-> - Default CTRL_MON group and if relevant, the default MON group, can be the default
->    assignment when user just changes the kernel_mode without setting the assignment.
-> 
-> info/kernel_mode_assignment when mode is global_assign_ctrl_inherit_mon
-> -----------------------------------------------------------------------
-> - info/kernel_mode_assignment contains single value that is the name of the control group
->    used for all kernel work.
-> - CLOSID/PARTID used for kernel work is determined from the control group assigned
-> - default value is default CTRL_MON group
-> - no monitor group assignment, kernel work inherits user space RMID
-> - syntax is
->      <CTRL_MON group> with "/" meaning default.
-> 
-> info/kernel_mode_assignment when mode is global_assign_ctrl_assign_mon
-> -----------------------------------------------------------------------
-> - info/kernel_mode_assignment contains single value that is the name of the resource group
->    used for all kernel work.
-> - Combined CLOSID/RMID or combined PARTID/PMG is set globally to be associated with all
->    kernel work.
-> - default value is default CTRL_MON group
-> - syntax is
->      <CTRL_MON group>/MON group>/ with "//" meaning default control and default monitoring group.
-> 
-> info/kernel_mode_assignment when mode is per_group_assign_ctrl_assign_mon
-> -------------------------------------------------------------------------
-> - this presents the information proposed in https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/
->    within a single file for convenience and potential optimization when user space needs to make changes.
->    Interface proposed in https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/ is also an option
->    and as an alternative a per-resource group "kernel_group" can be made visible when user space enables
->    this mode.
-> - info/kernel_mode_assignment contains a mapping of every resource group to another resource group:
->    <resource group for user space work>:<resource group for kernel work>
-> - all resource groups must be present in first field of this file
-> - Even though this is a "per group" setting expectation is that this will set the
->    kernel work CLOSID/RMID for every task. This implies that writing to this file would need
->    to access the tasklist_lock that, when taking for too long, may impact other parts of system.
->    See https://lore.kernel.org/lkml/CALPaoCh0SbG1+VbbgcxjubE7Cc2Pb6QqhG3NH6X=WwsNfqNjtA@mail.gmail.com/
-
-This mode is currently not supported in AMD PLZA implementation. But we 
-have to keep the options open for future enhancement for MPAM. I am 
-still learning on MPM requirement.
-
-> 
-> Scenarios supported
-> ===================
-> 
-> Default
-> -------
-> For x86 I understand kernel work and user work to be done with same CLOSID/RMID which
-> implies that info/kernel_mode can always be visible and at least display:
-> 	# cat info/kernel_mode
-> 	[inherit_ctrl_and_mon]
-> 
-> info/kernel_mode_assignment is not visible in this mode.
-> 
-> I understand MPAM may have different defaults here so would like to understand better.
-> 
-> Dedicated global allocations for kernel work, monitoring same for user space and kernel (PLZA)
-> ----------------------------------------------------------------------------------------------
-> Possible scenario with PLZA, not MPAM (see later):
-> 1. Create group(s) to manage allocations associated with user space work
->     and assign tasks/CPUs to these groups.
-> 2. Create group to manage allocations associated with all kernel work.
->     - For example,
-> 	# mkdir /sys/fs/resctrl/unthrottled
->     - No constraints from resctrl fs on interactions with files in this group. From resctrl
->       fs perspective it is not "dedicated" to kernel work but just another resource group.
-
-That is correct. We dont need to handle the group special for 
-kernel_mode while creating the group. However, there will some handling 
-required when kernel_mode group is deleted. We need to move the 
-tasks/cpus back to default group and update the global kernel_mode 
-structure.
-
-
->       User space can still assign tasks/CPUs to this group that will result in this group
->       to be used for both kernel and user space control and monitoring. If user space wants
->       to dedicate a group to kernel work then they should not assign tasks/CPUs to it.
-> 3. Set kernel mode to global_assign_ctrl_inherit_mon:
-> 	# echo global_assign_ctrl_inherit_mon > info/kernel_mode
->    - info/kernel_mode_assignment becomes visible and contains "/"  to indicate that default
->      resource group is used for all kernel work
->    - Sets the "global" CLOSID to be used for kernel work to 0, no setting of global RMID.
-> 4. Set control group to be used for all kernel work:
-> 	# echo unthrottled > info/kernel_mode_assignment
->      - Sets the "global" CLOSID to be used for kernel work to CLOSID associated with
->        CTRL_MON group named "unthrottled", no change to global RMID.
-> 
-
-Ok. Sounds good.
-
-
-> 
-> Dedicated global allocations and monitoring for kernel work
-> -----------------------------------------------------------
-> - Step 1 and 2 could be the same as above.
-> OR
-> 2b. If there is an "unthrottled" control group that is used for both user space and kernel
->      allocations a separate MON group can be used to track monitoring data for kernel work.
->     - For example,
-> 	# mkdir /sys/fs/resctrl/unthrottled <=== All high priority work, kernel and user space
-> 	# mkdir /sys/fs/resctrl/unthrottled/mon_groups/kernel_unthrottled <= Just monitor kernel work
-> 
-> 3. Set kernel mode to global_assign_ctrl_assign_mon:
-> 	# echo global_assign_ctrl_assign_mon > info/kernel_mode
->    - info/kernel_mode_assignment becomes visible and contains "//" - default CTRL_MON is
->      used for all kernel work allocations and monitoring
->    - Sets both the "global" CLOSID and RMID to be used for kernel work to 0.
-> 4. Set control group to be used for all kernel work:
-> 	# echo unthrottled/kernel_unthrottled > info/kernel_mode_assignment
->      - Sets the "global" CLOSID to be used for kernel work to CLOSID associated with
->        CTRL_MON group named "unthrottled" and RMID used for kernel work to RMID
->        associated with child MON group within "unthrottled" group named "kernel_untrottled".
-> 
-
-ok. Sounds good.
-
-> Dedicated global allocations for kernel work, monitoring same for user space and kernel (MPAM)
-> ----------------------------------------------------------------------------------------------
-> 1. User space creates resource and monitoring groups for user tasks:
->   	/sys/fs/resctrl <= User space default allocations
-> 	/sys/fs/resctrl/g1 <= User space allocations g1
-> 	/sys/fs/resctrl/g1/mon_groups/g1m1 <= User space monitoring group g1m1
-> 	/sys/fs/resctrl/g1/mon_groups/g1m2 <= User space monitoring group g1m2
-> 	/sys/fs/resctrl/g2 <= User space allocations g2
-> 	/sys/fs/resctrl/g2/mon_groups/g2m1 <= User space monitoring group g2m1
-> 	/sys/fs/resctrl/g2/mon_groups/g2m2 <= User space monitoring group g2m2
-> 
-> 2. User space creates resource and monitoring groups for kernel work (system has two PMG):
-> 	/sys/fs/resctrl/kernel <= Kernel space allocations
-> 	/sys/fs/resctrl/kernel/mon_data               <= Kernel space monitoring for all of default and g1
-> 	/sys/fs/resctrl/kernel/mon_groups/kernel_g2   <= Kernel space monitoring for all of g2
-> 3. Set kernel mode to per_group_assign_ctrl_assign_mon:
-> 	# echo per_group_assign_ctrl_assign_mon > info/kernel_mode
->     - info/kernel_mode_assignment becomes visible and contains
-> 	# cat info/kernel_mode_assignment
-> 	//://
-> 	g1//://
-> 	g1/g1m1/://
-> 	g1/g1m2/://
-> 	g2//://
-> 	g2/g2m1/://
-> 	g2/g2m2/://
->     - An optimization here may be to have the change to per_group_assign_ctrl_assign_mon mode be implemented
->       similar to the change to global_assign_ctrl_assign_mon that initializes a global default. This can
->       avoid keeping tasklist_lock for a long time to set all tasks' kernel CLOSID/RMID to default just for
->       user space to likely change it.
-> 4. Set groups to be used for kernel work:
-> 	# echo '//:kernel//\ng1//:kernel//\ng1/g1m1/:kernel//\ng1/g1m2/:kernel//\ng2//:kernel/kernel_g2/\ng2/g2m1/:kernel/kernel_g2/\ng2/g2m2/:kernel/kernel_g2/\n' > info/kernel_mode_assignment
-> 
-
-Currently, this is not supported in AMD's PLZA implimentation. But we 
-need to keep this option open for MPAM.
-
-> The interfaces proposed aim to maintain compatibility with existing user space tools while
-> adding support for all requirements expressed thus far in an efficient way. For an existing
-> user space tool there is no change in meaning of any existing file and no existing known
-> resource group files are made to disappear. There is a global configuration that lets user space
-> manage allocations without needing to check and configure each control group, even per-resource
-> group allocations can be managed from user space with a single read/write to support
-> making changes in most efficient way.
-> 
-> What do you think?
-> 
-
-I will start planning this work. Feel free to add more details.
-I Will have more questions as I start working on it.
-
-I will separate GMBA work from this work.
-
-Will send both series separately.
-
-Thanks for details and summary.
-
-Thanks
-
-Babu
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 0651865a4564f..0f7f5489e1675 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -827,6 +827,7 @@ static inline unsigned short mem_cgroup_id(struct mem_cgroup *memcg)
+ 	return memcg->id.id;
+ }
+ struct mem_cgroup *mem_cgroup_from_id(unsigned short id);
++void mem_cgroup_id_put_many(struct mem_cgroup *memcg, unsigned int n);
+ 
+ #ifdef CONFIG_SHRINKER_DEBUG
+ static inline unsigned long mem_cgroup_ino(struct mem_cgroup *memcg)
+@@ -1289,6 +1290,11 @@ static inline struct mem_cgroup *mem_cgroup_from_id(unsigned short id)
+ 	return NULL;
+ }
+ 
++static inline void mem_cgroup_id_put_many(struct mem_cgroup *memcg,
++					  unsigned int n)
++{
++}
++
+ #ifdef CONFIG_SHRINKER_DEBUG
+ static inline unsigned long mem_cgroup_ino(struct mem_cgroup *memcg)
+ {
+diff --git a/mm/internal.h b/mm/internal.h
+index cfe97501e4885..df991f601702c 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -327,8 +327,6 @@ static inline swp_entry_t swap_nth(swp_entry_t entry, long n)
+ 	return (swp_entry_t) { entry.val + n };
+ }
+ 
+-swp_entry_t swap_move(swp_entry_t entry, long delta);
+-
+ /**
+  * pte_move_swp_offset - Move the swap entry offset field of a swap pte
+  *	 forward or backward by delta
+@@ -342,7 +340,7 @@ swp_entry_t swap_move(swp_entry_t entry, long delta);
+ static inline pte_t pte_move_swp_offset(pte_t pte, long delta)
+ {
+ 	softleaf_t entry = softleaf_from_pte(pte);
+-	pte_t new = swp_entry_to_pte(swap_move(entry, delta));
++	pte_t new = swp_entry_to_pte(swap_nth(entry, delta));
+ 
+ 	if (pte_swp_soft_dirty(pte))
+ 		new = pte_swp_mksoft_dirty(new);
+@@ -372,6 +370,7 @@ static inline pte_t pte_next_swp_offset(pte_t pte)
+  * @start_ptep: Page table pointer for the first entry.
+  * @max_nr: The maximum number of table entries to consider.
+  * @pte: Page table entry for the first entry.
++ * @free_batch: Whether the batch will be passed to free_swap_and_cache_nr().
+  *
+  * Detect a batch of contiguous swap entries: consecutive (non-present) PTEs
+  * containing swap entries all with consecutive offsets and targeting the same
+@@ -382,13 +381,15 @@ static inline pte_t pte_next_swp_offset(pte_t pte)
+  *
+  * Return: the number of table entries in the batch.
+  */
+-static inline int swap_pte_batch(pte_t *start_ptep, int max_nr, pte_t pte)
++static inline int swap_pte_batch(pte_t *start_ptep, int max_nr, pte_t pte,
++				 bool free_batch)
+ {
+ 	pte_t expected_pte = pte_next_swp_offset(pte);
+ 	const pte_t *end_ptep = start_ptep + max_nr;
+ 	const softleaf_t entry = softleaf_from_pte(pte);
+ 	pte_t *ptep = start_ptep + 1;
+ 	unsigned short cgroup_id;
++	int nr;
+ 
+ 	VM_WARN_ON(max_nr < 1);
+ 	VM_WARN_ON(!softleaf_is_swap(entry));
+@@ -408,7 +409,14 @@ static inline int swap_pte_batch(pte_t *start_ptep, int max_nr, pte_t pte)
+ 		ptep++;
+ 	}
+ 
+-	return ptep - start_ptep;
++	nr = ptep - start_ptep;
++	/*
++	 * free_swap_and_cache_nr can handle mixed backends, as long as virtual
++	 * swap entries backing these PTEs are contiguous.
++	 */
++	if (!free_batch && !vswap_can_swapin_thp(entry, nr))
++		return 1;
++	return nr;
+ }
+ #endif /* CONFIG_MMU */
+ 
+diff --git a/mm/madvise.c b/mm/madvise.c
+index b617b1be0f535..441da03c5d2b9 100644
+--- a/mm/madvise.c
++++ b/mm/madvise.c
+@@ -692,7 +692,7 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
+ 
+ 			if (softleaf_is_swap(entry)) {
+ 				max_nr = (end - addr) / PAGE_SIZE;
+-				nr = swap_pte_batch(pte, max_nr, ptent);
++				nr = swap_pte_batch(pte, max_nr, ptent, true);
+ 				nr_swap -= nr;
+ 				free_swap_and_cache_nr(entry, nr);
+ 				clear_not_present_full_ptes(mm, addr, pte, nr, tlb->fullmm);
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 50be8066bebec..bfa25eaffa12a 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -3597,7 +3597,7 @@ void __maybe_unused mem_cgroup_id_get_many(struct mem_cgroup *memcg,
+ 	refcount_add(n, &memcg->id.ref);
+ }
+ 
+-static void mem_cgroup_id_put_many(struct mem_cgroup *memcg, unsigned int n)
++void mem_cgroup_id_put_many(struct mem_cgroup *memcg, unsigned int n)
+ {
+ 	if (refcount_sub_and_test(n, &memcg->id.ref)) {
+ 		mem_cgroup_id_remove(memcg);
+diff --git a/mm/memory.c b/mm/memory.c
+index a16bf84ebaaf9..59645ad238e22 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -1742,7 +1742,7 @@ static inline int zap_nonpresent_ptes(struct mmu_gather *tlb,
+ 		if (!should_zap_cows(details))
+ 			return 1;
+ 
+-		nr = swap_pte_batch(pte, max_nr, ptent);
++		nr = swap_pte_batch(pte, max_nr, ptent, true);
+ 		rss[MM_SWAPENTS] -= nr;
+ 		free_swap_and_cache_nr(entry, nr);
+ 	} else if (softleaf_is_migration(entry)) {
+@@ -4491,7 +4491,7 @@ static bool can_swapin_thp(struct vm_fault *vmf, pte_t *ptep, int nr_pages)
+ 	if (!pte_same(pte, pte_move_swp_offset(vmf->orig_pte, -idx)))
+ 		return false;
+ 	entry = softleaf_from_pte(pte);
+-	if (swap_pte_batch(ptep, nr_pages, pte) != nr_pages)
++	if (swap_pte_batch(ptep, nr_pages, pte, false) != nr_pages)
+ 		return false;
+ 
+ 	/*
+@@ -4877,7 +4877,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 		pte_t folio_pte = ptep_get(folio_ptep);
+ 
+ 		if (!pte_same(folio_pte, pte_move_swp_offset(vmf->orig_pte, -idx)) ||
+-		    swap_pte_batch(folio_ptep, nr, folio_pte) != nr)
++		    swap_pte_batch(folio_ptep, nr, folio_pte, false) != nr)
+ 			goto out_nomap;
+ 
+ 		page_idx = idx;
+@@ -4906,7 +4906,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 		folio_ptep = vmf->pte - idx;
+ 		folio_pte = ptep_get(folio_ptep);
+ 		if (!pte_same(folio_pte, pte_move_swp_offset(vmf->orig_pte, -idx)) ||
+-		    swap_pte_batch(folio_ptep, nr, folio_pte) != nr)
++		    swap_pte_batch(folio_ptep, nr, folio_pte, false) != nr)
+ 			goto check_folio;
+ 
+ 		page_idx = idx;
+diff --git a/mm/vswap.c b/mm/vswap.c
+index 2a071d5ae173c..047c6476ef23c 100644
+--- a/mm/vswap.c
++++ b/mm/vswap.c
+@@ -481,18 +481,18 @@ static void vswap_cluster_free(struct vswap_cluster *cluster)
+ 	kvfree_rcu(cluster, rcu);
+ }
+ 
+-static inline void release_vswap_slot(struct vswap_cluster *cluster,
+-		unsigned long index)
++static inline void release_vswap_slot_nr(struct vswap_cluster *cluster,
++		unsigned long index, int nr)
+ {
+ 	unsigned long slot_index = VSWAP_IDX_WITHIN_CLUSTER_VAL(index);
+ 
+ 	VM_WARN_ON(!spin_is_locked(&cluster->lock));
+-	cluster->count--;
++	cluster->count -= nr;
+ 
+-	bitmap_clear(cluster->bitmap, slot_index, 1);
++	bitmap_clear(cluster->bitmap, slot_index, nr);
+ 
+ 	/* we only free uncached empty clusters */
+-	if (refcount_dec_and_test(&cluster->refcnt))
++	if (refcount_sub_and_test(nr, &cluster->refcnt))
+ 		vswap_cluster_free(cluster);
+ 	else if (cluster->full && cluster_is_alloc_candidate(cluster)) {
+ 		cluster->full = false;
+@@ -505,7 +505,7 @@ static inline void release_vswap_slot(struct vswap_cluster *cluster,
+ 		}
+ 	}
+ 
+-	atomic_dec(&vswap_used);
++	atomic_sub(nr, &vswap_used);
+ }
+ 
+ /*
+@@ -527,23 +527,29 @@ void vswap_rmap_set(struct swap_cluster_info *ci, swp_slot_t slot,
+ }
+ 
+ /*
+- * Caller needs to handle races with other operations themselves.
++ * release_backing - release the backend storage for a given range of virtual
++ * swap slots.
++ *
++ * Entered with the cluster locked, but might drop the lock in between.
++ * This is because several operations, such as releasing physical swap slots
++ * (i.e swap_slot_free_nr()) require the cluster to be unlocked to avoid
++ * deadlocks.
+  *
+- * Specifically, this function is safe to be called in contexts where the swap
+- * entry has been added to the swap cache and the associated folio is locked.
+- * We cannot race with other accessors, and the swap entry is guaranteed to be
+- * valid the whole time (since swap cache implies one refcount).
++ * This is safe, because:
++ *
++ * 1. The swap entry to be freed has refcnt (swap count and swapcache pin)
++ *    down to 0, so no one can change its internal state
+  *
+- * We cannot assume that the backends will be of the same type,
+- * contiguous, etc. We might have a large folio coalesced from subpages with
+- * mixed backend, which is only rectified when it is reclaimed.
++ * 2. The swap entry to be freed still holds a refcnt to the cluster, keeping
++ *    the cluster itself valid.
++ *
++ * We will exit the function with the cluster re-locked.
+  */
+- static void release_backing(swp_entry_t entry, int nr)
++static void release_backing(struct vswap_cluster *cluster, swp_entry_t entry,
++		int nr)
+ {
+-	struct vswap_cluster *cluster = NULL;
+ 	struct swp_desc *desc;
+ 	unsigned long flush_nr, phys_swap_start = 0, phys_swap_end = 0;
+-	unsigned long phys_swap_released = 0;
+ 	unsigned int phys_swap_type = 0;
+ 	bool need_flushing_phys_swap = false;
+ 	swp_slot_t flush_slot;
+@@ -551,9 +557,8 @@ void vswap_rmap_set(struct swap_cluster_info *ci, swp_slot_t slot,
+ 
+ 	VM_WARN_ON(!entry.val);
+ 
+-	rcu_read_lock();
+ 	for (i = 0; i < nr; i++) {
+-		desc = vswap_iter(&cluster, entry.val + i);
++		desc = __vswap_iter(cluster, entry.val + i);
+ 		VM_WARN_ON(!desc);
+ 
+ 		/*
+@@ -573,7 +578,6 @@ void vswap_rmap_set(struct swap_cluster_info *ci, swp_slot_t slot,
+ 		if (desc->type == VSWAP_ZSWAP && desc->zswap_entry) {
+ 			zswap_entry_free(desc->zswap_entry);
+ 		} else if (desc->type == VSWAP_SWAPFILE) {
+-			phys_swap_released++;
+ 			if (!phys_swap_start) {
+ 				/* start a new contiguous range of phys swap */
+ 				phys_swap_start = swp_slot_offset(desc->slot);
+@@ -589,56 +593,49 @@ void vswap_rmap_set(struct swap_cluster_info *ci, swp_slot_t slot,
+ 
+ 		if (need_flushing_phys_swap) {
+ 			spin_unlock(&cluster->lock);
+-			cluster = NULL;
+ 			swap_slot_free_nr(flush_slot, flush_nr);
++			mem_cgroup_uncharge_swap(entry, flush_nr);
++			spin_lock(&cluster->lock);
+ 			need_flushing_phys_swap = false;
+ 		}
+ 	}
+-	if (cluster)
+-		spin_unlock(&cluster->lock);
+-	rcu_read_unlock();
+ 
+ 	/* Flush any remaining physical swap range */
+ 	if (phys_swap_start) {
+ 		flush_slot = swp_slot(phys_swap_type, phys_swap_start);
+ 		flush_nr = phys_swap_end - phys_swap_start;
++		spin_unlock(&cluster->lock);
+ 		swap_slot_free_nr(flush_slot, flush_nr);
++		mem_cgroup_uncharge_swap(entry, flush_nr);
++		spin_lock(&cluster->lock);
+ 	}
++}
+ 
+-	if (phys_swap_released)
+-		mem_cgroup_uncharge_swap(entry, phys_swap_released);
+- }
++static void __vswap_swap_cgroup_clear(struct vswap_cluster *cluster,
++		swp_entry_t entry, unsigned int nr_ents);
+ 
+ /*
+- * Entered with the cluster locked, but might unlock the cluster.
+- * This is because several operations, such as releasing physical swap slots
+- * (i.e swap_slot_free_nr()) require the cluster to be unlocked to avoid
+- * deadlocks.
+- *
+- * This is safe, because:
+- *
+- * 1. The swap entry to be freed has refcnt (swap count and swapcache pin)
+- *    down to 0, so no one can change its internal state
+- *
+- * 2. The swap entry to be freed still holds a refcnt to the cluster, keeping
+- *    the cluster itself valid.
+- *
+- * We will exit the function with the cluster re-locked.
++ * Entered with the cluster locked. We will exit the function with the cluster
++ * still locked.
+  */
+-static void vswap_free(struct vswap_cluster *cluster, struct swp_desc *desc,
+-	swp_entry_t entry)
++static void vswap_free_nr(struct vswap_cluster *cluster, swp_entry_t entry,
++		int nr)
+ {
+-	/* Clear shadow if present */
+-	if (xa_is_value(desc->shadow))
+-		desc->shadow = NULL;
+-	spin_unlock(&cluster->lock);
++	struct swp_desc *desc;
++	int i;
+ 
+-	release_backing(entry, 1);
+-	mem_cgroup_clear_swap(entry, 1);
++	for (i = 0; i < nr; i++) {
++		desc = __vswap_iter(cluster, entry.val + i);
++		/* Clear shadow if present */
++		if (xa_is_value(desc->shadow))
++			desc->shadow = NULL;
++	}
+ 
+-	/* erase forward mapping and release the virtual slot for reallocation */
+-	spin_lock(&cluster->lock);
+-	release_vswap_slot(cluster, entry.val);
++	release_backing(cluster, entry, nr);
++	__vswap_swap_cgroup_clear(cluster, entry, nr);
++
++	/* erase forward mapping and release the virtual slots for reallocation */
++	release_vswap_slot_nr(cluster, entry.val, nr);
+ }
+ 
+ /**
+@@ -820,18 +817,32 @@ static bool vswap_free_nr_any_cache_only(swp_entry_t entry, int nr)
+ 	struct vswap_cluster *cluster = NULL;
+ 	struct swp_desc *desc;
+ 	bool ret = false;
+-	int i;
++	swp_entry_t free_start;
++	int i, free_nr = 0;
+ 
++	free_start.val = 0;
+ 	rcu_read_lock();
+ 	for (i = 0; i < nr; i++) {
++		/* flush pending free batch at cluster boundary */
++		if (free_nr && !VSWAP_IDX_WITHIN_CLUSTER_VAL(entry.val)) {
++			vswap_free_nr(cluster, free_start, free_nr);
++			free_nr = 0;
++		}
+ 		desc = vswap_iter(&cluster, entry.val);
+ 		VM_WARN_ON(!desc);
+ 		ret |= (desc->swap_count == 1 && desc->in_swapcache);
+ 		desc->swap_count--;
+-		if (!desc->swap_count && !desc->in_swapcache)
+-			vswap_free(cluster, desc, entry);
++		if (!desc->swap_count && !desc->in_swapcache) {
++			if (!free_nr++)
++				free_start = entry;
++		} else if (free_nr) {
++			vswap_free_nr(cluster, free_start, free_nr);
++			free_nr = 0;
++		}
+ 		entry.val++;
+ 	}
++	if (free_nr)
++		vswap_free_nr(cluster, free_start, free_nr);
+ 	if (cluster)
+ 		spin_unlock(&cluster->lock);
+ 	rcu_read_unlock();
+@@ -954,19 +965,33 @@ void swapcache_clear(swp_entry_t entry, int nr)
+ {
+ 	struct vswap_cluster *cluster = NULL;
+ 	struct swp_desc *desc;
+-	int i;
++	swp_entry_t free_start;
++	int i, free_nr = 0;
+ 
+ 	if (!nr)
+ 		return;
+ 
++	free_start.val = 0;
+ 	rcu_read_lock();
+ 	for (i = 0; i < nr; i++) {
++		/* flush pending free batch at cluster boundary */
++		if (free_nr && !VSWAP_IDX_WITHIN_CLUSTER_VAL(entry.val)) {
++			vswap_free_nr(cluster, free_start, free_nr);
++			free_nr = 0;
++		}
+ 		desc = vswap_iter(&cluster, entry.val);
+ 		desc->in_swapcache = false;
+-		if (!desc->swap_count)
+-			vswap_free(cluster, desc, entry);
++		if (!desc->swap_count) {
++			if (!free_nr++)
++				free_start = entry;
++		} else if (free_nr) {
++			vswap_free_nr(cluster, free_start, free_nr);
++			free_nr = 0;
++		}
+ 		entry.val++;
+ 	}
++	if (free_nr)
++		vswap_free_nr(cluster, free_start, free_nr);
+ 	if (cluster)
+ 		spin_unlock(&cluster->lock);
+ 	rcu_read_unlock();
+@@ -1107,11 +1132,13 @@ void vswap_store_folio(swp_entry_t entry, struct folio *folio)
+ 	VM_BUG_ON(!folio_test_locked(folio));
+ 	VM_BUG_ON(folio->swap.val != entry.val);
+ 
+-	release_backing(entry, nr);
+-
+ 	rcu_read_lock();
++	desc = vswap_iter(&cluster, entry.val);
++	VM_WARN_ON(!desc);
++	release_backing(cluster, entry, nr);
++
+ 	for (i = 0; i < nr; i++) {
+-		desc = vswap_iter(&cluster, entry.val + i);
++		desc = __vswap_iter(cluster, entry.val + i);
+ 		VM_WARN_ON(!desc);
+ 		desc->type = VSWAP_FOLIO;
+ 		desc->swap_cache = folio;
+@@ -1136,11 +1163,13 @@ void swap_zeromap_folio_set(struct folio *folio)
+ 	VM_BUG_ON(!folio_test_locked(folio));
+ 	VM_BUG_ON(!entry.val);
+ 
+-	release_backing(entry, nr);
+-
+ 	rcu_read_lock();
++	desc = vswap_iter(&cluster, entry.val);
++	VM_WARN_ON(!desc);
++	release_backing(cluster, entry, nr);
++
+ 	for (i = 0; i < nr; i++) {
+-		desc = vswap_iter(&cluster, entry.val + i);
++		desc = __vswap_iter(cluster, entry.val + i);
+ 		VM_WARN_ON(!desc);
+ 		desc->type = VSWAP_ZERO;
+ 	}
+@@ -1261,89 +1290,6 @@ bool vswap_can_swapin_thp(swp_entry_t entry, int nr)
+ 		(type == VSWAP_ZERO || type == VSWAP_SWAPFILE);
+ }
+ 
+-/**
+- * swap_move - increment the swap slot by delta, checking the backing state and
+- *             return 0 if the backing state does not match (i.e wrong backing
+- *             state type, or wrong offset on the backing stores).
+- * @entry: the original virtual swap slot.
+- * @delta: the offset to increment the original slot.
+- *
+- * Note that this function is racy unless we can pin the backing state of these
+- * swap slots down with swapcache_prepare().
+- *
+- * Caller should only rely on this function as a best-effort hint otherwise,
+- * and should double-check after ensuring the whole range is pinned down.
+- *
+- * Return: the incremented virtual swap slot if the backing state matches, or
+- *         0 if the backing state does not match.
+- */
+-swp_entry_t swap_move(swp_entry_t entry, long delta)
+-{
+-	struct vswap_cluster *cluster = NULL;
+-	struct swp_desc *desc, *next_desc;
+-	swp_entry_t next_entry;
+-	struct folio *folio = NULL, *next_folio = NULL;
+-	enum swap_type type, next_type;
+-	swp_slot_t slot = {0}, next_slot = {0};
+-
+-	next_entry.val = entry.val + delta;
+-
+-	rcu_read_lock();
+-
+-	/* Look up first descriptor and get its type and backing store */
+-	desc = vswap_iter(&cluster, entry.val);
+-	if (!desc) {
+-		rcu_read_unlock();
+-		return (swp_entry_t){0};
+-	}
+-
+-	type = desc->type;
+-	if (type == VSWAP_ZSWAP) {
+-		/* zswap not supported for move */
+-		spin_unlock(&cluster->lock);
+-		rcu_read_unlock();
+-		return (swp_entry_t){0};
+-	}
+-	if (type == VSWAP_FOLIO)
+-		folio = desc->swap_cache;
+-	else if (type == VSWAP_SWAPFILE)
+-		slot = desc->slot;
+-
+-	/* Look up second descriptor and get its type and backing store */
+-	next_desc = vswap_iter(&cluster, next_entry.val);
+-	if (!next_desc) {
+-		rcu_read_unlock();
+-		return (swp_entry_t){0};
+-	}
+-
+-	next_type = next_desc->type;
+-	if (next_type == VSWAP_FOLIO)
+-		next_folio = next_desc->swap_cache;
+-	else if (next_type == VSWAP_SWAPFILE)
+-		next_slot = next_desc->slot;
+-
+-	if (cluster)
+-		spin_unlock(&cluster->lock);
+-
+-	rcu_read_unlock();
+-
+-	/* Check if types match */
+-	if (next_type != type)
+-		return (swp_entry_t){0};
+-
+-	/* Check backing state consistency */
+-	if (type == VSWAP_SWAPFILE &&
+-			(swp_slot_type(next_slot) != swp_slot_type(slot) ||
+-				swp_slot_offset(next_slot) !=
+-							swp_slot_offset(slot) + delta))
+-		return (swp_entry_t){0};
+-
+-	if (type == VSWAP_FOLIO && next_folio != folio)
+-		return (swp_entry_t){0};
+-
+-	return next_entry;
+-}
+-
+ /*
+  * Return the count of contiguous swap entries that share the same
+  * VSWAP_ZERO status as the starting entry. If is_zeromap is not NULL,
+@@ -1863,11 +1809,10 @@ void zswap_entry_store(swp_entry_t swpentry, struct zswap_entry *entry)
+ 	struct vswap_cluster *cluster = NULL;
+ 	struct swp_desc *desc;
+ 
+-	release_backing(swpentry, 1);
+-
+ 	rcu_read_lock();
+ 	desc = vswap_iter(&cluster, swpentry.val);
+ 	VM_WARN_ON(!desc);
++	release_backing(cluster, swpentry, 1);
+ 	desc->zswap_entry = entry;
+ 	desc->type = VSWAP_ZSWAP;
+ 	spin_unlock(&cluster->lock);
+@@ -1914,17 +1859,22 @@ bool zswap_empty(swp_entry_t swpentry)
+ #endif /* CONFIG_ZSWAP */
+ 
+ #ifdef CONFIG_MEMCG
+-static unsigned short vswap_cgroup_record(swp_entry_t entry,
+-				unsigned short memcgid, unsigned int nr_ents)
++/*
++ * __vswap_cgroup_record - record mem_cgroup for a set of swap entries
++ *
++ * Entered with the cluster locked. We will exit the function with the cluster
++ * still locked.
++ */
++static unsigned short __vswap_cgroup_record(struct vswap_cluster *cluster,
++				swp_entry_t entry, unsigned short memcgid,
++				unsigned int nr_ents)
+ {
+-	struct vswap_cluster *cluster = NULL;
+ 	struct swp_desc *desc;
+ 	unsigned short oldid, iter = 0;
+ 	int i;
+ 
+-	rcu_read_lock();
+ 	for (i = 0; i < nr_ents; i++) {
+-		desc = vswap_iter(&cluster, entry.val + i);
++		desc = __vswap_iter(cluster, entry.val + i);
+ 		VM_WARN_ON(!desc);
+ 		oldid = desc->memcgid;
+ 		desc->memcgid = memcgid;
+@@ -1932,6 +1882,37 @@ static unsigned short vswap_cgroup_record(swp_entry_t entry,
+ 			iter = oldid;
+ 		VM_WARN_ON(iter != oldid);
+ 	}
++
++	return oldid;
++}
++
++/*
++ * Clear swap cgroup for a range of swap entries.
++ * Entered with the cluster locked. Caller must be under rcu_read_lock().
++ */
++static void __vswap_swap_cgroup_clear(struct vswap_cluster *cluster,
++				      swp_entry_t entry, unsigned int nr_ents)
++{
++	unsigned short id;
++	struct mem_cgroup *memcg;
++
++	id = __vswap_cgroup_record(cluster, entry, 0, nr_ents);
++	memcg = mem_cgroup_from_id(id);
++	if (memcg)
++		mem_cgroup_id_put_many(memcg, nr_ents);
++}
++
++static unsigned short vswap_cgroup_record(swp_entry_t entry,
++				unsigned short memcgid, unsigned int nr_ents)
++{
++	struct vswap_cluster *cluster = NULL;
++	struct swp_desc *desc;
++	unsigned short oldid;
++
++	rcu_read_lock();
++	desc = vswap_iter(&cluster, entry.val);
++	VM_WARN_ON(!desc);
++	oldid = __vswap_cgroup_record(cluster, entry, memcgid, nr_ents);
+ 	spin_unlock(&cluster->lock);
+ 	rcu_read_unlock();
+ 
+@@ -1999,6 +1980,11 @@ unsigned short lookup_swap_cgroup_id(swp_entry_t entry)
+ 	rcu_read_unlock();
+ 	return ret;
+ }
++#else /* !CONFIG_MEMCG */
++static void __vswap_swap_cgroup_clear(struct vswap_cluster *cluster,
++				      swp_entry_t entry, unsigned int nr_ents)
++{
++}
+ #endif /* CONFIG_MEMCG */
+ 
+ int vswap_init(void)
+-- 
+2.47.3
 
