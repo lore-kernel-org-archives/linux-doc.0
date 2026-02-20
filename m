@@ -1,115 +1,112 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C94B346E58
-	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 13:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01683346E43;
+	Fri, 20 Feb 2026 13:42:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771594205; cv=none; b=nVD5QNMYaXo6I0/dvaprY1vOTwX+ioE2BRh9nsTfkSoz7YI3Hs0CMRH2efo8gJq48vuZgfUB4GClADTqDk4uyEOujbT9GIuW7hTB4UPDpPwlE4rjUMSeavHwr8Kojxh2dQefz6753Y3Uj64e4zY1jitISK/c1New9gt8LxKYubc=
+	t=1771594975; cv=none; b=s3dBzCpBzZSi9E8CLLYINoaG/ZD5eDsPYJifOqjikdCYRI9OjETl03Sr8vZwW3QvJcC+OFUHcNZsztro18MNaOQsu1b3V9HTyr2JxvtKDzJF3c2bjteubUeXGM3AcU81B6FJZR9kLcPcJxWF9jPxmaoxbfTCW+KHplqoNsoKgKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771594205; c=relaxed/simple;
-	bh=LGPe+usfcJCKf/UAlz7Wan07KA1SbhndzIWG9nbBskM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iH4PrG8HBJkfAEDzZ1x9QUfMQvcLkzv0DBQYxSPANMrmA1gQ0m/93LQIJErtdug5caD5/GGnUH+PSOH8GWFnf1+A6Kk5DibU/cCG/4QIBG3h3K891kV/j5VShTa6yOsk7mAWgtsLA0kZFQw9TMpEeEYWEZS6td8a0yhZfPZV2iU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SiJFrT/k; arc=none smtp.client-ip=209.85.215.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SiJFrT/k"
-Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-c54f700b5b1so1326019a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 05:30:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771594203; x=1772199003; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/0o/RmLTUMvz6io+AT/DPftRCk0iXRLPXeaFhwBdO5I=;
-        b=SiJFrT/k6Yi5dOd8e7opIncHECRsXwfXsaF5A0G8duyyom8krpgdWJIt7O5LG5rI0I
-         VnDAoKyp3/R1J9JsuAThGfz1v96J0KMxVTcFD1cWQzH6h2cRKmxq5pmGS42LIaTK21YQ
-         +Xdp4DxDN1+XiOf37oxJfBfS0q3c/Ncs3q94fhzZNknqYg9aqJMv0ak864gDTBB+Jrdm
-         DFODLuk4HYNPV9AG7rQG5FqEd4VfOUrU+mg+NdpZDRt3p7CBGyVmwTeBv2XwHF1bEhux
-         MnHtFRLGWy4uAIe/dqsoRL6a6cdlxrHApT759d0lj+5IUI4IlwGmXpwZFBmTuA+n4Ow0
-         nUAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771594203; x=1772199003;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/0o/RmLTUMvz6io+AT/DPftRCk0iXRLPXeaFhwBdO5I=;
-        b=mHZ6RL6AsOduRKDZWzGjSdU+bLw4ZYtEkWQ6O/p+5puqW9xK+3pOtSSfM4Ah2AglOx
-         ohIzZkmYEWckUm8bxjeCM4AvMwLVf5JCUHBhFgNSYsgoSlRotNwvk4ysNmMpEh8kvku0
-         CGwnkYVRjU5Q1NrxirFXHi+r8k+CAVww+otmf5iHpsdD6z7uye4gHioy5q4X4RuALZnz
-         NE2+i33uKNLLSCvSlSK4v+76/2Dt0/ck8l7heesi3RCHseeiOegiDpLg2GEEa+c1KflN
-         H0oWuGV5Moo81hHSVfNL5GAweb3d/yozQmOkkVz8uw2AAqDPihe06QRbqx9Zvc4GcoTN
-         ku+g==
-X-Gm-Message-State: AOJu0YzIPVsoUSJnBHmSFne5OObysRPp8bXGT53h1V0TSkLSO4oQMSZ1
-	n+EAgKZd9Um0HPsoDOv23+lJCq8xf0U7RF7oFNLFZ77f7B5/aDa3faknpoMKnvbqm4I=
-X-Gm-Gg: AZuq6aITfrQPc3reSUNRft9alxR9pA8nV5ixZMqvCYKNJm+FJ4RgXk+UCnEXk3HeWxd
-	JBSqgfwgXoe8SfhMc9um6AAwMAvKoVrrreXkzeCiwueOmW1wf2r6n18NKhQ/X5Q4UGkWK4ZgCWP
-	uwxIYatYPfTDs+0t3Dtvp119MTTovCwTafS2LJTcqDGb6LSaSDl0WaQv7lrzqc/19gYqaKg4lrz
-	4jX3TBdmluwqUkDHbuKFL94o4o54NeAoU/EctzVYjfnJ4QBQejH/TUMuoOmvfaC8cpYXWRKX6Ch
-	aLp1OzhKvlnN05gRT902Da7ZD1IyOfPcNhXe03DymiFKYjlrKzeYp+Vel4JlM59BZdZJdZZCQTJ
-	WNeDuSyQCG3gh2J8NNkKNZgxZKD3b74RWUlMRnQlaDsxnC3J4n0fCViBn64HRqqim9oSozX9GxY
-	9W65jK18OaAJOOCaGiLwNQ61DKMJIOwMJvDIA=
-X-Received: by 2002:a05:6a21:7a4a:b0:394:5ae0:2921 with SMTP id adf61e73a8af0-39483aa0b89mr19127593637.62.1771594203427;
-        Fri, 20 Feb 2026 05:30:03 -0800 (PST)
-Received: from localhost ([103.251.247.23])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-824cc22f4d9sm21119904b3a.39.2026.02.20.05.30.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Feb 2026 05:30:03 -0800 (PST)
-From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: greg@kroah.com,
-	Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-Subject: [PATCH] Documentation: polish Executive Summary and Intro in stable-api-nonsense.rst
-Date: Fri, 20 Feb 2026 19:29:09 +0600
-Message-ID: <20260220132910.9645-1-islamarifulshoikat@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1771594975; c=relaxed/simple;
+	bh=982hEo3jsh9UnLCSzsX35G+l2P3VUEY+ReOy8VBkpNY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=B0pLDshMK83QyplTmKu0cKZkm8qitxCvSTKBnKdI20uDtDMZzIh4OHKxa0P5+EV9fa4JqC+dT2lS3vMmE/pkiEha7Eb7LKAj3mEyhCTIW1PnpVOsDIVPJwgiHzBGHpjLZDrVYAWQufEN4c9RzCca0WwJJR4clba8+hRD1My8xfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0B01339;
+	Fri, 20 Feb 2026 05:42:45 -0800 (PST)
+Received: from e134710.arm.com (e134710.arm.com [10.33.10.82])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 35F8A3F7D8;
+	Fri, 20 Feb 2026 05:42:50 -0800 (PST)
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+Subject: [PATCH v2 00/11] ACPI: APEI: share GHES CPER helpers and add DT
+ FFH provider
+Date: Fri, 20 Feb 2026 13:42:18 +0000
+Message-Id: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALpkmGkC/x3NSw6DIBSF4a0YxsVwiVbbUffRGII8yk0qGCC2j
+ XHvBYf/GZxvJ8lENIncm51Es2HC4EvwS0OUk/5lKOrShDN+ZZwzmsOKKlHplowzAxplEtY6IeM
+ i0GcTvXyL+mQ+dLZaq8GqQcmZlMc1GovfU3tOpR2mHOLvxDeoa3V64DAA8LHrWxihA7hRqKDRb
+ THlo1CtCguZjuP4A6lGMrbBAAAA
+To: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org
+Cc: Ahmed Tiba <ahmed.tiba@arm.com>, Dmitry.Lamerov@arm.com, 
+ catalin.marinas@arm.com, bp@alien8.de, robh@kernel.org, rafael@kernel.org, 
+ will@kernel.org, conor@kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-doc@vger.kernel.org, krzk+dt@kernel.org, Michael.Zhao2@arm.com, 
+ tony.luck@intel.com
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1771594970; l=2888;
+ i=ahmed.tiba@arm.com; s=20260219; h=from:subject:message-id;
+ bh=982hEo3jsh9UnLCSzsX35G+l2P3VUEY+ReOy8VBkpNY=;
+ b=cLJYGPUzLiW1gXsUelnqwCZMg4kD59OC630t667vlkxrKGG4uv/t6ou1g1meUp+dyy9N4go6C
+ ZKzNSrjg4ZNB2Ox3i8urPqYhkfTwgB0fltGYDiGtN7TSDXwFzgWmNhl
+X-Developer-Key: i=ahmed.tiba@arm.com; a=ed25519;
+ pk=xVOtd+Qklh/4tuM3tB+BEZD4jj5a6W59C3KCNX6v7OE=
 
-Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+This is v2 of the GHES refactor series. The goal is to reuse existing
+GHES CPER handling for non-ACPI platforms without changing the GHES
+flow or naming, and add a DT firmware-first CPER provider, while
+keeping the changes mechanical and reviewable.
+
+Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
 ---
- Documentation/process/stable-api-nonsense.rst | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Changes in v2:
+- Dropped the proposed "estatus core" and kept GHES naming/flow intact
+  (per Borislav Petkov).
+- Re-sliced the series into smaller mechanical steps (per Mauro Carvalho Chehab).
+- Minor DT binding fixes based on Krzysztof Kozlowski's feedback.
+- Removed fixmap slot usage from the DT FFH driver (per Will Deacon).
 
-diff --git a/Documentation/process/stable-api-nonsense.rst b/Documentation/process/stable-api-nonsense.rst
-index a9625ab1fdc2..120c10ec2ab1 100644
---- a/Documentation/process/stable-api-nonsense.rst
-+++ b/Documentation/process/stable-api-nonsense.rst
-@@ -17,7 +17,7 @@ kernel interface, nor does it have a stable kernel interface**.
- 
-   The kernel to userspace interface is the one that application programs use,
-   the syscall interface.  That interface is **very** stable over time, and
--  will not break.  I have old programs that were built on a pre 0.9something
-+  will not break.  I have old programs that were built on a pre 0.9 something
-   kernel that still work just fine on the latest 2.6 kernel release.
-   That interface is the one that users and application programmers can count
-   on being stable.
-@@ -25,13 +25,13 @@ kernel interface, nor does it have a stable kernel interface**.
- 
- Executive Summary
- -----------------
--You think you want a stable kernel interface, but you really do not, and
--you don't even know it.  What you want is a stable running driver, and
--you get that only if your driver is in the main kernel tree.  You also
--get lots of other good benefits if your driver is in the main kernel
--tree, all of which has made Linux into such a strong, stable, and mature
--operating system which is the reason you are using it in the first
--place.
-+
-+You might think you want a stable kernel interface, but you really do not - and
-+you may not even realize it. What you truly want is a stable, running driver,
-+which you get only if your driver is in the main kernel tree. Being in the main
-+kernel tree also provides many additional benefits, all of which have helped 
-+make Linux a strong, stable, and mature operating system - the very reason you 
-+are using it today.
- 
- 
- Intro
+Series structure:
+- Patches 1-8 are mechanical moves only and do not change behavior.
+- Patch 9 wires the shared helpers back into GHES.
+- The DT firmware-first CPER buffer provider is added in the final patches.
+- "ACPI: APEI: introduce GHES helper" is internal build glue only
+  and does not introduce a new user-visible configuration option.
+
+- Link to v1: https://lore.kernel.org/r/20251217112845.1814119-1-ahmed.tiba@arm.com
+
+---
+Ahmed Tiba (11):
+      ACPI: APEI: GHES: share macros via a private header
+      ACPI: APEI: GHES: add ghes_cper.o stub
+      ACPI: APEI: GHES: move CPER read helpers
+      ACPI: APEI: GHES: move GHESv2 ack and alloc helpers
+      ACPI: APEI: GHES: move estatus cache helpers
+      ACPI: APEI: GHES: move vendor record helpers
+      ACPI: APEI: GHES: move CXL CPER helpers
+      ACPI: APEI: introduce GHES helper
+      ACPI: APEI: share GHES CPER helpers
+      dt-bindings: firmware: add arm,ras-ffh
+      RAS: add DeviceTree firmware-first CPER provider
+
+ Documentation/admin-guide/RAS/main.rst             |   18 +
+ .../devicetree/bindings/firmware/arm,ras-ffh.yaml  |   71 ++
+ MAINTAINERS                                        |    6 +
+ drivers/Makefile                                   |    1 +
+ drivers/acpi/Kconfig                               |    4 +
+ drivers/acpi/apei/Kconfig                          |    1 +
+ drivers/acpi/apei/apei-internal.h                  |   10 +-
+ drivers/acpi/apei/ghes.c                           | 1024 +------------------
+ drivers/acpi/apei/ghes_cper.c                      | 1026 ++++++++++++++++++++
+ drivers/ras/Kconfig                                |   12 +
+ drivers/ras/Makefile                               |    1 +
+ drivers/ras/esource-dt.c                           |  264 +++++
+ include/acpi/ghes.h                                |   10 +-
+ include/acpi/ghes_cper.h                           |  143 +++
+ include/cxl/event.h                                |    2 +-
+ 15 files changed, 1558 insertions(+), 1035 deletions(-)
+---
+base-commit: 8bf22c33e7a172fbc72464f4cc484d23a6b412ba
+change-id: 20260220-topics-ahmtib01-ras_ffh_arm_internal_review-bfddc7fc7cab
+
+Best regards,
 -- 
-2.43.0
+Ahmed Tiba <ahmed.tiba@arm.com>
 
