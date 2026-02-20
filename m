@@ -1,178 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AAF264617;
-	Fri, 20 Feb 2026 20:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FFA2FD1DA;
+	Fri, 20 Feb 2026 20:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771619879; cv=none; b=qFmHaiJPRaEmZpho5WjLGqknqDP67GFReYS25Nka7Om2XlIobx0ulXr2WU7Czd4bsC6w2kfkK78rhD/TaZeNXx6hayejhqrcyC8v1T7dWwhgdTOwPZfZ7J4jQkyMANfFy4sTtf/rO370Sz7yPHLajQkXLmagdUozFlDdz9UboxY=
+	t=1771620109; cv=none; b=Oncltdbw45DWMNW/MNuQ9YipeqvwPfsLbAoexTPzLnIHZC4PUpviV+5QptDPNurSq7wJyzFXbAxih3cHF9Xycufb0FDSg73+jc8ECD98ceYhq/i6cs9k/k3bxG4uvrOkUzoXBPCeG+dyOyspt59MkqMKR8HGqVgtsmtSrmtbUec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771619879; c=relaxed/simple;
-	bh=ckjKERshFRnI0P3yH87wL8uIgFebZFNlaKRVVAP3lPU=;
+	s=arc-20240116; t=1771620109; c=relaxed/simple;
+	bh=EGdHmGSGcknQ7r7djb62HKQ32j5nWwlteQmbW/GFSJY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bw9I53c0TeEJ6ksaJTKqR12noyCH9tklDuetRoZhoEJ8Vh3jHBHSFAs/+BUttCH6Pl7KMYhFzcKipLk0yobsUuq6sE1PiZ6ViaxezJcI5WRaU8jRD97a7EfGZJGkmqYsfhoV8Hg4kWNN+3ESbeyeX/DM1Ih7+IiRbo8GigqOySQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j4yRJIVT; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=oP4fCtJOPjbK4da36e9/9W9Jlx5qSX00YfqRb+3CMRkMFS0UC60/9+HtST4DHr+Y+O72n24JWJzLNEvI6oMa73MVE9J3GHVrhtVj1mTO8J+1+owSCSg0HEFLWVWg56Rn5WrSWWaTgDjI+Pkn2Jly/8g9MnMCr58uVhB2pnbmnvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=xXgw4y4a; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j4yRJIVT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771619878; x=1803155878;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ckjKERshFRnI0P3yH87wL8uIgFebZFNlaKRVVAP3lPU=;
-  b=j4yRJIVTg2gswtHpy04rgGa6QhsWUwGCucllT6lZKlt08MjUf5auolZf
-   PGvGShSZhT1Z/AQQI78ZLG3L91nipOn6Rv9s/P0624IzHZloRm5y2sJjm
-   IVJ6IvwkxyzdBdt8hVDs0gM2Qi4Pm3w3Ujd1eKbb5Cho8yRH8GVXt3Khu
-   qFgvoIqT1kj6iD5rPPZFKv51fYazq2GmVZEN8+2vKBnE//sdhs5bHPiHL
-   7R9+ybbTMx/keJfH4O1CKYJGFdYkElYCTovQcWnMHfBpu8wnWiKo5llqG
-   u872m1I9As30oWhs8GADR/SHxn6E9M1m64lNsMj+uAiS2dUd2dHufUX8T
-   g==;
-X-CSE-ConnectionGUID: XlbRH5idRae9El4OW3YT0Q==
-X-CSE-MsgGUID: g4wkRLR5TrWWcrda70biCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11707"; a="98179019"
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="98179019"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2026 12:37:58 -0800
-X-CSE-ConnectionGUID: X46EyZRnQnWMaZUnF4j4JA==
-X-CSE-MsgGUID: vJF2LLuERbesSX+Lp8dI8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,302,1763452800"; 
-   d="scan'208";a="213971517"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Feb 2026 12:37:54 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vtXG3-000000004Gz-2pO2;
-	Fri, 20 Feb 2026 20:37:51 +0000
-Date: Fri, 20 Feb 2026 21:37:24 +0100
-From: kernel test robot <lkp@intel.com>
-To: Ahmed Tiba <ahmed.tiba@arm.com>, devicetree@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ahmed Tiba <ahmed.tiba@arm.com>,
-	Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
-	robh@kernel.org, rafael@kernel.org, will@kernel.org,
-	conor@kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, krzk+dt@kernel.org,
-	Michael.Zhao2@arm.com, tony.luck@intel.com
-Subject: Re: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
-Message-ID: <202602202148.CB8O9os9-lkp@intel.com>
-References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b@arm.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="xXgw4y4a"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=WGq4tc2/8FniW3HL/KDpLr/I4aSlyDmzecJ4IotE1Zo=; b=xX
+	gw4y4aYuoG+UhDMysddc3jSucegZHiQ6CKqHe4mdJBdsJH0obhlgqmsspJQc0u7kqLPiedzD69d8W
+	Ex00uFYICfzXAeft2VOGXP4ELCPAp90u69orQzqLarK46rSMMSwONrPUb5k332N92ungN/wegPkNa
+	GwMMJU6cTb92hEM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vtXJg-0086rn-7Q; Fri, 20 Feb 2026 21:41:36 +0100
+Date: Fri, 20 Feb 2026 21:41:36 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Frank Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Message-ID: <f12d44e5-c2ea-42e5-ba5d-10408fdf3835@lunn.ch>
+References: <20260212213656.662437-1-shenwei.wang@nxp.com>
+ <20260212213656.662437-4-shenwei.wang@nxp.com>
+ <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
+ <PAXPR04MB918582EE33F7BD5C26259BB2896BA@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <7669d7dd-96a5-48a9-b051-875e9fbdad58@foss.st.com>
+ <PAXPR04MB91858E7125B2A4F21DDB78FD8968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <c9d73e40-ab27-4403-9ff6-a3503568fe3d@lunn.ch>
+ <PAXPR04MB91851BF97AEF1C5B728865448968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <68c5f96c-124f-4d81-9dda-8e4b6bacbeab@lunn.ch>
+ <PAXPR04MB918503335D2349BCCFEC93848968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b@arm.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PAXPR04MB918503335D2349BCCFEC93848968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
 
-Hi Ahmed,
+> Yes, most compilers will lay this out without inserting padding between the fields. 
+> However, for a communication packet, we cannot freely reorder or tweak members 
+> just to satisfy alignment rules—the field order itself becomes part of the protocol definition.
 
-kernel test robot noticed the following build errors:
+Notice i've been saying design. If the design is poor, the
+implementation has to jump through hoops to make it work, which is
+when __packed it useful, it allows you to implement a bad design.
 
-[auto build test ERROR on 8bf22c33e7a172fbc72464f4cc484d23a6b412ba]
+> Even within netdev, where you’re very familiar, the classic ethhdr still carries the packed annotation 
+> despite being naturally aligned:
+> 
+> struct ethhdr {
+> 	unsigned char	h_dest[ETH_ALEN];	/* destination eth addr	*/
+> 	unsigned char	h_source[ETH_ALEN];	/* source ether addr	*/
+> 	__be16		h_proto;		/* packet type ID field	*/
+> } __attribute__((packed));
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-Tiba/ACPI-APEI-GHES-share-macros-via-a-private-header/20260220-214812
-base:   8bf22c33e7a172fbc72464f4cc484d23a6b412ba
-patch link:    https://lore.kernel.org/r/20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-9-347fa2d7351b%40arm.com
-patch subject: [PATCH v2 09/11] ACPI: APEI: share GHES CPER helpers
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20260220/202602202148.CB8O9os9-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260220/202602202148.CB8O9os9-lkp@intel.com/reproduce)
+And a lot of engineers will agree that this header is badly
+designed. The network stack goes to a lot of trouble to ensure the
+Ethernet header is placed into an skbuf with an offset of 2 bytes, so
+the IP header is 4 byte aligned. This also makes the DMA engines more
+complex, having to do an unaligned transfer at the start. More hoops
+to jump though because of bad design.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602202148.CB8O9os9-lkp@intel.com/
+None of the IP, UDP, TCP headers etc have packed, because they are all
+well designed. The IETF did a better design job than IEEE.
 
-All errors (new ones prefixed by >>):
-
-   drivers/acpi/apei/ghes_cper.c: In function 'ghes_handle_arm_hw_error':
->> drivers/acpi/apei/ghes_cper.c:261:34: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     261 |                                  FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
-         |                                  ^~~~~~~~~
-
-
-vim +/FIELD_GET +261 drivers/acpi/apei/ghes_cper.c
-
-   202	
-   203	bool ghes_handle_arm_hw_error(struct acpi_hest_generic_data *gdata,
-   204					     int sev, bool sync)
-   205	{
-   206		struct cper_sec_proc_arm *err = acpi_hest_get_payload(gdata);
-   207		int flags = sync ? MF_ACTION_REQUIRED : 0;
-   208		int length = gdata->error_data_length;
-   209		char error_type[120];
-   210		bool queued = false;
-   211		int sec_sev, i;
-   212		char *p;
-   213	
-   214		sec_sev = ghes_severity(gdata->error_severity);
-   215		if (length >= sizeof(*err)) {
-   216			log_arm_hw_error(err, sec_sev);
-   217		} else {
-   218			pr_warn(FW_BUG "arm error length: %d\n", length);
-   219			pr_warn(FW_BUG "length is too small\n");
-   220			pr_warn(FW_BUG "firmware-generated error record is incorrect\n");
-   221			return false;
-   222		}
-   223	
-   224		if (sev != GHES_SEV_RECOVERABLE || sec_sev != GHES_SEV_RECOVERABLE)
-   225			return false;
-   226	
-   227		p = (char *)(err + 1);
-   228		length -= sizeof(err);
-   229	
-   230		for (i = 0; i < err->err_info_num; i++) {
-   231			struct cper_arm_err_info *err_info;
-   232			bool is_cache, has_pa;
-   233	
-   234			/* Ensure we have enough data for the error info header */
-   235			if (length < sizeof(*err_info))
-   236				break;
-   237	
-   238			err_info = (struct cper_arm_err_info *)p;
-   239	
-   240			/* Validate the claimed length before using it */
-   241			length -= err_info->length;
-   242			if (length < 0)
-   243				break;
-   244	
-   245			is_cache = err_info->type & CPER_ARM_CACHE_ERROR;
-   246			has_pa = (err_info->validation_bits & CPER_ARM_INFO_VALID_PHYSICAL_ADDR);
-   247	
-   248			/*
-   249			 * The field (err_info->error_info & BIT(26)) is fixed to set to
-   250			 * 1 in some old firmware of HiSilicon Kunpeng920. We assume that
-   251			 * firmware won't mix corrected errors in an uncorrected section,
-   252			 * and don't filter out 'corrected' error here.
-   253			 */
-   254			if (is_cache && has_pa) {
-   255				queued = ghes_do_memory_failure(err_info->physical_fault_addr, flags);
-   256				p += err_info->length;
-   257				continue;
-   258			}
-   259	
-   260			cper_bits_to_str(error_type, sizeof(error_type),
- > 261					 FIELD_GET(CPER_ARM_ERR_TYPE_MASK, err_info->type),
-   262					 cper_proc_error_type_strs,
-   263					 ARRAY_SIZE(cper_proc_error_type_strs));
-   264	
-   265			pr_warn_ratelimited(FW_WARN GHES_PFX
-   266					    "Unhandled processor error type 0x%02x: %s%s\n",
-   267					    err_info->type, error_type,
-   268					    (err_info->type & ~CPER_ARM_ERR_TYPE_MASK) ? " with reserved bit(s)" : "");
-   269			p += err_info->length;
-   270		}
-   271	
-   272		return queued;
-   273	}
-   274	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+       Andrew
