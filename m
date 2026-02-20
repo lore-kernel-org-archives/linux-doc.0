@@ -1,102 +1,128 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from polaris.svanheule.net (polaris.svanheule.net [84.16.241.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF2B92D3ECF
-	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 16:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A37012E6CC2
+	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 16:56:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.241.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771606367; cv=none; b=aqnq6tyCu4+6CkI4oUOSFx03wze2DYvHWOSJei2/PxhRcIuIYfg0GNkzX69/Uk9bU/q7uWmmMfNg+9SYIIuJEJf1zkCzWGsK4e+gOPeXxLOoPQqMu4N2b6lvfK++IRogpdf5k6j5jZgIx7soJonru0HQY1gqlLzm9t01YSU2FWM=
+	t=1771606587; cv=none; b=I199F8ceik1kKwkAkOe7QgBHJlFQMGBVgcF0ChTWP9ZplT33UzSeCUzOn3YIvwn127iJwghIFh+xNqDlhuZhA/0978+GeGd+5cWg8pK34UMJ2O6Rw15I0fskxxTZx991TYToqFATAYUAFgridvTxGk4Uuc7SQ8U26OTiwvNhL5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771606367; c=relaxed/simple;
-	bh=IqPQ11TxVNwfGfAE21ETJ/ooX/oPSydMfPJi4pktBiw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CmZMktPjDMJ7AWAvvgsju2tJMII3STV+WUEkDWAP6y+/07U5b39zSggEumgBByg8xZA+Rii78BAygIp7E27Vv1r/4kX/1SejbliCDOJS4OwjvOHmkokhttFpv9K+K0uYTWHAfDwuyccWeb6grXB+g+T/zyA6Noi7ipX3pjanrUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WevBewtO; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771606587; c=relaxed/simple;
+	bh=8D9Y1XXC2qdEK5lv2ngWbb8ZY8WcwD0gpYfssancm0A=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WfyP1V3Q6q7vXfDoR4to/tNSB6PS7YdQxxDNFLgNAuMmivNWF0YudmAbXeJIhy/DIPCs3B+CTkZ23t83ejHS/CYj/7Dq0VkEN949jIkkT3/+El/d0z/p1hbmd5+YZGp0bC8N8ZqWtK6iMxyI1Ts5zgBHPmt2WLGNvLAQNH/4w5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net; spf=pass smtp.mailfrom=svanheule.net; dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b=Wl8EkULE; arc=none smtp.client-ip=84.16.241.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svanheule.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svanheule.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WevBewtO"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-483a233819aso18937845e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 08:52:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771606364; x=1772211164; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=quHTn17dpdrYevLKDusB6NpnopISHyw9U38mQUOhUW0=;
-        b=WevBewtODdrPNJyOWFJoUbyVKfBeQE84vfmYsOWXngULM2wb4NDRL/bV2laE3Z8dQt
-         XKDGNC8MxXLHBDfEDOBHLh1FMtzj4LfOpPj7CZOB7ND4GZUXcttWvL5lxVn+XQPNT/H1
-         1lMeMz9Hn9fdP6mefckPQr7qkR6JuhuEQ7aM5JjwIJnIEOTxKeyCB3fb7T7/bpl14Ufx
-         esGnmRjU5ahXgxMCE5betvVdpWQ3wbwdyrAyNyetMLpNwLj+Bt2vv5TRoe0okFx07JA6
-         u0zkc1iehPhKXPfCR9PJ4LPT3WY7cJK5N+34m8nO8T7lMGxnjuoyqbmcDq6ENt1+CG6G
-         DsAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771606364; x=1772211164;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=quHTn17dpdrYevLKDusB6NpnopISHyw9U38mQUOhUW0=;
-        b=P5uklr8n4Y0TS+nVsb+ZZEVRNDZP3Yk7vNEdmS3XxWQZzs1aWB7vx/lEpiFmdxA39Q
-         36hSoU89VqSEy9hqP7JcwD8SWoWvQnyU3ra1bskAcFBQ/rY72/TsPWRGIapBRxE47Kkh
-         gK4TwMidWhVdBWjCFqMFyI4O/T6Ijn/doQQ7lV+nUMwM5o3fG+h17T6cmjnNZqMNCMKp
-         +ddcWvnyujmohHP0rgSPRYy/zudyJO6OXHe+McoMwhbR+q17IBNtZSAeiek2h98Hv4oY
-         vwxhz7biaBdEi6FiPO6IzHQ+h0Z3JBspUKxxhDsuO2v4lUytHrn2HUtDVP9Yfz2ZsSRA
-         pg4A==
-X-Forwarded-Encrypted: i=1; AJvYcCX4xAoPX8wVbC3Xt4dtzGwx5a4/QWs5tLSBhhG7XGhEQZVUQ/hjR2q2vHIkldGMDCQvgVG/zirNN2U=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyrw0byhEZ/mp3z9u+z2psLG6bwLaJTV2YdqVlKezpPda9rFiSE
-	0/WyplpcA4jWJGqBxUwTA47t6btTWBmVRj0JGC6iEE6dFnVhd/Rjll3z
-X-Gm-Gg: AZuq6aI98I9geT4c+spcdbhNcWd3n1/NGhmhcTLKLjOmMrfKI6RKuHtj+Zq3+XuWe7x
-	c7JXj1lXdR6i/hTROZXYH8doIo7bMKYJGvXf/S10+2bQs9jtoSHGf+RDFbbhSPH4iXF0T5XdEXZ
-	rN80xiMDSFxsxokzUUj8yQtbctIVOzhVxhvgqY6BXt7G0EkSdg2vPZu+ACS4FH+GGv2E06WHpft
-	RJb4WR7h/Fkgh3BxEyjnZ1BAptlz5tgvGy/rc/skofec7THTIh3uyfv4ikb7YvksUT5/Z6bHCay
-	zgm+V2GwnWkp/fBv87lkInIqx5yFmSzNPHmqCJo8D1M1W0ImjI0MPfN8zauAQkyoKFiOE1bnGwO
-	Q5IHoAtceazLK2VjMqK2/aJd8qr48ANnI8dpgMJ9fmAw9oH1LRa/E999c/+LuBfCiQO3mYvrgOL
-	ezsMh2YmjWXeg1I5sZTr4=
-X-Received: by 2002:a05:600d:640f:20b0:483:9139:4c1d with SMTP id 5b1f17b1804b1-483a9607e3cmr2232775e9.14.1771606363708;
-        Fri, 20 Feb 2026 08:52:43 -0800 (PST)
-Received: from localhost ([212.73.77.104])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-483a3dfd902sm21265095e9.7.2026.02.20.08.52.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Feb 2026 08:52:43 -0800 (PST)
-From: Askar Safin <safinaskar@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: patches@lists.linux.dev,
-	kernel-janitors@vger.kernel.org
-Subject: [PATCH] doc: early_userspace_support.rst: trivial fix: directory -> file
-Date: Fri, 20 Feb 2026 16:52:38 +0000
-Message-ID: <20260220165238.4162735-1-safinaskar@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=svanheule.net header.i=@svanheule.net header.b="Wl8EkULE"
+Received: from [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8] (2a02-1812-162c-8f00-1e2d-b404-3319-eba8.ip6.access.telenet.be [IPv6:2a02:1812:162c:8f00:1e2d:b404:3319:eba8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sander@svanheule.net)
+	by polaris.svanheule.net (Postfix) with ESMTPSA id 5DA0B6E86D9;
+	Fri, 20 Feb 2026 17:56:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svanheule.net;
+	s=mail1707; t=1771606584;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=J0lld6vPE30NQltxwTbPT1iVmbe7L/OOthusNPaOsLo=;
+	b=Wl8EkULECxUNWFwP0xk/j1XeHstIdG7Zvpg4HpIoQyf8y/2LFS6WWIY0KlWnGY3YXlPUAP
+	ESbwKUfHUVIJRKVBlqZYUrIpDnnMnSvhnKZS1KMV5imA7mmM9Jat9yGzRXNhEjU212VEEc
+	1CPlZ19uDBa8naXSKQ/AATLbodr8NKksYlWPEHEa0DNdbUcWIu8lBJlsrF7GvhbCtpo5Dc
+	5pbNtFyrGpWnja5OmpOUDh1dEDrqHX9O8kmjIudTc88NB7118VifEtgp1mH+LuqTZIgjHK
+	gYe2a0ru+srsKHnx287wEHeiGi+C1LRxCsBQJVyCY4+K9QsnXd/EkWZOACJdmw==
+Message-ID: <4cf24e281fac45637fedf40944d8b5230c0e22d9.camel@svanheule.net>
+Subject: Re: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
+From: Sander Vanheule <sander@svanheule.net>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>,  =?ISO-8859-1?Q?Andr=E9?=
+ Draszik	 <andre.draszik@linaro.org>, Lee Jones <lee@kernel.org>, Pavel
+ Machek	 <pavel@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ MyungJoo Ham	 <myungjoo.ham@samsung.com>, Chanwoo Choi
+ <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Alexandre Belloni	
+ <alexandre.belloni@bootlin.com>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan	 <skhan@linuxfoundation.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Date: Fri, 20 Feb 2026 17:56:22 +0100
+In-Reply-To: <DG74Y3QSCLIO.32Q8ZKCTISXXB@disroot.org>
+References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
+	 <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
+	 <69e2c1b1a2f3d2ed5e5da995cc5ee49bb3627597.camel@linaro.org>
+	 <DG74Y3QSCLIO.32Q8ZKCTISXXB@disroot.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Trivial fix.
+Hi,
 
-Signed-off-by: Askar Safin <safinaskar@gmail.com>
----
- .../driver-api/early-userspace/early_userspace_support.rst      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 2026-02-05 at 21:02 +0530, Kaustabh Chakraborty wrote:
+> On 2026-02-04 15:23 +00:00, Andr=C3=A9 Draszik wrote:
+> > On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
+> > > +static const struct regmap_config s2mu005_regmap_config =3D {
+> > > +	.reg_bits =3D 8,
+> > > +	.val_bits =3D 8,
+> > > +};
+> >=20
+> > No cache? And what is the .max_register value?
+> >=20
+>=20
+> This was in the previous revision, but I ended up removing it because
+> (at least I thought at that time) interfered with interrupts firing in
+> some way. The actual issue was unrelated, so I will add it back.
+>=20
+> However, there is also another thing I see in logs:
+>=20
+> sec-pmic-i2c 2-003d: using zero-initialized flat cache, this may cause
+> unexpected behavior
+>=20
+> This is due to REGCACHE_FLAT, I am not sure if I should just ignore
+> this.
 
-diff --git a/Documentation/driver-api/early-userspace/early_userspace_support.rst b/Documentation/driver-api/early-userspace/early_userspace_support.rst
-index 61bdeac1b..60d1e1bc9 100644
---- a/Documentation/driver-api/early-userspace/early_userspace_support.rst
-+++ b/Documentation/driver-api/early-userspace/early_userspace_support.rst
-@@ -73,7 +73,7 @@ usr/gen_initramfs.sh.  This means that CONFIG_INITRAMFS_SOURCE
- can really be interpreted as any legal argument to
- gen_initramfs.sh.  If a directory is specified as an argument then
- the contents are scanned, uid/gid translation is performed, and
--usr/gen_init_cpio file directives are output.  If a directory is
-+usr/gen_init_cpio file directives are output.  If a file is
- specified as an argument to usr/gen_initramfs.sh then the
- contents of the file are simply copied to the output.  All of the output
- directives from directory scanning and file contents copying are
+Sorry to be late to the party, but I'm somewhat responsible for that warnin=
+g, so
+allow me to chime in :-)
 
-base-commit: 8bf22c33e7a172fbc72464f4cc484d23a6b412ba (mainline)
--- 
-2.47.3
+What you are might have been seeing is REGCACHE_FLAT giving you "cached" va=
+lues
+of 0x0, while the hardware actually has something else. This can cause omit=
+ted
+writes, existing (bootloader) config to overwritten, etc.
 
+As Andr=C3=A9 suggested, using .num_reg_defaults_raw is a possibility, but =
+then you
+have to remember that the register defaults are taken to be what the hardwa=
+re
+state is at that moment, including pre-probe changes. These defaults are us=
+ed to
+seed the cache (so far, so good), but this may break the contract of
+regmap_sync() if you ever want to use that after actually resetting the PMI=
+C.
+
+If you want to use the flat cache, I would suggest you use REGCACHE_FLAT_S,
+which will track what has already been read from/written to hardware. You w=
+ill
+also need to specifiy .max_register.
+
+I see the other regmap_config-s in this driver also use REGCACHE_FLAT, so y=
+ou
+may want to consider switching those over as well if these are also showing=
+ the
+new warning.
+
+
+Best,
+Sander
