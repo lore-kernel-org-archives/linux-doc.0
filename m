@@ -1,93 +1,174 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A604B2BE642
-	for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 07:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6A0BA34;
+	Sat, 21 Feb 2026 09:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771657454; cv=none; b=cO3Lvp3wvYvYaOses05ktZSTNEDGs9B5QdsgLWn25M1OuIleko8sn2wpUfamX0MCUUm2B7L4dOebN8+Y6EOO08g7WPmdsPH1+cVqV9VFbF5n1oMxqpZuPJ4sOGP0PrbgW4voj4vlF0y5Y/kFDlUW//IPpHK8A8KnEXJIm8X8300=
+	t=1771664800; cv=none; b=qei8Z4OMjnwrtp2vB7DRKjG4ozT9NinMHYwC7ei+SSqwe091ptv49MqD1Vdhsw1AviK6iGGpNP92fUOjxkN9tNEbI3EJqksxKIcigCqUSWeYRorBI2BtgosSPcEi8KG/i8ziQnuCY39odkA+DNXnLF/BapXe6DBzIZJyRP3mloQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771657454; c=relaxed/simple;
-	bh=13CRBHcD6KBHtEqtfL3tA27y+BHqeVSJrLp6MxN/284=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EZIn0MXST+f/BNLOyvVviXGP/nQgV2t51eYjDHTkLXyNtYSHVRMOzj1j6ZzjNiwaD5wKRBFOt22LexhjajnSzCFVdBcUva1Po/i4GBR5DKZEa5SasPt4IoIZWiZgpPqElXhQg/soKjBfR6sTxiNct5/ZlYWjosi6eBFIwl5ljHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aY9cLGU3; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771664800; c=relaxed/simple;
+	bh=ht0he+pF2jvd7uZMAKcPSSsCUbxjK15Du6469AfkVP0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qO03iTyxGM7HyW4e8ekgPZ02rqKLH4+05bC+li8EzeyXv8DZmo9oxP9p7R16q2NdNNVm4ZBlMS4xqrFIqrmeMRGV+gnQ1LDsewC7BXNAP1WU8RldrXLXQSsmmZziacSx9sBN4WmV0l5tJNUyWZkFFDs2JyznAGaOjmH0dIY7x6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EkJw7Y0U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aY9cLGU3"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2a79ded11a2so18383245ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 23:04:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771657452; x=1772262252; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=13CRBHcD6KBHtEqtfL3tA27y+BHqeVSJrLp6MxN/284=;
-        b=aY9cLGU3nHecSem/fGp49Toc0yYCy34ikk0pEA4knY16l/nZFJdhqPzc3gRz5T/BO4
-         wlRqoBVswVxzP3KVxtlmhl+jEJ6NeU91wEPGldotZbD9xrMTsh3new3qKOrJ4GxV0Svj
-         QcueFNnRCC+q5jL4GM1NKAeHTzRqMdhq3SNJn/0TCtscryCO3Mwo+9dh4afw7p1FW2sz
-         oWhOAccF9R/dpkNl2QZsLVSvnUsYDhfQS6Hj2qJaGrUqXERg7Js6E68EuS4xgCvtCxP7
-         VBZmFeVygedAgYO3yOd2qtdtaMnMkgf6LQ4NJ2/fBSMupuhgVMSYwP58y/kiUZUazf9r
-         N9SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771657452; x=1772262252;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=13CRBHcD6KBHtEqtfL3tA27y+BHqeVSJrLp6MxN/284=;
-        b=L0qby4FyBBvt1ATlDYYqYv1amWtuSlvWMHv6AT3HQLU+rBP9T0luCAQ50Xc12Bd/pq
-         ynfs4QhQDP0ubc6DfryAPOEejmIUSwjiH8PiWt+EHvwxANBcflH1wCsgtXVdm7XySOrT
-         ftvVfCI4yP6ciSgRmnHVhClCWIlEEeJba3st8nCAxQhejeKcCeaEbNbwvgkAvmeJ/2uW
-         g6HOw1w8EDqPxanzBxmHgjcb8TWeSmBVdtmJBruZbTv7yazD+yeBpsGtdxa9HGiuPwIM
-         FzXIlQ3j29k4A3qXu+dwPdITMizmF9vvVOb2eYL6n5/xULwltP5s19kLpxsRMmMpUGFy
-         bpqw==
-X-Forwarded-Encrypted: i=1; AJvYcCVGd24SB8eeQfEs3kyu9nzPfoSSjSm1kk/EevJ/W0WTpTTo4SMql1geL8TZbWVPnVU7Phvoi0MDZAs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa8r9meDGXSBsVh6GW+nCRHV1xs/LD+KLQKEySP1mWREtO/5aQ
-	Q5NRxewDPDB4HVO7YRA+5YIUqh6NjoWUL6KDrzjBGGuw/OieRYDlmoBD
-X-Gm-Gg: AZuq6aLcZ/Wn3/4DjgQmQ7KZ3j8qidJnXZK16WK8gUv4a3xIvnSQ1Q9Wl3456kOtP4K
-	3c/Bw7j5MCx21Hw3qg3VslA+alm4RZba+mVZQxm22YMwAvbTlhyhiuvGbKlxZ6z4yz6cg8FGrbB
-	X4isHzpL5Rn2U9svD2XGIZk67AfAH+Pr5SMJC9DmYWQSQe5y0q5PVLID5sbhBtI/ti1GbX5YlkN
-	UqtlXgTmnk8cpB7u65pQIjebZ3pE0uZDHjLv1wQFwvKHqmfq9QqiXL+jVX1azyDqGyzUeXhJISp
-	srH5gkxQhd1g17TGug0zNm777nwTx+2UrHFHl7rym48tDiAjMchKOFvQryfuZHcMJnrUevYFSWX
-	Qb7Z71D1qjDpewx8Qapos/5NOQRJiNPur7pu+vzzO44ioy+Y0s1JJIgDxFJEXXNEtliAM+0wjMw
-	PgF3GQzaxY/mA=
-X-Received: by 2002:a17:903:124d:b0:2a3:c667:e0a0 with SMTP id d9443c01a7336-2ad744edc09mr22461975ad.29.1771657451841;
-        Fri, 20 Feb 2026 23:04:11 -0800 (PST)
-Received: from donbot ([50.38.105.223])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad74f5dba7sm13929255ad.26.2026.02.20.23.04.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Feb 2026 23:04:11 -0800 (PST)
-From: Jens Almer <bagawk@gmail.com>
-To: ian.ray@gehealthcare.com
-Cc: bence98@sch.bme.hu,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	devicetree@vger.kernel.org,
-	krzk+dt@kernel.org,
-	krzk@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux@roeck-us.net,
-	robh@kernel.org,
-	skhan@linuxfoundation.org,
-	tomaz@mono.si,
-	Jens Almer <bagawk@gmail.com>
-Subject: Re: [PATCH V2 0/3] hwmon: INA234
-Date: Fri, 20 Feb 2026 23:02:07 -0800
-Message-ID: <20260221070206.1962499-2-bagawk@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260219130127.87901-1-ian.ray@gehealthcare.com>
-References: <20260219130127.87901-1-ian.ray@gehealthcare.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EkJw7Y0U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1756EC4CEF7;
+	Sat, 21 Feb 2026 09:06:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771664800;
+	bh=ht0he+pF2jvd7uZMAKcPSSsCUbxjK15Du6469AfkVP0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EkJw7Y0U10DAs0c1rqn+MgwzRTgBZBdOtg+sgmoDday8CWujdT1JNUUBSOTcFLnQk
+	 OAe4Me3ZS3CER8l+1IR0/7yWqurR52DFFYT2kQv4LLYZQ3xpygS9TEusvFnV501TC2
+	 IOPwQP57KEO/cZXQzvdSrDjOHuNBFPSCkCrWgMcsPAixL+Nf3vjCxReRhTEuFjC7ef
+	 3VymCQyDhCNyImX39GhQpxJQgQavXOQQptmMo4XDNWBv0UKkCNEcbd0Dg5rgixmv2n
+	 X5Rrq0MOuUgF/bQtEpQVErB+6/Cc1hRVmihNhGowj9Y9IFXUj/wnAlrzYQrIMjkmZA
+	 S4+UD9m0l8ZCg==
+Message-ID: <571e56ba-83c0-4d0a-8893-5a86789c22bb@kernel.org>
+Date: Sat, 21 Feb 2026 10:06:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/11] RAS: add DeviceTree firmware-first CPER provider
+To: Ahmed Tiba <ahmed.tiba@arm.com>, devicetree@vger.kernel.org,
+ linux-acpi@vger.kernel.org
+Cc: Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
+ robh@kernel.org, rafael@kernel.org, will@kernel.org, conor@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ krzk+dt@kernel.org, Michael.Zhao2@arm.com, tony.luck@intel.com
+References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
+ <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-11-347fa2d7351b@arm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-11-347fa2d7351b@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Tested on a Mono Gateway Development Kit. All sensors reported and the values were in line with a patch created by Tomaz Zaman against the NXP 6.12 fork.
+On 20/02/2026 14:42, Ahmed Tiba wrote:
+> +	rc = ghes_ffh_init_ack(pdev, ctx);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = ghes_ffh_init_pool();
+> +	if (rc)
+> +		return rc;
+> +
+> +	ctx->estatus = devm_kzalloc(&pdev->dev, ctx->status_len, GFP_KERNEL);
+> +	if (!ctx->estatus)
+> +		return -ENOMEM;
+> +
+> +	ctx->generic = devm_kzalloc(&pdev->dev, sizeof(*ctx->generic), GFP_KERNEL);
+> +	if (!ctx->generic)
+> +		return -ENOMEM;
+> +
+> +	ctx->generic->header.type = ACPI_HEST_TYPE_GENERIC_ERROR;
+> +	ctx->generic->header.source_id =
+> +		atomic_inc_return(&ghes_ffh_source_ids);
+> +	ctx->generic->notify.type = ctx->sync ?
+> +		ACPI_HEST_NOTIFY_SEA : ACPI_HEST_NOTIFY_EXTERNAL;
+> +	ctx->generic->error_block_length = ctx->status_len;
+> +
+> +	ctx->irq = platform_get_irq_optional(pdev, 0);
 
-Tested-by: Jens Almer <bagawk@gmail.com>
+Please read the kerneldoc - wrong check in if.
+
+> +	if (ctx->irq <= 0) {
+> +		if (ctx->irq == -EPROBE_DEFER)
+> +			return ctx->irq;
+> +		dev_err(&pdev->dev, "interrupt is required (%d)\n", ctx->irq);
+> +		return -EINVAL;
+> +	}
+> +
+> +	rc = devm_request_threaded_irq(&pdev->dev, ctx->irq,
+> +				       NULL, ghes_ffh_irq,
+> +				       IRQF_ONESHOT,
+> +				       dev_name(&pdev->dev), ctx);
+> +	if (rc)
+> +		return rc;
+> +
+> +	platform_set_drvdata(pdev, ctx);
+> +	dev_info(&pdev->dev, "Firmware-first CPER status provider (interrupt)\n");
+
+This does not look like useful printk message. Drivers should be silent
+on success:
+https://elixir.bootlin.com/linux/v6.15-rc7/source/Documentation/process/coding-style.rst#L913
+https://elixir.bootlin.com/linux/v6.15-rc7/source/Documentation/process/debugging/driver_development_debugging_guide.rst#L79
+
+> +	return 0;
+> +}
+> +
+> +static void ghes_ffh_remove(struct platform_device *pdev)
+> +{
+> +}
+> +
+> +static const struct of_device_id ghes_ffh_of_match[] = {
+> +	{ .compatible = "arm,ras-ffh" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, ghes_ffh_of_match);
+> +
+> +static struct platform_driver ghes_ffh_driver = {
+> +	.driver = {
+> +		.name = "esource-dt",
+> +		.of_match_table = ghes_ffh_of_match,
+> +	},
+> +	.probe = ghes_ffh_probe,
+> +	.remove = ghes_ffh_remove,
+> +};
+> +
+> +module_platform_driver(ghes_ffh_driver);
+> +
+> +MODULE_AUTHOR("Ahmed Tiba <ahmed.tiba@arm.com>");
+> +MODULE_DESCRIPTION("Firmware-first CPER provider for DeviceTree platforms");
+> +MODULE_LICENSE("GPL");
+Best regards,
+Krzysztof
