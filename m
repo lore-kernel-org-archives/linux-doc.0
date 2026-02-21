@@ -1,107 +1,103 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA811A0712;
-	Sat, 21 Feb 2026 22:13:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF062EACEF
+	for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 23:03:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771711992; cv=none; b=n4JrpaapJOPJ8EGo2vWUnlmfjKy5cud1yBgGKv8Gsu/3ptb36704KQYWkFhGNTLXHnBLXpFabXq+O2BGKSPb/PpL99t4dRtcTpe7WrYNHqnyCxT2gTnO4a2GlYOxR/v+pPBXXlonj13bgP9vJecHQrsHy8Y8ae4nceRjU3pVEd8=
+	t=1771715002; cv=none; b=gVppQwiGrdj4qHS05D6YN7m1UCWx+xWREHF1VWrvU3Yi6KPqe2K8ye0iSRx3NQpkeQqWy6aDlGRkmWeiZs33XXunPKXExrEyWrlA6V2o6UKCSYgP7s17EKUblRdPJ8Elx0so4eHDmfPF+53FW/VezKcrI1vxDwtEnJE614YEZh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771711992; c=relaxed/simple;
-	bh=cMmXvpFAhHfIemH7wcF//uPahP2enBmohiXvmiFzJAk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ay74wggnsMQWGP+MVY00LyjGwRKeEl/SaQzMb8J4Z5/n7+MCPmIUrjvGTL9WfSFXtmZL0dt+iEypvqATZoKOQ7/iMBrWjfPT+hK2i8MyftNqwds7FW3ECBR60C0zpDW7PXAE4gJ4IeThurr3MipCGw65PJkg/AMkk8oZHAXTd5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0toose.net; spf=pass smtp.mailfrom=n0toose.net; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0toose.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=n0toose.net
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fJLwD18XHz9v9n;
-	Sat, 21 Feb 2026 23:13:00 +0100 (CET)
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of git@n0toose.net designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=git@n0toose.net
-From: "Panagiotis \"Ivory\" Vasilopoulos" <git@n0toose.net>
-Date: Sat, 21 Feb 2026 23:12:25 +0100
-Subject: [PATCH v2] landlock: Expand restrict flags example for ABI version
- 8
+	s=arc-20240116; t=1771715002; c=relaxed/simple;
+	bh=WF6K8NVh78uZPufRZQJLFh1huKuqJ4ocCD0xUfY4M3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HsllAvm4b7Ip82U2FDER3XnXobBpKXTkVHQbPNLCNSePxO4+JfCNMKh3ZwPZhlLkMLhgUfwGJithA69YnNKZ8PKq+XDvifWreB0UOWykGMSe9r8NsIc6/e3nozlztcoqPGEj86qHUbI3hkk8vrfp+1akbff0KpZpT9yWt/jhPz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JJ5fwAJe; arc=none smtp.client-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JJ5fwAJe"
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-124a635476fso3060399c88.0
+        for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 15:03:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771715001; x=1772319801; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1OlC2BNJohPSmbVkhvbzP8ZA/FR5DuvPVsmBlsvqYtc=;
+        b=JJ5fwAJeXGGv4ZQBgRM+xw7LJWLoHuRWkzmQ1Y5F4SJvzdo8oGv1D12XzTuR0nhK+J
+         V6+duLXFS6d8Wyyg6k4se/9zkgpNOSHm3zqX/PP7MU7Oli1uk9BPKZx2cyXofqJR3e0o
+         MTXhK8FUZn1YclSkI/4LE5W/IIdc49qHVp8dadIeu6K0v8rV0oogMFjpf8WCe7GFMgLf
+         KLEs+qjTV8jyavJwwX5qu0GFAn8y7v+zUnoaMu46KcRRNOWepP+Q+eyZHCidjjzTI0p2
+         x5A7Ohe9JDimkSNJSrrYQZd9u9DaxJdcShas0fx6tZsAbn5di+Jum7zc12IJffxUsvqO
+         WXAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771715001; x=1772319801;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1OlC2BNJohPSmbVkhvbzP8ZA/FR5DuvPVsmBlsvqYtc=;
+        b=lcwE3achRVlEetzYHS0wovgE3+5EkXgks80B6MlH1wFCptTUmVxdCW64LyhrXCFWaY
+         WDw8K4moztCxWFS17K662gk/Gw9/6UUnt2Df4EeLAmc1AWSw//ANHrYEr8irf8JnKSCy
+         RE73wykv8lilgbCneWQt7XKYIcvwbN8gPhz15pCptw1ulZVAXXaoRnYuad/bZXiO05Ig
+         uDCIrdY91U2L65ti1bN5RG/2WoDHEDOwg/bvYkPgGcSIuj149m1HqO1JQIgvjGYfkXkG
+         7HLfdezDWWkWh+IQiWgk7GZ4splq8PTdoJzB1aRVWpqsTzR1cdFFU7qKH+w9QmcnYHpg
+         m7Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCU0CODmlQugcIyQ5MytA5I7mVPDQNcgbKZ8ZQsA51fNMqcIbmstRQyBZC19clDjx4lWkPwdKGQs6Ls=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlWJfcti0fpZS+Hgxv694/0bo24kQ/gI+aGsEP03oVpby0FhR/
+	g54w/r3+LJmVFtC4wBAlYo+umEhSp9/lw9ttNys0QrpYvvlhrGsiEMjr
+X-Gm-Gg: AZuq6aK0jssjDqbM4rU1BIZ8nZof33n/0DI85UnXaQSdsMvSzqL9zDKFrFGeyfnKi2p
+	zokBnkpKpW3j85fU5hGl3rfEBLBqzM1XnPfmpvuV+iKLK35OO5sn/NhiM4/v85J29HXK2WVvFPd
+	46ZbtrHRn6M7vjqPRPI3qYkuIjhn5zJn4MAbYI3DwWFRmAZzBNDAPvCr4pdXcxXdDBRgRzo2Owx
+	ofz1XSMB4k8RfRMLt1osu2/Uwc0y2XdOGUVpaJ0hzzSw1qD/I1YQ/xUyd5mrR/FxpiY9hv9t3CA
+	HCJJZ4FyQ827/Hx6Abv4T/XLHkFw2mcnI9yA/FxiZUmhEYQLmnAqOKy2CwVLO1wPlKd5erH20oO
+	X+H3kVqJvSrBWRo+IsqPA33Azjal1WXHBD4hFTe+JGdPzxX2IUqtIeU7sbv46OqkfUxOofqIjbW
+	kxWt1l/vK7kteyETfmdc8qkZxN2l2ApUltFBLN
+X-Received: by 2002:a05:7022:f82:b0:11a:23fb:16e2 with SMTP id a92af1059eb24-1276acb2209mr2076796c88.9.1771715000593;
+        Sat, 21 Feb 2026 15:03:20 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1276af9f74bsm3039607c88.15.2026.02.21.15.03.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Feb 2026 15:03:19 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 21 Feb 2026 15:03:18 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Ian Ray <ian.ray@gehealthcare.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bence =?iso-8859-1?B?Q3Pza+Fz?= <bence98@sch.bme.hu>,
+	=?utf-8?B?VG9tYcW+?= Zaman <tomaz@mono.si>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk@kernel.org>,
+	devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH V3 1/3] dt-bindings: hwmon: ti,ina2xx: Add INA234 device
+Message-ID: <6d170935-7c89-4162-95bb-5c7b160f443a@roeck-us.net>
+References: <20260220112024.97446-1-ian.ray@gehealthcare.com>
+ <20260220112024.97446-2-ian.ray@gehealthcare.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260221-landlock-docs-add-tsync-example-v2-1-60990986bba5@n0toose.net>
-X-B4-Tracking: v=1; b=H4sIAMgtmmkC/42NQQ6DIBAAv2L23G0ALcGe/EfjgcJaSS0YIEZj/
- HupL+hx5jCzQ6LoKMG92iHS4pILvoC4VGBG7V+EzhYGwYRkQnCctLdTMG+0wSTU1mJOmzdIq/7
- MEyGpwd6MbHQtJZTKHGlw63l49IVHl3KI2zlc+M/+3144chxUW6tasZaeTedZDiHR1VOG/jiOL
- 37/g5zQAAAA
-X-Change-ID: 20260221-landlock-docs-add-tsync-example-e8fd5c64a366
-To: =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
- =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1771711977; l=2080;
- i=git@n0toose.net; s=20260221; h=from:subject:message-id;
- bh=cMmXvpFAhHfIemH7wcF//uPahP2enBmohiXvmiFzJAk=;
- b=D91MSFoajzqsXbAOGkPV9V3lI/AlfDUxwLKicUVeJgEpGJD4goySheQKhi/kAY4hLRVr5D3Ua
- M8he65MnsHkAhr18g9/p3w9JuzPm9Hb+w35MuqC8OULH9V51N0aRA26
-X-Developer-Key: i=git@n0toose.net; a=ed25519;
- pk=Tis+3ti1x0lr71vFYBVrYAzcO2UpGQijF0kXwupcsXE=
-X-Rspamd-Queue-Id: 4fJLwD18XHz9v9n
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260220112024.97446-2-ian.ray@gehealthcare.com>
 
-Add LANDLOCK_RESTRICT_SELF_TSYNC to the backwards compatibility example
-for restrict flags. This introduces completeness, similar to that of
-the ruleset attributes example.
+On Fri, Feb 20, 2026 at 01:20:20PM +0200, Ian Ray wrote:
+> Add a compatible string for the INA234 device, which is like INA226 but
+> has different scaling.
+> 
+> Note that the device tree compatible must be different since the driver
+> uses the compatible to configure the scaling.
+> 
+> Signed-off-by: Ian Ray <ian.ray@gehealthcare.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> # v1
 
-Additionally, I modified the two comments of the example to make them
-more consistent with the ruleset attributes example's.
+Applied.
 
-Signed-off-by: Panagiotis 'Ivory' Vasilopoulos <git@n0toose.net>
----
-Changes in v2:
-- Fix formatting error.
-- Link to v1: https://lore.kernel.org/r/20260221-landlock-docs-add-tsync-example-v1-1-f89383809eb4@n0toose.net
----
- Documentation/userspace-api/landlock.rst | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-index 13134bccdd39d78ddce3daf454f32dda162ce91b..0affe1c953d61a4b32aca700cd262c49cee6304a 100644
---- a/Documentation/userspace-api/landlock.rst
-+++ b/Documentation/userspace-api/landlock.rst
-@@ -197,12 +197,18 @@ similar backwards compatibility check is needed for the restrict flags
- 
- .. code-block:: c
- 
--    __u32 restrict_flags = LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
--    if (abi < 7) {
--        /* Clear logging flags unsupported before ABI 7. */
-+    __u32 restrict_flags =
-+        LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
-+        LANDLOCK_RESTRICT_SELF_TSYNC;
-+    switch (abi) {
-+    case 1 ... 6:
-+        /* Clear logging flags unsupported for ABI < 7 */
-         restrict_flags &= ~(LANDLOCK_RESTRICT_SELF_LOG_SAME_EXEC_OFF |
-                             LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
-                             LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF);
-+    case 7:
-+        /* Removes multithread flag unsupported for ABI < 8 */
-+        restrict_flags &= ~LANDLOCK_RESTRICT_SELF_TSYNC;
-     }
- 
- The next step is to restrict the current thread from gaining more privileges
-
----
-base-commit: ceb977bfe9e8715e6cd3a4785c7aab8ea5cd2b77
-change-id: 20260221-landlock-docs-add-tsync-example-e8fd5c64a366
-
-Best regards,
--- 
-Panagiotis "Ivory" Vasilopoulos <git@n0toose.net>
-
+Thanks,
+Guenter
