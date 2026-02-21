@@ -1,108 +1,98 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960D3350A3F
-	for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 16:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13452877CF
+	for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 17:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771692632; cv=none; b=VRSN7KMIYmlQJIcVSx1UBJCP2Lz6raUqiKOA0NxxA0bzhu7hPlYrWMgbQjGD7cnmZceZp1DpTUixa053JESj//utAX34Md2PpWlr4eKpRMyN2nfGd3+UjLsGw6AO0la8sk+Opr6dBp6WsnSlZtNxkbdgr7cTX+EU+miN4sTYbzI=
+	t=1771694491; cv=none; b=PFuPqGoQpqzRZpZ05LVIgpgLtLcbh/YsXXvrUNWWpP1Wi6NDt3dAMtBXy6bsfPPcCoNMYz1SVBFkWbf4O3ZzSwHwaJFhNQoOvNJWikL7woBuQ5m23lcaLTeN/thWns1RvUltvsRCvh5T93TuCC/Kw5lVlMhzbYER2pvIATjD1OI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771692632; c=relaxed/simple;
-	bh=k0kbTCd3YN71jU3N1V4yS8+kudpxzQ5zJw9wwwMv0IE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jh5EX6/m6dWwE480CbOcAMc08Y22j4GqSJOlcNRNyuiHr//P083Mk3xeXwJXkM/LFO2Itm6vyI7SkpRYF+QLB7iOEk354OYamGz8l0xvWn5DpMBode5n9jd+VYJ8uR4rvPZNGrK5e28aTS3GLmOXNmetTOBSzQ0eHDoBhBeRodk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=OTp/6C7r; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1771694491; c=relaxed/simple;
+	bh=MWGoq0D+Wj3dmGxH/U1RNB0L9/ZrR5Fqx8GX3kwl/zk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Xh+p+kmRqBLRd6Q9OuQ9joGxUCVOHqVq3KBL00+A0YZHDzxW1P0O4gpbmhuAgRXhU6MCRPF7uClMfy7X+XpAembKrpPUqkcbiTe4Nj4nK0H3zInyfvpoPR/6T8ORRDxyP+9Kr4OdDpGNgKLveTNxpZKgIOL8hDLC6GAtHMm1c+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HEQoevrl; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="OTp/6C7r"
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-40ede943bf0so1834326fac.2
-        for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 08:50:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HEQoevrl"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4837f27cf2dso25879215e9.2
+        for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 09:21:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1771692630; x=1772297430; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=izviceERiQz5P0hhZDsw9CstV6qug4ZWHDz4Ohmg/48=;
-        b=OTp/6C7rxVNDCMikSVRrq9w+Dcl2XFr1Aa/Ej40pphFDNgA4wO486Edp41W4gWyWbb
-         oJj3SIMCbV13EGmYRNC9RMexnSvMK1/Wsl6C+Td2dz/0+Yupvym1efPmVXrzKcO9IMau
-         4S6etkpwVyqMztI4S3EIMK0JKZMSTVVe/CVVAZo3kSz5MGxayamJpEw5MLo93arc8gBn
-         GkHI9IlEhsroOlEbKBsGTTzLVf0XSl96XfyWcWUKV29dLBHRjPFyCBTH43ZzUNZLM0yN
-         I/obDzI9TzSJjFAcNhBmObuDJd6Mht72KDmsK/MGzHKc6rYE4X6i5rhsr6Cf2sBAmMTA
-         6fpw==
+        d=gmail.com; s=20230601; t=1771694487; x=1772299287; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MWGoq0D+Wj3dmGxH/U1RNB0L9/ZrR5Fqx8GX3kwl/zk=;
+        b=HEQoevrlnhmFbf1iLFViks1znYvYZDtIrHHIVauKY83iAmaAPpH/zTz8JDNLkopKiJ
+         1XRxxQ1u1U4iNam316T0xZNQp+7MT4RTnth46vQNkK4+Oum9bsFbYvTXDGNLXIZW26UZ
+         W302X3dOLeS2/WTIf+MuNVMzS5UJZuDLU82Q9onRpynfuCnd9btfDeT0/m7y554PWHlN
+         DnUWmlIkxgqJfR6Sr7DpD+1ZJDdhkOlNq+Xu/KrHxFaZZnSDTn9Kk9V3Z5KpDGa7MTRY
+         Wns5WCDOsLHhaLPfX8QSnd2k7RNOV8UGc0m9bTFlbh/7yjnb3R2ZzaXbdAHdpt/FMBUu
+         Gbgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771692630; x=1772297430;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=izviceERiQz5P0hhZDsw9CstV6qug4ZWHDz4Ohmg/48=;
-        b=MAp8qX7rago9AP3GYd0CNwZpw6hAPFXM8B2/UYWDckAlH/Iupms7UpFD8cVwVNL8Hy
-         ++VsXZPEJeyGeLgAgvJc3QMn8iUPTbxPBFusoV6lD3FpSGyYLAD4NwGxcB1nbJuwHXFr
-         luFqojrfbxgLWq8ZJpykS0W2QbN4Ing7TsLXSKGeKx1nJJtDeyXfhJLJcsGQcWg4G3RR
-         sLYitmjSq8Xfz0eXyBaKHHIlEIQXM8eaIRKQE+0EXG+ehYnreI+SLf5e2wwy3KScegvB
-         GF6TN0kPv+i6n8lGP82kQ/nnpbhmY3KVXiDNLebEvPgv/GrsuZ0678TMQYcCmtOODKd+
-         9Fog==
-X-Forwarded-Encrypted: i=1; AJvYcCUZYuYsIjO0+uixDKJFP3VeWSTH2mcVNOKU5ld1/DBeujI9T8mKukTLuRv5/K/Uk+2poAp63Lu6sL0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yymu+mrxH7FZVz9KzMjObSARA/sHJ9BJa1bfkFe8k2Q+NRMW+mC
-	vF9m+Q1eU+ajC3ggqddxczFvrfBhkizoarYifzoWLCuWB6p4Tbu2nk+sJulvsn1SlgM=
-X-Gm-Gg: AZuq6aKq+8nl4BkoC6zafh2s8heqt81kLbedhRKpE6XqU/OlSr/OMXhmr+s0yHyKbdS
-	itE2mmkBCo8DCvMuL0Kc+OncLNWjEjrEzvvvSEhn7jD5x2FHRgKXyfuiIbSp8c5BNwpMX4smzux
-	2PBYgDYvnBAYmdhLs4R4Wfvv66O2nC5zhTDQ152bu6/Hx/sgVAYUFeoZU/wJvTWlsOAzk2XgpLt
-	ktdLCZ4FDbU0O6+CLhvQ1JZWqKCXloIB/+81iwyrXTW9G1zvgUzGoSon8XuovP1xzJT1/svJpUN
-	jimVflTSj2DjhyU9nYCakh5IigriRd+K1hWECpH++tTh5pr3LrMrki3s0i85rJIDUyq0ERwj/RZ
-	/dioYX8m0TuW5kpe0e67T4ZG+685A0DMDVnlITNZTfFs9sztUj9nJ4V7ccVtube8rAl/vtsf39c
-	BayEEA69SHx/POPooUhrKukKJpP547LIp5uC30r4pk7VDkK8Z4W+5xkbMg1h/wqZ/Mfl/7kQ==
-X-Received: by 2002:a05:6870:32c9:b0:409:81eb:cf56 with SMTP id 586e51a60fabf-4157b0ea290mr1837629fac.27.1771692630414;
-        Sat, 21 Feb 2026 08:50:30 -0800 (PST)
-Received: from ?IPV6:2600:8803:e7e4:500:611:96af:f385:64bf? ([2600:8803:e7e4:500:611:96af:f385:64bf])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4157cd54ed8sm2806005fac.1.2026.02.21.08.50.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Feb 2026 08:50:30 -0800 (PST)
-Message-ID: <7e3f7285-f302-4940-b7d0-8e8f2f2fa996@baylibre.com>
-Date: Sat, 21 Feb 2026 10:50:28 -0600
+        d=1e100.net; s=20230601; t=1771694487; x=1772299287;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MWGoq0D+Wj3dmGxH/U1RNB0L9/ZrR5Fqx8GX3kwl/zk=;
+        b=qWIhwuwmzjfIVQ1y81pO9syKY7XszOw3duLQMDx1HW1UB4ARXJzckdFZVd0S5RLjjW
+         Vzj4efa91E3MJiI9wxJJYUSAlJFuZ8UvyIcO0Hy0lZfkB/zydq/F7UxnfMhP+iZjHTR7
+         S0m6j4hrYmy/mbw7tWf2gy7a25nrzbtaBufJSsPgP5S/XKaIgqyoPIS33dXaiLFvSfj5
+         YNKrY16vQxL5aaAbl7fMLUHfWRFd2/qhK3te0z2Q+S82dzwDU8jxZ7UZsKKvj748DD+X
+         R+7k86VECPNTNTI4UD/yfaGe1xee3B47JOOVpjCv7PCOgP9VJz9v1QzsGSoIv+0vjrXs
+         I8JA==
+X-Forwarded-Encrypted: i=1; AJvYcCX3s+bLHC0t+lldH2EUe0lUFx5iJwSs4QQm0eqaDNmb26K8uZ0d9hVP5hxUZHu1GrY9/E+Vv1xiMBc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyo5dFkN0oMgq1t90dUb/4rDU1UNi4OEzzskoHCAI+PJ9aLJ9Mm
+	od6VJhDkziylUkyBR3aroaVzoq8NccfdmWKDfXrJeGr5pQ3vYZhikV4d
+X-Gm-Gg: AZuq6aKPhMF0ncCZF1aU+DzSHt5r10M7tz61Sd0GzjHg3lsDndzdnscphuRUoU88USq
+	v6Cyomohc03n/BKAnjbSKJg+tA++un3Zal6dQL5T3DkgdrB8tGrojO/VSb42EM1UVADVFevTxnh
+	IhFur6aa3AxDM9E/7MeuE5KVGNOus3JE+q9GVzNPT24R8I/veo7nfTiJz/FgPORv2AoNsx56C1A
+	ppjokyQW3rP98gEoEtVM/ekyikwV0LccAzm3mMWTOU1WA/Q4lItFI4QKB2s2tsFDpSRno3gC5bF
+	Jp38Q5XuIBJVY3upwOH2kPmGcWgAme63KvSIJ2YhobUug+SNmpHiyIN03hn49fMprP3bcv8scJT
+	GjuPRo0iTzMTdTX9X28nSrhLjcS5gxOueLd8yOBzndld6cuIy/CmwyQsqIctnOvDoNZjEHKii1l
+	30/AfB51UKvYkOFenXvXZi66w+90ITpeienD27O/fdiJmOZC/iinZyPvEZyCZluQ==
+X-Received: by 2002:a05:600c:6217:b0:471:14af:c715 with SMTP id 5b1f17b1804b1-483a95eb550mr51020795e9.3.1771694486784;
+        Sat, 21 Feb 2026 09:21:26 -0800 (PST)
+Received: from db07.1337.ma ([197.230.240.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a9cb3f31sm63610955e9.13.2026.02.21.09.21.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Feb 2026 09:21:26 -0800 (PST)
+From: Taha Ed-Dafili <0rayn.dev@gmail.com>
+To: dlechner@baylibre.com
+Cc: 0rayn.dev@gmail.com,
+	Michael.Hennerich@analog.com,
+	andy@kernel.org,
+	corbet@lwn.net,
+	jic23@kernel.org,
+	lars@metafoo.de,
+	linux-doc@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel-mentees-archive@lists.linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	nuno.sa@analog.com,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH v4 3/4] iio: accel: adxl345: Implement event scaling for ABI compliance
+Date: Sat, 21 Feb 2026 17:21:23 +0000
+Message-ID: <20260221172123.57134-1-0rayn.dev@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <e2c74e7f-d851-457f-88f8-d80a8d17c51f@baylibre.com>
+References: <e2c74e7f-d851-457f-88f8-d80a8d17c51f@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] docs: iio: adxl345: update math and examples for
- scaling
-To: Taha Ed-Dafili <0rayn.dev@gmail.com>, linux-iio@vger.kernel.org,
- jic23@kernel.org
-Cc: rdunlap@infradead.org, skhan@linuxfoundation.org,
- linux-kernel-mentees-archive@lists.linuxfoundation.org, nuno.sa@analog.com,
- andy@kernel.org, corbet@lwn.net, lars@metafoo.de,
- Michael.Hennerich@analog.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260221141251.34855-1-0rayn.dev@gmail.com>
- <20260221141251.34855-5-0rayn.dev@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260221141251.34855-5-0rayn.dev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/21/26 8:12 AM, Taha Ed-Dafili wrote:
-> Update the documentation to reflect the addition of event scaling
-> and correct existing technical errors in scale values.
-> 
-> Key changes:
-> - Fix the 62.5 g/LSB typo to 62.5 mg/LSB and add SI unit conversion.
-> - Correct decimal precision of in_accel_scale and
->   in_accel_scale_available to match the actual SI unit (m/s^2)
->   values reported by the driver.
-> - Document the newly generated event scale attributes in the ABI table
->   (e.g., in_accel_mag_rising_scale, in_accel_gesture_singletap_scale).
-> - Also sorted the existing table entries alphabetically as suggested
->   by David Lechner.
+I did go over the datasheet and found the hardware uses a single
+register for both tap thresholds, so I assume the VALUE was intentionally
+omitted from DOUBLETAP to avoid duplicate sysfs attributes.
 
-If we do a v5, it would be nice to do the sorting in PATCH 1/4 since
-we are already doing tidying there. It would make it easier to see the
-actual changes here.
+I mechanically added the scale attribute without realizing this. I will
+drop BIT(IIO_EV_INFO_SCALE) for double tap and update the docs in v5.
 
-> - Add a sysfs example showing how to read and interpret the newly
->   implemented event scale factor.
-> 
+I'll wait a couple of days for any other feedback before sending the
+next version.
