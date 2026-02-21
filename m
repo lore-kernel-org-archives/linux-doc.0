@@ -1,63 +1,63 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7DC1E8329
-	for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 14:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B9F1F3B85
+	for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 14:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771683195; cv=none; b=i+PmghzdA0O3k4WWL8hEn6lTMHBozyUUgHN3ulBf90lHWULCn8m+JvqmCLZnOx2bVAmJulaDQClH8h6zC2EHG2kuDGfLY3GQhWHTE5WBcIYMAfN7410WTJw2vu1JPd2JoE0neZnP8IeORoJI0KuiMFChSlEjbceQxcUHgAKLzwI=
+	t=1771683197; cv=none; b=IGDebizKpGM87Yret870IFwiaDpFjN8AlNhJnZMGkfqpWoy+wh2bdzsS2JxWgUW+KRUpiWrn+L7U7m02+SNnxnMx99ZQwUHWBGDv0yzqxBWGkpY6WSAD0L9md2nHCHR1ZjMZQWae3bRtESDG2SlLIiI2sYpzUdHVDdJzoEupFno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771683195; c=relaxed/simple;
-	bh=6ghLbRzOpxQn9OiRcxj7ZSUoK/TJaCcU0SrAfILDiEM=;
+	s=arc-20240116; t=1771683197; c=relaxed/simple;
+	bh=bfZp8VUpAavl7rFGwG+PpAa0qeAiEIKKx1OJoyUuLR8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lzUpUIDV3bUmkAz3EMQZs5UVmXTS3cXsi6TpLm1RUNwhYPEysJW/D2v1ERUpjIaWKltdccTawXgn7vbUf2slWgJVLQQGGhhCpy35VMFEp8fKO3cWUi5xTbi554q6zouIJQRXTUX+tMqD8EcJ7yGlKBxDuJ3p0h1h6WB6Otd27Jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TY7Rz+Fn; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version:Content-Type; b=VCVkPjFB8ZFcSkfK5oWdsbdSAMTW2gP7u8yjNzPXUnAm19TAN2W/0bnQyV7hWsRBlG7lynKGMqbSpq/cxHQrb43hSvQMvZsnKwFDOUZOML7HYYIYPMjP3KxzPHFlZvG+vi3ERCdeenrDedxCfH8GXaze2GEPs9srBNktba55Qmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CIr1Yogr; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TY7Rz+Fn"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48375f1defeso21032065e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 06:13:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CIr1Yogr"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4806bf39419so29098645e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 21 Feb 2026 06:13:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771683192; x=1772287992; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1771683194; x=1772287994; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wQDbxuvZXARR/5hnSiCglzij1Z7nJyORRk4T/d/X+yA=;
-        b=TY7Rz+Fn2yT6NaMz5c9aNAB2t4hpzdrkGtAPZI3+obkfK8qDdSZsmOW8gjqR2o8+10
-         6JD/aJ5Kv1EZJQKoapr1PBVtJ3zLBHQWzPqy1o8R+XRPmqWfmihYlPONAlIyvXIUHc9x
-         5lLtPyVnmVFEwkyS6UQs7v+6qkvEskhXfjbbJJl2ZP7R88H6eIe3R6b/e8y+Y90VJxPX
-         qv7+Qf+CmVh9t/D9m36xc2m8hBTi6QsKrLtXOjKqC4wk3mvgtORuv8V9Yr9i1uwBjZnx
-         BBiYuotKBbp/j8XqG4JYqQ4MFrvxjEopQPLP3vDUKKxI9w0wvkJvKVIpI+TyDcMeUTVR
-         AqgQ==
+        bh=Uyqb+z+OnykTCLriGqefxWwK68pFJ9wGyHSk2ev20ds=;
+        b=CIr1YogrfCk9kz8LYR44CJTxKsag9W8H0vqLvRrt0fVHRp+V58K+SdEPI6wvK0lGSf
+         UlgaTpsXsUCjvgk8iQtFeP6pqQxIQ5VjAznNRK8W+RUoT1Vowu3RPRj+h+lByvBt1WE2
+         RkWn7kigNHoQp0OgnZkQT5axvXatyZuAQWidAiJjHt3FDB8FyS2Heh0RwdATCwVRoNUr
+         zJlwyNfFG6z0/WRa/LRWvFSwQ6y9qXHfdoRFySZdqrWZWw4N5odtRJjw8zfBXO7KjuDk
+         1Zo+zEwmL9+ZYe0pArnN6dRE/2n5MaEUWBD7I5kS5p2krTKGtSfV1hRolMRR2h5PFxCB
+         g+JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771683192; x=1772287992;
+        d=1e100.net; s=20230601; t=1771683194; x=1772287994;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=wQDbxuvZXARR/5hnSiCglzij1Z7nJyORRk4T/d/X+yA=;
-        b=h+Ed6rPW8af1XwDWuJg8Sr24jPAURyqOqRuQKFJYWHcOVaRww387WId8b1u9quAKnk
-         JYIRGq8H2xVAerqrtawhRdGE3Lupe8fMiRPH2Z7NCMk996Exu6HJoX/C9KVE2azaNTlU
-         0VBoRdxDmnqL5ut84ulUcC/xqHhxx5KkrkFjO0vU8LNys/CdoyzS71d5rCPJygEf3mLT
-         UsTFwGSUaimEeRO5LSRndJ59jejUqfDWlH4jui62fNgy4zhSw1XLgR2Mj0JJE2wejUow
-         4akMUKfR7cQkGCXxu5JZcrErSwH3OAbCg+ijexUXco56KmknYSUDPjnAMcnTBM0oy2rX
-         3pOg==
-X-Forwarded-Encrypted: i=1; AJvYcCW2H8Xvkc9aOwDa+kvdX14yykIo9ouMOGFVdteQ9Eph6O2R/+A8ofqb0svs7z+rkFIRfrTCWKnvKB4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywg8adS4bL5xVLvXycwQd1s/RyENF4xmNgYHC/Qj+1Ax+xXhLNG
-	DblC/pYYn5So5TJQkAO35rGU7f9emEXEqiTglANcb+GOoom3XtB+HED4
-X-Gm-Gg: AZuq6aJ6yGE+6HBTdhgOa0tgPdvlEyEMoWpsNRPr2cW+U4jkfpIce67ZTmOx2XK5e3R
-	U+IgArcHM7zZCsFpTcd+zK8cXli9pf+ZQMe0/jVx0LeHBr3XCsznK6YYm0Yv7gLkaNBEAGxVjIl
-	hyNGjoobuMCkrYebvb3u0l7hMM8oXayfirw6dH2ckUaUHRSCduidhwQkPUzQguuE2mTgOo3rLhI
-	tAmucwMz8HOAj9GSQnIqk4GHE3yBuD4DcpPfKaphvew2tyfi8aVuAMwlQzzy9UJsRdqpw17enhl
-	zzKA5PshBae1XEpkRAYnkla8F0C+BWqLw6kImGAXN1bHEQgyYsaWfrO5HXindjW0IbwjQkBPh2k
-	qYH8nz+UpQUsX6B0ANaTCatu7K1h5DCta/kRrhtNjR2PzVkIdj6/YP5vq3RfrET5zhra+oAMGdz
-	UavikD0XX/RVzG5F4fwyqQLhkkeGYH8Xm93k7uAn+ul5J9YO9mvxT4bjfWXbjL12zwiqQRmldX
-X-Received: by 2002:a05:600c:4fd5:b0:483:498f:7963 with SMTP id 5b1f17b1804b1-483a9637a61mr40665565e9.26.1771683191847;
-        Sat, 21 Feb 2026 06:13:11 -0800 (PST)
+        bh=Uyqb+z+OnykTCLriGqefxWwK68pFJ9wGyHSk2ev20ds=;
+        b=mLg74ev5guP08pVAvSLqFMRoWZXMtho4zG26F6tC/tJ2tytnsZWO40fRrk/O7ECOvY
+         jQ0EvhjTbKJlOjQRTWoRJxD77SbRSDK2f7Jb+8jCtCsaWv59kK+dbfPZtAZGyDmu6GTX
+         eeHCdVBjSll7nAgyJfiJnd4iix6hC4T9a+CTexgj1VBkCvca6IGjvsguvWXwf1RiF7Oy
+         qLs6Wc93qTYabVV9VolszS83NdPfa0PW6371RYiLYdf2vOqMmytrIp3aTKP1vZGbpuKv
+         TiAHEh2uyCbFiXbWNcKIYr7OC7f8UF0DdTzOiahI/EBU3zvkkcQx6keSnbzBd0zRjNp3
+         9DhA==
+X-Forwarded-Encrypted: i=1; AJvYcCXR+01aHiKp/0ofpyRW58cFSHqj4inMC3M6QdJuJbqwDOAw5KFiFEOi332lf8e1Jpzv1pIDjVEOvvc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHwOyfIRcLp3CdX2lv47zuAuyVVpm2zRzmEiXCCJCy/P2uMX3+
+	GYtdaHhkSnGfowBuqHTUq6nwbn8yeM9XmdWuOJerkNiRaqom7IZ8k2AF
+X-Gm-Gg: AZuq6aJ6v2+1dCD48IiHoMEep2DjpMTcWJ+onHLabwBXSoRPMV9oChpBFBOsD68LurZ
+	EemUSPg6BWM35ucLn2uDXUl7jIsZV+gakE9zUfKFrQdToQx8hR2SseajSx+/Gf23g1SZItlB2Ze
+	ZiHtDcZGLGTqcZXf81eGyRelEzB0A0QjjV0JzGt4GWmEME9hg/83j/lJ6sKEdXD9L/1abW+AxRV
+	F3D0ECW/OZpq1VAsVH1WrCvkilGXhABn5A18Plc8OWBHPyMi+Q7DkLhV5FDzczgZrr01dUn6t35
+	D/8if23RewYjN3kHDsVPqewfqdT8GSkPXnapue0qjXP59Mutd/7pNLE3NB7ELbTib4mj6vWUT7u
+	4LisQH+joukv0reW4zzSqT+iWrxv/jMaI2dDZKkuwYNSd1YwmRnzv+Fo6UQo0DxYCwCBaAvhoaF
+	V3LsHLMBlCeVbmyiP8OGpJrpe3BSL/uu3onSXpSQ7TEaP2ekmSPRbvmlYXkt8CFg==
+X-Received: by 2002:a05:600c:5391:b0:47d:7004:f488 with SMTP id 5b1f17b1804b1-483a00a537dmr137444845e9.10.1771683193520;
+        Sat, 21 Feb 2026 06:13:13 -0800 (PST)
 Received: from db07.1337.ma ([197.230.240.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a3e01c27sm50169825e9.9.2026.02.21.06.13.10
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483a3e01c27sm50169825e9.9.2026.02.21.06.13.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Feb 2026 06:13:11 -0800 (PST)
+        Sat, 21 Feb 2026 06:13:13 -0800 (PST)
 From: Taha Ed-Dafili <0rayn.dev@gmail.com>
 To: linux-iio@vger.kernel.org,
 	jic23@kernel.org
@@ -73,9 +73,9 @@ Cc: dlechner@baylibre.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Taha Ed-Dafili <0rayn.dev@gmail.com>
-Subject: [PATCH v4 3/4] iio: accel: adxl345: Implement event scaling for ABI compliance
-Date: Sat, 21 Feb 2026 14:12:46 +0000
-Message-ID: <20260221141251.34855-4-0rayn.dev@gmail.com>
+Subject: [PATCH v4 4/4] docs: iio: adxl345: update math and examples for scaling
+Date: Sat, 21 Feb 2026 14:12:47 +0000
+Message-ID: <20260221141251.34855-5-0rayn.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260221141251.34855-1-0rayn.dev@gmail.com>
 References: <20260221141251.34855-1-0rayn.dev@gmail.com>
@@ -85,129 +85,149 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The ADXL345 uses a fixed threshold resolution of 62.5 mg/LSB for
-event-related registers. Previously, the driver reported raw
-values without a scale factor.
+Update the documentation to reflect the addition of event scaling
+and correct existing technical errors in scale values.
 
-Implement IIO_EV_INFO_SCALE for all event types to provide the
-conversion factor (0.612915 m/s^2) as required by the IIO ABI.
-
-Consequently, remove the obsolete comment in adxl345_read_event_value()
-which stated that the scale factor is not applied.
-
-Add explicit write rejection for IIO_EV_INFO_SCALE in
-adxl345_write_event_value() returning -EINVAL.
+Key changes:
+- Fix the 62.5 g/LSB typo to 62.5 mg/LSB and add SI unit conversion.
+- Correct decimal precision of in_accel_scale and
+  in_accel_scale_available to match the actual SI unit (m/s^2)
+  values reported by the driver.
+- Document the newly generated event scale attributes in the ABI table
+  (e.g., in_accel_mag_rising_scale, in_accel_gesture_singletap_scale).
+- Also sorted the existing table entries alphabetically as suggested
+  by David Lechner.
+- Add a sysfs example showing how to read and interpret the newly
+  implemented event scale factor.
 
 Suggested-by: Jonathan Cameron <jic23@kernel.org>
 Signed-off-by: Taha Ed-Dafili <0rayn.dev@gmail.com>
 ---
- drivers/iio/accel/adxl345_core.c | 37 ++++++++++++++++++++++----------
- 1 file changed, 26 insertions(+), 11 deletions(-)
+ Documentation/iio/adxl345.rst | 57 ++++++++++++++++++++++++-----------
+ 1 file changed, 39 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/iio/accel/adxl345_core.c b/drivers/iio/accel/adxl345_core.c
-index 78e3f799ecc1..eac4ab052fa2 100644
---- a/drivers/iio/accel/adxl345_core.c
-+++ b/drivers/iio/accel/adxl345_core.c
-@@ -213,7 +213,8 @@ static const struct iio_event_spec adxl345_events[] = {
- 		.dir = IIO_EV_DIR_RISING,
- 		.mask_shared_by_type =
- 			BIT(IIO_EV_INFO_ENABLE) |
--			BIT(IIO_EV_INFO_VALUE),
-+			BIT(IIO_EV_INFO_VALUE)	|
-+			BIT(IIO_EV_INFO_SCALE),
- 	},
- 	{
- 		/* activity, ac bit set */
-@@ -221,22 +222,27 @@ static const struct iio_event_spec adxl345_events[] = {
- 		.dir = IIO_EV_DIR_RISING,
- 		.mask_shared_by_type =
- 			BIT(IIO_EV_INFO_ENABLE) |
--			BIT(IIO_EV_INFO_VALUE),
-+			BIT(IIO_EV_INFO_VALUE)	|
-+			BIT(IIO_EV_INFO_SCALE),
- 	},
- 	{
- 		/* single tap */
- 		.type = IIO_EV_TYPE_GESTURE,
- 		.dir = IIO_EV_DIR_SINGLETAP,
- 		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
--		.mask_shared_by_type = BIT(IIO_EV_INFO_VALUE) |
-+		.mask_shared_by_type =
-+			BIT(IIO_EV_INFO_VALUE)	|
-+			BIT(IIO_EV_INFO_SCALE)	|
- 			BIT(IIO_EV_INFO_TIMEOUT),
- 	},
- 	{
- 		/* double tap */
- 		.type = IIO_EV_TYPE_GESTURE,
- 		.dir = IIO_EV_DIR_DOUBLETAP,
--		.mask_shared_by_type = BIT(IIO_EV_INFO_ENABLE) |
--			BIT(IIO_EV_INFO_RESET_TIMEOUT) |
-+		.mask_shared_by_type =
-+			BIT(IIO_EV_INFO_ENABLE)		|
-+			BIT(IIO_EV_INFO_SCALE)		|
-+			BIT(IIO_EV_INFO_RESET_TIMEOUT)  |
- 			BIT(IIO_EV_INFO_TAP2_MIN_DELAY),
- 	},
- };
-@@ -275,6 +281,7 @@ static const struct iio_event_spec adxl345_fake_chan_events[] = {
- 		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
- 		.mask_shared_by_type =
- 			BIT(IIO_EV_INFO_VALUE) |
-+			BIT(IIO_EV_INFO_SCALE) |
- 			BIT(IIO_EV_INFO_PERIOD),
- 	},
- 	{
-@@ -284,6 +291,7 @@ static const struct iio_event_spec adxl345_fake_chan_events[] = {
- 		.mask_separate = BIT(IIO_EV_INFO_ENABLE),
- 		.mask_shared_by_type =
- 			BIT(IIO_EV_INFO_VALUE) |
-+			BIT(IIO_EV_INFO_SCALE) |
- 			BIT(IIO_EV_INFO_PERIOD),
- 	},
- };
-@@ -1341,6 +1349,16 @@ static int adxl345_read_event_value(struct iio_dev *indio_dev,
- 	unsigned int tap_threshold;
- 	int ret;
+diff --git a/Documentation/iio/adxl345.rst b/Documentation/iio/adxl345.rst
+index 3ca6a78feb5b..e830430e4870 100644
+--- a/Documentation/iio/adxl345.rst
++++ b/Documentation/iio/adxl345.rst
+@@ -13,7 +13,12 @@ This driver supports Analog Device's ADXL345/375 on SPI/I2C bus.
+ * `ADXL375 <https://www.analog.com/ADXL375>`_
  
-+	/*
-+	 * The event threshold LSB is fixed at 62.5 mg/LSB
-+	 * 0.0625 * 9.80665 = 0.612915625 m/s^2
-+	 */
-+	if (info == IIO_EV_INFO_SCALE) {
-+		*val = 0;
-+		*val2 = 612915;
-+		return IIO_VAL_INT_PLUS_MICRO;
-+	}
+ The ADXL345 is a general-purpose, low-power, 3-axis accelerometer with selectable
+-measurement ranges. The ADXL345 supports the ±2 g, ±4 g, ±8 g, and ±16 g ranges.
++measurement ranges. The ADXL345 supports the following ranges:
 +
- 	switch (type) {
- 	case IIO_EV_TYPE_MAG:
- 		return adxl345_read_mag_value(st, dir, info,
-@@ -1355,12 +1373,6 @@ static int adxl345_read_event_value(struct iio_dev *indio_dev,
- 	case IIO_EV_TYPE_GESTURE:
- 		switch (info) {
- 		case IIO_EV_INFO_VALUE:
--			/*
--			 * The scale factor would be 62.5mg/LSB (i.e. 0xFF = 16g) but
--			 * not applied here. In context of this general purpose sensor,
--			 * what imports is rather signal intensity than the absolute
--			 * measured g value.
--			 */
- 			ret = regmap_read(st->regmap, ADXL345_REG_THRESH_TAP,
- 					  &tap_threshold);
- 			if (ret)
-@@ -1401,6 +1413,9 @@ static int adxl345_write_event_value(struct iio_dev *indio_dev,
- 	if (ret)
- 		return ret;
++- ±2g  (approx. ±19.61 m/s^2)
++- ±4g  (approx. ±39.23 m/s^2)
++- ±8g  (approx. ±78.45 m/s^2)
++- ±16g (approx. ±156.91 m/s^2)
  
-+	if (info == IIO_EV_INFO_SCALE)
-+		return -EINVAL;
+ 2. Device Attributes
+ ====================
+@@ -94,33 +99,45 @@ listed.
+ +---------------------------------------------+---------------------------------------------+
+ | in_accel_gesture_doubletap_reset_timeout    | Double tap window in [us]                   |
+ +---------------------------------------------+---------------------------------------------+
++| in_accel_gesture_doubletap_scale            | Double tap gesture threshold scale.         |
+++---------------------------------------------+---------------------------------------------+
+ | in_accel_gesture_doubletap_tap2_min_delay   | Double tap latency in [us]                  |
+ +---------------------------------------------+---------------------------------------------+
++| in_accel_gesture_singletap_scale            | Single tap gesture threshold scale.         |
+++---------------------------------------------+---------------------------------------------+
+ | in_accel_gesture_singletap_timeout          | Single tap duration in [us]                 |
+ +---------------------------------------------+---------------------------------------------+
+-| in_accel_gesture_singletap_value            | Single tap threshold value in 62.5/LSB      |
++| in_accel_gesture_singletap_value            | Single tap threshold value                  |
+ +---------------------------------------------+---------------------------------------------+
+-| in_accel_mag_falling_period                 | Inactivity time in seconds                  |
++| in_accel_mag_adaptive_falling_period        | AC coupled inactivity time in seconds       |
+++---------------------------------------------+---------------------------------------------+
++| in_accel_mag_adaptive_falling_scale         | AC coupled inactivity threshold scale.      |
+ +---------------------------------------------+---------------------------------------------+
+-| in_accel_mag_falling_value                  | Inactivity threshold value in 62.5/LSB      |
++| in_accel_mag_adaptive_falling_value         | AC coupled inactivity threshold             |
+ +---------------------------------------------+---------------------------------------------+
+ | in_accel_mag_adaptive_rising_en             | Enable AC coupled activity on X axis        |
+ +---------------------------------------------+---------------------------------------------+
+-| in_accel_mag_adaptive_falling_period        | AC coupled inactivity time in seconds       |
++| in_accel_mag_adaptive_rising_scale          | AC coupled activity threshold scale.        |
+++---------------------------------------------+---------------------------------------------+
++| in_accel_mag_adaptive_rising_value          | AC coupled activity threshold               |
+ +---------------------------------------------+---------------------------------------------+
+-| in_accel_mag_adaptive_falling_value         | AC coupled inactivity threshold in 62.5/LSB |
++| in_accel_mag_falling_period                 | Inactivity time in seconds                  |
+++---------------------------------------------+---------------------------------------------+
++| in_accel_mag_falling_scale                  | DC coupled inactivity threshold scale.      |
+ +---------------------------------------------+---------------------------------------------+
+-| in_accel_mag_adaptive_rising_value          | AC coupled activity threshold in 62.5/LSB   |
++| in_accel_mag_falling_value                  | Inactivity threshold value                  |
+ +---------------------------------------------+---------------------------------------------+
+ | in_accel_mag_rising_en                      | Enable activity detection on X axis         |
+ +---------------------------------------------+---------------------------------------------+
+-| in_accel_mag_rising_value                   | Activity threshold value in 62.5/LSB        |
++| in_accel_mag_rising_scale                   | DC coupled activity threshold scale.        |
+ +---------------------------------------------+---------------------------------------------+
+-| in_accel_x_gesture_singletap_en             | Enable single tap detection on X axis       |
++| in_accel_mag_rising_value                   | Activity threshold value                    |
+++---------------------------------------------+---------------------------------------------+
++| in_accel_x&y&z_mag_adaptive_falling_en      | Enable AC coupled inactivity on all axes    |
+ +---------------------------------------------+---------------------------------------------+
+ | in_accel_x&y&z_mag_falling_en               | Enable inactivity detection on all axes     |
+ +---------------------------------------------+---------------------------------------------+
+-| in_accel_x&y&z_mag_adaptive_falling_en      | Enable AC coupled inactivity on all axes    |
++| in_accel_x_gesture_singletap_en             | Enable single tap detection on X axis       |
+ +---------------------------------------------+---------------------------------------------+
+ | in_accel_y_gesture_singletap_en             | Enable single tap detection on Y axis       |
+ +---------------------------------------------+---------------------------------------------+
+@@ -140,8 +157,8 @@ When changing the **g range** configuration, the driver attempts to estimate
+ appropriate activity and inactivity thresholds by scaling the default values
+ based on the ratio of the previous range to the new one. The resulting threshold
+ will never be zero and will always fall between 1 and 255, corresponding to up
+-to 62.5 g/LSB as specified in the datasheet. However, you can override these
+-estimated thresholds by setting explicit values.
++to 62.5 mg/LSB (0.612915 m/s^2/LSB) as specified in the datasheet. However,
++you can override these estimated thresholds by setting explicit values.
+ 
+ When **activity** and **inactivity** events are enabled, the driver
+ automatically manages hysteresis behavior by setting the **link** and
+@@ -270,13 +287,13 @@ Scale range configuration:
+ .. code-block:: bash
+ 
+         root:/sys/bus/iio/devices/iio:device0> cat ./in_accel_scale
+-        0.478899
++        0.004789
+         root:/sys/bus/iio/devices/iio:device0> cat ./in_accel_scale_available
+-        0.478899 0.957798 1.915595 3.831190
++        0.004789 0.009578 0.019156 0.038312
+ 
+-        root:/sys/bus/iio/devices/iio:device0> echo 1.915595 > ./in_accel_scale
++        root:/sys/bus/iio/devices/iio:device0> echo 0.019156 > ./in_accel_scale
+         root:/sys/bus/iio/devices/iio:device0> cat ./in_accel_scale
+-        1.915595
++        0.019156
+ 
+ Set output data rate (ODR):
+ 
+@@ -312,10 +329,14 @@ Configure one or several events:
+ 
+         root:/sys/bus/iio/devices/iio:device0> echo 24 > ./buffer0/length
+ 
+-        ## AC coupled activity, threshold [62.5/LSB]
++        ## Check the event scale factor (0.0625 * 9.80665)
++        root:/sys/bus/iio/devices/iio:device0> cat ./events/in_accel_gesture_doubletap_scale
++        0.612915
 +
- 	switch (type) {
- 	case IIO_EV_TYPE_MAG:
- 		ret = adxl345_write_mag_value(st, dir, info,
++        ## AC coupled activity, threshold [0.612915 m/s^2/LSB]
+         root:/sys/bus/iio/devices/iio:device0> echo 6 > ./events/in_accel_mag_adaptive_rising_value
+ 
+-        ## AC coupled inactivity, threshold, [62.5/LSB]
++        ## AC coupled inactivity, threshold, [0.612915 m/s^2/LSB]
+         root:/sys/bus/iio/devices/iio:device0> echo 4 > ./events/in_accel_mag_adaptive_falling_value
+ 
+         ## AC coupled inactivity, time [s]
 -- 
 2.47.3
 
