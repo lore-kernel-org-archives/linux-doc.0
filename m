@@ -1,818 +1,548 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010063.outbound.protection.outlook.com [52.101.85.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8010F313E20
-	for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 22:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771628268; cv=none; b=UKDUVBOAD4ifAQvUfYVaM1ms7HW4HygsoXf8dCQXaqnxgfaBs/OgjMqWU8lQJCKR6+8U544RAlyHvXUHAhnJgFOn49/JY1GL7EyoCc9EsBWT2RFwQ9xCUm5lfmNfrT7NM1Ct9N8MafgQ0bmlvuoisyY9vfRYd0gCeiwfWx68DV4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771628268; c=relaxed/simple;
-	bh=CErc1Cc+3h2ZneEzfwDGZEbOO+w6VY+iLEp30+TKX/c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TK3ZJZrJcS7Km0XlKa2L6pTncGeLH2hJEmT0NWEnvY8m85Z6Uzp7DG88iL6Fa58fDKVsgVIbLItwXFVRHVxUnyo64JEZbWZw/b2mqV4ic+dYe51zdhHAxRKUEQI0wtwk7w36Lrh4TGLQaAYTR3bKim6vTf2dfyFqFcDzmKj3/vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NrBTDy1D; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D993FEF;
+	Sat, 21 Feb 2026 00:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771632771; cv=fail; b=ouYuuCpG7oqelNrsQjASBdtvenlvaEVmrTm4zpLBV+nvT2aPJcxARn6qrJDBoD+Vg63i8jYHFO370nbJGfYxMBCMGPEWFvVsCluBHgxxUtKzxwCuL3fMVKisUK6qty2Rr3ig8xDdmNyiRagj/bjO230uKhrYPI6D6RN7Am9EHKI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771632771; c=relaxed/simple;
+	bh=Zpi9zCvqH5HMT8QBb29AnnG8hOkvdjgAv8ARPe2T69E=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=r7iBODc3rgsaQdsHvqCC2Jm8jrZ49RIVg8iWTCXrnaNw46muWvmVy3PACBo9d/5dl6oI6OKBA6AwYdyDFNDXCNoK6kS4yHqahpRxDul1VE8epkRlZdgkB/Z5FC/ThSHvjtK12mqRcLGltYObGeZ0dj6PFg/kOvliAgjexcgU2pM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=YiC2WVDO; arc=fail smtp.client-ip=52.101.85.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NrBTDy1D"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-8c9f6b78ca4so311495185a.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Feb 2026 14:57:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771628265; x=1772233065; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4ysaqx8k04M5ZyWb6NfqEX6Ito7kZyTdQoQ1l4hgF4A=;
-        b=NrBTDy1D7ID9BNn7FHs8j5qS5FlHMl71itzYSNbHSRwH8x+7r2VX2LrCjS4Pikr/Nr
-         rkNIaYkaMJs/eJ4lk29vDwzkTV8FjZrhv3jn7yVy9t0OwJTcgPzbbp/Kdlx0RnB7Rpna
-         PpOTyT9bz3mXC0Oe9NpqqkAakNn60/ro45X8wkUejZAu6qRpx4MfUxJTbjQObo6DmX15
-         z3npWZgYHrnLJzkyK+7ioTyc1T9WrghqjIjFMKyV7XhAQFjEHGxMxDQJ7xlSBhd3SPPQ
-         ujPYjN0N+gI54P4FkAvpzab3ymjfig4R1N8H17iMRjXPW5yzZo/aySXrmjpPHzcmNImV
-         yFiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771628265; x=1772233065;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4ysaqx8k04M5ZyWb6NfqEX6Ito7kZyTdQoQ1l4hgF4A=;
-        b=ONYu51gS72Y6BRq/3n62Yuh/mC2wm5iEzUWjwxwkFhQ/L5k5pJt6DHvGBpB9mP7igr
-         gmreKcunyRR8QawdI/0UC2d4zHQ2ll8wzJQI8bVyU+JL+Mml+Uq0xWnAlAV3lnYpNktf
-         AnVOWsfxOQF7MsvEGoHxn63Q8IOpks1GlHR2AsiPl6hmbQAkTwrQvHMNeEtxAouPVB+Q
-         FMTM+6aCMel0FvAQmRBLRypgGdVAqWM+MsgSIpO8g68KswWOTwRKU3taR36V5mlYcdw9
-         ZIV5XYThR7DULn05MR/c7WHI8Pr56LQOWLVRj++cju8EFUkwz6OJbv+5cmEGiinlCxwT
-         KhAg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOGRokjzIsCW5HqgRxiU8cCTlMSWHfPDI42mAon60UzmhyPG6ehSAmusGp3+xNgo6NC4yXXeZP7Io=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yydq7GMh2SePMgmwp9bLAAcZ77lSFpmm8GIcchpMU9ojZWp8V4j
-	4MnTJc7I8jFK9UutKlrwLmpmctEXgKMWEhHZMgLrMM1s7aX2rHArC4yE
-X-Gm-Gg: AZuq6aIVj4rFC5M/zTx51D8IxjnKwLvreuXq+sG2JKqMWAc85i8vuDK0vrIjNzbtBhY
-	CTq4ys1DrGp8m1PQ8jGDgtr6xlBfCpOgU1LsN2oFNPYrE6Xq76f7P/sZRmA0f7OOcrnyb++7L9n
-	I/4XIZsD/XoFeIUk96Bh6P75Co4IbbOzI3WmfpzKsTc6znZBkcX8QIMidynq6uk2sPqrFMJKtMa
-	UU2kkqOufmoriMFZlXGzQt4jAhjacx8vGfhFUqgMebwX4TuLaoJ6ygNfuIEi3+DkTjqXi8iVad2
-	uBy+fa4vOmFmkM3Zdkgh/W0XMzEmESvkdLtoTSQIiZEqBXwmNjq0pp38jSm7Tgb7CpzOf4iPPMX
-	LLJ4YFc8wVOGjyzWYQGeuqXvAc++l7Qy8CRrlBA+TOM1p3FcnOX1vnULYDtHPqf0Dq+S7FOevy4
-	5kB5aCNvPwKZUkGkihUks845fZOx8iCckItBg+7k26/ggr
-X-Received: by 2002:a05:6820:188a:b0:66e:10ca:fcd5 with SMTP id 006d021491bc7-679c424cbe9mr582827eaf.12.1771621540600;
-        Fri, 20 Feb 2026 13:05:40 -0800 (PST)
-Received: from localhost ([2a03:2880:10ff:8::])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-679c56ec56dsm363029eaf.12.2026.02.20.13.05.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Feb 2026 13:05:40 -0800 (PST)
-From: Nhat Pham <nphamcs@gmail.com>
-To: kasong@tencent.com
-Cc: Liam.Howlett@oracle.com,
-	akpm@linux-foundation.org,
-	apopple@nvidia.com,
-	axelrasmussen@google.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	bhe@redhat.com,
-	byungchul@sk.com,
-	cgroups@vger.kernel.org,
-	chengming.zhou@linux.dev,
-	chrisl@kernel.org,
-	corbet@lwn.net,
-	david@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jannh@google.com,
-	joshua.hahnjy@gmail.com,
-	lance.yang@linux.dev,
-	lenb@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-pm@vger.kernel.org,
-	lorenzo.stoakes@oracle.com,
-	matthew.brost@intel.com,
-	mhocko@suse.com,
-	muchun.song@linux.dev,
-	npache@redhat.com,
-	nphamcs@gmail.com,
-	pavel@kernel.org,
-	peterx@redhat.com,
-	peterz@infradead.org,
-	pfalcato@suse.de,
-	rafael@kernel.org,
-	rakie.kim@sk.com,
-	roman.gushchin@linux.dev,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shakeel.butt@linux.dev,
-	shikemeng@huaweicloud.com,
-	surenb@google.com,
-	tglx@kernel.org,
-	vbabka@suse.cz,
-	weixugc@google.com,
-	ying.huang@linux.alibaba.com,
-	yosry.ahmed@linux.dev,
-	yuanchu@google.com,
-	zhengqi.arch@bytedance.com,
-	ziy@nvidia.com,
-	kernel-team@meta.com,
-	riel@surriel.com
-Subject: [PATCH] vswap: fix poor batching behavior of vswap free path
-Date: Fri, 20 Feb 2026 13:05:39 -0800
-Message-ID: <20260220210539.989603-1-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com>
-References: <CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="YiC2WVDO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=R4f9IP/7Pkm61E1UOYGJEoSaEEPlmBg9AijSrwT7fyya4QQWFfZ3cMO6uYKRyzKjiwg0azk6NXFBQ2du8iQH6Wh0XW2UeDBVL+ohJcjKQYFZVsjEpiwu3zkfB5NNnbCgZFVA6VI/vZzPsXhnn23XwkYU/A7nG3EWITRg+VfxIYqb5W/iSTL1+48hv1QNP5Ik9j6zwsBFcRnULCKsgo7ive+yjCI25knX9+DgkqPxmSB5w1arb4szcPZaqGCopAdVtgWkGsqanFYvtu2RK7jqNt0aIzEYXRcJ+T1qM+VnE40BDZRXgHzmBJFJ5dt7bCCt8EzSMSPNoZRfRlN1eURJiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=fb1b4qynbU5R5hgzeVHSnZnU6yrOB06REHIxWOMbHt0=;
+ b=Q8u6ehtKBxwPtAio/Nny0pxU2/qk0FQed7+fumZoicEw71gzTGkBBMh2DTmsdoeBdMYxKTM+OC3hJHgjrc9eD6CDPfR9FblQxOoXZn1YtCszCx4UtPO7sGpMJk1zsSy0PVL2CxZBRWiR53qN3vteYKpHyf+KgZQX0UXC8JPkQGQoUOoadwtQStmpysHCpm+lpR+CicHoBFqEk4zyr4PUX/wnk4uWEqHv/TLW4DGM5SiDdUBcG6nQCY4XwE/uHKuMNeF+5X3k1W4W6eqqRbXPbIe15AL+Ww6RvaajHXhoxLVa5uszrEs3yL68j047qRibIDiYnjYLJATCUtIhA94LfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fb1b4qynbU5R5hgzeVHSnZnU6yrOB06REHIxWOMbHt0=;
+ b=YiC2WVDOUoYnEtva5Er0UUP3CmFsRcAAwxVENaR11EP9w7MH3t0hYFtbdlXPHXuiwXofXFhZZ+/2sjyFWVJGeZvyPnfatDZJbcAsPLLJpZtVBJWL2X7dtUrq6eY+85NzuKdPXTiO7yTOCSs5X74DYc1+FammPOP1otVyJ0Ir6PM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by LV8PR12MB9231.namprd12.prod.outlook.com
+ (2603:10b6:408:192::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.17; Sat, 21 Feb
+ 2026 00:12:43 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::4d0e:603a:42fc:7c0]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::4d0e:603a:42fc:7c0%3]) with mapi id 15.20.9611.008; Sat, 21 Feb 2026
+ 00:12:43 +0000
+Message-ID: <ad19a2f2-0eca-4581-ae34-94c160d6cf6b@amd.com>
+Date: Fri, 20 Feb 2026 18:12:37 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 01/19] x86,fs/resctrl: Add support for Global
+ Bandwidth Enforcement (GLBE)
+To: Ben Horgan <ben.horgan@arm.com>,
+ Reinette Chatre <reinette.chatre@intel.com>, Babu Moger
+ <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
+ Dave.Martin@arm.com, james.morse@arm.com, tglx@kernel.org, mingo@redhat.com,
+ bp@alien8.de, dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, peterz@infradead.org,
+ juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+ vschneid@redhat.com, akpm@linux-foundation.org,
+ pawan.kumar.gupta@linux.intel.com, pmladek@suse.com,
+ feng.tang@linux.alibaba.com, kees@kernel.org, arnd@arndb.de,
+ fvdl@google.com, lirongqing@baidu.com, bhelgaas@google.com,
+ seanjc@google.com, xin@zytor.com, manali.shukla@amd.com,
+ dapeng1.mi@linux.intel.com, chang.seok.bae@intel.com,
+ mario.limonciello@amd.com, naveen@kernel.org, elena.reshetova@intel.com,
+ thomas.lendacky@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org, peternewman@google.com,
+ eranian@google.com, gautham.shenoy@amd.com
+References: <cover.1769029977.git.babu.moger@amd.com>
+ <aba70a013c12383d53104de0b19cfbf87690c0c3.1769029977.git.babu.moger@amd.com>
+ <eb4b7b12-7674-4a1e-925d-2cec8c3f43d2@intel.com>
+ <f0f2e3eb-0fdb-4498-9eb8-73111b1c5a84@amd.com>
+ <9b02dfc6-b97c-4695-b765-8cb34a617efb@intel.com>
+ <3a7c17c0-bb51-4aad-a705-d8d1853ea68a@amd.com>
+ <06a237bd-c370-4d3f-99de-124e8c50e711@intel.com>
+ <5857f3a0-999a-46ed-a36f-d2b02d04274a@arm.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <5857f3a0-999a-46ed-a36f-d2b02d04274a@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: CH0PR03CA0209.namprd03.prod.outlook.com
+ (2603:10b6:610:e4::34) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|LV8PR12MB9231:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4398d535-6365-4db8-5dfa-08de70ddeee4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?M0NxNTlrV1lhazBtN2ZiR2NsZWdLUFNKZHpYcFkwYTlRVTg1bjZObk05cS8y?=
+ =?utf-8?B?cjRYUFF1YnlJQVZCdkdSL2VBMXMxTTI1N3IzL2RaRHFXaEU2MVpxZUh4eXhk?=
+ =?utf-8?B?SkJxaXpXRzlnNkRReTFTdEJhdGhBK2l3ZE8yeDIxWWN3dFBmS1RkZC9nSm1q?=
+ =?utf-8?B?TDhwV0tPNzhnRm9uK3VKWXVOYzgyanJjdksyd1IxdG10alBDcURMakl4TVUr?=
+ =?utf-8?B?ZUdSelRKaWNwSlVSRzExSG5xRXo0MTVOYjhsVWJJanhhZm9UN043Y0F1Sk96?=
+ =?utf-8?B?NUkrdEtUOCthdVVVT2tJYkNuSGhWSW1QYnArZ3pyOWg5T2g5Wk5nRkZtc1Rp?=
+ =?utf-8?B?eGVqN0FQbXdrd3ZDNG9lNGxhRWJ0dlJwRGtRd2Y2RzFuZlRJekFnQmtSWFRI?=
+ =?utf-8?B?WlIxeWZLbFBzYmsrSkhIMG5TR0RhUVlkUlBTM3hoVk8wRi92YkF1ZWJFc1VW?=
+ =?utf-8?B?VW5KRjlkOVdCNzU1ZHVrcjY1VVdRK0dPSGZOWEdQcGFEL3MrTkU3WnJoWTlI?=
+ =?utf-8?B?a2ZMSlUzaHNyeUo0WmhPeEp2OWtaUEsyRXlBbUZYSElDT0VCOTQ4cVFhMUFO?=
+ =?utf-8?B?U2tRM0hQYjBsOWZnN0RjV1dYZ2Q1MDhHOUkydFpEUEc1MWUvaW85NGc0ZEVY?=
+ =?utf-8?B?NFZMT0tzODA5dGtFd0RvOG9jRzdjV1pXY0U1N3I1ZGtwcDk5cjF6Ymg2ejlK?=
+ =?utf-8?B?QlF2cWdaVVB3OXlOdjJVZXF4RmNDamEzQWJwU1ZCUVo3MjRqVkNXSWVUODI1?=
+ =?utf-8?B?d2FwZHNkTENYNy9idTM2WU5jdWtjM2xtQ2VEUnkxWEloQ3FrRDJxbU1lN0NH?=
+ =?utf-8?B?RzZNVktFRWV4VFlQL2c1dkh2cXg4RHBPQlp3ZS9iOHpuUEhvdnI0K0hCZzRL?=
+ =?utf-8?B?eERZTW1HWlJKVXVTcEo3eDdPa1FaNGZpQS9HY21zeTZVOUlkMWphUVEzVmdO?=
+ =?utf-8?B?eHJiZVFCZTBaVG9YblYyUVBzWFNxYjcwc1BKSEpEWHhmbGNnRkU4amNvTXZl?=
+ =?utf-8?B?UDlLaHBhNXh6akZUcjJKdm50eXBqT3hJTTM4S29EbE5nQ0svZEFSZzhPVmdJ?=
+ =?utf-8?B?QU11Zm1kT3E4WUhWQUlnVFpUMXNaZWd0aXB4M2trdmgvbm9PeEdINFJ1Vm5D?=
+ =?utf-8?B?QisrS1h5cWNRc1dwQi9lRnFDMENubzRteDNCemJBdzF1Vm9PT1lZVFhEQ2dU?=
+ =?utf-8?B?b1BtaGdtN3RBTktNbU1XUUdkd1VkMlByZVZ6eUxwTURvSm1VZWZpKzhNNnR3?=
+ =?utf-8?B?NUEvR0lhd3Voa2FPWXBxZGZxT0lHSVRZK3FHTWZXL3o3SC9nTzcyRCtPcTRj?=
+ =?utf-8?B?dEZYUWk2YVQ0Skg3a1dueWF1VEc4VllNYW9yaHhwYmpzcm41YnpPbnhHTDEw?=
+ =?utf-8?B?ZWh0VHRsUkx3KzBzcG1Dd1hvYlEzS2g2djFYTkc5K281MEZ6VVdmTjVlS2FU?=
+ =?utf-8?B?TEphbGVrK3NhS2tRZ3Z1N1VIZm5FaC9vbndHT1BweWxWdEkrVTlUTlFHcDZq?=
+ =?utf-8?B?N1JMWGdrTVo1dk9YZ2VRT05HMi81V1ZCb2lRTWl1K1JGVUh3aTFTYTZObzEz?=
+ =?utf-8?B?bWszUjF5cUZXdDdGT215WjVOY1pMOE5aYmRZVkpwSDBtcUVrUTYvV0JRV1V0?=
+ =?utf-8?B?eWNOUm03dHM2eUlKa2NRQngralRndmRBUUM3L0c5VHQwaEMvb1BEdkc0c3Ns?=
+ =?utf-8?B?N3JjeEtSSTJjclRVdlRXUTVUUjYvdW1EYmFzL2VDVmZTS2FyMEg4UG0yQ0RR?=
+ =?utf-8?B?bzNVUkszYnoyR1VJYzFXQm9SQ0ZQSktBUUY5TEsvZ1FXdVlFRWZkbkJXTjFn?=
+ =?utf-8?B?WlVuTCtQMC84OUoxcDVwek9rc2k0Z3NxNWpWdzQwOWlBRDlCcnBxL0l2OFI2?=
+ =?utf-8?B?S2JGendJRVZXazZrVzE3ZDVJUkxURC83YitLTFhrdUJrNHorYjErT3Vma3hF?=
+ =?utf-8?B?Qmdwa05EOGJKdktqNGVwRjgxc0ZsZDllS0RhUlNsZndhNytUNi9ZTmJpWmpY?=
+ =?utf-8?B?b0hFcmhTZHJQQ3VaSDQ0dkViUE02UjNOREpsNHd5NFpOKzV2ZDY3TE1iTkZV?=
+ =?utf-8?B?cVFNemlMQmRPeURmd2dyNTdTZHRwUDd2ZmZOeW1VL0hPdGNBNFRKanBmc3ZB?=
+ =?utf-8?B?N2t5akhSSm1uM20yaE1HamFmelZhN3RGTmpXenAyRGdCVGpQdzIwcjlnd1lw?=
+ =?utf-8?Q?T/eGryaQYw0WZuNeZ8JnS80=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?V3RkUlVBTC9OeVNBWUJVQURZRzZ3TXBvbGNyYnVBNmJyNkpsSzhCaWx3WU5U?=
+ =?utf-8?B?bEVNRDBKbzNydXJMenpVeU1Kb2FRMGkvN1E1WWFidU9ieEZyMzhnQW9kc2dk?=
+ =?utf-8?B?c0dNbXA4ODJVQkVEcisrNHplK0E4aGI5WXR2R0UwVVVvRGE2WXM4SFR2Z1Bi?=
+ =?utf-8?B?S0FSMTFWa3BuSXp1bnZlWGUrUGhCZ2tZVzE1Slc3cGoraWEvaTA5Q2xESldC?=
+ =?utf-8?B?c3p5MDV6NE92UzZZTGhrV3VmZ0ZYSGlIZWlhZ21hOWhnRFRveXhsN3dyWTZL?=
+ =?utf-8?B?ZlNLeFJpenlKUDJZMDVhM0o5NkVVM3pSTWR1eC9aRmtuREdYcVNnbktmQURt?=
+ =?utf-8?B?WjlHeGtVV1BLbkJ3dGMyK0VGTGpuc0VoWUVJVlg1dEVReU96eGtaVmlqNG12?=
+ =?utf-8?B?N2dySDRqSERIL3lsY1hUdk9wNHNHeEJPUU95ZlJHL3BibldNK3VFYlFNZVZU?=
+ =?utf-8?B?c2pBUjIrbTF6OVdxSWMxR3MrN3o4Qnhvc0lPdkRmUHd4eUVXSFlSVE81Y0Uy?=
+ =?utf-8?B?RXFlQ2dwRWFmdmRxZERLNEpBUklFRnFDQnZYYUVmRmk1S2F2WGhrTER4Z0RL?=
+ =?utf-8?B?MVQ0MVRjY3RSeklDRno4NCs2TUJVVm5WNkdWM2p5S0JPQWJmT0ljbzBPTEFP?=
+ =?utf-8?B?OHhneE11bzhkajFQTDV4cWF6YTRLVExhU0x5RWNKME1sazJwMFBqWE1xOUNt?=
+ =?utf-8?B?eC9Lbnp5K2UvcVkyZnM2OHNleDAwczliaTgvWnhRZVBON3I0b3A2d3lPMXlY?=
+ =?utf-8?B?MWo1cmdDbk95emZCcVZHck0ySVJFanVvQlhsbDNyVE1tV1ZIQ1B1SG5LQ1d2?=
+ =?utf-8?B?dXRob3NOQi9GNHlsM2twaUc2OFlsUW15U2IyV1hqVUpaUDUxZWJUUG1vZVd5?=
+ =?utf-8?B?bmhTbllIblBsalZFdGRyb2FJRzlFYk9USkZyZzNTakxtZHYrUEhmTG1XY0xj?=
+ =?utf-8?B?dUk3NCtmek9vY0R5bkNvVWpDUE5sN3U4NTQrMk1sNmlFQUpvcmF5RFRKTW10?=
+ =?utf-8?B?UnhxQ1FHd3NGWUlXTjM3OXU2dENSa0RpTUxpM0k0aTREZThCdmw5N0lmT3NF?=
+ =?utf-8?B?YW5nM2s1NjRPbEpkdEpaTVlCRS96SVBNeCtJeWswa0x4VE1za1Zmc0p0NGRL?=
+ =?utf-8?B?endzMDJmakFIOXhaL3hnR3hJTXFObjcweHRTeDJoQ3FYVjdpNURKNkNYcTU0?=
+ =?utf-8?B?K0tvSkpPMVlVVHNxYXBSTWdIb0FKZ2VuWjNUSnlDWEZiZVRPNlYrbEF4Q3Q3?=
+ =?utf-8?B?eVhtOTdjVDdoNG1yWXV2cWFKYk9Vb0dIT2kvY1F1UkIxd2k0QXBjOUwvM1Jr?=
+ =?utf-8?B?REFTVkVVQlRIdXV3NklsTTBuaHp3cTg1VzBLMTd4UlFQYUlIL3VmQUMrVEh3?=
+ =?utf-8?B?bEVoanRSY0F2Q0o0V3JZa0hxODFYZElvY3dTSEwxNElxeWh6T1VuRzFMU0hT?=
+ =?utf-8?B?b2QzUDYzd1VNelFrTGd5WnhHS0s4NDdvd25iNHlZZ3pRQ3JRRTZtallSRVFP?=
+ =?utf-8?B?ZFFqYzlBSkdZcktxOHBTbHYwMzlUaTBJZkJ6d3ZNeHlmek9vOHFINFNiTUxv?=
+ =?utf-8?B?KzFCV2lNd0toekNadllTTzlpVWtyNEV0UUF5bmdrM3NYS1hFNmYrZ2FDK01V?=
+ =?utf-8?B?UW9oaGRTbjM1Mk9MQWFkU25FVXZIRE1qK05NVTVHdWZHc0JmbkZ3NWJjc1Q1?=
+ =?utf-8?B?Mk5ycmFqZUJUOGVqbFZkeVlxMHUxMTNsNCt3YVF6WXpyVmpybFlQZy8zOEhG?=
+ =?utf-8?B?Vi8veC82OEduaTRIeHlYbFN4a2pQTkpacFBsSU5mcDR6RlIzZDRtcm5kZ1Nt?=
+ =?utf-8?B?eVhVajhyMlRHamxsOUdwaEhibkl4a2JDODFscm05ZFRFQVpXeXdFVXY1a3Jz?=
+ =?utf-8?B?MnNMbGdMYklkMHB4TkMvdlgvc1FSSU05VUtrUzFhb1M1ZVNxQW03VktxWUcr?=
+ =?utf-8?B?MVNMNSt6YXdPYklLczM4ekF5TUYvY0tyUFQrRDEzbDF1NTBPWTZXL1FLa3pU?=
+ =?utf-8?B?Q1oxR1BjcXM4UHVrQ1p6cWhoRkZnSXpxUGQvRzFkQklla2x4VG5GOWlRQlEx?=
+ =?utf-8?B?cmtDMUt6NU1NQVVvcW41M1JFUGo4NHU2MWg2Ukp5cjlxUTFrUzR4Q1lWbEVM?=
+ =?utf-8?B?REwrTEwraFRGYWh2bWdZVFo4SUdTelFyUEhMRXdiK0RRTDk0ejVkR0MzM0lP?=
+ =?utf-8?B?dTlkSlMwODVZYjNGb25YYnZDRlRPWmhLTWJ5SzlnZW9uSVptTFRsWWdJVlNq?=
+ =?utf-8?B?RExwcXdyK21kVE40TC9BYXVnZkZyWU5pM09aUDZGb0ZhY1dTNm9hVmxySmQ2?=
+ =?utf-8?Q?TH/itEFa0dEbKo7G8V?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4398d535-6365-4db8-5dfa-08de70ddeee4
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2026 00:12:43.3643
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CRN2t+d95QVLiSd+dS9enKMpMMsp7PQGo+mE4ZMVFsRP07RIUDZzfhwkOFGQxZjm
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9231
 
-Kairui, could you apply this patch on top of the vswap series and run it
-on your test suite? It runs fairly well on my system (I actually rerun
-the benchmark on a different host to double check as well), but I'd love
-to get some data from your ends as well.
+Hi Ben,
 
-If there are serious discrepancies, could you also include your build
-config etc.? There might be differences in our setups, but since I
-managed to reproduce the free time regression on my first try I figured
-I should just fix it first :)
+On 2/20/2026 4:07 AM, Ben Horgan wrote:
+> Hi Reinette, Babu,
+> 
+> On 2/12/26 03:51, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 2/11/26 1:18 PM, Babu Moger wrote:
+>>> On 2/11/26 10:54, Reinette Chatre wrote:
+>>>> On 2/10/26 5:07 PM, Moger, Babu wrote:
+>>>>> On 2/9/2026 12:44 PM, Reinette Chatre wrote:
+>>>>>> On 1/21/26 1:12 PM, Babu Moger wrote:
+>>>>>>> On AMD systems, the existing MBA feature allows the user to set a bandwidth
+>>>>>>> limit for each QOS domain. However, multiple QOS domains share system
+>>>>>>> memory bandwidth as a resource. In order to ensure that system memory
+>>>>>>> bandwidth is not over-utilized, user must statically partition the
+>>>>>>> available system bandwidth between the active QOS domains. This typically
+>>>>>> How do you define "active" QoS Domain?
+>>>>> Some domains may not have any CPUs associated with that CLOSID. Active meant, I'm referring to domains that have CPUs assigned to the CLOSID.
+>>>> To confirm, is this then specific to assigning CPUs to resource groups via
+>>>> the cpus/cpus_list files? This refers to how a user needs to partition
+>>>> available bandwidth so I am still trying to understand the message here since
+>>>> users still need to do this even when CPUs are not assigned to resource
+>>>> groups.
+>>>>
+>>> It is not specific to CPU assignment. It applies to task assignment also.
+>>>   
+>>> For example:  We have 4 domains;
+>>>
+>>> # cat schemata
+>>>    MB:0=8192;1=8192;2=8192;3=8192
+>>>
+>>> If this group has the CPUs assigned to only first two domains. Then the group has only two active domains. Then we will only update the first two domains. The MB values in other domains does not matter.
+>>
+>> I see, thank you. As I understand an "active QoS domain" is something only user
+>> space can designate. It may be possible for resctrl to get a sense of which QoS domains
+>> are "active" when only CPUs are assigned to a resource group but when it comes to task
+>> assignment it is user space that controls where tasks belonging to a group can be
+>> scheduled and thus which QoS domains are "active" or not.
+>>
+>>>
+>>> #echo "MB:0=8;1=8" > schemata
+>>>
+>>> # cat schemata
+>>>    MB:0=8;1=8;2=8192;3=8192
+>>>
+>>> The combined bandwidth can go up to 16(8+8) units. Each unit is 1/8 GB.
+>>>
+>>> With GMBA, we can set the combined limit higher level and total bandwidth will not exceed GMBA limit.
+>>
+>> Thank you for the confirmation.
+>>
+>>>
+>>>>>>> results in system memory being under-utilized since not all QOS domains are
+>>>>>>> using their full bandwidth Allocation.
+>>>>>>>
+>>>>>>> AMD PQoS Global Bandwidth Enforcement(GLBE) provides a mechanism
+>>>>>>> for software to specify bandwidth limits for groups of threads that span
+>>>>>>> multiple QoS Domains. This collection of QOS domains is referred to as GLBE
+>>>>>>> control domain. The GLBE ceiling sets a maximum limit on a memory bandwidth
+>>>>>>> in GLBE control domain. Bandwidth is shared by all threads in a Class of
+>>>>>>> Service(COS) across every QoS domain managed by the GLBE control domain.
+>>>>>> How does this bandwidth allocation limit impact existing MBA? For example, if a
+>>>>>> system has two domains (A and B) that user space separately sets MBA
+>>>>>> allocations for while also placing both domains within a "GLBE control domain"
+>>>>>> with a different allocation, does the individual MBA allocations still matter?
+>>>>> Yes. Both ceilings are enforced at their respective levels.
+>>>>> The MBA ceiling is applied at the QoS domain level.
+>>>>> The GLBE ceiling is applied at the GLBE control  domain level.
+>>>>> If the MBA ceiling exceeds the GLBE ceiling, the effective MBA limit will be capped by the GLBE ceiling.
+>>>> It sounds as though MBA and GMBA/GLBE operates within the same parameters wrt
+>>>> the limits but in examples in this series they have different limits. For example,
+>>>> in the documentation patch [1] there is this:
+>>>>
+>>>>    # cat schemata
+>>>>       GMB:0=2048;1=2048;2=2048;3=2048
+>>>>       MB:0=4096;1=4096;2=4096;3=4096
+>>>>       L3:0=ffff;1=ffff;2=ffff;3=ffff
+>>>>
+>>>> followed up with what it will look like in new generation [2]:
+>>>>
+>>>>      GMB:0=4096;1=4096;2=4096;3=4096
+>>>>       MB:0=8192;1=8192;2=8192;3=8192
+>>>>        L3:0=ffff;1=ffff;2=ffff;3=ffff
+>>>>
+>>>> In both examples the per-domain MB ceiling is higher than the global GMB ceiling. With
+>>>> above showing defaults and you state "If the MBA ceiling exceeds the GLBE ceiling,
+>>>> the effective MBA limit will be capped by the GLBE ceiling." - does this mean that
+>>>> MB ceiling can never be higher than GMB ceiling as shown in the examples?
+>>>
+>>> That is correct.  There is one more information here.   The MB unit is in 1/8 GB and GMB unit is 1GB.  I have added that in documentation in patch 4.
+>>
+>> ah - right. I did not take the different units into account.
+>>
+>>>
+>>> The GMB limit defaults to max value 4096 (bit 12 set) when the new group is created.  Meaning GMB limit does not apply by default.
+>>>
+>>> When setting the limits, it should be set to same value in all the domains in GMB control domain.  Having different value in each domain results in unexpected behavior.
+>>>
+>>>>
+>>>> Another question, when setting aside possible differences between MB and GMB.
+>>>>
+>>>> I am trying to understand how user may expect to interact with these interfaces ...
+>>>>
+>>>> Consider the starting state example as below where the MB and GMB ceilings are the
+>>>> same:
+>>>>
+>>>>     # cat schemata
+>>>>     GMB:0=2048;1=2048;2=2048;3=2048
+>>>>     MB:0=2048;1=2048;2=2048;3=2048
+>>>>
+>>>> Would something like below be accurate? Specifically, showing how the GMB limit impacts the
+>>>> MB limit:
+>>>>        # echo "GMB:0=8;2=8" > schemata
+>>>>     # cat schemata
+>>>>     GMB:0=8;1=2048;2=8;3=2048
+>>>>     MB:0=8;1=2048;2=8;3=2048
+>>>
+>>> Yes. That is correct.  It will cap the MB setting to  8.   Note that we are talking about unit differences to make it simple.
+>>
+>> Thank you for confirming.
+>>
+>>>
+>>>
+>>>> ... and then when user space resets GMB the MB can reset like ...
+>>>>
+>>>>     # echo "GMB:0=2048;2=2048" > schemata
+>>>>     # cat schemata
+>>>>     GMB:0=2048;1=2048;2=2048;3=2048
+>>>>     MB:0=2048;1=2048;2=2048;3=2048
+>>>>
+>>>> if I understand correctly this will only apply if the MB limit was never set so
+>>>> another scenario may be to keep a previous MB setting after a GMB change:
+>>>>
+>>>>     # cat schemata
+>>>>     GMB:0=2048;1=2048;2=2048;3=2048
+>>>>     MB:0=8;1=2048;2=8;3=2048
+>>>>
+>>>>     # echo "GMB:0=8;2=8" > schemata
+>>>>     # cat schemata
+>>>>     GMB:0=8;1=2048;2=8;3=2048
+>>>>     MB:0=8;1=2048;2=8;3=2048
+>>>>
+>>>>     # echo "GMB:0=2048;2=2048" > schemata
+>>>>     # cat schemata
+>>>>     GMB:0=2048;1=2048;2=2048;3=2048
+>>>>     MB:0=8;1=2048;2=8;3=2048
+>>>>
+>>>> What would be most intuitive way for user to interact with the interfaces?
+>>>
+>>> I see that you are trying to display the effective behaviors above.
+>>
+>> Indeed. My goal is to get an idea how user space may interact with the new interfaces and
+>> what would be a reasonable expectation from resctrl be during these interactions.
+>>
+>>>
+>>> Please keep in mind that MB and GMB units differ. I recommend showing only the values the user has explicitly configured, rather than the effective settings, as displaying both may cause confusion.
+>>
+>> hmmm ... this may be subjective. Could you please elaborate how presenting the effective
+>> settings may cause confusion?
+>>
+>>>
+>>> We also need to track the previous settings so we can revert to the earlier value when needed. The best approach is to document this behavior clearly.
+>>
+>> Yes, this will require resctrl to maintain more state.
+>>
+>> Documenting behavior is an option but I think we should first consider if there are things
+>> resctrl can do to make the interface intuitive to use.
+>>
+>>>>>>>   From the description it sounds as though there is a new "memory bandwidth
+>>>>>> ceiling/limit" that seems to imply that MBA allocations are limited by
+>>>>>> GMBA allocations while the proposed user interface present them as independent.
+>>>>>>
+>>>>>> If there is indeed some dependency here ... while MBA and GMBA CLOSID are
+>>>>>> enumerated separately, under which scenario will GMBA and MBA support different
+>>>>>> CLOSID? As I mentioned in [1] from user space perspective "memory bandwidth"
+>>>>> I can see the following scenarios where MBA and GMBA can operate independently:
+>>>>> 1. If the GMBA limit is set to ‘unlimited’, then MBA functions as an independent CLOS.
+>>>>> 2. If the MBA limit is set to ‘unlimited’, then GMBA functions as an independent CLOS.
+>>>>> I hope this clarifies your question.
+>>>> No. When enumerating the features the number of CLOSID supported by each is
+>>>> enumerated separately. That means GMBA and MBA may support different number of CLOSID.
+>>>> My question is: "under which scenario will GMBA and MBA support different CLOSID?"
+>>> No. There is not such scenario.
+>>>>
+>>>> Because of a possible difference in number of CLOSIDs it seems the feature supports possible
+>>>> scenarios where some resource groups can support global AND per-domain limits while other
+>>>> resource groups can just support global or just support per-domain limits. Is this correct?
+>>>
+>>> System can support up to 16 CLOSIDs. All of them support all the features LLC, MB, GMB, SMBA.   Yes. We have separate enumeration for  each feature.  Are you suggesting to change it ?
+>>
+>> It is not a concern to have different CLOSIDs between resources that are actually different,
+>> for example, having LLC or MB support different number of CLOSIDs. Having the possibility to
+>> allocate the *same* resource (memory bandwidth) with varying number of CLOSIDs does present a
+>> challenge though. Would it be possible to have a snippet in the spec that explicitly states
+>> that MB and GMB will always enumerate with the same number of CLOSIDs?
+>>
+>> Please see below where I will try to support this request more clearly and you can decide if
+>> it is reasonable.
+>>    
+>>>>>> can be seen as a single "resource" that can be allocated differently based on
+>>>>>> the various schemata associated with that resource. This currently has a
+>>>>>> dependency on the various schemata supporting the same number of CLOSID which
+>>>>>> may be something that we can reconsider?
+>>>>> After reviewing the new proposal again, I’m still unsure how all the pieces will fit together. MBA and GMBA share the same scope and have inter-dependencies. Without the full implementation details, it’s difficult for me to provide meaningful feedback on new approach.
+>>>> The new approach is not final so please provide feedback to help improve it so
+>>>> that the features you are enabling can be supported well.
+>>>
+>>> Yes, I am trying. I noticed that the proposal appears to affect how the schemata information is displayed(in info directory). It seems to introduce additional resource information. I don't see any harm in displaying it if it benefits certain architecture.
+>>
+>> It benefits all architectures.
+>>
+>> There are two parts to the current proposals.
+>>
+>> Part 1: Generic schema description
+>> I believe there is consensus on this approach. This is actually something that is long
+>> overdue and something like this would have been a great to have with the initial AMD
+>> enabling. With the generic schema description forming part of resctrl the user can learn
+>> from resctrl how to interact with the schemata file instead of relying on external information
+>> and documentation.
+>>
+>> For example, on an Intel system that uses percentage based proportional allocation for memory
+>> bandwidth the new resctrl files will display:
+>> info/MB/resource_schemata/MB/type:scalar linear
+>> info/MB/resource_schemata/MB/unit:all
+>> info/MB/resource_schemata/MB/scale:1
+>> info/MB/resource_schemata/MB/resolution:100
+>> info/MB/resource_schemata/MB/tolerance:0
+>> info/MB/resource_schemata/MB/max:100
+>> info/MB/resource_schemata/MB/min:10
+>>
+>>
+>> On an AMD system that uses absolute allocation with 1/8 GBps steps the files will display:
+>> info/MB/resource_schemata/MB/type:scalar linear
+>> info/MB/resource_schemata/MB/unit:GBps
+>> info/MB/resource_schemata/MB/scale:1
+>> info/MB/resource_schemata/MB/resolution:8
+>> info/MB/resource_schemata/MB/tolerance:0
+>> info/MB/resource_schemata/MB/max:2048
+>> info/MB/resource_schemata/MB/min:1
+>>
+>> Having such interface will be helpful today. Users do not need to first figure out
+>> whether they are on an AMD or Intel system, and then read the docs to learn the AMD units,
+>> before interacting with resctrl. resctrl will be the generic interface it intends to be.
+>>
+>> Part 2: Supporting multiple controls for a single resource
+>> This is a new feature on which there also appears to be consensus that is needed by MPAM and
+>> Intel RDT where it is possible to use different controls for the same resource. For example,
+>> there can be a minimum and maximum control associated with the memory bandwidth resource.
+>>
+>> For example,
+>> info/
+>>   └─ MB/
+>>       └─ resource_schemata/
+>>           ├─ MB/
+>>           ├─ MB_MIN/
+>>           ├─ MB_MAX/
+>>           ┆
+>>
+>>
+>> Here is where the big question comes in for GLBE - is this actually a new resource
+>> for which resctrl needs to add interfaces to manage its allocation, or is it instead
+>> an additional control associated with the existing memory bandwith resource?
+>>
+>> For me things are actually pointing to GLBE not being a new resource but instead being
+>> a new control for the existing memory bandwidth resource.
+>>
+>> I understand that for a PoC it is simplest to add support for GLBE as a new resource as is
+>> done in this series but when considering it as an actual unique resource does not seem
+>> appropriate since resctrl already has a "memory bandwidth" resource. User space expects
+>> to find all the resources that it can allocate in info/ - I do not think it is correct
+>> to have two separate directories/resources for memory bandwidth here.
+>>
+>> What if, instead, it looks something like:
+>>
+>> info/
+>> └── MB/
+>>      └── resource_schemata/
+>>          ├── GMB/
+>>          │   ├── max:4096
+>>          │   ├── min:1
+>>          │   ├── resolution:1
+>>          │   ├── scale:1
+>>          │   ├── tolerance:0
+>>          │   ├── type:scalar linear
+>>          │   └── unit:GBps
+>>          └── MB/
+>>              ├── max:8192
+>>              ├── min:1
+>>              ├── resolution:8
+>>              ├── scale:1
+>>              ├── tolerance:0
+>>              ├── type:scalar linear
+>>              └── unit:GBps
+>>
+>> With an interface like above GMB is just another control/schema used to allocate the
+>> existing memory bandwidth resource. With the planned files it is possible to express the
+>> different maximums and units used by the MB and GMB schema. Users no longer need to
+>> dig for the unit information in the docs, it is available in the interface.
+>>
+>> Doing something like this does depend on GLBE supporting the same number of CLOSIDs
+>> as MB, which seems to be how this will be implemented. If there is indeed a confirmation
+>> of this from AMD architecture then we can do something like this in resctrl.
+> 
+> I haven't fully understood what GLBE is but in MPAM we have an optional
+> feature in MSC (MPAM devices) called partid narrowing. For some MSC
+> there are limited controls and the incoming partid is mapped to an
+> effective partid using a mapping. This mapping is software controllable.
+> Dave (with Shaopeng and Zeng) has a proposal to use this to use partid
+> bits as pmg bits, [1]. This usage would have to be opt-in as it changes
+> the number of closid/rmid that MPAM presents to resctrl. If however, the
+> user doesn't use that scheme then the controls could be presented as
+> controls for groups of closid in resctrl. Is this similar/usable with
+> the same interface as GLBE or have I misunderstood?
 
----------------
+GLBE is only specific to AMD to address the limitation with memory 
+bandwidth (MB) allocation.
 
-Fix two issues that make the swap free path inefficient:
+I didn't see any similarities with these features.
 
-1. At the PTE zapping step, we are unnecessarily resolving the backends,
-   and fall back to batch size of 1, even though virtual swap
-   infrastructure now already supports freeing of mixed backend ranges
-   (as long the PTEs contain virtually contiguous swap slots).
-2. Optimize vswap_free() by batching consecutive free operations, and
-   avoid releasing locks unnecessarily (most notably, when we release
-   non-disk-swap backends).
 
-Per a report from Kairui Song ([1]), I have run the following benchmark:
-
-free -m
-               total        used        free      shared  buff/cache   available
-Mem:           31596        5094       11667          19       15302       26502
-Swap:          65535          33       65502
-
-Running the usemem benchmark with n = 1, 56G for 5 times, and average
-out the result:
-
-Baseline (6.19):
-
-real: mean: 190.93s, stdev: 5.09s
-user: mean: 46.62s, stdev: 0.27s
-sys: mean: 128.51s, stdev: 5.17s
-throughput: mean: 382093 KB/s, stdev: 11173.6 KB/s
-free time: mean: 7916690.2 usecs, stdev: 88923.0 usecs
-
-VSS without this patch:
-real: mean: 194.59s, stdev: 7.61s
-user: mean: 46.71s, stdev: 0.46s
-sys: mean: 131.97s, stdev: 7.93s
-throughput: mean: 379236.4 KB/s, stdev: 15912.26 KB/s
-free time: mean: 10115572.2 usecs, stdev: 108318.35 usecs
-
-VSS with this patch:
-real: mean: 187.66s, stdev: 5.67s
-user: mean: 46.5s, stdev: 0.16s
-sys: mean: 125.3s, stdev: 5.58s
-throughput: mean: 387506.4 KB/s, stdev: 12556.56 KB/s
-free time: mean: 7029733.8 usecs, stdev: 124661.34 usecs
-
-[1]: https://lore.kernel.org/linux-mm/CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com/
-
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
----
- include/linux/memcontrol.h |   6 +
- mm/internal.h              |  18 ++-
- mm/madvise.c               |   2 +-
- mm/memcontrol.c            |   2 +-
- mm/memory.c                |   8 +-
- mm/vswap.c                 | 294 ++++++++++++++++++-------------------
- 6 files changed, 165 insertions(+), 165 deletions(-)
-
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index 0651865a4564f..0f7f5489e1675 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -827,6 +827,7 @@ static inline unsigned short mem_cgroup_id(struct mem_cgroup *memcg)
- 	return memcg->id.id;
- }
- struct mem_cgroup *mem_cgroup_from_id(unsigned short id);
-+void mem_cgroup_id_put_many(struct mem_cgroup *memcg, unsigned int n);
- 
- #ifdef CONFIG_SHRINKER_DEBUG
- static inline unsigned long mem_cgroup_ino(struct mem_cgroup *memcg)
-@@ -1289,6 +1290,11 @@ static inline struct mem_cgroup *mem_cgroup_from_id(unsigned short id)
- 	return NULL;
- }
- 
-+static inline void mem_cgroup_id_put_many(struct mem_cgroup *memcg,
-+					  unsigned int n)
-+{
-+}
-+
- #ifdef CONFIG_SHRINKER_DEBUG
- static inline unsigned long mem_cgroup_ino(struct mem_cgroup *memcg)
- {
-diff --git a/mm/internal.h b/mm/internal.h
-index cfe97501e4885..df991f601702c 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -327,8 +327,6 @@ static inline swp_entry_t swap_nth(swp_entry_t entry, long n)
- 	return (swp_entry_t) { entry.val + n };
- }
- 
--swp_entry_t swap_move(swp_entry_t entry, long delta);
--
- /**
-  * pte_move_swp_offset - Move the swap entry offset field of a swap pte
-  *	 forward or backward by delta
-@@ -342,7 +340,7 @@ swp_entry_t swap_move(swp_entry_t entry, long delta);
- static inline pte_t pte_move_swp_offset(pte_t pte, long delta)
- {
- 	softleaf_t entry = softleaf_from_pte(pte);
--	pte_t new = swp_entry_to_pte(swap_move(entry, delta));
-+	pte_t new = swp_entry_to_pte(swap_nth(entry, delta));
- 
- 	if (pte_swp_soft_dirty(pte))
- 		new = pte_swp_mksoft_dirty(new);
-@@ -372,6 +370,7 @@ static inline pte_t pte_next_swp_offset(pte_t pte)
-  * @start_ptep: Page table pointer for the first entry.
-  * @max_nr: The maximum number of table entries to consider.
-  * @pte: Page table entry for the first entry.
-+ * @free_batch: Whether the batch will be passed to free_swap_and_cache_nr().
-  *
-  * Detect a batch of contiguous swap entries: consecutive (non-present) PTEs
-  * containing swap entries all with consecutive offsets and targeting the same
-@@ -382,13 +381,15 @@ static inline pte_t pte_next_swp_offset(pte_t pte)
-  *
-  * Return: the number of table entries in the batch.
-  */
--static inline int swap_pte_batch(pte_t *start_ptep, int max_nr, pte_t pte)
-+static inline int swap_pte_batch(pte_t *start_ptep, int max_nr, pte_t pte,
-+				 bool free_batch)
- {
- 	pte_t expected_pte = pte_next_swp_offset(pte);
- 	const pte_t *end_ptep = start_ptep + max_nr;
- 	const softleaf_t entry = softleaf_from_pte(pte);
- 	pte_t *ptep = start_ptep + 1;
- 	unsigned short cgroup_id;
-+	int nr;
- 
- 	VM_WARN_ON(max_nr < 1);
- 	VM_WARN_ON(!softleaf_is_swap(entry));
-@@ -408,7 +409,14 @@ static inline int swap_pte_batch(pte_t *start_ptep, int max_nr, pte_t pte)
- 		ptep++;
- 	}
- 
--	return ptep - start_ptep;
-+	nr = ptep - start_ptep;
-+	/*
-+	 * free_swap_and_cache_nr can handle mixed backends, as long as virtual
-+	 * swap entries backing these PTEs are contiguous.
-+	 */
-+	if (!free_batch && !vswap_can_swapin_thp(entry, nr))
-+		return 1;
-+	return nr;
- }
- #endif /* CONFIG_MMU */
- 
-diff --git a/mm/madvise.c b/mm/madvise.c
-index b617b1be0f535..441da03c5d2b9 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -692,7 +692,7 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
- 
- 			if (softleaf_is_swap(entry)) {
- 				max_nr = (end - addr) / PAGE_SIZE;
--				nr = swap_pte_batch(pte, max_nr, ptent);
-+				nr = swap_pte_batch(pte, max_nr, ptent, true);
- 				nr_swap -= nr;
- 				free_swap_and_cache_nr(entry, nr);
- 				clear_not_present_full_ptes(mm, addr, pte, nr, tlb->fullmm);
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 50be8066bebec..bfa25eaffa12a 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -3597,7 +3597,7 @@ void __maybe_unused mem_cgroup_id_get_many(struct mem_cgroup *memcg,
- 	refcount_add(n, &memcg->id.ref);
- }
- 
--static void mem_cgroup_id_put_many(struct mem_cgroup *memcg, unsigned int n)
-+void mem_cgroup_id_put_many(struct mem_cgroup *memcg, unsigned int n)
- {
- 	if (refcount_sub_and_test(n, &memcg->id.ref)) {
- 		mem_cgroup_id_remove(memcg);
-diff --git a/mm/memory.c b/mm/memory.c
-index a16bf84ebaaf9..59645ad238e22 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -1742,7 +1742,7 @@ static inline int zap_nonpresent_ptes(struct mmu_gather *tlb,
- 		if (!should_zap_cows(details))
- 			return 1;
- 
--		nr = swap_pte_batch(pte, max_nr, ptent);
-+		nr = swap_pte_batch(pte, max_nr, ptent, true);
- 		rss[MM_SWAPENTS] -= nr;
- 		free_swap_and_cache_nr(entry, nr);
- 	} else if (softleaf_is_migration(entry)) {
-@@ -4491,7 +4491,7 @@ static bool can_swapin_thp(struct vm_fault *vmf, pte_t *ptep, int nr_pages)
- 	if (!pte_same(pte, pte_move_swp_offset(vmf->orig_pte, -idx)))
- 		return false;
- 	entry = softleaf_from_pte(pte);
--	if (swap_pte_batch(ptep, nr_pages, pte) != nr_pages)
-+	if (swap_pte_batch(ptep, nr_pages, pte, false) != nr_pages)
- 		return false;
- 
- 	/*
-@@ -4877,7 +4877,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
- 		pte_t folio_pte = ptep_get(folio_ptep);
- 
- 		if (!pte_same(folio_pte, pte_move_swp_offset(vmf->orig_pte, -idx)) ||
--		    swap_pte_batch(folio_ptep, nr, folio_pte) != nr)
-+		    swap_pte_batch(folio_ptep, nr, folio_pte, false) != nr)
- 			goto out_nomap;
- 
- 		page_idx = idx;
-@@ -4906,7 +4906,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
- 		folio_ptep = vmf->pte - idx;
- 		folio_pte = ptep_get(folio_ptep);
- 		if (!pte_same(folio_pte, pte_move_swp_offset(vmf->orig_pte, -idx)) ||
--		    swap_pte_batch(folio_ptep, nr, folio_pte) != nr)
-+		    swap_pte_batch(folio_ptep, nr, folio_pte, false) != nr)
- 			goto check_folio;
- 
- 		page_idx = idx;
-diff --git a/mm/vswap.c b/mm/vswap.c
-index 2a071d5ae173c..047c6476ef23c 100644
---- a/mm/vswap.c
-+++ b/mm/vswap.c
-@@ -481,18 +481,18 @@ static void vswap_cluster_free(struct vswap_cluster *cluster)
- 	kvfree_rcu(cluster, rcu);
- }
- 
--static inline void release_vswap_slot(struct vswap_cluster *cluster,
--		unsigned long index)
-+static inline void release_vswap_slot_nr(struct vswap_cluster *cluster,
-+		unsigned long index, int nr)
- {
- 	unsigned long slot_index = VSWAP_IDX_WITHIN_CLUSTER_VAL(index);
- 
- 	VM_WARN_ON(!spin_is_locked(&cluster->lock));
--	cluster->count--;
-+	cluster->count -= nr;
- 
--	bitmap_clear(cluster->bitmap, slot_index, 1);
-+	bitmap_clear(cluster->bitmap, slot_index, nr);
- 
- 	/* we only free uncached empty clusters */
--	if (refcount_dec_and_test(&cluster->refcnt))
-+	if (refcount_sub_and_test(nr, &cluster->refcnt))
- 		vswap_cluster_free(cluster);
- 	else if (cluster->full && cluster_is_alloc_candidate(cluster)) {
- 		cluster->full = false;
-@@ -505,7 +505,7 @@ static inline void release_vswap_slot(struct vswap_cluster *cluster,
- 		}
- 	}
- 
--	atomic_dec(&vswap_used);
-+	atomic_sub(nr, &vswap_used);
- }
- 
- /*
-@@ -527,23 +527,29 @@ void vswap_rmap_set(struct swap_cluster_info *ci, swp_slot_t slot,
- }
- 
- /*
-- * Caller needs to handle races with other operations themselves.
-+ * release_backing - release the backend storage for a given range of virtual
-+ * swap slots.
-+ *
-+ * Entered with the cluster locked, but might drop the lock in between.
-+ * This is because several operations, such as releasing physical swap slots
-+ * (i.e swap_slot_free_nr()) require the cluster to be unlocked to avoid
-+ * deadlocks.
-  *
-- * Specifically, this function is safe to be called in contexts where the swap
-- * entry has been added to the swap cache and the associated folio is locked.
-- * We cannot race with other accessors, and the swap entry is guaranteed to be
-- * valid the whole time (since swap cache implies one refcount).
-+ * This is safe, because:
-+ *
-+ * 1. The swap entry to be freed has refcnt (swap count and swapcache pin)
-+ *    down to 0, so no one can change its internal state
-  *
-- * We cannot assume that the backends will be of the same type,
-- * contiguous, etc. We might have a large folio coalesced from subpages with
-- * mixed backend, which is only rectified when it is reclaimed.
-+ * 2. The swap entry to be freed still holds a refcnt to the cluster, keeping
-+ *    the cluster itself valid.
-+ *
-+ * We will exit the function with the cluster re-locked.
-  */
-- static void release_backing(swp_entry_t entry, int nr)
-+static void release_backing(struct vswap_cluster *cluster, swp_entry_t entry,
-+		int nr)
- {
--	struct vswap_cluster *cluster = NULL;
- 	struct swp_desc *desc;
- 	unsigned long flush_nr, phys_swap_start = 0, phys_swap_end = 0;
--	unsigned long phys_swap_released = 0;
- 	unsigned int phys_swap_type = 0;
- 	bool need_flushing_phys_swap = false;
- 	swp_slot_t flush_slot;
-@@ -551,9 +557,8 @@ void vswap_rmap_set(struct swap_cluster_info *ci, swp_slot_t slot,
- 
- 	VM_WARN_ON(!entry.val);
- 
--	rcu_read_lock();
- 	for (i = 0; i < nr; i++) {
--		desc = vswap_iter(&cluster, entry.val + i);
-+		desc = __vswap_iter(cluster, entry.val + i);
- 		VM_WARN_ON(!desc);
- 
- 		/*
-@@ -573,7 +578,6 @@ void vswap_rmap_set(struct swap_cluster_info *ci, swp_slot_t slot,
- 		if (desc->type == VSWAP_ZSWAP && desc->zswap_entry) {
- 			zswap_entry_free(desc->zswap_entry);
- 		} else if (desc->type == VSWAP_SWAPFILE) {
--			phys_swap_released++;
- 			if (!phys_swap_start) {
- 				/* start a new contiguous range of phys swap */
- 				phys_swap_start = swp_slot_offset(desc->slot);
-@@ -589,56 +593,49 @@ void vswap_rmap_set(struct swap_cluster_info *ci, swp_slot_t slot,
- 
- 		if (need_flushing_phys_swap) {
- 			spin_unlock(&cluster->lock);
--			cluster = NULL;
- 			swap_slot_free_nr(flush_slot, flush_nr);
-+			mem_cgroup_uncharge_swap(entry, flush_nr);
-+			spin_lock(&cluster->lock);
- 			need_flushing_phys_swap = false;
- 		}
- 	}
--	if (cluster)
--		spin_unlock(&cluster->lock);
--	rcu_read_unlock();
- 
- 	/* Flush any remaining physical swap range */
- 	if (phys_swap_start) {
- 		flush_slot = swp_slot(phys_swap_type, phys_swap_start);
- 		flush_nr = phys_swap_end - phys_swap_start;
-+		spin_unlock(&cluster->lock);
- 		swap_slot_free_nr(flush_slot, flush_nr);
-+		mem_cgroup_uncharge_swap(entry, flush_nr);
-+		spin_lock(&cluster->lock);
- 	}
-+}
- 
--	if (phys_swap_released)
--		mem_cgroup_uncharge_swap(entry, phys_swap_released);
-- }
-+static void __vswap_swap_cgroup_clear(struct vswap_cluster *cluster,
-+		swp_entry_t entry, unsigned int nr_ents);
- 
- /*
-- * Entered with the cluster locked, but might unlock the cluster.
-- * This is because several operations, such as releasing physical swap slots
-- * (i.e swap_slot_free_nr()) require the cluster to be unlocked to avoid
-- * deadlocks.
-- *
-- * This is safe, because:
-- *
-- * 1. The swap entry to be freed has refcnt (swap count and swapcache pin)
-- *    down to 0, so no one can change its internal state
-- *
-- * 2. The swap entry to be freed still holds a refcnt to the cluster, keeping
-- *    the cluster itself valid.
-- *
-- * We will exit the function with the cluster re-locked.
-+ * Entered with the cluster locked. We will exit the function with the cluster
-+ * still locked.
-  */
--static void vswap_free(struct vswap_cluster *cluster, struct swp_desc *desc,
--	swp_entry_t entry)
-+static void vswap_free_nr(struct vswap_cluster *cluster, swp_entry_t entry,
-+		int nr)
- {
--	/* Clear shadow if present */
--	if (xa_is_value(desc->shadow))
--		desc->shadow = NULL;
--	spin_unlock(&cluster->lock);
-+	struct swp_desc *desc;
-+	int i;
- 
--	release_backing(entry, 1);
--	mem_cgroup_clear_swap(entry, 1);
-+	for (i = 0; i < nr; i++) {
-+		desc = __vswap_iter(cluster, entry.val + i);
-+		/* Clear shadow if present */
-+		if (xa_is_value(desc->shadow))
-+			desc->shadow = NULL;
-+	}
- 
--	/* erase forward mapping and release the virtual slot for reallocation */
--	spin_lock(&cluster->lock);
--	release_vswap_slot(cluster, entry.val);
-+	release_backing(cluster, entry, nr);
-+	__vswap_swap_cgroup_clear(cluster, entry, nr);
-+
-+	/* erase forward mapping and release the virtual slots for reallocation */
-+	release_vswap_slot_nr(cluster, entry.val, nr);
- }
- 
- /**
-@@ -820,18 +817,32 @@ static bool vswap_free_nr_any_cache_only(swp_entry_t entry, int nr)
- 	struct vswap_cluster *cluster = NULL;
- 	struct swp_desc *desc;
- 	bool ret = false;
--	int i;
-+	swp_entry_t free_start;
-+	int i, free_nr = 0;
- 
-+	free_start.val = 0;
- 	rcu_read_lock();
- 	for (i = 0; i < nr; i++) {
-+		/* flush pending free batch at cluster boundary */
-+		if (free_nr && !VSWAP_IDX_WITHIN_CLUSTER_VAL(entry.val)) {
-+			vswap_free_nr(cluster, free_start, free_nr);
-+			free_nr = 0;
-+		}
- 		desc = vswap_iter(&cluster, entry.val);
- 		VM_WARN_ON(!desc);
- 		ret |= (desc->swap_count == 1 && desc->in_swapcache);
- 		desc->swap_count--;
--		if (!desc->swap_count && !desc->in_swapcache)
--			vswap_free(cluster, desc, entry);
-+		if (!desc->swap_count && !desc->in_swapcache) {
-+			if (!free_nr++)
-+				free_start = entry;
-+		} else if (free_nr) {
-+			vswap_free_nr(cluster, free_start, free_nr);
-+			free_nr = 0;
-+		}
- 		entry.val++;
- 	}
-+	if (free_nr)
-+		vswap_free_nr(cluster, free_start, free_nr);
- 	if (cluster)
- 		spin_unlock(&cluster->lock);
- 	rcu_read_unlock();
-@@ -954,19 +965,33 @@ void swapcache_clear(swp_entry_t entry, int nr)
- {
- 	struct vswap_cluster *cluster = NULL;
- 	struct swp_desc *desc;
--	int i;
-+	swp_entry_t free_start;
-+	int i, free_nr = 0;
- 
- 	if (!nr)
- 		return;
- 
-+	free_start.val = 0;
- 	rcu_read_lock();
- 	for (i = 0; i < nr; i++) {
-+		/* flush pending free batch at cluster boundary */
-+		if (free_nr && !VSWAP_IDX_WITHIN_CLUSTER_VAL(entry.val)) {
-+			vswap_free_nr(cluster, free_start, free_nr);
-+			free_nr = 0;
-+		}
- 		desc = vswap_iter(&cluster, entry.val);
- 		desc->in_swapcache = false;
--		if (!desc->swap_count)
--			vswap_free(cluster, desc, entry);
-+		if (!desc->swap_count) {
-+			if (!free_nr++)
-+				free_start = entry;
-+		} else if (free_nr) {
-+			vswap_free_nr(cluster, free_start, free_nr);
-+			free_nr = 0;
-+		}
- 		entry.val++;
- 	}
-+	if (free_nr)
-+		vswap_free_nr(cluster, free_start, free_nr);
- 	if (cluster)
- 		spin_unlock(&cluster->lock);
- 	rcu_read_unlock();
-@@ -1107,11 +1132,13 @@ void vswap_store_folio(swp_entry_t entry, struct folio *folio)
- 	VM_BUG_ON(!folio_test_locked(folio));
- 	VM_BUG_ON(folio->swap.val != entry.val);
- 
--	release_backing(entry, nr);
--
- 	rcu_read_lock();
-+	desc = vswap_iter(&cluster, entry.val);
-+	VM_WARN_ON(!desc);
-+	release_backing(cluster, entry, nr);
-+
- 	for (i = 0; i < nr; i++) {
--		desc = vswap_iter(&cluster, entry.val + i);
-+		desc = __vswap_iter(cluster, entry.val + i);
- 		VM_WARN_ON(!desc);
- 		desc->type = VSWAP_FOLIO;
- 		desc->swap_cache = folio;
-@@ -1136,11 +1163,13 @@ void swap_zeromap_folio_set(struct folio *folio)
- 	VM_BUG_ON(!folio_test_locked(folio));
- 	VM_BUG_ON(!entry.val);
- 
--	release_backing(entry, nr);
--
- 	rcu_read_lock();
-+	desc = vswap_iter(&cluster, entry.val);
-+	VM_WARN_ON(!desc);
-+	release_backing(cluster, entry, nr);
-+
- 	for (i = 0; i < nr; i++) {
--		desc = vswap_iter(&cluster, entry.val + i);
-+		desc = __vswap_iter(cluster, entry.val + i);
- 		VM_WARN_ON(!desc);
- 		desc->type = VSWAP_ZERO;
- 	}
-@@ -1261,89 +1290,6 @@ bool vswap_can_swapin_thp(swp_entry_t entry, int nr)
- 		(type == VSWAP_ZERO || type == VSWAP_SWAPFILE);
- }
- 
--/**
-- * swap_move - increment the swap slot by delta, checking the backing state and
-- *             return 0 if the backing state does not match (i.e wrong backing
-- *             state type, or wrong offset on the backing stores).
-- * @entry: the original virtual swap slot.
-- * @delta: the offset to increment the original slot.
-- *
-- * Note that this function is racy unless we can pin the backing state of these
-- * swap slots down with swapcache_prepare().
-- *
-- * Caller should only rely on this function as a best-effort hint otherwise,
-- * and should double-check after ensuring the whole range is pinned down.
-- *
-- * Return: the incremented virtual swap slot if the backing state matches, or
-- *         0 if the backing state does not match.
-- */
--swp_entry_t swap_move(swp_entry_t entry, long delta)
--{
--	struct vswap_cluster *cluster = NULL;
--	struct swp_desc *desc, *next_desc;
--	swp_entry_t next_entry;
--	struct folio *folio = NULL, *next_folio = NULL;
--	enum swap_type type, next_type;
--	swp_slot_t slot = {0}, next_slot = {0};
--
--	next_entry.val = entry.val + delta;
--
--	rcu_read_lock();
--
--	/* Look up first descriptor and get its type and backing store */
--	desc = vswap_iter(&cluster, entry.val);
--	if (!desc) {
--		rcu_read_unlock();
--		return (swp_entry_t){0};
--	}
--
--	type = desc->type;
--	if (type == VSWAP_ZSWAP) {
--		/* zswap not supported for move */
--		spin_unlock(&cluster->lock);
--		rcu_read_unlock();
--		return (swp_entry_t){0};
--	}
--	if (type == VSWAP_FOLIO)
--		folio = desc->swap_cache;
--	else if (type == VSWAP_SWAPFILE)
--		slot = desc->slot;
--
--	/* Look up second descriptor and get its type and backing store */
--	next_desc = vswap_iter(&cluster, next_entry.val);
--	if (!next_desc) {
--		rcu_read_unlock();
--		return (swp_entry_t){0};
--	}
--
--	next_type = next_desc->type;
--	if (next_type == VSWAP_FOLIO)
--		next_folio = next_desc->swap_cache;
--	else if (next_type == VSWAP_SWAPFILE)
--		next_slot = next_desc->slot;
--
--	if (cluster)
--		spin_unlock(&cluster->lock);
--
--	rcu_read_unlock();
--
--	/* Check if types match */
--	if (next_type != type)
--		return (swp_entry_t){0};
--
--	/* Check backing state consistency */
--	if (type == VSWAP_SWAPFILE &&
--			(swp_slot_type(next_slot) != swp_slot_type(slot) ||
--				swp_slot_offset(next_slot) !=
--							swp_slot_offset(slot) + delta))
--		return (swp_entry_t){0};
--
--	if (type == VSWAP_FOLIO && next_folio != folio)
--		return (swp_entry_t){0};
--
--	return next_entry;
--}
--
- /*
-  * Return the count of contiguous swap entries that share the same
-  * VSWAP_ZERO status as the starting entry. If is_zeromap is not NULL,
-@@ -1863,11 +1809,10 @@ void zswap_entry_store(swp_entry_t swpentry, struct zswap_entry *entry)
- 	struct vswap_cluster *cluster = NULL;
- 	struct swp_desc *desc;
- 
--	release_backing(swpentry, 1);
--
- 	rcu_read_lock();
- 	desc = vswap_iter(&cluster, swpentry.val);
- 	VM_WARN_ON(!desc);
-+	release_backing(cluster, swpentry, 1);
- 	desc->zswap_entry = entry;
- 	desc->type = VSWAP_ZSWAP;
- 	spin_unlock(&cluster->lock);
-@@ -1914,17 +1859,22 @@ bool zswap_empty(swp_entry_t swpentry)
- #endif /* CONFIG_ZSWAP */
- 
- #ifdef CONFIG_MEMCG
--static unsigned short vswap_cgroup_record(swp_entry_t entry,
--				unsigned short memcgid, unsigned int nr_ents)
-+/*
-+ * __vswap_cgroup_record - record mem_cgroup for a set of swap entries
-+ *
-+ * Entered with the cluster locked. We will exit the function with the cluster
-+ * still locked.
-+ */
-+static unsigned short __vswap_cgroup_record(struct vswap_cluster *cluster,
-+				swp_entry_t entry, unsigned short memcgid,
-+				unsigned int nr_ents)
- {
--	struct vswap_cluster *cluster = NULL;
- 	struct swp_desc *desc;
- 	unsigned short oldid, iter = 0;
- 	int i;
- 
--	rcu_read_lock();
- 	for (i = 0; i < nr_ents; i++) {
--		desc = vswap_iter(&cluster, entry.val + i);
-+		desc = __vswap_iter(cluster, entry.val + i);
- 		VM_WARN_ON(!desc);
- 		oldid = desc->memcgid;
- 		desc->memcgid = memcgid;
-@@ -1932,6 +1882,37 @@ static unsigned short vswap_cgroup_record(swp_entry_t entry,
- 			iter = oldid;
- 		VM_WARN_ON(iter != oldid);
- 	}
-+
-+	return oldid;
-+}
-+
-+/*
-+ * Clear swap cgroup for a range of swap entries.
-+ * Entered with the cluster locked. Caller must be under rcu_read_lock().
-+ */
-+static void __vswap_swap_cgroup_clear(struct vswap_cluster *cluster,
-+				      swp_entry_t entry, unsigned int nr_ents)
-+{
-+	unsigned short id;
-+	struct mem_cgroup *memcg;
-+
-+	id = __vswap_cgroup_record(cluster, entry, 0, nr_ents);
-+	memcg = mem_cgroup_from_id(id);
-+	if (memcg)
-+		mem_cgroup_id_put_many(memcg, nr_ents);
-+}
-+
-+static unsigned short vswap_cgroup_record(swp_entry_t entry,
-+				unsigned short memcgid, unsigned int nr_ents)
-+{
-+	struct vswap_cluster *cluster = NULL;
-+	struct swp_desc *desc;
-+	unsigned short oldid;
-+
-+	rcu_read_lock();
-+	desc = vswap_iter(&cluster, entry.val);
-+	VM_WARN_ON(!desc);
-+	oldid = __vswap_cgroup_record(cluster, entry, memcgid, nr_ents);
- 	spin_unlock(&cluster->lock);
- 	rcu_read_unlock();
- 
-@@ -1999,6 +1980,11 @@ unsigned short lookup_swap_cgroup_id(swp_entry_t entry)
- 	rcu_read_unlock();
- 	return ret;
- }
-+#else /* !CONFIG_MEMCG */
-+static void __vswap_swap_cgroup_clear(struct vswap_cluster *cluster,
-+				      swp_entry_t entry, unsigned int nr_ents)
-+{
-+}
- #endif /* CONFIG_MEMCG */
- 
- int vswap_init(void)
--- 
-2.47.3
+thanks
+Babu
+> 
+> [1]
+> https://lore.kernel.org/linux-arm-kernel/20241212154000.330467-1-Dave.Martin@arm.com/
+> 
+>>
+>> There is a "part 3" to the proposals that attempts to address the new requirement where
+>> some of the controls allocate at a different scope while also requiring monitoring at
+>> that new scope. After learning more about GLBE this does not seem relevant to GLBE but is
+>> something to return to for the "MPAM CPU-less" work. We could already prepare for this
+>> by adding the new "scope" schema property though.
+>>
+>>
+>> Reinette
+>>
+>>>
+>>> Thanks
+>>>
+>>> Babu
+>>>
+>>>
+>>>>
+>>>> Reinette
+>>>>
+>>>> [1] https://lore.kernel.org/lkml/d58f70592a4ce89e744e7378e49d5a36be3fd05e.1769029977.git.babu.moger@amd.com/
+>>>> [2] https://lore.kernel.org/lkml/e0c79c53-489d-47bf-89b9-f1bb709316c6@amd.com/
+>>>>
+>>
+>>
+> 
+> 
+> Thanks,
+> 
+> Ben
+> 
+> 
 
