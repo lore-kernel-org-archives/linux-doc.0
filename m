@@ -1,65 +1,106 @@
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C091EB5F8;
-	Sun, 22 Feb 2026 13:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0852714A8E
+	for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 14:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771765626; cv=none; b=sLkawoWB/WInsfeC4ahGUxpuv9imHiUcgolz6cQ43e4r6gjf4IKOAGw3tjgm8qFpDg1xL0J+Lxbz6BsRnydSbNRaGGR4VQ+t6q7ATarWb0TuTgEGmEZgRqpeeps4bXbSuvlgpaa8PZXbs/kSQ953mqLeFyaVOTNJlXE7YSirSqo=
+	t=1771771725; cv=none; b=K9iQaodg6aqmWlBY5szpsI+cXOJvXzBvd1yvRXOIji/Xjp+55sGjJgoPHM3xgBndmauXXYMSN+dYyWSq2q7gmrjOHXHI29n3X7YjaqigqipV74dT842onXzRbqXpKdYdpr+xhN9peFb51lwODEbgW2FqPNgW1qEd0he0WXmzDJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771765626; c=relaxed/simple;
-	bh=IB0vTf1ok/9bz8OTUdwo2iavt6xyOws666hF9uOTCKQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m2+llR51VK6XLcMOWUjSM+j6JHnhc6NDZEX/VZ5EECazIQHQJcSqacdBrIHk9a/R2fGWlIjA0/izlHw2jCarpvcKHp7x4rPCBa3d3G7FlWA7tVxtek5vKwGzKHakV7QgsLKSS8LmJZquljjrcBNdBgZpJShTatT7trlmqb6dqAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.95.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
-	 client-signature ECDSA (secp384r1) client-digest SHA384)
-	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
-	by bmailout1.hostsharing.net (Postfix) with ESMTPS id 666F1203064F;
-	Sun, 22 Feb 2026 14:06:56 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 557734C89A; Sun, 22 Feb 2026 14:06:56 +0100 (CET)
-Date: Sun, 22 Feb 2026 14:06:56 +0100
-From: Lukas Wunner <lukas@wunner.de>
-To: Aksh Garg <a-garg7@ti.com>
-Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	bhelgaas@google.com, corbet@lwn.net, cassel@kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	s-vadapalli@ti.com, danishanwar@ti.com, srk@ti.com
-Subject: Re: [RFC PATCH 3/4] PCI/DOE: Add DOE mailbox support for endpoint
- functions
-Message-ID: <aZr_cD9LIQgvywri@wunner.de>
-References: <20260213123603.420941-1-a-garg7@ti.com>
- <20260213123603.420941-4-a-garg7@ti.com>
+	s=arc-20240116; t=1771771725; c=relaxed/simple;
+	bh=sdzwZuG1QrazH/8Adb2q/4hXsnStMTv8CJdWUB84/8s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=myu6hlCzLkYfhmG4MXA5UDRK9PHVivizWgtWRDX+hA6Z21UboxTXZ4AmaummlKD3q1PspjqEXH09KTnDnv5OlnXzHeY+INHrz+PuBkNIW+x+AOjeIrFscUi2IUKUWArCXDzr7R/t5LcfMioyQMJ16ZgaaKup5uZSMyhakTcj1b0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cNNISCeu; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cNNISCeu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5507C2BCB7
+	for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 14:48:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771771724;
+	bh=sdzwZuG1QrazH/8Adb2q/4hXsnStMTv8CJdWUB84/8s=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cNNISCeuROU90CuCrmTiFGRaTDlLMJFNSq0MBg/edSw1kNJ5oBs0pXBZbG/9SLuq6
+	 ThLIKAxdOeNMElpDGoKztMrFTY+lgJ/wNny8a1dtHRSlUvr+izV+mn34gbC971Hm5/
+	 Df1D/bF4Dk1A9iSC3psm3f/FvmhUQ0o+lXveIbgVdcA8MXSmJodpXxOdWgNCOIgyF9
+	 i53aXLPLNDeMUJPENRZjAqK0EEPjvGmFWx2NNdzFZGsD+xPez+iaV/5HE6H2hDSEKD
+	 7+86yXza7aU85rgwcsG9orDXYBGR1HWBPQ7wdch6uDrjuq7CVqzAbq1GqouCDzv4WX
+	 erVdwZKazLJvg==
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-649dbff9727so3193044d50.3
+        for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 06:48:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVxE3OW3l/51DVnTmj4+SGDivnBgXnAdnAZ0KkRNVr4r6p5CPld9zUl0IbB8gTrul5boRRj2zhAtjA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqBGyrdwdxrU6sszgoRk8PFiMhIMpV99EpGs6JpIBh5lXG09Aj
+	srzH/DvMJwhWldLCyJPEw2ypz6DKUQfGMS6t+PhNVV2esY3+qfe0OfOcNYyN5xQTKmPtzHi4kwO
+	OyVpS+JwSc/5OgEoxA2vDZTfaoHZ7tOo=
+X-Received: by 2002:a05:690e:d59:b0:64a:d479:bfbe with SMTP id
+ 956f58d0204a3-64c789c6a7bmr4841631d50.11.1771771724015; Sun, 22 Feb 2026
+ 06:48:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260213123603.420941-4-a-garg7@ti.com>
+References: <20260212213656.662437-1-shenwei.wang@nxp.com> <20260212213656.662437-4-shenwei.wang@nxp.com>
+ <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com> <13f9d767-61d6-4e29-b36e-6dcc860ccb11@lunn.ch>
+ <fd257c80-d97f-45b0-a12f-3a1888ba81db@foss.st.com> <396819f2-dd00-4c09-8bc7-c035a5282a56@lunn.ch>
+ <PAXPR04MB9185A908F5090F0CA4FF05F78968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <b21b9ee5-d84e-47f8-86b5-c111ecc3d43d@lunn.ch> <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+In-Reply-To: <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sun, 22 Feb 2026 15:48:32 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
+X-Gm-Features: AaiRm514C7pGWVEcrMl_Px6Oy5MFEMWE4sZ-03YXonAepWinISuPyzCRs8cRpUg
+Message-ID: <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Frank Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Shuah Khan <skhan@linuxfoundation.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 13, 2026 at 06:06:02PM +0530, Aksh Garg wrote:
-> Add the DOE support for PCIe endpoint devices, enabling endpoint
-> functions to process the DOE requests from the host. The implementation
-> provides framework APIs for controller drivers to register mailboxes,
-> protocol handler registration for different DOE data object types, and
-> request processing with workqueues ensuring sequential handling per
-> mailbox. The Discovery protocol is handled internally by the DOE core.
+On Fri, Feb 20, 2026 at 7:57=E2=80=AFPM Shenwei Wang <shenwei.wang@nxp.com>=
+ wrote:
 
-This looks like it is largely a duplication of drivers/pci/doe.c,
-including the asynchronous request support that was originally added
-but was never needed and so was clearly a mistake.
+> Given that, I=E2=80=99d like to hear from the GPIO subsystem maintainers =
+=E2=80=94 @Linus Walleij and
+> @Bartosz Golaszewski =E2=80=94 on whether a driver that works with the cu=
+rrent hardware/firmware
+> design could still be acceptable for upstream inclusion. My understanding=
+ is that upstream
+> generally supports existing, real-world hardware as long as the driver me=
+ets subsystem standards.
 
-I'm wondering why the async suport is needed in the endpoint case?
-Why can't this (only) be synchronous?
+What a swell party this has become.
 
-Thanks,
+In this kind of situations I usually refer to
+Documentation/process/management-style.rst
 
-Lukas
+What is the message I as a maintainer is getting from NXP regarding
+"gpio: rpmsg: add generic rpmsg GPIO driver"?
+
+Arnaud, who is the only person in this discussion who actually wrote
+a standard RPMSG driver (drivers/tty/rpmsg_tty.c), must ACK this
+patch if it wants to call itself a "generic" RPMSG GPIO driver, if he
+does not, then it isn't.
+
+Is it generic? If it is not, let's call it "NXP rpmsg GPIO driver" and rena=
+me
+files etc accordingly. Maybe it can share code with the actual generic
+RPMSG driver once that arrives, that is more of a library question.
+
+Yours,
+Linus Walleij
