@@ -1,95 +1,234 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F696201113
-	for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 09:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD916DF6C;
+	Sun, 22 Feb 2026 10:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771754237; cv=none; b=UZZ19kE9WLVOPhob0u5DKCE9lb6Tvsw3T+LdHmhIn6NmGcNCfFh/mDokp1MA+cafJY6IPjyLEhXJMNfB8ViXatRXnlYd9whkgaHiEKXM/b1mD/Uhc5iYj1Lc0NlFwLz3JtAi+uH5KWH/p5URSoWWVWXwsPXsua+OPWEnpnT7KXs=
+	t=1771756970; cv=none; b=BmE6THkE6d0/LPfaamE7/FiwXn+wP7bSUFr3I1NE3GVKG2i/IKH4b5dUsTCBEtNK0Th3Lbh5WoOOdjMPUc3TK9g/jOLvq2bLdkMS3dfcH9Uf/GCBd+3PbDhEpBwQLfq4HSf7k6Yn6E5FWsMlgVYSrgpHdTAdXRPKXJDBeceW/9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771754237; c=relaxed/simple;
-	bh=+dY0fRpXRSJ69H3p2QDNAci48mgdXANsuSfzFnWkOwE=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=HsjuarOp4E0I41DLlOzH4j0MCiGbWF3N3ZMZiLzCeF0PEUpLH9BebbrU0lYRlqIodNa2+HcmX0GFgCj3FP3F4W1c4IKMLsbjWlGJx6nynU9HZ44xiO/kfIbhUtMaz53R034Nn775jX48H8jgXjMJ2HiP10knEyD0gqsbRaFsv7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VrYdSf0Z; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771756970; c=relaxed/simple;
+	bh=DrCoid4Pafm2Wd5d5/Z36uNtrGzmCQLSkgqHZBWbMWI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GH7obNb2z30isxL24MC4lcFaZLEauzcbn9aX4JUASQgeURyMlnTXU2WcvjPE+HdUvL9zZ7dZF1iMQImk3YMB+Q//0ffA2EUJhEJEt2RPp+dL634Sr12dlGsMbGesyljoZFFcWyqwXCIkMjvie4Sn8KanMCD/pHbl34K8x/5RdbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kcnQaRIh; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VrYdSf0Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771754236; x=1803290236;
-  h=date:from:to:cc:subject:message-id;
-  bh=+dY0fRpXRSJ69H3p2QDNAci48mgdXANsuSfzFnWkOwE=;
-  b=VrYdSf0ZgHrNO0+lVfszlVomBEc//h/ipvNVLxiHujA843/7OVc6nGJ/
-   AhaXRtJ2ObnTnqsV837YwTeLEn7YEwsHOC7YQC1BH6BcKnM/HZDEDIwjp
-   7Ud+KlcPsMYW9nuASCBIUKmEiq8upcRnAPstiLq7drbB6wV0HVhCCoCrZ
-   QeyZN1HcyfEGFlnspZTJIDixUVXbp3EOtwA3d9nMOmiuPzuDyTA+FdY/w
-   oW9Fy9Sb/7NLR8rDfjr0s2dJy4eQnpQ7Z9hnZc/RFhbyNNaCXR/OsAO7s
-   tRa0Zd3YMPVFPCLSI4DBssgD87XRfUxl+vVB26JiUJyCGt6D/I8T+RfE4
-   Q==;
-X-CSE-ConnectionGUID: fqnfT90hQnqT62iQeqSeWQ==
-X-CSE-MsgGUID: +3+IAl43Ty2zmSoT+EOIVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11708"; a="72657905"
-X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="72657905"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2026 01:57:16 -0800
-X-CSE-ConnectionGUID: 6aVYcBoeRPS1S6gWhuYGzQ==
-X-CSE-MsgGUID: eZVz6Pn0QGmlrQ2J473a8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,304,1763452800"; 
-   d="scan'208";a="245864293"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 22 Feb 2026 01:57:13 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vu6D5-000000004bB-3AGd;
-	Sun, 22 Feb 2026 09:57:07 +0000
-Date: Sun, 22 Feb 2026 10:56:59 +0100
-From: kernel test robot <lkp@intel.com>
-To: Gregory Price <gourry@gourry.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [gourryinverse:private_compression 14/60] htmldocs:
- Documentation/core-api/mm-api:131: ./mm/memory_hotplug.c:1654: WARNING: Block
- quote ends without a blank line; unexpected unindent. [docutils]
-Message-ID: <202602221029.AVw83S5w-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kcnQaRIh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1771756960;
+	bh=DrCoid4Pafm2Wd5d5/Z36uNtrGzmCQLSkgqHZBWbMWI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kcnQaRIhmB0uGgwiB08nORlre5NuxRsoB2FhWkbTA0uYMYf6QSacBs7MCbQdRvNPi
+	 JeHfk7mQs6ptHQEPHkfOwLlIPtkpiKCsUiq/ngOee4OWEUe1yGzLtMRQW1Ts5UKPJQ
+	 tEbZJmMJvGuK/9DvFT1UfvlwokAAI5MS4W4yCnlUnAIusVd4I+kyR0WJhDunTD95H0
+	 8+dXODsnj4+199XZxBN4G9F3JNclal+PiE6fwmSiFxwAHdj/J7Anv9khultrTWZ0ZP
+	 YUVii9sUyN07jhIf8Hq+9Y6865ccLndCOa5nJCSwfhuZ+mufH+HZi+vtiVcerihvP/
+	 /B/uM1nFumzpQ==
+Received: from [192.168.1.90] (unknown [82.79.138.145])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B2D3C17E1274;
+	Sun, 22 Feb 2026 11:42:39 +0100 (CET)
+Message-ID: <ff7b531a-77c1-4c7d-b09d-47779b640193@collabora.com>
+Date: Sun, 22 Feb 2026 12:42:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 13/20] drm/bridge: dw-hdmi-qp: Implement
+ atomic_get_output_bus_fmts
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
+ <20260216-color-format-v8-13-5722ce175dd5@collabora.com>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20260216-color-format-v8-13-5722ce175dd5@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Gregory,
+Hi Nicolas,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+On 2/16/26 3:01 PM, Nicolas Frattaroli wrote:
+> The atomic_get_output_bus_fmts callback is used by the DRM bridge layer
+> to recursively select a suitable output format in a bridge chain.
+> 
+> As a bridge that outputs to HDMI, dw-hdmi-qp will have its output
+> formats determined by which formats the platform-specific integration of
+> the hardware supports, and the chosen HDMI output bit depth.
+> 
+> Implement this callback. The returned u32* buffer is supposed to be
+> freed by the caller of this callback, as specified by the callback's
+> documentation.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 178 +++++++++++++++++++++++++++
+>  1 file changed, 178 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> index d649a1cf07f5..4c00218e5fd7 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/export.h>
+>  #include <linux/i2c.h>
+>  #include <linux/irq.h>
+> +#include <linux/media-bus-format.h>
+>  #include <linux/minmax.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> @@ -749,6 +750,182 @@ static struct i2c_adapter *dw_hdmi_qp_i2c_adapter(struct dw_hdmi_qp *hdmi)
+>  	return adap;
+>  }
+>  
+> +static int dw_hdmi_qp_config_avi_infoframe(struct dw_hdmi_qp *hdmi,
+> +					   const u8 *buffer, size_t len)
+> +{
+> +	u32 val, i, j;
+> +
+> +	if (len != HDMI_INFOFRAME_SIZE(AVI)) {
+> +		dev_err(hdmi->dev, "failed to configure avi infoframe\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	/*
+> +	 * DW HDMI QP IP uses a different byte format from standard AVI info
+> +	 * frames, though generally the bits are in the correct bytes.
+> +	 */
+> +	val = buffer[1] << 8 | buffer[2] << 16;
+> +	dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS0);
+> +
+> +	for (i = 0; i < 4; i++) {
+> +		for (j = 0; j < 4; j++) {
+> +			if (i * 4 + j >= 14)
+> +				break;
+> +			if (!j)
+> +				val = buffer[i * 4 + j + 3];
+> +			val |= buffer[i * 4 + j + 3] << (8 * j);
+> +		}
+> +
+> +		dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS1 + i * 4);
+> +	}
+> +
+> +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_AVI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
+> +
+> +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN,
+> +		       PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN, PKTSCHED_PKT_EN);
+> +
+> +	return 0;
+> +}
+> +
+> +static int dw_hdmi_qp_config_drm_infoframe(struct dw_hdmi_qp *hdmi,
+> +					   const u8 *buffer, size_t len)
+> +{
+> +	u32 val, i;
+> +
+> +	if (len != HDMI_INFOFRAME_SIZE(DRM)) {
+> +		dev_err(hdmi->dev, "failed to configure drm infoframe\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_TX_EN, PKTSCHED_PKT_EN);
+> +
+> +	val = buffer[1] << 8 | buffer[2] << 16;
+> +	dw_hdmi_qp_write(hdmi, val, PKT_DRMI_CONTENTS0);
+> +
+> +	for (i = 0; i <= buffer[2]; i++) {
+> +		if (i % 4 == 0)
+> +			val = buffer[3 + i];
+> +		val |= buffer[3 + i] << ((i % 4) * 8);
+> +
+> +		if ((i % 4 == 3) || i == buffer[2])
+> +			dw_hdmi_qp_write(hdmi, val,
+> +					 PKT_DRMI_CONTENTS1 + ((i / 4) * 4));
+> +	}
+> +
+> +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
+> +	dw_hdmi_qp_mod(hdmi, PKTSCHED_DRMI_TX_EN, PKTSCHED_DRMI_TX_EN,
+> +		       PKTSCHED_PKT_EN);
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Static values documented in the TRM
+> + * Different values are only used for debug purposes
+> + */
+> +#define DW_HDMI_QP_AUDIO_INFOFRAME_HB1	0x1
+> +#define DW_HDMI_QP_AUDIO_INFOFRAME_HB2	0xa
+> +
+> +static int dw_hdmi_qp_config_audio_infoframe(struct dw_hdmi_qp *hdmi,
+> +					     const u8 *buffer, size_t len)
+> +{
+> +	/*
+> +	 * AUDI_CONTENTS0: { RSV, HB2, HB1, RSV }
+> +	 * AUDI_CONTENTS1: { PB3, PB2, PB1, PB0 }
+> +	 * AUDI_CONTENTS2: { PB7, PB6, PB5, PB4 }
+> +	 *
+> +	 * PB0: CheckSum
+> +	 * PB1: | CT3    | CT2  | CT1  | CT0  | F13  | CC2 | CC1 | CC0 |
+> +	 * PB2: | F27    | F26  | F25  | SF2  | SF1  | SF0 | SS1 | SS0 |
+> +	 * PB3: | F37    | F36  | F35  | F34  | F33  | F32 | F31 | F30 |
+> +	 * PB4: | CA7    | CA6  | CA5  | CA4  | CA3  | CA2 | CA1 | CA0 |
+> +	 * PB5: | DM_INH | LSV3 | LSV2 | LSV1 | LSV0 | F52 | F51 | F50 |
+> +	 * PB6~PB10: Reserved
+> +	 *
+> +	 * AUDI_CONTENTS0 default value defined by HDMI specification,
+> +	 * and shall only be changed for debug purposes.
+> +	 */
+> +	u32 header_bytes = (DW_HDMI_QP_AUDIO_INFOFRAME_HB1 << 8) |
+> +			  (DW_HDMI_QP_AUDIO_INFOFRAME_HB2 << 16);
+> +
+> +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS0, &header_bytes, 1);
+> +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1);
+> +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1);
+> +
+> +	/* Enable ACR, AUDI, AMD */
+> +	dw_hdmi_qp_mod(hdmi,
+> +		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
+> +		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
+> +		       PKTSCHED_PKT_EN);
+> +
+> +	/* Enable AUDS */
+> +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AUDS_TX_EN, PKTSCHED_AUDS_TX_EN, PKTSCHED_PKT_EN);
+> +
+> +	return 0;
+> +}
 
-tree:   https://github.com/gourryinverse/linux private_compression
-head:   9fa5ffee4fd4726e31f05deebb938cccfa0b460f
-commit: b7d5dc2d24cff71c32c00feeb78dd5ea1902520e [14/60] mm/memory_hotplug: add __add_memory_driver_managed() with online_type arg
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260222/202602221029.AVw83S5w-lkp@intel.com/reproduce)
+Something's wrong with this patch as all the functions above have been dropped
+since the HDMI VSI & SPD InfoFrames series [1] got merged.  The previous
+revision was fine though, hence that's likely an unexpected artifact of the
+latest rebase.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602221029.AVw83S5w-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Using alabaster theme
-   WARNING: ./include/linux/sched/mm.h:332 function parameter 'flags' not described in 'memalloc_flags_save'
-   WARNING: ./include/linux/textsearch.h:49 struct member 'list' not described in 'ts_ops'
-   WARNING: ./mm/vmalloc.c:4284 expecting prototype for vrealloc_node_align_noprof(). Prototype was for vrealloc_node_align() instead
-   Documentation/core-api/mm-api:131: ./mm/memory_hotplug.c:1653: ERROR: Unexpected indentation. [docutils]
->> Documentation/core-api/mm-api:131: ./mm/memory_hotplug.c:1654: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   WARNING: ./include/crypto/skcipher.h:166 struct member 'SKCIPHER_ALG_COMMON' not described in 'skcipher_alg'
-   WARNING: ./include/linux/kfence.h:220 function parameter 'slab' not described in '__kfence_obj_info'
-   WARNING: ./include/linux/virtio.h:183 struct member 'map' not described in 'virtio_device'
-   WARNING: ./include/linux/virtio.h:183 struct member 'VIRTIO_DECLARE_FEATURES(features' not described in 'virtio_device'
-   WARNING: ./include/linux/virtio.h:183 struct member 'vmap' not described in 'virtio_device'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[1] https://lore.kernel.org/all/20260129-dw-hdmi-qp-iframe-v2-0-0157ad05232c@collabora.com/
