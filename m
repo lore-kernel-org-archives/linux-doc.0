@@ -1,52 +1,75 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF011A2C04;
-	Sun, 22 Feb 2026 21:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4740C35CB69
+	for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 22:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771795474; cv=none; b=dmuUICgjCqzVNOPpdrj0s/rTNu+TIsUP8b7lFonAzWDA6uPS+Bn3kMrmFJ4Tby6mZrRQZTM/34GeyrNY7ZJMNh5C47goz2IzJFCxJMXoYYHXtifBNpnoH8Jk5r+y14P05TD0Snw/YJVO9UpOBy6ictB/eMeBP1mvCVP6IDv41lk=
+	t=1771800248; cv=none; b=UPRg+90JkdsuQP0yTOmzYQ2+vColvep/uRz1fVUuLIgLS5TrihdIqSydMhqxGVRtw9GSYtiYolBugONxrGcffNXKKokbK02pVlEcbGjXVptB4xb2D6nkqOCfywxehqXOwbUK2UdCVAd+uJJJDgPfdVlrrBAxxpPd/JzuFGbNk4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771795474; c=relaxed/simple;
-	bh=bkgGI2WMJRUrC6413r99xgdbIc0+f+gsulT3sQyzjYM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XQKNwCxd3wH2Y2pNskGQw5NCV/W/xNZ623Qmhl02+dTYKpHgWXpWk5lIHERvLJXes2+4Q2JHXk5davTFncQEwsGWrVlbC4OWN4PPPcG8ckVk6uJXOktD6kbiCrq1T6y90nQKrCuXCxSdprhs55JQkqX+pcR5lPYldzHZEr4QSF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BSwc8IGy; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1771800248; c=relaxed/simple;
+	bh=yEy5EsQdbFtnSNBQk1628iZvFtHJnE6ygVfOQDJynVs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X8GPKtF/rJU8/8TSe9QOuOy6IOJ55BA9o+IXyyi7JllD923z2+i5XNf8pbxS4pqChajlRuO0mHeA5wOqD7IToZTCsSpklENgL50nt0yfuPbXYC0JlFBeAevuzHu2lkkutwjmsmOetCCHB9Akmca99SVw1X+PI20wU2r2qyOuT5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJq/lxvu; arc=none smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BSwc8IGy"
-Received: by linux.microsoft.com (Postfix, from userid 1006)
-	id C5AEB20B6F00; Sun, 22 Feb 2026 13:24:26 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C5AEB20B6F00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1771795466;
-	bh=Cu9vE1o/2Xdjq6JTuKE+z+eMXOB+YTsvz8yR1vX+7Zc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BSwc8IGybxHSGkEOrdo8uvHOdRLVVIqIt0fY6NdFCO4XSVTLElTy+h/wnjhv/Usn4
-	 1dLgFB0TuenW3gpaCWl1rg2WPS9erk3qXTdI5ZE54Uc7l6OkjLP9ORptyU1mWn8KdG
-	 OFVhSj8KR+Omgc5tEVGhMYnJdeR2GFdKwXD+KJNE=
-From: Haiyang Zhang <haiyangz@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Andrew Lunn <andrew@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>,
-	Gal Pressman <gal@nvidia.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: haiyangz@microsoft.com,
-	paulros@microsoft.com
-Subject: [PATCH net-next] net: ethtool: add COALESCE_RX_CQE_FRAMES/NSECS parameters
-Date: Sun, 22 Feb 2026 13:23:17 -0800
-Message-ID: <20260222212328.736628-1-haiyangz@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJq/lxvu"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-79639c2d2b5so29902877b3.2
+        for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 14:44:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771800246; x=1772405046; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SCWTk+IBh+cv0sTp+5FoJ30T//K04N5n6pJL4hNPgAY=;
+        b=aJq/lxvu8qCA8oVXvWQcBmKZY4yo4RZ/pJ6YeddxUNU5e8On32OJUpp422si5LNX7v
+         +i2yOen3Vzufh4QI9VbnYqGkijMZuxotAZK+fNBVyNNzRB4DYPr3IDJl3kLb04wdLQBH
+         8YkEvyE7Dzr8O5urUfOPVRQt85f/NbPI/hU9qbgliMMa3uGcih/5VpIhkCA9H7jeYrse
+         DA6qa3Kt9t8Mlkf3ym/KNkPUKj25rTMtLghH8Of2FSkMRXpRKI+5h51Uk+UpBTrrwmuE
+         yg0CMHcLc2vVODigB3leLFDJnu9pnnUXM50WrelkUJoseba5P3kCbQ3qEHv3eA0G6Np+
+         Vdng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771800246; x=1772405046;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SCWTk+IBh+cv0sTp+5FoJ30T//K04N5n6pJL4hNPgAY=;
+        b=NPjJiqZ8NUYjK2pPTMI9y7Gcx6SEMulj/Foi/xluDgl6OW4YyLvqPd3h7os3JR9aaJ
+         ignmz/MFBZZ7jxDVJExiZw0QAEgsQk511eqUPjGVMyKtM9rWVgLZ6VuRjVeDVSses2uQ
+         dJhKHPD9XbTk6kkhX/XIKWsY7i+0lnJcSb4NSUHmfja+yuOqYfaoPsoEddEQmaoqZOVN
+         UOIoKHAd7DmYi2YpgkzBBgePJpx2C/UaQE9sUVw2H3qzqPgQ4bpXAeY5UkUepDWVOSMv
+         evXqymyoYYR//mA8cKadEH5YActQkXA6daPjMU8iQ2jzV+BdvBqsCTAGWI35y8en/Dtx
+         O1Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCVvePwdhXbqrGce5BZWubBwlG0OuExCZCEgf9cxMWMp2VS7C7SRatAnsmOAqaj/jer1pHg3Vs1PkuA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywpF8ICj8cF7D0zRE0rg6rDJoVK/4rfo/ViQ3pC2WD7hOKtOX+
+	UfeZPW6f42Z1fmMl5Rsn0zNjAlTjE5KrM4QTdApftSUEd5lhA+Lbr/XtJuKjoTL7Lm70cg==
+X-Gm-Gg: ATEYQzzNrykzU3uFPcvcXm6kbN+o7z9pjtuePrTpcysO9T5/yWf3awPyDcXT7BDG8uE
+	cFA2KlQ7+SUePyxgs8o0+DNe2uxR5nz6j4NW5Fl6NblEsgDprjeuAPVPX3pA0ljxU2ZIbVI9GB3
+	7c1zAzgL4otPvvb8ZIaKugb3xBQ8vL+pz2EBo1aO402WpLltdVeZvXczQEOg+drmjqsycaBI0f4
+	lpSFv/s2sF00V8MjD2liqW1VslDgq28wZ1rzK8r6sMxzhThrxI54BXDCj5Q5K+JrPWQAg0ty+5F
+	eXlqPjq8ROzR0dyuvWRKSfrm+2Cwo8yTfLnffH11L2CZ1Bcbz+wXe4XaUtzeYk4SNkwAdaCOJAJ
+	BSXiIH+VT65eEeYHBO9hcQvcnNtso1gsgDCRYBRsedSA2stYW4kS7ozGl3YJ6U4UwVT0WAiCQRi
+	bMWAIc1uUDERixnNQpyr4=
+X-Received: by 2002:a05:690c:a75a:b0:796:3787:39b2 with SMTP id 00721157ae682-79829002a28mr49952017b3.30.1771800246204;
+        Sun, 22 Feb 2026 14:44:06 -0800 (PST)
+Received: from Gentoo ([158.173.25.171])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7982db94565sm24807487b3.6.2026.02.22.14.44.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Feb 2026 14:44:05 -0800 (PST)
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: Julia.Lawall@inria.fr,
+	nicolas.palix@imag.fr,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	cocci@inria.fr,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] Doc:dev-tools Added Gentoo in Operating System list under Getting Coccinelle
+Date: Mon, 23 Feb 2026 03:58:19 +0530
+Message-ID: <20260222224320.27797-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,170 +78,71 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Haiyang Zhang <haiyangz@microsoft.com>
+Added Gentoo in the operating system list under "Getting Coccinelle".
 
-Add two parameters for drivers supporting Rx CQE Coalescing.
+It should be available the package like this : emerge -av dev-tools/coccinelle
 
-ETHTOOL_A_COALESCE_RX_CQE_FRAMES:
-Maximum number of frames that can be coalesced into a CQE.
+Example:
 
-ETHTOOL_A_COALESCE_RX_CQE_NSECS:
-Time out value in nanoseconds after the first packet arrival in a
-coalesced CQE to be sent.
+bhaskar_04:11:00_Mon Feb 23: :~>sudo emerge -av dev-util/coccinelle
 
-Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+These are the packages that would be merged, in order:
+
+Calculating dependencies... done!
+Dependency resolution took 6.35 s (backtrack: 0/100).
+
+[ebuild  N     ] dev-lang/ocaml-4.14.2:0/4.14.2::gentoo  USE="-emacs -flambda
+-latex ocamlopt -xemacs" 5377 KiB
+[ebuild  N     ] dev-ml/dune-3.20.2:0/3.20.2::gentoo  USE="-emacs" 2981 KiB
+[ebuild  N     ] dev-ml/findlib-1.9.6-r1::gentoo  USE="-doc ocamlopt -tk" 265
+KiB
+[ebuild  N     ] dev-ml/result-1.5:0/1.5::gentoo  USE="ocamlopt" 3 KiB
+[ebuild  N     ] dev-ml/sexplib0-0.16.0:0/0.16.0::gentoo  USE="ocamlopt" 22
+KiB
+[ebuild  N     ] dev-ml/ocamlbuild-0.15.0:0/0.15.0::gentoo  USE="ocamlopt" 198
+KiB
+[ebuild  N     ] dev-ml/menhir-20240715:0/20240715::gentoo  USE="ocamlopt"
+1217 KiB
+[ebuild  N     ] dev-ml/num-1.5::gentoo  USE="ocamlopt" 67 KiB
+[ebuild  N     ] dev-ml/camlp4-4.14_p1-r2:0/4.14_p1::gentoo  USE="ocamlopt"
+627 KiB
+[ebuild  N     ] dev-ml/csexp-1.5.2-r1:0/1.5.2::gentoo  USE="ocamlopt -test"
+12 KiB
+[ebuild  N     ] dev-ml/uchar-0.0.2-r1:0/0.0.2::gentoo  USE="ocamlopt" 22 KiB
+[ebuild  N     ] dev-ml/dune-configurator-3.20.2:0/3.20.2::gentoo
+USE="ocamlopt" 0 KiB
+[ebuild  N    ~] dev-ml/stdcompat-21.1-r1:0/21.1::gentoo  611 KiB
+[ebuild  N     ] dev-ml/base-0.16.3-r1:0/0.16::gentoo  USE="ocamlopt" 433 KiB
+[ebuild  N     ] dev-ml/parmap-1.2.5:0/1.2.5::gentoo  USE="ocamlopt" 48 KiB
+[ebuild  N     ] dev-ml/stdio-0.16.0:0/0.16::gentoo  USE="ocamlopt" 8 KiB
+[ebuild  N     ] dev-ml/parsexp-0.16.0:0/0.16::gentoo  USE="ocamlopt" 56 KiB
+[ebuild  N     ] dev-ml/sexplib-0.16.0-r1:0/0.16::gentoo  USE="ocamlopt" 54
+KiB
+[ebuild  N     ] dev-ml/pcre-ocaml-7.5.0:0/7.5.0::gentoo  USE="-examples
+ocamlopt" 41 KiB
+[ebuild  N    ~] dev-util/coccinelle-1.3.0::gentoo  USE="-doc -emacs ocamlopt
+pcre -python -test" PYTHON_SINGLE_TTotal: 20 packages (20 new), Size of
+downloads: 14168 KiB
+
+Would you like to merge these packages? [Yes/No]
+
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- Documentation/netlink/specs/ethtool.yaml       |  8 ++++++++
- Documentation/networking/ethtool-netlink.rst   | 10 ++++++++++
- include/linux/ethtool.h                        |  6 +++++-
- include/uapi/linux/ethtool_netlink_generated.h |  2 ++
- net/ethtool/coalesce.c                         | 14 +++++++++++++-
- 5 files changed, 38 insertions(+), 2 deletions(-)
+ Documentation/dev-tools/coccinelle.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
-index 0a2d2343f79a..951d98f6bb12 100644
---- a/Documentation/netlink/specs/ethtool.yaml
-+++ b/Documentation/netlink/specs/ethtool.yaml
-@@ -861,6 +861,12 @@ attribute-sets:
-         name: tx-profile
-         type: nest
-         nested-attributes: profile
-+      -
-+        name: rx-cqe-frames
-+        type: u32
-+      -
-+        name: rx-cqe-nsecs
-+        type: u32
- 
-   -
-     name: pause-stat
-@@ -2244,6 +2250,8 @@ operations:
-             - tx-aggr-time-usecs
-             - rx-profile
-             - tx-profile
-+            - rx-cqe-frames
-+            - rx-cqe-nsecs
-       dump: *coalesce-get-op
-     -
-       name: coalesce-set
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index af56c304cef4..a3e78b69fd07 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -1072,6 +1072,8 @@ Kernel response contents:
-   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
-   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
-   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
-+  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
-+  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
-   ===========================================  ======  =======================
- 
- Attributes are only included in reply if their value is not zero or the
-@@ -1105,6 +1107,12 @@ well with frequent small-sized URBs transmissions.
- to DIM parameters, see `Generic Network Dynamic Interrupt Moderation (Net DIM)
- <https://www.kernel.org/doc/Documentation/networking/net_dim.rst>`_.
- 
-+Rx CQE coalescing allows multiple received packets to be coalesced into a single
-+Completion Queue Entry (CQE). ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES`` describes the
-+maximum number of frames that can be coalesced into a CQE.
-+``ETHTOOL_A_COALESCE_RX_CQE_NSECS`` describes max time in nanoseconds after the
-+first packet arrival in a coalesced CQE to be sent.
-+
- COALESCE_SET
- ============
- 
-@@ -1143,6 +1151,8 @@ Request contents:
-   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
-   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
-   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
-+  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
-+  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
-   ===========================================  ======  =======================
- 
- Request is rejected if it attributes declared as unsupported by driver (i.e.
-diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-index 798abec67a1b..25ccd2d5d4dc 100644
---- a/include/linux/ethtool.h
-+++ b/include/linux/ethtool.h
-@@ -332,6 +332,8 @@ struct kernel_ethtool_coalesce {
- 	u32 tx_aggr_max_bytes;
- 	u32 tx_aggr_max_frames;
- 	u32 tx_aggr_time_usecs;
-+	u32 rx_cqe_frames;
-+	u32 rx_cqe_nsecs;
- };
- 
- /**
-@@ -380,7 +382,9 @@ bool ethtool_convert_link_mode_to_legacy_u32(u32 *legacy_u32,
- #define ETHTOOL_COALESCE_TX_AGGR_TIME_USECS	BIT(26)
- #define ETHTOOL_COALESCE_RX_PROFILE		BIT(27)
- #define ETHTOOL_COALESCE_TX_PROFILE		BIT(28)
--#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(28, 0)
-+#define ETHTOOL_COALESCE_RX_CQE_FRAMES		BIT(29)
-+#define ETHTOOL_COALESCE_RX_CQE_NSECS		BIT(30)
-+#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(30, 0)
- 
- #define ETHTOOL_COALESCE_USECS						\
- 	(ETHTOOL_COALESCE_RX_USECS | ETHTOOL_COALESCE_TX_USECS)
-diff --git a/include/uapi/linux/ethtool_netlink_generated.h b/include/uapi/linux/ethtool_netlink_generated.h
-index 556a0c834df5..efc6e4ade77b 100644
---- a/include/uapi/linux/ethtool_netlink_generated.h
-+++ b/include/uapi/linux/ethtool_netlink_generated.h
-@@ -371,6 +371,8 @@ enum {
- 	ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
- 	ETHTOOL_A_COALESCE_RX_PROFILE,
- 	ETHTOOL_A_COALESCE_TX_PROFILE,
-+	ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
-+	ETHTOOL_A_COALESCE_RX_CQE_NSECS,
- 
- 	__ETHTOOL_A_COALESCE_CNT,
- 	ETHTOOL_A_COALESCE_MAX = (__ETHTOOL_A_COALESCE_CNT - 1)
-diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
-index 3e18ca1ccc5e..349bb02c517a 100644
---- a/net/ethtool/coalesce.c
-+++ b/net/ethtool/coalesce.c
-@@ -118,6 +118,8 @@ static int coalesce_reply_size(const struct ethnl_req_info *req_base,
- 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_BYTES */
- 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_FRAMES */
- 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_TIME_USECS */
-+	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_FRAMES */
-+	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_NSECS */
- 	       total_modersz * 2;		/* _{R,T}X_PROFILE */
- }
- 
-@@ -269,7 +271,11 @@ static int coalesce_fill_reply(struct sk_buff *skb,
- 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES,
- 			     kcoal->tx_aggr_max_frames, supported) ||
- 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
--			     kcoal->tx_aggr_time_usecs, supported))
-+			     kcoal->tx_aggr_time_usecs, supported) ||
-+	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
-+			     kcoal->rx_cqe_frames, supported) ||
-+	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_NSECS,
-+			     kcoal->rx_cqe_nsecs, supported))
- 		return -EMSGSIZE;
- 
- 	if (!req_base->dev || !req_base->dev->irq_moder)
-@@ -338,6 +344,8 @@ const struct nla_policy ethnl_coalesce_set_policy[] = {
- 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_BYTES] = { .type = NLA_U32 },
- 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES] = { .type = NLA_U32 },
- 	[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS] = { .type = NLA_U32 },
-+	[ETHTOOL_A_COALESCE_RX_CQE_FRAMES] = { .type = NLA_U32 },
-+	[ETHTOOL_A_COALESCE_RX_CQE_NSECS] = { .type = NLA_U32 },
- 	[ETHTOOL_A_COALESCE_RX_PROFILE] =
- 		NLA_POLICY_NESTED(coalesce_profile_policy),
- 	[ETHTOOL_A_COALESCE_TX_PROFILE] =
-@@ -570,6 +578,10 @@ __ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info,
- 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES], &mod);
- 	ethnl_update_u32(&kernel_coalesce.tx_aggr_time_usecs,
- 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS], &mod);
-+	ethnl_update_u32(&kernel_coalesce.rx_cqe_frames,
-+			 tb[ETHTOOL_A_COALESCE_RX_CQE_FRAMES], &mod);
-+	ethnl_update_u32(&kernel_coalesce.rx_cqe_nsecs,
-+			 tb[ETHTOOL_A_COALESCE_RX_CQE_NSECS], &mod);
- 
- 	if (dev->irq_moder && dev->irq_moder->profile_flags & DIM_PROFILE_RX) {
- 		ret = ethnl_update_profile(dev, &dev->irq_moder->rx_profile,
--- 
-2.34.1
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index 6e70a1e9a3c0..990a049091e1 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -29,6 +29,7 @@ of many distributions, e.g. :
+  - Ubuntu
+  - OpenSUSE
+  - Arch Linux
++ - Gentoo
+  - NetBSD
+  - FreeBSD
+
+--
+2.52.0
 
