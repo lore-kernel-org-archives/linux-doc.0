@@ -1,61 +1,61 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4740C35CB69
-	for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 22:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A64D1DED57
+	for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 22:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771800248; cv=none; b=UPRg+90JkdsuQP0yTOmzYQ2+vColvep/uRz1fVUuLIgLS5TrihdIqSydMhqxGVRtw9GSYtiYolBugONxrGcffNXKKokbK02pVlEcbGjXVptB4xb2D6nkqOCfywxehqXOwbUK2UdCVAd+uJJJDgPfdVlrrBAxxpPd/JzuFGbNk4Y=
+	t=1771800969; cv=none; b=oBON3hlmf80y5UUJWuL4J8EJIUwDYg+RhlgYr1UMB/qO1gG8D2j8moW8gHwyM9SvYDc3z8UPmVnJdU8/od7yL7MU93C+AZIFxiLQkJlWL1lKcir3C/i7xU3vHm93XyfE9oqmnHeR6fA2BmSqSR4EE4HGYFuDZnkqC4pdRqWzMaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771800248; c=relaxed/simple;
-	bh=yEy5EsQdbFtnSNBQk1628iZvFtHJnE6ygVfOQDJynVs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X8GPKtF/rJU8/8TSe9QOuOy6IOJ55BA9o+IXyyi7JllD923z2+i5XNf8pbxS4pqChajlRuO0mHeA5wOqD7IToZTCsSpklENgL50nt0yfuPbXYC0JlFBeAevuzHu2lkkutwjmsmOetCCHB9Akmca99SVw1X+PI20wU2r2qyOuT5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aJq/lxvu; arc=none smtp.client-ip=209.85.128.176
+	s=arc-20240116; t=1771800969; c=relaxed/simple;
+	bh=vH24ygl0lUP9kYNQreLnnxLpHLeGUIr0F19K0nZzQ6I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kV9RxIpp+Q1gxNN+KKpTn4Hle7VopurWIBbSN+MKC+PSNNl6Ct6trtbSgrdulDmt8B/BJjpBvPYSp7gED1cowIr6mCtUppylKpl3S3y8nE83M3il+wZJiZoCRNUedRQJZlrk7FkzpU8YQrtmadxWa1xCcGa9IrF3+i7SI7cieMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gShPXYpS; arc=none smtp.client-ip=209.85.128.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aJq/lxvu"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-79639c2d2b5so29902877b3.2
-        for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 14:44:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gShPXYpS"
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-79827d28fc4so13863907b3.1
+        for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 14:56:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771800246; x=1772405046; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1771800967; x=1772405767; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SCWTk+IBh+cv0sTp+5FoJ30T//K04N5n6pJL4hNPgAY=;
-        b=aJq/lxvu8qCA8oVXvWQcBmKZY4yo4RZ/pJ6YeddxUNU5e8On32OJUpp422si5LNX7v
-         +i2yOen3Vzufh4QI9VbnYqGkijMZuxotAZK+fNBVyNNzRB4DYPr3IDJl3kLb04wdLQBH
-         8YkEvyE7Dzr8O5urUfOPVRQt85f/NbPI/hU9qbgliMMa3uGcih/5VpIhkCA9H7jeYrse
-         DA6qa3Kt9t8Mlkf3ym/KNkPUKj25rTMtLghH8Of2FSkMRXpRKI+5h51Uk+UpBTrrwmuE
-         yg0CMHcLc2vVODigB3leLFDJnu9pnnUXM50WrelkUJoseba5P3kCbQ3qEHv3eA0G6Np+
-         Vdng==
+        bh=4DstXTFOjjOc95Qmzr+SeIQriKKg0cVXhchBEqikS0w=;
+        b=gShPXYpSHniqp7AECv2sgmnAMF8AcqjLOq/ZPQWVc8CH5LaREDykC3RlWyIN1UcHRX
+         Vvkn7oK9DVihmCbUCTveOdUKJwZv3DrDl1tAwP6NKr0C/UuLgWuQ6QGWEZbgbA146Nev
+         Pw9DrBF3Fr4VIjXhWSp92JJgcrxH4B2BPHm3BaRVDFDdgqOw17cglFNUWZkRLLEbuA47
+         SFW0XKjJG0AagxURiMiyLjbZcFjELANpBqau1eMiEX74aogVt/Qj4LkLafMcXcM5d9ns
+         +1AaYo2gaudLKDO3YI4vWy9rV9oQO0fInvznLRxwb07iySFb4nGWvMSzbGyinKt03C9I
+         3/gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771800246; x=1772405046;
+        d=1e100.net; s=20230601; t=1771800967; x=1772405767;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SCWTk+IBh+cv0sTp+5FoJ30T//K04N5n6pJL4hNPgAY=;
-        b=NPjJiqZ8NUYjK2pPTMI9y7Gcx6SEMulj/Foi/xluDgl6OW4YyLvqPd3h7os3JR9aaJ
-         ignmz/MFBZZ7jxDVJExiZw0QAEgsQk511eqUPjGVMyKtM9rWVgLZ6VuRjVeDVSses2uQ
-         dJhKHPD9XbTk6kkhX/XIKWsY7i+0lnJcSb4NSUHmfja+yuOqYfaoPsoEddEQmaoqZOVN
-         UOIoKHAd7DmYi2YpgkzBBgePJpx2C/UaQE9sUVw2H3qzqPgQ4bpXAeY5UkUepDWVOSMv
-         evXqymyoYYR//mA8cKadEH5YActQkXA6daPjMU8iQ2jzV+BdvBqsCTAGWI35y8en/Dtx
-         O1Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCVvePwdhXbqrGce5BZWubBwlG0OuExCZCEgf9cxMWMp2VS7C7SRatAnsmOAqaj/jer1pHg3Vs1PkuA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywpF8ICj8cF7D0zRE0rg6rDJoVK/4rfo/ViQ3pC2WD7hOKtOX+
-	UfeZPW6f42Z1fmMl5Rsn0zNjAlTjE5KrM4QTdApftSUEd5lhA+Lbr/XtJuKjoTL7Lm70cg==
-X-Gm-Gg: ATEYQzzNrykzU3uFPcvcXm6kbN+o7z9pjtuePrTpcysO9T5/yWf3awPyDcXT7BDG8uE
-	cFA2KlQ7+SUePyxgs8o0+DNe2uxR5nz6j4NW5Fl6NblEsgDprjeuAPVPX3pA0ljxU2ZIbVI9GB3
-	7c1zAzgL4otPvvb8ZIaKugb3xBQ8vL+pz2EBo1aO402WpLltdVeZvXczQEOg+drmjqsycaBI0f4
-	lpSFv/s2sF00V8MjD2liqW1VslDgq28wZ1rzK8r6sMxzhThrxI54BXDCj5Q5K+JrPWQAg0ty+5F
-	eXlqPjq8ROzR0dyuvWRKSfrm+2Cwo8yTfLnffH11L2CZ1Bcbz+wXe4XaUtzeYk4SNkwAdaCOJAJ
-	BSXiIH+VT65eEeYHBO9hcQvcnNtso1gsgDCRYBRsedSA2stYW4kS7ozGl3YJ6U4UwVT0WAiCQRi
-	bMWAIc1uUDERixnNQpyr4=
-X-Received: by 2002:a05:690c:a75a:b0:796:3787:39b2 with SMTP id 00721157ae682-79829002a28mr49952017b3.30.1771800246204;
-        Sun, 22 Feb 2026 14:44:06 -0800 (PST)
+        bh=4DstXTFOjjOc95Qmzr+SeIQriKKg0cVXhchBEqikS0w=;
+        b=L2e8P0BryjjPsob1w0v5Vi/6tmO1elVlmjUjpIP2xfnx1Hic2SbGtQ1kWjUJuN9SLR
+         l90l769c4jsj3LdWQtAu4sHiTAf3lDp5g0Xu86mzADHDCQ1/lIzzR8/t9ZRsxnryhL8n
+         6xkZ79aUZj49DFgDwUPgoBDitNLfstqyI2jB6ptkBCycazWp0W9AVaKja3qf+daPQzRo
+         6gEJskN2+oQTCxhZP2eUha0mVXG9sZxztz8CZpOUCrQ5osmV8rxN5f9cYMSNWhitqAXQ
+         NBbxatfr2XlD0OVxhoqE6AxQ2wJIegvEi5I1he97OW2pUashKDN4TmPmofU6fZXKlQJE
+         9Knw==
+X-Forwarded-Encrypted: i=1; AJvYcCWkqZg5UDB1dWB1IkYGPogldgss/YHFg7x/RF5PqcWZ5ymBFIY0gumQuUChDdvzY00F8WLdQM8vkec=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymywiiXANxQA2FoPxNfCeG4Nlrxik1/8mrs4tS+kB67qE3Pehv
+	YuryKwRSa41+Fz7XqNuvKYGUWngkjXLRvsHuCUTBJDu7+2Z9xK4Qx4uk
+X-Gm-Gg: ATEYQzxD0JqJOPD2v5iZiffRX6GkA67ZUKo7l31LjamJFa97EeWXsA9FIlTN4CNvUNI
+	Dxa9JO3/ptcFjqNHBg3Ko0zQ8RO1F3SWGQikWb10wcq7as5Hh11a65Qb4fyzwbVGcP3XS5OKl5o
+	j9MZuw5/8Iwhb9uBOVgasuuS7pZKEK1l+POParkf2A33s21ceifpl95qTTA0GOUXFDJ35MQ5BOQ
+	bWzMQfymk7mhyxCuF9ab/bQr4cex6GsGTym/2551Y2FUe4mcU5ndXimIhAEpXAt2wHuKEDIvK4Z
+	Sbskcr4KBZ3eLJZ4vkseHAtRmD5EfS270ry0a2vZBqwo6+BQ9B9V6bLEGUljVFwPsyHNc5lqoS8
+	qip3G9PC+QkXYOhgIcJlpFYe2Go3e4XKUbypsJ3SIk6efC8VN/qqtsTMm36T8acER1b0tpnbx5y
+	OWAmvhuG7iR18VTBFjilk=
+X-Received: by 2002:a05:690c:2701:b0:798:1adc:6804 with SMTP id 00721157ae682-79828ff1c5cmr56780367b3.43.1771800967149;
+        Sun, 22 Feb 2026 14:56:07 -0800 (PST)
 Received: from Gentoo ([158.173.25.171])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7982db94565sm24807487b3.6.2026.02.22.14.44.02
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7982de1a659sm24518477b3.52.2026.02.22.14.56.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Feb 2026 14:44:05 -0800 (PST)
+        Sun, 22 Feb 2026 14:56:06 -0800 (PST)
 From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To: Julia.Lawall@inria.fr,
 	nicolas.palix@imag.fr,
@@ -66,9 +66,9 @@ To: Julia.Lawall@inria.fr,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] Doc:dev-tools Added Gentoo in Operating System list under Getting Coccinelle
-Date: Mon, 23 Feb 2026 03:58:19 +0530
-Message-ID: <20260222224320.27797-1-unixbhaskar@gmail.com>
+Subject: [PATCH V2] Doc: dev-tools:  Added Gentoo in the Operating system list under Getting Coccinelle
+Date: Mon, 23 Feb 2026 04:19:56 +0530
+Message-ID: <20260222225536.19196-1-unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -78,56 +78,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Added Gentoo in the operating system list under "Getting Coccinelle".
+ Adding Gentoo in the operating system list under "Getting Coccinelle".
 
-It should be available the package like this : emerge -av dev-tools/coccinelle
+ This is the correct way:
 
-Example:
+ Example:
 
-bhaskar_04:11:00_Mon Feb 23: :~>sudo emerge -av dev-util/coccinelle
+ bhaskar_04:20:50_Mon Feb 23: :~>sudo emerge -av dev-util/coccinelle
+ Password:
 
-These are the packages that would be merged, in order:
+ These are the packages that would be merged, in order:
 
-Calculating dependencies... done!
-Dependency resolution took 6.35 s (backtrack: 0/100).
+ Calculating dependencies... done!
+ Dependency resolution took 7.99 s (backtrack: 0/100).
 
-[ebuild  N     ] dev-lang/ocaml-4.14.2:0/4.14.2::gentoo  USE="-emacs -flambda
--latex ocamlopt -xemacs" 5377 KiB
-[ebuild  N     ] dev-ml/dune-3.20.2:0/3.20.2::gentoo  USE="-emacs" 2981 KiB
-[ebuild  N     ] dev-ml/findlib-1.9.6-r1::gentoo  USE="-doc ocamlopt -tk" 265
-KiB
-[ebuild  N     ] dev-ml/result-1.5:0/1.5::gentoo  USE="ocamlopt" 3 KiB
-[ebuild  N     ] dev-ml/sexplib0-0.16.0:0/0.16.0::gentoo  USE="ocamlopt" 22
-KiB
-[ebuild  N     ] dev-ml/ocamlbuild-0.15.0:0/0.15.0::gentoo  USE="ocamlopt" 198
-KiB
-[ebuild  N     ] dev-ml/menhir-20240715:0/20240715::gentoo  USE="ocamlopt"
-1217 KiB
-[ebuild  N     ] dev-ml/num-1.5::gentoo  USE="ocamlopt" 67 KiB
-[ebuild  N     ] dev-ml/camlp4-4.14_p1-r2:0/4.14_p1::gentoo  USE="ocamlopt"
-627 KiB
-[ebuild  N     ] dev-ml/csexp-1.5.2-r1:0/1.5.2::gentoo  USE="ocamlopt -test"
-12 KiB
-[ebuild  N     ] dev-ml/uchar-0.0.2-r1:0/0.0.2::gentoo  USE="ocamlopt" 22 KiB
-[ebuild  N     ] dev-ml/dune-configurator-3.20.2:0/3.20.2::gentoo
-USE="ocamlopt" 0 KiB
-[ebuild  N    ~] dev-ml/stdcompat-21.1-r1:0/21.1::gentoo  611 KiB
-[ebuild  N     ] dev-ml/base-0.16.3-r1:0/0.16::gentoo  USE="ocamlopt" 433 KiB
-[ebuild  N     ] dev-ml/parmap-1.2.5:0/1.2.5::gentoo  USE="ocamlopt" 48 KiB
-[ebuild  N     ] dev-ml/stdio-0.16.0:0/0.16::gentoo  USE="ocamlopt" 8 KiB
-[ebuild  N     ] dev-ml/parsexp-0.16.0:0/0.16::gentoo  USE="ocamlopt" 56 KiB
-[ebuild  N     ] dev-ml/sexplib-0.16.0-r1:0/0.16::gentoo  USE="ocamlopt" 54
-KiB
-[ebuild  N     ] dev-ml/pcre-ocaml-7.5.0:0/7.5.0::gentoo  USE="-examples
-ocamlopt" 41 KiB
-[ebuild  N    ~] dev-util/coccinelle-1.3.0::gentoo  USE="-doc -emacs ocamlopt
-pcre -python -test" PYTHON_SINGLE_TTotal: 20 packages (20 new), Size of
-downloads: 14168 KiB
+ [ebuild  N     ] dev-lang/ocaml-4.14.2:0/4.14.2::gentoo  USE="-emacs -flambda
+ -latex ocamlopt -xemacs" 5377 KiB
+ [ebuild  N     ] dev-ml/dune-3.20.2:0/3.20.2::gentoo  USE="-emacs" 2981 KiB
+ [ebuild  N     ] dev-ml/findlib-1.9.6-r1::gentoo  USE="-doc ocamlopt -tk" 265
+ KiB
+ [ebuild  N     ] dev-ml/result-1.5:0/1.5::gentoo  USE="ocamlopt" 3 KiB
+ [ebuild  N     ] dev-ml/sexplib0-0.16.0:0/0.16.0::gentoo  USE="ocamlopt" 22
+ KiB
+ [ebuild  N     ] dev-ml/ocamlbuild-0.15.0:0/0.15.0::gentoo  USE="ocamlopt"
+ 198 KiB
+ [ebuild  N     ] dev-ml/menhir-20240715:0/20240715::gentoo  USE="ocamlopt"
+ 1217 KiB
+ [ebuild  N     ] dev-ml/num-1.5::gentoo  USE="ocamlopt" 67 KiB
+ [ebuild  N     ] dev-ml/camlp4-4.14_p1-r2:0/4.14_p1::gentoo  USE="ocamlopt"
+ 627 KiB
+ [ebuild  N     ] dev-ml/csexp-1.5.2-r1:0/1.5.2::gentoo  USE="ocamlopt -test"
+ 12 KiB
+ [ebuild  N     ] dev-ml/uchar-0.0.2-r1:0/0.0.2::gentoo  USE="ocamlopt" 22 KiB
+ [ebuild  N     ] dev-ml/dune-configurator-3.20.2:0/3.20.2::gentoo
+ USE="ocamlopt" 0 KiB
+ [ebuild  N    ~] dev-ml/stdcompat-21.1-r1:0/21.1::gentoo  611 KiB
+ [ebuild  N     ] dev-ml/base-0.16.3-r1:0/0.16::gentoo  USE="ocamlopt" 433 KiB
+ [ebuild  N     ] dev-ml/parmap-1.2.5:0/1.2.5::gentoo  USE="ocamlopt" 48 KiB
+ [ebuild  N     ] dev-ml/stdio-0.16.0:0/0.16::gentoo  USE="ocamlopt" 8 KiB
+ [ebuild  N     ] dev-ml/parsexp-0.16.0:0/0.16::gentoo  USE="ocamlopt" 56 KiB
+ [ebuild  N     ] dev-ml/sexplib-0.16.0-r1:0/0.16::gentoo  USE="ocamlopt" 54
+ KiB
+ [ebuild  N     ] dev-ml/pcre-ocaml-7.5.0:0/7.5.0::gentoo  USE="-examples
+ ocamlopt" 41 KiB
+ [ebuild  N    ~] dev-util/coccinelle-1.3.0::gentoo  USE="-doc -emacs ocamlopt
+ pcre -python -test" PYTHON_SINGLE_TTotal: 20 packages (20 new), Size of
+ downloads: 14168 KiB
 
-Would you like to merge these packages? [Yes/No]
+ Would you like to merge these packages? [Yes/No]
+
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
+ Changes from V1: Package name mismatched, corrected
  Documentation/dev-tools/coccinelle.rst | 1 +
  1 file changed, 1 insertion(+)
 
