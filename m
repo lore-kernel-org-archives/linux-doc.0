@@ -1,106 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0852714A8E
-	for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 14:48:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEF7155757;
+	Sun, 22 Feb 2026 16:11:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771771725; cv=none; b=K9iQaodg6aqmWlBY5szpsI+cXOJvXzBvd1yvRXOIji/Xjp+55sGjJgoPHM3xgBndmauXXYMSN+dYyWSq2q7gmrjOHXHI29n3X7YjaqigqipV74dT842onXzRbqXpKdYdpr+xhN9peFb51lwODEbgW2FqPNgW1qEd0he0WXmzDJs=
+	t=1771776707; cv=none; b=OVOCt5R8o3MfYYcq7SwlBLngN7E1OC18v3V9GVIr3MUSYYIi1VJF9CeefdU07HnmOq9yvdrJJwzyTn/3P+e2y5mJ419uDvqzadg5h2KreqLOe30HukRUNQ0SWrbuqvNcRO7hHlvPDhIBX9s0dw0hWgyR3Y6edBtNHG0oqUCFoQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771771725; c=relaxed/simple;
-	bh=sdzwZuG1QrazH/8Adb2q/4hXsnStMTv8CJdWUB84/8s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=myu6hlCzLkYfhmG4MXA5UDRK9PHVivizWgtWRDX+hA6Z21UboxTXZ4AmaummlKD3q1PspjqEXH09KTnDnv5OlnXzHeY+INHrz+PuBkNIW+x+AOjeIrFscUi2IUKUWArCXDzr7R/t5LcfMioyQMJ16ZgaaKup5uZSMyhakTcj1b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cNNISCeu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771776707; c=relaxed/simple;
+	bh=+U3DSArkuN2qfEZlfmqKxrOsyDYSJ/k5DqwNlHGL/zQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hyiavGE5G28LPo6S2iMlZEv7afNcPUkpGcrWi5PxTvm0vL7dvPbseDaNUmAGMRdCKR+e2lShh+NOf5ex8QEV2u+qK5iuBUo4FlP1DvTVxLzIk/Bs9uHlDaYev9izfPcubX0qf48t/N4vcQx/f33Hx31H4X/V9QtmXHzPHATjhtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KWAVfSB/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cNNISCeu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5507C2BCB7
-	for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 14:48:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KWAVfSB/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51C7FC116D0;
+	Sun, 22 Feb 2026 16:11:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771771724;
-	bh=sdzwZuG1QrazH/8Adb2q/4hXsnStMTv8CJdWUB84/8s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=cNNISCeuROU90CuCrmTiFGRaTDlLMJFNSq0MBg/edSw1kNJ5oBs0pXBZbG/9SLuq6
-	 ThLIKAxdOeNMElpDGoKztMrFTY+lgJ/wNny8a1dtHRSlUvr+izV+mn34gbC971Hm5/
-	 Df1D/bF4Dk1A9iSC3psm3f/FvmhUQ0o+lXveIbgVdcA8MXSmJodpXxOdWgNCOIgyF9
-	 i53aXLPLNDeMUJPENRZjAqK0EEPjvGmFWx2NNdzFZGsD+xPez+iaV/5HE6H2hDSEKD
-	 7+86yXza7aU85rgwcsG9orDXYBGR1HWBPQ7wdch6uDrjuq7CVqzAbq1GqouCDzv4WX
-	 erVdwZKazLJvg==
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-649dbff9727so3193044d50.3
-        for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 06:48:44 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVxE3OW3l/51DVnTmj4+SGDivnBgXnAdnAZ0KkRNVr4r6p5CPld9zUl0IbB8gTrul5boRRj2zhAtjA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxqBGyrdwdxrU6sszgoRk8PFiMhIMpV99EpGs6JpIBh5lXG09Aj
-	srzH/DvMJwhWldLCyJPEw2ypz6DKUQfGMS6t+PhNVV2esY3+qfe0OfOcNYyN5xQTKmPtzHi4kwO
-	OyVpS+JwSc/5OgEoxA2vDZTfaoHZ7tOo=
-X-Received: by 2002:a05:690e:d59:b0:64a:d479:bfbe with SMTP id
- 956f58d0204a3-64c789c6a7bmr4841631d50.11.1771771724015; Sun, 22 Feb 2026
- 06:48:44 -0800 (PST)
+	s=k20201202; t=1771776707;
+	bh=+U3DSArkuN2qfEZlfmqKxrOsyDYSJ/k5DqwNlHGL/zQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KWAVfSB/kUTMOyIjxaJ7cFdym1bOh4TP1XQ4QH5b3sUp4J5lWGComUF4rppEe8zS/
+	 m+iNZ+UmF4XIxNWcHPHPIkFkQoD50SQGxP7bALAPhrNNTAO4SfFYTMxZMamD9n8ewR
+	 TS7DSOKGIM4pLdR7mCOoFFnOFvL2/5ew8lBCzvIPHwSzWEgnRy4OUBGulLg4kjOj0G
+	 5Tht6ak7iFZv4gm8pK5N4KHxOmRVJzqLkBZ+F7OQV8FaipWR2PMDS/kOptv3mSEz/M
+	 MPwOwHtMMRpbUdlg4FgfW2DpEW81MbgKzciRfEPv5udJCBKb6EjJbBJQjsi/gOkMzU
+	 z8efcn/0qt7Xw==
+Date: Sun, 22 Feb 2026 16:11:37 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Taha Ed-Dafili <0rayn.dev@gmail.com>
+Cc: dlechner@baylibre.com, Michael.Hennerich@analog.com, andy@kernel.org,
+ corbet@lwn.net, lars@metafoo.de, linux-doc@vger.kernel.org,
+ linux-iio@vger.kernel.org,
+ linux-kernel-mentees-archive@lists.linuxfoundation.org,
+ linux-kernel@vger.kernel.org, nuno.sa@analog.com, rdunlap@infradead.org,
+ skhan@linuxfoundation.org
+Subject: Re: [PATCH v4 3/4] iio: accel: adxl345: Implement event scaling for
+ ABI compliance
+Message-ID: <20260222161137.18cdebd4@jic23-huawei>
+In-Reply-To: <20260221172123.57134-1-0rayn.dev@gmail.com>
+References: <e2c74e7f-d851-457f-88f8-d80a8d17c51f@baylibre.com>
+	<20260221172123.57134-1-0rayn.dev@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260212213656.662437-1-shenwei.wang@nxp.com> <20260212213656.662437-4-shenwei.wang@nxp.com>
- <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com> <13f9d767-61d6-4e29-b36e-6dcc860ccb11@lunn.ch>
- <fd257c80-d97f-45b0-a12f-3a1888ba81db@foss.st.com> <396819f2-dd00-4c09-8bc7-c035a5282a56@lunn.ch>
- <PAXPR04MB9185A908F5090F0CA4FF05F78968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <b21b9ee5-d84e-47f8-86b5-c111ecc3d43d@lunn.ch> <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
-In-Reply-To: <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Sun, 22 Feb 2026 15:48:32 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
-X-Gm-Features: AaiRm514C7pGWVEcrMl_Px6Oy5MFEMWE4sZ-03YXonAepWinISuPyzCRs8cRpUg
-Message-ID: <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Frank Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Shuah Khan <skhan@linuxfoundation.org>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, 
-	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 20, 2026 at 7:57=E2=80=AFPM Shenwei Wang <shenwei.wang@nxp.com>=
- wrote:
+On Sat, 21 Feb 2026 17:21:23 +0000
+Taha Ed-Dafili <0rayn.dev@gmail.com> wrote:
 
-> Given that, I=E2=80=99d like to hear from the GPIO subsystem maintainers =
-=E2=80=94 @Linus Walleij and
-> @Bartosz Golaszewski =E2=80=94 on whether a driver that works with the cu=
-rrent hardware/firmware
-> design could still be acceptable for upstream inclusion. My understanding=
- is that upstream
-> generally supports existing, real-world hardware as long as the driver me=
-ets subsystem standards.
+> I did go over the datasheet and found the hardware uses a single
+> register for both tap thresholds, so I assume the VALUE was intentionally
+> omitted from DOUBLETAP to avoid duplicate sysfs attributes.
+> 
+> I mechanically added the scale attribute without realizing this. I will
+> drop BIT(IIO_EV_INFO_SCALE) for double tap and update the docs in v5.
 
-What a swell party this has become.
+If the underlying register applies to two different events and it's not
+possible to combine them using shared_by_ (which I don't think it is here)
+then we should have attributes for both of them.
 
-In this kind of situations I usually refer to
-Documentation/process/management-style.rst
+The IIO ABI always allows any write to any channel property including event
+thresholds to change the value of a different one, so there is never a problem
+with duplication like this
 
-What is the message I as a maintainer is getting from NXP regarding
-"gpio: rpmsg: add generic rpmsg GPIO driver"?
+thanks,
 
-Arnaud, who is the only person in this discussion who actually wrote
-a standard RPMSG driver (drivers/tty/rpmsg_tty.c), must ACK this
-patch if it wants to call itself a "generic" RPMSG GPIO driver, if he
-does not, then it isn't.
+Jonathan
 
-Is it generic? If it is not, let's call it "NXP rpmsg GPIO driver" and rena=
-me
-files etc accordingly. Maybe it can share code with the actual generic
-RPMSG driver once that arrives, that is more of a library question.
+> 
+> I'll wait a couple of days for any other feedback before sending the
+> next version.
 
-Yours,
-Linus Walleij
