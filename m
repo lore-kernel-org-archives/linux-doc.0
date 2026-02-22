@@ -1,234 +1,131 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD916DF6C;
-	Sun, 22 Feb 2026 10:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56182CA6F;
+	Sun, 22 Feb 2026 12:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771756970; cv=none; b=BmE6THkE6d0/LPfaamE7/FiwXn+wP7bSUFr3I1NE3GVKG2i/IKH4b5dUsTCBEtNK0Th3Lbh5WoOOdjMPUc3TK9g/jOLvq2bLdkMS3dfcH9Uf/GCBd+3PbDhEpBwQLfq4HSf7k6Yn6E5FWsMlgVYSrgpHdTAdXRPKXJDBeceW/9E=
+	t=1771765040; cv=none; b=Q6Msr4eF2sazmmUEL8mhW3KB2lUGhw80/sbIIUT0VsQG3X7ymz3lyUlTla7AO3FOcLNcofbNVXtImIrE7f+iEKMGubNNGACL+yrenoWwTHnxpjetfVn2HVzWK3QewuSbQc0Zcfd6YnnRWGv0gqyewdAYTUODly8yb+1VH3AaWw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771756970; c=relaxed/simple;
-	bh=DrCoid4Pafm2Wd5d5/Z36uNtrGzmCQLSkgqHZBWbMWI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GH7obNb2z30isxL24MC4lcFaZLEauzcbn9aX4JUASQgeURyMlnTXU2WcvjPE+HdUvL9zZ7dZF1iMQImk3YMB+Q//0ffA2EUJhEJEt2RPp+dL634Sr12dlGsMbGesyljoZFFcWyqwXCIkMjvie4Sn8KanMCD/pHbl34K8x/5RdbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kcnQaRIh; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1771765040; c=relaxed/simple;
+	bh=J1r46UicWupRVFBjJAGR5ikJeJ/wp4qNjFbIYUPpkhQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Hpn6Ws9bgMTnNmjt7Hs7v684MnyUIyD75sd9ukMXyviLhDKLgjaADvsokdm4DkTwsCF2tHkeswhPRpgxrTG/Zg3BWFn7UklvZN4Kj22nqKcjM9eTemzHiQ4HWde50xsoN+UnaVpazIXmFLnydCDPbLi1bDWcrsHJeE8Pfm/7hMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rvm2B9Z/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kcnQaRIh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1771756960;
-	bh=DrCoid4Pafm2Wd5d5/Z36uNtrGzmCQLSkgqHZBWbMWI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kcnQaRIhmB0uGgwiB08nORlre5NuxRsoB2FhWkbTA0uYMYf6QSacBs7MCbQdRvNPi
-	 JeHfk7mQs6ptHQEPHkfOwLlIPtkpiKCsUiq/ngOee4OWEUe1yGzLtMRQW1Ts5UKPJQ
-	 tEbZJmMJvGuK/9DvFT1UfvlwokAAI5MS4W4yCnlUnAIusVd4I+kyR0WJhDunTD95H0
-	 8+dXODsnj4+199XZxBN4G9F3JNclal+PiE6fwmSiFxwAHdj/J7Anv9khultrTWZ0ZP
-	 YUVii9sUyN07jhIf8Hq+9Y6865ccLndCOa5nJCSwfhuZ+mufH+HZi+vtiVcerihvP/
-	 /B/uM1nFumzpQ==
-Received: from [192.168.1.90] (unknown [82.79.138.145])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B2D3C17E1274;
-	Sun, 22 Feb 2026 11:42:39 +0100 (CET)
-Message-ID: <ff7b531a-77c1-4c7d-b09d-47779b640193@collabora.com>
-Date: Sun, 22 Feb 2026 12:42:39 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rvm2B9Z/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D442C116D0;
+	Sun, 22 Feb 2026 12:57:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771765039;
+	bh=J1r46UicWupRVFBjJAGR5ikJeJ/wp4qNjFbIYUPpkhQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rvm2B9Z/g5dssuhFpwcZPY1SxTV3NjRJFLcHcSZ/6AAQkd6CTuFzzQrWs5il0gPze
+	 V7LIGZUbcCUJghDDl43bzPnQ9yIs6XIIUZCsdL8mlKgpAywdJ72/qoPpaV3oMmaaex
+	 xMfA6weV5YawI8Z54e1AwB3shKnY3NchqeVyWk0fizfjzOLr96EiVmJgcZUd39fHk6
+	 XSEMXX3Lo/2w0RkzIAOrWtWkXF8OMaQDrWRvpfF6STXps2GT4SRBJmvcxYgt8MmtKt
+	 PqiDZ8v24qIfTrtFwgRzsSPUqWwiQrhOUTZQ6JoK7vhW6e4RfBn/1sjp+tqnVuVtTE
+	 +181xK1PRFTew==
+Date: Sun, 22 Feb 2026 12:57:03 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>
+Cc: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <michael.hennerich@analog.com>, <nuno.sa@analog.com>,
+ <eblanc@baylibre.com>, <dlechner@baylibre.com>, <andy@kernel.org>,
+ <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+ <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>, Trevor Gamblin
+ <tgamblin@baylibre.com>, Axel Haslam <ahaslam@baylibre.com>
+Subject: Re: [PATCH v9 5/8] iio: adc: ad4030: Add SPI offload support
+Message-ID: <20260222125703.00e3152a@jic23-huawei>
+In-Reply-To: <20f1dc8eb6bb692eb6eb814a49e54309d973a9e4.1771253601.git.marcelo.schmitt@analog.com>
+References: <cover.1771253601.git.marcelo.schmitt@analog.com>
+	<20f1dc8eb6bb692eb6eb814a49e54309d973a9e4.1771253601.git.marcelo.schmitt@analog.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 13/20] drm/bridge: dw-hdmi-qp: Implement
- atomic_get_output_bus_fmts
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org
-References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
- <20260216-color-format-v8-13-5722ce175dd5@collabora.com>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20260216-color-format-v8-13-5722ce175dd5@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Nicolas,
+On Mon, 16 Feb 2026 12:00:39 -0300
+Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
 
-On 2/16/26 3:01 PM, Nicolas Frattaroli wrote:
-> The atomic_get_output_bus_fmts callback is used by the DRM bridge layer
-> to recursively select a suitable output format in a bridge chain.
+> AD4030 and similar ADCs can capture data at sample rates up to 2 mega
+> samples per second (MSPS). Not all SPI controllers are able to achieve such
+> high throughputs and even when the controller is fast enough to run
+> transfers at the required speed, it may be costly to the CPU to handle
+> transfer data at such high sample rates. Add SPI offload support for AD4030
+> and similar ADCs to enable data capture at maximum sample rates.
 > 
-> As a bridge that outputs to HDMI, dw-hdmi-qp will have its output
-> formats determined by which formats the platform-specific integration of
-> the hardware supports, and the chosen HDMI output bit depth.
-> 
-> Implement this callback. The returned u32* buffer is supposed to be
-> freed by the caller of this callback, as specified by the callback's
-> documentation.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 178 +++++++++++++++++++++++++++
->  1 file changed, 178 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> index d649a1cf07f5..4c00218e5fd7 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> @@ -11,6 +11,7 @@
->  #include <linux/export.h>
->  #include <linux/i2c.h>
->  #include <linux/irq.h>
-> +#include <linux/media-bus-format.h>
->  #include <linux/minmax.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
-> @@ -749,6 +750,182 @@ static struct i2c_adapter *dw_hdmi_qp_i2c_adapter(struct dw_hdmi_qp *hdmi)
->  	return adap;
+> Reviewed-by: David Lechner <dlechner@baylibre.com>
+> Co-developed-by: Trevor Gamblin <tgamblin@baylibre.com>
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> Co-developed-by: Axel Haslam <ahaslam@baylibre.com>
+> Signed-off-by: Axel Haslam <ahaslam@baylibre.com>
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+
+Hi. One really small question on ordering inline. The other thing is mostly
+me expressing surprise around the PWM handling being necessary rather
+than any request to change anything.
+
+Thanks,
+
+Jonathan
+
+> @@ -971,6 +1205,24 @@ static int ad4030_detect_chip_info(const struct ad4030_state *st)
+>  	return 0;
 >  }
 >  
-> +static int dw_hdmi_qp_config_avi_infoframe(struct dw_hdmi_qp *hdmi,
-> +					   const u8 *buffer, size_t len)
+> +static int ad4030_pwm_get(struct ad4030_state *st)
 > +{
-> +	u32 val, i, j;
+> +	struct device *dev = &st->spi->dev;
 > +
-> +	if (len != HDMI_INFOFRAME_SIZE(AVI)) {
-> +		dev_err(hdmi->dev, "failed to configure avi infoframe\n");
-> +		return -EINVAL;
-> +	}
+> +	st->cnv_trigger = devm_pwm_get(dev, NULL);
+> +	if (IS_ERR(st->cnv_trigger))
+> +		return dev_err_probe(dev, PTR_ERR(st->cnv_trigger),
+> +				     "Failed to get CNV PWM\n");
 > +
 > +	/*
-> +	 * DW HDMI QP IP uses a different byte format from standard AVI info
-> +	 * frames, though generally the bits are in the correct bytes.
+> +	 * Preemptively disable the PWM, since we only want to enable it with
+> +	 * the buffer.
 > +	 */
-> +	val = buffer[1] << 8 | buffer[2] << 16;
-> +	dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS0);
-> +
-> +	for (i = 0; i < 4; i++) {
-> +		for (j = 0; j < 4; j++) {
-> +			if (i * 4 + j >= 14)
-> +				break;
-> +			if (!j)
-> +				val = buffer[i * 4 + j + 3];
-> +			val |= buffer[i * 4 + j + 3] << (8 * j);
-> +		}
-> +
-> +		dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS1 + i * 4);
-> +	}
-> +
-> +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_AVI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-> +
-> +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN,
-> +		       PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN, PKTSCHED_PKT_EN);
-> +
-> +	return 0;
-> +}
-> +
-> +static int dw_hdmi_qp_config_drm_infoframe(struct dw_hdmi_qp *hdmi,
-> +					   const u8 *buffer, size_t len)
-> +{
-> +	u32 val, i;
-> +
-> +	if (len != HDMI_INFOFRAME_SIZE(DRM)) {
-> +		dev_err(hdmi->dev, "failed to configure drm infoframe\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_TX_EN, PKTSCHED_PKT_EN);
-> +
-> +	val = buffer[1] << 8 | buffer[2] << 16;
-> +	dw_hdmi_qp_write(hdmi, val, PKT_DRMI_CONTENTS0);
-> +
-> +	for (i = 0; i <= buffer[2]; i++) {
-> +		if (i % 4 == 0)
-> +			val = buffer[3 + i];
-> +		val |= buffer[3 + i] << ((i % 4) * 8);
-> +
-> +		if ((i % 4 == 3) || i == buffer[2])
-> +			dw_hdmi_qp_write(hdmi, val,
-> +					 PKT_DRMI_CONTENTS1 + ((i / 4) * 4));
-> +	}
-> +
-> +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-> +	dw_hdmi_qp_mod(hdmi, PKTSCHED_DRMI_TX_EN, PKTSCHED_DRMI_TX_EN,
-> +		       PKTSCHED_PKT_EN);
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Static values documented in the TRM
-> + * Different values are only used for debug purposes
-> + */
-> +#define DW_HDMI_QP_AUDIO_INFOFRAME_HB1	0x1
-> +#define DW_HDMI_QP_AUDIO_INFOFRAME_HB2	0xa
-> +
-> +static int dw_hdmi_qp_config_audio_infoframe(struct dw_hdmi_qp *hdmi,
-> +					     const u8 *buffer, size_t len)
-> +{
-> +	/*
-> +	 * AUDI_CONTENTS0: { RSV, HB2, HB1, RSV }
-> +	 * AUDI_CONTENTS1: { PB3, PB2, PB1, PB0 }
-> +	 * AUDI_CONTENTS2: { PB7, PB6, PB5, PB4 }
-> +	 *
-> +	 * PB0: CheckSum
-> +	 * PB1: | CT3    | CT2  | CT1  | CT0  | F13  | CC2 | CC1 | CC0 |
-> +	 * PB2: | F27    | F26  | F25  | SF2  | SF1  | SF0 | SS1 | SS0 |
-> +	 * PB3: | F37    | F36  | F35  | F34  | F33  | F32 | F31 | F30 |
-> +	 * PB4: | CA7    | CA6  | CA5  | CA4  | CA3  | CA2 | CA1 | CA0 |
-> +	 * PB5: | DM_INH | LSV3 | LSV2 | LSV1 | LSV0 | F52 | F51 | F50 |
-> +	 * PB6~PB10: Reserved
-> +	 *
-> +	 * AUDI_CONTENTS0 default value defined by HDMI specification,
-> +	 * and shall only be changed for debug purposes.
-> +	 */
-> +	u32 header_bytes = (DW_HDMI_QP_AUDIO_INFOFRAME_HB1 << 8) |
-> +			  (DW_HDMI_QP_AUDIO_INFOFRAME_HB2 << 16);
-> +
-> +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS0, &header_bytes, 1);
-> +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1);
-> +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1);
-> +
-> +	/* Enable ACR, AUDI, AMD */
-> +	dw_hdmi_qp_mod(hdmi,
-> +		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-> +		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-> +		       PKTSCHED_PKT_EN);
-> +
-> +	/* Enable AUDS */
-> +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AUDS_TX_EN, PKTSCHED_AUDS_TX_EN, PKTSCHED_PKT_EN);
+> +	pwm_disable(st->cnv_trigger);
+
+Feels like there should really be a way to get a pwm disabled in one call
+so there isn't an edge case of it being on briefly.
+I'm a bit surprised it defaults to on.  I guess this is because DT can provide
+the parameters?
+
+
 > +
 > +	return 0;
 > +}
 
-Something's wrong with this patch as all the functions above have been dropped
-since the HDMI VSI & SPD InfoFrames series [1] got merged.  The previous
-revision was fine though, hence that's likely an unexpected artifact of the
-latest rebase.
 
-[1] https://lore.kernel.org/all/20260129-dw-hdmi-qp-iframe-v2-0-0157ad05232c@collabora.com/
+
+
+> +static const struct iio_scan_type ad4030_24_offload_scan_types[] = {
+> +	[AD4030_SCAN_TYPE_NORMAL] = {
+> +		.sign = 's',
+> +		.storagebits = 32,
+> +		.realbits = 24,
+
+Really trivial, but why this order?  To me keeping to the
+order of the fields in the structure definition makes a tiny
+bit more sense here.   So realbits, then storagebits, then shift.
+
+> +		.shift = 0,
+> +		.endianness = IIO_CPU,
+> +	},
+> +	[AD4030_SCAN_TYPE_AVG] = {
+> +		.sign = 's',
+> +		.storagebits = 32,
+> +		.realbits = 30,
+> +		.shift = 2,
+> +		.endianness = IIO_CPU,
+> +	},
+> +};
