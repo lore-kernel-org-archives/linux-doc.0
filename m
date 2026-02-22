@@ -1,93 +1,224 @@
-Received: from luna.linkmauve.fr (luna.linkmauve.fr [82.65.109.163])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855D734F498;
-	Sun, 22 Feb 2026 19:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.65.109.163
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDF011A2C04;
+	Sun, 22 Feb 2026 21:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771787617; cv=none; b=gXAUyARKtUhpdrqnkJCdVql7yRKUgy/9bTyNmIg2OgK+/enUrGnGNw57qmTjNZ9R/JEE0yBOXxQKnKE8VBSsynRgg4yZtexbauROwtSg2347hz+PJycdoFmzkHEQ8R9Oe4II8CIHPIhYK1ctGQvXbI8xklU9uCk3URxDIY6WQt0=
+	t=1771795474; cv=none; b=dmuUICgjCqzVNOPpdrj0s/rTNu+TIsUP8b7lFonAzWDA6uPS+Bn3kMrmFJ4Tby6mZrRQZTM/34GeyrNY7ZJMNh5C47goz2IzJFCxJMXoYYHXtifBNpnoH8Jk5r+y14P05TD0Snw/YJVO9UpOBy6ictB/eMeBP1mvCVP6IDv41lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771787617; c=relaxed/simple;
-	bh=uUFMoLDis6u/NZE5MeSypX6314mYSet1o12NT2+cjM4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mbKZzmNaRNDQK2TUPEOk3cgxghQIPBcUiKIP4gsl+mDjspK3q9s+wJYLUWgdSm+KC+f2enKPGdfiEnV8uc86reYxn68+jlcWWBCFvk5iBL//8+o2g2qzDuBbPhQJPCV8qetz0SBnSsfPMOoI+1thi1ndBKq+LIOswpADD76u4Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr; spf=pass smtp.mailfrom=linkmauve.fr; arc=none smtp.client-ip=82.65.109.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linkmauve.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linkmauve.fr
-Received: by luna.linkmauve.fr (Postfix, from userid 1000)
-	id 322BAF43C7E; Sun, 22 Feb 2026 20:07:13 +0100 (CET)
-Date: Sun, 22 Feb 2026 20:07:12 +0100
-From: Link Mauve <linkmauve@linkmauve.fr>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: "Mukesh Kumar Chaurasiya (IBM)" <mkchauras@gmail.com>,
-	linkmauve@linkmauve.fr, ojeda@kernel.org, boqun.feng@gmail.com,
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
-	a.hindborg@kernel.org, tmgross@umich.edu, dakr@kernel.org,
-	corbet@lwn.net, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	npiggin@gmail.com, chleroy@kernel.org, peterz@infradead.org,
-	jpoimboe@kernel.org, jbaron@akamai.com, rostedt@goodmis.org,
-	ardb@kernel.org, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH V6 2/3] rust: Add PowerPC support
-Message-ID: <aZtT4MH0Q8Ic9ZiM@luna>
-References: <20260210090023.2587534-1-mkchauras@gmail.com>
- <20260210090023.2587534-3-mkchauras@gmail.com>
- <CAH5fLgi3Owm4=4g8wQ5Rnr7Y63XJ1D8apOdkewW6WpRfg6vV_w@mail.gmail.com>
+	s=arc-20240116; t=1771795474; c=relaxed/simple;
+	bh=bkgGI2WMJRUrC6413r99xgdbIc0+f+gsulT3sQyzjYM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XQKNwCxd3wH2Y2pNskGQw5NCV/W/xNZ623Qmhl02+dTYKpHgWXpWk5lIHERvLJXes2+4Q2JHXk5davTFncQEwsGWrVlbC4OWN4PPPcG8ckVk6uJXOktD6kbiCrq1T6y90nQKrCuXCxSdprhs55JQkqX+pcR5lPYldzHZEr4QSF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BSwc8IGy; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BSwc8IGy"
+Received: by linux.microsoft.com (Postfix, from userid 1006)
+	id C5AEB20B6F00; Sun, 22 Feb 2026 13:24:26 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C5AEB20B6F00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1771795466;
+	bh=Cu9vE1o/2Xdjq6JTuKE+z+eMXOB+YTsvz8yR1vX+7Zc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BSwc8IGybxHSGkEOrdo8uvHOdRLVVIqIt0fY6NdFCO4XSVTLElTy+h/wnjhv/Usn4
+	 1dLgFB0TuenW3gpaCWl1rg2WPS9erk3qXTdI5ZE54Uc7l6OkjLP9ORptyU1mWn8KdG
+	 OFVhSj8KR+Omgc5tEVGhMYnJdeR2GFdKwXD+KJNE=
+From: Haiyang Zhang <haiyangz@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Andrew Lunn <andrew@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>,
+	Gal Pressman <gal@nvidia.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: haiyangz@microsoft.com,
+	paulros@microsoft.com
+Subject: [PATCH net-next] net: ethtool: add COALESCE_RX_CQE_FRAMES/NSECS parameters
+Date: Sun, 22 Feb 2026 13:23:17 -0800
+Message-ID: <20260222212328.736628-1-haiyangz@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAH5fLgi3Owm4=4g8wQ5Rnr7Y63XJ1D8apOdkewW6WpRfg6vV_w@mail.gmail.com>
-Jabber-ID: linkmauve@linkmauve.fr
 
-On Sun, Feb 22, 2026 at 07:09:38PM +0100, Alice Ryhl wrote:
-> On Tue, Feb 10, 2026 at 10:00 AM Mukesh Kumar Chaurasiya (IBM)
-> <mkchauras@gmail.com> wrote:
-> >
-> > From: Link Mauve <linkmauve@linkmauve.fr>
-> >
-> > For now only Big Endian 32-bit PowerPC is supported, as that is the only
-> > hardware I have.  This has been tested on the Nintendo Wii so far, but I
-> > plan on also using it on the GameCube, Wii U and Apple G4.
-> >
-> > These changes aren’t the only ones required to get the kernel to compile
-> > and link on PowerPC, libcore will also have to be changed to not use
-> > integer division to format u64, u128 and core::time::Duration, otherwise
-> > __udivdi3() and __umoddi3() will have to be added.  I have tested this
-> > change by replacing the three implementations with unimplemented!() and
-> > it linked just fine.
-> >
-> > Signed-off-by: Link Mauve <linkmauve@linkmauve.fr>
-> > Signed-off-by: Mukesh Kumar Chaurasiya (IBM) <mkchauras@gmail.com>
-> 
-> > diff --git a/arch/powerpc/Makefile b/arch/powerpc/Makefile
-> > index a58b1029592c..9fd82c75dcbd 100644
-> > --- a/arch/powerpc/Makefile
-> > +++ b/arch/powerpc/Makefile
-> > @@ -61,6 +61,8 @@ else
-> >  KBUILD_LDFLAGS_MODULE += $(objtree)/arch/powerpc/lib/crtsavres.o
-> >  endif
-> >
-> > +KBUILD_RUSTFLAGS += --target=powerpc-unknown-linux-gnu
-> 
-> This needs to be a softfloat target.
+From: Haiyang Zhang <haiyangz@microsoft.com>
 
-Should we come back to describing the target like I did in my first
-patch[1] in scripts/generate_rust_target.rs, or should I bring that to
-Rust to create a powerpc-unknown-unknown-softfloat target upstream?  Or
-is there a better third solution I’m not thinking of?
+Add two parameters for drivers supporting Rx CQE Coalescing.
 
-> 
-> Alice
-> 
+ETHTOOL_A_COALESCE_RX_CQE_FRAMES:
+Maximum number of frames that can be coalesced into a CQE.
 
-[1] https://lore.kernel.org/rust-for-linux/20260204030507.8203-1-linkmauve@linkmauve.fr/
+ETHTOOL_A_COALESCE_RX_CQE_NSECS:
+Time out value in nanoseconds after the first packet arrival in a
+coalesced CQE to be sent.
 
+Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+---
+ Documentation/netlink/specs/ethtool.yaml       |  8 ++++++++
+ Documentation/networking/ethtool-netlink.rst   | 10 ++++++++++
+ include/linux/ethtool.h                        |  6 +++++-
+ include/uapi/linux/ethtool_netlink_generated.h |  2 ++
+ net/ethtool/coalesce.c                         | 14 +++++++++++++-
+ 5 files changed, 38 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+index 0a2d2343f79a..951d98f6bb12 100644
+--- a/Documentation/netlink/specs/ethtool.yaml
++++ b/Documentation/netlink/specs/ethtool.yaml
+@@ -861,6 +861,12 @@ attribute-sets:
+         name: tx-profile
+         type: nest
+         nested-attributes: profile
++      -
++        name: rx-cqe-frames
++        type: u32
++      -
++        name: rx-cqe-nsecs
++        type: u32
+ 
+   -
+     name: pause-stat
+@@ -2244,6 +2250,8 @@ operations:
+             - tx-aggr-time-usecs
+             - rx-profile
+             - tx-profile
++            - rx-cqe-frames
++            - rx-cqe-nsecs
+       dump: *coalesce-get-op
+     -
+       name: coalesce-set
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index af56c304cef4..a3e78b69fd07 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -1072,6 +1072,8 @@ Kernel response contents:
+   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
+   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
+   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
++  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
++  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
+   ===========================================  ======  =======================
+ 
+ Attributes are only included in reply if their value is not zero or the
+@@ -1105,6 +1107,12 @@ well with frequent small-sized URBs transmissions.
+ to DIM parameters, see `Generic Network Dynamic Interrupt Moderation (Net DIM)
+ <https://www.kernel.org/doc/Documentation/networking/net_dim.rst>`_.
+ 
++Rx CQE coalescing allows multiple received packets to be coalesced into a single
++Completion Queue Entry (CQE). ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES`` describes the
++maximum number of frames that can be coalesced into a CQE.
++``ETHTOOL_A_COALESCE_RX_CQE_NSECS`` describes max time in nanoseconds after the
++first packet arrival in a coalesced CQE to be sent.
++
+ COALESCE_SET
+ ============
+ 
+@@ -1143,6 +1151,8 @@ Request contents:
+   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
+   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
+   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
++  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
++  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
+   ===========================================  ======  =======================
+ 
+ Request is rejected if it attributes declared as unsupported by driver (i.e.
+diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+index 798abec67a1b..25ccd2d5d4dc 100644
+--- a/include/linux/ethtool.h
++++ b/include/linux/ethtool.h
+@@ -332,6 +332,8 @@ struct kernel_ethtool_coalesce {
+ 	u32 tx_aggr_max_bytes;
+ 	u32 tx_aggr_max_frames;
+ 	u32 tx_aggr_time_usecs;
++	u32 rx_cqe_frames;
++	u32 rx_cqe_nsecs;
+ };
+ 
+ /**
+@@ -380,7 +382,9 @@ bool ethtool_convert_link_mode_to_legacy_u32(u32 *legacy_u32,
+ #define ETHTOOL_COALESCE_TX_AGGR_TIME_USECS	BIT(26)
+ #define ETHTOOL_COALESCE_RX_PROFILE		BIT(27)
+ #define ETHTOOL_COALESCE_TX_PROFILE		BIT(28)
+-#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(28, 0)
++#define ETHTOOL_COALESCE_RX_CQE_FRAMES		BIT(29)
++#define ETHTOOL_COALESCE_RX_CQE_NSECS		BIT(30)
++#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(30, 0)
+ 
+ #define ETHTOOL_COALESCE_USECS						\
+ 	(ETHTOOL_COALESCE_RX_USECS | ETHTOOL_COALESCE_TX_USECS)
+diff --git a/include/uapi/linux/ethtool_netlink_generated.h b/include/uapi/linux/ethtool_netlink_generated.h
+index 556a0c834df5..efc6e4ade77b 100644
+--- a/include/uapi/linux/ethtool_netlink_generated.h
++++ b/include/uapi/linux/ethtool_netlink_generated.h
+@@ -371,6 +371,8 @@ enum {
+ 	ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
+ 	ETHTOOL_A_COALESCE_RX_PROFILE,
+ 	ETHTOOL_A_COALESCE_TX_PROFILE,
++	ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
++	ETHTOOL_A_COALESCE_RX_CQE_NSECS,
+ 
+ 	__ETHTOOL_A_COALESCE_CNT,
+ 	ETHTOOL_A_COALESCE_MAX = (__ETHTOOL_A_COALESCE_CNT - 1)
+diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
+index 3e18ca1ccc5e..349bb02c517a 100644
+--- a/net/ethtool/coalesce.c
++++ b/net/ethtool/coalesce.c
+@@ -118,6 +118,8 @@ static int coalesce_reply_size(const struct ethnl_req_info *req_base,
+ 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_BYTES */
+ 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_FRAMES */
+ 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_TIME_USECS */
++	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_FRAMES */
++	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_NSECS */
+ 	       total_modersz * 2;		/* _{R,T}X_PROFILE */
+ }
+ 
+@@ -269,7 +271,11 @@ static int coalesce_fill_reply(struct sk_buff *skb,
+ 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES,
+ 			     kcoal->tx_aggr_max_frames, supported) ||
+ 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
+-			     kcoal->tx_aggr_time_usecs, supported))
++			     kcoal->tx_aggr_time_usecs, supported) ||
++	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
++			     kcoal->rx_cqe_frames, supported) ||
++	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_NSECS,
++			     kcoal->rx_cqe_nsecs, supported))
+ 		return -EMSGSIZE;
+ 
+ 	if (!req_base->dev || !req_base->dev->irq_moder)
+@@ -338,6 +344,8 @@ const struct nla_policy ethnl_coalesce_set_policy[] = {
+ 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_BYTES] = { .type = NLA_U32 },
+ 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES] = { .type = NLA_U32 },
+ 	[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS] = { .type = NLA_U32 },
++	[ETHTOOL_A_COALESCE_RX_CQE_FRAMES] = { .type = NLA_U32 },
++	[ETHTOOL_A_COALESCE_RX_CQE_NSECS] = { .type = NLA_U32 },
+ 	[ETHTOOL_A_COALESCE_RX_PROFILE] =
+ 		NLA_POLICY_NESTED(coalesce_profile_policy),
+ 	[ETHTOOL_A_COALESCE_TX_PROFILE] =
+@@ -570,6 +578,10 @@ __ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info,
+ 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES], &mod);
+ 	ethnl_update_u32(&kernel_coalesce.tx_aggr_time_usecs,
+ 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS], &mod);
++	ethnl_update_u32(&kernel_coalesce.rx_cqe_frames,
++			 tb[ETHTOOL_A_COALESCE_RX_CQE_FRAMES], &mod);
++	ethnl_update_u32(&kernel_coalesce.rx_cqe_nsecs,
++			 tb[ETHTOOL_A_COALESCE_RX_CQE_NSECS], &mod);
+ 
+ 	if (dev->irq_moder && dev->irq_moder->profile_flags & DIM_PROFILE_RX) {
+ 		ret = ethnl_update_profile(dev, &dev->irq_moder->rx_profile,
 -- 
-Link Mauve
+2.34.1
+
