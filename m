@@ -1,46 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEF7155757;
-	Sun, 22 Feb 2026 16:11:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481292248A8;
+	Sun, 22 Feb 2026 17:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771776707; cv=none; b=OVOCt5R8o3MfYYcq7SwlBLngN7E1OC18v3V9GVIr3MUSYYIi1VJF9CeefdU07HnmOq9yvdrJJwzyTn/3P+e2y5mJ419uDvqzadg5h2KreqLOe30HukRUNQ0SWrbuqvNcRO7hHlvPDhIBX9s0dw0hWgyR3Y6edBtNHG0oqUCFoQE=
+	t=1771781363; cv=none; b=teCIs1tEfYCJ18HRRQKHmAslEJEcG6tPpsKne5L4nvAYwLwFH+u4jrc2WzlR1ntvw9QfI/cr170oLdJssAX/f8Nn07lFL65dyNt+z/b38kqr/mDSSQBtek7WZXck6oJXFc6t4gvliJtB40UiQl5ZOecdo0wuUOMULG/4zZVxWKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771776707; c=relaxed/simple;
-	bh=+U3DSArkuN2qfEZlfmqKxrOsyDYSJ/k5DqwNlHGL/zQ=;
+	s=arc-20240116; t=1771781363; c=relaxed/simple;
+	bh=83/GT02pEc1lPUaf0sgF/nw3ojRUdqxyEPOXRU89KGQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hyiavGE5G28LPo6S2iMlZEv7afNcPUkpGcrWi5PxTvm0vL7dvPbseDaNUmAGMRdCKR+e2lShh+NOf5ex8QEV2u+qK5iuBUo4FlP1DvTVxLzIk/Bs9uHlDaYev9izfPcubX0qf48t/N4vcQx/f33Hx31H4X/V9QtmXHzPHATjhtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KWAVfSB/; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Ne+fUC136lLcoLXyxqdluOrbncQXTMlotRKq9DSkRYBFsBdPIJolFdxFbE+PifmmZ9Zqq0OYxhzI7vqkXmjVdObZN62dfr2mTp8swYKPA2ZZZ9CrSTQ7wmQsK3mAv5teoJPn5V6VBC3fGEn0nDjufZy0gLsrFQrbpQjqdmWjkAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iRlwo4/W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KWAVfSB/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51C7FC116D0;
-	Sun, 22 Feb 2026 16:11:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iRlwo4/W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88552C116D0;
+	Sun, 22 Feb 2026 17:29:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771776707;
-	bh=+U3DSArkuN2qfEZlfmqKxrOsyDYSJ/k5DqwNlHGL/zQ=;
+	s=k20201202; t=1771781362;
+	bh=83/GT02pEc1lPUaf0sgF/nw3ojRUdqxyEPOXRU89KGQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=KWAVfSB/kUTMOyIjxaJ7cFdym1bOh4TP1XQ4QH5b3sUp4J5lWGComUF4rppEe8zS/
-	 m+iNZ+UmF4XIxNWcHPHPIkFkQoD50SQGxP7bALAPhrNNTAO4SfFYTMxZMamD9n8ewR
-	 TS7DSOKGIM4pLdR7mCOoFFnOFvL2/5ew8lBCzvIPHwSzWEgnRy4OUBGulLg4kjOj0G
-	 5Tht6ak7iFZv4gm8pK5N4KHxOmRVJzqLkBZ+F7OQV8FaipWR2PMDS/kOptv3mSEz/M
-	 MPwOwHtMMRpbUdlg4FgfW2DpEW81MbgKzciRfEPv5udJCBKb6EjJbBJQjsi/gOkMzU
-	 z8efcn/0qt7Xw==
-Date: Sun, 22 Feb 2026 16:11:37 +0000
+	b=iRlwo4/WvvkKMY+m1h9xLaKFaqyH26UiGUtFznIzUK6AGAD1FVGRAG2k1jGpBc6VO
+	 axFzzoiUBv1nCYGPNSRphMnH8JQZkgMdpDJEcBk1tE2Pl4IvXHhGZ37NoYowtAzyii
+	 IJ6QJWD8Kfn+gzcYzxOe3lFUkusmtS9lOFDOiIIgClOM31L8jD3S/Z9PSCmqOPx4YF
+	 Kqi4x30D+sju4iQUi+33TNKEZcf9QqqaI2qtPYdh9v9KVgqZ9elseEb3csMUwxeKT/
+	 hkPUa3eQ5yjAAnla5Yu2dEYZ6gnn8b0C/W4w8vUK7Uvp3e0j7hpeiR+qFXPH3EEphG
+	 QkMNk8txKxrkg==
+Date: Sun, 22 Feb 2026 17:29:12 +0000
 From: Jonathan Cameron <jic23@kernel.org>
-To: Taha Ed-Dafili <0rayn.dev@gmail.com>
-Cc: dlechner@baylibre.com, Michael.Hennerich@analog.com, andy@kernel.org,
- corbet@lwn.net, lars@metafoo.de, linux-doc@vger.kernel.org,
- linux-iio@vger.kernel.org,
- linux-kernel-mentees-archive@lists.linuxfoundation.org,
- linux-kernel@vger.kernel.org, nuno.sa@analog.com, rdunlap@infradead.org,
- skhan@linuxfoundation.org
-Subject: Re: [PATCH v4 3/4] iio: accel: adxl345: Implement event scaling for
- ABI compliance
-Message-ID: <20260222161137.18cdebd4@jic23-huawei>
-In-Reply-To: <20260221172123.57134-1-0rayn.dev@gmail.com>
-References: <e2c74e7f-d851-457f-88f8-d80a8d17c51f@baylibre.com>
-	<20260221172123.57134-1-0rayn.dev@gmail.com>
+To: Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v7 2/8] iio: core: add fixed point parsing with 64-bit
+ parts
+Message-ID: <20260222172912.60a103c0@jic23-huawei>
+In-Reply-To: <20260216-adf41513-iio-driver-v7-2-b0ed387ab559@analog.com>
+References: <20260216-adf41513-iio-driver-v7-0-b0ed387ab559@analog.com>
+	<20260216-adf41513-iio-driver-v7-2-b0ed387ab559@analog.com>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -51,29 +53,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 21 Feb 2026 17:21:23 +0000
-Taha Ed-Dafili <0rayn.dev@gmail.com> wrote:
+On Mon, 16 Feb 2026 15:02:17 +0000
+Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
 
-> I did go over the datasheet and found the hardware uses a single
-> register for both tap thresholds, so I assume the VALUE was intentionally
-> omitted from DOUBLETAP to avoid duplicate sysfs attributes.
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 > 
-> I mechanically added the scale attribute without realizing this. I will
-> drop BIT(IIO_EV_INFO_SCALE) for double tap and update the docs in v5.
+> Add iio_str_to_fixpoint64() function that leverages simple_strtoull()
+> to parse numbers from a string.
+> A helper function __iio_str_to_fixpoint64() replaces
+> __iio_str_to_fixpoint() implementation, extending its usage for
+> 64-bit fixed-point parsing.
+> 
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Hi Rodrigo.
 
-If the underlying register applies to two different events and it's not
-possible to combine them using shared_by_ (which I don't think it is here)
-then we should have attributes for both of them.
+This looks fine to me, but given earlier discussions I'd ideally like
+to wait for a final review from Andy.
 
-The IIO ABI always allows any write to any channel property including event
-thresholds to change the value of a different one, so there is never a problem
-with duplication like this
-
-thanks,
+Thanks,
 
 Jonathan
-
-> 
-> I'll wait a couple of days for any other feedback before sending the
-> next version.
-
