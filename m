@@ -1,78 +1,249 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010057.outbound.protection.outlook.com [52.101.84.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF03426A0B9;
-	Mon, 23 Feb 2026 14:01:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771855289; cv=none; b=IU+f5FlcA4/gRm0JSxQwVc3goGoV7OLdRKH3FEVSsDotNfo7weIoH0UbtLogZyff46WBpeq9k87ZqSjXeZSQ77yLlSyJjymgVcfzhVfc4+pZ6j3Tl2Z1M/+TJ1DPCumAhdJ64PxAv3LWWiPTj+B6B3os6daClcri3yNqQfUEf08=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771855289; c=relaxed/simple;
-	bh=XUY21FuMSKmjH9no37t97xDUClgPkt8GSLIbeRnj1AI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oe+OrSnLJ26srT3o55E/kgyeXhCCBd/Vtr4toBOI2vEddNfMxueJ3DthUuPpx++GvwWqujJ+hSngDetonPnDPijVIbHRGvD0SNLkhP1crqmR4K94fcK94nO/k7z53N6Pzfa/ghh9JZGthohgZxOJs19zp/kQQjBWKob0zUAzrDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=dR1kWave; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE2D286D5E;
+	Mon, 23 Feb 2026 14:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771856693; cv=fail; b=FhT0dNYELHz+b1Pzw7/+pwYjzw4lrTvazwQwTwKtSCgQyMchJkhBLuNu78IJU9a86yeI5qVTDTQPqMuwu2m2QIl5+ieJeApP+MQZ1Dvtf4qZfUKkpVbYAZswBwRDlq6jWsVSyrOxgWHUo7k7+Ki4shzGy5c/uZr5SRh86XWAfgU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771856693; c=relaxed/simple;
+	bh=02uLXYfv+5QROnxwh5exPesXClFhXtByqrlXY6melr8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=HrKELdU3Z60WloPp2RQBMtvSx3KOzRt1cbDxqj9jl2ruxVRjVrEKj7KVniZ0tyQHkrGduAfgmjzxS+HEtw9D2itru0IOTjD6J3teupXkSFuYKWViCqHSvMJnZnsi+tReI0WiJsPTaDGHxfLw6wMoQPnS8vcS1TKxEsQBjjVWilU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=aPyOv3s2; arc=fail smtp.client-ip=52.101.84.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="dR1kWave"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=KcaaE3LpE+ovUHUhrkXgidu+ShMuBdBbTFEmpE5F3Z8=; b=dR1kWaveG/58vzDduCUVL6/iRy
-	IMCNsb8X2jaHAdR6CcU+flvXE4K/b3S90+mAmrdSqJWc1P15idRYoeGv8kIZjQ9QJx9EA2hT7nn3r
-	n1AiAGs722yvTlCIsRaupH2TBbtm2aiikwS4nzAhnHSylbe2usBVrPJPJKVxo9QJLnqU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vuWUY-008Sz2-HQ; Mon, 23 Feb 2026 15:00:54 +0100
-Date: Mon, 23 Feb 2026 15:00:54 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Haiyang Zhang <haiyangz@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>,
-	Gal Pressman <gal@nvidia.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	haiyangz@microsoft.com, paulros@microsoft.com
-Subject: Re: [PATCH net-next] net: ethtool: add COALESCE_RX_CQE_FRAMES/NSECS
- parameters
-Message-ID: <6bf21536-569b-49b4-9541-c22a152570fd@lunn.ch>
-References: <20260222212328.736628-1-haiyangz@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="aPyOv3s2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=q9NdyYP+uky9jVYo+d9k9fmM8/cB/bjL51gppZ6akv72f6DJHVnWY8fHiVUcZDIe0hjue5r5nz94cDX2dBwfyijkuyG8V3Rw9mGvVvtk+Hb6U4REGJBUwl7D1SKKpT/pBhIBDyVDmU6uCxyPwMKxXaP6FAKqkDxU91q2CNA5y/8R0Uxu0v8UIZqfmjCYTUGYJR0H3iT7s7lCER3JNtbLTGzqvUETmTM7rR+V8wRiB82seyOpYabG+lHwKcuG3e+okHFqEqGlV7SP6gRhgj3lQwMW0ANElOL7eSzrH06N56CgfUknt9rFkQX3cCs1N2TiYdzbOE/uesaphVEth5nipg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cq9p+Ax7FXrCAL0P83GVe+3Gm53y0Op6mFJvUwrKNyI=;
+ b=oUpPurNMVLrh3T2HF+nGtZWfWeob+E2dVizNEbeDxEzeHMyh8/g4C2qIjz1E5JkJ3a8/E5KcAQVBB+AtwH3m57Wx2dcngdK/dc2IrXhYa2lEMKAPA2YXUQ+0jQ4giuYlx/gvRrlJeJO6fhNDhxN/u3J8OqY3+mR7qRsbH9zn5TMJKuPS85IrMakaAJCOYIx3maJmy6YPGEwbIWwZ6lMbyk9bXFlSeXQC1EhDJPLYLwGUkWeYcxi9yxxip0Zih2M97odRArlusW5EuGjikIXgjLVEKMkco2wdus/olvWAilDQcp9ExyfBBK0j3m+OPy9SQhp6JPqL7ac1Hj3ExA45OA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.59) smtp.rcpttodomain=kernel.org smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cq9p+Ax7FXrCAL0P83GVe+3Gm53y0Op6mFJvUwrKNyI=;
+ b=aPyOv3s2/S2if0MHwdtdb7R3LLyJc0z29iQ3UGLypMhcPel/qeAhqMNns3fp0APpjfIP+yJKDAR3esrIinSrt6JEPuIEdiV7g7DhDsyHc304gh4vSEViDIWznNZfnLS2dZ+1bYgeBcbfMrK1qyaVX+vqfE9bPpMDrq6e3rI8YbuJJwSk22mtAgVcDZRQ3AzzemLaqYME/ZFtFSHbl6jgP75ztmPTIdqiL4NihuU5wvemRVqf0/7Rz1PxGbzXQ347Zun/mxGJBvn+zVm+7OVe/FrOq1Qr+vOr6YFWRa/ILi8GOaiRvVKcSIfAyVJ2vddfJxhlgX12q665fC8vCwo05g==
+Received: from AM8P190CA0005.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::10)
+ by GV1PR10MB6516.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:84::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Mon, 23 Feb
+ 2026 14:24:47 +0000
+Received: from AM3PEPF0000A791.eurprd04.prod.outlook.com
+ (2603:10a6:20b:219:cafe::f8) by AM8P190CA0005.outlook.office365.com
+ (2603:10a6:20b:219::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.21 via Frontend Transport; Mon,
+ 23 Feb 2026 14:24:13 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ AM3PEPF0000A791.mail.protection.outlook.com (10.167.16.120) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Mon, 23 Feb 2026 14:24:46 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 23 Feb
+ 2026 15:27:01 +0100
+Received: from [10.48.87.127] (10.48.87.127) by STKDAG1NODE2.st.com
+ (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Mon, 23 Feb
+ 2026 15:24:45 +0100
+Message-ID: <b4c422ce-3538-40aa-8bfa-b70f02774b5d@foss.st.com>
+Date: Mon, 23 Feb 2026 15:24:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260222212328.736628-1-haiyangz@linux.microsoft.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+To: Linus Walleij <linusw@kernel.org>, Shenwei Wang <shenwei.wang@nxp.com>
+CC: Andrew Lunn <andrew@lunn.ch>, Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, "Bjorn
+ Andersson" <andersson@kernel.org>, Mathieu Poirier
+	<mathieu.poirier@linaro.org>, Frank Li <frank.li@nxp.com>, Sascha Hauer
+	<s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+	"Peng Fan" <peng.fan@nxp.com>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
+	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
+	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+References: <20260212213656.662437-1-shenwei.wang@nxp.com>
+ <20260212213656.662437-4-shenwei.wang@nxp.com>
+ <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
+ <13f9d767-61d6-4e29-b36e-6dcc860ccb11@lunn.ch>
+ <fd257c80-d97f-45b0-a12f-3a1888ba81db@foss.st.com>
+ <396819f2-dd00-4c09-8bc7-c035a5282a56@lunn.ch>
+ <PAXPR04MB9185A908F5090F0CA4FF05F78968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <b21b9ee5-d84e-47f8-86b5-c111ecc3d43d@lunn.ch>
+ <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
+Content-Language: en-US
+From: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+In-Reply-To: <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM3PEPF0000A791:EE_|GV1PR10MB6516:EE_
+X-MS-Office365-Filtering-Correlation-Id: ca4d156f-e8e5-4c6a-35b6-08de72e74bb8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700013|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?S3FOOUR5dFprUGV1U2lGZjV6bGJ3SWlhQWxQMXRQeTY1LzMrNU5PVVBqWGxG?=
+ =?utf-8?B?V2dtb1NpWGcyZjdBM3pld1IzYW4yOWY5QnFQOEtNeHBkMFZGem5YK3JhT0Jz?=
+ =?utf-8?B?UzVxQXNUMURqMi90bjUrQXp3R2ljalRIQU9VdVRjdnl6MWQ2WlZ5RFZPREpS?=
+ =?utf-8?B?bXd2V1ZicVBLNGFMQkp3aGs2YjdWdzdKbTBkSXpQM3daZ3RHYjZHd1hQajk4?=
+ =?utf-8?B?RE80TVZBazllYWdqMUFQbnN1UktOUkNYOUlnN28zdzAwU2RPNGZHNXZtR0d3?=
+ =?utf-8?B?MmFld0JoK0EvTUdKWnVRY0l6cW5GV3ZlYjVqL2trOWFPZ2N1QlFoS0pJM3la?=
+ =?utf-8?B?WG5XYTdLN1pJZ1ZiK0kybmp2bWppQmlwYUlNb2hOamQ4SFUwYjFndllIdGVh?=
+ =?utf-8?B?TzNsWDl1bTJUQWppNG1KSEdCV0Y3Sk05NHQ5a1ZIZzRKU0h3VXcxMTYzU0Jt?=
+ =?utf-8?B?WENyUWJHbnMxdzRJUjZHV25odmY2MFQ1VHJ0UTlveXBOc1lsV05LSHVJM1JW?=
+ =?utf-8?B?M3gvS01xNHluMWFjL25EajlzNmJuVk1TZDNtYjdGWlNVeEFoeVorTlQ1V3pN?=
+ =?utf-8?B?TVk5eHZVVnJMKytiSVpTWGJZcjRtTDF5ZzhEQW1nY016VDNRL2MxK2RvSUNE?=
+ =?utf-8?B?cUIranluNkpYTmxHYktDa05tV2JOeUIxZXFrU3JKSmMzNFdkT1N1bWlPeWdS?=
+ =?utf-8?B?SmdFMldrMFI3cWV2TVhUVVVPaTZQZ0wyK0U1ZG1EQlh4OUI0Nzd4YnVpbzcw?=
+ =?utf-8?B?Z2x3NUhndTZ4TnN1Y3p3YVBEZFJhSzJ2elNKTWh6alkzNWNnNWZuUUdIVGl5?=
+ =?utf-8?B?dlVBdGh0dUttSzZ3aThjSmtNVDlPQ3NmVVR0RTZMVWtuR1dGcE9kdXIrRDFu?=
+ =?utf-8?B?L1RJWlIybHc5N3BZMHFKM01ZN3JtS0JPTG93RHVxOU13N2c0eTZ3T1NVcUZT?=
+ =?utf-8?B?WGNhYzJqWTZ2eHB3dWM3TllpWE1KZENMZksrK2Y4cHArWkhTcnBOMTAwNS9o?=
+ =?utf-8?B?TERETHZCRGlnWktlc2V6KytQeW8wT0d1Vm45K29HZWR6REJ2SVVDQzZ6VG13?=
+ =?utf-8?B?MS9vVnVaekhxU2d1Q1Z5TUtwZGJoTitmYUdhcmFST2xyNi9rZkdBUDJhSTNI?=
+ =?utf-8?B?aTNkemU2NHQvUkt1WU0zaFpVOXlEdVF6N0FqQjhkTFh4UWRXYWhnMjlMZ1BQ?=
+ =?utf-8?B?RGI4TjQ0cUlXRGkwWVNYU3M5eTZlR2NWS2VjdXV4UUVIRnVEbWZSbG5FOFRF?=
+ =?utf-8?B?cEp3SWFwZk05N3Zyci9mK2xCNG1EckVSK3p4TDJHb1dNYzNyaHJLYUtkMjVB?=
+ =?utf-8?B?SzFMaWxJdDNRUmVpdlVDekp4aGhUclE5Um11eUdIUXZNY1FmRU9sekJlRHAy?=
+ =?utf-8?B?YVp5NmxmajFiZ3VrQmh1bkVZWENYUGhIRUNwQnlTaEFuWmFPOWRNN3JBUUNY?=
+ =?utf-8?B?c2tBczNKd1cyOTZ3bERxUXE3MUhqaXhLdzhEdm56Y1RXK2hST2pXa1pYSysz?=
+ =?utf-8?B?dmZIUGhLVjJIUTB4aUNZTFo1RG10RWtzR3pPTU53WUNOMFJXY1BGeGZKYWNR?=
+ =?utf-8?B?aDZCUDJrZmpyWi9sZmRybzJ0R2hXNUw2OFpMMHVzcDhaTmw4ci90eGUrSmhI?=
+ =?utf-8?B?Vk9paEprbVZpNjBvTUlTMFdIQWI1OGtvd1JIZ3NwZmNDeUhRTzdTdGdtamxi?=
+ =?utf-8?B?Q3BrakRmTytScUcwT0g0OTM1WnRlbFU5K1RNeTFQN0JpeHVBQjlYcTVrSWtv?=
+ =?utf-8?B?ZlhWS08wVDhsb0tjTm5YL3lGM1g1dFlhaVpOR1FUL1dYS2dhdzJQeGZFeUx6?=
+ =?utf-8?B?aDF2Vjg1bHdQclpVcnVrZmhVeEUybXlBVThMUER3YlpCdTZqWWhLZitUejhS?=
+ =?utf-8?B?M1lvekpUejJsYVE5dkd1S2RiaktBMS9yQXRjbmpIS3FheHZDOGFGZUFaWGdL?=
+ =?utf-8?B?U1FRZHNRK1E4VG5aV0cweC9uVStNQ3F0M2gyVk1WMjJXZEtjR0tLTEp3UXZi?=
+ =?utf-8?B?UlgvQjgyTmp0cUpzVHlhWFk2aGdQRkMralV3R2MyaGowcXVkNFkwZ25EUEMz?=
+ =?utf-8?B?SVducVJON1BQYldVeExnRE1xWlZZdmlXS0Y5bWE2RlpCNGdlOGJib0dNYmRB?=
+ =?utf-8?B?QkpwQ1RxZ0p0UHBnZDBPYm1IRU1rM2NJN2M1YVlkY3R5bTd3bW9RK053UXht?=
+ =?utf-8?B?azlTcEx0aGxwMUhjNDhsdG5ha1FLSWg4YWsyL1NSYlllMk0rL21yaGRmWHNz?=
+ =?utf-8?B?MThDTHNUYmg2MjRoR3pzSStNNHBnPT0=?=
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700013)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ikV5BsX8SRIQc/UE8inwvpvw13u35cjAwxqTIkoM6AVKhOMXAuvsCKwkL5DnmbjJb68fmH6G5qqtYdxp+67BXAmsiQ3WoDrRz8exODpGGiWMiR9cm9dbkPvr8iA5d9Wd0MMz9YDkkYAM97RAhp0qsT5vtGp0NOzwyzKtFbPjT1x1XfaFl4l8RJXqtfEtWrA/QvaB+KuaGG+5mYkmFGXulrmiTgSEEgEOgn+gKmzM1+gdlWnjOu7+SUN2u7idLRwdGan8CaCRD/OUkxxXkvDxAWf/tuGZtAsEf7Hb3mPn0cdOc+pcmp/jyrQcFuotUX5lEJDDoZPJeay13QHbKiTkcoT6MZqAeXB6Ko4kM3SeNIGD9NbEZ3j3ObuEBNYEzvnrO1RrvmP+SYeyxQ8+MDz35yGT9TYMDk4uMWfkFHHymLtioq1vrdLnb29X/7icEenf
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 14:24:46.5702
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca4d156f-e8e5-4c6a-35b6-08de72e74bb8
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AM3PEPF0000A791.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6516
 
-On Sun, Feb 22, 2026 at 01:23:17PM -0800, Haiyang Zhang wrote:
-> From: Haiyang Zhang <haiyangz@microsoft.com>
+Hello Linus,
+
+On 2/22/26 15:48, Linus Walleij wrote:
+> On Fri, Feb 20, 2026 at 7:57 PM Shenwei Wang <shenwei.wang@nxp.com> wrote:
 > 
-> Add two parameters for drivers supporting Rx CQE Coalescing.
+>> Given that, I’d like to hear from the GPIO subsystem maintainers — @Linus Walleij and
+>> @Bartosz Golaszewski — on whether a driver that works with the current hardware/firmware
+>> design could still be acceptable for upstream inclusion. My understanding is that upstream
+>> generally supports existing, real-world hardware as long as the driver meets subsystem standards.
 > 
-> ETHTOOL_A_COALESCE_RX_CQE_FRAMES:
-> Maximum number of frames that can be coalesced into a CQE.
+> What a swell party this has become.
 > 
-> ETHTOOL_A_COALESCE_RX_CQE_NSECS:
-> Time out value in nanoseconds after the first packet arrival in a
-> coalesced CQE to be sent.
+> In this kind of situations I usually refer to
+> Documentation/process/management-style.rst
+>
 
-A new API needs a user. A kAPI especially needs a user. Please add
-support to at least one driver.
+Thank you for pointing out the document, I was not aware of its 
+existence. Very informative!
+That help me to understand you proposal below.
 
-    Andrew
 
----
-pw-bot: cr
+> What is the message I as a maintainer is getting from NXP regarding
+> "gpio: rpmsg: add generic rpmsg GPIO driver"?
+> 
+> Arnaud, who is the only person in this discussion who actually wrote
+> a standard RPMSG driver (drivers/tty/rpmsg_tty.c), must ACK this
+> patch if it wants to call itself a "generic" RPMSG GPIO driver, if he
+> does not, then it isn't.
+
+In Fact there are already 2 "generic" drivers, the second one it the 
+drivers/rpmsg/rpmsg_char.c, both are used on several platforms.
+
+It is in my plan to test the rpmsg-gpio on ST platform if we go with the 
+generic approach.
+
+> 
+> Is it generic? If it is not, let's call it "NXP rpmsg GPIO driver" and rename
+> files etc accordingly. Maybe it can share code with the actual generic
+> RPMSG driver once that arrives, that is more of a library question.
+
+I would like to (re)express my concerns regarding the creation of an 
+NXP-specific driver. To clarify my concerns, ST, like probably some 
+other SoC vendors, has rpmsg-gpio and rpmsg-i2c drivers in downstream 
+with plans to upstream them.
+
+If we proceed in this direction:
+
+-Any vendor wishing to upstream an rpmsg-gpio driver might submit their 
+own platform-specific version.
+
+- If NXP upstreams other rpmsg drivers, these will likely remain 
+NXP-centric to maintain compatibility with their legacy firmware and the 
+nxp-rpmsg-gpio driver, leading to platform-specific versions in several 
+frameworks.
+
+- The implementation will impact not only the Linux side but also the 
+remote side. Indeed, some operating systems like Zephyr or NuttX 
+implement the rpmsg device side (Zephyr already implements the rpmsg-tty)
+
+Maintaining a generic approach for RPMsg, similar to what is done for 
+Virtio, seems to me a more reliable solution, even though it may induce 
+some downstream costs (ST would also need to break compatibility with 
+legacy ST remote proc firmware).
+
+
+In the end, I am just trying to influence the direction for RPMsg, but 
+based on the discussions in this thread, it seems others share similar 
+expectations, which should probably be taken into account as well.
+
+Thanks and Regards,
+Arnaud
+
+
+I just want to
+
+> 
+> Yours,
+> Linus Walleij
+
