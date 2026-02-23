@@ -1,94 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F721F4168;
-	Mon, 23 Feb 2026 13:47:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771854431; cv=none; b=tqJO5AkPGawidW6VY39x8XgywYTVUJAkAD2QagW2WkUuaDY9pQKqfHymwy8wEcc9g+8C7Re4Tb9cLgoqBGNrEs75DJ5b2deddqjtFOG5yy3ADDmgSQC1JSqD6hu+QYRyFBEOTP1YVz/PddzB9HipqqnZ1K32oW01bwGDnbTejBk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771854431; c=relaxed/simple;
-	bh=ydmdhEGM/O41rgUA/G7JvzJvk3KxbBzvvuzH7eImK34=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=k/VoQTYw8potIPUIR5v/NCznulO228GGVuQBNyem0J3eX5EpR0kGPheR9yRtk+hSmaxAtZbsrnJqsH/jf3W6cv4By35m3iywf8SPcXkmF+QYNwPB4Q60IsGWG9QVDOPL87z7XjZZvRXoRMrprmmx8HrU/+K/aj8CRaqllpPm15M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VW6zsY06; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901411C2324
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 13:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771854758; cv=pass; b=D0+MvEa6PMS1ldX/a/7UkGJk3r9UnQDfZKoev8eHtu6JOf/8jyeYR00ci6wG31pt2RWiz4TiDc82fAX67weV171MMdbbYEp7zmjcP85CxZqDPp4hOJV+eM5sAF1oOYZKMJGqLmFdLPMWFILA0hppoqJvmW5JGcuBA6IR4ork1cU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771854758; c=relaxed/simple;
+	bh=EzUfziwHN4t+6rCJqNdkZVs8Vyi2IIgFGGSz1ptRO/E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ri0C/Teo8kFDVANBXoAHt2W5OPsP5b0m62PId3rwym+SaFNLISNMaausx4ufJJD5e0DH9ALbBXu5BnTA7L96w5Hj0HkrqGngA8Xx3LxvvaZNnzLgGWqa0YHCkp+P/DNErwpbtddQNTrczVdWsDJ/fD21fwgyowO02cwvDtYKv1s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GAIMnGzd; arc=pass smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VW6zsY06"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771854429; x=1803390429;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=ydmdhEGM/O41rgUA/G7JvzJvk3KxbBzvvuzH7eImK34=;
-  b=VW6zsY06sAfcNAvKJWHscJ64vXxvEeKcaVZlOfLrkM+hM7lsQXrvesiq
-   pr3SEdJpszneKIzb69UK/XLs9Ehl9kHECZmu81ue8uW6XqMc7bY7Mh52W
-   lR3kgIIN2AppERlvRcPOhclAskuO3AU9XK5IX8B/c5vZSJy/LBKWgHZAd
-   3EQf79t1MCDfIfqJMrj9FbIyVOyM8hC/mb2jwLWIYW3730sjVSAk3uD5O
-   sCO9DsSFwQ+NnnxMImulw3b4uxKLaBrB5TKyQa3zGkUP2vzQlBjEMu+Eg
-   tk0YA/oXRe+kW+6NbEZE0ONr9aQ1+lWRFQdnIp1F3vEKcgBL/0+nbeuEV
-   Q==;
-X-CSE-ConnectionGUID: MA+KWGozT9SQqzOOrCK+rQ==
-X-CSE-MsgGUID: GXkOsBnVQUSbKYQ3oocZ5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="72756781"
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="72756781"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 05:47:08 -0800
-X-CSE-ConnectionGUID: 1v88AsnGQx+5D12EpgNwKg==
-X-CSE-MsgGUID: mmVGelq+SZamc1NuWYyuZg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="219682264"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.249])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 05:47:03 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Alexander Lobakin
- <aleksander.lobakin@intel.com>, Jonathan Corbet <corbet@lwn.net>, Kees
- Cook <kees@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- intel-wired-lan@lists.osuosl.org, linux-doc@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Randy Dunlap
- <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 00/38] docs: several improvements to kernel-doc
-In-Reply-To: <cover.1771408406.git.mchehab+huawei@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <cover.1771408406.git.mchehab+huawei@kernel.org>
-Date: Mon, 23 Feb 2026 15:47:00 +0200
-Message-ID: <33d214091909b9a060637f56f81fb8f525cf433b@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GAIMnGzd"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3567e2b4159so2350309a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 05:52:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771854757; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YHvRPBMAC0/o06JOQP91MngxvRmQuKnq0WZMEvYE8ItRbqKbsX5ojncggFTrNOQ0zX
+         /CCR+B86tbKWngolfZ13hH5rj7PYYG2Cv5bC3f/9wR+oKL5fh6hq/w++ReKXTAMH/Hsn
+         6eg8PKQynzUdyGKVjsqMr/coEroYeDKpFfRIfnkSMfAUl4Tsdt/adrhdOgGwqLrid9Bj
+         4Y+gMdwIKwQ+GkReuVGlruVsz/7CSuw+SEfgm8ts/v1qQWzVTcZiAc7017hbUAbN1PpJ
+         f5a9sKAd2gdlvwrDAiLJJIv+XgveLReIVS7Mq5TsQwIk1H7Pj+LVf8vmOKhGGGsf7rBb
+         EM7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
+        fh=q4cPPsNhjG7YO0yaylGm+5UJeCn4IM4OjB/NBYzqw2Q=;
+        b=HeO0m0NnyCq5koarPEsvXtOiUA10jUBnj9l6QwExFLB9IgJ30AQ+5XKqAjl+QrPhwV
+         m+1FwX0d4sP5mrMECqCp/XuK+MlELPTlvkXq8hOBBIO+JrxPCLi9WfD3HyPUSBNIMhIA
+         XjHWmteY4W77/SrBTG6cp1Vx30wr6GVEpsk1r2jsMB9rumLjq4FJDRtV4O+bFITmFaVv
+         z98SpEJVq1oTABg/EB3uqFXxRHmTuipAO5Vuj91oMAF/ks0j25f4VXfmHSBwzjywJmYL
+         L8YpR+UZtaZJC3dnCbAYDW1jwnf0CWB1PyVnYUrKz1Ykyf/9lWrRYOh+DOfE8w2obgFa
+         WfKQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771854757; x=1772459557; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
+        b=GAIMnGzdKb+9RlhqFTfnXAPgym/2/FUa416bD+iaOKiv7G/6hqDcjmrjs6lN1PqkpW
+         BzELjWp34G2p4X9s9owiVPAHlZoGYYqXQcyKZVv7cYFm4KeswgvlU59IO3yOR0/JaqsU
+         ZPonPPi542AP18vWk1Xfq9PYYckD8kC6fAJOm0Xz3XcujhwFoZU3f/25DZEifzd7bUQe
+         7CeS/MeYxGgWldWoWUsCk0//OoWFGshKIoKr1QCSXbOy1T9sm0TxjAYpwDbE4kpyDejs
+         ikAHpHAILgXyV0NoQ4fVut1yziMs+QLijEWpbxx7dCCZ9GoQchNXCTMG37EjAdHf3MTh
+         AXdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771854757; x=1772459557;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
+        b=T3RFDl+V1Kg1cMdAsaaEJANXskUN6TwenJpSsTT9/g0DX10wx0hRPFXfwBiMKhq/+b
+         cXxrIWzhMAbeUcwtuCACj6qEbQioqOx4wQl6/a3gsxrc1c6i7laLWBptsPRzRFo/rN1m
+         oEJMm/DC3duBYnapdR86BtijQTsoyz/QPzgxNQSp8ebqBsjYFTLzuVlNbvPfehoFaeTY
+         +N83kzcVD1KuvyhAu+0i5HOFpGXLOhvMz7XdstpR/N7WvjQ+zAzAJrwUM9/XGsJWQWHB
+         YlmqAEn3VLOw+t13Folow0asW7ZBkBz3yLo/IHko3TRmjLXozAm4ZGsdRPPUKnj3/CzY
+         wzVw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyXGbzkAxS7HCuXivwSKswpCbO1+0Dz1dLpyWEM5SdQGkGc8Lar5F3iHKUXBIGMrQW0A7q25W+kWo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTX6ZoTJj/e4dhEQ3Ks7Nqq7aZ1wGPLsFu3EBlRjKGL6z+Xzvc
+	rBxZcCSXG//8Z6WrUBLCvxym6Fz/XuzY71NVanwHDXdlryq41rlBkV7VqHiB2Czm437ktc2PvnY
+	xZO+3mbw1uxPBp7NW8yBDpXCL6agFsnQ=
+X-Gm-Gg: ATEYQzyeJdWTFJhpyD+T4eUto6ugJQosTeZmYysHELt7j1WEZvxD3AanpPaxALbFpUW
+	8fXCCR4cvMBzN/CJnunHaIc4dQzqBS75zpx1f1PHXsIwFQ3UG1JyPwGg+D3RB09q1dfg9RrVfY4
+	tE5BELOUuXt+en/cepEag2V0E39U5bBimtuI5ugUEe/lonMlgO2m6mNaVUzuboVd8oQwV8iAQT3
+	yo1ArH/keOS+zFvJWbPtqrRPG1s3LDoqa7zLKkpGvhdr8LKitOc27eZp70DfLremrG3jcPcrntK
+	bgpt1pIH
+X-Received: by 2002:a17:90b:5447:b0:356:4ea0:e9e2 with SMTP id
+ 98e67ed59e1d1-358ae8d3a09mr6084454a91.34.1771854756912; Mon, 23 Feb 2026
+ 05:52:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
+ <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
+ <aZwWMiYEvr3DXi3E@smile.fi.intel.com> <9dd377f6-3565-4c0c-8c98-1b5ac4982f5b@kernel.org>
+ <aZxES35K3hSX4KEx@smile.fi.intel.com>
+In-Reply-To: <aZxES35K3hSX4KEx@smile.fi.intel.com>
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+Date: Mon, 23 Feb 2026 15:52:25 +0200
+X-Gm-Features: AaiRm53PjY3r4YJJgRdEcXeF3wEcS_dn51myeI6Bp2rdVCy5EIQxm03JMpsksBU
+Message-ID: <CANhJrGPWxgFddKaqdFM+DGKYTXaPxeBZLMhxBfXT-ZU6SrsbPA@mail.gmail.com>
+Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate workqueue
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>, 
+	Dan Carpenter <dan.carpenter@linaro.org>, Lee Jones <lee@kernel.org>, 
+	Dzmitry Sankouski <dsankouski@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, driver-core@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, linux-pm@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	chrome-platform@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 18 Feb 2026, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> As anyone that worked before with kernel-doc are aware, using regex to
-> handle C input is not great. Instead, we need something closer to how
-> C statements and declarations are handled.
+ma 23.2.2026 klo 14.13 Andy Shevchenko
+(andriy.shevchenko@linux.intel.com) kirjoitti:
 >
-> Yet, to avoid breaking  docs, I avoided touching the regex-based algorithms
-> inside it with one exception: struct_group logic was using very complex
-> regexes that are incompatible with Python internal "re" module.
+> +Cc: devm-helpers maintainers/reviewers
 >
-> So, I came up with a different approach: NestedMatch. The logic inside
-> it is meant to properly handle brackets, square brackets and parenthesis,
-> which is closer to what C lexical parser does. On that time, I added
-> a TODO about the need to extend that.
+> On Mon, Feb 23, 2026 at 12:52:14PM +0100, Krzysztof Kozlowski wrote:
+> > On 23/02/2026 09:56, Andy Shevchenko wrote:
+> > > On Mon, Feb 23, 2026 at 08:27:29AM +0100, Krzysztof Kozlowski wrote:
+> > >> Add a Resource-managed version of alloc_workqueue() to fix common
+> > >> problem of drivers mixing devm() calls with destroy_workqueue.  Such
+> > >> naive and discouraged driver approach leads to difficult to debug bugs
+> > >> when the driver:
+> > >>
+> > >> 1. Allocates workqueue in standard way and destroys it in driver
+> > >>    remove() callback,
+> > >> 2. Sets work struct with devm_work_autocancel(),
+> > >> 3. Registers interrupt handler with devm_request_threaded_irq().
+> > >>
+> > >> Which leads to following unbind/removal path:
+> > >>
+> > >> 1. destroy_workqueue() via driver remove(),
+> > >>    Any interrupt coming now would still execute the interrupt handler,
+> > >>    which queues work on destroyed workqueue.
+> > >> 2. devm_irq_release(),
+> > >> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
+> > >>
+> > >> devm_alloc_workqueue() has two benefits:
+> > >> 1. Solves above problem of mix-and-match devres and non-devres code in
+> > >>    driver,
+> > >> 2. Simplify any sane drivers which were correctly using
+> > >>    alloc_workqueue() + devm_add_action_or_reset().
+> > >
+> > >>  include/linux/workqueue.h                        | 32 ++++++++++++++++++++++++
+> > >>  kernel/workqueue.c                               | 32 ++++++++++++++++++++++++
+> > >
+> > > Hmm... We have devm-helpers.h. Why the new one is in workqueue.h?
+> > > Can we have some consistency here?
+> >
+> > Answering with update:
+> > I don't think this should go to devm-helpers.h. The definition is in
+> > workqueue.c, thus the declaration should be in corresponding header.
+> > It's logical and consistent.
+> >
+> > Otherwise, I could move it entirely - definition and declaration - to
+> > devm-helpers.h, but then the release (devm_destroy_workqueue()) will be
+> > essentially exported to everyone through the header.
+> >
+> > So kind of conflicting choices.
+>
+> Hmm... An alternative I see is more intrusive but should make it less
+> inconsistent: Treat the devm-helpers as devres like header for workqueue
+> and collect there all devm_*wq* related stuff with maybe something putting
+> back to / holding in the c-file.
+>
+> OTOH we may leave devm_destroy_workqueue() visible for now with a comment
+> saying do not use, it's internal or something like that.
+>
+> Hans, what would be your opinion as you IIRC is the author of devm-helpers.h?
+>
+> Matti, I also Cc'ed to you, you have usually non-standard thinkig and
+> insightful solutions (besides being reviewer of devm-helpers).
 
-There's always the question, if you're putting a lot of effort into
-making kernel-doc closer to an actual C parser, why not put all that
-effort into using and adapting to, you know, an actual C parser?
+Thanks Andy for Cc'ing (and flattering!) me ;)
 
+My personal opinion is that the devm-helpers.h as a "collect 'em all
+here" -place might not have been the best idea. Perhaps the original
+author didn't know what he was doing :) Problem lurking there is that
+such a file collecting misc devm -interfaces in one place, will end up
+slowing down the compilation while some people put effort on splitting
+the headers.
 
-BR,
-Jani.
+Currently the devm-helpers.h contains only workqueue related
+devm-helpers. I'd consider renaming it to something like "devm-wq.h" -
+and then just stuffing the devm-wq stuff in it. Optionally, I'd
+considered adding all the wq-devm stiff from the devm-helpers.h to the
+regular workqueue headers - but I think this was not liked by
+everyone.
 
+So sorry, I have no helpful or strong opinion on this. Besides, You,
+Krzysztof and Hans all probably have better insight on this than I do.
+
+Yours,
+    -- Matti
 -- 
-Jani Nikula, Intel
+
+Matti Vaittinen
+Linux kernel developer at ROHM Semiconductors
+Oulu Finland
+
+~~ When things go utterly wrong vim users can always type :help! ~~
+
+Discuss - Estimate - Plan - Report and finally accomplish this:
+void do_work(int time) __attribute__ ((const));
