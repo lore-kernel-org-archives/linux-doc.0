@@ -1,126 +1,92 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B22D33B95D;
-	Mon, 23 Feb 2026 18:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365FA33B95A;
+	Mon, 23 Feb 2026 18:18:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771870595; cv=none; b=ErzFYg8IOTTMvcCx++UN5veUmXn+n/PsV47URu6fomtEgX80lLx/cC5l0Xgz0g26A2IQfZjFYsEICJXWC0TTrEo9Nk1G929belklEyi7IMPGwPoyS3LFX+JxojzNaRikQF/0haO0/Nn6MOcqzD2chO14/ASkE2x6NaCybNZ8nJs=
+	t=1771870703; cv=none; b=gdlWCE5Xvi6kPizkioBM0gM1Mto/lGMW+WsKPQqduwZQaKG/PF13uHVwPnFeXcPk6DwoiyNH1JX4gIAh+Kf+PWEI9UddMDs9H8wG58KKs0SM+xZC7RVSmBFawR4pEHMRpt7Hg4kQRtrKJUCzNF/DCbslnXUBpJMY2DieIgBL3hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771870595; c=relaxed/simple;
-	bh=WjniMxY7ffDU/faRmempSMzEAYczfPNIjU+1WG+nyq8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mAV9PEqfNxeVtHmp94bzviP7NGdfU7uznblmdPf9YI6SWpj0ZUwMLhILnlT6zvHxJUQ960Wj2mIkrCeIkaEB9prrj6SLUI6XetQnklrunHX4vJSwNMQljXF4L9/kCp6XgtxvTLNjWduGFkl/4HX337mev13Qo27jT6N7nl5DCnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Spr+s1qL; arc=none smtp.client-ip=198.137.202.133
+	s=arc-20240116; t=1771870703; c=relaxed/simple;
+	bh=+VZ7Kwr43qtcpUWCNbDxydoVIfRKXFsPdkZVbgvisX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bNvU7kPIbv4W8c5EQTOZ9yEb4Z6TeTm0+vxZpjf1ufFRRM5h/q1wDAaUEwh5ElZVVLlkablgAc3+IYXGl08gijKnPLsFhMHXMLDTWtpzpjrXKoBcUGtbZlC9YnmMEZJUYsT+GsZcYU5j6SEYBxxcrrrWjq5Tok1SwvSi0JHdSKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DwysRZ8w; arc=none smtp.client-ip=90.155.50.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Spr+s1qL"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DwysRZ8w"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=92r6PfU1Qk5a3qUnsJ0bAd5+x15hqcIX5R4iKteY2Y8=; b=Spr+s1qLyRWvBbjO7Q8InQNHov
-	v5YISRtP/9Kfnif3Fkmaywyh9oqFYYO1DCqR0Y7g731Z+2lUPpl/sWtX1GvCgrPlGgoGnVc8Ff3J6
-	HXmzoho4Lk3WX3xhvkdCYAl52utunYGnJxI+Z4wOjU7u8R02SbCgOceGU1ROJwlEjN7Cf2OPInfeU
-	kbyQBnsgq7fMKcinghnqNTRChK+ZPIA3lJG9ABF3e4u0U1yFz9uT1+/zr+XhRalyYiQAjh4zWE02i
-	5jhZUIcmAJ+lbtrSvd5PniN+XlTaJRTZ7Fy8qovKWXtq6dr5hO4EsVtLXbHIuGiJj6IGYY76Ey2au
-	ppsXRoVg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuaTw-00000000qxq-1Lz0;
-	Mon, 23 Feb 2026 18:16:32 +0000
-Message-ID: <03358c3b-7a41-479c-83df-d5fab5d2c2c6@infradead.org>
-Date: Mon, 23 Feb 2026 10:16:31 -0800
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FfglRdAZ7//oiLVr9rHZZA3KADO9fxzVK1RtdGfizyk=; b=DwysRZ8w8bsWlmYNGYULfAJmG7
+	hSJNuNbMf7YB6Bw+2+sdN+gpEHiWW8es4C0T6zJwktdLc3RhPZw2vHww2zYIaIWd9OMMo2f0GMQGB
+	+o+JmrdW5o641PR1oftCRk1CdSsMCxhp4d9yPIn62FPbQm05ucvWkQHqdVdKmus/qgvGWHPyoTMq0
+	Bi0bMdMVoMOK4+Y5UeEhXVzRwRMx69dUFCB7knGSbhp+g85lK+Ftmjm+AdVAocCgB4qJLd5e7BYXG
+	DwhcEFl1UkLOZyTvFO6oylY9vWhv/isIrE2AqJyzG9EjoCNjXR2fZEj1huiJ1sS22n3Y0H4myV9zV
+	XW3KWFzQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vuaVP-0000000Et8q-2Mg0;
+	Mon, 23 Feb 2026 18:18:03 +0000
+Date: Mon, 23 Feb 2026 18:18:03 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Kiryl Shutsemau <kas@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	Usama Arif <usamaarif642@gmail.com>,
+	Frank van der Linden <fvdl@google.com>,
+	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	kernel-team@meta.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCHv6 08/17] mm: Make page_zonenum() use head page
+Message-ID: <aZyZ2-7Xr-zUnInC@casper.infradead.org>
+References: <20260202155634.650837-1-kas@kernel.org>
+ <20260202155634.650837-9-kas@kernel.org>
+ <aZJTLwV2SaaKu1k_@casper.infradead.org>
+ <ec4a9a1e-8c08-4879-a787-3b9e0bc38160@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: sysctl: Add documentation for crypto and debug
- sysctls
-To: Shubham Chakraborty <chakrabortyshubham66@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260223170251.10540-1-chakrabortyshubham66@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260223170251.10540-1-chakrabortyshubham66@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ec4a9a1e-8c08-4879-a787-3b9e0bc38160@kernel.org>
 
-
-
-On 2/23/26 9:02 AM, Shubham Chakraborty wrote:
-> The /proc/sys/crypto and /proc/sys/debug directories lacked
-> documentation in the admin-guide. Add RST files covering
-> fips_enabled, fips_name, fips_version, exception-trace, and
-> kprobes-optimization sysctls.
+On Mon, Feb 16, 2026 at 10:06:57AM +0100, David Hildenbrand (Arm) wrote:
+> On 2/16/26 00:13, Matthew Wilcox wrote:
+> > On Mon, Feb 02, 2026 at 03:56:24PM +0000, Kiryl Shutsemau wrote:
+> > > With the upcoming changes to HVO, a single page of tail struct pages
+> > > will be shared across all huge pages of the same order on a node. Since
+> > > huge pages on the same node may belong to different zones, the zone
+> > > information stored in shared tail page flags would be incorrect.
+> > > 
+> > > Always fetch zone information from the head page, which has unique and
+> > > correct zone flags for each compound page.
+> > 
+> > You're right that different pages in the same folio can have different
+> > zone number.  But does it matter ... or to put it another way, why is
+> > returning the zone number of the head page the correct way to resolve
+> > this?
 > 
-> Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+> How can a folio cross zones?
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+I thought 1GB pages in hugetlb could cross zones?  Maybe that used to be
+true and isn't any more, or maybe it was never true and I was just
+confused.
 
-I would change a couple of things below, but it's not worth
-doing another version just for this.
-
-> ---
->  Documentation/admin-guide/sysctl/crypto.rst | 49 +++++++++++++++++++
->  Documentation/admin-guide/sysctl/debug.rst  | 53 +++++++++++++++++++++
->  Documentation/admin-guide/sysctl/index.rst  |  6 ++-
->  3 files changed, 106 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/admin-guide/sysctl/crypto.rst
->  create mode 100644 Documentation/admin-guide/sysctl/debug.rst
-> 
-> diff --git a/Documentation/admin-guide/sysctl/crypto.rst b/Documentation/admin-guide/sysctl/crypto.rst
-> new file mode 100644
-> index 000000000..a4c2e5ed4
-> --- /dev/null
-> +++ b/Documentation/admin-guide/sysctl/crypto.rst
-> @@ -0,0 +1,49 @@
-> +=================
-> +/proc/sys/crypto/
-> +=================
-> +
-> +Currently, these files might (depending on your configuration)
-
-Drop "Currently,". That's what we try to document (even though
-files get of out date easily and quickly).
-Besides, having 3 (what are they? conditionals; caveats;
-exceptions?) qualifiers in one sentence could be too much.
-(I'm referring to: Currently, might, depending).
-
-> +show up in ``/proc/sys/crypto/``:
-> +
-> +.. contents:: :local:
-> +
-> +fips_enabled
-> +============
-
-
-> diff --git a/Documentation/admin-guide/sysctl/debug.rst b/Documentation/admin-guide/sysctl/debug.rst
-> new file mode 100644
-> index 000000000..a836c091d
-> --- /dev/null
-> +++ b/Documentation/admin-guide/sysctl/debug.rst
-> @@ -0,0 +1,53 @@
-> +================
-> +/proc/sys/debug/
-> +================
-> +
-> +Currently, these files might (depending on your configuration)
-> +show up in ``/proc/sys/debug/``:
-
-Same comment for "Currently," here.
-
-> +
-> +.. contents:: :local:
-> +
-> +exception-trace
-> +===============
-
--- 
-~Randy
