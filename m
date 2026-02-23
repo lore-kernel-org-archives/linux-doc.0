@@ -1,502 +1,1017 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010033.outbound.protection.outlook.com [52.101.56.33])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA4C1C8604;
-	Mon, 23 Feb 2026 22:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.33
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771886157; cv=fail; b=BuOv4XqkL8me/vFV1waN0cuac5HfzSE/+87NBw/xPY5mVrH84UqZK4h+VcAGsODi/EatN6ujt295ZFDrunyNU5BKd+X7gUNoR2fhyxJ2nT3bsjfZ+lLFxrmdtbSJG7KaPPaONBOGedgM360TxhXNAOJDSyHS/BrI9s3IeH9oOUA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771886157; c=relaxed/simple;
-	bh=9uIpeqHFsAitKl0gwSmR/uEdm7fn1Y26JxOZ8GPwl7s=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CyoHK/QeNyWNNlaOchGbexE0+L1bslibLb/zK3A8x2112ONzNMdvHEN2f15MOdbGK8d6PBDuXFxVN3kpkggxQN7wiDyi6TIuUbRQr3CE7IuJkTVxE/R7hLLWIzyOFH4i2DcfbUp7MzW5KYMxzu8w7AyOCwDewd1jRvYdohGlOpk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=zcmTswK8; arc=fail smtp.client-ip=52.101.56.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41423793B0
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771886172; cv=none; b=Ms+KrsFZ6E2E266zeV8ckIAoibyk+izvCZ3LQj1ANicj7qyZWgKeJIC1E/m/ZeDHxBCi/DsgJogs7UToMDetBdqEF3Tg4bkiWQHI6Cx0z83rbZXDJvo07/XEKg5XtzV+Gi8zDoB/GZHQYMWKx6UKSnIfaklxzJ6qAVzqKZJTXIw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771886172; c=relaxed/simple;
+	bh=Mz//1H2xyzoItFeXUMt4OcYByC7TS8c+Gl2mWG0R8V8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GS8onBLS6eYE51TYo/wdYItpoBvhGJGRHiCu4YdUZCLhMMwTkJXn+FZeTEgck4K+RfGfpTA3XFmODklU+xJWRAkzbuqp585XbjSQ9vYkh4MXX4j5gX+y6/iZ0Z1Oeo0KovsWaR/YDt2niTcqkTdG9iVOzTV/SPsXm1monIiro2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=KLSV95VB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UrCWuhS+; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zcmTswK8"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WljN6MBESaBWDPEhqjnmFiEPoVP47niwJ4tg0mMMC+QFwnBVK82EmfiPT+UYltqPhpQdcgiOBzI3kVmDUQPMHWnQmwvGKqh7K7P5YPQCcyMUnqb1xn1Hsq2OFPiDRFf7aP0Aycfby5D0+euXthEGVoSfVPEuZ8z049Vgm+rL67UB7TMAZR8sdwxyl8Mi2Eef7XbTgHIiAMtUf22BnbwZ/aRxLZpoXQ9sJpaFZg9OOCktzvJATHa1XZYSq9dVTwDDWqr9XE8Uqfb8awWaizCZ6gdNRVejD7fNTNwjszWM67It9LkF+Ce++6rWds0uIY7eACPiU/gYuK55s/mtsA2qxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9q3lbsl+oOvZJ06qjT9fBniGizJ+mSj3JHm6Pnf1He8=;
- b=dXF4QvNEeculgJNM9Ns/YHGM51lmcctqjnoVqZgEZHWautmoZPNhzxkwVzVI7u2Sa9i29gqBqg81SDqDXb4tMkdGzS4rgAZmOyz1lg/sAm8SGJLCMG3A5skSODSu1GVIH09cPHYqvJDpLpU8yFE6uK9+ObThB0hgGkUg4SeQ807vdTUJrjMC6uAX6L9IjTwdw39CnVMVskbexKm+iVnu6ySk7WKhAzkR63GaOHlSaym0N/1UdfGIraAEnSJooVaqUIJYUMSnzQOk0IlcejMPzVAeLgzZmYd9E3rXJLdVAKHi1zPe0TyIlIYIWi+s5BIfFmJxZaCnQ1wmQ9m8sSOhbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9q3lbsl+oOvZJ06qjT9fBniGizJ+mSj3JHm6Pnf1He8=;
- b=zcmTswK8H4xkIIVmkiL3+Ipjg6eSTBzBK3OzSWROIVKc2daQZ3lgV5b/nEbOvOeg33wSBbHzeXPaNdkrMnX+lOMs4XtieTbVC8I+fdAcFhadWbRhO2EFVfF9fCDPQ/mG3o/6w9CeaAQGl8HuVXHH+OSpxcuxu6GXP/Ev8GydrhI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by CY5PR12MB6430.namprd12.prod.outlook.com
- (2603:10b6:930:3a::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Mon, 23 Feb
- 2026 22:35:46 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::e192:692b:abba:8c88]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::e192:692b:abba:8c88%3]) with mapi id 15.20.9632.017; Mon, 23 Feb 2026
- 22:35:46 +0000
-Message-ID: <53be07ff-75c6-4bd6-a544-e28454b4f6b3@amd.com>
-Date: Mon, 23 Feb 2026 16:35:40 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-To: Reinette Chatre <reinette.chatre@intel.com>,
- "Luck, Tony" <tony.luck@intel.com>, Ben Horgan <ben.horgan@arm.com>,
- "Moger, Babu" <Babu.Moger@amd.com>, "eranian@google.com" <eranian@google.com>
-Cc: Drew Fustini <fustini@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
- "james.morse@arm.com" <james.morse@arm.com>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
- "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
- "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
- <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
- "pmladek@suse.com" <pmladek@suse.com>,
- "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
- "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "fvdl@google.com" <fvdl@google.com>,
- "lirongqing@baidu.com" <lirongqing@baidu.com>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
- "Shukla, Manali" <Manali.Shukla@amd.com>,
- "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
- "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "naveen@kernel.org" <naveen@kernel.org>,
- "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "peternewman@google.com" <peternewman@google.com>,
- "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
-References: <aYyxAPdTFejzsE42@e134344.arm.com>
- <679dcd01-05e5-476a-91dd-6d1d08637b3e@intel.com>
- <aY3bvKeOcZ9yG686@e134344.arm.com>
- <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
- <aZM1OY7FALkPWmh6@e134344.arm.com>
- <d704ea1f-ed9f-4814-8fce-81db40b1ee3c@intel.com>
- <aZThTzdxVcBkLD7P@agluck-desk3>
- <2416004a-5626-491d-819c-c470abbe0dd0@intel.com>
- <aZTxJTWzfQGRqg-R@agluck-desk3>
- <65c279fd-0e89-4a6a-b217-3184bd570e23@intel.com>
- <aZXsihgl0B-o1DI6@agluck-desk3>
- <2ab556af-095b-422b-9396-f845c6fd0342@intel.com>
- <427e1550-94b1-4c58-828f-1f79e5c16847@amd.com>
- <37bc4dc5-c908-42cd-83c5-a0476fc9ec82@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <37bc4dc5-c908-42cd-83c5-a0476fc9ec82@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0PR07CA0028.namprd07.prod.outlook.com
- (2603:10b6:610:32::33) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="KLSV95VB";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UrCWuhS+"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NJGIav3409238
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:36:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=yEs9Z1PemjjoC0qJIiE/gZVS
+	cI8Uh11i1ReozZLCUig=; b=KLSV95VBf2LAhbJNYxuD9I+Xe3cRuIoHTi5JDVEe
+	ZDgNyUpvcxRNo1qPh8trJcpEFhWyILbJH/eATceg18JkM6nmM22P/3z3LASyJAcc
+	J8xrUp5djLlmZj6HMAsYakr/UNLKZHM2M6ZaWb6oAaY03z8tSv1qOv3dy2hJVdIN
+	vRVCJzy1N6BA/LODIF2E4XjQoPLB71deuPn2vx/6cV/Q69EiJgvcM/9GM5hg+3h6
+	Zphg6GLcqO6ujxcdGV6/kHW4M8RFw5nwIv3aDwjzWWH81L/LNpaVcHKiL6Jm/EQ1
+	8JaugrqInqWzL3vdWn1nZJxbpUsZiMnIJUvUAyJOnkJ08Q==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgn8tt3sq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:36:09 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cb42f56c4aso4801372185a.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 14:36:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1771886169; x=1772490969; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yEs9Z1PemjjoC0qJIiE/gZVScI8Uh11i1ReozZLCUig=;
+        b=UrCWuhS+gVui9+hnnwCPuBxhU5EFB4ZH0zRV0M94LW+cAdGPh0rUE06jmxNMlhQSCd
+         25z4ClVZkimEFATx6mKVLePmzs3v/cH9LkH2VCeotoiFZLb3izkXFqw54jgEA2nfLRgN
+         ZSQRNMlhXFYRWkOfAE962sRRiAumWH/cxx1bAectPCja2VGI/nkf5HM0U/NhmookQD45
+         4otz4MxxRpS7EzAskUZ8Ut6R88y0qrhi/+iFKLIxVYEn3MOhcM/fXHh+ncAUJXbEGxYX
+         KSN+SmvbAwxPBSnEFb6S/RNd+6H/Ef5karu5LI1hFQMiz/HWUQflEddShXAYBKZjP4Ox
+         1CAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771886169; x=1772490969;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yEs9Z1PemjjoC0qJIiE/gZVScI8Uh11i1ReozZLCUig=;
+        b=lpHsqj8sf/rTUjwo0aeOwDOrpSguaSxHT+jZV9LFKNodKZJk5GUz/uwXVPv2BtacU/
+         HY30VyW6RmCkO8rSVeCoD3kPZLI7Zl1KcxEpHZSOhruVmFddsc7yNZddgA2m7wJ4oUeV
+         L9btN2YsFscDnYcV65zAxgMi4O+MsmWAtNpGd8rxYX1sWHeR6XWN2ZFBYshSD32KOMWI
+         8BOUXAd5J1fmJsmNuJI6kf3f0rkJQKKZmyCC8IEsSmGyCpsjeUx8eJlSTLU8pQ4BW27f
+         XcwSWfGyOlu/cYRqf+T7Ia4E2kShQXHhl69eMRGAB8771Kx0T2LIWBfC8lSZhqa1HwLn
+         eh1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUlNBehBknETXMeErIz7OVi3H7LBYweNuV5qgGHXy3jYSdhMPjhGrFKrWBo97DCNK0r8adwn4RfUqI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9/Up/8IphM9mZWN0gV7Ld5ndx7dx/1751TqJ9isP5JVJw4uJn
+	ykj8o2ZIQwdZmfUXtShoelg9J8NkkDIdf+RQqVOs6BfbZARUIWlmQ4B6B9dI6yfkJcP8w6IZFrH
+	DkSP+MQIxbOwrpMJmq5BBczgsidRDUJ4ziO3Q9DT4pGLh37cf43AaF/xcBeQYhtY=
+X-Gm-Gg: AZuq6aI0Gj13XphRtPZJffYTa0EH39NrQGhk6MCQnv8GxmKSL6G9d0zYJI5pZo267Q2
+	TgWIOO7/CT8mUEgv6Fs1cbNaTsdckbsR/CbWtifI9B53ae8cOa2XQgujWKNy2oTjWFSvTsweuyv
+	hXtjcZTNRa4BfvZuthgcf3dSwXgNl8TGlqta8m6/8X82mfoTePSo4i2kic2riG36sfnbMY4f2IW
+	ZyxEEBDJf2UG2A3KcOCyCiXgChdfjsLDEOP/NGOQA0vKbfuhMVrC8YKyhnwqbNNGCjN/GXHncdY
+	RYjk4ifYTq5rocZVcE1KQDR5FE7zu5JY344odZgHKM1JD3NHz8Hza8MufXBpSX/xoQ21PMgoClE
+	MyBeWmngwC+sIeGPgD4gk80swAAtURixwT2Hc8cyYpUbhOSm0UDd9BFvdA2cTtzchf3Wv2BBlVp
+	4rYAqjDHkq5Jzkn4sbpF2rJatSWuM6ntFoBdE=
+X-Received: by 2002:a05:620a:d86:b0:8c6:a5c7:a7ee with SMTP id af79cd13be357-8cb8ca67456mr1315630085a.53.1771886168776;
+        Mon, 23 Feb 2026 14:36:08 -0800 (PST)
+X-Received: by 2002:a05:620a:d86:b0:8c6:a5c7:a7ee with SMTP id af79cd13be357-8cb8ca67456mr1315624385a.53.1771886168003;
+        Mon, 23 Feb 2026 14:36:08 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389a7878d7csm17093061fa.7.2026.02.23.14.36.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 14:36:07 -0800 (PST)
+Date: Tue, 24 Feb 2026 00:36:05 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>
+Subject: Re: [PATCH RFC 10/18] accel/qda: Add DMA-backed GEM objects and
+ memory manager integration
+Message-ID: <hhy4355j7udb753cbvunbagfqiyhcktipyl2ufw2x24gm2rtam@3x3utkfzjjnw>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-10-fe46a9c1a046@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|CY5PR12MB6430:EE_
-X-MS-Office365-Filtering-Correlation-Id: 25e8c41e-0a36-4bc1-67dd-08de732be2b5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|13003099007|18082099003;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ZW03U2tQRzgyenkyVEZMVnJJczJuWXVLOFJyODkxZGFOa1BDQVRKR2xvOFMv?=
- =?utf-8?B?MHI2cE5ncVc2Vy9jMzdVUmhNTFRQMWZPUmFYT3NKUWlYNzF2Vy9BNUpkZXFS?=
- =?utf-8?B?U2JvTTVHMmptc0QreWxubGxOMEt6NjZhQUVUcG9lcTBHcDR3R3E4cktMbzM1?=
- =?utf-8?B?TUJ1MTJDWFBMbW9QSjQrUkJaUGpoZGRuYjFZZ3ovWU1nNUIyY2swcTZOMllG?=
- =?utf-8?B?VmdCeVE3czNzb3hnc2crZVM5SFVQY01ucXA5T2Vhb2haL2NEUjU4TGVVWGtq?=
- =?utf-8?B?MEJkM1d4VXpDWk5zRjNsQjdhU2pHVFJJcXJYQWNZbEk2RFRWQzRvWGk2RThl?=
- =?utf-8?B?TEFrT1JEc1ovNkJwYVhjcTltb1U2d3NEZTJPaXYyNGt5eDBvdExvRVVZMHZU?=
- =?utf-8?B?TXlpRjJJMVNRNDlZWGJtYnpIRnRyYU9jcW1nck9aK094UHFnMDkxVkROVFFw?=
- =?utf-8?B?aGtQN0UrV3FyZkdwdVpwR05zRUpNV1FzRVBER0NlZFJQSU10dXdpVHNVVUxz?=
- =?utf-8?B?Y2xZcVA5VEVwTDNiMzQ3ZjNXRUJKaVJOQ1lIZW0vY2RFaVpwUnhrV0xmVnVv?=
- =?utf-8?B?STZQN3N2V3Btb1hPTS9qbkRmZGhFOVpLSHVFQ2hNQUczNzNRQ214VXBOZlNO?=
- =?utf-8?B?UkkwZ0llNHhmWGNUSjJFS1hJOC9pRU9TNzJQRWw4b0xHOWJDSXErcnh1SnNr?=
- =?utf-8?B?b252UVNZdDZBNlVvTEdrakZlQ1JDcndJYzZibnJJUUJEcHA4MVdLRDVxT0gw?=
- =?utf-8?B?aHd6UWJrRm9Id24rU3ZrQXlnYUtMYUJlWUw2KzZ6ajV3NEoxODB4REV0ZUNU?=
- =?utf-8?B?OHZJdFdObThHS1lETXhzdHYraE5nRFlsVFFZOHY0WkVNRFZEdGV0c3Y0bVJO?=
- =?utf-8?B?a21LZTV6b0R4VFRvMjBtWmNQckp2K3J2K2dHU1YyR3NrVzFIdWV6VURNOGJx?=
- =?utf-8?B?V0lhdGJmV3M5eE1zTVhqTWRER3ZIUVFXSXpqV3hacWJrRnR2V0FiK0wvRlN4?=
- =?utf-8?B?MlUyNjI3L2pjNm5uS0RvaVN6NHpHMVBRZENpOVpZL2J4MUxRRlg3K1NTQkdw?=
- =?utf-8?B?TXVFcDFzVDVxK0MreTBOZk90R2NiaE4xZnlLSzFXZVdWeURUVC8xREVOUGlH?=
- =?utf-8?B?S0RQMFdEektRN3lGaXdpS1UvdWV4Y245S285dzZzcWlmOWRnY2luT0src013?=
- =?utf-8?B?bkNRZVkrN3RtMk1POWt2QUNOb0R3dWJGMVRLZkVXbW5kS2c1U0ZOVUVyR0tu?=
- =?utf-8?B?bk9sZU5KV0kzOEYzVS9YUTFvS0RJeWtKV2Y1L0VLa08zRFFiNHQ3MjBsMjRY?=
- =?utf-8?B?VnZxZkV5OC9ZUXFGbld3bENYaVJrY1RRcjhTdkkreXU3TEFreFBLVHRyMUdN?=
- =?utf-8?B?MHQ3SUhGWnhCZUE0cGVoajNCck9DOGpFNFZqNHY5cy9TcWVNbDlnZ3VvVVF6?=
- =?utf-8?B?MmluWHA3NDZ4OWwyM25TeEJySDdCNnMrd2QwVWUvbFpid2ZEUFJZUXJ5QmN1?=
- =?utf-8?B?UlJnalBma01hQlhwcVZHUjZYQ08xcUovRjl0OWZTQWJyRENBQldqMHpOUFNQ?=
- =?utf-8?B?eWhHZG1BbmZyY3ZkcnRVY1M1bFlJdWZHL1BrMnRoR29Qa3ZpSGdXQmUxdTZ6?=
- =?utf-8?B?b3NYYmZXOTdUaHpHcTdKR013NE5HbTdmZkpaSW1UNmNVZzZyOStyZDNBWWhT?=
- =?utf-8?B?dFFWYkh4TWk3TkEzSjBLU1Zwa3YvNHVsZ1dGUTJ6UGo1Q2Q1RGtPSjJOWlNH?=
- =?utf-8?B?N1BwZ0xyUjhQTXV3cmMyVnZRSjdpeTIwQlFheWN0OWtnM0lyMlphQlgvaWFy?=
- =?utf-8?B?bnJjbWMzT0svWXlTZkJ6S2xpSFpKRmQyUDltby9hQzFESm1MLy84bXdWYjBX?=
- =?utf-8?B?SFNpaGpCWkZXTC9PbDh3bkVyS3hQbkg5Nm5rMnFuM1VrZkRDdUFDbjlKejhq?=
- =?utf-8?B?TUw1R25SRXNFVUx0WTluclQySG93eGRFdnNmOHEwWmswSUN5RDNkTEwwYjFu?=
- =?utf-8?B?S2pmbHlnNnYzU2x0ZURQazFUaGZzTVIvTFB0ZkVHQXlsM3VKRURVK29ScFph?=
- =?utf-8?B?ZVVKZ2dxSmNFNkF5SnFaRnIwK2Y0VXExV2EwZFN3eWlJb1RTMTVnZmRSNHpI?=
- =?utf-8?Q?79sHE6Wq1nYlDhW7iPksE+56H?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(13003099007)(18082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UkhzOFV2d200TEVxbEUyOVRWekR1ZHFIV3NRNjNxdXY0ZmhvMXkzZ25MSCtr?=
- =?utf-8?B?V3pDaWlZVVhubjBWK2h4QXVFUHVPYlBrUVgwL2g1TVE4UUFGWDhtMW5HT0Yx?=
- =?utf-8?B?V2xBUE1uTmFEOVhTOVA1SFVYdG52UDkvSVV4bVczMFU0Y01CN2RDaWpOSGx2?=
- =?utf-8?B?K2QvcnNjaWd6RjlOTzRXcFhkUlR5QnZKQ1E1REV6QVNxU0ZyYjhvdXduTDFB?=
- =?utf-8?B?TDdISFdlaDl3SllydXRIbEU0bmNja1YrQVYzdDhVV0ZoNEYxcUtiTDgvQk50?=
- =?utf-8?B?YWVLbkJzMVY1WU50MVErQjRvSC9CWmtGY0dDcVRvSlBNWGtzZmVtaGFTU0JS?=
- =?utf-8?B?eFU5SjVIdXlaekNNNnQwK1hQOWdaOHI1QWQ3RVRSaEY3VERubjI1QUhGR1E2?=
- =?utf-8?B?NkM4YkdwUEI3ZGtTMTJqeHZUZjIyWWhaYTdKWGlkbm5yQWFFR1BOVkFrTU5o?=
- =?utf-8?B?NVRwWmVidk81T2xMaldOdmR5OXJPeXBtc2tsQmFrcmErOCtZWitma1pWcGx2?=
- =?utf-8?B?cnFtdUt6QUVIaTBwMW5hQkRHOEY3bzZKQnRaTU1hM3E2dWpRSExWREdRNFNU?=
- =?utf-8?B?QzlLb25IU3RwVjNFWjY4bSs1MWE2ZVlDMVFuczZpY0dvSnNxVjR4cXhKSkJG?=
- =?utf-8?B?aSs0RnY5dEtrMncxSmRmWkk5Tm5uckhHRWoxVnZkbEE5L3ZRS3dSSVNIdUY5?=
- =?utf-8?B?OTU3NzFYbFNUaDlSbUpvb0JjK3lyUTFPem1Gb3VuKzZEblA0R1VJMG9IaUt3?=
- =?utf-8?B?Zk9RbWNwdzFPdUdLNTU0cHIrMEhUbklJZzBwMUtud1BucDlqSFhSQVRnczhD?=
- =?utf-8?B?dVVJaE4wTjJYdlpqNjcxQ1R3OUxzQmkycnZlWnFnNFlWY3pGSWs1T1BkZldL?=
- =?utf-8?B?Qm15ZjJjL3psZi9MYkoxR0dwN1BENE03clZiZ20vNGN0dHhQdEN4MnhjQkZS?=
- =?utf-8?B?OHRMclNJbThVZUdTaXgxbFdOWUp5Y2RzT1FsdXhtQTFoNmE1SVMvZithWG9M?=
- =?utf-8?B?YjBkWEErcFdUT3lTZFlzZlhSRXVkYXRnMDMvN0VNTUJEbWUxVGhMaExIcmMz?=
- =?utf-8?B?dzZ4cHYyZzYySy84YUZQMUo4aEs0YTRwUG5ySUoyVzBEWEh6d1NhWitPNkRD?=
- =?utf-8?B?NUViU1AzRTlQMFdvd2FycXlFMWRsQ0s0WmswdUtvZW5Qcnp2WnJiVis0dVA5?=
- =?utf-8?B?RkZvQzBiMU1uRDNjNjBmTzZzUjl3bjR6Z1lzSlJvTFVid3VrV2JieG50NzFV?=
- =?utf-8?B?R29yZEsrRG1SZGN5UVdnckVrOStGZ0d4TFRlbHVJREd2aFBXbWhVMDRZWndp?=
- =?utf-8?B?dnM0aWZINmZEVm9DV2UrYTdKVFJNNmhlaFJXZ3hJamUvaXNqRm0zQmphdVBw?=
- =?utf-8?B?SVFUaUxxRkdQbUwvNkFGak10RXZmeElJNHFCeU5IakFqbGlESW01VGd0OGJz?=
- =?utf-8?B?d3hZZytqblE2b1RqWmdrOUxoZWRxSnpjU2ErUHlyeERrV0FKV00vckl2MGF2?=
- =?utf-8?B?R3F3eG1odTAyRExEeUw5eVdFRmt5enN6Sk5BMVZjaFppU3NPZ2N0ZHloQkJ3?=
- =?utf-8?B?MHk0OC9Tc2gzYzJ2b283M01KN3dGYjN2a3VEc0RRSHBVK1BrWlBoUWhzcTdE?=
- =?utf-8?B?VjNxREVHTlRNMDhyUEhpQllmWGFXakNNQWM0SW1hR0VVdmJjbUU5dVJDN0Zs?=
- =?utf-8?B?UDVjRkhXUXNUK0t6cHRvZnpIUm5vUERRamFlNEZYS0FmWU51enpPc0lIL1J3?=
- =?utf-8?B?cWd6bjYvV1FTbkNQNXBDOEpDRnU2M0Z1MXd4UTZkWENvbGZvZTlzZjh0Wk0r?=
- =?utf-8?B?SERNdk9ZeHAxeWo1Y252ODYrQ3JQRmd2ZmNRenQvWEsrbEVOWWx6dEhqOWRj?=
- =?utf-8?B?a204SHBKb2xwM042RDZmaEczVTlaN3RVZEZwYnM5YWR4cFZxVHJtTi91NlFL?=
- =?utf-8?B?UFhVY2lQWkc0VERiSVNndmFEM0xSKzNRaFVPekYvdlF0Tzd3Yyt3anZHaWR5?=
- =?utf-8?B?LzU0Q3Z5ZzQ2NDZWU0VFMkR2U0lvbU4wYk1odXBiUkxnS3Z0ZTNZWW5WalZv?=
- =?utf-8?B?ZnJBWVF1YWNvNDRGUG1IdzVuTWhSUEdWNzdVQ3BlelRaeXZqbnNjbjRtZ2o5?=
- =?utf-8?B?YWRESjBuM05nZVVUTW1CVml3YjlGdFNpTFBORXo3Q1ozaEdNanFlcTQ4MHAw?=
- =?utf-8?B?TURZNE9rZUJRMkRqNWp3WG1hRDB4MVkrcGlITS9seHdzWk1MaXdLUjNEQ2F5?=
- =?utf-8?B?OGdTOXdHMlo3cDlKSEkxUnZiVWdWNk51OUhydzBja3ROaElwNzFjaVU0c1Bt?=
- =?utf-8?Q?9xCQcCrV6e+24qbIZy?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25e8c41e-0a36-4bc1-67dd-08de732be2b5
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 22:35:46.0065
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BfW1sajylEW/82aXvstNGuppd4HLnruQnqz37HqLyjcFqE98PQ5gvdtcvznWgQps
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6430
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260224-qda-firstpost-v1-10-fe46a9c1a046@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=X7Jf6WTe c=1 sm=1 tr=0 ts=699cd65a cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
+ a=lpSFajXHXQaPWZsiSh4A:9 a=CodIZPt08EU6SVwj:21 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: Ix5f0Lb-LPxdvVdXaEUAnTS-p8LmsE31
+X-Proofpoint-GUID: Ix5f0Lb-LPxdvVdXaEUAnTS-p8LmsE31
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE5NiBTYWx0ZWRfX424V+FPQweKM
+ Td86a5Ki/aBCO0UhEar1s0pNO+k1xVd8BHTUBvuyWSp3t3vfv3kuGGF5fCsf6Vijkbf8/KgHqdL
+ xjg0aYWnUIpQz60eKeixKSbIFgCN1l7PO3H0Z3attCWA3sNt6KgK1uXYUQlXYkzhu7os7bHK+aW
+ zNz16NJhcfOz1G5iJhfVTAUu3pOpQwiCeos/p9fVqPGmCqfM0jfkqC7DB28cgMDFEmZQOKbD2A/
+ r5vdwcQVDxKm1//mGIRdi6e3xSNzJ/M8a9CqJrMpWROvaeEuptWrGa5z4G6ryNAfUGZJf+hMhoA
+ SElbBnXZhYd+6XNUdwY4Y5i76Tx06LhYYO/qeS8g7lDqgoE11QCmqxLUA1Zp7nqbb9apGHokeJK
+ 155G83IP6laQVyNRfH/1UYQBspFm1XdZyEPbTZvikyjd7uKAPlvpNB0251nlgiObhB3ju01lfNe
+ 9u8dh4U5ieOwwMPOGPA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-23_05,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+ adultscore=0 spamscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230196
 
-Hi Reinette,
+On Tue, Feb 24, 2026 at 12:39:04AM +0530, Ekansh Gupta wrote:
+> Introduce DMA-backed GEM buffer objects for the QDA accelerator
+> driver and integrate them with the existing memory manager and IOMMU
+> device abstraction.
+> 
+> A new qda_gem_obj structure wraps drm_gem_object and tracks the
+> kernel virtual address, DMA address, size and owning qda_iommu_device.
+> qda_gem_create_object() allocates a GEM object, aligns the requested
+> size, and uses qda_memory_manager_alloc() to obtain DMA-coherent
+> memory from a per-process IOMMU device. The GEM object implements
+> a .mmap callback that validates the VMA offset and calls into
+> qda_dma_mmap(), which maps the DMA memory into userspace and sets
+> appropriate VMA flags.
+> 
+> The DMA backend is implemented in qda_memory_dma.c, which allocates
+> and frees coherent memory via dma_alloc_coherent() and
+> dma_free_coherent(), while storing a SID-prefixed DMA address in
+> the GEM object for later use by DSP firmware. The memory manager
+> is extended to maintain a mapping from processes to IOMMU devices
+> using qda_file_priv and a process_assignment_lock, and provides
+> qda_memory_manager_alloc() and qda_memory_manager_free() helpers
+> for GEM allocations.
 
-On 2/23/2026 11:12 AM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 2/20/26 2:44 PM, Moger, Babu wrote:
->> On 2/19/2026 8:53 PM, Reinette Chatre wrote:
-> 
->>> Summary of considerations surrounding CLOSID/RMID (PARTID/PMG) assignment for kernel work
->>> =========================================================================================
->>>
->>> - PLZA currently only supports global assignment (only PLZA_EN of
->>>     MSR_IA32_PQR_PLZA_ASSOC may differ on logical processors). Even so, current
->>>     speculation is that RMID_EN=0 implies that user space RMID is used to monitor
->>>     kernel work that could appear to user as "kernel mode" supporting multiple RMIDs.
->>>     https://lore.kernel.org/lkml/abb049fa-3a3d-4601-9ae3-61eeb7fd8fcf@amd.com/
->>
->> Yes. RMID_EN=0 means dont use separate RMID for plza.
-> 
-> Thank you very much for confirming.
-> 
-> ...
-> 
->>> How can resctrl support the requirements?
->>> =========================================
->>>
->>> New global resctrl fs files
->>> ===========================
->>> info/kernel_mode (always visible)
->>> info/kernel_mode_assignment (visibility and content depends on active setting in info/kernel_mode)
->>
->> Probably good idea to drop "assign" for this work. We already have mbm_assign mode and related work.
-> 
-> hmmm ... I think "assign" is generic enough of a word that
-> it cannot be claimed by a single feature.
-> 
-> 
->> info/kernel_mode_assoc or info/kernel_mode_association? Or We can wait later to rename appropriately.
-> 
-> yes, naming can be settled later.
-
-
-Sure.
+Why are you not using drm_gem_dma_helper?
 
 > 
->>
->>>
->>> info/kernel_mode
->>> ================
->>> - Displays the currently active as well as possible features available to user
->>>     space.
->>> - Single place where user can query "kernel mode" behavior and capabilities of the
->>>     system.
->>> - Some possible values:
->>>     - inherit_ctrl_and_mon <=== previously named "match_user", just renamed for consistency with other names
->>>        When active, kernel and user space use the same CLOSID/RMID. The current status
->>>        quo for x86.
->>>     - global_assign_ctrl_inherit_mon
->>>        When active, CLOSID/control group can be assigned for *all* (hence, "global")
->>>        kernel work while all kernel work uses same RMID as user space.
->>>        Can only be supported on architecture where CLOSID and RMID are independent.
->>>        An arch may support this in hardware (RMID_EN=0?) or this can be done by resctrl during
->>>        context switch if the RMID is independent and the context switches cost is
->>>        considered "reasonable".
->>>        This supports use case https://lore.kernel.org/lkml/CABPqkBSq=cgn-am4qorA_VN0vsbpbfDePSi7gubicpROB1=djw@mail.gmail.com/
->>>        for PLZA.
->>>     - global_assign_ctrl_assign_mon
->>>        When active the same resource group (CLOSID and RMID) can be assigned to
->>>        *all* kernel work. This could be any group, including the default group.
->>>        There may not be a use case for this but it could be useful as an intemediate
->>>        step of the mode that follow (more later).
->>>     - per_group_assign_ctrl_assign_mon
->>>        When active every resource group can be associated with another (or the same)
->>>        resource group. This association maps the resource group for user space work
->>>        to resource group for kernel work. This is similar to the "kernel_group" idea
->>>        presented in:
->>>        https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/
->>>        This addresses use case https://lore.kernel.org/lkml/CABPqkBSq=cgn-am4qorA_VN0vsbpbfDePSi7gubicpROB1=djw@mail.gmail.com/
->>>        for MPAM.
->>
->> All these new names and related information will go in global structure.
->>
->> Something like this..
->>
->> Struct kern_mode {
->>         enum assoc_mode;
->>         struct rdtgroup *k_rdtgrp;
->>         ...
->> };
->>
->> Not sure what other information will be required here. Will know once I stared working on it.
->>
->> This structure will be updated based on user echo's in "kernel_mode" and "kernel_mode_assignment".
-> 
-> This looks to be a good start. I think keeping the rdtgroup association is good since
-> it helps to easily display the name to user space while also providing access to the CLOSID
-> and RMID that is assigned to the tasks.
-> By placing them in their own structure instead of just globals it does make it easier to
-> build on when some modes have different requirements wrt rdtgroup management.
+> This patch lays the groundwork for GEM allocation and mmap IOCTLs
+> as well as future PRIME and job submission support for QDA buffers.
 
-I am not clear on this comment. Can you please elaborate little bit?
+Documentation/process/submitting-patches.rst, "This patch"
 
-Thanks
-Babu
+> 
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> ---
+>  drivers/accel/qda/Makefile             |   2 +
+>  drivers/accel/qda/qda_drv.c            |  23 +++-
+>  drivers/accel/qda/qda_drv.h            |   7 ++
+>  drivers/accel/qda/qda_gem.c            | 187 +++++++++++++++++++++++++++++++
+>  drivers/accel/qda/qda_gem.h            |  63 +++++++++++
+>  drivers/accel/qda/qda_memory_dma.c     |  91 ++++++++++++++++
+>  drivers/accel/qda/qda_memory_dma.h     |  46 ++++++++
+>  drivers/accel/qda/qda_memory_manager.c | 194 +++++++++++++++++++++++++++++++++
+>  drivers/accel/qda/qda_memory_manager.h |  33 ++++++
+>  9 files changed, 645 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
+> index f547398e1a72..88c324fa382c 100644
+> --- a/drivers/accel/qda/Makefile
+> +++ b/drivers/accel/qda/Makefile
+> @@ -11,5 +11,7 @@ qda-y := \
+>  	qda_cb.o \
+>  	qda_memory_manager.o \
+>  	qda_ioctl.o \
+> +	qda_gem.o \
+> +	qda_memory_dma.o \
+>  
+>  obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda_compute_bus.o
+> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
+> index 86758a9cd982..19798359b14e 100644
+> --- a/drivers/accel/qda/qda_drv.c
+> +++ b/drivers/accel/qda/qda_drv.c
+> @@ -15,7 +15,7 @@
+>  #include "qda_ioctl.h"
+>  #include "qda_rpmsg.h"
+>  
+> -static struct qda_drm_priv *get_drm_priv_from_device(struct drm_device *dev)
+> +struct qda_drm_priv *get_drm_priv_from_device(struct drm_device *dev)
+
+And this is a namespace leak. Please name all your functions in a
+selected style (qda_foo()).
+
+>  {
+>  	if (!dev)
+>  		return NULL;
+> @@ -88,6 +88,7 @@ static int qda_open(struct drm_device *dev, struct drm_file *file)
+>  		return -ENOMEM;
+>  
+>  	qda_file_priv->pid = current->pid;
+> +	qda_file_priv->assigned_iommu_dev = NULL; /* Will be assigned on first allocation */
+
+Why?  Also, isn't qda_file_priv zero-filled?
+
+>  
+>  	qda_user = alloc_qda_user(qdev);
+>  	if (!qda_user) {
+> @@ -118,6 +119,26 @@ static void qda_postclose(struct drm_device *dev, struct drm_file *file)
+>  
+>  	qda_file_priv = (struct qda_file_priv *)file->driver_priv;
+>  	if (qda_file_priv) {
+
+Cant it be NULL? When?
+
+> +		if (qda_file_priv->assigned_iommu_dev) {
+> +			struct qda_iommu_device *iommu_dev = qda_file_priv->assigned_iommu_dev;
+> +			unsigned long flags;
+> +
+> +			/* Decrement reference count - if it reaches 0, reset PID assignment */
+> +			if (refcount_dec_and_test(&iommu_dev->refcount)) {
+> +				/* Last reference released - reset PID assignment */
+> +				spin_lock_irqsave(&iommu_dev->lock, flags);
+> +				iommu_dev->assigned_pid = 0;
+
+This is the part that needs to be discussed in the commit message
+instead of a generic description of the patch. What is assigned_pid /
+assigned_iommu_dev? Why do they need to be assigned?
+
+> +				iommu_dev->assigned_file_priv = NULL;
+> +				spin_unlock_irqrestore(&iommu_dev->lock, flags);
+> +
+> +				qda_dbg(qdev, "Reset PID assignment for IOMMU device %u (process %d exited)\n",
+> +					iommu_dev->id, qda_file_priv->pid);
+> +			} else {
+> +				qda_dbg(qdev, "Decremented reference for IOMMU device %u from process %d\n",
+> +					iommu_dev->id, qda_file_priv->pid);
+> +			}
+> +		}
+> +
+>  		qda_user = qda_file_priv->qda_user;
+>  		if (qda_user)
+>  			free_qda_user(qda_user);
+> diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
+> index e0ba37702a86..8a2cd474958b 100644
+> --- a/drivers/accel/qda/qda_drv.h
+> +++ b/drivers/accel/qda/qda_drv.h
+> @@ -33,6 +33,8 @@ struct qda_file_priv {
+>  	pid_t pid;
+>  	/* Pointer to qda_user structure for backward compatibility */
+>  	struct qda_user *qda_user;
+> +	/* IOMMU device assigned to this process */
+> +	struct qda_iommu_device *assigned_iommu_dev;
+>  };
+>  
+>  /**
+> @@ -153,4 +155,9 @@ void qda_deinit_device(struct qda_dev *qdev);
+>  int qda_register_device(struct qda_dev *qdev);
+>  void qda_unregister_device(struct qda_dev *qdev);
+>  
+> +/*
+> + * Utility function to get DRM private data from DRM device
+> + */
+> +struct qda_drm_priv *get_drm_priv_from_device(struct drm_device *dev);
+> +
+>  #endif /* __QDA_DRV_H__ */
+> diff --git a/drivers/accel/qda/qda_gem.c b/drivers/accel/qda/qda_gem.c
+> new file mode 100644
+> index 000000000000..bbd54e2502d3
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_gem.c
+> @@ -0,0 +1,187 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> +#include <drm/drm_gem.h>
+> +#include <drm/drm_prime.h>
+> +#include <linux/slab.h>
+> +#include <linux/dma-mapping.h>
+> +#include "qda_drv.h"
+> +#include "qda_gem.h"
+> +#include "qda_memory_manager.h"
+> +#include "qda_memory_dma.h"
+> +
+> +static int validate_gem_obj_for_mmap(struct qda_gem_obj *qda_gem_obj)
+> +{
+> +	if (qda_gem_obj->size == 0) {
+> +		qda_err(NULL, "Invalid GEM object size\n");
+> +		return -EINVAL;
+> +	}
+> +	if (!qda_gem_obj->iommu_dev || !qda_gem_obj->iommu_dev->dev) {
+> +		qda_err(NULL, "Allocated buffer missing IOMMU device\n");
+> +		return -EINVAL;
+> +	}
+> +	if (!qda_gem_obj->iommu_dev->dev) {
+> +		qda_err(NULL, "Allocated buffer missing IOMMU device\n");
+> +		return -EINVAL;
+> +	}
+> +	if (!qda_gem_obj->virt) {
+> +		qda_err(NULL, "Allocated buffer missing virtual address\n");
+> +		return -EINVAL;
+> +	}
+> +	if (qda_gem_obj->dma_addr == 0) {
+> +		qda_err(NULL, "Allocated buffer missing DMA address\n");
+> +		return -EINVAL;
+> +	}
+
+Is any of these conditions real?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int validate_vma_offset(struct drm_gem_object *drm_obj, struct vm_area_struct *vma)
+> +{
+> +	u64 expected_offset = drm_vma_node_offset_addr(&drm_obj->vma_node);
+> +	u64 actual_offset = vma->vm_pgoff << PAGE_SHIFT;
+> +
+> +	if (actual_offset != expected_offset) {
+
+What??
+
+> +		qda_err(NULL, "VMA offset mismatch: expected=0x%llx, actual=0x%llx\n",
+> +			expected_offset, actual_offset);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void setup_vma_flags(struct vm_area_struct *vma)
+> +{
+> +	vm_flags_set(vma, VM_DONTEXPAND);
+> +	vm_flags_set(vma, VM_DONTDUMP);
+> +}
+> +
+> +void qda_gem_free_object(struct drm_gem_object *gem_obj)
+> +{
+> +	struct qda_gem_obj *qda_gem_obj = to_qda_gem_obj(gem_obj);
+> +	struct qda_drm_priv *drm_priv = get_drm_priv_from_device(gem_obj->dev);
+> +
+> +	if (qda_gem_obj->virt) {
+> +		if (drm_priv && drm_priv->iommu_mgr)
+> +			qda_memory_manager_free(drm_priv->iommu_mgr, qda_gem_obj);
+> +	}
+> +
+> +	drm_gem_object_release(gem_obj);
+> +	kfree(qda_gem_obj);
+> +}
+> +
+> +int qda_gem_mmap_obj(struct drm_gem_object *drm_obj, struct vm_area_struct *vma)
+> +{
+> +	struct qda_gem_obj *qda_gem_obj = to_qda_gem_obj(drm_obj);
+> +	int ret;
+> +
+> +	ret = validate_gem_obj_for_mmap(qda_gem_obj);
+> +	if (ret) {
+> +		qda_err(NULL, "GEM object validation failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = validate_vma_offset(drm_obj, vma);
+> +	if (ret) {
+> +		qda_err(NULL, "VMA offset validation failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	/* Reset vm_pgoff for DMA mmap */
+> +	vma->vm_pgoff = 0;
+> +
+> +	ret = qda_dma_mmap(qda_gem_obj, vma);
+> +
+> +	if (ret == 0) {
+> +		setup_vma_flags(vma);
+> +		qda_dbg(NULL, "GEM object mapped successfully\n");
+> +	} else {
+> +		qda_err(NULL, "GEM object mmap failed: %d\n", ret);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct drm_gem_object_funcs qda_gem_object_funcs = {
+> +	.free = qda_gem_free_object,
+> +	.mmap = qda_gem_mmap_obj,
+> +};
+> +
+> +struct qda_gem_obj *qda_gem_alloc_object(struct drm_device *drm_dev, size_t aligned_size)
+> +{
+> +	struct qda_gem_obj *qda_gem_obj;
+> +	int ret;
+> +
+> +	qda_gem_obj = kzalloc_obj(*qda_gem_obj, GFP_KERNEL);
+> +	if (!qda_gem_obj)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ret = drm_gem_object_init(drm_dev, &qda_gem_obj->base, aligned_size);
+> +	if (ret) {
+> +		qda_err(NULL, "Failed to initialize GEM object: %d\n", ret);
+> +		kfree(qda_gem_obj);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	qda_gem_obj->base.funcs = &qda_gem_object_funcs;
+> +	qda_gem_obj->size = aligned_size;
+> +
+> +	qda_dbg(NULL, "Allocated GEM object size=%zu\n", aligned_size);
+> +	return qda_gem_obj;
+> +}
+> +
+> +void qda_gem_cleanup_object(struct qda_gem_obj *qda_gem_obj)
+> +{
+> +	drm_gem_object_release(&qda_gem_obj->base);
+> +	kfree(qda_gem_obj);
+> +}
+> +
+> +struct drm_gem_object *qda_gem_lookup_object(struct drm_file *file_priv, u32 handle)
+> +{
+> +	struct drm_gem_object *gem_obj;
+> +
+> +	gem_obj = drm_gem_object_lookup(file_priv, handle);
+> +	if (!gem_obj)
+> +		return ERR_PTR(-ENOENT);
+> +
+> +	return gem_obj;
+> +}
+> +
+> +int qda_gem_create_handle(struct drm_file *file_priv, struct drm_gem_object *gem_obj, u32 *handle)
+> +{
+> +	int ret;
+> +
+> +	ret = drm_gem_handle_create(file_priv, gem_obj, handle);
+> +	drm_gem_object_put(gem_obj);
+> +
+> +	return ret;
+> +}
+> +
+> +struct drm_gem_object *qda_gem_create_object(struct drm_device *drm_dev,
+> +					     struct qda_memory_manager *iommu_mgr, size_t size,
+> +					     struct drm_file *file_priv)
+> +{
+> +	struct qda_gem_obj *qda_gem_obj;
+> +	size_t aligned_size;
+> +	int ret;
+> +
+> +	if (size == 0) {
+> +		qda_err(NULL, "Invalid size for GEM object creation\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	aligned_size = PAGE_ALIGN(size);
+> +
+> +	qda_gem_obj = qda_gem_alloc_object(drm_dev, aligned_size);
+> +	if (IS_ERR(qda_gem_obj))
+> +		return (struct drm_gem_object *)qda_gem_obj;
+> +
+> +	ret = qda_memory_manager_alloc(iommu_mgr, qda_gem_obj, file_priv);
+> +	if (ret) {
+> +		qda_err(NULL, "Memory manager allocation failed: %d\n", ret);
+> +		qda_gem_cleanup_object(qda_gem_obj);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	qda_dbg(NULL, "GEM object created successfully size=%zu\n", aligned_size);
+> +	return &qda_gem_obj->base;
+> +}
+> diff --git a/drivers/accel/qda/qda_gem.h b/drivers/accel/qda/qda_gem.h
+> new file mode 100644
+> index 000000000000..caae9cda5363
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_gem.h
+> @@ -0,0 +1,63 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +#ifndef _QDA_GEM_H
+> +#define _QDA_GEM_H
+> +
+> +#include <linux/xarray.h>
+> +#include <drm/drm_device.h>
+> +#include <drm/drm_gem.h>
+> +#include <linux/dma-mapping.h>
+> +
+> +/* Forward declarations */
+> +struct qda_memory_manager;
+> +struct qda_iommu_device;
+> +
+> +/**
+> + * struct qda_gem_obj - QDA GEM buffer object
+> + *
+> + * This structure represents a GEM buffer object that can be either
+> + * allocated by the driver or imported from another driver via dma-buf.
+> + */
+> +struct qda_gem_obj {
+> +	/* DRM GEM object base structure */
+> +	struct drm_gem_object base;
+> +	/* Kernel virtual address of allocated memory */
+> +	void *virt;
+> +	/* DMA address for allocated buffers */
+> +	dma_addr_t dma_addr;
+> +	/* Size of the buffer in bytes */
+> +	size_t size;
+> +	/* IOMMU device that performed the allocation */
+> +	struct qda_iommu_device *iommu_dev;
+> +};
+> +
+> +/*
+> + * Helper macro to cast a drm_gem_object to qda_gem_obj
+> + */
+> +#define to_qda_gem_obj(gem_obj) container_of(gem_obj, struct qda_gem_obj, base)
+> +
+> +/*
+> + * GEM object lifecycle management
+> + */
+> +struct drm_gem_object *qda_gem_create_object(struct drm_device *drm_dev,
+> +					     struct qda_memory_manager *iommu_mgr,
+> +					     size_t size, struct drm_file *file_priv);
+> +void qda_gem_free_object(struct drm_gem_object *gem_obj);
+> +int qda_gem_mmap_obj(struct drm_gem_object *gem_obj, struct vm_area_struct *vma);
+> +
+> +/*
+> + * Helper functions for GEM object allocation and cleanup
+> + * These are used internally and by the PRIME import code
+> + */
+> +struct qda_gem_obj *qda_gem_alloc_object(struct drm_device *drm_dev, size_t aligned_size);
+> +void qda_gem_cleanup_object(struct qda_gem_obj *qda_gem_obj);
+> +
+> +/*
+> + * Utility functions for GEM operations
+> + */
+> +struct drm_gem_object *qda_gem_lookup_object(struct drm_file *file_priv, u32 handle);
+> +int qda_gem_create_handle(struct drm_file *file_priv, struct drm_gem_object *gem_obj, u32 *handle);
+> +
+> +#endif /* _QDA_GEM_H */
+> diff --git a/drivers/accel/qda/qda_memory_dma.c b/drivers/accel/qda/qda_memory_dma.c
+> new file mode 100644
+> index 000000000000..ffdd5423c88c
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_memory_dma.c
+> @@ -0,0 +1,91 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> +#include <linux/slab.h>
+> +#include <linux/dma-mapping.h>
+> +#include "qda_drv.h"
+> +#include "qda_memory_dma.h"
+> +
+> +static dma_addr_t get_actual_dma_addr(struct qda_gem_obj *gem_obj)
+> +{
+> +	return gem_obj->dma_addr - ((u64)gem_obj->iommu_dev->sid << 32);
+> +}
+> +
+> +static void setup_gem_object(struct qda_gem_obj *gem_obj, void *virt,
+> +			     dma_addr_t dma_addr, struct qda_iommu_device *iommu_dev)
+> +{
+> +	gem_obj->virt = virt;
+> +	gem_obj->dma_addr = dma_addr;
+> +	gem_obj->iommu_dev = iommu_dev;
+> +}
+> +
+> +static void cleanup_gem_object_fields(struct qda_gem_obj *gem_obj)
+> +{
+> +	gem_obj->virt = NULL;
+> +	gem_obj->dma_addr = 0;
+> +	gem_obj->iommu_dev = NULL;
+> +}
+> +
+> +int qda_dma_alloc(struct qda_iommu_device *iommu_dev,
+> +		  struct qda_gem_obj *gem_obj, size_t size)
+> +{
+> +	void *virt;
+> +	dma_addr_t dma_addr;
+> +
+> +	if (!iommu_dev || !iommu_dev->dev) {
+> +		qda_err(NULL, "Invalid iommu_dev or device for DMA allocation\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	virt = dma_alloc_coherent(iommu_dev->dev, size, &dma_addr, GFP_KERNEL);
+> +	if (!virt)
+> +		return -ENOMEM;
+> +
+> +	dma_addr += ((u64)iommu_dev->sid << 32);
+> +
+> +	qda_dbg(NULL, "DMA address with SID prefix: 0x%llx (sid=%u)\n",
+> +		(u64)dma_addr, iommu_dev->sid);
+> +
+> +	setup_gem_object(gem_obj, virt, dma_addr, iommu_dev);
+> +
+> +	return 0;
+> +}
+> +
+> +void qda_dma_free(struct qda_gem_obj *gem_obj)
+> +{
+> +	if (!gem_obj || !gem_obj->iommu_dev) {
+> +		qda_dbg(NULL, "Invalid gem_obj or iommu_dev for DMA free\n");
+> +		return;
+> +	}
+> +
+> +	qda_dbg(NULL, "DMA freeing: size=%zu, device_id=%u, dma_addr=0x%llx\n",
+> +		gem_obj->size, gem_obj->iommu_dev->id, gem_obj->dma_addr);
+> +
+> +	dma_free_coherent(gem_obj->iommu_dev->dev, gem_obj->size,
+> +			  gem_obj->virt, get_actual_dma_addr(gem_obj));
+> +
+> +	cleanup_gem_object_fields(gem_obj);
+> +}
+> +
+> +int qda_dma_mmap(struct qda_gem_obj *gem_obj, struct vm_area_struct *vma)
+> +{
+> +	struct qda_iommu_device *iommu_dev;
+> +	int ret;
+> +
+> +	if (!gem_obj || !gem_obj->virt || !gem_obj->iommu_dev || !gem_obj->iommu_dev->dev) {
+> +		qda_err(NULL, "Invalid parameters for DMA mmap\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	iommu_dev = gem_obj->iommu_dev;
+> +
+> +	ret = dma_mmap_coherent(iommu_dev->dev, vma, gem_obj->virt,
+> +				get_actual_dma_addr(gem_obj), gem_obj->size);
+> +
+> +	if (ret)
+> +		qda_err(NULL, "DMA mmap failed: size=%zu, device_id=%u, ret=%d\n",
+> +			gem_obj->size, iommu_dev->id, ret);
+
+if (ret) {
+	qda_err();
+	return ret;
+	// or goto err_foo;
+}
+
+return 0;
 
 
-> You may encounter that certain arrangements work better to support interactions with the
-> task structure that are not clear at this time.
+> +	else
+> +		qda_dbg(NULL, "DMA mmap successful: size=%zu\n", gem_obj->size);
+
+It feels like the driver is over-verbose if debugging is enabled.
+
+> +
+> +	return ret;
+> +}
+> diff --git a/drivers/accel/qda/qda_memory_dma.h b/drivers/accel/qda/qda_memory_dma.h
+> new file mode 100644
+> index 000000000000..79b3c4053a82
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_memory_dma.h
+> @@ -0,0 +1,46 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#ifndef _QDA_MEMORY_DMA_H
+> +#define _QDA_MEMORY_DMA_H
+> +
+> +#include <linux/dma-mapping.h>
+> +#include "qda_memory_manager.h"
+> +
+> +/**
+> + * qda_dma_alloc() - Allocate DMA coherent memory for a GEM object
+> + * @iommu_dev: Pointer to the QDA IOMMU device structure
+> + * @gem_obj: Pointer to GEM object to allocate memory for
+> + * @size: Size of memory to allocate in bytes
+> + *
+> + * Allocates DMA-coherent memory and sets up the GEM object with the
+> + * allocated memory details including virtual and DMA addresses.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+
+Move the kerneldoc from the headers to the driver code, otherwise they
+are mostly ignored by the automatic validators.
+
+> +int qda_dma_alloc(struct qda_iommu_device *iommu_dev,
+> +		  struct qda_gem_obj *gem_obj, size_t size);
+> +
+> +/**
+> + * qda_dma_free() - Free DMA coherent memory for a GEM object
+> + * @gem_obj: Pointer to GEM object to free memory for
+> + *
+> + * Frees DMA-coherent memory previously allocated for the GEM object
+> + * and cleans up the GEM object fields.
+> + */
+> +void qda_dma_free(struct qda_gem_obj *gem_obj);
+> +
+> +/**
+> + * qda_dma_mmap() - Map DMA memory into userspace
+> + * @gem_obj: Pointer to GEM object containing DMA memory
+> + * @vma: Virtual memory area to map into
+> + *
+> + * Maps DMA-coherent memory into userspace virtual address space.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +int qda_dma_mmap(struct qda_gem_obj *gem_obj, struct vm_area_struct *vma);
+> +
+> +#endif /* _QDA_MEMORY_DMA_H */
+> diff --git a/drivers/accel/qda/qda_memory_manager.c b/drivers/accel/qda/qda_memory_manager.c
+> index b4c7047a89d4..e225667557ee 100644
+> --- a/drivers/accel/qda/qda_memory_manager.c
+> +++ b/drivers/accel/qda/qda_memory_manager.c
+> @@ -6,8 +6,11 @@
+>  #include <linux/spinlock.h>
+>  #include <linux/workqueue.h>
+>  #include <linux/xarray.h>
+> +#include <drm/drm_file.h>
+>  #include "qda_drv.h"
+> +#include "qda_gem.h"
+>  #include "qda_memory_manager.h"
+> +#include "qda_memory_dma.h"
+>  
+>  static void cleanup_all_memory_devices(struct qda_memory_manager *mem_mgr)
+>  {
+> @@ -55,6 +58,8 @@ static void init_iommu_device_fields(struct qda_iommu_device *iommu_dev,
+>  	spin_lock_init(&iommu_dev->lock);
+>  	refcount_set(&iommu_dev->refcount, 0);
+>  	INIT_WORK(&iommu_dev->remove_work, qda_memory_manager_remove_work);
+> +	iommu_dev->assigned_pid = 0;
+> +	iommu_dev->assigned_file_priv = NULL;
+>  }
+>  
+>  static int allocate_device_id(struct qda_memory_manager *mem_mgr,
+> @@ -78,6 +83,194 @@ static int allocate_device_id(struct qda_memory_manager *mem_mgr,
+>  	return ret;
+>  }
+>  
+> +static struct qda_iommu_device *find_device_for_pid(struct qda_memory_manager *mem_mgr,
+> +						    pid_t pid)
+> +{
+> +	unsigned long index;
+> +	void *entry;
+> +	struct qda_iommu_device *found_dev = NULL;
+> +	unsigned long flags;
+> +
+> +	xa_lock(&mem_mgr->device_xa);
+> +	xa_for_each(&mem_mgr->device_xa, index, entry) {
+> +		struct qda_iommu_device *iommu_dev = entry;
+> +
+> +		spin_lock_irqsave(&iommu_dev->lock, flags);
+> +		if (iommu_dev->assigned_pid == pid) {
+> +			found_dev = iommu_dev;
+> +			refcount_inc(&found_dev->refcount);
+> +			qda_dbg(NULL, "Reusing device id=%u for PID=%d (refcount=%u)\n",
+> +				found_dev->id, pid, refcount_read(&found_dev->refcount));
+
+And what if there are two different FastRPC sessions within the same
+PID?
+
+> +			spin_unlock_irqrestore(&iommu_dev->lock, flags);
+> +			break;
+> +		}
+> +		spin_unlock_irqrestore(&iommu_dev->lock, flags);
+> +	}
+> +	xa_unlock(&mem_mgr->device_xa);
+> +
+> +	return found_dev;
+> +}
+> +
+> +static struct qda_iommu_device *assign_available_device_to_pid(struct qda_memory_manager *mem_mgr,
+> +							       pid_t pid,
+> +							       struct drm_file *file_priv)
+> +{
+> +	unsigned long index;
+> +	void *entry;
+> +	struct qda_iommu_device *selected_dev = NULL;
+> +	unsigned long flags;
+> +
+> +	xa_lock(&mem_mgr->device_xa);
+> +	xa_for_each(&mem_mgr->device_xa, index, entry) {
+> +		struct qda_iommu_device *iommu_dev = entry;
+> +
+> +		spin_lock_irqsave(&iommu_dev->lock, flags);
+> +		if (iommu_dev->assigned_pid == 0) {
+> +			iommu_dev->assigned_pid = pid;
+> +			iommu_dev->assigned_file_priv = file_priv;
+> +			selected_dev = iommu_dev;
+> +			refcount_set(&selected_dev->refcount, 1);
+> +			qda_dbg(NULL, "Assigned device id=%u to PID=%d\n",
+> +				selected_dev->id, pid);
+> +			spin_unlock_irqrestore(&iommu_dev->lock, flags);
+> +			break;
+> +		}
+> +		spin_unlock_irqrestore(&iommu_dev->lock, flags);
+> +	}
+> +	xa_unlock(&mem_mgr->device_xa);
+> +
+> +	return selected_dev;
+> +}
+> +
+> +static struct qda_iommu_device *get_process_iommu_device(struct qda_memory_manager *mem_mgr,
+> +							 struct drm_file *file_priv)
+> +{
+> +	struct qda_file_priv *qda_priv;
+> +
+> +	if (!file_priv || !file_priv->driver_priv)
+> +		return NULL;
+> +
+> +	qda_priv = (struct qda_file_priv *)file_priv->driver_priv;
+> +	return qda_priv->assigned_iommu_dev;
+> +}
+> +
+> +static int qda_memory_manager_assign_device(struct qda_memory_manager *mem_mgr,
+> +					    struct drm_file *file_priv)
+> +{
+> +	struct qda_file_priv *qda_priv;
+> +	struct qda_iommu_device *selected_dev = NULL;
+> +	int ret = 0;
+> +	pid_t current_pid;
+> +
+> +	if (!file_priv || !file_priv->driver_priv) {
+> +		qda_err(NULL, "Invalid file_priv or driver_priv\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	qda_priv = (struct qda_file_priv *)file_priv->driver_priv;
+> +	current_pid = qda_priv->pid;
+> +
+> +	mutex_lock(&mem_mgr->process_assignment_lock);
+> +
+> +	if (qda_priv->assigned_iommu_dev) {
+> +		qda_dbg(NULL, "PID=%d already has device id=%u assigned\n",
+> +			current_pid, qda_priv->assigned_iommu_dev->id);
+> +		ret = 0;
+> +		goto unlock_and_return;
+> +	}
+> +
+> +	selected_dev = find_device_for_pid(mem_mgr, current_pid);
+> +
+> +	if (selected_dev) {
+> +		qda_priv->assigned_iommu_dev = selected_dev;
+> +		goto unlock_and_return;
+> +	}
+> +
+> +	selected_dev = assign_available_device_to_pid(mem_mgr, current_pid, file_priv);
+> +
+> +	if (!selected_dev) {
+> +		qda_err(NULL, "No available device for PID=%d\n", current_pid);
+> +		ret = -ENOMEM;
+> +		goto unlock_and_return;
+> +	}
+> +
+> +	qda_priv->assigned_iommu_dev = selected_dev;
+> +
+> +unlock_and_return:
+> +	mutex_unlock(&mem_mgr->process_assignment_lock);
+> +	return ret;
+> +}
+> +
+> +static struct qda_iommu_device *get_or_assign_iommu_device(struct qda_memory_manager *mem_mgr,
+> +							   struct drm_file *file_priv,
+> +							   size_t size)
+> +{
+> +	struct qda_iommu_device *iommu_dev;
+> +	int ret;
+> +
+> +	iommu_dev = get_process_iommu_device(mem_mgr, file_priv);
+> +	if (iommu_dev)
+> +		return iommu_dev;
+> +
+> +	ret = qda_memory_manager_assign_device(mem_mgr, file_priv);
+> +	if (ret)
+> +		return NULL;
+> +
+> +	iommu_dev = get_process_iommu_device(mem_mgr, file_priv);
+> +	if (iommu_dev)
+> +		return iommu_dev;
+> +
+> +	return NULL;
+> +}
+> +
+> +int qda_memory_manager_alloc(struct qda_memory_manager *mem_mgr, struct qda_gem_obj *gem_obj,
+> +			     struct drm_file *file_priv)
+> +{
+> +	struct qda_iommu_device *selected_dev;
+> +	size_t size;
+> +	int ret;
+> +
+> +	if (!mem_mgr || !gem_obj || !file_priv) {
+> +		qda_err(NULL, "Invalid parameters for memory allocation\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	size = gem_obj->size;
+> +	if (size == 0) {
+> +		qda_err(NULL, "Invalid allocation size: 0\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	selected_dev = get_or_assign_iommu_device(mem_mgr, file_priv, size);
+> +
+> +	if (!selected_dev) {
+> +		qda_err(NULL, "Failed to get/assign device for allocation (size=%zu)\n", size);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	ret = qda_dma_alloc(selected_dev, gem_obj, size);
+> +
+> +	if (ret) {
+> +		qda_err(NULL, "Allocation failed: size=%zu, device_id=%u, ret=%d\n",
+> +			size, selected_dev->id, ret);
+> +		return ret;
+> +	}
+> +
+> +	qda_dbg(NULL, "Successfully allocated: size=%zu, device_id=%u, dma_addr=0x%llx\n",
+> +		size, selected_dev->id, gem_obj->dma_addr);
+> +	return 0;
+> +}
+> +
+> +void qda_memory_manager_free(struct qda_memory_manager *mem_mgr, struct qda_gem_obj *gem_obj)
+> +{
+> +	if (!gem_obj || !gem_obj->iommu_dev) {
+> +		qda_dbg(NULL, "Invalid gem_obj or iommu_dev for free\n");
+> +		return;
+> +	}
+> +
+> +	qda_dma_free(gem_obj);
+> +}
+> +
+>  int qda_memory_manager_register_device(struct qda_memory_manager *mem_mgr,
+>  				       struct qda_iommu_device *iommu_dev)
+>  {
+> @@ -134,6 +327,7 @@ int qda_memory_manager_init(struct qda_memory_manager *mem_mgr)
+>  
+>  	xa_init_flags(&mem_mgr->device_xa, XA_FLAGS_ALLOC);
+>  	atomic_set(&mem_mgr->next_id, 0);
+> +	mutex_init(&mem_mgr->process_assignment_lock);
+>  	mem_mgr->wq = create_workqueue("memory_manager_wq");
+>  	if (!mem_mgr->wq) {
+>  		qda_err(NULL, "Failed to create memory manager workqueue\n");
+> diff --git a/drivers/accel/qda/qda_memory_manager.h b/drivers/accel/qda/qda_memory_manager.h
+> index 3bf4cd529909..bac44284ef98 100644
+> --- a/drivers/accel/qda/qda_memory_manager.h
+> +++ b/drivers/accel/qda/qda_memory_manager.h
+> @@ -11,6 +11,8 @@
+>  #include <linux/spinlock.h>
+>  #include <linux/workqueue.h>
+>  #include <linux/xarray.h>
+> +#include <drm/drm_file.h>
+> +#include "qda_gem.h"
+>  
+>  /**
+>   * struct qda_iommu_device - IOMMU device instance for memory management
+> @@ -35,6 +37,10 @@ struct qda_iommu_device {
+>  	u32 sid;
+>  	/* Pointer to parent memory manager */
+>  	struct qda_memory_manager *manager;
+> +	/* Process ID of the process assigned to this device */
+> +	pid_t assigned_pid;
+> +	/* DRM file private data for the assigned process */
+> +	struct drm_file *assigned_file_priv;
+>  };
+>  
+>  /**
+> @@ -51,6 +57,8 @@ struct qda_memory_manager {
+>  	atomic_t next_id;
+>  	/* Workqueue for asynchronous device operations */
+>  	struct workqueue_struct *wq;
+> +	/* Mutex protecting process-to-device assignments */
+> +	struct mutex process_assignment_lock;
+>  };
+>  
+>  /**
+> @@ -98,4 +106,29 @@ int qda_memory_manager_register_device(struct qda_memory_manager *mem_mgr,
+>  void qda_memory_manager_unregister_device(struct qda_memory_manager *mem_mgr,
+>  					  struct qda_iommu_device *iommu_dev);
+>  
+> +/**
+> + * qda_memory_manager_alloc() - Allocate memory for a GEM object
+> + * @mem_mgr: Pointer to memory manager
+> + * @gem_obj: Pointer to GEM object to allocate memory for
+> + * @file_priv: DRM file private data for process association
+> + *
+> + * Allocates memory for the specified GEM object using an appropriate IOMMU
+> + * device. The allocation is associated with the calling process via
+> + * file_priv.
+> + *
+> + * Return: 0 on success, negative error code on failure
+> + */
+> +int qda_memory_manager_alloc(struct qda_memory_manager *mem_mgr, struct qda_gem_obj *gem_obj,
+> +			     struct drm_file *file_priv);
+> +
+> +/**
+> + * qda_memory_manager_free() - Free memory for a GEM object
+> + * @mem_mgr: Pointer to memory manager
+> + * @gem_obj: Pointer to GEM object to free memory for
+> + *
+> + * Releases memory previously allocated for the specified GEM object and
+> + * removes any associated IOMMU mappings.
+> + */
+> +void qda_memory_manager_free(struct qda_memory_manager *mem_mgr, struct qda_gem_obj *gem_obj);
+> +
+>  #endif /* _QDA_MEMORY_MANAGER_H */
 > 
-> 
->>
->>
->>> - Additional values can be added as new requirements arise, for example "per_task"
->>>     assignment. Connecting visibility of info/kernel_mode_assignment to mode in
->>>     info/kernel_mode enables resctrl to later support additional modes that may require
->>>     different configuration files, potentially per-resource group like the "tasks_kernel"
->>>     (or perhaps rather "kernel_mode_tasks" to have consistent prefix for this feature)
->>>     and "cpus_kernel" ("kernel_mode_cpus"?) discussed in these threads.
->>
->> So, per resource group file "kernel_mode_tasks" and "kernel_mode_cpus" are not required right now. Correct?
-> 
-> Correct. The way I see it the baseline implementation to support PLZA should be
-> straightforward. We'll probably spend a bit extra time on the supporting documentation
-> to pave the way for possible additions.
-> 
->>>     User can view active and supported modes:
->>>
->>>      # cat info/kernel_mode
->>>      [inherit_ctrl_and_mon]
->>>      global_assign_ctrl_inherit_mon
->>>      global_assign_ctrl_assign_mon
->>>
->>> User can switch modes:
->>>      # echo global_assign_ctrl_inherit_mon > kernel_mode
->>>      # cat kernel_mode
->>>      inherit_ctrl_and_mon
->>>      [global_assign_ctrl_inherit_mon]
->>>      global_assign_ctrl_assign_mon
->>>
->>>
->>> info/kernel_mode_assignment
->>> ===========================
->>> - Visibility depends on active mode in info/kernel_mode.
->>> - Content depends on active mode in info/kernel_mode
->>> - Syntax to identify resource groups can use the syntax created as part of earlier ABMC work
->>>     that supports default group https://lore.kernel.org/lkml/cover.1737577229.git.babu.moger@amd.com/
->>> - Default CTRL_MON group and if relevant, the default MON group, can be the default
->>>     assignment when user just changes the kernel_mode without setting the assignment.
->>>
->>> info/kernel_mode_assignment when mode is global_assign_ctrl_inherit_mon
->>> -----------------------------------------------------------------------
->>> - info/kernel_mode_assignment contains single value that is the name of the control group
->>>     used for all kernel work.
->>> - CLOSID/PARTID used for kernel work is determined from the control group assigned
->>> - default value is default CTRL_MON group
->>> - no monitor group assignment, kernel work inherits user space RMID
->>> - syntax is
->>>       <CTRL_MON group> with "/" meaning default.
->>>
->>> info/kernel_mode_assignment when mode is global_assign_ctrl_assign_mon
->>> -----------------------------------------------------------------------
->>> - info/kernel_mode_assignment contains single value that is the name of the resource group
->>>     used for all kernel work.
->>> - Combined CLOSID/RMID or combined PARTID/PMG is set globally to be associated with all
->>>     kernel work.
->>> - default value is default CTRL_MON group
->>> - syntax is
->>>       <CTRL_MON group>/MON group>/ with "//" meaning default control and default monitoring group.
->>>
->>> info/kernel_mode_assignment when mode is per_group_assign_ctrl_assign_mon
->>> -------------------------------------------------------------------------
->>> - this presents the information proposed in https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/
->>>     within a single file for convenience and potential optimization when user space needs to make changes.
->>>     Interface proposed in https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/ is also an option
->>>     and as an alternative a per-resource group "kernel_group" can be made visible when user space enables
->>>     this mode.
->>> - info/kernel_mode_assignment contains a mapping of every resource group to another resource group:
->>>     <resource group for user space work>:<resource group for kernel work>
->>> - all resource groups must be present in first field of this file
->>> - Even though this is a "per group" setting expectation is that this will set the
->>>     kernel work CLOSID/RMID for every task. This implies that writing to this file would need
->>>     to access the tasklist_lock that, when taking for too long, may impact other parts of system.
->>>     See https://lore.kernel.org/lkml/CALPaoCh0SbG1+VbbgcxjubE7Cc2Pb6QqhG3NH6X=WwsNfqNjtA@mail.gmail.com/
->>
->> This mode is currently not supported in AMD PLZA implementation. But we have to keep the options open for future enhancement for MPAM. I am still learning on MPM requirement.
->>
->>>
->>> Scenarios supported
->>> ===================
->>>
->>> Default
->>> -------
->>> For x86 I understand kernel work and user work to be done with same CLOSID/RMID which
->>> implies that info/kernel_mode can always be visible and at least display:
->>>      # cat info/kernel_mode
->>>      [inherit_ctrl_and_mon]
->>>
->>> info/kernel_mode_assignment is not visible in this mode.
->>>
->>> I understand MPAM may have different defaults here so would like to understand better.
->>>
->>> Dedicated global allocations for kernel work, monitoring same for user space and kernel (PLZA)
->>> ----------------------------------------------------------------------------------------------
->>> Possible scenario with PLZA, not MPAM (see later):
->>> 1. Create group(s) to manage allocations associated with user space work
->>>      and assign tasks/CPUs to these groups.
->>> 2. Create group to manage allocations associated with all kernel work.
->>>      - For example,
->>>      # mkdir /sys/fs/resctrl/unthrottled
->>>      - No constraints from resctrl fs on interactions with files in this group. From resctrl
->>>        fs perspective it is not "dedicated" to kernel work but just another resource group.
->>
->> That is correct. We dont need to handle the group special for kernel_mode while creating the group. However, there will some handling required when kernel_mode group is deleted. We need to move the tasks/cpus back to default group and update the global kernel_mode structure.
-> 
-> Good point, yes.
-> 
-> 
-> ...
-> 
->>> Dedicated global allocations for kernel work, monitoring same for user space and kernel (MPAM)
->>> ----------------------------------------------------------------------------------------------
->>> 1. User space creates resource and monitoring groups for user tasks:
->>>        /sys/fs/resctrl <= User space default allocations
->>>      /sys/fs/resctrl/g1 <= User space allocations g1
->>>      /sys/fs/resctrl/g1/mon_groups/g1m1 <= User space monitoring group g1m1
->>>      /sys/fs/resctrl/g1/mon_groups/g1m2 <= User space monitoring group g1m2
->>>      /sys/fs/resctrl/g2 <= User space allocations g2
->>>      /sys/fs/resctrl/g2/mon_groups/g2m1 <= User space monitoring group g2m1
->>>      /sys/fs/resctrl/g2/mon_groups/g2m2 <= User space monitoring group g2m2
->>>
->>> 2. User space creates resource and monitoring groups for kernel work (system has two PMG):
->>>      /sys/fs/resctrl/kernel <= Kernel space allocations
->>>      /sys/fs/resctrl/kernel/mon_data               <= Kernel space monitoring for all of default and g1
->>>      /sys/fs/resctrl/kernel/mon_groups/kernel_g2   <= Kernel space monitoring for all of g2
->>> 3. Set kernel mode to per_group_assign_ctrl_assign_mon:
->>>      # echo per_group_assign_ctrl_assign_mon > info/kernel_mode
->>>      - info/kernel_mode_assignment becomes visible and contains
->>>      # cat info/kernel_mode_assignment
->>>      //://
->>>      g1//://
->>>      g1/g1m1/://
->>>      g1/g1m2/://
->>>      g2//://
->>>      g2/g2m1/://
->>>      g2/g2m2/://
->>>      - An optimization here may be to have the change to per_group_assign_ctrl_assign_mon mode be implemented
->>>        similar to the change to global_assign_ctrl_assign_mon that initializes a global default. This can
->>>        avoid keeping tasklist_lock for a long time to set all tasks' kernel CLOSID/RMID to default just for
->>>        user space to likely change it.
->>> 4. Set groups to be used for kernel work:
->>>      # echo '//:kernel//\ng1//:kernel//\ng1/g1m1/:kernel//\ng1/g1m2/:kernel//\ng2//:kernel/kernel_g2/\ng2/g2m1/:kernel/kernel_g2/\ng2/g2m2/:kernel/kernel_g2/\n' > info/kernel_mode_assignment
->>>
->>
->> Currently, this is not supported in AMD's PLZA implimentation. But we need to keep this option open for MPAM.
-> 
-> Right. I expect PLZA to at least support "global_assign_ctrl_inherit_mon" mode
-> since that is the one we know somebody is waiting for. I am not actually sure about
-> "global_assign_ctrl_assign_mon" for PLZA. It is the variant intended to be implemented
-> by this RFC submission and does not seem difficult to implement but I have not really heard
-> any requests around it. Please do correct me if I missed anything here.
-> 
->>
->>> The interfaces proposed aim to maintain compatibility with existing user space tools while
->>> adding support for all requirements expressed thus far in an efficient way. For an existing
->>> user space tool there is no change in meaning of any existing file and no existing known
->>> resource group files are made to disappear. There is a global configuration that lets user space
->>> manage allocations without needing to check and configure each control group, even per-resource
->>> group allocations can be managed from user space with a single read/write to support
->>> making changes in most efficient way.
->>>
->>> What do you think?
->>>
->>
->> I will start planning this work. Feel free to add more details.
->> I Will have more questions as I start working on it.
->>
->> I will separate GMBA work from this work.
->>
->> Will send both series separately.
->>
->> Thanks for details and summary.
->>
-> 
-> Thank you very much.
-> 
-> Reinette
-> 
+> -- 
+> 2.34.1
 > 
 
+-- 
+With best wishes
+Dmitry
