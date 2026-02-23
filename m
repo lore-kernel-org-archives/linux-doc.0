@@ -1,120 +1,143 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A70A36681A;
-	Mon, 23 Feb 2026 15:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771859708; cv=none; b=AaFHd8wBezpICwiNls8yxIYI+YuQV6pbk3ditug3jfJs5oLZGGQino2l6M4zqHt57sFgj/8GzKCx3l9Brx1sJcwFHNzNbIdvFAUtbg+TqJiqojHoGqApAfjIVQ279sw78Hh2hbdS++Oy0S1GWCuZ5kYoV1K8mvOyrc8+iDUaahA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771859708; c=relaxed/simple;
-	bh=BzTuTP90OJmXVCHTiz/s79phpJ7mPbJzIPjAjZ+SIO4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p8JI+fwNtFEJIO7jFxEXmmUGzuormG16Jzdnt+txbSymrSaTmN26AKvV3qjN7IYA0B3rO/L7I0GvbWXXbmjLGsjaDu9cD/UrxqKbcDdyUjixl5haLti+FnukNSjHESrCzJ6v+Q+zJjz2clTP0NYY8SaEjcnidg6SqbPGonZrTaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HKxXpHjP; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 945D62E9733
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 15:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771860710; cv=pass; b=RddfUWv0Tz9bC/n/Xnt7J3ZT9EyQIUFL7H6/hs6o8Td4XIkVnCGn3MTAxmZEr0+Iw5+itCexYSKNMeGcFmcWglgVGF6NvcW574o1XiiSKFd01vavr+HBvwFqXR1me2ZI00rY8BLYjMgkqKmpjNWinNjSwg/ESd/6fF7wy9Ag7QE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771860710; c=relaxed/simple;
+	bh=uilEI5+tBHBNToSheDl6KMRwBNfeK6QgbgEXP/jym0w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cpV4yifqUFn89AzsMr+pGHcU1QmHMnHWnyD4saAsnBa1RvB1KTuKQ4dp8AvHpX6EwASIHZ+oP9QwIjGshMlISJwuGDUIzq+kf3FMQUx6CQ3pMx9IDFnVwwSW/2aKRdZS+LEJvKLonpIjuTLctXmTQlDjU2dxk8qO6qf1LCcVa2k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eOsjhHS3; arc=pass smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HKxXpHjP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771859707; x=1803395707;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BzTuTP90OJmXVCHTiz/s79phpJ7mPbJzIPjAjZ+SIO4=;
-  b=HKxXpHjP4TY4ZaE68V8hj/YthidsdGkaSEV4god2NLUbxALPAS8uTYb2
-   06iSKXEZUHkl5ojScDLpHZq8v01COqN+QJid0eixraIHJBbzIHfvlDU8C
-   NPayaoYn8eJBPY6UDPdfESRyo0U4mwVOAmbKLHl7JqILb+ZiSImRdbL4a
-   1c5dC+TUr7l4ySLUbkURn1cZq6NIl+rk8EC5YYfd5P2RSnSF6E4pOLDVe
-   mVgeWNMuqXgHWeXj+OLQp8PBfQ3Ek2JePdoCLUglHoOcZvwWGOohAPOsi
-   e1gIRZ/pcp7zycuYTnh9jcMn0l8AxiXNyBVBUjPAvPuziwEEPTKUwpLuu
-   w==;
-X-CSE-ConnectionGUID: ayAuz6IzRruef2kE0YYodg==
-X-CSE-MsgGUID: zNCYLQ/4RG6lsj+tuCcUFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="90264347"
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="90264347"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 07:15:06 -0800
-X-CSE-ConnectionGUID: Tp3je2PdSMe3FbnYyuXisA==
-X-CSE-MsgGUID: FWDdmDwRRvuxEFm30hmjvA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="253314331"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.222])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 07:15:03 -0800
-Date: Mon, 23 Feb 2026 17:15:00 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michael.hennerich@analog.com, nuno.sa@analog.com,
-	eblanc@baylibre.com, dlechner@baylibre.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, Trevor Gamblin <tgamblin@baylibre.com>,
-	Axel Haslam <ahaslam@baylibre.com>
-Subject: Re: [PATCH v9 5/8] iio: adc: ad4030: Add SPI offload support
-Message-ID: <aZxu9CxmTRDqMoOw@smile.fi.intel.com>
-References: <cover.1771253601.git.marcelo.schmitt@analog.com>
- <20f1dc8eb6bb692eb6eb814a49e54309d973a9e4.1771253601.git.marcelo.schmitt@analog.com>
- <20260222125703.00e3152a@jic23-huawei>
- <aZxthMvaSR3zhZD8@debian-BULLSEYE-live-builder-AMD64>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eOsjhHS3"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-124a5810e41so229884c88.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 07:31:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771860709; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bTby5NdpV/wKVKdJIqUy3+fzMmeHsqmcdn12Xnykh1Q0aqh41RpTCkkoNrO7wR2IXj
+         0m4qFvFx3nCURQoAvmPgY/x/iGQByXhvLQCNhefOxhlqg4aQXcv59y+pXwlVDdk1Q+gK
+         HenVAMT93vOYbVhRjGsfs6KKNzbfwYD3nTn1azRjAWbhSPjkkRhMjBREnBv5DBfMcu3K
+         ooQqbmivk0KZshlsMZS8OWSCFvrRDqJ+P5EN/UL46hMzRi6Qv83Alfl5Tx29/LlplmKM
+         QscIYT0x8xdbve/ZQV6/E/rE5NrSVW9AzWCJBt1HyDOXX2crl9tvVuYiiGfB4GgUCfga
+         63PA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pAk8ejtYqNKil504XGxzm+aHwjMu2ZLiZ7Drb8rL6K4=;
+        fh=7kJCVbArMbyGJB5NpldLt+Gx45WC74R/MImcUyQYHHk=;
+        b=Ncss6iJXZAaYccDJ1l2ZfLChvc/yG7HupO4X2hKMSlLNYMHE9jyF0ojvHWyOFyAB/O
+         VRfybCNZfBNsYz63ehtZV9IcqQpPfQIrk+aJBRqI3sg/WinCRBeIT69gOSRbTm99dv/b
+         zVbn99d/0QPyGf1OVhWVlqWtlvPqyYR1YDdTYsowWLIZjhx6f2uGcsvKPxw3Go/jHuIX
+         hZXW8+pEUdlbQe3dbNa7uIH36s/+oJwnvHlxhiUk1ousIL4/tdPwEP7it+3NfvaBfJTQ
+         ir1rmraD1RAcB9mC0fJglXbUS//tQM3mUGAARz7JNyomWO6K+QdbtDksBS7jvYhDVMHs
+         MKgg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771860709; x=1772465509; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pAk8ejtYqNKil504XGxzm+aHwjMu2ZLiZ7Drb8rL6K4=;
+        b=eOsjhHS3Ozmq1VwGODcQdkn8BEX6Q7yVxAxY5igi4hhVUKusDZPgKWiQaozpAx35g6
+         1p8ZMVuHNvwWs5A47iMPpq71be5P4L+EaTb1V8R1hq2kxJNXrX8TUrXJsTtci63rqCN/
+         BeurzxtsSreoLlWoQYtehE+m5SQI6yFnz2jYiS6WJNXGNqfdiEZ9gzZqt7DYUUtUw9sU
+         CmLaFOIZex1RXh39QePeZp7Z0w2GYyJgsmgIbxSMQaDMj6dGRAto5UpDgm2OeyNoOreg
+         jOQ5jYb31nrIMSHVa5zAj/5kZkQL+/jJPWyqa1PHlYNCV8NXI1umaCSFS671C+QCuX6c
+         oAEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771860709; x=1772465509;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pAk8ejtYqNKil504XGxzm+aHwjMu2ZLiZ7Drb8rL6K4=;
+        b=F5wihH556QAc6TtC8dSEpkbSBc40WA18KNINPixCCja54ZaPoF0/GItdxBOFIyb/AF
+         av/gF41BCK4I6D2MyVAjA5Iep1fYKnrN1ubyAqh7064Pts8DseRLVWMe2HacjSGvkI07
+         QlpcMOuCkUr3o0dtJPK9Z//gmRKhOm1H6X09lp7dpK8I11xdFh63emAosoXxPXAe8rux
+         y7ws9p7qa08s2xWpxdL8yYPwkdPgHtcJUQER2MMntxJ1/12FWVJaolSAh6YC94vqnfn7
+         OCS+a/Q+ZF62fgQaz36oF7T3X989+sbWwlSN/HYJZgTcUMmiviiUpZbaxagEZh/xgjK6
+         tGiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXfBFbiIRnz1LuEpaPe9BKh1eVeJ7pCqppTGEr0UhHRaTV9/k2DCYIkGojCFf6ymXTk/Vcp/UNHV90=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3Je6fOi6AjhVBoFjT35UaM+tuBzKyc0H1JcnSH2WjusvYX3xo
+	EvCmD3Kbabl6n/6ZdpAZmuSwceCmckS/y2A362xZ4lBJRWXbJWygTeKR7qLGM5/YE2Q6EwDfDW7
+	F+Ov488A2jbG/B97J5Z8006Eacn7ia4c=
+X-Gm-Gg: ATEYQzzROKMXDC5s9xE1/b3p/hSYCCl6G1z0MXK+HrZWoJvx6lmDGr8Eax13J+M+uNC
+	wz7D72M1x6OR/btv7duKLOdsFSvIwQXIn1D3S6xvgHaPPsSlT0EgknQZb5FyfKFrsDpZyrWKbRM
+	2iowM9UqT1IQF3OxtqcJzKYvxODxggUaPLfCIW4/JeeM+aWpXVhuisiYqrEJ/PmdjT+UZPX6vEj
+	CBDKJkgVGfwhoLpP1ogFxU9X2lzLCOZt3rcfImBGJc7lj9FRMJYSGMeaKA5CdZladKSMJmE2CHa
+	rWT9TtgWbo2Vb0QE9wC+YThFJZtHS+ScobNVT0+LmJ4nTz2Rwwvjy31HU6MsRffE3xvyUDdI6DY
+	bT/veQauv7mEN+P/aWXGhS6pu
+X-Received: by 2002:a05:7300:e207:b0:2b7:1008:9f2e with SMTP id
+ 5a478bee46e88-2bd7bdaec6cmr1877425eec.7.1771860708535; Mon, 23 Feb 2026
+ 07:31:48 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aZxthMvaSR3zhZD8@debian-BULLSEYE-live-builder-AMD64>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260210090023.2587534-1-mkchauras@gmail.com> <20260210090023.2587534-3-mkchauras@gmail.com>
+ <CAH5fLgi3Owm4=4g8wQ5Rnr7Y63XJ1D8apOdkewW6WpRfg6vV_w@mail.gmail.com>
+ <aZtT4MH0Q8Ic9ZiM@luna> <CANiq72nEam8n_daX5LyYrpH=i71k+pb+HLn6EEPdJJc-Zi9Q3A@mail.gmail.com>
+ <aZu6cSqnvO91w1m4@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+In-Reply-To: <aZu6cSqnvO91w1m4@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 23 Feb 2026 16:31:36 +0100
+X-Gm-Features: AaiRm52K4i0fpTeiP2c0ziG19k4_bQVuvrLcSD-qpk6IrkIxs1psp6f0fzvc-cQ
+Message-ID: <CANiq72mg+D4QZmBhrNj7dB+V3GHsQoZT2cSG1ffHYDYJWXyopQ@mail.gmail.com>
+Subject: Re: [PATCH V6 2/3] rust: Add PowerPC support
+To: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
+Cc: Link Mauve <linkmauve@linkmauve.fr>, Alice Ryhl <aliceryhl@google.com>, ojeda@kernel.org, 
+	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
+	lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu, dakr@kernel.org, 
+	corbet@lwn.net, maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
+	chleroy@kernel.org, peterz@infradead.org, jpoimboe@kernel.org, 
+	jbaron@akamai.com, rostedt@goodmis.org, ardb@kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	Ralf Jung <post@ralfj.de>, Jubilee Young <workingjubilee@gmail.com>, 
+	Matthew Maurer <mmaurer@google.com>, David Wood <david@davidtw.co>, Wesley Wiser <wwiser@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 23, 2026 at 12:08:52PM -0300, Marcelo Schmitt wrote:
-> On 02/22, Jonathan Cameron wrote:
-> > On Mon, 16 Feb 2026 12:00:39 -0300
-> > Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+On Mon, Feb 23, 2026 at 3:26=E2=80=AFAM Mukesh Kumar Chaurasiya
+<mkchauras@gmail.com> wrote:
+>
+> I think, disabling altivec, fpu and vsx with compiler flag will work.
+>
+> What are your opinion on this?
 
-...
+It is really up to upstream Rust -- for us, i.e. the kernel, it
+usually doesn't really matter much how things like that are
+accomplished: whether via flags, a built-in target, a custom target,
+etc. However, we need to know what the path to stability is.
 
-> > > +	st->cnv_trigger = devm_pwm_get(dev, NULL);
-> > > +	if (IS_ERR(st->cnv_trigger))
-> > > +		return dev_err_probe(dev, PTR_ERR(st->cnv_trigger),
-> > > +				     "Failed to get CNV PWM\n");
-> > > +
-> > > +	/*
-> > > +	 * Preemptively disable the PWM, since we only want to enable it with
-> > > +	 * the buffer.
-> > > +	 */
-> > > +	pwm_disable(st->cnv_trigger);
-> > 
-> > Feels like there should really be a way to get a pwm disabled in one call
-> > so there isn't an edge case of it being on briefly.
-> > I'm a bit surprised it defaults to on.  I guess this is because DT can provide
-> > the parameters?
+My understanding (but I may be wrong) is that upstream Rust prefer we
+use built-in targets for softfloat instead of disabling via
+`-Ctarget-feature` (and that the other options may go away soon and/or
+will never be stable) -- at least for some cases. For instance, for
+arm64, please this recent change kernel-side regarding `neon` as an
+entry point:
 
-I believe it defaults to "as is". The immediate case (disregard to IIO) came
-to my mind is PWM-based backlight. In such a case we most likely want to leave
-the state as previous stage (FW, bootloader) left it in.
+  446a8351f160 ("arm64: rust: clean Rust 1.85.0 warning using softfloat tar=
+get")
 
-> Not really. DT doesn't specify any initial state for the PWM. It might, though,
-> be left enabled if another device was using it previously. Not a thing I've
-> ever seen during tests, but it may in theory happen.
-> 
-> We may have devm_pwm_get_disabled(). In IIO, ad7625 and this ad4030 would be
-> the users of such interface. Would you like me to propose that one?
+So please ask upstream Rust (probably in their Zulip, e.g. in
+t-compiler or rust-for-linux channels) what you should do for powerpc.
+They will likely be happy with a PR adding the target (or whatever
+they decide) as Alice mentions. And until we reach that minimum
+version (in a year or more), we can use something else meanwhile. But
+at least we will have a way towards the end goal, if that makes sense.
 
-Not sure it will be accepted by PWM maintainers, and personally I would be not
-a fan of such a call. Sounds a bit confusing to me (however, we have IRQ flag
-to not enable IRQs, which makes a lot of sense in comparison to other use
-cases).
+In case it helps, let me Cc Ralf, Jubilee and Matthew who were
+involved in some of that discussion in the past, plus the compiler
+leads.
 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Cheers,
+Miguel
