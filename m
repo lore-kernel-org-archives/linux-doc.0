@@ -1,87 +1,86 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F9F37BE64
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0E637B40E
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771886511; cv=none; b=rrhPju5zseFTijCS7LsgDHFYwk+Az189Gbmlf1KhnUY0qTTt+QoJLp26KIRlE2xS7iC8x8Pr8fR3/VFBZ9xl7v3+BPBXEkIIk13tAxIpK2WD5b2dLkho/APV12KC8DXQteig3FcJgmb3PaC+XC6RtBlJXBEcgv1C+XmRMl+bvdc=
+	t=1771886705; cv=none; b=OJwT1AbE2xDumgCFB0iocWYMMMf2V09U7fuuJ+PhVplKhnLyamDlBaizqUAMH84JWpeNhBZIJw5oIXFyZpRRx3BDhFJ6YLNNludXD6tDrtvdv2UwQNcXWBipXkUMgH9j1qQNhbeJa4iTIOCusrprm7kWtKpaVxGd4SdMXT++IRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771886511; c=relaxed/simple;
-	bh=PDnJPTRLUiPMHSkXqn9tuBvAQ1ylJXUzFUE4GbH7Hqs=;
+	s=arc-20240116; t=1771886705; c=relaxed/simple;
+	bh=TdtJJEcR36eOIcMiT4ZO5zoHynLWdppAn7a7AhllwY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R319xcOTGTW9mClkvouqyr671N1ITUt3S51vTD5sZGtGkZhe+GeqM1G97agV8k3GH839p8JhVK2h8yvmawYIykz06bWJq2n+ym2x/f+c/gcbSf9ubpuUTBFT7O96OFUPYXlcX7fdWt8Q0OGmFFR+cOaXFakjWNw6qzAc5I481eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UqxJBeZr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=L7u8ZpNA; arc=none smtp.client-ip=205.220.168.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=rEm3jVUJ85DG/aJE2/f+JZ+gQ6PdV6nO/aTTa/m20C/WrIRi1XAF3uEG5K/vzJ9goZDZfLQAdyjrTN5spaVoD6dTMA94Nx5KweVtwq9ltFMVg5cMQJPFXSPQjx0AaKKEsWqm72BolE6OEyWjmiPXTssslxXuBl9ddQsyxkeYHdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RxwZI8N7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cxQnXu90; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UqxJBeZr";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="L7u8ZpNA"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NGvfKp3478855
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:41:50 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RxwZI8N7";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cxQnXu90"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NGRJOH1640607
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:45:03 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=AyHH7QcVrx7/d/Pc5HmpEFyc
-	TB7iy4eLl8RPthi6BKQ=; b=UqxJBeZrdU/+HWoz57Jsz5OGQVVAWwhBjkkReBnM
-	znYBmNaTaRZGpuZhz7FyFz+WMKoWazbntOR+ec/5k/EJVTBMqgTMcgo7rFv0h8Iw
-	XdOhutI9faQnvYCkm6mP+1Kd6PUqlMPkM8s8XwwBmRVS4g5u5yQUOdKMmQtYMgzi
-	ZFyxbQT2h5UlRY/O5RUWPPxnMKT7wj4bAzCzT5ovcR01y2uay4wfuENWyM56LLaB
-	HewbVsGgnFFTIQHaCasjtePqb0Ad+WJthHI8w3QeISWAww3VujFiKji1G4ot6uw0
-	1yteuL+sy6paHYOY5NXaN6D4btbz4lVrj3tv6Ix0oKOFsA==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgtv9ryar-1
+	:references:subject:to; s=qcppdkim1; bh=4uwG+VSOUPiQWFQC4n/buq2e
+	c1Jxta6TBA66E35NxDU=; b=RxwZI8N7h8IyqIggGJxquVH3UCDbV1q5LiSJ+ilt
+	DdciWWZZ87rygoZLFTX7IFnxwhjw3a2NekubPTReBbZdvT5/4SSjyEZb+WDNYh8A
+	WQ8gdZL650EWkFAtysqxYKeuW8qApHFcT2N74xuR4TKihkr/XGpCrAqdNYDAxs/1
+	NT49p75lSokhEFFtzG1AVZFQmoeq3548hEiK7Iw7IhrArm4kDLXTLXWIURFHHJWi
+	f4G+rooV2wwz+HpS0+nJec8gygbF88Xa8UpYvzXt/UceJ+BeoiwcqyxKG4b6W0ho
+	FxvSAPylmmsj5J5FZAGJVokXdrAbR8YEUY10TUTO78Pghg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgte8s27e-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:41:49 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-506a936d7afso584664041cf.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 14:41:49 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:45:03 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8cb6291d95aso3393077985a.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 14:45:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771886509; x=1772491309; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1771886702; x=1772491502; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AyHH7QcVrx7/d/Pc5HmpEFycTB7iy4eLl8RPthi6BKQ=;
-        b=L7u8ZpNAsKVx+4aEQh/qmM4mheUmua/6k0naFFdOUtEA6ft7uC3tw7L1nD2lbegEPY
-         ZA4f/HY9aRj3+xcfB0UR21LMmm/F1XB1GQmBykHnKSJi5UMX3HhwPuYpljTT+xHZkzAz
-         u+gy8ftM30nh5eQtcvZfN3l7e6s3w2O3Tez9N6n2t2LPwkaTN2vmTuUmS9kpCvpsL2zJ
-         xyID/4KPdHyQXzLRHZGclZBKRlMDqJdgqV1PXXlXr5PFmfMjOZlypJDCEVB94NodrUCl
-         aAtX3TcAopRc81fnGZBCdWbKQJuTNJXDpkNJQBdqkSyLs3jwfhB1YVMece+n7tgWQSAh
-         5Juw==
+        bh=4uwG+VSOUPiQWFQC4n/buq2ec1Jxta6TBA66E35NxDU=;
+        b=cxQnXu90khqV6o7CfC5ArtwQXDBIUXDWqn/RA602FSGZTWUZ7XLyAl/lfd+EDxOcOc
+         wjlYeh9oJbLep+53q4xCUjAu7aAww4fnKN4TUeEz8Tswtii4Mf58YRWzQ0w95gt9Jmou
+         5TqLJMOCBXRbc/x5unXFHDeSrM2JI7yiUu530qpBSrlfG3agkdldC4XFrAPfPg4I+Qqy
+         wRja8gWx8gPJtyybVmiP+IPa1FuqUs2yri+Vlea7OwcdX1u8kNam1qj40uibbFN6/xI+
+         DtqwhwUFahpJ4dNonHdFsQDGZUsCeLCVkM32KVgDbNA/Hm4IUx3fdalJT9PFP/AKteBk
+         qnpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771886509; x=1772491309;
+        d=1e100.net; s=20230601; t=1771886702; x=1772491502;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AyHH7QcVrx7/d/Pc5HmpEFycTB7iy4eLl8RPthi6BKQ=;
-        b=MDDfZZ3o/aeNRU8ZBiH3mLrJ+ZgNqPf3UE16V7K8E9uXRGYYvZ+MOnh9RnTSUwKZRK
-         dA3yvZy/HB1DdTK1IdtnDgeXuisXxkgi4mluXsYoD6Ahr56anUbOxLwhWjfhox4x/OEz
-         pW5bwTcfpV57wRC5l8iMZTA3SlTc14FfNScpgXzGbvDVqRd4CR8kAY1LmzrzS8ptY937
-         jRc+Cc3hpalK+lLDEgz/xN5xgMuXNNDxpWQfQ2jHF0wYklaFX6fRh85sacqt0FrPaMU0
-         OaviTtVqU4IJwwG1gzRRPWTMyiH2BwBVdyhwjyAVlSJWIirXVe5zpUrNonAbUiHz1asa
-         SR8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWHmWh3161AlM6uUub46rAirKRGlW9xnZJKHotES5ENk5QsUFM9T2xTepDIlLM+O6aJsFr2CP4Ba3A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiJ9e+Pgomz7J+lPNDIuHcFQuJZCZmbKbDfLWEDk1IGu55cNBM
-	pCr/MMAY20BHVbl2/jVBtjh3FIT1jppJXwSiQpSLOGBFAz06z+MRsyxpZ0yKlDak/fc96WRLyV+
-	Hu7ERMkL8Ttcx4eSDKjWmShEwxk04ohWJ8hdgm67LUULwRphEjkBiv+Jlr/BCzXE=
-X-Gm-Gg: AZuq6aLEf3nMxQFbdl1pVyRkj/3RcdN/QwXrIU7tZDLG15kGEVaawSn9v2ke0HicmB8
-	9y5lPLAxpp0yuN8uLyYmWg8ZFUV4FhQ+eDJlKLls5AV6lp0Ogqm47chGoLjTHvCyNrO/NCTRFm8
-	k4rWVa6qbK+0efQRqfq1IQ9qGxKcABB7Ji0jEsLjpBV9EAd1SFcZXv16kkADQrhGv/uTS5X7gRJ
-	g8umJq2dKMLGI5xEPITe7LTawmGiF+vb6CcWEG2yKClrvi4jzyXD9AM1929yHGxDsnjRVt3CFB8
-	EmTSX+QxhrQARIjVqmUKWwO0qY1PKZCXZaeQG+OpASvv+4rj+Uxd/8xfFPeijI2ZR/YLBmlS+YM
-	ZwVmNw2ddstKuv7+JSxK2qmdyl+OpssY/WVKERDPSOH+C7cvtXO25S4+Iod3TSTYxdaeffXR/5g
-	ispKMayTpf4Gr1h/Bw2VH3tvB1Vp4dojIszl4=
-X-Received: by 2002:a05:620a:440f:b0:8b2:d72d:e41c with SMTP id af79cd13be357-8cb8c9d2d25mr1211395285a.5.1771886508806;
-        Mon, 23 Feb 2026 14:41:48 -0800 (PST)
-X-Received: by 2002:a05:620a:440f:b0:8b2:d72d:e41c with SMTP id af79cd13be357-8cb8c9d2d25mr1211390585a.5.1771886508209;
-        Mon, 23 Feb 2026 14:41:48 -0800 (PST)
+        bh=4uwG+VSOUPiQWFQC4n/buq2ec1Jxta6TBA66E35NxDU=;
+        b=AxUIyekUZhpJ20Zfhrqoe0HVrOEov1/pJioY+NNBgbGf6JYXvD190Fa0rFCSP9w5Pt
+         VxklmUjCcc7/ac5tNI+q/qd1ZBg90cAkwm9kCWaBrxz9HcDhiw0VNoCFzQH5snscYUJO
+         ho6sdNdEglZUxpHL07PNhV/KGcSgYUT/OvbsiWt8ioXFwfGSVL5AxSmvVbYdkKaI5blA
+         AqJ/uP75Vw4oSp/viF3U6MnIhnpcBA/mtDOXEsHYmlpS+53XyYMAw1OMil8ja2heLBIO
+         t0nx5ni7agvRjpqCoLa9UL8va+IphGyQ+r23dX7CB0mNAgub7mGt/SDcro39K12Hca0f
+         BDOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpWkpef42AdxTKwZy6lhfyQyPa0ogRiraueiCirGIwzxM5hLyN5GEekSSj6QMYC7wZdVE6AAZwsmw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/tHpTDbWL6siUqAmxjy3KHUUjZzF+Xby+FdR0zYXQEt/XXvFu
+	nbyxmDz3a0+28sDDvTP27XU+8uSicvF9Uk+YbaNV1aczgfQ7kladGJ5XLFi4VRpVfDufMttaA5N
+	gK6xVCuel0s1mrs0fNiRcdLy0lmP4+Og0MKMv7JU7zEkMAyAl6pA3lYJX2WMsYpc=
+X-Gm-Gg: AZuq6aLW2XfdyHDlbaRMIydQljl/fMaE1irp6zpp9AX3inEYQrlx/k9QGtB9wk6TVgA
+	XeUjgmfJ5wJ4/Rd1rVCfR3YFgNqQLCyLOzEyglX7ZFMrr6V2SzZWPKR/mHKN4UOg6UI5DL6qDEi
+	4Bod+WpcN8khV7DxnegXDZzjGSi2IvEnfyhm9bfcvIUdvZogvL5eVXEiy9i0htcVBWjq2WKnhD9
+	EXvphCmi/dJo8Ch0u/v2pEiA64ZyWFmiwFSTP6fiVKDq8yiLZZPZjnFRE4Y9VQGDCaFw8OxeeYr
+	E+iy+Dng3jFtNNz/mUpOMYlBYv8zKxqyYClbs5DfHXEjDTJVrDB8fuvWSoKYKISFPfkAh3t7GA8
+	w5vZWCF8KimNX+ZNiPWe4kkizFWo/emWeDc/LA/rTStkpegkhBa+kqnKAZbu9rhIcgmH2ZONLPR
+	Gdr7Ojp50M5zRZ1X4DIf5fL2oUrswFeUSoG/M=
+X-Received: by 2002:a05:620a:4727:b0:8ca:2bab:a0f9 with SMTP id af79cd13be357-8cb8c9dfd2bmr1406786685a.1.1771886702343;
+        Mon, 23 Feb 2026 14:45:02 -0800 (PST)
+X-Received: by 2002:a05:620a:4727:b0:8ca:2bab:a0f9 with SMTP id af79cd13be357-8cb8c9dfd2bmr1406783685a.1.1771886701837;
+        Mon, 23 Feb 2026 14:45:01 -0800 (PST)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb4cbf5sm1818985e87.91.2026.02.23.14.41.45
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb3e9a2sm1832057e87.55.2026.02.23.14.44.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 14:41:47 -0800 (PST)
-Date: Tue, 24 Feb 2026 00:41:44 +0200
+        Mon, 23 Feb 2026 14:45:01 -0800 (PST)
+Date: Tue, 24 Feb 2026 00:44:58 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
         Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -97,15 +96,11 @@ Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
         Bharath Kumar <quic_bkumar@quicinc.com>,
         Chenna Kesava Raju <quic_chennak@quicinc.com>
-Subject: Re: [PATCH RFC 03/18] accel/qda: Add RPMsg transport for Qualcomm
- DSP accelerator
-Message-ID: <x3ebegi74hx3a2okxnjipgsrgkbncmtwnusxtv7mc66nfih2qu@jdxc4ry2n2gb>
+Subject: Re: [PATCH RFC 04/18] accel/qda: Add built-in compute CB bus for QDA
+ and integrate with IOMMU
+Message-ID: <ox7jnqkjo3frhbgpp63sse7ram72obihe4qlbbn4z22wbw4szr@7pzoeecdvsyg>
 References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-3-fe46a9c1a046@oss.qualcomm.com>
- <tqsdbijgjomrn7fq3sdz7v2axwxqvbccpjh4fmvod4kbrq7pod@af3igw5dx66p>
- <lyco6vkfjlerri55ldyn6fbhihbkhnuolifddcnscevybsztq7@ljhjln2ynmid>
- <r7eko65ua2ofyejqf6ipnh6jm4s76f4mqy6a4msgmlraz4xuec@uymfzc65dbng>
- <oe4ho45dxtwjjjsqj6nd4op3gh7dz2pqwsuuhgqpdbf5hym645@smg3g4evqmge>
+ <20260224-qda-firstpost-v1-4-fe46a9c1a046@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -114,85 +109,193 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <oe4ho45dxtwjjjsqj6nd4op3gh7dz2pqwsuuhgqpdbf5hym645@smg3g4evqmge>
-X-Authority-Analysis: v=2.4 cv=Vaf6/Vp9 c=1 sm=1 tr=0 ts=699cd7ad cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <20260224-qda-firstpost-v1-4-fe46a9c1a046@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: _0spYOURZKqsX1jdXMiDB1Gga6gTIbcT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE5NyBTYWx0ZWRfX7T4ScY4bOpEy
+ jdPnjjhJ+e1JmZLdCxrcvLJt+ajIP9JKNAVu1yXrfYrFJoAW6mQjvftUM1kQ19VJV46j6rmiqHq
+ lr4dUQ5BuD4a8oNaVGHwrntJKhZcXz9tytJucgrwYj0/AYt4petIWkIUINyrbBmjUfsOcSl1P22
+ AVJMCA/lfgh7E+2v3RbDUUy81WF+utQ2RsLZpWq5YdLXGBST00lJ+UY1TRfExVLYhm3y2Zy7vTH
+ oyF6XtMUegzTmz64+BQPPZdhh/k48VwD0ld5n2DwxODC5kWDzn7VVAy4/hDGnGjr+RMPwb3/9Jf
+ t3ed512mvE0l1zG5DeQrJYxmZto1WGduHCOlYz0D2Vec94EQhtlR+xh6nBqqECAQYQjUVpPNkIj
+ zgXE+W0in9xm8zTbbR/aB8NpugixW3I3zvEdYhQstDha7kg7+2BEmoxMFrcAAt+Rh9qneH3W32P
+ CxZ8gZu+8r2u8rTmt1A==
+X-Proofpoint-GUID: _0spYOURZKqsX1jdXMiDB1Gga6gTIbcT
+X-Authority-Analysis: v=2.4 cv=WqQm8Nfv c=1 sm=1 tr=0 ts=699cd86f cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=-Sm6rUxn0lnaPTpFYlgA:9
- a=CjuIK1q_8ugA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE5NyBTYWx0ZWRfX3Vba79XhZ0GG
- IczKeuUHsopaoagPIAZ0XD2PEKGFxrH6mi1t1G8zhPMODUlzh2laJ9zs1n0ctaJm1+/HSyQkqzQ
- /lK2SFR98uwoT9SFNn1yd6BlWKFSk1iQNWzHYZ/y5HcqUIoKG53r5hCVAb46VCJEs2yM4LRY9Ay
- hfWRxJCzvcbOKFB3BcWOsKuNTv7q/FoLmR8+NM9A4/IWsgiGtJN85Kvcx1qaikBXI789tonzryN
- GZ2ZDgH7HoK7+3g7CnxAM1Qg3b9qJvjlmkjX7eEOMn1a7e1gDq8IPTpRDyWCY8wdBEAMLzYe1Hi
- EDdlVMdVkKPjpECDrOvPVO4mCtviczefZfwwi8SLuC36thOQ2Z4qZ/QvnDH5tBKHXnl0y4WT99e
- CLMy5/n9Jm3+A6y4TozhDgGpGWt/CVNLiMryAT8uCtxziyTVfZwHFpObgM/+BieMwY60fDrMtyG
- oOyLQOg27MGTilFRlRA==
-X-Proofpoint-ORIG-GUID: CZzM59I-ADKJYKKWzPjyJhU9LdU1ul4W
-X-Proofpoint-GUID: CZzM59I-ADKJYKKWzPjyJhU9LdU1ul4W
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
+ a=m81VUDHjpZwfiQc3ckkA:9 a=CjuIK1q_8ugA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-23_05,2026-02-23_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- clxscore=1015 spamscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1015 malwarescore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230197
 
-On Mon, Feb 23, 2026 at 04:25:08PM -0600, Bjorn Andersson wrote:
-> On Tue, Feb 24, 2026 at 12:12:32AM +0200, Dmitry Baryshkov wrote:
-> > On Mon, Feb 23, 2026 at 03:50:32PM -0600, Bjorn Andersson wrote:
-> > > On Mon, Feb 23, 2026 at 11:23:13PM +0200, Dmitry Baryshkov wrote:
-> > > > On Tue, Feb 24, 2026 at 12:38:57AM +0530, Ekansh Gupta wrote:
-> > > [..]
-> > > > > diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
-> > > [..]
-> > > > > +/* Error logging - always logs and tracks errors */
-> > > > > +#define qda_err(qdev, fmt, ...) do { \
-> > > > > +	struct device *__dev = qda_get_log_device(qdev); \
-> > > > > +	if (__dev) \
-> > > > > +		dev_err(__dev, "[%s] " fmt, __func__, ##__VA_ARGS__); \
-> > > > > +	else \
-> > > > > +		pr_err(DRIVER_NAME ": [%s] " fmt, __func__, ##__VA_ARGS__); \
-> > > > 
-> > > > What /why? You are under drm, so you can use drm_* helpers instead.
-> > > > 
-> > > 
-> > > In particular, rather than rolling our own wrappers around standard
-> > > functions, just use dev_err() whenever you have a struct device. And for
-> > > something like fastrpc - life starts at some probe() and ends at some
-> > > remove() so that should be always.
-> > 
-> > I'd say differently. For the DRM devices the life cycle is centered
-> > around the DRM device (which can outlive platform device for multiple
-> > reasons). So, please start by registering the DRM accel device and using
-> > it for all the logging (and btw for private data management too).
-> > 
-> 
-> There are no platform_devices here, but tomato tomato... What defines
-> the life cycle of the DRM device then? Might it linger because clients
-> are holding open handles to it?
+On Tue, Feb 24, 2026 at 12:38:58AM +0530, Ekansh Gupta wrote:
+> Introduce a built-in compute context-bank (CB) bus used by the Qualcomm
+> DSP accelerator (QDA) driver to represent DSP CB devices that require
+> IOMMU configuration. This separates the CB bus from the QDA driver and
+> allows QDA to remain a loadable module while the bus is always built-in.
 
-Yes.
+Why? What is the actual problem that you are trying to solve?
 
 > 
-> Note that the fastrpc service is coming and going, as the remoteproc
-> starts and stops.
+> A new bool Kconfig symbol DRM_ACCEL_QDA_COMPUTE_BUS is added and is
 
-Even one more reason to use drm_device for life cycle management
-instead of manually inventing the wheel.
+Don't describe the patch contents. Please.
+
+> selected by the main DRM_ACCEL_QDA driver. The parent accel Makefile is
+> updated to descend into the QDA directory for both built-in and module
+> builds so that the CB bus is compiled into vmlinux while the driver
+> remains modular.
+> 
+> The CB bus is registered at postcore_initcall() time and is exposed to
+> the IOMMU core through iommu_buses[] in the same way as the Tegra
+> host1x context-bus. This enables later patches to create CB devices on
+> this bus and obtain IOMMU domains for them.
+
+Note, there is nothing QDA-specific in this patch. Please explain, why
+the bus is QDA-specific? Can we generalize it?
 
 > 
-> Regards,
-> Bjorn
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> ---
+>  drivers/accel/Makefile              |  1 +
+>  drivers/accel/qda/Kconfig           |  5 +++++
+>  drivers/accel/qda/Makefile          |  2 ++
+>  drivers/accel/qda/qda_compute_bus.c | 23 +++++++++++++++++++++++
+>  drivers/iommu/iommu.c               |  4 ++++
+>  include/linux/qda_compute_bus.h     | 22 ++++++++++++++++++++++
+>  6 files changed, 57 insertions(+)
 > 
-> > > 
-> > > Regards,
-> > > Bjorn
-> > 
-> > -- 
-> > With best wishes
-> > Dmitry
+> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+> index 58c08dd5f389..9ed843cd293f 100644
+> --- a/drivers/accel/Makefile
+> +++ b/drivers/accel/Makefile
+> @@ -6,4 +6,5 @@ obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
+>  obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
+>  obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
+>  obj-$(CONFIG_DRM_ACCEL_QDA)		+= qda/
+> +obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda/
+>  obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
+> \ No newline at end of file
+> diff --git a/drivers/accel/qda/Kconfig b/drivers/accel/qda/Kconfig
+> index 484d21ff1b55..ef1fa384efbe 100644
+> --- a/drivers/accel/qda/Kconfig
+> +++ b/drivers/accel/qda/Kconfig
+> @@ -3,11 +3,16 @@
+>  # Qualcomm DSP accelerator driver
+>  #
+>  
+> +
+> +config DRM_ACCEL_QDA_COMPUTE_BUS
+> +	bool
+> +
+>  config DRM_ACCEL_QDA
+>  	tristate "Qualcomm DSP accelerator"
+>  	depends on DRM_ACCEL
+>  	depends on ARCH_QCOM || COMPILE_TEST
+>  	depends on RPMSG
+> +	select DRM_ACCEL_QDA_COMPUTE_BUS
+>  	help
+>  	  Enables the DRM-based accelerator driver for Qualcomm's Hexagon DSPs.
+>  	  This driver provides a standardized interface for offloading computational
+> diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
+> index e7f23182589b..242684ef1af7 100644
+> --- a/drivers/accel/qda/Makefile
+> +++ b/drivers/accel/qda/Makefile
+> @@ -8,3 +8,5 @@ obj-$(CONFIG_DRM_ACCEL_QDA)	:= qda.o
+>  qda-y := \
+>  	qda_drv.o \
+>  	qda_rpmsg.o \
+> +
+> +obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda_compute_bus.o
+> diff --git a/drivers/accel/qda/qda_compute_bus.c b/drivers/accel/qda/qda_compute_bus.c
+> new file mode 100644
+> index 000000000000..1d9c39948fb5
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_compute_bus.c
+> @@ -0,0 +1,23 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> +#include <linux/device.h>
+> +#include <linux/init.h>
+> +
+> +struct bus_type qda_cb_bus_type = {
+> +	.name = "qda-compute-cb",
+> +};
+> +EXPORT_SYMBOL_GPL(qda_cb_bus_type);
+> +
+> +static int __init qda_cb_bus_init(void)
+> +{
+> +	int err;
+> +
+> +	err = bus_register(&qda_cb_bus_type);
+> +	if (err < 0) {
+> +		pr_err("qda-compute-cb bus registration failed: %d\n", err);
+> +		return err;
+> +	}
+> +	return 0;
+> +}
+> +
+> +postcore_initcall(qda_cb_bus_init);
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 4926a43118e6..5dee912686ee 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -33,6 +33,7 @@
+>  #include <trace/events/iommu.h>
+>  #include <linux/sched/mm.h>
+>  #include <linux/msi.h>
+> +#include <linux/qda_compute_bus.h>
+>  #include <uapi/linux/iommufd.h>
+>  
+>  #include "dma-iommu.h"
+> @@ -178,6 +179,9 @@ static const struct bus_type * const iommu_buses[] = {
+>  #ifdef CONFIG_CDX_BUS
+>  	&cdx_bus_type,
+>  #endif
+> +#ifdef CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS
+> +	&qda_cb_bus_type,
+> +#endif
+>  };
+>  
+>  /*
+> diff --git a/include/linux/qda_compute_bus.h b/include/linux/qda_compute_bus.h
+> new file mode 100644
+> index 000000000000..807122d84e3f
+> --- /dev/null
+> +++ b/include/linux/qda_compute_bus.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#ifndef __QDA_COMPUTE_BUS_H__
+> +#define __QDA_COMPUTE_BUS_H__
+> +
+> +#include <linux/device.h>
+> +
+> +/*
+> + * Custom bus type for QDA compute context bank (CB) devices
+> + *
+> + * This bus type is used for manually created CB devices that represent
+> + * IOMMU context banks. The custom bus allows proper IOMMU configuration
+> + * and device management for these virtual devices.
+> + */
+> +#ifdef CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS
+> +extern struct bus_type qda_cb_bus_type;
+> +#endif
+> +
+> +#endif /* __QDA_COMPUTE_BUS_H__ */
+> 
+> -- 
+> 2.34.1
+> 
 
 -- 
 With best wishes
