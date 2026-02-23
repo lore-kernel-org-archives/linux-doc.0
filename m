@@ -1,151 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECEB1E8826;
-	Mon, 23 Feb 2026 10:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81F81E8826;
+	Mon, 23 Feb 2026 10:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.136.29.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771841960; cv=none; b=n+uW3IQddegufM4AQay113a9icSAeyaiXMbbaVZO5RdHPIpakSDmNYM+J+MGMHGY2GFb+eO4mlHkPexGtpZgUJjqKi5inh/qmJs7L44q7E0ZGulkwNHIpOwHNX0f/0L8ZkHA/lMY1SClH1jA/K8hKYMBO+YHAHjwvhMDwmuIsmc=
+	t=1771842213; cv=none; b=lCHyXJsjdnIDJ2X03AEsPiMnI1YGkMUIJ/oQ4irkWpF46akKvwpZ61hRhF+OJeNhhls4rE6Jv+B3uAGY+lHwwAMSdsHHJW4VbQn77YnFF3ElzQ9ulhZKOM7J356y6roXqhWeTblL92v5lq6Eo0ULZdAyowC8sjgO+oeMg1nv+N0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771841960; c=relaxed/simple;
-	bh=X0d/XGvHpwZScfvSz5HK7fcj1vTy3esDK40Iv+brjp4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NFckiB5jNmxTNhZ1ZREhJKcQ0smAhMLhDIHiJXjd6D5l4CYMYsZUBrCKBvO+eaLJXZkvFCuugmufshLQfml1SyF5ehgE1nxer831/1p8urPCvpml4yCTHTYKtwlNa2yNk8doc/k5U3/5SaHCFWnY/+Bo+Sl1SR04jRLjhs1aGHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mly5crhZ; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mly5crhZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06634C116C6;
-	Mon, 23 Feb 2026 10:19:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771841960;
-	bh=X0d/XGvHpwZScfvSz5HK7fcj1vTy3esDK40Iv+brjp4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mly5crhZ7ZEd6hspmnqW4r63zchGNzczzQiB/OKmKHgmLyqnEucLWVBLUXvImSirc
-	 RGgYAQT1mi6WOeBbuuvsmbOGNcW5bpXKOl/6/MQeRI2nyCfNeYzx5sB5ahCbEJP01k
-	 z0eC8eZ+vdk0I0E9ZNegzk6nYIIckNiHGndfskdWTHgIKTZkzzXT8lgdtAZh+VUNcu
-	 bmNd4PTQYOkicDydeuA6pLtFzYf033E2Jne+GJ2DpNntx/YH9RT8LRC3ltmJEnY+Ah
-	 NKg7OyU3gcrJUlUIKu/oHaEZKBOAeNObTpaZ2cncsHtJgtwt7JONUsPBzGl+iEAE7j
-	 N0mbxB2IlxggQ==
-Message-ID: <388e52a2-4537-46f0-84d9-eb7a1f3b1660@kernel.org>
-Date: Mon, 23 Feb 2026 11:19:13 +0100
+	s=arc-20240116; t=1771842213; c=relaxed/simple;
+	bh=ELv5zMHZwICEdagRRVoDJRD9O9GW92zGu2PUck1DwFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pbOzF5qnUl8VzPa1KfwH7mLJ7To9KTGjCfX1TYiXhr8pFyK3/4NKdfKtfyYfH4sRlz/t5W23zK2IxmUHbBTRWEVFZFZ1zw2O2YCLfJh3f4unL5bXGBJzB4PNKaOiN0CtzJrpqu3RHvc9ktlJmNkz8f8OymHoFYPLeNcpKWL98QE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com; spf=pass smtp.mailfrom=proxmox.com; arc=none smtp.client-ip=94.136.29.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 225F847D30;
+	Mon, 23 Feb 2026 11:23:30 +0100 (CET)
+Date: Mon, 23 Feb 2026 11:23:29 +0100
+From: Gabriel Goller <g.goller@proxmox.com>
+To: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: net: document neigh gc_interval and
+ gc_stale_time sysctls
+Message-ID: <zevfldlqbbprujyld3v3jdl7jlifbmn7ixhrdcpyj34eepv7m4@j55q7mptwqyt>
+Mail-Followup-To: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260219162200.510325-1-g.goller@proxmox.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] power: supply: max77705: Free allocated workqueue and
- fix removal order
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>,
- Dan Carpenter <dan.carpenter@linaro.org>, Lee Jones <lee@kernel.org>,
- Dzmitry Sankouski <dsankouski@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
-References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
- <20260223-workqueue-devm-v1-3-10b3a6087586@oss.qualcomm.com>
- <aZwWl57oJln1xH5m@smile.fi.intel.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aZwWl57oJln1xH5m@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260219162200.510325-1-g.goller@proxmox.com>
+User-Agent: NeoMutt/20241002-35-39f9a6
+X-Bm-Milter-Handled: 55990f41-d878-4baa-be0a-ee34c49e34d2
+X-Bm-Transport-Timestamp: 1771842195152
 
-On 23/02/2026 09:57, Andy Shevchenko wrote:
-> On Mon, Feb 23, 2026 at 08:27:31AM +0100, Krzysztof Kozlowski wrote:
->> Use devm interface for allocating workqueue to fix two bugs at the same
->> time:
->>
->> 1. Driver leaks the memory on remove(), because the workqueue is not
->>    destroyed.
->>
->> 2. Driver allocates workqueue and then registers interrupt handlers
->>    with devm interface.  This means that probe error paths will not use a
->>    reversed order, but first the destroy workqueue and then, via devm
->>    release handlers, free the interrupt.
->>
->>    The interrupt handler schedules work on this exact workqueue, thus if
->>    interrupt is hit in this short time window - after destroying
->>    workqueue, but before devm() frees the interrupt, the work scheduling
->>    will lead to use of freed memory.
-> 
-> ...
-> 
->>  	ret = devm_request_threaded_irq(dev, regmap_irq_get_virq(irq_data, MAX77705_CHGIN_I),
->>  					NULL, max77705_chgin_irq,
->>  					IRQF_TRIGGER_NONE,
->>  					"chgin-irq", chg);
->> -	if (ret) {
->> -		dev_err_probe(dev, ret, "Failed to Request chgin IRQ\n");
->> -		goto destroy_wq;
->> -	}
->> +	if (ret)
->> +		return dev_err_probe(dev, ret, "Failed to Request chgin IRQ\n");
-> 
-> This should be just
-> 
-> 		return ret;
-> 
-> 
-> devm_*_irq() prints the message. No need to repeat this in the caller(s).
-> 
+Superseded by:
+- [PATCH net-next v2] docs: net: document neigh gc_stale_time sysctl
+  https://lore.kernel.org/netdev/20260223101257.47563-1-g.goller@proxmox.com/
 
-I guess separate commit then.
+--
+pw-bot: superseded
 
-Best regards,
-Krzysztof
+
