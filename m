@@ -1,310 +1,193 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7089337F8A6
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 23:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771889263; cv=none; b=ewiOJnD8A4U1waMWhYyVXd806jbBm/hmhx7gnySSbeZasKc7eELcy+igues3wJjJx234WE5F4f+/DS6i2ERK4HcuNK5yX4J4wQ2FxIsP/sgYNiRp8HPZK2nirk9lTL+2GYbndO+Gsxz1JKA5mjemfkL0qXRGuagCAFu0aKFq9cM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771889263; c=relaxed/simple;
-	bh=xEee9cxbr7GG38D2/dBLujjBWCXTmk4ZStmSNh98uT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=shtYr5be1DD74C64o85ovBGwjvdD2w2XkDjWCCLfqbFNG+5CCp9a6+zZHunzvd/l2Y3lhOJ7ILKMfv++fYf2JhePqbYPjxAbZUUO+mLodhrmEsLHjTk1WFHwZHGkNiqbL/5fmLXVKhfg7CqOdN9/APvrGnCD/+3S/1UDj7WOAVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tlTa2Pl7; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C95FD37F8C7
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 23:29:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771889374; cv=pass; b=d+l1dDi9vSJHkITeVeMMp4qTdm4vgGSTJ3joeYvxMsFeq+8Yqsj2wI/+C/1iJb/BOleDTlSSIoQu+habKxGBNNepJaW95Ajjs08hLAQ+nR/I/7xjLEM0LT6md70OvH49I37At5jqZaKVjNTBqQnZN8NvfuffVMTcUXVr1KUUc9Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771889374; c=relaxed/simple;
+	bh=J6zBSnuv2VUk6bsTnE+sg32kVJnVvTzg2RryFVDgAJA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lyBQMEkynLMoA43TW8HdC/WapanLGGNf08jEZdQtIise0l7NiQROfo8exD+4AJWL0cWhAgsp+MRzZT4JD0ol+WF8OF4KY1U+BLvdxBpuADuY7YdYQDNZ4umSbDMiuN1PyU5FeLYKkNt4IyqInBmGf9PNzJ1gAet6rFHrxnpFAvA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nevCftR9; arc=pass smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tlTa2Pl7"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2aad8123335so12185ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 15:27:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nevCftR9"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3870cbd6c40so43609861fa.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 15:29:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771889371; cv=none;
+        d=google.com; s=arc-20240605;
+        b=J1kd8BYuEPwOJgA4VGGwwxCeIQIk6PaX1FNEg2OLHeVg/h1bGCGjokzCM61VLnq4iX
+         xNfW75lNfNt2Ne4bOjE+GRWJOttl7RNahbGKJfQqPE2byqe6y0fI8oLJOxnfiIl+Tlgx
+         YMPV3kQiFNGFXzNgzJEXsij82tUjmNg/ArK8r2ouXlyx8hYxEdPuQ8pOPvFJcW+IhOkX
+         BJ3NFfTxdgVzQBSyuetJnBqIZJpMERb5rveS59QvRVUOh0zV4cTtNSOm9u3VKbK5Idnr
+         ZI2+4pKtivT+Me+aR4r7448W+aGN5Ljt02YfXXJEkJoVfAa0xjv4DdEBgj/pSk9Qg3yE
+         hW3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8WfeWRTrku2bTr2EuWBQJnzZIlU4RzO3uGEG8JLabpE=;
+        fh=viESndCN1lbMWHUmh2kTKJRQ+gJyBVtEg/+Mn43kA6M=;
+        b=iG6S8+etNUvZ88c5rWO/l5GcabpPZanw8mP6jUm/ZKh0Jp3/mm+PYqpjd6gq1SOyro
+         cbNvkbCPKTXl8wgvUZjGswIP3+ZAWG547+6vbgdnJnZ6aUl3b8YRzTMovZtMOPQ6IwXG
+         2Zmd1DgiDvyHdliO3PggaNybwaPoJYb+oIDPzHOsrmkKOf+MXlzt3k2uvhTpGMBv9ool
+         +SWve0fKY2/uwc7ovHncdU9hifkZJAl1l5+eyahZf9NYQUitu7qAsr/2kr5Eqgjddgbj
+         CllADMlzeLk8jlLaf1D7ulOjF6EZE/DgExHnz8BRVlcXkxgo9zlWQ4nTAh9d2wPAQS+H
+         sIDg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771889261; x=1772494061; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+9xRDS+GbzpVTn5dJQsaYxoqI8Nli76XDWLyH8tQ4yc=;
-        b=tlTa2Pl7yC8vFqnCUdHPSyXCbNU1emA/dEGUWJC/oKyPsaajyUG4UwEKed4XzIYF+w
-         +g9tcjoJRBapjLzSfCp93HZkgqeb2WoHR4bEPXMkS8CTV1ak7YDFYwMs6WLSf9dC1QOF
-         1D/gjmzWawCjI1PRJduJSxx6s7Xams/1mwVfjs8jwsNfx8I/fzPrZl88VkdcHR1/LX86
-         oNOYWTy0MLFOCBrgjqCPqEOYw3HwFHF/fVAsSPQJflTFyQvMoOS/uVzJCWq1AwYYSSj/
-         oi3bxrNsPpzr1+JlZgQv4vbnMYNor9fu3mkaY50XOg83Bp30zq5eiUPG0G7seIEI7/Cl
-         X85Q==
+        d=gmail.com; s=20230601; t=1771889371; x=1772494171; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8WfeWRTrku2bTr2EuWBQJnzZIlU4RzO3uGEG8JLabpE=;
+        b=nevCftR9AcRWGqYXWI1CDNO1KT1FavHDqplGfOdrQb0TohoQ+k1wd3vOxTBAvAlyJC
+         tctF1YKqAQZzPABDHpC3Wq2cDvUOMrpa0ojmKtAFDX+9sUWrBgNFOs66mYFmvxRB/+sj
+         2TMzAFFNsVscY+aHVp8lnOA1tSBqSUN0BJAPG3YoLoK2f1BQhmGEZrD7fYGc1qF/1h8o
+         GwwTzzsIb3iBosONx0fA5jD+gFh6e/pQKAHFzKcFzXw5zEe/VrYaElIWJ8s6C1lgtVQb
+         F7ruXjWis8DvjzYLlwV0vshL87NkxsGEm5Wt3cZUBYUhjFSQivzlD+q1B2aGCqWO9FZh
+         JgYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771889261; x=1772494061;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+9xRDS+GbzpVTn5dJQsaYxoqI8Nli76XDWLyH8tQ4yc=;
-        b=MsITjQWacINp+Xz9CXA61dMG0u7IV6xgzuTMRb+1WV4CMmJVaInBoVeird8FmJ2WfA
-         lH/S5yj+3e4ymfCPeZz7IU/4qAg1WD20pHiXNMOmJ+GpNpTuJRqAlAn7qqrcIZqiWc+Q
-         iR8sPeYIyWFt+eZjdD6KtIrT6l5lZm0G5ZqqFD3hFyleF923x2yQdJOfO9g6sqm/E//R
-         lEoJjgYWbnyF405SuT0WGEvEj4IFest6F2isN1lb7NIEFFLqwLWJLyYhM0UlfeCNH00n
-         c02iPzX31uNUvTHMDcbiVDlGTqIc1lpoew5UAlCbmqs6/TlMcD1BcDDmuHUSkBdhO2Tv
-         t1Mg==
-X-Forwarded-Encrypted: i=1; AJvYcCUE7ZCN00DAr/OJkrxvXYLIR+n6yv34GsWWvuRsEhQVbO4l3nKD7FG48uuexeQsntbKcmBRd7dWj0g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3HvYsT1FgTfbb/Mt8A0Bwn3MmpcSSIkxUTkBEOokaIvbMcCJm
-	hjjMVE17SliWRPRFWpEyGR/GhO7+7lWQ/h/j43HhHhhtdNm/HQqSt+3/vG4qGHi4+g==
-X-Gm-Gg: ATEYQzzV2qA+43//nHih4FyP6y4CzE2AX7/fKw8nR0HVzO3z9ZPFHU1dfbgJhUUjMXA
-	mTjAiOQ9KaIQ/UgDs3fEOUotEEwSWyXH/PlMwnaaBR52rDrORZVR1j/omH6y/WIrcYCk9yIYcAR
-	nnjNCMe3VFev3VvRSqWYE2VROM6m+azFw1+HI8bzpUz5MOIYPOM9g/RcNlZK4ZJDoY9IJnJQ6al
-	AwZ99TClHzf0KawPJkDSZz29kU9XYU32gOrR9UHXZfwukP2v4UqZs1YdZ/pc+Fl3ZzU8PR1r47a
-	2w3zQ9kru7NvSjSE79j/jIMYnS6SZn/KNy4LAheHveioyDcAZAJOzDeR8e+jiRvQqzONAw08SXm
-	aI2hjWXSqbQF3Y5DGW5D5eoc7oZdoOvFpbd2HhZJRM4goaASDSSyfjIZuijjh34ghtwWORhIKi9
-	2d2HLE4X8cdPnN0DNE+Hf7UAr3DqzNVriARFFtl0OJvXcqqJ+/isKO/RXfgwJjtQ==
-X-Received: by 2002:a17:903:1968:b0:2a0:89b0:71d6 with SMTP id d9443c01a7336-2ada34bcd22mr245115ad.17.1771889260189;
-        Mon, 23 Feb 2026 15:27:40 -0800 (PST)
-Received: from google.com (168.136.83.34.bc.googleusercontent.com. [34.83.136.168])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad7500e318sm81858705ad.43.2026.02.23.15.27.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 15:27:39 -0800 (PST)
-Date: Mon, 23 Feb 2026 23:27:35 +0000
-From: Samiullah Khawaja <skhawaja@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: Alex Williamson <alex@shazbot.org>, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, 
-	Alistair Popple <apopple@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, kvm@vger.kernel.org, 
-	Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
-	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Tomita Moeko <tomitamoeko@gmail.com>, 
-	Vipin Sharma <vipinsh@google.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH v2 06/22] vfio/pci: Retrieve preserved device files after
- Live Update
-Message-ID: <bz7mhzvgawf4loxbv74iodj6aaf4e2snlb7szgjk2lia2uxnhr@dcp3m3jl3i63>
-References: <20260129212510.967611-1-dmatlack@google.com>
- <20260129212510.967611-7-dmatlack@google.com>
+        d=1e100.net; s=20230601; t=1771889371; x=1772494171;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8WfeWRTrku2bTr2EuWBQJnzZIlU4RzO3uGEG8JLabpE=;
+        b=sCa5v8fMtr4TC1vCsygSVpKXM03b8E21aanzmT2qApJSSc9xkp3md+qkSmt34uVHkn
+         q6VlbOLcLKhEKELr/3pRadZeRm7gm2S8vi9723ExuBy0asbb4S3tC/WZY1k3jiwXtP7Z
+         l7Ly+jSUtuL6NrUqtndxRcw0T1/hdC43y6Y0mku7HsyCdaBLXCY1KTeq4unGKRkGOAxE
+         yBua1uuNyTkt4AIJ7Xv31FihpTGZrCnjju5Kml3imoZX/WyYEqhxWHRxcDTnGOMd31lZ
+         ZysCQ0iagjCfHwk7b3CzSQ9sI27LsycLhQA8+i3JABGAOEbvSGPSYny+YvSLXV6i96wT
+         d2nw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4MG6NqfGh2SP5Z1zojuCeuA6tTNSfKAN40CDwZvI1D4+2DzHhfc+kMV3kXgAKEQv8rd65thNMOOQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwH6qPawNOSewJmnAq3dgOD2gNdDumgS+FthKuyShWCX7WEgqdg
+	YE3C7yDGynt84zcDwmnNn8y3PfQuPSTPprjvJSJYov2qukV5whOpPv0Bvz241c6uVrLGJHarndu
+	tUiIlw+9hOAAW+S7YiKXXK0/Qdm8TQJM=
+X-Gm-Gg: ATEYQzw484N6ue7SvOZIHImWsIyeg1xC1lXJpme1k22+aITZd1Q4Io5ZSfsgyAHqUKx
+	vydPI80e9Hi1Dh/Qb2z2Q1x6MVOJnltRx9tUrtHSEiLVLX8nrYDMU5DE5ispVVlPDaSVOfqVXsi
+	nZcq/fYOnWhUsKFyhhegMh3mrrv8TbFabA4SwaYLP+gvhw6LB0fMl+d8b44luwz/Oo0dLTMUSpP
+	LZfPO4ScyApIsonnTs0RoAA/B3Dil+baOtYeZV1EsfBYIVqysCTdd8/Pv3y1Oi9pQ5sakqSvowx
+	1mDBBF2z+RhLvMkcBg==
+X-Received: by 2002:a05:651c:31cb:b0:383:2537:f121 with SMTP id
+ 38308e7fff4ca-389a5dae7a4mr30229781fa.26.1771889370676; Mon, 23 Feb 2026
+ 15:29:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260129212510.967611-7-dmatlack@google.com>
+References: <20260209063355.491189-1-vishnuocv@gmail.com>
+In-Reply-To: <20260209063355.491189-1-vishnuocv@gmail.com>
+From: Vishnu Sankar <vishnuocv@gmail.com>
+Date: Tue, 24 Feb 2026 08:28:51 +0900
+X-Gm-Features: AaiRm52DBKb5bl7l5Bo_mvwDqKR1GnB0ZMS9OrdzJgEL0ePOj09NuELgOXAuIX4
+Message-ID: <CABxCQKvNO78SeVp9pAnBOSAF=x0eFn03F33ftW-x-rZCG0-84Q@mail.gmail.com>
+Subject: Re: [PATCH v7 0/3] TrackPoint doubletap enablement and user control
+To: mpearson-lenovo@squebb.ca, dmitry.torokhov@gmail.com, hmh@hmh.eng.br, 
+	hansg@kernel.org, corbet@lwn.net, derekjohn.clark@gmail.com, 
+	ilpo.jarvinen@linux.intel.com
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	ibm-acpi-devel@lists.sourceforge.net, linux-doc@vger.kernel.org, 
+	platform-driver-x86@vger.kernel.org, vsankar@lenovo.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 29, 2026 at 09:24:53PM +0000, David Matlack wrote:
->From: Vipin Sharma <vipinsh@google.com>
+Hi,
+
+Gentle ping on this series.
+
+This is v7 addressing all previous review comments.
+Please let me know if any further changes are needed.
+
+Thanks,
+Vishnu
+
+
+On Mon, Feb 9, 2026 at 3:34=E2=80=AFPM Vishnu Sankar <vishnuocv@gmail.com> =
+wrote:
 >
->Enable userspace to retrieve preserved VFIO device files from VFIO after
->a Live Update by implementing the retrieve() and finish() file handler
->callbacks.
+> This patch series adds support for TrackPoint doubletap with a clear and
+> simple separation of responsibilities between drivers:
 >
->Use an anonymous inode when creating the file, since the retrieved
->device file is not opened through any particular cdev inode, and the
->cdev inode does not matter in practice.
+> 1. Firmware enablement (trackpoint.c):
+>    Automatically enables doubletap on capable hardware during device
+>    detection.
 >
->For now the retrieved file is functionally equivalent a opening the
->corresponding VFIO cdev file. Subsequent commits will leverage the
->preserved state associated with the retrieved file to preserve bits of
->the device across Live Update.
+> 2. User control (thinkpad_acpi.c):
+>    Provides a sysfs interface to enable or disable delivery of doubletap
+>    events to userspace.
 >
->Signed-off-by: Vipin Sharma <vipinsh@google.com>
->Co-developed-by: David Matlack <dmatlack@google.com>
->Signed-off-by: David Matlack <dmatlack@google.com>
->---
-> drivers/vfio/device_cdev.c             | 21 ++++++---
-> drivers/vfio/pci/vfio_pci_liveupdate.c | 60 +++++++++++++++++++++++++-
-> drivers/vfio/vfio_main.c               | 13 ++++++
-> include/linux/vfio.h                   | 12 ++++++
-> 4 files changed, 98 insertions(+), 8 deletions(-)
+> The approach follows the KISS principle:
+> - The TrackPoint driver enables hardware functionality by default.
+> - The thinkpad_acpi driver controls whether ACPI doubletap events are
+>   delivered, using existing hotkey filtering infrastructure.
+> - No cross-driver APIs or dual filtering paths are introduced.
 >
->diff --git a/drivers/vfio/device_cdev.c b/drivers/vfio/device_cdev.c
->index 8ceca24ac136..935f84a35875 100644
->--- a/drivers/vfio/device_cdev.c
->+++ b/drivers/vfio/device_cdev.c
->@@ -16,14 +16,8 @@ void vfio_init_device_cdev(struct vfio_device *device)
-> 	device->cdev.owner = THIS_MODULE;
-> }
+> Changes in v7:
+> - Removed unwanted comments and logs
 >
->-/*
->- * device access via the fd opened by this function is blocked until
->- * .open_device() is called successfully during BIND_IOMMUFD.
->- */
->-int vfio_device_fops_cdev_open(struct inode *inode, struct file *filep)
->+int __vfio_device_fops_cdev_open(struct vfio_device *device, struct file *filep)
-> {
->-	struct vfio_device *device = container_of(inode->i_cdev,
->-						  struct vfio_device, cdev);
-> 	struct vfio_device_file *df;
-> 	int ret;
+> Changes in v6:
+> - Documentation: fix formatting of the doubletap_enable sysfs attribute
+>   description (separate "Values" list)
 >
->@@ -52,6 +46,19 @@ int vfio_device_fops_cdev_open(struct inode *inode, struct file *filep)
-> 	vfio_device_put_registration(device);
-> 	return ret;
-> }
->+EXPORT_SYMBOL_GPL(__vfio_device_fops_cdev_open);
->+
->+/*
->+ * device access via the fd opened by this function is blocked until
->+ * .open_device() is called successfully during BIND_IOMMUFD.
->+ */
->+int vfio_device_fops_cdev_open(struct inode *inode, struct file *filep)
->+{
->+	struct vfio_device *device = container_of(inode->i_cdev,
->+						  struct vfio_device, cdev);
->+
->+	return __vfio_device_fops_cdev_open(device, filep);
->+}
+> Changes in v5:
+> - Rename sysfs attribute from doubletap_filter to doubletap_enable to
+>   reflect actual behavior.
+> - Fix inverted logic so events are delivered only when doubletap is
+>   enabled.
+> - Suppress ACPI hotkey delivery instead of injecting or filtering input
+>   events.
+> - Register the sysfs attribute via hotkey_attributes[] instead of
+>   device_create_file().
+> - Drop unnecessary helper wrappers and debug logging.
+> - Update Documentation to reflect the new naming and semantics.
 >
-> static void vfio_df_get_kvm_safe(struct vfio_device_file *df)
-> {
->diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
->index f01de98f1b75..7f4117181fd0 100644
->--- a/drivers/vfio/pci/vfio_pci_liveupdate.c
->+++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
->@@ -8,6 +8,8 @@
+> Changes in v4:
+> - Complete redesign based on reviewer feedback.
+> - trackpoint.c: Simplified to only enable doubletap by default.
+> - trackpoint.c: Removed all sysfs attributes and global variables.
+> - trackpoint.c: Uses firmware ID detection with deny list.
+> - thinkpad_acpi.c: Added sysfs interface for kernel-level event control.
+> - thinkpad_acpi.c: No cross-driver dependencies.
+> - Documentation: Updated to reflect simplified sysfs approach.
 >
-> #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> Changes in v3:
+> - No changes.
 >
->+#include <linux/anon_inodes.h>
->+#include <linux/file.h>
-> #include <linux/kexec_handover.h>
-> #include <linux/kho/abi/vfio_pci.h>
-> #include <linux/liveupdate.h>
->@@ -108,13 +110,68 @@ static int vfio_pci_liveupdate_freeze(struct liveupdate_file_op_args *args)
-> 	return ret;
-> }
+> Changes in v2:
+> - Improved commit messages.
+> - Removed unnecessary comments and debug messages.
+> - Switched to strstarts() usage.
+> - Simplified firmware capability detection logic.
 >
->+static int match_device(struct device *dev, const void *arg)
->+{
->+	struct vfio_device *device = container_of(dev, struct vfio_device, device);
->+	const struct vfio_pci_core_device_ser *ser = arg;
->+	struct pci_dev *pdev;
->+
->+	pdev = dev_is_pci(device->dev) ? to_pci_dev(device->dev) : NULL;
->+	if (!pdev)
->+		return false;
->+
->+	return ser->bdf == pci_dev_id(pdev) && ser->domain == pci_domain_nr(pdev->bus);
->+}
->+
-> static int vfio_pci_liveupdate_retrieve(struct liveupdate_file_op_args *args)
-> {
->-	return -EOPNOTSUPP;
->+	struct vfio_pci_core_device_ser *ser;
->+	struct vfio_device *device;
->+	struct file *file;
->+	int ret;
->+
->+	ser = phys_to_virt(args->serialized_data);
->+
->+	device = vfio_find_device(ser, match_device);
->+	if (!device)
->+		return -ENODEV;
->+
->+	/*
->+	 * Simulate opening the character device using an anonymous inode. The
->+	 * returned file has the same properties as a cdev file (e.g. operations
->+	 * are blocked until BIND_IOMMUFD is called).
->+	 */
->+	file = anon_inode_getfile_fmode("[vfio-device-liveupdate]",
->+					&vfio_device_fops, NULL,
->+					O_RDWR, FMODE_PREAD | FMODE_PWRITE);
->+	if (IS_ERR(file)) {
->+		ret = PTR_ERR(file);
->+		goto out;
->+	}
->+
->+	ret = __vfio_device_fops_cdev_open(device, file);
->+	if (ret) {
->+		fput(file);
->+		goto out;
->+	}
->+
->+	args->file = file;
->+
->+out:
->+	/* Drop the reference from vfio_find_device() */
->+	put_device(&device->device);
->+
->+	return ret;
->+}
->+
->+static bool vfio_pci_liveupdate_can_finish(struct liveupdate_file_op_args *args)
->+{
->+	return args->retrieved;
-> }
+> This version addresses the remaining review feedback by correcting the
+> naming and logic inversion, aligning sysfs semantics with behavior, and
+> fully integrating with existing thinkpad_acpi hotkey handling.
 >
-> static void vfio_pci_liveupdate_finish(struct liveupdate_file_op_args *args)
-> {
->+	kho_restore_free(phys_to_virt(args->serialized_data));
-> }
+> Vishnu Sankar (3):
+>   input: trackpoint - Enable doubletap by default on capable devices
+>   platform/x86: thinkpad_acpi: Add sysfs control for TrackPoint
+>     double-tap
+>   Documentation: thinkpad-acpi - Document doubletap_enable attribute
 >
-> static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
->@@ -123,6 +180,7 @@ static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
-> 	.unpreserve = vfio_pci_liveupdate_unpreserve,
-> 	.freeze = vfio_pci_liveupdate_freeze,
-> 	.retrieve = vfio_pci_liveupdate_retrieve,
->+	.can_finish = vfio_pci_liveupdate_can_finish,
-> 	.finish = vfio_pci_liveupdate_finish,
-> 	.owner = THIS_MODULE,
-> };
->diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
->index 276f615f0c28..89c5feef75d5 100644
->--- a/drivers/vfio/vfio_main.c
->+++ b/drivers/vfio/vfio_main.c
->@@ -13,6 +13,7 @@
-> #include <linux/cdev.h>
-> #include <linux/compat.h>
-> #include <linux/device.h>
->+#include <linux/device/class.h>
-> #include <linux/fs.h>
-> #include <linux/idr.h>
-> #include <linux/iommu.h>
->@@ -1758,6 +1759,18 @@ int vfio_dma_rw(struct vfio_device *device, dma_addr_t iova, void *data,
-> }
-> EXPORT_SYMBOL(vfio_dma_rw);
+>  .../admin-guide/laptops/thinkpad-acpi.rst     | 21 +++++++++
+>  drivers/input/mouse/trackpoint.c              | 45 +++++++++++++++++++
+>  drivers/input/mouse/trackpoint.h              |  5 +++
+>  drivers/platform/x86/lenovo/thinkpad_acpi.c   | 42 ++++++++++++++---
+>  4 files changed, 106 insertions(+), 7 deletions(-)
 >
->+struct vfio_device *vfio_find_device(const void *data, device_match_t match)
->+{
->+	struct device *device;
->+
->+	device = class_find_device(vfio.device_class, NULL, data, match);
->+	if (!device)
->+		return NULL;
->+
->+	return container_of(device, struct vfio_device, device);
->+}
->+EXPORT_SYMBOL_GPL(vfio_find_device);
->+
-> /*
->  * Module/class support
->  */
->diff --git a/include/linux/vfio.h b/include/linux/vfio.h
->index 9aa1587fea19..dc592dc00f89 100644
->--- a/include/linux/vfio.h
->+++ b/include/linux/vfio.h
->@@ -419,4 +419,16 @@ int vfio_virqfd_enable(void *opaque, int (*handler)(void *, void *),
-> void vfio_virqfd_disable(struct virqfd **pvirqfd);
-> void vfio_virqfd_flush_thread(struct virqfd **pvirqfd);
->
->+#if IS_ENABLED(CONFIG_VFIO_DEVICE_CDEV)
->+int __vfio_device_fops_cdev_open(struct vfio_device *device, struct file *filep);
->+#else
->+static inline int __vfio_device_fops_cdev_open(struct vfio_device *device,
->+					       struct file *filep)
->+{
->+	return -EOPNOTSUPP;
->+}
->+#endif /* IS_ENABLED(CONFIG_VFIO_DEVICE_CDEV) */
->+
->+struct vfio_device *vfio_find_device(const void *data, device_match_t match);
->+
-> #endif /* VFIO_H */
->-- 
->2.53.0.rc1.225.gd81095ad13-goog
+> --
+> 2.51.0
 >
 
-Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
+
+--
+
+Regards,
+
+      Vishnu Sankar
