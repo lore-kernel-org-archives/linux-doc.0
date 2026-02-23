@@ -1,83 +1,83 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5115F149C6F
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:39:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5028337B406
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771886392; cv=none; b=k1n9m9Cajw1jJgRSmxLtHDbqNHgPdOklTMtpu4TTxkLTDDNz0/Vr2u59aqgCr5S+wy7Jw3pDERXss+DADDPby8uLrS+gES0yglVyi+DpldgZ4ubgb9xoitwRt5prV0uUaMQSDnVb+kakcbHAziewZKMfqS3KlnpmBj786xTI1II=
+	t=1771886434; cv=none; b=XVjMFLsbKz7WFpksho/qMYLAPN5NX43itrwlLBuYUOdXwEQQnkgboMY4GAytT7dA9GzjP9z7cSC2cuELHQNvjp5O08DVJ1V7HGMV/o41z8b1iWdD6qMu6HNAgtjOCP9PrfjtAsk4nWzRoOBlW44vlMczzjj6DgpfiD2CbLG+wXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771886392; c=relaxed/simple;
-	bh=weupwFoIWkaFS/BOYuMucpezIPPWMRGr1EVbfFr6I50=;
+	s=arc-20240116; t=1771886434; c=relaxed/simple;
+	bh=Qih0QhTFQ3wj9ErAiKpynh4DfMe40Ro0OOLK8vFqRyw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GfTDqC6GEOFLqZuzKysbIGd6ud4hW6xwMgesA2y3HNXWlwbMRlabwDIuac8ouc7kvIoa/clDMNLm9yy4dsKkq5N6DS3pmWxKsmwSNGuV9COHXZmA7ztcN8NzvXy12IhYXsdP+LFcX33W+h6lMG0rFw5HoCXvPnFPcJmvfUWmdQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=kqvDym6x; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gkL+DAOn; arc=none smtp.client-ip=205.220.180.131
+	 Content-Type:Content-Disposition:In-Reply-To; b=FPQj3cBxduItmYC0ei2C4G6H1ZEVGcxO/rXhhkDKCeYCebJpuTgBnJpBEM4lfbti06ZhLXRHxCpG5eHGnePca+a709YG1xEU9F7azVjODZ4lIzHhszmgyWSjmbQGLe5qkudo0rTjUIo2Q+NOFjptKudGutOynFl4H5jtBFqn3iQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CIL0pWDy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=CeZUCIWP; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="kqvDym6x";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gkL+DAOn"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NGRLjY1640663
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:39:50 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CIL0pWDy";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CeZUCIWP"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NILQPq3732694
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:40:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=nUK32uPvxI2Vc2NAUq76VwMY
-	c+Ah6Xyt+D23oW/zCfs=; b=kqvDym6xN5iYKhCrRoJnOe6QhUMEQmbDb5Q7Jt7G
-	Nvp9xvYWF6ojiRHfKtEW3cbRLt/YsX0zowxZRSJBZnv1nqbeZuspdihEvi00mnu6
-	Z9QkZNNmd/hUGeNWgthr0Qeahc7w9POljWOVqi5QDdmfcKREpryPqTyMqV6ifblK
-	1BAE9zpA+zD8PNCTFr/vHaYa3QDy370T0uMnoLyMASd+AO0WM5X76QYcdJ9S2BM+
-	U83C5vsR7m15pFs3KYJBntr/YxlhlApsKfA3KcniUk5kU/NfeAgQVCXCfWW/cfxw
-	E9GfEazeVJ6kB4F1KY+H18iAQJ6Cj7nBeVSqTj6WjTzGRA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgte8s1v9-1
+	:references:subject:to; s=qcppdkim1; bh=u/ELNB5NNSNmVG1lAxOxXYaU
+	P/G6z2rnLtuVVe2l8Dc=; b=CIL0pWDyAHnR5vXk18SDZA7lb6nyCoTjULcjQfez
+	Fd8EZfTPq5EtM25/5Al218WuFiIs1Mds6C/q0/EfPi6fYF11Kjzwx6jCUAbIgDF3
+	A1rfdspmIF8aTktTYjxCTIWXiOVT49AQe6OgVD/d7sqgV9sm429j8EW2IRKZz4jR
+	fB5J9wnQcdSkjZaVqOSd5qSOwTco8FKnmcALeH23N4obi36U1A7KduH1zlGlZF0v
+	fzA8y6OA1hpylxOWNBU4cB3CfpjfygvgTMTuSKgbyOZQlcaUIs+2f9R6JhJfZLxW
+	zAHG0AR/GsaSlxM7FdpK2WFea2c5ABblEUPd36w12xuwXA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgn7ta461-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:39:50 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8c71156fe09so4092221685a.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 14:39:50 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:40:32 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cb3a2eb984so2129727985a.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 14:40:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771886389; x=1772491189; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1771886432; x=1772491232; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nUK32uPvxI2Vc2NAUq76VwMYc+Ah6Xyt+D23oW/zCfs=;
-        b=gkL+DAOnG689ChsAtpPKbhrXwEtx88kNG7VE7Am1oyhveTqP3eGXvekamJwFJAW4hg
-         f230EmTHrZNAos4TonC+/lXxvOfhoKJLgdgm9qzeoXFPvTUSgl6F4gnSKk7GfI0qt3SL
-         MBb8bQl8ziX9aPDfGmQUBXzxjol65EaFDw8FBLK0nmw1aiXcFq+ZdZwWwDyW29YBljFP
-         yM8PCmB58jSIBC6qjG0UzdgYnSNeEiUZlBwyd9Vzgkc8xhr0ThPE2KsdzSEYZI9loYhz
-         mbUE1/VcHmVXsL6sqQbaw4TrZymGpBsknIQAjquzSfxVNFF/kQndFdjajgV+t7lo7l5P
-         acLA==
+        bh=u/ELNB5NNSNmVG1lAxOxXYaUP/G6z2rnLtuVVe2l8Dc=;
+        b=CeZUCIWPMmAlhpCUskBgvU+kwNj/feFlvaF51td54eQCDLyAG6L/dttgbaLLUd1pZZ
+         kxvM0alheeOP1+yVExr2IhnxGqw0y0/8v6uU4J+4uaasVb41KwpHkGSlkRJ4Qd8Ns1Ao
+         8akajoXeRLjnGYmSdZCH7Y9IJUCQLWP63n8Uk/GQfnSZvIfSt9Gvc6XH1zGVdHdp3mPe
+         qkjQRq4DEGJF8T5UeIjSlmNsbFUsUxRJeMkn9e9ztYZBi/YsnhRpgt+3bYnQifE3cDwf
+         k4ntUrGNHPC0MBByk0wWecsPc0/j4015wvjcnhnyAdRkKYa0IByMPKcx77nFxvTJDxRA
+         1VNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771886389; x=1772491189;
+        d=1e100.net; s=20230601; t=1771886432; x=1772491232;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nUK32uPvxI2Vc2NAUq76VwMYc+Ah6Xyt+D23oW/zCfs=;
-        b=gQqS7Q4EeS5g0LyZ7WwcOZSbE/YwhXgDXORd9EWrThFHRqnSYCc9NilekRyk+aMAMT
-         MtlpdcN/35QBB+NCukjH0tz8nuIsOrTXEja2JfeJrIppkZA5bFFwRR+2IzE5BkaSe90J
-         q5JUH12c1XUYV+g122jtkU67tZCbzacZUfse0AXXGwwUKxIo+KHWsElJp13pz5QaRjXI
-         UCyyh8f5F7L11MgwYAarZ+kyliSekBhmobDJeZOo8r00aAUjDf2wlLNb3CQWJbouEthX
-         1NWOO80T7/lIpOgEFSwNniUIU0lIW4z1jyqfVxMCUlp4Q3lpethuvfL/KllbW9oN5dnY
-         YCqg==
-X-Forwarded-Encrypted: i=1; AJvYcCVON4EnMoe61yLL2D5KFTTXgND7YiLHRDc+DRkxOMo/LIexn63lda2W2+eTcpSakcJR9Ikh3+DIPTs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyxm3HA7rWam/YOi6HjmNGRpnq5GBw4JN4i+XkdrmWO+eJX0/3V
-	eh8bMneQlJ4k2w0DWCKX3Xf9y0dCh8sMu8nuzmBMvNYmzA4sACtg5ekqGxQVGLbT5CDPh7xLMiF
-	kmBM80k9BasGvIv+dGIQ+YURF7TNoqID751f0e0aYfCQdaWv70hy/HDtvtHQfVaY=
-X-Gm-Gg: AZuq6aLrRHaN/vp9zuteCcWL//So1olevbhOSTdIUXHwYnawaKWQUAmyJGleA2U9R6H
-	AWUoxrMRNvJB5N1Uip7qOUAhVg+yUSqsPX0+C9o3r02A++MDALs7y8rTt6Go0e5HzwDG8g9HHSp
-	ZPua5eQCILllPh4k87RTIkFKREoGb+4ORrwhgR+vgXXM1AYHEkxbqhxS6NryXWp2pfdz4NphxOY
-	m1GQalKyji52DTr2AYUnrK1yqiQ61PzMedCDmY9mIubgr1KWPDRwKzE1f5uctv+egymlnAFk++n
-	h7vYPF+jmUrk0910gP4UlHzB9app+EzA3uQkRGwi4xz4wZYRsoAmw6pOoQ+uwMPt88zNw3x3KMC
-	Xcd/8tD3zJlGfTf16XZzup0Dffx0efJqsz5RtTfnA1hjuWwwKMI82uAilA/YcxNjcBI4D66fRYk
-	Jedl7l98z9y+vj8uubgjz1/o/RPNPcaIfFGV4=
-X-Received: by 2002:a05:620a:319a:b0:8cb:4c79:b44f with SMTP id af79cd13be357-8cb8ca72048mr1249892585a.51.1771886389528;
-        Mon, 23 Feb 2026 14:39:49 -0800 (PST)
-X-Received: by 2002:a05:620a:319a:b0:8cb:4c79:b44f with SMTP id af79cd13be357-8cb8ca72048mr1249890085a.51.1771886389013;
-        Mon, 23 Feb 2026 14:39:49 -0800 (PST)
+        bh=u/ELNB5NNSNmVG1lAxOxXYaUP/G6z2rnLtuVVe2l8Dc=;
+        b=qSydP5iJNib0PU57wAFruqmufdq2OprkI7QaXHmpMxlkb/0nmnjv67yEgKv4GvUIuG
+         RdFUcyB5YMnBmlJ73mglrwEGnIrMiCRAdLV3KpHgXjlzESJhx+lEOV2++eV++x3KLP6N
+         7vAQ/a6sY73/iGrKP8+PNLj9n/NGNPLieAKw2c0P8AoXR06YUXMIuoeMAyHQVSDy/ePd
+         eyJ9lwfU4GJvavxaT+4a6x1uKv27CvKd99rJatWtqDFktSc88wexC2fN1UEPoEqHj8CR
+         xsjyNpm1PcpHiJyqf9VqXwY5RU7txSc50erQCABYepBgziHqSRMdTFQsl8eYm5awN+os
+         fhfg==
+X-Forwarded-Encrypted: i=1; AJvYcCXCC++CdiZmIXTEFqGUA0PfTOBiCZHwHSEQ8qJQBzHr/gu0EjqpaS/P1mHBDpyqNKfaXcn0T1UgxnU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwTirQ/sUkbj7pweZ+p4o+bg5saPXc8SMitiex4lbzfhngv7N/C
+	5J0Rc3eXRmU2VwgjCeS4njgGIbUpzzBXLM1dIIg6BqnTuK1RfZw7nmoHY4KfVlzzQc41pWpHVcK
+	Fca8Tzfl8XXICndLFdlaOfP/bvSFzJzF7cjeee41IMgTJgbta/46LN6Y+JkfwTMg=
+X-Gm-Gg: AZuq6aJVzCp9K31F3DgjKUNpMt7AEEjBSYHV2c0I1nizi/JNLI+qdqG9Embn0QsLFKo
+	mOAiRaJZ/fW2Qd6iHHxfzpXWxxXQcPgP5YzaNb5EhnxIrtsubkNwKSiDo7eKa7Rkmtj9ugsl0/5
+	jS7KlyCbWK043bTzg1zThYbcrjxoR6sK1t3n7OoLoe9YnOBeReTeA6c9cr9K3mZym8an1pvqxsJ
+	Jv7yL11GUzXbdFeVdcaXPCr1MNJgs7VZfBb5c9DVpKp92Rv0YuQFCjUKs1Jxtnq0YXjtDA+zHMF
+	8SnO32KQOfnVgjNd8YvPvcwvHJHLt8pMN1qXUh+QtUZ7ASFkz9sqzqBQl4V2/wmFLwJPTwIQXa5
+	uz2KJOzEma36RjEgqALlfZS1DOGd5AFHFqIHTQujYhfinRwA7uDL4MEL1LIDJFq16tvPsGoYsTN
+	ZQvrwbefK89KG361LKqmqx0rgRszpO/l4jcGg=
+X-Received: by 2002:a05:620a:f15:b0:8c5:2d4c:4f0e with SMTP id af79cd13be357-8cb8c9fd576mr1266006885a.25.1771886431284;
+        Mon, 23 Feb 2026 14:40:31 -0800 (PST)
+X-Received: by 2002:a05:620a:f15:b0:8c5:2d4c:4f0e with SMTP id af79cd13be357-8cb8c9fd576mr1266002285a.25.1771886430804;
+        Mon, 23 Feb 2026 14:40:30 -0800 (PST)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a0eeb13873sm1823833e87.22.2026.02.23.14.39.46
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389a78b4a45sm18140691fa.13.2026.02.23.14.40.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 14:39:47 -0800 (PST)
-Date: Tue, 24 Feb 2026 00:39:45 +0200
+        Mon, 23 Feb 2026 14:40:28 -0800 (PST)
+Date: Tue, 24 Feb 2026 00:40:25 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
@@ -96,11 +96,11 @@ Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
         Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
         Bharath Kumar <quic_bkumar@quicinc.com>,
         Chenna Kesava Raju <quic_chennak@quicinc.com>
-Subject: Re: [PATCH RFC 11/18] accel/qda: Add GEM_CREATE and GEM_MMAP_OFFSET
- IOCTLs
-Message-ID: <mkrwav44qxt66ojxvs2mh5jsjqirrm4sk653uglha3cjefevk6@fobon6vj7fhr>
+Subject: Re: [PATCH RFC 18/18] MAINTAINERS: Add MAINTAINERS entry for QDA
+ driver
+Message-ID: <zideovhb7djvsbydqmdyxbgh6cte7xc5ouhm6gsreww6klqqae@o6w6wd4tic4r>
 References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-11-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-18-fe46a9c1a046@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -109,232 +109,71 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260224-qda-firstpost-v1-11-fe46a9c1a046@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: vKkalEh0VtFZ1Xfg9PV7HUJxWtzUt6VL
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE5NyBTYWx0ZWRfX3eq2Fq4nPnHg
- qHenxQanbnm/a88K2OmW9+63qPPMMeKa/vwaKykVK0vZhg4pcd9/tfpby8tx9OxvRM53yTGKsui
- 2BtRzD5ncoRrKtLNWcgFfPRRsDP2yUDrPcnHn4CW0U9GLLKD1FFT214N9I9o8FzhxmOFnWdv83F
- kIEPEzwNh7F3U4lAeQNUT8KU4xpHcHyMws3AlcAuUYB5BqqewG8n+9vYiWziRerkDXSiZCJe/Va
- kuG5SmQ+5YWc/zr0+Pk6PZSecTckLRhgrK3UDA7CRRvT0vekL00WAEx3HY8mRo6/yt4Kvuk/YOv
- DIdyyVV+JHKA/sHGhRrxoFwC4sRH8WLJRvkZkHf6Vqzn1kc8H1EMDySxcYYwfU+mlQ/o3AEthKP
- 2LibjD7ah5OaIgVxZiAjnM7HiqWtNm5x5hgIb70Zu2sN9Ha3nysvC2boSH2j0AOavUcdrubiLy4
- fWFG440C+RSjd3vZwVA==
-X-Proofpoint-GUID: vKkalEh0VtFZ1Xfg9PV7HUJxWtzUt6VL
-X-Authority-Analysis: v=2.4 cv=WqQm8Nfv c=1 sm=1 tr=0 ts=699cd736 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+In-Reply-To: <20260224-qda-firstpost-v1-18-fe46a9c1a046@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=c5OmgB9l c=1 sm=1 tr=0 ts=699cd760 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8
- a=03G4QXms81HB9-bpn8QA:9 a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=gmMn6fPPSMme9wD3190A:9 a=CjuIK1q_8ugA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-GUID: IDLwTV-zBsgvxhWrXVQArVK0QVxgJq5l
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE5NyBTYWx0ZWRfX4sTw/2pvdQPy
+ bnumW4lG+I3afrudDm5591VXmM1Nd+uK8duxAPg2OBBi/3XbLDpja2W5BLxY9/qoh0ETWJnMH6i
+ WpsmvEPXCrXBTnZnwZJq65a2CB+Jtl5Ra6hoT558g6j8mbMAGDxQZWDa7A/w5tvQpR9PKCCEIfP
+ z1LDqbrQL7XvWU18Ag2MJRoCSS1+UxrAMvGJ+sgq1fVYqXdrEbFgRERsvGfbvtMhW00VcdEQCjZ
+ H0921gqYBoSbMD3ZZp7Pu+Z7HJhHbf3cZOXL9x2+CuhRjsCpftn5k6Ts++6VtDejnnHt2eUR9HQ
+ O+7vIED/U09luMqZp+qI6eoRz/o9uogg+SqBcjYQDF1mln5Ap1Gl1soU6LH8cKZSKfFwM8f9bB1
+ iHatmGJsXYpm5j/6aGarfe19P2WaHgwdv39D7C6HYaPkGp+iwPYR/Dtb1l9BJZIcZdqTTo/3RC1
+ ffDn/Fyw8CCbpYAgE8w==
+X-Proofpoint-ORIG-GUID: IDLwTV-zBsgvxhWrXVQArVK0QVxgJq5l
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-23_05,2026-02-23_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1015 malwarescore=0
+ phishscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
+ clxscore=1015 bulkscore=0 spamscore=0 suspectscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230197
 
-On Tue, Feb 24, 2026 at 12:39:05AM +0530, Ekansh Gupta wrote:
-> Add two GEM-related IOCTLs for the QDA accelerator driver and hook
-> them into the DRM accel driver. DRM_IOCTL_QDA_GEM_CREATE allocates
-> a DMA-backed GEM buffer object via qda_gem_create_object() and
-> returns a GEM handle to userspace, while
-> DRM_IOCTL_QDA_GEM_MMAP_OFFSET returns a valid mmap offset for a
-> given GEM handle using drm_gem_create_mmap_offset() and the
-> vma_node in the GEM object.
+On Tue, Feb 24, 2026 at 12:39:12AM +0530, Ekansh Gupta wrote:
+> Add a new MAINTAINERS entry for the Qualcomm DSP Accelerator (QDA)
+> driver. The entry lists the primary maintainer, the linux-arm-msm and
+> dri-devel mailing lists, and covers all source files under
+> drivers/accel/qda, Documentation/accel/qda and the UAPI header
+> include/uapi/drm/qda_accel.h.
 > 
-> The QDA driver is updated to advertise DRIVER_GEM in its
-> driver_features, and the new IOCTLs are wired through the QDA
-> GEM and memory-manager backend. These IOCTLs allow userspace to
-> allocate buffers and map them into its address space as a first
-> step toward full compute buffer management and integration with
-> DSP workloads.
+> This ensures that patches to the QDA driver and its public API are
+> tracked and routed to the appropriate reviewers as the driver is
+> integrated into the DRM accel subsystem.
+
+Please add it in the first patch.
+
 > 
 > Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
 > ---
->  drivers/accel/qda/qda_drv.c   |  5 ++++-
->  drivers/accel/qda/qda_gem.h   | 30 ++++++++++++++++++++++++++++++
->  drivers/accel/qda/qda_ioctl.c | 35 +++++++++++++++++++++++++++++++++++
->  include/uapi/drm/qda_accel.h  | 36 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 105 insertions(+), 1 deletion(-)
+>  MAINTAINERS | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
-> index 19798359b14e..0dd0e2bb2c0f 100644
-> --- a/drivers/accel/qda/qda_drv.c
-> +++ b/drivers/accel/qda/qda_drv.c
-> @@ -12,6 +12,7 @@
->  #include <drm/qda_accel.h>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 71f76fddebbf..78b8b82a6370 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -21691,6 +21691,15 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/crypto/qcom-qce.yaml
+>  F:	drivers/crypto/qce/
 >  
->  #include "qda_drv.h"
-> +#include "qda_gem.h"
->  #include "qda_ioctl.h"
->  #include "qda_rpmsg.h"
->  
-> @@ -154,10 +155,12 @@ DEFINE_DRM_ACCEL_FOPS(qda_accel_fops);
->  
->  static const struct drm_ioctl_desc qda_ioctls[] = {
->  	DRM_IOCTL_DEF_DRV(QDA_QUERY, qda_ioctl_query, 0),
-> +	DRM_IOCTL_DEF_DRV(QDA_GEM_CREATE, qda_ioctl_gem_create, 0),
-> +	DRM_IOCTL_DEF_DRV(QDA_GEM_MMAP_OFFSET, qda_ioctl_gem_mmap_offset, 0),
->  };
->  
->  static struct drm_driver qda_drm_driver = {
-> -	.driver_features = DRIVER_COMPUTE_ACCEL,
-> +	.driver_features = DRIVER_GEM | DRIVER_COMPUTE_ACCEL,
->  	.fops			= &qda_accel_fops,
->  	.open			= qda_open,
->  	.postclose		= qda_postclose,
-> diff --git a/drivers/accel/qda/qda_gem.h b/drivers/accel/qda/qda_gem.h
-> index caae9cda5363..cbd5d0a58fa4 100644
-> --- a/drivers/accel/qda/qda_gem.h
-> +++ b/drivers/accel/qda/qda_gem.h
-> @@ -47,6 +47,36 @@ struct drm_gem_object *qda_gem_create_object(struct drm_device *drm_dev,
->  void qda_gem_free_object(struct drm_gem_object *gem_obj);
->  int qda_gem_mmap_obj(struct drm_gem_object *gem_obj, struct vm_area_struct *vma);
->  
-> +/*
-> + * GEM IOCTL handlers
-> + */
+> +QUALCOMM DSP ACCELERATOR (QDA) DRIVER
+> +M:	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> +L:	linux-arm-msm@vger.kernel.org
+> +L:	dri-devel@lists.freedesktop.org
+> +S:	Supported
+> +F:	Documentation/accel/qda/
+> +F:	drivers/accel/qda/
+> +F:	include/uapi/drm/qda_accel.h
 > +
-> +/**
-> + * qda_ioctl_gem_create - Create a GEM buffer object
-> + * @dev: DRM device structure
-> + * @data: User-space data containing buffer creation parameters
-> + * @file_priv: DRM file private data
-> + *
-> + * This IOCTL handler creates a new GEM buffer object with the specified
-> + * size and returns a handle to the created buffer.
-> + *
-> + * Return: 0 on success, negative error code on failure
-> + */
-> +int qda_ioctl_gem_create(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +
-> +/**
-> + * qda_ioctl_gem_mmap_offset - Get mmap offset for a GEM buffer object
-> + * @dev: DRM device structure
-> + * @data: User-space data containing buffer handle and offset result
-> + * @file_priv: DRM file private data
-> + *
-> + * This IOCTL handler retrieves the mmap offset for a GEM buffer object,
-> + * which can be used to map the buffer into user-space memory.
-> + *
-> + * Return: 0 on success, negative error code on failure
-> + */
-> +int qda_ioctl_gem_mmap_offset(struct drm_device *dev, void *data, struct drm_file *file_priv);
-> +
->  /*
->   * Helper functions for GEM object allocation and cleanup
->   * These are used internally and by the PRIME import code
-> diff --git a/drivers/accel/qda/qda_ioctl.c b/drivers/accel/qda/qda_ioctl.c
-> index 9fa73ec2dfce..ef3c9c691cb7 100644
-> --- a/drivers/accel/qda/qda_ioctl.c
-> +++ b/drivers/accel/qda/qda_ioctl.c
-> @@ -43,3 +43,38 @@ int qda_ioctl_query(struct drm_device *dev, void *data, struct drm_file *file_pr
->  
->  	return 0;
->  }
-> +
-> +int qda_ioctl_gem_create(struct drm_device *dev, void *data, struct drm_file *file_priv)
-> +{
-> +	struct drm_qda_gem_create *args = data;
-> +	struct drm_gem_object *gem_obj;
-> +	struct qda_drm_priv *drm_priv;
-> +
-> +	drm_priv = get_drm_priv_from_device(dev);
-> +	if (!drm_priv || !drm_priv->iommu_mgr)
-> +		return -EINVAL;
-> +
-> +	gem_obj = qda_gem_create_object(dev, drm_priv->iommu_mgr, args->size, file_priv);
-> +	if (IS_ERR(gem_obj))
-> +		return PTR_ERR(gem_obj);
-> +
-> +	return qda_gem_create_handle(file_priv, gem_obj, &args->handle);
-> +}
-> +
-> +int qda_ioctl_gem_mmap_offset(struct drm_device *dev, void *data, struct drm_file *file_priv)
-> +{
-> +	struct drm_qda_gem_mmap_offset *args = data;
-> +	struct drm_gem_object *gem_obj;
-> +	int ret;
-> +
-> +	gem_obj = qda_gem_lookup_object(file_priv, args->handle);
-> +	if (IS_ERR(gem_obj))
-> +		return PTR_ERR(gem_obj);
-> +
-> +	ret = drm_gem_create_mmap_offset(gem_obj);
-> +	if (ret == 0)
-> +		args->offset = drm_vma_node_offset_addr(&gem_obj->vma_node);
-> +
-> +	drm_gem_object_put(gem_obj);
-> +	return ret;
-> +}
-> diff --git a/include/uapi/drm/qda_accel.h b/include/uapi/drm/qda_accel.h
-> index 0aad791c4832..ed24a7f5637e 100644
-> --- a/include/uapi/drm/qda_accel.h
-> +++ b/include/uapi/drm/qda_accel.h
-> @@ -19,6 +19,8 @@ extern "C" {
->   * They are used with DRM_COMMAND_BASE to create the full IOCTL numbers.
->   */
->  #define DRM_QDA_QUERY	0x00
-> +#define DRM_QDA_GEM_CREATE		0x01
-> +#define DRM_QDA_GEM_MMAP_OFFSET	0x02
->  /*
->   * QDA IOCTL definitions
->   *
-> @@ -27,6 +29,10 @@ extern "C" {
->   * data structure and direction (read/write) for each IOCTL.
->   */
->  #define DRM_IOCTL_QDA_QUERY	DRM_IOR(DRM_COMMAND_BASE + DRM_QDA_QUERY, struct drm_qda_query)
-> +#define DRM_IOCTL_QDA_GEM_CREATE	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_GEM_CREATE, \
-> +						 struct drm_qda_gem_create)
-> +#define DRM_IOCTL_QDA_GEM_MMAP_OFFSET	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_GEM_MMAP_OFFSET, \
-> +						 struct drm_qda_gem_mmap_offset)
->  
->  /**
->   * struct drm_qda_query - Device information query structure
-> @@ -40,6 +46,36 @@ struct drm_qda_query {
->  	__u8 dsp_name[16];
->  };
->  
-> +/**
-> + * struct drm_qda_gem_create - GEM buffer object creation parameters
-> + * @size: Size of the GEM object to create in bytes (input)
-> + * @handle: Allocated GEM handle (output)
-> + *
-> + * This structure is used with DRM_IOCTL_QDA_GEM_CREATE to allocate
-> + * a new GEM buffer object.
-> + */
-> +struct drm_qda_gem_create {
-> +	__u32 handle;
-> +	__u32 pad;
-> +	__u64 size;
-
-If you put size before handle, you would not need padding.
-
-> +};
-> +
-> +/**
-> + * struct drm_qda_gem_mmap_offset - GEM object mmap offset query
-> + * @handle: GEM handle (input)
-> + * @pad: Padding for 64-bit alignment
-> + * @offset: mmap offset for the GEM object (output)
-> + *
-> + * This structure is used with DRM_IOCTL_QDA_GEM_MMAP_OFFSET to retrieve
-> + * the mmap offset that can be used with mmap() to map the GEM object into
-> + * user space.
-> + */
-> +struct drm_qda_gem_mmap_offset {
-> +	__u32 handle;
-> +	__u32 pad;
-> +	__u64 offset;
-
-I'm really not a fan of the pad field in the middle of the structure.
-
-> +};
-> +
->  #if defined(__cplusplus)
->  }
->  #endif
+>  QUALCOMM EMAC GIGABIT ETHERNET DRIVER
+>  M:	Timur Tabi <timur@kernel.org>
+>  L:	netdev@vger.kernel.org
 > 
 > -- 
 > 2.34.1
