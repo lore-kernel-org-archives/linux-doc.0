@@ -1,90 +1,124 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEB8344022
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 09:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1B1B137750;
+	Mon, 23 Feb 2026 09:29:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771838747; cv=none; b=dVadRY4KLLayx71DEuOajL1ne1uxGGyoJM9Afy2FwzrPZ51hhAdKj/n85x8ooyz3o+C38gKQ2yGeyWkldgmMBLiQ4HDi9taCf4/228O1UroQrBJWpGJ3HMbCaG/apb2NIxSXIPnBBW6joGLMWu5pHCZnmpRs4j8M2GlLG/BSEG4=
+	t=1771838951; cv=none; b=o288TXwrtqvEBZ27lmFyy3Y7LP+3f7notuAyLgZwXSffnM9O85/5nqWLtbiqg0ynjCVmaTtOU0n8gYwNgrULvxloPe8s35ICJNn/RzVt64M4LgluBxsruybmFaLRvueyS0PZNKRX8/OaBKx8Zqth6ukUuEmpr+TlZUL5g4eVYRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771838747; c=relaxed/simple;
-	bh=5QIF4M53izuNtsmGswVWqyvCsRe0tA47V+jCPS605bs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ufa5O+GFq0pUwtYhaXIMJ2J2phqc0ob1BtSQwAMWLim8sV1J9GgPuDkTKgjurYQ3wa5hI4sOdJBHjGsggsUn8S+vnz8bZpHGmHk64fLITItb1LIfeyxbz0C/gvzdOFCHui5bXDSQ87ex/jNw637a84hVg+9fi4KEJmYvfik1eHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=AcRaMYXo; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="AcRaMYXo"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 4C5381A116C;
-	Mon, 23 Feb 2026 09:25:44 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 190EA5FD43;
-	Mon, 23 Feb 2026 09:25:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 19415103686FA;
-	Mon, 23 Feb 2026 10:25:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1771838743; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=5QIF4M53izuNtsmGswVWqyvCsRe0tA47V+jCPS605bs=;
-	b=AcRaMYXo+S1r7u+Fc8nNxzkEuvY3eLKn0agBAwXR+fTOMpzu/hYsmspVCGsHBAFuymFuWb
-	pz6wCq7c/Pa8IWxpk/qIa+cxYOZpFQDHR6GS9hL7Kb7hK0uYd5U/Dh5BrjN0ov1GRUiMxn
-	3ejzl81Bq1B8DLsKawpqFDhCU0S76e1ezBlCpK+CO6A1xbNk6Tux0of/1OQSLn8QG/SMfI
-	ngvFVTKNq8NtZk0+uaxqD9ivVV8+kE4mfD2qsdVaWAskZd5Ff1SrDDO058xNoq6oywRGRk
-	W81YqS/s9PtzTEMTGaYz91HfsudQLb12JcbaphXPwsV6afQy2xrIbje+RmTjhw==
-Date: Mon, 23 Feb 2026 10:25:34 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Haiyang Zhang <haiyangz@linux.microsoft.com>
-Cc: linux-hyperv@vger.kernel.org, netdev@vger.kernel.org, Andrew Lunn
- <andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, Donald Hunter
- <donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Gal Pressman <gal@nvidia.com>, Oleksij Rempel
- <o.rempel@pengutronix.de>, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- haiyangz@microsoft.com, paulros@microsoft.com
-Subject: Re: [PATCH net-next] net: ethtool: add COALESCE_RX_CQE_FRAMES/NSECS
- parameters
-Message-ID: <20260223102534.0a87ed4c@kmaincent-XPS-13-7390>
-In-Reply-To: <20260222212328.736628-1-haiyangz@linux.microsoft.com>
-References: <20260222212328.736628-1-haiyangz@linux.microsoft.com>
-Organization: bootlin
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.41; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1771838951; c=relaxed/simple;
+	bh=w4etiE/+EmBNKw+Rwntrs8cBeDHziVbShKF2A2tYndM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aijKvhMuXvnTYrUfqjvL2FcIO1Zq87dXde6jHqW0rLeEd1QpkA2rgNaMZkBJZLbRPZ2CgA2RxLbMNqrNlH5sD4HesW+7Jz67ppM/qPQ50QYTlotStwVI232CFzU/SwMY49bxIfzH2mkMglmQ07VRIu4pohFiCm/zr3aCYnoNtkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD188339;
+	Mon, 23 Feb 2026 01:29:02 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 437983F62B;
+	Mon, 23 Feb 2026 01:29:02 -0800 (PST)
+Message-ID: <1ef69ded-a5a5-401b-b91f-c4c43a2e2263@arm.com>
+Date: Mon, 23 Feb 2026 09:29:00 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 01/19] x86,fs/resctrl: Add support for Global
+ Bandwidth Enforcement (GLBE)
+To: Reinette Chatre <reinette.chatre@intel.com>,
+ Babu Moger <babu.moger@amd.com>, "Moger, Babu" <bmoger@amd.com>,
+ corbet@lwn.net, tony.luck@intel.com, Dave.Martin@arm.com,
+ james.morse@arm.com, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, peterz@infradead.org,
+ juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+ vschneid@redhat.com, akpm@linux-foundation.org,
+ pawan.kumar.gupta@linux.intel.com, pmladek@suse.com,
+ feng.tang@linux.alibaba.com, kees@kernel.org, arnd@arndb.de,
+ fvdl@google.com, lirongqing@baidu.com, bhelgaas@google.com,
+ seanjc@google.com, xin@zytor.com, manali.shukla@amd.com,
+ dapeng1.mi@linux.intel.com, chang.seok.bae@intel.com,
+ mario.limonciello@amd.com, naveen@kernel.org, elena.reshetova@intel.com,
+ thomas.lendacky@amd.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org, peternewman@google.com,
+ eranian@google.com, gautham.shenoy@amd.com
+References: <cover.1769029977.git.babu.moger@amd.com>
+ <aba70a013c12383d53104de0b19cfbf87690c0c3.1769029977.git.babu.moger@amd.com>
+ <eb4b7b12-7674-4a1e-925d-2cec8c3f43d2@intel.com>
+ <f0f2e3eb-0fdb-4498-9eb8-73111b1c5a84@amd.com>
+ <9b02dfc6-b97c-4695-b765-8cb34a617efb@intel.com>
+ <3a7c17c0-bb51-4aad-a705-d8d1853ea68a@amd.com>
+ <06a237bd-c370-4d3f-99de-124e8c50e711@intel.com>
+ <5857f3a0-999a-46ed-a36f-d2b02d04274a@arm.com>
+ <68b6693c-a665-4c1a-ba5f-b6430a090e0c@intel.com>
+From: Ben Horgan <ben.horgan@arm.com>
+Content-Language: en-US
+In-Reply-To: <68b6693c-a665-4c1a-ba5f-b6430a090e0c@intel.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
 
-On Sun, 22 Feb 2026 13:23:17 -0800
-Haiyang Zhang <haiyangz@linux.microsoft.com> wrote:
+Hi Reinette,
 
-> From: Haiyang Zhang <haiyangz@microsoft.com>
->=20
-> Add two parameters for drivers supporting Rx CQE Coalescing.
->=20
-> ETHTOOL_A_COALESCE_RX_CQE_FRAMES:
-> Maximum number of frames that can be coalesced into a CQE.
->=20
-> ETHTOOL_A_COALESCE_RX_CQE_NSECS:
-> Time out value in nanoseconds after the first packet arrival in a
-> coalesced CQE to be sent.
->=20
-> Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+On 2/20/26 18:39, Reinette Chatre wrote:
+> Hi Ben,
+> 
+> On 2/20/26 2:07 AM, Ben Horgan wrote:
+>>
+>> I haven't fully understood what GLBE is but in MPAM we have an optional
+>> feature in MSC (MPAM devices) called partid narrowing. For some MSC
+>> there are limited controls and the incoming partid is mapped to an
+>> effective partid using a mapping. This mapping is software controllable.
+>> Dave (with Shaopeng and Zeng) has a proposal to use this to use partid
+>> bits as pmg bits, [1]. This usage would have to be opt-in as it changes
+>> the number of closid/rmid that MPAM presents to resctrl. If however, the
+>> user doesn't use that scheme then the controls could be presented as
+>> controls for groups of closid in resctrl. Is this similar/usable with
+>> the same interface as GLBE or have I misunderstood?
+>>
+>> [1]
+>> https://lore.kernel.org/linux-arm-kernel/20241212154000.330467-1-Dave.Martin@arm.com/
+> 
+> On a high level these look like different capabilities to me but I look forward to
+> hear from others to understand where I may be wrong.
+> 
+> As I understand the feature you refer to is a way in which MPAM can increase the
+> number of hardware monitoring IDs available(*). It does so by using the PARTID
+> narrowing feature while taking advantage of the fact that PARTID for filtering
+> resource monitors is always a "request PARTID". In itself I understand the PARTID
+> narrowing feature to manage how resource allocation of a *single* "MPAM component"
+> is managed.
+> 
+> On the other hand I see GLBE as a feature that essentially allows the scope of
+> allocation to span multiple domains/components.
+> 
+> As I see it, applying GLBE to MPAM would need the capability to, for example,
+> set a memory bandwidth MAX that is shared across multiple MPAM components.
 
-You send this patch one day before the official reopening of net-next.
-Not sure if this will be taken into account by patchwork.
-Else:
-Reviewed-by: Kory Maincent <kory.maincent@bootlin.com>
+Thanks for the explanation. They do seem like orthogonal features. Sorry
+for the noise.
 
-Thank you!
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> 
+> Reinette
+> 
+> * as a sidenote it is not clear to me why this would require an opt-in since
+>   there only seems benefits to this.
+
+On systems with a mix of intPARTID capable and non-intPARTID capable MSC
+(with more partids) then on the non-intPARTID capable MSC you'll have to
+use 2 partids as one and can then not use max per partid controls on
+that component. Also, when using cdp on the caches we may want to use
+partid narrowing to hide it for memory allocation.  However, it might be
+sensible to make the monitoring id increase the default for some shapes
+of platform.
+
+> 
+
+Thanks,
+
+Ben
+
