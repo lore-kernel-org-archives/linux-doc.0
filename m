@@ -1,87 +1,87 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18F9F34B682
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 07:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A313F34B662
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 07:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771831674; cv=none; b=on3mM1MWLIcHiV3Lg1SVN+uQjRfXryiZHJ89+xGLwVrV35GUXZF0XAkXuNaFijoHaGCmLdj7BaL4bSZQU7qA/xLrYkUGqVfyp6Ux5t01jZfQykecu6ufRfHHZuQg6JvftK307lBLdVHsQlqsc9gfcXLMajmn7veZTig7rxxSm60=
+	t=1771831678; cv=none; b=sTZD1DhCn7iyBq2HTiiU26aNv9RHp+jcnDSC8OuKpWXee4fyfNHHHWuEvbmms2CYLcbQf4Bk1qsqIHbQ1iZhNOWKDw3wWu5sOcQBMFxqshY+h3SiP/I5iZHrhyvCfT3AXM9K6kwgN66mwl/VChlPMypt4OpsZh0QmhCRny/TY+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771831674; c=relaxed/simple;
-	bh=PuW7vlRiKBG5VvIHCjRT7mt2DV/SLWGdgcWu/vmtLTg=;
+	s=arc-20240116; t=1771831678; c=relaxed/simple;
+	bh=JXjiqG9T78eAGojjEK9/Zi9nDA6gm8rfDk6Pl5Nb7BE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iPY+zNo0SCUkIz4nwNcAbAZlUMgLodUvSW8RRjRSXpFsWKbdcfSFr3PmwufdHTECQxxL+3Q+OygQxizrr+t1FY/1Dqeep4WRxKgGQAVqPFhtq1QyfaIMQoaSNPUDEJCrILByo2t+fkEnUlTBx9JU3OHUVTuMVFGUpnsdsuDwSuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AhVNzKi/; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=NLbGHVjl; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=fgS5MdEyh2kVvgKifQrWPR5vmUgglbjJbDaCrF0DuYIISz6sEP8eDwMXTTkQJ26zcPKMp1UG+ABvLg6zFZnmegsqGEnpMSTV4Zc1NBICzX7NrRz77yi9tBIDk4eOX4z8TP7G0FeHJNnrIURCNj/HVFHInFkNfuuYrFbHU0caIoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SpVHZjbm; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aYlYD7IR; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AhVNzKi/";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="NLbGHVjl"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61MLET561750344
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 07:27:52 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SpVHZjbm";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aYlYD7IR"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61MGcmA51506503
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 07:27:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	5YOJJ2aXA0BEB/msmbEifF3HLLVOcCnZaBxJ0rWPj8w=; b=AhVNzKi/n41rbMtm
-	bJgATnTFIfFxKfHJ5a4WVIV5+HHTe8orLjZ7KAno3WPsIvsPXCcEn6lo2+S69uzB
-	M2i0Kicl8APo20JMse+4x4D9AOlSYN8ESi5rtS6g8AwrElhexSIzNnd7rsCcSu38
-	ex4c2JICHfVu9jBgCqirckqKD6jq5Ip90iOgBaaVKYaqnj1c5UIh33bRuG6Ajz9O
-	6qYpdE+1S8agq9pQd5h8IXySalWBph49742vem2av3piY5nbjVVHWDeQVRB9Nrgf
-	af50ETrukk+Q6rR84ZOOLDmYYiCubub2e+koxbd0ph8cxUFh8xiBrg2UH8cueYWc
-	Ssgmag==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf5wbbry8-1
+	J8/2gvQaG0Yq+hSJC2X5/y/AH/3zpoF7o7r8roBAJXE=; b=SpVHZjbmZaC1Z+RT
+	50XGF06GAFXw7h4mNNwaUvn09re6nys6p0++c6ufA08lkdSvfVmuzzcSI2D+p7PW
+	0kbwQeoXfuQleIRzkZ1jdUEp43XPREr9XwmpZAcri4ihmzWnAWV187icZi+kFlik
+	F7Avbuj12qOGhO9n9mNLtGsHKM/Zdoh0sXVWiIXvokaEX+ci3g1Wt/M8lSMV2C1I
+	P1nPmHYLdQ5g12mUQjqkr1eB9K9z3c9wGKmFjWVmaDuidGQzMoz/S5R4fCoO8ri8
+	5byBZT8kEdPx4TwygRme45jgmViQIh7amKpIi3MqHzxeaTxHeuF1jdpXfxOTLlKU
+	5EvOTQ==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cf5vukq3x-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 07:27:52 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8c70cff1da5so3389322585a.2
-        for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 23:27:52 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 07:27:53 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cb52a9c0eeso1182908485a.2
+        for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 23:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771831671; x=1772436471; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1771831673; x=1772436473; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5YOJJ2aXA0BEB/msmbEifF3HLLVOcCnZaBxJ0rWPj8w=;
-        b=NLbGHVjlf6qugvOYnWdryN1RqLRvCvLmgwHN59fU+r9tiTPUrQ9vF0P0g0+SPKaPMM
-         yA7WjeVvE2IOhqN4PqJzKL2Vnj2bfBVfSWGxYr43rwhgdQONpuoMEfHSRqq5ZXjdMtJr
-         m6dROH/DXBCLgVreiGa/AwPY97gKsu8gEIkr33rf1N19w+GlqEZ6cRtiCxY9sln9cbiG
-         Y1cRJcutB1qWYDTFuKeU5BEnxlPN9tOYNwEw0bVxfPt/3YAew7b1PCQxtnUTg7LK7aTk
-         DvtZxbhdHfjwlEFRTS7H9v6fcduvWbspDOUUXSGL2slnqcC7MSWRnX3sDw46tF3xuac/
-         ltqg==
+        bh=J8/2gvQaG0Yq+hSJC2X5/y/AH/3zpoF7o7r8roBAJXE=;
+        b=aYlYD7IRRdGg+G2bcIypMRCmIVAGcMWZB4mGg5NQtlQ78/X2kUofYJlOTD3cB6+OHi
+         XxKe0z4i7D6khISEw3zehaGndKUbYHY35P3321ph1j6TCttzK82v/gQctMWaijobae86
+         0MxxvcVmZk4UkXFCC/Ij3qI7s241CdNEMpMJayIN31IQyFfW+x3n2u4yHkpuwPs9TiQO
+         H7L1uXni6IbHqyBCc9fLb9cYp325HsWaJ0l81hgxMApjx4FKhQs609bNqJPOzunum88C
+         s66pOI6B9lgqNrFE2jx9aW2OAifLToRDH+C9z/kJq71/ARG3sXaZUvuaLzhErrzVlStF
+         vNMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771831671; x=1772436471;
+        d=1e100.net; s=20230601; t=1771831673; x=1772436473;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=5YOJJ2aXA0BEB/msmbEifF3HLLVOcCnZaBxJ0rWPj8w=;
-        b=kkejBFMR49Lk1O2FU7J2sJCIlGJKcrO0PQs2fb9Kq4GlETsR8fjmEtofckxSJ12hIs
-         zQvTT5AN4cs7WJJQbzfASgfTusjyBdGS6corcmBgRJLdZa8YlZzlIFg+YyFsWpzBpKan
-         6VNXi0iK7AzidvXGQt0hRFRBN29njcYXien540dB+bPtbTV9lMW1I0PVFkDKI7j6e+UA
-         ygh/eM2KjhFzOPoH1FWR0PsTcnSgddbV5tgyF91XHQPVjvLVK7MrqDWBe80MCVfUMeNK
-         3Mz/0XN8eiBT9URtsEc0w8ez1e418ZRNpPYby8qHpB0AsuT9RqmlLW4c9RQwjQEY13gi
-         Lrrg==
-X-Forwarded-Encrypted: i=1; AJvYcCWuHcUSVfDLI3rzKjP20t79Qsbj94J+BGUmbVOysd8LctuzAfhVRIF09ImPrsVdOyze/wgJVBWOWyw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2D+3bkOD5FqkcNLF0nPybQHs2FZgHufSjMFHz9FPyv4UqQBPV
-	Hjf0l4/9/Req83BKpaJJKILas+N4T7wQGp1hXIlzrh2TaIHKyCy/aM3EVKTIeNIDMW0X0ULx+7H
-	NnTCfGMBFHetXFKwvEelTpBc99Mrg9O1eKzWodHg8ojEtG3yh27MY4LBZQ/dbtuU=
-X-Gm-Gg: AZuq6aLzGSisS6V8jTo0Rs1iJFyGmuUAIShw3F6yT1gtnW1Lnd+HcbXYLEf4wTNbHCI
-	dEv6AKhsC86W5yeh9EwHNBJ9pTBO/hU1XAQ6LAOyCKbPS91NXPzooWaxIiud1bT/k9WHifUBbBm
-	yNVi6B78zjS0XfCruYASODUWFPB8tJ37Q+DPLG52ZGjyceCwo5LoGh86KNtXEJLKAZZKEExUM0a
-	urgCsZ1tTJydm/3aVx+HEX4bW8c2S+uS90eDulzFsoKpQN0pQmK3nveokqniLcj2UKheapcdJAw
-	8ksFnF1xFF275pO63UONlkW6XmFAcr3rqiQbnmc4+PS6f6UI+LVGlCtTbUPPHIUNEO8SLlcfOXB
-	mmIaWPHiYkPytMyh4s1Pun8Uqq0sZPM6BOvKN+nJmoZAtLg==
-X-Received: by 2002:a05:620a:2994:b0:8c9:e98a:d9f1 with SMTP id af79cd13be357-8cb8c9fe5a6mr1011978185a.30.1771831671278;
-        Sun, 22 Feb 2026 23:27:51 -0800 (PST)
-X-Received: by 2002:a05:620a:2994:b0:8c9:e98a:d9f1 with SMTP id af79cd13be357-8cb8c9fe5a6mr1011974885a.30.1771831670712;
-        Sun, 22 Feb 2026 23:27:50 -0800 (PST)
+        bh=J8/2gvQaG0Yq+hSJC2X5/y/AH/3zpoF7o7r8roBAJXE=;
+        b=DAedHUukQqceWRcWzsqpzs2etw5ut588YT7YVAAtNWTY4T1jU/2SA/N+Rkw1ru0AU+
+         43Shpv8aY352QP5whimv1A5q94RY/FUbycUeE0hgdq75AsjOsZEDV5IZE3L33o/niJlC
+         qJE0BgloYhluYOFbGwugv9xs/KDKV8kbkP54I18WqZCNcAvDBOZiFf43nrKwjqMF7RGJ
+         0FBYef4HTnQdIkHsAqvFhcTsyM4oehufGeQ5AgODYQBEt47F/FfNk/cVw+qYo3zrd5WP
+         LwXS6oMwgeWafqZud64Mi88nY0YpQtptIwf4820fv5Ly35y2ovwfbfOQgnw74lfYhJjX
+         ligA==
+X-Forwarded-Encrypted: i=1; AJvYcCXJW+C02vkt0rCHB4z03w2yE1dLiE/CzeVEuKGTYwu75+6dyFUuayIYFQ5RtfvqoVeFWVR5q4GroNg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNQv64h75d2utUO162BZrE0nRO3S5KqIPBfuSyEvg9DgREBYQv
+	NQ83irkn89bFYOz7ZmHa5zK6CkVNXkGNTXQru96b1Gt4HE3M/yI768ye84pN1iLB5A5WYnQC2Fv
+	ZUhKBzRsIF+beG7sKYkPb1WX4eWdf8fXIKWnhuQZYUW7xnerc7RfRqTQ+Yi3Hp54=
+X-Gm-Gg: AZuq6aL7hhviGXb0JZVt9PG/ACL8muujj/hgcNdbN5/Si/+hSaS4EK0SCGkTaSJsMKC
+	+vgkYWPl/rxbzM7N5zVA/VVdWqvUEudbA9Vwq+mVD/TiKZPR8EJXNYVw+YA2qz7k4QdmkGApGAb
+	+VDhpFVhItgbkIPFIwatSmjQyd9+w5TTvugfhT8inLbIGZcm7xDvy2JW+N1W3XoO6Q3GVnQ3JHD
+	kdxtFyt/jB+sf8gOtiov5P+blT6a/EkBnr2qje4f2XHWkG5bOWrTdUmzzVIXrTSN5+pdEp+QjVh
+	h+OxfQCxx2pC0kdLupdtx3J4DhWbR50rLrlkqVAHVpMMyekOI0vnZ7GihPbBHY2AFOUnTmsqdf7
+	2x3n3RmCZYYwn6o2NuvJZ22vjCa3+FiJu0u794SiCRNbxlQ==
+X-Received: by 2002:a05:620a:2a16:b0:8cb:44d7:39aa with SMTP id af79cd13be357-8cb8ca887c6mr919030685a.74.1771831673115;
+        Sun, 22 Feb 2026 23:27:53 -0800 (PST)
+X-Received: by 2002:a05:620a:2a16:b0:8cb:44d7:39aa with SMTP id af79cd13be357-8cb8ca887c6mr919028285a.74.1771831672680;
+        Sun, 22 Feb 2026 23:27:52 -0800 (PST)
 Received: from [127.0.1.1] ([178.197.223.140])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bf9ff5sm18550286f8f.4.2026.02.22.23.27.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bf9ff5sm18550286f8f.4.2026.02.22.23.27.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Feb 2026 23:27:50 -0800 (PST)
+        Sun, 22 Feb 2026 23:27:52 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Date: Mon, 23 Feb 2026 08:27:31 +0100
-Subject: [PATCH 3/9] power: supply: max77705: Free allocated workqueue and
- fix removal order
+Date: Mon, 23 Feb 2026 08:27:32 +0100
+Subject: [PATCH 4/9] power: supply: mt6370: Simplify with
+ devm_create_singlethread_workqueue
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260223-workqueue-devm-v1-3-10b3a6087586@oss.qualcomm.com>
+Message-Id: <20260223-workqueue-devm-v1-4-10b3a6087586@oss.qualcomm.com>
 References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
 In-Reply-To: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -114,138 +114,90 @@ Cc: driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
         linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
         Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3319;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1484;
  i=krzysztof.kozlowski@oss.qualcomm.com; h=from:subject:message-id;
- bh=PuW7vlRiKBG5VvIHCjRT7mt2DV/SLWGdgcWu/vmtLTg=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpnAFo/UKzNCc8KS1w39QKA5O4bC7woFna1QIAf
- BiaUZZ1gFmJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaZwBaAAKCRDBN2bmhouD
- 1+EED/9RkN0mxPd4BItqsLJ3y1xwAvEJApbWLIpmsMJXLty2XG8gkwjO8hplcVmzFYS+iOGPsZj
- aPSAVj2pgSAUt12aoLw+ajNWfgCUzP7nsreSR3QFvNiFQf5rQ/wuCbRl2e6IlMc+i5McriHEnrd
- bn3OdqIahOkjSN2RSB24KS/ejjWMDLFu69ADWjuiFRRia+TILRWHGMqWjgawoOLvZPPHgMLEuuR
- zcuVoogWJCE3DW5Wti2+nzH1ufXTdWzHu3m37OrR1ddxunY7RYs9gqBHCDZrGf0DkJnEhBtfUW9
- 0IRlqNW+vrhKw4ggkuAe6KpzRUXK+Vu4wuquJBbJDwOSErn90S6sv5DwZPwccOz6O5/2HUAEn4p
- 75WRc4EDngZ6BirtmvZ6V6FON6OABNiwAQilzGnyrXz2wTf31hPLCPT8wyTsYkINffmY2/OY5Bf
- NB/DRkDRPUxLp+3wERhCwqCqB7+B7QAKjK2CjdfXDiRFJIsKn0Z/fyVxOdFCZiJwXQTos27zmFV
- tl2P4mW9+CyaKoH7bnw2IulsbIYWkicoDpPc4BlqaIt0iWInuAJMuVG748eqTphll4FFndqFk+o
- 6ga4pYKmERVHVmgSCqopHYyvccnuvgznBMZst0XYRfruAygHMVgeyT0VFowKtI6dRsCoIncJh6b
- pQwLQ3EyvLfqsXg==
+ bh=JXjiqG9T78eAGojjEK9/Zi9nDA6gm8rfDk6Pl5Nb7BE=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpnAFp9FpdXlORK3TYpQCMwkXfvfWNBaac//1X0
+ vhPZnV5DAKJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaZwBaQAKCRDBN2bmhouD
+ 1zzREACQTNEy+SyS8bNuKjvXbhz5E4jN7BzYOJgWNyNmgpmJ/J0B04PSNn7WhRDzfnj20zlc3no
+ 4Z7M3WMZLj5DqvNNbRKuKmcYK8fumg/o8XU9WV33VRrFKXZHZ9fTesJOPKo2Ldub65X3GHGkqK7
+ DpQ4aC8bK8O++YJp/QxQn1SGyQaJisOtMDOrk6nsOrOmZi3FftfnDF1yDgBmbHSZgSYrXGYFxJx
+ LOA8z0QczvhcVAZdmENDdCbXK5OArtY07J0o/Gv3rHQ+2PvZmwswyFz4dsaQ4ckWnsX3VQ2rDTw
+ i/gsWSxXY4M6NXKOo6267SGHkuwUwJhyALG8NwGGNncwrbNGuChatk5zV+ia7yiWwoRm4kinVV5
+ H5hMs6RMj1luoPCIO7NhYLwgePLg7PEQIyL13bkMLl0ZAtO7InkRRbRBj1Sg4LrruS3gg4QOYFH
+ chibkuHJZsfg4m5bL7vjeqDilJ228Ymmh1vH1CBdvvfmHKziimERsZvPLv+dF0BXo5LwFpPrNrn
+ gqno1C894RfGiUYOj9LEKWcVleHEfiUd7WIj1WnDhgVnrmuuN6W2NqNSR1fYWKBUnzm57jZK4Ie
+ eTOZPwdVIE8s4gcOtEZ2LNfkUjadTTtP4gjawJ6JsI6T9QM50P9nuFwrhox4a3nhNO3DJnk3qc1
+ ZnclO3WsVt0zb8g==
 X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp;
  fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-X-Proofpoint-ORIG-GUID: zcZvugCXiMlaJk5zxsWMvaRoE7ZT9qmh
-X-Authority-Analysis: v=2.4 cv=UZlciaSN c=1 sm=1 tr=0 ts=699c0178 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=6nO30s3o7FuWeffXwhKHTA==:17
+X-Authority-Analysis: v=2.4 cv=AL4GpdX7 c=1 sm=1 tr=0 ts=699c0179 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=6nO30s3o7FuWeffXwhKHTA==:17
  a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=EUspDBNiAAAA:8 a=NrNmjpoQ7DW6B6PU5UcA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: zcZvugCXiMlaJk5zxsWMvaRoE7ZT9qmh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDA2NCBTYWx0ZWRfX0T/D3EIsxr/b
- W/4Aa4rpuWY1BnJJO/saWMlkf61yJtBLJ5eJbAelozJ9DU6UAPrvhpQCaK0nKeY4Pzjs2h6MjaA
- y43tcok5npYkh++OJm7iOpbxngTi9YycZoodU/5OK2qmY1iAxFQ2mtC0mCCNRekbqavhlQn5mWX
- LnRYwGgbAQjvfPo0QGb4/xwjM2gfGXygA791Pvbs5Mjoif/fl7ogENj15ls7BG6QFxpGxGLJlRv
- 9JB6IUWWtH3w+X0O0xetaYQJWG9uKpqhy2Umxs97H5wO0JCXBSYKJ+SBqXfoSAsU/6mGWl6G0nm
- ndjxPx2PmuuTj6yGZ8SBxJiD8AhVt7kl6DmNqVC3GcRBDi8imj0LbuqL5gRuE53l28lylONQV0E
- isBCSbFJ7aliAJP4fID6vvy2yZAlv/184gGr87Lc1gKWbWlV8z/pTVSa6shvv3mqDBn2e9EpuEp
- hcj7yaYapd4n0JLNHLQ==
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=ztnre8jBXG8j2NFRlM0A:9 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-GUID: RNLgqCucSXC7UCGTHlL7zRFM1ixmjoSM
+X-Proofpoint-ORIG-GUID: RNLgqCucSXC7UCGTHlL7zRFM1ixmjoSM
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDA2NCBTYWx0ZWRfXx4IEvXR10v5j
+ O+63gKk0649yZ4SbQIJ9MnrVjDMtYYLVXHagqt3ft3vjpdFMW3zN/PSQg605eq83StuCn6mNv2O
+ dNwKzRER5MHgpQWmOt1V18YLjO7J7UsJCMiXZiYP1fcKRnTNCNZBxkVA4cqSsEieEDYK2SPZLd4
+ XgctWYZYg621QjzTI/Bag+6ZLIngp+bjX4GsDDhlxLKY6KE4ApY4UCGuICoQDnySOZdmiavIp8O
+ 1fr6zuFuA96YSrbm+RIikiTEEoNFCuM3znB0Q8AiUg6ItVHYMLXCUGOqrhsyziph39uVi63avlo
+ fVJ1EDrD7DxXJFf8uzC2c8tG9+1ts1t9m6IrxE9jEBPWaRCME67h/xBkTCFBqsCfe4ViddXlvMl
+ QetCREgpUCwy910oMWXB7nE3r0pU/Jem5rxBK44DBKCozABzWPM63QObKs8M04Uu6lp4ywRXPB2
+ R+kfmxgSQIZryjFlitg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-23_01,2026-02-20_04,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 phishscore=0 spamscore=0 malwarescore=0
- bulkscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 impostorscore=0 phishscore=0
+ clxscore=1015 suspectscore=0 priorityscore=1501 adultscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230064
 
-Use devm interface for allocating workqueue to fix two bugs at the same
-time:
+Simplify the driver probe function by using
+devm_create_singlethread_workqueue() which handles the cleanup already.
 
-1. Driver leaks the memory on remove(), because the workqueue is not
-   destroyed.
-
-2. Driver allocates workqueue and then registers interrupt handlers
-   with devm interface.  This means that probe error paths will not use a
-   reversed order, but first the destroy workqueue and then, via devm
-   release handlers, free the interrupt.
-
-   The interrupt handler schedules work on this exact workqueue, thus if
-   interrupt is hit in this short time window - after destroying
-   workqueue, but before devm() frees the interrupt, the work scheduling
-   will lead to use of freed memory.
-
-Fixes: 11741b8e382d ("power: supply: max77705: Fix workqueue error handling in probe")
-Fixes: a6a494c8e3ce ("power: supply: max77705: Add charger driver for Maxim 77705")
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- drivers/power/supply/max77705_charger.c | 36 ++++++++++-----------------------
- 1 file changed, 11 insertions(+), 25 deletions(-)
+ drivers/power/supply/mt6370-charger.c | 13 +------------
+ 1 file changed, 1 insertion(+), 12 deletions(-)
 
-diff --git a/drivers/power/supply/max77705_charger.c b/drivers/power/supply/max77705_charger.c
-index 5dd02f658f5b..de12c215366c 100644
---- a/drivers/power/supply/max77705_charger.c
-+++ b/drivers/power/supply/max77705_charger.c
-@@ -646,51 +646,37 @@ static int max77705_charger_probe(struct i2c_client *i2c)
- 	if (ret)
- 		return dev_err_probe(dev, ret, "failed to add irq chip\n");
- 
--	chg->wqueue = create_singlethread_workqueue(dev_name(dev));
-+	chg->wqueue = devm_create_singlethread_workqueue(dev, dev_name(dev));
- 	if (!chg->wqueue)
- 		return -ENOMEM;
- 
- 	ret = devm_work_autocancel(dev, &chg->chgin_work, max77705_chgin_isr_work);
--	if (ret) {
--		dev_err_probe(dev, ret, "failed to initialize interrupt work\n");
--		goto destroy_wq;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to initialize interrupt work\n");
- 
- 	ret = max77705_charger_initialize(chg);
--	if (ret) {
--		dev_err_probe(dev, ret, "failed to initialize charger IC\n");
--		goto destroy_wq;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to initialize charger IC\n");
- 
- 	ret = devm_request_threaded_irq(dev, regmap_irq_get_virq(irq_data, MAX77705_CHGIN_I),
- 					NULL, max77705_chgin_irq,
- 					IRQF_TRIGGER_NONE,
- 					"chgin-irq", chg);
--	if (ret) {
--		dev_err_probe(dev, ret, "Failed to Request chgin IRQ\n");
--		goto destroy_wq;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to Request chgin IRQ\n");
- 
- 	ret = devm_request_threaded_irq(dev, regmap_irq_get_virq(irq_data, MAX77705_AICL_I),
- 					NULL, max77705_aicl_irq,
- 					IRQF_TRIGGER_NONE,
- 					"aicl-irq", chg);
--	if (ret) {
--		dev_err_probe(dev, ret, "Failed to Request aicl IRQ\n");
--		goto destroy_wq;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to Request aicl IRQ\n");
- 
- 	ret = max77705_charger_enable(chg);
--	if (ret) {
--		dev_err_probe(dev, ret, "failed to enable charge\n");
--		goto destroy_wq;
--	}
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to enable charge\n");
- 
- 	return devm_add_action_or_reset(dev, max77705_charger_disable, chg);
--
--destroy_wq:
--	destroy_workqueue(chg->wqueue);
--	return ret;
+diff --git a/drivers/power/supply/mt6370-charger.c b/drivers/power/supply/mt6370-charger.c
+index e6db961d5818..f671fe62876a 100644
+--- a/drivers/power/supply/mt6370-charger.c
++++ b/drivers/power/supply/mt6370-charger.c
+@@ -761,13 +761,6 @@ static int mt6370_chg_init_psy(struct mt6370_priv *priv)
+ 	return PTR_ERR_OR_ZERO(priv->psy);
  }
  
- static const struct of_device_id max77705_charger_of_match[] = {
+-static void mt6370_chg_destroy_wq(void *data)
+-{
+-	struct workqueue_struct *wq = data;
+-
+-	destroy_workqueue(wq);
+-}
+-
+ static irqreturn_t mt6370_attach_i_handler(int irq, void *data)
+ {
+ 	struct mt6370_priv *priv = data;
+@@ -893,14 +886,10 @@ static int mt6370_chg_probe(struct platform_device *pdev)
+ 
+ 	priv->attach = MT6370_ATTACH_STAT_DETACH;
+ 
+-	priv->wq = create_singlethread_workqueue(dev_name(priv->dev));
++	priv->wq = devm_create_singlethread_workqueue(dev, dev_name(priv->dev));
+ 	if (!priv->wq)
+ 		return -ENOMEM;
+ 
+-	ret = devm_add_action_or_reset(dev, mt6370_chg_destroy_wq, priv->wq);
+-	if (ret)
+-		return ret;
+-
+ 	ret = devm_work_autocancel(dev, &priv->bc12_work, mt6370_chg_bc12_work_func);
+ 	if (ret)
+ 		return dev_err_probe(dev, ret, "Failed to init bc12 work\n");
 
 -- 
 2.51.0
