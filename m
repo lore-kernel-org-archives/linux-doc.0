@@ -1,214 +1,252 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11021116.outbound.protection.outlook.com [52.101.62.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FF752EC09B;
-	Mon, 23 Feb 2026 16:07:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.116
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771862859; cv=fail; b=H+1BDKMa+sVKime8py9EsGanD4W8HXhm1Zgo04U8KRBtxKRaRHYCSpXOYMu9vcZGThNdMhU/Pv42m7dagJ2IqluJg8qQhztHknWtDeNMCvLbToFFNPr+0Gf3lXzDID/Mz+ca7c3NXLbBSG9sgTU9uvMLE/Zbj1lUAkGclvEIZ50=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771862859; c=relaxed/simple;
-	bh=3toHGPWuNC88ERAWtoze1RuBoBVBufb8az0mBB/0sJI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ftk3jS0SpLLBSdOB4Awg3HgcAotQrYFWcPcv56obBWlGgE8JyQdgfe2nKB1ZJS0GXzFhssqdfJBbVgYwY4aZyf5D5ARp1UB9UCPbNVuLGo+97XtQ9aNKejNlH9mM0h2Xf+LHM2ubHDplU3KPpPtIsq6cdVYlqFk0MRokPiiUmJw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=Pz9reodk; arc=fail smtp.client-ip=52.101.62.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A66430AD0A
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 16:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771863073; cv=none; b=Q/jrL1iBr0+8X9H4QNLymcWjrW2g+a0R2SCD7oe1bCl85qdURBqda0OqGLBLYnFktAiF+zD3XrTjb5b/u00+7EE3AFT0zv7OAC58h5vB1UowM4STBdS1C2h+4rckQtRRnxCS4Zga+K/ndg410FzqYUPKTyKDjx30TZUWHZygikI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771863073; c=relaxed/simple;
+	bh=uOWrkVzkhVWru/bVDM1jfSDSccWS6w+xwrHyNaMAnDo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EaU+XdsEZbhGcNfr0jjma/VnDmU8jHa599xJr39S7lXH8h5Lg/Out6YH2TcXneRnJylDSrDvkwnlkZnMfhG+h8pG7HJUV73cgFBfvt8BmOrzCbRiNU6yU/bJGp6U6Ni60zPO4SmogNyPbIj8/6S5Pm0xTukF/VWs1m96vIQHhpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CU5IOuOT; arc=none smtp.client-ip=209.85.214.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="Pz9reodk"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N1vV0tE0FsjGinsQJzowvw9MJNeqyEB0K2JS26VEshURE3rwaCkK2LjhyQzz5odlrgvKkV7wi08okxQQyLBNgBnCO7lqVgLwLtRW07EvTrHGpAagn/uRw0WtmHDiAJcQ4htjE+qZuBOxLgZFbad8+QBT9meNrUeXQz27nQVoxhb2YRMUPl09YhwW7ino6PqHX+Sa1pnZTDlEczdCjZK90kUTKBL8zgHbUoUqHhBpuiFvHyBurkGI7RSFTTpofmzLmX831BXfOhdvzjUTPGioHBJnjBeWNZYxFBx6u+GXcoT/ypDrJhE3btQHt4aH12cDKvp+ax51poV1TDujWpCMtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3toHGPWuNC88ERAWtoze1RuBoBVBufb8az0mBB/0sJI=;
- b=ew6mmpRK+Y4tAEJWuxztAwqNm3uXs7oOGCA7mJEqruT0zeAtLw2J8Tnfz98/C2nF95M9+5EpLY28yYgkvTUx66O2acGiep+vqWwYVTvfHKLrMKUiu4hztZlL32tt2bJnan8LhWmlh3Fo1QiygqnPU9imOcPOJdtWEce0xxCz1nafaW0IxZBjHaBQpkPtrNyMBN5/HDFeKm1p5cqJHXc8oeHAhqVJzIFwSI3qSNEQo4r11/Nvt+5CDjFsWdeUMSrufw2QaMZb00Sw49gG3v+ywLReeZ0Y70BlC3RL7mVSuYEeh8TvoIGFdRCAqiE8bvgZJ96rOn9h34VkrKdTt9A85Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3toHGPWuNC88ERAWtoze1RuBoBVBufb8az0mBB/0sJI=;
- b=Pz9reodk6QxxY0/ldPbadJrDl4NKcHgqn68Gy2F9L91AwmZf/R2wnnvKGrYqTEttrxr5eX0gJ8E6zzDUGX826SLmYPwj4Ds09K9qDqas17/z6023PU0RSLqyoR+P/kK13mQu5BMhLLuOV1oReIUAUCGXLVI3qEK74XKksgPcuKw=
-Received: from SA3PR21MB3867.namprd21.prod.outlook.com (2603:10b6:806:2fc::15)
- by SA3PR21MB5794.namprd21.prod.outlook.com (2603:10b6:806:499::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.6; Mon, 23 Feb
- 2026 16:07:34 +0000
-Received: from SA3PR21MB3867.namprd21.prod.outlook.com
- ([fe80::70ff:4d3:2cb6:92a3]) by SA3PR21MB3867.namprd21.prod.outlook.com
- ([fe80::70ff:4d3:2cb6:92a3%6]) with mapi id 15.20.9678.006; Mon, 23 Feb 2026
- 16:07:34 +0000
-From: Haiyang Zhang <haiyangz@microsoft.com>
-To: Kory Maincent <kory.maincent@bootlin.com>, Haiyang Zhang
-	<haiyangz@linux.microsoft.com>
-CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Andrew Lunn
-	<andrew@lunn.ch>, Jakub Kicinski <kuba@kernel.org>, Donald Hunter
-	<donald.hunter@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Gal Pressman <gal@nvidia.com>, Oleksij Rempel
-	<o.rempel@pengutronix.de>, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, Paul Rosswurm
-	<paulros@microsoft.com>
-Subject: RE: [EXTERNAL] Re: [PATCH net-next] net: ethtool: add
- COALESCE_RX_CQE_FRAMES/NSECS parameters
-Thread-Topic: [EXTERNAL] Re: [PATCH net-next] net: ethtool: add
- COALESCE_RX_CQE_FRAMES/NSECS parameters
-Thread-Index: AQHcpEGiDcItgSgzW0KbKcdvetQIAbWQBDYAgABvgUA=
-Date: Mon, 23 Feb 2026 16:07:34 +0000
-Message-ID:
- <SA3PR21MB38671D269251FB3C4C4CD85CCA77A@SA3PR21MB3867.namprd21.prod.outlook.com>
-References: <20260222212328.736628-1-haiyangz@linux.microsoft.com>
- <20260223102534.0a87ed4c@kmaincent-XPS-13-7390>
-In-Reply-To: <20260223102534.0a87ed4c@kmaincent-XPS-13-7390>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=18f2f4c8-5d1b-42e0-b20a-edbeee1c0999;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-02-23T16:04:39Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SA3PR21MB3867:EE_|SA3PR21MB5794:EE_
-x-ms-office365-filtering-correlation-id: 0f69edb6-3494-44aa-ba19-08de72f5a80e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700021|7053199007;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?yAMwhYMLNP/VLRLXzcXniVqQWLzVac9WKp0WhsOVDX82IpOUdkJJrlpfEQyt?=
- =?us-ascii?Q?SIOxdq52lU0e7u3ZTWdMzBiGLp7919GNkhdpl3WM04iYexyeZYET3t8CLF1u?=
- =?us-ascii?Q?kgkI4BQlztSBEZZ5J5Y+ubaU6ZWGrq2EpCHH9/5Vk3oa+6cAQzpW7++/gWIt?=
- =?us-ascii?Q?XkPeCIDvBRQ9USnt6hntmdadmZv1jHyplMahbsW8dWEzQG4i/78Mbqu+wcUy?=
- =?us-ascii?Q?KeXvUUntNXK9YEGAxPzSOsLDK/3H7E5q1imFhYHO6DTlHpg2W/0tJGnOFd5t?=
- =?us-ascii?Q?5cIz0AN+c7CgcAeILaQOec+T1DiuzeFjTQ+wFY+VOnmm3n0lc/TZw4YOLLJS?=
- =?us-ascii?Q?EYHzy8/qqZJOBm+fgYQITa8gO0Q08WaDp6LX5KnnksHZqZGQp9Yy1M7Xt0D2?=
- =?us-ascii?Q?6mp4yTYKdkHekRxSEWA01uWo+WSq+GF1WskxDazGFOKA14XvLvTo9/SABYGm?=
- =?us-ascii?Q?MuxIVm3GUsZKn7QhASEiiHo4r6zflsGowO3F9nUuXGREgrXRK8RjBXKQ+Gzz?=
- =?us-ascii?Q?Z7kFEz/8X/uKwJ3/Eyamv9IPM8V+xoX5Wki/2AkAP18oqaRpZVqIFVxUkzgh?=
- =?us-ascii?Q?pkWb5k9qNK0cOITkFDBS/h7AXetqdQ5AMXyd245O6DbNC/Yqwdmt2VkGibZS?=
- =?us-ascii?Q?4GBT2Q8h1Mho14J6T7w8c0DFJ3hGpq8EmrxRpPd6rkUT011JvGSeXndtXc0v?=
- =?us-ascii?Q?jEaGW7u55+iRqZa2liKeLs/7xFw8R+kK0C245AbhzPNz8fwpBfjVZJUEArrT?=
- =?us-ascii?Q?ZNk5ykbrwLIcVVq5nCGdqkKJ6dREqZIhyIG+1RZp2OivhlK6wInSH3CYmPx9?=
- =?us-ascii?Q?AnF0B3CvEe8ay32WekfN0w5vjTMjRHMpJE1Wx+KS6k5/Yv9Lu1JxYtN49wUY?=
- =?us-ascii?Q?VJf3le5BAm9ac6jXE4GkDUmaJM1MItSKJDmNczcT7X6KFw9ja4DgvqaNrTJP?=
- =?us-ascii?Q?Wwt6NHnOyv3ZV/eEIf5ZCbSnRQudi+m1sw7F7aItVVR8kHFBdm7W45T6pJxr?=
- =?us-ascii?Q?dE+JWHst6SMiEyeUxzM0LutHG+Yg9rFe1KgLhsronkfTwPKEaqyccXLDCkzp?=
- =?us-ascii?Q?mBARWrjXsQi18vjkZbZB/i24/9+QZTzPxaDtUUWtXTP0NmMFea+Rf+CaSlIm?=
- =?us-ascii?Q?twFJfIdwoY6rnYaoTDqltOAokdQ5rGiV40pvl7zjWoKavGzuT3ZPJX5U62iM?=
- =?us-ascii?Q?xT8wMBRUYU58iosez32FjK9n5OvXF1wKFwHUgXQZISFkMn4sX7bFA7Rt4LYd?=
- =?us-ascii?Q?tfzt/b9poi4bH4ZkHoQFbh6am6KYYLGgqgGxGp55ROqe4CPSkp4v7qy3fi5E?=
- =?us-ascii?Q?aZrzWBAqiU2eZDI+cRx/0MOJuR7Ss5O7LN88lFVhjv7i84/xWvYWCDGQB0Vr?=
- =?us-ascii?Q?B2X4mvLEkmvs7nl75hCfZzNSPTpo1fpuUY7G6Gsk+P/v8B5Y8my/s1duqUpX?=
- =?us-ascii?Q?A8AlD8RBVjNutnEiep1rOEw3yyfoaSp1L/+ynng6aZPOknPu4aPnTH8fWrEa?=
- =?us-ascii?Q?3YNJNwGUTDmKnBNxHZadzB2RWdUj1cqtkurp10I79LMEwMvu9bF6e+p57HeM?=
- =?us-ascii?Q?oImxiQb88/N86a6Q1P6tIKviFySecvqD+S4sdnY7BtaCFTzYX0zRBqgGyMxl?=
- =?us-ascii?Q?qEpAwfYB5KXh8dk+FlSoSFc=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR21MB3867.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700021)(7053199007);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?14EYhhVTScGzoRNqxlKs7CBoGdWfIj5nYLhcbdvEZL6C7njzrYy1lk7GZryt?=
- =?us-ascii?Q?OpMeosO4o88410ZWPggS/fBlgRqQhjzPMgIUloVJjhoVyY04sDGHe6hp7zZU?=
- =?us-ascii?Q?uK5Tk5cwAOWQhdUamM7ITrPbXhCfZZSztuS8BbQ7DriKOmRQ/MVDh3Mt4OTY?=
- =?us-ascii?Q?2iUgDGGy0DdICocNqQNzwqSMDSxS4oRwJPY5R1VnGuAyLaTdmgdgmRP/ctda?=
- =?us-ascii?Q?0OWnBXy40NnzBEnDG0/jVB7vJbv+x434hlampFkxU5nXZmq9wBRI4bCykX+q?=
- =?us-ascii?Q?w9WxCMD5VOl1vNrN6rnsgZ/9WpekyGBWX68OrqMc/ARv8GBfwC5qeFfmZAos?=
- =?us-ascii?Q?AnJiOQoP39VqjX1sfQu0V+kNfJ6KfDNE/DNTZaqqe6TS/TkJ9EH+tE70sdtb?=
- =?us-ascii?Q?FEikL1jsEv2ypx8wqWX/rO5HL0FTEbFl5+3eAeOVO3xgbVA8vpfQfc0dn63k?=
- =?us-ascii?Q?jHL7imH5+Eb1WPfI8sAcSGf49ACOID7QZwJOAd6vzezLvYX6qtEm2c3V0M/C?=
- =?us-ascii?Q?Afj9uGJPOqr/lgXwak1ap4boSvUVlZZ4pLyMG12LHzFqYSMSqD7w2OeLElV9?=
- =?us-ascii?Q?oct6j30eKQHMpBQpmLkO7gboWyT8BknjCCvuzvFdvNT7rpZycdC089Rl0uTg?=
- =?us-ascii?Q?ZJmfANBZFRBl571yYpDR9LQptnhGgRmDL0xZ+MSCyg0Ae3YOgc7hAzT+nP4a?=
- =?us-ascii?Q?w5GfMjkX/oF7p9VRq3jAb7EIt0orHNhZj3DD9ukl/wxtwIYm3Le7NQVoP0of?=
- =?us-ascii?Q?5fX8M57nSb349EtFYk8j0cEtC4ED8cmC9CJdQHUmwyw5sSViXlDEABqUshFi?=
- =?us-ascii?Q?+oZnHr4tqoLuKt5dZJXlqn68MkC2xmocxHuHSIMIHIZNsItgQB5imBmGIahr?=
- =?us-ascii?Q?9YgrhWfg9laZ6Ss3KkT94ytzePfuB4QsBENAjx/0Tkok4+0rR8XJtWx7U2jn?=
- =?us-ascii?Q?pSLXbW+g9luPuzqNMpfYGHLpIH1vfUX4FjUeed/sN8OdgRvZEi8RV2FL29jl?=
- =?us-ascii?Q?5cHAZIJjzcRmdDDfjkxu92YPARQQBWQYCy2HEvWOz4hfaj9krhG+vLbpNKpN?=
- =?us-ascii?Q?Cy9+xgDqOdgj72f79UQbAnylAoEqiSu+wqxiG3atMQfBqvs8SsF8fyD67Ssq?=
- =?us-ascii?Q?W/9iqZ0S2Sjr/1wkXSTpdc11eeJjECg/4BIgeUTzeUk2CvESNJ7+MJ94RcWd?=
- =?us-ascii?Q?BVHSaHxoBE96ME7xLqWfswSTT2I0GopBj7aVgc0qibTdgoR4lIGc6fDpp8Ox?=
- =?us-ascii?Q?fyGaKnQObYnQrNoiACMqpIoan2BYgyltq0ZLfcjWNeaeRRSt3fmMOBClIh2j?=
- =?us-ascii?Q?I+WVDKl0ZnKey8d1+vdsOCarUYVPdCyyucKdpLYRnZ8kj5FpPmc3wG00oHOa?=
- =?us-ascii?Q?LFIhRDT9/TBmm/DkfQl7dReYcx5YYzktLVrSJpnqMiYdC4EOhmgAASZUpbjX?=
- =?us-ascii?Q?1TgLSADbwQA8n06Ssg1JOUUC9RI8sTqCz2mLneV/d98KK4yoaOCPwT8AMlHD?=
- =?us-ascii?Q?tUTj8Q4L3MlXTd3sFoO9943uvmemNLuZJK9IvpXR+K3zq6qqQP78Pp09UStP?=
- =?us-ascii?Q?CMsk+WLFaM1onS40uTzHI+D3rMteTclNF3veq7f7URdzK89TMGRgFeIgdwZs?=
- =?us-ascii?Q?PcAgqIfMQTykjFZoHULpRKO5pOZVUi8+mIBIBbk/sXdRsyW9bCOS+cbRmrQE?=
- =?us-ascii?Q?1T4sOew1VULkHzRg90tmWTanzAUVpCILd5aIhjCYk1JwmFhlK01khKi0LRzG?=
- =?us-ascii?Q?w2r/xbvoAw=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CU5IOuOT"
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-2a7bced39cfso46813965ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 08:11:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771863071; x=1772467871; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ulpluE+lIE5kdJWNzm2SxUImxzxa4fvIbShMG3wXcjs=;
+        b=CU5IOuOTJhLwEf8j290FKBhVTlZWPAcBLCSSDe2YDLsCrETVlyq6tNA2h6mNnMfA2E
+         bLlVoeV/8xprkmmjCYsIhHQpvC7NcFVo8a5ywbNzAB8xZFyG9ggrFpSj0DYxF4G7u40p
+         rHToiRUkpslXQgPLEAufoAatqQPjTAHubQhu+eH7JSgdoAO6jt52OJK1a2GObwR34QyN
+         o1plLAe6IhYrWqq4xa13rs4HdLjByY2E7JZjJqDTBaLcts9JdtF/NiWkCh+Srf/VV4fB
+         cfKbANlsv+xns/6r3hDTFHNOC2/KYyyw/E85wyWfXjUTYhSKIALGEEPdRXtV1iZ8tUfl
+         6i+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771863071; x=1772467871;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ulpluE+lIE5kdJWNzm2SxUImxzxa4fvIbShMG3wXcjs=;
+        b=nYF7dKrh0KMHHzHy/FZHhmJZ/HeN2BjEk9UNShE0E1QC1G45jtZRZQ+9312gDcmmtu
+         zSDNP4af6QE3bbILt80h0SPux7s7jjyXMFtxTjA7MCrbTJ/SAMKGemoBiK4h0g7kQKPs
+         TOT5yJ1GU5enONuFa5CcXj/X5kl04DapXfZBgYbS1skWra/QKDgJaA2YJfcKeWzvSi5C
+         E68s8PWJ1Yanh3xtHelKtVwlWOMX8rADHnjw51zIo81XAx7DEfXG7uuEmWKTQ5h/FpRA
+         8jax3wuA5bMfuP5oGPX90+yPMLyg2IJSwCscnhr+h/FovjT/Xb7dlv1aFcvG+8Ji52j0
+         HN3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVngFUPv5XF+a7nUMO4bDMQtHBo5GSx/hAHhpDsFQA+Um4BjTnyU5VaKylP7qj4rP46YVcvrhqlGFE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzsD4BVASEvLWcVMUl+WMjiOtUb+5SBSYTgpukBboU9Gu56983m
+	g21v3PYm7s4UTTAtAuKO2KSP9Xgi7/40wPcSgpKi5SbNeK094yhAOKOt
+X-Gm-Gg: ATEYQzzTVImX36oCKFS31T1bt+2A+GYGfCp0oH/HVxfbh45KOj5WAAxV5cPXVl89L/+
+	ZKabwexZh7/9BE/3OCQUwv/tydb53glX0cX3lwsXd1nMd0S2tFuoz2j934E3OLVTdWTdYs1Jxz6
+	1bN0DMzV2KLpBx/9XukKsKRD08cD4Jml/akaFa9aoq/te0oDrVWkMD39H/NSWJ/BKRwCzQ9gwaV
+	/J6urZRnIlWU/W71Di9cIv562r9l2xltogt6BcFOSSxZjLN6LulA9Fa07qP5oIYuNfpIOBd1dZl
+	jVwby5Z2sUmRtNkr1GRLmnvKXDDv6cZQSqL7IJ4i2AJ8TPYD7S3di6/hHA/aNt0sK+FZywQ+19U
+	Z4QY68m76Dop0LCEFR7GzDiar8eiJVlS7pZVlHoS9gQf4hSFta8laSJ6JHciRD1fofiIRhQXbpG
+	cSNpGXLmtr9alPpeH+ETnkeRVdwROFSIty7Ho=
+X-Received: by 2002:a17:903:1448:b0:2a0:c5a6:c8df with SMTP id d9443c01a7336-2ad74448a69mr106099055ad.21.1771863070635;
+        Mon, 23 Feb 2026 08:11:10 -0800 (PST)
+Received: from fedora ([2409:40e5:11e3:f079:b796:44c2:7e10:cd23])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad7500e19fsm81994725ad.59.2026.02.23.08.11.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 08:11:10 -0800 (PST)
+From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+Subject: [PATCH] docs: sysctl: Add documentation for crypto and debug sysctls
+Date: Mon, 23 Feb 2026 21:40:51 +0530
+Message-ID: <20260223161051.8448-1-chakrabortyshubham66@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SA3PR21MB3867.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f69edb6-3494-44aa-ba19-08de72f5a80e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2026 16:07:34.5055
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pA0dmGMddQMR1Lp+Q5r+SX2lTiT4+g45PfXYIxRSSDRyyG/AbFNZh6WLbsXE9oFDYw1iNECbRR9tjuBss5brLA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR21MB5794
+Content-Transfer-Encoding: 8bit
 
+The /proc/sys/crypto and /proc/sys/debug directories lacked documentation in the admin-guide. Add RST files covering fips_enabled, fips_name, fips_version, exception-trace, and kprobes-optimization sysctls.
+---
+ Documentation/admin-guide/sysctl/crypto.rst | 59 +++++++++++++++++++
+ Documentation/admin-guide/sysctl/debug.rst  | 63 +++++++++++++++++++++
+ Documentation/admin-guide/sysctl/index.rst  |  8 ++-
+ 3 files changed, 128 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/admin-guide/sysctl/crypto.rst
+ create mode 100644 Documentation/admin-guide/sysctl/debug.rst
 
-
-> -----Original Message-----
-> From: Kory Maincent <kory.maincent@bootlin.com>
-> Sent: Monday, February 23, 2026 4:26 AM
-> To: Haiyang Zhang <haiyangz@linux.microsoft.com>
-> Cc: linux-hyperv@vger.kernel.org; netdev@vger.kernel.org; Andrew Lunn
-> <andrew@lunn.ch>; Jakub Kicinski <kuba@kernel.org>; Donald Hunter
-> <donald.hunter@gmail.com>; David S. Miller <davem@davemloft.net>; Eric
-> Dumazet <edumazet@google.com>; Paolo Abeni <pabeni@redhat.com>; Simon
-> Horman <horms@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Shuah Khan
-> <skhan@linuxfoundation.org>; Gal Pressman <gal@nvidia.com>; Oleksij Rempe=
-l
-> <o.rempel@pengutronix.de>; Vadim Fedorenko <vadim.fedorenko@linux.dev>;
-> linux-kernel@vger.kernel.org; linux-doc@vger.kernel.org; Haiyang Zhang
-> <haiyangz@microsoft.com>; Paul Rosswurm <paulros@microsoft.com>
-> Subject: [EXTERNAL] Re: [PATCH net-next] net: ethtool: add
-> COALESCE_RX_CQE_FRAMES/NSECS parameters
->=20
-> [You don't often get email from kory.maincent@bootlin.com. Learn why this
-> is important at https://aka.ms/LearnAboutSenderIdentification ]
->=20
-> On Sun, 22 Feb 2026 13:23:17 -0800
-> Haiyang Zhang <haiyangz@linux.microsoft.com> wrote:
->=20
-> > From: Haiyang Zhang <haiyangz@microsoft.com>
-> >
-> > Add two parameters for drivers supporting Rx CQE Coalescing.
-> >
-> > ETHTOOL_A_COALESCE_RX_CQE_FRAMES:
-> > Maximum number of frames that can be coalesced into a CQE.
-> >
-> > ETHTOOL_A_COALESCE_RX_CQE_NSECS:
-> > Time out value in nanoseconds after the first packet arrival in a
-> > coalesced CQE to be sent.
-> >
-> > Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
->=20
-> You send this patch one day before the official reopening of net-next.
-> Not sure if this will be taken into account by patchwork.
-> Else:
-> Reviewed-by: Kory Maincent <kory.maincent@bootlin.com>
-
-Thanks for the review! I sent it a day earlier because of the winter
-storm :)
-
-- Haiyang
+diff --git a/Documentation/admin-guide/sysctl/crypto.rst b/Documentation/admin-guide/sysctl/crypto.rst
+new file mode 100644
+index 000000000..f44a50f68
+--- /dev/null
++++ b/Documentation/admin-guide/sysctl/crypto.rst
+@@ -0,0 +1,59 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++===================================
++Documentation for /proc/sys/crypto/
++===================================
++
++.. See scripts/check-sysctl-docs to keep this up to date:
++.. scripts/check-sysctl-docs -vtable="crypto" \
++..         Documentation/admin-guide/sysctl/crypto.rst \
++..         $(git grep -l register_sysctl_)
++
++Copyright (c) 2026, Shubham Chakraborty <chakrabortyshubham66@gmail.com>
++
++For general info and legal blurb, please look in
++Documentation/admin-guide/sysctl/index.rst.
++
++------------------------------------------------------------------------------
++
++This file contains documentation for the sysctl files in
++``/proc/sys/crypto/``.
++
++The files in this directory can be used to monitor and configure the
++Linux kernel's cryptographic subsystem.
++
++Currently, these files might (depending on your configuration)
++show up in ``/proc/sys/crypto/``:
++
++.. contents:: :local:
++
++fips_enabled
++============
++
++This file contains a read-only flag that indicates whether FIPS mode is
++enabled.
++
++- ``0``: FIPS mode is disabled (default).
++- ``1``: FIPS mode is enabled.
++
++This value is set at boot time via the ``fips=1`` kernel command line
++parameter. When enabled, the cryptographic API will restrict the use
++of certain algorithms and perform self-tests to ensure compliance with
++FIPS (Federal Information Processing Standards) requirements, such as
++FIPS 140-2 and the newer FIPS 140-3, depending on the kernel
++configuration and the module in use.
++
++fips_name
++=========
++
++This read-only file contains the name of the FIPS module currently in use.
++The value is typically configured via the ``CONFIG_CRYPTO_FIPS_NAME``
++kernel configuration option.
++
++fips_version
++============
++
++This read-only file contains the version string of the FIPS module.
++If ``CONFIG_CRYPTO_FIPS_CUSTOM_VERSION`` is set, it uses the value from
++``CONFIG_CRYPTO_FIPS_VERSION``. Otherwise, it defaults to the kernel
++release version (``UTS_RELEASE``).
+diff --git a/Documentation/admin-guide/sysctl/debug.rst b/Documentation/admin-guide/sysctl/debug.rst
+new file mode 100644
+index 000000000..1a35042b6
+--- /dev/null
++++ b/Documentation/admin-guide/sysctl/debug.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==================================
++Documentation for /proc/sys/debug/
++==================================
++
++.. See scripts/check-sysctl-docs to keep this up to date:
++.. scripts/check-sysctl-docs -vtable="debug" \
++..         Documentation/admin-guide/sysctl/debug.rst \
++..         $(git grep -l register_sysctl_)
++
++Copyright (c) 2026, Shubham Chakraborty <chakrabortyshubham66@gmail.com>
++
++For general info and legal blurb, please look in
++Documentation/admin-guide/sysctl/index.rst.
++
++------------------------------------------------------------------------------
++
++This file contains documentation for the sysctl files in
++``/proc/sys/debug/``.
++
++The files in this directory are used to control various debugging
++features within the Linux kernel.
++
++Currently, these files might (depending on your configuration)
++show up in ``/proc/sys/debug/``:
++
++.. contents:: :local:
++
++exception-trace
++===============
++
++This flag controls whether the kernel prints information about unhandled
++signals (like segmentation faults) to the kernel log (``dmesg``).
++
++- ``0``: Unhandled signals are not traced.
++- ``1``: Information about unhandled signals is printed.
++
++The default value is ``1`` on most architectures (like x86, MIPS, RISC-V),
++but it is ``0`` on **arm64**.
++
++The actual information printed and the context provided varies
++significantly depending on the CPU architecture. For example:
++
++- On **x86**, it typically prints the instruction pointer (IP), error
++  code, and address that caused a page fault.
++- On **PowerPC**, it may print the next instruction pointer (NIP),
++  link register (LR), and other relevant registers.
++
++When enabled, this feature is often rate-limited to prevent the kernel
++log from being flooded during a crash loop.
++
++kprobes-optimization
++====================
++
++This flag enables or disables the optimization of Kprobes on certain
++architectures (like x86).
++
++- ``0``: Kprobes optimization is turned off.
++- ``1``: Kprobes optimization is turned on (default).
++
++For more details on Kprobes and its optimization, please refer to
++Documentation/trace/kprobes.rst.
+diff --git a/Documentation/admin-guide/sysctl/index.rst b/Documentation/admin-guide/sysctl/index.rst
+index 4dd2c9b5d..8b51edcf8 100644
+--- a/Documentation/admin-guide/sysctl/index.rst
++++ b/Documentation/admin-guide/sysctl/index.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ===========================
+ Documentation for /proc/sys
+ ===========================
+@@ -67,8 +69,8 @@ This documentation is about:
+ =============== ===============================================================
+ abi/		execution domains & personalities
+ <$ARCH>		tuning controls for various CPU architecture (e.g. csky, s390)
+-crypto/		<undocumented>
+-debug/		<undocumented>
++crypto/		cryptographic subsystem
++debug/		debugging features
+ dev/		device specific information (e.g. dev/cdrom/info)
+ fs/		specific filesystems
+ 		filehandle, inode, dentry and quota tuning
+@@ -96,6 +98,8 @@ it :-)
+    :maxdepth: 1
+ 
+    abi
++   crypto
++   debug
+    fs
+    kernel
+    net
+-- 
+2.53.0
 
