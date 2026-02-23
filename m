@@ -1,248 +1,149 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920FE3612FF;
-	Mon, 23 Feb 2026 11:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771845787; cv=pass; b=F1jTfeXm0ZYV0JwRZZwAxPhV6SBCJoSiAV4/VqVQbnhMsmGtP9rGJMYi1i/8EmPdL3tpq9xBeSikvxRaGmMk7xzecGSRDjAg8ShvKJg6bRzow26Atih0kyln2j67qa3zQ2UDJTVAUu8YKa8Z1/fxrzC0TvaQKyuBiuq+7VOd4BI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771845787; c=relaxed/simple;
-	bh=Elj2ArRu/bcaDlVYIQVJGZs/iwEJCrtvAjdPiyDsCxQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XzKmhtYUxvM4V0e+ui3PpGTuoAyJ6PHqffqyvXcM3S6J8yHguMfw3oqONl2SOHbjdcS1FaZolZY8YeUC+IOtfw3dMjj2SOM+jPtEofUA8JB1czz4vp1U7eAfhgx2pYaCIB/LTRUIF4msRyjTerTAM+NYR8ZbQ46chTlGYPlGO48=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=ey8Oc4N/; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424733612E8;
+	Mon, 23 Feb 2026 11:23:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771845790; cv=none; b=K5OalMRNjgELsB4n4epeDIeIK6lDOMNwh3HQKdOaVLp1QYtyX2xkwefFCPyNgSAg71AjRkgJJSrqCanYnttCS1NBL73hxjuK0NFfoWYtXMX9NGCcjBinsZb8gvpWUtEDR9AIZogd5zjQJkZNEJtxPdFKssBguU08/ZdEBvXuziA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771845790; c=relaxed/simple;
+	bh=6xnCWigIQzu5vJRf6CSz1vmaj17UI0XXZhoGjHSoQOY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hGExJNFkbkJZABSLuNzCIRLxrAmy65SGjolrN9WkuoNZQxNz5z8l773Ai4LytqLkZX0CoYsEl+G2Kd7NGTQYpAblkkk29mbR3ybe8fuUbrYdnKQBtzfoslDjnBKlIp+lhF8bYSt0G7QLAurr3vgTqZ9JU3RWA4lEcUlwbg3okW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pl7ySDXA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ey8Oc4N/"
-ARC-Seal: i=1; a=rsa-sha256; t=1771845726; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=S2IB7ZD6DSdp0K9Cc0NBmF40o2LhuWVfCMBxDrxcFijbXLcaH0Lyf5O+2kZkLiznNdkANWcE+BWKHonsRq9KrsrbjcrODuvcKSNxIqKHvtuAbvhQuY8SR2HXpfIgKNQxPAR0kwT3+1adyLsr7+PsZ0/XmR6FDUPRTzuOt2Q3rRg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1771845726; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=zE1zLu6pL3uqgPGPzZfTY/83E+cY4Cd10iRFX9/SaOs=; 
-	b=Po53vDPX65HL6NClbbr3hhqP5yF7v8feEJRZ4aacu/eltttbeEFv2plJ6LJDIZFQ3ye/Yf/DnnD0kAORtkCD42bluLAxEQFl4MrlEVKBONaQE3/CtleL1546UG23I8FrPP7I7OKil6TwHw40C4Q84Y58qH6kwlEbMoRxjwnYajw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1771845726;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=zE1zLu6pL3uqgPGPzZfTY/83E+cY4Cd10iRFX9/SaOs=;
-	b=ey8Oc4N/ijwyIwISAsnqyuzxwVpaDXPyWdOQrkVUmuNLUqcBICMAqwTs8Zyvf7Uk
-	V3SFa2egcB4yao+jcsR4TTgjiNmrdjggG0klVO2zrceXcT92E/POQQ6LygQdb1+w9tA
-	wV1bodCAlzCCpYR9uF+d/exsYpJDZf2sbF9djF+0=
-Received: by mx.zohomail.com with SMTPS id 1771845725129427.58768335061166;
-	Mon, 23 Feb 2026 03:22:05 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org
-Subject:
- Re: [PATCH v8 13/20] drm/bridge: dw-hdmi-qp: Implement
- atomic_get_output_bus_fmts
-Date: Mon, 23 Feb 2026 12:21:56 +0100
-Message-ID: <5968719.DvuYhMxLoT@workhorse>
-In-Reply-To: <ff7b531a-77c1-4c7d-b09d-47779b640193@collabora.com>
-References:
- <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
- <20260216-color-format-v8-13-5722ce175dd5@collabora.com>
- <ff7b531a-77c1-4c7d-b09d-47779b640193@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pl7ySDXA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82A64C19424;
+	Mon, 23 Feb 2026 11:23:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771845789;
+	bh=6xnCWigIQzu5vJRf6CSz1vmaj17UI0XXZhoGjHSoQOY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pl7ySDXAp4rtwA/P9m8i2BPL5dAuhtzjvXJIryzAhuLlDvH1M2mFoq8hF/5uZVTht
+	 EU2nMSki0WllpjRe5hgIZ3/QZ2VLuDY2gMc69NgK2Tdrmuv3yTeNLrecUv3is/N1bD
+	 T6z8i9iyXL7wYDEic1liEmVD1js8+Y5+trM4I/Me+pjaHMHaSM+XQ8dPqUkqD5Efj4
+	 XRM4KSTL9FsTigjl7sr+DxOAt8H8pyCNoOPmPGK3sL3VdU9jj+W1bT2Szay4YITiFB
+	 1+BAyf4j+5aELKvOl5ocOrYlL+uSjVU2c23FZFsytgiQhwdkF864DksSoVCGiOXWTJ
+	 odJP400MYPxcg==
+Message-ID: <17f4acc7-28ff-4325-b628-cf8d9307754e@kernel.org>
+Date: Mon, 23 Feb 2026 12:23:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 1/2] dt-bindings: hwmon: add support for MCP998X
+To: Victor.Duicu@microchip.com
+Cc: corbet@lwn.net, linux@roeck-us.net, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, robh@kernel.org, linux-kernel@vger.kernel.org,
+ krzk+dt@kernel.org, linux-doc@vger.kernel.org, conor+dt@kernel.org,
+ Marius.Cristea@microchip.com
+References: <20260217-add-mcp9982-hwmon-v10-0-5e0aaae6f289@microchip.com>
+ <20260217-add-mcp9982-hwmon-v10-1-5e0aaae6f289@microchip.com>
+ <20260217-sincere-spotted-lionfish-d7abca@quoll>
+ <9a39d9f1d97eea245dd194a2db481297b92c6fbf.camel@microchip.com>
+ <4a84d57c-ede6-4038-9883-42aeafce2687@kernel.org>
+ <e32684ab5fd4e86ad61d2ca0e4f219fa29bd26fc.camel@microchip.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <e32684ab5fd4e86ad61d2ca0e4f219fa29bd26fc.camel@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sunday, 22 February 2026 11:42:39 Central European Standard Time Cristian Ciocaltea wrote:
-> Hi Nicolas,
+On 23/02/2026 12:09, Victor.Duicu@microchip.com wrote:
 > 
-> On 2/16/26 3:01 PM, Nicolas Frattaroli wrote:
-> > The atomic_get_output_bus_fmts callback is used by the DRM bridge layer
-> > to recursively select a suitable output format in a bridge chain.
-> > 
-> > As a bridge that outputs to HDMI, dw-hdmi-qp will have its output
-> > formats determined by which formats the platform-specific integration of
-> > the hardware supports, and the chosen HDMI output bit depth.
-> > 
-> > Implement this callback. The returned u32* buffer is supposed to be
-> > freed by the caller of this callback, as specified by the callback's
-> > documentation.
-> > 
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > ---
-> >  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 178 +++++++++++++++++++++++++++
-> >  1 file changed, 178 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> > index d649a1cf07f5..4c00218e5fd7 100644
-> > --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> > +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/export.h>
-> >  #include <linux/i2c.h>
-> >  #include <linux/irq.h>
-> > +#include <linux/media-bus-format.h>
-> >  #include <linux/minmax.h>
-> >  #include <linux/module.h>
-> >  #include <linux/mutex.h>
-> > @@ -749,6 +750,182 @@ static struct i2c_adapter *dw_hdmi_qp_i2c_adapter(struct dw_hdmi_qp *hdmi)
-> >  	return adap;
-> >  }
-> >  
-> > +static int dw_hdmi_qp_config_avi_infoframe(struct dw_hdmi_qp *hdmi,
-> > +					   const u8 *buffer, size_t len)
-> > +{
-> > +	u32 val, i, j;
-> > +
-> > +	if (len != HDMI_INFOFRAME_SIZE(AVI)) {
-> > +		dev_err(hdmi->dev, "failed to configure avi infoframe\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	/*
-> > +	 * DW HDMI QP IP uses a different byte format from standard AVI info
-> > +	 * frames, though generally the bits are in the correct bytes.
-> > +	 */
-> > +	val = buffer[1] << 8 | buffer[2] << 16;
-> > +	dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS0);
-> > +
-> > +	for (i = 0; i < 4; i++) {
-> > +		for (j = 0; j < 4; j++) {
-> > +			if (i * 4 + j >= 14)
-> > +				break;
-> > +			if (!j)
-> > +				val = buffer[i * 4 + j + 3];
-> > +			val |= buffer[i * 4 + j + 3] << (8 * j);
-> > +		}
-> > +
-> > +		dw_hdmi_qp_write(hdmi, val, PKT_AVI_CONTENTS1 + i * 4);
-> > +	}
-> > +
-> > +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_AVI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-> > +
-> > +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN,
-> > +		       PKTSCHED_AVI_TX_EN | PKTSCHED_GCP_TX_EN, PKTSCHED_PKT_EN);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int dw_hdmi_qp_config_drm_infoframe(struct dw_hdmi_qp *hdmi,
-> > +					   const u8 *buffer, size_t len)
-> > +{
-> > +	u32 val, i;
-> > +
-> > +	if (len != HDMI_INFOFRAME_SIZE(DRM)) {
-> > +		dev_err(hdmi->dev, "failed to configure drm infoframe\n");
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_TX_EN, PKTSCHED_PKT_EN);
-> > +
-> > +	val = buffer[1] << 8 | buffer[2] << 16;
-> > +	dw_hdmi_qp_write(hdmi, val, PKT_DRMI_CONTENTS0);
-> > +
-> > +	for (i = 0; i <= buffer[2]; i++) {
-> > +		if (i % 4 == 0)
-> > +			val = buffer[3 + i];
-> > +		val |= buffer[3 + i] << ((i % 4) * 8);
-> > +
-> > +		if ((i % 4 == 3) || i == buffer[2])
-> > +			dw_hdmi_qp_write(hdmi, val,
-> > +					 PKT_DRMI_CONTENTS1 + ((i / 4) * 4));
-> > +	}
-> > +
-> > +	dw_hdmi_qp_mod(hdmi, 0, PKTSCHED_DRMI_FIELDRATE, PKTSCHED_PKT_CONFIG1);
-> > +	dw_hdmi_qp_mod(hdmi, PKTSCHED_DRMI_TX_EN, PKTSCHED_DRMI_TX_EN,
-> > +		       PKTSCHED_PKT_EN);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/*
-> > + * Static values documented in the TRM
-> > + * Different values are only used for debug purposes
-> > + */
-> > +#define DW_HDMI_QP_AUDIO_INFOFRAME_HB1	0x1
-> > +#define DW_HDMI_QP_AUDIO_INFOFRAME_HB2	0xa
-> > +
-> > +static int dw_hdmi_qp_config_audio_infoframe(struct dw_hdmi_qp *hdmi,
-> > +					     const u8 *buffer, size_t len)
-> > +{
-> > +	/*
-> > +	 * AUDI_CONTENTS0: { RSV, HB2, HB1, RSV }
-> > +	 * AUDI_CONTENTS1: { PB3, PB2, PB1, PB0 }
-> > +	 * AUDI_CONTENTS2: { PB7, PB6, PB5, PB4 }
-> > +	 *
-> > +	 * PB0: CheckSum
-> > +	 * PB1: | CT3    | CT2  | CT1  | CT0  | F13  | CC2 | CC1 | CC0 |
-> > +	 * PB2: | F27    | F26  | F25  | SF2  | SF1  | SF0 | SS1 | SS0 |
-> > +	 * PB3: | F37    | F36  | F35  | F34  | F33  | F32 | F31 | F30 |
-> > +	 * PB4: | CA7    | CA6  | CA5  | CA4  | CA3  | CA2 | CA1 | CA0 |
-> > +	 * PB5: | DM_INH | LSV3 | LSV2 | LSV1 | LSV0 | F52 | F51 | F50 |
-> > +	 * PB6~PB10: Reserved
-> > +	 *
-> > +	 * AUDI_CONTENTS0 default value defined by HDMI specification,
-> > +	 * and shall only be changed for debug purposes.
-> > +	 */
-> > +	u32 header_bytes = (DW_HDMI_QP_AUDIO_INFOFRAME_HB1 << 8) |
-> > +			  (DW_HDMI_QP_AUDIO_INFOFRAME_HB2 << 16);
-> > +
-> > +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS0, &header_bytes, 1);
-> > +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS1, &buffer[3], 1);
-> > +	regmap_bulk_write(hdmi->regm, PKT_AUDI_CONTENTS2, &buffer[4], 1);
-> > +
-> > +	/* Enable ACR, AUDI, AMD */
-> > +	dw_hdmi_qp_mod(hdmi,
-> > +		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-> > +		       PKTSCHED_ACR_TX_EN | PKTSCHED_AUDI_TX_EN | PKTSCHED_AMD_TX_EN,
-> > +		       PKTSCHED_PKT_EN);
-> > +
-> > +	/* Enable AUDS */
-> > +	dw_hdmi_qp_mod(hdmi, PKTSCHED_AUDS_TX_EN, PKTSCHED_AUDS_TX_EN, PKTSCHED_PKT_EN);
-> > +
-> > +	return 0;
-> > +}
+>>>
+> ...
 > 
-> Something's wrong with this patch as all the functions above have been dropped
-> since the HDMI VSI & SPD InfoFrames series [1] got merged.  The previous
-> revision was fine though, hence that's likely an unexpected artifact of the
-> latest rebase.
-
-Oops, yeah, I think I messed this up during rebase. Thanks for letting me know!
-
+>>>>> +properties:
+>>>>> +  compatible:
+>>>>> +    enum:
+>>>>> +      - microchip,mcp9933
+>>>>> +      - microchip,mcp9933d
+>>>>> +      - microchip,mcp9982
+>>>>> +      - microchip,mcp9982d
+>>>>> +      - microchip,mcp9983
+>>>>> +      - microchip,mcp9983d
+>>>>> +      - microchip,mcp9984
+>>>>> +      - microchip,mcp9984d
+>>>>> +      - microchip,mcp9985
+>>>>> +      - microchip,mcp9985d
+>>>>> +
+>>>>> +  reg:
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  interrupts:
+>>>>
+>>>> Your interrupt-names say 1 item is correct, so these are de-
+>>>> synced.
+>>>> They
+>>>> should be always constrained the same way.
+>>>>
+>>>
+>>> We want to allow the user to use none, one or both interrupts.
+>>
+>> Who is the "user" here? IOW, can the *hardware* work correctly
+>> without
+>> the interrupt line connected anywhere?
+>>
 > 
-> [1] https://lore.kernel.org/all/20260129-dw-hdmi-qp-iframe-v2-0-0157ad05232c@collabora.com/
-> 
+> Yes, the hardware can work while the interrupt lines are not connected.
+
+Almost there...
+
+> At the moment the driver does not support interrupts.
 
 
+...and ruined it. This does not matter and using it as argument means I
+do not believe you actually checked if hardware can work without
+interrupt lines connected. You only checked the driver. Please read your
+datasheet carefully.
 
-
+Best regards,
+Krzysztof
