@@ -1,173 +1,162 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7128A35C18D
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 10:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771843344; cv=pass; b=dzXm9bzuDuHQUdvQGn+4DIW9af96jYdLgW7qtuUGbF0qi9mQoTBMGENbJxCZjk2cKyYMRAX9VezFmNiJ6bIm/mRjRrdr2DrXzFY5HW2dAR1FkiPhR2zphgz1itxavxVLY5NM1f+PMoUhBlnF3D4q63VuGnr9RcPruHLkPTg3kjQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771843344; c=relaxed/simple;
-	bh=P41ECaBtVGR0u+MMMSObmf7Jb+y0JD0AdOXmIS3DHAU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bKDiiWSq7fg2S4SSRWVeht68Yo1LDbiKRt/g9pYnP5lHF8y3EN05mT6XJZnB5d+/qhf+ir3peE+Avx11HEG9XDRnVlxpPUfIv0UasOZ+SO46vnSZmXN6G3Ps3ulHa2HU5S8KZZSaIKQ9X6n8hPx86yYn4b3b7n8SWTMOkY4ZCAo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1cjsye0; arc=pass smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B80A35BDA7;
+	Mon, 23 Feb 2026 10:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771843489; cv=none; b=MGUto7Ykn7jBVhoYH1rMUUPDYCJH0g5SzNdBwpXMes6Zl5wHSQL6p03pAfCoQ3wm9d2E17rUeHlgIUbEnizzWxSTOMoJZXX4CpaY4OT12LJwsTVbgw9PusoxBACDZWjzKYaBrIdDJYDZ2pOhTcZ4SaF7yGuBNc3pkMpE39lyh2k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771843489; c=relaxed/simple;
+	bh=U3uZ/m6WL6vhuqlVvk4N1REvKJGTee1dBWqzamU05lQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JGqsw6Z1n3luVBNXiyyquSIi/Qv+zLO42YpRcsRyyNWNJRVSxElSK67kYiNYdwQ6zwY+4jknXxb6/eEgE2MDL7KdoPjqUtu1D1Z6grqpLzfBsrwhKa3q4aCGrEEdDVA3714voZEkmHQ1BnznaI99vMwQvfZ1F9YAtuXkOlYg2uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GjObXvQh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1cjsye0"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8fb6ad3243so602663666b.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 02:42:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771843342; cv=none;
-        d=google.com; s=arc-20240605;
-        b=U8yUC7lhcFApf10M9aikejwZlXe3cXJeCeauFmwXOiwAlXf6S51pv/wQI0qbH+y+AV
-         /QcFDppfdnawqa8JexN7oGaa2Luw3AxmDjGnEak0dKP6g6t+STrELWyctlgLNVvvZBjo
-         maNQff74LO4uU4Kj0yMOxoXDBWsB73YFY2EQmXvEvu0S6llXZBt+StdDjCamWD+fz2Y+
-         AyeWRvQeS6+yWlQcVa+p/ff/4aacnuf7VzgQekMOlyGU/bV3iXsZTh5WTvetcRacPlLV
-         io1wlei7BPdUenw4kNM/UEya7z0nRLQomS7hv0FvuMSICvTfQatv+IULJSngBCGFyIXa
-         AsEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=P41ECaBtVGR0u+MMMSObmf7Jb+y0JD0AdOXmIS3DHAU=;
-        fh=CoBfIVO2BoTLtkURivGAobwf6BZ3VmdmR0CtZcJultQ=;
-        b=PhDG8Tg9JnL9/NoTh3XGK3WmeWdtiKqgiQrlML3ft72uCvIF02JmYRKncL0H7zUy4I
-         ivfAHwcrrRsROZOAcRl/fBHXamtfoD9ym6Drfq88965EMNW4J1utqeZ3pV38fKZyUrtX
-         TvZDekIcldHW1awIzCKF2KfRmiX0O6ixKkSL2wXc6f0ElyMbURMPYcSDuC1Vl+y46hgk
-         wDVtxpqpJAc4MnThrLZtH51Rqb68lKxXSO1drdsT3fwG30qVcSUbG10+tCjxZJ9C2FH9
-         yer1J2FDZphvllWiOQKf7B0MKvIgvXd1hrQa4CbIjzU5ruHAC/3RpQKJLW59SlMMvprS
-         dclA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771843342; x=1772448142; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P41ECaBtVGR0u+MMMSObmf7Jb+y0JD0AdOXmIS3DHAU=;
-        b=Q1cjsye0K3kzkv9EFEJ3OGVamMLTrJOqSkc1o9x7sRzUESbN/Kehs51F1ijM0J3kQ5
-         TP0PfvBayxozaHAwRggwzWY7dD1o78gd/vsDIuBGPf6TrN80c6rZSOosjYtuXXbW0lHu
-         wakRTH2ieQ2BCyM9fD0MhrOhqnmyJV48xJflt39UyFK7G+Mn+5bCxrl2l8zCjGiDrKMC
-         LJ3PLVJKK2beVg8LwSq8PZwUSYJxhrRoSepk2ivbOu9epjidcoCFuXxcYqIHHSD9Hrd3
-         e1hhMHpdFXInJl+sBxO4IDkB1yQVi1QSljZvm7okbg5OJ2i+AsxADmwXqnmgPo0CbqOy
-         mP3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771843342; x=1772448142;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=P41ECaBtVGR0u+MMMSObmf7Jb+y0JD0AdOXmIS3DHAU=;
-        b=ocu1tjPKgOmT9xDNYc/gdI0INUELCTmJvrxyypzUDkIHfm5i2T+GKP94HLZ4utOAsw
-         8Qxikl/PR9QCL7tYhUWvNEf/Y/xeAQflaXwpi1rjUByj+LAI/PqW6tUMsk1L/d4hCCg+
-         qR+1eheVoxTOGuy82326Y7RK9F75BNptDqjb3+OlvumXM0HOMUoqhzhE5YnrzX3plvX3
-         wSFrAJns4AdVrvIgR+XgFQGbcXjS6gx1hwylxoeWK+24HrvwKmzPwV/TJ0huP/TXWwUM
-         gizjYMrzTxVBNx4BOyNMwZCoAsjBOlqTEDNS2Gs1vdTmycE9XFnIRs58/1wrHLmRnN8S
-         +ITA==
-X-Forwarded-Encrypted: i=1; AJvYcCV3ERt2ChplsNp4E4UodqAtGyTLZRuVbjRyWlcM7A3mSWj61IjxSuhZ7hU5k2URld38qLtClsUg8xk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzm0RZuUL2lUSFj4+5iiMrFYdj2eU2Bjm6d2IIwfRMhWu0QlUre
-	WuwfcNGGNKw6abxrtvX1RADyyuvyzQW/v5uczBXGaeXR13yEZluHIxlt+zgLWRtMxYWkycXHDhu
-	XliKOR21g9Ld0Y9kPAm6W2CD6FsZ3jow=
-X-Gm-Gg: AZuq6aI0fWL0ON+yw5rM+MS3IfzvZC/usGF4dzbbPBM0mxFp8Vt2kno0x1DHpbYlBHS
-	IFzTSOawkL8I1FWcVONhzICdpeQnTo6Y9w2FV1DtmieMkdObPNWLdZ4CHG7VKcU+zx7XZ//IemN
-	b58eRgFVra6wqxqelikXnO5yW+C/8BODFjU+gueHG4X/InBi4rSFePky6zR9BRyzzCKt+/i2evc
-	yKdj9U8vVQeUryrAGk1aRYzECk6J+pwj4e1paaVff/W/3o6xNTyCh8KKzVpGKPTBO/qKj8x/AsY
-	PDcnSqJ7l2XCPmXKRBUNR9Sp8K5HUYudrev3fY3z6D3dtIkePLdo/XNZsqzx0iRXmxkuda0yzmU
-	RZ+82CwE=
-X-Received: by 2002:a17:906:ee8e:b0:b90:3593:654c with SMTP id
- a640c23a62f3a-b9081a2aa1fmr456630866b.21.1771843341409; Mon, 23 Feb 2026
- 02:42:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GjObXvQh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 005E6C116C6;
+	Mon, 23 Feb 2026 10:44:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771843489;
+	bh=U3uZ/m6WL6vhuqlVvk4N1REvKJGTee1dBWqzamU05lQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GjObXvQh+XcEFZxMdwj1fCT77G7dIM8o3tnYvqyCB7CZYDfDueLADGTsutq8/vC/H
+	 YWoBG5oTnBJnB3fSdRcAhcDviWKIggsj7DVVE4j8TXszvKGLQ6WeTvtqV1rdOfNKKI
+	 rRGinfVPOVNwmtzLPimdj9p2ebtPlXLrNFAp1yrsGufJa6fTYMj/7noqkJxJhzmBNi
+	 p21tacj3CjyT52vdwC46vblGIedvTNymTz8spRd3Ri8fbW738c4rGMrx6XV9+zgs69
+	 xxIdj6ulWwGi9FcJ4orBgx3nUZbSIhD/IAcQ1qWCiuBxYAvc4PUlBnMb9z21AFh3MT
+	 Tqp+P9naEjbCw==
+Message-ID: <71d92039-44ab-4154-9716-03634c491c48@kernel.org>
+Date: Mon, 23 Feb 2026 11:44:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260216-adf41513-iio-driver-v7-0-b0ed387ab559@analog.com>
- <20260216-adf41513-iio-driver-v7-2-b0ed387ab559@analog.com>
- <20260222172912.60a103c0@jic23-huawei> <aZwYshRxNgSh3CWk@smile.fi.intel.com> <zb752y7tnjzsc35na572o4sip6efwv3i4lha4ls6fhdrr52h5v@bfgy65cmae4p>
-In-Reply-To: <zb752y7tnjzsc35na572o4sip6efwv3i4lha4ls6fhdrr52h5v@bfgy65cmae4p>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 23 Feb 2026 12:41:45 +0200
-X-Gm-Features: AaiRm52vOvWGhar45YMmK2bKJVNTzdmE6K0RIepFykMpsJ41Aa0DMBAQ9J054Sw
-Message-ID: <CAHp75VdSV2QDMR0DueCuP=Ds-5A1NsNjqPWtmRbG4NvoJ=LjXQ@mail.gmail.com>
-Subject: Re: [PATCH v7 2/8] iio: core: add fixed point parsing with 64-bit parts
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Dmitry Antipov <dmantipov@yandex.ru>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate
+ workqueue
+To: Danilo Krummrich <dakr@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Lee Jones <lee@kernel.org>,
+ Dzmitry Sankouski <dsankouski@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+ driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
+References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
+ <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
+ <DGM9WUWC4ZE8.1A08TAKKT4FLJ@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <DGM9WUWC4ZE8.1A08TAKKT4FLJ@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Feb 23, 2026 at 12:37=E2=80=AFPM Rodrigo Alencar
-<455.rodrigo.alencar@gmail.com> wrote:
-> On 26/02/23 11:06AM, Andy Shevchenko wrote:
-> > On Sun, Feb 22, 2026 at 05:29:12PM +0000, Jonathan Cameron wrote:
-> > > On Mon, 16 Feb 2026 15:02:17 +0000
-> > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kern=
-el.org> wrote:
-> > >
-> > > > Add iio_str_to_fixpoint64() function that leverages simple_strtoull=
-()
-> > > > to parse numbers from a string.
-> > > > A helper function __iio_str_to_fixpoint64() replaces
-> > > > __iio_str_to_fixpoint() implementation, extending its usage for
-> > > > 64-bit fixed-point parsing.
-> > > >
-> > > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > > Hi Rodrigo.
-> > >
-> > > This looks fine to me, but given earlier discussions I'd ideally like
-> > > to wait for a final review from Andy.
-> >
-> > It all depends on the series from Dmitry Antipov.
-> > Can somebody help reviewing the patch 1 there?
-> > https://lore.kernel.org/linux-hardening/20260212125628.739276-1-dmantip=
-ov@yandex.ru/
->
-> can we push for the exposure of that function to kernel modules?
-> We have discussed that in v6, and I understand that:
->
-> EXPORT_SYMBOL_FOR_MODULES(_parse_integer_limit, "industrialio");
-> in lib/kstrtox.c;
->
-> #include "../../lib/kstrtox.h"
-> in drivers/iio/industrialio-core.c
->
-> is not a good call...
+On 23/02/2026 11:36, Danilo Krummrich wrote:
+> On Mon Feb 23, 2026 at 8:27 AM CET, Krzysztof Kozlowski wrote:
+>> +__printf(2, 5) struct workqueue_struct *
+>> +devm_alloc_workqueue(struct device *dev, const char *fmt, unsigned int flags,
+>> +		     int max_active, ...)
+>> +{
+>> +	struct workqueue_struct **ptr, *wq;
+>> +	va_list args;
+>> +
+>> +	ptr = devres_alloc(devm_destroy_workqueue, sizeof(*ptr), GFP_KERNEL);
+> 
+> The function pointer passed to devres_alloc() is commonly named *_release().
 
-Yep, because it's a temporary band-aid. The proper solution is to have
-shared code provided by the lib/. So, the wrapper to parse 64-bit out
-from the constant string literal should be part of the lib/ in the
-result.
+devm-helpers.h disagree :), but I understand poor patterns spread all
+over. I will use the release name.
 
-> > When it's in, we can continue on this one. TL;DR: for me this is on hol=
-d.
-> > But if you see the need to have the driver being in IIO, please add a b=
-ig
-> > fat FIXME to make sure we will get this all being sorted out in the
-> > (nearest?) future.
->
-> I could add the FIXME into iio_safe_strntou64() doc header. It explains
-> the context:
->
-> > + * The implementation of this function is similar to _parse_integer_li=
-mit()
-> > + * available in lib/kstrtox.h, but that header/function is not availab=
-le to be
-> > + * used in kernel modules. Hence, this implementation may need to chan=
-ge or
-> > + * removed to reuse a new suitable helper that is properly exposed.
+> 
+>> +	if (!ptr)
+>> +		return NULL;
+>> +
+>> +	va_start(args, max_active);
+>> +	wq = alloc_workqueue(fmt, flags, max_active, args);
+>> +	va_end(args);
+>> +	if (wq) {
+>> +		*ptr = wq;
+>> +		devres_add(dev, ptr);
+>> +	} else {
+>> +		devres_free(ptr);
+>> +	}
+>> +
+>> +	return wq;
+>> +}
+>> +EXPORT_SYMBOL_GPL(devm_alloc_workqueue);
+> 
+> <snip>
+> 
+>> +void devm_destroy_workqueue(struct device *dev, void *res)
+>> +{
+>> +	destroy_workqueue(*(struct workqueue_struct **)res);
+>> +}
+>> +EXPORT_SYMBOL_GPL(devm_destroy_workqueue);
+> 
+> I assume you did not mean to export the release callback (which doesn't seem to
+> be useful), but a function that calls devres_destroy(), i.e. something analogous
+> to devm_remove_action().
+> 
+> If you don't actually need it, I would prefer not to add something that calls
+> devres_destroy() for now.
 
-Up to Jonathan, I hope we can move the above mentioned series forward.
-Without that, as I pointed out, this one sounds to me suboptimal and
-unneeded double effort.
+Andy pointed out EXPORT is not actually needed, so I will just drop it.
 
-
---=20
-With Best Regards,
-Andy Shevchenko
+Best regards,
+Krzysztof
