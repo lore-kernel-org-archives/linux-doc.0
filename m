@@ -1,152 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mx08-007fc201.pphosted.com (mx08-007fc201.pphosted.com [91.207.212.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADB13624B7;
-	Mon, 23 Feb 2026 11:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC6B1ACEDE;
+	Mon, 23 Feb 2026 11:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771846463; cv=none; b=Bmx/3NNNeVUbIV+TCjpJqgENMRtVBb7+047WT80DyLGbEgpZBbu57V4eu0Z8K/Sz+HzTeEoTXsnC5q6iN+0DGNeiusEIkwv/86Cz0RBd1ktLhXT+mJZe/pF3zIyQD3KhzusYj+ENqgl1AGbkthPXgm67Ie2KsnXH1n5eYQKHkmg=
+	t=1771846596; cv=none; b=CGP4TYDHbapGfXVqxboqfz9puxgPNdIXwrNmidiGNTzsENLVEg1l4GEr8IWXO40rBwT1MhdccMTbCkfW1aARJmdkH8r2MfOPG2KF/RdtzfhU3BXRuYdbcCub+ZjYoYgLI2biXVsAa3Nby0jyV+b7ZhbMIvm06RMW6Hk5cm7Gzuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771846463; c=relaxed/simple;
-	bh=iDAMs2by9bj1uD5GcOuSsqTjHpLUeMUMQVPtg7eI0dY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eS8wBFTTD8lX/tox4eyVwqXuGN/YYVfAAfNV558QWVILr7ATfGk+GIT2EBnVB0GmYwZNbT75VIffzbw6oiS5VCo83mciZ2jePxX+uwnvWZZpy4ljVDJetayKtzg8qotkM6N9a/NGDbiGvpMqgXK8ZACRkd4tud7+9IDf1wtAdqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6e0K+a9; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1771846596; c=relaxed/simple;
+	bh=oxFl4PoAqx7YUdTUv0y7BupZwpZjtn5xeK5UvZWPQGk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=slkW5UTbAwX8vSCf20HdN06SuxAZtQaIsMLZFW7NQkyV6rx/jh6ZyDMx8esOrJOV47egZEiEXvHnyt+2RH8pcQzmw31seZJVukZOmTQZ9L/D6WYVDEMU3DPJ/oOKLlbogUZVJpVLYa0EAah+DMuCbnFoI9NYmqP+pH0Qn76OUqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de; spf=pass smtp.mailfrom=cab.de; dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b=RUkBlseO; arc=none smtp.client-ip=91.207.212.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cab.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cab.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6e0K+a9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771846461; x=1803382461;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iDAMs2by9bj1uD5GcOuSsqTjHpLUeMUMQVPtg7eI0dY=;
-  b=C6e0K+a96oh7AiecTaYkG5LnfEgrT8AbVFW7wt9FasWEM5uleuO9dGD2
-   njnBVlbIXRGK6EbvSxiOaU4RCukGJ+/LUd+4hBKrbrDMT4V+pm1cg7PVA
-   odThR7LfLFFtJPkFzef2bBobFsNHYtxEncW2exMoztmRd9cyHhi47Tn9v
-   CFjH+IGy6px/tyr5s3SZde65otLLgXakw7/Bibqgt61Jj/yDzsrcBo46y
-   3Wb+MAUSd00PcZAtXsMYYrbTRy7iwUscHuaV078uoK/VLIKAwEHgNgNKD
-   kYpWq1yi0eCDov2rKwOBzcq7FerfNgmSWBDFYtkW+hfSpVJZvBJDuTMdB
-   g==;
-X-CSE-ConnectionGUID: s3JduAl6ShW/Edr+RYnmIA==
-X-CSE-MsgGUID: BwosGBppSZCzVADLY+2uOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11709"; a="95455000"
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="95455000"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 03:34:21 -0800
-X-CSE-ConnectionGUID: uc81lelzRSaazTvmw9TItg==
-X-CSE-MsgGUID: 8/jJ6qoATta4FcN19+4Fig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,306,1763452800"; 
-   d="scan'208";a="246140516"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.222])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2026 03:34:15 -0800
-Date: Mon, 23 Feb 2026 13:34:12 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Tobias Schrammm <t.schramm@manjaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Lee Jones <lee@kernel.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>, driver-core@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate
- workqueue
-Message-ID: <aZw7NJOhkq6DlyZA@smile.fi.intel.com>
-References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
- <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
- <aZwWMiYEvr3DXi3E@smile.fi.intel.com>
- <534a9d0f-600e-4162-a48c-f9797241dacd@kernel.org>
+	dkim=pass (2048-bit key) header.d=cab.de header.i=@cab.de header.b="RUkBlseO"
+Received: from pps.filterd (m0456229.ppops.net [127.0.0.1])
+	by mx08-007fc201.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NB1UDv3066866;
+	Mon, 23 Feb 2026 12:13:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cab.de; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=pp-2025; bh=CqpwoGjLfHtoyJL/hsV1/+p3
+	lBtiWRUIOOw8sOlMBbA=; b=RUkBlseOFx0nwa0dO5tGQ5E37sDOF3BViDaB4Nri
+	QGEX+iIo2Y7HzU3L2vzaOZrqBs/MM9mdL8wietnMFOIZ4w9T9LooQGFqANbxLEyq
+	0cvzu297J072Nh7OW3jVZa6zbb/SRLGgdn5bTa/Sw04MZYhGTJENOCUfxHpHaEKY
+	OfqZwqbcAvvgeaH3EeZO0iolIhHqZkhxTH04y4c4zS1jtZnMAnsrlNBPQiOSugjj
+	i/0GfnVzma9acR685FGGbbxcdmx0/N5hFRNQU8ZklTtOTq7pFNL4n7Mxdlob8yzc
+	CT+ZPOniSVR6sZNsM6yt3Ec8Fqxa1d6+9w3fcp1ARxWwJA==
+Received: from adranos.cab.de (adranos.cab.de [46.232.229.107])
+	by mx08-007fc201.pphosted.com (PPS) with ESMTPS id 4cfspm8djj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Feb 2026 12:13:19 +0100 (CET)
+Received: from KAN23-025.cab.de (10.100.0.16) by Adranos.cab.de (10.10.1.54)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Mon, 23 Feb
+ 2026 12:13:18 +0100
+From: Markus Heidelberg <m.heidelberg@cab.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Alex Shi <alexs@kernel.org>,
+        Yanteng Si
+	<si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>
+CC: Markus Heidelberg <m.heidelberg@cab.de>, Dongliang Mu <dzm91@hust.edu.cn>,
+        Shuah Khan <skhan@linuxfoundation.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
+Subject: [PATCH] docs: dt: unittest: update to current unittest filenames
+Date: Mon, 23 Feb 2026 12:12:03 +0100
+Message-ID: <20260223111207.54640-1-m.heidelberg@cab.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <534a9d0f-600e-4162-a48c-f9797241dacd@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: Adranos.cab.de (10.10.1.54) To Adranos.cab.de (10.10.1.54)
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDA5NyBTYWx0ZWRfX5m2dohKzn+x7
+ KevsZ6iLO/MzNWUexxOwB1+w7NPUzrGgsaGKMBJSGbTLVcnVfk5XO2z+coy64AFrhYIqOgDAwfI
+ 8HEN9ctPKQiFognpVnB0dCOqb4vzkXlAO1VeAypM2DciXXAKsB1VKPc7VR8aTS96IAVj80/ZvMX
+ s9nSQMmUtwStuOjgPftym/6cvVjvoEYQqzCStcfkIuE5LuWWxXdVgnug9R2OaZnEJo0fvTdjenW
+ +Sxj3azc9FNA68qDQM9xu9qlPqmpepN6bGPsYL5mhfMmy8sWzsNvraUPZZ2MX9An0w1SIQInkPf
+ Xpw0clqimcCC+21OZvpyWPfvmDfiz+Wfp3kUT9ytRhPTkPSgSuZ2FhY0nyS3jodSdGb5mFyyTO4
+ wvJ8pvUQH1zYAX0YAOW/4EKbWLg5RX1mdvqOSAEzIFtbtOBKBKp75Y90+FhE/amg4Ubaj6Ama52
+ IcwyyetGw84bcc27dZw==
+X-Proofpoint-GUID: NNChiMEL02J-Q3ZQNuUw_jWHlMPnacJ_
+X-Authority-Analysis: v=2.4 cv=SPNPlevH c=1 sm=1 tr=0 ts=699c364f cx=c_pps
+ a=LmW7qmVeM6tFdl5svFU9Cg==:117 a=LmW7qmVeM6tFdl5svFU9Cg==:17
+ a=qfRZnU_letMA:10 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=cWcFGAZ52ywjfBe9x-Am:22 a=fhGH0ZMTm4w8Nt5gLHlq:22
+ a=hDEah0MY560ib8Dcy1oA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: NNChiMEL02J-Q3ZQNuUw_jWHlMPnacJ_
 
-On Mon, Feb 23, 2026 at 11:18:41AM +0100, Krzysztof Kozlowski wrote:
-> On 23/02/2026 09:56, Andy Shevchenko wrote:
-> > On Mon, Feb 23, 2026 at 08:27:29AM +0100, Krzysztof Kozlowski wrote:
+There have been several renamings and modified Make rules since
+introduction of this unittest document.
 
-...
+The file list in the Chinese translation had been extended.
+For a change to drivers/of/unittest-data/tests-*.dtsi surrounding
+translation has to be updated.
 
-> >> +	ptr = devres_alloc(devm_destroy_workqueue, sizeof(*ptr), GFP_KERNEL);
-> >> +	if (!ptr)
-> >> +		return NULL;
-> >> +
-> >> +	va_start(args, max_active);
-> >> +	wq = alloc_workqueue(fmt, flags, max_active, args);
-> >> +	va_end(args);
-> >> +	if (wq) {
-> >> +		*ptr = wq;
-> >> +		devres_add(dev, ptr);
-> >> +	} else {
-> >> +		devres_free(ptr);
-> >> +	}
-> > 
-> > Why not using devm_add_action_or_reset()?
-> 
-> Where? Here? How the code would be simpler, exactly?
+Signed-off-by: Markus Heidelberg <m.heidelberg@cab.de>
+---
+ Documentation/devicetree/of_unittest.rst      | 20 +++++++++---------
+ .../zh_CN/devicetree/of_unittest.rst          | 21 +++++++++++--------
+ 2 files changed, 22 insertions(+), 19 deletions(-)
 
-static void devm_workqueue(struct device *dev, void *wq)
-{
-	destroy_workqueue(wq);
-}
-...
-{
-	...
-
-	va_start(args, max_active);
-	wq = alloc_workqueue(fmt, flags, max_active, args);
-	va_end(args);
-	if (!wq)
-		return NULL; // or ERR_PTR(-ENOMEM) on your choice
-
-	ret = devm_add_action_or_reset(dev, ..., wq);
-	if (ret)
-		return NULL; // ERR_PTR(ret) on your choice
-
-	return wq;
-}
-
-Compare to yours :-)
-
-...
-
-> >> +void devm_destroy_workqueue(struct device *dev, void *res)
-> >> +{
-> >> +	destroy_workqueue(*(struct workqueue_struct **)res);
-> >> +}
-> >> +EXPORT_SYMBOL_GPL(devm_destroy_workqueue);
-> > 
-> > Is this going to be used?
-> 
-> It is not used in this patchset, but most of devm-allocators have the
-> cleanup.
-
+diff --git a/Documentation/devicetree/of_unittest.rst b/Documentation/devicetree/of_unittest.rst
+index 8b557acd29d1..6ed6e3291964 100644
+--- a/Documentation/devicetree/of_unittest.rst
++++ b/Documentation/devicetree/of_unittest.rst
+@@ -48,30 +48,30 @@ from 'scripts/dtc/of_unittest_expect --help'.
+ 3. Test-data
+ ============
+ 
+-The Device Tree Source file (drivers/of/unittest-data/testcases.dts) contains
++The Device Tree Source file (drivers/of/unittest-data/testcases.dtso) contains
+ the test data required for executing the unit tests automated in
+ drivers/of/unittest.c. See the content of the folder::
+ 
+     drivers/of/unittest-data/tests-*.dtsi
+ 
+-for the Device Tree Source Include files (.dtsi) included in testcases.dts.
++for the Device Tree Source Include files (.dtsi) included in testcases.dtso.
+ 
+ When the kernel is built with CONFIG_OF_UNITTEST enabled, then the following make
+ rule::
+ 
+-    $(obj)/%.dtb: $(src)/%.dts FORCE
+-	    $(call if_changed_dep, dtc)
++    $(obj)/%.dtbo: $(src)/%.dtso $(DTC) FORCE
++	    $(call if_changed_dep,dtc)
+ 
+-is used to compile the DT source file (testcases.dts) into a binary blob
+-(testcases.dtb), also referred as flattened DT.
++is used to compile the DT source file (testcases.dtso) into a binary blob
++(testcases.dtbo), also referred as flattened DT.
+ 
+ After that, using the following rule the binary blob above is wrapped as an
+-assembly file (testcases.dtb.S)::
++assembly file (testcases.dtbo.S)::
+ 
+-    $(obj)/%.dtb.S: $(obj)/%.dtb
+-	    $(call cmd, dt_S_dtb)
++    $(obj)/%.dtbo.S: $(obj)/%.dtbo FORCE
++	    $(call if_changed,wrap_S_dtb)
+ 
+-The assembly file is compiled into an object file (testcases.dtb.o), and is
++The assembly file is compiled into an object file (testcases.dtbo.o), and is
+ linked into the kernel image.
+ 
+ 
+diff --git a/Documentation/translations/zh_CN/devicetree/of_unittest.rst b/Documentation/translations/zh_CN/devicetree/of_unittest.rst
+index 5c1a8e0cfd16..cfd0b751ef27 100644
+--- a/Documentation/translations/zh_CN/devicetree/of_unittest.rst
++++ b/Documentation/translations/zh_CN/devicetree/of_unittest.rst
+@@ -32,27 +32,30 @@ OF Selftest被设计用来测试提供给设备驱动开发者的接口（includ
+ 2. 测试数据
+ ===========
+ 
+-设备树源文件（drivers/of/unittest-data/testcases.dts）包含执行drivers/of/unittest.c
+-中自动化单元测试所需的测试数据。目前，以下设备树源包含文件（.dtsi）被包含在testcases.dt中::
++设备树源文件（drivers/of/unittest-data/testcases.dtso）包含执行drivers/of/unittest.c
++中自动化单元测试所需的测试数据。目前，以下设备树源包含文件（.dtsi）被包含在testcases.dtso中::
+ 
+     drivers/of/unittest-data/tests-interrupts.dtsi
+     drivers/of/unittest-data/tests-platform.dtsi
+     drivers/of/unittest-data/tests-phandle.dtsi
+     drivers/of/unittest-data/tests-match.dtsi
++    drivers/of/unittest-data/tests-address.dtsi
++    drivers/of/unittest-data/tests-overlay.dtsi
++    drivers/of/unittest-data/tests-lifecycle.dtsi
+ 
+ 当内核在启用CONFIG_OF_UNITTEST的情况下被构建时，那么下面的make规则::
+ 
+-    $(obj)/%.dtb: $(src)/%.dts FORCE
+-	    $(call if_changed_dep, dtc)
++    $(obj)/%.dtbo: $(src)/%.dtso $(DTC) FORCE
++	    $(call if_changed_dep,dtc)
+ 
+-用于将DT源文件（testcases.dts）编译成二进制blob（testcases.dtb），也被称为扁平化的DT。
++用于将DT源文件（testcases.dtso）编译成二进制blob（testcases.dtbo），也被称为扁平化的DT。
+ 
+-之后，使用以下规则将上述二进制blob包装成一个汇编文件（testcases.dtb.S）::
++之后，使用以下规则将上述二进制blob包装成一个汇编文件（testcases.dtbo.S）::
+ 
+-    $(obj)/%.dtb.S: $(obj)/%.dtb
+-	    $(call cmd, dt_S_dtb)
++    $(obj)/%.dtbo.S: $(obj)/%.dtbo FORCE
++	    $(call if_changed,wrap_S_dtb)
+ 
+-汇编文件被编译成一个对象文件（testcases.dtb.o），并被链接到内核镜像中。
++汇编文件被编译成一个对象文件（testcases.dtbo.o），并被链接到内核镜像中。
+ 
+ 
+ 2.1. 添加测试数据
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
