@@ -1,125 +1,158 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A76527E049;
-	Mon, 23 Feb 2026 14:42:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA76623909F
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 14:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771857768; cv=none; b=oWK0Fjb69x/TFSf8dk+JYns3pxxcIj7jYgarQLZPGWdrotbP01l0iDZVhQ3id4gPHnHokCpfLJNO5ugXuWwZkvdEtAg7ECPJ+LLx+VdcMohG4Fl0ELlaB9xVg1aZEZ9cREbsXSEGnTfY664uG9d6H5G0chhw2Gd2uvqF8ietEoQ=
+	t=1771858354; cv=none; b=ksztUxfyhhzNGC1qsWnN3ZGXV1TlDsWy3XUAQNTBXGz0tX6pm2y78dzu3H4PRq+zzJEDIOawG1Fqf7wR+pv/sOFrqFxzGrVYUuutEplVjljwYwZGbmtaqExe6BE77nlK2XWmqDN4ewxOU2GJbyrpmQLP1IwOeqFegDYLsy4pGFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771857768; c=relaxed/simple;
-	bh=+cWvpV653gRQnu0cW4AkcHRnKnqyVn6i1wzLUAvgpoA=;
+	s=arc-20240116; t=1771858354; c=relaxed/simple;
+	bh=UVAFpGopAm1uHGWKPm+YTJ1SMuDgyk8tqHgCMtYq+7M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PxIXfE2EoqMaoRRKyhCMTcCG9yedRjiqmTMz5Cf+SESofurlLf1rljvN9osbUH+u0pxoTKcoscaHP8c3O0CKDvjz2wFg65hsmtlaU4vWht1q1H68sVbTFpFZJvP1fJLWeylyhXYCu21Sm0qIvDA5NhdpEYMV6d6S0S2vBgBd89g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SN52Eh6I; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q21Ch0UmBJZTzdqWfYNtWUWs06M9OM6qGw4lzjzlHVyMxsQ1zckoFnvRdx+a5VAnb7xKMMKD5Umc19fUgf9qX0IymXTWagF/Jan/BN3I/Xsj3UPboLNvSfr69O0WPxW3L6TBSOQMY2681C/4tSG3Hj7aMi8dIZEgdhR2OyX8Lt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4yqZFpa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SN52Eh6I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2C39C116D0;
-	Mon, 23 Feb 2026 14:42:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4yqZFpa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B55B9C4AF0B;
+	Mon, 23 Feb 2026 14:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771857767;
-	bh=+cWvpV653gRQnu0cW4AkcHRnKnqyVn6i1wzLUAvgpoA=;
+	s=k20201202; t=1771858354;
+	bh=UVAFpGopAm1uHGWKPm+YTJ1SMuDgyk8tqHgCMtYq+7M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SN52Eh6IPc+fMk02ASHGoqIk/WWHlmCze5iqsWGilw5FjPFcEpklbiwgngthxUjKn
-	 RvUOedFR9DoWuDgmn2MuNhqjmhFg/eQPHOMi6tlCRztm1bBMNJCza3xPKzBz1u034n
-	 eVs4KS/hO3cYK1T5psrqopoItFerpSO5h9aw87pUE0OPFPX3IkxBOWGAXQ2Z9IZpLw
-	 X7SCZUpHCsuUKMcIU6ERuZZHmCb2FA6wCIKI2xfVhBD5Z/NjsR4HwR8WWEGrRskA3d
-	 H/6JeuXNV1UH+1uH9dqPYQ82jvUH14TQxht/v9QrVNsrLXBb8gWQBgOOdwU1Urad3O
-	 uc1qMxDY0I6qQ==
-Date: Mon, 23 Feb 2026 08:42:43 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-Cc: Linus Walleij <linusw@kernel.org>, Shenwei Wang <shenwei.wang@nxp.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, Frank Li <frank.li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <nbzdtngifwrx2kyu4tsiwwua5v4i5cjtaotemq5hubaets3bcn@fk25twf5rv6x>
-References: <20260212213656.662437-4-shenwei.wang@nxp.com>
- <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
- <13f9d767-61d6-4e29-b36e-6dcc860ccb11@lunn.ch>
- <fd257c80-d97f-45b0-a12f-3a1888ba81db@foss.st.com>
- <396819f2-dd00-4c09-8bc7-c035a5282a56@lunn.ch>
- <PAXPR04MB9185A908F5090F0CA4FF05F78968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <b21b9ee5-d84e-47f8-86b5-c111ecc3d43d@lunn.ch>
- <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
- <b4c422ce-3538-40aa-8bfa-b70f02774b5d@foss.st.com>
+	b=H4yqZFpaipymBSDijM07NWYMUzRVMGQxKSvag/WbJsRZMXu8UPpkgdYVQDK+ZmOjS
+	 CQe8IAiTjs7khPJ1nlJnmZSOB5h0jRhjgvVLZ5cGZVU1pOv8frRsiEDRpqtnmbplDy
+	 Lht/XzygjzffCqWtbIO99oCnpuIBgrOWGynu0ZtOvDn7md9VbLqpMR7HcuGskaJCjA
+	 yxdNAgpnjq1fiWvog+AgwOVgenVeAJZW480BSTugFXQmZOe/CPWEGoEVF8Qof2ybAg
+	 C7pVZtKtiygDfIIXagz4qs+RaBRL6jUCnzS9rjZ1Fe+svcwKUAHOvDvuVzzk00arpC
+	 G96e2vc5zIrpA==
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfauth.phl.internal (Postfix) with ESMTP id D183DF4006C;
+	Mon, 23 Feb 2026 09:52:32 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Mon, 23 Feb 2026 09:52:32 -0500
+X-ME-Sender: <xms:sGmcaW8L9wvFHE9xaKhbeX8JgZt0lnMyi9ulvqIu-cRvaG3b6rt2pA>
+    <xme:sGmcaaZSaG8I5M6m1GvoKUH4LaO8U4CEWh114E5A0nNudgyzuIUKncAqQ5T_e66G-
+    NOslw5KSJB8Qo6MeB8VALGBCHzEytytGzyAA_Ljg2fxngRougTPbA>
+X-ME-Received: <xmr:sGmcaXFiBkUGBA_xw9Nzg3RQQEQBYqkXKxm4WowbCJKYKx2umbWxPLKBfTn14w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvfeejhedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepmfhirhihlhcu
+    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepueeijeeiffekheeffffftdekleefleehhfefhfduheejhedvffeluedvudefgfek
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepheegpdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehvsggrsghkrgesshhushgvrdgtiidprhgtphhtthhopegurghvihgusehkvghrnh
+    gvlhdrohhrghdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhn
+    rdhorhhgpdhrtghpthhtohepmhhutghhuhhnrdhsohhngheslhhinhhugidruggvvhdprh
+    gtphhtthhopeifihhllhihsehinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepuhhs
+    rghmrggrrhhifheigedvsehgmhgrihhlrdgtohhmpdhrtghpthhtohepfhhvughlsehgoh
+    hoghhlvgdrtghomhdprhgtphhtthhopehoshgrlhhvrgguohhrsehsuhhsvgdruggvpdhr
+    tghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:sGmcab5PzpnO5klB-RmRGOlp75eh_0ZN1UWzu3rtxmVrF0HDL3Ytmg>
+    <xmx:sGmcaQvF3MOs6LmVkT3fJrDl4ASxADJy5NxGaaSRi4g9Ae-_RJtIyw>
+    <xmx:sGmcaVBPXnseaXteAEKPGybiYblNvylyKEz-quFqXS1vgYJFTwH0bQ>
+    <xmx:sGmcaYv9MSdgZdgG3nnKOXXoxjbQ8gJUrE_GKyyzeQp8t6KF3Wop_A>
+    <xmx:sGmcaRKthHvOALCnZzC9C5_ytVbe1T1h3tw12XeJuRFen4yWwxEa5du9>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Feb 2026 09:52:30 -0500 (EST)
+Date: Mon, 23 Feb 2026 14:52:25 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Muchun Song <muchun.song@linux.dev>, 
+	Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>, 
+	Frank van der Linden <fvdl@google.com>, Oscar Salvador <osalvador@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+Subject: Re: [PATCHv6 08/17] mm: Make page_zonenum() use head page
+Message-ID: <aZxn34ebvSKFCWth@thinkstation>
+References: <20260202155634.650837-1-kas@kernel.org>
+ <20260202155634.650837-9-kas@kernel.org>
+ <e5831f0b-88c5-4a20-82b3-6e5952388132@kernel.org>
+ <aYnJCnE5vooLROnu@thinkstation>
+ <6afd7334-82e8-4f87-8ed3-6448e89328c2@suse.cz>
+ <aZL-7mpPT_S3Paon@thinkstation>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b4c422ce-3538-40aa-8bfa-b70f02774b5d@foss.st.com>
+In-Reply-To: <aZL-7mpPT_S3Paon@thinkstation>
 
-On Mon, Feb 23, 2026 at 03:24:43PM +0100, Arnaud POULIQUEN wrote:
-> On 2/22/26 15:48, Linus Walleij wrote:
-> > On Fri, Feb 20, 2026 at 7:57 PM Shenwei Wang <shenwei.wang@nxp.com> wrote:
-[..]
+On Mon, Feb 16, 2026 at 11:30:22AM +0000, Kiryl Shutsemau wrote:
+> On Tue, Feb 10, 2026 at 04:57:55PM +0100, Vlastimil Babka wrote:
+> > On 2/9/26 12:52, Kiryl Shutsemau wrote:
+> > > On Thu, Feb 05, 2026 at 02:10:40PM +0100, David Hildenbrand (Arm) wrote:
+> > >> On 2/2/26 16:56, Kiryl Shutsemau wrote:
+> > >> > With the upcoming changes to HVO, a single page of tail struct pages
+> > >> > will be shared across all huge pages of the same order on a node. Since
+> > >> > huge pages on the same node may belong to different zones, the zone
+> > >> > information stored in shared tail page flags would be incorrect.
+> > >> > 
+> > >> > Always fetch zone information from the head page, which has unique and
+> > >> > correct zone flags for each compound page.
+> > >> > 
+> > >> > Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> > >> > Acked-by: Zi Yan <ziy@nvidia.com>
+> > >> > ---
+> > >> >   include/linux/mmzone.h | 1 +
+> > >> >   1 file changed, 1 insertion(+)
+> > >> > 
+> > >> > diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+> > >> > index be8ce40b5638..192143b5cdc0 100644
+> > >> > --- a/include/linux/mmzone.h
+> > >> > +++ b/include/linux/mmzone.h
+> > >> > @@ -1219,6 +1219,7 @@ static inline enum zone_type memdesc_zonenum(memdesc_flags_t flags)
+> > >> >   static inline enum zone_type page_zonenum(const struct page *page)
+> > >> >   {
+> > >> > +	page = compound_head(page);
+> > >> >   	return memdesc_zonenum(page->flags);
+> > >> 
+> > >> We end up calling page_zonenum() without holding a reference.
+> > >> 
+> > >> Given that _compound_head() does a READ_ONCE(), this should work even if we
+> > >> see concurrent page freeing etc.
+> > >> 
+> > >> However, this change implies that we now perform a compound page lookup for
+> > >> every PageHighMem() [meh], page_zone() [quite some users in the buddy,
+> > >> including for pageblock access and page freeing].
+> > >> 
+> > >> That's a nasty compromise for making HVO better? :)
+> > >> 
+> > >> We should likely limit that special casing to kernels that really rquire it
+> > >> (HVO).
+> > > 
+> > > I will add compound_info_has_mask() check.
 > > 
-> > Is it generic? If it is not, let's call it "NXP rpmsg GPIO driver" and rename
-> > files etc accordingly. Maybe it can share code with the actual generic
-> > RPMSG driver once that arrives, that is more of a library question.
+> > Not thrilled by this indeed. Would it be a problem to have the shared tail
+> > pages per node+zone instead of just per node?
 > 
-> I would like to (re)express my concerns regarding the creation of an
-> NXP-specific driver. To clarify my concerns, ST, like probably some other
-> SoC vendors, has rpmsg-gpio and rpmsg-i2c drivers in downstream with plans
-> to upstream them.
-> 
-> If we proceed in this direction:
-> 
-> -Any vendor wishing to upstream an rpmsg-gpio driver might submit their own
-> platform-specific version.
-> 
-> - If NXP upstreams other rpmsg drivers, these will likely remain NXP-centric
-> to maintain compatibility with their legacy firmware and the nxp-rpmsg-gpio
-> driver, leading to platform-specific versions in several frameworks.
-> 
-> - The implementation will impact not only the Linux side but also the remote
-> side. Indeed, some operating systems like Zephyr or NuttX implement the
-> rpmsg device side (Zephyr already implements the rpmsg-tty)
-> 
-> Maintaining a generic approach for RPMsg, similar to what is done for
-> Virtio, seems to me a more reliable solution, even though it may induce some
-> downstream costs (ST would also need to break compatibility with legacy ST
-> remote proc firmware).
-> 
+> I thought it would be overkill. It likely is going to be unused for most
+> nodes. But sure, move it to per-zone.
 
-Could the virtio-based mechanism be used directly (without rpmsg)?
+I gave it a try, but stumbled on a problem.
 
+We need to know the zone in hugetlb_vmemmap_init_early(), but zones are
+not yet defined.
 
-If not, it would be good to derive a generic rpmsg-gpio protocol from
-the virtio protocol, and land implementations of this in e.g. Linux and
-Zephyr to establish that option.
+hugetlb_vmemmap_init_early() is called from within sparse_init(), but
+span of zones is defined in free_area_init() after sparse_init().
 
-Regards,
-Bjorn
+Any ideas, how get past this? :/
 
-> 
-> In the end, I am just trying to influence the direction for RPMsg, but based
-> on the discussions in this thread, it seems others share similar
-> expectations, which should probably be taken into account as well.
-> 
-> Thanks and Regards,
-> Arnaud
-> 
-> 
-> I just want to
-> 
-> > 
-> > Yours,
-> > Linus Walleij
-> 
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
