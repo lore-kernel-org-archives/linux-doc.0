@@ -1,73 +1,103 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565B73793B3;
-	Mon, 23 Feb 2026 21:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38CE37AA9F;
+	Mon, 23 Feb 2026 21:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771883525; cv=none; b=ryf0QUGTzdhKRTXVUSnUlQUnLRzOOhbbPCU21w/pT1AaJs1O9Dhz7LXluOudUdZQKJAOoN+gTaw2+Htr5v8cXIyxxsTCshI8ktTJeVklG73xXV2qqxmkQCQ2a+A8nvrzwpHPVb5HrOddbUhXPBeLMHToRRuNU8gNPJbFaivxfMo=
+	t=1771883558; cv=none; b=cGtK/XiDfojvsWWW/BiFDHc6alsjkOX2V8uiUaMPDPIs2iYhp5hXZzjTB0atEepxqoFSOk/kJWbFbe5V3TvU4VGbX7vsHppH3zOiemcm6Zw50AKyr1p49stDWLRTyQYq/fAjGnnczPqcXUuI8KHnc9Xpg4ukqzd359INzgnladc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771883525; c=relaxed/simple;
-	bh=32IgMV6NneAaXouazxPDJLkrQ5F9CZetXO0pKusx+tw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CEmXvPZlh2vGbs3bFsK39wBhK5x7Hn3W9lKYBSYHKs5JaeCriZTkbq+bMTwMAzlTFaRBGd8BYRYkJAmV6hEJdql9dM1dK7tFfgMIGpUnVD2PRnlB628MdW88VwlL3gWQJvU0aL9payxvfkSpXle/qoRC8+e4xa4X7phsQ6Dq9/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UKMUot/q; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1771883558; c=relaxed/simple;
+	bh=/stCI5ijiZ7yMnH4o/+LgfD8ysmkT8zvJMlAlRyApjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G07/d6frynxmcJT+W9LGBMwggn6GBo7ml4O8ldNovT7g1nS9miHuGASVuu6UHqIHQ64qfm+yplqHCi2ZO0miXxjFYwsJ9oYcPQKwX6yPT1WMqfPRFwIsXSMfNOpn7nlkDXIEy1gEF9rOxVnaRNswsZOIqdrx7sS/426AGFkxH6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=itktZGAm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UKMUot/q"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B672E40423
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1771883523; bh=32IgMV6NneAaXouazxPDJLkrQ5F9CZetXO0pKusx+tw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UKMUot/qovvK1WWlh45qwcDBlAgVRXTuQtWCTRWBHBwObXDfB3RyA5ZgJQ0PZAetS
-	 jv+8AtNlKYOCmPT2t2nDDcwq7p5pLA6U1nEJcwP9o7VpNQ7j0fbK+avg+DWhkq/tAx
-	 dgOjoSd1K9Xvl3+mNLqidyWtUdYU3xKAosaj770xWXXphoyenWCj/qQWk1E4He51Lu
-	 wXVHPd+ed4Plriyy0Fwmky4PanI9IobBii0hcJBgzXi1Ek6iX8bXMQGih5C5mXtDpU
-	 VfQVJhmgkiWYADQPrtDWGXXlw8DFWRerjDBOQqABLfphmUxIy/nbduZfqzyLtTGEsq
-	 e3VzUc6TUNRDg==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B672E40423;
-	Mon, 23 Feb 2026 21:52:03 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Haowen Hu <srcres258@furdevs.cn>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Haowen Hu
- <srcres258@furdevs.cn>
-Subject: Re: [PATCH 2/2] docs/zh_TW: remove trailing space
-In-Reply-To: <20260220160201.41149-2-srcres258@furdevs.cn>
-References: <20260220160201.41149-1-srcres258@furdevs.cn>
- <20260220160201.41149-2-srcres258@furdevs.cn>
-Date: Mon, 23 Feb 2026 14:52:02 -0700
-Message-ID: <875x7n3z7h.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="itktZGAm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D72CC2BC86;
+	Mon, 23 Feb 2026 21:52:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771883558;
+	bh=/stCI5ijiZ7yMnH4o/+LgfD8ysmkT8zvJMlAlRyApjw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=itktZGAmcWMTx8XokiFfZPKu+31BcdMxHrphcVS9GjKORywe+FScSVJb08hfpx9lz
+	 kAGmTJUPF+Rq6Ai3+nsFJn3VW26qLH1GLnotroUIwCo1D+j22+4g3loa99t+M5h3Aw
+	 f2GkWVbHzLyZu9ziKMTRmoeLQlQlSrNLSZShGvgbShS/ZA7Q+5xVqohl3vhSsArRRn
+	 ielYecXOETCBys8aYMFnZSg2hp/mvDybO7Ww4e8sKiCyNOgVDxFvQeXnclgWWBhuL7
+	 9F3rPkqRrV3vgsqQBaDTWDcIQe8G3S0I2ICNjDJsf40h5ODMwYAKAHX48BbEOHvgcC
+	 IRCxve5BqB9HA==
+Date: Mon, 23 Feb 2026 15:52:34 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Bharath Kumar <quic_bkumar@quicinc.com>, 
+	Chenna Kesava Raju <quic_chennak@quicinc.com>
+Subject: Re: [PATCH RFC 02/18] accel/qda: Add Qualcomm DSP accelerator driver
+ skeleton
+Message-ID: <elu44euja7d7nnnhdmdqgof76646b3m3isjmws5pr274gqhy2a@dbeq4hk74ebo>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-2-fe46a9c1a046@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260224-qda-firstpost-v1-2-fe46a9c1a046@oss.qualcomm.com>
 
-SGFvd2VuIEh1IDxzcmNyZXMyNThAZnVyZGV2cy5jbj4gd3JpdGVzOg0KDQo+IFJlbW92ZSBvbmUg
-dHJhaWxpbmcgc3BhY2UgY2hhcmFjdGVyLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBIYW93ZW4gSHUg
-PHNyY3JlczI1OEBmdXJkZXZzLmNuPg0KPiAtLS0NCj4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRp
-b25zL3poX1RXL2FkbWluLWd1aWRlL1JFQURNRS5yc3QgfCAyICstDQo+ICAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3Vt
-ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX1RXL2FkbWluLWd1aWRlL1JFQURNRS5yc3QgYi9Eb2N1
-bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9UVy9hZG1pbi1ndWlkZS9SRUFETUUucnN0DQo+IGlu
-ZGV4IDZlODlkMTYwODYzOS4uZmUzNjQ1Yjc5NTJlIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0
-aW9uL3RyYW5zbGF0aW9ucy96aF9UVy9hZG1pbi1ndWlkZS9SRUFETUUucnN0DQo+ICsrKyBiL0Rv
-Y3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX1RXL2FkbWluLWd1aWRlL1JFQURNRS5yc3QNCj4g
-QEAgLTMzLDcgKzMzLDcgQEAgTGludXjlhafmoLg2LnjniYjmnKwgPGh0dHA6Ly9rZXJuZWwub3Jn
-Lz4NCj4gIA0KPiAgICDpm5bnhLZMaW51eOacgOWIneaYr+eIsjMy5L2N55qEeDg2IFBD5qmf77yI
-Mzg25oiW5pu06auY54mI5pys77yJ6ZaL55m855qE77yM5L2G5LuK5aSp5a6D5Lmf6IO96YGL6KGM
-5ZyoDQo+ICAgIO+8iOiHs+Wwke+8iUNvbXBhcSBBbHBoYSBBWFDjgIFTdW4gU1BBUkPoiIdVbHRy
-YVNQQVJD44CBTW90b3JvbGEgNjgwMDDjgIFQb3dlclBD44CBDQo+IC0gIFBvd2VyUEM2NOOAgUFS
-TeOAgUhpdGFjaGkgU3VwZXJI44CBQ2VsbOOAgUlCTSBTLzM5MOOAgU1JUFPjgIFIUCBQQS1SSVND
-44CBSW50ZWwgDQo+ICsgIFBvd2VyUEM2NOOAgUFSTeOAgUhpdGFjaGkgU3VwZXJI44CBQ2VsbOOA
-gUlCTSBTLzM5MOOAgU1JUFPjgIFIUCBQQS1SSVND44CBSW50ZWwNCj4gICAgSUEtNjTjgIFERUMg
-VkFY44CBQU1EIHg4Ni02NCBYdGVuc2HlkoxBUkPmnrbmp4vkuIrjgIINCg0KSSBoYXZlIGFwcGxp
-ZWQgdGhpcyBvbmUuDQoNCmpvbg0K
+On Tue, Feb 24, 2026 at 12:38:56AM +0530, Ekansh Gupta wrote:
+[..]
+> diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
+> new file mode 100644
+> index 000000000000..18b0d3fb1598
+> --- /dev/null
+> +++ b/drivers/accel/qda/qda_drv.c
+> @@ -0,0 +1,22 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> +#include <linux/module.h>
+> +#include <linux/kernel.h>
+> +
+> +static int __init qda_core_init(void)
+> +{
+> +	pr_info("QDA: driver initialization complete\n");
+
+This print is useless as soon as you make the driver do anything, please
+don't include developmental debug logs.
+
+
+In fact, this patch doesn't actually do anything, please squash things a
+bit to give it some meat.
+
+Regards,
+Bjorn
+
+> +	return 0;
+> +}
+> +
+> +static void __exit qda_core_exit(void)
+> +{
+> +	pr_info("QDA: driver exit complete\n");
+> +}
+> +
+> +module_init(qda_core_init);
+> +module_exit(qda_core_exit);
+> +
+> +MODULE_AUTHOR("Qualcomm AI Infra Team");
+> +MODULE_DESCRIPTION("Qualcomm DSP Accelerator Driver");
+> +MODULE_LICENSE("GPL");
+> 
+> -- 
+> 2.34.1
+> 
+> 
