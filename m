@@ -1,202 +1,132 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901411C2324
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 13:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771854758; cv=pass; b=D0+MvEa6PMS1ldX/a/7UkGJk3r9UnQDfZKoev8eHtu6JOf/8jyeYR00ci6wG31pt2RWiz4TiDc82fAX67weV171MMdbbYEp7zmjcP85CxZqDPp4hOJV+eM5sAF1oOYZKMJGqLmFdLPMWFILA0hppoqJvmW5JGcuBA6IR4ork1cU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771854758; c=relaxed/simple;
-	bh=EzUfziwHN4t+6rCJqNdkZVs8Vyi2IIgFGGSz1ptRO/E=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ri0C/Teo8kFDVANBXoAHt2W5OPsP5b0m62PId3rwym+SaFNLISNMaausx4ufJJD5e0DH9ALbBXu5BnTA7L96w5Hj0HkrqGngA8Xx3LxvvaZNnzLgGWqa0YHCkp+P/DNErwpbtddQNTrczVdWsDJ/fD21fwgyowO02cwvDtYKv1s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GAIMnGzd; arc=pass smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81F418CBE1;
+	Mon, 23 Feb 2026 13:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771855038; cv=none; b=hXO8bzssOr2Zsh/zuQZupCxOTBw10LqLR8DWiC8HtALJXZo87Pj3bFXpN4cH74jBtBTxiSGL3v4Q552P0VvgigZeMoPjrj34oyIvUNjs4c+BVZBBv8gbojKWoEsJ83wg7zNshklxKPvCQEUIjsK8/uYRhVHfX0qAeCpGeEYRinM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771855038; c=relaxed/simple;
+	bh=jimk4cgA6P8145WtS7AypZKTzXi7xwx6dJcxj5oDHJY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=flwX8tugJZOx7xSqPu0CutCC/fPCD4FZ+kzc8geM8szI5DQ5GMxbZ/dsGzzyVSkDOPwyyyuN042Ag4S9Do+JcN5VkSh4H+oBrBGSZsWuJnS+qyZZL4N7ULQFuyrw0qZOso7k+D98tB9mAX8KccdPqFmxTGdXPKVAOwvW2ss374Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=jrkSoxxO; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GAIMnGzd"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3567e2b4159so2350309a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 05:52:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771854757; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YHvRPBMAC0/o06JOQP91MngxvRmQuKnq0WZMEvYE8ItRbqKbsX5ojncggFTrNOQ0zX
-         /CCR+B86tbKWngolfZ13hH5rj7PYYG2Cv5bC3f/9wR+oKL5fh6hq/w++ReKXTAMH/Hsn
-         6eg8PKQynzUdyGKVjsqMr/coEroYeDKpFfRIfnkSMfAUl4Tsdt/adrhdOgGwqLrid9Bj
-         4Y+gMdwIKwQ+GkReuVGlruVsz/7CSuw+SEfgm8ts/v1qQWzVTcZiAc7017hbUAbN1PpJ
-         f5a9sKAd2gdlvwrDAiLJJIv+XgveLReIVS7Mq5TsQwIk1H7Pj+LVf8vmOKhGGGsf7rBb
-         EM7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
-        fh=q4cPPsNhjG7YO0yaylGm+5UJeCn4IM4OjB/NBYzqw2Q=;
-        b=HeO0m0NnyCq5koarPEsvXtOiUA10jUBnj9l6QwExFLB9IgJ30AQ+5XKqAjl+QrPhwV
-         m+1FwX0d4sP5mrMECqCp/XuK+MlELPTlvkXq8hOBBIO+JrxPCLi9WfD3HyPUSBNIMhIA
-         XjHWmteY4W77/SrBTG6cp1Vx30wr6GVEpsk1r2jsMB9rumLjq4FJDRtV4O+bFITmFaVv
-         z98SpEJVq1oTABg/EB3uqFXxRHmTuipAO5Vuj91oMAF/ks0j25f4VXfmHSBwzjywJmYL
-         L8YpR+UZtaZJC3dnCbAYDW1jwnf0CWB1PyVnYUrKz1Ykyf/9lWrRYOh+DOfE8w2obgFa
-         WfKQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771854757; x=1772459557; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
-        b=GAIMnGzdKb+9RlhqFTfnXAPgym/2/FUa416bD+iaOKiv7G/6hqDcjmrjs6lN1PqkpW
-         BzELjWp34G2p4X9s9owiVPAHlZoGYYqXQcyKZVv7cYFm4KeswgvlU59IO3yOR0/JaqsU
-         ZPonPPi542AP18vWk1Xfq9PYYckD8kC6fAJOm0Xz3XcujhwFoZU3f/25DZEifzd7bUQe
-         7CeS/MeYxGgWldWoWUsCk0//OoWFGshKIoKr1QCSXbOy1T9sm0TxjAYpwDbE4kpyDejs
-         ikAHpHAILgXyV0NoQ4fVut1yziMs+QLijEWpbxx7dCCZ9GoQchNXCTMG37EjAdHf3MTh
-         AXdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771854757; x=1772459557;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TWwsfQSmrc7KhlI2G6haDBaCjFdQ6FTDQCYdiKWJd1g=;
-        b=T3RFDl+V1Kg1cMdAsaaEJANXskUN6TwenJpSsTT9/g0DX10wx0hRPFXfwBiMKhq/+b
-         cXxrIWzhMAbeUcwtuCACj6qEbQioqOx4wQl6/a3gsxrc1c6i7laLWBptsPRzRFo/rN1m
-         oEJMm/DC3duBYnapdR86BtijQTsoyz/QPzgxNQSp8ebqBsjYFTLzuVlNbvPfehoFaeTY
-         +N83kzcVD1KuvyhAu+0i5HOFpGXLOhvMz7XdstpR/N7WvjQ+zAzAJrwUM9/XGsJWQWHB
-         YlmqAEn3VLOw+t13Folow0asW7ZBkBz3yLo/IHko3TRmjLXozAm4ZGsdRPPUKnj3/CzY
-         wzVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVyXGbzkAxS7HCuXivwSKswpCbO1+0Dz1dLpyWEM5SdQGkGc8Lar5F3iHKUXBIGMrQW0A7q25W+kWo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzTX6ZoTJj/e4dhEQ3Ks7Nqq7aZ1wGPLsFu3EBlRjKGL6z+Xzvc
-	rBxZcCSXG//8Z6WrUBLCvxym6Fz/XuzY71NVanwHDXdlryq41rlBkV7VqHiB2Czm437ktc2PvnY
-	xZO+3mbw1uxPBp7NW8yBDpXCL6agFsnQ=
-X-Gm-Gg: ATEYQzyeJdWTFJhpyD+T4eUto6ugJQosTeZmYysHELt7j1WEZvxD3AanpPaxALbFpUW
-	8fXCCR4cvMBzN/CJnunHaIc4dQzqBS75zpx1f1PHXsIwFQ3UG1JyPwGg+D3RB09q1dfg9RrVfY4
-	tE5BELOUuXt+en/cepEag2V0E39U5bBimtuI5ugUEe/lonMlgO2m6mNaVUzuboVd8oQwV8iAQT3
-	yo1ArH/keOS+zFvJWbPtqrRPG1s3LDoqa7zLKkpGvhdr8LKitOc27eZp70DfLremrG3jcPcrntK
-	bgpt1pIH
-X-Received: by 2002:a17:90b:5447:b0:356:4ea0:e9e2 with SMTP id
- 98e67ed59e1d1-358ae8d3a09mr6084454a91.34.1771854756912; Mon, 23 Feb 2026
- 05:52:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="jrkSoxxO"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id A9C0B27E35;
+	Mon, 23 Feb 2026 14:57:07 +0100 (CET)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id tac2RrMprsBW; Mon, 23 Feb 2026 14:57:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1771855027; bh=jimk4cgA6P8145WtS7AypZKTzXi7xwx6dJcxj5oDHJY=;
+	h=Date:Cc:Subject:From:To:References:In-Reply-To;
+	b=jrkSoxxOqv98EFGeGJpGTfbWycO470StieDpHkpvwSVYOdO+ixUJHSH0/2Txy8R4/
+	 bCEG7Sh9Ln/4+uBuszgWxdqJp0az+MJT2XJ2HTdPUFqkGvbXlKF2zGG0nrE/bbBkpc
+	 06Ps65NKVetf/+bipRD8EqrhjOi2Km7fG1yvBDhUUN7p7SJOleCLskPp7UyvMqRj8U
+	 yxrZARhKFgIx+l3MGQOLUht/nEYFJc875duDxCvM9BEAs0iGuIueRmgF67tCP9T3Ff
+	 HzjS4vtY86VAjSKqWBLiHJUFhdMfiuM0G6doeDKLSyUx73VJAvVZi7xajZdGJmdyAV
+	 V9p7G+qb5lXLw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
- <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
- <aZwWMiYEvr3DXi3E@smile.fi.intel.com> <9dd377f6-3565-4c0c-8c98-1b5ac4982f5b@kernel.org>
- <aZxES35K3hSX4KEx@smile.fi.intel.com>
-In-Reply-To: <aZxES35K3hSX4KEx@smile.fi.intel.com>
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-Date: Mon, 23 Feb 2026 15:52:25 +0200
-X-Gm-Features: AaiRm53PjY3r4YJJgRdEcXeF3wEcS_dn51myeI6Bp2rdVCy5EIQxm03JMpsksBU
-Message-ID: <CANhJrGPWxgFddKaqdFM+DGKYTXaPxeBZLMhxBfXT-ZU6SrsbPA@mail.gmail.com>
-Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate workqueue
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, Lee Jones <lee@kernel.org>, 
-	Dzmitry Sankouski <dsankouski@gmail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, driver-core@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, linux-pm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	chrome-platform@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 23 Feb 2026 19:26:52 +0530
+Message-Id: <DGME6JKOXQN9.3GQ7SEI0D8A5U@disroot.org>
+Cc: <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v2 06/12] mfd: sec: add support for S2MU005 PMIC
+From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
+To: "Sander Vanheule" <sander@svanheule.net>, "Kaustabh Chakraborty"
+ <kauschluss@disroot.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
+ <andre.draszik@linaro.org>, "Lee Jones" <lee@kernel.org>, "Pavel Machek"
+ <pavel@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "MyungJoo Ham"
+ <myungjoo.ham@samsung.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
+ "Sebastian Reichel" <sre@kernel.org>, "Krzysztof Kozlowski"
+ <krzk@kernel.org>, "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
+ <skhan@linuxfoundation.org>
+References: <20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org>
+ <20260126-s2mu005-pmic-v2-6-78f1a75f547a@disroot.org>
+ <69e2c1b1a2f3d2ed5e5da995cc5ee49bb3627597.camel@linaro.org>
+ <DG74Y3QSCLIO.32Q8ZKCTISXXB@disroot.org>
+ <4cf24e281fac45637fedf40944d8b5230c0e22d9.camel@svanheule.net>
+In-Reply-To: <4cf24e281fac45637fedf40944d8b5230c0e22d9.camel@svanheule.net>
 
-ma 23.2.2026 klo 14.13 Andy Shevchenko
-(andriy.shevchenko@linux.intel.com) kirjoitti:
+On 2026-02-20 17:56 +01:00, Sander Vanheule wrote:
+> Hi,
 >
-> +Cc: devm-helpers maintainers/reviewers
+> On Thu, 2026-02-05 at 21:02 +0530, Kaustabh Chakraborty wrote:
+>> On 2026-02-04 15:23 +00:00, Andr=C3=A9 Draszik wrote:
+>> > On Mon, 2026-01-26 at 00:37 +0530, Kaustabh Chakraborty wrote:
+>> > > +static const struct regmap_config s2mu005_regmap_config =3D {
+>> > > +	.reg_bits =3D 8,
+>> > > +	.val_bits =3D 8,
+>> > > +};
+>> >=20
+>> > No cache? And what is the .max_register value?
+>> >=20
+>>=20
+>> This was in the previous revision, but I ended up removing it because
+>> (at least I thought at that time) interfered with interrupts firing in
+>> some way. The actual issue was unrelated, so I will add it back.
+>>=20
+>> However, there is also another thing I see in logs:
+>>=20
+>> sec-pmic-i2c 2-003d: using zero-initialized flat cache, this may cause
+>> unexpected behavior
+>>=20
+>> This is due to REGCACHE_FLAT, I am not sure if I should just ignore
+>> this.
 >
-> On Mon, Feb 23, 2026 at 12:52:14PM +0100, Krzysztof Kozlowski wrote:
-> > On 23/02/2026 09:56, Andy Shevchenko wrote:
-> > > On Mon, Feb 23, 2026 at 08:27:29AM +0100, Krzysztof Kozlowski wrote:
-> > >> Add a Resource-managed version of alloc_workqueue() to fix common
-> > >> problem of drivers mixing devm() calls with destroy_workqueue.  Such
-> > >> naive and discouraged driver approach leads to difficult to debug bugs
-> > >> when the driver:
-> > >>
-> > >> 1. Allocates workqueue in standard way and destroys it in driver
-> > >>    remove() callback,
-> > >> 2. Sets work struct with devm_work_autocancel(),
-> > >> 3. Registers interrupt handler with devm_request_threaded_irq().
-> > >>
-> > >> Which leads to following unbind/removal path:
-> > >>
-> > >> 1. destroy_workqueue() via driver remove(),
-> > >>    Any interrupt coming now would still execute the interrupt handler,
-> > >>    which queues work on destroyed workqueue.
-> > >> 2. devm_irq_release(),
-> > >> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
-> > >>
-> > >> devm_alloc_workqueue() has two benefits:
-> > >> 1. Solves above problem of mix-and-match devres and non-devres code in
-> > >>    driver,
-> > >> 2. Simplify any sane drivers which were correctly using
-> > >>    alloc_workqueue() + devm_add_action_or_reset().
-> > >
-> > >>  include/linux/workqueue.h                        | 32 ++++++++++++++++++++++++
-> > >>  kernel/workqueue.c                               | 32 ++++++++++++++++++++++++
-> > >
-> > > Hmm... We have devm-helpers.h. Why the new one is in workqueue.h?
-> > > Can we have some consistency here?
-> >
-> > Answering with update:
-> > I don't think this should go to devm-helpers.h. The definition is in
-> > workqueue.c, thus the declaration should be in corresponding header.
-> > It's logical and consistent.
-> >
-> > Otherwise, I could move it entirely - definition and declaration - to
-> > devm-helpers.h, but then the release (devm_destroy_workqueue()) will be
-> > essentially exported to everyone through the header.
-> >
-> > So kind of conflicting choices.
+> Sorry to be late to the party, but I'm somewhat responsible for that warn=
+ing, so
+> allow me to chime in :-)
 >
-> Hmm... An alternative I see is more intrusive but should make it less
-> inconsistent: Treat the devm-helpers as devres like header for workqueue
-> and collect there all devm_*wq* related stuff with maybe something putting
-> back to / holding in the c-file.
+> What you are might have been seeing is REGCACHE_FLAT giving you "cached" =
+values
+> of 0x0, while the hardware actually has something else. This can cause om=
+itted
+> writes, existing (bootloader) config to overwritten, etc.
 >
-> OTOH we may leave devm_destroy_workqueue() visible for now with a comment
-> saying do not use, it's internal or something like that.
+> As Andr=C3=A9 suggested, using .num_reg_defaults_raw is a possibility, bu=
+t then you
+> have to remember that the register defaults are taken to be what the hard=
+ware
+> state is at that moment, including pre-probe changes. These defaults are =
+used to
+> seed the cache (so far, so good), but this may break the contract of
+> regmap_sync() if you ever want to use that after actually resetting the P=
+MIC.
 >
-> Hans, what would be your opinion as you IIRC is the author of devm-helpers.h?
+> If you want to use the flat cache, I would suggest you use REGCACHE_FLAT_=
+S,
+> which will track what has already been read from/written to hardware. You=
+ will
+> also need to specifiy .max_register.
+
+I had figured that out by going through the logs, thanks. :)
+
 >
-> Matti, I also Cc'ed to you, you have usually non-standard thinkig and
-> insightful solutions (besides being reviewer of devm-helpers).
+> I see the other regmap_config-s in this driver also use REGCACHE_FLAT, so=
+ you
+> may want to consider switching those over as well if these are also showi=
+ng the
+> new warning.
+>
+>
+> Best,
+> Sander
 
-Thanks Andy for Cc'ing (and flattering!) me ;)
-
-My personal opinion is that the devm-helpers.h as a "collect 'em all
-here" -place might not have been the best idea. Perhaps the original
-author didn't know what he was doing :) Problem lurking there is that
-such a file collecting misc devm -interfaces in one place, will end up
-slowing down the compilation while some people put effort on splitting
-the headers.
-
-Currently the devm-helpers.h contains only workqueue related
-devm-helpers. I'd consider renaming it to something like "devm-wq.h" -
-and then just stuffing the devm-wq stuff in it. Optionally, I'd
-considered adding all the wq-devm stiff from the devm-helpers.h to the
-regular workqueue headers - but I think this was not liked by
-everyone.
-
-So sorry, I have no helpful or strong opinion on this. Besides, You,
-Krzysztof and Hans all probably have better insight on this than I do.
-
-Yours,
-    -- Matti
--- 
-
-Matti Vaittinen
-Linux kernel developer at ROHM Semiconductors
-Oulu Finland
-
-~~ When things go utterly wrong vim users can always type :help! ~~
-
-Discuss - Estimate - Plan - Report and finally accomplish this:
-void do_work(int time) __attribute__ ((const));
