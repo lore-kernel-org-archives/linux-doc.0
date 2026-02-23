@@ -1,48 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799B323E358;
-	Mon, 23 Feb 2026 21:34:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC72361654;
+	Mon, 23 Feb 2026 21:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771882451; cv=none; b=i1WJpWf13rpkO/6Fa+HNe1RnEa6FSuXKR4pd4HdawF8MTeRkM8lsd30cmsaJ8pGIjNaAcc2t9H+JEJJsN29lR67JgFrQgzzn1PyF7ACS6LVo/elpE2EIBjPq2AgWnrGpKnyedEcIOZBEzknis2qVLLqQJ74KBg3syHD/E5pHTTc=
+	t=1771882591; cv=none; b=EOtKyyBSqbJ3lN30Z7qKuwt3qrBwOia7dCpChkuUwm3whWC8lT/xbjoHYgNASKTW5N3PRu/MyNIWI5ZI7CnjGFUq7jvlRn4jCeFmmVLTfF6NwJvVoy7g8qLo5JbuwbhPb88q5BSBukitTNe0ogpJBdfplFyVnm0oIB9HkYrpEKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771882451; c=relaxed/simple;
-	bh=yW66PgtS7TMre9iYZz+uBZ0gFAxpvkrZNFy6mTKxGfQ=;
+	s=arc-20240116; t=1771882591; c=relaxed/simple;
+	bh=j8paZt80GpEAz/EWAewYm2BlU2bgEJF+ua+TytbSHCQ=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JQR/5j2ZUn7Wtwqc5vmTWaU+fYONlSJO0uDv0iblth+SbZrOqkddwTZc2bhxvcXuxVKVLqMlvEyp0w9PnChYuNBXWBFiq1w7dtAk52t8pql+k+4XX/SQtsTxoC4+yTa3SQpfVgiFzalHjPTR41CadG9JBZ35IbOJK/3ZYCTz4hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=L157LcRL; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=tk6okiZyIh4g0/V5lkA3hJVscWjVM7iPAqGaFgWLL2bCcxPlYtqydflPWKZh0l/5TBavWXcvlh9r5PLIanEZJS1ii/ORFoe1VT8VHqwBbPuU8MDdaXdwxGEdytzBWpEkeqDJ1uSrHHOEpSN48trMvCZuZ+9OIa1HPWFz/4stg8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jsC31i7g; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="L157LcRL"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CC52940423
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jsC31i7g"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1081B40C6E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1771882449; bh=yQ6eEVYkWITfriAUX0GJpHRcPOumgnFsSFkBjRLVNeQ=;
+	t=1771882589; bh=7PBuhnNCMsNNr2mxhiGfK28ZuYw2r/55zdYUCc1zbkU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=L157LcRLHL/yOoYo7qeCHINg6d0cRNjzh/h4dIV5WAqpP00qKnRGNjfzT0vn88UcJ
-	 QdEcTW9XqGNaZg5RgamoYBivN+hnAvp5TpFSHUWz955wApnsOJIdELUNunmXO/dIQd
-	 aA2dB79wZ7oDAcoKvPPiJRqHSYxzwFaIJ+m4pQQkJLIIq4wp0h0bNyeTD5dCi5aSBn
-	 6Ptsj9vUWSOhEutknFJPh7fXTgC/1usHZHcLZpqRFDz37nC6WNyBK1TOYHJ6wmVssH
-	 CAdCfxeuEeTNIES/dOYJJSsfeGSw51OlMV0OcrMYza97IBYgSn/jlthphw9NqfcZ9o
-	 QqWbh/ZFsPowA==
+	b=jsC31i7gzGJAQYwWpzFj41qIo8TYN0ZGtmxD0pGsFRW1x09lGCesK0a4lmE3y+/Fi
+	 02xZC4nqG+ExBFugWM6LZijpLTFxLvp3+vQFWurgxqpnY1EFBfuhuQ3T3DJeUQoVYV
+	 OT8QjbcEi34G58hzmgaAuhGZkw5F1E9Z2CXaH98Jz5cfgYzoNYDnRtKFe+tRtxGvfk
+	 28QvAl3xuV912w36fmWSYVeaTgpg3FufWJCv5UoHbcr/ycb3Ax4p4iV5oOdPW3OlN8
+	 xZM+AD4vsv+3ST09dlv8cZeJE+glKGCy3AaUyURYKhpLaAcJOhO6fWhkKq/8liYuBa
+	 x3FhmjTCyANZA==
 Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id CC52940423;
-	Mon, 23 Feb 2026 21:34:09 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1081B40C6E;
+	Mon, 23 Feb 2026 21:36:29 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Costa Shulyupin <costa.shul@redhat.com>, Steven Rostedt
- <rostedt@goodmis.org>, Tomas Glozar <tglozar@redhat.com>,
- linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, Mark Brown <broonie@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, workflows@vger.kernel.org,
  linux-doc@vger.kernel.org
-Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: Re: [PATCH v1] Documentation/rtla: Add hwnoise to main page
-In-Reply-To: <20260215131249.33437-1-costa.shul@redhat.com>
-References: <20260215131249.33437-1-costa.shul@redhat.com>
-Date: Mon, 23 Feb 2026 14:34:09 -0700
-Message-ID: <87v7fn401a.fsf@trenco.lwn.net>
+Subject: Re: [PATCH] linux-next: update maintainer info.
+In-Reply-To: <20260216060739.2791462-1-rdunlap@infradead.org>
+References: <20260216060739.2791462-1-rdunlap@infradead.org>
+Date: Mon, 23 Feb 2026 14:36:28 -0700
+Message-ID: <87qzqb3zxf.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,15 +51,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Costa Shulyupin <costa.shul@redhat.com> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Add hwnoise to the command list and SEE ALSO section.  The command list
-> is ordered from low level to high level.
+> Update the MAINTAINERS file and Documentation/process/2.Process.rst
+> with the current linux-next maintainer information.
 >
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> Translations of 2.Process.rst should also be updated.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
->  Documentation/tools/rtla/rtla.rst | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: workflows@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+>
+>  Documentation/process/2.Process.rst |    2 +-
+>  MAINTAINERS                         |    1 -
+>  2 files changed, 1 insertion(+), 2 deletions(-)
 
 Applied, thanks.
 
