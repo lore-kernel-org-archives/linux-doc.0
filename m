@@ -1,194 +1,296 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013015.outbound.protection.outlook.com [40.93.196.15])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC6AEADC;
-	Mon, 23 Feb 2026 07:31:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771831863; cv=fail; b=Kp3ZVE73IOMrWtgJ9vsxTJVH8YPUNibiaeJKTsRlCnDpAy/eD+4Kqj3igx2tamG/DGR3cr7JXhnrDrz41zs03vk4WPlp4mh88VDFxGRhrabO/hbN7WKLUhkEJPMz9pwLkoO79yS64vDJqJDIeerlOjmfGSd3MfSj3wnmgQRtrSA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771831863; c=relaxed/simple;
-	bh=VZEGRRWSYjJ7cxUFUPYYtON5JtDMFq4nA8smObtsYFY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QwSxjIAHwtHZdldlS23/L1CTTV+nw69dyavfGV0bBiWN04M9h0jE+ekd7SNHXg8WmaR+3IWANGTirmQQ0/PPLxCk7y5iuwc44mh9XDTKO+eM5uRDXCXaDUVJD9EcZlrEkeO10er/Ery3KHCg+ESXUvVzJoyCb7FeTOCRjfddIv4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=uUJvOuuV; arc=fail smtp.client-ip=40.93.196.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C3734B669;
+	Mon, 23 Feb 2026 07:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771833214; cv=none; b=r0rYKA1ySAR2Hmvs6XoaJxBe3HCGdOL4VU7udVVBEZdnW/g8d570uFjGu/e0bL79cPaqBkBO/qU9VLEFc0ZghY0M5nBJli97SdnNBOchuOXY0I2PgQ5Xa/V6PKmXksZNE7mwai7ONkg7ZMx0hIo8YQvQ1xhSefCgp7bpjzD4f2Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771833214; c=relaxed/simple;
+	bh=nYV9JeJzQ3cvBQGeC5/lhY69NNQylLWUFgiVvFPfShg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JYzGIks1ANjKJYpW10zUfQpeCln/a0CXSeC+A5AoKvd3AADBQHgVyoNdIR+uChAMpIBqoNroJX3pwyN4bHyFNQhKXtG884aA/mBrDPgM6vAroFGhXBm9n3BQx5MbK9ly1on4WKEIVCeqOeF7I9KrQA/OLBokbUaNMzANgB2ermE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=UBLlbx6r; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="uUJvOuuV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aKWdZEaKYfDMkyCKZi+ZQXV7jkn/27TQQVkmyM+6shWqtwewVEp0wygG24ZEzefFYyCrW8oUffSHJIH2fDF8qhU6Zlenj6HQUCdZlUYJJTIkecQYvpApFV2tugLjVDhzygSyRkNWEwMIcI0JpOtEgtxr+JBiAse2PLTwaVYb9hPv2OfITdFDPeqosDSaR2NjAI5+DzfLnBJYVvTxlxqJfb0Ud8JcKSb1wAyecibFqMwzTvuyVOq11/ynwJ5+QMvaLmvb410ZJv3XSsRmlAPhkdZn6elIJnsBu89ptUDXWu3u99R/olwKsAeY5Cr2YmTQyq3dcgrFZReOVs3zpHgOEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2MUw6flSrEAg+rKxtZqcV8oreP988NH7i1MO3PxCyHo=;
- b=lCBXp2fVwgKrMfxFa0c2dsQd0/XVD75KuKQqQ6dLdtfDRxsxs3AmiVTq7ZInClVWg3csFC7+W/QVED09D8zgpEEbUtwQEDG9T9Q2kmA/hNf4bnxCH4+puEIrk+AO5EKaYyBbjzfMG7JBZruOCADvfv2eOsEc2p4+StVGKXplrCFNacGgt8CCz7xZgTPYB70PwDyazPN0WJbp/z0JHbzQ9jQP2bCK5CDCybfUOgJ+piyTu2jj/q8dJwMbgU6L0HpvTPVwQSEmzS2P9CmNlS/8GE7fJQ2QWzQspWUWuKrER1PbYNo4QvYdOeLdEYGxF7z2f6ncnlvLsPxm5l++BjMWaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.195) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2MUw6flSrEAg+rKxtZqcV8oreP988NH7i1MO3PxCyHo=;
- b=uUJvOuuVLxN1kUbHOCG9hzWeH1Ykl5gra04seUxuWbjIP6kncWz0BM6oPpLRW/K6C/GTNe1UenHLiyputYCnPsrakuBxOsaP17tW5pO2pAu0ftMUxUrtpT1dM45IGbHlZsmR9BNedhi+6rLWefDn9dXVHaqC7ezSnEUeNnfOfGI=
-Received: from BL0PR05CA0011.namprd05.prod.outlook.com (2603:10b6:208:91::21)
- by BLAPR10MB4946.namprd10.prod.outlook.com (2603:10b6:208:323::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Mon, 23 Feb
- 2026 07:30:59 +0000
-Received: from BN3PEPF0000B074.namprd04.prod.outlook.com
- (2603:10b6:208:91:cafe::1c) by BL0PR05CA0011.outlook.office365.com
- (2603:10b6:208:91::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.21 via Frontend Transport; Mon,
- 23 Feb 2026 07:30:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
-Received: from lewvzet201.ext.ti.com (198.47.23.195) by
- BN3PEPF0000B074.mail.protection.outlook.com (10.167.243.119) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.12 via Frontend Transport; Mon, 23 Feb 2026 07:30:59 +0000
-Received: from DLEE205.ent.ti.com (157.170.170.85) by lewvzet201.ext.ti.com
- (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 23 Feb
- 2026 01:30:59 -0600
-Received: from DLEE202.ent.ti.com (157.170.170.77) by DLEE205.ent.ti.com
- (157.170.170.85) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 23 Feb
- 2026 01:30:58 -0600
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE202.ent.ti.com
- (157.170.170.77) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 23 Feb 2026 01:30:58 -0600
-Received: from [172.24.231.225] (a0507033-hp.dhcp.ti.com [172.24.231.225])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 61N7UtFE381313;
-	Mon, 23 Feb 2026 01:30:56 -0600
-Message-ID: <e096fab2-53ad-44e9-9185-496ff763d3ec@ti.com>
-Date: Mon, 23 Feb 2026 13:00:54 +0530
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="UBLlbx6r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1771833210;
+	bh=nYV9JeJzQ3cvBQGeC5/lhY69NNQylLWUFgiVvFPfShg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UBLlbx6rGRzhB0lc8jmUhiwdOSlc22ZND7JHZWW4sRNkp+NBvBnncnMPS1yVQbgOV
+	 DymrASfqtlntMVz/GvTCjMNRdBah/OWyHZRmpdBJ/j56Uf6K1XZArBL2sV3NTKngvN
+	 Lufi5ad54jpSd2BodXC8KOcnZyRYF4fvDZt5qkc4=
+Date: Mon, 23 Feb 2026 08:53:29 +0100
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Naveen N Rao <naveen@kernel.org>, 
+	Mimi Zohar <zohar@linux.ibm.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, Eric Snowberg <eric.snowberg@oracle.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>, 
+	Xiu Jianfeng <xiujianfeng@huawei.com>, Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, 
+	Arnout Engelen <arnout@bzzt.net>, Mattia Rizzolo <mattia@mapreri.org>, 
+	kpcyrd <kpcyrd@archlinux.org>, Christian Heusel <christian@heusel.eu>, 
+	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
+Message-ID: <0d70db8d-702b-46ec-a010-298fe6515aab@t-8ch.de>
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+ <aZol1Rsa2tX-WNaZ@derry.ads.avm.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/4] PCI/DOE: Move common definitions to the header
- file
-To: Lukas Wunner <lukas@wunner.de>
-CC: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<bhelgaas@google.com>, <corbet@lwn.net>, <cassel@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<s-vadapalli@ti.com>, <danishanwar@ti.com>, <srk@ti.com>
-References: <20260213123603.420941-1-a-garg7@ti.com>
- <20260213123603.420941-3-a-garg7@ti.com> <aZr-RMZlgO0eEM8n@wunner.de>
-Content-Language: en-US
-From: Aksh Garg <a-garg7@ti.com>
-In-Reply-To: <aZr-RMZlgO0eEM8n@wunner.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN3PEPF0000B074:EE_|BLAPR10MB4946:EE_
-X-MS-Office365-Filtering-Correlation-Id: d321d2ae-9a68-48e3-b48e-08de72ad7da4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OFJ0U1RIeVlwUG5qR2kyU1orQy9UN2U5eFN2a014SkQydXN6emx4ak02TDQz?=
- =?utf-8?B?aTNIMXhJeGZCcjlsVnMvNkRMQWdDQ1djWWI2aWNUS1IyOXMwdHRLTGp6dXJN?=
- =?utf-8?B?bEl4YllPS3o4T0dQQ1ZtTkVHY0pUZytBa0c0UW5MZEpjRDJrSGNNUGY4Z3h2?=
- =?utf-8?B?MkgxZzBEMzBkMzFZMjFJZHB5ZUp0ZW5oTUtQNTBJQzYzb0Y0KzVvOUZWVWJQ?=
- =?utf-8?B?c1pxWWtRbEpndDhsTWtzb0g3R2REWDJvR1Vwa0ZUSVNndklPUHdPSlluZnVK?=
- =?utf-8?B?MWZGeWhQcXI5dkxLc1M4L2xobUNDdGlQZHJnZDhmRTJqdE94Nm4xWkVNVkhR?=
- =?utf-8?B?Z0hTSk4vWTQrellJKzdpdjdwM3ZjN3JJc0Y3TGV4cllZTnJSQ0RrOWxBWFVS?=
- =?utf-8?B?TnpEdEtwY2xRVEdlSTdkZlMxV2daODh0MmErMTl5SUZ4eXg4SlhxZGNlb1ZR?=
- =?utf-8?B?V2EzbXZlcHJHOWJsckRLcW42YStHRUNvREZoMFRzTXlRSHZydmhlQjhyWm9H?=
- =?utf-8?B?c3N3c2xxOHloZm9DNllmcTJwSm9MeHBuZGFJQk0vTDZvVWJtdDE1NUJBR2JG?=
- =?utf-8?B?ZllhYlR1ZnY1WmVscnhZTGVTK2had0RpQS9BbHFERnZVQWdoSTd1MmlpdW8w?=
- =?utf-8?B?WGlvUHQ1Mk1TTExjMTNVTXlDbXBleTVJL0lCSVVLZjA2WFNMc0NzUmgrQmFC?=
- =?utf-8?B?K2lJbVZ6YWdOTmlCMGkzK3lVMVZ1dHk1Q2J5YTF4ZmVFN3g0NUd1Y2tqY29h?=
- =?utf-8?B?Ny93N1FUUk9zb3VhTkJJQTNoQWl0U3R3UWE3Q2JVS3pGZXZGejZScktEWDZ1?=
- =?utf-8?B?TjltSCtJdWJQVjJ6dzkyZ3lGRVJYUjF2bjdEMW9IOEg4NzY1b0VOWnM1Wk9a?=
- =?utf-8?B?azIrelVyMnNVRHhtamg3c0xNcUthTXQzcWhtajE0MTR4ekZheGxZU1lqcjhK?=
- =?utf-8?B?WllNdnBTL1JBUkFJK0w5T3NIclpZSUNkc0NpUngxWXNqVlhSTC9iU3lHSC94?=
- =?utf-8?B?VVJnZlIvWFFOTkRnUk1jSWxRMDZzNXQzeGFpMUtLTUFPV1hySk8zV1g1MVUx?=
- =?utf-8?B?VE5OQUhka29VMFNvVFVOV1ZIY0VQNHFCNmRGYUZOczJqWGpxVlBuRFhZT0VX?=
- =?utf-8?B?TDRQbkttVC9Ia2tKS21pdHRlT1podlVTNkhLeUt5TCtCQTl5Ylpsa1FmWUNW?=
- =?utf-8?B?TTVoYW1CVlJqM3YvNTB6a0NMbWI0VE9iRk9iaTRhbE53K1ZOdW5SQk1rUWVM?=
- =?utf-8?B?RkdOZkFmV09NRWJ1TW5LOHJ6dkQ3Tld4NXJxMFdGNHdBek5WbkhWN0kzTmRD?=
- =?utf-8?B?OUl6M3lZS1BoNDdMaTBVMHVhY0l5UjlxK1hoYXlHR1FyS3hZU2gwVk1ITzJB?=
- =?utf-8?B?djlhY0RyRE1GZ2k2K1BRL3BlV3JIbGlFYzBLcTkvSDdpeDQ1TnVVMm5QUk96?=
- =?utf-8?B?VFd6ZVl0dzZ5Ri9oVWJnZUgwUDN2d09yM1diQzRyQ2I4aFgxaEliNmVSWTFs?=
- =?utf-8?B?c0loMHV4NkN4RnArd1hDN3BnMmNuVHJUdkU0ZjE1cmxzQjdCazhzODZRWVRI?=
- =?utf-8?B?eXAweFh3YlRpOWFPcngzcC9WS2xWUFVjOVZ4MVFhZFZwVHlLNVo3RjdwVlU5?=
- =?utf-8?B?RnBONVVvMTYwVG5qL0JISXkzaTBiMVJmb2FnalM5T2UvNzVWWE9NUFc1UTNl?=
- =?utf-8?B?clkrWEdjWUpVTUN4a1p0WmkzN3d2cVpJb0E5T29qbXQwRGNvOFdoMlJwRHlp?=
- =?utf-8?B?K3lxWEFuSmlYbkJTN3J2VkpjMWtHUGRnZGdNaGRGL1dpQUhkV1lvemk3dDZT?=
- =?utf-8?B?MytNbUxrYXhxcmxYbGlMYjJpU3AzSXdGZi9DQXNwNVMzU3VCQ0s2OFR1bVpF?=
- =?utf-8?B?cXNOS3JxQWJrTm9SazlzbENZbDVLM1M3ZTU0K3ZFM0lsN0oxRm9YcHI4NW1C?=
- =?utf-8?B?elRIdEJSemoyOFU0bncwNkFqME9jbGozb2ZUSE43TkFORmtHOER6U0NWRmY0?=
- =?utf-8?B?Q29PUjd1MWtINmRRSlhwQzhNZkdCTWlzOFErZlhlQ25xUHZqZzl2eGVZdnQv?=
- =?utf-8?B?amF5WmpkeVRwbUVUVVQ5aFJlSEFYb0FycDZoSHVMQUxUZ00yYTBOazR2ODAr?=
- =?utf-8?B?TW5RNXV1MWdETGtWVGlMUW9aaUVOVzYwYXM4ZkFvdE9YWjhHYmF3dlVjVjNB?=
- =?utf-8?B?WVlVcVB2WHRPRjRWa2Faa3hwWVdleko3K1lXQmhBOUxSUDlNc3JXOVpGYXJ3?=
- =?utf-8?B?bnZMaHFCNlhKMHFzUEdJbmlibHd3PT0=?=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700013)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	j/xzeLk8c0WV0DVKHNE20QjnaCcToKP2lCe6t0STazQ+lBNnHi2DFtHROASavab1s+K3dh/n2ArWREQuaU/q+/NhiNW6T6wFmX4A8Jpblc1sJUTvStWXlfbVUjs6YwKpwwxnOKITvW6G85E1IyzIKA4XR59yrxNCuQY5xUcPPPSb5K2mdjpEsvFVMW2iu95LEWOJ8eRiJmdqp+4PNr5qRBiEXIz1zxa6iMKpSoLdAHcm6xTaf7hOsG6N2hMwdlvH+45oRCwkp5Ag2w/Ee8lOCSyCpX5gOeOPaHdcECtf7U+5fJtqe+tziqOkiWF3n2OEy8V0sNR5/aB2QtWXmkE8lvA8ylOF/jzxQMwZn0wVIRkcmnhCXHsQeTWehn3JpZi4mJBttbRY+gZPPAAj+gRlQtchFOb/BkeD+zZsqPJkipK5i6I+Ps8UgANG90dHJMF9
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2026 07:30:59.4863
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d321d2ae-9a68-48e3-b48e-08de72ad7da4
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN3PEPF0000B074.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4946
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aZol1Rsa2tX-WNaZ@derry.ads.avm.de>
 
-Hi Lukas,
-
-On 22/02/26 18:31, Lukas Wunner wrote:
-> On Fri, Feb 13, 2026 at 06:06:01PM +0530, Aksh Garg wrote:
->> Move common macros and structures from drivers/pci/doe.c to
->> include/linux/pci-doe.h to allow reuse across root complex and
->> endpoint DOE implementations.
+On 2026-02-21 22:38:29+0100, Nicolas Schier wrote:
+> On Tue, Jan 13, 2026 at 01:28:59PM +0100, Thomas Weißschuh wrote:
+> > The current signature-based module integrity checking has some drawbacks
+> > in combination with reproducible builds. Either the module signing key
+> > is generated at build time, which makes the build unreproducible, or a
+> > static signing key is used, which precludes rebuilds by third parties
+> > and makes the whole build and packaging process much more complicated.
+> > 
+> > The goal is to reach bit-for-bit reproducibility. Excluding certain
+> > parts of the build output from the reproducibility analysis would be
+> > error-prone and force each downstream consumer to introduce new tooling.
+> > 
+> > Introduce a new mechanism to ensure only well-known modules are loaded
+> > by embedding a merkle tree root of all modules built as part of the full
+> > kernel build into vmlinux.
+> > 
+> > Non-builtin modules can be validated as before through signatures.
+> > 
+> > Normally the .ko module files depend on a fully built vmlinux to be
+> > available for modpost validation and BTF generation. With
+> > CONFIG_MODULE_HASHES, vmlinux now depends on the modules
+> > to build a merkle tree. This introduces a dependency cycle which is
+> > impossible to satisfy. Work around this by building the modules during
+> > link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
+> > but before the final module hashes are
+> > 
+> > The PKCS7 format which is used for regular module signatures can not
+> > represent Merkle proofs, so a new kind of module signature is
+> > introduced. As this signature type is only ever used for builtin
+> > modules, no compatibility issues can arise.
+> > 
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > ---
+> >  .gitignore                                   |   1 +
+> >  Documentation/kbuild/reproducible-builds.rst |   5 +-
+> >  Makefile                                     |   8 +-
+> >  include/asm-generic/vmlinux.lds.h            |  11 +
+> >  include/linux/module_hashes.h                |  25 ++
+> >  include/linux/module_signature.h             |   1 +
+> >  kernel/module/Kconfig                        |  21 +-
+> >  kernel/module/Makefile                       |   1 +
+> >  kernel/module/hashes.c                       |  92 ++++++
+> >  kernel/module/hashes_root.c                  |   6 +
+> >  kernel/module/internal.h                     |   1 +
+> >  kernel/module/main.c                         |   4 +-
+> >  scripts/.gitignore                           |   1 +
+> >  scripts/Makefile                             |   3 +
+> >  scripts/Makefile.modfinal                    |  11 +
+> >  scripts/Makefile.modinst                     |  13 +
+> >  scripts/Makefile.vmlinux                     |   5 +
+> >  scripts/link-vmlinux.sh                      |  14 +-
+> >  scripts/modules-merkle-tree.c                | 467 +++++++++++++++++++++++++++
+> >  security/lockdown/Kconfig                    |   2 +-
+> >  20 files changed, 685 insertions(+), 7 deletions(-)
+> > 
+> [...]
 > 
-> Please use drivers/pci/pci.h for declarations that need not be visible
-> outside the PCI core.
+> > diff --git a/kernel/module/hashes_root.c b/kernel/module/hashes_root.c
+> > new file mode 100644
+> > index 000000000000..1abfcd3aa679
+> > --- /dev/null
+> > +++ b/kernel/module/hashes_root.c
+> > @@ -0,0 +1,6 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +
+> > +#include <linux/module_hashes.h>
+> > +
+> > +/* Blank dummy data. Will be overridden by link-vmlinux.sh */
+> > +const struct module_hashes_root module_hashes_root __module_hashes_section = {};
+> > diff --git a/kernel/module/internal.h b/kernel/module/internal.h
+> > index e2d49122c2a1..e22837d3ac76 100644
+> > --- a/kernel/module/internal.h
+> > +++ b/kernel/module/internal.h
+> > @@ -338,6 +338,7 @@ void module_mark_ro_after_init(const Elf_Ehdr *hdr, Elf_Shdr *sechdrs,
+> >  			       const char *secstrings);
+> >  
+> >  int module_sig_check(struct load_info *info, const u8 *sig, size_t sig_len);
+> > +int module_hash_check(struct load_info *info, const u8 *sig, size_t sig_len);
+> >  
+> >  #ifdef CONFIG_DEBUG_KMEMLEAK
+> >  void kmemleak_load_module(const struct module *mod, const struct load_info *info);
+> > diff --git a/kernel/module/main.c b/kernel/module/main.c
+> > index 2a28a0ece809..fa30b6387936 100644
+> > --- a/kernel/module/main.c
+> > +++ b/kernel/module/main.c
+> > @@ -3362,8 +3362,10 @@ static int module_integrity_check(struct load_info *info, int flags)
+> >  
+> >  	if (IS_ENABLED(CONFIG_MODULE_SIG) && sig_type == PKEY_ID_PKCS7) {
+> >  		err = module_sig_check(info, sig, sig_len);
+> > +	} else if (IS_ENABLED(CONFIG_MODULE_HASHES) && sig_type == PKEY_ID_MERKLE) {
+> > +		err = module_hash_check(info, sig, sig_len);
+> >  	} else {
+> > -		pr_err("module: not signed with expected PKCS#7 message\n");
+> > +		pr_err("module: not signed with signature mechanism\n");
+> >  		err = -ENOPKG;
 > 
-> There are users of pci_doe() & pci_find_doe_mailbox() outside the
-> PCI core, that's the (only) reason the declarations are in
-> include/linux/pci-doe.h.
+> To prevent others from running into the same issue:
 > 
-
-Thank you for the feedback. I will follow this convention in the future
-patch series.
-
->> Also add CONFIG_PCI_DOE guards around the root complex DOE APIs to
->> maintain proper conditional compilation.
+> My first test got stuck here, as I tested with virtme-ng, which symlinks
+> modules from build tree to /lib/modules/$(uname -r)/..., resulting in
 > 
-> It's not clear to me why these empty inlines are needed, please drop
-> them or provide an explanation in the commit message.
-
-I added the guards for the users who might not 'select PCI_DOE' in their
-config. I missed the fact that all the current users of these functions
-have 'select PCI_DOE' in their config, hence these inlines would not be
-required and can be dropped.
-
-Regards,
-Aksh Garg
-
+>     [   15.956855] module: not signed with signature mechanism
+>     modprobe: ERROR: could not insert 'efivarfs': Package not installed
 > 
-> Thanks,
-> 
-> Lukas
+> As the modules_install step was missing, modules were not being signed.
 
+Currently the signing is deferred to installation time to keep in sync
+with regular module signing and to keep the logic simpler by not having
+to gracefully handle previously-signed files.
+But this could be changed.
+
+> [...]
+> > diff --git a/scripts/modules-merkle-tree.c b/scripts/modules-merkle-tree.c
+> > new file mode 100644
+> > index 000000000000..a6ec0e21213b
+> > --- /dev/null
+> > +++ b/scripts/modules-merkle-tree.c
+> > @@ -0,0 +1,467 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * Compute hashes for modules files and build a merkle tree.
+> > + *
+> > + * Copyright (C) 2025 Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+> > + * Copyright (C) 2025 Thomas Weißschuh <linux@weissschuh.net>
+> > + *
+> > + */
+> > +#define _GNU_SOURCE 1
+> > +#include <arpa/inet.h>
+> > +#include <err.h>
+> > +#include <unistd.h>
+> > +#include <fcntl.h>
+> > +#include <stdarg.h>
+> > +#include <stdio.h>
+> > +#include <string.h>
+> > +#include <stdbool.h>
+> > +#include <stdlib.h>
+> > +
+> > +#include <sys/stat.h>
+> > +#include <sys/mman.h>
+> > +
+> > +#include <openssl/evp.h>
+> > +#include <openssl/err.h>
+> > +
+> > +#include "ssl-common.h"
+> > +
+> > +static int hash_size;
+> > +static EVP_MD_CTX *ctx;
+> > +
+> > +struct module_signature {
+> > +	uint8_t		algo;		/* Public-key crypto algorithm [0] */
+> > +	uint8_t		hash;		/* Digest algorithm [0] */
+> > +	uint8_t		id_type;	/* Key identifier type [PKEY_ID_PKCS7] */
+> > +	uint8_t		signer_len;	/* Length of signer's name [0] */
+> > +	uint8_t		key_id_len;	/* Length of key identifier [0] */
+> > +	uint8_t		__pad[3];
+> > +	uint32_t	sig_len;	/* Length of signature data */
+> > +};
+> > +
+> > +#define PKEY_ID_MERKLE 3
+> > +
+> > +static const char magic_number[] = "~Module signature appended~\n";
+> 
+> This here will be the forth definition of struct module_signature,
+> increasing the risk of unwanted diversion.  I second Petr's suggestion
+> to reuse a _common_ definition instead.
+
+Ack.
+
+> (Here, even include/linux/module_signature.h could be included itself.)
+
+I'd like to avoid including internal headers from other components.
+We could move it to an UAPI header. Various other subsystems use those
+for not-really-UAPI but still ABI definitions.
+
+(...)
+
+> > +static inline char *xasprintf(const char *fmt, ...)
+> > +{
+> > +	va_list ap;
+> > +	char *strp;
+> > +	int ret;
+> > +
+> > +	va_start(ap, fmt);
+> > +	ret = vasprintf(&strp, fmt, ap);
+> > +	va_end(ap);
+> > +	if (ret == -1)
+> > +		err(1, "Memory allocation failed");
+> > +
+> > +	return strp;
+> > +}
+> 
+> Please consider moving these x* functions into scripts/include/xalloc.h
+> for reuse.  (I am sure someone else wrote this already, but I can't find
+> it...)
+
+Petr suggested it somewhere, it is done for the next revision.
+
+> thanks for all your efforts for reproducibility!
+> 
+> As I have no clue about that:  Is the patent for merkle trees [1] a
+> problem when integrating that here?
+
+That should have expired a long time ago [2].
+And fs-verity is also using merkle trees.
+
+> Can you verify if I get the mechanics roughly correct?
+> 
+>   * Modules are merkle tree leaves.  Modules are built and logically
+>     paired by the order from modules.order; a single left-over module is
+>     paired with itself.
+> 
+>   * Hashes of paired modules are hashed again (branch node hash);
+>     hashes of pairs of branch nodes' hashes are hashed again;
+>     repeat until we reach the single merkle tree root hash
+> 
+>   * The final merkle tree root hash (and the count of tree levels) is
+>     included in vmlinux
+
+The merkle tree code was written by Sebastian so he will have the best
+knowledge about it. But this is also my understanding.
+
+> 'make && find . -name '*.ko' -exec rm {} \; && make' does not rebuild
+> the in-tree modules.  Shifting the module-hashes support from
+> scripts/link-vmlinux.sh to scripts/Makefile.vmlinux might (make it
+> easier) to fix this again.
+
+I'll take a look at it.
+
+> [1]: https://worldwide.espacenet.com/patent/search/family/022107098/publication/US4309569A?q=pn%3DUS4309569
+
+[2] https://patents.stackexchange.com/questions/17901/validity-of-patent-on-merkle-trees
+
+
+Thomas
