@@ -1,81 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5133B3793C2;
-	Mon, 23 Feb 2026 21:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2E03793D5;
+	Mon, 23 Feb 2026 21:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771883436; cv=none; b=PelogawUNJeSph6yqOC+KG3nnhwVaeHu/YQdMboBbx2KtjIjCYs/r8tam9oiiLRX7xIzN521Z6v155hrMo9EFDebzEaZ1aWC7RS1chWnvMLe5Yh0X+dQvV7suRxjLFK8d9elQPjzyFVr4cb9KDUu21ER0ad8G0tnswGfo1WyBpE=
+	t=1771883497; cv=none; b=T/3O639MUu6h8Eb9hrY8pPFt43E7I5U7lK0gtjyoCfOg6YtaCx2tHdjoI7dQGreWGXGQXSnsOPiElP/vp09N9fav+qf9nda2lXiWeDjkM+GmRBizBrqzAdcm7O5bf7z2RoYT8wBpXI+CouTmE5gOwXkG5cOA+38IbnBoxB3zLz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771883436; c=relaxed/simple;
-	bh=yIA0DgDkXMAJODpAWpRW7m141h+JUK6FbQ2KGDgNbrk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mBOYIjkLV6ncxcx56vJrbVyZEqEV+QYcoMWv7goQoHUNpkb5zD9EJI2spUAbHgkYkhj3BVcv2x0z/gIioksJgdG91EBUqmppHUBNXQ0aRXuPQ6dXtALNQshG2CMS6daXNFdk8wFhB9wLlHZaKLuEmOTDEp+XXPBl8y51zmg4QRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Te00VyXD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771883497; c=relaxed/simple;
+	bh=56Jk3qRdxe1f/6E8L2Im01BU1SjexXYQUa/Keqby/Ms=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=gdbjjTNnSRmEZES+jSWoU+cVoD8VhmzpLqSlkmzgyWCJHemlJKhlw/CD+9TwefZjPdR3XeTM4bsuhR4hTxuZpAzb6v7zKp55+B1K4IZhrfKhS3kuRRDxjnTWiisOfKsWF4vsjnSOvB4vbOhBhcyTXI8ewVrmIxCDtXs0A3TP7NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=auIQeZxR; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Te00VyXD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2779C19421;
-	Mon, 23 Feb 2026 21:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771883435;
-	bh=yIA0DgDkXMAJODpAWpRW7m141h+JUK6FbQ2KGDgNbrk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Te00VyXDEw7O9qzDqt5v7jEtrHMEbx6c9Vtk7RxnF7k0Dp91xZ3EJ2vQnDUw2vaNa
-	 clevf3aPPW1sbv5R0tIqbMhsNPKPyn4xEHCv14i8e7MxRqWk94xM6plH1RXvnFutUS
-	 aXEOQa9O/LGlngkuP1mofF6qRciBXhGFMS0kK6pKV6iW30/rWHwghCDPkLonpkOYUW
-	 2+IcVnIiRAV+4VZZLlJt1gu1HxTAUabDLN5mQCCX7M6Vun37b1bpgqSaV1D2aGrTrt
-	 hzXVx3RohDbC3w3rS8/RVqGjSbXXIgsoGRKzDVPefPMvtIkIi/qkxxbupU/h36bRv0
-	 Jy6sBufMjrGRA==
-Date: Mon, 23 Feb 2026 15:50:32 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, 
-	Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>, 
-	Bharath Kumar <quic_bkumar@quicinc.com>, Chenna Kesava Raju <quic_chennak@quicinc.com>
-Subject: Re: [PATCH RFC 03/18] accel/qda: Add RPMsg transport for Qualcomm
- DSP accelerator
-Message-ID: <lyco6vkfjlerri55ldyn6fbhihbkhnuolifddcnscevybsztq7@ljhjln2ynmid>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-3-fe46a9c1a046@oss.qualcomm.com>
- <tqsdbijgjomrn7fq3sdz7v2axwxqvbccpjh4fmvod4kbrq7pod@af3igw5dx66p>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="auIQeZxR"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6B5ED40423
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1771883495; bh=Yz1ThGQpskZWBsKU98vi4yKvMNhTuyz7mj/itculuYw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=auIQeZxRJkx8XA7cyzmGoEF1ET7fHP6Mg973oCOPWLv07osjD6lsE6edqlW5IRTgb
+	 pTiukn2ZGbUs+A62P6rm4f/HP9o52gh5odAxG6CfC0ckBE1B2RCOtfbDKiGJRW7SbO
+	 DQPDcy04XkooPxtNoWmiE3Q+XOhge5t8/2S3kyTuSzd6xH+zQx3N49fCdEFte+OqF3
+	 efiJk0j3Zf3ELg+KnO71cy3vKKgTvbksOzAFxv7cAbJvX9pB1tFnbHnDFGtZvUc5i8
+	 KV/u4LH/ZtUsla1NfvyGz0rWlrKWRPMp67ZzknlSTUomwDFtlyLJU8iAIwB6qG9juz
+	 EUJBkPNZR2FrA==
+Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6B5ED40423;
+	Mon, 23 Feb 2026 21:51:35 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Haowen Hu <srcres258@furdevs.cn>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Haowen Hu
+ <srcres258@furdevs.cn>
+Subject: Re: [PATCH 1/2] docs/zh_TW: update personal information
+In-Reply-To: <20260220160201.41149-1-srcres258@furdevs.cn>
+References: <20260220160201.41149-1-srcres258@furdevs.cn>
+Date: Mon, 23 Feb 2026 14:51:34 -0700
+Message-ID: <87a4wz3z89.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <tqsdbijgjomrn7fq3sdz7v2axwxqvbccpjh4fmvod4kbrq7pod@af3igw5dx66p>
+Content-Type: text/plain
 
-On Mon, Feb 23, 2026 at 11:23:13PM +0200, Dmitry Baryshkov wrote:
-> On Tue, Feb 24, 2026 at 12:38:57AM +0530, Ekansh Gupta wrote:
-[..]
-> > diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
-[..]
-> > +/* Error logging - always logs and tracks errors */
-> > +#define qda_err(qdev, fmt, ...) do { \
-> > +	struct device *__dev = qda_get_log_device(qdev); \
-> > +	if (__dev) \
-> > +		dev_err(__dev, "[%s] " fmt, __func__, ##__VA_ARGS__); \
-> > +	else \
-> > +		pr_err(DRIVER_NAME ": [%s] " fmt, __func__, ##__VA_ARGS__); \
-> 
-> What /why? You are under drm, so you can use drm_* helpers instead.
-> 
+Haowen Hu <srcres258@furdevs.cn> writes:
 
-In particular, rather than rolling our own wrappers around standard
-functions, just use dev_err() whenever you have a struct device. And for
-something like fastrpc - life starts at some probe() and ends at some
-remove() so that should be always.
+> Get my personal information updated in the Linux kernel Documentation.
+> Mainly on:
+>
+>   * The legacy e-mail (2023002089@link.tyut.edu.cn) had some issue and
+>     is not accessible now. Replace it with my current e-mail
+>     (srcres258@furdevs.cn).
 
-Regards,
-Bjorn
+So ...
+
+> diff --git a/Documentation/translations/zh_TW/IRQ.txt b/Documentation/translations/zh_TW/IRQ.txt
+> index 8115a7618307..9b27b1f19355 100644
+> --- a/Documentation/translations/zh_TW/IRQ.txt
+> +++ b/Documentation/translations/zh_TW/IRQ.txt
+> @@ -7,7 +7,7 @@ help.  Contact the Chinese maintainer if this translation is outdated
+>  or if there is a problem with the translation.
+>
+>  Maintainer: Eric W. Biederman <ebiederman@xmission.com>
+> -Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
+> +Traditional Chinese maintainer: Haowen Hu <srcres258@furdevs.cn>
+
+Despite this claim, you have not touched this translation since 2023.
+And two of the handful of changes you made that year were ... changing
+your email address in all of those files.
+
+I don't think that all this churn this is reasonable, especially for a
+translation that appears to have been abandoned.  So I don't really want
+to apply this.  I would suggest you send me an alternative *removing*
+that information from those files, optionally leaving a credit for past
+work done in Documentation/translations/zh_TW/index.rst.  The question
+of when this translation becomes too old and should just be removed can
+be left for another day.
+
+Thanks,
+
+jon
