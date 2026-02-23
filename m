@@ -1,409 +1,416 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFCE329E57
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDF136A004
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 22:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771885608; cv=none; b=r1bV+6pJ5dX9OWoSjrNKh34ZipCmfyFb+xDqvN60CJGS8/NCf4Ff53Yl7KiNRy2m7l/EW4LCQ9tB5n7PT427PPQRUcyrVnw2hHz4qbOxdEaPPAAkjRoabeDdqXjsAHrQSQ9aXY0njPkaKieyiFN91gNtEXxAWDlBWJXu59tpAfI=
+	t=1771885751; cv=none; b=IOq3wpC6ksxl7SNLeyaYu3IqVRMOgHrS/MwD5qjdK9LEu9SOdyK5//F2cvmerzXDHoyggQyN2sLX0GnmWJ0ARY6xW0gdRrJl8RfCZz0eMxtRczjzjbE/qKzjNtWqUJc0WV5F2a+S8ogeQdVp2Nm/jSTfH+x2lDujitbW3kR1Xps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771885608; c=relaxed/simple;
-	bh=v1nt6Q8KvB0ip3gmOgU0xDpdDJxT/hFkVLPDRtIVLn4=;
-	h=From:To:Cc:Subject:Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Type:Date; b=D4vcgyneYj2TUaaly7iGq4/sreniGFeFIz1nc7CwfU1ZaIpKRxo5Xd3mxNwKYigXjJxph5CUbIXsMv+clUbBrinttzH5/TIi9A7cweCla9F0Yt61n3QWPbtYMSyWJZqlYdxCiICX4NHyaGxtk5nvvUsq0qocORWkYAW09JyyryE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JJ164mlQ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=md1SwkWj; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1771885751; c=relaxed/simple;
+	bh=zp/3mJbTXt9chphlhOhh0vUdkxG2FImWipP7I3QMw/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OQ7g7ccMByIURqSsjiyrVhv5nibKOExm9+UJQuP8HbckZq847tXOQocMVOXvaDPL/uOrq6txe46HKgOD2voLcX2h0/kY02q1fS4ul4Zj0z4Qd7i+eXIcH7ZOqM/iUvd8FLSuY9H1MAJeMA9A9CeewItHB9hTf3EA/EDHSG8UWds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QrgUXPz7; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JJ164mlQ";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="md1SwkWj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771885605;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uxrd9Nzhflf9oDGqwWi2cxBj+7zSCrYbs0JiRTvxGiA=;
-	b=JJ164mlQcNOnL13E8dHXvOGmB39mPtGlwrd52+FIVMNsdRmOHMHZFPkw2RPOkgE4ERQFL0
-	5hrwhu+TamOW2YKBUXvKtJQPOGn4AVKOnN7UlcYULoweckvlIUSibOMo+WR5ZDHzHTiw/1
-	QbPM2SZlkxL4w30V3JywrcdvvfhRs9k=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-677-sTerK2abOVmrD00E7_XlxA-1; Mon, 23 Feb 2026 17:26:43 -0500
-X-MC-Unique: sTerK2abOVmrD00E7_XlxA-1
-X-Mimecast-MFC-AGG-ID: sTerK2abOVmrD00E7_XlxA_1771885602
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4836bf1a920so50211835e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 14:26:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QrgUXPz7"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a76b39587aso30045ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 14:29:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1771885602; x=1772490402; darn=vger.kernel.org;
-        h=date:content-transfer-encoding:mime-version:organization:references
-         :in-reply-to:message-id:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uxrd9Nzhflf9oDGqwWi2cxBj+7zSCrYbs0JiRTvxGiA=;
-        b=md1SwkWjPgZWquWR/5RkjsVIlBdEvIRk0XydWQiSxN1TLnOp2vV1Ws3QN5XyUnmjKn
-         E3Dq8/Q0dZVLAtYRa75AgfV0QQY8BoS1ZBTpjgrURO+z2EjMWMbRc00AN1zWaPLXGhb5
-         6a2eNeHmUlKK4AIhdIS5boYpJfbL6v6JD4F3m0wMp/F9U6bDLrMgXzmOfjr3UXDZ9Tv6
-         6zN42iEirzF8rojLCLcFp3UfE5Zbz0CY8pE1rPdfn8wX8PraVkcX3tBesue9FP2ukFOo
-         mjm3suJ0Tole4siPSk4Qr9D4zhgwWX0z4w4n4QH5hkeKSxezB4E0QCPnvkyXvRNT5I0B
-         Wpuw==
+        d=google.com; s=20230601; t=1771885748; x=1772490548; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=C8f6dXcdZJeSJ2qE0ghvpNFkqtAaZ6dotEKElaryP78=;
+        b=QrgUXPz741VrxDq8WoLm7VwcZOPYdwuw9NPWaoJQwKuTj+rMZIRiSPJ/68B9D3sdwz
+         Drupo6zRkkPKrrRQ6Hyebke+klAG1bt/jFS/FIDJtqrbQqTLZzZhzAro7uOVEVnuiGVD
+         fpOc3uskGjeFmQnz86lieR6tH+FiYP4pFp4p8GvU/MMS52lzoMdX24aibNM4j5AKD9TK
+         a+08bLx5ST8Aee3Jb+joi4LqL4POr6ZM0T+bRBzy+QC7m4OX1lNIHwDTFbMXMiM2/T6b
+         fNFA3JJxRR/GK9135wfa9Xe6tPQH0A+Dnl3yMVxKYyGmXNZAfROEynaUNqFNl+ZNt9z/
+         WsMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771885602; x=1772490402;
-        h=date:content-transfer-encoding:mime-version:organization:references
-         :in-reply-to:message-id:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uxrd9Nzhflf9oDGqwWi2cxBj+7zSCrYbs0JiRTvxGiA=;
-        b=ZZFWcDkfK6bUriBaNwGxEtgV+PBTlqQkOAkGvqPpnIScICd22YR0ZJCgKaBoKoPfoE
-         n/CDoP+hlPVLuhUCkj+SF+tPFdD34WhcZ+bgL0XPg4KLq/WdfwxEVQ2KJ8mvInixmhMg
-         yiHUwR+LEQTuWfwoTERYWhX6GrivWzAPhSQ/yyLgAQFhJN5NoBYfMNfysrSjORcjToNF
-         Y6JP0O/J3Y90TmrYyhe6Xam0NHfhDQBm6g2TBqaH17SV/PIb/fvPdL72mEmvDkeF++xc
-         VG4IXu2YdVT7qxXEve9kkh3aF2uXS56AOgvpdVTdj7X3fov1a4JdYkTJ5VrJIHDkV77+
-         sskg==
-X-Forwarded-Encrypted: i=1; AJvYcCXk6yKZ1R0Aygwre9TPulIDuvhk9Sfz5Pgnl3I5SnxXdH2RIIVp9beJLtvjzLJJv7SrPv/j4UDDOJs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5IFkd3NNevxRHku/IjvqLkDWO6bcK4wwifTJkN/O6RQd67CEv
-	mm1yyDmAK08LDWnMi3QQAF2/I6E6hhn17jYiYCivNY3Gyo/6of/0qgz2yYW/trwYBHvufkoSJAH
-	in+YIldPZQfbOyqZx5toBnQRYwxCAVAwMvDdZ9CZ5/tQGA4TsnNtU9a3wCLW+0Q==
-X-Gm-Gg: AZuq6aKx7w+SVqve42bAxKjU2ybegj5kpBVqs5aOlVIW5Ylgo/U1UH0f0599llXVAfj
-	CB0NRIjCwk+4eMqpsmY4lplcBveKpU87hp4tMrXYhuNr5ISnaHdzAZS9kNDQFxZLwSW0e8WH1ZT
-	MBdCWvv4dobN2h+z+S4nJ9gC2f4oxypxmHR5ukaSfplBYFEsYElbm5aUuPDu5SdLLPTtUIb8c8J
-	rj6TicTsQSgXa/GyqG8lse2WJ6aopb3/wVBbzxEOj1/HOLJzvGsJ3Ea+aQcF1B83jqljTk57IEM
-	b3yTWoANzPbU38c1PBw7ovAFcvHfZ/aduaeBKdvDDoMm+Y/10UrKvQ6fE5oBGW0PhIqadiSt9Zf
-	wLi9Q1lP8sdjmR/AG/b3QbBsqfS1ndbruR7ayE/ocJkIl1M6Gog==
-X-Received: by 2002:a05:600c:c4ac:b0:477:a219:cdb7 with SMTP id 5b1f17b1804b1-483a95a3822mr170242875e9.0.1771885602300;
-        Mon, 23 Feb 2026 14:26:42 -0800 (PST)
-X-Received: by 2002:a05:600c:c4ac:b0:477:a219:cdb7 with SMTP id 5b1f17b1804b1-483a95a3822mr170242425e9.0.1771885601733;
-        Mon, 23 Feb 2026 14:26:41 -0800 (PST)
-Received: from maya.myfinge.rs (ifcgrfdd.trafficplex.cloud. [176.103.220.4])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d401aasm21788265f8f.23.2026.02.23.14.26.41
+        d=1e100.net; s=20230601; t=1771885748; x=1772490548;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=C8f6dXcdZJeSJ2qE0ghvpNFkqtAaZ6dotEKElaryP78=;
+        b=cxqNFCr6uqc4hffBO81K7/oLOzq2jr48zW8dei8jgrLjpBrIWiAl1yA5y6NUSC5Pyl
+         sBhHZXekP0N6lAaasiefioVIqNQZiJNp8IiJX6pnMJxKl/h8EK8BMakDTOcdQAfxImGX
+         JxA2HNHrewsoUrGbPUKE4hR4VedO/iF3lZiqlrVeYG800U7hcefGfuO9ERjwzJ9+t45u
+         634b7QSjeK8VuUhsEQ+CKVGtM/p3o3Q4squQWN3p6oE/bbf/nmANMVIeXLGY/hyG1PJ3
+         qe3RyuBbVNRl0XcdU85NCQtnwdk4S9jU7gIV533vKC1sk084Gsd2oh4aQ/mw94Q4svFG
+         kK6A==
+X-Forwarded-Encrypted: i=1; AJvYcCWrt5gttyj33774X/GH0PXSlcMXoUBXj7deflpKZGAiTzdxMhTtbs3V0bxq+gY2IKObBJjhv8HK7rc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOn1O3kuZO+CNVcXvSMH4OkdnlamnhPb438QVkgg9VfoofJCw1
+	WjIbYNVQWolsSUNLPcsMlaw7jidMHLXjI4uEQwztHPG1B+lk/YJYy4GLkA4XCqFfDw==
+X-Gm-Gg: ATEYQzwI9vHO414Q7fVRJ1uPvSTPuIVJ9pK4Z+LYT9wbIMkg/+xuU7eB0nC/aRG9Qsl
+	k2FXwv/WGuicAtJNlycklxRc7lyXyj6OKb43S7QnC9Vl7oH7ldu0pKI4SC3jI7krycDpD0b1YF5
+	MOP1kLnWgu4e73bM4PE+o5gpd2yN4H5g5AYou3u2nhn87MUB1h2w/m1jCShqTclMrQnKcXSUQ+R
+	h4QHjkX5eFmyAQhPxO1E/53mE075d8uDT1Zfe5TfT0ZkEfJr4EymU1Vl4V3ECpQ1sp4/F5lNxsr
+	RHdHvcMvSqZvB4FvlcAd/FM8Ax1r7c48bkr+i0qgq05RDZdCCWplqLyjnk9lJZkSsOoX6DabNNe
+	EEjRoaCfFNxFgKvcCNkJvZEtSO4Ug9JFvZYIM9QTKp3YIagSMyGXfbNBJ9XJ1pGIBYwvGGQKrlm
+	FIaDfC1zAoKxvh+3jWpTCtF9tHyeVzird0CJlgVz9X7zMBl5UIp2w9KiuoVSyXAg==
+X-Received: by 2002:a17:902:ec89:b0:2a9:5ef5:399b with SMTP id d9443c01a7336-2ada3497c30mr138295ad.19.1771885747713;
+        Mon, 23 Feb 2026 14:29:07 -0800 (PST)
+Received: from google.com (168.136.83.34.bc.googleusercontent.com. [34.83.136.168])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-826dd8ba11bsm8507152b3a.50.2026.02.23.14.29.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 14:26:41 -0800 (PST)
-From: Stefano Brivio <sbrivio@redhat.com>
-To: Simon Baatz via B4 Relay <devnull+gmbnomis.gmail.com@kernel.org>
-Cc: gmbnomis@gmail.com, Eric Dumazet <edumazet@google.com>, Neal Cardwell
- <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, "David S.
- Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, David Ahern
- <dsahern@kernel.org>, Jon Maloy <jmaloy@redhat.com>, Jason Xing
- <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com, Shuah Khan
- <shuah@kernel.org>, Christian Ebner <c.ebner@proxmox.com>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC net-next 1/4] tcp: implement RFC 7323 window
- retraction receiver requirements
-Message-ID: <20260223232636.1ead2b3e@elisabeth>
-In-Reply-To: <20260220-tcp_rfc7323_retract_wnd_rfc-v1-1-904942561479@gmail.com>
-References: <20260220-tcp_rfc7323_retract_wnd_rfc-v1-0-904942561479@gmail.com>
-	<20260220-tcp_rfc7323_retract_wnd_rfc-v1-1-904942561479@gmail.com>
-Organization: Red Hat
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.49; x86_64-pc-linux-gnu)
+        Mon, 23 Feb 2026 14:29:07 -0800 (PST)
+Date: Mon, 23 Feb 2026 22:29:03 +0000
+From: Samiullah Khawaja <skhawaja@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: Alex Williamson <alex@shazbot.org>, 
+	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, 
+	Alistair Popple <apopple@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, kvm@vger.kernel.org, 
+	Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, 
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Tomita Moeko <tomitamoeko@gmail.com>, 
+	Vipin Sharma <vipinsh@google.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 05/22] vfio/pci: Preserve vfio-pci device files across
+ Live Update
+Message-ID: <qshnqqtfg7clbcqoq45ei55wt6xt4z4xtwv5ehjyjxwq47cwng@n3vd3lxigcs6>
+References: <20260129212510.967611-1-dmatlack@google.com>
+ <20260129212510.967611-6-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Date: Mon, 23 Feb 2026 23:26:40 +0100 (CET)
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260129212510.967611-6-dmatlack@google.com>
 
-Hi Simon,
+On Thu, Jan 29, 2026 at 09:24:52PM +0000, David Matlack wrote:
+>From: Vipin Sharma <vipinsh@google.com>
+>
+>Implement the live update file handler callbacks to preserve a vfio-pci
+>device across a Live Update. Subsequent commits will enable userspace to
+>then retrieve this file after the Live Update.
+>
+>Live Update support is scoped only to cdev files (i.e. not
+>VFIO_GROUP_GET_DEVICE_FD files).
+>
+>State about each device is serialized into a new ABI struct
+>vfio_pci_core_device_ser. The contents of this struct are preserved
+>across the Live Update to the next kernel using a combination of
+>Kexec-Handover (KHO) to preserve the page(s) holding the struct and the
+>Live Update Orchestrator (LUO) to preserve the physical address of the
+>struct.
+>
+>For now the only contents of struct vfio_pci_core_device_ser the
+>device's PCI segment number and BDF, so that the device can be uniquely
+>identified after the Live Update.
+>
+>Require that userspace disables interrupts on the device prior to
+>freeze() so that the device does not send any interrupts until new
+>interrupt handlers have been set up by the next kernel.
+>
+>Reset the device and restore its state in the freeze() callback. This
+>ensures the device can be received by the next kernel in a consistent
+>state. Eventually this will be dropped and the device can be preserved
+>across in a running state, but that requires further work in VFIO and
+>the core PCI layer.
+>
+>Note that LUO holds a reference to this file when it is preserved. So
+>VFIO is guaranteed that vfio_df_device_last_close() will not be called
+>on this device no matter what userspace does.
+>
+>Signed-off-by: Vipin Sharma <vipinsh@google.com>
+>Co-developed-by: David Matlack <dmatlack@google.com>
+>Signed-off-by: David Matlack <dmatlack@google.com>
+>---
+> drivers/vfio/pci/vfio_pci.c            |  2 +-
+> drivers/vfio/pci/vfio_pci_liveupdate.c | 84 +++++++++++++++++++++++++-
+> drivers/vfio/pci/vfio_pci_priv.h       |  2 +
+> drivers/vfio/vfio.h                    | 13 ----
+> drivers/vfio/vfio_main.c               | 10 +--
+> include/linux/kho/abi/vfio_pci.h       | 15 +++++
+> include/linux/vfio.h                   | 28 +++++++++
+> 7 files changed, 129 insertions(+), 25 deletions(-)
+>
+>diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+>index 19e88322af2c..0260afb9492d 100644
+>--- a/drivers/vfio/pci/vfio_pci.c
+>+++ b/drivers/vfio/pci/vfio_pci.c
+>@@ -125,7 +125,7 @@ static int vfio_pci_open_device(struct vfio_device *core_vdev)
+> 	return 0;
+> }
+>
+>-static const struct vfio_device_ops vfio_pci_ops = {
+>+const struct vfio_device_ops vfio_pci_ops = {
+> 	.name		= "vfio-pci",
+> 	.init		= vfio_pci_core_init_dev,
+> 	.release	= vfio_pci_core_release_dev,
+>diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
+>index b84e63c0357b..f01de98f1b75 100644
+>--- a/drivers/vfio/pci/vfio_pci_liveupdate.c
+>+++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
+>@@ -8,25 +8,104 @@
+>
+> #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>
+>+#include <linux/kexec_handover.h>
+> #include <linux/kho/abi/vfio_pci.h>
+> #include <linux/liveupdate.h>
+> #include <linux/errno.h>
+>+#include <linux/vfio.h>
+>
+> #include "vfio_pci_priv.h"
+>
+> static bool vfio_pci_liveupdate_can_preserve(struct liveupdate_file_handler *handler,
+> 					     struct file *file)
+> {
+>-	return false;
+>+	struct vfio_device_file *df = to_vfio_device_file(file);
+>+
+>+	if (!df)
+>+		return false;
+>+
+>+	/* Live Update support is limited to cdev files. */
+>+	if (df->group)
+>+		return false;
+>+
+>+	return df->device->ops == &vfio_pci_ops;
+> }
+>
+> static int vfio_pci_liveupdate_preserve(struct liveupdate_file_op_args *args)
+> {
+>-	return -EOPNOTSUPP;
+>+	struct vfio_device *device = vfio_device_from_file(args->file);
+>+	struct vfio_pci_core_device_ser *ser;
+>+	struct vfio_pci_core_device *vdev;
+>+	struct pci_dev *pdev;
+>+
+>+	vdev = container_of(device, struct vfio_pci_core_device, vdev);
+>+	pdev = vdev->pdev;
+>+
+>+	if (IS_ENABLED(CONFIG_VFIO_PCI_ZDEV_KVM))
+>+		return -EINVAL;
+>+
+>+	if (vfio_pci_is_intel_display(pdev))
+>+		return -EINVAL;
+>+
+>+	ser = kho_alloc_preserve(sizeof(*ser));
+>+	if (IS_ERR(ser))
+>+		return PTR_ERR(ser);
+>+
+>+	ser->bdf = pci_dev_id(pdev);
+>+	ser->domain = pci_domain_nr(pdev->bus);
+>+
+>+	args->serialized_data = virt_to_phys(ser);
+>+	return 0;
+> }
+>
+> static void vfio_pci_liveupdate_unpreserve(struct liveupdate_file_op_args *args)
+> {
+>+	kho_unpreserve_free(phys_to_virt(args->serialized_data));
+>+}
+>+
+>+static int vfio_pci_liveupdate_freeze(struct liveupdate_file_op_args *args)
+>+{
+>+	struct vfio_device *device = vfio_device_from_file(args->file);
+>+	struct vfio_pci_core_device *vdev;
+>+	struct pci_dev *pdev;
+>+	int ret;
+>+
+>+	vdev = container_of(device, struct vfio_pci_core_device, vdev);
+>+	pdev = vdev->pdev;
+>+
+>+	guard(mutex)(&device->dev_set->lock);
+>+
+>+	/*
+>+	 * Userspace must disable interrupts on the device prior to freeze so
+>+	 * that the device does not send any interrupts until new interrupt
+>+	 * handlers have been established by the next kernel.
+>+	 */
+>+	if (vdev->irq_type != VFIO_PCI_NUM_IRQS) {
+>+		pci_err(pdev, "Freeze failed! Interrupts are still enabled.\n");
+>+		return -EINVAL;
+>+	}
+>+
+>+	pci_dev_lock(pdev);
+>+
+>+	ret = pci_load_saved_state(pdev, vdev->pci_saved_state);
+>+	if (ret)
+>+		goto out;
+>+
+>+	/*
+>+	 * Reset the device and restore it back to its original state before
+>+	 * handing it to the next kernel.
+>+	 *
+>+	 * Eventually both of these should be dropped and the device should be
+>+	 * kept running with its current state across the Live Update.
+>+	 */
+>+	if (vdev->reset_works)
+>+		ret = __pci_reset_function_locked(pdev);
+>+
+>+	pci_restore_state(pdev);
+>+
+>+out:
+>+	pci_dev_unlock(pdev);
+>+	return ret;
+> }
+>
+> static int vfio_pci_liveupdate_retrieve(struct liveupdate_file_op_args *args)
+>@@ -42,6 +121,7 @@ static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
+> 	.can_preserve = vfio_pci_liveupdate_can_preserve,
+> 	.preserve = vfio_pci_liveupdate_preserve,
+> 	.unpreserve = vfio_pci_liveupdate_unpreserve,
+>+	.freeze = vfio_pci_liveupdate_freeze,
+> 	.retrieve = vfio_pci_liveupdate_retrieve,
+> 	.finish = vfio_pci_liveupdate_finish,
+> 	.owner = THIS_MODULE,
+>diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
+>index 68966ec64e51..d3da79b7b03c 100644
+>--- a/drivers/vfio/pci/vfio_pci_priv.h
+>+++ b/drivers/vfio/pci/vfio_pci_priv.h
+>@@ -11,6 +11,8 @@
+> /* Cap maximum number of ioeventfds per device (arbitrary) */
+> #define VFIO_PCI_IOEVENTFD_MAX		1000
+>
+>+extern const struct vfio_device_ops vfio_pci_ops;
+>+
+> struct vfio_pci_ioeventfd {
+> 	struct list_head	next;
+> 	struct vfio_pci_core_device	*vdev;
+>diff --git a/drivers/vfio/vfio.h b/drivers/vfio/vfio.h
+>index 50128da18bca..6b89edbbf174 100644
+>--- a/drivers/vfio/vfio.h
+>+++ b/drivers/vfio/vfio.h
+>@@ -16,17 +16,6 @@ struct iommufd_ctx;
+> struct iommu_group;
+> struct vfio_container;
+>
+>-struct vfio_device_file {
+>-	struct vfio_device *device;
+>-	struct vfio_group *group;
+>-
+>-	u8 access_granted;
+>-	u32 devid; /* only valid when iommufd is valid */
+>-	spinlock_t kvm_ref_lock; /* protect kvm field */
+>-	struct kvm *kvm;
+>-	struct iommufd_ctx *iommufd; /* protected by struct vfio_device_set::lock */
+>-};
+>-
+> void vfio_device_put_registration(struct vfio_device *device);
+> bool vfio_device_try_get_registration(struct vfio_device *device);
+> int vfio_df_open(struct vfio_device_file *df);
+>@@ -34,8 +23,6 @@ void vfio_df_close(struct vfio_device_file *df);
+> struct vfio_device_file *
+> vfio_allocate_device_file(struct vfio_device *device);
+>
+>-extern const struct file_operations vfio_device_fops;
+>-
+> #ifdef CONFIG_VFIO_NOIOMMU
+> extern bool vfio_noiommu __read_mostly;
+> #else
+>diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+>index f7df90c423b4..276f615f0c28 100644
+>--- a/drivers/vfio/vfio_main.c
+>+++ b/drivers/vfio/vfio_main.c
+>@@ -1436,15 +1436,7 @@ const struct file_operations vfio_device_fops = {
+> 	.show_fdinfo	= vfio_device_show_fdinfo,
+> #endif
+> };
+>-
+>-static struct vfio_device *vfio_device_from_file(struct file *file)
+>-{
+>-	struct vfio_device_file *df = file->private_data;
+>-
+>-	if (file->f_op != &vfio_device_fops)
+>-		return NULL;
+>-	return df->device;
+>-}
+>+EXPORT_SYMBOL_GPL(vfio_device_fops);
+>
+> /**
+>  * vfio_file_is_valid - True if the file is valid vfio file
+>diff --git a/include/linux/kho/abi/vfio_pci.h b/include/linux/kho/abi/vfio_pci.h
+>index 37a845eed972..9bf58a2f3820 100644
+>--- a/include/linux/kho/abi/vfio_pci.h
+>+++ b/include/linux/kho/abi/vfio_pci.h
+>@@ -9,6 +9,9 @@
+> #ifndef _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H
+> #define _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H
+>
+>+#include <linux/compiler.h>
+>+#include <linux/types.h>
+>+
+> /**
+>  * DOC: VFIO PCI Live Update ABI
+>  *
+>@@ -25,4 +28,16 @@
+>
+> #define VFIO_PCI_LUO_FH_COMPATIBLE "vfio-pci-v1"
+>
+>+/**
+>+ * struct vfio_pci_core_device_ser - Serialized state of a single VFIO PCI
+>+ * device.
+>+ *
+>+ * @bdf: The device's PCI bus, device, and function number.
+>+ * @domain: The device's PCI domain number (segment).
+>+ */
+>+struct vfio_pci_core_device_ser {
+>+	u16 bdf;
+>+	u16 domain;
+>+} __packed;
+>+
+> #endif /* _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H */
+>diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+>index e90859956514..9aa1587fea19 100644
+>--- a/include/linux/vfio.h
+>+++ b/include/linux/vfio.h
+>@@ -81,6 +81,34 @@ struct vfio_device {
+> #endif
+> };
+>
+>+struct vfio_device_file {
+>+	struct vfio_device *device;
+>+	struct vfio_group *group;
+>+
+>+	u8 access_granted;
+>+	u32 devid; /* only valid when iommufd is valid */
+>+	spinlock_t kvm_ref_lock; /* protect kvm field */
+>+	struct kvm *kvm;
+>+	struct iommufd_ctx *iommufd; /* protected by struct vfio_device_set::lock */
+>+};
+>+
+>+extern const struct file_operations vfio_device_fops;
+>+
+>+static inline struct vfio_device_file *to_vfio_device_file(struct file *file)
+>+{
+>+	if (file->f_op != &vfio_device_fops)
+>+		return NULL;
+>+
+>+	return file->private_data;
+>+}
+>+
+>+static inline struct vfio_device *vfio_device_from_file(struct file *file)
+>+{
+>+	struct vfio_device_file *df = to_vfio_device_file(file);
+>+
+>+	return df ? df->device : NULL;
+>+}
+>+
+> /**
+>  * struct vfio_device_ops - VFIO bus driver device callbacks
+>  *
+>-- 
+>2.53.0.rc1.225.gd81095ad13-goog
+>
 
-It all makes sense to me at a quick look, I have just some nits and one
-more substantial worry, below:
-
-On Fri, 20 Feb 2026 00:55:14 +0100
-Simon Baatz via B4 Relay <devnull+gmbnomis.gmail.com@kernel.org> wrote:
-
-> From: Simon Baatz <gmbnomis@gmail.com>
-> 
-> By default, the Linux TCP implementation does not shrink the
-> advertised window (RFC 7323 calls this "window retraction") with the
-> following exceptions:
-> 
-> - When an incoming segment cannot be added due to the receive buffer
->   running out of memory. Since commit 8c670bdfa58e ("tcp: correct
->   handling of extreme memory squeeze") a zero window will be
->   advertised in this case. It turns out that reaching the required
->   "memory pressure" is very easy when window scaling is in use. In the
->   simplest case, sending a sufficient number of segments smaller than
->   the scale factor to a receiver that does not read data is enough.
-> 
->   Since commit 1d2fbaad7cd8 ("tcp: stronger sk_rcvbuf checks") this
->   happens much earlier than before, leading to regressions (the test
->   suite of the Valkey project does not pass because of a TCP
->   connection that is no longer bi-directional).
-
-Ouch. By the way, that same commit helped us unveil an issue (at least
-in the sense of RFC 9293, 3.8.6) we fixed in passt:
-
-  https://passt.top/passt/commit/?id=8d2f8c4d0fb58d6b2011e614bc7d7ff9dab406b3
-
-> - Commit b650d953cd39 ("tcp: enforce receive buffer memory limits by
->   allowing the tcp window to shrink") addressed the "eating memory"
->   problem by introducing a sysctl knob that allows shrinking the
->   window before running out of memory.
-> 
-> However, RFC 7323 does not only state that shrinking the window is
-> necessary in some cases, it also formulates requirements for TCP
-> implementations when doing so (Section 2.4).
-> 
-> This commit addresses the receiver-side requirements: After retracting
-> the window, the peer may have a snd_nxt that lies within a previously
-> advertised window but is now beyond the retracted window. This means
-> that all incoming segments (including pure ACKs) will be rejected
-> until the application happens to read enough data to let the peer's
-> snd_nxt be in window again (which may be never).
-> 
-> To comply with RFC 7323, the receiver MUST honor any segment that
-> would have been in window for any ACK sent by the receiver and, when
-> window scaling is in effect, SHOULD track the maximum window sequence
-> number it has advertised. This patch tracks that maximum window
-> sequence number throughout the connection and uses it in
-> tcp_sequence() when deciding whether a segment is acceptable.
-> Acceptability of data is not changed.
-> 
-> Fixes: 8c670bdfa58e ("tcp: correct handling of extreme memory squeeze")
-> Fixes: b650d953cd39 ("tcp: enforce receive buffer memory limits by allowing the tcp window to shrink")
-> Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
-> ---
->  Documentation/networking/net_cachelines/tcp_sock.rst       |  1 +
->  include/linux/tcp.h                                        |  1 +
->  include/net/tcp.h                                          | 14 ++++++++++++++
->  net/ipv4/tcp_fastopen.c                                    |  1 +
->  net/ipv4/tcp_input.c                                       |  6 ++++--
->  net/ipv4/tcp_minisocks.c                                   |  1 +
->  net/ipv4/tcp_output.c                                      | 12 ++++++++++++
->  .../selftests/net/packetdrill/tcp_rcv_big_endseq.pkt       |  2 +-
->  8 files changed, 35 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/networking/net_cachelines/tcp_sock.rst b/Documentation/networking/net_cachelines/tcp_sock.rst
-> index 563daea10d6c5c074f004cb1b8574f5392157abb..fecf61166a54ee2f64bcef5312c81dcc4aa9a124 100644
-> --- a/Documentation/networking/net_cachelines/tcp_sock.rst
-> +++ b/Documentation/networking/net_cachelines/tcp_sock.rst
-> @@ -121,6 +121,7 @@ u64                           delivered_mstamp        read_write
->  u32                           rate_delivered                              read_mostly         tcp_rate_gen
->  u32                           rate_interval_us                            read_mostly         rate_delivered,rate_app_limited
->  u32                           rcv_wnd                 read_write          read_mostly         tcp_select_window,tcp_receive_window,tcp_fast_path_check
-> +u32                           rcv_mwnd_seq            read_write                              tcp_select_window
->  u32                           write_seq               read_write                              tcp_rate_check_app_limited,tcp_write_queue_empty,tcp_skb_entail,forced_push,tcp_mark_push
->  u32                           notsent_lowat           read_mostly                             tcp_stream_memory_free
->  u32                           pushed_seq              read_write                              tcp_mark_push,forced_push
-> diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-> index f72eef31fa23cc584f2f0cefacdc35cae43aa52d..5a943b12d4c050a980b4cf81635b9fa2f0036283 100644
-> --- a/include/linux/tcp.h
-> +++ b/include/linux/tcp.h
-> @@ -271,6 +271,7 @@ struct tcp_sock {
->  	u32	lsndtime;	/* timestamp of last sent data packet (for restart window) */
->  	u32	mdev_us;	/* medium deviation			*/
->  	u32	rtt_seq;	/* sequence number to update rttvar	*/
-> +	u32	rcv_mwnd_seq; /* Maximum window sequence number (RFC 7323, section 2.4) */
-
-Nit: tab between ; and /* for consistency (I would personally prefer
-the comment style as you see on 'highest_sack' but I don't think it's
-enforced anymore).
-
-Second nit: mentioning RFC 7323, section 2.4 could be a bit misleading
-here because the relevant paragraph there covers a very specific case of
-window retraction, caused by quantisation error from window scaling,
-which is not the most common case here. I couldn't quickly find a better
-reference though.
-
-More importantly: do we need to restore this on a connection that's
-being dumped and recreated using TCP_REPAIR, or will things still work
-(even though sub-optimally) if we lose this value?
-
-Other window values that *need* to be dumped and restored are currently
-available via TCP_REPAIR_WINDOW socket option, and they are listed in
-do_tcp_getsockopt(), net/ipv4/tcp.c:
-
-		opt.snd_wl1	= tp->snd_wl1;
-		opt.snd_wnd	= tp->snd_wnd;
-		opt.max_window	= tp->max_window;
-		opt.rcv_wnd	= tp->rcv_wnd;
-		opt.rcv_wup	= tp->rcv_wup;
-
-CRIU uses it to checkpoint and restore established connections, and
-passt uses it to migrate them to a different host:
-
-  https://criu.org/TCP_connection
-
-  https://passt.top/passt/tree/tcp.c?id=02af38d4177550c086bae54246fc3aaa33ddc018#n3063
-
-If it's strictly needed to preserve functionality, we would need to add
-it to struct tcp_repair_window, notify CRIU maintainers (or send them a
-patch), and add this in passt as well (I can take care of it).
-
-Strictly speaking, in case, this could be considered a breaking change
-for userspace, but I don't see how to avoid it, so I'd just make sure
-it doesn't impact users as TCP_REPAIR has just a couple of (known!)
-projects relying on it.
-
-An alternative would be to have a special, initial value representing
-the fact that this value was lost, but it looks really annoying to not
-be able to use a u32 for it.
-
-Disregard all this if the correct value is not strictly needed for
-functionality, of course. I haven't tested things (not yet, at least).
-
->  	u64	tcp_wstamp_ns;	/* departure time for next sent data packet */
->  	u64	accecn_opt_tstamp;	/* Last AccECN option sent timestamp */
->  	struct list_head tsorted_sent_queue; /* time-sorted sent but un-SACKed skbs */
-> diff --git a/include/net/tcp.h b/include/net/tcp.h
-> index 40e72b9cb85f08714d3f458c0bd1402a5fb1eb4e..e1944d504823d5f8754d85bfbbf3c9630d2190ac 100644
-> --- a/include/net/tcp.h
-> +++ b/include/net/tcp.h
-> @@ -912,6 +912,20 @@ static inline u32 tcp_receive_window(const struct tcp_sock *tp)
->  	return (u32) win;
->  }
->  
-> +/* Compute the maximum receive window we ever advertised.
-> + * Rcv_nxt can be after the window if our peer push more data
-
-s/push/pushes/
-
-s/Rcv_nxt/rcv_nxt/ (useful for grepping)
-
-> + * than the offered window.
-> + */
-> +static inline u32 tcp_max_receive_window(const struct tcp_sock *tp)
-> +{
-> +	s32 win = tp->rcv_mwnd_seq - tp->rcv_nxt;
-> +
-> +	if (win < 0)
-> +		win = 0;
-
-I must be missing something but... if the sequence is about to wrap,
-we'll return 0 here. Is that intended?
-
-Doing the subtraction unsigned would have looked more natural to me,
-but I didn't really think it through.
-
-> +	return (u32) win;
-
-Kernel coding style doesn't usually include a space between cast and
-identifier.
-
-> +}
-> +
-> +
->  /* Choose a new window, without checks for shrinking, and without
->   * scaling applied to the result.  The caller does these things
->   * if necessary.  This is a "raw" window selection.
-> diff --git a/net/ipv4/tcp_fastopen.c b/net/ipv4/tcp_fastopen.c
-> index b30090cff3cf7d925dc46694860abd3ca5516d70..f034ef6e3e7b54bf73c77fd2bf1d3090c75dbfc6 100644
-> --- a/net/ipv4/tcp_fastopen.c
-> +++ b/net/ipv4/tcp_fastopen.c
-> @@ -377,6 +377,7 @@ static struct sock *tcp_fastopen_create_child(struct sock *sk,
->  
->  	tcp_rsk(req)->rcv_nxt = tp->rcv_nxt;
->  	tp->rcv_wup = tp->rcv_nxt;
-> +	tp->rcv_mwnd_seq = tp->rcv_wup + tp->rcv_wnd;
->  	/* tcp_conn_request() is sending the SYNACK,
->  	 * and queues the child into listener accept queue.
->  	 */
-> diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-> index e7b41abb82aad33d8cab4fcfa989cc4771149b41..af9dd51256b01fd31d9e390d69dcb1d1700daf1b 100644
-> --- a/net/ipv4/tcp_input.c
-> +++ b/net/ipv4/tcp_input.c
-> @@ -4865,8 +4865,8 @@ static enum skb_drop_reason tcp_sequence(const struct sock *sk,
->  	if (before(end_seq, tp->rcv_wup))
->  		return SKB_DROP_REASON_TCP_OLD_SEQUENCE;
->  
-> -	if (after(end_seq, tp->rcv_nxt + tcp_receive_window(tp))) {
-> -		if (after(seq, tp->rcv_nxt + tcp_receive_window(tp)))
-> +	if (after(end_seq, tp->rcv_nxt + tcp_max_receive_window(tp))) {
-> +		if (after(seq, tp->rcv_nxt + tcp_max_receive_window(tp)))
->  			return SKB_DROP_REASON_TCP_INVALID_SEQUENCE;
->  
->  		/* Only accept this packet if receive queue is empty. */
-> @@ -6959,6 +6959,7 @@ static int tcp_rcv_synsent_state_process(struct sock *sk, struct sk_buff *skb,
->  		 */
->  		WRITE_ONCE(tp->rcv_nxt, TCP_SKB_CB(skb)->seq + 1);
->  		tp->rcv_wup = TCP_SKB_CB(skb)->seq + 1;
-> +		tp->rcv_mwnd_seq = tp->rcv_wup + tp->rcv_wnd;
->  
->  		/* RFC1323: The window in SYN & SYN/ACK segments is
->  		 * never scaled.
-> @@ -7071,6 +7072,7 @@ static int tcp_rcv_synsent_state_process(struct sock *sk, struct sk_buff *skb,
->  		WRITE_ONCE(tp->rcv_nxt, TCP_SKB_CB(skb)->seq + 1);
->  		WRITE_ONCE(tp->copied_seq, tp->rcv_nxt);
->  		tp->rcv_wup = TCP_SKB_CB(skb)->seq + 1;
-> +		tp->rcv_mwnd_seq = tp->rcv_wup + tp->rcv_wnd;
->  
->  		/* RFC1323: The window in SYN & SYN/ACK segments is
->  		 * never scaled.
-> diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
-> index ec128865f5c029c971eb00cb9ee058b742efafd1..df95d8b6dce5c746e5e34545aa75a96080cc752d 100644
-> --- a/net/ipv4/tcp_minisocks.c
-> +++ b/net/ipv4/tcp_minisocks.c
-> @@ -604,6 +604,7 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
->  	newtp->window_clamp = req->rsk_window_clamp;
->  	newtp->rcv_ssthresh = req->rsk_rcv_wnd;
->  	newtp->rcv_wnd = req->rsk_rcv_wnd;
-> +	newtp->rcv_mwnd_seq = newtp->rcv_wup + req->rsk_rcv_wnd;
->  	newtp->rx_opt.wscale_ok = ireq->wscale_ok;
->  	if (newtp->rx_opt.wscale_ok) {
->  		newtp->rx_opt.snd_wscale = ireq->snd_wscale;
-> diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-> index 326b58ff1118d02fc396753d56f210f9d3007c7f..50774443f6ae0ca83f360c7fc3239184a1523e1b 100644
-> --- a/net/ipv4/tcp_output.c
-> +++ b/net/ipv4/tcp_output.c
-> @@ -274,6 +274,15 @@ void tcp_select_initial_window(const struct sock *sk, int __space, __u32 mss,
->  }
->  EXPORT_IPV6_MOD(tcp_select_initial_window);
->  
-> +/* Check if we need to update the maximum window sequence number */
-> +static inline void tcp_update_max_wnd_seq(struct tcp_sock *tp)
-> +{
-> +	u32 wre = tp->rcv_wup + tp->rcv_wnd;
-> +
-> +	if (after(wre, tp->rcv_mwnd_seq))
-> +		tp->rcv_mwnd_seq = wre;
-> +}
-> +
->  /* Chose a new window to advertise, update state in tcp_sock for the
->   * socket, and return result with RFC1323 scaling applied.  The return
->   * value can be stuffed directly into th->window for an outgoing
-> @@ -293,6 +302,7 @@ static u16 tcp_select_window(struct sock *sk)
->  		tp->pred_flags = 0;
->  		tp->rcv_wnd = 0;
->  		tp->rcv_wup = tp->rcv_nxt;
-> +		tcp_update_max_wnd_seq(tp);
->  		return 0;
->  	}
->  
-> @@ -316,6 +326,7 @@ static u16 tcp_select_window(struct sock *sk)
->  
->  	tp->rcv_wnd = new_win;
->  	tp->rcv_wup = tp->rcv_nxt;
-> +	tcp_update_max_wnd_seq(tp);
->  
->  	/* Make sure we do not exceed the maximum possible
->  	 * scaled window.
-> @@ -4169,6 +4180,7 @@ static void tcp_connect_init(struct sock *sk)
->  	else
->  		tp->rcv_tstamp = tcp_jiffies32;
->  	tp->rcv_wup = tp->rcv_nxt;
-> +	tp->rcv_mwnd_seq = tp->rcv_nxt + tp->rcv_wnd;
->  	WRITE_ONCE(tp->copied_seq, tp->rcv_nxt);
->  
->  	inet_csk(sk)->icsk_rto = tcp_timeout_init(sk);
-> diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_big_endseq.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_big_endseq.pkt
-> index 3848b419e68c3fc895ad736d06373fc32f3691c1..1a86ee5093696deb316c532ca8f7de2bbf5cd8ea 100644
-> --- a/tools/testing/selftests/net/packetdrill/tcp_rcv_big_endseq.pkt
-> +++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_big_endseq.pkt
-> @@ -36,7 +36,7 @@
->  
->    +0 read(4, ..., 100000) = 4000
->  
-> -// If queue is empty, accept a packet even if its end_seq is above wup + rcv_wnd
-> +// If queue is empty, accept a packet even if its end_seq is above rcv_mwnd_seq
->    +0 < P. 4001:54001(50000) ack 1 win 257
->    +0 > .  1:1(0) ack 54001 win 0
->  
-> 
-
--- 
-Stefano
-
+Reviewed-by: Samiullah Khawaja <skhawaja@google.com>
