@@ -1,178 +1,117 @@
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AFF786334;
-	Mon, 23 Feb 2026 00:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1902257827
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 02:26:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771807647; cv=none; b=AN2kq2+tJpd6GF7qQ8/CoHZlLVa68UUcmfcTFZaCYHluIesGTHIK1Fh3Oo+PVzqZ3XGPm77itLHTlYPAdpFadux57H2F4VRo8qukXdVCopbg5/rWCcIHajmTFt4vJr4Ghl6u6VKpZYBlzLTBxXW8gWWCnKEE4PFswCB3CV1dryY=
+	t=1771813575; cv=none; b=FyzEg6BIGVdXSk+fl22MNMYGjPp7S7NsZE08Ho3TX7Hm0J8DkRzNFF+8Ra9/xz3KAIpCoLh/yb4M8f13xLSCOC10Fqbx71Tm4DqiG+0iArRhZ/v8vKs1JH6PH04uYLAfOeidqziNamLki68tMrhD4o8ynPmvThV2XOA5uTGenTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771807647; c=relaxed/simple;
-	bh=9Rg2ovzdHFVJcpJOm3vuScJXDsF1IsJTiaRKGC5EjjE=;
+	s=arc-20240116; t=1771813575; c=relaxed/simple;
+	bh=G4GFV+QxWjJyU8uodbcIN5Iy4j/891a6vm3BsnJgJU8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dEkdeH+hEWY2qM23Rftg622dmemVJ9M1Q/C1CJJ1nfKZKo3BI54AbErL8BSSUDaceevSykTJwIJJkqKAxDX1Ay2eZQaASNieXyhFNQIIwVcat9OIdrd34uvd9yBbEEZI6YfxQCnTLc/4vZLsPxj69Yi/ZJwYvTfcUqK6+fwXjoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-c1-699ba00d3559
-Date: Mon, 23 Feb 2026 09:32:07 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Dirk Behme <dirk.behme@gmx.de>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
-	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
-	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
-	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
-	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
-	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
-	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
-	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
-	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
-	yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
-	hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
-	gustavo@padovan.org, christian.koenig@amd.com,
-	andi.shyti@kernel.org, arnd@arndb.de, lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
-	mcgrof@kernel.org, petr.pavlu@suse.com, da.gomez@kernel.org,
-	samitolvanen@google.com, paulmck@kernel.org, frederic@kernel.org,
-	neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
-	josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
-	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
-	yuzhao@google.com, baolin.wang@linux.alibaba.com,
-	usamaarif642@gmail.com, joel.granados@kernel.org,
-	richard.weiyang@gmail.com, geert+renesas@glider.be,
-	tim.c.chen@linux.intel.com, linux@treblig.org,
-	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
-	chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, 2407018371@qq.com, dakr@kernel.org,
-	miguel.ojeda.sandonis@gmail.com, neilb@ownmail.net,
-	bagasdotme@gmail.com, wsa+renesas@sang-engineering.com,
-	dave.hansen@intel.com, geert@linux-m68k.org, ojeda@kernel.org,
-	alex.gaynor@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
-	lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
-	tmgross@umich.edu, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v18 31/42] dept: assign unique dept_key to each distinct
- wait_for_completion() caller
-Message-ID: <20260223003207.GA44876@system.software.com>
-References: <20251205071855.72743-1-byungchul@sk.com>
- <20251205071855.72743-32-byungchul@sk.com>
- <ab0b9f9c-3a05-42f3-b4a7-ddb6ab0d37a4@gmx.de>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AOcxRDJ+8TJRuchQTwbAA2q//lNNHJcHjRzvUNZxBuB3xc8dur5ctjE+cJtRjfEqmCwphOj2g4vPeJxXSEda/KY6wyC9lU7pCo9sIlUWektsQyHbGEyXAaf6GXA7BxJR6UVWmQI8hXyc/L91A6stJ0DYrtQsY9YArg5VqPURtT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXx5I7iv; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXx5I7iv"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-824484dba4dso2731578b3a.0
+        for <linux-doc@vger.kernel.org>; Sun, 22 Feb 2026 18:26:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771813573; x=1772418373; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=LoSianPV+m24sY+kS7ttUM3HGhiAlDaIi5Lhm7XMZI4=;
+        b=aXx5I7ivYAKRoNVB/CR6rsab0rvunJlRY1rf3nWDigqoXSX/hnvnaeGjDwRTetZeZc
+         ANAvJf6wRCywTf9LPNCYqmoRb1j+04xGbOVbV/5U7TujUQ/MLylKLfUWfMp7SslCNeFV
+         yCaPmUaHXAgXdwH1I+hDkjzdcodcbUHcXR6McDRkXFPsZVfOkFw+GzPlINFxd84HjqtV
+         Of9SSuFwBUnln+ZAMmGBuX4Dpe9c+PjcCujp5Nc5pxIoeQ3J5OmJ0z7QQ4/vNOEHt0/W
+         r6uNSbtRHc8HVz2GcneZMrOhLB6ec5xmkizsPYoBlrrldJtxi7GowPKe6UfkZExlFUJZ
+         PtQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771813573; x=1772418373;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LoSianPV+m24sY+kS7ttUM3HGhiAlDaIi5Lhm7XMZI4=;
+        b=F4j95GP9FewNmi+sIKt9uJ1O7uRGoOmT4TFUG5Ei8sWrZFbdJqndFgj4cLATBB6Z58
+         J6TcKOQwmBZpDVkzDCUZ0HDqWW5viDsdofEmRYBPUd18iZideZqdkcJ22+0v8B/LSHi+
+         vvO3CKfHNQOg+uNcJpNtMOh5IQS9F6tjuz0Q/ZrJGcxH/UHaZs3pP2nYnFhcGWZ9h98U
+         gdtbQM9L4ooKWo062kPUMjpFo8A3XESkeoN/jQUfegpMZNaYBYhMpox5ki7QOBy3Io9i
+         2unxKX0vOr/m+o5A9yz25zn6H/NO1kHKzZi7U94DSTLA1s6pW9Avw5NNnuLUXiwU5fvC
+         UVQw==
+X-Forwarded-Encrypted: i=1; AJvYcCVrdMGWvhUAJzbOAHn49wvyzsXqR3DicBuB7/X8I4dlLvWybxwuYhMIHoa9hv3d0YLx2poDPnTvWig=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrjudIGVDqAz7GhHMxLowCNu6kPf0O7Jm92+BL5977aljyWmxi
+	WSss6+3tloc2qtZAkhc/DtEf38mJQMlUnh4pxQLy0tucPLd6CMjhYjbL
+X-Gm-Gg: AZuq6aJmOMM4FjZ+rc4RQiTwRQt0/ptUZMpWZSQYFU4tTrLbXa8yl5GMkTEQACByMi5
+	logJU8hCR8wy5WLX99DNiP4bLsAuWyQUMuWrQbpBnyDPx/RzKzRdk1GDNKNGCnHXtwJO+TgCAki
+	uKw1WVFNYgeaQtFBeblQxSNxD+cE7fDjvixppUEv6OAdA7faOjSUZQ3fUS+xxjIOKtRGgyc4e8H
+	nDdb8gBBT43eHFktIieTD8hkebQ/8HpQ0zyxiA0zDzsl1VRdN2GZ9BMXhD/P3tCWnp1yuu04ozQ
+	Q14Juoe9wznx+4EiGArZBnM8RAmdrir3Ok6c/2kFhhwD0JedNIHCrZjdjrwbJY3LxPxdqxpsxWa
+	x+I7yfZ9w4wQquTs89Pq3q/GTmRZNIIeyTWsVX8vtf7Sqxgi/habuNRu0bDVAIVfshwo6gbJ4ep
+	y3IyO2arerwHXu7cdD/Zi0TFBmz9ACq6tO2hA98ywdG7uXCzk5Way5nvkq4BBojKNKFQ3fYA==
+X-Received: by 2002:a05:6a00:3696:b0:824:a635:4181 with SMTP id d2e1a72fcca58-826da8ee305mr6643441b3a.15.1771813573069;
+        Sun, 22 Feb 2026 18:26:13 -0800 (PST)
+Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([106.51.163.47])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-826dd8bc6e8sm5846159b3a.49.2026.02.22.18.26.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Feb 2026 18:26:12 -0800 (PST)
+Date: Mon, 23 Feb 2026 07:56:02 +0530
+From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Link Mauve <linkmauve@linkmauve.fr>, Alice Ryhl <aliceryhl@google.com>, 
+	ojeda@kernel.org, boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
+	lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu, dakr@kernel.org, 
+	corbet@lwn.net, maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
+	chleroy@kernel.org, peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com, 
+	rostedt@goodmis.org, ardb@kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH V6 2/3] rust: Add PowerPC support
+Message-ID: <aZu6cSqnvO91w1m4@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+References: <20260210090023.2587534-1-mkchauras@gmail.com>
+ <20260210090023.2587534-3-mkchauras@gmail.com>
+ <CAH5fLgi3Owm4=4g8wQ5Rnr7Y63XJ1D8apOdkewW6WpRfg6vV_w@mail.gmail.com>
+ <aZtT4MH0Q8Ic9ZiM@luna>
+ <CANiq72nEam8n_daX5LyYrpH=i71k+pb+HLn6EEPdJJc-Zi9Q3A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ab0b9f9c-3a05-42f3-b4a7-ddb6ab0d37a4@gmx.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH89x7n3svHXXXzrFnkmxL57KNBNiMS06cM25Zlhs/mezDsi3T
-	NetFmlJwLfKiMRZiK+JWsUwWWxwdYqeAQEpEXjRxNMDIRC1M2hHegqSsk0ICbWHtiusNMfPb
-	P79/zu+cD4enVS52O68rLJaMhZoCNatgFOH0xmyly6l7J3IuG6osJ6G+vZWFKs9FDL/5Kxl4
-	0NaCYC3hpMHS84SBpH2QgzqfnYYfQxUMLLu/Q+AIOjkIz/RheDK1QIE/tojAPb9BQbJODw2N
-	nSwMXzjLQthXT4Hv7mMEPbO9HMy4gww4R8ZSU64iGGxZ4KAtfB/D8PQ4hpkhK4ab5lkOPH8O
-	IKjqjTLgeZQqfrY2MTDWW8+C2bmGoX0hQMGw4xoD93uvY+gcuUtDzJYJ7ugyB8GHVgqu3R5h
-	YdCVAStNMQasqxsYrkSWaDj9Vx8Lk7a/GWgPemnwRhcpqB11sRCf6sYwbm9gYc4W5sBZYUNw
-	1lLHwI2BNQ5OTb4HifXU+vWORxiuJ8cRLNVE8L4PxebOLkq0jCZZsfWnViQm4nYkWmpS6crv
-	i6wYjz5kxaYzcUrscUxxostzVOy8miVevhWixInHH4ie5jOsWB3+gxKX7t3jDrz2hWKPVirQ
-	lUjG3L1fK/J7fvCyR2rTy/yn9GZUqahGaTwRdhF3m596mr2Vbq4a8TwjvEFmfIdlzApvkkDg
-	H1rG2wQ1uTG5T8a00PIKGQuXyfkFQU8GupKsnJUCkMb5EK5GCl4l2BHxeWupzWIrGb44z2wO
-	Z5HARoiSnbSQSX7Z4GWcJuwm3psWLOcXhdfJna4hSvYQYSKNTLsb6M0zXya/Xg0wNUhwPKN1
-	PKN1/K91IboZqXSFJQaNrmBXTn55oa4s55sigwel/tZ94t8vu9HKg0/7kcAjdbryzrJDp8Ka
-	ElO5oR8RnlZvUyYSKaTUasqPScaiQ8ajBZKpH2XyjPol5c5YqVYlHNYUS3pJOiIZn7YUn7bd
-	jNq762PfZ8TXO2qaRr4d/zg08dHKwJrWMKu3VQw1bP0qf9V8wHL+hI3LwZ+sLn72dmlex44o
-	JTx3ekvEcCFjB96CsLTH83nf5OVQ3lvnSj239aHnb+V15b7q3xnR1pWAYzrn/MHc41aNP3np
-	pDW4Pzh6aW6uu/i4abdhv+X97GN71YwpX/NuFm00af4DM937xrMDAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTH8zzP7e1tQ821YLjo4ofqYmIibmaa4yRK9mHe7P0TOr+MRq5y
-	VyimVQZOYyk065hZsK4ltMoQtVugvpXXznQjNOAcM7ZWRzPBalaRhiJMWhmtpWtjlvnl5H/+
-	//M7OR8OQ5RJyWpG1B4WdFp1lYqWU/KPdjRuyutwiG8MTJeA2XQCJsIRCfzRMERBIm6m4MwV
-	Fw1px4AUzO42Cfw6bqTAf7kbQThhRrCYchAweTIUpC2jUogv3ZeCtQFBxjuKwBawEAj5fyHg
-	6m3AsHB1mYYZ3zME1kcRGlqjDRTMOU8isE85pBAd2Q2z4esSyEw+wTD+PIbAGVnGEBn6CkHa
-	poHvO3uyuG2ehtSt2wRarX4E5x5NEngWfYigd/QBAu+PRhoet/QRsN8/AMHICribmKPhpvUb
-	GmYDZzA8vUpDh9ErgcDvMwjOOiwIpv70Ymg8f4UG21k3BZ6HP0khMPMCw4TNgqHb/SGEnVMU
-	jLV04uzJ2alrheBobcTZMo3Beuk6LnUiftH0LcV39fRj3nQnTfOudhfiU0kL4uMXGwlvasm2
-	vtgc4Zt6vuAvjsVoPpm4R/Pe5x0U/1snx1/4Oon5U7c28R77pPSTd/bJSyqEKrFW0G3eWS6v
-	9Hznow+dzqsbb9IYkFHejGQMx77F+YxOaTNiGIp9nQsHDuZsmt3AhUJLJGcXsCqub6I0ZxO2
-	ey0XnK3L6XxWw430p+mcVrDAdUaikmYkZ5SsBXEB32n8MljJ3WyLUC/hjVxoOYpzOwm7hvth
-	mcnZMvZtzjdgkuT0KnYdN9R/A7cghf0V2v4Kbf+f7kCkCxWI2tpqtVi1tVivqazXinXF+2uq
-	3Sj7kc7jL04Nonhw9zBiGaTKU8wXOUSlRF2rr68eRhxDVAWKVMouKhUV6vqjgq7mM92RKkE/
-	jNYwlKpQ8d4eoVzJHlQfFjSCcEjQ/ZdiRrbagPJJHDyfip/vCZTtcpfn9cnW73C1/82Qnr1d
-	wS+Xap7mG8rOtZaGmv7SJsvmNYsFI0Xr321P/bz1yMKqf1zFK/C1bbEwGZx+PCiDxPumtfqg
-	v7332F3PvnuGGydjbQuWiqLeO2Mf6Oq2vLaue0vKf+Dj6Inthl0lhRHz9kyGFWMqSl+pfnMj
-	0enV/wJlLv3cjQMAAA==
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANiq72nEam8n_daX5LyYrpH=i71k+pb+HLn6EEPdJJc-Zi9Q3A@mail.gmail.com>
 
-On Sun, Feb 15, 2026 at 07:42:05AM +0100, Dirk Behme wrote:
-> On 05.12.25 08:18, Byungchul Park wrote:
-> > wait_for_completion() can be used at various points in the code and it's
-> > very hard to distinguish wait_for_completion()s between different usages.
-> > Using a single dept_key for all the wait_for_completion()s could trigger
-> > false positive reports.
+On Sun, Feb 22, 2026 at 08:11:17PM +0100, Miguel Ojeda wrote:
+> On Sun, Feb 22, 2026 at 8:07 PM Link Mauve <linkmauve@linkmauve.fr> wrote:
 > >
-> > Assign unique dept_key to each distinct wait_for_completion() caller to
-> > avoid false positive reports.
-> >
-> > While at it, add a rust helper for wait_for_completion() to avoid build
-> > errors.
-> >
-> > Signed-off-by: Byungchul Park <byungchul@sk.com>
-> > ---
-> >  include/linux/completion.h | 100 +++++++++++++++++++++++++++++++------
-> >  kernel/sched/completion.c  |  60 +++++++++++-----------
-> >  rust/helpers/completion.c  |   5 ++
-> >  3 files changed, 120 insertions(+), 45 deletions(-)
-> >
-> ...
-> > diff --git a/rust/helpers/completion.c b/rust/helpers/completion.c
-> > index b2443262a2ae..5bae5e749def 100644
-> > --- a/rust/helpers/completion.c
-> > +++ b/rust/helpers/completion.c
-> > @@ -6,3 +6,8 @@ void rust_helper_init_completion(struct completion *x)
-> >  {
-> >       init_completion(x);
-> >  }
-> > +
-> > +void rust_helper_wait_for_completion(struct completion *x)
+> > Should we come back to describing the target like I did in my first
+> > patch[1] in scripts/generate_rust_target.rs, or should I bring that to
+> > Rust to create a powerpc-unknown-unknown-softfloat target upstream?  Or
+> > is there a better third solution I’m not thinking of?
 > 
-> Please add `__rust_helper`:
+> We are trying to stop using the custom target specs, so we should ask
+> upstream to give you a built-in target you can use (or equivalently, a
+> flag to do what you need, but I think the idea is to not have such a
+> flag).
+> 
+> i.e. even if you used the custom target JSON, we would still need to
+> ask, since the goal is to remove that script entirely.
+> 
+> Thanks!
+> 
+> Cheers,
+> Miguel
 
-I will.  Thanks.
+Sorry for the spam, my earlier message got rejected.
 
-	Byungchul
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/rust/helpers/completion.c?h=next-20260213&id=1c7a6f48f7eeb3014584d2fc55fc67f0cbaeef69
-> 
-> Best regards
-> 
-> Dirk
+I think, disabling altivec, fpu and vsx with compiler flag will work.
+
+What are your opinion on this?
+
+Regards,
+Mukesh
