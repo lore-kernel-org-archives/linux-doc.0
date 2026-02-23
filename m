@@ -1,233 +1,154 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D3537755A
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 20:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771879077; cv=none; b=V/tY2b6l16J4NgcA3JRvLyclAHCM72j1oqxGnFTl1TOgIrMlbgUce554KBoqWyN2IB9jBougYy8OzWmZCvk5UxQM1SiK8j6nZhStxyPvnn4qLle7buQdb4hqWbpOAbRZ7glyFeCkAKCPGb4RPlAxSas83n2sWLnAs7cfopK+QE4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771879077; c=relaxed/simple;
-	bh=mHkfdugwjUVHAPtoR0tbnfI18NaD/jNgASr8sXt1Ges=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ehAuTW3TBDN6svKmb7R+2Dpyd/UFBJ9SlgFZviB5fYmnI8hUqgWi+GyW/2g9lhTa/BednXlMZXMbjFhU/ykf98SNOtIZ0EfsKa2BHot/BIsvHcdQhY+6wezVqkIIXlPzR1yFuylLpM1PYcc77SIIKDGKfEmLXHoeoCrfvHmwW7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S/Y7FcsA; arc=none smtp.client-ip=209.85.210.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618A037881C
+	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 20:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771879625; cv=pass; b=L2Z9jium8dqWGum6ky8chEW7eSKqbae/smRZMmM7xLr6K4O4+Sv87uyp2VOByEluG01c24H4A8P6bKgmzL2e7qJ1EWZkSciUr6VGz98iE1FQ64HpkSodn3ow5mRXVRSUFk3IEhZPiTcFUJh8d/pXSDjsB4fIdpSR1nz4f6DnOe8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771879625; c=relaxed/simple;
+	bh=EVemFSQFzNJxJhu0+Ux/v0A4lvPBlu5NCCP1e1e9qzE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DE6f7FhKAlsPlK0SNzcVEv69/ZC0JI+VeySVvkYCFMbP5fkNlexOkyJug0pN2prw/NQX2fq+Mb8G8g3Od79AQ6QWKO2Q63tf2IEZTToKvoNsQWqEyZ3knuWQ2je30ERviVdYF4M9sjBDadOOt7QD0F+ZIrhokv5kBBmdkb/XVU8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y4eByC9T; arc=pass smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S/Y7FcsA"
-Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-824a3ba5222so2539054b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 12:37:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y4eByC9T"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4806b0963a9so16355e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 12:47:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771879623; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AmBR3V+huALN7xp6yyvx9WHJ9NvCXpk192v/Rx0hZh+kOT0q83J5sBUyBxwTWAgr/q
+         wDZgmySUJegw470eMeTp++YD+rXhkLBWaAcdqeX+FA2b6AO8sOBqk9lAMx4mug/My7C3
+         WeuoWlHVhV4kt4ibn+Mu/ltA0YDUyDbM8tvxpaTK8zU1aABxBHmj/ygpGuUx3nRhsUIS
+         zU2YzZDRp4WMOJXLBSrSZgOBnCKu2UmNpJ9Y5QL0C/OmRwH4xBR2jadOPjFRWl4fnXHT
+         RvN6bka8avoaHOCxq5+CnUYgnEWmGniOxPxfCwM+noyrweXXnFzrptYIblQPI+VQhVGM
+         5IlQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LLvPmAWJUbvsu9W27Db/ZOo45wfaEQF3rbARD4LQ3sw=;
+        fh=hhSFgThMle5XvNxx6rfLrys20CXBxl5PyeNnduZSZqM=;
+        b=GONOsk/lTHvQC/5L7fhZT6wt5xLKb10dTTfc/tWjHmZ0CmNxgxe8sNrpvRMcLgA3zd
+         45dr8oNCeVmlru5/VRWJmubD017S0v8JcSnDSihb/lQDMIHyRxD4JoGg+SYdy++FYG9P
+         1NoymDWbkIPf3EHam3hBjw/gunwDs0MBHF5mYiv4eRzvC6WY+5aG5kHa6shViNvtP03I
+         XUvyJZ2BTbC8U9JgIop63/15rysHhErmRhNXJNZlB1dtdqUx1XLUoI8a4OIxWTmsBol/
+         CwnlQ4JPDbjJwEH25Pbv5bGkuAZsp1/YxE4O4ACiNOMMToC0+AsOJ/CsekPBCKK/hHam
+         SEug==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771879075; x=1772483875; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=68qZZQVzjBS6H+D7ka9Yz06XSnfgsO040Vn+ZTSewbk=;
-        b=S/Y7FcsAZZUtp6zM3v+yB2XiGxs3ewtuka/hTfT88nKalNKc1F8ZiXFAP/J8EShRdl
-         8CZxQi0WY0dddJERlihtp2nSBdR5CwO/p1IDz2L1XfPRLiwpwuPu35eBOLs07yWdR9By
-         a+MIhTNuz7aDPn1bU9Bg8KhyOLfXqIB+UikePtgK7fY+aQomtwcmowTUWEheD0rNFHy1
-         qXIS2NTMpSpHJQrd14/oF+eOmBXGEfw22JV+3PaqNrwWEw0+Pt3t9JA4vz6d5q6cXhIk
-         xEzMmj5R4IOC+2gTTXHt7wnX/giyfX6A47Hq3xTTy2H5+jF4L5U06A4O/c7SGECY3Ct+
-         AUZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771879075; x=1772483875;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1771879623; x=1772484423; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=68qZZQVzjBS6H+D7ka9Yz06XSnfgsO040Vn+ZTSewbk=;
-        b=hgh3OOkO9IFtsXOQeazzSQoWiJ2hJaqeZyob1DPakcYjbhUInFUlOrFWojiZLYroWm
-         LyLOWaA972ljlP5Dl1p6aKvGarHLyrRTY26n4XAQHdaC8Yfk0b46jRPd3xvYusAQ0+Ek
-         Ma4FTIjhe59es9OeQtr05KuyuBp7o4X+HPlQ70Q2N9DJzhYgSV0ty8KwlEJwSPQkB4cD
-         EXszhSHVmOXaCl2zn7l9i7u0IM9o9pR2R2udbjSYgFfT/8Hrjs5Qlx2BNPWc6jxfS3CH
-         cleDNsPDVr/BLnXi30+q8e/9NzG3UO/nwqAbeuEJdmu1+JwVUhchLYc6s4FHUULolhQW
-         FO1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXpeO7XaAoT+Yeefb9blHmPYtH7prmceMy6oRAkePKvPrPxYTdsbkW6KEIscYJDuU87NiHh/w6ZJfg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8aTWL2VmmuL6gWXqjzU5722595f8EZ/Z3ZmUm3Hb5UM7eK7s5
-	o5Vif9VBbF1acGu6VS1d8KPcB4ynVMQXBIIl/trVELRFnj/9bE6H+tOWQ08v3KP+PV8roQ==
-X-Gm-Gg: AZuq6aLknHLfrOZxYjOGyE8CPju+62bn5N9BDsjSZrjKjobpGP7/hpxVEQA3TdA13MN
-	7RZNZ56yjqbjodqbU9KJiCdfYzAaCno8w7D72Md/IhHWD5pRhdDOtpOs9ptzSIklynO0nay3D66
-	DGf0d0BSVIEdl8vH5T8fNm+566Q3yboixBBGGFChSNVE5LS8FlLxmcbbLKZAiBm3vEF8oM5xYGs
-	UIZ9T0ZFP4dbo9ih+ckRzjPgcJJf4QTrgWHUG+pwIP2Hh2smqwsYYfp3m+oz/Fa6m7iBUf7pGJo
-	kxPGEdkutnUoaGtYLcYriqod1kJkvaWBfmQfdzIR3hWNTwqwEpMkJN5TCpAIOJJJFavZcbZ3l17
-	IzU9vDCHWf/KLP4V3rU9ACqA3mmXIa3guzq7aO8jVtccRvoIF06BMN7CLtNaUAiDNyMHpPFAeKb
-	NOE9EjWt2do9y6NfsIlUwiRlUm/ID1V7UogYM=
-X-Received: by 2002:a05:6a20:c90d:b0:394:a0f8:f7d0 with SMTP id adf61e73a8af0-39545ed89b0mr7230707637.26.1771879075167;
-        Mon, 23 Feb 2026 12:37:55 -0800 (PST)
-Received: from fedora ([2409:40e5:11e3:f079:b796:44c2:7e10:cd23])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-826dd695a8fsm10838761b3a.23.2026.02.23.12.37.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 12:37:54 -0800 (PST)
-From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Subject: [PATCH v2] docs: sysctl: add documentation for crypto and debug
-Date: Tue, 24 Feb 2026 02:07:24 +0530
-Message-ID: <20260223203724.20874-1-chakrabortyshubham66@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=LLvPmAWJUbvsu9W27Db/ZOo45wfaEQF3rbARD4LQ3sw=;
+        b=Y4eByC9ThwScsNoPS/SS3tx2dR9BQY/NsJWPiceip0Pc1PFpEzNDc9flPUAiKMw6l2
+         iCJQhNXwhY4CudBcgf3hdmnDpCiqCKVrn/Tsa5JTuuwvEMQ9CA+1004GACxBsaCt8Hnk
+         xAdFdSJSDz8G53rIlZ2ytUNpqZTzcmCn78FMRokWfqeVRzVdOOlg9xE3xuSPkl2c/2ZG
+         cxV72eAnqo7hizXsKogbHG7KnbI/4zGEzdhzFJWHVPLawj67pEDDi/n3/t812i0hI0ZN
+         RiVxUswr9prPYAWCGLybDHtBwMw+wj5pSy1zSzUCTFtE6sPas5zYuIWruABWxnBKE2Oi
+         Q0Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771879623; x=1772484423;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LLvPmAWJUbvsu9W27Db/ZOo45wfaEQF3rbARD4LQ3sw=;
+        b=H8U0ztEM5rlAVY6s6Y6QYrqo3rzE+7fZmbsKnt7f4Z9W6o7BuYptfLLoPQKCr7HYU/
+         cyspjLF6ZmK7pJ4zsfGJ6z4FGkfyLDiT4+hXuGTPt+LZYkR7JOTA/kYWaGYGzQD5RjbH
+         byuOR9i9tCxnE+0Epg11ODqFPizVGzJwOAy2ddbgpEidvFBEdTW91L6IsA396QBLRAVY
+         yROF88HS5vtzrJgxNz1wWlsJCmpZKQyv8zOxwOrKd/M3NeHSxP0wn9qgjNtLLro6iewn
+         I5BEDjaR1OPgqH6B2Fv5T+Vaqpd/lAgPVhBscwi4dFSAIbklfdLeN9YntXGKuO9R9jZ/
+         yfvA==
+X-Forwarded-Encrypted: i=1; AJvYcCWY0lXFAELgMWdfAYfDhjN/yYLvIqEOfKP79G4HBSzkRJm1ZsVjZMDOPDeqWo6UwDUhPu6vC3ffJ6k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxDmekcBD0YlSSg2fCb+gqm3IRLt8JEviAE3yh0fvFKDZHfOEsf
+	9D9XR5P1agZJfzXHwx6prPo2OxsL/xPOeHzygYKpSqIuAHRim39v8cvgXaDliACodtkbmyQkQNl
+	OQ972pP1KkBGrEhNtMeIV32v/PDeeYhrSyNvUCRE8
+X-Gm-Gg: AZuq6aIxVSMzJKRHhFyE+XcXcxQKU9UOp0tXjgEdf4sMzu39nJM2akgJPiRRArceoXw
+	enG2ymB07BledOYJEfwPIG71lQ4d0ZsGKvWWFgMXwosE9WJWo66Hs7mz0aIzQTKEy2Jx88Lrn6E
+	zbhDra0gvEzYxAbUHy2qaQfJA36gNUKhfEKfQ51Y2ZJrhlo4xRwJe91WAU3swRNmq5LROGt4x1o
+	cO4rwkVzbnNNITgPg3aIctPqIpTirv1QOO+M/IQ0yTg+VTArvmjSeE8mHEDMjJzCY36ttPcwhG0
+	JdUoj/c=
+X-Received: by 2002:a05:600c:4454:b0:477:86fd:fb1b with SMTP id
+ 5b1f17b1804b1-483b878837emr163415e9.11.1771879622202; Mon, 23 Feb 2026
+ 12:47:02 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260202155634.650837-1-kas@kernel.org> <20260202155634.650837-9-kas@kernel.org>
+ <aZJTLwV2SaaKu1k_@casper.infradead.org> <ec4a9a1e-8c08-4879-a787-3b9e0bc38160@kernel.org>
+ <aZyZ2-7Xr-zUnInC@casper.infradead.org> <9a972701-00b4-440d-8bc2-24b8dc469843@kernel.org>
+In-Reply-To: <9a972701-00b4-440d-8bc2-24b8dc469843@kernel.org>
+From: Frank van der Linden <fvdl@google.com>
+Date: Mon, 23 Feb 2026 12:46:50 -0800
+X-Gm-Features: AaiRm53V0083kx17uKl1QJe6iH0-QHdntImophIuh0y8aAfRVd2RH3p-ebZ7RBQ
+Message-ID: <CAPTztWbr7y0myXB17Vz5HEZTw8a3PJ4qaxRKgtZmt-qXx1ofeA@mail.gmail.com>
+Subject: Re: [PATCHv6 08/17] mm: Make page_zonenum() use head page
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Kiryl Shutsemau <kas@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Muchun Song <muchun.song@linux.dev>, 
+	Usama Arif <usamaarif642@gmail.com>, Oscar Salvador <osalvador@suse.de>, 
+	Mike Rapoport <rppt@kernel.org>, Vlastimil Babka <vbabka@suse.cz>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, 
+	Michal Hocko <mhocko@suse.com>, Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add documentation for the /proc/sys/crypto and /proc/sys/debug
-directories in the admin-guide. This includes tunables for FIPS
-mode (fips_enabled, fips_name, fips_version), exception-trace,
-and kprobes-optimization.
+On Mon, Feb 23, 2026 at 11:32=E2=80=AFAM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
+>
+> On 2/23/26 19:18, Matthew Wilcox wrote:
+> > On Mon, Feb 16, 2026 at 10:06:57AM +0100, David Hildenbrand (Arm) wrote=
+:
+> >> On 2/16/26 00:13, Matthew Wilcox wrote:
+> >>>
+> >>> You're right that different pages in the same folio can have differen=
+t
+> >>> zone number.  But does it matter ... or to put it another way, why is
+> >>> returning the zone number of the head page the correct way to resolve
+> >>> this?
+> >>
+> >> How can a folio cross zones?
+> >
+> > I thought 1GB pages in hugetlb could cross zones?  Maybe that used to b=
+e
+> > true and isn't any more, or maybe it was never true and I was just
+> > confused.
+>
+> I recall that 1G folios could end up in ZONE_MOVABLE (comment in
+> page_is_unmovable()), but my memory is fuzzy when it comes to crossing
+> zones (ZONE_NORMAL -> ZONE_MOVABLE).
+>
+> Freeing+reinitializing the vmemmap for HVO with such folios would
+> already be problematic I suppose: we would silently switch the zone for
+> some of these pages.
+>
+> When freeing such (boottime) hugetlb folios to the buddy, we use
+> free_frozen_pages(). In there we lookup the zone once.
+>
+> Likely also problematic :)
 
-The documentation is based on source code analysis and addresses
-stylistic feedback to keep it direct and concise.
+HugeTLB folios weren't supposed to cross zones, but they could do that
+in some cases for bootmem (memblock) allocated pages, causing the
+issue you describe.
 
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
----
- Documentation/admin-guide/sysctl/crypto.rst | 47 +++++++++++++++++++
- Documentation/admin-guide/sysctl/debug.rst  | 52 +++++++++++++++++++++
- Documentation/admin-guide/sysctl/index.rst  |  6 ++-
- 3 files changed, 103 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/admin-guide/sysctl/crypto.rst
- create mode 100644 Documentation/admin-guide/sysctl/debug.rst
+I fixed that with 14ed3a595fa4 ("mm/hugetlb: check bootmem pages for
+zone intersections"), so they won't cross zones anymore. The other
+allocation methods used for HugeTLB folios, alloc_contig_pages() and
+cma_alloc_folio, won't return anything that crosses a zone boundary by
+their nature.
 
-diff --git a/Documentation/admin-guide/sysctl/crypto.rst b/Documentation/admin-guide/sysctl/crypto.rst
-new file mode 100644
-index 000000000..b707bd314
---- /dev/null
-+++ b/Documentation/admin-guide/sysctl/crypto.rst
-@@ -0,0 +1,47 @@
-+=================
-+/proc/sys/crypto/
-+=================
-+
-+These files show up in ``/proc/sys/crypto/``, depending on the
-+kernel configuration:
-+
-+.. contents:: :local:
-+
-+fips_enabled
-+============
-+
-+Read-only flag that indicates whether FIPS mode is enabled.
-+
-+- ``0``: FIPS mode is disabled (default).
-+- ``1``: FIPS mode is enabled.
-+
-+This value is set at boot time via the ``fips=1`` kernel command line
-+parameter. When enabled, the cryptographic API will restrict the use
-+of certain algorithms and perform self-tests to ensure compliance with
-+FIPS (Federal Information Processing Standards) requirements, such as
-+FIPS 140-2 and the newer FIPS 140-3, depending on the kernel
-+configuration and the module in use.
-+
-+fips_name
-+=========
-+
-+Read-only file that contains the name of the FIPS module currently in use.
-+The value is typically configured via the ``CONFIG_CRYPTO_FIPS_NAME``
-+kernel configuration option.
-+
-+fips_version
-+============
-+
-+Read-only file that contains the version string of the FIPS module.
-+If ``CONFIG_CRYPTO_FIPS_CUSTOM_VERSION`` is set, it uses the value from
-+``CONFIG_CRYPTO_FIPS_VERSION``. Otherwise, it defaults to the kernel
-+release version (``UTS_RELEASE``).
-+
-+Copyright (c) 2026, Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-+
-+For general info and legal blurb, please look in
-+Documentation/admin-guide/sysctl/index.rst.
-+
-+.. See scripts/check-sysctl-docs to keep this up to date:
-+.. scripts/check-sysctl-docs -vtable="crypto" \
-+..         $(git grep -l register_sysctl_)
-diff --git a/Documentation/admin-guide/sysctl/debug.rst b/Documentation/admin-guide/sysctl/debug.rst
-new file mode 100644
-index 000000000..506bd5e48
---- /dev/null
-+++ b/Documentation/admin-guide/sysctl/debug.rst
-@@ -0,0 +1,52 @@
-+================
-+/proc/sys/debug/
-+================
-+
-+These files show up in ``/proc/sys/debug/``, depending on the
-+kernel configuration:
-+
-+.. contents:: :local:
-+
-+exception-trace
-+===============
-+
-+This flag controls whether the kernel prints information about unhandled
-+signals (like segmentation faults) to the kernel log (``dmesg``).
-+
-+- ``0``: Unhandled signals are not traced.
-+- ``1``: Information about unhandled signals is printed.
-+
-+The default value is ``1`` on most architectures (like x86, MIPS, RISC-V),
-+but it is ``0`` on **arm64**.
-+
-+The actual information printed and the context provided varies
-+significantly depending on the CPU architecture. For example:
-+
-+- On **x86**, it typically prints the instruction pointer (IP), error
-+  code, and address that caused a page fault.
-+- On **PowerPC**, it may print the next instruction pointer (NIP),
-+  link register (LR), and other relevant registers.
-+
-+When enabled, this feature is often rate-limited to prevent the kernel
-+log from being flooded during a crash loop.
-+
-+kprobes-optimization
-+====================
-+
-+This flag enables or disables the optimization of Kprobes on certain
-+architectures (like x86).
-+
-+- ``0``: Kprobes optimization is turned off.
-+- ``1``: Kprobes optimization is turned on (default).
-+
-+For more details on Kprobes and its optimization, please refer to
-+Documentation/trace/kprobes.rst.
-+
-+Copyright (c) 2026, Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-+
-+For general info and legal blurb, please look in
-+Documentation/admin-guide/sysctl/index.rst.
-+
-+.. See scripts/check-sysctl-docs to keep this up to date:
-+.. scripts/check-sysctl-docs -vtable="debug" \
-+..         $(git grep -l register_sysctl_)
-diff --git a/Documentation/admin-guide/sysctl/index.rst b/Documentation/admin-guide/sysctl/index.rst
-index 4dd2c9b5d..e153c9611 100644
---- a/Documentation/admin-guide/sysctl/index.rst
-+++ b/Documentation/admin-guide/sysctl/index.rst
-@@ -67,8 +67,8 @@ This documentation is about:
- =============== ===============================================================
- abi/		execution domains & personalities
- <$ARCH>		tuning controls for various CPU architecture (e.g. csky, s390)
--crypto/		<undocumented>
--debug/		<undocumented>
-+crypto/		cryptographic subsystem
-+debug/		debugging features
- dev/		device specific information (e.g. dev/cdrom/info)
- fs/		specific filesystems
- 		filehandle, inode, dentry and quota tuning
-@@ -96,6 +96,8 @@ it :-)
-    :maxdepth: 1
- 
-    abi
-+   crypto
-+   debug
-    fs
-    kernel
-    net
--- 
-2.53.0
+So I think that's all good.
 
+- Frank
