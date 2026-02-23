@@ -1,92 +1,368 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365FA33B95A;
-	Mon, 23 Feb 2026 18:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559FD30DD22;
+	Mon, 23 Feb 2026 18:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771870703; cv=none; b=gdlWCE5Xvi6kPizkioBM0gM1Mto/lGMW+WsKPQqduwZQaKG/PF13uHVwPnFeXcPk6DwoiyNH1JX4gIAh+Kf+PWEI9UddMDs9H8wG58KKs0SM+xZC7RVSmBFawR4pEHMRpt7Hg4kQRtrKJUCzNF/DCbslnXUBpJMY2DieIgBL3hg=
+	t=1771872132; cv=none; b=FUxaZkREEU01lWl2fCAHhx6GkWnUI+l9yvzFMxnH4UvKtZsQh/YX9o3PsT0QieSkI92rzdFZ8ox2ae+ZRXqBD8GGFVROBhpuEQYF25L0m1/XG3YZUzLyRZYUD7wN7v6+hbMlFHsAZBmc7YfFexNPIN99drlfXb+7wO9RoixDCt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771870703; c=relaxed/simple;
-	bh=+VZ7Kwr43qtcpUWCNbDxydoVIfRKXFsPdkZVbgvisX8=;
+	s=arc-20240116; t=1771872132; c=relaxed/simple;
+	bh=rCHmm/zok/ZHYhXcvb3BF39F3olQG5YTVbanELl+Bew=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bNvU7kPIbv4W8c5EQTOZ9yEb4Z6TeTm0+vxZpjf1ufFRRM5h/q1wDAaUEwh5ElZVVLlkablgAc3+IYXGl08gijKnPLsFhMHXMLDTWtpzpjrXKoBcUGtbZlC9YnmMEZJUYsT+GsZcYU5j6SEYBxxcrrrWjq5Tok1SwvSi0JHdSKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=DwysRZ8w; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=c7l8HQrLPMKg39v9o714OkOzuveT/8XrREaQfH4Jc/9xXG6W+Zgo2npQdiTu/9JQ5K8bmlMottfT389CGc0Mnyi3WbBX58yKcEZfPjky0Kp1sKkzo7KzyAGYhQYDVxp5bzK96sy887D2w1+FkyAF/d3VjtOgVisP1d9ie8LFdMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DK8QjHK0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="DwysRZ8w"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=FfglRdAZ7//oiLVr9rHZZA3KADO9fxzVK1RtdGfizyk=; b=DwysRZ8w8bsWlmYNGYULfAJmG7
-	hSJNuNbMf7YB6Bw+2+sdN+gpEHiWW8es4C0T6zJwktdLc3RhPZw2vHww2zYIaIWd9OMMo2f0GMQGB
-	+o+JmrdW5o641PR1oftCRk1CdSsMCxhp4d9yPIn62FPbQm05ucvWkQHqdVdKmus/qgvGWHPyoTMq0
-	Bi0bMdMVoMOK4+Y5UeEhXVzRwRMx69dUFCB7knGSbhp+g85lK+Ftmjm+AdVAocCgB4qJLd5e7BYXG
-	DwhcEFl1UkLOZyTvFO6oylY9vWhv/isIrE2AqJyzG9EjoCNjXR2fZEj1huiJ1sS22n3Y0H4myV9zV
-	XW3KWFzQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vuaVP-0000000Et8q-2Mg0;
-	Mon, 23 Feb 2026 18:18:03 +0000
-Date: Mon, 23 Feb 2026 18:18:03 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Kiryl Shutsemau <kas@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Frank van der Linden <fvdl@google.com>,
-	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DK8QjHK0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 709E6C116C6;
+	Mon, 23 Feb 2026 18:42:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771872132;
+	bh=rCHmm/zok/ZHYhXcvb3BF39F3olQG5YTVbanELl+Bew=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DK8QjHK0ArTdo0esgtiCQsgDKxZaepF19ebhrRv6gpMnFJmkZCUOY/vBwLWk4S0Hr
+	 jeE98gLGcP4Ym2xfc5E0GjYCF7QA4hl2VSMouUR0B0gX7MBSqWFfe3Dv5RT/06FG7k
+	 pOYexreZSggTeyisgt2W7jyCfdEf0q8MOj8/XK/IX7x2+LGL00UVWk7MhGMWy2u/VD
+	 FKEVZdxFzPp3vAbavWlo04c/BnGbugnbetDM37BSzKhHz6mH4PUbnePbGYFQjNZLvK
+	 Tvsoyfb0adJkDjOy4pnS6Uq/oZLqlCqjKueb+LTn1Z9620sBfpD62Ed4clE8B5gBoZ
+	 8aXhrmCuJp56w==
+Date: Mon, 23 Feb 2026 19:41:52 +0100
+From: Nicolas Schier <nsc@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	kernel-team@meta.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCHv6 08/17] mm: Make page_zonenum() use head page
-Message-ID: <aZyZ2-7Xr-zUnInC@casper.infradead.org>
-References: <20260202155634.650837-1-kas@kernel.org>
- <20260202155634.650837-9-kas@kernel.org>
- <aZJTLwV2SaaKu1k_@casper.infradead.org>
- <ec4a9a1e-8c08-4879-a787-3b9e0bc38160@kernel.org>
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Xiu Jianfeng <xiujianfeng@huawei.com>,
+	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
+	Arnout Engelen <arnout@bzzt.net>,
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+	Christian Heusel <christian@heusel.eu>,
+	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
+Message-ID: <aZyfcDCWOBJJztQ2@levanger>
+Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Xiu Jianfeng <xiujianfeng@huawei.com>,
+	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
+	Arnout Engelen <arnout@bzzt.net>,
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+	Christian Heusel <christian@heusel.eu>,
+	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+ <aZol1Rsa2tX-WNaZ@derry.ads.avm.de>
+ <0d70db8d-702b-46ec-a010-298fe6515aab@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <ec4a9a1e-8c08-4879-a787-3b9e0bc38160@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0d70db8d-702b-46ec-a010-298fe6515aab@t-8ch.de>
 
-On Mon, Feb 16, 2026 at 10:06:57AM +0100, David Hildenbrand (Arm) wrote:
-> On 2/16/26 00:13, Matthew Wilcox wrote:
-> > On Mon, Feb 02, 2026 at 03:56:24PM +0000, Kiryl Shutsemau wrote:
-> > > With the upcoming changes to HVO, a single page of tail struct pages
-> > > will be shared across all huge pages of the same order on a node. Since
-> > > huge pages on the same node may belong to different zones, the zone
-> > > information stored in shared tail page flags would be incorrect.
+On Mon, Feb 23, 2026 at 08:53:29AM +0100, Thomas Weiﬂschuh wrote:
+> On 2026-02-21 22:38:29+0100, Nicolas Schier wrote:
+> > On Tue, Jan 13, 2026 at 01:28:59PM +0100, Thomas Weiﬂschuh wrote:
+> > > The current signature-based module integrity checking has some drawbacks
+> > > in combination with reproducible builds. Either the module signing key
+> > > is generated at build time, which makes the build unreproducible, or a
+> > > static signing key is used, which precludes rebuilds by third parties
+> > > and makes the whole build and packaging process much more complicated.
 > > > 
-> > > Always fetch zone information from the head page, which has unique and
-> > > correct zone flags for each compound page.
+> > > The goal is to reach bit-for-bit reproducibility. Excluding certain
+> > > parts of the build output from the reproducibility analysis would be
+> > > error-prone and force each downstream consumer to introduce new tooling.
+> > > 
+> > > Introduce a new mechanism to ensure only well-known modules are loaded
+> > > by embedding a merkle tree root of all modules built as part of the full
+> > > kernel build into vmlinux.
+> > > 
+> > > Non-builtin modules can be validated as before through signatures.
+> > > 
+> > > Normally the .ko module files depend on a fully built vmlinux to be
+> > > available for modpost validation and BTF generation. With
+> > > CONFIG_MODULE_HASHES, vmlinux now depends on the modules
+> > > to build a merkle tree. This introduces a dependency cycle which is
+> > > impossible to satisfy. Work around this by building the modules during
+> > > link-vmlinux.sh, after vmlinux is complete enough for modpost and BTF
+> > > but before the final module hashes are
+> > > 
+> > > The PKCS7 format which is used for regular module signatures can not
+> > > represent Merkle proofs, so a new kind of module signature is
+> > > introduced. As this signature type is only ever used for builtin
+> > > modules, no compatibility issues can arise.
+> > > 
+> > > Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> > > ---
+> > >  .gitignore                                   |   1 +
+> > >  Documentation/kbuild/reproducible-builds.rst |   5 +-
+> > >  Makefile                                     |   8 +-
+> > >  include/asm-generic/vmlinux.lds.h            |  11 +
+> > >  include/linux/module_hashes.h                |  25 ++
+> > >  include/linux/module_signature.h             |   1 +
+> > >  kernel/module/Kconfig                        |  21 +-
+> > >  kernel/module/Makefile                       |   1 +
+> > >  kernel/module/hashes.c                       |  92 ++++++
+> > >  kernel/module/hashes_root.c                  |   6 +
+> > >  kernel/module/internal.h                     |   1 +
+> > >  kernel/module/main.c                         |   4 +-
+> > >  scripts/.gitignore                           |   1 +
+> > >  scripts/Makefile                             |   3 +
+> > >  scripts/Makefile.modfinal                    |  11 +
+> > >  scripts/Makefile.modinst                     |  13 +
+> > >  scripts/Makefile.vmlinux                     |   5 +
+> > >  scripts/link-vmlinux.sh                      |  14 +-
+> > >  scripts/modules-merkle-tree.c                | 467 +++++++++++++++++++++++++++
+> > >  security/lockdown/Kconfig                    |   2 +-
+> > >  20 files changed, 685 insertions(+), 7 deletions(-)
+> > > 
+> > [...]
 > > 
-> > You're right that different pages in the same folio can have different
-> > zone number.  But does it matter ... or to put it another way, why is
-> > returning the zone number of the head page the correct way to resolve
-> > this?
+> > > diff --git a/kernel/module/hashes_root.c b/kernel/module/hashes_root.c
+> > > new file mode 100644
+> > > index 000000000000..1abfcd3aa679
+> > > --- /dev/null
+> > > +++ b/kernel/module/hashes_root.c
+> > > @@ -0,0 +1,6 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > > +
+> > > +#include <linux/module_hashes.h>
+> > > +
+> > > +/* Blank dummy data. Will be overridden by link-vmlinux.sh */
+> > > +const struct module_hashes_root module_hashes_root __module_hashes_section = {};
+> > > diff --git a/kernel/module/internal.h b/kernel/module/internal.h
+> > > index e2d49122c2a1..e22837d3ac76 100644
+> > > --- a/kernel/module/internal.h
+> > > +++ b/kernel/module/internal.h
+> > > @@ -338,6 +338,7 @@ void module_mark_ro_after_init(const Elf_Ehdr *hdr, Elf_Shdr *sechdrs,
+> > >  			       const char *secstrings);
+> > >  
+> > >  int module_sig_check(struct load_info *info, const u8 *sig, size_t sig_len);
+> > > +int module_hash_check(struct load_info *info, const u8 *sig, size_t sig_len);
+> > >  
+> > >  #ifdef CONFIG_DEBUG_KMEMLEAK
+> > >  void kmemleak_load_module(const struct module *mod, const struct load_info *info);
+> > > diff --git a/kernel/module/main.c b/kernel/module/main.c
+> > > index 2a28a0ece809..fa30b6387936 100644
+> > > --- a/kernel/module/main.c
+> > > +++ b/kernel/module/main.c
+> > > @@ -3362,8 +3362,10 @@ static int module_integrity_check(struct load_info *info, int flags)
+> > >  
+> > >  	if (IS_ENABLED(CONFIG_MODULE_SIG) && sig_type == PKEY_ID_PKCS7) {
+> > >  		err = module_sig_check(info, sig, sig_len);
+> > > +	} else if (IS_ENABLED(CONFIG_MODULE_HASHES) && sig_type == PKEY_ID_MERKLE) {
+> > > +		err = module_hash_check(info, sig, sig_len);
+> > >  	} else {
+> > > -		pr_err("module: not signed with expected PKCS#7 message\n");
+> > > +		pr_err("module: not signed with signature mechanism\n");
+> > >  		err = -ENOPKG;
+> > 
+> > To prevent others from running into the same issue:
+> > 
+> > My first test got stuck here, as I tested with virtme-ng, which symlinks
+> > modules from build tree to /lib/modules/$(uname -r)/..., resulting in
+> > 
+> >     [   15.956855] module: not signed with signature mechanism
+> >     modprobe: ERROR: could not insert 'efivarfs': Package not installed
+> > 
+> > As the modules_install step was missing, modules were not being signed.
 > 
-> How can a folio cross zones?
+> Currently the signing is deferred to installation time to keep in sync
+> with regular module signing and to keep the logic simpler by not having
+> to gracefully handle previously-signed files.
+> But this could be changed.
 
-I thought 1GB pages in hugetlb could cross zones?  Maybe that used to be
-true and isn't any more, or maybe it was never true and I was just
-confused.
+I did not want to suggest changing the behaviour, that would make things
+more complicated to prevent needless rebuilds.  I just wanted to mention
+it here to prevent others from burning time.
 
+> > [...]
+> > > diff --git a/scripts/modules-merkle-tree.c b/scripts/modules-merkle-tree.c
+> > > new file mode 100644
+> > > index 000000000000..a6ec0e21213b
+> > > --- /dev/null
+> > > +++ b/scripts/modules-merkle-tree.c
+> > > @@ -0,0 +1,467 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > > +/*
+> > > + * Compute hashes for modules files and build a merkle tree.
+> > > + *
+> > > + * Copyright (C) 2025 Sebastian Andrzej Siewior <sebastian@breakpoint.cc>
+> > > + * Copyright (C) 2025 Thomas Weiﬂschuh <linux@weissschuh.net>
+> > > + *
+> > > + */
+> > > +#define _GNU_SOURCE 1
+> > > +#include <arpa/inet.h>
+> > > +#include <err.h>
+> > > +#include <unistd.h>
+> > > +#include <fcntl.h>
+> > > +#include <stdarg.h>
+> > > +#include <stdio.h>
+> > > +#include <string.h>
+> > > +#include <stdbool.h>
+> > > +#include <stdlib.h>
+> > > +
+> > > +#include <sys/stat.h>
+> > > +#include <sys/mman.h>
+> > > +
+> > > +#include <openssl/evp.h>
+> > > +#include <openssl/err.h>
+> > > +
+> > > +#include "ssl-common.h"
+> > > +
+> > > +static int hash_size;
+> > > +static EVP_MD_CTX *ctx;
+> > > +
+> > > +struct module_signature {
+> > > +	uint8_t		algo;		/* Public-key crypto algorithm [0] */
+> > > +	uint8_t		hash;		/* Digest algorithm [0] */
+> > > +	uint8_t		id_type;	/* Key identifier type [PKEY_ID_PKCS7] */
+> > > +	uint8_t		signer_len;	/* Length of signer's name [0] */
+> > > +	uint8_t		key_id_len;	/* Length of key identifier [0] */
+> > > +	uint8_t		__pad[3];
+> > > +	uint32_t	sig_len;	/* Length of signature data */
+> > > +};
+> > > +
+> > > +#define PKEY_ID_MERKLE 3
+> > > +
+> > > +static const char magic_number[] = "~Module signature appended~\n";
+> > 
+> > This here will be the forth definition of struct module_signature,
+> > increasing the risk of unwanted diversion.  I second Petr's suggestion
+> > to reuse a _common_ definition instead.
+> 
+> Ack.
+> 
+> > (Here, even include/linux/module_signature.h could be included itself.)
+> 
+> I'd like to avoid including internal headers from other components.
+> We could move it to an UAPI header. Various other subsystems use those
+> for not-really-UAPI but still ABI definitions.
+
+Yeah, ack.
+
+> (...)
+> 
+> > > +static inline char *xasprintf(const char *fmt, ...)
+> > > +{
+> > > +	va_list ap;
+> > > +	char *strp;
+> > > +	int ret;
+> > > +
+> > > +	va_start(ap, fmt);
+> > > +	ret = vasprintf(&strp, fmt, ap);
+> > > +	va_end(ap);
+> > > +	if (ret == -1)
+> > > +		err(1, "Memory allocation failed");
+> > > +
+> > > +	return strp;
+> > > +}
+> > 
+> > Please consider moving these x* functions into scripts/include/xalloc.h
+> > for reuse.  (I am sure someone else wrote this already, but I can't find
+> > it...)
+> 
+> Petr suggested it somewhere, it is done for the next revision.
+> 
+> > thanks for all your efforts for reproducibility!
+> > 
+> > As I have no clue about that:  Is the patent for merkle trees [1] a
+> > problem when integrating that here?
+> 
+> That should have expired a long time ago [2].
+> And fs-verity is also using merkle trees.
+
+Great, thanks.
+
+
+> > Can you verify if I get the mechanics roughly correct?
+> > 
+> >   * Modules are merkle tree leaves.  Modules are built and logically
+> >     paired by the order from modules.order; a single left-over module is
+> >     paired with itself.
+> > 
+> >   * Hashes of paired modules are hashed again (branch node hash);
+> >     hashes of pairs of branch nodes' hashes are hashed again;
+> >     repeat until we reach the single merkle tree root hash
+> > 
+> >   * The final merkle tree root hash (and the count of tree levels) is
+> >     included in vmlinux
+> 
+> The merkle tree code was written by Sebastian so he will have the best
+> knowledge about it. But this is also my understanding.
+
+I'd like to see some (rough) description in Documentation or in a commit
+message at least, otherwise future me will have to ask that again.
+
+
+> > 'make && find . -name '*.ko' -exec rm {} \; && make' does not rebuild
+> > the in-tree modules.  Shifting the module-hashes support from
+> > scripts/link-vmlinux.sh to scripts/Makefile.vmlinux might (make it
+> > easier) to fix this again.
+> 
+> I'll take a look at it.
+
+Thanks!
+
+Kind regards,
+Nicolas
+
+
+
+> > [1]: https://worldwide.espacenet.com/patent/search/family/022107098/publication/US4309569A?q=pn%3DUS4309569
+> 
+> [2] https://patents.stackexchange.com/questions/17901/validity-of-patent-on-merkle-trees
+> 
+> 
+> Thomas
+
+-- 
+Nicolas
