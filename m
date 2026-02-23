@@ -1,85 +1,111 @@
-Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D8134DB59;
-	Mon, 23 Feb 2026 09:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.136.29.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E03734D39C;
+	Mon, 23 Feb 2026 10:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771840488; cv=none; b=kJe/efoLxUtD7dE1k0CbWsCSIk4gVapTPU+L4lcqYajSiZinJ/ZK7tQZBmLa9N4X7TEF/x66jeWnoE3Cm6aDyunTql+1xp059q6R44qkXLQm384HbWOEo8/RJs7+DAbBsaNXghYg7hUNiFfhRnODE/y+OgyLTIjqp5hBltfxC+g=
+	t=1771841106; cv=none; b=R/GZPDwIz6QC2T7RBs5waJ3Kb181djoYG+sq3DsJ8Smn1GRHdrCb/5VEbmaRnDvd9RagxocJQfjYc9WzrUW53LTkBHN09l4WBenk5SJ+NJjnjCV4sz7FtgdxTrCRvKzBrZkHpZ81XIiZHOS0nCTbJrnCbvCkdPa460sgNUYYtoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771840488; c=relaxed/simple;
-	bh=nNTeQyC3JCJ4lTlpuCPtdMUYRBv478ziaQfoSfmX8Z0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EzgBnpiLzvOqwdnFpjcbAF6pgn/d2V+tQXe9TAVvgrf7HuNmgndgekKoRxxtUe6oBKx4x6MtYBtKIPXGyvhdiAJ5QmQmBDniVvS/EMbubVv/wmIceX6xXCo7SkXOBdyAsBmhRoKf0ja0PJxg8aBT9x0LpAErPPaPu4Pb2skAt9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com; spf=pass smtp.mailfrom=proxmox.com; arc=none smtp.client-ip=94.136.29.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
-	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id C672D47E96;
-	Mon, 23 Feb 2026 10:54:37 +0100 (CET)
-Date: Mon, 23 Feb 2026 10:54:37 +0100
-From: Gabriel Goller <g.goller@proxmox.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] docs: net: document neigh gc_interval and
- gc_stale_time sysctls
-Message-ID: <sesyijabmxi5muc2rn432wrk4pxy24jri4i3y7fulrttv735wu@spf2houzg3sb>
-Mail-Followup-To: Jakub Kicinski <kuba@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260219162200.510325-1-g.goller@proxmox.com>
- <20260220164344.68ab2a6a@kernel.org>
+	s=arc-20240116; t=1771841106; c=relaxed/simple;
+	bh=wStn2+PjC1n8XDfeiGKbYBLcOVjDTf5kAPZijXt74vE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XGwPAWpKpkrU/CIDFE69f5F+rYCstVwZ6HJf0B1lhXeHGbFOEVj35bSee9MJeh6zZJkvVMbQIroD2EA4TFpRK1KgbOidv0pZeQrBdTvF0pasqwKfFuDZm+Dne6f2KULb68BvD1K/Jp3q1Rljc0YoAmJoXuworQjxBwb3NBsfb64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HoFHwNP4; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HoFHwNP4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B134CC116C6;
+	Mon, 23 Feb 2026 10:05:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771841106;
+	bh=wStn2+PjC1n8XDfeiGKbYBLcOVjDTf5kAPZijXt74vE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HoFHwNP48AK/BC6Qxp/PeY0A6vdNQP7x1fl42q1yHlar2qwBXgz+NJ0fo2mHIPA+E
+	 +Xh6zfXdq0zbF9gnl7Voejy0WInONBPYkZKCRA4T2sSeJfJBuQdMB7oQjMkQI9yXQW
+	 hTjDRwuLm58wMbZpQC8uwp4zByUh/9idY9/nyf1QNuRx7wPsgnuVsbB05YC44Qdccb
+	 Id6QDrYf4R+vzHenoI5UnQcxzUTNT89QzOPMvZ2O5fxlIJ0a1gFFfAp1MzmpEG5CM/
+	 wL0iYQuZhVPYrqFx9CGnDM6ARZtI05yrJckZEbuHKNQ9mKnbivVeVWjOdDkDiweyWT
+	 DTCrzZJBQO+gA==
+From: Michael Walle <mwalle@kernel.org>
+To: Nishanth Menon <nm@ti.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Tero Kristo <kristo@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-watchdog@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Michael Walle <mwalle@kernel.org>
+Subject: [PATCH 0/8] Remove the Kontron SMARC-sAM67 board
+Date: Mon, 23 Feb 2026 11:04:45 +0100
+Message-ID: <20260223100459.844967-1-mwalle@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260220164344.68ab2a6a@kernel.org>
-User-Agent: NeoMutt/20241002-35-39f9a6
-X-Bm-Milter-Handled: 55990f41-d878-4baa-be0a-ee34c49e34d2
-X-Bm-Transport-Timestamp: 1771840463196
+Content-Transfer-Encoding: 8bit
 
-On 20.02.2026 16:43, Jakub Kicinski wrote:
-> On Thu, 19 Feb 2026 17:21:58 +0100 Gabriel Goller wrote:
-> > +neigh/default/gc_interval - INTEGER
-> > +	How often the garbage collector for neighbor entries should run. This
-> > +	value applies to the entire table, not individual entries.
-> > +
-> > +	Default: 30 seconds
-> 
-> AI suggests that this value is not actually currently used
-> in our implementation. I can't find any use either, TBH.
-> It's read and can be written but it's seemingly not used for anything.
+I was informed two weeks ago that this product is discontinued
+(without being ever released to the market). Unfortunately, this
+collided with the merge window and I had to wait two more weeks.
 
-You're right, I'll remove this section.
+Pull the plug and let's not waste any more maintainers time.
 
-> > +neigh/default/gc_stale_time - INTEGER
-> > +	Determines how long a neighbor entry can remain unused before it is
-> > +	considered stale and eligible for garbage collection. Entries that have
-> > +	not been used for longer than this time will be removed by the garbage
-> > +	collector, unless they have active references, are marked as PERMANENT,
-> > +	or carry the NTF_EXT_LEARNED or NTF_EXT_VALIDATED flag.
-> > +
-> > +	Default: 60 seconds
-> 
-> AI adds:
-> 
->   Important caveat: This check is only reached when total_entries >= gc_thresh1
->   (line 1000-1001). Below that threshold, the periodic GC skips the scan
->   entirely.
-> 
-> If true I think we should mention that ?
+Please let me know if this can be picked up in one go or if the
+device tree has to be removed first and then the drivers together
+with the dt-bindings.
 
-Yes this is true -- I'll mention this in the description.
+On the bright side, the board upstreaming brought some driver fixes,
+too. I'm really sorry for any wasted time.
 
-Thanks for the review!
+Michael Walle (8):
+  arm64: dts: ti: remove the Kontron SMARC-sAM67
+  arm64: defconfig: remove SENSORS_SA67MCU
+  Revert "hwmon: add SMARC-sAM67 support"
+  Revert "dt-bindings: mfd: sl28cpld: Add sa67mcu compatible"
+  Revert "dt-bindings: arm: ti: Add Kontron SMARC-sAM67 module"
+  Revert "dt-bindings: nvmem: sl28cpld: add sa67mcu compatible"
+  Revert "dt-bindings: watchdog: Add SMARC-sAM67 support"
+  Revert "dt-bindings: hwmon: sl28cpld: add sa67mcu compatible"
 
+ .../devicetree/bindings/arm/ti/k3.yaml        |    1 -
+ .../embedded-controller/kontron,sl28cpld.yaml |    7 +-
+ .../hwmon/kontron,sl28cpld-hwmon.yaml         |    1 -
+ .../nvmem/layouts/kontron,sl28-vpd.yaml       |    7 +-
+ .../watchdog/kontron,sl28cpld-wdt.yaml        |    7 +-
+ Documentation/hwmon/index.rst                 |    1 -
+ Documentation/hwmon/sa67.rst                  |   41 -
+ MAINTAINERS                                   |    1 -
+ arch/arm64/boot/dts/ti/Makefile               |   13 -
+ .../dts/ti/k3-am67a-kontron-sa67-ads2.dtso    |  146 ---
+ .../dts/ti/k3-am67a-kontron-sa67-base.dts     | 1091 -----------------
+ .../dts/ti/k3-am67a-kontron-sa67-gbe1.dtso    |   26 -
+ .../dts/ti/k3-am67a-kontron-sa67-gpios.dtso   |   61 -
+ .../ti/k3-am67a-kontron-sa67-rtc-rv8263.dtso  |   31 -
+ arch/arm64/configs/defconfig                  |    1 -
+ drivers/hwmon/Kconfig                         |   10 -
+ drivers/hwmon/Makefile                        |    1 -
+ drivers/hwmon/sa67mcu-hwmon.c                 |  161 ---
+ 18 files changed, 3 insertions(+), 1604 deletions(-)
+ delete mode 100644 Documentation/hwmon/sa67.rst
+ delete mode 100644 arch/arm64/boot/dts/ti/k3-am67a-kontron-sa67-ads2.dtso
+ delete mode 100644 arch/arm64/boot/dts/ti/k3-am67a-kontron-sa67-base.dts
+ delete mode 100644 arch/arm64/boot/dts/ti/k3-am67a-kontron-sa67-gbe1.dtso
+ delete mode 100644 arch/arm64/boot/dts/ti/k3-am67a-kontron-sa67-gpios.dtso
+ delete mode 100644 arch/arm64/boot/dts/ti/k3-am67a-kontron-sa67-rtc-rv8263.dtso
+ delete mode 100644 drivers/hwmon/sa67mcu-hwmon.c
+
+-- 
+2.47.3
 
