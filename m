@@ -1,71 +1,61 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76FE9319601
-	for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 17:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034E432939F;
+	Mon, 23 Feb 2026 17:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771866194; cv=none; b=YI59Xz/cBZLQSonm2ick3ZZtg1ktvGzVua5ByNysBOf4ClysIy5Q1R+A4Vi7ndl83zoRL5JWiNFtUYDDNUG1IjwzUvA8bfVOAakdOIibhfEH8RnCY0U7AA/otvWOcHVj4DUCfx0zibJZKubMkji6giXM7rSIBksW7FADhjoTiJo=
+	t=1771866570; cv=none; b=VD0prWCquaCBDoAL+1bpJPSHl541BlH+VQiZdw8L7ZdjhmGaceIKmdQLeN+5gX2yUYx3Hcdzh0XZaHKxqlX2j+1KRdaGWnYFj8ujWTLjNfST61fhi5EvkCjjs39utTSaCUzr3tVo6nNgBM+2t9LMBvybMiQwlCur0Jh/FaBPxe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771866194; c=relaxed/simple;
-	bh=01dgStLxMS9aTnMI8IlTDVuPmoGpFNt9rtBjsvybJOY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ReMH/yaNx6pB46d4T0lBTkAQScuGlki+Grcr3NAwa3UKZZixNOp4XyoqwiBI+0RnQ8Br8GdO5QcQeVnmthX9bRAI2hPKS4YjbtCtWGqsBvPEunZX6seuy7pLTkcVlo1D4zdLAGINf5OW0kG4lNrhnCgjsVFwCAmugRmHujGXEVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aMIBUtf8; arc=none smtp.client-ip=209.85.215.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771866570; c=relaxed/simple;
+	bh=45LEM47uhhpwNJ8pBj8luNIcApHIa68GG2HYJFgMJsc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pn1pHi3XaCQKphfa7XZC9XGHfEMhQHgXxP3WxCxerIP2K/l50zlZ7rK32euR7bPdQamLdU7525fLs//UmYMfEPm/RMvuSbb9NkCsiu5XxpX+Pw3ZjQs9PoqBMx/ZDywcBuwdFzEWlzhyjoeg/yajaTJal4+rrghJqdxuPfLsJEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=aBGsyHFQ; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aMIBUtf8"
-Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-c6dd5b01e14so1555170a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 09:03:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771866189; x=1772470989; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q1tnNSjdMmiZcchpYj7Fmmy7pyxIY3tVA+shYAraIB0=;
-        b=aMIBUtf8SxX6s7ETzNsS1aZILu2xeMwf8caNtQyKHb4vEZ/8HeyfJXcy5O+kvYFGGg
-         wtLCHGi9u82qx8JFnSLpBTLTQX8m9nE8fRc/DgYyunhIjpyRoNYTq1JUwYqQUfpU8jYS
-         gdsLMzMywcuwm7vt17JBfR3BFMu74+6R6BWhltDsAfS6B51l9tHWzQGbUhHr0JsXlqve
-         m536moiyuHk/VkCckMKTo+mwSXg0eDxxECC1nHkGP0K8DqomJj4pQiXswHYJJetfexz+
-         eGOSx0rBRZF4LDpp5apaW3uTGCUSNmcdobFJPCq3qJHf/cPETANQkOnZ8LGtGifp8O99
-         lbNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771866189; x=1772470989;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q1tnNSjdMmiZcchpYj7Fmmy7pyxIY3tVA+shYAraIB0=;
-        b=Ywb44hLk8VkluPotJ7NcoEh1ERSisXSrS8xg9bwoI8Cbrf48mjmhftOZ2EziDLrAEZ
-         Tm5RWds3A2pyS+OEtrA07LRvmg0ToxMZKMc/XKgscsaxq2/qtpWHH2RC+rPellrejK0L
-         F04hfuRGBf0L4kOgiyik+abDfmDOXhL6lsGFxO8XLZljETxb0/xIIXCf56dzf2xl1TUB
-         Lc8vodGrDM8DKvmQr5FyW/7CKq7nkhKHql3NY7plUaWdA1NkDmJNDH6xpln9aHmhS1Py
-         1MgBnzchvOWx4agt1RfI2PTmUSuf2R/ey4oxEI7VFnCUdCerHamTcnIBKAdUqjOZAQk2
-         65fw==
-X-Forwarded-Encrypted: i=1; AJvYcCW0E37Ybe6Sw1EJukdDpcS/sSf7I0t/KA9/a5Na1IjhQPE6KGMu9Y2aPMcOglsLFYBDPZagpoqYmKQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCmu9zSKGcbIiy7qFS6Qhm5Bc7om+1nQa+UJgp7luh9MUIf+Ze
-	kbx6v0OJbhdiqbRwpBoGJffa3+5vlD72jgIetZzswa1HOZuLUFsN0fp6
-X-Gm-Gg: ATEYQzyPSrQ9+aTiJbPh8oPkFxLFVfOzXhxiG9EsiCegGRItMntqyphroJwj0IoI3B+
-	9rKj36iL3R4KjKjvrHtFDuPYkN+X0dRpmyOCXnBo6y6eiUPKLgCWmXlU0hYEwFcKjn9ikK1up3/
-	cSNQC4XBh5VTUbZ4NikEz7G7T+wv8X8IuSeCKgRsZsLMruvB0wmxsToF/gKiyRybureGjurG4by
-	KKXY0b6a/dWnGOWTEGZnQBlyluAWRffNyZecovz1vTLqSAnhVPL7Mfo5Zn0z5L+fRR35xxVoLs5
-	TBq00g+BCikBg6GJXQsd3JK5Ip5fbQDKjdo4vaRbkEtX0498O8mgk9z6UYGF70oIljN4pdUC8iw
-	s9o5+Bdkt+QnRx7ln4ChEl4WFwlN4VV56w6TKqchb7fGm9fNdiU+/TkaeqaZrbxN1ayNkmrqKvU
-	aXZ70BMRM4W/W0RtOk5QR5Azjj5RAOhMLXWPA=
-X-Received: by 2002:a17:903:11d2:b0:2aa:e6c8:2c6e with SMTP id d9443c01a7336-2ad7457a8c8mr78853495ad.56.1771866189336;
-        Mon, 23 Feb 2026 09:03:09 -0800 (PST)
-Received: from fedora ([2409:40e5:11e3:f079:b796:44c2:7e10:cd23])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad74e34452sm78950655ad.7.2026.02.23.09.03.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 09:03:08 -0800 (PST)
-From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Subject: [PATCH v2] docs: sysctl: Add documentation for crypto and debug sysctls
-Date: Mon, 23 Feb 2026 22:32:51 +0530
-Message-ID: <20260223170251.10540-1-chakrabortyshubham66@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="aBGsyHFQ"
+Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61NDe9AP1742941;
+	Mon, 23 Feb 2026 12:09:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=BSJ4KY6w529CCltmJzuSwV8FGW0
+	/H8fOc7EhU9qXYMo=; b=aBGsyHFQ9H2bunFDZyAl3wRh0vP8xRIGWnuH/cdVZ4e
+	y5SKlY2xzIFXOr1r+DNot7l8t6ZlP6xK/VI+hQKYIvk/yErVNMaRwmIsemT+58a6
+	Ofmnsz+U8QQK+mMacNciMACRzJgkxC8LZGItFTsxcQnNuCCKDPy7VslH1pS6ps1K
+	yerF+X4fiA3/gvCvz2XA1Pyq8RsxlUpUjEmCz27elCiZdoxwudgF3dIQdWTVhx1M
+	baijPugNXQO611islPKdtnCzqp+bbyEF4uBZUe4OK5QciaBIvERy0d+MvzDx8zaP
+	YKQ1mJMmoaxA6J1KJBObcTowkhxFj4t9YVqaoQbkaLQ==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4cg7p4kux9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 23 Feb 2026 12:09:11 -0500 (EST)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 61NH9A3r036341
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 23 Feb 2026 12:09:10 -0500
+Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Mon, 23 Feb
+ 2026 12:09:10 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Mon, 23 Feb 2026 12:09:10 -0500
+Received: from work.ad.analog.com (HYB-hERzalRezfV.ad.analog.com [10.65.205.9])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 61NH8sE8017789;
+	Mon, 23 Feb 2026 12:08:57 -0500
+From: Marcelo Schmitt <marcelo.schmitt@analog.com>
+To: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC: <jic23@kernel.org>, <michael.hennerich@analog.com>, <nuno.sa@analog.com>,
+        <eblanc@baylibre.com>, <dlechner@baylibre.com>, <andy@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>
+Subject: [PATCH v10 0/6] Add SPI offload support to AD4030
+Date: Mon, 23 Feb 2026 14:08:50 -0300
+Message-ID: <cover.1771865684.git.marcelo.schmitt@analog.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,159 +63,74 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjIzMDE0NiBTYWx0ZWRfX9BrZqDlLrWo8
+ veEPRL6xMstM/AXJ1/lowYRHk967CzeLLUkFompKBcdMVkI2QhexUgkBIFGcih+SXtqdbvVMwuj
+ XM6eLv64IFMQGOV5t6KT3ohKhvt74TeoWtsqyoQaDc9kYTrkBLT+WSKkFacGYolWutJKMxHxHj1
+ 9+iF9XXtVuLC1yGg1t7tPYPG7KTq/fu2K0I6X0qv6kqC6Eacr0FROVCJrDFGuRN5cw5YmN53MCN
+ h+XVprnaGugBIq4TLROb+ZIbJnnx8wua3YxVft3Pz0ZR991WA+zL4H0Ue23ME5Uo3wySAlg6fTS
+ yrQIdxJ3dzcQX9NbDLFgmqhKqNT8qF2fur09FC+dKYbNIuD1/4xcOqOGcQICEWGFPtbjo/XEOGV
+ U1t9Dst3SpsTgn020Y7gDwF9G5JOalm/VzWdmIqZJpO6kcFrhbBROvSGbei9heQHG5lu/H3fXLT
+ znml3Oha3fIDs5oLKeg==
+X-Proofpoint-ORIG-GUID: NnCBX_SR8AVEQyM6Uah17uuE_D9V1rII
+X-Authority-Analysis: v=2.4 cv=LfgxKzfi c=1 sm=1 tr=0 ts=699c89b7 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
+ a=OmVn7CZJonkx5R5zMQLL:22 a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8
+ a=DtX16q9jjA3GmR8T9d8A:9
+X-Proofpoint-GUID: NnCBX_SR8AVEQyM6Uah17uuE_D9V1rII
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-23_04,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 spamscore=0 phishscore=0 clxscore=1015
+ adultscore=0 bulkscore=0 malwarescore=0 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602230146
 
-The /proc/sys/crypto and /proc/sys/debug directories lacked
-documentation in the admin-guide. Add RST files covering
-fips_enabled, fips_name, fips_version, exception-trace, and
-kprobes-optimization sysctls.
+Hello,
 
-Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
----
- Documentation/admin-guide/sysctl/crypto.rst | 49 +++++++++++++++++++
- Documentation/admin-guide/sysctl/debug.rst  | 53 +++++++++++++++++++++
- Documentation/admin-guide/sysctl/index.rst  |  6 ++-
- 3 files changed, 106 insertions(+), 2 deletions(-)
- create mode 100644 Documentation/admin-guide/sysctl/crypto.rst
- create mode 100644 Documentation/admin-guide/sysctl/debug.rst
+This is v10 of high speed data capture support for AD4030/AD4630 and similar ADCs.
+It also adds support for ADAQ4216 and ADAQ4224.
 
-diff --git a/Documentation/admin-guide/sysctl/crypto.rst b/Documentation/admin-guide/sysctl/crypto.rst
-new file mode 100644
-index 000000000..a4c2e5ed4
---- /dev/null
-+++ b/Documentation/admin-guide/sysctl/crypto.rst
-@@ -0,0 +1,49 @@
-+=================
-+/proc/sys/crypto/
-+=================
-+
-+Currently, these files might (depending on your configuration)
-+show up in ``/proc/sys/crypto/``:
-+
-+.. contents:: :local:
-+
-+fips_enabled
-+============
-+
-+This file contains a read-only flag that indicates whether FIPS mode is
-+enabled.
-+
-+- ``0``: FIPS mode is disabled (default).
-+- ``1``: FIPS mode is enabled.
-+
-+This value is set at boot time via the ``fips=1`` kernel command line
-+parameter. When enabled, the cryptographic API will restrict the use
-+of certain algorithms and perform self-tests to ensure compliance with
-+FIPS (Federal Information Processing Standards) requirements, such as
-+FIPS 140-2 and the newer FIPS 140-3, depending on the kernel
-+configuration and the module in use.
-+
-+fips_name
-+=========
-+
-+This read-only file contains the name of the FIPS module currently in use.
-+The value is typically configured via the ``CONFIG_CRYPTO_FIPS_NAME``
-+kernel configuration option.
-+
-+fips_version
-+============
-+
-+This read-only file contains the version string of the FIPS module.
-+If ``CONFIG_CRYPTO_FIPS_CUSTOM_VERSION`` is set, it uses the value from
-+``CONFIG_CRYPTO_FIPS_VERSION``. Otherwise, it defaults to the kernel
-+release version (``UTS_RELEASE``).
-+
-+Copyright (c) 2026, Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-+
-+For general info and legal blurb, please look in
-+Documentation/admin-guide/sysctl/index.rst.
-+
-+.. See scripts/check-sysctl-docs to keep this up to date:
-+.. scripts/check-sysctl-docs -vtable="crypto" \
-+..         Documentation/admin-guide/sysctl/crypto.rst \
-+..         $(git grep -l register_sysctl_)
-diff --git a/Documentation/admin-guide/sysctl/debug.rst b/Documentation/admin-guide/sysctl/debug.rst
-new file mode 100644
-index 000000000..a836c091d
---- /dev/null
-+++ b/Documentation/admin-guide/sysctl/debug.rst
-@@ -0,0 +1,53 @@
-+================
-+/proc/sys/debug/
-+================
-+
-+Currently, these files might (depending on your configuration)
-+show up in ``/proc/sys/debug/``:
-+
-+.. contents:: :local:
-+
-+exception-trace
-+===============
-+
-+This flag controls whether the kernel prints information about unhandled
-+signals (like segmentation faults) to the kernel log (``dmesg``).
-+
-+- ``0``: Unhandled signals are not traced.
-+- ``1``: Information about unhandled signals is printed.
-+
-+The default value is ``1`` on most architectures (like x86, MIPS, RISC-V),
-+but it is ``0`` on **arm64**.
-+
-+The actual information printed and the context provided varies
-+significantly depending on the CPU architecture. For example:
-+
-+- On **x86**, it typically prints the instruction pointer (IP), error
-+  code, and address that caused a page fault.
-+- On **PowerPC**, it may print the next instruction pointer (NIP),
-+  link register (LR), and other relevant registers.
-+
-+When enabled, this feature is often rate-limited to prevent the kernel
-+log from being flooded during a crash loop.
-+
-+kprobes-optimization
-+====================
-+
-+This flag enables or disables the optimization of Kprobes on certain
-+architectures (like x86).
-+
-+- ``0``: Kprobes optimization is turned off.
-+- ``1``: Kprobes optimization is turned on (default).
-+
-+For more details on Kprobes and its optimization, please refer to
-+Documentation/trace/kprobes.rst.
-+
-+Copyright (c) 2026, Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-+
-+For general info and legal blurb, please look in
-+Documentation/admin-guide/sysctl/index.rst.
-+
-+.. See scripts/check-sysctl-docs to keep this up to date:
-+.. scripts/check-sysctl-docs -vtable="debug" \
-+..         Documentation/admin-guide/sysctl/debug.rst \
-+..         $(git grep -l register_sysctl_)
-diff --git a/Documentation/admin-guide/sysctl/index.rst b/Documentation/admin-guide/sysctl/index.rst
-index 4dd2c9b5d..e153c9611 100644
---- a/Documentation/admin-guide/sysctl/index.rst
-+++ b/Documentation/admin-guide/sysctl/index.rst
-@@ -67,8 +67,8 @@ This documentation is about:
- =============== ===============================================================
- abi/		execution domains & personalities
- <$ARCH>		tuning controls for various CPU architecture (e.g. csky, s390)
--crypto/		<undocumented>
--debug/		<undocumented>
-+crypto/		cryptographic subsystem
-+debug/		debugging features
- dev/		device specific information (e.g. dev/cdrom/info)
- fs/		specific filesystems
- 		filehandle, inode, dentry and quota tuning
-@@ -96,6 +96,8 @@ it :-)
-    :maxdepth: 1
- 
-    abi
-+   crypto
-+   debug
-    fs
-    kernel
-    net
+Rebased on top of IIO testing.
+
+Looks like a devm_pwm_get_disabled() interface might not get accepted so I
+didn't change the handling of PWM initialization on v10.
+
+Change log v9 -> v10
+[DT]
+- No changes.
+[IIO]
+- Explained the need of PWM in commint message.
+- Fixed off-by-one bug.
+- Use in-loop counter declaration.
+- Correctly prepared patches, dropping unsupported bindings for input gain control.
+- Skipped the patches applied from previous version.
+- Initialize iio_scan_type struct fields on same order they are on structure definition.
+
+Link to v9: https://lore.kernel.org/linux-iio/cover.1771253601.git.marcelo.schmitt@analog.com/
+
+Thanks,
+Marcelo
+
+Marcelo Schmitt (6):
+  Docs: iio: ad4030: Add double PWM SPI offload doc
+  dt-bindings: iio: adc: adi,ad4030: Add PWM
+  iio: adc: ad4030: Add SPI offload support
+  dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216 and ADAQ4224
+  iio: adc: ad4030: Add support for ADAQ4216 and ADAQ4224
+  iio: adc: ad4030: Support common-mode channels with SPI offloading
+
+ .../bindings/iio/adc/adi,ad4030.yaml          |  62 ++
+ Documentation/iio/ad4030.rst                  |  39 ++
+ drivers/iio/adc/Kconfig                       |   5 +
+ drivers/iio/adc/ad4030.c                      | 641 +++++++++++++++++-
+ 4 files changed, 726 insertions(+), 21 deletions(-)
+
+
+base-commit: 0be8a2716187607daaa8ba80687a926438d88432
 -- 
-2.53.0
+2.39.2
 
