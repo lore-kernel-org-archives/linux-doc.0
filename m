@@ -1,196 +1,222 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E14736827F;
-	Tue, 24 Feb 2026 08:55:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C5E369969;
+	Tue, 24 Feb 2026 09:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771923308; cv=none; b=fqjFkjzhlgXD6T0aAJFxaop9gQ0gzVw8l/3Qk66ZXeUzqHHldCPIG11gdo88SqSG9gTHhxREmP8iQFsd34vYe3IhL92NFDOcA8An9/ttqyiFZxIKGCPNS67n2sXPGjyDbHh6tXwHj+f4yY04FMgle2vkFWHHJ3Y3hucO99HpBjw=
+	t=1771923820; cv=none; b=aUz9VNituQ0hbw0wx7jxMIyBhJd/u7grw7zfQdzZe4JgVfkzs9lQZQTLhPMrPgyOmlhy1K71PCMwnjtN+SOpQJGimVN47lSiQL9tgRK7AhdxSEOtkFsQoIcUQF09wkD3Y7gdszNu4EKcX7zyivnAYn/gJvEhMktuPQEq4Fz186Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771923308; c=relaxed/simple;
-	bh=/xCjAhtGnlvVH7RhPesJq4BiDO6rAsTUSi5DesDKMuI=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HoYbTMNfezKXAFAsh4mq+InCOABRXrCzguAr4A6YkHAEs6hGxEVtD4Y2TbRyy2O6OpZ14CoEB4vt+/tW5IyQycgoJL/nu9pXq9v2dSKcIwk3TaXfzAGG6tebPphhD0NLUrl1GL9pBh79yeDWOPIgSsEjbxr/plt7C0O078nHsyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=KAFY5ARO; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1771923820; c=relaxed/simple;
+	bh=F66MvL8Ia7cFuSm/xIyKma6BJNqk8VAV91xYEJfDrVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KJkQkc7DnbtjIuUklrd+33+xvoUDj/1Tw33w5rTYuU49veGl33riqGQgYtCojR/WUUDqehp+JDyyGQxpuYcaywryzpaofBrgUwnyvK31wa7e3LYTA3sCiD1tlu137SvFkVumJpeFLjtrw0n3RhNK2aM1HCYKirJHWYmhmtOCt74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EY0o15rc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="KAFY5ARO"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=rNYav2yGpg/yhEliv79lwhJ8COerKJd3gx9DFjPKfgs=;
-	b=KAFY5ARO3lkVVlwifRHD59MvsYOIxlEqBKCuVdt9gR43+fi6kz761/nmCdIH8aKkL2My7T0x+
-	XSGqwaW1YlXTdSb0joV2Ga1dvUnO2qFrEpDnU5u9/XXt/LGEIsgjOvZSzDomn1uY9e6UrIk7gDS
-	PNte+t/SYwF58Yq+2OvlD8A=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4fKryM166Wzcb1W;
-	Tue, 24 Feb 2026 16:50:03 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1A20240567;
-	Tue, 24 Feb 2026 16:55:02 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
- (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Feb
- 2026 16:54:59 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
-	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <akpm@linux-foundation.org>, <bhe@redhat.com>,
-	<vgoyal@redhat.com>, <dyoung@redhat.com>, <rdunlap@infradead.org>,
-	<pmladek@suse.com>, <dapeng1.mi@linux.intel.com>, <kees@kernel.org>,
-	<paulmck@kernel.org>, <lirongqing@baidu.com>, <arnd@arndb.de>,
-	<ardb@kernel.org>, <leitao@debian.org>, <rppt@kernel.org>,
-	<cfsworks@gmail.com>, <ryan.roberts@arm.com>, <sourabhjain@linux.ibm.com>,
-	<tangyouling@kylinos.cn>, <eajames@linux.ibm.com>, <hbathini@linux.ibm.com>,
-	<ritesh.list@gmail.com>, <songshuaishuai@tinylab.org>,
-	<samuel.holland@sifive.com>, <kevin.brodsky@arm.com>,
-	<vishal.moola@gmail.com>, <junhui.liu@pigmoral.tech>, <coxu@redhat.com>,
-	<liaoyuanhong@vivo.com>, <fuqiang.wang@easystack.cn>, <jbohac@suse.cz>,
-	<brgerst@gmail.com>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-riscv@lists.infradead.org>, <kexec@lists.infradead.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v6 5/5] riscv: kexec: Add support for crashkernel CMA reservation
-Date: Tue, 24 Feb 2026 16:53:42 +0800
-Message-ID: <20260224085342.387996-6-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260224085342.387996-1-ruanjinjie@huawei.com>
-References: <20260224085342.387996-1-ruanjinjie@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EY0o15rc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18FFBC116D0;
+	Tue, 24 Feb 2026 09:03:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771923820;
+	bh=F66MvL8Ia7cFuSm/xIyKma6BJNqk8VAV91xYEJfDrVg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EY0o15rcNpeohXzKzHiT9RXLl5kMeW1SU7uJP4j5vdBXUrNRY6a5C+/OcAjng08uR
+	 Rl6JkyaqdyQznw5IFlCczaP7rRSb8iAqrPn5VodGC6D/C1Z16P2UZmpcXL3BtEl3ze
+	 uenoEDKvbAopscHS02nSxIqf2ehtR7UtybzG2acv1jVBwJ8MQ4Ic1c6hxkhoiQTLSk
+	 IYPylxg2vmsIcFlPlIsnXjJ+NOrY3JIC5tvlamDn1EO6oFOtX7+PvItdWwHjUn9V7+
+	 FWNB14pxkA4x1NJNVz5TN6leROlqjT+1c+FYkRVroInPqD8Vumk+fEYE2ycDMpBREq
+	 E4Qsy059s6ndQ==
+Date: Tue, 24 Feb 2026 10:03:37 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	kernel@collabora.com, amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-doc@vger.kernel.org, Andri Yngvason <andri@yngvason.is>, 
+	Werner Sembach <wse@tuxedocomputers.com>, Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v8 02/20] drm: Add new general DRM property "color format"
+Message-ID: <20260224-rustling-provocative-lemming-b2ed2f@houat>
+References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
+ <20260216-color-format-v8-2-5722ce175dd5@collabora.com>
+ <3b5e5af4219671c5b4ffdcb09bd22679332244ac@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="36zlw2efj76bnmz3"
+Content-Disposition: inline
+In-Reply-To: <3b5e5af4219671c5b4ffdcb09bd22679332244ac@intel.com>
 
-Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
-crashkernel= command line option") and commit ab475510e042 ("kdump:
-implement reserve_crashkernel_cma") added CMA support for kdump
-crashkernel reservation. This allows the kernel to dynamically allocate
-contiguous memory for crash dumping when needed, rather than permanently
-reserving a fixed region at boot time.
 
-So extend crashkernel CMA reservation support to riscv. The following
-changes are made to enable CMA reservation:
+--36zlw2efj76bnmz3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v8 02/20] drm: Add new general DRM property "color format"
+MIME-Version: 1.0
 
-- Parse and obtain the CMA reservation size along with other crashkernel
-  parameters.
-- Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
-- Include the CMA-reserved ranges for kdump kernel to use.
-- Exclude the CMA-reserved ranges from the crash kernel memory to
-  prevent them from being exported through /proc/vmcore, which is already
-  done in the crash core.
+Hi Jani,
 
-Update kernel-parameters.txt to document CMA support for crashkernel on
-riscv architecture.
+On Mon, Feb 23, 2026 at 06:17:23PM +0200, Jani Nikula wrote:
+> On Mon, 16 Feb 2026, Nicolas Frattaroli <nicolas.frattaroli@collabora.com=
+> wrote:
+> > +/**
+> > + * enum drm_color_format_enum - color model description
+> > + *
+> > + * This enum is a high-level description of the component makeup of th=
+e image
+> > + * data. It says nothing about how the components are ordered or how m=
+any bits
+> > + * they take up (i.e. is unlike MEDIA_BUS_FMT\_ or DRM_FORMAT\_), but
+> > + * describes the type of components (Luminance-Chrominance vs. RGB) an=
+d the
+> > + * sub-sampling.
+> > + *
+> > + * &enum drm_color_format_enum makes statements about the same attribu=
+te of
+> > + * an image as the DRM_COLOR_FORMAT\_ bitfields do. Its purpose is to =
+inform
+> > + * choices made by display protocol specific implementations when it c=
+omes to
+> > + * translating it to e.g. &enum hdmi_colorspace or &enum dp_pixelforma=
+t, both
+> > + * of which also describe the same attribute of the image at the same =
+level of
+> > + * specificity.
+> > + *
+> > + * In precise terms, this enum describes a color model. It makes no st=
+atements
+> > + * about the primaries, gamma, or current phase of the moon used in co=
+nversion
+> > + * from one to the other. Furthermore, it also makes no statements abo=
+ut the
+> > + * order of components (e.g. RGB vs. BGR), their depth in bits, or the=
+ir binary
+> > + * packing.
+> > + */
+> > +enum drm_color_format_enum {
+>=20
+> The enum name should not have "enum" in it. That's just not a style
+> that's being used.
+>=20
+> > +	/**
+> > +	 * @DRM_COLOR_FORMAT_ENUM_AUTO: The choice of format is left up to the
+> > +	 * display protocol implementation. All implementations of the same
+> > +	 * display protocol (e.g. HDMI) are supposed to behave the same way,
+> > +	 * though display protocols may choose to behave differently compared=
+ to
+> > +	 * each other (e.g. HDMI's "AUTO" does not have to match DP's "AUTO").
+> > +	 *
+> > +	 * Implementations may rely on @DRM_COLOR_FORMAT_ENUM_AUTO to be fals=
+y.
+> > +	 */
+> > +	DRM_COLOR_FORMAT_ENUM_AUTO =3D 0,
+>=20
+> Ditto for the enumeration names, no ENUM in them please.
+>=20
+> > +
+> > +	/**
+> > +	 * @DRM_COLOR_FORMAT_ENUM_RGB444: Image components are encoded as RGB
+> > +	 * values of equal resolution.
+> > +	 */
+> > +	DRM_COLOR_FORMAT_ENUM_RGB444,
+> > +
+> > +	/**
+> > +	 * @DRM_COLOR_FORMAT_ENUM_YCBCR444: Image components are encoded as
+> > +	 * luminance and chrominance of equal resolution.
+> > +	 */
+> > +	DRM_COLOR_FORMAT_ENUM_YCBCR444,
+> > +
+> > +	/**
+> > +	 * @DRM_COLOR_FORMAT_ENUM_YCBCR422: Image components are encoded as
+> > +	 * luminance and chrominance with the chrominance components having h=
+alf
+> > +	 * the horizontal resolution.
+> > +	 */
+> > +	DRM_COLOR_FORMAT_ENUM_YCBCR422,
+> > +
+> > +	/**
+> > +	 * @DRM_COLOR_FORMAT_ENUM_YCBCR420: Image components are encoded as
+> > +	 * luminance and chrominance with the chrominance components having h=
+alf
+> > +	 * the horizontal and vertical resolution.
+> > +	 */
+> > +	DRM_COLOR_FORMAT_ENUM_YCBCR420,
+> > +
+> > +	/**
+> > +	 * @DRM_COLOR_FORMAT_ENUM_NUM: The number of valid color format values
+> > +	 * in this enum. Itself not a valid color format.
+> > +	 */
+> > +	DRM_COLOR_FORMAT_ENUM_NUM,
+> > +
+> > +	/**
+> > +	 * @DRM_COLOR_FORMAT_ENUM_INVALID: Error return value for conversion
+> > +	 * functions encountering unexpected inputs.
+> > +	 */
+> > +	DRM_COLOR_FORMAT_ENUM_INVALID =3D -EINVAL,
+>=20
+> Please don't hide negative error codes inside enums. If you need to
+> return one from a function, please return the negative error code
+> directly instead.
+>=20
+> > +};
+> > +
+> > +/*
+> > + * Constants for specifying bit masks for e.g. providing a list of sup=
+ported
+> > + * color formats as a single integer.
+> > + */
+> > +#define DRM_COLOR_FORMAT_RGB444		BIT(0)
+> > +#define DRM_COLOR_FORMAT_YCBCR444	BIT(1)
+> > +#define DRM_COLOR_FORMAT_YCBCR422	BIT(2)
+> > +#define DRM_COLOR_FORMAT_YCBCR420	BIT(3)
+>=20
+> I don't think we should define both enum and mask. One or the
+> other. Moreover, now you have two independent definitions for the same
+> thing, with nothing to ensure they keep matching. It's a bug waiting to
+> happen.
+>=20
+> I think the problem is that they were originally defined as bits even
+> though most places actually use them as single values only. It's
+> confusing. It would probably have been better to just use enums and
+> BIT(DRM_COLOR_FORMAT_*) where a mask is needed.
+>=20
+> Maybe that's what should be done as the first step anyway.
 
-Acked-by: Paul Walmsley <pjw@kernel.org> # arch/riscv
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++--------
- arch/riscv/kernel/machine_kexec_file.c          | 16 ++++++++++++++--
- arch/riscv/mm/init.c                            |  5 +++--
- 3 files changed, 25 insertions(+), 12 deletions(-)
+I largely agree with the sentiment, and can extend it to the
+HDMI_COLORSPACE used in drm_connector_hdmi_state.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 497f63b76898..3f9ca148167e 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1121,14 +1121,14 @@ Kernel parameters
- 			It will be ignored when crashkernel=X,high is not used
- 			or memory reserved is below 4G.
- 	crashkernel=size[KMG],cma
--			[KNL, X86, ARM64, ppc] Reserve additional crash kernel memory from
--			CMA. This reservation is usable by the first system's
--			userspace memory and kernel movable allocations (memory
--			balloon, zswap). Pages allocated from this memory range
--			will not be included in the vmcore so this should not
--			be used if dumping of userspace memory is intended and
--			it has to be expected that some movable kernel pages
--			may be missing from the dump.
-+			[KNL, X86, ARM64, RISCV, ppc] Reserve additional crash
-+			kernel memory from CMA. This reservation is usable by
-+			the first system's userspace memory and kernel movable
-+			allocations (memory balloon, zswap). Pages allocated
-+			from this memory range will not be included in the vmcore
-+			so this should not be used if dumping of userspace memory
-+			is intended and it has to be expected that some movable
-+			kernel pages may be missing from the dump.
- 
- 			A standard crashkernel reservation, as described above,
- 			is still needed to hold the crash kernel and initrd.
-diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kernel/machine_kexec_file.c
-index d0e331d87155..605903e21c01 100644
---- a/arch/riscv/kernel/machine_kexec_file.c
-+++ b/arch/riscv/kernel/machine_kexec_file.c
-@@ -46,7 +46,7 @@ static int get_nr_ram_ranges_callback(struct resource *res, void *arg)
- 
- unsigned int arch_get_system_nr_ranges(void)
- {
--	unsigned int nr_ranges = 1; /* For exclusion of crashkernel region */
-+	unsigned int nr_ranges = 1 + crashk_cma_cnt; /* For exclusion of crashkernel region */
- 
- 	walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callback);
- 
-@@ -66,8 +66,20 @@ static int prepare_elf64_ram_headers_callback(struct resource *res, void *arg)
- 
- int arch_crash_populate_cmem(struct crash_mem *cmem)
- {
-+	int ret, i;
-+
- 	cmem->nr_ranges = 0;
--	return walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers_callback);
-+	ret = walk_system_ram_res(0, -1, cmem, prepare_elf64_ram_headers_callback);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < crashk_cma_cnt; i++) {
-+		cmem->ranges[cmem->nr_ranges].start = crashk_cma_ranges[i].start;
-+		cmem->ranges[cmem->nr_ranges].end = crashk_cma_ranges[i].end;
-+		cmem->nr_ranges++;
-+	}
-+
-+	return 0;
- }
- 
- static char *setup_kdump_cmdline(struct kimage *image, char *cmdline,
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 811e03786c56..4cd49afa9077 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -1398,7 +1398,7 @@ static inline void setup_vm_final(void)
-  */
- static void __init arch_reserve_crashkernel(void)
- {
--	unsigned long long low_size = 0;
-+	unsigned long long low_size = 0, cma_size = 0;
- 	unsigned long long crash_base, crash_size;
- 	bool high = false;
- 	int ret;
-@@ -1408,11 +1408,12 @@ static void __init arch_reserve_crashkernel(void)
- 
- 	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
- 				&crash_size, &crash_base,
--				&low_size, NULL, &high);
-+				&low_size, &cma_size, &high);
- 	if (ret)
- 		return;
- 
- 	reserve_crashkernel_generic(crash_size, crash_base, low_size, high);
-+	reserve_crashkernel_cma(cma_size);
- }
- 
- void __init paging_init(void)
--- 
-2.34.1
+I've been working since yesterday on fixing that up to make Nicolas'
+life easier. I'll post it sometime today.
 
+Maxime
+
+--36zlw2efj76bnmz3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZ1paQAKCRAnX84Zoj2+
+dhj+AYCJxRTvr7o7P0A0JR9ICn8LRGV7zoUZ6CpFzW+1A23VNzGrMHwlhRmfhyfX
+tIXqxK4BgKdTepytTJVLjkyW62yHxmDFSIGl3zjxOOEMlvvU+yKc/TvA/GTUDyqw
+nc1ZuwKhKg==
+=86U0
+-----END PGP SIGNATURE-----
+
+--36zlw2efj76bnmz3--
