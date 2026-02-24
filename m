@@ -1,398 +1,108 @@
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010042.outbound.protection.outlook.com [52.101.193.42])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412103612E4;
-	Tue, 24 Feb 2026 22:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771973666; cv=fail; b=OtBAkYYf+CeQ6BpO5gcZijbBFFGuT3N9NIpbZ94wnL4x3p+PdpaD8Yt2SySgJCfaSx5BhnJh3dz4G2y/qwl08IQLhQeIEwbOcKcuRtP4sQAH+kWrxAciGXXZZ4c3R9Bz3hvXY1N3re4W4JF2g/PghC3h1WaOUHHGX8D1nbx1uoU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771973666; c=relaxed/simple;
-	bh=OBfMMakcLLMgRM6lXSM5JPCoJpCJNyA2ey6WHsORzv4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JwAkwv2jyIT4V3tMB3SJq+ce2mEIFhMtzbaiqLR9kWBitelI4FRmoZmV/RrTY76J1hICHdbHtZfcFCrVR78BgGFEAuvKigDEuPfgByr6fiBW0PcLMemc1YCoauTlaFlYhRaLiJDP6tci2wltHeglvNo8+BOo4WEh3MkNwNDaBMU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IIkjH8Xt; arc=fail smtp.client-ip=52.101.193.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF4D1F09B3;
+	Tue, 24 Feb 2026 23:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771976714; cv=none; b=l03zfVI9n0IKldhy6DoTfKQfkHw2m+L9hfNNmyXtVnWQ/Vp4awHyRTKp2vHjXgDgFMGxZkYTOnSxuKl2WUE7owy5Oj7Imz7oRj+WhBrOdLhf3oP1gPYDaqfVECC1Nw053ZBmMb26nZBEa91pISUxjRiRo/fgqBCYG9054BW+QqY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771976714; c=relaxed/simple;
+	bh=5uvJhF5LDkPTld+1CeJL8wog5w0F76/q9pZPlIbrTVo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KSy7xrsWcLaEJdL6JEGM3VpGq7xvnoZyisKCs6B3Nr9t49E1wpdWmq7Ba0P/KjnzSp8ENy8H77wGowcyCDZZDX21zXWjmjESUXLSfqaFca7rdso2b8+E6B/xZPG0SD9WO2lFSlPjoL0SLhJ1yXJvXtsRSIEcxwcjzhR3MvVYccQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i/UCxPaF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IIkjH8Xt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e8PcMRPKpQhQik5lQe0+6f1Qhr8oPnlu5QK/txN5UcQD+0UPNzol7PrcYgBO6ThQUyxWebmV8TFKDc1BB/FIfmWuXNG326FDzp2+ldpuw5XZefDFrKnCFSOV5iqLmfTYPV7Tcla+tb7vSy2nfI7NGQCv8zOLlMr0GQ4Dm+52DGuRf0JiByHqagmUikvswt5QpVCej5faZ+4TNmd0cahYwGVFGB17ItqVZYrN/r8avYVEPBknB/YYD13jUsoOa/az+K/r2CctmN6AwjZEBQFm7zSl1melhFw7ENylxDOKZKX189VJ4TIvmO8o34vQcKEDedsC0EpjKjWRhKzvvXBqXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M9APCXBK2CiR2XMzfWD5aY5NmYIj7orB++57uXHt5TQ=;
- b=ODjL9ddAXk8gdmTKeo+hLygB8BQNOCJtjX0hZGo/HdQPWUVtwogBjKdFy00fd3k/g5zuTNAZTy3MFCb8VKNl5ctUkjKcgvcORpvA38Jwd2y02TF2gUVHtJH20nnX3XnfzNjzsYOlWWV3KxLLQ8kBSQeGDTwDemA+q5mZO2lOpul29yngPZ4zEpRn8vTIqYbVK0rRYjr6g31Ooz4/Ax9pDEnDLivlpbPiweb+vTNgpo3t202/ZxhH2OnOqQFZ8qhY0Sx+4xwxRmwpmawpCAroI7j0BsEfBeWt/zMrNyyn/XALQT1ziTYy1IXUh0T+GlPwr9LSUqVpBhIhdu7VeLK52g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M9APCXBK2CiR2XMzfWD5aY5NmYIj7orB++57uXHt5TQ=;
- b=IIkjH8XtiZKkrhq1Fmn0FRLMUvPclYu66JpQuikV2CSJk3zEYukv8NfkS1XuWFCg9J7snyIqNU+AN4ypZwdDCml1NxV04C+E3jonu+8RekKaKmA8eR8ijMjWdY8NP68n8hLU37pT696larGrw4YJAmIozO6eQAMbG5pcTVB+PuhS++G6SEAvDO6lOS+7IxYdNEi/7fpM6pnF6KO82gDJsrcpQQsRch4wEVkf2UCB4hdCQLmc8FdOJA+p8E1mscJXCQr4tg4jAtTOY+vUK7Af3rU9pmsEkiwWx9ChoJ6Ic5Mzt5hDwv2L0PjgnsEt4ICmvUckbhvx1B9bPHKNNpt+BA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- SN7PR12MB6885.namprd12.prod.outlook.com (2603:10b6:806:263::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.21; Tue, 24 Feb 2026 22:54:19 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 22:54:19 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: linux-kernel@vger.kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dave Airlie <airlied@redhat.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Koen Koning <koen.koning@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org,
-	Nikola Djukic <ndjukic@nvidia.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Huang Rui <ray.huang@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Helge Deller <deller@gmx.de>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Timur Tabi <ttabi@nvidia.com>,
-	Edwin Peer <epeer@nvidia.com>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Andrea Righi <arighi@nvidia.com>,
-	Andy Ritger <aritger@nvidia.com>,
-	Zhi Wang <zhiw@nvidia.com>,
-	Balbir Singh <balbirs@nvidia.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Elle Rhumsaa <elle@weathered-steel.dev>,
-	alexeyi@nvidia.com,
-	Eliot Courtney <ecourtney@nvidia.com>,
-	joel@joelfernandes.org,
-	linux-doc@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	Joel Fernandes <joelagnelf@nvidia.com>
-Subject: [PATCH v8 25/25] gpu: nova-core: mm: Add PRAMIN aperture self-tests
-Date: Tue, 24 Feb 2026 17:53:23 -0500
-Message-Id: <20260224225323.3312204-26-joelagnelf@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260224225323.3312204-1-joelagnelf@nvidia.com>
-References: <20260224225323.3312204-1-joelagnelf@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL0PR02CA0008.namprd02.prod.outlook.com
- (2603:10b6:207:3c::21) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i/UCxPaF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2756C116D0;
+	Tue, 24 Feb 2026 23:45:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771976714;
+	bh=5uvJhF5LDkPTld+1CeJL8wog5w0F76/q9pZPlIbrTVo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i/UCxPaFsPqa+xdPI+yB+vtq/dghbqe5ao7qw2QhsssZyTjiJFZoRDeDg0C+V+F6D
+	 btqHA6Ce0RsaFpsCG0phcfSDCWCGHEtDFifDJ/fGz9vUe9gQb85sktY/zDkOUPRBTy
+	 lbVlB+mAMllViQm2yDW0sYPLNKChX2FtIXxjXvIByDit8prF0wE8RrNrSPE9aDHfgE
+	 /YkMvY/DRKm4lF/LlPMBpgYCpc9dabq0AC3SjzEkhdpBRp5qYxa87cFPqpyTwx4z0d
+	 AL8uxuu9jRkVzCPb3IiX2g9AHxWa9hGVNE1d39cKrtH4CXqWb6u3ZcbXuDyWwQtmbo
+	 IitiGV/DnD/+A==
+Date: Tue, 24 Feb 2026 15:45:13 -0800
+From: Kees Cook <kees@kernel.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Lameter <cl@gentwo.org>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, linux-hardening@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	John Hubbard <jhubbard@nvidia.com>, Joe Perches <joe@perches.com>,
+	Christoph Lameter <cl@linux.com>, Marco Elver <elver@google.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, Jann Horn <jannh@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Yafang Shao <laoar.shao@gmail.com>,
+	Tony Ambardar <tony.ambardar@gmail.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Jan Hendrik Farr <kernel@jfarr.cc>,
+	Alexander Potapenko <glider@google.com>,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v6 4/5] slab: Introduce kmalloc_flex() and family
+Message-ID: <202602241541.65DBBD8CB@keescook>
+References: <20251203233029.it.641-kees@kernel.org>
+ <20251203233036.3212363-4-kees@kernel.org>
+ <675ec547-dac8-465f-b3c9-a0f97c5bdef7@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|SN7PR12MB6885:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b0def32-68bc-4b98-af40-08de73f7a4cf
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?F/ygQZ33q5lBIT1kDoWl1xMWIGE2znAyt5Y1f9eL9ppFFQy5BP1xJEW5QCFr?=
- =?us-ascii?Q?NtDfCd3JcWK1o5TlP2v1R4Q0f1R/lS0bhK/nzQe6NYw43djdog2J5hGAHYgo?=
- =?us-ascii?Q?zclJU3WBlVppbWBBGoz5caqwVSsD91TjLjtQKDNYNq0ApBsnRTfesg7/7YQ3?=
- =?us-ascii?Q?8Ie++JtaSJ1hffbbfXyJZmV6xdZ2TOzp2vZp9PkoQxoeThYnGJptiZsiqUfR?=
- =?us-ascii?Q?Jns3gNULPCL/WCohxkf0uhqL1cl3MfTFOUiFy0Dt4ik0nyheqEBmKzmD0eY3?=
- =?us-ascii?Q?sKVmC/CatU+yKRLFB3gLhoZb+s4bgsli+jgC9XvhkHG0X/ypOWf82HXAS+Db?=
- =?us-ascii?Q?tWMF4so89LoFVwhU0aPNoRAHi6LTelT4wv/PIqv2ye6pSeJn3IHTvmIyH2HA?=
- =?us-ascii?Q?c7fwELqxq1kwWj6YHvtVRRMgxH8UDv9KYi+vlN4+c8tJVeFSOuLjALapJhM4?=
- =?us-ascii?Q?jsI3j5wBoEWyVEep1vTaHWhS1erEilz+d9HuVJyBydMwtQxLtKTqJ5sagcX+?=
- =?us-ascii?Q?Nqy4yaykzBcIJL3Ihe7rM85UU0LIuXTiNDZUc8Digk2wdj5z7ieQV/PC5uQL?=
- =?us-ascii?Q?4aK/axeC0q3uVNZied0bxRqAhA2o/fWkf/bpMOcl47XfPu1GVEU4gVbBqPFd?=
- =?us-ascii?Q?wLh9s5493tHhFjJ/k5fN3A4RNrYGbmndfRUBlsLFdcnHxISgbdIl7c3yhxte?=
- =?us-ascii?Q?rw9IQtub8mTtXZccv3CbWUSX3w8fLd6JxcxJOolaq/n3q4ncsKwcaRWT9BY7?=
- =?us-ascii?Q?CyZnnjsda9eE2JrB9VdtxerKhADdChXrrmeRivt8MAZlqUbZs2Wharbm2x8k?=
- =?us-ascii?Q?OPoZxdFnBOy2Qom1K+9yFpX8mZGI3EvcgJ2kdN6ArjMvvQPP1zFUwd33NfEV?=
- =?us-ascii?Q?qsnycFbrzqHGGQMDn8dodlTdWheqxD4PcVmzgdc/V30VQgQp7RrgvCIOPKqv?=
- =?us-ascii?Q?MV4br75+9rdqr2m2srDbY4tOgo63XpxlfzSRbYAP2LCbF5BwF+Hx1dMo4yck?=
- =?us-ascii?Q?8+9bGD7gZ+SyOvSF80FyHCoerA6eSRdqCFYyXn2gxbaMx0K+F/F0MchLezYT?=
- =?us-ascii?Q?a/kCJXZjTVrTj4jUt6NYouNhJrezfs4uEAWNM6dMHI1anzLDN24Tm7iEDeQE?=
- =?us-ascii?Q?/pzYYctPNvPlCQcs+zTjYuQdkyL5x6ln7nyZ4NjrMUuoGwRUglZVNX71ewsx?=
- =?us-ascii?Q?khSKGoVXUfNJGxqyMxiQzsGFyfgHa4Po4FpOBIH7yjd1i/CexAJ8Ei3XV+g6?=
- =?us-ascii?Q?GntyX67bexG80V6z1P4VjP5g5j+cKu/+wgXs7RPTdRkw63w0BidIL1yE403d?=
- =?us-ascii?Q?Etzi9DbwMuarS56qLP2FVEp3mVu9fSJMaOnCaTyhHily511S9/xhLPy64VXA?=
- =?us-ascii?Q?BMyieGlWGpF+ysLMBv/5p50u+q4/bXGb7trGXqXOyQnOiW0f/fnxm127vEPq?=
- =?us-ascii?Q?v1wecDKIU3ZEoAgv44sv21aFrhWvJjbDqPn7gxi+e0ZCn2ZBELmMlNAByv6U?=
- =?us-ascii?Q?rcXqsXgI0TwYuTpvNxLY2TjBdaoDAl0STWMgFgQfVORpA8oSrfI5msvN8wc7?=
- =?us-ascii?Q?HfhUlNxiiIgSpy697hQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gD0PDlssN+kR8LOKa3Y4v3Su3J6UtRsAbUFbCLaQVZQOaYcNi20jTOohUl4u?=
- =?us-ascii?Q?Jo2hpXtkSmMy34CmRHLr9JgycXsXBsToXCXaVIvA3eWDWQ+20BSYf+DN5FVY?=
- =?us-ascii?Q?fjZ72td+RVCYbZiOWuX9pbnzpB5WeQSjESsyOddmTZdv9yuAb+lqmAioPQ6R?=
- =?us-ascii?Q?hf+ctWkxGxD4JDu3vwJJMz+y7/sGb4z3+UASKZz8DUZjsLAfh8N8G5OlMPcM?=
- =?us-ascii?Q?e9AOeRjZodyVVeM1BhiSw67BMeUo6JvvY8m/bkaGwPPj53Ye1rd8aCjM0jTK?=
- =?us-ascii?Q?sOpgHnKK9CtJyPNbtd+1PS7CpZs9wJzfGnWWnuaHiIb+gyDUh+hZHlRS3F7k?=
- =?us-ascii?Q?Qhn5NzDAL0xzYqr6Lsgmpago4HqtfSoVM1AflAauMmLrvdnVIEUuGx93xCmT?=
- =?us-ascii?Q?KPbOUmlAff371DpH4JFXuhi4bWjiMjag4V0Xhp9JHLVIknE/HJe3oBJaEJV+?=
- =?us-ascii?Q?t45iXEcooJB3w8hdwL0JEHJzu1kEoIIiskzzfwEwCnyD4ZBA7b8BNkz7LC7T?=
- =?us-ascii?Q?UVmj1e9BFTw7ATvCCj2A5y2L4oB0ToC0jjWrLDE/2dg6DQchqz3PAOTszlN5?=
- =?us-ascii?Q?4vcez1EvRuA2nlc6le/R0UOp/uxB3yB8a5yADMqCgDxhaTEWzsERfi1/xTW/?=
- =?us-ascii?Q?v1x/nkX05fLhh3xJ2q2xKKc9uofB44sdeZ/08ZO0F2hSA5/zu/mA09MdO5x4?=
- =?us-ascii?Q?SMq54oa1gaRVgX68V5DOS3JfoMpMpyQD6/LFyd93mems+ewREkvzm/IDP6GP?=
- =?us-ascii?Q?y0fqFotiCaj6noIQJxJ91MPPO3U2l29XlVdNURd3t9dxElIv/QZNTFecb6qQ?=
- =?us-ascii?Q?GI7hesGvxD3EI3OS1blz7uzE9S6889Lrb1TE+dxnreI90/9C/rFHPag265v/?=
- =?us-ascii?Q?lGli+KYnXoLRzCcpxlowVL2kl0C9ZvZvgIP37tioeImUp/89CsQA7YFDC+VA?=
- =?us-ascii?Q?t89DrLzOtEWy78/NbcDeCAEfCFxC4pQwKqHT2EfIM/AGPCbLmeYGwZuLo2MX?=
- =?us-ascii?Q?//pz0OWHtWG6zMfltg5gibdrCLB7sgsv1kHkXWW3TUlJ4/4aOU3yrnIgwc5y?=
- =?us-ascii?Q?s1iEzabinIdjZku5xc5DOirn1H0Y8Ueq4E3yyRKHPNnAtf4hKpSIwDHhq9/u?=
- =?us-ascii?Q?gq7oTJJW2A/GMuzxyrJcT+1k+CPuB50iCIoBW3ba9leRe5jV/SCq49tnwemq?=
- =?us-ascii?Q?n6oUYky3NVuld410Q0xe4jDazmhuO+QPjbMI6cO/uVwUPIqoREP8CO07kjs+?=
- =?us-ascii?Q?Wwqgh8KgE0ynmKEzlRzGueugOvHZZlTIwZ2X+Ibxeup8Wcpsz/3seotitbTi?=
- =?us-ascii?Q?Is1p2RsGhcC59P/a0vWdW5nxYBT099ar1c0lkF236QkA14zMrsz4KB83zH+2?=
- =?us-ascii?Q?cVF34z+Eny0WKBNVDqVsSIkCuWqwmYPL1k10qmYbVIDvVwL7q/YvMxvbmCBi?=
- =?us-ascii?Q?JxZCgx/MWKXL7nxrPtiVgF+vopTrTMeQLT6fVH3Gy7GgB+U1mg6i1JVkOS4p?=
- =?us-ascii?Q?BzeEsvwT2wfANDWGdhCbzH6Z9NxaE7jnnHy5kOCCpHefD1zswvk+/5ruKDzV?=
- =?us-ascii?Q?YfZR9mdTPNiouEXcQ5IwpBmNCISW6kQiKQUNKOvb6XHrH3NwsZX4dlv3EOBs?=
- =?us-ascii?Q?PfC/nLKsWDAhZMGqcZQ40OEY01JU0wcu9NtJxHhIn6kKD4EcpoS1GwUa9k17?=
- =?us-ascii?Q?gq/JnkdxnNVhmgTAOV3EoAsvK9KwJgHm160RFn28sBEMYDJH1T5IZyxBrdB+?=
- =?us-ascii?Q?dz78nFuO6Q=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b0def32-68bc-4b98-af40-08de73f7a4cf
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 22:54:19.3800
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hkOcuYRL2owFvJDaQGIoO7d+RHBrjq0xp1GfEjAXzKZ1tLk+QNUvk6HkJDtgJEbx/dIyeQJN84UILUklnmy/YQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6885
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <675ec547-dac8-465f-b3c9-a0f97c5bdef7@lucifer.local>
 
-Add self-tests for the PRAMIN aperture mechanism to verify correct
-operation during GPU probe. The tests validate various alignment
-requirements and corner cases.
+On Tue, Feb 24, 2026 at 10:26:36AM +0000, Lorenzo Stoakes wrote:
+> Annnd now I typed that I realise that Linus fixed this up in mainline and I was
+> working with a stale version of this file :))
+> 
+> Anyway, I see that the comment isn't fixed up, so I think that's something we
+> should patch, like:
+> 
+>  * Returns: true if @COUNT can be represented in the @FAM's counter. When
+>  * @FAM is not annotated with __counted_by(), always returns true.
+> 
+> ->
+> 
+>  * Returns: true if @COUNT cannot be represented in the @FAM's counter. When
+>  * @FAM is not annotated with __counted_by(), always returns false.
 
-The tests are default disabled and behind CONFIG_NOVA_MM_SELFTESTS.
-When enabled, tests run after GSP boot during probe.
+Yeah, I'm working on fixing this up correctly. I think Linux is right
+that we need to put the overflow checking entirely within the counter
+setting. That way the checks will only happen for the cases where
+counted_by is actually in use.
 
-Cc: Nikola Djukic <ndjukic@nvidia.com>
-Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
----
- drivers/gpu/nova-core/gpu.rs       |   3 +
- drivers/gpu/nova-core/mm/pramin.rs | 161 +++++++++++++++++++++++++++++
- 2 files changed, 164 insertions(+)
+I am, however, still pondering that the size check (as I _intended_
+it, not as it actually manifested), would catch negative sizes (i.e.
+negative can't be represented in a size_t -- the default type when the
+counter type is unknown) and refuse to allocate, though honestly the
+allocator would probably also refuse to allocate them since they would
+be very very large when cast back to size_t for the allocation itself.
 
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index fba6ddba6a3f..34827dc2afff 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -396,6 +396,9 @@ fn run_mm_selftests(mut self: Pin<&mut Self>, pdev: &pci::Device<device::Bound>)
- 
-         let mmu_version = MmuVersion::from(self.spec.chipset.arch());
- 
-+        // PRAMIN aperture self-tests.
-+        crate::mm::pramin::run_self_test(pdev.as_ref(), self.bar.clone(), mmu_version)?;
-+
-         // BAR1 self-tests.
-         let bar1 = Arc::pin_init(
-             pdev.iomap_region_sized::<BAR1_SIZE>(1, c"nova-core/bar1"),
-diff --git a/drivers/gpu/nova-core/mm/pramin.rs b/drivers/gpu/nova-core/mm/pramin.rs
-index 04b652d3ee4f..30b1dba0c305 100644
---- a/drivers/gpu/nova-core/mm/pramin.rs
-+++ b/drivers/gpu/nova-core/mm/pramin.rs
-@@ -290,3 +290,164 @@ fn drop(&mut self) {
-         // MutexGuard drops automatically, releasing the lock.
-     }
- }
-+
-+/// Run PRAMIN self-tests during boot if self-tests are enabled.
-+#[cfg(CONFIG_NOVA_MM_SELFTESTS)]
-+pub(crate) fn run_self_test(
-+    dev: &kernel::device::Device,
-+    bar: Arc<Devres<Bar0>>,
-+    mmu_version: super::pagetable::MmuVersion,
-+) -> Result {
-+    use super::pagetable::MmuVersion;
-+
-+    // PRAMIN support is only for MMU v2 for now (Turing/Ampere/Ada).
-+    if mmu_version != MmuVersion::V2 {
-+        dev_info!(
-+            dev,
-+            "PRAMIN: Skipping self-tests for MMU {:?} (only V2 supported)\n",
-+            mmu_version
-+        );
-+        return Ok(());
-+    }
-+
-+    dev_info!(dev, "PRAMIN: Starting self-test...\n");
-+
-+    let pramin = Arc::pin_init(Pramin::new(bar)?, GFP_KERNEL)?;
-+    let mut win = pramin.window()?;
-+
-+    // Use offset 0x1000 as test area.
-+    let base: usize = 0x1000;
-+
-+    // Test 1: Read/write at byte-aligned locations.
-+    for i in 0u8..4 {
-+        let offset = base + 1 + usize::from(i); // Offsets 0x1001, 0x1002, 0x1003, 0x1004
-+        let val = 0xA0 + i;
-+        win.try_write8(offset, val)?;
-+        let read_val = win.try_read8(offset)?;
-+        if read_val != val {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - offset {:#x}: wrote {:#x}, read {:#x}\n",
-+                offset,
-+                val,
-+                read_val
-+            );
-+            return Err(EIO);
-+        }
-+    }
-+
-+    // Test 2: Write `u32` and read back as `u8`s.
-+    let test2_offset = base + 0x10;
-+    let test2_val: u32 = 0xDEADBEEF;
-+    win.try_write32(test2_offset, test2_val)?;
-+
-+    // Read back as individual bytes (little-endian: EF BE AD DE).
-+    let expected_bytes: [u8; 4] = [0xEF, 0xBE, 0xAD, 0xDE];
-+    for (i, &expected) in expected_bytes.iter().enumerate() {
-+        let read_val = win.try_read8(test2_offset + i)?;
-+        if read_val != expected {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - offset {:#x}: expected {:#x}, read {:#x}\n",
-+                test2_offset + i,
-+                expected,
-+                read_val
-+            );
-+            return Err(EIO);
-+        }
-+    }
-+
-+    // Test 3: Window repositioning across 1MB boundaries.
-+    // Write to offset > 1MB to trigger window slide, then verify.
-+    let test3_offset_a: usize = base; // First 1MB region.
-+    let test3_offset_b: usize = 0x200000 + base; // 2MB + base (different 1MB region).
-+    let val_a: u32 = 0x11111111;
-+    let val_b: u32 = 0x22222222;
-+
-+    // Write to first region.
-+    win.try_write32(test3_offset_a, val_a)?;
-+
-+    // Write to second region (triggers window reposition).
-+    win.try_write32(test3_offset_b, val_b)?;
-+
-+    // Read back from second region.
-+    let read_b = win.try_read32(test3_offset_b)?;
-+    if read_b != val_b {
-+        dev_err!(
-+            dev,
-+            "PRAMIN: FAIL - offset {:#x}: expected {:#x}, read {:#x}\n",
-+            test3_offset_b,
-+            val_b,
-+            read_b
-+        );
-+        return Err(EIO);
-+    }
-+
-+    // Read back from first region (triggers window reposition again).
-+    let read_a = win.try_read32(test3_offset_a)?;
-+    if read_a != val_a {
-+        dev_err!(
-+            dev,
-+            "PRAMIN: FAIL - offset {:#x}: expected {:#x}, read {:#x}\n",
-+            test3_offset_a,
-+            val_a,
-+            read_a
-+        );
-+        return Err(EIO);
-+    }
-+
-+    // Test 4: Invalid offset rejection (beyond 40-bit address space).
-+    {
-+        // 40-bit address space limit check.
-+        let invalid_offset: usize = MAX_VRAM_OFFSET + 1;
-+        let result = win.try_read32(invalid_offset);
-+        if result.is_ok() {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - read at invalid offset {:#x} should have failed\n",
-+                invalid_offset
-+            );
-+            return Err(EIO);
-+        }
-+    }
-+
-+    // Test 5: Misaligned multi-byte access rejection.
-+    // Verify that misaligned `u16`/`u32`/`u64` accesses are properly rejected.
-+    {
-+        // `u16` at odd offset (not 2-byte aligned).
-+        let offset_u16 = base + 0x21;
-+        if win.try_write16(offset_u16, 0xABCD).is_ok() {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - misaligned u16 write at {:#x} should have failed\n",
-+                offset_u16
-+            );
-+            return Err(EIO);
-+        }
-+
-+        // `u32` at 2-byte-aligned (not 4-byte-aligned) offset.
-+        let offset_u32 = base + 0x32;
-+        if win.try_write32(offset_u32, 0x12345678).is_ok() {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - misaligned u32 write at {:#x} should have failed\n",
-+                offset_u32
-+            );
-+            return Err(EIO);
-+        }
-+
-+        // `u64` read at 4-byte-aligned (not 8-byte-aligned) offset.
-+        let offset_u64 = base + 0x44;
-+        if win.try_read64(offset_u64).is_ok() {
-+            dev_err!(
-+                dev,
-+                "PRAMIN: FAIL - misaligned u64 read at {:#x} should have failed\n",
-+                offset_u64
-+            );
-+            return Err(EIO);
-+        }
-+    }
-+
-+    dev_info!(dev, "PRAMIN: All self-tests PASSED\n");
-+    Ok(())
-+}
 -- 
-2.34.1
-
+Kees Cook
