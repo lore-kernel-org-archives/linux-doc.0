@@ -1,252 +1,350 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013061.outbound.protection.outlook.com [40.107.162.61])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010059.outbound.protection.outlook.com [40.93.198.59])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD1A304BBC;
-	Tue, 24 Feb 2026 22:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6061123D7E3;
+	Tue, 24 Feb 2026 22:40:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.59
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771972323; cv=fail; b=t26qzmE3Bvd+LcGPASKyqTvpHMhcSPHvBAWufNXQ4g7ePNDVb9DgRHFjwlfQs5FAC7KX2EYRn18dS07aoU3lCHNdp/YVThDzEB1ogv8ZgdcUpK4FZGigM2iccK4sBe7safS0X/KO5c/OUu72V2/8YYKK9WKFRT2zLVjN/fgOLKQ=
+	t=1771972819; cv=fail; b=W2Aymv2w5YhV13StR6+Z6PuD3uKHUZ4h4paEwUp3XMUGfK1ovRDFe0ssFn6UVmDRAUYwko5QNH3NMR2pyPV30be9mKRGfEtslDPVV7i3WW1nhxyynPxLgyRdmhNYcthd+7X3bad7ovdw8AhfjRSXOmtFzmJfNZbpwati9uqy29Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771972323; c=relaxed/simple;
-	bh=jG9hpx3xDS5zAzHwCKBKW3T5SgagbwK66bPgMoN3bz4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=KeISH3OT4F7WId2lChOOHD5l9mOfBBlWB3dANx0qDl3RWHrQVRkLM0cYAoJmJdtGIM7QUr9A8iZmsw5dRSm2XsZbHoSakAXtsxYciGhTNALJOFoFImxRqKvNYH1gZDOvLzRAWeAmehLEPZBSVb1+coH7B2Y0YnACeYqGIgk+wsg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=CYTeq/bT; arc=fail smtp.client-ip=40.107.162.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	s=arc-20240116; t=1771972819; c=relaxed/simple;
+	bh=A1/VFeFujfpgZzS8UU8w2OkMRKdPISXB1q2dhnDdou8=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=YvDJG25lcgiSFueBCmizfbYJrhPAG6Y27B+EF3SSj8an3ziM+/jUxNmNpqRLWSg2+MhbVCe9vivM1eaC7mm6oWi9Q8zi/dAiaUKfZuY+TX69jrhfWayKSOfCLXX10cp34SUCk60MCf53kUCuBd0VXKoMVB8iZCcqqb9bu2diljY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=NS9A+8Q9; arc=fail smtp.client-ip=40.93.198.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="CYTeq/bT"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="NS9A+8Q9"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L05n6FmO8iWOSLDUW38RL0lCc2BqW41f+CGDr2FGuyt8T7KWGab0eygk1QvKJ+OHB4wOTEC+VHlCqgRdIaqDMnav/ODf0aebU8O8rG1HF/mb7a6stPxJK09Ovoy0O0GaAlXMSdXx98knbNhJ2IenwS2D07r1dBk1hXRgQFLvv40j7F/ve0mv8WGa7dNqdMdTH/rdmyWmKgrUu9TMZhvVTt8WdMdlTRpjQBBgGF+P+10wmwFH+veK0Yss/2AxbkT73C+clTMu0l1nOBPTtERYqDHQxoP32etL7habpvk5traBR6myMYV2uCPky1MBUUVVs3+cFK+Sb7adqBD9gu/Jew==
+ b=QpIggOXfMctSLpiL3raJseZNNhkyA9IKFpzfeipUbh3k/5ndRAwdXJaZbu2MDRor6OOBP5VdQRmj+0HEIT1Gqyft3zVnx8SI9aaqofP/q31ChRGxdBIZ6bWYgxtkN7wibH0FX+FrK3zk1/hQP5YcHZ2FuQLfYagOeLLNnBYQHLInoWbmt71XWeMwdVx2azErvZUXCpQ81apD2qBHdxDdMkH7iquiw7nBcpkwtzp/qQzXorHG7q0ctWge6Ctj/KyynzANLaVLJLg0wG3GqLIl49d/bjCXWknT78n+I9xiQ4TUwKQ+xU2BZ5wIOkqMVnYwzV+VI5eb08F15Vh/rwrh+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WF9XgLedFhHji9jkHR819zIFFYjj4NcJDg0qyqWmRRU=;
- b=sUBvclgXgiupMr5irysI/zHOI0Gbrugaqp8nshZvUjF0qdereFLOdTi4lqbmGvFHg+sAdJybT7XA3iwZNBsIGlMPnnUWicG+yUJyQKLfreMM4ssRNtiSkfrLeNCk6v3psaFZDm2NLyo8LOM8sj7hMOIOL4egZhamZDwQghDkVeb2Ya9qH9V8Us7ZTaPvkzHCmRSPY04Ovisi4k+3L6sKeQdhdgynQ2R5HORO3y6P67KzvZVFuuXR57IC3W9D4dJeftcG59exLclSDOmvIHjDks/D+4HcGAtQp24t92qa6EaNGFPI/fdl+8x57I1yu5h2ta0CfKtla9dHLiNdB5k+HQ==
+ bh=m2KJEExGbHUKTHZLh9WzwS3DnurmBLVdVaZa+19E0ts=;
+ b=qG8NvLZ97w9HwLAThY/LxZZBJHAzoU90XzrRufAZgQ1OpoheZDcftFCeZpNfdSgjFiEalO70ZfHF+JLP5DGZBRQ2bA2QZh1rvNuQlRZDcg5ScAcwi2eYCeEKgjlor3vZEmzk3h55tQjCCXsAFD+CBfRaOAm+LzqB2nlx/cBetUYBJvFHDzN+HqOin7LKmHjf0vQvEDJJ2No0L0VR/7M0ZLbytevxNd+c07WjfG9kCpqC/ss67BrV81PBONTI8MZF0fAb5gA+lx9XKnLBE5XVrc4HhTCuLsjLu1qTGOWoVZLx0sqFqCYbYwvc/3JVVXbC8EnsTChPXddHkL3MRW8bWQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WF9XgLedFhHji9jkHR819zIFFYjj4NcJDg0qyqWmRRU=;
- b=CYTeq/bTG1Vr9pWm1LWTfvihS1xh6cMeqHqJCsjCXb3WFnjXecdYE1vK60rvYX8CX+uFLat3lTWGMqzhXcv1Rs4AnPjW6757C9YDaZdYsgM5aYKhcTKSq4fYILCsiit9eRL5OXY7LW+atzWtpkyqQLVORgc5Y2c03dB7kPu/kRG7KXARpjMYRC2jqQ5gXOSuu+1Ol27RR1RN52oUIHsK6uBSfWRJXa31MApx7/rMbcOY2zNq+6Y18XjbZ+COsOb/7e/HHYT0P0i0A1iSe8CaPVwL29ZcenvF6RMoMXUVWsSpJMMtd440j0LGV/tCjAlq6r2PhoD8t/hno6kWuj3LnQ==
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
- by AS8PR04MB9126.eurprd04.prod.outlook.com (2603:10a6:20b:449::16) with
+ bh=m2KJEExGbHUKTHZLh9WzwS3DnurmBLVdVaZa+19E0ts=;
+ b=NS9A+8Q9zwQ4JoEFancDv6ydkhEk+C6Pril8VLWOtyNhcAZzV4DApUS6s2QXC29nON2Ot9lrmdP7/9OLRYxnE/ucSk2whg/2V4+31CVZeQ37uuLx4oDZHTpWCLM0cbxW39PfukH4IrqN8hcMhAGJEJGjyVxVob4vtPMBj2mxWCdE1jdTkLlaQavthYHv5fQQtlRh1GOekyea1i4VoiFvR1WksdHTiDhEnWh3Tv+XLSOsiut9eaLlPuzDSw0xTN5YpapOdrIsXdggkA5VswPlcioxdwN+ZQRL8SLoEySOBVPKbhRuYXZR43Vxq8aWk3oCWBZo4OLvfuoCdJe2pmyNsw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ PH0PR12MB7816.namprd12.prod.outlook.com (2603:10b6:510:28c::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.23; Tue, 24 Feb
- 2026 22:31:57 +0000
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::b4c0:6119:2228:2ceb]) by PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::b4c0:6119:2228:2ceb%4]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 22:31:57 +0000
-From: Shenwei Wang <shenwei.wang@nxp.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, Linus Walleij
-	<linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
-	<andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, Frank
- Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan
-	<skhan@linuxfoundation.org>, "linux-gpio@vger.kernel.org"
-	<linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Pengutronix Kernel Team
-	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan
-	<peng.fan@nxp.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
-	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
-	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Thread-Topic: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Thread-Index: AQHcpd1iEm1vbZv0Z0atWDKjX5zNqQ==
-Date: Tue, 24 Feb 2026 22:31:57 +0000
-Message-ID:
- <PAXPR04MB9185C388591EC3C9053C262D8974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
-References: <b4c422ce-3538-40aa-8bfa-b70f02774b5d@foss.st.com>
- <PAXPR04MB91859B642802813F908B03DA8977A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <64ef5dbf-6264-4758-a5d8-d8c52c359fcc@foss.st.com>
- <PAXPR04MB9185934EB640E8B21905FF878974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <79eb8bb8-83cb-4b24-8e56-42a53c710055@lunn.ch>
- <PAXPR04MB9185F1A67384E4886282227A8974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <91701822-df30-4feb-9e9a-4ee82e2a5d23@lunn.ch>
- <PAXPR04MB9185FD3EEC313CC2408E157F8974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <0b42e303-a2ed-4983-bee5-a4eafd6c7f36@lunn.ch>
- <PAXPR04MB918509F265757E6028B45DDC8974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <8fbb4ded-8914-4e11-aad6-038c78f2d31d@lunn.ch>
-In-Reply-To: <8fbb4ded-8914-4e11-aad6-038c78f2d31d@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|AS8PR04MB9126:EE_
-x-ms-office365-filtering-correlation-id: 813b504f-12f0-4811-adf0-08de73f4850e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|366016|1800799024|19092799006|38070700021;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?2wOlDyJ43Qtoyma1kMSVWP8QrgJ3GE595UPpmWK09F06V6MdUEZs4I4nYW1/?=
- =?us-ascii?Q?Jw72Hnzsu0mw6YoPkup3X77HW03AoRnW3IQcvsbpwjWe4YseIeZ8vnYnBryE?=
- =?us-ascii?Q?qYSusOPj+cUODPCNDTAbwFRR71+FHTVObiCjd/scfjc3iM58qa4JHCBP7/Tc?=
- =?us-ascii?Q?o1VhEgN4p4nfm1Z6fBGp1v2+7ogxOiX6P32XGZJAz+NgdETyQkU26VxYtlal?=
- =?us-ascii?Q?DOI5YVX+P9z9IvLvSTrY/xv8fVNo5eHBjHYfxNwJ/XEfqUEOsPvv31GK6V+/?=
- =?us-ascii?Q?vAmpR9te1C44qtsEzulGidL+AN875RCWswQ08UtNia8Aw4hGr4WGvJR6Wxfo?=
- =?us-ascii?Q?MjNceOZYqokHWmL6Dk6B0I/VwpHs0cktof7HMU2bVGfn7M7lG8hv3U3+y6s6?=
- =?us-ascii?Q?emKAzGgWfZ2n4eDlJg3IW7cm4OS084pyUSRewrE4ide2s4oneEfr7ww0yKtn?=
- =?us-ascii?Q?1nsQOiURQlzrn1RU2T0z45M0T2qBTpGfZhp0ZyWLRMJbeosxK4f0n5oTiZFF?=
- =?us-ascii?Q?ChMaXPzQS0B9bdwX0tNybsrg5wSBUxaEoUapd+u9ckS8PAb1hDEI+YHj2fO5?=
- =?us-ascii?Q?u/dG3uXzAjB+8PGtqrbGbFDWO1Uw8y08m/oYU+1U0/INB60GOh9gd5OG8S+V?=
- =?us-ascii?Q?83bPBha8eM0Es9kzyA78T/n7ujiMfFFpAFKuTdOSok7Pohx8m9egWgzr1qIL?=
- =?us-ascii?Q?UQAtLtZp28lfAJKEFgY6Jh3n1XQSGKzGx0VomU+xKF25NuGO8J9RHYqEIQDd?=
- =?us-ascii?Q?Avq61rEX0ikYKAWbSmIRG3PypXtNioPeCruXsgVl9uRDRapk41slA1ZVQEEm?=
- =?us-ascii?Q?MdaZ7MKLXpT55R/uwu9tb0PAyzV71zFsvS9N5t59yhIDBVpGIiBw+ig7VtiC?=
- =?us-ascii?Q?EI9Jbcx1WVFxqssv009IjEpMyrT646U8GrbT3rjdgxTkRYa0WfbiOZYEVbJp?=
- =?us-ascii?Q?/jfKXijwDjckXRfKxz3Luo6hpsm5K5lpuBdwbiv3vF/A6mlQuVAgovBjLaC5?=
- =?us-ascii?Q?iR0hgrKDa/UBonOnUIFiFHPQNqbXLFlaCFeYEPBFiO0RHQVMfgros1ljBmPf?=
- =?us-ascii?Q?hqWXKA4//aOsqjqeCWawF5TKHaLVqEIISjpb6MQ2TzrO3uLSQju/kJl9UFy8?=
- =?us-ascii?Q?9HNKaeQlYbED5VzT0ShDqlDAOJZh8EGvCBl0SBJdMuQE8DGdYc7TIOeP+kWP?=
- =?us-ascii?Q?isKxoIR2lM7kEEuCPaf6pDDbEaLCHlTmyCrdXpVUBerplYb081ek4koiYV9I?=
- =?us-ascii?Q?TJ70If/3rQT377PdoTavsMQdrzAwUyy5j72QQH3ZRoaVEe7DimC3oVXkGVuY?=
- =?us-ascii?Q?wvMXlDBLa2pXHdM5BUTbHneWSvEab77qCadw5S/XEWH8Aixm6IeGRenXxqU3?=
- =?us-ascii?Q?h88Rrd6T5oZrnm1uRDgKmqFljcX2URsSNPw3zL2jWFUOqeN8aI0s1nM2bncf?=
- =?us-ascii?Q?SQ9U7HXSBv43756MjTBT9QzBACiu3Vr3QhkpUWJz6du3jSRGkFr7maNt6tLH?=
- =?us-ascii?Q?gfKhJao34bVts8IOTf0EtPwvU9WbvIuvt1Ul6urPMFp3QAGy2UkzAKAcoXH7?=
- =?us-ascii?Q?N2Ltiq76kBCItVVijWukJgFBLpNXrhaQD2/pvxS+vnWueCyz92lJgeYEBZOQ?=
- =?us-ascii?Q?tXzaNT+bT81iS4L2t9YBhVs=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(19092799006)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?7UHgU1Gj2shq/WsE1bdfp/M9TgeoaFlQlJrXe9dc0cD0xYtUGfQMxgwQ8L3K?=
- =?us-ascii?Q?OSMvV8YTkI5DggOP6pxkFgn+Bqy/ykw9kV6wor78CS4+8+BISSoqtL/obaK/?=
- =?us-ascii?Q?Xg82kAN0xvmIvTz5knWKKfkKS7pWoJB45pNY8P9tRHw8XcCcJpyy63NGc27c?=
- =?us-ascii?Q?ItIMfqWdec/j9oLxRr7tXGIeOQ01BoMJnAeh91WrU+oG+Abfy04FSpD75is3?=
- =?us-ascii?Q?g8mX/+D6WdFnlwNKLUhO0mT5ANp7jJnullZ8PjFa65UyIp2mtyk3X25LDmqG?=
- =?us-ascii?Q?RnZJlK72+pMXd9ZtqFML+mZih6SWAOR1jeM+J4Bl3uaVY60agOYSZtDsxWRC?=
- =?us-ascii?Q?sLriX62wetOeO0m2xmS35oAmOrrrG7I5e18ffxGULhhYka9vtYZ+beIPQ9uk?=
- =?us-ascii?Q?v8x5s/h0yN4GPSBXD9lKoOWTWanDDdXvCjU8eGaY8qkQqp7/z3I2AVtOjASG?=
- =?us-ascii?Q?WEcoXrvVWdq4YS+Lip9PqL0phlPU9xnyF6UfMmnOUqjEXqFJPjnh83cCNQ5U?=
- =?us-ascii?Q?KtJ11KLUAxP3aESRBNwgMDNMnH9GOqZpkfIGFXt/Flckl1X+xIj/W1j8OUPX?=
- =?us-ascii?Q?yyds4mpjPYZDEqg4b9mBawTyNH6OtyvTvWPu+7MYnSFf7pIBDiBHT0dzPE+q?=
- =?us-ascii?Q?QUXWRbda5Z/4Tc9GC2t9xLvaZv9JJrzk84YOPSZT3pyR/nA7gyAdzc5i2Npb?=
- =?us-ascii?Q?mOUhUu47q0x6TdLTprjj9X6mJFvLILsOXOFbmoPIw38okiiv9JiDARa2KdkP?=
- =?us-ascii?Q?HNpsVuh9XGT9n4Z1cLNj2UmEEbIWM9idvPbBITvRHsGEQaVHFkDEG/2f5etc?=
- =?us-ascii?Q?m20bXs3IJ8e4AqJlmWiG+BgHmIwoysz1LWvHHmwYfuFJF4bhhikzqK4iNcwA?=
- =?us-ascii?Q?gA3fNZixFE1Wh39bcWb0wXSkgV5WcTyEFx7UcOFBI/tlKgQi7mOg+WpJt9mh?=
- =?us-ascii?Q?ySDN91APzi/fEKifZU40MCcBGOKk0hG2sdjzbVHLNxsoynlo9kLswB3x9YU0?=
- =?us-ascii?Q?EKRW/jGt2i8rYQhoACxWdFXwKyculMfI2dDCsqImGjZxGwr73Biro5HGjH1k?=
- =?us-ascii?Q?Eg0s4/54S4rLwLc+vH8FJQj8vNlB1hpcklBQjP3HRNVtwsjvOjNpouWaruE9?=
- =?us-ascii?Q?mjNj8yZCeAwCiK0Rnkdx979X+6snwnmRZAsqPiGOfbdLs+IYhc0vhRezNcL9?=
- =?us-ascii?Q?dBJPY/pag3rM/+aJAf0U0uWYOPP7ICmJVS9dw8cl/kYqV0EhPIjxgz9zSvWU?=
- =?us-ascii?Q?w9XGPOFFPr70r+kqTAvf3OnRGOjPzzTkgdY8OzfdFLqKdN63hqdqwYSqivXo?=
- =?us-ascii?Q?GHk/w4Fhr95q+7xljKHPxRNjstYWbF/A99Cjg8SGYgfjA0OMdml0DDUSlqjz?=
- =?us-ascii?Q?Z/TfdZqFVcbqK3EZepEbS/KEia+qaTQWy6Ia3q8LTy1Etnubveo9V+Gg9+e1?=
- =?us-ascii?Q?PR9F8tYrgmtfAQ7WS9lu41rEaPD7ifXozCM9TzfIlWfaKgVVj2Inxa+gtwG7?=
- =?us-ascii?Q?VErhV/AONDzLIyZvVKdV4pnnrO/i6QAQ0sBA1aJ0CIB2z0WYZ/vkIWvj5/pc?=
- =?us-ascii?Q?BHnnYyyQnrng5Dx5ZFVQJilTb1FwIe4MPW0mW/Mq1z1ak2+9E/p4Zug7tflt?=
- =?us-ascii?Q?qCW/ehsanOePj1FFG2qm9/16CUDwi/37wbdOpHlSY5OIFfe9uLnBU2vETq6h?=
- =?us-ascii?Q?lllMlfASA/VYzMJQdKkkIiqNQS7BqCS/P9awWLUeecruPScjecBvRlBKMF3x?=
- =?us-ascii?Q?6f61oUnbmQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
+ 2026 22:40:12 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
+ 22:40:12 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dave Airlie <airlied@redhat.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Koen Koning <koen.koning@linux.intel.com>,
+	dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	Nikola Djukic <ndjukic@nvidia.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Huang Rui <ray.huang@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Helge Deller <deller@gmx.de>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Timur Tabi <ttabi@nvidia.com>,
+	Edwin Peer <epeer@nvidia.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Andy Ritger <aritger@nvidia.com>,
+	Zhi Wang <zhiw@nvidia.com>,
+	Balbir Singh <balbirs@nvidia.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Elle Rhumsaa <elle@weathered-steel.dev>,
+	alexeyi@nvidia.com,
+	Eliot Courtney <ecourtney@nvidia.com>,
+	joel@joelfernandes.org,
+	linux-doc@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	Joel Fernandes <joelagnelf@nvidia.com>
+Subject: [PATCH v11 0/4] Rust GPU buddy allocator bindings
+Date: Tue, 24 Feb 2026 17:40:01 -0500
+Message-Id: <20260224224005.3232841-1-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR18CA0014.namprd18.prod.outlook.com
+ (2603:10b6:208:23c::19) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH0PR12MB7816:EE_
+X-MS-Office365-Filtering-Correlation-Id: a215a304-a2ff-4e18-b132-08de73f5abd2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?gCUYfLHwkP2XtNUanHWZQFYYMHlM67MWDv8Khm3RkPvljj7ypm2QFHV1MHdZ?=
+ =?us-ascii?Q?AnlunVon759dbwU8B/CVU1oMDTp5dlESRvma8WkQPW55CNIJ0mH2hLOFVfJC?=
+ =?us-ascii?Q?SBvAyCvZeTZ0aZG7C2yq/Q8Z95DsHZQD/tvRH+2Gw8bn83OK/sN649nmCuk2?=
+ =?us-ascii?Q?U4BykYxN+Xj4DYyC8EZcJ7LN5LtAr8QwwczL/jY+swmKrEw7DgI8Tv5OskNq?=
+ =?us-ascii?Q?rax7tqaKqp74n7OaURzTX3p4bAOxwVmezATWCl0d1Wjxp1SjthBJMIM5Phuy?=
+ =?us-ascii?Q?dAP2spD1JbrTKk+8cbT/3KP4QK0Fg1RDFq2X5SidogDgkJ+AczpQCKl4rxbd?=
+ =?us-ascii?Q?QwrOnLvG9NvzqPvcQcx9IGvKuwUnnTaj7R+H41CvXXRhZqLpPD5yDPT2bWjV?=
+ =?us-ascii?Q?T/6r0mcBRaROhZKG125pvGWDIQ6rKuPQEDQGgm6QHKz6CGsxPSQD9uStqEk7?=
+ =?us-ascii?Q?9yBSVUrWU8WM5f5rRczQHnm76LWN+IT8CqhtAXAxAt8ev5G2oy9Vczi3IGJd?=
+ =?us-ascii?Q?jZBacxUEgzK0ajpZr77GpovmI+y0m/mxVeuXOwNd4ylFy2Kv60Iyoo5E7TCE?=
+ =?us-ascii?Q?03N2U5D/ghTpGRupoVm0aIYD7q+eq21lh+NXf/0Mt7hCoEPvxrSpvChTOocf?=
+ =?us-ascii?Q?HkaMoD8FxI/8ixjB2pzJM0n4qE0i+IN/yGtgHIPl56A9bve0Vm4EplfV7Evo?=
+ =?us-ascii?Q?wFbkXxdTjWzPhn4NRrE5ayegpXsjtsDLUDWrfppZdGbBva/q7WFuSnb6o5dG?=
+ =?us-ascii?Q?j5nIpCkSlPgqfF9yviBMGBLfr4qwstcvUIV4Qm0wl0bOTjFvDwpv9GiQOZ4A?=
+ =?us-ascii?Q?cyqCbcJEkwq3xjXBo3VUzazPMErLF5yvZ1csw6QpL80K+VKfdFZWrWfxusXq?=
+ =?us-ascii?Q?vV+JIjEmkr0RFIR2moVVkYIpAJ1ixiZ7mGgfqyEvfUBH8kg0guFc1EQhBOCV?=
+ =?us-ascii?Q?//Ar6boXF7z+G3Sxaspb0kfBJLsvw0AHI13YC9UWJ40g8XvJmWZTu8PTZydV?=
+ =?us-ascii?Q?qKMIL88QVMvYkHhXID1rxMerCoxYj82IKJaz8HDm7xYDsYWWUyKOLUPbNuk0?=
+ =?us-ascii?Q?rV/B9grNIUU4RuHio2la2VW3+VVE9zPCZavTJUnGxZqlcI9ACxZ4uCE78qPx?=
+ =?us-ascii?Q?oCcXPu1BDFhCDisGpfZmakCQNKjqZhdLGlotg6IOIdGKmzKrOXgBOFbfV6dP?=
+ =?us-ascii?Q?pMOJ9EqL8J9NpCymKRf+xc384/tbNCPMxhcQEsjKknVt5XzPUTO5udJv0ECT?=
+ =?us-ascii?Q?6jcsE9niC3dyPViLaS5gANE9lbgQGcuushISRdFz9ByfCTg0ZcMAXtBw/swP?=
+ =?us-ascii?Q?y69LsC0FjUIRp7raDLoSWKx+J57vOzD/+ab8nebofsVM70JnB5kCdnMsG0F3?=
+ =?us-ascii?Q?IgwRVfKdi32DkwLzIZeSGwpWl0aaMiguNoeNozEpSGIzXTdZV0V89xSgnejL?=
+ =?us-ascii?Q?+hMtfuo44CnFAZtWAXyRRn/+VumQNq9nne7dJJCT9NqJ/aX39MqkFF7DCvYY?=
+ =?us-ascii?Q?MapAdgOz8L24Trlo8m1nj5+AcOvgboEBHwJizLAmAfu2Gv/Ts+zD2hp8Gqc3?=
+ =?us-ascii?Q?zNfzTvpU2yuveXv6lts=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?JesUt2TBTJfwfE6D7ZimfqiFJgG4Q7XzdW/Q10KVVsKaPaLnHqmJI+t52vY2?=
+ =?us-ascii?Q?U1p6FQCyWBl+6G3c8KcXEyFQDvHV5Jv0vJ1PgVo+lUrCoSqUHiOJj3QDB8hb?=
+ =?us-ascii?Q?dYhGTV0yCteW4mIGb5qGxG8DfmckgmFwAG4sqcXLi/L6DKDzDbxesSBmG9Fh?=
+ =?us-ascii?Q?sx+nrbtrddFR9w9B1R146b9lNvBkrH8wT9h2bXzmDqh8P5w+47Ez/wLEpnaH?=
+ =?us-ascii?Q?gnxxLXcJlv9gA5pFCKBlw/KmP0xAoD4deV2y7N1E0KIYJu1cc8w80RWQi56H?=
+ =?us-ascii?Q?Jpreb+LkD6p7vrWcFM8dxOAOzNQJDhTz+qRFQvTRQWqBfZV2LnZM4giP8gLW?=
+ =?us-ascii?Q?cPpo6MypYhQdlFfRLgb5Xfi6KhTIVeRXAIwNPrEmsALURIRf+M65qFfIVP8E?=
+ =?us-ascii?Q?WlcW8mcaaxyMCr0yrwHQetbJfasiISYjkVGwf+i4l9e5aSLAd3of+2IZpA57?=
+ =?us-ascii?Q?CEfg4MEB3WtssXEFRqv5k1IFSA6D4NSQntHpsuJpJr+wPOuhpurAJbEmgKPi?=
+ =?us-ascii?Q?JxhurMJZh3IjiPK9YO0ZtPc94ixUN4/Ot/lTQRJSTu8g+PDF6tP/3y+jfXhQ?=
+ =?us-ascii?Q?TYEEsXupSkpzKdPkme1rLlIQMzl+PaHGUiIbBdR+hh3VLOYAbnhLQZOPgwor?=
+ =?us-ascii?Q?yhQKvEUlN41K1RVxefTKXku7bibp0KF1bEvOwjZolPgSNDLwCzinGSuw0n03?=
+ =?us-ascii?Q?8ARb94a82j6IWunBId2+JgFeVMQpltRCMneDG6fNA6N/AhAIuZbOXRKwOVxo?=
+ =?us-ascii?Q?PpNKxVMTsU67IgyMDo3uRag4Xob6h29sd/rIHwJL12Zichqb+zAC6K9P+Xho?=
+ =?us-ascii?Q?H0FeWZOJphCez/OYCTeQMMw+wwa415fSvwUgQi2QZZcP9FWbrKKUpcrXrVXG?=
+ =?us-ascii?Q?sQGxwpXXNaOdFZ7zSmRnUdr+CRq77eJpNW7KZvPOWe93bRoAWAC3TupUquCs?=
+ =?us-ascii?Q?Jur0IbTvnR1q/CFmeErrO7eaxK/XAnfMxgKgu7N8Fe/0RdYgFdDnT4nEp7gb?=
+ =?us-ascii?Q?tRR4Bc1iSKADRqtM85KfsmmT7tGjIBgn1JcavKMChKxervxE3+TZZEDfgDm0?=
+ =?us-ascii?Q?G1O4hTCiYUAklcQ/QNQDE383N2bRYug8vyJvlcHS51Bi71y51Cg50Mtg5YH5?=
+ =?us-ascii?Q?C6jIOjecjPiIdgCyn3fMeW7G/GHSTnugg5PgI5AgsAsGCptH4CiJEFm+DS2e?=
+ =?us-ascii?Q?mB2EdRQrAJno0Rm6cSJPflNU2iS7FVsMovdMtsTPJnUr3NUclfY5W7hLF2Sb?=
+ =?us-ascii?Q?XP/WNns7uIteo3RXAc0IRc4uf9b5ukhS3TCM9Ufiw6S1mQFQ26eL3gfjqhj6?=
+ =?us-ascii?Q?xMxRM4Iv2FG/zDpJNq+zwAxAERRbi5xx9RmA82tDbXBR4y6RbuSTvjwlJeDD?=
+ =?us-ascii?Q?UoDeOgn3XF8l/lj7q3sM4qW4RlHerObPxCN9T3olTEwsaI2lK2kchBqtDiVp?=
+ =?us-ascii?Q?aZMqMBdc/tz8cDi12fHu8yMcpZj49rtw/ts67yw9rLj/Fij96pBlDH1YCgn6?=
+ =?us-ascii?Q?SG6DtnfvXWLPIQLUJaC3c1F81ClPGubxgD2yyusF1cCs6nn9QiNnOF6lxzwi?=
+ =?us-ascii?Q?huxt3zN9c2nUE0NqlBuf52iGwfsuDk21Edk3wxKvjZAIVzee8xVnfzOjRh9A?=
+ =?us-ascii?Q?GmvlW2uhmkgI0Ty+BlconKC9qiZvqQ5QvI6wZMDfbMc2MFGOn7bh3wM/iTVS?=
+ =?us-ascii?Q?1lI5KZ5+JPZ6GEfKmmKk1ByvMKdxFckH9p8bfdW+eauasI/YKExY3fZ4A79i?=
+ =?us-ascii?Q?PNfd/kiaag=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a215a304-a2ff-4e18-b132-08de73f5abd2
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 813b504f-12f0-4811-adf0-08de73f4850e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2026 22:31:57.4595
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 22:40:12.2328
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LoFV/5am5MvL2Mwv3n/eoxMEeYvG3rZ6UgI9oVMCFofEnQPkCB//w8GMrMM1AjIcCB6UM1G6Px9YKbOl4J5Wrw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9126
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tJT+R6Fc2NnKjOQofoGBQu1ZYwbXOcUesiVfEOEW929gqz6mvAGH2Gfxlr+8iZCGmGZEfaBgSEJvz4NLLRBa/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7816
+
+The series adds Rust GPU buddy allocator bindings for use by nova-core.
+
+Note: Patches 1-3 are included for reference only and should not be merged
+through this series. They are the DRM buddy allocator code movement patches
+(already being pulled into upstream via drm-misc-next by Dave Airlie) and the
+uninitialized buddy fix by Koen Koning (which is going in independently). They
+are included here as they are prerequisites for the Rust GPU buddy bindings
+(and could be further revised).
+
+The series along with all dependencies, including clist and nova-core mm
+patches, are available in:
+https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/log/?h=nova/mm
+
+Changes from v10 to v11:
+- Dropped "rust: ffi: Convert pub use to pub mod and create ffi module" patch;
+  the ffi module restructuring will go through a different path.
+- Dropped "rust: clist: Add support to interface with C linked lists" patch;
+  the clist module will be submitted separately.
+- Dropped "nova-core: Kconfig: Sort select statements alphabetically" cosmetic
+  patch.
+- Patches 1-3 (DRM buddy movement and fix) are included as reference only;
+  they are already being pulled into upstream via drm-misc-next.
+- Removed clist patches as those can go in independently (Alice).
+- Moved the Kconfig GPU_BUDDY selection patch to nova-core mm series to enable
+  it when it is actually used.
+- Various nits to comments, etc.
+
+Changes from v9 to v10:
+- Absorbed the DRM buddy code movement patches into this series as patches 1-2.
+  Dave Airlie reworked these into two parts for better git history.
+- Added "gpu: Fix uninitialized buddy for built-in drivers" fix by Koen Koning,
+  using subsys_initcall instead of module_init to fix NULL pointer dereference
+  when built-in drivers use the buddy allocator before initialization.
+- Added "rust: ffi: Convert pub use to pub mod and create ffi module" to prepare
+  the ffi module for hosting clist as a sub-module.
+- Moved clist from rust/kernel/clist.rs to rust/kernel/ffi/.
+- Added "nova-core: Kconfig: Sort select statements alphabetically" (Danilo).
+
+Changes from v8 to v9:
+- Updated nova-core Kconfig patch: addressed sorting of Kconfig options.
+- Added Daniel Almeida's Reviewed-by tag to clist patch.
+- Minor refinements to GPU buddy bindings.
+
+Changes from v7 to v8:
+- Added nova-core Kconfig patch to select GPU_BUDDY for VRAM allocation.
+- Various changes suggested by Danilo Krummrich, Gary Guo, and Daniel Almeida.
+- Added Acked-by: Gary Guo for clist patch.
+
+Changes from v6 to v7:
+- Major restructuring: split the large 26-patch v6 RFC series. v7 only contains
+  the Rust infrastructure patches (clist + GPU buddy bindings), extracted from
+  the full nova-core MM series. The nova-core MM patches follow separately.
+- Rebased on linux-next.
+
+Changes from v5 to v6:
+- Rebased on drm-rust-kernel/drm-rust-next.
+- Expanded from 6 to 26 patches with full nova-core MM infrastructure including
+  page table walker, VMM, BAR1 user interface, TLB flush, and GpuMm manager.
+
+Changes from v4 to v5:
+- Added PRAMIN aperture support with documentation and self-tests.
+- Improved buddy allocator bindings (fewer lines of code).
+- Based on drm-rust-next instead of linux-next.
+
+Changes from v3 to v4:
+- Combined the clist and DRM buddy series into a single coherent series.
+- Added DRM buddy allocator movement from drivers/gpu/drm/ up to drivers/gpu/,
+  renaming API from drm_buddy to gpu_buddy.
+- Added Rust bindings for the GPU buddy allocator.
+
+Changes from v2 to v3:
+- Squashed 3 clist patches into one due to inter-dependencies.
+- Changed Clist to Clist<'a, T> using const generic offset (Alex Courbot).
+- Simplified C helpers to only list_add_tail (Alex Courbot, John Hubbard).
+- Added init_list_head() Rust function (Alex Courbot).
+- Added FusedIterator, PartialEq/Eq impls.
+- Added MAINTAINERS entry (Miguel Ojeda).
+
+Changes from v1 (RFC) to v2:
+- Dropped DRM buddy allocator patches; series focuses solely on clist module.
+- Dropped sample modules, replaced with doctests.
+- Added proper lifetime management similar to scatterlist.
+- Split clist into 3 separate patches.
+
+Link to v10: https://lore.kernel.org/all/20260218205507.689429-1-joelagnelf@nvidia.com/
+
+Joel Fernandes (3):
+  gpu: Move DRM buddy allocator one level up (part one)
+  gpu: Move DRM buddy allocator one level up (part two)
+  rust: gpu: Add GPU buddy allocator bindings
+
+Koen Koning (1):
+  gpu: Fix uninitialized buddy for built-in drivers
+
+ Documentation/gpu/drm-mm.rst                  |   10 +-
+ MAINTAINERS                                   |   16 +-
+ drivers/gpu/Kconfig                           |   13 +
+ drivers/gpu/Makefile                          |    3 +-
+ drivers/gpu/buddy.c                           | 1322 +++++++++++++++++
+ drivers/gpu/drm/Kconfig                       |    5 +-
+ drivers/gpu/drm/Kconfig.debug                 |    1 -
+ drivers/gpu/drm/Makefile                      |    1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       |    2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_res_cursor.h    |   12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |   79 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h  |   20 +-
+ drivers/gpu/drm/drm_buddy.c                   | 1277 +---------------
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |    2 +-
+ drivers/gpu/drm/i915/i915_scatterlist.c       |   10 +-
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.c |   55 +-
+ drivers/gpu/drm/i915/i915_ttm_buddy_manager.h |    4 +-
+ .../drm/i915/selftests/intel_memory_region.c  |   20 +-
+ drivers/gpu/drm/tests/Makefile                |    1 -
+ drivers/gpu/drm/tests/drm_exec_test.c         |    2 -
+ drivers/gpu/drm/tests/drm_mm_test.c           |    2 -
+ .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  |    4 +-
+ drivers/gpu/drm/ttm/tests/ttm_mock_manager.c  |   18 +-
+ drivers/gpu/drm/ttm/tests/ttm_mock_manager.h  |    4 +-
+ drivers/gpu/drm/xe/xe_res_cursor.h            |   34 +-
+ drivers/gpu/drm/xe/xe_svm.c                   |   12 +-
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr.c          |   71 +-
+ drivers/gpu/drm/xe/xe_ttm_vram_mgr_types.h    |    4 +-
+ drivers/gpu/tests/Makefile                    |    4 +
+ .../gpu_buddy_test.c}                         |  416 +++---
+ .../lib/drm_random.c => tests/gpu_random.c}   |   18 +-
+ .../lib/drm_random.h => tests/gpu_random.h}   |   18 +-
+ drivers/video/Kconfig                         |    1 +
+ include/drm/drm_buddy.h                       |  163 +-
+ include/linux/gpu_buddy.h                     |  177 +++
+ rust/bindings/bindings_helper.h               |   11 +
+ rust/helpers/gpu.c                            |   23 +
+ rust/helpers/helpers.c                        |    1 +
+ rust/kernel/gpu/buddy.rs                      |  536 +++++++
+ rust/kernel/gpu/mod.rs                        |    5 +
+ rust/kernel/lib.rs                            |    2 +
+ 41 files changed, 2536 insertions(+), 1843 deletions(-)
+ create mode 100644 drivers/gpu/Kconfig
+ create mode 100644 drivers/gpu/buddy.c
+ create mode 100644 drivers/gpu/tests/Makefile
+ rename drivers/gpu/{drm/tests/drm_buddy_test.c => tests/gpu_buddy_test.c} (67%)
+ rename drivers/gpu/{drm/lib/drm_random.c => tests/gpu_random.c} (59%)
+ rename drivers/gpu/{drm/lib/drm_random.h => tests/gpu_random.h} (53%)
+ create mode 100644 include/linux/gpu_buddy.h
+ create mode 100644 rust/helpers/gpu.c
+ create mode 100644 rust/kernel/gpu/buddy.rs
+ create mode 100644 rust/kernel/gpu/mod.rs
 
 
-
-> -----Original Message-----
-> From: Andrew Lunn <andrew@lunn.ch>
-> Sent: Tuesday, February 24, 2026 4:23 PM
-> To: Shenwei Wang <shenwei.wang@nxp.com>
-> Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>; Linus Walleij
-> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corb=
-et
-> <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
-> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
-> <andersson@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Fra=
-nk Li
-> <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>; Shuah Khan
-> <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
-> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix Kernel Tea=
-m
-> <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
-> <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
-> remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Bartosz
-> Golaszewski <brgl@bgdev.pl>
-> Subject: Re: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO=
- driver
->=20
-> Caution: This is an external email. Please take care when clicking links =
-or opening
-> attachments. When in doubt, report the message using the 'Report this ema=
-il'
-> button
->=20
->=20
-> > > > + remote_cm33{
-> > > > +     rpmsg {
-> > > > +        rpmsg-io-channel {
-> > > > +          #address-cells =3D <1>;
-> > > > +          #size-cells =3D <0>;
-> > > > +
-> > > > +          gpio@0 {
-> > > > +            compatible =3D "rpmsg-gpio";
-> > > > +            reg =3D <0>;
-> > > > +            gpio-controller;
-> > > > +            #gpio-cells =3D <2>;
-> > > > +            #interrupt-cells =3D <2>;
-> > > > +            interrupt-controller;
-> > > > +          };
-> > > > +          gpio@1 {
-> > > > +            compatible =3D "rpmsg-gpio";
-> > > > +            reg =3D <1>;
-> > > > +            gpio-controller;
-> > > > +            #gpio-cells =3D <2>;
-> > > > +            #interrupt-cells =3D <2>;
-> > > > +            interrupt-controller;
-> > > > +          };
->=20
-> > Then how would you distinguish gpio@0 from gpio@1 on the CM33 RPMSG bus
-> in the example above?
-> > They are running on the same transport.
->=20
-> Doesn't reg indicate the channel number? gpio@0 is on rpmsg channel 0. gp=
-io@1
-> is on channel 1? The reg value gets filled into struct rpmsg_channel_info=
- when
-> the endpoints are created?
-
-There is only a single RPMSG channel for the CM33 remoteproc in this exampl=
-e-its name=20
-is "rpmsg-io-channel". As I mentioned above, both gpio@0 and gpio@1 run ove=
-r this same transport.=20
-The transport here is the RPMSG channel, so multiple GPIO controllers share=
- that channel.
-
-Thanks,
-Shenwei
-
->=20
->    Andrew
+base-commit: 2961f841b025fb234860bac26dfb7fa7cb0fb122
+prerequisite-patch-id: f8778e0b72697243cfe40a8bfcc3ca1d66160b12
+prerequisite-patch-id: 763b30c69f9806de97eb58bc8e3406feb6bf61b4
+-- 
+2.34.1
 
