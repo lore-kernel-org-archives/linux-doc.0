@@ -1,251 +1,316 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7366234CDD;
-	Tue, 24 Feb 2026 17:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771955381; cv=fail; b=TvMlPVkW+I9t57PQ6dkEaWiOLHbdSufNc4lAnXNl3dXMiA40EdWAFPANZyzo+VEgld0YRUb3rGRBVeHLSjbIJONo9GpIjaN2BE6038Ud0ovMmFPeyJNUPVe+djvfXVPuApeG7nDSNqpsUAsLn0EYpct1NEiVml8OKD2X3+yQ8YY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771955381; c=relaxed/simple;
-	bh=3U7Rjoa17vLFD4dxJ3H4HvOxaJVmqMRfkQGJu0+19UI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=aQyvFjsBiBNkJsLqy/KvJCcAXfWsBcNZg0SX8hI+aRlK6fkNBwDWxnpEr2ZTv5SE6uBxywf+4BrIyJQv8wEvkM/FvS03AEUZfrwHOzLclLEzI5zKUOUPpw6ky5SlaBcmkOwcj9D/AgESKF1C8nDTyfPCxayEbyLifCmY7agquQw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W7cmqWQn; arc=fail smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7cmqWQn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771955380; x=1803491380;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=3U7Rjoa17vLFD4dxJ3H4HvOxaJVmqMRfkQGJu0+19UI=;
-  b=W7cmqWQn0OyRduNZTfUNeJe9zfwAPEL845M4fUzU73T7UHCGZEd4+s72
-   Bk8lmaG7jJlMN/FnzPrwcXhPPtNSycVMjK7CMYztKZxB2LEQLD/8ALuw4
-   gACDo7xAVQSMHh4aDYp7fei9cr28LI+UYyxj4Qr+DaD/1zKcj1lNZkDwE
-   iRKay8XoKH7I+N2sdVZg/2ozXf3t4SXnbaaEr36nR5yQ+E+13F3Jf2jU/
-   nG4OrPycT0mtFN1P3K3IrAjNMpv/D9s+d4IrFs53f0KXQBEMJL2Xnp9QG
-   NmVcKt1WaNep/93he9Ybq/NjTtgdOAZoCbtFiDE+uALKR6eCeDmL6ZELG
-   A==;
-X-CSE-ConnectionGUID: 3SNRY4c+RsCUpOV2SAJGJw==
-X-CSE-MsgGUID: I/Hyqz2ES5CmS261UMsVlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="72883454"
-X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; 
-   d="scan'208";a="72883454"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 09:49:40 -0800
-X-CSE-ConnectionGUID: szUqkOP7TnaBL/spUxFxHA==
-X-CSE-MsgGUID: KMfHl3dzTBuHVmiDWGa/Zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,309,1763452800"; 
-   d="scan'208";a="243892141"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 09:49:39 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 24 Feb 2026 09:49:39 -0800
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35 via Frontend Transport; Tue, 24 Feb 2026 09:49:39 -0800
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.37)
- by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.35; Tue, 24 Feb 2026 09:49:38 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lzGyVJhX8epfQgAVsuHtKPe35NYUp5v/0Yc/21tMZ5rtA9Cf9I6+7n7Ic58sujxwVzF0uA6RYW1I5VImOEe15OIqPeZvqWpiKrmGzDpvrrrvI/PU1tuCdQlyRKlFz/wBipMJFlehQ4EGUe1CE6nN/9UnbzG6Av50/aKnE1W+eVdaaJX0tQ7X2ZpZudvsnd2Zd++AnKiJHDDDHuUil7T+ZHEHUgl6Rbpm3rsZMIVNx+XHROY687KXW2YVvw4n39D9FXegJZth7tUFosgkO4EXSMlOYXigpDLW1T8akJqlq1NfjsaBuibsPTH1cx0J+jfeRiMRjhJgfiM2096KIvS2Dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3U7Rjoa17vLFD4dxJ3H4HvOxaJVmqMRfkQGJu0+19UI=;
- b=gGHQsaFRIQiwHHkbSVBuOtEUlTfeACol/YFc8PHtHe20wXZXcrybc14wTeo2LEKBYuhCUybqFlaL0SmGuhJEkJuwkl2krMpvQt322kRg+Wc2vep3ZV6n+47ayscUA2yKbXXrtilwfRVoXHFwjZqfD6c+thIaThF2GCg833QfodZEiDnEtFrMoDZQrz3Hy30rpf4/ohdxLNYFbahfN5N1zNx6LCBIyd8Lnxdk+zJd1YhHBSyqI9f89+e7RSRa15tfOcCujdgxh9QRyARm7Jn3XRt/aaoh6qP5LZ4Pme1qwm0R3EpApnBz19oAJvaS+m4lC7d0Z1yghvv33Wt8gTkR8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6297.namprd11.prod.outlook.com (2603:10b6:a03:458::8)
- by PH8PR11MB6729.namprd11.prod.outlook.com (2603:10b6:510:1c5::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Tue, 24 Feb
- 2026 17:49:30 +0000
-Received: from SJ1PR11MB6297.namprd11.prod.outlook.com
- ([fe80::6f05:5b37:2440:556e]) by SJ1PR11MB6297.namprd11.prod.outlook.com
- ([fe80::6f05:5b37:2440:556e%6]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 17:49:30 +0000
-From: "Salin, Samuel" <samuel.salin@intel.com>
-To: "Zaremba, Larysa" <larysa.zaremba@intel.com>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>
-CC: "Lobakin, Aleksander" <aleksander.lobakin@intel.com>, "Samudrala, Sridhar"
-	<sridhar.samudrala@intel.com>, "Singhai, Anjali" <anjali.singhai@intel.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, "Zaremba, Larysa"
-	<larysa.zaremba@intel.com>, "Fijalkowski, Maciej"
-	<maciej.fijalkowski@intel.com>, "Tantilov, Emil S"
-	<emil.s.tantilov@intel.com>, "Chittim, Madhu" <madhu.chittim@intel.com>,
-	"Hay, Joshua A" <joshua.a.hay@intel.com>, "Keller, Jacob E"
-	<jacob.e.keller@intel.com>, "Shanmugam, Jayaprakash"
-	<jayaprakash.shanmugam@intel.com>, "Wochtman, Natalia"
-	<natalia.wochtman@intel.com>, Jiri Pirko <jiri@resnulli.us>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
- Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Richard Cochran
-	<richardcochran@gmail.com>, "Kitszel, Przemyslaw"
-	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Czurylo,
- Krzysztof" <krzysztof.czurylo@intel.com>
-Subject: RE: [Intel-wired-lan] [PATCH iwl-next v5 01/15] virtchnl: create
- 'include/linux/intel' and move necessary header files
-Thread-Topic: [Intel-wired-lan] [PATCH iwl-next v5 01/15] virtchnl: create
- 'include/linux/intel' and move necessary header files
-Thread-Index: AQHcV8kGWRlKP/yRUU6aQZTp2FpGa7WSs5qg
-Date: Tue, 24 Feb 2026 17:49:30 +0000
-Message-ID: <SJ1PR11MB629759DE8E81FA48568ED7269B74A@SJ1PR11MB6297.namprd11.prod.outlook.com>
-References: <20251117134912.18566-1-larysa.zaremba@intel.com>
- <20251117134912.18566-2-larysa.zaremba@intel.com>
-In-Reply-To: <20251117134912.18566-2-larysa.zaremba@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6297:EE_|PH8PR11MB6729:EE_
-x-ms-office365-filtering-correlation-id: 3e97db68-e5de-4641-aeff-08de73cd0fc7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|7053199007|38070700021;
-x-microsoft-antispam-message-info: =?us-ascii?Q?4E+RIJ3qPaImuHEgWHVNvjJtPT/pfb9eqUPs1z17YcmXVmq7090sNndNJYUX?=
- =?us-ascii?Q?xZGmhtbW99CGxx9Jk4UoVGvFbiu3r1hos/1/xJ1NlAy/BSg5Rso58Aq2clDk?=
- =?us-ascii?Q?xjvplWA4BP0b9GMu++SOR49djVxQoKVKSLUMVO8bhk8mBFu7ROHRIhULWNtQ?=
- =?us-ascii?Q?cIs/ar3dKufso/6LqSvbXAKPMCVHm3ic+Bi8sZEc2DcqX0Ge/UZp5JEtPsL2?=
- =?us-ascii?Q?usuT9nPN8ufVEtJ6586eeLWkd1A1J+sLUXWxURSww+FnyFlhVfUCAtJOwwEU?=
- =?us-ascii?Q?ysLpSjeh5YyGb18O/nKgD6Cud9yf79KiVdNTXRd472+OwOUrT4qtIrqec/w9?=
- =?us-ascii?Q?ax3dT2SGE2mpQUv6O2wP7NRt4NrnZgMvQurUwm+nHuR8e71677WcXbP2GbLz?=
- =?us-ascii?Q?mS0ms2+9wlpArA6fwx7f4hPvkd6DVEdu+Rr9Dm6vsswtmfs2uj8k7slG/RC3?=
- =?us-ascii?Q?olKYarGauDSTEx9CgiXjYzs1HGoFQNBFx09tk+UFlR1sfMN85lVLSlfnB1fU?=
- =?us-ascii?Q?gG4HXttG4wWkCmG8MMzfsNY9pU8LBieSBD0dHLBO4InleStBwhV/JKuYaD9c?=
- =?us-ascii?Q?X7rCq/2K5LUBxIGm/R6n5HkNODcyA6KwKrDcpTjguC3lWeZJ8HlUU+zAUteU?=
- =?us-ascii?Q?6ePQz0FLcsW1fidMdOnRomJIk++44epyVLssq6i2On16QXoJxQq/iTeE2gES?=
- =?us-ascii?Q?XKXmBfTZCjA0vfmALfbJYHn0Ew0jAnth1rudJFcYyGnsvGpPB+S5f8vNVdtW?=
- =?us-ascii?Q?bxiDNqo1DLXMDg8SuGpreN/8uHHW+qo9YVse+YivC7y+++tulAmc5QR4y7zN?=
- =?us-ascii?Q?1WxUCtiRkb8GBT8Zet0UINLx5+MTdicKujqVZXasHvlL3mxTH41ykSvGe1j/?=
- =?us-ascii?Q?NdTJVLtymFHqv8C7QZpLhiIwibMTkkr+lPLuRmgNWvTgmoSd0xEt94fEeAW5?=
- =?us-ascii?Q?YsS55sRDcU7xWtGWLUfyFyy1NI71EvqYfhcqLwKzrHUY4rKUubFM7SQHlgda?=
- =?us-ascii?Q?N6xRt4PWMFxZsAkYYdDQV8U+bZQ5x0/DdRuU6wsBtRSWr3+ihR4KEcXIjmIQ?=
- =?us-ascii?Q?ILB4k3gUVkIu0tdIIlDLgtq1KJDcmVl52yGWNnkiACgmiIRdKHpd6JjDSGLl?=
- =?us-ascii?Q?jAknWnBIPGeNhsypEugftawWC6JO0LbDxLhasLQqJ4QWXQknyCqrOS/E1w6p?=
- =?us-ascii?Q?v8hHoAw1AOiIdz+PYgmLnml7CS5Orfeki3Y5aqM0nBzJnAUK2BHcAIjRVmNq?=
- =?us-ascii?Q?MuG+FbIcD3OhKA5Y1YBLWxGh5wBGdN2KkeojbBPrt3i79lGQDiEkORnOcB3o?=
- =?us-ascii?Q?8j+HgZZKARnDpAMA4yBHppgvpOHhnweN8e42gV2P3fjXCjfOvBKfjwahvGmE?=
- =?us-ascii?Q?AfMFvvFZy/0VE26M979pj2BDaDWeaTkKQaufXcQI/Jf2oc0OYJ+ZjBdEC5D9?=
- =?us-ascii?Q?LgiUBprb8NBzf8SanQhPcpsnaSkHSMIK5iuMtLvusXWpvX2PkjxVXVNDsWvm?=
- =?us-ascii?Q?lLWUzn12JA6Ay88wMncpq5hUNuBsCbCjW4+8Mw1GYFBOxKL1qOQe8AucOZQZ?=
- =?us-ascii?Q?G3/X9NZ5jOyA3XF8SzY7xcS7q/KzdhH9QYnvRcGuYi2dqwBIazYOyKw10a1w?=
- =?us-ascii?Q?KYu9dG97aKJ4b/OBm5EhyN0=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6297.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Uk9OEsXYAk6H7o0SQKAmv6rdeuo85JnOsisr42MqRCY8biChmWVJKzLmtL3v?=
- =?us-ascii?Q?ke4CWq5H1mbA7qfusCcW//j493KYXczEWUxquN7Sqf9skBaylSFBjY+QQ/yA?=
- =?us-ascii?Q?u+ah82GYUT0GEic8XkhHMAZOnIEjqngQD6+k0ZSSE3ImPFC2XLGw9ZtsRfWQ?=
- =?us-ascii?Q?HLLN0KdYP6NEmSJU3oQ7zTJJjEOSATFQl/J0FN6kW/o9ghwtweky1qJCTzfO?=
- =?us-ascii?Q?7WAFhGyD7L+X4WYrAD3VGM1iJUotPyS0t48mdtVNl2RZfmM7bEATnYz7TwC0?=
- =?us-ascii?Q?FBGq1l+/BLJL/9d8l1FWXmK49blFgzJdeK+9bsdQwFbaYycAKAetV9S4c5eN?=
- =?us-ascii?Q?vLwoebHzVMM/XlHI9qqBcimDS80ZnsuTMEvTxDG4RY29W3vFepO0enYbFxj5?=
- =?us-ascii?Q?fCgKqWB9ViuO31qy2csRm2BFW3K4q0vgNALCR3ug/w6pT/oF6+RpVN96To5B?=
- =?us-ascii?Q?Wl8ZR3XVns49EcMDmdccu9q2WG8CQhDQnrBXi0a2we4eZl4qoFLgLNDV5Wix?=
- =?us-ascii?Q?0Gg6hFBzCdaZ9/ETB87l5TsxCHkgGQObENGoVKaF4JikD1uRZJ7v0sG/youn?=
- =?us-ascii?Q?1N/ZSyzFXiNeQQbZGZnjqUxrmsUK3+IQx/W+8vpiu0hldLlLQWjyH5RL/RlV?=
- =?us-ascii?Q?8aMe1R1XW3eHJ7yqq4T6bIwAty6BzclPuEV07ILP9conW/k0R+F9drUBVKmw?=
- =?us-ascii?Q?jcFnIIiy3/Er1OG3f9Q69KabI85jLJUSMsM6exbFMyIQL+HoEwIvGuBJrVti?=
- =?us-ascii?Q?W0fmb7KbfhVtsqGJfcaP9ZdVzmWAYL4uXws9+OHLqZ8TpaIPAZ0bdh6I8XIS?=
- =?us-ascii?Q?VSEp8VlRe1InLWgAAMRT8hYzX7oZXh4Xtf54g5byBxpTNlWYX4QKwtK0jwSc?=
- =?us-ascii?Q?SMMEg00isj9S14oEAu0N3eBul/K4aaOYZn+w5y85VovDdTsZVE3p7spl+5np?=
- =?us-ascii?Q?jOBcyYrANpHuXE5Wopaeb/wnauTVzLBbliogn3SbH8kA+IxEYJYCGzHC7ZJi?=
- =?us-ascii?Q?okErYLcTj+EefRmApmI4PnwkwbqkX9c0Sbjq83NqnAbNlV67/GRCad5PIWZy?=
- =?us-ascii?Q?mXSC06BQzL6O9eSTULvWtIk7ZXb6cRdjBdebQmSJe2RYYNgpxktdY5Vu1J+n?=
- =?us-ascii?Q?kqLdy2pZAaOqP+hrnBi6OL+UIWKdP5YffK7o4uO/OyGkU3W5a6GDEU2U7jEN?=
- =?us-ascii?Q?uiQmek/7FVQBvOWGJv2cLi2Pskf/zLuQ//6V8YuA1zBkU3Lk/4qSkY2e+dfs?=
- =?us-ascii?Q?M+zHAR6+ifVMYxRLi5U401EleRJOxQZM4Yeq9dkagUz74w4sznlsiWdT9pQD?=
- =?us-ascii?Q?Zg5GSg62wdf9Mr/zOyKSDqnaSNX4EBzYQRvUfq5uKN70fUV5hOpTad19a2jx?=
- =?us-ascii?Q?SIjy2rQntQ0W5hueFuLRvWY4entgt5DuoLmh77CVha9RWzDT1E6taKr55ASQ?=
- =?us-ascii?Q?41RfruoWfLTA+4/o1YSHNvDj/qhiR4tGdw1FHDdSUPC6/sPlLf752EYezkqk?=
- =?us-ascii?Q?MlCJ3FpDxsNJ4x2FZKMKnFoHYW/c/tuBX9RcMfnFyB3g6lkBQ6Vvc9oJOl5b?=
- =?us-ascii?Q?4uOBFx4BJfkM8Y2es6yV9UqjqbW5QUxoMXFB93ery0pc7SWKImVWviS4Iaqr?=
- =?us-ascii?Q?RkpmsfS/vRzEArJCGvQQda24xDBuFshpyLPNrAtuYC4eDXnycGV5cNvscOsj?=
- =?us-ascii?Q?s8/yYD/Fylws2MYvyV/IO8BuVkM78U9e4L6bVJpJHqDjREveun1eM73w2g9n?=
- =?us-ascii?Q?SjZEb4Ge8w=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C79F279903;
+	Tue, 24 Feb 2026 17:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771955602; cv=none; b=cfKi/GvMxogdZWQoyk00lt/PXwHXTPhcdeL0QS//pyE7T3Z6ofWVt0NhM9ihKY04riij6O+fQQl9j/OaYMoWvpZ9qfGm/eh/GdZhJhVYyMesrQjSRGDfUfZEzF31ngF+YybblyGDYMdmnGONltr4xYx03FMvLScx0TU1hA8TKW8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771955602; c=relaxed/simple;
+	bh=ck7lPuA/d1qThB2PwOE2+uUsKyNKotfNBe/QFuvUdqI=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=aca/bNKHoATl+HHlyhGQAVosVKjjATz1tiXvmoQPVQkGW65l54HxC6HfS8x0gNXtYtOfEhyTD5Br2uFhnSSOw7M1iZMjmevSGFVJI81RKhK+wi5rM6kB62h4qJTrPyYocictvErq8YKUJOD5Lzbl6zHILnlBQMtXJFvatNnmHZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68E72339;
+	Tue, 24 Feb 2026 09:53:13 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B4253F59E;
+	Tue, 24 Feb 2026 09:53:14 -0800 (PST)
+Message-ID: <35bf397e-bf96-4c15-b905-2141020b7627@arm.com>
+Date: Tue, 24 Feb 2026 17:53:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6297.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e97db68-e5de-4641-aeff-08de73cd0fc7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2026 17:49:30.3394
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /v+CuGxjzcvt6+v6KsJQLIf1ColfEFnp3rSIXTYeH6NbuMX9Ny3Bw7+jeOSuXmNMghQnvv3Hao5ojlJDYQ/rWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6729
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/41] arm_mpam: Add KVM/arm64 and resctrl glue code
+From: Ben Horgan <ben.horgan@arm.com>
+To: Zeng Heng <zengheng4@huawei.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
+ jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ linux-doc@vger.kernel.org, Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+ <9945d28e-f1f2-e11a-1481-8d80167d6f89@huawei.com>
+ <b844c632-c8fc-48f1-b347-07f166019b22@arm.com>
+ <28dbde39-5b21-5f2f-59f5-4500c8b0296d@huawei.com>
+ <2f2410a0-69dd-4da5-bd84-d168ba6b0605@arm.com>
+Content-Language: en-US
+In-Reply-To: <2f2410a0-69dd-4da5-bd84-d168ba6b0605@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi Zeng,
 
+On 2/24/26 14:19, Ben Horgan wrote:
+> Hi Zeng,
+> 
+> On 2/24/26 11:03, Zeng Heng wrote:
+>> Hi Ben,
+>>
+>> On 2026/2/16 20:22, Ben Horgan wrote:
+>>> Hi Zeng,
+>>>
+>>> On 2/14/26 09:40, Zeng Heng wrote:
+>>>> Hi Ben,
+>>>>
+>>>> On 2026/2/4 5:43, Ben Horgan wrote:
+>>> [...]
+>>>>>
+>>>>> Based on:
+>>>>> [1] git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
+>>>>> (To include telemetry code which changes the resctrl arch interface)
+>>>>>
+>>>>> The series can be retrieved from:
+>>>>> https://gitlab.arm.com/linux-arm/linux-bh.git mpam_resctrl_glue_v4
+>>>>> (Final commit is a fix already in 6.19-rc8)
+>>>>>
+>>> [...]
+>>>>>
+>>>>
+>>>> I've tested the MPAM functionality on my local Kunpeng platform. Here's
+>>>> a summary of the results:
+>>>
+>>> Thank you very much for your testing and detailed report.
+>>>
+>>>>
+>>>> Features enabled and verified:
+>>>>    * L2 and L3 CPBM
+>>>>    * L3 CSU
+>>>>    * L2 and L3 CDP
+>>>> All enabled features passed functional testing as expected.
+>>>>
+>>>> + Tested-by: Zeng Heng <zengheng4@huawei.com>
+>>>>
+>>>> Features not enabled:
+>>>>    1. MATA MBMAX partition and MBWU monitor.
+>>>
+>>> What's MATA here? Just memory allocation or something more specific?
+>>>
+>>
+>> The MATA serves as the agent for the Broadway MESI coherence protocol
+>> among multiple L3 caches or between I/O and L3 caches. It maintains data
+>> coherence among multiple L3 caches or between I/O and L3 caches.
+>>
+>> As the connection module between the SoC and the memory system, the MATA
+>> interfaces with the DMC on the DDR die. It provides the system with DDR
+>> access paths, delivering high-bandwidth, low-latency DDR read/write
+>> access.
+>>
+>> On the Kunpeng chip, the MB related MSC resides in this module rather
+>> than being directly located on the L3 cache controller.
+>>
+>>>>       Reason: These do not meet the driver's current topology>
+>>> expectations for MB support, hence they were not initialized.
+>>>>       This behavior is expected.
+>>>
+>>> Is this because you have more than 1 L3 cache?
+>>
+>> Yes, Kunpeng platform has more than 1 L3 cache.
+>>
+>> However, the reason it is not supported here is that the current driver
+>> does not support MATA recognition, while both Kunpeng MBM and MBA
+>> functionalities reside in the MATA MSC side as mentioned above,
+>> resulting in the inability to provide support.
+>>
+>> Relevant logs are as follows:
+>>
+>> [   10.997406] mpam:topology_matches_l3: class 255 component 0 has
+>> Mismatched CPU mask with L3 equivalent
+>> [   10.997411] mpam:mpam_resctrl_pick_mba: class 255 topology doesn't
+>> match L3
+>>
+>>>
+>>>>
+>>>>    2. L2 CSU and MBWU monitors.
+>>>>       Reason: The current MPAM driver does not support L2-related
+>>>>       functionality yet.
+>>>
+>>> Thanks for letting us know you have these. But, yes, unfortunately
+>>> monitoring is only supported on the L3 at the moment.
+>>>
+>>>>
+>>>> + Tested-by: Zeng Heng <zengheng4@huawei.com>
+>>>>
+>>>>
+>>>> Detailed test logs are as follows:
+>>>
+>>> I'm confused by these logs as it looks like you aren't getting any
+>>> monitors but you verified the L3 CSU. Also, it looks like cpor (cbpm) is
+>>> disabled (at least partially) but you verified L2 and L3 CPBM. Is this
+>>> across different machines?
+>>>
+>>
+>> The logs were of course tested on the same machine.
+> 
+> Ok and the same run? Just asking because I can't yet see how this all
+> goes together.
+> 
+>>
+>> Since the L3 CSU/CPBM resides on the L3 cache, it can be correctly
+>> recognized and run smoothly.
+>>
+>> In fact, not only was L2 successfully mounted, but all L2 MSC CPBMs were
+>> also correctly recognized. The suspicion here is that the L2
+>> class->components were incorrectly mounted to an unknown object, which
+>> is believed to be related to the monitoring capabilities (CSU and MBWU)
+>> of Kunpeng L2. The root cause is still being investigated.
+> 
+> I'll try and mock up a system with L2 monitoring and cpbm to see if the
+> driver behaves in the same way.
+> 
+> However, I still can't understand how you get CPOR on L2 after seeing
+> "mpam:mpam_resctrl_pick_caches: class 2 cache misses CPOR" as that
+> should be the only place class is set for the l2 cache which guards the
+> call to mpam_control_init() in mpam_resctrl_setup(). The
+> mpam_monitor_init() comes later so I can't see how that effects.
+> 
+> Is the driver corrupting something or writing to mpam_resctrl_controls
+> with the wrong index? Clutching at straws here.
+> 
+>>
+>> Resctrl mounting status:
+>>
+>> # cat schemata
+>> L2:4=ff;7=ff;10=ff;13=ff;16=ff;19=ff;22=ff;25=ff;29=ff;32=ff;35=ff;
+>> 38=ff;41=ff;44=ff;47=ff;50=ff;54=ff;57=ff;60=ff;63=ff;66=ff;69=ff;72=ff;
+>> 75=ff;79=ff;82=ff;85=ff;88=ff;91=ff;94=ff;97=ff;100=ff;104=ff;107=ff;
+>> 110=ff;113=ff;116=ff;119=ff;122=ff;125=ff;129=ff;132=ff;135=ff;138=ff;
+>> 141=ff;144=ff;147=ff;150=ff;154=ff;157=ff;160=ff;163=ff;166=ff;169=ff;
+>> 172=ff;175=ff;179=ff;182=ff;185=ff;188=ff;191=ff;194=ff;197=ff;200=ff;
+>> 204=ff;207=ff;210=ff;213=ff;216=ff;219=ff;222=ff;225=ff;229=ff;232=ff;
+>> 235=ff;238=ff;241=ff;244=ff;247=ff;250=ff;254=ff;257=ff;260=ff;263=ff;
+>> 266=ff;269=ff;272=ff;275=ff;279=ff;282=ff;285=ff;288=ff;291=ff;294=ff;
+>> 297=ff;300=ff
+>> L3:1=1ffff;26=1ffff;51=1ffff;76=1ffff;101=1ffff;126=1ffff;151=1ffff;
+>> 176=1ffff;201=1ffff;226=1ffff;251=1ffff;276=1ffff
+>>
+>> # ls mon_data/*/*
+>> mon_data/mon_L3_01/llc_occupancy   mon_data/mon_L3_151/llc_occupancy
+>> mon_data/mon_L3_226/llc_occupancy  mon_data/mon_L3_276/llc_occupancy
+>> mon_data/mon_L3_101/llc_occupancy  mon_data/mon_L3_176/llc_occupancy
+>> mon_data/mon_L3_251/llc_occupancy  mon_data/mon_L3_51/llc_occupancy
+>> mon_data/mon_L3_126/llc_occupancy  mon_data/mon_L3_201/llc_occupancy
+>> mon_data/mon_L3_26/llc_occupancy   mon_data/mon_L3_76/llc_occupancy
+> 
+> Thanks for the extra details. These are as expected, right?
+> 
+>>
+>>>>
+>>>> Boot logs:
+>>>> [root@localhost ~]# dmesg | grep -i mpam
+>>>> [    0.000000] ACPI: MPAM 0x000000007FF35018 003024 (v01 HISI   HIP12
+>>>> 00000000 HISI 20151124)
+>>>> [    9.509852] mpam_msc mpam_msc.64: Merging features for
+>>>> vmsc:0xffff0800973cf5a0 |= ris:0xffff08009757ee90
+>>>> [    9.509859] mpam_msc mpam_msc.254: Merging features for
+>>>> class:0xffff08009736fe50 &= vmsc:0xffff080097628520
+>>>> [    9.509860] mpam:__props_mismatch:
+>>>> mpam_has_feature(mpam_feat_cpor_part, parent) = 1
+>>>> [    9.509864] mpam:__props_mismatch:
+>>>> mpam_has_feature(mpam_feat_cpor_part, child) = 0
+>>>> [    9.509866] mpam:__props_mismatch: parent->cpbm_wd = 8
+>>>> [    9.509869] mpam:__props_mismatch: child->cpbm_wd = 0
+>>>> [    9.509871] mpam:__props_mismatch: alias = 0
+>>>> [    9.509873] mpam:__props_mismatch: cleared cpor_part
+> 
+> Do you know where this mismatch is happening? Is it expected?
 
-> -----Original Message-----
-> From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf Of
-> Larysa Zaremba
-> Sent: Monday, November 17, 2025 5:49 AM
-> To: intel-wired-lan@lists.osuosl.org; Nguyen, Anthony L
-> <anthony.l.nguyen@intel.com>
-> Cc: Lobakin, Aleksander <aleksander.lobakin@intel.com>; Samudrala, Sridha=
-r
-> <sridhar.samudrala@intel.com>; Singhai, Anjali <anjali.singhai@intel.com>=
-;
-> Michal Swiatkowski <michal.swiatkowski@linux.intel.com>; Zaremba, Larysa
-> <larysa.zaremba@intel.com>; Fijalkowski, Maciej
-> <maciej.fijalkowski@intel.com>; Tantilov, Emil S <emil.s.tantilov@intel.c=
-om>;
-> Chittim, Madhu <madhu.chittim@intel.com>; Hay, Joshua A
-> <joshua.a.hay@intel.com>; Keller, Jacob E <jacob.e.keller@intel.com>;
-> Shanmugam, Jayaprakash <jayaprakash.shanmugam@intel.com>;
-> Wochtman, Natalia <natalia.wochtman@intel.com>; Jiri Pirko
-> <jiri@resnulli.us>; David S. Miller <davem@davemloft.net>; Eric Dumazet
-> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
-> <pabeni@redhat.com>; Simon Horman <horms@kernel.org>; Jonathan
-> Corbet <corbet@lwn.net>; Richard Cochran <richardcochran@gmail.com>;
-> Kitszel, Przemyslaw <przemyslaw.kitszel@intel.com>; Andrew Lunn
-> <andrew+netdev@lunn.ch>; netdev@vger.kernel.org; linux-
-> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Czurylo, Krzysztof
-> <krzysztof.czurylo@intel.com>
-> Subject: [Intel-wired-lan] [PATCH iwl-next v5 01/15] virtchnl: create
-> 'include/linux/intel' and move necessary header files
->=20
-> From: Victor Raj <victor.raj@intel.com>
->=20
-> include/linux/net houses a single folder "intel", meanwhile include/linux=
-/intel
-> is vacant. On top of that, it would be useful to place all iavf headers t=
-ogether
-> with other intel networking headers.
->=20
-> Move abovementioned intel header files into new folder include/linux/inte=
-l.
-> Also, assign new folder to both intel and general networking maintainers.
->=20
-> Suggested-by: Alexander Lobakin <aleksander.lobakin@intel.com>
-> Reviewed-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
-> Signed-off-by: Victor Raj <victor.raj@intel.com>
-> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
-> ---
+I have added some of James' debug patches at:
+https://gitlab.arm.com/linux-arm/linux-bh/-/tree/mpam_resctrl_glue_v5_debugfs?ref_type=heads
 
-Tested-by: Samuel Salin <Samuel.salin@intel.com>
+These are on top of a v5 of the series. They apply to older series
+as well.
+
+The debugfs should then contain details of all the MSC which
+should help debugging.
+
+It would be great if you were able to share that information, either on list or
+privately if needed.
+
+You can snapshot the mpam debugfs using:
+
+find /sys/kernel/debug/mpam -type f -exec sh -c 'echo {}; cat {}' \; > mpam_debugfs.txt
+
+> 
+>>>
+>>> cpor (partially) disabled?
+>>>
+>>>> [    9.509876] mpam:__props_mismatch: took the min num_csu_mon
+>>>> [    9.509878] mpam:__props_mismatch: took the min num_mbwu_mon
+>>>> [    9.509881] mpam_msc mpam_msc.252: Merging features for
+>>
+>> [...]
+>>
+>>>> [   10.978496] mpam:mpam_resctrl_pick_caches: class 2 cache misses CPOR
+>>>
+>>> No L2 cpor?
+> 
+> This particularly confuses me...
+> 
+>>>
+>>>> [   10.978497] mpam:mpam_resctrl_pick_caches: class 255 is not a cache
+>>>> [   10.980470] mpam:mpam_resctrl_pick_mba: class 2 is before L3
+>>>> [   10.980472] mpam:mpam_resctrl_pick_mba: class 3 has no bandwidth
+>>>> control
+>>>> [   10.997406] mpam:topology_matches_l3: class 255 component 0 has
+>>>> Mismatched CPU mask with L3 equivalent
+>>>> [   10.997411] mpam:mpam_resctrl_pick_mba: class 255 topology doesn't
+>>>> match L3
+>>>> [   10.997415] mpam:mpam_resctrl_pick_counters: class 2 is before L3
+>>>> [   11.024109] mpam:topology_matches_l3: class 3 component 276 has
+>>>> Mismatched CPU mask with L3 equivalent
+>>>> [   11.024114] mpam:class_has_usable_mbwu: monitors usable in free-
+>>>> running mode
+>>>
+>>> mbwu enabled?
+>>
+>> The fact that the number of monitors merely satisfies the conditions for
+>> free-running mode does not imply that the MBWU functionality can be
+>> successfully mounted. The specific reasons are explained above.
+> 
+> True
+> 
+>>
+>>>
+>>>> [   11.063882] mpam:topology_matches_l3: class 255 component 0 has
+>>>> Mismatched CPU mask with L3 equivalent
+>>>> [   11.113183] mpam:mpam_resctrl_alloc_domain: Skipped monitor domain
+>>>> online - no monitors
+>>>> [   11.113189] MPAM enabled with 32 PARTIDs and 4 PMGs
+>>>>
+>>>>
+>>
+>> Sorry for the late reply. And this is my first day back from a long
+>> vacation.
+> 
+> No problem. Hope you had a good holiday.
+> 
+>>
+>>
+>> Best regards,
+>> Zeng Heng
+> 
+> Thanks,
+> 
+> Ben
+> 
+> 
+
+Thanks,
+
+Ben
+
