@@ -1,142 +1,204 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6933A0B0C
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 15:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197014502F;
+	Tue, 24 Feb 2026 15:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771945858; cv=none; b=ZBDjqlk4QTBetF79+w0QdSjBh4SNOQnCgnuSMP3LFs6022v5BqAgg67l6SGWxzxAoGkZaEqLdqFSbqjwMIIvSxet92M87hzhMQ4JBZLIHRB9DU9JZ13S4aByRrJMdbOXbrhgTNMcA4Ght1Md0KLmyXTXHcKomNvx80ggWeGOVmI=
+	t=1771946559; cv=none; b=ql6+BnDspNxzAeIs8meyAn06vU79aMIswB4SG/eXlExLPRStpJM0OQbGAB4jhtBJZCjUoGGTzNzeV6h+liM8EuxyH1YTdhuBe+BOtAGVhQs3ele2wQAtPBIdAYaPEpfvszSNchPZ8vrrTFpYiSwdkdIu5iEMV6SjFUilKEd9gmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771945858; c=relaxed/simple;
-	bh=Yw++ySpwmZARZwDkHxFtsIMZXrLfykb7FK8NOCCtc9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U0Hj/bHiE2smSeBXvC/nV2V0Q/XS/xoi0hyDlnRKLLtsZLuWDZd6hPHQMgJXwQp4ikpy4XfvlBawfvoAgN1m+2VJxMZ3p/BYOwZtkSpnqHzSoG1vCyqn364XOnVENk9e2LwZ6ouyvV6xltkRxx7ZD3zq39b6W2YPGT9EuCZO94Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MX/IrIVq; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=btAvDqr7; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MX/IrIVq";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="btAvDqr7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1771945856;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=CWBmRFKI0tFktXtE/HuJ4+L1Im2+ihdnnfM72IEIXjQ=;
-	b=MX/IrIVqMkw86AOkR8JyYlL19npBfM4zm7yXdMs4NwkOblUvTcvDbNoEzlS2qImjydCluq
-	oa42RfzJ5ZjJAQ7jkzqEaRjqGEk0R5YWGqL0UGWlwUwc6jLUydjDyDZtue+fh9iEKX03P1
-	4S95+WykCQpY0liUWTIuYKPh0v43PJQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-299-sNzKpnOXMYqwZZjPXKx8Vw-1; Tue, 24 Feb 2026 10:10:54 -0500
-X-MC-Unique: sNzKpnOXMYqwZZjPXKx8Vw-1
-X-Mimecast-MFC-AGG-ID: sNzKpnOXMYqwZZjPXKx8Vw_1771945853
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-435db8ebc98so5476675f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 07:10:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1771945853; x=1772550653; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CWBmRFKI0tFktXtE/HuJ4+L1Im2+ihdnnfM72IEIXjQ=;
-        b=btAvDqr7vvNnFS4194jqRw4VC3ROpgBO6TygWYlhe6ZG9pJOhGvuaAIxz6x/RIaFM4
-         vfNUYADX7F4j+MDVdCRlXREZacwsIs5eeHNvPyRJtaoo/3h9U8pEFBU7rhjHsH2p/bDG
-         1swDCn9xmuN5nk4W19vrnQLSnQK9mJweJXsQwmj2kgltLdR2zoBvRI/qGy25NabkkUcP
-         GsCJWJz/GMgqtphXCbaFuJhoq1vKao9HOwXcuqCIoPTERYrlXArwZPgRAnlJfp9arWg6
-         wWhMkLwalVmuhL3Q8MBjP2VpNLkx1mSR6LSqlkddtGLGKOzTqMvTlarl7YcgRUox6o8K
-         h3rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771945853; x=1772550653;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CWBmRFKI0tFktXtE/HuJ4+L1Im2+ihdnnfM72IEIXjQ=;
-        b=aex5KcZ3nGWWPwgiKx/yhIAe0j5+V8RVcG3GGvA7GT9fLGN8CtBezAFseBWOelMmRr
-         fQvqnCoIgQR5ryDY76kmKQTNN182Kc7mvEt4BW33MigLChLPBAgwNwDhIgkZQrpSPVNh
-         s4SwzQTLYmFSsTXDkofN0FS+I73zNaWw9NIF/aPWy+syu68BSaweRbQZyd3SLzEYYcYL
-         dN5XVnCfRtSh74OoRUExsrGNkfcYBP6MWr9WDlNo7gT9deg899jQfmIXj7MHljeZZpri
-         3StUHTqFdlKcoJvrnqgQv7C2g2VW+wY7YbDTGfJoUtXIikhvqxbcsPkkGPCTt+91mw7k
-         blBA==
-X-Forwarded-Encrypted: i=1; AJvYcCXb1jmYJQ2BkGbani35gyEuTKqw/N7fKZZ8eaXj2nowzFAvbTHGVsxrSWG9qYkNh2eqiMvYyqshbEw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8cI8dWjcGodnfZw0s8ghFFR3cmy6cn0G4JCQ+kEcWIgn050ZQ
-	NUPKb7GlyUCrySSPrYugHymQWiulK2uRC38aRvj78E7QZwEsZfsz42dg4A3giNXcd80zDSketBe
-	/Tu8pnoMddyvko0R6zedTjvIOXx7tPiNoaToRSZhbxbjppwfz15rT8AZkhjopUw==
-X-Gm-Gg: AZuq6aKZS/FJ8fpaZRHUuQCPanZcqt2rUr6up1SQooIu7+T1n+/Mdw2IimWfwgkh7DF
-	Q439IDLz+BRj5fova3rNlNjP7ohd0xYVMUfuDOTvECmsR/rdQrKsj/ntshmmxYO95gcDqnsuBqZ
-	q/nfdgAM3GZj/Su7ySIfz0NvqqXTYaE/qARrAOJ06uuoN+pmKCbC1c0y5pm9+J0kJtAhNW8RPZ5
-	Bvo7FZfyir3SCqO+RqJf4kLhSAuHJisUpxVTyPiHLxah32IpCEuY2x0vaDQaJiZkqlGknwX4q04
-	fJHi4R+NvV64bwBgtYJcazVN81AyJXVUk2Dza43Sw+ffxKLIIGTeEPgW8yX6vMbR20JSeK2V/GR
-	vFu5S5BLefGB9lfwqhsTzJzel2EBDRj1ApFc+PY9+USSBWtRToR+pJlKhKPgNse0nSDPdp/U=
-X-Received: by 2002:a05:600c:1e1d:b0:480:f27c:6335 with SMTP id 5b1f17b1804b1-483a9637a55mr225647185e9.25.1771945853034;
-        Tue, 24 Feb 2026 07:10:53 -0800 (PST)
-X-Received: by 2002:a05:600c:1e1d:b0:480:f27c:6335 with SMTP id 5b1f17b1804b1-483a9637a55mr225646485e9.25.1771945852482;
-        Tue, 24 Feb 2026 07:10:52 -0800 (PST)
-Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd68826asm9484475e9.0.2026.02.24.07.10.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 07:10:51 -0800 (PST)
-Date: Tue, 24 Feb 2026 16:10:49 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	Bobby Eshleman <bobbyeshleman@meta.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kuniyu@google.com, ncardwell@google.com
-Subject: Re: [PATCH net v3 3/3] vsock: document write-once behavior of the
- child_ns_mode sysctl
-Message-ID: <aZ2_cPL2zCYQznBI@sgarzare-redhat>
-References: <20260223-vsock-ns-write-once-v3-0-c0cde6959923@meta.com>
- <20260223-vsock-ns-write-once-v3-3-c0cde6959923@meta.com>
+	s=arc-20240116; t=1771946559; c=relaxed/simple;
+	bh=lJJG+rbmg1bthB43+VBSJv90qHClL59YAS6yfJ0ArGw=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hIXIMSA3NIt34kjljMhu0NciZeLr4Q6sQStqUW934Um3yQZ0thYdrhixOfChR5PnoSWWAPp1Ny27BoXYzDkdw80ih8ghoDzFwi8lYCbeJufqg1541vxsQtZsZkAxL6b87u+9m6ciadwpAaEAcAASqqNoPkIu1xPOPKuX1cL1kkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fL1fp4W6xzJ46g6;
+	Tue, 24 Feb 2026 23:22:10 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 612B64056A;
+	Tue, 24 Feb 2026 23:22:32 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Feb
+ 2026 15:22:31 +0000
+Date: Tue, 24 Feb 2026 15:22:30 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+CC: <devicetree@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<Dmitry.Lamerov@arm.com>, <catalin.marinas@arm.com>, <bp@alien8.de>,
+	<robh@kernel.org>, <rafael@kernel.org>, <will@kernel.org>,
+	<conor@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <krzk+dt@kernel.org>, <Michael.Zhao2@arm.com>,
+	<tony.luck@intel.com>, "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2 01/11] ACPI: APEI: GHES: share macros via a private
+ header
+Message-ID: <20260224152230.00000531@huawei.com>
+In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-1-347fa2d7351b@arm.com>
+References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
+	<20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-1-347fa2d7351b@arm.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260223-vsock-ns-write-once-v3-3-c0cde6959923@meta.com>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Mon, Feb 23, 2026 at 02:38:34PM -0800, Bobby Eshleman wrote:
->From: Bobby Eshleman <bobbyeshleman@meta.com>
->
->Update the vsock child_ns_mode documentation to include the new
->write-once semantics of setting child_ns_mode. The semantics are
->implemented in a preceding patch in this series.
->
->Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
->---
->Changes in v3:
->- update language to clarify language that first value is locked, but subsequent
->  writes succeed.
->---
-> Documentation/admin-guide/sysctl/net.rst | 3 +++
-> 1 file changed, 3 insertions(+)
+On Fri, 20 Feb 2026 13:42:19 +0000
+Ahmed Tiba <ahmed.tiba@arm.com> wrote:
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+> Carve the CPER helper macros out of ghes.c and place them in a private
+> header so they can be shared with upcoming helper files. This is a
+> mechanical include change with no functional differences.
+> 
+> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
++CC Mauro as he's been doing a lot of work on error injection recently so
+can probably review the use of the various structures much more easily
+than I can!
 
->
->diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
->index c10530624f1e..3b2ad61995d4 100644
->--- a/Documentation/admin-guide/sysctl/net.rst
->+++ b/Documentation/admin-guide/sysctl/net.rst
->@@ -594,6 +594,9 @@ Values:
-> 	  their sockets will only be able to connect within their own
-> 	  namespace.
->
->+The first write to ``child_ns_mode`` locks its value. Subsequent writes of the
->+same value succeed, but writing a different value returns ``-EBUSY``.
->+
-> Changing ``child_ns_mode`` only affects namespaces created after the change;
-> it does not modify the current namespace or any existing children.
->
->
->-- 
->2.47.3
->
+My main comment is on the naming of the new header.
+
+Jonathan
+
+
+> ---
+>  drivers/acpi/apei/ghes.c | 60 +-----------------------------
+>  include/acpi/ghes_cper.h | 95 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 96 insertions(+), 59 deletions(-)
+> 
+> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
+> index f96aede5d9a3..07b70bcb8342 100644
+> --- a/drivers/acpi/apei/ghes.c
+> +++ b/drivers/acpi/apei/ghes.c
+
+>  
+>  static struct ghes_estatus_cache __rcu *ghes_estatus_caches[GHES_ESTATUS_CACHES_SIZE];
+> diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
+> new file mode 100644
+> index 000000000000..2597fbadc4f3
+> --- /dev/null
+> +++ b/include/acpi/ghes_cper.h
+> @@ -0,0 +1,95 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * APEI Generic Hardware Error Source: CPER Helper
+
+There is other stuff in her usch as the GHES acks etc
+in ghes_clear_estatus(). So I think this intro text
+needs a bit more thought.  The boundary is already rather
+blurred though as for example cper_estatus_len() is only
+tangentially connected to cper.
+
+> + *
+> + * Copyright (C) 2026 ARM Ltd.
+
+Doesn't make sense to ad this copyright in this patch as so far
+it's cut and paste of code from a file that you didn't write (at least
+not in 2026!)
+
+Might make sense after a few patches, in which case add the copyright
+when it does.
+
+> + * Author: Ahmed Tiba <ahmed.tiba@arm.com>
+> + * Based on ACPI APEI GHES driver.
+> + *
+> + */
+> +
+> +#ifndef ACPI_APEI_GHES_CPER_H
+> +#define ACPI_APEI_GHES_CPER_H
+> +
+> +#include <linux/workqueue.h>
+> +
+> +#include <acpi/ghes.h>
+> +
+> +#define GHES_PFX	"GHES: "
+> +
+> +#define GHES_ESTATUS_MAX_SIZE		65536
+> +#define GHES_ESOURCE_PREALLOC_MAX_SIZE	65536
+> +
+> +#define GHES_ESTATUS_POOL_MIN_ALLOC_ORDER 3
+> +
+> +/* This is just an estimation for memory pool allocation */
+> +#define GHES_ESTATUS_CACHE_AVG_SIZE	512
+> +
+> +#define GHES_ESTATUS_CACHES_SIZE	4
+> +
+> +#define GHES_ESTATUS_IN_CACHE_MAX_NSEC	10000000000ULL
+> +/* Prevent too many caches are allocated because of RCU */
+> +#define GHES_ESTATUS_CACHE_ALLOCED_MAX	(GHES_ESTATUS_CACHES_SIZE * 3 / 2)
+> +
+> +#define GHES_ESTATUS_CACHE_LEN(estatus_len)			\
+> +	(sizeof(struct ghes_estatus_cache) + (estatus_len))
+> +#define GHES_ESTATUS_FROM_CACHE(estatus_cache)			\
+> +	((struct acpi_hest_generic_status *)				\
+> +	 ((struct ghes_estatus_cache *)(estatus_cache) + 1))
+> +
+> +#define GHES_ESTATUS_NODE_LEN(estatus_len)			\
+> +	(sizeof(struct ghes_estatus_node) + (estatus_len))
+> +#define GHES_ESTATUS_FROM_NODE(estatus_node)			\
+> +	((struct acpi_hest_generic_status *)				\
+> +	 ((struct ghes_estatus_node *)(estatus_node) + 1))
+> +
+> +#define GHES_VENDOR_ENTRY_LEN(gdata_len)                               \
+> +	(sizeof(struct ghes_vendor_record_entry) + (gdata_len))
+> +#define GHES_GDATA_FROM_VENDOR_ENTRY(vendor_entry)                     \
+> +	((struct acpi_hest_generic_data *)                              \
+> +	((struct ghes_vendor_record_entry *)(vendor_entry) + 1))
+> +
+> +static inline bool is_hest_type_generic_v2(struct ghes *ghes)
+> +{
+> +	return ghes->generic->header.type == ACPI_HEST_TYPE_GENERIC_ERROR_V2;
+> +}
+> +
+> +/*
+> + * A platform may describe one error source for the handling of synchronous
+> + * errors (e.g. MCE or SEA), or for handling asynchronous errors (e.g. SCI
+> + * or External Interrupt). On x86, the HEST notifications are always
+> + * asynchronous, so only SEA on ARM is delivered as a synchronous
+> + * notification.
+> + */
+> +static inline bool is_hest_sync_notify(struct ghes *ghes)
+> +{
+> +	u8 notify_type = ghes->generic->notify.type;
+> +
+> +	return notify_type == ACPI_HEST_NOTIFY_SEA;
+> +}
+> +
+> +struct ghes_vendor_record_entry {
+> +	struct work_struct work;
+> +	int error_severity;
+> +	char vendor_record[];
+> +};
+> +
+> +static struct ghes *ghes_new(struct acpi_hest_generic *generic);
+> +static void ghes_fini(struct ghes *ghes);
+> +
+> +static int ghes_read_estatus(struct ghes *ghes,
+> +		      struct acpi_hest_generic_status *estatus,
+> +		      u64 *buf_paddr, enum fixed_addresses fixmap_idx);
+> +static void ghes_clear_estatus(struct ghes *ghes,
+> +			struct acpi_hest_generic_status *estatus,
+> +			u64 buf_paddr, enum fixed_addresses fixmap_idx);
+
+I'm not sure some of this makes sense in a file named ghes_cper.h
+Maybe we just need a different intro comment though.
+
+> +static int __ghes_peek_estatus(struct ghes *ghes,
+> +			struct acpi_hest_generic_status *estatus,
+> +			u64 *buf_paddr, enum fixed_addresses fixmap_idx);
+> +static int __ghes_check_estatus(struct ghes *ghes,
+> +			 struct acpi_hest_generic_status *estatus);
+> +static int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
+> +			u64 buf_paddr, enum fixed_addresses fixmap_idx,
+> +			size_t buf_len);
+> +
+> +#endif /* ACPI_APEI_GHES_CPER_H */
+> 
 
