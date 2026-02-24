@@ -1,156 +1,362 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2961524466C
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 03:39:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0161607A4;
+	Tue, 24 Feb 2026 04:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771904382; cv=none; b=onQvWsdkvKDdcIBSVtZlTm1XQ0Puefpwed2rc4Z+Vc71ryH0SioFHv5iSTJrvZWbwzbezE0F7ViT33pu/wjI4i4IaJc6KD6wIl9+qXE8qOqM6u344gD3Rt4I9sM3y7Pb4wrXVXOgiO/B4wevuUV13BB7DFgBWdJD4+FYb41pMiU=
+	t=1771907256; cv=none; b=HbY2gSw8eFZNUpG+GIkbqwVdeFKZEbV1YWjBbuaHQKVCrJP5LK2glKo5wENEDZwXrfgKcm/rz3Tj5yKP0kBf1+v4SnZurlA0JVeDryfIWhCkm3GgILN2KAFZj0BqTDirWsPKqi4DTUcTMl6+EIHRPoJzgzkntJEf+frP8cd18mE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771904382; c=relaxed/simple;
-	bh=BIKoM8z9nstVrL4h5mDb+fYd9te7PInNqQQm2CNDpmI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ot35Ndl2TaXEhhcusjzwKdBpPoU5nzKMMApaeJnFqdvdP9xGKspyfflLS5xqRQS3TWpaAoQAD8CGzjKS5knD3WJHqu+pstzls1CTMIVSxri7ir4TtNJls3v2yEcvyBNgNtWrYaF1obRE5WvOnm+niJMAR7JJ5eqy5NyqKYeA6rI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fL9LfETQ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Ye0362eO; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1771907256; c=relaxed/simple;
+	bh=DKH9P+2oEkKzIDD+rEyDOYCwldBWz2XgQi305D52RZE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=C+NUf0PYRjz843PWGTupArnqdrkQWzjp5FOm1DGwm4ZeH7udC/FMAPAQWXXp9sOXr8wKOLLxdB69Oys6ofQL5ilY5rt/+rnhdwYiunSfL6z3KYq3xdDzrA/Lk/Qp44HUQenBDTDHn6Y2qMUBsF2erIRz2dCyuecL1rIyjdsNT0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JO+TCFPW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fL9LfETQ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Ye0362eO"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O3KroW566629
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 03:39:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	KILrgs7d74mR23o2eIzLn2FfkB9mDLXK+R0lgubWZsM=; b=fL9LfETQS8Vb/1Xl
-	jdJ4gaRZDr8qxINFPzWmOkXDWsoNl64GHSh9uT6icfJfocI69K0govoY/vLEp9Uj
-	CQ3+L2j1FpVamayYUciAA9KGg62JWBozxHfk8SZbhbl1bLTFg/z38s/DdkOZcjJn
-	5F2lgvkmXObVr7Fely/OBCEQ6muoRdp/b7rrIgJFNgm4HYUvZ7ym23a1w13eE029
-	DBhTaP8LkwlQm0/cEo9+EYVXYE2lBZbZvufVvhaIuxbOFKiXazG4rEReRG7Bnt3o
-	+NlKc6YJODZ0CbjBOnMqDYETH8RoXITeca4ByZl7YG3cq2nH9inbwRfto+EhaSkO
-	BHurCg==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgtv9sm9m-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 03:39:40 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-2bdaa7cb638so372054eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 19:39:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1771904380; x=1772509180; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KILrgs7d74mR23o2eIzLn2FfkB9mDLXK+R0lgubWZsM=;
-        b=Ye0362eOWkmS7kVOU/KNvzBT1EW9ru/gy4RFTSUxSv4O15j1Dc0oW+qpCi8BtcXyY8
-         I/5Ta9erQu8haB9OaJDLuewbfdHxk24mbfFNtxJ1+H7zjl4snGLsu3KAYLRvs1Uxeh2H
-         FhJgm9Qq/U97B76vcB5vtaAtNHRVoPnzOmCzeCgY3FXb0sVOhI4GTnVpH2RvLAuYC/5g
-         AXIzqCSrC8hNkusAULyKiYCjD0kP/43sBTct1LU9BflT0P66CkNd+vQFuVn/aL39dsWV
-         1vY4AlWVy0cg5+Xp7sXl4SxHjtfvJFN/NBbHV6PB5fZV4nnmPK9K0TEJn2P+qx4ummtf
-         suUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771904380; x=1772509180;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KILrgs7d74mR23o2eIzLn2FfkB9mDLXK+R0lgubWZsM=;
-        b=UOstWTt6XPQQCiBT5iD3paXAV9csG0y+Wrex65aEXZVPuNFveQ7VNcabaxpzjhGabd
-         eRQpsYFFRnGy6FkEkB8S2F4dC7JpMYlMtOxteUoZ4hD6YsTXldi+BclgFzrMhs70Ache
-         OfVWHPrPkcLfh7tkPqjs82bQKDZit1DsZB3zYgHyicTmCGCiAtGHR/S7ltUESxI+Fgkc
-         pds4wm92pucnpDHFZnutKqven5OHs9U74WrT3f1gp0EfRzcvW7y0goL2QS4aZGynU5ou
-         b0TDf5ClXEcMmRHjz32iheKNowVXWsrfwe29DuTRLgj0b1IdE8LMG+gga9qtCiVyOCzR
-         cdGQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLKNfJCQhLaxJvL38N7+EKRB62hbYdBrTnZL5XDw6TsQ2xuNZDSgHgKmly6xgqOdbAEu1dAyJB/Vo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7vE86QOQ7JJLbIwDT+RpHZY7sYEoWdo25pr9RHcwWHYtaCsDR
-	xe8qgEX1ag/TyY0MizfgIQEmr3O7Dxl3T7VR6yuawOc0+uan+Xazz23n1KDkYefNCtIoxJ4Mg0d
-	KTpKS+SuIJjn7SuSs36CK/9yHb0pL7cy5CIx5wJ8BCR6Pdaj60G4w8R1O9ry7IbjWTvOMZ0Y=
-X-Gm-Gg: ATEYQzytBOqkk+XyfNYtU1TcFOOgiCUNvjIwWplnoi5rZ2K+SjaJDVJvilwibygoTey
-	lY3bIH61z/TkUa+9nI0gCqb4fq8ud2GdzCR5mtdXuhK+MdG1PTRqAi2+JCwAuS4L+rj6rBlUU98
-	XYLt1rB/vE/sjHed2sapLzlATpsutDqbZP6KLHuMbHbWYHhQDtwDAi6O7AbZ14ezTY5tqPFeJpE
-	K6C5fyh8qTTmj+p6cXVmOlML9LqzBtq6NwLWkjPV/XwPmIJpp35hAU17rIfjfI5EyBKWF+kHvlW
-	U/4AO52VtLzYq5IgqbSCqHhEtyccB9K3xuNuv1wxteYa1LsFi3YHZK15LSUlrzhEfhQKBLdgrNm
-	T6q6uuA2DNRf75VLcEQmdupBsX70xi4ni3PPr7aolhqQbAGpFwSeCBAg=
-X-Received: by 2002:a05:7300:d4cb:b0:2b7:f2e5:11a4 with SMTP id 5a478bee46e88-2bd7b89c2b7mr4123705eec.16.1771904379568;
-        Mon, 23 Feb 2026 19:39:39 -0800 (PST)
-X-Received: by 2002:a05:7300:d4cb:b0:2b7:f2e5:11a4 with SMTP id 5a478bee46e88-2bd7b89c2b7mr4123681eec.16.1771904379070;
-        Mon, 23 Feb 2026 19:39:39 -0800 (PST)
-Received: from [192.168.86.165] ([76.176.48.107])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bd7da47778sm6089378eec.6.2026.02.23.19.39.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Feb 2026 19:39:38 -0800 (PST)
-Message-ID: <cac08f2f-73b0-4629-898a-1e24840910fd@oss.qualcomm.com>
-Date: Mon, 23 Feb 2026 19:39:37 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JO+TCFPW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C6A6C116D0;
+	Tue, 24 Feb 2026 04:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771907256;
+	bh=DKH9P+2oEkKzIDD+rEyDOYCwldBWz2XgQi305D52RZE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JO+TCFPWhl6YiJlSRDSrDIV9dFZrhjh0X+a4Kva+2ros/0Qx+6Tu/Ww70xy+ShN/H
+	 hS/9ev1JC3qdqnQ6z1mU6OhtHLVQb66tL/VG8nSu6MpGsz1KCxyjHOO1ZNzDnv4RiL
+	 uGb2MoVAsc65FouuJOSaLQwqmAmaMISrqHPiWJVkxjal2kEGLcJvvu3MHN8lUZGZgh
+	 b8irlvIuqQ5Y/xcbsxpZtTeFmwTomp6Ye70yEiJcxN+yo+VDMnM6wJNqGbQ6x6AzZg
+	 KyvjulmX2IKQuULm4LcdgKUqD8ZTkKwM87ns39WPHGRRqwfM3oCFCx6yGw5xgUw9YT
+	 Bxaf2qCRUCuAQ==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [RFC PATCH v3 3/4] mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
+Date: Mon, 23 Feb 2026 20:27:33 -0800
+Message-ID: <20260224042734.57666-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260223123232.12851-4-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 00/18] accel/qda: Introduce Qualcomm DSP Accelerator
- driver
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        iommu@lists.linux.dev, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
-Content-Language: en-US
-From: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
-In-Reply-To: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=Vaf6/Vp9 c=1 sm=1 tr=0 ts=699d1d7c cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=lsoD3MMNObdLvy1227ExmA==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=aquNE3KFXbjoS9wDYHgA:9 a=QEXdDO2ut3YA:10 a=0lgtpPvCYYIA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDAyOSBTYWx0ZWRfX+zBrVUPYRgOv
- A3TxuJFydb6WGoFIJqkuLvKvl3B7HwYlpNIWcHv4kAjA0H90VXPJ5uzxOhot0y2meO72XAHTUYG
- gfIEkfIQpj3bti22Y/3W0/CP9+LgZcbVuKbGCXqeeNRZHUZLPaDqYxiuQ0dPZjYEbG2R4otz21f
- DgIoUTQnjdRHX7nPiNlzG51i03EyxEi26jd4lH3CVee6/SLAh5D1kxalKCoeCEW8WZ/jI9sZKrK
- AGggKOcXABs2S4mH4AfXs3f2olKvB7jEvkftEl7oDCZkQYNfgwH/Ga7qOhBKKlWgcXVbD+5NHYp
- 3zfBFOcqADYtED/VPoddFnzV0LcPbHxz9JeWsiDSV/bWkBM0K2ICFz7os/2YBF30eZpID1uW0t4
- YXHtJ+YEzpEdDsI6PKhWe8QsDJYpZpZUR6zuNUXYDSsRIfFteIxWsqZebKiRzzvRTXLgXzYKF1O
- 1D9QTHHsVKqQtbTxydg==
-X-Proofpoint-ORIG-GUID: sQOaZ9fvFue5UYYG5QFO-SRVWFlCFLHr
-X-Proofpoint-GUID: sQOaZ9fvFue5UYYG5QFO-SRVWFlCFLHr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-23_06,2026-02-23_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 bulkscore=0 malwarescore=0 suspectscore=0
- clxscore=1011 spamscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602240029
+Content-Transfer-Encoding: 8bit
 
-On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
-> * Userspace Interface: While the driver provides a new DRM-based UAPI,
->   the underlying FastRPC protocol and DSP firmware interface remain
->   compatible. This ensures that DSP firmware and libraries continue to
->   work without modification.
+On Mon, 23 Feb 2026 12:32:31 +0000 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+
+> Add new quota goal metrics for memory tiering that track scheme-eligible
+> (hot) memory distribution across NUMA nodes:
+> 
+> - DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP: ratio of hot memory on a node
+> - DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP: ratio of hot memory NOT on a node
+> 
+> These complementary metrics enable push-pull migration schemes that
+> maintain a target hot memory distribution. For example, to keep 30%
+> of hot memory on CXL node 1:
+> 
+> - PUSH scheme (DRAM→CXL): node_eligible_mem_bp, nid=1, target=3000
+>   Activates when node 1 has less than 30% hot memory
+> - PULL scheme (CXL→DRAM): node_ineligible_mem_bp, nid=1, target=7000
+>   Activates when node 1 has more than 30% hot memory
+> 
+> Together with the TEMPORAL goal tuner, the schemes converge to
+> equilibrium at the target distribution.
+> 
+> The metrics use detected eligible bytes per node, calculated by summing
+> the size of regions that match the scheme's access pattern (size,
+> nr_accesses, age) on each NUMA node.
+
+Looks good in general!  I have some comments about trivials and the design
+below, though.
+
+> 
+> Suggested-by: SeongJae Park <sj@kernel.org>
+> Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+> ---
+>  include/linux/damon.h    |   6 ++
+>  mm/damon/core.c          | 123 ++++++++++++++++++++++++++++++++++++++-
+>  mm/damon/sysfs-schemes.c |  10 ++++
+>  3 files changed, 137 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/linux/damon.h b/include/linux/damon.h
+> index ee2d0879c292..6df716533fbf 100644
+> --- a/include/linux/damon.h
+> +++ b/include/linux/damon.h
+> @@ -191,6 +191,8 @@ enum damos_action {
+>   * @DAMOS_QUOTA_NODE_MEM_FREE_BP:	MemFree ratio of a node.
+>   * @DAMOS_QUOTA_NODE_MEMCG_USED_BP:	MemUsed ratio of a node for a cgroup.
+>   * @DAMOS_QUOTA_NODE_MEMCG_FREE_BP:	MemFree ratio of a node for a cgroup.
+> + * @DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:	Scheme-eligible memory ratio of a node.
+> + * @DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP:	Scheme-ineligible memory ratio of a node.
+
+Nit.  Let's wrap the line for 80 columns limit.
+
+>   * @DAMOS_QUOTA_ACTIVE_MEM_BP:		Active to total LRU memory ratio.
+>   * @DAMOS_QUOTA_INACTIVE_MEM_BP:	Inactive to total LRU memory ratio.
+>   * @NR_DAMOS_QUOTA_GOAL_METRICS:	Number of DAMOS quota goal metrics.
+> @@ -204,6 +206,8 @@ enum damos_quota_goal_metric {
+>  	DAMOS_QUOTA_NODE_MEM_FREE_BP,
+>  	DAMOS_QUOTA_NODE_MEMCG_USED_BP,
+>  	DAMOS_QUOTA_NODE_MEMCG_FREE_BP,
+> +	DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP,
+> +	DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP,
+>  	DAMOS_QUOTA_ACTIVE_MEM_BP,
+>  	DAMOS_QUOTA_INACTIVE_MEM_BP,
+>  	NR_DAMOS_QUOTA_GOAL_METRICS,
+> @@ -555,6 +559,7 @@ struct damos_migrate_dests {
+>   * @ops_filters:	ops layer handling &struct damos_filter objects list.
+>   * @last_applied:	Last @action applied ops-managing entity.
+>   * @stat:		Statistics of this scheme.
+> + * @eligible_bytes_per_node: Scheme-eligible bytes per NUMA node.
+>   * @max_nr_snapshots:	Upper limit of nr_snapshots stat.
+>   * @list:		List head for siblings.
+>   *
+> @@ -644,6 +649,7 @@ struct damos {
+>  	struct list_head ops_filters;
+>  	void *last_applied;
+>  	struct damos_stat stat;
+> +	unsigned long eligible_bytes_per_node[MAX_NUMNODES];
+
+I understand this could make it time-efficient.  That is, without this, you
+will need to iterate the regions for number of node_[in]eligible_mem_bp goals
+per scheme.  By having this you need to iterate regions only once per scheme.
+I'm bit worried about the increased size of 'struct damos', though.
+
+Do you think the overhead is really significant?  If not, what about making it
+simply iterates the regions per goal, and add optimization later if it turns
+out really needs?
+
+If this optimization is really needed right now, I'd like it to at least be
+dynamically allocated, for only num_online_nodes() or num_possible_nodes() at
+least.
+
+>  	unsigned long max_nr_snapshots;
+>  	struct list_head list;
+>  };
+> diff --git a/mm/damon/core.c b/mm/damon/core.c
+> index b438355ab54a..3e1cb850f067 100644
+> --- a/mm/damon/core.c
+> +++ b/mm/damon/core.c
+> @@ -2544,6 +2544,111 @@ static unsigned long damos_get_node_memcg_used_bp(
+>  }
+>  #endif
+>  
+> +#ifdef CONFIG_NUMA
+> +/*
+> + * damos_scheme_uses_eligible_metrics() - Check if scheme uses eligible metrics.
+> + * @s: The scheme
+> + *
+> + * Returns true if any quota goal uses node_eligible_mem_bp or
+> + * node_ineligible_mem_bp metrics, which require eligible bytes calculation.
+> + */
+> +static bool damos_scheme_uses_eligible_metrics(struct damos *s)
+> +{
+> +	struct damos_quota_goal *goal;
+> +	struct damos_quota *quota = &s->quota;
+> +
+> +	damos_for_each_quota_goal(goal, quota) {
+> +		if (goal->metric == DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP ||
+> +		    goal->metric == DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP)
+> +			return true;
+> +	}
+> +	return false;
+> +}
+> +
+> +/*
+> + * damos_calc_eligible_bytes_per_node() - Calculate eligible bytes per node.
+> + * @c: The DAMON context
+> + * @s: The scheme
+> + *
+> + * Calculates scheme-eligible bytes per NUMA node based on access pattern
+> + * matching. A region is eligible if it matches the scheme's access pattern
+> + * (size, nr_accesses, age).
+> + */
+> +static void damos_calc_eligible_bytes_per_node(struct damon_ctx *c,
+> +		struct damos *s)
+> +{
+> +	struct damon_target *t;
+> +	struct damon_region *r;
+> +	phys_addr_t paddr;
+> +	int nid;
+> +
+> +	memset(s->eligible_bytes_per_node, 0,
+> +			sizeof(s->eligible_bytes_per_node));
+> +
+> +	damon_for_each_target(t, c) {
+> +		damon_for_each_region(r, t) {
+> +			if (!__damos_valid_target(r, s))
+> +				continue;
+> +			paddr = (phys_addr_t)r->ar.start * c->addr_unit;
+> +			nid = pfn_to_nid(PHYS_PFN(paddr));
+> +			if (nid >= 0 && nid < MAX_NUMNODES)
+> +				s->eligible_bytes_per_node[nid] +=
+> +					damon_sz_region(r) * c->addr_unit;
+> +		}
+> +	}
+
+Seems the above code assumes entire region will belong in the same node.  But
+the region might be laying over a nodes boundary.  In the case, miscalculations
+could happen.
+
+What about getting start/end addresses of the node, and checking the crossing
+boundary case?
+
+> +}
+> +
+> +static unsigned long damos_get_node_eligible_mem_bp(struct damos *s, int nid)
+> +{
+> +	unsigned long total_eligible = 0;
+> +	unsigned long node_eligible;
+> +	int n;
+> +
+> +	if (nid < 0 || nid >= MAX_NUMNODES)
+> +		return 0;
+> +
+> +	for_each_online_node(n)
+> +		total_eligible += s->eligible_bytes_per_node[n];
+> +
+> +	if (!total_eligible)
+> +		return 0;
+> +
+> +	node_eligible = s->eligible_bytes_per_node[nid];
+> +
+> +	return mult_frac(node_eligible, 10000, total_eligible);
+> +}
+> +
+> +static unsigned long damos_get_node_ineligible_mem_bp(struct damos *s, int nid)
+> +{
+> +	unsigned long eligible_bp = damos_get_node_eligible_mem_bp(s, nid);
+> +
+> +	if (eligible_bp == 0)
+> +		return 10000;
+> +
+> +	return 10000 - eligible_bp;
+> +}
+> +#else
+> +static bool damos_scheme_uses_eligible_metrics(struct damos *s)
+> +{
+> +	return false;
+> +}
+> +
+> +static void damos_calc_eligible_bytes_per_node(struct damon_ctx *c,
+> +		struct damos *s)
+> +{
+> +}
+> +
+> +static unsigned long damos_get_node_eligible_mem_bp(struct damos *s, int nid)
+> +{
+> +	return 0;
+> +}
+> +
+> +static unsigned long damos_get_node_ineligible_mem_bp(struct damos *s, int nid)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> +
+>  /*
+>   * Returns LRU-active or inactive memory to total LRU memory size ratio.
+>   */
+> @@ -2562,7 +2667,8 @@ static unsigned int damos_get_in_active_mem_bp(bool active_ratio)
+>  	return mult_frac(inactive, 10000, total);
+>  }
+>  
+> -static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal)
+> +static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal,
+> +		struct damos *s)
+>  {
+>  	u64 now_psi_total;
+>  
+> @@ -2584,6 +2690,14 @@ static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal)
+>  	case DAMOS_QUOTA_NODE_MEMCG_FREE_BP:
+>  		goal->current_value = damos_get_node_memcg_used_bp(goal);
+>  		break;
+> +	case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
+> +		goal->current_value = damos_get_node_eligible_mem_bp(s,
+> +				goal->nid);
+> +		break;
+> +	case DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP:
+> +		goal->current_value = damos_get_node_ineligible_mem_bp(s,
+> +				goal->nid);
+> +		break;
+>  	case DAMOS_QUOTA_ACTIVE_MEM_BP:
+>  	case DAMOS_QUOTA_INACTIVE_MEM_BP:
+>  		goal->current_value = damos_get_in_active_mem_bp(
+> @@ -2597,11 +2711,12 @@ static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal)
+>  /* Return the highest score since it makes schemes least aggressive */
+>  static unsigned long damos_quota_score(struct damos_quota *quota)
+>  {
+> +	struct damos *s = container_of(quota, struct damos, quota);
+
+I'd prefer passing 's' from the caller.
+
+>  	struct damos_quota_goal *goal;
+>  	unsigned long highest_score = 0;
+>  
+>  	damos_for_each_quota_goal(goal, quota) {
+> -		damos_set_quota_goal_current_value(goal);
+> +		damos_set_quota_goal_current_value(goal, s);
+>  		highest_score = max(highest_score,
+>  				mult_frac(goal->current_value, 10000,
+>  					goal->target_value));
+> @@ -2693,6 +2808,10 @@ static void damos_adjust_quota(struct damon_ctx *c, struct damos *s)
+>  	if (!quota->ms && !quota->sz && list_empty(&quota->goals))
+>  		return;
+>  
+> +	/* Calculate eligible bytes per node for quota goal metrics */
+> +	if (damos_scheme_uses_eligible_metrics(s))
+> +		damos_calc_eligible_bytes_per_node(c, s);
+> +
+>  	/* First charge window */
+>  	if (!quota->total_charged_sz && !quota->charged_from) {
+>  		quota->charged_from = jiffies;
+> diff --git a/mm/damon/sysfs-schemes.c b/mm/damon/sysfs-schemes.c
+> index fe2e3b2db9e1..232b33f5cbfb 100644
+> --- a/mm/damon/sysfs-schemes.c
+> +++ b/mm/damon/sysfs-schemes.c
+> @@ -1079,6 +1079,14 @@ struct damos_sysfs_qgoal_metric_name damos_sysfs_qgoal_metric_names[] = {
+>  		.metric = DAMOS_QUOTA_NODE_MEMCG_FREE_BP,
+>  		.name = "node_memcg_free_bp",
+>  	},
+> +	{
+> +		.metric = DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP,
+> +		.name = "node_eligible_mem_bp",
+> +	},
+> +	{
+> +		.metric = DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP,
+> +		.name = "node_ineligible_mem_bp",
+> +	},
+>  	{
+>  		.metric = DAMOS_QUOTA_ACTIVE_MEM_BP,
+>  		.name = "active_mem_bp",
+> @@ -2669,6 +2677,8 @@ static int damos_sysfs_add_quota_score(
+>  			break;
+>  		case DAMOS_QUOTA_NODE_MEM_USED_BP:
+>  		case DAMOS_QUOTA_NODE_MEM_FREE_BP:
+> +		case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
+> +		case DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP:
+>  			goal->nid = sysfs_goal->nid;
+>  			break;
+>  		case DAMOS_QUOTA_NODE_MEMCG_USED_BP:
+> -- 
+> 2.43.0
+
+So, the overall concept and definition of the new goal metrics sound good to
+me.  But I'd prefer having less optimized but simpler code, and nodes boundary
+crossing regions handling.
 
 
-This is not very clear and it is not explained properly in the 1st patch
-where you document this driver. It doesn't talk about how older
-UAPI based application will still work without any change
-or recompilation. I prefer the same old binary to work w/ the new
-DRM based interface without any changes (I don't know how that will be possible)
-OR if recompilation + linking is needed then you need to provide the wrapper library.
-
----Trilok Soni
+Thanks,
+SJ
