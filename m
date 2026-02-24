@@ -1,127 +1,101 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDAA236405F;
-	Tue, 24 Feb 2026 15:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EC936405F
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 15:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771946740; cv=none; b=COxJB89gsIq6+szC+G6CNJXwmPM0aYwsCl08IxIm/giCSa9pY3R4kVvrHLeYucDvD+tlIE+RoDcdtFiKC6byzTDXSchvrYr3c+zLazcReKphggCICFhF1but7VMbXWtHMnyyLkuikouYbih9QR+S57T2fAohrViCiU0ZgGj9HsY=
+	t=1771946759; cv=none; b=EvkmOLHOuHd2Jz5LJDrMHm2mvku6HNa5mKBvrsexr1zvYoFCf0JJrXBBTnGZufqHSt3aXktlSXhSnxoy6TLJdh/O2Mt+qjMrNp812we5G2QY9TBaYN0vB8M7IHg+2+IlvJS5S9/12tTK6rwAqqDLg+JNSCX9plXvqPb9D+WtZrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771946740; c=relaxed/simple;
-	bh=6BF5HaruXzs6cSNgyt8FXFsH8ahTogOeLQmutq2pJzk=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KNxpIlU53VtVilstJBOx2+arB79aENW5fc2eE3GtXypYhTe9DAZx4EjgKxiNkY7/Mr17SlF5+ged63cm0dHSSD7wfsAlXnegXmr5xP6AhLq+P2mn/v1JCCq0ScG/CWJ4MpS0hkAVsK2GHCUCsWIv7sd3jkStiOuQGP/NZpor9iE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fL1k03LybzHnHWN;
-	Tue, 24 Feb 2026 23:24:56 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9A2B740570;
-	Tue, 24 Feb 2026 23:25:36 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Feb
- 2026 15:25:35 +0000
-Date: Tue, 24 Feb 2026 15:25:34 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-CC: <devicetree@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<Dmitry.Lamerov@arm.com>, <catalin.marinas@arm.com>, <bp@alien8.de>,
-	<robh@kernel.org>, <rafael@kernel.org>, <will@kernel.org>,
-	<conor@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <krzk+dt@kernel.org>, <Michael.Zhao2@arm.com>,
-	<tony.luck@intel.com>
-Subject: Re: [PATCH v2 02/11] ACPI: APEI: GHES: add ghes_cper.o stub
-Message-ID: <20260224152534.000040b6@huawei.com>
-In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-2-347fa2d7351b@arm.com>
-References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
-	<20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-2-347fa2d7351b@arm.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1771946759; c=relaxed/simple;
+	bh=QnbAFPGFthzvasBmUjYWWjZFAYjww/ilHVXgXGc5JRM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GRQOTIIZyvlu3s5M64Q/+an9sGEI31S0VAyF03dSeL60v169f5JpHbXAWGmphspFAOqhaNUvRVfWEkdB2gFVKtu57SO6Zpy5XNkj0QeTQ9HwRAedopCRLriHuvwMm1FGscTstDYwUMJhVS3HX7V9qXdJXFsX+qqC2NwCMZZqoFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aN/i+j6a; arc=none smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aN/i+j6a"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1277e072e2dso150439c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 07:25:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771946758; x=1772551558; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vrV9BhMxEEs17TmWJHa8CNzBUwr0TwzU8O3qC1THpDI=;
+        b=aN/i+j6a5JD5cyFWNNDYDTYXIAOZOhLz+ChjE/yEnqjRkzrNuNwkcbUNECkqJBg1pE
+         DFTXvgJkiTnXeZs6X3rsZ9C2BHAbOU567iPIiPwpmFUzp745ZQTOaiq0cSlRYthDDE9c
+         Cxsn8h+8onogw4XCMPNJLQJcCiPLBWbnZVobUlOdIx0gm5xIEJUOlthbEWG1AV1IpQan
+         1xWpF4GOyaC0cJ42rgsNE37sGPd66fqpT+AACgpPEl5yezMuhtV5vxVqV/Zo8088lF9C
+         A0d/3gUDI4jTs8s+q4RwNZTS6FP+rUHkE6Aa44QKSOTGANwBOAH5EgyhFfctmzkHKXKj
+         86ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771946758; x=1772551558;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vrV9BhMxEEs17TmWJHa8CNzBUwr0TwzU8O3qC1THpDI=;
+        b=rFlzT+AZ0b2p205eESr6KplThMKGKw/XeqIjaCgJs9ReL3TmTDnnItJvd9Zbv7bioY
+         0juV9Y2SnnRGE0CJPlLu0MV//KWGKuXhFuDrglNnyAtgTBGabVz0WNFM+rR4rYoYkdOA
+         Pmme7CDOHaN6dXqFPi00WHsxsYIDyFVwNkz9PogJ/uVXfskJbYPqBHLc6c/2Syn+H8/0
+         2zrS/8ptPOx0vQu1NlXrPBe+7IwVm9xAhFnroWbNzFvKKHRblSxS+goZuISxnzFmFmRD
+         XvHUmoeKf0BNusOA78jO4vFdSyvjGRxYn/GX/t8vLJsRiriqB9kknp/Nw4gkbKHuqFbl
+         LqEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUO//GCsB4IEeyj2ShePQT3pOX591gRBVtVCXUXXd+zaC2/joXGqWKqwSbjjxBYbmzQ6TH7StQ8/90=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyl9aDN0JBjGb+UIO/lOFi0u4refoOUFxwrNhHZhIpFqX28LN+5
+	Rzjqla7fuNmjzOtMntwrHdu6Pa3b+jIskO36RCq4A/ZTXKehSNNEeSrK
+X-Gm-Gg: AZuq6aLaxItL/G/SCldwE2Z6kKKHmbvOz4hvXaeeFgwF0Bl1eJ0HZbW8BdjoZAvo4f8
+	QORV32W4BJ5yzu+aROx+v1vmkW3s4evvYf4+KWRR+VoEnfEvkH5zyO0Txu8pi1V9+VJLzvZ3wb/
+	DIm4qhHfR62NnTsfXUUZBDPR5WBrgOk+jpFovdLNBG5gUWEz4TGN/X1UoE/ZjkD6PoUDG7W9TU8
+	OZmE7cqAVsdUcqtaQ0kIMSShs5G1ZVsP/BJtd14qxXp7ZmklauGdH9/Z0hDihgWE+JAgseXCdDD
+	5+bc0eeHJFxFwM6aDp8D7fPMqbgoQazJDbpVNtBtbFWdFLw8zKtAq+uvMxPIOBtuj3sAD/PCTa8
+	vUfFQnY4uUcz1n8kMkzp14OVMZGM2NCuLdzpVKSg6U/6jv1P3caIyNo1bTYnCHXsauMR51lPnUH
+	SVyPlRYCKojYV64DqydjdBJOsvdP68kt/OTkZ6
+X-Received: by 2002:a05:7022:421:b0:11b:ca88:c4f1 with SMTP id a92af1059eb24-1277f5606afmr123769c88.20.1771946757470;
+        Tue, 24 Feb 2026 07:25:57 -0800 (PST)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1276af7ae99sm10658338c88.10.2026.02.24.07.25.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 07:25:56 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 24 Feb 2026 07:25:55 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Michael Walle <mwalle@kernel.org>
+Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Tero Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/8] Revert "hwmon: add SMARC-sAM67 support"
+Message-ID: <05db17b0-d9f0-478d-bbe6-1efdd9802abc@roeck-us.net>
+References: <20260223100459.844967-1-mwalle@kernel.org>
+ <20260223100459.844967-4-mwalle@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260223100459.844967-4-mwalle@kernel.org>
 
-On Fri, 20 Feb 2026 13:42:20 +0000
-Ahmed Tiba <ahmed.tiba@arm.com> wrote:
-
-> Introduce a dedicated ghes_cper translation unit so that follow-on commits
-> can move helpers out of ghes.c without touching the build logic twice.
-> This keeps the object in the tree while remaining functionally identical.
-
-I'd probably do this with the first move patch not as a separate patch.
-That would resolve the question of headers etc below.
-
+On Mon, Feb 23, 2026 at 11:04:48AM +0100, Michael Walle wrote:
+> This reverts commit 443b39c82c322c9f3c38bea0389fe927ba00b3b4.
 > 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-> ---
->  drivers/acpi/apei/Makefile    |  2 +-
->  drivers/acpi/apei/ghes_cper.c | 26 ++++++++++++++++++++++++++
->  2 files changed, 27 insertions(+), 1 deletion(-)
+> I was just informed that this product is discontinued (without being
+> ever released to the market). Pull the plug and let's not waste any more
+> maintainers time.
 > 
-> diff --git a/drivers/acpi/apei/Makefile b/drivers/acpi/apei/Makefile
-> index 1a0b85923cd4..b3774af70883 100644
-> --- a/drivers/acpi/apei/Makefile
-> +++ b/drivers/acpi/apei/Makefile
-> @@ -1,6 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-$(CONFIG_ACPI_APEI)		+= apei.o
-> -obj-$(CONFIG_ACPI_APEI_GHES)	+= ghes.o
-> +obj-$(CONFIG_ACPI_APEI_GHES)	+= ghes.o ghes_cper.o
->  # clang versions prior to 18 may blow out the stack with KASAN
->  ifeq ($(CONFIG_COMPILE_TEST)_$(CONFIG_CC_IS_CLANG)_$(call clang-min-version, 180000),y_y_)
->  KASAN_SANITIZE_ghes.o := n
-> diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
-> new file mode 100644
-> index 000000000000..63047322a3d9
-> --- /dev/null
-> +++ b/drivers/acpi/apei/ghes_cper.c
-> @@ -0,0 +1,26 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + *
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
 
-As below.
+Applied. Please let me know if there are any objections.
 
-> + * APEI GHES CPER helper translation unit - staging file for helper moves
-> + *
-> + * Copyright (C) 2026 ARM Ltd.
-
-As before. If there isn't significant new content copyright doesn't make sense yet.
-
-> + * Author: Ahmed Tiba <ahmed.tiba@arm.com>
-> + * Based on ACPI APEI GHES driver.
-> + *
-
-No obvious benefit in this blank line so I'd drop it.
-
-> + */
-> +
-> +#include <linux/err.h>
-> +#include <linux/io.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mm.h>
-> +#include <linux/ratelimit.h>
-> +#include <linux/slab.h>
-Build includes up as they become relevant. That way we can see whether
-they are needed or not.  Right now none of them are..
-
-> +
-> +#include <acpi/apei.h>
-> +
-> +#include <asm/fixmap.h>
-> +#include <asm/tlbflush.h>
-> +
-> +#include "apei-internal.h"
-> +
-> +/* Helper bodies will be moved here in follow-up commits. */
-> 
-
+Guenter
