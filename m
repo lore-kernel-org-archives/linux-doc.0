@@ -1,84 +1,230 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172013A1A31;
-	Tue, 24 Feb 2026 15:03:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190D53A1CE0
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 15:10:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771945436; cv=none; b=iQ3uyRSUhDiy/TvCcYWTsyj4ZO0NlWCRnnA0WXEtqdKcf67RcSMRUp4RF8wgC/LJ4NP3b3RQmuA9Ltmvtl0X7I0ll5AklqNvjXefn1chAI90K/iOVFxwbsyBB3ypRP5nIjtyUhfQsU/LPSH0UdYC7CeI5SDIcfzRTmQCVX5s0eA=
+	t=1771945819; cv=none; b=bXWuLi/zqbgjZvVdU9Ygp+28eSwYVdvYPlSgESW7Ft9sOYrV8nY0J0y10mHvwk0ay25MyPPh0/ekixit8RMZp77FpBgb5GJdViwmFP1OChm0oyie6kUhP5SNhzRLO1BYgVAoYglITyU5OUZqmlcAKpD+Iws3evwyoskmOUCmeFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771945436; c=relaxed/simple;
-	bh=1E5rSUe435DvIDppa0Hj+M3PuK1u2lKAS9K/7pBZr0c=;
+	s=arc-20240116; t=1771945819; c=relaxed/simple;
+	bh=TAyHgBBI4ob9tTcrFegG2TRo7EKXGQuXyNpp/MzDVco=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bhg6OgCQUTBlMyh2X0aleLzrMAZYwNFCGS8HBif7jsM6hQQYRmo/oAX+xiFJvADt9S9LnPoTTCyBHFg3IedPhjjf7HaxP/q0DAf0WW8GV3RhTghS7vd7EAKw9aEV+7ws++9z4uZ+tdUAXRLdH+IdcnlI5YKY9ON2q7Jlwspdxp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GUlMZEYs; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=B8sa4XsVNqxd2YyaZf8D2FhjrKAUno2UYKaygH/1L+m5NqwTrD1Ti9MwJ1NS3pLODYCuReBXRgw0UqUzvs5dbAoyPq0rF+xBlbRHLyYfn/P87YiGhg2+SGNFqNVZBId7I/3G1VeiBwNGE8sq8oOXO63CznsZLAY2XKqFobVMV1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X3a1PE79; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=qtAZPZRs; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GUlMZEYs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771945435; x=1803481435;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1E5rSUe435DvIDppa0Hj+M3PuK1u2lKAS9K/7pBZr0c=;
-  b=GUlMZEYs4TYE6oYtmP+lOr2k4IxytnoZJY2hJS2R0W9vu44C4aXw3112
-   Baqtthx+Em0atV8mtGDHNsJQMP7H/n6uryaJa/RTXyMcL2FehPeKJLQEH
-   3fooJOMxKolpKsrTACClDZfeJlKPapVqltxF435yTC8aOFqa9sHyFqiom
-   rfcFIt0KtRaEBRSZvtQR5n6dVZAtimSwYko6o1VOXZyz/ui076UhDPOOx
-   J8DLNvuXva9s649DXWjBBR9abOiYQrsFGK6lAhyU0ONMw8bZBwLnWotfk
-   uqsWRT2KQ4ey7izIbciu4bOgAbPGJ5OanKmpDllf9tZTUi6jofLRwIn+5
-   w==;
-X-CSE-ConnectionGUID: XkZAz6qvTbO8Aeb7zhh6VQ==
-X-CSE-MsgGUID: m5K1eilpT9GY52VaVWIbxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11711"; a="73027200"
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="73027200"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 07:03:32 -0800
-X-CSE-ConnectionGUID: B6UxMaV+SwCGvMhIwV6UUg==
-X-CSE-MsgGUID: y7FGh8TWRMiq9iUosU9CaQ==
-X-ExtLoop1: 1
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.244.146])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 07:03:28 -0800
-Date: Tue, 24 Feb 2026 17:03:26 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Taha Ed-Dafili <0rayn.dev@gmail.com>
-Cc: linux-iio@vger.kernel.org, jic23@kernel.org, dlechner@baylibre.com,
-	rdunlap@infradead.org, skhan@linuxfoundation.org,
-	nuno.sa@analog.com, andy@kernel.org, corbet@lwn.net,
-	lars@metafoo.de, Michael.Hennerich@analog.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/5] iio: accel: adxl345: Expose IIO_EV_INFO_VALUE for
- double tap
-Message-ID: <aZ29vjil1d7NF5su@smile.fi.intel.com>
-References: <20260224140351.27288-1-0rayn.dev@gmail.com>
- <20260224140351.27288-4-0rayn.dev@gmail.com>
- <aZ277iG58m-KGbI3@smile.fi.intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X3a1PE79";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="qtAZPZRs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1771945817;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sCeOSff7eDNB7TgbEfprmGtaT8WW51aaIgrRBupCpNA=;
+	b=X3a1PE79SJfVcGFsH24xsM2qXnosZ7M/+olugdnFTYfZOVe7OzJRNmQRWyasjGOiYrlUdU
+	Wje7/4vLVaI73sALzhW+dCtXgLjLgdB5Gr7tIS2c69/JXLPNjTkmUU6pRZZLgzNBhk4JOb
+	lwst7rHfQb+98KRIItG7n50fXZA33R8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-14-E-tA75DHNTGHWPli0isHMg-1; Tue, 24 Feb 2026 10:10:15 -0500
+X-MC-Unique: E-tA75DHNTGHWPli0isHMg-1
+X-Mimecast-MFC-AGG-ID: E-tA75DHNTGHWPli0isHMg_1771945814
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-48378c4a79fso42580465e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 07:10:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1771945814; x=1772550614; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sCeOSff7eDNB7TgbEfprmGtaT8WW51aaIgrRBupCpNA=;
+        b=qtAZPZRsazWcNEz1dpn43MRNn7EqFMH6VV6pZ87VafHbDrcQEQOfi02XT09VW5yhB1
+         9XZ0xPalpY7hY8ePKM4De1ov9ZSJFRsVX/eQpvrCRu7ks1NvnkmVPJNOJyzYF/Xm2NXc
+         ueZJ1mG7Kci4NBnwl4qRBJn2r9oud/asUA4diHCVzDZ1nYQLJQm1afF6n6B0qp9f+PHK
+         sUiEIQ64rbteFK83QYFGG5Swrjs+PzBRF+/BReAINXBfgfqBwYvaLhrijhCPf+eA9iVC
+         awSbBUKjSvCNldw6QPXub/8jEGw5ZyhzC5gYE7hG/FRJHl0vfDxZkRDBWA/z1K2yPLgN
+         nBJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771945814; x=1772550614;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sCeOSff7eDNB7TgbEfprmGtaT8WW51aaIgrRBupCpNA=;
+        b=lEySqdx8sgvqeo9G6YQrqRcyn2bB7mtpLMQMrdmB4lrnUj1bvklMLAudwDZyZKeo9f
+         8ypunVbdILFj8MPmaQlSEBgmoHM8pd904+xrPlh/cHVK36V31IN1qa856/5sPJZHmd9A
+         330fvN22pWc17lIENnQSl4ye0iU/lalhi2QJhywyn/NclRQ8hv8v4oPwxIeJs3H929jD
+         6RmRUvWxhByBs9z2zUuLKAULuIAQz0+eFciZUx8+1V5P1BuVNU1tEad0KfCkhZzQ4q3U
+         5QuanVLCicGTBWrLHza3Kwd6S1ZuaJrGMsABSNl84QaEQrUzyS5Kp2EUpTCeVLtDJQyB
+         h7uw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxtokYjQNdkxVobUuuoKkE1IoOP7Dq06GnS97Vs6/q7d/DtVqOq6F1r0LxK6rwPtnYlovZ9M0TKRc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzz9TfvdkV8ZCk5KmpYQWYayiTazgr5nM+SQitYNdlCJJu9wVWn
+	LktsLt+swGYfXbZmGnNoVdh3qbcBnQEoJgKmyv+pp4+beAv0Pz5gHZW+MzfByHYNISZGDWXc8xn
+	dl3Thxk7oBZIM5Xwo7ExCOMrxQ8hw6fHyVJ4UiuLyI/vrQIDzz5UVzNOjxLODyQ==
+X-Gm-Gg: AZuq6aJc357ij/X1TnC3w6DTNwSirPjLZ0ugqlB3L5PLKRPz5JJvnF6NreKTtoIJULP
+	jg8VIzVFhcsEfNDCMmiU5UC7+hepVKLwGUM7C2F1mDqPu8I2PCNZimxvrM8DvMBIucYDMdioDzw
+	V7oxQyYJWb1YemP3zJne69MUVqI19tynDts8hjXjew6qbNckiXqL8Vuwyzy5uljqNuHekwkTmyA
+	rsoBowjUJ6FhtUCXoAM1CYQsO7QnXmmSuVqkgiqvkcIvbrY9lvFoERRD9Brnv38JYf6r6dThORm
+	eDzsWfK3N4vuhj6qDq27lhDwfsLc9NWTh6S17cNJsQU5Hw5bTPbQMYg4WTCou2WJXlsfiJc9F7i
+	exaIPSxR7XqqeijiTKr33qdmZDxfIwgj15I5WU3Ew/CuAHVgVVN0kCmGMXcSxczcUYaaWWYw=
+X-Received: by 2002:a05:600c:3516:b0:483:a21:7744 with SMTP id 5b1f17b1804b1-483a9637590mr181464205e9.26.1771945813977;
+        Tue, 24 Feb 2026 07:10:13 -0800 (PST)
+X-Received: by 2002:a05:600c:3516:b0:483:a21:7744 with SMTP id 5b1f17b1804b1-483a9637590mr181463595e9.26.1771945813378;
+        Tue, 24 Feb 2026 07:10:13 -0800 (PST)
+Received: from sgarzare-redhat (host-82-53-134-58.retail.telecomitalia.it. [82.53.134.58])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483b8912fcasm19737805e9.27.2026.02.24.07.10.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 07:10:12 -0800 (PST)
+Date: Tue, 24 Feb 2026 16:10:07 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	Bobby Eshleman <bobbyeshleman@meta.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	virtualization@lists.linux.dev, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kuniyu@google.com, ncardwell@google.com, Daan De Meyer <daan.j.demeyer@gmail.com>
+Subject: Re: [PATCH net v3 2/3] vsock: lock down child_ns_mode as write-once
+Message-ID: <aZ2-yzyNKXNkvPVG@sgarzare-redhat>
+References: <20260223-vsock-ns-write-once-v3-0-c0cde6959923@meta.com>
+ <20260223-vsock-ns-write-once-v3-2-c0cde6959923@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <aZ277iG58m-KGbI3@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260223-vsock-ns-write-once-v3-2-c0cde6959923@meta.com>
 
-On Tue, Feb 24, 2026 at 04:55:42PM +0200, Andy Shevchenko wrote:
-> On Tue, Feb 24, 2026 at 02:03:46PM +0000, Taha Ed-Dafili wrote:
+On Mon, Feb 23, 2026 at 02:38:33PM -0800, Bobby Eshleman wrote:
+>From: Bobby Eshleman <bobbyeshleman@meta.com>
+>
+>Two administrator processes may race when setting child_ns_mode as one
+>process sets child_ns_mode to "local" and then creates a namespace, but
+>another process changes child_ns_mode to "global" between the write and
+>the namespace creation. The first process ends up with a namespace in
+>"global" mode instead of "local". While this can be detected after the
+>fact by reading ns_mode and retrying, it is fragile and error-prone.
+>
+>Make child_ns_mode write-once so that a namespace manager can set it
+>once and be sure it won't change. Writing a different value after the
+>first write returns -EBUSY. This applies to all namespaces, including
+>init_net, where an init process can write "local" to lock all future
+>namespaces into local mode.
+>
+>Fixes: eafb64f40ca4 ("vsock: add netns to vsock core")
+>Suggested-by: Daan De Meyer <daan.j.demeyer@gmail.com>
+>Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
+>Co-developed-by: Stefano Garzarella <sgarzare@redhat.com>
+>Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+>Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+>---
+> include/net/af_vsock.h    | 13 +++++++++++--
+> include/net/netns/vsock.h |  3 +++
+> net/vmw_vsock/af_vsock.c  | 15 ++++++++++-----
+> 3 files changed, 24 insertions(+), 7 deletions(-)
 
-Side note, in all your emails the Cc list has
+I still slightly prefer the version I proposed here: 
+https://lore.kernel.org/netdev/aZbR2H2oDyIAxDef@sgarzare-redhat/
 
-	linux-kernel-mentees-archive@lists.linuxfoundation.org
+But this definitely affects the code less, so for `net` I think this 
+patch is better:
 
-whatever it means. This address is bouncing and should not be used.
-(I removed from my reply as it reminded me again with tons of bounces.)
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Eventually, we can discuss in net-next patch whether to change the 
+implementation to the other one, but for the user nothing changes at 
+all.
 
+Thanks,
+Stefano
+
+>
+>diff --git a/include/net/af_vsock.h b/include/net/af_vsock.h
+>index d3ff48a2fbe0..533d8e75f7bb 100644
+>--- a/include/net/af_vsock.h
+>+++ b/include/net/af_vsock.h
+>@@ -276,10 +276,19 @@ static inline bool vsock_net_mode_global(struct vsock_sock *vsk)
+> 	return vsock_net_mode(sock_net(sk_vsock(vsk))) == VSOCK_NET_MODE_GLOBAL;
+> }
+>
+>-static inline void vsock_net_set_child_mode(struct net *net,
+>+static inline bool vsock_net_set_child_mode(struct net *net,
+> 					    enum vsock_net_mode mode)
+> {
+>-	WRITE_ONCE(net->vsock.child_ns_mode, mode);
+>+	int new_locked = mode + 1;
+>+	int old_locked = 0; /* unlocked */
+>+
+>+	if (try_cmpxchg(&net->vsock.child_ns_mode_locked,
+>+			&old_locked, new_locked)) {
+>+		WRITE_ONCE(net->vsock.child_ns_mode, mode);
+>+		return true;
+>+	}
+>+
+>+	return old_locked == new_locked;
+> }
+>
+> static inline enum vsock_net_mode vsock_net_child_mode(struct net *net)
+>diff --git a/include/net/netns/vsock.h b/include/net/netns/vsock.h
+>index b34d69a22fa8..dc8cbe45f406 100644
+>--- a/include/net/netns/vsock.h
+>+++ b/include/net/netns/vsock.h
+>@@ -17,5 +17,8 @@ struct netns_vsock {
+>
+> 	enum vsock_net_mode mode;
+> 	enum vsock_net_mode child_ns_mode;
+>+
+>+	/* 0 = unlocked, 1 = locked to global, 2 = locked to local */
+>+	int child_ns_mode_locked;
+> };
+> #endif /* __NET_NET_NAMESPACE_VSOCK_H */
+>diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+>index 9880756d9eff..50044a838c89 100644
+>--- a/net/vmw_vsock/af_vsock.c
+>+++ b/net/vmw_vsock/af_vsock.c
+>@@ -90,16 +90,20 @@
+>  *
+>  *   - /proc/sys/net/vsock/ns_mode (read-only) reports the current namespace's
+>  *     mode, which is set at namespace creation and immutable thereafter.
+>- *   - /proc/sys/net/vsock/child_ns_mode (writable) controls what mode future
+>+ *   - /proc/sys/net/vsock/child_ns_mode (write-once) controls what mode future
+>  *     child namespaces will inherit when created. The initial value matches
+>  *     the namespace's own ns_mode.
+>  *
+>  *   Changing child_ns_mode only affects newly created namespaces, not the
+>  *   current namespace or existing children. A "local" namespace cannot set
+>- *   child_ns_mode to "global". At namespace creation, ns_mode is inherited
+>- *   from the parent's child_ns_mode.
+>+ *   child_ns_mode to "global". child_ns_mode is write-once, so that it may be
+>+ *   configured and locked down by a namespace manager. Writing a different
+>+ *   value after the first write returns -EBUSY. At namespace creation, ns_mode
+>+ *   is inherited from the parent's child_ns_mode.
+>  *
+>- *   The init_net mode is "global" and cannot be modified.
+>+ *   The init_net mode is "global" and cannot be modified. The init_net
+>+ *   child_ns_mode is also write-once, so an init process (e.g. systemd) can
+>+ *   set it to "local" to ensure all new namespaces inherit local mode.
+>  *
+>  *   The modes affect the allocation and accessibility of CIDs as follows:
+>  *
+>@@ -2853,7 +2857,8 @@ static int vsock_net_child_mode_string(const struct ctl_table *table, int write,
+> 		    new_mode == VSOCK_NET_MODE_GLOBAL)
+> 			return -EPERM;
+>
+>-		vsock_net_set_child_mode(net, new_mode);
+>+		if (!vsock_net_set_child_mode(net, new_mode))
+>+			return -EBUSY;
+> 	}
+>
+> 	return 0;
+>
+>-- 
+>2.47.3
+>
 
