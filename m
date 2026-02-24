@@ -1,358 +1,253 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A4454758
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 18:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771956471; cv=none; b=CxPx5G6o3yzWMVHEbaW7fRaRq+yUfEBENEwy0W65pclLL3NvrLf1tXZz9Hx2FDwILLNYa7HpqnydSOY1D7YzIBuXA9pT2QWTodSV3d5nVegyem60Hdnn53MxDzJjeUkymwySZTeugoKDHMVcnA4AqdgqxH5tXSKxDFvHpAXQxAE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771956471; c=relaxed/simple;
-	bh=fgzJ3IMQdAMzejtFEJljAl6SvulwCuVl4ArDslyeT8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cJ9rgBgSGBq7trezZNPq0kXUUsAT0jh7yQEJ++d4tjShy61m77GvOwsMXhReKK1elnXP5pY2Xt8UilZJOnhfxqvXVvZLarcMHDtDXX4t+P544Lfa9EjFp/hAvxeOUsbzM3BAwCkgLqxvlcBANyIqeVFzrY5nGthLCCVp2K752NA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m/9PtSLg; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87212046BA
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 18:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771956584; cv=pass; b=AWz+at82OWnyPDfWHUvXREFkclUSoCKOXoXl8GVcnWMhgwpmHIv483bsssCEuSlvpN2NZbrRdieNJcbOmtjrEsc+is4lNycw2dc6xCgRNi5uo+LTyBetU0qpnnAAI3dXi2HClsAK5Ix8YynH+atdD4XF7vgJhZFhG173Kos5yGI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771956584; c=relaxed/simple;
+	bh=vJaYNFnuf2hOYg3Wzwgr911xc+wa92WDutG7dqVnCzM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XOqqpv2jw9yz6NyuS9rR+G70e/7GIBRjKI7rOgLmXIK/paiMn167QgzL6WEPZGNqhojd5xFh+nmqOpWXZ45xsyJ3c79ztxIq9XdAz7UQlKAjPiec/xp6CpJ5uDbv063tVDCFpF2/BOb67Ai9ge1nTsDk1FdtcvNzFAp9lB2Vs+U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m8USWwMu; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m/9PtSLg"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4362d4050c1so5999565f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 10:07:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m8USWwMu"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-65f812e0d93so259356a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 10:09:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1771956581; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GRanW3nzCtA5mRRZ8ShKcLohPviUVhvax6aWqHZ1egEF/lOUMiATk37luyAKWvR/hZ
+         6NvLsZiKWxmu7TbMdw+ll+RZBN7ZOqrGuCso1vRL8wtp22qwNeWeeb0L9AH7cTQ9oVAl
+         TK6XI5keLX3i6poKzEHrkyP/ghbQK8xramlZKCapgk5lYPJWRXfGV3KElqHNKJsUdQsd
+         TDCSEyZQcXBBlMPHuId4l2cs2z1pCVPZ1LWxVbNsIWgXVxO2VpxkP3TDjvRlctgovhx3
+         V+dCP/DK6942RspC8n5q6W9QymF5VXOpIVSMVUs00fr8R095JqH/HqSHgTE66ZgNbL8e
+         hQZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WkhJvVlHP2HM21UJR495PsQ26BfaGB2+8QVHbNSzt78=;
+        fh=vQAIpWpiDeTDK/uVEvl81b71Bu5UM/4I12XtRfc56/E=;
+        b=O4/1ieXZNhnUm9pZML9x0Z/dc8jhMEAtt0/APmN26oJvjORXi2cTqknJKGWGrffZaE
+         IXzC+eT3xZKuKkLBSIXM5wRrrVCfRjI8jopJ0pOm5qvD/OaaExfc+wC/7vNz1KT79263
+         +RS84SwNKDhIde8iMwrp9pTPKrVsoUaSwd/nwYtnPXW21YgKEAp39T9c4TnDRbFeCCvs
+         8ANdug7DAQsRuBEt9jN3ucpmi0dzz1MFq2xKdMM26f3OtW0/a1NoFS+2sY5Wn/fUgU54
+         XgouT96QibtKeTddquYa1uYzUfvWpfNRsBARucM8cUiysxEVjoNuI1NOin0i2z39dOXT
+         JAmw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771956467; x=1772561267; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8bFMgYpjVNXlCPtjo5P1vN5+m+PTM8Dera8y/sVDNAc=;
-        b=m/9PtSLgYqBxWghvDwmKe3jIMyfZwSBIiE60uD87FzkVvJrd1Pr3lzRe69LUiJkF4H
-         s+d4i1JaZHE/LAa6iA2LqelalQ+cqJvnET/2klCxG4IT0Nvg/MEWCgIKrM5GU2Bef/Zp
-         pmOPdBij+8NFnjho0MMiyxF+q5oirWBuxrr3JKQvtWYJNkkGCSqe5lczm3thCYnot3xS
-         uu0Zty8K97qIRe8SSKjcyAPeBq+cK3bYryXLQYK8RwXp4hDz3SZdkW/01GnSepCkz/YI
-         LtuNNQXQc9IiaUrTyLZJjPZeFP92V3jVvvdhBgga518VLbE2O95mJOfD9kDkpYIpIskf
-         BeYw==
+        d=linaro.org; s=google; t=1771956581; x=1772561381; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WkhJvVlHP2HM21UJR495PsQ26BfaGB2+8QVHbNSzt78=;
+        b=m8USWwMuu12L2sIRTkemL72vSy2QQjfQ63+kes29z0dSGvgdQQH/OkPoPpf/ls0y1O
+         pbS6qgr9hkCg0TX/GJIrla7gSALHSD51qPPGi3qxRbYMh6b5OTP5yxrNbbVeEwVERR5g
+         JCKMF2bXR9iq/n3FJZxD9nbs1Dj1KZKsrBDWuV08ZPgkJxPpw7w+jaE+OxF985A2qrJp
+         FQL7xJ4un9lW96idpYMigaF9NUwz0dWyX9d5wWgqlai1kxj37S/KrXXKKe0JrNcdKrCq
+         NGiyu0ulFxVO7SzaxUiJjl63h6FoILX/hPBAoyEZrsKLdpgJbgAT/HbwmgVDWaTmSpUP
+         Cccw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771956467; x=1772561267;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8bFMgYpjVNXlCPtjo5P1vN5+m+PTM8Dera8y/sVDNAc=;
-        b=mEeekPAqbKFYLIDN78eq1QgjEjgFfxkuWIgojxxHWfaDxm0CAQyvNO6FZSS6QYyCVz
-         k0yj5sNSTMUlnD1HeT9owBze0jjooRoirVIwvFqx1dceP9mTwEuZQi1XvWnZXO6g61uZ
-         ihCdTIrw3MQGedmd3IHDDJ1igjcONrAHCvXr1idsD4c+fth+PrDBm58gkrh0XZLmtZly
-         sthluLNmGjQXVEPzHQKN136jtdAw7dTaPoVawXUWTCn5HdQ4QPUIFIDhYJmsy5dhGMFa
-         1j81dA4230hTuOFixDddPC+TD6CiUSvCbpd0f52WvHw/Qkuq30q6MnzSQ9cIswIEfVN+
-         39+A==
-X-Forwarded-Encrypted: i=1; AJvYcCXIWG7hFyVi/sQH2OhYtMeUdsGE1hLV4ag2XV5CihFSK0q0jw64yVVKgyXZ6HdilELcZZjTP9/g8z8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtGpH4uz54QqWT0j8hktmIhUbK9v3wwEgQsL5WKNI1jwUXYmxN
-	+4PszCe+FtyFJAnnW0JknYu97qx8boeWKsUENbQaxRWotewd23ts4Uq5
-X-Gm-Gg: ATEYQzxoVuPXEJ12296F7aQ3EAHE690/4V3xJIRgbfAqLrdkYQEWrfV3kqctq11wrHx
-	iR7M3K7jck5rEYuGMQLZhvXEhYtRAEaR74TZyIyKTWrFXloXv9f9kVhWNzwwnqCtuCc5EjCZhgt
-	5AjcSVwmQFQvNV7oLBpuMHkK4uDgfzuuFboT6oT24SFcctLr5KEWXwXKzBbyIg81pyStPZH1Pcj
-	lZOKCq8lxaotWxYeQIBaMAVlvZWkYNGGdSTRQMWuCmXZwBTuo3eVOKURccZRbCwn1GtY84ThKZJ
-	HkodVp5fDUo7RgkBq1ewvFgCuhcTL7SZdcFNCLaKIO17VH3ViNFlOOlqpd9R45iGteIx2b9mgzL
-	aKF1auShJu0cn4qduHnlq/8fZTX1PbggOc982wWxiNRY7H9QFZlWSzH3bLjhIcTUftDgbNqqc8a
-	nrsasRQw/lc2vWlrM6Tvq4ZXX/XsjYsV6P4yspywLnzXilWghXR4661lQBrXRKlcaa88JYEgjes
-	fXkP/psVexVSSNewQjqYKQ=
-X-Received: by 2002:a05:6000:2c0d:b0:436:37a1:db58 with SMTP id ffacd0b85a97d-4396f18a6aemr23670493f8f.59.1771956466798;
-        Tue, 24 Feb 2026 10:07:46 -0800 (PST)
-Received: from gandalf.schnuecks.de (p200300c14f1996009e6b00fffe39b8a7.dip0.t-ipconnect.de. [2003:c1:4f19:9600:9e6b:ff:fe39:b8a7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bf9feasm28362739f8f.6.2026.02.24.10.07.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 10:07:46 -0800 (PST)
-Received: by gandalf.schnuecks.de (Postfix, from userid 500)
-	id 99E042FDD65E; Tue, 24 Feb 2026 19:07:45 +0100 (CET)
-Date: Tue, 24 Feb 2026 19:07:45 +0100
-From: Simon Baatz <gmbnomis@gmail.com>
-To: Stefano Brivio <sbrivio@redhat.com>
-Cc: Simon Baatz via B4 Relay <devnull+gmbnomis.gmail.com@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	David Ahern <dsahern@kernel.org>, Jon Maloy <jmaloy@redhat.com>,
-	Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com,
-	Shuah Khan <shuah@kernel.org>,
-	Christian Ebner <c.ebner@proxmox.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC net-next 1/4] tcp: implement RFC 7323 window
- retraction receiver requirements
-Message-ID: <aZ3o8RQehJDK_rcl@gandalf.schnuecks.de>
-References: <20260220-tcp_rfc7323_retract_wnd_rfc-v1-0-904942561479@gmail.com>
- <20260220-tcp_rfc7323_retract_wnd_rfc-v1-1-904942561479@gmail.com>
- <20260223232636.1ead2b3e@elisabeth>
+        d=1e100.net; s=20230601; t=1771956581; x=1772561381;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WkhJvVlHP2HM21UJR495PsQ26BfaGB2+8QVHbNSzt78=;
+        b=Lm16UxxlLileCyuCYVuoIZ4uuQv6VykPm93InNb0HIT/Up+0SM1wjVpn2hG0e/OB40
+         AA5TfUGrG5Ce+Lvky8A8jV4UbLVsQec2D/a2+n9wRQjDqqVJ6rtSvZU9kK7lupsDY8yk
+         hq5UKuoQAX4frPhmEYOYFotQ6nnhvTaAxHVhk9bRb760zGGor4k0YWO9pE/g4D2bbpOy
+         FxRWmmsk3D4O86MeXp7gJ5DL+iINXZInWYPswR9jXR6aWoqRm72tIW7m2OklbV//2PvY
+         fhdnSArQfimp0GGKsaJf2M9CNgo1Gokjz/F++nEeMYGFL8hICpHU6F/rQ3KS7BhHV5Y4
+         RIzw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBGtfA6SFUOsUR37wl3Pq4pKYuQRXoP73oFBEoUhoYkujnUQlh6iZpxPD20Gr6vfEoH5bcAx1CTSc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIilnwrD7LlJgqRQGViI1hya8v7/f1uWTGY2eviLQSh6pHyRZk
+	qkVzQfiqDyBSdOi9+P0cqQQUqXl58C9LmBUORkmKWyGwgmx35whrvK5id3POAXbqJX7fi6eu8/Z
+	LJP9fI593qZrhaN+UTzvVFFbXOapSrGW6m3iGbAXqjA==
+X-Gm-Gg: ATEYQzxgiXffe6VuCX8auwxpuu+MIeoAjJFOZ/aOEHC0jTkTxoSk9SxGSak63Oq8pzN
+	U+tOUXHo5MmZMtTe84jPNPzjyIGUNSi0QBCMJ8lcuHHg04RuoB/q+L42yH4ajHzpukzuPGpLRS5
+	j7aR2zgDnSe16dzubrgncyMEL8+bfZYG5zsNJF5izA2tigK1BO++9n+lPE5DIA53B4MkmWnTOC2
+	DQ4BNeyxq6hC6TQoWR9jux8b0roD0ZngxASvquy9Rcl4pLFqb1YTvPueSSOA0+PSv4Yz8VZLXcV
+	THQg0StPQYlDHAi+kUbuCHSvMhfxFtDwfKI3+45wjg==
+X-Received: by 2002:a05:6402:460c:b0:65f:7498:389d with SMTP id
+ 4fb4d7f45d1cf-65f74983abfmr1106639a12.10.1771956581270; Tue, 24 Feb 2026
+ 10:09:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260223232636.1ead2b3e@elisabeth>
+References: <20260212213656.662437-4-shenwei.wang@nxp.com> <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com>
+ <13f9d767-61d6-4e29-b36e-6dcc860ccb11@lunn.ch> <fd257c80-d97f-45b0-a12f-3a1888ba81db@foss.st.com>
+ <396819f2-dd00-4c09-8bc7-c035a5282a56@lunn.ch> <PAXPR04MB9185A908F5090F0CA4FF05F78968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <b21b9ee5-d84e-47f8-86b5-c111ecc3d43d@lunn.ch> <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
+ <b4c422ce-3538-40aa-8bfa-b70f02774b5d@foss.st.com> <nbzdtngifwrx2kyu4tsiwwua5v4i5cjtaotemq5hubaets3bcn@fk25twf5rv6x>
+ <PAXPR04MB9185588C1DB71B1FEFA1DEE38974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+In-Reply-To: <PAXPR04MB9185588C1DB71B1FEFA1DEE38974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Tue, 24 Feb 2026 11:09:30 -0700
+X-Gm-Features: AaiRm513jfkXhWCicXSxk8RHd0EwNINnculQUiIBSoqo4oda2oGf6hKMPIXU_e0
+Message-ID: <CANLsYkxAwgG1WkMRr8EJZuSUnN_jKVnsWhWTakVqhvtMBO365A@mail.gmail.com>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, 
+	Linus Walleij <linusw@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <frank.li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Stefano,
+On Tue, 24 Feb 2026 at 08:56, Shenwei Wang <shenwei.wang@nxp.com> wrote:
+>
+>
+>
+> > -----Original Message-----
+> > From: Bjorn Andersson <andersson@kernel.org>
+> > Sent: Monday, February 23, 2026 8:43 AM
+> > To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+> > Cc: Linus Walleij <linusw@kernel.org>; Shenwei Wang
+> > <shenwei.wang@nxp.com>; Andrew Lunn <andrew@lunn.ch>; Bartosz
+> > Golaszewski <brgl@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Rob He=
+rring
+> > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dool=
+ey
+> > <conor+dt@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Fr=
+ank Li
+> > <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>; Shuah Khan
+> > <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
+> > doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix Kernel T=
+eam
+> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
+> > <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
+> > remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> > kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Bartosz
+> > Golaszewski <brgl@bgdev.pl>
+> > Subject: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO d=
+river
+> > On Mon, Feb 23, 2026 at 03:24:43PM +0100, Arnaud POULIQUEN wrote:
+> > > On 2/22/26 15:48, Linus Walleij wrote:
+> > > > On Fri, Feb 20, 2026 at 7:57=E2=80=AFPM Shenwei Wang <shenwei.wang@=
+nxp.com>
+> > wrote:
+> > [..]
+> > > >
+> > > > Is it generic? If it is not, let's call it "NXP rpmsg GPIO driver"
+> > > > and rename files etc accordingly. Maybe it can share code with the
+> > > > actual generic RPMSG driver once that arrives, that is more of a li=
+brary
+> > question.
+> > >
+> > > I would like to (re)express my concerns regarding the creation of an
+> > > NXP-specific driver. To clarify my concerns, ST, like probably some
+> > > other SoC vendors, has rpmsg-gpio and rpmsg-i2c drivers in downstream
+> > > with plans to upstream them.
+> > >
+> > > If we proceed in this direction:
+> > >
+> > > -Any vendor wishing to upstream an rpmsg-gpio driver might submit
+> > > their own platform-specific version.
+> > >
+> > > - If NXP upstreams other rpmsg drivers, these will likely remain
+> > > NXP-centric to maintain compatibility with their legacy firmware and
+> > > the nxp-rpmsg-gpio driver, leading to platform-specific versions in s=
+everal
+> > frameworks.
+> > >
+> > > - The implementation will impact not only the Linux side but also the
+> > > remote side. Indeed, some operating systems like Zephyr or NuttX
+> > > implement the rpmsg device side (Zephyr already implements the
+> > > rpmsg-tty)
+> > >
+> > > Maintaining a generic approach for RPMsg, similar to what is done for
+> > > Virtio, seems to me a more reliable solution, even though it may
+> > > induce some downstream costs (ST would also need to break
+> > > compatibility with legacy ST remote proc firmware).
+> > >
+> >
+> > Could the virtio-based mechanism be used directly (without rpmsg)?
+> >
+>
+> Technically, yes=E2=80=94it's possible to use the virtio mechanism direct=
+ly without rpmsg.
+> It=E2=80=99s a bit like talking straight to the IP layer without involvin=
+g TCP or UDP: doable, but
+> at a lower=E2=80=91level approach.
+>
+> As for the idea of gpio=E2=80=91virtio, which could be an optional soluti=
+on that certain customers
+> might prefer. I recall hearing this idea from Mathieu originally, though =
+I=E2=80=99m not sure whether
+> he plans to implement it.
+>
 
-On Mon, Feb 23, 2026 at 11:26:40PM +0100, Stefano Brivio wrote:
-> Hi Simon,
-> 
-> It all makes sense to me at a quick look, I have just some nits and one
-> more substantial worry, below:
-> 
-> On Fri, 20 Feb 2026 00:55:14 +0100
-> Simon Baatz via B4 Relay <devnull+gmbnomis.gmail.com@kernel.org> wrote:
-> 
-> > From: Simon Baatz <gmbnomis@gmail.com>
-> > 
-> > By default, the Linux TCP implementation does not shrink the
-> > advertised window (RFC 7323 calls this "window retraction") with the
-> > following exceptions:
-> > 
-> > - When an incoming segment cannot be added due to the receive buffer
-> >   running out of memory. Since commit 8c670bdfa58e ("tcp: correct
-> >   handling of extreme memory squeeze") a zero window will be
-> >   advertised in this case. It turns out that reaching the required
-> >   "memory pressure" is very easy when window scaling is in use. In the
-> >   simplest case, sending a sufficient number of segments smaller than
-> >   the scale factor to a receiver that does not read data is enough.
-> > 
-> >   Since commit 1d2fbaad7cd8 ("tcp: stronger sk_rcvbuf checks") this
-> >   happens much earlier than before, leading to regressions (the test
-> >   suite of the Valkey project does not pass because of a TCP
-> >   connection that is no longer bi-directional).
-> 
-> Ouch. By the way, that same commit helped us unveil an issue (at least
-> in the sense of RFC 9293, 3.8.6) we fixed in passt:
-> 
->   https://passt.top/passt/commit/?id=8d2f8c4d0fb58d6b2011e614bc7d7ff9dab406b3
+As Daniel pointed out, gpio-virtio is already available and already
+includes a protocol that is generic - no need to redefine a new one as
+this set is trying to.
 
-This looks concerning: It seems as if just filling the advertised
-window triggered the out of memory condition(?).  Am I right in
-assuming that this happened with the original 1d2fbaad7cd8, not the
-relaxed version of tcp_can_ingest() from f017c1f768b?
+As mentioned in a previous email, I understand some implementations
+will have restricted memory and need to use RPMSG.  For those cases a
+generic rpmsg-gpio protocol should be derived from gpio-virtio that
+would only deal with breaking down the standard gpio-virtio protocol
+into something digestible by RPMSG.  That was Bjorn's point in an
+earlier message.  This will allow to use the same interface and be
+flexible in how we want to talk to the transport medium, i.e pure
+gpio-virtio or rpmsg-gpio.
 
-> 
-> > - Commit b650d953cd39 ("tcp: enforce receive buffer memory limits by
-> >   allowing the tcp window to shrink") addressed the "eating memory"
-> >   problem by introducing a sysctl knob that allows shrinking the
-> >   window before running out of memory.
-> > 
-> > However, RFC 7323 does not only state that shrinking the window is
-> > necessary in some cases, it also formulates requirements for TCP
-> > implementations when doing so (Section 2.4).
-> > 
-> > This commit addresses the receiver-side requirements: After retracting
-> > the window, the peer may have a snd_nxt that lies within a previously
-> > advertised window but is now beyond the retracted window. This means
-> > that all incoming segments (including pure ACKs) will be rejected
-> > until the application happens to read enough data to let the peer's
-> > snd_nxt be in window again (which may be never).
-> > 
-> > To comply with RFC 7323, the receiver MUST honor any segment that
-> > would have been in window for any ACK sent by the receiver and, when
-> > window scaling is in effect, SHOULD track the maximum window sequence
-> > number it has advertised. This patch tracks that maximum window
-> > sequence number throughout the connection and uses it in
-> > tcp_sequence() when deciding whether a segment is acceptable.
-> > Acceptability of data is not changed.
-> > 
-> > Fixes: 8c670bdfa58e ("tcp: correct handling of extreme memory squeeze")
-> > Fixes: b650d953cd39 ("tcp: enforce receive buffer memory limits by allowing the tcp window to shrink")
-> > Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
-> > ---
-> >  Documentation/networking/net_cachelines/tcp_sock.rst       |  1 +
-> >  include/linux/tcp.h                                        |  1 +
-> >  include/net/tcp.h                                          | 14 ++++++++++++++
-> >  net/ipv4/tcp_fastopen.c                                    |  1 +
-> >  net/ipv4/tcp_input.c                                       |  6 ++++--
-> >  net/ipv4/tcp_minisocks.c                                   |  1 +
-> >  net/ipv4/tcp_output.c                                      | 12 ++++++++++++
-> >  .../selftests/net/packetdrill/tcp_rcv_big_endseq.pkt       |  2 +-
-> >  8 files changed, 35 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/Documentation/networking/net_cachelines/tcp_sock.rst b/Documentation/networking/net_cachelines/tcp_sock.rst
-> > index 563daea10d6c5c074f004cb1b8574f5392157abb..fecf61166a54ee2f64bcef5312c81dcc4aa9a124 100644
-> > --- a/Documentation/networking/net_cachelines/tcp_sock.rst
-> > +++ b/Documentation/networking/net_cachelines/tcp_sock.rst
-> > @@ -121,6 +121,7 @@ u64                           delivered_mstamp        read_write
-> >  u32                           rate_delivered                              read_mostly         tcp_rate_gen
-> >  u32                           rate_interval_us                            read_mostly         rate_delivered,rate_app_limited
-> >  u32                           rcv_wnd                 read_write          read_mostly         tcp_select_window,tcp_receive_window,tcp_fast_path_check
-> > +u32                           rcv_mwnd_seq            read_write                              tcp_select_window
-> >  u32                           write_seq               read_write                              tcp_rate_check_app_limited,tcp_write_queue_empty,tcp_skb_entail,forced_push,tcp_mark_push
-> >  u32                           notsent_lowat           read_mostly                             tcp_stream_memory_free
-> >  u32                           pushed_seq              read_write                              tcp_mark_push,forced_push
-> > diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-> > index f72eef31fa23cc584f2f0cefacdc35cae43aa52d..5a943b12d4c050a980b4cf81635b9fa2f0036283 100644
-> > --- a/include/linux/tcp.h
-> > +++ b/include/linux/tcp.h
-> > @@ -271,6 +271,7 @@ struct tcp_sock {
-> >  	u32	lsndtime;	/* timestamp of last sent data packet (for restart window) */
-> >  	u32	mdev_us;	/* medium deviation			*/
-> >  	u32	rtt_seq;	/* sequence number to update rttvar	*/
-> > +	u32	rcv_mwnd_seq; /* Maximum window sequence number (RFC 7323, section 2.4) */
-> 
-> Nit: tab between ; and /* for consistency (I would personally prefer
-> the comment style as you see on 'highest_sack' but I don't think it's
-> enforced anymore).
+Fortunately RPMSG already uses channels to differentiate between
+traffic, no need to multiplex everything on the same channel.  That
+too needs to go.
 
-Thanks, I missed that.
- 
-> Second nit: mentioning RFC 7323, section 2.4 could be a bit misleading
-> here because the relevant paragraph there covers a very specific case of
-> window retraction, caused by quantisation error from window scaling,
-> which is not the most common case here. I couldn't quickly find a better
-> reference though.
+> As the chip vendor, NXP=E2=80=99s role is to provide all possible options=
+ and let customers choose
+> the approach that best fits their needs; we don=E2=80=99t make that decis=
+ion for them.
 
-I agree, but there is a part that, I think, is more generally
-applicable:
+As kernel maintainers, our role is to advise on designs that are
+generic, simple, maintainable and stand the test of time.
 
-2.4.  Addressing Window Retraction
-
-   [ specific window retraction case introduction removed ]
-   ... Implementations MUST ensure that they handle a shrinking
-   window, as specified in Section 4.2.2.16 of [RFC1122].
-
-   For the receiver, this implies that:
-
-   1)  The receiver MUST honor, as in window, any segment that would
-       have been in window for any <ACK> sent by the receiver.
-
-   2)  When window scaling is in effect, the receiver SHOULD track the
-       actual maximum window sequence number (which is likely to be
-       greater than the window announced by the most recent <ACK>, if
-       more than one segment has arrived since the application consumed
-       any data in the receive buffer).
-
-There is no "When window scaling is in effect," on the first
-requirement. And it "happens" to be implementable by the second
-requirement (with or without window scaling).
-
-I think an improvement could be to refer to the receiver requirements
-specifically here.
-
-> More importantly: do we need to restore this on a connection that's
-> being dumped and recreated using TCP_REPAIR, or will things still work
-> (even though sub-optimally) if we lose this value?
-> 
-> Other window values that *need* to be dumped and restored are currently
-> available via TCP_REPAIR_WINDOW socket option, and they are listed in
-> do_tcp_getsockopt(), net/ipv4/tcp.c:
-> 
-> 		opt.snd_wl1	= tp->snd_wl1;
-> 		opt.snd_wnd	= tp->snd_wnd;
-> 		opt.max_window	= tp->max_window;
-> 		opt.rcv_wnd	= tp->rcv_wnd;
-> 		opt.rcv_wup	= tp->rcv_wup;
-> 
-> CRIU uses it to checkpoint and restore established connections, and
-> passt uses it to migrate them to a different host:
-> 
->   https://criu.org/TCP_connection
-> 
->   https://passt.top/passt/tree/tcp.c?id=02af38d4177550c086bae54246fc3aaa33ddc018#n3063
-> 
-> If it's strictly needed to preserve functionality, we would need to add
-> it to struct tcp_repair_window, notify CRIU maintainers (or send them a
-> patch), and add this in passt as well (I can take care of it).
-
-Thanks for the pointer, I missed that tp->rcv_wnd update.  Could the
-following happen when checkpointing/restoring?
-
-1. A client app opens a connection and writes (blocking) a specific amount
-   of data before doing any reads.  (Not very clever, but this is
-   supposed to work; this is what caused the problem in the Valkey
-   tests.)
-2. The traffic pattern causes an out-of-memory condition for the
-   receive buffer; we see the RWIN 0 segments that do not ack the
-   last data segment(s).
-3. TCP connection is checkpointed and restored (on the client side) without
-   restoring rcv_mwnd_seq.
-4. If the receive buffer is still full at the new location, the
-   acceptable sequence numbers in the receive window will not change
-   (restored client is still blocked on write) and we no longer have
-   the larger max receive window -> the client's kernel will reject
-   all incoming packets and the connection is stuck.
-
-If this scenario is possible, I'd argue that rcv_mwnd_seq is
-necessary.
-
-> Strictly speaking, in case, this could be considered a breaking change
-> for userspace, but I don't see how to avoid it, so I'd just make sure
-> it doesn't impact users as TCP_REPAIR has just a couple of (known!)
-> projects relying on it.
-> 
-> An alternative would be to have a special, initial value representing
-> the fact that this value was lost, but it looks really annoying to not
-> be able to use a u32 for it.
-
-Do we need a dedicated value indicating that rcv_mwnd_seq is not
-present, or is it enough to choose an initial rcv_mwnd_seq based on
-the size of the struct passed?  Both seem doable to me:
-
-Missing: Initialize rcv_mwnd_seq = rcv_wup + rcv_wnd (possibly
-leading to the problem described above, of course)
-
-Default value 0: Store how much we retracted the window, i.e. 
-rcv_mwnd_seq - (rcv_wup + rcv_wnd). 0 means the window was not
-retracted and could double as the "we don't know" value.
-
-For the time being, I will just initialize rcv_mwnd_seq to rcv_wup +
-rcv_wnd in tcp_repair_set_window() to keep status quo. Of course,
-I am happy to discuss enhancements.
- 
-> Disregard all this if the correct value is not strictly needed for
-> functionality, of course. I haven't tested things (not yet, at least).
-> 
-> >  	u64	tcp_wstamp_ns;	/* departure time for next sent data packet */
-> >  	u64	accecn_opt_tstamp;	/* Last AccECN option sent timestamp */
-> >  	struct list_head tsorted_sent_queue; /* time-sorted sent but un-SACKed skbs */
-> > diff --git a/include/net/tcp.h b/include/net/tcp.h
-> > index 40e72b9cb85f08714d3f458c0bd1402a5fb1eb4e..e1944d504823d5f8754d85bfbbf3c9630d2190ac 100644
-> > --- a/include/net/tcp.h
-> > +++ b/include/net/tcp.h
-> > @@ -912,6 +912,20 @@ static inline u32 tcp_receive_window(const struct tcp_sock *tp)
-> >  	return (u32) win;
-> >  }
-> >  
-> > +/* Compute the maximum receive window we ever advertised.
-> > + * Rcv_nxt can be after the window if our peer push more data
-> 
-> s/push/pushes/
-> 
-> s/Rcv_nxt/rcv_nxt/ (useful for grepping)
-
-tcp_max_receive_window() is an adapted copy of
-tcp_receive_window() above. But it makes sense to improve it.
-
-> 
-> > + * than the offered window.
-> > + */
-> > +static inline u32 tcp_max_receive_window(const struct tcp_sock *tp)
-> > +{
-> > +	s32 win = tp->rcv_mwnd_seq - tp->rcv_nxt;
-> > +
-> > +	if (win < 0)
-> > +		win = 0;
-> 
-> I must be missing something but... if the sequence is about to wrap,
-> we'll return 0 here. Is that intended?
-> 
-> Doing the subtraction unsigned would have looked more natural to me,
-> but I didn't really think it through.
-
-The substraction is unsigned and the outcome is interpreted as
-signed. And as mentioned, it is copied with pride ;-)
- 
-> > +	return (u32) win;
-> 
-> Kernel coding style doesn't usually include a space between cast and
-> identifier.
-
-Yes, same reason as above and I will change it.
-
-
--- 
-Simon Baatz <gmbnomis@gmail.com>
+>
+> Thanks,
+> Shenwei
+>
+> >
+> > If not, it would be good to derive a generic rpmsg-gpio protocol from t=
+he virtio
+> > protocol, and land implementations of this in e.g. Linux and Zephyr to =
+establish
+> > that option.
+> >
+> > Regards,
+> > Bjorn
+> >
+> > >
+> > > In the end, I am just trying to influence the direction for RPMsg, bu=
+t
+> > > based on the discussions in this thread, it seems others share simila=
+r
+> > > expectations, which should probably be taken into account as well.
+> > >
+> > > Thanks and Regards,
+> > > Arnaud
+> > >
+> > >
+> > > I just want to
+> > >
+> > > >
+> > > > Yours,
+> > > > Linus Walleij
+> > >
