@@ -1,148 +1,119 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABFE12B9BA
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 00:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771891288; cv=pass; b=MgpCLpja4xenUm7/dG+/NAzzx9cdiBHzbt7yNpdIoiRdlgztDDrOHjeEB4mP62PaW9tg0CrqH9I+sWXBDXQ/O95RH3OZqBhnUxY5lyiKFlou8bkeHFI5tqQtqoqG/miFhqsPAXUG/m5eoBjrjHvntOdyW5VAELDWls8vUw4Fewc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771891288; c=relaxed/simple;
-	bh=aTxboB9GucgmRPcQO44MW8P/VNQdv72V6gXQcbjiD4I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mpO00VeI9lJ5tui2KRIdsixBYOk/TPwY9Wsbzv5oqjsElKKN9mSckWHguEMhdsH+QxgJ6/HugyX+lAySOtWv+gguLSAzJwmb+fe51ai4IZZSNNm6dH8sJtVt+gc7FLU/Q72EodTPy/urrWKplLN4hPXyYpVRbnPB0VAgGQp22EM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kbdryrbW; arc=pass smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CD512135B8
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 00:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771892652; cv=none; b=uS3cXHDj/T5vbspHr5AMF15/vXHoKXIGKGl1yUiY0AksQlgDAqWFKCLeTUEk6edkCZyrAhuDGqAa7ifK2R9CcX42fXmIS3lcVuImWQBRFw9NuqEwy47+8i1n1CW5LwkjZ93Y/Y47i1x8AG9pY05a3NDHf5YJdo+/HD4OlYSjKYM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771892652; c=relaxed/simple;
+	bh=jKHWyDAu0xJvzI3WO6+meQgDEHUikzp88qy14INmcPk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AELyE3R25UET3xLveCEFaZausIZQ2wNjsRXPty+gm9DIcUOet5n/a2j1oP1KYxHvlDCx8TNHF07biMZZpdUWqFCM/dDl8mZ3kRqE3onm8VV5/6UzZQ4w+VBdJUBZ9aw0Y8OFVaw3LxzbkUMPpyVsUKvbuoQPxatVyW6aHlM4VE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GpogB9XA; arc=none smtp.client-ip=74.125.224.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kbdryrbW"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38708180241so38653631fa.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 16:01:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771891285; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KjGDrwfqSvvN6jdAkJhoAFXqBWFk35NChTuv5S+3sC8t+BzDHCYYKCJvOj9gZSgQRc
-         9tHDp/klu5N8CU2phoGtqiAVGLCdlkopdLBsGShJ+3drZ/GTapveDyecgD1nKk2uH8O6
-         euFJ9gGw+VMHP7kaqgcAYyXJ53tVK25yghGjRIq8uX/FPBUR2Mkpcel6OF9oIcS8TtY7
-         p1n1esLY9I3JWIoExzgQRIV6Ov5CDXiz2sjXaKwhx6ONhLaI3g6sGPdU2xXaoOmUvqG4
-         KX5QGnKlQMZ1cwZbH76Y0ZoPVcyUrqnAeWHdm1WXs/rEaax4fD54oc66J1biWMBe60wE
-         OrKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GriSu+rHCn93XDuWZWOQkqMZohlC+6Y/CRMlBkyQGvI=;
-        fh=CeM/CtZ9LIF19ZY5SaiS6QLQ5d1pDUHM49iA0i+ippA=;
-        b=WdWKL6A13Kq6UGeBZq/Ivn6LtIc6anuQlMFMZh9WVvMqx2zgWu+/IFNb9csx8tOCF0
-         6nWlPQTfqfgddF48HDIIiSksPGMPSkQqEU3/vsBKqdtXdHvCxECMIUsWE2UqKVQ3Domr
-         +9KUOtL7q7mkYJ1T8RIDN8YP4w4P58Y0/XCSAMmx60XrdBva8++Y9uWK0AkOoaEqNqp9
-         t2eTOBCDZm1O4PxiZBolA7EQBIF7vujBByotRhxu2D7LH5SmmAZhD7RaRUaABhWTrICF
-         Q4ety+99J5CnRb/OTeWWCJnpqb7tep0M6OEHQ5xpIqiWKifL1EJeKyZiYgoMP67piL5B
-         UwUg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GpogB9XA"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-64c9707fc11so743120d50.2
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 16:24:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771891285; x=1772496085; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GriSu+rHCn93XDuWZWOQkqMZohlC+6Y/CRMlBkyQGvI=;
-        b=kbdryrbWSHHGm5iTQP90PmBJfqS6sz6+HaWhcI5gmuaBT/st9JgTmvff1uccm2oXX2
-         Ujaryx+/uNxY5D1tnjOZACsbEQLejgaRR+D8/XrwNcQ1ivGf/IieQnqx1CqWFUwcJMrk
-         80mMdPGTjFjai52mrSqnyfVanhWjQ1JhuscFG9RB8freLq7X+CFQaQuyycQ3dYOnWDgq
-         bZYHsZu5rK2V8qr2DSRL1jPiXSmcV+Fz1s/1KmGV+FYnTeDc3DIYq21U1B1mrxC0rMX7
-         sYuMk0buDVYZv8NmVJoWZoT3cwVw/6K9+qJdRdbFvNVxL82YlJoCRCexFGbrtSnZt6ZP
-         1mIQ==
+        d=gmail.com; s=20230601; t=1771892650; x=1772497450; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=u1akxnV01TuuqkqVdn8oJReBwARp0bMrNePNSdt98A4=;
+        b=GpogB9XAYZVLqYAmNIO3FrVFQhmoujs+FpP+4b4mJiQxMSpUhpo8OwTsalI1EAz5ur
+         FDKD6SSIPbopYVEceVSXKj3gzfrTiKdP0+3Ub6uiMB1ddrs1Fu+cK0zFxTWqfA1p8xWC
+         txJfEn33rZ6JzxMxxuA6/QrDQqfcZRaNXpgcgCSmInhIkhcmYhgtfgA8Gid0msMlNcXz
+         JKBczHy9aVSGRKZKrxwgLCBLNbVUrbZHlQHqRTPyxUdV3UJi+dkZe8fwFoAsw3Jk/4Oz
+         UTt8OAJtk/+0IWTu2oGeGp+fgfSqocrq5h519eM/4FaHGro3RfgStDuRzcEsOwR0S3oc
+         hl+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771891285; x=1772496085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GriSu+rHCn93XDuWZWOQkqMZohlC+6Y/CRMlBkyQGvI=;
-        b=s4+meaG2SS4KyWcVGrLMLPj2DFWBI7CxqjbFf1DSHkKAa7XjptJc6KMTxmyRyqdBE7
-         kaZhnf7tOz9bl7437RHa8t3+vud0w5+gsSzdMxT15IWuYP//vfsBitGqTKj10xhsc0gT
-         UY9yKrAR7hQe8nAmPnkpHRot3On99e9wl73wDcKgyegUWj0+xjvhrsyvJQ6V41GNDB2Y
-         +Yvm74SW4+Wc2LrEK2AE+rZ82wEN2gzgsA6bLHHWfRGPqaOjaflnzdztz+f4F37+qp5Z
-         9sKOTDnVLX5GPUPYKcBdlqqUo8CNh8bCUojCa1UqSzgVPW7V0Kbn/8Bq23wRJssEqEBQ
-         RWfg==
-X-Forwarded-Encrypted: i=1; AJvYcCWXJX/a8dW9MDcxTFICQ7ruSZZ1M17zZD44VTCZnPF5JkQeZfBhpECOD6HPJWsieCVz1Us1FhFapuo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBceFwFVPI9lHPwXrxdXBCpBo2dlWwkrxIbo3SvNh20Ur/Y9wr
-	CaOPZUCkZs5JjhsS5lioPKX7tiAk2GbWocJbBBY0eOzAzkPv3mZzKXqNJbw/J2llCzBcU9UCF7P
-	+BBSu6JwQA1Gh1vdxZYOyx31QVdDKgxrWTsdfsXW7
-X-Gm-Gg: ATEYQzzFSeK2mvKoQ44ki8nnQh6v2JZZPJEuqiBUbsLSTJZcfuGOdm7wI1hpufGOGUF
-	AlWUZEVkcrQSProoYRvORJOVD+7wNrszf9YiyFeWNJ8LX/Z51M9KBO737WjEsHEBoll3SI5B0RA
-	mKaACIEcHCml8bJ8XTdPMM/rfTeeqqXqyEv+yIzktHCR6XfOQumuurfXpXhgZBMTD6okqoVdWfz
-	hEcrxTLytptdlsj7JgYpH04Vlt9JiI263mcUFQv1RDoRwSrVlB85IC9JJulymo9aXNPoii8yXIT
-	rXGkj6w=
-X-Received: by 2002:a05:651c:305b:b0:37c:c84a:99b9 with SMTP id
- 38308e7fff4ca-389a5dbcff8mr25152861fa.24.1771891284261; Mon, 23 Feb 2026
- 16:01:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1771892650; x=1772497450;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u1akxnV01TuuqkqVdn8oJReBwARp0bMrNePNSdt98A4=;
+        b=wQb8uOkM2AcI1GkVpLy9oiPVNC83HfpVtIQjM0f+aKnayx/VsszH1ReaIqaLbkCFIj
+         VqVe07UkMKdGY3vkXSJ7V+7me1GvzAhWGv2gb5ZEZKG2fmU9nbabgnKVsC3gSt99A2iO
+         gIYEnFIHOpYkJrspWrvTAd+UXUH2dG6jjxpHHhfNjZgCU+MbRcrx7W0tpDEZ7NUfr7/1
+         5eZy+pXioNrkKY0WR9OH+w/7CXokhTX9yTS+m3wraXGrqH1cBtZx6PZggvnOKp/oY1X6
+         gbFnvCnheV3A6CS8fOf68Sl0Sk/5amdaqST+4XsbTjZVPcLVnksepqD0tAM0UClyCpsL
+         tRhg==
+X-Forwarded-Encrypted: i=1; AJvYcCVZNhqb2colDirq1yxlMPR+7qkrlJ7CSPEX5xyzRcpQ5iCGJi3BG+vUjmRnHFBDeKXs2lJ7Sa6/vyM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOa+jxv+dPu1l8iAnGmkR8oydgBTS9p98SonuBnURt/WPE7xFh
+	c5qvb7o4vN+0gQWo7KRkRht5cRacuBJfaAyr/Z46ajyUr05uIY7wJh6r
+X-Gm-Gg: ATEYQzx8dQ/7GHSh7F8UL8ELbBapNbem7z7sffR07SaF3obsHfUB+Wa8TMpZiW9y6KE
+	eFlJBnPjM3kRmcow852WqhDussYoJWM2F06seMiE7pWgnc0GcWabrTagXkCxrvrG5xtzawmSzO8
+	gCrQWuEiC4eSHCoOq34oP0VUDCe9Npx/Nhd7WMmWJBRjtDTV9MMBpdtn1zXR4D7tQXfCzi8nm1e
+	UCU3vSsZDs3nZ2ADN+bsi6g8yLmKrnxRRa21dEeHUoXbMw3rlpYm0bt9RVjWis5Hiw/qGd+RSqz
+	J8+M3jSSttNx4IOQFIFQpfuFVJ/Cvz5fotC5LkAxLXKmKQG4BbcMjiHM+/hNiR0UxvsQojLlP9I
+	JWKk5iV9YXWNFcXXYbzDLkxGjeycHJbAXQgLaBUAJtQTqNyH2nbr4SMElFrwX9pyL7dHUMes2pW
+	rcfGOzYh4L6QrR6PvLztfdppvKMjJ7PTnuXodYLnuI2fkhnFE=
+X-Received: by 2002:a05:690e:4149:b0:649:4906:770a with SMTP id 956f58d0204a3-64c788d2821mr7812527d50.8.1771892650119;
+        Mon, 23 Feb 2026 16:24:10 -0800 (PST)
+Received: from devvm11784.nha0.facebook.com ([2a03:2880:25ff:41::])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64c7a35d839sm3891935d50.13.2026.02.23.16.24.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Feb 2026 16:24:09 -0800 (PST)
+Date: Mon, 23 Feb 2026 16:24:07 -0800
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: Stefano Garzarella <sgarzare@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Bobby Eshleman <bobbyeshleman@meta.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	kuniyu@google.com, ncardwell@google.com,
+	Daan De Meyer <daan.j.demeyer@gmail.com>
+Subject: Re: [PATCH net v3 2/3] vsock: lock down child_ns_mode as write-once
+Message-ID: <aZzvp52L4smGF7cM@devvm11784.nha0.facebook.com>
+References: <20260223-vsock-ns-write-once-v3-0-c0cde6959923@meta.com>
+ <20260223-vsock-ns-write-once-v3-2-c0cde6959923@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260129212510.967611-1-dmatlack@google.com> <20260129212510.967611-3-dmatlack@google.com>
- <4mbhcmimhin2ulz57mbzpe5p5dkhfziiyep5k3vgls4zmom3sb@g6jlouyvmpuz>
- <CALzav=eXY=ZBshmpi9axt+_0SxaAm0Xbo7w==nCWJwKK3xcThw@mail.gmail.com> <574e4wq43zm5tyfvvtjfvzqlhoyijcgvvk7gptghrx3ofq5ck2@l2q7xbmtibbq>
-In-Reply-To: <574e4wq43zm5tyfvvtjfvzqlhoyijcgvvk7gptghrx3ofq5ck2@l2q7xbmtibbq>
-From: David Matlack <dmatlack@google.com>
-Date: Mon, 23 Feb 2026 16:00:56 -0800
-X-Gm-Features: AaiRm52Dp6IBp6nUtMfXlMTK93T1cVz8F1V8LZFFdJp40no7f29X-MFiBmci9Nk
-Message-ID: <CALzav=c1P7aoGzhSuGsFi6VYsNjygPvBR5jWXb9uqbJ+3MqARQ@mail.gmail.com>
-Subject: Re: [PATCH v2 02/22] PCI: Add API to track PCI devices preserved
- across Live Update
-To: Samiullah Khawaja <skhawaja@google.com>
-Cc: Alex Williamson <alex@shazbot.org>, Adithya Jayachandran <ajayachandra@nvidia.com>, 
-	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
-	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260223-vsock-ns-write-once-v3-2-c0cde6959923@meta.com>
 
-On Mon, Feb 23, 2026 at 3:43=E2=80=AFPM Samiullah Khawaja <skhawaja@google.=
-com> wrote:
->
-> On Mon, Feb 23, 2026 at 03:08:19PM -0800, David Matlack wrote:
-> >On Mon, Feb 23, 2026 at 2:04=E2=80=AFPM Samiullah Khawaja <skhawaja@goog=
-le.com> wrote:
-> >> On Thu, Jan 29, 2026 at 09:24:49PM +0000, David Matlack wrote:
-> >
-> >> >Drivers can notify the PCI subsystem whenever a device is preserved a=
-nd
-> >> >unpreserved with the following APIs:
-> >> >
-> >> >  pci_liveupdate_outgoing_preserve(pci_dev)
-> >> >  pci_liveupdate_outgoing_unpreserve(pci_dev)
-> >>
-> >> nit: Preserve and Unpreserve can only be done from outgoing kernel, ma=
-ybe
-> >> remove the "outgoing" from the function name.
-> >
-> >That's reasonable, I can make that change in v3.
->
-> I should have added it earlier, but the same applies to the
-> pci_liveupdate_incoming_finish() as it can only be done with incoming
-> kernel. Maybe we can remove incoming from it also for consistency?
+On Mon, Feb 23, 2026 at 02:38:33PM -0800, Bobby Eshleman wrote:
+> From: Bobby Eshleman <bobbyeshleman@meta.com>
+> 
+> Two administrator processes may race when setting child_ns_mode as one
+> process sets child_ns_mode to "local" and then creates a namespace, but
+> another process changes child_ns_mode to "global" between the write and
+> the namespace creation. The first process ends up with a namespace in
+> "global" mode instead of "local". While this can be detected after the
+> fact by reading ns_mode and retrying, it is fragile and error-prone.
+> 
+> Make child_ns_mode write-once so that a namespace manager can set it
+> once and be sure it won't change. Writing a different value after the
+> first write returns -EBUSY. This applies to all namespaces, including
+> init_net, where an init process can write "local" to lock all future
+> namespaces into local mode.
+> 
+> Fixes: eafb64f40ca4 ("vsock: add netns to vsock core")
+> Suggested-by: Daan De Meyer <daan.j.demeyer@gmail.com>
+> Suggested-by: Stefano Garzarella <sgarzare@redhat.com>
+> Co-developed-by: Stefano Garzarella <sgarzare@redhat.com>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 
-Yeah I can make that change as well.
+Stefano, I wasn't sure if you wanted the Co-developed-by and S-o-b on
+this iteration, but I added it just in case. Please let me know, if that
+wasn't what you intended.
 
-I was erring on the side of being overly explicity with the
-incoming/outgoing terminology, but I agree it's unnecessary in these
-APIs.
+Best,
+Bobby
