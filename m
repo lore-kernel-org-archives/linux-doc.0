@@ -1,101 +1,140 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73EC936405F
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 15:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D573B3A0E87;
+	Tue, 24 Feb 2026 15:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771946759; cv=none; b=EvkmOLHOuHd2Jz5LJDrMHm2mvku6HNa5mKBvrsexr1zvYoFCf0JJrXBBTnGZufqHSt3aXktlSXhSnxoy6TLJdh/O2Mt+qjMrNp812we5G2QY9TBaYN0vB8M7IHg+2+IlvJS5S9/12tTK6rwAqqDLg+JNSCX9plXvqPb9D+WtZrU=
+	t=1771946863; cv=none; b=scz1nKiK5eRUOvl4PWrp6F5ihtppmlLTEfRVc3mQhHw9lXKQOUGI61S2IkElF7IRKMAgHF4Ktabb4SRc8RgbbJTyh7ypu4g/j4wXydUIqEvDp6MLNFmj7nWf8yN5zte4UFLeH6xo5h0fj6PzY4mpkIrtLh+becBdnIsC/2mFUCk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771946759; c=relaxed/simple;
-	bh=QnbAFPGFthzvasBmUjYWWjZFAYjww/ilHVXgXGc5JRM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GRQOTIIZyvlu3s5M64Q/+an9sGEI31S0VAyF03dSeL60v169f5JpHbXAWGmphspFAOqhaNUvRVfWEkdB2gFVKtu57SO6Zpy5XNkj0QeTQ9HwRAedopCRLriHuvwMm1FGscTstDYwUMJhVS3HX7V9qXdJXFsX+qqC2NwCMZZqoFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aN/i+j6a; arc=none smtp.client-ip=74.125.82.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aN/i+j6a"
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1277e072e2dso150439c88.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 07:25:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771946758; x=1772551558; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vrV9BhMxEEs17TmWJHa8CNzBUwr0TwzU8O3qC1THpDI=;
-        b=aN/i+j6a5JD5cyFWNNDYDTYXIAOZOhLz+ChjE/yEnqjRkzrNuNwkcbUNECkqJBg1pE
-         DFTXvgJkiTnXeZs6X3rsZ9C2BHAbOU567iPIiPwpmFUzp745ZQTOaiq0cSlRYthDDE9c
-         Cxsn8h+8onogw4XCMPNJLQJcCiPLBWbnZVobUlOdIx0gm5xIEJUOlthbEWG1AV1IpQan
-         1xWpF4GOyaC0cJ42rgsNE37sGPd66fqpT+AACgpPEl5yezMuhtV5vxVqV/Zo8088lF9C
-         A0d/3gUDI4jTs8s+q4RwNZTS6FP+rUHkE6Aa44QKSOTGANwBOAH5EgyhFfctmzkHKXKj
-         86ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771946758; x=1772551558;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vrV9BhMxEEs17TmWJHa8CNzBUwr0TwzU8O3qC1THpDI=;
-        b=rFlzT+AZ0b2p205eESr6KplThMKGKw/XeqIjaCgJs9ReL3TmTDnnItJvd9Zbv7bioY
-         0juV9Y2SnnRGE0CJPlLu0MV//KWGKuXhFuDrglNnyAtgTBGabVz0WNFM+rR4rYoYkdOA
-         Pmme7CDOHaN6dXqFPi00WHsxsYIDyFVwNkz9PogJ/uVXfskJbYPqBHLc6c/2Syn+H8/0
-         2zrS/8ptPOx0vQu1NlXrPBe+7IwVm9xAhFnroWbNzFvKKHRblSxS+goZuISxnzFmFmRD
-         XvHUmoeKf0BNusOA78jO4vFdSyvjGRxYn/GX/t8vLJsRiriqB9kknp/Nw4gkbKHuqFbl
-         LqEg==
-X-Forwarded-Encrypted: i=1; AJvYcCUO//GCsB4IEeyj2ShePQT3pOX591gRBVtVCXUXXd+zaC2/joXGqWKqwSbjjxBYbmzQ6TH7StQ8/90=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl9aDN0JBjGb+UIO/lOFi0u4refoOUFxwrNhHZhIpFqX28LN+5
-	Rzjqla7fuNmjzOtMntwrHdu6Pa3b+jIskO36RCq4A/ZTXKehSNNEeSrK
-X-Gm-Gg: AZuq6aLaxItL/G/SCldwE2Z6kKKHmbvOz4hvXaeeFgwF0Bl1eJ0HZbW8BdjoZAvo4f8
-	QORV32W4BJ5yzu+aROx+v1vmkW3s4evvYf4+KWRR+VoEnfEvkH5zyO0Txu8pi1V9+VJLzvZ3wb/
-	DIm4qhHfR62NnTsfXUUZBDPR5WBrgOk+jpFovdLNBG5gUWEz4TGN/X1UoE/ZjkD6PoUDG7W9TU8
-	OZmE7cqAVsdUcqtaQ0kIMSShs5G1ZVsP/BJtd14qxXp7ZmklauGdH9/Z0hDihgWE+JAgseXCdDD
-	5+bc0eeHJFxFwM6aDp8D7fPMqbgoQazJDbpVNtBtbFWdFLw8zKtAq+uvMxPIOBtuj3sAD/PCTa8
-	vUfFQnY4uUcz1n8kMkzp14OVMZGM2NCuLdzpVKSg6U/6jv1P3caIyNo1bTYnCHXsauMR51lPnUH
-	SVyPlRYCKojYV64DqydjdBJOsvdP68kt/OTkZ6
-X-Received: by 2002:a05:7022:421:b0:11b:ca88:c4f1 with SMTP id a92af1059eb24-1277f5606afmr123769c88.20.1771946757470;
-        Tue, 24 Feb 2026 07:25:57 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1276af7ae99sm10658338c88.10.2026.02.24.07.25.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 07:25:56 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 24 Feb 2026 07:25:55 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Michael Walle <mwalle@kernel.org>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Tero Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/8] Revert "hwmon: add SMARC-sAM67 support"
-Message-ID: <05db17b0-d9f0-478d-bbe6-1efdd9802abc@roeck-us.net>
-References: <20260223100459.844967-1-mwalle@kernel.org>
- <20260223100459.844967-4-mwalle@kernel.org>
+	s=arc-20240116; t=1771946863; c=relaxed/simple;
+	bh=kCAs/oCGGe3PuDL/CDky+AOuTk5NdR+Ta2wpSay6QFc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=lDYwKOkKfVghWJqpGWVF0ih3VVGsRAQbm4FoohrjGvcXgr6X/ceicGgeWcGHRM7LYAYsGwovgMx0VzJiOE2tudre8/hCWTlDVc9/xypTuk1rb0UDPDUC+w4kiGXNARNRWAMMceu0JkK8dYdM7+1g2lOF2Qd/+8SLEhnpg9w+NoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A80A2339;
+	Tue, 24 Feb 2026 07:27:28 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD7AF3F59E;
+	Tue, 24 Feb 2026 07:27:29 -0800 (PST)
+Message-ID: <78af29ea-772a-4fbb-8a34-dbc2760d6415@arm.com>
+Date: Tue, 24 Feb 2026 15:27:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260223100459.844967-4-mwalle@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/41] arm_mpam: Add KVM/arm64 and resctrl glue code
+From: Ben Horgan <ben.horgan@arm.com>
+To: Zeng Heng <zengheng4@huawei.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
+ jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ linux-doc@vger.kernel.org, Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+ <9945d28e-f1f2-e11a-1481-8d80167d6f89@huawei.com>
+ <b844c632-c8fc-48f1-b347-07f166019b22@arm.com>
+ <28dbde39-5b21-5f2f-59f5-4500c8b0296d@huawei.com>
+ <2f2410a0-69dd-4da5-bd84-d168ba6b0605@arm.com>
+Content-Language: en-US
+In-Reply-To: <2f2410a0-69dd-4da5-bd84-d168ba6b0605@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 23, 2026 at 11:04:48AM +0100, Michael Walle wrote:
-> This reverts commit 443b39c82c322c9f3c38bea0389fe927ba00b3b4.
+Hi Zeng,
+
+On 2/24/26 14:19, Ben Horgan wrote:
+> Hi Zeng,
 > 
-> I was just informed that this product is discontinued (without being
-> ever released to the market). Pull the plug and let's not waste any more
-> maintainers time.
+> On 2/24/26 11:03, Zeng Heng wrote:
+>> Hi Ben,
+>>
+>> On 2026/2/16 20:22, Ben Horgan wrote:
+>>> Hi Zeng,
+>>>
+>>> On 2/14/26 09:40, Zeng Heng wrote:
+>>>> Hi Ben,
+>>>>
+>>>> On 2026/2/4 5:43, Ben Horgan wrote:
+>>> [...]
+>>>>>
+>>>>> Based on:
+>>>>> [1] git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
+>>>>> (To include telemetry code which changes the resctrl arch interface)
+>>>>>
+>>>>> The series can be retrieved from:
+>>>>> https://gitlab.arm.com/linux-arm/linux-bh.git mpam_resctrl_glue_v4
+>>>>> (Final commit is a fix already in 6.19-rc8)
+[...]
+>>>> [   10.978497] mpam:mpam_resctrl_pick_caches: class 255 is not a cache
+>>>> [   10.980470] mpam:mpam_resctrl_pick_mba: class 2 is before L3
+
+This debug message was removed in v4 of the series.
+v3 has it: https://lore.kernel.org/linux-arm-kernel/20260112165914.4086692-28-ben.horgan@arm.com/
+v4 doesn't: https://lore.kernel.org/linux-arm-kernel/20260203214342.584712-27-ben.horgan@arm.com/
+
+Do you know which version of the series you were running?
+
+>>>> [   10.980472] mpam:mpam_resctrl_pick_mba: class 3 has no bandwidth
+>>>> control
+>>>> [   10.997406] mpam:topology_matches_l3: class 255 component 0 has
+>>>> Mismatched CPU mask with L3 equivalent
+>>>> [   10.997411] mpam:mpam_resctrl_pick_mba: class 255 topology doesn't
+>>>> match L3
+>>>> [   10.997415] mpam:mpam_resctrl_pick_counters: class 2 is before L3
+>>>> [   11.024109] mpam:topology_matches_l3: class 3 component 276 has
+>>>> Mismatched CPU mask with L3 equivalent
+>>>> [   11.024114] mpam:class_has_usable_mbwu: monitors usable in free-
+>>>> running mode
+>>>
+>>> mbwu enabled?
+>>
+>> The fact that the number of monitors merely satisfies the conditions for
+>> free-running mode does not imply that the MBWU functionality can be
+>> successfully mounted. The specific reasons are explained above.
 > 
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> True
+> 
+>>
+>>>
+>>>> [   11.063882] mpam:topology_matches_l3: class 255 component 0 has
+>>>> Mismatched CPU mask with L3 equivalent
+>>>> [   11.113183] mpam:mpam_resctrl_alloc_domain: Skipped monitor domain
+>>>> online - no monitors
+>>>> [   11.113189] MPAM enabled with 32 PARTIDs and 4 PMGs
+>>>>
+>>>>
+>>
+>> Sorry for the late reply. And this is my first day back from a long
+>> vacation.
+> 
+> No problem. Hope you had a good holiday.
+> 
+>>
+>>
+>> Best regards,
+>> Zeng Heng
+> 
+> Thanks,
+> 
+> Ben
+> 
+> 
 
-Applied. Please let me know if there are any objections.
 
-Guenter
+Thanks,
+
+Ben
+
