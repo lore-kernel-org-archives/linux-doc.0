@@ -1,149 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059EF23AB87;
-	Tue, 24 Feb 2026 14:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA3439E6F9;
+	Tue, 24 Feb 2026 14:49:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771944067; cv=none; b=NFMUAoJh0NEq3y4nRCg7YKkS35k4KhjlWMOk9767PtfhZAO7oq6mKOu+EvTononvv7y3Ax+lNqIzX9RV5S/KID33YsHaUzp2KHL7kJ4PuwncPfYS0gkMbztryCo6TyyVrYlsmiejm87+INk6nR7Im7uubkEyu1DEsx7VgvNR/Cw=
+	t=1771944552; cv=none; b=gcgG5C7qkaaDjpQXZDnKORRvwylBL/ZyC7UXj3Kda3WTvTKXautoHeMVwHLNY+xtCltANwccF2S/XorrN5TUUpdzAMOOyzytNbexfYGbow4fgCENBEgHZ6sc3vbNMgjoyKVQSPfPU2n8dABCCaJfWkCcfabGDZNCTgEPgsODZ7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771944067; c=relaxed/simple;
-	bh=dCGqyI+rHlM3XyQ2QUXSu5nZVqUPyjQmE2WK/m+d8es=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h5lrI8a047W5XdVRh6p5pvqKyhge00qotm4+tnqi3q3fdq9JzLHvcVkY+brdPo6m5WCFiMh24VvsadHbSCWoUONs3y036CXRFHrT6WXHjR5JFfy56e6X7gHrCJ7pi6n02GWiJBxNIyfPmhCRZdqlIQ3HU3lk/FLP7AjstHDEmX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gA+g57Qa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771944552; c=relaxed/simple;
+	bh=Cj0h/WoE6OyXbWTR4iUy9JiRQBOkVFvuoUjZgQw5j7A=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=OaNYDgotK98BSDa99SsbewhgPEt9aeyXt+SI1ov1fSgBbWmO4WwSud+iIwDqt8TvPQ5RCUH3VmMulpzeVlREj6XQ2M1fzPC0tGn9mup0ezE7/RQ/3cXtMWiaQ9dDRZvRDS/KMpeV33atqdwP4MwHexIMRyh6YsgroNkoSjOOqlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=W8mDDxIh; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gA+g57Qa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 125EFC116D0;
-	Tue, 24 Feb 2026 14:41:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771944066;
-	bh=dCGqyI+rHlM3XyQ2QUXSu5nZVqUPyjQmE2WK/m+d8es=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gA+g57QadLSgYtZf5xm7d+YH2vzWtEJsVtb2Yjxr294TnnPP+klHUGgRSnbPFMw4x
-	 vN4u/6wEExddpZypJjzNjT69Biz0S7GhYqq6J0L/D89mD25k39ddaOwSfiHZFcORpB
-	 MHAPLNeeqHAbnixkSvJidVV++YvN2rxpS7uIXzEFvqc3bY9BP8iOs2FUowmNn8CRfI
-	 s/uC/D5eHcKGqEVAipY4dqrtOP1JEAMVx/Cvtg+rY5lZdhIuEVymyUaO3aPbTphh/1
-	 0Aa45VuNgSw1tFOaTKc4DSFTJ5elMVbaSEJ5PHaSLECpTUgsK5Gs42ik0H0ntIdmDW
-	 VG5P3hlMYHljA==
-Date: Tue, 24 Feb 2026 15:41:04 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, kernel@collabora.com, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 05/20] drm/display: hdmi-state-helper: Act on color
- format DRM property
-Message-ID: <20260224-hot-adaptable-sawfish-dd0f7a@houat>
-References: <20260216-color-format-v8-0-5722ce175dd5@collabora.com>
- <20260216-color-format-v8-5-5722ce175dd5@collabora.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="W8mDDxIh"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 447FC40423
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1771944550; bh=bq9B5ENJEH7dowPGCsGtps8bC8xL1zii0jUg00zaClQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=W8mDDxIhU0irhGgJNicUqrl+qQFUpA/Aqhk7fY5iPm4LiuKQc5xtdNmaSwYlqHTP8
+	 dPCl87QHuFsxxLFDrHYVRqqKKVGbOOa51nw1ptOkqo2wAC/11M9inI+Xce4AgOVon6
+	 Ohzkf1XFWW321ODYmFDhuF6cVix1TbXw7UFI1ns9fxDqIp/M8HdHqCTIbXnpwEf8wx
+	 cMhUR9/qstQhtE8y+SlcvCP4dtWMhP40u3t/iop5DLhJyEwT195sloSefT+dibHbQf
+	 REvGnRajquLAbCe1KyGTCw+AqBKiM4PDhO78DZtUVQ3bs/FfGmjwbkOqNdAizuOpjq
+	 JHhElZTL7J2ew==
+Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 447FC40423;
+	Tue, 24 Feb 2026 14:49:10 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Haowen Hu <srcres258@furdevs.cn>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs/zh_TW: update personal information
+In-Reply-To: <201bfa5f-2826-4a31-a4e6-a4cbe4dc884e@furdevs.cn>
+References: <20260220160201.41149-1-srcres258@furdevs.cn>
+ <87a4wz3z89.fsf@trenco.lwn.net>
+ <201bfa5f-2826-4a31-a4e6-a4cbe4dc884e@furdevs.cn>
+Date: Tue, 24 Feb 2026 07:49:09 -0700
+Message-ID: <87pl5u19ju.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="5cwb2y5kukdqwgqq"
-Content-Disposition: inline
-In-Reply-To: <20260216-color-format-v8-5-5722ce175dd5@collabora.com>
+Content-Type: text/plain
 
+Haowen Hu <srcres258@furdevs.cn> writes:
 
---5cwb2y5kukdqwgqq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v8 05/20] drm/display: hdmi-state-helper: Act on color
- format DRM property
-MIME-Version: 1.0
+>> And two of the handful of changes you made that year were ... changing
+>> your email address in all of those files.
+>
+> Sure. Just want to keep things synced as exactly as possible, and so
+> does the patch mean to be.
 
-On Mon, Feb 16, 2026 at 02:01:19PM +0100, Nicolas Frattaroli wrote:
-> With the introduction of the "color format" DRM property, which allows
-> userspace to request a specific color format, the HDMI state helper
-> should implement this.
->=20
-> Implement it by translating the requested drm_color_format_enum to an
-> hdmi_colorspace enum value. Auto is translated to RGB, and a fallback to
-> YUV420 is only performed if the original color format was auto.
->=20
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> ---
->  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 28 +++++++++++++++++++=
-++++--
->  1 file changed, 26 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
-u/drm/display/drm_hdmi_state_helper.c
-> index a1d16762ac7a..3ba752200984 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -649,10 +649,34 @@ hdmi_compute_config(const struct drm_connector *con=
-nector,
->  	unsigned int max_bpc =3D clamp_t(unsigned int,
->  				       conn_state->max_bpc,
->  				       8, connector->max_bpc);
-> +	enum hdmi_colorspace fmt;
->  	int ret;
-> =20
-> -	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
-> -				      HDMI_COLORSPACE_RGB);
-> +	switch (conn_state->color_format) {
-> +	case DRM_COLOR_FORMAT_ENUM_AUTO:
-> +	case DRM_COLOR_FORMAT_ENUM_RGB444:
-> +		fmt =3D HDMI_COLORSPACE_RGB;
-> +		break;
-> +	case DRM_COLOR_FORMAT_ENUM_YCBCR444:
-> +		fmt =3D HDMI_COLORSPACE_YUV444;
-> +		break;
-> +	case DRM_COLOR_FORMAT_ENUM_YCBCR422:
-> +		fmt =3D HDMI_COLORSPACE_YUV422;
-> +		break;
-> +	case DRM_COLOR_FORMAT_ENUM_YCBCR420:
-> +		fmt =3D HDMI_COLORSPACE_YUV420;
-> +		break;
-> +	default:
-> +		drm_dbg_kms(connector->dev, "HDMI does not support color format '%s'.\=
-n",
-> +			    drm_get_color_format_name(conn_state->color_format));
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc, f=
-mt);
-> +
-> +	if (conn_state->color_format !=3D DRM_COLOR_FORMAT_ENUM_AUTO)
-> +		return ret;
-> +
+I will repeat what I was saying: all of those continually changing email
+addresses are a maintenance pain.  I would really rather see a patch
+removing them, leaving credit at the top-level index.rst, as I said
+before. 
 
-This should also be greatly simplified since you don't need to deal with
-hdmi_colorspace anymore, and thus you'll just be able to use the
-construct I hinted at in the previous version.
+>> I don't think that all this churn this is reasonable, especially for a
+>> translation that appears to have been abandoned.  So I don't really want
+>> to apply this.  I would suggest you send me an alternative *removing*
+>> that information from those files, optionally leaving a credit for past
+>> work done in Documentation/translations/zh_TW/index.rst.  The question
+>> of when this translation becomes too old and should just be removed can
+>> be left for another day.
+>
+> OK, so do you mean this translation (zh_TW) is planned to be removed
+> from the entire documentation?
 
-Maxime
+There are no such plans at the moment, no.  But there does come a point
+where a translation is so obsolete that it does more harm than good and
+there are no prospects of it being updated.  
 
---5cwb2y5kukdqwgqq
-Content-Type: application/pgp-signature; name="signature.asc"
+> I'm working on the update job currently
+> for the translation to become modern, and you can have a review of my
+> rework when this is done and the patch is sent. I really want these
+> texts to be kept in the kernel documentation and they are able to
+> receive a thorough update to be suitable toward the kernel nowadays.
 
------BEGIN PGP SIGNATURE-----
+If you are working to update them, I am glad to hear that.  Please do it
+incrementally, rather than with one big patch, though.  When you have a
+file updated, go ahead and send your work.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaZ24fwAKCRAnX84Zoj2+
-dh+wAXwKmT5KayIifDoxyitEKWs6EiYUCC2SA4Bg4ruLTVA9Xs//EiWw+hYVo/kQ
-7bFTr10BgODaA1IvjwBbTyIPz0upLTeNeVbfqL/ghdTyMm5jaRR3hNM7V9lXYvtY
-SsWWbJGYdQ==
-=YUqC
------END PGP SIGNATURE-----
+Thanks,
 
---5cwb2y5kukdqwgqq--
+jon
