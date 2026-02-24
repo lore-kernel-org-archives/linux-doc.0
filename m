@@ -1,282 +1,165 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9907D2EC09B
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 19:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DB528643A;
+	Tue, 24 Feb 2026 19:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771959953; cv=none; b=BYU0MrpePxOP9T4fI/x98QuPaTz5ig6VawkMqrMkgxvvFcbcoNemK3hF1LEASP17X/Rt03vVXFbj9QNJ+qO5293/rntKXAZ6hnGCqqZkYB8MdsiBpBEIWlEzKv9WsIOp77B8tP0ighx0ZbO3nLtlHwvFYAvTF98W614KsGi3Cck=
+	t=1771960521; cv=none; b=nc/q2j82mOwBMow2VOK3LOTWoZx79LmN9gTgs/HN/fzRQ+MoOIzwL9yQ5ogwlM8Ai59ecILYD1VieD1JKCWj0FC5hKWD61jfL64bQ/YBRoRb+Ga7KooP1YYwiNpf1Orxtu5lP9UOCCtuS7bctsSgq3rdd7Ohm7GMeokYF0EU+As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771959953; c=relaxed/simple;
-	bh=zLqgOJeQ8HcmcMPj/D6Uk1/9jsKVA5Yl6xqHM2G/ipc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oigzd+oUc17DpjGQzaS7iFBOSGxcNSlKu9wNceX1lr/MxKZsLcGCAxNz3ywtRmgoK6NoVKz/a5IR643BNrw9CkBMBxHfu2Y/IFDZudPCVuO57R4U0xrUvb65BaD4cxZ1XFka5z2IQf4yrVjJsq8UemTCBrjk3LcWNuqmneQ7GVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XjJ57PV6; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1771960521; c=relaxed/simple;
+	bh=rAGbxnpKFT+1CkfQA0k7D/O3Tzw6DoraRHLRwf05jYk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=f4eFRIglZgQLz4tQHM5EvBPKrctSkbSlHdkJKh9fHmQK4JAJZagFXgTplIYWWZQmSBuokaad5BwfzHHkNo90H+0ZyH5AtVazbQ6RV7pKVxe2GQtH6whcnK187HxtbydRCWYaFqo1g7iKoP/O1cuYtYACd1oA9jFawwW+V/506SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=K/7ZhW2G; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XjJ57PV6"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ada9e4ea32so8545ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 11:05:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771959952; x=1772564752; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=y+nxktJgrzlaK8SQflM75E9Ffs6HGnnvzkBNJC6O+O8=;
-        b=XjJ57PV6eCuG03bEGDsZ1mTTjXgW7DqNA+G3Le3UkilUzXAv/s2ILGXnncw7uhLBON
-         6H4jE55Vnvcs8sMeNPgYXGftRYR1zsLUreXAjpXUvr94HRn8C4cJB7h0tUiQ4kyFRtp2
-         C59fePh3kba907GAjgNdxlBxVtaxXJ+H6mySqd4tp6OWS9K/TUMoqL0hCiOLW48HmDIn
-         WN72WF1QNt3QnJyHC7/kNKUgdjY5uJRsFkbIH2brkdsogt/KTVWXN5vExTvt7jHCBoro
-         aD6c0fZdh6rpnWV4vqLZTCa5um8CwPMjpuLzBdpWhc8kI0VbcXzKDr5vWjnNkusM1txX
-         jVTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771959952; x=1772564752;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=y+nxktJgrzlaK8SQflM75E9Ffs6HGnnvzkBNJC6O+O8=;
-        b=GjO70TJuQfE/I0AmpVa6JtapjEjLLgmcu+Liy4a7OBdZ23hZ3ynT72Xz2j8S76fziI
-         J0o6I/pvcWMZuUyFp7XBF2m6xz80unhIlPun26syUsjjH9/ZgQk2mc4daXlQ5AGuyrVS
-         biyPTvAAZ4euIi/StHV/WdOIY/Hd0jUl34n2gCImps9O4P8ebTG2mXQkezYCv42YnrHH
-         fgsQUHUAQEi+7dXYErBEweTK3sr201GSpbQOQXKc65WbhUeknGP4NwpvtJoFAiyCcM1P
-         f9ibhgAyhapJzY6gduaW+DT2omIEY1DxV7po/eULcMrwiJRYg4jLE5xLhAg31unp6FPY
-         TfIw==
-X-Forwarded-Encrypted: i=1; AJvYcCWy6X/uEHk6JWEBueGJbRiyaviLeNfWNpA1ZEjGaIcnYRChB8Phq3boNu5BGKjUa0fUN0DLKc7xyg4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYJHpJKItZOAzvvR1fOfCg/f5uISPD1vF57ZlYuSlVIFDC/4r1
-	+yjq/KFJY8f74GdTPgFPjXHHEJXgIJGcCe4cD8TX6nXzBw8rsMP80tRASb0wpKhvJg==
-X-Gm-Gg: ATEYQzzI2qV6gbQbmahKJL5IgLcLCFjaelf58lOZwkPut3DGz+npk2n0Te9eQG2y9vH
-	emAq4fdOu+q1nIS0KIS/ypz5ajoTqIfv3B4DTp/kRSIa66YdXlQ8JvahULPBEFsyY64lbDfZrSx
-	wNbcDorhxVpwUuNq3Fs4c+QyXCkXhS4xdm7hpHIJ/pX+vs580JsM2gBa/GwZ4xUfTYcmlOAfE8s
-	qR+sFul2llzcSabfD9SE+kuyh++6SzoBI2kSJyT1RFInCNihy74/0eYjfiPewFKqGEcYqeMmgPh
-	j06EhGPowaW7cf2u1ktib5idv+etW47RDKRM/95PrrgWrTl2dmLIHytHGvtAQOH6zk6mk4TCcEU
-	3OjRzhlfsk9Kj7GHBzZhvQllYS1J0W3H7/cLh5W4CtlXOpDklJcasTuwz45VMp3SbEHbXiDeAs+
-	wu64+YcSnHGEwx/UUTXs21hMATejs5mqE3k37asBDyhs/AawP3Iek77xHORhrb
-X-Received: by 2002:a17:903:3d0c:b0:297:f2a0:e564 with SMTP id d9443c01a7336-2adca83b652mr139205ad.11.1771959951330;
-        Tue, 24 Feb 2026 11:05:51 -0800 (PST)
-Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3590241e8a2sm595715a91.12.2026.02.24.11.05.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Feb 2026 11:05:50 -0800 (PST)
-Date: Tue, 24 Feb 2026 19:05:41 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
-	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Lukas Wunner <lukas@wunner.de>,
-	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Tomita Moeko <tomitamoeko@gmail.com>,
-	Vipin Sharma <vipinsh@google.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH v2 02/22] PCI: Add API to track PCI devices preserved
- across Live Update
-Message-ID: <aZ32hf3dHibfb4B5@google.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
- <20260129212510.967611-3-dmatlack@google.com>
- <aZ1svGur9IxQ7Td2@google.com>
- <CALzav=fSpd6H5pQNtJoFHdNtWVO11vffhWQFsMFkM+osGuE0wQ@mail.gmail.com>
- <aZ314HSRnYtGinTU@google.com>
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="K/7ZhW2G"
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 61EB326F67;
+	Tue, 24 Feb 2026 20:15:16 +0100 (CET)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Mpe8zN3WOjXT; Tue, 24 Feb 2026 20:15:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1771960515; bh=rAGbxnpKFT+1CkfQA0k7D/O3Tzw6DoraRHLRwf05jYk=;
+	h=From:Subject:Date:To:Cc;
+	b=K/7ZhW2GZ0V1fDSnhAM0XpeNYp744uS2Zvxo2xJCepgEvB02bgYUaH+9ypnBd67v3
+	 R5YTLdTj9pXUUKQduo/mnwmMlW2SRXLBQ1hRy68F6SH1/TQ18u+VFX5j77QVQtfM0j
+	 K2a0t6QAcOiLyUo5XBW/2nyNegpPv4SSNeGy0ZDN3OUdD55jfX09OXyEfs7OM+RdWU
+	 pTxd8/rqketyPIEo5JqleCJC5m6m/Pe6eNPiz2UZdrvzBI7jFHxIFAQUg9EXH0LRk0
+	 AqHbzJsN4kw8IyKgvzp6Kj+5+Mxqn7XgIE34a0enWsY/zhR5WTGkBgCK8cbymVphWG
+	 xrXTMlYvdohaA==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v3 00/13] Support for Samsung S2MU005 PMIC and its
+ sub-devices
+Date: Wed, 25 Feb 2026 00:45:02 +0530
+Message-Id: <20260225-s2mu005-pmic-v3-0-b4afee947603@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aZ314HSRnYtGinTU@google.com>
+X-B4-Tracking: v=1; b=H4sIALn4nWkC/13MsQ6DIBSF4VcxzKXhgqB26ns0HSiC3kExYEkb4
+ 7sXTRzseE7yfwuJNqCN5FYsJNiEEf2Yh7gUxPR67CzFNm/CGZcAwGnkw5sxSacBDWVGVU6rlzb
+ CkJxMwTr87NzjmXePcfbhu+sJtveAyjOUgDLaWAF12QrNTHNvMQbv56sPHdmoxI9cMeDqL+c5r
+ 2oHupJOlpU+5+u6/gAxAY8b6QAAAA==
+X-Change-ID: 20251112-s2mu005-pmic-0c67fa6bac3c
+To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+ Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Nam Tran <trannamatk@gmail.com>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
+ Conor Dooley <conor.dooley@microchip.com>
 
-On Tue, Feb 24, 2026 at 07:02:56PM +0000, Pranjal Shrivastava wrote:
-> On Tue, Feb 24, 2026 at 09:33:28AM -0800, David Matlack wrote:
-> > On Tue, Feb 24, 2026 at 1:18 AM Pranjal Shrivastava <praan@google.com> wrote:
-> > > On Thu, Jan 29, 2026 at 09:24:49PM +0000, David Matlack wrote:
-> > > > + * Copyright (c) 2025, Google LLC.
-> > >
-> > > Nit: Should these be 2026 now?
-> > 
-> > Yes! Thanks for catching that.
-> > 
-> > > > +int pci_liveupdate_outgoing_preserve(struct pci_dev *dev)
-> > > > +{
-> > > > +     struct pci_dev_ser new = INIT_PCI_DEV_SER(dev);
-> > > > +     struct pci_ser *ser;
-> > > > +     int i, ret;
-> > > > +
-> > > > +     /* Preserving VFs is not supported yet. */
-> > > > +     if (dev->is_virtfn)
-> > > > +             return -EINVAL;
-> > > > +
-> > > > +     guard(mutex)(&pci_flb_outgoing_lock);
-> > > > +
-> > > > +     if (dev->liveupdate_outgoing)
-> > > > +             return -EBUSY;
-> > > > +
-> > > > +     ret = liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void **)&ser);
-> > > > +     if (ret)
-> > > > +             return ret;
-> > > > +
-> > > > +     if (ser->nr_devices == ser->max_nr_devices)
-> > > > +             return -E2BIG;
-> > >
-> > > I'm wondering how (or if) this handles hot-plugged devices?
-> > > max_nr_devices is calculated based on for_each_pci_dev at the time of
-> > > the first preservation.. what happens if a device is hotplugged after
-> > > the first device is preserved but before the second one is, does
-> > > max_nr_devices become stale? Since ser->max_nr_devices will not reflect
-> > > the actual possible device count, potentially leading to an unnecessary
-> > > -E2BIG failure?
-> > 
-> > Yes, it's possible to run out space to preserve devices if devices are
-> > hot-plugged and then preserved. But I think it's better to defer
-> > handling such a use-case exists (unless you see an obvious simple
-> > solution). So far I am not seeing preserving hot-plugged devices
-> > across Live Update as a high priority use-case to support.
-> > 
-> 
-> Ack. If we aren't supporting preservation for hot-plug at this point.
-> Let's mention that somewhere? Maybe just a little comment or the kdoc?
-> 
-> > > > +u32 pci_liveupdate_incoming_nr_devices(void)
-> > > > +{
-> > > > +     struct pci_ser *ser;
-> > > > +     int ret;
-> > > > +
-> > > > +     ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&ser);
-> > > > +     if (ret)
-> > > > +             return 0;
-> > >
-> > > Masking this error looks troubled, in the following patch, I see that
-> > > the retval 0 is treated as a fresh boot, but the IOMMU mappings for that
-> > > BDF might still be preserved? Which could lead to DMA aliasing issues,
-> > > without a hint of what happened since we don't even log anything.
-> > 
-> > All fo the non-0 errors indicate there are 0 incoming devices at the
-> > time of the call, so I think returning 0 is appropriate.
-> > 
-> >  - EOPNOTSUPP: Live Update is not enabled.
-> >  - ENODATA: Live Update is finished (all incoming devices have been restored).
-> >  - ENOTENT: No PCI data was preserved across the Live Update.
-> > 
+S2MU005 is an MFD chip manufactured by Samsung Electronics. This is
+found in various devices manufactured by Samsung and others, including
+all Exynos 7870 devices. It is known to have the following features:
 
-The flb_retrive_one seems to call:
+1. Two LED channels with adjustable brightness for use as a torch, or a
+   flash strobe.
+2. An RGB LED with 8-bit channels. Usually programmed as a notification
+   indicator.
+3. An MUIC, which works with USB micro-B (and USB-C?). For the micro-B
+   variant though, it measures the ID-GND resistance using an internal
+   ADC.
+4. A charger device, which reports if charger is online, voltage,
+   resistance, etc.
 
- err = flb->ops->retrieve(&args);
+This patch series implements a lot of these features. Naturally, this
+series touches upon a lot of subsystems. The 'parent' is the MFD driver,
+so the subsystems have some form of dependency to the MFD driver, so
+they are not separable.
 
-which could be anything honestly.. since the luo_core doesn't scream
-about it, maybe the caller should?
+Here are the subsystems corresponding to the patch numbers:
+dt-bindings - 01, 02, 03, 04, 05
+mfd         - 05, 06, 07, 08
+led         - 01, 02, 09, 10, 11
+extcon      - 03, 12
+power       - 04, 13
 
-Thanks,
-Praan
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+---
+Changes in v3:
+- Remove "extcon" text from dt-bindings documentation (Rob Herring)
+- Add connector for MUIC node
+- Fix dt binding errors reported by robh's bot
+- Fix kernel test robot const errors 
+- Remove FIELD_PREP() values in register header file (André Draszik)
+- Add max_register, volatile_reg, cache_type (André Draszik)
+- Redo [v2 07/12] to NOT store the PMIC revision (André Draszik)
+- Add a commit to fix DMA coherent mask in I2C PMICs
+- Implement various flow changes in flash LED driver (André Draszik)
+- Use device_for_each_child_node_scoped() (André Draszik)
+- Fix CFI panic in devm_add_action_or_reset()
+- Link to v2: https://lore.kernel.org/r/20260126-s2mu005-pmic-v2-0-78f1a75f547a@disroot.org
 
-> > None of these cover the case where an IOMMU mapping for BDF X is
-> > preserved, but device X is not preserved. This is a case we should
-> > handle in some way... but here is not that place.
-> > 
-> > >
-> > > Maybe we could have something like the following:
-> > >
-> > > int pci_liveupdate_incoming_nr_devices(void)
-> > > {
-> > >         struct pci_ser *ser;
-> > >         int ret;
-> > >
-> > >         ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&ser);
-> > >         if (ret) {
-> > >                 if (ret != -ENOENT)
-> > >                         pr_warn("PCI: Failed to retrieve preservation list: %d\n", ret);
-> > 
-> > This would cause this warning to get printed if Live Update was
-> > disabled, or if no PCI devices were preserved. But both of those are
-> > not error scenarios.
-> > 
-> 
-> I agree, the snippet was just an example. What I'm trying to say here
-> is, what if the retval is -ENOMEM / -ENODATA, the existing code will
-> treat it as a fresh boot because it believes there are no incoming 
-> devices. However, since this was an incoming device which failed to be
-> retrieved, there's a chance that it's IOMMU mapping was preserved too.
-> By returning 0, the PCI core will feel free to rebalance bus numbers or
-> reassign BARs. For instance, if the IOMMU already inherited mappings for
-> BDF 02:00.0, but the PCI core (due to this masked error) reassigns a 
-> different device to that BDF, we face DMA aliasing or IOMMU faults.
-> Am I missing some context here?
-> 
-> > > > +void pci_liveupdate_setup_device(struct pci_dev *dev)
-> > > > +{
-> > > > +     struct pci_ser *ser;
-> > > > +     int ret;
-> > > > +
-> > > > +     ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&ser);
-> > > > +     if (ret)
-> > > > +             return;
-> > >
-> > > We should log something here either at info / debug level since the
-> > > error isn't bubbled up and the luo_core doesn't scream about it either.
-> > 
-> > Any error from liveupdate_flb_get_incoming() simply means there are no
-> > incoming devices. So I don't think there's any error to report in
-> > dmesg.
-> > 
-> > > > +     dev->liveupdate_incoming = !!pci_ser_find(ser, dev);
-> > >
-> > > This feels a little hacky, shall we go for something like:
-> > >
-> > > dev->liveupdate_incoming = (pci_ser_find(ser, dev) != NULL); ?
-> > 
-> > In my experience in the kernel (mostly from KVM), explicity comparison
-> > to NULL is less preferred to treating a pointer as a boolean. But I'm
-> > ok with following whatever is the locally preferred style for this
-> > kind of check.
-> > 
-> 
-> No strong feelings there, I see both being used in drivers/pci.
-> 
-> > > > @@ -582,6 +583,10 @@ struct pci_dev {
-> > > >       u8              tph_mode;       /* TPH mode */
-> > > >       u8              tph_req_type;   /* TPH requester type */
-> > > >  #endif
-> > > > +#ifdef CONFIG_LIVEUPDATE
-> > > > +     unsigned int    liveupdate_incoming:1;  /* Preserved by previous kernel */
-> > > > +     unsigned int    liveupdate_outgoing:1;  /* Preserved for next kernel */
-> > > > +#endif
-> > > >  };
-> > >
-> > > This would start another anon bitfield container, should we move this
-> > > above within the existing bitfield? If we've run pahole and found this
-> > > to be better, then this should be fine.
-> > 
-> > Yeah I simply appended these new fields to the very end of the struct.
-> > If we care about optimizing the packing of struct pci_dev I can find a
-> > better place to put it.
-> 
-> If you have pahole handy, it would be great to see if these can slide 
-> into an existing hole. If not, no big deal for v3.. we can keep it as is
-> 
-> Thanks,
-> Praan
+Changes in v2:
+- Drop [v1 06/13], instead use regmap_irq_chip::get_irq_regs() 
+- Remove references to driver in devicetree commits (Conor Dooley)
+- Propagate errors of sec_pmic_store_rev() (André Draszik)
+- Fix documentation language errors (Randy Dunlap)
+- Link to v1: https://lore.kernel.org/r/20251114-s2mu005-pmic-v1-0-9e3184d3a0c9@disroot.org
+
+---
+Kaustabh Chakraborty (13):
+      dt-bindings: leds: document Samsung S2M series PMIC flash LED device
+      dt-bindings: leds: document Samsung S2M series PMIC RGB LED device
+      dt-bindings: extcon: document Samsung S2M series PMIC extcon device
+      dt-bindings: power: supply: document Samsung S2M series PMIC charger device
+      dt-bindings: mfd: s2mps11: add documentation for S2MU005 PMIC
+      mfd: sec: add support for S2MU005 PMIC
+      mfd: sec: set DMA coherent mask
+      mfd: sec: resolve PMIC revision in S2MU005
+      leds: flash: add support for Samsung S2M series PMIC flash LED device
+      leds: rgb: add support for Samsung S2M series PMIC RGB LED device
+      Documentation: leds: document pattern behavior of Samsung S2M series PMIC RGB LEDs
+      extcon: add support for Samsung S2M series PMIC extcon devices
+      power: supply: add support for Samsung S2M series PMIC charger device
+
+ .../bindings/extcon/samsung,s2mu005-muic.yaml      |  39 ++
+ .../bindings/leds/samsung,s2mu005-flash.yaml       |  52 +++
+ .../bindings/leds/samsung,s2mu005-rgb.yaml         |  34 ++
+ .../devicetree/bindings/mfd/samsung,s2mps11.yaml   | 109 ++++-
+ .../power/supply/samsung,s2mu005-charger.yaml      |  35 ++
+ Documentation/leds/index.rst                       |   1 +
+ Documentation/leds/leds-s2m-rgb.rst                |  60 +++
+ drivers/extcon/Kconfig                             |  10 +
+ drivers/extcon/Makefile                            |   1 +
+ drivers/extcon/extcon-s2m.c                        | 354 ++++++++++++++++
+ drivers/leds/flash/Kconfig                         |  12 +
+ drivers/leds/flash/Makefile                        |   1 +
+ drivers/leds/flash/leds-s2m-flash.c                | 429 +++++++++++++++++++
+ drivers/leds/rgb/Kconfig                           |  11 +
+ drivers/leds/rgb/Makefile                          |   1 +
+ drivers/leds/rgb/leds-s2m-rgb.c                    | 458 +++++++++++++++++++++
+ drivers/mfd/sec-common.c                           |  34 +-
+ drivers/mfd/sec-i2c.c                              |  32 ++
+ drivers/mfd/sec-irq.c                              |  74 ++++
+ drivers/power/supply/Kconfig                       |  11 +
+ drivers/power/supply/Makefile                      |   1 +
+ drivers/power/supply/s2m-charger.c                 | 213 ++++++++++
+ include/linux/mfd/samsung/core.h                   |   1 +
+ include/linux/mfd/samsung/irq.h                    |  66 +++
+ include/linux/mfd/samsung/s2mu005.h                | 327 +++++++++++++++
+ 25 files changed, 2360 insertions(+), 6 deletions(-)
+---
+base-commit: d4906ae14a5f136ceb671bb14cedbf13fa560da6
+change-id: 20251112-s2mu005-pmic-0c67fa6bac3c
+
+Best regards,
+-- 
+Kaustabh Chakraborty <kauschluss@disroot.org>
+
