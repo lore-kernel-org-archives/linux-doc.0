@@ -1,144 +1,99 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-4.orcon.net.nz (smtp-4.orcon.net.nz [60.234.4.59])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF48366DCF
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 09:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771924955; cv=pass; b=FuiEkK6ndL3IUMJMZ1YCEzW3sbTvuXGjGaNY2f0DROhLgP2Bulmg/d0jyYQY3tn78LdDd5WYzusY+rMdf+EV9rvVt4f/hqAHv1tC9I3bpB+3MrJ/LscI/JgbUHMJQ8ZIgETojU25Gagjz/2vp77PbYPnSWaUrriwS3Sv/AYP2zM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771924955; c=relaxed/simple;
-	bh=W1IR9WScIDkn/Ldtj14H5MHS1TFfCVSY4+W1vxZj6aE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GCr4ShmceODqDjJ1UVPfK1v0s8mC379x5fgFY568gZyE2dWLpuV+6rW79+Nbdy9DenVliMjr/F1esZYBddkbwaca6ZQTI82QpS+l5qzZZyhHJB3yqohf/GBkblpIdFWXNKUN2HbnhJIH6n8icHC+0szw+kiSjd/iEmzk7hrOfZU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cKmojdgk; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cKmojdgk"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5033387c80aso82645031cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 01:22:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771924953; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bhd2z1NNta2PcLuvIVE+kz29WDzxbixWc2bHa6WgUBU5UuCJz1GQR0c/6sJ0OvJJcT
-         UCG6oNijrNrqaKJAmG4HhHvMkJh5MjVbwOlj2PKoeqWZ6emAMci5tlpOjjZrFzcm7Qty
-         dcHJpaGcOgYxZ1kmoLwPs6Y0a93hAXcLtZ7gouiF01qG6XdH0s5hmmWxHpc7toDlGG+N
-         vx3Fbbe0OB83qNVBF1GyhAqbbH0SHVCUPzoORTn4JVqqennYzRFT6atx0+YdsTkJOfKB
-         PUqNEPKQPkDuyeYSVJpGWNjYt5F2wHaSbhLX/35hYytLPKUt+yeTlr201oHvtDIIMwrp
-         ehPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bK9XwEb9y6Wjy1j2b+uWduqpfjZe/0b6JObJU2L/7Zc=;
-        fh=EcoHiGiU32CmLgt9VFMDfsyAr+vYWgNhtO8IfitFSo8=;
-        b=LBol5GGu3shZnR/xObBEbhmZO97kZyBJngpTqvPXkyH6vE4l42VSNKjl/y5+LM5gt2
-         EEuK9nViIsCQsU3H8KGX8aJxM00z7zik+RcVQW/TTAZhglPVKhAmOUww7ClOEC0pL67g
-         PrHE55mE5f/9u6E6xjZUZwoMm52TGE35h7zZbJhbzZUQtkkWMu4fUIY0Jmg9ywzCqnRm
-         e2k6flla2bHsGqj0fd5f/oOEpDg3CpWEtxMCjrQVhBvLxw4kUUcnP57JOUG1o3di78Dx
-         KXczrOGLpN3S/sY7xQ6mXGXJnDf25QWKDElmO9rH/rrx/nxweG2qXdGIT34S5HqGr3ls
-         FgVQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771924953; x=1772529753; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bK9XwEb9y6Wjy1j2b+uWduqpfjZe/0b6JObJU2L/7Zc=;
-        b=cKmojdgkRw4js7rFJxZ1jn65i1bqplTVNCvpA6hkpBQeDVtcB8FH/vkbmTbnDqFaup
-         KHNMv5VSsuDxqvMuPofBmFzQXO8PjB61FDeAhCxPPeifvPXoPz0ZNGcy75zjWfR6m7Ra
-         HriuqCv5gxqMIDKPGksYZEg82wFhsztUf5IOGjBZbPNYwEgth+niDzLjr5oFguEoVH8O
-         6mJTzLH9+GGaL3zVccwSUIiVkdTTnbT9EyZGMC3mtO5p478s5HC2EnHwz5TjSu8KZORN
-         aK4nCVoav/Vxw2FtesI65/YoEc2KWdotuub7RsCe4oQU9F41wuxDX3aq6qptWWzbYtdF
-         3GTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771924953; x=1772529753;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bK9XwEb9y6Wjy1j2b+uWduqpfjZe/0b6JObJU2L/7Zc=;
-        b=Q5icHuF2AecT/oMzkYAyuvTovIe8VGdgEayQbYI7DZw0Wng6Rp2wPYht+BP9PxeWzh
-         Et7ko9Px/2o78Y7x0xj31Qx0M1EspOL/TaazO0BDdsuFIp8z0JfZ8/1JnlmM2Ixq/i9q
-         SCpjjDyiGP02u5sZY63AAv53Z2IY3KYPLkACAx4p70sjEroVvA8A5TXM18D47ZLJ7W8g
-         dQFfC89O9KKSaHcLOxmgOuPArkCQvblEy0ki8RYeDjTTu7oCKhCQMcn0Ck94MTDatY6x
-         MfNvQnXAP2gPoAf77dD0D4Z9S0b5UV43rJcfmYNNbCcXtZqF09NZBvbOBFiaFrByOGBN
-         Z1fw==
-X-Forwarded-Encrypted: i=1; AJvYcCWTnp5/NN41RFFQZAou6IegSPWILCB2xpgc8pgfAaZUwvhYm3FtMq9zj23cubRyMONVblJFCXfH+Qw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyJNgMLHjQZUsPxsJk4uobV+4dEevW9R5DUq6iRlt5+v+MKZUg
-	++B/sLqnIcAHLMlHvgqFs1eb1LgH8xHuV0ytEcrCVk1C1LfdUruDo0JfWLAdKnFssFCTR422N3w
-	MXnMlnYYy9Z2F9AOt/mfA3SPGBE5/YJbobBFvDY6s
-X-Gm-Gg: AZuq6aKqMKQphIVAv8gvQeFHsViYxBmTesoBKQrZjGdZo5Pz+RDoQWPksbSGY3x4Ko0
-	cFwFxkMTa3/PlafS7Xu2M5b5g0GSoO9lOB4xd6c81KYVKBMF/8/+KMFpyONDC6R5xeBlySRZRMY
-	lMKql50TGRc9coPxowUQqV7K5DgmLeElOnvV2937rsRLnRyMlUv6ENcTm5JowIzM+4riDYqP20F
-	Ja1jh2J18aQucuwKh/82ock7CsQ9UgXQdXVO3Vg9dS/3JqIPSEMbGhSsRn1hfq0jvASIjqjNvzA
-	KxBUAKu0rV9z9Ou6Rvlr4o+RX1NNzjJPCtnbLBDD/A==
-X-Received: by 2002:ac8:7fc1:0:b0:4ee:1dd0:5a50 with SMTP id
- d75a77b69052e-5070c2bd60amr156825011cf.17.1771924952622; Tue, 24 Feb 2026
- 01:22:32 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DB8369982;
+	Tue, 24 Feb 2026 09:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.234.4.59
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771925564; cv=none; b=JuQ9fS/fP3qkEq1VND7rUtiIqCrLRf3Dk7cijIGIiicRJUhQTo8Eegw7NK1QR3TjDkzyj5aMMmE6YE7094haOoZuFi4O7kgEJRTlsUNYOoIODY8QFD9WqEe6EEDub325w3KcqOo6nxRtOrPxvUpNVt1+5Isi4ij3cEsIvReNobo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771925564; c=relaxed/simple;
+	bh=IOJgxaam+EX1KGnYY0VduJPKBbOwGW6h09urZlUbJOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Be4sov9JBvhfOw+j3sE3JPaa6Dzby+L6Nh+Dlb5mmeO7Mhd50qwDLKwfj2b4p9MhZ2ts3aDdaZAB4jhtpaLrBAaPnAXYeZFR1bmdJBpdbd8UmREgrNPQwBz3v3qI/u18m6ooi9pOS7pgNgcEgqyaN0TM1MI+r8vohyjAJ3bm0bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=orcon.net.nz; spf=pass smtp.mailfrom=orcon.net.nz; arc=none smtp.client-ip=60.234.4.59
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=orcon.net.nz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orcon.net.nz
+Received: from [121.99.247.178] (port=50414 helo=creeky)
+	by smtp-4.orcon.net.nz with esmtpa (Exim 4.90_1)
+	(envelope-from <mcree@orcon.net.nz>)
+	id 1vuoAV-0002yB-L4; Tue, 24 Feb 2026 21:53:24 +1300
+Date: Tue, 24 Feb 2026 21:53:15 +1300
+From: Michael Cree <mcree@orcon.net.nz>
+To: Magnus Lindholm <linmag7@gmail.com>
+Cc: richard.henderson@linaro.org, mattst88@gmail.com,
+	linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+	corbet@lwn.net, linux-doc@vger.kernel.org,
+	glaubitz@physik.fu-berlin.de, macro@orcam.me.uk, macro@redhat.com,
+	ink@unseen.parts
+Subject: Re: [PATCH v2 0/1] alpha: add support for SECCOMP and SECCOMP_FILTER
+Message-ID: <aZ1m-3sKgvvwDQFZ@creeky>
+Mail-Followup-To: Michael Cree <mcree@orcon.net.nz>,
+	Magnus Lindholm <linmag7@gmail.com>, richard.henderson@linaro.org,
+	mattst88@gmail.com, linux-kernel@vger.kernel.org,
+	linux-alpha@vger.kernel.org, corbet@lwn.net,
+	linux-doc@vger.kernel.org, glaubitz@physik.fu-berlin.de,
+	macro@orcam.me.uk, macro@redhat.com, ink@unseen.parts
+References: <20260220105757.25104-1-linmag7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260220-tcp_rfc7323_retract_wnd_rfc-v1-0-904942561479@gmail.com>
- <CANn89iLd=P2nftdMReVkc+d-8+0PGi1ACxhrhnVCxFVxNOhvJg@mail.gmail.com> <aZuaQSdsuWaAZza8@gandalf.schnuecks.de>
-In-Reply-To: <aZuaQSdsuWaAZza8@gandalf.schnuecks.de>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 24 Feb 2026 10:22:21 +0100
-X-Gm-Features: AaiRm522a6qXQbkPHi8t91KDO1mc-rlMizziA9EwmS69J1Clnl3Iw5_n02w5ZPk
-Message-ID: <CANn89iL1rQ=ZhuQwNsxt2H1LPtigJbbNx+WtSjqDqJ1dmpF_ug@mail.gmail.com>
-Subject: Re: [PATCH RFC net-next 0/4] tcp: RFC 7323-compliant window
- retraction handling
-To: Simon Baatz <gmbnomis@gmail.com>
-Cc: Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Ahern <dsahern@kernel.org>, 
-	Stefano Brivio <sbrivio@redhat.com>, Jon Maloy <jmaloy@redhat.com>, 
-	Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com, 
-	Shuah Khan <shuah@kernel.org>, Christian Ebner <c.ebner@proxmox.com>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260220105757.25104-1-linmag7@gmail.com>
+X-GeoIP: NZ
+X-Spam_score: -2.9
+X-Spam_score_int: -28
+X-Spam_bar: --
 
-On Mon, Feb 23, 2026 at 1:07=E2=80=AFAM Simon Baatz <gmbnomis@gmail.com> wr=
-ote:
->
-> Hi Eric,
->
-> On Fri, Feb 20, 2026 at 09:58:00AM +0100, Eric Dumazet wrote:
-> > Hi Simon, thanks for the clean series.
-> >
-> > I would guess you use some AI ? This is fine, just curious.
->
-> Thank you!  Yes, I=E2=80=99ve found AI helpful for getting familiar with =
-a
-> new code base.  I also use it to refine or clean up the wording of
-> bigger commit messages.  Code generation works quite well for quick,
-> throw=E2=80=91away code (like reproducers).
->
-> > Can you add more tests, in memory stress situations ?
-> >
-> > Like :
-> >
-> > A receiver grew the RWIN over time up to 8 MB.
-> >
-> > Then the application (or the kernel under stress) used SO_RCVBUF to 16K=
-.
-> >
-> > I want to make sure the socket wont accept packets to fill the prior
-> > window and consume 8MB
->
-> I suspect generating 8=E2=80=AFMB worth of RX data in packetdrill won't b=
-e
-> fun (unless there=E2=80=99s a trick I=E2=80=99m missing).  And using regu=
-lar TCP
-> sockets on both ends would probably be rather uninteresting (no
-> packets sent once RWIN =3D 0)
->
+On Fri, Feb 20, 2026 at 11:50:09AM +0100, Magnus Lindholm wrote:
+> This patch adds SECCOMP and SECCOMP_FILTER support to the Alpha
+> architecture.
+> 
+> The seccomp-bpf selftests exercise syscall tracing, restart, and signal
+> interaction paths that were previously untested on Alpha. To support
+> these, the ptrace/strace syscall path is updated to reliably distinguish
+> internal skip-dispatch from userspace invalid syscall numbers, ensuring
+> that syscall(-1) continues to return -ENOSYS with correct r0/a3
+> semantics.
+> 
+> Supporting seccomp also requires correct syscall restart handling when
+> ptrace and signal delivery are involved. The traced syscall entry path
+> now consistently tracks syscall state using r0, r1, and r2 while
+> preserving Alpha's a3-based error reporting ABI:
+> 
+>   - r1 holds the mutable "current" syscall number
+>   - r2 preserves the original syscall number for restart
+>   - r0 and r19 (a3) retain their traditional roles as return value and
+>     error indicator
+> 
+> This separation allows syscall restarts to be gated strictly on valid
+> ERESTART* return codes in the ptrace/strace paths and prevents
+> kernel-internal restart values from leaking into userspace.
+> 
+> Alpha also lacked support for PTRACE_GETREGSET(NT_PRSTATUS), causing
+> ptrace-based seccomp tests to fail with -EIO. Minimal GETREGSET and
+> SETREGSET support is added to export struct pt_regs directly.
+> 
+> With these changes applied, the seccomp-bpf and ptrace syscall selftests
+> (seccomp_bpf, extended for Alpha) pass reliably on Alpha systems.
+> 
+> ---
+> Changes since v1:
+>  - Update features documentation for seccomp-filter/alpha
+> Link: https://lore.kernel.org/linux-alpha/20260205133049.526-1-linmag7@gmail.com/T/#t
+> 
+> Magnus Lindholm (1):
+>   alpha: add support for SECCOMP and SECCOMP_FILTER
+> 
 
-8MB was only to show my point.
+Passes the seccomp-bpf selftests and the live tests of Adrian's
+alpha-support branch of libseccomp on my ES45.
 
-A packetdrill test reaching 1MB should be doable.
+Tested-by: Michael Cree <mcree@orcon.net.nz>
+
+Cheers,
+Michael.
