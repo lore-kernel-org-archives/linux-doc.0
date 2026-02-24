@@ -1,710 +1,172 @@
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93F423815D
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 03:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E12D86329
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 03:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771903146; cv=none; b=nKh65a9TcIEXfEkELGckz3PQtonclqseaEFY7WBJh35PWlkD27u0y4yEJGezPIZyiYvtKkczmg7F14Zv/fOzZjNzx3qR0rwo9ld9ZBDkY1swssQRqdvXgzIpo8Te6Np3EmhodP22pbQPjwWuswTTOBXFJFoh8WoJesXd+ngip2Y=
+	t=1771903997; cv=none; b=B2DdbsFC4qw69sS4WITHq8fhJShfHcDgGE0+fpxao5hfd5vQRAXNjxKEFHjrHpa9BpWRHEvb25ANR9ae+u8EYJBDVy6ovk9WqcOCM993iHfWWXhkdSAwJRResw+rYVdS1GXhU/ML8k0OUzeXUUXRllJ8mqvnvAhMcDdFaS9y76I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771903146; c=relaxed/simple;
-	bh=CQ9e61AViacREZmf8G2iB3KIkHS4cqR/cwi0qvKniNY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PN14eQidoIPsAQ05JPPv3dqC4r5+VxFWlSAQs0K5FtMENKxaLtxXhFi9O8QvFHvJXLUofEmPoXA1O56pD00dSawwXvFT1i9OxSt0P4qp3fm8sRQGgFyvRxCZ48kYtsD2T7xoKAUyk4G1CJXjcYPm+ff4OZLt9KYuEiJQkuSw+Fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iAYNpFo8; arc=none smtp.client-ip=209.85.221.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771903997; c=relaxed/simple;
+	bh=alwlXydTZQTHU+SrbhxPkAVBaJ0ViLt6EMzcXAEspXg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HMNcVDkJYxMezwccaHDiuHK/qEwZMDD4E/g1qa3iR2dHiIseyLypNYNJ8vkpEg+m7ToA/CK6Aw8TQOkAnKsJIJm2SYBEuJ20qJmwFNBtgkCUl2HbmdQ/ee8guLQWzWvh5f5bHB5Y5xT8C10CP7kEKkc1tL7Y3+v+CmbuSgtM9Qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MpsmBFFf; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kNduJN2p; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iAYNpFo8"
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5674f3e80edso4217200e0c.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 19:19:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MpsmBFFf";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kNduJN2p"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61O3LCBg2189968
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 03:33:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	cw5oOYysEVaaTcVwIagtgtb1acPAUP70RqJhekAP7Zs=; b=MpsmBFFfOVHfn/pk
+	Gg4QcxaaZhK4U4eeUQBi7urMNKOvTDwSza1oS2UzSLIHLFy6kA7W7NleuM4sn6pl
+	M4x4z6TjyHPZgg4ou/d8h8DibM3bcqEdiwQu0FeW7LgGxLih+lLSrErJxFh5rbzX
+	joWxCc85TVP2OaJiKwZxzYkKcrm6kl8YijJF6ZMr0v7LH8HP2qqM6Z0p5yvz6YbR
+	XjQe9GyKv84EeXPKNaDjKC9RSLpcMfINW3laTZ+VfF97K/O+0n8fHtp5xtJi4egN
+	BJECOTqR8p85DNs0EfpaZlyZzaGKFuO8gdAkbKig/BVcURryr6jTJC7DzqVx83T0
+	W1ob0w==
+Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cgtyj9j5n-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 03:33:14 +0000 (GMT)
+Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-127133794b6so6581385c88.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 19:33:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771903143; x=1772507943; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DsdJco0ewda53x5fymZlmoDJv1a/DhdSR7T/e5cfb9c=;
-        b=iAYNpFo8+jXkh9ZwPDQob3uo0/e9aO9S1OJkEcZutJ8abgwhfuwM7epfm5neFDqMmG
-         b6c7RbVCbL/FKZmvbm7s0aJGWECiIGKYMhchwHk9YukEdkx/pOdnGv5Eyk7f0D2Hr70f
-         cRc3F/gtsxdhe5FewrDjTVYXxJgu3m3jQKzHvT9QZIGSYlePwjJ/pN1j3TcoWYrW8zoX
-         LePu83WeRDoICMrWpKouDeZAxMHyDBGdWHb1weZo0oGH3KqznGCirGWTQWhQjDqyla8y
-         gUIWuy3JrF5UlgoD2Hpe26Hf3GbeOHSZWF7u2wnj5WFu5JFAZFxbEY+bQbSuX/ft4NbP
-         7DGw==
+        d=oss.qualcomm.com; s=google; t=1771903994; x=1772508794; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cw5oOYysEVaaTcVwIagtgtb1acPAUP70RqJhekAP7Zs=;
+        b=kNduJN2piySqJTsIrsTMpdTiJaI6B/J7hYurgu9hLrqYQF0OoTJTnsUWe15cFyFWhl
+         gFEViEMqiNyJ4LpPTgUavfwUJbBj3HRKEzfxWvw1XNgdUaLw0kKeKf1yMK4AgjMUpsK8
+         egIa8T9fWOz6a8Jf3raNro4JLZWeykiCgMUyjFTTNQRmvH2NjrbN2ka6VW2kC/2lqhBb
+         Gqe7StgDHok/1VBNns4+GpNi05KyUSj8JBFwciPznYc5guB+ztF4T6n7+VwEHpPsiqRq
+         ++VO8rcvQMdLWqwyUKjOkFPUGrmIfK3iQq8OQMeVG7zU0sWzr1zb4gcXRxW4DcKaoPeh
+         C89Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771903143; x=1772507943;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DsdJco0ewda53x5fymZlmoDJv1a/DhdSR7T/e5cfb9c=;
-        b=iLjTC5bhWHLM8+sG2l5kHjLsf+eGHL+C2lKBTosHe0QIMXKHr0a6UWoPkGN9UetLd8
-         eEf4kb57PPXzh9iSEwBtTvxD0QJkol5Nsm5aZE53DlAgAnHzE5jkBS/8tD8fR8gjs+BT
-         tR+i3go4ElQCj+mNQJP0TUVNzG1CaBfpprdVHWw9TifWMCizdiTcbnwd99/kNVtbzdag
-         4uymqbqYtYwbfbNuQT0PUgYpuneGBiiNkxiPvuFKn7+P6EzcG+4hgmZpEIR2VzdtTELC
-         Zqh7FiqHeNHVoc6Lrg8s7itiZaXyS9JNwd4690OqMJ+hZOfnLY4CtAAVmXUMarK+EnGS
-         XGzg==
-X-Gm-Message-State: AOJu0YydkY2DZYdka0Emg0P4JtuLAUrYO5BYxRAQ+FZmtI9jhXeJBmn1
-	nyn1vV/DZ1mmC86cR+7y7PfNQTdN50VAWR6eOzEtxKcEzd1LX+N3t7t/
-X-Gm-Gg: ATEYQzz2LnOrLSFKC3XkLhoAoeWsq4j5YCjrKa1T8OW24ZW3kX4OkSaGuih1ZUSnIMQ
-	LvvQTkTEQ15fho1truDdy6xUuebXjrjrI22eGb2PFtlmm4edsaweGOdlYCGvv4CwYZgSk4/TjIn
-	ovItHYB/DPcrdYmEO8AFhtgs2CVmdXw525wTscXVZjGTfEl9WAdNU3XzQBWWWDhfottkYX6mogX
-	dUiYALG+AHUaRVHQdthYosInvPaa5cKB7H5KN0/8S8qLIoI6N46XIG/fCsLJHSCUIXugZEBU/zu
-	GAt6dpmjEEg1tPmCq2Gyxhd37DRg1xGhyiE9ice473KVp9Evbpno/FLJXljOGgGzaocxlcIMGQP
-	1ONmzP1Us03U6NbDLCtcsFq0lZWNAI7yD2EQQ8lSG94XJUV4UnC5InwDjLazLZ1sNxvY4oCwp1U
-	MZ8vVqvs7N+Stn6m2amx5OjDWJjmErDYnE4uowRSnfogx1yYa1m64ACv6sDc7chlI/SoQ+QbO1x
-	wniRQ==
-X-Received: by 2002:a05:6102:3f47:b0:5fd:ea47:d317 with SMTP id ada2fe7eead31-5fe90c14df9mr8946409137.15.1771903143232;
-        Mon, 23 Feb 2026 19:19:03 -0800 (PST)
-Received: from localhost.localdomain ([2804:29b8:512d:4c55:1868:543f:1aeb:fd26])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94da899b566sm8599986241.1.2026.02.23.19.19.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 19:19:02 -0800 (PST)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH v5] docs: pt_BR: translate process/changes.rst
-Date: Tue, 24 Feb 2026 00:18:41 -0300
-Message-ID: <20260224031842.140732-1-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        d=1e100.net; s=20230601; t=1771903994; x=1772508794;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cw5oOYysEVaaTcVwIagtgtb1acPAUP70RqJhekAP7Zs=;
+        b=bh4rBfVFmAOGFqODt6H1QeDK4QW4j5TQhUPVFwryJgEKABIZ7czMtxtIxgi7TPxMSJ
+         Q4cpLt/TfoeABbbJI4/jqmzkoy7ASOdDYpM9JhJcCf9wnlWbsN25kxNCHjS593ZExQSX
+         If5BuOKKaJ5FQe0Az2qN2XHKOQb6mNpF4F0xRwLsxAyPOc321sbuTBE2H435W5TYQWOc
+         ecoEspGLiQ8jdhZIphx5/YsraSUKI7LAZX5qWWIf3b4XWeDXvnaYeBlGWrgy72yphUAk
+         PMvvRsVB5+rtNRtjFMrYuUKhqodNZjD5z1s3ZCHnKfpycy9ZoO6CGBVCjNiq8Ty5iwvz
+         6c9g==
+X-Forwarded-Encrypted: i=1; AJvYcCUK+RX0J3IafHFkKKfnK9qYuZcJF9cRBHhswkSQwNyE3bph1KRx/hh68b1HLUo42ikeQZKi/lfeR+Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxtCT7Ux9f0kvCxAareHKUMXjKSd/YxxhXnWYv/B2zvstgTS6Lm
+	Z2BMgh5O6ats6VYelDYqt3oI2RnaXclOt23I4BNPjisCDGK6rhfqMEoaRJOg8VG47Gw0vUjZneR
+	Qoy0NY/mRM/nlHJm/UyL1xWkHIlvcmUMwxqaMUTVxWwIb+X+cPSJrx/SliF5gR1E=
+X-Gm-Gg: AZuq6aLC3hntD9ipPE+PYCitnjYscTOwYEfCwUR0RzzojVuz0xw+ocP+FzI63L10ikm
+	fr0iqDMiOHAajlnVHE2ZHySYHGwoDSnq4akInyGSCoNk3Lfv7COrGX6JrYw0Ekkg5DjIK3mGLWI
+	EQSEYAjofKgLyOfBmkugwux5A6WL06xZNwdFtLRegHiRY/JyZKKR+nZXq3zjr7fwIQ0uG4Pr788
+	4Tr8HYA9ghQVoo8QwMNT/eTDY+LGF0t6jCgwbV9OUqorbGgRbcBB4LRfyLqDM0Fqd3lVViUdwC/
+	AOmlXoSM5hXLWnLGjMNm1xJsWyrrBbKnd/71EdRtwZYjHi6cQ11Hu3XF03XPXo4Xa7u68SJcGj+
+	91XJl5QZLWuHwfvooskdGyPaS1EmGXBB0a9uyXxrEyUMQexCcYwMBbvQ=
+X-Received: by 2002:a05:7022:4387:b0:121:9f05:c4c2 with SMTP id a92af1059eb24-1276ad18ec5mr3365899c88.23.1771903994057;
+        Mon, 23 Feb 2026 19:33:14 -0800 (PST)
+X-Received: by 2002:a05:7022:4387:b0:121:9f05:c4c2 with SMTP id a92af1059eb24-1276ad18ec5mr3365882c88.23.1771903993530;
+        Mon, 23 Feb 2026 19:33:13 -0800 (PST)
+Received: from [192.168.86.165] ([76.176.48.107])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1276af20fc8sm10325680c88.6.2026.02.23.19.33.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Feb 2026 19:33:12 -0800 (PST)
+Message-ID: <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
+Date: Mon, 23 Feb 2026 19:33:10 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
+ driver docs
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
+Content-Language: en-US
+From: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
+In-Reply-To: <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=Jq/8bc4C c=1 sm=1 tr=0 ts=699d1bfa cx=c_pps
+ a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=lsoD3MMNObdLvy1227ExmA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=88Pab4rnIKjo3RbOS5oA:9 a=QEXdDO2ut3YA:10 a=vBUdepa8ALXHeOFLBtFW:22
+X-Proofpoint-ORIG-GUID: Mz_h8M7rI7gf0mGeAl5nBsYINNZ4WFNf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI0MDAyOCBTYWx0ZWRfX6Hukxp+9f1jx
+ QAbRi1gd8bCEVTvFtryO2mQGfR9eg+SdggJWe2v40/hZKhODBzHaUJdVTgkBJe4oTDMtJdvRANy
+ XkyzzrDDcMgWqqJfd+QhOnvi2J6lR88k0m2BjztuVyW6Omsb4JLR62f3jCcQ3OA2RCX3/jLExMG
+ 6P/BrDFlBear9VfYKSL7W8fe5SmGGMwjaqAc9pIgjUF8MWb+7aNxItdpA6xayqqbKtDfBUuPfDZ
+ HExNy11BwdMTx3VuJGA8SeaAw/m35i5K41IaJfyFw2MHakWeQ7fQHiveH5vIDoQWtteMGGHYN8V
+ KFuXIOob1dfUlVInGUXwxuL9bbYrDnAO+YWh/7cfxq5zMCDNyXJM/arQqEOOY58ADF12YlhYvzw
+ aNw5f1vXptjgFBY2pzdXXtjM1XzulzUURbKnHk7epcMydQr5sYdZ8BJ0Uk1Uvpn82SjCkgJ/px1
+ w7aTfP9Vsv41eW0Opbw==
+X-Proofpoint-GUID: Mz_h8M7rI7gf0mGeAl5nBsYINNZ4WFNf
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-23_06,2026-02-23_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 adultscore=0 phishscore=0 suspectscore=0 impostorscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2602240028
 
-Translate the Documentation/process/changes.rst file into Portuguese.
-This document provides the list of minimum software requirements
-necessary to compile and run the Linux kernel.
+On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
+> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
+> integrated in the DRM accel subsystem.
+> 
+> The new docs introduce QDA as a DRM/accel-based implementation of
+> Hexagon DSP offload that is intended as a modern alternative to the
+> legacy FastRPC driver in drivers/misc. The text describes the driver
+> motivation, high-level architecture and interaction with IOMMU context
+> banks, GEM-based buffer management and the RPMsg transport.
+> 
+> The user-space facing section documents the main QDA IOCTLs used to
+> establish DSP sessions, manage GEM buffer objects and invoke remote
+> procedures using the FastRPC protocol, along with a typical lifecycle
+> example for applications.
+> 
+> Finally, the driver is wired into the Compute Accelerators
+> documentation index under Documentation/accel, and a brief debugging
+> section shows how to enable dynamic debug for the QDA implementation.
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
----
----
-v5:
-- Fixed trailing whitespace errors reported by git am.
+So existing applications written over character device UAPI needs to be
+rewritten over new UAPI and it will be broken once this driver gets
+merged? Are we going to keep both the drivers in the Linux kernel
+and not deprecate the /char device one? 
 
-v4:
-- Fixed line wrapping to respect the 80-column limit.
-- Fixed Sphinx reference by removing :ref: tags and using the file path
-  directly to resolve build warnings.
+Is Qualcomm going to provide the wrapper library in the userspace
+so that existing applications by our customers and developers
+keep working w/ the newer kernel if the char interface based
+driver gets deprecated? It is not clear from your text above. 
 
-v3:
-- Fixed directory structure for pt_BR locale.
-- Added pt_BR support to the documentation build script.
-
-Note: This patch is based on the docs-next branch, where the initial 
-Portuguese (Brazilian) translation has already been merged.
-
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../translations/pt_BR/process/changes.rst    | 576 ++++++++++++++++++
- .../translations/pt_BR/process/howto.rst      |   2 +-
- 3 files changed, 578 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/process/changes.rst
-
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 44fafb3c79..55f9f377e2 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -67,3 +67,4 @@ kernel e sobre como ver seu trabalho integrado.
-    :maxdepth: 1
- 
-    Como começar <process/howto>
-+   Requisitos mínimos <process/changes>
-diff --git a/Documentation/translations/pt_BR/process/changes.rst b/Documentation/translations/pt_BR/process/changes.rst
-new file mode 100644
-index 0000000000..1964c1c93b
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/changes.rst
-@@ -0,0 +1,576 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+
-+
-+Requisitos mínimos para compilar o Kernel
-+++++++++++++++++++++++++++++++++++++++++++
-+
-+Introdução
-+===========
-+
-+Este documento foi projetado para fornecer uma lista das versões mínimas
-+de software necessárias para executar a versão atual do kernel.
-+
-+Este documento é originalmente baseado no meu arquivo 'Changes' para os kernels
-+2.0.x e portanto, deve créditos às mesmas pessoas que aquele arquivo (Jared
-+Mauch, Axel Boldt, Alessandro Sigala e inúmeros outros usuários em toda a rede).
-+
-+Requisitos Mínimos Atuais
-+****************************
-+
-+Atualize para pelo menos estas revisões de software antes de pensar que
-+encontrou um bug! Se não tiver certeza de qual versão está executando atualmente
-+, o comando sugerido deve lhe informar.
-+
-+Novamente, tenha em mente que esta lista pressupõe que você já possui um kernel
-+Linux em execução funcional. Além disso, nem todas as ferramentas são
-+necessárias em todos os sistemas; obviamente, se você não possui nenhum hardware
-+PC Card por exemplo, provavelmente não precisará se preocupar com o pcmciautils.
-+
-+====================== ===============  ========================================
-+        Programa        Versão mínima       Comando para verificar a versão
-+====================== ===============  ========================================
-+GNU C                  8.1              gcc --version
-+Clang/LLVM (optional)  15.0.0           clang --version
-+Rust (optional)        1.78.0           rustc --version
-+bindgen (optional)     0.65.1           bindgen --version
-+GNU make               4.0              make --version
-+bash                   4.2              bash --version
-+binutils               2.30             ld -v
-+flex                   2.5.35           flex --version
-+bison                  2.0              bison --version
-+pahole                 1.16             pahole --version
-+util-linux             2.10o            mount --version
-+kmod                   13               depmod -V
-+e2fsprogs              1.41.4           e2fsck -V
-+jfsutils               1.1.3            fsck.jfs -V
-+xfsprogs               2.6.0            xfs_db -V
-+squashfs-tools         4.0              mksquashfs -version
-+btrfs-progs            0.18             btrfs --version
-+pcmciautils            004              pccardctl -V
-+quota-tools            3.09             quota -V
-+PPP                    2.4.0            pppd --version
-+nfs-utils              1.0.5            showmount --version
-+procps                 3.2.0            ps --version
-+udev                   081              udevd --version
-+grub                   0.93             grub --version || grub-install --version
-+mcelog                 0.6              mcelog --version
-+iptables               1.4.2            iptables -V
-+openssl & libcrypto    1.0.0            openssl version
-+bc                     1.06.95          bc --version
-+Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-+GNU tar                1.28             tar --version
-+gtags (opcional)       6.6.5            gtags --version
-+mkimage (opcional)     2017.01          mkimage --version
-+Python                 3.9.x            python3 --version
-+GNU AWK (opcional)     5.1.0            gawk --version
-+====================== ===============  ========================================
-+
-+.. [#f1] O Sphinx é necessário apenas para gerar a documentação do Kernel.
-+
-+Compilação do Kernel
-+*********************
-+
-+GCC
-+---
-+
-+Os requisitos da versão do gcc podem variar dependendo do tipo de CPU
-+do seu computador.
-+
-+Clang/LLVM (opcional)
-+---------------------
-+
-+A versão formal mais recente do clang e dos utilitários LLVM (de acordo com
-+releases.llvm.org <https://releases.llvm.org>_) é suportada para a compilação
-+de kernels. Versões anteriores não têm funcionamento garantido, e poderemos
-+remover do kernel soluções de contorno (workarounds) que eram utilizadas para
-+suportar versões mais antigas. Por favor, veja a documentação adicional em:
-+ref:Building Linux with Clang/LLVM <kbuild_llvm>.
-+
-+Rust (opcional)
-+---------------
-+
-+É necessária uma versão recente do compilador Rust.
-+
-+Por favor, consulte Documentation/rust/quick-start.rst para obter instruções
-+sobre como atender aos requisitos de compilação do suporte a Rust. Em
-+particular, o alvo (target) rustavailable do Makefile é útil para verificar por
-+que a cadeia de ferramentas (toolchain) Rust pode não estar sendo detectada.
-+
-+bindgen (opcional)
-+------------------
-+
-+O ``bindgen`` é utilizado para gerar os vínculos (bindings) Rust para o lado C
-+do kernel. Ele depende da ``libclang``.
-+
-+Make
-+----
-+
-+Você precisará do GNU make 4.0 ou superior para compilar o kernel.
-+
-+Bash
-+----
-+
-+Alguns scripts bash são usados para a compilação do kernel.
-+É necessário o Bash 4.2 ou mais recente.
-+
-+Binutils
-+--------
-+
-+O binutils 2.30 ou mais recente é necessário para compilar o kernel.
-+
-+pkg-config
-+----------
-+
-+O sistema de compilação, a partir da versão 4.18, requer o pkg-config para
-+verificar as ferramentas kconfig instaladas e para determinar as configurações
-+de flags para uso em make {g,x}config. Anteriormente, o pkg-config já era
-+utilizado, mas não era verificado nem documentado.
-+
-+Flex
-+----
-+
-+Desde o Linux 4.16, o sistema de compilação gera analisadores léxicos durante a
-+compilação. Isso requer o flex 2.5.35 ou superior.
-+
-+
-+Bison
-+-----
-+
-+Desde o Linux 4.16, o sistema de compilação gera analisadores sintáticos durante
-+a compilação. Isso requer o bison 2.0 ou superior
-+
-+pahole
-+------
-+
-+Desde o Linux 5.2, se CONFIG_DEBUG_INFO_BTF estiver selecionado, o sistema de
-+compilação gera BTF (BPF Type Format) a partir do DWARF no vmlinux, e um pouco
-+depois para os módulos do kernel também. Isso requer o pahole v1.16 ou superior.
-+
-+Ele pode ser encontrado nos pacotes ``dwarves`` ou ``pahole`` das
-+distribuições, ou em https://fedorapeople.org/~acme/dwarves/.
-+
-+Perl
-+----
-+
-+Você precisará do perl 5 e dos seguintes módulos: Getopt::Long,
-+Getopt::Std, File::Basename e File::Find para compilar o kernel.
-+
-+Python
-+------
-+
-+Várias opções de configuração o exigem: ele é necessário para as configurações
-+padrão (defconfigs) de arm/arm64, CONFIG_LTO_CLANG, algumas configurações
-+opcionais de DRM, a ferramenta kernel-doc e a geração da documentação (Sphinx),
-+entre outros.
-+
-+BC
-+--
-+
-+Você precisará do bc para compilar kernels 3.10 ou superior.
-+
-+
-+OpenSSL
-+-------
-+
-+A assinatura de módulos e a manipulação de certificados externos utilizam o
-+programa OpenSSL e a biblioteca de criptografia para realizar a criação de
-+chaves e a geração de assinaturas.
-+
-+Você precisará do openssl para compilar kernels 3.7 e superiores se a assinatura
-+de módulos estiver habilitada. Você também precisará dos pacotes de
-+desenvolvimento do openssl para compilar kernels 4.3 e superiores.
-+
-+Tar
-+---
-+
-+O GNU tar é necessário caso você deseje habilitar o acesso aos cabeçalhos do
-+kernel via sysfs (CONFIG_IKHEADERS).
-+
-+gtags / GNU GLOBAL (optional)
-+-----------------------------
-+
-+A compilação do kernel requer o GNU GLOBAL versão 6.6.5 ou superior para gerar
-+arquivos de tags através de make gtags. Isso se deve ao uso da flag -C
-+(--directory) pelo gtags.
-+
-+mkimage
-+-------
-+
-+Esta ferramenta é utilizada ao gerar uma Flat Image Tree (FIT), comumente usada
-+em plataformas ARM. A ferramenta está disponível através do pacote u-boot-tools
-+ou pode ser compilada a partir do código-fonte do U-Boot. Veja as instruções em
-+https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
-+
-+GNU AWK
-+-------
-+
-+O GNU AWK é necessário caso você deseje que a compilação do kernel gere dados de
-+intervalo de endereços para
-+módulos integrados (CONFIG_BUILTIN_MODULE_RANGES).
-+
-+Utilitários de sistema
-+***********************
-+
-+Mudanças de arquitetura
-+------------------------
-+
-+O DevFS tornou-se obsoleto em favor do udev
-+(https://www.kernel.org/pub/linux/utils/kernel/hotplug/)
-+
-+O suporte a UIDs de 32 bits já está implementado. Divirta-se!
-+
-+A documentação das funções do Linux está migrando para a documentação embutida
-+(inline), por meio de comentários com formatação especial próximos às suas
-+definições no código-fonte. Esses comentários podem ser combinados com arquivos
-+ReST no diretório Documentation/ para criar uma documentação enriquecida, que
-+pode então ser convertida para arquivos PostScript, HTML, LaTeX, ePUB e PDF.
-+Para converter do formato ReST para o formato de sua escolha,você precisará do
-+Sphinx.
-+
-+Util-linux
-+----------
-+
-+Novas versões do util-linux oferecem suporte no fdisk para discos maiores,
-+suporte a novas opções para o mount, reconhecimento de mais tipos de partição e
-+outras funcionalidades interessantes. Você provavelmente vai querer atualizar.
-+
-+Ksymoops
-+--------
-+
-+Se o impensável acontecer e o seu kernel sofrer um oops, você pode precisar da
-+ferramenta ksymoops para decodificá-lo, mas na maioria dos casos, não será
-+necessário. É geralmente preferível compilar o kernel com CONFIG_KALLSYMS para
-+que ele produza dumps legíveis que possam ser usados no estado em que se
-+encontram (isso também gera uma saída melhor do que a do ksymoops).
-+Se por algum motivo o seu kernel não for compilado com CONFIG_KALLSYMS e você
-+não tiver como recompilar e reproduzir o oops com essa opção, você ainda poderá
-+decodificá-lo com o ksymoops.
-+
-+Mkinitrd
-+--------
-+
-+Estas mudanças no layout da árvore de arquivos /lib/modules também exigem que o
-+mkinitrd seja atualizado.
-+
-+E2fsprogs
-+---------
-+
-+A versão mais recente do e2fsprogs corrige diversos bugs no fsck e no debugfs.
-+Obviamente, é uma boa ideia atualizar.
-+
-+JFSutils
-+--------
-+
-+O pacote jfsutils contém os utilitários para o sistema de arquivos. Os seguintes
-+utilitários estão disponíveis:
-+
-+- ``fsck.jfs`` - inicia a reprodução (replay) do log de transações, além de
-+  verificar e reparar uma partição formatada em JFS.
-+
-+- ``mkfs.jfs`` - cria uma partição formatada em JFS.
-+
-+- Para o seu arquivo changes.rst, a tradução técnica adequada é:
-+
-+Outros utilitários de sistema de arquivos também estão disponíveis neste pacote.
-+
-+Xfsprogs
-+--------
-+
-+A versão mais recente do ``xfsprogs`` contém os utilitários ``mkfs.xfs``,
-+``xfs_db`` e ``xfs_repair``, entre outros, para o sistema de arquivos XFS. Ele é
-+independente de arquitetura e qualquer versão a partir da 2.0.0 deve funcionar
-+corretamente com esta versão do código do kernel XFS (recomenda-se a
-+versão 2.6.0 ou posterior, devido a algumas melhorias significativas).
-+
-+PCMCIAutils
-+-----------
-+
-+O PCMCIAutils substitui o pcmcia-cs. Ele configura corretamente os sockets
-+PCMCIA na inicialização do sistema e carrega os módulos apropriados para
-+dispositivos PCMCIA de 16 bits, caso o kernel esteja modularizado e o subsistema
-+de hotplug seja utilizado.
-+
-+Quota-tools
-+-----------
-+
-+O suporte a UIDs e GIDs de 32 bits é necessário caso você deseje utilizar o
-+formato de cota versão 2 mais recente. O quota-tools versão 3.07 e superiores
-+possuem esse suporte. Utilize a versão recomendada ou superior da tabela acima.
-+
-+Intel IA32 microcode
-+--------------------
-+
-+Um driver foi adicionado para permitir a atualização do microcódigo Intel IA32,
-+acessível como um dispositivo de caracteres comum (misc). Se você não estiver
-+usando o udev, você poderá precisar de::
-+
-+  mkdir /dev/cpu
-+  mknod /dev/cpu/microcode c 10 184
-+  chmod 0644 /dev/cpu/microcode
-+
-+Se você não estiver usando o udev, você poderá precisar executar os comandos
-+acima como root antes de poder usar isso. Você provavelmente também desejará
-+obter o utilitário de espaço de usuário ``microcode_ctl`` para utilizar em
-+conjunto com este driver.
-+
-+udev
-+----
-+
-+O udev é uma aplicação de espaço de usuário para popular o diretório /dev
-+dinamicamente, apenas com entradas para dispositivos de fat presentes no
-+sistema. O udev substitui a funcionalidade básica do devfs, permitindo ao mesmo
-+tempo a nomeação persistente de dispositivos.
-+
-+FUSE
-+----
-+
-+Necessita do libfuse 2.4.0 ou posterior. O mínimo absoluto é a versão 2.3.0,
-+mas as opções de montagem direct_io e kernel_cache não funcionarão.
-+
-+Redes
-+******
-+
-+Mudanças gerais
-+----------------
-+
-+Caso você tenha necessidades avançadas de configuração de rede, você deve
-+provavelmente considerar o uso das ferramentas de rede do iproute2.
-+
-+Filtro de Pacotes / NAT
-+------------------------
-+
-+O código de filtragem de pacotes e NAT utiliza as mesmas ferramentas da série
-+anterior de kernels 2.4.x (iptables). Ele ainda inclui módulos de
-+retrocompatibilidade para o ipchains (estilo 2.2.x) e o ipfwadm (estilo 2.0.x).
-+
-+PPP
-+---
-+
-+O driver PPP foi reestruturado para suportar multilink e permitir que opere
-+sobre diversas camadas de mídia. Se você utiliza PPP, atualize o pppd para, no
-+mínimo, a versão 2.4.0.
-+
-+Se você não estiver usando o udev, você deve possuir o arquivo de dispositivo
-+``/dev/ppp``, o qual pode ser criado por::
-+
-+  mknod /dev/ppp c 108 0
-+
-+como root.
-+
-+NFS-utils
-+---------
-+
-+Em kernels antigos (2.4 e anteriores), o servidor NFS precisava conhecer
-+qualquer cliente que pretendesse acessar arquivos via NFS. Essa informação era
-+fornecida ao kernel pelo mountd quando o cliente montava o sistema de arquivos,
-+ou pelo exportfs na inicialização do sistema. O exportfs obtinha informações
-+sobre clientes ativos a partir de /var/lib/nfs/rmtab.
-+
-+Esta abordagem é bastante frágil, pois depende da integridade do rmtab, o que
-+nem sempre é fácil, particularmente ao tentar implementar fail-over. Mesmo
-+quando o sistema está funcionando bem, o rmtab sofre com o acúmulo de muitas
-+entradas antigas que nunca são removidas.
-+
-+Com kernels modernos, temos a opção de fazer o kernel informar ao mountd quando
-+recebe uma requisição de um host desconhecido, permitindo que o mountd forneça
-+as informações de exportação apropriadas ao kernel. Isso remove a dependência do
-+rmtab e significa que o kernel só precisa conhecer os clientes ativos no
-+momento.
-+
-+Para habilitar esta nova funcionalidade, você precisa::
-+
-+  mount -t nfsd nfsd /proc/fs/nfsd
-+
-+antes de executar o exportfs ou o mountd. Recomenda-se que todos os serviços NFS
-+sejam protegidos da internet em geral por um firewall, sempre que possível.
-+
-+mcelog
-+------
-+
-+Em kernels x86, o utilitário mcelog é necessário para processar e registrar
-+eventos de machine check quando opção CONFIG_X86_MCE está ativada. Eventos de
-+machine check são erros relatados pela CPU. O processamento desses eventos é
-+fortemente recomendado.
-+
-+Documentação do Kernel
-+***********************
-+
-+Sphinx
-+------
-+
-+Por favor, consulte Documentation/doc-guide/sphinx.rst para detalhes sobre os
-+requisitos do Sphinx.
-+
-+rustdoc
-+-------
-+
-+O rustdoc é utilizado para gerar a documentação para código Rust. Por favor,
-+consulte Documentation/rust/general-information.rst para mais informações.
-+
-+Obtendo software atualizado
-+============================
-+
-+Compilação do kernel
-+**********************
-+
-+gcc
-+---
-+
-+- <ftp://ftp.gnu.org/gnu/gcc/>
-+
-+Clang/LLVM
-+----------
-+
-+- :ref:`Getting LLVM <getting_llvm>`.
-+
-+Rust
-+----
-+
-+- Documentation/rust/quick-start.rst.
-+
-+bindgen
-+-------
-+
-+- Documentation/rust/quick-start.rst.
-+
-+Make
-+----
-+
-+- <ftp://ftp.gnu.org/gnu/make/>
-+
-+Bash
-+----
-+
-+- <ftp://ftp.gnu.org/gnu/bash/>
-+
-+Binutils
-+--------
-+
-+- <https://www.kernel.org/pub/linux/devel/binutils/>
-+
-+Flex
-+----
-+
-+- <https://github.com/westes/flex/releases>
-+
-+Bison
-+-----
-+
-+- <ftp://ftp.gnu.org/gnu/bison/>
-+
-+OpenSSL
-+-------
-+
-+- <https://www.openssl.org/>
-+
-+System utilities
-+****************
-+
-+Util-linux
-+----------
-+
-+- <https://www.kernel.org/pub/linux/utils/util-linux/>
-+
-+Kmod
-+----
-+
-+- <https://www.kernel.org/pub/linux/utils/kernel/kmod/>
-+- <https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git>
-+
-+Ksymoops
-+--------
-+
-+- <https://www.kernel.org/pub/linux/utils/kernel/ksymoops/v2.4/>
-+
-+Mkinitrd
-+--------
-+
-+- <https://code.launchpad.net/initrd-tools/main>
-+
-+E2fsprogs
-+---------
-+
-+- <https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/>
-+- <https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/>
-+
-+JFSutils
-+--------
-+
-+- <https://jfs.sourceforge.net/>
-+
-+Xfsprogs
-+--------
-+
-+- <https://git.kernel.org/pub/scm/fs/xfs/xfsprogs-dev.git>
-+- <https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/>
-+
-+Pcmciautils
-+-----------
-+
-+- <https://www.kernel.org/pub/linux/utils/kernel/pcmcia/>
-+
-+Quota-tools
-+-----------
-+
-+- <https://sourceforge.net/projects/linuxquota/>
-+
-+
-+Intel P6 microcode
-+------------------
-+
-+- <https://downloadcenter.intel.com/>
-+
-+udev
-+----
-+
-+- <https://www.freedesktop.org/software/systemd/man/udev.html>
-+
-+FUSE
-+----
-+
-+- <https://github.com/libfuse/libfuse/releases>
-+
-+mcelog
-+------
-+
-+- <https://www.mcelog.org/>
-+
-+Redes
-+******
-+
-+PPP
-+---
-+
-+- <https://download.samba.org/pub/ppp/>
-+- <https://git.ozlabs.org/?p=ppp.git>
-+- <https://github.com/paulusmack/ppp/>
-+
-+NFS-utils
-+---------
-+
-+- <https://sourceforge.net/project/showfiles.php?group_id=14>
-+- <https://nfs.sourceforge.net/>
-+
-+Iptables
-+--------
-+
-+- <https://netfilter.org/projects/iptables/index.html>
-+
-+Ip-route2
-+---------
-+
-+- <https://www.kernel.org/pub/linux/utils/net/iproute2/>
-+
-+OProfile
-+--------
-+
-+- <https://oprofile.sf.net/download/>
-+
-+Kernel documentation
-+********************
-+
-+Sphinx
-+------
-+
-+- <https://www.sphinx-doc.org/>
-diff --git a/Documentation/translations/pt_BR/process/howto.rst b/Documentation/translations/pt_BR/process/howto.rst
-index 5670301023..bcedee7273 100644
---- a/Documentation/translations/pt_BR/process/howto.rst
-+++ b/Documentation/translations/pt_BR/process/howto.rst
-@@ -99,7 +99,7 @@ que são de leitura obrigatória:
-     o que é necessário fazer para configurar e compilar o kernel. Pessoas
-     que são novas no kernel devem começar por aqui.
- 
--  :ref:`Documentation/process/changes.rst <changes>`
-+  :doc:`changes`
-     Este arquivo fornece uma lista das versões mínimas de vários pacotes de
-     software que são necessários para compilar e executar o kernel com
-     sucesso.
--- 
-2.47.3
-
+---Trilok Soni
