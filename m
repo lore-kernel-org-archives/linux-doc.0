@@ -1,199 +1,266 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11020084.outbound.protection.outlook.com [52.101.84.84])
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2183783C7;
-	Tue, 24 Feb 2026 10:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771930205; cv=fail; b=krZRw+k80xgQ2OEkAo5sBpSNnw2unxPBdHHDQXKP1UAuTVv+dR1t5xgA0t8o9l5yc3YLFwOQIn2gGU2TV0S3JEEXscdw1YVbT2i5UqYk3KWNPX8SA2ZEm5GFFOFMrH/ejFXB81NXEEvVm0F6sgaY82eKa7u8w4ZmLd21012w6Pg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771930205; c=relaxed/simple;
-	bh=5bePOVAmdoB6es9kQ/4lrjiGDPhHy/8PB7oTd4nXwoc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=itbBewpyOTWhaPU5+joPhdsffRY1B9mXz+mSv469Am3C07EKRnvLi5vhV9y6ijhISpOaglEVytBGZ16rE2A1yvRm18XIPf//S6HF8IoclIHe5WY7unE7HxxzW8t49sMXHYUEZaIl7pdNjzHhiOLeA7YDDYA5Ecy8otyuPYtSwDM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de; spf=pass smtp.mailfrom=kontron.de; dkim=pass (2048-bit key) header.d=kontron.de header.i=@kontron.de header.b=VFKtAkyG; arc=fail smtp.client-ip=52.101.84.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kontron.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kontron.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6047E372B2E;
+	Tue, 24 Feb 2026 11:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771931062; cv=none; b=iHwWrcC1jphpucg1M9bPsrUK9UnrzbT50k1gI7bWuRWhkcsOf/4EQ8C8zyYJ5Ock15KFdWKpZiA6YoPooSDp/l6TvNou8ZExvdVsrrWY3jwQ5eiTOX8hYYV4RkCInn7CWg6as/USrRWmw82oIJ8d4hTwERid3zMNjb4fIeCDkKg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771931062; c=relaxed/simple;
+	bh=/gj587vu4yivlc/dgC/D2HvATmJIxeOLhCsWfleA4f4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=AO6LtsH2z4rMkmhItc6L4UzXIZN3uCdn0KzWU7Fs6SO6h8f3QXu0a0uWnKEuiqF5dUocpPPJeqA41RKAKzhEmUtOScaLyJKBybc9BCuI90iMQ5qgEwNCvIvWXn7muXIz9xNhej5hqvXWGVoHQ6U2OtYGuF5AtzKc0hjWZY4MeC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=UvWcgOBT; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kontron.de header.i=@kontron.de header.b="VFKtAkyG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WHUwcuY3EPis1keMUhjLYOHz21qAwzwBdXnNJkHZUogQ0BiGwzt8Wd23JTuYmxPbxmRCc/e+8zTUDhnlqwkAxwGHJCByWqZyMQaGj2IjPey7rhxmz6cxQ9Xiou5ImngLCjQ0a3KtpKGFYNNJtA4Wc7f23XlPnRn4ysuFST2chsHelaWq9fFrPMjJad2UkuRxJGSuzf658kVuTQUuw7pG0Ca16kUCiTcpz/rYXG8m4Y5r+eCoJhksbp6pGZnVEeHcy7ull7uxwL3Tt4+D7Y6I3igTUxn1ka0n1Q1JrVp+0UKKK7vovb2GJh+jiVieKYwd+eqnBH/H+c8/fbPvjPsldA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HftUBs8jeBEzSfG2/aJjlRx2ZjD3bCoo8F6qPc0tgG4=;
- b=F7TmISQgNy7vHjHHclPkWWLsQQ7F2k79tlZpsWH//nXg9Q3dlhKtFsnZ8ELCpFi0KN19B4WOB4O44J5Of3EQiTwKwbTTp7uHMsrIO4jKJciffy5dZoowILJi1UV4KjdS2VAIwjSWDQvgePUVF4S+X0w8r+vOr1+IPmLXGDBKg7XiVSDSn6OwsH25u76dmeI7r5TRVlsGxadaVGEoOaiIGaG3BpGVDeuRAYjbmFLsCBHrTTxI1+KAqmkInXj2oVuASFapwYpxlACIWj4+Bskkhj3dfUu1Wpkik9UM18YhACc2vpuUVPQOnmJeGFI4hFfUyXbxwENjxvPKnZS+8kELGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kontron.de; dmarc=pass action=none header.from=kontron.de;
- dkim=pass header.d=kontron.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kontron.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HftUBs8jeBEzSfG2/aJjlRx2ZjD3bCoo8F6qPc0tgG4=;
- b=VFKtAkyGgHP8faDF/lkGA0ydaSrSNSk+XPem8/i8lK5+AEsm1+SuW16h0R+4qQ4TSODihVbFLOWgVvb/Oa7/RK6eP47JIPcgYDp/UQMM7KNNuSKTIFO+xVe3eQfUmYXvNxmslUxQI1INiEXCryJWaS0BbrTnSguJBOmQPs8aP/fYue271gL4sYSxZQqnJboYUFALjeKrxUBipZg4sq4XbpssdOVPv32tPqlW4pvn98eHAC80ycQejauflXQO5e2vTPfRkBfD8oO0vkNzuZgJNeg8fWDSsGt9dFlqyhbXnw2CVWcxa3IdoiFKgLXyGA/peDQrDtjP9NrMBZNFsa8sHQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=kontron.de;
-Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1fb::23)
- by PAVPR10MB7058.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:301::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Tue, 24 Feb
- 2026 10:49:57 +0000
-Received: from AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a276:4ad7:962:da22]) by AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a276:4ad7:962:da22%5]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 10:49:57 +0000
-Message-ID: <dd43fdab-831e-450a-b1ee-66d3ca4f33b2@kontron.de>
-Date: Tue, 24 Feb 2026 11:49:19 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v25 3/7] firmware: imx: add driver for NXP EdgeLock
- Enclave
-To: Pankaj Gupta <pankaj.gupta@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, Frank Li <Frank.Li@nxp.com>
-References: <20260122-imx-se-if-v25-0-5c3e3e3b69a8@nxp.com>
- <20260122-imx-se-if-v25-3-5c3e3e3b69a8@nxp.com>
-Content-Language: en-US, de-DE
-From: Frieder Schrempf <frieder.schrempf@kontron.de>
-In-Reply-To: <20260122-imx-se-if-v25-3-5c3e3e3b69a8@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0196.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a5::14) To AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:20b:1fb::23)
+	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="UvWcgOBT"
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=kCWU2R5MM4gnub93seAceQHbJ4eXvgD83yMMfMA2iD0=;
+	b=UvWcgOBTTLuLZe1zuVYQrxalje5p2e5gIY5EJdEtIm86iOi1wc0ugmAVkD3HZUL1AIwjTBv2w
+	wE//NI8VHeqW6XxqzlfaiVX9Ltbl/NnNN+TAyC3lcxc/7HIjacoR+ybCBwCKjFK5MIeVNwp9VsJ
+	5+M4mwsIkqWP6dq1FyIc8P8=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4fKvqf1mMQz1prKq;
+	Tue, 24 Feb 2026 18:59:26 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+	by mail.maildlp.com (Postfix) with ESMTPS id D87FF4056B;
+	Tue, 24 Feb 2026 19:04:14 +0800 (CST)
+Received: from [10.174.179.37] (10.174.179.37) by
+ kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Tue, 24 Feb 2026 19:04:13 +0800
+Message-ID: <28dbde39-5b21-5f2f-59f5-4500c8b0296d@huawei.com>
+Date: Tue, 24 Feb 2026 19:03:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR10MB4277:EE_|PAVPR10MB7058:EE_
-X-MS-Office365-Filtering-Correlation-Id: 071afd78-9dc1-4ef8-7c1d-08de73927357
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NnpLeEdSNnI5UUluWDkreGs2d0UxUU9KYjdJdllFOXdRSUo1ckNUT3J1ZURK?=
- =?utf-8?B?R3U2c0gzTHZjMi9GM2UrQ1ZoT1M1SjMxaWdlUmM2YUpNRDlRT08vN0JmeStN?=
- =?utf-8?B?em41blUvcjhkY2dkSTRpV2tIbFpFQUZsYUxLZWdlVUZiQlI4WGNVS0JramM4?=
- =?utf-8?B?dEc0NnNEUDVDcHJuUnVvVHd1dTArYS9jNUw1YVRqTjdDaDlZY0RvNXBrMjFy?=
- =?utf-8?B?OXZad1ZuMXpTRlJTS2NhUTBPQ2x4MEJUeWY1MnpFQndMMVJ4RU42ZTZkNnhX?=
- =?utf-8?B?RFU5N3REbkh6UkxkVTVXenZMM0dvM3MzVTdVMW9heHRJOEtHc2E3RHlVM0px?=
- =?utf-8?B?RUl5QXVKbVF4cHlrZ3F6NGhOTEZsMm9oa0dIYVNYVXVVaHdjbGIzd1BNMjJt?=
- =?utf-8?B?T0RHYUpTY2hQcmdSK1JWQnQwTERFcVYvTXcvMGZPV0pOb1dyM1J6ZE5Rdlkw?=
- =?utf-8?B?LzZzTEZ5RS81Nm9qL0dUYlVuWW1rYzBqeGtMb3RkdzhuZXlnbWdBNlAwcGd4?=
- =?utf-8?B?TWNEM3FORzRBOStSZGczYUNqeUd2R042WE8xeHNuWS90aENVTUV2bVkwanRy?=
- =?utf-8?B?clFMcnpZU3FoWnlNcUxJcGswek0vYUsrQXNVVzg4YitSYkJaOEx2V210TjI3?=
- =?utf-8?B?UDRrODVYUUFPR0lMTUxCZE1ETmc5d2V4UUtVTWlSRDJMOUJpVTF5U2ZOd0tW?=
- =?utf-8?B?MlZFc1BQRXZ5eHc5aW1VbEtCY0Z5WDFEbVZGYU56YWwxY3RKbFVoUW9EaFR1?=
- =?utf-8?B?Q0ZYN3BGZHRhOTdLeFdFRGNmUkZlUUJlMFB4c3QrdnJJNy9OOUE0K0Y4SGlT?=
- =?utf-8?B?MDhEcWFhZi82RENIaWxLR2F5b0FjUDQ1V2twS1R4bndzdnpZNUlwaVNpYXcx?=
- =?utf-8?B?RWVZQ2tDQzZPejZNMVNwYW12b2dtQ0NBRG4yMENTYTNVdmFOc1N1RS91VSty?=
- =?utf-8?B?TWdaTnZKLzZKQnNPdHRHQjF1dzZaZVVwZzhNRmxzSmZJckh1Mk9iZWNHdVdR?=
- =?utf-8?B?T2xnZ0RDZTN3d05pMXhBUlgyc3BnWTVFN29icS9sREtIODA3QzJuMG51dTBE?=
- =?utf-8?B?R0lJNnNRQm1aa3dzaUpLUGQvd2lEVGV1clZGVTVmTEdRSHRrRmpZTUtBYVc5?=
- =?utf-8?B?anBqYURZNC93aEJFQ2krVFJtYVZtd3h2TExzbEY5aFpnY3RSVVlkeEFMUWFC?=
- =?utf-8?B?K1pDUE5LTFBlZDdhY2xhTHMxd1lleWhJNlJaZjhqKzFOaVJrRDNGeGZkUXBj?=
- =?utf-8?B?LzhNcHpSRFdESmt6T3VaUU1XUDNHbkl0eHRXOVVkOEs1VFk0WmdvclZhekFC?=
- =?utf-8?B?SVluNWVLVGdkUWdHZWsxZzJSQ0FVdFhKVlphbW0zWnZiV3JkbStUQlcyMCtu?=
- =?utf-8?B?QjZwbkxqVk9QcFVGK1pKdWpRWE9jckVyTzFWam93Yk1TRGlPdmI0KzZoYkJq?=
- =?utf-8?B?WDd5bUZvdUp2TzBjWUxocVBramdPL1ZEYmF6QnRPZnMyL0l5ZGhTdTUyem85?=
- =?utf-8?B?Y1ZuM3Z5VVpKM1R1RTNKbFIzR3lHampOemRwaEEzMlpoYWVZVUlocXhya1hF?=
- =?utf-8?B?bHFTTkk1UTg1Ri8wQVlEVkhBN2xOZ0w1K0ljcHNZK2JVQklOYlB3RHg0ZzQ3?=
- =?utf-8?B?enQwRXRmZTUxWFpMLy9BaHIvUVd5UTNHbTdkZlRHS2p4ZGJROHBGSGJpTGhh?=
- =?utf-8?B?ZkxnOWVtVHlOY3d6cU5kcFRCTE9GQ0lKYWFIL0dXWlhvMHQyTURvenBHeFFS?=
- =?utf-8?B?a1BIY0pOM2NQd0hxVTJpQ0JObXVjbjIrTVJuOHZmS2ZhcFBQdFFmdyt3VnUy?=
- =?utf-8?B?dHhQZVNob3M3alBydUlFV1d1RlNFS2RwdmZsRlBZSWJxYTdyYVk1TXI0U1lE?=
- =?utf-8?B?WTdVdGZGRmRiM2YwazV3RmVtSjNHbTlDNmpkWUUzazY3cFNGbWZLd3huUXg1?=
- =?utf-8?B?ejdjRldneXM4S2RIYnhPR05aeUd5NUJBZTV6ZXFLbFR5NlJWRG1PNDM1cURl?=
- =?utf-8?B?WE80YUo3N2Y2T3VYOURLN1RJQmVjV3hVeWhtWVl6TnIvRThBRjduaXV0MENG?=
- =?utf-8?B?cmpkVDlkYWRPbkVXUmhJQ0pMaXNvNXVzOVNKVkEzaFlaMDAzY0RhN0hiMWdm?=
- =?utf-8?Q?0KpE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cVdUenJWdFpmMWkrR0MvQlEwbUQzWGpqcmdXY3huQTF2ZzZOWVVKeE9nOTJV?=
- =?utf-8?B?dTdDMFlsc1EvT3YwSmsxTC96cW5KZVNKR1l0WHZGOVdZeTl1OFltdEJFM0dK?=
- =?utf-8?B?TmlrMFJkREc0L0Y4OVFTZnBXQkhINXhsNUF5cUFLbUFLaEQ0RjhQR01FeWc1?=
- =?utf-8?B?OVA5UlVheHg5VitoVFU4VzdLT2tGMUF5am5HZmkzdFI4bXRmcENqRHVJMjBU?=
- =?utf-8?B?VEhaS3oxbUFYS3RIeTVRL0Uxc1JNVWU5eW9pUjlrZnFNMFRTZ0tIY3oyRTJu?=
- =?utf-8?B?WDgwdWJJWDcwMDRWNVI3RFlEeVdEa09CVUdYWE5NYm9aNDNVRk5VZVUzUm9E?=
- =?utf-8?B?VWlBakN2MVZ4MU9qMFRwakIvSXlEb1IvSmZlTjBxS3dRVG9FaGlXTW4wMXlU?=
- =?utf-8?B?cmh6Z3VaS3d0MlB2U055eTRORnE5Ykl3aTVhdFhTNTNzdllGMWpNcHd1bkdn?=
- =?utf-8?B?YW5hczMrRzNkM0JPaUNQbU1zT2xqY0pSS0k1enNiNE1GMzhSTjdHUWNOZWdh?=
- =?utf-8?B?VXBsRm9BYTlMWVo4ajYwV1BZTSsreXR4OFJqRURyTkhwZkt0OTdNSEk4STFU?=
- =?utf-8?B?WUdyOENYSDd0WUlESFFhRDlkamVIbStUTGxPQzAvMjVNY09DZ2xJLzAybDZz?=
- =?utf-8?B?VEZCeUNFMlJwQnlpVy9adVA3RUp6dmJRRURjNzNTVWY3dzg0SGxGYlRZZVJy?=
- =?utf-8?B?YUw3b05Fa2JYYlY0RGFPYm9tU3lJUXhrRVo4Z0lndHlBZFJYMGVobFNIY2hl?=
- =?utf-8?B?WUxOclJVZVByMVl6RTNOZlpqbUhONzdxaFZ1dGdDcTZnSFkzUVJkc2FuWFk0?=
- =?utf-8?B?aVpHb2VXdG5CS3lEaHdvZjRybzdLVDJYY3l4WU8xSkZKYWliTnhjOXJyT1Na?=
- =?utf-8?B?RHNjRm5kVkVuNzRTcVRPOEUybnV4RG9NeXhtRitSeittVXY0aDFZSEppTmtk?=
- =?utf-8?B?YzY3NGxhMzU3VU9vWno0VVQ1aG5JRFViQjAvVGt4dkdETTZsWUIvZXRiWXVY?=
- =?utf-8?B?WlkzdHZqK2RRY1Q4NDdiV3R6SEEwVUlRZFVNTzMxUCt0RGlXSk8vTU92Rjlv?=
- =?utf-8?B?Sm1xVnBNMTVIdUlIM3l4OW5NOHFob0ZFR0pTeis2bnJsNDY1MTZXTEFzekJh?=
- =?utf-8?B?QitFSStkZC9WOWZEUkNPSHJIbk90OU45MktMQXNMKzZNM2tESTAydFFpdnlp?=
- =?utf-8?B?dWp6MFV0aHM0cFgwSWdFT0RSaGF5MVZTcUhtTmtKeFdGSFh5QnNvNnF0b0wv?=
- =?utf-8?B?MHY5czM4TVdsREhsSXFYbjkyeC9aQW52LzlXRUVGa2ZUS3VIUThyWmthNEFL?=
- =?utf-8?B?R0JKaDU1dEFpK0JzVnRpd1ZVdFdKUEQ2WFNKUmoyN2E2L2xENXd0cjVORFV3?=
- =?utf-8?B?NjMrbzVJUDZiYXl5SkVqNGl4OWd6bXhCS3A2NDliOUFzelNxdXFBMEJWT3o4?=
- =?utf-8?B?Y3NmbXNlV0pNa3h1eGY1Wi84dXlRb3hNNW1lSkRvTTVrWkhBZU5MdmtONFNC?=
- =?utf-8?B?NnUzcUd6WmM3N1JXenZ4UU5EcW0vb1RzbEc0T0FDWlFVYzdTa2FTcXhMSHZO?=
- =?utf-8?B?aGNqNFduSzQvMUF4dDU1a3BHVlBmMkNyQWJOTHdzRVFnUVR1RFpSTWF4Wnh1?=
- =?utf-8?B?SVAwYmdCaENIMXdsbUpRMVNYRTZYTUtTbEl5MmhsZmUySCt1bHNRamd2ZGRG?=
- =?utf-8?B?dFJjTWdZbDVvb2U2akRlNXd5OC9lUFJRRE52MlgyRUdpaWx5TUlIcUlJM2E4?=
- =?utf-8?B?TkV3SWRuWVdJeTB1ZCswWTcxTUNPMVdTcWdEY08rR0tUUlZnaTdxc1ljc3Ru?=
- =?utf-8?B?d01rZnNQdk51OUgzS2VYTjR1SVJZR3U5KytFQlhmSWhDaGtMSlp5VXpTNHQw?=
- =?utf-8?B?S2hnZWp5OTZpbDJzNFd4Qmw4MHB5cHltNzIrdnZKYUUyWXJpSEh0aVJOOTB5?=
- =?utf-8?B?WlI1Qys0S2pESVBxVExaOXptcXo0TzFhYWgvSHhmREt4eVc0ZzlTUzRXaTFs?=
- =?utf-8?B?NjA2R0tRMERBVzZPSnR4RE5iQ3dtSjFRN2p2bS82NFdRV1JyL1pWcmN5L2ZG?=
- =?utf-8?B?QmttMnRhdktscDBlVVk4TGF0N1lCbnhzS1ZyTlNzOTN6K1pQemxrNjN0c2sz?=
- =?utf-8?B?bnRaNG9HNmtQTnlTazN5L0w3UFRLUkJhekRUSm8zVVFPbzFFTXF3SUVvSW90?=
- =?utf-8?B?ZkxTTGxmUGpWWnVHLy8wU3g0ejNoUFo1N2M0WWRXR0xTb01iNXNDa2t2bW55?=
- =?utf-8?B?RXVxWS9ONWFKck83Rm1pTHgrajVxNDJyZWlnNUVkMEc4dWpuWEVxMWkra3o1?=
- =?utf-8?B?L3ZTQWZtbFNZSVpFamh2RXplbFN6L2U5SDlTQ1JpR1FISzVmaE0zS3prd24r?=
- =?utf-8?Q?KtmHmyvRSZl57n7A=3D?=
-X-OriginatorOrg: kontron.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 071afd78-9dc1-4ef8-7c1d-08de73927357
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR10MB4277.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 10:49:57.2670
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8c9d3c97-3fd9-41c8-a2b1-646f3942daf1
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GXLyZxCO17T+2ZMyGp5D6EK5RFZebiNBwYDvONNnZEAq9xMqUtqjBiGElJSwMlLHZruEPfkZwnw0t/Woq02ibQahk3eBHfDS+F4x/oqwkvg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR10MB7058
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v4 00/41] arm_mpam: Add KVM/arm64 and resctrl glue code
+To: Ben Horgan <ben.horgan@arm.com>
+CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
+	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
+	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
+	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
+	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
+	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
+	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
+	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+ <9945d28e-f1f2-e11a-1481-8d80167d6f89@huawei.com>
+ <b844c632-c8fc-48f1-b347-07f166019b22@arm.com>
+Content-Language: en-US
+From: Zeng Heng <zengheng4@huawei.com>
+In-Reply-To: <b844c632-c8fc-48f1-b347-07f166019b22@arm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 
-On 22.01.26 12:49, Pankaj Gupta wrote:
-> Add MU-based communication interface for secure enclave.
-> 
-> NXP hardware IP(s) for secure-enclaves like Edgelock Enclave(ELE), are
-> embedded in the SoC to support the features like HSM, SHE & V2X, using
-> message based communication interface.
-> 
-> The secure enclave FW communicates with Linux over single or multiple
-> dedicated messaging unit(MU) based interface(s).
-> Exists on i.MX SoC(s) like i.MX8ULP, i.MX93, i.MX95 etc.
-> 
-> For i.MX9x SoC(s) there is at least one dedicated ELE MU(s) for each
-> world - Linux(one or more) and OPTEE-OS (one or more).
-> 
-> Other dependent kernel drivers will be:
-> - NVMEM: that supports non-volatile devices like EFUSES,
->          managed by NXP's secure-enclave.
-> 
-> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Hi Ben,
 
-I tested this on i.MX93 using additional patches to access OTP fuse
-registers through the NVMEM driver.
+On 2026/2/16 20:22, Ben Horgan wrote:
+> Hi Zeng,
+> 
+> On 2/14/26 09:40, Zeng Heng wrote:
+>> Hi Ben,
+>>
+>> On 2026/2/4 5:43, Ben Horgan wrote:
+> [...]
+>>>
+>>> Based on:
+>>> [1] git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/cache
+>>> (To include telemetry code which changes the resctrl arch interface)
+>>>
+>>> The series can be retrieved from:
+>>> https://gitlab.arm.com/linux-arm/linux-bh.git mpam_resctrl_glue_v4
+>>> (Final commit is a fix already in 6.19-rc8)
+>>>
+> [...]
+>>>
+>>
+>> I've tested the MPAM functionality on my local Kunpeng platform. Here's
+>> a summary of the results:
+> 
+> Thank you very much for your testing and detailed report.
+> 
+>>
+>> Features enabled and verified:
+>>    * L2 and L3 CPBM
+>>    * L3 CSU
+>>    * L2 and L3 CDP
+>> All enabled features passed functional testing as expected.
+>>
+>> + Tested-by: Zeng Heng <zengheng4@huawei.com>
+>>
+>> Features not enabled:
+>>    1. MATA MBMAX partition and MBWU monitor.
+> 
+> What's MATA here? Just memory allocation or something more specific?
+> 
 
-Tested-by: Frieder Schrempf <frieder.schrempf@kontron.de>
+The MATA serves as the agent for the Broadway MESI coherence protocol
+among multiple L3 caches or between I/O and L3 caches. It maintains data
+coherence among multiple L3 caches or between I/O and L3 caches.
+
+As the connection module between the SoC and the memory system, the MATA
+interfaces with the DMC on the DDR die. It provides the system with DDR
+access paths, delivering high-bandwidth, low-latency DDR read/write
+access.
+
+On the Kunpeng chip, the MB related MSC resides in this module rather
+than being directly located on the L3 cache controller.
+
+>>       Reason: These do not meet the driver's current topology>
+> expectations for MB support, hence they were not initialized.
+>>       This behavior is expected.
+> 
+> Is this because you have more than 1 L3 cache?
+
+Yes, Kunpeng platform has more than 1 L3 cache.
+
+However, the reason it is not supported here is that the current driver
+does not support MATA recognition, while both Kunpeng MBM and MBA
+functionalities reside in the MATA MSC side as mentioned above,
+resulting in the inability to provide support.
+
+Relevant logs are as follows:
+
+[   10.997406] mpam:topology_matches_l3: class 255 component 0 has
+Mismatched CPU mask with L3 equivalent
+[   10.997411] mpam:mpam_resctrl_pick_mba: class 255 topology doesn't
+match L3
+
+> 
+>>
+>>    2. L2 CSU and MBWU monitors.
+>>       Reason: The current MPAM driver does not support L2-related
+>>       functionality yet.
+> 
+> Thanks for letting us know you have these. But, yes, unfortunately
+> monitoring is only supported on the L3 at the moment.
+> 
+>>
+>> + Tested-by: Zeng Heng <zengheng4@huawei.com>
+>>
+>>
+>> Detailed test logs are as follows:
+> 
+> I'm confused by these logs as it looks like you aren't getting any
+> monitors but you verified the L3 CSU. Also, it looks like cpor (cbpm) is
+> disabled (at least partially) but you verified L2 and L3 CPBM. Is this
+> across different machines?
+> 
+
+The logs were of course tested on the same machine.
+
+Since the L3 CSU/CPBM resides on the L3 cache, it can be correctly
+recognized and run smoothly.
+
+In fact, not only was L2 successfully mounted, but all L2 MSC CPBMs were
+also correctly recognized. The suspicion here is that the L2
+class->components were incorrectly mounted to an unknown object, which
+is believed to be related to the monitoring capabilities (CSU and MBWU)
+of Kunpeng L2. The root cause is still being investigated.
+
+Resctrl mounting status:
+
+# cat schemata
+L2:4=ff;7=ff;10=ff;13=ff;16=ff;19=ff;22=ff;25=ff;29=ff;32=ff;35=ff;
+38=ff;41=ff;44=ff;47=ff;50=ff;54=ff;57=ff;60=ff;63=ff;66=ff;69=ff;72=ff;
+75=ff;79=ff;82=ff;85=ff;88=ff;91=ff;94=ff;97=ff;100=ff;104=ff;107=ff;
+110=ff;113=ff;116=ff;119=ff;122=ff;125=ff;129=ff;132=ff;135=ff;138=ff;
+141=ff;144=ff;147=ff;150=ff;154=ff;157=ff;160=ff;163=ff;166=ff;169=ff;
+172=ff;175=ff;179=ff;182=ff;185=ff;188=ff;191=ff;194=ff;197=ff;200=ff;
+204=ff;207=ff;210=ff;213=ff;216=ff;219=ff;222=ff;225=ff;229=ff;232=ff;
+235=ff;238=ff;241=ff;244=ff;247=ff;250=ff;254=ff;257=ff;260=ff;263=ff;
+266=ff;269=ff;272=ff;275=ff;279=ff;282=ff;285=ff;288=ff;291=ff;294=ff;
+297=ff;300=ff
+L3:1=1ffff;26=1ffff;51=1ffff;76=1ffff;101=1ffff;126=1ffff;151=1ffff;
+176=1ffff;201=1ffff;226=1ffff;251=1ffff;276=1ffff
+
+# ls mon_data/*/*
+mon_data/mon_L3_01/llc_occupancy   mon_data/mon_L3_151/llc_occupancy
+mon_data/mon_L3_226/llc_occupancy  mon_data/mon_L3_276/llc_occupancy
+mon_data/mon_L3_101/llc_occupancy  mon_data/mon_L3_176/llc_occupancy
+mon_data/mon_L3_251/llc_occupancy  mon_data/mon_L3_51/llc_occupancy
+mon_data/mon_L3_126/llc_occupancy  mon_data/mon_L3_201/llc_occupancy
+mon_data/mon_L3_26/llc_occupancy   mon_data/mon_L3_76/llc_occupancy
+
+>>
+>> Boot logs:
+>> [root@localhost ~]# dmesg | grep -i mpam
+>> [    0.000000] ACPI: MPAM 0x000000007FF35018 003024 (v01 HISI   HIP12
+>> 00000000 HISI 20151124)
+>> [    9.509852] mpam_msc mpam_msc.64: Merging features for
+>> vmsc:0xffff0800973cf5a0 |= ris:0xffff08009757ee90
+>> [    9.509859] mpam_msc mpam_msc.254: Merging features for
+>> class:0xffff08009736fe50 &= vmsc:0xffff080097628520
+>> [    9.509860] mpam:__props_mismatch:
+>> mpam_has_feature(mpam_feat_cpor_part, parent) = 1
+>> [    9.509864] mpam:__props_mismatch:
+>> mpam_has_feature(mpam_feat_cpor_part, child) = 0
+>> [    9.509866] mpam:__props_mismatch: parent->cpbm_wd = 8
+>> [    9.509869] mpam:__props_mismatch: child->cpbm_wd = 0
+>> [    9.509871] mpam:__props_mismatch: alias = 0
+>> [    9.509873] mpam:__props_mismatch: cleared cpor_part
+> 
+> cpor (partially) disabled?
+> 
+>> [    9.509876] mpam:__props_mismatch: took the min num_csu_mon
+>> [    9.509878] mpam:__props_mismatch: took the min num_mbwu_mon
+>> [    9.509881] mpam_msc mpam_msc.252: Merging features for
+
+[...]
+
+>> [   10.978496] mpam:mpam_resctrl_pick_caches: class 2 cache misses CPOR
+> 
+> No L2 cpor?
+> 
+>> [   10.978497] mpam:mpam_resctrl_pick_caches: class 255 is not a cache
+>> [   10.980470] mpam:mpam_resctrl_pick_mba: class 2 is before L3
+>> [   10.980472] mpam:mpam_resctrl_pick_mba: class 3 has no bandwidth control
+>> [   10.997406] mpam:topology_matches_l3: class 255 component 0 has
+>> Mismatched CPU mask with L3 equivalent
+>> [   10.997411] mpam:mpam_resctrl_pick_mba: class 255 topology doesn't
+>> match L3
+>> [   10.997415] mpam:mpam_resctrl_pick_counters: class 2 is before L3
+>> [   11.024109] mpam:topology_matches_l3: class 3 component 276 has
+>> Mismatched CPU mask with L3 equivalent
+>> [   11.024114] mpam:class_has_usable_mbwu: monitors usable in free-
+>> running mode
+> 
+> mbwu enabled?
+
+The fact that the number of monitors merely satisfies the conditions for
+free-running mode does not imply that the MBWU functionality can be
+successfully mounted. The specific reasons are explained above.
+
+> 
+>> [   11.063882] mpam:topology_matches_l3: class 255 component 0 has
+>> Mismatched CPU mask with L3 equivalent
+>> [   11.113183] mpam:mpam_resctrl_alloc_domain: Skipped monitor domain
+>> online - no monitors
+>> [   11.113189] MPAM enabled with 32 PARTIDs and 4 PMGs
+>>
+>>
+
+Sorry for the late reply. And this is my first day back from a long
+vacation.
+
+
+Best regards,
+Zeng Heng
