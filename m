@@ -1,110 +1,68 @@
-Received: from r-passerv.ralfj.de (r-passerv.ralfj.de [109.230.236.95])
+Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717523346A0;
-	Tue, 24 Feb 2026 09:06:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.230.236.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3483346A0;
+	Tue, 24 Feb 2026 09:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.136.29.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771923980; cv=none; b=HUWKmtgJc9NWx/KpsbWCtt4DHLuIeefhIrlzkJOioRpU+kES6BYrGHKS/Ppz9U5yPUKviMkPZaoV6WIJU82ArK8EvXtoWbUlhegMM/AIzSQe6cSEekHnyk7uQNfjJwiDPD6wB5GEIe8IL47ghnJA2NoI7pIXM+SgDKezZgdK3fU=
+	t=1771924007; cv=none; b=DGcB+bJgcnu/9X5DAqYuvY8tL/GuYJW0xigW+LxvF1ctLXyO2DS7LkSkcz1Slv07M6UY8GrvUw1WMHaihqF7JA4MWP9LqeDl/y/FAoY4RkqREIIVwK7pWXnaCD6uoDTnbb+a0yCKhYP7kqRfU69qSYceuXxT9HdjZ87zcP4oqtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771923980; c=relaxed/simple;
-	bh=OSQW9JK0igywcpVRUVNtIHNuLXdUzjzJawoBHMP3w30=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HlvNdMSma/I46CCWZ86+AMncIPpet80xnSyBvq7Adp7y77BUVe9HXhArRvRxHvqi4DrLUUWvxTj+3qiKO5KsGRue+I9IMEjLelpjdUw5cI1iZcXp2tvrhjmUiVl6oX6yVQZoJHsMymLp1uUJQHIObr2RBe8is6EiDHTb3xhXx5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ralfj.de; spf=pass smtp.mailfrom=ralfj.de; dkim=pass (1024-bit key) header.d=ralfj.de header.i=@ralfj.de header.b=qBoTYToU; arc=none smtp.client-ip=109.230.236.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ralfj.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ralfj.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ralfj.de header.i=@ralfj.de header.b="qBoTYToU"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ralfj.de; s=mail;
-	t=1771923494; bh=OSQW9JK0igywcpVRUVNtIHNuLXdUzjzJawoBHMP3w30=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qBoTYToU6O6WpDW4IWSgV8tCF1IeZzUS6BbFTM0hMfWV+qxwzJcuZo3qw4P4Wdprg
-	 bEUqNiB10O/dILFrEOOpb+6Cq7BoEyHXim3bcEJEF+XebylUKqmVGXlHR2Pi61sUuG
-	 mPC+NCvSHP82KwObVmRnNZp9+YcBNcJs0RQivlnw=
-Received: from [192.168.178.20] (53.206.40.145.ftth.as8758.net [145.40.206.53])
-	by r-passerv.ralfj.de (Postfix) with ESMTPSA id 7E4E320525FE;
-	Tue, 24 Feb 2026 09:58:13 +0100 (CET)
-Message-ID: <0a176f95-eeba-428e-b19b-b08503d9ca5d@ralfj.de>
-Date: Tue, 24 Feb 2026 09:58:10 +0100
+	s=arc-20240116; t=1771924007; c=relaxed/simple;
+	bh=IFtfCARgW5leN3qTPPYGf/aEdNDYKoPYRTam8eoW3q8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FKQHryc5WDYYuj38QfmhvMoUmn8EuSkiV2qnp3NhbqHB6VTF3DIZdSmbCzH+IE5CGZzgU1myzR5p77SHIRy/p1LckcWB38z6CBRJykHhtK++273UTgIIJPn5N8oB0DfNwmCnAvsgkJG6u3XmJRKvNqjkFCzO94pooQbF0FVysdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com; spf=pass smtp.mailfrom=proxmox.com; arc=none smtp.client-ip=94.136.29.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 1966948068;
+	Tue, 24 Feb 2026 10:06:42 +0100 (CET)
+Date: Tue, 24 Feb 2026 10:06:41 +0100
+From: Gabriel Goller <g.goller@proxmox.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] docs: net: document neigh gc_interval and
+ gc_stale_time sysctls
+Message-ID: <b4z6x2djckenphenqpz3sfnqa6gnahvbxwpycvoicgpbsqx3tg@jbrrvrz7g4h5>
+Mail-Followup-To: Jakub Kicinski <kuba@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260219162200.510325-1-g.goller@proxmox.com>
+ <zevfldlqbbprujyld3v3jdl7jlifbmn7ixhrdcpyj34eepv7m4@j55q7mptwqyt>
+ <20260223145809.2369117c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V6 2/3] rust: Add PowerPC support
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
-Cc: Link Mauve <linkmauve@linkmauve.fr>, Alice Ryhl <aliceryhl@google.com>,
- ojeda@kernel.org, boqun.feng@gmail.com, gary@garyguo.net,
- bjorn3_gh@protonmail.com, lossin@kernel.org, a.hindborg@kernel.org,
- tmgross@umich.edu, dakr@kernel.org, corbet@lwn.net, maddy@linux.ibm.com,
- mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
- peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com,
- rostedt@goodmis.org, ardb@kernel.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, Jubilee Young <workingjubilee@gmail.com>,
- Matthew Maurer <mmaurer@google.com>, David Wood <david@davidtw.co>,
- Wesley Wiser <wwiser@gmail.com>
-References: <20260210090023.2587534-1-mkchauras@gmail.com>
- <20260210090023.2587534-3-mkchauras@gmail.com>
- <CAH5fLgi3Owm4=4g8wQ5Rnr7Y63XJ1D8apOdkewW6WpRfg6vV_w@mail.gmail.com>
- <aZtT4MH0Q8Ic9ZiM@luna>
- <CANiq72nEam8n_daX5LyYrpH=i71k+pb+HLn6EEPdJJc-Zi9Q3A@mail.gmail.com>
- <aZu6cSqnvO91w1m4@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
- <CANiq72mg+D4QZmBhrNj7dB+V3GHsQoZT2cSG1ffHYDYJWXyopQ@mail.gmail.com>
-From: Ralf Jung <post@ralfj.de>
-Content-Language: en-US, de-DE
-In-Reply-To: <CANiq72mg+D4QZmBhrNj7dB+V3GHsQoZT2cSG1ffHYDYJWXyopQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260223145809.2369117c@kernel.org>
+User-Agent: NeoMutt/20241002-35-39f9a6
+X-Bm-Milter-Handled: 55990f41-d878-4baa-be0a-ee34c49e34d2
+X-Bm-Transport-Timestamp: 1771923985989
 
-Hi all,
+On 23.02.2026 14:58, Jakub Kicinski wrote:
+> On Mon, 23 Feb 2026 11:23:29 +0100 Gabriel Goller wrote:
+> > Superseded by:
+> > - [PATCH net-next v2] docs: net: document neigh gc_stale_time sysctl
+> >   https://lore.kernel.org/netdev/20260223101257.47563-1-g.goller@proxmox.com/
+> > 
+> > --
+> > pw-bot: superseded
+> 
+> Where did you get the idea to send this email??
 
-On 23.02.26 16:31, Miguel Ojeda wrote:
-> On Mon, Feb 23, 2026 at 3:26 AM Mukesh Kumar Chaurasiya
-> <mkchauras@gmail.com> wrote:
->>
->> I think, disabling altivec, fpu and vsx with compiler flag will work.
->>
->> What are your opinion on this?
-> 
-> It is really up to upstream Rust -- for us, i.e. the kernel, it
-> usually doesn't really matter much how things like that are
-> accomplished: whether via flags, a built-in target, a custom target,
-> etc. However, we need to know what the path to stability is.
-> 
-> My understanding (but I may be wrong) is that upstream Rust prefer we
-> use built-in targets for softfloat instead of disabling via
-> `-Ctarget-feature` (and that the other options may go away soon and/or
-> will never be stable) -- at least for some cases. For instance, for
-> arm64, please this recent change kernel-side regarding `neon` as an
-> entry point:
-> 
->    446a8351f160 ("arm64: rust: clean Rust 1.85.0 warning using softfloat target")
-> 
-> So please ask upstream Rust (probably in their Zulip, e.g. in
-> t-compiler or rust-for-linux channels) what you should do for powerpc.
-> They will likely be happy with a PR adding the target (or whatever
-> they decide) as Alice mentions. And until we reach that minimum
-> version (in a year or more), we can use something else meanwhile. But
-> at least we will have a way towards the end goal, if that makes sense.
-> 
-> In case it helps, let me Cc Ralf, Jubilee and Matthew who were
-> involved in some of that discussion in the past, plus the compiler
-> leads.
+Haha, I changed the title of the patch in the new version, so Patchwork
+didn't automatically recognize it and mark the old one as superseded.
 
-Upstream Rust dev here. Indeed we'd strongly prefer if this could use a built-in 
-Rust target; we can work with you on adding a new target if that is needed.
-The kernel currently uses a custom JSON target on x86 and that's quite the 
-headache for compiler development: JSON targets are highly unstable and directly 
-expose low-level details of how the compiler internally represents targets. When 
-we change that representation, we update all built-in targets, but of course we 
-cannot update JSON targets. So whenever possible we'd like to move towards 
-reducing the number of JSON targets used by the kernel, not increase it. :)
-
-Kind regards,
-Ralf
+I saw in Documentation/process/maintainer-netdev.rst that there's a way
+to manually set the state to superseded using pw-bot commands. However,
+it turns out I don't have the necessary permissions to do that :)
 
