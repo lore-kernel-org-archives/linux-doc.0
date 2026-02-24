@@ -1,406 +1,212 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FA127380A;
-	Tue, 24 Feb 2026 15:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84294371061;
+	Tue, 24 Feb 2026 15:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771947256; cv=none; b=meLGwaG2pG0YW/WBeePK5tAk5v6fkPI20/5w8S0HWj7/LUn+FYe+r0fdlbti5SDiUi+g6xMvtOM0HRDw+evwRI6dzDl5HNlGhDCOjk8qKjhPnzz25qItLfXFGj8hDH9TL1W4xkprHASjcEdh+LZTphmQRIoXkBXGa59BhiEoZ60=
+	t=1771947348; cv=none; b=RD6QPTefvMDu+nO1EBAT5VaImAqM68TWjfz07dxBbUIqtlMECbhjf6ysr3iJGpYN7R22RjrmPhgc+rOaoFYbnyLdrY/WD+uKODR8/TgSam+YgNidDHyEPgic21oB9mVh7l7PPRmTNBP4Qd7uSlgzhNJaRGkMNKDBHOhtxh1+SL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771947256; c=relaxed/simple;
-	bh=3UnJNpKBp41060PCCiUKh/z/XCpPqIeEtBlEINpW5VI=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cX0ESuGgM/uDzcoc2wkhVpwGM44wgQZSuC4bVleKl4T8sciky9NkFfcfs1dKR1Pcdeyhdpl3sn/r0Be9aNssTe4qfyNNoNjwTsv+PwXR8t8H1vvny2ghO7FI4KM4W4BVegd8F1DpfKKK6ypf3WpmrZNcRG4IdRlme890AQZqkP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fL1wG0MXHzJ4678;
-	Tue, 24 Feb 2026 23:33:50 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id C841E40573;
-	Tue, 24 Feb 2026 23:34:11 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Feb
- 2026 15:34:10 +0000
-Date: Tue, 24 Feb 2026 15:34:09 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-CC: <devicetree@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<Dmitry.Lamerov@arm.com>, <catalin.marinas@arm.com>, <bp@alien8.de>,
-	<robh@kernel.org>, <rafael@kernel.org>, <will@kernel.org>,
-	<conor@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-doc@vger.kernel.org>, <krzk+dt@kernel.org>, <Michael.Zhao2@arm.com>,
-	<tony.luck@intel.com>, <linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH v2 07/11] ACPI: APEI: GHES: move CXL CPER helpers
-Message-ID: <20260224153409.0000191a@huawei.com>
-In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-7-347fa2d7351b@arm.com>
-References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
-	<20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-7-347fa2d7351b@arm.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1771947348; c=relaxed/simple;
+	bh=WpwKlaebWR4y1cwdjQe0HmE8Po31GkU2s9iBWz5Mo3w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NXqn0kpmrclmAtdsZzSPeyhRd9jznuK98I8+BqM4DA8hceXHr3DIDcYHMnORMQzqKvxvTQmUZnOtSU5oaLd7GJHJ6isD0Kvgh0ji5VJL9jJGIkCXrGzp0IYrkrOXaH57knYSQj4Uhy93GUSg3iugsaapTv3h0DFY4frWAuvQVbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pb6SSlpU; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pb6SSlpU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82233C19424;
+	Tue, 24 Feb 2026 15:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771947348;
+	bh=WpwKlaebWR4y1cwdjQe0HmE8Po31GkU2s9iBWz5Mo3w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pb6SSlpU/FL6ZiVfH47AMvEyY9JBb0VyStQ+G6W8MKza+URnRQ0MHEQykvKaP6rit
+	 NMuoGmoQ9SyH7bfbRQXK3lg4bYynaIOdC5Od+jqR8FG5UPvN+Hi15IcEagJp/Mmn4f
+	 54FgI+San7AQ0MJVJspyDaOM7+u5bvWW1X/Z9lqP9CMpp2sBzdGVItRmMx4Fgayqs2
+	 P5Z6v4f8yFN7gEj3si80cEQlmcJ+0tWXQly38Qe6a4TGJA+j+GSt35y3H3IMJZhCd7
+	 iJiTzEBEgU5ugXZyGeeVsX0qFymgKQz7uF8LUO5v1q76uPQHTx+uFU5d9VI0WzRqWx
+	 vELZoAdVAGRYA==
+Date: Tue, 24 Feb 2026 21:05:38 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
+Cc: Shawn Lin <shawn.lin@rock-chips.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>
+Subject: Re: [PATCH v4 1/3] PCI: trace: Add PCI controller LTSSM transition
+ tracepoint
+Message-ID: <2sgfbgsgrbztqadhzz6wf6b7j2lmyzmhwugr3tycsjeaik5xdz@ncehsafpi2y5>
+References: <1769047340-113287-1-git-send-email-shawn.lin@rock-chips.com>
+ <1769047340-113287-2-git-send-email-shawn.lin@rock-chips.com>
+ <7d195f03-978a-2d0d-acdf-e583e68377f2@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7d195f03-978a-2d0d-acdf-e583e68377f2@linux.intel.com>
 
-On Fri, 20 Feb 2026 13:42:25 +0000
-Ahmed Tiba <ahmed.tiba@arm.com> wrote:
-
-> Move the CXL CPER handling paths out of ghes.c and into ghes_cper.c so the
-> helpers can be reused. The code is moved as-is, with the public
-> prototypes updated so GHES keeps calling into the new translation unit.
+On Tue, Feb 24, 2026 at 05:22:35PM +0200, Ilpo Järvinen wrote:
+> On Thu, 22 Jan 2026, Shawn Lin wrote:
 > 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
-
-+CC linux-cxl.
-
-I haven't looked closely but suspect the same stuff on code movement and patch
-break up applies here.
-
-Thanks,
-
-Jonathan
-
-> ---
->  drivers/acpi/apei/ghes.c      | 132 -----------------------------------------
->  drivers/acpi/apei/ghes_cper.c | 135 ++++++++++++++++++++++++++++++++++++++++++
->  include/acpi/ghes_cper.h      |  11 ++++
->  3 files changed, 146 insertions(+), 132 deletions(-)
+> > Some platforms may provide LTSSM trace functionality, recording historical
+> > LTSSM state transition information. This is very useful for debugging, such
+> > as when certain devices cannot be recognized or link broken during test.
+> > Implement the pci controller tracepoint for recording LTSSM and rate.
+> > 
+> > Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
+> > ---
+> > 
+> > Changes in v4:
+> > - use TRACE_EVENT_FN to notify when to start and stop the tracepoint,
+> >   and export pci_ltssm_tp_enabled() for host drivers to use
+> > 
+> > Changes in v3:
+> > - add TRACE_DEFINE_ENUM for all enums(Steven Rostedt)
+> > 
+> > Changes in v2: None
+> > 
+> >  drivers/pci/trace.c                   | 20 ++++++++++++
+> >  include/linux/pci.h                   |  4 +++
+> >  include/trace/events/pci_controller.h | 57 +++++++++++++++++++++++++++++++++++
+> >  3 files changed, 81 insertions(+)
+> >  create mode 100644 include/trace/events/pci_controller.h
+> > 
+> > diff --git a/drivers/pci/trace.c b/drivers/pci/trace.c
+> > index cf11abc..d351a51 100644
+> > --- a/drivers/pci/trace.c
+> > +++ b/drivers/pci/trace.c
+> > @@ -9,3 +9,23 @@
+> >  
+> >  #define CREATE_TRACE_POINTS
+> >  #include <trace/events/pci.h>
+> > +#include <trace/events/pci_controller.h>
+> > +
+> > +static atomic_t pcie_ltssm_tp_enabled = ATOMIC_INIT(0);
+> > +
+> > +bool pci_ltssm_tp_enabled(void)
+> > +{
+> > +	return atomic_read(&pcie_ltssm_tp_enabled) > 0;
+> > +}
+> > +EXPORT_SYMBOL(pci_ltssm_tp_enabled);
+> > +
+> > +int pci_ltssm_tp_reg(void)
+> > +{
+> > +	atomic_inc(&pcie_ltssm_tp_enabled);
+> > +	return 0;
+> > +}
+> > +
+> > +void pci_ltssm_tp_unreg(void)
+> > +{
+> > +	atomic_dec(&pcie_ltssm_tp_enabled);
+> > +}
+> > diff --git a/include/linux/pci.h b/include/linux/pci.h
+> > index e7cb527..ac25a3e 100644
+> > --- a/include/linux/pci.h
+> > +++ b/include/linux/pci.h
+> > @@ -2770,6 +2770,10 @@ static inline struct eeh_dev *pci_dev_to_eeh_dev(struct pci_dev *pdev)
+> >  }
+> >  #endif
+> >  
+> > +#ifdef CONFIG_TRACING
+> > +bool pci_ltssm_tp_enabled(void);
+> > +#endif
+> > +
+> >  void pci_add_dma_alias(struct pci_dev *dev, u8 devfn_from, unsigned nr_devfns);
+> >  bool pci_devs_are_dma_aliases(struct pci_dev *dev1, struct pci_dev *dev2);
+> >  int pci_for_each_dma_alias(struct pci_dev *pdev,
+> > diff --git a/include/trace/events/pci_controller.h b/include/trace/events/pci_controller.h
+> > new file mode 100644
+> > index 0000000..db4a960
+> > --- /dev/null
+> > +++ b/include/trace/events/pci_controller.h
+> > @@ -0,0 +1,57 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +#undef TRACE_SYSTEM
+> > +#define TRACE_SYSTEM pci_controller
 > 
-> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-> index 9703c602a8c2..136993704d52 100644
-> --- a/drivers/acpi/apei/ghes.c
-> +++ b/drivers/acpi/apei/ghes.c
-> @@ -383,138 +383,6 @@ static void ghes_handle_aer(struct acpi_hest_generic_data *gdata)
->  #endif
->  }
->  
-> -/* Room for 8 entries */
-> -#define CXL_CPER_PROT_ERR_FIFO_DEPTH 8
-> -static DEFINE_KFIFO(cxl_cper_prot_err_fifo, struct cxl_cper_prot_err_work_data,
-> -		    CXL_CPER_PROT_ERR_FIFO_DEPTH);
-> -
-> -/* Synchronize schedule_work() with cxl_cper_prot_err_work changes */
-> -static DEFINE_SPINLOCK(cxl_cper_prot_err_work_lock);
-> -struct work_struct *cxl_cper_prot_err_work;
-> -
-> -static void cxl_cper_post_prot_err(struct cxl_cper_sec_prot_err *prot_err,
-> -				   int severity)
-> -{
-> -#ifdef CONFIG_ACPI_APEI_PCIEAER
-> -	struct cxl_cper_prot_err_work_data wd;
-> -
-> -	if (cxl_cper_sec_prot_err_valid(prot_err))
-> -		return;
-> -
-> -	guard(spinlock_irqsave)(&cxl_cper_prot_err_work_lock);
-> -
-> -	if (!cxl_cper_prot_err_work)
-> -		return;
-> -
-> -	if (cxl_cper_setup_prot_err_work_data(&wd, prot_err, severity))
-> -		return;
-> -
-> -	if (!kfifo_put(&cxl_cper_prot_err_fifo, wd)) {
-> -		pr_err_ratelimited("CXL CPER kfifo overflow\n");
-> -		return;
-> -	}
-> -
-> -	schedule_work(cxl_cper_prot_err_work);
-> -#endif
-> -}
-> -
-> -int cxl_cper_register_prot_err_work(struct work_struct *work)
-> -{
-> -	if (cxl_cper_prot_err_work)
-> -		return -EINVAL;
-> -
-> -	guard(spinlock)(&cxl_cper_prot_err_work_lock);
-> -	cxl_cper_prot_err_work = work;
-> -	return 0;
-> -}
-> -EXPORT_SYMBOL_NS_GPL(cxl_cper_register_prot_err_work, "CXL");
-> -
-> -int cxl_cper_unregister_prot_err_work(struct work_struct *work)
-> -{
-> -	if (cxl_cper_prot_err_work != work)
-> -		return -EINVAL;
-> -
-> -	guard(spinlock)(&cxl_cper_prot_err_work_lock);
-> -	cxl_cper_prot_err_work = NULL;
-> -	return 0;
-> -}
-> -EXPORT_SYMBOL_NS_GPL(cxl_cper_unregister_prot_err_work, "CXL");
-> -
-> -int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd)
-> -{
-> -	return kfifo_get(&cxl_cper_prot_err_fifo, wd);
-> -}
-> -EXPORT_SYMBOL_NS_GPL(cxl_cper_prot_err_kfifo_get, "CXL");
-> -
-> -/* Room for 8 entries for each of the 4 event log queues */
-> -#define CXL_CPER_FIFO_DEPTH 32
-> -DEFINE_KFIFO(cxl_cper_fifo, struct cxl_cper_work_data, CXL_CPER_FIFO_DEPTH);
-> -
-> -/* Synchronize schedule_work() with cxl_cper_work changes */
-> -static DEFINE_SPINLOCK(cxl_cper_work_lock);
-> -struct work_struct *cxl_cper_work;
-> -
-> -static void cxl_cper_post_event(enum cxl_event_type event_type,
-> -				struct cxl_cper_event_rec *rec)
-> -{
-> -	struct cxl_cper_work_data wd;
-> -
-> -	if (rec->hdr.length <= sizeof(rec->hdr) ||
-> -	    rec->hdr.length > sizeof(*rec)) {
-> -		pr_err(FW_WARN "CXL CPER Invalid section length (%u)\n",
-> -		       rec->hdr.length);
-> -		return;
-> -	}
-> -
-> -	if (!(rec->hdr.validation_bits & CPER_CXL_COMP_EVENT_LOG_VALID)) {
-> -		pr_err(FW_WARN "CXL CPER invalid event\n");
-> -		return;
-> -	}
-> -
-> -	guard(spinlock_irqsave)(&cxl_cper_work_lock);
-> -
-> -	if (!cxl_cper_work)
-> -		return;
-> -
-> -	wd.event_type = event_type;
-> -	memcpy(&wd.rec, rec, sizeof(wd.rec));
-> -
-> -	if (!kfifo_put(&cxl_cper_fifo, wd)) {
-> -		pr_err_ratelimited("CXL CPER kfifo overflow\n");
-> -		return;
-> -	}
-> -
-> -	schedule_work(cxl_cper_work);
-> -}
-> -
-> -int cxl_cper_register_work(struct work_struct *work)
-> -{
-> -	if (cxl_cper_work)
-> -		return -EINVAL;
-> -
-> -	guard(spinlock)(&cxl_cper_work_lock);
-> -	cxl_cper_work = work;
-> -	return 0;
-> -}
-> -EXPORT_SYMBOL_NS_GPL(cxl_cper_register_work, "CXL");
-> -
-> -int cxl_cper_unregister_work(struct work_struct *work)
-> -{
-> -	if (cxl_cper_work != work)
-> -		return -EINVAL;
-> -
-> -	guard(spinlock)(&cxl_cper_work_lock);
-> -	cxl_cper_work = NULL;
-> -	return 0;
-> -}
-> -EXPORT_SYMBOL_NS_GPL(cxl_cper_unregister_work, "CXL");
-> -
-> -int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd)
-> -{
-> -	return kfifo_get(&cxl_cper_fifo, wd);
-> -}
-> -EXPORT_SYMBOL_NS_GPL(cxl_cper_kfifo_get, "CXL");
-> -
->  static void ghes_log_hwerr(int sev, guid_t *sec_type)
->  {
->  	if (sev != CPER_SEV_RECOVERABLE)
-> diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
-> index 627f6c712261..673dca208935 100644
-> --- a/drivers/acpi/apei/ghes_cper.c
-> +++ b/drivers/acpi/apei/ghes_cper.c
-> @@ -9,10 +9,12 @@
->   *
->   */
->  
-> +#include <linux/aer.h>
->  #include <linux/err.h>
->  #include <linux/genalloc.h>
->  #include <linux/irq_work.h>
->  #include <linux/io.h>
-> +#include <linux/kfifo.h>
->  #include <linux/kernel.h>
->  #include <linux/list.h>
->  #include <linux/math64.h>
-> @@ -319,6 +321,139 @@ void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
->  	schedule_work(&entry->work);
->  }
->  
-> +
-> +/* Room for 8 entries */
-> +#define CXL_CPER_PROT_ERR_FIFO_DEPTH 8
-> +static DEFINE_KFIFO(cxl_cper_prot_err_fifo, struct cxl_cper_prot_err_work_data,
-> +		    CXL_CPER_PROT_ERR_FIFO_DEPTH);
-> +
-> +/* Synchronize schedule_work() with cxl_cper_prot_err_work changes */
-> +static DEFINE_SPINLOCK(cxl_cper_prot_err_work_lock);
-> +struct work_struct *cxl_cper_prot_err_work;
-> +
-> +void cxl_cper_post_prot_err(struct cxl_cper_sec_prot_err *prot_err,
-> +				   int severity)
-> +{
-> +#ifdef CONFIG_ACPI_APEI_PCIEAER
-> +	struct cxl_cper_prot_err_work_data wd;
-> +
-> +	if (cxl_cper_sec_prot_err_valid(prot_err))
-> +		return;
-> +
-> +	guard(spinlock_irqsave)(&cxl_cper_prot_err_work_lock);
-> +
-> +	if (!cxl_cper_prot_err_work)
-> +		return;
-> +
-> +	if (cxl_cper_setup_prot_err_work_data(&wd, prot_err, severity))
-> +		return;
-> +
-> +	if (!kfifo_put(&cxl_cper_prot_err_fifo, wd)) {
-> +		pr_err_ratelimited("CXL CPER kfifo overflow\n");
-> +		return;
-> +	}
-> +
-> +	schedule_work(cxl_cper_prot_err_work);
-> +#endif
-> +}
-> +
-> +int cxl_cper_register_prot_err_work(struct work_struct *work)
-> +{
-> +	if (cxl_cper_prot_err_work)
-> +		return -EINVAL;
-> +
-> +	guard(spinlock)(&cxl_cper_prot_err_work_lock);
-> +	cxl_cper_prot_err_work = work;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(cxl_cper_register_prot_err_work, "CXL");
-> +
-> +int cxl_cper_unregister_prot_err_work(struct work_struct *work)
-> +{
-> +	if (cxl_cper_prot_err_work != work)
-> +		return -EINVAL;
-> +
-> +	guard(spinlock)(&cxl_cper_prot_err_work_lock);
-> +	cxl_cper_prot_err_work = NULL;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(cxl_cper_unregister_prot_err_work, "CXL");
-> +
-> +int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd)
-> +{
-> +	return kfifo_get(&cxl_cper_prot_err_fifo, wd);
-> +}
-> +EXPORT_SYMBOL_NS_GPL(cxl_cper_prot_err_kfifo_get, "CXL");
-> +
-> +/* Room for 8 entries for each of the 4 event log queues */
-> +#define CXL_CPER_FIFO_DEPTH 32
-> +DEFINE_KFIFO(cxl_cper_fifo, struct cxl_cper_work_data, CXL_CPER_FIFO_DEPTH);
-> +
-> +/* Synchronize schedule_work() with cxl_cper_work changes */
-> +static DEFINE_SPINLOCK(cxl_cper_work_lock);
-> +struct work_struct *cxl_cper_work;
-> +
-> +void cxl_cper_post_event(enum cxl_event_type event_type,
-> +				struct cxl_cper_event_rec *rec)
-> +{
-> +	struct cxl_cper_work_data wd;
-> +
-> +	if (rec->hdr.length <= sizeof(rec->hdr) ||
-> +	    rec->hdr.length > sizeof(*rec)) {
-> +		pr_err(FW_WARN "CXL CPER Invalid section length (%u)\n",
-> +		       rec->hdr.length);
-> +		return;
-> +	}
-> +
-> +	if (!(rec->hdr.validation_bits & CPER_CXL_COMP_EVENT_LOG_VALID)) {
-> +		pr_err(FW_WARN "CXL CPER invalid event\n");
-> +		return;
-> +	}
-> +
-> +	guard(spinlock_irqsave)(&cxl_cper_work_lock);
-> +
-> +	if (!cxl_cper_work)
-> +		return;
-> +
-> +	wd.event_type = event_type;
-> +	memcpy(&wd.rec, rec, sizeof(wd.rec));
-> +
-> +	if (!kfifo_put(&cxl_cper_fifo, wd)) {
-> +		pr_err_ratelimited("CXL CPER kfifo overflow\n");
-> +		return;
-> +	}
-> +
-> +	schedule_work(cxl_cper_work);
-> +}
-> +
-> +int cxl_cper_register_work(struct work_struct *work)
-> +{
-> +	if (cxl_cper_work)
-> +		return -EINVAL;
-> +
-> +	guard(spinlock)(&cxl_cper_work_lock);
-> +	cxl_cper_work = work;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(cxl_cper_register_work, "CXL");
-> +
-> +int cxl_cper_unregister_work(struct work_struct *work)
-> +{
-> +	if (cxl_cper_work != work)
-> +		return -EINVAL;
-> +
-> +	guard(spinlock)(&cxl_cper_work_lock);
-> +	cxl_cper_work = NULL;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_NS_GPL(cxl_cper_unregister_work, "CXL");
-> +
-> +int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd)
-> +{
-> +	return kfifo_get(&cxl_cper_fifo, wd);
-> +}
-> +EXPORT_SYMBOL_NS_GPL(cxl_cper_kfifo_get, "CXL");
-> +
->  /*
->   * GHES error status reporting throttle, to report more kinds of
->   * errors, instead of just most frequently occurred errors.
-> diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
-> index c5ff4c502017..4522e8699ce0 100644
-> --- a/include/acpi/ghes_cper.h
-> +++ b/include/acpi/ghes_cper.h
-> @@ -15,6 +15,7 @@
->  #include <linux/workqueue.h>
->  
->  #include <acpi/ghes.h>
-> +#include <cxl/event.h>
->  
->  #define GHES_PFX	"GHES: "
->  
-> @@ -99,5 +100,15 @@ void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
->  			    struct acpi_hest_generic_status *estatus);
->  void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
->  				   int sev);
-> +void cxl_cper_post_prot_err(struct cxl_cper_sec_prot_err *prot_err,
-> +			    int severity);
-> +int cxl_cper_register_prot_err_work(struct work_struct *work);
-> +int cxl_cper_unregister_prot_err_work(struct work_struct *work);
-> +int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd);
-> +void cxl_cper_post_event(enum cxl_event_type event_type,
-> +			 struct cxl_cper_event_rec *rec);
-> +int cxl_cper_register_work(struct work_struct *work);
-> +int cxl_cper_unregister_work(struct work_struct *work);
-> +int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd);
->  
->  #endif /* ACPI_APEI_GHES_CPER_H */
+> I find putting this into "pci_controller" little odd as LTSSM is related 
+> to PCIe links/ports. To me looks something that belongs to the existing 
+> include/trace/events/pci.h.
 > 
 
+I suggested 'pci_controller.h' since these tracepoints are only going to be used
+by the controller drivers. Putting it under 'pci.h' will imply that these can be
+used by the client drivers also.
+
+- Mani
+
+> > +#if !defined(_TRACE_HW_EVENT_PCI_CONTROLLER_H) || defined(TRACE_HEADER_MULTI_READ)
+> > +#define _TRACE_HW_EVENT_PCI_CONTROLLER_H
+> > +
+> > +#include <uapi/linux/pci_regs.h>
+> > +#include <linux/tracepoint.h>
+> > +
+> > +TRACE_DEFINE_ENUM(PCIE_SPEED_2_5GT);
+> > +TRACE_DEFINE_ENUM(PCIE_SPEED_5_0GT);
+> > +TRACE_DEFINE_ENUM(PCIE_SPEED_8_0GT);
+> > +TRACE_DEFINE_ENUM(PCIE_SPEED_16_0GT);
+> > +TRACE_DEFINE_ENUM(PCIE_SPEED_32_0GT);
+> > +TRACE_DEFINE_ENUM(PCIE_SPEED_64_0GT);
+> > +TRACE_DEFINE_ENUM(PCI_SPEED_UNKNOWN);
+> > +
+> > +extern int pci_ltssm_tp_reg(void);
+> > +extern void pci_ltssm_tp_unreg(void);
+> > +
+> > +TRACE_EVENT_FN(pcie_ltssm_state_transition,
+> > +	TP_PROTO(const char *dev_name, const char *state, u32 rate),
+> > +	TP_ARGS(dev_name, state, rate),
+> > +
+> > +	TP_STRUCT__entry(
+> > +		__string(dev_name, dev_name)
+> > +		__string(state, state)
+> > +		__field(u32, rate)
+> > +	),
+> > +
+> > +	TP_fast_assign(
+> > +		__assign_str(dev_name);
+> > +		__assign_str(state);
+> > +		__entry->rate = rate;
+> > +	),
+> > +
+> > +	TP_printk("dev: %s state: %s rate: %s",
+> > +		__get_str(dev_name), __get_str(state),
+> > +		__print_symbolic(__entry->rate,
+> > +			{ PCIE_SPEED_2_5GT,  "2.5 GT/s" },
+> > +			{ PCIE_SPEED_5_0GT,  "5.0 GT/s" },
+> > +			{ PCIE_SPEED_8_0GT,  "8.0 GT/s" },
+> > +			{ PCIE_SPEED_16_0GT, "16.0 GT/s" },
+> > +			{ PCIE_SPEED_32_0GT, "32.0 GT/s" },
+> > +			{ PCIE_SPEED_64_0GT, "64.0 GT/s" },
+> > +			{ PCI_SPEED_UNKNOWN, "Unknown" }
+> 
+> Why are these done inline instead of using EM/EMe()? Or simply with
+> pci_speed_string()?
+> 
+> 
+> Unrelated to this, sadly I failed to notice Shuai's version of 
+> pcie_link_event() did not translate link speeds (my own version used 
+> pci_speed_string()).
+> 
+> > +		)
+> > +	),
+> > +
+> > +	pci_ltssm_tp_reg, pci_ltssm_tp_unreg
+> > +);
+> > +
+> > +#endif /* _TRACE_HW_EVENT_PCI_CONTROLLER_H */
+> > +
+> > +/* This part must be outside protection */
+> > +#include <trace/define_trace.h>
+> > 
+> 
+> -- 
+>  i.
+> 
+
+-- 
+மணிவண்ணன் சதாசிவம்
