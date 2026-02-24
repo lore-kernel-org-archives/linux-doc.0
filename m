@@ -1,52 +1,80 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8B23815C3;
-	Tue, 24 Feb 2026 13:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EF837BE70
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 14:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771940607; cv=none; b=l+DXgojXSX6sLYVI4mn5JeikHFmzKPxL77KoDUTneCSmnaVIzqur1NCuso5spg2k2OHSEpSZPWpsOnl9nETkNtJ4lJICFbMLeNLG81CHVnun0jJ55tYJ+/D7YudpiHKha/GEDXX4Yu1+pKxvjnGrhjQc/tgZaqsMBn/4mFepd7U=
+	t=1771941840; cv=none; b=TevwSHMqbpQO08utpQZHaNTf7AJK+gnmTcAahz2LCzomJ5R6sJNHhkBclNQGPNsEngc0uwVh5eJTXOUtEnnQXF9SEGJq9lCx3WaWXnmK55Wz0PwzoC9SVwP8nu0m2qcIjb5l21+I40WLbmltx8DBdf9Cfi0lULXwpvYqrpi+l3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771940607; c=relaxed/simple;
-	bh=Jpj7Oorc5cxJiadctBj9x+AGBJR8mkNSvyFDCxax/xg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PXoH7D4ueKLeGfSAIvWeiBdUW3lStjp5SQKRpK5OGx+z6icLrMJi5q0VlsxUppQ5CaxhwpmSC1dzn5LDU60DI7uyMgDGbTfoIMps2Td2/70QEsVjw8+Pgt0YpbJ/HEeXcBPm0ZrHpxgG1Zngzbu8Uv90QXuQiZ4dVpT59e7lK9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=C8ne0Clc; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1771941840; c=relaxed/simple;
+	bh=+3/fywndWbMVQ2sR2gOUDdu1/eSnWYu1iI7MeYkkaOM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ACjQiakQuo5tOGsaPBoOQTZDyGjUdKINTLQ3zZqQzOx5MMwiM1QPlAXDag8odeBDztO4kp20cuUcOKuKIA9pLmYQPYxZY4fQGQhvQNzBT9b2Q4gF0B+CuPLkrXfGeiTuMSIQyGkmXrmg2adxI0k3MSEho1dEg17M4acUslscYfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KP1lXOgc; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="C8ne0Clc"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=Jpj7Oorc5cxJiadctBj9x+AGBJR8mkNSvyFDCxax/xg=;
-	b=C8ne0ClcyM0IRyAyTn5cpoyGVHI7+4mZl4N7BpNQLCcSI63n44CmW913hSkWboY7ruv4J3m2w
-	3qBAjIkR0+CaMCNyG/MF+IBAtreyjYKY4eaN1NpkVkVUEm92M73Za24S8Ep85ocK0G15BDDiEmR
-	8NY/QNxXKayEPD9M/RlOz1Q=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4fKzMH3PQgzpSv4;
-	Tue, 24 Feb 2026 21:38:35 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4EE3B4056B;
-	Tue, 24 Feb 2026 21:43:21 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Tue, 24 Feb 2026 21:43:20 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: <gongfan1@huawei.com>
-CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
-	<guoxin09@huawei.com>, <horms@kernel.org>, <kuba@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<luosifu@huawei.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
-	<shijing34@huawei.com>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>,
-	<zhuyikai1@h-partners.com>
-Subject: Re: [PATCH net-next v01 00/15] net: hinic3: Fix code styles
-Date: Tue, 24 Feb 2026 21:43:15 +0800
-Message-ID: <20260224134315.1735-1-gongfan1@huawei.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1771916043.git.zhuyikai1@h-partners.com>
-References: <cover.1771916043.git.zhuyikai1@h-partners.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KP1lXOgc"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48370174e18so30276295e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 06:03:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1771941837; x=1772546637; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vtE+z3Cy2C+XBq05qM7F+cng10U1INGp7SQFnLebO8A=;
+        b=KP1lXOgc2jugsrVIImcPEcqA0WLf9+LQZ2Shu9TJT5Lr+IknXceLkTxc3/TY4FcEL5
+         Hv3qfVYgMIMBNhwIZxZbg5rOTqGLAuQHPn2X++UBAPtnB3+9grrcbapWci2TPto+AsZe
+         m7xkxVWioamEqZmy88tYfRwYRIzU45jF/2zKSUEXntR37oF/qI7nJELbcsTpR5Dga7HV
+         sLrTNT9PPr4AMurxbb0wg1ah4hRasml6jbHuO56hvzReGPfJL8pMrX9fZXaxJrpnhr52
+         3qCD1XI5/zZovPAgQJEcAF50BH7np3JKyi7FPe4raY6ik1UstDvzjjkVTfECQFmi4tFH
+         whVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771941837; x=1772546637;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vtE+z3Cy2C+XBq05qM7F+cng10U1INGp7SQFnLebO8A=;
+        b=tSE4WYNskKyBlWNmzf/v5qoGBLFGN+zZdRKDarxyhiKh2T/ROI5QGqx+kWJnsBuhEd
+         tymSltx9bfSiXCKRS8jsmShBvS2hGP/5E6byaKxlxfSlIKDsXTCHZQBoev8YxUvpE8im
+         2NweV8hGU4szmSGq3IW4IXsej16UuYwAsQsKSFYNzWM3NfXfCMXmjoUtO9UVPeVCOVKT
+         DzE63GfhQPIFkS49BMjSgcm2gXYqwlICaF2NqM86Keo5crFzEKeRiG7M3XXIGTbRxJjM
+         5HL8P0Wgw4mVAAAEZnUpSXgt3OgBtluLW82CQrsMwHL/VrBJZs8DvjfPRQHBrKPiR6Bv
+         J6eQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWhzurkvG2xSKbAFsfMTsk2O3nDdB08KhYcF1+I9odfHjzNTJryWCZUfeZN85W96QxZlT/Oo7w1OTA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzN3xMbPc2lM6XqISrINn00uvJfZwSaFIJy+Ez8FvvXsVIjm+NU
+	15b4gv5TC+PmFdTLHE5jr2IHGuiLjHa3SZlOCTF9U5b/sbaMkw8ajdWn
+X-Gm-Gg: AZuq6aLN8wQRXkfNhroyNA0B8ZyXvmlJqzFLbbbApn+92TR6oUaQfnNjw3nrxRBTL7c
+	2VBdZqzVqxwWQT0Ie1r03WvbZHPxvH2bIxJ05JA8OKFP3ZQsWcVbqMQC09IDQ4i7L0lCjIbHVvo
+	959qkwNz/g/pZYsqvRwgH2rs4dv9AuZRTLNZMcxk0l3ZEuzNRmXAf6j5FWbBsVh3G/AMOPsYtUW
+	oScfWmd79/X9Sp7nrrEtQryi8geDJH2TCDDEYHt3cC0j9bj84z2qKIWGopcl/HnqM4wI5H1gwYV
+	heD8f2nsI9p4J3r/cxroGw8kJCKdDTGP2n9pK7jRij9H9dhA7MHk/AcvPqSaRkYnqml4lSjLqd4
+	AY3KekcBj05IXbSQhYWB78HBxLUEFMlpgidSzfDSLPmQ02ugzneyoY9k+gaZe+CgRpAaT+gv3ns
+	S1e/te/V5Svso73Y3D3S5/XbvXdMIiSoUu/VKNVITypixUV1HIeBoToQiSsZAxIg==
+X-Received: by 2002:a05:600c:c166:b0:477:7b16:5f9f with SMTP id 5b1f17b1804b1-483a9607d11mr211795505e9.31.1771941836478;
+        Tue, 24 Feb 2026 06:03:56 -0800 (PST)
+Received: from db07.1337.ma ([197.230.240.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd7010a0sm1043505e9.5.2026.02.24.06.03.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 06:03:55 -0800 (PST)
+From: Taha Ed-Dafili <0rayn.dev@gmail.com>
+To: linux-iio@vger.kernel.org,
+	jic23@kernel.org
+Cc: dlechner@baylibre.com,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees-archive@lists.linuxfoundation.org,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	corbet@lwn.net,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Taha Ed-Dafili <0rayn.dev@gmail.com>
+Subject: [PATCH v5 0/5] iio: accel: adxl345: Implement event scaling and ABI compliance
+Date: Tue, 24 Feb 2026 14:03:43 +0000
+Message-ID: <20260224140351.27288-1-0rayn.dev@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,31 +82,58 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf100013.china.huawei.com (7.202.181.12)
 
-On 2/24/2026 9:15 PM, Fan Gong wrote:
-> This patchset provides 4 code styles fixes:
->
-> Remove empty lines between error handling.
-> Remove defensive txq_num check.
-> Use array_size instead of multiplying.
-> SQ use SQ_CTXT_PREF_CI_HI to improve readability.
->
-> Changes:
->
-> PATCH V01: https://lore.kernel.org/netdev/cover.1768915707.git.zhuyikai1@h-partners.com/
->
-> PATCH V02: https://lore.kernel.org/netdev/cover.1769142701.git.zhuyikai1@h-partners.com/
-> * Send "Fix netif_queue_set_napi queue_index parameter passing error" to net (Jakub Kicinski)
->
-> PATCH V03:
-> * Modify commit description to be more accurate and clear (Simon Horman)
+This series addresses ADXL345 driver non-compliance with the IIO ABI.
 
-Sorry for forgetting to replace cover letter to a newer one.
-We will send the next version with correct cover letter and commit contexts, and refer to
-possible AI review for revisions after 24 hours.
+Currently, the driver exposes raw threshold values without a scale factor
+to convert them to SI units (m/s^2). It also hides the double tap
+threshold value because it shares a hardware register with single tap,
+which violates ABI expectations.
 
-Thanks,
-Fan Gong
+This series implements `IIO_EV_INFO_SCALE` in the IIO core and applies it
+to the ADXL345 driver. It also exposes the missing `IIO_EV_INFO_VALUE` for
+double tap, ensuring userspace can correctly interpret all events, and
+cleans up related documentation.
+
+Changes in v5:
+- Split the series into 5 patches for better logical separation.
+- Patch 1: Moved alphabetical sorting of the event attribute table here
+  (David Lechner).
+- Patch 3 (new): Expose `IIO_EV_INFO_VALUE` for the double tap event to
+  ensure ABI compliance (Jonathan Cameron).
+- Patch 5: Add the newly exposed `in_accel_gesture_doubletap_value` to
+  the documentation.
+
+Changes in v4:
+- Fixed missing IIO_EV_INFO_SCALE handling for MAG/MAG_ADAPTIVE events.
+- Explicitly rejected writes to IIO_EV_INFO_SCALE with -EINVAL.
+- Fixed bitmask ordering and whitespace alignment.
+- Updated documentation with exact sysfs scale attributes.
+
+Changes in v3:
+- Reverted "axis" to "axes" in documentation.
+- Removed repetitive scale values from documentation table.
+
+Changes in v2:
+- Added core infrastructure for IIO_EV_INFO_SCALE.
+- Implemented event scaling (0.612915 m/s^2) for ADXL345.
+
+Thanks to David Lechner for the structural patch feedback and Jonathan 
+Cameron for the architectural guidance on ABI compliance.
+
+Taha Ed-Dafili (5):
+  docs: iio: adxl345: grammar and formatting cleanups
+  iio: core: Add IIO_EV_INFO_SCALE to event info
+  iio: accel: adxl345: Expose IIO_EV_INFO_VALUE for double tap
+  iio: accel: adxl345: Implement event scaling for ABI compliance
+  docs: iio: adxl345: update event attributes and scaling math
+
+ Documentation/iio/adxl345.rst    | 81 ++++++++++++++++++++------------
+ drivers/iio/accel/adxl345_core.c | 38 ++++++++++-----
+ drivers/iio/industrialio-event.c |  1 +
+ include/linux/iio/types.h        |  1 +
+ 4 files changed, 81 insertions(+), 40 deletions(-)
+
+-- 
+2.47.3
+
