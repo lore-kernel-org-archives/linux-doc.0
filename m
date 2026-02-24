@@ -1,249 +1,222 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022108.outbound.protection.outlook.com [52.101.126.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A2927510B
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 03:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A61826738D;
+	Tue, 24 Feb 2026 03:03:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.108
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771902019; cv=pass; b=SDiPzCf4SZDNAIevxfmo8bxsQ41h2acys3LhDqTZw05SkSFqUYDx0vE3EOgiqG3QARUPukWk/rBlUW4AaopVavCgldlD/fnB43S/OwQktB05oNZNgxRwOBrcKLDgxBzrPDkbE0GH8Q5Mu5bpWL0xxWC2/6cV+3/JI0eDZNtaH1s=
+	t=1771902242; cv=fail; b=PYqDFnDuoV1mCpK6f/71lWWlSpdgym/lHa4zptIN7Yk4phdjPkic5JINe39gHfol7xitExJCfy+UECNAy3oxM/lVA/cZ30Zs5eY1P+/+TMs5uOWYqvptCgXjU0kRDUiFtANN74o61A6VsXJo1jqSrxgvNY5ROMLSPehKHmhO5fo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771902019; c=relaxed/simple;
-	bh=URG9p5PA0AV/5bQlXeYXvRn2vYf4zuMTvunUlPWBpFY=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EUM0AZGKO3lA8CnMydMZoQoKoKINEVpj69ppEgPtqBzR5Jqg90mIbJEylZVsm3C7Nfwb6xt+Tbt29gMsB/LH7O7+9rop0kTM2V4eSJkU7JANukXJZXVCmDCdYu+yHlVRBQpw99Ir/7ki4Cwt2za+BcRIZl6OnDRbHHRz8UM5G9c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=B3ymAhxx; arc=pass smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1771902242; c=relaxed/simple;
+	bh=hIQZa7cT0ngxdL2DyTty+L2K9xXe5TeGTzMqguKs+G0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=JziwyBYwNFXJVUEObtexHblo5guTTT7OTvjsQ2OSxEy6k/P+9R2dGwd/RtdKhHHnYrzoSiPJLcQ6p2k2yUd6QP1Ndmjfc/+m7Jqezu0tnmHHLs7v2jWZhP5rp4uLqG1O2sdpKQ+7jxk+sRh8qjeAe+cg1neS7CgR89xDHnqNNpY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=furdevs.cn; spf=pass smtp.mailfrom=furdevs.cn; dkim=pass (2048-bit key) header.d=furdevs.cn header.i=@furdevs.cn header.b=iHs90uGz; arc=fail smtp.client-ip=52.101.126.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=furdevs.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=furdevs.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="B3ymAhxx"
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5673891928cso2359763e0c.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 19:00:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1771902017; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XUL61USiacS+W5Wjswk3Pb8sQiTLeF7LGp2SChCOIWHYZrwP0UGtHi9AOL0UVRMNNr
-         RqzNaGnEQeVAJRTC8k2zUVOs6LZ3+ZnSTEm7gzqfnZ6NnJWm+ZcDb61E1LcN4fFD5fdZ
-         Op76LLWtFu+rM1iSgwtdcCtwfKW+rRyieqbKSDp/Ex4SQ3bA4t2yv4GGtC+DRIl86Dnt
-         e6j9CU+MKuZX4rd5ieDEodISb6ZfTu0Ans8oVMz/RDMVOzpvIvyP7T8SXaHcKySPPFGC
-         kYR9gc4zwFZZClgV5fig/DSJRz3C+FfnlUmb/ffeOfycUPOOz+Hqs6bGuCI/4Fb9dBJX
-         9xHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=xFe8WdiYvRsGLyynpqXx4xXBoM9FyyzukwEjWl1pbts=;
-        fh=udmMo+tXcFBQimR/3XJ2Io8bHtU3CL7TorEPWszJiFw=;
-        b=av662EFl4MiRAGMk49Fa7+INnYYJPPWUNwSCswy3iK3uFqJA3m74jEKQz7Apqux0UQ
-         yLarLO+fUekNsjdmuq9O3IKPNrwDDoe3t/hXUBI8wCUnHJEog6uizdZWRYvl3OVjS+pP
-         kaUvphy3PfGLJV9MNvQ5euIG217SAYRF54gsNe+J2bQsywgaIvD3IkIWQveZqCuWnWi1
-         Vedu5R48O5Iquk1Ozt6+tMYDoahbg9H/Om9vhCqmBPxt1WYJWP1x6FfVOwMeLhFr8DUW
-         w4g+fwsLK/Fff09gy8gCIJ6/Lf5YWgYFqtu1X8vmWqCSCgK3t0jvZunoOF1R9ZBaCi5Y
-         UmxQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1771902017; x=1772506817; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xFe8WdiYvRsGLyynpqXx4xXBoM9FyyzukwEjWl1pbts=;
-        b=B3ymAhxxWeoTfsl0KRnGRCZw0Cw7PoBJbPwy3MCpelHkkc67TCEWmEMkObdOJ7M63x
-         aX2RR//RrqYDhs5WPF0G0EWfQ1CE6/aG+seMJBt31TstS8q18nx5tCnmFdQEah/GoF7P
-         Ss079WND2GVySuBN8bDw9gDHvsG4NBE4TnNHOOQLGkWWYRR/7uYcWg4qgJCBNx4/UowJ
-         gFnNLyjfvvBcOici+VtfIlJZQsW4j8pyEFjI3vOLDGpj2CqoWk/UuAdZblk8u+DoAL8Z
-         f+bSQDDVDdQSw2aZ2YZimO2Ewz9wgcow+pdeYzKHDwLQFH/+mchjBx2p6Cbbm4VmA8lW
-         GgfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771902017; x=1772506817;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xFe8WdiYvRsGLyynpqXx4xXBoM9FyyzukwEjWl1pbts=;
-        b=nU/l2r02MxcP60aqlIivUzW98oljpjQibo5XBX8T8VeFyuNU2Ehows7USKXIEKoDB5
-         nw4lpdpNP+CaEfg6AZfQHRQcmG+SATNNKfC2kB4+PfitLFY/k/5fccSefUx5ul2uxsnd
-         QRDmbvE9hMPQZ5UgWuw+RNjJhHqHMx11R4cZFpka3O2IpUYGEZe9VHIdPHk9MVVXp2Uj
-         VtRv4qFrTZU3GLUP8xuNbPr28fcrVoOtM35DX5kH4fWg9whaTAS/E71oA00tjEkKUHaV
-         jV9ajjCG4yYoC5jik+C7P2kN2y6qu9L+xK0FXuBQduUjm/Bvd62eysWbOCfsq9RMC/iY
-         GwEg==
-X-Forwarded-Encrypted: i=1; AJvYcCXdNHe9CIahHevHA02HnJ6WbTfv/44K+v7kIF3nED2cEvCn6cx5es5z32fLkFE/k2HX6yTbaB70hY0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykmQ4pBUJhOzi+FisqJdf43Fb9SEHrOdJ0BHsu3mRELuJDucVw
-	gJKXu1Djc25CtP2UMW/iLu1CRRck1NYg4H7GIxQ5WSuA/SqcgYntIvgta16txauOjtei3WtPzcZ
-	DTMi1D5xzzYFLWV91GeXUMnWdLAWAbnnnBvuPAc33
-X-Gm-Gg: ATEYQzyyFThajC3stazHT68Ih0NcTFs28Zo0eIGTAe1pxFGuAItyOxwepKp+iffwyAB
-	RswTJiEW4TdPfR3/SxtMa9jt1pRwdPIi8RIYO4+royNbCtvXwQpQat+chuAb3+G88/Pbkiz9ZTh
-	XjPF9vaZ6MVO3D+dpssK6KYvjFjq2pD1Ss9rD4HOTaJoR3F5TM9x6moZpNkNd9OnNvdeNZBRZD1
-	S0dolSm3tnUThwLqSUo4HQSpQvLoo7lJEM84B5ekBx2Py33eRi1VxH2AsgFgguxwwMyN/lIq+vG
-	OZpGEC6vpfqlPkkPb/9jq37C3Vc8lHR3Ocx6mmrSIL8GBf6EEjzaELaswm7JdEP/vw==
-X-Received: by 2002:a05:6102:3048:b0:5f8:e2cb:d245 with SMTP id
- ada2fe7eead31-5feb2c23567mr4062890137.0.1771902016820; Mon, 23 Feb 2026
- 19:00:16 -0800 (PST)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 23 Feb 2026 19:00:16 -0800
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 23 Feb 2026 19:00:16 -0800
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <0100019bd33bf5cc-3ab17b9e-cd67-4f0b-885e-55658a1207f0-000000@email.amazonses.com>
-References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
- <20260118223110.92320-1-john@jagalactic.com> <0100019bd33bf5cc-3ab17b9e-cd67-4f0b-885e-55658a1207f0-000000@email.amazonses.com>
+	dkim=pass (2048-bit key) header.d=furdevs.cn header.i=@furdevs.cn header.b="iHs90uGz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ubNLVF47IHT1wVpGThqtqq+FjlSBlVIV//3nWZwXdwgkNHLIcCJbzhN0LOJPY2jgWHvRTXelVgmc7DWTMl6y1+50REEJ0vsTGAMnvtBzYVwSJea5FTmn1ctD/OC3pXtEUpHrMlWsuLm9537m1nP4ZWO81au2DLUEEkrJ10ZlwRQQ8Yx/y/Rd5IJNaI5rskywoXZSZFVWBWeNDqQiEvdHw2vIBOlRfsvijGiHMyIwzuhoBMZjL48EdnJ5nnhJpeOAJFgdnMshJc547v+ApbgXd8C6BsvZ0upJaeSGFHslEpon1jznmrNuLMwFYLAwYiXAT30bY/Y3OlWbfz+pzEI/Gw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OWxCptQAirXsm/eFPUkt1DSCq6yMkaIhb9HBpzbQrzs=;
+ b=tBylH9gjkz9m/fd41IfFzCQEv4KZa2q3nhUgQ4Yv64Vji3YAtAxzCcJTT8BLaf0WzI+Qe2ndQj8YJZmroiw7xoD3XOdTamD9i35tlQGiPteZfTxD5/t7hjb7x9jndhOdSLtHl/90wwnRnkVo/NBQFv7OenBTi4/Vn2C3dw17v24l2pR4eAGkkX91VnN3jSgTpRQFmhYpQYWmVdiFRETepqYGHNqc5zlWzbWer+EhUg5ZOrAlnDAF6xVuTitwSrLqwiEqDRFUzQvzP9nbGAM1waWNtrLWL1KaqTRrVzD24wGv7HrKCUKtiQoclPplaG1EpC2JGUeQCUhibSvJbJvHBQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=furdevs.cn; dmarc=pass action=none header.from=furdevs.cn;
+ dkim=pass header.d=furdevs.cn; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=furdevs.cn;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OWxCptQAirXsm/eFPUkt1DSCq6yMkaIhb9HBpzbQrzs=;
+ b=iHs90uGzV5oK2z6F53g7S60TqB4pFSeiD0Ud39a8FJXtfc+LMGTXCvibVclWEKy8x1x5JTxJ3x4Arz4MK34rXM6Ca8Jzn0qO3HDE207RY9C6A5e34xKFZeFPBji6DkXigwV3UbaAEuDSX2JT1KkpyAqpzImGb1CEqKoKQyZFslu4GhVZ2svYL1yNSob+RnjcIGtbnWSoeWXOoUx2Kw5eH1ffR/VcQENTfBAovtBL8iZ/OPwPHeAfFBJSQJwWHMF65hMLO65Up1N0pMcBNCFDILT25Eo9x+2dzFlKN8TJZr4JuzcvHRrvDnWf7cz8ORoCeQ1HJOBN0ryUEEtaXECoWA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=furdevs.cn;
+Received: from TYSPR04MB7125.apcprd04.prod.outlook.com (2603:1096:400:477::12)
+ by SEYPR04MB7329.apcprd04.prod.outlook.com (2603:1096:101:1ac::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Tue, 24 Feb
+ 2026 03:03:56 +0000
+Received: from TYSPR04MB7125.apcprd04.prod.outlook.com
+ ([fe80::a2b:ba98:33bb:56fc]) by TYSPR04MB7125.apcprd04.prod.outlook.com
+ ([fe80::a2b:ba98:33bb:56fc%5]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
+ 03:03:56 +0000
+Message-ID: <201bfa5f-2826-4a31-a4e6-a4cbe4dc884e@furdevs.cn>
+Date: Tue, 24 Feb 2026 11:03:15 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] docs/zh_TW: update personal information
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260220160201.41149-1-srcres258@furdevs.cn>
+ <87a4wz3z89.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Haowen Hu <srcres258@furdevs.cn>
+In-Reply-To: <87a4wz3z89.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR02CA0004.apcprd02.prod.outlook.com
+ (2603:1096:4:194::14) To TYSPR04MB7125.apcprd04.prod.outlook.com
+ (2603:1096:400:477::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 23 Feb 2026 19:00:16 -0800
-X-Gm-Features: AaiRm52vebMvqU0lH0n0vOtDAX6OI7Y7um56VSKnaZ96AOmxaI9gmZymUaqHfu0
-Message-ID: <CAEvNRgHmfpx0BXPzt81DenKbyvQ1QwM5rZeJWMnKUO8fB8MeqA@mail.gmail.com>
-Subject: Re: [PATCH V7 02/19] dax: Factor out dax_folio_reset_order() helper
-To: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>, John Groves <jgroves@fastmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYSPR04MB7125:EE_|SEYPR04MB7329:EE_
+X-MS-Office365-Filtering-Correlation-Id: 50d50dde-d10c-422a-7054-08de7351596c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|786006|1800799024|376014|366016|41320700013;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ZEY2ZjRjdGFNbHhxZzY0TmE1ZkY5T1lpSDB0UUFzUlIrblhTZEFnUkNRS0x2?=
+ =?utf-8?B?Wlg5WkhyTE5QeU5mR09YWU0vVWZ2V0FuZU8wdkVnM1U4czJ1dThTTFd0VW4x?=
+ =?utf-8?B?MHhFa3lPakhKYVJpU1FTRSt0NFhHR1JWeklTNWg2RUJqWTZHQWI5TitoUHJl?=
+ =?utf-8?B?RkhQaXFWZjh0MmhxbzgwaHBaOGlRN2ltQUdzSDlCek1LdXkzc1lQeVE4WXFH?=
+ =?utf-8?B?dkdxa2VJR09BUjVSMHUvK3NaUCtYWVZIUW5ObTRWNXFrUUM3K2RvVk0wQ0lX?=
+ =?utf-8?B?Q2ROaFMyZWRSV0xIdVBObEtWcHI2a3JVS1ZSSGttWVZTTGx2VzdHM2tmdWNR?=
+ =?utf-8?B?Z1FSYndiaU53OU9pVk9rci9BdjNQSVFjWUdnKzhWcmlBQ2NpVFVJalA2T3Zl?=
+ =?utf-8?B?eGIwb0paQ2xEbEpnbVVBdUdYRkliOEJvbXBTWUdaQU05VUxyODBpVlNGbHR0?=
+ =?utf-8?B?bWdPZ1pqNE45c2tIaFFPcFdlY2lNcmNLOWZqVzltTHA5V3BPNTdURXBqWnFx?=
+ =?utf-8?B?RFJrWFh3blgrblNZcXpvbndWSFprVVh6bHI4Z2svMnRSZkt0bWppRVIvZkpG?=
+ =?utf-8?B?enhQa0J4TElVS1E5SzZETlNNekNiRDZGT2FiNFBwNm1JRHAwakJ0V0d1ZElR?=
+ =?utf-8?B?ODJyRG1iMS9lTU1KOWVCU2NlbmVtNmlRL3d3ZTYwYnVUV0t4SzlCRDd4Y1g0?=
+ =?utf-8?B?bHo5cEpjVjdQSzIvMEdST1JBTkowVS94YUNqNHJ2Sk5nNU1Ra25MZGJXWnNo?=
+ =?utf-8?B?R1E3WkNXa05ZUnpWWGFEb2V3U1hmYmIyQUdTeEhwSFd1a0Y3amtHejVib3RC?=
+ =?utf-8?B?TERoaDg0Y0lZYm5kWW9Fakh3V3M0bjlzOW9ZbHhuWHNtT051RjE3ZHdOQ1Na?=
+ =?utf-8?B?dEZjU01Hd2wyMThONG9ZdFdZL1IrYzNreUFsVThXR2xaRWsydVJWYm9XR0ZI?=
+ =?utf-8?B?U2ZENjlwSmZHKzk5OXRObmZPblcxVStGSjNEQk0zSW8yczNrRldCY01XUVZP?=
+ =?utf-8?B?TVJnSGlhdklaYkphY3dRUi9EMVFGUzFwVFBOUmJHQVlFakNkOEZTTHYxb3gr?=
+ =?utf-8?B?RjlDWitGeGtoV1J5TU52RTZiNllZNVdSQU1wbHd6MmFvenJoczNaeDkzc1Fs?=
+ =?utf-8?B?K2V2aDJWL0FSeEdzUnBhTW96WFVNc0owUkhCWkUzWkdocStkTHhXTU5ScklR?=
+ =?utf-8?B?RW1BTDFIMkpCc2paNGgzSG82NWk2ZHd0OGNkZ24zNnc4WUlIVDhoa0w5TXZ4?=
+ =?utf-8?B?VGUwVmh1cnpqS0thc1Z4SzlsODVqN1J1VlJLZ2tqUENmTDJjc0ZacmEwSnIz?=
+ =?utf-8?B?YnNvOW14Sjk5dHRWd0R1VXNxdlpKc1V2SHVQSmhmRmpNc3I3Q3ZhWFk1MzV1?=
+ =?utf-8?B?clFleG0zUGRRclZNUUJhbGU3KzUzZkNMb3o0T2tidklYMExjbmRxL3FwbkZ4?=
+ =?utf-8?B?Z3FSODRhNWtudU5ZdFdLNjg5MS9DaEtqZDZMUWJ5Z2dtbjEzSmxXMUR0MG50?=
+ =?utf-8?B?L282bVZLQURNemdIWHl2cDRiYnI3SkhzRHpKUHpVNUJ2WkV0aE1SWS95SlVX?=
+ =?utf-8?B?RjJoME1TMDVIdE1SNGZ6MzlCMWZNVlU3VFpIL3Z0YWJ4VDJvZHRlVGF6NldN?=
+ =?utf-8?B?ZmhoZnJPWDUxdG9xcWNFdDVxMU5uRGl5TlE5ZWR0TFdkQVEzNEJYY3RJSEgy?=
+ =?utf-8?B?cXdtRUVNVk5uVWEvWGVWMnR4OUZzOG43M2laVjZjQmNFZjZUVXFmcGk4Nkli?=
+ =?utf-8?B?M29vYzIxZEQybk01ZEpFUjhJZStxcVpxdW83VFpsUWFFcjJrakJGZzFlTk9v?=
+ =?utf-8?B?eE1lRXU4cHJGMUw4bzRWYWF0bzhJZXQ1bFUwYXlQSE5XaXYyZkZWWWVBakJp?=
+ =?utf-8?B?NkhQbXRvWHdSTTViZXQ2WnFldjQxRFFXa0Mzb1JncmNsV2hjcmJUZjdYZ3Zy?=
+ =?utf-8?B?Vzhxdk1UamJ0dWhzUlZIRmpmQi9VbTFuZlpoTmNJR1BmeWsvSjUxSzVUeXBk?=
+ =?utf-8?B?Wjc4N2VPSis0d29CVFVaN1E4VEI4UUJQTjVuZ0tNa3ZnOHl1cE0yU01paWVD?=
+ =?utf-8?B?MDBDc3ErcUZPbTRYN0hxRGVsT1AxcTJsUFdHekxjS1BtdGFCZmhpT3F5TFNX?=
+ =?utf-8?Q?2ne4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYSPR04MB7125.apcprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(786006)(1800799024)(376014)(366016)(41320700013);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MHhNVDJSWml0Y0t5Q1JPUEcvYUtoeHI4OS9oc2lTNWV3ckh6WTNkRCtETXJS?=
+ =?utf-8?B?b0MzRndUTjA3akdLTjV4dFpJTGVRT3BCK3FneTF2ekQzUEhUbTJoWEpwOWZ1?=
+ =?utf-8?B?SkJRU3J5M1F6S1VycFo4SVNSRGVHc1J0TkxDWkRCVW4yYWxwayszbW9xd01r?=
+ =?utf-8?B?all1Z0ZTTGpQT1pSRUZhVDAvckdBdnRwV3l0dkZUd1ovZ0lRek1NR2Q5WFFr?=
+ =?utf-8?B?SlF6V1pxRm5ZMUQ0eWlmMndUSTFEQjU0UzA4M0QvVGI3T2tUblJ2ZlJyZzZt?=
+ =?utf-8?B?THVuWUdnNFlsZW90QU04eVAyeDQ0UFVFNWQvajRlSUYwTVNNZDNMVUthdmNE?=
+ =?utf-8?B?YjlDeno1Uk0wNEJubFRxTXlGR0tvelMyYVJUUnBqS3cxMjVkN1BkaFlBODlK?=
+ =?utf-8?B?eklhUWFsWTM4d0NkcnQwdUJSWWFyZ1BWRExNYmhWdEczV1Uxb3pSTUlLQXZK?=
+ =?utf-8?B?MVhPTzQvd09nYWtTc2xQZ0h5Qlk0Q1dkc1RoL2JGY2FCdU5uZ3JtN1FlL2VO?=
+ =?utf-8?B?dzlxTkVadStsUzV2TGJiSDIwQnFzdm5OUkxJc3FxbEt4Szl2SU8yaWdyMGJZ?=
+ =?utf-8?B?ODNsc1FQVFk2UWlRVFRUenNkY2psbjgzb0ViVUE4NzVNT0dZWVNPUkhkUjI1?=
+ =?utf-8?B?b0x2MXRENDNDa2ZRa2lZcVFxYkExUkYxMXhGaE5aQzJINjZObmY3NVBjQW1G?=
+ =?utf-8?B?L3hOZzYxNDAzTXhFdGNzd0ExYWM4a0h5Tk9uR1NST3JaU3VhZ1AwL2hkQ0Nh?=
+ =?utf-8?B?V3dmZDJxa0JQeHMxR2NmWGE0SDk5dnEvQUdqRFE1bTJsUW5POWt1NEx1REc1?=
+ =?utf-8?B?aEdVNVltUHdHZVEvL0J5ZDNJODYzR253K25MRXd4ekdRMEVFWFYwaXNDRm9j?=
+ =?utf-8?B?NFR0cWdNdVY5NWtBaDMwOWZ6OVQyOW11YmE0NThlZ214NnRrSUFuMGdiclJI?=
+ =?utf-8?B?U0tnYm9pQ3RwNXhwQnN0R2RaaXd5NE96UWpaV1JoSktwRUh2RHl3Zll0Vjcz?=
+ =?utf-8?B?azl1QVpDSmpBTHhyUXU3SnBxVHRmK09PZVF3MUR2SzVwdDdSL00rVWRqTVlR?=
+ =?utf-8?B?eEJBcmZKbkJLcXhmSjVCWnBkUkZXY3NGY3UwaGt6SSsyN0hRL0JnWjk1VXE3?=
+ =?utf-8?B?MW9xQ2Fyenl5Z2JuczRlMUtTdVhoV1o3M0RKV1R4NlpIelAvZ2xZazJXcXpR?=
+ =?utf-8?B?c1l6QVdIMnRtbllaVGpEdDR6c1RVMnFYR0ZocVd1SWE2WUlKVEhkVWJOWUdG?=
+ =?utf-8?B?TVV3TXdKWFZrRjlUME5YeVVqbkhJUCtaS2JNcHozdWl0b0dGeHZMQWV1cm5h?=
+ =?utf-8?B?bkptRmVlaHl1UGNRUFVnWkZJc3lWVURSeS9jUkxrZDcwSUx3UlZuSjJaYURV?=
+ =?utf-8?B?bVErRjIwbWZORTdmS2ZreWtYeERBZjNTZTBTYzhVOVJjT2Nic3RVVFZsVS9Q?=
+ =?utf-8?B?dXB3dHhIYTJMVG1Nc1lFSkJmZzIwTEswM1A1NkphWjFCY1lWMHVkdUhqZGJw?=
+ =?utf-8?B?Z2QwbXBvWEp5RXNSa2VCSGU3M3BYTTFJNFF3L3lUZnIrRS9UU2JHSVdBVW1l?=
+ =?utf-8?B?YVRsWWlaSGQrTEZVYzJWNzdwL0pGRjFmSFRkQlBFK0FYNllIcWRPOU45VDEr?=
+ =?utf-8?B?U1dac1FvMUw1MVZHY3R0aU5jN3QwMGU0cEhLb1RRZGY5TTZqeEFwWllwVWxx?=
+ =?utf-8?B?aFNtK2hrOUNQU3h6b3V4SGNRRWIramgxaXZjTElHSzNZMVc0M20vS0N0aURn?=
+ =?utf-8?B?bGpJeUFHWDY2MVlwdFFWeUdhTjAyenBoUjVERmdFV3cwSElKNS9EbDhLRkxa?=
+ =?utf-8?B?ajVTR05yQzdNdHJBTTZ4Y2tJTHRYaGdEWk1TeUhBUmpoS2Q4VUdTT3c4Nmdy?=
+ =?utf-8?B?a2QySmdOL2F0MlBocXc2MkhuM2s3Z3RoVCtQZmF2ZDFIZ0h1bHhUWDVCK1RR?=
+ =?utf-8?B?YlZKZG12QnZiR2JNaCsxYTZwbmJOa0hoTThCWk5zNUlDR2JuRWFHTDZsQ21j?=
+ =?utf-8?B?bEkxeVFvbXRETHFydE9RQ2hTemNkUFFmYnhNc1VDSFFmZjNMMlgwVFlDUFlL?=
+ =?utf-8?B?RUFVM1FmbS9BZlJ2MjB5dG1PSVhYT0ZTZ05JZHQ4OWNNYWNqaDdndm13cGl3?=
+ =?utf-8?B?R2xnU2V5c3cyTitUdzNzYldZVGZmMkk0ZDFsVHNjeVQrYUE3bFZFNm1lSElZ?=
+ =?utf-8?B?Qy8zYU5haEJQVWdJRWdwbjdUTW5LMUhxeUJ6Y0NpYm42M2ZxNXMyTktBdzB5?=
+ =?utf-8?B?ck81UnRLN3gxN0Q2emUrZFFXZm9nT1BlOVNSSTkzQ3R5eGR4V3pFTzdlZElU?=
+ =?utf-8?B?TVNpWEY3ZDNHb3Ewand1aU9GWmx4WVZyNlJBaTF2RGpQVmZzS2dKUT09?=
+X-OriginatorOrg: furdevs.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50d50dde-d10c-422a-7054-08de7351596c
+X-MS-Exchange-CrossTenant-AuthSource: TYSPR04MB7125.apcprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 03:03:56.5277
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c15d1683-7bd7-4720-8850-c10d9a967b56
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ezh5YZBGKQ63WpG3iyzP9zFqIaFoCdB4iYK41S/OBkzmBOexR4x34VsfifRuqyltfS23vChb+8Siq2rm+7ZUMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR04MB7329
 
-John Groves <john@jagalactic.com> writes:
 
-> From: John Groves <John@Groves.net>
->
-> Both fs/dax.c:dax_folio_put() and drivers/dax/fsdev.c:
-> fsdev_clear_folio_state() (the latter coming in the next commit after this
-> one) contain nearly identical code to reset a compound DAX folio back to
-> order-0 pages. Factor this out into a shared helper function.
->
-> The new dax_folio_reset_order() function:
-> - Clears the folio's mapping and share count
-> - Resets compound folio state via folio_reset_order()
-> - Clears PageHead and compound_head for each sub-page
-> - Restores the pgmap pointer for each resulting order-0 folio
-> - Returns the original folio order (for callers that need to advance by
->   that many pages)
->
-> This simplifies fsdev_clear_folio_state() from ~50 lines to ~15 lines while
-> maintaining the same functionality in both call sites.
->
-> Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  fs/dax.c | 60 +++++++++++++++++++++++++++++++++++++++-----------------
->  1 file changed, 42 insertions(+), 18 deletions(-)
->
-> diff --git a/fs/dax.c b/fs/dax.c
-> index 289e6254aa30..7d7bbfb32c41 100644
-> --- a/fs/dax.c
-> +++ b/fs/dax.c
-> @@ -378,6 +378,45 @@ static void dax_folio_make_shared(struct folio *folio)
->  	folio->share = 1;
->  }
->
-> +/**
-> + * dax_folio_reset_order - Reset a compound DAX folio to order-0 pages
-> + * @folio: The folio to reset
-> + *
-> + * Splits a compound folio back into individual order-0 pages,
-> + * clearing compound state and restoring pgmap pointers.
-> + *
-> + * Returns: the original folio order (0 if already order-0)
-> + */
-> +int dax_folio_reset_order(struct folio *folio)
-> +{
-> +	struct dev_pagemap *pgmap = page_pgmap(&folio->page);
-> +	int order = folio_order(folio);
-> +	int i;
-> +
-> +	folio->mapping = NULL;
-> +	folio->share = 0;
-> +
-> +	if (!order) {
-> +		folio->pgmap = pgmap;
-> +		return 0;
-> +	}
-> +
-> +	folio_reset_order(folio);
-> +
-> +	for (i = 0; i < (1UL << order); i++) {
-> +		struct page *page = folio_page(folio, i);
-> +		struct folio *f = (struct folio *)page;
-> +
-> +		ClearPageHead(page);
-> +		clear_compound_head(page);
-> +		f->mapping = NULL;
-> +		f->share = 0;
-> +		f->pgmap = pgmap;
-> +	}
-> +
-> +	return order;
-> +}
-> +
 
-I'm implementing something similar for guest_memfd and was going to
-reuse __split_folio_to_order(). Would you consider using the
-__split_folio_to_order() function?
+On 2/24/26 05:51, Jonathan Corbet wrote:
+> Haowen Hu <srcres258@furdevs.cn> writes:
+> 
+>> Get my personal information updated in the Linux kernel Documentation.
+>> Mainly on:
+>>
+>>    * The legacy e-mail (2023002089@link.tyut.edu.cn) had some issue and
+>>      is not accessible now. Replace it with my current e-mail
+>>      (srcres258@furdevs.cn).
+> 
+> So ...
+> 
+>> diff --git a/Documentation/translations/zh_TW/IRQ.txt b/Documentation/translations/zh_TW/IRQ.txt
+>> index 8115a7618307..9b27b1f19355 100644
+>> --- a/Documentation/translations/zh_TW/IRQ.txt
+>> +++ b/Documentation/translations/zh_TW/IRQ.txt
+>> @@ -7,7 +7,7 @@ help.  Contact the Chinese maintainer if this translation is outdated
+>>   or if there is a problem with the translation.
+>>
+>>   Maintainer: Eric W. Biederman <ebiederman@xmission.com>
+>> -Traditional Chinese maintainer: Hu Haowen <2023002089@link.tyut.edu.cn>
+>> +Traditional Chinese maintainer: Haowen Hu <srcres258@furdevs.cn>
+> 
+> Despite this claim, you have not touched this translation since 2023.
 
-I see that dax_folio_reset_order() needs to set f->share to 0 though,
-which is a union with index, and __split_folio_to_order() sets non-0
-indices.
+Guilty for my absence of contributions. For my being busy with daily
+routines, I had little time working on the kernel documentation stuff.
 
-Also, __split_folio_to_order() doesn't handle f->pgmap (or f->lru).
+> And two of the handful of changes you made that year were ... changing
+> your email address in all of those files.
 
-Could these two steps be added to a separate loop after
-__split_folio_to_order()?
+Sure. Just want to keep things synced as exactly as possible, and so
+does the patch mean to be.
 
-Does dax_folio_reset_order() need to handle any of the folio flags that
-__split_folio_to_order() handles?
+> 
+> I don't think that all this churn this is reasonable, especially for a
+> translation that appears to have been abandoned.  So I don't really want
+> to apply this.  I would suggest you send me an alternative *removing*
+> that information from those files, optionally leaving a credit for past
+> work done in Documentation/translations/zh_TW/index.rst.  The question
+> of when this translation becomes too old and should just be removed can
+> be left for another day.
 
->  static inline unsigned long dax_folio_put(struct folio *folio)
->  {
->  	unsigned long ref;
-> @@ -391,28 +430,13 @@ static inline unsigned long dax_folio_put(struct folio *folio)
->  	if (ref)
->  		return ref;
->
-> -	folio->mapping = NULL;
-> -	order = folio_order(folio);
-> -	if (!order)
-> -		return 0;
-> -	folio_reset_order(folio);
-> +	order = dax_folio_reset_order(folio);
->
-> +	/* Debug check: verify refcounts are zero for all sub-folios */
->  	for (i = 0; i < (1UL << order); i++) {
-> -		struct dev_pagemap *pgmap = page_pgmap(&folio->page);
->  		struct page *page = folio_page(folio, i);
-> -		struct folio *new_folio = (struct folio *)page;
->
-> -		ClearPageHead(page);
-> -		clear_compound_head(page);
-> -
-> -		new_folio->mapping = NULL;
-> -		/*
-> -		 * Reset pgmap which was over-written by
-> -		 * prep_compound_page().
-> -		 */
+OK, so do you mean this translation (zh_TW) is planned to be removed
+from the entire documentation? I'm working on the update job currently
+for the translation to become modern, and you can have a review of my
+rework when this is done and the patch is sent. I really want these
+texts to be kept in the kernel documentation and they are able to
+receive a thorough update to be suitable toward the kernel nowadays.
 
-Actually, where's the call to prep_compound_page()? Was that in
-dax_folio_init()? Is this comment still valid and does pgmap have to be
-reset?
+> 
+> Thanks,
+> 
+> jon
 
-> -		new_folio->pgmap = pgmap;
-> -		new_folio->share = 0;
-> -		WARN_ON_ONCE(folio_ref_count(new_folio));
-> +		WARN_ON_ONCE(folio_ref_count((struct folio *)page));
->  	}
->
->  	return ref;
-> --
-> 2.52.0
