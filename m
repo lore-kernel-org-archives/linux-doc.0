@@ -1,97 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DC8396B8E;
-	Tue, 24 Feb 2026 13:25:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8B23815C3;
+	Tue, 24 Feb 2026 13:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771939550; cv=none; b=OuTQgF19Wm9Ii6AxcOy8XDciDrHTp6LE6gentbV24PFRJgmy0Aj6wutAKaYWQT0tPnKR6kdINZTNRkeMQDmKbFLqtfsT4ZjIEcyJcDHqLiPo/SYwfvo34+eUEQsSEhInfb+9PgsvHly6gC0qYkTe8+qL4ApVUpH04oCYXB8GASU=
+	t=1771940607; cv=none; b=l+DXgojXSX6sLYVI4mn5JeikHFmzKPxL77KoDUTneCSmnaVIzqur1NCuso5spg2k2OHSEpSZPWpsOnl9nETkNtJ4lJICFbMLeNLG81CHVnun0jJ55tYJ+/D7YudpiHKha/GEDXX4Yu1+pKxvjnGrhjQc/tgZaqsMBn/4mFepd7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771939550; c=relaxed/simple;
-	bh=OH226xpf6OFBkdLB/rlmhdXNbboVu+PgHRuJNn31ygA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KF94zdaMt5RI0wBR9NNXTZx6yfg+Fq0bxmsF3pUl7aMP2DDX96oymxnHfii62Zqa+t9gz9rcZlgnFzYky/bBZxSCWEpYsAmiXDB9V24SWo483H6pA7dAgqT/oxWgqFRwVW2fvKD3TdLSEhunIKTmvLc6Bl/1MAIa/lanSsM6+YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MaoJ9568; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1771940607; c=relaxed/simple;
+	bh=Jpj7Oorc5cxJiadctBj9x+AGBJR8mkNSvyFDCxax/xg=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PXoH7D4ueKLeGfSAIvWeiBdUW3lStjp5SQKRpK5OGx+z6icLrMJi5q0VlsxUppQ5CaxhwpmSC1dzn5LDU60DI7uyMgDGbTfoIMps2Td2/70QEsVjw8+Pgt0YpbJ/HEeXcBPm0ZrHpxgG1Zngzbu8Uv90QXuQiZ4dVpT59e7lK9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=C8ne0Clc; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MaoJ9568"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2C34C19422;
-	Tue, 24 Feb 2026 13:25:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1771939550;
-	bh=OH226xpf6OFBkdLB/rlmhdXNbboVu+PgHRuJNn31ygA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MaoJ9568OOoCR1H3e1IZa3TXWhhHUxPVWefiXSWJ2H04Ml2WRp0YZFrfYixr85VSq
-	 xgLhEU4O++7qwHs4z7H6w+2Z83T8ixWcwtEoznNyTXw3SQRBIbxl7vnfiIFdMeDwb6
-	 D58Fq4EwRtzjQUa2SQ6x0QZyq15d4tjJXkhZMfYnAzbYXstciiMANFs7Mqr2MlvcxE
-	 nGme0QMlaUWVcc0XIS9/p+yJC0bk35W57YSjtBmnMj05sAvqYGbrv783MqSmT2s88s
-	 lQso4Cd6fZP60LmlsXOD22HuXICgwgDsLtgOtpb2uhpjH3wq6r9GHsBW9AnSZIduyL
-	 UMPdivEE1xDbg==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vusQ7-0000000Gpru-39rz;
-	Tue, 24 Feb 2026 14:25:47 +0100
-Date: Tue, 24 Feb 2026 14:25:46 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Alexander Lobakin
- <aleksander.lobakin@intel.com>, Kees Cook <kees@kernel.org>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, intel-wired-lan@lists.osuosl.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [Intel-wired-lan] [PATCH 00/38] docs: several improvements to
- kernel-doc
-Message-ID: <20260224142546.3eb7c38b@localhost>
-In-Reply-To: <878qcj8pvw.fsf@trenco.lwn.net>
-References: <cover.1771408406.git.mchehab+huawei@kernel.org>
-	<33d214091909b9a060637f56f81fb8f525cf433b@intel.com>
-	<878qcj8pvw.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="C8ne0Clc"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Jpj7Oorc5cxJiadctBj9x+AGBJR8mkNSvyFDCxax/xg=;
+	b=C8ne0ClcyM0IRyAyTn5cpoyGVHI7+4mZl4N7BpNQLCcSI63n44CmW913hSkWboY7ruv4J3m2w
+	3qBAjIkR0+CaMCNyG/MF+IBAtreyjYKY4eaN1NpkVkVUEm92M73Za24S8Ep85ocK0G15BDDiEmR
+	8NY/QNxXKayEPD9M/RlOz1Q=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4fKzMH3PQgzpSv4;
+	Tue, 24 Feb 2026 21:38:35 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4EE3B4056B;
+	Tue, 24 Feb 2026 21:43:21 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Tue, 24 Feb 2026 21:43:20 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: <gongfan1@huawei.com>
+CC: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
+	<guoxin09@huawei.com>, <horms@kernel.org>, <kuba@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<luosifu@huawei.com>, <netdev@vger.kernel.org>, <pabeni@redhat.com>,
+	<shijing34@huawei.com>, <wulike1@huawei.com>, <zhoushuai28@huawei.com>,
+	<zhuyikai1@h-partners.com>
+Subject: Re: [PATCH net-next v01 00/15] net: hinic3: Fix code styles
+Date: Tue, 24 Feb 2026 21:43:15 +0800
+Message-ID: <20260224134315.1735-1-gongfan1@huawei.com>
+X-Mailer: git-send-email 2.51.0.windows.1
+In-Reply-To: <cover.1771916043.git.zhuyikai1@h-partners.com>
+References: <cover.1771916043.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On Mon, 23 Feb 2026 08:02:11 -0700
-Jonathan Corbet <corbet@lwn.net> wrote:
+On 2/24/2026 9:15 PM, Fan Gong wrote:
+> This patchset provides 4 code styles fixes:
+>
+> Remove empty lines between error handling.
+> Remove defensive txq_num check.
+> Use array_size instead of multiplying.
+> SQ use SQ_CTXT_PREF_CI_HI to improve readability.
+>
+> Changes:
+>
+> PATCH V01: https://lore.kernel.org/netdev/cover.1768915707.git.zhuyikai1@h-partners.com/
+>
+> PATCH V02: https://lore.kernel.org/netdev/cover.1769142701.git.zhuyikai1@h-partners.com/
+> * Send "Fix netif_queue_set_napi queue_index parameter passing error" to net (Jakub Kicinski)
+>
+> PATCH V03:
+> * Modify commit description to be more accurate and clear (Simon Horman)
 
-> Jani Nikula <jani.nikula@linux.intel.com> writes:
-> 
-> > There's always the question, if you're putting a lot of effort into
-> > making kernel-doc closer to an actual C parser, why not put all that
-> > effort into using and adapting to, you know, an actual C parser?  
-> 
-> Not speaking to the current effort but ... in the past, when I have
-> contemplated this (using, say, tree-sitter), the real problem is that
-> those parsers simply strip out the comments.  Kerneldoc without comments
-> ... doesn't work very well.  If there were a parser without those
-> problems, and which could be made to do the right thing with all of our
-> weird macro usage, it would certainly be worth considering.
+Sorry for forgetting to replace cover letter to a newer one.
+We will send the next version with correct cover letter and commit contexts, and refer to
+possible AI review for revisions after 24 hours.
 
-Parser is only needed for statement prototypes. There, stripping
-comments (after we parse public/private) should be OK. Yet, we
-want a python library to do the parsing, using it only for the
-things we want to be parsed.
-
-Assuming we have something like that, we'll still need to teach
-the parser about the macro transforms, as those are very Linux
-specific.
-
-Maybe something like: https://github.com/eliben/pycparser would
-help (didn't test nor tried to check if it does what we want).
-
-There is an additional problem that this will add an extra
-dependency for the Kernel build itself, because kernel-doc can
-run at Kernel build time.
-
-
--- 
 Thanks,
-Mauro
+Fan Gong
