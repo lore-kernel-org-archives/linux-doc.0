@@ -1,111 +1,154 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260E62DFA25
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 07:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37991349B04
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 08:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771919582; cv=none; b=j+JvMNYWiGykQWx0rTPXi6LuvhBAFFkGTofMqXTt1YU4R2Kt4tKkCivSqQl5meLRSMN+CW6sVtiFSvoL3TA+Ff9ThfzcPbY4PzsIQ5JoIgG/8OLpuEbsCWdV4u6RZd/EMIwuq2hi4flsHsSGTvkp424MMG6RTvvWvueiOmIeji0=
+	t=1771921581; cv=none; b=i0h8R3+2EgNg4TeStPUsfIfp34KLvZpQfQ9yNjINGxRw/2CKneySfAVfkR9gcC31pqwUcY/xDH3t9SQPmxGoiA16UJhTel/hGUXVjoJThm4wCYZtwWwDnVqnz5OzQiGHzg5ypSGMXVUrlP7CpGOtYTy+3EhxKz6WE2LUL85bB1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771919582; c=relaxed/simple;
-	bh=CTMXHtwe42qJP4jF+6CSJ752Ql5TBa/IN+aUiF5ca98=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=L7oGUg8pRnZZdaXU25RDBt3VIPgYRVH5JCxiTu9fR7lC4JfUw8Wh3v6eS9NLlT/+cuGG5bcUXHJx+v/lO3eMXLgv9GXmlyDIkDRj/P32YuF6C1ERc7fQNi8p/eBngFdD13i99NwhF+EKOrwQ0JMBkmhp9vbT4QoVrDWpE2+F8yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qv5Pljb3; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771921581; c=relaxed/simple;
+	bh=FtVWnKmSAhQscaTbVknx7Fz3wyNfwC/jGqjGpMz7VS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g7K1iWsRj+/vDUAt4jvUqUwRAIxutbDPVQPfv3ESCr6fX5A+v45wTYkGNywjBTMoPWd+qTjxQ9BGr7rQCfn03JVg+SpwhCDOz9rUMWMWcTLRpM9eQZrPeN9d4akHGyZpINdCUNVTwPC20wmMlXeq4VlnriMVOWnpDN7m/BsW8Q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BzspBYjl; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qv5Pljb3"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ab46931cf1so37830215ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 23:53:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BzspBYjl"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a964077671so69565ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 00:26:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771919580; x=1772524380; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+/k3i3EVK+dReOu1KDSSSE109KyyCg6uZzJSwqggdWo=;
-        b=Qv5Pljb3p0B4ERQl9rZgzSSxqJssdIr/GzM9+3ORWn1iqc45b3lAUf6LkKdVvU+KhM
-         DqBdVgthriwyGCM6VhKsYckuiil3UjZDxgdsNZ0+HK0OMemobBYUZ1cy2dE6zyt0TwAt
-         sU3JDEz6Ij3GfxO8jPCxbvxUOAgNXwUPGE+ZUeZymXYWUNzKeroljVzHuVLEthTYLCcY
-         3PIHyeWxdP8NuXZJ9nGGCwDWifVimqMLaM/UKo6XgPv9nYFNtxqdT7gE8VAFFYaeS+H0
-         UxliJC1sLQbuj2OAA0K8sxbWYbcjSi3KkzOJxpATrVY1zmYlS16gDDADB9lnCX96dLBY
-         NrxA==
+        d=google.com; s=20230601; t=1771921580; x=1772526380; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=iUKKSXBfGZuIEKcFLX2f8iJcwGvlTC3YM5y4lXwVnQE=;
+        b=BzspBYjlzJho/96OyJYC3/gHlaMUuKjiw/QoS90zqVUIVPaB1+4cmFktKshaEN64oN
+         zPGDaxiy7uah8Ty1NTrZSA56zwLNViSRrvAhU3CzYvYqHVtdE1JxUltMvAbg2Y0Z7iZ7
+         oodAGSR30NSP8Spay1Qb9whhfK0FcfkaU68AU8wkjBFuJMQz/F2SQYIo/+QfFR2sVJgc
+         55BgOqCT3TICyhtcjz0RFUkIHBBDi+vRzXiN0GVSzVMH8I297zVcjKCPk8KICUw9+P8T
+         Dl94M4PzFks+1ul9h2UtYgullQAUdTVuz+swCqQpFZEs+fBWJDQD+bx+OeZfxxLBLV8v
+         VNrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771919580; x=1772524380;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+/k3i3EVK+dReOu1KDSSSE109KyyCg6uZzJSwqggdWo=;
-        b=OgCF7rHV1EWvgbmBaJdWZOAkY+tnHl0sZ60ljBEjrSSb0lp7xbykJo4kp8wBMlzfvV
-         v5VPn3SRkbeOMeE/fvpbK1Rn2JDBFihQnibN4O6Hl4x1KuVODjbilNBV0XWUlWwIwgHB
-         ryt6cWGt7JptMnVkSqfyoT9AfRseh8ZHX0ieir+ykJQirhA0p0NJaWeAG4PsiOwQ1yIF
-         A38XBvYHa5h+0t14qTNPkNtWQ+Nj7KbfhS+rCzT9utKgljFibD4cl8+ISk9ijJD62hQ5
-         uAjYGxLEwKjZT3MKN6BG61X5Wyi1DuiGT7ZuhGZL8IXhNAKymHQ7OmCTsayQpJNqpHGn
-         Whbw==
-X-Gm-Message-State: AOJu0YxVqyTa35GlJcT+rTIszG30fH/h/GBwSG55d8EAyLQ0eMM+wlaZ
-	gcUVnaZ0/X2ImkaQgXM7xQ0nLptFuqWsBGXbd2OHPO57yMaowZhH/rRB/JyejDZM
-X-Gm-Gg: ATEYQzzQoIUh3ZI/EmvemtsApZRi6CejC5ORPns/L63w/Mk2etu0C+Lk3tvBSqDAP3a
-	QX8z676llYO/avlTFgX4rQN8ZlDe/wnt3rMZXvksa67gZyTbmfetPJhz0hK9J8ThuFk8lqyWBVu
-	8UgiOuvOrWIl06dNBeeBya0rvVSCwXJDZV2Ph3D8g4SxpiFaKolgL0/5HO+qSMMXzTufh5TCy5P
-	yKGi4UCu/mLwQNZY1rjA6OX5oq4UfmA7WCIt8DWvpONK55kRp0b/aw2T1ZJTMmH12jNj+yiZa7L
-	9U5D2LcxPUteK1YduE40uJFXtFsdO9qP8T60Z0svhF8+F5WHEapwgmaI0LKcqLTEb/QxszrQx54
-	yIVX6IV+/QK9YbwmsYKWRYw2J3iJVpEb44NXSVn8mdsxr2xE25qZPVilokOXmfFmW1BgCWfCa0w
-	hXJithiXIpVIUEY5nA5F5+ivbg7d83DUg=
-X-Received: by 2002:a17:902:f689:b0:2a7:80bf:3125 with SMTP id d9443c01a7336-2ad74283eeemr111833625ad.13.1771919580439;
-        Mon, 23 Feb 2026 23:53:00 -0800 (PST)
-Received: from localhost ([103.251.247.23])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad750275d0sm119813615ad.61.2026.02.23.23.52.59
+        d=1e100.net; s=20230601; t=1771921580; x=1772526380;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iUKKSXBfGZuIEKcFLX2f8iJcwGvlTC3YM5y4lXwVnQE=;
+        b=wEU4Bpi79oNmcVZ3OpUkl+4XScPoEhyuYn3K3v2j26UnWLFC8X9NQwC2MAkqjVVkLb
+         q4OwtH/XtszRFTMejpb/kSHsaw3EpKX2LO7nXVDjkT5xpshyeAMEMeTRhj8eZT0S23l4
+         53YDwv3T8j9qmuWlhkXGclFTlHjTo62ujNwE8E3OrSaa7IO7KE2qWY5QvdYTday4qhAD
+         QzRU7KCBimGJoaf3GO1oNslF7jUHrOM/A5ko5pzV+0Gw1a2ujMkXyvpnhwPMqFq7FnJl
+         S/dMWrH/SbFMb95qc46L7g27iRMVqpLdIG4vy261B7K0Qg4fkoJGbrB8iswC4qkpWQbL
+         B0DA==
+X-Forwarded-Encrypted: i=1; AJvYcCVU5QO+Tsef47gE2EQug0o4sA28T/7mnLDUrE9jUP/GuRaLb10Zm9waNiF5ZRvzBTx9k2OdsyxS5d8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9ikU2gqx/CahZtyGxOldkbftjEOprh39MX0EwhXWZapP1Iu6r
+	8Y5aOcZK15HGqqXeYNW79Fkvey9rDeyX7pAiC41yZ3YltshjmkrcZ3fcT2VBKGroXg==
+X-Gm-Gg: ATEYQzxze4/E/fRZZFdTUpbcNdNA+vs8ksVprHhqqyNfyC5o6apzaAyIY0pm9eaAwGM
+	bWUCnZWPt/7ravrkNWQnlWrayDX6ByCyBFHFlhHEVEg1WNE0Tf+PRJEw1iiC72347PR4HJiZrse
+	LTJfrXh5Tgw8INKJSpqZ4KTKdz1qD4FtV3CJu3vZAPI/y7RyHmajCdETB52tXbI2xgmzjkWa34D
+	PoHuBv3Ir8x9JpXeyX5zuEr4smyBZygZcXtgy3LQw93Ba13n8yoG7pftrC7uPRDMI2FRIO3VSQb
+	H1HVcbQNo50V4/axRwRMUnWMIWJc5GI46PGtEvMQXbrPxhoSd77KYAsHyyqO9So4yhqHJ76MKLV
+	63MNdLv7q8/aFGpFzyMpBjvGtxHyItOY+hzAZmQeeCA1WRxznThKkUO9ul0eWLMCXNGzBc6hffX
+	jxMUnuM2gbworxF+1FHr9awA9D+q3yweA7CVyxwRo1weqx81AX6plEgQZrJ6Bvu6QtkBFERqk=
+X-Received: by 2002:a17:903:2f04:b0:2a0:7fac:c031 with SMTP id d9443c01a7336-2ad997f5113mr1474945ad.14.1771921579006;
+        Tue, 24 Feb 2026 00:26:19 -0800 (PST)
+Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ada77cc13bsm13228715ad.47.2026.02.24.00.26.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 23:52:59 -0800 (PST)
-From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	viro@zeniv.linux.org.uk,
-	Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-Subject: [PATCH v2] docs: clarify gcc and clang support wording
-Date: Tue, 24 Feb 2026 13:52:49 +0600
-Message-ID: <20260224075250.15375-1-islamarifulshoikat@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260224045937.GA1762976@ZenIV>
-References: <20260224045937.GA1762976@ZenIV>
+        Tue, 24 Feb 2026 00:26:18 -0800 (PST)
+Date: Tue, 24 Feb 2026 08:26:08 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: Alex Williamson <alex@shazbot.org>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Lukas Wunner <lukas@wunner.de>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Tomita Moeko <tomitamoeko@gmail.com>,
+	Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 01/22] liveupdate: Export symbols needed by modules
+Message-ID: <aZ1goNCgY8xz9n6K@google.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+ <20260129212510.967611-2-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260129212510.967611-2-dmatlack@google.com>
 
-Avoid stating that both are "fully supported" due to
-variance between architecture.
+On Thu, Jan 29, 2026 at 09:24:48PM +0000, David Matlack wrote:
+> Export liveupdate_enabled(), liveupdate_register_file_handler(), and
+> liveupdate_unregister_file_handler(). All of these will be used by
+> vfio-pci in a subsequent commit, which can be built as a module.
+> 
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  kernel/liveupdate/luo_core.c | 1 +
+>  kernel/liveupdate/luo_file.c | 2 ++
+>  2 files changed, 3 insertions(+)
+> 
 
-Reported-by: Al Viro <viro@zeniv.linux.org.uk>
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
 
-Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
----
- Documentation/process/programming-language.rst | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/process/programming-language.rst b/Documentation/process/programming-language.rst
-index c18e307ccb56..25ec1c99e2ae 100644
---- a/Documentation/process/programming-language.rst
-+++ b/Documentation/process/programming-language.rst
-@@ -4,10 +4,11 @@ Programming Language
- ====================
- 
- The Linux kernel is written in the C programming language [c-language]_.
--More precisely, it is typically compiled with ``gcc`` [gcc]_
--under ``-std=gnu11`` [gcc-c-dialect-options]_: the GNU dialect of ISO C11.
--``clang`` [clang]_ is also supported; see documentation on
--:ref:`Building Linux with Clang/LLVM <kbuild_llvm>`.
-+More precisely, it is compiled with either ``gcc`` [gcc]_ or
-+``clang`` [clang]_, both of which are supported, using
-+``-std=gnu11`` [gcc-c-dialect-options]_:
-+the GNU dialect of ISO C11. See
-+:ref:`Building Linux with Clang/LLVM <kbuild_llvm>` for additional details.
- 
- This dialect contains many extensions to the language [gnu-extensions]_,
- and many of them are used within the kernel as a matter of course.
--- 
-2.43.0
-
+> diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
+> index dda7bb57d421..59d7793d9444 100644
+> --- a/kernel/liveupdate/luo_core.c
+> +++ b/kernel/liveupdate/luo_core.c
+> @@ -255,6 +255,7 @@ bool liveupdate_enabled(void)
+>  {
+>  	return luo_global.enabled;
+>  }
+> +EXPORT_SYMBOL_GPL(liveupdate_enabled);
+>  
+>  /**
+>   * DOC: LUO ioctl Interface
+> diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
+> index 35d2a8b1a0df..32759e846bc9 100644
+> --- a/kernel/liveupdate/luo_file.c
+> +++ b/kernel/liveupdate/luo_file.c
+> @@ -872,6 +872,7 @@ int liveupdate_register_file_handler(struct liveupdate_file_handler *fh)
+>  	luo_session_resume();
+>  	return err;
+>  }
+> +EXPORT_SYMBOL_GPL(liveupdate_register_file_handler);
+>  
+>  /**
+>   * liveupdate_unregister_file_handler - Unregister a liveupdate file handler
+> @@ -917,3 +918,4 @@ int liveupdate_unregister_file_handler(struct liveupdate_file_handler *fh)
+>  	liveupdate_test_register(fh);
+>  	return err;
+>  }
+> +EXPORT_SYMBOL_GPL(liveupdate_unregister_file_handler);
+> -- 
+> 2.53.0.rc1.225.gd81095ad13-goog
+> 
