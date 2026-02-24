@@ -1,268 +1,553 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012051.outbound.protection.outlook.com [52.101.48.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA7420A5F3;
-	Tue, 24 Feb 2026 09:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771924371; cv=fail; b=aTrSLiDVvI0sxo5aSf/JaT9R6hnH7bW9lf85T/EhOGX6LbWc+/jbtGnhu2yQI+NXs1MR+quB0Y9YPYPVxfm7tfFIXNB5DuU+pWobv3NDHiO+M3iFfom+YI5plZyFe+k4rPRSBwluWTDWYByunYjW6ii5spV+DxHA23dD8P5t5cY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771924371; c=relaxed/simple;
-	bh=yLAPZkIq8g+2cz+aXaJqzDz55pOJqgQP9WCoHLbygi4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=oEM9Oh2YdNSCMRYF10unNI6V1rRZ0ibQSD1y2zOzQwyHWOpjm9TtuM69IZgaltzJpvr8dFXoNuv41G/WMw9HSXS4rNgKzD3Xh/XqyeH7TdE8wB0vb7Z1/vyj9RpEBrycoaUUFzqFJYnu5nGkr9tv8hrgJxQ6ZuiSdhabqRADDpg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Ksu6xFpK; arc=fail smtp.client-ip=52.101.48.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E7F36A01A
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 09:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771924681; cv=none; b=Lg8LDraoCVgvnl2ED0W0e9BF+XTJJm6UYRRTvl8cslEMFpx1mUMeOXNEFnV0z5B1Z/avzU00ZxETPqQwgH55tQkWDPetrhJZ5tosiIY+OjT1iPm72tVI2K1o99peJXwBZOxnviYvSqzK487JVfwRmeAJ+TW5kvJXBu0iW+uhA+s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771924681; c=relaxed/simple;
+	bh=OQf9gke+R2EqcpOA0DUV5+QF0imQJUcRzJSYnRZR/qQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R40LM+K+wJ2H5KtE+OwLbqBJAJUJJMs04RhYu92Tsz67WeHG7W54DwupYBTKXZo5BdcJpEBkEtFiISMdit50ReZk6BPv69cTJCvjFFEuvVe4/1s8HNw3QjqoCcTFHd1KyBpnqyP+zGfZDFK+QY1uSXbU+1fPmfWajfCunDnBTSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pahSX+vM; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Ksu6xFpK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xu+zRHon8C3PLvjEaPPs2zmavI+/0dVzvImCHgFOhWUxri6Ubbl25ERYwf5b2ICliq0v5Xgr+va96lKiPDVi3mUdHS50taxg+n85UdGLv/wYxfgKkAZQ1nitdYA1QT0mw4rFqI1YojDrb9OI1aHgY36+tPEUGkRAOn067N1FGtG/AWDuPzBxACaeTKoDncZdH6PC5JLddgUUrdTDdbPBHjucSB2LPfupWfDDys9rZLZKS4h/D8BEto//wzFn2LV405ocgEdNvm3HjSb66K6wRH7R85rSGUdFcQq3sB34xQu14kN9UacXiIXwBoidY31ZzcYerCFPxW1tl/zX59Yt+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ufXzMOHWxUJ0luDL7bPzACkdeeYGPmoemAe4BDfcByw=;
- b=o0I+3/ld58zW9r+SOuqZx8kqwIPNZ1Uxw7a9MkeBjO8UYxw3y+8dvMeUTc52m1UYHw/o03I8tOJVrh3AY3IUMAFM/KreZBekn3bHvf8pzTYTwyzYN6KM1jb/dCksZOWJv8FS63dph0ce2ngbfVxX5ULNwIBGoVqjT8bpMwAMWY5I83mo84ewT+9QBAwVRnMzPlGgN7oM/OXu6yi/cnal7F8l1IEQh6sPpnHeipif+6I0ullqgfhc1HEh5zcpTR/RdUvucC51c+Vv/8sscTNgq8HGggAND3aFaH7z/E3uYGZzIROeILVsUYPNtVzzjpnCj9hIZd1/BQpGImy3UK8UTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ufXzMOHWxUJ0luDL7bPzACkdeeYGPmoemAe4BDfcByw=;
- b=Ksu6xFpKNVDwnT0JxwWDAnnwtXryiPfTRdt68XJhTRzX/cIBzxZ6Gz1QbK8PP9IdFWZvMZBsMxaz6/5XKsk9FagmIYDiqsqUOQCXtLiC4k2g248ZbKxzc0q5kS2yMf/u4SYqvKWcyPOjmFjNzKm3yewGCuAQa9WbRpipZOI6HP4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB7780.namprd12.prod.outlook.com (2603:10b6:8:152::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.21; Tue, 24 Feb
- 2026 09:12:45 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9632.017; Tue, 24 Feb 2026
- 09:12:45 +0000
-Message-ID: <e87c0c1d-82f1-4a03-9a56-9bf3e03273cf@amd.com>
-Date: Tue, 24 Feb 2026 10:12:31 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 12/18] accel/qda: Add PRIME dma-buf import support
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-12-fe46a9c1a046@oss.qualcomm.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260224-qda-firstpost-v1-12-fe46a9c1a046@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0260.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e8::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pahSX+vM"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2aad8123335so56985ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 01:18:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1771924680; x=1772529480; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TF+mm2Z4a0QE/AlRHLl01HM4EQQQQy3Q0r3NjkNuBjE=;
+        b=pahSX+vMOH5avNWAZavngwMmw4ZGRcGqXKHL9EI6DAm9npRKccaJnngiXhNaHZlS2a
+         p0QhlIRTKNZTOuq9JKefpEK6bku54nqVQnRJqa4hrfOZgBGq/OcrdE/g+sKUaB7nCaq9
+         jOhqMe1WEu02z4qpWr5xCbiclrCe/6d02XqjiDps6w/VsmlkfxnXY4fesj13LqcBiIKI
+         AfpJwHjs5HFrPXOFF3FdC74P+7y3IgiL+b4W+PdgxELeFSNKQfMQsYDvL/5ojctS5f9v
+         PO4f4EIOwqkJxRPQDi4tbuH8KofehQm5A9p2CiSuc+JWGQF9mjhaNlXFVer6KE/1yG6L
+         FKjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1771924680; x=1772529480;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TF+mm2Z4a0QE/AlRHLl01HM4EQQQQy3Q0r3NjkNuBjE=;
+        b=Uyu6HexN3ortugT/XNdffTHdCNb/DWbotnkgCgfihgT8MTSvcnKCdDr6D/l2UExsBe
+         /R9Ru3Cs+IjII16YZ1YChKMKPHdHbe9gZdhUV0Veo0jLYbkWEFcukwxCsFdr32RYE8Ss
+         HapNzwPwM4fVJy5X/ItePJGHh/3+hICGXI7GhxbUfDMXiw2UB3VM78tMN8oiLTeHn02J
+         sz16jeL6wpo5zrd2b8w/cqo0RL6qB+AynN2/jqPKwlS9vwI36xL9a33Y8IWT/TVfHnDz
+         8vuz04GjXmid4y8+FAupObgojcz1ahIY0XcZxjrJ3prYDiFOOLT6m8lABzsVjjz64ake
+         UkqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXfl+OKUxKZIgS6UWEAa0CSjEPOoNpOds4Ebwdaf1IjKHjW4+bM5V6T+U4QkR7J//RIvPCttiVAimY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8av+njX05mYUGwdDr5lhL5vRhZRG3Zq4gZ9/ILqMgzSE+Iq8J
+	0WOd43C2w9QZonSuvaDe2U0WnPO9aBktOMC4sa/Kq82XpKei4fQs7C6SThMx01H8nQ==
+X-Gm-Gg: ATEYQzzbojtHb0TdBF0a7zZvxrW1I/L0Jk0Qe24yWLHp647FxUVT5RJNWEFMmK4kvDb
+	RcezbTy2hd1rXcTljmcw2bBUkQPoIta+Jog+qbScX4LmsK4k0+ZjLXBF8N2ALfPPv7JZujVDzxw
+	rLVWar9Yom3/FCY4z2ZFfA6836ty0WZyjhXTk11ADufF/w9J35pQZMgRNsCXWRbIIRd6VWJQYYk
+	R9AWVbzS0BN6DK17elfvrZXCsgdugqGk4dasfNc24mmvEBUXdHHHkDxDK1sifKpSwIjDMvwzi/b
+	R+2oYVfn+fZ4ble58hJLPiUYKts8wAtAIoicHH3OHPKZQfkvqg86/ZqDI2E63uYk8Fbvi0VDyXI
+	XDS8h723riZ+fsguLxtO0Iv50VqPcUBIHx8uh2StaYPRpntzLAHnKegX+M9bmNHAPJ+oWPWWuAm
+	nkUPgs2K5kMLYcQGKAFJuZF6PAJp8sDpwzPHPKlVHMd3W/msIaaah7gDDDdSi9
+X-Received: by 2002:a17:903:944:b0:29d:7b9e:6df8 with SMTP id d9443c01a7336-2ad993a4aafmr1605825ad.2.1771924678903;
+        Tue, 24 Feb 2026 01:17:58 -0800 (PST)
+Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad74f764a6sm95101785ad.40.2026.02.24.01.17.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 01:17:58 -0800 (PST)
+Date: Tue, 24 Feb 2026 09:17:48 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: Alex Williamson <alex@shazbot.org>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Lukas Wunner <lukas@wunner.de>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Tomita Moeko <tomitamoeko@gmail.com>,
+	Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 02/22] PCI: Add API to track PCI devices preserved
+ across Live Update
+Message-ID: <aZ1svGur9IxQ7Td2@google.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+ <20260129212510.967611-3-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB7780:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3087b48c-007d-4800-db5a-08de7384df4d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?U2hOTXpBWXYwVXVuRE9hNXEwK3gySi9VcFhDcFFtWjRUWVdldE5OWFZyM0hm?=
- =?utf-8?B?OUtIUGU4SnM5QkhpMlJuYlBEbzNnMEo3NHE0KzZZdllXTUlCVnI0T2J5MTRQ?=
- =?utf-8?B?Um16YzJNSmZOY0FDN1dXclg2WUFRQ2tLem1pL3pYNlBKbmhWbEVDaHZ0UjBw?=
- =?utf-8?B?S3I3MDZ1a05xMmNLa1lRencyRG5FUjdhSURqZXlxNFBvZzZPZ0JyOXZiQ01N?=
- =?utf-8?B?eXRCZkdqc05DenZVVkdIUFZBMllBdEo5QVBXWkhCTzk2NEdMWEZtNDUvdEVY?=
- =?utf-8?B?ejFVcjU0azhvL09yalBuMzFYRlUrVmdpZisyS1c3My9DOFJkNlcwL1JhS0x1?=
- =?utf-8?B?cnZ6WVlxMFhoK3Y1aUp6QkcrUW5ZVitIU0E2V1hLZXlDUkkzTGJBZE5LQ1NS?=
- =?utf-8?B?TFZEL1orbWpUcnZXY1l0eWdHam91Rm53c04vdGlEN2xqYzkyWTBYem1RU0Ru?=
- =?utf-8?B?akVtMDNZV1hQaTloVUg0b1B2TFNiR3RwSlRpYVVlVGNOdDB3TkxOdkZ6MTZr?=
- =?utf-8?B?bVlOakd2SWJUcWYwWm5meTVuY3ZyMWhxc2lHUEVndWIweXM1bmJ2RHEvdVRJ?=
- =?utf-8?B?dG5RbDU2NDR1RmdJNVhrNUFxQjM2c00rOTQ2U3ZQdEhaVTRGZlpKVkFiMzhv?=
- =?utf-8?B?UUtaQ3dtd0pDOGR3Zm9XYXJYa0tlVE9YZVozLzBpMWd0THVrOFllY2RacDJz?=
- =?utf-8?B?U3UwaTJXeW1iSHJQRkhjZHFpN2tUY1ZDbUVGdnBzNDVKV0NZU2NqdXprQnNu?=
- =?utf-8?B?RGZIOTdubVlKcFNjcHAzZHhJZW14UjJtb01Lamx2cG5mNjhDNkpPUDVLSjlC?=
- =?utf-8?B?eG5KdEhkWmw5cE5Id0d1ZEJKR1RZY0VOS2xKaE56bWdGckpJTloxZk9Bc0NG?=
- =?utf-8?B?dXhBR1JMTVZSTTd1SU9oM0doVWl3eE1yVzArV2lqNDRDTm1RbC95VWdmLzho?=
- =?utf-8?B?LzNhMnVaeTRLa3BNaGxSRmt6NXl3bk5aMElZVUpvekRmeUdBcjA3eTZkaW1F?=
- =?utf-8?B?eGdxcjAwWEl2OXNYdkJ2RzhkMjI5S1A4ZEdmYkZGcU9kQWw4aExoZ2o3SDFG?=
- =?utf-8?B?cGtZd29GMUJTMXlhYTkzdjd4WHlPSVZrbFZLeFkrdnQ4OUtOL012UmVBSC9t?=
- =?utf-8?B?cFN4ZFFTRjVKRFhkQkg3Vkw0ZjFXOVRXQ3dPdmNKaE9zVmQ4QXIrNkhlWUQ1?=
- =?utf-8?B?Nmp4cXI2UVcvWGwrMHNIbUhwSHI0bVBZdnFLc1RrT2UzS3l2YmpNUDZOd3Ur?=
- =?utf-8?B?elNMQ1NaOU03T0N0VE1pM0V4dFFMc2NEMVh1RUZwRS9ta3RtYUFLN2c4N0pk?=
- =?utf-8?B?R2lEQUpVd1B4bk5td0swV1Z6THVtY2Q5MnVZOXIxUC9xZVllRVRpK2kzUFYw?=
- =?utf-8?B?TE1QY2FVYjF0TCtobWNTOEdPWThYUENCTDBMWHFKVG9JVGlHQkJNaEZHS0Yz?=
- =?utf-8?B?bXFSWk5HQVR4QUhjNncrY1d0SGFNUmlnT3NaOHFTeUZQcE5hSE1jc2xBSDlD?=
- =?utf-8?B?OEpqTUhYbmFwbFRkYUpjdzdVWS84cGdrWUsrTDlKM0ZmOWpHMlFXeVBjVUJ6?=
- =?utf-8?B?K3NRWjJGSUxRTUY4S21ReldORUVXMjlPZ0d0eUJjODlrMDQyWjRtTUxxQysz?=
- =?utf-8?B?b0x6YWJLQTNJYUlsVnh4aDhhcVhSM0l1U0ZNQkFqVFFaUE1YMjlSMFhtOTNI?=
- =?utf-8?B?S3lmV1VzZkxYbmtIdFN5R2pxQjlPUHU4WDlTLytGT2d0OUlHNk9tTllIYytu?=
- =?utf-8?B?Sm9rQXBibkFQNEdxdC9yczg0SkZvYVdjRCswMW9zOUwxMUc4VW9RTEZROXVI?=
- =?utf-8?B?MFJ2eUdqQ1lQa2xETW9mQ0tDdzd1VlhzaVUzM0orQytWUGFYMHZYMjJrcmxu?=
- =?utf-8?B?M200MGppdTF2eC9hT2hJVy92R0dHOGhnYlZrc0s3bWVFVnlzZGI3UGRBOERr?=
- =?utf-8?B?blJiYkk5bnd6SnJXbGo2KytSR3JDSSt3Z2Rpb25TMkppa09PRHVKbEo1MDNC?=
- =?utf-8?B?SVdiajlEV3BjUW1aTm9JQ1k4VGNPeHYwVzRQZHJVUHA3QnoxZStzQUV1L01P?=
- =?utf-8?B?dXM4MjE2Z2lMMzBDNXpoZjRzVU1hWVlKVjJyMXZFdTVVQTNRN1o0U3lJWmc3?=
- =?utf-8?B?Y1B0V1dtVzd3RnIrdnZlb2xHYjNFUnAzVm00dkVBK1huK0RBWktzbXBmbUd2?=
- =?utf-8?B?cEE9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OE1jUXVSMVdnd2V6SzFZSkUxVU44M0hpQnZmOHlTL0sybW0wWmU4WExLelF0?=
- =?utf-8?B?UHM2OUtxTVJHV2dtTXlDZ3lDYzRLV1dQMTUyb2RyRFJ2QkErK29kWkFVdjlY?=
- =?utf-8?B?cUVSczlrOVBHQmIxeEVLWW9tWUJmQjhBbW5rZ2N0YUwvOHN6anViUjZHblky?=
- =?utf-8?B?VUJhejVmQ0NvcDdOMUFwc1VvMDhBcnRiakVtemJQcmNKWS9TWCtSTDZmaUVU?=
- =?utf-8?B?S3lUSCtOMUhKRGkxbTNsYUdRYzNGNU1zU29QNUkwaVhobHI0UDd3VUNsekNy?=
- =?utf-8?B?VTl4YUFqKy9GTktqODc5Y1V1cCtEc2tUUXZEWmxEMjVkL1JWcTZSbG0vQlRo?=
- =?utf-8?B?SHBiTjFLbElRbWxGUndIb3BBUkdXWEZ0L01Hc2tiNUQ5bmNPL09Nc3BiMXlz?=
- =?utf-8?B?TDBMY3FmeHNQODBnT3BEK2Jnd1ZwcFlzN0tVNDlhNll1NXFtK3MwMlpxd1Rn?=
- =?utf-8?B?NkFhVXp0U1kxc1VHR3U2L0hzeVBGYmJPMm5VcS80MGxwcUZpN0cxQWdTWEpu?=
- =?utf-8?B?Q2tDbXZsQmhieVhERUNKVVdGQUY2RjFiRUFVdERXNFd6eHpNM2FTenZuc3hK?=
- =?utf-8?B?ZWlZdktuRE5FSFp6K1drRFRMMjB2am1uL2hYZFB3UmdGQysxemZaUTBML3Zo?=
- =?utf-8?B?Z0NmcGJwMmFabWEwZkRJSVU2WXd6RGRTZzFLb3dCMHpLL1pabUZHaHRJdUYw?=
- =?utf-8?B?d0FGbnBCU1JCTXg1dThEZVpUeXM1RkxzNU9rSG93THNIUlh5cndQNlpwZGR4?=
- =?utf-8?B?SHNzT3lFdWNMVE5EQnIyaXhiZDNSV29vQk1Sd0kxemtGcGh0aXNLNkdOYzM3?=
- =?utf-8?B?WEV1QkJZbEdOd25NSlF5SEYrRmVyb2hISms5dk1XVmtLSGdQMWUxVUpOck9P?=
- =?utf-8?B?R2g1c3dBenBXZEltdXp4c3JTMWFPSTlsM29ZQnRNZk5zdFBzSXgzWXBBYWdM?=
- =?utf-8?B?c0N4d28yODhvQSthRXhnRTVjQXJ0TjBiYTVpdjJ5cjR1aHN5NlJhWHBvcGM3?=
- =?utf-8?B?S3VmV0RjdHNSN3o0bUVmbUtaUGVudU5Ici9TTlVocVc4MmZtWENPQkc5bzBN?=
- =?utf-8?B?bVZhdmFoMUVXaDVVQ2hCRXZLdDliQ3BmZlFMVk9PakNtTkVxVjF5ZHNqTDBn?=
- =?utf-8?B?RCtXWkdudmxxK2sxVTdpSTNyVUhXaU5jTGtqZ0NqdU1hT0Y2R3hvWlBpQWdJ?=
- =?utf-8?B?RWQyZnFoT3AwME5oNXZuL1ppMDJQeE5iN3RTeTA3ZTI1S2pPSml0SEZYWm1L?=
- =?utf-8?B?dGN0OVBqTFZ0T0RnNHozZ3picFUrYVNQN3BtQVpMRHAreVV4ZlladHpTaFhB?=
- =?utf-8?B?c0RaQVJwTVZXY0hQeXV0MFdqUVU3NmZjZS9Dak9yd3RFTHR1V2FpMXdNYjA4?=
- =?utf-8?B?NEVzU0duc2VrTFFZZFhKRXh4ekhpT3h0U01pdGo0bVRkQUpoa1BSWldOYVJk?=
- =?utf-8?B?VU4wS3ZURUpobUgwUmZwME5zMDhjUXdzQi9aNm9haTl0WWg1S3U3WjNFbGcr?=
- =?utf-8?B?aWZVakpVOHpRdHM0YWJiT1hGdzZJYmswb2tHNUZKbnNURkFiY2FqbDVLdTg4?=
- =?utf-8?B?d1N4SlY4ZzAzMWY4L0lpQkx4MGhRMHgwQjRPT3JZVGI3RzZoc21jR0VIbnlK?=
- =?utf-8?B?TC9iTzhTbGIzQlMyZzVoVDRoNGxLTGsvaGRFVTRwek8vSnVEbW5tZG0wV2R4?=
- =?utf-8?B?aFRFN2dXWDErNlpkRUlxSXJBWFNEUFE4Sm1OYytBWXpXaGlibkR4QmlEeHM5?=
- =?utf-8?B?K3I2bTMzK25BNXEvZy90V05VVktQYnhkTXliT01yTEYwSWFLd1ByVDlsNmVy?=
- =?utf-8?B?aXA0aUVsd0JWVWdHa2UzK0VZemw1VW50anBpK2xvb3g2SU1mV0N4YlRyallZ?=
- =?utf-8?B?RjNuOWpBYlhUZFFWd0RvL3l6L0ovWnhuTXhWeGorcjRUem0zdGdZeUhIeXdE?=
- =?utf-8?B?NmNsODlXalluY09JS2xPdTJFWnNkRHQ2dFR1VWN5bFREay9FWHR5dENLcUxl?=
- =?utf-8?B?VlJGTGpKZmpacWVKUkE1QjJ1NHZCNXBQTXdHV3lUYXArOTN5Z1lmMGJyUWpM?=
- =?utf-8?B?SHRKUFRlb3pEanN6V2pTV1lxWHh5QW4wK2dvV3Rmc2hROGtNVkpCMlpNUFRj?=
- =?utf-8?B?V0E2QWJ2UG1XQ04zUTlwQlNtUkZucEQrL0F4MVB1clA0UUJKOTNDSjFqVXpL?=
- =?utf-8?B?ODVyR2x3WHE3WUV1OEZlWWxlTHRXNGpTekNzNHBWUC84bHBvQWIxVUgzMEVk?=
- =?utf-8?B?NWVxUXlpaFkwdlpRb0xhTUFzZVczS1Y1SFdSNVZjb28wVWcrZVZmbWtDb0Mv?=
- =?utf-8?Q?aXudlNRcegXfr2L2P5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3087b48c-007d-4800-db5a-08de7384df4d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2026 09:12:45.4844
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pThJ454xjrTKAvNLyN2kpz9PJ548iMi8kzcnY9B/V2EOQWZklJ586CP/5LaZrE18
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7780
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260129212510.967611-3-dmatlack@google.com>
 
-On 2/23/26 20:09, Ekansh Gupta wrote:
-> [Sie erhalten nicht häufig E-Mails von ekansh.gupta@oss.qualcomm.com. Weitere Informationen, warum dies wichtig ist, finden Sie unter https://aka.ms/LearnAboutSenderIdentification ]
+On Thu, Jan 29, 2026 at 09:24:49PM +0000, David Matlack wrote:
+> Add an API to enable the PCI subsystem to track all devices that are
+> preserved across a Live Update, including both incoming devices (passed
+> from the previous kernel) and outgoing devices (passed to the next
+> kernel).
 > 
-> Add PRIME dma-buf import support for QDA GEM buffer objects and integrate
-> it with the existing per-process memory manager and IOMMU device model.
+> Use PCI segment number and BDF to keep track of devices across Live
+> Update. This means the kernel must keep both identifiers constant across
+> a Live Update for any preserved device. VFs are not supported for now,
+> since that requires preserving SR-IOV state on the device to ensure the
+> same number of VFs appear after kexec and with the same BDFs.
 > 
-> The implementation extends qda_gem_obj to represent imported dma-bufs,
-> including dma_buf references, attachment state, scatter-gather tables
-> and an imported DMA address used for DSP-facing book-keeping. The
-> qda_gem_prime_import() path handles reimports of buffers originally
-> exported by QDA as well as imports of external dma-bufs, attaching them
-> to the assigned IOMMU device
-
-That is usually an absolutely clear NO-GO for DMA-bufs. Where exactly in the code is that?
-
-> and mapping them through the memory manager
-> for DSP access. The GEM free path is updated to unmap and detach
-> imported buffers while preserving the existing behaviour for locally
-> allocated memory.
+> Drivers that preserve devices across Live Update can now register their
+> struct liveupdate_file_handler with the PCI subsystem so that the PCI
+> subsystem can allocate and manage File-Lifecycle-Bound (FLB) global data
+> to track the list of incoming and outgoing preserved devices.
 > 
-> The PRIME fd-to-handle path is implemented in qda_prime_fd_to_handle(),
-> which records the calling drm_file in a driver-private import context
-> before invoking the core DRM helpers. The GEM import callback retrieves
-> this context to ensure that an IOMMU device is assigned to the process
-> and that imported buffers follow the same per-process IOMMU selection
-> rules as natively allocated GEM objects.
+>   pci_liveupdate_register_fh(driver_fh)
+>   pci_liveupdate_unregister_fh(driver_fh)
 > 
-> This patch prepares the driver for interoperable buffer sharing between
-> QDA and other dma-buf capable subsystems while keeping IOMMU mapping and
-> lifetime handling consistent with the existing GEM allocation flow.
+> Drivers can notify the PCI subsystem whenever a device is preserved and
+> unpreserved with the following APIs:
 > 
-> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>   pci_liveupdate_outgoing_preserve(pci_dev)
+>   pci_liveupdate_outgoing_unpreserve(pci_dev)
+> 
+> After a Live Update, the PCI subsystem fetches its FLB global data
+> from the previous kernel from the Live Update Orchestrator (LUO) during
+> device initialization to determine which devices were preserved.
+> 
+> Drivers can check if a device was preserved before userspace retrieves
+> the file for it via pci_dev->liveupdate_incoming.
+> 
+> Once a driver has finished restoring an incoming preserved device, it
+> can notify the PCI subsystem with the following call, which clears
+> pci_dev->liveupdate_incoming.
+> 
+>   pci_liveupdate_incoming_finish(pci_dev)
+> 
+> This API will be used in subsequent commits by the vfio-pci driver to
+> preserve VFIO devices across Live Update and by the PCI subsystem.
+> 
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  drivers/pci/Makefile        |   1 +
+>  drivers/pci/liveupdate.c    | 212 ++++++++++++++++++++++++++++++++++++
+>  drivers/pci/probe.c         |   2 +
+>  include/linux/kho/abi/pci.h |  55 ++++++++++
+>  include/linux/pci.h         |  47 ++++++++
+>  5 files changed, 317 insertions(+)
+>  create mode 100644 drivers/pci/liveupdate.c
+>  create mode 100644 include/linux/kho/abi/pci.h
+> 
+> diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+> index 8c259a9a8796..a32f7658b9e5 100644
+> --- a/drivers/pci/Makefile
+> +++ b/drivers/pci/Makefile
+> @@ -16,6 +16,7 @@ obj-$(CONFIG_PROC_FS)		+= proc.o
+>  obj-$(CONFIG_SYSFS)		+= pci-sysfs.o slot.o
+>  obj-$(CONFIG_ACPI)		+= pci-acpi.o
+>  obj-$(CONFIG_GENERIC_PCI_IOMAP) += iomap.o
+> +obj-$(CONFIG_LIVEUPDATE)	+= liveupdate.o
+>  endif
+>  
+>  obj-$(CONFIG_OF)		+= of.o
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> new file mode 100644
+> index 000000000000..182cfc793b80
+> --- /dev/null
+> +++ b/drivers/pci/liveupdate.c
+> @@ -0,0 +1,212 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/*
+> + * Copyright (c) 2025, Google LLC.
 
-...
+Nit: Should these be 2026 now?
 
-> @@ -15,23 +16,29 @@ static int validate_gem_obj_for_mmap(struct qda_gem_obj *qda_gem_obj)
->                 qda_err(NULL, "Invalid GEM object size\n");
->                 return -EINVAL;
->         }
-> -       if (!qda_gem_obj->iommu_dev || !qda_gem_obj->iommu_dev->dev) {
-> -               qda_err(NULL, "Allocated buffer missing IOMMU device\n");
-> -               return -EINVAL;
-> -       }
-> -       if (!qda_gem_obj->iommu_dev->dev) {
-> -               qda_err(NULL, "Allocated buffer missing IOMMU device\n");
-> -               return -EINVAL;
-> -       }
-> -       if (!qda_gem_obj->virt) {
-> -               qda_err(NULL, "Allocated buffer missing virtual address\n");
-> -               return -EINVAL;
-> -       }
-> -       if (qda_gem_obj->dma_addr == 0) {
-> -               qda_err(NULL, "Allocated buffer missing DMA address\n");
-> -               return -EINVAL;
-> +       if (qda_gem_obj->is_imported) {
-
-Absolutely clear NAK to that. Imported buffers *can't* be mmaped through the importer!
-
-Userspace needs to mmap() them through the exporter.
-
-If you absolutely have to map them through the importer for uAPI backward compatibility then there is dma_buf_mmap() for that, but this is clearly not the case here.
-
-...
-> +static int qda_memory_manager_map_imported(struct qda_memory_manager *mem_mgr,
-> +                                          struct qda_gem_obj *gem_obj,
-> +                                          struct qda_iommu_device *iommu_dev)
+> + * David Matlack <dmatlack@google.com>
+> + */
+> +
+> +#include <linux/bsearch.h>
+> +#include <linux/io.h>
+> +#include <linux/kexec_handover.h>
+> +#include <linux/kho/abi/pci.h>
+> +#include <linux/liveupdate.h>
+> +#include <linux/mutex.h>
+> +#include <linux/mm.h>
+> +#include <linux/pci.h>
+> +#include <linux/sort.h>
+> +
+> +static DEFINE_MUTEX(pci_flb_outgoing_lock);
+> +
+> +static int pci_flb_preserve(struct liveupdate_flb_op_args *args)
 > +{
-> +       struct scatterlist *sg;
-> +       dma_addr_t dma_addr;
-> +       int ret = 0;
+> +	struct pci_dev *dev = NULL;
+> +	int max_nr_devices = 0;
+> +	struct pci_ser *ser;
+> +	unsigned long size;
 > +
-> +       if (!gem_obj->is_imported || !gem_obj->sgt || !iommu_dev) {
-> +               qda_err(NULL, "Invalid parameters for imported buffer mapping\n");
-> +               return -EINVAL;
-> +       }
+> +	for_each_pci_dev(dev)
+> +		max_nr_devices++;
 > +
-> +       gem_obj->iommu_dev = iommu_dev;
+> +	size = struct_size_t(struct pci_ser, devices, max_nr_devices);
 > +
-> +       sg = gem_obj->sgt->sgl;
-> +       if (sg) {
-> +               dma_addr = sg_dma_address(sg);
-> +               dma_addr += ((u64)iommu_dev->sid << 32);
+> +	ser = kho_alloc_preserve(size);
+> +	if (IS_ERR(ser))
+> +		return PTR_ERR(ser);
 > +
-> +               gem_obj->imported_dma_addr = dma_addr;
+> +	ser->max_nr_devices = max_nr_devices;
+> +
+> +	args->obj = ser;
+> +	args->data = virt_to_phys(ser);
+> +	return 0;
+> +}
+> +
+> +static void pci_flb_unpreserve(struct liveupdate_flb_op_args *args)
+> +{
+> +	struct pci_ser *ser = args->obj;
+> +
+> +	WARN_ON_ONCE(ser->nr_devices);
+> +	kho_unpreserve_free(ser);
+> +}
+> +
+> +static int pci_flb_retrieve(struct liveupdate_flb_op_args *args)
+> +{
+> +	args->obj = phys_to_virt(args->data);
+> +	return 0;
+> +}
+> +
+> +static void pci_flb_finish(struct liveupdate_flb_op_args *args)
+> +{
+> +	kho_restore_free(args->obj);
+> +}
+> +
+> +static struct liveupdate_flb_ops pci_liveupdate_flb_ops = {
+> +	.preserve = pci_flb_preserve,
+> +	.unpreserve = pci_flb_unpreserve,
+> +	.retrieve = pci_flb_retrieve,
+> +	.finish = pci_flb_finish,
+> +	.owner = THIS_MODULE,
+> +};
+> +
+> +static struct liveupdate_flb pci_liveupdate_flb = {
+> +	.ops = &pci_liveupdate_flb_ops,
+> +	.compatible = PCI_LUO_FLB_COMPATIBLE,
+> +};
+> +
+> +#define INIT_PCI_DEV_SER(_dev) {		\
+> +	.domain = pci_domain_nr((_dev)->bus),	\
+> +	.bdf = pci_dev_id(_dev),		\
+> +}
+> +
+> +static int pci_dev_ser_cmp(const void *__a, const void *__b)
+> +{
+> +	const struct pci_dev_ser *a = __a, *b = __b;
+> +
+> +	return cmp_int(a->domain << 16 | a->bdf, b->domain << 16 | b->bdf);
+> +}
+> +
+> +static struct pci_dev_ser *pci_ser_find(struct pci_ser *ser,
+> +					struct pci_dev *dev)
+> +{
+> +	const struct pci_dev_ser key = INIT_PCI_DEV_SER(dev);
+> +
+> +	return bsearch(&key, ser->devices, ser->nr_devices,
+> +		       sizeof(key), pci_dev_ser_cmp);
+> +}
+> +
+> +static int pci_ser_delete(struct pci_ser *ser, struct pci_dev *dev)
+> +{
+> +	struct pci_dev_ser *dev_ser;
+> +	int i;
+> +
+> +	dev_ser = pci_ser_find(ser, dev);
+> +	if (!dev_ser)
+> +		return -ENOENT;
+> +
+> +	for (i = dev_ser - ser->devices; i < ser->nr_devices - 1; i++)
+> +		ser->devices[i] = ser->devices[i + 1];
+> +
+> +	ser->nr_devices--;
+> +	return 0;
+> +}
+> +
+> +int pci_liveupdate_outgoing_preserve(struct pci_dev *dev)
+> +{
+> +	struct pci_dev_ser new = INIT_PCI_DEV_SER(dev);
+> +	struct pci_ser *ser;
+> +	int i, ret;
+> +
+> +	/* Preserving VFs is not supported yet. */
+> +	if (dev->is_virtfn)
+> +		return -EINVAL;
+> +
+> +	guard(mutex)(&pci_flb_outgoing_lock);
+> +
+> +	if (dev->liveupdate_outgoing)
+> +		return -EBUSY;
+> +
+> +	ret = liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void **)&ser);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (ser->nr_devices == ser->max_nr_devices)
+> +		return -E2BIG;
 
-Well that looks like you are only using the first DMA address from the imported sgt. What about the others?
+I'm wondering how (or if) this handles hot-plugged devices?
+max_nr_devices is calculated based on for_each_pci_dev at the time of
+the first preservation.. what happens if a device is hotplugged after
+the first device is preserved but before the second one is, does
+max_nr_devices become stale? Since ser->max_nr_devices will not reflect
+the actual possible device count, potentially leading to an unnecessary
+-E2BIG failure?
 
-Regards,
-Christian.
+> +
+> +	for (i = ser->nr_devices; i > 0; i--) {
+> +		struct pci_dev_ser *prev = &ser->devices[i - 1];
+> +		int cmp = pci_dev_ser_cmp(&new, prev);
+> +
+> +		if (WARN_ON_ONCE(!cmp))
+> +			return -EBUSY;
+> +
+> +		if (cmp > 0)
+> +			break;
+> +
+> +		ser->devices[i] = *prev;
+> +	}
+> +
+> +	ser->devices[i] = new;
+> +	ser->nr_devices++;
+> +	dev->liveupdate_outgoing = true;
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_outgoing_preserve);
+> +
+> +void pci_liveupdate_outgoing_unpreserve(struct pci_dev *dev)
+> +{
+> +	struct pci_ser *ser;
+> +	int ret;
+> +
+> +	guard(mutex)(&pci_flb_outgoing_lock);
+> +
+> +	ret = liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void **)&ser);
+> +	if (WARN_ON_ONCE(ret))
+> +		return;
+> +
+> +	WARN_ON_ONCE(pci_ser_delete(ser, dev));
+> +	dev->liveupdate_outgoing = false;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_outgoing_unpreserve);
+> +
+> +u32 pci_liveupdate_incoming_nr_devices(void)
+> +{
+> +	struct pci_ser *ser;
+> +	int ret;
+> +
+> +	ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&ser);
+> +	if (ret)
+> +		return 0;
+
+Masking this error looks troubled, in the following patch, I see that
+the retval 0 is treated as a fresh boot, but the IOMMU mappings for that
+BDF might still be preserved? Which could lead to DMA aliasing issues,
+without a hint of what happened since we don't even log anything.
+
+Maybe we could have something like the following:
+
+int pci_liveupdate_incoming_nr_devices(void)
+{
+	struct pci_ser *ser;
+	int ret;
+
+	ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&ser);
+	if (ret) {
+		if (ret != -ENOENT)
+			pr_warn("PCI: Failed to retrieve preservation list: %d\n", ret);
+		return ret;
+	}
+
+	return ser->nr_devices;
+}
+
+
+> +
+> +	return ser->nr_devices;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_incoming_nr_devices);
+> +
+> +void pci_liveupdate_setup_device(struct pci_dev *dev)
+> +{
+> +	struct pci_ser *ser;
+> +	int ret;
+> +
+> +	ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)&ser);
+> +	if (ret)
+> +		return;
+
+We should log something here either at info / debug level since the
+error isn't bubbled up and the luo_core doesn't scream about it either.
+
+> +
+> +	dev->liveupdate_incoming = !!pci_ser_find(ser, dev);
+
+This feels a little hacky, shall we go for something like:
+
+dev->liveupdate_incoming = (pci_ser_find(ser, dev) != NULL); ?
+
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_setup_device);
+> +
+> +void pci_liveupdate_incoming_finish(struct pci_dev *dev)
+> +{
+> +	dev->liveupdate_incoming = false;
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_incoming_finish);
+> +
+> +int pci_liveupdate_register_fh(struct liveupdate_file_handler *fh)
+> +{
+> +	return liveupdate_register_flb(fh, &pci_liveupdate_flb);
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_register_fh);
+> +
+> +int pci_liveupdate_unregister_fh(struct liveupdate_file_handler *fh)
+> +{
+> +	return liveupdate_unregister_flb(fh, &pci_liveupdate_flb);
+> +}
+> +EXPORT_SYMBOL_GPL(pci_liveupdate_unregister_fh);
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 37329095e5fe..af6356c5a156 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -2060,6 +2060,8 @@ int pci_setup_device(struct pci_dev *dev)
+>  	if (pci_early_dump)
+>  		early_dump_pci_device(dev);
+>  
+> +	pci_liveupdate_setup_device(dev);
+> +
+>  	/* Need to have dev->class ready */
+>  	dev->cfg_size = pci_cfg_space_size(dev);
+>  
+> diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
+> new file mode 100644
+> index 000000000000..6577767f8da6
+> --- /dev/null
+> +++ b/include/linux/kho/abi/pci.h
+> @@ -0,0 +1,55 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +/*
+> + * Copyright (c) 2025, Google LLC.
+> + * David Matlack <dmatlack@google.com>
+> + */
+> +
+> +#ifndef _LINUX_KHO_ABI_PCI_H
+> +#define _LINUX_KHO_ABI_PCI_H
+> +
+> +#include <linux/compiler.h>
+> +#include <linux/types.h>
+> +
+> +/**
+> + * DOC: PCI File-Lifecycle Bound (FLB) Live Update ABI
+> + *
+> + * This header defines the ABI for preserving core PCI state across kexec using
+> + * Live Update File-Lifecycle Bound (FLB) data.
+> + *
+> + * This interface is a contract. Any modification to any of the serialization
+> + * structs defined here constitutes a breaking change. Such changes require
+> + * incrementing the version number in the PCI_LUO_FLB_COMPATIBLE string.
+> + */
+> +
+> +#define PCI_LUO_FLB_COMPATIBLE "pci-v1"
+> +
+> +/**
+> + * struct pci_dev_ser - Serialized state about a single PCI device.
+> + *
+> + * @domain: The device's PCI domain number (segment).
+> + * @bdf: The device's PCI bus, device, and function number.
+> + */
+> +struct pci_dev_ser {
+> +	u16 domain;
+> +	u16 bdf;
+> +} __packed;
+> +
+> +/**
+> + * struct pci_ser - PCI Subsystem Live Update State
+> + *
+> + * This struct tracks state about all devices that are being preserved across
+> + * a Live Update for the next kernel.
+> + *
+> + * @max_nr_devices: The length of the devices[] flexible array.
+> + * @nr_devices: The number of devices that were preserved.
+> + * @devices: Flexible array of pci_dev_ser structs for each device. Guaranteed
+> + *           to be sorted ascending by domain and bdf.
+> + */
+> +struct pci_ser {
+> +	u64 max_nr_devices;
+> +	u64 nr_devices;
+> +	struct pci_dev_ser devices[];
+> +} __packed;
+> +
+> +#endif /* _LINUX_KHO_ABI_PCI_H */
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 7e36936bb37a..9ead6d84aef6 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -40,6 +40,7 @@
+>  #include <linux/resource_ext.h>
+>  #include <linux/msi_api.h>
+>  #include <uapi/linux/pci.h>
+> +#include <linux/liveupdate.h>
+>  
+>  #include <linux/pci_ids.h>
+>  
+> @@ -582,6 +583,10 @@ struct pci_dev {
+>  	u8		tph_mode;	/* TPH mode */
+>  	u8		tph_req_type;	/* TPH requester type */
+>  #endif
+> +#ifdef CONFIG_LIVEUPDATE
+> +	unsigned int	liveupdate_incoming:1;	/* Preserved by previous kernel */
+> +	unsigned int	liveupdate_outgoing:1;	/* Preserved for next kernel */
+> +#endif
+>  };
+
+This would start another anon bitfield container, should we move this
+above within the existing bitfield? If we've run pahole and found this
+to be better, then this should be fine.
+
+>  
+>  static inline struct pci_dev *pci_physfn(struct pci_dev *dev)
+> @@ -2854,4 +2859,46 @@ void pci_uevent_ers(struct pci_dev *pdev, enum  pci_ers_result err_type);
+>  	WARN_ONCE(condition, "%s %s: " fmt, \
+>  		  dev_driver_string(&(pdev)->dev), pci_name(pdev), ##arg)
+> 
+
+[ ---->8------]
+
+> +#endif /* !CONFIG_LIVEUPDATE */
+> +
+>  #endif /* LINUX_PCI_H */
+
+Thanks,
+Praan
+
