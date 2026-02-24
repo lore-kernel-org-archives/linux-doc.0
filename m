@@ -1,186 +1,98 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C2A436C0BA;
-	Tue, 24 Feb 2026 09:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC02536CDFB
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 09:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771925790; cv=none; b=qvgv2/fl3ZQORV5kPoB9ljWCcuZNzuLoLh9bnXovUvcTo6a0nPxwMhZUd53KI6ItNgoZUEI6hdltRiIr7P4CSjnUrOg4wymm0puWLsV3xmop5whzobPuqk2TeUrWxZCFZsjSOS5IOAZF3IkhmOlBTaus+A/uQzfcbh6CDFS8sOs=
+	t=1771925857; cv=none; b=fnLZbgIy/C1J/3Pb/jmr7YFksjz7JIl9UEkOqSGwAUUYs6YcyE/PzmBvcHDBSZauSENiupyL66ly3zZ7eKjX2zVdh/n75VOGn4iuARLN5ZHolrungtoSAEEjTVGuKGFIX3lKw0Kk3XbBMzYYPjZntyEhSKm/29nBaTulBC7BzNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771925790; c=relaxed/simple;
-	bh=jiLD7T/Ws70D67gEmvYD133dGrOXikvQtOuu8fqMz3k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DACbYif4Miv8dJO7fl4A1cp9kFI6Fr5IyXSHru8OYbBl0QNKGmSzmXZgkc79zoFPA90QI3sroSESWrfvW76jVqecn53x0AcwCt6crC0B+dWkCCYyP6ZhEAGB7Mpbofmv/1/C9mI9/1EyHgJTVjBZD2s2gDmSjCRbWeLBvr8nsu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C8F8339;
-	Tue, 24 Feb 2026 01:36:21 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF7453F59E;
-	Tue, 24 Feb 2026 01:36:20 -0800 (PST)
-Message-ID: <08b3568a-c034-4531-8263-e27015306dca@arm.com>
-Date: Tue, 24 Feb 2026 09:36:19 +0000
+	s=arc-20240116; t=1771925857; c=relaxed/simple;
+	bh=g8edeZSicPJhy++p3maHG8V56bDu+kyumjD/ZT9RxXk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Eu3FO7qW81SymSBf8F1emyVB2olU+j4XLn/yl5DeiYpQ8/HWJmR3oD8eHZASTBUxdEShOgjp8Hwf3LYuNUogh31rgPoqMvZvLc5OrehBu8EhoYUUNZ+LH6QRvdDRzDOTYHzIyjfAxjCyYXZbxDEi0621dMbIQE3IlV/iiY68pkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ADBNcvUY; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ADBNcvUY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F28FC4AF0B
+	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 09:37:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771925857;
+	bh=g8edeZSicPJhy++p3maHG8V56bDu+kyumjD/ZT9RxXk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ADBNcvUYlfljcYMUK1YXe6mWXiZyA0e20GKeaTNKWidPih5IS7X18yQ7xBzX4XR2k
+	 YLo4ksg5UcaOfk9K/uUe1ZTeYPDFaVCb/xedtqh3u8m9AgfT4i2VqHgVS49GDCYOBi
+	 7qx2tEPJyLOD/bkLqf+HNccjdkP5s8CmUbM+gsKtSChqWvpMCqYNku8h4pyHPh9329
+	 zZ2jAXRogmpLvmoq48k3qr1njxCfKuTnCeijehPzXPelC2kZ1VeYWz6hTZIKNBnjwY
+	 cNrlsiryUdVASp8/fn8bJ3eomuICcrx52MVBwgu4/dX/skjtXmHOIOcReWOZtYKzFK
+	 hVdaitIlxrdkg==
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-797ab169454so50328717b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 01:37:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVNBIQKocmMWLmNk03t+rbDR88GP9XsPC4jFhW1pA5L011QdLLMT4Vfw0ed9a5ZLw4lYVnRFSpYzT8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaOBjC8O3nUbxPWvFHBL0pOWkDRx86FW0/wQRbbapO3ZO5wH4m
+	adCQowWZhPUNoHMiUb+ApmbdQWsQVPxmH13nU3LoI0GSfX82BIZN+SD1DDv5b1NUO9519CJ+oRe
+	e1SJEBD8Sg3Vl6Qgpo192xp66owgZ9bM=
+X-Received: by 2002:a05:690c:e3e5:b0:798:1b2d:4b6c with SMTP id
+ 00721157ae682-79828cde4bamr107400237b3.11.1771925856834; Tue, 24 Feb 2026
+ 01:37:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 13/19] x86/resctrl: Add PLZA state tracking and
- context switch handling
-To: Reinette Chatre <reinette.chatre@intel.com>,
- "Luck, Tony" <tony.luck@intel.com>, "Moger, Babu" <Babu.Moger@amd.com>,
- "eranian@google.com" <eranian@google.com>
-Cc: "Moger, Babu" <bmoger@amd.com>, Drew Fustini <fustini@kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>, "Dave.Martin@arm.com"
- <Dave.Martin@arm.com>, "james.morse@arm.com" <james.morse@arm.com>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
- "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
- "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
- <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
- "pmladek@suse.com" <pmladek@suse.com>,
- "feng.tang@linux.alibaba.com" <feng.tang@linux.alibaba.com>,
- "kees@kernel.org" <kees@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "fvdl@google.com" <fvdl@google.com>,
- "lirongqing@baidu.com" <lirongqing@baidu.com>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "seanjc@google.com" <seanjc@google.com>, "xin@zytor.com" <xin@zytor.com>,
- "Shukla, Manali" <Manali.Shukla@amd.com>,
- "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
- "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "naveen@kernel.org" <naveen@kernel.org>,
- "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "peternewman@google.com" <peternewman@google.com>,
- "Shenoy, Gautham Ranjal" <gautham.shenoy@amd.com>
-References: <aYyxAPdTFejzsE42@e134344.arm.com>
- <679dcd01-05e5-476a-91dd-6d1d08637b3e@intel.com>
- <aY3bvKeOcZ9yG686@e134344.arm.com>
- <2b2d0168-307a-40c3-98fa-54902482e861@intel.com>
- <aZM1OY7FALkPWmh6@e134344.arm.com>
- <d704ea1f-ed9f-4814-8fce-81db40b1ee3c@intel.com>
- <aZThTzdxVcBkLD7P@agluck-desk3>
- <2416004a-5626-491d-819c-c470abbe0dd0@intel.com>
- <aZTxJTWzfQGRqg-R@agluck-desk3>
- <65c279fd-0e89-4a6a-b217-3184bd570e23@intel.com>
- <aZXsihgl0B-o1DI6@agluck-desk3>
- <2ab556af-095b-422b-9396-f845c6fd0342@intel.com>
- <730c193e-bf31-47a8-8f46-3a4c19b96f77@arm.com>
- <9ae7909a-dbb1-4d54-a47c-2ffdb4899b64@intel.com>
-From: Ben Horgan <ben.horgan@arm.com>
-Content-Language: en-US
-In-Reply-To: <9ae7909a-dbb1-4d54-a47c-2ffdb4899b64@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260212213656.662437-1-shenwei.wang@nxp.com> <20260212213656.662437-4-shenwei.wang@nxp.com>
+ <aae7c851-a93b-4d57-a118-43c6e68c4790@foss.st.com> <13f9d767-61d6-4e29-b36e-6dcc860ccb11@lunn.ch>
+ <fd257c80-d97f-45b0-a12f-3a1888ba81db@foss.st.com> <396819f2-dd00-4c09-8bc7-c035a5282a56@lunn.ch>
+ <PAXPR04MB9185A908F5090F0CA4FF05F78968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <b21b9ee5-d84e-47f8-86b5-c111ecc3d43d@lunn.ch> <PAXPR04MB918576D67A268E59242964A08968A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
+ <b4c422ce-3538-40aa-8bfa-b70f02774b5d@foss.st.com> <PAXPR04MB91859B642802813F908B03DA8977A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+In-Reply-To: <PAXPR04MB91859B642802813F908B03DA8977A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Tue, 24 Feb 2026 10:37:25 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkHwKxcDu7oX+_+N00SSfEMrj4CBEKUYZTEmTZv5Gjb2Q@mail.gmail.com>
+X-Gm-Features: AaiRm53tdO9PraGZNM_tmFUQUZSiJUlpqFoMJNSwiXKqWWTvRU2E_PWdBXxyRms
+Message-ID: <CAD++jLkHwKxcDu7oX+_+N00SSfEMrj4CBEKUYZTEmTZv5Gjb2Q@mail.gmail.com>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Frank Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Shuah Khan <skhan@linuxfoundation.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On Mon, Feb 23, 2026 at 9:33=E2=80=AFPM Shenwei Wang <shenwei.wang@nxp.com>=
+ wrote:
 
-On 2/23/26 16:38, Reinette Chatre wrote:
-> Hi Ben,
-> 
-> On 2/23/26 2:08 AM, Ben Horgan wrote:
->> On 2/20/26 02:53, Reinette Chatre wrote:
-> 
-> ...
-> 
->>> Dedicated global allocations for kernel work, monitoring same for user space and kernel (MPAM)
->>> ----------------------------------------------------------------------------------------------
->>> 1. User space creates resource and monitoring groups for user tasks:
->>>  	/sys/fs/resctrl <= User space default allocations
->>> 	/sys/fs/resctrl/g1 <= User space allocations g1
->>> 	/sys/fs/resctrl/g1/mon_groups/g1m1 <= User space monitoring group g1m1
->>> 	/sys/fs/resctrl/g1/mon_groups/g1m2 <= User space monitoring group g1m2
->>> 	/sys/fs/resctrl/g2 <= User space allocations g2
->>> 	/sys/fs/resctrl/g2/mon_groups/g2m1 <= User space monitoring group g2m1
->>> 	/sys/fs/resctrl/g2/mon_groups/g2m2 <= User space monitoring group g2m2
->>>
->>> 2. User space creates resource and monitoring groups for kernel work (system has two PMG):
->>> 	/sys/fs/resctrl/kernel <= Kernel space allocations 
->>> 	/sys/fs/resctrl/kernel/mon_data               <= Kernel space monitoring for all of default and g1
->>> 	/sys/fs/resctrl/kernel/mon_groups/kernel_g2   <= Kernel space monitoring for all of g2
->>> 3. Set kernel mode to per_group_assign_ctrl_assign_mon:
->>> 	# echo per_group_assign_ctrl_assign_mon > info/kernel_mode
->>>    - info/kernel_mode_assignment becomes visible and contains
->>> 	# cat info/kernel_mode_assignment
->>> 	//://
->>> 	g1//://
->>> 	g1/g1m1/://
->>> 	g1/g1m2/://
->>> 	g2//://
->>> 	g2/g2m1/://
->>> 	g2/g2m2/://
->>>    - An optimization here may be to have the change to per_group_assign_ctrl_assign_mon mode be implemented
->>>      similar to the change to global_assign_ctrl_assign_mon that initializes a global default. This can
->>>      avoid keeping tasklist_lock for a long time to set all tasks' kernel CLOSID/RMID to default just for
->>>      user space to likely change it.
->>> 4. Set groups to be used for kernel work:
->>> 	# echo '//:kernel//\ng1//:kernel//\ng1/g1m1/:kernel//\ng1/g1m2/:kernel//\ng2//:kernel/kernel_g2/\ng2/g2m1/:kernel/kernel_g2/\ng2/g2m2/:kernel/kernel_g2/\n' > info/kernel_mode_assignment
->>
->> Am I right in thinking that you want this in the info directory to avoid
->> adding files to the CTRL_MON/MON groups?
-> 
-> I see this file as providing the same capability as you suggested in
-> https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/. The reason why I
-> presented this as a single file is not because I am trying to avoid adding
-> files to the CTRL_MON/MON groups but because I believe such interface enables
-> resctrl to have more flexibility and support more scenarios for optimization.
-> 
-> As you mentioned in your proposal the solution enables a single write to move
-> a task. As I thought through what resctrl needs to do on such write I saw a lot
-> of similarities with mongrp_reparent() that loops through all the tasks via
-> for_each_process_thread() while holding tasklist_lock. Issues with mongrp_reparent()
-> holding tasklist_lock for a long time are described in [1].
-> 
-> While the single file does not avoid taking tasklist_lock it does give the user the
-> ability to set kernel group for multiple user groups with a single write.  When user space
-> does so I believe it is possible for resctrl to have an optimization that takes tasklist_lock
-> just once and make changes to tasks belonging to all groups while looping through all tasks on
-> system just once. With files within the CTRL_MON/MON groups setting kernel group for
-> multiple user groups will require multiple writes from user space where each write requires
-> looping through tasks while holding tasklist_lock during each loop. From what I learned
-> from [1] something like this can be very disruptive to the rest of the system.
-> 
-> In summary, I see having this single file provide the same capability as the
-> on-file-per-CTRL_MON/MON group since user can choose to set kernel group for user
-> group one at a time but it also gives more flexibility to resctrl for optimization.
-> 
-> Nothing is set in stone here. There is still flexibility in this proposal to support
-> PARTID and PMG assignment with a single file in each CTRL_MON/MON group if we find that
-> it has the more benefits. resctrl can still expose a "per_group_assign_ctrl_assign_mon" mode
-> but instead of making  "info/kernel_mode_assignment" visible when it is enabled the control file
-> in CTRL_MON/MON groups are made visible ... even in this case resctrl could still add the single
-> file later if deemed necessary at that time.
-> 
-> Considering all this, do you think resctrl should rather start with a file in each
-> CTRL_MON/MON group?
+> Arnaud, if you agree with the points above, my proposal is the following:
+>  - Remove the fields you mentioned in the protocol and update the driver =
+accordingly so
+> that we can establish a true baseline for a generic implementation we all=
+ agree.
+>  - Then prepare a separate patch to add support for existing NXP platform=
+s by introducing
+> the necessary fix=E2=80=91up functions.
+>
+> Please let me know if this approach works for you. My goal is to find a s=
+olution that works for
+> everyone =E2=80=94 even though I know that pleasing everyone is almost im=
+possible.
 
-From what you say, it sounds like the optimization opportunities granted
-by having a single file will be necessary with some usage patterns and
-so I'd be happy to start with just the single
-"info/kernel_mode_assignment" file. It does mean that you need to
-consider more than the current CTRL_MON directory when reading or
-writing configuration but I don't see any real problem there.
+This looks good to me, and Arnaud seems happy too so let's go ahead
+with this.
 
-> 
-> Reinette
-> 
-> [1] https://lore.kernel.org/lkml/CALPaoCh0SbG1+VbbgcxjubE7Cc2Pb6QqhG3NH6X=WwsNfqNjtA@mail.gmail.com/ 
-
-Thanks,
-
-Ben
-
+Yours,
+Linus Walleij
