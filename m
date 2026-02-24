@@ -1,87 +1,412 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C673803DB
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 12:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDC239C639;
+	Tue, 24 Feb 2026 13:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771936366; cv=none; b=r4kbgB5i0bgSQJ7D+9jqqWyeIlgtDFjw9sQ0m6cDZTdPw1iKiwGgREExvKgSDM6d9TtL2tEsp3F6m/R+QVSwLltH0zHAzIBCEmzC68hfbg8kRAvhn9nNaR8Cggu6V23n1JkexPCWIOIL4r7WI7uNY5xUsld8JIBbDLVMSCunYjQ=
+	t=1771938972; cv=none; b=PmZUv5br8NCM7ewEMef6td6mV5pOQtPmmQn+1TJ+rGC0JnJfx6zmmySqBo0Lfl4b+B1iixlIm4twxgYFieJOdGEwG9xsXMMOdmGbNjyCkQ5oMmWFX6fjCUdEAp3QAnH5RGsI2yolZXOP3Q/u+3e938uPDhj5Ni2mYkSB0aGn0Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771936366; c=relaxed/simple;
-	bh=rX2HtGxlLMbbddQm/hghS6l99iLwtyKOhOWYRkT7wyk=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ot96ggBiaQ1wv2bSkESJCT3lh0tSd92ADNxqymnYENS61WMZlEtlPwF584gmtkkm3XbANjJpH5BCc98eXM4aXwg4UyZVn7VsVE35OMvCyZotd1vqFkazNXnObIzfL7f1zjqGEkpkHVXOSK5k+dbGALyfteua1C6Zma9zJFhGEBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ARsFXEib; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1771938972; c=relaxed/simple;
+	bh=DNNsj4h8iSHXDowtO7siaDjckAZ+yivZns1553XB9nQ=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oNG2EWb4syOVqYhTeAyTblasPa8UBJqnkVu+0dOiP9jKJvF4+18tnyOKWGj45gDE1Ev2zGcl5akMNUQgc1yAZvbFJgYjLcnka+sRlizdmNIAG4fd+Y9QKu8fCfjbl6iZPfNWdHbzhH8FajitlSItfhirK84Ks/+isxyZIfI/geE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=4Vir9xgD; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ARsFXEib"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1771936366; x=1803472366;
-  h=date:from:to:cc:subject:message-id;
-  bh=rX2HtGxlLMbbddQm/hghS6l99iLwtyKOhOWYRkT7wyk=;
-  b=ARsFXEibeUzGujPBG6nj0PU/aZziW5Nr05L7hjCRpawh3bRwtN13axmF
-   RN3gjl9dhdd1qFCbRBawjDE9N9E1zLsIPK8WoN6Xtu6qb2NtUYcZLy+iO
-   prG5QXbbaldeV8lXlHhsD+MwZ+ozaFtflIgjS/YiJn4zw8s+k8o3FNCvu
-   HNd6Zqy/kAw+ry3Lh8OQ4ZDwdERJ9Yz2njey4Ffob4ghBFwwfcIUTDchN
-   aEXXf24XUym2okrY3C/s4GWYDZgqgcKQR4/YReA3P7sPFQ9Ph6H8uhvky
-   Nro8pjkADv3+DgkL3CCYxLj1WUabNEtwEzlTsGiSM74svsl40V7a8Mq3d
-   Q==;
-X-CSE-ConnectionGUID: KVrPHiCrTtiWR1GaLU8N+g==
-X-CSE-MsgGUID: vCZtsSEFT3SwAjpiN0GimA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11710"; a="90529707"
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="90529707"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2026 04:32:45 -0800
-X-CSE-ConnectionGUID: ZippTyupReu9gQ97XOFyHQ==
-X-CSE-MsgGUID: HtkoxouKQ9+eU+U9MHxboQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,308,1763452800"; 
-   d="scan'208";a="220476848"
-Received: from igk-lkp-server01.igk.intel.com (HELO e5404a91d123) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Feb 2026 04:32:43 -0800
-Received: from kbuild by e5404a91d123 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vuraj-000000005HZ-03Gu;
-	Tue, 24 Feb 2026 12:32:41 +0000
-Date: Tue, 24 Feb 2026 13:32:06 +0100
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [arnd-playground:randconfig-7.1-next 31/733] htmldocs:
- Documentation/arch/ia64/index.rst: WARNING: document isn't included in any
- toctree [toc.not_included]
-Message-ID: <202602241336.XHZQth3a-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="4Vir9xgD"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=rk8G/nJP/MbOl67IiITZ+A0965i7v1i3XlRY7V0eltU=;
+	b=4Vir9xgDNssr6uDZmH4Q8J96a4HH4rX4VyyiWvv4gF/+7NFYIjE5yplI14jtOtQmGAtYTd/1X
+	riHTwCcjPO5H2I6QsPiKv8X+j63anHTatNizo8jHdYmS1xGbxTY8OUL+jqPxDu3lDfeyGwrXp0x
+	oTOIbfGDLgv8wHj6zOkgp/w=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4fKylq3Qlsz1cyPh;
+	Tue, 24 Feb 2026 21:11:19 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 87EF04055B;
+	Tue, 24 Feb 2026 21:16:05 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Tue, 24 Feb 2026 21:16:04 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+	<andrew+netdev@lunn.ch>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>
+Subject: [PATCH net-next v01 01/15] hinic3: Add command queue detailed-respone interfaces
+Date: Tue, 24 Feb 2026 21:15:38 +0800
+Message-ID: <6bc8e54b0af927048e58555e73219e176fb7b860.1771916043.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
+In-Reply-To: <cover.1771916043.git.zhuyikai1@h-partners.com>
+References: <cover.1771916043.git.zhuyikai1@h-partners.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git randconfig-7.1-next
-head:   76f9bd9e344ecd3faf7bdadedc7027b64a6f2d63
-commit: 8f115a8869712a4d22aa5218e1765f659af5fb63 [31/733] Revert "arch: Remove Itanium (IA-64) architecture"
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260224/202602241336.XHZQth3a-lkp@intel.com/reproduce)
+Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+Signed-off-by: Fan Gong <gongfan1@huawei.com>
+---
+ .../net/ethernet/huawei/hinic3/hinic3_cmdq.c  | 196 +++++++++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_cmdq.h  |  15 ++
+ 2 files changed, 209 insertions(+), 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602241336.XHZQth3a-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:166: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:189: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/arch/ia64/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
-
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c b/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c
+index 86720bb119e9..15c9aa247bae 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c
+@@ -61,6 +61,10 @@
+ #define CMDQ_DB_HEAD_SET(val, member)  \
+ 	FIELD_PREP(CMDQ_DB_HEAD_##member##_MASK, val)
+ 
++#define SAVED_DATA_ARM_MASK          BIT(31)
++#define SAVED_DATA_SET(val, member)  \
++	FIELD_PREP(SAVED_DATA_##member##_MASK, val)
++
+ #define CMDQ_CEQE_TYPE_MASK            GENMASK(2, 0)
+ #define CMDQ_CEQE_GET(val, member)  \
+ 	FIELD_GET(CMDQ_CEQE_##member##_MASK, le32_to_cpu(val))
+@@ -84,6 +88,10 @@ enum cmdq_data_format {
+ 	CMDQ_DATA_DIRECT = 1,
+ };
+ 
++enum cmdq_scmd_type {
++	CMDQ_SET_ARM_CMD = 2,
++};
++
+ enum cmdq_ctrl_sect_len {
+ 	CMDQ_CTRL_SECT_LEN        = 1,
+ 	CMDQ_CTRL_DIRECT_SECT_LEN = 2,
+@@ -166,6 +174,11 @@ static void cmdq_clear_cmd_buf(struct hinic3_cmdq_cmd_info *cmd_info,
+ 		hinic3_free_cmd_buf(hwdev, cmd_info->buf_in);
+ 		cmd_info->buf_in = NULL;
+ 	}
++
++	if (cmd_info->buf_out) {
++		hinic3_free_cmd_buf(hwdev, cmd_info->buf_out);
++		cmd_info->buf_out = NULL;
++	}
+ }
+ 
+ static void clear_wqe_complete_bit(struct hinic3_cmdq *cmdq,
+@@ -189,6 +202,20 @@ static void clear_wqe_complete_bit(struct hinic3_cmdq *cmdq,
+ 	hinic3_wq_put_wqebbs(&cmdq->wq, CMDQ_WQE_NUM_WQEBBS);
+ }
+ 
++static int cmdq_arm_ceq_handler(struct hinic3_cmdq *cmdq,
++				struct cmdq_wqe *wqe, u16 ci)
++{
++	struct cmdq_ctrl *ctrl = &wqe->wqe_scmd.ctrl;
++	__le32 ctrl_info = ctrl->ctrl_info;
++
++	if (!CMDQ_WQE_COMPLETED(ctrl_info))
++		return -EBUSY;
++
++	clear_wqe_complete_bit(cmdq, wqe, ci);
++
++	return 0;
++}
++
+ static void cmdq_update_cmd_status(struct hinic3_cmdq *cmdq, u16 prod_idx,
+ 				   struct cmdq_wqe *wqe)
+ {
+@@ -257,6 +284,11 @@ void hinic3_cmdq_ceq_handler(struct hinic3_hwdev *hwdev, __le32 ceqe_data)
+ 			cmdq_clear_cmd_buf(cmd_info, hwdev);
+ 			clear_wqe_complete_bit(cmdq, wqe, ci);
+ 			break;
++		case HINIC3_CMD_TYPE_SET_ARM:
++			/* arm_bit was set until here */
++			if (cmdq_arm_ceq_handler(cmdq, wqe, ci))
++				return;
++			break;
+ 		default:
+ 			/* only arm bit is using scmd wqe,
+ 			 * the other wqe is lcmd
+@@ -283,6 +315,18 @@ void hinic3_cmdq_ceq_handler(struct hinic3_hwdev *hwdev, __le32 ceqe_data)
+ 	}
+ }
+ 
++static int cmdq_params_valid(const struct hinic3_hwdev *hwdev,
++			     const struct hinic3_cmd_buf *buf_in)
++{
++	if (le16_to_cpu(buf_in->size) > CMDQ_BUF_SIZE) {
++		dev_err(hwdev->dev, "Invalid CMDQ buffer size: 0x%x\n",
++			buf_in->size);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
+ static int wait_cmdqs_enable(struct hinic3_cmdqs *cmdqs)
+ {
+ 	unsigned long end;
+@@ -356,6 +400,7 @@ static void cmdq_prepare_wqe_ctrl(struct cmdq_wqe *wqe, u8 wrapped,
+ 				  enum cmdq_bufdesc_len buf_len)
+ {
+ 	struct cmdq_header *hdr = CMDQ_WQE_HEADER(wqe);
++	__le32 saved_data = hdr->saved_data;
+ 	enum cmdq_ctrl_sect_len ctrl_len;
+ 	struct cmdq_wqe_lcmd *wqe_lcmd;
+ 	struct cmdq_wqe_scmd *wqe_scmd;
+@@ -386,6 +431,11 @@ static void cmdq_prepare_wqe_ctrl(struct cmdq_wqe *wqe, u8 wrapped,
+ 			    CMDQ_WQE_HDR_SET(3, COMPLETE_SECT_LEN) |
+ 			    CMDQ_WQE_HDR_SET(ctrl_len, CTRL_LEN) |
+ 			    CMDQ_WQE_HDR_SET(wrapped, HW_BUSY_BIT));
++
++	saved_data &= ~cpu_to_le32(SAVED_DATA_ARM_MASK);
++	if (cmd == CMDQ_SET_ARM_CMD && mod == MGMT_MOD_COMM)
++		saved_data |= cpu_to_le32(SAVED_DATA_SET(1, ARM));
++	hdr->saved_data = saved_data;
+ }
+ 
+ static void cmdq_set_lcmd_wqe(struct cmdq_wqe *wqe,
+@@ -557,11 +607,118 @@ static int cmdq_sync_cmd_direct_resp(struct hinic3_cmdq *cmdq, u8 mod, u8 cmd,
+ 	return err ? err : errcode;
+ }
+ 
++static int cmdq_sync_cmd_detail_resp(struct hinic3_cmdq *cmdq, u8 mod, u8 cmd,
++				     struct hinic3_cmd_buf *buf_in,
++				     struct hinic3_cmd_buf *buf_out,
++				     __le64 *out_param)
++{
++	struct hinic3_cmdq_cmd_info *cmd_info, saved_cmd_info;
++	struct cmdq_wqe *curr_wqe, wqe = {};
++	int cmpt_code = CMDQ_SEND_CMPT_CODE;
++	struct hinic3_wq *wq = &cmdq->wq;
++	u16 curr_prod_idx, next_prod_idx;
++	struct completion done;
++	u64 curr_msg_id;
++	int errcode;
++	u8 wrapped;
++	int err;
++
++	spin_lock_bh(&cmdq->cmdq_lock);
++	curr_wqe = cmdq_get_wqe(wq, &curr_prod_idx);
++	if (!curr_wqe) {
++		spin_unlock_bh(&cmdq->cmdq_lock);
++		return -EBUSY;
++	}
++
++	wrapped = cmdq->wrapped;
++
++	next_prod_idx = curr_prod_idx + CMDQ_WQE_NUM_WQEBBS;
++	if (next_prod_idx >= wq->q_depth) {
++		cmdq->wrapped ^= 1;
++		next_prod_idx -= wq->q_depth;
++	}
++
++	cmd_info = &cmdq->cmd_infos[curr_prod_idx];
++
++	init_completion(&done);
++	refcount_inc(&buf_in->ref_cnt);
++	refcount_inc(&buf_out->ref_cnt);
++	cmd_info->cmd_type = HINIC3_CMD_TYPE_SGE_RESP;
++	cmd_info->done = &done;
++	cmd_info->errcode = &errcode;
++	cmd_info->direct_resp = out_param;
++	cmd_info->cmpt_code = &cmpt_code;
++	cmd_info->buf_in = buf_in;
++	cmd_info->buf_out = buf_out;
++
++	saved_cmd_info = *cmd_info;
++	cmdq_set_lcmd_wqe(&wqe, CMDQ_CMD_SGE_RESP, buf_in, buf_out,
++			  wrapped, mod, cmd, curr_prod_idx);
++	cmdq_wqe_fill(curr_wqe, &wqe);
++	cmd_info->cmdq_msg_id++;
++	curr_msg_id = cmd_info->cmdq_msg_id;
++
++	cmdq_set_db(cmdq, cmdq->cmdq_type, next_prod_idx);
++	spin_unlock_bh(&cmdq->cmdq_lock);
++
++	err = wait_cmdq_sync_cmd_completion(cmdq, cmd_info, &saved_cmd_info,
++					    curr_msg_id, curr_prod_idx,
++					    curr_wqe, CMDQ_CMD_TIMEOUT);
++	if (err) {
++		dev_err(cmdq->hwdev->dev,
++			"Cmdq sync command timeout, mod: %u, cmd: %u, prod idx: 0x%x\n",
++			mod, cmd, curr_prod_idx);
++		err = -ETIMEDOUT;
++	}
++
++	if (cmpt_code == CMDQ_FORCE_STOP_CMPT_CODE) {
++		dev_dbg(cmdq->hwdev->dev,
++			"Force stop cmdq cmd, mod: %u, cmd: %u\n",
++			mod, cmd);
++		err = -EAGAIN;
++	}
++
++	smp_rmb(); /* read error code after completion */
++
++	return err ? err : errcode;
++}
++
++int hinic3_cmd_buf_pair_init(struct hinic3_hwdev *hwdev,
++			     struct hinic3_cmd_buf_pair *pair)
++{
++	pair->in = hinic3_alloc_cmd_buf(hwdev);
++	if (!pair->in)
++		goto err_out;
++
++	pair->out = hinic3_alloc_cmd_buf(hwdev);
++	if (!pair->out)
++		goto err_free_cmd_buf_in;
++
++	return 0;
++
++err_free_cmd_buf_in:
++	hinic3_free_cmd_buf(hwdev, pair->in);
++err_out:
++	return -ENOMEM;
++}
++
++void hinic3_cmd_buf_pair_uninit(struct hinic3_hwdev *hwdev,
++				struct hinic3_cmd_buf_pair *pair)
++{
++	hinic3_free_cmd_buf(hwdev, pair->in);
++	hinic3_free_cmd_buf(hwdev, pair->out);
++}
++
+ int hinic3_cmdq_direct_resp(struct hinic3_hwdev *hwdev, u8 mod, u8 cmd,
+ 			    struct hinic3_cmd_buf *buf_in, __le64 *out_param)
+ {
+ 	struct hinic3_cmdqs *cmdqs;
+ 	int err;
++	err = cmdq_params_valid(hwdev, buf_in);
++	if (err) {
++		dev_err(hwdev->dev, "Invalid CMDQ parameters\n");
++		goto err_out;
++	}
+ 
+ 	cmdqs = hwdev->cmdqs;
+ 	err = wait_cmdqs_enable(cmdqs);
+@@ -573,6 +730,39 @@ int hinic3_cmdq_direct_resp(struct hinic3_hwdev *hwdev, u8 mod, u8 cmd,
+ 	err = cmdq_sync_cmd_direct_resp(&cmdqs->cmdq[HINIC3_CMDQ_SYNC],
+ 					mod, cmd, buf_in, out_param);
+ 
++	return 0;
++
++err_out:
++	return err;
++}
++
++int hinic3_cmdq_detail_resp(struct hinic3_hwdev *hwdev, u8 mod, u8 cmd,
++			    struct hinic3_cmd_buf *buf_in,
++			    struct hinic3_cmd_buf *buf_out, __le64 *out_param)
++{
++	struct hinic3_cmdqs *cmdqs;
++	int err;
++
++	err = cmdq_params_valid(hwdev, buf_in);
++	if (err)
++		goto err_out;
++
++	cmdqs = hwdev->cmdqs;
++
++	err = wait_cmdqs_enable(cmdqs);
++	if (err) {
++		dev_err(hwdev->dev, "Cmdq is disabled\n");
++		goto err_out;
++	}
++
++	err = cmdq_sync_cmd_detail_resp(&cmdqs->cmdq[HINIC3_CMDQ_SYNC],
++					mod, cmd, buf_in, buf_out, out_param);
++	if (err)
++		goto err_out;
++
++	return 0;
++
++err_out:
+ 	return err;
+ }
+ 
+@@ -759,7 +949,8 @@ static int init_cmdqs(struct hinic3_hwdev *hwdev)
+ 
+ static void cmdq_flush_sync_cmd(struct hinic3_cmdq_cmd_info *cmd_info)
+ {
+-	if (cmd_info->cmd_type != HINIC3_CMD_TYPE_DIRECT_RESP)
++	if (cmd_info->cmd_type != HINIC3_CMD_TYPE_DIRECT_RESP &&
++	    cmd_info->cmd_type != HINIC3_CMD_TYPE_SGE_RESP)
+ 		return;
+ 
+ 	cmd_info->cmd_type = HINIC3_CMD_TYPE_FORCE_STOP;
+@@ -786,7 +977,8 @@ static void hinic3_cmdq_flush_cmd(struct hinic3_cmdq *cmdq)
+ 	while (cmdq_read_wqe(&cmdq->wq, &ci)) {
+ 		hinic3_wq_put_wqebbs(&cmdq->wq, CMDQ_WQE_NUM_WQEBBS);
+ 		cmd_info = &cmdq->cmd_infos[ci];
+-		if (cmd_info->cmd_type == HINIC3_CMD_TYPE_DIRECT_RESP)
++		if (cmd_info->cmd_type == HINIC3_CMD_TYPE_DIRECT_RESP ||
++		    cmd_info->cmd_type == HINIC3_CMD_TYPE_SGE_RESP)
+ 			cmdq_flush_sync_cmd(cmd_info);
+ 	}
+ 	spin_unlock_bh(&cmdq->cmdq_lock);
+diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.h b/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.h
+index f99c386a2780..29bad2fae7ba 100644
+--- a/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.h
++++ b/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.h
+@@ -85,7 +85,9 @@ enum hinic3_cmdq_status {
+ 
+ enum hinic3_cmdq_cmd_type {
+ 	HINIC3_CMD_TYPE_NONE,
++	HINIC3_CMD_TYPE_SET_ARM,
+ 	HINIC3_CMD_TYPE_DIRECT_RESP,
++	HINIC3_CMD_TYPE_SGE_RESP,
+ 	HINIC3_CMD_TYPE_FAKE_TIMEOUT,
+ 	HINIC3_CMD_TYPE_TIMEOUT,
+ 	HINIC3_CMD_TYPE_FORCE_STOP,
+@@ -98,6 +100,11 @@ struct hinic3_cmd_buf {
+ 	refcount_t ref_cnt;
+ };
+ 
++struct hinic3_cmd_buf_pair {
++	struct hinic3_cmd_buf *in;
++	struct hinic3_cmd_buf *out;
++};
++
+ struct hinic3_cmdq_cmd_info {
+ 	enum hinic3_cmdq_cmd_type cmd_type;
+ 	struct completion         *done;
+@@ -107,6 +114,7 @@ struct hinic3_cmdq_cmd_info {
+ 	__le64                    *direct_resp;
+ 	u64                       cmdq_msg_id;
+ 	struct hinic3_cmd_buf     *buf_in;
++	struct hinic3_cmd_buf     *buf_out;
+ };
+ 
+ struct hinic3_cmdq {
+@@ -146,8 +154,15 @@ void hinic3_free_cmd_buf(struct hinic3_hwdev *hwdev,
+ 			 struct hinic3_cmd_buf *cmd_buf);
+ void hinic3_cmdq_ceq_handler(struct hinic3_hwdev *hwdev, __le32 ceqe_data);
+ 
++int hinic3_cmd_buf_pair_init(struct hinic3_hwdev *hwdev,
++			     struct hinic3_cmd_buf_pair *pair);
++void hinic3_cmd_buf_pair_uninit(struct hinic3_hwdev *hwdev,
++				struct hinic3_cmd_buf_pair *pair);
+ int hinic3_cmdq_direct_resp(struct hinic3_hwdev *hwdev, u8 mod, u8 cmd,
+ 			    struct hinic3_cmd_buf *buf_in, __le64 *out_param);
++int hinic3_cmdq_detail_resp(struct hinic3_hwdev *hwdev, u8 mod, u8 cmd,
++			    struct hinic3_cmd_buf *buf_in,
++			    struct hinic3_cmd_buf *buf_out, __le64 *out_param);
+ 
+ void hinic3_cmdq_flush_sync_cmd(struct hinic3_hwdev *hwdev);
+ int hinic3_reinit_cmdq_ctxts(struct hinic3_hwdev *hwdev);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
