@@ -1,133 +1,242 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3154B274B2B
-	for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 04:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745CD2773C6;
+	Tue, 24 Feb 2026 05:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771909181; cv=none; b=sKpw16HN4WcJjrFg3S46bYYMWOFLFiZUuRXlzYSRyQb77d3Ibf12RM0Mr/PrDhe9eBq3EKHROzjHdkrsIMl0Km3iFJurEuUyj4moDnt1W7rB+RbjBsEwvtj/xfufKb3jup/OBN2lRmNOwYO0ThLx7jyFFGkR+SS2h//S01Rg0OU=
+	t=1771911396; cv=none; b=LNKXMyH/uqu4TADFVQWERePVP6/2sUCiivyfsj6fpAYue/LQesw9O8IA6JJwcUB+xPy8QE6ZMopmaywpoX0semXIzZ/+ly6XJl6K9jN9JJSBWgBtDS9T4ZoBXtQCqlZtDT7g51kWLHFFYhLhKf9db+tMk9E1jVsVO4c+jkzc510=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771909181; c=relaxed/simple;
-	bh=rE0TBHNJixGKZKIFaF96afDMgE9SMyZXjEUDiBPIHsE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dK0Tg18HMgHW6bYuuYTN6TIPynj5jZV6633My1tKgwplGbc8IQS0oey9Xkjs+IhNsPB2L0gS/3oQ/VROXT5XRt+E8ctIRwVJpyf6iff4FSPy3+AC0QHmlR4jXtAx867w5Vj6UQ1RriBuDrkUXjYKZBxOejDzNG5F66mvio1NUXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P+Crj3Cj; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1771911396; c=relaxed/simple;
+	bh=bCkiAOs8zg+h4YWw2lU5IsN8hUlomxIStRc2ZuJPKjY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UnFhIBsZJ5RpHMADeQE/6M0W8kATSNRuFSE+VQSiIxAo3YbLR0Y6g7eJtLMwG5h5EGcxWdRF34iNPhDm0jf988pMqCgR3wE0PdsY+Z6V5e4JA4KnRTgKM+WkqwBOWuiE5mpTZ9a4vtzyiLGNdVGsHS/QgHsd0JuCBn2r52rA5X4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FP0RhfiG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P+Crj3Cj"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2aaf43014d0so35136485ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Feb 2026 20:59:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1771909179; x=1772513979; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ou4URiguCEIHQD6BF6MkSWLcHXyR9MfBfXSYfwsYE5A=;
-        b=P+Crj3CjW5ASrD0mBXuTMalxMzHe1J+bxuLTog2nxKZWVWWuv/GxaRn1IfJdHxQe4w
-         MY8KrBqhJgFzc/W2vQPh4MFbUdMiTk2saMlgUYbVruK0cFF6ffRQ3lGv30cGJKnT5QHF
-         /I8w/xJBVlBsG0rpKPA8++YQTbhO99QA0y/9NplbQA2jm7uDU0UKxzmhC51cfHCB05NB
-         RjhXw5Pdi2UL1+1FswFkBFPinCBjPZfkYm80NTLz18Jy7hRjp4J9L3mRcD+bv0MdR3CX
-         Hcp+dcbrE2tI1TXlrhXTi6aOA5yXuprJMgMbJO4YUpX/3cjW4NEfyM8t6Bvfk+VYdA/q
-         XzXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1771909179; x=1772513979;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ou4URiguCEIHQD6BF6MkSWLcHXyR9MfBfXSYfwsYE5A=;
-        b=Q4h9ImsRhO5rqEsZPX616OYI/htoCC5m0Diex7NedhjYQd165+Dwv0L9c6FkUq0D3Z
-         78t5paWhSQ6MSjVyhLpi4a6qfd9WWgSzrAJ1qiISx92nBzg6eCgzDQt5yDSt4aRsIWxv
-         Q2LaNsiV7R1UnkkhZipD8ITVJqTWYJlnphllhUc+YsRwZpdrhJV9Rr3gum2/m77dx1IJ
-         aPdZS7GQ14RvWDwh9Ll4QbZuMmifxKnLnNIlP3YohJ8RgnRcepRp8YzLmJiPF9kISTBO
-         4fplEk/eFo0Eh3m6ZzwiNVxWp7VgeK5vmxrR0+Hh33xuC3APeBF5Jh4w+8BhG03L+zR2
-         ZoYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUiUG7vY+xnXoFfbRnVDGZKm44aggOGZRSuDD/hh89kFM+9RV+qbM3WyydX/hWe408vQIlZdoRJIAc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzgm4dUi4JkRvDyiHAOrxNnAao4mhqxE9SOlhDSQjPaZN1Of7+q
-	80LtZ4AzsjxOyR6taXi820bMjvOccm4oUzQNGHpW+iWa9o6GgcovjVwD
-X-Gm-Gg: ATEYQzwfsxdAw1sXk7XZX0g8Ri+9oa3J3nwnVS0bJPf+41RtE7zNSLrbt+NRVXwJ7jZ
-	fqZjut9SAVCy0P8lX3SYJ0E6XzNU0FvCGbMQ0FLu+N2Ds7D9Eri35XR9yjzWhl5DVb5tNZHSX/J
-	T5OmkPJdiF2ZBh63hNib+mzw1kc2bXw+GQ3riOXsGXinD0LClsiZgkVixvvgxqWGiNpu2OEfU+7
-	cj0rYsoi2CLteMPuU3RLjiHXMh689Q7qUb0/QOX+kYgvQlqrp55epWzFqREQMU7wkEygnGJ6/7n
-	DJY/Ccnh47TGL9FQYXBMijwmbV5l9WE8ZITd0Oy+jAmxWYTfV//lM8JhKlFUblXs2unXRfJNSSj
-	CB5vkQ1wBhRH6OvhS8BzO0DkvfVQs911Qd6X/tY7LnTUkFF177wHVwFq5CfEQRACsSLTosQ4w3t
-	mt1ZvawMYIP0VYsAD7kuIZJ4i181uXWlW3ax1XZM8K7llN7AaHicwe4Yz8vmZkTeq4irne
-X-Received: by 2002:a17:903:37cc:b0:2a9:5db8:d651 with SMTP id d9443c01a7336-2ad744683e8mr101466305ad.25.1771909179489;
-        Mon, 23 Feb 2026 20:59:39 -0800 (PST)
-Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([103.77.1.206])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad9f1d4b03sm7780005ad.29.2026.02.23.20.59.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Feb 2026 20:59:39 -0800 (PST)
-Date: Tue, 24 Feb 2026 10:29:26 +0530
-From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Link Mauve <linkmauve@linkmauve.fr>, Alice Ryhl <aliceryhl@google.com>, 
-	ojeda@kernel.org, boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com, 
-	lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu, dakr@kernel.org, 
-	corbet@lwn.net, maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
-	chleroy@kernel.org, peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com, 
-	rostedt@goodmis.org, ardb@kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	Ralf Jung <post@ralfj.de>, Jubilee Young <workingjubilee@gmail.com>, 
-	Matthew Maurer <mmaurer@google.com>, David Wood <david@davidtw.co>, Wesley Wiser <wwiser@gmail.com>
-Subject: Re: [PATCH V6 2/3] rust: Add PowerPC support
-Message-ID: <aZ0vxHY9MGndIDPQ@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
-References: <20260210090023.2587534-1-mkchauras@gmail.com>
- <20260210090023.2587534-3-mkchauras@gmail.com>
- <CAH5fLgi3Owm4=4g8wQ5Rnr7Y63XJ1D8apOdkewW6WpRfg6vV_w@mail.gmail.com>
- <aZtT4MH0Q8Ic9ZiM@luna>
- <CANiq72nEam8n_daX5LyYrpH=i71k+pb+HLn6EEPdJJc-Zi9Q3A@mail.gmail.com>
- <aZu6cSqnvO91w1m4@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
- <CANiq72mg+D4QZmBhrNj7dB+V3GHsQoZT2cSG1ffHYDYJWXyopQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FP0RhfiG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A405DC116D0;
+	Tue, 24 Feb 2026 05:36:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1771911396;
+	bh=bCkiAOs8zg+h4YWw2lU5IsN8hUlomxIStRc2ZuJPKjY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=FP0RhfiG2oH64sS1x2NbtAk24gVTqWaDJR4xr+OZpTM4ggZWcj+AVWxZrIsEM9HpO
+	 4cG+jYpP3yUkzSgP7C1C/lm96Vpr7c7DYA43EQHarkJDkhLwhbv7w7UZ1nL8293cXV
+	 UkRqmD6PUK54Pqh17aROGLONBLzFS2LYfGVv0hcgyhELCWpWtBACBLJzNQ5Sg6Gwgb
+	 cc5BTGJj+LI4wlKgqy4SV9kUcKL89d2YE+nkG65FjfTB/Kh8L2CQYW9naAQBCUNXcx
+	 t8NrRoyV4NhG/1xZPC+xZ1SuElkj81faS+l9TT55Not5s31ZH37wpj+3jO/8HJP8gn
+	 RISMGhTeKXiCw==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [RFC PATCH v3 0/4] mm/damon: Introduce node_eligible_mem_bp and node_ineligible_mem_bp Quota Goal Metrics
+Date: Mon, 23 Feb 2026 21:36:33 -0800
+Message-ID: <20260224053633.58448-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260223123232.12851-1-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANiq72mg+D4QZmBhrNj7dB+V3GHsQoZT2cSG1ffHYDYJWXyopQ@mail.gmail.com>
 
-On Mon, Feb 23, 2026 at 04:31:36PM +0100, Miguel Ojeda wrote:
-> On Mon, Feb 23, 2026 at 3:26 AM Mukesh Kumar Chaurasiya
-> <mkchauras@gmail.com> wrote:
-> >
-> > I think, disabling altivec, fpu and vsx with compiler flag will work.
-> >
-> > What are your opinion on this?
-> 
-> It is really up to upstream Rust -- for us, i.e. the kernel, it
-> usually doesn't really matter much how things like that are
-> accomplished: whether via flags, a built-in target, a custom target,
-> etc. However, we need to know what the path to stability is.
-> 
-> My understanding (but I may be wrong) is that upstream Rust prefer we
-> use built-in targets for softfloat instead of disabling via
-> `-Ctarget-feature` (and that the other options may go away soon and/or
-> will never be stable) -- at least for some cases. For instance, for
-> arm64, please this recent change kernel-side regarding `neon` as an
-> entry point:
-> 
->   446a8351f160 ("arm64: rust: clean Rust 1.85.0 warning using softfloat target")
-> 
-Aah, that makes it clearer.
-> So please ask upstream Rust (probably in their Zulip, e.g. in
-> t-compiler or rust-for-linux channels) what you should do for powerpc.
-> They will likely be happy with a PR adding the target (or whatever
-> they decide) as Alice mentions. And until we reach that minimum
-> version (in a year or more), we can use something else meanwhile. But
-> at least we will have a way towards the end goal, if that makes sense.
-> 
-Yeah makes sense. Will work towards this.
+Hello Ravi,
 
-Regards,
-Mukesh
+On Mon, 23 Feb 2026 12:32:28 +0000 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
 
-> In case it helps, let me Cc Ralf, Jubilee and Matthew who were
-> involved in some of that discussion in the past, plus the compiler
-> leads.
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=UTF-8
+> Content-Transfer-Encoding: 8bit
 > 
-> Cheers,
-> Miguel
+> This series introduces two new DAMON quota goal metrics for controlling
+> memory migration in heterogeneous memory systems (e.g., DRAM and CXL
+> memory tiering) using physical address (PA) mode monitoring.
+
+Thank you for keep working on and sharing this :)
+
+> 
+> v2: https://lore.kernel.org/linux-mm/20260129215814.1618-1-ravis.opensrc@gmail.com/
+> 
+> Changes since v2:
+> =================
+> 
+> - Split single metric into two complementary metrics:
+>   * node_eligible_mem_bp: hot memory present ON the specified node
+>   * node_ineligible_mem_bp: hot memory NOT on the specified node.
+>   This enables both PUSH and PULL schemes to work together.
+
+This perfectly aligns with the direction we agreed on the previous discussion.
+Sounds good and reasonable to me.
+
+> 
+> - Added PA-mode detection lag compensation cache (see dedicated section
+>   below for design details).
+
+I'm not very sure if this is really needed, though.  I'll leave comment on the
+dedicated section below.
+
+> 
+> - Added fix for esz=0 quota bypass that allowed unlimited migration when
+>   goal was achieved.
+> 
+> - Added fix for goal_tuner sysfs setting being ignored due to
+>   damon_new_scheme() always defaulting to CONSIST.
+
+Thank you for finding and fixing these issues in my previously shared RFC patch
+series!  I left a few comments to the patches.  In short, the second fix looks
+good and I will add that to the next revision of my RFC patch series, if you
+don't mind.  For the first fix, I'd like to take more time on thinking more
+cleaner solution.
+
+> 
+> - Rebased on SJ's damon/next branch which includes the TEMPORAL goal
+>   tuner required for these metrics.
+
+Thank you for clarifying this!  This kind of context is very helpful at
+revidewing patches.
+
+> 
+> Background and Motivation
+> =========================
+> 
+> In heterogeneous memory systems, controlling hot memory distribution
+> across NUMA nodes is essential for performance optimization. This series
+> enables system wide hot page distribution with target-state goals like
+> "maintain 30% of hot memory on CXL" using PA-mode DAMON schemes.
+> 
+> Two-Scheme Setup for Hot Page Distribution
+> ==========================================
+> 
+> For maintaining 30% of hot memory on CXL (node 1):
+> 
+>     PUSH scheme (DRAM->CXL): migrate_hot from node 0 -> node 1
+>       goal: node_eligible_mem_bp, nid=1, target=3000
+>       Activates when node 1 has less than 30% hot memory
+> 
+>     PULL scheme (CXL->DRAM): migrate_hot from node 1 -> node 0
+>       goal: node_ineligible_mem_bp, nid=1, target=7000
+>       Activates when node 1 has more than 30% hot memory
+> 
+> Both schemes use the TEMPORAL goal tuner which sets esz to maximum when
+> under goal and zero when achieved. Together they converge to equilibrium
+> at the target distribution.
+
+When this kind of complementary setup is being used, in my opinion, CONSIST
+tuner might be better, especially when the access pattern is dynamic.  But it
+is up to user's choice.
+
+> 
+> What These Metrics Do
+> =====================
+> 
+> node_eligible_mem_bp measures:
+>     effective_hot_bytes_on_node / total_hot_bytes * 10000
+> 
+> node_ineligible_mem_bp measures:
+>     (total_hot_bytes - effective_hot_bytes_on_node) / total_hot_bytes * 10000
+> 
+> The metrics are complementary: eligible_bp + ineligible_bp = 10000 bp.
+
+All make sense to me, so far.
+
+> 
+> PA-Mode Detection Lag and Cache Design
+> ======================================
+> 
+> In PA-mode, when pages are migrated:
+> 1. Source node detection drops immediately (pages are gone)
+> 2. Target node detection increases slowly (new addresses need sampling)
+
+I agree.  And this is not what I clearly expected during the previous
+discussion.  Thank you for sharing this issue.
+
+> 
+> This asymmetry causes temporary underestimation of hot memory on the
+> target node. Without compensation, the system keeps migrating even after
+> reaching the goal.
+
+But, is this really significant?  I believe people may use complementary
+auto-tune setup especially when they expect dynamic access pattern.  In the
+case, even if we can perfectly compensate this kind of gap, some of oscillation
+will happen.  You also mentioned "eventual convergence" could be acceptable.
+
+> 
+> The cache addresses this by remembering how much was recently migrated.
+> When calculating effective hot memory:
+> - Source node: reduce detected amount by recent migrations out
+> - Target node: boost detected amount by recent migrations in
+> 
+> The cache uses a rolling window to track migrations over time, and
+> expires after a configurable timeout (default 10s) when no migration
+> activity occurs. It also detects when its baseline becomes stale due
+> to new hot memory appearing in the workload.
+
+I will leave more comments to the patch implementing this.  But this seems too
+much at the current stage, unless there are clear test results showing its
+needs.  I'd recommend proceeding without this, and later revisit if the problem
+becomes clearly significant.
+
+> 
+> Dependencies
+> ============
+> 
+> This series is based on SJ's damon/next branch which includes:
+> 
+> - mm/damon/core: introduce damos_quota_goal_tuner [1]
+> - mm/damon/core: set quota-score histogram with core filters [2]
+> - mm/damon: always respect min_nr_regions from the beginning [3]
+> - mm/damon/core: disallow non-power of two min_region_sz [4]
+> 
+> [1] https://lore.kernel.org/linux-mm/20260212062314.69961-1-sj@kernel.org/
+> [2] https://lore.kernel.org/linux-mm/20260131194145.66286-1-sj@kernel.org/
+> [3] https://lore.kernel.org/linux-mm/20260217000400.69056-1-sj@kernel.org/
+> [4] https://lore.kernel.org/linux-mm/20260214214124.87689-1-sj@kernel.org/
+> 
+> Patch Organization
+> ==================
+> 
+> 1. mm/damon/sysfs: set goal_tuner after scheme creation
+>     - Fixes goal_tuner initialization order in sysfs scheme creation
+> 
+> 2. mm/damon: fix esz=0 quota bypass allowing unlimited migration
+>     - Ensures esz=0 stops migration rather than bypassing quota entirely
+> 
+> 3. mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
+>     - Adds the two complementary metrics for hot memory distribution control
+> 
+> 4. mm/damon: add PA-mode cache for eligible memory detection lag
+>     - Implements rolling window cache to compensate for PA-mode detection lag
+>     - Adds configurable cache timeout via sysfs
+> 
+> Testing Status
+> ==============
+> 
+> Functionally tested on a two-node heterogeneous memory system (DRAM + CXL)
+> with PUSH+PULL scheme configuration.
+
+Glad to hear the functionality is tested.  Looking forward to the next results!
+
+> 
+> This is an RFC and feedback on the design is appreciated.
+
+I'm yet to further reply to the fourth patch, but I hope my comments be worthy
+:)
+
+
+Thanks,
+SJ
+
+[...]
