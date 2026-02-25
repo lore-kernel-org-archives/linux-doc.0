@@ -1,62 +1,312 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24553E8C5F;
-	Wed, 25 Feb 2026 17:55:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF083E8C5F
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 17:57:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772042145; cv=none; b=I4Db2dkDCFiVeDAIoytcgHXxa5BhM847pfdFBzobN3GEZchjl3bcDWaK/NjlYMKRsFqSuejEwPZyKge4AJC3fDeJiT9E3SOKBU0o9uG0AD2kRHiYtvtaXXzrOsJy/slrtv5Pf6ppHofq7lNgWk8JqRIjA7yvQy488cFJjqGJkjw=
+	t=1772042225; cv=none; b=b1uCB1JOP/C1Du8AR5JRQXeQE9qMlqUjQDla6ehOmzZI0PuzIml0+Iq8QsY9kpbrkmdo2QCEN5ttUYfgPLIxT1nA9cm8ZrIhvUfAOdaCt+Oro0gGKiOVdv3PkA8t42Bf64rZ00WrMvIZyS0EfI5g/tCkgsSLubLjWaP3rDxwcIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772042145; c=relaxed/simple;
-	bh=6m7kOPe1WmqT9Dw0VVtecxsVRfBEHuGKs6Cs22SHmOg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kmUKD6Eufb6UNMbimo4IfurfRI8aoMw3oAquwZ7D5Nz1wrPfgqXSR5+7YWoph+T0YYkQdEHjkLEoA10cc7LVsbYcyiNND33dLRd2gcMVEKjYIOs5w3zJdhsY4P4TEYurdPhr7A4Qnj+zctINrm3Z35lrE86Xt/GUm7df7lpEvyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=q8xa0Cp2; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1772042225; c=relaxed/simple;
+	bh=teEJU1kty9uv5hJn5DWv1DC25MgluRijH9zH5ICZN8I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IXikEDRj/XWPjnLoehfdx2yqYrfd0yqv75574mv4Tw68eYP5O5F+gHwZxz0ovYvA05dR9xeQ+tWY/QyfRNEJjZ5/hshrI4VJf0s08eQ0sX371PBnVFxBwyRY6tY8OHoHwZQ3KD2bMvNyUd3ceziXQWYOJLkt2aDPUfxIUO/7yT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=arfaW0Tf; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cGVblJW2; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="q8xa0Cp2"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2C74540C7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1772042144; bh=89reKSYSoKwxxmuLzkRjmLRwtM7KVu/ucpGz+Yxh2aQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=q8xa0Cp2nnUKaZinkeWyDbQBgaXKnS2L1HFMgf9zFSXFQGlYCpfQsEOtimARjLuej
-	 vqORp+Tt8BZ8/QyffUu42WsTos+Zwx3s7L9FJWmVqJJJWJO2HAvSBdaz8hq/uHL1BF
-	 wCQRrIIwLDNDH7/UEk5Lmkq6DjS9zJhrgKe+TM5L4zypxSCF/MCQHOLAADyvjsOpyZ
-	 BJpj9iUjrjmsVOlEwGAjDHmHGaVm54+9T0p0qyOnGBLzFY8UHYrxQpAm1TXwFDlxjM
-	 /mEB39QWr+G4zz9UbU/qbxo0mJ4OQt7pwIkovEwVfcdmn3kjuFdwBAMCHU9o49Wp2O
-	 yo974SR2M1MFw==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2C74540C7C;
-	Wed, 25 Feb 2026 17:55:44 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>, Julia.Lawall@inria.fr,
- nicolas.palix@imag.fr, skhan@linuxfoundation.org, cocci@inria.fr,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: Re: [PATCH V2] Doc: dev-tools:  Added Gentoo in the Operating
- system list under Getting Coccinelle
-In-Reply-To: <20260222225536.19196-1-unixbhaskar@gmail.com>
-References: <20260222225536.19196-1-unixbhaskar@gmail.com>
-Date: Wed, 25 Feb 2026 10:55:43 -0700
-Message-ID: <87ms0wyag0.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="arfaW0Tf";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cGVblJW2"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PB3RT91512053
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 17:57:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	mvsIZr9qVQn4O36RmaOABy93+YNGrflCz5PAS8IaKgM=; b=arfaW0TfHpQRAiB3
+	YUxT/Mpf4RJwDwolsP9sX29dPvyxychIKRB9uk3QWcvfIvPnf76Au4Ap0J0MtKmp
+	Ze9/v68hrjcyQXPrUuBM6LMvUf0y+jhkpgjL3BfNPmM1etkC2bFeEh0xtXHYs3Iw
+	KbYZLJ9kKLbzaHkzQ6bCZkaBF1JuEJYxE4aIHwo+TLG5D+2ilhXVbKenaa+9Op6b
+	86VmMxFX5qs9EYajYu8sptVauXO6ZYMx5Gtw/gXYrN0GG1MGybh6Uz/fTKUCFeKF
+	tc+h+u7qxTLLtxON7DNtQlwXa+TsD3HBcXyEpXIqQMRQ2ynyjb4DUyoBxq1JiH4O
+	miUARA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chyvf196e-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 17:57:03 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2aad6045810so70152165ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 09:57:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772042222; x=1772647022; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mvsIZr9qVQn4O36RmaOABy93+YNGrflCz5PAS8IaKgM=;
+        b=cGVblJW23bcsez1NZdIRxgszDzDF3yM/MI5MGFVx/pXGEXrvSZ3qNVByXJ13nRJcxP
+         +86zoT8xnjFvbJwaZl0zxAgYb+25CXEyJfjeD4AwXZnJtUwkfrZytr/iTj/moETH6fN+
+         z+91MQB/VXswjhzYZX2UtQJkza4VkkR4pTQPMPyR4mvhpaff0A3v8pH86XnKzBvt7+sL
+         uLlnw54B6oPswOitjnDFLtBuWtGGk1qGlk1fcLXCDcmL1Wu0h/OMGJ2FqS5gR7OWIuq0
+         0S7nJgPrVqQZCj2A0A1sPzkU5IKgPc7ArF1I5G2RxYtNS/iXgm+L3dpAZ370IiDsD0XO
+         lsbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772042222; x=1772647022;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mvsIZr9qVQn4O36RmaOABy93+YNGrflCz5PAS8IaKgM=;
+        b=cBmHm8foKzrY5WtWXAHU44sbzfsue0GN9KNrpt1eQ4BpfiXE85OIKo3+rbKde4Rqo7
+         9wscQ1yaQROsppW46FMWPnEJkmHyjaEo40urhPrk9H2hFxCQ+tF8gFLyyNXv5fmVxc4C
+         god9OQaJ5AV8LDrgE5Q9At6dIjx8HC9sdWXRizw+URz6yOCVxlDWZwOj+8AGfDb56osd
+         YvVpX/mDd3NlZzSlp3vxqRx6GoSoQz+1JuWxyh3r4BXgPxP8LVhzX+1xlNLErbCDPUil
+         g/gwHam5Cok2OUOQQYRbrdX17QLPxnWHgZyjbRgDagToIRjLb0A6oao0bmzhAowDl3x9
+         FcQg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6LcTjPBcK6iVRBEhqQXKlMoX2XQnso/Cnzj+1eQbcGO2kDOFG5Je7cUHY2fWB8YjnL9vc6CPkrfs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwCUrkxw/O3uKvT8AG/cBBQ54z87TI4SvmVhuXZ8aTueKWfcymL
+	3se7hXtTa/oY3luXdUbAt2xiDCAqlW//nnwkqKgxjdyn4T9vScWZc8QS83zMRd22E7TZ+m220lE
+	U9Y7R+ppdrP7FY7mG2VVozm3yvw8wSi9mYcyKN5tiylCGQBDz3T7zCGR4XhwcUkw=
+X-Gm-Gg: ATEYQzzrUNIgAsNbedd6iYR0Ey06C5mJ08WdoZA7mno/mu4K1bXudAYnUMRQS2uxJ8t
+	BxA3KIuh17QhcZNOIXA9TazSvDkxPRheaiRo/RN7CcdJ9yZwJdfIynqwli1b4PXHcO1cQelT83T
+	jxdv+9pldKwkowQLLld2TzA1KVDNpOpHk1LcqjLCZWxB9JhBx48cRxwgZOOgIDa2rRFHNs7MsYE
+	dkRIcOWVFhNV/WrGek3JPDVqiLmmo0fIwnnHth20IwCBS7F3RUi5ZXl/GtrhcDuCsiB4ryjjIQm
+	YGvLflWURafjrnJG6GB2xK1BaoRBsu9jMlM9KuZ9Z79WSJ2SxwBkKBK6+xD5DiYaX4JZuU3SafN
+	3lZEjItfS8ib46T1SFQVT0Q88Luzuw72ZebpbaupAmr+HbIhGlD8=
+X-Received: by 2002:a17:902:e80c:b0:2a1:388d:8ef3 with SMTP id d9443c01a7336-2ad7444e7fcmr172411705ad.18.1772042222024;
+        Wed, 25 Feb 2026 09:57:02 -0800 (PST)
+X-Received: by 2002:a17:902:e80c:b0:2a1:388d:8ef3 with SMTP id d9443c01a7336-2ad7444e7fcmr172411335ad.18.1772042221493;
+        Wed, 25 Feb 2026 09:57:01 -0800 (PST)
+Received: from [192.168.1.5] ([171.61.227.247])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad74f5daf5sm135513705ad.24.2026.02.25.09.56.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Feb 2026 09:57:00 -0800 (PST)
+Message-ID: <e82443ff-f6c1-4b8e-b573-f4620dd0f17c@oss.qualcomm.com>
+Date: Wed, 25 Feb 2026 23:26:52 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 04/18] accel/qda: Add built-in compute CB bus for QDA
+ and integrate with IOMMU
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-4-fe46a9c1a046@oss.qualcomm.com>
+ <ox7jnqkjo3frhbgpp63sse7ram72obihe4qlbbn4z22wbw4szr@7pzoeecdvsyg>
+Content-Language: en-US
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+In-Reply-To: <ox7jnqkjo3frhbgpp63sse7ram72obihe4qlbbn4z22wbw4szr@7pzoeecdvsyg>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: S7hnI5yRhyb25Wx8qP4fQEBabPFtTZqp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE3MiBTYWx0ZWRfXx/cgQ6P8/4Xf
+ ln/gLhUCsHwjccnQSHR8uTQN1Rp2Uks/YohFa9xK2wiFUAUiZ/fhJlHPFlMs05bw9y6GK1QpdbH
+ 1qesQBVMs0ZpsReYkRCmDqjb2duk233h0CiV29TeZPuqHF/QChfyM/M5+gVUnbDvc2dkwRtNepf
+ 6BZpTle7IEtJwobU9iQGSRKabsVRtbSOMjReHMgeW8SumD4fk935vEe4s2gJ9I2O+FLcDWnb0gm
+ zYGR6L890mMIeefada7NGF7phmvnTWMN4CzRT7Pf8yv0ReT4Wrh9rj/eJJuT+2eXZ4sEXXLS6as
+ 3qLBl6zNpo+d/Ut67oNBC/vrViU6q+GMQiYDMJSm6B+OaXF45eEDSlvi360nqo4x+cUso+Ya8cM
+ VerlpV+BxqvgE6hjD88f0cb+ZI/RbO2/jDATSLTGxA4OP0JF7LW5SMU7QK5H9iQ5HPGR7nnM9yh
+ A8yGmGcGekbKb6mCShw==
+X-Proofpoint-GUID: S7hnI5yRhyb25Wx8qP4fQEBabPFtTZqp
+X-Authority-Analysis: v=2.4 cv=dZWNHHXe c=1 sm=1 tr=0 ts=699f37ef cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=CLJ8B99oKJtQbdnoKiLypA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=_kSkizocug0RL_Hz-QYA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_02,2026-02-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ phishscore=0 bulkscore=0 spamscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2602250172
 
-Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
 
->  Adding Gentoo in the operating system list under "Getting Coccinelle".
 
-Applied, thanks.  I also truncated the changelog here, we really don't
-need to immortalize your ebuild session.
+On 2/24/2026 4:14 AM, Dmitry Baryshkov wrote:
+> On Tue, Feb 24, 2026 at 12:38:58AM +0530, Ekansh Gupta wrote:
+>> Introduce a built-in compute context-bank (CB) bus used by the Qualcomm
+>> DSP accelerator (QDA) driver to represent DSP CB devices that require
+>> IOMMU configuration. This separates the CB bus from the QDA driver and
+>> allows QDA to remain a loadable module while the bus is always built-in.
+> Why? What is the actual problem that you are trying to solve?
+Bus needs to be built-in as it is being used by iommu driver. I'll add more details here.
+>
+>> A new bool Kconfig symbol DRM_ACCEL_QDA_COMPUTE_BUS is added and is
+> Don't describe the patch contents. Please.
+Ack.
+>
+>> selected by the main DRM_ACCEL_QDA driver. The parent accel Makefile is
+>> updated to descend into the QDA directory for both built-in and module
+>> builds so that the CB bus is compiled into vmlinux while the driver
+>> remains modular.
+>>
+>> The CB bus is registered at postcore_initcall() time and is exposed to
+>> the IOMMU core through iommu_buses[] in the same way as the Tegra
+>> host1x context-bus. This enables later patches to create CB devices on
+>> this bus and obtain IOMMU domains for them.
+> Note, there is nothing QDA-specific in this patch. Please explain, why
+> the bus is QDA-specific? Can we generalize it?
+I needed a custom bus here to use for the compute cb devices for iommu
+configurations, I don't see any reason to keep it QDA-specific. The only requirement
+is that this should be enabled built in whenever QDA is enabled.
 
-jon
+But if I keep it generic, where should this be placed? Should it be accel(or drm?) specific?
+
+>
+>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>> ---
+>>  drivers/accel/Makefile              |  1 +
+>>  drivers/accel/qda/Kconfig           |  5 +++++
+>>  drivers/accel/qda/Makefile          |  2 ++
+>>  drivers/accel/qda/qda_compute_bus.c | 23 +++++++++++++++++++++++
+>>  drivers/iommu/iommu.c               |  4 ++++
+>>  include/linux/qda_compute_bus.h     | 22 ++++++++++++++++++++++
+>>  6 files changed, 57 insertions(+)
+>>
+>> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
+>> index 58c08dd5f389..9ed843cd293f 100644
+>> --- a/drivers/accel/Makefile
+>> +++ b/drivers/accel/Makefile
+>> @@ -6,4 +6,5 @@ obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
+>>  obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
+>>  obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
+>>  obj-$(CONFIG_DRM_ACCEL_QDA)		+= qda/
+>> +obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda/
+>>  obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
+>> \ No newline at end of file
+>> diff --git a/drivers/accel/qda/Kconfig b/drivers/accel/qda/Kconfig
+>> index 484d21ff1b55..ef1fa384efbe 100644
+>> --- a/drivers/accel/qda/Kconfig
+>> +++ b/drivers/accel/qda/Kconfig
+>> @@ -3,11 +3,16 @@
+>>  # Qualcomm DSP accelerator driver
+>>  #
+>>  
+>> +
+>> +config DRM_ACCEL_QDA_COMPUTE_BUS
+>> +	bool
+>> +
+>>  config DRM_ACCEL_QDA
+>>  	tristate "Qualcomm DSP accelerator"
+>>  	depends on DRM_ACCEL
+>>  	depends on ARCH_QCOM || COMPILE_TEST
+>>  	depends on RPMSG
+>> +	select DRM_ACCEL_QDA_COMPUTE_BUS
+>>  	help
+>>  	  Enables the DRM-based accelerator driver for Qualcomm's Hexagon DSPs.
+>>  	  This driver provides a standardized interface for offloading computational
+>> diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
+>> index e7f23182589b..242684ef1af7 100644
+>> --- a/drivers/accel/qda/Makefile
+>> +++ b/drivers/accel/qda/Makefile
+>> @@ -8,3 +8,5 @@ obj-$(CONFIG_DRM_ACCEL_QDA)	:= qda.o
+>>  qda-y := \
+>>  	qda_drv.o \
+>>  	qda_rpmsg.o \
+>> +
+>> +obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda_compute_bus.o
+>> diff --git a/drivers/accel/qda/qda_compute_bus.c b/drivers/accel/qda/qda_compute_bus.c
+>> new file mode 100644
+>> index 000000000000..1d9c39948fb5
+>> --- /dev/null
+>> +++ b/drivers/accel/qda/qda_compute_bus.c
+>> @@ -0,0 +1,23 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> +#include <linux/device.h>
+>> +#include <linux/init.h>
+>> +
+>> +struct bus_type qda_cb_bus_type = {
+>> +	.name = "qda-compute-cb",
+>> +};
+>> +EXPORT_SYMBOL_GPL(qda_cb_bus_type);
+>> +
+>> +static int __init qda_cb_bus_init(void)
+>> +{
+>> +	int err;
+>> +
+>> +	err = bus_register(&qda_cb_bus_type);
+>> +	if (err < 0) {
+>> +		pr_err("qda-compute-cb bus registration failed: %d\n", err);
+>> +		return err;
+>> +	}
+>> +	return 0;
+>> +}
+>> +
+>> +postcore_initcall(qda_cb_bus_init);
+>> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+>> index 4926a43118e6..5dee912686ee 100644
+>> --- a/drivers/iommu/iommu.c
+>> +++ b/drivers/iommu/iommu.c
+>> @@ -33,6 +33,7 @@
+>>  #include <trace/events/iommu.h>
+>>  #include <linux/sched/mm.h>
+>>  #include <linux/msi.h>
+>> +#include <linux/qda_compute_bus.h>
+>>  #include <uapi/linux/iommufd.h>
+>>  
+>>  #include "dma-iommu.h"
+>> @@ -178,6 +179,9 @@ static const struct bus_type * const iommu_buses[] = {
+>>  #ifdef CONFIG_CDX_BUS
+>>  	&cdx_bus_type,
+>>  #endif
+>> +#ifdef CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS
+>> +	&qda_cb_bus_type,
+>> +#endif
+>>  };
+>>  
+>>  /*
+>> diff --git a/include/linux/qda_compute_bus.h b/include/linux/qda_compute_bus.h
+>> new file mode 100644
+>> index 000000000000..807122d84e3f
+>> --- /dev/null
+>> +++ b/include/linux/qda_compute_bus.h
+>> @@ -0,0 +1,22 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> + */
+>> +
+>> +#ifndef __QDA_COMPUTE_BUS_H__
+>> +#define __QDA_COMPUTE_BUS_H__
+>> +
+>> +#include <linux/device.h>
+>> +
+>> +/*
+>> + * Custom bus type for QDA compute context bank (CB) devices
+>> + *
+>> + * This bus type is used for manually created CB devices that represent
+>> + * IOMMU context banks. The custom bus allows proper IOMMU configuration
+>> + * and device management for these virtual devices.
+>> + */
+>> +#ifdef CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS
+>> +extern struct bus_type qda_cb_bus_type;
+>> +#endif
+>> +
+>> +#endif /* __QDA_COMPUTE_BUS_H__ */
+>>
+>> -- 
+>> 2.34.1
+>>
+
