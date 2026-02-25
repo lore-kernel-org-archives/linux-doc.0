@@ -1,54 +1,54 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190CA313E33
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 07:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5FCB314D0B
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 07:20:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772004048; cv=none; b=K2Mex+c6gMvodK30y4GBCeDFLteldeY/zStBPcfbJ0dolEWEGFre8y0uS4fvNIcd5ri8JHtfznxK7AJs/K45lwAygV0cSfUscq7/BrA3BiZpRrzk343FyyryrSZn0c2zvGan7WUDKDs+GtJeDqPafcGVjNU2RlPiB29Nz8ff+UY=
+	t=1772004050; cv=none; b=lKkIqmCzWWDn8+pJKS15ujRb9g2mJ85pbFAcJXt1JOBipZu5rxmU6LAN5K33up6hrq/zqdYNYOLCpZwcay4o4QCFo8yWVWGO1zSeiV3FFuMBRQ8h/GQY8W3m9B4uI9c1ZC5PpNKo2jk5QPb4wS9mHOEg+cJqEo7KA5hN9mLDv4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772004048; c=relaxed/simple;
-	bh=ZMQPV7Y8H88+MGQYlAsk4qj1ohZaV8k9fkkraEOtToU=;
+	s=arc-20240116; t=1772004050; c=relaxed/simple;
+	bh=8mavK4GAEJyfzQeJv7/hD42p9ioK1z0FeEYGJdf10ss=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=AIbWnIkGo9rIz0QKxSNm5cmvAt/7wb5oUJKvARHMlFf+LBlQER35YWj2jogcYvsBn5/QEWKFYUz2rUu3k6Z+q/Z3RyXtt+wAkGN1ifVioz24FADb6RH3H3TqjcxI7KEbn5mIJK6i9WoK/ssb0SyR8Bu5MMJ5R6/afgMKPblTYuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=esOssuLF; arc=none smtp.client-ip=209.85.215.201
+	 To:Cc:Content-Type; b=kE9IMn6yQld7q8uKbO5hQJKltoZDKxtxfWrPdweclusXGLrtTCj1DnPkztBfLoeCirTb1swOceGLw00X8EprHSRSVOGiri5Yt1g+QmGoxD3y0KkIbU2iXMRQArMnrRZfgsgYx/P00vZIXeED4iwiyhvWszJyrceXK5s+p8H6rj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XGHQ6fUJ; arc=none smtp.client-ip=209.85.216.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="esOssuLF"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c70efa3b730so56500a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 23:20:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XGHQ6fUJ"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-358f058973fso1199564a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 23:20:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772004046; x=1772608846; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1772004048; x=1772608848; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RxvzdHDHaSHLdjnOnYt7Pz8oF0XFcbFcMtFEzYFn1AQ=;
-        b=esOssuLFcA56b+69h2S6cCu4y9evuNJTX/UOpJs4VmtUTLfgRz7J5Di4T2ocXlyJpa
-         aHmNTJ24bp0tauf8kdLZAfe7NaPLIkFzpOoIwBKJ0VvOqdjRm6gMCtKLT3EahwYnVn4w
-         MkKMITpVyFmUuA+s+OaphgQq/iRgZS00rUmTvP7ZZToJpgEI0GFfl/4UPN1cF5CuRfEQ
-         tS7lGSDQ8XzL684soyjjntfVtTXsBYiZxX/5iVWHxV+2lQD+DlhpeVj8mW+6J9PyuVdb
-         Ew9+soXzKmOgIwZu5eq3loLlatAVZNyi895LWexOpewTFKzMqPMncyP/mquQmWerq+0J
-         yS4Q==
+        bh=OVs0Hnm474cWoV833GLo9MNmWlUj207hFkSykyvopd4=;
+        b=XGHQ6fUJsiyeW6/flR7Ha9ULHmAjbO3JNzeE+lnEaqiNaqOHT+xTI29dU/FfYd15/S
+         WB9XySh8aQyQJnjnb8qU9KE+R2yadsOEGd+bH2hjbgu51sy3fkr/sY7/F3+rVkhZ9thO
+         9uJGsZtsY25n2IDbh4dmK3b9NpBjTGg2NKyhzaQh4P/cdwfstrzVgYfZSJ9iLcRIlPiL
+         4bPgy3iJxr5q5DyjVknGjqwqpMoitrP7AiYTI2uNzm+Sswk6s+MBvL8J/4brpTyO2yXC
+         A0TfjzJLQ8QjgrX119df4WPKGDs2ZkLGHTUvvCzjay4cyIPgAfhwskq6iBbh9hjbTaXO
+         2Qbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772004046; x=1772608846;
+        d=1e100.net; s=20230601; t=1772004048; x=1772608848;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RxvzdHDHaSHLdjnOnYt7Pz8oF0XFcbFcMtFEzYFn1AQ=;
-        b=aWVL+Pn1HwYT3tTHQ0ADgTXMHum8sWlV1ux9D81nJ8XnISpjEoWeO0pW7TxLnwS1+j
-         mKXt7Wt4vuyTd6LSe/d1DWQWj03LPjU6cMf89HI2xV3GGZRxEVRmjRVE7WnHi5FGQ4ud
-         rhswXZplVDM1XWDnKr9LE67ZRPoB0/udEx6ukl4iu/uj40cmW47ErC+kjD7OdngC1ITq
-         AU2gCQ7MxJ1j//mx932YgfEwkCpsc4dV65XhkSkNQwaOlzSCennk9C9clUpSZhzCakmY
-         c+Hr1pNpJxzF+BKdLnTuhojhwNFXLqpz8oZk7rvF8d5JTMJZZ3KzbU/ON0qkXMWf0tUZ
-         oYMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXl1fZOv0ZU5JulxnxwiEPYgrktC87n4mel2y6bVgd6eZAydLZ2iwt/ijhfsH8n9I5U81fQGvE/Fhs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/WWQA8LJGPhS36UMvrZhT7gXmTNDcZmotPgfiU2w/0+e+7YRs
-	LbvrRdUewnUGIDWTLRPcm2E62PNuBCk/lydLJMbXT6RKqTZFjRvI9bDwUuH5rDwWHX/4rXaxXjR
-	bLDz4pg4NcbiuqN18iU+nifMNGw==
-X-Received: from pjbjs14.prod.google.com ([2002:a17:90b:148e:b0:358:df96:881])
+        bh=OVs0Hnm474cWoV833GLo9MNmWlUj207hFkSykyvopd4=;
+        b=HKey/MsQGQvX/KxNSpzJIWFiVeRfxuWXbuOs+PevIgZbu+VI9M+8hc0xNWSnedqnLy
+         Ms/9Pg8tWzFvRZVVo5Gs6rkSQwHayy2xwsIV/7yBrYWsQyqFbajNOrvULeNi1Ft/rGCI
+         Z+9I9NRkW8akn+jh+EPLmdLWDxPxYefbAgTPi8mCQsbAwNGbx1BdIlbL3FZyH85k6nF7
+         6tiJPyQ3j63YLjKytueHg/ERsszgC2aueXSn6/4xmOGDeQoIQgCvPbvFaLeOqrSE3eRf
+         Nl04AJa7aqa/D42S/WF97bGBJAWiLpQ2Ki1411i57d0mNM7UrEVMvejZO0naxMQMOPLR
+         FL3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVXUMbr+Zuqmf6eSZhinvnIYofyWptB0Yu7iqmQQloHoFnNW1q8L3MtaxzBPt5avUA5tELD9JDp5rU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/tq3tub/+PUmIIFCDiXYfMhJ3joiZEzeC9TaWhHEU7wi2uThA
+	lPeHT9ajIQLLOZp8F969s91Wyw/EZHj/vTynJzO6u8iiq8vt+WknREr4Pq+rRB+6kuYPsl0ICKH
+	pA6iR4lSKoxr4NDZO0jqtfwXWbg==
+X-Received: from pjbcx18.prod.google.com ([2002:a17:90a:fd92:b0:34c:64ab:be12])
  (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:2982:b0:35d:53dc:cb61 with SMTP id adf61e73a8af0-39545ed4ecbmr13199551637.24.1772004046254;
- Tue, 24 Feb 2026 23:20:46 -0800 (PST)
-Date: Wed, 25 Feb 2026 07:20:36 +0000
+ 2002:a17:90b:4987:b0:349:7f0a:381b with SMTP id 98e67ed59e1d1-358ae7f824amr12058965a91.8.1772004047924;
+ Tue, 24 Feb 2026 23:20:47 -0800 (PST)
+Date: Wed, 25 Feb 2026 07:20:37 +0000
 In-Reply-To: <20260225-gmem-st-blocks-v2-0-87d7098119a9@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,14 +58,13 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260225-gmem-st-blocks-v2-0-87d7098119a9@google.com>
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519; pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772004043; l=1374;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772004043; l=2942;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=ZMQPV7Y8H88+MGQYlAsk4qj1ohZaV8k9fkkraEOtToU=; b=UnVR/uLYP7ieBpWEAadpA6sROUIT4SgE39FHR7vRTz9HvHgkz8Qjcpq+AL3FU4w88yU1gGUOS
- sJFEPjg87ZGArJKumnOvSjc+SZz2h+qBgaWpg2xkrvCz9aXcDFKM56w
+ bh=8mavK4GAEJyfzQeJv7/hD42p9ioK1z0FeEYGJdf10ss=; b=n5HyVsPKnVDH4PevFzPZC0SURMs/a4aw01ly03D56U81pYoGm3xjhy0a96R2oMYy/oWparMvX
+ 0N/vWJdxHi/DhAl1wJaJFq98Amz6oOt1OmvqMUx13/SxRSVR8WBVXyz
 X-Mailer: b4 0.14.3
-Message-ID: <20260225-gmem-st-blocks-v2-1-87d7098119a9@google.com>
-Subject: [PATCH RFC v2 1/6] KVM: guest_memfd: Don't set FGP_ACCESSED when
- getting folios
+Message-ID: <20260225-gmem-st-blocks-v2-2-87d7098119a9@google.com>
+Subject: [PATCH RFC v2 2/6] KVM: guest_memfd: Directly allocate folios with filemap_alloc_folio()
 From: Ackerley Tng <ackerleytng@google.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
@@ -83,39 +82,92 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
 	linux-doc@vger.kernel.org, Ackerley Tng <ackerleytng@google.com>
 Content-Type: text/plain; charset="utf-8"
 
-guest_memfd folios don't care about accessed flags since the memory is
-unevictable and there is no storage to write back to, hence, cleanup the
-allocation path by not setting FGP_ACCESSED.
+__filemap_get_folio_mpol() is parametrized by a bunch of GFP flags, which
+adds complexity for the reader. Since guest_memfd doesn't meaningfully use
+any of the other FGP flags, undo that complexity by directly calling
+filemap_alloc_folio().
+
+Directly calling filemap_alloc_folio() also allows the order of 0 to be
+explicitly specified, which is the only order guest_memfd supports. This is
+easier to understand, and removes the chance of anything else being able to
+unintentionally influence allocated folio size.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-Acked-by: David Hildenbrand (arm) <david@kernel.org>
 ---
- virt/kvm/guest_memfd.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ virt/kvm/guest_memfd.c | 51 +++++++++++++++++++++++++++++++++++---------------
+ 1 file changed, 36 insertions(+), 15 deletions(-)
 
 diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-index 923c51a3a5256..2df27b6443115 100644
+index 2df27b6443115..2488d7b8f2b0d 100644
 --- a/virt/kvm/guest_memfd.c
 +++ b/virt/kvm/guest_memfd.c
-@@ -126,14 +126,13 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
- 	 * Fast-path: See if folio is already present in mapping to avoid
- 	 * policy_lookup.
- 	 */
--	folio = __filemap_get_folio(inode->i_mapping, index,
--				    FGP_LOCK | FGP_ACCESSED, 0);
+@@ -107,6 +107,39 @@ static int kvm_gmem_prepare_folio(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 	return __kvm_gmem_prepare_folio(kvm, slot, index, folio);
+ }
+ 
++static struct folio *__kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
++{
++	/* TODO: Support huge pages. */
++	struct mempolicy *policy;
++	struct folio *folio;
++	gfp_t gfp;
++	int ret;
++
++	/*
++	 * Fast-path: See if folio is already present in mapping to avoid
++	 * policy_lookup.
++	 */
 +	folio = filemap_lock_folio(inode->i_mapping, index);
- 	if (!IS_ERR(folio))
- 		return folio;
++	if (!IS_ERR(folio))
++		return folio;
++
++	gfp = mapping_gfp_mask(inode->i_mapping);
++
++	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
++	folio = filemap_alloc_folio(gfp, 0, policy);
++	mpol_cond_put(policy);
++	if (!folio)
++		return ERR_PTR(-ENOMEM);
++
++	ret = filemap_add_folio(inode->i_mapping, folio, index, gfp);
++	if (ret) {
++		folio_put(folio);
++		return ERR_PTR(ret);
++	}
++
++	return folio;
++}
++
+ /*
+  * Returns a locked folio on success.  The caller is responsible for
+  * setting the up-to-date flag before the memory is mapped into the guest.
+@@ -118,23 +151,11 @@ static int kvm_gmem_prepare_folio(struct kvm *kvm, struct kvm_memory_slot *slot,
+  */
+ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+ {
+-	/* TODO: Support huge pages. */
+-	struct mempolicy *policy;
+ 	struct folio *folio;
  
- 	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
- 	folio = __filemap_get_folio_mpol(inode->i_mapping, index,
--					 FGP_LOCK | FGP_ACCESSED | FGP_CREAT,
-+					 FGP_LOCK | FGP_CREAT,
- 					 mapping_gfp_mask(inode->i_mapping), policy);
- 	mpol_cond_put(policy);
+-	/*
+-	 * Fast-path: See if folio is already present in mapping to avoid
+-	 * policy_lookup.
+-	 */
+-	folio = filemap_lock_folio(inode->i_mapping, index);
+-	if (!IS_ERR(folio))
+-		return folio;
+-
+-	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
+-	folio = __filemap_get_folio_mpol(inode->i_mapping, index,
+-					 FGP_LOCK | FGP_CREAT,
+-					 mapping_gfp_mask(inode->i_mapping), policy);
+-	mpol_cond_put(policy);
++	do {
++		folio = __kvm_gmem_get_folio(inode, index);
++	} while (PTR_ERR(folio) == -EEXIST);
  
+ 	/*
+ 	 * External interfaces like kvm_gmem_get_pfn() support dealing
 
 -- 
 2.53.0.414.gf7e9f6c205-goog
