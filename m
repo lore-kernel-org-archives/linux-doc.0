@@ -1,316 +1,252 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020108.outbound.protection.outlook.com [52.101.195.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9136E26E708;
-	Wed, 25 Feb 2026 04:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1771994236; cv=none; b=PB5UYJacMURUcaTY4fjf2BOTrtM6+AuPKRLbf7X4Six70+ZfrnHHUR1vWvzMZs4ueA2FCQkJmrnRSzi7UGbkEX8QDPKW1kMHI2kbU+kNNuxgRmd7jZL0Hi9ehRsTxmyJycx0FT42cQULwlTJo//UpP+Zt3YLJG3sX1vx/oEO3yY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1771994236; c=relaxed/simple;
-	bh=V7yGTOLIYvJ+y17btsf2NAXw0lQUB6xkJtS6Hal8JcM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LdHz+yWyLoBnIfAWAe9jy1P7mhTIFs2yVWGkaictlHuXm3JB3olY+zKxtBgJoCY8N1I10ulx8wQ5F8brD95YqLv9+sxV9jtodIb77skUHNeiuq92GlZyU071o59w7QakzDsca+FdnTqsnn5wh1rxuv+0Pfb+EQ7kNIU/A3MUzpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=dW/t6fFr reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2272227FB2E;
+	Wed, 25 Feb 2026 05:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.108
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1771997947; cv=fail; b=Xr6Hp+UJXfHzo28nPmCdvgx2u9M9qbX3QE+N50z3j5Q42AqhuOHLfIn5wJu7w8JmYuyADftjyVYU045v7Bvc7VUzmUySZCkALcrqIFWkeWKeU+kB7xuZhh729E4HjxnRcGFGuncOSVHpXOEREd2a1jDuyfHwIO1KwYSNAm9zKJ0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1771997947; c=relaxed/simple;
+	bh=qTUqabWvGphQ5esv5V+L7iJFlA8k+i/YIAC80cjWfrU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:
+	 Content-Type:MIME-Version; b=bLgLPUt5PkXCv6ah/ULLxXTtK4Ssig4/+VbJfuZ8g8rt7pcZQHbz9YWz1UUQd5khf7nevevUfbrvMtLUn0dx2oCYkJfKhv4OkmdpTWazwoSaBmGCDZf6YtWOiLKySh8LzO/Lhej7Iagk+dVfVB97rT/o8b3zAq+edYB88t5V7lg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=C35l4A/W; arc=fail smtp.client-ip=52.101.195.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="dW/t6fFr"
-Received: from h205.csg.ci.i.u-tokyo.ac.jp (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 61P4VKpR082120
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 25 Feb 2026 13:31:25 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=ZtQ5dlfNVl2+jdFm1CbTKfe5Q89iVgHpFp8aH6VaLbI=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-Id:To:Subject:Date;
-        s=rs20250326; t=1771993885; v=1;
-        b=dW/t6fFr1TCg4raevwsnqTMSxSVHxMFKujqu9Ft+yYBpYCmHxH9liYoTw9I82eWl
-         SOnzN9YDSSvwWnQwCj5NXkYkYuQ08Edv7qoREWCbalg2cwxcpaGOTmopPgwtf0JU
-         8K/e5dzPfPgHeMG1DNLi1dZTUBIovIjjBjSQYvZ0Xi6KKMhoiIwsaYayj83SCKAM
-         E8YQ1wUd4wfAptEAwXqrLs3SS9njOQtEqoysi3W34OOVya4KFQ00Vyum/y/FZ3Ki
-         aAHeqpai+/UzLWHJgA7KiOknh28luKhr6gdo4iHsHSvQ6vCJbpFWRCekQd4VWYQU
-         VbBO1a6MM9u0zhNrxaWE8g==
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Date: Wed, 25 Feb 2026 13:31:16 +0900
-Subject: [PATCH v3 2/2] KVM: arm64: selftests: Test
- PMU_V3_FIXED_COUNTERS_ONLY
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="C35l4A/W"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=W3QNjpZLSDrcO0fXAfAg7KybRsgncOvPXmHFNGNss8kXSuBLr+VBkS2i+TygQv9xKE0ZU/OdDTvfUFdGG4YNP6J3NffFlQvMLLZE24bjecth92GHuQt5R5LGn96m72UvRYBccH7Pq7eu+7SJ+G34/NhtVOe87rv5pS502H8buo9dF5lOPO2/HSms956kFSM/s3W2ElaiB15VcwTRiR0O15DzjEpRHebPaUGjwPZhfOPmIZmm+o5wwYDwXHtST/aBrZIgZQH6Ze+MQLf8NIZ0KMNsuvjrSbCK3lf5US1y1B2ULPmEWdeJyGn2T5qX9+EKbEuU4Yj67kv7bdf1u+KZWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2MRyVCGymqkZlssLywbB6cWVHJpecDym47QTP5+TJLo=;
+ b=rBHyTvG6LAVfGuq4+WWqkgV0U6iqKotEIPLhR7+P1MPQB0bQ6RIX9haNafBtOG0+r08zyk55XRq1rOBD2Sbr6lb/yCtkaEpKQRxoU8NjOBqHUa8jPxweqUBf6di9E7ReyZQo2k07+kM6JeDga5yLmV6qn9fBe/ybgdo87ovSsRKHgqWYLB3nSM33Bf7N6eoyX+nz+s4SE+GM+lqgWL85EcE2kT3ZLwqWRyEvSTBy1OLRFmt6g9lNCIrsdznLves28MCg1ucmibWIwSDjBCP/gwR9DOjdQUJSMiD6/pvFKJ8WLot7IePvXn9B6li05a1A+EIxXNyuoAyNH3rJQR/vAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2MRyVCGymqkZlssLywbB6cWVHJpecDym47QTP5+TJLo=;
+ b=C35l4A/Wdo6elaA5oMbC6MTiyUQamlqOf5czhQadkir+3GU7tocDCFpFp1vSaPU5fwVIuqoK6tQ2EIgFkBeQX7cqXxI5yUS38iIi52PRdjpdOQpq4L1YIkhKzrJXXdvEs7k/8nlBepgZtgRFv08UIZnxSGZBbGRp4Qs36U59bFk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CWLP265MB6230.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:183::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.23; Wed, 25 Feb
+ 2026 05:39:02 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
+ 05:39:02 +0000
+Date: Wed, 25 Feb 2026 05:39:01 +0000
+From: Gary Guo <gary@garyguo.net>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, Boqun
+ Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
+ Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Dave Airlie
+ <airlied@redhat.com>, Daniel Almeida <daniel.almeida@collabora.com>, Koen
+ Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org, Nikola Djukic
+ <ndjukic@nvidia.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jonathan
+ Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>, Matthew Brost
+ <matthew.brost@intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Helge
+ Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng
+ <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>, Alistair Popple
+ <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Edwin Peer
+ <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi
+ <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>, Zhi Wang
+ <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>, Philipp Stanner
+ <phasta@kernel.org>, Elle Rhumsaa <elle@weathered-steel.dev>,
+ alexeyi@nvidia.com, Eliot Courtney <ecourtney@nvidia.com>,
+ joel@joelfernandes.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v8 16/25] gpu: nova-core: mm: Add page table walker for
+ MMU v2/v3
+In-Reply-To: <20260224225323.3312204-17-joelagnelf@nvidia.com>
+References: <20260224225323.3312204-1-joelagnelf@nvidia.com>
+ <20260224225323.3312204-17-joelagnelf@nvidia.com>
+Message-ID: <129e9988ff8d3e8747f724fbcc88c5cb@garyguo.net>
+X-Sender: gary@garyguo.net
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO2P265CA0178.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:a::22) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260225-hybrid-v3-2-46e8fe220880@rsg.ci.i.u-tokyo.ac.jp>
-References: <20260225-hybrid-v3-0-46e8fe220880@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <20260225-hybrid-v3-0-46e8fe220880@rsg.ci.i.u-tokyo.ac.jp>
-To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
-        Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-X-Mailer: b4 0.15-dev-5ab4c
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB6230:EE_
+X-MS-Office365-Filtering-Correlation-Id: a41f55be-6868-4d02-d15f-08de74302ec7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|10070799003|7416014|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?2vO/lTmsfCmCrxhjlZUgn4cikDCU4YtZXxieoxzZEeEAQiX8bnMwkmNpjVUw?=
+ =?us-ascii?Q?igeKm+hUAuq1lB/7LbngD6bdB0UeFpESPXzdJcYOdQ10TGusnzO7vpPONO7P?=
+ =?us-ascii?Q?Lz4wnxJYSe/xq/9LpBCbRottTBvr8I0QVRuAgEYE4woFYUC26d7Kw1de9mpS?=
+ =?us-ascii?Q?Rsu6lkEC4HNbkgw8InofFDvBQZXVP3c1JsKRKi5UfdgnZhh06R86JJPPhcL0?=
+ =?us-ascii?Q?Gh31dA/4USnmqZ3Z9dZt2jFq8/eeOKTnFLaPB9ZR1qEXT63/OIdZ88hJtwhX?=
+ =?us-ascii?Q?NNCTySzY8H7e/r9YIQ65MgF3XEsKtphZfA77P6JPeRm9rEj9+dYJP5/cr8N9?=
+ =?us-ascii?Q?c+oM/Mfdp9kxKGXTbaX5X5ixyoh1M1QCQ72TGKU+o/KTM5xq6C5jkiFSzLF+?=
+ =?us-ascii?Q?alZdJSK7bm4qy4EgxVA8+OWyfC4bEfs2Jadq331b+IJ0aXBFbeQz5y0iB1Fb?=
+ =?us-ascii?Q?s12+dDyPHztlrlTPnTeSonJvHd+hgWU7lMgIULlZZiDNyD+CIGCDfvRZE9aA?=
+ =?us-ascii?Q?W65cFC0z+rB0QMpO17KVg/uoijtj2skX+YDEDRpLKmUNwgwCk76TRfomnz7s?=
+ =?us-ascii?Q?NBDxVllgvfLaxEAHTLv+WDvFBcieNgugfCMjVtaW3qLiBVRVpnCk4pxEqY9l?=
+ =?us-ascii?Q?HgeP3qUmPPTMzUrNQy4Ym2oZBzHOCIs5hSht5P+4oiUvbuMIcxKRnablNZgq?=
+ =?us-ascii?Q?WjyADYRtAVR0CwkE8OgxTPdu1fc9cNiI1Ax2unAi+Y0k85LGwPRXl0QQUYEb?=
+ =?us-ascii?Q?jp4/cjltHkEO28PMEX+LeehA2T6y9MvdrOBKEDYGfmvXNVt9KlWA9rUtal+w?=
+ =?us-ascii?Q?t2ApGC1XOXnkyPsvZkYvtpyBz6acDiUU2iUBvIvylT7tyExBsUjdCeQND++3?=
+ =?us-ascii?Q?bvyg0YKj6U0YUOf1rKkMShhtE0sedCB6N1n6aE6EjTZNutYViDMrL9OqUL6k?=
+ =?us-ascii?Q?ND8eh3NVCswsqm/je1vnijvxpOb6VNAnZvPyqLIJGVj5PFtRE+y9BwAGXoJk?=
+ =?us-ascii?Q?K0cLuqJ7550+geSRCpQCF1sPN0j7n5xFYEtR7btvsyNYv4rUoMZL/aAg9cGZ?=
+ =?us-ascii?Q?txe+deepRp0hj5VilETReof2+hVNtaKy4BBb+DsO7E5MuWG8aFcUDLX3Env9?=
+ =?us-ascii?Q?7UsOqPgwpixUhNDNGIJUg94M7kdEZYqnXPIu2IUYPNUeO3M2k7+7WWmTCg6O?=
+ =?us-ascii?Q?/r1Q5SFLqvd16B35TVhAuyQn2oc9cARWallG3XaaD1A13frTGyKNd2BEQ5dJ?=
+ =?us-ascii?Q?U2QggtAzouY+YU7tXWELrAs1XmbrXvvOEGJfujvP4w6yUrxF/xApSgQWnRQ4?=
+ =?us-ascii?Q?q9iw/XkatNCbWmB2PjlMld9t11W9nULTn5ZnDtuJim3rt7g6MH8fEUlgwLnQ?=
+ =?us-ascii?Q?QCijlKAg6utccKH2/TCUifpeH/+2cYs2NPi0Wa24Pyg0kTB34BfGdHbSnGkM?=
+ =?us-ascii?Q?Py+WEpOpJh5uyTdUfG1qCZoisWfCbZttGJ3ukH6RW/JE7EPXJhaD+aLhMvZo?=
+ =?us-ascii?Q?aocUXu3cHhjg1FjITFN3Rg5N3TeZ/B7VbjDEwyg70kf0toumTD8ikRZ1xXrG?=
+ =?us-ascii?Q?HWk8cKqpAAwNey0HOyM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(7416014)(376014)(366016)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Ia2vhG67n7LUXvL205qtSxIZtw++poRj2XHAe+joSxnv6Ofn14c0yJsnvoR7?=
+ =?us-ascii?Q?XuknafFgkrRDenON0xOnmPiStApqdOWhjIpxcd4Fj5O4KpBmwaWneU6jXah2?=
+ =?us-ascii?Q?VkEl/u/KZ7dFtls+/FF8Qz1ZqwH82DvkWhze0HCv31Gk9cPBjJgyA5icM6yk?=
+ =?us-ascii?Q?cc0UoTLiDyqsgrOe4HW3X98dGrFYdybzC+vSeV+JA09ey3YKJLdhAfYqa/Z3?=
+ =?us-ascii?Q?yjTiRomC8N8+3zk3nVjDYhqAab+srnCF/s+/NV0LPk41I3RDCbw1jHDaJj7N?=
+ =?us-ascii?Q?UKS0IVRPi7poW0yAdPdH+VIxw9UeV+6VDi0EciPxA3RdrWaI8zZlASdkawNX?=
+ =?us-ascii?Q?l3B1Nqp3jqloyvX8Qz90mTfZ6PAxJVHDjFLl7Z9NSVBEVSTXokEs5DMth2qn?=
+ =?us-ascii?Q?ecF8Cl6zgb4nQBUQ18vIXgT60PtMSVuMig1tAMb4O+KRB70rNgnbQ7VCPRM0?=
+ =?us-ascii?Q?+NR9eOF/WepduP4X6pufnRYIw8pOzO+E3fUUCNk6iC8bCdFp3STIBhgKRQSm?=
+ =?us-ascii?Q?y3lF86YGObSEf2NotL0mAuLDDj6qKYpk9HuGw0Gn6MPwHzXNVWupP3NWw4QO?=
+ =?us-ascii?Q?xLagYGKV/Ju0+QlnAH8PK99L/Dz3fbAeK6wDUquM9cLIXO8ImA9GBl6Lbv71?=
+ =?us-ascii?Q?O0tjHFD7bYrIN7MImQF2l5FvUR33C1kOeyNTXXqVa1QQ8y33ybQg72qL8/Dd?=
+ =?us-ascii?Q?B9uNkRbtjbjyTi4oUpWvG2V8Lz6MRVebmF9vKCo2cJMO3sY7kNA3W/DbPyV2?=
+ =?us-ascii?Q?nlRkTZabHQ7XwNJ3fPfwiCf9fi/ziXcXcc77MI1m7z+JX9GS0NIVDR+7YuYp?=
+ =?us-ascii?Q?lF5Q/Cos7U8LyGf0AECM6pgkhDLunj4BHEGKn33G2OZgeA/Z/bE/27kjZY4X?=
+ =?us-ascii?Q?hiScbGTbsmOzCtRTNmKkzNQzIolM6kRAl6aI8mzSX1A6s8c+hKd4eNYlzz6D?=
+ =?us-ascii?Q?nKvjddLWgcwq21f5XvfTBOnmmjdVxk5EZLkU5dM+qtCSPO+1X4WK6SRamjgH?=
+ =?us-ascii?Q?6xDK0FoKo01KCBtp16D8KaMGF8ut4k5iJ1NKEv0XAvGseBrUkVILS/KPvkVo?=
+ =?us-ascii?Q?UKpLMtt2JUYPn0Tw2OO/Bbx84mmEmbICzVCGs2XI8ePac6jbH20RVRDslOou?=
+ =?us-ascii?Q?SHbdP6dZdNHp0fOFPRsCEfzKwH0TAFCWlnFG8qObdDADOa3p7YSCJWm9M6t3?=
+ =?us-ascii?Q?lSqBHAVBU0B9qlXijZrrw2rW/P/Htr9cPjrEUTLAHbjq/KM1oX/JcwAiEB2l?=
+ =?us-ascii?Q?RUwhZ1P8OQNnN/Z+QSuRnDt2JYASngXirTfNB7pzYjIp/q6mGwIJHGEhpRy1?=
+ =?us-ascii?Q?qk3UDwFwgIRykjIogWvIHrWWgjho1fo6vkW1Cvk41RhCNKO67jrHGiceTU1B?=
+ =?us-ascii?Q?CV0Lh2aR1K920lxwaGPX2Qgoi5GkDtGE6qU8rd75+KghpG9EEdmVI7RWkasn?=
+ =?us-ascii?Q?1ZwxGAwB+aJqX1ZomS5q4sAD4FQDxhrDwEh4oDTQnmdrxT6lQX5DpJmeOfx0?=
+ =?us-ascii?Q?YYcCtjL9J57HwFfE1AF0WjYWqTsCBu2zGA1hLJkGSQXDeQYS8lABYga1ImiW?=
+ =?us-ascii?Q?JnnRfOjb9VIa5RCKx/IpVUkuoQfo00TT+1shr+eaiOrlJrIstKLLiJiGje++?=
+ =?us-ascii?Q?fLmzqFdOvt66ZVCzxAQxtHeEvxk9kB4MvY+Up6ACbgt+HXFuuD6WBpmc8ja9?=
+ =?us-ascii?Q?P1e6TwBxp9i9OTSere6eP5Ev0mLkvZu3ReEd+i5gG5PBDNVFYBYUK06OjPVX?=
+ =?us-ascii?Q?1NTwtveCXw=3D=3D?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: a41f55be-6868-4d02-d15f-08de74302ec7
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 05:39:02.6954
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p0i/bEP1YLOHt3BqCSCKQoYgmXSrqgmkn2q63OwKI4lQcRp7chaZvr8S8X2tn2zHSuoHoYfyPUvaj59yCK11GA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6230
 
-Assert the following:
-- KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY is unset at initialization.
-- KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY can be set.
-- Setting KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY for the first time
-  after setting an event filter results in EBUSY.
-- KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY can be set again even if an
-  event filter has already been set.
-- Setting KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY after running a VCPU
-  results in EBUSY.
-- The existing test cases pass with
-  KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY set.
+On 2026-02-24 22:53, Joel Fernandes wrote:
+> Add the page table walker implementation that traverses the page table
+> hierarchy for both MMU v2 (5-level) and MMU v3 (6-level) to resolve
+> virtual addresses to physical addresses or find PTE locations.
+> 
+> Currently only v2 has been tested (nova-core currently boots pre-hopper)
+> with some initial prepatory work done for v3.
+> 
+> Cc: Nikola Djukic <ndjukic@nvidia.com>
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/mm/pagetable.rs      |   1 +
+>  drivers/gpu/nova-core/mm/pagetable/walk.rs | 218 +++++++++++++++++++++
+>  2 files changed, 219 insertions(+)
+>  create mode 100644 drivers/gpu/nova-core/mm/pagetable/walk.rs
+> 
+> diff --git a/drivers/gpu/nova-core/mm/pagetable.rs b/drivers/gpu/nova-core/mm/pagetable.rs
+> index 33acb7053fbe..7ebea4cb8437 100644
+> --- a/drivers/gpu/nova-core/mm/pagetable.rs
+> +++ b/drivers/gpu/nova-core/mm/pagetable.rs
+> @@ -9,6 +9,7 @@
+>  #![expect(dead_code)]
+>  pub(crate) mod ver2;
+>  pub(crate) mod ver3;
+> +pub(crate) mod walk;
+>  
+>  use kernel::prelude::*;
+>  
+> diff --git a/drivers/gpu/nova-core/mm/pagetable/walk.rs b/drivers/gpu/nova-core/mm/pagetable/walk.rs
+> new file mode 100644
+> index 000000000000..023226af8816
+> --- /dev/null
+> +++ b/drivers/gpu/nova-core/mm/pagetable/walk.rs
+> @@ -0,0 +1,218 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +//! Page table walker implementation for NVIDIA GPUs.
+> +//!
+> +//! This module provides page table walking functionality for MMU v2 and v3.
+> +//! The walker traverses the page table hierarchy to resolve virtual addresses
+> +//! to physical addresses or to find PTE locations.
+> +//!
+> +//! # Page Table Hierarchy
+> +//!
+> +//! ## MMU v2 (Turing/Ampere/Ada) - 5 levels
+> +//!
+> +//! ```text
+> +//!     +-------+     +-------+     +-------+     +---------+     +-------+
+> +//!     | PDB   |---->|  L1   |---->|  L2   |---->| L3 Dual |---->|  L4   |
+> +//!     | (L0)  |     |       |     |       |     | PDE     |     | (PTE) |
+> +//!     +-------+     +-------+     +-------+     +---------+     +-------+
+> +//!       64-bit        64-bit        64-bit        128-bit         64-bit
+> +//!        PDE           PDE           PDE        (big+small)        PTE
+> +//! ```
+> +//!
+> +//! ## MMU v3 (Hopper+) - 6 levels
 
-Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
----
- .../selftests/kvm/arm64/vpmu_counter_access.c      | 148 +++++++++++++++++----
- 1 file changed, 122 insertions(+), 26 deletions(-)
+I think this is called "4 levels" and "5 levels" in kernel MM rather than
+"5 levels" and "6 levels".
 
-diff --git a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-index ae36325c022f..156bfa636923 100644
---- a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-+++ b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
-@@ -403,12 +403,7 @@ static void create_vpmu_vm(void *guest_code)
- {
- 	struct kvm_vcpu_init init;
- 	uint8_t pmuver, ec;
--	uint64_t dfr0, irq = 23;
--	struct kvm_device_attr irq_attr = {
--		.group = KVM_ARM_VCPU_PMU_V3_CTRL,
--		.attr = KVM_ARM_VCPU_PMU_V3_IRQ,
--		.addr = (uint64_t)&irq,
--	};
-+	uint64_t dfr0;
- 
- 	/* The test creates the vpmu_vm multiple times. Ensure a clean state */
- 	memset(&vpmu_vm, 0, sizeof(vpmu_vm));
-@@ -434,8 +429,6 @@ static void create_vpmu_vm(void *guest_code)
- 	TEST_ASSERT(pmuver != ID_AA64DFR0_EL1_PMUVer_IMP_DEF &&
- 		    pmuver >= ID_AA64DFR0_EL1_PMUVer_IMP,
- 		    "Unexpected PMUVER (0x%x) on the vCPU with PMUv3", pmuver);
--
--	vcpu_ioctl(vpmu_vm.vcpu, KVM_SET_DEVICE_ATTR, &irq_attr);
- }
- 
- static void destroy_vpmu_vm(void)
-@@ -461,15 +454,25 @@ static void run_vcpu(struct kvm_vcpu *vcpu, uint64_t pmcr_n)
- 	}
- }
- 
--static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters, bool expect_fail)
-+static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters,
-+						 bool fixed_counters_only,
-+						 bool expect_fail)
- {
- 	struct kvm_vcpu *vcpu;
- 	unsigned int prev;
- 	int ret;
-+	uint64_t irq = 23;
- 
- 	create_vpmu_vm(guest_code);
- 	vcpu = vpmu_vm.vcpu;
- 
-+	if (fixed_counters_only)
-+		vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-+
-+	vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+			     KVM_ARM_VCPU_PMU_V3_IRQ, &irq);
-+
- 	prev = get_pmcr_n(vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_PMCR_EL0)));
- 
- 	ret = __vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-@@ -489,15 +492,15 @@ static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters, bool
-  * Create a guest with one vCPU, set the PMCR_EL0.N for the vCPU to @pmcr_n,
-  * and run the test.
-  */
--static void run_access_test(uint64_t pmcr_n)
-+static void run_access_test(uint64_t pmcr_n, bool fixed_counters_only)
- {
- 	uint64_t sp;
- 	struct kvm_vcpu *vcpu;
- 	struct kvm_vcpu_init init;
- 
--	pr_debug("Test with pmcr_n %lu\n", pmcr_n);
-+	pr_debug("Test with pmcr_n %lu, fixed_counters_only %d\n", pmcr_n, fixed_counters_only);
- 
--	test_create_vpmu_vm_with_nr_counters(pmcr_n, false);
-+	test_create_vpmu_vm_with_nr_counters(pmcr_n, fixed_counters_only, false);
- 	vcpu = vpmu_vm.vcpu;
- 
- 	/* Save the initial sp to restore them later to run the guest again */
-@@ -531,14 +534,14 @@ static struct pmreg_sets validity_check_reg_sets[] = {
-  * Create a VM, and check if KVM handles the userspace accesses of
-  * the PMU register sets in @validity_check_reg_sets[] correctly.
-  */
--static void run_pmregs_validity_test(uint64_t pmcr_n)
-+static void run_pmregs_validity_test(uint64_t pmcr_n, bool fixed_counters_only)
- {
- 	int i;
- 	struct kvm_vcpu *vcpu;
- 	uint64_t set_reg_id, clr_reg_id, reg_val;
- 	uint64_t valid_counters_mask, max_counters_mask;
- 
--	test_create_vpmu_vm_with_nr_counters(pmcr_n, false);
-+	test_create_vpmu_vm_with_nr_counters(pmcr_n, fixed_counters_only, false);
- 	vcpu = vpmu_vm.vcpu;
- 
- 	valid_counters_mask = get_counters_mask(pmcr_n);
-@@ -588,11 +591,11 @@ static void run_pmregs_validity_test(uint64_t pmcr_n)
-  * the vCPU to @pmcr_n, which is larger than the host value.
-  * The attempt should fail as @pmcr_n is too big to set for the vCPU.
-  */
--static void run_error_test(uint64_t pmcr_n)
-+static void run_error_test(uint64_t pmcr_n, bool fixed_counters_only)
- {
- 	pr_debug("Error test with pmcr_n %lu (larger than the host)\n", pmcr_n);
- 
--	test_create_vpmu_vm_with_nr_counters(pmcr_n, true);
-+	test_create_vpmu_vm_with_nr_counters(pmcr_n, fixed_counters_only, true);
- 	destroy_vpmu_vm();
- }
- 
-@@ -622,22 +625,115 @@ static bool kvm_supports_nr_counters_attr(void)
- 	return supported;
- }
- 
--int main(void)
-+static void test_config(uint64_t pmcr_n, bool fixed_counters_only)
- {
--	uint64_t i, pmcr_n;
--
--	TEST_REQUIRE(kvm_has_cap(KVM_CAP_ARM_PMU_V3));
--	TEST_REQUIRE(kvm_supports_vgic_v3());
--	TEST_REQUIRE(kvm_supports_nr_counters_attr());
-+	uint64_t i;
- 
--	pmcr_n = get_pmcr_n_limit();
- 	for (i = 0; i <= pmcr_n; i++) {
--		run_access_test(i);
--		run_pmregs_validity_test(i);
-+		run_access_test(i, fixed_counters_only);
-+		run_pmregs_validity_test(i, fixed_counters_only);
- 	}
- 
- 	for (i = pmcr_n + 1; i < ARMV8_PMU_MAX_COUNTERS; i++)
--		run_error_test(i);
-+		run_error_test(i, fixed_counters_only);
-+}
-+
-+static void test_fixed_counters_only(void)
-+{
-+	struct kvm_pmu_event_filter filter = { .nevents = 0 };
-+	struct kvm_vm *vm;
-+	struct kvm_vcpu *running_vcpu;
-+	struct kvm_vcpu *stopped_vcpu;
-+	struct kvm_vcpu_init init;
-+	int ret;
-+	uint64_t irq = 23;
-+
-+	create_vpmu_vm(guest_code);
-+	ret = __vcpu_has_device_attr(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY);
-+	if (ret) {
-+		TEST_ASSERT(ret == -1 && errno == ENXIO,
-+			    KVM_IOCTL_ERROR(KVM_GET_DEVICE_ATTR, ret));
-+		destroy_vpmu_vm();
-+		return;
-+	}
-+
-+	/* Assert that FIXED_COUNTERS_ONLY is unset at initialization. */
-+	ret = __vcpu_device_attr_get(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-+	TEST_ASSERT(ret == -1 && errno == ENXIO,
-+		    KVM_IOCTL_ERROR(KVM_GET_DEVICE_ATTR, ret));
-+
-+	/* Assert that setting FIXED_COUNTERS_ONLY succeeds. */
-+	vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+			     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-+
-+	/* Assert that getting FIXED_COUNTERS_ONLY succeeds. */
-+	vcpu_device_attr_get(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+			     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-+
-+	/*
-+	 * Assert that setting FIXED_COUNTERS_ONLY again succeeds even if an
-+	 * event filter has already been set.
-+	 */
-+	vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+			     KVM_ARM_VCPU_PMU_V3_FILTER, &filter);
-+
-+	vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+			     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-+
-+	destroy_vpmu_vm();
-+
-+	create_vpmu_vm(guest_code);
-+
-+	/*
-+	 * Assert that setting FIXED_COUNTERS_ONLY results in EBUSY if an event
-+	 * filter has already been set while FIXED_COUNTERS_ONLY has not.
-+	 */
-+	vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+			     KVM_ARM_VCPU_PMU_V3_FILTER, &filter);
-+
-+	ret = __vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-+	TEST_ASSERT(ret == -1 && errno == EBUSY,
-+		    KVM_IOCTL_ERROR(KVM_GET_DEVICE_ATTR, ret));
-+
-+	destroy_vpmu_vm();
-+
-+	/*
-+	 * Assert that setting FIXED_COUNTERS_ONLY after running a VCPU results
-+	 * in EBUSY.
-+	 */
-+	vm = vm_create(2);
-+	vm_ioctl(vm, KVM_ARM_PREFERRED_TARGET, &init);
-+	init.features[0] |= (1 << KVM_ARM_VCPU_PMU_V3);
-+	running_vcpu = aarch64_vcpu_add(vm, 0, &init, guest_code);
-+	stopped_vcpu = aarch64_vcpu_add(vm, 1, &init, guest_code);
-+	kvm_arch_vm_finalize_vcpus(vm);
-+	vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+			     KVM_ARM_VCPU_PMU_V3_IRQ, &irq);
-+	vcpu_device_attr_set(running_vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+			     KVM_ARM_VCPU_PMU_V3_INIT, NULL);
-+	vcpu_run(running_vcpu);
-+
-+	ret = __vcpu_device_attr_set(stopped_vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
-+				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
-+	TEST_ASSERT(ret == -1 && errno == EBUSY,
-+		    KVM_IOCTL_ERROR(KVM_GET_DEVICE_ATTR, ret));
-+
-+	kvm_vm_free(vm);
-+
-+	test_config(0, true);
-+}
-+
-+int main(void)
-+{
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_ARM_PMU_V3));
-+	TEST_REQUIRE(kvm_supports_vgic_v3());
-+	TEST_REQUIRE(kvm_supports_nr_counters_attr());
-+
-+	test_config(get_pmcr_n_limit(), false);
-+	test_fixed_counters_only();
- 
- 	return 0;
- }
+Best,
+Gary
 
--- 
-2.53.0
-
+> +//!
+> +//! ```text
+> +//!     +-------+     +-------+     +-------+     +-------+     +---------+     +-------+
+> +//!     | PDB   |---->|  L1   |---->|  L2   |---->|  L3   |---->| L4 Dual |---->|  L5   |
+> +//!     | (L0)  |     |       |     |       |     |       |     | PDE     |     | (PTE) |
+> +//!     +-------+     +-------+     +-------+     +-------+     +---------+     +-------+
+> +//!       64-bit        64-bit        64-bit        64-bit        128-bit         64-bit
+> +//!        PDE           PDE           PDE           PDE        (big+small)        PTE
+> +//! ```
+> +//!
+> +//! # Result of a page table walk
+> +//!
+> +//! The walker returns a [`WalkResult`] indicating the outcome.
