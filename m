@@ -1,245 +1,158 @@
-Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com [209.85.161.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B07F931691C
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 21:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAF819EED3;
+	Wed, 25 Feb 2026 21:45:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772055722; cv=none; b=E+tS0KqKwhkylyYvFKtxIXRIzSmV83YtRJ3y4of4ikDu+/n4a8ciFudIjYA2uKKDsJVLdPsh9LqRXJ/MWfJzifd6LmLEeer4rqQNw0cnNIIe7yXvNEVT11SuI/BUts76Iz3/9H4SvzZa8uBewwGVvs2VixPkPm4pjXeCkyb02X0=
+	t=1772055955; cv=none; b=QSHN+tJPF6FuYnz1K0R5PzvqzYEQwqGKM0fe7x5sru1PjJLT8bsl9OTe8nWr7fup/AIrII/i86fdZNqdS7TlcLIkatlCMP0f/XfB6aPWVprRku3zztNMykIgnCrBl6hOmXX+hMo1c2TKaENYN/kuJKDrtdm+QlbmMS8mE4Xmb/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772055722; c=relaxed/simple;
-	bh=rn1yNr3e5Ca6y6gw7QPpafjsRXHUR12oCNJvg7/XDhE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=oalivalVRLm3IRiP0VTnjgPFqKYM8Cr8rhJQLR0/KtggFkfsA2/4+28jz5CPlLpgDjg6R5yNQkU2n2TTcYtZ9VtaeMo6DU3NgQ9zyndh73T39XxNXjkrzRFOFjBrGoy4hKkRwuEzr137qLMuXKUS4ajnQ4pbBbbmb4fVWebcpsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=FuLY9zPl; arc=none smtp.client-ip=209.85.161.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1772055955; c=relaxed/simple;
+	bh=CruDCZjsjXrYCZyE3ojF++r9JYVqoPaMKqkQId1lEhY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gree1Elp/s3C2oqB8KXnbG9pF5Jsty6hEyfNax34T9YFCdTVqq3/5ijDj0/RC0BmINz1q8Gp0IUqANO9ar+X08fDYP8k//2LihIok5gT4wuxjhhMOxumly5cm/kKTvHlG/kHi6HopORELtDuBCtyGcTvjmN7g5zW2qM4dzi1aL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KuFbNoxW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="FuLY9zPl"
-Received: by mail-oo1-f66.google.com with SMTP id 006d021491bc7-67997ce9e1cso172739eaf.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 13:41:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772055719; x=1772660519; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iHExTqcKSzKCsCsjB7WNC+kpLuvRbAoviw1XYEhwpoU=;
-        b=FuLY9zPlIVOTIwHdasTA7Gew+Ad2AMT7lYV5F78BH38roxDzv64RF5o+UfRKAO7N55
-         cUHGgxkJN0clyoZtxgF7EqNyltdjNtn2TnFntAJ5tjbskHisBcmie0WVLIzTVcOwnw70
-         y1KsL2wlaWjnngUboYeHWb3Bl0UddRoLR2gwHtC/yZHZn+1d0g7a5to2PBvjgKGkEBeA
-         B8c70hp0vbu/f5qqbyGbJp7FC/ni9Bh2/NWhI/2KGZTEbXp0NcD6F98YoOQfeprJnL5t
-         jUR8LrRMO3xsI1COOy+bVVwB97HnGhjZgTM1vX7tc06rKS8ziYhN6S9q0hYFUI5CMB2e
-         yy6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772055719; x=1772660519;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iHExTqcKSzKCsCsjB7WNC+kpLuvRbAoviw1XYEhwpoU=;
-        b=O5KWV/tft5bmqr5aDNaWYGdUSmyCzF4b0uXSKIFAlSNLG58Oec+7/ooOAkC2nzalcR
-         E2dLzlziS1yY5AqoFaGvPQWBzl5KUAAwublwcVFKOSRYG7adcF7scohbooPThoScQO6S
-         ov1PyJRiBTyrt5U7WbELMPLa5UKAdCpd8aUvxNkaOFdsTpSMoouJzLhMME/83vTWApBT
-         4TkX8p0Q5s7ORe3xqouY8DZK2KK+8Dm2HbDDgVnXNuLc+Zc6u2MReqU4PumFDx3VjS+A
-         nw2gemkgQyQNahB8bEtVBazKlSiU15Mt3bO7UWF/8fQc7fypgwnthMXpINRl8a1OCf6T
-         TrHA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6zYeXbe7zuu/Ow3QuGCdycsmWSzR9hwUsMXKyrp8OyoIgxG8/gVWx2qS9VnMEouE5nny29YHx5PM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxK5rF9UUKBTVIHuaDYjOVwnaERRMmVsnIRuWWq1VjPPhGDSFsR
-	cARVllWMlzAFgOfXqlnzAsEDaV+MzRoIYFqmqKSbarWHvSWhkf/v5Vmw7NQbuYn04pY=
-X-Gm-Gg: ATEYQzx/MQuoRbtKo/czmBzIRPD/lS6ITJn8HFdNremxMP38WPygtLwLiW92Yfwmh75
-	Gt4DI3WoTp5F7ZgLpZvZO6337q4gt431V9Twpa46IYltafFwUXEvh8jzO51QYax2MoctPyoAOEG
-	u9VnG1ZRq6j6amXhA5WRRf43IFkyXPQnQb4vCVySa5bPzL4oAwVhPrvlFq9fLCeIH0XXnpHl7uX
-	Rk8Fzu1HF/wn9GHlWCCTGvenPSjknLiHUvG3LYnreLKVL8x1wGYZZtFOt8gW72FG52SMIObrXVR
-	0lK0nh6HunVFPydzpvzuFnaZlVfe1zvoBYfvyreERFsR8pu5XLm2+8IA4t4aNeO6kv73+KWd9d9
-	tJh0OxgtHYN21kdXVoIiFTB9SPdxG+55pJRrmVZ129igJeRhP3fp9goeNmAeVk/vB7dCFOa96Lg
-	vkE+bWETyrvE85XchthSAcHQ+Sv35nkgGzZ9V5tUOHGtVqtBwrJ/dGO0iSnwAvWy1hcxyBGkw=
-X-Received: by 2002:a05:6820:488a:b0:672:ef44:4f34 with SMTP id 006d021491bc7-679ef7e2a57mr780581eaf.5.1772055718597;
-        Wed, 25 Feb 2026 13:41:58 -0800 (PST)
-Received: from ?IPV6:2600:8803:e7e4:500:146:def2:caeb:cb1f? ([2600:8803:e7e4:500:146:def2:caeb:cb1f])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-679f2d85297sm175943eaf.11.2026.02.25.13.41.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Feb 2026 13:41:58 -0800 (PST)
-Message-ID: <5531f3ba-dadd-4116-b1f9-0574ab110857@baylibre.com>
-Date: Wed, 25 Feb 2026 15:41:57 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KuFbNoxW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C403C116D0;
+	Wed, 25 Feb 2026 21:45:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772055954;
+	bh=CruDCZjsjXrYCZyE3ojF++r9JYVqoPaMKqkQId1lEhY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KuFbNoxWlmIzblRI46l2M3shUNrdezCvyED+VFq17e9fiMSFe7vOwA9pO3/ecXm6W
+	 qHRxhZGfA2eNVRlifVs7X2HiopMu9salvAWaQHALwjM+pPyHf97/PwKuBHxIw5dbTL
+	 ZVIurHsuZIoIKVTRnK1msxW8xBIY/l6LfNkcCmnRv+P5eQV/ZwgR/9LG7PtsKvso8N
+	 C+bbVlaRlKcW/lSAx/rCpmFy0eunJRDni9U/5HeDsN2DUcw0CaLrJeNtf7jzq2iAGP
+	 2qnzJfgn4gPq4fyYMbkcXLoqI389pT9Jf9RRcV7JRIMwxCwKVOhaIm+kNnUd4yJdqx
+	 WV/tb2wPJradA==
+Date: Wed, 25 Feb 2026 22:45:48 +0100
+From: Alejandro Colomar <alx@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
+	Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+Message-ID: <aZ9p2RMrJL1mQ10w@devuan>
+References: <aZ4_sBIy8rOUL59Q@devuan>
+ <2026022531-tightness-rare-6a14@gregkh>
+ <aZ87Z24f9HZsofGl@devuan>
+ <2026022539-commotion-huskiness-8736@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 7/7] iio: imu: st_lsm6dsx: Add support for rotation
- sensor
-To: Francesco Lavra <flavra@baylibre.com>, Jonathan Cameron
- <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Lorenzo Bianconi
- <lorenzo@kernel.org>, linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260225100421.2366864-1-flavra@baylibre.com>
- <20260225101814.2368431-1-flavra@baylibre.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260225101814.2368431-1-flavra@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 2/25/26 4:18 AM, Francesco Lavra wrote:
-> Some IMU chips in the LSM6DSX family have sensor fusion features that
-> combine data from the accelerometer and gyroscope. One of these features
-> generates rotation vector data and makes it available in the hardware
-> FIFO as a quaternion (more specifically, the X, Y and Z components of the
-> quaternion vector, expressed as 16-bit half-precision floating-point
-> numbers).
-> 
-> Add support for a new sensor instance that allows receiving sensor fusion
-> data, by defining a new struct st_lsm6dsx_sf_settings (which contains
-> chip-specific details for the sensor fusion functionality), and adding this
-> struct as a new field in struct st_lsm6dsx_settings. In st_lsm6dsx_core.c,
-> populate this new struct for the LSM6DSV and LSM6DSV16X chips, and add the
-> logic to initialize an additional IIO device if this struct is populated
-> for the hardware type being probed.
-> Note: a new IIO device is being defined (as opposed to adding channels to
-> an existing device) because the rate at which sensor fusion data is
-> generated may not match the data rate from any of the existing devices.
-> 
-> Tested on LSMDSV16X.
-> 
-> Signed-off-by: Francesco Lavra <flavra@baylibre.com>
-> Acked-by: Lorenzo Bianconi <lorenzo@kernel.org>
-> ---
->  Documentation/iio/index.rst                   |   1 +
->  Documentation/iio/st_lsm6dsx.rst              |  44 ++++
->  drivers/iio/imu/st_lsm6dsx/Makefile           |   2 +-
->  drivers/iio/imu/st_lsm6dsx/st_lsm6dsx.h       |  26 +-
->  .../iio/imu/st_lsm6dsx/st_lsm6dsx_buffer.c    |   9 +-
->  drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_core.c  |  58 +++++
->  .../iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c    | 235 ++++++++++++++++++
->  7 files changed, 368 insertions(+), 7 deletions(-)
->  create mode 100644 Documentation/iio/st_lsm6dsx.rst
->  create mode 100644 drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c
-
-It makes things easier to review if we put the documentation changes in a
-separate patch from the code changes.
-
-> 
-> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
-> index ba3e609c6a13..4e2ebe64f97f 100644
-> --- a/Documentation/iio/index.rst
-> +++ b/Documentation/iio/index.rst
-> @@ -39,3 +39,4 @@ Industrial I/O Kernel Drivers
->     bno055
->     ep93xx_adc
->     opt4060
-> +   st_lsm6dsx
-> diff --git a/Documentation/iio/st_lsm6dsx.rst b/Documentation/iio/st_lsm6dsx.rst
-> new file mode 100644
-> index 000000000000..7f11a0b7e5c0
-> --- /dev/null
-> +++ b/Documentation/iio/st_lsm6dsx.rst
-> @@ -0,0 +1,44 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=================
-> +ST LSM6DSX driver
-> +=================
-> +
-> +Device driver for STMicroelectronics LSM6DSx, LSM9DS1, ASM330, and ISM330 series
-> +of 6-axis inertial measurement units. The core module is called ``st_lsm6dsx``,
-> +and the transport-specific modules are called ``st_lsm6dsx_i2c``,
-> +``st_lsm6dsx_spi``, and ``st_lsm6dsx_i3c``.
-> +
-> +IIO devices
-> +===========
-> +
-> +This driver instantiates multiple IIO devices:
-> +
-> +* accelerometer (IIO_ACCEL channel)
-> +* gyroscope (IIO_ANGL_VEL channel)
-> +* (optionally) magnetometer (IIO_MAGN channel), if the device has a secondary
-> +  I2C interface connected to a slave sensor device (sensor hub functionality)
-> +* (optionally) sensor fusion (IIO_CUSTOM channel), which combines acceleration
-> +  and angular velocity data
-> +
-> +Sensor Fusion
-> +-------------
-> +
-> +Some chips supported by this driver implement an internal algorithm that takes
-> +input data from the accelerometer and gyroscope, and calculates the device
-> +orientation in 3D space, which is then made available in the hardware FIFO.
-> +Orientation is expressed in the form of a 4-dimensional quaternion vector, whose
-> +components are typically represented in an array as ``[x, y, z, w]``.
-> +The sensor device outputs the ``[x, y, z]`` components of the quaternion,
-> +expressed as half-precision (16-bit) floating-point numbers.
-> +
-> +The ``z`` component is not output by the device, but its value can be derived
-
-Should be ``w``.
-
-> +from the rest of the data, due to the following constraints:
-> +
-> +* the quaternion vector is normalized, i.e. :math:`x^2 + y^2 + z^2 + w^2 = 1`
-> +* the rotation angle :math:`\theta` remains within
-> +  :math:`[-180^\circ, 180^\circ]`, i.e. the ``w`` component is non-negative:
-> +  :math:`w = \cos(\theta/2) \geq 0`
-> +
-> +These constraints allow the ``w`` value to be calculated from the other
-> +components: :math:`w = \sqrt{1 - (x^2 + y^2 + z^2)}`.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nth7q4avk33oteqe"
+Content-Disposition: inline
+In-Reply-To: <2026022539-commotion-huskiness-8736@gregkh>
 
 
-...
+--nth7q4avk33oteqe
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+From: Alejandro Colomar <alx@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
+	Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
+	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+Message-ID: <aZ9p2RMrJL1mQ10w@devuan>
+References: <aZ4_sBIy8rOUL59Q@devuan>
+ <2026022531-tightness-rare-6a14@gregkh>
+ <aZ87Z24f9HZsofGl@devuan>
+ <2026022539-commotion-huskiness-8736@gregkh>
+MIME-Version: 1.0
+In-Reply-To: <2026022539-commotion-huskiness-8736@gregkh>
 
-> +
->  /**
->   * struct st_lsm6dsx_ext_dev_settings - i2c controller slave settings
->   * @i2c_addr: I2c slave address list.
-> @@ -388,6 +398,7 @@ struct st_lsm6dsx_settings {
->  	struct st_lsm6dsx_hw_ts_settings ts_settings;
->  	struct st_lsm6dsx_shub_settings shub_settings;
->  	struct st_lsm6dsx_event_settings event_settings;
-> +	struct st_lsm6dsx_sf_settings sf_settings;
+Hi Greg,
 
-Can we spell out "fusion"? I don't think this is a common abbreviation.
+On 2026-02-25T13:23:24-0800, Greg Kroah-Hartman wrote:
+> > > Commit date also doesn't matter.  If I commit a fix to one of my
+> > > branches today, but Linus pulls it in in 2 years from now, what would
+> > > that date really show to anyone?
+> >=20
+> > I think this is a bit confused.
+> >=20
+> > If you commit a fix for a commit that is in Linus's tree, your Fixes tag
+> > will refer to the mainline commit, and the Fixes tag will remain valid
+> > if the fix is pulled by Linus in the future, because it will continue to
+> > refer to the same commit with the same hash and date.
+>=20
+> But we do not need the date!  It provides no additional information that
+> we can't just look up if we really need it.
+>=20
+> The HASH ("text") format does 2 things, it provides an id we can use to
+> look up more, and the text is there to give humans a hint if they don't
+> want or need to look it up.
 
->  };
->  
+The date gives more information to humans to decide if the commit is
+important to look up.  Sometimes, a subject can be ambiguous to the
+human, even if it's not ambiguous to a machine.  The date can help give
+some context to a human.  For example, one could relate a commit to a
+series that was merged around that date.
 
-...
+The date uses few characters, so it's not too expensive in terms of
+space.  You may even take some space back by dropping a few characters
+=66rom the hash.  Also, by having a fixed-width, it doesn't distract much,
+as all subjects will still be aligned, so the eyes can jump it easily if
+not interesting (just like the hash).
 
-> diff --git a/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c
-> new file mode 100644
-> index 000000000000..7033aaeba13e
-> --- /dev/null
-> +++ b/drivers/iio/imu/st_lsm6dsx/st_lsm6dsx_fusion.c
-> @@ -0,0 +1,235 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
+I appreciate seeing the date in my Fixes tags elsewhere, as it avoids
+looking up some commits, which I would look up if I hadn't seen the
+date.
 
-Copyright?
+Secondarily, it helps with the ID, in case it becomes ambiguous.  But
+I started using it for the human part of it.
 
-> + * STMicroelectronics st_lsm6dsx IMU sensor fusion
-> + */
-> +
+>  There is no need to include anything else,
+> let's keep it simple please.
 
-...
+Okay; I won't insist.
 
-> +static IIO_DEV_ATTR_SAMP_FREQ_AVAIL(st_lsm6dsx_sf_sampling_freq_avail);
-> +static struct attribute *st_lsm6dsx_sf_attributes[] = {
-> +	&iio_dev_attr_sampling_frequency_available.dev_attr.attr,
-> +	NULL
-> +};
 
-Can we not use the .read_avail callback for this instead of a manual
-attribute?
+Have a lovely night!
+Alex
 
-> +
-> +static const struct attribute_group st_lsm6dsx_sf_attribute_group = {
-> +	.attrs = st_lsm6dsx_sf_attributes,
-> +};
-> +
-> +static const struct iio_info st_lsm6dsx_sf_info = {
-> +	.attrs = &st_lsm6dsx_sf_attribute_group,
-> +	.read_raw = st_lsm6dsx_sf_read_raw,
-> +	.write_raw = st_lsm6dsx_sf_write_raw,
-> +	.hwfifo_set_watermark = st_lsm6dsx_set_watermark,
-> +};
+>=20
+> thanks,
+>=20
+> greg k-h
+
+--=20
+<https://www.alejandro-colomar.es>
+
+--nth7q4avk33oteqe
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmfbYYACgkQ64mZXMKQ
+wqmFdQ//SBTPP019qmEHD3YV3t3mvASPh1zpQ/Yp+rQIWUQTLyeSW9ZvMkkeqllC
+nZL+eVO/fMOgePJtNZ8obcmnxDm508DHx4t0x6tekx8cFq20Arv5+SY1tR/5BOil
+IqIh6IH4GbnjBpz/hvQlifq1TonnxhX9e+rcm6VeGeQhzC+WMl0ojwgDQPezap7Y
+A1XzYnvXkEEgcJkMh3hg+6LOV8lliFbI3sgiIKp4cGwbmyjQBOeQ6B+JGTPN4Y3U
+vLEVaJHqo4Ndrxlh6B5bntBEuKHdDTwOnrHG+J4qaf5lEvBMJ/bsqnQO7xaveLrU
+cqBC2EwPiW/9Fi2RrHdcFHwMKHgSJe3g607IC4NZ3ZxI3EMfLr7PaQNF2Py+lfti
+MMa2c/Y/or5S1tNWg76O2NR7zo8UXTFPLy93jLZFJlHs7aR8iX8nN8gzAK3hyR6A
+xPhGsPrurXhqDdsdEpFDte5HIkIL7hhZxnx7QDYETTwa8TJIF3cbZBCkajaq9od1
++jzS3Fd2HZ923z4HnyootB+0cAPSSAnoSjHLAM1gxOLvsxi3DHp59IaFiWCm3Qnh
+Rq54Eym4f9F1wOwoIx8DLuxnF+QcF93RdCHwQTzpnMX7/XG5/rRf7X/OnzuXjOSm
+B9l3ZJjZiEM7dNu1OauPLhTmh+zDVtx9IzAT0jtAZctNfL5hM/I=
+=9pXk
+-----END PGP SIGNATURE-----
+
+--nth7q4avk33oteqe--
