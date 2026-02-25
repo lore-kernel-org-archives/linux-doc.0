@@ -1,140 +1,256 @@
-Received: from outbound.st.icloud.com (p-east2-cluster6-host1-snip4-10.eps.apple.com [57.103.76.181])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013039.outbound.protection.outlook.com [52.101.83.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD20D27280F
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 15:15:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.76.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772032515; cv=none; b=kTcu4H7/jKYqfzo2c/20zdwmaa4gNAs7RsyyXXKCb6KhARM0gvnISCKwnhQCUvn4Vi9mbPvCg8X7lSzGyoeE4AsD0q1+wMlCkBfG3DJoMBJCeNZdUMae3PmvR6EPiYupiIcrsRbS6s5yYkXL0yT4u/O5Ke27nFZwcTF8aMdB73c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772032515; c=relaxed/simple;
-	bh=ZZ7ix51AfEYIX0Jt+w6zB/ER9ghq5eP5PmN1S+UyLnc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K2t0FWZFfLt6k0oQcmWFvlgjRCtIlGQT8Bky6FDNbYZghfG7PkFmHYzuBV3ARwjWC4b/hSVAssk/YsD/LBJiqnUUQ95TeWAYcJ7iMQKMGBuSiORuhxTapGTbhleMq+hl0eFSSbbDAepfIAY/YIxNR7M8FTlKQ/BU3LzORtwSzLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net; spf=pass smtp.mailfrom=y-koj.net; dkim=fail (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b=2TYCnWDU reason="key not found in DNS"; arc=none smtp.client-ip=57.103.76.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=y-koj.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=y-koj.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32ACA393DE3;
+	Wed, 25 Feb 2026 15:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772032739; cv=fail; b=uBvfCYZJdTQpVC84NU4GT2+oWyY5zfFFOxfJSDS6qdB/5msbT6f80TeOirNt5qGi6uL8eH00A3YFx/UvJomGivigAmsQYWujhPpsxiLFEmNTskp0NgjmhvKUrDn8f7svXHAOdfzG+qnIBIGNMyHv2To3iInvMq+KO5NnaZ0w//M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772032739; c=relaxed/simple;
+	bh=btXdXTRM70t1yv9PRVtqcoDcM36nq67BdtMJ7XI5Mv8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=qfQngxijTL+hO9sup0y0GHIS3Bu3cwYf+Z3FXqh3hPjZI2qZZNQN5WKJGWELcwr66T+/Dv/kMSg43fXGWxJJX+aG3rlhoX40/hSOEBSmCg2bZYlBHJCxmZS8UdeI13rm+NzXd4M10MiLz9KP71DG4Gf6OII13B+c7m/A8r5lgiA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Afviwg3x; arc=fail smtp.client-ip=52.101.83.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=y-koj.net header.i=@y-koj.net header.b="2TYCnWDU"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-12 (Postfix) with ESMTPS id C3D78180016C;
-	Wed, 25 Feb 2026 15:15:10 +0000 (UTC)
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=y-koj.net; s=sig1; t=1772032512; x=1774624512; bh=SN1JpAZST7zZcbBBH7RXi7OwS7WQdyzRqZ6Jk74I9i0=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=2TYCnWDUvGakyX0EkX/fGsxbRUT5Lrx8bCbELGOVsThKlrhRUfDsgfjlSJn8+nGu9TtWJDa2+hBit2NdUHNX8PrqUIPOhmKV7MXNUDqW0D2CXzRpNA3EaoYt/MNAM4A8Y6KYrFWWTLyjGm60DVFx/i8m0cCp61LpB0xEGJQh7flpYgOAIgfTyxr5WuC8ribI0nff82L1yV/dbzigZhJRLN2yEnk/OmFg10k+Lu3NyvNfPsaYhe7ya6kyb2L6BaWwEtui9fGmq3wNpxW1EOOiJPqatdodTcQPK2Qtb4r5z49GfmsqPS4Wc27lDsOGA9GRXoc6GwNtW5ymQy9T6z+n8A==
-mail-alias-created-date: 1719758601013
-Received: from desktop.tail809fd.ts.net (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-12 (Postfix) with ESMTPSA id D6BB81800214;
-	Wed, 25 Feb 2026 15:15:07 +0000 (UTC)
-From: Yohei Kojima <yk@y-koj.net>
-To: Andrew Lunn <andrew@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Yohei Kojima <yk@y-koj.net>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v3] docs: ethtool: clarify the bit-by-bit bitset format description
-Date: Thu, 26 Feb 2026 00:12:09 +0900
-Message-ID: <ef90a56965ca66e57aa177929ce3e10c5ca815fa.1772031974.git.yk@y-koj.net>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Afviwg3x"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=esGzMRdGYRU6A60qS4V3e1KcOkBTX1Q/44sLToH09V04G4dQB3GFIC9FVWQbFSVCAJFFy7QoXN/C1gA9eu6vMaqlrYcbf1bTAg3geHWgdCr9SYen73swklb8vo7S4JMH0hfuTrMvSXXLfTiAKB4fENwjBv6VFXkRxeOPXxgYqYp/51Xu0Dyjr9csuhmIcYbSFJn+sWCEjo30Y5aS4TmItujnt1aDZy3pf5+kMCalcW70tGNVYQZ3b9Tt0eXQBoUa+UdEViUo2p7Ao5I4WESsuSsLexmsLOD8c9jEQIwLvkPyQxWdPU788kPqUnJG/AmPOAJebE63x4wS0POK/AJWZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=btXdXTRM70t1yv9PRVtqcoDcM36nq67BdtMJ7XI5Mv8=;
+ b=EJaDoY8Nl2Dunaog9pL5aHlGLFrWjUeA44smd8ZcpbYtCsouh8bRHFWhNccL4eBzItJoW3WiSySxUdBbGkxKpUiWYKONYOz5eZVo2qDaODbJKMSm1ZzWX9THzBzIG0VtUBYpzERRUEjQ1+ve8OBfKPFFxkeWqcM7VQTb9eW0h/OgLCeC7sENO/2emzl9le5LL0U+Fu1321eTgcpWMlgv8mglCdSavcfwDOqNcE6S7VdrV8n3+yVCwsBU9thQ7Q6YHvdopv5S/QVArpkflYDECZKklWWmjS0pkVnZ1TnWwhWImCWa2VqQZTHLi/QIBUDeQf/MmhJyMaD0gyyU0yrffQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=btXdXTRM70t1yv9PRVtqcoDcM36nq67BdtMJ7XI5Mv8=;
+ b=Afviwg3xuaIxA6xAuSSK9PM4EUkK+Q8ggWJUP7MWYVYrj/djw8LeY78JNMTOoizZvFyKmokr3aPaJmiWQ2cNd28izc6jyVv3XWdGPrIZ8zeerMZ893Z0AVuAJZMBQl8fizhEJdMfQ5ITnASStGf751pZnPdp/Y1Jq3WDCcVf3oPacqe7j325Qcr6YlMSkWBaWZ0+e1JoCklZ+F2LgLOEzntVtAyiEg4PFp3D1DI2BuePcqC3r4UKVWWRItfkHNQV6HEssVq3QlPmusB93lyoF7qsMYlOXA3kOBc8q0f0F3iMZJ6yf4SPaIBP1k4vW2P7IFGQPlnBAxVcBFbOWEzlqg==
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
+ by VI0PR04MB12133.eurprd04.prod.outlook.com (2603:10a6:800:313::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Wed, 25 Feb
+ 2026 15:18:53 +0000
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb]) by PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb%4]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
+ 15:18:53 +0000
+From: Shenwei Wang <shenwei.wang@nxp.com>
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+CC: Andrew Lunn <andrew@lunn.ch>, Arnaud POULIQUEN
+	<arnaud.pouliquen@foss.st.com>, Linus Walleij <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Frank Li
+	<frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan
+	<skhan@linuxfoundation.org>, "linux-gpio@vger.kernel.org"
+	<linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Pengutronix Kernel Team
+	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan
+	<peng.fan@nxp.com>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
+	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
+	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Thread-Topic: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Thread-Index: AQHcpmoNWPeK2qk9+E2mvSUZ/VEFwQ==
+Date: Wed, 25 Feb 2026 15:18:53 +0000
+Message-ID:
+ <PAXPR04MB91858F4CFA8DC70253F02DC08975A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+References: <b4c422ce-3538-40aa-8bfa-b70f02774b5d@foss.st.com>
+ <PAXPR04MB91859B642802813F908B03DA8977A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <64ef5dbf-6264-4758-a5d8-d8c52c359fcc@foss.st.com>
+ <PAXPR04MB9185934EB640E8B21905FF878974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <79eb8bb8-83cb-4b24-8e56-42a53c710055@lunn.ch>
+ <PAXPR04MB9185F1A67384E4886282227A8974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <91701822-df30-4feb-9e9a-4ee82e2a5d23@lunn.ch>
+ <PAXPR04MB9185FD3EEC313CC2408E157F8974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <0b42e303-a2ed-4983-bee5-a4eafd6c7f36@lunn.ch>
+ <PAXPR04MB918509F265757E6028B45DDC8974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <8fbb4ded-8914-4e11-aad6-038c78f2d31d@lunn.ch>
+ <PAXPR04MB9185C388591EC3C9053C262D8974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CANLsYkzzkvSHVWt_DOw8q7DvD3mic12zcNR1wuxrG-_vG+H+JQ@mail.gmail.com>
+In-Reply-To:
+ <CANLsYkzzkvSHVWt_DOw8q7DvD3mic12zcNR1wuxrG-_vG+H+JQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|VI0PR04MB12133:EE_
+x-ms-office365-filtering-correlation-id: 09171636-c79c-433d-815c-08de74812fcf
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|7416014|1800799024|19092799006|38070700021;
+x-microsoft-antispam-message-info:
+ zqUO15kQj/mXlWM6WwjvrCyoUWHOIBTlIyoZZsESlDigQFfjfQGKlMTivyh/UxuPp6w1CA3k3JQuZgeIN+v2/yrlJW3AQ0iwO8gR0sAZVbKYXJFia9ZP1/0cz7NpTxBQJDzCXcMBdfifqiG1wLQKYAGZlrJlSdPG/+O+jlxlDKqZAcUUlkriTJyQRnNohttE+jKIx7+78tjizyMqSQk1ql4IpcyqKx+zgu8CukFA/T664aJbLNLjBs7O3oGbcLoE3eXWR0qx+tdbKMf5FuO2JQC0Cklp0Ocx7Fc110KF9Nf42zxAQ6etDfXPTYop+l6Ho6amAda5mSapzR3dgOPQaFuQkfvHMwWHVMWm6nWCvb3rTMLON3ujB241z6J82cDkwq99TF36R7ZPSe6d+3Un6ELgjoSQ0WEOCV4qsZQHufkrX6q4E0PVkQamqKEWvaK2rsRfs9hFCGrJ7vPLhzRV+AbbC3NSAMJC8kr7uWFMHXWPxgFwA9O1/+JcmqtDO9gh79SWgbFCTleu27sM/r8z/hTudBr+YMLfARb0Vxt+ENLp3Th3QIyw8jlHUSEm63seKh3QMEEBpERlvXHbBe8+YMCm1Pmls3+ogcNm3sc4DhbNLb3D1TpkxIx9z5ur/YunSY6YjJNJyOcY5DadwDxxSuCB1O9gHCSbjwS7yrii9O51rqBqhZCpZuslvH/dNZZ4XCC2n0dULrt5poPjFlg7rc/lkmKtVDky6JO2X+z2mfc+4R1p7s1JnMz+ojOwFCaRulbFwNyU6N6avpGgM24/nS6LnTWxF1ucHiXUU1V4lr0=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(19092799006)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?Q1o3UWVFdkVoR3hTMlMvbTBOUFZBU0drU1c3UDdYY2lrQ1Y1V21qTks5VHNN?=
+ =?utf-8?B?V2VROHpUbHJ5N0ZGR2htMVFzTjNoOVRZcGg5QmFwZ0pVNXRtaktMWTFIS0Fw?=
+ =?utf-8?B?UCtMMDlHS2o5RjZqMTBtd3I0NWcwR0wyN0ViRUcxYzdFaiszcHJRZnB5VnFa?=
+ =?utf-8?B?L2hMYVhxNlVySUpPbDZOcGQ5M1BlY3Z6L0hjeU11a0hmcDI0ODVYajlaN0c4?=
+ =?utf-8?B?NFU5TlVBV0wybC9qczA4T0pPNzdITVFoVllWWmhYcVhOaVJhamUwejJUcko0?=
+ =?utf-8?B?R2xtUXpINHNudFp6Vi8vamEyQWRrTWtIc0s1SUpueXpSVk9SVDI0enh5WXV1?=
+ =?utf-8?B?WnhiV3dlMWRvUmJ4UWRFUnBEY2JTc0d5NVZwd3lpWVA3SjFhQVFSNkpFK3A0?=
+ =?utf-8?B?Um45ZnNwZGJ2U21pbGZ4a0w0YTJNTVpGSjF1NlVaZU5VcHIrNVRoWThFVWxR?=
+ =?utf-8?B?aE5Va00yOHB4b3pxZnNQenRoMll2emloQTdRalNtY21TSHl6UWJ0SGZkaWVy?=
+ =?utf-8?B?NDhoaU9RMGUvNURNRW4zd1RjdzMydU02ZTRpMTc2bnUwejYveEFQdFlIeWpl?=
+ =?utf-8?B?UkF5a2tOK0VGcCtSdXVlNVlIMWZ6Ykhwdi9wZG1YZHpaL0RoNVovVThveHhM?=
+ =?utf-8?B?U0E0MGFTSk8zT1lPYjEyZi9yWkowNUVLTkJqZkVqM1IxeU5uQm5kZFYyNU84?=
+ =?utf-8?B?VmFVTktpeE9paWtOZHR5YmRsQjB5R21ob1VYTzF0ZjhtQWtyQzhPV1g2emJY?=
+ =?utf-8?B?REhmUTAwL3dqQUZyczBhVTFWb3BTRkR3SDVjbEFrZjB0SWU5SzN2blZDd3M0?=
+ =?utf-8?B?bTNWY2pqWjN3SnhXUFltTzJOM3Rxa1pZeFdsQWVoZ2FWbUNTekp3Wlo5bk1B?=
+ =?utf-8?B?M3VUUE1OT3RiZWtKTlA1ZThaRnl3N1QrYk9MYjJPeTBVZXZwVlBDVm8wUkMv?=
+ =?utf-8?B?Q1VqNUlONTJ6RTh1aDFoK3N6cks5SXlmeDZiQW1XcS9uZkV2dGMvQ0tYcHU5?=
+ =?utf-8?B?bkdXclVzRTFJQk5FbnpPZmJ5VUF0b0xkbXpkc2NxdkFnNkpnVWZpVmxwdXJP?=
+ =?utf-8?B?ZDgwVzNXM0t2TnNHSDROTit0MFJNY0M3eDF6bWxWTVZ2L2U0cE1EK2dvRU1F?=
+ =?utf-8?B?cUlWMDhkL1gxSXNOZ2R5aHZSUUVVT0ZOeXJDSitzR1JGOTB3YW5penBZNElJ?=
+ =?utf-8?B?em9Yd0QyTTJFTDlaUHVGL3RCZ1FqNUFueUlIa1Z3U3QrWU51V3hrUWZsK21H?=
+ =?utf-8?B?SkJsNjR5R0d2eHViRGxjaHZFSTBobVpsekJ0aHJzcW9Bc3UwWjVpQVREQXE5?=
+ =?utf-8?B?VzBnRmpxQVU3YVA0UFJ5bGRHaGwxRWVwZTduWWhKMC8zNmlyZnM0dUdRTG1S?=
+ =?utf-8?B?cDllMmFySFlPRWRPaDNlaWFHdlhucXRnOEp5YWdvbHVpTlRjN2dJSTBBSFh3?=
+ =?utf-8?B?VUlRYWNqelREUHlmbjZ1S2h0UlVEdzkrUkwwWVJJZ3JKYmlsQXVJTE5Yc09o?=
+ =?utf-8?B?YUwyYTdvN1ZPVUFTdjNtSTJPcksvcjMrMVo2VjZTbHRLMHd1MGtuTkFSUzdY?=
+ =?utf-8?B?WU5hbkdHQmU4N0NwUlF6OEI0ZE9GUWF0SU1BQlhWY1E5R3RMOGZjUnlCRkxQ?=
+ =?utf-8?B?YjRORnpMMm9hc0hsR2NLeml5dUc3a2JsWC9PbmhrTnVCMCszdjZDY1JsM0xx?=
+ =?utf-8?B?N0hwT2VKeDdVMUI3ZWl6c1FZSnExa1BNVkprQWxaQlloY2xZZldNVDR1R0Ni?=
+ =?utf-8?B?aFVNVUlqdGo1NE51WG5YSkg5T1BDQThEcy9LaVlpaUE0N0tGNHc3ZCtFblJ4?=
+ =?utf-8?B?NGJiK0w0Q0VhVmRkaXR6WmNZUU9xYVZNUWp5dkgzTlRPamFxaks3Z05JVy9W?=
+ =?utf-8?B?WmdpRkx0NVNNUnE1eFZXdDZsNlIrNVo1Z2tpNHdhdzQ3UkN0QkVYK1l6T3pP?=
+ =?utf-8?B?U3VJUkp4MXFWSE5DejV1Wmd0Z2R2NUtxZTE0SE11MWRaZWlEbkpTSEFuNnhw?=
+ =?utf-8?B?ZVMzaFV0YzAvdnFsNGVNUVJNcE1MUFZEVkZ2RHR0NFNWVzAxSXg4YlByT1Ev?=
+ =?utf-8?B?RnNvbVZXMnlmbkRUWlVCd3JBdHR2QXlpalVwdkVjWDFKZmludEZvcDdrTTl0?=
+ =?utf-8?B?RnVMTnNFRE95d1hzcGlrQ3lqOHlpZ3d1OUFneG1wZUd3MEVsUHNjMitEVUV0?=
+ =?utf-8?B?WG9wb2dUY01kd3F6K01qMDdNYnVBWXloWXpBUzByWTFsOW9BUm5iVlkyMlZI?=
+ =?utf-8?B?VzNsZk9UcVIzU1NNRG5naS9abExLVy9GK2RDM1pOMkZsZnI4K2VYU3VhaExQ?=
+ =?utf-8?Q?qKN2tY8WNtzzCJSptV?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE0NiBTYWx0ZWRfX1VNyKWyrL6HS
- d9Ryq47JyulJ13KPXNcH2IeV2kfHG9qgIFfV7ef2DXBuJO39R+uFm/eboN4GUy9HXEGU9hb1pER
- mUJBZOURdSdMWxZ6PijI1PLsfAhicJT09TrDejRRFae7b3OutMHKrhaB+0D378aTO6LtEV1oU5k
- UGYXdra4GFugOB7/JEX3oyEmfo1afz/nmpnOn+pNARTCE8jUeG6L9S/PK3DwatrEoUkfNaNZwLX
- 4AzBwClcKzBDGMpgE5udHvtlXRxjYmH3PFqFfzYfy4sLNeB+4p18DbN2ltw98RJRymeGy6y0Wxq
- mJE5IX+RiiPO1ffFdoSxn1sr/BLK1FzDQAT0SMCQR4hJHYrrgcAifh28B54BlM=
-X-Authority-Info-Out: v=2.4 cv=BcfVE7t2 c=1 sm=1 tr=0 ts=699f11ff
- cx=c_apl:c_apl_out:c_pps a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
- a=jnl5ZKOAAAAA:8 a=8WQVRTqVWvD3vaqRZeAA:9 a=RNrZ5ZR47oNZP8zBN2PD:22
-X-Proofpoint-ORIG-GUID: K6e5Zvfi3hVp0fk10h1dDgdg-5bvmlOg
-X-Proofpoint-GUID: K6e5Zvfi3hVp0fk10h1dDgdg-5bvmlOg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_01,2026-02-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- malwarescore=0 adultscore=0 suspectscore=0 mlxlogscore=999 lowpriorityscore=0
- phishscore=0 mlxscore=0 spamscore=0 clxscore=1030 classifier=spam authscore=0
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2601150000
- definitions=main-2602250146
-X-JNJ: AAAAAAAB8l25vLSFFMxQeBFCwhCHSSa78ZEjmitzaxLHv2ZaC6TZzGpgB+7wr0Qs5ooVYoDL9xLfB95umgtVx3oqZvgXrQQvn+q5tWlRYPu5blV1EOLZGX1HslMDWBhwGS/8ZMfqK4RIuxkHAECGe7ZT3HCTtzYe/5E/gpd5SHaZVLXDXjtSGfFtnx6d9Zq2A69bOj3Fc8z01ZfNACOA4Ooeax961eT2TzBhAFuf33HQsGVCFG+LZz3c/SVpEuoCVQ4OMQosulx0wwdyW9gs9O9+tzkccGxakHomqca5V+M5+rO87UExLStykmwyZl7Xt8HBQnL3Lni2DSG1+f/9VrLn3dShXQ2kxNNuUYqgjw/mR5LaCFaOWUenMZ5YeviTQNBLlE46OR1MJMDYcPFg8qlHwjnt+G1c4WCCe5bo1pPvdbhmw5eSLiGFiPOsqA2KLEeUb/14H7AFFyRtH4Ivx/B5qF6irLMXOoYYGOnOAhXncj/RzhZfG+UdUJLG05RUu8ivYvyiIO+HpmKvjpFwnfNdHLQoWcXBMRGl44RZLB8DS0HewgXRh6lI5nETJbqWD2w1bWSwDDEM9rGzg5fHtTXVpxNFAvEG3zO53wQ2nDKERRKnKp8tDDjL+mO4Wbs38vUJFC2+kHy0mEC/Zls7zKi0IDzG6cDhmp4tm8PD4ARJ03GLi/Ro8qdl7+vOdqDb7ePEePZifbi+GkgBukhx9dJHNkuU7JbAh4c088dtNw/wSeflUns7ubylhgQtVpws/rVulJSYCGUcSi8BA7+vRHNNnY7tRzGAYLQ1AxuSrKZsJS7LZYk=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09171636-c79c-433d-815c-08de74812fcf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Feb 2026 15:18:53.4644
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: pSkKxPujcwRb0f1hhk/CtSlRrXRhM/WgMEJatdm92BbFxxv19AMU/dkPzfmZoAfyxshEjxfcLjyaHBVv5oYUqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB12133
 
-Clarify the bit-by-bit bitset format's behavior around mandatory
-attributes and bit identification. More specifically, the following
-changes are made:
-
-* Rephrase a misleading sentence which implies name and index are
-  mutually exclusive
-* Describe that ETHTOOL_A_BITSET_BITS nest is mandatory
-* Describe that a request fails if inconsistent identifiers are given
-
-Signed-off-by: Yohei Kojima <yk@y-koj.net>
-Reviewed-by: Jakub Kicinski <kuba@kernel.org>
-Reviewed-by: Simon Horman <horms@kernel.org>
----
-Current ethtool-netlink documentation doesn't describe several behaviors
-around bit-by-bit bitset, which makes it hard to develop a ethtool
-library without digging into the kernel code. This patch eases the gap
-between the kernel behavior and the documentation by adding descriptions
-around the mandatory attribute and bit identification.
-
-ChangeLog
-=========
-v3 (this version):
-* Rebase to the latest net-next/main
-* Add Reviewed-by tag provided by Jakub and Simon. Thank you!
-v2: https://lore.kernel.org/netdev/f43999612ed9d17fb7fe8f21e777e1c784f23c46.1770457868.git.yk@y-koj.net/
-* Minimize the diff for ease of review
-v1: https://lore.kernel.org/lkml/e9ea0fe8bf7935d6439e4dc883414b685afbaf58.1770045398.git.yk@y-koj.net/
-
----
- Documentation/networking/ethtool-netlink.rst | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index af56c304cef4..32179168eb73 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -96,7 +96,7 @@ For short bitmaps of (reasonably) fixed length, standard ``NLA_BITFIELD32``
- type is used. For arbitrary length bitmaps, ethtool netlink uses a nested
- attribute with contents of one of two forms: compact (two binary bitmaps
- representing bit values and mask of affected bits) and bit-by-bit (list of
--bits identified by either index or name).
-+bits identified by index or name).
- 
- Verbose (bit-by-bit) bitsets allow sending symbolic names for bits together
- with their values which saves a round trip (when the bitset is passed in a
-@@ -156,12 +156,16 @@ Bit-by-bit form: nested (bitset) attribute contents:
-  | | | ``ETHTOOL_A_BITSET_BIT_VALUE`` | flag   | present if bit is set       |
-  +-+-+--------------------------------+--------+-----------------------------+
- 
--Bit size is optional for bit-by-bit form. ``ETHTOOL_A_BITSET_BITS`` nest can
-+For bit-by-bit form, ``ETHTOOL_A_BITSET_SIZE`` is optional, and
-+``ETHTOOL_A_BITSET_BITS`` is mandatory. ``ETHTOOL_A_BITSET_BITS`` nest can
- only contain ``ETHTOOL_A_BITSET_BITS_BIT`` attributes but there can be an
- arbitrary number of them.  A bit may be identified by its index or by its
- name. When used in requests, listed bits are set to 0 or 1 according to
--``ETHTOOL_A_BITSET_BIT_VALUE``, the rest is preserved. A request fails if
--index exceeds kernel bit length or if name is not recognized.
-+``ETHTOOL_A_BITSET_BIT_VALUE``, the rest is preserved.
-+
-+A request fails if index exceeds kernel bit length or if name is not
-+recognized. If both name and index are set, the request will fail if they
-+point to different bits.
- 
- When ``ETHTOOL_A_BITSET_NOMASK`` flag is present, bitset is interpreted as
- a simple bitmap. ``ETHTOOL_A_BITSET_BIT_VALUE`` attributes are not used in
--- 
-2.52.0
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWF0aGlldSBQb2lyaWVy
+IDxtYXRoaWV1LnBvaXJpZXJAbGluYXJvLm9yZz4NCj4gU2VudDogVHVlc2RheSwgRmVicnVhcnkg
+MjQsIDIwMjYgNDo0NyBQTQ0KPiBUbzogU2hlbndlaSBXYW5nIDxzaGVud2VpLndhbmdAbnhwLmNv
+bT4NCj4gQ2M6IEFuZHJldyBMdW5uIDxhbmRyZXdAbHVubi5jaD47IEFybmF1ZCBQT1VMSVFVRU4N
+Cj4gPGFybmF1ZC5wb3VsaXF1ZW5AZm9zcy5zdC5jb20+OyBMaW51cyBXYWxsZWlqIDxsaW51c3dA
+a2VybmVsLm9yZz47IEJhcnRvc3oNCj4gR29sYXN6ZXdza2kgPGJyZ2xAa2VybmVsLm9yZz47IEpv
+bmF0aGFuIENvcmJldCA8Y29yYmV0QGx3bi5uZXQ+OyBSb2IgSGVycmluZw0KPiA8cm9iaEBrZXJu
+ZWwub3JnPjsgS3J6eXN6dG9mIEtvemxvd3NraSA8a3J6aytkdEBrZXJuZWwub3JnPjsgQ29ub3Ig
+RG9vbGV5DQo+IDxjb25vcitkdEBrZXJuZWwub3JnPjsgQmpvcm4gQW5kZXJzc29uIDxhbmRlcnNz
+b25Aa2VybmVsLm9yZz47IEZyYW5rIExpDQo+IDxmcmFuay5saUBueHAuY29tPjsgU2FzY2hhIEhh
+dWVyIDxzLmhhdWVyQHBlbmd1dHJvbml4LmRlPjsgU2h1YWggS2hhbg0KPiA8c2toYW5AbGludXhm
+b3VuZGF0aW9uLm9yZz47IGxpbnV4LWdwaW9Admdlci5rZXJuZWwub3JnOyBsaW51eC0NCj4gZG9j
+QHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgUGVuZ3V0cm9u
+aXggS2VybmVsIFRlYW0NCj4gPGtlcm5lbEBwZW5ndXRyb25peC5kZT47IEZhYmlvIEVzdGV2YW0g
+PGZlc3RldmFtQGdtYWlsLmNvbT47IFBlbmcgRmFuDQo+IDxwZW5nLmZhbkBueHAuY29tPjsgZGV2
+aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LQ0KPiByZW1vdGVwcm9jQHZnZXIua2VybmVs
+Lm9yZzsgaW14QGxpc3RzLmxpbnV4LmRldjsgbGludXgtYXJtLQ0KPiBrZXJuZWxAbGlzdHMuaW5m
+cmFkZWFkLm9yZzsgZGwtbGludXgtaW14IDxsaW51eC1pbXhAbnhwLmNvbT47IEJhcnRvc3oNCj4g
+R29sYXN6ZXdza2kgPGJyZ2xAYmdkZXYucGw+DQo+IFN1YmplY3Q6IFtFWFRdIFJlOiBbUEFUQ0gg
+djggMy80XSBncGlvOiBycG1zZzogYWRkIGdlbmVyaWMgcnBtc2cgR1BJTyBkcml2ZXINCj4gPiA+
+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBBbmRyZXcgTHVubiA8YW5k
+cmV3QGx1bm4uY2g+DQo+ID4gPiBTZW50OiBUdWVzZGF5LCBGZWJydWFyeSAyNCwgMjAyNiA0OjIz
+IFBNDQo+ID4gPiBUbzogU2hlbndlaSBXYW5nIDxzaGVud2VpLndhbmdAbnhwLmNvbT4NCj4gPiA+
+IENjOiBBcm5hdWQgUE9VTElRVUVOIDxhcm5hdWQucG91bGlxdWVuQGZvc3Muc3QuY29tPjsgTGlu
+dXMgV2FsbGVpag0KPiA+ID4gPGxpbnVzd0BrZXJuZWwub3JnPjsgQmFydG9zeiBHb2xhc3pld3Nr
+aSA8YnJnbEBrZXJuZWwub3JnPjsgSm9uYXRoYW4NCj4gPiA+IENvcmJldCA8Y29yYmV0QGx3bi5u
+ZXQ+OyBSb2IgSGVycmluZyA8cm9iaEBrZXJuZWwub3JnPjsgS3J6eXN6dG9mDQo+ID4gPiBLb3ps
+b3dza2kgPGtyemsrZHRAa2VybmVsLm9yZz47IENvbm9yIERvb2xleSA8Y29ub3IrZHRAa2VybmVs
+Lm9yZz47DQo+ID4gPiBCam9ybiBBbmRlcnNzb24gPGFuZGVyc3NvbkBrZXJuZWwub3JnPjsgTWF0
+aGlldSBQb2lyaWVyDQo+ID4gPiA8bWF0aGlldS5wb2lyaWVyQGxpbmFyby5vcmc+OyBGcmFuayBM
+aSA8ZnJhbmsubGlAbnhwLmNvbT47IFNhc2NoYQ0KPiA+ID4gSGF1ZXIgPHMuaGF1ZXJAcGVuZ3V0
+cm9uaXguZGU+OyBTaHVhaCBLaGFuDQo+ID4gPiA8c2toYW5AbGludXhmb3VuZGF0aW9uLm9yZz47
+IGxpbnV4LWdwaW9Admdlci5rZXJuZWwub3JnOyBsaW51eC0NCj4gPiA+IGRvY0B2Z2VyLmtlcm5l
+bC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IFBlbmd1dHJvbml4DQo+ID4gPiBL
+ZXJuZWwgVGVhbSA8a2VybmVsQHBlbmd1dHJvbml4LmRlPjsgRmFiaW8gRXN0ZXZhbQ0KPiA+ID4g
+PGZlc3RldmFtQGdtYWlsLmNvbT47IFBlbmcgRmFuIDxwZW5nLmZhbkBueHAuY29tPjsNCj4gPiA+
+IGRldmljZXRyZWVAdmdlci5rZXJuZWwub3JnOyBsaW51eC0gcmVtb3RlcHJvY0B2Z2VyLmtlcm5l
+bC5vcmc7DQo+ID4gPiBpbXhAbGlzdHMubGludXguZGV2OyBsaW51eC1hcm0tIGtlcm5lbEBsaXN0
+cy5pbmZyYWRlYWQub3JnOw0KPiA+ID4gZGwtbGludXgtaW14IDxsaW51eC1pbXhAbnhwLmNvbT47
+IEJhcnRvc3ogR29sYXN6ZXdza2kNCj4gPiA+IDxicmdsQGJnZGV2LnBsPg0KPiA+ID4gU3ViamVj
+dDogUmU6IFtFWFRdIFJlOiBbUEFUQ0ggdjggMy80XSBncGlvOiBycG1zZzogYWRkIGdlbmVyaWMg
+cnBtc2cNCj4gPiA+IEdQSU8gZHJpdmVyDQo+ID4gPg0KPiA+ID4gQ2F1dGlvbjogVGhpcyBpcyBh
+biBleHRlcm5hbCBlbWFpbC4gUGxlYXNlIHRha2UgY2FyZSB3aGVuIGNsaWNraW5nDQo+ID4gPiBs
+aW5rcyBvciBvcGVuaW5nIGF0dGFjaG1lbnRzLiBXaGVuIGluIGRvdWJ0LCByZXBvcnQgdGhlIG1l
+c3NhZ2UgdXNpbmcgdGhlDQo+ICdSZXBvcnQgdGhpcyBlbWFpbCcNCj4gPiA+IGJ1dHRvbg0KPiA+
+ID4NCj4gPiA+DQo+ID4gPiA+ID4gPiArIHJlbW90ZV9jbTMzew0KPiA+ID4gPiA+ID4gKyAgICAg
+cnBtc2cgew0KPiA+ID4gPiA+ID4gKyAgICAgICAgcnBtc2ctaW8tY2hhbm5lbCB7DQo+ID4gPiA+
+ID4gPiArICAgICAgICAgICNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KPiA+ID4gPiA+ID4gKyAgICAg
+ICAgICAjc2l6ZS1jZWxscyA9IDwwPjsNCj4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ICsgICAg
+ICAgICAgZ3Bpb0AwIHsNCj4gPiA+ID4gPiA+ICsgICAgICAgICAgICBjb21wYXRpYmxlID0gInJw
+bXNnLWdwaW8iOw0KPiA+ID4gPiA+ID4gKyAgICAgICAgICAgIHJlZyA9IDwwPjsNCj4gPiA+ID4g
+PiA+ICsgICAgICAgICAgICBncGlvLWNvbnRyb2xsZXI7DQo+ID4gPiA+ID4gPiArICAgICAgICAg
+ICAgI2dwaW8tY2VsbHMgPSA8Mj47DQo+ID4gPiA+ID4gPiArICAgICAgICAgICAgI2ludGVycnVw
+dC1jZWxscyA9IDwyPjsNCj4gPiA+ID4gPiA+ICsgICAgICAgICAgICBpbnRlcnJ1cHQtY29udHJv
+bGxlcjsNCj4gPiA+ID4gPiA+ICsgICAgICAgICAgfTsNCj4gPiA+ID4gPiA+ICsgICAgICAgICAg
+Z3Bpb0AxIHsNCj4gPiA+ID4gPiA+ICsgICAgICAgICAgICBjb21wYXRpYmxlID0gInJwbXNnLWdw
+aW8iOw0KPiA+ID4gPiA+ID4gKyAgICAgICAgICAgIHJlZyA9IDwxPjsNCj4gPiA+ID4gPiA+ICsg
+ICAgICAgICAgICBncGlvLWNvbnRyb2xsZXI7DQo+ID4gPiA+ID4gPiArICAgICAgICAgICAgI2dw
+aW8tY2VsbHMgPSA8Mj47DQo+ID4gPiA+ID4gPiArICAgICAgICAgICAgI2ludGVycnVwdC1jZWxs
+cyA9IDwyPjsNCj4gPiA+ID4gPiA+ICsgICAgICAgICAgICBpbnRlcnJ1cHQtY29udHJvbGxlcjsN
+Cj4gPiA+ID4gPiA+ICsgICAgICAgICAgfTsNCj4gPiA+DQo+ID4gPiA+IFRoZW4gaG93IHdvdWxk
+IHlvdSBkaXN0aW5ndWlzaCBncGlvQDAgZnJvbSBncGlvQDEgb24gdGhlIENNMzMNCj4gPiA+ID4g
+UlBNU0cgYnVzDQo+ID4gPiBpbiB0aGUgZXhhbXBsZSBhYm92ZT8NCj4gPiA+ID4gVGhleSBhcmUg
+cnVubmluZyBvbiB0aGUgc2FtZSB0cmFuc3BvcnQuDQo+ID4gPg0KPiA+ID4gRG9lc24ndCByZWcg
+aW5kaWNhdGUgdGhlIGNoYW5uZWwgbnVtYmVyPyBncGlvQDAgaXMgb24gcnBtc2cgY2hhbm5lbA0K
+PiA+ID4gMC4gZ3Bpb0AxIGlzIG9uIGNoYW5uZWwgMT8gVGhlIHJlZyB2YWx1ZSBnZXRzIGZpbGxl
+ZCBpbnRvIHN0cnVjdA0KPiA+ID4gcnBtc2dfY2hhbm5lbF9pbmZvIHdoZW4gdGhlIGVuZHBvaW50
+cyBhcmUgY3JlYXRlZD8NCj4gPg0KPiA+IFRoZXJlIGlzIG9ubHkgYSBzaW5nbGUgUlBNU0cgY2hh
+bm5lbCBmb3IgdGhlIENNMzMgcmVtb3RlcHJvYyBpbiB0aGlzDQo+ID4gZXhhbXBsZS1pdHMgbmFt
+ZSBpcyAicnBtc2ctaW8tY2hhbm5lbCIuIEFzIEkgbWVudGlvbmVkIGFib3ZlLCBib3RoIGdwaW9A
+MA0KPiBhbmQgZ3Bpb0AxIHJ1biBvdmVyIHRoaXMgc2FtZSB0cmFuc3BvcnQuDQo+ID4gVGhlIHRy
+YW5zcG9ydCBoZXJlIGlzIHRoZSBSUE1TRyBjaGFubmVsLCBzbyBtdWx0aXBsZSBHUElPIGNvbnRy
+b2xsZXJzIHNoYXJlDQo+IHRoYXQgY2hhbm5lbC4NCj4gPg0KPiANCj4gVGhhdCBpcyBvbmUgb2Yg
+bXkgbWFpbiBwcm9ibGVtIHdpdGggdGhpcyBwcm9wb3NhbCAtIG11bHRpcGxleGluZyBzZXZlcmFs
+IEdQSU8NCj4gY29udHJvbGxlcnMgb3ZlciB0aGUgc2FtZSBSUE1TRyBjaGFubmVsIGFkZHMgY29t
+cGxleGl0eS4NCg0KTXVsdGlwbGV4aW5nIG11bHRpcGxlIEdQSU8gY29udHJvbGxlcnMgb3ZlciBh
+IHNpbmdsZSBSUE1TRyBjaGFubmVsIGRvZXMgbm90IGluaGVyZW50bHkgDQphZGQgY29tcGxleGl0
+eS4gRXZlbiBpZiB3ZSBpbXBsZW1lbnQgYSDigJxvbmUgR1BJTyBjb250cm9sbGVyIHBlciBSUE1T
+RyBjaGFubmVs4oCdIG1vZGVsLCANCnRoZSBjb3JlIGxvZ2ljIGluIHRoZSBkcml2ZXIgcmVtYWlu
+cyBlc3NlbnRpYWxseSB0aGUgc2FtZS4NCg0KSW4gZmFjdCwgdGhlIGN1cnJlbnQgaW1wbGVtZW50
+YXRpb24gYWxyZWFkeSBzdXBwb3J0cyB5b3VyIHByZWZlcnJlZCDigJxvbmUgUlBNU0cgY2hhbm5l
+bCANCnBlciBHUElPIGNvbnRyb2xsZXLigJ0gYXBwcm9hY2ggdGhyb3VnaCBzaW1wbGUgRFRTIGNv
+bmZpZ3VyYXRpb24uIEZvciBleGFtcGxlOg0KDQorIHJlbW90ZV9jbTMzew0KKyAgICAgcnBtc2cg
+ew0KKyAgICAgICAgY2hhbm5lbDAgeyAgICANCisgICAgICAgICAgZ3Bpb0AwIHsNCisgICAgICAg
+ICAgICBjb21wYXRpYmxlID0gInJwbXNnLWdwaW8iOw0KKyAgICAgICAgICAgIHJlZyA9IDwwPjsN
+CisgICAgICAgICAgICBncGlvLWNvbnRyb2xsZXI7DQorICAgICAgICAgICAgI2dwaW8tY2VsbHMg
+PSA8Mj47DQorICAgICAgICAgICAgI2ludGVycnVwdC1jZWxscyA9IDwyPjsNCisgICAgICAgICAg
+ICBpbnRlcnJ1cHQtY29udHJvbGxlcjsNCisgICAgICAgICAgfTsNCisgICAgICAgfTsNCisNCisg
+ICAgICAgIGNoYW5uZWwxIHsNCisgICAgICAgICAgZ3Bpb0AxIHsNCisgICAgICAgICAgICBjb21w
+YXRpYmxlID0gInJwbXNnLWdwaW8iOw0KKyAgICAgICAgICAgIHJlZyA9IDwxPjsNCisgICAgICAg
+ICAgICBncGlvLWNvbnRyb2xsZXI7DQorICAgICAgICAgICAgI2dwaW8tY2VsbHMgPSA8Mj47DQor
+ICAgICAgICAgICAgI2ludGVycnVwdC1jZWxscyA9IDwyPjsNCisgICAgICAgICAgICBpbnRlcnJ1
+cHQtY29udHJvbGxlcjsNCisgICAgICAgICAgfTsNCisgICAgICAgIH07DQorICAgICAgfTsNCit9
+Ow0KKw0KDQo+IFJQTVNHIGNhbiBhbHJlYWR5IGhhbmRsZSBtdWx0aXBsZXhpbmcgdmlhIGNoYW5u
+ZWxzLCB1c2Ugb25lIFJQTVNHIGNoYW5uZWwNCj4gcGVyIEdQSU8gY29udHJvbGxlci4NCj4gDQo+
+ID4gVGhhbmtzLA0KPiA+IFNoZW53ZWkNCj4gPg0KPiA+ID4NCj4gPiA+ICAgIEFuZHJldw0KPiA+
+DQo=
