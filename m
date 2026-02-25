@@ -1,312 +1,270 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF083E8C5F
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 17:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781293E8C7A;
+	Wed, 25 Feb 2026 17:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772042225; cv=none; b=b1uCB1JOP/C1Du8AR5JRQXeQE9qMlqUjQDla6ehOmzZI0PuzIml0+Iq8QsY9kpbrkmdo2QCEN5ttUYfgPLIxT1nA9cm8ZrIhvUfAOdaCt+Oro0gGKiOVdv3PkA8t42Bf64rZ00WrMvIZyS0EfI5g/tCkgsSLubLjWaP3rDxwcIA=
+	t=1772042327; cv=none; b=mXLsJt+1rxtLIBSZ9RN9AItxmpmYU0SOAHS1gTZKG1cm4iTtjfnAYQS76Pu6uemWHjKm332VhZ4VEOB0r+x8xQk6RUQODx/nGEwvxcNgSw0INcjNJLhh9Gda8Fhmy8JLgAN0VW4KErE6PEb9M6g502++KrzC08ejQkHL7lsCvX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772042225; c=relaxed/simple;
-	bh=teEJU1kty9uv5hJn5DWv1DC25MgluRijH9zH5ICZN8I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IXikEDRj/XWPjnLoehfdx2yqYrfd0yqv75574mv4Tw68eYP5O5F+gHwZxz0ovYvA05dR9xeQ+tWY/QyfRNEJjZ5/hshrI4VJf0s08eQ0sX371PBnVFxBwyRY6tY8OHoHwZQ3KD2bMvNyUd3ceziXQWYOJLkt2aDPUfxIUO/7yT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=arfaW0Tf; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=cGVblJW2; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1772042327; c=relaxed/simple;
+	bh=v0gF9Yip5vqOARGERS15X+Fy4jzc8bSZ5q+f4+jXpUg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CcrNxUTr7XjM9ykc8C3dwWr6hgItqCOLnFpTguLmnoS+iRAWIexPNDqwWWw8yQvEP4S7pFsuyhMpQ8/e4yRRjGFzJwtYoheBIjVQ6clYvvsIJZnrJE28QyuPmh86GagjoB0UxEYcHdze4TD2EjTtUGjBb/RIW7qZoOuE48qta/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zu8JNqj/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="arfaW0Tf";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="cGVblJW2"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PB3RT91512053
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 17:57:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	mvsIZr9qVQn4O36RmaOABy93+YNGrflCz5PAS8IaKgM=; b=arfaW0TfHpQRAiB3
-	YUxT/Mpf4RJwDwolsP9sX29dPvyxychIKRB9uk3QWcvfIvPnf76Au4Ap0J0MtKmp
-	Ze9/v68hrjcyQXPrUuBM6LMvUf0y+jhkpgjL3BfNPmM1etkC2bFeEh0xtXHYs3Iw
-	KbYZLJ9kKLbzaHkzQ6bCZkaBF1JuEJYxE4aIHwo+TLG5D+2ilhXVbKenaa+9Op6b
-	86VmMxFX5qs9EYajYu8sptVauXO6ZYMx5Gtw/gXYrN0GG1MGybh6Uz/fTKUCFeKF
-	tc+h+u7qxTLLtxON7DNtQlwXa+TsD3HBcXyEpXIqQMRQ2ynyjb4DUyoBxq1JiH4O
-	miUARA==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chyvf196e-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 17:57:03 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2aad6045810so70152165ad.3
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 09:57:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772042222; x=1772647022; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mvsIZr9qVQn4O36RmaOABy93+YNGrflCz5PAS8IaKgM=;
-        b=cGVblJW23bcsez1NZdIRxgszDzDF3yM/MI5MGFVx/pXGEXrvSZ3qNVByXJ13nRJcxP
-         +86zoT8xnjFvbJwaZl0zxAgYb+25CXEyJfjeD4AwXZnJtUwkfrZytr/iTj/moETH6fN+
-         z+91MQB/VXswjhzYZX2UtQJkza4VkkR4pTQPMPyR4mvhpaff0A3v8pH86XnKzBvt7+sL
-         uLlnw54B6oPswOitjnDFLtBuWtGGk1qGlk1fcLXCDcmL1Wu0h/OMGJ2FqS5gR7OWIuq0
-         0S7nJgPrVqQZCj2A0A1sPzkU5IKgPc7ArF1I5G2RxYtNS/iXgm+L3dpAZ370IiDsD0XO
-         lsbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772042222; x=1772647022;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mvsIZr9qVQn4O36RmaOABy93+YNGrflCz5PAS8IaKgM=;
-        b=cBmHm8foKzrY5WtWXAHU44sbzfsue0GN9KNrpt1eQ4BpfiXE85OIKo3+rbKde4Rqo7
-         9wscQ1yaQROsppW46FMWPnEJkmHyjaEo40urhPrk9H2hFxCQ+tF8gFLyyNXv5fmVxc4C
-         god9OQaJ5AV8LDrgE5Q9At6dIjx8HC9sdWXRizw+URz6yOCVxlDWZwOj+8AGfDb56osd
-         YvVpX/mDd3NlZzSlp3vxqRx6GoSoQz+1JuWxyh3r4BXgPxP8LVhzX+1xlNLErbCDPUil
-         g/gwHam5Cok2OUOQQYRbrdX17QLPxnWHgZyjbRgDagToIRjLb0A6oao0bmzhAowDl3x9
-         FcQg==
-X-Forwarded-Encrypted: i=1; AJvYcCW6LcTjPBcK6iVRBEhqQXKlMoX2XQnso/Cnzj+1eQbcGO2kDOFG5Je7cUHY2fWB8YjnL9vc6CPkrfs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCUrkxw/O3uKvT8AG/cBBQ54z87TI4SvmVhuXZ8aTueKWfcymL
-	3se7hXtTa/oY3luXdUbAt2xiDCAqlW//nnwkqKgxjdyn4T9vScWZc8QS83zMRd22E7TZ+m220lE
-	U9Y7R+ppdrP7FY7mG2VVozm3yvw8wSi9mYcyKN5tiylCGQBDz3T7zCGR4XhwcUkw=
-X-Gm-Gg: ATEYQzzrUNIgAsNbedd6iYR0Ey06C5mJ08WdoZA7mno/mu4K1bXudAYnUMRQS2uxJ8t
-	BxA3KIuh17QhcZNOIXA9TazSvDkxPRheaiRo/RN7CcdJ9yZwJdfIynqwli1b4PXHcO1cQelT83T
-	jxdv+9pldKwkowQLLld2TzA1KVDNpOpHk1LcqjLCZWxB9JhBx48cRxwgZOOgIDa2rRFHNs7MsYE
-	dkRIcOWVFhNV/WrGek3JPDVqiLmmo0fIwnnHth20IwCBS7F3RUi5ZXl/GtrhcDuCsiB4ryjjIQm
-	YGvLflWURafjrnJG6GB2xK1BaoRBsu9jMlM9KuZ9Z79WSJ2SxwBkKBK6+xD5DiYaX4JZuU3SafN
-	3lZEjItfS8ib46T1SFQVT0Q88Luzuw72ZebpbaupAmr+HbIhGlD8=
-X-Received: by 2002:a17:902:e80c:b0:2a1:388d:8ef3 with SMTP id d9443c01a7336-2ad7444e7fcmr172411705ad.18.1772042222024;
-        Wed, 25 Feb 2026 09:57:02 -0800 (PST)
-X-Received: by 2002:a17:902:e80c:b0:2a1:388d:8ef3 with SMTP id d9443c01a7336-2ad7444e7fcmr172411335ad.18.1772042221493;
-        Wed, 25 Feb 2026 09:57:01 -0800 (PST)
-Received: from [192.168.1.5] ([171.61.227.247])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad74f5daf5sm135513705ad.24.2026.02.25.09.56.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Feb 2026 09:57:00 -0800 (PST)
-Message-ID: <e82443ff-f6c1-4b8e-b573-f4620dd0f17c@oss.qualcomm.com>
-Date: Wed, 25 Feb 2026 23:26:52 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zu8JNqj/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99D58C19421;
+	Wed, 25 Feb 2026 17:58:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772042327;
+	bh=v0gF9Yip5vqOARGERS15X+Fy4jzc8bSZ5q+f4+jXpUg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Zu8JNqj/+hKCuwHWQmCTVK1tpzyAwq+TjOic7LMbDsxpza4QKAWhfMSzlUs+0RVaB
+	 dVEVQkTrA/nffg0WU/RbRyizDjK8x/ZZIKCxA+UXJEwWrxt5Wpbq5rQUCtJM3nvtLx
+	 q+JxJeiHbsMLzLZ6iqjDQWOSGmPTmUhRf/ziwKMKjrPhiDtm/w8nMJInDFHB/sHrXC
+	 Do+b3hGxgat3Nv8fAK0fCFQp3tHzsLTxU+5lrdqimLhUJMr6yJEnnwPFXJhST7BjVB
+	 rb299g0C9pNfUgE11c2kcpJ0CTepo+iR7WwwBYjEhjklyRu8LgjuGzc8b730qjqJ6p
+	 y/a4iv4wHRlTw==
+Date: Wed, 25 Feb 2026 12:58:45 -0500
+From: Mike Snitzer <snitzer@kernel.org>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Luis de Bethencourt <luisbg@kernel.org>,
+	Salah Triki <salah.triki@gmail.com>,
+	Nicolas Pitre <nico@fluxnic.net>,
+	Christoph Hellwig <hch@infradead.org>, Jan Kara <jack@suse.cz>,
+	Anders Larsen <al@alarsen.net>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	David Sterba <dsterba@suse.com>, Chris Mason <clm@fb.com>,
+	Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
+	Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>,
+	Sandeep Dhavale <dhavale@google.com>,
+	Hongbo Li <lihongbo22@huawei.com>,
+	Chunhai Guo <guochunhai@vivo.com>, Jan Kara <jack@suse.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Jaegeuk Kim <jaegeuk@kernel.org>,
+	OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Richard Weinberger <richard@nod.at>,
+	Dave Kleikamp <shaggy@kernel.org>,
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>,
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
+	Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>,
+	Joseph Qi <joseph.qi@linux.alibaba.com>,
+	Mike Marshall <hubcap@omnibond.com>,
+	Martin Brandenburg <martin@omnibond.com>,
+	Miklos Szeredi <miklos@szeredi.hu>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Phillip Lougher <phillip@squashfs.org.uk>,
+	Carlos Maiolino <cem@kernel.org>, Hugh Dickins <hughd@google.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Sungjong Seo <sj1557.seo@samsung.com>,
+	Yuezhang Mo <yuezhang.mo@sony.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Alexander Aring <alex.aring@gmail.com>,
+	Andreas Gruenbacher <agruenba@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>,
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+	Trond Myklebust <trondmy@kernel.org>,
+	Anna Schumaker <anna@kernel.org>, Steve French <sfrench@samba.org>,
+	Paulo Alcantara <pc@manguebit.org>,
+	Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+	Shyam Prasad N <sprasad@microsoft.com>, Tom Talpey <tom@talpey.com>,
+	Bharath SM <bharathsm@microsoft.com>,
+	Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
+	linux-f2fs-devel@lists.sourceforge.net,
+	linux-mtd@lists.infradead.org, jfs-discussion@lists.sourceforge.net,
+	linux-nilfs@vger.kernel.org, ntfs3@lists.linux.dev,
+	ocfs2-devel@lists.linux.dev, devel@lists.orangefs.org,
+	linux-unionfs@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-mm@kvack.org, gfs2@lists.linux.dev, linux-doc@vger.kernel.org,
+	v9fs@lists.linux.dev, ceph-devel@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-cifs@vger.kernel.org,
+	samba-technical@lists.samba.org
+Subject: Re: [PATCH 24/24] fs: remove simple_nosetlease()
+Message-ID: <aZ84VRrRVyGEzSJn@kernel.org>
+References: <20260108-setlease-6-20-v1-0-ea4dec9b67fa@kernel.org>
+ <20260108-setlease-6-20-v1-24-ea4dec9b67fa@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 04/18] accel/qda: Add built-in compute CB bus for QDA
- and integrate with IOMMU
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        iommu@lists.linux.dev, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-4-fe46a9c1a046@oss.qualcomm.com>
- <ox7jnqkjo3frhbgpp63sse7ram72obihe4qlbbn4z22wbw4szr@7pzoeecdvsyg>
-Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <ox7jnqkjo3frhbgpp63sse7ram72obihe4qlbbn4z22wbw4szr@7pzoeecdvsyg>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: S7hnI5yRhyb25Wx8qP4fQEBabPFtTZqp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE3MiBTYWx0ZWRfXx/cgQ6P8/4Xf
- ln/gLhUCsHwjccnQSHR8uTQN1Rp2Uks/YohFa9xK2wiFUAUiZ/fhJlHPFlMs05bw9y6GK1QpdbH
- 1qesQBVMs0ZpsReYkRCmDqjb2duk233h0CiV29TeZPuqHF/QChfyM/M5+gVUnbDvc2dkwRtNepf
- 6BZpTle7IEtJwobU9iQGSRKabsVRtbSOMjReHMgeW8SumD4fk935vEe4s2gJ9I2O+FLcDWnb0gm
- zYGR6L890mMIeefada7NGF7phmvnTWMN4CzRT7Pf8yv0ReT4Wrh9rj/eJJuT+2eXZ4sEXXLS6as
- 3qLBl6zNpo+d/Ut67oNBC/vrViU6q+GMQiYDMJSm6B+OaXF45eEDSlvi360nqo4x+cUso+Ya8cM
- VerlpV+BxqvgE6hjD88f0cb+ZI/RbO2/jDATSLTGxA4OP0JF7LW5SMU7QK5H9iQ5HPGR7nnM9yh
- A8yGmGcGekbKb6mCShw==
-X-Proofpoint-GUID: S7hnI5yRhyb25Wx8qP4fQEBabPFtTZqp
-X-Authority-Analysis: v=2.4 cv=dZWNHHXe c=1 sm=1 tr=0 ts=699f37ef cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=CLJ8B99oKJtQbdnoKiLypA==:17
- a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=_kSkizocug0RL_Hz-QYA:9 a=QEXdDO2ut3YA:10
- a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_02,2026-02-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 suspectscore=0 lowpriorityscore=0
- phishscore=0 bulkscore=0 spamscore=0 impostorscore=0 adultscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2602250172
+Content-Type: multipart/mixed; boundary="BuvfweD5MaN+t/uz"
+Content-Disposition: inline
+In-Reply-To: <20260108-setlease-6-20-v1-24-ea4dec9b67fa@kernel.org>
 
 
+--BuvfweD5MaN+t/uz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2/24/2026 4:14 AM, Dmitry Baryshkov wrote:
-> On Tue, Feb 24, 2026 at 12:38:58AM +0530, Ekansh Gupta wrote:
->> Introduce a built-in compute context-bank (CB) bus used by the Qualcomm
->> DSP accelerator (QDA) driver to represent DSP CB devices that require
->> IOMMU configuration. This separates the CB bus from the QDA driver and
->> allows QDA to remain a loadable module while the bus is always built-in.
-> Why? What is the actual problem that you are trying to solve?
-Bus needs to be built-in as it is being used by iommu driver. I'll add more details here.
->
->> A new bool Kconfig symbol DRM_ACCEL_QDA_COMPUTE_BUS is added and is
-> Don't describe the patch contents. Please.
-Ack.
->
->> selected by the main DRM_ACCEL_QDA driver. The parent accel Makefile is
->> updated to descend into the QDA directory for both built-in and module
->> builds so that the CB bus is compiled into vmlinux while the driver
->> remains modular.
->>
->> The CB bus is registered at postcore_initcall() time and is exposed to
->> the IOMMU core through iommu_buses[] in the same way as the Tegra
->> host1x context-bus. This enables later patches to create CB devices on
->> this bus and obtain IOMMU domains for them.
-> Note, there is nothing QDA-specific in this patch. Please explain, why
-> the bus is QDA-specific? Can we generalize it?
-I needed a custom bus here to use for the compute cb devices for iommu
-configurations, I don't see any reason to keep it QDA-specific. The only requirement
-is that this should be enabled built in whenever QDA is enabled.
+On Thu, Jan 08, 2026 at 12:13:19PM -0500, Jeff Layton wrote:
+> Setting ->setlease() to a NULL pointer now has the same effect as
+> setting it to simple_nosetlease(). Remove all of the setlease
+> file_operations that are set to simple_nosetlease, and the function
+> itself.
+> 
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+>  fs/9p/vfs_dir.c        |  2 --
+>  fs/9p/vfs_file.c       |  2 --
+>  fs/ceph/dir.c          |  2 --
+>  fs/ceph/file.c         |  1 -
+>  fs/fuse/dir.c          |  1 -
+>  fs/gfs2/file.c         |  2 --
+>  fs/libfs.c             | 18 ------------------
+>  fs/nfs/dir.c           |  1 -
+>  fs/nfs/file.c          |  1 -
+>  fs/smb/client/cifsfs.c |  1 -
+>  fs/vboxsf/dir.c        |  1 -
+>  fs/vboxsf/file.c       |  1 -
+>  include/linux/fs.h     |  1 -
+>  13 files changed, 34 deletions(-)
+> 
 
-But if I keep it generic, where should this be placed? Should it be accel(or drm?) specific?
+<snip>
 
->
->> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->> ---
->>  drivers/accel/Makefile              |  1 +
->>  drivers/accel/qda/Kconfig           |  5 +++++
->>  drivers/accel/qda/Makefile          |  2 ++
->>  drivers/accel/qda/qda_compute_bus.c | 23 +++++++++++++++++++++++
->>  drivers/iommu/iommu.c               |  4 ++++
->>  include/linux/qda_compute_bus.h     | 22 ++++++++++++++++++++++
->>  6 files changed, 57 insertions(+)
->>
->> diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
->> index 58c08dd5f389..9ed843cd293f 100644
->> --- a/drivers/accel/Makefile
->> +++ b/drivers/accel/Makefile
->> @@ -6,4 +6,5 @@ obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
->>  obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
->>  obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
->>  obj-$(CONFIG_DRM_ACCEL_QDA)		+= qda/
->> +obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda/
->>  obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
->> \ No newline at end of file
->> diff --git a/drivers/accel/qda/Kconfig b/drivers/accel/qda/Kconfig
->> index 484d21ff1b55..ef1fa384efbe 100644
->> --- a/drivers/accel/qda/Kconfig
->> +++ b/drivers/accel/qda/Kconfig
->> @@ -3,11 +3,16 @@
->>  # Qualcomm DSP accelerator driver
->>  #
->>  
->> +
->> +config DRM_ACCEL_QDA_COMPUTE_BUS
->> +	bool
->> +
->>  config DRM_ACCEL_QDA
->>  	tristate "Qualcomm DSP accelerator"
->>  	depends on DRM_ACCEL
->>  	depends on ARCH_QCOM || COMPILE_TEST
->>  	depends on RPMSG
->> +	select DRM_ACCEL_QDA_COMPUTE_BUS
->>  	help
->>  	  Enables the DRM-based accelerator driver for Qualcomm's Hexagon DSPs.
->>  	  This driver provides a standardized interface for offloading computational
->> diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
->> index e7f23182589b..242684ef1af7 100644
->> --- a/drivers/accel/qda/Makefile
->> +++ b/drivers/accel/qda/Makefile
->> @@ -8,3 +8,5 @@ obj-$(CONFIG_DRM_ACCEL_QDA)	:= qda.o
->>  qda-y := \
->>  	qda_drv.o \
->>  	qda_rpmsg.o \
->> +
->> +obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda_compute_bus.o
->> diff --git a/drivers/accel/qda/qda_compute_bus.c b/drivers/accel/qda/qda_compute_bus.c
->> new file mode 100644
->> index 000000000000..1d9c39948fb5
->> --- /dev/null
->> +++ b/drivers/accel/qda/qda_compute_bus.c
->> @@ -0,0 +1,23 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
->> +#include <linux/device.h>
->> +#include <linux/init.h>
->> +
->> +struct bus_type qda_cb_bus_type = {
->> +	.name = "qda-compute-cb",
->> +};
->> +EXPORT_SYMBOL_GPL(qda_cb_bus_type);
->> +
->> +static int __init qda_cb_bus_init(void)
->> +{
->> +	int err;
->> +
->> +	err = bus_register(&qda_cb_bus_type);
->> +	if (err < 0) {
->> +		pr_err("qda-compute-cb bus registration failed: %d\n", err);
->> +		return err;
->> +	}
->> +	return 0;
->> +}
->> +
->> +postcore_initcall(qda_cb_bus_init);
->> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
->> index 4926a43118e6..5dee912686ee 100644
->> --- a/drivers/iommu/iommu.c
->> +++ b/drivers/iommu/iommu.c
->> @@ -33,6 +33,7 @@
->>  #include <trace/events/iommu.h>
->>  #include <linux/sched/mm.h>
->>  #include <linux/msi.h>
->> +#include <linux/qda_compute_bus.h>
->>  #include <uapi/linux/iommufd.h>
->>  
->>  #include "dma-iommu.h"
->> @@ -178,6 +179,9 @@ static const struct bus_type * const iommu_buses[] = {
->>  #ifdef CONFIG_CDX_BUS
->>  	&cdx_bus_type,
->>  #endif
->> +#ifdef CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS
->> +	&qda_cb_bus_type,
->> +#endif
->>  };
->>  
->>  /*
->> diff --git a/include/linux/qda_compute_bus.h b/include/linux/qda_compute_bus.h
->> new file mode 100644
->> index 000000000000..807122d84e3f
->> --- /dev/null
->> +++ b/include/linux/qda_compute_bus.h
->> @@ -0,0 +1,22 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
->> + */
->> +
->> +#ifndef __QDA_COMPUTE_BUS_H__
->> +#define __QDA_COMPUTE_BUS_H__
->> +
->> +#include <linux/device.h>
->> +
->> +/*
->> + * Custom bus type for QDA compute context bank (CB) devices
->> + *
->> + * This bus type is used for manually created CB devices that represent
->> + * IOMMU context banks. The custom bus allows proper IOMMU configuration
->> + * and device management for these virtual devices.
->> + */
->> +#ifdef CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS
->> +extern struct bus_type qda_cb_bus_type;
->> +#endif
->> +
->> +#endif /* __QDA_COMPUTE_BUS_H__ */
->>
->> -- 
->> 2.34.1
->>
+> diff --git a/fs/libfs.c b/fs/libfs.c
+> index 697c6d5fc12786c036f0086886297fb5cd52ae00..f1860dff86f2703266beecf31e9d2667af7a9684 100644
+> --- a/fs/libfs.c
+> +++ b/fs/libfs.c
+> @@ -1699,24 +1699,6 @@ struct inode *alloc_anon_inode(struct super_block *s)
+>  }
+>  EXPORT_SYMBOL(alloc_anon_inode);
+>  
+> -/**
+> - * simple_nosetlease - generic helper for prohibiting leases
+> - * @filp: file pointer
+> - * @arg: type of lease to obtain
+> - * @flp: new lease supplied for insertion
+> - * @priv: private data for lm_setup operation
+> - *
+> - * Generic helper for filesystems that do not wish to allow leases to be set.
+> - * All arguments are ignored and it just returns -EINVAL.
+> - */
+> -int
+> -simple_nosetlease(struct file *filp, int arg, struct file_lease **flp,
+> -		  void **priv)
+> -{
+> -	return -EINVAL;
+> -}
+> -EXPORT_SYMBOL(simple_nosetlease);
+> -
+>  /**
+>   * simple_get_link - generic helper to get the target of "fast" symlinks
+>   * @dentry: not used here
+> diff --git a/fs/nfs/dir.c b/fs/nfs/dir.c
+> index 71df279febf797880ded19e45528c3df4cea2dde..23a78a742b619dea8b76ddf28f4f59a1c8a015e2 100644
+> --- a/fs/nfs/dir.c
+> +++ b/fs/nfs/dir.c
+> @@ -66,7 +66,6 @@ const struct file_operations nfs_dir_operations = {
+>  	.open		= nfs_opendir,
+>  	.release	= nfs_closedir,
+>  	.fsync		= nfs_fsync_dir,
+> -	.setlease	= simple_nosetlease,
+>  };
+>  
+>  const struct address_space_operations nfs_dir_aops = {
+> diff --git a/fs/nfs/file.c b/fs/nfs/file.c
+> index d020aab40c64ebda30d130b6acee1b9194621457..9d269561961825f88529551b0f0287920960ac62 100644
+> --- a/fs/nfs/file.c
+> +++ b/fs/nfs/file.c
+> @@ -962,7 +962,6 @@ const struct file_operations nfs_file_operations = {
+>  	.splice_read	= nfs_file_splice_read,
+>  	.splice_write	= iter_file_splice_write,
+>  	.check_flags	= nfs_check_flags,
+> -	.setlease	= simple_nosetlease,
+>  	.fop_flags	= FOP_DONTCACHE,
+>  };
+>  EXPORT_SYMBOL_GPL(nfs_file_operations);
 
+Hey Jeff,
+
+I've noticed an NFS reexport regression in v6.19 and now v7.0-rc1
+(similar but different due to your series that requires opt-in via
+.setlease).
+
+Bisect first pointed out this commit:
+10dcd5110678 nfs: properly disallow delegation requests on directories
+
+And now with v7.0-rc1 its the fact that NFS doesn't provide .setlease
+so lstat() on parent dir (of file that I touch) gets -EINVAL.
+
+So its a confluence of NFS's dir delegations and your setlease changes.
+
+If I reexport NFSv4.2 filesystem in terms of NFSv4.1, the regression
+is seen by doing (lstat reproducer that gemini spit out for me is
+attached):
+
+$ touch /mnt/share41/test
+$ strace ./lstat /mnt/share41
+...
+lstat("/mnt/share41", 0x7ffec0d79920)   = -1 EINVAL (Invalid argument)
+
+If I immediately re-run it works:
+...
+lstat("/mnt/share41", {st_mode=S_IFDIR|0777, st_size=4096, ...}) = 0
+
+I'm not sure what the proper fix is yet, but I feel like you've missed
+that NFS itself can be (re)exported?
+
+Thanks,
+Mike
+
+--BuvfweD5MaN+t/uz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename="lstat.c"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main(int argc, char *argv[]) {
+    // 1. Check if the filename was provided via argv
+    if (argc < 2) {
+        fprintf(stderr, "Usage: %s <filename>\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+
+    struct stat file_stats;
+
+    // 2. Pass the filename to the lstat syscall
+    if (lstat(argv[1], &file_stats) < 0) {
+        perror("lstat error");
+        return EXIT_FAILURE;
+    }
+
+    // 3. Display some basic metadata
+    printf("Information for: %s\n", argv[1]);
+    printf("---------------------------\n");
+    printf("File Size: \t\t%lld bytes\n", (long long)file_stats.st_size);
+    printf("Number of Links: \t%ld\n", (long)file_stats.st_nlink);
+    printf("File inode: \t\t%ld\n", (long)file_stats.st_ino);
+
+    // 4. Determine file type using macros
+    printf("File Type: \t\t");
+    if (S_ISLNK(file_stats.st_mode)) printf("Symbolic Link\n");
+    else if (S_ISREG(file_stats.st_mode)) printf("Regular File\n");
+    else if (S_ISDIR(file_stats.st_mode)) printf("Directory\n");
+    else printf("Other\n");
+
+    return EXIT_SUCCESS;
+}
+
+--BuvfweD5MaN+t/uz--
