@@ -1,93 +1,94 @@
-Received: from mail-dl1-f67.google.com (mail-dl1-f67.google.com [74.125.82.67])
+Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6314277026
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 18:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BA02C15BE
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 18:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772043803; cv=pass; b=bfwyymnIIW+W3GOKQGwuLhkSML2b9fKC8cMEqQM7ekv8Bu+sGzl3NqSbqtZ9wZfqbOXoQ7U5qzvL055P8/WBnfxo1PlL19N/3zR90QWD1tLK+16rijQEEX/DWWEKOM+ZEZKWOo/Z5V5NWSET7fmbvSTypWvtILsq5Z0LitXy5EE=
+	t=1772044124; cv=pass; b=gCndJLEGsUPCik4p5TR53DYPxHFtVO47R2Gdgvx8Ul0cKlNEbdxCSpKpRUJLR1GAgjUv5t5NpBIuowzRpZ1N2KM/CYYrz3xi+cs2Jd4l/+JxGqKNa11/50g7nXdcEX4ADTOj3+rr+AtGjU3V3QwK7wlvVHixX4WMYQ7aFhztanw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772043803; c=relaxed/simple;
-	bh=5BAMHytd4kvzuUgndcBud/UrnLOdHAgpwSexbphb5p0=;
+	s=arc-20240116; t=1772044124; c=relaxed/simple;
+	bh=7F2jVLV2QcUTyy7TAzNWNIYvIdo/cqTKdGiIvRmLNW4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SmT+7GfAsAJlGFiB/4cyX5gvl97GEB6NrB1Tf+QgOOEKZ51QCu2pSIBAZ1j3JUJuQZ7ti98Sv0LMG4mdCPfa2Yc688QBaQwLqVjWz/S8Ac1Mtbg70OXeGYbVX14mcrcEPB+HlHby9/sTirjnarDEn+/IwFNsXfya1jQ7pIl6TPs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YUwJnVOR; arc=pass smtp.client-ip=74.125.82.67
+	 To:Cc:Content-Type; b=l9PvGYwhKrbcBopipDYc8MTclz+H2HO5W8Q7WbiW0j3AYEm6kKpPxXXA6+MI2oy39yVPVX+DCDyRZd4Ma4VJrrOsqiNk5SVRfXz/ta0UpooW6ZHDgHoxuYiegV6oxjTg9hgiqMfspL0TafHjW9ZGl4Y5jttg466nOBGHSFI7OvQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kXxzp8OM; arc=pass smtp.client-ip=74.125.82.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YUwJnVOR"
-Received: by mail-dl1-f67.google.com with SMTP id a92af1059eb24-124afd03fd1so10101147c88.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 10:23:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772043802; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kXxzp8OM"
+Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-1274204434bso854652c88.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 10:28:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772044121; cv=none;
         d=google.com; s=arc-20240605;
-        b=UvJ9zY23NIxggqseCj6EebcEGBRO4SEHASU333XpCirH2tINUf5Jdyhjkd2eWCrQrt
-         HF4jPI7/Ke7x7PnKW4IJKvb6Ojlskte8HWRBbrDCpH1KL3qBhZU+IPBeA2vk1GdbSh2W
-         D4zfmkFOpmDUyy0/hZFKVF/oUAxlj046V5+BPNkdx4zlKc6oNQDl2KygyDuzcdDiqn9n
-         nskrQvl1Hbrjut0jg6a2PxeMvW4XajexRcox3e3jNInHysItpS+6TP8iI7f3s1sG2Xgw
-         5Fe2sqK5uWscDOhD42e/xjMgy7OquomMvxSwGZU06WUXUw7qdkERKhm0iHaW3dB8zKcu
-         6zPw==
+        b=cG+xC0KcPy9avRYCsjMlZlAg4VAZ8bIjMoyqBU8keeWRDysIVdadDQ1Uf/kzvk9tSd
+         Wzwx8SHT3n3QIhWkBPvi1Em1G0D6rCUxnnmgdB2D5VvMjQujzQH5DZLAHLUBP4TUosZf
+         sw6CiEe+JxA2D862DZbAQYMxMGg64hwChrWo/SyYr+wrR3o2B8nV0c9ujUYsrsNitPZM
+         X2YatLAMvisM1JKoDHlUcaF+fh0vLf4Ku5Lmxozn355cf8AD9RsmO6icLw1UR6KxvWIc
+         CLlYgxVTRi2Atgf2gkq8oL+ZKTTA1kKZ3Ag/hMAuNidt2UIjlQJ+SxaRBzr1fEn1+ubO
+         PUAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=/xa2NxgBV56+zcp+pDI4D3jQAyDOvWbrM47gZNUvrNM=;
-        fh=XRFae8jDKK+0POSVjFjI4Ujh1FRfw6d3L6zg5wyi5qM=;
-        b=Bn4+NGCOMG3PlYn2VLdLe6T9PW7vq+Q/IHvbUTszl85zkXmlbB8NN1boONwnWLJXDe
-         wB5Z16QNO36nG3INSVU4fEonLMtA/d9TENXZN9xE8tXCD28oVn6FACaJ6F3Wxqe9cOMQ
-         jOMefsoaRp86b/xyVw+SrzHFwjB+Mr8KOmwlU7W7YPn5ANOSPYVwJztksgD75F1t5w7z
-         Djdea3XroV34mMoEQkHOV75AwFK4tfVjCiorzwoBmj7nZwfm2MgvF+9WXqVVy8KnPx5A
-         yQgPFIkG10/29OsOI9zvw2Jw7mhqdIqa9kxfzoRpUpsMjyENo8gVh3W18XQBeL0XfIuC
-         9aEg==;
+        bh=b+vs7qWH/PosxazHRVXXbHEySPzv3IencMxP7YmTfGQ=;
+        fh=yeTw2a/r7gR3h4bj7gZ5/U9aME13seTE17Epk6w67kU=;
+        b=iuu6JzgCCSBr96ylmNWRVULAJjtbVUhBrw0YSQmd1AD5k5fgO6I+PFV35QZI3PHoqa
+         mZodX/CcogyNla7AqJoHaaBDMecDtIfmmTt1G5WgDUo1Th4GYGbvzqxcf7fPhZNGEyfj
+         Ki4jhpyLgj9QffKd/YFaH5e5wOU5UDg4XE3P9ory2+z8oVmqxtPPXpJKyv8q4oIUxqpA
+         gYymK5LWm8fgU9FEUBkLS2so0z/y2deY/tBfPS6LwLUM6R403vyfiHk74mzczTeasKeI
+         3/7IL7a3V81dsKIk1ZGftJyQ2SzQEWK7984kXIXNIcuJNwWNG3zmyParLWjChBHV5TLd
+         nX/Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772043802; x=1772648602; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772044121; x=1772648921; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/xa2NxgBV56+zcp+pDI4D3jQAyDOvWbrM47gZNUvrNM=;
-        b=YUwJnVORBiebkiK94qllkkfj3T/ItETMXbmGt0Al4qUauV2c3sCnLhe5DjaQZ2JLDD
-         8npgdn/h6sSQ7kRiJJWEq1Dn64Ezg4WnF9P7gvdAkJzgfDKQ4d3g+qvi0KIURAvhwFu0
-         q4e1Erq5mmMFw2VuEqTRY4prw3NZryRelgD3MkBkTsOxkvVS/DCGOOvbfWzxPCXPe74O
-         9AVrTb/MYzG92OHUOwBzNqSvP8pkjxPKf2qnhEcpl8gPimuIjgwtRYuYSIOkPc5gG2HG
-         k/Aw0Tp41x/hLiK+uqAQpe9zoMkzVcTknJ0CSS4nWxFmOOfEDJF36xhCgZl0Zl1y7sTA
-         lnrw==
+        bh=b+vs7qWH/PosxazHRVXXbHEySPzv3IencMxP7YmTfGQ=;
+        b=kXxzp8OMU8CP3+etOxTv9BePuPzMZDWhN/WLsmRGn3qFjCRrt/AM3G7KEUe0YzrdwQ
+         OM8ONhduTcvCwrKGRVLGXe3R+xeLgm3KoZ1qul3Ymg7yCcdQceO/+hW1zyCrA/14HNa0
+         n7I2Gd1uJZF1+i4JSnRdeGKaz83fu57sXSL/clhSu7RjlRdCNoSW1KZO516OU21htd6u
+         kBjG4zgT70TFhnko3EdZ4Ds2H43K/JEd/DeG/dOraovPhPVUYzEAJXU5F2HpNQE4IeSx
+         gRBnbUQxQmKnd0D8j2xNvhC1QEjXPxZwqSDawViVEfZBddoSFtu9n+2ee+VYu8Cx39gt
+         v4Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772043802; x=1772648602;
+        d=1e100.net; s=20230601; t=1772044121; x=1772648921;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/xa2NxgBV56+zcp+pDI4D3jQAyDOvWbrM47gZNUvrNM=;
-        b=cepqHEzw6sZ3KUa/LmGXrPEoikzFiSEsRcWuTi04v3DmaFSdEAuMu6ETSZ7JK0q961
-         fXGAnBNYs7cl3nX8pogZc5+Y5nZZaVUAo/tGVlyNrL1xINs6BWUSMtg1WZ2NA0XRTsBX
-         h+2ImgvlgAHr+1ZrgHY5OHIYQXr8Gag7hqgQQr77qT47akeBdXjuJaOCxCsE660UjmA2
-         zr++E6DNoxivKzh+1ee5+GzeBUyuKmS1uAP/QD2GM9tbyM+B+L6//AYfSWXHXAhwiiHz
-         +qXddtutjEyxNxN3hFIG2ixSdVq9iykOOKL3703HzHX0H0ZGKsddrUHeq0qtWYmXkwIf
-         bN2g==
-X-Forwarded-Encrypted: i=1; AJvYcCWrFtQSpN7TnAqI1fvpB/Uol10R/55I2CS1PcWVXYTZZS97OZSwABESMsx/p8iTeFNy0qKTNzdomII=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyaHMU3dlSLJ/gJQAI/JZHjJ0d5nX+eL1KjQPA56wpdl8p1EXDt
-	aAS9EhOU73Kgg6HjkLcE9sKOJfEMgDgLqIygR7lhsv8xOBuNVawGusuF0St74yy73ULI4Fs3TEl
-	j5tBQJB/EgwfrAcbkuw/263MEhqAWwQ==
-X-Gm-Gg: ATEYQzz+IPyuwBFW6BlHqDhFVOl7G4NmUmQlNNpxR5ZnWl6H8XDBjSk8tPvxcv9yYOK
-	NHGQmqdSoPtRpgihHYfoEhTiRyegKxayo1WZ5UMa/+Cf4bEihLr8CxndREzShKL0HhO0zzEodpl
-	Za9UP8ew++SjIVTOA9IyaTVPTOi1pOqJeDCkekqOwi6S1HJrQBrfpxbf22nVowo9V9p9+GohGS7
-	0Ymmm22SchdgIMXlNcf/JEScbAVyKi89jwUrg7S22MYKo9/RQU0R95IWpIJFCWMRZIQVS0/19g2
-	r4JN7kQ=
-X-Received: by 2002:a05:7022:1605:b0:127:3214:c862 with SMTP id
- a92af1059eb24-127869c8215mr555717c88.40.1772043801261; Wed, 25 Feb 2026
- 10:23:21 -0800 (PST)
+        bh=b+vs7qWH/PosxazHRVXXbHEySPzv3IencMxP7YmTfGQ=;
+        b=LTOdOrbvn7+laICRqX/xZ2LZimtS9rzzXPupIT4RSRi+aKeRvMYnuMssPGr5mqgL6u
+         niY/24AdM3V9OTvY+uP4la3sLNPXY1zkSeVMQO4JiVzqB/+MYz7+YC1SsZ82HEOwU9Z2
+         tnJryVp538L/m+yfgiZF80TN7KZaCwXX/JjBLG+medmzwry7JXff8hmfyRppARRjm7jb
+         lQeUslnhpqCwOGCc7bI7fmiZLWkPEfdVMfVZOs3YZuxU/Yk2hNipP5JsGZ8IfZNSQBRH
+         AQzGmVuXDQOCPaj2Sp8FDfsf81XrtmYAGkZFVFGobHBDM6h4XyNlRkWht0YJ1fgvR5N4
+         6AFg==
+X-Forwarded-Encrypted: i=1; AJvYcCXkaoJiFecQDxg/hS9s0blippYH3CxIJYYBDL633BXvWdrnBMt/QFXWfw2XpStNKSfcX3YfJzV4PuU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2OSyCx8wXIk42egw0amvDKfqJnyTpb9YfI91SO7nVQPkf+yaB
+	cuAKEHS2w1ZDrDQ4M1hjp83UEUrYl8+TpGTGqXFOwAYkjL1K7TCkrx8MiYCaokxs2lm7cJia8eM
+	aAtaD/A5o5rkSIySrjVaPFpbiDvK8mkEowoJpi687
+X-Gm-Gg: ATEYQzymCHSeLdhJufqnwKxtv+0wb0/kmBoMKDvPyAX3p2VDRjRWydBvjR/p8LRjFus
+	tRhPGT8jgtlp5qM5q2Tpxstw1cOsYpOFcikmeRM23YXEscK3qKaIF/V8U89Z1nHCQ8tgzKYt0Nv
+	3K+oQwvHh4yJCoaq1UYZqhaUGwrzdYGVuQeRM10NvsmGQbuwGLV9KTaivrYKY2qwOcd14pejqnN
+	bovHX2KAu9jdiAekYPdjRvPeGae4/1/WKkmtnu8jPOhxpznfqpfKAc1944e3D1qjHuTHZ1uDAsK
+	rI0Wwns=
+X-Received: by 2002:a05:7022:322:b0:11b:a8e3:847b with SMTP id
+ a92af1059eb24-12789062f85mr18156c88.5.1772044121482; Wed, 25 Feb 2026
+ 10:28:41 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260223123232.12851-2-ravis.opensrc@gmail.com> <20260224014011.56624-1-sj@kernel.org>
-In-Reply-To: <20260224014011.56624-1-sj@kernel.org>
+References: <20260223123232.12851-3-ravis.opensrc@gmail.com> <20260224015453.56879-1-sj@kernel.org>
+In-Reply-To: <20260224015453.56879-1-sj@kernel.org>
 From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Date: Wed, 25 Feb 2026 10:23:09 -0800
-X-Gm-Features: AaiRm52SmZr4YLw7ydgp3VDu-h8ez3jJibjPYgTRa_tIkzg4tH3npe4ZI2HnusQ
-Message-ID: <CALa+Y15MQecahb-FfeQEJK2uwFdC7VxUH7GHCfSvy3uQ_jNC_A@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/4] mm/damon/sysfs: set goal_tuner after scheme creation
+Date: Wed, 25 Feb 2026 10:28:30 -0800
+X-Gm-Features: AaiRm53PZ7CQTO2nNmE87UPyau54sbWlAb_SIOGk1iCbJaNIOH0-q30nKNVvXfw
+Message-ID: <CALa+Y15BbvgKttRRxrNrr38y3Pt4A+MP8tfQZZ7LVyoUS+_0fQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 2/4] mm/damon: fix esz=0 quota bypass allowing
+ unlimited migration
 To: SeongJae Park <sj@kernel.org>
 Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
@@ -96,82 +97,71 @@ Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 23, 2026 at 5:40=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
+On Mon, Feb 23, 2026 at 5:54=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
 :
 >
-> On Mon, 23 Feb 2026 12:32:29 +0000 Ravi Jonnalagadda <ravis.opensrc@gmail=
+> On Mon, 23 Feb 2026 12:32:30 +0000 Ravi Jonnalagadda <ravis.opensrc@gmail=
 .com> wrote:
 >
-> > damon_new_scheme() always sets quota.goal_tuner to CONSIST (the default=
-)
-> > regardless of what was passed in the quota struct. This caused the sysf=
-s
-> > goal_tuner setting to be ignored.
+> > When the TEMPORAL goal tuner sets esz_bp=3D0 to signal that a goal has
+> > been achieved, the quota check was not actually stopping migration.
 > >
-> > The comment in damon_new_scheme() says "quota.goals and .goal_tuner
-> > should be separately set by caller", but the sysfs code wasn't doing
-> > this. Add explicit assignment of goal_tuner after damon_new_scheme()
-> > returns to properly apply the user's setting.
+> > The condition:
+> >     if (quota->esz && quota->charged_sz >=3D quota->esz)
 > >
-> > Without this fix, setting goal_tuner to "temporal" via sysfs has no
-> > effect - the scheme always uses the CONSIST (feed loop) tuner, causing
-> > overshoot when the goal is reached instead of immediate stop.
+> > When esz=3D0, this evaluates to (false && ...) =3D false, so the contin=
+ue
+> > is never executed and migration proceeds without limit.
 >
-> Thank you for catching this, Ravi!  So, this is a fix for the RFC patch s=
-eries
-> [1] that not yet merged, right?  I think this fix is better to be carried=
- with
-> the series, and squashed into the broken commit to not introduce unnecess=
-ary
-> regression.
->
-> So, if you don't mind, I will squash this into the sysfs-schemes part cha=
-nge on
-> my tree, with your Co-developed-by: tag.
+> Nice finding, thank you for sharing this!
 
-Yes. Please go ahead and squash it into your series.
+Thanks!
 
 >
-> [1] https://lore.kernel.org/20260212062314.69961-1-sj@kernel.org
-> [2] https://lore.kernel.org/20260212062314.69961-4-sj@kernel.org
->
 > >
-> > Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
->
-> Reviewed-by: SeongJae Park <sj@kernel.org>
->
-> > ---
-> >  mm/damon/sysfs-schemes.c | 3 +++
-> >  1 file changed, 3 insertions(+)
+> > Change the logic to:
+> >     if (!quota->esz || quota->charged_sz >=3D quota->esz)
 > >
-> > diff --git a/mm/damon/sysfs-schemes.c b/mm/damon/sysfs-schemes.c
-> > index bbea908074bb..fe2e3b2db9e1 100644
-> > --- a/mm/damon/sysfs-schemes.c
-> > +++ b/mm/damon/sysfs-schemes.c
-> > @@ -2809,6 +2809,9 @@ static struct damos *damon_sysfs_mk_scheme(
-> >       if (!scheme)
-> >               return NULL;
-> >
-> > +     /* Set goal_tuner after damon_new_scheme() as it defaults to CONS=
-IST */
-> > +     scheme->quota.goal_tuner =3D sysfs_quotas->goal_tuner;
-> > +
-> >       err =3D damos_sysfs_add_quota_score(sysfs_quotas->goals, &scheme-=
->quota);
-> >       if (err) {
-> >               damon_destroy_scheme(scheme);
+> > Now when esz=3D0, (!0 =3D true) causes the continue to execute, properl=
+y
+> > stopping migration when the goal is achieved.
 >
-> To follow the order on the comment ("quota.goals and .goal_tuner should b=
-e
-> separately set by caller"), I'd prefer setting the goal_tuner after
-> damos_sysfs_add_quota_Score() call here, if you don't mind.  Let me know =
-if you
-> prefer keeping the current order.  If not, I will just make the change wh=
-en I
-> apply this to damon/next.
+> But this code is written in the way because the current code assumes zero=
+ 'esz'
+> means it is not being used and therefore be ignored.  This change should =
+be ok
+> for your use case, but could introduce an unexpected behavioral change fo=
+r
+> other users.
+>
+> One easy workaround would be setting esz_bp with a value smaller than 409=
+60000
+> instead of 0.  That is, esz_bp is the bytes in bp, so setting it smaller =
+than
+> 40960000 will result in making it effectively zero, e.g., like below.
+>
+> '''
+> --- a/mm/damon/core.c
+> +++ b/mm/damon/core.c
+> @@ -2623,7 +2623,7 @@ static void damos_goal_tune_esz_bp_temporal(struct =
+damos_quota *quota)
+>         unsigned long score =3D damos_quota_score(quota);
+>
+>         if (score >=3D 10000)
+> -               quota->esz_bp =3D 0;
+> +               quota->esz_bp =3D 10000;
+>         else if (quota->sz)
+>                 quota->esz_bp =3D quota->sz * 10000;
+>         else
+> '''
+>
+> But maybe there is a better way to cleanly fix this.  Let me take a time =
+to
+> think more...
 >
 
-Agreed. Please make that change when you apply it.
+I understand. Please take your time. I'm happy to test whatever approach
+you come up with.
 
 >
 > Thanks,
