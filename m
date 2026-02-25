@@ -1,131 +1,178 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9233101A9
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 08:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C2E19EED3;
+	Wed, 25 Feb 2026 08:08:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772006612; cv=none; b=FhVp3zXNzKPnWQkMaD0olW/9r8PdKEbMg8POrlIsXHh72bE0pMRajACMwUYS8/MFdxI3f+ZVEb0hgeV2W7m4GyB+I6WTxIYqJqLanQMh32vW7a/52YFgwn4/z776s9ZfcfLhx8K/g3MLgnM4rFJ2GaQPpaRSviYhwWPmzz4Rg9Y=
+	t=1772006914; cv=none; b=o4UZdK13uWXK42qspZL7gxFHPBF1QiLmANjjMUn9Mxf0CxLNfftqSjuopxgB4kbLO6auDEBK3VhTn8HDK7QDkbNhJQWPa3PbwBZO7t/EqfpnEAgksTLohyqkColB8/KTuIyRtRJ58t5tY8gZUF98efWp/OHyiqJoFKCiCTcaMbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772006612; c=relaxed/simple;
-	bh=bq6zwXtFCcnqrhZIHxjGnvBS+KlyTU9xlpYaT604hrE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZN0oEiYQ31iNhJ/a0Bvhou79nxQVyu0VFCxMDH/3roFF1wKKIHrJskV9dioQQC6Cqu9l92MKvCCn97aL+Q/2Hab8gSyKrIUpS0fjX0crvWKjv9I4yP5Dmb4+xBhzgiwSGycxx9QvRHWkLCRQl/KuQW3Qcuaz3Xn4bw6ZW9keI9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=QEN4BMRI; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1772006914; c=relaxed/simple;
+	bh=NKWvuAreyD3Yk/MSalQBIso675qhb56lkfYvTSyjnLg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OEUVeRNqXPTG1FGPKop//t/uRZL5JXkc5Sq4mkjPrhYBzdDk6x3ZvVEBtTtqh/i3cfz0kXZsZEc8UVYLnE46Q+p+KO7tnmxfLQrJGvwH45nvVDW5fN7cbuPSdCZffByNXhgtN241b6/oDw00B/U8feGCWtF2G/fUecavsL7X79A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=N3beNvOn; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QEN4BMRI"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2adb1c1f9d4so75495ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 00:03:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772006610; x=1772611410; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sCJxVjDFn9Nx1ZVu0w3V3L8nPN74ZP9DglkzEBV+/BI=;
-        b=QEN4BMRI3NcE4s4dHITuXTcZZePBS1pa5N7KS5NPIL0HW2SIO+xI7LqmE+gzxENW1t
-         db5f3juWENY4Cn13Po/FHPGa2PSZML3rqQLoVgVs0ZW5e+H4Ke+OnwrhtSAtlGK2FVqo
-         i+68/6axzRRuCqzk/1Ot2WM0e7XUc0VpfbGTUl/ATa6rLoZMx/nwxjQUcxtY3TYaiNIM
-         aG8kHl3ipr/WLb0kjr6y4FjsD9tOj1Nr+nngKm3+etCnD/jXOL9VJXjVPi/OOQB038JG
-         0rYUrOs8KTU0z/pHYb4Bkd3RhtzvNoqjEbwBimPDUcF87cY2BemjgWPUfvPP7XkqWXrK
-         hfKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772006610; x=1772611410;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sCJxVjDFn9Nx1ZVu0w3V3L8nPN74ZP9DglkzEBV+/BI=;
-        b=NeqbJuHGqUIfsAtY6tK23Jk3Yoe91mSpt2rymoEInPPJ0FRjXdZIDpKhaHrpATUIE4
-         U4euc6z5FwArC1/I34vv8TdxSEMIhn1OdGHmuDnvxTRJcOPotNIcAnuFYl0m6xMHrRJq
-         yY8OAu++KYMwE51MZVrFpD/IUb1Wo2rU89qENsjFJlYvPKFJ6U1tpRDHbVS9Hb6/Hnsl
-         o5xaKJRD8h1ygSBL5A8oP6VXA4dbDuX9LO9Z8f5qpymEMcWsWdi1YavSLc5gBdfs+f5Q
-         2/Tjlcn9TFTYsTCgCc0YmYgweSmj2Ln80KwkCC+yLxcONEydkqoznHRUUk2VBI0YnsH6
-         iVag==
-X-Forwarded-Encrypted: i=1; AJvYcCVDlFPn0p4ss7cHCYSJWPBBhx4Lf10XfTCJzuFnyeel0aoeZvBKDz/mQkvq6yhYElwX8E39yTsOGig=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxDBagyf/UTXpp6aMCfmJ5GqKwNWYGSEznWLnK1te+nMtmymrKt
-	8dp19JaJWPSWrB4S996z558on/p4f9Mi9xTKaHPxIb7xTxjYhoWBTGqItiTAacIIpA==
-X-Gm-Gg: ATEYQzyHDhNdVykvhLINvSTiWzM93UIfjx7ExhQGBycZNG118jToRF12DzMOhS6JNCU
-	GrQ8jvftXAwRXWBJbGCF5W9vttNCYIh2OnARNM1Y/gen9DvwP+4ZKfGAjamajTHisV0HjUenXzu
-	g0/OK8m1b0pjs0b+rBKyAr8Rl5hX/itbYFYkU+SUiV9GfXY0siWzkcBEqXQSLafYZawuIxSuDNz
-	v+LVcvfhGlXvrkeEe5QoZ/zswdEbk0asnz4uy/yf9hYLTF4KI3F1F68iXUKKQzmwSNjaiyh94ZH
-	zPgKrgvu5mu+W1nvnDcCn1pSpTWllBUL4ukWSUw03GxxactZWdYYIaIGV/Vhp2guIEPPgCXwqPd
-	MeFQKQXbMN1CFXTaiW0A4RIhYuYQkS/xApGbgIqfWsP2m5VQ1imklKuQiBuVqN6B2BxaN8TyQi1
-	zlGZkzuICJ7KSzr6amk0+CevnLpvxhJ4SuqTQogwRISPrYfsNAZMu/ll8mtdG9
-X-Received: by 2002:a17:902:ecc2:b0:2a7:7f07:340e with SMTP id d9443c01a7336-2adca6c9d85mr1313215ad.4.1772006609152;
-        Wed, 25 Feb 2026 00:03:29 -0800 (PST)
-Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3591342f19fsm421683a91.10.2026.02.25.00.03.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 00:03:28 -0800 (PST)
-Date: Wed, 25 Feb 2026 08:03:18 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: Alex Williamson <alex@shazbot.org>,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
-	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Lukas Wunner <lukas@wunner.de>,
-	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Tomita Moeko <tomitamoeko@gmail.com>,
-	Vipin Sharma <vipinsh@google.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH v2 08/22] vfio: Enforce preserved devices are retrieved
- via LIVEUPDATE_SESSION_RETRIEVE_FD
-Message-ID: <aZ6sxhNeHqy-hqhK@google.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
- <20260129212510.967611-9-dmatlack@google.com>
+	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="N3beNvOn"
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=sbA09AF1OXQ/oSrogR8WInsNLGYMF3WVGQ4FVTvon0o=;
+	b=N3beNvOnpKvQk4C3ylXTjGIGt2WPFjdoWhYwucPa0oDnRx1SyaoWfr2tUYt47NKkaBNz7rgGS
+	b+aT6xvKD0AcjNMQuUgu01dbTwctbju5ar+g0hVWUUQ+g7m/cIrSVILykAOkDHeCp3nIvHyOObG
+	B2kV1PZInUI/KO36oKCTfT0=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4fLRtH60YFz1T4H6;
+	Wed, 25 Feb 2026 16:03:35 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+	by mail.maildlp.com (Postfix) with ESMTPS id 8CF8E404AD;
+	Wed, 25 Feb 2026 16:08:27 +0800 (CST)
+Received: from [10.174.179.37] (10.174.179.37) by
+ kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Wed, 25 Feb 2026 16:08:25 +0800
+Message-ID: <051fd5f5-0a06-a4b8-9e2d-7dc088205d86@huawei.com>
+Date: Wed, 25 Feb 2026 16:08:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260129212510.967611-9-dmatlack@google.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v4 26/41] arm_mpam: resctrl: Add support for 'MB' resource
+Content-Language: en-US
+To: Ben Horgan <ben.horgan@arm.com>, <james.morse@arm.com>, Reinette Chatre
+	<reinette.chatre@intel.com>
+CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
+	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
+	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
+	<fenghuay@nvidia.com>, <gshan@redhat.com>, <kobak@nvidia.com>,
+	<lcherian@marvell.com>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <peternewman@google.com>,
+	<punit.agrawal@oss.qualcomm.com>, <quic_jiles@quicinc.com>,
+	<reinette.chatre@intel.com>, <rohit.mathew@arm.com>,
+	<scott@os.amperecomputing.com>, <sdonthineni@nvidia.com>,
+	<tan.shaopeng@fujitsu.com>, <xhao@linux.alibaba.com>,
+	<catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
+	<maz@kernel.org>, <oupton@kernel.org>, <joey.gouly@arm.com>,
+	<suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>
+References: <20260203214342.584712-1-ben.horgan@arm.com>
+ <20260203214342.584712-27-ben.horgan@arm.com>
+ <20260205165018.0000089c@huawei.com>
+ <f6f865bc-319c-8944-9989-4fd83a59d4b8@huawei.com>
+ <61684bd8-8156-4fe1-8033-eaa12c6d3437@arm.com>
+ <1acf06d1-08af-4b05-82e7-655c8ef7cf0e@arm.com>
+From: Zeng Heng <zengheng4@huawei.com>
+In-Reply-To: <1acf06d1-08af-4b05-82e7-655c8ef7cf0e@arm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 
-On Thu, Jan 29, 2026 at 09:24:55PM +0000, David Matlack wrote:
-> Enforce that files for incoming (preserved by previous kernel) VFIO
-> devices are retrieved via LIVEUPDATE_SESSION_RETRIEVE_FD rather than by
-> opening the corresponding VFIO character device or via
-> VFIO_GROUP_GET_DEVICE_FD.
+
+
+On 2026/2/19 0:22, Ben Horgan wrote:
+> Hi Fenghua, Zeng,
 > 
-> Both of these methods would result in VFIO initializing the device
-> without access to the preserved state of the device passed by the
-> previous kernel.
-> 
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> ---
->  drivers/vfio/device_cdev.c |  4 ++++
->  drivers/vfio/group.c       |  9 +++++++++
->  include/linux/vfio.h       | 18 ++++++++++++++++++
->  3 files changed, 31 insertions(+)
+> On 2/16/26 13:54, Ben Horgan wrote:
+>> Hi Zeng,
+>>
+>> On 2/13/26 07:38, Zeng Heng wrote:
+>>> Hi Ben,
+>>>
+>>> On 2026/2/6 0:50, Jonathan Cameron wrote:
+>>>> On Tue, 3 Feb 2026 21:43:27 +0000
+>>>> Ben Horgan <ben.horgan@arm.com> wrote:
+>>>>
+>>>>> From: James Morse <james.morse@arm.com>
+>>>>>
+>>>>> resctrl supports 'MB', as a percentage throttling of traffic from the
+>>>>> L3. This is the control that mba_sc uses, so ideally the class chosen
+>>>>> should be as close as possible to the counters used for mbm_total. If
+>>>>> there is a single L3 and the topology of the memory matches then the
+>>>>> traffic at the memory controller will be equivalent to that at egress of
+>>>>> the L3. If these conditions are met allow the memory class to back MB.
+>>>>>
+>>>>> MB's percentage control should be backed either with the fixed point
+>>>>> fraction MBW_MAX or bandwidth portion bitmaps. The bandwidth portion
+>>>>> bitmaps is not used as its tricky to pick which bits to use to avoid
+>>>>> contention, and may be possible to expose this as something other than a
+>>>>> percentage in the future.
+>>>>
+>>>> I'm very curious to know whether this heuristic is actually useful on
+>>>> many
+>>>> systems or whether many / most of them fail this 'shape' heuristic.
+>>>>
+>>>
+>>> The current MPAM driver has restrictions that limit MB control support.
+>>> For example, on some systems, the MPAM memory class MSCs are not located
+>>> at the L3 cache but rather at the memory controller (e.g., Mata). In
+>>> such cases, MB control and mbm_total bandwidth monitoring cannot be
+>>> enabled.
+>>>> I'm unsure whether the community would welcome and be willing to review
+>>> a patch series supporting such systems. Of course, the changes would
+>>> involve minor refactoring in the resctrl common layer.
+>>
+>> Having MSC at the memory controllers is quite common and it would be
+>> good for the mpam driver and resctrl to support this. My current
+>> priority is the initial MPAM support and look at this and other extra
+>> features later but I'd be happy to help progress support in this area
+>> through review and discussion. There is some discussion about adding new
+>> schema at [1] and we should make sure  this is consistent with monitors
+>> too. James has some out of tree patches from before that disccussion at [2].
+>>
+>> [1] https://lore.kernel.org/lkml/aPtfMFfLV1l%2FRB0L@e133380.arm.com/
+>> [2] git://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git
+>>   mpam/snapshot+extras/v6.18-rc1
 > 
 
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
+Thank you for the information.
 
-Thanks,
-Praan
+> Fenghua gave a talk at LPC on supporting cpu-less numa nodes in resctrl
+> so is likely to have some patches/ideas around measuring bandwidth at
+> memory controllers.
+> 
+
+I also listened to the LPC presentation on this subject. The Kunpeng
+memory controller is per-NUMA, however not CPU-less.
+
+ From an interface perspective, the interface that the Kunpeng memory
+controller MSC solution aims to provide is somewhat similar to the
+approach offered by Reinette:
+
+"
+One idea on how to accommodate this from resctrl side:
+https://lore.kernel.org/lkml/fb1e2686-237b-4536-acd6-15159abafcba@intel.com/
+
+mon_data
+├── mon_L3_00       <== monitoring data at scope L3
+│   ├── llc_occupancy
+│   ├── mbm_local_bytes
+│   └── mbm_total_bytes
+├── mon_L3_01       <== monitoring data at scope L3
+│   ├── llc_occupancy
+│   ├── mbm_local_bytes
+│   └── mbm_total_bytes
+├── mon_NODE_00     <== monitoring data at scope NODE
+│   └── mbm_total_bytes
+└── mon_NODE_01     <== monitoring data at scope NODE
+     └── mbm_total_bytes
+"
+
+
+Best regards,
+Zeng Heng
+
+
+
+
+
+
+
+
