@@ -1,239 +1,287 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010064.outbound.protection.outlook.com [52.101.46.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1800A2BAF7;
-	Wed, 25 Feb 2026 08:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1426E2701BB
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 08:32:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772007959; cv=fail; b=CaTZ+t2Vr3O5rX9m606JSapDlnWm781DS8N20gb9JBMhX1yyes+VnCmq47GxIRpyc6UgaF7Wwanjm0cX02T7PeZBqM7Zu/L+5DqL7a3LieNAX8vvOoWAJBCcUcneO+EwXf6Y319Oar+7GzEMBZ/UbZEJFkOaWIm5Ll5SCWYGtyk=
+	t=1772008326; cv=pass; b=sSRQ7S3SOkBNllh6FEdlm1B5YXN+qWuVP4MWCvVn5wLkabSkg8NFDZWs5my5lB31yxcwtxBZ6DqW88OA9bru54YNZMeJoenH3cbPVFKZ4Q9gZPTjZvspkx3Wu6wloBNKvHebC4E9DEKS6B4gJIYjkAWpTFRCywPlvv34KSBqg/c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772007959; c=relaxed/simple;
-	bh=YZjVkkN4v15lPvLCi3qTMYRA8tL353YQGykEMrmYaGs=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=mGa3ZF6U0gQ5BU8GHoJEXrXVDeEqDb0f1/Eh+4rVshXOvsKZGIkIbzEcwGmKCO9jV0SdqekJiOdK2L+wFBfYujgXMt7h94XztDC+c15eAHsqVS90vB1eQkfRuuF66EXGyGpmnSENLHBG6ybyaWI3cfXbYmp5e3z1S3NxUGn+XBc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=FNBaPbJn; arc=fail smtp.client-ip=52.101.46.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1772008326; c=relaxed/simple;
+	bh=H7uGJhCUP5kAxxAKcldXorPp/nEFUtCx4oLDvpDZZNA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tBIRYIq5JCm0pCD6GLhcoZH7iIVds3Q4FCG18hXpHsmOR4ZeQT1Xv3jvn1jdPGceB6sopK9zW+EHx78NgES/FnM4BGNEe/Zy3h++9mBMdrjNwUUYpyaW7VujORuMNpscDYMGMpHyncPBp4L7ClwC5aD+4z0M8me8vHhBNqn0gDE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SRdCuvmr; arc=pass smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="FNBaPbJn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J2m14Xz1+qqGfBZdxn1au/RUkaWxQypIymTh6OmshgwWZmLR52zmF9iYoW4jc8cmYD2fub7o5KRMQpJkZ/SNHxhOaOQO4vGYPSWw+UqcChjA2Xha25ooAB2VjHm6pZlJopjkxDb4gnXUcKciSJu4JGUW2MCoWsK9EeQBDXtPd0nuXTE9qfqwuIvSEAbEP0KtzfNITD9Dcxfey1ztHHzeBNDHgGiTgPFWLjv3gCr/NJNJvrzMihsGr9ygisjcmDFsWn8wFUVOLGuvlx2lsoOFleFoKrd+hbDAs1Sg6X2HjcxpZglMl9nDux2Eo6M/7Yxi8L/L2xUyZ4/I6uMSy5oopg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YRcjMLXC0t9WZamgf+LI+3uaAX4S+McarGJ69yEl3/s=;
- b=TkWyhkH8bTqDCtwdPPZPytqyt6SEqdMs2qM950NpcABW+46j6GfTD/b7q0BY0JoRwZmiJ3KxhtrfsQtDShMleUbgCx0UKfNtJyj7/bXHiOiX5A/XZMGQi55f5vGXG1AWE9hvjB2w1YaRR4ILGQ/U8gAjZsqqqAxSq/XUW3RHb80yn97s73b/UfUd/FWU4frjK9DFQwh0bhJPPWWD5BPRsu7Xt0dHrqvzmHUh8GX2u52XGzir0zZk7wK3O9zTtpKXKtxOB5iMfvnPDfOxG+5VARbdYfGfcpj8aDD/1qmV/uUnM+/TsnP+zpjxcuYT4c+yQZ6vKpl3KXWwG3MLSPM5Lw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YRcjMLXC0t9WZamgf+LI+3uaAX4S+McarGJ69yEl3/s=;
- b=FNBaPbJnRxOLFp0EzEBFtj48Iw86ZMJNn8mo9Ri5LNr+YUh9D6O5Zyy/ilOYUuHpb9wxUiFsZcjpohoccOF1efv0ZegYBzi0eRla690kIAhI48svSjj5+RDGsgToNA3z4xEd3zbHE1e7xZec/V5UWAi9hJE52vfPa8JeS+Idu1akcRG/Pg336TeKAvPmUIb7i1BqLlk6TLTgLTPN/T8Z8EQuQIGxtTyhuQvzFcQ+RdV1uEpYr/XR7EcKs5bcMxaze7SIfTvUBh/tjak8BQcuTdSfXWih1NOxJ3MxBG6TfEcV1J24CnOMLtN9bZzv7IW/z+PbCKVnGT6W3LpMWqe9fg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CH1PPFDA9B3771F.namprd12.prod.outlook.com (2603:10b6:61f:fc00::626) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.19; Wed, 25 Feb
- 2026 08:25:51 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
- 08:25:51 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 25 Feb 2026 17:25:47 +0900
-Message-Id: <DGNWE55D3GVN.1I8TOV5QKW6RT@nvidia.com>
-Cc: <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
- Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Alex
- Gaynor" <alex.gaynor@gmail.com>, "Danilo Krummrich" <dakr@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Simona Vetter" <simona@ffwll.ch>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Koen Koning"
- <koen.koning@linux.intel.com>, "Nikola Djukic" <ndjukic@nvidia.com>,
- "Philipp Stanner" <phasta@kernel.org>, "Elle Rhumsaa"
- <elle@weathered-steel.dev>, "Jonathan Corbet" <corbet@lwn.net>, "Alex
- Deucher" <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang
- Rui" <ray.huang@amd.com>, "Matthew Auld" <matthew.auld@intel.com>, "Matthew
- Brost" <matthew.brost@intel.com>, "Lucas De Marchi"
- <lucas.demarchi@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, "Helge Deller" <deller@gmx.de>,
- "Alistair Popple" <apopple@nvidia.com>, "Andrea Righi" <arighi@nvidia.com>,
- "Zhi Wang" <zhiw@nvidia.com>, <alexeyi@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v11 2/2] rust: clist: Add support to interface with C
- linked lists
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>
-References: <20260224222734.3153931-1-joelagnelf@nvidia.com>
- <20260224222734.3153931-3-joelagnelf@nvidia.com>
- <DGNW1KH6TCE1.3DIVLKYG6OURI@nvidia.com>
-In-Reply-To: <DGNW1KH6TCE1.3DIVLKYG6OURI@nvidia.com>
-X-ClientProxiedBy: TY4PR01CA0031.jpnprd01.prod.outlook.com
- (2603:1096:405:2bd::9) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SRdCuvmr"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-897023602b1so74710376d6.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 00:32:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772008324; cv=none;
+        d=google.com; s=arc-20240605;
+        b=U7cmWWNW7WKNpSizVeAdZi27fE3OYfsmnomLnfcUpFM4qQR5GbNkrwyRIl3bxuKOKX
+         QntQqF9VMudC21Wu0PjiYPw1qoLSpplDa8xsWfIJG8fwxT2XQ4PqwBONc9B2LaWuDnKC
+         7n3P32292LWKKP4/Uw/I5IwmZUIwa3CD7PGmf8P1c8vIn6Bk3e5Pup7OKXCT9ggX0B5t
+         n0PQaq7o+EFxtifJI2XFsxfp96dJLicrbaz/CZTzaaWVoyoK75KRMeWLgF3Dx1dsFQRl
+         PLK4eTJ91ThjQdpLnpxhKLs9wj0YHLcFJDC3O1QGBysPU/xx8j2qVu9e87dqi4S4PQOf
+         OQWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=D7siYQD1xuhDtkoxAw0gYhYQmKcVAnP64qM/iLy57RI=;
+        fh=BfjWYzLy0lCux2t0pq9T+VqfZ8w484wQdo5F8TzIhPc=;
+        b=LQYlMrkLAx1TnReYPg+tWypGwDYXmMddzUICE/J3PkfHuZlyz8Bn+gpsgkNwB1jJQq
+         QTbcY3etClZ8G8sxokS8xg2Crzqc4fahy6r4cjYOjjU+CWRql2MwFubDXyPjdMBkrsNn
+         FORrGgAKu1jVHqnysNvy6xo6Y+N/khdeSopercHOuxkjHIHDtWXsu1YIU/I2gEz930Q+
+         ta9+co8hjIJdX2SV0jGveYkDgoPadIzQ/m4ru/6VCmZxBZlOK7F6JbLvNCiTfsaFU45s
+         ttcWCdEKUsYnCj7Ia3JjGJWsbs77shngqGgz3F0WQEtSsnwLX1p8x6019Fw3sepZsOsk
+         khHA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772008324; x=1772613124; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D7siYQD1xuhDtkoxAw0gYhYQmKcVAnP64qM/iLy57RI=;
+        b=SRdCuvmrEl9DIJZDZMHtNq42EJgXfeU0dqOYgy+GDevT2AbOlZn0u3n42kK8f5EgEH
+         +8KOm6A7umVJRH4LEdfEh987Ngggq+IhdYJQUkPPNa0mUpSJ/wAZDwD3O/oWp5qfkZEw
+         iSRzIlVWGGm7L55tOeZPe3U38J9PVMMHTuIeOFm61kxMCUAISGWy9Tv2gZqwlV8Xz9Z2
+         YtPV+416FFz5JxoCrvExqEdWGLQ6/pDFKEZdel6nB1tCjuLjy7qdzBLV+2IRhh5xcxKc
+         lHWDmGN8z+tMDE1egbLral70BBTxO2WMr9/TbSk9MhrjM62ItdRX0Bd6Iz8nEvmF773E
+         SIDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772008324; x=1772613124;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=D7siYQD1xuhDtkoxAw0gYhYQmKcVAnP64qM/iLy57RI=;
+        b=k9YG8dYwUiYTQ1dtYS48bPOL8G1CENH0CGXnMCSfMH53fhb93hMBF8fHOWyIfWpcuX
+         p8jeAuvPpUxzeSWKQqMmRYy3Hw1b+IVb30BIz+vWfN+KUsYQEAOSmP+N6l1IAcLLFlX9
+         AAzB7zgyNRXeGhWH2r5RTT5tp4oNCar9HW/FaB4xkQkmT8F4UlAgLfRSK0STcZAMoMtG
+         WoXDTlwri6t+A489YehjANpln0Ow3p2EjFoRwiL13w/l9njmuuihAGKWcE2QFO4PRbNW
+         sf+kBaZMv95/uUKf+0W9qGW448mlrlLrGNJIL7H3TbYrJ+aaj/6542Uw5ViiyiWBtqiL
+         gwEg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLxCN4zjM0e1qMzM2AHUic467Aq26hotYdxayxw7kx2LBIyUJoaStLxNcWCaiIYINQ/OvkejpVCfs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzyy6+ITzr5aPtQMbQpK03kkvNpuoW1PQgLSe34wVZQ5pol4GKO
+	HUtvgVkYOMgAs7I+QVhCSAy/kbf8C+AFhN3ZsHFwJO95/FqdkmI8Zw52taHLNs1X68t5MY/B3Ou
+	9VFg0+aQ/rGxtcdFdUE6x0aqLmSc8Bget4Kk3navE
+X-Gm-Gg: ATEYQzwyv99aOjTOIcOc2jyLE7Hb3DFhTL/wyzJCorNp2CGa7B2nC8rxH1HLkav0Mgq
+	1FM7IlYAEOgwyCosgMaYs181nPy+RfosOcM7ZQdc/iAqD9BG7yRo9D3MfdbK0u7xltsBJHoLZsR
+	rsbURZufgf04MthV9ebnPrKkoZBvDgXgKsSAmAZQTpDVJbCbpmeg0qPmuaPMM/qUcG8ZpJ+ggZp
+	b/FyXQ+l0x/nO2kNmo2hyfDCha1LXlI0g0REmwY1Jit14/Va6B+6Hsvq6QHKwF2IacTRmjxYi6x
+	zaaJ/oQ7UhzjejHLAXUkb52GjnUmOS8ooNec0qfARgT6GwSTKlF4
+X-Received: by 2002:ac8:5a50:0:b0:4f4:de66:5901 with SMTP id
+ d75a77b69052e-5070bba49demr211968151cf.5.1772008323553; Wed, 25 Feb 2026
+ 00:32:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH1PPFDA9B3771F:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4df4c193-afb8-4503-608d-08de74477c46
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|10070799003|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OXVjbGRhVVVwOVVlV3AxTHNGd0VpSzBPNnRhT1JsSDVTdkg0UURrc2dTdTdp?=
- =?utf-8?B?ckhwODJ3b3EvQUtBaE5iTzl0bkgzUDZlUUc0TEVyUElHSXN3MG5IRm5KdzJE?=
- =?utf-8?B?THhKWHF0eGpnZEVUZURqVUxuL3R3Z29zSzBzSmcwemc2VmhoUTNTSVZ2WHVW?=
- =?utf-8?B?Z1NTWG5nYkJTQm1IQVAxenVpMHUxMTUwa3RZZE5CMUp1L1UxTTVPbzBtMHZa?=
- =?utf-8?B?VXZPYkdxMXN2bVZaQTJaZ3dSQUZwYlY1TnNVakZoNWk2THZ4YTJ0M05ka3dq?=
- =?utf-8?B?OEE2ck9WZ3ZJYWRBMkxOZVh2azhmZnBqb0c1dFhzT1RIbER0bmZkYnB3Yjdm?=
- =?utf-8?B?Z3dnRUVtSW4yS1BweEZJQlhJSk5aNHU0L2U3cWxDOEsrZEpzQjJWTExiOTZu?=
- =?utf-8?B?SVoreGRod2xRSXFkQ0NzRmNLdDV6TjVVZzA1cU10QVJGQTFidHdXb2QvTlM4?=
- =?utf-8?B?em1vSVBsT1RCUmdveFNudmI5bmtxZnR2d1l2dkZxNzBTcFlYUkw3SzBuL1lG?=
- =?utf-8?B?NkNwd2pyclpWTUwvRTJyNEUxbS9Pd0JKcVdNaWFtMlFZNTBVU1Nzdk5TbjZh?=
- =?utf-8?B?cHJBdjJOZC9tcDVHcVNhV2ZWYmRKcDVTN3dJYnFTc2V1T2FrVmU0NFJHdjl2?=
- =?utf-8?B?WExxeENVREIzczdza09neVFuS0UrTXBMOW5rSVd1U3F6SFFYcFo0cW82Um5w?=
- =?utf-8?B?cEMwbmxKT2VaZGszeFRwY2RyOHVab09oZjZSL3Eva0t5SERrSFhXV1daSWNS?=
- =?utf-8?B?eGZWSlhMRnBCZGF3OU9FM21nNFExZXZ3bEtVbk1vMlN3ZVV5eE5hV3pVY3hj?=
- =?utf-8?B?clRDNmw2ZzZTUXJZbTFha1R4Vm1WSzBjTndqRExNdjBsVzFSTXo5ODRZT1k2?=
- =?utf-8?B?cHlBRXRPYVE3ZHFxTGhWMFN5cU1qQ1NIVEhXNUY0dnBuV0F6cEt3d3JmVk83?=
- =?utf-8?B?YWo3Y0FqVVRjS1lkNTM0Y1pmQ1JkVkhLRGFGWkJPc01LVkhhaitJQmVnak5O?=
- =?utf-8?B?Y08rMWlQRDRyMCsvcWVoN05UakdTS0NmeHZLTUJMeG9kQ0p5SDFFaG9sY0ND?=
- =?utf-8?B?MkhEUVpOUVdXL1ZyV21yYVhjSFkyNXFjb2psL2JUUS9PYWlZVFFHVGxtZCto?=
- =?utf-8?B?eHF1OTZ5dytYdDVJY2k0Z2hKTG94MWF1QmczakpZT21SKzgzclBPVG9CTTNk?=
- =?utf-8?B?a1FabmNSRGlQMkxZeDZvMkVHaFRKNVBKYVZnWTlwbWlYQ3JxVDZUMmY0Mzkr?=
- =?utf-8?B?ck05ZU5uVjBWNEZsZDBweUZJWjBmNGtrOXVqSStXNXhaUDd6TGQ2MXdqMWF0?=
- =?utf-8?B?dDZCM1dXL2ZBZHcrbHNnZ0E3a0FoLzIvUmJvaFQ4T3FDdm84amJuSktTdWw1?=
- =?utf-8?B?c1p1VnRrakM1UThYNFRnMThRenhFMzVwcjZsVnlBL3VXV2ZvcmNPZUpkNERZ?=
- =?utf-8?B?MEdKN3FZMTVVMG9nSXMvNVQrYWdubEczbHZZZFlEMjVkOUkvZ1h5ZWgzWFA3?=
- =?utf-8?B?aldCU0NwMkZIaUJvaFQ1RWJPcTUyNzhaREVGaml1ajc5MFFrelQ0SlN0Mkg5?=
- =?utf-8?B?VlovL3VFbVVNZ3ZwdDRSMkk0NTYwTzRyV09uNlpSdWpIVjBRN2ExSWp3RkhI?=
- =?utf-8?B?TWovSng2RjNhdlpranVTQWprb2lKZWxQa2JmMnRuak1mK1o4RXVRakJ5bE02?=
- =?utf-8?B?RlhOMldYVFFvbUIyY2Z4QmFYN3ZIQVVzOTBKUFpJdGhMRkdYb3k3U0lzbWw4?=
- =?utf-8?B?UFZuQXFpU285dG5wNFJSdm9UTVFYanFrOTlTZGZoNys0cGtsWFIvV2tLRG5I?=
- =?utf-8?B?ajZmN3ZTT2lYUGx4ZnRxSXcvSnlZUjJnVk42TUMwbGRmUFM3UHFCamYvODlw?=
- =?utf-8?B?S3p0REluWDVuekRzZmx0TFhrWkl2a2JlekozaDVUOHAwV2g1TW5CcjJpVDVJ?=
- =?utf-8?B?U0dDcjhUeUFqcUhZYmVvQWVyU1E5RnE4YnZJTDdMS0grNFczMG1EbGFpSU1N?=
- =?utf-8?B?aENZdXVOQzhMUXVzWVhTQm5HVnFWQ1hCckxpYVpVV1hmV2RVRXcydjVkODdj?=
- =?utf-8?B?ME51UkdxQ0JtcmFTOXY0dXI4Y0U2Z2Nid3JkcEE0V09BODV5THpOMTloSFNJ?=
- =?utf-8?Q?Dx/0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(10070799003)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bXRTOG52NTRCTWVMa08vQ0p2dG1kZHVxYzlCMGVDU2R0Z1c0Q1dXT1pKeVRM?=
- =?utf-8?B?Vjc1NC8xNXAyQ1dmWllQejFqcXFSOEg0SHVVcGdtTWJKLzd2c0sxMUI5V2Yz?=
- =?utf-8?B?UHcvVnRrZzF4Q0c1L0JZN0lwbit2azVneE9ORDdrZldMaExXd3pmbTdpZ3FU?=
- =?utf-8?B?UFlrMy9FRDNpR2QrVm5vQlo0T0ZjMndoamdaazN2SWN3ZjU1K0ErYnpObEYy?=
- =?utf-8?B?czVYK2hQdlo5TFg0aGtXY3lKZHYzMWxkVXV3WSttUHhIQkxodzN2NFVoTVE0?=
- =?utf-8?B?Zlc2YzlBVzgzRXVKczQ5VWhNUFFTV043NXoxZzRVbEdLcHFyV2NYK2d4NURu?=
- =?utf-8?B?MWFzSXdkakZGZWRWVW9YQW4wTTc4anY4dnV6a1dsZUE4SnExa3ZaUEhoM2J2?=
- =?utf-8?B?c1pINjNjL1RibGRHeHZIa3F2VHJYZ2hLUlFoNFdBbnBUenZZNVB3RVVDM0Ny?=
- =?utf-8?B?ZXU4ays4aVBza1FWa0NmM09PYkhwL2dYR200MDBNMWZaNnFUZEFkTlB2dU03?=
- =?utf-8?B?M2NuSW1LcUdsVlo0dUpUdlBPc3FRV3NOcWVrMWpyWGRpbVJhZFFNZ244b052?=
- =?utf-8?B?S0ZLVnFic1JTTG10MlZyNm80b0JvZ0pXUksrcWxlSkxOM21rMlpPcGdWdUlP?=
- =?utf-8?B?dm8xWHJ4V1Q1STdsV3hXemw4Q2dzbXdoZndhc3VNZ1FtT2xiRjdySkZEeUNC?=
- =?utf-8?B?TmRxZU9jczZKclpRYjNJc1ZiK0pxU2FQSHIxUWlOVGdtTng1dUk4UlNxUkt4?=
- =?utf-8?B?ZWQ2cXc3NTRLSXdQMkRRMWd0U1dIWDU5RlF0c3Z6bnJnU0ljSlIyUXhoQWtl?=
- =?utf-8?B?YjlCa2N4SzNpakNReENlbVhnM0ZLeXM4bk9hTTlMdlFxVDhRT1F0UlBjK283?=
- =?utf-8?B?cWV5T3ZjdnBUcmQwTmZLbjNhbFc2QUJ3V0haODRnTzNQY0tOb01LS3c3T3lw?=
- =?utf-8?B?VUs3YlVUcHR5b0RPQUFrb2RiVHBhNG1hM1NSY0VJS21tSWtGTGFkb0dlRzZU?=
- =?utf-8?B?b1VUVk9OYVZjUXhvaXc5ckdDL1Y0NnBwQVFwbzlTVVp6d2pjREhMMjNYNFhn?=
- =?utf-8?B?V1BjeGRmYU1rd2VWZEFtT2s2a1dTYlhFN284YkRqY3JJQ0hUM1RiWVRwalBm?=
- =?utf-8?B?U25KYzBBanpaMGZMRUFLSUVJUkJhQXlHK01UdVBaTldjeHJERGtKM1VrNWU1?=
- =?utf-8?B?RmdkanBiRGNMTXIwdFRWN3NFemxkMjB4WjdmVFo1YWZBTnVueE9xRVpuK1Y2?=
- =?utf-8?B?ZDVSWm9IdTZucVZDekJlamVnOGRqbzBsaldTbks1NjQ3Y096bzhDSXZZei9h?=
- =?utf-8?B?UytDWG5NZnFUanRqSnhRRVNoZCtrNFV4REdESTE0b1QvOVRLb3BUVmxxUU9U?=
- =?utf-8?B?SDJxYk9HV3AwTGhGT1BNYUF1dXhWWDJZQ1VUTndLblVkTnM4enBuTkxENzhE?=
- =?utf-8?B?YVc4M1RIT2tYZnd1SnJvbHczbjhEdmVwZUdqajdOTExuZU9mWXV0R2ZtanY5?=
- =?utf-8?B?NXhLVDdudEY5em5YVEcxOFIxMjg0U055UzIvcGs1d2N1NzVuWjVNcVJCTnYw?=
- =?utf-8?B?cUltc2l4VnpFSlhraTh1ck9oYTlONk5TbHJSR0FQdzRxZTJiVU0vSXQzZmhU?=
- =?utf-8?B?MzR3UHhBTkNxSWdwVGpDUU9US3UycUR0cG0yQnNsUWxZVmVuTUNIbEdUQnc3?=
- =?utf-8?B?Ym5ZUGZ1N1J6Y2REYVRtKzk3UlZIT0V2cTBLZnpocVhNNTR5VnVlbmYwTk9p?=
- =?utf-8?B?REpKWnRoSm5LOXFZT2FKd0pUUEpYTmFVK0Q0M2lNYWZuUDloMEltd1lQZTlK?=
- =?utf-8?B?eVk2c2liTkpkY2lqMnF6bll4VDU1YUlCbUpmVUpsMENacjlKZCswRDFUczdR?=
- =?utf-8?B?ZXZWTnJyVGJIOHZPWUo4b2h4cVM4bXRncjM5Y0Vvajlta3YxL1laaFIwU3hj?=
- =?utf-8?B?VHdCN0E5cGJOUWFlWnRaMDdINCtnTjhOR3NQK2lJVERZc3B0YXh1d3BOWlpM?=
- =?utf-8?B?bEpXSm9lUGtWSlg5WGI5VFJDb05KKzJpTGs3NUN3eCtVUlRLQUhJVlpOSnNt?=
- =?utf-8?B?MXFoSEpIWFFSa1Z2Q2MvWEkva05UeUZiZzVDQ3JoTWdMNGoxWXFGS2YrL1ZE?=
- =?utf-8?B?STlaQWlVYXNGM1RjL3U4MWVjSll1LzRuRDVHbkdPckJnb1g1YlFSRDRWdWZW?=
- =?utf-8?B?cVpZZ0t4MkxLc1Z2WlNCdUcxVStHdm4vb3pzR0ZQTGlkcWxyakN4ZzBpU2F1?=
- =?utf-8?B?akVVZzZ2NFRySVVSZG5FVFYwNWVub05wdnI3ejQ0bnZtMHo1bE45NlZZRU9u?=
- =?utf-8?B?WVhEbThHNW5OaS9nSElhb1RlWTdPOHNXN1pjUWhMbjYrYzVUOHo2TEFib1Bk?=
- =?utf-8?Q?yh990EFicZC7tyzs21eQiHButR4X/AHD2UvlAVanWhNCT?=
-X-MS-Exchange-AntiSpam-MessageData-1: TadmO1ELXXz9Lg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4df4c193-afb8-4503-608d-08de74477c46
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 08:25:51.1787
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fI38HCxrthEVec0dRb3ZrxbZhGR+A12ceuhIs+oxtrOVNmGnZzfChuNdsH7KRxHM39loZ7PkPBgAUol6zn0x0Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPFDA9B3771F
+References: <20260225074633.149590-1-leon.huangfu@shopee.com>
+In-Reply-To: <20260225074633.149590-1-leon.huangfu@shopee.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Wed, 25 Feb 2026 09:31:53 +0100
+X-Gm-Features: AaiRm507EGOddch-kDNSzMHFchJtTr1oj0fZFTjVzjHQ2BHh-bU1RsoVageww8g
+Message-ID: <CANn89i+RZtN0wcyBUxKf83pkcbH4=nN_Cpc62tNwwS8T-LQR2A@mail.gmail.com>
+Subject: Re: [RFC PATCH net-next] tcp: Add net.ipv4.tcp_purge_receive_queue sysctl
+To: Leon Hwang <leon.huangfu@shopee.com>
+Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ij@kernel.org>, 
+	Ido Schimmel <idosch@nvidia.com>, kerneljasonxing@gmail.com, lance.yang@linux.dev, 
+	jiayuan.chen@linux.dev, Leon Hwang <leon.hwang@linux.dev>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed Feb 25, 2026 at 5:09 PM JST, Alexandre Courbot wrote:
-> On Wed Feb 25, 2026 at 7:27 AM JST, Joel Fernandes wrote:
->> Add a new module `clist` for working with C's doubly circular linked
->> lists. Provide low-level iteration over list nodes.
->>
->> Typed iteration over actual items is provided with a `clist_create`
->> macro to assist in creation of the `CList` type.
->>
->> Cc: Nikola Djukic <ndjukic@nvidia.com>
->> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
->> Acked-by: Gary Guo <gary@garyguo.net>
->> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+On Wed, Feb 25, 2026 at 8:46=E2=80=AFAM Leon Hwang <leon.huangfu@shopee.com=
+> wrote:
 >
-> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+> Introduce a new sysctl knob, net.ipv4.tcp_purge_receive_queue, to
+> address a memory leak scenario related to TCP sockets.
+
+We use the term "memory leak" for a persistent loss of memory (until reboot=
+)
+
+Lets not abuse it and confuse various AI/human agents which will
+declare emergency situations
+caused by an inexistent fatal error.
+
 >
-> (with one small comment below)
+> Issue:
+> When a TCP socket in the CLOSE_WAIT state receives a RST packet, the
+> current implementation does not clear the socket's receive queue. This
+> causes SKBs in the queue to remain allocated until the socket is
+> explicitly closed by the application. As a consequence:
+>
+> 1. The page pool pages held by these SKBs are not released.
 
-Actually, one more. When trying to build the GPU buddy series on top of
-this, I got this warning:
+This situation also applies for normal TCP_ESTABLISHED sockets, when
+applications
+do not drain the receive queue.
 
-warning: this macro expands metavariables in an unsafe block
-   --> ../rust/kernel/ffi/clist.rs:336:9
-    |
-336 |         unsafe { $crate::ffi::clist::CList::<$rust_type, OFFSET>::fro=
-m_raw($head) }
-    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^
-    |
-    =3D note: this allows the user of the macro to write unsafe code outsid=
-e of an unsafe block
-    =3D help: consider expanding any metavariables outside of this block, e=
-.g. by storing them in a variable
-    =3D help: ... or also expand referenced metavariables in a safe context=
- to require an unsafe block at callsite
-    =3D help: for further information visit https://rust-lang.github.io/rus=
-t-clippy/rust-1.93.0/index.html#macro_metavars_in_unsafe
-    =3D note: `-W clippy::macro-metavars-in-unsafe` implied by `-W clippy::=
-all`
-    =3D help: to override `-W clippy::all` add `#[allow(clippy::macro_metav=
-ars_in_unsafe)]`
+As long the application has not called close(), kernel should not
+assume the application
+will _not_ read the data that was received.
 
-The fix should be easy and as prescribed.
 
-Btw, your `nova/mm` branch has not been built with `CLIPPY=3D1` before
-submission - there are still a few of few.
+> 2. The associated page pool cannot be freed.
+>
+> RFC 9293 Section 3.10.7.4 specifies that when a RST is received in
+> CLOSE_WAIT state, "all segment queues should be flushed." However, the
+> current implementation does not flush the receive queue.
+
+Some buggy stacks send RST anyway after FIN. I think that forcingly
+purging good data
+received before the RST would add many surprises.
+
+>
+> Solution:
+> Add a per-namespace sysctl (net.ipv4.tcp_purge_receive_queue) that,
+> when enabled, causes the kernel to purge the receive queue when a RST
+> packet is received in CLOSE_WAIT state. This allows immediate release
+> of SKBs and their associated memory resources.
+>
+> The feature is disabled by default to maintain backward compatibility
+> with existing behavior.
+>
+> Signed-off-by: Leon Hwang <leon.huangfu@shopee.com>
+> ---
+>  Documentation/networking/ip-sysctl.rst         | 18 ++++++++++++++++++
+>  .../net_cachelines/netns_ipv4_sysctl.rst       |  1 +
+>  include/net/netns/ipv4.h                       |  1 +
+>  net/ipv4/sysctl_net_ipv4.c                     |  9 +++++++++
+>  net/ipv4/tcp_input.c                           | 16 ++++++++++++++++
+>  5 files changed, 45 insertions(+)
+>
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/netwo=
+rking/ip-sysctl.rst
+> index d1eeb5323af0..71a529462baa 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+> @@ -1441,6 +1441,24 @@ tcp_rto_max_ms - INTEGER
+>
+>         Default: 120,000
+>
+> +tcp_purge_receive_queue - BOOLEAN
+> +       When a socket in the TCP_CLOSE_WAIT state receives a RST packet, =
+the
+> +       default behavior is to not clear its receive queue.  As a result,
+> +       any SKBs in the queue are not freed until the socket is closed.
+> +       Consequently, the pages held by these SKBs are not released, whic=
+h
+> +       can also prevent the associated page pool from being freed.
+> +
+> +       If enabled, the receive queue is purged upon receiving the RST,
+> +       allowing the SKBs and their associated memory to be released
+> +       promptly.
+> +
+> +       Possible values:
+> +
+> +       - 0 (disabled)
+> +       - 1 (enabled)
+> +
+> +       Default: 0 (disabled)
+> +
+>  UDP variables
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rs=
+t b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+> index beaf1880a19b..f2c42e7d84a9 100644
+> --- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+> +++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+> @@ -123,6 +123,7 @@ unsigned_long                   sysctl_tcp_comp_sack_=
+delay_ns
+>  unsigned_long                   sysctl_tcp_comp_sack_slack_ns           =
+                                             __tcp_ack_snd_check
+>  int                             sysctl_max_syn_backlog
+>  int                             sysctl_tcp_fastopen
+> +u8                              sysctl_tcp_purge_receive_queue
+>  struct_tcp_congestion_ops       tcp_congestion_control                  =
+                                             init_cc
+>  struct_tcp_fastopen_context     tcp_fastopen_ctx
+>  unsigned_int                    sysctl_tcp_fastopen_blackhole_timeout
+> diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
+> index 8e971c7bf164..ab973f30f502 100644
+> --- a/include/net/netns/ipv4.h
+> +++ b/include/net/netns/ipv4.h
+> @@ -220,6 +220,7 @@ struct netns_ipv4 {
+>         u8 sysctl_tcp_nometrics_save;
+>         u8 sysctl_tcp_no_ssthresh_metrics_save;
+>         u8 sysctl_tcp_workaround_signed_windows;
+> +       u8 sysctl_tcp_purge_receive_queue;
+>         int sysctl_tcp_challenge_ack_limit;
+>         u8 sysctl_tcp_min_tso_segs;
+>         u8 sysctl_tcp_reflect_tos;
+> diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+> index 643763bc2142..da30970bb5d5 100644
+> --- a/net/ipv4/sysctl_net_ipv4.c
+> +++ b/net/ipv4/sysctl_net_ipv4.c
+> @@ -1641,6 +1641,15 @@ static struct ctl_table ipv4_net_table[] =3D {
+>                 .extra1         =3D SYSCTL_ONE_THOUSAND,
+>                 .extra2         =3D &tcp_rto_max_max,
+>         },
+> +       {
+> +               .procname       =3D "tcp_purge_receive_queue",
+> +               .data           =3D &init_net.ipv4.sysctl_tcp_purge_recei=
+ve_queue,
+> +               .maxlen         =3D sizeof(u8),
+> +               .mode           =3D 0644,
+> +               .proc_handler   =3D proc_dou8vec_minmax,
+> +               .extra1         =3D SYSCTL_ZERO,
+> +               .extra2         =3D SYSCTL_ONE,
+> +       },
+>  };
+>
+>  static __net_init int ipv4_sysctl_init_net(struct net *net)
+> diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+> index 6c3f1d031444..43f32fb5831d 100644
+> --- a/net/ipv4/tcp_input.c
+> +++ b/net/ipv4/tcp_input.c
+> @@ -4895,6 +4895,7 @@ EXPORT_IPV6_MOD(tcp_done_with_error);
+>  /* When we get a reset we do this. */
+>  void tcp_reset(struct sock *sk, struct sk_buff *skb)
+>  {
+> +       const struct net *net =3D sock_net(sk);
+>         int err;
+>
+>         trace_tcp_receive_reset(sk);
+> @@ -4911,6 +4912,21 @@ void tcp_reset(struct sock *sk, struct sk_buff *sk=
+b)
+>                 err =3D ECONNREFUSED;
+>                 break;
+>         case TCP_CLOSE_WAIT:
+> +               /* RFC9293 3.10.7.4. Other States
+> +                *   Second, check the RST bit:
+> +                *     CLOSE-WAIT STATE
+> +                *
+> +                * If the RST bit is set, then any outstanding RECEIVEs a=
+nd
+> +                * SEND should receive "reset" responses.  All segment qu=
+eues
+> +                * should be flushed.  Users should also receive an unsol=
+icited
+> +                * general "connection reset" signal.  Enter the CLOSED s=
+tate,
+> +                * delete the TCB, and return.
+> +                *
+> +                * If net.ipv4.tcp_purge_receive_queue is enabled,
+> +                * sk_receive_queue will be flushed too.
+> +                */
+> +               if (unlikely(net->ipv4.sysctl_tcp_purge_receive_queue))
+> +                       skb_queue_purge(&sk->sk_receive_queue);
+>                 err =3D EPIPE;
+>                 break;
+>         case TCP_CLOSE:
+> --
+> 2.52.0
+>
+
+Please prepare a packetdrill test.
