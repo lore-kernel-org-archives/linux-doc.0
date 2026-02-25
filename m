@@ -1,114 +1,59 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F8E395D94
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 19:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF87392822;
+	Wed, 25 Feb 2026 19:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772048462; cv=none; b=C71G6fh5dKKdfrfKsXjWxVQ+m52WVwgP2ukhb5OaKFUQKQmqyG9mzyXeYui3t61OkhrDZ2jANDQF0CzoQpWJeGTXJtAQ1rtL2beM/gvA0acZQZKv2/SBGu8+4GJMqErvCNntt3snbmQ08cuf8z1AATy6NrLURoqJmUdeZYZtUt4=
+	t=1772048643; cv=none; b=BDY7b2/ho5ihq8A6hjsqSvnrJ7fxntPvLhcUNGL3oM6+7XaTmZsGwL6/k8x3rlW/cv70wdYW8HiZS48/XEi1UTUR1X2QHe+GJm2U5Rlqol0rJtmmRxhG2HERQ92/dCgJtT/emGWUXHe+flJNmrhMsSiakKn3VwJeBhmaDjyBHBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772048462; c=relaxed/simple;
-	bh=FCb6qRsffNOFquP1zsdT5LrT/xxl0ASJ+i+C6Ffk7Q0=;
+	s=arc-20240116; t=1772048643; c=relaxed/simple;
+	bh=gULMDKpUK/FsthYotcBl7chnm4qllNzSnegyiTsqh+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oDAqY5v5yu5IrEMYa4EYldRgnUffIT54jpCpkV3H/a2xsu3oKQy5QTFxFwnUAg0ZqaiKsNOt/zJuI8JRWYzFOBWU5HhNPm6OIRav3aRVXstXDVni8tX2Sy2xkrlaNb/nbidoy/OtFGql2yUHqel7gdUjc6kUKCKDTvJEQQ0EwbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bb6+ZXg4; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=L/vUdoIy; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=fj1Vy3dhU/0D8gqdjFfu1VEDf1XyLMFv1IzOChiEJuNAoCl6VgSYmBykeFZCaSfH/r3BLWjN18bZDxdcGKQ9i9pHoGjdfDvSa/uTuSGcsjNtLAj4bQqgDgHZCbvA23C4EW8jxAIOv99nFJF4y2hcxPx+kX88AXQLB3DxHRfZWOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HFeTZ1qY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bb6+ZXg4";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="L/vUdoIy"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PH3qvT1196104
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 19:41:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YldBZQ/Jim+tynF85y7k+vY7BGkAqZn1hJiK/ioWbpQ=; b=bb6+ZXg4Bc21i6nI
-	8YZgTqmAMOzl06INuTbAreMHrTwt9uIaIbxUXWgqIj90/VMFd0maXT2OFDW6JYg7
-	K3KWk+18VoLozcITPhcI2VBzd8Jt6u+Ef5fWU2aek2C+GgEj0WeSlDu2U+sPmyz+
-	ZarHADoXvpftmC/fQPY6EXQ1mpg8lOnG+ylhPR4YMQOiaktPAP4DjVzUByvyKSGn
-	BYSLMygKkC/C6+JJ+rq+7G49iysdZhsU/lUbJ66yKZeB755ABxZKg+A+HuhWea99
-	2ITdBRgW+YB+i5N6/3IJLENnIM5CDJqAsLjX+m/S9G0CYsbM0RFhTzgFxX2tdQ5n
-	0JYRPQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cj559gfyn-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 19:41:00 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8cb52a9c0eeso2142918185a.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 11:41:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772048459; x=1772653259; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=YldBZQ/Jim+tynF85y7k+vY7BGkAqZn1hJiK/ioWbpQ=;
-        b=L/vUdoIyFGQPpW8xYnU5G/p5PnQYcJCPjjUyyqbV1sTGIln4inIaApcZsveoLFWp2p
-         kLd2cPH2n8sWK33HynmHNipGU1EjPPrRuq0UZvAfKTwNsLIhfaCkC3RcC1dLbydTWGc4
-         1g12larGiDAATSGGYyVKwmiaitgQIlvXCEXu5alhbZwGGOS8nHeYeB/ebRpFtyPmYAUS
-         DsLCijKW+hU0V3o7Jy9gF8gg0yti1LuwEtX40yJqR7WDn/j9oz0CZXlzCVc4pIvCrqgq
-         YdAftf78ptXvKIu8lTMd+1G+Ku7cpXLv5URttArLhwVfebLlDnmfYmG71ajI6uM3wBwU
-         dEBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772048459; x=1772653259;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YldBZQ/Jim+tynF85y7k+vY7BGkAqZn1hJiK/ioWbpQ=;
-        b=ZoqWLgdupFoHV5gN3RHErysIB1s8f8PgA6lQ2aKpy5zmKK2uthYD0k5XTaX89hXPYH
-         13r4D+901N8kDyo77wwAKFLC+MB1FgAqc7FiaEQteqn3STTAah3gQskivy/i15crOTMw
-         2d7kJIYgxNv4UxCRnhPIJDTIV/m/EgoMboN8XxYzBRlh57KBomEkXDWkEjezWp36/Nyo
-         Rq/R6pW8RGe+Q/YE0yIHzbWQHaSAmi9ZJiaXzOxiDZeUfjFn1qSA9OxDiJKmBpKCa2L3
-         k+SlUHwWPIwYUDefvWe5WYwhZJW8q9yaswMJSJ6BRUgwcf3ABA0jxQf4AheVNC8D8aJG
-         n9Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCXUc5NpNea56+MhzDB45EDPUSSsCEcI45tN1J2HV0Pv/URO7g372HI9DKw1AMAh61pDxX8JDk6Keig=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1iamtydyc5TFmesh5oLJxphYF02It+5wbPFFwVNBpsq8Sy9Ak
-	b0iM8Imdpvzj06CdkMjaKlSdoAihCEVaAdO9/FVD+26uKDRIdqXQ7GE3mrt/iTNE4pMiP3QYDtl
-	PPaJF/uPP0ahpiIVZvykP5k31i0yxoRNFyMMYYJJrNt16c/iinoag5ZCvqJsDZKM=
-X-Gm-Gg: ATEYQzxoxPLJRnMqzVjBpSl8ez/Ud8ydMHMUUhHm7AJZ9FFHYrzUiEEQ0vkmR9b/PHw
-	6vfBok7ID1W63GLWrb97zEpnGLcNjA/7UQ1ImGoMuqGr7WedJ2l8M8QwPjKV7L7VSE2EyS0VjP0
-	YRcszM1agVJgLpPlRBH/YnosDLdBMbVcirTbyoIOKimCd3Ii+CqGVhnBEjv7LwnN+xhGl6wgQzo
-	Chxa7yqYe34vNb7lvtYnAMcySmIZ+EObeu6VfepxBQp4gir+tT4Et6nmO9FIXep5mdO+99VQxRs
-	fjwWFQ/htTqqUgLODhPXLtWAeDhr97w992noh3WN/nbr8ltATzbHsLBl8wPxfLnW6ivJw4Gr1fx
-	TUNp+6GAyessIwYFTg8W3pRWxTtJv15uR12DPmXJwKn/T6OXtiUC60plu9BP8gvTXdvsTZHbIBM
-	GTWT8LwcidCxmcJriGO4LW1AbmzeFEoVRdcTQ=
-X-Received: by 2002:a05:620a:294b:b0:8ca:fdc1:cc9c with SMTP id af79cd13be357-8cbbd07f3e0mr229590285a.76.1772048459341;
-        Wed, 25 Feb 2026 11:40:59 -0800 (PST)
-X-Received: by 2002:a05:620a:294b:b0:8ca:fdc1:cc9c with SMTP id af79cd13be357-8cbbd07f3e0mr229583885a.76.1772048458831;
-        Wed, 25 Feb 2026 11:40:58 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389f21a4293sm46201fa.39.2026.02.25.11.40.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 11:40:58 -0800 (PST)
-Date: Wed, 25 Feb 2026 21:40:56 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Trilok Soni <trilokkumar.soni@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        iommu@lists.linux.dev, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>
-Subject: Re: [PATCH RFC 01/18] accel/qda: Add Qualcomm QDA DSP accelerator
- driver docs
-Message-ID: <jmv4jkwku5x5acxno3vyar4cozl3makdz6vzdyjsitf2vtyhp6@cxtl7zmaayvq>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-1-fe46a9c1a046@oss.qualcomm.com>
- <e94ce683-d47c-4c8e-8b26-cd327c891cc8@oss.qualcomm.com>
- <5a278b02-f2ad-408b-b0ad-f2297817bd7e@oss.qualcomm.com>
- <opjniedtfhkv7vlb57g3xyikcfkxelthx3lmspmypws4vxz4oc@4uypmmf4t6fb>
- <4e4b50fe-1091-451e-b854-f7b061ebd88d@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HFeTZ1qY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFC52C116D0;
+	Wed, 25 Feb 2026 19:44:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772048643;
+	bh=gULMDKpUK/FsthYotcBl7chnm4qllNzSnegyiTsqh+0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HFeTZ1qYVM9zvwMEF9fTAoDLFyfPAk+eFT63ompAkDWfg0ihwPI7V4TtxQiai7ZTS
+	 TUCxxiUqzi7GqRMrlGd5uqJKJl3zTs+Pp6c+M0vcRYw5QpMhnRstmFAkL395ie6LsT
+	 nsgBrPn2clE5BTM5e9WW6Og6t7vD5oYcEk8+3VbEhgAry+/K4xQYrqXYi5zHhs1geb
+	 g/BWPMdalCV1Airi7bcoe5pvKI64LCS2BR8GK5o9fTiQcbMkm8D4DBoJNp1IRAx3oM
+	 UhqMBKBHSaIBj+WLxCIqyk8wZlxtPG1PEZiWlust+4DdTphiZ+5gVAt+w4fh5ij8bP
+	 IKwfJA+52EEKA==
+Date: Wed, 25 Feb 2026 13:43:58 -0600
+From: Bjorn Andersson <andersson@kernel.org>
+To: Shenwei Wang <shenwei.wang@nxp.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, 
+	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <frank.li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Message-ID: <2b72kkgwe5hio4uwrxj5oi72llkxhx7egw442fugq6unv7unah@5bfve7k3mvky>
+References: <nbzdtngifwrx2kyu4tsiwwua5v4i5cjtaotemq5hubaets3bcn@fk25twf5rv6x>
+ <PAXPR04MB9185588C1DB71B1FEFA1DEE38974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CANLsYkxAwgG1WkMRr8EJZuSUnN_jKVnsWhWTakVqhvtMBO365A@mail.gmail.com>
+ <PAXPR04MB91851D3DA6A92669CB5926A18974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CANLsYkw-8ERXy3v8Sv55Cpq=+41Toez3EjLMbENAkavvr8STeQ@mail.gmail.com>
+ <PAXPR04MB9185B68BC640D940534E44098974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <d4c8f7dd-c0a8-4721-9750-47429637d8c1@lunn.ch>
+ <PAXPR04MB9185BB6443B9E1E407F409D68974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <ndozoc6qdrpv3xuktumsah56im5rbtg6iwerq3xi2xkcuyewpx@szswqvojleg3>
+ <AS8PR04MB917652D63DB090D22129D3D78975A@AS8PR04MB9176.eurprd04.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -118,113 +63,146 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4e4b50fe-1091-451e-b854-f7b061ebd88d@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: zjrAUXEZQzUlOWYo6rCuiKpfNlZHQ82t
-X-Proofpoint-GUID: zjrAUXEZQzUlOWYo6rCuiKpfNlZHQ82t
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE4OCBTYWx0ZWRfX5eTRxt+Rijc1
- lPuFm8EzhU8XPXPRVtWT2dQ68CRkjPVADfuhzqonx+we2u88qMnoZmUebJScnSfLquxs9/++1Ds
- /o6ghf+96lJ5GxVtspOFtS/iyKjAQASOhu5E4FfgN6bM0479As33/YMuKcb19kNSAjhF5RnVrG+
- Ph5Uf0V3VVGlCTCWJr5xmUY9N83w+7fBJSx+o3k6Sfujel7cQZrkvV8y+swnPzrtOtt8FItWZOM
- eoElO4Zn+EtI9zjwILWhCeeHmjfRD62Fx4t/muIFxzA5LmK3zxZUmULdiCTtzGMZibZ7j5JjOys
- 8/x14BCttSXrMn587/QAcWMyiUuvQqafEckeB8YOc0b946fNc4oCb3jq4KpT03onJ/NAtiAlExa
- v7ETyksa8hjlJ1y4ZgcgwGeo1GNkRVlJYpm7uuEfLY6hu7DWSfNXEpQ86KifqU+ZHtyN/K/qxSq
- y8kWuf1rvDP3UmSFwpg==
-X-Authority-Analysis: v=2.4 cv=TcybdBQh c=1 sm=1 tr=0 ts=699f504c cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=eG7pLEoM89m89vxRJVQA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_03,2026-02-25_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
- spamscore=0 impostorscore=0 phishscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602250188
+In-Reply-To: <AS8PR04MB917652D63DB090D22129D3D78975A@AS8PR04MB9176.eurprd04.prod.outlook.com>
 
-On Wed, Feb 25, 2026 at 11:16:26AM -0800, Trilok Soni wrote:
-> On 2/25/2026 7:12 AM, Bjorn Andersson wrote:
-> > On Wed, Feb 25, 2026 at 07:47:08PM +0530, Ekansh Gupta wrote:
-> >>
-> >>
-> >> On 2/24/2026 9:03 AM, Trilok Soni wrote:
-> >>> On 2/23/2026 11:08 AM, Ekansh Gupta wrote:
-> >>>> Add initial documentation for the Qualcomm DSP Accelerator (QDA) driver
-> >>>> integrated in the DRM accel subsystem.
-> >>>>
-> >>>> The new docs introduce QDA as a DRM/accel-based implementation of
-> >>>> Hexagon DSP offload that is intended as a modern alternative to the
-> >>>> legacy FastRPC driver in drivers/misc. The text describes the driver
-> >>>> motivation, high-level architecture and interaction with IOMMU context
-> >>>> banks, GEM-based buffer management and the RPMsg transport.
-> >>>>
-> >>>> The user-space facing section documents the main QDA IOCTLs used to
-> >>>> establish DSP sessions, manage GEM buffer objects and invoke remote
-> >>>> procedures using the FastRPC protocol, along with a typical lifecycle
-> >>>> example for applications.
-> >>>>
-> >>>> Finally, the driver is wired into the Compute Accelerators
-> >>>> documentation index under Documentation/accel, and a brief debugging
-> >>>> section shows how to enable dynamic debug for the QDA implementation.
-> >>> So existing applications written over character device UAPI needs to be
-> >>> rewritten over new UAPI and it will be broken once this driver gets
-> >>> merged? Are we going to keep both the drivers in the Linux kernel
-> >>> and not deprecate the /char device one? 
-> >>>
-> >>> Is Qualcomm going to provide the wrapper library in the userspace
-> >>> so that existing applications by our customers and developers
-> >>> keep working w/ the newer kernel if the char interface based
-> >>> driver gets deprecated? It is not clear from your text above. 
-> >> Thanks for raising this, Trilok.
-> >>
-> >> This is one of the open items that I have. I'm not exactly sure what would be the
-> >> acceptable way for this. 
-> >>
-> >> As you mentioned, applications that rely on /dev/fastrpc* might not work on QDA
-> >> without modification.
-> >>
-> >> I was thinking in the same lines as you have mentioned and  having some shim/compat
-> >> driver to translate FastRPC UAPI to QDA. The compat driver would expose the existing
-> >> character devices and route the calls to QDA. The compat driver could be built via Kconfig.
-> >>
-> > 
-> > This is a fundamental requirement, you need to address this in order for
-> > this to move forward.
-> > 
-> > Which makes me wonder if it would be possible to reach an accel driver
-> > through incremental transition of the current driver, instead of just
-> > dropping in a few thousand lines of new code/design.
-> > 
-> >> However, I haven’t encountered an example of such a UAPI‑translation driver in the kernel
-> >> before, so I would want guidance from maintainers on whether this is an acceptable
-> >> model or not.
-> >>
-> >> Regarding your question about library, all the APIs exposed by github/fastrpc library are kept
-> >> unchanged in terms of definitions and expectation. The same project can be build for both
-> >> FastRPC and QDA based on configure options. So, the applications using github/fastrpc should
-> >> not face any problem if the libs is built with proper configure options.
-> >>
-> > 
-> > You're assuming that the kernel and userspace are a unified piece of
-> > software, they are not. It must be possible for me to install a new
-> > kernel package without having to replace the userspace libraries.
+On Wed, Feb 25, 2026 at 05:54:00PM +0000, Shenwei Wang wrote:
 > 
-> Thank you Bjorn for providing the inputs. 
 > 
-> I also foresee that we will be stop adding (or already happened) new features
-> into the existing fastrpc driver, so calling the new driver as an alternative
-> is in oversold category.
+> > -----Original Message-----
+> > From: Bjorn Andersson <andersson@kernel.org>
+> > Sent: Wednesday, February 25, 2026 9:53 AM
+> > To: Shenwei Wang <shenwei.wang@nxp.com>
+> > Cc: Andrew Lunn <andrew@lunn.ch>; Mathieu Poirier
+> > <mathieu.poirier@linaro.org>; Arnaud POULIQUEN
+> > <arnaud.pouliquen@foss.st.com>; Linus Walleij <linusw@kernel.org>; Bartosz
+> > Golaszewski <brgl@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Rob Herring
+> > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
+> > <conor+dt@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
+> > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
+> > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> > <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
+> > devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
+> > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-linux-imx <linux-
+> > imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
+> > Subject: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+> > On Tue, Feb 24, 2026 at 10:43:06PM +0000, Shenwei Wang wrote:
+> > >
+> > >
+> > > > -----Original Message-----
+> > > > From: Andrew Lunn <andrew@lunn.ch>
+> > > > Sent: Tuesday, February 24, 2026 4:15 PM
+> > > > To: Shenwei Wang <shenwei.wang@nxp.com>
+> > > > Cc: Mathieu Poirier <mathieu.poirier@linaro.org>; Bjorn Andersson
+> > > > <andersson@kernel.org>; Arnaud POULIQUEN
+> > > > <arnaud.pouliquen@foss.st.com>; Linus Walleij <linusw@kernel.org>;
+> > > > Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corbet
+> > > > <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> > > > <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Frank Li
+> > > > <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>; Shuah
+> > > > Khan <skhan@linuxfoundation.org>; linux- gpio@vger.kernel.org;
+> > > > linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix
+> > > > Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> > > > <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
+> > > > devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
+> > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org;
+> > > > dl-linux-imx <linux- imx@nxp.com>; Bartosz Golaszewski
+> > > > <brgl@bgdev.pl>
+> > > > Subject: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg
+> > > > GPIO driver
+> > > > > Please explain how you would design your generic rpmsg-gpio driver
+> > > > > which is derived From gpio-virtio?
+> > > >
+> > > > We have already seen the virtio commands are pretty much identical
+> > > > to what i suggested.
+> > > >
+> > > > You could just replace virtqueue_add_sgs() with rpmsg_sendto() and
+> > > > reimplement
+> > > > virtio_gpio_request_vq() to be the callback registered with
+> > rpmsg_create_ept().
+> > > > The rest of basic GPIO handling should not need any changes at all.
+> > > >
+> > >
+> > > Creating endpoints and calling rpmsg_sendto() is only a small part of
+> > > the picture. You also need to manage the service announcement from the
+> > > remote side and handle asynchronous notification messages. That entire
+> > > flow is already implemented in the existing virtio_rpmsg_bus driver.
+> > > Re‑implementing those pieces just to mimic gpio‑virtio over RPMSG would
+> > essentially mean reinventing the wheel without any real benefit.
+> > >
+> > 
+> > I can absolutely see a benefit to this, there are multiple different rpmsg backends
+> > supported in Linux, so a gpio-rpmsg driver could be used by any one of them.
+> > 
+> > I don't see this to be a case of "reinventing the wheel". Instead we copy what
+> > looks to be a very functional wheel and make it fit rpmsg.
+> > This will result in some "duplication", but rpmsg already provide the life cycle
+> > management and has a clean send/callback interface, so there shouldn't be any
+> > inventing...
+> > 
 > 
-> You are pretty much began the deprecating the existing fastrpc driver, so let's
-> just mention it if that is the case and provide migration/shim path so that
-> existing binaries doesn't break.
+> Interesting — could you walk me through how you’d structure the driver with the new 
+> proposal? I’d like to see how you would layer it conceptually.
+> 
+> The current RPMSG solution:
+> 
+>      On Remoteprc                      On Linux
+> GPIOs -> RPMSG -> VIRTIO == VIRTIO -> RPMSG -> GPIO-RPMSG drivers
+> 
+> The VIRTIO solution:
+> 
+>      On Remoteprc                     On Linux
+>           GPIO -> VIRTIO == VIRTIO -> GPIO-VIRTIO driver
+> 
+> Your proposal:
+> 
+>      On Remoteprc                     On Linux
+> GPIOs -> RPMSG -> VIRTIO == VIRTIO -> ???
 
-I agree that we need a migration path, but I'd really focus on it after
-getting at least basic parts of the QDA reviewed and agreed upon.
-Otherwise the shim layer will be reworked again and again with no
-immediate added benefit.
+What I'm suggesting is the following:
 
--- 
-With best wishes
-Dmitry
+GPIOs -> RPMSG -> VIRTIO == VIRTIO -> RPMSG -> GPIO-RPMSG
+       ^                                    ^
+       \-----+------------------------------/
+             |      
+             |
+With this interface on being directly derived from the existing protocol
+(and likely the implementation as well) using gpio-virtio.
+
+You can have multiple "GPIOs" (presumably a "bank" each) instances and
+that will be reflected in having multiple "GPIO-RPMSG" instances.
+
+I haven't made any attempts at implementing this, but it looks very
+similar to gpio-virtio in concept and it looks very similar to the
+exiting RPMSG tty in the sense of being a generic implementation.
+
+To reach something functional on the Linux side it seems to be a matter
+of taking the gpio-virtio driver, register a rpmsg_driver instead,
+change _virtio_gpio_req() to use rpmsg_send(), and perform the actions
+of virtio_gpio_event_vq() in the rpmsg_driver callback function.
+
+Regards,
+Bjorn
+
+> 
+> Thanks,
+> Shenwei
+> 
+> > Similarly, I'm guessing that there's a firmware-side implementation of virtio-gpio
+> > in Zephyr, it should be straightforward to transplant this to the rpmsg interface.
+> > 
+> > Regards,
+> > Bjorn
+> > 
+> > > Thanks,
+> > > Shenwei
+> > >
+> > > > Interrupt support does however need some changes. The
+> > > > virtio_gpio_request_vq() replacement would need to see if the
+> > > > received message indicates an interrupt and call the equivalent of
+> > > > virtio_gpio_event_vq(), since rpmsg does not have a separate mechanism to
+> > deliver interrupts, unlike rpmsg.
+> > > >
+> > > > At a guess, 90% of the code would stay the same?
+> > > >
+> > > >    Andrew
