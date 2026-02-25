@@ -1,158 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAF819EED3;
-	Wed, 25 Feb 2026 21:45:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB01314B96
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 22:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772055955; cv=none; b=QSHN+tJPF6FuYnz1K0R5PzvqzYEQwqGKM0fe7x5sru1PjJLT8bsl9OTe8nWr7fup/AIrII/i86fdZNqdS7TlcLIkatlCMP0f/XfB6aPWVprRku3zztNMykIgnCrBl6hOmXX+hMo1c2TKaENYN/kuJKDrtdm+QlbmMS8mE4Xmb/Q=
+	t=1772057190; cv=none; b=gA/WJgFJE3uY/JvcJE60VmBVLoZ3zJrE7QAnwqPq6oKOjH+1FWNELElbHqfc60RPu7n0TQGWIUL3xVYdmSEQ0XSjbbbK2DHlt+w5bCDuuYGJEsv35SYWLmtRsGE6wFzvvbAeO0vKsSN69KgET7+ZSljGWKKBIQ9qIMsquaPnvxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772055955; c=relaxed/simple;
-	bh=CruDCZjsjXrYCZyE3ojF++r9JYVqoPaMKqkQId1lEhY=;
+	s=arc-20240116; t=1772057190; c=relaxed/simple;
+	bh=LJWtxfMSbjaR7UL7hdep9H/YDcNXa8SN1R3pQvw0+Fc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gree1Elp/s3C2oqB8KXnbG9pF5Jsty6hEyfNax34T9YFCdTVqq3/5ijDj0/RC0BmINz1q8Gp0IUqANO9ar+X08fDYP8k//2LihIok5gT4wuxjhhMOxumly5cm/kKTvHlG/kHi6HopORELtDuBCtyGcTvjmN7g5zW2qM4dzi1aL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KuFbNoxW; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tikt0EtG4jYQDmzQM26cZvt5hGssAUGg3WoL0Yd+8EkAdVeXAxTtik4hq6l6IvIK/fiTZEn0dZXDcrikYKn+B99TkE4T9P+1hFbPqVSo52ozghaby67xfIrC8wRrRuOAQvyDoJB/CNV0gDgph6pik7qT0nBDnghY/yYhWCEA0GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tA+Pbm0Y; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KuFbNoxW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C403C116D0;
-	Wed, 25 Feb 2026 21:45:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772055954;
-	bh=CruDCZjsjXrYCZyE3ojF++r9JYVqoPaMKqkQId1lEhY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KuFbNoxWlmIzblRI46l2M3shUNrdezCvyED+VFq17e9fiMSFe7vOwA9pO3/ecXm6W
-	 qHRxhZGfA2eNVRlifVs7X2HiopMu9salvAWaQHALwjM+pPyHf97/PwKuBHxIw5dbTL
-	 ZVIurHsuZIoIKVTRnK1msxW8xBIY/l6LfNkcCmnRv+P5eQV/ZwgR/9LG7PtsKvso8N
-	 C+bbVlaRlKcW/lSAx/rCpmFy0eunJRDni9U/5HeDsN2DUcw0CaLrJeNtf7jzq2iAGP
-	 2qnzJfgn4gPq4fyYMbkcXLoqI389pT9Jf9RRcV7JRIMwxCwKVOhaIm+kNnUd4yJdqx
-	 WV/tb2wPJradA==
-Date: Wed, 25 Feb 2026 22:45:48 +0100
-From: Alejandro Colomar <alx@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
-	Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH] Add short author date to Fixes tag
-Message-ID: <aZ9p2RMrJL1mQ10w@devuan>
-References: <aZ4_sBIy8rOUL59Q@devuan>
- <2026022531-tightness-rare-6a14@gregkh>
- <aZ87Z24f9HZsofGl@devuan>
- <2026022539-commotion-huskiness-8736@gregkh>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tA+Pbm0Y"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2adb1c1f9d4so30595ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 14:06:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772057189; x=1772661989; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yKxFO5jbcj0n3yx3uCDHTRhkwPsNZ/ADjqKpvoexazc=;
+        b=tA+Pbm0YWZZbEJBWS4Tr4W7PpkLvYJdLDNIcSF8/87i9oDVFj+Oz+s3bBv0r6W7PlG
+         NEcFRl6QB/YdLaxiel9L3DCwLztCmQrSXxaUxtdkefuFoWFIHG3VgRMJv0nj0eSkW2AI
+         /G3DvLZmmXsW7d1ZDWanlu+GBMsmI3FhtUrnRlW9tgPwglg1jugdpYuUjdwZbuj7aHK1
+         CbBmH2tQ70fyIVwV+ZJtG1FEJ/z3vmGea+A/4TMAJ3ZHCx6TrHQtCxC+YVbWui3pWRu0
+         jHvSqojoeLrA7wPutUbnsggmp2BfW13G/svB/7nm7sLAoLTHZsCb+8kGv34V2nIapyAp
+         eF5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772057189; x=1772661989;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yKxFO5jbcj0n3yx3uCDHTRhkwPsNZ/ADjqKpvoexazc=;
+        b=WLEcyQSu8KmnBviBQeIr2Q13aJNME4N+rRmaYFB1txhMAc5m+hd268pwfFmx8R9kkd
+         UnECuDlTJ/ygb80EsRek+w/3TIPO4OhQ+ZbQ5sNAEoZD+44t+oa0dkNk8wPtuNWYuVw8
+         KQ7fbggPgMKiYjb3u+nlqI8z9PRyuafUZAWCDrgXZ/4lPw9Xq63o0zTtLNe509lZBltx
+         k1oqOAKRc4g8H1kPGYdrOuNyeSR+hsu379GCCftw94tzJbrT9aLzQr/oJRBlF9fAZ/jA
+         SheFsTaveULhDFZ/B6OCPL1Q7RTz/Wj8Ti7EBR1Oz9NhHqjXvrM0ewOlclMsthoq3IwF
+         vLQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXncgY1BhPi3UD/mDfhu6Lw6yTRNFmRhjMHHJcDTLFCDFF2x2JFpcUuqwrc7GVXKXz+QwwnPBz2pg8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjkLSf/vRkqT1rKbTXHCGdA6H8Eq1TpeCGJBYgF4E/sl5XapFM
+	+2+KDh40zr1n4dGj5epxR1gVF0xG5THX3zUAgTDSR5qaWnxsQmnjtDRgf/FKUrTHdg==
+X-Gm-Gg: ATEYQzwq2JChnUlxKf5y/gk7X+Swvk7Q8+ES2cX2duk4qIWDb6yNm0cbeiij554l0mx
+	v3/nG0Gy9yFWInaG0hbO5fNCNL+Wi+CeGMrRIpPESCOghNeKtG/xFRWmURaKOZl3RcpiH8mQgdM
+	nhAO28SXTEQTLoU8/gR7ztGyE9izn57Ns/Oqwym/BfX/mmbgExdvIP57JwsEiTgECyKNGn7Otho
+	w6vOwyeo/GQ9EOBSh2tEb9SGkhGIPnJIMv3WwIHKf5r/yzle7BgGLpIplR6LZg7gS1ziDpya4yf
+	1JEMJiTy69PUMNMjXK+x0kbiVv/sMg4pb4xlLXWx1yQSnjewhmwf6ze1vaL1+xRtFxuW2KPUS8c
+	CnrR1wuIi5PYEvvELiG5P/SANwFT/denJepUDYksaqHX7OVkNXqa3+K1HqW7TE88gGrzVIKagmT
+	R2tFzqhnNNXVgKqvhPHLNAWKcqVzPmZqNc0/NVdjEuPi/NRJoMKZSLcSCX4zUtaeUB0EACkCs=
+X-Received: by 2002:a17:903:2a86:b0:29e:27f4:bac0 with SMTP id d9443c01a7336-2adf77c692amr672495ad.16.1772057188344;
+        Wed, 25 Feb 2026 14:06:28 -0800 (PST)
+Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8273a05e831sm236247b3a.58.2026.02.25.14.06.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Feb 2026 14:06:27 -0800 (PST)
+Date: Wed, 25 Feb 2026 22:06:18 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Alex Williamson <alex@shazbot.org>
+Cc: David Matlack <dmatlack@google.com>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Lukas Wunner <lukas@wunner.de>,
+	 =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Tomita Moeko <tomitamoeko@gmail.com>,
+	Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 04/22] vfio/pci: Register a file handler with Live
+ Update Orchestrator
+Message-ID: <aZ9yWlcqs2b6FLxy@google.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+ <20260129212510.967611-5-dmatlack@google.com>
+ <20260225143328.35be89f6@shazbot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="nth7q4avk33oteqe"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026022539-commotion-huskiness-8736@gregkh>
+In-Reply-To: <20260225143328.35be89f6@shazbot.org>
 
+On Wed, Feb 25, 2026 at 02:33:28PM -0700, Alex Williamson wrote:
+> On Thu, 29 Jan 2026 21:24:51 +0000
+> David Matlack <dmatlack@google.com> wrote:
+> > diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+> > index 0c771064c0b8..19e88322af2c 100644
+> > --- a/drivers/vfio/pci/vfio_pci.c
+> > +++ b/drivers/vfio/pci/vfio_pci.c
+> > @@ -258,6 +258,10 @@ static int __init vfio_pci_init(void)
+> >  	int ret;
+> >  	bool is_disable_vga = true;
+> >  
+> > +	ret = vfio_pci_liveupdate_init();
+> > +	if (ret)
+> > +		return ret;
+> > +
+> >  #ifdef CONFIG_VFIO_PCI_VGA
+> >  	is_disable_vga = disable_vga;
+> >  #endif
+> > @@ -266,8 +270,10 @@ static int __init vfio_pci_init(void)
+> >  
+> >  	/* Register and scan for devices */
+> >  	ret = pci_register_driver(&vfio_pci_driver);
+> > -	if (ret)
+> > +	if (ret) {
+> > +		vfio_pci_liveupdate_cleanup();
+> >  		return ret;
+> > +	}
+> >  
+> >  	vfio_pci_fill_ids();
+> >  
+> > @@ -281,6 +287,7 @@ module_init(vfio_pci_init);
+> >  static void __exit vfio_pci_cleanup(void)
+> >  {
+> >  	pci_unregister_driver(&vfio_pci_driver);
+> > +	vfio_pci_liveupdate_cleanup();
+> >  }
+> >  module_exit(vfio_pci_cleanup);
+> >  
+> > diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
+> > new file mode 100644
+> > index 000000000000..b84e63c0357b
+> > --- /dev/null
+> > +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
+> > @@ -0,0 +1,69 @@
+> ...
+> > +static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
+> > +	.can_preserve = vfio_pci_liveupdate_can_preserve,
+> > +	.preserve = vfio_pci_liveupdate_preserve,
+> > +	.unpreserve = vfio_pci_liveupdate_unpreserve,
+> > +	.retrieve = vfio_pci_liveupdate_retrieve,
+> > +	.finish = vfio_pci_liveupdate_finish,
+> > +	.owner = THIS_MODULE,
+> > +};
+> > +
+> > +static struct liveupdate_file_handler vfio_pci_liveupdate_fh = {
+> > +	.ops = &vfio_pci_liveupdate_file_ops,
+> > +	.compatible = VFIO_PCI_LUO_FH_COMPATIBLE,
+> > +};
+> > +
+> > +int __init vfio_pci_liveupdate_init(void)
+> > +{
+> > +	if (!liveupdate_enabled())
+> > +		return 0;
+> > +
+> > +	return liveupdate_register_file_handler(&vfio_pci_liveupdate_fh);
+> > +}
+> 
+> liveupdate_register_file_handler() "pins" vfio-pci with a
+> try_module_get().  Since this is done in our module_init function and
+> unregister occurs in our module_exit function, rather than relative
+> to any actual device binding or usage, this means vfio-pci CANNOT be
+> unloaded.  That seems bad.  Thanks,
 
---nth7q4avk33oteqe
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-From: Alejandro Colomar <alx@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
-	Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, 
-	Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
-	Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH] Add short author date to Fixes tag
-Message-ID: <aZ9p2RMrJL1mQ10w@devuan>
-References: <aZ4_sBIy8rOUL59Q@devuan>
- <2026022531-tightness-rare-6a14@gregkh>
- <aZ87Z24f9HZsofGl@devuan>
- <2026022539-commotion-huskiness-8736@gregkh>
-MIME-Version: 1.0
-In-Reply-To: <2026022539-commotion-huskiness-8736@gregkh>
+Hmm... IIUC the concern here is about liveupdate policy if the user 
+wants to unload a module which was previously marked for preservation?
 
-Hi Greg,
+AFAICT, In such a case, the user is expected to close the LUO session FD,
+which "unpreserves" the FD. Finally, when rmmod is executed, the __exit 
+(vfio_pci_cleanup) calls vfio_pci_liveupdate_cleanup() which ends up 
+calling liveupdate_unregister_file_handler(), thereby dropping the ref
+held by the liveupdate orchestrator which allows the module to be
+unloaded.
 
-On 2026-02-25T13:23:24-0800, Greg Kroah-Hartman wrote:
-> > > Commit date also doesn't matter.  If I commit a fix to one of my
-> > > branches today, but Linus pulls it in in 2 years from now, what would
-> > > that date really show to anyone?
-> >=20
-> > I think this is a bit confused.
-> >=20
-> > If you commit a fix for a commit that is in Linus's tree, your Fixes tag
-> > will refer to the mainline commit, and the Fixes tag will remain valid
-> > if the fix is pulled by Linus in the future, because it will continue to
-> > refer to the same commit with the same hash and date.
->=20
-> But we do not need the date!  It provides no additional information that
-> we can't just look up if we really need it.
->=20
-> The HASH ("text") format does 2 things, it provides an id we can use to
-> look up more, and the text is there to give humans a hint if they don't
-> want or need to look it up.
+I think we should document this policy somewhere or have a dev_warn to
+scream at the users when they try unloading the module without closing
+the session FD.
 
-The date gives more information to humans to decide if the commit is
-important to look up.  Sometimes, a subject can be ambiguous to the
-human, even if it's not ambiguous to a machine.  The date can help give
-some context to a human.  For example, one could relate a commit to a
-series that was merged around that date.
+Thanks,
+Praan
 
-The date uses few characters, so it's not too expensive in terms of
-space.  You may even take some space back by dropping a few characters
-=66rom the hash.  Also, by having a fixed-width, it doesn't distract much,
-as all subjects will still be aligned, so the eyes can jump it easily if
-not interesting (just like the hash).
-
-I appreciate seeing the date in my Fixes tags elsewhere, as it avoids
-looking up some commits, which I would look up if I hadn't seen the
-date.
-
-Secondarily, it helps with the ID, in case it becomes ambiguous.  But
-I started using it for the human part of it.
-
->  There is no need to include anything else,
-> let's keep it simple please.
-
-Okay; I won't insist.
-
-
-Have a lovely night!
-Alex
-
->=20
-> thanks,
->=20
-> greg k-h
-
---=20
-<https://www.alejandro-colomar.es>
-
---nth7q4avk33oteqe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEES7Jt9u9GbmlWADAi64mZXMKQwqkFAmmfbYYACgkQ64mZXMKQ
-wqmFdQ//SBTPP019qmEHD3YV3t3mvASPh1zpQ/Yp+rQIWUQTLyeSW9ZvMkkeqllC
-nZL+eVO/fMOgePJtNZ8obcmnxDm508DHx4t0x6tekx8cFq20Arv5+SY1tR/5BOil
-IqIh6IH4GbnjBpz/hvQlifq1TonnxhX9e+rcm6VeGeQhzC+WMl0ojwgDQPezap7Y
-A1XzYnvXkEEgcJkMh3hg+6LOV8lliFbI3sgiIKp4cGwbmyjQBOeQ6B+JGTPN4Y3U
-vLEVaJHqo4Ndrxlh6B5bntBEuKHdDTwOnrHG+J4qaf5lEvBMJ/bsqnQO7xaveLrU
-cqBC2EwPiW/9Fi2RrHdcFHwMKHgSJe3g607IC4NZ3ZxI3EMfLr7PaQNF2Py+lfti
-MMa2c/Y/or5S1tNWg76O2NR7zo8UXTFPLy93jLZFJlHs7aR8iX8nN8gzAK3hyR6A
-xPhGsPrurXhqDdsdEpFDte5HIkIL7hhZxnx7QDYETTwa8TJIF3cbZBCkajaq9od1
-+jzS3Fd2HZ923z4HnyootB+0cAPSSAnoSjHLAM1gxOLvsxi3DHp59IaFiWCm3Qnh
-Rq54Eym4f9F1wOwoIx8DLuxnF+QcF93RdCHwQTzpnMX7/XG5/rRf7X/OnzuXjOSm
-B9l3ZJjZiEM7dNu1OauPLhTmh+zDVtx9IzAT0jtAZctNfL5hM/I=
-=9pXk
------END PGP SIGNATURE-----
-
---nth7q4avk33oteqe--
+> 
+> Alex
+> 
+> > +
+> > +void vfio_pci_liveupdate_cleanup(void)
+> > +{
+> > +	if (!liveupdate_enabled())
+> > +		return;
+> > +
+> > +	liveupdate_unregister_file_handler(&vfio_pci_liveupdate_fh);
+> > +}
