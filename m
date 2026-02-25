@@ -1,168 +1,236 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A1132E721
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 07:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F48192B7D
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 07:46:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772004057; cv=none; b=OxkYjgURQ/anMfH8ptOfct03D2uzq9QVkPvO9dOX3a2AKMlSGbd5sjxfLS07jsf6ZjTpK8BHGCinUXZQ1xmYaUBq5rCRaXUDwvym32I2l4zI/hW1vekOKxidfPycea/LNuVZAc4isTskDfwHw0Rzqm1Wm7P1LTlNIXCgCi2bNl8=
+	t=1772005612; cv=none; b=eQW6xL+a+PlWhYVQ3tFeLOSNuFORD41RNQ2SpXTpjKu7HYqo8W4+F6HPz6jcp4csxgJH7+L8EtPEhDn6U6Xddp4VtDb3i+8PUI/OeQ3g6+EMFzAvFFR1BbggDU+flwcAOp8h3SjqY3rzoikCqY/NNQjqta/ukgkgf26FQi+yx9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772004057; c=relaxed/simple;
-	bh=dOYyBdQXA1usfepnnNuDszu6x3QfaYGIbNqVbOtmh7o=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=DVcrRIvSb42pQUzgz9oB1H6oGwXjNADLtlk/Nrtw/jBzJ9cSZaUwhqlmMMGee5pucOqwNyeGyEO52e22NWGpFDDCD1fPjSTjbUK7+0waMaZJZ0j1BjWxKYZbbACsSziIyzLdQDsBwyt2ZjflRDe8Hj6fhT3tiHHiiDBU/yevbk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=I3tpnjvQ; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
+	s=arc-20240116; t=1772005612; c=relaxed/simple;
+	bh=oVSmkTDt2CC7vagB/7IKxbULhl8iz92yFIuiTzbBb00=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aTl4v4/Ugd/n+K42MHo9vUb7RRCzXITCg/g80btkvQpc1YSk3JAxE/2JUTJxgzDRRthtE0/Akb4SWTwH+cHnJBFosb607U6nqb3e2auQ6VQrGQm7yuL0Si7rZZUA80DACdjq6HzdjhgoJBCjDQNXUb5embHrPafSeWq/+aO4HxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com; spf=pass smtp.mailfrom=shopee.com; dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b=bo2ZnJuD; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=shopee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shopee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="I3tpnjvQ"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2ab4de9580dso463311435ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 23:20:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=shopee.com header.i=@shopee.com header.b="bo2ZnJuD"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2aae4816912so44506435ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Feb 2026 23:46:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772004054; x=1772608854; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uCRWKaRAQP2gBMw/IwAKqq2A0WtVFQ88sM/7soXGb8M=;
-        b=I3tpnjvQuA+B/47Xi93nsUnNz4ABiLiO81bZWolQQPkRP1MvkYIHXHPcOHtDzHOify
-         PgkdDgVxvzLGDnW4K8ka2w2JP7gAWU/wkpwAidUfBD69+O43IxV94mlbrPqfLgAdHPcX
-         OjRh81UOBI/d6q5DtwbrYBvaSMeukq6Dd7aU4gwXzzBpAizPc8bmGZM0Mh9YCMD0gdYd
-         TGdtNxefz49ybrs2EHiWpLKfZiSrI454tp9hIaJQyJ7zubi2ke7h0SM5+ngCPTHdfan4
-         q0noHo7uCAamVcCngr2oNwYcdDTHvf6jzPQJQ3AA/JXPJp/fldP4KQ33wlrj5hM34Ab4
-         vBhw==
+        d=shopee.com; s=shopee.com; t=1772005611; x=1772610411; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d5uWqej63a79hXQBLP6LiTHLyAOyVWFc6uQobJ5V1EQ=;
+        b=bo2ZnJuDYLLJgRlA4uyEoN/74nIOfy+iPbb+OKNNKGWgphs98VJtywYP5pBwY8pyZh
+         NnhRNY8xxTi7G4wjVX7W7GSna0P/NuUuY2ARQ4yHi1O76xU9wTP7un7tDW1C/fVKt9bW
+         Q/YW2nncF8tg8hWdTOS7Ce4KGRSrVWuSuZM6cRHy4Eqj8ibNVyl6/56TF77jkdFbjP2h
+         8APO1XN6lFkcHrwleVBdqVtqUM5sGMnAGmF+cH6tmc2mcb+fPBeGzg2F2Uf/Lx6zJ642
+         AuobWZAee3wfiOBqDB0pXZm3iyXlDjf0Hg0NQmSgws6KEm12P8Hw8tiSHjxC0fz8OPfj
+         lQPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772004054; x=1772608854;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uCRWKaRAQP2gBMw/IwAKqq2A0WtVFQ88sM/7soXGb8M=;
-        b=fCh4sbGI9PqfmPjarqx29gwJbqdG832pi8DBjvlOtATCZ9+F09f9eX3d2p4Xjo7Bf2
-         QRvHuYf1PMNgZY6V1O0zxSD/7lFzBG+YxHF66lK2TcKy70Nja88fi13zbv2I+XlGmLYs
-         7hPGUA1+im7S+kfgcb2TCcnDdOXCHf5f56LyuP8hpT20tko4BHdGwe25q3jD07V4sbLK
-         HpOmivG0+1of9/5rBMImq5QuLAcDagZZSMSPuuOM7AIZfdJmnCnZNVv3CLN32yrnOqd3
-         /dK7AOAGLzvgL4K2U75RS9XiBK6QXALTDhCc3ANg6U0zQnSZ+1dzWNU4tjJdH8jmwkmO
-         fBPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWbcqU1JCr4ztf7340WiT3bP1bIlfYGnhJh2i9OwuJl6UMM/GgidMfWCBp4y9c5wO9ivy3TlwlrKmg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6e2KFJ2ZeYBkSlCzgwHN/G+1EOWVDFk6v4Rx+5n3Ebl4nLPJK
-	aCuUABQ12pv1+Ls/ii9upa29maVnlfisMrP2HmtY+qfVA5nK9t8I49Lm7kulIIlVsNqqGxyTwxH
-	2B2vCMcd5H6euYb+Kx22rwvJk+g==
-X-Received: from plsk6.prod.google.com ([2002:a17:902:ba86:b0:29f:1738:99f3])
- (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:d511:b0:2a7:c188:bd1f with SMTP id d9443c01a7336-2add14146b1mr15540455ad.40.1772004054358;
- Tue, 24 Feb 2026 23:20:54 -0800 (PST)
-Date: Wed, 25 Feb 2026 07:20:41 +0000
-In-Reply-To: <20260225-gmem-st-blocks-v2-0-87d7098119a9@google.com>
+        d=1e100.net; s=20230601; t=1772005611; x=1772610411;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d5uWqej63a79hXQBLP6LiTHLyAOyVWFc6uQobJ5V1EQ=;
+        b=IK6rQVlMh7OUhNF/5EJ9O9eg8nVhY7llzTjyH1CsRtTMqg9QjpZXWZWwqps/8IjxvW
+         +/UFgJBxb77J35GPGdAJcIYgDhS031hbuNT9finTjoVHpYM/yiKbQYHYTeIm20a7qxpg
+         vCPi9iwE+92svtXrI6m0o3qczMdIUZIRe9TR+7ewWlcLnVnW5d9A8zxjkCgayahxicJx
+         vxWT3GeXReAbYcjaUS/ZwMcruHBvuY0qnxC2TYmg0wfWF08TZJTEZ2E3vzZaZJs1F2TR
+         4ddroT/FD3ErdGVU144Hfg7t5rrXtS+sWnHxH6z5YRXwwnreemPnZxMOLaybvuVi/nB9
+         olzw==
+X-Forwarded-Encrypted: i=1; AJvYcCX7tJ4ztMF8XyIjCBWcRcb2qx0zr1cSkYQk8taiuhNdWTH90EYvOTW6JPBDlW8w6XgqzWKc+7ddCQw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQDJF+hc/y370kwOLdIV0AsfyPla8FkQmsUb1V0H3yVGe+FyVV
+	Uv+hC1Vjb1Ktabl566UnxBpeSIYMTJBCcaNJExViESjCwerWMZKx3rVWHzErJEoPlNTbqCsfeNE
+	nAVJ5qFk=
+X-Gm-Gg: ATEYQzy2IDXlj6sp51GY10NdSHTWfZOFswbiC7S5uQ5Pz+Pr7Z6Eem7Xv7Ah/aUeMHU
+	feR5Dx28lvUtuYknShSvZmao9pl4eRzGNdOn6cyb+I8Sa2fPH6VWzgdm6dzOzHpRG2tZD764WdB
+	zjHp4C6KC5OxHkzn+xy2zbnD/dg5KeQ0vSuvDR8nrgc3+YdHIBzpBIDy3+oFZu+B/8W3KBDSsAW
+	1SUhyGTVdOwIMyIqoIkwa4JZBQJhClPQFD1XpkRkeWur9nsWePrCd8zFwsYBMIEICQPBqQuOLK3
+	ftEH/hah4vHnZ4fhge1A47JR2yqQJoM3TstONLna9Al5hePY9CN6p08yJE/DLKdYjH01OZNlEqZ
+	GvWHMUjbK1yXu0jyK9JCWLinvYV73jai262YS694i7lAqqp6sAdBjNIXFzlWPO6Y5Hg7NZ4JEXP
+	VUeu09CunB5AjFBuKx4Myn7ILDHrwW3TcVT7oVLACBaMyQuqk0
+X-Received: by 2002:a17:902:e885:b0:2ad:b957:e7ff with SMTP id d9443c01a7336-2add14401b4mr16154695ad.45.1772005610812;
+        Tue, 24 Feb 2026 23:46:50 -0800 (PST)
+Received: from bms-ytl-d1-app-10-251-178-27 ([147.136.157.1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ad7500e062sm170844165ad.48.2026.02.24.23.46.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Feb 2026 23:46:50 -0800 (PST)
+From: Leon Hwang <leon.huangfu@shopee.com>
+To: netdev@vger.kernel.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Ahern <dsahern@kernel.org>,
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ij@kernel.org>,
+	Leon Hwang <leon.huangfu@shopee.com>,
+	Ido Schimmel <idosch@nvidia.com>,
+	kerneljasonxing@gmail.com,
+	lance.yang@linux.dev,
+	jiayuan.chen@linux.dev,
+	Leon Hwang <leon.hwang@linux.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH net-next] tcp: Add net.ipv4.tcp_purge_receive_queue sysctl
+Date: Wed, 25 Feb 2026 15:46:33 +0800
+Message-ID: <20260225074633.149590-1-leon.huangfu@shopee.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260225-gmem-st-blocks-v2-0-87d7098119a9@google.com>
-X-Developer-Key: i=ackerleytng@google.com; a=ed25519; pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772004043; l=3384;
- i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=dOYyBdQXA1usfepnnNuDszu6x3QfaYGIbNqVbOtmh7o=; b=zZrSG7T8hLIyNxblKZAGfB+9IN1V9IOqYlhpVMvYXXGbthbgU9tmocvsvN/c7FJF4snDqAhSr
- TzWnTmDXwh2DG87+Tp1yHs6y/+kQ/SVsCjVtOclQbRZ0IyhxW13o7OV
-X-Mailer: b4 0.14.3
-Message-ID: <20260225-gmem-st-blocks-v2-6-87d7098119a9@google.com>
-Subject: [PATCH RFC v2 6/6] KVM: selftests: Test that st_blocks is updated on allocation
-From: Ackerley Tng <ackerleytng@google.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	seanjc@google.com, rientjes@google.com, rick.p.edgecombe@intel.com, 
-	yan.y.zhao@intel.com, fvdl@google.com, jthoughton@google.com, 
-	vannapurve@google.com, shivankg@amd.com, michael.roth@amd.com, 
-	pratyush@kernel.org, pasha.tatashin@soleen.com, kalyazin@amazon.com, 
-	tabba@google.com
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Ackerley Tng <ackerleytng@google.com>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The st_blocks field reported by fstat should reflect the number of
-allocated 512-byte blocks for the guest memfd file.
+Introduce a new sysctl knob, net.ipv4.tcp_purge_receive_queue, to
+address a memory leak scenario related to TCP sockets.
 
-Extend the fallocate test to verify that st_blocks is correctly updated
-when memory is allocated or deallocated via
-fallocate(FALLOC_FL_PUNCH_HOLE).
+Issue:
+When a TCP socket in the CLOSE_WAIT state receives a RST packet, the
+current implementation does not clear the socket's receive queue. This
+causes SKBs in the queue to remain allocated until the socket is
+explicitly closed by the application. As a consequence:
 
-Add checks after each fallocate call to ensure that st_blocks increases on
-allocation, decreases when a hole is punched, and is restored when the hole
-is re-allocated. Also verify that st_blocks remains unchanged for failing
-fallocate calls.
+1. The page pool pages held by these SKBs are not released.
+2. The associated page pool cannot be freed.
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+RFC 9293 Section 3.10.7.4 specifies that when a RST is received in
+CLOSE_WAIT state, "all segment queues should be flushed." However, the
+current implementation does not flush the receive queue.
+
+Solution:
+Add a per-namespace sysctl (net.ipv4.tcp_purge_receive_queue) that,
+when enabled, causes the kernel to purge the receive queue when a RST
+packet is received in CLOSE_WAIT state. This allows immediate release
+of SKBs and their associated memory resources.
+
+The feature is disabled by default to maintain backward compatibility
+with existing behavior.
+
+Signed-off-by: Leon Hwang <leon.huangfu@shopee.com>
 ---
- tools/testing/selftests/kvm/guest_memfd_test.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ Documentation/networking/ip-sysctl.rst         | 18 ++++++++++++++++++
+ .../net_cachelines/netns_ipv4_sysctl.rst       |  1 +
+ include/net/netns/ipv4.h                       |  1 +
+ net/ipv4/sysctl_net_ipv4.c                     |  9 +++++++++
+ net/ipv4/tcp_input.c                           | 16 ++++++++++++++++
+ 5 files changed, 45 insertions(+)
 
-diff --git a/tools/testing/selftests/kvm/guest_memfd_test.c b/tools/testing/selftests/kvm/guest_memfd_test.c
-index 81387f06e770a..89228d73fa736 100644
---- a/tools/testing/selftests/kvm/guest_memfd_test.c
-+++ b/tools/testing/selftests/kvm/guest_memfd_test.c
-@@ -218,41 +218,58 @@ static void test_file_size(int fd, size_t total_size)
- 	TEST_ASSERT_EQ(sb.st_blksize, page_size);
- }
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index d1eeb5323af0..71a529462baa 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1441,6 +1441,24 @@ tcp_rto_max_ms - INTEGER
  
-+static void assert_st_blocks_matches_size(int fd, size_t expected_size)
-+{
-+	struct stat sb;
+ 	Default: 120,000
+ 
++tcp_purge_receive_queue - BOOLEAN
++	When a socket in the TCP_CLOSE_WAIT state receives a RST packet, the
++	default behavior is to not clear its receive queue.  As a result,
++	any SKBs in the queue are not freed until the socket is closed.
++	Consequently, the pages held by these SKBs are not released, which
++	can also prevent the associated page pool from being freed.
 +
-+	kvm_fstat(fd, &sb);
-+	TEST_ASSERT_EQ(sb.st_blocks, expected_size / 512);
-+}
++	If enabled, the receive queue is purged upon receiving the RST,
++	allowing the SKBs and their associated memory to be released
++	promptly.
 +
- static void test_fallocate(int fd, size_t total_size)
++	Possible values:
++
++	- 0 (disabled)
++	- 1 (enabled)
++
++	Default: 0 (disabled)
++
+ UDP variables
+ =============
+ 
+diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+index beaf1880a19b..f2c42e7d84a9 100644
+--- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
++++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+@@ -123,6 +123,7 @@ unsigned_long                   sysctl_tcp_comp_sack_delay_ns
+ unsigned_long                   sysctl_tcp_comp_sack_slack_ns                                                        __tcp_ack_snd_check
+ int                             sysctl_max_syn_backlog
+ int                             sysctl_tcp_fastopen
++u8                              sysctl_tcp_purge_receive_queue
+ struct_tcp_congestion_ops       tcp_congestion_control                                                               init_cc
+ struct_tcp_fastopen_context     tcp_fastopen_ctx
+ unsigned_int                    sysctl_tcp_fastopen_blackhole_timeout
+diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
+index 8e971c7bf164..ab973f30f502 100644
+--- a/include/net/netns/ipv4.h
++++ b/include/net/netns/ipv4.h
+@@ -220,6 +220,7 @@ struct netns_ipv4 {
+ 	u8 sysctl_tcp_nometrics_save;
+ 	u8 sysctl_tcp_no_ssthresh_metrics_save;
+ 	u8 sysctl_tcp_workaround_signed_windows;
++	u8 sysctl_tcp_purge_receive_queue;
+ 	int sysctl_tcp_challenge_ack_limit;
+ 	u8 sysctl_tcp_min_tso_segs;
+ 	u8 sysctl_tcp_reflect_tos;
+diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+index 643763bc2142..da30970bb5d5 100644
+--- a/net/ipv4/sysctl_net_ipv4.c
++++ b/net/ipv4/sysctl_net_ipv4.c
+@@ -1641,6 +1641,15 @@ static struct ctl_table ipv4_net_table[] = {
+ 		.extra1		= SYSCTL_ONE_THOUSAND,
+ 		.extra2		= &tcp_rto_max_max,
+ 	},
++	{
++		.procname       = "tcp_purge_receive_queue",
++		.data           = &init_net.ipv4.sysctl_tcp_purge_receive_queue,
++		.maxlen         = sizeof(u8),
++		.mode           = 0644,
++		.proc_handler   = proc_dou8vec_minmax,
++		.extra1         = SYSCTL_ZERO,
++		.extra2         = SYSCTL_ONE,
++	},
+ };
+ 
+ static __net_init int ipv4_sysctl_init_net(struct net *net)
+diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
+index 6c3f1d031444..43f32fb5831d 100644
+--- a/net/ipv4/tcp_input.c
++++ b/net/ipv4/tcp_input.c
+@@ -4895,6 +4895,7 @@ EXPORT_IPV6_MOD(tcp_done_with_error);
+ /* When we get a reset we do this. */
+ void tcp_reset(struct sock *sk, struct sk_buff *skb)
  {
- 	int ret;
++	const struct net *net = sock_net(sk);
+ 	int err;
  
- 	ret = fallocate(fd, FALLOC_FL_KEEP_SIZE, 0, total_size);
- 	TEST_ASSERT(!ret, "fallocate with aligned offset and size should succeed");
-+	assert_st_blocks_matches_size(fd, total_size);
- 
- 	ret = fallocate(fd, FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE,
- 			page_size - 1, page_size);
- 	TEST_ASSERT(ret, "fallocate with unaligned offset should fail");
-+	assert_st_blocks_matches_size(fd, total_size);
- 
- 	ret = fallocate(fd, FALLOC_FL_KEEP_SIZE, total_size, page_size);
- 	TEST_ASSERT(ret, "fallocate beginning at total_size should fail");
-+	assert_st_blocks_matches_size(fd, total_size);
- 
- 	ret = fallocate(fd, FALLOC_FL_KEEP_SIZE, total_size + page_size, page_size);
- 	TEST_ASSERT(ret, "fallocate beginning after total_size should fail");
-+	assert_st_blocks_matches_size(fd, total_size);
- 
- 	ret = fallocate(fd, FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE,
- 			total_size, page_size);
- 	TEST_ASSERT(!ret, "fallocate(PUNCH_HOLE) at total_size should succeed");
-+	assert_st_blocks_matches_size(fd, total_size);
- 
- 	ret = fallocate(fd, FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE,
- 			total_size + page_size, page_size);
- 	TEST_ASSERT(!ret, "fallocate(PUNCH_HOLE) after total_size should succeed");
-+	assert_st_blocks_matches_size(fd, total_size);
- 
- 	ret = fallocate(fd, FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE,
- 			page_size, page_size - 1);
- 	TEST_ASSERT(ret, "fallocate with unaligned size should fail");
-+	assert_st_blocks_matches_size(fd, total_size);
- 
- 	ret = fallocate(fd, FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE,
- 			page_size, page_size);
- 	TEST_ASSERT(!ret, "fallocate(PUNCH_HOLE) with aligned offset and size should succeed");
-+	assert_st_blocks_matches_size(fd, total_size - page_size);
- 
- 	ret = fallocate(fd, FALLOC_FL_KEEP_SIZE, page_size, page_size);
- 	TEST_ASSERT(!ret, "fallocate to restore punched hole should succeed");
-+	assert_st_blocks_matches_size(fd, total_size);
- }
- 
- static void test_invalid_punch_hole(int fd, size_t total_size)
-
+ 	trace_tcp_receive_reset(sk);
+@@ -4911,6 +4912,21 @@ void tcp_reset(struct sock *sk, struct sk_buff *skb)
+ 		err = ECONNREFUSED;
+ 		break;
+ 	case TCP_CLOSE_WAIT:
++		/* RFC9293 3.10.7.4. Other States
++		 *   Second, check the RST bit:
++		 *     CLOSE-WAIT STATE
++		 *
++		 * If the RST bit is set, then any outstanding RECEIVEs and
++		 * SEND should receive "reset" responses.  All segment queues
++		 * should be flushed.  Users should also receive an unsolicited
++		 * general "connection reset" signal.  Enter the CLOSED state,
++		 * delete the TCB, and return.
++		 *
++		 * If net.ipv4.tcp_purge_receive_queue is enabled,
++		 * sk_receive_queue will be flushed too.
++		 */
++		if (unlikely(net->ipv4.sysctl_tcp_purge_receive_queue))
++			skb_queue_purge(&sk->sk_receive_queue);
+ 		err = EPIPE;
+ 		break;
+ 	case TCP_CLOSE:
 -- 
-2.53.0.414.gf7e9f6c205-goog
+2.52.0
 
