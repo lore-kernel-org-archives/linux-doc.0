@@ -1,80 +1,80 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1553636605D
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 22:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BAC36F43D
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 23:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772060044; cv=pass; b=imS0kevB71gB3kBM/gjZH3yz6fvWwSQMa21Mbw6tmovTb7dZfq8ohv6e6z+Dd+e0osT8thq2bKQ2KQnLEZN4e5jRDuBqkPZefEodi+s85W/Lh2l9FI3cKZ0gPn9cz4p8Y8YMIPTr53BtacH98iiXUr75TKNZtQXiIk4WZa+6b48=
+	t=1772060785; cv=pass; b=ADyBxedmidn4leWg8CiALFFYVpEp0HObq0/oW8yH0LdbmljaTIjuMHtsQRiNa5lKlrSuVTr9PFxppvzA0IADIEZzRSdnPs4dAiNmxchGF8fz9X8xzCO6B90mf7AJxEkJWFwGvG+SJej4vwdtJdvGHxpm1gGS7s5e1JjpdjKAojk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772060044; c=relaxed/simple;
-	bh=AA8Dha/bfnPZLgD3DchzKVXjebkJkUtPW4e/jFBhSi0=;
+	s=arc-20240116; t=1772060785; c=relaxed/simple;
+	bh=W9lyoMsne8FGHHrjNNek3nZgafGdJjKzjxdCf0mXseM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lji0K6q1CM/JGypynhPeopC8R1yj1RemYRRWY66anfRhQp/44063ZYR8xSSQ+RIfRc/gKOPqqGweKSprOIALAXo3UgDSthMovWwPzOaIimgNHF4pCzfsy2/fLddKK79JXTJaq9cFc+666ztXe93DAVWP4iYyGfIppK8D1a2u9BI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ad1lyq7t; arc=pass smtp.client-ip=209.85.214.179
+	 To:Cc:Content-Type; b=LumJ8wewQR2wM4+xES+Q85mNCoBWqOjajs8lrQU8Q+yCn2MJ2Xo4TVzuP/Xu4XX0Ba2w6OR927R7vn8qEx24s05DouImCughtu217nmE0ZkUpG52bi9EyFc8tR5MVoJvrXcx7Ld6YzfZRcYBUZeAzIGYF9ldp5pqvNWscako2P4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mNKSYhCo; arc=pass smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ad1lyq7t"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ada9e4ea32so15065ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 14:54:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772060042; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mNKSYhCo"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2aad8123335so18355ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 15:06:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772060784; cv=none;
         d=google.com; s=arc-20240605;
-        b=DaglylB8P0ha+emefxOdd+U2jTYKSMtvvB+mWpp1xJLT0rCs5RGGMnD0O6tuVw3oTf
-         G1vn0eTkXLA20DilDWHahStWUOHmCm/R6dYOSwtIcGK94JTFjZWLqtwX6mXhKKKQdUn3
-         M+3o9MjIh5YrMHClw197E0Il1GnhlRDPS4ojSXfnQa8OQfmB9Rk2YgG9Z8qYG41tHV8n
-         z/Bl1WDWxK6Y1rBYpwaer7hO4CRgGhUnCRDe8bLqnRTD9dII6l6iD5K+dGxlfTAhXEJh
-         AZeaDZG0BJvPVpOhNee07hz+W+h8dLH1NRP1sSvLyKA69InWb2+yxmg28P/BL4pcaxM1
-         vZ0Q==
+        b=bHjeMBNcNiLj1WN62ugJrM2jqGeh6HVFS0j0cxKVmCPFKNZ8q3F3oOuykVEY+HuvZG
+         g/2RXqTdIl0G/vBDol2OOHQ0fHthAqjDrBK9Wb1A7YbmUWQC0fPSCEvg/FRuBfqw36sw
+         PfylwVctfWmf5XuqXBpnGxzGxb8w3Mh60bYw2NzcgUJKAV9zL6UMvYlhIvdf3ERfkomA
+         5QLVqv8oS3z3o3eNjtSk1Uv1wAWXnr4wx0MzXLRWaSWbSk8Dy7ar2qrBSGjHRXbb/6l8
+         XBWTjLpvWCGCJ0DEGqS15O6px75+m6bx7M+8m7wHBvFz6dGlZgHnsg1JrQigdRQ+tTzG
+         k28A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=4HuRDvA6p5zItbneJew7P4gaYb7aavWFbfaGOQjNc2g=;
-        fh=n+2cQmkYZw9jsabaQVZyn8QSBvja0P+AnYcqpUk3aoY=;
-        b=fz+YCC0NpUMG/tgQIIB+5Stx4jB/64cinBN+/QdGMKagccu+DeI5tbPxjAn2V8I1pD
-         C9LEZt8vteAjcfM+TmoFzEixQ7IdG6k8jydg0it9fQc7bS9eBhSlTKJ8K5kgltOknKGk
-         GITZjtRKriWVyNrlvfsZLj5wsAd/7JiO+fviKaA4OxAWpGOOubjrXtNgtoI5PbjEQNtU
-         28z4UIhiDmlc2q3h2rq+l2baGT1H6TLgYjZhPlN/T3oXuK0Fv+RIBhnRQJOngmZc9FlI
-         fto7eTiqJqEjOF1o0UU6UeeOk6eDgKHs+Z5dnP6Rhr5ejUQl+Y/lTGL7wG49jOTcdph6
-         sh0A==;
+        bh=OCcej487YgFKOPTEV46nBBjzZMXcrtqh5hw60mHgWDA=;
+        fh=zOCTkWoCQDl4h9jEb1XatIze+DoCB2yhgBqOIau5mnI=;
+        b=D6/to9cTIT0vSOIZCi/yQXa2nnoWfeL3kWCvy+4u7ZpY6aRciox9PdKPFbN3t/w4IC
+         /pFQzCFvX/9lV8COPe/hF+cJ2Rzn8/hOCbJ+TrSAIKHKISnB/3I1fZR7NGDbjBGoq9yo
+         hyJFNexFb+K1jiBI9nmAOI9uqGS2TTkACdMLqx4H/hKoWMb+jkztKWGzd90AkbEpTteK
+         XvYKTvXTee0bMnNyqSa4sjGTbQ6k5xlNQ1NQ9nayjjbzDd+rK3jP/PKHuZcnWtckhAOi
+         sF9oJnUnC6Yfbvwj3XvaFruNpKD0Tbt2yy+RryPg6H8RrJIaGv+ri4yi4febzLIRNuOE
+         z2jQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772060042; x=1772664842; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1772060784; x=1772665584; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4HuRDvA6p5zItbneJew7P4gaYb7aavWFbfaGOQjNc2g=;
-        b=Ad1lyq7tHRJvYjGqgI53C/sVIsbHOI5KG9HGj1KFHlj9xPBe9g/q66joirRqE1RYA8
-         bxlr8hmZD/dvBaD7eIaieclRNk/Em38lbIPT5VYToeACdbitTwq/gA/G3o4WfHX5BXoj
-         2x3STKjaK80cDPcpFyDFdOSpHxpiIlRv9YTz3ciAj1HEzd/P13ux4V8wTLryBk0b1HOi
-         69tD1sE8N8fuwlQN3u8mRTS7UiQ03CbrITzl3uYy7dzju8Cf8Mr858Y1ALllQA/oDGFe
-         ePZIjbR6qmO8hgGPgIucqMz9DYpbxZ2KlacO96RqtrLQvXKwP9tpFyA3POtxb18487Zy
-         oMDg==
+        bh=OCcej487YgFKOPTEV46nBBjzZMXcrtqh5hw60mHgWDA=;
+        b=mNKSYhCoR7SxKucy/Yh3pA3CvcKRSJO0SZQka7+dRnFeYEBHJhuxHRK5K4guqPK3Tx
+         ZPNS/ge079zhRd4l2+Ax41E0gZViPZFcdnopLoBctPZXyjnmcoKC64Q5IrGiEhT7jue/
+         V018R6YpDBlvhkbmNL8gKl81qVDrrODrA17hOUlFDLXrIR/JMyZgzt3SJvH1UZeTNbno
+         ZV9cPKcqgPe9YpcWXn6iIN7VyzkOjBLt5oIIFVlTLluR99TidfG0fvtr6g4LdR9b4UZk
+         9b+poH6zkvu8mPZgnusqpzAK7MsRYJfkR+EHAsgv6skPoYQ3UY6BDlAzAeHqT62HBC+l
+         93LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772060042; x=1772664842;
+        d=1e100.net; s=20230601; t=1772060784; x=1772665584;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=4HuRDvA6p5zItbneJew7P4gaYb7aavWFbfaGOQjNc2g=;
-        b=IT0By9Wfk0DdYyuPeF7uVtAHn0+1dwUp7FmhoRLX0Oq6k/ITBLwdsCfCQ/itEcGys/
-         fcIkUpNIOKblYC+0mpoZcLARDkbWrLTbL+p5I5/a4tV/vd/TljAyvRewYO4foeGZgQQr
-         PMYZA9KWgFCbydU/RguNjaKGc4xtO34RoazJmwSzKlkjZYqXuySsI22pZBk0glo+lr5h
-         m+6N++QlnT/EVYEkoLW5V6oG4apX6WcyLoPBPubI5QMohGOoazmuLuwP5doMdkMisHZx
-         k1gbyhfnvjlhiEREXFc354Wl2Z+rg3BsKuSGGuKXDLtugqCQfEPQTTQVlxUuqL2O9+jA
-         XO5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW7na4YM88uOfCMFd2T0ACkJKoh6egBywecQOkWcdAh4eO8kpFBLd4/RqIlBnTAskQZrfSBcjpUPAg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw97SpL4J1WDst8guJD7WTEqRLIwIjzFZ8ZAHSYNY9jwsKyL/ia
-	+d8JNtHN+7lOys84gX/70FtDHT9qj2hv7EwBlsfxAXZG8osassPd39SKW6xmuqr3wdjCkCXYpB+
-	cN6sf5xJ5+AV9tyCgczkq7G4/MLT6uLxVA97+rC0o
-X-Gm-Gg: ATEYQzxwq654AN+b9jYVlgFinS65SPwttJfRPmvDphb3hNmymNK3Vj6ljYcsp1PIUqX
-	RrS5X6Iudes+l8fB2hK2xhxZGbhwYRM3f40vE4OuhbL245TgAWHIx9OpOFwCrsDFcg7oGR6uvB6
-	TFysKBmjbJIY4SiB7+PhmK/q+NMAzYrysY4jICqFebgR4OYkghSKWNViWzUa+G32kvqsXN5axHK
-	SBVz0GLfOtGKjxZ1+2FTcI8ZsiYoEJ/xUlN9ZRiH0L5SYl56l3S3suNTbwMPXvZ9aFpB+y5UyvA
-	ML8KVaiO72lSv0AqDdBhfJMSMAjZIjT/0xUwjw==
-X-Received: by 2002:a17:903:8c4:b0:2a8:ffed:4663 with SMTP id
- d9443c01a7336-2adf7738436mr799085ad.12.1772060041893; Wed, 25 Feb 2026
- 14:54:01 -0800 (PST)
+        bh=OCcej487YgFKOPTEV46nBBjzZMXcrtqh5hw60mHgWDA=;
+        b=PjaJ1mP8r3r3gkyJaChcJ//e3DOrdg0EWWMKFq0AckQWdLTOPUxRLVBJvBnhTXwGqI
+         W5a0QIrIPi3EzGa/BFfQtX5M6sXlNakZosV8G0uyWRFG3wDzrJgDTgUD6vRYwwhHt2hT
+         o/y+sl+1CvaK1fVsvQYQ2uVzp+3T7QDB7m192MjN2cNDpDVcXq1l4GZgG/A5WqEFTLRL
+         0TE7ai6h6LhhCfT2RufIDPWzdILauV7GrX1eL58jGoQFe/pgwEsb0YWXEOaNTq5ozPeN
+         Yf2OjlHs9KJUj9QpT6HUZ5jx+rHIcK/XcExSRLGcGuQjbkp3kbNHGECxYTfLfAkRXvKi
+         CVbg==
+X-Forwarded-Encrypted: i=1; AJvYcCWBzSo4uF98Y4gGeukg3qiqeMZbJAgYSPMIC6grLtGz+m97nJYaaNPtrLuqN4aw3sgBVOg4eUnCkzM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW2bnKU11KYVadT/QWsDVzcaRzxK9LaDGokdWfkemXkI0zWjbq
+	eQ1p8kj5xnGdkkXno4wb2yVB0NFit+Kh4tN6mMyvY7jGG/TIDSxO6rDa9mOS96MhhxPOzYKRZCl
+	frb+k8mL3JcQh0svVcN52fe/F221/2ET8Kd4xH65x
+X-Gm-Gg: ATEYQzw0Dh+ScIMbGoeb68ib0tnbqNdsKRa0z4LeUHP8btKknb2uJlQfICbFHKfxpwd
+	ORnbyxA6CCmAUw1JXD/Eg4V3iU5DkkJSEsUwxVlpnfj7fryKmNS8v06Cn6C4puMBAn22XuCORwq
+	9D0VjOaMW7P5eaD3FstojK3GJseqU+ch8da4ZmB0Id2HeFY77Yxudo0GT38A4Hw8m0UNMCX8Ktj
+	hh8arbpeR0lEoymoHHYEsRydZIhs68/OO7qfGqwt9l94a3HPYCgBi/bRdF7nMlsT2PjTa5JWKgh
+	EHUblgAS+nm/VrMF2cZU81YlYJIJ80XIwEydvg==
+X-Received: by 2002:a17:902:ec83:b0:299:c368:6b1f with SMTP id
+ d9443c01a7336-2adf77829e3mr890095ad.18.1772060783430; Wed, 25 Feb 2026
+ 15:06:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,234 +82,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
- <CAC_TJvcaJdEzK8n9BK0qgEXdzjzXtbA_Zk-ybfmG8kjNExVCzw@mail.gmail.com>
- <fqabaahjjlmoc2xh4cwh4ykbqyu3rnzvjw5epxi5wwpmgqth7f@d3mqpjozwmo4>
- <CAC_TJvdRsfzYohiKW=82N8Ofi5V26rX1GS0M8HeaX6CEsgc+PA@mail.gmail.com> <7302e25b-dfcb-4117-85f9-870632999dc3@oracle.com>
-In-Reply-To: <7302e25b-dfcb-4117-85f9-870632999dc3@oracle.com>
+ <CAC_TJvcaJdEzK8n9BK0qgEXdzjzXtbA_Zk-ybfmG8kjNExVCzw@mail.gmail.com> <b82a5ac3-33e9-4cbf-892a-f0c7f6fe0c20@kernel.org>
+In-Reply-To: <b82a5ac3-33e9-4cbf-892a-f0c7f6fe0c20@kernel.org>
 From: Kalesh Singh <kaleshsingh@google.com>
-Date: Wed, 25 Feb 2026 14:53:49 -0800
-X-Gm-Features: AaiRm5115WEriTEwyOL6pAVEQGUSdPho0h6nJ0kCy4aKIpi-RiI2rNOQ4qeMtvg
-Message-ID: <CAC_TJvc+Ld19MrqQbTLkLXbLe3D8nYNP2DkD0knv+u7mjRC++A@mail.gmail.com>
+Date: Wed, 25 Feb 2026 15:06:10 -0800
+X-Gm-Features: AaiRm53L_V-Oqt0aKWGxGR-IMY7YR8csbAzuy6C894gHyFaSj1OZXeEBVl8_aWU
+Message-ID: <CAC_TJvdgvyjyJsU4v6W+3tHKx_2e8UMJU3RT2HKLSngcC+yH3Q@mail.gmail.com>
 Subject: Re: [PATCH v3 00/22] Add support for shared PTEs across processes
-To: anthony.yznaga@oracle.com, 
-	"David Hildenbrand (Red Hat)" <david@kernel.org>
-Cc: Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, akpm@linux-foundation.org, 
-	andreyknvl@gmail.com, arnd@arndb.de, bp@alien8.de, brauner@kernel.org, 
-	bsegall@google.com, corbet@lwn.net, dave.hansen@linux.intel.com, 
-	david@redhat.com, dietmar.eggemann@arm.com, ebiederm@xmission.com, 
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Anthony Yznaga <anthony.yznaga@oracle.com>, linux-mm@kvack.org, 
+	akpm@linux-foundation.org, andreyknvl@gmail.com, arnd@arndb.de, bp@alien8.de, 
+	brauner@kernel.org, bsegall@google.com, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, dietmar.eggemann@arm.com, ebiederm@xmission.com, 
 	hpa@zytor.com, jakub.wartak@mailbox.org, jannh@google.com, 
 	juri.lelli@redhat.com, khalid@kernel.org, liam.howlett@oracle.com, 
 	linyongting@bytedance.com, lorenzo.stoakes@oracle.com, luto@kernel.org, 
 	markhemm@googlemail.com, maz@kernel.org, mhiramat@kernel.org, mgorman@suse.de, 
 	mhocko@suse.com, mingo@redhat.com, muchun.song@linux.dev, neilb@suse.de, 
-	osalvador@suse.de, pcc@google.com, peterz@infradead.org, rostedt@goodmis.org, 
-	rppt@kernel.org, shakeel.butt@linux.dev, surenb@google.com, 
-	tglx@linutronix.de, vasily.averin@linux.dev, vbabka@suse.cz, 
-	vincent.guittot@linaro.org, viro@zeniv.linux.org.uk, vschneid@redhat.com, 
-	willy@infradead.org, x86@kernel.org, xhao@linux.alibaba.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, android-mm <android-mm@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Isaac Manjarres <isaacmanjarres@google.com>
+	osalvador@suse.de, pcc@google.com, peterz@infradead.org, pfalcato@suse.de, 
+	rostedt@goodmis.org, rppt@kernel.org, shakeel.butt@linux.dev, 
+	surenb@google.com, tglx@linutronix.de, vasily.averin@linux.dev, 
+	vbabka@suse.cz, vincent.guittot@linaro.org, viro@zeniv.linux.org.uk, 
+	vschneid@redhat.com, willy@infradead.org, x86@kernel.org, 
+	xhao@linux.alibaba.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	Isaac Manjarres <isaacmanjarres@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	android-mm <android-mm@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 23, 2026 at 11:59=E2=80=AFAM <anthony.yznaga@oracle.com> wrote:
+On Tue, Feb 24, 2026 at 1:40=E2=80=AFAM David Hildenbrand (Arm)
+<david@kernel.org> wrote:
 >
+> > I believe that managing a pseudo-filesystem (msharefs) and mapping via
+> > ioctl during process creation could introduce overhead that impacts
+> > app startup latency. Ideally, child apps shouldn't be aware of this
+> > sharing or need to manage the pseudo-filesystem on their end.
+> All process must be aware of these special semantics.
 >
-> On 2/23/26 9:43 AM, Kalesh Singh wrote:
-> > On Sat, Feb 21, 2026 at 4:40=E2=80=AFAM Pedro Falcato <pfalcato@suse.de=
-> wrote:
-> >> On Fri, Feb 20, 2026 at 01:35:58PM -0800, Kalesh Singh wrote:
-> >>> On Tue, Aug 19, 2025 at 6:57=E2=80=AFPM Anthony Yznaga
-> >>> <anthony.yznaga@oracle.com> wrote:
-> >>>> Memory pages shared between processes require page table entries
-> >>>> (PTEs) for each process. Each of these PTEs consume some of
-> >>>> the memory and as long as the number of mappings being maintained
-> >>>> is small enough, this space consumed by page tables is not
-> >>>> objectionable. When very few memory pages are shared between
-> >>>> processes, the number of PTEs to maintain is mostly constrained by
-> >>>> the number of pages of memory on the system. As the number of shared
-> >>>> pages and the number of times pages are shared goes up, amount of
-> >>>> memory consumed by page tables starts to become significant. This
-> >>>> issue does not apply to threads. Any number of threads can share the
-> >>>> same pages inside a process while sharing the same PTEs. Extending
-> >>>> this same model to sharing pages across processes can eliminate this
-> >>>> issue for sharing across processes as well.
-> >>>>
-> >>>> <snip>
-> >>> Hi Anthony,
-> >>>
-> >>> Thanks for continuing to push this forward, and apologies for joining
-> >>> this discussion late. I am likely missing some context from the
-> >>> various previous iterations of this feature, but I'd like to throw
-> >>> another use case into the mix to be considered around the design of
-> >>> the sharing API.
-> >>>
-> >>> We are exploring a similar optimization for Android to reduce page
-> >>> table overhead. In Android, we preload many ELF mappings in the Zygot=
-e
-> >>> process to help application launch times. Since the Zygote model is
-> >>> fork-but-no-exec, all applications inherit these mappings, which can
-> >>> result in upwards of 200 MB of redundant page table overhead per
-> >>> device.
-> >> This can be solved by simply not using the Zygote model :p Or perhaps
-> >> MADV_DONTNEED/straight up unmapping libraries you don't need in the ch=
-ild's
-> >> side.
-> > I think that's a separate topic, but that model is used on billions of
-> > client devices :) The common runtime for apps and other core system
-> > code is preloaded to significantly reduce app startup latencies.
-> >
-> >>> I believe that managing a pseudo-filesystem (msharefs) and mapping vi=
-a
-> >>> ioctl during process creation could introduce overhead that impacts
-> >>> app startup latency. Ideally, child apps shouldn't be aware of this
-> >>> sharing or need to manage the pseudo-filesystem on their end. To
-> >>> achieve this "transparent" sharing, I would prefer Khalid's previous
-> >>> API from his 2022 RFC [1]. By attaching the shared mm directly to the
-> >>> file's address_space and exposing a MAP_SHARED_PT flag, child apps
-> >>> could transparently inherit the shared page tables during fork().
-> >> So, we've discussed this before. I initially liked this idea a lot mor=
-e.
-> >> However, there are a couple of problems here:
-> >>
-> >> 1) mshare (as in the mshare feature) isn't really aiming for transpare=
-nt here.
-> >> There is e.g a specific need to setup an mshare region, with a few fil=
-es/anon
-> >> there, and then later mprotect/munmap parts of the region - and have i=
-t apply
-> >> on every process that has it mapped. This is why we're aiming for diff=
-erent
-> >> system calls (not ioctls anymore), doing munmap(mshare_reg, 4096) is a=
-mbiguous
-> >> as to whether you want to unmap the mshare VMA, or a VMA inside the ms=
-hare mm.
-> > Since we are interested in sharing text here, how does this play with
-> > stuff like symbolization for call stacks? I believe this is another
-> > reason where we might want to avoid mapping the pseudo mshare file
-> > wrapper?
->
-> I haven't explored shared text, yet. There may be dragons there.
->
->
-> >
-> >> 2) Sharing the page table at all (even worse so, Transparently(tm)) is=
- a huge
-> >> pain. TLB shootdown becomes much harder, and rmap as-is isn't suited t=
-o deal
-> >> with this case. The way things are going with mshare, the container mm=
- will
-> >> have one single entry in rmap, and then actually doing the shootdown i=
-s a
-> >> huuuuge pain (which, fwiw, will probably need a per-mshare TLB workaro=
-und),
-> >> because you need to find out and shoot down _every_ mm that has these =
-tables
-> > I agree the TLB shootdowns would be a pain. Perhaps, if there was a
-> > concept of a shared ASID/PCID in the hardware, that would make things
-> > less so ...
->
-> That would certainly help. sparc64 has a secondary context, but that
-> doesn't do us any good here. :-)
->
->
-> >
-> >> mapped. And then, naturally, since you're sharing page tables, doing A=
-/D bit
-> >> collection on these becomes extremely useless - and that will naturall=
-y pose
-> >> problems to the reclaim process if you abuse it.
-> > I think in the use case I described, it would mostly be sharing
-> > MAP_PRIVATE stuff, and the access bit should still apply for global
-> > reclaim. However, I agree it becomes difficult to reason especially if
-> > you throw memcgs into the mix.
->
-> mshare won't support mapping objects in it with MAP_PRIVATE. Sharing
-> PTEs to memory that can be COW'd is problematic. If it's something that
-> can be adapted to use MAP_SHARED then maybe things can work.
+> I'd assume that fork() would simply replicate mshare region into the
+> fork'ed child process. So from that point of view, it's "transparent" as
+> in "no special mshare() handling required after fork".
 
-I can see how mapping .text and .rodata as MAP_SHARED could
-technically work, assuming the sharing process strictly mseals them to
-guarantee they remain immutable. However, RELRO (.data.rel.ro) is a
-different story. It must initially be mapped MAP_PRIVATE and writable
-so that the dynamic linker can resolve relocations. Because these
-modified pages cannot be written back to the backing file, they become
-private anonymous pages.
+Hi David,
 
-If there was a way to allow an initially RW MAP_PRIVATE mapping to
-resolve its relocations, be write-protected, mseal'd, and then have
-its page tables shared, that would solve the RELRO issue. In the
-Android Zygote model, this works perfectly because relocations resolve
-before forking, meaning the resolutions are identical for all
-children.
+That's agood  point. If fork() simply replicates the mshare region, it
+does achieve transparency in terms of setup.
 
-But how would we express this in the msharefs model? Transitioning a
-post-CoW MAP_PRIVATE VMA into a shared page table structure seems
-fundamentally at odds with a strictly MAP_SHARED file-backed
-pseudo-filesystem approach.
+I am still concerned about transparency in terms of observability.
+Applications and sometimes inspect their own mappings (from
+/proc/self/maps) to locate specific code or data regions for various
+anti-tamper and obfuscation techniques. [2] If those mappings suddenly
+point to an msharefs pseudo-file instead of the expected shared
+library backing, it may break user-space assumptions and cause
+compatibility issues.
 
->
-> As for memcgs, the current idea is to have an owner associated with an
-> mshare region. Currently this is the process that creates the region.
-> Mappings in an mshare region will be evaluated against the mem cgroup
-> the owner is a part of.
+Perhaps we could advertise the shared VMAs in the /proc/*/[s]maps
+entries for the processes sharing these areas?
 
-I'd also like to think a bit about what happens to other standard
-memory metrics. Should accounting that actively walks the page tables
-(like /proc/pid/smaps) still work correctly and see the mappings?
-
-What happens with the counter-based metrics tied directly to the
-mm_struct rss stats?
-
-Since msharefs manages its own detached mm_struct, should we include
-those RSS counts across all sharing processes when reporting in
-/proc/*/status? Or will we need to introduce a new UAPI to
-independently expose and understand the RSS of each msharefs
-mm_struct?
+[2] https://lore.kernel.org/all/CAC_TJveMB1_iAUt81D5-+z8gArbVcbfDM=3DdjCZG_=
+bRVaCEMRmg@mail.gmail.com/
 
 Thanks,
 Kalesh
 
+
 >
-> Thanks,
-> Anthony
+> --
+> Cheers,
 >
->
-> >
-> > Thanks,
-> > Kalesh
-> >
-> >> 3) other misc problems that make it hard to work transparently (VMA al=
-ignment,
-> >> levels which you may or may not want to share, you need to revisit mos=
-t page
-> >> table walkers in the kernel to get a completely transparent feature, e=
-tc)
-> >>
-> >>> Regarding David's and Matthew's discussion on VMA-modifying functions=
-,
-> >>> I would lean towards the standard VMA manipulating APIs should be
-> >>> preferred over custom ioctls to preserve transparency for user-space.
-> >>> Perhaps whether or not these modifications persist across all sharing
-> >>> processes needs to be configurable? It seems that for database
-> >>> workloads, having the updates reflected everywhere would be the
-> >>> desired behavior. In the use case described for Android, we don't wan=
-t
-> >>> apps to be able to modify these shared ELF mappings. To handle this,
-> >>> it's likely we would do something like mseal() the VMAs in the dynami=
-c
-> >>> loader before forking.
-> >> mshare_mseal!
-> >>
-> >>> Perhaps we could decouple the core sharing logic from the sharing API
-> >>> itself? Since the sharing interface seems one of  the main areas wher=
-e
-> >>> we don't have a good consensus yet, perhaps we could land the core
-> >>> sharing logic first. Keeping the core infrastructure generic would
-> >> I think the core infrastructure is relatively generic (at least the
-> >> small core mm modifications to get this to even work) already, but
-> >> perhaps Anthony can comment on that.
-> >>
-> >> --
-> >> Pedro
+> David
