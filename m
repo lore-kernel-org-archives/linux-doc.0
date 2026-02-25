@@ -1,124 +1,149 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C03F330327;
-	Wed, 25 Feb 2026 23:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772063535; cv=none; b=hOVhXWyIBOGEtEq3UQvd6Vgy5SZr4dBhe6kxElg8Q5t/QVXpAnh7Ff670mPCkvVluYfs/7PW0XVGhlP8fVxj8HEENjNxtBSBuEMHMul/R1sOwBWfy9rGLpOjqkNFX9SLC0K1tWPo0KpwfuOyAQPYqMVwY9kdbPuAGxV1COduGbw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772063535; c=relaxed/simple;
-	bh=YcVFYGLFY2wKjuQi7G6zXpmaGF6XkHbsrhyoNWNJjOc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HB5oK9V0n/oCA/jHoAb3a/psetpiH7qwQtr1YCkG98DjZi9n8j0iR40TIsPe8J4qmmQYHocPrP7sC8Ps4tL2TOynE+DqJJmeDYZMxoKfnbcP1AiBFdb6MQKec7MXT9Rt8AcZlP2JtZZ1+21Yo+t+74sr2HzAcvLvPrV6/PwU4pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf18.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id A972B1A02C4;
-	Wed, 25 Feb 2026 23:52:02 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf18.hostedemail.com (Postfix) with ESMTPA id 2A0DF2E;
-	Wed, 25 Feb 2026 23:51:53 +0000 (UTC)
-Date: Wed, 25 Feb 2026 17:51:51 -0600
-From: John Groves <John@groves.net>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	John Groves <jgroves@fastmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V7 14/19] famfs_fuse: GET_DAXDEV message and daxdev_table
-Message-ID: <aZ-K_EwN4QR904TX@groves.net>
-References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
- <20260118223316.92580-1-john@jagalactic.com>
- <0100019bd33dd1f9-3e016d01-fe3b-4be0-a8d0-f566cd5e2c07-000000@email.amazonses.com>
- <80f4b014-207c-4a6d-89f3-9e49831dd691@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F99D387364
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 23:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772063703; cv=pass; b=mbWRlLTpmnR/QaXC95q//E89qYFITwJx+TkZAgXMpUycz0b7xozsW/vYB78HyQrx+yU5VhdQ6uD8GAldadCGn9fz7T78AvNP46DtuZkr0HLQ+g9A16Mb+iVCd8Di5qYeXw72MAAxURgffFm/ciWlsaOiP5f7+Z0sq5r5qKOqRRA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772063703; c=relaxed/simple;
+	bh=cHKbWLM0axLoVNaLpqGFg3zanhbcwqXxf0qoCpGOoI0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bS7UXj1JkYyR+fHZjw4XLgBtOnVaSZzdfMiKG20X7rauXeHalpqvLA+4fsqjdP3rWudmQz476DxiSlDVEqHBN4pyKac8IH5+KUNXzdwYqTE2NCZzzskQMDRbILI4QX+omiBksznqFFfBKqHcMF6CaoFotHlF2GViX8OR8fMiLE0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=woN/zIFu; arc=pass smtp.client-ip=209.85.160.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="woN/zIFu"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5069a785ed2so126051cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 15:55:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772063700; cv=none;
+        d=google.com; s=arc-20240605;
+        b=XCCfnAh+W12HLHfK5mtOGzp22jFZjEC90kIA24iKv1tHBb/I+YVDbaUTwfCr3CsDZd
+         CVVOSVrnClHdcKAW9imnB626X9MNfy0fz6KzVV8PJfWZFgeJ4AX5dMlKPg52f4fynt4Z
+         7dRBSpxrUvPKFKoGnq/MjXv5CJDG7ZdRTOug3dsCNfYOm50H5u431PXCuG3gaKZCZtev
+         pZrZx/7oHQ5kvirRKD16TCKLtm17zJXqe7f+YJdBB7gFx/k2Sra5grMmRFbYc2pt5Q/L
+         gTNEk+D95yCkOPbgWxQXZMEuI7SXN6gTZSsr0WktTYIHrm6hIJiOjkzDWXjlGqLwRVsd
+         l/cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/+d/kouLLf9iKHdyjkzWOU+gVjFz9R5tJbv1KqoUtQs=;
+        fh=8HjxVjx6Tdk2iTtlVfWKyq48Z20VjShhn+h8KCCn4P0=;
+        b=EGI8UggPFq5IUdN7SPJ/OH8LgY7CLP59lDXZYKRcf+vyTvRSmnqZWC30DAO+3AXIMw
+         BORuSmAA6U3p9x4IykKcl3iTImswokPcb9tm0PkTVCN+/+jIvsu0XXYEgHeb+DWRf95E
+         OehnGSwRzN9FQs8hgIFdhWSzSQG2HPhIygwWf7rWNcszuGXwOMlrIYHhEbTdDhIehwiP
+         kGj4I89E/Dhxfy3WXbOPB6GnUbFCmy0tD2cLhkmi9z0vQqhvf5ZnjU3o8mg9y71xnchl
+         HM1lHVsEJEV1SGtNEqj/gAvljIBZdmB3eSq0qSKCTbhyGbZiSP2A/2v0wBTHgrDEd1FW
+         /x6w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772063700; x=1772668500; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/+d/kouLLf9iKHdyjkzWOU+gVjFz9R5tJbv1KqoUtQs=;
+        b=woN/zIFu6BKihA15yC78RP29swvjyWELyfFC7nCXXjDp0MOYz9MeqkJAX7NZQgR8lr
+         Q6jkd7crlbvBi6GHsRTr3yoQSm2ujmV+ZhBoLcjyGSGsmTM8gKVN0R0f+0jkKtwzIOLw
+         UDkRV/IyBCd/7Oe4Jdj8DarsdRyaf4TOwiNfQOPJ/sUOz2m6p/8DAv8R/qEVBBxyrHDb
+         8Hmz6XcJNmZud90aKSuqwDfE9JJQvgnrsw3+1maq7lPpkCXy2pgyH6X3XtN2pdlvbJ6e
+         uG1jocZ16krKPFLckMlHcZ6Xv0qQ+NW3yR0d3FSAPtIZApnFPXupXpYF3IOLnBNdAJf3
+         vIMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772063700; x=1772668500;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/+d/kouLLf9iKHdyjkzWOU+gVjFz9R5tJbv1KqoUtQs=;
+        b=DH6WXNSToL8gU7cEYyFtYtidnAPu/kFtujcUPF80SH7fG8WZpKeZg02aI6AAXOc3y5
+         sE0RQmR7lH+53ZYpNShF5Xu5y1ZaXs0+0xwZl1vLDxXCmkNhPI9qW3ej7goQL4+nS15J
+         i3fT4tZJyzDyCnIUd7Jr9AtHJqG1pYpWJny1UGIQ0Q5cW+AWA5VH9V0Ha2nOi+NnCOjF
+         H6C1WAxlhrDlm/rYkdtJAq6IKgJ7SR+zBV3Vqn7NDWyqVcK1PaFnrM/nR4EPqCE0+8xg
+         8vAyJ2/PLHW6IOXM+WOhTdFXlQf1UHSBRzRbQtSInIrWgpXmUjlihzDWmhX09Ct0s7xU
+         OveQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVo34hxqILlLuQDdyNMT+pvRYtcJNDr3cfyBQ4ceJmGjj0e4Ix43XXo/ICB0hXznV7H7jbmLkHmN7o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGmFs/zux/iC7M/E+yNMwm1buqbqK9u3kal8lvLNNjW8dDdufI
+	qb2KLoiL8Hr5J+6rm/ALj9xbRpCUMYlDWPqQ+eprhnkGdlTjJo58a5SoQ/Y26csCvlTrzK5a0c8
+	2o7/npqXchYdW8syJDwX6Xy6l1d2yss33T2ui56vx
+X-Gm-Gg: ATEYQzzvmi7iFynJ05uIK18Za+4CTUt3Kk7A18wx9olsj7+xU2e82s38kQA2g+bKvZ8
+	tralUie3f2zCYTrctpBRjbZVE8YwKCJc319UX1oPyhFjQTzfZCno/O2dgcnW7OAPMJGA9Zl4NLf
+	X/HPXJQhXuBNNCUiF0DTQ4uJwOl4XMzq/yee6phxLtHcvSFE0OqxASArt95CoSm9pWeQLpaTLJb
+	rk2cjdEism40ViSKAuyT6uhK5ocpFmnrhSbLaRZb5ylxheqIaO5HYI7zaQYdiuZ4c6hLog+9PfL
+	1H2tOSj9JPrgBdUn+QbMTTAc+1dp2gfuK8r9GJy34w==
+X-Received: by 2002:a05:622a:4c:b0:4ff:cb25:998b with SMTP id
+ d75a77b69052e-507441e2d95mr4895751cf.12.1772063699005; Wed, 25 Feb 2026
+ 15:54:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <80f4b014-207c-4a6d-89f3-9e49831dd691@intel.com>
-X-Stat-Signature: wt9h6pmrcegohn1zunzhj4cp9x5zpdh1
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 2A0DF2E
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1/iTPeKRbORXYILIHsOhzLG+RbGZ2CU8rM=
-X-HE-Tag: 1772063513-610229
-X-HE-Meta: U2FsdGVkX1+fZxDP2tefbBqPEAkXzXb48jQ2oqLzMLQyrB5Fg8ij44wFvaUKzq+5Y0NRYxWEQwoVUclFUqdynD1u8Ee4M+vIvzvmL7pVIQPbTv8luB7zZ5A9uyqCuoYMYXs+2wuTSNs5ZrGnF/7KenH5YPEtwAhQGzAGHIs95ftKNYUjojemnMHh5VLaK/lFv62GUyJuD06Hot/E6KD5fFVp8+eVjGe3g3YoQh6WLFnrEBoYP+NjcTdzVA0FqPM3pt8vOfsPKJ3a19ECxBfl9BhZXwGxePTvH71jGt64fhHURh+E8M6FIE9SuG6BfoN33nUkQRQGAqoqVwtROS54ewb1F7Z6JYVDl5opegFv1vFQHBWdL9TqH9lD1JtXcug7
+References: <20260129212510.967611-1-dmatlack@google.com> <20260129212510.967611-5-dmatlack@google.com>
+ <20260225143328.35be89f6@shazbot.org> <aZ-CnywNgMnr6f1k@google.com>
+In-Reply-To: <aZ-CnywNgMnr6f1k@google.com>
+From: Samiullah Khawaja <skhawaja@google.com>
+Date: Wed, 25 Feb 2026 15:54:47 -0800
+X-Gm-Features: AaiRm51g4hX409PKMap5bNDNnG0XAykqCRndojsQbHHI9mzip6hP9-Z2S9ohyZI
+Message-ID: <CAAywjhR4Azqx8hXRap0eLUrwetYRiX8TALEM=b+1BorPc3eJdQ@mail.gmail.com>
+Subject: Re: [PATCH v2 04/22] vfio/pci: Register a file handler with Live
+ Update Orchestrator
+To: David Matlack <dmatlack@google.com>
+Cc: Alex Williamson <alex@shazbot.org>, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
+	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>, 
+	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26/02/19 11:51AM, Dave Jiang wrote:
-> 
-> 
-> On 1/18/26 3:33 PM, John Groves wrote:
-> > From: John Groves <john@groves.net>
-> > 
-> > - The new GET_DAXDEV message/response is added
-> > - The famfs.c:famfs_teardown() function is added as a primary teardown
-> >   function for famfs.
-> > - The command it triggered by the update_daxdev_table() call, if there
-> >   are any daxdevs in the subject fmap that are not represented in the
-> >   daxdev_table yet.
-> > - fs/namei.c: export may_open_dev()
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  fs/fuse/famfs.c           | 230 +++++++++++++++++++++++++++++++++++++-
-> >  fs/fuse/famfs_kfmap.h     |  26 +++++
-> >  fs/fuse/fuse_i.h          |  19 ++++
-> >  fs/fuse/inode.c           |   7 +-
-> >  fs/namei.c                |   1 +
-> >  include/uapi/linux/fuse.h |  20 ++++
-> >  6 files changed, 301 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-> > index a9728e11f1dd..7aa2eb2e99bf 100644
-> > --- a/fs/fuse/famfs.c
-> > +++ b/fs/fuse/famfs.c
-> > @@ -21,6 +21,231 @@
-> >  #include "famfs_kfmap.h"
-> >  #include "fuse_i.h"
-> >  
-> > +/*
-> > + * famfs_teardown()
-> > + *
-> > + * Deallocate famfs metadata for a fuse_conn
-> > + */
-> > +void
-> > +famfs_teardown(struct fuse_conn *fc)
-> > +{
-> > +	struct famfs_dax_devlist *devlist = fc->dax_devlist;
-> > +	int i;
-> > +
-> > +	fc->dax_devlist = NULL;
-> > +
-> > +	if (!devlist)
-> > +		return;
-> > +
-> > +	if (!devlist->devlist)
-> > +		goto out;
-> 
-> I think if you declare devlist with __free(), you can just return instead of having a goto.
-> 
-> DJ
+On Wed, Feb 25, 2026 at 3:15=E2=80=AFPM David Matlack <dmatlack@google.com>=
+ wrote:
+>
+> On 2026-02-25 02:33 PM, Alex Williamson wrote:
+> > On Thu, 29 Jan 2026 21:24:51 +0000
+> > David Matlack <dmatlack@google.com> wrote:
+>
+> > > +int __init vfio_pci_liveupdate_init(void)
+> > > +{
+> > > +   if (!liveupdate_enabled())
+> > > +           return 0;
+> > > +
+> > > +   return liveupdate_register_file_handler(&vfio_pci_liveupdate_fh);
+> > > +}
+> >
+> > liveupdate_register_file_handler() "pins" vfio-pci with a
+> > try_module_get().  Since this is done in our module_init function and
+> > unregister occurs in our module_exit function, rather than relative
+> > to any actual device binding or usage, this means vfio-pci CANNOT be
+> > unloaded.  That seems bad.  Thanks,
+>
+> Good point. So a better approach that would allow vfio-pci to be
+> unloaded would be to register the file handler when the number of
+> devices bound to vfio-pci goes from 0->1 and then unregister on 1->0.
 
-Nice...done.
+Yeah maybe a kref that gets inc/dec in probe/remove. I have a similar
+problem with iommufd preservation, but I think I can handle it based
+on the number of iommufd open.
 
-John
-
+I am wondering whether this file handler registration kref stuff can
+be moved into LUO by adding it to LUO file_handler and the modules
+only call get/put?
