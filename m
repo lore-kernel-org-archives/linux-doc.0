@@ -1,134 +1,211 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E7E329C71;
-	Wed, 25 Feb 2026 15:53:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28443B961D;
+	Wed, 25 Feb 2026 16:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772034783; cv=none; b=Mxg9sSIu5E/za+IHX6eQzj6o3KddsiUyiNqe2+umLTzqgszTdPbrzRUe7sD+0GAoSeuPeEKh4zuZueJ80B1O+WsgyvmY5jyK9pHGHMEl4zawcuZYxTa3MLUFFNasUuzrd5e8Ep4URqZ2jysVZbgfechcUlrLnQJzbRrVs0oj0T8=
+	t=1772036746; cv=none; b=YynkNkDVHV/naB7Gs1pmDe0jMkB8xgZIyczg3SKik5g6ecs9p/tgxJlIe+QLOE03Wjwrs3kTOu0ub+3K9rDRDwTE7m+JNi2ZX4DtHgaQ/KkDbfmrlh17lCl43pOhnRWcuu6zgOWHfBYegh88jQ4ZOMLHZcixeGjz+g8w3R4n+S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772034783; c=relaxed/simple;
-	bh=65NJR9v+2VXT8tO+CIhNjHjbKMDdbI3BustHA0JNcQY=;
+	s=arc-20240116; t=1772036746; c=relaxed/simple;
+	bh=guCbsIDgg8ayG9mMMymVvi9nZm4Jxc5WYXcp2FwHotE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M0KEDEMnRiahcQK5DuL9ajiutGWtTjIQ8X1vbNMr3cQiC7uyjMUkhyD14goSsBFlzPgQ+WpRYdlSYOy70Qm/OeO9EsUNjEKZzaRRJz5wXgeBpWVLI1XBrt/fOheCYi6LqoVuAkDrGG54oFIBYBb9aI14Fum2qq5nXO6aDqAa2QQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fTmiCBJ5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Izqzrc7MnA8MwjhVb6uJm7nNY9g5oRGySLnzXsXWMDKw/tMdL4N1K3Kn4tQrVSDvSF+cXbD75SgkxQqJLvwfydnmzgysr3dvo+S5XEfI8KlluHr+KUQFPW2CLCPY3KMgcLb6CfngFshbyta0UoQfJ/wOXd2jWf79rfDscW5kBpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cULZ5qEP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fTmiCBJ5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 409F1C116D0;
-	Wed, 25 Feb 2026 15:53:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cULZ5qEP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3776DC116D0;
+	Wed, 25 Feb 2026 16:25:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772034783;
-	bh=65NJR9v+2VXT8tO+CIhNjHjbKMDdbI3BustHA0JNcQY=;
+	s=k20201202; t=1772036745;
+	bh=guCbsIDgg8ayG9mMMymVvi9nZm4Jxc5WYXcp2FwHotE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fTmiCBJ5x5EEOTV+q3XNkcVoA8aJnoLFpSDedyYeJbIG06p7fsX4ckW/I2QLSIRWc
-	 lBNR0EvSgglKT9eroiWsl+LJIB7XwTPdId31tbUqEIRuhSvelj0OtefP3+cAoRcCH/
-	 1TtQXLLt6D/fTN27xk1qtSJEeihRhbylFsnup2xwf1jgCXFfVJ8cZJm1rM4Af5/Am8
-	 B4maN/n2UPJE7PYgDMq4IfRWRoioWpym9ALaxVFAg0iIjrv1VJivRLBAXNPYCa6T7o
-	 0zNSSBABTPJWbab5InkJZtbouLPrw2LaDn+eYZh+Y1EdWzV7ru01gI3Y+ToHe7oz2o
-	 ILQAdUcCVN2zg==
-Date: Wed, 25 Feb 2026 09:52:59 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, 
-	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <frank.li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <ndozoc6qdrpv3xuktumsah56im5rbtg6iwerq3xi2xkcuyewpx@szswqvojleg3>
-References: <CAD++jLkUVFckLTq=SoivNFoFymhJo4KM=qGmajFcv9T9+7tPmg@mail.gmail.com>
- <b4c422ce-3538-40aa-8bfa-b70f02774b5d@foss.st.com>
- <nbzdtngifwrx2kyu4tsiwwua5v4i5cjtaotemq5hubaets3bcn@fk25twf5rv6x>
- <PAXPR04MB9185588C1DB71B1FEFA1DEE38974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <CANLsYkxAwgG1WkMRr8EJZuSUnN_jKVnsWhWTakVqhvtMBO365A@mail.gmail.com>
- <PAXPR04MB91851D3DA6A92669CB5926A18974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <CANLsYkw-8ERXy3v8Sv55Cpq=+41Toez3EjLMbENAkavvr8STeQ@mail.gmail.com>
- <PAXPR04MB9185B68BC640D940534E44098974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <d4c8f7dd-c0a8-4721-9750-47429637d8c1@lunn.ch>
- <PAXPR04MB9185BB6443B9E1E407F409D68974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	b=cULZ5qEPz3eS7I+Fsxr6miX8AP+0kVboSS3w9recg6hIWBQu8d492aJMKFAtePr5C
+	 Yxw6zeIYl0NzkVTqOY+rZ3drD+EwjqMadIeU3+bhyJFoPCMVo0RZaVEqrkGtGCEwa4
+	 bcriv7DhH2j0T9uGVeVdL+y8N8zL0iY2hVFSWAbADuMDI7VU71xE8IuqKkYJ+gZCsQ
+	 xR3OY+ov4QmLACxJ9gpX2X8RBJq46iAC34jhNq6rOPIAXeo23p3YGZbABHQNK9QxkC
+	 B70PkGx9oFgxrBgyJwJJ0C90f4GZTWG9hD7VkXOtmEBOVrFFkcSQg/ezo7Ywq0Uean
+	 YvcAIzi1k5CAg==
+Date: Wed, 25 Feb 2026 18:25:24 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Ritesh Harjani <ritesh.list@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alex Shi <alexs@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Borislav Petkov <bp@alien8.de>, Brian Cain <bcain@kernel.org>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	David Hildenbrand <david@kernel.org>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Guo Ren <guoren@kernel.org>, Heiko Carstens <hca@linux.ibm.com>,
+	Helge Deller <deller@gmx.de>, Huacai Chen <chenhuacai@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Klara Modin <klarasmodin@gmail.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Magnus Lindholm <linmag7@gmail.com>,
+	Matt Turner <mattst88@gmail.com>, Max Filippov <jcmvbkbc@gmail.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michal Hocko <mhocko@suse.com>, Michal Simek <monstr@monstr.eu>,
+	Muchun Song <muchun.song@linux.dev>,
+	Oscar Salvador <osalvador@suse.de>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Russell King <linux@armlinux.org.uk>,
+	Stafford Horne <shorne@gmail.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vasily Gorbik <gor@linux.ibm.com>, Vineet Gupta <vgupta@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>, Will Deacon <will@kernel.org>,
+	x86@kernel.org, linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+	linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-mm@kvack.org, linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org, linux-um@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org, loongarch@lists.linux.dev,
+	sparclinux@vger.kernel.org
+Subject: Re: [PATCH v3 24/29] arch, mm: consolidate initialization of SPARSE
+ memory model
+Message-ID: <aZ8idANginXzhf0_@kernel.org>
+References: <20260111082105.290734-1-rppt@kernel.org>
+ <20260111082105.290734-25-rppt@kernel.org>
+ <87tsv5h544.ritesh.list@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PAXPR04MB9185BB6443B9E1E407F409D68974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+In-Reply-To: <87tsv5h544.ritesh.list@gmail.com>
 
-On Tue, Feb 24, 2026 at 10:43:06PM +0000, Shenwei Wang wrote:
+Hello Ritesh,
+
+On Wed, Feb 25, 2026 at 09:00:35AM +0530, Ritesh Harjani wrote:
+> Mike Rapoport <rppt@kernel.org> writes:
+> 
+> > From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+> >
+> > Every architecture calls sparse_init() during setup_arch() although the
+> > data structures created by sparse_init() are not used until the
+> > initialization of the core MM.
+> >
+> > Beside the code duplication, calling sparse_init() from architecture
+> > specific code causes ordering differences of vmemmap and HVO initialization
+> > on different architectures.
+> >
+> > Move the call to sparse_init() from architecture specific code to
+> > free_area_init() to ensure that vmemmap and HVO initialization order is
+> > always the same.
+> >
+> 
+> Hello Mike,
+> 
+> [    0.000000][    T0] ------------[ cut here ]------------
+> [    0.000000][    T0] WARNING: arch/powerpc/include/asm/io.h:879 at virt_to_phys+0x44/0x1b8, CPU#0: swapper/0
+> [    0.000000][    T0] Modules linked in:
+> [    0.000000][    T0] CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 6.19.0-12139-gc57b1c00145a #31 PREEMPT
+> [    0.000000][    T0] Hardware name: IBM pSeries (emulated by qemu) POWER10 (architected) 0x801200 0xf000006 of:SLOF,git-ee03ae pSeries
+> [    0.000000][    T0] NIP:  c000000000601584 LR: c000000004075de4 CTR: c000000000601548
+> [    0.000000][    T0] REGS: c000000004d1f870 TRAP: 0700   Not tainted  (6.19.0-12139-gc57b1c00145a)
+> [    0.000000][    T0] MSR:  8000000000021033 <SF,ME,IR,DR,RI,LE>  CR: 48022448  XER: 20040000
+> [    0.000000][    T0] CFAR: c0000000006016c4 IRQMASK: 1
+> [    0.000000][    T0] GPR00: c000000004075dd4 c000000004d1fb10 c00000000304bb00 c000000180000000
+> [    0.000000][    T0] GPR04: 0000000000000009 0000000000000009 c000000004ec94a0 0000000000000000
+> [    0.000000][    T0] GPR08: 0000000000018000 0000000000000001 c000000004921280 0000000048022448
+> [    0.000000][    T0] GPR12: c000000000601548 c000000004fe0000 0000000000000004 0000000000000004
+> [    0.000000][    T0] GPR16: 000000000287fb08 0000000000000060 0000000000000002 0000000002831750
+> [    0.000000][    T0] GPR20: 0000000002831778 fffffffffffffffd c000000004d78050 00000000051cbb00
+> [    0.000000][    T0] GPR24: 0000000005a40008 c000000000000000 c000000000400000 0000000000000100
+> [    0.000000][    T0] GPR28: c000000004d78050 0000000000000000 c000000004ecd4a8 0000000000000001
+> [    0.000000][    T0] NIP [c000000000601584] virt_to_phys+0x44/0x1b8
+> [    0.000000][    T0] LR [c000000004075de4] alloc_bootmem+0x144/0x1a8
+> [    0.000000][    T0] Call Trace:
+> [    0.000000][    T0] [c000000004d1fb50] [c000000004075dd4] alloc_bootmem+0x134/0x1a8
+> [    0.000000][    T0] [c000000004d1fba0] [c000000004075fac] __alloc_bootmem_huge_page+0x164/0x230
+> [    0.000000][    T0] [c000000004d1fbe0] [c000000004030bc4] alloc_bootmem_huge_page+0x44/0x138
+> [    0.000000][    T0] [c000000004d1fc10] [c000000004076e48] hugetlb_hstate_alloc_pages+0x350/0x5ac
+> [    0.000000][    T0] [c000000004d1fd30] [c0000000040782f0] hugetlb_bootmem_alloc+0x15c/0x19c
+> [    0.000000][    T0] [c000000004d1fd70] [c00000000406d7b4] mm_core_init_early+0x7c/0xdf4
+> [    0.000000][    T0] [c000000004d1ff30] [c000000004011d84] start_kernel+0xac/0xc58
+> [    0.000000][    T0] [c000000004d1ffe0] [c00000000000e99c] start_here_common+0x1c/0x20
+> [    0.000000][    T0] Code: 6129ffff 792907c6 6529ffff 6129ffff 7c234840 40810018 3d2201e8 3929a7a8 e9290000 7c291840 41810044 3be00001 <0b1f0000> 3d20bfff 6129ffff 792907c6
 > 
 > 
-> > -----Original Message-----
-> > From: Andrew Lunn <andrew@lunn.ch>
-> > Sent: Tuesday, February 24, 2026 4:15 PM
-> > To: Shenwei Wang <shenwei.wang@nxp.com>
-> > Cc: Mathieu Poirier <mathieu.poirier@linaro.org>; Bjorn Andersson
-> > <andersson@kernel.org>; Arnaud POULIQUEN
-> > <arnaud.pouliquen@foss.st.com>; Linus Walleij <linusw@kernel.org>; Bartosz
-> > Golaszewski <brgl@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Rob Herring
-> > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > <conor+dt@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
-> > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
-> > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
-> > <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
-> > devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
-> > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-linux-imx <linux-
-> > imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
-> > Subject: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-> > > Please explain how you would design your generic rpmsg-gpio driver
-> > > which is derived From gpio-virtio?
-> > 
-> > We have already seen the virtio commands are pretty much identical to what i
-> > suggested.
-> > 
-> > You could just replace virtqueue_add_sgs() with rpmsg_sendto() and reimplement
-> > virtio_gpio_request_vq() to be the callback registered with rpmsg_create_ept().
-> > The rest of basic GPIO handling should not need any changes at all.
-> > 
+> I think this is happening because, now in mm_core_early_init(), the
+> order of initialization between hugetlb_bootmem_alloc() and
+> free_area_init() is reversed. Since free_area_init() -> sparse_init()
+> is responsible for setting SECTIONS and vmemmap area. 
 > 
-> Creating endpoints and calling rpmsg_sendto() is only a small part of the picture. You also 
-> need to manage the service announcement from the remote side and handle asynchronous 
-> notification messages. That entire flow is already implemented in the existing virtio_rpmsg_bus 
-> driver. Re‑implementing those pieces just to mimic gpio‑virtio over RPMSG would essentially 
-> mean reinventing the wheel without any real benefit.
+> Then in alloc_bootmem() (from hugetlb_bootmem_alloc() path), it uses virt_to_phys(m)...
 > 
-
-I can absolutely see a benefit to this, there are multiple different
-rpmsg backends supported in Linux, so a gpio-rpmsg driver could be used
-by any one of them.
-
-I don't see this to be a case of "reinventing the wheel". Instead we
-copy what looks to be a very functional wheel and make it fit rpmsg.
-This will result in some "duplication", but rpmsg already provide the
-life cycle management and has a clean send/callback interface, so there
-shouldn't be any inventing...
-
-Similarly, I'm guessing that there's a firmware-side implementation of
-virtio-gpio in Zephyr, it should be straightforward to transplant this
-to the rpmsg interface.
-
-Regards,
-Bjorn
-
-> Thanks,
-> Shenwei
+> 			/*
+> 			 * For pre-HVO to work correctly, pages need to be on
+> 			 * the list for the node they were actually allocated
+> 			 * from. That node may be different in the case of
+> 			 * fallback by memblock_alloc_try_nid_raw. So,
+> 			 * extract the actual node first.
+> 			 */
+> 			if (m)
+> 				listnode = early_pfn_to_nid(PHYS_PFN(virt_to_phys(m)));
 > 
-> > Interrupt support does however need some changes. The
-> > virtio_gpio_request_vq() replacement would need to see if the received message
-> > indicates an interrupt and call the equivalent of virtio_gpio_event_vq(), since
-> > rpmsg does not have a separate mechanism to deliver interrupts, unlike rpmsg.
-> > 
-> > At a guess, 90% of the code would stay the same?
-> > 
-> >    Andrew
+> 
+> ... virt_to_phys on powerpc uses:
+> 
+> static inline unsigned long virt_to_phys(const volatile void * address)
+> {
+> 	WARN_ON(IS_ENABLED(CONFIG_DEBUG_VIRTUAL) && !virt_addr_valid(address));
+> 
+> 	return __pa((unsigned long)address);
+> }
+> 
+> #define virt_addr_valid(vaddr)	({					\
+> 	unsigned long _addr = (unsigned long)vaddr;			\
+> 	_addr >= PAGE_OFFSET && _addr < (unsigned long)high_memory &&	\
+> 	pfn_valid(virt_to_pfn((void *)_addr));				\
+> })
+> 
+> 
+> I think the above warning in dmesg gets printed from above WARN_ON, i.e.
+> because pfn_valid() is false, since we haven't done sparse_init() yet.
+
+Yes, I agree.
+ 
+> So, what I wanted to check was - do you think instead of virt_to_phys(), we
+> could directly use __pa() here() in mm/hugetlb.c, since these are
+> memblock alloc addresses? i.e.: 
+> 
+> // alloc_bootmem():
+> -   listnode = early_pfn_to_nid(PHYS_PFN(virt_to_phys(m)));
+> +   listnode = early_pfn_to_nid(PHYS_PFN(__pa(m)));
+> 
+> // __alloc_bootmem_huge_page():
+> -   memblock_reserved_mark_noinit(virt_to_phys((void *)m + PAGE_SIZE),
+> +   memblock_reserved_mark_noinit(__pa((void *)m + PAGE_SIZE),
+
+It surely will work for powerpc :)
+I checked the definitions of __pa() on other architectures and it seems the
+safest and the easiest way to fix this.
+ 
+Would you send a formal patch?
+
+> Thoughts?
+> 
+> -ritesh
+
+-- 
+Sincerely yours,
+Mike.
