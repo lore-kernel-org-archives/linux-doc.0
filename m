@@ -1,236 +1,186 @@
-Received: from mail-dl1-f68.google.com (mail-dl1-f68.google.com [74.125.82.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636032E7635
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 18:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772045910; cv=pass; b=UFmPX0YwG/GRNF9d8MYNeO/KSNDP96rxolxcxjARSNb2nZ147+1dQ432Uy7F4pgLU3nESWWJN9sdPMpYTcL8rJNplpUBOq/8kD7JBNXBhKOQ6veeiARDVtaKhrAjoeeH5V5sDtkicbxI8akkdhy71UF7pRC7in2NYprw1mF35Uw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772045910; c=relaxed/simple;
-	bh=NpKgxwm3BYjy0VCIdvPfujoYw+4fA8FzzoYFYYquMwE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Cq380xQEU5W5B47ZTXQBCKkwQxwr12185p74dHnUwNoYlbjHV9RX5iz8jF1XoLnPuaaPXNPhgWhVmp6wfrMQU28QJron3ZPuQjspONgACUp5B5OXbAOrVsjeEa9MGdhrS9EMzV2Gp5uOHr+SP0lpw2n9ZWQwR1bCf/6+KONhtYM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N51jRMtY; arc=pass smtp.client-ip=74.125.82.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792DC3ED12F
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 19:10:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772046605; cv=none; b=Knpg+VkT3vUBkbCGxA35S4QMcepmaken1ObRLNbDxVomzBbJ9zUcSsf5/LDpglcg/LL9s5WoXda4wgrv7jzSSsKhowd/5Bus8092EO6/NrBIxwp6EPuOzrPwAakevEhnyLPe8vOeSkhDyppu11EvTBiQtRkgU2YnggeCUZGOhfk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772046605; c=relaxed/simple;
+	bh=CzfU35N3pjq6xy3wil9kM7JXhYOUU0JGjdRVEwu0+gk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mBvMWJCBVpPV8NKb8PaYwIEVTD/hph7aQMDS2vu8pUiMz1IumToaaOPwlmMH0ka66ZknnsbYwBRQ4hl2ysjtoD0H2IJAiZYw1JmikhA15K8jrV4t6xVzFyEzZyILM1mhK/hdPz20GIme0glgdwK4EuVpngSJG9Lfywtf0MJV2TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=deEDZpuC; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IjSDXKqH; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N51jRMtY"
-Received: by mail-dl1-f68.google.com with SMTP id a92af1059eb24-126ea4e9694so3945074c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 10:58:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772045907; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YL65XKpfGNLjMlkmkBU/VXCYSfgsdv5KivvIrcZ8W4qFLx2Ad1sVQpOoQ1wb9C7T6P
-         h2POhvomxCup0bTQKiw/8CTvnGzJ5vyNUdtDeLyDO9oszeQv3lYDIy1+nzG+QESyr5PG
-         UzSYMjXaprBDWCuhkS2bEuAo2EI+CTOKmFrgTHa2j/Am9WNQkGmFceXPScU2Vulu9R6x
-         GM4muu0ouJ5BxaPyImO0QjHyC4qbGoAII+ZquqGU/0DZP7GX8lNHS+geRBShfMq544Nm
-         kqQEhe+I8XBQljhrmAfLsAqq/pwoqw4aGwZhLvl8gwFsfIWxjo728j6JJIzFmmWDGZXQ
-         lBwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ArROPpjnJzj85QG9odZcXqmuIgynPaSR2+psVn75qQI=;
-        fh=ygQ5ar35d8WsFPl9RwUUApAC05grnDCsUcDVfFyzS3E=;
-        b=cUDyD545icTOYoy2+dc4uq8MKDdPJ4GUWBlXeBoMfG6CgFtipwrwJuLl0329GA1qUZ
-         f0ZLYlFGDS/rUJRaOfdJ+39KSK0RkxyA1tp9UC4IBPieSstp0X9Qszj5GwndJnmLckfz
-         MD8USGVmAr+6BLeoy7osJdAUsF7JOf1cSgzxg20pi2kVqnUamJtF+/bH9FAKy12tETLW
-         TYtEVu1RIODTxncUSdrZG1iORiszOm32ayBmOW390+mJyRq+YkjbEdxAbazMERrl5hTC
-         ZIC/Z1LedX9ITnxoC8Y1Sl4U/KHMpZhufmBFlrwmQcxVrs/yDzMZljB8SfZDJ/6ED+Bs
-         G3jA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="deEDZpuC";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IjSDXKqH"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61PHZm7K1024949
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 19:09:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=pZEpDcrfMrqqrHue5nZhulZF
+	qXVRR9YBcn3GTIB6GfE=; b=deEDZpuCFaGh0XyjzUZOyK0hDDEqcK6/Q8xviVo8
+	f4DzXIpDz6jIg0dOrqEWjiyZRnsRXjZahXaUHgSjcY4hE+0TuOxFb3cIpjlhiWXO
+	EMqG//Dmp5K8OiZY04WhLhOxkBHvE5subNv+ebJkQ1fm1PFylogeaaJpjQ/IUbwg
+	bmDwBPPzBsfJPH+EXvISMBJQv+U2mQTGNNREV6xK5QiIvITBGx5ahrnC2lj4Ggvf
+	kAUHDy6kIjJGD4ae1n9TSz7sNZ16SM27+PDkJmbSnmvPa49Gfc/WVHke683i7+A9
+	ULivLKJqK5NlQTiFt9Gbj2lWTyCDeteu1eDJedoBVLLxFA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chq57u21e-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 19:09:58 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cb3fae6f60so564732285a.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 11:09:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772045907; x=1772650707; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ArROPpjnJzj85QG9odZcXqmuIgynPaSR2+psVn75qQI=;
-        b=N51jRMtYDtL7IVtY2HOJvZf+x/sK8PBU+Ypt2Rjr7IbyD7CA0CqH9g0nZVooPw9EF3
-         PqLfdUo/UKcj4QqrhbUlIZ2OR4EnhVRH/FGH2m2g3YHRmjYFHD5JZQiUdC2yaT3EYYo7
-         q373CJwma5FV5w9b5P17QY9lUSKR6iGPpBCcI0BBKFPGUfdITA+quVcxnLSnPzrKqb7X
-         CWdiG4Mv67UwO7AZVKGOvTquNRCLJqLI3L4IfSfxG7mwXrsW/ko+GX+10vlchF+0Qqbw
-         zPDWLkYlAzqqP2Rnhf4ixvLo0ydTHi3XIPHE2c2pxNlKngQM4jK2zknYSudl8bZhFXRE
-         IvuQ==
+        d=oss.qualcomm.com; s=google; t=1772046597; x=1772651397; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pZEpDcrfMrqqrHue5nZhulZFqXVRR9YBcn3GTIB6GfE=;
+        b=IjSDXKqH9ea9aDhAJFpCrrYPsckPwLkbe1fnvK/3jzNEypZtpEZlfWL7kUoZswmhOQ
+         mmgAr+swlCmrCPARCZIYbiwWyvFhS2ChEO5jEqPOeyYGHcCQNdG2bRHJL1m2hUJjy4ap
+         X2SDzWd39aARN1yW82gZyroltjbARLkBr4lmBSP4Yx1G9ehqqY9sbZq+nj0szF2eOAJn
+         eh5TBf5Or4bDUDDrvUHIHIaKwsutaL4AahcGImLOEmYFyTVK/sphd6hxqKx2u9v8hCHn
+         u6rxuCRZeB/Cr9vEl4IBh61yq89S3ADJAk4Xzwrn1VLgV8nd4qQNEPdogr4eKpfY2N+Y
+         Guag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772045907; x=1772650707;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ArROPpjnJzj85QG9odZcXqmuIgynPaSR2+psVn75qQI=;
-        b=f9uJK2IY+nakGdC/Em8+uffpp8ziL1dbKMIqD0+WIyCKK6dOWLOAawvvSQwP+mF7vd
-         5ptia5qU/bDSAgA9ZUF5q+ZD6q+uehqn0NBYfyd+UH8LizxbFUrA9dXVK3aUFSyqLk7H
-         dI5Z2L4o3JUTmEvqnK/gce8CsdfXD7vFdNmb0knBaKYuJDjm9o3WD2ER5lQJsaLwXhDv
-         tYGhQJuV7pAsYQkJS1lsKun0/Vpnb5qAdzpwB+Q539RvGDaVbA4ek1zmdxrXD6twX4Db
-         ehvSAzhj5au2izpzco1Jh50H4JgDA11GfD4MOe/GjB5cldQteglcx+TvrM9yk/WYNmtc
-         wM9A==
-X-Forwarded-Encrypted: i=1; AJvYcCUUBDkkmFsApN/vud3b6jmhSe40VJ87pPicmnruWc1KblEGI7vLKwuQYL5XHSrGwWpqcLiNPsqRRnE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2hV1L84/5VNKnGidWYskplkwK0Zib4+DnXJk1SMEQhzxz4u3C
-	xtlokoBUK5CXOtxbBvTyVuHFPJyvS4RhFiOmyvIpAj7wcOXUvgf2crNMuSbVWtvXKrivmhNCkga
-	SUm8QE0kqEF67W9sDdQfVOZMjTvmXeQ==
-X-Gm-Gg: ATEYQzx0CPEKiz+NsbmGVz5OH8zPDvUTpYPROqSE5J7skfOz9Of8Y6vj+S5/8u5BUGy
-	YyjUUnHUZ6yDo6uWrfK4UD2Pun2qBK+AnbEu6l05upalmD4KHVX5yRRa1TANghO3NfgPeK0C2UL
-	Ak30mikdxjYn+K7Ds3ekTpUQXC9Lx25qWPqFHnS+2bR1AU7OvmKXV8TW7D3hI89uOAPkNmeghUR
-	3n8cVm5Beidhjr3F+F2yRoGxEV3o4KEzldl6EbCW5wlpWV1ix7TX2HR3xhevaSu0p4i6gEniAs8
-	ygqzJ8E=
-X-Received: by 2002:a05:7022:4589:b0:11b:ca88:c4f7 with SMTP id
- a92af1059eb24-1276ad3fecemr6585546c88.40.1772045907494; Wed, 25 Feb 2026
- 10:58:27 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772046597; x=1772651397;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pZEpDcrfMrqqrHue5nZhulZFqXVRR9YBcn3GTIB6GfE=;
+        b=l7uV4l0ltYl1tWLhcm6x2JXJjvC/+s/qVWu1a4mXINhfEJsbUi8ugWFBtnO0qOnJn3
+         Bg1PP6dVMpeoIr2g0ZVz9n6SiP8J4bXhPcW9iVRfcTjTRh7xrj/bIyaJsPqXvSF2KdyI
+         crfNIFoCjA/4aH39FtjWHeFwJJWAqAAoXjsf7ufMJ2iIsyphdAILNzdgKXYLOcfqU3uO
+         fkTKDnxT0OVei8i3vLREUggBUYYKt6hBZm4Q5/PnR7Hly/8qXImQVuCuhY5mXun5Gm+e
+         96bjgi2/NK94mKo7E46wBvX37i3KqgLWVx7uC8DqmGhEyPSgszT6oivvizP6u4W7A+z5
+         MlPw==
+X-Forwarded-Encrypted: i=1; AJvYcCW9BjNkcvsDY4BC6rbSGQbdvO1tlA/D8yJQ2YAAFxH9/xN3HagktyHb8Y7Bjv3waQvT2d3cr7kDN8w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNdQgHeAS82p3vQ/XO4clGTqvAKY+46JSO3iuJeevEWmpq53rI
+	cxkkwqoa+C/Qx97Me6wTtwQZWxqPQwW9x0ffwLMvaNUvkLEQXAvuqXFKusygSWxlyhaILFwufvm
+	TvBX/oVIVRHhaBx8shzR0SJozd5VDOTU/wzTSjd2zhXnrEpbpEHqSClROzf9h6rs=
+X-Gm-Gg: ATEYQzzWw3C0m+wJwxhxm4Pz/cCRoKT6DEoUmRZEeuXre8WajuZHFKOocwR4DBiY1hU
+	0LQgNhGIufgp3hsLrJxWZD4VsKdED1LToGCopZnjuqwTbE9vGwyWZ0jzQtANkAcT8ujegE5415P
+	iWzwC/pWS0WTFf92Og6WmZreb+vtaiqad45jOK9df9lAFIRmpexwaKJwJug1Leum+IrwDSkLj+1
+	NxZQOGIZ5KJgDtZOLCYZvfR7J78hKUhvp/SZfJd36VIxwEoTGN++SzNmacfqWRM9SufGuayVOGR
+	dsWhRbFzyQJW+7gwrPF9AntGtf7YRQXYpJkmlXis4cjUjCqW0r1F0Yl639Dweb70UhMcipRsGzV
+	nOTANw2wuUJ9XXNpPjTnAUMekjBPJQrvzksSS922t2Wmve9IvPEGTwK77jga7k96587rNDT9gj7
+	HUFVXciuKdIth1QAfBxDdLG5O70DfJNw/BMzQ=
+X-Received: by 2002:a05:620a:4451:b0:8cb:4d46:7a6e with SMTP id af79cd13be357-8cbbf3658dfmr20930085a.10.1772046596988;
+        Wed, 25 Feb 2026 11:09:56 -0800 (PST)
+X-Received: by 2002:a05:620a:4451:b0:8cb:4d46:7a6e with SMTP id af79cd13be357-8cbbf3658dfmr20924285a.10.1772046596434;
+        Wed, 25 Feb 2026 11:09:56 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-389a7a1fcb1sm30525601fa.27.2026.02.25.11.09.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Feb 2026 11:09:55 -0800 (PST)
+Date: Wed, 25 Feb 2026 21:09:53 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>
+Subject: Re: [PATCH RFC 04/18] accel/qda: Add built-in compute CB bus for QDA
+ and integrate with IOMMU
+Message-ID: <x6zseuf7g3ngtdlszf3vxj3nqexlkbtrp5kifo4tg4muzdef4n@5rngfg4gu47m>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-4-fe46a9c1a046@oss.qualcomm.com>
+ <ox7jnqkjo3frhbgpp63sse7ram72obihe4qlbbn4z22wbw4szr@7pzoeecdvsyg>
+ <e82443ff-f6c1-4b8e-b573-f4620dd0f17c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260223123232.12851-5-ravis.opensrc@gmail.com> <20260224055451.58713-1-sj@kernel.org>
-In-Reply-To: <20260224055451.58713-1-sj@kernel.org>
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Date: Wed, 25 Feb 2026 10:58:15 -0800
-X-Gm-Features: AaiRm53tTS4j79q29YaqOt6DqbWcBTOrpnxU-5ZG60LfsiyErPqmfboGnXJ-bZE
-Message-ID: <CALa+Y14yVxW+NSP6-G+93yHFLKhFhvKMQowGUR1MBcPgvO_q-A@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 4/4] mm/damon: add PA-mode cache for eligible
- memory detection lag
-To: SeongJae Park <sj@kernel.org>
-Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
-	yunjeong.mun@sk.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e82443ff-f6c1-4b8e-b573-f4620dd0f17c@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=faOgCkQF c=1 sm=1 tr=0 ts=699f4906 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=yBEyVpS31OZj4jLVKcoA:9
+ a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: 6es3o-CrciZedX7pwuyZlJyvuQE2g7fB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI1MDE4MCBTYWx0ZWRfX9HOT0brCHpLv
+ Hjt6u0LnV4m5EBarGE1AmyC59yiQKHfxXTIscUwQkMBsRNVd5y/IuwcoVj6K+uDYVOtD1xzcLm+
+ Mosy5r9pQInOLZOk32StNr5JQxguJzXKaPqI9oeZFpXnFXGK1K2TKIMV2348i9jjb1c8JLkzayd
+ r8uO3xgfmMJPii+Yzp05b2R/+TRw+PtB9U37oPPqCSMCM2mGiODnqm3ZjH62QQh/zsthtpBaNyH
+ DCoGASyHp6UGRvV5Y4nxnvmCnn6eYkjhfnnUHVErmHpb2rpe+9rMTmv4P5NGNAAXRGxnN1q1i7k
+ t5tyofDCGGx0uKyRIe3Qd7YE1Y4V7Pv8rsuNJhxlLlv0/qCNt3gOAPd33z6eII1KqMlvEszN8j1
+ dR9MXgg0bDRXoc9/hGSHWZaO1TfFOFGbdeJZdeI8Lef1c3XEeSW5ipOwnskihM6K14X3CtAYkIw
+ FretraiH7Tv9VZhO4uQ==
+X-Proofpoint-GUID: 6es3o-CrciZedX7pwuyZlJyvuQE2g7fB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_02,2026-02-25_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 impostorscore=0 suspectscore=0 phishscore=0
+ lowpriorityscore=0 malwarescore=0 spamscore=0 bulkscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602250180
 
-On Mon, Feb 23, 2026 at 9:54=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote=
-:
->
-> On Mon, 23 Feb 2026 12:32:32 +0000 Ravi Jonnalagadda <ravis.opensrc@gmail=
-.com> wrote:
->
-> > In PA-mode, DAMON needs time to re-detect hot memory at new physical
-> > addresses after migration. This causes the goal metrics to temporarily
-> > show incorrect values until detection catches up.
->
-> I agree this can happen, and could be problematic on some setup.
->
+On Wed, Feb 25, 2026 at 11:26:52PM +0530, Ekansh Gupta wrote:
+> 
+> 
+> On 2/24/2026 4:14 AM, Dmitry Baryshkov wrote:
+> > On Tue, Feb 24, 2026 at 12:38:58AM +0530, Ekansh Gupta wrote:
+> >> Introduce a built-in compute context-bank (CB) bus used by the Qualcomm
+> >> DSP accelerator (QDA) driver to represent DSP CB devices that require
+> >> IOMMU configuration. This separates the CB bus from the QDA driver and
+> >> allows QDA to remain a loadable module while the bus is always built-in.
+> > Why? What is the actual problem that you are trying to solve?
+> Bus needs to be built-in as it is being used by iommu driver. I'll add more details here.
 
-Thank you for acknowledging the issue.
+It's an implementation detail. Start your commit message with the
+description of the issue or a problem that you are solving.
 
 > >
-> > Add an eligible cache mechanism to compensate for this detection lag:
+> >> A new bool Kconfig symbol DRM_ACCEL_QDA_COMPUTE_BUS is added and is
+> > Don't describe the patch contents. Please.
+> Ack.
 > >
-> > - Track migration deltas per node using a rolling window that
-> >   automatically expires old data
-> > - Use direction-aware adjustment: for target nodes (receiving memory),
-> >   use max(detected, predicted) to ensure migrated memory is counted
-> >   even before detection catches up; for source nodes (losing memory),
-> >   use predicted values when detection shows unreliable low values
-> > - Maintain the zero-sum property across nodes to preserve total
-> >   eligible memory
-> > - Include cooldown mechanism to keep cache active while detection
-> >   stabilizes after migration stops
-> > - Add time-based expiry to clear stale cache data when no migration
-> >   occurs for a configured period
-> >
-> > The cache uses max_eligible tracking to handle detection oscillation,
-> > prioritizing peak observed values over potentially stale snapshots.
-> > A threshold check prevents quota oscillation when detection swings
-> > between zero and small values.
->
-> But, I feel this might be too overfit solution for a specific setup.
->
-> >
-> > Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-> > ---
-> >  include/linux/damon.h    |  45 +++++
-> >  mm/damon/core.c          | 421 +++++++++++++++++++++++++++++++++++----
-> >  mm/damon/sysfs-schemes.c |  30 +++
-> >  3 files changed, 460 insertions(+), 36 deletions(-)
->
-> The size of the change is quite big.  I'm now curious if the problem is
-> significant enough for this size of change, and if this solution is only =
-the
-> single and the best one.
+> >> selected by the main DRM_ACCEL_QDA driver. The parent accel Makefile is
+> >> updated to descend into the QDA directory for both built-in and module
+> >> builds so that the CB bus is compiled into vmlinux while the driver
+> >> remains modular.
+> >>
+> >> The CB bus is registered at postcore_initcall() time and is exposed to
+> >> the IOMMU core through iommu_buses[] in the same way as the Tegra
+> >> host1x context-bus. This enables later patches to create CB devices on
+> >> this bus and obtain IOMMU domains for them.
+> > Note, there is nothing QDA-specific in this patch. Please explain, why
+> > the bus is QDA-specific? Can we generalize it?
+> I needed a custom bus here to use for the compute cb devices for iommu
+> configurations, I don't see any reason to keep it QDA-specific. The only requirement
+> is that this should be enabled built in whenever QDA is enabled.
 
-I understand. The cache was consciously separated as patch 4 because it
-represents ONE possible approach to handle detection lag - not
-necessarily THE approach.
-My goal was to share what was needed to achieve equilibrium with my
-synthetic benchmark workload,
-while making it clear this could be dropped or replaced with alternatives.
+Why? FastRPC uses platform_bus. You need to explain, why it's not
+correct.
 
->
-> First of all, I'm curious if the problem is that significant.  I assume y=
-ou may
-> seen the issue from your test setup that you shared with the cover letter=
-.
-> From my understanding of the cover letter of this patch series, however, =
-you
-> are testing this on a setup having two complementary schemes.  And you us=
-e
-> TEMPORAL tuner.  The motivation of TEMPORAL tuner was for setup that not =
-having
-> a factor to move the quota goal value without additional intervention.  I=
-n
-> complementary schemes setup, the schemes becomes such factors for each ot=
-her.
-> In the case, TEMPORAL tuner might be worse in terms of the size of tempor=
-al
-> oscillations.  I don't know details of your test setup, but I suspect the=
- use
-> of TEMPORAL tuner might made the issue bigger than real.
+> 
+> But if I keep it generic, where should this be placed? Should it be accel(or drm?) specific?
 
-That's a fair point. I chose TEMPORAL because I wanted to move the required
-amount of pages as quickly as possible to reach equilibrium - essentially
-"migrate at full speed until target is reached, then stop." For my multiloa=
-d
-benchmark with uniformly hot memory, this seemed like the most direct
-approach.
+drivers/base? Or drivers/iommu? That would totally depend on the issue
+description. E.g. can we use the same code for host1x?
 
-You're right that with complementary schemes, the schemes act as factors fo=
-r
-each other, and CONSIST tuner with its feedback loop might make the detecti=
-on
-lag problem more manageable through gradual adjustment.
 
->
-> I also assume the real world people may use DAMON with auto-tuning mostly
-> because they don't know the access pattern of the system and assume it wi=
-ll be
-> dynamic.  In the case, even if we perfectly solve the issue, some of
-> oscillation will happen.  So, I think the issue in the real world might b=
-e
-> smaller than that we can find on some specific test setups.
-
-Agreed. Real-world workloads with mixed hot/cold memory and dynamic access
-patterns might behave differently from my synthetic benchmark where all mem=
-ory
-is uniformly hot. The uniform-hot case is essentially a worst-case scenario
-that forces continuous oscillation regardless of detection lag compensation=
-.
-
->
-> Meanwhile, the node_[in]eligible_mem_bp concept makes sense to me.  I'm w=
-orried
-> if this patch is unnecessarily delaying the progress of the main change.
->
-> So, unless we have clear evidence of the significance of this issue, I'd =
-prefer
-> dropping this for now.  After that, if the issue turns out to be signific=
-ant or
-> this solution is proven to be significantly beneficial, from your next mo=
-re
-> realistic test setup, or from real world usage after upstreaming of the m=
-ain
-> change, we can revisit.  What do you think?
-
-I agree with dropping this patch for now. Let's focus on getting the
-core metrics merged first.
-The cache mechanism can be revisited later if real-world usage shows
-it's needed.
-
-Thanks,
-Ravi.
-
->
->
-> Thanks,
-> SJ
->
-> [...]
+-- 
+With best wishes
+Dmitry
