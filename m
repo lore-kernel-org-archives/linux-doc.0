@@ -1,208 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF87392822;
-	Wed, 25 Feb 2026 19:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA93B265621;
+	Wed, 25 Feb 2026 19:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772048643; cv=none; b=BDY7b2/ho5ihq8A6hjsqSvnrJ7fxntPvLhcUNGL3oM6+7XaTmZsGwL6/k8x3rlW/cv70wdYW8HiZS48/XEi1UTUR1X2QHe+GJm2U5Rlqol0rJtmmRxhG2HERQ92/dCgJtT/emGWUXHe+flJNmrhMsSiakKn3VwJeBhmaDjyBHBQ=
+	t=1772048844; cv=none; b=fxNOGdAQHPRP4OWont3d9vhX4zc9oeGGIVcdo/91sjVlpYscYeGDlPrNnXk7+Hen+mfW+cyZCkp1i2PGq6CqsApTVgc376D4hI5iUdnXJ/Y6Yf4sA3H2yxTOxTAvz8odiCuzAlyStW9c6WXXIDLj0w+UrtYkB5rUilMOFstNoak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772048643; c=relaxed/simple;
-	bh=gULMDKpUK/FsthYotcBl7chnm4qllNzSnegyiTsqh+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fj1Vy3dhU/0D8gqdjFfu1VEDf1XyLMFv1IzOChiEJuNAoCl6VgSYmBykeFZCaSfH/r3BLWjN18bZDxdcGKQ9i9pHoGjdfDvSa/uTuSGcsjNtLAj4bQqgDgHZCbvA23C4EW8jxAIOv99nFJF4y2hcxPx+kX88AXQLB3DxHRfZWOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HFeTZ1qY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772048844; c=relaxed/simple;
+	bh=41IhjV1seBBmRCdbHyHzmQySDeJtAluHqgh6mu9Oly8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SfelJV4lZqB5UW+oIjAl4p2eSZp32DelSsD9G6IxQC683YFweaCOTt9uJ8unWLlNSMP2xGNsmxXX0pl1wz9M/w+bnRejfwWU3f6hcejXyC5FZA82nGd1ngQrWf8n7wxPgPGHc3r2MmZf0jPCKnXQauRl7waSek3NKuA3sQ+HeQM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=Rl6wlTcU; arc=none smtp.client-ip=198.37.111.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HFeTZ1qY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFC52C116D0;
-	Wed, 25 Feb 2026 19:44:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772048643;
-	bh=gULMDKpUK/FsthYotcBl7chnm4qllNzSnegyiTsqh+0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HFeTZ1qYVM9zvwMEF9fTAoDLFyfPAk+eFT63ompAkDWfg0ihwPI7V4TtxQiai7ZTS
-	 TUCxxiUqzi7GqRMrlGd5uqJKJl3zTs+Pp6c+M0vcRYw5QpMhnRstmFAkL395ie6LsT
-	 nsgBrPn2clE5BTM5e9WW6Og6t7vD5oYcEk8+3VbEhgAry+/K4xQYrqXYi5zHhs1geb
-	 g/BWPMdalCV1Airi7bcoe5pvKI64LCS2BR8GK5o9fTiQcbMkm8D4DBoJNp1IRAx3oM
-	 UhqMBKBHSaIBj+WLxCIqyk8wZlxtPG1PEZiWlust+4DdTphiZ+5gVAt+w4fh5ij8bP
-	 IKwfJA+52EEKA==
-Date: Wed, 25 Feb 2026 13:43:58 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, 
-	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <frank.li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <2b72kkgwe5hio4uwrxj5oi72llkxhx7egw442fugq6unv7unah@5bfve7k3mvky>
-References: <nbzdtngifwrx2kyu4tsiwwua5v4i5cjtaotemq5hubaets3bcn@fk25twf5rv6x>
- <PAXPR04MB9185588C1DB71B1FEFA1DEE38974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <CANLsYkxAwgG1WkMRr8EJZuSUnN_jKVnsWhWTakVqhvtMBO365A@mail.gmail.com>
- <PAXPR04MB91851D3DA6A92669CB5926A18974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <CANLsYkw-8ERXy3v8Sv55Cpq=+41Toez3EjLMbENAkavvr8STeQ@mail.gmail.com>
- <PAXPR04MB9185B68BC640D940534E44098974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <d4c8f7dd-c0a8-4721-9750-47429637d8c1@lunn.ch>
- <PAXPR04MB9185BB6443B9E1E407F409D68974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <ndozoc6qdrpv3xuktumsah56im5rbtg6iwerq3xi2xkcuyewpx@szswqvojleg3>
- <AS8PR04MB917652D63DB090D22129D3D78975A@AS8PR04MB9176.eurprd04.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="Rl6wlTcU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=hansenpartnership.com; s=20151216; t=1772048841;
+	bh=41IhjV1seBBmRCdbHyHzmQySDeJtAluHqgh6mu9Oly8=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
+	b=Rl6wlTcUKpnGyCpreeYfuQmw1ya8fkL8d2nflAccQYFlf5e7CR80qhmG9lZOqib54
+	 ZaMZn5lbwAdV0gD/j/Gu6JZ+G9kWTjwhniX6/IKfrIiaV1NtgwWanIyJt7BTW01EJG
+	 vE2WoCvUPLMYoQAkY53PjRzhhSlyAGphYoY1hrUk=
+Received: from [IPv6:2601:5c4:4300:d341::a774] (unknown [IPv6:2601:5c4:4300:d341::a774])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 1CF381C0101;
+	Wed, 25 Feb 2026 14:47:21 -0500 (EST)
+Message-ID: <5f5f0f87bfd000a46987a08ad2a7505851bbb424.camel@HansenPartnership.com>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+From: James Bottomley <James.Bottomley@HansenPartnership.com>
+To: Alejandro Colomar <alx@kernel.org>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>, 
+ Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven <geert@linux-m68k.org>,
+ Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Theodore Ts'o <tytso@mit.edu>, Andy
+ Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Andrew
+ Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
+Date: Wed, 25 Feb 2026 14:47:19 -0500
+In-Reply-To: <aZ87Z24f9HZsofGl@devuan>
+References: <aZ4_sBIy8rOUL59Q@devuan>
+	 <2026022531-tightness-rare-6a14@gregkh> <aZ87Z24f9HZsofGl@devuan>
+Autocrypt: addr=James.Bottomley@HansenPartnership.com;
+ prefer-encrypt=mutual;
+ keydata=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
+Content-Type: multipart/signed; micalg="pgp-sha256";
+	protocol="application/pgp-signature"; boundary="=-+7d6kIUJ4Jx6mlcJAWwa"
+User-Agent: Evolution 3.50.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <AS8PR04MB917652D63DB090D22129D3D78975A@AS8PR04MB9176.eurprd04.prod.outlook.com>
 
-On Wed, Feb 25, 2026 at 05:54:00PM +0000, Shenwei Wang wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Bjorn Andersson <andersson@kernel.org>
-> > Sent: Wednesday, February 25, 2026 9:53 AM
-> > To: Shenwei Wang <shenwei.wang@nxp.com>
-> > Cc: Andrew Lunn <andrew@lunn.ch>; Mathieu Poirier
-> > <mathieu.poirier@linaro.org>; Arnaud POULIQUEN
-> > <arnaud.pouliquen@foss.st.com>; Linus Walleij <linusw@kernel.org>; Bartosz
-> > Golaszewski <brgl@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Rob Herring
-> > <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor Dooley
-> > <conor+dt@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
-> > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
-> > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
-> > <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
-> > devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
-> > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-linux-imx <linux-
-> > imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
-> > Subject: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-> > On Tue, Feb 24, 2026 at 10:43:06PM +0000, Shenwei Wang wrote:
-> > >
-> > >
-> > > > -----Original Message-----
-> > > > From: Andrew Lunn <andrew@lunn.ch>
-> > > > Sent: Tuesday, February 24, 2026 4:15 PM
-> > > > To: Shenwei Wang <shenwei.wang@nxp.com>
-> > > > Cc: Mathieu Poirier <mathieu.poirier@linaro.org>; Bjorn Andersson
-> > > > <andersson@kernel.org>; Arnaud POULIQUEN
-> > > > <arnaud.pouliquen@foss.st.com>; Linus Walleij <linusw@kernel.org>;
-> > > > Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corbet
-> > > > <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
-> > > > <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Frank Li
-> > > > <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>; Shuah
-> > > > Khan <skhan@linuxfoundation.org>; linux- gpio@vger.kernel.org;
-> > > > linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix
-> > > > Kernel Team <kernel@pengutronix.de>; Fabio Estevam
-> > > > <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
-> > > > devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
-> > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org;
-> > > > dl-linux-imx <linux- imx@nxp.com>; Bartosz Golaszewski
-> > > > <brgl@bgdev.pl>
-> > > > Subject: [EXT] Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg
-> > > > GPIO driver
-> > > > > Please explain how you would design your generic rpmsg-gpio driver
-> > > > > which is derived From gpio-virtio?
-> > > >
-> > > > We have already seen the virtio commands are pretty much identical
-> > > > to what i suggested.
-> > > >
-> > > > You could just replace virtqueue_add_sgs() with rpmsg_sendto() and
-> > > > reimplement
-> > > > virtio_gpio_request_vq() to be the callback registered with
-> > rpmsg_create_ept().
-> > > > The rest of basic GPIO handling should not need any changes at all.
-> > > >
-> > >
-> > > Creating endpoints and calling rpmsg_sendto() is only a small part of
-> > > the picture. You also need to manage the service announcement from the
-> > > remote side and handle asynchronous notification messages. That entire
-> > > flow is already implemented in the existing virtio_rpmsg_bus driver.
-> > > Re‑implementing those pieces just to mimic gpio‑virtio over RPMSG would
-> > essentially mean reinventing the wheel without any real benefit.
-> > >
-> > 
-> > I can absolutely see a benefit to this, there are multiple different rpmsg backends
-> > supported in Linux, so a gpio-rpmsg driver could be used by any one of them.
-> > 
-> > I don't see this to be a case of "reinventing the wheel". Instead we copy what
-> > looks to be a very functional wheel and make it fit rpmsg.
-> > This will result in some "duplication", but rpmsg already provide the life cycle
-> > management and has a clean send/callback interface, so there shouldn't be any
-> > inventing...
-> > 
-> 
-> Interesting — could you walk me through how you’d structure the driver with the new 
-> proposal? I’d like to see how you would layer it conceptually.
-> 
-> The current RPMSG solution:
-> 
->      On Remoteprc                      On Linux
-> GPIOs -> RPMSG -> VIRTIO == VIRTIO -> RPMSG -> GPIO-RPMSG drivers
-> 
-> The VIRTIO solution:
-> 
->      On Remoteprc                     On Linux
->           GPIO -> VIRTIO == VIRTIO -> GPIO-VIRTIO driver
-> 
-> Your proposal:
-> 
->      On Remoteprc                     On Linux
-> GPIOs -> RPMSG -> VIRTIO == VIRTIO -> ???
 
-What I'm suggesting is the following:
+--=-+7d6kIUJ4Jx6mlcJAWwa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-GPIOs -> RPMSG -> VIRTIO == VIRTIO -> RPMSG -> GPIO-RPMSG
-       ^                                    ^
-       \-----+------------------------------/
-             |      
-             |
-With this interface on being directly derived from the existing protocol
-(and likely the implementation as well) using gpio-virtio.
+On Wed, 2026-02-25 at 19:20 +0100, Alejandro Colomar wrote:
+> > Commit date also doesn't matter.=C2=A0 If I commit a fix to one of my
+> > branches today, but Linus pulls it in in 2 years from now, what
+> > would that date really show to anyone?
+>=20
+> I think this is a bit confused.
 
-You can have multiple "GPIOs" (presumably a "bank" each) instances and
-that will be reflected in having multiple "GPIO-RPMSG" instances.
+Let me try another explanation: we only change tag formats for what
+most people agree is a compelling reason (because of the script
+breakage it causes among other things).  Your reasons so far aren't
+compelling.
 
-I haven't made any attempts at implementing this, but it looks very
-similar to gpio-virtio in concept and it looks very similar to the
-exiting RPMSG tty in the sense of being a generic implementation.
+> If you commit a fix for a commit that is in Linus's tree, your Fixes
+> tag will refer to the mainline commit, and the Fixes tag will remain
+> valid if the fix is pulled by Linus in the future, because it will
+> continue to refer to the same commit with the same hash and date.
+>=20
+> The case where it would matter is if you commit a fix for a commit
+> that is only in your stable branch.=C2=A0 However, since the stable
+> branches are not real branches, but actually a set of patches, I
+> expect you would just drop the faulty patch, right?
 
-To reach something functional on the Linux side it seems to be a matter
-of taking the gpio-virtio driver, register a rpmsg_driver instead,
-change _virtio_gpio_req() to use rpmsg_send(), and perform the actions
-of virtio_gpio_event_vq() in the rpmsg_driver callback function.
+I think this is a bit confused.  The decision to rebase or revert is a
+balancing act which depends how many people have seen (and possibly
+rely on) the branch with the original commit in it.
+
+> I expect any Fixes tag refers to commits in Linus's tree, right?
+> Otherwise, they are dangling references, except to those who know
+> where to find the commit.=C2=A0 If all Fixes tags refer to commits in
+> Linus's tree, then all Fixes tags are stable.
+
+I believe one of the prerequisites for changing current process should
+be actually understanding how it works today.
+
+> The commit date is tied to a commit and its hash, and the date will
+> remain valid as much as the hash itself.
+
+The argument isn't about validity, it's about utility.  Most of the
+tasks we do don't care about the date and for the odd occasion we do
+care we can follow the hash to get it.
 
 Regards,
-Bjorn
 
-> 
-> Thanks,
-> Shenwei
-> 
-> > Similarly, I'm guessing that there's a firmware-side implementation of virtio-gpio
-> > in Zephyr, it should be straightforward to transplant this to the rpmsg interface.
-> > 
-> > Regards,
-> > Bjorn
-> > 
-> > > Thanks,
-> > > Shenwei
-> > >
-> > > > Interrupt support does however need some changes. The
-> > > > virtio_gpio_request_vq() replacement would need to see if the
-> > > > received message indicates an interrupt and call the equivalent of
-> > > > virtio_gpio_event_vq(), since rpmsg does not have a separate mechanism to
-> > deliver interrupts, unlike rpmsg.
-> > > >
-> > > > At a guess, 90% of the code would stay the same?
-> > > >
-> > > >    Andrew
+James
+
+
+
+--=-+7d6kIUJ4Jx6mlcJAWwa
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iJEEABMIADkWIQTnYEDbdso9F2cI+arnQslM7pishQUCaZ9RxxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDIACgkQ50LJTO6YrIXePgD8DrDUP0rIZa2WPncAC9/H
+NK17H5K3f/DVi6b84bE/Ue8BALz2OQwwWWPcOvcRm816N25wZ0dLsQh09cEYeiCE
+zAXb
+=AdYx
+-----END PGP SIGNATURE-----
+
+--=-+7d6kIUJ4Jx6mlcJAWwa--
