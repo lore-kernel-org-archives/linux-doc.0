@@ -1,242 +1,315 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F7736655A
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 22:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1553636605D
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 22:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772059861; cv=pass; b=P786UaUCcy2IUTj5TJpsQEKgUL2cMfDEnCBsiwQirtfhYTuS17rb41K6sRAMusJJsJ7j2LO2vqrfXiPRpgC1uW3C7NSEcO8mZnqxXQOi7CGHjL/osJlQFalXnT/0d2cl0J94H3LvjeIJ/hbSrdzsjyblsM8/N/QG5e8v42ukYsU=
+	t=1772060044; cv=pass; b=imS0kevB71gB3kBM/gjZH3yz6fvWwSQMa21Mbw6tmovTb7dZfq8ohv6e6z+Dd+e0osT8thq2bKQ2KQnLEZN4e5jRDuBqkPZefEodi+s85W/Lh2l9FI3cKZ0gPn9cz4p8Y8YMIPTr53BtacH98iiXUr75TKNZtQXiIk4WZa+6b48=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772059861; c=relaxed/simple;
-	bh=7OqNOR2pf3cTOCHBcFY4ktMJJpHonFJgCAwij4qDwtE=;
+	s=arc-20240116; t=1772060044; c=relaxed/simple;
+	bh=AA8Dha/bfnPZLgD3DchzKVXjebkJkUtPW4e/jFBhSi0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Vk+LDlTxkhCEzNuOCu3FFQgNmfAtAj5Q4ViJ0hTmbwMGZLjEl/6QFQ43PFglt4dFIZ2fsTQ/jVypRwOpMryKTz5lT+npT72GLGOBgZdSbd9ctWecTdlQfMuzjopXFNkxnB7aNF8JL1Tos1a98M3wDv4CmVsabP835MCI/0sLf3I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WVRV/1XX; arc=pass smtp.client-ip=209.85.160.170
+	 To:Cc:Content-Type; b=Lji0K6q1CM/JGypynhPeopC8R1yj1RemYRRWY66anfRhQp/44063ZYR8xSSQ+RIfRc/gKOPqqGweKSprOIALAXo3UgDSthMovWwPzOaIimgNHF4pCzfsy2/fLddKK79JXTJaq9cFc+666ztXe93DAVWP4iYyGfIppK8D1a2u9BI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ad1lyq7t; arc=pass smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WVRV/1XX"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-5033b64256dso193311cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 14:51:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772059859; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ad1lyq7t"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ada9e4ea32so15065ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 14:54:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772060042; cv=none;
         d=google.com; s=arc-20240605;
-        b=VARgSSj+Q4x2g8NRV++XQXJSz1sdVzj6uLzuBlziisD6Jvlcqp/LHRE1nGettZGgut
-         2ZVtcYTp8/PtzH/+eVEit6dhTY312v6/c3pdk7Zp3/ZfBRSrytaLNTpxcYIy0dkNwYfj
-         q3t/9h+xOs/pmCwGmMXH3XftheHrDboujQgfW6j5nLiq54hS8RqvjvI1rnAwctryDa9L
-         IrXVXqDgu+o1GU0/MWkxEOngFLc6n0Q5mnkrI9yV1YUNLYsPaWvYmAad2HvQrElY2bn3
-         aQr73qJDC3llqeXT/V7kUte4oKx90SV31agJ7hNpZgKO12eusfQkMgM0zw+D2qLqcIWa
-         NVyQ==
+        b=DaglylB8P0ha+emefxOdd+U2jTYKSMtvvB+mWpp1xJLT0rCs5RGGMnD0O6tuVw3oTf
+         G1vn0eTkXLA20DilDWHahStWUOHmCm/R6dYOSwtIcGK94JTFjZWLqtwX6mXhKKKQdUn3
+         M+3o9MjIh5YrMHClw197E0Il1GnhlRDPS4ojSXfnQa8OQfmB9Rk2YgG9Z8qYG41tHV8n
+         z/Bl1WDWxK6Y1rBYpwaer7hO4CRgGhUnCRDe8bLqnRTD9dII6l6iD5K+dGxlfTAhXEJh
+         AZeaDZG0BJvPVpOhNee07hz+W+h8dLH1NRP1sSvLyKA69InWb2+yxmg28P/BL4pcaxM1
+         vZ0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=MsOXiL/6Qn9m7Yd1SU2mFbssuofZOBkFUGv1WIDmPB0=;
-        fh=E37zBId6OKnr7xPgSfHjYWIWgK+ocwzItVXPbSp5wAQ=;
-        b=QPdQqn7OpIPE4iRaWY07e58K1fhSdcP4rHf2F+T+kod9tTSvVuDEcaWPsA2mmdgeF7
-         lsZ64TmiJQJ/hmgNi2fdpU6bcGIAxaZQBN5SmN22D1gYbNM39Mpj4wV6qgFCJc1xnVvd
-         cDHDAJQiifi7g0urI2nToRMG6UaCE6c+jYeI0pV7dugXtVj3SAsJLWGbwYWkA+jm5ZSI
-         obUeR/zpZ5C/iXQd1cuNpulfbNdSwK/T2Qm7dyNW53V9ckoUiuJrsXZ6sPmFt5VJidTj
-         N4Lb95tSoNylcenCAPiaCqXdG/YbNPndnrJ5Pgo6iyaLP0/N1jU+uQipDHECGjCko1DL
-         LvxA==;
+        bh=4HuRDvA6p5zItbneJew7P4gaYb7aavWFbfaGOQjNc2g=;
+        fh=n+2cQmkYZw9jsabaQVZyn8QSBvja0P+AnYcqpUk3aoY=;
+        b=fz+YCC0NpUMG/tgQIIB+5Stx4jB/64cinBN+/QdGMKagccu+DeI5tbPxjAn2V8I1pD
+         C9LEZt8vteAjcfM+TmoFzEixQ7IdG6k8jydg0it9fQc7bS9eBhSlTKJ8K5kgltOknKGk
+         GITZjtRKriWVyNrlvfsZLj5wsAd/7JiO+fviKaA4OxAWpGOOubjrXtNgtoI5PbjEQNtU
+         28z4UIhiDmlc2q3h2rq+l2baGT1H6TLgYjZhPlN/T3oXuK0Fv+RIBhnRQJOngmZc9FlI
+         fto7eTiqJqEjOF1o0UU6UeeOk6eDgKHs+Z5dnP6Rhr5ejUQl+Y/lTGL7wG49jOTcdph6
+         sh0A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772059859; x=1772664659; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1772060042; x=1772664842; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MsOXiL/6Qn9m7Yd1SU2mFbssuofZOBkFUGv1WIDmPB0=;
-        b=WVRV/1XXo2nnw8gzHzdS8IksP9JKJvN3r6Llnl75OoENUwU5YDeA9MYBGEFJ9nBAd9
-         J2IyxpI+5I8/f8KlhHspyQxqjMQqFVdGuyY15FT88FsCEbh0Gnrx3OQwF8uAVf+Y/wXH
-         udcDYJpAudc8TDhtI10nVAMJgFuFYzKKqOotF1h3fiM5+i+rswqgvv605CkgnyXgjh22
-         2P/0AfOQoYmBaoOiaIPsQAcgXxM7WW3G21sByw1cq3WvPBd/UgRbG0bRapKQlaDnnpxF
-         1/N3w/nSBohJrJPVpdytsvq1ReNEffews0/3EuPaAR4TVp4MH1SO5aTam8noYyp7wwfb
-         Nc8A==
+        bh=4HuRDvA6p5zItbneJew7P4gaYb7aavWFbfaGOQjNc2g=;
+        b=Ad1lyq7tHRJvYjGqgI53C/sVIsbHOI5KG9HGj1KFHlj9xPBe9g/q66joirRqE1RYA8
+         bxlr8hmZD/dvBaD7eIaieclRNk/Em38lbIPT5VYToeACdbitTwq/gA/G3o4WfHX5BXoj
+         2x3STKjaK80cDPcpFyDFdOSpHxpiIlRv9YTz3ciAj1HEzd/P13ux4V8wTLryBk0b1HOi
+         69tD1sE8N8fuwlQN3u8mRTS7UiQ03CbrITzl3uYy7dzju8Cf8Mr858Y1ALllQA/oDGFe
+         ePZIjbR6qmO8hgGPgIucqMz9DYpbxZ2KlacO96RqtrLQvXKwP9tpFyA3POtxb18487Zy
+         oMDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772059859; x=1772664659;
+        d=1e100.net; s=20230601; t=1772060042; x=1772664842;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=MsOXiL/6Qn9m7Yd1SU2mFbssuofZOBkFUGv1WIDmPB0=;
-        b=pWQWK8gmL9jaO7fo1axzkVBgjmEvCodYkvrY+iFFVZvcjjGZaQLbgImizFugGSk4uY
-         IRkxMm4Ypas2M7iW76o8jZ0G6wkQ5cIvF29yzliYk+cXVPas1DydDtC5te/hJw8LYWas
-         uaJ+gSaZKexLxMSCrBtvuFXYO/ShFR/jQo3uy+9+G5gS7JGkRXr8vDydYaA5SMbDr/Ku
-         ZUi9ILsFqRpFxcA+stszb1ndoilS1i0cToZ0gYbQFkyKIMkSzg7skXfp4T8Lm54Htakz
-         Ru3RclnE4oaQlWD4MKVSClxSdCC/+TM3tNEnj4qbiu91pfrtL/byUT+/X0N4zT/nHBCB
-         0aow==
-X-Forwarded-Encrypted: i=1; AJvYcCX8H+r/mLbusFmi2W/m+m4zYPrHSuDyXw1onyFvDGhbKus4H9+ZQgg/Zic/Jes6gLWlTrY5Qfwjpjw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUPG+1hVFDo8uLNNDMwScys8aO1QVGXXWN+1zY/0tTD5xcQIqU
-	ir0HWa8Oi7QQmsM0pfUgOofWGQLNKtk32w7eeTGnebBd43Z/AS/4fRH59ebrVRw5RQ7MeBJwgJ4
-	Z5GhsbrZb93pS3/ujmWrgDmQpdc0xMTE3NUUzhscp
-X-Gm-Gg: ATEYQzwqz7CoQYgMY8GIQ2rny1KRNWubasM5jmZwAgS8IO6SV3s7KsSeY2FRAJghWfc
-	imCdTRmFnuzc8exxZD4Tdj/ZABvV1JYU3nuDBIToqA2G6fMshvJMF7ESVdcGvq+qtUm/Y70vqcD
-	1JVhFiBgk0/6HPxA/S2HRo0PAAVZ/a91DlJu8Tq56tL9OuZaE1l/5xocohPmhha+7/4HnbHwShr
-	aKtkoQiYB4YcSoVCyiE3jR2ghC22DMe8WB0DCb/9rOaDQK4in//k4U4IozsxCV7pHciwMhXhvVm
-	nhL+vu1nTEHKc9woae9/yROwxY+MFdXahWlHptdXocSxR/PJvQQ8
-X-Received: by 2002:a05:622a:10c:b0:4f3:5475:6b10 with SMTP id
- d75a77b69052e-507441cb73fmr3920551cf.8.1772059858971; Wed, 25 Feb 2026
- 14:50:58 -0800 (PST)
+        bh=4HuRDvA6p5zItbneJew7P4gaYb7aavWFbfaGOQjNc2g=;
+        b=IT0By9Wfk0DdYyuPeF7uVtAHn0+1dwUp7FmhoRLX0Oq6k/ITBLwdsCfCQ/itEcGys/
+         fcIkUpNIOKblYC+0mpoZcLARDkbWrLTbL+p5I5/a4tV/vd/TljAyvRewYO4foeGZgQQr
+         PMYZA9KWgFCbydU/RguNjaKGc4xtO34RoazJmwSzKlkjZYqXuySsI22pZBk0glo+lr5h
+         m+6N++QlnT/EVYEkoLW5V6oG4apX6WcyLoPBPubI5QMohGOoazmuLuwP5doMdkMisHZx
+         k1gbyhfnvjlhiEREXFc354Wl2Z+rg3BsKuSGGuKXDLtugqCQfEPQTTQVlxUuqL2O9+jA
+         XO5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCW7na4YM88uOfCMFd2T0ACkJKoh6egBywecQOkWcdAh4eO8kpFBLd4/RqIlBnTAskQZrfSBcjpUPAg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw97SpL4J1WDst8guJD7WTEqRLIwIjzFZ8ZAHSYNY9jwsKyL/ia
+	+d8JNtHN+7lOys84gX/70FtDHT9qj2hv7EwBlsfxAXZG8osassPd39SKW6xmuqr3wdjCkCXYpB+
+	cN6sf5xJ5+AV9tyCgczkq7G4/MLT6uLxVA97+rC0o
+X-Gm-Gg: ATEYQzxwq654AN+b9jYVlgFinS65SPwttJfRPmvDphb3hNmymNK3Vj6ljYcsp1PIUqX
+	RrS5X6Iudes+l8fB2hK2xhxZGbhwYRM3f40vE4OuhbL245TgAWHIx9OpOFwCrsDFcg7oGR6uvB6
+	TFysKBmjbJIY4SiB7+PhmK/q+NMAzYrysY4jICqFebgR4OYkghSKWNViWzUa+G32kvqsXN5axHK
+	SBVz0GLfOtGKjxZ1+2FTcI8ZsiYoEJ/xUlN9ZRiH0L5SYl56l3S3suNTbwMPXvZ9aFpB+y5UyvA
+	ML8KVaiO72lSv0AqDdBhfJMSMAjZIjT/0xUwjw==
+X-Received: by 2002:a17:903:8c4:b0:2a8:ffed:4663 with SMTP id
+ d9443c01a7336-2adf7738436mr799085ad.12.1772060041893; Wed, 25 Feb 2026
+ 14:54:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260129212510.967611-1-dmatlack@google.com> <20260129212510.967611-5-dmatlack@google.com>
- <20260225143328.35be89f6@shazbot.org> <aZ9yWlcqs2b6FLxy@google.com> <aZ931bYILhhkhW-Y@google.com>
-In-Reply-To: <aZ931bYILhhkhW-Y@google.com>
-From: Samiullah Khawaja <skhawaja@google.com>
-Date: Wed, 25 Feb 2026 14:50:47 -0800
-X-Gm-Features: AaiRm51aoTymXymwCHLQ9gcq3ldQPi6BvUrjqTLQO_zSuAjigNCnBqzqKSIxD-4
-Message-ID: <CAAywjhShWTQbkwhDYB=9a_PZjGHnJ-=HTLAzDBvnDsmtvP=Auw@mail.gmail.com>
-Subject: Re: [PATCH v2 04/22] vfio/pci: Register a file handler with Live
- Update Orchestrator
-To: Pranjal Shrivastava <praan@google.com>
-Cc: Alex Williamson <alex@shazbot.org>, David Matlack <dmatlack@google.com>, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, 
-	Alistair Popple <apopple@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
+References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
+ <CAC_TJvcaJdEzK8n9BK0qgEXdzjzXtbA_Zk-ybfmG8kjNExVCzw@mail.gmail.com>
+ <fqabaahjjlmoc2xh4cwh4ykbqyu3rnzvjw5epxi5wwpmgqth7f@d3mqpjozwmo4>
+ <CAC_TJvdRsfzYohiKW=82N8Ofi5V26rX1GS0M8HeaX6CEsgc+PA@mail.gmail.com> <7302e25b-dfcb-4117-85f9-870632999dc3@oracle.com>
+In-Reply-To: <7302e25b-dfcb-4117-85f9-870632999dc3@oracle.com>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Wed, 25 Feb 2026 14:53:49 -0800
+X-Gm-Features: AaiRm5115WEriTEwyOL6pAVEQGUSdPho0h6nJ0kCy4aKIpi-RiI2rNOQ4qeMtvg
+Message-ID: <CAC_TJvc+Ld19MrqQbTLkLXbLe3D8nYNP2DkD0knv+u7mjRC++A@mail.gmail.com>
+Subject: Re: [PATCH v3 00/22] Add support for shared PTEs across processes
+To: anthony.yznaga@oracle.com, 
+	"David Hildenbrand (Red Hat)" <david@kernel.org>
+Cc: Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, akpm@linux-foundation.org, 
+	andreyknvl@gmail.com, arnd@arndb.de, bp@alien8.de, brauner@kernel.org, 
+	bsegall@google.com, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	david@redhat.com, dietmar.eggemann@arm.com, ebiederm@xmission.com, 
+	hpa@zytor.com, jakub.wartak@mailbox.org, jannh@google.com, 
+	juri.lelli@redhat.com, khalid@kernel.org, liam.howlett@oracle.com, 
+	linyongting@bytedance.com, lorenzo.stoakes@oracle.com, luto@kernel.org, 
+	markhemm@googlemail.com, maz@kernel.org, mhiramat@kernel.org, mgorman@suse.de, 
+	mhocko@suse.com, mingo@redhat.com, muchun.song@linux.dev, neilb@suse.de, 
+	osalvador@suse.de, pcc@google.com, peterz@infradead.org, rostedt@goodmis.org, 
+	rppt@kernel.org, shakeel.butt@linux.dev, surenb@google.com, 
+	tglx@linutronix.de, vasily.averin@linux.dev, vbabka@suse.cz, 
+	vincent.guittot@linaro.org, viro@zeniv.linux.org.uk, vschneid@redhat.com, 
+	willy@infradead.org, x86@kernel.org, xhao@linux.alibaba.com, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
-	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>
+	linux-arch@vger.kernel.org, android-mm <android-mm@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Isaac Manjarres <isaacmanjarres@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 25, 2026 at 2:29=E2=80=AFPM Pranjal Shrivastava <praan@google.c=
-om> wrote:
+On Mon, Feb 23, 2026 at 11:59=E2=80=AFAM <anthony.yznaga@oracle.com> wrote:
 >
-> On Wed, Feb 25, 2026 at 10:06:18PM +0000, Pranjal Shrivastava wrote:
-> > On Wed, Feb 25, 2026 at 02:33:28PM -0700, Alex Williamson wrote:
-> > > On Thu, 29 Jan 2026 21:24:51 +0000
-> > > David Matlack <dmatlack@google.com> wrote:
-> > > > diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pc=
-i.c
-> > > > index 0c771064c0b8..19e88322af2c 100644
-> > > > --- a/drivers/vfio/pci/vfio_pci.c
-> > > > +++ b/drivers/vfio/pci/vfio_pci.c
-> > > > @@ -258,6 +258,10 @@ static int __init vfio_pci_init(void)
-> > > >   int ret;
-> > > >   bool is_disable_vga =3D true;
-> > > >
-> > > > + ret =3D vfio_pci_liveupdate_init();
-> > > > + if (ret)
-> > > > +         return ret;
-> > > > +
-> > > >  #ifdef CONFIG_VFIO_PCI_VGA
-> > > >   is_disable_vga =3D disable_vga;
-> > > >  #endif
-> > > > @@ -266,8 +270,10 @@ static int __init vfio_pci_init(void)
-> > > >
-> > > >   /* Register and scan for devices */
-> > > >   ret =3D pci_register_driver(&vfio_pci_driver);
-> > > > - if (ret)
-> > > > + if (ret) {
-> > > > +         vfio_pci_liveupdate_cleanup();
-> > > >           return ret;
-> > > > + }
-> > > >
-> > > >   vfio_pci_fill_ids();
-> > > >
-> > > > @@ -281,6 +287,7 @@ module_init(vfio_pci_init);
-> > > >  static void __exit vfio_pci_cleanup(void)
-> > > >  {
-> > > >   pci_unregister_driver(&vfio_pci_driver);
-> > > > + vfio_pci_liveupdate_cleanup();
-> > > >  }
-> > > >  module_exit(vfio_pci_cleanup);
-> > > >
-> > > > diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/=
-pci/vfio_pci_liveupdate.c
-> > > > new file mode 100644
-> > > > index 000000000000..b84e63c0357b
-> > > > --- /dev/null
-> > > > +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> > > > @@ -0,0 +1,69 @@
-> > > ...
-> > > > +static const struct liveupdate_file_ops vfio_pci_liveupdate_file_o=
-ps =3D {
-> > > > + .can_preserve =3D vfio_pci_liveupdate_can_preserve,
-> > > > + .preserve =3D vfio_pci_liveupdate_preserve,
-> > > > + .unpreserve =3D vfio_pci_liveupdate_unpreserve,
-> > > > + .retrieve =3D vfio_pci_liveupdate_retrieve,
-> > > > + .finish =3D vfio_pci_liveupdate_finish,
-> > > > + .owner =3D THIS_MODULE,
-> > > > +};
-> > > > +
-> > > > +static struct liveupdate_file_handler vfio_pci_liveupdate_fh =3D {
-> > > > + .ops =3D &vfio_pci_liveupdate_file_ops,
-> > > > + .compatible =3D VFIO_PCI_LUO_FH_COMPATIBLE,
-> > > > +};
-> > > > +
-> > > > +int __init vfio_pci_liveupdate_init(void)
-> > > > +{
-> > > > + if (!liveupdate_enabled())
-> > > > +         return 0;
-> > > > +
-> > > > + return liveupdate_register_file_handler(&vfio_pci_liveupdate_fh);
-> > > > +}
-> > >
-> > > liveupdate_register_file_handler() "pins" vfio-pci with a
-> > > try_module_get().  Since this is done in our module_init function and
-> > > unregister occurs in our module_exit function, rather than relative
-> > > to any actual device binding or usage, this means vfio-pci CANNOT be
-> > > unloaded.  That seems bad.  Thanks,
-> >
-> > Hmm... IIUC the concern here is about liveupdate policy if the user
-> > wants to unload a module which was previously marked for preservation?
-> >
-> > AFAICT, In such a case, the user is expected to close the LUO session F=
-D,
-> > which "unpreserves" the FD. Finally, when rmmod is executed, the __exit
-> > (vfio_pci_cleanup) calls vfio_pci_liveupdate_cleanup() which ends up
-> > calling liveupdate_unregister_file_handler(), thereby dropping the ref
-> > held by the liveupdate orchestrator which allows the module to be
-> > unloaded.
-> >
 >
-> Ohh wait, You're right, Alex. I just realized the __exit won't even be
-> reached because of the internal pin. The current implementation creates
-> a catch-22 where the module pins itself during init and can't reach the
-> unregister call in exit. I believe we should drop the ref when the user
-> closes the session FD? Additionally, should we move try_module_get out of
-> the global liveupdate_register_file_handler() and instead take the ref
-> only when a file is actually marked for preservation?
+> On 2/23/26 9:43 AM, Kalesh Singh wrote:
+> > On Sat, Feb 21, 2026 at 4:40=E2=80=AFAM Pedro Falcato <pfalcato@suse.de=
+> wrote:
+> >> On Fri, Feb 20, 2026 at 01:35:58PM -0800, Kalesh Singh wrote:
+> >>> On Tue, Aug 19, 2025 at 6:57=E2=80=AFPM Anthony Yznaga
+> >>> <anthony.yznaga@oracle.com> wrote:
+> >>>> Memory pages shared between processes require page table entries
+> >>>> (PTEs) for each process. Each of these PTEs consume some of
+> >>>> the memory and as long as the number of mappings being maintained
+> >>>> is small enough, this space consumed by page tables is not
+> >>>> objectionable. When very few memory pages are shared between
+> >>>> processes, the number of PTEs to maintain is mostly constrained by
+> >>>> the number of pages of memory on the system. As the number of shared
+> >>>> pages and the number of times pages are shared goes up, amount of
+> >>>> memory consumed by page tables starts to become significant. This
+> >>>> issue does not apply to threads. Any number of threads can share the
+> >>>> same pages inside a process while sharing the same PTEs. Extending
+> >>>> this same model to sharing pages across processes can eliminate this
+> >>>> issue for sharing across processes as well.
+> >>>>
+> >>>> <snip>
+> >>> Hi Anthony,
+> >>>
+> >>> Thanks for continuing to push this forward, and apologies for joining
+> >>> this discussion late. I am likely missing some context from the
+> >>> various previous iterations of this feature, but I'd like to throw
+> >>> another use case into the mix to be considered around the design of
+> >>> the sharing API.
+> >>>
+> >>> We are exploring a similar optimization for Android to reduce page
+> >>> table overhead. In Android, we preload many ELF mappings in the Zygot=
+e
+> >>> process to help application launch times. Since the Zygote model is
+> >>> fork-but-no-exec, all applications inherit these mappings, which can
+> >>> result in upwards of 200 MB of redundant page table overhead per
+> >>> device.
+> >> This can be solved by simply not using the Zygote model :p Or perhaps
+> >> MADV_DONTNEED/straight up unmapping libraries you don't need in the ch=
+ild's
+> >> side.
+> > I think that's a separate topic, but that model is used on billions of
+> > client devices :) The common runtime for apps and other core system
+> > code is preloaded to significantly reduce app startup latencies.
+> >
+> >>> I believe that managing a pseudo-filesystem (msharefs) and mapping vi=
+a
+> >>> ioctl during process creation could introduce overhead that impacts
+> >>> app startup latency. Ideally, child apps shouldn't be aware of this
+> >>> sharing or need to manage the pseudo-filesystem on their end. To
+> >>> achieve this "transparent" sharing, I would prefer Khalid's previous
+> >>> API from his 2022 RFC [1]. By attaching the shared mm directly to the
+> >>> file's address_space and exposing a MAP_SHARED_PT flag, child apps
+> >>> could transparently inherit the shared page tables during fork().
+> >> So, we've discussed this before. I initially liked this idea a lot mor=
+e.
+> >> However, there are a couple of problems here:
+> >>
+> >> 1) mshare (as in the mshare feature) isn't really aiming for transpare=
+nt here.
+> >> There is e.g a specific need to setup an mshare region, with a few fil=
+es/anon
+> >> there, and then later mprotect/munmap parts of the region - and have i=
+t apply
+> >> on every process that has it mapped. This is why we're aiming for diff=
+erent
+> >> system calls (not ioctls anymore), doing munmap(mshare_reg, 4096) is a=
+mbiguous
+> >> as to whether you want to unmap the mshare VMA, or a VMA inside the ms=
+hare mm.
+> > Since we are interested in sharing text here, how does this play with
+> > stuff like symbolization for call stacks? I believe this is another
+> > reason where we might want to avoid mapping the pseudo mshare file
+> > wrapper?
+>
+> I haven't explored shared text, yet. There may be dragons there.
+>
+>
+> >
+> >> 2) Sharing the page table at all (even worse so, Transparently(tm)) is=
+ a huge
+> >> pain. TLB shootdown becomes much harder, and rmap as-is isn't suited t=
+o deal
+> >> with this case. The way things are going with mshare, the container mm=
+ will
+> >> have one single entry in rmap, and then actually doing the shootdown i=
+s a
+> >> huuuuge pain (which, fwiw, will probably need a per-mshare TLB workaro=
+und),
+> >> because you need to find out and shoot down _every_ mm that has these =
+tables
+> > I agree the TLB shootdowns would be a pain. Perhaps, if there was a
+> > concept of a shared ASID/PCID in the hardware, that would make things
+> > less so ...
+>
+> That would certainly help. sparc64 has a secondary context, but that
+> doesn't do us any good here. :-)
+>
+>
+> >
+> >> mapped. And then, naturally, since you're sharing page tables, doing A=
+/D bit
+> >> collection on these becomes extremely useless - and that will naturall=
+y pose
+> >> problems to the reclaim process if you abuse it.
+> > I think in the use case I described, it would mostly be sharing
+> > MAP_PRIVATE stuff, and the access bit should still apply for global
+> > reclaim. However, I agree it becomes difficult to reason especially if
+> > you throw memcgs into the mix.
+>
+> mshare won't support mapping objects in it with MAP_PRIVATE. Sharing
+> PTEs to memory that can be COW'd is problematic. If it's something that
+> can be adapted to use MAP_SHARED then maybe things can work.
 
-If we don't do try_module_get during registration, the registered file
-handler can go away on module unload while LUO is using the handler
-during FD preservation. This makes it racy. Maybe register/unregister
-need to move outside the module_init/exit.
+I can see how mapping .text and .rodata as MAP_SHARED could
+technically work, assuming the sharing process strictly mseals them to
+guarantee they remain immutable. However, RELRO (.data.rel.ro) is a
+different story. It must initially be mapped MAP_PRIVATE and writable
+so that the dynamic linker can resolve relocations. Because these
+modified pages cannot be written back to the backing file, they become
+private anonymous pages.
+
+If there was a way to allow an initially RW MAP_PRIVATE mapping to
+resolve its relocations, be write-protected, mseal'd, and then have
+its page tables shared, that would solve the RELRO issue. In the
+Android Zygote model, this works perfectly because relocations resolve
+before forking, meaning the resolutions are identical for all
+children.
+
+But how would we express this in the msharefs model? Transitioning a
+post-CoW MAP_PRIVATE VMA into a shared page table structure seems
+fundamentally at odds with a strictly MAP_SHARED file-backed
+pseudo-filesystem approach.
+
+>
+> As for memcgs, the current idea is to have an owner associated with an
+> mshare region. Currently this is the process that creates the region.
+> Mappings in an mshare region will be evaluated against the mem cgroup
+> the owner is a part of.
+
+I'd also like to think a bit about what happens to other standard
+memory metrics. Should accounting that actively walks the page tables
+(like /proc/pid/smaps) still work correctly and see the mappings?
+
+What happens with the counter-based metrics tied directly to the
+mm_struct rss stats?
+
+Since msharefs manages its own detached mm_struct, should we include
+those RSS counts across all sharing processes when reporting in
+/proc/*/status? Or will we need to introduce a new UAPI to
+independently expose and understand the RSS of each msharefs
+mm_struct?
+
+Thanks,
+Kalesh
+
 >
 > Thanks,
-> Praan
+> Anthony
 >
-> > I think we should document this policy somewhere or have a dev_warn to
-> > scream at the users when they try unloading the module without closing
-> > the session FD.
+>
 > >
 > > Thanks,
-> > Praan
+> > Kalesh
 > >
-> > >
-> > > Alex
-> > >
-> > > > +
-> > > > +void vfio_pci_liveupdate_cleanup(void)
-> > > > +{
-> > > > + if (!liveupdate_enabled())
-> > > > +         return;
-> > > > +
-> > > > + liveupdate_unregister_file_handler(&vfio_pci_liveupdate_fh);
-> > > > +}
+> >> 3) other misc problems that make it hard to work transparently (VMA al=
+ignment,
+> >> levels which you may or may not want to share, you need to revisit mos=
+t page
+> >> table walkers in the kernel to get a completely transparent feature, e=
+tc)
+> >>
+> >>> Regarding David's and Matthew's discussion on VMA-modifying functions=
+,
+> >>> I would lean towards the standard VMA manipulating APIs should be
+> >>> preferred over custom ioctls to preserve transparency for user-space.
+> >>> Perhaps whether or not these modifications persist across all sharing
+> >>> processes needs to be configurable? It seems that for database
+> >>> workloads, having the updates reflected everywhere would be the
+> >>> desired behavior. In the use case described for Android, we don't wan=
+t
+> >>> apps to be able to modify these shared ELF mappings. To handle this,
+> >>> it's likely we would do something like mseal() the VMAs in the dynami=
+c
+> >>> loader before forking.
+> >> mshare_mseal!
+> >>
+> >>> Perhaps we could decouple the core sharing logic from the sharing API
+> >>> itself? Since the sharing interface seems one of  the main areas wher=
+e
+> >>> we don't have a good consensus yet, perhaps we could land the core
+> >>> sharing logic first. Keeping the core infrastructure generic would
+> >> I think the core infrastructure is relatively generic (at least the
+> >> small core mm modifications to get this to even work) already, but
+> >> perhaps Anthony can comment on that.
+> >>
+> >> --
+> >> Pedro
