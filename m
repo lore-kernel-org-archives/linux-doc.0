@@ -1,94 +1,83 @@
-Received: from mail-oo1-f74.google.com (mail-oo1-f74.google.com [209.85.161.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5533E9F87
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 17:45:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748C53D1CA7
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 17:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772041509; cv=none; b=RJhzLxcXYd1zkR0g1MMwJrs7ycsOyKUoTX3Eh5Hy568B661bvks6onnQZp4RmRIv3jL70yCGjs5UlX6U9J+ePUEoZ5s+UfYb0Bq1iCu5nf/ZHZL/0ie+5Xs2QKM+ZPn+JtlLqCVa3r5+KBavxBVFxw6jnwJQJVelsDRnsBACdTU=
+	t=1772041952; cv=none; b=Iwd1oM7FmH/y4+jVYI/nqCkajIAFIa7E77QIP3CObg9f9jZn3yjGkZgyf9mjcc9apsFa2xGghafWl5YAkq1ElmPiIHsF7AXVtrgHGZtLF7lXeKI4U90zjqNdAE3qxnAs3KWxzoFM0Bp+wXwfQbtPwPqd5G86WFCQ8bOqkXy2C7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772041509; c=relaxed/simple;
-	bh=P/hBoEMiXYtzSJAai3x+/Zjn0NP0IL/2TZ2kRQnBAyM=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=lWC3sD0ln2gYKnBzvOwxOAq/xzQvdtAbK7OJ+mFTdWw+RHr988RwWBnQ7jtyhZAQkjMizfUKuvEqtQCh+KBzXW+c3Zeu/nlMTU7qkvevBcq+GCUR+oNaTAE/RO3t4pjUpJtLiNlWSY169SWkIektocjE1pJvPvgXn7Pcm/47ZnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Tnsk8RNq; arc=none smtp.client-ip=209.85.161.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1772041952; c=relaxed/simple;
+	bh=ldlfdT2XqPsxxTSVc/EfeSEWolUdzU7XHPGDh2e2urU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=uBOeHqC6BkWs0oV3UV/KWvKf452/pHJfCHSSrE+zqBoJmyXR4XgTF6BcXopLpo1D0apmTfFtbn/R+VvxJB+m/3rLWvVUBxyCwamqVlBrjqDGheZlEWv3kwrdM5Q9+vn5TGdzNuWKwVrFTV8WZ9PoN38lDl4u5GcZxS+AMpb5YqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=p5uEO3QQ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Tnsk8RNq"
-Received: by mail-oo1-f74.google.com with SMTP id 006d021491bc7-679c5ed0942so538936eaf.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 09:45:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772041507; x=1772646307; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=P/hBoEMiXYtzSJAai3x+/Zjn0NP0IL/2TZ2kRQnBAyM=;
-        b=Tnsk8RNqXvrlURO+79j6rF/IGLZCfEuUzOW/l9ObO7BYIMHuN+2+1ZBZOsq/GFkKY7
-         cC3DH8/VfTSsrr+mnpD+rmyzz+qghMIbbudXX+ILgf2yvu6XOgSr583TwOPDFiQ28l3G
-         s4b8uBB12KRjdukTBU3l5aiuEjCsw8tR+ZxQNaT5etDSIotFLgWXPuP8fOweNGwEKyC1
-         n/Z9rLMkZwWi7fhEt2u4v4A/OH7ZwE74MZTo4E0c1+UBa/tAK/z+jRKs9j8EQIiBqx3/
-         3s11m+bKzy88u02gt+7+ESYdDYyRIB+0SEJBfRGaBnd05QuFfD2/mFSCm60cO/noRbYV
-         fDuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772041507; x=1772646307;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=P/hBoEMiXYtzSJAai3x+/Zjn0NP0IL/2TZ2kRQnBAyM=;
-        b=IgPYQzk/4eEsf+51UUlP9/NCid/i4jVw+m/P3MPlHIo1Mms903TPNnSXHwW5eP4AUx
-         fqsWT7MOg+kIbUIkc5J74sGWvzk+OsjeXJX3BQOewsZP6/edh1n8uYRFTkafKodhN/Js
-         7Ic3cyTNqHon9dsHKmWoUdUd/z1cf2hvE1rduHpvu62me9RUTV8d4SFrFLwUVhdqqp0w
-         6DP/AUAFqpGOibPMgc9A4KedGI912Aa1xwM0QnG+4dOSbRdFm1KpIGVYQ0M0doJNx8tx
-         Cua+8ZlzplfmYnUMPjUSihngruNNb+zwM8W8wwjGc9tFXQ2j7cpJSTgeFEu9SX3XZLcB
-         XlAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCpy5WJuh6eTIkGA/4SGzzO1Wyv1rhk/K7u+SKSKh6JwzWEo/Lsh38431fNQUD6i8G0XfVfIOC0rY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJG3xWW9hHylLABJXq9OhxxzBKsMnLEh3IAvWio44njAkt/3Su
-	ftzelt1XD71tQiceb693eR4o552hXBjDXK3LT6MdvnqxjMdfyRsSW6b7r8u5wMMEjnYupWeeNIE
-	bEL7xGmYkmqTM1htpwsecLuV4UA==
-X-Received: from iobjf28.prod.google.com ([2002:a05:6602:649c:b0:957:6d3d:c3bf])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6820:2d01:b0:679:a4cc:e04f with SMTP id 006d021491bc7-679c4618dbbmr8769461eaf.51.1772041506836;
- Wed, 25 Feb 2026 09:45:06 -0800 (PST)
-Date: Wed, 25 Feb 2026 17:45:06 +0000
-In-Reply-To: <86ldgyba96.wl-maz@kernel.org> (message from Marc Zyngier on Thu,
- 12 Feb 2026 09:07:33 +0000)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="p5uEO3QQ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C2CF540C7C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1772041950; bh=rl6OMsHpBa5CsgNBdR4NvM4Wfm8vMGuWuPcpUEg+Mdw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=p5uEO3QQG7GyTzbYCMcCPYH/ybV+NuExSiP2f6zM67N6YjLRAA9K4ozD8pqpisdW4
+	 XurbysU4bO2DPQ9xLcKwEOoSsy3McEjyQxjsNSn20yxmtL7+IoiE2RJpfVkZ862ynl
+	 Gs4XmPG743wdyhKYD5bfo1krceqoJ47thT+SXCisbjFjbD2vhbUe9HVGuyEJHtajLt
+	 xPF0I2EjXKwePk3SLjeHRzF75VoJBaj3+WLWQ/QNgwclyiJaZqsDpt18FrivrDhYPQ
+	 565tA6V/Qg/0OGFPNqwZnfRGWBXng89NYJtToVuCmgBU/KSQTgGfVYWyd0ECy6jHcr
+	 d4xj70ziYBu1w==
+Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C2CF540C7C;
+	Wed, 25 Feb 2026 17:52:30 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: linux-doc@vger.kernel.org, Daniel Pereira <danielmaraboo@gmail.com>
+Subject: Re: [PATCH v5] docs: pt_BR: translate process/changes.rst
+In-Reply-To: <20260224031842.140732-1-danielmaraboo@gmail.com>
+References: <20260224031842.140732-1-danielmaraboo@gmail.com>
+Date: Wed, 25 Feb 2026 10:52:30 -0700
+Message-ID: <87qzq8yald.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsntv7fkogyl.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v6 09/19] KVM: arm64: Write fast path PMU register handlers
-From: Colton Lewis <coltonlewis@google.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com, 
-	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
-	will@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Marc Zyngier <maz@kernel.org> writes:
+Daniel Pereira <danielmaraboo@gmail.com> writes:
 
-> On Mon, 09 Feb 2026 22:14:04 +0000,
-> Colton Lewis <coltonlewis@google.com> wrote:
+> Translate the Documentation/process/changes.rst file into Portuguese.
+> This document provides the list of minimum software requirements
+> necessary to compile and run the Linux kernel.
+>
+> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+> ---
+> ---
+> v5:
+> - Fixed trailing whitespace errors reported by git am.
+>
+> v4:
+> - Fixed line wrapping to respect the 80-column limit.
+> - Fixed Sphinx reference by removing :ref: tags and using the file path
+>   directly to resolve build warnings.
+>
+> v3:
+> - Fixed directory structure for pt_BR locale.
+> - Added pt_BR support to the documentation build script.
+>
+> Note: This patch is based on the docs-next branch, where the initial 
+> Portuguese (Brazilian) translation has already been merged.
+>
+>  Documentation/translations/pt_BR/index.rst    |   1 +
+>  .../translations/pt_BR/process/changes.rst    | 576 ++++++++++++++++++
+>  .../translations/pt_BR/process/howto.rst      |   2 +-
+>  3 files changed, 578 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/pt_BR/process/changes.rst
 
->> We may want a partitioned PMU but not have FEAT_FGT to untrap the
->> specific registers that would normally be untrapped. Add a handler for
->> those registers in the fast path so we can still get a performance
->> boost from partitioning.
+Applied, thanks.
 
->> The idea is to handle traps for all the PMU registers quickly by
->> writing directly to the hardware when possible instead of hooking into
->> the emulated vPMU as the standard handlers in sys_regs.c do.
-
-> This seems extremely premature. My assumption is that PMU traps are
-> rare, and that doing a full exit should be acceptable. Until you
-> demonstrate the contrary, I don't want this sort of massive bloat in
-> the most performance-critical path.
-
-After some consideration I agree. I will try a full exit and see if that
-is sufficient.
+jon
