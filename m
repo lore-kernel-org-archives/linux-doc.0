@@ -1,137 +1,149 @@
-Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F2FE304BB4
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 09:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F3C38F23C
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 09:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772012916; cv=none; b=D5Dv3EktROD7lzE7GDlWpHN3aNXap3mZSihkR8SPk6lB6lOp+Ruj8Z46Axyshm02PrBkXVq3y1JSgTu9mnqxDmguCttFE+Za8678YJwEWJp+NxYlLsyQeVMjo9E2BN7fm1E6Ewx5gta5fYeOFyAyZh5kXR8BXndc5/w0AcfCT7A=
+	t=1772013103; cv=none; b=X7rdAhq7lVAgCb269UxHYfJHNPZw6ex3y6hirzkR5cYoPymxGA1aZqyFmIAkAZFW5RxR5ZWFbSFkUjgi3II9CjQ8JK+iZmwyAxLINtEfNN9/6kLruJ0lzpay2nQHpLRN3WPFXYq+nlFHU9NDJPcdlsl8DjgnsWeSnIh4qC+HrCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772012916; c=relaxed/simple;
-	bh=0vuh+UkammmyujgIvqj3KuIm9vzV56ONGePfocRu8yc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rq4r6CMFjaxR5sXlF05sTosUE9ixymgcv0QFZJf8C9dZQ2SGWoEZegQZJCfyu631ipyVi6EOQkJI/SGW7jxI6HTEbiGffhdA1sPl5zzNql6Vu5Q+/LsBYBHerfJXs5VP9WocDzzKbyoIpkk7pP82y/WhTmmCs4tBWElcVUDvSWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xG7D2YoJ; arc=none smtp.client-ip=91.218.175.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1772013103; c=relaxed/simple;
+	bh=P6wKGDmbT7eKbm4qfK7W83uJm6uaEtWIKE0S5h34TlI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aGOAhwdqYng5GwFiL6Jk/fC9zJRdEFO7uT7j50aCN02csMVyW23fKh6x/XAOPDDUezP4hp1V5DROzwyligbfODn12yMETTPEWcCTh9fieKd+TjJsFve0WB3VhQ8K6xO4afHzHy5InzAHvwR40WbT/pe8vTrIMSZLxHZq2fFasTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iNVMGjwI; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xG7D2YoJ"
-Message-ID: <f6eae6e1-b0ad-4027-ac53-26abbfabe2c6@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772012903;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=y7F++bMkQXdIC4u8xt2NgZr7EX4XnUN5usbpMgsViBs=;
-	b=xG7D2YoJxlHSSR2JyXaJ4MVXWyoaaDnDONqw3Z3mf21T9P9YNdfFXd5w7Wf9PPdd7ssVU2
-	ChA1Ugzr+uYlYVcypAZP5F7CFsPqE6w3H3l9Ny5bIhN3U9iUqblNfr1JJ/g4pDVeayf1bJ
-	K5KqMWOp2dqEsS7xXmgx0BckLrleofA=
-Date: Wed, 25 Feb 2026 17:48:09 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iNVMGjwI"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43767807cf3so4815242f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 01:51:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772013100; x=1772617900; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h7St7FbJ+o1PN/SA6fmu1avVMiYkbGVBh1ecJWqCjgE=;
+        b=iNVMGjwIhM8KKTCXRQ0F9DTQgp/lS68frNXhugD0kC5kXrBZkWtU9fSBNSwuz2QVTI
+         hYXnYvuPtAoH+GTJJqepHtdxcO8m9fS7gXfakuf/ZjbHv4+j9uj10SQ7PUNtmxbOpN/e
+         vyMrSgBM+l4kRx2ab1oNbHtl39pBho3Rw0VaaHn+IjFprAKuxiGzDquVGCIFQiXvhjFe
+         Yp1AjBmjDT7uXQK6K7EGOWPXgyUEsZBL7aJO2JqJjHdzYk5kgpogZOQhlhKqTZKIFq8r
+         Z4oyjFRSn4lCG5kD5TimK9Na0OHF7O+SpfQ1aOdzlJyT+N0CmEpcf4Z2fLhWRGlMbmHr
+         AItw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772013100; x=1772617900;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h7St7FbJ+o1PN/SA6fmu1avVMiYkbGVBh1ecJWqCjgE=;
+        b=otipWeiNBQY2qoSmYgHxeAxJjj1specGay/IawW92UkPB6jxWG7cXMR5uakq7sVne/
+         WNNWws0VywbXCpyOs6V9hVP1rce9yVEpChT5bVwO85CQVOuAd6/SZUmM/f94ToX/+e5a
+         DutMblvJTcpNRFAB9TxK1cbhrDU/SA9K71z/3vQl+/hJU7yDa7kLFEsPkufHz38TbwQ2
+         apP144qEvln3QOy5BPkrg09MSo0HkcTKm8Vi7xHbqn+ASzKs1aDIqwMFz+OiVAEHxU5H
+         r3HwdFKqNkS66hYuZDP4hXnkbLAc2Ftoh183Q22MdZ92AXVzDlLhehGsk0n92cE+8HAT
+         dx5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUwE/jDY+yT4gWd2uinsGjCbgXxSLya9iD8qb/Vb2Ao9fOctSz13YZu0Lv6bpBeHtCgHcQK6cFoyms=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxbKT7IyMMJEZaqEjkJrFSzZSbxHqiWecwIiC2Vip7lqpyo4M2
+	Yvh/emL9UROwFvZjy1/v8nFsFFc9efmPw5ZXgrUoQxDT/siufOBtWkLu
+X-Gm-Gg: ATEYQzzFqjUSAqpiivninTvEVTjq9As+HTgTvXGSwYilaO/IhYnT1YUqExpCCAVzMOj
+	fcsYHzv5CiRDlnFD8nCFi4MjlvgWoSnjOHaHjem294owhUR4ohKkluT83H9T7ijsSVQChAYzqwf
+	mmQVP1ykwOoTglVPJfaTat7vd5Iw7IbxMRTUOCuOFJKTy1MiKV+VQLK2tWFppo1ZtIVw2GWtVIH
+	/LVwn49Mph6JjbAuyh0RRxXyzPfGewjNLlO9hblGSV3v1MnW1gl87GWBIAf6aM8HrfdJ/1C/I7r
+	73jg8EDBDnmmQNDGloU2cvJAwtgJceg7f8KvotTRGZbCxFa/f3f9bsJeU7jQNMeFaIFd9Ico4yA
+	qCK+CUIGSBJGmRaFM6BOKq+U/0Y2pp0ASLEGjXz8F9mP8R+yYIUdKdFC5vnVFQIzCFn+7JXJNkO
+	eN84RfK2LcWELiLHlshEnUOdPfxopAvYYsrYQdVJ1umUqadGz8dtNH7tnQ9yfn2ehj/6NSVGVue
+	yAAMJXzytIUlQ==
+X-Received: by 2002:a05:6000:178a:b0:436:30b0:75a2 with SMTP id ffacd0b85a97d-4398fb3cc5emr2959516f8f.56.1772013099614;
+        Wed, 25 Feb 2026 01:51:39 -0800 (PST)
+Received: from flaviu-Aspire-E5-572G.. ([93.122.249.99])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970d4bf89sm31204449f8f.29.2026.02.25.01.51.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Feb 2026 01:51:39 -0800 (PST)
+From: Flaviu Nistor <flaviu.nistor@gmail.com>
+To: linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Flaviu Nistor <flaviu.nistor@gmail.com>
+Subject: [PATCH v2] hwmon: tmp102: Add support for TMP110 and TMP113 devices
+Date: Wed, 25 Feb 2026 11:51:32 +0200
+Message-ID: <20260225095132.29954-1-flaviu.nistor@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH net-next] tcp: Add net.ipv4.tcp_purge_receive_queue
- sysctl
-Content-Language: en-US
-To: Eric Dumazet <edumazet@google.com>, Leon Hwang <leon.huangfu@shopee.com>
-Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, David Ahern <dsahern@kernel.org>,
- Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ij@kernel.org>,
- Ido Schimmel <idosch@nvidia.com>, kerneljasonxing@gmail.com,
- lance.yang@linux.dev, jiayuan.chen@linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260225074633.149590-1-leon.huangfu@shopee.com>
- <CANn89i+RZtN0wcyBUxKf83pkcbH4=nN_Cpc62tNwwS8T-LQR2A@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <CANn89i+RZtN0wcyBUxKf83pkcbH4=nN_Cpc62tNwwS8T-LQR2A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
+TMP110 and TMP113 temperature sensors are software compatible
+with TMP102 sensor but have different accuracy (maximum error).
 
+Signed-off-by: Flaviu Nistor <flaviu.nistor@gmail.com>
+---
+Changes in v2:
+- Drop the binding change since no ACK from devicetree maintainer.
+- Update only the Kconfig and documentation.
+- Link to v1: https://lore.kernel.org/all/20250915170819.126668-1-flaviu.nistor@gmail.com/
 
-On 25/2/26 16:31, Eric Dumazet wrote:
-> On Wed, Feb 25, 2026 at 8:46 AM Leon Hwang <leon.huangfu@shopee.com> wrote:
->>
->> Introduce a new sysctl knob, net.ipv4.tcp_purge_receive_queue, to
->> address a memory leak scenario related to TCP sockets.
-> 
-> We use the term "memory leak" for a persistent loss of memory (until reboot)
-> 
+ Documentation/hwmon/tmp102.rst | 21 +++++++++++++++++++++
+ drivers/hwmon/Kconfig          |  4 ++--
+ 2 files changed, 23 insertions(+), 2 deletions(-)
 
-Thanks for the clarification.
-
-> Lets not abuse it and confuse various AI/human agents which will
-> declare emergency situations
-> caused by an inexistent fatal error.
-> 
-
-I'll reword it in the next revision.
-
->>
->> Issue:
->> When a TCP socket in the CLOSE_WAIT state receives a RST packet, the
->> current implementation does not clear the socket's receive queue. This
->> causes SKBs in the queue to remain allocated until the socket is
->> explicitly closed by the application. As a consequence:
->>
->> 1. The page pool pages held by these SKBs are not released.
-> 
-> This situation also applies for normal TCP_ESTABLISHED sockets, when
-> applications
-> do not drain the receive queue.
-> 
-> As long the application has not called close(), kernel should not
-> assume the application
-> will _not_ read the data that was received.
-> 
-
-Understood.
-
-This patch provides an option to drain the receive queue in the
-CLOSE_WAIT + RST case, instead of purging it unconditionally upon
-receiving a RST packet.
-
-> 
->> 2. The associated page pool cannot be freed.
->>
->> RFC 9293 Section 3.10.7.4 specifies that when a RST is received in
->> CLOSE_WAIT state, "all segment queues should be flushed." However, the
->> current implementation does not flush the receive queue.
-> 
-> Some buggy stacks send RST anyway after FIN. I think that forcingly
-> purging good data
-> received before the RST would add many surprises.
-> 
-
-Understood.
-
-There is a tcp_write_queue_purge(sk) call in tcp_done_with_error(),
-which means sk_write_queue is always purged when a RST packet is
-received. I assume the reason for purging sk_write_queue is that any
-pending transmissions become meaningless once a RST is received.
-
-Would it be better to defer kb_queue_purge(&sk->sk_receive_queue) until
-after tcp_done_with_error()?
-
-[...]
-
->>
-> 
-> Please prepare a packetdrill test.
-
-Ack.
-
-I'll add a packetdrill test in the next revision.
-
-Thanks,
-Leon
+diff --git a/Documentation/hwmon/tmp102.rst b/Documentation/hwmon/tmp102.rst
+index b1f585531a88..3c2cb5bab1e9 100644
+--- a/Documentation/hwmon/tmp102.rst
++++ b/Documentation/hwmon/tmp102.rst
+@@ -11,6 +11,22 @@ Supported chips:
+ 
+     Datasheet: http://focus.ti.com/docs/prod/folders/print/tmp102.html
+ 
++  * Texas Instruments TMP110
++
++    Prefix: 'tmp110'
++
++    Addresses scanned: none
++
++    Datasheet: http://focus.ti.com/docs/prod/folders/print/tmp110.html
++
++  * Texas Instruments TMP113
++
++    Prefix: 'tmp113'
++
++    Addresses scanned: none
++
++    Datasheet: http://focus.ti.com/docs/prod/folders/print/tmp113.html
++
+ Author:
+ 
+ 	Steven King <sfking@fdwdc.com>
+@@ -27,5 +43,10 @@ operating temperature has a minimum of -55 C and a maximum of +150 C.
+ The TMP102 has a programmable update rate that can select between 8, 4, 1, and
+ 0.5 Hz. (Currently the driver only supports the default of 4 Hz).
+ 
++The TMP110 and TMP113 are software compatible with TMP102, but have different
++accuracy (maximum error) specifications. The TMP110 has an accuracy (maximum error)
++of 1.0 degree, TMP113 has an accuracy (maximum error) of 0.3 degree, while TMP102
++has an accuracy (maximum error) of 2.0 degree.
++
+ The driver provides the common sysfs-interface for temperatures (see
+ Documentation/hwmon/sysfs-interface.rst under Temperatures).
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 12763950d11f..3956d385bf05 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -2337,8 +2337,8 @@ config SENSORS_TMP102
+ 	depends on I2C
+ 	select REGMAP_I2C
+ 	help
+-	  If you say yes here you get support for Texas Instruments TMP102
+-	  sensor chips.
++	  If you say yes here you get support for Texas Instruments TMP102,
++	  TMP110 and TMP113 sensor chips.
+ 
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called tmp102.
+-- 
+2.43.0
 
