@@ -1,104 +1,60 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2743B330652
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 22:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1F82F12C6
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 22:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772058593; cv=none; b=sqt3cYJoB6U0abmHjhsPjS7UvWyUebGzBUmZ6UhqL4tZ4mwmQKvYR6NKu4Zfz1rCuoxG61bsXZP+/Osq50d2wLmWSIPZpd2BLseJePScUkmV2q6uZcEpSm3fHIxy5RpnD0f2UJa5PLKZX14tIMP6La4gbI5qOc63T5qsPVM2P30=
+	t=1772059002; cv=none; b=lBe20A2bJIfONqrDgb5z08LOpSKjmOb52FR2dIYtknQtP7HHjNOftzBwR6fOrr2xPXX8n8+3WQ/9XbVgXXWUmtt7CaCCIbDcSu9aPhZ1a7Eii9bgKjK7PuiwDD+oLe4sAElEDbBBI9Ci6JGv2f8Udm2cccQHp840nNltApcqiTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772058593; c=relaxed/simple;
-	bh=GQ5r1G3VoaIJD/4mlI2bH7JYCa7TXODdwhiG6pJZSvY=;
+	s=arc-20240116; t=1772059002; c=relaxed/simple;
+	bh=suR3dC1gg6ZwEU/0MzFCdi4XPDM7vdgPamCLxlL+8sY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=njAwXd1Nbn0NKK0imzpJHwTjD9AfHVVyPcY71ylKmL/tsNZBKyq21I2slfRlfmXC9Bzl0Hmwo+1WekDYBsP2sp7TM8InT5v2wFFfTMDEg8m9sNg03HQtPpfUpefVUOMXLDJYNyaUyC/niYKOjWcbU8isEATCP3YONa0qOe8yGpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cPHKs0df; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WwQFdqzEHzULEUtw/mB6bUEb8Eh6IH/1/Unl05HNihLfMdqIwWr68O9qMJkU5JCc47PYFqO8S45q25BvJ90h4gCuLFJc0uJYuZ86kQx0pWtMBYBlZrnTAgmGLrA7szvefNsfjQtDDtVRUt6krsDG8CauFyrfqxbkDpCHPohoyiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=ZalnbpIe; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cPHKs0df"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2a964077671so29465ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 14:29:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772058591; x=1772663391; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EvlpF/Rbdy5yVGOyUM/AWdTkLEwWYWZDygf5cNk3LN8=;
-        b=cPHKs0dfuLBGgP9RWwQzmk7U66+8Eq/gOPwRH/k1Xb0Y4nkwfPCZ24XFofGoEDIBqs
-         Q0G7eW5zOXDzRBm4wn7YSnutAdpv53y6VrRE2RDcQTJT8FtApKQEN20OZ6nRtFAP8jWX
-         RfysxOfv8MuykU81yo1oEOUIy6paNULcscWeYr9zvdjR8S9dBEiTWZrx8PVHJ/YT6DPD
-         DoaY9s4zuj0QNt2tsnLipkHAQCcDJBhnW6uTt17O2AkaR+v5LiUgK5dV984uZOPeLW6i
-         giWsPH1lm9RSap7rmBg/41ix4hX3tvohbZXhlcElEfSSNnOfSaz+oBqznDl7za2o/FD2
-         Ag9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772058591; x=1772663391;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EvlpF/Rbdy5yVGOyUM/AWdTkLEwWYWZDygf5cNk3LN8=;
-        b=DevoRofEBzXzH7Ur5+y+k3kyCkpOBgVPShgkTk7IWKL3jipCwtwLdyMiItIlEy8mQG
-         ZV4cIuspXXRN2HqhwrfWZdCJCgM72YEkUnRdaCsYF/NuYhir6wtjPZCR4g4tI2VHPxrY
-         1rLs802zAPRDnjyn7966a3xLjM4inLKORM561YK6vci9PdXkAZu3SyrYgZyO2+we7Pwu
-         IfaFnMgbpji9vFp7Ka2yNSJ6JI775XxmAY1zWbXF9idwAhGD5VIONM00/+Sg1Zbo/MPf
-         rJSzUuYSygJciycnfvBS2bdSuPNNjFluIVwnbFUy2TFIR8of1NqcXmCozZNDFMaRFqRL
-         ui/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUt+m4i0JC5VZ/PmiyBf795W2NktAR6Gh8al6kIslFPVVhtk5u57rygj+/kt+PuYaruB5ZUlr+4vZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7YSSpY02rqu2wLiG5M+F5bC0MJ0x3k5HZYl3QTTalPAztsQL9
-	z3QUo9nXp+wavwoagDOPYOV8ytKmgn1847lgPIXHpKcT+vyPPEyimQEpxU1f++bZGA==
-X-Gm-Gg: ATEYQzzgjRyzGeSZxdQT0bOq3yVjw2mCaCivFacktrgONiHLErXPppWmYLvLNUmGR/f
-	jrH/MEijF8tB4NogdW/kcVef9pZnuLDi0qqg4augwg/L4CWYdpRsZcvA/quJ/1DNKEuyG10mm7e
-	FYZL5xJW5s+foApOURuaye3AUS2dwUG7TW/YzhBTMYo426oDgv4RXUuWfPS7N/aTiA6LsTLyGTt
-	r4QuHhArAKNidgjTfijRUGg3Sxo0FkWViDATW/KSEJ4JQdVhKC8YUS4lCP6XJe6Jj6fjSH7ejtU
-	N8dnByCSmtEICP65fyKOX5o2xzhLd9DoJ9Qh2UN5SKHs6yCbvKrP/hLctfGRP06ROiItNb7cZMh
-	+h3g3NdN4rSddyuOBu5SGnGBymXuTIHyTLBRBibZHB/07U5DSDqBG/Q5oA75xwqXylxkmSY2VUy
-	ri8SXBbZbYRCcqdjpcgT3cxuzqiXNiEnEuOXPefgmnDrUIjm9seWhx12bgo16bPoliQ25SCdY=
-X-Received: by 2002:a17:903:15ce:b0:2a3:cd98:f07 with SMTP id d9443c01a7336-2adfefd95b6mr300155ad.3.1772058591084;
-        Wed, 25 Feb 2026 14:29:51 -0800 (PST)
-Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb5b2309sm2774685ad.19.2026.02.25.14.29.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Feb 2026 14:29:50 -0800 (PST)
-Date: Wed, 25 Feb 2026 22:29:41 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Alex Williamson <alex@shazbot.org>
-Cc: David Matlack <dmatlack@google.com>,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
-	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Lukas Wunner <lukas@wunner.de>,
-	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Tomita Moeko <tomitamoeko@gmail.com>,
-	Vipin Sharma <vipinsh@google.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH v2 04/22] vfio/pci: Register a file handler with Live
- Update Orchestrator
-Message-ID: <aZ931bYILhhkhW-Y@google.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
- <20260129212510.967611-5-dmatlack@google.com>
- <20260225143328.35be89f6@shazbot.org>
- <aZ9yWlcqs2b6FLxy@google.com>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b="ZalnbpIe"
+Received: from macsyma.thunk.org (pool-173-48-102-61.bstnma.fios.verizon.net [173.48.102.61])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 61PMZdah018711
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 25 Feb 2026 17:35:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1772058952; bh=oQYsL+5RkrTJ3nDjLbr/WyhbaiV7iBuzpnktk+IeTDA=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=ZalnbpIe7T1mX/5lFBaJ7dBFbShDpTie54CVUA8Wtf+Ak4ASnCkIA3LPasWvDcOKb
+	 Cz4wzMizlN6Rg8FNaBM0zit/fXsRIn6NDRin04MYVpZ5oe7wJ3YkHud3ZyYgJoH/5K
+	 kA2Wf2HVwVX3pneHqL5sgHLYT2oUZ40MhsNyR6PDw36+ceold2akgZBCaQMLwBRMir
+	 pnfQe6PG7azxFM2lcaOnMI2qPVbX5fm61NGQ3UDIBVuKY3vQiZq2VGxIbYIoGTIldr
+	 lLDQ6fePmJmZBkUL0TDOhA6dTBCq9QgfxyK5/QfiTa8xPB9MnJgjTCWXNpOvZP1nj5
+	 qq+79KDALNrhA==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id 8A27659E0B65; Wed, 25 Feb 2026 17:35:39 -0500 (EST)
+Date: Wed, 25 Feb 2026 17:35:39 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Steven Rostedt <rostedt@goodmis.org>, Mark Brown <broonie@kernel.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com,
+        kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+Message-ID: <20260225223539.GD16846@macsyma-wired.lan>
+References: <aZ4_sBIy8rOUL59Q@devuan>
+ <2026022531-tightness-rare-6a14@gregkh>
+ <aZ87Z24f9HZsofGl@devuan>
+ <2026022539-commotion-huskiness-8736@gregkh>
+ <aZ9p2RMrJL1mQ10w@devuan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -107,119 +63,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aZ9yWlcqs2b6FLxy@google.com>
+In-Reply-To: <aZ9p2RMrJL1mQ10w@devuan>
 
-On Wed, Feb 25, 2026 at 10:06:18PM +0000, Pranjal Shrivastava wrote:
-> On Wed, Feb 25, 2026 at 02:33:28PM -0700, Alex Williamson wrote:
-> > On Thu, 29 Jan 2026 21:24:51 +0000
-> > David Matlack <dmatlack@google.com> wrote:
-> > > diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-> > > index 0c771064c0b8..19e88322af2c 100644
-> > > --- a/drivers/vfio/pci/vfio_pci.c
-> > > +++ b/drivers/vfio/pci/vfio_pci.c
-> > > @@ -258,6 +258,10 @@ static int __init vfio_pci_init(void)
-> > >  	int ret;
-> > >  	bool is_disable_vga = true;
-> > >  
-> > > +	ret = vfio_pci_liveupdate_init();
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > >  #ifdef CONFIG_VFIO_PCI_VGA
-> > >  	is_disable_vga = disable_vga;
-> > >  #endif
-> > > @@ -266,8 +270,10 @@ static int __init vfio_pci_init(void)
-> > >  
-> > >  	/* Register and scan for devices */
-> > >  	ret = pci_register_driver(&vfio_pci_driver);
-> > > -	if (ret)
-> > > +	if (ret) {
-> > > +		vfio_pci_liveupdate_cleanup();
-> > >  		return ret;
-> > > +	}
-> > >  
-> > >  	vfio_pci_fill_ids();
-> > >  
-> > > @@ -281,6 +287,7 @@ module_init(vfio_pci_init);
-> > >  static void __exit vfio_pci_cleanup(void)
-> > >  {
-> > >  	pci_unregister_driver(&vfio_pci_driver);
-> > > +	vfio_pci_liveupdate_cleanup();
-> > >  }
-> > >  module_exit(vfio_pci_cleanup);
-> > >  
-> > > diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> > > new file mode 100644
-> > > index 000000000000..b84e63c0357b
-> > > --- /dev/null
-> > > +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> > > @@ -0,0 +1,69 @@
-> > ...
-> > > +static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
-> > > +	.can_preserve = vfio_pci_liveupdate_can_preserve,
-> > > +	.preserve = vfio_pci_liveupdate_preserve,
-> > > +	.unpreserve = vfio_pci_liveupdate_unpreserve,
-> > > +	.retrieve = vfio_pci_liveupdate_retrieve,
-> > > +	.finish = vfio_pci_liveupdate_finish,
-> > > +	.owner = THIS_MODULE,
-> > > +};
-> > > +
-> > > +static struct liveupdate_file_handler vfio_pci_liveupdate_fh = {
-> > > +	.ops = &vfio_pci_liveupdate_file_ops,
-> > > +	.compatible = VFIO_PCI_LUO_FH_COMPATIBLE,
-> > > +};
-> > > +
-> > > +int __init vfio_pci_liveupdate_init(void)
-> > > +{
-> > > +	if (!liveupdate_enabled())
-> > > +		return 0;
-> > > +
-> > > +	return liveupdate_register_file_handler(&vfio_pci_liveupdate_fh);
-> > > +}
-> > 
-> > liveupdate_register_file_handler() "pins" vfio-pci with a
-> > try_module_get().  Since this is done in our module_init function and
-> > unregister occurs in our module_exit function, rather than relative
-> > to any actual device binding or usage, this means vfio-pci CANNOT be
-> > unloaded.  That seems bad.  Thanks,
-> 
-> Hmm... IIUC the concern here is about liveupdate policy if the user 
-> wants to unload a module which was previously marked for preservation?
-> 
-> AFAICT, In such a case, the user is expected to close the LUO session FD,
-> which "unpreserves" the FD. Finally, when rmmod is executed, the __exit 
-> (vfio_pci_cleanup) calls vfio_pci_liveupdate_cleanup() which ends up 
-> calling liveupdate_unregister_file_handler(), thereby dropping the ref
-> held by the liveupdate orchestrator which allows the module to be
-> unloaded.
-> 
+On Wed, Feb 25, 2026 at 10:45:48PM +0100, Alejandro Colomar wrote:
+> The date gives more information to humans to decide if the commit is
+> important to look up.  Sometimes, a subject can be ambiguous to the
+> human, even if it's not ambiguous to a machine.  The date can help give
+> some context to a human.  For example, one could relate a commit to a
+> series that was merged around that date.
 
-Ohh wait, You're right, Alex. I just realized the __exit won't even be 
-reached because of the internal pin. The current implementation creates
-a catch-22 where the module pins itself during init and can't reach the
-unregister call in exit. I believe we should drop the ref when the user
-closes the session FD? Additionally, should we move try_module_get out of
-the global liveupdate_register_file_handler() and instead take the ref
-only when a file is actually marked for preservation?
+I'm really confused under what circumstances the date would ever be
+*useful* to me.  In general, what I want to know is "is this fix
+applicable to a branch I care about", which basically means I want to
+know if a particular branch (a) has the commit id, or (b) has a commit
+whose description contains a "commit upstream" line referencing the
+commit.
 
-Thanks,
-Praan
+The date is almost never interesting to me.  For upstream commits in
+Linus's tree, the hint:
 
-> I think we should document this policy somewhere or have a dev_warn to
-> scream at the users when they try unloading the module without closing
-> the session FD.
-> 
-> Thanks,
-> Praan
-> 
-> > 
-> > Alex
-> > 
-> > > +
-> > > +void vfio_pci_liveupdate_cleanup(void)
-> > > +{
-> > > +	if (!liveupdate_enabled())
-> > > +		return;
-> > > +
-> > > +	liveupdate_unregister_file_handler(&vfio_pci_liveupdate_fh);
-> > > +}
+   Cc: stable@kernel.org # 6.8+
+
+Is a bit more interesting to me, but so long as there's a fixes tag
+with a commit ID, I can just do a "git tag --contains <commit-id>" to
+get the same information.
+
+					- Ted
+
