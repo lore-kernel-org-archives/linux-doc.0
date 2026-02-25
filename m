@@ -1,178 +1,253 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010011.outbound.protection.outlook.com [52.101.85.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C2E19EED3;
-	Wed, 25 Feb 2026 08:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772006914; cv=none; b=o4UZdK13uWXK42qspZL7gxFHPBF1QiLmANjjMUn9Mxf0CxLNfftqSjuopxgB4kbLO6auDEBK3VhTn8HDK7QDkbNhJQWPa3PbwBZO7t/EqfpnEAgksTLohyqkColB8/KTuIyRtRJ58t5tY8gZUF98efWp/OHyiqJoFKCiCTcaMbI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772006914; c=relaxed/simple;
-	bh=NKWvuAreyD3Yk/MSalQBIso675qhb56lkfYvTSyjnLg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=OEUVeRNqXPTG1FGPKop//t/uRZL5JXkc5Sq4mkjPrhYBzdDk6x3ZvVEBtTtqh/i3cfz0kXZsZEc8UVYLnE46Q+p+KO7tnmxfLQrJGvwH45nvVDW5fN7cbuPSdCZffByNXhgtN241b6/oDw00B/U8feGCWtF2G/fUecavsL7X79A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=N3beNvOn; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DE02FD1B6;
+	Wed, 25 Feb 2026 08:09:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772006972; cv=fail; b=g8lUYJzshkXVFGq1gu6yCD04dlcVKvSgmahqMS5y8VQ2/63sMQ1SbD4mp8C6i3wyFSNmrzXMSuOldVFJOwaptu1l6G+eQtS1yePoMgo1juvuhalTSDWey/iWJXsFUYZSJ/r1rh2CI1h/CwtDsTl+Wr7RCTaAGE0VyPQqdMadgOM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772006972; c=relaxed/simple;
+	bh=M169xvPlitv/Op2TD16z8oFNyXeWbnr4+yWsrmflTpg=;
+	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
+	 In-Reply-To:MIME-Version; b=HLwFlKYHBwkKmrM4vaeJkaeA1zaFISB3HzWSEMTK5T+ripOkL2VxL/uA36pbvfYvJ2dOo1RtYtBg0fhr4dHJtpGXOATjp4Pt4w6VUFQN2i+W+MpzlrXNVyGT2DzdZ/gJdRw3zkTjyJgj4Hd9XFypYoqSy5Gwatk0ab/IzRt8lh8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BDXF/eL5; arc=fail smtp.client-ip=52.101.85.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="N3beNvOn"
-dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=sbA09AF1OXQ/oSrogR8WInsNLGYMF3WVGQ4FVTvon0o=;
-	b=N3beNvOnpKvQk4C3ylXTjGIGt2WPFjdoWhYwucPa0oDnRx1SyaoWfr2tUYt47NKkaBNz7rgGS
-	b+aT6xvKD0AcjNMQuUgu01dbTwctbju5ar+g0hVWUUQ+g7m/cIrSVILykAOkDHeCp3nIvHyOObG
-	B2kV1PZInUI/KO36oKCTfT0=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4fLRtH60YFz1T4H6;
-	Wed, 25 Feb 2026 16:03:35 +0800 (CST)
-Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8CF8E404AD;
-	Wed, 25 Feb 2026 16:08:27 +0800 (CST)
-Received: from [10.174.179.37] (10.174.179.37) by
- kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Wed, 25 Feb 2026 16:08:25 +0800
-Message-ID: <051fd5f5-0a06-a4b8-9e2d-7dc088205d86@huawei.com>
-Date: Wed, 25 Feb 2026 16:08:25 +0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BDXF/eL5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GvYE4yrAWdWVbodcYoTXdC5VVrIdsI7M4X04ZcjL98dbf4zolo+tgIf9PLSWgvkj5oPyT0YXuuEgd4qDva1qgFN6IlbHkJPBhaRWLoaFeaxf0orsgM8AMxDHAetIEyRMBsJ5cVN8AC8gpjzaT/PKZDxQ1yWN43va4zV6QVTCMKNE3/dZizln3maSTSBPiTPK/wz4g+vClEQzfRf7fenrsG9/NYE0PbAlS+Q7aYFJdFaTHqoJ6nYbBy2tptt6oxJ6RAfXgJ6dIDy/Y+IKkBk1DpRHvzQjP94pryUk3efZLoHbpeEePfnf59Py7NUXaoNh1b4vvhZcKsQMCxWG+Pu6CQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=61DNwIKrUd+8KZwKcuoGAQ0Y9nn3DiY6mgpeThMOPLk=;
+ b=Z2Xj3kCICyFJsVpy3Y4fudv9erYzEE0LSgipBNSCw7phhTpLTRfBOy8Ye450WoiG5cpw336k9NLK2bQm2hpH8IIpvP3Wgt0OG1WcRABW1kl5/tECc7r4mXxLvoCoMEBbcydvnuorLpB9Jfw5oMLIWiKJbayLRQ7d+YPl59Cpv1Ox6RAV4EmSbmaaZEte/evitG1vgijycVIXYLwYougyXncL/8eSKxxGee1DqoUPWCdX/R+HktO07EVQIOpYfjoN6AkX9q5DZ9MYalwmXIi1zgl2DzV/vV9PqSTvtV6EQbmlN6gS22lNpXMvkE2OgmaPz8h1RIjYjdW3BPMXZ6vq/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=61DNwIKrUd+8KZwKcuoGAQ0Y9nn3DiY6mgpeThMOPLk=;
+ b=BDXF/eL5VsoA0ezAV8iXawUarFx0ZupV4E6AHAadU/9HbPHdiLk/mQiGupEpWTsbUvNqGQ+batS9lPmtAf6jGhWulCGJrlF2TjVVaLlBWehpuQlxv0bFz7g3gMh93Gztkt3GmxSTR/9XjS6xiGXafgi7waePPCH0ttC608RrUByTPta24zFJloFwqvK/MmMmQW8UCDI7N/GX/sy+hqctTjCvR3/DmSkOJbBDrTfy1LwyoP6nWUTvQ0dcJEfhKwFazM3J9cegTyOWfCQcW7gokh/Qqx29E8RceyHJo7lT75FnivPhTdsht6Nt7MielSgAZjoRCiLxZdYbrtIOdvXxFA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by PH7PR12MB7236.namprd12.prod.outlook.com (2603:10b6:510:207::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.22; Wed, 25 Feb
+ 2026 08:09:27 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9632.017; Wed, 25 Feb 2026
+ 08:09:26 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 25 Feb 2026 17:09:22 +0900
+Message-Id: <DGNW1KH6TCE1.3DIVLKYG6OURI@nvidia.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>
+Cc: <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Alex
+ Gaynor" <alex.gaynor@gmail.com>, "Danilo Krummrich" <dakr@kernel.org>,
+ "Dave Airlie" <airlied@redhat.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Simona Vetter" <simona@ffwll.ch>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Koen Koning"
+ <koen.koning@linux.intel.com>, "Nikola Djukic" <ndjukic@nvidia.com>,
+ "Philipp Stanner" <phasta@kernel.org>, "Elle Rhumsaa"
+ <elle@weathered-steel.dev>, "Jonathan Corbet" <corbet@lwn.net>, "Alex
+ Deucher" <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi"
+ <rodrigo.vivi@intel.com>, "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang
+ Rui" <ray.huang@amd.com>, "Matthew Auld" <matthew.auld@intel.com>, "Matthew
+ Brost" <matthew.brost@intel.com>, "Lucas De Marchi"
+ <lucas.demarchi@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, "Helge Deller" <deller@gmx.de>,
+ "Alistair Popple" <apopple@nvidia.com>, "Andrea Righi" <arighi@nvidia.com>,
+ "Zhi Wang" <zhiw@nvidia.com>, <alexeyi@nvidia.com>, "Eliot Courtney"
+ <ecourtney@nvidia.com>, <dri-devel@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <linux-fbdev@vger.kernel.org>
+Subject: Re: [PATCH v11 2/2] rust: clist: Add support to interface with C
+ linked lists
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+References: <20260224222734.3153931-1-joelagnelf@nvidia.com>
+ <20260224222734.3153931-3-joelagnelf@nvidia.com>
+In-Reply-To: <20260224222734.3153931-3-joelagnelf@nvidia.com>
+X-ClientProxiedBy: TYCP286CA0106.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:29c::13) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v4 26/41] arm_mpam: resctrl: Add support for 'MB' resource
-Content-Language: en-US
-To: Ben Horgan <ben.horgan@arm.com>, <james.morse@arm.com>, Reinette Chatre
-	<reinette.chatre@intel.com>
-CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
-	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
-	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
-	<fenghuay@nvidia.com>, <gshan@redhat.com>, <kobak@nvidia.com>,
-	<lcherian@marvell.com>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <peternewman@google.com>,
-	<punit.agrawal@oss.qualcomm.com>, <quic_jiles@quicinc.com>,
-	<reinette.chatre@intel.com>, <rohit.mathew@arm.com>,
-	<scott@os.amperecomputing.com>, <sdonthineni@nvidia.com>,
-	<tan.shaopeng@fujitsu.com>, <xhao@linux.alibaba.com>,
-	<catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>,
-	<maz@kernel.org>, <oupton@kernel.org>, <joey.gouly@arm.com>,
-	<suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, Kefeng Wang <wangkefeng.wang@huawei.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>
-References: <20260203214342.584712-1-ben.horgan@arm.com>
- <20260203214342.584712-27-ben.horgan@arm.com>
- <20260205165018.0000089c@huawei.com>
- <f6f865bc-319c-8944-9989-4fd83a59d4b8@huawei.com>
- <61684bd8-8156-4fe1-8033-eaa12c6d3437@arm.com>
- <1acf06d1-08af-4b05-82e7-655c8ef7cf0e@arm.com>
-From: Zeng Heng <zengheng4@huawei.com>
-In-Reply-To: <1acf06d1-08af-4b05-82e7-655c8ef7cf0e@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemf100008.china.huawei.com (7.202.181.222)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|PH7PR12MB7236:EE_
+X-MS-Office365-Filtering-Correlation-Id: a38b1aaf-d819-481a-e68b-08de74453145
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|1800799024|7416014|376014|366016|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?b0lpMGhmOTlTRzQ0MkhGOHdzZjhSdkJxci9SRktiVFV0emRZSVluVTV5WFRF?=
+ =?utf-8?B?UGJXTStKb1RTeEFBN3FrbUl2VWd2SVhqVTZnaXhJL2FNSXl6SFl6OGR5SjBK?=
+ =?utf-8?B?UTR6NGFVQ1ZKbUF5NlQyb2dJMzg4OGFBNVdSVkE3ZWIydjRYYmF4N0V5c0dT?=
+ =?utf-8?B?akVGSXYxTzRwbk9rNGs0TFZYWTdPZitrbU9uL0dLNUJrT3dHQ2FMRDMvZ3By?=
+ =?utf-8?B?WVkyTUp2RWhuL2s4dVhET1YrU0lwNXhqUUoxb0NEaDQxZzFTSWxpQmtJN3dG?=
+ =?utf-8?B?NXJEcm9tUkxNdXFKV3ZHQURuUytTUmNoRXYrL2JUMnFucjA0b1IyYXo5bTlJ?=
+ =?utf-8?B?cmRzZ29ZanYzbzRRd09zcFgxc1k1RUdxNHErNS9oTmhBS2FTR2xUWEpDSm1I?=
+ =?utf-8?B?T1JxMUYrWklyZXhpMS9RWWFvZlg5WWgxWWVnVm16eEx4NTZnd2lEaFJ5VXps?=
+ =?utf-8?B?cXJZUGJXVjY1Wi9lRzBmWDlDRGptQlR4Sy9CcG5ZVG45OTRzSW0xMHg2dkxk?=
+ =?utf-8?B?bWdNV3Yxcm00NDNLTkd0TE1xcEZReG5MSVpQQkdMRm5pM1dpWlRkY1hqS2pi?=
+ =?utf-8?B?bE9uMW9GK2gzYjRnODRLSzgvWnBFdEtkeXpqTm9TSmF5ZUMxZXlHR2VNdHJj?=
+ =?utf-8?B?bzJSUzA2MXhPQkZ4eTlvL0F4YTRpWTNiMWNBMDV4NkVXZHlwT1JaSVNoc2Rq?=
+ =?utf-8?B?d2daaHZNRTdTL3RudnpZd2VTTXk3SytDR1QvSldDTU9JRkFLcVpCeEFhTXRH?=
+ =?utf-8?B?MjB0YlNwMERWaHBrQzN0RjRRRit4ZkhBcHNucldUMndYUjExdThqNXZwKzFU?=
+ =?utf-8?B?N1NxcnpJdlB4anVrek5zb01RdUpLVnlYUDduMkQwODZZbUZEVzJuanJKNVJl?=
+ =?utf-8?B?emhSRGhmUjVpVXZsV2Y3TjJKN2phWmxJaVptZkxITUQ1VVM2RWwrR2FMa2Fp?=
+ =?utf-8?B?d0tNVmhTQ3kzeUdoNytxckJkeFpURmQzenRYbW9INGgzOGhDZldaM2lNSTJI?=
+ =?utf-8?B?NHZLUUZTUjAxc3orU0JaWloxTmNqZThwajZqbExpL3Y4S2EvSGIzRUxVQXBz?=
+ =?utf-8?B?aU5NTUpPVEgxN05tVmZTVnJrWjMzMWxqUmRrakkvM2RtbnJhMFBxSXhEeXFJ?=
+ =?utf-8?B?RTNYUEJJMlNicnBQRzUyMVNzTXBONkhtUTE0Z1FRQ096RnZKQm1rWDB3U0lj?=
+ =?utf-8?B?Z3dHR3hicUl5WjJRTjk0UEJONGdSZkRGcWZQYjJzbnFyNktXNnhuYnBCb1hj?=
+ =?utf-8?B?WDVhMGlHTkJscGxVVWJFYS9wMlJyZ2hNR29UeklDSWoxK0w3aFpOdkszNUIw?=
+ =?utf-8?B?RSttS2p5S1ZGNFpDZ0hoam9FSkh3UGdqSllJeG8vWlhWSWQ0Y1B0ZDBTTG5N?=
+ =?utf-8?B?M29MQjJQSmVQVHQvTGI3bWVIWjJoa1lzeEVTbkFPTC9EUlZ5VytGSzRmdnpo?=
+ =?utf-8?B?bndkQWdGckhmSDBJUmwrQngzNCt0YzRxT0JEeTV2OUV5SlVqaTlMeWlOcThF?=
+ =?utf-8?B?dlA4WVlzNmx6SVROVE1iT1ArMUxlbzlVS2orTlNWeloyd3pRdVFYQjNiUUxk?=
+ =?utf-8?B?WjBTdm44MUhhdE9TTWFhbi9RZC9RSnJ0dnordjF2SzNJM0hDOHV6cGhFbWpP?=
+ =?utf-8?B?WW9oV2pKcnZCcWJOVHE4UEpha2Y3SW5wSWdPdWlCSEJNN0pRNDRGMTBwY0or?=
+ =?utf-8?B?WVNoZUU3TmlNdDhRbm1oOEtFbk93Nk51WTZFcDNjM0lBYjl3MkhkZ0VXT2lx?=
+ =?utf-8?B?MnpNQi9XSFFrTXI0TkkrNHV4cUVYc2piaVhGUG0yeTE0akNUeTh1QTB4cHVM?=
+ =?utf-8?B?L0VkVWloeHd6b09uTTZtWVJnWmphV0RUbGt0djV1SWxGd1dSNlVSdWQvM01n?=
+ =?utf-8?B?TjBRTjRkSGFMTUJjaUR6Ty81ZEJyNmJIRk90dG1RUzVWQncvQUJlelZYMUhO?=
+ =?utf-8?B?RjgvNXBSam92OTBndURueW1sRmlDc3RiejRrNW9OWCt2U1U5d1JBSDYwcFZj?=
+ =?utf-8?B?cDJSNWUrWnpYOUIvN0ZPRGdHaHU4NDFCY3YwKzlRclhBNXArV2c2bDFVWjZ3?=
+ =?utf-8?B?Z3AwcFZ6Y21sZDY4TTlNY2lRMDJOa3pJZmJnUUpIVDlEdnFOUllGN3VwNi9H?=
+ =?utf-8?Q?t7l4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(7416014)(376014)(366016)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MDlYYnpkeVhzUTdHODJCMkVab0VVb1ZJcHFqWktaZCs3a2pmWnNpYmJlQmVN?=
+ =?utf-8?B?dWVaSWRiOGFnU2EvRnIwN2hLVjNZaWlrQUtZa1pUcU80S2hRelZTTXZub1pH?=
+ =?utf-8?B?WDFDRmo3Wkx0V3FBS0ZiN1V4Q3gxczF1Q2dUTVFLSmZ5cW5zTVNoM29Uci9w?=
+ =?utf-8?B?a1hnclRnQW42TjhOa01CenhHQUFoVUYzaHlxclR2L29MQ0VZSkRNTmFrSlVa?=
+ =?utf-8?B?Sm1QMGdaT3U1dDlOSHh3U0VzRkQ2c3BKVVZjR2FVRHk2UVdSZFl4RjhoZENw?=
+ =?utf-8?B?YWlpNElneXBYaVIxTHRoSkRubHFkbjI3cUV2UmtpWnJnWDM5aXlRdG85MkNy?=
+ =?utf-8?B?MndoRGluNEtWUmFyc0YwY0x3VUpsVUNZVVNqZ1VpSi9HemEvb2xJcXY2dlFT?=
+ =?utf-8?B?Q3lTbmtlMjlJQU5MSFpGTHdYYmhsbTlacFJxSDJOYmdwUEhaYTlSK0tjNlZp?=
+ =?utf-8?B?dnduUGJNL1paNVJuVHlBQVhNOVhEa2Q5L1RwdEhYOVdkalFYNjUzZDFRb0JO?=
+ =?utf-8?B?Vm9pOW5FVWx4MGJrS3YyL2lKQVB1N1BPeStWNWR6UW1hR0lKQkZpMmxxSUcz?=
+ =?utf-8?B?TVdPSTNBNTFYZ1ViTEJQZE4reWxpd0pwbTlzbUZHMEQ0OHNnVG9xRWRlTmZi?=
+ =?utf-8?B?MG5UMm5BWTE3TE1pSlgwb2s2QS9KZDRQdytOZEd6UXpDT2JzT2s2aGx2UHJR?=
+ =?utf-8?B?MzFadEN1blRtRnVqZGZLajFobE5WcmhRVC9ocjI0eFVoOG52cTlEcFpkU0th?=
+ =?utf-8?B?RS80TWJxTE11VkM5TjdKcHhnQ0ZqU0VYYVZPYXJLeHdWQlJ0S1p4YmdKTllR?=
+ =?utf-8?B?eVVRcU9hZmVTY3FUV2JBcVlvVlJMUGx2dXZEY2JrN3BJZTRTcmtPRStlaTA5?=
+ =?utf-8?B?M01WbDhFWFhJaXhPaW9XQTZObmtJeXFzRHFoa0NnZ2NHUytSdEdNTXJpUWh6?=
+ =?utf-8?B?bzRhZ210STBKdjZ5T082TnJKSGIwMVNkZWVLd0pYdUs4RWN6ZWhIR1VqR05S?=
+ =?utf-8?B?a1ZqVEpUck1GVWRZdjZnK1VVZWY1WCtxRlNMVGI2ekZjbHcyTFI4YnYrbjQ2?=
+ =?utf-8?B?RDI1L2twdXlQKy9uMmpsSFlyYWF3aGEveVZOaWUwYnk4ZVNkakNOaThIUWRD?=
+ =?utf-8?B?dzdyOXJSdVRxSm16MTVMdFRVVGk3QVlqUjZLTzVRRXdxYzFlUkVHdEFFMm1m?=
+ =?utf-8?B?ajQ0SUNnbTdmNW1vd3loZzNOak9rSysycWdqekxtQkRoRmtjTW9hNU5razhE?=
+ =?utf-8?B?cWJGS25tUk15YnVYWTVhcnV0R2d4Uk5mdXllKzVaOSt4S3RlOG1Yd0dyRGlq?=
+ =?utf-8?B?bFlPcDF6SklUZmJweFJBaGhDeGo0TisrNzYxdEFENStMVGxMdVpBa1ExQWhW?=
+ =?utf-8?B?N1puYk92N1diS0V5ck0yZTFUQk5veXRNV2YxQStKL2xRdS9PNWlDOU5yS1Bh?=
+ =?utf-8?B?WlY3NTc5b0IxQUxSSGdYcmtEdGRiWFdrVWVSNjFIbmRQakd4Q09DSnJWOVRS?=
+ =?utf-8?B?TWZQYzdjS1F4YUtZOG50a1Vxam1Wa1FtbGlnMDJEaWJYdWlyb25FSmNRZVdY?=
+ =?utf-8?B?TlFSWUY1WWxmYVJXTHhiWUMrMURxTmVLVWRsaWpXYlpTT0t4dndsMDl2WEo2?=
+ =?utf-8?B?djA3NEZZU3dSd1hhYmNNV0I2Vmw5am9HdEdVS1hadkFtcTQ4Qk5vdDlIb0Yr?=
+ =?utf-8?B?cFRXS3M2Q3ZHVjJsREJKZHRLdCtENUdtZ2R0Vnd4UisyM3BHZVVvallWRGVD?=
+ =?utf-8?B?c0FVNjBqSTFrS0ZYcVpxa2RZS2ZYUnVpdURhaGJ1Y0ZLbUhlOTZYZklSKzFX?=
+ =?utf-8?B?M2Z5QlN0RnFjbzY3ekZ1NmpWT2pjZU9yUWgxWVp5RFF1amp2Q0p1RUpyNFVD?=
+ =?utf-8?B?Y1hlL1l1YS9QdVhYNXN3T3V4c1JqQStndk9pU1lvdVo4U2xoNWFEQzQ3b0Mv?=
+ =?utf-8?B?Skt4dGhZUU9JZWV1dnZVMER6MGdqY29mNGpLc1A5b0ZEbWJFemhBbzNXRWUz?=
+ =?utf-8?B?THhaS1dra0hqalJlajR1RG9nN2U3MGZEaGJFWU5Nb1FWZ2ZCTWpLdkJJOTla?=
+ =?utf-8?B?R0JTRTUyV2dkcm9WYUVOZXNmamQvbDM1SFE4dEdNRzlUMVhXbHgrRHA2NSth?=
+ =?utf-8?B?RFVFbjlyRzVKWXdOT2F6UTNtZXI3d05qaHBrVHlHaDlCTS9NMUlHN3lET295?=
+ =?utf-8?B?T3BQeU9yRjRKTUhFOVh6NlIvSVpaVVVLTDZmRTAxYThjaGpFSWt3cUk0cGs0?=
+ =?utf-8?B?em1HcmhNQm5uazYyS0Rja2FFMXFnUUhnQ1IzQ2ZnUTJycmdpQUpVemwvMDZw?=
+ =?utf-8?B?Z2ZyOStTRGFzNmVOWFBOWWRSQzhvQWNVWGIrZE1OakFvWkNtUy9ENWY2VkJx?=
+ =?utf-8?Q?gEKkpDwsYgN5jHkMRP8eqjhabH35ixk1wyX1WBrLE4zoh?=
+X-MS-Exchange-AntiSpam-MessageData-1: n0C8pYf2I+21Ng==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a38b1aaf-d819-481a-e68b-08de74453145
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2026 08:09:26.5080
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C2zVps+QQ0O400HnS6fWT1AwfvbU7R8KRLI20/R3RwIfJmnPpfB2cmrnImCV+Hz/FHWf6EBW1rHzqHq4m6gIYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7236
 
+On Wed Feb 25, 2026 at 7:27 AM JST, Joel Fernandes wrote:
+> Add a new module `clist` for working with C's doubly circular linked
+> lists. Provide low-level iteration over list nodes.
+>
+> Typed iteration over actual items is provided with a `clist_create`
+> macro to assist in creation of the `CList` type.
+>
+> Cc: Nikola Djukic <ndjukic@nvidia.com>
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Acked-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
 
-On 2026/2/19 0:22, Ben Horgan wrote:
-> Hi Fenghua, Zeng,
-> 
-> On 2/16/26 13:54, Ben Horgan wrote:
->> Hi Zeng,
->>
->> On 2/13/26 07:38, Zeng Heng wrote:
->>> Hi Ben,
->>>
->>> On 2026/2/6 0:50, Jonathan Cameron wrote:
->>>> On Tue, 3 Feb 2026 21:43:27 +0000
->>>> Ben Horgan <ben.horgan@arm.com> wrote:
->>>>
->>>>> From: James Morse <james.morse@arm.com>
->>>>>
->>>>> resctrl supports 'MB', as a percentage throttling of traffic from the
->>>>> L3. This is the control that mba_sc uses, so ideally the class chosen
->>>>> should be as close as possible to the counters used for mbm_total. If
->>>>> there is a single L3 and the topology of the memory matches then the
->>>>> traffic at the memory controller will be equivalent to that at egress of
->>>>> the L3. If these conditions are met allow the memory class to back MB.
->>>>>
->>>>> MB's percentage control should be backed either with the fixed point
->>>>> fraction MBW_MAX or bandwidth portion bitmaps. The bandwidth portion
->>>>> bitmaps is not used as its tricky to pick which bits to use to avoid
->>>>> contention, and may be possible to expose this as something other than a
->>>>> percentage in the future.
->>>>
->>>> I'm very curious to know whether this heuristic is actually useful on
->>>> many
->>>> systems or whether many / most of them fail this 'shape' heuristic.
->>>>
->>>
->>> The current MPAM driver has restrictions that limit MB control support.
->>> For example, on some systems, the MPAM memory class MSCs are not located
->>> at the L3 cache but rather at the memory controller (e.g., Mata). In
->>> such cases, MB control and mbm_total bandwidth monitoring cannot be
->>> enabled.
->>>> I'm unsure whether the community would welcome and be willing to review
->>> a patch series supporting such systems. Of course, the changes would
->>> involve minor refactoring in the resctrl common layer.
->>
->> Having MSC at the memory controllers is quite common and it would be
->> good for the mpam driver and resctrl to support this. My current
->> priority is the initial MPAM support and look at this and other extra
->> features later but I'd be happy to help progress support in this area
->> through review and discussion. There is some discussion about adding new
->> schema at [1] and we should make sure  this is consistent with monitors
->> too. James has some out of tree patches from before that disccussion at [2].
->>
->> [1] https://lore.kernel.org/lkml/aPtfMFfLV1l%2FRB0L@e133380.arm.com/
->> [2] git://git.kernel.org/pub/scm/linux/kernel/git/morse/linux.git
->>   mpam/snapshot+extras/v6.18-rc1
-> 
+(with one small comment below)
 
-Thank you for the information.
+> ---
+>  MAINTAINERS              |   8 +
+>  rust/helpers/helpers.c   |   1 +
+>  rust/helpers/list.c      |  17 ++
+>  rust/kernel/ffi/clist.rs | 338 +++++++++++++++++++++++++++++++++++++++
+>  rust/kernel/ffi/mod.rs   |   2 +
+>  rust/kernel/lib.rs       |   1 +
+>  6 files changed, 367 insertions(+)
+>  create mode 100644 rust/helpers/list.c
+>  create mode 100644 rust/kernel/ffi/clist.rs
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dc82a6bd1a61..0dc318c94c99 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23181,6 +23181,14 @@ T:	git https://github.com/Rust-for-Linux/linux.g=
+it alloc-next
+>  F:	rust/kernel/alloc.rs
+>  F:	rust/kernel/alloc/
+> =20
+> +RUST [FFI HELPER]
+> +M:	Joel Fernandes <joelagnelf@nvidia.com> (CLIST)
+> +M:	Alexandre Courbot <acourbot@nvidia.com> (CLIST)
+> +L:	rust-for-linux@vger.kernel.org
+> +S:	Maintained
+> +T:	git https://github.com/Rust-for-Linux/linux.git ffi-next
+> +F:	rust/kernel/ffi/
 
-> Fenghua gave a talk at LPC on supporting cpu-less numa nodes in resctrl
-> so is likely to have some patches/ideas around measuring bandwidth at
-> memory controllers.
-> 
+Acked-by: Alexandre Courbot <acourbot@nvidia.com>
 
-I also listened to the LPC presentation on this subject. The Kunpeng
-memory controller is per-NUMA, however not CPU-less.
+<snip>
+> +impl<'a, T, const OFFSET: usize> Iterator for CListIter<'a, T, OFFSET> {
+> +    type Item =3D &'a T;
+> +
+> +    #[inline]
+> +    fn next(&mut self) -> Option<Self::Item> {
+> +        let head =3D self.head_iter.next()?;
+> +
+> +        // Convert to item using OFFSET.
+> +        // SAFETY: `item_ptr` calculation from `OFFSET` (calculated usin=
+g offset_of!)
 
- From an interface perspective, the interface that the Kunpeng memory
-controller MSC solution aims to provide is somewhat similar to the
-approach offered by Reinette:
-
-"
-One idea on how to accommodate this from resctrl side:
-https://lore.kernel.org/lkml/fb1e2686-237b-4536-acd6-15159abafcba@intel.com/
-
-mon_data
-├── mon_L3_00       <== monitoring data at scope L3
-│   ├── llc_occupancy
-│   ├── mbm_local_bytes
-│   └── mbm_total_bytes
-├── mon_L3_01       <== monitoring data at scope L3
-│   ├── llc_occupancy
-│   ├── mbm_local_bytes
-│   └── mbm_total_bytes
-├── mon_NODE_00     <== monitoring data at scope NODE
-│   └── mbm_total_bytes
-└── mon_NODE_01     <== monitoring data at scope NODE
-     └── mbm_total_bytes
-"
-
-
-Best regards,
-Zeng Heng
-
-
-
-
-
-
-
+`item_ptr` does not exist.=20
 
