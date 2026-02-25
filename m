@@ -1,287 +1,192 @@
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1426E2701BB
-	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 08:32:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772008326; cv=pass; b=sSRQ7S3SOkBNllh6FEdlm1B5YXN+qWuVP4MWCvVn5wLkabSkg8NFDZWs5my5lB31yxcwtxBZ6DqW88OA9bru54YNZMeJoenH3cbPVFKZ4Q9gZPTjZvspkx3Wu6wloBNKvHebC4E9DEKS6B4gJIYjkAWpTFRCywPlvv34KSBqg/c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772008326; c=relaxed/simple;
-	bh=H7uGJhCUP5kAxxAKcldXorPp/nEFUtCx4oLDvpDZZNA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tBIRYIq5JCm0pCD6GLhcoZH7iIVds3Q4FCG18hXpHsmOR4ZeQT1Xv3jvn1jdPGceB6sopK9zW+EHx78NgES/FnM4BGNEe/Zy3h++9mBMdrjNwUUYpyaW7VujORuMNpscDYMGMpHyncPBp4L7ClwC5aD+4z0M8me8vHhBNqn0gDE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SRdCuvmr; arc=pass smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5186721A453
+	for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 08:38:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772008695; cv=none; b=QDzqPQ9NC1cenMj6Sn+9ViE4ol6l5mexPcI8lstaL+ODrMRkVka/M9WSmOgZsfJ/R+XDxD9UI0ZDZj2XSPRZgMGEr5aMx4neT1bjv7nDW4sEXJvhoU3/mGvsrwOMhKSwpC+Y1yhqnH0OYv8z2WKVA4avYgrmdDV3Xldb5gBRObQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772008695; c=relaxed/simple;
+	bh=uun3Vk7JQyHZ6aF3HcHlMyo2Xah/fKCgQ3PDPCYVA6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F4NRvyMy76s1xVR+nuapdTsGAzM8SGYlNrYKUHMDwbf+EIl7DJvN/zV+PGnXiVuQBgrbPwr5qpF1EgRYK0REKUwymc8l/a+hEZSVRQch2ufpHrIUrBI+aNL3TKrt/OgMpCYacHSo7Mfm7pCQP+9dF9hRS7hwOIZr86mGO44hdYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0d5FCoRU; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SRdCuvmr"
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-897023602b1so74710376d6.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 00:32:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772008324; cv=none;
-        d=google.com; s=arc-20240605;
-        b=U7cmWWNW7WKNpSizVeAdZi27fE3OYfsmnomLnfcUpFM4qQR5GbNkrwyRIl3bxuKOKX
-         QntQqF9VMudC21Wu0PjiYPw1qoLSpplDa8xsWfIJG8fwxT2XQ4PqwBONc9B2LaWuDnKC
-         7n3P32292LWKKP4/Uw/I5IwmZUIwa3CD7PGmf8P1c8vIn6Bk3e5Pup7OKXCT9ggX0B5t
-         n0PQaq7o+EFxtifJI2XFsxfp96dJLicrbaz/CZTzaaWVoyoK75KRMeWLgF3Dx1dsFQRl
-         PLK4eTJ91ThjQdpLnpxhKLs9wj0YHLcFJDC3O1QGBysPU/xx8j2qVu9e87dqi4S4PQOf
-         OQWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=D7siYQD1xuhDtkoxAw0gYhYQmKcVAnP64qM/iLy57RI=;
-        fh=BfjWYzLy0lCux2t0pq9T+VqfZ8w484wQdo5F8TzIhPc=;
-        b=LQYlMrkLAx1TnReYPg+tWypGwDYXmMddzUICE/J3PkfHuZlyz8Bn+gpsgkNwB1jJQq
-         QTbcY3etClZ8G8sxokS8xg2Crzqc4fahy6r4cjYOjjU+CWRql2MwFubDXyPjdMBkrsNn
-         FORrGgAKu1jVHqnysNvy6xo6Y+N/khdeSopercHOuxkjHIHDtWXsu1YIU/I2gEz930Q+
-         ta9+co8hjIJdX2SV0jGveYkDgoPadIzQ/m4ru/6VCmZxBZlOK7F6JbLvNCiTfsaFU45s
-         ttcWCdEKUsYnCj7Ia3JjGJWsbs77shngqGgz3F0WQEtSsnwLX1p8x6019Fw3sepZsOsk
-         khHA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0d5FCoRU"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a964077671so74215ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 00:38:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772008324; x=1772613124; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=D7siYQD1xuhDtkoxAw0gYhYQmKcVAnP64qM/iLy57RI=;
-        b=SRdCuvmrEl9DIJZDZMHtNq42EJgXfeU0dqOYgy+GDevT2AbOlZn0u3n42kK8f5EgEH
-         +8KOm6A7umVJRH4LEdfEh987Ngggq+IhdYJQUkPPNa0mUpSJ/wAZDwD3O/oWp5qfkZEw
-         iSRzIlVWGGm7L55tOeZPe3U38J9PVMMHTuIeOFm61kxMCUAISGWy9Tv2gZqwlV8Xz9Z2
-         YtPV+416FFz5JxoCrvExqEdWGLQ6/pDFKEZdel6nB1tCjuLjy7qdzBLV+2IRhh5xcxKc
-         lHWDmGN8z+tMDE1egbLral70BBTxO2WMr9/TbSk9MhrjM62ItdRX0Bd6Iz8nEvmF773E
-         SIDw==
+        d=google.com; s=20230601; t=1772008694; x=1772613494; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=euz76pxATmJYev+UEaMjSj8YYGXQ5aYbA3uegrgN/Es=;
+        b=0d5FCoRUjPdyGC+3ksFgWishHadW5IYorl8tK66VBPAKn65KnWAsC3NPOrquJQkA81
+         AmYi7hY9aounpoXHRaBlwCPDfCmKfSaSVVsvYPqD2UDk9Q+f2FOEHEXhw/y3C7NgDpZT
+         ehjNGj2mO+fmCkRyjd2uwFq5vMDmzU5taYk/yEsG6Rm6insqmfMw/LdXhnjnPNzSipRh
+         8iATFyj2niKIRoRNz3lBjsw9KddROojWASSL8+sqsolFSBw4Y/Z/eEZya8Jv38nrKDLD
+         sOTnLmK/Mn5mIH1XKu40CWQDRiNqtV983z8rMk1QkMKeeTMamQCIW7hOlr+QqWYsz0Qz
+         zp0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772008324; x=1772613124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=D7siYQD1xuhDtkoxAw0gYhYQmKcVAnP64qM/iLy57RI=;
-        b=k9YG8dYwUiYTQ1dtYS48bPOL8G1CENH0CGXnMCSfMH53fhb93hMBF8fHOWyIfWpcuX
-         p8jeAuvPpUxzeSWKQqMmRYy3Hw1b+IVb30BIz+vWfN+KUsYQEAOSmP+N6l1IAcLLFlX9
-         AAzB7zgyNRXeGhWH2r5RTT5tp4oNCar9HW/FaB4xkQkmT8F4UlAgLfRSK0STcZAMoMtG
-         WoXDTlwri6t+A489YehjANpln0Ow3p2EjFoRwiL13w/l9njmuuihAGKWcE2QFO4PRbNW
-         sf+kBaZMv95/uUKf+0W9qGW448mlrlLrGNJIL7H3TbYrJ+aaj/6542Uw5ViiyiWBtqiL
-         gwEg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLxCN4zjM0e1qMzM2AHUic467Aq26hotYdxayxw7kx2LBIyUJoaStLxNcWCaiIYINQ/OvkejpVCfs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzyy6+ITzr5aPtQMbQpK03kkvNpuoW1PQgLSe34wVZQ5pol4GKO
-	HUtvgVkYOMgAs7I+QVhCSAy/kbf8C+AFhN3ZsHFwJO95/FqdkmI8Zw52taHLNs1X68t5MY/B3Ou
-	9VFg0+aQ/rGxtcdFdUE6x0aqLmSc8Bget4Kk3navE
-X-Gm-Gg: ATEYQzwyv99aOjTOIcOc2jyLE7Hb3DFhTL/wyzJCorNp2CGa7B2nC8rxH1HLkav0Mgq
-	1FM7IlYAEOgwyCosgMaYs181nPy+RfosOcM7ZQdc/iAqD9BG7yRo9D3MfdbK0u7xltsBJHoLZsR
-	rsbURZufgf04MthV9ebnPrKkoZBvDgXgKsSAmAZQTpDVJbCbpmeg0qPmuaPMM/qUcG8ZpJ+ggZp
-	b/FyXQ+l0x/nO2kNmo2hyfDCha1LXlI0g0REmwY1Jit14/Va6B+6Hsvq6QHKwF2IacTRmjxYi6x
-	zaaJ/oQ7UhzjejHLAXUkb52GjnUmOS8ooNec0qfARgT6GwSTKlF4
-X-Received: by 2002:ac8:5a50:0:b0:4f4:de66:5901 with SMTP id
- d75a77b69052e-5070bba49demr211968151cf.5.1772008323553; Wed, 25 Feb 2026
- 00:32:03 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772008694; x=1772613494;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=euz76pxATmJYev+UEaMjSj8YYGXQ5aYbA3uegrgN/Es=;
+        b=Ljq4lf+KG8AyBLEBlCfKSMrMa7V6Mj9GkFms9zSHpwoEgN85U0wLtNLhcCWHrYz2qe
+         O280mZBgVX/ZLAnAOuTY1gfbIErcmRmD7cjwQLUdjELoynuQHTJX/DQLdNdS/VvuylAx
+         KHGxOYdZ6kpjayIpaqDULBVVr+7YRUCinqS5nMAQ/fvME53L9sQm0LaLYJQB7HHRIIYb
+         G7QF5QCNZnHr7sizImcBRnxyOtN349rGlttznmfM/xohRmA/HUhsJTEnRBwW3aZcRrtH
+         vPGQdpyAxkg1x1Eij/6dNhOo3ne/jgp8+rxEyIL7wIKvAGG1aecAVay3BawhRe96ZVV+
+         Bm7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXngT7k8QqVSI5HO3y4Snx8aXcovEkXM8SAJezE2/MrmqzRTxlCPGNZ+zBF5YhJkoBc56P3/gQZWTw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzbb/uvbxVayDN7WoW2fJ9mG+mgJUDesiNFT4zP6fmpPJBz8s3K
+	pwkHNn0JGl7I4ZY1pIyrKa464gMA+ef/HWU8VW81zhq9wHvwImfAnonp9mXnl+11Qg==
+X-Gm-Gg: ATEYQzxIVEGd2VlZUcDec/X+r+3qsMWZg5Infk6eMri6IN2mVq/drMqU+5o3qf5nM3k
+	khlF4h44sMlI+j7rbPzU4K7fYww8l41pUbXWyQsha2H0oTT4VoAkQMM/AuuNdA2X0mfQ6bzW7TA
+	ZTN2B4nHySnLOcBxNCzhjP70yPj3wOJnHHQ2AvPcQRpRcvztgqYsvWU1EtgEkYsHwCjaivf8fH/
+	L3c8X3OUPtIrT5ZzYx+ek25+HVqIwyVKGw2JwMKKmDCy2gNi7yUvkXyvv9VlkOQ4TeOFK79gNtH
+	klf3s8huS6VsY7dJr24KHmvTYO40kJD2xcW8zd0MffwLjXB+fhEmDO8J5e+lwjdpINXYpL5Ttpa
+	OMkft6ApQm2xPZKDPT4khzkK2MczWLiMG5WeMUeIo1nvNdeqgP7GcqyY5D5Da64ZhKsOx/OFMQ8
+	1GTdnWxyrFaUW3NehasOJBhTmyizzKZAaRglmPmQ97cLWUh7MLV7klvMitF662
+X-Received: by 2002:a17:902:ea02:b0:291:6858:ee60 with SMTP id d9443c01a7336-2adca6c8a9fmr1402215ad.4.1772008693092;
+        Wed, 25 Feb 2026 00:38:13 -0800 (PST)
+Received: from google.com (222.245.187.35.bc.googleusercontent.com. [35.187.245.222])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-826dd6c30dfsm13034861b3a.27.2026.02.25.00.38.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Feb 2026 00:38:12 -0800 (PST)
+Date: Wed, 25 Feb 2026 08:38:02 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: Alex Williamson <alex@shazbot.org>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Lukas Wunner <lukas@wunner.de>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Tomita Moeko <tomitamoeko@gmail.com>,
+	Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 09/22] vfio/pci: Store incoming Live Update state in
+ struct vfio_pci_core_device
+Message-ID: <aZ606sDJxtfNF6qW@google.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+ <20260129212510.967611-10-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260225074633.149590-1-leon.huangfu@shopee.com>
-In-Reply-To: <20260225074633.149590-1-leon.huangfu@shopee.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 25 Feb 2026 09:31:53 +0100
-X-Gm-Features: AaiRm507EGOddch-kDNSzMHFchJtTr1oj0fZFTjVzjHQ2BHh-bU1RsoVageww8g
-Message-ID: <CANn89i+RZtN0wcyBUxKf83pkcbH4=nN_Cpc62tNwwS8T-LQR2A@mail.gmail.com>
-Subject: Re: [RFC PATCH net-next] tcp: Add net.ipv4.tcp_purge_receive_queue sysctl
-To: Leon Hwang <leon.huangfu@shopee.com>
-Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ij@kernel.org>, 
-	Ido Schimmel <idosch@nvidia.com>, kerneljasonxing@gmail.com, lance.yang@linux.dev, 
-	jiayuan.chen@linux.dev, Leon Hwang <leon.hwang@linux.dev>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260129212510.967611-10-dmatlack@google.com>
 
-On Wed, Feb 25, 2026 at 8:46=E2=80=AFAM Leon Hwang <leon.huangfu@shopee.com=
-> wrote:
->
-> Introduce a new sysctl knob, net.ipv4.tcp_purge_receive_queue, to
-> address a memory leak scenario related to TCP sockets.
-
-We use the term "memory leak" for a persistent loss of memory (until reboot=
-)
-
-Lets not abuse it and confuse various AI/human agents which will
-declare emergency situations
-caused by an inexistent fatal error.
-
->
-> Issue:
-> When a TCP socket in the CLOSE_WAIT state receives a RST packet, the
-> current implementation does not clear the socket's receive queue. This
-> causes SKBs in the queue to remain allocated until the socket is
-> explicitly closed by the application. As a consequence:
->
-> 1. The page pool pages held by these SKBs are not released.
-
-This situation also applies for normal TCP_ESTABLISHED sockets, when
-applications
-do not drain the receive queue.
-
-As long the application has not called close(), kernel should not
-assume the application
-will _not_ read the data that was received.
-
-
-> 2. The associated page pool cannot be freed.
->
-> RFC 9293 Section 3.10.7.4 specifies that when a RST is received in
-> CLOSE_WAIT state, "all segment queues should be flushed." However, the
-> current implementation does not flush the receive queue.
-
-Some buggy stacks send RST anyway after FIN. I think that forcingly
-purging good data
-received before the RST would add many surprises.
-
->
-> Solution:
-> Add a per-namespace sysctl (net.ipv4.tcp_purge_receive_queue) that,
-> when enabled, causes the kernel to purge the receive queue when a RST
-> packet is received in CLOSE_WAIT state. This allows immediate release
-> of SKBs and their associated memory resources.
->
-> The feature is disabled by default to maintain backward compatibility
-> with existing behavior.
->
-> Signed-off-by: Leon Hwang <leon.huangfu@shopee.com>
+On Thu, Jan 29, 2026 at 09:24:56PM +0000, David Matlack wrote:
+> Stash a pointer to a device's incoming Live Updated state in struct
+> vfio_pci_core_device. This will enable subsequent commits to use the
+> preserved state when initializing the device.
+> 
+> To enable VFIO to safely access this pointer during device enablement,
+> require that the device is fully enabled before returning true from
+> can_finish(). This is synchronized by vfio_pci_core.c setting
+> vdev->liveupdate_incoming_state to NULL under dev_set lock once it's
+> done using it.
+> 
+> Signed-off-by: David Matlack <dmatlack@google.com>
 > ---
->  Documentation/networking/ip-sysctl.rst         | 18 ++++++++++++++++++
->  .../net_cachelines/netns_ipv4_sysctl.rst       |  1 +
->  include/net/netns/ipv4.h                       |  1 +
->  net/ipv4/sysctl_net_ipv4.c                     |  9 +++++++++
->  net/ipv4/tcp_input.c                           | 16 ++++++++++++++++
->  5 files changed, 45 insertions(+)
->
-> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/netwo=
-rking/ip-sysctl.rst
-> index d1eeb5323af0..71a529462baa 100644
-> --- a/Documentation/networking/ip-sysctl.rst
-> +++ b/Documentation/networking/ip-sysctl.rst
-> @@ -1441,6 +1441,24 @@ tcp_rto_max_ms - INTEGER
->
->         Default: 120,000
->
-> +tcp_purge_receive_queue - BOOLEAN
-> +       When a socket in the TCP_CLOSE_WAIT state receives a RST packet, =
-the
-> +       default behavior is to not clear its receive queue.  As a result,
-> +       any SKBs in the queue are not freed until the socket is closed.
-> +       Consequently, the pages held by these SKBs are not released, whic=
-h
-> +       can also prevent the associated page pool from being freed.
-> +
-> +       If enabled, the receive queue is purged upon receiving the RST,
-> +       allowing the SKBs and their associated memory to be released
-> +       promptly.
-> +
-> +       Possible values:
-> +
-> +       - 0 (disabled)
-> +       - 1 (enabled)
-> +
-> +       Default: 0 (disabled)
-> +
->  UDP variables
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rs=
-t b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-> index beaf1880a19b..f2c42e7d84a9 100644
-> --- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-> +++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-> @@ -123,6 +123,7 @@ unsigned_long                   sysctl_tcp_comp_sack_=
-delay_ns
->  unsigned_long                   sysctl_tcp_comp_sack_slack_ns           =
-                                             __tcp_ack_snd_check
->  int                             sysctl_max_syn_backlog
->  int                             sysctl_tcp_fastopen
-> +u8                              sysctl_tcp_purge_receive_queue
->  struct_tcp_congestion_ops       tcp_congestion_control                  =
-                                             init_cc
->  struct_tcp_fastopen_context     tcp_fastopen_ctx
->  unsigned_int                    sysctl_tcp_fastopen_blackhole_timeout
-> diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
-> index 8e971c7bf164..ab973f30f502 100644
-> --- a/include/net/netns/ipv4.h
-> +++ b/include/net/netns/ipv4.h
-> @@ -220,6 +220,7 @@ struct netns_ipv4 {
->         u8 sysctl_tcp_nometrics_save;
->         u8 sysctl_tcp_no_ssthresh_metrics_save;
->         u8 sysctl_tcp_workaround_signed_windows;
-> +       u8 sysctl_tcp_purge_receive_queue;
->         int sysctl_tcp_challenge_ack_limit;
->         u8 sysctl_tcp_min_tso_segs;
->         u8 sysctl_tcp_reflect_tos;
-> diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-> index 643763bc2142..da30970bb5d5 100644
-> --- a/net/ipv4/sysctl_net_ipv4.c
-> +++ b/net/ipv4/sysctl_net_ipv4.c
-> @@ -1641,6 +1641,15 @@ static struct ctl_table ipv4_net_table[] =3D {
->                 .extra1         =3D SYSCTL_ONE_THOUSAND,
->                 .extra2         =3D &tcp_rto_max_max,
->         },
-> +       {
-> +               .procname       =3D "tcp_purge_receive_queue",
-> +               .data           =3D &init_net.ipv4.sysctl_tcp_purge_recei=
-ve_queue,
-> +               .maxlen         =3D sizeof(u8),
-> +               .mode           =3D 0644,
-> +               .proc_handler   =3D proc_dou8vec_minmax,
-> +               .extra1         =3D SYSCTL_ZERO,
-> +               .extra2         =3D SYSCTL_ONE,
-> +       },
->  };
->
->  static __net_init int ipv4_sysctl_init_net(struct net *net)
-> diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-> index 6c3f1d031444..43f32fb5831d 100644
-> --- a/net/ipv4/tcp_input.c
-> +++ b/net/ipv4/tcp_input.c
-> @@ -4895,6 +4895,7 @@ EXPORT_IPV6_MOD(tcp_done_with_error);
->  /* When we get a reset we do this. */
->  void tcp_reset(struct sock *sk, struct sk_buff *skb)
+>  drivers/vfio/pci/vfio_pci_core.c       |  2 +-
+>  drivers/vfio/pci/vfio_pci_liveupdate.c | 17 ++++++++++++++++-
+>  include/linux/vfio_pci_core.h          |  1 +
+>  3 files changed, 18 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> index 3a11e6f450f7..b01b94d81e28 100644
+> --- a/drivers/vfio/pci/vfio_pci_core.c
+> +++ b/drivers/vfio/pci/vfio_pci_core.c
+> @@ -569,7 +569,7 @@ int vfio_pci_core_enable(struct vfio_pci_core_device *vdev)
+>  	if (!vfio_vga_disabled() && vfio_pci_is_vga(pdev))
+>  		vdev->has_vga = true;
+>  
+> -
+> +	vdev->liveupdate_incoming_state = NULL;
+>  	return 0;
+>  
+>  out_free_zdev:
+> diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
+> index ad915352303f..1ad7379c70c4 100644
+> --- a/drivers/vfio/pci/vfio_pci_liveupdate.c
+> +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
+> @@ -131,6 +131,7 @@ static int match_device(struct device *dev, const void *arg)
+>  static int vfio_pci_liveupdate_retrieve(struct liveupdate_file_op_args *args)
 >  {
-> +       const struct net *net =3D sock_net(sk);
->         int err;
->
->         trace_tcp_receive_reset(sk);
-> @@ -4911,6 +4912,21 @@ void tcp_reset(struct sock *sk, struct sk_buff *sk=
-b)
->                 err =3D ECONNREFUSED;
->                 break;
->         case TCP_CLOSE_WAIT:
-> +               /* RFC9293 3.10.7.4. Other States
-> +                *   Second, check the RST bit:
-> +                *     CLOSE-WAIT STATE
-> +                *
-> +                * If the RST bit is set, then any outstanding RECEIVEs a=
-nd
-> +                * SEND should receive "reset" responses.  All segment qu=
-eues
-> +                * should be flushed.  Users should also receive an unsol=
-icited
-> +                * general "connection reset" signal.  Enter the CLOSED s=
-tate,
-> +                * delete the TCB, and return.
-> +                *
-> +                * If net.ipv4.tcp_purge_receive_queue is enabled,
-> +                * sk_receive_queue will be flushed too.
-> +                */
-> +               if (unlikely(net->ipv4.sysctl_tcp_purge_receive_queue))
-> +                       skb_queue_purge(&sk->sk_receive_queue);
->                 err =3D EPIPE;
->                 break;
->         case TCP_CLOSE:
-> --
-> 2.52.0
->
+>  	struct vfio_pci_core_device_ser *ser;
+> +	struct vfio_pci_core_device *vdev;
+>  	struct vfio_device *device;
+>  	struct file *file;
+>  	int ret;
+> @@ -160,6 +161,9 @@ static int vfio_pci_liveupdate_retrieve(struct liveupdate_file_op_args *args)
+>  		goto out;
+>  	}
+>  
+> +	vdev = container_of(device, struct vfio_pci_core_device, vdev);
+> +	vdev->liveupdate_incoming_state = ser;
+> +
+>  	args->file = file;
+>  
+>  out:
+> @@ -171,7 +175,18 @@ static int vfio_pci_liveupdate_retrieve(struct liveupdate_file_op_args *args)
+>  
+>  static bool vfio_pci_liveupdate_can_finish(struct liveupdate_file_op_args *args)
+>  {
+> -	return args->retrieved;
+> +	struct vfio_pci_core_device *vdev;
+> +	struct vfio_device *device;
+> +
+> +	if (!args->retrieved)
+> +		return false;
+> +
+> +	device = vfio_device_from_file(args->file);
+> +	vdev = container_of(device, struct vfio_pci_core_device, vdev);
+> +
+> +	/* Check that vdev->liveupdate_incoming_state is no longer in use. */
+> +	guard(mutex)(&device->dev_set->lock);
+> +	return !vdev->liveupdate_incoming_state;
 
-Please prepare a packetdrill test.
+Since we set this to NULL in the success path of vfio_pci_core_enable()
+I'm wondering if a failure in vfio_pci_core_enable could cause a
+resource leak? Because vfio_pci_liveupdate_can_finish() returns false
+as long as that pointer is valid, a single device failure will 
+perpetually block the LIVEUPDATE_SESSION_FINISH IOCTL for the entire 
+session preventing the LUO from reclaiming KHO memory.
+
+Shall we also set vdev->liveupdate_incoming_state = NULL on the error
+paths of vfio_pci_core_enable() ?
+
+Thanks,
+Praan
