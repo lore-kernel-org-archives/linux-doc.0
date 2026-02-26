@@ -1,157 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679A21F3B87;
-	Thu, 26 Feb 2026 09:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AF23AEF53
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 09:24:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772096588; cv=none; b=AnNIO4s2U91qQ9L8841R65l6MR1c5kPb3m2em+nntVt9tywEKKeuZW2+cVjyAGfLhWVYI3mM16/rG1409vEzCJ7O8ADrmlWV1Nzv0MwVQi1uEE4wvOChL0Ta7xkVKcN60jpeWCBfMdY3RwtlYLI7NzyqTsKG55sTVpQrdYEIvV0=
+	t=1772097888; cv=none; b=ECggQpqETcUai/hIJiodDhUwBAmN+H0vBE76sygC4qmgLPj8Ff6+Zr7SB+M252pc+jObxw4doUqFi/z3f/c4izd36RB3AaGs8swyful8dB2eqKcljiI4Ls6nuF2KRiZqxhd99UhoTJ0i5WWHhO5RuPd7wkI5bXo+OrY4ofxKjfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772096588; c=relaxed/simple;
-	bh=3jJF19kOL002PKzJx7tPe3WBmaVpoZDKGRO68cQdyfc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s68PL4ljd6yQTmkADiFj/EctXxNkBIjJ+RfSvs5OmTv50b4Dv+aUVJ6fD6yIxXfAkoy7Tgul+AKFnUcEro7rK6Wp159qz1hn42uikJ2ZFv0ey4biul63qBAQy/KpVegxBWKB4vDQZiBYzqBndnkZU6n2KPtnWtWe5h0sPgmTYUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cS5t3jCM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772097888; c=relaxed/simple;
+	bh=NvU8NXH/fxvS2vxOBpwffhDKV9pJh4/6pbaFHH70J0U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NZz4WdOsyJfC3Bt8QPzTNoefG0aydpShOtlfCq71CWy2EctrHItpPEEA81iMsl85AGYdB/lAJMcg8s3ugntmlCOBi9+HjeQgaKXtKk31+EeyPTMUPZ4daOAQOU8ToxV3CmGf4/9YUMKRrNO/QlK98u4bBNYCp+6RrSqPCBVkZ3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cIBtQzPd; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cS5t3jCM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9432BC19422;
-	Thu, 26 Feb 2026 09:02:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772096587;
-	bh=3jJF19kOL002PKzJx7tPe3WBmaVpoZDKGRO68cQdyfc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cS5t3jCM4TrHZ3kAmS1dfNZ+wIyDioyr3ft5LuPrWwAX5oBaTf1vyUh39Kp9J6msd
-	 83R6ym3iza2RRsZKN8v88nTU4m+b7nQKcZIMAR5QEeS+KZg406nDTyOx5agcsUa/05
-	 cIwbgSJUCljCwUiiZgiqyrZ2/iCrzIlEXIUnR7p31XwSDYSE1IsOewBop2zlJGVEMA
-	 3i4JBeC0fknZ7c8W3YcmOqaa7JeUnFjaJqELCTIEy7aYOT/WloyKoNmNc2NldY33Ok
-	 IF20rLgwo3ySPQmH2SdEYuwfELlhhcMBXeE5l7mF5R8tKybZrUFi4t051Vn7d6tZuw
-	 fbGsJHc8zqAeA==
-Message-ID: <b5dbdeda-4d7e-4056-aca1-4e1be73a267a@kernel.org>
-Date: Thu, 26 Feb 2026 10:02:54 +0100
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cIBtQzPd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772097885;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0f2eSr9rmaNS1+79aXS+wFuWYZUMMuO+mzVaId9UwP4=;
+	b=cIBtQzPdoSW3g6B0sGf0xK3u4TeJI8EBHTuWWzgaRiyj9jM/cbdjGlpEJa7qdo0o8ql0oN
+	sPVTV2Z8kPuMe3B9F5mKnR2e6WRd6aMiTkiAaadGHgPVzxgLTMITYZN0u31jE3BPcEjaZK
+	V8xGSzeaQCUwdvX7p7ncY8JPi/mBPfg=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-13-X0rGY6nTMuu-QJYjQSsSnw-1; Thu,
+ 26 Feb 2026 04:24:42 -0500
+X-MC-Unique: X0rGY6nTMuu-QJYjQSsSnw-1
+X-Mimecast-MFC-AGG-ID: X0rGY6nTMuu-QJYjQSsSnw_1772097877
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D399F1956089;
+	Thu, 26 Feb 2026 09:24:32 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.101])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BAD4B1800348;
+	Thu, 26 Feb 2026 09:24:25 +0000 (UTC)
+Date: Thu, 26 Feb 2026 17:24:21 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com,
+	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+	chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com,
+	aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	hpa@zytor.com, akpm@linux-foundation.org, vgoyal@redhat.com,
+	dyoung@redhat.com, rdunlap@infradead.org, pmladek@suse.com,
+	dapeng1.mi@linux.intel.com, kees@kernel.org, paulmck@kernel.org,
+	lirongqing@baidu.com, arnd@arndb.de, ardb@kernel.org,
+	leitao@debian.org, rppt@kernel.org, cfsworks@gmail.com,
+	ryan.roberts@arm.com, sourabhjain@linux.ibm.com,
+	tangyouling@kylinos.cn, eajames@linux.ibm.com,
+	hbathini@linux.ibm.com, ritesh.list@gmail.com,
+	songshuaishuai@tinylab.org, samuel.holland@sifive.com,
+	kevin.brodsky@arm.com, vishal.moola@gmail.com,
+	junhui.liu@pigmoral.tech, coxu@redhat.com, liaoyuanhong@vivo.com,
+	fuqiang.wang@easystack.cn, jbohac@suse.cz, brgerst@gmail.com,
+	x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, kexec@lists.infradead.org
+Subject: Re: [PATCH v6 1/5] powerpc/crash: sort crash memory ranges before
+ preparing elfcorehdr
+Message-ID: <aaARRZh9k_0oG3Qo@MiWiFi-R3L-srv>
+References: <20260224085342.387996-1-ruanjinjie@huawei.com>
+ <20260224085342.387996-2-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/22] Add support for shared PTEs across processes
-To: Kalesh Singh <kaleshsingh@google.com>
-Cc: Anthony Yznaga <anthony.yznaga@oracle.com>, linux-mm@kvack.org,
- akpm@linux-foundation.org, andreyknvl@gmail.com, arnd@arndb.de,
- bp@alien8.de, brauner@kernel.org, bsegall@google.com, corbet@lwn.net,
- dave.hansen@linux.intel.com, dietmar.eggemann@arm.com,
- ebiederm@xmission.com, hpa@zytor.com, jakub.wartak@mailbox.org,
- jannh@google.com, juri.lelli@redhat.com, khalid@kernel.org,
- liam.howlett@oracle.com, linyongting@bytedance.com,
- lorenzo.stoakes@oracle.com, luto@kernel.org, markhemm@googlemail.com,
- maz@kernel.org, mhiramat@kernel.org, mgorman@suse.de, mhocko@suse.com,
- mingo@redhat.com, muchun.song@linux.dev, neilb@suse.de, osalvador@suse.de,
- pcc@google.com, peterz@infradead.org, pfalcato@suse.de, rostedt@goodmis.org,
- rppt@kernel.org, shakeel.butt@linux.dev, surenb@google.com,
- tglx@linutronix.de, vasily.averin@linux.dev, vbabka@suse.cz,
- vincent.guittot@linaro.org, viro@zeniv.linux.org.uk, vschneid@redhat.com,
- willy@infradead.org, x86@kernel.org, xhao@linux.alibaba.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, Isaac Manjarres <isaacmanjarres@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, android-mm <android-mm@google.com>
-References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
- <CAC_TJvcaJdEzK8n9BK0qgEXdzjzXtbA_Zk-ybfmG8kjNExVCzw@mail.gmail.com>
- <b82a5ac3-33e9-4cbf-892a-f0c7f6fe0c20@kernel.org>
- <CAC_TJvdgvyjyJsU4v6W+3tHKx_2e8UMJU3RT2HKLSngcC+yH3Q@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAC_TJvdgvyjyJsU4v6W+3tHKx_2e8UMJU3RT2HKLSngcC+yH3Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260224085342.387996-2-ruanjinjie@huawei.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On 2/26/26 00:06, Kalesh Singh wrote:
-> On Tue, Feb 24, 2026 at 1:40 AM David Hildenbrand (Arm)
-> <david@kernel.org> wrote:
->>
->>> I believe that managing a pseudo-filesystem (msharefs) and mapping via
->>> ioctl during process creation could introduce overhead that impacts
->>> app startup latency. Ideally, child apps shouldn't be aware of this
->>> sharing or need to manage the pseudo-filesystem on their end.
->> All process must be aware of these special semantics.
->>
->> I'd assume that fork() would simply replicate mshare region into the
->> fork'ed child process. So from that point of view, it's "transparent" as
->> in "no special mshare() handling required after fork".
+On 02/24/26 at 04:53pm, Jinjie Ruan wrote:
+> From: Sourabh Jain <sourabhjain@linux.ibm.com>
 > 
-> Hi David,
+> During a memory hot-remove event, the elfcorehdr is rebuilt to exclude
+> the removed memory. While updating the crash memory ranges for this
+> operation, the crash memory ranges array can become unsorted. This
+> happens because remove_mem_range() may split a memory range into two
+> parts and append the higher-address part as a separate range at the end
+> of the array.
 > 
-> That's agood  point. If fork() simply replicates the mshare region, it
-> does achieve transparency in terms of setup.
+> So far, no issues have been observed due to the unsorted crash memory
+> ranges. However, this could lead to problems once crash memory range
+> removal is handled by generic code, as introduced in the upcoming
+> patches in this series.
 > 
-> I am still concerned about transparency in terms of observability.
-> Applications and sometimes inspect their own mappings (from
-> /proc/self/maps) to locate specific code or data regions for various
-> anti-tamper and obfuscation techniques. [2] If those mappings suddenly
-> point to an msharefs pseudo-file instead of the expected shared
-> library backing, it may break user-space assumptions and cause
-> compatibility issues.
+> Currently, powerpc uses a platform-specific function,
+> remove_mem_range(), to exclude hot-removed memory from the crash memory
+> ranges. This function performs the same task as the generic
+> crash_exclude_mem_range() in crash_core.c. The generic helper also
+> ensures that the crash memory ranges remain sorted. So remove the
+> redundant powerpc-specific implementation and instead call
+> crash_exclude_mem_range_guarded() (which internally calls
+> crash_exclude_mem_range()) to exclude the hot-removed memory ranges.
 > 
-> Perhaps we could advertise the shared VMAs in the /proc/*/[s]maps
-> entries for the processes sharing these areas?
-The current plan is to have special "mshare container VMA" representing
-an mshare region. What's actually hiding in there is defined in the
-mshare MM.
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Baoquan he <bhe@redhat.com>
+> Cc: Jinjie Ruan <ruanjinjie@huawei.com>
+> Cc: Hari Bathini <hbathini@linux.ibm.com>
+> Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
+> Cc: Mahesh Salgaonkar <mahesh@linux.ibm.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Cc: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+> Cc: Shivang Upadhyay <shivangu@linux.ibm.com>
+> Cc: linux-kernel@vger.kernel.org
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
 
-One could, add support to walk the VMAs hiding in there instead; I don't
-remember what out latest opinion about that was. But I do recall that it
-involves a lot of complexity :)
+You should add your own Signed-off-by since you sent it out.
 
-Applications must be aware that this mshare region behaves completely
-different than non-mshare regions. There should definitely be an
-interface for an app to introspect what exactly is (currently, anybody
-else could modify it concurrently) hiding in there.
+> ---
+>  arch/powerpc/include/asm/kexec_ranges.h |  4 +-
+>  arch/powerpc/kexec/crash.c              |  5 +-
+>  arch/powerpc/kexec/ranges.c             | 87 +------------------------
+>  3 files changed, 7 insertions(+), 89 deletions(-)
+......snip...
 
--- 
-Cheers,
-
-David
