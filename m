@@ -1,84 +1,87 @@
-Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F9342981A;
-	Thu, 26 Feb 2026 15:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.92.40.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA6847ECF7;
+	Thu, 26 Feb 2026 16:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772121416; cv=none; b=oagttjWndDtH5g0wgDyHyqGggjo4JxwGS84qZR7HJU8z25mB/mJ/Bz8R47Z8myRqydGlzO8VFVW2OPQ5QZSbbzInCJRz+QVhwExrj2mrx3oHgIHc9FNCuztkb5+iZNvBiqi+Jwli/IYDgVPRR73vw014sdSBlwyUDEc673H5UDE=
+	t=1772121761; cv=none; b=BglXGlZudXxOQVwaIjxUX/IGsqI+CGJiWJ3ALGAJ09+lCIIxDNhcrM5DylbtYLfS4zABROPSB9E/a0kOxUa/Ss0iwtfU0pM+UFzYhzxX6wovh6zW/AZCuEiKLNN4/9XodLlDuzM13TnUnOXL4uQDUmtM4seH1yO1vAlmCtj1uSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772121416; c=relaxed/simple;
-	bh=f3+Ecr5/HQWuhvNp+zHEIbMzl/pJzzTr39VQ67h3VBI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LeAEaJeqG7wik8kPerwGvkNszt8uPqP3lVq9a0yJmhRjDyIQgCIdUxj0GF1I6qEZkJgOYSUPXOccKuy3glfyvOsvh2ZhoVskpg/GWx2URCBXIqRXKYwI9NclIrzgqpgyl/3sc6zP6RtGr6kqKRwgg3XGAbSA/PpDqAcMDjjnc30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com; spf=pass smtp.mailfrom=thorsis.com; dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b=ZMFUxuWy; arc=none smtp.client-ip=217.92.40.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
+	s=arc-20240116; t=1772121761; c=relaxed/simple;
+	bh=jWiuoX15Mblrwz24tNf0ikmUwKfACgiLh6JFtmC53E8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JRbEhlsKBzkiic1QcW7qksMFvRqbgQEr0/brPYRQtb2RDWiu1Vo9OavDKJBO7rW3Hxqia7lCiPfm6oJAQAtypKIp6cU9i+N+p9lPIjgfIyiIxnl5hDsSVR+hWQ5jIrhUXsuUw4RvZm/kkBo4IbfLPdNVjEHlvF6XJ++WVLMJMnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgphthG4; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b="ZMFUxuWy"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 491D51486E9D;
-	Thu, 26 Feb 2026 16:56:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
-	t=1772121395; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=A06kg6CiR5kRLTRkrkEYzfmLVvYjkpG7fFLV3p9x0EE=;
-	b=ZMFUxuWy/IVDEuiWiB3KHT/qpJQ6M6YO/hqLegH+I0DMkabP2eP0MDIj0+2sJ2nlIdZ6cz
-	Ieb/KVo/Xn3E8PGlm/9MZWiWk6oipCsxwEyUvzycptFWetR+2j/3jGl3URCQa9i/R6unVF
-	r2fp+q7u555MEpQr+4RCDP8L4gI8dj2uh2jXuXp07uWkX4HAEV5kM3AcZEIxdG1rYGeFLV
-	i0/XEghthj+MDitNbhwL0r9+GhWfPxsSFkdPCbMYie+SvsiWXwk3nS5WPuE/+xYJX3slXl
-	SIQd1RrzXZ4/+ZI7jn4wF1WYdKZk8qv6kSijHeUHXUaE1EPBi96HU9eEBxdHFA==
-From: Alexander Dahl <ada@thorsis.com>
-To: linux-doc@vger.kernel.org
-Cc: Stephan Mueller <smueller@chronox.de>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-crypto@vger.kernel.org (open list:CRYPTO API),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] docs: crypto: userspace-if: Fix outdated links
-Date: Thu, 26 Feb 2026 16:56:27 +0100
-Message-ID: <20260226155627.3243344-1-ada@thorsis.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgphthG4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772121754; x=1803657754;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jWiuoX15Mblrwz24tNf0ikmUwKfACgiLh6JFtmC53E8=;
+  b=KgphthG4UPxUE2pplk0YjUZmLRT/tJA+APYZNsBp8WJgdmWhPDShlO0t
+   s0dWlFdu297pe55nYga7BYT0JXWRkCuj9pt9AppL3F8k89MHZhC6BW5p8
+   pLujCJ9tfDA6sljYHhh4RZnsM0ijzp87+xDqr1ovuz61G+q4gRCG2lXQY
+   i7tGiOJ4a0lUTCFxk8CwxjdZqQKENl8oeCOrW3nMVJU97iwO56PfSpVCP
+   JJUgjRR8o1qRDy0Uq7aKREcEmO28kx1CPxV37PEUp40po/Zxawh1uzCfk
+   hhGGs5b+vY7RyDyMhW2n8+KsgAwLzE5imVzE52HaNPce+x35gcZA/AcMj
+   g==;
+X-CSE-ConnectionGUID: HXxh0IHIS3KOLHdMieMOdQ==
+X-CSE-MsgGUID: yU+yt7L3Q0uShO9sdElqZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="83821878"
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="83821878"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 08:02:33 -0800
+X-CSE-ConnectionGUID: Mxyc/Dp1Qku9BksrkJTOwA==
+X-CSE-MsgGUID: Sye3YMt8TJK0sPAAecFJyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="215730743"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.167])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 08:02:29 -0800
+Date: Thu, 26 Feb 2026 18:02:27 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Taha Ed-Dafili <0rayn.dev@gmail.com>
+Cc: Michael.Hennerich@analog.com, andy@kernel.org, corbet@lwn.net,
+	dlechner@baylibre.com, jic23@kernel.org, lars@metafoo.de,
+	linux-doc@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, nuno.sa@analog.com,
+	rdunlap@infradead.org, skhan@linuxfoundation.org
+Subject: Re: [PATCH v5 3/5] iio: accel: adxl345: Expose IIO_EV_INFO_VALUE for
+ double tap
+Message-ID: <aaBukywfQqqAjB0U@smile.fi.intel.com>
+References: <aZ29vjil1d7NF5su@smile.fi.intel.com>
+ <20260226150318.21168-1-0rayn.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226150318.21168-1-0rayn.dev@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-According to archive.org the site threw HTTP errors 404 since early 2024.
-The last snapshot in the archive having actual content was from late 2023.
-The page behind the new URL has more or less the same content as the
-archived page from 2023, so it probably was just moved without setting
-up a redirect.
+On Thu, Feb 26, 2026 at 03:03:18PM +0000, Taha Ed-Dafili wrote:
 
-Signed-off-by: Alexander Dahl <ada@thorsis.com>
----
- Documentation/crypto/userspace-if.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Thanks for the reviews.
+> 
+> Regarding the bouncing email: it is an archive address for the Linux
+> Foundation Kernel Mentorship Program. The guidelines recommend CCing
+> it for the program application to help with the selection process.
+> However, since it's bouncing, I've dropped it from my CC list, sorry
+> for the spam.
 
-diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto/userspace-if.rst
-index 8158b363cd98f..021759198fe77 100644
---- a/Documentation/crypto/userspace-if.rst
-+++ b/Documentation/crypto/userspace-if.rst
-@@ -23,7 +23,7 @@ user space, however. This includes the difference between synchronous
- and asynchronous invocations. The user space API call is fully
- synchronous.
- 
--[1] https://www.chronox.de/libkcapi.html
-+[1] https://www.chronox.de/libkcapi/index.html
- 
- User Space API General Remarks
- ------------------------------
-@@ -406,4 +406,4 @@ Please see [1] for libkcapi which provides an easy-to-use wrapper around
- the aforementioned Netlink kernel interface. [1] also contains a test
- application that invokes all libkcapi API calls.
- 
--[1] https://www.chronox.de/libkcapi.html
-+[1] https://www.chronox.de/libkcapi/index.html
+Do it Bcc if it's needed.
 
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
 -- 
-2.47.3
+With Best Regards,
+Andy Shevchenko
+
 
