@@ -1,145 +1,100 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B48F314A90;
-	Thu, 26 Feb 2026 09:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C9F2BCF6C
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 09:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772098534; cv=none; b=BgSu139DyFO3UHiy4/D6j3HkF0GAu7G6r+Ke/YdYeyduIuzU9TEqViBmxAv1zUUlD1ieKpd90NIZNXAMpqIKg9Shx5zWALvqkbwOysht/AkiCHSJBcC4XuC60AWwwC+h2EWo2LuB7CXOJeYFxo19mBK5YvmZZRKvc0UtpnsRw2w=
+	t=1772098924; cv=none; b=tIqo40dsD+D8wWNKeT0pXxp5cbdbRly36xY+T0KHzaXwRdI7h7E19oFhgFZJ61VMJ9j4SewLbo1HbLHuxuKsvdNglgrj562p0RP0ARlrLb52A7dBxKSKKq8ERNxMUbiIOHUylnaQ2MZHXCFuSfEd6NstymJBjBX77Mir60Abacw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772098534; c=relaxed/simple;
-	bh=p5gP5tx9RQ7vZD9jKRbxdIIw6QLuFGxeAWtY8jM32Ds=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=K6L8LE8Q7pWS62G+2zXCrsYphMW5WzEl7rrX1fSpqQCsdkqCNsL7ncjqaJo/5OZdi6aTzEZXyrVVbvI0n8Kke+kQiK5QDRhxmhGGtxG5e6/rTfgzqWLLVnd5TXs1SZqSSjBr5KV4+g4nDMvWD7fGRSC1qHP6UZPXdTBEEwMXj6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=DWNv0GeH; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=DWNv0GeH; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="DWNv0GeH";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="DWNv0GeH"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=cArUbXgPd0s4ZtREeL/7x46kP7PE/lat666eUsS6sDM=;
-	b=DWNv0GeHcKAOhD5xvaCowiagwlW275NAmdFdeG8qlLEXg0HK9DVne1d75o15RGyJa7vwcAWO6
-	vwEOtoSqxVKaatv+CDrTZSmvfXkTGoof3Dzf35VFrW/nnCipbp9TUQ6QsuUvS03Qv/DbB9CjEPb
-	Q7rsPApKKIvJvhGOP5dZOd0=
-Received: from canpmsgout01.his.huawei.com (unknown [172.19.92.178])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4fM5sL26Lkz1BGHW;
-	Thu, 26 Feb 2026 17:35:02 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=cArUbXgPd0s4ZtREeL/7x46kP7PE/lat666eUsS6sDM=;
-	b=DWNv0GeHcKAOhD5xvaCowiagwlW275NAmdFdeG8qlLEXg0HK9DVne1d75o15RGyJa7vwcAWO6
-	vwEOtoSqxVKaatv+CDrTZSmvfXkTGoof3Dzf35VFrW/nnCipbp9TUQ6QsuUvS03Qv/DbB9CjEPb
-	Q7rsPApKKIvJvhGOP5dZOd0=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4fM5m15ySPz1T4Fg;
-	Thu, 26 Feb 2026 17:30:25 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 11EC340567;
-	Thu, 26 Feb 2026 17:35:19 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 26 Feb 2026 17:35:15 +0800
-Message-ID: <15ea8a98-2b0c-dd51-b0d4-911905b194c3@huawei.com>
-Date: Thu, 26 Feb 2026 17:35:14 +0800
+	s=arc-20240116; t=1772098924; c=relaxed/simple;
+	bh=gKdDRJ4k87LaAx3+R8LuhxvDrJ8opW/pPfIrEoH1PWI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BQ2V2T9nkaxISQgnccSXPNYEY9FBN7Fepj106FzaNewj6VlDlKuigKpdSrxddhoeWcZ9hSmuEdRzXOlNgHbjkbZ/aEQ/rJpxtgSDW07KJYH2+qWoUIzL+T1T6HL6wswOaUugZyT1hgJxwyn4hCznwzkGOgrZaWOrEaIBmRgaxNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2bdca815fdfso500031eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 01:42:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772098923; x=1772703723;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wN7QFDReg+d0oErhjLdM9CGSLPE5PA9L2wZop8EojNM=;
+        b=M5tAwwADJrsiW/qLkRE5sj7K9hLcaDnX4BnIO8fUdu/ZJNhDjeLwVgvKBBG3VAu3Rw
+         5OCpBhnyBelz8GdHvtCVhmiqi8bMT+fgUK+E47u6QCdFaKaKkxtjN44PFXX9pfkc5Xxa
+         rvK5G97ycAhi6xyRokOOHPiojWxQ5VI8lcRwtYjBdmBlOjtgl/77YkdE4gm2aCK0fK2I
+         mSOM+LjvUHYXQ98xAZFxkGWBgr9WbVZrvC1BHeQfLv5O+oFhPvF+lp7+DpxPYXmUN1ty
+         fb9tRaOyQ0tKJcX3tNO7D5mrjDmhxKuzJK9hT7Cr8juf2vuMM/j545UV+oRt7VTIprwh
+         +9AA==
+X-Forwarded-Encrypted: i=1; AJvYcCW1gCx1qLw+V2tSetO5ddvL5ySKI2szMxBNB853QKVER8crLaVyXXNZLhfOMfX2OPHOVqbOBC8eugE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6H8zIb+gRQE7LloZvBzk2pWk9i0aSTdqGyaGK7oLlvotzyyZn
+	k4oiS1MGmBq+qa9ygmuj+BVT5cFy30mJdi7F0oFrL3Xzv6Xg3fgSflGeb8Yj7g==
+X-Gm-Gg: ATEYQzyU5lkAva1nNwRMmxiJv18g/3b8JFeK8yXbvdH3t+sCcD9zK/FMXkewfMairHI
+	KUvDX3ObN1FwoCEydZAHADvghAxtSn2w+v8lYmNMrY23+OiDC0cWpXKgZj3y67PJLOfO5wcOjiX
+	sUYGQN8ypVmW5x+DgiTprnbZ4fjwfNlrJbQm5UqNmXI5zBcCmc+hiXQyXzY9XIYbAc6g5fBzfGP
+	DEgzpUMlfBSOClM7xo4RQYukBIPxnJ6y5q5wBdR0XUYnU0DPjx/lVS0YE2CrPyWi5mbzmupYUCW
+	MGN02FNyebAXSrOurBAMV3maW8aSa172bA9n83tud8yDkecC3GmqSAveEhQdXquy6UJ/OgEvF2n
+	LqNm9qQAk8akRnenRdvDKH6IX+p2wQ2GM05WxDuc9VrJ+fWDPwn8ytox/soAGOffjokvcC5FqyG
+	CpErW8poATVGeDwPhxMW5zUdQt0yEJrqRlO87ALDZ8q7gg3VxplObf5HiQxJK+
+X-Received: by 2002:a05:6102:5112:b0:5f5:4d37:8118 with SMTP id ada2fe7eead31-5feb2e8e9d3mr10009192137.2.1772092224351;
+        Wed, 25 Feb 2026 23:50:24 -0800 (PST)
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com. [209.85.222.53])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94df645b877sm967359241.8.2026.02.25.23.50.23
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Feb 2026 23:50:23 -0800 (PST)
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-94dd0f3c4b7so345588241.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 23:50:23 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXvYLcLFULEBDAAtdZvus+chZFztULudiIwxZcgfqUc9DRl7cbGM7uiagHHon/lQIAaDmWG6r1T1QE=@vger.kernel.org
+X-Received: by 2002:a05:6102:510e:b0:5fd:fa9b:1a2 with SMTP id
+ ada2fe7eead31-5feb30d4af4mr10289856137.28.1772092222850; Wed, 25 Feb 2026
+ 23:50:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v6 1/5] powerpc/crash: sort crash memory ranges before
- preparing elfcorehdr
-Content-Language: en-US
-To: Baoquan He <bhe@redhat.com>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
-	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <akpm@linux-foundation.org>, <vgoyal@redhat.com>,
-	<dyoung@redhat.com>, <rdunlap@infradead.org>, <pmladek@suse.com>,
-	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <paulmck@kernel.org>,
-	<lirongqing@baidu.com>, <arnd@arndb.de>, <ardb@kernel.org>,
-	<leitao@debian.org>, <rppt@kernel.org>, <cfsworks@gmail.com>,
-	<ryan.roberts@arm.com>, <sourabhjain@linux.ibm.com>,
-	<tangyouling@kylinos.cn>, <eajames@linux.ibm.com>, <hbathini@linux.ibm.com>,
-	<ritesh.list@gmail.com>, <songshuaishuai@tinylab.org>,
-	<samuel.holland@sifive.com>, <kevin.brodsky@arm.com>,
-	<vishal.moola@gmail.com>, <junhui.liu@pigmoral.tech>, <coxu@redhat.com>,
-	<liaoyuanhong@vivo.com>, <fuqiang.wang@easystack.cn>, <jbohac@suse.cz>,
-	<brgerst@gmail.com>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-riscv@lists.infradead.org>, <kexec@lists.infradead.org>
-References: <20260224085342.387996-1-ruanjinjie@huawei.com>
- <20260224085342.387996-2-ruanjinjie@huawei.com>
- <aaARRZh9k_0oG3Qo@MiWiFi-R3L-srv>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <aaARRZh9k_0oG3Qo@MiWiFi-R3L-srv>
+References: <aZ4_sBIy8rOUL59Q@devuan> <2026022531-tightness-rare-6a14@gregkh> <aZ87Z24f9HZsofGl@devuan>
+In-Reply-To: <aZ87Z24f9HZsofGl@devuan>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 26 Feb 2026 08:50:11 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVDPPgkWTHPb3Mfhn2cGmv7YPquakEuF6z7zam7gGVW_g@mail.gmail.com>
+X-Gm-Features: AaiRm51mZ3TMr9-1T3RZtvPkGB-I32VB6CDd1n0kyHAM014BC7DctANFpncyC8Y
+Message-ID: <CAMuHMdVDPPgkWTHPb3Mfhn2cGmv7YPquakEuF6z7zam7gGVW_g@mail.gmail.com>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Mark Brown <broonie@kernel.org>, Sasha Levin <sashal@kernel.org>, 
+	Jacob Keller <jacob.e.keller@intel.com>, Yeking@red54.com, kuba@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, "Theodore Ts'o" <tytso@mit.edu>, Andy Whitcroft <apw@canonical.com>, 
+	Joe Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, 
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, tech-board-discuss@lists.linux.dev, 
+	Andrew Lunn <andrew@lunn.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- dggpemf500011.china.huawei.com (7.185.36.131)
 
+Hi Alejandro,
 
+On Wed, 25 Feb 2026 at 19:20, Alejandro Colomar <alx@kernel.org> wrote:
+> The case where it would matter is if you commit a fix for a commit that
+> is only in your stable branch.  However, since the stable branches are
+> not real branches, but actually a set of patches, I expect you would
+> just drop the faulty patch, right?
 
-On 2026/2/26 17:24, Baoquan He wrote:
-> On 02/24/26 at 04:53pm, Jinjie Ruan wrote:
->> From: Sourabh Jain <sourabhjain@linux.ibm.com>
->>
->> During a memory hot-remove event, the elfcorehdr is rebuilt to exclude
->> the removed memory. While updating the crash memory ranges for this
->> operation, the crash memory ranges array can become unsorted. This
->> happens because remove_mem_range() may split a memory range into two
->> parts and append the higher-address part as a separate range at the end
->> of the array.
->>
->> So far, no issues have been observed due to the unsorted crash memory
->> ranges. However, this could lead to problems once crash memory range
->> removal is handled by generic code, as introduced in the upcoming
->> patches in this series.
->>
->> Currently, powerpc uses a platform-specific function,
->> remove_mem_range(), to exclude hot-removed memory from the crash memory
->> ranges. This function performs the same task as the generic
->> crash_exclude_mem_range() in crash_core.c. The generic helper also
->> ensures that the crash memory ranges remain sorted. So remove the
->> redundant powerpc-specific implementation and instead call
->> crash_exclude_mem_range_guarded() (which internally calls
->> crash_exclude_mem_range()) to exclude the hot-removed memory ranges.
->>
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: Baoquan he <bhe@redhat.com>
->> Cc: Jinjie Ruan <ruanjinjie@huawei.com>
->> Cc: Hari Bathini <hbathini@linux.ibm.com>
->> Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
->> Cc: Mahesh Salgaonkar <mahesh@linux.ibm.com>
->> Cc: Michael Ellerman <mpe@ellerman.id.au>
->> Cc: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
->> Cc: Shivang Upadhyay <shivangu@linux.ibm.com>
->> Cc: linux-kernel@vger.kernel.org
->> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
->> Signed-off-by: Sourabh Jain <sourabhjain@linux.ibm.com>
-> 
-> You should add your own Signed-off-by since you sent it out.
+Stable branches are real branches, cfr.
+https://web.git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/refs/heads.
 
-Ack, I'll add my Signed-off-by in the next revision.
-Thanks,
+Gr{oetje,eeting}s,
 
-> 
->> ---
->>  arch/powerpc/include/asm/kexec_ranges.h |  4 +-
->>  arch/powerpc/kexec/crash.c              |  5 +-
->>  arch/powerpc/kexec/ranges.c             | 87 +------------------------
->>  3 files changed, 7 insertions(+), 89 deletions(-)
-> ......snip...
-> 
-> 
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
