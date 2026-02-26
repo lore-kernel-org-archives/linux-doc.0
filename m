@@ -1,97 +1,43 @@
-Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
+Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3CA1426D16;
-	Thu, 26 Feb 2026 15:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F9342981A;
+	Thu, 26 Feb 2026 15:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.92.40.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772121238; cv=none; b=H6WVvkdcZ9ba4WIGCqmiOB1/0m41qcAK4oMRRcPON2FyWMbo98cynCZoHvTxvKfi8bnNBgIV3l1LIxYskgk4lL/bBcF36ltxrpoXmaYT3a3IA9occ0lFZOQkxvssErhEu1puhgFNVdplfzcqbjktwTK1atSunBO25HD8Y1e6X/g=
+	t=1772121416; cv=none; b=oagttjWndDtH5g0wgDyHyqGggjo4JxwGS84qZR7HJU8z25mB/mJ/Bz8R47Z8myRqydGlzO8VFVW2OPQ5QZSbbzInCJRz+QVhwExrj2mrx3oHgIHc9FNCuztkb5+iZNvBiqi+Jwli/IYDgVPRR73vw014sdSBlwyUDEc673H5UDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772121238; c=relaxed/simple;
-	bh=7qOousIx56QKmH/mF2Jhpn3RYTANh5hPh6Mkghrjn0I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kLBk9wBf4biGaj3Vdui/ivc7cZDaElWKXpOFanFT7rgth+xdYoi0P5CI1I+XxQRz8pSBkwLoD1Cpndb9VEgF6anWZdh59UTmNYVng0sd1zsJHInJ86jPzqyFw/p236K3LeseOkyEVeoGNoVTJPT82Wq07HRQ7sFNn72oNLDt+a8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Wc4zCWkI; arc=none smtp.client-ip=91.218.175.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1772121416; c=relaxed/simple;
+	bh=f3+Ecr5/HQWuhvNp+zHEIbMzl/pJzzTr39VQ67h3VBI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LeAEaJeqG7wik8kPerwGvkNszt8uPqP3lVq9a0yJmhRjDyIQgCIdUxj0GF1I6qEZkJgOYSUPXOccKuy3glfyvOsvh2ZhoVskpg/GWx2URCBXIqRXKYwI9NclIrzgqpgyl/3sc6zP6RtGr6kqKRwgg3XGAbSA/PpDqAcMDjjnc30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com; spf=pass smtp.mailfrom=thorsis.com; dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b=ZMFUxuWy; arc=none smtp.client-ip=217.92.40.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Wc4zCWkI"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772121226;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xU/P/E3V8lwPxXOwsXyNuPVZtz8N/+iRJGqIf9l5sxM=;
-	b=Wc4zCWkIgS5XtJECh5aP5VvL9yKzmdpAhKr4PRV3POE5wHpRbD6H94TOtEmbaEVtkxtXws
-	oskHPmMw2POJ8xoJSPtCb2TUCMhPX/nKsJ+2R1cMI2eIiuLXW11sH5+DbgyYJtvlcyA+ih
-	J5G33RbH6BBx/N4/J71ODoeh7VIN34A=
-From: Usama Arif <usama.arif@linux.dev>
-To: Nico Pache <npache@redhat.com>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	anshuman.khandual@arm.com,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	byungchul@sk.com,
-	catalin.marinas@arm.com,
-	cl@gentwo.org,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	david@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jack@suse.cz,
-	jackmanb@google.com,
-	jannh@google.com,
-	jglisse@google.com,
-	joshua.hahnjy@gmail.com,
-	kas@kernel.org,
-	lance.yang@linux.dev,
-	Liam.Howlett@oracle.com,
-	lorenzo.stoakes@oracle.com,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	mhiramat@kernel.org,
-	mhocko@suse.com,
-	peterx@redhat.com,
-	pfalcato@suse.de,
-	rakie.kim@sk.com,
-	raquini@redhat.com,
-	rdunlap@infradead.org,
-	richard.weiyang@gmail.com,
-	rientjes@google.com,
-	rostedt@goodmis.org,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shivankg@amd.com,
-	sunnanyong@huawei.com,
-	surenb@google.com,
-	thomas.hellstrom@linux.intel.com,
-	tiwai@suse.de,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	willy@infradead.org,
-	yang@os.amperecomputing.com,
-	ying.huang@linux.alibaba.com,
-	ziy@nvidia.com,
-	zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v15 12/13] mm/khugepaged: run khugepaged for all orders
-Date: Thu, 26 Feb 2026 07:53:31 -0800
-Message-ID: <20260226155334.3373953-1-usama.arif@linux.dev>
-In-Reply-To: <20260226032650.234386-1-npache@redhat.com>
-References: 
+	dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b="ZMFUxuWy"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 491D51486E9D;
+	Thu, 26 Feb 2026 16:56:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
+	t=1772121395; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=A06kg6CiR5kRLTRkrkEYzfmLVvYjkpG7fFLV3p9x0EE=;
+	b=ZMFUxuWy/IVDEuiWiB3KHT/qpJQ6M6YO/hqLegH+I0DMkabP2eP0MDIj0+2sJ2nlIdZ6cz
+	Ieb/KVo/Xn3E8PGlm/9MZWiWk6oipCsxwEyUvzycptFWetR+2j/3jGl3URCQa9i/R6unVF
+	r2fp+q7u555MEpQr+4RCDP8L4gI8dj2uh2jXuXp07uWkX4HAEV5kM3AcZEIxdG1rYGeFLV
+	i0/XEghthj+MDitNbhwL0r9+GhWfPxsSFkdPCbMYie+SvsiWXwk3nS5WPuE/+xYJX3slXl
+	SIQd1RrzXZ4/+ZI7jn4wF1WYdKZk8qv6kSijHeUHXUaE1EPBi96HU9eEBxdHFA==
+From: Alexander Dahl <ada@thorsis.com>
+To: linux-doc@vger.kernel.org
+Cc: Stephan Mueller <smueller@chronox.de>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-crypto@vger.kernel.org (open list:CRYPTO API),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] docs: crypto: userspace-if: Fix outdated links
+Date: Thu, 26 Feb 2026 16:56:27 +0100
+Message-ID: <20260226155627.3243344-1-ada@thorsis.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -99,32 +45,40 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed, 25 Feb 2026 20:26:50 -0700 Nico Pache <npache@redhat.com> wrote:
+According to archive.org the site threw HTTP errors 404 since early 2024.
+The last snapshot in the archive having actual content was from late 2023.
+The page behind the new URL has more or less the same content as the
+archived page from 2023, so it probably was just moved without setting
+up a redirect.
 
-> From: Baolin Wang <baolin.wang@linux.alibaba.com>
-> 
-> If any order (m)THP is enabled we should allow running khugepaged to
-> attempt scanning and collapsing mTHPs. In order for khugepaged to operate
-> when only mTHP sizes are specified in sysfs, we must modify the predicate
-> function that determines whether it ought to run to do so.
-> 
-> This function is currently called hugepage_pmd_enabled(), this patch
-> renames it to hugepage_enabled() and updates the logic to check to
-> determine whether any valid orders may exist which would justify
-> khugepaged running.
-> 
-> We must also update collapse_allowable_orders() to check all orders if
-> the vma is anonymous and the collapse is khugepaged.
-> 
-> After this patch khugepaged mTHP collapse is fully enabled.
-> 
-> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 30 ++++++++++++++++++------------
->  1 file changed, 18 insertions(+), 12 deletions(-)
-> 
+Signed-off-by: Alexander Dahl <ada@thorsis.com>
+---
+ Documentation/crypto/userspace-if.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Acked-by: Usama Arif <usama.arif@linux.dev>
+diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto/userspace-if.rst
+index 8158b363cd98f..021759198fe77 100644
+--- a/Documentation/crypto/userspace-if.rst
++++ b/Documentation/crypto/userspace-if.rst
+@@ -23,7 +23,7 @@ user space, however. This includes the difference between synchronous
+ and asynchronous invocations. The user space API call is fully
+ synchronous.
+ 
+-[1] https://www.chronox.de/libkcapi.html
++[1] https://www.chronox.de/libkcapi/index.html
+ 
+ User Space API General Remarks
+ ------------------------------
+@@ -406,4 +406,4 @@ Please see [1] for libkcapi which provides an easy-to-use wrapper around
+ the aforementioned Netlink kernel interface. [1] also contains a test
+ application that invokes all libkcapi API calls.
+ 
+-[1] https://www.chronox.de/libkcapi.html
++[1] https://www.chronox.de/libkcapi/index.html
+
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+-- 
+2.47.3
+
