@@ -1,176 +1,310 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC145372B2C;
-	Thu, 26 Feb 2026 03:47:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772077635; cv=none; b=h1ZRrnEqJpv1dLr8FpxKaX48jtBQMUzy2SzmFWbwAu7Bnj98ba5K7rv2sobYbYZOAe/k3KMy9I/MplQeuio5m6HVvJaivYiHHuX1eMO/vidu1KPuaFbmSsAqmFDbmhOT1fCONYc6e8pknz5vRScZOYcWVAYbPwh7lnmGElsIXRE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772077635; c=relaxed/simple;
-	bh=DgcHV64u/KU+43pcZb7S7+aPM4uc5MTJd8qN6hmqOf0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hcuOurKsG6Ns1fsWxrLIymYqneLnQGQKvdMYnH1MUo/kwyY6/Y9Ntq/Ul5ZLujjp7zM7bbcJHaElXgb4TTI6XiK5qOzwmQjfozczf9YmAmVwWhiUKrP5NJvtpy6pcwwqCdBSN4/52W6WJxAdsjQiMaXvGAiHYiQtV3jh2Z14b7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=TpNrMO5t; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D8DE2F5A29
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 04:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772079401; cv=pass; b=qGEPMbVQLvuQ5VnFqhaAZghX6/+SF/b8gOdJ4iINUkYJQo+o48HUNXDHdxUpRP82JT8CNPJqGuDIqpRF4SdNtD3oNM+v/vWE/6fid4EBLsAUKng68Cc4xoYqmxXB6HrR/hU8ms8f7tml/MDhuHSSOdCg6dV51LI2Nw8SEKfGeHA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772079401; c=relaxed/simple;
+	bh=PJZLZUnePvIF1G2wVkJ0n1BC25Ib9fyE1tf9iir8QX8=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=maG7nxCCRxeZhA2Tpvd9GWyvl7ha4NFoLRGEWwhUV9O2FiX00w5Dh+KfXaLAxx3uznWnHOvtQ2qah7Qyi3pco7Rc+dFxpn5k3l2rYF4F13PmG87mSh5wIOG7QKJzChFKZDJ35ovyDnl9kPo2Nf5Yb83o7ROoMd6nRNg4IbSVqnE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v5VP2MJw; arc=pass smtp.client-ip=209.85.217.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="TpNrMO5t"
-dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=zpOcL0ziINMymFoHRJ16r3+sAg9l6JOyaWH0iH3kEnk=;
-	b=TpNrMO5tMamcUYE34ZtOd8fhD7qRlgJcnuAIgdVYuUQbh1gYTmY4S8LgH/VmE1IaScVKfU6+u
-	mY/PtGpXKs8FW8TLWAcUfmJN6PHZh4+b5WFtsvz3JARxaB91fKCEX+8e7bn3vieTfNWhHCUazhc
-	mArLMgNsx9Id86HUknjWIWE=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4fLy2B1J1lz1T4Fh;
-	Thu, 26 Feb 2026 11:42:10 +0800 (CST)
-Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0E0C0404AD;
-	Thu, 26 Feb 2026 11:47:03 +0800 (CST)
-Received: from [10.174.179.37] (10.174.179.37) by
- kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 26 Feb 2026 11:47:01 +0800
-Message-ID: <d233d198-9c68-b32e-4a0f-73a9314bdedd@huawei.com>
-Date: Thu, 26 Feb 2026 11:47:00 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v5VP2MJw"
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-5ff19e7476bso120028137.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 20:16:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772079398; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ST8l4bf0zNvZUHi3+Fdnh6gHXn6vjCNFDkUVoNxX/CbStYl1AAo4bq7nMMVN4/Pp8w
+         ORHz3UNSxVsUUogu3WvXyJXrNowG9vjkv484KsNtBl9/Hq1iUzhuzk3x2xyjS5A6Aczr
+         hA+nDigXd+p5/ulh5NTPh4hK32ek0X2Mm0drA2s0F7GCe0ad9OVNLIrsuFMZ65CE6+5r
+         nFdfbxsL5Y3tw9tEKsvQlmWucKQ5kJlPfaPS1EqXwShfMUrBA1qyN+fATXt5/u6V8A4j
+         Eg/NiKNUDpmS4wVp4TflPJNtlT6Yq31zR/B7gGaLCpAh3Orv6W+vy6pmaOcVXznwvgaN
+         CKHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=w3wWy011f6Qtbv9PNCHOJcKFSIhVOg6iWVVieJxCv1k=;
+        fh=9UfTj9VI5ckyC6Lx4RNehRBRNy6v7Xz9eU/T0hf4iHM=;
+        b=FHWOJb1+idizMe16qrJN0UUHCS/KoA4ul8XqKEdnFcyXi5L1U7CT0qK+DK4e2ZUAXx
+         Jix78DTasFkmziCqElldLOSBsZZQpA9XbcxMFa8dINm4uYmWT7r8nfKeXa9GXnefR6xg
+         VwtSSjq+yHN90+RoJfd0ESQmL4g4dPPJuF/I+7dZ8yU5igpCcMjfxTt9LDY8xEtTuqYH
+         sJb2uWeuVimNMQnUnVCaIYBEPJbxYsUVUV+V6PCOAjMursgeUSpVYfnucPHLGgdnQi4B
+         Woc11ZwBlayQXOqDgH//aZcL7bT25p8TL96yfwL5md36XRC46FWJv/StyISi7oJJL6rf
+         kWHg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772079398; x=1772684198; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w3wWy011f6Qtbv9PNCHOJcKFSIhVOg6iWVVieJxCv1k=;
+        b=v5VP2MJwADk7k+OKsLad3e9dMEcQS7gB30x2noX5tsGEZ5FhSoxWQP6ywuNElkTFSL
+         NpeLRWa47SeFhVn0fdmTo63s5ZIVNBpJKcfoJ6Ty/0frv5QULhwV3U8D2sX91j8X0BU9
+         kKpYbE/EWohwSE2DBGOT3KoIqBqXkJiGEBWxzrN9rZC8newHjPiRSIFvIiW4yTdUrEmx
+         H+8RtMbM7/+VH2TtZ1wWeV5FNBJZA+U2GabXNXgPydf42u1SLeoKJmEARlDM+jKS4hyC
+         25Erks5/0hc9tbiCgqiIosFblOzbwv3Q//80rwGhjRrmbVtCvRZdBl48r44x8SMFqWzB
+         pb+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772079398; x=1772684198;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w3wWy011f6Qtbv9PNCHOJcKFSIhVOg6iWVVieJxCv1k=;
+        b=aMlgefkDSBDvV8zNqSBr2jT6uF7R/HtUgmY1dhCOmPLQ6B9Gq9WKSIRME5EQZDoqUe
+         h3DTkXs5XImCk+6H5YbCjhFqGOovpa945PmUsHt5I0zmfdjSw9wJvUyNaxIAhFhuKdsb
+         Vo2kdWOdaWOn9OcWs4n4ZEWs3neMmDjYQcXZ7c2DbCcl2CobdxaOAjZA9bRF6nlB+4li
+         DJXcSfElt0DI69HkmMjV/VDlYBeelxb3xfmXzL6mvJGXLbTvCAf3gOIcMrDr+VZUJ6I4
+         pXrMiYI+SAezSSP26g41QwglyNK5VLui6i93dCuvwG8O5nNG1SOiiCCeaP+uN8+KGO6M
+         4X2g==
+X-Forwarded-Encrypted: i=1; AJvYcCVmuEL1GSUaMjBKOaMH+0r9Hpx8MkgJw/CVNb7t6Q8nVuxrnDzy1CuHOJIRskFJRPrPNcl6HfAFNbY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGI/KtV+ESUmfpAl9tbMjH9Wn5oxX2YXQyrR6f+CAG5+50JiTt
+	3yip1qBXmZVeBSNivitEp1u+266j3I2BQUjv/5F7zJMGpV/A1kppBEcb1kUyRCnEJf93bX+5vWD
+	lLCBf9WksF+zxNLnadFuwLau0TpfeFq4F4USUglq5
+X-Gm-Gg: ATEYQzwwQVOSqQu/18aA1sBzcT9VqeMqq/Mi+fr58UTH2DyRfzbCDOGqiXf/0/nd2kf
+	5/bwCmcPJB0CjqN1Pq+MxIezvwAaeDTUliBlfAUTYkHPGX9MV4QiAiNXbzTw7ydHkb1ayj+O/4h
+	niw3zG33pVV/54FotipnI6iJZ35BhjkLBDT2qsrmVusgKKW6P6p4hN94fQwEpUcaV6CTa1HqScn
+	PhCEwOhI8NjOWTzAHlvPfIvvTKzC1p4IfJre/eRpFHuh/GU7qFeM5M3JPwjjndpX4Q/H9o+HwCH
+	k+FHGzoxVeykdvBZGNQTf7yGCiOirv5aY5UDUflg0W/qiKOiELNuObv3Bdv5L/625jejh6tR0uz
+	rnVzs
+X-Received: by 2002:a05:6102:32d1:b0:5f5:3d46:e5fb with SMTP id
+ ada2fe7eead31-5feb2e58497mr6645208137.5.1772079397784; Wed, 25 Feb 2026
+ 20:16:37 -0800 (PST)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 25 Feb 2026 20:16:36 -0800
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 25 Feb 2026 20:16:36 -0800
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <CA+EHjTxDSW=y=sPRwW70Bz9RVYM3kSCLSbWc_X4v9hz6zj=mcg@mail.gmail.com>
+References: <cover.1770071243.git.ackerleytng@google.com> <86ad28b767524e1e654b9c960e39ca8bfb24c114.1770071243.git.ackerleytng@google.com>
+ <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
+ <CAEvNRgFBLgvYoR_XTH-LiN1Q00R9u1HGC5URbstLPxYtedS0MA@mail.gmail.com> <CA+EHjTxDSW=y=sPRwW70Bz9RVYM3kSCLSbWc_X4v9hz6zj=mcg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v5 26/41] arm_mpam: resctrl: Add monitor initialisation
- and domain boilerplate
-Content-Language: en-US
-To: Ben Horgan <ben.horgan@arm.com>
-CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
-	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
-	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
-	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
-	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
-	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
-	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
-	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
-	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
-	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>
-References: <20260224175720.2663924-1-ben.horgan@arm.com>
- <20260224175720.2663924-27-ben.horgan@arm.com>
-From: Zeng Heng <zengheng4@huawei.com>
-In-Reply-To: <20260224175720.2663924-27-ben.horgan@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf100008.china.huawei.com (7.202.181.222)
+Date: Wed, 25 Feb 2026 20:16:36 -0800
+X-Gm-Features: AaiRm50U-5gCjd8d4vexak6il7qxXrrUihlkIadyW5OUwMyyjBZ1OgjuY1VDESk
+Message-ID: <CAEvNRgGp598JjouayFhyVKRJnYitNYZ2Ftik0zGyS1HdYaJLKA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 09/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
+To: Fuad Tabba <tabba@google.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, bp@alien8.de, 
+	brauner@kernel.org, chao.p.peng@intel.com, chao.p.peng@linux.intel.com, 
+	chenhuacai@kernel.org, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	david@kernel.org, hpa@zytor.com, ira.weiny@intel.com, jgg@nvidia.com, 
+	jmattson@google.com, jroedel@suse.de, jthoughton@google.com, 
+	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
+	mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
+	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
+	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, seanjc@google.com, shivankg@amd.com, shuah@kernel.org, 
+	steven.price@arm.com, tglx@linutronix.de, vannapurve@google.com, 
+	vbabka@suse.cz, willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ben,
+Fuad Tabba <tabba@google.com> writes:
 
-On 2026/2/25 1:57, Ben Horgan wrote:
-> Add the boilerplate that tells resctrl about the mpam monitors that are
-> available. resctrl expects all (non-telemetry) monitors to be on the L3 and
-> so advertise them there and invent an L3 resctrl resource if required. The
-> L3 cache itself has to exist as the cache ids are used as the domain
-> ids.
-> 
-> Bring the resctrl monitor domains online and offline based on the cpus
-> they contain.
-> 
-> Support for specific monitor types is left to later.
-> 
-> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
-> ---
-> New patch but mostly moved from the existing patches to
-> separate the monitors from the controls and the boilerplate
-> from the specific counters.
-> Use l3->mon_capable in resctrl_arch_mon_capable() as
-> resctrl_enable_mon_event() now returns a bool.
-> ---
->   drivers/resctrl/mpam_internal.h |   7 ++
->   drivers/resctrl/mpam_resctrl.c  | 142 +++++++++++++++++++++++++++++---
->   2 files changed, 139 insertions(+), 10 deletions(-)
-> 
+> Hi Ackerley,
+>
+> Here are my thoughts, at least when it comes to pKVM.
+>
+>
+> On Tue, 24 Feb 2026 at 10:14, Ackerley Tng <ackerleytng@google.com> wrote:
+>>
+>> Ackerley Tng <ackerleytng@google.com> writes:
+>>
+>> > Ackerley Tng <ackerleytng@google.com> writes:
+>> >
+>> >>
+>> >> [...snip...]
+>> >>
+>> > Before this lands, Sean wants, at the very minimum, an in-principle
+>> > agreement on guest_memfd behavior with respect to whether or not memory
+>> > should be preserved on conversion.
+>> >>
+>> >> [...snip...]
+>> >>
+>>
+>> Here's what I've come up with, following up from last guest_memfd
+>> biweekly.
+>>
+>> Every KVM_SET_MEMORY_ATTRIBUTES2 request will be accompanied by an
+>> enum set_memory_attributes_content_policy:
+>>
+>>     enum set_memory_attributes_content_policy {
+>>         SET_MEMORY_ATTRIBUTES_CONTENT_ZERO,
+>>         SET_MEMORY_ATTRIBUTES_CONTENT_READABLE,
+>>         SET_MEMORY_ATTRIBUTES_CONTENT_ENCRYPTED,
+>>     }
+>>
+>> Within guest_memfd's KVM_SET_MEMORY_ATTRIBUTES2 handler, guest_memfd
+>> will make an arch call
+>>
+>>     kvm_gmem_arch_content_policy_supported(kvm, policy, gfn, nr_pages)
+>>
+>> where every arch will get to return some error if the requested policy
+>> is not supported for the given range.
+>
+> This hook provides the validation mechanism pKVM requires.
+>
+>> ZERO is the simplest of the above, it means that after the conversion
+>> the memory will be zeroed for the next reader.
+>>
+>> + TDX and SNP today will support ZERO since the firmware handles
+>>   zeroing.
+>> + pKVM and SW_PROTECTED_VM will apply software zeroing.
+>> + Purpose: having this policy in the API allows userspace to be sure
+>>   that the memory is zeroed after the conversion - there is no need to
+>>   zero again in userspace (addresses concern that Sean pointed out)
+>>
+>> READABLE means that after the conversion, the memory is readable by
+>> userspace (if converting to shared) or readable by the guest (if
+>> converting to private).
+>>
+>> + TDX and SNP (today) can't support this, so return -EOPNOTSUPP
+>> + SW_PROTECTED_VM will support this and do nothing extra on
+>>   conversion, since there is no encryption anyway and all content
+>>   remains readable.
+>> + pKVM will make use of the arch function above.
+>>
+>> Here's where I need input: (David's questions during the call about
+>> the full flow beginning with the guest prompted this).
+>>
+>> Since pKVM doesn't encrypt the memory contents, there must be some way
+>> that pKVM can say no when userspace requests to convert and retain
+>> READABLE contents? I think pKVM's arch function can be used to check
+>> if the guest previously made a conversion request. Fuad, to check that
+>> the guest made a conversion request, what's other parameters are
+>> needed other than gfn and nr_pages?
+>
+> The gfn and nr_pages parameters are enough I think.
+>
+> To clarify how pKVM would use this hook: all memory sharing and
+> unsharing must be initiated by the guest via a hypercall. When the
+> guest issues this hypercall, the pKVM hypervisor (EL2) exits to the
+> host kernel (EL1). The host kernel records the exit reason (share or
+> unshare) along with the specific memory address in the kvm_run
+> structure before exiting to userspace.
+>
+> We do not track this pending conversion state in the hypervisor. If a
+> compromised host kernel wants to lie and corrupt the state, it can
+> crash the system or the guest (which is an accepted DOS risk), but it
+> cannot compromise guest confidentiality because EL2 still strictly
+> enforces Stage-2 permissions. Our primary goal here is to prevent a
+> malicious or buggy userspace VMM from crashing the system.
+>
 
-[...]
+Thinking through it again, there's actually no security (in terms of
+CoCo confidentiality) risk here, since the conversion ioctl doesn't
+actually tell the CoCo vendor/platform to encrypt/decrypt or flip
+permissions, it just unmaps the pages as requested.
 
-> @@ -922,6 +1000,20 @@ mpam_resctrl_alloc_domain(unsigned int cpu, struct mpam_resctrl_res *res)
->   	} else {
->   		pr_debug("Skipped control domain online - no controls\n");
->   	}
-> +
-> +	if (resctrl_arch_mon_capable()) {
-> +		mon_d = &dom->resctrl_mon_dom;
-> +		mpam_resctrl_domain_hdr_init(cpu, any_mon_comp, r->rid, &mon_d->hdr);
-> +		mon_d->hdr.type = RESCTRL_MON_DOMAIN;
-> +		err = resctrl_online_mon_domain(r, &mon_d->hdr);
-> +		if (err)
-> +			goto offline_ctrl_domain;
-> +
-> +		mpam_resctrl_domain_insert(&r->mon_domains, &mon_d->hdr);
-> +	} else {
-> +		pr_debug("Skipped monitor domain online - no monitors\n");
-> +	}
-> +
->   	return dom;
->   
+On TDX, if a rogue private to shared conversion request comes in, the
+private pages would get unmapped from the guest, and on the next guest
+access, the guest would access the page as private, so kvm's fault
+handler would think there's a shared/private mismatch and exit with
+KVM_EXIT_MEMORY_FAULT. Userspace now has a zeroed shared page, and the
+guest needs to re-accept the page to continue using it (if it knows what
+to do with a zeroed page). This would be userspace DOS-ing the guest,
+which userspace can do anyway.
 
-I noticed that resctrl_arch_mon_capable() only performs checks for L3
-monitoring functionality. This leads to an issue on platforms that
-include L2 monitoring capabilities, where the code incorrectly enters
-this branch and triggers the following warning by
-mpam_resctrl_domain_insert():
+On pKVM, rephrasing what you said, even if there is a rogue private to
+shared conversion, EL2 still thinks of the page as private. After the
+conversion, the page can be faulted in by the host, but any access will
+be stopped by EL2.
 
-[   22.867070] ------------[ cut here ]------------
-[   22.867073] WARNING: drivers/resctrl/mpam_resctrl.c:1495 at 
-mpam_resctrl_domain_insert+0x74/0x80, CPU#2: cpuhp/2/25
-[   29.376035] Modules linked in:
-[   29.379080] CPU: 2 UID: 0 PID: 25 Comm: cpuhp/2 Not tainted 
-7.0.0-rc1-g4288ec146462 #30 PREEMPT
-[   29.387853] Hardware name: To Be Filled By O.E.M. 183.0/To Be Filled 
-By O.E.M., BIOS 183.0 02/12/2026
-[   29.397058] pstate: 61400009 (nZCv daif +PAN -UAO -TCO +DIT -SSBS 
-BTYPE=--)
-[   29.404007] pc : mpam_resctrl_domain_insert+0x74/0x80
-[   29.409048] lr : mpam_resctrl_domain_insert+0x34/0x80
-[   29.414088] sp : ffff8000876abc60
-  ...
-[   29.488625] Call trace:
-[   29.491060]  mpam_resctrl_domain_insert+0x74/0x80 (P)
-[   29.496100]  mpam_resctrl_online_cpu+0x2b4/0x428
-[   29.500706]  mpam_cpu_online+0x274/0x298
-[   29.504618]  cpuhp_invoke_callback+0x104/0x20c
-[   29.509052]  cpuhp_thread_fun+0xa4/0x17c
-[   29.512963]  smpboot_thread_fn+0x220/0x24c
-[   29.517048]  kthread+0x120/0x12c
-[   29.520265]  ret_from_fork+0x10/0x20
-[   29.523830] ---[ end trace 0000000000000000 ]---
+David, there's no missing piece in the flow!
 
+> When the VMM subsequently issues the KVM_SET_MEMORY_ATTRIBUTES2 ioctl
+> with the READABLE policy, we will use the
+> kvm_gmem_arch_content_policy_supported() hook in EL1 to validate the
+> ioctl. We will cross-reference the requested gfn and nr_pages against
+> the pending exit reason stored in kvm_run.
+>
+> If the VMM attempts an unsolicited conversion (i.e., there is no
+> matching exit request in kvm_run, or the addresses do not match), our
 
-To preserve the existing public interface of resctrl_arch_mon_capable(),
-please consider the following approach:
+Ah I see, so struct kvm_run is not considered "in the hypervisor" since
+it is modifiable by host userspace. Would you be using struct
+memory_fault in struct kvm_run?
 
-diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
-index 694ea8548a05..b06a89494ff0 100644
---- a/drivers/resctrl/mpam_resctrl.c
-+++ b/drivers/resctrl/mpam_resctrl.c
-@@ -1563,6 +1563,10 @@ mpam_resctrl_alloc_domain(unsigned int cpu, 
-struct mpam_resctrl_res *res)
-         if (resctrl_arch_mon_capable()) {
-                 struct mpam_component *any_mon_comp;
-                 struct mpam_resctrl_mon *mon;
-                 enum resctrl_event_id eventid;
+Which vcpu's kvm_run struct would you look up from
+kvm_gmem_arch_content_policy_supported()?
 
-+               /* TODO: Only supports L3 monitor type currently. */
-+               if (r->rid != RDT_RESOURCE_L3)
-+                       return dom;
+For this to land, do you still want the gfn and nr_pages parameters?
 
+Can pKVM just always accept the request, whether the guest requested it
+or not? Thinking about it again,
+kvm_gmem_arch_content_policy_supported() probably shouldn't be used to
+guard solicited vs unsolicited requests anyway (unless you think the
+function's name should be changed?)
 
+> current plan is to reject the request and return an error. In the
+> future, rather than outright rejecting an unsolicited conversion, we
+> might evolve this to treat it as a host-initiated destructive reclaim,
+> forcing an unshare and zeroing the memory. For the time being,
+> explicit rejection is the simplest and safest path.
+>
 
-Best regards,
-Zeng Heng
+>> ENCRYPTED means that after the conversion, the memory contents are
+>> retained as-is, with no decryption.
+>>
+>> + TDX and SNP (today) can't support this, so return -EOPNOTSUPP
+>> + pKVM and SW_PROTECTED_VM can do nothing, but doing nothing retains
+>>   READABLE content, not ENCRYPTED content, hence SW_PROTECTED_VM
+>>   should return -EOPNOTSUPP.
+>> + Michael, you mentioned during the call that SNP is planning to
+>>   introduce a policy that retains the ENCRYPTED version for a special
+>>   GHCB call. ENCRYPTED is meant for that use case. Does it work? I'm
+>>   assuming that SNP should only support this policy given some
+>>   conditions, so would the arch call as described above work?
+>> + If this policy is specified on conversion from shared to private,
+>>   always return -EOPNOTSUPP.
+>> + When this first lands, ENCRYPTED will not be a valid option, but I'm
+>>   listing it here so we have line of sight to having this support.
+>>
+>> READABLE and ENCRYPTED defines the state after conversion clearly
+>> (instead of DONT_CARE or similar).
+>>
+>> DESTROY could be another policy, which means that after the
+>> conversion, the memory is unreadable. This is the option to address
+>> what David brought up during the call, for cases where userspace knows
+>> it is going to free the memory already and doesn't care about the
+>> state as long as nobody gets to read it. This will not implemented
+>> when feature first lands, but is presented here just to show how this
+>> can be extended in future.
+>>
+>> Right now, I'm thinking that one of the above policies MUST be
+>> specified (not specifying a policy will result in -EINVAL).
+>>
+>> How does this sound?
+>
+> I don't think that returning -EINVAL is the right thing to do here. If
+> userspace omits the policy, the API should default to
+> SET_MEMORY_ATTRIBUTES_CONTENT_ZERO and proceed with the conversion. I
+> believe that, in Linux APIs in general, omitting an optional behavior
+> flag results in the safest, most standard default action.
+>
+
+Makes sense, I'll default to zeroing then. Thanks!
+
+> Also, returning -EINVAL when no policy is specified makes the policy
+> parameter strictly mandatory. This makes it difficult for userspace's
+> to seamlessly request clean-slate, destructive conversions. Software
+> zeroing ensures deterministic behavior across pKVM, TDX, and SNP,
+> isolating the KVM uAPI from micro-architectural data destruction
+> nuances.
+>
+> Cheers,
+> /fuad
