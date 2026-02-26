@@ -1,88 +1,116 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157AA3290A1;
-	Thu, 26 Feb 2026 21:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31392DB785
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 21:27:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772141044; cv=none; b=YveBi8C3+UdmJpKvYB4IjaQTPIGfpNK7Ef9oyNI9vuLFIy0+V4SnQqqI2/Whw53V4mL4xtK+m9EabOu4pQ8nB52oYpyDpjgKoXYIOwxmSx0yTgu5YDsYAR3R4Uos5vHT7vTN6Yt6k7TaetTquXpuqGFSYkX/U0tEPOCATJuprP4=
+	t=1772141262; cv=none; b=NLwdHLWYlDaJX1pOu6gx3xcFfGoByPzp4c8wPAGTlTcj1A1qa/qbhMDdfHLjDdg1yBYIFYycwYQcPU+ogCCvTa9tXZ44o4rwOM8cu+TEeAfYNdYGBLjQsYjZu87kL8erpJnG6cOJ0aVvnKKjFzEnyVHQmbnisTBPzhe62LK6l5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772141044; c=relaxed/simple;
-	bh=vXRWyMjfvuCBEmCRCnhDQR2KjBREKZYWfj9LtgzccSw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=X4t+2uadujyiuXnsaVMCY+Rvks2Rv41gYYWtk7G7wxgdbUdqpcn7O8NJMdWlsuJOjK1mKRtnRRALrrr8XoTUCR2Hu86a4DMy+4/9lHUs5hkV0Llv/A3zecUmLTNzLAvWq6m6CyldftQtFkqv79xgX+jqPTyZfCrF6Z4gFo1CCRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=SQkf26NJ; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1772141262; c=relaxed/simple;
+	bh=Ml9C/51QK8M0A98LhA1v60YsGDI4l+hL0gxgYOYaIK4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kZJPnW4dzQksKUtltrJ8E/b1n+Her/tscSH4/6oOGopz/YtTTFotIcmYVuYBDdOpbVkSUcL3dzj0AXtZkksszbA7/pDGF94pix+sOuke5m27SrSbqzhLtW7FdwXmPBcECIpJoELH2AHaAYxdTYGEgYcpTGKZe7qsuOg2VBNXTvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QstkMlrM; arc=none smtp.client-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="SQkf26NJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1772141040;
-	bh=vXRWyMjfvuCBEmCRCnhDQR2KjBREKZYWfj9LtgzccSw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SQkf26NJ+ci5tIsvsj9LPeQSuYevPXTFJmpB6DYHEbvD06wKg7+d5HQctzvV8hNt/
-	 33OJkbhSj3LdMYxXzWZXJpSdSjlIWuUgH7rNVt1bX4DrD45nJibIPoK1WULxpz+1ql
-	 USCVdnu1t2agjZcXbKC3zf3BBGIcmHE5Rati5Nzc=
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Date: Thu, 26 Feb 2026 22:23:58 +0100
-Subject: [PATCH 2/2] tools/build: Reject unexpected values for LLVM=
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QstkMlrM"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5674d8be45eso641400e0c.1
+        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 13:27:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772141261; x=1772746061; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SFRtrnCi8gAbN7Gqhqf6fpZ+PJzmjbUPJ/K6ntqob+s=;
+        b=QstkMlrMSL0lIbsuup2JX0eKhX81al/V2PtjG6LOj0upAIEMRrnCy58VRNgI0PqcoR
+         /eUg4HqaW5E10lPG10DpdBdK8QCnwjxyVQeBXEGmBYHphWyQ1B9jaaDpBcsp9/zGxXLc
+         qleOvXrRRFi5/y1JrJJ//7Pw89P7HDNybetCUFCVikWGMhs9VhuUeEzuMAyRy8J/IFwZ
+         j35RlO+WN2CjlAdw6zKDh31JPANQ1XrV6UOXGNgyn+0oZUg8yEdwXCJQf5eltD0ELi1m
+         m9GC0Hq/LqgP6HOiAgFCnc/G2e2FDBI3+BBY6To/3LVAf8f1uKBGDmB2Gl+GRRq+YO0e
+         Dxzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772141261; x=1772746061;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SFRtrnCi8gAbN7Gqhqf6fpZ+PJzmjbUPJ/K6ntqob+s=;
+        b=goLFCMCPM2wZO4ROf8b8kRS79IZNAOvasJs9vdc1u0LLHFoWrLRX7bekx3IlTKIA9z
+         1H5sn2wn1vs8wH4Y1OzhZ7DCsMWbeJtygm1S5Y1PyBSZleql9Ekr422/qb1n1g3EJlib
+         05b+mIn3niKS0YqyeaTvwVpg/LbGG4l2k+rN2hGL2q9CLw0Mei1lRjwOmwHOmxgDpurp
+         KE01+nMh6ioBTFueq8gToxhBQgdXpYYoSfWQwvqlaPD8fy/eKhAP+CORXqc1W37WWyFu
+         2ZNYV3Q5LEmWCxORUTtI9WIuPV+pe+v0SldigwfPJU0VhR9ikBZ3PVfREpIMRKnburyz
+         TG1g==
+X-Gm-Message-State: AOJu0Yyor6lJjuA7JmHnFZJHC3Su+yeGL+DCErSeaSa9+4LgTjEQTV5L
+	ZaY8+hOhnG+tUxX202ZtNF6OWglbykumk/+qIecPDVFUkzOE5XEBDbUjTPN+O+KA
+X-Gm-Gg: ATEYQzwP+Jgp+TeEbxTZeCJ+ulj9eoMacKwZe+p1EshJyZ76qyGF3a01D9A6VCb7jKu
+	NuHGu9jWcnnybFnxWTi3RUaHcZZg8ZCF5JLRHT0GR7fenMOmTm/lCevt5gqVLbqsEb2qVbtpcRJ
+	KMHRlnBUks6q5HDu5Vi3yT5jpl8WmjWlDpJuw7Yv8wC+p5t2RLniN5mxDDFR283ojKz20/fzQYn
+	ZrpCRFljgx3fEfhmoowjDdwiUZv3eSSwoFqP0dQzAQzRSWfOTVr9eCjzN0XlIIajA/5DOHRATM5
+	NWUp89HyzKYFIq7L4JdQ9Q35iuqvuiXVVTcr5zEQpT81Fv1/7s0W7pBP62FEr24OqtguvLOfJ7p
+	2wBy3Y4O8BWfvzbSfp4t0EAMiB6vgdMlamYTQpDi919Fa069qnkjS0ZXpRr1YoIplWqLSjabDPw
+	+gSKZCUP0L7QCMjkcD3xYkeSqwP9/h627DOlbK7FVhsEw5b8l8B+rQ0JqFidiXFfU3Zr2WGYrwd
+	dND5w==
+X-Received: by 2002:a05:6122:a26:b0:566:398d:96b9 with SMTP id 71dfb90a1353d-56aa09a9a82mr343468e0c.1.1772141260466;
+        Thu, 26 Feb 2026 13:27:40 -0800 (PST)
+Received: from localhost.localdomain ([2804:29b8:512d:4c55:1868:543f:1aeb:fd26])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56a91bb4fbesm4104553e0c.5.2026.02.26.13.27.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Feb 2026 13:27:40 -0800 (PST)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: Jon Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: [PATCH docs-next] docs: pt_BR: Add translation for maintainer-handbooks
+Date: Thu, 26 Feb 2026 18:27:14 -0300
+Message-ID: <20260226212716.260546-1-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260226-kbuild-llvm-followup-v1-2-201cc2a492d9@weissschuh.net>
-References: <20260226-kbuild-llvm-followup-v1-0-201cc2a492d9@weissschuh.net>
-In-Reply-To: <20260226-kbuild-llvm-followup-v1-0-201cc2a492d9@weissschuh.net>
-To: Nathan Chancellor <nathan@kernel.org>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772141039; l=961;
- i=linux@weissschuh.net; s=20221212; h=from:subject:message-id;
- bh=vXRWyMjfvuCBEmCRCnhDQR2KjBREKZYWfj9LtgzccSw=;
- b=vzsG5xq8NjKAAg6geMrfKqn6oY9fqGdmAbKP/BKcdE04gtR/A3Tg6WvAVwRxV/9Nb9pPi09xI
- n6oBTyXzW/yAF4xNZSuapTZ3MNX8CvRGOB6E+M3pTIFVKhvDObyNYX1
-X-Developer-Key: i=linux@weissschuh.net; a=ed25519;
- pk=KcycQgFPX2wGR5azS7RhpBqedglOZVgRPfdFSPB1LNw=
 
-Since commit 502678b88cb3 ("kbuild: Reject unexpected values for LLVM=")
-the regular kbuild rejects unexpected values of LLVM=1 instead of
-silently treating them as LLVM=1.
+Add the Brazilian Portuguese translation for the maintainer-handbooks
+documentation. This document provides subsystem-specific development
+process notes. Also, update the main pt_BR index to include the new
+translation.
 
-Align the tools build to kbuild.
-
-Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-
+Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
-There is no formal maintainer for this file.
-IMO this change should go through kbuild.
----
- tools/scripts/Makefile.include | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/translations/pt_BR/index.rst            |  1 +
+ .../pt_BR/process/maintainer-handbooks.rst            | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/maintainer-handbooks.rst
 
-diff --git a/tools/scripts/Makefile.include b/tools/scripts/Makefile.include
-index b5ecf137febc..41971a68972d 100644
---- a/tools/scripts/Makefile.include
-+++ b/tools/scripts/Makefile.include
-@@ -56,6 +56,8 @@ ifneq ($(filter %/,$(LLVM)),)
- LLVM_PREFIX := $(LLVM)
- else ifneq ($(filter -%,$(LLVM)),)
- LLVM_SUFFIX := $(LLVM)
-+else ifneq ($(LLVM),1)
-+$(error Invalid value for LLVM, see Documentation/kbuild/llvm.rst)
- endif
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index 55f9f377e..de5c005f9 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -68,3 +68,4 @@ kernel e sobre como ver seu trabalho integrado.
  
- $(call allow-override,CC,$(LLVM_PREFIX)clang$(LLVM_SUFFIX))
-
+    Como começar <process/howto>
+    Requisitos mínimos <process/changes>
++   Manuais dos mantenedores <process/maintainer-handbooks>
+diff --git a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
+new file mode 100644
+index 000000000..849c7705f
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
+@@ -0,0 +1,11 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. _pt_maintainer_handbooks_main:
++
++Notas sobre o processo de desenvolvimento de subsistemas e mantenedores
++=======================================================================
++
++O propósito deste documento é fornecer informações específicas de
++subsistemas que são suplementares ao manual geral do processo de
++desenvolvimento :ref:`Documentation/process <development_process_main>`.
++
 -- 
-2.53.0
+2.47.3
 
