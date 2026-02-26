@@ -1,119 +1,46 @@
-Received: from flow-b7-smtp.messagingengine.com (flow-b7-smtp.messagingengine.com [202.12.124.142])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6657319605;
-	Thu, 26 Feb 2026 22:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.142
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3CF4319605;
+	Thu, 26 Feb 2026 22:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772146354; cv=none; b=aj0Oh2xLhvNo+1gI0NeWGWCl7ZQP5hrPOWM7SZ4C/aTt24QXl2raV91blcKjJkxEp7xvzMoMRFZz43rZP+TeqxNjNIMc+ezFhX3Xd28pa3rxTOaogJbbZ4tJ5178dhXPdE4WNAwNBTyBggMe1vnFNy/XziCvy4i9RZmJTbvBbNs=
+	t=1772146385; cv=none; b=mWCt6ZEvVgGgLM6j7mGDN9edv6Vm7+MDtaX1C1XxlhmaxlTd7Z3QjyDx5ypTwvtkXms1/zwIFKOG/ubZhf+y38a+nvnY+fAkQjYQ5Cwu59+G+Hf3FP8TQBuHoQxMIS9Oic8BH53m2hm0n+JJD6OKxXY0zFDew7VjHyGf65NMqOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772146354; c=relaxed/simple;
-	bh=JawCH7WtDz0spnzoZkOEOSJffQRudj3mIpBqcruV83E=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ml5S49qOebhasW6eqXHGNTL/o3jBzJ0DRs/qjXVk/ev5+44ltgTnsrPfIjmEBwPB39wlnZjPq9yed7GGz/MUy6gbMGKSJGbWh5Zec327hTpNlJQRd8dt3XXzm5pItAcWg80TDzbdhCNc6kSmBFzK77aHDR1Ohsb07K3K839P4gw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=o83TYSm/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mQieDi29; arc=none smtp.client-ip=202.12.124.142
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	s=arc-20240116; t=1772146385; c=relaxed/simple;
+	bh=ypZSQ6W0HwbVo8oJo+Ok9nykDWW9BfgyHR9nwioCPPo=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=l9vBESz5vkspEhK5EQ1c/s8E0zMr3snakmCis+GETs/F75zk46hVAY84K6VI2jf2LmMHEXNhuqtDBmEOwTofY47yg08eMGJENraZ+MSduLZS7U3H36u202RgWDsTWzr16gull4eQfG/aaEC0SFD6FHd36kk1rSXQOprP/ykQ8UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKEj4BX5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="o83TYSm/";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mQieDi29"
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailflow.stl.internal (Postfix) with ESMTP id EBF011300BCC;
-	Thu, 26 Feb 2026 17:52:28 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Thu, 26 Feb 2026 17:52:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1772146348;
-	 x=1772153548; bh=44uo4P/92yZYJcD163y8UHc8z0ZnnckxsAr9PpEhJjk=; b=
-	o83TYSm/N5K9/2/Rtg8QOuuro4N9DEyyzUyMSplPsN/HHQ4SFtKbd1kGwp9qti8C
-	CvLnqaRv1nJft8p4Y0Kfx3UPhzpppkvrC3+lmXar4Ih+r8yDS0BN+r95ELWuTHYO
-	LCH/xD+NNQ8d3oFyo9vLoYiOMntUFokn9INVsNwb636AF3cZMrDdHlVhQMR4hO1e
-	7s/OGnE5phRQfxWBF2pc2Hg3jHNw/z+Oa4xIIRlaqUKDmzxaCH0q3AglMZJTnAod
-	GTcOFeay+bxbwjKYMCmBRbqswfGfBbi04mYW7an6R05gtlnDK29AoHRFU/SkoAEi
-	tVIotca6drSoW2xWOmNd8w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1772146348; x=
-	1772153548; bh=44uo4P/92yZYJcD163y8UHc8z0ZnnckxsAr9PpEhJjk=; b=m
-	QieDi29aKWQhWaRpHtkJFXYVNhddIFR7f1/l5RV2JXj5JOe+34TRrGuQiPCDv/8q
-	sjM36sYZIDHM2TGPHAxCACtHKdowQytZzI4RflFQSb3CxaENKe8Em93flZZh1XI2
-	fjmRj009hat7tVQzvk6S123bFzQGqrO6/M+F9i94o1mZyJkarnMR7K8UZ54Bh24T
-	fNJNab9xC16c8ohNRSoahEGm5WdPpm7ZXwjCDtv+SC8JsjDGZsJdZDeAb0FOwzzL
-	1pOU0SrAsFwH342Fb6sIn9fs1m27yGiPdJBtFl9p6I7LXjWkkQds8iaA3hT0mKZu
-	hLXSXHpBe9Y8dHfXiA/Fw==
-X-ME-Sender: <xms:q86gaa0GCSBc5XmrtJOtc0A3ut03vk8J3s-GIS1-0yrWmZ63HMf-Og>
-    <xme:q86gaZ5VAVB5eigFLbsLhd_u2X8uOaH9nw78UFOeqIQwSAW7uVUtjwvXEDRvbgHdF
-    R2BaaKt1sSzbyyFclW2_Jo4xob0FFO9o6HKaqosuZvM9_8eUFDN2Q>
-X-ME-Received: <xmr:q86gaXHtzv04BUksDBjPA5ncTtb6reAZXM-aGVQmLA7HEu2rMLsN3egnp9Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeejfeegucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpeetlhgvgicu
-    hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
-    htthgvrhhnpedvkeefjeekvdduhfduhfetkedugfduieettedvueekvdehtedvkefgudeg
-    veeuueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grlhgvgiesshhhrgiisghothdrohhrghdpnhgspghrtghpthhtohepgeehpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegumhgrthhlrggtkhesghhoohhglhgvrdgtohhmpd
-    hrtghpthhtoheprghjrgihrggthhgrnhgurhgrsehnvhhiughirgdrtghomhdprhgtphht
-    thhopehgrhgrfhesrghmrgiiohhnrdgtohhmpdhrtghpthhtoheprghmrghsthhrohesfh
-    gsrdgtohhmpdhrtghpthhtoheprghpohhpphhlvgesnhhvihguihgrrdgtohhmpdhrtghp
-    thhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtth
-    hopegrnhhkihhtrgesnhhvihguihgrrdgtohhmpdhrtghpthhtohepsghhvghlghgrrghs
-    sehgohhoghhlvgdrtghomhdprhgtphhtthhopegthhhrihhslheskhgvrhhnvghlrdhorh
-    hg
-X-ME-Proxy: <xmx:q86gaZ8IOgmE5jQ4E_zPNAkwAsNuDaoq9Ee8ASHZkDmvLycmY9W6Qw>
-    <xmx:q86gaRM74BtYK0cfgvaow8GWkJUAe5HqLvyQVzPqdfUk8SyqK2o53g>
-    <xmx:q86gadwTYJEI1Vb6JEv1mtsNrc-X6xUY5EjAoX5Q4RHmZ-5N99K_Ug>
-    <xmx:q86gabsZUyLA7ivoaXFaN-s7syAAkj4Ajry4CbETBa0CDmMYZBV4dg>
-    <xmx:rM6gab3exeKbhLg9LIZVoPa_QSXQHzpDienbmSCle7GUjyeehzyyTTDv>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Feb 2026 17:52:23 -0500 (EST)
-Date: Thu, 26 Feb 2026 15:52:22 -0700
-From: Alex Williamson <alex@shazbot.org>
-To: David Matlack <dmatlack@google.com>
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
- Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
- Alistair Popple <apopple@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>,
- Jacob Pan <jacob.pan@linux.microsoft.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
- Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
- kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
- Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Lukas Wunner <lukas@wunner.de>,
- " =?UTF-8?B?TWljaGHFgg==?= Winiarski" <michal.winiarski@intel.com>,
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pranjal Shrivastava <praan@google.com>,
- Pratyush Yadav <pratyush@kernel.org>,
- Raghavendra Rao Ananta <rananta@google.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Saeed Mahameed <saeedm@nvidia.com>,
- Samiullah Khawaja <skhawaja@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=" <thomas.hellstrom@linux.intel.com>,
- Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
- Zhu Yanjun <yanjun.zhu@linux.dev>, alex@shazbot.org
-Subject: Re: [PATCH v2 06/22] vfio/pci: Retrieve preserved device files
- after Live Update
-Message-ID: <20260226155222.5452a741@shazbot.org>
-In-Reply-To: <20260129212510.967611-7-dmatlack@google.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
-	<20260129212510.967611-7-dmatlack@google.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKEj4BX5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37496C116C6;
+	Thu, 26 Feb 2026 22:53:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772146384;
+	bh=ypZSQ6W0HwbVo8oJo+Ok9nykDWW9BfgyHR9nwioCPPo=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+	b=AKEj4BX5ZTVp6/tFni3Sl6z0g3dNt5hmA0ghe0yrYh2fP0rz4zBWvyYUIeHub3iro
+	 +zYyBXBwXA4y1iPGPdsMBSGiPnX+qvOqm1HRDgPjNXTxmvX5tk/q6bKgzVDR3TJ+qj
+	 g/cvQV0i+pg+LkCi3TWmPBiTm2tsK6wibyRQxttrzDa4OW2JKlRw76U8RB6bHDJYZV
+	 PpnnMvB5sfQGVIBqmSjC0svctS+0OhxJrds++XabmRb0dLTUHcqoLMsntT26RtNWFW
+	 NcAoBuLwnPUKQTOLxjBbUpMDjez743FsypgYQiLRnRm2GXzyHNBG7NUPqvffCP2QdJ
+	 FeflF8eerAHTA==
+Date: Thu, 26 Feb 2026 23:53:01 +0100 (CET)
+From: Jiri Kosina <jikos@kernel.org>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+cc: Benjamin Tissoires <bentiss@kernel.org>, 
+    Richard Hughes <hughsient@gmail.com>, 
+    Mario Limonciello <mario.limonciello@amd.com>, 
+    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 00/16] HID: Add Legion Go and Go S Drivers
+In-Reply-To: <20260224013217.1363996-1-derekjohn.clark@gmail.com>
+Message-ID: <743pr247-95p3-1q37-s084-ors2p7q5689r@xreary.bet>
+References: <20260224013217.1363996-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -121,231 +48,98 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Thu, 29 Jan 2026 21:24:53 +0000
-David Matlack <dmatlack@google.com> wrote:
+On Tue, 24 Feb 2026, Derek J. Clark wrote:
 
-> From: Vipin Sharma <vipinsh@google.com>
+> This series adds configuration driver support for the Legion Go S,
+> Legion Go, and Legion Go 2 built-in controller HID interfaces. This
+> allows for configuring hardware specific attributes such as the auso
+> sleep timeout, rumble intensity, etc. non-configuration reports are
+> forwarded to the HID subsystem to ensure no loss of functionality in
+> userspace. Basic gamepad functionality is provided through xpad, while
+> advanced features are currently only implemented in userspace daemons
+> such as InputPlumber[1]. I plan to move this functionality into the
+> kernel in a later patch series.
 > 
-> Enable userspace to retrieve preserved VFIO device files from VFIO after
-> a Live Update by implementing the retrieve() and finish() file handler
-> callbacks.
+> Three new device.h macros are added that solve a fairly specific
+> problem. Many of the attributes need to have the same name as other
+> attributes when they are in separate attribute subdirectories. The
+> previous version of this series, along with the upcoming his-asus-ally
+> driver[2] use this macro to simplify the sysfs by removing redundancy.
+> An upcoming out of tree driver for the Zotac Zone [3] also found this
+> macro to be useful. This greatly reduces the path length and term
+> redundancy of file paths in the sysfs, while also allowing for cleaner
+> subdirectories that are grouped by functionality. Rather than carry the
+> same macro in four drivers, it seems beneficial to me that we include the
+> macro with the other device macros.
 > 
-> Use an anonymous inode when creating the file, since the retrieved
-> device file is not opened through any particular cdev inode, and the
-> cdev inode does not matter in practice.
+> A new HID uevent property is also added, HID_FIRMWARE_VERSION, so as to
+> permit fwupd to read the firmware version of the Go S HID interface without
+> detaching the kernel driver.
 > 
-> For now the retrieved file is functionally equivalent a opening the
-> corresponding VFIO cdev file. Subsequent commits will leverage the
-> preserved state associated with the retrieved file to preserve bits of
-> the device across Live Update.
+> Finally, there are some checkpatch warnings that will need to be supressed:
+> WARNING: ENOSYS means 'invalid syscall nr' and nothing else
+> 1292: FILE: drivers/hid/lenovo-legos-hid/lenovo-legos-hid-config.c:1085:
+> +       case -ENOSYS: /* during rmmod -ENOSYS is expected */
 > 
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> Co-developed-by: David Matlack <dmatlack@google.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
+> This error handling case was added as it is experienced in the real world
+> when the driver is rmmod. The LED subsystem produces this error code in
+> its legacy code and this is not a new novel use of -ENOSYS, we are simply
+> catching the case to avoid spurious errors in dmesg when the drivers are
+> removed.
+> 
+> [1]: https://github.com/ShadowBlip/InputPlumber/tree/main/src/drivers/lego
+> [2]: https://lore.kernel.org/all/20240806081212.56860-1-luke@ljones.dev/
+> [3]: https://github.com/flukejones/linux/tree/wip/zotac-zone-6.15/drivers/hid/zotac-zone-hid
+> 
+> Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 > ---
->  drivers/vfio/device_cdev.c             | 21 ++++++---
->  drivers/vfio/pci/vfio_pci_liveupdate.c | 60 +++++++++++++++++++++++++-
->  drivers/vfio/vfio_main.c               | 13 ++++++
->  include/linux/vfio.h                   | 12 ++++++
->  4 files changed, 98 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/vfio/device_cdev.c b/drivers/vfio/device_cdev.c
-> index 8ceca24ac136..935f84a35875 100644
-> --- a/drivers/vfio/device_cdev.c
-> +++ b/drivers/vfio/device_cdev.c
-> @@ -16,14 +16,8 @@ void vfio_init_device_cdev(struct vfio_device *device)
->  	device->cdev.owner = THIS_MODULE;
->  }
->  
-> -/*
-> - * device access via the fd opened by this function is blocked until
-> - * .open_device() is called successfully during BIND_IOMMUFD.
-> - */
-> -int vfio_device_fops_cdev_open(struct inode *inode, struct file *filep)
-> +int __vfio_device_fops_cdev_open(struct vfio_device *device, struct file *filep)
->  {
-> -	struct vfio_device *device = container_of(inode->i_cdev,
-> -						  struct vfio_device, cdev);
->  	struct vfio_device_file *df;
->  	int ret;
->  
-> @@ -52,6 +46,19 @@ int vfio_device_fops_cdev_open(struct inode *inode, struct file *filep)
->  	vfio_device_put_registration(device);
->  	return ret;
->  }
-> +EXPORT_SYMBOL_GPL(__vfio_device_fops_cdev_open);
+> Change Log
+> v5:
+>   - Make all RO attributes cache the data during probe using delayed
+>     work for both drivers. All RW attributes are read in realtime to
+>     ensure they match the device current state in the event of firmware
+>     reset or a userspace application.
+>   - Fix endianness of version strings and print as hex for Go driver.
+>   - Remove reset__esume function. It was not being hit as the MCU of
+>     both devices disconnects of suspend, forcing a reinit of the driver.
+>     Udev or userpsace will need to set the OS Mode upon resume.
+> v4: https://lore.kernel.org/linux-input/20260220070533.4083667-1-derekjohn.clark@gmail.com/
+>   - Use dmabuf allocated per request for both drivers instead of a devm
+>     preallocated buffer that is reused. This solves a bug where some
+>     attributes couldn't be restored without manual writing after resume.
+>   - Reduce the number of quirks and flags in the Go S init to only those
+>     necessary. Previously they were duplicated from the Go driver but
+>     everything except HID_CONNECT_HIDRAW was found to be unnessary
+>     during operational testing.
+>   - Clean up formatting for debug prints in Go S driver.
+>   - Fix bugs in RGB driver for Go that caused the effect to switch to
+>     solid when the speed or brightness was changed.
+>   - Remove extraneous setting of os_mode member of drvdata when setting
+>     os_mode. It will be read from the hardware in _show.
+> v3: https://lore.kernel.org/linux-input/20260124014907.991265-1-derekjohn.clark@gmail.com/
+>   - Fix Documentation formatting by removing extra + characters.
+>   - Fix bugs in hid-lenovo-go-s IMU & TP RO attributes being tied to the
+>     wrong _show function.
+>   - Rename enume os_mode_index to os_mode_types_index to fix collision
+>     with os_mode_index attribute.
+>   - Remove accidental rename for enabled->enable attributes in patch 4
+>   - Add SOB for Mario in patch 10 as Co-Developer.
+> v2: https://lore.kernel.org/linux-input/20251229031753.581664-1-derekjohn.clark@gmail.com/
+>   - Break up adding the Go S driver into feature specific patches.
+>   - Rename Go S driver from lenovo-legos-hid to hid-lenovo-go-s and move
+>     it out of a subdirectory.
+>   - Drop the arbitrary uevent properties patch.
+>   - Add Go series driver.
+>   - Move DEVICE_ATTR_NAMED macros to device.h.
+> v1: https://lore.kernel.org/linux-input/20250703004943.515919-1-derekjohn.clark@gmail.com/
 
-I really dislike that we're exporting the underscore variant, which
-implies it's an internal function that the caller should understand the
-constraints, without outlining any constraints.
+This is now queued in hid.git#for-7.1/lenovo.
 
-I'm not sure what a good alternative is.  We can drop fops since this
-isn't called from file_operations.  Maybe vfio_device_cdev_open_file().
+Thanks,
 
-> +
-> +/*
-> + * device access via the fd opened by this function is blocked until
-> + * .open_device() is called successfully during BIND_IOMMUFD.
-> + */
-> +int vfio_device_fops_cdev_open(struct inode *inode, struct file *filep)
-> +{
-> +	struct vfio_device *device = container_of(inode->i_cdev,
-> +						  struct vfio_device, cdev);
-> +
-> +	return __vfio_device_fops_cdev_open(device, filep);
-> +}
->  
->  static void vfio_df_get_kvm_safe(struct vfio_device_file *df)
->  {
-> diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> index f01de98f1b75..7f4117181fd0 100644
-> --- a/drivers/vfio/pci/vfio_pci_liveupdate.c
-> +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> @@ -8,6 +8,8 @@
->  
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  
-> +#include <linux/anon_inodes.h>
-> +#include <linux/file.h>
->  #include <linux/kexec_handover.h>
->  #include <linux/kho/abi/vfio_pci.h>
->  #include <linux/liveupdate.h>
-> @@ -108,13 +110,68 @@ static int vfio_pci_liveupdate_freeze(struct liveupdate_file_op_args *args)
->  	return ret;
->  }
->  
-> +static int match_device(struct device *dev, const void *arg)
-> +{
-> +	struct vfio_device *device = container_of(dev, struct vfio_device, device);
-> +	const struct vfio_pci_core_device_ser *ser = arg;
-> +	struct pci_dev *pdev;
-> +
-> +	pdev = dev_is_pci(device->dev) ? to_pci_dev(device->dev) : NULL;
-> +	if (!pdev)
-> +		return false;
-> +
-> +	return ser->bdf == pci_dev_id(pdev) && ser->domain == pci_domain_nr(pdev->bus);
-> +}
-> +
->  static int vfio_pci_liveupdate_retrieve(struct liveupdate_file_op_args *args)
->  {
-> -	return -EOPNOTSUPP;
-> +	struct vfio_pci_core_device_ser *ser;
-> +	struct vfio_device *device;
-> +	struct file *file;
-> +	int ret;
-> +
-> +	ser = phys_to_virt(args->serialized_data);
-> +
-> +	device = vfio_find_device(ser, match_device);
-> +	if (!device)
-> +		return -ENODEV;
-> +
-> +	/*
-> +	 * Simulate opening the character device using an anonymous inode. The
-> +	 * returned file has the same properties as a cdev file (e.g. operations
-> +	 * are blocked until BIND_IOMMUFD is called).
-> +	 */
-> +	file = anon_inode_getfile_fmode("[vfio-device-liveupdate]",
-> +					&vfio_device_fops, NULL,
-> +					O_RDWR, FMODE_PREAD | FMODE_PWRITE);
-> +	if (IS_ERR(file)) {
-> +		ret = PTR_ERR(file);
-> +		goto out;
-> +	}
-> +
-> +	ret = __vfio_device_fops_cdev_open(device, file);
-> +	if (ret) {
-> +		fput(file);
-
-Don't we end up calling vfio_device_fops.release with NULL
-file->private_data here with inevitable segfaults?  Thanks,
-
-Alex
-
-> +		goto out;
-> +	}
-> +
-> +	args->file = file;
-> +
-> +out:
-> +	/* Drop the reference from vfio_find_device() */
-> +	put_device(&device->device);
-> +
-> +	return ret;
-> +}
-> +
-> +static bool vfio_pci_liveupdate_can_finish(struct liveupdate_file_op_args *args)
-> +{
-> +	return args->retrieved;
->  }
->  
->  static void vfio_pci_liveupdate_finish(struct liveupdate_file_op_args *args)
->  {
-> +	kho_restore_free(phys_to_virt(args->serialized_data));
->  }
->  
->  static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
-> @@ -123,6 +180,7 @@ static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
->  	.unpreserve = vfio_pci_liveupdate_unpreserve,
->  	.freeze = vfio_pci_liveupdate_freeze,
->  	.retrieve = vfio_pci_liveupdate_retrieve,
-> +	.can_finish = vfio_pci_liveupdate_can_finish,
->  	.finish = vfio_pci_liveupdate_finish,
->  	.owner = THIS_MODULE,
->  };
-> diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-> index 276f615f0c28..89c5feef75d5 100644
-> --- a/drivers/vfio/vfio_main.c
-> +++ b/drivers/vfio/vfio_main.c
-> @@ -13,6 +13,7 @@
->  #include <linux/cdev.h>
->  #include <linux/compat.h>
->  #include <linux/device.h>
-> +#include <linux/device/class.h>
->  #include <linux/fs.h>
->  #include <linux/idr.h>
->  #include <linux/iommu.h>
-> @@ -1758,6 +1759,18 @@ int vfio_dma_rw(struct vfio_device *device, dma_addr_t iova, void *data,
->  }
->  EXPORT_SYMBOL(vfio_dma_rw);
->  
-> +struct vfio_device *vfio_find_device(const void *data, device_match_t match)
-> +{
-> +	struct device *device;
-> +
-> +	device = class_find_device(vfio.device_class, NULL, data, match);
-> +	if (!device)
-> +		return NULL;
-> +
-> +	return container_of(device, struct vfio_device, device);
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_find_device);
-> +
->  /*
->   * Module/class support
->   */
-> diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-> index 9aa1587fea19..dc592dc00f89 100644
-> --- a/include/linux/vfio.h
-> +++ b/include/linux/vfio.h
-> @@ -419,4 +419,16 @@ int vfio_virqfd_enable(void *opaque, int (*handler)(void *, void *),
->  void vfio_virqfd_disable(struct virqfd **pvirqfd);
->  void vfio_virqfd_flush_thread(struct virqfd **pvirqfd);
->  
-> +#if IS_ENABLED(CONFIG_VFIO_DEVICE_CDEV)
-> +int __vfio_device_fops_cdev_open(struct vfio_device *device, struct file *filep);
-> +#else
-> +static inline int __vfio_device_fops_cdev_open(struct vfio_device *device,
-> +					       struct file *filep)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +#endif /* IS_ENABLED(CONFIG_VFIO_DEVICE_CDEV) */
-> +
-> +struct vfio_device *vfio_find_device(const void *data, device_match_t match);
-> +
->  #endif /* VFIO_H */
+-- 
+Jiri Kosina
+SUSE Labs
 
