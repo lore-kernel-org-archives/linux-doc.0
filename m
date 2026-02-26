@@ -1,128 +1,139 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02DE334C2D;
-	Thu, 26 Feb 2026 00:34:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772066082; cv=none; b=sCE+hpgx6rx7YXMCq8Za98830B9cSTfgX3Q7CoFoHBKmBtygPw6KTtGYFHhWIrApiEQaIJ3eAptTAG6OIhzrxvQUhN1Htb/K7QiseBSytTzeEtMeu99Zg3Unxv1vTuKqXRjdR3xpsyMSQQS2x3VdyPOPGhdR2AqjUyjVfRibpDg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772066082; c=relaxed/simple;
-	bh=FMGMHoTjwPt/bXU/4luizA+S4f2sU4XiJzepCTV3gvw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eYY8GWGHmg69nzifHEyradyt1i1dZZ+riNL8x3CL4nrglcQGnTpLNcHS9IbnqQJ5mwZ3WZRS1DMd8+7HEE/IAHFTujSdIQJULpWt6sjXu1juCrQzeZRkSYVomdyRK0Za3ZRenHyjyXFsxL9DFUzxN2WkLlAgLnbN3VvFMnsTVZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=B1X76Oxj; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8BF36EAAC
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 00:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772066784; cv=pass; b=WGWie1PZ2I7HrXWs72LFAVt+0X012qeNPYHBFcggFemnkCJtZQIXWfWaELaiGxvWJokbPdoUzkFRgXNrls8vP+wuzt8oJo16apWZSqk5Epel+9vydfRXr3CBOee25L1nLX6zSkcInrzXqnNOxs8bG+9uNHdWW2r7ut1DxnBk+8M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772066784; c=relaxed/simple;
+	bh=WPcUxRWIf+xdW3rZUp57loGNhqTLwpDKpkxUCRZJXnY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=frQzNd7XbSIF+KNrYJnGb55tXlX1HAR1qulHFeX9We/YKFZ2jnipj4Wk1kSA31TIkFwvG9VG9v+Jby9nyt02zfWLfi49CqA3FbGwqtlnzBbbE1c+ARXS3EHkvvKBJPgOMsLFKsZRV8CMyJGURu9l+DL/5N8CrF5il1pZuToVsjA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RL7yH3su; arc=pass smtp.client-ip=209.85.222.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="B1X76Oxj"
-Received: from wse-pc.fritz.box (i5C75F712.versanet.de [92.117.247.18])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 717002FC0057;
-	Thu, 26 Feb 2026 01:34:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1772066071;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wPaY9YcUS0IPBOJ/973YSQYOrjPX9lejzk7xilUKI3E=;
-	b=B1X76OxjEyFb4tzmiYU64Qzhc2eiRNXAjiia2LGRKdSHRuSND3SObxqxoiAb+cPdCISU5J
-	tqLnyvMrLI3X+wV75PWGyPoJkFk+7bkf2ygjDcnTSonb94dSTeH1zc/xLPi19/7/z/mOv6
-	vlQNNe605rPsr1Dy+FLyO21NqCx/AA4=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Armin Wolf <W_Armin@gmx.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 4/4] Documentation: laptops: Update documentation for uniwill laptops
-Date: Thu, 26 Feb 2026 01:31:40 +0100
-Message-ID: <20260226003408.1623547-4-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260226003408.1623547-1-wse@tuxedocomputers.com>
-References: <20260226003408.1623547-1-wse@tuxedocomputers.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RL7yH3su"
+Received: by mail-ua1-f47.google.com with SMTP id a1e0cc1a2514c-94acb3d6cceso176737241.2
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 16:46:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772066782; cv=none;
+        d=google.com; s=arc-20240605;
+        b=J+sv+YifuecH+lGwVqTmqQLmJzNwVpiAGo2a4O4+hYVa58Wcr9mYgIoSfVBgvQsNSK
+         +dyMnwN+VCvOuA+lY3Sa99pALQo3ZQ1al0usS61VG0AbTNf7HXP3APfSg7+CN/F64zBW
+         kVpL3O4dLkFdZrxF+5pmSyD68952EzlYEShV9p1NYrXFPGjahYqjzUw7F4bv3dbW25Lx
+         SQ3ytw/FYddrGW8h7tI6stXHbwpjEVD+jub9QiXV+vSHlnYirrlqDtOH/mB/rp9ZvCC/
+         01lU3hKr/LJ5kh2aUHlMVkKls6v2X+oVuKdDINfH2cuvNoLT7ruOCwo/Z6tIVimT8csv
+         2mRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ACpb0o7E3VaAsC1KFvr2yXYuV7ohO1EROiDs9rJDa00=;
+        fh=UNrBAbdQCa072gWVXCbVjscsOAHOKQovxTo8wOyTpbk=;
+        b=fbTQkPL5F/jbIrb/coMRAYjU7XvWBrsrYUeeVOtYM0UVdsaUCXtPf8BTfjONJpC5Kk
+         fd5giLOFGjv4apNrMY98g4mH60+8W49VAhOGJo6xMzKPPyisrf1AbVOH0Mx4kw5H69SS
+         f9Cbud/c9VPsJ3q78rdhWnzfqu6azDw9AFWPIBl09kguhDpMgobQ+oNgw+rSn2dMxQ84
+         2hkTUnDNyYiHkgFlVz1/tZC32bmjrUAhcqQiSA4RtHyZ3QINd5tsMpoRHqz/yxLNOZdF
+         LNEjNoikuDb4KzffyYfIQoQXqEvRZxAbwcktGlR//MTPrLr4CU5MZg7z06jiADljqe0L
+         HdMQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772066782; x=1772671582; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ACpb0o7E3VaAsC1KFvr2yXYuV7ohO1EROiDs9rJDa00=;
+        b=RL7yH3sudTnq/XClkaOpF3fuWXUwGuIqMamfzIbLqr7qujx2xZe0DcpkmcUC7pE3nU
+         ZlU5K692jKuZVitqPgrzLEDQZYQk0eJeIbWEkOb2MtLDwVBZ9oYbS0eXyTQ5FNLiAjwc
+         FdiVg+nwiFAqo1ov/dnoj5KWN1G6zF5SKeofg5TuwnHMu0KjGZYY/y7HEZdug/q91atJ
+         BM7ZNRkC9gUeRWYKt3P3ulTmom2i7kp+/uDLB/Sa8RPZYKUnERBZveY94zFkdLU1HwmJ
+         Wogt1NZL2yCAafNB320aJceTY/6MTXu8q5NR/zFWbXLqStgoCH3jMnSWvTD7p0w3ECa3
+         eppw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772066782; x=1772671582;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ACpb0o7E3VaAsC1KFvr2yXYuV7ohO1EROiDs9rJDa00=;
+        b=XV9LA6RYgOWmO9wk6WSppoE3yJZ3c98T9eG7Pq8NpW7BRoeLCQ7bKJKgiStEWkxj7a
+         seVoFmWJh6QalQRshtwbH/izkWaYMOx4gRuiOYnXavWTTVZsWlAJf7G58+V0oFr9hqNs
+         mgKyhxeGthtxikzSJE5jXGvOCy7TGXlAi7ADJlvy5N0dEf0AFO9i63gmXOkOF5kiDE1k
+         Frh7rkXwbukzHMMjrN8FvDLsxm0td8wXWwSP0TLoWBEJwoY4AriABR8gFalWvH0UKXMD
+         ksR0JemDX9N90OEQ18Ju1L6iuvfGvy27BuFgQll6e6/ejK0dEZNqLjLvzi8Plj9SNoNJ
+         q0cg==
+X-Forwarded-Encrypted: i=1; AJvYcCVNh15vdXsEhNNbBWpEyLQTJP0G3K18RQHxIzK/KgEmo7g6vN3AS01MMc9LyvAE4GVX47RYwNrSle4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCvKerKERODQB5h8vwXvEywHMvvZqXr3EpHFz17qlvxWzZMzGA
+	PovHl0xyj2sJnYvqh1dA6BbdusJ5lO0yhIzXg3WHCLvsdq4gmuMLzfwHp8Ns8PTbhBm1VBGYtBH
+	z98qisU1gmT3XANn0luLmykoNYLE02yujtxryCZId
+X-Gm-Gg: ATEYQzwTeVV1Zohxkaf8BS9pkOfBch7A70e8WGTCSmgGg2Vr9P2kg1gsZEGK6XSAboT
+	X9BSPFol/d1BGl7apOdwbGVFtgN41mqTgjO8uz+5buY3uG3DETsN5YDOzlmJEn0nuq5Fp2OZuxa
+	LoqlDn8b4O+A0tkHP74ESofxAQyl4st8s48aXbxXStK07y0/CLWcyrGH2SiTkMCU4Wqsp0gMk6B
+	vVNEoCLf1T6AyO2UF2MEx10h9bIL9s0Xty+J+Rahxg+5yEgQtz6lN4HhtJ3sFCWrCcpe4RjOU06
+	MDZs/oU=
+X-Received: by 2002:a05:6102:94d:b0:5e5:6eee:8adb with SMTP id
+ ada2fe7eead31-5feb2e8f35emr8956594137.4.1772066781725; Wed, 25 Feb 2026
+ 16:46:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260129212510.967611-1-dmatlack@google.com> <20260129212510.967611-8-dmatlack@google.com>
+ <aZ6rB-zmpaR3RLB_@google.com>
+In-Reply-To: <aZ6rB-zmpaR3RLB_@google.com>
+From: David Matlack <dmatlack@google.com>
+Date: Wed, 25 Feb 2026 16:45:52 -0800
+X-Gm-Features: AaiRm53bfmGZyNFLKGENFMQ0ksttnoZ823ayheFdxpLxg9pxKiAgxb_V1e66-JA
+Message-ID: <CALzav=fQtLd0DfWcVku1BDUzcvvYu7MBY+=G7rMMr-gjLUioAA@mail.gmail.com>
+Subject: Re: [PATCH v2 07/22] vfio/pci: Notify PCI subsystem about devices
+ preserved across Live Update
+To: Pranjal Shrivastava <praan@google.com>
+Cc: Alex Williamson <alex@shazbot.org>, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
+	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Raghavendra Rao Ananta <rananta@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>, 
+	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adds short description for two new sysfs entries, ctgp_offset and
-usb_c_power_priority, to the documentation of uniwill laptops.
+On Tue, Feb 24, 2026 at 11:56=E2=80=AFPM Pranjal Shrivastava <praan@google.=
+com> wrote:
+> On Thu, Jan 29, 2026 at 09:24:54PM +0000, David Matlack wrote:
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
----
- .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
- .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
- 2 files changed, 37 insertions(+)
+> >  int __init vfio_pci_liveupdate_init(void)
+> >  {
+> > +     int ret;
+> > +
+> >       if (!liveupdate_enabled())
+> >               return 0;
+> >
+> > -     return liveupdate_register_file_handler(&vfio_pci_liveupdate_fh);
+> > +     ret =3D liveupdate_register_file_handler(&vfio_pci_liveupdate_fh)=
+;
+> > +     if (ret)
+> > +             return ret;
+>
+> Nit: We might need to handle the retval here if we remove the
+> liveupdate_enabled() check above (as discussed in patch 2).
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-index 2df70792968f3..55943252f2ab9 100644
---- a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-+++ b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-@@ -51,3 +51,28 @@ Description:
- 
- 		Reading this file returns the current status of the breathing animation
- 		functionality.
-+
-+What:		/sys/bus/platform/devices/INOU0000:XX/ctgp_offset
-+Date:		January 2026
-+KernelVersion:	7.0
-+Contact:	Werner Sembach <wse@tuxedocomputers.com>
-+Description:
-+		Allows userspace applications to set the configurable TGP offset on top of the base
-+		TGP. Base TGP and max TGP and therefore the max cTGP offset are device specific.
-+		Note that setting the maximal cTGP leaves no window open for Dynamic Boost,
-+		effectifly disabling that feature for the GPU to always be prioritized.
-+
-+		Reading this file returns the current configurable TGP offset.
-+
-+What:		/sys/bus/platform/devices/INOU0000:XX/usb_c_power_priority
-+Date:		February 2026
-+KernelVersion:	7.1
-+Contact:	Werner Sembach <wse@tuxedocomputers.com>
-+Description:
-+		Allows userspace applications to set USB-C power distribution profile between one
-+		that offers a bigger share of the power to the battery and one that offers more of
-+		it to the CPU. Writing "charging"/"performance" into this file selects the
-+		respective profile.
-+
-+		Reading this file returns the profile names with the currently active one in
-+		brackets.
-diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Documentation/admin-guide/laptops/uniwill-laptop.rst
-index aff5f57a6bd47..c89b8b3756f84 100644
---- a/Documentation/admin-guide/laptops/uniwill-laptop.rst
-+++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
-@@ -50,6 +50,10 @@ between 1 and 100 percent are supported.
- Additionally the driver signals the presence of battery charging issues through the standard
- ``health`` power supply sysfs attribute.
- 
-+It also let you set whether an USB-C power source should prioritise charging the battery or
-+delivering immediate power to the cpu. See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for
-+details.
-+
- Lightbar
- --------
- 
-@@ -58,3 +62,11 @@ LED class device. The default name of this LED class device is ``uniwill:multico
- 
- See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details on how to control the various
- animation modes of the lightbar.
-+
-+Configurable TGP
-+--------
-+
-+The ``uniwill-laptop`` driver allows to set the configurable TGP for devices with NVIDIA GPUs that
-+allow it.
-+
-+See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
--- 
-2.43.0
-
+I think you mean for the below call to pci_liveupdate_register_fh(),
+but yes agreed :).
