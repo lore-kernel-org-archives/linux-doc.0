@@ -1,44 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C75E222A4E9;
-	Thu, 26 Feb 2026 01:28:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716FD4C81;
+	Thu, 26 Feb 2026 01:43:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772069321; cv=none; b=e4IibqXLZPqjR4EAEYV1qWmCX7EXbrMLx71KFv4PQ7/w1PryWnaxNHieQzq65g/Rwqh6XuTuoUSbIDi1S5WVs+QQXWD8GVWZACXS7FrPqZlIyKzwPIW97uSQmU7IAT5WjeOVO/9EQRH70ny6xOhy9DTHzZ+GjcOJxnD7eRYzd5Q=
+	t=1772070236; cv=none; b=RHom6d7gA2KAW3UMEKq8UTqblyVuvl+Ouv7wmbBPhwqNi4RZhJMIWtgW71WGZyT+UVKXO3i1CMLZIi3eORXqotOQ3Q5QVWYjabjoKD2tvogd93MOET+tWq31nME3xMvH+uOUWIznDvSnGTUUKtbqdMln9TEZ6jHqb+VAZ7LJ554=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772069321; c=relaxed/simple;
-	bh=LDp3ABznrLB21yPj6JU4fFpdE+2usDUgsJC0IEn+b70=;
+	s=arc-20240116; t=1772070236; c=relaxed/simple;
+	bh=BhOSzUokZoKHeOKyuPq1s+G4YR+ei6KQ4tjOOyLQcHI=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MqDVeDMIKgMQD39Zm9l1HrRC28W8/yUou0ZhGDgRHvwWfebupf5GBk4izpUstRRuC3reSGuG2dZlSs51gU0zGH5fVXsQh/c7CjfvSkb1Et9piEuYs8d9yp0LQpl/yEFOvftt8tqpPjFgx8vUIaIctqBs+IbOJavbU8OPEBahdo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiM5DA4v; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=tBsjm4NGlaPFUvtlv5sIH+PftPS9rH0de/rB+Wo5+L9P3kOiP29GTLIPjHcJK087MAtxiBvqdVW/d7c7EzOHSAsNIIr/1N8pfGMtWcyeRnUHw0T5hntw9d0vNM3EMige1HmjX5UHuaGCN5KlSjOfBj4OJVuuXoTpY1GNVXtn+n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TH8dlHy0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiM5DA4v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1171C116D0;
-	Thu, 26 Feb 2026 01:28:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TH8dlHy0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FEECC116D0;
+	Thu, 26 Feb 2026 01:43:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772069321;
-	bh=LDp3ABznrLB21yPj6JU4fFpdE+2usDUgsJC0IEn+b70=;
+	s=k20201202; t=1772070236;
+	bh=BhOSzUokZoKHeOKyuPq1s+G4YR+ei6KQ4tjOOyLQcHI=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YiM5DA4vxLj3NPFg5PAA6+PNRYAKzSurbneLLDYWP3cigOiuSkR7ajJKw7AC8cAQ9
-	 wNJQUjU56J+6foQyAguhypccIFvEBVO+WXRqe1n4QVoHWU6466zogNAGusX4l2786i
-	 fo0PUTNm3iOrRo5+WXTQzJCSTHCvNCI5klXcn9BXkxw3yiRi1vrTldwM3m9NqnRB76
-	 1D3zVuL11Hy+ZxfiGBaQoLtXWBbLmiO9vFQtDS072olm9zjBEXLvB84vxQXHPYcFfg
-	 IIzMZYiu9ToPBSoYjSjohrguwyHV+lentNwKQFqDTPAYDOTadDpnHu+uoRjhkOwCdX
-	 i/hoBtUf0UoCw==
-Date: Wed, 25 Feb 2026 17:28:39 -0800
+	b=TH8dlHy09Wl9FaoynpvrWJL4oNYG+s2COlHlck9FZzFcMdn19JhI6HSJVeo1gtheI
+	 FcnB5m3DgVsGf3LSovrVpniu482tiJQXAEShru8nQRGLCk61vOTv9P+p9TKlyLu8eV
+	 /60g8cdDsM3jxUWAr4yF3e0g0HnwP85EtpfVTRrpJ7gc8s66+EtS3i72mmez99wTTq
+	 NbuJILrhSEP4JyPiXb6Th+EbomCPHifZhm5xuDb29l/AgEbMWeZZC4vB7tnmrRqyIU
+	 rpRo1SKvaOeeBu89y9axRnS593kiQNGerjb6FiY2KuUxcCE7SWA/xSPDLJHtV1jxtY
+	 E+k8DeSalJxpg==
+Date: Wed, 25 Feb 2026 17:43:54 -0800
 From: Jakub Kicinski <kuba@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>,
- <guoxin09@huawei.com>, <horms@kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <luosifu@huawei.com>,
- <netdev@vger.kernel.org>, <pabeni@redhat.com>, <shijing34@huawei.com>,
- <wulike1@huawei.com>, <zhoushuai28@huawei.com>, <zhuyikai1@h-partners.com>
-Subject: Re: [PATCH net-next v01 00/15] net: hinic3: Fix code styles
-Message-ID: <20260225172839.23f3546d@kernel.org>
-In-Reply-To: <20260224134315.1735-1-gongfan1@huawei.com>
-References: <cover.1771916043.git.zhuyikai1@h-partners.com>
-	<20260224134315.1735-1-gongfan1@huawei.com>
+To: Leon Hwang <leon.huangfu@shopee.com>
+Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, David Ahern <dsahern@kernel.org>, Neal
+ Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ Ilpo =?UTF-8?B?SsOkcnZpbmVu?= <ij@kernel.org>, Ido Schimmel
+ <idosch@nvidia.com>, kerneljasonxing@gmail.com, lance.yang@linux.dev,
+ jiayuan.chen@linux.dev, Leon Hwang <leon.hwang@linux.dev>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH net-next] tcp: Add net.ipv4.tcp_purge_receive_queue
+ sysctl
+Message-ID: <20260225174354.5a698ddb@kernel.org>
+In-Reply-To: <20260225074633.149590-1-leon.huangfu@shopee.com>
+References: <20260225074633.149590-1-leon.huangfu@shopee.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,21 +52,13 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 24 Feb 2026 21:43:15 +0800 Fan Gong wrote:
-> Sorry for forgetting to replace cover letter to a newer one.
-> We will send the next version with correct cover letter and commit contexts,
-> and refer to possible AI review for revisions after 24 hours.
+On Wed, 25 Feb 2026 15:46:33 +0800 Leon Hwang wrote:
+> Issue:
+> When a TCP socket in the CLOSE_WAIT state receives a RST packet, the
+> current implementation does not clear the socket's receive queue. This
+> causes SKBs in the queue to remain allocated until the socket is
+> explicitly closed by the application. As a consequence:
+> 
+> 1. The page pool pages held by these SKBs are not released.
 
-FWIW the AI review is here:
-https://netdev-ai.bots.linux.dev/ai-review.html?id=199da9b3-7cc5-40ef-b5d0-e8073e3eb49f
-
-The LLM timed out for one of the patches so it won't get published 
-to patchwork.
-
-Another note - could you perhaps cut this series down?
-You're adding a bunch of features and:
-
-  34 files changed, 2985 insertions(+), 29 deletions(-)
-
-Not too bad, but I still think you'd make faster progress with
-a smaller series.
+On what kernel version and driver are you observing this?
