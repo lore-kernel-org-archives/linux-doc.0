@@ -1,717 +1,197 @@
-Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011017.outbound.protection.outlook.com [52.101.62.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE71B36D515;
-	Thu, 26 Feb 2026 13:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.121.34.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772113273; cv=none; b=rrO5XPwsc2cKIyMzSXTt+gUbegvC7g5SeZgLl/7bGeor418S58MiuLDXT6niTwbkw/5OfM88QuUadglxT3TGLZ2wiC6cKIgFqcmtzN71RMtvkML5uouVQg553LGmkxULsulFnlDGZ6IERyJDLX9HbuVTsNEIhbn08+k1Yl1AuxM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772113273; c=relaxed/simple;
-	bh=pYXC0MSlwCY7JD6MYpmz5zSNRNT+Qd1aJUJzXayzKAE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=E/v7f/h6AenIAt5kJ0FoN5EzxL5QPdCOZnP7VX/Q90mhR0Coczbong+Utru/UBk9jg+dYkKmZxF85xTIZrSLQmyQNk8MV9mEhKzsDBmmSe+8qi2DBDPlyB3j1Vl9/2iHSEWiDcGaEM1G7dlqvoXiOr7ZOQFAPYgF1ydwY1V78NY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; arc=none smtp.client-ip=92.121.34.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 65209201509;
-	Thu, 26 Feb 2026 14:41:02 +0100 (CET)
-Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-	by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 6172B202586;
-	Thu, 26 Feb 2026 14:41:02 +0100 (CET)
-Received: from lsv15149.swis.ro-buh01.nxp.com (lsv15149.swis.ro-buh01.nxp.com [10.162.246.145])
-	by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id 9FAD720399;
-	Thu, 26 Feb 2026 14:41:00 +0100 (CET)
-From: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
-Date: Thu, 26 Feb 2026 15:40:43 +0200
-Subject: [PATCH 4/9] accel/neutron: Add driver for NXP Neutron NPU
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680643D34BD;
+	Thu, 26 Feb 2026 13:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772114392; cv=fail; b=r0MCJiOXCJoy68pJwChNQbp2VZVgt9/qEfrBGj36oaeKr/ih0gDDqMLjHI2hLXq8iEcU2dRyMZO3fZ4FHA7BQtfIUBwTaLEa+e2eUi8z31gG0LCFBXQ/2Kb3Ltd/d2rjc63Pry/D8ppXGW+0RjL8Ark6dLRr0WzrHWqaG5fGC1o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772114392; c=relaxed/simple;
+	bh=GgcwJ5DiSSCvX15O/IgbDJF0NW3qwY2HAuNE5KeD6Y8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RbB2o/3Eg7oqAWFHUM0+8tL8aMbFcov7jBa1GCgAy9EA+LzatCj/+k19B3wTzI5PiHYUcjSdMQDn4Ai4tG4MCiqjcGlzpmAtRBzz6TsCBfIKQYeKJanZE5rWuaRpO1O2q8BZEWSCWFwkkEfo73m4148HOLiCkAmkC6IVHqEmxno=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UZEfKci3; arc=fail smtp.client-ip=52.101.62.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UZEfKci3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CYFftD7zmm/JtbaaZ4K7VuGkFni3FMh+JtKItcRGTnABIEvx50xFf+bVGHx0h9iNgQiNDqaIoRTlAcLPQPXaVL61mO49yJGicYAhyXCwn6Sbva0DQtQL/pdC//u8KDi1YG4/DlL2OxD6fXDczgIQckIcFEWiQIOD5jI0+nvDOsJS5gnsO4zmCuaHgS83Pt9sD4Z7Y6PH78btU0GgVoIKpEFNOT8/0yBxvntoZTx+h14dYbgqg80wOHfwaiDgCkujw53AgyRRfwlGMNV1qWFJi8PX+9fCiBBoojJI/ypWBkZkWarlllCpMP5HXnsVNSkeTQFal81osSnjrqUCAIKzNQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kl9BIvDm33OgP/0zKgy46hyOocKbKotca0EzWuVFc1w=;
+ b=cchkpC1R1FZLsEKsChVPTJPKnj22fszjf3vumEC+E/fbSTpBCTrZ17NIKA7CiFc92Fjkg1kZOZS5q+W6wYmyMfO5A4hJ2eZ7D65xbjg2l/LT7pjbbvCg8mGx1fSML+fRlwpFLgt0x9GWe86KAzSyD/m3VZfJEbKVdPbpZftWTmU9Nn4UTu0Tu5wYGGoSBNtgM7upRwiEsxSfNnbKJqYapd7RhgNoXhxyjYu23RDgbN6DFi+n7ybcglY4o09gjWzbUJ35rJKSZDq0YuywXn9R2hZ2IRbGlIVAoEgKgWC5mt/zCWAu8/YOWr1/jDmOo6dPT0/u3eu5sX7tIM9xPBnHRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kl9BIvDm33OgP/0zKgy46hyOocKbKotca0EzWuVFc1w=;
+ b=UZEfKci3EVWCug9unWJ0MzdssFzNnmzsX16sn/s7xLhXCirkHyadNMzcC1dVt4ZCyWD5A7zi2vucN9RTtb26jas3lgrdYlrdCdCVgV9lv0XdgMW+8haNYp6gWUkyupCyFQJLG2/8eu3Mpq97aNorvNo6HsboBPtTuGPzA5AIDUJY9JZBXEyeibbv5CROf5w2/ewT7dwcU6lGx9Nnwwo9EZsxQNNvDENNEuEQfmmXhSlGeG9qcWA2IZViX/gcuK8MTpaXryOjpcsaJjzrhlXsgDx9rLLOc4eEBnUe4jQkwC0J2/I3LtbgY6ZbaiVajmZReOiOr2uMkdTLovLF8SWdZw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by LV2PR12MB5919.namprd12.prod.outlook.com (2603:10b6:408:173::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.13; Thu, 26 Feb
+ 2026 13:59:32 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f%6]) with mapi id 15.20.9654.014; Thu, 26 Feb 2026
+ 13:59:31 +0000
+Message-ID: <48b52f98-119e-4693-806b-78d47f7a43bb@nvidia.com>
+Date: Thu, 26 Feb 2026 19:29:18 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 0/7] Enhanced autonomous selection and improvements
+To: rafael@kernel.org, viresh.kumar@linaro.org, pierre.gondois@arm.com,
+ zhenglifeng1@huawei.com, ionela.voinescu@arm.com, lenb@kernel.org,
+ robert.moore@intel.com, corbet@lwn.net, rdunlap@infradead.org,
+ ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com,
+ perry.yuan@amd.com, zhanjie9@hisilicon.com, yumpusamongus@gmail.com,
+ dedekind1@gmail.com, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
+ vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
+ nhartman@nvidia.com, mochs@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
+References: <20260206142658.72583-1-sumitg@nvidia.com>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <20260206142658.72583-1-sumitg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5P287CA0028.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:17a::12) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260226-neutron-v1-4-46eccb3bb50a@nxp.com>
-References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
-In-Reply-To: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
-To: Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, Jiwei Fu <jiwei.fu@nxp.com>, 
- Forrest Shi <xuelin.shi@nxp.com>, Alexandru Taran <alexandru.taran@nxp.com>, 
- Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772113256; l=18120;
- i=ruxandra.radulescu@nxp.com; s=20260204; h=from:subject:message-id;
- bh=pYXC0MSlwCY7JD6MYpmz5zSNRNT+Qd1aJUJzXayzKAE=;
- b=V1jMAR1ZeiyWjC5U4ZFXueYvHHfkBjZHw8+AF6bPjUHtoFCda9RxZE69pJuJKz/5iWFq2sSs5
- QLjvlk4+7AyAQNisoClqsZvWws1UkmdcLjHnSfwlophscpiD9s9nace
-X-Developer-Key: i=ruxandra.radulescu@nxp.com; a=ed25519;
- pk=zoq4b4OYR0c4faAH97xoTxdr6vfR8OvPbS+Cx0XhIBY=
-X-Virus-Scanned: ClamAV using ClamSMTP
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|LV2PR12MB5919:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11db8885-edf0-47e9-0ec7-08de753f438d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|921020;
+X-Microsoft-Antispam-Message-Info:
+	dMCTXaxB6DycIXQk7GzZVUuvhn8j3+YVnOQFBrOPrXa2o8rsYioItJ+zJK21wIwdGL1YAN+ovWLdp3503ckcqQDMUPc26IV69e0O/VplkzHmQUJPVnp15SHgwl6DW3pyAozM9QxI0u6toFSCG0TWjwKrmEa5x9ILAOzDAodzUXXpePxoJMGD+NF6Sp5FHsmcCMk3URZsr32WE2T9L57T65PPlxTLn3caGXnX2ILAksLJ7DfhCNtP/3gzzSfh1pHrrWx6Wy7jNwFYM+k5AtMY15oYwyiTc1aMQmXYnFVAgBMJETDulhzpWjinxx7Ig2hGb2S+zjz00H8x3BccGYBestnUtTSsIHHvWajyo+JonMyX80pDq0JjVCM0vvP5851INysafZybO5l+TRbjmmlcKrJNYOu93Z1BWgpiXYOAUn8gk1Z8t++0G6vHN9PtebznUADE1N0ZiKOdYo8gHwJGzty7cLiwCfDiVlfRqMFNqqYzysb5OuaDPcNsx+kLFL0NM12588mtbygWfrMlrgyyCRxIPhwqMD3mgIRTEH+IpnGrMp0dQlz5H6x+2S3wi+QiS+JjPZnC251GPQ2LzyG5bsEnUeKjvg+BlmePNJdikUDKB00e6Agfc/EHRdD89WMSUEylLHDqj/I4BFs76FqLp4RW5Atjk6ObAk/YJrtFA5ZZopJYvNyO0yr7O2o4i9VTmMa7LatqyNd5ibuBT9jyjEsq65I75GZci+kptqDr0HbH24qMM3wfstt56wcUQkI9ZLKA29L/6c8V0jg13RWP/w==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bHR5QkIxdUo4R2thR2ZaT0V5SXh0NjhlVEJQMlpIUDJUMThrL2FqMXU1dTla?=
+ =?utf-8?B?N1ZEZGl0b3VVNW5FTldXVFpHUXN5eDdxUmZQRkMwVUUyS0Q4OXlEUDFBY0hI?=
+ =?utf-8?B?c1JPQldVaUoyaE5zcHdJM1N1T0IvNDhQSlVUUG5IRXhOb09TRVZYMEV5M1lV?=
+ =?utf-8?B?NWlGMklJSi8wMERnTU9mYVZWd29LdXVYQ1pKTk5xS050UnR0b2hGWXdtYmxV?=
+ =?utf-8?B?UmNORG5TdHRaWnJSb3lOU2Jjd0UrSWUzRERWS3Vubnd3UmpDcUJPM3ZXMnAy?=
+ =?utf-8?B?QU5BRGdVczIyVUFtbFFZRzRYN0xOeFkwR3FYWWxNbkhRMkgwZGpHdlhNWU1y?=
+ =?utf-8?B?MVQxbXhJL2JHMWJuZnh4VmtTV0ZLUmkyWXJpQ2FtTm81bjhEV2dNS3REcE51?=
+ =?utf-8?B?eWtaV0k3KzhRNVVQYWxjQ0o0YkVnSUw5eDUyY2p4N1I1MXVTTlF2Z3BPWFJS?=
+ =?utf-8?B?Y09uTERwN3YzNnFIN212U1ZFSFNTVDhNRGROUTkvdnlWMngwbjJGcmkwblM5?=
+ =?utf-8?B?b2Qvc3llYndnR3JuaTVnNnp0YlR5Tkp1SjdOODByL1ZxOFI3VnFWaWZMb3Fl?=
+ =?utf-8?B?TEJ5bnBEYm92dmJidFdESWxyaStiUkNJR1k3RkcvRGhhbmhKamFYR3BvcGZT?=
+ =?utf-8?B?U0VOU3UyZTA1NmE4R3FncGxreUZ6L1pGeXpTNHczTUVPQ245VWFkY000SENX?=
+ =?utf-8?B?VHI2cnI2V2EzTE95b05RcW1xeTR1bmNibVp1NFpLcnpQZGFtTVBMNzNNQ21N?=
+ =?utf-8?B?Vm5pVFJsdmpMYkhZM1ZiTEJjQ2E2ekg0Q0Z4aDVPSGNSNTlSa3RMTFlsZis2?=
+ =?utf-8?B?TXhXcWFXcXBlMmRkVmpxK1doZDA0N3Rya1pQYUh6OWQ2SU16NGdSLzcreHNs?=
+ =?utf-8?B?VWlKNXpZN2VyQ0I4KzN1Qk5ZUWZxQ0kwUUNDbWd0S0NVMzB6WmZDOUwzMmxw?=
+ =?utf-8?B?WXhjOVhzOHd4RjhnaWdsVEJzZWFXOTNSTkhRNmFIMlVpejdyT25IUDNNNlBj?=
+ =?utf-8?B?Wm0ybk9mam43NEhmalBJUWRlYjhycUErck01dHhLYTUyQ0JsZkNBUWp4RDZZ?=
+ =?utf-8?B?b1NibWl3VEhyaExFSkdwWVV0bWxGbWhMZUlvWjZHbXZQVy94MlJjbVNNSGFq?=
+ =?utf-8?B?QTAzNCtsdFhHMVl2MTR4WlBGa3RvVkxGSTBTUzFMQ0E0NGdIQVBHdGcrS0VX?=
+ =?utf-8?B?MFB0U3hKelJ0cVowRXNQUWUrTG41MjZSTkgyRzRxV0JzOE1VTE95M0RVUjRC?=
+ =?utf-8?B?N3pwdTFwTitvUndPY0RYeEIvZXQ1MWNrZyttM3JxZXc3ZlpzdjBqRERHb3dI?=
+ =?utf-8?B?U2dYbWROY2ZtYUVwS2k1KzJvY1ltSmpHMkI1YnhPWTV5L2FrQVlvR3FvclRv?=
+ =?utf-8?B?VDl0VXhXU2pkbTg3bGJGbTJTRkZ1OW8zUGgxb2djT1YzRm1iUDQ4Y2EvMmFw?=
+ =?utf-8?B?b2MzUEU4d0pNbUR1WHJwNllUL05XeTZhZG9pdTR0czdrTlhXTXRQZG9XTWdX?=
+ =?utf-8?B?V2ZkelRGSGpwcHZyVUlHV2Zpb2xGZDhEaGtnRE9vV3ZwdHZBSkEzSnpRZVJI?=
+ =?utf-8?B?dEJNMkdOM3BpMjh4eFVUT0theUI3Z1JPWGN5eXhRQ0psMnF6MkE5Y2ttVDFN?=
+ =?utf-8?B?ZjFDeFNtVVlDaUdHMlhtVzhpazR1RTg4TmMxWmVFaCs5UXoyVE9zNVZxbXBo?=
+ =?utf-8?B?MVNzM3EzS002MTF4QXRxUi9KL1hYQkdQUUppT09zZUdtYUkvWEl5MUxzUDdw?=
+ =?utf-8?B?ejZ0TUt3aXE5K2Yvbjlxak1JYWNXZEhpbWwreGZ0UjltOHFWMkZYYWNibnla?=
+ =?utf-8?B?Zmg1VXJOZHBIejU5UmVYUzlxRE5PYnRKY1VOYlEzRWhTbXdBNk5aMTArb2tR?=
+ =?utf-8?B?Y2Y1MnRGVXRtYWJOR0U3WGNkT2dIc2VkV1k0c21qYzV4bDBRcjBRUGE4N2Js?=
+ =?utf-8?B?Si9Ha2pnSEo2OXNwYkE2SWl1QUYxeGlUOEkrRzJIWFdPNGVSMGQ3bytQbTFG?=
+ =?utf-8?B?T1ZhL1BkTkxZZTRDNDQ3eFVZck10Z0swRXZXakNmOEhiWGVNZ3dRTUdLQ2Jk?=
+ =?utf-8?B?bjYxV05UYkh4WUl6N0FxczF5WVNoWUEvVnBPQzRWdVJZR3NsRGVNZnJ5aVZW?=
+ =?utf-8?B?VVY3MExpTmEwZTkrbGc4LysxNjhaajRadXFLWXJST1hHZi9UUFJvTDRyMzdH?=
+ =?utf-8?B?M2h4aldRV1hXQ2pKd2E1M1IvM0hkU1crUXJrUjR0Q1ExbEdORFZKdnBxQ2pQ?=
+ =?utf-8?B?TVFxQURTR1FKY29DUTRidlBWUzhLY0dLSHU1SnBnc0oramxoZ0pvWFRhOHVX?=
+ =?utf-8?B?QWMxaG9ETmV6TENINU9EY1MvRC9IbENVckdEb0syZUJyTjF0NTdpUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11db8885-edf0-47e9-0ec7-08de753f438d
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 13:59:31.4275
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VXCNjH+b8awZmd09f/FswJ/CIzSfYy2j1QwP+bf8Mszx4RbMLJJHgkXtAKN0LJXrIYQQ+j1ybuBpniv0vWm3Mg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5919
 
-Add a driver for the Neutron Neural Processing Unit from NXP.
 
-Neutron NPU provides machine learning (ML) acceleration for edge AI
-applications. Neutron is integrated on NXP SoCs such as the i.MX95.
-More information can be found under Documentation/accel/neutron.
+> This patch series improves the CPPC cpufreq driver with new ACPI APIs
+> and enhancements for Autonomous Selection (auto_select).
+>
+> CPPC auto_select enables hardware-driven CPU performance scaling using
+> Energy Performance Preference (EPP) hints. Currently, there's limited
+> runtime control and visibility into CPPC performance registers.
+>
+> The series adds cppc_get_perf() API to read performance controls, updates
+> MIN_PERF/MAX_PERF in target callbacks using existing scaling_min/max_freq
+> interface similar to intel_cpufreq HWP handling, and exposes perf_limited
+> register via sysfs to detect throttling events.
+>
+> The patches are grouped as below:
+> - Patch 1: Add cppc_get_perf() API (independent).
+> - Patch 2: Warn on missing mandatory DESIRED_PERF (independent).
+> - Patch 3: Extend cppc_set_epp_perf for FFH/SystemMemory (independent).
+> - Patch 4: Update cached perf_ctrls on sysfs write (independent).
+> - Patch 5: Update MIN_PERF/MAX_PERF in target callbacks (depends on 4).
+> - Patch 6-7: APIs, sysfs and doc for perf_limited (independent).
 
-For now introduce basic functionalities only: device probe and remove,
-firmware load, boot and shutdown procedures, interrupt support, power
-management.
+Gentle ping.
 
-Signed-off-by: Jiwei Fu <jiwei.fu@nxp.com>
-Signed-off-by: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
----
- MAINTAINERS                            |  10 ++
- drivers/accel/Kconfig                  |   1 +
- drivers/accel/Makefile                 |   3 +-
- drivers/accel/neutron/Kconfig          |  16 +++
- drivers/accel/neutron/Makefile         |   7 +
- drivers/accel/neutron/neutron_device.c | 160 +++++++++++++++++++++++
- drivers/accel/neutron/neutron_device.h | 120 +++++++++++++++++
- drivers/accel/neutron/neutron_driver.c | 228 +++++++++++++++++++++++++++++++++
- drivers/accel/neutron/neutron_driver.h |  13 ++
- 9 files changed, 557 insertions(+), 1 deletion(-)
+If there are no further comments, could this be considered for merging.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 55af015174a5..5ad757797f50 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19181,6 +19181,16 @@ S:	Orphan
- F:	Documentation/devicetree/bindings/net/nfc/nxp,nci.yaml
- F:	drivers/nfc/nxp-nci
- 
-+NXP Neutron NPU DRIVER
-+M:	Ioana Ciocoi Radulescu <ruxandra.radulescu@nxp.com>
-+M:	Jiwei Fu <jiwei.fu@nxp.com>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	Documentation/accel/neutron/
-+F:	drivers/accel/neutron/
-+F:	include/uapi/drm/neutron_accel.h
-+
- NXP/Goodix TFA989X (TFA1) DRIVER
- M:	Stephan Gerhold <stephan@gerhold.net>
- L:	linux-sound@vger.kernel.org
-diff --git a/drivers/accel/Kconfig b/drivers/accel/Kconfig
-index bdf48ccafcf2..ba392371b972 100644
---- a/drivers/accel/Kconfig
-+++ b/drivers/accel/Kconfig
-@@ -28,6 +28,7 @@ source "drivers/accel/amdxdna/Kconfig"
- source "drivers/accel/ethosu/Kconfig"
- source "drivers/accel/habanalabs/Kconfig"
- source "drivers/accel/ivpu/Kconfig"
-+source "drivers/accel/neutron/Kconfig"
- source "drivers/accel/qaic/Kconfig"
- source "drivers/accel/rocket/Kconfig"
- 
-diff --git a/drivers/accel/Makefile b/drivers/accel/Makefile
-index 1d3a7251b950..698136e12cce 100644
---- a/drivers/accel/Makefile
-+++ b/drivers/accel/Makefile
-@@ -4,5 +4,6 @@ obj-$(CONFIG_DRM_ACCEL_AMDXDNA)		+= amdxdna/
- obj-$(CONFIG_DRM_ACCEL_ARM_ETHOSU)	+= ethosu/
- obj-$(CONFIG_DRM_ACCEL_HABANALABS)	+= habanalabs/
- obj-$(CONFIG_DRM_ACCEL_IVPU)		+= ivpu/
-+obj-$(CONFIG_DRM_ACCEL_NXP_NEUTRON)	+= neutron/
- obj-$(CONFIG_DRM_ACCEL_QAIC)		+= qaic/
--obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-\ No newline at end of file
-+obj-$(CONFIG_DRM_ACCEL_ROCKET)		+= rocket/
-diff --git a/drivers/accel/neutron/Kconfig b/drivers/accel/neutron/Kconfig
-new file mode 100644
-index 000000000000..37b8ecb49804
---- /dev/null
-+++ b/drivers/accel/neutron/Kconfig
-@@ -0,0 +1,16 @@
-+# SPDX-License-Identifier: GPL-2.0+
-+
-+config DRM_ACCEL_NXP_NEUTRON
-+	tristate "NXP Neutron NPU"
-+	depends on HAS_IOMEM
-+	depends on DRM_ACCEL
-+	depends on ARCH_MXC
-+	select DRM_GEM_DMA_HELPER
-+	select DRM_SCHED
-+	help
-+	  Enables driver for NXP Neutron NPU.
-+
-+	  Select this if you have an NXP SoC with Neutron, like i.MX95,
-+	  and want to run machine learning applications.
-+
-+	  If built as module, the module is named neutron.
-diff --git a/drivers/accel/neutron/Makefile b/drivers/accel/neutron/Makefile
-new file mode 100644
-index 000000000000..7592e318dd83
---- /dev/null
-+++ b/drivers/accel/neutron/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0+
-+
-+obj-$(CONFIG_DRM_ACCEL_NXP_NEUTRON) := neutron.o
-+
-+neutron-y := \
-+	neutron_driver.o \
-+	neutron_device.o
-diff --git a/drivers/accel/neutron/neutron_device.c b/drivers/accel/neutron/neutron_device.c
-new file mode 100644
-index 000000000000..61b3c96b4996
---- /dev/null
-+++ b/drivers/accel/neutron/neutron_device.c
-@@ -0,0 +1,160 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/* Copyright 2025-2026 NXP */
-+
-+#include <linux/bitfield.h>
-+#include <linux/elf.h>
-+#include <linux/firmware.h>
-+#include <linux/iopoll.h>
-+
-+#include "neutron_device.h"
-+
-+void neutron_enable_irq(struct neutron_device *ndev)
-+{
-+	u32 val;
-+
-+	val = readl_relaxed(NEUTRON_REG(ndev, INTENA));
-+	val |= INTENA_INFDONE;
-+	writel_relaxed(val, NEUTRON_REG(ndev, INTENA));
-+}
-+
-+void neutron_disable_irq(struct neutron_device *ndev)
-+{
-+	writel_relaxed(INTENA_INFDONE, NEUTRON_REG(ndev, INTCLR));
-+}
-+
-+void neutron_handle_irq(struct neutron_device *ndev)
-+{
-+	u32 appstatus;
-+
-+	appstatus = readl_relaxed(NEUTRON_REG(ndev, APPSTATUS));
-+
-+	/* Write 1 to clear */
-+	writel_relaxed(appstatus & APPSTATUS_CLEAR_MASK, NEUTRON_REG(ndev, APPSTATUS));
-+
-+	if (appstatus & APPSTATUS_FAULTCAUSE_MASK)
-+		dev_err(ndev->dev, "Neutron halted due to fault: 0x%lx\n",
-+			FIELD_GET(APPSTATUS_FAULTCAUSE_MASK, appstatus));
-+}
-+
-+#define neutron_boot_done(appctrl) \
-+	(FIELD_GET(APPCTRL_MBWR_MASK, (appctrl)) == APPCTRL_MBWR_MAGIC)
-+
-+static int neutron_start(struct neutron_device *ndev)
-+{
-+	u32 resetctrl, appctrl;
-+	int ret;
-+
-+	resetctrl = readl_relaxed(NEUTRON_REG(ndev, RESETCTRL));
-+	writel_relaxed(resetctrl | RESETCTRL_ZVRUN, NEUTRON_REG(ndev, RESETCTRL));
-+
-+	ret = readl_poll_timeout(NEUTRON_REG(ndev, APPCTRL),
-+				 appctrl, neutron_boot_done(appctrl),
-+				 100, 1000 * USEC_PER_MSEC);
-+	if (ret) {
-+		dev_err(ndev->dev, "Neutron boot timed out\n");
-+		return -ETIMEDOUT;
-+	}
-+
-+	return 0;
-+}
-+
-+static void neutron_stop(struct neutron_device *ndev)
-+{
-+	u32 resetctrl;
-+
-+	resetctrl = readl_relaxed(NEUTRON_REG(ndev, RESETCTRL));
-+	writel_relaxed(resetctrl & ~RESETCTRL_ZVRUN, NEUTRON_REG(ndev, RESETCTRL));
-+
-+	readl_poll_timeout(NEUTRON_REG(ndev, RESETCTRL),
-+			   resetctrl, !(resetctrl & RESETCTRL_ZVRUN),
-+			   100, 100 * USEC_PER_MSEC);
-+}
-+
-+static void __iomem *neutron_tcm_da_to_va(struct neutron_device *ndev, u64 da)
-+{
-+	struct neutron_mem_region *mem;
-+	int offset, i;
-+
-+	for (i = 0; i < NEUTRON_MEM_MAX; i++) {
-+		if (i != NEUTRON_MEM_ITCM && i != NEUTRON_MEM_DTCM)
-+			continue;
-+		mem = &ndev->mem_regions[i];
-+		if (da >= mem->da && da < mem->da + mem->size) {
-+			offset = da - mem->da;
-+			return mem->va + offset;
-+		}
-+	}
-+
-+	return NULL;
-+}
-+
-+static int neutron_load_firmware(struct neutron_device *ndev)
-+{
-+	const struct firmware *fw;
-+	struct elf32_hdr *ehdr;
-+	struct elf32_phdr *phdr, *seg;
-+	void __iomem *dest;
-+	int i, ret;
-+
-+	ret = request_firmware(&fw, NEUTRON_FIRMWARE_NAME, ndev->dev);
-+	if (ret) {
-+		dev_err(ndev->dev, "Failed to request firmware\n");
-+		return ret;
-+	}
-+
-+	ehdr = (struct elf32_hdr *)fw->data;
-+	if (memcmp(ehdr->e_ident, ELFMAG, SELFMAG) != 0) {
-+		dev_err(ndev->dev, "Invalid firmware image\n");
-+		ret = -EINVAL;
-+		goto out_release_fw;
-+	}
-+
-+	phdr = (struct elf32_phdr *)(fw->data + ehdr->e_phoff);
-+	for (i = 0; i < ehdr->e_phnum; i++) {
-+		seg = &phdr[i];
-+		if (seg->p_type != PT_LOAD || !seg->p_memsz)
-+			continue;
-+
-+		dest = neutron_tcm_da_to_va(ndev, seg->p_paddr);
-+		if (!dest) {
-+			dev_err(ndev->dev, "Invalid firmware segment: 0x%x\n", seg->p_paddr);
-+			ret = -EINVAL;
-+			goto out_release_fw;
-+		}
-+
-+		memcpy_toio(dest, fw->data + seg->p_offset, seg->p_filesz);
-+		if (seg->p_memsz > seg->p_filesz)
-+			memset_io(dest + seg->p_filesz, 0, seg->p_memsz - seg->p_filesz);
-+	}
-+
-+out_release_fw:
-+	release_firmware(fw);
-+
-+	return ret;
-+}
-+
-+int neutron_boot(struct neutron_device *ndev)
-+{
-+	int ret;
-+
-+	if (ndev->flags & NEUTRON_BOOTED)
-+		neutron_shutdown(ndev);
-+
-+	ret = neutron_load_firmware(ndev);
-+	if (ret)
-+		return ret;
-+
-+	ret = neutron_start(ndev);
-+	if (ret)
-+		return ret;
-+
-+	ndev->flags |= NEUTRON_BOOTED;
-+
-+	return 0;
-+}
-+
-+void neutron_shutdown(struct neutron_device *ndev)
-+{
-+	neutron_stop(ndev);
-+	ndev->flags &= ~NEUTRON_BOOTED;
-+}
-diff --git a/drivers/accel/neutron/neutron_device.h b/drivers/accel/neutron/neutron_device.h
-new file mode 100644
-index 000000000000..8e4df7462d82
---- /dev/null
-+++ b/drivers/accel/neutron/neutron_device.h
-@@ -0,0 +1,120 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/* Copyright 2025-2026 NXP */
-+
-+#ifndef __NEUTRON_DEVICE_H__
-+#define __NEUTRON_DEVICE_H__
-+
-+#include <linux/device.h>
-+#include <linux/mutex.h>
-+#include <linux/spinlock.h>
-+#include <linux/bits.h>
-+#include <drm/drm_device.h>
-+
-+struct clk_bulk_data;
-+
-+#define NEUTRON_FIRMWARE_NAME		"NeutronFirmware.elf"
-+
-+/* Register offsets */
-+#define NEUTRON_REG_RESETCTRL		0x00
-+#define NEUTRON_REG_STATUSERR		0x04
-+#define NEUTRON_REG_INTENA		0x08
-+#define NEUTRON_REG_INTCLR		0x0C
-+#define NEUTRON_REG_APPCTRL		0x200
-+#define NEUTRON_REG_APPSTATUS		0x204
-+#define NEUTRON_REG_BASEDDRL		0x208
-+#define NEUTRON_REG_BASEDDRH		0x20C
-+#define NEUTRON_REG_RINGCTRL		0x230
-+#define NEUTRON_REG_TAIL		0x238
-+#define NEUTRON_REG_HEAD		0x23C
-+#define NEUTRON_REG_MBOX0		0x240
-+#define NEUTRON_REG_MBOX1		0x244
-+#define NEUTRON_REG_MBOX2		0x248
-+#define NEUTRON_REG_MBOX3		0x24C
-+#define NEUTRON_REG_MBOX4		0x250
-+#define NEUTRON_REG_MBOX5		0x254
-+#define NEUTRON_REG_MBOX6		0x258
-+#define NEUTRON_REG_MBOX7		0x25C
-+#define NEUTRON_REG_BASEINOUTL		0x280
-+#define NEUTRON_REG_BASEINOUTH		0x284
-+#define NEUTRON_REG_BASESPILLL		0x288
-+#define NEUTRON_REG_BASESPILLH		0x28C
-+
-+/* Register fields */
-+#define RESETCTRL_ZVRUN			BIT(0)
-+
-+#define INTENA_INFDONE			BIT(1)
-+
-+#define APPCTRL_MBWR_MASK		GENMASK(31, 16)
-+#define APPCTRL_MBWR_MAGIC		0xF807
-+
-+#define APPSTATUS_INFDONE		BIT(0)
-+#define APPSTATUS_INFHALTED		BIT(1)
-+#define APPSTATUS_FAULTCAUSE_MASK	GENMASK(21, 16)
-+#define APPSTATUS_CLEAR_MASK		GENMASK(4, 0)
-+
-+#define RINGCTRL_ADDR_MASK		GENMASK(16, 8)
-+#define RINGCTRL_SIZE_MASK		GENMASK(7, 0)
-+#define RINGCTRL_SIZE_MULT		256
-+
-+/* Neutron device-side memory map */
-+#define NEUTRON_ITCM_DA			0x0
-+#define NEUTRON_DTCM_DA			0x40000
-+#define NEUTRON_DTCM_BANK1_OFFSET	0x4000
-+
-+/* Driver flags */
-+#define NEUTRON_BOOTED			BIT(0)
-+
-+/**
-+ * struct neutron_mem_region - Neutron memory region descriptor
-+ * @va: kernel virtual address of the memory region
-+ * @da: Device address of the memory region
-+ * @size: size of the memory region
-+ */
-+struct neutron_mem_region {
-+	void __iomem *va;
-+	u64 da;
-+	size_t size;
-+};
-+
-+enum neutron_mem_id {
-+	NEUTRON_MEM_REGS = 0,
-+	NEUTRON_MEM_ITCM,
-+	NEUTRON_MEM_DTCM,
-+	NEUTRON_MEM_MAX
-+};
-+
-+/**
-+ * struct neutron_device - Neutron device structure
-+ * @base: Base DRM device
-+ * @dev: Pointer to underlying device
-+ * @mem_regions: Array of memory region descriptors
-+ * @irq: IRQ number
-+ * @clks: Neutron clocks
-+ * @num_clks: Number of clocks
-+ * @flags: Software flags used by driver
-+ */
-+struct neutron_device {
-+	struct drm_device base;
-+	struct device *dev;
-+
-+	struct neutron_mem_region mem_regions[NEUTRON_MEM_MAX];
-+
-+	int irq;
-+	struct clk_bulk_data *clks;
-+	int num_clks;
-+	u32 flags;
-+};
-+
-+#define to_neutron_device(drm) \
-+	container_of(drm, struct neutron_device, base)
-+
-+#define NEUTRON_REG(ndev, name) \
-+	((ndev)->mem_regions[NEUTRON_MEM_REGS].va + NEUTRON_REG_##name)
-+
-+int neutron_boot(struct neutron_device *ndev);
-+void neutron_shutdown(struct neutron_device *ndev);
-+void neutron_enable_irq(struct neutron_device *ndev);
-+void neutron_disable_irq(struct neutron_device *ndev);
-+void neutron_handle_irq(struct neutron_device *ndev);
-+
-+#endif /* __NEUTRON_DEVICE_H__ */
-diff --git a/drivers/accel/neutron/neutron_driver.c b/drivers/accel/neutron/neutron_driver.c
-new file mode 100644
-index 000000000000..7f34785216cf
---- /dev/null
-+++ b/drivers/accel/neutron/neutron_driver.c
-@@ -0,0 +1,228 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/* Copyright 2025-2026 NXP */
-+
-+#include <linux/clk.h>
-+#include <linux/dma-mapping.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_reserved_mem.h>
-+#include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
-+
-+#include <drm/drm_accel.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_ioctl.h>
-+#include <drm/drm_gem.h>
-+
-+#include "neutron_device.h"
-+#include "neutron_driver.h"
-+
-+#define NEUTRON_SUSPEND_DELAY_MS 1000
-+
-+static int neutron_open(struct drm_device *drm, struct drm_file *file)
-+{
-+	struct neutron_device *ndev = to_neutron_device(drm);
-+	struct neutron_file_priv *npriv;
-+
-+	npriv = kzalloc_obj(*npriv);
-+	if (!npriv)
-+		return -ENOMEM;
-+
-+	npriv->ndev = ndev;
-+	file->driver_priv = npriv;
-+
-+	return 0;
-+}
-+
-+static void neutron_postclose(struct drm_device *drm, struct drm_file *file)
-+{
-+	struct neutron_file_priv *npriv = file->driver_priv;
-+
-+	kfree(npriv);
-+}
-+
-+DEFINE_DRM_ACCEL_FOPS(neutron_drm_driver_fops);
-+
-+static const struct drm_driver neutron_drm_driver = {
-+	.driver_features	= DRIVER_COMPUTE_ACCEL,
-+	.name			= "neutron",
-+	.desc			= "NXP Neutron driver",
-+	.major			= 1,
-+	.minor			= 0,
-+
-+	.fops			= &neutron_drm_driver_fops,
-+	.open			= neutron_open,
-+	.postclose		= neutron_postclose,
-+};
-+
-+static irqreturn_t neutron_irq_handler_thread(int irq, void *data)
-+{
-+	struct neutron_device *ndev = data;
-+
-+	neutron_handle_irq(ndev);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int neutron_map_region(struct platform_device *pdev, char *name,
-+			      enum neutron_mem_id id)
-+{
-+	struct neutron_device *ndev = platform_get_drvdata(pdev);
-+	struct neutron_mem_region *mem = &ndev->mem_regions[id];
-+	struct resource *res;
-+
-+	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, name);
-+	if (!res)
-+		return -EINVAL;
-+
-+	mem->va = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(mem->va))
-+		return PTR_ERR(mem->va);
-+
-+	mem->size = resource_size(res);
-+
-+	if (id == NEUTRON_MEM_ITCM)
-+		mem->da = NEUTRON_ITCM_DA;
-+	else if (id == NEUTRON_MEM_DTCM)
-+		mem->da = NEUTRON_DTCM_DA;
-+
-+	return 0;
-+}
-+
-+static int neutron_probe(struct platform_device *pdev)
-+{
-+	struct neutron_device *ndev;
-+	struct device *dev;
-+	int ret;
-+
-+	ndev = devm_drm_dev_alloc(&pdev->dev, &neutron_drm_driver,
-+				  struct neutron_device, base);
-+	if (IS_ERR(ndev))
-+		return PTR_ERR(ndev);
-+
-+	platform_set_drvdata(pdev, ndev);
-+	dev = &pdev->dev;
-+	ndev->dev = dev;
-+
-+	dma_set_mask_and_coherent(dev, DMA_BIT_MASK(48));
-+
-+	/* Map registers, ITCM and DTCM regions of the Neutron device */
-+	ret = neutron_map_region(pdev, "regs", NEUTRON_MEM_REGS);
-+	if (ret)
-+		return ret;
-+	ret = neutron_map_region(pdev, "itcm", NEUTRON_MEM_ITCM);
-+	if (ret)
-+		return ret;
-+	ret = neutron_map_region(pdev, "dtcm", NEUTRON_MEM_DTCM);
-+	if (ret)
-+		return ret;
-+
-+	ndev->num_clks = devm_clk_bulk_get_all(dev, &ndev->clks);
-+	if (ndev->num_clks < 0)
-+		return ndev->num_clks;
-+
-+	ndev->irq = platform_get_irq(pdev, 0);
-+	if (ndev->irq < 0)
-+		return ndev->irq;
-+
-+	ret = devm_request_threaded_irq(dev, ndev->irq, NULL,
-+					neutron_irq_handler_thread,
-+					IRQF_ONESHOT, KBUILD_MODNAME, ndev);
-+	if (ret) {
-+		dev_err(dev, "Failed to request irq %d\n", ndev->irq);
-+		return ret;
-+	}
-+
-+	ret = of_reserved_mem_device_init(&pdev->dev);
-+	if (ret) {
-+		dev_err(dev, "Failed to initialize reserved memory\n");
-+		return ret;
-+	}
-+
-+	ret = devm_pm_runtime_enable(dev);
-+	if (ret)
-+		goto free_reserved;
-+
-+	pm_runtime_set_autosuspend_delay(dev, NEUTRON_SUSPEND_DELAY_MS);
-+	pm_runtime_use_autosuspend(dev);
-+
-+	ret = drm_dev_register(&ndev->base, 0);
-+	if (ret)
-+		goto free_reserved;
-+
-+	return 0;
-+
-+free_reserved:
-+	of_reserved_mem_device_release(&pdev->dev);
-+
-+	return ret;
-+}
-+
-+static void neutron_remove(struct platform_device *pdev)
-+{
-+	struct neutron_device *ndev = platform_get_drvdata(pdev);
-+
-+	drm_dev_unregister(&ndev->base);
-+	of_reserved_mem_device_release(&pdev->dev);
-+}
-+
-+static int neutron_runtime_suspend(struct device *dev)
-+{
-+	struct neutron_device *ndev = dev_get_drvdata(dev);
-+
-+	neutron_disable_irq(ndev);
-+	neutron_shutdown(ndev);
-+
-+	clk_bulk_disable_unprepare(ndev->num_clks, ndev->clks);
-+
-+	return 0;
-+}
-+
-+static int neutron_runtime_resume(struct device *dev)
-+{
-+	struct neutron_device *ndev = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = clk_bulk_prepare_enable(ndev->num_clks, ndev->clks);
-+	if (ret)
-+		return ret;
-+
-+	ret = neutron_boot(ndev);
-+	if (ret) {
-+		clk_bulk_disable_unprepare(ndev->num_clks, ndev->clks);
-+		return ret;
-+	}
-+
-+	neutron_enable_irq(ndev);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops neutron_pm_ops = {
-+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
-+	RUNTIME_PM_OPS(neutron_runtime_suspend, neutron_runtime_resume, NULL)
-+};
-+
-+static const struct of_device_id neutron_match_table[] = {
-+	{ .compatible = "nxp,imx95-neutron" },
-+	{}
-+};
-+
-+MODULE_DEVICE_TABLE(of, neutron_match_table);
-+
-+static struct platform_driver neutron_driver = {
-+	.probe	= &neutron_probe,
-+	.remove	= &neutron_remove,
-+	.driver	= {
-+		.name		= "neutron",
-+		.of_match_table	= of_match_ptr(neutron_match_table),
-+		.pm		= pm_ptr(&neutron_pm_ops),
-+	},
-+};
-+module_platform_driver(neutron_driver);
-+
-+MODULE_AUTHOR("NXP");
-+MODULE_DESCRIPTION("NXP Neutron Accel Driver");
-+MODULE_LICENSE("GPL");
-+MODULE_FIRMWARE(NEUTRON_FIRMWARE_NAME);
-diff --git a/drivers/accel/neutron/neutron_driver.h b/drivers/accel/neutron/neutron_driver.h
-new file mode 100644
-index 000000000000..cd52b5eb2d27
---- /dev/null
-+++ b/drivers/accel/neutron/neutron_driver.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/* Copyright 2025 NXP */
-+
-+#ifndef __NEUTRON_DRIVER_H__
-+#define __NEUTRON_DRIVER_H__
-+
-+struct neutron_device;
-+
-+struct neutron_file_priv {
-+	struct neutron_device *ndev;
-+};
-+
-+#endif /* __NEUTRON_DRIVER_H__ */
+Thank you,
+Sumit Gupta
 
--- 
-2.34.1
 
+> ---
+> v7[7] -> v8:
+> - patch 4 (v7): Dropped min/max_perf sysfs patch.
+> - patch 5 (v8): New patch to update MIN/MAX_PERF in target callbacks
+>    using scaling_min/max_freq interface similar to intel_cpufreq.
+> - patch 1-4, 6-7 (v8): Added Reviewed-by from Pierre and Lifeng on v7.
+>
+> Sumit Gupta (7):
+>    ACPI: CPPC: Add cppc_get_perf() API to read performance controls
+>    ACPI: CPPC: Warn on missing mandatory DESIRED_PERF register
+>    ACPI: CPPC: Extend cppc_set_epp_perf() for FFH/SystemMemory
+>    cpufreq: CPPC: Update cached perf_ctrls on sysfs write
+>    cpufreq: cppc: Update MIN_PERF/MAX_PERF in target callbacks
+>    ACPI: CPPC: add APIs and sysfs interface for perf_limited
+>    cpufreq: CPPC: Add sysfs documentation for perf_limited
+>
+>   .../ABI/testing/sysfs-devices-system-cpu      |  18 ++
+>   drivers/acpi/cppc_acpi.c                      | 170 +++++++++++++++++-
+>   drivers/cpufreq/cppc_cpufreq.c                |  83 ++++++++-
+>   include/acpi/cppc_acpi.h                      |  20 +++
+>   4 files changed, 285 insertions(+), 6 deletions(-)
+>
+> [1] https://lore.kernel.org/lkml/20250211103737.447704-1-sumitg@nvidia.com/
+> [2] https://lore.kernel.org/lkml/20250823200121.1320197-1-sumitg@nvidia.com/
+> [3] https://lore.kernel.org/lkml/20251001150104.1275188-1-sumitg@nvidia.com/
+> [4] https://lore.kernel.org/lkml/20251105113844.4086250-1-sumitg@nvidia.com/
+> [5] https://lore.kernel.org/lkml/20251223121307.711773-1-sumitg@nvidia.com/
+> [6] https://lore.kernel.org/lkml/20260120145623.2959636-1-sumitg@nvidia.com/
+> [7] https://lore.kernel.org/lkml/20260129104817.3752340-1-sumitg@nvidia.com/
+>
