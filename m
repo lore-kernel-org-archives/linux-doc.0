@@ -1,161 +1,166 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BBE31984E
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 00:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772067139; cv=pass; b=Yjt+STQK+1UzK2KUeSiwYVEZy8vFSmn9zrTiD73ngHusEAdbAINSCQ21Pb38MJqExOiCoCGDMAG8sGbyb7FRwUVZqhMhIrG2zVc6a1EJHigTt+6TPFyl/A/54zGIhY/QQ/YmOwEiNldjWfwb203DhfZhY8TvlbpPttUWtLvAW0c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772067139; c=relaxed/simple;
-	bh=5UM3OPrEzy38BQ/z8lTr67s9jTiNGfLCQhFUKKuIZuE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ne8t0KZphlUtf2bX56nEN0Khvkp3SLwctyWJSqMISbd+DpMH2rlLr6kUMNYoYCI30HTFAPCFvh2wFQmZL4Xtej4sL8u2qyk1PEEQ4F0VxZ5SOL+GYeLzQJFz2JwihfrO5neCNFXrYZu4N2TtXz8pp0Jh7iuNwf7bQUnPFltzTyY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Isym9Zp4; arc=pass smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B2C2DC765;
+	Thu, 26 Feb 2026 00:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772067170; cv=none; b=BKsCgwbro4H6LozMK/LjP5gCiUB0RaHv8ACPyIUYIyNugf1VZmwRjcWTGqunCQLeSDp0ChZ6VkiXBBZog6ZMc6pE9ncpjld+XYN1czKpZ5Bh2niSClEgwir5ElKO2Mf9c2OQOvMEOV6O8qjAoahKR8GZtTdiFfzXe/Hbdixfdio=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772067170; c=relaxed/simple;
+	bh=Cs5Jm3HGPSduoOsafr2sYMh+UobQrLK7pbo4l8qpA4k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DRLsVi1pfl1NnwJaeZid7kw5Pia1lkUlOPVFY8teWvahmrcEFbXdXOqbFEBnAzkCr0U0UpxcIPurrAGY8L4Wsz/L26xuz26HnMHMhquLcIYd3hOYtO4EVKgiITLKszmLP8+TlQ3I2O2e1XD7a0CTRimDLO1vrq0UWv4QKrY9JzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9C/JA8k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Isym9Zp4"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5688b639a19so153013e0c.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 16:52:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772067137; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iE0OOaXq4Jnsh69UXMt7ZGdCeRX844ZU45nViavD/raY7p79iatU8Nn8orxmjzZLPm
-         Pb/gURlYdWyCbevrHyPUiyR5R1m3ePZxLdyOrG63hZd3viGcLz1JTeDhU3roWp5gq4ie
-         MtytzisKuct+62JGZ8Ea+426CRRCaz1d1gKw/2ti3ckNlF7G2Culs4cJ0LsevkbqjRST
-         0u2NJz/SwNVRskzNGWfjrNlZn9y0Vna/NBdRr12AYWA4zRj+1zfkP1J4Q/R22zsv/E7J
-         7rcL9bWEBO7n7N2ta/yGBxlDwdJJ2hG9FYBNjQ3o3F5pM21E2ncGsxadrmYuK7on0dLj
-         3gAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tit/ZfajxqvE3xISUpVUeXJRv5DgJC6ZdqyR1I2SKAc=;
-        fh=5TXTIryMmEgdnrZiCPmZzrowV7YgsExWr7YrJrr71+Y=;
-        b=aHzo0MYXDEk/ipefkojvXb4paxoQqXUUypFA3WCpaWf+5GPfegKnaDmvfWuIDYd5mP
-         kOEVbSePmziOIvxklQ36NBNpjoD/Cq1BpRReTBU46cxIXstAYnISUDTogdKTu47BvMyq
-         HHDcY4vnLWowbvsLlwaUqBUVwnxvYht8RmcUw/DrSxov7Jd7ps1ylkxr45CgHtxt9Slw
-         EhagWmUIlbWgjgrRGU9fVyeGZyFIma6DPnDGFkYyyErOXGg7wzSSdvAVCsibDCIJhOhy
-         7Q9z9YOOTP43FEBKQauJw6ttKGs0O37T4/DTjE0NP3p3k8cMFznRckAlq7pKzZPjWhZJ
-         NDCA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772067137; x=1772671937; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tit/ZfajxqvE3xISUpVUeXJRv5DgJC6ZdqyR1I2SKAc=;
-        b=Isym9Zp4jjzR+PC3c/BniSDPSxJbrLU8884r+rart9fG1ueJm/2EFzUZ54EEDwayeH
-         4TElbvJ6sEuwu2Q91jPlhwmiNC15kR69yqOPhVJPvW2wHKUiI3ZQuEvDaubPPR5D993m
-         Hnp/o4nbcJCA4D1/8p1P4oraDX5owxN0FTeHHx1eObgCadot88UiLgxyonvldRh4c++g
-         zxEIpMNtWGmkw4Kjsp4F1Pk6APFcQZ8azzng1d+4eZdwvQfMelhgLDii/TcG/monS+0f
-         1Zte2TRT8ls6qpt0pJKTAa4dnhta0PRjvHW754pcnzj+v1EdXGsgPbefOu4Ncl8P2vbY
-         cZMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772067137; x=1772671937;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tit/ZfajxqvE3xISUpVUeXJRv5DgJC6ZdqyR1I2SKAc=;
-        b=mZWOvpk4plAa/ytsHp061Zxs4GUZMJ1BkGKZ0FJjequxxC37sS0SGN9FurWL24QTY/
-         PKI03VQyhu164xShz0wTDqsPD4ckstuLnD7ptdj6tH+P74zAY27DceW0pcXLXwUsX+pr
-         GWW9v/NG1xBrbzvT4DdGcJZHcLUOJYbUrOWzzE4ETg5ecRBwPJqMfkD1v8TO/EqfPUqs
-         8HrzW5EmaANDIGXyrPNPwyiDsSyG5d7H6gz/Mh17pSFkR+dLJC0+Y9SiNZ76eZri0xig
-         kGNqZNaei9DEWSuxYRq4VTZCksBxS+kXpB63AQ2S0aY0Yl/Gd1Z7M7XgBX7xp00L7vCD
-         G6qw==
-X-Forwarded-Encrypted: i=1; AJvYcCV3UXGt7kAuQrn9UcHpVgnKOOtMl4J5oY02uCVjPlRJkGFtjN2jW2hh9ssInLMIRAeeABpGipoX7vQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4CgzrFxKtg70kuUwjZt0jq7uvr+EM6zRghs5lUtk8R507RX8Y
-	j3agrMfgM33T4LjZWG8TMXTb3sdFxHLHutdHpMuCfSk06cvPRV1mAN8kq3aImqhbbUnxZwCN5IB
-	if7CB2E53tqARDg95bOBcc0eRE5YEGZLSLA6ZX0U1
-X-Gm-Gg: ATEYQzzMSmjNuD2LkVIuNKQERkTgj73dn9qXCdjyv2kubDaGvczawxLVL/Bh59RDt/S
-	wgDlOsPQe18pntY0AgcSuq1O/YEVTPUycsyVxNdF57LMZzkL57g/vmIVdF/N5ppLBrnpLE7r0P4
-	EIZUuJRULdVqlosxkyu3CvzMfGUZRiQeB1lVvToj1hHMnpRKMQuFYKPCLt4OyBURvqXThyKWs5W
-	2bXGEFtuyq2IEg5TX9hZf4kTT8VaV7Jq1uMvOnQGX0Mdj7Tw8s9GpO6xJaeChnL5UcjqborqEnP
-	eoJrv6Q=
-X-Received: by 2002:a05:6102:3f0d:b0:5ed:f13:e58a with SMTP id
- ada2fe7eead31-5ff1419f7b6mr1037473137.37.1772067136513; Wed, 25 Feb 2026
- 16:52:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9C/JA8k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2624C116D0;
+	Thu, 26 Feb 2026 00:52:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772067170;
+	bh=Cs5Jm3HGPSduoOsafr2sYMh+UobQrLK7pbo4l8qpA4k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=c9C/JA8keNo5dB5zBrxnSwiYNiGwKRHlCouM0r7PngXbLQH2FoyYSC8tRczvSY3R0
+	 PVspcWf1Ycx6P+wfrr4p0wGamBWB0lWFFNd989WSY2twUlrBSFtmjHPI+oVmvTWlvx
+	 tz40Qo62xTmHblU0sQPS1lrrX3gCeGRrbMNEpbFlW8+T5q+B4B8HQs62Iducm/NLgC
+	 PJImODa93xoCDabAOZ/WWydx69edleVhwND6Wmh/jHwtj+MuKiHdkLGxusgC3qyg6g
+	 lwHxjy3gx3WibprScbsJa9hD73qxwixYNmqEGCCIXi4GloXsDFwTKo+1TEl1sCY8Q/
+	 d5Tn9mdcEMWxA==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [RFC PATCH v3 0/4] mm/damon: Introduce node_eligible_mem_bp and node_ineligible_mem_bp Quota Goal Metrics
+Date: Wed, 25 Feb 2026 16:52:46 -0800
+Message-ID: <20260226005248.7509-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CALa+Y17HPOxpLF41+Jn-fHqu7s4YUzgsFKdhD9MsN=wCop_kRw@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260129212510.967611-1-dmatlack@google.com> <20260129212510.967611-10-dmatlack@google.com>
- <aZ606sDJxtfNF6qW@google.com>
-In-Reply-To: <aZ606sDJxtfNF6qW@google.com>
-From: David Matlack <dmatlack@google.com>
-Date: Wed, 25 Feb 2026 16:51:47 -0800
-X-Gm-Features: AaiRm51I1tTdJRO5CbbBFYwdOmR4S6VSPvkujC59eyupuwvOv4iLZLnGYRmW3DQ
-Message-ID: <CALzav=cH0-qqQJTOjDD7pHzsFeZOir5DoC3f1hhDg=jqK7vdgw@mail.gmail.com>
-Subject: Re: [PATCH v2 09/22] vfio/pci: Store incoming Live Update state in
- struct vfio_pci_core_device
-To: Pranjal Shrivastava <praan@google.com>
-Cc: Alex Williamson <alex@shazbot.org>, Adithya Jayachandran <ajayachandra@nvidia.com>, 
-	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
-	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Raghavendra Rao Ananta <rananta@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 25, 2026 at 12:38=E2=80=AFAM Pranjal Shrivastava <praan@google.=
-com> wrote:
-> On Thu, Jan 29, 2026 at 09:24:56PM +0000, David Matlack wrote:
+On Wed, 25 Feb 2026 10:19:11 -0800 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
 
-> >  static bool vfio_pci_liveupdate_can_finish(struct liveupdate_file_op_a=
-rgs *args)
-> >  {
-> > -     return args->retrieved;
-> > +     struct vfio_pci_core_device *vdev;
-> > +     struct vfio_device *device;
-> > +
-> > +     if (!args->retrieved)
-> > +             return false;
-> > +
-> > +     device =3D vfio_device_from_file(args->file);
-> > +     vdev =3D container_of(device, struct vfio_pci_core_device, vdev);
-> > +
-> > +     /* Check that vdev->liveupdate_incoming_state is no longer in use=
-. */
-> > +     guard(mutex)(&device->dev_set->lock);
-> > +     return !vdev->liveupdate_incoming_state;
->
-> Since we set this to NULL in the success path of vfio_pci_core_enable()
-> I'm wondering if a failure in vfio_pci_core_enable could cause a
-> resource leak? Because vfio_pci_liveupdate_can_finish() returns false
-> as long as that pointer is valid, a single device failure will
-> perpetually block the LIVEUPDATE_SESSION_FINISH IOCTL for the entire
-> session preventing the LUO from reclaiming KHO memory.
->
-> Shall we also set vdev->liveupdate_incoming_state =3D NULL on the error
-> paths of vfio_pci_core_enable() ?
+> On Mon, Feb 23, 2026 at 9:36 PM SeongJae Park <sj@kernel.org> wrote:
+> >
+> > Hello Ravi,
+> >
+> > On Mon, 23 Feb 2026 12:32:28 +0000 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+> >
+> > > MIME-Version: 1.0
+> > > Content-Type: text/plain; charset=UTF-8
+> > > Content-Transfer-Encoding: 8bit
+> > >
+> > > This series introduces two new DAMON quota goal metrics for controlling
+> > > memory migration in heterogeneous memory systems (e.g., DRAM and CXL
+> > > memory tiering) using physical address (PA) mode monitoring.
+> >
+> > Thank you for keep working on and sharing this :)
+> 
+> Thank you for the detailed review!
 
-LIVEUPDATE_SESSION_FINISH will also perpetually fail if userspace
-never calls ioctl(VFIO_DEVICE_BIND_IOMMUFD) (which is what triggers
-vfio_pci_core_enable()). Or if that ioctl fails before it gets to
-vfio_pci_core_enable().
+My pleasure!
 
-It's not a great situation to be in, but this is why can_finish()
-exists as a callback. Userspace must properly and correctly restore
-all of the state in the session before the session can be cleaned up.
-And the kernel is not going to handle every possible edge case (some
-files in a session are restored but some are not), at least not
-initially. If userspace gets stuck and cannot recover a resource then
-userspace will have to reboot the host to get back to a healthy state.
+[...]
+> > > - Added PA-mode detection lag compensation cache (see dedicated section
+> > >   below for design details).
+> >
+> > I'm not very sure if this is really needed, though.  I'll leave comment on the
+> > dedicated section below.
+> 
+> Understood. I consciously separated the cache implementation (patch 4)
+> from the core metrics (patch 3) because the cache is ONE possible approach to
+> handle detection lag - not necessarily THE approach. My goal was to share
+> what was needed to achieve equilibrium with my synthetic benchmark
+> workload (multiload),
+> while making it clear that the cache mechanism could be dropped or
+> replaced with alternatives.
+
+That was indeed helpful for reviewing, thank you!
+
+> 
+> >
+> > >
+> > > - Added fix for esz=0 quota bypass that allowed unlimited migration when
+> > >   goal was achieved.
+> > >
+> > > - Added fix for goal_tuner sysfs setting being ignored due to
+> > >   damon_new_scheme() always defaulting to CONSIST.
+> >
+> > Thank you for finding and fixing these issues in my previously shared RFC patch
+> > series!  I left a few comments to the patches.  In short, the second fix looks
+> > good and I will add that to the next revision of my RFC patch series, if you
+> > don't mind.  For the first fix, I'd like to take more time on thinking more
+> > cleaner solution.
+> 
+> Sounds good. Please go ahead and incorporate the goal_tuner fix into
+> your series.
+> Happy to test whatever approach you come up with for the esz=0 issue.
+
+Thank you, I will do!
+
+[...]
+> > > In PA-mode, when pages are migrated:
+> > > 1. Source node detection drops immediately (pages are gone)
+> > > 2. Target node detection increases slowly (new addresses need sampling)
+> >
+> > I agree.  And this is not what I clearly expected during the previous
+> > discussion.  Thank you for sharing this issue.
+> 
+> I'm glad this observation is useful. It was something I discovered during
+> testing that wasn't obvious until I looked at the trace data closely.
+
+Thank you for sharing the pain point.  I recently added a few more DAMOS
+tracepoints motivated by our offline discussion.  I'm planning to add better
+supports of those in DAMON user-space tool.  Knowing this kind of pain points
+is essential and useful at improving DAMON, thank you!
+
+[...]
+> > I will leave more comments to the patch implementing this.  But this seems too
+> > much at the current stage, unless there are clear test results showing its
+> > needs.  I'd recommend proceeding without this, and later revisit if the problem
+> > becomes clearly significant.
+> 
+> I agree. Let's drop patch 4 for now and focus on getting the core
+> metrics merged.
+> The cache mechanism can be revisited later if real-world usage shows
+> it's needed.
+
+Thank you for flexibly accepting my suggestion!
+
+[...]
+> > I'm yet to further reply to the fourth patch, but I hope my comments be worthy
+> > :)
+> >
+> 
+> Very much so! Your feedback has been invaluable in shaping this work. :-)
+
+More than exciting to hear that :D
+
+> 
+> I'm currently on a break and will be back after March 10th. Once I return,
+> I'll send the updated patch 3 and share test results with CONSIST
+> tuner.
+
+Sounds perfect, I hope you to have great break!
+
+
+Thanks,
+SJ
+
+[...]
