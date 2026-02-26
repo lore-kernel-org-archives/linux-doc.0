@@ -1,128 +1,196 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269263921EE;
-	Thu, 26 Feb 2026 20:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 404B74779B1;
+	Thu, 26 Feb 2026 21:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772139196; cv=none; b=ojNvJW4+V3v1DlWdPbKS/fQt5bo6FhgnHaVM619B32BQm80niEGhPI4EUiyqtfuCxe+J5BGPR/hsvaGzESFHBmOfaFhOZmFoBJhJfYt58ykit1NlRYwDUTsdJwRvfVFmfcygKF75xeKFwxvEoFS1TcxvFZpiOSJwkd6lZ48kg4g=
+	t=1772140569; cv=none; b=OgPgoXjMZhkEYvKDKYtwzgY9A85Y3WQi/m/E0/n52oEBb7VT6jDfPBrtXxjSRxd5KEfhT1Sf9NEZuwQ3rB4AeABNDCsJ2qvUQKaRzxdMdLzqwsZkQ96RQCDt4JvP0gMwffG96O22NPDSwbLn1Ntgwinc2t5rVssKrVuaLXU9TcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772139196; c=relaxed/simple;
-	bh=FMGMHoTjwPt/bXU/4luizA+S4f2sU4XiJzepCTV3gvw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eAekFUppKQUZHhjbWxQKD2sjOTmxJnYU8O3ZddsjntApMZzdpwUW7UHT19FRPJAG5o7cUXFCHSNi9FewDxlPFe4wOsW4se1kzfL12/N8Ku15UypFtVF7QlIdNP18mSgRXKeHNCovOh8tjky0v6ghMMaEDQhLTnfaddk4ONXAvbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=MU5XV6jP; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1772140569; c=relaxed/simple;
+	bh=YwPQeyGBzJcABYucg90H9LmrLb/nelrgO9edJ4pmwS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BXnx7GNt8/eN8MOYuNACv8h+RsNYtsVa7CWB7gLsq9vaIaYqmdogWYVHyoH2gP9PjcKHUNdYX7qlVdb0pg0alq593xWSog2o3CKZA6z5nPO7Omi9OanFGWW9cF9hifizUr1inyKSoGwIe19bUOGhb2tkKrWQwaAbBmQTgiCfNNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZ0XYGDU; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="MU5XV6jP"
-Received: from wse-pc.fritz.box (i5C75F712.versanet.de [92.117.247.18])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 405C02FC005B;
-	Thu, 26 Feb 2026 21:53:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1772139193;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wPaY9YcUS0IPBOJ/973YSQYOrjPX9lejzk7xilUKI3E=;
-	b=MU5XV6jPYaFLdWqnCnDtZSxIPqmEpxlaIQIihWz+fxXm3OOILsetIN8kvoiQiAtiymmEzS
-	qA6JDzR9xa80+Bu1oUUiiZsAAgl0QKi0Sv4bnWRkvcf/TPYnVsUvrIkFfFRK9vBtgtogMx
-	WBMY9+6sZ5nRNiJBlQs+UQKSWd5Y3Bs=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: Armin Wolf <W_Armin@gmx.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Werner Sembach <wse@tuxedocomputers.com>,
-	platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 4/4] Documentation: laptops: Update documentation for uniwill laptops
-Date: Thu, 26 Feb 2026 21:50:04 +0100
-Message-ID: <20260226205302.123782-5-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260226205302.123782-1-wse@tuxedocomputers.com>
-References: <20260226205302.123782-1-wse@tuxedocomputers.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZ0XYGDU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772140563; x=1803676563;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YwPQeyGBzJcABYucg90H9LmrLb/nelrgO9edJ4pmwS0=;
+  b=AZ0XYGDUIzxJ3qK14WHSQJSrpceUeObiO7kQbUmgngDhcRd8c7re8lDQ
+   /91vY3V8VEG5pWO1MHLvxtYYEbyqU09Kk0Xxd7sMLkbQvFfT5THJgr5FS
+   eNqTPeXAXOppdCRPk7lvB0uU17EBxCgHiIHt9yhM6AofMRxNq5fvOBlTY
+   aPCANQrAclX7cihPQarmgXyI7C8dPpYNl65u5LzC0xSR2ETDKcz+PKrrh
+   asQ+uVaFPgboyVleYNAz62SRoqzAc6yD14sRrjajkntCg2AezmZ88XjIO
+   BOCUA/jguBHNqC/29RDG2IIT4UwigbO2vfr6gtibgR/edXwC1NKaSEpEu
+   g==;
+X-CSE-ConnectionGUID: dSvJkTJ2SACab6Qp8XUt7g==
+X-CSE-MsgGUID: mB5b9FITSg+bisAjbbTSqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="72422796"
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="72422796"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2026 13:16:02 -0800
+X-CSE-ConnectionGUID: KF8q2MCfQ7KO5yyM2PuPtA==
+X-CSE-MsgGUID: booS3pxyQp61NWJ++rs5Zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,312,1763452800"; 
+   d="scan'208";a="216816235"
+Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
+  by orviesa007.jf.intel.com with ESMTP; 26 Feb 2026 13:15:57 -0800
+Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vviiA-000000009sp-1VpU;
+	Thu, 26 Feb 2026 21:15:54 +0000
+Date: Fri, 27 Feb 2026 05:15:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi <xuelin.shi@nxp.com>,
+	Alexandru Taran <alexandru.taran@nxp.com>,
+	Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>
+Subject: Re: [PATCH 5/9] accel/neutron: Add GEM buffer object support
+Message-ID: <202602270531.MP8x6wo3-lkp@intel.com>
+References: <20260226-neutron-v1-5-46eccb3bb50a@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226-neutron-v1-5-46eccb3bb50a@nxp.com>
 
-Adds short description for two new sysfs entries, ctgp_offset and
-usb_c_power_priority, to the documentation of uniwill laptops.
+Hi Ioana,
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
----
- .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
- .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
- 2 files changed, 37 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-index 2df70792968f3..55943252f2ab9 100644
---- a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-+++ b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-@@ -51,3 +51,28 @@ Description:
- 
- 		Reading this file returns the current status of the breathing animation
- 		functionality.
-+
-+What:		/sys/bus/platform/devices/INOU0000:XX/ctgp_offset
-+Date:		January 2026
-+KernelVersion:	7.0
-+Contact:	Werner Sembach <wse@tuxedocomputers.com>
-+Description:
-+		Allows userspace applications to set the configurable TGP offset on top of the base
-+		TGP. Base TGP and max TGP and therefore the max cTGP offset are device specific.
-+		Note that setting the maximal cTGP leaves no window open for Dynamic Boost,
-+		effectifly disabling that feature for the GPU to always be prioritized.
-+
-+		Reading this file returns the current configurable TGP offset.
-+
-+What:		/sys/bus/platform/devices/INOU0000:XX/usb_c_power_priority
-+Date:		February 2026
-+KernelVersion:	7.1
-+Contact:	Werner Sembach <wse@tuxedocomputers.com>
-+Description:
-+		Allows userspace applications to set USB-C power distribution profile between one
-+		that offers a bigger share of the power to the battery and one that offers more of
-+		it to the CPU. Writing "charging"/"performance" into this file selects the
-+		respective profile.
-+
-+		Reading this file returns the profile names with the currently active one in
-+		brackets.
-diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Documentation/admin-guide/laptops/uniwill-laptop.rst
-index aff5f57a6bd47..c89b8b3756f84 100644
---- a/Documentation/admin-guide/laptops/uniwill-laptop.rst
-+++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
-@@ -50,6 +50,10 @@ between 1 and 100 percent are supported.
- Additionally the driver signals the presence of battery charging issues through the standard
- ``health`` power supply sysfs attribute.
- 
-+It also let you set whether an USB-C power source should prioritise charging the battery or
-+delivering immediate power to the cpu. See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for
-+details.
-+
- Lightbar
- --------
- 
-@@ -58,3 +62,11 @@ LED class device. The default name of this LED class device is ``uniwill:multico
- 
- See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details on how to control the various
- animation modes of the lightbar.
-+
-+Configurable TGP
-+--------
-+
-+The ``uniwill-laptop`` driver allows to set the configurable TGP for devices with NVIDIA GPUs that
-+allow it.
-+
-+See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
+[auto build test WARNING on 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ioana-Ciocoi-Radulescu/drm-gem-dma-Add-flag-for-bidirectional-mapping-of-non-coherent-GEM-DMA-buffers/20260226-221222
+base:   6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+patch link:    https://lore.kernel.org/r/20260226-neutron-v1-5-46eccb3bb50a%40nxp.com
+patch subject: [PATCH 5/9] accel/neutron: Add GEM buffer object support
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20260227/202602270531.MP8x6wo3-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602270531.MP8x6wo3-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602270531.MP8x6wo3-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/accel/neutron/neutron_gem.c:52:6: warning: variable 'gem_obj' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+      52 |         if (drm_WARN_ON(drm, !IS_ALIGNED(dma_obj->dma_addr, NEUTRON_BO_ALIGN))) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:789:2: note: expanded from macro 'drm_WARN_ON'
+     789 |         drm_WARN((drm), (x), "%s",                                      \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     790 |                  "drm_WARN_ON(" __stringify(x) ")")
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_print.h:779:2: note: expanded from macro 'drm_WARN'
+     779 |         WARN(condition, "%s %s: [drm] " format,                         \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     780 |                         dev_driver_string(__drm_to_dev(drm)),           \
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     781 |                         dev_name(__drm_to_dev(drm)), ## arg)
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bug.h:163:36: note: expanded from macro 'WARN'
+     163 | #define WARN(condition, format...) ({                                   \
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     164 |         int __ret_warn_on = !!(condition);                              \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     165 |         if (unlikely(__ret_warn_on))                                    \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     166 |                 __WARN_printf(TAINT_WARN, format);                      \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     167 |         unlikely(__ret_warn_on);                                        \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     168 | })
+         | ~~
+   drivers/accel/neutron/neutron_gem.c:67:21: note: uninitialized use occurs here
+      67 |         drm_gem_object_put(gem_obj);
+         |                            ^~~~~~~
+   drivers/accel/neutron/neutron_gem.c:52:2: note: remove the 'if' if its condition is always false
+      52 |         if (drm_WARN_ON(drm, !IS_ALIGNED(dma_obj->dma_addr, NEUTRON_BO_ALIGN))) {
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      53 |                 ret = -EFAULT;
+         |                 ~~~~~~~~~~~~~~
+      54 |                 goto out_put;
+         |                 ~~~~~~~~~~~~~
+      55 |         }
+         |         ~
+   drivers/accel/neutron/neutron_gem.c:38:32: note: initialize the variable 'gem_obj' to silence this warning
+      38 |         struct drm_gem_object *gem_obj;
+         |                                       ^
+         |                                        = NULL
+   1 warning generated.
+
+
+vim +52 drivers/accel/neutron/neutron_gem.c
+
+    33	
+    34	int neutron_ioctl_create_bo(struct drm_device *drm, void *data, struct drm_file *filp)
+    35	{
+    36		struct drm_neutron_create_bo *args = data;
+    37		struct drm_gem_dma_object *dma_obj;
+    38		struct drm_gem_object *gem_obj;
+    39		size_t size;
+    40		int ret;
+    41	
+    42		if (!args->size || args->pad)
+    43			return -EINVAL;
+    44	
+    45		size = ALIGN(args->size, NEUTRON_BO_ALIGN);
+    46	
+    47		dma_obj = drm_gem_dma_create(drm, size);
+    48		if (IS_ERR(dma_obj))
+    49			return PTR_ERR(dma_obj);
+    50	
+    51		/* We expect correctly aligned buffers, but double-check */
+  > 52		if (drm_WARN_ON(drm, !IS_ALIGNED(dma_obj->dma_addr, NEUTRON_BO_ALIGN))) {
+    53			ret = -EFAULT;
+    54			goto out_put;
+    55		}
+    56	
+    57		gem_obj = &dma_obj->base;
+    58		ret = drm_gem_handle_create(filp, gem_obj, &args->handle);
+    59		if (ret)
+    60			goto out_put;
+    61	
+    62		args->map_offset = drm_vma_node_offset_addr(&gem_obj->vma_node);
+    63		args->size = gem_obj->size;
+    64	
+    65	out_put:
+    66		/* No need to keep a reference of the GEM object. Freeing is handled by user */
+    67		drm_gem_object_put(gem_obj);
+    68	
+    69		return ret;
+    70	}
+    71	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
