@@ -1,839 +1,179 @@
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013012.outbound.protection.outlook.com [40.93.196.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABED33B5304
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 14:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772115765; cv=none; b=ldEDyJBr2tbIAD7k6wIWBGib5n/bAfJ6icd0fiAYnkTeDf6/NDroehIWOlMkCHvZi3FAaq3Fv3x1Dq0zCEgVCJvDV+3ynKTqZF7SDgYhuDOueMR+VLuzf74xma7c9iT12t77SOBBg7S0hs9yaNg/GRbOD4/43T9OUPpX6tWyjeE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772115765; c=relaxed/simple;
-	bh=ffHusz9JhJMyrebhxUjHd35IYmFiqaiEVFAl3pqoihs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a2PttLVbGigtnMB+g3jXPoJLS51SxS4AAPPrjB8qsMauUvuU8hYf0Qssf/aEEycKaUxgOENDO0UQ6MqD/dnGmBO8BgZKLtokOVRJ7xuawbWatgYV34BhmtTGc8QDCLj0pAiISmyvqIb5As8oF04M1P0253xXFabqIHIwi5zufl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFYwf7iH; arc=none smtp.client-ip=74.125.82.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1605C37BE63;
+	Thu, 26 Feb 2026 14:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772116866; cv=fail; b=J393AjpPXkdc59TsxMqsWmn8suwjkwCHl4Zo4p6oeVQQoDXxHWqB+dpOVVbbP1WfeVpY2JkUruM1SAXvIrZRdcBP97BFmUP4/wVo42wpdwoyKPlzi2p7O5QeAR4HqI/CMk5/9MkKJBqB2kLICUSzMVibneiI9xdMdLeAjKffgFw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772116866; c=relaxed/simple;
+	bh=n7JJP9LAmBaFHz2S0pqqYj1X75d8QxceqVLssqZtHco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=VyvI6ORe7BtTh5sEuQQkugqqAbZZCSwd3eaNOXJZ0fpzSqkoN0nMV6snUd8arLYR4HvoM+LZFK7zgI5iJskB/1VFW5OqdhfF+gkg4fDuwjqVxkGFPhny3mteJsHtVmxpksaA9rXJXtwmRTH9+ixC9vGUdbGnuM08Ebg3dYYJ7hA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=J3sjUNcO; arc=fail smtp.client-ip=40.93.196.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFYwf7iH"
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-126ea4b77adso1171336c88.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 06:22:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772115762; x=1772720562; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z+FXdaXl6ZAHu3oLkX4ZIoqZAdC0RT1Wg5swBMni7T0=;
-        b=VFYwf7iHhAGiF/4huBHchMQelkeVOHl66teGVPMSxdxPzvIif69CLrxtjr7nkUliEn
-         EV2x0gGJxxTlZcWR2f+6x1xsfLZMQy6dM2I2ZkGY60fsJAKvExwIJJID06lMLxvehUkS
-         yUNojoWxB/YhgPdxSKga4UVnQf+iRfaiM/MAC7I3+qbekwod7wfFpIP2ESaLVO5pXlf9
-         LkrisKWaQUEMpS9s3KFf+rqJ6jIS2qo1ukQ1ZZ6CkAKwdOaEI/35EFN1yxm6zJdx8uEf
-         HYPWDFdX17g6F0luB5PMhUqwRq76VWn2LwtAJmspyK65tdIcUMNvv5wzWTA+1D3Fhg38
-         kFgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772115762; x=1772720562;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=z+FXdaXl6ZAHu3oLkX4ZIoqZAdC0RT1Wg5swBMni7T0=;
-        b=juklgK7KRkDXwSfA3yf3lox6QKjl9NlKAf3MBv/3HwMi/YbICXxZ5lIkIvHQnuVb0H
-         5NsblE1YjJ43bZQ6dESXh0BuYFiqVxUWkQVu+QHbtow5WZ2M4oski/1VBUsGoNxicnef
-         s8Tw3ngK5Z7GaPvIKF5ei09HN4urSC7JxYPe9IwFHRouMhgZCzJ96HxT4NUrdMrH4zGG
-         5G5xL8B4Jl82vFBMBQWBlTki1i/pckHrn185LNNkuGNmxTVa8hoGHyDf73tqm688KtW3
-         B6qiYhcYNfkM8OPvzPaP5+NTHA7pxNwhObVkb8pwt98BGoN+HL1Jn+ptKYM/6i7eewn4
-         eGew==
-X-Forwarded-Encrypted: i=1; AJvYcCVe32L7+O3d6kEUItTtAZp/GENP0uQ1ZFS+cMj9eZU2nPu2JcEcVGH5GjcFfwE5fa+D8CunFq6BB3c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyct2zV+rVun1yhfVcBPeePr244nTo38OJPuwHxd5TZtUMBSpQ5
-	UO7zuRgjkHFqwCpPGpm4EpglAdKjXKyX8Ve63MSYLeyntldG4SJMOiby
-X-Gm-Gg: ATEYQzyk2ikVLvvxj8brKhPycvfBgRuwsuBxN08VfLwQ1ye74Q/r/LAKx80A0tlkD1s
-	8OxMZmCr9CY8j4GInyq5xTM6Ik5/KR0KqiJqGK0gE3vjgXxRRJjKaxytJf3XdDXf5E13LYwlQTV
-	sPW0Am4Of1Qu+Lv8ymMZoYM1ItGdJ7+PgWHsIIaDhcMLqwNZw/KOxwpjTREb4EF2QqNoeiYasUn
-	3WMvRrLZ1SL0Buf8BBr9uTJyptuqZ+k+c2GtyBTtIQAM/Wa/fw3VMibPnT6a7ILcg9ln6mMhsCl
-	+J37rMZ4prgZ5Ko1lcW81bYbKMK2Y13Uw+PLlDBW483nxaiW/OgjSdNMVhczRIb99c6ki8rY24W
-	ohQWRb8EanTC2PaGoIdYeWOu0aJ90NkxLueTZ8WlNehp+Qs7nzQHUgZ4QdkjAzcXYPbD0li4ScV
-	ih4OkwVGzpDmY/yRsbg0aztpjdtClRrK+tZUMl
-X-Received: by 2002:a05:7022:50c:b0:11b:d561:bc10 with SMTP id a92af1059eb24-1276ad5c892mr8571691c88.41.1772115761547;
-        Thu, 26 Feb 2026 06:22:41 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12789a43885sm2764653c88.12.2026.02.26.06.22.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 06:22:40 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 26 Feb 2026 06:22:39 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: wenswang@yeah.net
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, skhan@linuxfoundation.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: add MP2845 driver
-Message-ID: <ef17c90f-a83c-47fa-b233-a98b9e76c5cf@roeck-us.net>
-References: <20260225085501.164819-1-wenswang@yeah.net>
- <20260225085631.165106-1-wenswang@yeah.net>
- <20260225085631.165106-2-wenswang@yeah.net>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="J3sjUNcO"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=uweKwx4cKX+jH/bYcB8gJRHfY9KzV4FY3tTUvV4pJaA3Bw4uy6HXBaabKln0+jewXKuqd9h0gVot1TskQGRsOYsWhvAV3cgmON0Jesv+BUPyLmN+5UB36x3Nu/y5+tQyLG8XTwkmuyIHosBwU+EUOXwc6nGYY9fWMpxVuJQBysmQ0qmWSz4bLyevci6WCvcrCrRiLni8OOHya5uuH7vjsP/ilordG+vAXFhWPVa2EGRVFQHUKqXISpYZK5mTSBY2GQrxw0gKRmLdqIHpzQqctYPBnfwrKraXyFRgqiKT799mi33DP9Dt9qAFKdIhmyPUodvhNQUtEcps1b3ZbErS3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sdDaeAAnU4gV1IKk4nGwD8n8YGh6K4MhxiDfPH6h48w=;
+ b=pOsGHXBqrKhDUIMZO8zvggBt0DTlQkQZgJq5aSGBiX+ZiQTgT/kqe1RGrzLN9lli4wfbNF2znctub7MhyUYcUpP2vpiO8jpJ3i7zZ7J0JCjSEdY7QlDTZp7U/yAr5kUwRovLsNyCYducSEcrL4rqxmSIxeIMsulSX28q++l511UwQwvq1I2QP1hIY7+qmo5rlHUJGrcXGRfcqkNoplShR9+dzR/aN2nR8NQwgT5tni7gWqCpqYzQHS2c27yFWY4Pey0CS+8Da7Gy25li2iWulnPvCVthrUFdKT4/bWLDHVIA6RqLN2NCJDhRx3uucF7hyqICq7UxNyEDf/V29Rk0yQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sdDaeAAnU4gV1IKk4nGwD8n8YGh6K4MhxiDfPH6h48w=;
+ b=J3sjUNcO7wLKIqgSQaTUIWW9SvXrynrdCbwivfvklomJlNdYjfIyNLfag/Cfo6htd+VJLxknLU3x36kNguOyz/l5rNS1pWvjrXYxH+KDdshOxl6C9HRlqH/nU51RFoBNhJQ3zp10Ezf9MSdpBfHf/L4STaX0hVDAFrxYzDSCpEaWB3MvH0doaiUc0mprzePHqvuiQm8gzsCoIdTO0OM+Kg/tjaK0PyWYc9deEMbezWTu7HHurOWcIyce0JsVhzK6XmyK2f1IyTE5JTOqyKD4qhh1atgEXYivzuItMlucH6L0ZgyxlNGXR6YPIlhA97m5SEA8oAlm+SDATfpZlhVtEw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by SA1PR12MB8144.namprd12.prod.outlook.com (2603:10b6:806:337::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9632.16; Thu, 26 Feb
+ 2026 14:40:58 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9654.014; Thu, 26 Feb 2026
+ 14:40:58 +0000
+Date: Thu, 26 Feb 2026 10:40:57 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: David Matlack <dmatlack@google.com>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Alex Williamson <alex@shazbot.org>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Lukas Wunner <lukas@wunner.de>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Tomita Moeko <tomitamoeko@gmail.com>,
+	Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 03/22] PCI: Inherit bus numbers from previous kernel
+ during Live Update
+Message-ID: <20260226144057.GA5933@nvidia.com>
+References: <20260129212510.967611-4-dmatlack@google.com>
+ <20260225224746.GA3714478@bhelgaas>
+ <aZ-Dqi782aafiE_-@google.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aZ-Dqi782aafiE_-@google.com>
+X-ClientProxiedBy: MN0PR03CA0002.namprd03.prod.outlook.com
+ (2603:10b6:208:52f::31) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260225085631.165106-2-wenswang@yeah.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|SA1PR12MB8144:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3dd7efbd-26d5-4f61-af6a-08de75450e25
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	MYDgBcvoHSdQy4KevnnNKjXu2GT4RvW0p5g5YBpPcZmkoa0EtZw5rv0Jfp4tPTRi5C+8VltNOv61f9tKSp89XwGxeP/vzkoZdubCuMug9F1U2I/8f6iUFfG0jstm/5s1LomO2YD9ZLodsdogCQzSejIO4+75papRHlwU2CTKmePxO6tWZMRzhYJFij7YizxUrYrgirRnhdezLywgC11Rhv6uXBkedX7MPkJUvVMQ72C7tTnUDhXv1mveLONIdAIDM8ssvE7HydCGt7V9LYd7XVX9EJHRoEo8LliyHjMdq3pS9UBVe9XLGQbt4WWdfXdT/d5FXxPbxvOfHnjYxjk4qFi3JT/ljFKW1oaSmW5GwRQanmiXS8XaxwCZ0JthUyug3Eeu8X3z9sons/0b02ANvvX35IZU1aWWA+uNUQ//08KC3SFlAuhDKM+miDdx/1ZAm9lQes7lfdPSQhqIBNgoGO7h3X3ShZSkhz1S4nkzJVPBFbXr4cvyaPnSw4QQPZuxZ5quFIiXBNa1NkKxuDYjtvlugDyYJzViXQ0NDvac7oxB7XisHRo8hSAlmyjWthhJgUKiN7lFqT17PkZQl8/h0lV27qix2Vh33q2HyJ2Ww1jribGg51LeI8HByNVBxBURPRw2IdignP1aeSPaiekDh3NaNTSEorlgpf4ppbMsd69QmGb+HgD/iulqGKLv7BiqErHVxjhbFpLJUcaGyyLJ369MjPvqDfHgQO2lWGAxI6Y=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xT/Bl07T7SXDuKOVB3WYIw46aKsxtbJY1u1aT4xqeMnbrGUVvmeJSaTEzzNJ?=
+ =?us-ascii?Q?hggD0ab8NfU9Ev8TCU2soYP2kwL9P8SrfFbzAjuIyfFU4x88nw30WZxTiPeX?=
+ =?us-ascii?Q?shioe3j77r/0jI15a41UY4tPrpJN9yIzcGlQDD9tCE2d5DIA34zTGw4raem+?=
+ =?us-ascii?Q?HmTZ2M8KLmNH87ZTeLBTGPxOBkIROSqbdw09Wwh3B1XgXObTlHQN83aUS69M?=
+ =?us-ascii?Q?OKlxHbbQmJ1yTTf1J5VKffhkVv8b0KzkbFNerUk/YFTRyNxp6czk9SjYUnnY?=
+ =?us-ascii?Q?Cy0OZDAkNNAL5J0KBLP8awG5NB4Rh8wYuhjQvZt5sdklSryJmUFNITSJpUNM?=
+ =?us-ascii?Q?HO6kS2RVHQlF2D7PgkHI36d9GQzgbPweyr2SuU5dJwi7ANkGiHSlpZf4YaEF?=
+ =?us-ascii?Q?fhPTOJEiQRZ54oXPEPh42DeL2oI/tbmpuxDBtvZmGKId2ucOy36jTbHNQyV+?=
+ =?us-ascii?Q?gmDqfBsz7lcBzHFbhh2MFDVlHYlmXvFktDB5a/beVh803sZ+tqqwvOYKCyG1?=
+ =?us-ascii?Q?f4oEFDTck+8OZ5ytx2lGxNHcpP0vt96r6RheJ+b18ob1fNYg4n3KcNeGd1JI?=
+ =?us-ascii?Q?yEbpYgCeqxyyma4+GYQHQ2WvfyIsSQnoSaz2W5Npxb6Euta2bvxmhCfRiwQV?=
+ =?us-ascii?Q?wO08gvvogIBSwCNdOkLvBvFA27ZhX6jnlSdbsIFuEBneyS1EMMLbcShsGT+J?=
+ =?us-ascii?Q?2ff1bOzKP+0Fa9/R8mLP7HAk3Ro8+UnPoyY/uLhT4NOF5uTNcnccyCws7KVp?=
+ =?us-ascii?Q?tORi8JzcGyVy9IytHrk87CdYPyFetHiQZBy50F34TLQv60siRVFkxfVh9rTA?=
+ =?us-ascii?Q?0TcZPvXaytvC0Qx4ylON3V4i4MOh71MGcWy1ivHq9aHsuBGC4NN+wKzAFJ5f?=
+ =?us-ascii?Q?+uVxyEAaSXfFH8JYRrFqXN3VhdvMF7PTGpFfMEgkupaUe85iQcgx1L2nInq+?=
+ =?us-ascii?Q?o7k2Vju8OxcW2WdZwWMhxr1Hmg8v6helmcUrsDR0TJMUkRdGqkos9ehs3FBd?=
+ =?us-ascii?Q?ZXW+LcfEqTYIx8veDwA1EGmzXu4awULSNqM8QF97gxQ8IiN82X9FTJ40rP4m?=
+ =?us-ascii?Q?v2tgts+tiJ4l0qvBWjsoWzjDZbwn5DyTOA2Sd/K8Aa3Ne1ogrVJ8qsQNa2fa?=
+ =?us-ascii?Q?dTXjgLNHSVPcF8GcX3i+CLQnmSO4Flv0xeB1QmrJpPdOb/gI4yRFkHt6gVUi?=
+ =?us-ascii?Q?EzAM/jbyFFx53PYMkM2hOtXend7io0ROONFCjWbaDHoMaantk6rViz7f8m3/?=
+ =?us-ascii?Q?QYg9R+9UtMEE9emjlaW9DqeFTHJDhqhFTf+fGJKxuojjeZ8JK4thAf+QGyyJ?=
+ =?us-ascii?Q?G6symLvNwTlgJMTXf38uDz8OHYrPdDJVQQV1T/3Tofz2vf55ArEwptUnVCq5?=
+ =?us-ascii?Q?hMZK1UycUZTp2ACGpfzom4glWsPDlJO3xgojsJ/cCbMZSFA1KVWtPUyHwXV3?=
+ =?us-ascii?Q?9coh40+0zcF5bPmxY9Mho96wpZcAXbPnmQ/Fq26jw6g+ocQvUMbWJhkruRLp?=
+ =?us-ascii?Q?FEQ1lU6787G/ur6KqtDu8keSGlYqBGUqlRYxvR8qEz4u7YTk0Do6v0QGirhU?=
+ =?us-ascii?Q?/O4YpACFXRTSoeMu1qm6s/HDJzBl0xL1L7pzP+rlK5bH8H5TIbfTyGIJbSpD?=
+ =?us-ascii?Q?+PsMWlpPJprlUV6K84H/RFfSbeU7VZSowCE2ZA1AHhV5D2sxSex3GDcXaHpj?=
+ =?us-ascii?Q?u7VRaR/5u4lzDJd8UK3tFNNoK4y4uql2uMzWsYflz16BkujtiUKrvfb6iWT7?=
+ =?us-ascii?Q?BJ9VhNXBnw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3dd7efbd-26d5-4f61-af6a-08de75450e25
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 14:40:58.6401
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n9wsfqh3xf69O1SbnL8BWHhxD36Zz4brIEx4QlOAIr+5GRyznCAEqBtTXbWY+xYK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8144
 
-On Wed, Feb 25, 2026 at 04:56:31PM +0800, wenswang@yeah.net wrote:
-> From: Wensheng Wang <wenswang@yeah.net>
+On Wed, Feb 25, 2026 at 11:20:10PM +0000, David Matlack wrote:
+> On 2026-02-25 04:47 PM, Bjorn Helgaas wrote:
+> > On Thu, Jan 29, 2026 at 09:24:50PM +0000, David Matlack wrote:
+> > > Inherit bus numbers from the previous kernel during a Live Update when
+> > > one or more PCI devices are being preserved. This is necessary so that
+> > > preserved devices can DMA through the IOMMU during a Live Update
+> > > (changing bus numbers would break IOMMU translation).
+> > 
+> > I think changing bus numbers would break DMA regardless of whether an
+> > IOMMU is involved.  Completions carrying the data for DMA reads are
+> > routed back to the Requester ID of the read.
 > 
-> Add support for MPS VR controller mp2845. This driver exposes
-> telemetry and limit value readings.
-> 
-> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
-> ---
->  Documentation/hwmon/index.rst  |   1 +
->  Documentation/hwmon/mp2845.rst | 143 ++++++++++
->  MAINTAINERS                    |   7 +
->  drivers/hwmon/Kconfig          |  10 +
->  drivers/hwmon/Makefile         |   1 +
->  drivers/hwmon/mp2845.c         | 493 +++++++++++++++++++++++++++++++++
->  6 files changed, 655 insertions(+)
->  create mode 100644 Documentation/hwmon/mp2845.rst
->  create mode 100644 drivers/hwmon/mp2845.c
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index d91dbb20c7dc..0a2176e5b694 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -176,6 +176,7 @@ Hardware Monitoring Kernel Drivers
->     mcp3021
->     menf21bmc
->     mlxreg-fan
-> +   mp2845
->     mp2856
->     mp2869
->     mp2888
-> diff --git a/Documentation/hwmon/mp2845.rst b/Documentation/hwmon/mp2845.rst
-> new file mode 100644
-> index 000000000000..dc6328855e27
-> --- /dev/null
-> +++ b/Documentation/hwmon/mp2845.rst
-> @@ -0,0 +1,143 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Kernel driver mp2845
-> +====================
-> +
-> +Supported chips:
-> +
-> +  * MPS mp2845
-> +
-> +    Prefix: 'mp2845'
-> +
-> +  * MPS mp2845
-> +
-> +    Prefix: 'mp2845'
-> +
-> +Author:
-> +
-> +	Wensheng Wang <wenswang@yeah.net>
-> +
-> +Description
-> +-----------
-> +
-> +This driver implements support for Monolithic Power Systems, Inc. (MPS)
-> +MP2845 Dual Loop Digital Multi-phase Controller.
-> +
-> +Device compliant with:
-> +
-> +- Smbus interface.
-> +
-> +The driver exports the following attributes via the 'sysfs' files
-> +for input voltage:
-> +
-> +**in0_input**
-> +
-> +**in0_label**
-> +
-> +**in0_crit**
-> +
-> +**in0_crit_alarm**
-> +
-> +**in0_lcrit_alarm**
-> +
-> +**in0_min**
-> +
-> +The driver provides the following attributes for output voltage:
-> +
-> +**in1_input**
-> +
-> +**in1_label**
-> +
-> +**in1_crit_alarm**
-> +
-> +**in1_lcrit_alarm**
-> +
-> +**in2_input**
-> +
-> +**in2_label**
-> +
-> +**in2_crit_alarm**
-> +
-> +**in2_lcrit_alarm**
-> +
-> +**in3_input**
-> +
-> +**in3_label**
-> +
-> +**in3_crit_alarm**
-> +
-> +**in3_lcrit_alarm**
-> +
-> +**in4_input**
-> +
-> +**in4_label**
-> +
-> +**in4_crit_alarm**
-> +
-> +**in4_lcrit_alarm**
-> +
-> +The driver provides the following attributes for input current:
-> +
-> +**curr1_input**
-> +
-> +**curr1_label**
-> +
-> +The driver provides the following attributes for output current:
-> +
-> +**curr1_input**
-> +
-> +**curr1_label**
-> +
-> +**curr1_crit**
-> +
-> +**curr1_crit_alarm**
-> +
-> +**curr1_max**
-> +
-> +**curr2_input**
-> +
-> +**curr2_label**
-> +
-> +**curr2_crit**
-> +
-> +**curr2_crit_alarm**
-> +
-> +**curr2_max**
-> +
-> +**curr3_input**
-> +
-> +**curr3_label**
-> +
-> +**curr3_crit**
-> +
-> +**curr3_crit_alarm**
-> +
-> +**curr3_max**
-> +
-> +**curr4_input**
-> +
-> +**curr4_label**
-> +
-> +**curr4_crit**
-> +
-> +**curr4_crit_alarm**
-> +
-> +**curr4_max**
-> +
-> +The driver provides the following attributes for temperature:
-> +
-> +**temp1_input**
-> +
-> +**temp1_crit_alarm**
-> +
-> +**temp2_input**
-> +
-> +**temp2_crit_alarm**
-> +
-> +**temp3_input**
-> +
-> +**temp3_crit_alarm**
-> +
-> +**temp4_input**
-> +
-> +**temp4_crit_alarm**
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 55af015174a5..f1539307de5f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17905,6 +17905,13 @@ F:	drivers/resctrl/mpam_*
->  F:	drivers/resctrl/test_mpam_*
->  F:	include/linux/arm_mpam.h
->  
-> +MPS MP2845 DRIVER
-> +M:	Wensheng Wang <wenswang@yeah.net>
-> +L:	linux-hwmon@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/hwmon/mp2845.rst
-> +F:	drivers/hwmon/mp2845.c
-> +
->  MPS MP2869 DRIVER
->  M:	Wensheng Wang <wenswang@yeah.net>
->  L:	linux-hwmon@vger.kernel.org
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 41c381764c2b..3f77982e50ea 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -1432,6 +1432,16 @@ config SENSORS_MENF21BMC_HWMON
->  	  This driver can also be built as a module. If so the module
->  	  will be called menf21bmc_hwmon.
->  
-> +config SENSORS_MP2845
-> +	tristate "MPS MP2845"
-> +	depends on I2C
-> +	help
-> +	  If you say yes here you get hardware monitoring support for
-> +	  MPS MP2845 Dual Loop Digital Multi-Phase Controller.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called mp2845.
-> +
->  config SENSORS_MR75203
->  	tristate "Moortec Semiconductor MR75203 PVT Controller"
->  	select REGMAP_MMIO
-> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-> index eade8e3b1bde..4372759f2e60 100644
-> --- a/drivers/hwmon/Makefile
-> +++ b/drivers/hwmon/Makefile
-> @@ -174,6 +174,7 @@ obj-$(CONFIG_SENSORS_TC654)	+= tc654.o
->  obj-$(CONFIG_SENSORS_TPS23861)	+= tps23861.o
->  obj-$(CONFIG_SENSORS_MLXREG_FAN) += mlxreg-fan.o
->  obj-$(CONFIG_SENSORS_MENF21BMC_HWMON) += menf21bmc_hwmon.o
-> +obj-$(CONFIG_SENSORS_MP2845)	+= mp2845.o
->  obj-$(CONFIG_SENSORS_MR75203)	+= mr75203.o
->  obj-$(CONFIG_SENSORS_NCT6683)	+= nct6683.o
->  obj-$(CONFIG_SENSORS_NCT6694)	+= nct6694-hwmon.o
-> diff --git a/drivers/hwmon/mp2845.c b/drivers/hwmon/mp2845.c
-> new file mode 100644
-> index 000000000000..adecde7c9b71
-> --- /dev/null
-> +++ b/drivers/hwmon/mp2845.c
+> Ahh, makes sense. I'll clarify the commit message in the next
+> version.
 
-I just realized, while reviewing: This is a PMBus chip. YOu are trying
-to bypass the PMBus core. This is an absolute no-go. Try again, this
-time as PMBus driver.
+More broadly you can't shouldn't the fabric topology while Memory
+Enable is active.
 
-> @@ -0,0 +1,493 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Hardware monitoring driver for MPS Digital Controller(MP2845)
-> + */
-> +#include <linux/bitfield.h>
-> +#include <linux/delay.h>
-> +#include <linux/err.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/hwmon-sysfs.h>
+Renumbering or readdressing the fabric requires disabling and flushing
+any memory transactions.
 
-Unnecessary include.
+From that reasoning it is clearer that you can't do that if the device
+is expected to hitlesslly continue performing memory operations.
 
-> +#include <linux/i2c.h>
-> +#include <linux/init.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +
-> +#define MP2845_IOUT_SCALE_MASK1	GENMASK(5, 3)
-> +#define MP2845_IOUT_SCALE_MASK2	GENMASK(13, 11)
-> +
-> +#define MFR_VIN_OV_UV_SET	0x71
-> +#define MFR_OVUV_OCWARN_THRES	0x75
-> +#define MFR_TOTAL_OCP_SET	0x76
-> +#define MFR_PROTECT_STATUS1	0x80
-> +#define MFR_PROTECT_STATUS2 0x81
-> +
-> +#define MP2845_VIN_LIMIT_UINT	125
-> +#define MP2845_READ_VIN_UINT	3125
-> +#define MP2845_READ_VIN_DIV	100
-> +#define MP2845_READ_IOUT_UINT	3125
-> +#define MP2845_READ_IOUT_DIV	100
-> +#define MP2845_READ_VOUT_UINT	5
-> +#define MP2845_TEMP_UINT	1000
-> +
-> +#define MFR_READ_VIN	0xA6
-> +#define MFR_READ_VOUT	0xA7
-> +#define MFR_READ_IOUT	0xA8
-> +#define MFR_READ_TEMP	0xA9
-> +#define MFR_MFG_ID_SCALE_VI1	0x77
-> +#define MFR_MFG_ID_SCALE_VI2	0x78
-> +
-> +struct mp2845_data {
-> +	struct i2c_client *client;
-> +	int iout_gain[4];
-> +	/* lock for preventing concurrency issue */
-> +	struct mutex lock;
-> +};
-> +
-> +static umode_t mp2845_is_visible(const void *data, enum hwmon_sensor_types type,
-> +				 u32 attr, int channel)
-> +{
-> +	switch (type) {
-> +	case hwmon_temp:
-> +	case hwmon_in:
-> +	case hwmon_curr:
-> +		return 0444;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mp2845_read_string(struct device *dev, enum hwmon_sensor_types type,
-> +			      u32 attr, int channel, const char **str)
-> +{
-> +	struct mp2845_data *data;
-> +	int ret = 0;
-> +
-> +	data = dev_get_drvdata(dev);
-> +
-> +	mutex_lock(&data->lock);
+That may be a clearer long term basis for describing the requirements
+here.
 
-What concurrency issue is this supposed to protect against, and why is the
-concurrency protection in the hwmon core insufficient ?
-
-> +
-> +	switch (type) {
-> +	case hwmon_in:
-> +		if (channel == 0)
-> +			*str = "vin";
-> +		else if (channel == 1)
-> +			*str = "vout1";
-> +		else if (channel == 2)
-> +			*str = "vout2";
-> +		else if (channel == 3)
-> +			*str = "vout3";
-> +		else
-> +			*str = "vout4";
-> +		break;
-> +	case hwmon_curr:
-> +		if (channel == 0)
-> +			*str = "iout1";
-> +		else if (channel == 1)
-> +			*str = "iout2";
-> +		else if (channel == 2)
-> +			*str = "iout3";
-> +		else
-> +			*str = "iout4";
-> +		break;
-> +	default:
-> +		ret = -EINVAL;
-> +		break;
-> +	}
-> +
-
-The channel labels are supposed to reflect system values. The above just
-reports PMBus values, and those are already provided by the PMBus core.
-This is pointless code.
-
-> +	mutex_unlock(&data->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int mp2845_read(struct device *dev, enum hwmon_sensor_types type,
-> +		       u32 attr, int channel, long *val)
-> +{
-> +	int ret;
-> +	struct mp2845_data *data;
-> +
-> +	data = dev_get_drvdata(dev);
-> +	if (!data)
-> +		return -ENOMEM;
-
-How would this ever happen ?
-
-> +
-> +	mutex_lock(&data->lock);
-
-Why is the lock provided by the hwmon core insufficient ?
-
-> +
-> +	switch (type) {
-> +	case hwmon_in:
-> +		if (channel == 0) {
-> +			if (attr == hwmon_in_input) {
-> +				ret = i2c_smbus_write_byte_data(data->client, 0, 0);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_READ_VIN);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				*val = DIV_ROUND_CLOSEST((ret & GENMASK(9, 0)) *
-> +							 MP2845_READ_VIN_UINT,
-> +							 MP2845_READ_VIN_DIV);
-> +			} else if (attr == hwmon_in_crit) {
-> +				ret = i2c_smbus_write_byte_data(data->client, 0, 0);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_VIN_OV_UV_SET);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				*val = FIELD_GET(GENMASK(15, 8), ret) * MP2845_VIN_LIMIT_UINT;
-> +			} else if (attr == hwmon_in_min) {
-> +				ret = i2c_smbus_write_byte_data(data->client, 0, 0);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_VIN_OV_UV_SET);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				*val = FIELD_GET(GENMASK(7, 0), ret) * MP2845_VIN_LIMIT_UINT;
-> +			} else if (attr == hwmon_in_crit_alarm) {
-> +				ret = i2c_smbus_write_byte_data(data->client, 0, 0);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_PROTECT_STATUS2);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				*val = FIELD_GET(GENMASK(5, 5), ret);
-> +			} else {
-> +				ret = i2c_smbus_write_byte_data(data->client, 0, 0);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_PROTECT_STATUS2);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				*val = FIELD_GET(GENMASK(4, 4), ret);
-> +			}
-> +		} else {
-> +			if (attr == hwmon_in_input) {
-> +				ret = i2c_smbus_write_byte_data(data->client, 0, channel - 1);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_READ_VOUT);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				*val = (ret & GENMASK(9, 0)) * MP2845_READ_VOUT_UINT;
-> +			} else if (attr == hwmon_in_crit_alarm) {
-> +				ret = i2c_smbus_write_byte_data(data->client, 0, 0);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_PROTECT_STATUS1);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				if (channel == 1)
-> +					*val = FIELD_GET(GENMASK(10, 10), ret);
-> +				else if (channel == 2)
-> +					*val = FIELD_GET(GENMASK(7, 7), ret);
-> +				else if (channel == 3)
-> +					*val = FIELD_GET(GENMASK(4, 4), ret);
-> +				else
-> +					*val = FIELD_GET(GENMASK(1, 1), ret);
-> +			} else {
-> +				ret = i2c_smbus_write_byte_data(data->client, 0, 0);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_PROTECT_STATUS1);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				if (channel == 1)
-> +					*val = FIELD_GET(GENMASK(11, 11), ret);
-> +				else if (channel == 2)
-> +					*val = FIELD_GET(GENMASK(8, 8), ret);
-> +				else if (channel == 3)
-> +					*val = FIELD_GET(GENMASK(5, 5), ret);
-> +				else
-> +					*val = FIELD_GET(GENMASK(2, 2), ret);
-> +			}
-> +		}
-> +		break;
-> +	case hwmon_temp:
-> +		if (attr == hwmon_temp_input) {
-> +			ret = i2c_smbus_write_byte_data(data->client, 0, channel);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			ret = i2c_smbus_read_word_data(data->client, MFR_READ_TEMP);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			*val = ((ret & GENMASK(7, 0)) - 40) * MP2845_TEMP_UINT;
-> +		} else {
-> +			ret = i2c_smbus_write_byte_data(data->client, 0, 0);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			ret = i2c_smbus_read_word_data(data->client, MFR_PROTECT_STATUS1);
-> +				if (ret < 0)
-> +					break;
-> +
-> +			if (channel == 0) {
-> +				*val = FIELD_GET(GENMASK(12, 12), ret);
-> +			} else if (channel == 1) {
-> +				*val = FIELD_GET(GENMASK(14, 14), ret);
-> +			} else if (channel == 2) {
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_PROTECT_STATUS2);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				*val = FIELD_GET(GENMASK(0, 0), ret);
-> +			} else {
-> +				ret = i2c_smbus_read_word_data(data->client, MFR_PROTECT_STATUS2);
-> +				if (ret < 0)
-> +					break;
-> +
-> +				*val = FIELD_GET(GENMASK(2, 2), ret);
-> +			}
-> +		}
-> +		break;
-> +	case hwmon_curr:
-> +		if (attr == hwmon_curr_input) {
-> +			ret = i2c_smbus_write_byte_data(data->client, 0, channel);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			ret = i2c_smbus_read_word_data(data->client, MFR_READ_IOUT);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			*val = DIV_ROUND_CLOSEST((ret & GENMASK(9, 0)) * data->iout_gain[channel] *
-> +						 MP2845_READ_IOUT_UINT, MP2845_READ_IOUT_DIV);
-> +		} else if (attr == hwmon_curr_max) {
-> +			ret = i2c_smbus_write_byte_data(data->client, 0, channel);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			ret = i2c_smbus_read_word_data(data->client, MFR_OVUV_OCWARN_THRES);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			*val = DIV_ROUND_CLOSEST(FIELD_GET(GENMASK(15, 8), ret) *
-> +						 data->iout_gain[channel] * MP2845_READ_IOUT_UINT *
-> +						 4 * 2, MP2845_READ_IOUT_DIV);
-> +		} else if (attr == hwmon_curr_crit) {
-> +			ret = i2c_smbus_write_byte_data(data->client, 0, channel);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			ret = i2c_smbus_read_word_data(data->client, MFR_TOTAL_OCP_SET);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			*val = DIV_ROUND_CLOSEST(FIELD_GET(GENMASK(15, 8), ret) *
-> +						 data->iout_gain[channel] * MP2845_READ_IOUT_UINT *
-> +						 4 * 2, MP2845_READ_IOUT_DIV);
-> +		} else {
-> +			ret = i2c_smbus_write_byte_data(data->client, 0, 0);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			ret = i2c_smbus_read_word_data(data->client, MFR_PROTECT_STATUS1);
-> +			if (ret < 0)
-> +				break;
-> +
-> +			if (channel == 0)
-> +				*val = FIELD_GET(GENMASK(9, 9), ret);
-> +			else if (channel == 2)
-> +				*val = FIELD_GET(GENMASK(6, 6), ret);
-> +			else if (channel == 3)
-> +				*val = FIELD_GET(GENMASK(3, 3), ret);
-> +			else
-> +				*val = FIELD_GET(GENMASK(0, 0), ret);
-> +		}
-> +		break;
-> +	default:
-> +		ret = -EINVAL;
-> +		break;
-> +	}
-> +
-> +	mutex_unlock(&data->lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int
-> +mp2845_identify_iout_scale(struct mp2845_data *data, int page)
-> +{
-> +	int gain;
-> +	int ret;
-> +
-> +	ret = i2c_smbus_write_byte_data(data->client, 0x00, page);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = i2c_smbus_read_word_data(data->client, page == 0 ? MFR_MFG_ID_SCALE_VI2 :
-> +				       MFR_MFG_ID_SCALE_VI1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	gain = page == 0 ? FIELD_GET(MP2845_IOUT_SCALE_MASK1, ret) :
-> +	       FIELD_GET(MP2845_IOUT_SCALE_MASK2, ret);
-> +	switch (gain) {
-> +	case 1:
-> +		data->iout_gain[page] = 1;
-> +		break;
-> +	case 2:
-> +		data->iout_gain[page] = 2;
-> +		break;
-> +	case 3:
-> +		data->iout_gain[page] = 4;
-> +		break;
-> +	case 4:
-> +		data->iout_gain[page] = 8;
-> +		break;
-> +	case 5:
-> +		data->iout_gain[page] = 16;
-> +		break;
-> +	case 6:
-> +		data->iout_gain[page] = 32;
-> +		break;
-> +	case 7:
-> +		data->iout_gain[page] = 64;
-> +		break;
-> +	default:
-> +		data->iout_gain[page] = 1;
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct hwmon_channel_info *mp2845_info[] = {
-> +	HWMON_CHANNEL_INFO(in,
-> +			   HWMON_I_INPUT | HWMON_I_MIN | HWMON_I_CRIT | HWMON_I_CRIT_ALARM |
-> +			   HWMON_I_LCRIT_ALARM | HWMON_I_LABEL,
-> +			   HWMON_I_INPUT | HWMON_I_CRIT_ALARM | HWMON_I_LCRIT_ALARM |
-> +			   HWMON_I_LABEL,
-> +			   HWMON_I_INPUT | HWMON_I_CRIT_ALARM | HWMON_I_LCRIT_ALARM |
-> +			   HWMON_I_LABEL,
-> +			   HWMON_I_INPUT | HWMON_I_CRIT_ALARM | HWMON_I_LCRIT_ALARM |
-> +			   HWMON_I_LABEL,
-> +			   HWMON_I_INPUT | HWMON_I_CRIT_ALARM | HWMON_I_LCRIT_ALARM |
-> +			   HWMON_I_LABEL),
-> +	HWMON_CHANNEL_INFO(temp,
-> +			   HWMON_T_INPUT | HWMON_T_CRIT_ALARM,
-> +			   HWMON_T_INPUT | HWMON_T_CRIT_ALARM,
-> +			   HWMON_T_INPUT | HWMON_T_CRIT_ALARM,
-> +			   HWMON_T_INPUT | HWMON_T_CRIT_ALARM),
-> +	HWMON_CHANNEL_INFO(curr,
-> +			   HWMON_C_INPUT | HWMON_C_CRIT | HWMON_C_CRIT_ALARM | HWMON_C_MAX |
-> +			   HWMON_C_LABEL,
-> +			   HWMON_C_INPUT | HWMON_C_CRIT | HWMON_C_CRIT_ALARM | HWMON_C_MAX |
-> +			   HWMON_C_LABEL,
-> +			   HWMON_C_INPUT | HWMON_C_CRIT | HWMON_C_CRIT_ALARM | HWMON_C_MAX |
-> +			   HWMON_C_LABEL,
-> +			   HWMON_C_INPUT | HWMON_C_CRIT | HWMON_C_CRIT_ALARM | HWMON_C_MAX |
-> +			   HWMON_C_LABEL),
-> +	NULL
-> +};
-> +
-> +static const struct hwmon_ops mp2845_hwmon_ops = {
-> +	.is_visible = mp2845_is_visible,
-> +	.read = mp2845_read,
-> +	.read_string = mp2845_read_string,
-> +};
-> +
-> +static const struct hwmon_chip_info mp2845_chip_info = {
-> +	.ops = &mp2845_hwmon_ops,
-> +	.info = mp2845_info,
-> +};
-> +
-> +static int mp2845_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct device *hwmon_dev;
-> +	struct mp2845_data *data;
-> +	int ret;
-> +
-> +	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA |
-> +				     I2C_FUNC_SMBUS_WORD_DATA)) {
-> +		dev_err(dev, "check failed, smbus byte and/or word data not supported!\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	data = devm_kzalloc(dev, sizeof(struct mp2845_data), GFP_KERNEL);
-> +	if (!data)
-> +		return -ENOMEM;
-> +
-> +	mutex_init(&data->lock);
-> +	data->client = client;
-> +
-> +	ret = mp2845_identify_iout_scale(data, 0);
-> +	if (ret < 0) {
-> +		dev_err(dev, "unable to identify rail1 iout scale, errno = %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = mp2845_identify_iout_scale(data, 1);
-> +	if (ret < 0) {
-> +		dev_err(dev, "unable to identify rail2 iout scale, errno = %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = mp2845_identify_iout_scale(data, 2);
-> +	if (ret < 0) {
-> +		dev_err(dev, "unable to identify rail3 iout scale, errno = %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = mp2845_identify_iout_scale(data, 3);
-> +	if (ret < 0) {
-> +		dev_err(dev, "unable to identify rail4 iout scale, errno = %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
-> +							 data, &mp2845_chip_info,
-> +							 NULL);
-> +	if (IS_ERR(hwmon_dev)) {
-> +		dev_err(dev, "unable to register mp2845 hwmon device\n");
-> +		return PTR_ERR(hwmon_dev);
-> +	}
-> +
-> +	dev_info(dev, "%s: sensor '%s'\n", dev_name(hwmon_dev), client->name);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct i2c_device_id mp2845_ids[] = {
-> +	{"mp2845", 0},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, mp2845_ids);
-> +
-> +static const struct of_device_id __maybe_unused mp2845_of_match[] = {
-> +	{.compatible = "mps,mp2845"},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, mp2845_of_match);
-> +
-> +static struct i2c_driver mp2845_driver = {
-> +	.class		= I2C_CLASS_HWMON,
-> +	.driver = {
-> +		.name	= "mp2845",
-> +		.of_match_table = mp2845_of_match,
-> +	},
-> +	.probe		= mp2845_probe,
-> +	.id_table	= mp2845_ids,
-> +};
-> +module_i2c_driver(mp2845_driver);
-> +
-> +MODULE_AUTHOR("Wensheng Wang <wenswang@yeah.net>");
-> +MODULE_DESCRIPTION("MP2845 driver");
-> +MODULE_LICENSE("GPL");
-> -- 
-> 2.25.1
-> 
-> 
+Jason
