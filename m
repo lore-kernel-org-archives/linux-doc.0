@@ -1,343 +1,491 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BD21392813
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 08:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772093542; cv=pass; b=MUkOcnOaTDZ+Uz5MAqe7CsFeiArfYiNkr/M9WqmFVOK0bRFVw21FDIgW2Z5OGRmhm6t3tfmwYy1CIElFwjnlehlbDAPVKvJWibrV3KzdAEEx2cix3dnnqEeQxnbuhq6OYmQFBXUu3CqQ+7qE5hM22hOyQ6CQY1yDvwXiveMYYlE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772093542; c=relaxed/simple;
-	bh=0UoVqyWaL78Hzk+cUpwWOg65e9xmWC5hJ2EQE29LyNI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PzxKqR9wqDcCOm98hsWG6nSae5uXqXCyc/T8f1hopSCHQr4k8uskceG4+FgxjAHzv1Pc+HqPySkJbaTXPkcSH40tOXUQSBBjxNmBaY8NSi+7Xb9m5gPcKVxNy4A/10n6ceKcMvb9z40MBmJn75PE2/qrUzppETeQcsOiIiByr/E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=doEIrohB; arc=pass smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECD3393DDF
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 08:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772095150; cv=none; b=jTQrDhubOZFaTPT5UjyWT7eTiZyIwhS6U2onRGwVhkstQee/Ht9PaWY8JP37ImxPYp43DjUGdlhCgAi/yuzmdxN9aDqd1DiEeM2orGAJ1WOi64s4OymSj45PVcMBhfsSJHhLDxJY7q+HMpkobKfClrYT5tdkKvU0qFhEeWUElgE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772095150; c=relaxed/simple;
+	bh=R6K4l/PiiRgIwLZgEKR8QRcOzf93V5Fy49QdAdUFsVY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ps+HjekASYcz4fxQsEPmm9bHypfSmK/6JSFaTMFWubcNA9Vc+sDuKQlXvVRJkdsvWIrJ/ifHiUlHu6jezXd/KuLh+0kb8200HC5vtohM5la/rKyXvGqbVqfQB19+44FB+npoYDJePZ5ssoaMjW7dpBxwlCaYNcBY26HeKZcnJpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=dACNMrlA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=f+2p4ZF0; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="doEIrohB"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-505d3baf1a7so356001cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 00:12:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772093540; cv=none;
-        d=google.com; s=arc-20240605;
-        b=W4L3Cm2vxYWJc7hj3VZvK1X9P0yJ0da68e1XWL/1B8jU1i0Vc42BeRzkoAkFT7YWbh
-         ZFyPMEwonwkdF5Hrn2l35SI7wVIFOa5RKzBFeLbUvzRN+YCTk1jNIrL/m3WjwFKhpepO
-         3G8Am16R5hAwGGLYRYHRbWADDNfclRieBIjdlaseOeT79Cob92T/RGiIsP8V4rusjAud
-         cWovM4RTollfIOJRJ7kMqM2pN2l8TEruFu3Yk7W0udVY4OZhxPDzi/CtE4TIzOtirRJ3
-         rtBoxsrhFdYpci/quB/HfDzf+j3KGtd10zNN48KXnXuy92Umg4FY+hL+IflvJm/UTowe
-         EGug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=wZfa1EIpB3IbPnBHrQupmb9pJPiByw+1vE5DawlK1HU=;
-        fh=iggc3DjJx4Hg9hu1XRaDVP7QgtKzoSj2yB+9ZvjPbMc=;
-        b=EumreHOd6ebQ3uC73E5lnTSthRkrGq4Jm57HYTBi/3nOBATdYT32bIznAt2xqHnCDX
-         Qx51iTHujSsIclR6rd8QEGOw7vHdSwuludootRmwmnLFBgN76FK869PoYrDkqhI7K8Dl
-         0SAblYKwI2MTZJ7dPPPJYpLCBwr5d/WzboOdaXbOoxzKzv8gFq5thifmmY4cXeB/1naA
-         jcKh6NRW3huKpQyVijPVWisyqC8+tcWlRJnfKhPO5O2dBJmsubgUJhrgk//HOfMV8GxS
-         4kmKsFuhMGdo7af2w6/BJQAu8CQNOjrVqioL+Cl3w6RYxEa0HFGbhFxfOxZpykJ2lwsf
-         8ipw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="dACNMrlA";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="f+2p4ZF0"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61Q4V8VP918965
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 08:39:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	WAf2lFWJkeZZmog0R5l/0t54shFe/JIkci8HejhVV/E=; b=dACNMrlAA6SnWB49
+	/U85VgY6dPieg8kAp+l733U2BOVsVLzC5aQrlIxGE8UEudM88OioPpNx5wrxMOP2
+	7ZWCSxETgJVWKydVkTt7X5qrSbgCznrokCHzpN4OwFKYVoqyrVAq4oN5byRjPlAZ
+	9TkpwWmw3Z+y21kCyimkHbaUTq9/LQGV/skbMtdBxzugPg5dWcuWwERGdOxXFdHQ
+	O125QlavaJMxj8YN4EYRCoDakbDKrqY8P50e0Y4B+o1bxODioicj65zZWMUqqZ6I
+	zbF6PUGBHDKi47dBsvIQ7BdocAzXHJYsPwg84Kfy1Q2P+WpXPUomxQuzioz5Etnh
+	VSseuQ==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cj4w4th7s-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 08:39:07 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-824a8b2fbadso2235888b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 00:39:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772093540; x=1772698340; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=wZfa1EIpB3IbPnBHrQupmb9pJPiByw+1vE5DawlK1HU=;
-        b=doEIrohB0/g1GGm52JWnearamqtq3nZOG8usz5Mcm54WtiPthskVOj/t3iD6baTHzr
-         s189aaGcV/p8NQBrZOFBfJlmGuuXOr7xCw3piOS8W1U/8dDMF8NiDB9osctFP21fJXjc
-         hMIKZHK9yTuQwgRz2qr33fSckFHjm6roS3nmMrM2lcMJ5yjRpC/jWaliCKNzfFjFliWW
-         2NOpjgNZb1VwEVlXDG2ANjD821SF8g2b0D0LoI/odLtaOTWoNHy1Cc5hf/9CxbIBGLaR
-         H/LYReKaIsuYmzHFzNQ9WB/xTKVtpOR4hjh9eaNgpQK1z0766xsXzE0gEPB8thN6cQOO
-         F+Iw==
+        d=oss.qualcomm.com; s=google; t=1772095147; x=1772699947; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WAf2lFWJkeZZmog0R5l/0t54shFe/JIkci8HejhVV/E=;
+        b=f+2p4ZF0CGVLD0hsIvWHcK2PDK1/+1xeIqqT1ieF8XygyjP1yF/0ljaCBWOYA78EJB
+         37f7bm07SYI5lr9JKTBcuRkyocXx5NWSpyn/wiIXxoVvR3MFFBHHTcwp/TrcL/pbOOZk
+         ZXx/bj4FcgYwSbqS/wrtI+vLOCW+4HcEhzgqVz0Q5ZG7QSLSfs2MfYuaiarLs5unD4lc
+         TErHpudz7cFaQ/L8mkvPMYSC6fmeaIldw6pMdusV1cb97GcQiEqfE2xQuwh+3eOe8g2Z
+         NkQVBMq3TLLFDCX7eyzqXIHTnQEHBRo372jubwlp38FKBeUO4ov/+0mYXmEYxITfgGMb
+         ubpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772093540; x=1772698340;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wZfa1EIpB3IbPnBHrQupmb9pJPiByw+1vE5DawlK1HU=;
-        b=eS/W8wmFyerMPz6Bkfupt0l3c9REAIXHZUv2b0uuk+4Pz/7F2TKPzEnxmPj4XpRDGn
-         AMCC6dl0U8B/L1tWBglGGfAWRhNjtxZW2jggOJ7orkXGnuY2rDiwHbW1KBS3Up4LpSEJ
-         f4FU/jyD7lbiw0jdxN0XFv2ZJ79g/DuI2uCfPefHdM0ykva1sju2risYWaERtjQUVpP2
-         sHpNsRPzUBxv2YNinfAogwJnnr2Dhvb5OmQfV/DT/eFxEIE9h8MTZhPPEDs1TZ5j3ytz
-         YDauLIsttaS18ziC1idblJsj3KKWQ22kYCpuoqSwRG19mk1T2rewNqaKp21FRMIYu9Ht
-         JiTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWTgpiiaN6zd3HGJagp7qq3vt3RyGJCnJYZnapdZkwNJ7xhQfND5W9diilhUq1pFySwx1xgxg7qhio=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2qRrcBSeYo/Y0Tc0AGUR2LvLYlr7THL5oKmGLKs0qWsvIfm+d
-	ShJaHUViGHr8TKzqOs55rYH2xCYdmc6n/DeRvZvZbLYrsVi6k0aCINxxgv8cwCItZjNXRFe1bjv
-	5dtDzDB/yBjK8/ON9QmGkKxa6VZIGEs2o4ctbUu6r
-X-Gm-Gg: ATEYQzxpDhxaorDH8ka1gXgiIk4SoOVgnoXYTdmPYN4Jcp2zKmPMw63tMMsX4ZnAxvP
-	KeFylUCl/g5zrJxQ8m8ZRIfbD78UZGiBpvBwENRL7ONFitohC5yHt56W/wnl0hKAu820XbUHtxM
-	dPwBV7/4GYDYIuRDDi+ez1zBluEKtrfL8j65ZyWf25chYZQRV1hN1KAv0uBDYdl2TPXiu6qzTPP
-	EW3Qa+ELLVqMctWTjrNcoDCxfzjdF9hhmzjuDb+7ICZM3i1i3s/p14kslhyjtggj9AGzSpoX9vk
-	y+eEIX30
-X-Received: by 2002:ac8:5852:0:b0:4f0:2e33:81aa with SMTP id
- d75a77b69052e-507454fce67mr6996261cf.11.1772093539300; Thu, 26 Feb 2026
- 00:12:19 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772095147; x=1772699947;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WAf2lFWJkeZZmog0R5l/0t54shFe/JIkci8HejhVV/E=;
+        b=uI5/XshgmwqgTKtaCS9K5JDRHQeR6mSylJSOnfml6rNIhZUVs9rs5imCqrPcTZtgNq
+         E40T+kw2NaXajz/wBPfFbvsGdVaejNIi/ft1HEKAG9ge0fJ2grZmPmQ+prlyNZ2xJa2Y
+         fcSNlrt30/7zZiY5CmuAiZ+ds6pKxDf2ZL9Ss/FEweDKcv8sRAfI1nl+QhjHWFEWCYMe
+         Y8M9Yd0ZHZ9exoLIxh+/Bhhrg3xb2GA4NuuCm3wlYViDdrMBhPGgeS9Kse9g8KqnGKtm
+         7v+4GfJxya9sxRZYQynqUB9a3IKQaYFSmlTwrwdP1wLpZmDST4R/zZSJWdc1GIhWxvvq
+         ZO6g==
+X-Forwarded-Encrypted: i=1; AJvYcCW4sb+asNmbuohIF2TK7n4vCLA6aFCe9skaksGUx15LNMQ7/i8lR/0dCZLqnYQQmKBrGm9F9mfqXSQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5X2TPS144CBXkuCs0O1rjfMXpVaVH0tf/P+eE3Vi+iuv04lEl
+	m7tIs+XOaP+scQK/UiVngH7rhQMOGqxs0ChnxT3rAm3aA8ThUjuHfZBI2XSQX5pLkTHVLshV4jc
+	S39LjeYAInYLHXmcmX79XWywo8Dbf0MH3UvDNzi607GLdV6CYlfT/UCQY4NvkwJQ=
+X-Gm-Gg: ATEYQzyiPI1BF7V6lNPjcl0YlWdFB0jeonMTIVpM6fq1qgb4B3oe1MbBg166Fh0IJIl
+	G8vY+bgxnOdCIP/ziy+yJqxFU7r+louxhQwsAvepr/dyOW3X9MFqNu4tgcNzQPnWHXNe2bZp3Es
+	0cxpGOwb7B0dsWw6LGmenFjQZi+AM/jw7BVB4VRSXay2cvzA0lMpLIOw5+ltDyikQkBqWNPH6k+
+	24gYVgPC9v1guN0Yzd1I9/jWxIjz5cdZ81Sfg6DJL7rMGKcnitn1hwrBoDj74+KmHmWWdtSPNij
+	JG6y5KHFuXsb8y+jv3Rx5olLo2kmJxaCKfh7U0AEWd7Pri0JiuROHgYJCDqr/lHAVVPfne005hE
+	bx4NiBvgErNDiL2SyqMNP0TgcrZ5wXLDQ+c9gJP4noVmsxIJGVg==
+X-Received: by 2002:a05:6a00:3d48:b0:823:1cc6:d60a with SMTP id d2e1a72fcca58-82733672a72mr3351031b3a.2.1772095146921;
+        Thu, 26 Feb 2026 00:39:06 -0800 (PST)
+X-Received: by 2002:a05:6a00:3d48:b0:823:1cc6:d60a with SMTP id d2e1a72fcca58-82733672a72mr3350990b3a.2.1772095146324;
+        Thu, 26 Feb 2026 00:39:06 -0800 (PST)
+Received: from [10.206.99.28] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8273a088517sm1538103b3a.65.2026.02.26.00.38.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Feb 2026 00:39:05 -0800 (PST)
+Message-ID: <57937a68-7f22-4ca1-8980-0be12cf06c66@oss.qualcomm.com>
+Date: Thu, 26 Feb 2026 14:08:57 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1770071243.git.ackerleytng@google.com> <86ad28b767524e1e654b9c960e39ca8bfb24c114.1770071243.git.ackerleytng@google.com>
- <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
- <CAEvNRgFBLgvYoR_XTH-LiN1Q00R9u1HGC5URbstLPxYtedS0MA@mail.gmail.com>
- <CA+EHjTxDSW=y=sPRwW70Bz9RVYM3kSCLSbWc_X4v9hz6zj=mcg@mail.gmail.com> <CAEvNRgGp598JjouayFhyVKRJnYitNYZ2Ftik0zGyS1HdYaJLKA@mail.gmail.com>
-In-Reply-To: <CAEvNRgGp598JjouayFhyVKRJnYitNYZ2Ftik0zGyS1HdYaJLKA@mail.gmail.com>
-From: Fuad Tabba <tabba@google.com>
-Date: Thu, 26 Feb 2026 08:11:42 +0000
-X-Gm-Features: AaiRm52UzPK3MeO4gmJeqwsYXzjGPz6SNTtp4C4DmuoBtkM1oMmsg2JDrPbKXtY
-Message-ID: <CA+EHjTyHtjUBARXOUCQaBb-rXw0teM4vtuLzH_pXK+WMVp+8hw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 09/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org, aik@amd.com, 
-	andrew.jones@linux.dev, binbin.wu@linux.intel.com, bp@alien8.de, 
-	brauner@kernel.org, chao.p.peng@intel.com, chao.p.peng@linux.intel.com, 
-	chenhuacai@kernel.org, corbet@lwn.net, dave.hansen@linux.intel.com, 
-	david@kernel.org, hpa@zytor.com, ira.weiny@intel.com, jgg@nvidia.com, 
-	jmattson@google.com, jroedel@suse.de, jthoughton@google.com, 
-	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
-	mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
-	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
-	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	rostedt@goodmis.org, seanjc@google.com, shivankg@amd.com, shuah@kernel.org, 
-	steven.price@arm.com, tglx@linutronix.de, vannapurve@google.com, 
-	vbabka@suse.cz, willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 05/18] accel/qda: Create compute CB devices on QDA
+ compute bus
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        iommu@lists.linux.dev, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+        Bharath Kumar <quic_bkumar@quicinc.com>,
+        Chenna Kesava Raju <quic_chennak@quicinc.com>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-5-fe46a9c1a046@oss.qualcomm.com>
+ <x3s26yr7oy2dokp4plsp67yndr7o4ps6nuj7i4zjze77ifljux@ap537se6npfg>
+Content-Language: en-US
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+In-Reply-To: <x3s26yr7oy2dokp4plsp67yndr7o4ps6nuj7i4zjze77ifljux@ap537se6npfg>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: 8ctL7futC4JlQueCDAlIjUDI8M321v4d
+X-Authority-Analysis: v=2.4 cv=IqMTsb/g c=1 sm=1 tr=0 ts=69a006ac cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=EUspDBNiAAAA:8 a=DUi5Cioa4Bt8-YlJvggA:9 a=QEXdDO2ut3YA:10
+ a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDA3NyBTYWx0ZWRfX0od9lraRM9F/
+ fJYiUZvsS/6pswJxeXpoqJmGMSWERRQsDW4klhvS2I91Z6z8E/1b1wBMGzuXhibzYtaQSpKGAe6
+ ncYkgvfm4GjijDCNeKsnMnK64oivP0H7V0G/Tzy8HuSBWIRC+3dCDcYE5FwxtOnNYlgxUA56NZN
+ fvbQatrrQ7MGXHAq/J+ikejhAMc+WqnSdL7WNecVpk4ILDq+aCtuOwv/Cpnsm9fpoHKYtd3m+m5
+ 1EGl+rsG8n8Sth3dcL867Z6zomvDReBWsoV52DjWPUZWpdl0AgaUG9XbW45fsasMYG5jPsfJJka
+ EuHmUoduRubrEVj20khc+rvpfHJK17U235MdV/i8reLFW5enuNRI7qarFAiltyihs6Acif37ng5
+ BQ9neUD7tDfqETaJnUHV8Rz9yoqKwi3krfrdrH50Ql6yqvQu3vXDg30wpKQmRe4iF/GyWdWH7iy
+ tlwUFigiS2cje3GYWgA==
+X-Proofpoint-GUID: 8ctL7futC4JlQueCDAlIjUDI8M321v4d
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-25_04,2026-02-25_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 adultscore=0
+ impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602260077
 
-Hi Ackerley,
 
-On Thu, 26 Feb 2026 at 04:16, Ackerley Tng <ackerleytng@google.com> wrote:
->
-> Fuad Tabba <tabba@google.com> writes:
->
-> > Hi Ackerley,
-> >
-> > Here are my thoughts, at least when it comes to pKVM.
-> >
-> >
-> > On Tue, 24 Feb 2026 at 10:14, Ackerley Tng <ackerleytng@google.com> wrote:
-> >>
-> >> Ackerley Tng <ackerleytng@google.com> writes:
-> >>
-> >> > Ackerley Tng <ackerleytng@google.com> writes:
-> >> >
-> >> >>
-> >> >> [...snip...]
-> >> >>
-> >> > Before this lands, Sean wants, at the very minimum, an in-principle
-> >> > agreement on guest_memfd behavior with respect to whether or not memory
-> >> > should be preserved on conversion.
-> >> >>
-> >> >> [...snip...]
-> >> >>
-> >>
-> >> Here's what I've come up with, following up from last guest_memfd
-> >> biweekly.
-> >>
-> >> Every KVM_SET_MEMORY_ATTRIBUTES2 request will be accompanied by an
-> >> enum set_memory_attributes_content_policy:
-> >>
-> >>     enum set_memory_attributes_content_policy {
-> >>         SET_MEMORY_ATTRIBUTES_CONTENT_ZERO,
-> >>         SET_MEMORY_ATTRIBUTES_CONTENT_READABLE,
-> >>         SET_MEMORY_ATTRIBUTES_CONTENT_ENCRYPTED,
-> >>     }
-> >>
-> >> Within guest_memfd's KVM_SET_MEMORY_ATTRIBUTES2 handler, guest_memfd
-> >> will make an arch call
-> >>
-> >>     kvm_gmem_arch_content_policy_supported(kvm, policy, gfn, nr_pages)
-> >>
-> >> where every arch will get to return some error if the requested policy
-> >> is not supported for the given range.
-> >
-> > This hook provides the validation mechanism pKVM requires.
-> >
-> >> ZERO is the simplest of the above, it means that after the conversion
-> >> the memory will be zeroed for the next reader.
-> >>
-> >> + TDX and SNP today will support ZERO since the firmware handles
-> >>   zeroing.
-> >> + pKVM and SW_PROTECTED_VM will apply software zeroing.
-> >> + Purpose: having this policy in the API allows userspace to be sure
-> >>   that the memory is zeroed after the conversion - there is no need to
-> >>   zero again in userspace (addresses concern that Sean pointed out)
-> >>
-> >> READABLE means that after the conversion, the memory is readable by
-> >> userspace (if converting to shared) or readable by the guest (if
-> >> converting to private).
-> >>
-> >> + TDX and SNP (today) can't support this, so return -EOPNOTSUPP
-> >> + SW_PROTECTED_VM will support this and do nothing extra on
-> >>   conversion, since there is no encryption anyway and all content
-> >>   remains readable.
-> >> + pKVM will make use of the arch function above.
-> >>
-> >> Here's where I need input: (David's questions during the call about
-> >> the full flow beginning with the guest prompted this).
-> >>
-> >> Since pKVM doesn't encrypt the memory contents, there must be some way
-> >> that pKVM can say no when userspace requests to convert and retain
-> >> READABLE contents? I think pKVM's arch function can be used to check
-> >> if the guest previously made a conversion request. Fuad, to check that
-> >> the guest made a conversion request, what's other parameters are
-> >> needed other than gfn and nr_pages?
-> >
-> > The gfn and nr_pages parameters are enough I think.
-> >
-> > To clarify how pKVM would use this hook: all memory sharing and
-> > unsharing must be initiated by the guest via a hypercall. When the
-> > guest issues this hypercall, the pKVM hypervisor (EL2) exits to the
-> > host kernel (EL1). The host kernel records the exit reason (share or
-> > unshare) along with the specific memory address in the kvm_run
-> > structure before exiting to userspace.
-> >
-> > We do not track this pending conversion state in the hypervisor. If a
-> > compromised host kernel wants to lie and corrupt the state, it can
-> > crash the system or the guest (which is an accepted DOS risk), but it
-> > cannot compromise guest confidentiality because EL2 still strictly
-> > enforces Stage-2 permissions. Our primary goal here is to prevent a
-> > malicious or buggy userspace VMM from crashing the system.
-> >
->
-> Thinking through it again, there's actually no security (in terms of
-> CoCo confidentiality) risk here, since the conversion ioctl doesn't
-> actually tell the CoCo vendor/platform to encrypt/decrypt or flip
-> permissions, it just unmaps the pages as requested.
->
-> On TDX, if a rogue private to shared conversion request comes in, the
-> private pages would get unmapped from the guest, and on the next guest
-> access, the guest would access the page as private, so kvm's fault
-> handler would think there's a shared/private mismatch and exit with
-> KVM_EXIT_MEMORY_FAULT. Userspace now has a zeroed shared page, and the
-> guest needs to re-accept the page to continue using it (if it knows what
-> to do with a zeroed page). This would be userspace DOS-ing the guest,
-> which userspace can do anyway.
->
-> On pKVM, rephrasing what you said, even if there is a rogue private to
-> shared conversion, EL2 still thinks of the page as private. After the
-> conversion, the page can be faulted in by the host, but any access will
-> be stopped by EL2.
->
-> David, there's no missing piece in the flow!
->
-> > When the VMM subsequently issues the KVM_SET_MEMORY_ATTRIBUTES2 ioctl
-> > with the READABLE policy, we will use the
-> > kvm_gmem_arch_content_policy_supported() hook in EL1 to validate the
-> > ioctl. We will cross-reference the requested gfn and nr_pages against
-> > the pending exit reason stored in kvm_run.
-> >
-> > If the VMM attempts an unsolicited conversion (i.e., there is no
-> > matching exit request in kvm_run, or the addresses do not match), our
->
-> Ah I see, so struct kvm_run is not considered "in the hypervisor" since
-> it is modifiable by host userspace. Would you be using struct
-> memory_fault in struct kvm_run?
->
-> Which vcpu's kvm_run struct would you look up from
-> kvm_gmem_arch_content_policy_supported()?
->
-> For this to land, do you still want the gfn and nr_pages parameters?
->
-> Can pKVM just always accept the request, whether the guest requested it
-> or not? Thinking about it again,
-> kvm_gmem_arch_content_policy_supported() probably shouldn't be used to
-> guard solicited vs unsolicited requests anyway (unless you think the
-> function's name should be changed?)
 
-You spotted a flaw in my proposed validation mechanic. As you said,
-KVM_SET_MEMORY_ATTRIBUTES2 is a VM-scoped ioctl, meaning we lack the
-vCPU context required to safely inspect a specific kvm_run structure.
-Attempting to track this state VM-wide in struct kvm_arch would
-require introducing a lock on a hot memory-transition path, which we
-want to avoid.
-
-Your assessment of the security implications and the TDX fallback
-mechanism is correct and applies to pKVM. Because EL2 maintains the
-ultimate source of truth regarding Stage-2 permissions, a rogue
-conversion by the VMM cannot breach guest confidentiality.
-
-Given this, it makes sense for pKVM will adopt the TDX approach. We
-will drop the requirement to synchronously validate the guest's intent
-during the ioctl. We will always accept the request in EL1. If the VMM
-is lying and the guest never actually authorized the share, the
-resulting attribute mismatch will trigger a KVM_EXIT_MEMORY_FAULT upon
-the next guest access, or a SIGBUS/SIGSEGV if the host userspace
-attempts to map and read the memory. This will DOS/crash the VMM
-without endangering the host kernel.
-
-Therefore, kvm_gmem_arch_content_policy_supported() should not be used
-for dynamic state-machine validation. We will use it strictly as a
-static capability check (e.g., verifying that the requested policy is
-architecturally possible).
-
-I think that we would still require gfn and nr_pages in the hook to
-allow for potential range-based capability checks in the future, but
-not use them to cross-reference pending conversion requests.
-
-Cheers,
-/fuad
-
-> > current plan is to reject the request and return an error. In the
-> > future, rather than outright rejecting an unsolicited conversion, we
-> > might evolve this to treat it as a host-initiated destructive reclaim,
-> > forcing an unshare and zeroing the memory. For the time being,
-> > explicit rejection is the simplest and safest path.
-> >
+On 2/24/2026 4:19 AM, Dmitry Baryshkov wrote:
+> On Tue, Feb 24, 2026 at 12:38:59AM +0530, Ekansh Gupta wrote:
+>> Add support for creating compute context-bank (CB) devices under
+>> the QDA compute bus based on child nodes of the FastRPC RPMsg
+>> device tree node. Each DT child with compatible
+>> "qcom,fastrpc-compute-cb" is turned into a QDA-owned struct
+>> device on qda_cb_bus_type.
+>>
+>> A new qda_cb_dev structure and cb_devs list in qda_dev track these
+>> CB devices. qda_populate_child_devices() walks the DT children
+>> during QDA RPMsg probe, creates CB devices, configures their DMA
+>> and IOMMU settings using of_dma_configure(), and associates a SID
+>> from the "reg" property when present.
+>>
+>> On RPMsg remove, qda_unpopulate_child_devices() tears down all CB
+>> devices, removing them from their IOMMU groups if present and
+>> unregistering the devices. This prepares the ground for using CB
+>> devices as IOMMU endpoints for DSP compute workloads in later
+>> patches.
+> Are we loosing the nsessions support?
+Yes, it's not part of this series. I'll try bringing that as well.
 >
-> >> ENCRYPTED means that after the conversion, the memory contents are
-> >> retained as-is, with no decryption.
-> >>
-> >> + TDX and SNP (today) can't support this, so return -EOPNOTSUPP
-> >> + pKVM and SW_PROTECTED_VM can do nothing, but doing nothing retains
-> >>   READABLE content, not ENCRYPTED content, hence SW_PROTECTED_VM
-> >>   should return -EOPNOTSUPP.
-> >> + Michael, you mentioned during the call that SNP is planning to
-> >>   introduce a policy that retains the ENCRYPTED version for a special
-> >>   GHCB call. ENCRYPTED is meant for that use case. Does it work? I'm
-> >>   assuming that SNP should only support this policy given some
-> >>   conditions, so would the arch call as described above work?
-> >> + If this policy is specified on conversion from shared to private,
-> >>   always return -EOPNOTSUPP.
-> >> + When this first lands, ENCRYPTED will not be a valid option, but I'm
-> >>   listing it here so we have line of sight to having this support.
-> >>
-> >> READABLE and ENCRYPTED defines the state after conversion clearly
-> >> (instead of DONT_CARE or similar).
-> >>
-> >> DESTROY could be another policy, which means that after the
-> >> conversion, the memory is unreadable. This is the option to address
-> >> what David brought up during the call, for cases where userspace knows
-> >> it is going to free the memory already and doesn't care about the
-> >> state as long as nobody gets to read it. This will not implemented
-> >> when feature first lands, but is presented here just to show how this
-> >> can be extended in future.
-> >>
-> >> Right now, I'm thinking that one of the above policies MUST be
-> >> specified (not specifying a policy will result in -EINVAL).
-> >>
-> >> How does this sound?
-> >
-> > I don't think that returning -EINVAL is the right thing to do here. If
-> > userspace omits the policy, the API should default to
-> > SET_MEMORY_ATTRIBUTES_CONTENT_ZERO and proceed with the conversion. I
-> > believe that, in Linux APIs in general, omitting an optional behavior
-> > flag results in the safest, most standard default action.
-> >
+>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+>> ---
+>>  drivers/accel/qda/Makefile    |   1 +
+>>  drivers/accel/qda/qda_cb.c    | 150 ++++++++++++++++++++++++++++++++++++++++++
+>>  drivers/accel/qda/qda_cb.h    |  26 ++++++++
+>>  drivers/accel/qda/qda_drv.h   |   3 +
+>>  drivers/accel/qda/qda_rpmsg.c |  40 +++++++++++
+>>  5 files changed, 220 insertions(+)
+>>
+>> diff --git a/drivers/accel/qda/Makefile b/drivers/accel/qda/Makefile
+>> index 242684ef1af7..4aded20b6bc2 100644
+>> --- a/drivers/accel/qda/Makefile
+>> +++ b/drivers/accel/qda/Makefile
+>> @@ -8,5 +8,6 @@ obj-$(CONFIG_DRM_ACCEL_QDA)	:= qda.o
+>>  qda-y := \
+>>  	qda_drv.o \
+>>  	qda_rpmsg.o \
+>> +	qda_cb.o \
+>>  
+>>  obj-$(CONFIG_DRM_ACCEL_QDA_COMPUTE_BUS) += qda_compute_bus.o
+>> diff --git a/drivers/accel/qda/qda_cb.c b/drivers/accel/qda/qda_cb.c
+>> new file mode 100644
+>> index 000000000000..77a2d8cae076
+>> --- /dev/null
+>> +++ b/drivers/accel/qda/qda_cb.c
+>> @@ -0,0 +1,150 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +// Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> +#include <linux/dma-mapping.h>
+>> +#include <linux/device.h>
+>> +#include <linux/of.h>
+>> +#include <linux/of_device.h>
+>> +#include <linux/iommu.h>
+>> +#include <linux/slab.h>
+>> +#include "qda_drv.h"
+>> +#include "qda_cb.h"
+>> +
+>> +static void qda_cb_dev_release(struct device *dev)
+>> +{
+>> +	kfree(dev);
+> Do you need to put the reference on the OF node?
+Reference put is happening as part of qda_destroy_cb_device.
 >
-> Makes sense, I'll default to zeroing then. Thanks!
+>> +}
+>> +
+>> +static int qda_configure_cb_iommu(struct device *cb_dev, struct device_node *cb_node)
+>> +{
+>> +	int ret;
+>> +
+>> +	qda_dbg(NULL, "Configuring DMA/IOMMU for CB device %s\n", dev_name(cb_dev));
+>> +
+>> +	/* Use of_dma_configure which handles both DMA and IOMMU configuration */
+>> +	ret = of_dma_configure(cb_dev, cb_node, true);
+>> +	if (ret) {
+>> +		qda_err(NULL, "of_dma_configure failed for %s: %d\n", dev_name(cb_dev), ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	qda_dbg(NULL, "DMA/IOMMU configured successfully for CB device %s\n", dev_name(cb_dev));
+>> +	return 0;
+>> +}
+>> +
+>> +static int qda_cb_setup_device(struct qda_dev *qdev, struct device *cb_dev)
+>> +{
+>> +	int rc;
+>> +	u32 sid, pa_bits = 32;
+>> +
+>> +	qda_dbg(qdev, "Setting up CB device %s\n", dev_name(cb_dev));
+>> +
+>> +	if (of_property_read_u32(cb_dev->of_node, "reg", &sid)) {
+>> +		qda_dbg(qdev, "No 'reg' property found, defaulting SID to 0\n");
+>> +		sid = 0;
+> Don't do the job of the schema validator. Are there nodes without reg?
+> No.
+Ack.
 >
-> > Also, returning -EINVAL when no policy is specified makes the policy
-> > parameter strictly mandatory. This makes it difficult for userspace's
-> > to seamlessly request clean-slate, destructive conversions. Software
-> > zeroing ensures deterministic behavior across pKVM, TDX, and SNP,
-> > isolating the KVM uAPI from micro-architectural data destruction
-> > nuances.
-> >
-> > Cheers,
-> > /fuad
+>> +	}
+>> +
+>> +	rc = dma_set_mask(cb_dev, DMA_BIT_MASK(pa_bits));
+>> +	if (rc) {
+>> +		qda_err(qdev, "%d bit DMA enable failed: %d\n", pa_bits, rc);
+>> +		return rc;
+>> +	}
+>> +
+>> +	qda_dbg(qdev, "CB device setup complete - SID: %u, PA bits: %u\n", sid, pa_bits);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +int qda_create_cb_device(struct qda_dev *qdev, struct device_node *cb_node)
+>> +{
+>> +	struct device *cb_dev;
+>> +	int ret;
+>> +	u32 sid = 0;
+>> +	struct qda_cb_dev *entry;
+>> +
+>> +	qda_dbg(qdev, "Creating CB device for node: %s\n", cb_node->name);
+>> +
+>> +	of_property_read_u32(cb_node, "reg", &sid);
+>> +
+>> +	cb_dev = kzalloc_obj(*cb_dev, GFP_KERNEL);
+>> +	if (!cb_dev)
+>> +		return -ENOMEM;
+>> +
+>> +	device_initialize(cb_dev);
+>> +	cb_dev->parent = qdev->dev;
+>> +	cb_dev->bus = &qda_cb_bus_type; /* Use our custom bus type for IOMMU handling */
+>> +	cb_dev->release = qda_cb_dev_release;
+>> +	dev_set_name(cb_dev, "qda-cb-%s-%u", qdev->dsp_name, sid);
+>> +
+>> +	qda_dbg(qdev, "Initialized CB device: %s\n", dev_name(cb_dev));
+>> +
+>> +	cb_dev->of_node = of_node_get(cb_node);
+>> +
+>> +	cb_dev->dma_mask = &cb_dev->coherent_dma_mask;
+>> +	cb_dev->coherent_dma_mask = DMA_BIT_MASK(32);
+>> +
+>> +	dev_set_drvdata(cb_dev->parent, qdev);
+>> +
+>> +	ret = device_add(cb_dev);
+>> +	if (ret) {
+>> +		qda_err(qdev, "Failed to add CB device for SID %u: %d\n", sid, ret);
+>> +		goto cleanup_device_init;
+>> +	}
+>> +
+>> +	qda_dbg(qdev, "CB device added to system\n");
+>> +
+>> +	ret = qda_configure_cb_iommu(cb_dev, cb_node);
+>> +	if (ret) {
+>> +		qda_err(qdev, "IOMMU configuration failed: %d\n", ret);
+>> +		goto cleanup_device_add;
+>> +	}
+>> +
+>> +	ret = qda_cb_setup_device(qdev, cb_dev);
+>> +	if (ret) {
+>> +		qda_err(qdev, "CB device setup failed: %d\n", ret);
+>> +		goto cleanup_device_add;
+>> +	}
+>> +
+>> +	entry = kzalloc(sizeof(*entry), GFP_KERNEL);
+>> +	if (!entry) {
+>> +		ret = -ENOMEM;
+>> +		goto cleanup_device_add;
+>> +	}
+>> +
+>> +	entry->dev = cb_dev;
+>> +	list_add_tail(&entry->node, &qdev->cb_devs);
+>> +
+>> +	qda_dbg(qdev, "Successfully created CB device for SID %u\n", sid);
+>> +	return 0;
+>> +
+>> +cleanup_device_add:
+>> +	device_del(cb_dev);
+>> +cleanup_device_init:
+>> +	of_node_put(cb_dev->of_node);
+>> +	put_device(cb_dev);
+>> +	return ret;
+>> +}
+>> +
+>> +void qda_destroy_cb_device(struct device *cb_dev)
+>> +{
+>> +	struct iommu_group *group;
+>> +
+>> +	if (!cb_dev) {
+>> +		qda_dbg(NULL, "NULL CB device passed to destroy\n");
+>> +		return;
+>> +	}
+>> +
+>> +	qda_dbg(NULL, "Destroying CB device %s\n", dev_name(cb_dev));
+>> +
+>> +	group = iommu_group_get(cb_dev);
+>> +	if (group) {
+>> +		qda_dbg(NULL, "Removing %s from IOMMU group\n", dev_name(cb_dev));
+>> +		iommu_group_remove_device(cb_dev);
+>> +		iommu_group_put(group);
+>> +	}
+>> +
+>> +	of_node_put(cb_dev->of_node);
+>> +	cb_dev->of_node = NULL;
+>> +	device_unregister(cb_dev);
+>> +
+>> +	qda_dbg(NULL, "CB device %s destroyed\n", dev_name(cb_dev));
+>> +}
+>> diff --git a/drivers/accel/qda/qda_cb.h b/drivers/accel/qda/qda_cb.h
+>> new file mode 100644
+>> index 000000000000..a4ae9fef142e
+>> --- /dev/null
+>> +++ b/drivers/accel/qda/qda_cb.h
+>> @@ -0,0 +1,26 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+>> + */
+>> +
+>> +#ifndef __QDA_CB_H__
+>> +#define __QDA_CB_H__
+>> +
+>> +#include <linux/device.h>
+>> +#include <linux/of.h>
+>> +#include <linux/list.h>
+>> +#include <linux/qda_compute_bus.h>
+>> +#include "qda_drv.h"
+>> +
+>> +struct qda_cb_dev {
+>> +	struct list_head node;
+>> +	struct device *dev;
+>> +};
+>> +
+>> +/*
+>> + * Compute bus (CB) device management
+>> + */
+>> +int qda_create_cb_device(struct qda_dev *qdev, struct device_node *cb_node);
+>> +void qda_destroy_cb_device(struct device *cb_dev);
+>> +
+>> +#endif /* __QDA_CB_H__ */
+>> diff --git a/drivers/accel/qda/qda_drv.h b/drivers/accel/qda/qda_drv.h
+>> index bec2d31ca1bb..eb732b7d8091 100644
+>> --- a/drivers/accel/qda/qda_drv.h
+>> +++ b/drivers/accel/qda/qda_drv.h
+>> @@ -7,6 +7,7 @@
+>>  #define __QDA_DRV_H__
+>>  
+>>  #include <linux/device.h>
+>> +#include <linux/list.h>
+>>  #include <linux/mutex.h>
+>>  #include <linux/rpmsg.h>
+>>  #include <linux/xarray.h>
+>> @@ -26,6 +27,8 @@ struct qda_dev {
+>>  	atomic_t removing;
+>>  	/* Name of the DSP (e.g., "cdsp", "adsp") */
+>>  	char dsp_name[16];
+>> +	/* Compute context-bank (CB) child devices */
+>> +	struct list_head cb_devs;
+>>  };
+>>  
+>>  /**
+>> diff --git a/drivers/accel/qda/qda_rpmsg.c b/drivers/accel/qda/qda_rpmsg.c
+>> index a8b24a99ca13..5a57384de6a2 100644
+>> --- a/drivers/accel/qda/qda_rpmsg.c
+>> +++ b/drivers/accel/qda/qda_rpmsg.c
+>> @@ -7,6 +7,7 @@
+>>  #include <linux/of_device.h>
+>>  #include "qda_drv.h"
+>>  #include "qda_rpmsg.h"
+>> +#include "qda_cb.h"
+>>  
+>>  static int qda_rpmsg_init(struct qda_dev *qdev)
+>>  {
+>> @@ -25,11 +26,42 @@ static struct qda_dev *alloc_and_init_qdev(struct rpmsg_device *rpdev)
+>>  
+>>  	qdev->dev = &rpdev->dev;
+>>  	qdev->rpdev = rpdev;
+>> +	INIT_LIST_HEAD(&qdev->cb_devs);
+>>  
+>>  	qda_dbg(qdev, "Allocated and initialized qda_dev\n");
+>>  	return qdev;
+>>  }
+>>  
+>> +static void qda_unpopulate_child_devices(struct qda_dev *qdev)
+>> +{
+>> +	struct qda_cb_dev *entry, *tmp;
+>> +
+>> +	list_for_each_entry_safe(entry, tmp, &qdev->cb_devs, node) {
+>> +		list_del(&entry->node);
+>> +		qda_destroy_cb_device(entry->dev);
+>> +		kfree(entry);
+> Why can't you embed struct device into a structure together with the
+> list_node (and possibly some other data?)?
+I'll check this.
+>
+>> +	}
+>> +}
+>> +
+>> +static int qda_populate_child_devices(struct qda_dev *qdev, struct device_node *parent_node)
+>> +{
+>> +	struct device_node *child;
+>> +	int count = 0, success = 0;
+>> +
+>> +	for_each_child_of_node(parent_node, child) {
+>> +		if (of_device_is_compatible(child, "qcom,fastrpc-compute-cb")) {
+>> +			count++;
+>> +			if (qda_create_cb_device(qdev, child) == 0) {
+>> +				success++;
+>> +				qda_dbg(qdev, "Created CB device for node: %s\n", child->name);
+>> +			} else {
+>> +				qda_err(qdev, "Failed to create CB device for: %s\n", child->name);
+> Don't loose the error code. Instead please return it to the caller.
+Ack.
+>
+>> +			}
+>> +		}
+>> +	}
+>> +	return success > 0 ? 0 : (count > 0 ? -ENODEV : 0);
+>> +}
+>> +
+>>  static int qda_rpmsg_cb(struct rpmsg_device *rpdev, void *data, int len, void *priv, u32 src)
+>>  {
+>>  	/* Dummy function for rpmsg driver */
+>> @@ -48,6 +80,7 @@ static void qda_rpmsg_remove(struct rpmsg_device *rpdev)
+>>  	qdev->rpdev = NULL;
+>>  	mutex_unlock(&qdev->lock);
+>>  
+>> +	qda_unpopulate_child_devices(qdev);
+>>  	qda_deinit_device(qdev);
+>>  
+>>  	qda_info(qdev, "RPMsg device removed\n");
+>> @@ -83,6 +116,13 @@ static int qda_rpmsg_probe(struct rpmsg_device *rpdev)
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> +	ret = qda_populate_child_devices(qdev, rpdev->dev.of_node);
+>> +	if (ret) {
+>> +		qda_err(qdev, "Failed to populate child devices: %d\n", ret);
+>> +		qda_deinit_device(qdev);
+>> +		return ret;
+>> +	}
+>> +
+>>  	qda_info(qdev, "QDA RPMsg probe completed successfully for %s\n", qdev->dsp_name);
+>>  	return 0;
+>>  }
+>>
+>> -- 
+>> 2.34.1
+>>
+
