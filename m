@@ -1,177 +1,206 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010054.outbound.protection.outlook.com [52.101.193.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3F038B7BB
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 22:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C8A2D879E;
+	Thu, 26 Feb 2026 22:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772144011; cv=pass; b=ETLSnVV+1POwPxvjD/DvHRPqQXn5f2Ccj+/PBpII9td2x0bzHTE/rvBv1Q3fvUOop5biQmsyXUPd0qVNLhdY9/rWwdE0CvwU9VA+2b1oWK7UG5oJFEJb+fANZR+ZcgpwSvzeJlBfGvN9ad+dneEfySeQ8UVDf5nPbc7Zfhb92EE=
+	t=1772144399; cv=fail; b=lKkSQgepTQxDltfjPRxU6tlvUMAyjfSZU2tobeuDxRr35Oo7D3+YMPbJRGAbt3QI+fywAUMj9kHDxU4jpDNFBmzKddKxzGjDGR841MWRGuswDTCEq6e+RnSHb+z6FLl85F8/wPGqhVY9nwpx2kE+yVZPyqqIYpKQaCVHaOQx01Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772144011; c=relaxed/simple;
-	bh=abDDPcXe+29hPHW1emd4NBySg9u7C5Q2lO72L9C+s5U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k+7FkeNkMneDUQHcvzmjrmSIa0wKTmbhRrXwWqb8gPYgsMSg6tgglob9wDqvCxX7Z8xFiePpa/7YtTOBdZ6El9mXuDNaRe2Iy7R32l7+mhP8HSbo5uvbV9FfEKfQYuFwhTnW5iCmaDBpY/fCGo7Rk4Mcz8cVe+KV+OUGOYfUc48=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WVh47eMU; arc=pass smtp.client-ip=209.85.167.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772144399; c=relaxed/simple;
+	bh=KsOweNaBg4MRXw2+Cqi8aIqhD+/TQpmnpwr1AWNGHIM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=F9LJnHjEACXUTy1T7TqFfJ6ttvJ48pXKlCMMIzzg7kPbHWfzu6qXJHfDM56z51dHhPlW/h3kN9on0ojBJJ9MHhsfUjqV7hUx6u0/dezQYEEX2Sd/FLFjVy0DEQpAElPOHh4MshYzSs6VUIEFBYwaXd/lrtxLHkR2QJaR+DpNTnE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kIaaVgsF; arc=fail smtp.client-ip=52.101.193.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WVh47eMU"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-45f10d7eb81so582452b6e.3
-        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 14:13:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772144009; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Gc4J3XTf78DU6qJjeh8DYueKb1jEs7onmbDmXQY8aLtsJ4vzIT1MQCNf820HqBLCBy
-         YoK4RaohCKpPGLwaHNGsF2qifHG+a5fnoqrC32OqYdf20hH5evlEPcpOsFm5fdvP/RHL
-         27Tx9EoNF0NF9LyO4twOKexELDw1ZMeWukzTzUKWGlTXj9yrAOdm7L+bIGcB0AM5VKsL
-         pto4eD/BuOTKho5Gx4ajneorWaQHQdtChy828tYifdpyuZuoVo18XaHpcVaeN7y07m6M
-         geXGwvP2xNsjW/sUrqIraqGNiZjVml/zPm1jBDcoc8Dxmz/dmo25icRe9j9ootWImk6O
-         nX4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=cjyUVTpJARM8OSOZRXHymcGNWil7cvHv+QIjRklvATA=;
-        fh=CvAoNJxu24rG0D2SJaE2994iI9FE2xtVN6/18KyIvjo=;
-        b=Mq+Pyat6Qk/3OdF7a9t/vYm4gEb0vIicEPd4bfs650UgtkclTnLCNwfm4jUouy2keR
-         sEsmcrApXCDwKMVr6bLyYM6tq3hCDrgUHrizI23bZllpJ1qaL8geapNqHZlP238bkwVz
-         PalGExkHF3qDAiKPagvyunXreNCU9ZaMVcxd4Y2/82eVHHVC1MNPVl40qQKK8U2uqBO5
-         zlqAjWpJKZMZmuvQ4z6n43gTh4RnTotSgtjVS9RyP9rUxY6KWhZ2YtlHqqcvFIfnW9/T
-         4zoT24I+nmClZoKmZkon9MJx9DqJQtMLmCdhb+kCnYf0uHbGy/24ft7Y/9fCdyLaDiHY
-         GLlA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772144009; x=1772748809; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cjyUVTpJARM8OSOZRXHymcGNWil7cvHv+QIjRklvATA=;
-        b=WVh47eMUeuc3S81qiLEVNTRvpctRSRjw3PcWmlMqWSu3iLsJWt/GSDAM9neMjOm24U
-         1rfxN6+tiMmjT+ucQ3Yq78xjZDn1fUT4NLZchvU/6MG79uKIaAetP6ZxmwJvsbY1r17P
-         XFtpFVh44W2G2sJkNsxuNdVckLgF2ivTbYjRlZtCaZQh/ITrPicJuebOq9ocQl7aEFFr
-         MdCk9lgvcA6gg4ND6n0+lCNL9hQPmCWDbC8/Pz1oeOcY9Xgc8HSKmqhwKv4zhnjx+EVj
-         NBBTP03D9PtAVik4viFpJpESjepkzSnW4jB9DcLgnLmGD0K3cIE0Vg1vMEJ3P9sO3EFl
-         1JRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772144009; x=1772748809;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cjyUVTpJARM8OSOZRXHymcGNWil7cvHv+QIjRklvATA=;
-        b=REDqBrf3rQ+TL7arbMdFJ9CsTftjYcbE0TMfmWpzfjXo52I0C4sk0Dg343rn/k+IAu
-         SpApVs6dswU+95ENsZB0Wtijc2B0+sfRZr4+AWtIIeKt6RG2xpRAD761Gu86QZAiocyd
-         UhmCHfYAzL2PMs20ZH5bxFr0z6Qjh+e0Nq2jr+woRd+cZmTktToAUDc32oO1AaP7CqBy
-         fToyY/JZ0hVtmrhvbexcH0+veHK/WTeW6sxNh58+q3ZOFFzCwjvbipFSrPs0HZMvOHXx
-         64pXwVkjGkdr5o4HCQT7y8WHKDHmh135E+kGcmFVy6UWvSmUGDRvaC5EarMias6UXhvp
-         6+sg==
-X-Gm-Message-State: AOJu0YzC16CAnEArGKOLqgK0Uiid8w3nrKcCK+/Zk02OQcz0c86Y4Cgy
-	Ur8qbn6k9PkLvNWxEybAGRiD7p+GG5k5kQ6ASv0z81OONGlTDKOXK75ungjTV52XUMpW0sdW7zS
-	FxUauIR/pR2weTi1GKQ3yFhP2xAS//s7kk425UOQ=
-X-Gm-Gg: ATEYQzyoRzISko5HLfyYRdCiaE65M0bHMRZvZUzqUTjsFZxQN21m865gsMPkSvlNJQk
-	ohGMVcGCd4aExvzcNadbG1nih/NlevTWD/pCQorf3lzlN+3VbKq3sYJ2joQF0F/gu+0olnfE4gP
-	2vHYy4Ww1/u3bZne8EuNUt5dAMpiZfyaUbYo9l9fc7W0Vxvsz5W17U+kI/F5ZMEV+4lB8FQz4fz
-	VFfxM/lNAna2baYDFLdnHHosfZM3BQ1FEr4r7jmtScx9m8A8jy5yZsmW+N3TMbKNlWkHrnpBgoR
-	ZNfOfYtsAOJaAWbYS5Iok63Mnjyj/r6+PAf7nmR3sC711FyNrIoarR+aHVa6n5Z7tyjtbcS+ceY
-	fj1UsZE21
-X-Received: by 2002:a05:6820:4dce:b0:676:96fa:299e with SMTP id
- 006d021491bc7-679fadf3c00mr610808eaf.27.1772144008800; Thu, 26 Feb 2026
- 14:13:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kIaaVgsF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DVygOjLsMoOh70nQ0PfvFT982KuYSmNBeuQdermYPGFis3XHgV1ChVirSd3LcSEmFJZZJcjpyJ8XsgrS9T6nrl1tds27+bSOxl+3OmXVYsISmfTffMBiywmHScFacfU3ETdkRZOWwGmm5QW1OzKZkjEwezuvAcci3LXuySm0tnJXmGKwOuGjlVdy7TsTgthC3hg2944TzyQDun12Gqv+8sWhb/s4S0udOOJX46tS/JnaeQK7CuPACPKNHGpGX/aE9Z8m95vHZYBZ4x24SFl2iQen3U5P012rMLfOa4+03x3YzNB87rGWgyYlnmu4BeXGTy+87hgghKY0VjSizZdcSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3nHNhrKmFylZBQwf1jSlLIZsbY4cFqVl80yDJ2PRuDQ=;
+ b=NDdCCNOkNiFLA1PEzPx75gLLdsizES3gCmRpyqsTSonx9YJxFFXPsRmirjIcik/9AfJ/RqJ8aU2BNinSyew/osKe26xSXXfzLogg7IRTxunRuAfYsDANutWtjbCuVFMPLFaCNPCXSBCDmpK9NfKXny3Y/ecP9o4rMehynocde9o8S9tGetB2jSwgpmDiPf/n1CGPrh3MIMm8qXOcBQi2WHrbBStQHvNDp1d4l0phxPdmN6gkE5nvGeyC9S54Per/mzVhthNTOFUW0Jpvxz4ts6obuPkIYYUl90FPkPJy0L3i9QEOJ6+cKenUa+uFmp/gr18U070PW5+wreA5/mfr2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3nHNhrKmFylZBQwf1jSlLIZsbY4cFqVl80yDJ2PRuDQ=;
+ b=kIaaVgsFqv8gq0vu75eD25uCnxEoFVCYuLUue6D2aC5uyfRCVJvOWeTBFLHSpNVNqE83iY13v4FcBs+g/Gu0+2UtmXuLv7SHZ3UiqfRBWIsNFn+DdaTGti2/eA59UO/PiQw/gYuRkm2vJ6JLrpcLfle/eKMV2eRuask1Xxvp9XY0K/5JG6Q6N46IkvsD6YeY8z/g4kWVtQKNco3BCErPSwy0KZb+OPfsq4Wj+UuwbQrRaPu1NAbscstsv4UNvzPH0ia7U6jfkXx2BzJ1QhG1yehZ9hxDa59IX4EK0NO7+Oga57hXbkIR3scplKObt2uEUZ1/uWARnUMwO+VkY4CR1g==
+Received: from BL0PR02CA0007.namprd02.prod.outlook.com (2603:10b6:207:3c::20)
+ by SA5PPFD8C5D7E64.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8e3) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.14; Thu, 26 Feb
+ 2026 22:19:53 +0000
+Received: from MN1PEPF0000F0E4.namprd04.prod.outlook.com
+ (2603:10b6:207:3c:cafe::d1) by BL0PR02CA0007.outlook.office365.com
+ (2603:10b6:207:3c::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.25 via Frontend Transport; Thu,
+ 26 Feb 2026 22:19:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ MN1PEPF0000F0E4.mail.protection.outlook.com (10.167.242.42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9632.12 via Frontend Transport; Thu, 26 Feb 2026 22:19:53 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 26 Feb
+ 2026 14:19:28 -0800
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail201.nvidia.com
+ (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 26 Feb
+ 2026 14:19:27 -0800
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.8)
+ with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Thu, 26
+ Feb 2026 14:19:22 -0800
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
+ Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
+	<mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Gal Pressman
+	<gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory
+	<shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Moshe Shemesh
+	<moshe@nvidia.com>
+Subject: [PATCH net-next V3 00/10] devlink: add per-port resource support
+Date: Fri, 27 Feb 2026 00:19:06 +0200
+Message-ID: <20260226221916.1800227-1-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260226212716.260546-1-danielmaraboo@gmail.com> <87o6lb5fbo.fsf@trenco.lwn.net>
-In-Reply-To: <87o6lb5fbo.fsf@trenco.lwn.net>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Thu, 26 Feb 2026 19:13:17 -0300
-X-Gm-Features: AaiRm50YZccfM3LAs5i3kRVNDMkH-2KizfVHs_XdFEACrpED7Erkmd5yPIZeAp8
-Message-ID: <CAMAsx6e0HUCw98bTqt9xJ+CaOC+rSA1h54T0WasR_mvKfaS7Mw@mail.gmail.com>
-Subject: Re: [PATCH docs-next] docs: pt_BR: Add translation for maintainer-handbooks
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E4:EE_|SA5PPFD8C5D7E64:EE_
+X-MS-Office365-Filtering-Correlation-Id: 060234ab-1dcd-4cf5-aa32-08de75852a2b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|7416014|36860700013|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	rUqLL6JzA1f4vScEarb6l3FE/q2kasUqhLfq5JOSfKXdgvmWQDVjpsDww5ZCwhSv02lLdkNnNdAcLib+ouLGi178pNrictv93vyNTuSzMKVUNogMWSNkbTmRVNraNV6SpQ1BvjpG4ezye1VKCRUHUb14f1Pfdm9xSsHHH6T0r+09eGeyUea89aThl5gNiOr/Wud+PVhzD2NX0HW3a47pf2/07d/oHj6s+WUYu60EBr4e7cJYYkfHykZmZ0VpLFKjl5QydolyMYeqm20hSV0CKNZS/tcrcmJmzyDIRcOAnZu6sjGlXYhGk0lj2plr1RxWiVedV8LV4Jfmtakl4GjBxc8iguLjL8/kCHRgXCHETgrAhlji69oFCRFyzC32jrs0KQRb0pC3gxbLDDa6bT9GnnSvhh2s9AyCokH17mDqlqeuKp75TE1y2AFAEJvQKlcCfVLv9drkoo67i/Ili24Q+Ne0L+SMmRgjcMvVREIJJnr4oSSUI2RypHOYH0RUTjAG5Bo6XVeYHN1iRSPmTfTVXVWRWCKW0bXCbErnXWPg1BNmIasJgi8bxnAdVjlxY5j9qAxTSa3JLJNgdiCBSeBxvVw8EEm1h5AO1sKNS0vQ0UpEJVc9IzCXfUV9mr/AP2nfAyOWvclxyKcH1fnDnifEY6rKGwKuansqMcxhITTJ4MOnTM+SQNkLbdqhLu8Y/joUONeFAiJqSl+mk+aW7ALd9XIWQqjUIaEkGqRNuOJq4jBVAShKfuFe0HhuoUSof+Tw2Sz3pvAiDY6BPf8v45LCLejS+it6AfhqMLTz1F5mxlbLjXcOzYNZeTBsqYbPOZevNmsdKg4wYQBBm9Io8iQmaQ==
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700013)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	rndv18Ltcpo3LPYDDvkPbFcKuGHDK1d9i0qUPDKHl0hCDuSelLuX5pXDusgwenmNoq+46jJg1eCFVdYV6D25kdOssjlLAtX5ymkUn6FGGBh6ABsU+3+O4ofx6+0F0SD5wM04wegN28O80wffUxLcTAPREB5b+JFs3j+rJ80G9rRgp5Us8X0/OXReOolxfP5wnYJFaJUz07WO75lnh0a29Tphp+yb8MoeroCrELVCaTVf/pK8febwc4Tt7G9VZT3pQiJjWRELTvhKmSpe4T7BDoWkevL0Heblktr39RpcaH+H0a4qC7d2j6F9O7Bd+XeEPp3/cDpIyS27CZ8s7BmWiBw0910ybQd6LpLocQJ5HXBvN+KLiRnC0W4SZ1C7N11qvOuarlIep6Io6RTgi/vaRVqReEesHtKXwvJyRL3Zx3ZgBU2sc2vMqc0hJ3DRWWwN
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 22:19:53.0049
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 060234ab-1dcd-4cf5-aa32-08de75852a2b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MN1PEPF0000F0E4.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPFD8C5D7E64
 
-On Thu, Feb 26, 2026 at 7:07=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> Daniel Pereira <danielmaraboo@gmail.com> writes:
->
-> > Add the Brazilian Portuguese translation for the maintainer-handbooks
-> > documentation. This document provides subsystem-specific development
-> > process notes. Also, update the main pt_BR index to include the new
-> > translation.
-> >
-> > Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
-> > ---
-> >  Documentation/translations/pt_BR/index.rst            |  1 +
-> >  .../pt_BR/process/maintainer-handbooks.rst            | 11 +++++++++++
-> >  2 files changed, 12 insertions(+)
-> >  create mode 100644 Documentation/translations/pt_BR/process/maintainer=
--handbooks.rst
-> >
-> > diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation=
-/translations/pt_BR/index.rst
-> > index 55f9f377e..de5c005f9 100644
-> > --- a/Documentation/translations/pt_BR/index.rst
-> > +++ b/Documentation/translations/pt_BR/index.rst
-> > @@ -68,3 +68,4 @@ kernel e sobre como ver seu trabalho integrado.
-> >
-> >     Como come=C3=A7ar <process/howto>
-> >     Requisitos m=C3=ADnimos <process/changes>
-> > +   Manuais dos mantenedores <process/maintainer-handbooks>
-> > diff --git a/Documentation/translations/pt_BR/process/maintainer-handbo=
-oks.rst b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-> > new file mode 100644
-> > index 000000000..849c7705f
-> > --- /dev/null
-> > +++ b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-> > @@ -0,0 +1,11 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +.. _pt_maintainer_handbooks_main:
->
-> Not really your fault but ... I have been trying for a while to stamp
-> out this habit of putting unneeded labels at the tops of files.  This
-> one isn't used at all; when they are used, it is far better to just give
-> the name of the relevant file and let the automarkup magic do its thing.
->
-> > +Notas sobre o processo de desenvolvimento de subsistemas e mantenedore=
-s
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +O prop=C3=B3sito deste documento =C3=A9 fornecer informa=C3=A7=C3=B5es=
- espec=C3=ADficas de
-> > +subsistemas que s=C3=A3o suplementares ao manual geral do processo de
-> > +desenvolvimento :ref:`Documentation/process <development_process_main>=
-`.
-> > +
->
-> Thanks,
->
-> jon
+Hi,
 
-Hi Jon,
+This series adds devlink per-port resource support.
+See detailed description by Or below [1].
 
-Thank you for your feedback.
+Regards,
+Tariq
 
-I kept the label
+[1]
+Currently, devlink resources are only available at the device level.
+However, some resources are inherently per-port, such as the maximum
+number of subfunctions (SFs) that can be created on a specific PF port.
+This limitation prevents user space from obtaining accurate per-port
+capacity information.
+This series adds infrastructure for per-port resources in devlink core
+and implements it in the mlx5 driver to expose the max_SFs resource
+on PF devlink ports.
 
-.. _pt_maintainer_handbooks_main:
+Patch #1  adds dump support for device-level resources
+Patch #2  adds selftest for resource dump
+Patch #3  adds dump to resource documentation
+Patch #4  refactors resource functions to be generic
+Patch #5  adds port-level resource registration infrastructure
+Patch #6  adds port resource netlink command
+Patch #7  registers SF resource on PF port representor in mlx5
+Patch #8  adds devlink port resource registration to netdevsim for testing
+Patch #9  adds selftest for devlink port resources
+Patch #10 documents port-level resources
 
-to follow the pattern of all the other documents I'm translating, only
-changing the initial to
+With this series, users can query per-port resources:
 
-_pt_
+$ devlink port resource show pci/0000:03:00.0/196608
+pci/0000:03:00.0/196608:
+  name max_SFs size 20 unit entry
 
-.
+$ devlink port resource show
+pci/0000:03:00.0/196608:
+  name max_SFs size 20 unit entry
+pci/0000:03:00.1/262144:
+  name max_SFs size 20 unit entry
 
-Would you prefer that I remove this label, or should I keep it for consiste=
-ncy?
+Userspace patches for iproute2:
+https://github.com/ohartoov/iproute2/tree/port_resource
 
-Best regards,
+V3:
+- Add dump command for device-level resources.
+- Fix selftest to expect the "test_resource" registered by netdevsim
+  instead of max_SFs.
+- Use a single netlink fill function for both device-level and
+  port-level resources.
+- Fix documentation to refer to the GET command (kernel/netlink
+  perspective) instead of show.
+- Link to V2: https://lore.kernel.org/all/20260205142833.1727929-1-tariqt@nvidia.com/
 
-Daniel
+
+Or Har-Toov (10):
+  devlink: Add dump support for device-level resources
+  selftest: netdevsim: Add resource dump test
+  devlink: Add dump to resource documentation
+  devlink: Refactor resource functions to be generic
+  devlink: Add port-level resource registration infrastructure
+  devlink: Add port resource netlink command
+  net/mlx5: Register SF resource on PF port representor
+  netdevsim: Add devlink port resource registration
+  selftest: netdevsim: Add devlink port resource test
+  devlink: Document port-level resources
+
+ Documentation/netlink/specs/devlink.yaml      |  29 +-
+ .../networking/devlink/devlink-resource.rst   |  60 ++-
+ .../net/ethernet/mellanox/mlx5/core/devlink.h |   4 +
+ .../mellanox/mlx5/core/esw/devlink_port.c     |  37 ++
+ drivers/net/netdevsim/dev.c                   |  23 +-
+ drivers/net/netdevsim/netdevsim.h             |   4 +
+ include/net/devlink.h                         |  10 +-
+ include/uapi/linux/devlink.h                  |   3 +
+ net/devlink/devl_internal.h                   |   4 +
+ net/devlink/netlink.c                         |   2 +-
+ net/devlink/netlink_gen.c                     |  49 ++-
+ net/devlink/netlink_gen.h                     |   8 +-
+ net/devlink/port.c                            |   3 +
+ net/devlink/resource.c                        | 366 +++++++++++++++---
+ .../drivers/net/netdevsim/devlink.sh          |  53 ++-
+ 15 files changed, 581 insertions(+), 74 deletions(-)
+
+
+base-commit: 90fcb0f3bc5ab67773b35030af68ed8c6bd83e1c
+-- 
+2.44.0
+
