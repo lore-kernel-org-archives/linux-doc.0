@@ -1,185 +1,167 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010032.outbound.protection.outlook.com [52.101.56.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC83399013;
-	Thu, 26 Feb 2026 22:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772144455; cv=fail; b=NXUWDHC4qKWFtlIAZzLMkEkg08wWvu3y9X1ndKy6t6oxvfNojDfGGT4CpqxD6nYcFbVJvQ3V9DHiqYoPdlvxZasDfsLdoFj7j7V5f7FP6lLC7+vAthqEereee4MSGVBMpwawEjQfTmxSjufpjcoCqq8l6/yVCCrI18hXq/oQu7g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772144455; c=relaxed/simple;
-	bh=mygv8j3FyEUxu5ONg51cx6hvtcsG6ocEXb566FSuX9c=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qLjQ4jRtWsrOPzYdQXu8oGMRIbeUP8snDscy73KHLbzQSGs3mw4EjqrceDAvizFglXv7TDm5kJ5PqlEF9VDCeG1TDsJzVsaUb9/4EUwvICy3C/FTYaMomMzCPZMZUEv/JDsD8UhquiC4KLH624sbMZpV02aH+yU1LSEvFxaqqIs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BtHYc0+W; arc=fail smtp.client-ip=52.101.56.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CA18319875;
+	Thu, 26 Feb 2026 22:34:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772145249; cv=none; b=L4ltaC2eJxleQAUpGx5MG+oYZIaXVksqKMOsRndPiK9dabUZivzBZStCT2AgSl0Y5wri0GGuwo3cp7w1ojBeqBb7SfYmtrpXLSvPOSrotvEKV4vz4q2QsniV9/UFuOTU3SipjKNWM2nRzs/4R4g6reAgDBsQ1go4G4NFENRwYNk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772145249; c=relaxed/simple;
+	bh=sqVu4bH4eVU4Te9XYoGx3Yasl2SZId3A32JcMRFb2I0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=ZmEB3hLnNmBTBoIY7iSVftpgfHLChEQNuFtJNpR2le0W1+GI8Jact5v5scMWMPbXCeBZeiWjNeY7dA5fKiS3bKMGUXm54QaZTDS1bcE9P+AM/zX6xw870YMEN4S/56IEBv75ay55PNDRGbL35k8SfnyP99ZPhbwlWycOdwu9UlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YU3W7UWK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BtHYc0+W"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=es+2IbVQ/6wMiLDmV1YWNDakLCnjgcNXV3F3boFxYRlyPRBXD8gqob/7GdnGViDYMjjvOeGwdIlkTWrL2FJ9I4apBPr87suftI+UEnkOst2CNP6Ogmp5YwO/yUXJybGyaUd50bg4ZbHO7vcJ53PRkvTTYkn9dr6MztXt4aeyOR76zIZJR90Sw0sKHd3sJIU9r+vBz22NleDJPzo464v2A2ojLjLrRd150ySBnoj3lHJhT7PmHtwU8Wlu34Z6CQKDrr3g473zu3oP+5Gk3LMpk79sfWaqoNGoH7W4k0xUj/uwR4a/5ztRc3CCid0as0nyOrlOjvoKvT0+bS3Ld+CzWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=miuiwjPloG6AlWo59fMk+iCoMhIlgpe3pCLEFhFosXI=;
- b=ev26lxq2VRZ4tsxkd1b4BYEbVuXnD2asgHYwkPlcaytLeEjx6ycm36ZIDFRMeZG1xZfsRaF4mNUF+3c2nc+tiMp4Jg77PIPII7VuM80EtVEgAM7BCzBQDaqPHhUa/mlL/z9jXENYGQtxOthHLrryMrO3Cqy/nKEDtVTuz+5LuWkUALy9LY4PHCIRsEs2Ea9AXoRme37BZatwI8DvGfsfoveoSfFXf1BG7Y+yLY58CwLquWSR+ziiBeMgHgbuF1sHNpwW9cswNVyldnusQnz8VUMtHTktTf/amBh0pIhFR4HP5Vn/HgLeicWg6pai5Ify/YlKmVyziWL8ZNFmwWJEig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=miuiwjPloG6AlWo59fMk+iCoMhIlgpe3pCLEFhFosXI=;
- b=BtHYc0+WMLadHqoULXPy3Qo57eIrCjkrTXwZ6Hm7b/kTXklGYidNp9SdcR+Dxlohr7QN3GjcQSUqJ3/sJvj7Rq0FQaGCTH8RNgNjoeJ+qtUtjVpXvT7ZLOrm8JJP3Kc76V92+ytmMG5qjKx5QIglrprFUGyevFAzVlnOJpmEXn2UhgRXgXGoeSrfGwmWE1LBE0FvVPqp9WeSWB8epgsNDd3iqRY9n78a90etZJStgGH2UqrQyCNL5DD7nQtve9rJl4pTxg9YXl1YFC3lPfw80KpzE0PEYBKfqu9SGzzMhzn4fv8luAZKALt3UjjwluIpPRRe0Gx+dHKWl8+HXZhYGg==
-Received: from BY5PR17CA0049.namprd17.prod.outlook.com (2603:10b6:a03:167::26)
- by SJ0PR12MB8116.namprd12.prod.outlook.com (2603:10b6:a03:4ec::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.13; Thu, 26 Feb
- 2026 22:20:48 +0000
-Received: from SJ1PEPF0000231C.namprd03.prod.outlook.com
- (2603:10b6:a03:167:cafe::1c) by BY5PR17CA0049.outlook.office365.com
- (2603:10b6:a03:167::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9632.25 via Frontend Transport; Thu,
- 26 Feb 2026 22:20:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SJ1PEPF0000231C.mail.protection.outlook.com (10.167.242.233) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9632.12 via Frontend Transport; Thu, 26 Feb 2026 22:20:48 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 26 Feb
- 2026 14:20:24 -0800
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 26 Feb
- 2026 14:20:24 -0800
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com (10.129.68.8)
- with Microsoft SMTP Server id 15.2.2562.20 via Frontend Transport; Thu, 26
- Feb 2026 14:20:18 -0800
-From: Tariq Toukan <tariqt@nvidia.com>
-To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
- S. Miller" <davem@davemloft.net>
-CC: Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
- Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
-	<mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Gal Pressman
-	<gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory
-	<shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Moshe Shemesh
-	<moshe@nvidia.com>, Or Har-Toov <ohartoov@nvidia.com>
-Subject: [PATCH net-next V3 10/10] devlink: Document port-level resources
-Date: Fri, 27 Feb 2026 00:19:16 +0200
-Message-ID: <20260226221916.1800227-11-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.44.0
-In-Reply-To: <20260226221916.1800227-1-tariqt@nvidia.com>
-References: <20260226221916.1800227-1-tariqt@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YU3W7UWK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B077C19423;
+	Thu, 26 Feb 2026 22:34:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772145248;
+	bh=sqVu4bH4eVU4Te9XYoGx3Yasl2SZId3A32JcMRFb2I0=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=YU3W7UWKVuGCmtKq3kD5uiuPDhrbY/g0MYnlVb1SZl4yRDzPZ/yWrEzO+Q1zq/Atd
+	 l922qO7hg38r2Id5tVg/naKuKeweufyGedUZoHbVuUjRlVIU2HH2xL+UCZuEo5hE/Y
+	 mrvC2o1uPRjgS4+30BAHiQEa4AwM7brCThkWnIotKGxRoHkC+2Mxbzg8cwx3a4ZA0k
+	 nnfl2HuznRm2OUNFnhoLlqkRoyyWirTKBy5YUJaWOACsBIZcRq2jEMsxzt+tUf7lRP
+	 aDQs7todyQvYbgQFOKdEd3E8JJ/Oaky9Pt6p2mb9+EIOHoiTNzWi+y0OoPBcCMs26+
+	 i2C4bp3QrXFJw==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 1BE2DF40070;
+	Thu, 26 Feb 2026 17:34:07 -0500 (EST)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-01.internal (MEProxy); Thu, 26 Feb 2026 17:34:07 -0500
+X-ME-Sender: <xms:XsqgaYFayPBqywQPSAayqE2OVLMApPLJKmW31lIYbGsq1JqeNeh-Ww>
+    <xme:XsqgacJCGa88NfDG4sRtPjylUJ8EBO3eG9F8jMkGDmY7eJPXx_CIpRJIRLWzLtKBF
+    1yksO_AEncEVQgm0ZyY403x4yWulBnxCicFS21ZpKRjBEllM2Xpqg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeejfedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrugcu
+    uehivghshhgvuhhvvghlfdcuoegrrhgusgeskhgvrhhnvghlrdhorhhgqeenucggtffrrg
+    htthgvrhhnpedvueehiedtvedtleekuddutefgffdtleetfeetveejveejieehfefhjeei
+    jeefudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhguodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieejtdehtddtjeel
+    qdeffedvudeigeduhedqrghruggspeepkhgvrhhnvghlrdhorhhgseifohhrkhhofhgrrh
+    gurdgtohhmpdhnsggprhgtphhtthhopeefuddpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepsghpsegrlhhivghnkedruggvpdhrtghpthhtohepnhhivhgvughithgrsegrlh
+    humhdrmhhithdrvgguuhdprhgtphhtthhopehluhhtohesrghmrggtrghpihhtrghlrdhn
+    vghtpdhrtghpthhtohepughpshhmihhthhesrghpvghrthhushhsohhluhhtihhonhhsrd
+    gtohhmpdhrtghpthhtoheprghnughrvgifrdgtohhophgvrhefsegtihhtrhhigidrtgho
+    mhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtoh
+    epphgvthgvrhhhuhgvfigvsehgmhigrdguvgdprhgtphhtthhopehhvghrsggvrhhtsehg
+    ohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthhtohepthhrvghntghhsghooh
+    htqdguvghvvghlsehgohhoghhlvghgrhhouhhpshdrtghomh
+X-ME-Proxy: <xmx:X8qgab_C081BMvaxIo0BzZ-sX_AZdakByebOHAHonhOZKthOofNYdg>
+    <xmx:X8qgab9RXeBduiNjH9ukeTnmcessPmjZE_P_BsB_B3rT4zvP43haPw>
+    <xmx:X8qgaV8gKWfgApMxNXUIy-8AXoKZAbHjsRXX-zZwcEBpHJWpDTdjUQ>
+    <xmx:X8qgaWKju_xbONK3Zq2I1tNt_fC0oFtXwcuR9Tme3zbaJ9rR1f7jDA>
+    <xmx:X8qgaaTn5NUoqETkYMa2Chsu7s32beRqVWFyyUQOMzedJpvBW4TIhqOR>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id E001E700065; Thu, 26 Feb 2026 17:34:06 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: AAnEvm6syrbF
+Date: Thu, 26 Feb 2026 23:33:18 +0100
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Ross Philipson" <ross.philipson@oracle.com>,
+ "Daniel P. Smith" <dpsmith@apertussolutions.com>,
+ linux-kernel@vger.kernel.org, x86@kernel.org,
+ linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev,
+ dave.hansen@linux.intel.com, "H . Peter Anvin" <hpa@zytor.com>
+Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>, "Matthew Garrett" <mjg59@srcf.ucam.org>,
+ "James Bottomley" <James.Bottomley@hansenpartnership.com>, peterhuewe@gmx.de,
+ "Jarkko Sakkinen" <jarkko@kernel.org>, jgg@ziepe.ca,
+ "Andy Lutomirski" <luto@amacapital.net>, nivedita@alum.mit.edu,
+ "Herbert Xu" <herbert@gondor.apana.org.au>, davem@davemloft.net,
+ corbet@lwn.net, "Eric W. Biederman" <ebiederm@xmission.com>,
+ dwmw2@infradead.org, baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+ "Andrew Cooper" <andrew.cooper3@citrix.com>,
+ trenchboot-devel@googlegroups.com
+Message-Id: <517b0d68-247b-486a-b283-84eac6596017@app.fastmail.com>
+In-Reply-To: <00774604-258c-4e88-80a4-fd8f60fcd0b3@oracle.com>
+References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+ <b5f2b5a5-b984-4ed3-a023-c06d634f9146@app.fastmail.com>
+ <1ffd3cb5-2c76-4371-a067-3e4849907d80@apertussolutions.com>
+ <49d169bf-0ad2-49be-b7d7-fceb9e7f831a@app.fastmail.com>
+ <242a0462-7fc5-4902-b71d-22cf8360239e@app.fastmail.com>
+ <00774604-258c-4e88-80a4-fd8f60fcd0b3@oracle.com>
+Subject: Re: [PATCH v15 00/28] x86: Secure Launch support for Intel TXT
 Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF0000231C:EE_|SJ0PR12MB8116:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d551605-f478-4654-f47b-08de75854af9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|7416014|376014|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	DNO/unMolGOhcyMnZprbaxtWxeraPCzlG70tbN1rje3nKtkiVUT8kVB4Ae3HBtx0sftWTKHpQZCS/fHxO33H8fdMb509oPjscyVCkPhQINosHNLNMhup/xBrwJhpsbHN7sqUQPUYCVLBAe0IM0NCJr7V0VeE//msNBCmquE5YomJghMNRU7XeGzOJ3X9h4c+kHRduPlLebH+WL7GuwH2uwKJsg73qtOXZ1sl4ir+weZRpVVoti1LrgK+O8FWUYiBLMzAMlA7rwrfMygudDQK/hz9haCxMOjq8M+OoJ/IRsgdBNDg4opq48PTELbfu5ExGhPRvdedCIsHr6arAVlBjTJeaV9Ay8wxnCeREnxevSRQUet+NnI1paZ1qSORundIR5DMNNpVI0vhlNXHHOPHa4yavExkur9oDcYMZckLMd1kbMEgVMMHFq17xDBwrAqxEzqzkqbtCKpqOx8k0H4QYlbhZeqVguF+EVMkyYHz9cB1slIC5Y0U1M2oLkmdA4Aj5xNNou+ZhxWBOzKayDaTeL5vlOzAGLGwgXtOZQ7fR9SWzohwpRXzBK590C4wPRSsDSAIaPsszeLx6IVuAfmeubWQisyTq2DzDG1bcyZXGYkkEmCY+BnbjG7IMyWQBGQ2hFE7JKaTeyTRE7aaT0rIMhzS7qHrLGNu8sJ7H4JHfM0XqTKJihrEjGAljsl9/t/kAmGW3LoohwP7CudP1/ivWvRsZbDQMUP9x8xLVxe4Bf0/u6lSmWPL8fyvpkyYEHV9Brr1EoFgAS0thUULFtAIyxidVx1PofO7AUow24aDtN1bsOBAYlCrP4QebyrBE1eUasi5pCURz42OtwVj0W4vDQ==
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(7416014)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	BljOblQcOrKg69VrZKcxGkdXR1EimKXoAF9b71HM1Ge7iC4HKBTmcGHWnro1hrtbud+q6kBppRBl8EzYXNqbvBLUCN3sy7uGFOwrBpPfTYgDYL/S8xEmb3uqCiXfvSfxU5517nlt1r45ag/+4A+444ayYnYlEM/PbU8Oi6u3brwUkG0k9BVw3eESBLy4XMZGJhZPvl70d9/yAvmt9K8c3ueR0Cbk0fBBiZOXPbrDauTz8ZmItA9zjPOn1JfCjt1RjEZZNN6aOe5ec8WhPzxoMFylyFsHRBUKkxuXVd33E58uBqkRXybjb2Z3bt19EOJ5WPeWFxIU61ZdKLOsJ/hJtF0in78FZ5rMPiafwpO2y4v7PD+GxymjZgxZ37U3haZnSqaQO47x0tNrOALd1WmgnHVJzq9oxW/ZwEDAub6ONyJdsXPg+xkK3krW22s5j6pX
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Feb 2026 22:20:48.0774
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d551605-f478-4654-f47b-08de75854af9
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF0000231C.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB8116
+Content-Transfer-Encoding: 7bit
 
-From: Or Har-Toov <ohartoov@nvidia.com>
 
-Add documentation for the port-level resource feature to
-devlink-resource.rst. Port-level resources allow viewing resources
-associated with specific devlink ports.
 
-Currently, port-level resources only support the get command for
-viewing resource information.
+On Thu, 26 Feb 2026, at 19:31, ross.philipson@oracle.com wrote:
+> On 2/18/26 9:30 AM, 'Ard Biesheuvel' via trenchboot-devel wrote:
+>> On Thu, 12 Feb 2026, at 21:39, Ard Biesheuvel wrote:
+>>> On Thu, 12 Feb 2026, at 20:49, Daniel P. Smith wrote:
+>>>> On 2/9/26 09:04, Ard Biesheuvel wrote:
+>>> ...
+>>>>> I've had a stab at implementing all of this in a manner that is more idiomatic for EFI boot:
+>>>>>
+>>>>> - GRUB does minimal TXT related preparation upfront, and exposes the remaining functionality via a protocol that is attached to the loaded image by GRUB
+>>>>> - The SL stub is moved to the core kernel, with some startup code added to pivot to long mode
+>>>>> - the EFI stub executes and decompresses the kernel as usual
+>>>>> - if the protocol is present, the EFI stub calls it to pass the bootparams pointer, the base and size of the MLE and the header offset back to the GRUB code
+>>>>> - after calling ExitBootServices(), it calls another protocol method to trigger the secure launch.
+>>>>>
+>>> ...
+>>>>
+>>>> I think this is a great approach for UEFI, though we need to reconcile
+>>>> this with non-UEFI situations such as booting under coreboot.
+>>>
+>>> There are two approaches that I think are feasible for coreboot in this model:
+>>>
+>>> - just unpack the ELF and boot that - there is already prior art for
+>>> that with Xen. We can stick the MLE header offset in an ELF note where
+>>> any loader can find it.
+>>>
+>>> - stick with the current approach as much as possible, i.e., disable
+>>> physical KASLR so that the decompressed kernel will end up right where
+>>> the decompressor was loaded, which allows much of the secure launch
+>>> preparation to be done as before. Only the final bits (including the
+>>> call into the ACM itself) need to be deferred, and we can propose a
+>>> generic mechanism for that via boot_params.
+>>>
+>>> I'm working on a prototype of the latter, but GRUB is an odd beast and
+>>> my x86 fu is weak.
+>>>
+>> 
+>> I've managed to get a working implementation of the legacy entrypoint, by repurposing the dl_handler() entrypoint you added for EFI [which no longer needs it in my version] as a callback for the legacy boot flow. This /should/ work for i386-coreboot too, but I have no way of testing it (I only tried 'slaunch --legacy-linux' using the x86_64-efi build).
+>> 
+>> I've pushed the changes to the branches I mentioned previously in this thread.
+>
+> Hello Ard,
+>
+> I am working on incorporating the changes we have been discussing. So 
+> far everything has been rather smooth. I noticed in the legacy support 
+> you did here, you introduce a new boot_param. This is something that we 
+> tried to do early on but changes to the boot_params layout is rather 
+> frowned upon. We worked with Peter A. on the kernel_info scheme but 
+> this parameter you introduced is not used that way (kernel_info is 
+> meant to be RO after the kernel is built).
 
-Signed-off-by: Or Har-Toov <ohartoov@nvidia.com>
-Reviewed-by: Shay Drori <shayd@nvidia.com>
-Reviewed-by: Moshe Shemesh <moshe@nvidia.com>
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
----
- .../networking/devlink/devlink-resource.rst   | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
+Indeed. kernel_info describes the kernel to the bootloader, not the other way around.
 
-diff --git a/Documentation/networking/devlink/devlink-resource.rst b/Documentation/networking/devlink/devlink-resource.rst
-index b4203c498bf2..1d6d8bfa1692 100644
---- a/Documentation/networking/devlink/devlink-resource.rst
-+++ b/Documentation/networking/devlink/devlink-resource.rst
-@@ -94,3 +94,39 @@ attribute, which represents the pending change in size. For example:
- 
- Note that changes in resource size may require a device reload to properly
- take effect.
-+
-+Port-level Resources
-+====================
-+
-+In addition to device-level resources, ``devlink`` also supports port-level
-+resources. These resources are associated with a specific devlink port rather
-+than the device as a whole.
-+
-+Currently, port-level resources only support the ``GET`` command for viewing
-+resource information.
-+
-+Port-level resources can be viewed for a specific port:
-+
-+.. code:: shell
-+
-+    $devlink port resource show pci/0000:03:00.0/196608
-+    pci/0000:03:00.0/196608:
-+      name max_SFs size 20 unit entry
-+
-+Or for ports of a specific device:
-+
-+.. code:: shell
-+
-+    $devlink port resource show pci/0000:03:00.0
-+    pci/0000:03:00.0/196608:
-+      name max_SFs size 20 unit entry
-+
-+Or for all ports across all devices:
-+
-+.. code:: shell
-+
-+    $devlink port resource show
-+    pci/0000:03:00.0/196608:
-+      name max_SFs size 20 unit entry
-+    pci/0000:03:00.1/262144:
-+      name max_SFs size 20 unit entry
--- 
-2.44.0
+There is prior art for adding fields to boot_params for passing data from bootloader to kernel (e.g., ext_ramdisk_image/size, efi_info, cc_blob_address), and I think adding a field for the SLRT is reasonable. Alternatively, we might consider setup_data but I don't see why a field in boot_params would be controversial here.
+
+> I guess my first questions 
+> are whether this will be an acceptable approach (per the x86 
+> maintainers) to add a boot_param and, if so, whether the spot you chose 
+> is reasonable. E.g. will it survive the sanitize boot params step.
+>
+
+I think that is irrelevant tbh. A bootloader is supposed to clear struct boot_params before it copies struct setup_header into it, otherwise sanitize_boot_params() will trigger on a non-zero sentinel field, and clean it up. Given that there is no backwards compatibility concern for trenchboot, we can just stipulate that the SLRT field is only valid if struct boot_params was wiped correctly, and sanitize_boot_params() will be a no-op.
+
+
 
