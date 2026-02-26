@@ -1,100 +1,100 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A57238E107
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 07:03:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040462DEA74
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 07:05:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772089436; cv=pass; b=aaAkpJZrcxtNtVRyy2mYHEDslJpK3Suw3bbkgR+NPUP2sgPIb+/e4qzqvqUuq4f7NXIRqRRvB42/936NTrDS7phAXk90/WCsPrG2hmB6uhLF/9covrwpLCa/90m8L6kPwZdIf/8BxRvXbE02JZVW7HmAJCfZ1XNhhzwZd6cs7OM=
+	t=1772089550; cv=pass; b=LjFdAHGmjSYJ3eBlrvJZmr6BtnxeUExExrshpybKVXNLI0ewXVCjizoog9sQ2fhRRWvY5Xe/kbL0yQsUEbBQlwFfVi6I++2xfzcknBocVZ+Syv2xLascGp63ZjxV4+52YzKTziyXZmF1xi19OPjSDkVA7UXq6Ya8psHyFWha8Os=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772089436; c=relaxed/simple;
-	bh=cU8kstGq7wsTED11A9VZKDHW5cCpAiPQ9p/QVxV07WU=;
+	s=arc-20240116; t=1772089550; c=relaxed/simple;
+	bh=fthQwGFGcr3v5gbtPCMZp9gFbRlGycmeGJ6rhMoXyYw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c1uiySULB6irMjC/X8+d+frjuET1IoNu7zzd2wPHWzM5+SMkfrbzfwLJZLd9/wOvJDpamS4QrHt4n8HozOq/wak4qz5O1lKbcP4jY/89RwKsrQoGoCemHQWi+i4dbOHm9zf1mmg9u/snQ7gig92Aq1P7Cd+Bm5ndcNJGSyLHIB8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TrZTwkZX; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DNPiDZSA; arc=pass smtp.client-ip=205.220.180.131
+	 To:Cc:Content-Type; b=Ll25Avgb4GDo/XVqpgiMJjx6+LPhE+Vrn+AcN+L56pPU4QILO6ydzWJoWHAeSmTrJ/O60rdFtcBAEpuus/q3xkr//1uJk5o0TZP9KlSjKcBfpAVDeMoLG5ihvpkcDyKEWCUHbyXrw5WjKfETA+ADQ7XPUAroEenv8cdEDm3kkxU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cpSVHs9O; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eCAYBsR9; arc=pass smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TrZTwkZX";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DNPiDZSA"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61Q4V64H2996661
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 07:03:53 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cpSVHs9O";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eCAYBsR9"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61Q4Usp43225940
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 07:05:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JLrxoSzHXhl2Gv/xx7gH4l/8foTy6gK4EWkBQXv8dA4=; b=TrZTwkZXN766VfzU
-	hYO0BPsx6HaB+y4L7w1N10XXNN5xC8M5OOpnnrqH92Yx/hRuCyH57kfpar8/EEkO
-	cWr5Ykehbq1TWs6G3mRRzo1MWfo4HGZrCJw4TpARl3Kxw/fsN/VaME5USFGpflaJ
-	zjWknEgJlJaukFg4uyard+HSjUusbeR1D/tWyMX0N+gbt3hPyI+AGx8OpC1m9OWM
-	gGrs0vqALkamusCakiWoWBqOufdD5zGmMuKZeXVht+6Ka8Q4BuunojTCIkg+/tEG
-	JuQDNlsiBeBBrbZy6iQ+4Dya6yvi4qebfsnFyvlk0p6oEz9wei3XASTqpRYvMYBe
-	+xp/FA==
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4chyv9k7xj-1
+	k+P7CghlNIgjxycB/1qldY8eXMaIX8CflGPUmpKbNzU=; b=cpSVHs9ObcHsKfAX
+	3ggqKxAEXUPS1VD3qshQZ0rce0/Ew6L8IPvz9t5w4UaBOJI1vzlU6M8/T/FpTp9W
+	sgHBIp6RGQQL0oYuASc1K1r5Ifq2e/jT8HbmgIPhNhxF3l9U8llkr/n9Y9Pp/FFG
+	l+CaNPpRgdpkwqyKA/bMPHCQsdtWdsxSNZDu61bxcHRjSLfcRbeLzWmkPhvwci4q
+	ShFWsBp9qM2MUlI9bAsIpcS2O1HfqpnPp1bDBjsHiaFvk7wdmVxdKCzHc5nrzU/E
+	ses5Ly8RZ59i0kL6FFcn+6sRqnM5fTkFxWROQAiNJvBGcgohyjyWMS8yV70glr2m
+	/XeO7Q==
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cjdph0n4n-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 07:03:52 +0000 (GMT)
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-679c6ef1538so12699486eaf.3
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 23:03:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772089432; cv=none;
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 07:05:46 +0000 (GMT)
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-66308f16ea1so4024368eaf.2
+        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 23:05:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772089546; cv=none;
         d=google.com; s=arc-20240605;
-        b=Hto76xzUsIFINDhJFyjXSiMIhqW+gQfU2wGbK3gF5HuXrkYiJ44Z6pLc1FpXNOHXjm
-         az1Ja9mw6m/F4bRmxr8tMJ2pzxD6Ctvtdi3jubewh1lZk9TSwHNSJsmSf9ANCk+wvJLw
-         THMA79sMCO6aN7lphmwfEAw4mUm3lihYBbLswQr2+T06t1eZ/BtRFYGFG3WyvbDFyFUG
-         P94ArGb5/HmeOn96FtHdvihb1TsLCkZ4K8LNRgOTAIO2llQS3rq6SoVMN7wyncIcACGT
-         lGQYUzrSNmGuMN7CF7nzdGe+/uS3EQAAwszykc+MTtw9OfxqO8gEXAizX+gpwcd7M+MQ
-         idIA==
+        b=RItgWyHVYmIuwnAp0MY2qYdqqhrD0G29za/sZ1akYfMZI47T8WzHh8FL2saJ7AuHsf
+         2mYt3r15XssooU0/b4EGe9JK+sDnbpr4vp9Vun/PswSkKm9G199w+cQ1DKwg6E0grQ9y
+         /gmBdVknd99cm75US7ekcD3dh5NqJNGrQ4W8w/9xHztlhQMv7uMhmY8lMbx+MiqCIaGD
+         0pQxmYSz78c2/TvaS+RrtDs65Eim16VvaPGDhaOwFR7yx2RJuBAXa4Qijok4BxYmFSHQ
+         5Rw3cBVNlgGOzQdR9XFykGrUFr6lMzxd+iL+x7/Nzn0Ke+4gIaohLsof9KYXZ6oHqPZa
+         fGjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=JLrxoSzHXhl2Gv/xx7gH4l/8foTy6gK4EWkBQXv8dA4=;
-        fh=akXOxWG11nYjKDkqw7R362ExUVt0sRbgcyOphHPoLAE=;
-        b=DLAwCLxIpZspFRI5r+2el8/YsOnah+3QTfwd0xGfjina6G7wE97yck+GwVHFGyL0i/
-         B1RYavFuVj8MExa0N0wjR13wmIw9jEW4CUihO19pQmfGFehlo5HLnZmAQjaTSqEbhJNa
-         tXK6SkRWapQRiXfHj+wyjRctI8wrOKFg8AkmL1V8nBxxFgscdLtl8m6qt2GhEAnhPWmo
-         5Wo1ObqipdEwrEh3rRchsD7pcdeSB5j7Hk9FEEOPyeJq+5d8KJNjIFkZbPY8q2emgDhR
-         gHt7RxSwIdA5i6ayD+Xla6ZNpJahnll1Qoa+3J80p3ovYw4mPfURNBfJMW0QojRui02g
-         S5jg==;
+        bh=k+P7CghlNIgjxycB/1qldY8eXMaIX8CflGPUmpKbNzU=;
+        fh=nXOAfCFDzFA3rB9vSaw9JpR3u5Lai56YOqp28SB1+/c=;
+        b=i6vTczavDKdkTzJq2D6FemGOHcWxRVcY+tCNlm2WQE4gf2MztlgyasUOGDQANp32gn
+         5gXyIyzOg1DrWuiBOvKsjEhA7w2gXnOopRNN+5bWswNoRDbO1vBAwOkH0enD3naIaMum
+         FLH3LFuCOe28Dyx6Yu4Gn9/Bzd5mlO7nUn2Y48c1eVHNc6LBzwUOg6k4gExj9ps3S3mY
+         OKvsKME+74Hl1s/2MkYKtCcnovjzDnfSOsp54l/YjJECgVrx+l0/cHQzc1OzQBaIJeWg
+         6aQm+P1kJK33bQUq7Y/N4Y6mXP6LsbNKgsO24ItccOkQK0uCt3ZnjQFa5Fr5kypo3Ybi
+         Qz6Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772089432; x=1772694232; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1772089546; x=1772694346; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JLrxoSzHXhl2Gv/xx7gH4l/8foTy6gK4EWkBQXv8dA4=;
-        b=DNPiDZSAueMHbQqReqLk2SvfX7gID6B0+/tR8DbE9Ayr66T0KkHl/kVV7/cQzoMY9C
-         FXjHqBC9dqFUlfiVGgGnt/Oy2BsZ+4gMM4HR8sTekHYGk0r81EC3FmnnIGzDmz5bRIth
-         r5UP5yS8yolCy4wQ/w2Uf4RfnT27xZZGyuiCC9dsurAEtyLEQZhRsaA0HTLS3vku8+nd
-         Ssxq3LyHINcOi1OkfmjjTF/stxjKn2nWIt3nOp7uYPoiLsuQdTJVPVWrCqtO7FwqVMiQ
-         r/9qzR7NgIXZAMcapRP1efde/F4HVxGLPk3MCFF8i2LMlYwyRvd0p50KG4L+GeoQRr/t
-         kU8w==
+        bh=k+P7CghlNIgjxycB/1qldY8eXMaIX8CflGPUmpKbNzU=;
+        b=eCAYBsR9nsrh8HWI5M6Yi880xAjH3r8+RXU4D4n/Zq9GHf3Cme1WZHljy5NKnWVK9L
+         j0Y2jL646uHn67krOpBxnKpWLrnxfljbe2hFANefxKgLjY5RXQ7/+Tsy7cHH/HqOKK/n
+         ii9LFcrUFnvFuVDO1uWoeKHdVqqDvFdQJczpJddWoJ3rIp9P4goBhZdVx7OhTvtotlto
+         PzmbMT304Tn8K1HSoV8xw7pp6Qilks4IXaO1+T63J6xVJCjPx+E/5eNQDbFS5t0zKBhG
+         Iahmip/D/4oRSXaGWZ12FaBKtZQjPoe2Cb1lgTVSULRSQOqCpnu55OY/gVGViw2OhLYC
+         Hkgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772089432; x=1772694232;
+        d=1e100.net; s=20230601; t=1772089546; x=1772694346;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=JLrxoSzHXhl2Gv/xx7gH4l/8foTy6gK4EWkBQXv8dA4=;
-        b=kZW5EcjukFtXRVs0ykCGj8EUbGTC4nsaSQnk4Ra/fQ2fXHmIVSiC4x1wbojH7lPzBc
-         vdXgsdZCV7zzTR50hSMfD9ycDESpvpYERWLISH/rSzVhZlS3SDiOIOzpWrjLAvtAKEDL
-         tHIrwyP0UC6ffBmL1PPfAWCLmBxRl4aPqsZWTZwWGn0LI4daOXVbO/J7kRBS1OR0Qjrb
-         C53zXNXOULKXHnfr9mYbwSiE80bQzXoQO6cdlbhWCD1jPO/Cz+LeKxEeJh7SUqOnKtoO
-         nmjGLIqYdz3DWCJq0djBc8KR+eMa78VEy09oj1dJCGF5QBlEwRMIbvsNA/53CDS3HIK+
-         rx4w==
-X-Forwarded-Encrypted: i=1; AJvYcCXbMbbYEtOZeeSCqJniApwWXBdP1j+SupwmwDpxq9NH2ItoE9d8ZXvY6XlMpNYFy03QcNvqYNFA17I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWpkArpm/6PSp0f2X7TTEI5yHvL1RLquViudzo/YRLA2kllX/5
-	3epfTknYJ86sKYK3/Iw5isnk1Djt65pBli4U8Y9qmRMtO0Vbyr5AcAC+jo7RlO03e9XmevvQc2H
-	ktNOK8jHoKeQUZTqTSgS6o7W1YhoEbATPvL9uSO14cYwhE4w5/lVSQhOA8QO4TbDljV4NmEpzKI
-	o+ApGF2EsB9/8WCw79g2O/GQw6Qu3PGba2aLCffQ==
-X-Gm-Gg: ATEYQzw7V39pdQaKkZWiDXMx6HhW1sMnqFreENThO5eEidGZZVCgrJ62kFT1JB91aWi
-	NfuHuYN54Cm5vYBq0T521jBhfkPoqhv3KIPGmgaR6Jmv/w7UZQKJ4UM5kVecRDe459a4jNs/Hgj
-	Pu6eGOiL/J6P8DQyiDXY4dyZ1C8j6oOpsQAMcJOCL8s8fE7a/5vQHwpqPcaYFomjM9Bc8apJ5cv
-	s1SujU=
-X-Received: by 2002:a05:6820:3092:b0:679:e7b2:9fc7 with SMTP id 006d021491bc7-679e7b2a0cdmr3151076eaf.7.1772089432090;
-        Wed, 25 Feb 2026 23:03:52 -0800 (PST)
-X-Received: by 2002:a05:6820:3092:b0:679:e7b2:9fc7 with SMTP id
- 006d021491bc7-679e7b2a0cdmr3151054eaf.7.1772089431697; Wed, 25 Feb 2026
- 23:03:51 -0800 (PST)
+        bh=k+P7CghlNIgjxycB/1qldY8eXMaIX8CflGPUmpKbNzU=;
+        b=ZHoSxshCF5irg781gPt7Sy4OHhZ+bC9gkes0hvFYV/pjH3Tfi7sm2UgryDHouH9TLJ
+         MIgJZg6/y+RzAPX3DsEXOk+N0rHewa9bimmI1+WrGsQoMMmOIv2SX93ZdCdkiQGtas6+
+         fOsyD2takSffUuA7VdHSj/UWNe9y7HaSpAyjFvmY1Fkd8AciJuLA3lq67MuwWcT4T3+e
+         F8EYxvedvhyjVPiIw3Jrh+GMnonojQRuu0hZzVDV1Kl8FjFB9ctfygDwSdrx9I7Od3GP
+         YEoCT5rHzGMXUoYXPT/NwF9S7rLc/w/54h6QpxmCs0v7kjYj/fU/73yzHj9j1x1wIbK9
+         zpVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWQZfkSAiLp3IX6nHUnoLt144fY+ttoFnwbofqbBpNAuUn5bPw8oVw93H7WdcdO1t22XxL2FMHgyjk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzElZ0dFkhE0wZvVzcKd5Dl+zl6/8svtlQJWZoNjuXMwnhE85Fa
+	JrjVEan+N4VJheglEfgnZheJKy1iaY486kxUu7Dn/r3KxcUxCEHCgYWwIht/sjhC1CBcNWwi3sd
+	CMlwLpLiPVQ0hJ1+ZL01WD/DB7NEFN9ytj2X/3vKdbboOrggbhPHMy5HCsS8ESIwVq4l1pFKfGU
+	vOIjihixedGXnsah7nBRXW7uMiHi851WoZYBGn7A==
+X-Gm-Gg: ATEYQzz+n5zdhQcBdcDRgD1eYctcs058AvEuwzxV5KIV3DMNRl66ERi+C1M+vTMRHZx
+	a5VFiay90Rq1A5ywalrINn7iDkCtVyMOHCD6ZECJH5jxQJ/NfKDJpL82mNLiP2tEK6tnb37npy6
+	G7wRV/6xIc4Drjc+oyK1Q/IgJ07DEXXIaGPLO9akD1ORusK1Sgq6CT2z+xNynpyrbDU3WUUAk1T
+	c/pGoo=
+X-Received: by 2002:a05:6820:1786:b0:677:4fc0:a852 with SMTP id 006d021491bc7-679f3d28624mr625360eaf.34.1772089546218;
+        Wed, 25 Feb 2026 23:05:46 -0800 (PST)
+X-Received: by 2002:a05:6820:1786:b0:677:4fc0:a852 with SMTP id
+ 006d021491bc7-679f3d28624mr625343eaf.34.1772089545831; Wed, 25 Feb 2026
+ 23:05:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -102,13 +102,13 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
- <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-10-347fa2d7351b@arm.com>
-In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-10-347fa2d7351b@arm.com>
+In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
 From: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Date: Thu, 26 Feb 2026 12:33:40 +0530
-X-Gm-Features: AaiRm51FKm_5e4UXBRvPixo-zTWKoFuxZQdWEORZL7vufbjHjGKj8isrvlHHmUg
-Message-ID: <CA+Ht8=ZSUGF9KQqy=yZ56kEDwsv3TvS6rLcMD85iwDxwOr3rpQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/11] dt-bindings: firmware: add arm,ras-ffh
+Date: Thu, 26 Feb 2026 12:35:34 +0530
+X-Gm-Features: AaiRm51yZ89kZv0f4gE9xa9boBW5MZ_Co37QxpUC5GHdKH2lI624cxTwISy9vz0
+Message-ID: <CA+Ht8=a_fw-u2PLEf1GY7qYLT945OaJ0LeW6K+X2SvSWLqsrXA@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] ACPI: APEI: share GHES CPER helpers and add DT
+ FFH provider
 To: Ahmed Tiba <ahmed.tiba@arm.com>
 Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
         Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
@@ -117,149 +117,106 @@ Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
         krzk+dt@kernel.org, Michael.Zhao2@arm.com, tony.luck@intel.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: TzFhdYKsO1S-zJ57jlkcnhT6xa9DiuUz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDA2MSBTYWx0ZWRfX+uM7csMFTcy8
- z/lioGYd20MhME472aqH68YK1S3zAhEUnAYG3oAG+D9cTBQwiyWuJOVtQNYLm/uzUGX4B+YbV4/
- 77ZHnQZxdHIa9zQN1VsxK4clMVM2CewHZ1Tj+Pel9NMJS7R86CHX7EaIYvIKkE/C2iZkqzm/dnD
- Ijkwns/t/kUJMwnWYnYjT8yErxP52EnNwpUoVKvmk+XWGdbrI2/TlpopBhSDh/vm1FkMavzeuca
- C1t0N+4Nr2jcTpYrCu4RRMZq6zA3MKXbtWiJTYtNfpVm2t6WvmBv/OVnY2weqAw/+N5QTbM+7aB
- 0vY6226jLlL1MNJjSKiyaHzU1TuA7U71mrO+kxnzucTuRX9FerRc5wAmgctSxP2beXeGE0AUrxx
- gxkohWthgbzVDxVDH1oRiOrBYGsByZH6TmM0qv+TA0i9Tuv5ZocF1W/wWiRVThxpl+wal077ow5
- FcfRdfMN0937hHhjo6w==
-X-Authority-Analysis: v=2.4 cv=GZwaXAXL c=1 sm=1 tr=0 ts=699ff058 cx=c_pps
- a=lVi5GcDxkcJcfCmEjVJoaw==:117 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
+X-Proofpoint-ORIG-GUID: P8Fo7kEcZ72ReT2_STsY5iaKLJMi--tm
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDA2MiBTYWx0ZWRfX6RNsEAc01UXK
+ nkSs1CwgVGRwlKoSpFtHv6j1B9tf9KtufdZhfNi+QpcMNmZJrjtOSRjEwfCGvjINQMaQPY4zs87
+ fijj14y70XGz2W6KbdaEV8Ge7uNYCvUPAkboA9Sf8zfE5gZtvr1aU13dcSAv+F8uO/MDaVYZ63f
+ Eb04JM67YqTFf8t5xTGON86T4LKvXyPdrElONnlU4kA+glHnn7O9gsIs32lF0/wD/B7b1k42BzS
+ fhWiFIkvGxGlmgq9xJOfssf8eJFNYTfRGB06MAeTedaY4TeSBuTb/E60s7JCe2V9DMcIDgYQKk/
+ oUuXb0HX9CrPD+r++yCXl8KFNveweWXf0ZleqqQL3uK6lM5zm7wV1BuL159DN7eJWN9isuoQLSx
+ i1VX6qm5wPcJutuPlt4FduHB3X3IPb3pVCJtZDjazAf3xLw2tFBKgqKDe1mddtIY7HkUZw7lXMt
+ mF7FZ85Vq3YhFKjl19w==
+X-Authority-Analysis: v=2.4 cv=NJLYOk6g c=1 sm=1 tr=0 ts=699ff0ca cx=c_pps
+ a=wURt19dY5n+H4uQbQt9s7g==:117 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
  a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=rJkE3RaqiGZ5pbrm-msn:22 a=gEfo2CItAAAA:8 a=7CQSdrXTAAAA:8 a=pGLkceISAAAA:8
- a=QyXUC8HyAAAA:8 a=is6-GLeS1cJyDfTUaQYA:9 a=QEXdDO2ut3YA:10
- a=rBiNkAWo9uy_4UTK5NWh:22 a=sptkURWiP4Gy88Gu7hUp:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-GUID: TzFhdYKsO1S-zJ57jlkcnhT6xa9DiuUz
+ a=3WHJM1ZQz_JShphwDgj5:22 a=VwQbUJbxAAAA:8 a=7CQSdrXTAAAA:8
+ a=2-EGK2xgfFmwblvCShkA:9 a=QEXdDO2ut3YA:10 a=-UhsvdU3ccFDOXFxFb4l:22
+ a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-GUID: P8Fo7kEcZ72ReT2_STsY5iaKLJMi--tm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-02-25_04,2026-02-25_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
- malwarescore=0 phishscore=0 suspectscore=0 adultscore=0 clxscore=1015
+ phishscore=0 priorityscore=1501 impostorscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 clxscore=1015 adultscore=0 lowpriorityscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602260061
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602260062
 
-On Fri, Feb 20, 2026 at 7:15=E2=80=AFPM Ahmed Tiba <ahmed.tiba@arm.com> wro=
+On Fri, Feb 20, 2026 at 7:14=E2=80=AFPM Ahmed Tiba <ahmed.tiba@arm.com> wro=
 te:
 >
-> Describe the DeviceTree node that exposes the Arm firmware-first handler
-> CPER provider and hook the file into MAINTAINERS so the binding has an
-> owner.
+> This is v2 of the GHES refactor series. The goal is to reuse existing
+> GHES CPER handling for non-ACPI platforms without changing the GHES
+> flow or naming, and add a DT firmware-first CPER provider, while
+> keeping the changes mechanical and reviewable.
+
+It seems almost all the code is being moved from ghes.c to ghes_cper.c
+in multiple patches. It is not making sense and looks like an
+unnecessary churn.
+What is that which can't be handled in a separate file for non-ACPI platfor=
+ms?
+
 >
 > Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
 > ---
->  .../devicetree/bindings/firmware/arm,ras-ffh.yaml  | 71 ++++++++++++++++=
+> Changes in v2:
+> - Dropped the proposed "estatus core" and kept GHES naming/flow intact
+>   (per Borislav Petkov).
+> - Re-sliced the series into smaller mechanical steps (per Mauro Carvalho =
+Chehab).
+> - Minor DT binding fixes based on Krzysztof Kozlowski's feedback.
+> - Removed fixmap slot usage from the DT FFH driver (per Will Deacon).
+>
+> Series structure:
+> - Patches 1-8 are mechanical moves only and do not change behavior.
+> - Patch 9 wires the shared helpers back into GHES.
+> - The DT firmware-first CPER buffer provider is added in the final patche=
+s.
+> - "ACPI: APEI: introduce GHES helper" is internal build glue only
+>   and does not introduce a new user-visible configuration option.
+>
+> - Link to v1: https://lore.kernel.org/r/20251217112845.1814119-1-ahmed.ti=
+ba@arm.com
+>
+> ---
+> Ahmed Tiba (11):
+>       ACPI: APEI: GHES: share macros via a private header
+>       ACPI: APEI: GHES: add ghes_cper.o stub
+>       ACPI: APEI: GHES: move CPER read helpers
+>       ACPI: APEI: GHES: move GHESv2 ack and alloc helpers
+>       ACPI: APEI: GHES: move estatus cache helpers
+>       ACPI: APEI: GHES: move vendor record helpers
+>       ACPI: APEI: GHES: move CXL CPER helpers
+>       ACPI: APEI: introduce GHES helper
+>       ACPI: APEI: share GHES CPER helpers
+>       dt-bindings: firmware: add arm,ras-ffh
+>       RAS: add DeviceTree firmware-first CPER provider
+>
+>  Documentation/admin-guide/RAS/main.rst             |   18 +
+>  .../devicetree/bindings/firmware/arm,ras-ffh.yaml  |   71 ++
+>  MAINTAINERS                                        |    6 +
+>  drivers/Makefile                                   |    1 +
+>  drivers/acpi/Kconfig                               |    4 +
+>  drivers/acpi/apei/Kconfig                          |    1 +
+>  drivers/acpi/apei/apei-internal.h                  |   10 +-
+>  drivers/acpi/apei/ghes.c                           | 1024 +-------------=
+-----
+>  drivers/acpi/apei/ghes_cper.c                      | 1026 ++++++++++++++=
 ++++++
->  MAINTAINERS                                        |  5 ++
->  2 files changed, 76 insertions(+)
+>  drivers/ras/Kconfig                                |   12 +
+>  drivers/ras/Makefile                               |    1 +
+>  drivers/ras/esource-dt.c                           |  264 +++++
+>  include/acpi/ghes.h                                |   10 +-
+>  include/acpi/ghes_cper.h                           |  143 +++
+>  include/cxl/event.h                                |    2 +-
+>  15 files changed, 1558 insertions(+), 1035 deletions(-)
+> ---
+> base-commit: 8bf22c33e7a172fbc72464f4cc484d23a6b412ba
+> change-id: 20260220-topics-ahmtib01-ras_ffh_arm_internal_review-bfddc7fc7=
+cab
 >
-> diff --git a/Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml =
-b/Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml
-> new file mode 100644
-> index 000000000000..eccbaaf45885
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/firmware/arm,ras-ffh.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Arm Firmware-First Handler (FFH) CPER provider
-
-Please don't called it FFH. FFH stands for Fixed Feature Hardware and
-ACPI uses it at multiple places. It is causing confusion.
-> +
-> +maintainers:
-> +  - Ahmed Tiba <ahmed.tiba@arm.com>
-> +
-> +description: |
-> +  Arm Reliability, Availability and Serviceability (RAS) firmware can ex=
-pose
-> +  a firmware-first handler (FFH) that provides UEFI CPER Generic Error S=
-tatus
-> +  blocks directly via DeviceTree. The firmware owns the CPER buffer
-> +  and notifies the OS through an interrupt.
-> +
-> +properties:
-> +  compatible:
-> +    const: arm,ras-ffh
-> +
-> +  reg:
-> +    minItems: 1
-> +    items:
-> +      - description:
-> +          CPER Generic Error Status block exposed by firmware
-> +      - description:
-> +          Optional 32- or 64-bit doorbell register used on platforms
-> +          where firmware needs an explicit "ack" handshake before overwr=
-iting
-> +          the CPER buffer. Firmware watches bit 0 and expects the OS to =
-set it
-> +          once the current status block has been consumed.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description:
-> +      Interrupt used to signal that a new status record is ready.
-> +
-> +  memory-region:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Optional phandle to the reserved-memory entry that backs the statu=
-s
-> +      buffer so firmware and the OS use the same carved-out region.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    reserved-memory {
-> +      #address-cells =3D <2>;
-> +      #size-cells =3D <2>;
-> +      ras_cper_buffer: cper@fe800000 {
-> +        reg =3D <0x0 0xfe800000 0x0 0x1000>;
-> +        no-map;
-> +      };
-> +    };
-> +
-> +    error-handler@fe800000 {
-> +      compatible =3D "arm,ras-ffh";
-> +      reg =3D <0xfe800000 0x1000>,
-> +            <0xfe810000 0x4>;
-> +      memory-region =3D <&ras_cper_buffer>;
-> +      interrupts =3D <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b8d8a5c41597..47db7877b485 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22027,6 +22027,11 @@ M:     Alexandre Bounine <alex.bou9@gmail.com>
->  S:     Maintained
->  F:     drivers/rapidio/
->
-> +RAS ERROR STATUS
-> +M:     Ahmed Tiba <ahmed.tiba@arm.com>
-> +S:     Maintained
-> +F:     Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml
-> +
->  RAS INFRASTRUCTURE
->  M:     Tony Luck <tony.luck@intel.com>
->  M:     Borislav Petkov <bp@alien8.de>
->
+> Best regards,
 > --
-> 2.43.0
+> Ahmed Tiba <ahmed.tiba@arm.com>
 >
 >
