@@ -1,213 +1,128 @@
-Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29842231832;
-	Thu, 26 Feb 2026 00:29:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B02DE334C2D;
+	Thu, 26 Feb 2026 00:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772065774; cv=none; b=qy9RqHGC/aemheeo6wuNA0mVrVHwvC8LHbwsvMgeTkcVLLy7K0cEL8otW/bYe7XLd8jOvZgFi2CWzyBV6WWPSPWy/bgq8ouhlxjpYz9WgvkqgGA9DD4S9C2gv4Ll1OK2StEW0cfOObYsA/VZYy0xoeig0tIpZ7f80upsF7yRSxc=
+	t=1772066082; cv=none; b=sCE+hpgx6rx7YXMCq8Za98830B9cSTfgX3Q7CoFoHBKmBtygPw6KTtGYFHhWIrApiEQaIJ3eAptTAG6OIhzrxvQUhN1Htb/K7QiseBSytTzeEtMeu99Zg3Unxv1vTuKqXRjdR3xpsyMSQQS2x3VdyPOPGhdR2AqjUyjVfRibpDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772065774; c=relaxed/simple;
-	bh=+7BsmtQ5iVXZanMMAoaBOnNHj3Z9QVTJ4Gaw4IIGRvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qqAycERbjr/Nzp+wXoduWWkQUvAE0ByK+hgrcecs2L32tztIsxqQ1et5Dr2kvi7LZnpO4lj7M3AvKZaEdS8ELb/SeLQSxelnA7HcKATGuxC1MRu5OSmDoWCl3JhZCY57Fxp94L/qrRdgW4Q8TGdO0Mg+kaiw4QY8bcUE9fz533Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf11.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id DBA18578AB;
-	Thu, 26 Feb 2026 00:29:27 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf11.hostedemail.com (Postfix) with ESMTPA id 4843120029;
-	Thu, 26 Feb 2026 00:29:18 +0000 (UTC)
-Date: Wed, 25 Feb 2026 18:29:17 -0600
-From: John Groves <John@groves.net>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	John Groves <jgroves@fastmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V7 19/19] famfs_fuse: Add documentation
-Message-ID: <aZ-Tk62TJbTRnfeB@groves.net>
-References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
- <20260118223420.92690-1-john@jagalactic.com>
- <0100019bd33ed831-615df3db-7b06-4137-9877-97c0d0fc0a05-000000@email.amazonses.com>
- <7facce73-688a-408a-bcf9-f16d5ff36349@intel.com>
+	s=arc-20240116; t=1772066082; c=relaxed/simple;
+	bh=FMGMHoTjwPt/bXU/4luizA+S4f2sU4XiJzepCTV3gvw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eYY8GWGHmg69nzifHEyradyt1i1dZZ+riNL8x3CL4nrglcQGnTpLNcHS9IbnqQJ5mwZ3WZRS1DMd8+7HEE/IAHFTujSdIQJULpWt6sjXu1juCrQzeZRkSYVomdyRK0Za3ZRenHyjyXFsxL9DFUzxN2WkLlAgLnbN3VvFMnsTVZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=B1X76Oxj; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="B1X76Oxj"
+Received: from wse-pc.fritz.box (i5C75F712.versanet.de [92.117.247.18])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 717002FC0057;
+	Thu, 26 Feb 2026 01:34:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1772066071;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wPaY9YcUS0IPBOJ/973YSQYOrjPX9lejzk7xilUKI3E=;
+	b=B1X76OxjEyFb4tzmiYU64Qzhc2eiRNXAjiia2LGRKdSHRuSND3SObxqxoiAb+cPdCISU5J
+	tqLnyvMrLI3X+wV75PWGyPoJkFk+7bkf2ygjDcnTSonb94dSTeH1zc/xLPi19/7/z/mOv6
+	vlQNNe605rPsr1Dy+FLyO21NqCx/AA4=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Armin Wolf <W_Armin@gmx.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+	platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 4/4] Documentation: laptops: Update documentation for uniwill laptops
+Date: Thu, 26 Feb 2026 01:31:40 +0100
+Message-ID: <20260226003408.1623547-4-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260226003408.1623547-1-wse@tuxedocomputers.com>
+References: <20260226003408.1623547-1-wse@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7facce73-688a-408a-bcf9-f16d5ff36349@intel.com>
-X-Stat-Signature: e4brd93qdse8irtjpwokip6jthgpusrc
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 4843120029
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1/MAbFr2gZXLy0eo5qRcyuiG2lkZq54nO0=
-X-HE-Tag: 1772065758-14810
-X-HE-Meta: U2FsdGVkX1+x0I2cn6ZECcJvCeffIJ6JpirosHiTV51wjEmz00UjCIoh55g5Tyn6zysbWIHqXOsPhf6zCIyu1CMXr0YkF9BvHyL+v5HBbiNb8Y5oeuESDTQZh6wny1WRoCaRlIK0FcuLBDmldvL6VuHuC8/z6kClEyo60hSj0wIQahFVGTKV+oXadHuN4yr+t/ue8LSvOD1ZD5aUBTztAxZB20kMlLN/ISpZfBAN01I6FPIZOtTFmqng5mkCglBahnJ50poHId0iJkRqdoYgoc7rL9DTwrlaHI2cv99TpEbGdYXFk4OghNAOriXcMPhDY7vW1/gE5vpD25dIwLjg1qUYQ40enQF6KenGoK67kMP63USG8qnWf1mpdxHIoJBNQGkOGfjO3wACnkQdGnJLgtA+eTBeEoD1YThJQrZ4Ko8sehUgh+LYYPjYh/3XDmclx2KqUOaX1Ll/6HclL7yVRQ==
+Content-Transfer-Encoding: 8bit
 
-On 26/02/19 02:39PM, Dave Jiang wrote:
-> 
-> 
-> On 1/18/26 3:34 PM, John Groves wrote:
-> > From: John Groves <john@groves.net>
-> > 
-> > Add Documentation/filesystems/famfs.rst and update MAINTAINERS
-> > 
-> > Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> > Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  Documentation/filesystems/famfs.rst | 142 ++++++++++++++++++++++++++++
-> >  Documentation/filesystems/index.rst |   1 +
-> >  MAINTAINERS                         |   1 +
-> >  3 files changed, 144 insertions(+)
-> >  create mode 100644 Documentation/filesystems/famfs.rst
-> > 
-> > diff --git a/Documentation/filesystems/famfs.rst b/Documentation/filesystems/famfs.rst
-> > new file mode 100644
-> > index 000000000000..bf0c0e6574bb
-> > --- /dev/null
-> > +++ b/Documentation/filesystems/famfs.rst
-> > @@ -0,0 +1,142 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +.. _famfs_index:
-> > +
-> > +==================================================================
-> > +famfs: The fabric-attached memory file system
-> > +==================================================================
-> > +
-> > +- Copyright (C) 2024-2026 Micron Technology, Inc.
-> > +
-> > +Introduction
-> > +============
-> > +Compute Express Link (CXL) provides a mechanism for disaggregated or
-> > +fabric-attached memory (FAM). This creates opportunities for data sharing;
-> > +clustered apps that would otherwise have to shard or replicate data can
-> 
-> s/shard/share/?
+Adds short description for two new sysfs entries, ctgp_offset and
+usb_c_power_priority, to the documentation of uniwill laptops.
 
-Actually shard is correct here - talking about splitting data sets
-into shards...
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+---
+ .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
+ .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
+ 2 files changed, 37 insertions(+)
 
-> 
-> > +share one copy in disaggregated memory.
-> > +
-> > +Famfs, which is not CXL-specific in any way, provides a mechanism for
-> > +multiple hosts to concurrently access data in shared memory, by giving it
-> > +a file system interface. With famfs, any app that understands files can
-> > +access data sets in shared memory. Although famfs supports read and write,
-> > +the real point is to support mmap, which provides direct (dax) access to
-> > +the memory - either writable or read-only.
-> > +
-> > +Shared memory can pose complex coherency and synchronization issues, but
-> > +there are also simple cases. Two simple and eminently useful patterns that
-> > +occur frequently in data analytics and AI are:
-> > +
-> > +* Serial Sharing - Only one host or process at a time has access to a file
-> > +* Read-only Sharing - Multiple hosts or processes share read-only access
-> > +  to a file
-> > +
-> > +The famfs fuse file system is part of the famfs framework; user space
-> > +components [1] handle metadata allocation and distribution, and provide a
-> > +low-level fuse server to expose files that map directly to [presumably
-> > +shared] memory.
-> > +
-> > +The famfs framework manages coherency of its own metadata and structures,
-> > +but does not attempt to manage coherency for applications.
-> > +
-> > +Famfs also provides data isolation between files. That is, even though
-> > +the host has access to an entire memory "device" (as a devdax device), apps
-> > +cannot write to memory for which the file is read-only, and mapping one
-> > +file provides isolation from the memory of all other files. This is pretty
-> > +basic, but some experimental shared memory usage patterns provide no such
-> > +isolation.
-> > +
-> > +Principles of Operation
-> > +=======================
-> > +
-> > +Famfs is a file system with one or more devdax devices as a first-class
-> > +backing device(s). Metadata maintenance and query operations happen
-> > +entirely in user space.
-> > +
-> > +The famfs low-level fuse server daemon provides file maps (fmaps) and
-> > +devdax device info to the fuse/famfs kernel component so that
-> > +read/write/mapping faults can be handled without up-calls for all active
-> > +files.
-> > +
-> > +The famfs user space is responsible for maintaining and distributing
-> > +consistent metadata. This is currently handled via an append-only
-> > +metadata log within the memory, but this is orthogonal to the fuse/famfs
-> > +kernel code.
-> > +
-> > +Once instantiated, "the same file" on each host points to the same shared
-> > +memory, but in-memory metadata (inodes, etc.) is ephemeral on each host
-> > +that has a famfs instance mounted. Use cases are free to allow or not
-> > +allow mutations to data on a file-by-file basis.
-> > +
-> > +When an app accesses a data object in a famfs file, there is no page cache
-> > +involvement. The CPU cache is loaded directly from the shared memory. In
-> > +some use cases, this is an enormous reduction read amplification compared
-> 
-> "reduction in read amplification"?
-
-Good eye - thanks. Done.
-
-> 
-> > +to loading an entire page into the page cache.
-> > +
-> > +
-> > +Famfs is Not a Conventional File System
-> > +---------------------------------------
-> > +
-> > +Famfs files can be accessed by conventional means, but there are
-> > +limitations. The kernel component of fuse/famfs is not involved in the
-> > +allocation of backing memory for files at all; the famfs user space
-> > +creates files and responds as a low-level fuse server with fmaps and
-> > +devdax device info upon request.
-> > +
-> > +Famfs differs in some important ways from conventional file systems:
-> > +
-> > +* Files must be pre-allocated by the famfs framework; allocation is never
-> > +  performed on (or after) write.
-> > +* Any operation that changes a file's size is considered to put the file
-> > +  in an invalid state, disabling access to the data. It may be possible to
-> > +  revisit this in the future. (Typically the famfs user space can restore
-> > +  files to a valid state by replaying the famfs metadata log.)
-> > +
-> > +Famfs exists to apply the existing file system abstractions to shared
-> > +memory so applications and workflows can more easily adapt to an
-> > +environment with disaggregated shared memory.
-> > +
-> > +Memory Error Handling
-> > +=====================
-> > +
-> > +Possible memory errors include timeouts, poison and unexpected
-> 
-> s/poison and/poison, and/
-> 
-> DJ
-
-Done, thanks!
-
-John
+diff --git a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+index 2df70792968f3..55943252f2ab9 100644
+--- a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
++++ b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+@@ -51,3 +51,28 @@ Description:
+ 
+ 		Reading this file returns the current status of the breathing animation
+ 		functionality.
++
++What:		/sys/bus/platform/devices/INOU0000:XX/ctgp_offset
++Date:		January 2026
++KernelVersion:	7.0
++Contact:	Werner Sembach <wse@tuxedocomputers.com>
++Description:
++		Allows userspace applications to set the configurable TGP offset on top of the base
++		TGP. Base TGP and max TGP and therefore the max cTGP offset are device specific.
++		Note that setting the maximal cTGP leaves no window open for Dynamic Boost,
++		effectifly disabling that feature for the GPU to always be prioritized.
++
++		Reading this file returns the current configurable TGP offset.
++
++What:		/sys/bus/platform/devices/INOU0000:XX/usb_c_power_priority
++Date:		February 2026
++KernelVersion:	7.1
++Contact:	Werner Sembach <wse@tuxedocomputers.com>
++Description:
++		Allows userspace applications to set USB-C power distribution profile between one
++		that offers a bigger share of the power to the battery and one that offers more of
++		it to the CPU. Writing "charging"/"performance" into this file selects the
++		respective profile.
++
++		Reading this file returns the profile names with the currently active one in
++		brackets.
+diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Documentation/admin-guide/laptops/uniwill-laptop.rst
+index aff5f57a6bd47..c89b8b3756f84 100644
+--- a/Documentation/admin-guide/laptops/uniwill-laptop.rst
++++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
+@@ -50,6 +50,10 @@ between 1 and 100 percent are supported.
+ Additionally the driver signals the presence of battery charging issues through the standard
+ ``health`` power supply sysfs attribute.
+ 
++It also let you set whether an USB-C power source should prioritise charging the battery or
++delivering immediate power to the cpu. See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for
++details.
++
+ Lightbar
+ --------
+ 
+@@ -58,3 +62,11 @@ LED class device. The default name of this LED class device is ``uniwill:multico
+ 
+ See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details on how to control the various
+ animation modes of the lightbar.
++
++Configurable TGP
++--------
++
++The ``uniwill-laptop`` driver allows to set the configurable TGP for devices with NVIDIA GPUs that
++allow it.
++
++See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
+-- 
+2.43.0
 
