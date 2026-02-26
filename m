@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050CF2EC0AE;
-	Thu, 26 Feb 2026 10:48:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAE7302750;
+	Thu, 26 Feb 2026 10:49:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772102889; cv=none; b=iGiqc2lk7nQwrtzSQUvGRtou0DCngbHxtbYU5K8mByvAd8r38RhY+GfVUX30+5B+Yhvgzh1AWG9h+lGMV72SWh9/9mkT+Zv6mNXeiiBFq7Hi33Co16ruQ1muWboYuz2Vm2tGnYoZDIUQvN5H3THdjRh/TifFpkmkXkOaYpma/Y0=
+	t=1772102993; cv=none; b=ba5678nz5krEgizh0mi+On+Dd9PA9jJl7jCxIsiUkYkI24Ww20MQKaZwo4MSzJU6D1ebwh1DrWcFhbmVWGEvz8xqJkNqc6Nbowl/tUrFGpPgDMmslBusBRvHPC7yxrPisxM+QjXRrNAaCEotXG/tq0P9g2V4NYIIc5XnPnwNHoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772102889; c=relaxed/simple;
-	bh=XRep2NB9xXFreBQtfenTV58tF1y78/xLokYZhpOoJFA=;
+	s=arc-20240116; t=1772102993; c=relaxed/simple;
+	bh=awYP+OrP6jTVr0TXLwCj7tRYD6IceTKpq5xLhhhUHKc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aILhawI8nlZxHLbp7Txzh9L614YkrZ7FNcVcc1GotPW4MB/uDSwOskxo3NDaYV0Qq4L/D3+fYHaK9X8FJXWSK9Y4fJAqdlZHUWF+2c9QFWDfMC0QAHLoYsA964omuVeLux2jRe9h/0hKQEUZF+n/NVFe3vJToDuwe5Yk0TlKmdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qJ6529rW; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=QqL5p4OrVK/cMGT/YQx+sEgAlpizSEl8VmF1to57wICkYCxMXOJzPIILDrMwwwlWVTmLT+4o0SCWntEUn5TqswnhqqFOMqGBXVMmF1r6Maps5QwxkluOAUw3JwsYWwDNX9aCgTY1fx8kLzGf0gLfXpvUy3JisdHaKsmmxcxleik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q60t59R2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qJ6529rW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93307C116C6;
-	Thu, 26 Feb 2026 10:48:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q60t59R2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D885C19422;
+	Thu, 26 Feb 2026 10:49:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772102888;
-	bh=XRep2NB9xXFreBQtfenTV58tF1y78/xLokYZhpOoJFA=;
+	s=k20201202; t=1772102992;
+	bh=awYP+OrP6jTVr0TXLwCj7tRYD6IceTKpq5xLhhhUHKc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qJ6529rWz6QsJygtfHs2XpkS7BVGInqh1y4KCYK1KC56+f2sIYe3RKAWwx6yAulh/
-	 jQIjHB+9BxtDMC9gdDeaBjg1S1Ln8WFRsTbR4PxB+XXCcIWObNIv0z3BV63JsWajgx
-	 SC6isDtR20M/64wSv60Nj61WGuA/L60xVlML3s678g5x11bCSZsD+p5dOZoJ+e4L1C
-	 Tcr7fq+D8YN5W6G2bh2bHctbKzIMOeLUP87hZnjbDXcYfr2mFY7po8Yh1u3IekVgRL
-	 yScDUSGRS455E2xHeS8RBk1kaaFOd7WW+3Ka8ENmrGqgiIu1/4NU3jzU4vUkCHYON8
-	 E+MJJTyAyid0g==
-Message-ID: <fd7a2ac7-796a-4cdb-a55f-91e42f08109c@kernel.org>
-Date: Thu, 26 Feb 2026 11:48:01 +0100
+	b=q60t59R2Sj9ULRlYrJ2IIHdnm6lLyMeLPbr3c7Z6+iOb3qbjGc9UKyN/nSUgefBJN
+	 L/nXVQmfzZ98wKBAe05dY59bBAmGJZToVK0Um4Op1EuSKzawvt0TTH/+FvhXCzC05W
+	 SsWoxK98EseWliZMobDup3lDWe7RKDqxsFLHm1BhY9JXuJi6mmvjURBglDTArTvKsd
+	 fyZhw/+0aaH6HPRph/Mqr7g1OIYOGK7MimU2vIZuEwUR3WQxbR+/mltLsCHfxAxqtq
+	 5zstVVOhFRN9tfuvf1QkXdmSTUrKAUYWJ1olUS628nefSAAmEf5tOzoRGEPMMmxpaT
+	 xwzMD3hBIOdwg==
+Message-ID: <f42ab36c-2588-4163-8e0e-2d868ed5db80@kernel.org>
+Date: Thu, 26 Feb 2026 11:49:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,27 +35,20 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 16/18] accel/qda: Add FastRPC-based DSP memory mapping
- support
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-16-fe46a9c1a046@oss.qualcomm.com>
+Subject: Re: [PATCH 4/8] Revert "dt-bindings: mfd: sl28cpld: Add sa67mcu
+ compatible"
+To: Michael Walle <mwalle@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260223100459.844967-1-mwalle@kernel.org>
+ <20260223100459.844967-5-mwalle@kernel.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -101,51 +94,35 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20260224-qda-firstpost-v1-16-fe46a9c1a046@oss.qualcomm.com>
+In-Reply-To: <20260223100459.844967-5-mwalle@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 23/02/2026 20:09, Ekansh Gupta wrote:
-> Add a DRM_QDA_MAP ioctl and supporting FastRPC plumbing to map GEM
-> backed buffers into the DSP virtual address space. The new
-> qda_mem_map UAPI structure allows userspace to request legacy MMAP
-> style mappings or handle-based MEM_MAP mappings with attributes, and
-> encodes flags, offsets and optional virtual address hints that are
-> forwarded to the DSP.
+On 23/02/2026 11:04, Michael Walle wrote:
+> This reverts commit a598ae45f48d7d5a17f8290f2f5bd46046fd0b9b.
+
+Please use subject prefixes matching the subsystem. You can get them for
+example with `git log --oneline -- DIRECTORY_OR_FILE` on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+
+dt-bindings: mfd: foo-bar: Revert or drop or something, here goes text.
+
+Also:
+Please do not use "This commit/patch/change", but imperative mood. See
+longer explanation here:
+https://elixir.bootlin.com/linux/v6.16/source/Documentation/process/submitting-patches.rst#L94
+
+And also, please use kernel style commit hashes, see checkpatch and
+submitting patches (12 char + subject).
+
 > 
-> On the FastRPC side new method identifiers FASTRPC_RMID_INIT_MMAP
-> and FASTRPC_RMID_INIT_MEM_MAP are introduced together with message
-> structures for map requests and responses. The fastrpc_prepare_args
-> path is extended to build the appropriate request headers, serialize
-> the physical page information derived from a GEM object into a
-> fastrpc_phy_page array and pack the arguments into the shared message
-> buffer used by the existing invoke infrastructure.
+> I was just informed that this product is discontinued (without being
+> ever released to the market). Pull the plug and let's not waste any more
+> maintainers time.
 > 
-> The qda_ioctl_mmap() handler dispatches mapping requests based on the
-> qda_mem_map request type, reusing the generic fastrpc_invoke()
-> machinery and the RPMsg transport to communicate with the DSP. This
-> provides the foundation for explicit buffer mapping into the DSP
-> address space for subsequent FastRPC calls, aligned with the
-> traditional FastRPC user space model.
-> 
-> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
 > ---
->  arch/arm64/configs/defconfig    |   2 +
-
-Not relevan there. Don't stuff other subsystem code into your patches.
-Especially without any reasons (your commit msg must explain WHY you are
-doing things).
-
->  drivers/accel/qda/qda_drv.c     |   1 +
->  drivers/accel/qda/qda_fastrpc.c | 217 ++++++++++++++++++++++++++++++++++++++++
->  drivers/accel/qda/qda_fastrpc.h |  64 ++++++++++++
->  drivers/accel/qda/qda_ioctl.c   |  24 +++++
->  drivers/accel/qda/qda_ioctl.h   |  13 +++
->  include/uapi/drm/qda_accel.h    |  44 +++++++-
->  7 files changed, 364 insertions(+), 1 deletion(-)
-> 
-
-
-
 Best regards,
 Krzysztof
