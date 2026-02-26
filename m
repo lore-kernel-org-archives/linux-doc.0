@@ -1,72 +1,135 @@
-Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E6922097
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 00:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D316F18C2C;
+	Thu, 26 Feb 2026 00:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772064310; cv=none; b=WUfaP+GQ8ePK/8oxFJEXkEChXhWyS5XCDBjDAqMWr1qiJGzAykav3bA7P+t/JkYK0EjADD0ksKJBPcSw1jPnU0Ja8o1DC19CifNY6oi2TV/51u9b4fmoLX4gonNra+V3IDWU/i49kt9Iuwep4Myx8DcLHaoGus/Wm8iMATZ68tI=
+	t=1772064498; cv=none; b=l2SqrgohjxH9s5e704iGv7PokdhlWCWpV9R9/5SPOpXivSfkgFU5A8bp3thkKcYQDzgq8rHtND0pwUSthppNGiBSiEnflpP/1rBJzzhmHK1w6FdA0rpUdMnKBEcGdhSyVtvHtCIN0cDIU6DLPnhW2LsXL75W4gcT+mnqqxY+Jro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772064310; c=relaxed/simple;
-	bh=YZehy9s56FWNSb3Pf5eTDIK64u7tA+L61r81m1GERPw=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=jR6L2Sk8PxJhzLBqGuJNlL8gwflILqehrD8p9kiONHanBVoEEJyGcLrspk61RCtLnesWxwhmEE3VoY0Kd/87bYhB4F99IQU68PMEwLjq53F2cs0gZofOj8ILEBbo+8ekm2gF0BnY9U3YoCZwIpYUWGrIAb0Y9IS95Ko0EtnAJ+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=HRsgHMBv; arc=none smtp.client-ip=109.224.244.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="HRsgHMBv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1772064300; x=1772323500;
-	bh=YZehy9s56FWNSb3Pf5eTDIK64u7tA+L61r81m1GERPw=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=HRsgHMBvEZYgBplu3iyoFwJ7Q3yLZBnJVZEKozwsnCH9+ZJ/j+ydQ7QHvCPset6Hn
-	 EgQiuQ65rE90ShUEJ6IPLJFtBJzjcaDxDOXWfUXoY0Ikr1p/SgTZNRgVHN8VegX4Ic
-	 /DMQeGPHB90wUhar7R2n/jFGCGOinULoZRYky2ztM2DtMwzJIAS/pOoiKaRytfxjoT
-	 9bvp9/H4j2+9yTEE8a30FGtORY1rcz1p7JNv5iE84wjDDJNrUAHZgYmI1J/7ZZAPD+
-	 uO+0bJbZYGSe9i1rCgmdN/PqEycjBRk15xRgQoo1xS7fLLbPD/KuOlazA29tlj2PQ+
-	 pwcbNccW9EU9Q==
-Date: Thu, 26 Feb 2026 00:04:54 +0000
-To: john.fastabend@gmail.com
-From: Leon Kral <leon.j.kral@protonmail.com>
-Cc: kuba@kernel.org, sd@queasysnail.net, chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Leon Kral <leon.j.kral@protonmail.com>
-Subject: [PATCH] Documentation/networking/tls-handshake.rst: Fix of minor grammar mistake
-Message-ID: <20260226000915.27898-1-leon.j.kral@protonmail.com>
-Feedback-ID: 184191534:user:proton
-X-Pm-Message-ID: 322c60e1bbec04ea3cae28319ea7f3466915e1bf
+	s=arc-20240116; t=1772064498; c=relaxed/simple;
+	bh=LIVmqfqyJ9BRT857fdwIG5J2lDsqsZfpfHj2KMr68Ik=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eWwwzcyjRWwlIaebKx97ht5xGYeBQ0nFnV+PWfoc53PCANZVjIEZWzEm1NrN8/orhn6lMjuoXQ4Dfo8qQUQ+NqkVV0Tz4JLws1DYXP9EiAbvrxKjqwQBRHmxNho4Dx43Vg44I+9pl+Put5i3fj/w2QQglKhxG6MMsdOPumx4Fgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 52BBF140134;
+	Thu, 26 Feb 2026 00:08:14 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf20.hostedemail.com (Postfix) with ESMTPA id 4EBD120025;
+	Thu, 26 Feb 2026 00:08:10 +0000 (UTC)
+Date: Wed, 25 Feb 2026 19:08:02 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mark Brown
+ <broonie@kernel.org>, Sasha Levin <sashal@kernel.org>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Jacob Keller <jacob.e.keller@intel.com>,
+ Yeking@red54.com, kuba@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Theodore Ts'o <tytso@mit.edu>, Andy Whitcroft <apw@canonical.com>, Joe
+ Perches <joe@perches.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas
+ Bulwahn <lukas.bulwahn@gmail.com>, Andrew Morton
+ <akpm@linux-foundation.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ tech-board-discuss@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH] Add short author date to Fixes tag
+Message-ID: <20260225190630.1834f850@fedora>
+In-Reply-To: <aZ4_sBIy8rOUL59Q@devuan>
+References: <aZ4_sBIy8rOUL59Q@devuan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: xonn7xurd1tu79dkak1hdxou93gtaest
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: 4EBD120025
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19E4oro/lWGPUrYU6oREwALqxnaa76q3MQ=
+X-HE-Tag: 1772064490-639392
+X-HE-Meta: U2FsdGVkX1/j8QpzD8dnA7UrrMrQdfVkA8WnM1S4PClo/1xaEawjcTe40TS2J1hIN/IvTTl8So0WSsnv9xwEdf6uyn3VypUMwphFzl40YuCBQJwS4hggM0F7UVXrDxp4DAeD+vxMuvt9nEpWwyZFcuGxC7gS92eO3mZGYA1+uHwuCAlMYlrTIQZb2DuV0xPFhdfzjH0ANqQmpM5CkKiMEZ+NspB8j50YjCXmbNCx1ZrE3bgZXukk2y/KEiYvtWUmRFXzqD5ibYo/YZDS6lVpFdiG9fEuicgT2rukrfoFN/Gf+DbV5OnCbchcmVn32RbHzijKXvG9i+x7WWWB+kcqIcXPbY6dzK5M
 
-The word "a" was used instead of "an" which is grammatically incorrect.
-Fix by changing from "a" to "an". This improves readability of the
-documentation.
+On Wed, 25 Feb 2026 01:56:02 +0100
+Alejandro Colomar <alx@kernel.org> wrote:
 
-Signed-off-by: Leon Kral <leon.j.kral@protonmail.com>
----
- Documentation/networking/tls-handshake.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> That uses hash+subject.  This may be not enough in some cases (see how
+> much subjects repeat, in the logs above).  And importantly, a fixes tag
 
-diff --git a/Documentation/networking/tls-handshake.rst b/Documentation/net=
-working/tls-handshake.rst
-index 6f5ea1646a47..4f7bc1087df9 100644
---- a/Documentation/networking/tls-handshake.rst
-+++ b/Documentation/networking/tls-handshake.rst
-@@ -7,7 +7,7 @@ In-Kernel TLS Handshake
- Overview
- =3D=3D=3D=3D=3D=3D=3D=3D
-=20
--Transport Layer Security (TLS) is a Upper Layer Protocol (ULP) that runs
-+Transport Layer Security (TLS) is an Upper Layer Protocol (ULP) that runs
- over TCP. TLS provides end-to-end data integrity and confidentiality in
- addition to peer authentication.
-=20
---=20
-2.53.0
+Most of those repeats are merges. And people tend to use the same
+subject when they merge commits. The only time a Fixes is for a merge
+is if there was a merge conflict and it was done poorly.
 
+> may become ambiguous *after* it has been written, so you can't predict
+> much.
+> 
+> By having a commit date in the Fixes tag, you could even simplify the
+> script to just do a binary search in case of ambiguity.  Let's say I
+> want to find the following commit (arbitrarily taken from the first
+> Fixes tag I've found in my copy of linux.git):
+> 
+> 	a2e459555c5f (2023-08-09; "shmem: stable directory offsets")
+> 
+> We could find it, with a trivial command line.  We only even need two
+> characters of the hash:
+> 
+> 	$ git log --oneline --after='2023-08-08' --before='2023-08-10' \
+> 	| grep ^a2;
+> 	a2e459555c5f shmem: stable directory offsets
+
+Why not just git show a2e459555c5f? You're just worried because of
+conflicts? That happens so seldom doing a bit more work to find the
+task is less work than every developer adding a useless date in the tag.
+
+Even if there are conflicts, git show shows you all the commits that conflict:
+
+  (random example)
+
+$ git show cbced
+error: short object ID cbced is ambiguous
+hint: The candidates are:
+hint:   cbced93894d1 commit 2026-02-02 - drm/amd/display: Set CRTC source for DAC using registers
+hint:   cbced0de1ae7 tree
+hint:   cbced35df940 tree
+hint:   cbced38b00f6 tree
+hint:   cbced53122ce tree
+hint:   cbced7856638 tree
+hint:   cbced88f5140 tree
+hint:   cbceda69074d tree
+hint:   cbcedadcc0f9 tree
+hint:   cbced8ff29d4 blob
+hint:   cbcedd7a684b blob
+
+The above only has one with a subject.
+
+> 
+> No need for a huge script to disambiguate.  This is even typo-resistant,
+> as one could eventually find something that is similar enough, if one
+> had such a field with a typo (in any of the three fields).  You'd be
+> able to search by the other two fields, and two fields should be
+> _usually_ enough for disambiguating, and the third one could corroborate
+> the typo.
+> 
+> So, what would you think of having the commit date in commit references
+> such as Fixes tags?
+
+NAK. I really see no purpose for it, and just adds added noise to the
+Fixes tag. Seriously, your example above:
+
+ 	a2e459555c5f (2023-08-09; "shmem: stable directory offsets")
+
+Looks horrible compared to:
+
+ 	a2e459555c5f ("shmem: stable directory offsets")
+
+You are the first one to complain about needing a date here. Who else
+finds this useful in the kernel community? It really feels like it's a
+solution looking for a problem.
+
+Sorry,
+
+-- Steve
 
