@@ -1,206 +1,158 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4815A26C3A2;
-	Thu, 26 Feb 2026 03:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A6E284B29
+	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 03:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772076297; cv=none; b=Eq6hSRLgFOEj1bz3NyDZNg2Y+u7sWn/N2UcO1Q1e7++MohB49Z2HJmHnrUGxpHApGFuWaa8KulPhDRm4yrFPyLyQU0MxWPtDBDtlh/jCD3a74HxvOZu1UF0ViJB4scnQg1WxQy8ir3BnSjekrJchXKSy06bVt1/dRxJnpV8g3XM=
+	t=1772076303; cv=none; b=InGQLneGX9OwTBHSdpd92I5y2vAFzN8ffyyaUOXtvuwUjsZCxRMBFShY12+KK+KM3xH96izG3yFx456gwse29pjUrFnoIBQWSgB9irsfjcmUJlu++FyhbinT+9E8qZUh4ubwVLxRs1XinUVVcPReVCu/147/TBGbjGfAUHdeGCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772076297; c=relaxed/simple;
-	bh=ycnqTJfQp1mFvF26g5iva6jQWeWZ11Wa7JKjHd7Lpeo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=L6gYecUfuFYbAoJhy5m/7bv38Vs2UkPTSatHtTyF/xceyJ4WR0vLQiS/XRC6XlXcBCML/hwBFvGic41exX+IUucRQOfPGtAvRKiVx9IhJ66w8FpkYCPktVyUa8QEYK4gmOHSv9qhIzZ4WszttSFHBzEPZ5zLbBoMpiQkV3lG4iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=x1l2VLMm; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1772076303; c=relaxed/simple;
+	bh=+c9RsW6skCuOQN+2hqZBUbiRYGIMSrhWIoQ+SsOc4U4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ly7COubr3paNeGgHXTy2E3Dcxz/VMpeCtXmM+Cz4w3QlToUxcLTHL3sSRTKNvpE3V/vi/rkibciPvxsis9KqsJbmFN8/eGtou0V8+wFXLMreUOy/ls13e1eukQnq2/GiRqylr+/L8Y/01FJdn14ZLqV9KgZ3qmW1uo6pof7wBIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=adGn5Flf; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="x1l2VLMm"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=X/tw47XVxnBSBQVQnzbdQeBRFqR3Av4K63nH/lDW8AE=;
-	b=x1l2VLMmjYlYgtz9e9QHe2mOtGBgkKNh7hz5MB9XCgwIHUNdvwywy/MiST1AdgYMZ8Zyzmb27
-	xiMAI8GTBB37K4MPa+6n43+ne+oVZQwZt5AaCiT8i/cHG9pw7k06FxwueZqr+OCknXS8TuOpk3e
-	TFufapm/JkqBD70EL8N9gQs=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fLxXn5h2NznTW8;
-	Thu, 26 Feb 2026 11:20:09 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0E70340561;
-	Thu, 26 Feb 2026 11:24:50 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 26 Feb 2026 11:24:46 +0800
-Message-ID: <0b0c0a34-f67d-9cf5-d5fc-ed8e1870a104@huawei.com>
-Date: Thu, 26 Feb 2026 11:24:45 +0800
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="adGn5Flf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772076301;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xpC44Hv8Tld3RE64HDzSAIEvSppcKmy+xXlb2CxI4KA=;
+	b=adGn5FlfBs6phII2KXaqbNOFoqviXxYmgJxzMiCmVrLiCT4pkqLMQGFasJyEoW7QoNLTmZ
+	Jj+MgA9BP3zV+CSRk4afciZbvaegw59RziLED3Gz2hFuu+6Xetj4QBNU5XEWPHpnrmalVW
+	Loq2ManzTwnfnX9mtxuIhlVOUy41hn4=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-275-FtE6jsC0NJS5jOw0qvk3rQ-1; Wed,
+ 25 Feb 2026 22:24:58 -0500
+X-MC-Unique: FtE6jsC0NJS5jOw0qvk3rQ-1
+X-Mimecast-MFC-AGG-ID: FtE6jsC0NJS5jOw0qvk3rQ_1772076297
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 319B6195608F;
+	Thu, 26 Feb 2026 03:24:57 +0000 (UTC)
+Received: from h1.redhat.com (unknown [10.22.64.173])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9C8361955F43;
+	Thu, 26 Feb 2026 03:24:47 +0000 (UTC)
+From: Nico Pache <npache@redhat.com>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: aarcange@redhat.com,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	byungchul@sk.com,
+	catalin.marinas@arm.com,
+	cl@gentwo.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jackmanb@google.com,
+	jannh@google.com,
+	jglisse@google.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	lance.yang@linux.dev,
+	Liam.Howlett@oracle.com,
+	lorenzo.stoakes@oracle.com,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	mhiramat@kernel.org,
+	mhocko@suse.com,
+	npache@redhat.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	rakie.kim@sk.com,
+	raquini@redhat.com,
+	rdunlap@infradead.org,
+	richard.weiyang@gmail.com,
+	rientjes@google.com,
+	rostedt@goodmis.org,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shivankg@amd.com,
+	sunnanyong@huawei.com,
+	surenb@google.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.de,
+	usamaarif642@gmail.com,
+	vbabka@suse.cz,
+	vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com,
+	will@kernel.org,
+	willy@infradead.org,
+	yang@os.amperecomputing.com,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	zokeefe@google.com
+Subject: [PATCH mm-unstable v15 06/13] mm/khugepaged: skip collapsing mTHP to smaller orders
+Date: Wed, 25 Feb 2026 20:24:45 -0700
+Message-ID: <20260226032445.233437-1-npache@redhat.com>
+In-Reply-To: <20260226031741.230674-1-npache@redhat.com>
+References: <20260226031741.230674-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v6 4/5] arm64: kexec: Add support for crashkernel CMA
- reservation
-To: Mike Rapoport <rppt@kernel.org>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
-	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <akpm@linux-foundation.org>, <bhe@redhat.com>,
-	<vgoyal@redhat.com>, <dyoung@redhat.com>, <rdunlap@infradead.org>,
-	<pmladek@suse.com>, <dapeng1.mi@linux.intel.com>, <kees@kernel.org>,
-	<paulmck@kernel.org>, <lirongqing@baidu.com>, <arnd@arndb.de>,
-	<ardb@kernel.org>, <leitao@debian.org>, <cfsworks@gmail.com>,
-	<ryan.roberts@arm.com>, <sourabhjain@linux.ibm.com>,
-	<tangyouling@kylinos.cn>, <eajames@linux.ibm.com>, <hbathini@linux.ibm.com>,
-	<ritesh.list@gmail.com>, <songshuaishuai@tinylab.org>,
-	<samuel.holland@sifive.com>, <kevin.brodsky@arm.com>,
-	<vishal.moola@gmail.com>, <junhui.liu@pigmoral.tech>, <coxu@redhat.com>,
-	<liaoyuanhong@vivo.com>, <fuqiang.wang@easystack.cn>, <jbohac@suse.cz>,
-	<brgerst@gmail.com>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-riscv@lists.infradead.org>, <kexec@lists.infradead.org>
-References: <20260224085342.387996-1-ruanjinjie@huawei.com>
- <20260224085342.387996-5-ruanjinjie@huawei.com> <aZ8Z2WXw3QwaXRo8@kernel.org>
-Content-Language: en-US
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <aZ8Z2WXw3QwaXRo8@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
+khugepaged may try to collapse a mTHP to a smaller mTHP, resulting in
+some pages being unmapped. Skip these cases until we have a way to check
+if its ok to collapse to a smaller mTHP size (like in the case of a
+partially mapped folio).
 
+This patch is inspired by Dev Jain's work on khugepaged mTHP support [1].
 
-On 2026/2/25 23:48, Mike Rapoport wrote:
-> On Tue, Feb 24, 2026 at 04:53:41PM +0800, Jinjie Ruan wrote:
->> Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
->> crashkernel= command line option") and commit ab475510e042 ("kdump:
->> implement reserve_crashkernel_cma") added CMA support for kdump
->> crashkernel reservation.
->>
->> Crash kernel memory reservation wastes production resources if too
->> large, risks kdump failure if too small, and faces allocation difficulties
->> on fragmented systems due to contiguous block constraints. The new
->> CMA-based crashkernel reservation scheme splits the "large fixed
->> reservation" into a "small fixed region + large CMA dynamic region": the
->> CMA memory is available to userspace during normal operation to avoid
->> waste, and is reclaimed for kdump upon crash—saving memory while
->> improving reliability.
->>
->> So extend crashkernel CMA reservation support to arm64. The following
->> changes are made to enable CMA reservation:
->>
->> - Parse and obtain the CMA reservation size along with other crashkernel
->>   parameters.
->> - Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
->> - Include the CMA-reserved ranges for kdump kernel to use.
->> - Exclude the CMA-reserved ranges from the crash kernel memory to
->>   prevent them from being exported through /proc/vmcore, which is already
->>   done in the crash core.
->>
->> Update kernel-parameters.txt to document CMA support for crashkernel on
->> arm64 architecture.
->>
->> Acked-by: Ard Biesheuvel <ardb@kernel.org>
->> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->> ---
->> v3:
->> - Add Acked-by.
->> v2:
->> - Free cmem in prepare_elf_headers()
->> - Add the mtivation.
->> ---
->>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
->>  arch/arm64/kernel/machine_kexec_file.c          | 8 +++++++-
->>  arch/arm64/mm/init.c                            | 5 +++--
->>  3 files changed, 11 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index cb850e5290c2..497f63b76898 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -1121,7 +1121,7 @@ Kernel parameters
->>  			It will be ignored when crashkernel=X,high is not used
->>  			or memory reserved is below 4G.
->>  	crashkernel=size[KMG],cma
->> -			[KNL, X86, ppc] Reserve additional crash kernel memory from
->> +			[KNL, X86, ARM64, ppc] Reserve additional crash kernel memory from
->>  			CMA. This reservation is usable by the first system's
->>  			userspace memory and kernel movable allocations (memory
->>  			balloon, zswap). Pages allocated from this memory range
->> diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
->> index c338506a580b..c8862a762eb3 100644
->> --- a/arch/arm64/kernel/machine_kexec_file.c
->> +++ b/arch/arm64/kernel/machine_kexec_file.c
->> @@ -42,7 +42,7 @@ int arch_kimage_file_post_load_cleanup(struct kimage *image)
->>  #ifdef CONFIG_CRASH_DUMP
->>  unsigned int arch_get_system_nr_ranges(void)
->>  {
->> -	unsigned int nr_ranges = 2; /* for exclusion of crashkernel region */
->> +	unsigned int nr_ranges = 2 + crashk_cma_cnt; /* for exclusion of crashkernel region */
->>  	phys_addr_t start, end;
->>  	u64 i;
->>  
->> @@ -64,6 +64,12 @@ int arch_crash_populate_cmem(struct crash_mem *cmem)
->>  		cmem->nr_ranges++;
->>  	}
->>  
->> +	for (i = 0; i < crashk_cma_cnt; i++) {
->> +		cmem->ranges[cmem->nr_ranges].start = crashk_cma_ranges[i].start;
->> +		cmem->ranges[cmem->nr_ranges].end = crashk_cma_ranges[i].end;
->> +		cmem->nr_ranges++;
->> +	}
-> 
-> Why do we need to add cma ranges here? They are anyway will be excluded in
-> crash_exclude_core_ranges().
-> 
-> The same comment applies to riscv patch.
+[1] https://lore.kernel.org/lkml/20241216165105.56185-11-dev.jain@arm.com/
 
-Indeed, it should not be placed here. In the kexec DT code, these memory
-regions need to be included in the "usable-memory-range",which is
-equivalent to the x86 crash_setup_memmap_entries() function.
+Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Co-developed-by: Dev Jain <dev.jain@arm.com>
+Signed-off-by: Dev Jain <dev.jain@arm.com>
+Signed-off-by: Nico Pache <npache@redhat.com>
+---
+ mm/khugepaged.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-> 
->>  	return 0;
->>  }
->>  #endif
->> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->> index 96711b8578fd..144e30fe9a75 100644
->> --- a/arch/arm64/mm/init.c
->> +++ b/arch/arm64/mm/init.c
->> @@ -96,8 +96,8 @@ phys_addr_t __ro_after_init arm64_dma_phys_limit;
->>  
->>  static void __init arch_reserve_crashkernel(void)
->>  {
->> +	unsigned long long crash_base, crash_size, cma_size = 0;
->>  	unsigned long long low_size = 0;
->> -	unsigned long long crash_base, crash_size;
->>  	bool high = false;
->>  	int ret;
->>  
->> @@ -106,11 +106,12 @@ static void __init arch_reserve_crashkernel(void)
->>  
->>  	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
->>  				&crash_size, &crash_base,
->> -				&low_size, NULL, &high);
->> +				&low_size, &cma_size, &high);
->>  	if (ret)
->>  		return;
->>  
->>  	reserve_crashkernel_generic(crash_size, crash_base, low_size, high);
->> +	reserve_crashkernel_cma(cma_size);
->>  }
->>  
->>  static phys_addr_t __init max_zone_phys(phys_addr_t zone_limit)
->> -- 
->> 2.34.1
->>
-> 
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index fb3ba8fe5a6c..c739f26dd61e 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -638,6 +638,14 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+ 				goto out;
+ 			}
+ 		}
++		/*
++		 * TODO: In some cases of partially-mapped folios, we'd actually
++		 * want to collapse.
++		 */
++		if (!is_pmd_order(order) && folio_order(folio) >= order) {
++			result = SCAN_PTE_MAPPED_HUGEPAGE;
++			goto out;
++		}
+ 
+ 		if (folio_test_large(folio)) {
+ 			struct folio *f;
+-- 
+2.53.0
+
