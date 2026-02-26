@@ -1,180 +1,140 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93DB03A640F
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 10:43:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FF1218AC4;
+	Thu, 26 Feb 2026 10:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772102612; cv=none; b=f0v4kz9yOccTifBhiwtFgKJxe39DbJ5uOrZJs/gCZ12JMoUpIOL2lulWHIjWSFPm5C7/6HSqREIgl9DMhpitftIUjMiV20qWKQCCcqm1G/G3YCHszcfb/qBJtf4wgNFH0UTvMp3OL1ba6le4cW4VRwWW52b31GluG65AL8sVMKk=
+	t=1772102785; cv=none; b=UxtLZj2zKb7y9S27pLlpHMFajQ6OEzSbXWhNV9WPoGVtI/5XY3KRx3xyax5OOVGH/0pbT1b2oLCViS3rBeayz/aVqbgN3ToxTdn4gUIwJ8GnN2XyYTkfKPvKqqaa5k6QIgvI3y5kEmYnS+tJbmVfKuMSetcv6OiSONbMzFdMUIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772102612; c=relaxed/simple;
-	bh=RujNMISISbGmip+gsV3i8B5HSZDusgL8kyOq5K5N+GU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TGndsWisi7IUQH9/gS/4uNsDXpYEYFbKr1fwS9VPxOhmqruypcER/HiKCeG4xpIwuPSDrXUHauYvCXXrVY8ph+qxxlr4eiuNCOBVQKCm8Dia0Dy43Zf7izUWA2F19iVpALGcHdk1V5foLAN5fT9TSryTzxjfvQFJ1CdvmY1LGBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CBoQo9jy; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772102785; c=relaxed/simple;
+	bh=RvgwqJ5lHgVsbH3VM1TF53+jbTgfmgEMcEMpt6E6IKc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V8jjsDnyDElDbKWc5ui0EWHz3Yc1guGfAHciCtofj6moufK2PGOOV1ISuvuuMi6XvDPQhrc8EAHXzTUdRTyBcOkQT7KHzC7HvJSJW5uiiyd2XiSueyKHUTafg1nfoDGCmz+Q/DkKJlB0jEpnDO9TNljkBKls04sO7YHETrqimIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z9W416l3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CBoQo9jy"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43992e3f9b8so707830f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 02:43:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772102609; x=1772707409; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vYnij3WUKIrhr1paKuZQio94gFo5v03yqnu75blnTg4=;
-        b=CBoQo9jyM2yTd9XTP3GjFZB0m9pMVVnC2KlMwc2WiZ7WiOUQpGdw7D+lYXneZRk5f0
-         wxkMaw4uvOPqZqMYYYOCI1O6ho0Lzzki+UltNWUG86IdXkudyPunvO3pqAQloLHfaovc
-         q5HpYO2LLE5fFSqLQqZZNlHAyFhzpF+JaDP87ntt/cmGLiYoPFhzYAPlE3ppb8T2qt9o
-         DTDNBtRRk0cRb/d5DGG5ySIr+L5vYHVdZsGJvtlZepby9vw7hPrIi4u/nYQi6o9EvG+F
-         4NA36HIucCRbzCPXhgOfULLFLOd/UykxGn9CkyF6MGX64m/7jU/S2vV2d9e4M7JZYMwZ
-         UMSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772102609; x=1772707409;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vYnij3WUKIrhr1paKuZQio94gFo5v03yqnu75blnTg4=;
-        b=lGTIbuV14FkcxyjaMn3DxLLFSFsC+1bpbB19zCFHhm5NwvmjYwe5lKh0IyWezDO+v9
-         OorZLvVeKkIGVxINC19YfVG2pWOR3pDQVxP4pMC+epJH4d1rfbgC6Hg3FMcwVvkD+xTI
-         gtg5b0kv6N7DK1bBzhJk7+nYsQxXvJHCEenk/GWcnnS/P0ID2pTtnlemqPD1cOILFodY
-         P4RM3s3CHY8zBmXLvdIR40yaMxpTjXTGqRdKXYYPjoelTsyAzKpum/f5ceqNxN0T/ASC
-         EBmf9/ZQq/dmp9u+Lxa+a8jdcdLCGtwZqutfZeYPZ7Zf5sUGvVXD6KNkPGmGtKm02oWi
-         vDww==
-X-Forwarded-Encrypted: i=1; AJvYcCVGTeo0UkFNgJlgiQ2n6KD+chcA242nj247bKw5gipRFcxHLaax/q+FJHWxovaZrSTfAdCutyZ45Vk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxs0vOEUDIyn/S24pzd7POVCvVJ9LUiG/LbGEjrN6IH222Y9yXv
-	9/CXVRYRyyyQyAocmXhe444PUqs6jxxFpPn55yh3fv5EK+D9N3h7OWFf
-X-Gm-Gg: ATEYQzzUbYRecnNRNqIss+Q9uyNgGUCvptpRqI/+wf5o0FvuABBPCzDN9Qmyeo+BUz9
-	+QpD/GPVbN4cgZBADPAL2FV0PDdxf3ogP1H/Rlnqg2epJxJgOuHtGsZxs1YUqYsxU/W3uM9Foq5
-	dSegzIffCbsmgmuW7HnGQScqEG6PqJSygyOUwNBSedDjPRGyi4UDmi/3umIZr+wbEPw5CxvTXMD
-	xtne5sD6htx8NSxKVvXHV/EwRrqyWjBMPO0elqP5exQfoZIwejeRufNdnmxqDLVYq/KYyXYigxR
-	fXBZ2KBvb0gxD2VRcNaLzhnIdli+bUza1rxYIrYSvmNyuet/ARXW3vhF2vIVJ6S5UVRJCGkr/Ut
-	iEVz5pfUuLXxzAaG5xQijSPLFGW22CSSUWwnY9wxT6gcIEGrxqLnvK7kBZgJHc395PMrIr1DOOh
-	eRg7wEvmpdMKIi8qXxTELvGnKN6FG09puRFahyJa2mDwBp4FRxKzUS9V8W/OaxjlfEmXnEqneA5
-	bM+4JB+r3a5Yp1ynRNCnhw=
-X-Received: by 2002:a05:6000:25c3:b0:439:704a:9838 with SMTP id ffacd0b85a97d-439942a422fmr6869715f8f.19.1772102608659;
-        Thu, 26 Feb 2026 02:43:28 -0800 (PST)
-Received: from gandalf.schnuecks.de (p200300c14f1996009e6b00fffe39b8a7.dip0.t-ipconnect.de. [2003:c1:4f19:9600:9e6b:ff:fe39:b8a7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43970bf9ff5sm42355609f8f.4.2026.02.26.02.43.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Feb 2026 02:43:27 -0800 (PST)
-Received: by gandalf.schnuecks.de (Postfix, from userid 500)
-	id 840D52FE34AD; Thu, 26 Feb 2026 11:43:27 +0100 (CET)
-Date: Thu, 26 Feb 2026 11:43:27 +0100
-From: Simon Baatz <gmbnomis@gmail.com>
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: Eric Dumazet <edumazet@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	David Ahern <dsahern@kernel.org>,
-	Stefano Brivio <sbrivio@redhat.com>, Jon Maloy <jmaloy@redhat.com>,
-	Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com,
-	Shuah Khan <shuah@kernel.org>,
-	Christian Ebner <c.ebner@proxmox.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC net-next v2 0/5] tcp: RFC 7323-compliant window
- retraction handling
-Message-ID: <aaAjz647AueLYvjl@gandalf.schnuecks.de>
-References: <20260226-tcp_rfc7323_retract_wnd_rfc-v2-0-aa3f8f9cc639@gmail.com>
- <dffe019f-93be-4fa8-aa29-743450f6c05f@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z9W416l3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A95DBC116C6;
+	Thu, 26 Feb 2026 10:46:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772102784;
+	bh=RvgwqJ5lHgVsbH3VM1TF53+jbTgfmgEMcEMpt6E6IKc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Z9W416l3lvUFB5co/SPsHLWdDZJQ+8I5Yidnhl0eXEvnsYvwK9UAYEMLjW7QOisbO
+	 gLImo1eBRutyFpsEyl1JdxpLbvVfabIctJH1uDQAKVP2K8/6EjSYMVOP+VXZP9v8eR
+	 WCMwZGyx8JnGMMoqYZuKm24QXLxvTwzx8M8zcu774hCEEAVZc1yspD9TUy1brTj1mW
+	 lFe1rjNM74gCva35CPBQhmZ8duAHerJjd4adAxr5MlxpvGd7wutmoZLrYx+1XpunjN
+	 4LLN36el7W/yNaQ15UCG3A0DospBmY+sS26ClVvlt2GSHbRQP4waY5dAtMnoIPWBNk
+	 XwSBJF/hcMmWA==
+Message-ID: <d719b5de-5aa1-4f80-8f19-06b7ed9bc145@kernel.org>
+Date: Thu, 26 Feb 2026 11:46:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dffe019f-93be-4fa8-aa29-743450f6c05f@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 04/18] accel/qda: Add built-in compute CB bus for QDA
+ and integrate with IOMMU
+To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ iommu@lists.linux.dev, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org,
+ Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bharath Kumar <quic_bkumar@quicinc.com>,
+ Chenna Kesava Raju <quic_chennak@quicinc.com>
+References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
+ <20260224-qda-firstpost-v1-4-fe46a9c1a046@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260224-qda-firstpost-v1-4-fe46a9c1a046@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Matt,
-
-On Thu, Feb 26, 2026 at 09:12:07AM +0100, Matthieu Baerts wrote:
-> Hi Simon,
+On 23/02/2026 20:08, Ekansh Gupta wrote:
+> Introduce a built-in compute context-bank (CB) bus used by the Qualcomm
+> DSP accelerator (QDA) driver to represent DSP CB devices that require
+> IOMMU configuration. This separates the CB bus from the QDA driver and
+> allows QDA to remain a loadable module while the bus is always built-in.
 > 
-> On 26/02/2026 01:49, Simon Baatz via B4 Relay wrote:
-> > this series implements the receiver-side requirements for TCP window
-> > retraction as specified in RFC 7323 and adds packetdrill tests to
-> > cover the new behavior.
+> A new bool Kconfig symbol DRM_ACCEL_QDA_COMPUTE_BUS is added and is
+> selected by the main DRM_ACCEL_QDA driver. The parent accel Makefile is
+> updated to descend into the QDA directory for both built-in and module
+> builds so that the CB bus is compiled into vmlinux while the driver
+> remains modular.
 > 
-> Thank you for looking at that.
-
-Thank you for chiming in; I know that my comments are somewhat
-provocative. :)
-
-> > It addresses a regression with somewhat complex causes; see my message
-> > "Re: [regression] [PATCH net-next 7/8] tcp: stronger sk_rcvbuf checks"
-> > (https://lkml.kernel.org/netdev/aXaHEk_eRJyhYfyM@gandalf.schnuecks.de/).
-> > 
-> > Please see the first patch for background and implementation details.
-> > 
-> > This is an RFC because a few open questions remain:
+> The CB bus is registered at postcore_initcall() time and is exposed to
+> the IOMMU core through iommu_buses[] in the same way as the Tegra
+> host1x context-bus. This enables later patches to create CB devices on
+> this bus and obtain IOMMU domains for them.
 > 
-> (...)
-> 
-> > - MPTCP seems to modify tp->rcv_wnd of subflows. And the modifications
-> >   look odd:
-> > 
-> >   1. It is updated in the RX path. Since we never advertised that
-> >      value, we shouldn't need to update rcv_mwnd_seq.
-> 
-> FYI, with MPTCP the received windows are shared between subflows. This
-> might be surprising, but maintaining per-subflow receive windows could
-> end up stalling some subflows while others would not use up their
-> window. For more details, please check this section of the RFC:
-> 
->   https://datatracker.ietf.org/doc/html/rfc8684#sec_rwin
+> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> ---
+>  drivers/accel/Makefile              |  1 +
+>  drivers/accel/qda/Kconfig           |  5 +++++
+>  drivers/accel/qda/Makefile          |  2 ++
+>  drivers/accel/qda/qda_compute_bus.c | 23 +++++++++++++++++++++++
+>  drivers/iommu/iommu.c               |  4 ++++
+>  include/linux/qda_compute_bus.h     | 22 ++++++++++++++++++++++
 
-RFC 8646 has several pointers to RFC 5961 and in section 3.3.5 it
-says:
+Do not combine independent work into one patch.
 
-                                                 ... Each of these
-   segments will be mapped onto subflows, as long as subflow sequence
-   numbers are in the allowed windows for those subflows.  Note that
+Also, your patch has clear patch warnings, so please review it BEFORE
+you send.
 
-So, I assume that on sub-flow level we are still supposed to do
-the standard TCP sequence acceptability checks with respect to
-the advertised window for the subflow.
-
-If so, my concern is that raising rcv_wnd in the RX path means that
-we may accept sequence numbers that we never advertised in that
-particular subflow.
-
-> 
-> >   2. In the TX path, there is:
-> >   
-> >      tp->rcv_wnd = min_t(u64, win, U32_MAX);
-> > 
-> >      To me, that looks very wrong and that code might need to be fixed
-> >      first.
-> The capping is explained because the MPTCP-level ack seq is on 64-bit,
-> while the TCP level receive window is on 32-bit.
-
-The issues I see here are:
-
-1. When calculating the usable receive window in TCP, we use 32-bit
-   signed arithmetic.
-2. The max. window size with window scaling is around 1GB
-3. As said, rcv_wnd is used for acceptability checks.  In standard
-   TCP we ensure that rcv_wnd is aligned to the window scaling
-   factor.
-
-So, I had assumed to see the "reverse" of the current TX raise window
-logic in MPTCP: First, calculate the advertised window to put into
-the outgoing packet and then update rcv_wnd accordingly.
- 
-> I hope this helps better understanding these modifications, and
-> hopefully not introducing regressions on the MPTCP side :)
-
-Yes, thank you. Regarding regressions, I couldn't agree more.
-
-
-- Simon
- 
--- 
-Simon Baatz <gmbnomis@gmail.com>
+Best regards,
+Krzysztof
