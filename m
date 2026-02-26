@@ -1,633 +1,197 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE5E38A73F
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 05:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.180.131
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772085502; cv=pass; b=k4S1d5UhyLHfrllAcg5MgNfXXQnY796/CSmSLEhk26QmY95cPduCj29eUoR2QrlFZi658JUEJOpYYLCJiH5NWxIK8SyL1HIZqTOPui7Ngw/83FGls5LLVgrnypXUK2rxYPV/dtxAf6NJc5D/wLH7xj8GdtPwH95/y7hTBNiIlgI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772085502; c=relaxed/simple;
-	bh=+uiRQvIVKV/GlsSk9BknRY59jG7QBiEf2fcYYxWccMI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V03GXX9J2NLeeAtWkpXospdJt5EGDurFBfhFMrRJ+MjY0azY9duzf42xep891gAwgAe/LMGqvQv7VU8J8S1cYauzlB7+y4glldfNf5DIMkq/QHZHECVLAPXyn0Zn3Ds2IkORYGwb/07E2BnkCmzn6J9kPS40ln+s8T168AUpXkw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=o3WKY9oH; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KN8gW8DI; arc=pass smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="o3WKY9oH";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KN8gW8DI"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61Q4VMNY919314
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 05:58:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	06WGVto43FxvVGdmnMyUzlNLnDWIe1ZIbLMXTt3zPbw=; b=o3WKY9oHfg4/cMhI
-	gs1+YiPTIqvHlAMO37lS2mfF30HjGxgXsuO77MhchZOFQa+Hxb/d+5ktqn6st+3K
-	eGg9/5xd1vo2BkgQCFxeGg7skSZ0x+cZ4iRWu6YjvXJWfhdGS583npPHtVVKdE2g
-	neSXgiCS2O08/S35T1587vNbUSMIf1bfsY/pahSfFhmKEBs3CKkEthXJbj3EToTJ
-	GTSiUQIURZc4yWAo8ii4059uLYw8ecN7Jaxy9Ubg4Z4jnXOeNp9/loMo73rLRoEy
-	bfH9jwDWu3YN3TcaB/NPqXnaiEGisrUXY1bYc+WjuRdZMCuwdFmTGy74lTkMGhxN
-	PeOw9Q==
-Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cj4w4t1nt-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 05:58:19 +0000 (GMT)
-Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-66308f16ea1so3857337eaf.2
-        for <linux-doc@vger.kernel.org>; Wed, 25 Feb 2026 21:58:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772085499; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iC5BZPnN5Ej8Z67aYLIKXL4f+6B6bITbfnrHfnDQC0IAWz/wRo0fXB/TpBNPgjKi7v
-         ISc19XNuZpSRoo/O0zBa1/xuHhvLFZU94kW2Z2bpOSX7/xeduYQq6d8JJkG0S8UdwpkG
-         Dtg9X/dyEArrCLJ0R5AheaCLRXpXc16wMpUuyJhR8fGMUxkd6ughz4ICiozDVpB4GidW
-         +xUaAR2WFZZmVRMStm/hrvyXdo1OU7mJpctAtwe/QSOfBcMaY8D1HPawe20lGOa+ANDh
-         opjeamYDULaDmkeQRmouE0+DxOx+okQbb6J4TMOFqfH1BUZeYqty9McrKBth2n/JscGD
-         FN3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=06WGVto43FxvVGdmnMyUzlNLnDWIe1ZIbLMXTt3zPbw=;
-        fh=J7cLBGqLYb08cFavobRc7Mz8v7P5IJC3dd1jVaP/xeY=;
-        b=dbFPeQYpIgXSormDbsKlzfOxFZqCxKiiE+NFHt7hfXzuz+DiBuJYBVH5CDpzuezbp+
-         VlbgLR4bteNGuxmb0/yMReVtiz5W7GmoIBdGrgq58TQea82xmHJ+mIOFWKvrSx1gGbjy
-         9tYyAqljcBA6AFb+6q8u5JkSDHpgPWqGAc39dR/G/TuZno75fnen014WeYPVS0+iAoot
-         zZS8Fw0V+2APB74lG41ZwKc19ePuVsWR+5//9wxWLXhWZeO2/1wFGGFMnzFvXrlC8dld
-         QUtBi3lgMVgrgxS2/m06Oxxvm7aksMHJxqEr8EJzJ8exf5eM5BYyTsVyvYk3rGs6J4UE
-         fLNw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772085499; x=1772690299; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=06WGVto43FxvVGdmnMyUzlNLnDWIe1ZIbLMXTt3zPbw=;
-        b=KN8gW8DIz+DTkuERhTryS6YgfOTYkxbIRguPIA1361zP5U6K28H1iphCZsOy5Z41JY
-         k3q2SYsmOVjJqxIEmlDhJlJCNV3RB6HiBGz2mh93KT50w2nK1G0/Y1EkjP8ZAAsCEkNp
-         dRtvFVQEtIZJXlmtgecicEOyMqec7hjX/FxqE2EtFdzZMY6rSltsCfZKB2CkZ82DNYy5
-         PJEpdWHRHl+7uqwNIvY9GXB0IyAiRqy0jvkQZNJOjhif9XHNdLVamzfnSKw0kGYRLucd
-         SfU5+jBGCLHiPLw167JWobnwQhm+fuLZTkP5aImMkwmDyyU9zSd7yuLUjNgcYK4+ZLWl
-         KoNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772085499; x=1772690299;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=06WGVto43FxvVGdmnMyUzlNLnDWIe1ZIbLMXTt3zPbw=;
-        b=SlYuTd2un8lPUo4KP20o2WwxNJJDeUvkIwC3AXhqxl591bVOt9HA0IJTiKI7Ynnb97
-         uZ2nnYLVONuEnKVgABxkMnm7DxVGRZAAA6wgR8713t23PpPFYwpcIxAmdD5RrcyajJIp
-         zwMwDMAkas4vDkB3X9wyzUjUKndyiR0HSSDWmnwaCcoqwNnN7gBPyDTbJtHL2Pzkk8KL
-         qzfoTdo/WW+m2xidzlvZAvej26+NDom7IrQ/mABSA9ABvnMjd3U9p4kI2LzzRAKaK4bU
-         WEJg5oDfqLB4c1Srx26AoAUGA6/Lt1gJK3ca4Gk1777kfX2migd26mW+Yqeg7kNgMHzh
-         8XeA==
-X-Forwarded-Encrypted: i=1; AJvYcCW7eg4a51fzYxaXm8H4fZc4NBXE+D+slerGA0rizlKN4r6cx0MgHSeSjyedBCQtE+QvtUw/ENWNL8c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwIGquSrWqqKKzGlpZpRwTZlhGoBDjacrB5w9yCd0qAVi/pS0y
-	i1pszHnHtqUabeRc2qE8rNm2n16QJB/7grK2D+5ldK7h4ZFbHHiowHiX/atyCXnvs7Jm9f4wDml
-	m01ncoB8drBUBLS4I6YwGv1U7FyA2aWTzDf28ap2KGMJ6frrr6zhKTCQSxYVHMzjv8Uq82qc+/s
-	QW4YGvgnzvJtQV/RL1EGQHB0NGb5rP2HWmfXxUgA==
-X-Gm-Gg: ATEYQzyZPqMY+5iiWGdHwP3zMICBu/8D8rzz68F+EIxJylzsmfx4IBJtgIzQ9hyP2dw
-	62LkLTRpYsUeCGcU8KzKBpPzxSQQwkfHMYdLx046i8qNNNRwljVv/xiPbQVERLEUz+3n9IunBCh
-	uxPUeCqgGZYUAUIw0X2/xpYDNGSeUPWBrQt6F4lE68+uiaHdeUa7gkQ67Z/XblAPe5K5VEgt1Nv
-	VDtBQk=
-X-Received: by 2002:a05:6820:1990:b0:676:6c3c:a1e9 with SMTP id 006d021491bc7-679f3da6aecmr436089eaf.57.1772085498452;
-        Wed, 25 Feb 2026 21:58:18 -0800 (PST)
-X-Received: by 2002:a05:6820:1990:b0:676:6c3c:a1e9 with SMTP id
- 006d021491bc7-679f3da6aecmr436077eaf.57.1772085497991; Wed, 25 Feb 2026
- 21:58:17 -0800 (PST)
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B235E38B7B2;
+	Thu, 26 Feb 2026 06:02:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772085727; cv=none; b=Ep8pDuw8AnO/eDYYQzanuFgIoheIEpgZxHvdJ02oTex2dotsHoUYhoXarxkNkCBc3M1gIytT1/s7iAG9iVWyEoqnIVo+aVZ/RiS0xTrkZvgkZK6NOIJ/niE2Xd2xw4TOQnJwfszPSM+c3y/rVkNt+wS/G+XmICShgn6KuLRNr10=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772085727; c=relaxed/simple;
+	bh=aSImaKwDLOwMtHAtCgUvrtW6nbVJxatRl9CtEl4D6sI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CknpATRLnyuc4JnqtrOfk7+8nR241UH6AUxR7TE8GQSUi6mtEgtlLas15HTX1BzWzDY5b1dJKIt9f0xu7sRpfu8T/HkM49TBEUp3NZYMUuzIgDacEl7NC4i+BtD2vdPr5mcr7lA0V8RV9BxKDJjo5ypJ5E9cGhXPVCcyC1co0GM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with SMTP id HgEQrAB3X9S74Z9pIDVfAg--.15440S2;
+	Thu, 26 Feb 2026 14:01:31 +0800 (CST)
+Received: from [10.12.168.130] (unknown [10.12.168.130])
+	by gateway (Coremail) with SMTP id _____wCX16i24Z9pzyT9AA--.22492S2;
+	Thu, 26 Feb 2026 14:01:27 +0800 (CST)
+Message-ID: <9cc4a719-d6ca-4f15-b862-60fb862ba7b2@hust.edu.cn>
+Date: Thu, 26 Feb 2026 14:01:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
- <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-3-347fa2d7351b@arm.com>
-In-Reply-To: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-3-347fa2d7351b@arm.com>
-From: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
-Date: Thu, 26 Feb 2026 11:28:06 +0530
-X-Gm-Features: AaiRm50j2ioKzT8O5WkXwOBzaz_quUV9p2zoAkjwudfimibESDbgnebOCS_fs4k
-Message-ID: <CA+Ht8=aL8wp0nwH3vnnm8FnRmfp1nUasfXh3HjeWwi8UadBLOg@mail.gmail.com>
-Subject: Re: [PATCH v2 03/11] ACPI: APEI: GHES: move CPER read helpers
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
-        Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
-        robh@kernel.org, rafael@kernel.org, will@kernel.org, conor@kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        krzk+dt@kernel.org, Michael.Zhao2@arm.com, tony.luck@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: JWDjx-FNuoU71PcqKKRDAmzmem-FVTxo
-X-Authority-Analysis: v=2.4 cv=IqMTsb/g c=1 sm=1 tr=0 ts=699fe0fb cx=c_pps
- a=wURt19dY5n+H4uQbQt9s7g==:117 a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=_glEPmIy2e8OvE2BGh3C:22 a=7CQSdrXTAAAA:8 a=MJR9BmDR2wurswiG5j0A:9
- a=QEXdDO2ut3YA:10 a=-UhsvdU3ccFDOXFxFb4l:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI2MDA1MCBTYWx0ZWRfXzVVy8O7+S8B3
- 9tFH+BDheKXhlpQ1Nh5UmbZm0sGxu2dohQiSid1KuuO/1HIHZG+OXazZN/TZ7MXYnyRBgWjrUu7
- 0JDVsVjAkW6SWbecAa3v/KJrWkyltpi5kghB5LXp6G6i0E1pTZbr37WzROxsLcvfJ5GPb/lqBVG
- qds8E1YV7dulyNifXnMPW8/ixmMg/lPVwvKUhc/NhGOfOPneb7sSz+I8woW3K2kYnZNSy5J0Oxv
- iSn4vURDLe71ft9bgABeafPTAyMMcFYUH3D0iYLT9l1D90gw1ZQYpXyklTIPXFM4PO98JTA1jrm
- DGg09MjDdv2gO1o23y1rwNUU+nX1jDpdp+2gDn28rQMoQ1uv1X6xa03SiW71ous8p87WzdTKWP2
- rJevwl/SnMFtnvKFa1X4ComM7xsj8X/D7z5cU3zuQ5sCtq0SpnMQ2Ilmhdt/qkUhsTS7mWvfOpN
- uBU+/UnkDJI/ep9YaPw==
-X-Proofpoint-GUID: JWDjx-FNuoU71PcqKKRDAmzmem-FVTxo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-02-25_04,2026-02-25_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1011 lowpriorityscore=0 suspectscore=0 adultscore=0
- impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2602260050
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: sync process/2.Process.rst with English
+ version
+To: Song Hongyi <szpcq123@gmail.com>, alexs@kernel.org, si.yanteng@linux.dev,
+ corbet@lwn.net
+Cc: skhan@linuxfoundation.org, w1ndys@qq.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260225151013.200635-1-szpcq123@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260225151013.200635-1-szpcq123@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrAB3X9S74Z9pIDVfAg--.15440S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxuFykGrWfXrW7GFW8WFWkXrb_yoW3ur4rpr
+	Z7KF97Ka1xt3s8Zrs3Kr48KF1rAry7CFWakr97Aa4DXw10yrWvq342qry2yry3WrykCFyD
+	ZF40yrWYvry2yrDanT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPKb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+	z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2kKe7AKxVWUXV
+	WUAwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AI
+	YIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VACjcxG62k0Y48FwI0_Gr
+	1j6F4UJwAv7VCjz48v1sIEY20_GFW3Jr1UJwAv7VCY1x0262k0Y48FwI0_Cr0_Gr1UMcvj
+	eVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCF04k20xvY0x0EwIxGrwCF04k20xvE74
+	AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_
+	JF1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
+	CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
+	I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
+	8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU
+	0xZFpf9x07jq1v3UUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Fri, Feb 20, 2026 at 7:13=E2=80=AFPM Ahmed Tiba <ahmed.tiba@arm.com> wro=
-te:
+
+On 2/25/26 11:09 PM, Song Hongyi wrote:
+> The Chinese translation of the development process documentation was
+> outdated. Sync it with the current English version to ensure consistency.
 >
-> Relocate the CPER buffer mapping, peek, and clear helpers from ghes.c int=
-o
-> ghes_cper.c so they can be shared with other firmware-first providers.
-> This commit only shuffles code; behavior stays the same.
->
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+> Key changes include:
+> - Update versioning examples from 5.x to the 9.x placeholder.
+> - Add footnote [1] to explain the non-semantic versioning scheme.
+> - Replace the obsolete LTS kernel table with a link to kernel.org.
+> - Add a cross-reference for the "interleaved replies" section.
+
+Hi Hongyi,
+
+Please take a look at how-to.rst [1], especailly how to write a commit 
+message for translation update.
+
+This can help us track the translation status of each translated 
+documentation.
+
+---
+
+	Update the translation through commit b080e52110ea
+	("docs: update self-protection __ro_after_init status")
+	# 请执行 git log --oneline <您翻译的英文文档路径>，并替换上述内容
+
+---
+
+[1] 
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/translations/zh_CN/how-to.rst#n254
+
+Dongliang Mu
+
+> Signed-off-by: Song Hongyi <szpcq123@gmail.com>
 > ---
->  drivers/acpi/apei/ghes.c      | 170 +-----------------------------------=
-------
->  drivers/acpi/apei/ghes_cper.c | 170 ++++++++++++++++++++++++++++++++++++=
-+++++-
->  include/acpi/ghes_cper.h      |  14 ++--
->  3 files changed, 177 insertions(+), 177 deletions(-)
+>   .../translations/zh_CN/process/2.Process.rst  | 56 +++++++++----------
+>   1 file changed, 25 insertions(+), 31 deletions(-)
 >
-> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-> index 07b70bcb8342..b159dbee90ac 100644
-> --- a/drivers/acpi/apei/ghes.c
-> +++ b/drivers/acpi/apei/ghes.c
-> @@ -118,26 +118,6 @@ static struct gen_pool *ghes_estatus_pool;
->  static struct ghes_estatus_cache __rcu *ghes_estatus_caches[GHES_ESTATUS=
-_CACHES_SIZE];
->  static atomic_t ghes_estatus_cache_alloced;
->
-> -static void __iomem *ghes_map(u64 pfn, enum fixed_addresses fixmap_idx)
-> -{
-> -       phys_addr_t paddr;
-> -       pgprot_t prot;
+> diff --git a/Documentation/translations/zh_CN/process/2.Process.rst b/Documentation/translations/zh_CN/process/2.Process.rst
+> index 31b0e2c994f6..ca00672c313e 100644
+> --- a/Documentation/translations/zh_CN/process/2.Process.rst
+> +++ b/Documentation/translations/zh_CN/process/2.Process.rst
+> @@ -23,21 +23,18 @@
+>   总览
+>   ----
+>   
+> -内核开发人员使用一个松散的基于时间的发布过程，每两到三个月发布一次新的主要
+> -内核版本。最近的发布历史记录如下：
 > -
-> -       paddr =3D PFN_PHYS(pfn);
-> -       prot =3D arch_apei_get_mem_attribute(paddr);
-> -       __set_fixmap(fixmap_idx, paddr, prot);
+> -	======  =================
+> -	5.0	2019年3月3日
+> -	5.1	2019年5月5日
+> -	5.2	2019年7月7日
+> -	5.3	2019年9月15日
+> -	5.4	2019年11月24日
+> -	5.5	2020年1月6日
+> -	======  =================
 > -
-> -       return (void __iomem *) __fix_to_virt(fixmap_idx);
-> -}
-> -
-> -static void ghes_unmap(void __iomem *vaddr, enum fixed_addresses fixmap_=
-idx)
-> -{
-> -       int _idx =3D virt_to_fix((unsigned long)vaddr);
-> -
-> -       WARN_ON_ONCE(fixmap_idx !=3D _idx);
-> -       clear_fixmap(fixmap_idx);
-> -}
-> -
->  int ghes_estatus_pool_init(unsigned int num_ghes)
->  {
->         unsigned long addr, len;
-> @@ -193,22 +173,7 @@ static void unmap_gen_v2(struct ghes *ghes)
->         apei_unmap_generic_address(&ghes->generic_v2->read_ack_register);
->  }
->
-> -static void ghes_ack_error(struct acpi_hest_generic_v2 *gv2)
-> -{
-> -       int rc;
-> -       u64 val =3D 0;
-> -
-> -       rc =3D apei_read(&val, &gv2->read_ack_register);
-> -       if (rc)
-> -               return;
-> -
-> -       val &=3D gv2->read_ack_preserve << gv2->read_ack_register.bit_off=
-set;
-> -       val |=3D gv2->read_ack_write    << gv2->read_ack_register.bit_off=
-set;
-> -
-> -       apei_write(val, &gv2->read_ack_register);
-> -}
-> -
-> -static struct ghes *ghes_new(struct acpi_hest_generic *generic)
-> +struct ghes *ghes_new(struct acpi_hest_generic *generic)
->  {
->         struct ghes *ghes;
->         unsigned int error_block_length;
-> @@ -255,7 +220,7 @@ static struct ghes *ghes_new(struct acpi_hest_generic=
- *generic)
->         return ERR_PTR(rc);
->  }
->
-> -static void ghes_fini(struct ghes *ghes)
-> +void ghes_fini(struct ghes *ghes)
->  {
->         kfree(ghes->estatus);
->         apei_unmap_generic_address(&ghes->generic->error_status_address);
-> @@ -280,137 +245,6 @@ static inline int ghes_severity(int severity)
->         }
->  }
+> -每个5.x版本都是一个主要的内核版本，具有新特性、内部API更改等等。一个典型的5.x
+> -版本包含大约13000个变更集，变更了几十万行代码。因此，5.x是Linux内核开发的前
+> -沿；内核使用滚动开发模型，不断集成重大变化。
+> +内核开发使用一个松散的、基于时间的滚动发布（rolling release）开发模型。
+> +一个新的主内核发行版本（作为示例，我们将其称为 9.x） [1]_ 大约每两到三个月
+> +发布一次，它带来了新特性、内部 API 的更改等。一个典型的版本包含大约 13,000
+> +个变更集（changesets），涉及几十万行代码的修改。最近的发行版本及其日期可以
+> +在这里找到
+> +`维基百科 <https://en.wikipedia.org/wiki/Linux_kernel_version_history>`_
+> +
+> +
+> +.. [1] 严格来说，Linux 内核并不采用语义化版本号方案，而是将 9.x 这一组数字
+> +       作为一个整体来标识主发行版本号。对于每一个版本，x 都会递增，但只有
+> +       当 x 被认为足够大时，9 才会递增（例如：Linux 5.0 是紧随 Linux 4.20
+> +       之后发布的）。
+>   
+>   对于每个版本的补丁合并，遵循一个相对简单的规则。在每个开发周期的开头，“合并
+>   窗口”被打开。这时，被认为足够稳定（并且被开发社区接受）的代码被合并到主线内
+> @@ -48,8 +45,8 @@
+>   提前收集、测试和分级的。稍后将详细描述该过程的工作方式。）
+>   
+>   合并窗口持续大约两周。在这段时间结束时，Linus Torvalds将声明窗口已关闭，并
+> -释放第一个“rc”内核。例如，对于目标为5.6的内核，在合并窗口结束时发生的释放
+> -将被称为5.6-rc1。-rc1 版本是一个信号，表示合并新特性的时间已经过去，稳定下一
+> +释放第一个“rc”内核。例如，对于目标为9.x的内核，在合并窗口结束时发生的释放
+> +将被称为9.x-rc1。-rc1 版本是一个信号，表示合并新特性的时间已经过去，稳定下一
+>   个内核的时间已经到来。
+>   
+>   在接下来的6到10周内，只有修复问题的补丁才应该提交给主线。有时会允许更大的
+> @@ -84,11 +81,14 @@
+>   开发人员的目标是在稳定发布之前修复所有已知的回归。在现实世界中，这种完美是
+>   很难实现的；在这种规模的项目中，变数太多了。需要说明的是，延迟最终版本只会
+>   使问题变得更糟；等待下一个合并窗口的更改将变多，导致下次出现更多的回归错误。
+> -因此，大多数5.x内核都有一些已知的回归错误，不过，希望没有一个是严重的。
+> +因此，大多数内核发布时都会带有一部分已知的回归问题，不过希望它们都不是严重
+> +的问题。
+>   
+>   一旦一个稳定的版本发布，它的持续维护工作就被移交给“稳定团队”，目前由
+> -Greg Kroah-Hartman领导。稳定团队将使用5.x.y编号方案不定期地发布稳定版本的
+> -更新。要合入更新版本，补丁必须（1）修复一个重要的缺陷，且（2）已经合并到
+> +Greg Kroah-Hartman领导。稳定团队将使用9.x.y编号方案不定期地发布稳定版本的
+> +更新。
+> +
+> +要合入更新版本，补丁必须（1）修复一个重要的缺陷，且（2）已经合并到
+>   下一个开发版本主线中。内核通常会在其初始版本后的一个以上的开发周期内收到
+>   稳定版更新。例如，5.2内核的历史如下（2019年）：
+>   
+> @@ -105,17 +105,10 @@ Greg Kroah-Hartman领导。稳定团队将使用5.x.y编号方案不定期地发
+>   
+>   5.2.21是5.2版本的最终稳定更新。
+>   
+> -有些内核被指定为“长期”内核；它们将得到更长时间的支持。在本文中，当前的长期
+> -内核及其维护者是：
+> +有些内核被指定为“长期”内核；它们将得到更长时间的支持。请参考以下链接
+> +获取当前长期支持内核版本及其维护者的列表：
+>   
+> -	======  ================================	================
+> -	3.16	Ben Hutchings				（长期稳定内核）
+> -	4.4	Greg Kroah-Hartman & Sasha Levin	（长期稳定内核）
+> -	4.9	Greg Kroah-Hartman & Sasha Levin
+> -	4.14	Greg Kroah-Hartman & Sasha Levin
+> -	4.19	Greg Kroah-Hartman & Sasha Levin
+> -	5.4	Greg Kroah-Hartman & Sasha Levin
+> -	======  ================================	================
+> +  https://www.kernel.org/category/releases.html
+>   
+>   长期支持内核的选择纯粹是维护人员是否有需求和时间来维护该版本的问题。
+>   目前还没有为即将发布的任何特定版本提供长期支持的已知计划。
+> @@ -320,7 +313,8 @@ Quilt 是一个补丁管理系统，而不是源代码管理系统。它不会
+>     没有完成家庭作业的人感到不耐烦。
+>   
+>   - 避免顶部回复（把你的答案放在你要回复的引文上面的做法）。这会让你的回答更难
+> -  理解，印象也很差。
+> +  理解，印象也很差，详细请查看
+> +  :ref:`Documentation/process/submitting-patches.rst <interleaved_replies>`
+>   
+>   - 在正确的邮件列表发问。linux-kernel 可能是通用的讨论场所，但它不是寻找所有
+>     子系统开发人员的最佳场所。
 
-Can it be "ghes_finish"? We already have "creat" without 'e'.
-
->
-> -static void ghes_copy_tofrom_phys(void *buffer, u64 paddr, u32 len,
-> -                                 int from_phys,
-> -                                 enum fixed_addresses fixmap_idx)
-> -{
-> -       void __iomem *vaddr;
-> -       u64 offset;
-> -       u32 trunk;
-> -
-> -       while (len > 0) {
-> -               offset =3D paddr - (paddr & PAGE_MASK);
-> -               vaddr =3D ghes_map(PHYS_PFN(paddr), fixmap_idx);
-> -               trunk =3D PAGE_SIZE - offset;
-> -               trunk =3D min(trunk, len);
-> -               if (from_phys)
-> -                       memcpy_fromio(buffer, vaddr + offset, trunk);
-> -               else
-> -                       memcpy_toio(vaddr + offset, buffer, trunk);
-> -               len -=3D trunk;
-> -               paddr +=3D trunk;
-> -               buffer +=3D trunk;
-> -               ghes_unmap(vaddr, fixmap_idx);
-> -       }
-> -}
-> -
-> -/* Check the top-level record header has an appropriate size. */
-> -static int __ghes_check_estatus(struct ghes *ghes,
-> -                               struct acpi_hest_generic_status *estatus)
-> -{
-> -       u32 len =3D cper_estatus_len(estatus);
-> -       u32 max_len =3D min(ghes->generic->error_block_length,
-> -                         ghes->estatus_length);
-> -
-> -       if (len < sizeof(*estatus)) {
-> -               pr_warn_ratelimited(FW_WARN GHES_PFX "Truncated error sta=
-tus block!\n");
-> -               return -EIO;
-> -       }
-> -
-> -       if (!len || len > max_len) {
-> -               pr_warn_ratelimited(FW_WARN GHES_PFX "Invalid error statu=
-s block length!\n");
-> -               return -EIO;
-> -       }
-> -
-> -       if (cper_estatus_check_header(estatus)) {
-> -               pr_warn_ratelimited(FW_WARN GHES_PFX "Invalid CPER header=
-!\n");
-> -               return -EIO;
-> -       }
-> -
-> -       return 0;
-> -}
-> -
-> -/* Read the CPER block, returning its address, and header in estatus. */
-> -static int __ghes_peek_estatus(struct ghes *ghes,
-> -                              struct acpi_hest_generic_status *estatus,
-> -                              u64 *buf_paddr, enum fixed_addresses fixma=
-p_idx)
-> -{
-> -       struct acpi_hest_generic *g =3D ghes->generic;
-> -       int rc;
-> -
-> -       rc =3D apei_read(buf_paddr, &g->error_status_address);
-> -       if (rc) {
-> -               *buf_paddr =3D 0;
-> -               pr_warn_ratelimited(FW_WARN GHES_PFX
-> -"Failed to read error status block address for hardware error source: %d=
-.\n",
-> -                                  g->header.source_id);
-> -               return -EIO;
-> -       }
-> -       if (!*buf_paddr)
-> -               return -ENOENT;
-> -
-> -       ghes_copy_tofrom_phys(estatus, *buf_paddr, sizeof(*estatus), 1,
-> -                             fixmap_idx);
-> -       if (!estatus->block_status) {
-> -               *buf_paddr =3D 0;
-> -               return -ENOENT;
-> -       }
-> -
-> -       return 0;
-> -}
-> -
-> -static int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
-> -                              u64 buf_paddr, enum fixed_addresses fixmap=
-_idx,
-> -                              size_t buf_len)
-> -{
-> -       ghes_copy_tofrom_phys(estatus, buf_paddr, buf_len, 1, fixmap_idx)=
-;
-> -       if (cper_estatus_check(estatus)) {
-> -               pr_warn_ratelimited(FW_WARN GHES_PFX
-> -                                   "Failed to read error status block!\n=
-");
-> -               return -EIO;
-> -       }
-> -
-> -       return 0;
-> -}
-> -
-> -static int ghes_read_estatus(struct ghes *ghes,
-> -                            struct acpi_hest_generic_status *estatus,
-> -                            u64 *buf_paddr, enum fixed_addresses fixmap_=
-idx)
-> -{
-> -       int rc;
-> -
-> -       rc =3D __ghes_peek_estatus(ghes, estatus, buf_paddr, fixmap_idx);
-> -       if (rc)
-> -               return rc;
-> -
-> -       rc =3D __ghes_check_estatus(ghes, estatus);
-> -       if (rc)
-> -               return rc;
-> -
-> -       return __ghes_read_estatus(estatus, *buf_paddr, fixmap_idx,
-> -                                  cper_estatus_len(estatus));
-> -}
-> -
-> -static void ghes_clear_estatus(struct ghes *ghes,
-> -                              struct acpi_hest_generic_status *estatus,
-> -                              u64 buf_paddr, enum fixed_addresses fixmap=
-_idx)
-> -{
-> -       estatus->block_status =3D 0;
-> -
-> -       if (!buf_paddr)
-> -               return;
-> -
-> -       ghes_copy_tofrom_phys(estatus, buf_paddr,
-> -                             sizeof(estatus->block_status), 0,
-> -                             fixmap_idx);
-> -
-> -       /*
-> -        * GHESv2 type HEST entries introduce support for error acknowled=
-gment,
-> -        * so only acknowledge the error if this support is present.
-> -        */
-> -       if (is_hest_type_generic_v2(ghes))
-> -               ghes_ack_error(ghes->generic_v2);
-> -}
->
->  /**
->   * struct ghes_task_work - for synchronous RAS event
-> diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.=
-c
-> index 63047322a3d9..7e0015e960c1 100644
-> --- a/drivers/acpi/apei/ghes_cper.c
-> +++ b/drivers/acpi/apei/ghes_cper.c
-
-IMO, just "cper.c" would be fine.
-
-> @@ -1,7 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*
->   *
-> - * APEI GHES CPER helper translation unit - staging file for helper move=
-s
-> + * APEI GHES CPER helper translation unit - code mechanically moved from=
- ghes.c
->   *
->   * Copyright (C) 2026 ARM Ltd.
->   * Author: Ahmed Tiba <ahmed.tiba@arm.com>
-> @@ -17,10 +17,176 @@
->  #include <linux/slab.h>
->
->  #include <acpi/apei.h>
-> +#include <acpi/ghes_cper.h>
->
->  #include <asm/fixmap.h>
->  #include <asm/tlbflush.h>
->
->  #include "apei-internal.h"
->
-> -/* Helper bodies will be moved here in follow-up commits. */
-> +static void __iomem *ghes_map(u64 pfn, enum fixed_addresses fixmap_idx)
-> +{
-> +       phys_addr_t paddr;
-> +       pgprot_t prot;
-> +
-> +       paddr =3D PFN_PHYS(pfn);
-> +       prot =3D arch_apei_get_mem_attribute(paddr);
-> +       __set_fixmap(fixmap_idx, paddr, prot);
-> +
-> +       return (void __iomem *) __fix_to_virt(fixmap_idx);
-> +}
-> +
-> +static void ghes_unmap(void __iomem *vaddr, enum fixed_addresses fixmap_=
-idx)
-> +{
-> +       int _idx =3D virt_to_fix((unsigned long)vaddr);
-> +
-> +       WARN_ON_ONCE(fixmap_idx !=3D _idx);
-> +       clear_fixmap(fixmap_idx);
-> +}
-> +
-> +static void ghes_ack_error(struct acpi_hest_generic_v2 *gv2)
-> +{
-> +       int rc;
-> +       u64 val =3D 0;
-> +
-> +       rc =3D apei_read(&val, &gv2->read_ack_register);
-> +       if (rc)
-> +               return;
-> +
-> +       val &=3D gv2->read_ack_preserve << gv2->read_ack_register.bit_off=
-set;
-> +       val |=3D gv2->read_ack_write    << gv2->read_ack_register.bit_off=
-set;
-> +
-> +       apei_write(val, &gv2->read_ack_register);
-> +}
-> +
-> +static void ghes_copy_tofrom_phys(void *buffer, u64 paddr, u32 len,
-> +                                 int from_phys,
-> +                                 enum fixed_addresses fixmap_idx)
-> +{
-> +       void __iomem *vaddr;
-> +       u64 offset;
-> +       u32 trunk;
-> +
-> +       while (len > 0) {
-> +               offset =3D paddr - (paddr & PAGE_MASK);
-> +               vaddr =3D ghes_map(PHYS_PFN(paddr), fixmap_idx);
-> +               trunk =3D PAGE_SIZE - offset;
-> +               trunk =3D min(trunk, len);
-> +               if (from_phys)
-> +                       memcpy_fromio(buffer, vaddr + offset, trunk);
-> +               else
-> +                       memcpy_toio(vaddr + offset, buffer, trunk);
-> +               len -=3D trunk;
-> +               paddr +=3D trunk;
-> +               buffer +=3D trunk;
-> +               ghes_unmap(vaddr, fixmap_idx);
-> +       }
-> +}
-> +
-> +/* Check the top-level record header has an appropriate size. */
-> +int __ghes_check_estatus(struct ghes *ghes,
-> +                               struct acpi_hest_generic_status *estatus)
-> +{
-> +       u32 len =3D cper_estatus_len(estatus);
-> +       u32 max_len =3D min(ghes->generic->error_block_length,
-> +                         ghes->estatus_length);
-> +
-> +       if (len < sizeof(*estatus)) {
-> +               pr_warn_ratelimited(FW_WARN GHES_PFX "Truncated error sta=
-tus block!\n");
-> +               return -EIO;
-> +       }
-> +
-> +       if (!len || len > max_len) {
-> +               pr_warn_ratelimited(FW_WARN GHES_PFX "Invalid error statu=
-s block length!\n");
-> +               return -EIO;
-> +       }
-> +
-> +       if (cper_estatus_check_header(estatus)) {
-> +               pr_warn_ratelimited(FW_WARN GHES_PFX "Invalid CPER header=
-!\n");
-> +               return -EIO;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +/* Read the CPER block, returning its address, and header in estatus. */
-> +int __ghes_peek_estatus(struct ghes *ghes,
-> +                              struct acpi_hest_generic_status *estatus,
-> +                              u64 *buf_paddr, enum fixed_addresses fixma=
-p_idx)
-> +{
-> +       struct acpi_hest_generic *g =3D ghes->generic;
-> +       int rc;
-> +
-> +       rc =3D apei_read(buf_paddr, &g->error_status_address);
-> +       if (rc) {
-> +               *buf_paddr =3D 0;
-> +               pr_warn_ratelimited(FW_WARN GHES_PFX
-> +"Failed to read error status block address for hardware error source: %d=
-.\n",
-> +                                  g->header.source_id);
-> +               return -EIO;
-> +       }
-> +       if (!*buf_paddr)
-> +               return -ENOENT;
-> +
-> +       ghes_copy_tofrom_phys(estatus, *buf_paddr, sizeof(*estatus), 1,
-> +                             fixmap_idx);
-> +       if (!estatus->block_status) {
-> +               *buf_paddr =3D 0;
-> +               return -ENOENT;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
-> +                              u64 buf_paddr, enum fixed_addresses fixmap=
-_idx,
-> +                              size_t buf_len)
-> +{
-> +       ghes_copy_tofrom_phys(estatus, buf_paddr, buf_len, 1, fixmap_idx)=
-;
-> +       if (cper_estatus_check(estatus)) {
-> +               pr_warn_ratelimited(FW_WARN GHES_PFX
-> +                                   "Failed to read error status block!\n=
-");
-> +               return -EIO;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +int ghes_read_estatus(struct ghes *ghes,
-> +                            struct acpi_hest_generic_status *estatus,
-> +                            u64 *buf_paddr, enum fixed_addresses fixmap_=
-idx)
-> +{
-> +       int rc;
-> +
-> +       rc =3D __ghes_peek_estatus(ghes, estatus, buf_paddr, fixmap_idx);
-> +       if (rc)
-> +               return rc;
-> +
-> +       rc =3D __ghes_check_estatus(ghes, estatus);
-> +       if (rc)
-> +               return rc;
-> +
-> +       return __ghes_read_estatus(estatus, *buf_paddr, fixmap_idx,
-> +                                  cper_estatus_len(estatus));
-> +}
-> +
-> +void ghes_clear_estatus(struct ghes *ghes,
-> +                              struct acpi_hest_generic_status *estatus,
-> +                              u64 buf_paddr, enum fixed_addresses fixmap=
-_idx)
-> +{
-> +       estatus->block_status =3D 0;
-> +
-> +       if (!buf_paddr)
-> +               return;
-> +
-> +       ghes_copy_tofrom_phys(estatus, buf_paddr,
-> +                             sizeof(estatus->block_status), 0,
-> +                             fixmap_idx);
-> +
-> +       /*
-> +        * GHESv2 type HEST entries introduce support for error acknowled=
-gment,
-> +        * so only acknowledge the error if this support is present.
-> +        */
-> +       if (is_hest_type_generic_v2(ghes))
-> +               ghes_ack_error(ghes->generic_v2);
-> +}
-> diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
-> index 2597fbadc4f3..2e3919f0c3e7 100644
-> --- a/include/acpi/ghes_cper.h
-> +++ b/include/acpi/ghes_cper.h
-> @@ -74,21 +74,21 @@ struct ghes_vendor_record_entry {
->         char vendor_record[];
->  };
->
-
-ditto. "include/acpi/cper.h"
-
-> -static struct ghes *ghes_new(struct acpi_hest_generic *generic);
-> -static void ghes_fini(struct ghes *ghes);
-> +struct ghes *ghes_new(struct acpi_hest_generic *generic);
-> +void ghes_fini(struct ghes *ghes);
->
-> -static int ghes_read_estatus(struct ghes *ghes,
-> +int ghes_read_estatus(struct ghes *ghes,
->                       struct acpi_hest_generic_status *estatus,
->                       u64 *buf_paddr, enum fixed_addresses fixmap_idx);
-> -static void ghes_clear_estatus(struct ghes *ghes,
-> +void ghes_clear_estatus(struct ghes *ghes,
->                         struct acpi_hest_generic_status *estatus,
->                         u64 buf_paddr, enum fixed_addresses fixmap_idx);
-> -static int __ghes_peek_estatus(struct ghes *ghes,
-> +int __ghes_peek_estatus(struct ghes *ghes,
->                         struct acpi_hest_generic_status *estatus,
->                         u64 *buf_paddr, enum fixed_addresses fixmap_idx);
-> -static int __ghes_check_estatus(struct ghes *ghes,
-> +int __ghes_check_estatus(struct ghes *ghes,
->                          struct acpi_hest_generic_status *estatus);
-> -static int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
-> +int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
->                         u64 buf_paddr, enum fixed_addresses fixmap_idx,
->                         size_t buf_len);
->
->
-> --
-> 2.43.0
->
->
