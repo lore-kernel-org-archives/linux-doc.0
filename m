@@ -1,64 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716FD4C81;
-	Thu, 26 Feb 2026 01:43:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAF537416C;
+	Thu, 26 Feb 2026 02:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772070236; cv=none; b=RHom6d7gA2KAW3UMEKq8UTqblyVuvl+Ouv7wmbBPhwqNi4RZhJMIWtgW71WGZyT+UVKXO3i1CMLZIi3eORXqotOQ3Q5QVWYjabjoKD2tvogd93MOET+tWq31nME3xMvH+uOUWIznDvSnGTUUKtbqdMln9TEZ6jHqb+VAZ7LJ554=
+	t=1772071578; cv=none; b=efXPcfDhssyDWM7d8l+S+6fQZuWquTINJb6RBRwIfWRITFRZFTwnqcHPjI04graySP3i+qhNM0H++gGgDuQVKrG6X1VZUqVDrZDPIhVvg+NLRbjUyzSZMdJ6j5eHD/MZbCeYyee+hHirasOQsUIG/s3iAsu8L0zgpmvkqUoCmcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772070236; c=relaxed/simple;
-	bh=BhOSzUokZoKHeOKyuPq1s+G4YR+ei6KQ4tjOOyLQcHI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tBsjm4NGlaPFUvtlv5sIH+PftPS9rH0de/rB+Wo5+L9P3kOiP29GTLIPjHcJK087MAtxiBvqdVW/d7c7EzOHSAsNIIr/1N8pfGMtWcyeRnUHw0T5hntw9d0vNM3EMige1HmjX5UHuaGCN5KlSjOfBj4OJVuuXoTpY1GNVXtn+n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TH8dlHy0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772071578; c=relaxed/simple;
+	bh=3yv/C2cGfmMb5IKP7aTlXkEj9I0ttJX/d1El7hGbw2U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VLlOE6wADJZh/yh93GW4wLCQ6ludqsOE0CBV0hGr0wjAmCe97ADgEEXkYR+nKlr5MiRsCg6oHBN8vqqR2hyi8NB9P3LcYiz+cAwYC4tO+ZRT/Lx47a1dsnY+3LG4f4LSDzbxu/NcqFGe9Ci5fiU1hDO5MInl5CwCUoemhUQKTDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=p6MaZ94p; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TH8dlHy0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FEECC116D0;
-	Thu, 26 Feb 2026 01:43:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772070236;
-	bh=BhOSzUokZoKHeOKyuPq1s+G4YR+ei6KQ4tjOOyLQcHI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TH8dlHy09Wl9FaoynpvrWJL4oNYG+s2COlHlck9FZzFcMdn19JhI6HSJVeo1gtheI
-	 FcnB5m3DgVsGf3LSovrVpniu482tiJQXAEShru8nQRGLCk61vOTv9P+p9TKlyLu8eV
-	 /60g8cdDsM3jxUWAr4yF3e0g0HnwP85EtpfVTRrpJ7gc8s66+EtS3i72mmez99wTTq
-	 NbuJILrhSEP4JyPiXb6Th+EbomCPHifZhm5xuDb29l/AgEbMWeZZC4vB7tnmrRqyIU
-	 rpRo1SKvaOeeBu89y9axRnS593kiQNGerjb6FiY2KuUxcCE7SWA/xSPDLJHtV1jxtY
-	 E+k8DeSalJxpg==
-Date: Wed, 25 Feb 2026 17:43:54 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Leon Hwang <leon.huangfu@shopee.com>
-Cc: netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, David Ahern <dsahern@kernel.org>, Neal
- Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
- Ilpo =?UTF-8?B?SsOkcnZpbmVu?= <ij@kernel.org>, Ido Schimmel
- <idosch@nvidia.com>, kerneljasonxing@gmail.com, lance.yang@linux.dev,
- jiayuan.chen@linux.dev, Leon Hwang <leon.hwang@linux.dev>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH net-next] tcp: Add net.ipv4.tcp_purge_receive_queue
- sysctl
-Message-ID: <20260225174354.5a698ddb@kernel.org>
-In-Reply-To: <20260225074633.149590-1-leon.huangfu@shopee.com>
-References: <20260225074633.149590-1-leon.huangfu@shopee.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="p6MaZ94p"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=0a+DuFrY2dECD/MNyDqv47h3TRZqMfre5JcIARl9yKs=; b=p6MaZ94pjopVrpFOBip5Pro8Gj
+	GX+iJISmX5kvB63LpzMbzvpcJvzdiOxu8BopLYgi//DdQbJQZdrnwGLfqjWMpP5HdWU/6IJtADtbx
+	IJC157xC5Jb+5V1LWxrdtkH0F/lyu7AecOZ77q/pNQUEGP0IbT8UG5mkpgwqUWLG/j9+YwFzISQTb
+	baikeP9v3zl0/zbv4fg+YXwjt8eVzNcCW0Zh3WzTYiFzFkeyxgy9KoYbQBMxTNBHCFS6t8iQvLXZj
+	OixIj27a6rYGEHt/ApKw7qgZYcDQV5NgGwiqvc8zOfCwWLYe8/Si+m9RqolkGkaGo18zkYBew3Uwz
+	CsJpHlTw==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vvQlc-00000005DnS-1APU;
+	Thu, 26 Feb 2026 02:06:16 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Namjae Jeon <linkinjeon@kernel.org>,
+	Hyunchul Lee <hyc.lee@gmail.com>,
+	linux-fsdevel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] ntfs: repair docum. malformed table
+Date: Wed, 25 Feb 2026 18:06:15 -0800
+Message-ID: <20260226020615.495490-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 25 Feb 2026 15:46:33 +0800 Leon Hwang wrote:
-> Issue:
-> When a TCP socket in the CLOSE_WAIT state receives a RST packet, the
-> current implementation does not clear the socket's receive queue. This
-> causes SKBs in the queue to remain allocated until the socket is
-> explicitly closed by the application. As a consequence:
-> 
-> 1. The page pool pages held by these SKBs are not released.
+Make the top and bottom borders be that same length to
+avoid a documentation build error:
 
-On what kernel version and driver are you observing this?
+Documentation/filesystems/ntfs.rst:159: ERROR: Malformed table.
+Bottom border or header rule does not match top border.
+
+(top)
+======================= ===================================================
+(bottom)
+======================= ==================================================
+
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Namjae Jeon <linkinjeon@kernel.org>
+Cc: Hyunchul Lee <hyc.lee@gmail.com>
+Cc: linux-fsdevel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+
+ Documentation/filesystems/ntfs.rst |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- linux-next-20260225.orig/Documentation/filesystems/ntfs.rst
++++ linux-next-20260225/Documentation/filesystems/ntfs.rst
+@@ -39,7 +39,7 @@ Supported mount options
+ 
+ The NTFS driver supports the following mount options:
+ 
+-======================= ===================================================
++======================= ====================================================
+ iocharset=name          Character set to use for converting between
+                         the encoding is used for user visible filename and
+                         16 bit Unicode characters.
+@@ -156,4 +156,4 @@ windows_names=<BOOL>    Refuse creation/
+ discard=<BOOL>          Issue block device discard for clusters freed on
+                         file deletion/truncation to inform underlying
+                         storage.
+-======================= ==================================================
++======================= ====================================================
