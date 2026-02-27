@@ -1,102 +1,114 @@
-Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2310338A72B;
-	Fri, 27 Feb 2026 08:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A23A436BCFA;
+	Fri, 27 Feb 2026 09:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772180876; cv=none; b=t9F2JZVOGwdNL/Clqgffr17gWcaeIgpvv6iBJT8/IeyWs7TF5Hn+9XSv97FzfyhpsZG4dRjzv3YbJjvHDpORHfPntMPpa5ZXbRYVYdz8qDVEBveDwQXNBBJUNw80c3VnPWfVMgaS/bQpGpQxuwi+FFzgcU16c9TreDw6/ZXXTWs=
+	t=1772183048; cv=none; b=s+dDKQTp1ROnTVbzuLbLLsD9DHHLcLAA5+vqLNZSqLX9YBJM4eCLNZYCjJqxPPrtLzMLzxu3Im4VXAns4h7GchCf0uWUNR+X37vnLl6SSUcumXpMGxuV+efJHqepIMn8JpEcgfqV9sOsg+4P0GpAazhVS9kox/F1J45NFqO3ic0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772180876; c=relaxed/simple;
-	bh=6C3cMM/gHC6Ff7yqF4c0Tovc8j6lpGWIr+4iZ/HJVcY=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M11K2rednOAqemkwGa1qZdM2JVPOFoeDCF0Be1CNy7y2vFq43O+9TVJRr0FrxAFq7DS4VaQ4kU4/5QYrDMxQlSZFfyjNvslqBmJYq7q4nvZ665pFxi+PePv9Ztrw8M+xiQmD3Gcdk613SjhmHHzKPAbu0u5cGsoChTieMkfNOXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=BUbKSCA8; arc=none smtp.client-ip=79.135.106.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1772183048; c=relaxed/simple;
+	bh=ULqmscrmRYbb7GaDQ1iw2PdzZRP98XQa3VtXm4mRQjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dLXXTwA957pysy1sju1fMG9S7fvUojYwfp/4+xECByVMQWKjrpgPsFWOqv7U/smdaQDwEe09m3lzS0b0Ym/rSrgCOC0QM9TZ38mMqy4lly7OUj0H1p7KXkCzdi+Qm3Ra+piBBnqzobK/CTtE8e7UyYPmWcwvFqnJfFfluG/Y/v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bV3DNDdY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="BUbKSCA8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1772180869; x=1772440069;
-	bh=w1GCmvI9nDdcfpwv/EBNLFU8kur4WRAZzbZH+/hHGr4=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=BUbKSCA8rMLpH4diWu8+qNpkBu8rwdNvP3PQX7+KdePmgbyPDqqkofUa0Q1gDf4N5
-	 vNi7PAt9rxLG0sC22KHfiv4sVrIIAgxEXWUHxGBLw3BcL2RDYRCKgWvGoOx+j2EECT
-	 2L9peFmczADoIso6h+zfazpGTslRpa78reEUcqfRhv51tU3MscxoKc2Kx5ov+2QQPJ
-	 sTUzeNzHd+l2vCJi0eR8cAbvTYpTf+Yl4vBO38h5TvxAZzgYnEjjLcscOFaBtdsjEd
-	 xIUNLnhnVbi+eTHzHcjmxiaEy3SpkmMKUASLYv0MctPQZ2m3j9M/hFrDU4QUdU39dW
-	 9ieH08Jp5rs2g==
-Date: Fri, 27 Feb 2026 08:27:44 +0000
-To: Dave Hansen <dave.hansen@intel.com>
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kasan-dev@googlegroups.com, workflows@vger.kernel.org
-Subject: Re: [PATCH v10 13/13] x86/kasan: Make software tag-based kasan available
-Message-ID: <aaFVCivIQ1kjKhUZ@wieczorr-mobl1.localdomain>
-In-Reply-To: <fb8d8d51-66c8-4cb1-8b14-bc670c629afa@intel.com>
-References: <cover.1770232424.git.m.wieczorretman@pm.me> <8fd6275f980b90c62ddcb58cfbc78796c9fa7740.1770232424.git.m.wieczorretman@pm.me> <f25c328f-4ce7-4494-a200-af4ba928e724@intel.com> <aZ1qOpMc9PohArcL@wieczorr-mobl1.localdomain> <fb8d8d51-66c8-4cb1-8b14-bc670c629afa@intel.com>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: 98763143edaccaef44e93295f566fd10be419899
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bV3DNDdY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE6E0C116C6;
+	Fri, 27 Feb 2026 09:04:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772183048;
+	bh=ULqmscrmRYbb7GaDQ1iw2PdzZRP98XQa3VtXm4mRQjU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bV3DNDdY9xhWKrvNO/Wuy+ina1DeOPshRfqwbuTvmPjwRx4yGWjfQVOgUGjL9uVMz
+	 jn9nl5F9K8IhoNQLMCgFUH+GwmMQjIB5QuGp7Bt2NGg+KO+KkooOYyQUKMC14i5Hbn
+	 U+rwxMtwtNNVF6xJ8KqiYPYB8xqqE5zPgytc64riiVotu95z9lGEZbQtVqXrVuOewd
+	 XNCpS2TWddFXJVBwHUJe+rl3evQjIJlQSeutsmpSHggaEe8uGS62b8/FNSMNSKTmTH
+	 lmoxE/xzS2yUe7U3f8TvMsax/mz/zTfFJ6W0NylHRtRMeUr05tjwISn8pY1SmERF+f
+	 D83rEBW+zmhKA==
+Date: Fri, 27 Feb 2026 09:04:01 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Daniel Baluta <daniel.baluta@oss.nxp.com>
+Cc: Ioana Ciocoi-Radulescu <ruxandra.radulescu@nxp.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	Jiwei Fu <jiwei.fu@nxp.com>, Forrest Shi <xuelin.shi@nxp.com>,
+	Alexandru Taran <alexandru.taran@nxp.com>
+Subject: Re: [PATCH 3/9] dt-bindings: npu: Add bindings for NXP Neutron
+Message-ID: <20260227-shakable-mummified-ba7bb54e0e05@spud>
+References: <20260226-neutron-v1-0-46eccb3bb50a@nxp.com>
+ <20260226-neutron-v1-3-46eccb3bb50a@nxp.com>
+ <20260226-unthread-reformat-92b855c4acf9@spud>
+ <16172163-8aef-4d94-be62-70e159aae182@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HGUIQTmEq3BO0PCt"
+Content-Disposition: inline
+In-Reply-To: <16172163-8aef-4d94-be62-70e159aae182@oss.nxp.com>
+
+
+--HGUIQTmEq3BO0PCt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 2026-02-26 at 15:29:15 -0800, Dave Hansen wrote:
->On 2/24/26 01:10, Maciej Wieczor-Retman wrote:
->>>> -   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN=
- shadow memory
->>>> +   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN=
- shadow memory (generic mode)
->>>> +   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN=
- shadow memory (software tag-based mode)
->>>>    __________________|____________|__________________|_________|______=
-______________________________________________________
->>> I think the idea of these is that you can run through, find *one* range
->>> and know what a given address maps to. This adds overlapping ranges.
->>> Could you make it clear that part of the area is "generic mode" only an=
-d
->>> the other part is for generic mode and for "software tag-based mode"?
->> Boris suggested adding a footnote to clarify these are alternative range=
-s [1].
->> Perhaps I can add a star '*' next to these two so it can notify someone =
-to look for
->> the footnote?
->>
->> [1] https://lore.kernel.org/
->> all/20260113161047.GNaWZuh21aoxqtTNXS@fat_crate.local/
->
->
->I'd rather this be:
->
->  ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shado=
-w memory[1]
->
->...
->
->1. talk about the ranges here. Maybe: Addresses <ffeffc0000000000 are used=
- by
->   KASAN "generic mode" only. Addresses >=3Dffeffc0000000000 can additiona=
-lly
->   be used by the software tag-based mode.
->
->Or, list both ranges as separate:
->
->  ffdf000000000000 |   -8.25 PB | ffeffbffffffffff |   ~8 PB | KASAN shado=
-w memory (generic mode only)
->  ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN shado=
-w memory (generic or
->=09=09=09=09=09=09=09=09=09=09    software tag-based)
->and describe the same use (generic mode) twice.
+On Fri, Feb 27, 2026 at 08:45:29AM +0200, Daniel Baluta wrote:
+> On 2/26/26 20:20, Conor Dooley wrote:
+> [..]
+> >> +  - |
+> >> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> >> +    #include <dt-bindings/interrupt-controller/irq.h>
+> >> +
+> >> +    bus {
+> >> +      #address-cells =3D <2>;
+> >> +      #size-cells =3D <2>;
+> >> +
+> >> +      neutron@4ab00000 {
+> > "neutron" is not a generic node name. This should be something like
+> > "accelerator" or similar.
+> >
+> The only dts nodes I could find using accel subsystem are from rockhip. A=
+nd they use npu@
+>=20
+> e.g:
+>=20
+> =BB=A0 =A0 =A0 =A0rknn_core_0: npu@fdab0000 {
+> =BB=A0 =A0 =A0 =A0=BB=A0 =A0 =A0 =A0compatible =3D "rockchip,rk3588-rknn-=
+core";
+>=20
+> Also, Ethos-U64 introduced by Rob with [1] is using npu@.
+>=20
+> So, I think we should go wit that. I haven't seen any document to standar=
+dize the naming.
 
-Thanks, I like the first option, I'll work on that.
+accelerator, npu, makes no difference to me, so sure.
 
---=20
-Kind regards
-Maciej Wiecz=C3=B3r-Retman
+--HGUIQTmEq3BO0PCt
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaaFeAQAKCRB4tDGHoIJi
+0jXWAQDkJ0uqFe0zBBD97N8Nc9W1uspEgrsZpTqEwgxIVIlnKwD/SKBKuEJxP5os
+9i6n1nocp64AivMzqCek95MinbTDIgQ=
+=lAaA
+-----END PGP SIGNATURE-----
+
+--HGUIQTmEq3BO0PCt--
