@@ -1,102 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9886436EA93
-	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 20:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C3B43DA53
+	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 20:55:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772224602; cv=none; b=rylCIv9P4xLnpva9EhOEOiwflkfMWsQAaV/mZx2wNiON2p3z9RZsycDr7AvOId8U0qWhkNyOra9HUu3xtvKR9Wiu9D/SjHPOKZOLXIH4sOZZ3Tirf/xvUTflquQnIXnHmeXOF01P6KqueL6Pxx5eNMl0cL0ip1ycAQw0W0+SSJg=
+	t=1772225737; cv=none; b=kurgs7vDqbO4nIAXqtOpLmg3/zkOzCYImQeX8Glne7mBMT7sBe5gGMXae3k24yaFtlP0bxjZukG/5KWtHnY+rAVcLBcfzKB4GvkX0IYlM0QJXEYob3N1SaZ50E+ktzxglpeRjYYHt9zjeBG90viXQBPYKKCV5QXz1EjbhMw+MHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772224602; c=relaxed/simple;
-	bh=mg9sfrdjj9Rxh2K/4kD1npVTFhhd/pgaXjnGwsMfUKE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ASpQZrnZKhcIqyTYZPkbHNzfXStlN3bNZhDKdYPYIof3OgNxDaONgYd+ZW20Rdjwk2ohtzAouqAO768vr4dPToHv8Lb0B3sWqSYH1T3DcyfKOgpQRj3mWHxYTkoxlp6HTh8ADAArJVNwopx4+wZJVgKgq19KYFejDFSv2BwcIjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sv9wUJBS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772225737; c=relaxed/simple;
+	bh=DP9ajAgSruMYWtuMMFB8M+Q3jGOja+8ctB8ay1J+sFg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ERrNzjtBpL8nwHf0/1qVI61XgwZwSzWbHx3s6rJG4acuCbwwL91KQ5wgeXqyY1MTlufyyIt6SKDn1g+GXeeDxqb+wsJB+Fvui7bkOh+pOuGW6OwtXf2NzChyohZ5fQk2LJMezSOcfSYCvFmH4aI2I0PyPiz4xgrF6M/VoafLuV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EDoyTUm+; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sv9wUJBS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65663C2BCB4
-	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 20:36:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772224602;
-	bh=mg9sfrdjj9Rxh2K/4kD1npVTFhhd/pgaXjnGwsMfUKE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=sv9wUJBSLNM/iugNZfMmvn+QqKUYCLlHWqFVIp/SsbR8KDw53ukPHiP2dU1QRI/Q8
-	 uAPMPlKyAvZlEIRDOwk8pWDVQ5OSslwiOKEXxQ7K8+uvZRf4TK7OE8vvkKDjT5v7Gb
-	 DMhV3cQMGuFkjZyoOG7zcy/ByiZnJeQigW3dcItLwRRK+QoF/AjU0eM0L5FqirUhYc
-	 JBHTqKI2U036ynmRbzdqYpkU07pat515hWNpqOdJiYmChR8jEAjDPSPsY3kWwdFqGW
-	 qaBtIKnvZPZ0cWahQmsHpCwKqHah04dVo4lNKeEfxcWJUnTZZL85ZP+1P80jpzTK8J
-	 GHfJBWpiiex3w==
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7d4beaf25deso3142498a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 12:36:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXnC9x323BWm2l1jaUTC/jhuaen+9qUaj1XLDK8mdd+YKYY0K0tS63YobuW5nWNvUVyWn4EtwONQEo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6lJKKMpdySoNot1fexTcSeUrAjL8VJDhl+FRfT3j1UTGEzImA
-	iOD1nGJKkbylBWx6fqmKBKqn+RrsyEPTeNjYumqvkkSIMhmXbWsq9R4MvEJ01Kh2oAINZfkheNn
-	W7pbkIC+mXwO+7UeZrJB9MfYxmdZq0YE=
-X-Received: by 2002:a4a:edc9:0:b0:672:397d:5da2 with SMTP id
- 006d021491bc7-679fb55a57bmr2115102eaf.25.1772224601395; Fri, 27 Feb 2026
- 12:36:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EDoyTUm+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772225737; x=1803761737;
+  h=date:from:to:cc:subject:message-id;
+  bh=DP9ajAgSruMYWtuMMFB8M+Q3jGOja+8ctB8ay1J+sFg=;
+  b=EDoyTUm+OYo5Pu6FlszHZ7rwedh36VuH1xGhFWe+NJei9w9iMY2xcI2+
+   LecHOP/vGrNQdiDsE9HxRhBUSaIW1vZBCON1UlJelHVQfZXBZfLFxavoF
+   I16xw7mppDffRgMVSiwmUoZz3D2CE0qtjko8bDHjWlW7vVnN7APiWUCxC
+   Dr2vf5vDHaXjjFkuBz0y86jpPodoRbyEKYE3bjTxnOIH1PNcignr7jEeD
+   S723+Xsv/Z3U9cifUvKFRZzB7rwSJ/4RObhinzhI3Svx6Y/6EmCpSzFG8
+   yTFbV5yfQptRC8YGNh3MGVdkRWrtlIdkY8volWM0fT3Q+DJQrHRAP6hP6
+   w==;
+X-CSE-ConnectionGUID: +fptvclXQAeFNu/VH6yFvw==
+X-CSE-MsgGUID: 3uQelpa5RkqIHnNPQxujAw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73021635"
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
+   d="scan'208";a="73021635"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 12:55:36 -0800
+X-CSE-ConnectionGUID: 1TZ0PMkKSpyvSXEXwHnYUw==
+X-CSE-MsgGUID: MkCVZYyHQmSG4ul6r4YCJQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
+   d="scan'208";a="247505727"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 27 Feb 2026 12:55:34 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vw4rz-000000000cL-3euQ;
+	Fri, 27 Feb 2026 20:55:31 +0000
+Date: Fri, 27 Feb 2026 21:55:29 +0100
+From: kernel test robot <lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+ "Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 2414/2910] htmldocs: Warning:
+ Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+Message-ID: <202602272154.VcM04DJL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260206142658.72583-1-sumitg@nvidia.com> <48b52f98-119e-4693-806b-78d47f7a43bb@nvidia.com>
-In-Reply-To: <48b52f98-119e-4693-806b-78d47f7a43bb@nvidia.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Fri, 27 Feb 2026 21:36:30 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0iOsqoZx0EZ3AqEk_8mrGxSj6wj-m8phRJ0cT71NTuBWA@mail.gmail.com>
-X-Gm-Features: AaiRm53Rvoc1jPRsW_C3wm3K2uu7f-OR6f-nyVhpAFv0qIGeTAbPKLPHLqUbNQc
-Message-ID: <CAJZ5v0iOsqoZx0EZ3AqEk_8mrGxSj6wj-m8phRJ0cT71NTuBWA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/7] Enhanced autonomous selection and improvements
-To: Sumit Gupta <sumitg@nvidia.com>
-Cc: rafael@kernel.org, viresh.kumar@linaro.org, pierre.gondois@arm.com, 
-	zhenglifeng1@huawei.com, ionela.voinescu@arm.com, lenb@kernel.org, 
-	robert.moore@intel.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ray.huang@amd.com, gautham.shenoy@amd.com, mario.limonciello@amd.com, 
-	perry.yuan@amd.com, zhanjie9@hisilicon.com, yumpusamongus@gmail.com, 
-	dedekind1@gmail.com, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, treding@nvidia.com, 
-	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com, 
-	sanjayc@nvidia.com, nhartman@nvidia.com, mochs@nvidia.com, bbasu@nvidia.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 26, 2026 at 2:59=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com> wro=
-te:
->
->
-> > This patch series improves the CPPC cpufreq driver with new ACPI APIs
-> > and enhancements for Autonomous Selection (auto_select).
-> >
-> > CPPC auto_select enables hardware-driven CPU performance scaling using
-> > Energy Performance Preference (EPP) hints. Currently, there's limited
-> > runtime control and visibility into CPPC performance registers.
-> >
-> > The series adds cppc_get_perf() API to read performance controls, updat=
-es
-> > MIN_PERF/MAX_PERF in target callbacks using existing scaling_min/max_fr=
-eq
-> > interface similar to intel_cpufreq HWP handling, and exposes perf_limit=
-ed
-> > register via sysfs to detect throttling events.
-> >
-> > The patches are grouped as below:
-> > - Patch 1: Add cppc_get_perf() API (independent).
-> > - Patch 2: Warn on missing mandatory DESIRED_PERF (independent).
-> > - Patch 3: Extend cppc_set_epp_perf for FFH/SystemMemory (independent).
-> > - Patch 4: Update cached perf_ctrls on sysfs write (independent).
-> > - Patch 5: Update MIN_PERF/MAX_PERF in target callbacks (depends on 4).
-> > - Patch 6-7: APIs, sysfs and doc for perf_limited (independent).
->
-> Gentle ping.
->
-> If there are no further comments, could this be considered for merging.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   3fa5e5702a82d259897bd7e209469bc06368bf31
+commit: 5a8ffc5dca9c096fe9c8879fa3a2faff723fbb8a [2414/2910] regulator: dt-bindings: cpcap-regulator: convert to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260227/202602272154.VcM04DJL-lkp@intel.com/reproduce)
 
-Applied as 7.1 material, thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202602272154.VcM04DJL-lkp@intel.com/
 
-That said, wouldn't it be prudent to check cpc_read() return values everywh=
-ere?
+All warnings (new ones prefixed by >>):
 
-They are handled quite inconsistently and this series doesn't improve that.
+>> Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+>> Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
+   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
