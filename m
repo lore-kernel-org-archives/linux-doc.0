@@ -1,169 +1,330 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A2B41B34D;
-	Fri, 27 Feb 2026 19:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772220307; cv=pass; b=KY0LToHwAwOuPQGIIe7xbYt+wyoRr4z7JdvGFF6KiT16rvqWeky+d0thzGNFfsRVrOyOdUBPU/a+naYlI9Nhvs5e17FJQbJcSo6HBncblyt4QVJ4G7GfNH3+GTv9fmUNYuhO4CUVSOI6W/DyQ8bSDwOazne0L9yFaqFYw+8rg+0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772220307; c=relaxed/simple;
-	bh=XAO+o9C6CXrNpJ8gSeMZuoNlLdd8/SKSzGTiMQSwQv8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DKPo1KdJ2SVqllj/NkVeI9oSHa9hF1fK7qoZKkWDp1YiS7FksuY/S6sH+ggEkOzyV9DdymhciMJWfS6fnFJZkAwkjEc6Q+nfiKEbU1Xa4yAjUdM8Ib90eeBmNImIeW9htIQAsL5TooqjNGN+mopr0PJvbAsFMB5w5dAQyqlJruI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=CH4N7j+X; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2884D332629;
+	Fri, 27 Feb 2026 19:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772220632; cv=none; b=krPbI+hvuR5F8WV2xXw/XLSHpuSAiCNVTX16wtqC1lq+xMR9woDs6JbGuUMMeKeTJA6lZSdG9lLrXRR0p9NWX1Xcpp0IipGWsztm+Ab8g8W2w3ZhxOe2U+zKoyzKGN3XD21y0yAIC9v5OxxmfWSwRUW1wqT04LTfA1uyOEdfMBE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772220632; c=relaxed/simple;
+	bh=Eqd+kkKOLROO+nOoXS7ZuwJRjspyFKG6DtwT0T4pgSU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c6vzpAgNW/I67fAxs81GdD0rpEr9ZLcyCbwvNFB53088J3AE4ne0QAyBqkOAjXBYNmJth1fmHiE9OYpF4HpG0pBMYEUQVH1OiJy1moRXf6ccOFnGPfBC6FcwSuGHKNv9B11baNWKnFDL5FSh3tfYRUU5VUVcrh0xqmHjLChycz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j9F5EjRW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="CH4N7j+X"
-ARC-Seal: i=1; a=rsa-sha256; t=1772220180; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=P2pzPoFvy0wU/x1Gyo/7UXFShSqFzHf1Ufiy/IiOeWMVi7abFUPvnPtM0iUX54ktqMVkuAPQadaBgoBPlj2GGJxdXdaZOijunRp9YwnRkQKd7oU1apCtIa2/NR1DG0CRKznvGXpFPsL0/ZoHMMqDUhcNcMJhL1RbfIJAwVlkD0I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772220180; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=2cUtFea6Xahy8xUmQNtz3A7vjD+5c56XmJo8KM/uRi4=; 
-	b=BXUOrITizjsYDzIshH/s7p8CFp+5WomRz8L6td11kdrpw4WX7gQrPafonGJ5tmEwh/oenDe/rOXzKj9/qq8MuB4rundIfgRlX8eaJojn9RqAH2yHzk/MFkgcECqHyr5Bgqv7ntC805HL52MHPlxHMFpKhI5vIAcjRU8+WX+z6Hg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772220180;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=2cUtFea6Xahy8xUmQNtz3A7vjD+5c56XmJo8KM/uRi4=;
-	b=CH4N7j+X6O/PSdWKZjDZoUc7rSQfogTTA1B0ModHEUrCekEKaDgfNt/Uk9jDWIuN
-	4YXwiHa1BC68w2/zeY7Prb2f2hw0YNVSpRv3Y4oxZ0ezVmgozZfTwdPFXkyzm7VfqFQ
-	P9Ap1VdGLZajvX9DuwjQGo6Kaa2GexM73Th5E4i0=
-Received: by mx.zohomail.com with SMTPS id 1772220177756116.00125529261277;
-	Fri, 27 Feb 2026 11:22:57 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Fri, 27 Feb 2026 20:20:24 +0100
-Subject: [PATCH v9 19/19] drm/bridge: Document bridge chain format
- selection
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j9F5EjRW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02261C4AF0C;
+	Fri, 27 Feb 2026 19:30:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772220632;
+	bh=Eqd+kkKOLROO+nOoXS7ZuwJRjspyFKG6DtwT0T4pgSU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=j9F5EjRWL9CMBHGg0nbmI4UuR9QbTgntXKnK3a9ZLkWa3uTpGBmnd0DAiATqNK3o5
+	 EPyuPh/P6ni/a3ujMesNMZ7CSaAS4JShXE7+Rmr6CpUiLPnkT9kFg4yAsuOjIdLtD9
+	 fO4/qE7IHA9zNLSdVmgRgT/JtOk2QwgJ7nb2Zts3c79S1rUBw66zlY8s7Z1IG81UVf
+	 PgZ0cXDc4dcZ7Sm1q6u8i+RspoWZ1GEMqtLjmHXmyekBMSSk8v7b/YRfPRQ7QLy3ac
+	 377Gu7tGIad8VOc2X1wpKJFZg6XoJQyG4zkPEC+VzfaHOp847e81d/5oALSJjYyS2Q
+	 uKOGaQgGZHVqg==
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.phl.internal (Postfix) with ESMTP id E6BE7F40068;
+	Fri, 27 Feb 2026 14:30:29 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Fri, 27 Feb 2026 14:30:29 -0500
+X-ME-Sender: <xms:1fChaaWypHrOXhHiQdd5RjnFfCrOlqV3v_auBD8bLx4X9vgv4NvQsA>
+    <xme:1fChafxXbUZVBLDYxL46mYahqqgkAKY3h7nhFpJqVXhEZVh4h9gtQ7NPr6lzjlXWl
+    s3EsKUK_ip7EX8pEsAlCta9qXqfa6k_TNIBfYFU3cE3B7jfKBPm6Po>
+X-ME-Received: <xmr:1fChaYi_mNsXeccnaTEkpBXSYkYVgS5gdV-2eMtDAcFEJbAY7XLnU6ylTsdgQw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeelkeegucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkoffoggfgsedtkeertdertddtnecuhfhrohhmpedfmfhirhihlhcu
+    ufhhuhhtshgvmhgruhculdfovghtrgdmfdcuoehkrghssehkvghrnhgvlhdrohhrgheqne
+    cuggftrfgrthhtvghrnhepfeetjeeuieevffelgeelvdegtdetvddviefgtdfhjeetkeev
+    tdelkeduffehjedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepkhhirhhilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqddu
+    ieduudeivdeiheehqddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghessh
+    hhuhhtvghmohhvrdhnrghmvgdpnhgspghrtghpthhtohepvdekpdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorh
+    hgpdhrtghpthhtohepmhhutghhuhhnrdhsohhngheslhhinhhugidruggvvhdprhgtphht
+    thhopegurghvihgusehrvgguhhgrthdrtghomhdprhgtphhtthhopeifihhllhihsehinh
+    hfrhgruggvrggurdhorhhgpdhrtghpthhtohepuhhsrghmrggrrhhifheigedvsehgmhgr
+    ihhlrdgtohhmpdhrtghpthhtohepfhhvughlsehgohhoghhlvgdrtghomhdprhgtphhtth
+    hopehoshgrlhhvrgguohhrsehsuhhsvgdruggvpdhrtghpthhtoheprhhpphhtsehkvghr
+    nhgvlhdrohhrghdprhgtphhtthhopehvsggrsghkrgesshhushgvrdgtii
+X-ME-Proxy: <xmx:1fChaSMQoXqbtZjJb7Ht37uRRKH-0qlxKIXp01X_ehMwG2rST0PpMA>
+    <xmx:1fChaQg7Ego0t6dZrrFAyVAtE75bUCPaICgSLpR9ITbmHVWwQmdZew>
+    <xmx:1fChaSrWd4LuLNdencqDMNrVjsQoHjJBg1wgtr81EPsk2v9APr7jSA>
+    <xmx:1fChabhTjT5Ef8NE_KbHK_NUs6cC84utFJ0lugVTT1hQRgtgcB3Y-w>
+    <xmx:1fChaYLVC8cQTmqXfIaVC38Oks4G7ZNDgl7VKPpFDo45uSehc5lDaMXe>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 27 Feb 2026 14:30:29 -0500 (EST)
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Muchun Song <muchun.song@linux.dev>,
+	David Hildenbrand <david@redhat.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Usama Arif <usamaarif642@gmail.com>,
+	Frank van der Linden <fvdl@google.com>
+Cc: Oscar Salvador <osalvador@suse.de>,
+	Mike Rapoport <rppt@kernel.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Baoquan He <bhe@redhat.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	kernel-team@meta.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: [PATCHv7 00/17] mm: Eliminate fake head pages from vmemmap optimization
+Date: Fri, 27 Feb 2026 19:30:01 +0000
+Message-ID: <20260202155634.650837-1-kas@kernel.org>
+X-Mailer: git-send-email 2.51.2
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260227-color-format-v9-19-658c3b9db7ef@collabora.com>
-References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
-In-Reply-To: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+X-getmail-retrieved-from-mailbox: Inbox
+Tags: inbox
+Content-Transfer-Encoding: 8bit
+Message-ID: <20260227193001.7FJRazzJPR-OFsixM_TIvPK0aVXOpUIoxQMtTZ2XZyU@z>
 
-The bridge chain format selection behaviour was, until now,
-undocumented. With the addition of the "color format" DRM property, it's
-not sufficiently complex enough that documentation is warranted,
-especially for driver authors trying to do the right thing.
+This series removes "fake head pages" from the HugeTLB vmemmap
+optimization (HVO) by changing how tail pages encode their relationship
+to the head page.
 
-Add a high-level overview of how the process is supposed to work, and
-mention what the display driver is supposed to do if it wants to make
-use of this functionality.
+It simplifies compound_head() and page_ref_add_unless(). Both are in the
+hot path.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
- drivers/gpu/drm/drm_bridge.c          | 40 +++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+Background
+==========
 
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 781129f78b06..47c4f593cf9d 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -181,6 +181,12 @@ Bridge Operations
- .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-    :doc: bridge operations
- 
-+Bridge Chain Format Selection
-+-----------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-+   :doc: bridge chain format selection
-+
- Bridge Connector Helper
- -----------------------
- 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 5938fba0a983..74f9af3f301e 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -198,6 +198,46 @@
-  * driver.
-  */
- 
-+/**
-+ * DOC: bridge chain format selection
-+ *
-+ * A bridge chain, from display output processor to connector, may contain
-+ * bridges capable of converting between bus formats on their inputs, and
-+ * output formats on their outputs. For example, a bridge may be able to convert
-+ * from RGB to YCbCr 4:4:4, and pass through YCbCr 4:2:0 as-is, but not convert
-+ * from RGB to YCbCr 4:2:0. This means not all input formats map to all output
-+ * formats.
-+ *
-+ * Further adding to this, a desired output color format, as specified with the
-+ * "color format" DRM property, might not correspond 1:1 to what the display
-+ * driver should set at its output. The bridge chain it feeds into may only be
-+ * able to reach the desired output format, if a conversion from a different
-+ * starting format is performed.
-+ *
-+ * To deal with this complexity, the recursive bridge chain bus format selection
-+ * logic starts with the last bridge in the chain, usually the connector, and
-+ * then recursively walks the chain of bridges backwards to the first bridge,
-+ * trying to find a path.
-+ *
-+ * For a display driver to work in such a scenario, it should read the first
-+ * bridge's bridge state to figure out which bus format the chain resolved to.
-+ * If the first bridge's input format resolved to %MEDIA_BUS_FMT_FIXED, then its
-+ * output format should be used.
-+ *
-+ * Special handling is done for HDMI as it relates to format selection. Instead
-+ * of directly using the "color format" DRM property for bridge chains that end
-+ * in HDMI bridges, the bridge chain format selection logic will trust the logic
-+ * that set the HDMI output format. For the common HDMI state helper
-+ * functionality, this means that %DRM_CONNECTOR_COLOR_FORMAT_AUTO will allow
-+ * fallbacks to YCBCr 4:2:0 if the bandwidth requirements would otherwise be too
-+ * high but the mode and connector allow it.
-+ *
-+ * For bridge chains that do not end in an HDMI bridge,
-+ * %DRM_CONNECTOR_COLOR_FORMAT_AUTO will be satisfied with the first output
-+ * format on the last bridge for which it can find a path back to the first
-+ * bridge.
-+ */
-+
- /* Protect bridge_list and bridge_lingering_list */
- static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
+HVO reduces memory overhead by freeing vmemmap pages for HugeTLB pages
+and remapping the freed virtual addresses to a single physical page.
+Previously, all tail page vmemmap entries were remapped to the first
+vmemmap page (containing the head struct page), creating "fake heads" -
+tail pages that appear to have PG_head set when accessed through the
+deduplicated vmemmap.
+
+This required special handling in compound_head() to detect and work
+around fake heads, adding complexity and overhead to a very hot path.
+
+New Approach
+============
+
+For architectures/configs where sizeof(struct page) is a power of 2 (the
+common case), this series changes how position of the head page is encoded
+in the tail pages.
+
+Instead of storing a pointer to the head page, the ->compound_info
+(renamed from ->compound_head) now stores a mask.
+
+The mask can be applied to any tail page's virtual address to compute
+the head page address. Critically, all tail pages of the same order now
+have identical compound_info values, regardless of which compound page
+they belong to.
+
+The key insight is that all tail pages of the same order now have
+identical compound_info values, regardless of which compound page they
+belong to.
+
+In v7, these shared tail pages are allocated per-zone. This ensures 
+that zone information (stored in page->flags) is correct even for 
+shared tail pages, removing the need for the special-casing in 
+page_zonenum() proposed in earlier versions.
+
+To support per-zone shared pages for boot-allocated gigantic pages, 
+the vmemmap population is deferred until zones are initialized. This 
+simplifies the logic significantly and allows the removal of 
+vmemmap_undo_hvo().
+
+Benefits
+========
+
+1. Simplified compound_head(): No fake head detection needed, can be
+   implemented in a branchless manner.
+
+2. Simplified page_ref_add_unless(): RCU protection removed since there's
+   no race with fake head remapping.
+
+3. Cleaner architecture: The shared tail pages are truly read-only and
+   contain valid tail page metadata.
+
+If sizeof(struct page) is not power-of-2, there are no functional changes.
+HVO is not supported in this configuration.
+
+I had hoped to see performance improvement, but my testing thus far has
+shown either no change or only a slight improvement within the noise.
+
+Series Organization
+===================
+
+Patch 1: Move MAX_FOLIO_ORDER definition to mmzone.h.
+Patches 2-4: Refactoring of field names and interfaces.
+Patches 5-6: Architecture alignment for LoongArch and RISC-V.
+Patch 7: Mask-based compound_head() implementation.
+Patch 8: Add memmap alignment checks.
+Patch 9: Branchless compound_head() optimization.
+Patch 10: Defer vmemmap population for bootmem hugepages.
+Patch 11: Refactor vmemmap_walk.
+Patch 12: x86 vDSO build fix.
+Patch 13: Eliminate fake heads with per-zone shared tail pages.
+Patches 14-16: Cleanup of fake head infrastructure.
+Patch 17: Documentation update.
+Patch 18: Use compound_head() in page_slab().
+
+Changes in v7:
+==============
+
+  - Move vmemmap_tails from per-node to per-zone. This ensures tail
+    pages have correct zone information.
+
+  - Defer vmemmap population for boot-allocated huge pages to 
+    hugetlb_vmemmap_init_late(). This makes zone information available 
+    during population and allows removing vmemmap_undo_hvo().
+
+  - Undefine CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP for x86 vdso32 to 
+    fix build issues.
+
+  - Remove the patch that modified page_zonenum(), as per-zone 
+    shared pages make it unnecessary.
+
+Changes in v6:
+==============
+  - Simplify memmap alignment check in mm/sparse.c: use VM_BUG_ON()
+    (Muchun)
+
+  - Store struct page pointers in vmemmap_tails[] instead of PFNs.
+    (Muchun)
+
+  - Fix build error on powerpc due to negative NR_VMEMMAP_TAILS.
+
+Changes in v5:
+==============
+  - Rebased to mm-everything-2026-01-27-04-35
+
+  - Add arch-specific patches to align vmemmap to maximal folio size
+    for riscv and LoongArch architectures.
+
+  - Strengthen the memmap alignment check in mm/sparse.c: use BUG()
+    for CONFIG_DEBUG_VM, WARN() otherwise. (Muchun)
+
+  - Use cmpxchg() instead of hugetlb_lock to update vmemmap_tails
+    array. (Muchun)
+
+  - Update page_slab().
+
+Changes in v4:
+==============
+  - Fix build issues due to linux/mmzone.h <-> linux/pgtable.h
+    dependency loop by avoiding including linux/pgtable.h into
+    linux/mmzone.h
+
+  - Rework vmemmap_remap_alloc() interface. (Muchun)
+
+  - Use &folio->page instead of folio address for optimization
+    target. (Muchun)
+
+Changes in v3:
+==============
+  - Fixed error recovery path in vmemmap_remap_free() to pass correct start
+    address for TLB flush. (Muchun)
+
+  - Wrapped the mask-based compound_info encoding within CONFIG_SPARSEMEM_VMEMMAP
+    check via compound_info_has_mask(). For other memory models, alignment
+    guarantees are harder to verify. (Muchun)
+
+  - Updated vmemmap_dedup.rst documentation wording: changed "vmemmap_tail
+    shared for the struct hstate" to "A single, per-node page frame shared
+    among all hugepages of the same size". (Muchun)
+
+  - Fixed build error with MAX_FOLIO_ORDER expanding to undefined PUD_ORDER
+    in certain configurations. (kernel test robot)
+
+Changes in v2:
+==============
+
+- Handle boot-allocated huge pages correctly. (Frank)
+
+- Changed from per-hstate vmemmap_tail to per-node vmemmap_tails[] array
+  in pglist_data. (Muchun)
+
+- Added spin_lock(&hugetlb_lock) protection in vmemmap_get_tail() to fix
+  a race condition where two threads could both allocate tail pages.
+  The losing thread now properly frees its allocated page. (Usama)
+
+- Add warning if memmap is not aligned to MAX_FOLIO_SIZE, which is
+  required for the mask approach. (Muchun)
+
+- Make page_zonenum() use head page - correctness fix since shared
+  tail pages cannot have valid zone information. (Muchun)
+
+- Added 'const' qualifier to head parameter in set_compound_head() and
+  prep_compound_tail(). (Usama)
+
+- Updated commit messages.
+
+Kiryl Shutsemau (16):
+  mm: Move MAX_FOLIO_ORDER definition to mmzone.h
+  mm: Change the interface of prep_compound_tail()
+  mm: Rename the 'compound_head' field in the 'struct page' to
+    'compound_info'
+  mm: Move set/clear_compound_head() next to compound_head()
+  riscv/mm: Align vmemmap to maximal folio size
+  LoongArch/mm: Align vmemmap to maximal folio size
+  mm: Rework compound_head() for power-of-2 sizeof(struct page)
+  mm/sparse: Check memmap alignment for compound_info_has_mask()
+  mm/hugetlb: Refactor code around vmemmap_walk
+  mm/hugetlb: Remove fake head pages
+  mm: Drop fake head checks
+  hugetlb: Remove VMEMMAP_SYNCHRONIZE_RCU
+  mm/hugetlb: Remove hugetlb_optimize_vmemmap_key static key
+  mm: Remove the branch from compound_head()
+  hugetlb: Update vmemmap_dedup.rst
+  mm/slab: Use compound_head() in page_slab()
+
+Kiryl Shutsemau (Meta) (2):
+  mm/hugetlb: Defer vmemmap population for bootmem hugepages
+  x86/vdso: Undefine CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP for vdso32
+
+ .../admin-guide/kdump/vmcoreinfo.rst          |   2 +-
+ Documentation/mm/vmemmap_dedup.rst            |  62 ++-
+ arch/loongarch/include/asm/pgtable.h          |   3 +-
+ arch/riscv/mm/init.c                          |   3 +-
+ arch/x86/entry/vdso/vdso32/fake_32bit_build.h |   1 +
+ include/linux/mm.h                            |  36 +-
+ include/linux/mm_types.h                      |  20 +-
+ include/linux/mmzone.h                        |  57 +++
+ include/linux/page-flags.h                    | 166 ++++----
+ include/linux/page_ref.h                      |   8 +-
+ include/linux/types.h                         |   2 +-
+ kernel/vmcore_info.c                          |   2 +-
+ mm/hugetlb.c                                  |   8 +-
+ mm/hugetlb_vmemmap.c                          | 362 +++++++++---------
+ mm/internal.h                                 |  18 +-
+ mm/mm_init.c                                  |   2 +-
+ mm/page_alloc.c                               |   4 +-
+ mm/slab.h                                     |   8 +-
+ mm/sparse-vmemmap.c                           | 110 +++---
+ mm/sparse.c                                   |   5 +
+ mm/util.c                                     |  16 +-
+ 21 files changed, 448 insertions(+), 447 deletions(-)
 
 -- 
-2.53.0
+2.51.2
 
