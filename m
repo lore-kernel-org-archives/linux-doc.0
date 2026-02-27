@@ -1,138 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89C22C033C;
-	Fri, 27 Feb 2026 02:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52D2E55C;
+	Fri, 27 Feb 2026 02:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772157885; cv=none; b=h1nI4Sg7snkMeoda2t9ZJCBss+xA7taZYiAcleJcELGPfUr4k9V2u1IjeelYCNJ2tWkkTFv8DFfopMzpL6N/gcGf8iTvrKfFebbSUCnAw0j9ZdKR7Tp6+YzO+uxVeSmozfFMc5hnnG6+3zGB94+u95GViaK+wY4Uy34T/kBvuPo=
+	t=1772160679; cv=none; b=nI2xBDpfNN58HQYxpb85h2V8IRBpSSeUbAlRhusH2v9KExWrM4aLA8tqE+Zk83mALbq805++xgiwSUS2368jLubpNjG9lGgUbHtPQl98QTDmYZVLvbSmqUJndht8UsA9MfBlcpeyAvbuQ859oHH8P0SVnJMV+yPirTXHbaslaNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772157885; c=relaxed/simple;
-	bh=E21v8cysKSwly9dK9dIK3fxUVDPj0v2xjJ3Mf3w+4+w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NQLoYSEFKDUs1yLlSa4fs2RcdVSvtSbbONqkWNjjn7ZqVlGHmnzKuuFSAElT8UsU3AdeKKrMKoxB216obq6casf6UZ9uUB8MDjbfK7Ym9XHfDQRQVj1rZ1qKVZRixJnUB5zreuCQnxcx69D9743g0seiocGhXdL8egB2atKPhY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CMU1AWey; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772160679; c=relaxed/simple;
+	bh=t23RoTFT17DW5CuBc2E5u8D+wo/zxD+e7t5CxfKSF/A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W+8krMR7fw1t1VUF7vZDNT3dLP4eVB3DESDRYAJ75iJPiLgkAKGwpluN4Dtgg70NJS4BBT6Bd9kZ0zKi1AHdyUWdP8q6N99u3ScG0NFeJxc52qgvFjiCBzxO4J1uBiQ4v+uCh94XHw8DVB18d2c+Zx4VbyvSRs0uaDmG8EvrUxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=enW3DPzk; arc=none smtp.client-ip=18.169.211.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CMU1AWey"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09449C116C6;
-	Fri, 27 Feb 2026 02:04:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772157885;
-	bh=E21v8cysKSwly9dK9dIK3fxUVDPj0v2xjJ3Mf3w+4+w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CMU1AWeyRFfOGqc+ZHYBu7GVyFc/gjhYGkGUKhA9pTLz0Dfh6UrfNmX7odfzJBQXY
-	 x8QmvWP/ufWXiPlOUO3yTTAS3ZueAm1Kp2GUn7SwBz4yT7IUtLVftTU24Rxfzkx7rc
-	 TR0YgHb1/TIaT6Fy2LBX60KAI6E7ajDSCDqO/lo1BqVKnef9R2EicaotuaTVHfenr0
-	 UGK6vTqq/r5rHjlSEIfD1j9Y7TSdLqLVz4phYu7Di2B7wt2Kclo78nzbDue3avc7k2
-	 GVg4P5dMUVyKkO0PVCCczZAzvkYS9O5W0YTrUsB9zJUBgZWpyPEBWL6/biXnpCn9NA
-	 GbnbA77LL/hJg==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Ravi Jonnalagadda <ravis.opensrc@gmail.com>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
+	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="enW3DPzk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1772160611;
+	bh=bGP9udQb2JF/inR+4b280FWoHP0MIscXRCEUp8RHOJM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=enW3DPzk48g9TDuE4JZHW6uHJ/gyq0XoiWE1Sw53BV5nFuUDvJ8hxWD1HXniMhvv9
+	 B2Gl5CMiKu5sek5gjsxnjMom50F+gY5HsxxQ2baayMHkmCTY1GSOHt/kjUCQ+wCB6U
+	 g3iQMjRiF8DmPQM8fBwz92KB12XGL+Evut/H+uNU=
+X-QQ-mid: esmtpgz13t1772160605t143123b4
+X-QQ-Originating-IP: rQbBnuhpH7EhtgySgt0d5wjM22huTwmw9MHAwX9Rbbk=
+Received: from uos-PC ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 27 Feb 2026 10:50:03 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 10883806231518884948
+EX-QQ-RecipientCnt: 11
+From: Morduan Zang <zhangdandan@uniontech.com>
+To: devnull+cryolitia.gmail.com@kernel.org
+Cc: CoelacanthusHex@gmail.com,
+	Cryolitia@gmail.com,
 	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com
-Subject: Re: [RFC PATCH v3 1/4] mm/damon/sysfs: set goal_tuner after scheme creation
-Date: Thu, 26 Feb 2026 18:04:42 -0800
-Message-ID: <20260227020443.91984-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260226005350.7612-1-sj@kernel.org>
-References: 
+	jdelvare@suse.com,
+	linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux@roeck-us.net,
+	marcin@stragowski.com,
+	Morduan Zang <zhangdandan@uniontech.com>
+Subject: [PATCH] hwmon: gpd-fan: replace custom EC I/O with kernel ec_read/ec_write
+Date: Fri, 27 Feb 2026 10:49:45 +0800
+Message-ID: <53C09CAECC90EB98+20260227024945.151198-1-zhangdandan@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: Nb940SUM1Q7XMxEYvUvO0Np7AU7hjocIf/8WijRXthF8Q8CDnAjjr6Wj
+	lwTiIQcZlUb2GUlbCZP22RrCOGQDbHXyJfbqQNuzLy7/VXdI7ucehIbgOFbCYED5MePNriB
+	5YZGT23b1eXxZCAtpaL8QtQPcoggfnAGtjgn6qyC5mRXtV+iCCSgJpcjRPqoTHHY2qYeuy2
+	Yknfrk/mDewbOXb7gvJLBbR8Ix3DCgvORoZ4arg214SOUaQsnNN8nc2fqNITFQXDwAnFDkF
+	5KVN9ahPPSDgISwsW3TpEJrw8Zz+IVTdezM2a8rsC+eY6yyKAbQq+4sFeK9cPOP1JnN+xZa
+	0Qjlo9R6UxZSpxpy9TRnAReuu1/WRj3IdOpxBAa0hgM6R9xqoZ9PDw53hEk52SexPWwatgA
+	B3c+kSvk2QfJj+9nLpovN4uNt/xeOX0ZWna+q3hL3z/ku+TMVemq90dprNfy7SJi9ZKiloF
+	PGZxuoqKxO4089UdjQzzrjVkdfFUiXf4+sC08Ck1s+emsBGJVL3wrdiWC4DTj03AML156aP
+	lE70oWArcHqqe4Jg/xa+u2XLjnifKcVMD/+YYw9OTDfPpZn2/NDeWHy7uyZ2zM7p1soNEZo
+	WoZi7wk6ifUpxncR/0yHRRd2075Mi1sl+4IrJtoF6dYkLWwR5EVRNmiLjMIp+XcAmz4LPat
+	c/kG2tX1Zbfhmuy6huhYKVvUqaMUHz6f404vhD761LXe3lx6FM2vKNWf2qIkeE7BhGqYyKx
+	qnCXUqQIrG57s8IAPx5jfHJU4Zcm/9LxC/th7en13qWnkypVIoqBbUjrTvjVD9WvLQFYZV/
+	OPKLZwE6ILJyhNcySCyAAQ1/gJ/FyvsR9nZQGGsKjvsGTv0TJMwHE5unoYSmb4+VO3lSElA
+	CuIvLxJ046LsMNVD6QHGngHpJlL47bnqn6kqU8N4Q77suuMvgFizjZnUeu4C9/umnTJgMUr
+	JGSVNZL6lO+xJWQfEaPP0kFfFRd/IMfHsln/fxU+LjaLz+MhGaQDf+n8I8iJgVOSm2mkWz1
+	nMsw5dphHn+nT8WL1P3I0NOR8nDDvWnD70sCgS1w==
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+X-QQ-RECHKSPAM: 0
 
-On Wed, 25 Feb 2026 16:53:48 -0800 SeongJae Park <sj@kernel.org> wrote:
+Replace the custom gpd_ecram_read() and gpd_ecram_write() functions that
+use direct I/O port access (inb/outb) with the kernel's standard ec_read()
+and ec_write() functions. This provides better abstraction, improves code
+maintainability, and ensures compatibility across different kernel
+versions.
 
-> On Wed, 25 Feb 2026 10:23:09 -0800 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-> 
-> > On Mon, Feb 23, 2026 at 5:40 PM SeongJae Park <sj@kernel.org> wrote:
-> > >
-> > > On Mon, 23 Feb 2026 12:32:29 +0000 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-> > >
-> > > > damon_new_scheme() always sets quota.goal_tuner to CONSIST (the default)
-> > > > regardless of what was passed in the quota struct. This caused the sysfs
-> > > > goal_tuner setting to be ignored.
-> > > >
-> > > > The comment in damon_new_scheme() says "quota.goals and .goal_tuner
-> > > > should be separately set by caller", but the sysfs code wasn't doing
-> > > > this. Add explicit assignment of goal_tuner after damon_new_scheme()
-> > > > returns to properly apply the user's setting.
-> > > >
-> > > > Without this fix, setting goal_tuner to "temporal" via sysfs has no
-> > > > effect - the scheme always uses the CONSIST (feed loop) tuner, causing
-> > > > overshoot when the goal is reached instead of immediate stop.
-> > >
-> > > Thank you for catching this, Ravi!  So, this is a fix for the RFC patch series
-> > > [1] that not yet merged, right?  I think this fix is better to be carried with
-> > > the series, and squashed into the broken commit to not introduce unnecessary
-> > > regression.
-> > >
-> > > So, if you don't mind, I will squash this into the sysfs-schemes part change on
-> > > my tree, with your Co-developed-by: tag.
-> > 
-> > Yes. Please go ahead and squash it into your series.
-> > 
-> > >
-> > > [1] https://lore.kernel.org/20260212062314.69961-1-sj@kernel.org
-> > > [2] https://lore.kernel.org/20260212062314.69961-4-sj@kernel.org
-> > >
-> > > >
-> > > > Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-> > >
-> > > Reviewed-by: SeongJae Park <sj@kernel.org>
-> > >
-> > > > ---
-> > > >  mm/damon/sysfs-schemes.c | 3 +++
-> > > >  1 file changed, 3 insertions(+)
-> > > >
-> > > > diff --git a/mm/damon/sysfs-schemes.c b/mm/damon/sysfs-schemes.c
-> > > > index bbea908074bb..fe2e3b2db9e1 100644
-> > > > --- a/mm/damon/sysfs-schemes.c
-> > > > +++ b/mm/damon/sysfs-schemes.c
-> > > > @@ -2809,6 +2809,9 @@ static struct damos *damon_sysfs_mk_scheme(
-> > > >       if (!scheme)
-> > > >               return NULL;
-> > > >
-> > > > +     /* Set goal_tuner after damon_new_scheme() as it defaults to CONSIST */
-> > > > +     scheme->quota.goal_tuner = sysfs_quotas->goal_tuner;
-> > > > +
-> > > >       err = damos_sysfs_add_quota_score(sysfs_quotas->goals, &scheme->quota);
-> > > >       if (err) {
-> > > >               damon_destroy_scheme(scheme);
-> > >
-> > > To follow the order on the comment ("quota.goals and .goal_tuner should be
-> > > separately set by caller"), I'd prefer setting the goal_tuner after
-> > > damos_sysfs_add_quota_Score() call here, if you don't mind.  Let me know if you
-> > > prefer keeping the current order.  If not, I will just make the change when I
-> > > apply this to damon/next.
-> > >
-> > 
-> > Agreed. Please make that change when you apply it.
-> 
-> Thank you, I will do!
+Signed-off-by: Morduan Zang <zhangdandan@uniontech.com>
+---
+ drivers/hwmon/gpd-fan.c | 37 +++----------------------------------
+ 1 file changed, 3 insertions(+), 34 deletions(-)
 
-I now think it is better to just remove the damon_new_scheme() internal
-initialization.  I added the detail [1] to the original thread.  I'll keep your
-Co-developed-by: tag with the new fix though, unless you mind.  Let's keep
-discussing there if you have more opinions.
+diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
+index 1729729b135f..c44957b7fd91 100644
+--- a/drivers/hwmon/gpd-fan.c
++++ b/drivers/hwmon/gpd-fan.c
+@@ -19,6 +19,7 @@
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
++#include <linux/acpi.h>
+ 
+ #define DRIVER_NAME "gpdfan"
+ #define GPD_PWM_CTR_OFFSET 0x1841
+@@ -243,44 +244,12 @@ static const struct gpd_fan_drvdata *gpd_module_drvdata[] = {
+ // Helper functions to handle EC read/write
+ static void gpd_ecram_read(u16 offset, u8 *val)
+ {
+-	u16 addr_port = gpd_driver_priv.drvdata->addr_port;
+-	u16 data_port = gpd_driver_priv.drvdata->data_port;
+-
+-	outb(0x2E, addr_port);
+-	outb(0x11, data_port);
+-	outb(0x2F, addr_port);
+-	outb((u8)((offset >> 8) & 0xFF), data_port);
+-
+-	outb(0x2E, addr_port);
+-	outb(0x10, data_port);
+-	outb(0x2F, addr_port);
+-	outb((u8)(offset & 0xFF), data_port);
+-
+-	outb(0x2E, addr_port);
+-	outb(0x12, data_port);
+-	outb(0x2F, addr_port);
+-	*val = inb(data_port);
++	*val = ec_read(offset, val);
+ }
+ 
+ static void gpd_ecram_write(u16 offset, u8 value)
+ {
+-	u16 addr_port = gpd_driver_priv.drvdata->addr_port;
+-	u16 data_port = gpd_driver_priv.drvdata->data_port;
+-
+-	outb(0x2E, addr_port);
+-	outb(0x11, data_port);
+-	outb(0x2F, addr_port);
+-	outb((u8)((offset >> 8) & 0xFF), data_port);
+-
+-	outb(0x2E, addr_port);
+-	outb(0x10, data_port);
+-	outb(0x2F, addr_port);
+-	outb((u8)(offset & 0xFF), data_port);
+-
+-	outb(0x2E, addr_port);
+-	outb(0x12, data_port);
+-	outb(0x2F, addr_port);
+-	outb(value, data_port);
++	ec_write(offset, value);
+ }
+ 
+ static int gpd_generic_read_rpm(void)
+-- 
+2.50.1
 
-[1] https://lore.kernel.org/20260227015613.91346-1-sj@kernel.org
-
-
-Thanks,
-SJ
-
-[...]
