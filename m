@@ -1,118 +1,128 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E063876BA
-	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 19:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772219318; cv=none; b=b35cV3NYNkqTyEADM8bmtprCyIwYBQTIm9TUpImgGTocgrAhhUpTOTzG33qaR0rsGzskGEMwWxs8B7yy4xYqFVTPHZdPXMK+DmjP1iheiuhZBOgflW1XQTFSHrZ4mVRFDIemFxe0pI+JmEOkk/Ov9b5dAbGIp7Fo+dKQpm1ZgyI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772219318; c=relaxed/simple;
-	bh=589BKfYJnX0xBq2QFIE8KktMFxmjY0H22bxg8JH0DTQ=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t5cAQNmlCWSg6rApxMAzX00LxuDBOHum+imL5jXTLwOZ1+B2V/uT2MNqWGA+Y9BvegVRYI51BUMpmJeOkyj2GbvtJW9d1BHK9eCpDKwVOPQOM8qUcslSQIG7lxfOw7G37ds2sFb8Wk/S70fQcWAT56tDmvZjRn9Jjx9tNRUv+zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nd1swH3B; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AAEF3C196F;
+	Fri, 27 Feb 2026 19:21:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772220101; cv=pass; b=QlcVXEuT6gnGjhanJnDNyQlsyGfHx0qKh8Ms9XA5wLnuXGtvmESA6Y0GmFJKCVdU244+DTfH8TWtBQnLBsgINCim4aZENqN/MGUNlMcfZ7rttBti9izeGPQwm4p1384e1ijwbZ1AAurHxHl+G6CP/t82yXN5bOw9mNlaOpYolG8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772220101; c=relaxed/simple;
+	bh=1cCiPGMcroBbqrKQli5X/v6Op9oChqJ7ye+kSfmb0Ko=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VbQrRzi4zjQIxTOzjzqNdTWVa1QscdHSWY8crqbc+C5C8qnFnvha33lNmeKcTcPwKl9TtcsyR8IDIeQsudrYfFz0TOS8GO1tazswdOiFEaef6dk5K/foieWtasKNmut7TCOWBiznA+n/fSgMMYfYy94pFbqoLNz+JZQpMfJSSh0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=ALaO+RUu; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nd1swH3B"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-506a67282a0so24790651cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 11:08:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772219316; x=1772824116; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3pUhkYNCOHcJIt/TwrF1xrDtMqe67JCJ7QQat4SlfqU=;
-        b=nd1swH3BdQhLW1/u15z1HfZH/rqada5tGGq7Gj1cgztxdgbWUsHy/6tDKxuKCn6VD/
-         wqUuFaMLdgTw0KarCJ9I6H4BayjaXXnbjbiOHpg6o83V35dxqFuFRt7jrOOTOzlNotDK
-         oXyTvVGN+UjOXkCFmn3oQhI+8RLYITeBrR9cq4ISkPjGEodkE4M8SZb4A1gEZSxKdavg
-         sVUlwEfi2z3LFb0kg/ejS06CV2hqxnNQVbLJ6o3rrodrBBkETZ0MYlZkrq9sRzylZm4P
-         77Y//ueDVcoj87uGf6kbDQ3AoJdW/9ir5S/4PF1t3LAZHR/IZy2WdRgYfBw6RoMLmds9
-         VRGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772219316; x=1772824116;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3pUhkYNCOHcJIt/TwrF1xrDtMqe67JCJ7QQat4SlfqU=;
-        b=qugaM0p8Y/WcLFbXW6RJSG6YFOlUiQSJQr5ZbiMEsazJSIuc6WaCw4gyQiewh9aKrT
-         pmZ05fxZBjxuYCp7zF4SJrofk/xwsP+h+A0uelCfd5fUC0dzYNWSX56q0sbIc5JFz9nP
-         CaxYvZ207pBOI2wYORpSgBNkFSVsihkq2xvP0wkMSJRWRnsgf7cX6h/d+K58H/M7OqCz
-         WV4TK+nhLuw3tc26R/jz3r9SD4yijD/tRLC/IHKw5hZChAaz8TLO74Boiz03RZaXlaKY
-         Rcd8eMa8nQfhRu5SAEZkyS2NwIE0f78ZXR58mCBJcGPf1m6R5BqUpkMCpDjhwCF29TPf
-         virg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsAiJybdKC3B+ORPG+d799G6jfxc6HNcN6chJ3ddUxG8pD0eZ5R/lRk5UqG3nEKIm0sYAXaqzDlLs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5kAX+O5cz+YGMZlR4oN+MKlwY4GqMLunkgpjcAARQJ062u5aw
-	WCZCq95d1OxSSaFM0VGGY5Kd2R8+pJhbKpJdeU8JX7RzjxXZJqMnqVUG
-X-Gm-Gg: ATEYQzxmpf65cdHRHdMHT23CQwKlVy5K80T2d6dWTQS9AljR8S/l8fu3mXjZJe1Xl3+
-	fGDw/LAoUxkJn4lWMuFE0fJ5dkvIsTKFk79em71YSBwsk1xdeK79JhYXScRN37HrZ1X7HNBLVt4
-	O17P/f9bHdJnXF6PwUhi+AfF9ZxHU7VOt4nIbQcPm8+RLw8fD8MGW8erUqFMNzTC9xIhCTenNP9
-	oNF/cZmtsZFQiocqUUIfEEkgXl+5qnIfFAabI2EnzW4TNLuo79lHw8YHy2KmW3gil+UQgGVTiFv
-	nnrmPafoG8Sdxvlax+iP9UKznOWLP1uG9OWg57DMfPeCoduTy1nD4zpDpYRnUGNLW7kUqw4AKqY
-	PCLs2SwSXRKzVTw/GVp9aCJn+IfLsh7saO7l/NFR/ODdpWE4nbadEQ8Nzfxu2d4q6LGjnKGMpTF
-	fwCNI3fZ9Aba0CXCXtULhpM21xnCr/OWE5aqiz+fXDhnWunH+YmKA6qt6wyAM+M3M4YN1U+CO6Q
-	mWeovDfga+GGTXlwWF1RCp+FcfptEuioM40KB/8EYlH51RbqJDPnEXHwQ9gT/40U4KrpmEpciqZ
-	6zPLCbxfOEW6lFt/Avec
-X-Received: by 2002:ac8:7e85:0:b0:502:9e4c:266b with SMTP id d75a77b69052e-50752999d75mr47339771cf.42.1772219315950;
-        Fri, 27 Feb 2026 11:08:35 -0800 (PST)
-Received: from ammar-VM2 (d66-222-145-193.abhsia.telus.net. [66.222.145.193])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50744acf0desm49676961cf.23.2026.02.27.11.08.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 11:08:35 -0800 (PST)
-Date: Fri, 27 Feb 2026 14:08:33 -0500
-From: Ammar Mustafa <ammarmustafa34@gmail.com>
-To: Alisa-Dariana Roman <alisa.roman@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] Docs: iio: ad7191 Correct clock configuration
-Message-ID: <aaHrsTS9iG-PEfue@ammar-VM2>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ALaO+RUu"
+ARC-Seal: i=1; a=rsa-sha256; t=1772220043; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=JGMRsMIfxoMGP7fGDGO2Q7Rrvv/gpLTotDfrBB329bKfFs25d+EweSKGqRNx9hsT1do2/M3GbcuY2gsYAe95osj8r9iQVV7DfqwKbRXxYcE8b/9GltpsouKK7/9o2oeQC3eCMy5RTjGVvGEH2wwEwhH6wWm2c9WgsQD5d4zYKa8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772220043; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=JGfV0R4Z96tYL3Bf2XqpwWlEz7+KZEZ8gusjeuqSK2Q=; 
+	b=nfczNW1oUkfsGqeRzAuLYebcpBi8Cwb4VHh29XovLBYFptoS6j/u9pAJpUGGpi5EVM8dua5EXN4+c71iXBUFWrM7gEomwe4jWoTxX6U7W2BiF1w99I0QA2P1/5OScbBry0mIKiDbAlvvJPUqiI9GyX+VoiF5uBeMJgajyofNS64=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772220043;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+	bh=JGfV0R4Z96tYL3Bf2XqpwWlEz7+KZEZ8gusjeuqSK2Q=;
+	b=ALaO+RUuvYXGccCfTACukQlAU1epUJzVVUVcLx7JaYhVdSGzH5eqWpF+hXbcvWDi
+	oeG9mu4TYQH/wQuBcsrxDqDEnCmdj66BS6JNnhpa36EHEG6zgTZeJtpGnUwC4QxIEz0
+	JMBq1I/4Tf6gi5e/bQO8pIbdyI3P1drCH/uW1dls=
+Received: by mx.zohomail.com with SMTPS id 1772220041335611.1012695620195;
+	Fri, 27 Feb 2026 11:20:41 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Date: Fri, 27 Feb 2026 20:20:06 +0100
+Subject: [PATCH v9 01/19] drm/amd/display: Remove unnecessary
+ SIGNAL_TYPE_HDMI_TYPE_A check
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260227-color-format-v9-1-658c3b9db7ef@collabora.com>
+References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
+In-Reply-To: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Werner Sembach <wse@tuxedocomputers.com>, 
+ Andri Yngvason <andri@yngvason.is>
+X-Mailer: b4 0.14.3
 
-Correct the ad7191 documentation to match the datasheet:
-- Fix inverted CLKSEL pin logic: device uses external clock when pin is
-  inactive, and internal CMOS/crystal when high.
-- Correct CMOS-compatible clock pin from MCLK2 to MCLK1.
+From: Werner Sembach <wse@tuxedocomputers.com>
 
-Signed-off-by: Ammar Mustafa <ammarmustafa34@gmail.com>
+Remove unnecessary SIGNAL_TYPE_HDMI_TYPE_A check that was performed in the
+drm_mode_is_420_only() case, but not in the drm_mode_is_420_also() &&
+force_yuv420_output case.
+
+Without further knowledge if YCbCr 4:2:0 is supported outside of HDMI,
+there is no reason to use RGB when the display
+reports drm_mode_is_420_only() even on a non HDMI connection.
+
+This patch also moves both checks in the same if-case. This  eliminates an
+extra else-if-case.
+
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Signed-off-by: Andri Yngvason <andri@yngvason.is>
+Tested-by: Andri Yngvason <andri@yngvason.is>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
-Changes since v1:
-- Instead of using "tied high" or "tied low", change to active or inactive
-to remove confusion.
-- Undo the swap of entries from previous patch.
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
- Documentation/iio/ad7191.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 2fe9044e1e91..6eac9a273f87 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6718,12 +6718,9 @@ static void fill_stream_properties_from_drm_display_mode(
+ 	timing_out->v_border_top = 0;
+ 	timing_out->v_border_bottom = 0;
+ 	/* TODO: un-hardcode */
+-	if (drm_mode_is_420_only(info, mode_in)
+-			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
+-		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+-	else if (drm_mode_is_420_also(info, mode_in)
+-			&& aconnector
+-			&& aconnector->force_yuv420_output)
++	if (drm_mode_is_420_only(info, mode_in) ||
++	    (aconnector && aconnector->force_yuv420_output &&
++	     drm_mode_is_420_also(info, mode_in)))
+ 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+ 	else if ((connector->display_info.color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
+ 			&& aconnector
 
-diff --git a/Documentation/iio/ad7191.rst b/Documentation/iio/ad7191.rst
-index 977d4fea14b0..fd6a23ad44fd 100644
---- a/Documentation/iio/ad7191.rst
-+++ b/Documentation/iio/ad7191.rst
-@@ -63,11 +63,11 @@ Clock Configuration
- 
- The AD7191 supports both internal and external clock sources:
- 
--- When CLKSEL pin is tied LOW: Uses internal 4.92MHz clock (no clock property
-+- When CLKSEL pin is ACTIVE: Uses internal 4.92MHz clock (no clock property
-   needed)
--- When CLKSEL pin is tied HIGH: Requires external clock source
-+- When CLKSEL pin is INACTIVE: Requires external clock source
-   - Can be a crystal between MCLK1 and MCLK2 pins
--  - Or a CMOS-compatible clock driving MCLK2 pin
-+  - Or a CMOS-compatible clock driving MCLK1 pin and MCLK2 left unconnected
-   - Must specify the "clocks" property in device tree when using external clock
- 
- SPI Interface Requirements
 -- 
-2.43.0
+2.53.0
 
