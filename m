@@ -1,115 +1,163 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-b1-smtp.messagingengine.com (flow-b1-smtp.messagingengine.com [202.12.124.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFA7732825D
-	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 15:37:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180F33624D2;
+	Fri, 27 Feb 2026 15:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772206666; cv=none; b=MWcAtQKk5HWZOlULsO1rJfbWw70Im5x9wp98jErWU83CbFqO7i/RDSQzushpOP4cK8C14CorKWG9wg0vDTTn5SVBtDkq+rZf5O+MRuCr1k81UJNaZ0rGFNrK1B9Fo+qgyRdEktnx4PpE4B3oJjdDLC76Gw7F+5Vd4wHJPyaY/BM=
+	t=1772207232; cv=none; b=ikzB0v/ow4l1qX5mVQBVfQB+0g5dWDDmPPNinL5B5ilST95rLL56mWrAGad66F51OWaeD2ZTbOY0V0o2M8OYTrmS4Jy6uqgWteML10BoI1kTBKdmBmLEyPm3yhw6PvQvTliJ9O+yskYbtkU2zTs63A3DYbGeWAGiJkCXA5xbl80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772206666; c=relaxed/simple;
-	bh=mI23sdKdjfHrq229OZV9nOIuRczz+cpeb/6mgnKDCt0=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jEiJYCFD9NEp+oJFERLlMXtKrRYRHVqe7eDz67NkrwnY/3abPhbFvo749EhlYapx15ZegkLG7Irwm7CYcObrYolp9kIJXygG8WQQxg7OJS9gbCmdIoUDGy0oQAbvahSJ8JU4UcUDO+TOax/VhqIYAKHcLemNnKzOSAcvseVcXJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X13Iio4r; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772207232; c=relaxed/simple;
+	bh=UgSApk6Vz42Cpkj7RvGNFPFj/GJVlPPsed5rfjh7CB4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VX8w4FVfb6Tr6R20AvKz+j5VU+BdU94jzazsKJQea2qr3Ht487wraRMVu5iSIeKnA4B9/CItG5SnDI13GYUjov9LtQSyHh3+H+45yFuz1kgKX+zcD5Z40vbiYGO5M0TJx82osZIbsHo2GBvpXYy3OvZ3OJfu8m++pFMkk/p8WP0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=nSbeJn09; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=A7cma9dB; arc=none smtp.client-ip=202.12.124.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X13Iio4r"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-5069ad750b7so18534011cf.2
-        for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 07:37:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772206664; x=1772811464; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IYCNfGI/wBJeh75yMqRB8p3GDB0aK/wV0WicdnppPD4=;
-        b=X13Iio4rGHu3KCKPl4UlHdQQtFR8tNnPRH/Ms1hgk0QjjI2UE1R9grl9XfOAARurqz
-         TVhjb+/zYT1KdlAeSdVylb2PKDfKJF9+IYYFVMLK5HafPxGolW5pDA8nofwPEDS8on3A
-         k+h48SvpDHfR87ZIy/+lwx08dOYoR1t/oxQUDhRVMCJ6Aw/7VAEBtK/jopDkJK1k2E3J
-         5VS5CrWnN/JyUpje9PTYNJf0OECxUh5sty/pAlKOd6JTqm8RTKXb+2kC/7DFyvdwhVT4
-         vogNIuPQZw8SrB4Q7NGCTTQLL9pEi8R0lIVUkF9muu5kvbh2GCF42m24wXvu1zVKAf+G
-         woYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772206664; x=1772811464;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IYCNfGI/wBJeh75yMqRB8p3GDB0aK/wV0WicdnppPD4=;
-        b=DcYlHn1ovj80hjd8SiuHfpZNWKu0bkC5rGW+IdIGqP1o4x4xyNGw9tAA6ISs5dvO7j
-         Mrc+GM8VpwZsciRIEBzV9+2uH6KxdQnMW1P+bB6XKTvin17Ea+lrj7EyLb+EHC7Q267H
-         WMVdsu1xfuwlIfHv6PjIftUim4dNuLJrggpxGbUtr2qC2NoFUxNpv+gObpPLuThwLtI3
-         XtMR9nPpYyc9qvoAD8qDDAPBDt6nemNxWNfY58U3TfqhmYjtMdIQrU+iv1iMqzklmi+V
-         b3fcCYB78SONCEl54F8sEGAilJT9Zqo/nDxMqT0jKWbXCX4VSuCsxO6qd6V1/yJAqL1Y
-         wDvA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtLFk9XS0ktOZSxjlAibW4We7d6/p99r9F06Sfv7LO4KpmwWKezpxjiSkBNGXREhaocYbXhOBTBV8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyAG3IWBnzUSvFAhnW+KKQJjcPNbuQtmMPrV/8pxazPwgZtgTve
-	fFvo4vMbgfnLGHTwzlRcmr6NHB/KpKeSp2Tpbc2xZUs/Z8IXWqVeX0Pm
-X-Gm-Gg: ATEYQzyTHYQf2ijymHaeyXo5U3Lh94LdAdNaCa1dJvOHJ0mE6Xm0cq2i85FbwMoMW9/
-	urx3a7eTf5qrNMFel3GFT8awora/O2PF3Cd6kjAPNyU1dY+vRwMHZb+ptCMouHt4nUXqsebv7TD
-	UcwH8gCtxp7BJqJ/Uktu/pcteFGXS1xjhf3uoPap6wdJpnfCUMSHL1SoV1duHVn5sCIU89YW5Nx
-	mkxPM/f//zI2VjO8Rnrf6H96a4eAOXeBe6pGo93LjwmkRHNbdFjhKZiUa9Ir1zhjdLGhxYz65S9
-	e6XdA60epYyRNiG7xOOBI8Og6CDQzomiF1ccY3OKk9C0cfnnCemWh3khm0mC2XcGgjZv9PaW46e
-	TjtsBCMte1z/ggP0mlm48P5AtpAXvUo6d77aO8/Z7N1yEYJ0xDK6UUBsUkNdLQnmQfbqE0p8lYO
-	lTeYapTI22QQCESXef8gAFwTV4vdZhqP6VGYGyZ/X6JQlq6xpoc6fM96KL6jRcJKZyk2RGI0Q+D
-	lo8NDC0CIHrOlR5DPwdGjwZYeTDrouZBU+Qv9OrovBbtDv+7sTzcLpAgeEfz04Ne3+SfBilr/Nc
-	4g1P9ELpfdsm3bv43lwa
-X-Received: by 2002:a05:622a:182a:b0:506:2041:13bc with SMTP id d75a77b69052e-50752895c12mr33664521cf.55.1772206663810;
-        Fri, 27 Feb 2026 07:37:43 -0800 (PST)
-Received: from ammar-VM2 (d66-222-145-193.abhsia.telus.net. [66.222.145.193])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-507449be47dsm44501821cf.15.2026.02.27.07.37.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 07:37:43 -0800 (PST)
-Date: Fri, 27 Feb 2026 10:37:41 -0500
-From: Ammar Mustafa <ammarmustafa34@gmail.com>
-To: Alisa-Dariana Roman <alisa.roman@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Docs: iio: ad7191: Correct clock configuration
-Message-ID: <aaG6Rds7GAf9ZtF8@ammar-VM2>
+	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="nSbeJn09";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="A7cma9dB"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.stl.internal (Postfix) with ESMTP id 1409613013DF;
+	Fri, 27 Feb 2026 10:47:06 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Fri, 27 Feb 2026 10:47:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1772207225;
+	 x=1772214425; bh=P3lrzFyQElxBxtWsP+osjrtrIRj/rA3HI8aIxSL+eHc=; b=
+	nSbeJn091CVUD7FTBlfHAGofIbMFpGvhhKPN5P+AXxi2R6g+zB9bTzPy8M7zKOX9
+	190koYZVQtOhErFW5Nk2ZXp3dvbyl6UiMLVn8Vdws7SsR0yodwKy9wHBllJkNGeA
+	AsGuDTTDeNXhDKsH6A+ttPLVwAgWN6I/IDfUUfKYIDL7djAhXluESe2mDgoVuE/0
+	H5H5lmhuaO4ap/bK0tc8OziXtOlDMPcxvZ9+r+b71xqQG/wIdKjH1rs6QDjOCkRk
+	NLaqv5GEjMIEAoVWLHqK6FLBpxQhya3L1m/31iVG+OzOLBESOmuKD7/FN0SBI+f3
+	94CVvMVtttES7JAOlQJp3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1772207225; x=
+	1772214425; bh=P3lrzFyQElxBxtWsP+osjrtrIRj/rA3HI8aIxSL+eHc=; b=A
+	7cma9dBosB0GIWXa1m7+Lm/GchbRtgqA/xwo85CSUbQlkjtuGWtWnsFqnFaEz26K
+	XIjU47rn+BcT8PvTsqtvovSTHPoqwmFxcttdD8BqQeCdzm/9K2blLDhKqWUl3idP
+	wIyeWR3wYpc5y+VTOnLFWijeVmHt3I48Wf5E5jBf3bfwmmPzfIEl5Uiq1ztEtCUb
+	TtxChaiXmQlGbcnDqB0XuSPH9RUPouePhNnHw66TqOLnqCXBdIR+BZZwgl/mePTT
+	2Ndu2PcdwnDMxOAC1MaII1xlSg8Ocgn1jc3idGiGtiMejdDwaHcAThhlfyHUQ01U
+	YmEbEKrgFw3TDqLvqVi1A==
+X-ME-Sender: <xms:eLyhae8NLfiHQAfvFbwIf5yfJxGrx7KxbtT7pspvJckoKaT9zcfsGw>
+    <xme:eLyhae4tsQgypPwTHo2DeWnsQy7bTLUs3VcUPfd9RrYRFV5seJeMAhrG_sP3LC7Is
+    d9Lnz9eMprZ9jmWg9vNexMWxYMBNR85faQxljPC31hLURgUua9RsQ>
+X-ME-Received: <xmr:eLyhadjLu8rkkCiD9LuU-gLeXJaelMWBSD-DAgNH5GYD2MjN3YfraFIWVNQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeelfeelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpeetlhgvgicu
+    hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
+    htthgvrhhnpedvkeefjeekvdduhfduhfetkedugfduieettedvueekvdehtedvkefgudeg
+    veeuueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grlhgvgiesshhhrgiisghothdrohhrghdpnhgspghrtghpthhtohepgeehpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopegumhgrthhlrggtkhesghhoohhglhgvrdgtohhmpd
+    hrtghpthhtoheprghjrgihrggthhgrnhgurhgrsehnvhhiughirgdrtghomhdprhgtphht
+    thhopehgrhgrfhesrghmrgiiohhnrdgtohhmpdhrtghpthhtoheprghmrghsthhrohesfh
+    gsrdgtohhmpdhrtghpthhtoheprghpohhpphhlvgesnhhvihguihgrrdgtohhmpdhrtghp
+    thhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtth
+    hopegrnhhkihhtrgesnhhvihguihgrrdgtohhmpdhrtghpthhtohepsghhvghlghgrrghs
+    sehgohhoghhlvgdrtghomhdprhgtphhtthhopegthhhrihhslheskhgvrhhnvghlrdhorh
+    hg
+X-ME-Proxy: <xmx:eLyhaViQEXxZhGRPLBgx3cIxwcB6BJldmDuFBveN-s3uybKGEg4BVQ>
+    <xmx:eLyhaT1gmUrj3pS2nastletXexcegngkRYpkqQAlCWEUiBVKvt_8Uw>
+    <xmx:eLyhaQjFwwGVa8eE3K-VjdGUDc_gumNbDo92PQ-hmX33aTYcusuheg>
+    <xmx:eLyhaWqfdVOxky2hgCGNQH7N4KhqFKsCvw6Ruxq0xBQwJyfcQ9Ociw>
+    <xmx:ebyhaTuRNv-HWsJCaeyQT_E-CL0vqudE11keKbVebqGUMZseVXYpmczH>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 27 Feb 2026 10:47:00 -0500 (EST)
+Date: Fri, 27 Feb 2026 08:46:58 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: David Matlack <dmatlack@google.com>
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
+ Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>,
+ Jacob Pan <jacob.pan@linux.microsoft.com>,
+ Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+ Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
+ kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+ Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org,
+ Lukas Wunner <lukas@wunner.de>,
+ =?UTF-8?B?TWlj?= =?UTF-8?B?aGHFgg==?= Winiarski
+ <michal.winiarski@intel.com>, Mike Rapoport <rppt@kernel.org>,
+ Parav Pandit <parav@nvidia.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pranjal Shrivastava <praan@google.com>,
+ Pratyush Yadav <pratyush@kernel.org>,
+ Raghavendra Rao Ananta <rananta@google.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Saeed Mahameed <saeedm@nvidia.com>,
+ Samiullah Khawaja <skhawaja@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
+ Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+ Zhu Yanjun <yanjun.zhu@linux.dev>, alex@shazbot.org
+Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
+ Live Update
+Message-ID: <20260227084658.3767d801@shazbot.org>
+In-Reply-To: <aaDqhjdLyf1qSTSh@google.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+	<20260129212510.967611-11-dmatlack@google.com>
+	<20260226170030.5a938c74@shazbot.org>
+	<aaDqhjdLyf1qSTSh@google.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Correct the ad7191 documentation to match the datasheet:
-- Fix inverted CLKSEL pin logic: device should use external clock when low,
-  internal CMOS/crystal when high.
-- Correct CMOS-compatible clock pin from MCLK2 to MCLK1.
+On Fri, 27 Feb 2026 00:51:18 +0000
+David Matlack <dmatlack@google.com> wrote:
 
-Signed-off-by: Ammar Mustafa <ammarmustafa34@gmail.com>
----
- Documentation/iio/ad7191.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> On 2026-02-26 05:00 PM, Alex Williamson wrote:
+> > On Thu, 29 Jan 2026 21:24:57 +0000
+> > David Matlack <dmatlack@google.com> wrote:  
+> > >  
+> > > -	vdev->reset_works = !ret;
+> > >  	pci_save_state(pdev);
+> > >  	vdev->pci_saved_state = pci_store_saved_state(pdev);  
+> > 
+> > Isn't this a problem too?  In the first kernel we store the initial,
+> > post reset state of the device, now we're storing some arbitrary state.
+> > This is the state we're restore when the device is closed.  
+> 
+> The previous kernel resets the device and restores it back to its
+> post reset state in vfio_pci_liveupdate_freeze() before handing off
+> control to the next kernel. So my intention here is that VFIO will
+> receive the device in that state, allowing it to call
+> pci_store_saved_state() here to capture the post reset state of the
+> device again.
+> 
+> Eventually we want to drop the reset in vfio_pci_liveupdate_freeze() and
+> preserve vdev->pci_saved_state across the Live Update. But I was hoping
+> to add that in a follow up series to avoid this one getting too long.
 
-diff --git a/Documentation/iio/ad7191.rst b/Documentation/iio/ad7191.rst
-index 977d4fea14b0..bb8a1efcfb98 100644
---- a/Documentation/iio/ad7191.rst
-+++ b/Documentation/iio/ad7191.rst
-@@ -63,12 +63,12 @@ Clock Configuration
- 
- The AD7191 supports both internal and external clock sources:
- 
--- When CLKSEL pin is tied LOW: Uses internal 4.92MHz clock (no clock property
--  needed)
--- When CLKSEL pin is tied HIGH: Requires external clock source
-+- When CLKSEL pin is tied LOW: Requires external clock source
-   - Can be a crystal between MCLK1 and MCLK2 pins
--  - Or a CMOS-compatible clock driving MCLK2 pin
-+  - Or a CMOS-compatible clock driving MCLK1 pin and MCLK2 left unconnected
-   - Must specify the "clocks" property in device tree when using external clock
-+- When CLKSEL pin is tied HIGH: Uses internal 4.92MHz clock (no clock property
-+  needed)
- 
- SPI Interface Requirements
- --------------------------
--- 
-2.43.0
+I appreciate reviewing this in smaller chunks, but how does userspace
+know whether the kernel contains a stub implementation of liveupdate or
+behaves according to the end goal?
 
+Also, didn't we violate our own contract in this patch by adding the
+reset_works field to the serialization data without updating the
+compatibility string?  Thanks,
+
+Alex
