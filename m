@@ -1,109 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2D3285074
-	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 00:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BB1155326;
+	Fri, 27 Feb 2026 00:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772150443; cv=none; b=WlDkNxrbCQYnJtRgrNtXJHl6KTVfjaU9ZWyXJoDeIEkFSU6DIDj8aNGETSbKxyZedq3oJj0qhlXw/hjoFpptr6hPNUwWd1qzCgPiQNiz65QINCtFD6Fbfmyigfg8j/fH6q4Qp+rOmHtcQPdsVWnehltCYefRCelDNzezpAQAFIA=
+	t=1772150879; cv=none; b=MOWSqbKuAZ8hQ8ycx1GHnd/Bw3jDxBv2PIt8/PhGgcbB8GEepIrI0xEvCc1F4SsPe7yYg2/9rJxP3rr4t/SuvraeXGaEy7Vvnxcukq9Cl86MqS/5Mhz/NYG9haWS4mteRofkDrfNzS4PhzzxdJhSqIadPJZ57ddFBxtNxzSvKXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772150443; c=relaxed/simple;
-	bh=9DezwKPafh4uiqbk/gjEzFUtqzlwBbzlI4BmHc11dhE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OXtKnvDpXKE/zvHc3g0yyyE0EddT93SM48yBTp3wdn2PJsx0L1FmhMM0HzI8zp15fmQESF1CX5lkHZqQ+qaWg0P5ILrkdcJQoqrkqHa71boWqleMIDcHbhMbiMp3o6Zz/il6uI0YjMvgNFoZHFVfeX+5QBfofkOOMWlk9d36P+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=laueYUpu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772150879; c=relaxed/simple;
+	bh=KKfWeAfSMYTw6YqbPmajJtN7Du4yXNH1wQhGmbdapdU=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=kxXKHYFnw/avACTbCtzZIN+Z4uzG9WXfFYSsxSzJWj6M/mR0UaRJCXipTCJ3P7rbq1kEakFHNhI+Q1ARZFBSDhdW/jOsJ6bmeGp5VhkHBOL+uSxyfOLSswzTJFe6PMNTqbT1VpjsoX1pVDxk/NZJL1qDOJxJyU8bMSfXAs3VMF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=KeJriNgC; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="laueYUpu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 200CFC2BC9E
-	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 00:00:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772150443;
-	bh=9DezwKPafh4uiqbk/gjEzFUtqzlwBbzlI4BmHc11dhE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=laueYUpuuYc+GxWvK+6ILshWte/ihb4gEMV5tn8EimGyWRJbCpY8dx/vP47+MjMyf
-	 ZZTJ6DdinA6SMT84gvU7sNGo+VKSSR6mtYLODZL9sSQ6a23FFUXXy34e+wmf5TaovF
-	 XKrKIAHiK1uv6C0KdrMjWcKTWNLHmVjV9QPZWQATjSUXFLYbrJGJWV/2dLCRenitK8
-	 bxCyWB2Ho8IbADrr2cM+0TKxt6mcID7k42E6sTDD1Pn+XGC7u4SkbeItZyNmbo3vih
-	 lyVwoqgWyLT1xDk20EITFGsewzbURcw9jot23Fi/2MW9MXmJBTrR2JL+Azovw8+T/Y
-	 UNOtkcpcJPCNw==
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-79801df3e42so20345797b3.0
-        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 16:00:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUtPZIsgU9dT0JOsKOn6dHlkkrAeUos1cuDMxD8D7WSeWw3uUmSmnnEGoIs2Vqn5PHftw4oIBDOlI8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqR63iaJHYkYEVeUip1PdKucvX/lVreyAT8m6UFuJJahYQNYsf
-	8fuGiRL3THBz04wzUfPPbvi+ISXG4keQQ/tXjFo2i5juTfBvo5IZ2wntfWNRiQ2cwPgBprckveU
-	gjhygDi36rvu4N4NLMBHz3a+/Qr8tKcU=
-X-Received: by 2002:a05:690c:308a:b0:796:3e25:3e95 with SMTP id
- 00721157ae682-79874d00f80mr36642507b3.18.1772150442330; Thu, 26 Feb 2026
- 16:00:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="KeJriNgC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1772150874; x=1772410074;
+	bh=KKfWeAfSMYTw6YqbPmajJtN7Du4yXNH1wQhGmbdapdU=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=KeJriNgCfNeFHN7XmN4qytrS8zVDM18LbmoUlBrkQIUzp+VJrfdPNaakndGudTqgk
+	 AXzpN75tLGf0H5A+mL2jaSp6WPaCO/mlO/40nCxko2Rg8xvhYTik7KD415dQi7mcM5
+	 9wOylN5P95NDy6bqNA30woWrjArwlZheoBe6gs7P2Y31mnm8I8xGE2fuIqEFNf9sd3
+	 o4w2TBvIqMj1JMNdudX8pm3gaQQ1DNhgzh60VCUCoYywerBrL6k3SlWVsbquiFcRhP
+	 9tq+VrDNtcTHphTuM5I/LF/uZlCQFX4Kzrkr2E6gYjqO1tyHsNh3LY4bG8c2+Z67I/
+	 CFh3gkXEFD44A==
+Date: Fri, 27 Feb 2026 00:07:47 +0000
+To: john.fastabend@gmail.com
+From: Leon Kral <leon.j.kral@protonmail.com>
+Cc: kuba@kernel.org, sd@queasysnail.net, chuck.lever@oracle.com, davem@davemloft.net, edumazet@google.com, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, netdev@vger.kernel.org, kernel-tls-handshake@lists.linux.dev, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Leon Kral <leon.j.kral@protonmail.com>
+Subject: [PATCH net-next v2] net/handshake: Fixed grammar mistake
+Message-ID: <20260227001151.41610-1-leon.j.kral@protonmail.com>
+Feedback-ID: 184191534:user:proton
+X-Pm-Message-ID: 26f61213add1de94c233d76f67e1a18efca4491e
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CANLsYkxAwgG1WkMRr8EJZuSUnN_jKVnsWhWTakVqhvtMBO365A@mail.gmail.com>
- <PAXPR04MB91851D3DA6A92669CB5926A18974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <CANLsYkw-8ERXy3v8Sv55Cpq=+41Toez3EjLMbENAkavvr8STeQ@mail.gmail.com>
- <PAXPR04MB9185B68BC640D940534E44098974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <d4c8f7dd-c0a8-4721-9750-47429637d8c1@lunn.ch> <PAXPR04MB9185BB6443B9E1E407F409D68974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <ndozoc6qdrpv3xuktumsah56im5rbtg6iwerq3xi2xkcuyewpx@szswqvojleg3>
- <AS8PR04MB917652D63DB090D22129D3D78975A@AS8PR04MB9176.eurprd04.prod.outlook.com>
- <2b72kkgwe5hio4uwrxj5oi72llkxhx7egw442fugq6unv7unah@5bfve7k3mvky>
- <PAXPR04MB918508A39832000D786E8F938975A@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <l7vmhr5rg444pqp47x2k5ejamjnisx5rqwfmfr6m2tjazxpbm6@wq2vd4hcxco2>
-In-Reply-To: <l7vmhr5rg444pqp47x2k5ejamjnisx5rqwfmfr6m2tjazxpbm6@wq2vd4hcxco2>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 27 Feb 2026 01:00:31 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkTFHqQRgNeaOmEDOL7AEM8WLVKxU-ZpRyLuw3whOK2ug@mail.gmail.com>
-X-Gm-Features: AaiRm53DnshMNxnGb5s2nvHBLr2HJwlmre0-C9Elu3HkLIEYq6Sfix20f-OwTTU
-Message-ID: <CAD++jLkTFHqQRgNeaOmEDOL7AEM8WLVKxU-ZpRyLuw3whOK2ug@mail.gmail.com>
-Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: Shenwei Wang <shenwei.wang@nxp.com>, Andrew Lunn <andrew@lunn.ch>, 
-	Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <frank.li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, 
-	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 25, 2026 at 10:02=E2=80=AFPM Bjorn Andersson <andersson@kernel.=
-org> wrote:
+The word "a" was used instead of "an" which is grammatically incorrect.
+Fixed by changing from "a" to "an". This improves readability of the
+documentation.
 
-> > Thanks for the explanation. If I=E2=80=99m understanding correctly, wha=
-t you=E2=80=99re suggesting is
-> > essentially a driver that merges the roles of a virtio_driver and an rp=
-msg_driver into a
-> > single source file. There may be opportunities for a few function reuse=
-, but overall it
-> > would still result in a fairly distinct codebase.
-> >
->
-> Most of the non-boilerplate code in gpio-virtio would be impacted by
-> differences between rpmsg and virtio. So combining the two
-> implementations in a single source file would add complexity to an
-> otherwise straightforward driver, only with trivial parts reused.
->
-> My expectation is that it will be better to just have two separate
-> drivers - but reuse all the design-work done in the gpio-virtio.
+Signed-off-by: Leon Kral <leon.j.kral@protonmail.com>
+---
+ Documentation/networking/tls-handshake.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I agree with Bjorn.
+diff --git a/Documentation/networking/tls-handshake.rst b/Documentation/net=
+working/tls-handshake.rst
+index 6f5ea1646a47..4f7bc1087df9 100644
+--- a/Documentation/networking/tls-handshake.rst
++++ b/Documentation/networking/tls-handshake.rst
+@@ -7,7 +7,7 @@ In-Kernel TLS Handshake
+ Overview
+ =3D=3D=3D=3D=3D=3D=3D=3D
+=20
+-Transport Layer Security (TLS) is a Upper Layer Protocol (ULP) that runs
++Transport Layer Security (TLS) is an Upper Layer Protocol (ULP) that runs
+ over TCP. TLS provides end-to-end data integrity and confidentiality in
+ addition to peer authentication.
+=20
+--=20
+2.53.0
+v2:
+v1: https://lore.kernel.org/netdev/20260226000915.27898-1-leon.j.kral@proto=
+nmail.com/
 
-If there is indeed code to be reused, just create a library
-module .c/.o/.h file and export the symbols. modprobe will
-bring it in, Kconfig will configure it in if compiled in. One or the
-other or both modules can use that. We do this
-all over the place.
-
-Yours,
-Linus Walleij
