@@ -1,239 +1,109 @@
-Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E3618A6D4;
-	Fri, 27 Feb 2026 00:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2D3285074
+	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 00:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772150442; cv=none; b=ejzDHrf8ZyDvnYINe8yQ+AmG+4gDJfum7v5CgxNKVKU7LWts7Joro3t5e4QmgsOXkXgSh8Lp+HVVp/3JiQFHYpeVlvrRWTqgyQrSd07mibkg6DIWFN6WDuxt2bj5c9MzvMiB5VffYkelmWTmpJrxGNROYwgV+bG0GrNrluaI45E=
+	t=1772150443; cv=none; b=WlDkNxrbCQYnJtRgrNtXJHl6KTVfjaU9ZWyXJoDeIEkFSU6DIDj8aNGETSbKxyZedq3oJj0qhlXw/hjoFpptr6hPNUwWd1qzCgPiQNiz65QINCtFD6Fbfmyigfg8j/fH6q4Qp+rOmHtcQPdsVWnehltCYefRCelDNzezpAQAFIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772150442; c=relaxed/simple;
-	bh=HzdAag1U7o4sXDozY+dYlvFhjNUh9q66cL4sCv1B3fc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pB8BCCrSvRYPFFDF5ycXAWgHCmE4BEvalXEXcGiwLRqueb5eHdjfJ8C6C5uztfjeGyFJbiMO/DeVIherUUmOVp9yc+4FyKdEOgJrWkoWR40B2cbcF/jtO/vSMkeRNq3lbYbuDZMhI7hGr01XYL9N77ZkZiPzJCxjMd9hAKtxVqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=KfdyHubK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZglLpMDr; arc=none smtp.client-ip=202.12.124.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	s=arc-20240116; t=1772150443; c=relaxed/simple;
+	bh=9DezwKPafh4uiqbk/gjEzFUtqzlwBbzlI4BmHc11dhE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OXtKnvDpXKE/zvHc3g0yyyE0EddT93SM48yBTp3wdn2PJsx0L1FmhMM0HzI8zp15fmQESF1CX5lkHZqQ+qaWg0P5ILrkdcJQoqrkqHa71boWqleMIDcHbhMbiMp3o6Zz/il6uI0YjMvgNFoZHFVfeX+5QBfofkOOMWlk9d36P+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=laueYUpu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b="KfdyHubK";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZglLpMDr"
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailflow.stl.internal (Postfix) with ESMTP id C7E2F13010DF;
-	Thu, 26 Feb 2026 19:00:36 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 26 Feb 2026 19:00:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1772150436;
-	 x=1772157636; bh=7/IXhnnADeIhqB8XjstCGNDdQ5WTGWIX32H4Qcjj2Qw=; b=
-	KfdyHubK7T6mgbCHRhIr5mD6ruTZ/iS4/fLNIWNjGnhl1gAn6fwi3ppJ06Gd2dJg
-	4j+2iEI1NgIVGtQ1kbajwBmSZ3kucQpabC7rYBW1w7C9Ns95JC7G2sCDHFGTcMha
-	kv7zoWe4YzeFKlalXC30X01vESpzdydowfQQQlWMPV+oZxWYLCz283lVR3zv2Nju
-	eVuYQ9dFy2UDeoXJmZYe7S7vvDRP/TCyDm8hpE/sG7rbMKSh1TvkY8QDSsY8Cpg1
-	4cwajHsmuyHaZiq7C2NI+9LmP/V6+FqeD6vXWgw/vHSpDK1AbcXQc1HLUA6FGUn8
-	/XDw5I/P8HNRXjdutcMDoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1772150436; x=
-	1772157636; bh=7/IXhnnADeIhqB8XjstCGNDdQ5WTGWIX32H4Qcjj2Qw=; b=Z
-	glLpMDrdH3ybIl6Jfbe8ZlqPwGEGiWIaKq84xdJ3XK72dVh252bgdeEHLhNGg88w
-	3pDfMb8G+6ch5QZiYiTb2vdJac0ZiodwaNo8erWlfsW8wftbBkxgQ4hNNT4SzETg
-	9xNYNGzd4JBoge3B2Vd6F//62u+9NBZ8XoKc5pbywbz8xoA1EsZcAiF6eo4hfyBI
-	JQaANqURgm9EvX0L6bVDkSvv6JL/0ItofsOMGisEwrBldJgavCTL7e3d4uzr8Pqy
-	wuJsoR33BNh7JMaPMshYytFmb9FjXE8o89NSJtN+p3BgZBE7aDmAMqP3zTdWMVzY
-	8D3Z60+RKBqTkQZw6Ixcg==
-X-ME-Sender: <xms:o96gaWTEnV5FxcL75W1_K7e8Bz0ZcR-1S0u_5NyytHtXv8SBEpirYQ>
-    <xme:o96gaYmGfC4xz6mPRb4i8ZcE1LMJgkqCiSZk9yheAKn241ll_R_etVV_6kTxHHE7w
-    H8cKRlU2sq26FM569T0VHWBriy5PaH5bhbbLCiPC0f2S_CXrBMYJA>
-X-ME-Received: <xmr:o96gaYDj2UgYwWTCfXWlvCbKyPOUQXrlnfVEIrq7NLCPnXZSaSIprk1Y1HE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeejgeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkjghfofggtgfgsehtjeertdertddvnecuhfhrohhmpeetlhgvgicu
-    hghilhhlihgrmhhsohhnuceorghlvgigsehshhgriigsohhtrdhorhhgqeenucggtffrrg
-    htthgvrhhnpedvkeefjeekvdduhfduhfetkedugfduieettedvueekvdehtedvkefgudeg
-    veeuueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    grlhgvgiesshhhrgiisghothdrohhrghdpnhgspghrtghpthhtohepgeehpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopegumhgrthhlrggtkhesghhoohhglhgvrdgtohhmpd
-    hrtghpthhtoheprghjrgihrggthhgrnhgurhgrsehnvhhiughirgdrtghomhdprhgtphht
-    thhopehgrhgrfhesrghmrgiiohhnrdgtohhmpdhrtghpthhtoheprghmrghsthhrohesfh
-    gsrdgtohhmpdhrtghpthhtoheprghpohhpphhlvgesnhhvihguihgrrdgtohhmpdhrtghp
-    thhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtth
-    hopegrnhhkihhtrgesnhhvihguihgrrdgtohhmpdhrtghpthhtohepsghhvghlghgrrghs
-    sehgohhoghhlvgdrtghomhdprhgtphhtthhopegthhhrihhslheskhgvrhhnvghlrdhorh
-    hg
-X-ME-Proxy: <xmx:o96gaQJHyq02-tY5B_dgovb6RPEIgf6Zra2A8BonvF1GTzX4maPZjQ>
-    <xmx:o96gaTq9myJ60d7pE_4qLYmIRw3gnIkLVp-szI7JBnBn6iTrqiLQZw>
-    <xmx:o96gaXeIGbQgQvAmt_4Ob1Gt3PjoRrw-qPHspQrSOhWEA3H5bkLJxg>
-    <xmx:o96gaboB8XLmP2v_WRvZDm7kWd2k5QB2M1rchi9hpS9YGiFsZlw84w>
-    <xmx:pN6gacyXTZuNPPKKceRhRy0cZc3qSkBNvPabhXzUVrNJ42U27GWaTM6T>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Feb 2026 19:00:32 -0500 (EST)
-Date: Thu, 26 Feb 2026 17:00:30 -0700
-From: Alex Williamson <alex@shazbot.org>
-To: David Matlack <dmatlack@google.com>
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
- Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
- Alistair Popple <apopple@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>,
- Jacob Pan <jacob.pan@linux.microsoft.com>,
- Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
- Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
- kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
- Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Lukas Wunner <lukas@wunner.de>,
- " =?UTF-8?B?TWljaGHFgg==?= Winiarski" <michal.winiarski@intel.com>,
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pranjal Shrivastava <praan@google.com>,
- Pratyush Yadav <pratyush@kernel.org>,
- Raghavendra Rao Ananta <rananta@google.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Saeed Mahameed <saeedm@nvidia.com>,
- Samiullah Khawaja <skhawaja@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- "Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?=" <thomas.hellstrom@linux.intel.com>,
- Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
- Zhu Yanjun <yanjun.zhu@linux.dev>, alex@shazbot.org
-Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
- Live Update
-Message-ID: <20260226170030.5a938c74@shazbot.org>
-In-Reply-To: <20260129212510.967611-11-dmatlack@google.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
-	<20260129212510.967611-11-dmatlack@google.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="laueYUpu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 200CFC2BC9E
+	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 00:00:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772150443;
+	bh=9DezwKPafh4uiqbk/gjEzFUtqzlwBbzlI4BmHc11dhE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=laueYUpuuYc+GxWvK+6ILshWte/ihb4gEMV5tn8EimGyWRJbCpY8dx/vP47+MjMyf
+	 ZZTJ6DdinA6SMT84gvU7sNGo+VKSSR6mtYLODZL9sSQ6a23FFUXXy34e+wmf5TaovF
+	 XKrKIAHiK1uv6C0KdrMjWcKTWNLHmVjV9QPZWQATjSUXFLYbrJGJWV/2dLCRenitK8
+	 bxCyWB2Ho8IbADrr2cM+0TKxt6mcID7k42E6sTDD1Pn+XGC7u4SkbeItZyNmbo3vih
+	 lyVwoqgWyLT1xDk20EITFGsewzbURcw9jot23Fi/2MW9MXmJBTrR2JL+Azovw8+T/Y
+	 UNOtkcpcJPCNw==
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-79801df3e42so20345797b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 16:00:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUtPZIsgU9dT0JOsKOn6dHlkkrAeUos1cuDMxD8D7WSeWw3uUmSmnnEGoIs2Vqn5PHftw4oIBDOlI8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqR63iaJHYkYEVeUip1PdKucvX/lVreyAT8m6UFuJJahYQNYsf
+	8fuGiRL3THBz04wzUfPPbvi+ISXG4keQQ/tXjFo2i5juTfBvo5IZ2wntfWNRiQ2cwPgBprckveU
+	gjhygDi36rvu4N4NLMBHz3a+/Qr8tKcU=
+X-Received: by 2002:a05:690c:308a:b0:796:3e25:3e95 with SMTP id
+ 00721157ae682-79874d00f80mr36642507b3.18.1772150442330; Thu, 26 Feb 2026
+ 16:00:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CANLsYkxAwgG1WkMRr8EJZuSUnN_jKVnsWhWTakVqhvtMBO365A@mail.gmail.com>
+ <PAXPR04MB91851D3DA6A92669CB5926A18974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CANLsYkw-8ERXy3v8Sv55Cpq=+41Toez3EjLMbENAkavvr8STeQ@mail.gmail.com>
+ <PAXPR04MB9185B68BC640D940534E44098974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <d4c8f7dd-c0a8-4721-9750-47429637d8c1@lunn.ch> <PAXPR04MB9185BB6443B9E1E407F409D68974A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <ndozoc6qdrpv3xuktumsah56im5rbtg6iwerq3xi2xkcuyewpx@szswqvojleg3>
+ <AS8PR04MB917652D63DB090D22129D3D78975A@AS8PR04MB9176.eurprd04.prod.outlook.com>
+ <2b72kkgwe5hio4uwrxj5oi72llkxhx7egw442fugq6unv7unah@5bfve7k3mvky>
+ <PAXPR04MB918508A39832000D786E8F938975A@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <l7vmhr5rg444pqp47x2k5ejamjnisx5rqwfmfr6m2tjazxpbm6@wq2vd4hcxco2>
+In-Reply-To: <l7vmhr5rg444pqp47x2k5ejamjnisx5rqwfmfr6m2tjazxpbm6@wq2vd4hcxco2>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 27 Feb 2026 01:00:31 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkTFHqQRgNeaOmEDOL7AEM8WLVKxU-ZpRyLuw3whOK2ug@mail.gmail.com>
+X-Gm-Features: AaiRm53DnshMNxnGb5s2nvHBLr2HJwlmre0-C9Elu3HkLIEYq6Sfix20f-OwTTU
+Message-ID: <CAD++jLkTFHqQRgNeaOmEDOL7AEM8WLVKxU-ZpRyLuw3whOK2ug@mail.gmail.com>
+Subject: Re: [PATCH v8 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+To: Bjorn Andersson <andersson@kernel.org>
+Cc: Shenwei Wang <shenwei.wang@nxp.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, Bartosz Golaszewski <brgl@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <frank.li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 29 Jan 2026 21:24:57 +0000
-David Matlack <dmatlack@google.com> wrote:
+On Wed, Feb 25, 2026 at 10:02=E2=80=AFPM Bjorn Andersson <andersson@kernel.=
+org> wrote:
 
-> From: Vipin Sharma <vipinsh@google.com>
-> 
-> Do not reset the device when a Live Update preserved vfio-pci device is
-> retrieved and first enabled. vfio_pci_liveupdate_freeze() guarantees the
-> device is reset prior to Live Update, so there's no reason to reset it
-> again after Live Update.
-> 
-> Since VFIO normally uses the initial reset to detect if the device
-> supports function resets, pass that from the previous kernel via
-> struct vfio_pci_core_dev_ser.
-> 
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> ---
->  drivers/vfio/pci/vfio_pci_core.c       | 22 +++++++++++++++++-----
->  drivers/vfio/pci/vfio_pci_liveupdate.c |  1 +
->  include/linux/kho/abi/vfio_pci.h       |  2 ++
->  include/linux/vfio_pci_core.h          |  1 +
->  4 files changed, 21 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index b01b94d81e28..c9f73f597797 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -515,12 +515,24 @@ int vfio_pci_core_enable(struct vfio_pci_core_device *vdev)
->  	if (ret)
->  		goto out_power;
->  
-> -	/* If reset fails because of the device lock, fail this path entirely */
-> -	ret = pci_try_reset_function(pdev);
-> -	if (ret == -EAGAIN)
-> -		goto out_disable_device;
-> +	if (vdev->liveupdate_incoming_state) {
-> +		/*
-> +		 * This device was preserved by the previous kernel across a
-> +		 * Live Update, so it does not need to be reset.
-> +		 */
-> +		vdev->reset_works = vdev->liveupdate_incoming_state->reset_works;
-> +	} else {
-> +		/*
-> +		 * If reset fails because of the device lock, fail this path
-> +		 * entirely.
-> +		 */
-> +		ret = pci_try_reset_function(pdev);
-> +		if (ret == -EAGAIN)
-> +			goto out_disable_device;
-> +
-> +		vdev->reset_works = !ret;
-> +	}
+> > Thanks for the explanation. If I=E2=80=99m understanding correctly, wha=
+t you=E2=80=99re suggesting is
+> > essentially a driver that merges the roles of a virtio_driver and an rp=
+msg_driver into a
+> > single source file. There may be opportunities for a few function reuse=
+, but overall it
+> > would still result in a fairly distinct codebase.
+> >
+>
+> Most of the non-boilerplate code in gpio-virtio would be impacted by
+> differences between rpmsg and virtio. So combining the two
+> implementations in a single source file would add complexity to an
+> otherwise straightforward driver, only with trivial parts reused.
+>
+> My expectation is that it will be better to just have two separate
+> drivers - but reuse all the design-work done in the gpio-virtio.
 
-This could maybe be incrementally cleaner in a
-int vfio_pci_core_probe_reset(struct vfio_pci_core_device *vdev)
-helper.
+I agree with Bjorn.
 
->  
-> -	vdev->reset_works = !ret;
->  	pci_save_state(pdev);
->  	vdev->pci_saved_state = pci_store_saved_state(pdev);
+If there is indeed code to be reused, just create a library
+module .c/.o/.h file and export the symbols. modprobe will
+bring it in, Kconfig will configure it in if compiled in. One or the
+other or both modules can use that. We do this
+all over the place.
 
-Isn't this a problem too?  In the first kernel we store the initial,
-post reset state of the device, now we're storing some arbitrary state.
-This is the state we're restore when the device is closed.
-
->  	if (!vdev->pci_saved_state)
-> diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> index 1ad7379c70c4..c52d6bdb455f 100644
-> --- a/drivers/vfio/pci/vfio_pci_liveupdate.c
-> +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> @@ -57,6 +57,7 @@ static int vfio_pci_liveupdate_preserve(struct liveupdate_file_op_args *args)
->  
->  	ser->bdf = pci_dev_id(pdev);
->  	ser->domain = pci_domain_nr(pdev->bus);
-> +	ser->reset_works = vdev->reset_works;
->  
->  	args->serialized_data = virt_to_phys(ser);
->  	return 0;
-> diff --git a/include/linux/kho/abi/vfio_pci.h b/include/linux/kho/abi/vfio_pci.h
-> index 9bf58a2f3820..6c3d3c6dfc09 100644
-> --- a/include/linux/kho/abi/vfio_pci.h
-> +++ b/include/linux/kho/abi/vfio_pci.h
-> @@ -34,10 +34,12 @@
->   *
->   * @bdf: The device's PCI bus, device, and function number.
->   * @domain: The device's PCI domain number (segment).
-> + * @reset_works: Non-zero if the device supports function resets.
->   */
->  struct vfio_pci_core_device_ser {
->  	u16 bdf;
->  	u16 domain;
-> +	u8 reset_works;
->  } __packed;
->  
->  #endif /* _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H */
-> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-> index 350c30f84a13..95835298e29e 100644
-> --- a/include/linux/vfio_pci_core.h
-> +++ b/include/linux/vfio_pci_core.h
-> @@ -16,6 +16,7 @@
->  #include <linux/types.h>
->  #include <linux/uuid.h>
->  #include <linux/notifier.h>
-> +#include <linux/kho/abi/vfio_pci.h>
->  
->  #ifndef VFIO_PCI_CORE_H
->  #define VFIO_PCI_CORE_H
-
-Wouldn't a forward declaration do, and the kho/abi include can be kept
-out of the public header?  Also should be in the previous patch?
-Thanks,
-
-Alex
+Yours,
+Linus Walleij
