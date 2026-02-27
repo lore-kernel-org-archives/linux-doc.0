@@ -1,115 +1,172 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD8F1A9F97;
-	Fri, 27 Feb 2026 21:09:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5958034678C
+	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 21:32:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772226547; cv=none; b=oaz3aFxRhZeNkypTzLrCjcrcetnZDksR50M/8uRF7AmuiCBKcsEkN8KEiqyBFGw/U8zo7Fn6ey+MijY8qkUWpJudRF2+TDLgFTD8jKpa2ECxo8qp4N3j82306w9+dRZj9iXQWR2h0Q4vXxK18/Uh3Jk44OOForHPsFsuE3CDFuc=
+	t=1772227965; cv=none; b=Cr9aktneJuaDXJC/wXWh777c92ZDAsaxJZ3VSWaYKxftcLsl65F+6RfwINae07omKmzsmAl21bq5uWzFJGW2mvqFeHvUprsXg5kN7QWBHk86dExCbZUVJ42g0de9kFoI5WdcIpgVbkzjZfOoyj7iMut/VdOAQohWdJbdQeIv5oQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772226547; c=relaxed/simple;
-	bh=xjkcwnrAWf8OrFv2bcOg2en4S/OMGTVvWvqpKRZcaDI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JeBTZf/Um981+qUoeDDTbLiYoyp/TzfY7dCxpd9OjZsb24qpceyNd98pNPA9+ggQtUu9JSi95u1RMviAeflyhMQt+80zouIfUiGC+ROsZNeH1XLwDfHthtPtdd5G2YK3nmFTkxdueZUkphhf8hklNRuaRn5KCtvacYPWXx8Oby8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R4nGnP1c; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1772227965; c=relaxed/simple;
+	bh=nUceLnwnFGOsiCx6d1TbU2VXshva5vgl3jAvcmBpNIg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YvTJ0lrrajyEBcPecJp+rA8OZwYDou58rh5Ck18o4CHGGNVsdm6Cx+SHF8xcYFxXSp5koKk0BrVyftxHjfw8hAhFe2Wx7mXAar/SODPpeQRdlD27LJVa1kpPu53DQUW9DLyJhZtUUNuzc3qFiQqSJ1yueXAXJKxuuZ+R+4Q7NAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hLFhazWs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R4nGnP1c"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=4FuBhsUwwCOInnqB7O2GDaXeBFXb9h+2Obvf7L/ta9E=; b=R4nGnP1cbd2DInksjBWnv/d0gZ
-	ddMiXwJQ6PFlTGSrO4IoZMGFmmQIXDaYGedozjGH+yn4XfqDSkk3Jv/s5ir9UPpsNZ41AQfWI07Sm
-	BPaRF8DKchzsIFPxz1dfIz6y5nluh+GHF0qVxD6DBS/bsTV/EPpJ+n7dV/La/vzpCqXyKlIwaRlEQ
-	DU1I3pxQAzNCEcAysnohMM6ujLMLvuXbsH21wqKxEAczIZ2Y9XrLBT7p0moUXfnhGzWbZeg3VkqhL
-	pYwcZes5wDl9MlmKLnO7r1XeNP9XgUXeHaHblD3R/rFKyxxsvcRd+3/Z7uFLH1uQnyTv7h+3nlUSZ
-	LOywukdw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vw54u-00000009A1r-3Ob7;
-	Fri, 27 Feb 2026 21:08:52 +0000
-Message-ID: <7d4ece82-2d92-4e97-851b-822816cfd800@infradead.org>
-Date: Fri, 27 Feb 2026 13:08:51 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hLFhazWs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EE9EC2BC9E
+	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 21:32:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772227965;
+	bh=nUceLnwnFGOsiCx6d1TbU2VXshva5vgl3jAvcmBpNIg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=hLFhazWswPxRoY1uNYl+xF4riy8lYbk4qBIUfzMROq+UlcfqZcSnzMZfzfTctqa1d
+	 iF4+3ANW/DJC5aVyvbvWLURQH6/K7Ri75vgUtWOmA2IyMvuIgF+sFSEijR/omqTtkP
+	 dPn6xUC/5KEx6kgp6LQbIbtewqgjLmkrkh72OoBVlKHcyuAkT/3ZhwZ/wI9xERPAoi
+	 60cUEbvVMBXMN8fBK/lb4BwIYKEAF1453JSTJfjO+Xl9i32VFsmmi+8I2gLeF0y213
+	 qq9maYtdeJZB2IxQTBdU7gnYjjb4jpyQdKbDLaQnI4ZtjzqBFGQad65bc96E1/t0aY
+	 ZbfGBErPmEEKQ==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-389f200c26eso29845171fa.0
+        for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 13:32:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCU2Btrz4HVQf0avFJI3D2cKnkQoX5TVbxlITJtTKITnggagXA/yh1d5/3gfc7cAA2LsdRTtD53SSm4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGortKxKXgnTSSxoJtUiBjTR8mXS6JMlJhZh2g406a6CIYWVxd
+	0ylsGJ4fs4xQOJyGl9Vd8i5tmT1pxJ4fV4hTAXHsHeW+V6jlDd+CYaEAW4yIdGbAaZHKyMs5/lb
+	d1Zxw6LhUvqTbYYz/mteil8uOw8iKwT5lQohP+7ZeaQ==
+X-Received: by 2002:a2e:b8d3:0:b0:389:fae2:10c1 with SMTP id
+ 38308e7fff4ca-389ff109ba2mr23520851fa.7.1772227963739; Fri, 27 Feb 2026
+ 13:32:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv7 17/18] hugetlb: Update vmemmap_dedup.rst
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>,
- Frank van der Linden <fvdl@google.com>
-Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-References: <20260227194302.274384-1-kas@kernel.org>
- <20260227194302.274384-18-kas@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260227194302.274384-18-kas@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <CAMRc=Md6ucK-TAmtvWMmUGX1KuVE9Wj_z4i7_-Gc7YXP=Omtcw@mail.gmail.com>
+ <aVZh3hb32r1oVcwG@vaman> <CAMRc=MePAVMZPju6rZsyQMir4CkQi+FEqbC++omQtVQC1rHBVg@mail.gmail.com>
+ <aVf5WUe9cAXZHxPJ@vaman> <CAMRc=Mdaucen4=QACDAGMuwTR1L5224S0erfC0fA7yzVzMha_Q@mail.gmail.com>
+ <aWBndOfbtweRr0uS@vaman> <CAMRc=McPz+W4GOCbNMx-tpSav3+wuUrLT2CF5FhoV5U29oiK6A@mail.gmail.com>
+ <ana2ugshqjicqscwpdgo6knv53n4zzuwqp376qil27spco5vwh@ck7wmplz52qs>
+ <CAMRc=MevcsQ+sWsERQzod-a9A+F8feoLnbBXSkZrUk4zBPYCSQ@mail.gmail.com>
+ <xuiiqsrj63rtg4onuu2vmohwu2b2sd3so5uzakdzuucmwqaufn@7xwecs4apayt> <aZ7GS5W1VNNB2fLi@vaman>
+In-Reply-To: <aZ7GS5W1VNNB2fLi@vaman>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Fri, 27 Feb 2026 22:32:31 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McD3k87-UpZ3q2eqEpVSCRgEVWc0XB+oRUZKM5rxMG=qA@mail.gmail.com>
+X-Gm-Features: AaiRm50yWEXHhLWXdj2Xm8-0PdwLOxwgr2acGIXsoFD28WkZgbQ2Gyt_0YXUMAc
+Message-ID: <CAMRc=McD3k87-UpZ3q2eqEpVSCRgEVWc0XB+oRUZKM5rxMG=qA@mail.gmail.com>
+Subject: Re: [PATCH v9 03/11] dmaengine: qcom: bam_dma: implement support for
+ BAM locking
+To: Vinod Koul <vkoul@kernel.org>, Bjorn Andersson <andersson@kernel.org>
+Cc: Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Feb 25, 2026 at 10:52=E2=80=AFAM Vinod Koul <vkoul@kernel.org> wrot=
+e:
+>
+> > > >
+> > > > Sorry for jumping late. But I disagree with the argument that the c=
+lient drivers
+> > > > have to set the LOCK/UNLOCK bit. These bits are specific to BAM DMA=
+ IP for
+> > > > serializing the command descriptors from multiple entities. So DMA =
+clients like
+> > > > Crypto/NAND have no business in setting this flag. It is the job of=
+ the BAM
+> > > > dmaengine driver to set/unset it at the start and end of the descri=
+ptor chain.
+> > > >
+> > >
+> > > But what if a given client does not need locking? We don't want to en=
+able it
+> > > for everyone - as I explained before.
+> > >
+> >
+> > That's not going to hurt. AFAIK, enabling locking wouldn't cause any no=
+table
+> > performance overhead.
+>
+> I was always skeptical on this one. I had never seen why locking should
+> be pushed to clients. As Bjorn said it leads to more mess than worth it.
+> Thanks Mnai
+>
 
+[snip]
 
-On 2/27/26 11:42 AM, Kiryl Shutsemau (Meta) wrote:
-> From: Kiryl Shutsemau <kas@kernel.org>
-> 
-> Update the documentation regarding vmemmap optimization for hugetlb to
-> reflect the changes in how the kernel maps the tail pages.
-> 
-> Fake heads no longer exist. Remove their description.
-> 
-> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-> Reviewed-by: Muchun Song <muchun.song@linux.dev>
-> Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  Documentation/mm/vmemmap_dedup.rst | 60 +++++++++++++-----------------
->  1 file changed, 26 insertions(+), 34 deletions(-)
-> 
-> diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
-> index 1863d88d2dcb..4aaef36d8971 100644
-> --- a/Documentation/mm/vmemmap_dedup.rst
-> +++ b/Documentation/mm/vmemmap_dedup.rst
-> @@ -124,33 +124,35 @@ Here is how things look before optimization::
->   |           |
->   +-----------+
->  
-> -The value of page->compound_info is the same for all tail pages. The first
-> -page of ``struct page`` (page 0) associated with the HugeTLB page contains the 4
-> -``struct page`` necessary to describe the HugeTLB. The only use of the remaining
-> -pages of ``struct page`` (page 1 to page 7) is to point to page->compound_info.
-> -Therefore, we can remap pages 1 to 7 to page 0. Only 1 page of ``struct page``
-> -will be used for each HugeTLB page. This will allow us to free the remaining
-> -7 pages to the buddy allocator.
-> +The first page of ``struct page`` (page 0) associated with the HugeTLB page
-> +contains the 4 ``struct page`` necessary to describe the HugeTLB. The remaining
-> +pages of ``struct page`` (page 1 to page 7) are tail pages.
-> +
-> +The optimization is only applied when the size of the struct page is a power-of-2
+> >
+> > > >> > Reg Dmitry question above, this is dma hw capability, how will c=
+lient
+> > > >> > know if it has to lock on older rev of hardware or not...?
+> > > >> >
+> > > >> > > Also: only the crypto engine needs it for now, not all the oth=
+er users
+> > > >> > > of the BAM engine.
+> > > >> >
+> > > >>
+> > > >> Trying to set the lock/unlock bits will make
+> > > >> dmaengine_desc_attach_metadata() fail if HW does not support it.
+> > > >>
+> > > >
+> > > > The BAM dmaengine driver *must* know based on the IP version whethe=
+r it supports
+> > > > the LOCK/UNLOCK bits or not, not the client drivers. How can the cl=
+ient drivers
+> > > > know about the BAM DMA IP capability?
+>
+> Lock bits are on the BAM DMA IP or client? Can we not add this
+> capability to BAM driver and lock for IPs that support
+>
 
-                  end that ^^ sentence with a period                      power of 2.
+Lock bits are in the BAM command descriptors. We do in fact already
+expose the layout of BAM command elements to consumers.
 
-> +In this case, all tail pages of the same order are identical. See
-> +compound_head(). This allows us to remap the tail pages of the vmemmap to a
-> +shared, read-only page. The head page is also remapped to a new page. This
-> +allows the original vmemmap pages to be freed.
+> >
+> > > How do
+> > > you handle the case where we need to lock the BAM, send an arbitrary =
+number
+> > > of descriptors from the client and then unlock it? How can the BAM kn=
+ow *when*
+> > > to lock/unlock?
+> > >
+> >
+> > BAM driver has to perform lock during issue_pending() and unlock while =
+reporting
+> > the completion using vchan_cookie_complete().
+>
+> Sounds good to me, thanks Mani
+>
 
+This sounds great in theory but submitting new descriptors while
+you're starting the engines proves to be quite tricky. :(
 
--- 
-~Randy
+Over the course of this week, I tried really hard to make this happen.
+The fact that we have two descriptor chains - one with data and one
+with command descriptors - prepared with two separate calls to
+dmaengine_prep_slave_sg(), but which we want to wrap with a
+lock/unlock means we'll most likely really need to find a way to
+insert the dummy command descriptors the moment we want to flush the
+queue. Though that also means that the consumers need to adjust - for
+instance: they need to submit both the data and command descriptors
+*before* calling dmaengine_issue_pending(). So there goes not
+involving the clients in the locking logic.
 
+I will give it another try on Monday, but there's also another
+problem. The lock/unlock bits need to be attached to *real* command
+descriptors. So we need an actual "dummy" register write. The HPG
+evens says this is the way to do it and I verified that passing 0 in
+addr and size fields of a command descriptor will result in an smmu
+fault. In the current approach, we do a harmles write into the VERSION
+register of the QCE. But the address of that register is not known to
+the BAM driver. How do I tell the BAM driver which address to write
+to? There's struct dma_slave_config that has dst_addr and src_addr
+fields that could be reused but that's probably not really their
+function.
+
+Bart
