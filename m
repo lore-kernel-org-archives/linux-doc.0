@@ -1,101 +1,269 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0208822B8C5;
-	Fri, 27 Feb 2026 14:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE55E42669B;
+	Fri, 27 Feb 2026 14:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772202439; cv=none; b=hqQ6IQbQujyXeiiZTRdZRiwv4PJGzS5HiJf2P5M8ozPiGipJ2w7YfPyJuR+3ryCidvpi3qqImWSnmdPjMF9va3PT3TK6O44H6Zd23qoKUdP9Uo1Oghs5v7CFFsht2o+VZCqfVmKwA/brKDVsbei9yOhW1V33DpqFO3QNxtbcnU8=
+	t=1772203532; cv=none; b=Uzk/P9/QzOlhSCcz6LG3baS5/+qLrk7A+sH7xqVOOqRahB42U1S3YymB0VFz7OU6Kn8SNgUrV8zkfw/aDQiKKfpIwUYIxDoN0zgNbZhJGDDzrF3LoYI+ouFoqyMjVKZBgWjYfdPK/df/VYA3sQjFSW7zGLBWhOYqGtpD+vErcw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772202439; c=relaxed/simple;
-	bh=1tXm+TnS2G3rRfI9XAxUYTYh0E2cTN52tteBOP81uiY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=B3rWSAECJUd5j7WQB9bc7lP9UP5p2odbLiF1s8BhqUKlG/dg15sl/A0K1O6yFuoWdI/E0bfNHTmjqsJuSSL2Wfdtjawju09e2utBbNMfZ7eq1SeNpq+NGkWLWfA9FVmmOzeVbiVV1lhEvjNSzoTaRQzhtaUsN7CS8yBFlrzl+50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=fnN4P0+D; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1772203532; c=relaxed/simple;
+	bh=GWljyIJTzepTA8IxUMxaJgHKXtmwGk55UDR8re5N4jU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Iic1LZQaqc0ws2FGKdXOFpb54+Fk2mGt+dRI58JpVpG4dUp8x7CaSzhLwdNNMKrlccg91kIvFmlIMXrscwjXpWVqg2cUZlOpc8O6FGaHVeI3X/iboCO06w4d9w7hdnK6dnbuxk8dRoS34Vywds9dyihbP/8YILJFV+JwA0w258Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=pkitHSgw; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="fnN4P0+D"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 130E0261CE;
-	Fri, 27 Feb 2026 15:27:15 +0100 (CET)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id A3OePZrBMocl; Fri, 27 Feb 2026 15:27:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1772202434; bh=1tXm+TnS2G3rRfI9XAxUYTYh0E2cTN52tteBOP81uiY=;
-	h=Date:Cc:Subject:From:To:References:In-Reply-To;
-	b=fnN4P0+D+u62BEqExLXqBcaNbpfI/VaJMhGMi61wnTGHyG3cdRMb2mUOMG/4DJP1c
-	 WdUPi38kY2bGSlxdqKC9wf+7pqZftfPm0z5gl7HPEFhtQvmL9Lum8Ufn6yL1i/8wpY
-	 Z15rrsKnd5RcIEmuzH+RzH5uatixCatJ/36V/E6Ehb4+wf8wO8hMD1tCSO88T9QSb1
-	 iZhfeXsY7clss9mFtiIDQ9jYcNJePjZ5L6HCsyzEW7MlJr/89k4jtNT74gLDJClhTh
-	 ELoYopHFIKpOuylC7VJFDcWYPheTb1NbOW8YCRtd9qGYJYtlJk3GJ16ISi37e4WvLo
-	 zS7uehygjp1qQ==
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="pkitHSgw"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 61RCCXLK2582842;
+	Fri, 27 Feb 2026 14:44:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=vv6I0k
+	y+vPPs0At65EIiqJlz5ngSThX4t8eVUQua22s=; b=pkitHSgwPEC4BLFFExJyoN
+	frl47XfH3xBEp9RlR6L9JmpQyI0aTZKXwXaYirvFpzvhJONWIjBryT8H3DL/KKUT
+	I9wpjg//ptjJ8eeL0zwKUAXTwZcTycm9mkNH5Nf3Dr+45kbYM5xrogfyzjRwuPYx
+	/jvOxj9+yxZUyVHcL7/336/x2EKtEIGgaciXWCpYqbdJ9xU4Z2/gNvcWo83SOUNL
+	fYXzL7vIMiAqlthTKV+NTKYv9vhmb2qWVkuIA28obOVMZTHAWki/4VPl0WCjQ14D
+	7cKVMuY8dLVfR33+XEbVkptJphb1HZolSmeMl+GlMoayC0f6Xrun8wGqtcWSohxw
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cf24gvchh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Feb 2026 14:44:20 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 61RB1Y5V030414;
+	Fri, 27 Feb 2026 14:44:19 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cfrhktjbb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Feb 2026 14:44:18 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 61REiErm40894766
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Feb 2026 14:44:15 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CE00B20043;
+	Fri, 27 Feb 2026 14:44:14 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8F9C520040;
+	Fri, 27 Feb 2026 14:43:57 +0000 (GMT)
+Received: from [9.124.211.61] (unknown [9.124.211.61])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 27 Feb 2026 14:43:57 +0000 (GMT)
+Message-ID: <19cf18b5-362d-4ff2-8b85-e2e72809250c@linux.ibm.com>
+Date: Fri, 27 Feb 2026 20:13:56 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 27 Feb 2026 19:56:58 +0530
-Message-Id: <DGPTBRX09EU5.1D1ZSR7EUV7AT@disroot.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "MyungJoo Ham"
- <myungjoo.ham@samsung.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
- "Sebastian Reichel" <sre@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
- <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 04/13] dt-bindings: power: supply: document Samsung
- S2M series PMIC charger device
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Kaustabh Chakraborty"
- <kauschluss@disroot.org>
-References: <20260225-s2mu005-pmic-v3-0-b4afee947603@disroot.org>
- <20260225-s2mu005-pmic-v3-4-b4afee947603@disroot.org>
- <20260225-secret-amusing-cuttlefish-d3bee5@quoll>
-In-Reply-To: <20260225-secret-amusing-cuttlefish-d3bee5@quoll>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 3/5] crash: Use crash_exclude_core_ranges() on powerpc
+To: Jinjie Ruan <ruanjinjie@huawei.com>, corbet@lwn.net,
+        skhan@linuxfoundation.org, catalin.marinas@arm.com, will@kernel.org,
+        chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com,
+        mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
+        pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+        alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org,
+        saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com,
+        vgoyal@redhat.com, dyoung@redhat.com, pmladek@suse.com,
+        rdunlap@infradead.org, dapeng1.mi@linux.intel.com, kees@kernel.org,
+        paulmck@kernel.org, lirongqing@baidu.com, arnd@arndb.de,
+        rppt@kernel.org, ardb@kernel.org, leitao@debian.org, jbohac@suse.cz,
+        cfsworks@gmail.com, ryan.roberts@arm.com, tangyouling@kylinos.cn,
+        ritesh.list@gmail.com, hbathini@linux.ibm.com, eajames@linux.ibm.com,
+        songshuaishuai@tinylab.org, samuel.holland@sifive.com,
+        kevin.brodsky@arm.com, vishal.moola@gmail.com,
+        junhui.liu@pigmoral.tech, coxu@redhat.com, liaoyuanhong@vivo.com,
+        brgerst@gmail.com, fuqiang.wang@easystack.cn, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        devicetree@vger.kernel.org, kexec@lists.infradead.org
+References: <20260226130437.1867658-1-ruanjinjie@huawei.com>
+ <20260226130437.1867658-4-ruanjinjie@huawei.com>
+Content-Language: en-US
+From: Sourabh Jain <sourabhjain@linux.ibm.com>
+In-Reply-To: <20260226130437.1867658-4-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=TNRIilla c=1 sm=1 tr=0 ts=69a1adc4 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=HzLeVaNsDn8A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=Mpw57Om8IfrbqaoTuvik:22 a=GgsMoib0sEa3-_RKJdDe:22 a=VwQbUJbxAAAA:8
+ a=i0EeH86SAAAA:8 a=FCicKRf1_97IgsoL-ogA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: udSiOUEwTIGg3568z9G18Y-U7dmzZ22v
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMjI3MDEzMCBTYWx0ZWRfX+rwqwLNyDm+7
+ Kajbzb/4AHH4a0DSb/UEdBx/rv6XBUQzSiid96euM8aA0Q6jzFDbCjQS4cfoJG/lcTutc53Mwb8
+ J1Yn/mbs+LpLsBVigvCFaUEB9UelGkME6/WqhQahftj0wGt8YxBmcWeNiTuwUzZ7m/dhUdzCdkP
+ jJlr6L/ZKn+tNqQ8wy32A8WWTz0FKbZJhOgWkkfCwa0eZhHM7zbnX7NTxrAReQR1OEYFtMyX8fS
+ 4mNzZB9aItG7Ksf1TukqcucNtKxQKiED5xIA5TMIce+USq1bXaJjT9y9zUtR5UCZbexVNoTt1fd
+ yDQjKAFfSMEaNjD74DlnFHPvy5L5dSXcfaPBuMQdrpKq7JW1HnWvIrE0uDcQHj5xsLRezCSwIzm
+ hiaRXveMvDdCSFq6eMKazmG6c8NOSzaWZFJtbzLan6djpFtrVRINIHqqiG7kScpI+m+rrUi38pC
+ HpLRaUjj93ZBhUOqE0g==
+X-Proofpoint-ORIG-GUID: RLOZoEp-Mbkrhtnbi26juVMkAhb1FcWs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-02-27_02,2026-02-27_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 adultscore=0 priorityscore=1501 impostorscore=0
+ spamscore=0 clxscore=1011 bulkscore=0 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2601150000 definitions=main-2602270130
 
-On 2026-02-25 11:44 +01:00, Krzysztof Kozlowski wrote:
-> On Wed, Feb 25, 2026 at 12:45:06AM +0530, Kaustabh Chakraborty wrote:
->> +
->> +  This is a part of device tree bindings for S2M and S5M family of Powe=
-r
->> +  Management IC (PMIC).
->> +
->> +  See also Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml f=
-or
->> +  additional information and example.
->> +
->> +allOf:
->> +  - $ref: power-supply.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - samsung,s2mu005-charger
+
+
+On 26/02/26 18:34, Jinjie Ruan wrote:
+> The crash memory exclude of crashk_res and crashk_cma memory on powerpc
+> are almost identical to the generic crash_exclude_core_ranges().
 >
-> Review from v1 still applies. I think you ignored several reviews, so I
-> will mark entire patchset as changes requested.
-
-Somehow I missed this one... anyways I address them here:
-
-  Why do you need a dedicated child node for this? It's got one property,
-  other than the compatible, that you're using. It could easily just go
-  in the parent without a dedicated node etc.
-
-The dt node also references a simple-battery node, that's why it's
-required.
-
+> By introducing the architecture-specific arch_crash_exclude_mem_range()
+> function with a default implementation of crash_exclude_mem_range(),
+> and using crash_exclude_mem_range_guarded as powerpc's separate
+> implementation, the generic crash_exclude_core_ranges() helper function
+> can be reused.
 >
-> Best regards,
-> Krzysztof
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+>   arch/powerpc/kexec/ranges.c | 16 ++++------------
+>   include/linux/crash_core.h  |  4 ++++
+>   kernel/crash_core.c         | 19 +++++++++++++------
+>   3 files changed, 21 insertions(+), 18 deletions(-)
+>
+> diff --git a/arch/powerpc/kexec/ranges.c b/arch/powerpc/kexec/ranges.c
+> index 6c58bcc3e130..e5fea23b191b 100644
+> --- a/arch/powerpc/kexec/ranges.c
+> +++ b/arch/powerpc/kexec/ranges.c
+> @@ -553,9 +553,9 @@ int get_usable_memory_ranges(struct crash_mem **mem_ranges)
+>   #endif /* CONFIG_KEXEC_FILE */
+>   
+>   #ifdef CONFIG_CRASH_DUMP
+> -int crash_exclude_mem_range_guarded(struct crash_mem **mem_ranges,
+> -					   unsigned long long mstart,
+> -					   unsigned long long mend)
+> +int arch_crash_exclude_mem_range(struct crash_mem **mem_ranges,
+> +				 unsigned long long mstart,
+> +				 unsigned long long mend)
+>   {
+>   	struct crash_mem *tmem = *mem_ranges;
+
+update_crash_elfcorehdr() in arch/powerpc/kexec/crash.c still calls
+crash_exclude_mem_range_guarded(), causing a build failure. ld: 
+arch/powerpc/kexec/crash.o: in function `update_crash_elfcorehdr': 
+/root/linux/arch/powerpc/kexec/crash.c:454: undefined reference to 
+`crash_exclude_mem_range_guarded' To fix this: diff --git 
+a/arch/powerpc/kexec/crash.c b/arch/powerpc/kexec/crash.c index 
+898742a5205c..e59e909c369d 100644 --- a/arch/powerpc/kexec/crash.c +++ 
+b/arch/powerpc/kexec/crash.c @@ -451,7 +451,7 @@ static void 
+update_crash_elfcorehdr(struct kimage *image, struct memory_notify * 
+base_addr = PFN_PHYS(mn->start_pfn); size = mn->nr_pages * PAGE_SIZE; 
+end = base_addr + size - 1; - ret = 
+crash_exclude_mem_range_guarded(&cmem, base_addr, end); + ret = 
+arch_crash_exclude_mem_range(&cmem, base_addr, end); if (ret) { 
+pr_err("Failed to remove hot-unplugged memory from crash memory 
+ranges\n"); goto out; With the above change included, things are working 
+fine on powerpc.
+
+
+>   
+> @@ -604,18 +604,10 @@ int get_crash_memory_ranges(struct crash_mem **mem_ranges)
+>   			sort_memory_ranges(*mem_ranges, true);
+>   	}
+>   
+> -	/* Exclude crashkernel region */
+> -	ret = crash_exclude_mem_range_guarded(mem_ranges, crashk_res.start, crashk_res.end);
+> +	ret = crash_exclude_core_ranges(mem_ranges);
+>   	if (ret)
+>   		goto out;
+>   
+> -	for (i = 0; i < crashk_cma_cnt; ++i) {
+> -		ret = crash_exclude_mem_range_guarded(mem_ranges, crashk_cma_ranges[i].start,
+> -					      crashk_cma_ranges[i].end);
+> -		if (ret)
+> -			goto out;
+> -	}
+> -
+>   	/*
+>   	 * FIXME: For now, stay in parity with kexec-tools but if RTAS/OPAL
+>   	 *        regions are exported to save their context at the time of
+> diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
+> index 033b20204aca..dbec826dc53b 100644
+> --- a/include/linux/crash_core.h
+> +++ b/include/linux/crash_core.h
+> @@ -68,6 +68,7 @@ extern int crash_prepare_elf64_headers(struct crash_mem *mem, int need_kernel_ma
+>   				       void **addr, unsigned long *sz);
+>   extern int crash_prepare_headers(int need_kernel_map, void **addr,
+>   				 unsigned long *sz, unsigned long *nr_mem_ranges);
+> +extern int crash_exclude_core_ranges(struct crash_mem **cmem);
+>   
+>   struct kimage;
+>   struct kexec_segment;
+> @@ -88,6 +89,9 @@ extern int kimage_crash_copy_vmcoreinfo(struct kimage *image);
+>   extern unsigned int arch_get_system_nr_ranges(void);
+>   extern int arch_crash_populate_cmem(struct crash_mem *cmem);
+>   extern int arch_crash_exclude_ranges(struct crash_mem *cmem);
+> +extern int arch_crash_exclude_mem_range(struct crash_mem **mem,
+> +					unsigned long long mstart,
+> +					unsigned long long mend);
+>   
+>   #else /* !CONFIG_CRASH_DUMP*/
+>   struct pt_regs;
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 96a96e511f5a..300d44ad5471 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -287,24 +287,31 @@ unsigned int __weak arch_get_system_nr_ranges(void) { return 0; }
+>   int __weak arch_crash_populate_cmem(struct crash_mem *cmem) { return -1; }
+>   int __weak arch_crash_exclude_ranges(struct crash_mem *cmem) { return 0; }
+>   
+> -static int crash_exclude_core_ranges(struct crash_mem *cmem)
+> +int __weak arch_crash_exclude_mem_range(struct crash_mem **mem,
+> +					unsigned long long mstart,
+> +					unsigned long long mend)
+> +{
+> +	return crash_exclude_mem_range(*mem, mstart, mend);
+> +}
+> +
+> +int crash_exclude_core_ranges(struct crash_mem **cmem)
+>   {
+>   	int ret, i;
+>   
+>   	/* Exclude crashkernel region */
+> -	ret = crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+> +	ret = arch_crash_exclude_mem_range(cmem, crashk_res.start, crashk_res.end);
+>   	if (ret)
+>   		return ret;
+>   
+>   	if (crashk_low_res.end) {
+> -		ret = crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
+> +		ret = arch_crash_exclude_mem_range(cmem, crashk_low_res.start, crashk_low_res.end);
+>   		if (ret)
+>   			return ret;
+>   	}
+>   
+>   	for (i = 0; i < crashk_cma_cnt; ++i) {
+> -		ret = crash_exclude_mem_range(cmem, crashk_cma_ranges[i].start,
+> -					      crashk_cma_ranges[i].end);
+> +		ret = arch_crash_exclude_mem_range(cmem, crashk_cma_ranges[i].start,
+> +						   crashk_cma_ranges[i].end);
+>   		if (ret)
+>   			return ret;
+>   	}
+> @@ -331,7 +338,7 @@ int crash_prepare_headers(int need_kernel_map, void **addr, unsigned long *sz,
+>   	if (ret)
+>   		goto out;
+>   
+> -	ret = crash_exclude_core_ranges(cmem);
+> +	ret = crash_exclude_core_ranges(&cmem);
+>   	if (ret)
+>   		goto out;
+>   
 
