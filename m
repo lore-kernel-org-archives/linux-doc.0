@@ -1,102 +1,302 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902573ED127;
-	Fri, 27 Feb 2026 11:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4336D1E1C11;
+	Fri, 27 Feb 2026 11:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772190666; cv=none; b=sEa0mnXXr7d6FLfIuNUMRJactbegpjv/nY+HCMTbSi3MNCI4ZNooRaQEUII68Dyr2aG7reqc3azAuKUCOuv2A0VPK63Hlx9YOG8+DPXKxS6JMUd9ANHfZBAw/Jq59bqJTo8lLPAQhaS1kVhIOh6uC7DSLfG6rCqvv9/tbXA0o5o=
+	t=1772191833; cv=none; b=DYYxJrp0n5GY4sw5eYj4W9jKSldYaUXlcrxFGX1muTpbpXotY0eBJ5qppHTSsPPwD6OPt6LJ8iWT7ChubLxUqJjRjZEgw+f8FMsy1bkjUZ4PKjEXsFyN+ytLiutIfHCt1rwxO0ywL5FGH/Tdr/VlsN+4tN6RIzI1g6rVDaZIwbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772190666; c=relaxed/simple;
-	bh=yUQAxqIlsz966wGsDqvB1YhJnmBsPKUfDEivZFSts60=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hrs9agdfL4XLNDC+GDD+5qo+g2mGk09nYgqabYKXZMNSYa/yZjmUv/i/2GSsjTXUZBI4Iqzasd6dvAE4Fkj/lCY9UnsO7fs6qIz309oUWziM0aA8Rffe15ZwSx5mMeyj/+GtbtQap8SEcHDnW5Fx+7We6tnXieAJD/dlAaZmy5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQxpYIyd; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772191833; c=relaxed/simple;
+	bh=q9Qw4m+ehN9G6pF4YvgGI5YvC7WtO4kLCNQbCmQ0VZ8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=BJzq879Q9x344UkDpWUS7cylorAZlBeKcgP82JlUwHjaf5TcIbOsnAmH065wgkUyoPPet9Fly9fjd5EtiXgCgeZm63VZ/frmreqgzmZ/7T+6LqDv1shjjP8BP7O3ovS1fMyU/bJLuaVbQlrewjJugp+4zLWDsKyWO5spVAfX2cQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KA9mDr33; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQxpYIyd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772190665; x=1803726665;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yUQAxqIlsz966wGsDqvB1YhJnmBsPKUfDEivZFSts60=;
-  b=KQxpYIyd/GwJjl+Ek44e3Jt2zIBlQ8LJTlhKNGYSWhH69wDbO3d5ta7C
-   Z53RbcssRCjDBAYx6h8Vc0a8flQ2E+v9bcDAhY8kLWAa29vuud0rkcCpE
-   vrmpmr3ikGyGatK2tnsrbJrUODg7sx792CslZz0hPRozOn6RWLrpfxFpl
-   7NwADyJcz7Yn1KF2PG2KXtRzOdJadt8J6CxuEi7TOywn1+CN1dSzXuNsl
-   M9Vd51L+vaAOXoIeGVrXcXjIyIdtgVeLvtpQ90h9TEypnGKge9Vo29TaL
-   T2W83gOSFu4njUS1ItUBL/xNcBdzx7Ya5p2ngNV++FaPa4SLX6+TUZVrd
-   Q==;
-X-CSE-ConnectionGUID: Zm/wTfa6R4+Rsx1/9URaJw==
-X-CSE-MsgGUID: Yt4nizpUTtiCqLaxQS9AEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11713"; a="90674902"
-X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="90674902"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 03:11:04 -0800
-X-CSE-ConnectionGUID: 6m0FN7VlTGKYlJFSScBnCA==
-X-CSE-MsgGUID: G9KY5nb2S1OKBZgrxYq5VA==
-X-ExtLoop1: 1
-Received: from lkp-server02.sh.intel.com (HELO a3936d6a266d) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Feb 2026 03:10:54 -0800
-Received: from kbuild by a3936d6a266d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vvvjU-00000000AUZ-0u4I;
-	Fri, 27 Feb 2026 11:10:22 +0000
-Date: Fri, 27 Feb 2026 18:58:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Morduan Zang <zhangdandan@uniontech.com>,
-	devnull+cryolitia.gmail.com@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	CoelacanthusHex@gmail.com, Cryolitia@gmail.com, corbet@lwn.net,
-	jdelvare@suse.com, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux@roeck-us.net, marcin@stragowski.com,
-	Morduan Zang <zhangdandan@uniontech.com>
-Subject: Re: [PATCH] hwmon: gpd-fan: replace custom EC I/O with kernel
- ec_read/ec_write
-Message-ID: <202602271850.wkrqotlH-lkp@intel.com>
-References: <53C09CAECC90EB98+20260227024945.151198-1-zhangdandan@uniontech.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KA9mDr33"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AC98C116C6;
+	Fri, 27 Feb 2026 11:30:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772191832;
+	bh=q9Qw4m+ehN9G6pF4YvgGI5YvC7WtO4kLCNQbCmQ0VZ8=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=KA9mDr33xS18HYhHMxjWEsKqOqRnJOYpP3JoPuGNMxpZMgBGRk6QZ30AzHVzdMVlO
+	 TlkKcIB9/TPLGYpNMZ08Il3YRMVl9JyYWiCdAl2pNiuWRqG72drMNfkl3tdVGfJ97c
+	 DpXQ9dYkomvweAHjYHDizYYP8o4V52D/mdElnHU1siJ10WDu+XllQMBZZO0xEYE09D
+	 o/8GjtCbz5qKoHOUipHVLPwgZNQZNkuawkxPPgJ6OBKBakBli+8GttpLRvglr/C2wh
+	 2jrpmrS4BRdthCoOgJ1ymMUaQ1woQSWypOu7cGqLP0i/AZequ6WqdEOC47KWg0+CDn
+	 IPDrai+gMi2kw==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <53C09CAECC90EB98+20260227024945.151198-1-zhangdandan@uniontech.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 27 Feb 2026 12:30:20 +0100
+Message-Id: <DGPPKJ5W6FVD.29LI1HKSBZSG2@kernel.org>
+Subject: Re: [PATCH v11 4/4] rust: gpu: Add GPU buddy allocator bindings
+Cc: <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Dave
+ Airlie" <airlied@redhat.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Koen Koning"
+ <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
+ <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>, "Nikola
+ Djukic" <ndjukic@nvidia.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
+ <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
+ <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
+ "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
+ "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ "Helge Deller" <deller@gmx.de>, "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Boqun Feng" <boqun.feng@gmail.com>, "John Hubbard" <jhubbard@nvidia.com>,
+ "Alistair Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
+ "Edwin Peer" <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ "Andrea Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>,
+ "Zhi Wang" <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp
+ Stanner" <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
+ <alexeyi@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
+ <joel@joelfernandes.org>, <linux-doc@vger.kernel.org>,
+ <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
+ <arunpravin.paneerselvam@amd.com>
+To: "Joel Fernandes" <joelagnelf@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260224224005.3232841-1-joelagnelf@nvidia.com>
+ <20260224224005.3232841-5-joelagnelf@nvidia.com>
+In-Reply-To: <20260224224005.3232841-5-joelagnelf@nvidia.com>
 
-Hi Morduan,
+(Cc: Arun)
 
-kernel test robot noticed the following build errors:
+On Tue Feb 24, 2026 at 11:40 PM CET, Joel Fernandes wrote:
+> +RUST [GPU BUDDY]
+> +M:	Joel Fernandes <joelagnelf@nvidia.com>
+> +L:	dri-devel@lists.freedesktop.org
+> +L:	rust-for-linux@vger.kernel.org
+> +S:	Maintained
+> +F:	rust/helpers/gpu.c
+> +F:	rust/kernel/gpu/
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v7.0-rc1 next-20260226]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+What about adding this to the existing GPU BUDDY ALLOCATOR entry? Maybe you=
+ can
+offer Matthew and Arun your help.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Morduan-Zang/hwmon-gpd-fan-replace-custom-EC-I-O-with-kernel-ec_read-ec_write/20260227-105255
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/53C09CAECC90EB98%2B20260227024945.151198-1-zhangdandan%40uniontech.com
-patch subject: [PATCH] hwmon: gpd-fan: replace custom EC I/O with kernel ec_read/ec_write
-config: x86_64-randconfig-014-20260227 (https://download.01.org/0day-ci/archive/20260227/202602271850.wkrqotlH-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260227/202602271850.wkrqotlH-lkp@intel.com/reproduce)
+Also, this wouldn't be a subentry of "RUST", but the rust version of GPU BU=
+DDY,
+so it would be "GPU BUDDY [RUST]".
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602271850.wkrqotlH-lkp@intel.com/
+Also, please add rust/kernel/gpu/ to the "DRM DRIVERS AND COMMON INFRASTRUC=
+TURE
+[RUST]" entry.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+> +/// Inner structure holding the actual buddy allocator.
+> +///
+> +/// # Synchronization
+> +///
+> +/// The C `gpu_buddy` API requires synchronization (see `include/linux/g=
+pu_buddy.h`).
+> +/// The internal [`GpuBuddyGuard`] ensures that the lock is held for all
+> +/// allocator and free operations, preventing races between concurrent a=
+llocations
+> +/// and the freeing that occurs when [`AllocatedBlocks`] is dropped.
+> +///
+> +/// # Invariants
+> +///
+> +/// The inner [`Opaque`] contains a valid, initialized buddy allocator.
 
->> ERROR: modpost: "ec_read" [drivers/hwmon/gpd-fan.ko] undefined!
->> ERROR: modpost: "ec_write" [drivers/hwmon/gpd-fan.ko] undefined!
+The invariant should be justified in the constructor. Also, where is it use=
+d?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +// SAFETY: GpuBuddyInner is `Sync` because the internal GpuBuddyGuard
+
+I think it's more precise to refer to GpuBuddyInner::lock.
+
+> +// serializes all access to the C allocator, preventing data races.
+> +unsafe impl Sync for GpuBuddyInner {}
+> +
+> +/// Guard that proves the lock is held, enabling access to the allocator=
+.
+> +///
+> +/// # Invariants
+> +///
+> +/// The inner `_guard` holds the lock for the duration of this guard's l=
+ifetime.
+> +pub(crate) struct GpuBuddyGuard<'a> {
+> +    inner: &'a GpuBuddyInner,
+> +    _guard: MutexGuard<'a, ()>,
+> +}
+> +
+> +impl GpuBuddyGuard<'_> {
+> +    /// Get a raw pointer to the underlying C `gpu_buddy` structure.
+> +    fn as_raw(&self) -> *mut bindings::gpu_buddy {
+> +        self.inner.inner.get()
+> +    }
+> +}
+> +
+> +/// GPU buddy allocator instance.
+> +///
+> +/// This structure wraps the C `gpu_buddy` allocator using reference cou=
+nting.
+> +/// The allocator is automatically cleaned up when all references are dr=
+opped.
+> +///
+> +/// # Invariants
+> +///
+> +/// The inner [`Arc`] points to a valid, initialized GPU buddy allocator=
+.
+
+Do we need this invariant? Isn't this implied by the GpuBuddyInner type?
+
+> +    /// Iterate over allocated blocks.
+> +    ///
+> +    /// Returns an iterator yielding [`AllocatedBlock`] values. Each [`A=
+llocatedBlock`]
+> +    /// borrows `self` and is only valid for the duration of that borrow=
+.
+> +    pub fn iter(&self) -> impl Iterator<Item =3D AllocatedBlock<'_>> + '=
+_ {
+> +        // SAFETY: list contains gpu_buddy_block items linked via __bind=
+gen_anon_1.link.
+> +        let clist =3D clist_create!(unsafe {
+
+This macro has three separate safety requirements, please justify all of th=
+em.
+Also, please also use markdown in safety comments. Personally, I don't care=
+ too
+much, but it would be good to keep things consistent.
+
+> +            self.list.as_raw(),
+> +            Block,
+> +            bindings::gpu_buddy_block,
+> +            __bindgen_anon_1.link
+> +        });
+> +
+> +        clist
+> +            .iter()
+> +            .map(|block| AllocatedBlock { block, alloc: self })
+> +    }
+> +}
+> +
+> +#[pinned_drop]
+> +impl PinnedDrop for AllocatedBlocks {
+> +    fn drop(self: Pin<&mut Self>) {
+> +        let guard =3D self.buddy.lock();
+> +
+> +        // SAFETY:
+> +        // - list is valid per the type's invariants.
+> +        // - guard provides exclusive access to the allocator.
+> +        // CAST: BuddyFlags were validated to fit in u32 at construction=
+.
+> +        unsafe {
+> +            bindings::gpu_buddy_free_list(
+> +                guard.as_raw(),
+> +                self.list.as_raw(),
+> +                self.flags.as_raw() as u32,
+> +            );
+> +        }
+> +    }
+> +}
+> +
+> +/// A GPU buddy block.
+> +///
+> +/// Transparent wrapper over C `gpu_buddy_block` structure. This type is=
+ returned
+> +/// as references during iteration over [`AllocatedBlocks`].
+> +///
+> +/// # Invariants
+> +///
+> +/// The inner [`Opaque`] contains a valid, allocated `gpu_buddy_block`.
+> +#[repr(transparent)]
+> +pub struct Block(Opaque<bindings::gpu_buddy_block>);
+
+Does this need to be public? I don't see it being exposed by any API.
+
+> +
+> +impl Block {
+> +    /// Get a raw pointer to the underlying C block.
+> +    fn as_raw(&self) -> *mut bindings::gpu_buddy_block {
+> +        self.0.get()
+> +    }
+> +
+> +    /// Get the block's offset in the address space.
+> +    pub(crate) fn offset(&self) -> u64 {
+> +        // SAFETY: self.as_raw() is valid per the type's invariants.
+> +        unsafe { bindings::gpu_buddy_block_offset(self.as_raw()) }
+> +    }
+> +
+> +    /// Get the block order.
+> +    pub(crate) fn order(&self) -> u32 {
+> +        // SAFETY: self.as_raw() is valid per the type's invariants.
+> +        unsafe { bindings::gpu_buddy_block_order(self.as_raw()) }
+> +    }
+> +}
+> +
+> +// SAFETY: `Block` is not modified after allocation for the lifetime
+> +// of `AllocatedBlock`.
+> +unsafe impl Send for Block {}
+> +
+> +// SAFETY: `Block` is not modified after allocation for the lifetime
+> +// of `AllocatedBlock`.
+> +unsafe impl Sync for Block {}
+> +
+> +/// An allocated block with access to the GPU buddy allocator.
+
+This needs a better description, i.e. what makes an `AllocatedBlock differe=
+nt
+compared to a "normal" Block.
+
+> +///
+> +/// It is returned by [`AllocatedBlocks::iter()`] and provides access to=
+ the
+> +/// GPU buddy allocator required for some accessors.
+> +///
+> +/// # Invariants
+> +///
+> +/// - `block` is a valid reference to an allocated [`Block`].
+> +/// - `alloc` is a valid reference to the [`AllocatedBlocks`] that owns =
+this block.
+
+References should always be valid, no need to mention that.
+
+> +pub struct AllocatedBlock<'a> {
+> +    block: &'a Block,
+
+NIT: What about just naming it "this" and
+
+> +    alloc: &'a AllocatedBlocks,
+
+"blocks"?
+
+> +}
+> +
+> +impl AllocatedBlock<'_> {
+> +    /// Get the block's offset in the address space.
+> +    ///
+> +    /// Returns the absolute offset including the allocator's base offse=
+t.
+> +    /// This is the actual address to use for accessing the allocated me=
+mory.
+> +    pub fn offset(&self) -> u64 {
+> +        self.alloc.buddy.base_offset + self.block.offset()
+> +    }
+> +
+> +    /// Get the block order (size =3D chunk_size << order).
+> +    pub fn order(&self) -> u32 {
+> +        self.block.order()
+> +    }
+> +
+> +    /// Get the block's size in bytes.
+> +    pub fn size(&self) -> u64 {
+> +        self.alloc.buddy.chunk_size << self.block.order()
+> +    }
+> +}
