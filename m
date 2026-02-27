@@ -1,98 +1,98 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FEC361658
-	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 17:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631EB41325C
+	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 17:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.170
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772212100; cv=pass; b=rX5/2CJiOFu0u+su9BPlZNts9NR/8795NLmgLIgJ7me+e0kyfbHRRcCYXKIbHW1NfoVxyT6unqOL69MIQIheuSgG9w/VXP7Yq47x/g9AVM8ZvJpm0c+Mfve47zj2nej4bF1sAzYxS6dCHVMa7oT/2vdWqydH9gJEx1brge1MBco=
+	t=1772212803; cv=pass; b=BjKvSypcR+w4xhRIta4oxyS9Xg1wTKXUQbUbnGVdX7EjdGUAUQJQb4GouBq/eS4gUSToQk/N6f8PSogwMXZdUlfi4BYeIHTh95mAbEvuqSAwU/2xzOsKzuhCYQ2Mh3+G+L0evHhQ7FUzs5nJeXIyofeLaax52yMeXyCtKMj3nAs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772212100; c=relaxed/simple;
-	bh=hgtMP8VUtY9P76ez7WKUM8aE1sgvg9AP+19rjG+g6HA=;
+	s=arc-20240116; t=1772212803; c=relaxed/simple;
+	bh=SSENmwLLmfNwcsRg3YsbfFMJCVOVJDpYAbDWxLRiUJo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EKcMMW92lSEfB96jV7Fds29kafD+jg+zzdft937YZZTArRTP/BczCA2MLq553xqjomAoocXUwW+oTHk3gpuP2VPLdAMahxdm5/NZbhGxaPuxHCj1RfYDHmcXqzJKIRTVsLPaeemaGjnaaEIhhYpdlGsV5qyM1KzhjW5opjGTWn0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PgPiHSvB; arc=pass smtp.client-ip=209.85.208.174
+	 To:Cc:Content-Type; b=WNjBG7GAiUCWlPkxPG3PoY/SydWRvjQLOcHmuLLcRZFbaSwkGhLdJvQcfveyP1gr6ZYbpma4W9m26fEsb/Phhr8IJouek/8t++V9bJhh8gAev1FsDebvdOtqtyfMj+UZmsD8UXM4HgeMswWeQwOIo/nypie2vDVf53jrXBlAN1w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dAQx2BDl; arc=pass smtp.client-ip=209.85.208.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PgPiHSvB"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-389f200c26eso25857391fa.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 09:08:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772212097; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dAQx2BDl"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3870778358aso1192781fa.1
+        for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 09:20:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772212799; cv=none;
         d=google.com; s=arc-20240605;
-        b=Xly5tQZ2Bjus8zVLSjsp0zhjiHNTOrkrdH84t30Dp74zLE7MekzkG4z9ZP+83FOhCm
-         RGKWH7yck1LEDHEPuPlrzXiLcMjJXQgmUHMq+x4tuk+xmy1KydG18DZEswEKRoeIxEf6
-         oS8Fx2gshemzfFpL6Hn9Ueh9cPQTdwCe2oHjM/EXRvlgU75ODQGI7TzKR8roFsz6xbMn
-         0XG/vThfgLQPETQqG4XBc5eAM3rx6rqFV9v5onD2L7tyyvSnstctUM93UJlWBjddjdvp
-         ja6//jpWH5UgmzSDhy0gqXWoJ/lpgUpeFu6yArAtOvOmr8JP4DQburHoFo8HBz0VCDKw
-         EGRA==
+        b=Sb1UQP1Q3/BOrXyo6pze482FYscBY0brHUkGDt1RwaUgOmHt6RtZThLfpw8+Ov7UPW
+         mSuExCI7n5Oq8A/v4PNaC6DZ4K9tf7NPq7VOuRSahDj2vHO4xhqvKfKP/IMsICKG2+ol
+         tbwiYcW66GinAXXsHvFSq/Ij1BBgnK7v3ofwIlqKd59GgfL4bOdBfvERSwnL/+zGrX34
+         xsgTPoYBMLmFLyH1kWyZeTloh/uTfvfQ5MxwJsMEJ69Vw/xOfK9mPMettH0DgzDvOoVO
+         FPlEICNrHYItrAsI+AWcdD6efugRUk18w8JlKNMIsgdnbJACmbmtkOZR1jxVam9UChir
+         /u7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Y7MEfERrDZZYp0c3EO05mpNNZJ5XP1zAqLXvGoyft2Y=;
-        fh=TNdS2C/VUzSAZpy1D+odF7/GUCXjVisVBBdoml8Xkeo=;
-        b=cLBB2d+WSMZ6MRJt1z7AMAZDCO3gh+Lysk6fgQO7izL6Yw4KjB8gCDK6K15Fp2jlsI
-         sMS3UmYAQoXYAyhFuhkb6XT7MSKzHhQ5dPwwcvKsMjkwoORFvfhE+3EgvwWruGoV271j
-         pdfkJ2e1tnUxOriXzz4va4zJwXW0xx1LnB9iZCM8oIxfTw1xdQK6xZPwe+a1i+HkoUOZ
-         85GL7Zsvg1XO+vkHV3Oi3aSGGD6R8zAAwyXERLjpKhbAC61kenbBancnaXh8ujb7BEpK
-         FqHjYCtvSnSuIJV2VjpMQ/j3jtLSQKuPmjrfRaGNI932+k1CEQ49SGBqWaPsugx+1Q7I
-         icYA==;
+        bh=TlM+Kfuyp7z6KhXNl7/hdctuf7el0QWvoUeGk1mQs2Q=;
+        fh=OZoNTcPlMToFxVOYFmuoVcYFoLSLboquvU+wroWROOI=;
+        b=ZVBgVgljZd2TaaexGpiuGI+tfAwCUoeD9/W7ZmjwRvH3pN5Dcs3v9BNAN6apFbGsGv
+         yrWZl8LLBmsxyWZ6+Or+vyyQhpbLX8UjaQVsm3QtbzFlEv/Ngt1qIN+swl4QZNeEp9jP
+         quSFMeFhuP5VUwF2+IAqq6jsOgUQk+99rQW134b7H4QatH9ImEtAZX1DSIrf3UDNgje9
+         ttWsp52m5euOoTZ3JolF+ijlWtonJiisCqt034pq9+3ScIGq3/tR03p5n8rX1V+eoboe
+         5XwFXSb/qdz3W9RHj+nDumITYVAq551vny+GHzB6ACxzhbvC6hpwnIQtYJm+nqkMS4lG
+         AWMg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772212097; x=1772816897; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1772212799; x=1772817599; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y7MEfERrDZZYp0c3EO05mpNNZJ5XP1zAqLXvGoyft2Y=;
-        b=PgPiHSvBUI+6gG4LIWdV1P8tP+hFkKXk+TFFDvSHQY50WokDZVU56YMWiqXkadzDvF
-         dmtlcfNCGrEBiqCje044yvDu+SRSRfiletzn5UHk6aDk5+045qCqDx9KZIhw/o27OQyt
-         UCKQGipmAhUvcb93PWkufu6jfbdDWWfD7jV0cQTUEWeMstaBqGManjqzjqQYtybdqa4L
-         pEO1bYIczqigj3PY5FSg2rMiDk5C7w1QRrnXsEnaAKPLDJTj6pp3XYC4Ydv2DCasxQxQ
-         uDX642xnkksbRVZwr1quu0e2bw6oAYru6aoEG0ikwUHlNxPLSG690KLg3C8rSaGWmiey
-         vDTw==
+        bh=TlM+Kfuyp7z6KhXNl7/hdctuf7el0QWvoUeGk1mQs2Q=;
+        b=dAQx2BDl5oFx+BqwmXycWV/kpTkkGnIYsfZYgEAGg+qI3Y4zelfdWAT8Jj1fGKH28/
+         zaXnldaNkzP5SAo6J94CbmL2NNGwtyDO2Jd7ejvYYZZ9CSSfxEWNfsBWUseJ2mutaMCW
+         +lIadTM4AwSC85kP+iZBs8E8GmtOaw8vJlQ9FCq6C9lmYis/5VrN6orqZPllMFcctJlK
+         ocW+MDJynJc8HRM7HVj467T87NA/k7ZCNhZrYXhcstFkRHcU8fScSvpRemuZwoS8sgee
+         +rIBM7fCm5vaeDURjKqQEeCMSTituBlGUOIyuCjAE6kaqHKxLNzea/pW+xeN+Zqng0YZ
+         5WuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772212097; x=1772816897;
+        d=1e100.net; s=20230601; t=1772212799; x=1772817599;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Y7MEfERrDZZYp0c3EO05mpNNZJ5XP1zAqLXvGoyft2Y=;
-        b=eDypIUtrNdODsUrb/z7GgNRMq3Wn2ryyiw/sLh8/M2qU/JNxJeEhOFzgy3R8Rf3Kwy
-         llgJCh1jcdKDrl2/i/F4JMHwLYP0U6Kg2zs5XRywpStZYfb+HiH0rhA5wvZTzp8Vt6ek
-         BoRg5rqy1fne3CsHLGcxdBDPpEi6yoMvSQvCqHpiaNvRhxJlHDmpIEcziYzmdUm72BNU
-         2bjeTluuyPFqXmF/1uxqMg65N7wCxZNBELxt5PSUXNYaTNEAZsxqCxpeX/pQoVMGNG/R
-         urYTLO9blf7OtxWHj2onqCGa+6pRMjOWh3wGEEThq1XV3PGnWujY7yrEJV+uECctCyi/
-         B5bw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkvjMoTosDBrRK+GPW6cnx+nYo9GCendbR4MQiNSXiMZJhr07RWjrdfzUPKDQrRXs4EoHxbCe0RQw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNOlsGhZA+WmkzsbNQZ/3fuhXdqLPvjUbOmsx4i2eRlX3x63RB
-	Jaa1LA42W3aOVcDD6c2/16TkLwCnjZdS+oTnCqdwJAU6abBfge69oCF3SgKnQ6gIXztmg8DZcRf
-	r5WhS78x3HAV2n0TLf8wry6Z4O/zdayVvYJGkw923
-X-Gm-Gg: ATEYQzxONEtGUG4vfBi87cIyCUDQZWuom4d1FRKlnej2bXin5uRor/0xZkxgNUjJj+8
-	/EAfoMVEZXfYGqHvZTfB3GeL9SZgUDhAnHiI/WjTfXoeXvy7b7XxglK/O2jyriVagINiCQsTPpG
-	L1ZAgjNAz6F0+9wB7WrPTOn1tlAnhkMjETgohkZmxJGP/lsVww/tPCdRLzqox9k4G+KuGyW0Ca2
-	T/9XZEMNJmOfKmsVCibylPv04FDHlJj6sh5gYOrN6Xl6hKvzU/CuT8QsyaYA0mh6X+j5hJ0PBe7
-	KcYbgZPu4NnTpvCKIQ==
-X-Received: by 2002:a05:651c:50f:b0:385:f7ce:f321 with SMTP id
- 38308e7fff4ca-389ff15f271mr19911451fa.26.1772212096622; Fri, 27 Feb 2026
- 09:08:16 -0800 (PST)
+        bh=TlM+Kfuyp7z6KhXNl7/hdctuf7el0QWvoUeGk1mQs2Q=;
+        b=gochXmt8xhcNfDJ9Z6nTBJQiouUEYt8T6LJiZmln7uoQ4hSnVSF3SFcitHVAyakmco
+         Y94BvfZvH/otU4arToso6z5ABDg1spi2Qba/d6yN8vhzrNpFJCTc/x3h6LQiel+g1QfP
+         8PV7FJOwlJUg9bo7ek1HYIOiQiDpECIt0psp3fuRNLVKMSTdgWpDu5MAejGdguJuVgYJ
+         TlDXfdNPYnOXhIFp6r2rWpeMZ17eNPotVNA3F0zuVL8kYrYDB6L7SSl0Gc3MkNczkv7+
+         d6hnX4At5OevJT7l51WhV2gGNMhtukIIQvrWYuHsm1ictB9RiuVT7p98y/+Xh5r8fPAm
+         j0xQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXalziODu4cG6gP6nU+uww1b4Eemsb4EBqZ2TAbjha3Z7BdDPkqlDH9Bh+jcqp0CxNtfOk9AswrSa4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7aCHlj39GhDDvbG49F+Rh8od72qjah1B2ShgYNJZKsKtHIaxV
+	qH1tfh++0bKW77GLqUWjaZ7+HXRiJUMl/Kfz/1EO5qhAzyDyyAE/J/J+hMEW0MnjXsV7Vso062j
+	udrttqI+D1jwhIrXUWy/QDE0GuddO3L6X9WSpzaeL
+X-Gm-Gg: ATEYQzyMB+bTcpYibc3Ud2vYhbM3ezA1IpwoU1H9byrW8UlzWOMPY5ku168OxKb6HGg
+	ph9mi7tmMkPSN+DYxTEems8zwUW7Lv1WxxLMjpYtDLdncU67uLxBXj1Eqalc5ROsmg82bvTUQHb
+	dOlHbfWWiLFsir50jFbZF3bfvg1Y5PROdIgLDAP266ROOsov+NShJx4ejPLuYlxuEJKTihkjvb8
+	gWXR6S5Nqt9EGVv8X07GHn9vcsJVoIO5KVSwjuP5pU+KTB6J3WZ2oOXGylrs3uTqfdI0OZ9G3pC
+	MIwF4h4=
+X-Received: by 2002:a05:651c:f17:b0:385:d0b6:6c44 with SMTP id
+ 38308e7fff4ca-389ff14567amr23252321fa.18.1772212798094; Fri, 27 Feb 2026
+ 09:19:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260129212510.967611-1-dmatlack@google.com> <20260129212510.967611-11-dmatlack@google.com>
- <20260226170030.5a938c74@shazbot.org> <aaDqhjdLyf1qSTSh@google.com> <20260227084658.3767d801@shazbot.org>
-In-Reply-To: <20260227084658.3767d801@shazbot.org>
+References: <20260129212510.967611-3-dmatlack@google.com> <20260225224651.GA3711085@bhelgaas>
+ <aZ-TrC8P0tLYhxXO@google.com> <20260227093233.45891424@shazbot.org>
+In-Reply-To: <20260227093233.45891424@shazbot.org>
 From: David Matlack <dmatlack@google.com>
-Date: Fri, 27 Feb 2026 09:07:48 -0800
-X-Gm-Features: AaiRm519T9RurPcNiWyO80VEVhcFvT0_H9lBfATMd1KVW4QtGFBpubzCvVI4oqQ
-Message-ID: <CALzav=fHy23RAzhgkdaL+JA5T2tL9FT6aPgRfXUh7i9zvYCGPA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
- Live Update
+Date: Fri, 27 Feb 2026 09:19:28 -0800
+X-Gm-Features: AaiRm514TJvedInAnynD285P6RuOXX1FfRIbxiQr5Hc2znqJUuMLjDSPlZjM6yI
+Message-ID: <CALzav=dxthSXYo13rOjY710uNbu=6UjzD-OJKm-Xt=wR7oc0mg@mail.gmail.com>
+Subject: Re: [PATCH v2 02/22] PCI: Add API to track PCI devices preserved
+ across Live Update
 To: Alex Williamson <alex@shazbot.org>
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
 	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
 	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
 	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
@@ -115,46 +115,71 @@ Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 27, 2026 at 7:47=E2=80=AFAM Alex Williamson <alex@shazbot.org> =
+On Fri, Feb 27, 2026 at 8:32=E2=80=AFAM Alex Williamson <alex@shazbot.org> =
 wrote:
 >
-> On Fri, 27 Feb 2026 00:51:18 +0000
+> On Thu, 26 Feb 2026 00:28:28 +0000
 > David Matlack <dmatlack@google.com> wrote:
->
-> > On 2026-02-26 05:00 PM, Alex Williamson wrote:
-> > > On Thu, 29 Jan 2026 21:24:57 +0000
-> > > David Matlack <dmatlack@google.com> wrote:
-> > > >
-> > > > - vdev->reset_works =3D !ret;
-> > > >   pci_save_state(pdev);
-> > > >   vdev->pci_saved_state =3D pci_store_saved_state(pdev);
+> > > > +static int pci_flb_preserve(struct liveupdate_flb_op_args *args)
+> > > > +{
+> > > > + struct pci_dev *dev =3D NULL;
+> > > > + int max_nr_devices =3D 0;
+> > > > + struct pci_ser *ser;
+> > > > + unsigned long size;
+> > > > +
+> > > > + for_each_pci_dev(dev)
+> > > > +         max_nr_devices++;
 > > >
-> > > Isn't this a problem too?  In the first kernel we store the initial,
-> > > post reset state of the device, now we're storing some arbitrary stat=
-e.
-> > > This is the state we're restore when the device is closed.
+> > > How is this protected against hotplug?
 > >
-> > The previous kernel resets the device and restores it back to its
-> > post reset state in vfio_pci_liveupdate_freeze() before handing off
-> > control to the next kernel. So my intention here is that VFIO will
-> > receive the device in that state, allowing it to call
-> > pci_store_saved_state() here to capture the post reset state of the
-> > device again.
+> > Pranjal raised this as well. Here was my reply:
 > >
-> > Eventually we want to drop the reset in vfio_pci_liveupdate_freeze() an=
-d
-> > preserve vdev->pci_saved_state across the Live Update. But I was hoping
-> > to add that in a follow up series to avoid this one getting too long.
+> > .  Yes, it's possible to run out space to preserve devices if devices a=
+re
+> > .  hot-plugged and then preserved. But I think it's better to defer
+> > .  handling such a use-case exists (unless you see an obvious simple
+> > .  solution). So far I am not seeing preserving hot-plugged devices
+> > .  across Live Update as a high priority use-case to support.
+> >
+> > I am going to add a comment here in the next revision to clarify that.
+> > I will also add a comment clarifying why this code doesn't bother to
+> > account for VFs created after this call (preserving VFs are explicitly
+> > disallowed to be preserved in this patch since they require additional
+> > support).
 >
-> I appreciate reviewing this in smaller chunks, but how does userspace
-> know whether the kernel contains a stub implementation of liveupdate or
-> behaves according to the end goal?
+> TBH, without SR-IOV support and some examples of in-kernel PF
+> preservation in support of vfio-pci VFs, it seems like this only
+> supports a very niche use case.
 
-Would a new VFIO_DEVICE_INFO_CAP be a good way to communicate this
-information to userspace?
+The intent is to start by supporting a simple use-case and expand to
+more complex scenarios over time, including preserving VFs. Full GPU
+passthrough is common at cloud providers so even non-VF preservation
+support is valuable.
 
-> Also, didn't we violate our own contract in this patch by adding the
-> reset_works field to the serialization data without updating the
-> compatibility string?  Thanks,
+> I expect the majority of vfio-pci
+> devices are VFs and I don't think we want to present a solution where
+> the requirement is to move the PF driver to userspace.
 
-Yes, I will fix that in v3.
+JasonG recommended the upstream support for VF preservation be limited
+to cases where the PF is also bound to VFIO:
+
+  https://lore.kernel.org/lkml/20251003120358.GL3195829@ziepe.ca/
+
+Within Google we have a way to support in-kernel PF drivers but we are
+trying to focus on simpler use-cases first upstream.
+
+> It's not clear,
+> for example, how we can have vfio-pci variant drivers relying on
+> in-kernel channels to PF drivers to support migration in this model.
+
+Agree this still needs to be fleshed out and designed. I think the
+roadmap will be something like:
+
+ 1. Get non-VF preservation working end-to-end (device fully preserved
+and doing DMA continuously during Live Update).
+ 2. Extend to support VF preservation where the PF is also bound to vfio-pc=
+i.
+ 3. (Maybe) Extend to support in-kernel PF drivers.
+
+This series is the first step of #1. I have line of sight to how #2
+could work since it's all VFIO.
