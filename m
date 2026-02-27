@@ -1,90 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C3B43DA53
-	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 20:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD8F1A9F97;
+	Fri, 27 Feb 2026 21:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772225737; cv=none; b=kurgs7vDqbO4nIAXqtOpLmg3/zkOzCYImQeX8Glne7mBMT7sBe5gGMXae3k24yaFtlP0bxjZukG/5KWtHnY+rAVcLBcfzKB4GvkX0IYlM0QJXEYob3N1SaZ50E+ktzxglpeRjYYHt9zjeBG90viXQBPYKKCV5QXz1EjbhMw+MHI=
+	t=1772226547; cv=none; b=oaz3aFxRhZeNkypTzLrCjcrcetnZDksR50M/8uRF7AmuiCBKcsEkN8KEiqyBFGw/U8zo7Fn6ey+MijY8qkUWpJudRF2+TDLgFTD8jKpa2ECxo8qp4N3j82306w9+dRZj9iXQWR2h0Q4vXxK18/Uh3Jk44OOForHPsFsuE3CDFuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772225737; c=relaxed/simple;
-	bh=DP9ajAgSruMYWtuMMFB8M+Q3jGOja+8ctB8ay1J+sFg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=ERrNzjtBpL8nwHf0/1qVI61XgwZwSzWbHx3s6rJG4acuCbwwL91KQ5wgeXqyY1MTlufyyIt6SKDn1g+GXeeDxqb+wsJB+Fvui7bkOh+pOuGW6OwtXf2NzChyohZ5fQk2LJMezSOcfSYCvFmH4aI2I0PyPiz4xgrF6M/VoafLuV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EDoyTUm+; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772226547; c=relaxed/simple;
+	bh=xjkcwnrAWf8OrFv2bcOg2en4S/OMGTVvWvqpKRZcaDI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JeBTZf/Um981+qUoeDDTbLiYoyp/TzfY7dCxpd9OjZsb24qpceyNd98pNPA9+ggQtUu9JSi95u1RMviAeflyhMQt+80zouIfUiGC+ROsZNeH1XLwDfHthtPtdd5G2YK3nmFTkxdueZUkphhf8hklNRuaRn5KCtvacYPWXx8Oby8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=R4nGnP1c; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EDoyTUm+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772225737; x=1803761737;
-  h=date:from:to:cc:subject:message-id;
-  bh=DP9ajAgSruMYWtuMMFB8M+Q3jGOja+8ctB8ay1J+sFg=;
-  b=EDoyTUm+OYo5Pu6FlszHZ7rwedh36VuH1xGhFWe+NJei9w9iMY2xcI2+
-   LecHOP/vGrNQdiDsE9HxRhBUSaIW1vZBCON1UlJelHVQfZXBZfLFxavoF
-   I16xw7mppDffRgMVSiwmUoZz3D2CE0qtjko8bDHjWlW7vVnN7APiWUCxC
-   Dr2vf5vDHaXjjFkuBz0y86jpPodoRbyEKYE3bjTxnOIH1PNcignr7jEeD
-   S723+Xsv/Z3U9cifUvKFRZzB7rwSJ/4RObhinzhI3Svx6Y/6EmCpSzFG8
-   yTFbV5yfQptRC8YGNh3MGVdkRWrtlIdkY8volWM0fT3Q+DJQrHRAP6hP6
-   w==;
-X-CSE-ConnectionGUID: +fptvclXQAeFNu/VH6yFvw==
-X-CSE-MsgGUID: 3uQelpa5RkqIHnNPQxujAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="73021635"
-X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="73021635"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2026 12:55:36 -0800
-X-CSE-ConnectionGUID: 1TZ0PMkKSpyvSXEXwHnYUw==
-X-CSE-MsgGUID: MkCVZYyHQmSG4ul6r4YCJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,314,1763452800"; 
-   d="scan'208";a="247505727"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa002.jf.intel.com with ESMTP; 27 Feb 2026 12:55:34 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vw4rz-000000000cL-3euQ;
-	Fri, 27 Feb 2026 20:55:31 +0000
-Date: Fri, 27 Feb 2026 21:55:29 +0100
-From: kernel test robot <lkp@intel.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
- "Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
-Subject: [linux-next:master 2414/2910] htmldocs: Warning:
- Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file
- that doesn't exist:
- Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
-Message-ID: <202602272154.VcM04DJL-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="R4nGnP1c"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=4FuBhsUwwCOInnqB7O2GDaXeBFXb9h+2Obvf7L/ta9E=; b=R4nGnP1cbd2DInksjBWnv/d0gZ
+	ddMiXwJQ6PFlTGSrO4IoZMGFmmQIXDaYGedozjGH+yn4XfqDSkk3Jv/s5ir9UPpsNZ41AQfWI07Sm
+	BPaRF8DKchzsIFPxz1dfIz6y5nluh+GHF0qVxD6DBS/bsTV/EPpJ+n7dV/La/vzpCqXyKlIwaRlEQ
+	DU1I3pxQAzNCEcAysnohMM6ujLMLvuXbsH21wqKxEAczIZ2Y9XrLBT7p0moUXfnhGzWbZeg3VkqhL
+	pYwcZes5wDl9MlmKLnO7r1XeNP9XgUXeHaHblD3R/rFKyxxsvcRd+3/Z7uFLH1uQnyTv7h+3nlUSZ
+	LOywukdw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vw54u-00000009A1r-3Ob7;
+	Fri, 27 Feb 2026 21:08:52 +0000
+Message-ID: <7d4ece82-2d92-4e97-851b-822816cfd800@infradead.org>
+Date: Fri, 27 Feb 2026 13:08:51 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv7 17/18] hugetlb: Update vmemmap_dedup.rst
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@kernel.org>,
+ Matthew Wilcox <willy@infradead.org>, Usama Arif <usamaarif642@gmail.com>,
+ Frank van der Linden <fvdl@google.com>
+Cc: Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>,
+ Vlastimil Babka <vbabka@suse.cz>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
+ <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20260227194302.274384-1-kas@kernel.org>
+ <20260227194302.274384-18-kas@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260227194302.274384-18-kas@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   3fa5e5702a82d259897bd7e209469bc06368bf31
-commit: 5a8ffc5dca9c096fe9c8879fa3a2faff723fbb8a [2414/2910] regulator: dt-bindings: cpcap-regulator: convert to DT schema
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260227/202602272154.VcM04DJL-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202602272154.VcM04DJL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+On 2/27/26 11:42 AM, Kiryl Shutsemau (Meta) wrote:
+> From: Kiryl Shutsemau <kas@kernel.org>
+> 
+> Update the documentation regarding vmemmap optimization for hugetlb to
+> reflect the changes in how the kernel maps the tail pages.
+> 
+> Fake heads no longer exist. Remove their description.
+> 
+> Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
+> Reviewed-by: Muchun Song <muchun.song@linux.dev>
+> Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  Documentation/mm/vmemmap_dedup.rst | 60 +++++++++++++-----------------
+>  1 file changed, 26 insertions(+), 34 deletions(-)
+> 
+> diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
+> index 1863d88d2dcb..4aaef36d8971 100644
+> --- a/Documentation/mm/vmemmap_dedup.rst
+> +++ b/Documentation/mm/vmemmap_dedup.rst
+> @@ -124,33 +124,35 @@ Here is how things look before optimization::
+>   |           |
+>   +-----------+
+>  
+> -The value of page->compound_info is the same for all tail pages. The first
+> -page of ``struct page`` (page 0) associated with the HugeTLB page contains the 4
+> -``struct page`` necessary to describe the HugeTLB. The only use of the remaining
+> -pages of ``struct page`` (page 1 to page 7) is to point to page->compound_info.
+> -Therefore, we can remap pages 1 to 7 to page 0. Only 1 page of ``struct page``
+> -will be used for each HugeTLB page. This will allow us to free the remaining
+> -7 pages to the buddy allocator.
+> +The first page of ``struct page`` (page 0) associated with the HugeTLB page
+> +contains the 4 ``struct page`` necessary to describe the HugeTLB. The remaining
+> +pages of ``struct page`` (page 1 to page 7) are tail pages.
+> +
+> +The optimization is only applied when the size of the struct page is a power-of-2
 
->> Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
->> Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
-   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+                  end that ^^ sentence with a period                      power of 2.
+
+> +In this case, all tail pages of the same order are identical. See
+> +compound_head(). This allows us to remap the tail pages of the vmemmap to a
+> +shared, read-only page. The head page is also remapped to a new page. This
+> +allows the original vmemmap pages to be freed.
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+~Randy
+
