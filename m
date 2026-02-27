@@ -1,189 +1,262 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38BDA2D4B40
-	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 04:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772166938; cv=none; b=m7GlhKNNEpuTnZZ/GSVxJmlnu5gpWLLx6usYEt/EyBHVag6RgW7rBkQMyicIio1MF1Qeu1Sd44JnoPRWrPb5mN1Ivdk/D2aDE318aO8pIDqSCDxFDjc6g/5US1UmAJ5P+8+f2+Foj2z15wGimk8g6GcEEpoOlmhVwq6GXJzt/Z8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772166938; c=relaxed/simple;
-	bh=SWHzJ90SdLnzw1kw+7UlOAwp6++K7g1f7cyLLHrhZGo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a5V3k26uu80JI2E66FjRYk+PdSA6svLAhJrA+WBLE+OrWU+FmpYzYvck0XVLywyXf3/c1APD6SI4EnawYbcML3xdYMoSSt0hIUIBHKye7pq2R0ubjHMRFXpYncWTk35ENNXlFrXWTXf5IrBnYH4kkGU6Ts2vflQnkcew9Xw+rwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=REHVBIjF; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1F5355F2C
+	for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 06:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772174111; cv=pass; b=Vca64aRhOJ/Suu6Hi7yUpJKa1gNsx0Lcv7ndMAFrg8m6aPu0TJ+VKSg2bX2KDdpPLmIAu84rekIh7lYpqM9UKaz9q83Z/dYMIaWORsTu7zuC1HVY+X/4OPklESeUP1sl70C+onSW4UfuNaU2Jq00mCrkhLJyRCOHrxb6RJeuMeg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772174111; c=relaxed/simple;
+	bh=gGxzmXjY9SbWuXMhHQnBpU0orZgk3BtEHZo3GxuM3Cc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aWMD2gfi1FoY52DtGKIAvaQ98FDX4cOtGNqg6x1lT1ThBDK3GfUx1S8Mweme1Tjif0y5jW7S2BzENVehjsIS7vx7Q/SD7AirZq8vSHE9/LBxK+fcGEOF6wiAZYL4BWmA79g3QB1IQ9IZXcvfmTovwVI2QmUYNsWX7pSD2q7xZBw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=udLOHJ9K; arc=pass smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="REHVBIjF"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c70e27e2b74so575687a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 20:35:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="udLOHJ9K"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2adb1c1f9d4so56995ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 26 Feb 2026 22:35:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772174109; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GAnIAI2YWAnBjcZPsYQUlvNssc74ZdUpZ8ukIG6xjWqmbijuX3hL0A25FKQerHhFi+
+         0FXB48lpY31eIlbzbGOtDt6KfkSy42SzSeT0TRKSkDRiuEoBg9Z/0Mbo/xfkTBmRdVaT
+         wV+Bp6/DeC0tA4OywumqfUyO7MIyuXid/SRvlCAePF/6syoJ0J2YraL35UPFPmC5jJn2
+         c3plAdZLMB8dceMrG2sqUdWcXQ9nHX/8WGwX+0EZ2oTRx7p7nB7j7GUh89z7xwJbP+2x
+         qYNUNGAZ5G28gjiegY7BTKHL0621lbIlR6LBID4GOGRwQ6f6Rb85+Zh4LfZGpufYqura
+         1tDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5vaa8akeEgfUaZjeRn+BA3sQx4L7fWbq7ZmVurp4ODs=;
+        fh=azRAJciIsKc6rILdwpKZ71xqQWm1hmoev4sqWsIo3ao=;
+        b=gYyKO8T26wLmTNgPiYcvChQwPgdS5n3PtEpzDIvS4iRdOhOyiTn+yv1TE1b0YWDicr
+         GvHuXP2LbJtqOvnzeilMVmg6q6IlmPoBK6rugTfDgH+1qSBtaUNWeVuGB76W0A1LIGAJ
+         8XByklEjoBKKs1A0JMx8MHV0dRSShcfWHQVDv3pWhKODFaunpJP+GcqEJXVqjFMlRuhN
+         H3MZL3FMb4ipTOja08hElMBJhRcEkSmHDJmJzT1bGrgBzX+HXTkTkHJU0i7JFP1qz8dZ
+         MhEu1CplUNS/PwPySdicLcIVuYm3EtGuBqvW789i6oGN7rOgvYGOE80df5aO8fYbkJRT
+         qDxg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772166935; x=1772771735; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zl5ub3QzzN5bD+RwdIfU/p2iJGD13syZruWCSfGt9ts=;
-        b=REHVBIjFvx/HPBH2u31rjJ5NN6AKhF3+xyX6Ltj1FFHa1oOHtHP9ZgJy0Qlrm5FgN9
-         JDpH4Rwt4mBA41yePhGOaPOTF5DMOcCaI1XBhnZqP6QObeD0ew0Gr7o2pfYYgYlTdfyt
-         ofZm6hq5G3z5hzVxw9hkuvLhH62AfWeGybwnU/HjKlG2SeVxqaM/RZ2kOu6AvAGUL1Vw
-         MVB47LlrznV9qaTqsLuJw69oMp7u5RFpL09DTcRAELsDYL5tBAQcFM5LSKF4xni/p982
-         +qlpBluBrt5RByWYbV5yRSlPTm26FaOGMhKVB+4IrkKDWZrx35RHAjm6TUO0QyvA5Fnl
-         r3Bg==
+        d=google.com; s=20230601; t=1772174109; x=1772778909; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5vaa8akeEgfUaZjeRn+BA3sQx4L7fWbq7ZmVurp4ODs=;
+        b=udLOHJ9KnAe6WWcjXhYn7r0ms1pxAvcm3bSYcele+NQWjlUoG2EvNeEONsELfNW2EO
+         rzQFLrTsdOiUfvBFaPN5ufgkC9kFcCqbFzxMhaKkLRjeO+IO8KRrATAF8Db/U16F3Svb
+         5r77NhEELijbyGFXYEbWYzIQdTvCYYiZpmXIfF0uz6kLPyJD8T896Nc8Yh4aimgXR7kJ
+         sfd6xHVVVNyIf61oEo34ZSg3MDSks52qHuSJ7luiugxiTTjhaX/foo8enGBgbBWtsRMd
+         vx4XUAONYlv8jC9UiZR6tZzdk5F6HzZvPtr8sfeQSdCCECyawrM3eST1qNwldGlEmQes
+         ms1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772166935; x=1772771735;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Zl5ub3QzzN5bD+RwdIfU/p2iJGD13syZruWCSfGt9ts=;
-        b=org7mvcpKtBZYROPwDOAs5HdO8PRhhkLzEzMuqDNwd5w5V/AIEZSCO+IlF32xXAhL0
-         6Hkg0FiEyjnslAtH3i/Vcm+1qrGEJff6usO4TtUwHPr9UHHb6AGYnUv5K9+UEnCZAy8u
-         PsDp447txm4/8fJz3Q++s7egnGc2nisyRjTAVOtLEyM47VPambZYho6d+R+E+ZVZDW71
-         gi42tJHVPgmx1O4o/tJMBgeButBQOtswXuKz9tbMeYYIDm3mjRAef+Dekipoeugt1LqF
-         0+t2xr89SxuRqHgfuGE1ggE8TJ+BSfAD+qFg5UO6nWoyghs2WaUcxrv93t+LJ+A3un5U
-         jxyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVblurGic3VtVkC/wRccVmnuoiIocFfC6u1CrNpdzFMjxJPHbZnAAABo1kXXFP0MvbTuesJb7QhvAg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyymQaLoS2Or8/RKi1Ukuwra6hUt8XgR4nxz7Ud5W15SFu73Ks/
-	Q7zg6VTTrLAaK+FK6DL1PiAAMd5je8Ag0Lq6tb2eSTOwwDpKHu0pxspk
-X-Gm-Gg: ATEYQzxPh1L/imxiOMe+iPzUdJbnT2u4wDMSAuiF5LWtDDvjbUF3ocSmDrb76M8pV8Q
-	3+Ye17YUHr+cx4A/a7JQ/lG+L/b8x/zLJzRYO9oyUcWqvqsMHJQLsDqFrQDqE6bGSPeDiSJivFu
-	Td8RZB2XRPyrB/Eqi/9KBE1J6tIQYARUEKprsdHgVtwRyk3BlYpsRymjp+iBD9KvXDKDiq2Iado
-	yq8WCKHwIkbZE6e7ZOa/cMEP2h7/G/XY10cJrxpm+YLv15oqeWiZQ0LIKilZy8OVfq2fXhQSTs+
-	g85oxXBxRmKdWdT3ZtCNTh7j2sLLFgnypuMpnbtiC/wNWCSyULe2TzJdf9sqfnS516WhiwxePb3
-	Da+wuMqzfBQ22zyTUb59xXwpgyt2rqiJmuHakTzHvBIvAYiC9WzPfqxcRQXtyLTSTqDMpucc9u3
-	AsSJWLofaIbrqH9xpY+ftOSAwtthK+xTkp0w0uJUz1oy0TIDmyLAYxuJ5Ey/0osL8q+BmOjfuZ
-X-Received: by 2002:a05:6a20:ce4b:b0:364:be7:6ffa with SMTP id adf61e73a8af0-395c3b0f610mr1836593637.36.1772166935523;
-        Thu, 26 Feb 2026 20:35:35 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3593dcad21dsm3588106a91.4.2026.02.26.20.35.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Feb 2026 20:35:34 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <501be986-17b4-4fca-99bd-25c669f2b39c@roeck-us.net>
-Date: Thu, 26 Feb 2026 20:35:33 -0800
+        d=1e100.net; s=20230601; t=1772174109; x=1772778909;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5vaa8akeEgfUaZjeRn+BA3sQx4L7fWbq7ZmVurp4ODs=;
+        b=rBOjdf9EUkeasOuKOIHPl6UZPMwIll3xxJxlpAX2Evf5Dd/Emh6D6Lpc0+r7yu/9JX
+         8YiL/ZUnNQIlsQWxXjTsFIMZbsPLPQh7oGJNnoAmQCHOWWatnJVM/qdC7tV49cGfm7/L
+         MU+JBc0fmIfIvZnlU73zL4DBa06pi7UxsAV2q5bbKX0M9U8pVtukZgTuabmHOwaEbRC8
+         aOJd0EJx1TuzZxRG1zmCka/Zwi0EAHXlhFRGvCX2WmQqsHehRCCL5VO6TQZ0ZuMavSJm
+         8jI0flYgC9OBnnkd2vl+5jii+w6oRHvF208AlbBoLfD2R9Qevl4Bk2Z4UOedECubQK9N
+         LT0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUWhk2pdv9OOcB23EoLt1oFeH442JRGVs/hlKDBq7OmLpslMbAfInrbMw8raevVdCgdE7amathvbMg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgyxsJqC1vclBPvxpiSKXyz66W2zc/ltUIZisraK0FCjrykDNb
+	NopA+vcWN6P6SOhfPHYEpaxFwEqr3fwaxIsUnQeL2AnjNysW5WIMVC5FB2byzF8NRg432Z69bYT
+	JOHvU1A11oGlZ0WJzZlu1NCwmdhTCL+GFuR+K79+f
+X-Gm-Gg: ATEYQzx1rIINBRFGWzWBZu9OyY0VSMx8+EuRqcsY6C6Zh02FGz/J16OTJJEx+YYZdVW
+	Ldrwzp7en4feB27NAyvunmihRa1WIUiq1EMMxcSzyNDoKQ6PRUSWoXgDTZ1AMyHv6WXNJxdvW9F
+	kZhhl72JHh2hS3/6Q20WR2zujQ2S75Z7/ec51VsoLcBjnbs/XKMh3fhkmPDOvGb58zWQe2NxC7f
+	rLrR7pbZ7HX7d8RMjx61DwgaIMck7k29O3rG3HVR4U9997pJkAQWsmZBkhGq70JSi+jFn9xJMKk
+	W2+wK/MSnJRM3b0yYhs9m+BqQAXicEUWJLxp96cR
+X-Received: by 2002:a17:903:2a86:b0:29e:27f4:bac0 with SMTP id
+ d9443c01a7336-2adf77c692amr4716545ad.16.1772174108996; Thu, 26 Feb 2026
+ 22:35:08 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: gpd-fan: replace custom EC I/O with kernel
- ec_read/ec_write
-To: Morduan Zang <zhangdandan@uniontech.com>,
- devnull+cryolitia.gmail.com@kernel.org
-Cc: CoelacanthusHex@gmail.com, Cryolitia@gmail.com, corbet@lwn.net,
- jdelvare@suse.com, linux-doc@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, marcin@stragowski.com
-References: <53C09CAECC90EB98+20260227024945.151198-1-zhangdandan@uniontech.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <53C09CAECC90EB98+20260227024945.151198-1-zhangdandan@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250820010415.699353-1-anthony.yznaga@oracle.com>
+ <CAC_TJvcaJdEzK8n9BK0qgEXdzjzXtbA_Zk-ybfmG8kjNExVCzw@mail.gmail.com>
+ <b82a5ac3-33e9-4cbf-892a-f0c7f6fe0c20@kernel.org> <CAC_TJvdgvyjyJsU4v6W+3tHKx_2e8UMJU3RT2HKLSngcC+yH3Q@mail.gmail.com>
+ <5tdailzxoywzzunbwhtlk4yjfmzunntniqtudkb52q6hib74ql@oq4mi226dedv>
+In-Reply-To: <5tdailzxoywzzunbwhtlk4yjfmzunntniqtudkb52q6hib74ql@oq4mi226dedv>
+From: Kalesh Singh <kaleshsingh@google.com>
+Date: Thu, 26 Feb 2026 22:34:56 -0800
+X-Gm-Features: AaiRm50sVIIQTfT7ctHM4g1t99KQJhS99wa_T7m6oioVRZFMpAuvQzucC4RWMJU
+Message-ID: <CAC_TJvdC+CSqvx+BvOv4gO2mJbwiBhb6OZO0sx=GXQ0CmA853g@mail.gmail.com>
+Subject: Re: [PATCH v3 00/22] Add support for shared PTEs across processes
+To: Pedro Falcato <pfalcato@suse.de>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Anthony Yznaga <anthony.yznaga@oracle.com>, linux-mm@kvack.org, 
+	akpm@linux-foundation.org, andreyknvl@gmail.com, arnd@arndb.de, bp@alien8.de, 
+	brauner@kernel.org, bsegall@google.com, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, dietmar.eggemann@arm.com, ebiederm@xmission.com, 
+	hpa@zytor.com, jakub.wartak@mailbox.org, jannh@google.com, 
+	juri.lelli@redhat.com, khalid@kernel.org, liam.howlett@oracle.com, 
+	linyongting@bytedance.com, lorenzo.stoakes@oracle.com, luto@kernel.org, 
+	markhemm@googlemail.com, maz@kernel.org, mhiramat@kernel.org, mgorman@suse.de, 
+	mhocko@suse.com, mingo@redhat.com, muchun.song@linux.dev, neilb@suse.de, 
+	osalvador@suse.de, pcc@google.com, peterz@infradead.org, rostedt@goodmis.org, 
+	rppt@kernel.org, shakeel.butt@linux.dev, surenb@google.com, 
+	tglx@linutronix.de, vasily.averin@linux.dev, vbabka@suse.cz, 
+	vincent.guittot@linaro.org, viro@zeniv.linux.org.uk, vschneid@redhat.com, 
+	willy@infradead.org, x86@kernel.org, xhao@linux.alibaba.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, Isaac Manjarres <isaacmanjarres@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, android-mm <android-mm@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/26/26 18:49, Morduan Zang wrote:
-> Replace the custom gpd_ecram_read() and gpd_ecram_write() functions that
-> use direct I/O port access (inb/outb) with the kernel's standard ec_read()
-> and ec_write() functions. This provides better abstraction, improves code
-> maintainability, and ensures compatibility across different kernel
-> versions.
-> 
+On Thu, Feb 26, 2026 at 1:22=E2=80=AFPM Pedro Falcato <pfalcato@suse.de> wr=
+ote:
+>
+> On Wed, Feb 25, 2026 at 03:06:10PM -0800, Kalesh Singh wrote:
+> > On Tue, Feb 24, 2026 at 1:40=E2=80=AFAM David Hildenbrand (Arm)
+> > <david@kernel.org> wrote:
+> > >
+> > > > I believe that managing a pseudo-filesystem (msharefs) and mapping =
+via
+> > > > ioctl during process creation could introduce overhead that impacts
+> > > > app startup latency. Ideally, child apps shouldn't be aware of this
+> > > > sharing or need to manage the pseudo-filesystem on their end.
+> > > All process must be aware of these special semantics.
+> > >
+> > > I'd assume that fork() would simply replicate mshare region into the
+> > > fork'ed child process. So from that point of view, it's "transparent"=
+ as
+> > > in "no special mshare() handling required after fork".
+> >
+> > Hi David,
+> >
+> > That's agood  point. If fork() simply replicates the mshare region, it
+> > does achieve transparency in terms of setup.
+> >
+> > I am still concerned about transparency in terms of observability.
+> > Applications and sometimes inspect their own mappings (from
+> > /proc/self/maps) to locate specific code or data regions for various
+> > anti-tamper and obfuscation techniques. [2] If those mappings suddenly
+> > point to an msharefs pseudo-file instead of the expected shared
+> > library backing, it may break user-space assumptions and cause
+> > compatibility issues.
+>
+> I'm not worried about transparency because this is not supposed to be
+> transparent. This is not supposed to be used by most core system software=
+.
+> This is supposed to help replace hugetlb page table sharing.
+>
 
-It also adds dependency on ACPI. On top of that, it is quite obviously
-buggy (see below).
+Hi Pedro,
 
-> Signed-off-by: Morduan Zang <zhangdandan@uniontech.com>
-> ---
->   drivers/hwmon/gpd-fan.c | 37 +++----------------------------------
->   1 file changed, 3 insertions(+), 34 deletions(-)
-> 
-> diff --git a/drivers/hwmon/gpd-fan.c b/drivers/hwmon/gpd-fan.c
-> index 1729729b135f..c44957b7fd91 100644
-> --- a/drivers/hwmon/gpd-fan.c
-> +++ b/drivers/hwmon/gpd-fan.c
-> @@ -19,6 +19,7 @@
->   #include <linux/kernel.h>
->   #include <linux/module.h>
->   #include <linux/platform_device.h>
-> +#include <linux/acpi.h>
->   
->   #define DRIVER_NAME "gpdfan"
->   #define GPD_PWM_CTR_OFFSET 0x1841
-> @@ -243,44 +244,12 @@ static const struct gpd_fan_drvdata *gpd_module_drvdata[] = {
->   // Helper functions to handle EC read/write
->   static void gpd_ecram_read(u16 offset, u8 *val)
->   {
-> -	u16 addr_port = gpd_driver_priv.drvdata->addr_port;
-> -	u16 data_port = gpd_driver_priv.drvdata->data_port;
-> -
-> -	outb(0x2E, addr_port);
-> -	outb(0x11, data_port);
-> -	outb(0x2F, addr_port);
-> -	outb((u8)((offset >> 8) & 0xFF), data_port);
-> -
-> -	outb(0x2E, addr_port);
-> -	outb(0x10, data_port);
-> -	outb(0x2F, addr_port);
-> -	outb((u8)(offset & 0xFF), data_port);
-> -
-> -	outb(0x2E, addr_port);
-> -	outb(0x12, data_port);
-> -	outb(0x2F, addr_port);
-> -	*val = inb(data_port);
-> +	*val = ec_read(offset, val);
+Thanks for the detailed breakdown.
 
-ec_read() writes the return value into val, and returns an error code.
-So this now returns the lower 8 bit of the error code as "value".
+Firstly let me state that my goal definitely isn't to derail or block
+the current mshare efforts.  I'm mostly just trying to gather feedback
+on what a "transparent", approach might actually look like.
 
-... which of course means that this code was not tested, and who knows
-what the ec_read() and ec_write() functions actually do.
+> Transparent page table sharing has other constraints. I like the idea, in
+> theory, but there are a number of constraints that make the idea unfeasib=
+le
+> for now. There are a couple of problems we need to solve first:
+>
+> 1) Every spot where we modify PTEs needs to be assessed and use different
+> helpers (that can un-cow page tables). Every pte_offset_map_lock() can no=
+w
+> feasibly fail for OOM reasons (and that also needs to be assessed).
+>
 
-This code is so bad that I won't trust any subsequent versions. NACK.
+What if we strictly limit the scope to just read-only mappings being
+shared? Would un-COWing still be necessary?
 
-Guenter
+> 2) Various bits of PTE modification/unmapping now needs special care wrt =
+TLB
+> invalidation. The kernel needs to be aware of how the page tables are sha=
+red.
+> I don't think the current rmap data structures are well suited to this ki=
+nd
+> of stuff (perhaps with Lorenzo's WIP anon rmap rework we'll get something
+> better). Basically every spot that goes "modify PTE, flush TLB for mm" no=
+w
+> needs to go "modify PTE, for every mm that maps this page table, flush $m=
+m"
+> (if you're thinking that COW will save us, it technically won't, or shoul=
+dn't,
+> because of stuff like try_to_unmap_one() that is used in reclaim).
 
+I think this bit might need to be architecture dependent. With shared
+TLB partitioning on certain hardware, this becomes much less of an
+issue. We could potentially gate this behind something like
+CONFIG_ARCH_HAVE_SHARED_TLB_SUPPORT (or a similarly fitting name) so
+only architectures that can handle the invalidation efficiently opt
+in.
+
+>
+> 3) Reclaim loses even more information as now N processes share the same =
+A
+> bits. I don't know what effects this can cause. It would require
+> experimentation. Perhaps something like "if page table is shared, value
+> pte_young more". I don't know if this can work as a bandaid, but it's not
+> ideal.
+
+I agree this will require some experimentation. Intuitively, I like to
+think these shared pages might naturally stay "hotter" since multiple
+processes are accessing them concurrently, but we will definitely need
+to experiment with the reclaim logic to see hwo ti does in practice.
+
+>
+> 4) It's not known whether page table COW fork() is a real win in most cas=
+es,
+> or all cases. Would want measurement.
+
+Our preliminary data on Android shows this can save ~200MB or more on
+mobile devices right after boot. On memory-constrained client devices,
+that is a significant win.
+
+>
+> 5) It becomes even harder to estimate RSS and PSS for each process.
+
+For PSS (PAGE_SIZE / mapcount), I can see that a single mapcount from
+all the processes mapping the page through the shared page table would
+skew the result. Though, I find PSS not perfect already; I think
+processes can artificially lower their PSS by mapping the same file
+multiple times.
+
+For RSS, I'm not sure I see the blockers to aggregating across the
+private and shared mm_structs?
+
+>
+> For these reasons (and more, certainly), I don't think working mshare() i=
+nto
+> a transparent, all-great thing that fits the zygote model can work. It ha=
+s been
+> discussed at length how to pull off certain hard bits like TLB invalidati=
+on and
+> locking for mshare, and with mshare we have the advantage of not needing =
+to
+> support every feature ever (tailoring it more to the big database users o=
+f
+> hugetlb). And we'll still need to adapt certain bits of arch code just to=
+ get
+> it to work efficiently.
+>
+> This said, if you want to discuss pulling this off, I'm all ears and it c=
+ould
+> be perhaps a fun discussion (too late for LSF, I guess), but I don't thin=
+k
+> it's workeable into the current mshare efforts. And, believe me, I would =
+love
+> a unified feature here :)
+
+I saw Anthony proposed an mshare topic for LSF/MM; I hope to be there
+as well, it would be great to chat about this in person.
+
+Thanks,
+Kalesh
+
+>
+> --
+> Pedro
