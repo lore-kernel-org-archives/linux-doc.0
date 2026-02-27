@@ -1,100 +1,51 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2262646AEE3;
-	Fri, 27 Feb 2026 19:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0C346AF30;
+	Fri, 27 Feb 2026 20:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772221421; cv=none; b=J07a7KJ8afjWktvezC55u3Iia0xIgQYzz00VD+SAZ+GEr7mUScSOyL71kHlxj7ejeXmF34QcsjDJhSFhOARP5FH6Ap7rG0Lb4iCs5CSkwPv4uuqR9KEbFx3GTRJROX+i3up+NpyUVXx/GRx9Onb/yop57p9FQlGWM1rBHI2/TaM=
+	t=1772222955; cv=none; b=O4DYYaREeDs5uZXZMPUzKpF3RTGPRuYF5kP5qQLTYWoWtQKUlJmJGZGFKUST9uQcqo4AIBQ+sReYLUYQ8ajYpdQlzGrxsjDQhgMSvJQHSD6y2rpcXMmoSWy2vM1o40hrD/pG35uurHY1oQmU4mtX1P/K0lD2Inzx6bIX4WYiZe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772221421; c=relaxed/simple;
-	bh=ZAx3R9GqRsOU9srbTUp+FvCts3Vk9aVQHLhkmRYHaUw=;
+	s=arc-20240116; t=1772222955; c=relaxed/simple;
+	bh=EAaOXPyqmqUhcKP/oFE45gbdUh+zHhzi//bEmNmP/20=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cPTZrSZ8zWJnpOVP20BtN3IhWfOyZ1FynoVsmu0YOy43t4ZlNU0XymlRj6MueJdpJO4Cwy0zdvYjTd0iKvCs79kRBNDurN5xKszIYUoASDMQKTf/WA14QJBA38ygWwAbovwRHe7umVRtdZd46VH3TlkBCnoPpKdur6oZAdWcmw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PC0m/Cga; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Ja30ZK1ndYis5THlKj4GA4rkY7z3y6IwNB7xHz+iOaRBsWWc+p0F7PqscezbgDdcOgjPZoANo6Wox+rvT6HHRJrKIyaii19Jo9x55Ia8ESbEQOc3zbarqA2EVaI+LuYHejRGjMMQ7TaVxIBCT9rXPvyj4fXOtpNaX4/yHE8P1o8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=BogyQmnp; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PC0m/Cga"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C300BC4AF09;
-	Fri, 27 Feb 2026 19:43:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772221420;
-	bh=ZAx3R9GqRsOU9srbTUp+FvCts3Vk9aVQHLhkmRYHaUw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=PC0m/CgatqGb61BR32ksOciiVWsh9kabYVfM4sb2/RkMf4uKu8sUINuIQ7YKsorvS
-	 X8meq6NX5tAjFYkJAMAc+U2k+i4eTGfCfbcG9qiUSR98uL66OKdBu2ZbkS7YGkr3nr
-	 SuVMPjXdhknEHPlp2uncDkaHD6hGh68Q2shP4C4O+bdyrQc93QztUAdoWdQJgpSWLO
-	 1u5BiZy+Da2laUwcso8n56StTGi1Kffc9Hdzym29pU9S1xsgQ7VKYCxtwMPHwAGeOM
-	 1bE4y5mtV6gJA4o97riwF48Al8mcaiN1rb+cXwo/XjnDN3KOVZmElpaA3kcNbpZ75c
-	 /6Ar4HIxZ1vow==
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfauth.phl.internal (Postfix) with ESMTP id DF990F40068;
-	Fri, 27 Feb 2026 14:43:38 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Fri, 27 Feb 2026 14:43:38 -0500
-X-ME-Sender: <xms:6vOhaXubggs39m_iHxkE19Eq9hu-qDTewGwNs2J3KvicJ-8TDyBY0A>
-    <xme:6vOhaRq_YY0wM3gUjaruqNPflidLhEMMOlSsW87SO-UNQOtFLRMnAncA9UKz6GDf9
-    TmJcSe5URH__nx-T8DX7sb2rTQ6V6z4j07ieih5o7LZsT64IKEw-iA>
-X-ME-Received: <xmr:6vOhaU6b9bnfnO44Wsvs220hFH-nJgEtidc-Hcsc3LY2D-quMFF2K9Y39TNI8w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvgeelkeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepfdfmihhrhihl
-    ucfuhhhuthhsvghmrghuucdlofgvthgrmddfuceokhgrsheskhgvrhhnvghlrdhorhhgqe
-    enucggtffrrghtthgvrhhnpefhudejfedvgeekffefvdekheekkeeuveeftdelheegteel
-    gfefveevueekhfdtteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehkihhrihhllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidq
-    udeiudduiedvieehhedqvdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgse
-    hshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopedvkedpmhhouggvpehsmhht
-    phhouhhtpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdroh
-    hrghdprhgtphhtthhopehmuhgthhhunhdrshhonhhgsehlihhnuhigrdguvghvpdhrtghp
-    thhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfihilhhlhiesih
-    hnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehushgrmhgrrghrihhfieegvdesghhm
-    rghilhdrtghomhdprhgtphhtthhopehfvhgulhesghhoohhglhgvrdgtohhmpdhrtghpth
-    htohepohhsrghlvhgrughorhesshhushgvrdguvgdprhgtphhtthhopehrphhptheskhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtohepvhgsrggskhgrsehsuhhsvgdrtgii
-X-ME-Proxy: <xmx:6vOhaXGHJuS7PtiXmnSE6B-g_1FNPKMXgA8MRdODV_MXJvFT7JCUDw>
-    <xmx:6vOhaT4b_oBjocIw7sF9fc9YXDuSrFTXQQJZEQz1hkGsuV9uuzIXJw>
-    <xmx:6vOhaSjRHpYcTP_XbTmXXQX_gvMAqbFdMtZrz1Mk9NHU5Kc7_4CDow>
-    <xmx:6vOhad5lTkgJplK5FXgb-XJWPKapPepvuL0R5_dW7i3dk-y58KJUQg>
-    <xmx:6vOhabCzlhPSJWpu803PVqtD4DFwGJAsyhQ7UGlxPIkg8I456R9GWqHZ>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Feb 2026 14:43:38 -0500 (EST)
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	David Hildenbrand <david@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Frank van der Linden <fvdl@google.com>
-Cc: Oscar Salvador <osalvador@suse.de>,
-	Mike Rapoport <rppt@kernel.org>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Baoquan He <bhe@redhat.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="BogyQmnp"
+Received: from wse-pc.fritz.box (i5C75F712.versanet.de [92.117.247.18])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id 054492FC0057;
+	Fri, 27 Feb 2026 21:09:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1772222952;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0vLp4brTcqKPguCCOAVct3VOIP0KbOI4TypSo5vsCp4=;
+	b=BogyQmnp+nDhUIF6xDOpzjhyUC+QZyHcGuYRjXHtbfqGBzQX6/DF4PJOfzUaxnAjFn4cqd
+	yKCbGoYKeDMeKk8lNelOyMguWlZ8EIyIBq90l1Sdf9plMiWj9fpzUewzHSJU0D8/uCK8PY
+	wGKMYgNp7l7Nzkk4eoPkNsh8HMbhWy4=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: Armin Wolf <W_Armin@gmx.de>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	kernel-team@meta.com,
-	linux-mm@kvack.org,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: Werner Sembach <wse@tuxedocomputers.com>,
+	platform-driver-x86@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	Kiryl Shutsemau <kas@kernel.org>
-Subject: [PATCHv7 18/18] mm/slab: Use compound_head() in page_slab()
-Date: Fri, 27 Feb 2026 19:42:56 +0000
-Message-ID: <20260227194302.274384-19-kas@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260227194302.274384-1-kas@kernel.org>
-References: <20260227194302.274384-1-kas@kernel.org>
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 4/4] Documentation: laptops: Update documentation for uniwill laptops
+Date: Fri, 27 Feb 2026 21:07:17 +0100
+Message-ID: <20260227200906.514928-5-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260227200906.514928-1-wse@tuxedocomputers.com>
+References: <20260227200906.514928-1-wse@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -103,44 +54,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Kiryl Shutsemau <kas@kernel.org>
+Adds short description for two new sysfs entries, ctgp_offset and
+usb_c_power_priority, to the documentation of uniwill laptops.
 
-page_slab() contained an open-coded implementation of compound_head().
-
-Replace the duplicated code with a direct call to compound_head().
-
-Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
 ---
- mm/slab.h | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
+ .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
+ 2 files changed, 37 insertions(+)
 
-diff --git a/mm/slab.h b/mm/slab.h
-index 1a1b3758df05..7d3b929019ae 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -131,19 +131,7 @@ static_assert(IS_ALIGNED(offsetof(struct slab, freelist), sizeof(struct freelist
-  */
- static inline struct slab *page_slab(const struct page *page)
- {
--	unsigned long info;
--
--	info = READ_ONCE(page->compound_info);
--	if (info & 1) {
--		/* See compound_head() */
--		if (compound_info_has_mask()) {
--			unsigned long p = (unsigned long)page;
--			page = (struct page *)(p & info);
--		} else {
--			page = (struct page *)(info - 1);
--		}
--	}
--
-+	page = compound_head(page);
- 	if (data_race(page->page_type >> 24) != PGTY_slab)
- 		page = NULL;
+diff --git a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+index 2df70792968f3..70b4bc97d91a8 100644
+--- a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
++++ b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+@@ -51,3 +51,28 @@ Description:
  
+ 		Reading this file returns the current status of the breathing animation
+ 		functionality.
++
++What:		/sys/bus/platform/devices/INOU0000:XX/ctgp_offset
++Date:		January 2026
++KernelVersion:	7.0
++Contact:	Werner Sembach <wse@tuxedocomputers.com>
++Description:
++		Allows userspace applications to set the configurable TGP offset on top of the base
++		TGP. Base TGP and max TGP and therefore the max cTGP offset are device specific.
++		Note that setting the maximal cTGP leaves no window open for Dynamic Boost,
++		effectifly disabling that feature for the GPU to always be prioritized.
++
++		Reading this file returns the current configurable TGP offset.
++
++What:		/sys/bus/platform/devices/INOU0000:XX/usb_c_power_priority
++Date:		February 2026
++KernelVersion:	7.1
++Contact:	Werner Sembach <wse@tuxedocomputers.com>
++Description:
++		Allows userspace applications to choose the USB-C power distribution profile between
++		one that offers a bigger share of the power to the battery and one that offers more
++		of it to the CPU. Writing "charging"/"performance" into this file selects the
++		respective profile.
++
++		Reading this file returns the profile names with the currently active one in
++		brackets.
+diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Documentation/admin-guide/laptops/uniwill-laptop.rst
+index aff5f57a6bd47..c89b8b3756f84 100644
+--- a/Documentation/admin-guide/laptops/uniwill-laptop.rst
++++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
+@@ -50,6 +50,10 @@ between 1 and 100 percent are supported.
+ Additionally the driver signals the presence of battery charging issues through the standard
+ ``health`` power supply sysfs attribute.
+ 
++It also let you set whether an USB-C power source should prioritise charging the battery or
++delivering immediate power to the cpu. See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for
++details.
++
+ Lightbar
+ --------
+ 
+@@ -58,3 +62,11 @@ LED class device. The default name of this LED class device is ``uniwill:multico
+ 
+ See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details on how to control the various
+ animation modes of the lightbar.
++
++Configurable TGP
++--------
++
++The ``uniwill-laptop`` driver allows to set the configurable TGP for devices with NVIDIA GPUs that
++allow it.
++
++See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
 -- 
-2.51.2
+2.43.0
 
