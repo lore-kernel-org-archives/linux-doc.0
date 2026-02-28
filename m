@@ -1,101 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBAA3D7D9E;
-	Sat, 28 Feb 2026 10:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227C01339B1
+	for <linux-doc@vger.kernel.org>; Sat, 28 Feb 2026 11:43:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772275854; cv=none; b=BNf0DjjS0jqstl0Ud6zDSunq7WMeo1NxYX0oHSacdi9w4a2dFKodNHNjGiptoQxclPKB2mTyam6VCznSPNRjl3ABVEK7G/l+TvFNcnKxz7UasuHRxXIez3vSnl1NWt6BTkLYNA0rxxNGQ4TBARyV2eYyCYz37QqijHoC2nkYw8E=
+	t=1772278984; cv=none; b=GP9be3OMp3GgfA4cibpDenY3uBoAalpKzPreL6ReNWnMIWBnIUtthinf/2fsedNeuO8wS4jOrHN0MN7Xh0e6ii6KYjSzNK/UsekwFa/5n318Zq2Gmtt4EBcQCjq0U4VvBUNB7Wut2qhPDpk/3j/202E22UMM6+dSOy8MjbL4B/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772275854; c=relaxed/simple;
-	bh=uwvZwCB3Vp/FxlpN6HgUQ3BdXcmuGyPGjZmWitt8bqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cOdyXaPMStalrrabpt1WTFkmUWXxoTDDe2wscVih0WXBXpL8FikJwqgmtKO42o9bdbBytGnRIEoe8rpg96hg31zvynQd61BvvqQI/UBfp9oS4J8UcHbL2iWl3+HKnCDN7bUZ4UD6/mZdi/bJgkzjgAyGBnGe3sR7412aDZbIg2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YtwYKyFA; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772278984; c=relaxed/simple;
+	bh=KvCp7CRA0MR6zfy9SIELAph+VODn3J255qIyMsXjpnQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ne3QgBPFXnPHLzpmzmAa7x1ZH7ckQNbZDURm7a+LVu2jRJ5vk1FCZlk78T7QU5gDWMqYGtG6y9KDTZgk9wwukEqrUIPPS+Jpxdj2ZyzcWd/poKGyxqVhFen31Kr40YcNKI+W6Nuq47/aOf75eYvgkObkVBtQqyHEM2ZoL/z9vkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jc5a4Ey5; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YtwYKyFA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772275852; x=1803811852;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uwvZwCB3Vp/FxlpN6HgUQ3BdXcmuGyPGjZmWitt8bqc=;
-  b=YtwYKyFAB4SPKTX3yhF4adI/GvLrW2ZyWOXdu6958y1ccAgHZ/5GrIA/
-   x4QeLuY88pekLNtZXv3L06j57kpdUHX3g5nVXB0gOOfz94sGTUAgXR73V
-   FA6DZ/2XBd29n/dGL24HEO4zb83FcPKmww5fSA5JKyq+LIAHeneDHwVPD
-   xbTNNIr2t8uuO3o0m0KmmxGqxsjneDK7PKxx/4FaAtbM399wMKFmgEKMI
-   dNSUQAJF0V2rq9rQG++bTWLNMcvhbE6Cx9wUeCGDp+JxvKGjq8QV9y5ua
-   nzh34o8MCg9Sjm9L6sASN7EcQHpiP+DXNnCzcYaY7qKQ9ZzIAwrOth22H
-   A==;
-X-CSE-ConnectionGUID: 44RKb2XAQDSVOlwuf1l37w==
-X-CSE-MsgGUID: eUlL4kHsQU23KobqZiNQtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11714"; a="90926338"
-X-IronPort-AV: E=Sophos;i="6.21,316,1763452800"; 
-   d="scan'208";a="90926338"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 02:50:52 -0800
-X-CSE-ConnectionGUID: WM5ztWMIQz2OiDYBjeOoiw==
-X-CSE-MsgGUID: aEZ23wz4RN+2y2Q+MQfljw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,316,1763452800"; 
-   d="scan'208";a="240157971"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.245.224])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 02:50:49 -0800
-Date: Sat, 28 Feb 2026 12:50:46 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Ammar Mustafa <ammarmustafa34@gmail.com>
-Cc: Alisa-Dariana Roman <alisa.roman@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Docs: iio: ad7191 Correct clock configuration
-Message-ID: <aaLIhgJjrNlp3oTy@ashevche-desk.local>
-References: <aaHrsTS9iG-PEfue@ammar-VM2>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jc5a4Ey5"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-824b5f015bcso3441189b3a.1
+        for <linux-doc@vger.kernel.org>; Sat, 28 Feb 2026 03:43:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772278982; x=1772883782; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YuRDc3z4IooJa8eXktkGzKAHRHu09EsPV5j4FQfe/YM=;
+        b=Jc5a4Ey5p9wLzxLD8lbyD3VIqydge3iw8LdsNNkAwcud4gv1e4ckTrEXjLQCAJErBB
+         SgBc7fLqIX0kyXRRpoOtWipy4mJ6v/uwCX1Sr53Qcj7QGbaDKKTikYqRZcz4nt6y2+kt
+         renfLkRR4exKGzhhuC6VKaSeScSSpWrNfU6K8fS8UPwvHeaKhBYxusb12wCAWSz/4nuE
+         TGF0wiDdRUCj9QDmve7tPAYFH2v0QCspQ2un0es8hIVUlfDVwSlJrdsRDTCyGagSaobN
+         3itPBxRC7i8meWLTKJo+mPmmKsb+KO1+0/Swygw64RmIv1jfQNBSyHYfXj32y3K9q8kO
+         7Sjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772278982; x=1772883782;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YuRDc3z4IooJa8eXktkGzKAHRHu09EsPV5j4FQfe/YM=;
+        b=LdZ8tzdagkI0gxhb8yuyI3M0iFGy17MGL873j2TSlPCmBgYJVLncACakmEmPP7NI5k
+         91L7j1JRTJHPDfB50mj9Q/vQpRnYSBftuFy7tDT8VLKAewb95/8La+zzvwuoqHkU5C9c
+         0SFR6BdegPwALyTe92b1mphbOsgID9CWbbNQ7YXmdQXdG9EqBEyoKRHYcbT6m//d1YkZ
+         Zk7xzLw8NGPbo1mFQlGnkiP2/GuLgON+dNejnrlRT6MRgogxrxUp8j2eiunwDCcKg4dv
+         rjKEv3vPq1MZt0Dw2hUL5nq7EiszfBHnCkkgVvsWDCMmMSXLwz9gj5aAHYElR8KGD1NJ
+         gSDQ==
+X-Gm-Message-State: AOJu0YwyruBQuXv55kb68tsJ9qZVmB7dw3Aa1BIQO7CRvU8ZN4YyHTsM
+	OTWhl7Gi4vIfLBNv2+ntV4ly8eZBIypSGBk6c0Dl3lcU1QtNch8DVdYQTIQ8tJDs
+X-Gm-Gg: ATEYQzzVJ2oOVh4jzWt/L1lKw5NQ64BCnWRNBPVrx5YxKLF2x2Jj2qKalqyl/1AJFuV
+	z6NCuGvTm+tKZKyHnfPP74aN7ZadmDErtBGtwRetBCWClylI/pDzZ4bxgAkxEL7iFO3qXpN3+1Y
+	cRKzqF9Vg5Qj7a5oy9r7UeOsY88TzuNmduB51BYP7IQliAnwvRJXLYz71BKqaXgyQJdVGX/50HO
+	1AtmAQs05hcdUQNd2F86Vwg/nDsAMK6qFRNwjYc/zKDJW9CSDvX1jEWRZhzjDwfZZfWCeNbiHUt
+	pCNd9xGJ/5s4I+WNN51FD4nh5jlwsE6pTr0uGtVKNXxlGFn5f94TZClgMpW/NR37uzyetiu1C9Z
+	U9PgeOtIIzk0jjffcr8v+E00Xsn3WgBUAyM2vyYfpnzsMlLjlmtkJu2IvkomXKGmVMgChKeJSlI
+	J1sxaKYIRk/f96wJ8/tULmitcXc/Q19m99MXf1wq4Hbw==
+X-Received: by 2002:a05:6a00:3693:b0:827:2ce5:d762 with SMTP id d2e1a72fcca58-8274da49a67mr5098780b3a.50.1772278982301;
+        Sat, 28 Feb 2026 03:43:02 -0800 (PST)
+Received: from localhost ([103.251.247.23])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82739ba6275sm9904930b3a.0.2026.02.28.03.43.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Feb 2026 03:43:01 -0800 (PST)
+From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+Subject: [PATCH] Documentation: fix type'must to be raised' -> 'must be raised' in embargoed-hardware-issues.rst
+Date: Sat, 28 Feb 2026 17:42:54 +0600
+Message-ID: <20260228114254.22606-1-islamarifulshoikat@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aaHrsTS9iG-PEfue@ammar-VM2>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 27, 2026 at 02:08:33PM -0500, Ammar Mustafa wrote:
-> Correct the ad7191 documentation to match the datasheet:
-> - Fix inverted CLKSEL pin logic: device uses external clock when pin is
->   inactive, and internal CMOS/crystal when high.
+The previous text incorrectly said "must to be raised".
+This corrects the grammar to "must be raised" for clarity.
 
-high --> active
+Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+---
+ Documentation/process/embargoed-hardware-issues.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks, this part looks good in the below documentation update.
-
-> - Correct CMOS-compatible clock pin from MCLK2 to MCLK1.
-
-I haven't checked driver yet, but is it only for a single component?
-Can you double check that _all_ supported by the driver have the same
-in their datasheet(s)?
-
-...
-
-> +- When CLKSEL pin is ACTIVE: Uses internal 4.92MHz clock (no clock property
->    needed)
-> -- When CLKSEL pin is tied HIGH: Requires external clock source
-> +- When CLKSEL pin is INACTIVE: Requires external clock source
->    - Can be a crystal between MCLK1 and MCLK2 pins
-> -  - Or a CMOS-compatible clock driving MCLK2 pin
-> +  - Or a CMOS-compatible clock driving MCLK1 pin and MCLK2 left unconnected
->    - Must specify the "clocks" property in device tree when using external clock
-
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index 34e00848e0da..5ba640219006 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -208,7 +208,7 @@ If not, then the disclosing party will be informed about the experts'
+ participation. The experts are covered by the Memorandum of Understanding
+ and the disclosing party is requested to acknowledge their participation.
+ In the case where the disclosing party has a compelling reason to object,
+-any objection must to be raised within five working days and resolved with
++any objection must be raised within five working days and resolved with
+ the incident team immediately. If the disclosing party does not react
+ within five working days this is taken as silent acknowledgment.
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
