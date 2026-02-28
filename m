@@ -1,91 +1,128 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 999742D97B9
-	for <linux-doc@vger.kernel.org>; Sat, 28 Feb 2026 16:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE41375AC1;
+	Sat, 28 Feb 2026 18:00:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772296060; cv=none; b=S/iP3AL91D33ae4clddjyGaFIGNrScuaphwGqJAmdQDCRc5tNCdGLagAmpveglq1ReSAQmX8/iWCjL2d30nPxbsYBEE2Fyz9zBZO/rl9/KfxjrcyxiewifzIkOwPbnu9V11SmUNDIn4+vabKjTGKnoqZPYwQ8aORqihjtgc5z90=
+	t=1772301630; cv=none; b=rFTlUPOFZTmzY/wAFlCykNOe8FDBZBPC6rFo0BidI5M0Gba6gmvINod3X3BjEAm2I+OtBIe3o6lKES9IXetb2/KFQHz/J/98MAtHRbuMHaVXZN3hqtIV28zfxrU4pCWgQIgTB3MXh1R/Vo9j/dpFZkrmRRA4fk7LHvIVCSbCX5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772296060; c=relaxed/simple;
-	bh=i3/rg94Wfo6LrOwSARkMAUOZfbV/3KB0aCm2MchfZZc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AhBgtktmm8mZjMJvDYipUwA2SyS7h8bnrvfi6DfDupAtquH8RIwSOwhdTUUtlCoawSFXAPdV4qa/KP/VU3le+txpyTb6Z8GpF2zZ/tYxdg1k0O0ejhKORvrfTiVroGESa4PIbb44vigSQHeoo+8bjNCkDfkI9DIeQ6OcWmXk+Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=UAf5ztuM; arc=none smtp.client-ip=209.85.161.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1772301630; c=relaxed/simple;
+	bh=kHCRe4FxCpKOmGTFDbEGFmwKc5c1cbzYW9mRrhA/2zM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rEYsZCofNJjF/T3285U3LlOis4c1wDyVX/PkfMVlaCbthc76U3iB3CXMhDGqCj3Xe9+EZ4q61wPbsUYsU17H9RzmC5UkfL5Ve4gdw94DrnOx+jVH0mEq316O1qD7A9UDeDJf4YuDMBqRARkApBnVGfbean2Pu+i3fFir8NizyAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y5Ww6oOt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="UAf5ztuM"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-66f747175d8so1617294eaf.0
-        for <linux-doc@vger.kernel.org>; Sat, 28 Feb 2026 08:27:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772296056; x=1772900856; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CP86Ut47LCtiOHeXtYEDxgLTZp2P6pBREzSVZZ3bzCw=;
-        b=UAf5ztuMGiaK03VMRKM/7oay37SOZg+3gjmRDZlO5RlgdSyqz6y6oRJPqqf4sMnjSs
-         eMFB/RPwq3U0nD67jkjE/e48yORdl/798WHTW/a+HDF031sK+OZ3plOPMXMasIUE32WI
-         HamnS8Pf5rIlvRxLLXufesOltaej0yTChMGuNtYraqX/lZOD18QinQFaHtQzzLcp7oHv
-         A+9I3pBCeGpmtdBnFcY2yYibFNC6VneQJ7/QLYBbw+qP/qNHuHnzKyNVMcrhYUxPs2Oc
-         r9KYzxab/IQG2yeq1R2tOptcd9wt7PDooMz1Iy+eF0140+ZJc2pU1jFvrHvdGQqDIrjl
-         ysuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772296056; x=1772900856;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CP86Ut47LCtiOHeXtYEDxgLTZp2P6pBREzSVZZ3bzCw=;
-        b=M9ypf5FtBJsdsqLuar238XBhF9pHrFDcJ0K8epB1hggi8PNFFTBC2DY+IBwkwdRxtH
-         MAXRA4DbIIT/FtmGgxvqi9B48ZrG5ZGFIqKxLHD38DeGKse8PkBp310t9gT4PIU9Jnh2
-         R2EAwHXxGM6bcOoTIBRFWk2OFTSK/K0v1zGzkEo6FgBHuNZU+/+L3hmbdxHWeiiFJlUF
-         x2fmY45iTRkA+mdgYOuwohL9XCIYc+Z/qcBVRAKVmzfuj0SW5yWWnWLrGnIQ9epi/ouI
-         a5mRZOczw/jZ6L+UVdQuGva8GY3E4DbuV8r5cQwkdTNel2/g605yF9Wzw2jrf/bAOh/p
-         KnHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXnidfYlxxcSNNVj90Q8Cd8G0DpZlhaSTOVdeeKZam4QwJ+8030Xcwp3GFq4q2jrarql3tpQdCO4aU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEj3qP6S9d80MCqb0o5C5MoGgiR8rlVfeO1/n2Ljc/5q8OReDX
-	nC8VwfinTaFxAtF7FHMWUOf6xnvvUHBq9nJP+cbymWw8ECVn4L6g2WUFx1mPy2gdqTs=
-X-Gm-Gg: ATEYQzxLpVb+ykWd8mTePf/Ngm/VEcupVQxu6cpRrTQoBzvkuxmmxXKrfweZpy3KzPM
-	Jt448uLVe8qLmPrbawkD57apgBcHFxIRTkPZ7F6CnSkbmRtapOIi3jwsxKpuEQ/zu3/q7gITf9C
-	NeeTGWYU4sEIihttkjd9S25cSRwq/j0+BKbjUx+hRMBk9osKiqI+sksy/oIvnDYpu25sOKjds1S
-	qTeqrYqZQT/Hn4Aoxx1rBCMc/wmsOJPgHu4m9wQQuj43p48up+NgM704rmGuHV8zehobIpzlZ+s
-	LteyuvJK9yegDtA+kK2Xqlpa+feOoN5BmViDNILYLJDFdRK0CmSqLww4oPeFjVGKeR2Cvfqxard
-	4CRRESmONblW0TiFW45+97MRwAzunIFTwhtCFH7abtyQdipg5CP/TBDCas4Ca51mnJTaECrsoVE
-	WzPjlEIJFddRdH3NIT9lrjq3STlxePP33kf7cyQf0RW5IPUCbul+0hBx5O7JSmyGtqYMXRocjTs
-	w==
-X-Received: by 2002:a05:6820:1b10:b0:679:efce:99a9 with SMTP id 006d021491bc7-679fadb8724mr5462181eaf.11.1772296056439;
-        Sat, 28 Feb 2026 08:27:36 -0800 (PST)
-Received: from ?IPV6:2600:8803:e7e4:500:1031:c44e:9f1f:17c1? ([2600:8803:e7e4:500:1031:c44e:9f1f:17c1])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-679f2bec8a1sm6258781eaf.6.2026.02.28.08.27.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Feb 2026 08:27:36 -0800 (PST)
-Message-ID: <f697a233-2fde-49e8-8c85-dbcf2599eaa9@baylibre.com>
-Date: Sat, 28 Feb 2026 10:27:35 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y5Ww6oOt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED299C19423;
+	Sat, 28 Feb 2026 17:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772301629;
+	bh=kHCRe4FxCpKOmGTFDbEGFmwKc5c1cbzYW9mRrhA/2zM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Y5Ww6oOt+Lwkhhw6KzkZzqCLx2GB5Y6V/naeD+g/YVnGDnFJykP4eczgV77pSo6aG
+	 MwceHNzWz3tTt2nQUPDrqo4OH/XpY1QPEj4j2coQSntozKAfKLK4GkW1a2dH8TyfFX
+	 5fZRLH0VdmJrHIj0bW/2HmeVqQPjJBYdjnqVErnT7/OV5v8nL9A1bM8hWX1+RqOS8L
+	 j+1xUXhbGCwz3WIiQx9BfetTOcQFR4X46hu07hQziT4+MpACIMVHSm6kKP/vnmJT2+
+	 XJSlGPNpWjGSFDy3clti8s912U34ZnWDCJSJbRQ//cNsZce6q9IlsPUYRVrZhQYnRM
+	 3szaWx8Sycbcw==
+Date: Sat, 28 Feb 2026 17:59:54 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Francesco Lavra <flavra@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Lucas
+ Stankus <lucas.p.stankus@gmail.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Puranjay Mohan
+ <puranjay@kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>, Ramona
+ Gradinariu <ramona.gradinariu@analog.com>, Antoniu Miclaus
+ <antoniu.miclaus@analog.com>, Petre Rodan <petre.rodan@subdimension.ro>,
+ Dan Robertson <dan@dlrobertson.com>, Benson Leung <bleung@chromium.org>,
+ Guenter Roeck <groeck@chromium.org>, Jiri Kosina <jikos@kernel.org>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, Matti Vaittinen
+ <mazziesaccount@gmail.com>, Marcelo Schmitt <marcelo.schmitt@analog.com>,
+ Esteban Blanc <eblanc@baylibre.com>, Jorge Marques
+ <jorge.marques@analog.com>, Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
+ Dragos Bogdan <dragos.bogdan@analog.com>, Alisa-Dariana Roman
+ <alisa.roman@analog.com>, Trevor Gamblin <tgamblin@baylibre.com>, Renato
+ Lui Geh <renatogeh@gmail.com>, Eugen Hristev <eugen.hristev@linaro.org>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+ Andreas Klinger <ak@it-klinger.de>, Paul Cercueil <paul@crapouillou.net>,
+ Ramona Bolboaca <ramona.bolboaca@analog.com>, Marcus Folkesson
+ <marcus.folkesson@gmail.com>, Kent Gustavsson <kent@minoris.se>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Matteo
+ Martelli <matteomartelli3@gmail.com>, Marius Cristea
+ <marius.cristea@microchip.com>, Heiko Stuebner <heiko@sntech.de>, Maxime
+ Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Kurt Borja <kuurtb@gmail.com>, Francesco
+ Dolcini <francesco@dolcini.it>, =?UTF-8?B?Sm/Do28=?= Paulo =?UTF-8?B?R29u?=
+ =?UTF-8?B?w6dhbHZlcw==?= <jpaulo.silvagoncalves@gmail.com>, Leonard
+ =?UTF-8?B?R8O2aHJz?= <l.goehrs@pengutronix.de>, Oleksij Rempel
+ <o.rempel@pengutronix.de>, Haibo Chen <haibo.chen@nxp.com>, Salih Erim
+ <salih.erim@amd.com>, Conall O'Griofa <conall.ogriofa@amd.com>, Michal
+ Simek <michal.simek@amd.com>, Gustavo Silva <gustavograzs@gmail.com>,
+ Tomasz Duszynski <tduszyns@gmail.com>, Roan van Dijk <roan@protonic.nl>,
+ Jyoti Bhayana <jbhayana@google.com>, Mariel Tinaco
+ <Mariel.Tinaco@analog.com>, Nishant Malpani <nish.malpani25@gmail.com>, Rui
+ Miguel Silva <rmfrfs@gmail.com>, Linus Walleij <linusw@kernel.org>, Lorenzo
+ Bianconi <lorenzo@kernel.org>, Alex Lanzano <lanzano.alex@gmail.com>,
+ Jagath Jog J <jagathjog1996@gmail.com>, Jean-Baptiste Maneyrol
+ <jean-baptiste.maneyrol@tdk.com>, Remi Buisson <remi.buisson@tdk.com>,
+ Christian Eggers <ceggers@arri.de>, Mudit Sharma
+ <muditsharma.info@gmail.com>, Javier Carrasco
+ <javier.carrasco.cruz@gmail.com>, =?UTF-8?B?T25kxZllag==?= Jirman
+ <megi@xff.cz>, Song Qiang <songqiang1304521@gmail.com>, Dixit Parmar
+ <dixitparmar19@gmail.com>, Gerald Loacker <gerald.loacker@wolfvision.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-input@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ imx@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH v6 4/7] iio: Rename 'sign' field to `format` in struct
+ iio_scan_type
+Message-ID: <20260228175954.1f0950a1@jic23-huawei>
+In-Reply-To: <120c7f33-4ca1-4d35-ac1b-b65362f1adfc@baylibre.com>
+References: <20260225100421.2366864-1-flavra@baylibre.com>
+	<20260225101735.2368252-1-flavra@baylibre.com>
+	<120c7f33-4ca1-4d35-ac1b-b65362f1adfc@baylibre.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/5] iio: accel: adxl345: Implement event scaling and
- ABI compliance
-To: Taha Ed-Dafili <0rayn.dev@gmail.com>, linux-iio@vger.kernel.org,
- jic23@kernel.org
-Cc: rdunlap@infradead.org, skhan@linuxfoundation.org, nuno.sa@analog.com,
- andy@kernel.org, corbet@lwn.net, lars@metafoo.de,
- Michael.Hennerich@analog.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260226151108.22383-1-0rayn.dev@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260226151108.22383-1-0rayn.dev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 2/26/26 9:11 AM, Taha Ed-Dafili wrote:
-> This series addresses ADXL345 driver non-compliance with the IIO ABI.
+On Wed, 25 Feb 2026 15:27:01 -0600
+David Lechner <dlechner@baylibre.com> wrote:
+
+> On 2/25/26 4:17 AM, Francesco Lavra wrote:
+> > This field is used to differentiate between signed and unsigned integers.
+> > A following commit will extend its use to in order to add support for non-
+> > integer scan elements; therefore, change its name from 'sign' to a more
+> > generic 'format'.
+> >   
 > 
-Reviewed-by: David Lechner <dlechner@baylibre.com>
+> Maybe Jonathan is OK with doing this all at once, but another alternative
+> could be to introduce a union to allow both names at the same time, then
+> we could make the change more gradually.
+
+Please do the union for v7.  Not so much because I mind a global change, but
+more because the chances of merge conflicts are too high.
+
+Perhaps for this series just introduce the union and use it in the driver
+here. We can then chase it through the rest of the tree as a separate step.
+
+Alternatively leave it with a misleading name for now (so allow 'f' to be a
+magic sign value) and we can do the rename as a follow up.
+
+Jonathan
+
 
