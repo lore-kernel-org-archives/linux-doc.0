@@ -1,103 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C0D277C81;
-	Sat, 28 Feb 2026 19:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC53430B8C;
+	Sat, 28 Feb 2026 20:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772306144; cv=none; b=K4NLueo7IsUniBqY4syCXuo0T0Y9tkL0yWPnH5vc7MIIZNehVcAVD2LrURQDL4pCj2SYEbwvgDCaCqTw3jyXvDJ5LmlUFItQ4DqjIAw5nZS4s4TQljdnM8UoJPVt8w1Q5D+wSpfLZtifGt97mrkoGP2sNiC0XyZ/rsVgtGv58GA=
+	t=1772311474; cv=none; b=Cs83dydjAc6Cglv9MzvOdVw1J1ZnwD5lKKOK21Nr/16Pbo37//MZ+GgKBPwflTfmBKeBmGdjKm4RVjN1+6b9JzMTpcT79DfOn/TBR4unhFKskyws/yXPzSghVPYPGAv4AV9ots6Dwl+K18ZqIJ4leKDgovXXoKwa6iZ2iEc9UJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772306144; c=relaxed/simple;
-	bh=DWW76vcfVwuwoF60EnAL2u6JzTUPFdmM/12fzoqr6tY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=boe66BQMq3MnHY7ZPFLZLXWnICXDQBS144a+m2f1v66gh56psw0y4/u+0fB4Dq7BHvYKLQr5sVpk4CdGTytW8Q7Cg8l/kQHEY0mJwwMmV8+mHOr/gO5JNXhc2vrEfaiMkjaEbraxdy2VBx4zPKp5NqT4ISDL2McD+hk7n7hrw/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m5Ae7O2d; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772311474; c=relaxed/simple;
+	bh=fouJcXrcIqnS4OK5wrynhLTd93+//OFNPP5WduPOU9s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QtVAvD5n36b7bRR4MEQET5ykbeOFYxPGng3Y2WoSrQhzWmBajmFHV4WequSI+hUl6ZS+DTFv3V3HZ/L2T+mHfKhNeA32Q38P/jZmrXnX7M8tWs0wFUnN608xGwCKjguI7HqQ/nDf1oI4T3UyL9sf4c0E32hOxSGW4PC1o2Lh50o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=Isai794V; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m5Ae7O2d"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18C94C116D0;
-	Sat, 28 Feb 2026 19:15:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772306144;
-	bh=DWW76vcfVwuwoF60EnAL2u6JzTUPFdmM/12fzoqr6tY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=m5Ae7O2dMFtvPV2fbqtIjrgaDgiDdGT6FvHNN22LpyAggbitlxFrN18KQjWICLO0Y
-	 pdEH/vixseMC8yIbhcpscSUiLlDXA2dqpDdimbXznss7WjWLnWw4dhaCOGM8uUAlMs
-	 kBGWy/EzXD/ym/WU616+Wz9fgYaeKIbqN0WuDIILce+idB0xYC4a1a19ZBVq9H91MR
-	 TJGfW3fJGcVXGSwIa2f1gbqJxMc5MbBOT44GgO79MGvle4Ac19eLrwBJElt5uzzS/S
-	 oCdDebc9lbim2KhzQS6/dMLq/UXnB1yNM9pHcwMmgJ4GDHSsrIeBblNGkM1+P65YJG
-	 HFilUQcC4Z89Q==
-Date: Sat, 28 Feb 2026 19:15:33 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <michael.hennerich@analog.com>, <nuno.sa@analog.com>,
- <eblanc@baylibre.com>, <dlechner@baylibre.com>, <andy@kernel.org>,
- <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <corbet@lwn.net>, <marcelo.schmitt1@gmail.com>
-Subject: Re: [PATCH v10 0/6] Add SPI offload support to AD4030
-Message-ID: <20260228191533.62fa1f15@jic23-huawei>
-In-Reply-To: <cover.1771865684.git.marcelo.schmitt@analog.com>
-References: <cover.1771865684.git.marcelo.schmitt@analog.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="Isai794V"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=SrzHTbYPCKrR1q3pp5B8ty/C+EIi95VJx+2ipEIuh1Q=; b=Isai794V+IltfaW+HZj+S+m8Sh
+	UXkVo7GQuH6Uey8Rp4NvWi2kESCjHagAscaKN9heSSxhs9jMmj4tj+phtOKwg7s0zocpCl2GuByXf
+	rksZ62YmhlCvy/lMVXZ+EQUlt23mrryaOrTKkREkZ3rvj9rPN/7hZ5OIH23ZMsqG4o3k=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vwRAb-009Dpe-Eb; Sat, 28 Feb 2026 21:44:13 +0100
+Date: Sat, 28 Feb 2026 21:44:13 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: "illusion.wang" <illusion.wang@nebula-matrix.com>
+Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com, netdev@vger.kernel.org,
+	andrew+netdev@lunn.ch, corbet@lwn.net, kuba@kernel.org,
+	linux-doc@vger.kernel.org, lorenzo@kernel.org, pabeni@redhat.com,
+	horms@kernel.org, vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com, edumazet@google.com,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 net-next 06/11] net/nebula-matrix: add common resource
+ implementation
+Message-ID: <10134f9b-e389-45c8-ac57-10e8a465453c@lunn.ch>
+References: <20260226073840.3222-1-illusion.wang@nebula-matrix.com>
+ <20260226073840.3222-7-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226073840.3222-7-illusion.wang@nebula-matrix.com>
 
-On Mon, 23 Feb 2026 14:08:50 -0300
-Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
+> @@ -6,7 +6,32 @@
+>  
+>  #include "nbl_resource_leonis.h"
+>  
+> +static u16 nbl_res_get_vsi_id(struct nbl_resource_mgt *res_mgt, u16 func_id,
+> +			      u16 type)
+> +{
+> +	return nbl_res_func_id_to_vsi_id(res_mgt, func_id, type);
+> +}
 
-> Hello,
-> 
-> This is v10 of high speed data capture support for AD4030/AD4630 and similar ADCs.
-> It also adds support for ADAQ4216 and ADAQ4224.
-> 
-> Rebased on top of IIO testing.
-Series applied to the togreg branch of iio.git and pushed out as testing.
+> +int nbl_res_func_id_to_pfvfid(struct nbl_resource_mgt *res_mgt, u16 func_id,
+> +			      int *pfid, int *vfid)
+> +{
+> +	return func_id_to_pfvfid(res_mgt, func_id, pfid, vfid);
+> +}
+> +
+> +u16 nbl_res_pfvfid_to_vsi_id(struct nbl_resource_mgt *res_mgt, int pfid,
+> +			     int vfid, u16 type)
+> +{
+> +	return pfvfid_to_vsi_id(res_mgt, pfid, vfid, type);
+> +}
+> +
+> +int nbl_res_func_id_to_bdf(struct nbl_resource_mgt *res_mgt, u16 func_id,
+> +			   u8 *bus, u8 *dev, u8 *function)
+> +{
+> +	return func_id_to_bdf(res_mgt, func_id, bus, dev, function);
+> +}
+> +
+> +int nbl_res_vsi_id_to_pf_id(struct nbl_resource_mgt *res_mgt, u16 vsi_id)
+> +{
+> +	return vsi_id_to_pf_id(res_mgt, vsi_id);
+> +}
+> +
+> +u16 nbl_res_func_id_to_vsi_id(struct nbl_resource_mgt *res_mgt, u16 func_id,
+> +			      u16 type)
+> +{
+> +	return func_id_to_vsi_id(res_mgt, func_id, type);
+> +}
 
-Thanks!
 
-J
+None of these functions actually do anything. Why do they exist?
 
-> 
-> Looks like a devm_pwm_get_disabled() interface might not get accepted so I
-> didn't change the handling of PWM initialization on v10.
-> 
-> Change log v9 -> v10
-> [DT]
-> - No changes.
-> [IIO]
-> - Explained the need of PWM in commint message.
-> - Fixed off-by-one bug.
-> - Use in-loop counter declaration.
-> - Correctly prepared patches, dropping unsupported bindings for input gain control.
-> - Skipped the patches applied from previous version.
-> - Initialize iio_scan_type struct fields on same order they are on structure definition.
-> 
-> Link to v9: https://lore.kernel.org/linux-iio/cover.1771253601.git.marcelo.schmitt@analog.com/
-> 
-> Thanks,
-> Marcelo
-> 
-> Marcelo Schmitt (6):
->   Docs: iio: ad4030: Add double PWM SPI offload doc
->   dt-bindings: iio: adc: adi,ad4030: Add PWM
->   iio: adc: ad4030: Add SPI offload support
->   dt-bindings: iio: adc: adi,ad4030: Add ADAQ4216 and ADAQ4224
->   iio: adc: ad4030: Add support for ADAQ4216 and ADAQ4224
->   iio: adc: ad4030: Support common-mode channels with SPI offloading
-> 
->  .../bindings/iio/adc/adi,ad4030.yaml          |  62 ++
->  Documentation/iio/ad4030.rst                  |  39 ++
->  drivers/iio/adc/Kconfig                       |   5 +
->  drivers/iio/adc/ad4030.c                      | 641 +++++++++++++++++-
->  4 files changed, 726 insertions(+), 21 deletions(-)
-> 
-> 
-> base-commit: 0be8a2716187607daaa8ba80687a926438d88432
-
+	Andrew
