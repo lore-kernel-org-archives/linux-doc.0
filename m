@@ -1,129 +1,137 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069BB23AB98
-	for <linux-doc@vger.kernel.org>; Sat, 28 Feb 2026 01:54:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9C21DF736
+	for <linux-doc@vger.kernel.org>; Sat, 28 Feb 2026 01:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772243653; cv=none; b=X9G5CjLEScKxLhCeu7eg5x3JpWTtndVpLGE9TYq8GKXUNRdztneQ3dsDMMzl+eV+yxC2OffFklu+3/Fpo/HgSSXJ7Nn54o5roTnmZz7XVsJAKiAKAuxz22EtASFysChWlltGpRv0LsIGjvvf0FVPGeHZBCfgrMgoFPFL/zu6s8M=
+	t=1772243721; cv=none; b=CT00hlGD+67X3/vyY3OZRsOcC5sK0Nnr9qZZZLV2X9Vp/QQYfTqcYudWDS9Qrw1CNx8HYGkS88H2bHB/mRLPJzQg5HVRE/V5Uc6/noiTeF3yX4drw1ZUUB144HKmZMSjLOzMQqnWuJLnkus8XeiRWla9+BhOG732PS1qcn2xqzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772243653; c=relaxed/simple;
-	bh=+nVea+1LEhc7u1RV0hreJFi+NiRMUkXwmpuRGxuDlD0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ohCJDQtD3c882FPvKcSR18xHJtUCJJVLPTSJ064zr83N+JKdVH062S2yb75PE2O7EU+Zt3W2NPK9NqXEwN2DGXVBFH3YxM4Io7+ultz3gSpiegWwaeER5Ex4jLaeqvKJYxFMu6kbtdqMclmwklYlny0V4a4f4BCrMQE0gx8BCpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JZAwnWUb; arc=none smtp.client-ip=74.125.82.171
+	s=arc-20240116; t=1772243721; c=relaxed/simple;
+	bh=wSXKBv1s9N7rM7tMp/dbyCKz7EHhkOlMiIvXCLsWZyA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ji/9ZwZ7vRuv2eyZvEsaVbxdl0v/8ObsKv2PBQVaY4UVkzkXNkJVZ3FMth+BLH3qxq78/VcrbUlmpCnsgXZdI9oexbcv0gVk2g33Duxh6NQUfBOwHf+uLR81vEXIhutySlRxAF2VLFE0ev6g/tJ+FNGk9nRp3m1mdp9/7xwjRik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d4LRhHVz; arc=none smtp.client-ip=74.125.82.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JZAwnWUb"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2ba895adfeaso2508761eec.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 17:54:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d4LRhHVz"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2bdecd00ebdso2030669eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 27 Feb 2026 17:55:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772243651; x=1772848451; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TxQavnKskrdCHrZOEdg/KgmOqoLnQplqpgSz9FhP/tE=;
-        b=JZAwnWUbJkZecHj2JUwxuXKnd74bOc7ZTCuWpqEDb5lq1SXSeabsBY6Uqa7fFFHNAi
-         0r2eaelqc5zRqDu3eQf2U3o3/Z0Rr76TV7wwMiXe/eL/ioclBQkWiU5MRmr99N43c5tH
-         eaTspbqR1eX9/G2kdqVQ2wnBP8tlsEkIbP/RVqgTpvItVzzrgxDZtvsdgqGO7nG9/bWX
-         vuftLB/ZQ+GxRMU/DUaLrem4nYh84NMbId7JS0wIDCNlh2B8Kd9JFBKiywFdqaneLPYC
-         xomRhAM1HwJ/RLUJ4HHLwcolfrYd5hJ8mK3VK16/AavinBUMcbeNTB0+CHhuUIY69W3p
-         fzdw==
+        d=gmail.com; s=20230601; t=1772243719; x=1772848519; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=fI74CQjZrJmGul0yaBzfJGuaMOgAVh92XkiFRIDxOH4=;
+        b=d4LRhHVzF0lW7LcZ4Im7ZDlCxEd5LMwfyXJyfFr/eTCdoZ9IQDORcplINwQDlp05Wt
+         JsKGeXJteB+fGWRjsP9I3xD4b/34WYHDzgL0Ri3NpILEvu994+wvyMu2dEHrlStXXcS5
+         Q1BJN7EaOOTBqh6/eoiRUiIdVuHVG+zl7mLvsVkqtm9oLn7UyCFJ5q5U3rCBKGWh6uFQ
+         +WfOde2dg0w0pP2iqnddK0y8nLbJeJn8xIxwXB9zgx33j78IZni4MgEcDTyS5/7jeNc6
+         kd6XV8I0BGyrEkit28n2Sz808P8TgGIUbh7oO4gMR0FscRpOuLnR9dqGHuuuxlPkKeYc
+         47Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772243651; x=1772848451;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=TxQavnKskrdCHrZOEdg/KgmOqoLnQplqpgSz9FhP/tE=;
-        b=k8qZspM4ZENwxXJkcxIGIlhSFicBxcFSb1jXIrTHsGdhqUNLsNhULP/PS/tQVx2/DQ
-         jy/cpgYXu32WGKn6nFPq+F05DCckvVM9uKt/xYPlbV+yWkx76YtpQ7WiEjqC2vOpkrQH
-         w/mVICW4w9Dlw0XZD433tLMd+SR3+l1HjMP78vED1CFmOh6o5was8c2sScm4jswoG7KJ
-         lcIBqhhOXmU2pc/nu4NRDAM+gw8RDJGsJnHAcw79OoZU1L9beljMsF0ulU2IM7x3dlbz
-         ybcYcoAig9UzlRHViANkizuCCc5d8H/mvBXYgDRaE6X8TthbnGoZTImRlS8wTrbGpOQZ
-         zexw==
-X-Forwarded-Encrypted: i=1; AJvYcCULrpiU5eH3jiAQ49eEtIYRxQeQQ2dh7bNPYWJxyqYt3tgg6IFmTDFTbFfxOR21//gXbNWUTAm19rs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAZh+J/HSHHMZ3elEl6d/JXB81jv15Ui4h23WXqLho1UxFkKgX
-	Vwx5Rqzg5jBH44+SLNZIRyssdHLr7/YYD4WxcOe2ZYma+8/VkAH3ZHls
-X-Gm-Gg: ATEYQzxaGGUfRW8CMQ0byjAn8+aU3p1WdW2vEj3iyJN+FzKvNnuMCEMD/WjSW3PxuP5
-	1MaoUPahlqPtLfm7a6fawGNPDOe5Z3xzLYUnTwf4KhHosEdfz7zHW/XZvtIL/sTH8FI4q66Oa4i
-	byfhwUDt6AQH3YWBs6ChJpE6QYbGq+vcnEKuSIN8BhMKTg3zQ/SVvY9wN1mmCdKc8UQfSk83vQK
-	xyYl316M+w4LFVgn3N6GBvlqZT3TSguoeYh0y/MLe5N0lwqaJVsaI5FX8r8MQa6WZ0QApcHiIGN
-	EYgvBxeJ1PD8xwP35cuOhs9K8NuiizL7wmtkmzU9AWQWHfFqo7lqxW14yGqs/2JNS4ttiR2grP6
-	aYQu9oO/yEaac2jp2GJaCwjGmga2AHh11Rn9Z3El7CnShoy42l6xHM9G2pJRHvOEKE6G7yysGOC
-	UInwv1j5VD6J1FuGGI/7yPKI1ZtsctAOhKQCbe
-X-Received: by 2002:a05:7300:ec17:b0:2b4:7e6b:9c00 with SMTP id 5a478bee46e88-2bde1efba9dmr1980138eec.23.1772243651044;
-        Fri, 27 Feb 2026 17:54:11 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bdd1e02f95sm4977756eec.13.2026.02.27.17.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Feb 2026 17:54:10 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772243719; x=1772848519;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fI74CQjZrJmGul0yaBzfJGuaMOgAVh92XkiFRIDxOH4=;
+        b=lDXfaXgjGu1iR+XTochuUBRG332rKw9NJjonpunNIfoLebT4g+kiZo73IXlbNyyOWg
+         IF8aOtPHoeVUQ199JiVvbvRs5R9E8N4D1yEU1Szd2bCoV3p2h71wlFtxULj0sdW8192L
+         ttEWUTu0ueeEhjZmnZrMEEWBCOxNDvzst6riYqSrrCrGjm9RSHR6eHGaLLq4Ayr2GwOV
+         qe9Y1QqLiM+1d3IeLq3EPjKjIC3SUtF+JN8JU503Q55N67QO7A7LzRr6Pz1HtV4R2Mny
+         xaCB2YkAWcbQDAwxorOnS9VT0ToGAi4YncHuRrHXrZcK8Yrn0/Q2OpW61K69baHcxihz
+         Qdmg==
+X-Forwarded-Encrypted: i=1; AJvYcCVAG5ZFPNu5p+Q/M6+nOlCFdulQu9S4IbVq/6pISo6/ubRBlrVGSHGkm0gFxJx//Y965Eofs66qHHA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyoem5gYOb81PX2LCbFhWRGC48nH5jrtZpqbiOXFAD6EmjCCAvt
+	F35AwqgNJrQf8rkyGz93VFw6xB0cnnFIOH95EAhZwHvJiswpVF8b6MbYt5qSwTLn
+X-Gm-Gg: ATEYQzyFxRyvvoyFJMsEvijt0LO9cZv+/zbupHp2IufhL4mYeV4Rx2c215rMfpV4hsW
+	DpS0ckY9ki8nWSqs7+9DCf7Lj6bW4Kl3mNQDbnMikCOfdfyd7nMl/+YSJtPJgTeTd+/SOO7d4d2
+	Q0zei0OT2NJT7TNeJJZTilyp64/7DTicmaDUEDkpY4JLpqg2OFUlyaNunO868rZPFx53qoQvBw4
+	ZgSMeY9j6ckw5tp1/J0tpWf4J8T0hnEgo7UEWitxcRAFbDSpo9t22MCH2ptnmV5Oo+X5Q6kfaj/
+	t+kuKusiCuZwlp2lPbI01tJ/P8SwT12Cln+pIK3BUAd2Zq5Vpdv+cjAfzrgXwXPi9P+ThoEYYvE
+	+DEMTHuDRKfgaExckw+U+PV+raEUk/TaWIEgsOwBpRA7hGB8ELD88yYOVgzBgSHhjlM68yDk7ZB
+	SpwAPlai6lFW9SVQ/iO0+o0QDPmhMo3GZ6+1L1B/Aqm3kiVuGp3nww+G79ZKbLFO1KkCMJwnlV
+X-Received: by 2002:a05:693c:3618:b0:2ba:7875:10c9 with SMTP id 5a478bee46e88-2bde1f9c38emr2009598eec.26.1772243719022;
+        Fri, 27 Feb 2026 17:55:19 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bdd1bcdf35sm4871072eec.7.2026.02.27.17.55.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Feb 2026 17:55:18 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 27 Feb 2026 17:54:09 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/5] docs: watchdog-parameters: add missing watchdog_core
- parameters
-Message-ID: <35acf767-986c-44f7-b167-ae9aec2449de@roeck-us.net>
-References: <20260228010402.2389343-1-rdunlap@infradead.org>
- <20260228010402.2389343-6-rdunlap@infradead.org>
+Message-ID: <d5f50b7a-a71c-42fa-b5e6-ff8ef602651f@roeck-us.net>
+Date: Fri, 27 Feb 2026 17:55:17 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260228010402.2389343-6-rdunlap@infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] docs: watchdog-kernel-api: general cleanups
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, linux-watchdog@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260228010402.2389343-1-rdunlap@infradead.org>
+ <20260228010402.2389343-5-rdunlap@infradead.org>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260228010402.2389343-5-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 27, 2026 at 05:04:02PM -0800, Randy Dunlap wrote:
-> Add missing watchdog_core parameters (handle_boot_enabled and
-> stop_on_reboot).
-> Add default values for handle_boot_enabled and open_timeout.
+On 2/27/26 17:04, Randy Dunlap wrote:
+> Fix grammar and punctuation.
+> Add a missing struct member (pm_nb) and its description.
+> Add a subheading for Helper Functions between the struct descriptions
+> and just pure helper functions.
 > 
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-> ---
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
-> Cc: Guenter Roeck <linux@roeck-us.net>
-> Cc: linux-watchdog@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> 
->  Documentation/watchdog/watchdog-parameters.rst |   11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> --- linux-next-20260227.orig/Documentation/watchdog/watchdog-parameters.rst
-> +++ linux-next-20260227/Documentation/watchdog/watchdog-parameters.rst
-> @@ -14,13 +14,22 @@ modules.
->  -------------------------------------------------
->  
->  watchdog core:
-> +    handle_boot_enabled:
-> +	Watchdog core auto-updates boot-enabled watchdogs before userspace
-> +	takes over. Default is set by the kconfig option
-> +	CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED.
-> +
->      open_timeout:
->  	Maximum time, in seconds, for which the watchdog framework will take
->  	care of pinging a running hardware watchdog until userspace opens the
->  	corresponding /dev/watchdogN device. A value of 0 means an infinite
->  	timeout. Setting this to a non-zero value can be useful to ensure that
->  	either userspace comes up properly, or the board gets reset and allows
-> -	fallback logic in the bootloader to try something else.
-> +	fallback logic in the bootloader to try something else. Default is set
-> +	by the kconfig option CONFIG_WATCHDOG_OPEN_TIMEOUT.
-> +
-> +    stop_on_reboot:
-> +	Stops watchdogs on reboot (0 = keep watching, 1 = stop).
->  
->  -------------------------------------------------
->  
