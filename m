@@ -1,417 +1,209 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1F413D53C;
-	Sun,  1 Mar 2026 02:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2B62FFDD5;
+	Sun,  1 Mar 2026 02:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772330568; cv=none; b=DAvfJQ4OfYEDgQdvkPeh+YXy52fgu0VS4D1OcQij1u8PaMpnCQphB3QRkmjpHWDvg+zyw+ghQv1RRx8qdBm/YEpLmyaSncRgYgzUg9SJFty1AoL9Iib5XdgWtSU0l8nPZE2GMjE7NG9APHlCxo/2QyShbYjgofp6REs7t2NHnS0=
+	t=1772330613; cv=none; b=HOJ91CxxplekZ7G70ZirQKBWnjLq8HnKCMkeBWWTsmn3KuLU3yzljh2OkoLqd6ZvaOwZZ2Mhx/ZszlKwZ90eQRU+UP8HD9P6/kowsvbW5VICMD9xAhIFDYmLUtno1KaiL6lnGlzZv3+pnR3EhEfTBU5fe1+U/MXSCVBv9YLvn5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772330568; c=relaxed/simple;
-	bh=RQcBnZsGm1a578ubRGJsgCZ+AAv6nSB7DY/6r/jwZ5s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TQl3FAx3L7KKyYkI9dHZTVVdOaeUbWsz/M86X1B9kYDMBlkZNiLHSwYxBnJ+EEWuk4SBHtR31yn1/gGN6BkFCg78E8lId3zctr9XW26taXaeKnwxO7oPqEe7eqqh63R/WZKwBkTvW0IPF7LXkFJZOEq+e6LHeAGrObGOf/QiSTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=irRMQdGd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772330613; c=relaxed/simple;
+	bh=KZzP/JecF27xHHiJFhTWIUfU3XREE4PimgnFsthN5/A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oNyKQOv6JLITYukvGLri9OydTFEd+LNlkJVmOfERG0h63Fp9dYUBumaZDMIWEvZGAMGu7O6MaiQTMG7T8MK/j14aKC4PZPcgwyj89XrsQSl261VE6p8zWICqQ2UYVIqtKRlDspXZoe4ugmdPSkdbIXi5LnVgigpCiFHrXeM6U/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxjXn8St; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="irRMQdGd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DE3EC19421;
-	Sun,  1 Mar 2026 02:02:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772330568;
-	bh=RQcBnZsGm1a578ubRGJsgCZ+AAv6nSB7DY/6r/jwZ5s=;
-	h=From:To:Cc:Subject:Date:From;
-	b=irRMQdGdLhw0ry5ojA8pG8yJW4/Az9cn0H+s9f4IEgKzNRE+ccAszjbCFdIhDAAc3
-	 VTODpR9izU2fwrkykndokT4hspEhtYTz9SIC7pDm1ait494Mi5z1EFoWCmONtR1RGm
-	 j2xBe2/ZtiapnGxmDGJORGdisP8K6l1lhX68QVEdriSMXx+tO6YCbpLpgk/vSV3sWt
-	 EEPdzvcCEN2WFNLRMlhYUVc9X1QyLAHuPASeCB0ahdgMCOI9n/6mUOBUw8dXiAfRsp
-	 J62MnDpoUeGBgZfYRQMFdJp0VtgVzN+yZB1bUz38wFFBEatj+Cqzrq4ZNPA0hErcps
-	 JV5gx0LKMCTUQ==
-From: Sasha Levin <sashal@kernel.org>
-To: stable@vger.kernel.org,
-	khushit.shah@nutanix.com
-Cc: David Woodhouse <dwmw2@infradead.org>,
-	Sean Christopherson <seanjc@google.com>,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: FAILED: Patch "KVM: x86: Add x2APIC "features" to control EOI broadcast suppression" failed to apply to 5.10-stable tree
-Date: Sat, 28 Feb 2026 21:02:45 -0500
-Message-ID: <20260301020246.1730675-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxjXn8St"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772330611; x=1803866611;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KZzP/JecF27xHHiJFhTWIUfU3XREE4PimgnFsthN5/A=;
+  b=RxjXn8StrLonnm/3sngiG5MPJlLdX2lJFO2M8ldJkjvSiuMVGpUq2MSl
+   eh0VbHisBIa25X8qUxhUwIpK3QG6+v+ekHLrfXCae2Zi3MhiP/9KyNmAB
+   JyHlGP3osH1ycR54Wb9Hq3e27gOzgFrR2NEXWUn4dQ8T2zdmQVdyUlCmK
+   /dHgB3YPPFvNv2gzdVprv/WrjbsdwrUYzvUqWPqknNo6CpvHWG83DE53S
+   BUHSNzmeej2FCmnJnAoQrx3ODT4ruaEbH4gnarLRoFWw8OCha4v5G8bil
+   hSXvLqwaZMvEsBugJcTLvhrsoPZ2MPSFSe/9ugFzD/q8iqpnHZaJOSmVE
+   w==;
+X-CSE-ConnectionGUID: 2myQ6w4NRAOi2xSmH9U79g==
+X-CSE-MsgGUID: IlC7v/yNQ7us+e3Bjb7bBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11715"; a="84012019"
+X-IronPort-AV: E=Sophos;i="6.21,317,1763452800"; 
+   d="scan'208";a="84012019"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2026 18:03:30 -0800
+X-CSE-ConnectionGUID: 2F9CqOx2TE6GYuD7zyqyCQ==
+X-CSE-MsgGUID: MU1ccFKrRu6sm8nt7mKVxw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,317,1763452800"; 
+   d="scan'208";a="220438890"
+Received: from lkp-server01.sh.intel.com (HELO 59784f1c7b2a) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 28 Feb 2026 18:03:26 -0800
+Received: from kbuild by 59784f1c7b2a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vwW9S-000000000rZ-2a4w;
+	Sun, 01 Mar 2026 02:03:22 +0000
+Date: Sun, 1 Mar 2026 10:02:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	James.Bottomley@hansenpartnership.com, dhowells@redhat.com,
+	Fan Wu <wufan@kernel.org>, Ryan Foster <foster.ryan.r@gmail.com>,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH v2 07/10] security: Hornet LSM
+Message-ID: <202603010957.7JUXdjTd-lkp@intel.com>
+References: <20260227233930.2418522-8-bboscaccy@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Patchwork-Hint: ignore
-X-stable: review
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260227233930.2418522-8-bboscaccy@linux.microsoft.com>
 
-The patch below does not apply to the 5.10-stable tree.
-If someone wants it applied there, or to any other stable or longterm
-tree, then please email the backport, including the original git commit
-id to <stable@vger.kernel.org>.
+Hi Blaise,
 
-Thanks,
-Sasha
+kernel test robot noticed the following build errors:
 
------------------- original commit in Linus's tree ------------------
+[auto build test ERROR on linus/master]
+[also build test ERROR on v7.0-rc1 next-20260227]
+[cannot apply to herbert-cryptodev-2.6/master herbert-crypto-2.6/master shuah-kselftest/next shuah-kselftest/fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-From 6517dfbcc918f970a928d9dc17586904bac06893 Mon Sep 17 00:00:00 2001
-From: Khushit Shah <khushit.shah@nutanix.com>
-Date: Fri, 23 Jan 2026 12:56:25 +0000
-Subject: [PATCH] KVM: x86: Add x2APIC "features" to control EOI broadcast
- suppression
+url:    https://github.com/intel-lab-lkp/linux/commits/Blaise-Boscaccy/certs-break-out-pkcs7-check-into-its-own-function/20260228-074528
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20260227233930.2418522-8-bboscaccy%40linux.microsoft.com
+patch subject: [PATCH v2 07/10] security: Hornet LSM
+config: um-randconfig-r133-20260228 (https://download.01.org/0day-ci/archive/20260301/202603010957.7JUXdjTd-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260301/202603010957.7JUXdjTd-lkp@intel.com/reproduce)
 
-Add two flags for KVM_CAP_X2APIC_API to allow userspace to control support
-for Suppress EOI Broadcasts when using a split IRQCHIP (I/O APIC emulated
-by userspace), which KVM completely mishandles. When x2APIC support was
-first added, KVM incorrectly advertised and "enabled" Suppress EOI
-Broadcast, without fully supporting the I/O APIC side of the equation,
-i.e. without adding directed EOI to KVM's in-kernel I/O APIC.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603010957.7JUXdjTd-lkp@intel.com/
 
-That flaw was carried over to split IRQCHIP support, i.e. KVM advertised
-support for Suppress EOI Broadcasts irrespective of whether or not the
-userspace I/O APIC implementation supported directed EOIs. Even worse,
-KVM didn't actually suppress EOI broadcasts, i.e. userspace VMMs without
-support for directed EOI came to rely on the "spurious" broadcasts.
+All errors (new ones prefixed by >>):
 
-KVM "fixed" the in-kernel I/O APIC implementation by completely disabling
-support for Suppress EOI Broadcasts in commit 0bcc3fb95b97 ("KVM: lapic:
-stop advertising DIRECTED_EOI when in-kernel IOAPIC is in use"), but
-didn't do anything to remedy userspace I/O APIC implementations.
+   In file included from security/hornet/hornet_lsm.c:10:
+   In file included from include/linux/lsm_hooks.h:29:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:32:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:27:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:24:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> security/hornet/hornet_lsm.c:183:8: error: call to undeclared function 'verify_pkcs7_signature'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     183 |         err = verify_pkcs7_signature(prog->insnsi, prog->len * sizeof(struct bpf_insn),
+         |               ^
+   security/hornet/hornet_lsm.c:183:8: note: did you mean 'bpf_verify_pkcs7_signature'?
+   include/linux/bpf.h:3624:5: note: 'bpf_verify_pkcs7_signature' declared here
+    3624 | int bpf_verify_pkcs7_signature(struct bpf_dynptr *data_p,
+         |     ^
+>> security/hornet/hornet_lsm.c:197:6: error: call to undeclared function 'validate_pkcs7_trust'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     197 |         if (validate_pkcs7_trust(msg, VERIFY_USE_SECONDARY_KEYRING)) {
+         |             ^
+   1 warning and 2 errors generated.
 
-KVM's bogus handling of Suppress EOI Broadcast is problematic when the
-guest relies on interrupts being masked in the I/O APIC until well after
-the initial local APIC EOI. E.g. Windows with Credential Guard enabled
-handles interrupts in the following order:
-  1. Interrupt for L2 arrives.
-  2. L1 APIC EOIs the interrupt.
-  3. L1 resumes L2 and injects the interrupt.
-  4. L2 EOIs after servicing.
-  5. L1 performs the I/O APIC EOI.
 
-Because KVM EOIs the I/O APIC at step #2, the guest can get an interrupt
-storm, e.g. if the IRQ line is still asserted and userspace reacts to the
-EOI by re-injecting the IRQ, because the guest doesn't de-assert the line
-until step #4, and doesn't expect the interrupt to be re-enabled until
-step #5.
+vim +/verify_pkcs7_signature +183 security/hornet/hornet_lsm.c
 
-Unfortunately, simply "fixing" the bug isn't an option, as KVM has no way
-of knowing if the userspace I/O APIC supports directed EOIs, i.e.
-suppressing EOI broadcasts would result in interrupts being stuck masked
-in the userspace I/O APIC due to step #5 being ignored by userspace. And
-fully disabling support for Suppress EOI Broadcast is also undesirable, as
-picking up the fix would require a guest reboot, *and* more importantly
-would change the virtual CPU model exposed to the guest without any buy-in
-from userspace.
+   153	
+   154	static int hornet_check_program(struct bpf_prog *prog, union bpf_attr *attr,
+   155					struct bpf_token *token, bool is_kernel)
+   156	{
+   157		struct hornet_maps maps = {0};
+   158		bpfptr_t usig = make_bpfptr(attr->signature, is_kernel);
+   159		struct pkcs7_message *msg;
+   160		struct hornet_parse_context *ctx;
+   161		void *sig;
+   162		int err;
+   163		const void *authattrs;
+   164		size_t authattrs_len;
+   165	
+   166		if (!attr->signature)
+   167			return LSM_INT_VERDICT_UNSIGNED;
+   168	
+   169		ctx = kzalloc(sizeof(struct hornet_parse_context), GFP_KERNEL);
+   170		if (!ctx)
+   171			return -ENOMEM;
+   172	
+   173		maps.fd_array = make_bpfptr(attr->fd_array, is_kernel);
+   174		sig = kzalloc(attr->signature_size, GFP_KERNEL);
+   175		if (!sig) {
+   176			err = -ENOMEM;
+   177			goto out;
+   178		}
+   179		err = copy_from_bpfptr(sig, usig, attr->signature_size);
+   180		if (err != 0)
+   181			goto cleanup_sig;
+   182	
+ > 183		err = verify_pkcs7_signature(prog->insnsi, prog->len * sizeof(struct bpf_insn),
+   184					     sig, attr->signature_size, VERIFY_USE_SECONDARY_KEYRING,
+   185					     VERIFYING_BPF_SIGNATURE, NULL, NULL);
+   186		if (err < 0) {
+   187			err = LSM_INT_VERDICT_BADSIG;
+   188			goto cleanup_sig;
+   189		}
+   190	
+   191		msg = pkcs7_parse_message(sig, attr->signature_size);
+   192		if (IS_ERR(msg)) {
+   193			err = LSM_INT_VERDICT_BADSIG;
+   194			goto cleanup_sig;
+   195		}
+   196	
+ > 197		if (validate_pkcs7_trust(msg, VERIFY_USE_SECONDARY_KEYRING)) {
+   198			err = LSM_INT_VERDICT_PARTIALSIG;
+   199			goto cleanup_msg;
+   200		}
+   201		if (pkcs7_get_authattr(msg, OID_hornet_data,
+   202				       &authattrs, &authattrs_len) == -ENODATA) {
+   203			err = LSM_INT_VERDICT_PARTIALSIG;
+   204			goto cleanup_msg;
+   205		}
+   206	
+   207		err = asn1_ber_decoder(&hornet_decoder, ctx, authattrs, authattrs_len);
+   208		if (err < 0 || authattrs == NULL) {
+   209			err = LSM_INT_VERDICT_PARTIALSIG;
+   210			goto cleanup_msg;
+   211		}
+   212		err = hornet_verify_hashes(&maps, ctx, prog);
+   213	
+   214	cleanup_msg:
+   215		pkcs7_free_message(msg);
+   216	cleanup_sig:
+   217		kfree(sig);
+   218	out:
+   219		kfree(ctx);
+   220		return err;
+   221	}
+   222	
 
-Add KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST and
-KVM_X2APIC_DISABLE_SUPPRESS_EOI_BROADCAST flags to allow userspace to
-explicitly enable or disable support for Suppress EOI Broadcasts. This
-gives userspace control over the virtual CPU model exposed to the guest,
-as KVM should never have enabled support for Suppress EOI Broadcast without
-userspace opt-in. Not setting either flag will result in legacy quirky
-behavior for backward compatibility.
-
-Disallow fully enabling SUPPRESS_EOI_BROADCAST when using an in-kernel
-I/O APIC, as KVM's history/support is just as tragic.  E.g. it's not clear
-that commit c806a6ad35bf ("KVM: x86: call irq notifiers with directed EOI")
-was entirely correct, i.e. it may have simply papered over the lack of
-Directed EOI emulation in the I/O APIC.
-
-Note, Suppress EOI Broadcasts is defined only in Intel's SDM, not in AMD's
-APM. But the bit is writable on some AMD CPUs, e.g. Turin, and KVM's ABI
-is to support Directed EOI (KVM's name) irrespective of guest CPU vendor.
-
-Fixes: 7543a635aa09 ("KVM: x86: Add KVM exit for IOAPIC EOIs")
-Closes: https://lore.kernel.org/kvm/7D497EF1-607D-4D37-98E7-DAF95F099342@nutanix.com
-Cc: stable@vger.kernel.org
-Suggested-by: David Woodhouse <dwmw2@infradead.org>
-Signed-off-by: Khushit Shah <khushit.shah@nutanix.com>
-Link: https://patch.msgid.link/20260123125657.3384063-1-khushit.shah@nutanix.com
-[sean: clean up minor formatting goofs and fix a comment typo]
-Co-developed-by: Sean Christopherson <seanjc@google.com>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
----
- Documentation/virt/kvm/api.rst  | 28 +++++++++++-
- arch/x86/include/asm/kvm_host.h |  7 +++
- arch/x86/include/uapi/asm/kvm.h |  6 ++-
- arch/x86/kvm/ioapic.c           |  2 +-
- arch/x86/kvm/lapic.c            | 76 +++++++++++++++++++++++++++++----
- arch/x86/kvm/lapic.h            |  2 +
- arch/x86/kvm/x86.c              | 21 ++++++++-
- 7 files changed, 127 insertions(+), 15 deletions(-)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 01a3abef8abb9..f1f1d2e5dc7c9 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -7835,8 +7835,10 @@ Will return -EBUSY if a VCPU has already been created.
- 
- Valid feature flags in args[0] are::
- 
--  #define KVM_X2APIC_API_USE_32BIT_IDS            (1ULL << 0)
--  #define KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK  (1ULL << 1)
-+  #define KVM_X2APIC_API_USE_32BIT_IDS                          (1ULL << 0)
-+  #define KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK                (1ULL << 1)
-+  #define KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST              (1ULL << 2)
-+  #define KVM_X2APIC_DISABLE_SUPPRESS_EOI_BROADCAST             (1ULL << 3)
- 
- Enabling KVM_X2APIC_API_USE_32BIT_IDS changes the behavior of
- KVM_SET_GSI_ROUTING, KVM_SIGNAL_MSI, KVM_SET_LAPIC, and KVM_GET_LAPIC,
-@@ -7849,6 +7851,28 @@ as a broadcast even in x2APIC mode in order to support physical x2APIC
- without interrupt remapping.  This is undesirable in logical mode,
- where 0xff represents CPUs 0-7 in cluster 0.
- 
-+Setting KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST instructs KVM to enable
-+Suppress EOI Broadcasts.  KVM will advertise support for Suppress EOI
-+Broadcast to the guest and suppress LAPIC EOI broadcasts when the guest
-+sets the Suppress EOI Broadcast bit in the SPIV register.  This flag is
-+supported only when using a split IRQCHIP.
-+
-+Setting KVM_X2APIC_DISABLE_SUPPRESS_EOI_BROADCAST disables support for
-+Suppress EOI Broadcasts entirely, i.e. instructs KVM to NOT advertise
-+support to the guest.
-+
-+Modern VMMs should either enable KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST
-+or KVM_X2APIC_DISABLE_SUPPRESS_EOI_BROADCAST.  If not, legacy quirky
-+behavior will be used by KVM: in split IRQCHIP mode, KVM will advertise
-+support for Suppress EOI Broadcasts but not actually suppress EOI
-+broadcasts; for in-kernel IRQCHIP mode, KVM will not advertise support for
-+Suppress EOI Broadcasts.
-+
-+Setting both KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST and
-+KVM_X2APIC_DISABLE_SUPPRESS_EOI_BROADCAST will fail with an EINVAL error,
-+as will setting KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST without a split
-+IRCHIP.
-+
- 7.8 KVM_CAP_S390_USER_INSTR0
- ----------------------------
- 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 80fd7ca69c873..0414859bfa66e 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -1228,6 +1228,12 @@ enum kvm_irqchip_mode {
- 	KVM_IRQCHIP_SPLIT,        /* created with KVM_CAP_SPLIT_IRQCHIP */
- };
- 
-+enum kvm_suppress_eoi_broadcast_mode {
-+	KVM_SUPPRESS_EOI_BROADCAST_QUIRKED, /* Legacy behavior */
-+	KVM_SUPPRESS_EOI_BROADCAST_ENABLED, /* Enable Suppress EOI broadcast */
-+	KVM_SUPPRESS_EOI_BROADCAST_DISABLED /* Disable Suppress EOI broadcast */
-+};
-+
- struct kvm_x86_msr_filter {
- 	u8 count;
- 	bool default_allow:1;
-@@ -1477,6 +1483,7 @@ struct kvm_arch {
- 
- 	bool x2apic_format;
- 	bool x2apic_broadcast_quirk_disabled;
-+	enum kvm_suppress_eoi_broadcast_mode suppress_eoi_broadcast_mode;
- 
- 	bool has_mapped_host_mmio;
- 	bool guest_can_read_msr_platform_info;
-diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
-index 7ceff65836525..1208932e5cc3c 100644
---- a/arch/x86/include/uapi/asm/kvm.h
-+++ b/arch/x86/include/uapi/asm/kvm.h
-@@ -914,8 +914,10 @@ struct kvm_sev_snp_launch_finish {
- 	__u64 pad1[4];
- };
- 
--#define KVM_X2APIC_API_USE_32BIT_IDS            (1ULL << 0)
--#define KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK  (1ULL << 1)
-+#define KVM_X2APIC_API_USE_32BIT_IDS			_BITULL(0)
-+#define KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK		_BITULL(1)
-+#define KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST	_BITULL(2)
-+#define KVM_X2APIC_DISABLE_SUPPRESS_EOI_BROADCAST	_BITULL(3)
- 
- struct kvm_hyperv_eventfd {
- 	__u32 conn_id;
-diff --git a/arch/x86/kvm/ioapic.c b/arch/x86/kvm/ioapic.c
-index 2c2783296aedb..a26fa4222f292 100644
---- a/arch/x86/kvm/ioapic.c
-+++ b/arch/x86/kvm/ioapic.c
-@@ -561,7 +561,7 @@ static void kvm_ioapic_update_eoi_one(struct kvm_vcpu *vcpu,
- 	spin_lock(&ioapic->lock);
- 
- 	if (trigger_mode != IOAPIC_LEVEL_TRIG ||
--	    kvm_lapic_get_reg(apic, APIC_SPIV) & APIC_SPIV_DIRECTED_EOI)
-+	    kvm_lapic_suppress_eoi_broadcast(apic))
- 		return;
- 
- 	ASSERT(ent->fields.trig_mode == IOAPIC_LEVEL_TRIG);
-diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
-index 01c2557bfa055..738ec3c1b0b57 100644
---- a/arch/x86/kvm/lapic.c
-+++ b/arch/x86/kvm/lapic.c
-@@ -105,6 +105,63 @@ bool kvm_apic_pending_eoi(struct kvm_vcpu *vcpu, int vector)
- 		apic_test_vector(vector, apic->regs + APIC_IRR);
- }
- 
-+static bool kvm_lapic_advertise_suppress_eoi_broadcast(struct kvm *kvm)
-+{
-+	switch (kvm->arch.suppress_eoi_broadcast_mode) {
-+	case KVM_SUPPRESS_EOI_BROADCAST_ENABLED:
-+		return true;
-+	case KVM_SUPPRESS_EOI_BROADCAST_DISABLED:
-+		return false;
-+	case KVM_SUPPRESS_EOI_BROADCAST_QUIRKED:
-+		/*
-+		 * The default in-kernel I/O APIC emulates the 82093AA and does not
-+		 * implement an EOI register. Some guests (e.g. Windows with the
-+		 * Hyper-V role enabled) disable LAPIC EOI broadcast without
-+		 * checking the I/O APIC version, which can cause level-triggered
-+		 * interrupts to never be EOI'd.
-+		 *
-+		 * To avoid this, KVM doesn't advertise Suppress EOI Broadcast
-+		 * support when using the default in-kernel I/O APIC.
-+		 *
-+		 * Historically, in split IRQCHIP mode, KVM always advertised
-+		 * Suppress EOI Broadcast support but did not actually suppress
-+		 * EOIs, resulting in quirky behavior.
-+		 */
-+		return !ioapic_in_kernel(kvm);
-+	default:
-+		WARN_ON_ONCE(1);
-+		return false;
-+	}
-+}
-+
-+bool kvm_lapic_suppress_eoi_broadcast(struct kvm_lapic *apic)
-+{
-+	struct kvm *kvm = apic->vcpu->kvm;
-+
-+	if (!(kvm_lapic_get_reg(apic, APIC_SPIV) & APIC_SPIV_DIRECTED_EOI))
-+		return false;
-+
-+	switch (kvm->arch.suppress_eoi_broadcast_mode) {
-+	case KVM_SUPPRESS_EOI_BROADCAST_ENABLED:
-+		return true;
-+	case KVM_SUPPRESS_EOI_BROADCAST_DISABLED:
-+		return false;
-+	case KVM_SUPPRESS_EOI_BROADCAST_QUIRKED:
-+		/*
-+		 * Historically, in split IRQCHIP mode, KVM ignored the suppress
-+		 * EOI broadcast bit set by the guest and broadcasts EOIs to the
-+		 * userspace I/O APIC. For In-kernel I/O APIC, the support itself
-+		 * is not advertised, can only be enabled via KVM_SET_APIC_STATE,
-+		 * and KVM's I/O APIC doesn't emulate Directed EOIs; but if the
-+		 * feature is enabled, it is respected (with odd behavior).
-+		 */
-+		return ioapic_in_kernel(kvm);
-+	default:
-+		WARN_ON_ONCE(1);
-+		return false;
-+	}
-+}
-+
- __read_mostly DEFINE_STATIC_KEY_FALSE(kvm_has_noapic_vcpu);
- EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_has_noapic_vcpu);
- 
-@@ -554,15 +611,9 @@ void kvm_apic_set_version(struct kvm_vcpu *vcpu)
- 
- 	v = APIC_VERSION | ((apic->nr_lvt_entries - 1) << 16);
- 
--	/*
--	 * KVM emulates 82093AA datasheet (with in-kernel IOAPIC implementation)
--	 * which doesn't have EOI register; Some buggy OSes (e.g. Windows with
--	 * Hyper-V role) disable EOI broadcast in lapic not checking for IOAPIC
--	 * version first and level-triggered interrupts never get EOIed in
--	 * IOAPIC.
--	 */
-+
- 	if (guest_cpu_cap_has(vcpu, X86_FEATURE_X2APIC) &&
--	    !ioapic_in_kernel(vcpu->kvm))
-+	    kvm_lapic_advertise_suppress_eoi_broadcast(vcpu->kvm))
- 		v |= APIC_LVR_DIRECTED_EOI;
- 	kvm_lapic_set_reg(apic, APIC_LVR, v);
- }
-@@ -1517,6 +1568,15 @@ static void kvm_ioapic_send_eoi(struct kvm_lapic *apic, int vector)
- 
- 	/* Request a KVM exit to inform the userspace IOAPIC. */
- 	if (irqchip_split(apic->vcpu->kvm)) {
-+		/*
-+		 * Don't exit to userspace if the guest has enabled Directed
-+		 * EOI, a.k.a. Suppress EOI Broadcasts, in which case the local
-+		 * APIC doesn't broadcast EOIs (the guest must EOI the target
-+		 * I/O APIC(s) directly).
-+		 */
-+		if (kvm_lapic_suppress_eoi_broadcast(apic))
-+			return;
-+
- 		apic->vcpu->arch.pending_ioapic_eoi = vector;
- 		kvm_make_request(KVM_REQ_IOAPIC_EOI_EXIT, apic->vcpu);
- 		return;
-diff --git a/arch/x86/kvm/lapic.h b/arch/x86/kvm/lapic.h
-index 282b9b7da98cd..e5f5a222eced0 100644
---- a/arch/x86/kvm/lapic.h
-+++ b/arch/x86/kvm/lapic.h
-@@ -231,6 +231,8 @@ static inline int kvm_lapic_latched_init(struct kvm_vcpu *vcpu)
- 
- bool kvm_apic_pending_eoi(struct kvm_vcpu *vcpu, int vector);
- 
-+bool kvm_lapic_suppress_eoi_broadcast(struct kvm_lapic *apic);
-+
- void kvm_wait_lapic_expire(struct kvm_vcpu *vcpu);
- 
- void kvm_bitmap_or_dest_vcpus(struct kvm *kvm, struct kvm_lapic_irq *irq,
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 1ea94f4a3dcbc..67e666921a12e 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -121,8 +121,10 @@ static u64 __read_mostly efer_reserved_bits = ~((u64)EFER_SCE);
- 
- #define KVM_CAP_PMU_VALID_MASK KVM_PMU_CAP_DISABLE
- 
--#define KVM_X2APIC_API_VALID_FLAGS (KVM_X2APIC_API_USE_32BIT_IDS | \
--                                    KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK)
-+#define KVM_X2APIC_API_VALID_FLAGS (KVM_X2APIC_API_USE_32BIT_IDS		| \
-+				    KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK	| \
-+				    KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST	| \
-+				    KVM_X2APIC_DISABLE_SUPPRESS_EOI_BROADCAST)
- 
- static void update_cr8_intercept(struct kvm_vcpu *vcpu);
- static void process_nmi(struct kvm_vcpu *vcpu);
-@@ -4932,6 +4934,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 		break;
- 	case KVM_CAP_X2APIC_API:
- 		r = KVM_X2APIC_API_VALID_FLAGS;
-+		if (kvm && !irqchip_split(kvm))
-+			r &= ~KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST;
- 		break;
- 	case KVM_CAP_NESTED_STATE:
- 		r = kvm_x86_ops.nested_ops->get_state ?
-@@ -6740,11 +6744,24 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
- 		if (cap->args[0] & ~KVM_X2APIC_API_VALID_FLAGS)
- 			break;
- 
-+		if ((cap->args[0] & KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST) &&
-+		    (cap->args[0] & KVM_X2APIC_DISABLE_SUPPRESS_EOI_BROADCAST))
-+			break;
-+
-+		if ((cap->args[0] & KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST) &&
-+		    !irqchip_split(kvm))
-+			break;
-+
- 		if (cap->args[0] & KVM_X2APIC_API_USE_32BIT_IDS)
- 			kvm->arch.x2apic_format = true;
- 		if (cap->args[0] & KVM_X2APIC_API_DISABLE_BROADCAST_QUIRK)
- 			kvm->arch.x2apic_broadcast_quirk_disabled = true;
- 
-+		if (cap->args[0] & KVM_X2APIC_ENABLE_SUPPRESS_EOI_BROADCAST)
-+			kvm->arch.suppress_eoi_broadcast_mode = KVM_SUPPRESS_EOI_BROADCAST_ENABLED;
-+		if (cap->args[0] & KVM_X2APIC_DISABLE_SUPPRESS_EOI_BROADCAST)
-+			kvm->arch.suppress_eoi_broadcast_mode = KVM_SUPPRESS_EOI_BROADCAST_DISABLED;
-+
- 		r = 0;
- 		break;
- 	case KVM_CAP_X86_DISABLE_EXITS:
 -- 
-2.51.0
-
-
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
