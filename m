@@ -1,214 +1,268 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA4B2765F5
-	for <linux-doc@vger.kernel.org>; Sun,  1 Mar 2026 14:33:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F462773D3
+	for <linux-doc@vger.kernel.org>; Sun,  1 Mar 2026 16:42:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772375612; cv=none; b=Z0DQZiX/8ouKxIoQmtqQ86rLS3kTmy42TpJjvt7XbOEbf2Qj04QLz/rJ/Co4oLagVbXVE4yIIwrAWI6iwejRzvhpnKIAzLTWuoERSBRzv0uQOOcmP4QkhJkVvEkOF7qcwXRQz3TtRb+lywzCIHa3jC/a3NhRcBqj3bZiOX37yN4=
+	t=1772383367; cv=none; b=VwhlFvCirUBZDP/TuGhZpk13/1Wvsxy0VDACqYhdMxinA8hXDt+jevMQbdeRND5EIE74s0tPbWgVQKwbqDIAO3M5SUiCaZn6pvLWCfmacPtXjMDTX2HWUk8Qz5kuFI8nsL+Du6Iso7zSqmnvsRavJtTMbTi5nzcL5CRQfoZxWto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772375612; c=relaxed/simple;
-	bh=hepAsTbXOdpEQ283mZa1ve5BGe00kT8YrPrcvwQEyP8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cg0RIr1e0nJpuIUW6mAIMNvkwlGeMcXY3MyNNPnBZJ655TD6fd3LiR/1axLS2r3GzY9fVGW0ObNdTCCp0oSHpnyZILIOTaYKpX5oUxtLAG1PMoOL45NMgdo63NKjLn2S6kTFWJsdAOww47zSBErxvD4wP2czhWAs1tmTE6A0Pj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=n2Rd4fxi; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=JW7O3NLC; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1772383367; c=relaxed/simple;
+	bh=B6ltupO5CSFJD1I7pd5F3OpvUglgJcauZMx0lgH6J4s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AfI838DOG7KLtw87Rs0E48fHiq1FDrlWNrMy/vFdLFPzZINl/9EduInnvFxmqXmNOw5Hi8ZfB263sGrATs/mswKY2pZ70jfFMeF+20Azzm/2N8xGyb+ljwoaRkeei1mt1gYgd34ubbRenaL5i0aJqhrWo08Oxwkut8FUtTZ5zIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=He8pARc8; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aTFPqWfX; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="n2Rd4fxi";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="JW7O3NLC"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 621BpXYL3139783
-	for <linux-doc@vger.kernel.org>; Sun, 1 Mar 2026 14:33:29 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="He8pARc8";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aTFPqWfX"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6219QkDP4137691
+	for <linux-doc@vger.kernel.org>; Sun, 1 Mar 2026 16:42:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=9/PjmX8kfjwszjEJKsrBmKTogNX4/jmM1He
-	eSPke0Fg=; b=n2Rd4fxij0+y7pqqH5fxhop3muag+bUZdW0LBeC6dK0vrjvv7B/
-	Y8bwi1SueLX9rJpmYe4UBBF1zj1EBqNeGeB+r7Z1WAQwKbYVdPhXDplFJ8uF1ToK
-	xzgLQmqZrcNAJyVplJulQNGeDKzQeZxKvs1ikMm6fQdujz3IjYUz80WDl7/bNpSk
-	KvDG6eTjEl3Pwepv8qHoFMvXE1lEwNIkH/hbsQl4ZKA7JugeVg5cbsKIynJN1tyJ
-	HEys2IKrHt0te+1TWokvdi7f3/pGvGwseOSHM1U0yIB4EVOTpbMhBfF6c6YHPjWr
-	eD5jeXTPw/hhGHfKdQ5KTbSdE+pyDER5LLA==
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=UUK6gQUiNTqa63dauhB4oNrf
+	uTLkXg9Yv5hlRkbvUf4=; b=He8pARc8xKIWQNSUN5iKpE5loEd11TA19/vijzUy
+	CYWHw9Xaap0rWw4bWeDfmBphXjBNU8zWqkLN0XTsTFglTLJRWiXYf7jqZnnW+NXb
+	bE7DV5GnSj7UFtEJXNVoI/V8AkgNAOOfa8AS8aXm3UPmIjCkq1IvovuIL8iR56GT
+	HRJ3BdNAUBEeqwYnPCAapQzOa8+GpTl7+m4P3BikpDnkGNGJzkOtqB0piXklqmXN
+	BpoJDnESMWRskJpZaShiXRIapbYJ7FzjH3VJbf0wPkAje0oqUMrHemOdFsakXWe8
+	VFIVqmFmDzPzK9WZ6poJpgk3/7NVdg6uXmSnFPyYJ7aewg==
 Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cksf8jusw-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cksn4305t-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 14:33:29 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c70d16d5a9so2838027885a.3
-        for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 06:33:29 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 16:42:45 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8c70fadd9a3so4111035985a.0
+        for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 08:42:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772375608; x=1772980408; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9/PjmX8kfjwszjEJKsrBmKTogNX4/jmM1HeeSPke0Fg=;
-        b=JW7O3NLC+OBU4/bOaDhdB8mizq/A4R/x+DAKF9GAcO4vIo4/nnFNrgeoxgYNmuV5K6
-         ROUvxdo30F0Q3mCixjm5bJ3l0LPnpe/rIpfJpdvtGnmg3wjyjwrQo2543ohGhInRfECv
-         5+JxU2yRar63HB9IcSaA1bo0EGV2HCjvGecPKiJCzBG404mYDsNJGay4FscYg2IDrfzV
-         G7Few6Gx8I6o5INjF6O/cgFhCv1wPxqH3nD73xXK1xF6a1xnoEd+JtkQwsKgTF2XaAKa
-         /A2dzP/rVU2yUUmk5EoYXhhc4HmIkz7uvIzrSLo8FlzedckbbDVYSZ2Vh/1jIJqx0QVB
-         dgCQ==
+        d=oss.qualcomm.com; s=google; t=1772383364; x=1772988164; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UUK6gQUiNTqa63dauhB4oNrfuTLkXg9Yv5hlRkbvUf4=;
+        b=aTFPqWfXFANFA9vgrlOqhRyKB1xpHZarcv51OdRX+iId1BD0dN3d7diYUIejpFs8wW
+         v89Qnrzg0ztIrpq7zy0FFqH877/eKjn75/nQ60a2yL7EHKGGs/xiwz/+tI9gVV+kz++P
+         JL603bJV9Zhy58yDiD7LPnMQw3XZ3RcfoM+ZhotcTyWqEIntDr2/9vExwN0MLHSGNfWC
+         mvkpA45Fvi0P0V9bBBlqUg/MYj7TjRqP6cG48xuyszXaHA9yK0aXrWjEuQsdXk+/u6La
+         4TSHYcQZ4iU/DY7ppVsPtt759NMOSCGpYiTTC1akz6woWv8A0ZJkYUkAlTmFKsPg+glj
+         fhRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772375608; x=1772980408;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9/PjmX8kfjwszjEJKsrBmKTogNX4/jmM1HeeSPke0Fg=;
-        b=OKxu1Z5sl5PbLJS3yshQ6duK6/Iavn1iBx/3dmkWuOpGrH943g8sfEJ/V38FcztmYz
-         gbVETI7kle0tX+cyCXWl7/mHUwKT5k6wBAsfyrSKhetuYi/2NE/oyWoNOyYtF6VBel1r
-         FxgSM1iXFZIgROIrAJ2ymvtYWj6p1VX+DHy+6KmCYRVfZgdFaerBfqV2YCPcKQPHDq+s
-         u3WTrIorRQ9+mmFzSwatMZw3FJi9QRdZD40ACXJTeL77Pt/s/01ke7BWth0szZfbQYWB
-         IsdWzNG3g93MyjSXofa2nuZkTXWZI2yqmT8Y0myZcQyWAAGSB62mXDbX9fs2VKoDiz/I
-         V7eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXz4gTR1Q4sPf+Ks8Tb/Bv7RA+sFeFsHd5MBzek0QPZOcyKQIHhgH6XsDjJaNEHR9idMlQ6nTWhp+I=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyL0FyQBKpzY2iyQG15yht9P/ddha/5l+hrHe5S9vvOCKRs8sq
-	5sUoCqWvItkIHuXXm/a7vQkShrWct/oPvsydS+WsNvFxKz2g/C4mDGhF2HKqf4ap6+x5hCnLD7O
-	27wkxymS7iqJAKiIHYIcS/yK5ZMrwlySrdVPZPH3iT8nuvb8iGsU4b6V0P1zSV9A=
-X-Gm-Gg: ATEYQzyugQrhdPMhzFqLoSE5G462P8LTDMKaBnKzUTVAryclSNm4yBDzJlwV5NroEdD
-	P1nI4vtm6sgXGibpo6mPliuYpFIkd4whIQeVVznk9kqPi4E/munsYs8Ap4rPhFsvjVa/DZllV6o
-	IcXqZu47aoCWRorqjqJNMk9pkxCI93YEKYN5mnfaZSvKV2Tb4GUPFcrtLL5pz8nc8G/edDAcv8T
-	2t0Fkp9y60xhXXavNIZ5qa6ICiQETqYhJs6ZSN8ZFev5h39a+pm8Z9EtQJYEThm3Zu4QPiJu6mv
-	DZQ4n/O40kfKLJuud2qYlMXklIL19u144ElYGAutXsaQAY8MZDsoHmQuDIrftNTAhpoTpxKOVkW
-	yrWBUA4vNAAqPupR4jJheWSyjMfpw1QZZPUO9
-X-Received: by 2002:a05:620a:190a:b0:8cb:4d05:aa43 with SMTP id af79cd13be357-8cbc8e187camr1065907685a.59.1772375608108;
-        Sun, 01 Mar 2026 06:33:28 -0800 (PST)
-X-Received: by 2002:a05:620a:190a:b0:8cb:4d05:aa43 with SMTP id af79cd13be357-8cbc8e187camr1065903985a.59.1772375607546;
-        Sun, 01 Mar 2026 06:33:27 -0800 (PST)
-Received: from quoll ([178.197.219.94])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfcbf789sm110700135e9.17.2026.03.01.06.33.25
+        d=1e100.net; s=20230601; t=1772383364; x=1772988164;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UUK6gQUiNTqa63dauhB4oNrfuTLkXg9Yv5hlRkbvUf4=;
+        b=qxykpV6QTkaeKu1Lga/FQUi9SJXb8Of/0TNjHJWal90/yC44DXvGfkvGNdmlV2Axfx
+         pCLxbmxAhXR7xrFWjYhCmPJGgYssXA4INoi4nHxQsFqxUdFXCOynjleYqGWpQBo0iQp2
+         I5niG5VFuGdzvheFX8twAr0LE0GbhA+g7106PC9Jbotki15PA0km6SUSbOaOokMJiMU1
+         1SOw3eTIdUiqRhVJQ8ZsQb3iYEmoFYGndkhxpxxleytbNU8hGq7jYJoUqsaMkkTf8rb+
+         0bnGu12e0AL3dGYqzZ/OnwPsXS+Kt+mKNJ3OBzZ97X3UohWzx2lB8J3AWPBZLjzhntHk
+         HMCw==
+X-Forwarded-Encrypted: i=1; AJvYcCU8cs2CaaBPY08BvZXunuhIwiFJBWcSIEHPDbFxiUXv74JD+fCe2VaUFM5hJgWRXKMqeoZSHbdxjjU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/mLe1BkQr35BQsvMXycrLXT2D8jfb629U9IbuR5ks7mmA6PkE
+	/cPl/2JYO+5GHk6PAnNdBwyaMttzHlcFk4U2wYHa/+ODAEhUdRYczKBLSc7nvgpVC8b9q7eKvGB
+	HCLnAeexM2BpNlYdBsLTDRwdMs9vQ6cyP0Odsn/gZWUUscscywkjL5jWCJhK7wNs=
+X-Gm-Gg: ATEYQzwI1gq0OEko2fwGSLKTfriiCIZE1/VOpMU5VuYIOZOjfg7ejjK9HrMZSqpCDFh
+	MFOMEoBKOx2Wk+Jp7LJR+xj5nB8nBEOufZnA13Q/EuWALMaD7rQxR6j3V4n8D1ycpVmbuNJ5YaM
+	Bpq/1cX5H4XRsstD37D/MhhkqKeAPELTA6uK8TGEPf3uRiIDUKmOSy6JKdM0VBMgZdZSLOsa6+6
+	Oa/w+1y0F2jJnd9KGPIq42UUPR6g33pZZcmCn/l62Euekz1jDDmueAYc3/cixiWiNw0vsAD87lb
+	8Re9v+jRFKyafKMBBJtSSoocQCzipZrdPqJkTf53lhZhlBWZ497YQB8gwawugWZYAQB6xaEOhD7
+	CTZbQTOGSuXMEWaajys9bTgjv/heo2vwfADkSwTXTTecbUgS8gElms0EElxbGQiNdJvGI0E6Pmk
+	mMO7+miyqLDHpkgxx1Dq2KKtKipRvA72jMgwo=
+X-Received: by 2002:a05:620a:40c4:b0:8c5:32b7:210e with SMTP id af79cd13be357-8cbc8ead9f6mr1058571885a.82.1772383364332;
+        Sun, 01 Mar 2026 08:42:44 -0800 (PST)
+X-Received: by 2002:a05:620a:40c4:b0:8c5:32b7:210e with SMTP id af79cd13be357-8cbc8ead9f6mr1058568585a.82.1772383363834;
+        Sun, 01 Mar 2026 08:42:43 -0800 (PST)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a115bca1e5sm1139257e87.26.2026.03.01.08.42.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 06:33:26 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Thomas Gleixner <tglx@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sun, 01 Mar 2026 08:42:43 -0800 (PST)
+Date: Sun, 1 Mar 2026 18:42:41 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+        Rodrigo Siqueira <siqueira@igalia.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+        Andy Yan <andy.yan@rock-chips.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v4] LICENSES: Explicitly allow SPDX-FileCopyrightText
-Date: Sun,  1 Mar 2026 15:33:23 +0100
-Message-ID: <20260301143322.92894-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.0
+        Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+        intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 12/19] drm/bridge: dw-hdmi-qp: Implement
+ atomic_get_output_bus_fmts
+Message-ID: <hocqjcusieyqmsai4bxtgjon446yae6m43dmvqzk34ul44pvfg@ithgwadiwx2j>
+References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
+ <20260227-color-format-v9-12-658c3b9db7ef@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2924; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=hepAsTbXOdpEQ283mZa1ve5BGe00kT8YrPrcvwQEyP8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBppE4yzr81YaW4Dl6FtLqzHGA07kx+X6aHi/CKL
- tKuVG2PZeeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaaROMgAKCRDBN2bmhouD
- 1y7DD/4hrk+Ktgai+hvAoEYD7rn8j2xWnIKtpFwdFmZ7xo0DXI4lDPcdXRmn0HZAYkaTkWVFG54
- KsFZxTnUm/KCAdmczjPDRCmsm7VRgnWN+1cTh80CQGEjGytoNOPCgaPBjC8cOF0IMc7cCFLRm6y
- EfaSi227B+Z6s9lfYazFSt6ZP4hIoK+zwSNUHVhYPlcotvJVlBCrSDF0fXc6XwHmOih9v+mz2L+
- DdFhpffwAjuBl6xJOGeCL7XT/dH6tBEzY/jKd4sxWihwyaMCkqZZMriSs+HkculsP3xpLb5xwt5
- yjRR1ydK3F8JoCCupJdHlwJooDVtxF9OD8vJC9hu795FaM79iTWAjWgLL/WR+q4alDzW88V6JAm
- sWyKiCLzfb0ds7AEr8WQc3WKTKIYK5gnW644Kfkn966CbcYHJBHCgJs0SU8pG1JFT/SpNxbEqwK
- JrY8wPSfTcRxs8++ivUN9KJx1JCIo/t2uilbGY4Ee5e/8K0qbagtsg5mEvsx57ZOBHbrqlXxcGP
- pdD80gLvwiIPBaBpbfhJRZJX9qbGnetT2GC0HXu60euZfGDrH30ofimlvBj8x5Ywf3UjGUvDyhV
- RBBxIgVqhc1ZfLTDyR4ykUeyCf+m1ZLmaV8dfpR+SFMJ0+QV2AROTqG6p32/5L8nC7RVTpyiZJv +zuO6gKljIBpUzg==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDEzMiBTYWx0ZWRfX1XluuiK1cs62
- 0g7Jnaspg09KbJId0ciOe3f0YUzeniS5ECGF1/3+4QFGuICqdrWwLuLpl45ym/v4aii+XOSIs0e
- FBAz+lqUbAsSQ5S4NeoHVg63rgbP4mbRjMHOPxHwZuQteRA+6kb2oW5QvN43S+/5vzV9aiHmsVj
- Kf0zNkGeI10xZVAQXHCmPB3l7vlIFR3ENaWRuCQFqHdxbGohd8Rw+GlTbf85seynBpgCwrS4UYj
- uuGIMmHv1W6cs+dukSr57IFb1FOErgV0MB9bfGksAh86o9uosaqmLcRMUO5JOX0GwupmrrePd5s
- p/GQpubTWb3qvGCAWARgVk4ULSTuy6kZ4L2iDrovTGlHQFcBzzMqj4wUTPzlwh18draJxop3011
- umuoISZp9V99CO0/u/USX2u0vPCgLQLDRh9JO89yMg0U/8uEohzIDy7fisFJdLV07U3DrJ/4iUq
- uK8iPQ5Li0fDWfGxTEA==
-X-Proofpoint-ORIG-GUID: mUYf8l-bgT9ZxOp8l1nfEwBCE0NFeo2n
-X-Proofpoint-GUID: mUYf8l-bgT9ZxOp8l1nfEwBCE0NFeo2n
-X-Authority-Analysis: v=2.4 cv=I5dohdgg c=1 sm=1 tr=0 ts=69a44e39 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260227-color-format-v9-12-658c3b9db7ef@collabora.com>
+X-Authority-Analysis: v=2.4 cv=Tq3rRTXh c=1 sm=1 tr=0 ts=69a46c85 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=P1BnusSwAAAA:8
- a=ag1SF4gXAAAA:8 a=IJv9LcIfAAAA:8 a=EUspDBNiAAAA:8 a=_UQAGB7oVweOm72raGYA:9
- a=PEH46H7Ffwr30OY-TuGO:22 a=D0XLA9XvdZm18NrgonBM:22 a=Yupwre4RP9_Eg_Bd0iYG:22
- a=cmr4hm9N53k6aw-X_--Q:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=QX4gbG5DAAAA:8
+ a=J_biHfMZ8pKUvqPgpkYA:9 a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
+ a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-ORIG-GUID: nMgWNSpF1n47CbPFf89gfL5eII9ayNzG
+X-Proofpoint-GUID: nMgWNSpF1n47CbPFf89gfL5eII9ayNzG
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDE1MiBTYWx0ZWRfX8rsdRADPHz8s
+ gSgVaE2TjP54NoFS8YxLw3qVU3MGYCVriN5SjlkKhWN++GehCWYcG6G+jwNashSKdMi8z0DSBbT
+ MTZ9qZQMRo+cSOqiGFh0dvQ16EOcBgRimjYaD+L3J8pV7RcmrKVid/WilExAs2Q2bvQ7YsIBSss
+ dgUREIOwsz5zHlDr0RIF6dzMOl3Zc8AFlkEDVF3slINUJToOH8a3W7vIKob7RPHmut/aOm/RntD
+ EdnTJ0j/sRKsUaFIEpH9RZAqwhPdlR6zllmf47l8UcUE6xxC6fNgt/yOZb3UP8/lBS2hSV28ilR
+ pWdxufQzXIkNKXfY2AdtLAhwjlCnBuS4D+993pSf9qdxR3AdfZGcM778yg7mPk9ppmTlzaJoodB
+ +jWROdMkG/ijGmFQMCj6JuBg0hqXKMVbNw+/3ZL9e0twPz4IBtAD73HtjwDQmK78wnU7epWfHYz
+ Ib2DZ8j6yYbBNsz14gw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-01_02,2026-02-27_03,2025-10-01_01
+ definitions=2026-03-01_03,2026-02-27_03,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- adultscore=0 clxscore=1015 phishscore=0 malwarescore=0 suspectscore=0
+ clxscore=1015 bulkscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603010132
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603010152
 
-Sources already have SPDX-FileCopyrightText (~40 instances) and more
-appear on the mailing list, so document that it is allowed.  On the
-other hand SPDX defines several other tags like SPDX-FileType, so add
-checkpatch rule to narrow desired tags only to two of them - license and
-copyright.  That way no new tags would sneak in to the kernel unnoticed.
+On Fri, Feb 27, 2026 at 08:20:17PM +0100, Nicolas Frattaroli wrote:
+> The atomic_get_output_bus_fmts callback is used by the DRM bridge layer
+> to recursively select a suitable output format in a bridge chain.
+> 
+> As a bridge that outputs to HDMI, dw-hdmi-qp will have its output
+> formats determined by which formats the platform-specific integration of
+> the hardware supports, and the chosen HDMI output bit depth.
+> 
+> Implement this callback. The returned u32* buffer is supposed to be
+> freed by the caller of this callback, as specified by the callback's
+> documentation.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 64 ++++++++++++++++++++++++++++
+>  1 file changed, 64 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> index d649a1cf07f5..4556494f9bb1 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+> @@ -11,6 +11,7 @@
+>  #include <linux/export.h>
+>  #include <linux/i2c.h>
+>  #include <linux/irq.h>
+> +#include <linux/media-bus-format.h>
+>  #include <linux/minmax.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+> @@ -749,6 +750,68 @@ static struct i2c_adapter *dw_hdmi_qp_i2c_adapter(struct dw_hdmi_qp *hdmi)
+>  	return adap;
+>  }
+>  
+> +static u32*
+> +dw_hdmi_qp_bridge_get_output_bus_fmts(struct drm_bridge *bridge,
+> +				      struct drm_bridge_state *bridge_state,
+> +				      struct drm_crtc_state *crtc_state,
+> +				      struct drm_connector_state *conn_state,
+> +				      unsigned int *num_output_fmts)
+> +{
+> +	unsigned int num_fmts = 0;
+> +	u32 *out_fmts;
+> +
+> +	/*
+> +	 * bridge->supported_formats is a bit field of the HDMI_COLORSPACE_* enums.
+> +	 * These enums are defined by the HDMI standard, and currently top out at
+> +	 * 7. Consequently, BIT(7) is the highest bit that will be set here, unless
+> +	 * the standard runs out of reserved pixel formats. Therefore, hweight8()
+> +	 * will give an accurate count of how many bus formats we'll output.
+> +	 */
+> +	out_fmts = kmalloc_array(hweight8(bridge->supported_formats), sizeof(u32),
+> +				 GFP_KERNEL);
+> +	if (!out_fmts) {
+> +		*num_output_fmts = 0;
+> +		return NULL;
+> +	}
+> +
+> +	switch (conn_state->hdmi.output_bpc) {
+> +	case 12:
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_RGB121212_1X36;
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_YUV12_1X36;
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYVY12_1X24;
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYYVYY12_0_5X36;
 
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Joe Perches <joe@perches.com>
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
----
+This looks like very generic code. It uses bridge->supported_formats
+only. Can we move this to the helpers library?
 
-Other way would be to remove SPDX-FileCopyrightText from existing files
-and disallow this, but one way or another we should be explicit about
-it.  Otherwise people will be sending more of these and each maintainer
-would need to make their own call.
+> +		break;
+> +	case 10:
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_RGB101010_1X30;
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_YUV10_1X30;
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYVY10_1X20;
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYYVYY10_0_5X30;
+> +		break;
+> +	default:
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_RGB888_1X24;
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_YUV8_1X24;
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYVY8_1X16;
+> +		if (bridge->supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420))
+> +			out_fmts[num_fmts++] = MEDIA_BUS_FMT_UYYVYY8_0_5X24;
+> +		break;
+> +	}
+> +
+> +	*num_output_fmts = num_fmts;
+> +
+> +	return out_fmts;
+> +}
+> +
+>  static void dw_hdmi_qp_bridge_atomic_enable(struct drm_bridge *bridge,
+>  					    struct drm_atomic_state *state)
+>  {
+> @@ -1192,6 +1255,7 @@ static int dw_hdmi_qp_cec_transmit(struct drm_bridge *bridge, u8 attempts,
+>  #endif /* CONFIG_DRM_DW_HDMI_QP_CEC */
+>  
+>  static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
+> +	.atomic_get_output_bus_fmts = dw_hdmi_qp_bridge_get_output_bus_fmts,
+>  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+>  	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+>  	.atomic_reset = drm_atomic_helper_bridge_reset,
+> 
+> -- 
+> 2.53.0
+> 
 
-Changes in v4:
-1. Grammar - "unsupported" -> "disallowed"
-2. Add tag
-
-Changes in v3:
-1. Typo "or multiple"
-
-Changes in v2:
-1. Doc adjustments based on feedback from Greg and Laurent.
-2. "unused" -> "unsupported"
-3. Drop redundant blank line
----
- Documentation/process/license-rules.rst | 7 +++++--
- scripts/checkpatch.pl                   | 8 ++++++++
- 2 files changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
-index 59a7832df7d0..b0176bb8a465 100644
---- a/Documentation/process/license-rules.rst
-+++ b/Documentation/process/license-rules.rst
-@@ -63,8 +63,11 @@ License identifier syntax
-    The SPDX license identifier in kernel files shall be added at the first
-    possible line in a file which can contain a comment.  For the majority
-    of files this is the first line, except for scripts which require the
--   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
--   identifier goes into the second line.
-+   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts, the SPDX
-+   license identifier goes into the second line.
-+
-+   The license identifier line can then be followed by one or multiple
-+   SPDX-FileCopyrightText lines if desired.
- 
- |
- 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bec7930cdd66..c0025d2f5741 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3856,6 +3856,14 @@ sub process {
- 			     "Misplaced SPDX-License-Identifier tag - use line $checklicenseline instead\n" . $herecurr);
- 		}
- 
-+# check for disallowed SPDX file tags
-+		if ($rawline =~ /\bSPDX-.*:/ &&
-+		    $rawline !~ /\bSPDX-License-Identifier:/ &&
-+		    $rawline !~ /\bSPDX-FileCopyrightText:/) {
-+			WARN("SPDX_LICENSE_TAG",
-+			     "Disallowed SPDX tag\n" . $herecurr);
-+		}
-+
- # line length limit (with some exclusions)
- #
- # There are a few types of lines that may extend beyond $max_line_length:
 -- 
-2.51.0
-
+With best wishes
+Dmitry
