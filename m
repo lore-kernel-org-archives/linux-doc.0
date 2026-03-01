@@ -1,210 +1,99 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71D032BF44
-	for <linux-doc@vger.kernel.org>; Sun,  1 Mar 2026 13:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52732F84F
+	for <linux-doc@vger.kernel.org>; Sun,  1 Mar 2026 13:47:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772372468; cv=none; b=P/kYbYQPuwfIzYQs3fJ6zFgmFBCaY933oRMIplPLfQF1Qcj/jr6tqcTEHkeC3lnOt4VAstFdzIJYECethZsbxABfKN3PebX6hBLXHaiMDjoB1jmNqqI7xGO1roLWroJM12/xRXW3l2lk1Sjy0q8rrfRNsW9Rmmlfff5Tyf4L7es=
+	t=1772372857; cv=none; b=SjerHb8h8JPmpPjHMmNxafQhPP7GrZiuzO2R4nK1bGhQPE7yI8uUg4WgIOWEVVt4djN4prXXbkDfF86IjoBaGhXnIDBjG0StrUlaoDIiBrKfoL8ouBdkHN9IM3P60gowJD+uKsjqjVXimr8dyOZu1ffWAB+bbWJgbQmcAuW5/5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772372468; c=relaxed/simple;
-	bh=+ES5/OC/9LPBAa993HFBienoS1osDIOASawAF5IW9TQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TnnEAFKOlpq7l22RAVpYGdS7dP/bI4cxOfbX8BMxIfndCy8MEgpt8b/1beyJDR3GrYqpRpttixfbZKXZzV5IO04YY6SoWADiF8bgLBo/4SGZVsVYg0SAV6PCZHljBGl6nXfr0qModJbo3uZxYMexK07X4kU2KtjlTAyxn/I43iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Td17FqzE; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BQms9avH; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1772372857; c=relaxed/simple;
+	bh=LZS4NqhuqgubsYa+sdQFc+VdDW9hgC6PJIa4x4HxdPY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jRo13xctLpLmlGJwQehBokEX8VOvyy/dTdkG8jOTiSJVz8NgQvlxTgFLl9+I3JzFyzHbbc8nWh6FQvC7LeLXrFtbdfdgag7XRLqxn2HW249UG9NrCuZng0fUEjDhlSE5rEJ07+3FTUyAa7zXLYlE0knR5ZVBaR3KWq9FN0knzho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y7DaNfGp; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Td17FqzE";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BQms9avH"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 621AviWC118739
-	for <linux-doc@vger.kernel.org>; Sun, 1 Mar 2026 13:41:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=7xlenVyuNtjntNFqpEinehs1xY4pgd5f7lk
-	7THeCl2Y=; b=Td17FqzEfTGEK5beOqSpZBhpp8WhB9khRw+FmgBOWe6ZUeRw5sm
-	4W2lxDTnRfYKuPhAXvstaTfGgxbNVUxMdbplh2UekKWxnhD7V+5P9RvN4erbjaLe
-	ItxjsPeIpTQ2D2LeJfEkL6zAnKZXtPToSBsTBJWQD5ABxvD2r6us6Ta1/WwPi++H
-	9U0PzHC2q3zbuNAMkQZ/9o882mwqB3pGODtVly1dVu+UrdVRG0NceTyVtDJasRjc
-	nXJo8wIHUu/tEM35FxtCan0iBnStCXANbw6/DtKPMbKFPBKOp5fHeveS6BTOgzBJ
-	6rnYTS6N8Pp26f1UgfUoiJnRZlC85Ga0+pg==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cksn42rx3-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 13:41:06 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-503810dba87so669169781cf.1
-        for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 05:41:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y7DaNfGp"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48372efa020so28771985e9.2
+        for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 05:47:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772372465; x=1772977265; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772372854; x=1772977654; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7xlenVyuNtjntNFqpEinehs1xY4pgd5f7lk7THeCl2Y=;
-        b=BQms9avHRMozheEVje/NBX1MxSJIFEmNPwmcecGNeIDQC06kOfJIuo1HlNkDc7lFxz
-         MwWQtQ4HLDOY7Tug9tyYKroRdJmyZO0/GDpvMPykKfWy0B96JNB7w8rhwQmVB2FIDo/T
-         nVyDZK9YV6yTpFe5eMpKk8a75SRtt9QiUMwhQIyUNpxABtxFBqPCMpRnqSv0tL2H5fZQ
-         6f3xulFY8HnSWX4TCRzoxraen7ztGnyk5IFH7Rumq/RzC6ODsQ8tQfEf0ksRRyoH/QfJ
-         KWEcDjzp5u/sFNRsPUA8zKfSIIWrAZ7jqR4Df971k/FItkmtMHwbMppAHIraHnPdN/69
-         l8Lg==
+        bh=NinA+3ePCLWqDgpdbA/AEykomkBo0WDHLuMB2QzB0x0=;
+        b=Y7DaNfGpgk1YSGLCU7ZFesfVN10GtX2i+L3YMMwT8mKlXs9TFW1YU2HJXjNkwc/GSK
+         KRrdxtQ3qRvj1Bm0ibik2XIqmrk+EY1TsWHSV6wS0CFzmbHHZHrwM/9cYK/rti/ZWyz1
+         J9RisQy3uwMzBYus+FIttGTCPMJ5qTo/QDksTWFFVD0c1tqHAZOBxBE6flACenwwn+ni
+         V/TwYWHIz1dgIwuCrZSFYmr8zOx9n5SChy7wtz95eh4hTpjAbToQEpt4vzbCQDdFp68d
+         U0RnqCG3szcyO5FmjfvKOBF+RloNdeoytUiIjVW8KqGop0gVt8mle6pVrQL9hcDVLtCe
+         5Gfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772372465; x=1772977265;
+        d=1e100.net; s=20230601; t=1772372854; x=1772977654;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7xlenVyuNtjntNFqpEinehs1xY4pgd5f7lk7THeCl2Y=;
-        b=MWdnT2uD0CNBaQ2yi8GF7ZDllZVqVR15j5QMbtiaJlCRV2VmRQ4oPu0TQK1hFIQNg2
-         KJfOCPOvMg+Fhb+xa8J4HQPbtrDFByHtQ/3AwwoiqHge1t5ojt/bsNEs+x8gSqtpUu3r
-         Mf1LSvEPPySiMpDsrQl1Yl8JQ8ZvzFALiv4CbZnf43lNG87ux4P3T4xCV1D1vU9lFypg
-         PkCGa63tDxYO4/ESJw0yaBNwYpIxDvw8mUW0cgUQqordUW47/cNSw5JWadDK4ny9TB+Q
-         YUomZCRVhDT4WYMqpKcFV05ABdHsIJgvqoLNhDty5cc/4N8NqAILekP8ZkNp2jmyPYFO
-         Wo0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWpAnQdyAbEjUlOn925ZmbJGpnAjBhihM/YBLkZ0Jsx87aortRmgM5wZ4EISW10PSJTLfavWZjmOe0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6Ci6mrB3XDLlwrqjslG8NgAookvyMw4mTp9bB2Ocs+0shuvNC
-	k9kmFUzMQ4LPAaqU3wkeL/C+YWP2Zt4Sx5c6Orf0DV22OxXngxBbip72ob2v42iPNuSLsTHwTJ4
-	avNj5QZ9CDEXcQlGXWgWbFd9/3rU4mzwl1YGdJBmXL3GSRuTG7L6FBI8f4mLxEjLZuBs0hhQ=
-X-Gm-Gg: ATEYQzzd0KEMjoqIs0+Ugm0hnUC0DILXxp/g9E/RyjYbh+SI4/71B3NLDRrqAQBbEWf
-	6/j/Qc3sMDaNROeN6wU1jtrmejxpn5Oyh+WUxv2wlT18lVlhSOhZKZ+xSQIffe9sboU5mw9Ruq6
-	5wJpoP+OW+KXCRknujBxhtwbhuighWZEz2TJUo8S4uTXA5BazoOb0/homsYw/1Y/jWnAOkNmC8J
-	zdtx0M/8EOSUwOrA0bj8C8/OJvktRjnNLyCar3qOGIPWbxxvuX5ovVg4Enul+zHNA9H6gmAQ79B
-	7/SqgXeRdt/J4CUvbTOSYAbYNLMAHVuEtceJidiREcXusisoUiwgzwJjFwV+olkdAyNvUZAPbHG
-	7jlDYDKHUf2eEHNZPqmnJ1C0oRIDGMs3gHcmV
-X-Received: by 2002:a05:620a:2947:b0:8c7:1986:6b3e with SMTP id af79cd13be357-8cbc8def8camr1140379585a.32.1772372464605;
-        Sun, 01 Mar 2026 05:41:04 -0800 (PST)
-X-Received: by 2002:a05:620a:2947:b0:8c7:1986:6b3e with SMTP id af79cd13be357-8cbc8def8camr1140374685a.32.1772372464007;
-        Sun, 01 Mar 2026 05:41:04 -0800 (PST)
-Received: from quoll ([178.197.219.94])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439abded86esm9847067f8f.6.2026.03.01.05.41.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 05:41:03 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Thomas Gleixner <tglx@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [PATCH v3] LICENSES: Explicitly allow SPDX-FileCopyrightText
-Date: Sun,  1 Mar 2026 14:40:55 +0100
-Message-ID: <20260301134054.44229-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.51.0
+        bh=NinA+3ePCLWqDgpdbA/AEykomkBo0WDHLuMB2QzB0x0=;
+        b=GrNMp+Ywg0buiQ37lNK7ZksZH8e5a6Gd6U3F5f39Ea5C0xdyBy06CQJyqRXu09su0v
+         f0P+d54+PGaE54/Q8yJYuRZdi9ilR/yd7ylTvbjcV4di4s1s1QlhLGPi0OurpPNSugnA
+         o0w9YlzsArPNfVOVa8c7ANzTS9kMS8ZQ1Wv/uewkl2DdcThW3EeivJxBucor9mdkmOcu
+         Onr5310LtvT5oWgiZSriDm7FVFY7eY6qQWhyiYH6UcJUvhcKiQ1qW0Qr/O0VRs/jJlDA
+         EIT9GexscB0Wx+hJ4KBhVnX4TJbKrFd1i7MQsJkL3bFf9kT+1X9hfX7JucdDSAwVepgs
+         g0Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCXOi8wAGjFhV3hSjZYH4KagDKzEmHtOaEQRBvBAyS/jvc7NtVoooGGTTgYFp2MFsroNdGRsFsw3fiA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDd7kzfPFWAWchp0xTp8YHNJzbcBdhMssGpBv8NbZvFVO7gYAV
+	DAYFatCYL3nBsdwvE6xMFZ1JWrpixhSYiW/8v0h8vJQoiaAqlula6kDt
+X-Gm-Gg: ATEYQzxnZAERWarAuKpIDxgUmvjzljobOQS5AZ/KKXDCF4iIuzeDk4UhMjhTmPSxLHf
+	UwY3Oahl9ERyPD9vr99RjPHhn45cpZztbfU+YcD4LwmqelsuH1nxuZFGT7hyr4E27io36T4HxsA
+	EkaFWdvLClev4fWdRiEafO+fERI7iIi+aNujRFQ7N5MRrRUVr6KUKOUk2f/CBLQ36sBUuaFylnB
+	LLMpe8YeBqOYBSRCMH35If4/IraVstqDTLiL54NzuG6BKtuLPeymY1l6hIYKV6rXvSi4jYXHXc/
+	73o4EXpEfL42TVImSjdgwu0D8oqq7F20h472c43RWhWQz69nuLI0ngxYfOcv3jlDvo8rbf0nsyi
+	eU/15cjUxxT1f/cvyoG7KU9rcEJYoD2hlLohDLS0dvAsJQQ6TNV/KvNetXE1Q8MoE6otXzf6FEn
+	EA/XS03scfsre+0jFWN+VYqvt+GuVjQyi34sVtTljsQ3YWxAgi3hcsj9HTOxHeo81mPzrQuqspt
+	TUhOvwH645EhKsxm1PlMld6uJy4G2Qy3Wkl6nRFQR4KuaJfrne+Yvdr
+X-Received: by 2002:a05:600c:40cf:b0:46e:1a5e:211 with SMTP id 5b1f17b1804b1-483ca84a984mr98066935e9.21.1772372853767;
+        Sun, 01 Mar 2026 05:47:33 -0800 (PST)
+Received: from localhost.localdomain ([80.233.57.48])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd750607sm341579375e9.10.2026.03.01.05.47.32
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 01 Mar 2026 05:47:33 -0800 (PST)
+From: Edwin Toribio <edwin.toribio.j@gmail.com>
+To: carlos.bilbao@kernel.org
+Cc: avadhut.naik@amd.com,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	edwin.toribio.j@gmail.com
+Subject: [PATCH 0/2] docs: sp_SP: Add Rust documentation section
+Date: Sun,  1 Mar 2026 13:47:23 +0000
+Message-ID: <20260301134728.64695-1-edwin.toribio.j@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2790; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=+ES5/OC/9LPBAa993HFBienoS1osDIOASawAF5IW9TQ=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBppEHmK/0xzDXEFIefYYocp9laE66FRSmlk6eBm
- Juur/xk0vmJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaaRB5gAKCRDBN2bmhouD
- 18AoEACHaXDFDxGawaFu1oOLvwIynprJbUpmMovJXVw6SSMjRFIAUQWKJjjBO3NoegzdynlrPe0
- mEl2Vby5k+zfFJVXeqLrBt1RaeMNSL1G0HPcPc0XYnPrBEH9FvzCtMdxjrWlCc/TwB9R0F6Dy9a
- zvMCZq5ShdgMt8bigrJ8eiUUcc76aF/q9/r3mVNbpxx+QTG0DCtBVxBYiTfL4dbGyjPV6K1NWK3
- lAnkS109Cky7tzkK0Q8t4pCa3kCGELDLaVEumc51FXPncMYHVAOjAZZTlbfqFx93a9vfHKfmPaW
- hjpp7J9+uqiDVlERI09lII0KofDF6ijc/66yh3zpvVG44lVcOWK9AWMJgf+ZeiQa3CNAhVHPPd7
- IH/2SEAndxQDLUGQTKeqBIlTFw6erWPFCvEePGQ+XoC7BWDOuVSU5GdJAfDJS7NbgPszU+83gRv
- 9Bs8zxSNMIJeDi+cOW/7dKoJysohNRzYjcHKB1K/Jnk6JycuUjrzFWzUqfO0JdaqoNxv5ClQTDl
- Sueiq/KqkHpAgvbGyQDUZsJwjtl6c/faxM/8JiKLx+WyywSqxy2cefSL4bS+yzpFJbYafoed9EU
- wiywXGHl7t3Zp8gYTYDR6G7W3hZuDFZikCXIoQR5+L7PkT5kAfIvD8jqoBtT2gzs17OIKvhif4J 7k9/VDjmwQH9pHQ==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=Tq3rRTXh c=1 sm=1 tr=0 ts=69a441f2 cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=P1BnusSwAAAA:8
- a=ag1SF4gXAAAA:8 a=IJv9LcIfAAAA:8 a=EUspDBNiAAAA:8 a=_UQAGB7oVweOm72raGYA:9
- a=a_PwQJl-kcHnX1M80qC6:22 a=D0XLA9XvdZm18NrgonBM:22 a=Yupwre4RP9_Eg_Bd0iYG:22
- a=cmr4hm9N53k6aw-X_--Q:22
-X-Proofpoint-ORIG-GUID: LZMkTWYOOqtevebeVevkSBpJX8wqbKby
-X-Proofpoint-GUID: LZMkTWYOOqtevebeVevkSBpJX8wqbKby
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDEyNCBTYWx0ZWRfX53qsEEoNi7yo
- 5D2blAT+Mm/eQGc46chGOkSCYUcgR16NTb2ArJocqtt1npQ8cFKbtOXA1tl/XetMnFf+89DEQnt
- V7ezO59l1qOY9Z3usOAbi24neyKxBbho6mq2XO6UFDHIxZQZCeCn8n48LnNvYScUv5VLXtWxp2m
- avIROTEnxKWqmv3HLNdtyJOCLUwc2mPr4jr72pWqsNKuDMX6p8uG0Q0IErEXEKUmgDbQSODi8yS
- no9vXHcq6rlQ7NPb7Co5ZEJ7yy0IzYh4/4pDl82o+YqvVsyma7aDh1WmnyKVzPnU86UfOyeJ2/3
- 5S5FzpMaVeMvVN/BMgMbztby97/VF5kTrlroecZv2gvnr0YdfqL7I8uf/Ft/ZX0n4XJ9eORFxv/
- JvwbRHVNqSwgRmhd9I3oVoOch5b1ORdeNwN3M8wHaQmMHNKZt4o7iJMy1BRnO2YaPuj2F/Zxv+K
- ebFQDZqSKpW3yktOb0w==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-01_02,2026-02-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
- adultscore=0 priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603010124
 
-Sources already have SPDX-FileCopyrightText (~40 instances) and more
-appear on the mailing list, so document that it is allowed.  On the
-other hand SPDX defines several other tags like SPDX-FileType, so add
-checkpatch rule to narrow desired tags only to two of them - license and
-copyright.  That way no new tags would sneak in to the kernel unnoticed.
+This series introduces the Spanish translation for the Rust documentation section.
 
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Joe Perches <joe@perches.com>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+As Rust becomes a first-class citizen in the Linux kernel, it is vital to provide
+localized documentation to help Spanish-speaking developers get started with the
+new infrastructure.
 
----
+This initial set includes the Quick Start guide and General Information,
+establishing the directory structure for future Rust-related translations in sp_SP.
 
-Other way would be to remove SPDX-FileCopyrightText from existing files
-and disallow this, but one way or another we should be explicit about
-it.  Otherwise people will be sending more of these and each maintainer
-would need to make their own call.
+Edwin Toribio (2):
+  docs: sp_SP: Add Spanish translation for Rust quick-start
+  docs: sp_SP: Add Spanish translation for Rust general information
 
-Changes in v3:
-1. Typo "or multiple"
+ .../sp_SP/rust/general-information.rst        | 178 ++++++++
+ .../translations/sp_SP/rust/quick-start.rst   | 385 ++++++++++++++++++
+ 2 files changed, 563 insertions(+)
+ create mode 100644 Documentation/translations/sp_SP/rust/general-information.rst
+ create mode 100644 Documentation/translations/sp_SP/rust/quick-start.rst
 
-Changes in v2:
-1. Doc adjustments based on feedback from Greg and Laurent.
-2. "unused" -> "unsupported"
-3. Drop redundant blank line
----
- Documentation/process/license-rules.rst | 7 +++++--
- scripts/checkpatch.pl                   | 8 ++++++++
- 2 files changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
-index 59a7832df7d0..b0176bb8a465 100644
---- a/Documentation/process/license-rules.rst
-+++ b/Documentation/process/license-rules.rst
-@@ -63,8 +63,11 @@ License identifier syntax
-    The SPDX license identifier in kernel files shall be added at the first
-    possible line in a file which can contain a comment.  For the majority
-    of files this is the first line, except for scripts which require the
--   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
--   identifier goes into the second line.
-+   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts, the SPDX
-+   license identifier goes into the second line.
-+
-+   The license identifier line can then be followed by one or multiple
-+   SPDX-FileCopyrightText lines if desired.
- 
- |
- 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index bec7930cdd66..e317cf2ffc58 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -3856,6 +3856,14 @@ sub process {
- 			     "Misplaced SPDX-License-Identifier tag - use line $checklicenseline instead\n" . $herecurr);
- 		}
- 
-+# check for unsupported SPDX file tags
-+		if ($rawline =~ /\bSPDX-.*:/ &&
-+		    $rawline !~ /\bSPDX-License-Identifier:/ &&
-+		    $rawline !~ /\bSPDX-FileCopyrightText:/) {
-+			WARN("SPDX_LICENSE_TAG",
-+			     "Unsupported SPDX tag\n" . $herecurr);
-+		}
-+
- # line length limit (with some exclusions)
- #
- # There are a few types of lines that may extend beyond $max_line_length:
 -- 
-2.51.0
+2.53.0
 
