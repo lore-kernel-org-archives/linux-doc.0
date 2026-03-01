@@ -1,203 +1,228 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020130.outbound.protection.outlook.com [52.101.196.130])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D3732AAAD;
-	Sun,  1 Mar 2026 13:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.130
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772370907; cv=fail; b=N8W0XZZTjQii5XYSEJh4Dz1vni02Z6U5k9jqqj/PP8DHxm++sZAOpFK3Q6YDcprtc0BdoLdEbmXcsJvvMIB+r+nVsmTskxoIDCbBwGe3h8SY1ZQjbkgtSinJ5x5i1f6Geuhwzib4A+1FrKKpJ+EOnCGLYwPEQs47eoGOnlwYkYg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772370907; c=relaxed/simple;
-	bh=9Q0MBbu0y1LVil5sshcFZ8oCt7xdopWfBZiQtl5H8sI=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=BFFW/f2PqpmqTw5SAY0ARJ81Hc1jZylqFw2S+6HmP3OOnxyAYiMC654wrjYYMdTL2vnX/760DI3PkZKKZivN3cFftTx/4f2uyh03XhyfAWUIfFqKynBjU6xSCTOn181Lm8gBexT0LVsJKSZLHYnOJSXmZHtaVu2ymKSXLWx9EZ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=nYo0dgOA; arc=fail smtp.client-ip=52.101.196.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A46932720C;
+	Sun,  1 Mar 2026 13:15:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772370960; cv=none; b=Nf39dypZo4MVxwD/E9QZ2fGSwo4zR47dQBW4F80wRa2q+7kd7NXK3IeP8Jvpoy3wlBJETyn2Zc89wDcmtTElJd13R5UljziifBTuosSv3ZO37aPSu0lHFAgwK59hSOyD1PDCz3xXKfOUIl5Yas4sDoYHqqPuBBtLgybXc5BALdQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772370960; c=relaxed/simple;
+	bh=wCIEqpunTHqbzTcZgYfR+NuNXqG/eQTS5P8SoM0NNYs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HhVrw3EfCNePui5iW3jQNr6g3zxXG1ePiuo9T6LVMbXz6ioTggjJFKA4OheVhovyrioAM8bWvSnhiZm2jvIZxDEkKyTbwT2QO+4OudHxqVAoo01/UrRvuxCHhBFXY3Q28lxjXa9zrsJbDUWwofYqk+ihUy+PaoJSpNFox6Ro8Eg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=JsRTeeJ+; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="nYo0dgOA"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pq/IoH05SByyvpFXFsD9orw/V4svn0Ua2JPR9e3Ljf0ZIf/Q2ehtzTih2PKfJKz1nwJs3ITDwGukgLMNhWr7v7h5nc5q35Nq3Tjl/1IvFWwH92Eurx2JEdDMnxd8//EzfSKaq1OumU6TSdPk2BSjm5f91wHTK5JvD6t/fLI02aHgsFueSBLqzQhnHu1tghJUCBVCSETAoPnaH9sU6EjWacYynAJrgr6G8fMc1nTazqyMYXTcw8urYoFFz9Ep/RHNZxYHq9AtKyZmploIv8JK3WlI2BBIZwbAqxTo713oOWfeYZk03MA3ZcH/isxLQcIncyn6efWwN5UGo/K3pAc8hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9Q0MBbu0y1LVil5sshcFZ8oCt7xdopWfBZiQtl5H8sI=;
- b=n4fd38F9UGhpGfje/gyiImbFzuRtSywdc3y4mbCSQFXQgXnIkUxGVgTuXHjTGyFQmSI/6v0kpC7iuuKgMjAX5s7j5oPzyyCjqtzA6ZfTl1+DnuQykEA9WFLB1c5fztWmYFJXyxp6fk/x+1nsFiy+uoDM3VnAVgf/XWVD6aIF+XPpGeBsbvvvuppB8ePTcF3+M4UNoEc3Eias8Bj/rDoXAoQly9z+hHExP17xe7SsNfl7mkadk9fPWf4fpcbzqrOXqMwAHVOg9+GdCzBcBTLAC2yM8DzFQZb595yA1Jk9wvhETrB7g+niA6m73Ol2syvJJ7ia6wUIhz+/N4MPXaQ4VA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9Q0MBbu0y1LVil5sshcFZ8oCt7xdopWfBZiQtl5H8sI=;
- b=nYo0dgOASXOcx5ec6mIANNvmrxyqPaEshHtMvEIVrIIRvLuYR6hzxWIkOzTo6bi33o15nz20+kUN8WuaPr0RLTlR7HYhYcOeo18RLjUCvz5DyWblJj9OI4oNrmU3D6+UDuymUZOYCtmJ8IW/q/zbR4QWQZmUozR2DGpVcK5JSds=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CW1P265MB7840.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:213::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.19; Sun, 1 Mar
- 2026 13:15:01 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9654.015; Sun, 1 Mar 2026
- 13:15:01 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 01 Mar 2026 13:15:00 +0000
-Message-Id: <DGRH1R6GVNI7.11AU3CRM3M36Y@garyguo.net>
-Cc: <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
- "Boqun Feng" <boqun@kernel.org>, "Bjorn Roy Baron"
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Koen Koning"
- <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>, "Nikola
- Djukic" <ndjukic@nvidia.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
- <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>, "Christian
- Koenig" <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Vivi Rodrigo" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Rui Huang" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>, "Helge Deller"
- <deller@gmx.de>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "John Hubbard" <jhubbard@nvidia.com>, "Alistair
- Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
- <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- <alexeyi@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
- <joel@joelfernandes.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v8 16/25] gpu: nova-core: mm: Add page table walker for
- MMU v2/v3
-From: "Gary Guo" <gary@garyguo.net>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <129e9988ff8d3e8747f724fbcc88c5cb@garyguo.net>
- <1772028959.538096.8539@nvidia.com>
-In-Reply-To: <1772028959.538096.8539@nvidia.com>
-X-ClientProxiedBy: LO4P265CA0205.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:318::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="JsRTeeJ+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1772370956; x=1772975756; i=w_armin@gmx.de;
+	bh=E6hOSKipa291WMGCf2p3nZ3JujAHO5gZ/H/n/r1wHQk=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=JsRTeeJ+L1oaLz3sluxM01E1/3CaQE3eacOUZhcaLl+lFWfkaV+pwG1tTIb4mY76
+	 yiiztlKCLY2cQTjuPSKk4g0Yc0mbcm2N8yy87q/RK/qCzAISlf28oVnmtMnc+YtDD
+	 2OHpv2lKUFCMxQ766LIKuOtKUXVGKATAfoKYabxJmsM4GQLOBJ8gGVX727cfHgA8z
+	 kfE2VKGJjXFeFG62YI7aIyy+JfVbIr0UInKe9GKn05wQoZM5rD5NxZuucsRrylimX
+	 PprTVBcCLcbGS+3PeWfN0y+qDi/gdlaebUk+UW1L+9+PPmjx+sCQgBafBTfmPSI5Y
+	 27tMYd3ECwRoudwexw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1McH5Q-1vOiLA2M9M-00oke9; Sun, 01
+ Mar 2026 14:15:56 +0100
+Message-ID: <5f492118-cf3d-461e-bad2-fb93504464c4@gmx.de>
+Date: Sun, 1 Mar 2026 14:15:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB7840:EE_
-X-MS-Office365-Filtering-Correlation-Id: 88820731-2f90-4056-d564-08de77948b72
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|10070799003|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	3N4cZL77euMcSCAvU7e/RnZkc2p7Hu0kc1cWqYSU/spG9kKlf8U0+UlaI5Q4hwwikDeadrnYphqxsAsp7JzQVDfd3b3o71PPYwHLXVDUgGe8P8lNLzSqRuoIWi8O9C9lYE8USVtAIwlxbcG1c4YJPtaiJJPdNE9MufioeZE0+a3XQa0PNwV964HgPWa46EVmHf3qF8sqtN7OqINvmsK2uiI8DjdrVyTRLSJ5YzimE/rB9aCS9Op+V8a7PVZegP864XT71CSuTIAWGrWejlq1uvAJtPXTzPjoGeFyp64ShWMgNxc5PCf9U6Z1NG3r+YwJapibcwl28mPNjDxXjbbjqo1vCJc5WK8eSTC6UHBjBE+PnI/VMlHX0GBuYKwLAqTegf658xyhQS2fhAelpW1jykXLH56XehK3jNa/gQ96IRpSfiQT1JOryUl/TEsZsITlrMR614udSaDuf4Q1bGmQSQCn2q4DlkZyKBCHWKK0UGlRPzSQEtrOPb9tCJk/RbZY/MjTNIDg0guhejM9iJ9PqVLSW6TfyjwfHFsTE4dusdHjy6MBaCT/krpE6P462x17f66zXH4feV03wo8xDiShwZk+EXGWVtnPD3bIJlPHTqZ4+76YEcsCDlX9jEteTIB0PsQ2OudImNpVj1UW68iG1ne3k9MAifC9cpAYQ61s5Qi8iV53GcPoxW5ftwhiqk71QJCtrpzW/KR8NH/0Cd+Il0XdZrAu17hA/MLCi/HBuCo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OFk4UFNsOHp0TXZwaXZKUWhlTS93MnRTM0dnbEVSTzNSdnZVbVNxVnRtOWdM?=
- =?utf-8?B?b1E2MGJtb20wOHlJYzR5QXB5bTlIQ1pJRERBRTBSQStJeGJHdHliM242SmZD?=
- =?utf-8?B?MTJMcyttYUZtd1dhZmQ5eUNMK0xwZk5XM2I3cHAwUzFNUy9BM3l3bk9vY21E?=
- =?utf-8?B?NExmZXBPdWMwV2RrSE4xbHBCMXQ3Y2o5aTc0ZEtnaVFlSkN4THBveC8rZ3N1?=
- =?utf-8?B?d2ZyaXJUek1Od0xrSGVmdzFSMzBsSTkwRUl5UDV6bGgvb3VYbkRDcS9lRmlS?=
- =?utf-8?B?UmlXcjNwdk5CanV0VDFRRXcrQlhGaXpTN2IzRkozb2FDSm1seCtoU2ptY09J?=
- =?utf-8?B?RkgxZE1rdXFKTGN0YUZiTnZyVDBQUngwQmFtTEZjZSs5N0t3MzVQTzFIWWZh?=
- =?utf-8?B?aVdzaW5scWtDWlU0cjhDT1gvYTlpSEc1MVlQQkNnSWt4VkhnQkNBSTBEK1Z5?=
- =?utf-8?B?WkJFc0J4d3RaVytnTlF0YmREeC9YbFJlZnB1MFR3K0ZHWldkYjFDREUzaHZT?=
- =?utf-8?B?TjgrRVVRdDJXZXNJSUIwOEdEbjBkUkdaVklva0hrcmdwdWdkYWxmSEZ1QUZG?=
- =?utf-8?B?bE5JQUM5clJCQVBPMFYxdFQvL25qQWUrMEdKYnhCT084dlJybHFiMC8yQlpW?=
- =?utf-8?B?L0djcHlwT3ppVEh4ZTVKRVFFelJTcTRKZTBUUEdzanZ4UXI3MUdpL0l2Qzcw?=
- =?utf-8?B?UGY1UC8rRnFWV0VwR2ZERlhVb2s2T25IMHJKQnkvOEZFVVYvdWFjQWNFYy9n?=
- =?utf-8?B?TlZud01lL21LM3BESStsc0FydHoxZ1k4WjVwVmg0VG51NFJhemZXa0ZXNDlo?=
- =?utf-8?B?R21xVFM5R3kzT3d5cXRVM21sTFpPY0FaRVNFT2Z1RlRSbWE2ajljVFR4WnY4?=
- =?utf-8?B?aUJNUStaMVJpNHF4Y2hFakFRd0YvNVl4QXFkajZBOVY0TUxDQmxDVktpbjZn?=
- =?utf-8?B?YjRPWGFUYi9vdy9lUlVKdUpucVdNZUltSE41SnVVc2VhNE82amNQaWNTUXlN?=
- =?utf-8?B?eG1XMVBoZklrOUovdHNVNUYzcERiYUFCdGUvM08zL09EMXV4VzdoVWFqUmVW?=
- =?utf-8?B?STdBaHBrQVZqL1EraldDUGRic2VJenY5bWp2RFdEVXlweWJlWHp2OXJLbWZx?=
- =?utf-8?B?NU5sMVZpMzdSR2RCUzdJK2FtamErSlBkRUs2OTU5SnZKZFExVU5jaS9QbVJJ?=
- =?utf-8?B?OVNHb0oxWkFNZWxtanhXMmpsVEdaVmpxQTdQY2YrVGROcUdLaHYwYjk2SVMy?=
- =?utf-8?B?ZVp1b1FTYzBYcUFqdnV3SDZiRHJJYjNlOUJVVVZaaUYzQUtyVk5PVm5GRGo3?=
- =?utf-8?B?bEt1UGluZ25DWWF2d2RLWFcwMGZ1M01QSHJlTXVsNUxNYkJoL1l0RG9tZUNa?=
- =?utf-8?B?ZEw2K2VzTzFQOTV0MVovMGJxM25QYjNDTlN2aEd2MFlzVGNVYldEWXRWdVRS?=
- =?utf-8?B?Y0pOcjIxTUNmZ3VjeVVUVFAyVWxYVUliY3RualEvRjBsMmhFV29OL25OVGRG?=
- =?utf-8?B?WmxsL25ENkFkbXUvRHVHZ09MZlMxVUtDSGVIdURCMkt2dEp1UVNuTnJEL2xL?=
- =?utf-8?B?WHVUR0lOUngzUjB4eVBDckFuOEJYT2JQYk5GMzFvMlV2ZEl1U0FRRDJvZFYv?=
- =?utf-8?B?YWNLd29WaDhJcG5SQjVzd3Jlb1ppcWEybHoyczIrMUtXWmQ2Z2FmRXptUEFQ?=
- =?utf-8?B?Wnhad3YvR1pDdUpmMlEyK1NtOEJiQnZSUDdpckxramZTTHBTNmR3S0hGQ3Y1?=
- =?utf-8?B?YXNmcWFOYXV1UlBtWk9CUVdCYitYUjk1RDVSK3VqV3hLcGJLVDZIYnMrMktW?=
- =?utf-8?B?VHVRcUpPQSs5S2RxRm90Uzh4d0lXUHdDZXhUcGQvVndGRytNckFKbGZublV4?=
- =?utf-8?B?STFRVldwai9UV1N6MUVIZEU2b2doUGFZMkhYdVhROURvTjQ0MkYvdDFjSGJF?=
- =?utf-8?B?WmxRVkZ5dkZTRFc4UWxBanVrcUxwOC9udXBxZUJhMzJncFNKay9qZmxNY3ZL?=
- =?utf-8?B?UHNXUXlobmozNkU0Vk1OZE5taVhBclNFeHNheERRZitQdXM3Y1c2eUVYdGJ3?=
- =?utf-8?B?RnczK0VNK0cvZnRLcFpjWVFaZDFDUngxSVlQaXlLNS9yT1p6MUFNUm51R0o3?=
- =?utf-8?B?TW8vQ1h0Wm12UzFFUDJ6UWZxK3FpOUdhY0FSNXJPN2RQVUFncEZhazh6ZUVQ?=
- =?utf-8?B?ajl2bk13aGtabkxuY3pWRjNyN1lkZWNWT1A1RVhvZkI1RDl5N1ZZUDJMQUFU?=
- =?utf-8?B?cklFQjNRM2V3TlpqUzhFVkdMVURMRW5jVzJvZnJWb1NsbjRhb1dja2Z5aVRV?=
- =?utf-8?B?TXFLYUFSTW52ZWVWR0FpTnFuVlp5M2Uvc2F5dnN5dHdOTFozMjBXQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88820731-2f90-4056-d564-08de77948b72
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2026 13:15:01.2737
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pcePeY1DiB65xdeoFXvV5ZAODiTa/38O1WZlXHwJY6c9HSxQz3K3NjCgU7OrAJg6TZgNmjkiOh0XaAGofQq3sA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB7840
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] Documentation: laptops: Update documentation for
+ uniwill laptops
+To: Werner Sembach <wse@tuxedocomputers.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260227200906.514928-1-wse@tuxedocomputers.com>
+ <20260227200906.514928-5-wse@tuxedocomputers.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20260227200906.514928-5-wse@tuxedocomputers.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:YYYOWrzaYTpqyvNAeu0xmSq0WAMWBmH0MLiKNVj7GUbu3WT0yyk
+ g+PGnvL2/KMNF4KBkwIdKwx8DDqAaa+op4GTV5lejss7sWboe6lFPI4JZdRlbcaLvwadNtk
+ LfxG8VEK0pdjiCehbhbWGIENnUrboolocvELwA0SeqHkFBL9bd1R2a7LsI9IJJ8kFHnP75i
+ WnEPcUIT/LNYuGONycfzQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:eS4lZT9x3UQ=;D6GZ7cH73oJ+V1ffzMFJZyCfmoP
+ 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
 
-On Wed Feb 25, 2026 at 2:26 PM GMT, Joel Fernandes wrote:
-> On 2026-02-25, Gary Guo <gary@garyguo.net> wrote:
->> On 2026-02-24 22:53, Joel Fernandes wrote:
->>> +//! ## MMU v2 (Turing/Ampere/Ada) - 5 levels
->>> [...]
->>> +//! ## MMU v3 (Hopper+) - 6 levels
->>
->> I think this is called "4 levels" and "5 levels" in kernel MM rather tha=
-n
->> "5 levels" and "6 levels".
->
-> Actually, I think "5 levels" and "6 levels" is correct even by x86 kernel=
- MM
-> convention. In x86 "4-level paging", the 4 levels are PGD, PUD, PMD, PTE =
--
-> the root page directory (PGD) IS counted as one of the 4 levels. Similarl=
-y,
-> for the GPU MMU, counting the root PDB (L0) as a level gives us 5 levels =
-for
-> v2 (PDB/L0 through L4/PTE) and 6 levels for v3 (PDB/L0 through L5/PTE).
->
-> This is also consistent with NVIDIA's own hardware definitions in the Ope=
-nRM
-> headers (dev_mmu.h for Turing and Hopper) which define the page table ent=
-ries
-> for each of these levels. The virtual address bitfield spans L0 (bits 56:=
-48)
-> through L4 (bits 20:12) for v2, giving 5 distinct page table levels.
->
-> FWIW, the existing nouveau driver also uses this convention - NVKM_VMM_LE=
-VELS_MAX
-> is defined as 6 in nvkm/subdev/mmu/vmm.c, and the GH100 page table descri=
-ptors
-> in vmmgh100.c list all 6 levels.
+Am 27.02.26 um 21:07 schrieb Werner Sembach:
 
-So PDB is not just a single address, but a list of page table entries? If t=
-hat's
-the case, then the number of levels is indeed correct, but reading the code
-gives me an impression otherwise.
+> Adds short description for two new sysfs entries, ctgp_offset and
+> usb_c_power_priority, to the documentation of uniwill laptops.
 
-Best,
-Gary
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> ---
+>   .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
+>   .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
+>   2 files changed, 37 insertions(+)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop b/Doc=
+umentation/ABI/testing/sysfs-driver-uniwill-laptop
+> index 2df70792968f3..70b4bc97d91a8 100644
+> --- a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+> +++ b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+> @@ -51,3 +51,28 @@ Description:
+>  =20
+>   		Reading this file returns the current status of the breathing animat=
+ion
+>   		functionality.
+> +
+> +What:		/sys/bus/platform/devices/INOU0000:XX/ctgp_offset
+> +Date:		January 2026
+> +KernelVersion:	7.0
+> +Contact:	Werner Sembach <wse@tuxedocomputers.com>
+> +Description:
+> +		Allows userspace applications to set the configurable TGP offset on t=
+op of the base
+> +		TGP. Base TGP and max TGP and therefore the max cTGP offset are devic=
+e specific.
+> +		Note that setting the maximal cTGP leaves no window open for Dynamic =
+Boost,
+> +		effectifly disabling that feature for the GPU to always be prioritize=
+d.
+> +
+> +		Reading this file returns the current configurable TGP offset.
+> +
+> +What:		/sys/bus/platform/devices/INOU0000:XX/usb_c_power_priority
+> +Date:		February 2026
+> +KernelVersion:	7.1
+> +Contact:	Werner Sembach <wse@tuxedocomputers.com>
+> +Description:
+> +		Allows userspace applications to choose the USB-C power distribution =
+profile between
+> +		one that offers a bigger share of the power to the battery and one th=
+at offers more
+> +		of it to the CPU. Writing "charging"/"performance" into this file sel=
+ects the
+> +		respective profile.
+> +
+> +		Reading this file returns the profile names with the currently active=
+ one in
+> +		brackets.
+> diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Docu=
+mentation/admin-guide/laptops/uniwill-laptop.rst
+> index aff5f57a6bd47..c89b8b3756f84 100644
+> --- a/Documentation/admin-guide/laptops/uniwill-laptop.rst
+> +++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
+> @@ -50,6 +50,10 @@ between 1 and 100 percent are supported.
+>   Additionally the driver signals the presence of battery charging issue=
+s through the standard
+>   ``health`` power supply sysfs attribute.
+>  =20
+> +It also let you set whether an USB-C power source should prioritise cha=
+rging the battery or
+> +delivering immediate power to the cpu. See Documentation/ABI/testing/sy=
+sfs-driver-uniwill-laptop for
+> +details.
+> +
+>   Lightbar
+>   --------
+>  =20
+> @@ -58,3 +62,11 @@ LED class device. The default name of this LED class =
+device is ``uniwill:multico
+>  =20
+>   See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details =
+on how to control the various
+>   animation modes of the lightbar.
+> +
+> +Configurable TGP
+> +--------
+> +
+> +The ``uniwill-laptop`` driver allows to set the configurable TGP for de=
+vices with NVIDIA GPUs that
+> +allow it.
+> +
+> +See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
