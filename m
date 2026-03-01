@@ -1,228 +1,210 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A46932720C;
-	Sun,  1 Mar 2026 13:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D71D032BF44
+	for <linux-doc@vger.kernel.org>; Sun,  1 Mar 2026 13:41:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772370960; cv=none; b=Nf39dypZo4MVxwD/E9QZ2fGSwo4zR47dQBW4F80wRa2q+7kd7NXK3IeP8Jvpoy3wlBJETyn2Zc89wDcmtTElJd13R5UljziifBTuosSv3ZO37aPSu0lHFAgwK59hSOyD1PDCz3xXKfOUIl5Yas4sDoYHqqPuBBtLgybXc5BALdQ=
+	t=1772372468; cv=none; b=P/kYbYQPuwfIzYQs3fJ6zFgmFBCaY933oRMIplPLfQF1Qcj/jr6tqcTEHkeC3lnOt4VAstFdzIJYECethZsbxABfKN3PebX6hBLXHaiMDjoB1jmNqqI7xGO1roLWroJM12/xRXW3l2lk1Sjy0q8rrfRNsW9Rmmlfff5Tyf4L7es=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772370960; c=relaxed/simple;
-	bh=wCIEqpunTHqbzTcZgYfR+NuNXqG/eQTS5P8SoM0NNYs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HhVrw3EfCNePui5iW3jQNr6g3zxXG1ePiuo9T6LVMbXz6ioTggjJFKA4OheVhovyrioAM8bWvSnhiZm2jvIZxDEkKyTbwT2QO+4OudHxqVAoo01/UrRvuxCHhBFXY3Q28lxjXa9zrsJbDUWwofYqk+ihUy+PaoJSpNFox6Ro8Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=JsRTeeJ+; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1772372468; c=relaxed/simple;
+	bh=+ES5/OC/9LPBAa993HFBienoS1osDIOASawAF5IW9TQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TnnEAFKOlpq7l22RAVpYGdS7dP/bI4cxOfbX8BMxIfndCy8MEgpt8b/1beyJDR3GrYqpRpttixfbZKXZzV5IO04YY6SoWADiF8bgLBo/4SGZVsVYg0SAV6PCZHljBGl6nXfr0qModJbo3uZxYMexK07X4kU2KtjlTAyxn/I43iY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Td17FqzE; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=BQms9avH; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="JsRTeeJ+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1772370956; x=1772975756; i=w_armin@gmx.de;
-	bh=E6hOSKipa291WMGCf2p3nZ3JujAHO5gZ/H/n/r1wHQk=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=JsRTeeJ+L1oaLz3sluxM01E1/3CaQE3eacOUZhcaLl+lFWfkaV+pwG1tTIb4mY76
-	 yiiztlKCLY2cQTjuPSKk4g0Yc0mbcm2N8yy87q/RK/qCzAISlf28oVnmtMnc+YtDD
-	 2OHpv2lKUFCMxQ766LIKuOtKUXVGKATAfoKYabxJmsM4GQLOBJ8gGVX727cfHgA8z
-	 kfE2VKGJjXFeFG62YI7aIyy+JfVbIr0UInKe9GKn05wQoZM5rD5NxZuucsRrylimX
-	 PprTVBcCLcbGS+3PeWfN0y+qDi/gdlaebUk+UW1L+9+PPmjx+sCQgBafBTfmPSI5Y
-	 27tMYd3ECwRoudwexw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McH5Q-1vOiLA2M9M-00oke9; Sun, 01
- Mar 2026 14:15:56 +0100
-Message-ID: <5f492118-cf3d-461e-bad2-fb93504464c4@gmx.de>
-Date: Sun, 1 Mar 2026 14:15:55 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Td17FqzE";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="BQms9avH"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 621AviWC118739
+	for <linux-doc@vger.kernel.org>; Sun, 1 Mar 2026 13:41:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=7xlenVyuNtjntNFqpEinehs1xY4pgd5f7lk
+	7THeCl2Y=; b=Td17FqzEfTGEK5beOqSpZBhpp8WhB9khRw+FmgBOWe6ZUeRw5sm
+	4W2lxDTnRfYKuPhAXvstaTfGgxbNVUxMdbplh2UekKWxnhD7V+5P9RvN4erbjaLe
+	ItxjsPeIpTQ2D2LeJfEkL6zAnKZXtPToSBsTBJWQD5ABxvD2r6us6Ta1/WwPi++H
+	9U0PzHC2q3zbuNAMkQZ/9o882mwqB3pGODtVly1dVu+UrdVRG0NceTyVtDJasRjc
+	nXJo8wIHUu/tEM35FxtCan0iBnStCXANbw6/DtKPMbKFPBKOp5fHeveS6BTOgzBJ
+	6rnYTS6N8Pp26f1UgfUoiJnRZlC85Ga0+pg==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cksn42rx3-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 13:41:06 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-503810dba87so669169781cf.1
+        for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 05:41:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772372465; x=1772977265; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7xlenVyuNtjntNFqpEinehs1xY4pgd5f7lk7THeCl2Y=;
+        b=BQms9avHRMozheEVje/NBX1MxSJIFEmNPwmcecGNeIDQC06kOfJIuo1HlNkDc7lFxz
+         MwWQtQ4HLDOY7Tug9tyYKroRdJmyZO0/GDpvMPykKfWy0B96JNB7w8rhwQmVB2FIDo/T
+         nVyDZK9YV6yTpFe5eMpKk8a75SRtt9QiUMwhQIyUNpxABtxFBqPCMpRnqSv0tL2H5fZQ
+         6f3xulFY8HnSWX4TCRzoxraen7ztGnyk5IFH7Rumq/RzC6ODsQ8tQfEf0ksRRyoH/QfJ
+         KWEcDjzp5u/sFNRsPUA8zKfSIIWrAZ7jqR4Df971k/FItkmtMHwbMppAHIraHnPdN/69
+         l8Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772372465; x=1772977265;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7xlenVyuNtjntNFqpEinehs1xY4pgd5f7lk7THeCl2Y=;
+        b=MWdnT2uD0CNBaQ2yi8GF7ZDllZVqVR15j5QMbtiaJlCRV2VmRQ4oPu0TQK1hFIQNg2
+         KJfOCPOvMg+Fhb+xa8J4HQPbtrDFByHtQ/3AwwoiqHge1t5ojt/bsNEs+x8gSqtpUu3r
+         Mf1LSvEPPySiMpDsrQl1Yl8JQ8ZvzFALiv4CbZnf43lNG87ux4P3T4xCV1D1vU9lFypg
+         PkCGa63tDxYO4/ESJw0yaBNwYpIxDvw8mUW0cgUQqordUW47/cNSw5JWadDK4ny9TB+Q
+         YUomZCRVhDT4WYMqpKcFV05ABdHsIJgvqoLNhDty5cc/4N8NqAILekP8ZkNp2jmyPYFO
+         Wo0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWpAnQdyAbEjUlOn925ZmbJGpnAjBhihM/YBLkZ0Jsx87aortRmgM5wZ4EISW10PSJTLfavWZjmOe0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6Ci6mrB3XDLlwrqjslG8NgAookvyMw4mTp9bB2Ocs+0shuvNC
+	k9kmFUzMQ4LPAaqU3wkeL/C+YWP2Zt4Sx5c6Orf0DV22OxXngxBbip72ob2v42iPNuSLsTHwTJ4
+	avNj5QZ9CDEXcQlGXWgWbFd9/3rU4mzwl1YGdJBmXL3GSRuTG7L6FBI8f4mLxEjLZuBs0hhQ=
+X-Gm-Gg: ATEYQzzd0KEMjoqIs0+Ugm0hnUC0DILXxp/g9E/RyjYbh+SI4/71B3NLDRrqAQBbEWf
+	6/j/Qc3sMDaNROeN6wU1jtrmejxpn5Oyh+WUxv2wlT18lVlhSOhZKZ+xSQIffe9sboU5mw9Ruq6
+	5wJpoP+OW+KXCRknujBxhtwbhuighWZEz2TJUo8S4uTXA5BazoOb0/homsYw/1Y/jWnAOkNmC8J
+	zdtx0M/8EOSUwOrA0bj8C8/OJvktRjnNLyCar3qOGIPWbxxvuX5ovVg4Enul+zHNA9H6gmAQ79B
+	7/SqgXeRdt/J4CUvbTOSYAbYNLMAHVuEtceJidiREcXusisoUiwgzwJjFwV+olkdAyNvUZAPbHG
+	7jlDYDKHUf2eEHNZPqmnJ1C0oRIDGMs3gHcmV
+X-Received: by 2002:a05:620a:2947:b0:8c7:1986:6b3e with SMTP id af79cd13be357-8cbc8def8camr1140379585a.32.1772372464605;
+        Sun, 01 Mar 2026 05:41:04 -0800 (PST)
+X-Received: by 2002:a05:620a:2947:b0:8c7:1986:6b3e with SMTP id af79cd13be357-8cbc8def8camr1140374685a.32.1772372464007;
+        Sun, 01 Mar 2026 05:41:04 -0800 (PST)
+Received: from quoll ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439abded86esm9847067f8f.6.2026.03.01.05.41.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Mar 2026 05:41:03 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Thomas Gleixner <tglx@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>, linux-spdx@vger.kernel.org,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3] LICENSES: Explicitly allow SPDX-FileCopyrightText
+Date: Sun,  1 Mar 2026 14:40:55 +0100
+Message-ID: <20260301134054.44229-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] Documentation: laptops: Update documentation for
- uniwill laptops
-To: Werner Sembach <wse@tuxedocomputers.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260227200906.514928-1-wse@tuxedocomputers.com>
- <20260227200906.514928-5-wse@tuxedocomputers.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20260227200906.514928-5-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:YYYOWrzaYTpqyvNAeu0xmSq0WAMWBmH0MLiKNVj7GUbu3WT0yyk
- g+PGnvL2/KMNF4KBkwIdKwx8DDqAaa+op4GTV5lejss7sWboe6lFPI4JZdRlbcaLvwadNtk
- LfxG8VEK0pdjiCehbhbWGIENnUrboolocvELwA0SeqHkFBL9bd1R2a7LsI9IJJ8kFHnP75i
- WnEPcUIT/LNYuGONycfzQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:eS4lZT9x3UQ=;D6GZ7cH73oJ+V1ffzMFJZyCfmoP
- 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
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2790; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=+ES5/OC/9LPBAa993HFBienoS1osDIOASawAF5IW9TQ=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBppEHmK/0xzDXEFIefYYocp9laE66FRSmlk6eBm
+ Juur/xk0vmJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaaRB5gAKCRDBN2bmhouD
+ 18AoEACHaXDFDxGawaFu1oOLvwIynprJbUpmMovJXVw6SSMjRFIAUQWKJjjBO3NoegzdynlrPe0
+ mEl2Vby5k+zfFJVXeqLrBt1RaeMNSL1G0HPcPc0XYnPrBEH9FvzCtMdxjrWlCc/TwB9R0F6Dy9a
+ zvMCZq5ShdgMt8bigrJ8eiUUcc76aF/q9/r3mVNbpxx+QTG0DCtBVxBYiTfL4dbGyjPV6K1NWK3
+ lAnkS109Cky7tzkK0Q8t4pCa3kCGELDLaVEumc51FXPncMYHVAOjAZZTlbfqFx93a9vfHKfmPaW
+ hjpp7J9+uqiDVlERI09lII0KofDF6ijc/66yh3zpvVG44lVcOWK9AWMJgf+ZeiQa3CNAhVHPPd7
+ IH/2SEAndxQDLUGQTKeqBIlTFw6erWPFCvEePGQ+XoC7BWDOuVSU5GdJAfDJS7NbgPszU+83gRv
+ 9Bs8zxSNMIJeDi+cOW/7dKoJysohNRzYjcHKB1K/Jnk6JycuUjrzFWzUqfO0JdaqoNxv5ClQTDl
+ Sueiq/KqkHpAgvbGyQDUZsJwjtl6c/faxM/8JiKLx+WyywSqxy2cefSL4bS+yzpFJbYafoed9EU
+ wiywXGHl7t3Zp8gYTYDR6G7W3hZuDFZikCXIoQR5+L7PkT5kAfIvD8jqoBtT2gzs17OIKvhif4J 7k9/VDjmwQH9pHQ==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=Tq3rRTXh c=1 sm=1 tr=0 ts=69a441f2 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=P1BnusSwAAAA:8
+ a=ag1SF4gXAAAA:8 a=IJv9LcIfAAAA:8 a=EUspDBNiAAAA:8 a=_UQAGB7oVweOm72raGYA:9
+ a=a_PwQJl-kcHnX1M80qC6:22 a=D0XLA9XvdZm18NrgonBM:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+ a=cmr4hm9N53k6aw-X_--Q:22
+X-Proofpoint-ORIG-GUID: LZMkTWYOOqtevebeVevkSBpJX8wqbKby
+X-Proofpoint-GUID: LZMkTWYOOqtevebeVevkSBpJX8wqbKby
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDEyNCBTYWx0ZWRfX53qsEEoNi7yo
+ 5D2blAT+Mm/eQGc46chGOkSCYUcgR16NTb2ArJocqtt1npQ8cFKbtOXA1tl/XetMnFf+89DEQnt
+ V7ezO59l1qOY9Z3usOAbi24neyKxBbho6mq2XO6UFDHIxZQZCeCn8n48LnNvYScUv5VLXtWxp2m
+ avIROTEnxKWqmv3HLNdtyJOCLUwc2mPr4jr72pWqsNKuDMX6p8uG0Q0IErEXEKUmgDbQSODi8yS
+ no9vXHcq6rlQ7NPb7Co5ZEJ7yy0IzYh4/4pDl82o+YqvVsyma7aDh1WmnyKVzPnU86UfOyeJ2/3
+ 5S5FzpMaVeMvVN/BMgMbztby97/VF5kTrlroecZv2gvnr0YdfqL7I8uf/Ft/ZX0n4XJ9eORFxv/
+ JvwbRHVNqSwgRmhd9I3oVoOch5b1ORdeNwN3M8wHaQmMHNKZt4o7iJMy1BRnO2YaPuj2F/Zxv+K
+ ebFQDZqSKpW3yktOb0w==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-01_02,2026-02-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 suspectscore=0 impostorscore=0 lowpriorityscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603010124
 
-Am 27.02.26 um 21:07 schrieb Werner Sembach:
+Sources already have SPDX-FileCopyrightText (~40 instances) and more
+appear on the mailing list, so document that it is allowed.  On the
+other hand SPDX defines several other tags like SPDX-FileType, so add
+checkpatch rule to narrow desired tags only to two of them - license and
+copyright.  That way no new tags would sneak in to the kernel unnoticed.
 
-> Adds short description for two new sysfs entries, ctgp_offset and
-> usb_c_power_priority, to the documentation of uniwill laptops.
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Joe Perches <joe@perches.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+---
 
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> ---
->   .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
->   .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
->   2 files changed, 37 insertions(+)
->
-> diff --git a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop b/Doc=
-umentation/ABI/testing/sysfs-driver-uniwill-laptop
-> index 2df70792968f3..70b4bc97d91a8 100644
-> --- a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-> +++ b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-> @@ -51,3 +51,28 @@ Description:
->  =20
->   		Reading this file returns the current status of the breathing animat=
-ion
->   		functionality.
-> +
-> +What:		/sys/bus/platform/devices/INOU0000:XX/ctgp_offset
-> +Date:		January 2026
-> +KernelVersion:	7.0
-> +Contact:	Werner Sembach <wse@tuxedocomputers.com>
-> +Description:
-> +		Allows userspace applications to set the configurable TGP offset on t=
-op of the base
-> +		TGP. Base TGP and max TGP and therefore the max cTGP offset are devic=
-e specific.
-> +		Note that setting the maximal cTGP leaves no window open for Dynamic =
-Boost,
-> +		effectifly disabling that feature for the GPU to always be prioritize=
-d.
-> +
-> +		Reading this file returns the current configurable TGP offset.
-> +
-> +What:		/sys/bus/platform/devices/INOU0000:XX/usb_c_power_priority
-> +Date:		February 2026
-> +KernelVersion:	7.1
-> +Contact:	Werner Sembach <wse@tuxedocomputers.com>
-> +Description:
-> +		Allows userspace applications to choose the USB-C power distribution =
-profile between
-> +		one that offers a bigger share of the power to the battery and one th=
-at offers more
-> +		of it to the CPU. Writing "charging"/"performance" into this file sel=
-ects the
-> +		respective profile.
-> +
-> +		Reading this file returns the profile names with the currently active=
- one in
-> +		brackets.
-> diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Docu=
-mentation/admin-guide/laptops/uniwill-laptop.rst
-> index aff5f57a6bd47..c89b8b3756f84 100644
-> --- a/Documentation/admin-guide/laptops/uniwill-laptop.rst
-> +++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
-> @@ -50,6 +50,10 @@ between 1 and 100 percent are supported.
->   Additionally the driver signals the presence of battery charging issue=
-s through the standard
->   ``health`` power supply sysfs attribute.
->  =20
-> +It also let you set whether an USB-C power source should prioritise cha=
-rging the battery or
-> +delivering immediate power to the cpu. See Documentation/ABI/testing/sy=
-sfs-driver-uniwill-laptop for
-> +details.
-> +
->   Lightbar
->   --------
->  =20
-> @@ -58,3 +62,11 @@ LED class device. The default name of this LED class =
-device is ``uniwill:multico
->  =20
->   See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details =
-on how to control the various
->   animation modes of the lightbar.
-> +
-> +Configurable TGP
-> +--------
-> +
-> +The ``uniwill-laptop`` driver allows to set the configurable TGP for de=
-vices with NVIDIA GPUs that
-> +allow it.
-> +
-> +See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
+Other way would be to remove SPDX-FileCopyrightText from existing files
+and disallow this, but one way or another we should be explicit about
+it.  Otherwise people will be sending more of these and each maintainer
+would need to make their own call.
+
+Changes in v3:
+1. Typo "or multiple"
+
+Changes in v2:
+1. Doc adjustments based on feedback from Greg and Laurent.
+2. "unused" -> "unsupported"
+3. Drop redundant blank line
+---
+ Documentation/process/license-rules.rst | 7 +++++--
+ scripts/checkpatch.pl                   | 8 ++++++++
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/process/license-rules.rst b/Documentation/process/license-rules.rst
+index 59a7832df7d0..b0176bb8a465 100644
+--- a/Documentation/process/license-rules.rst
++++ b/Documentation/process/license-rules.rst
+@@ -63,8 +63,11 @@ License identifier syntax
+    The SPDX license identifier in kernel files shall be added at the first
+    possible line in a file which can contain a comment.  For the majority
+    of files this is the first line, except for scripts which require the
+-   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts the SPDX
+-   identifier goes into the second line.
++   '#!PATH_TO_INTERPRETER' in the first line.  For those scripts, the SPDX
++   license identifier goes into the second line.
++
++   The license identifier line can then be followed by one or multiple
++   SPDX-FileCopyrightText lines if desired.
+ 
+ |
+ 
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index bec7930cdd66..e317cf2ffc58 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3856,6 +3856,14 @@ sub process {
+ 			     "Misplaced SPDX-License-Identifier tag - use line $checklicenseline instead\n" . $herecurr);
+ 		}
+ 
++# check for unsupported SPDX file tags
++		if ($rawline =~ /\bSPDX-.*:/ &&
++		    $rawline !~ /\bSPDX-License-Identifier:/ &&
++		    $rawline !~ /\bSPDX-FileCopyrightText:/) {
++			WARN("SPDX_LICENSE_TAG",
++			     "Unsupported SPDX tag\n" . $herecurr);
++		}
++
+ # line length limit (with some exclusions)
+ #
+ # There are a few types of lines that may extend beyond $max_line_length:
+-- 
+2.51.0
+
