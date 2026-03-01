@@ -1,192 +1,278 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012071.outbound.protection.outlook.com [40.93.195.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E8FA175A6A
-	for <linux-doc@vger.kernel.org>; Sun,  1 Mar 2026 16:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772384313; cv=none; b=TGyf8PvbF4rHTbeIlgiaVrd+lfp6lOoH2ShLFZkfdLbLmQK2iyb3hsFMCHsZnes3L+VNq9lnpIoS4FtwaIu1P38yHC8efYmYk2bwj0iiNpGFve8wx7LZ7mwt0Lg68Fn+Ok0H8MK85qoO4zyKAUlA8tkgAWKkKZA9Xox8IecfhN0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772384313; c=relaxed/simple;
-	bh=yFuGB73T7yRzVZYJc0Nn3Dba3q1AORa6PLskbEp5MeY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NJyMYuU8wt7qPWSpGIwbr+UZ1K7Aaz67P3LPeTyD9a5GNpiTFqoLhpb+z+lZC2Zr8U7TobpOpk9ty7BoCvOmRjSO0pJhYBa0Zoj4s2UXpCfqcXFrrzhyQnlLQ+qL0RBmtHowcbL4sbK2j2zQ31dF7aqepPnkHu9STvVctetnR1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fkhYPumS; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=M8Eqqh60; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 147F12773D3;
+	Sun,  1 Mar 2026 17:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.71
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772386093; cv=fail; b=JLcPFIdeCUyQKi7eG8tWR00X5RWWe9+joVASLbK9+nwmUh1EXotKbPG+7w9/2GpNBTXVap8X8Dny7YOx1dcCMtK9smo1ARNL35H7rtUbob1idK1dZ2CJxw2MRJ8bktdIlrHKPyOGbiOBdGrGfK0CaYtK3FEtl38VKSB1GXhGnU0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772386093; c=relaxed/simple;
+	bh=h6Rxv6GIisuKVjMe8fYMXpDFCCriXI0yVcOyxWUv6oA=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=BJ59dkc+/4Vtl503xAT3kB2Q//tlEXvbG8atWZvVf52lu8bU4bbgeQ9XkAkKBKl3i72im1/qlxuzSvANBocKIpbVwTYHptjT+gAsDfEsshMRNOgSTOSJLbn1OWoaOryd3FJBBQSY1Df7fW4CDgtnqL4dD/CwE3c1ariCdps8+ZY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DN9vrBHo; arc=fail smtp.client-ip=40.93.195.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fkhYPumS";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="M8Eqqh60"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 621AHmom944323
-	for <linux-doc@vger.kernel.org>; Sun, 1 Mar 2026 16:58:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=yZjRbJ2gpSOpi4BD2wRxX0dJ
-	2Njlip5bE4IRh4tsp0k=; b=fkhYPumSL/QAlMbXMLtEWChiX97tIzcJ8VeBIX4T
-	7342qTqQUCnt0S7oDq9sQfzhyGpEUUJellGBOuoJYTfsmMFHgnXodEk5AC55z1iG
-	c18u06r73+Pdj0npRxhtTGO474kenLYedhcwWpbRcBC3ivwUaTrgm50Dsqk4R6aI
-	+2cwuKSHZdg1z1b9ojEBXDyD89t9uzig7w2KMFQb1bUwamY01WeikQvsTWQDMhlM
-	wS7Axd8o1A+YDbnxSksJB4wZ0i060owQOeU4T2ACD8MJ4tYn9Af87F/Z+bjux2Vo
-	fOz++88nKgW1Zk3CTwm94ccFlRFF5WRpv6fuV0NvlWcAeA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cksgq31bm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 16:58:31 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cb5359e9d3so3369077985a.2
-        for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 08:58:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772384310; x=1772989110; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yZjRbJ2gpSOpi4BD2wRxX0dJ2Njlip5bE4IRh4tsp0k=;
-        b=M8Eqqh60LAk0fFhTLGg/jl7bE3eyBHVFH6y1umtjUHYw4QysQapDKFE4IltUbqjc1b
-         9eXivjkDVtJdYoAY01RtLWHIw8RteEVVU1cWGXuMYt7Z0c9xjI/2gDUGCaLRGS69g3I0
-         eukZQcOfA9Qhpsyj8UyeEbAnzY5EFhWRbOK4pYp2S1Q2E3sM/3aFEkhc1o+BYo0iqJgW
-         RLSRFjzGk8VfXIYUsWE832WG9BupOfid2oXgKy6D+N/soTHzdKkqh0cyuhJV3VwfvHPW
-         ZCiSfHr9EyUXp1g2fi0Ln0+36MPYfPtkFMvNZxPNcTjfskbyfmXsFEgVxCSs6xAio2fn
-         iaDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772384310; x=1772989110;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yZjRbJ2gpSOpi4BD2wRxX0dJ2Njlip5bE4IRh4tsp0k=;
-        b=DVZIeRLO2q24CO56AomdNGWtU+LWXYRQA6hYPRCxW8H9F4s++g1PHxwgpWlXi2SWJ5
-         rH8XTxX2UVhS5EuSwz5qP2d7j8RJz2BRjxK9QnrxN08MQYlucsT0jH7HkpfkV3QXybZ5
-         s5CIlIJ0Hd3lTyGnBYU9WEqbVjgUs5ffeHbglfm9lsMNLAZeLbq2yV/Fwj06xjBuKgBA
-         Dwb6CFTktf49i+nGljTedhThGIwBA+8kSXML76VF5/GLFgBjpX4STcB/CIFv577WhxyO
-         cNwGgVFmHuird8+TAzha9EdPv9+AH5a7MWMwdcEcpOZql8iqVBxaM0q4MSIvZXSj0+bd
-         py2g==
-X-Forwarded-Encrypted: i=1; AJvYcCVT0mdJzqfjWJxogDJYwUpV6+wimDmJhoPaqj9PcxDMbaTyWIo27AY/VqBEwPMphmBjRwqOwSH1my4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzl37rE5crvd0PZRKHor2NRUnW/SoFjGb5ZWMDeMsVZG1nOlGFX
-	PufJ05zn5R0WARC3GfROUmYU5VbvkKAVN+i6HK5RCvCTNynlr5YIhZCiYw/91i5mmyGIBhtg8wr
-	7vJcyZsJxJWXeuJ2YpN5Sg9hxZQokS0VkOc6k3a8W1NuWpuzsDbw6GkLetVII5QU=
-X-Gm-Gg: ATEYQzwRKTGObZDwEl2CTbxSRRzJ69DwzbxAvRBUpQZg97W8vGe436qWYumaoslW+aX
-	bNolvFlaLxufAg5sAGU6Jlma6cjfLvYpdblodI8sCQJBvg/p95TkVJguMMkquFydQZrxjbAQx3T
-	3bPCUL8A++q5t9LKTk1NrjA1fvAPb/dPeWX44OjlY/ODb2qQQ6g2J64iBUTz3BM1hzINTMq7X25
-	SI1WgZM3EX0tVa3r5vVGPCtybDZo0QUWLfM/mqU+mYCSaR9Wd+1ZZbx0u7jqkRlxvI9Li1EYRXf
-	tLQbjZXLjqXCNvGF7Lz3dJxmhf7UeJp8j5TlIhBN1+KJWMr3fUMtYjhjI8uHcS4qlqxxo21/fwy
-	Uj5y7+3MCAKXguAr86NthhEhJ2AGNuSfpghJmVSIAaBN/+XKe6d0sS+XLOhwPXFRE2kHjTByQRy
-	vdWaN7drZrp1tb1tbwxUcnI4UIPoRr+HPbUzk=
-X-Received: by 2002:a05:620a:3952:b0:8c6:e8f6:2c7 with SMTP id af79cd13be357-8cbc8e4b725mr1252711985a.38.1772384310449;
-        Sun, 01 Mar 2026 08:58:30 -0800 (PST)
-X-Received: by 2002:a05:620a:3952:b0:8c6:e8f6:2c7 with SMTP id af79cd13be357-8cbc8e4b725mr1252708585a.38.1772384309937;
-        Sun, 01 Mar 2026 08:58:29 -0800 (PST)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a115bca0dbsm1204999e87.41.2026.03.01.08.58.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Mar 2026 08:58:29 -0800 (PST)
-Date: Sun, 1 Mar 2026 18:58:27 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
-        Rodrigo Siqueira <siqueira@igalia.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
-        Andy Yan <andy.yan@rock-chips.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
-        intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 15/19] drm/connector: Register color format property
- on HDMI connectors
-Message-ID: <mxfdm4rrsizf3jzjbeoxosb5lhm2wrzqipn6rvly4ukrodltgp@vcu2fkgwagdx>
-References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
- <20260227-color-format-v9-15-658c3b9db7ef@collabora.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DN9vrBHo"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UTH6sUihP/x0gI4/e/+xmsB5XPWdAVC+9eUoDYRcZC1pUuv2RHiUZeQO5nI2qmgZISisUXMkglIvwynie9dk0Dc9PxBp/tNGVaFgEejHhn+sepym072Fiy+CX16+PP27QmO9gfWYvRhbSw1OouZHMfuG2iG9iBoKZUnRQ+GYonjjaFVJRggIGhyCkq7ordbzwY+YIm2SyIMxfzkOzYQOaUfKsXmzcEaahqpAr6yE7si9EdFjXjEEqhQUEMQ32hTN4ALOSuvl7WBFDOC2jss9H+ZYaHj1Rs6WQamL3Hk8+4nx/nfqzYN+gKLVB+HM0RLf/eUHVu7J+X3F4JuINoe1Hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZI125X0pZl7T949TApLwpJTaH2w7GzEKniWauhLrgoM=;
+ b=RTneajgsPwMZFyDi4rwdfdw9/FGSa53D8of9aRC00yiAcABRMwAUxGhw2vNOi4NKEM7PUFBmckKUz/0KYNwiUpgsloUAxrNOHe4vPgccqNE1bsdslms6JMuYqQzpdbstVpd+yYz/hyNQAEJTjRNO/Twr+jUkAaZk2RJUrjWrFzMqDCIEtEEFxKPE9QIWk6LLza2PLHPmAxxNmRF3deyXVzjVhCEBWtsVt5voHeR4lmH5Q9DsiBNuWV+p5ViCzZkaOzdVPNGaCEEX18hFoFKuoveeqi3U5g8orUJnbyFR/gl4in1nJi7LtBdeBzWzHBwuqHqDgnuGAgj+I4tlTXXRSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZI125X0pZl7T949TApLwpJTaH2w7GzEKniWauhLrgoM=;
+ b=DN9vrBHotOMXATlfd/4yzPXPZ10XmmLGHtjexhSWFfdfXImP1tkxGbb23gOGTfcKQ91j0OMOEzNvv9vpmO8lKQ+/9t71WMrf6ow9GNJB03MWS8w/LOul15klcOq/bmhC8UWSgWQaR3xE8w/7xeXEy4BoIV8TVTG8SjjuJ3Kc8YiaebQSwycY/GN4MPQQZ617ZA0ZSVVaGlfCrwxGoSesNA0AQsDkY+7EzcAbItW1tkyBMFKub+01dZP+MfNu1dxoFbkwVLsCQinDMoNCbrcMShZhKi4EhgKuePt51SRneIvi6G7qAWiJwv2CZRsLtn9kggH/23xNaS0tsiogufBDcw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB2667.namprd12.prod.outlook.com (2603:10b6:5:42::28) by
+ MN0PR12MB6296.namprd12.prod.outlook.com (2603:10b6:208:3d3::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9654.20; Sun, 1 Mar 2026 17:28:05 +0000
+Received: from DM6PR12MB2667.namprd12.prod.outlook.com
+ ([fe80::aa9a:b827:90c6:506b]) by DM6PR12MB2667.namprd12.prod.outlook.com
+ ([fe80::aa9a:b827:90c6:506b%6]) with mapi id 15.20.9654.007; Sun, 1 Mar 2026
+ 17:28:05 +0000
+Message-ID: <7e496cb6-ab31-4a89-9630-0fa2e6b3607b@nvidia.com>
+Date: Sun, 1 Mar 2026 09:28:02 -0800
+User-Agent: Mozilla Thunderbird
+From: Fenghua Yu <fenghuay@nvidia.com>
+Subject: Re: [PATCH v5 38/41] arm_mpam: Add workaround for T241-MPAM-4
+To: Ben Horgan <ben.horgan@arm.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com,
+ kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ zengheng4@huawei.com, linux-doc@vger.kernel.org,
+ Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+References: <20260224175720.2663924-1-ben.horgan@arm.com>
+ <20260224175720.2663924-39-ben.horgan@arm.com>
+Content-Language: en-US
+In-Reply-To: <20260224175720.2663924-39-ben.horgan@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0099.namprd05.prod.outlook.com
+ (2603:10b6:a03:334::14) To DM6PR12MB2667.namprd12.prod.outlook.com
+ (2603:10b6:5:42::28)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260227-color-format-v9-15-658c3b9db7ef@collabora.com>
-X-Proofpoint-GUID: tSXwUuMAKBjaTaneBWy8-L9zH-42XcGf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzAxMDE1NSBTYWx0ZWRfX7jzO1qrg7tVZ
- IVvJTJRaaMIi+QthUzx01Xbg/apKVfzw8o4wzRTm88/H6mZpAIBF9XMcbsLU0Tn6omDHeDCwmSU
- KQX8oPdvDAC4lbT+OZjyJGrRZqGGfb9UWe1BmX0d5W/hGAbm42ViDmrl5zVejR0PfwBGS2vNLEb
- zWb8XrXJ2IMNX3T+K9gIbWVsHXKSbeX6wFS8EYwR/eL8jUIixrAdralllETWcxwptL3gX6eWsfM
- 69HpM9oYgcEa7mEKQZOxjQXdHepICfvQ4QE5z4gcShmUbLJUL45VcP48nwL1Y9aq5a19OcARoJB
- 1qiiXiXOq8utcbF3DsqB8jJDen15xcom06OOZjG4nbAdU/xWWh+PuA1hY7g4sjA2FpKIXk0ABxw
- PvnTFrJgdVP9xVxlj1Hob5Qx0Iz29xMZlIGjewo7exjW+Ws0+lfjIQx50svcGq/YJxOKXRsqZfb
- xAzO4IGEUXxfhw6WYxQ==
-X-Authority-Analysis: v=2.4 cv=bdRmkePB c=1 sm=1 tr=0 ts=69a47037 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=VwQbUJbxAAAA:8
- a=QX4gbG5DAAAA:8 a=QnxT5sWzqww7kDut_5wA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-ORIG-GUID: tSXwUuMAKBjaTaneBWy8-L9zH-42XcGf
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-01_03,2026-02-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
- malwarescore=0 impostorscore=0 suspectscore=0 adultscore=0 spamscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
- definitions=main-2603010155
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2667:EE_|MN0PR12MB6296:EE_
+X-MS-Office365-Filtering-Correlation-Id: cf21f09b-e786-4247-9833-08de77b7e5e3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	3vGlHHxxo2VO057uAViPI/0Iq4jgqEhLaKSSbhC3UJ32lSaV4Fe+xR7iLTQQIh0j2BK3ljY/pyowQp7xdIyV4lxrWAopfIU9b5CQXgw7N41/GSO4alG9tYZY5M0Ugqm2mmv5SioiFel8iM1TS8HMuvxdLz78oUtcIdNkQyQtW9sGquVMm2vv5mO9m5Q7KAJ69BWiNVvmW5couDNjMhEZIaFtfMkrx0bwz66hPEc5gvi3D4k3yeZo7qfsfrKir+Vcyh8nxWSqbYCZ4c2Yz6oMJihH30fYBv1XFof13c7wst+sldpokQpKx3/dLL5vQtcsQgA8cP94Xifd7sXxCQuzCQUZV6euF9bxAIqzh+i1aN+eIifPl5VZkHRlN8mNE3xjWVlZJe62261gOvBJq7E0r71SA0zBefJ9oMT+B7K9BOxppOf2Kv/5z1rVD1nDUZ+3KqZ29iLWty6mCn/GaRPwlZoeV9Ku0IRXT9d/gbYV2o1+Exm3y96gPKrJzpLsCd7Sp08lhRG6+2x5aXR02DohAr6JOmvzoxJLPAKowjtd56wqNupIlxzhSkySEWeePXuRdlrn5XJULJnjn9N9hQq4Re5PGJo+20q55EsmTgAUo536xth4MQ5oJthaH39WRcgELAkBXWfmsW4ouvyqt2oDj7DnbY77CsIQqUnEV1vDg5QurgLPFzAklwCIIN29aEiW08O31e5urcQBvAYEnJchlQeY8bgubriDqC4ECvf8BSs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB2667.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OG45L3BxdGthMjUvUDBFY1ZYbVdXRkgzVjZTYzZ2ZGFMbk9rUnJaZGxKUHlz?=
+ =?utf-8?B?eTEyTHBqZCtSYmlneE4wcnZncE4vOGVBeTFPazZlelpMM1ZWTzZLQk0yNzFI?=
+ =?utf-8?B?VTBSN0U2L20vd0hmVU8xRDU5WTV6YjNLQmVaa2llTXNmejhKNFdoWTFjb3hs?=
+ =?utf-8?B?elVvQVE3T1ZOaW1qR2ZDTVlaZnovSElrd2t2N1NmdDEzSWx1MXVJT1JJUGxl?=
+ =?utf-8?B?eE9SeStaeU5CbHQ4Z2NtUkdTSWNBbzFLd0pkQWJHdktSUUdRVzlwODhLTVlZ?=
+ =?utf-8?B?dkZROUg2cXVCekc3MkJ2N0VSWnlxTXJUckFpRVhkQkVmeFpQcFZJYUNINTQ1?=
+ =?utf-8?B?MTBlZStmbGFjK0FrSURhNmlRUzNlK2RuYXpyRVU3MVdaaTdDWUMwajJPMitM?=
+ =?utf-8?B?UkZCM1JLZ2FkNVlQdXNhRHdEdWZydnpuWmNUNk9CZWRsL1JDRzIyM0FiSElX?=
+ =?utf-8?B?RTk0VXR5Z2ovTHpzN3gwRUttcGYybTkzOUFrV0JHTkZLandPRGRpMXFrbUxG?=
+ =?utf-8?B?Syt6bTFpOWhSOG4xUy9vcUZZUGtZMkc2ZGd4S1NGeDlsOUtuYk5wTWJRcUJV?=
+ =?utf-8?B?RnZNakc3NXJVRDlDNk5YVEdCQzZxMHJUelIzMnd5RGhrQU9IdGxESzNjMW11?=
+ =?utf-8?B?b2Y2M1FvcnpaQnFCUCtqenRrZlU1dnFQT1FwZGNPd09wblNxRDcyZzUzQXB1?=
+ =?utf-8?B?SFZ4ZHRUS2h2NlI4REFOakJZejhMZ1dTZnVtZk5IVENtTWdrcFRkald3TU5S?=
+ =?utf-8?B?UndmRStlV2FxUitUOHQvcWNCVkJocjdVMzZ2MlJ3Z1J4aStJWE9MNkpobkZ1?=
+ =?utf-8?B?QnJpOUE0eStQNjNqUzhlUXJ3L2pIbE5FVko0QmZobGUybE5OQWZTVEkyWXAz?=
+ =?utf-8?B?QVVpTUY5MjhoY090NFhXZFhja2ZWL01DRFdTbEpva0tiN0xrUXJuUDRrV1Vm?=
+ =?utf-8?B?MlZ6L2h6eVJqcDlNa2pSZFc3RFV0N2JIaWhBSTgwNXduelFYY2htaCtDTk5L?=
+ =?utf-8?B?emdLd3ptSXRCL3N2MzhoaVplbStUcnliSTFpZ3dodVhEcWFFL25YNkQ0TElS?=
+ =?utf-8?B?ZnNNVFhtdEpKbWcvaTcwRFdhWjJOaTNqNmhSL3BYSzZ4RW5vNC9GbHU4aXpJ?=
+ =?utf-8?B?THFvc1RNc0RQMWJYQ05WT2xEaUpFSGx6MmpNVGV0ZEl2akc5cCtVakE3OWlu?=
+ =?utf-8?B?eWJ0cjB1b1F5QVU5S0RBWUQxOHJaVnJ6NGwvSmcxUlA0VXVzbkwyNDJOQlZi?=
+ =?utf-8?B?QjE0QVNzNWVQS1ZZaVJDc29qS0twYXdaeXFJZkNrcFk3em9WRmVTZ1NsSlBv?=
+ =?utf-8?B?dHh6VmRwelFGWVNBak5SaUVndXpMZUhMUHZzUGVBczh6MVR4dktHdTh6d1N4?=
+ =?utf-8?B?dUhYbHA0UUIxVzFMYnRMbE12WFhrZERkdEMrdlZvVnMvNEVFS3JVNjZNdk5r?=
+ =?utf-8?B?eUNUemtIVEc4TUlVTUVVN0YwMzBKVjFjWkFneVZJWTdrY3ArMDE4NGNYekFF?=
+ =?utf-8?B?UkxFUjVUZ3ZQNWpyZGxSemVGdEZBYStIcjNXRllrK0I1VkxaWWtqcUJjRXVS?=
+ =?utf-8?B?alBVWXhxdkowY3NINnFhTjluT01vdE1NaHVocS9qc0Ftd292TXY4MXljNnpl?=
+ =?utf-8?B?azUzbXdhd0p2ek5HTUZTcWxOMFYrQnUrTVZpR0VLRDhxcWlWTEhEOUQ5VFg3?=
+ =?utf-8?B?TjRJQ3hOZ1pQSmFXa1dQT2lNKzFQMTY1Nngyc2k2dmtRaTI5MEQ3M0w4Ukt0?=
+ =?utf-8?B?VmcyUTlubzZEenpmMjB1c1I2VGpMa1RTL2tGSUFTbVd5YWhHRnFESmtHTHpr?=
+ =?utf-8?B?a21Sa01wWUU2N1RxTVFySHdmb1gvT0I2Y0QweFJma1ZpYjgrczNrNzJxRUZ4?=
+ =?utf-8?B?WkxEalM2d1dzTko2eWFqUWs0VUxFcDMxV1FtREVpSFVjdm50U25PZUh6TUxP?=
+ =?utf-8?B?d05qWFZiVThxUUVWOFZKblMvbmVNQ3FlRFhEY1JndnBia3RnSlVXc09DZjVL?=
+ =?utf-8?B?d1VZYzNKNlBZVDhna0sxejQ5TmswNksrSFdpTkVLbTJwVXdxdHVHV28xVEJU?=
+ =?utf-8?B?ZGRvbi9rSGIvVzUySDZjTENUOTNxL2tFQU9oSXFNd3l0SWZYb1NlRTJ2dExI?=
+ =?utf-8?B?Z3hzaTZ4dWkrdFlWT0Y2V2RpWmY1aTFPWnI2aUV4Vm5pMGlNWTN5MERxMTll?=
+ =?utf-8?B?a1JtUmFpdVYrMGJ5S3pvSDVSSjY4OUMxK3E0WkdqeSsyRjloZ2Y3YkdXLzBM?=
+ =?utf-8?B?V3RiU0c5Z2VINFlyNU8vOW9ydUZIT2xMY2RDbEpWSXppR2lLZ2FFR01SQS9G?=
+ =?utf-8?B?WC9RWm5kZW1WR2tSOFpnYWJTVy9HK0lqUXFkY20veFRTTnVzR00wQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cf21f09b-e786-4247-9833-08de77b7e5e3
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2667.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Mar 2026 17:28:05.4808
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DHJzutU0fBSgAd7vZy/5b+839vFfQvNM17yiEnHTAUsTtyyKgW9ZHXR76amLR8sWw3VTJ57ujE1OSbMA/tGEbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6296
 
-On Fri, Feb 27, 2026 at 08:20:20PM +0100, Nicolas Frattaroli wrote:
-> The drmm_connector_hdmi_init function can figure out what DRM color
-> formats are supported by a particular connector based on the supported
-> HDMI format bitmask that's passed in.
+Hi, Ben,
+
+On 2/24/26 09:57, Ben Horgan wrote:
+> From: Shanker Donthineni <sdonthineni@nvidia.com>
 > 
-> Use it to register the drm color format property.
+> In the T241 implementation of memory-bandwidth partitioning, in the absence
+> of contention for bandwidth, the minimum bandwidth setting can affect the
+> amount of achieved bandwidth. Specifically, the achieved bandwidth in the
+> absence of contention can settle to any value between the values of
+> MPAMCFG_MBW_MIN and MPAMCFG_MBW_MAX.  Also, if MPAMCFG_MBW_MIN is set
+> zero (below 0.78125%), once a core enters a throttled state, it will never
+> leave that state.
 > 
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> The first issue is not a concern if the MPAM software allows to program
+> MPAMCFG_MBW_MIN through the sysfs interface. This patch ensures program
+> MBW_MIN=1 (0.78125%) whenever MPAMCFG_MBW_MIN=0 is programmed.
+> 
+> In the scenario where the resctrl doesn't support the MBW_MIN interface via
+> sysfs, to achieve bandwidth closer to MBW_MAX in the absence of contention,
+> software should configure a relatively narrow gap between MBW_MIN and
+> MBW_MAX. The recommendation is to use a 5% gap to mitigate the problem.
+> 
+> Clear the feature MBW_MIN feature from the class to ensure we don't
+> accidentally change behaviour when resctrl adds support for a MBW_MIN
+> interface.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+
+Reviewed-by: Fenghua Yu <fenghuay@nvidia.com>
+
+This patch itself is good.
+
+Please check the following comments.
+
 > ---
->  drivers/gpu/drm/drm_connector.c | 3 +++
->  1 file changed, 3 insertions(+)
+> [ morse: Added as second quirk, adapted to use the new intermediate values
+> in mpam_extend_config() ]
 > 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index a4907e15dfc5..0f4e24446a9e 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -627,6 +627,9 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->  	if (max_bpc > 8)
->  		drm_connector_attach_hdr_output_metadata_property(connector);
->  
-> +	if (!drm_mode_create_color_format_property(connector, supported_formats))
-> +		drm_connector_attach_color_format_property(connector);
-
-It really looks like:
-
-   drm_connector_attach_color_format_property(connector,
-					      supported_formats);
-
+> Changes since rfc:
+> MPAM_IIDR_NVIDIA_T421 -> MPAM_IIDR_NVIDIA_T241
+> Handling when reset_mbw_min is set
+> 
+> Changes since v3:
+> Move the 5% gap policy back here
+> Clear mbw_min feature in class
+> ---
+>   Documentation/arch/arm64/silicon-errata.rst |  2 +
+>   drivers/resctrl/mpam_devices.c              | 50 +++++++++++++++++++--
+>   drivers/resctrl/mpam_internal.h             |  1 +
+>   3 files changed, 50 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
+> index a65620f98e3a..a4b246655e37 100644
+> --- a/Documentation/arch/arm64/silicon-errata.rst
+> +++ b/Documentation/arch/arm64/silicon-errata.rst
+> @@ -249,6 +249,8 @@ stable kernels.
+>   +----------------+-----------------+-----------------+-----------------------------+
+>   | NVIDIA         | T241 MPAM       | T241-MPAM-1     | N/A                         |
+>   +----------------+-----------------+-----------------+-----------------------------+
+> +| NVIDIA         | T241 MPAM       | T241-MPAM-4     | N/A                         |
+> ++----------------+-----------------+-----------------+-----------------------------+
+>   +----------------+-----------------+-----------------+-----------------------------+
+>   | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
+>   +----------------+-----------------+-----------------+-----------------------------+
+> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+> index 08cb080592d9..8f44e9dee207 100644
+> --- a/drivers/resctrl/mpam_devices.c
+> +++ b/drivers/resctrl/mpam_devices.c
+> @@ -679,6 +679,12 @@ static const struct mpam_quirk mpam_quirks[] = {
+>   	.iidr_mask  = MPAM_IIDR_MATCH_ONE,
+>   	.workaround = T241_SCRUB_SHADOW_REGS,
+>   	},
+> +	{
+> +	/* NVIDIA t241 erratum T241-MPAM-4 */
+> +	.iidr       = MPAM_IIDR_NVIDIA_T241,
+> +	.iidr_mask  = MPAM_IIDR_MATCH_ONE,
+> +	.workaround = T241_FORCE_MBW_MIN_TO_ONE,
+> +	},
+>   	{ NULL } /* Sentinel */
+>   };
+>   
+> @@ -1464,6 +1470,31 @@ static void mpam_quirk_post_config_change(struct mpam_msc_ris *ris, u16 partid,
+>   		mpam_apply_t241_erratum(ris, partid);
+>   }
+>   
+> +static u16 mpam_wa_t241_force_mbw_min_to_one(struct mpam_props *props)
+> +{
+> +	u16 max_hw_value, min_hw_granule, res0_bits;
 > +
->  	connector->hdmi.funcs = hdmi_funcs;
->  
->  	return 0;
-> 
-> -- 
-> 2.53.0
-> 
+> +	res0_bits = 16 - props->bwa_wd;
+> +	max_hw_value = ((1 << props->bwa_wd) - 1) << res0_bits;
+> +	min_hw_granule = ~max_hw_value;
+> +
+> +	return min_hw_granule + 1;
+> +}
+> +
+> +static u16 mpam_wa_t241_calc_min_from_max(struct mpam_config *cfg)
+> +{
+> +	u16 val = 0;
+> +
+> +	if (mpam_has_feature(mpam_feat_mbw_max, cfg)) {
 
--- 
-With best wishes
-Dmitry
+But the problem is mpam_feat_mbw_max feature is NOT set in cfg.
+
+> +		u16 delta = ((5 * MPAMCFG_MBW_MAX_MAX) / 100) - 1;
+> +
+> +		if (cfg->mbw_max > delta)
+> +			val = cfg->mbw_max - delta;
+> +	}
+> +
+> +	return val;
+
+So 0 is always returned.
+
+The workaround will set mbw_min as 1% which is too small and will cause 
+performance degradation, e.g. about 20% degradation on some benchmarks.
+
+This patch itself doesn't have any issue.
+
+The issue is the mbw_max feature bit in cfg is not set.
+This is a legacy issue, not introduced by this patch set.
+
+Here is a fix patch for the issue:
+https://lore.kernel.org/lkml/20260301171829.1357886-1-fenghuay@nvidia.com/T/#u
+
+If the fix patch is good, could you please add it into the next version 
+of this series?
+
+Thanks.
+
+-Fenghua
