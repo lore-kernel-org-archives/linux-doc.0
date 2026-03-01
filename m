@@ -1,160 +1,184 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from a4i608.smtp2go.com (a4i608.smtp2go.com [158.120.82.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B941E2D060B;
-	Sun,  1 Mar 2026 21:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772401220; cv=pass; b=dsSMcmCwx9mSi3r8ZhkcICT19NS2wQ6DgsNfJnnm6cCVPolqm7CygfdkO2yxbLOKflfnu0h3Ez6fAxJM0Sto1+DEg3QOanmm+kI9sJBy7KoJDmQedl03IrOUz0iufnzRhzYZBNd1PnZyTmITqtf3JGWdheOwtxIAd38xXBwtVbo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772401220; c=relaxed/simple;
-	bh=A5QVI4sc3toPzsBJ0eGEdjAvm937Zw+ZKOz9Z1bfWys=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eEENI+H/k6ATT3w8sbC18HyMipIW7Kn5oJvGugh6TEwbY7DCLObu167AXmHbkwFnaONFOd1ex8FIdVJa2QtnKHt7InF/gW1hjwmULte3jVRVi4h0Ua6LkwOEjrr0RjOWFcveZHY7H22gWXlWUWadtObxQ7rBUXBW7/ELfpHYJSI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=Lei5bRoz; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F1D3112D0
+	for <linux-doc@vger.kernel.org>; Sun,  1 Mar 2026 22:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=158.120.82.96
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772402603; cv=none; b=gOMczESy9DGyk1LUFeUrxj0odY6rsWOLOS80Y346OJAvegG/XVF1ge+kIgMbUO12mrzOboBytHcjiiqAQBaAVQnRCMKmvfEAPzoNohyW0DgfZ6glDNeI1oDA3ytXcy5YszoNCOuvkeFo7+eq+97PiSS2sws1ifOb04DJUZNw0D0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772402603; c=relaxed/simple;
+	bh=uz3gVg2kenPxXQ5TOLYHf84TzeLVgm6XmFUsx8miI64=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mWYlfinZKJViYHWdXRT3il1hrLxYSJdM8Y4celRbDV05F2MyluvlOnYFP/qfihSt2eD3mAmtq7xFQZp0QDW35cbqSc09+glxBjK2oyoiGYRZdWj53IKDmCKtsKerKEUnPao2+MuXd66CK4mNcIvKKVJL3OzVdEkpYvy/y+Aqg3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=php.net; spf=pass smtp.mailfrom=return.smtpservice.net; dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=tavjIHvf; arc=none smtp.client-ip=158.120.82.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=php.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=return.smtpservice.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="Lei5bRoz"
-ARC-Seal: i=1; a=rsa-sha256; t=1772401086; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=AkufcGUvDYmFgTf+4E+ZxuYgHHmDSaJ/tS2bxjK+ClXMmVhalnSQjwpzEBKuv4XZDIFxDrsV6yQKN0gwKfk0yDsvGVlodyv0Dq0gN3DzerrJWlAQfy4f3dOZ0MV+xx2LJ80zBE1ue3GKyq/kzueDKiWBfMqM7/AAjJ/kQNlH/dk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772401086; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/BvEQBitzjedx/UMLrqh7LvNZcltcVro9BjyKn24tic=; 
-	b=YS3X/CWsP8v8/q3DqJH6wH7Lr5jG95xgeZItF5ptG6POuFrAeEL5HJEq6jtD1ughnSTQsxbR/kNzU9qOyF/aEXEl0BrcwQ/YYfxMNYsfQjTDdyvfS6adpjlbj1Dgyq68d8NZhc6Dx6n/NE+AkUzbZ34pOYcQsukD+1+zefQRKgo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772401086;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=/BvEQBitzjedx/UMLrqh7LvNZcltcVro9BjyKn24tic=;
-	b=Lei5bRozpthnVLtXlK4V2HXOxe4dUcBZwg4uiy5wY4UE/GM21DdQdrv3C7tnqtk0
-	BDl3QvUV8WTyWD0gjTYGUR6qDT0hvu32MPourBU0mWWXMkPibqzQwRuYQnVsXQIzpEO
-	my5hg1pkAPvmwk4+29f11UOxdioFUS4+dq7a6fwfLbdoc4Jc1bpgTpyK+VW6KGoy8EP
-	/GDn+T87QxHdNvwtumLOfG8ktl2VDpqGe5ZScuuQufNCb/H9u9gRfAWZqga2SRtg2y5
-	ChM+RNP5iSNjKbqveIq5M6vQcf7p/xcTut2GQfn9zgXHgGeixwFa3TqxN+j4x4mxO1B
-	L0AVjSm1Wg==
-Received: by mx.zohomail.com with SMTPS id 1772401084192965.1066787772661;
-	Sun, 1 Mar 2026 13:38:04 -0800 (PST)
-From: Rong Zhang <i@rong.moe>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Rong Zhang <i@rong.moe>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="tavjIHvf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=smtpservice.net;
+ i=@smtpservice.net; q=dns/txt; s=a1-4; t=1772401694; h=feedback-id :
+ x-smtpcorp-track : date : message-id : to : subject : from : reply-to
+ : sender : list-unsubscribe : list-unsubscribe-post;
+ bh=1BVveRRLNCSPeHsZ8boBCy9xkRHhDKXcLowJaV0eSnc=;
+ b=tavjIHvfXpal2FWqE37mZ7N6E06IwFPtqZ8ve4DT4sVtYzli+t0XKN2HCzLnPdlcEt4W+
+ +Y+gYduj+cCKDE1oAirtRh7IHAufo43Sk5j11TCQzkanec/O1oJBeNHoDYBav9nqegIUUFS
+ hYEHfd4id3nUovsl5KPsZMdZgUpzEup/sznmf2D6wJIRAHz0UOEmnuVMqdfbVQC5mz6HANi
+ Oh5BwwfWwa9taPsqPnlAIfNDLYWRvBvZiaZjHAbPEue1hfZxN2y11VM5Q2UnHput8WY3FGB
+ ol2MPk1g2TVbZprLYrf4ptAObSPvORicitvrafhip5Vxlw6X2Z7RwGbKKLsA==
+Received: from [10.90.244.30] (helo=localhost)
+	by smtpcorp.com with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.99.1-S2G)
+	(envelope-from <as@php.net>)
+	id 1vwoe1-FnQW0hQ0zBs-0pbc;
+	Sun, 01 Mar 2026 21:48:09 +0000
+From: Adam Saponara <as@php.net>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH 9/9] ALSA: usb-audio: Apply linear volume quirk on MV-SILICON devices
-Date: Mon,  2 Mar 2026 05:37:25 +0800
-Message-ID: <20260301213726.428505-10-i@rong.moe>
+	linux-serial@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Adam Saponara <as@php.net>
+Subject: [PATCH] vt: Add boot param for setting default vt console
+Date: Sun,  1 Mar 2026 16:48:04 -0500
+Message-ID: <20260301214804.283484-1-as@php.net>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260301213726.428505-1-i@rong.moe>
-References: <20260301213726.428505-1-i@rong.moe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+X-Report-Abuse: Please forward a copy of this message, including all headers, to <abuse-report@smtp2go.com>
+Feedback-ID: 852842m:852842aGMEEIJ:852842snSm7HADLo
+X-smtpcorp-track: woNXE5TtkdeW.jo837jczPaOs.3yyRTwzc97s
 
-MV-SILICON is a SoC manufacturer producing multifunctional audio SoCs.
-Many devices built on top of their SDK share a common quirk that the
-Playback and Capture mixers use linear volume with val = 0/4096/1.
+Presently the default console is hard-coded to vt1.
 
-The SDK seems to always report "MV-SILICON" for manufacturer string.
-Hence, match it so that we don't need to define quirk table entries
-separately for each devices. The "val = 0/4096/1" pattern is also
-checked against before applying the quirk, in order that the quirk won't
-accidentally break unseen variants.
+The param allows for setting a different default. The param defaults to 0
+(vt1), preserving the current behavior. It is clamped by the constants
+`(MIN|MAX)_NR_CONSOLES`. If set `>= MIN`, `con_init` will initialize that
+vt as well (a couple extra kilobytes heap for the `vc_data` and
+`vc_screenbuf` structs).
 
-Quirky device samples:
+Without this feature, users achieve the same effect with an init
+script[0][1][2][3]. This works but requires an extra `chvt(1)` which can
+race with user interaction and flicker the screen at login.
 
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: G1
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+[0]: https://bbs.archlinux.org/viewtopic.php?id=232058
+[1]: https://unix.stackexchange.com/questions/399986
+[2]: https://github.com/systemd/systemd/issues/7247
+[3]: https://www.linuxquestions.org/questions/linux-general-1/x-4175722418
 
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: mvsilicon B1 usb audio
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
-
-  usb 5-1.4: New USB device found, idVendor=8888, idProduct=1719, bcdDevice= 1.00
-  usb 5-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 5-1.4: Product: HF310 USB Audio
-  usb 5-1.4: Manufacturer: MV-SILICON
-  usb 5-1.4: SerialNumber: 20190808
-
-  usb 7-1: New USB device found, idVendor=2717, idProduct=5086, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: Redmi 电脑音箱
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
-
-  usb 2-1.2: New USB device found, idVendor=3142, idProduct=a601, bcdDevice= 1.00
-  usb 2-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 2-1.2: Product: fifine Microphone
-  usb 2-1.2: Manufacturer: MV-SILICON
-  usb 2-1.2: SerialNumber: 20190808
-  * https://forum.ubuntu-it.org/viewtopic.php?t=659345
-
-Signed-off-by: Rong Zhang <i@rong.moe>
+Signed-off-by: Adam Saponara <as@php.net>
 ---
- sound/usb/mixer_quirks.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ .../admin-guide/kernel-parameters.txt         |  5 +++
+ drivers/tty/vt/vt.c                           | 44 +++++++++++++------
+ 2 files changed, 36 insertions(+), 13 deletions(-)
 
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 539044c0c6440..e97814dc90259 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -4588,6 +4588,24 @@ static void snd_dragonfly_quirk_db_scale(struct usb_mixer_interface *mixer,
- 	}
- }
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index cb850e5290c2..6694b2edcfd6 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -8429,6 +8429,11 @@ Kernel parameters
+ 			overridden by individual drivers. 0 will hide
+ 			cursors, 1 will display them.
  
-+static void snd_usb_mv_silicon_quirks(struct usb_mixer_interface *mixer,
-+				      struct usb_mixer_elem_info *cval,
-+				      struct snd_kcontrol *kctl)
-+{
-+	if (cval->min == 0 && cval->max == 4096 && cval->res == 1) {
-+		/* The final effects will be printed later. */
-+		usb_audio_info(mixer->chip, "applying MV-SILICON quirks (0/4096/1 variant)\n");
++	vt.default_console=
++			[VT]
++			Set default console; 0-62.
++			Default: 0 (vt1)
 +
-+		/* Respect MIN_MUTE set by module parameters. */
-+		if (!(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE))
-+			mixer->chip->quirk_flags |= QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL;
-+		if (!(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE))
-+			mixer->chip->quirk_flags |= QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL;
-+	} else {
-+		usb_audio_dbg(mixer->chip, "not applying MV-SILICON quirks on unknown variant");
-+	}
+ 	vt.italic=	[VT] Default color for italic text; 0-15.
+ 			Default: 2 = green.
+ 
+diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
+index c1f152d8b03b..e566942c380f 100644
+--- a/drivers/tty/vt/vt.c
++++ b/drivers/tty/vt/vt.c
+@@ -140,6 +140,7 @@ EXPORT_SYMBOL(vc_cons);
+ static const struct consw *con_driver_map[MAX_NR_CONSOLES];
+ 
+ static int con_open(struct tty_struct *, struct file *);
++static void con_init_vc(int console_idx);
+ static void vc_init(struct vc_data *vc, int do_clear);
+ static void gotoxy(struct vc_data *vc, int new_x, int new_y);
+ static void restore_cur(struct vc_data *vc);
+@@ -159,10 +160,14 @@ static void unblank_screen(void);
+ 
+ int default_utf8 = true;
+ module_param(default_utf8, int, S_IRUGO | S_IWUSR);
++
+ int global_cursor_default = -1;
+ module_param(global_cursor_default, int, S_IRUGO | S_IWUSR);
+ EXPORT_SYMBOL(global_cursor_default);
+ 
++int default_console;
++module_param(default_console, int, S_IRUGO | S_IWUSR);
++
+ static int cur_default = CUR_UNDERLINE;
+ module_param(cur_default, int, S_IRUGO | S_IWUSR);
+ 
+@@ -3742,7 +3747,7 @@ static int __init con_init(void)
+ {
+ 	const char *display_desc = NULL;
+ 	struct vc_data *vc;
+-	unsigned int currcons = 0, i;
++	unsigned int i, di;
+ 
+ 	console_lock();
+ 
+@@ -3776,18 +3781,18 @@ static int __init con_init(void)
+ 		mod_timer(&console_timer, jiffies + (blankinterval * HZ));
+ 	}
+ 
+-	for (currcons = 0; currcons < MIN_NR_CONSOLES; currcons++) {
+-		vc_cons[currcons].d = vc = kzalloc_obj(struct vc_data,
+-						       GFP_NOWAIT);
+-		INIT_WORK(&vc_cons[currcons].SAK_work, vc_SAK);
+-		tty_port_init(&vc->port);
+-		visual_init(vc, currcons, true);
+-		/* Assuming vc->vc_{cols,rows,screenbuf_size} are sane here. */
+-		vc->vc_screenbuf = kzalloc(vc->vc_screenbuf_size, GFP_NOWAIT);
+-		vc_init(vc, currcons || !vc->vc_sw->con_save_screen);
+-	}
+-	currcons = fg_console = 0;
+-	master_display_fg = vc = vc_cons[currcons].d;
++	for (i = 0; i < MIN_NR_CONSOLES; i++)
++		con_init_vc(i);
++
++	/* Init default_console if we didn't already do that above */
++	di = clamp(default_console, 0, MAX_NR_CONSOLES - 1);
++	if (di >= MIN_NR_CONSOLES)
++		con_init_vc(di);
++
++	fg_console = di;
++
++	vc = vc_cons[fg_console].d;
++	master_display_fg = vc;
+ 	set_origin(vc);
+ 	save_screen(vc);
+ 	gotoxy(vc, vc->state.x, vc->state.y);
+@@ -3806,6 +3811,19 @@ static int __init con_init(void)
+ }
+ console_initcall(con_init);
+ 
++static void con_init_vc(int console_idx)
++{
++	struct vc_data *vc = kzalloc_obj(struct vc_data, GFP_NOWAIT);
++
++	vc_cons[console_idx].d = vc;
++	INIT_WORK(&vc_cons[console_idx].SAK_work, vc_SAK);
++	tty_port_init(&vc->port);
++	visual_init(vc, console_idx, true);
++	/* Assuming vc->vc_{cols,rows,screenbuf_size} are sane here. */
++	vc->vc_screenbuf = kzalloc(vc->vc_screenbuf_size, GFP_NOWAIT);
++	vc_init(vc, console_idx || !vc->vc_sw->con_save_screen);
 +}
 +
- /*
-  * Some Plantronics headsets have control names that don't meet ALSA naming
-  * standards. This function fixes nonstandard source names. By the time
-@@ -4664,6 +4682,10 @@ void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_interface *mixer,
- 		break;
- 	}
- 
-+	if (cval->control == UAC_FU_VOLUME &&
-+	    !strncmp(mixer->chip->card->longname, "MV-SILICON", 10))
-+		snd_usb_mv_silicon_quirks(mixer, cval, kctl);
-+
- 	/* lowest playback value is muted on some devices */
- 	if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE)
- 		if (strstr(kctl->id.name, "Playback")) {
+ static const struct tty_operations con_ops = {
+ 	.install = con_install,
+ 	.open = con_open,
 -- 
 2.51.0
 
