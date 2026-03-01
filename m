@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD9252727EB;
-	Sun,  1 Mar 2026 01:24:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B409E430B90;
+	Sun,  1 Mar 2026 01:35:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772328288; cv=none; b=hKjfeFhqlqvbc8msKNqwiNseVdSstFKttXa+0ijqfDBs4jolSXyCDTxiWQlX9B4HNckPq1unBPUFDOYE4tYdAoAXij9tLszaq9/bWJZHnzzlvDkWxNtTFMnAO+IvsM7cSxsIIXS517foc6a2v6ncMLcOSW1DOIUtyAlQ7mjkGWc=
+	t=1772328942; cv=none; b=dXw3cmBUXCkyHrWDfWvkpAsgD7PiHT4x1/W2neKNVgKbGJzA4XFQgA47ceuyacxSe2yGALx1inH1IwhiM/v3AW2hKbjx7qOOI0HmRi0eYTEIyJS28MuZeBWfQcvSjHdpa5WBEiAk8On66oqG+v2DejM+ZFuro+qcmw0bKbmb02c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772328288; c=relaxed/simple;
-	bh=zwMjDjOlL+hUet7U/q3TlGBG4bQSlu6RsD/RcXj8acE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l0Bhb2ZDybahKbckeKgHyjlQogmrnzlN8JtFIcFH9rlNUU/zzuCT+m/0fo0CymYQKLMxeDZnDWffle8S7NbfNosgxNRlAzWsMYATQxveXURvpt+TxUCA7ou4dgubDzCYWp0gF+248WrwP1lO5b2Mywx6Tiw8OIdw0va4p/lebDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M5UGfaZk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772328942; c=relaxed/simple;
+	bh=cOf3LrdXY7JjTOnThZDIvBCxlFVROEwmn2sp1og/ums=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H/jQ/gx7ddo6KLYrGn+LArhiyXCJabR2AI4Ce/m6A9rbdj4H5xe01yorsRqHyY00k5dV2TNzOMAkEh9bk3wtQcVa2rv3javkgIRqiRUAxIZu3RA8X+opHIrRaGkmc/h6kJMqHs6e4gxnRbMX3DV4FZ2VOLDYceR3CQLTCWyc8/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vA8c/FAi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M5UGfaZk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00469C19421;
-	Sun,  1 Mar 2026 01:24:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vA8c/FAi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81D7C19421;
+	Sun,  1 Mar 2026 01:35:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772328288;
-	bh=zwMjDjOlL+hUet7U/q3TlGBG4bQSlu6RsD/RcXj8acE=;
+	s=k20201202; t=1772328942;
+	bh=cOf3LrdXY7JjTOnThZDIvBCxlFVROEwmn2sp1og/ums=;
 	h=From:To:Cc:Subject:Date:From;
-	b=M5UGfaZkL/gRKf9R4OZp79HOrkVNdKK6WhLg90OzYBmf69E7fChuJJS9pvKSz5Z1V
-	 BwncO2MEI7RwyCJMaDNrEUqbgHxuilfSVFMyEK5WncLPdeo1gADxMIMPKMjdCtPdPB
-	 zq9VuIt5MT9sGN+3cHTNVXWnDScnn6eeFAM1g80b4V4byDDGjRewlDfN4Cq30voGYG
-	 3Ny9S4VbZTe42+eX9t8CzCUlg6iIGoO6qReLCLzgVnemf0z/bBnMuWh3CxnTdPbFf5
-	 12Lc2bc2osj3RfP93pd4gRAO9FSckj+xzhgQdT4ojxEKFL+H6cD8KzX95MIFjgQ861
-	 TVNjltA2uS/kA==
+	b=vA8c/FAiYOHnNUcUFe9o35qARb/VSoov0saIHC7a4GSobQ3lm6khPyBuJrzE31gPa
+	 KPahf90PjjyX4X983rZh8uHmmgVeYq4lvYGmXKzwOqLeKQTYNLsyLRu+0j6kqOlDVo
+	 Ecnza7OLErZqzxQb4W1FBiivzJHl3BZTfUwkyXoWNrCVrmYk9aN7PH49qNWehUsWlE
+	 GStX3ZRJIaE3jxwzCpkB2Anm5rf7xh2GI5dwsh1+O1lN22yb8AJEWt39wLsds5ahTi
+	 WfHuaHmu68BbVGLnIH2z/91L9nnXoII6jwAyNaW+P2EfnakVwdJorB2GD0IxwQtwxt
+	 efyuq+XUbnz7Q==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	khushit.shah@nutanix.com
@@ -32,9 +32,9 @@ Cc: David Woodhouse <dwmw2@infradead.org>,
 	Sean Christopherson <seanjc@google.com>,
 	kvm@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: FAILED: Patch "KVM: x86: Add x2APIC "features" to control EOI broadcast suppression" failed to apply to 6.12-stable tree
-Date: Sat, 28 Feb 2026 20:24:45 -0500
-Message-ID: <20260301012446.1681708-1-sashal@kernel.org>
+Subject: FAILED: Patch "KVM: x86: Add x2APIC "features" to control EOI broadcast suppression" failed to apply to 6.6-stable tree
+Date: Sat, 28 Feb 2026 20:35:39 -0500
+Message-ID: <20260301013540.1695414-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,7 +46,7 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 
-The patch below does not apply to the 6.12-stable tree.
+The patch below does not apply to the 6.6-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
