@@ -1,161 +1,128 @@
-Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out198-15.us.a.mail.aliyun.com (out198-15.us.a.mail.aliyun.com [47.90.198.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAD43FF1
-	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 07:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EB238736C;
+	Mon,  2 Mar 2026 08:01:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772436568; cv=none; b=rA8QSB1XS9f2leKW+UXeqzukZjq3h2S1e8ZZfhTLu+XtH+sBTpzu1Z91+uoxCxgfZeGGr+tN+hrELB+A7XzFibyo5Fs+6kOzoi5T6bF3KUdC3QT29qxMEh7ORU7+a8APHQjPF7Ditkef0zZJuMJ1cYgXB6A5Xp+V0K94p9QVfaU=
+	t=1772438474; cv=none; b=pi3usgRHzCehiTD09f2dYJwpOlLW2bwv2cZaSE25jTyUTYmf/Z/3dY6TJgq3j/PhpbFzxdhZHX4CuEccnpJ7NS8yeeLrCrxKyoU8Ac/quO9ZgHXiEaBkrTFRtX7YIErd/gjAUux0kBJqHRbk47vS+lupsAeCnKwtWVjqInW7+TA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772436568; c=relaxed/simple;
-	bh=+CoAt6fI9i0WpNCcNh5PHh9hQU7RcGZ0bzeTQpV2TTY=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Xse4htEsTjlpyM9S7Gri/oQtkSzDYnsX7uKOs8bMNhXhpHz9+KEweT0FRDCv5oSsQ1sUSTkJnK+MXXcmk1fMLvVHKI5M3tMN3dhsicXQR++FvkUlTzRLvUWcze5dpBNEMYfIA4Owg5m6c1Vju3gV7lflclusYcKRo0WMl89ubD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xrByk2Ka; arc=none smtp.client-ip=209.85.128.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xrByk2Ka"
-Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-4836abfc742so32500425e9.0
-        for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 23:29:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772436566; x=1773041366; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B++JTSOCDEejhrrruo0lwnBFAI5zm/KxsIu6HPW4OXU=;
-        b=xrByk2Ka/lzxu00yJY0EYyeohoQB2Lahz89kcaasp+MxaDa9tmT2w9v0hEeUb5GcmK
-         mbZHbVAAG2FBL/vEgkhOeT1M+8AxP6nxIYGwLCUuApJ2PTeLbMunwkZR95qI7pdffTlX
-         mmGa8oxLBtFYYfuD3QE5YMb2H4rXnN2zyiCLQvqfg2u7L6KtyvvM0TLU6HreHz1jCkBc
-         YmIt5gXISfHwOvdvtvjJ820ppmJ6GOCWDAWTAEoR0KyA8IdsjbIw7wJA2Y0MhrRFZlbk
-         wkGdF2Em9qoqVGbUX6R2zLsC26oWWeeok4WRWG7QvJgN9MTnEz8+THOwh3mQDsLDwoV/
-         /Zng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772436566; x=1773041366;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=B++JTSOCDEejhrrruo0lwnBFAI5zm/KxsIu6HPW4OXU=;
-        b=TCo89HmteRAT2f3gyvUDs/z5xUHuCf4Rw1+uKBXzvUpFVGghIZAZ1+PH0prp65dZe0
-         4Rw8YbiEV+1VnyVGJt20lFzSRGWqPLBrTVp4q9mnlqV9VZuIBSy8AJ545NOF25+t3QL8
-         SaTugI9ekIK8V+b5sRa4uklFlajmwvJJn0qvwx9Si5pwI36tdBLUJX8153ci2bzDXYl5
-         TUVmeAXJdrYRMPGOQVhG3xJVUCNYWhLLnHi4dSci5/v/YrgCAS20Y9NhBg6kpKupPd1I
-         s1BeXdyTk+2v15BUi4XSA/7NvMMGWMiBFz6P1B+8OtzoH7jNg9iqD9hUY4X1pvcuh4gs
-         rq2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVrT0G7b5JJFilMLF1gLesBBy7HIaT5J4TRD2gO3j5M4ns0uvygrUwrccQIShCJnORVExVwb7Rc5K0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRw1A5BjfQRlnpvM/VuikQWmghhxEn/ES8P+D595rb8OfPC+WZ
-	QljYuKh5L30JxljUKBOp0xxXC1UUnuK8qkim6Q2VCkgduA1epwHiNNH3PDqN4G4HGqQzmLyjc42
-	pprfcsbMY9soAMLb6VQ==
-X-Received: from wmna22.prod.google.com ([2002:a05:600c:696:b0:483:272e:764f])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:3e8e:b0:47a:8cce:2940 with SMTP id 5b1f17b1804b1-483c9ba2922mr208928775e9.14.1772436565594;
- Sun, 01 Mar 2026 23:29:25 -0800 (PST)
-Date: Mon, 2 Mar 2026 07:29:24 +0000
-In-Reply-To: <aaUlwfP72ZpshLPL@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+	s=arc-20240116; t=1772438474; c=relaxed/simple;
+	bh=4fkRjMkBZtaZkgH1P7CtUJ17M4HovcxBBDB6lugAgNQ=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
+	 In-Reply-To:Content-Type; b=G41/r2Zzjj0Z/DenqOwNA2+Mt11++GU73LO47Ij/LhS7ovfm62WQASUiwQFXZRpwooiySXReEIaFhs2AwoM3HcQykRXzvt/KpvuNvuf1GGyCDEjxm4OSXWXqTWUrZqbc92VR18UpCQOujhsnW3qHeK5XATsLHCUnuikwak5yAwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.770608|0.1449812;CH=green;DM=|AD|false|;DS=CONTINUE|ham_regular_dialog|0.0980831-0.00167374-0.900243;FP=2573661096110080963|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037021217;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=16;RT=16;SR=0;TI=W4_0.2.3_21252303_1772438017138_o7001c1614;
+Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_21252303_1772438017138_o7001c1614] cluster:ay29) at Mon, 02 Mar 2026 16:00:46 +0800
+Date: Mon, 02 Mar 2026 16:00:46 +0800
+From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+To: "Andrew Lunn" <andrew@lunn.ch>
+Cc: "Dimon" <dimon.zhao@nebula-matrix.com>,
+  "Alvin" <alvin.wang@nebula-matrix.com>,
+  "Sam" <sam.chen@nebula-matrix.com>,
+  "netdev" <netdev@vger.kernel.org>,
+  "andrew+netdev" <andrew+netdev@lunn.ch>,
+  "corbet" <corbet@lwn.net>,
+  "kuba" <kuba@kernel.org>,
+  "linux-doc" <linux-doc@vger.kernel.org>,
+  "lorenzo" <lorenzo@kernel.org>,
+  "pabeni" <pabeni@redhat.com>,
+  "horms" <horms@kernel.org>,
+  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
+  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
+  "edumazet" <edumazet@google.com>,
+  "open list" <linux-kernel@vger.kernel.org>
+Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+Message-ID: <5b6205dd-bca8-42e1-b281-52be11f31f69.Illusion.Wang@nebula-matrix.com>
+Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHY1IG5ldC1uZXh0IDAzLzExXSBuZXQvbmVidWxhLW1hdHJpeDog?=
+  =?UTF-8?B?YWRkIGNoaXAgcmVsYXRlZCBkZWZpbml0aW9ucw==?=
+X-Mailer: [Alimail-Mailagent revision 1106][W4_0.2.3][null][Chrome]
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260210090023.2587534-1-mkchauras@gmail.com> <20260210090023.2587534-3-mkchauras@gmail.com>
- <CAH5fLgi3Owm4=4g8wQ5Rnr7Y63XJ1D8apOdkewW6WpRfg6vV_w@mail.gmail.com>
- <aZtT4MH0Q8Ic9ZiM@luna> <CANiq72nEam8n_daX5LyYrpH=i71k+pb+HLn6EEPdJJc-Zi9Q3A@mail.gmail.com>
- <aZu6cSqnvO91w1m4@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
- <CANiq72mg+D4QZmBhrNj7dB+V3GHsQoZT2cSG1ffHYDYJWXyopQ@mail.gmail.com>
- <0a176f95-eeba-428e-b19b-b08503d9ca5d@ralfj.de> <aaUlwfP72ZpshLPL@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
-Message-ID: <aaU8VC-kLOKDyYDP@google.com>
-Subject: Re: [PATCH V6 2/3] rust: Add PowerPC support
-From: Alice Ryhl <aliceryhl@google.com>
-To: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
-Cc: Ralf Jung <post@ralfj.de>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>, 
-	Link Mauve <linkmauve@linkmauve.fr>, ojeda@kernel.org, boqun.feng@gmail.com, 
-	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, 
-	a.hindborg@kernel.org, tmgross@umich.edu, dakr@kernel.org, corbet@lwn.net, 
-	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
-	chleroy@kernel.org, peterz@infradead.org, jpoimboe@kernel.org, 
-	jbaron@akamai.com, rostedt@goodmis.org, ardb@kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	Jubilee Young <workingjubilee@gmail.com>, Matthew Maurer <mmaurer@google.com>, 
-	David Wood <david@davidtw.co>, Wesley Wiser <wwiser@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+x-aliyun-im-through: {"version":"v1.0"}
+References: <20260226073840.3222-1-illusion.wang@nebula-matrix.com> <20260226073840.3222-4-illusion.wang@nebula-matrix.com>,<c5d2ba02-55b8-4839-bbd1-1d387da27f96@lunn.ch>
+x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjEwLVJlbGVhc2UuMjYwMjAzMDA3KSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
+In-Reply-To: <c5d2ba02-55b8-4839-bbd1-1d387da27f96@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Mar 02, 2026 at 11:25:54AM +0530, Mukesh Kumar Chaurasiya wrote:
-> On Tue, Feb 24, 2026 at 09:58:10AM +0100, Ralf Jung wrote:
-> > Hi all,
-> >=20
-> > On 23.02.26 16:31, Miguel Ojeda wrote:
-> > > On Mon, Feb 23, 2026 at 3:26=E2=80=AFAM Mukesh Kumar Chaurasiya
-> > > <mkchauras@gmail.com> wrote:
-> > > >=20
-> > > > I think, disabling altivec, fpu and vsx with compiler flag will wor=
-k.
-> > > >=20
-> > > > What are your opinion on this?
-> > >=20
-> > > It is really up to upstream Rust -- for us, i.e. the kernel, it
-> > > usually doesn't really matter much how things like that are
-> > > accomplished: whether via flags, a built-in target, a custom target,
-> > > etc. However, we need to know what the path to stability is.
-> > >=20
-> > > My understanding (but I may be wrong) is that upstream Rust prefer we
-> > > use built-in targets for softfloat instead of disabling via
-> > > `-Ctarget-feature` (and that the other options may go away soon and/o=
-r
-> > > will never be stable) -- at least for some cases. For instance, for
-> > > arm64, please this recent change kernel-side regarding `neon` as an
-> > > entry point:
-> > >=20
-> > >    446a8351f160 ("arm64: rust: clean Rust 1.85.0 warning using softfl=
-oat target")
-> > >=20
-> > > So please ask upstream Rust (probably in their Zulip, e.g. in
-> > > t-compiler or rust-for-linux channels) what you should do for powerpc=
-.
-> > > They will likely be happy with a PR adding the target (or whatever
-> > > they decide) as Alice mentions. And until we reach that minimum
-> > > version (in a year or more), we can use something else meanwhile. But
-> > > at least we will have a way towards the end goal, if that makes sense=
-.
-> > >=20
-> > > In case it helps, let me Cc Ralf, Jubilee and Matthew who were
-> > > involved in some of that discussion in the past, plus the compiler
-> > > leads.
-> >=20
-> > Upstream Rust dev here. Indeed we'd strongly prefer if this could use a
-> > built-in Rust target; we can work with you on adding a new target if th=
-at is
-> > needed.
-> > The kernel currently uses a custom JSON target on x86 and that's quite =
-the
-> > headache for compiler development: JSON targets are highly unstable and
-> > directly expose low-level details of how the compiler internally repres=
-ents
-> > targets. When we change that representation, we update all built-in tar=
-gets,
-> > but of course we cannot update JSON targets. So whenever possible we'd =
-like
-> > to move towards reducing the number of JSON targets used by the kernel,=
- not
-> > increase it. :)
-> >=20
-> > Kind regards,
-> > Ralf
-> >=20
-> Hey,
->=20
-> Sorry for delayed response. I was out of network zone.
->=20
-> I am not sure about the process of how to get this in rust toolchain.
-> Should I raise an issue of github for this?
-
-You would need to add a new file to compiler/rustc_target/src/spec/targets
-in the rustc repository.
-
-If you're not sure what to put there, I would suggest coming up with
-something that looks plausible, and opening a PR with that. Then others
-can help you with filling out the target correctly.
-
-Alice
+Cj4gPiArc3RhdGljIHUzMiBuYmxfc2VjMDQ2XzFwX2RhdGFbXSA9IHsKPiA+ICsgMHgwMDAwMDAw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHhhMDAw
+MDAwMCwKPiA+ICsgMHgwMDA3N2MyYiwgMHgwMDVjMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwODEw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwg
+MHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgyMDAwMDAwMCwgMHgwMDA3MzAyOSwg
+MHgwMDQ4MDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwODEwMCwgMHgwMDAwMDAwMCwgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAw
+MDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+
+ICsgMHgwMDAwMDAwMCwgMHgyMDAwMDAwMCwgMHgwMDA3MzAyOSwgMHgwMDQ4MDAwMCwgMHg3MDAw
+MDAwMCwgMHgwMDAwMDAyMCwKPiA+ICsgMHgyNDE0MDAwMCwgMHgwMDAwMDAyMCwgMHgwMDAwMDAw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwg
+MHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHhhMDAwMDAw
+MCwKPiA+ICsgMHgwMDAwMDAwOSwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMjEwMCwg
+MHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAw
+MDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHhiMDAwMDAwMCwgMHgwMDAwMDAwOSwgMHgw
+MDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAw
+MDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsg
+MHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAw
+MCwgMHgwMDAwMDEwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwg
+MHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwK
+PiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDEwMCwgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAw
+MDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAw
+MDAwMCwKPiA+ICsgMHg3MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgyMDE0MDAwMCwgMHgwMDAwMDAw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwg
+MHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHg3MDAwMDAwMCwg
+MHgwMDAwMDAwMCwKPiA+ICsgMHgyMDE0MDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAw
+MDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+
+ICsgMHgwMDAwMDAwMCwgMHgzODQzMDAwMCwgMHg3MDAwMDAwNiwgMHgwMDAwMDAyMCwgMHgyNDE0
+MDAwMCwgMHgwMDAwMDAyMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHg5OGNiMTE4MCwg
+MHg2ZTM2ZDQ2OSwgMHg5ZDhlYjkxYywgMHg4N2UzZWY0NywgMHhhMjkzMTI4OCwgMHgwODQwNWM1
+YSwKPiA+ICsgMHg3Mzg2NTA4NiwgMHgwMDAwMDA4MCwgMHgzMDE0MDAwMCwgMHgwMDAwMDA4MCwg
+MHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAw
+MDAwMCwgMHhiMDAwMDAwMCwgMHgwMDBiMzg0OSwgMHgzODQzMDAwMCwgMHgwMDAwMDAwNiwgMHgw
+MDAwYzEwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAw
+MDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHhiMDAwMDAwMCwKPiA+ICsg
+MHgwMDEzMzg4OSwgMHgwODQwMDAwMCwgMHgwMzg2NTA4NiwgMHg0YzAxNjEwMCwgMHgwMDAwMDAx
+NCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwg
+MHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwK
+PiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAw
+MDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAw
+MDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAw
+MCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwg
+MHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwKPiA+ICsgMHgw
+MDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwg
+MHgwMDAwMDAwMCwKPiA+ICsgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgwMDAwMDAwMCwgMHgw
+MDAwMDAwMCwKPiA+ICt9Cgo+V2hhdCBpcyBhbGwgdGhpcyBkYXRhPyBIb3cgYmlnIGlzIHRoZSBv
+YmplY3QgZmlsZSBjcmVhdGVkIGZyb20gdGhpcz8KCj5TaG91bGQgaXQgYmUgY29uc3Q/Cgo+Q291
+bGQgaXQgYmUgbWFya2VkIF9faW5pdGRhdGE/IE9yIG1vdmVkIGludG8gZmlybXdhcmUgZmlsZXM/
+CgrCoD4gwqAgwqAgQW5kcmV3CgoKVGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrLgpUaGVzZSBk
+YXRhIGFyZSB1c2VkIHRvIGNvbmZpZ3VyZSBQNC1yZWxhdGVkIHJlZ2lzdGVycy4gVGhlIGRyaXZl
+cuKAmXMgZnVuY3Rpb25hbGl0eQoKZGVwZW5kcyBoZWF2aWx5IG9uIHRoZXNlIHJlZ2lzdGVyIHNl
+dHRpbmdzLiBUaGV5IHdpbGwgYmUgZGVjbGFyZWQgYXMgY29uc3QuCgpCdXQgdGhleSBjYW4gYmUg
+bWFya2VkIF9faW5pdGRhdGEuIEJlY2F1c2UgaXQgd2lsbCBiZSBjYWxsZWQgYnkgcGNpX2RyaXZl
+ci5wcm9iZS4KClRoZXkgYWxzbyBzaG91bGQgbm90IGJlIG1vdmVkIGludG8gZmlybXdhcmUgZmls
+ZXMsIGFzIHRoZSBzb2Z0d2FyZSBmdW5jdGlvbmFsaXR5CgppcyB0aWdodGx5IGNvdXBsZWQgd2l0
+aCB0aGVzZSBjb25maWd1cmF0aW9ucy4gSWYgdGhleSB3ZXJlIG1vdmVkIHRvIGZpcm13YXJlLAoK
+dXNlcnMgY291bGQgZWFzaWx5IGVuZCB1cCB3aXRoIG1pc21hdGNoZWQgdmVyc2lvbnMgb2YgdGhl
+IGZpcm13YXJlIGFuZCB0aGUga2VybmVsCgpkcml2ZXIgbW9kdWxlLCBsZWFkaW5nIHRvIGZ1bmN0
+aW9uYWwgaW5jb25zaXN0ZW5jaWVzIG9yIHN5c3RlbSBtYWxmdW5jdGlvbnMuCmlsbHVzaW9uLndh
+bmcKCgoK
