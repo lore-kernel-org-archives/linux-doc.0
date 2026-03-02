@@ -1,132 +1,147 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3063FFAD6
-	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 15:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772464072; cv=pass; b=tckdimU4Mf7DA5tXqQe6lg7bvvM8Qh2ufPnMFuTthHIPY2LvguTSV5uvIua9eoiXU4jSGdcOOGTwZP+uylwCkV+Zv/eSPPBDE5/puOvuXcWAjJo/hW1CYl70Ovv3Efc8w2Fu2HTOpzZuBateTnpk5g7wIHg4nEJxiBrKwHdcXLQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772464072; c=relaxed/simple;
-	bh=+gDTORrI2pQyWVeOn4meK1oMBrguCe1b/ScMwN2EmY8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c2OkoG36vGKT4GISGyIoq0TEgTEd3iFLTPz/G2SOqR9spbK/4dzZQ7TrOJOppWdCQm7ef1j+sa/FyUyzIsHPpG2R62BoxHPQbG8DrAoYqoB+tvR3kwcWkGjW1INQGP9JaE9sHWsE2fO4HjEEmx7EZIxHKI7WirVLPiN0xga0x5Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=yngvason.is; spf=pass smtp.mailfrom=yngvason.is; dkim=pass (1024-bit key) header.d=yngvason.is header.i=@yngvason.is header.b=LZ26vLXd; arc=pass smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=yngvason.is
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yngvason.is
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66FE40B6DD
+	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 15:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772464306; cv=none; b=aMApfSpKKq6LAZs764xieWX/64KX76FwZU8SDh6ux8ya+Ins3Yc7+hKR8sdMAP6vqsUivQb7tZdN4Z2EKrONe4x8CQRGXpFaLs4iGbiheb9LztjMIGHmjeeN004KJUnafInAQ4TwogRwwflsX8pQsrgvmBNolArM9uKqsPDrvK0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772464306; c=relaxed/simple;
+	bh=pqQAGan4yvTVrFiL32CHCgoQyF1G89388WDkZh9066g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ejkW6z8glj19DZCQ6oNpxDV0G2QWJVP3H+FpVa05fXEXeG/vqGkCrV8FoRM47oh3eR1GSeU4XgjB/t02nzXuBIK0vqAT3kDsl4nUzZnPe2vEFYlF5BPEUZ7kQvcPXMmlSFrQx+G8bi4EjFnquyYJiKvb0hLtrmV9HCjUjttbRIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=csHMLUkm; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=T4EVGc1S; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yngvason.is header.i=@yngvason.is header.b="LZ26vLXd"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-64c9ebd1369so3886481d50.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 07:07:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772464070; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZAKDGZTacwtMDdvBBNmLfw5YdsW9/QR1f2S3cU9BJAgUO+LsJR4yq/o5J2hnmHd4J/
-         yBoNHUUNS76/j8efNo/TEX8NfoKwQFd6pEgE6Dv6QtmzdHkUOXiXqYKPrm+OI0s+zFZ9
-         aK5tmp+UbpeLkjGOQMdE/oEea0pl44Amyx0jKjn8bScinTQxVLmgemTc9yQgOltva+zD
-         SBKkGeDuJr0tQtv4NJ7j1eeipbTNsrIV15gB6RBgOPe5F6mqHEBtTC3j/FRU1w4LMGvK
-         Ja/SaAAT75m7HSZo6wBJYJAM/j+ewtB0++SCP91hkcOnUJWv1d/zDN4Tfi5r0Hn5ip6i
-         W/7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+gDTORrI2pQyWVeOn4meK1oMBrguCe1b/ScMwN2EmY8=;
-        fh=7Ob7OPSX/uXcFUoaf8d1uad2BOkMZoVhOjnUo3h0P1c=;
-        b=eV0ptqn+LDJuJjF4/GRpUFL96yJ81oFJeP0eLrV0Y2kmHa817JErDPRJEwz43NOxzm
-         vC/ubFbeZeyuj5UL6OWUQglr55oLzUms2T4BVbHuemj5p+vnSYrim5YO/Lm+SMy3k4hK
-         OGRtsB+f6bERN3s4l2ai1GZdRWod+i0oIN0w427b6+GPvfyD+5ssSqUn5zkafXDVZWAq
-         0Fy1Juh/+NKaa6giv2TiOYpZ/jRxzyrYAjdz+IxqKINUmdpJSVfa0zC34FFGKBPbhxWS
-         WuacftecqmnThRSXXf0kzOGj/4l8cNc3AqzZx5bWmVnDt81dE/jzCepKy+Nazm0SJoAP
-         oJkA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="csHMLUkm";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="T4EVGc1S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1772464304;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=fR0fvLxS9OT19o4gHC8nFDyqzxeV7tuHCO9Mj5KxIFo=;
+	b=csHMLUkmRuxYrt1N67t2HTOEeRy9sOpHh/7cn5m9wiqn4gr7V1Lg0jPu8566LYJ0jmjU9s
+	HjWiSEMXxGJH2C7Feckra40zFWwfkp50cAJx9AvpVAgSb3SgeYtZv4cVeU1LSIgBPkzmz+
+	4S3uspfGB4oUAh2c60Rwyf4LoLyK9nc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-605-IvSeBZjtPVetezJ6h3xekg-1; Mon, 02 Mar 2026 10:11:41 -0500
+X-MC-Unique: IvSeBZjtPVetezJ6h3xekg-1
+X-Mimecast-MFC-AGG-ID: IvSeBZjtPVetezJ6h3xekg_1772464300
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-483a2db68caso38000525e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 07:11:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=yngvason.is; s=google; t=1772464070; x=1773068870; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+gDTORrI2pQyWVeOn4meK1oMBrguCe1b/ScMwN2EmY8=;
-        b=LZ26vLXd4ulkzk4SpgBOlVtfCVVgAIuJ2oP+L3CwhUxPCNoPmp0gahdNNSwB7dsTEn
-         RvkQgxjjj7kRwE7dXUdKmeuM11sQrZZycEI/+YU6vZ2kSicRZNq1mIKu7TXOWLBqDsl0
-         q1stf0Bn7Fs265aO6Rjd5N7NnD0QNJQlelaNs=
+        d=redhat.com; s=google; t=1772464300; x=1773069100; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fR0fvLxS9OT19o4gHC8nFDyqzxeV7tuHCO9Mj5KxIFo=;
+        b=T4EVGc1S3KDxLR9wb870gWHgh7Ib8ee7cdBmFLELZXC0mqEd66GAkEMD/1vYSzgppE
+         zwNnis61nntKhzs/3qhE3U15fQ3iAGkG4N74yKaIjznBI1MitsTNKBklCIJ8KpiITu9Y
+         6YKkRiOJuSiC+7ona9hnRWacuHf0SrdaDi8adN4tmKA+2qdL9SkY+fpiWnpuENLrgj43
+         heDrX54xhP3p7UFQ2E7RzPiIVea02PCMKAgk+45xpajpbFj7d/p6OvgYoXXZAQuEL4be
+         WuidYCwC7ev+lNF5tA76OA2AhmuIvP9hi5m6F5DPekBj48LBocziPz3maSafq5FDXqIp
+         RgOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772464070; x=1773068870;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+gDTORrI2pQyWVeOn4meK1oMBrguCe1b/ScMwN2EmY8=;
-        b=QCGCRWXOnE92ybsU2UtdYWBxOwlNjCpqCr/MyVhf/fAN4s2/Bs7/yi8HjFYlieEdIG
-         UEACLD8pm561k3XXomkJc076wHPcvscozsLRWh79zaE9YD+T/qqo3GspevZLv27AYF/J
-         uhJp7vGtEW2dsB4BJNLfcqSAfLKcxLPNMa11mQHq4UP1WFqe/9vYBatWV7ab5IlmceIn
-         tR1RL2zBsw8SC5elzIINCVzwws3JJehWbDEK9q7w105+wjjeQuh6MuXxkfh2kYaYbSCy
-         0vtsUdNXAV6LgMfI3DTX2PsBQYavJp+h03mQLc2l7nv3nLDZXlC6Fy2mKs4cMt3konbL
-         hGug==
-X-Forwarded-Encrypted: i=1; AJvYcCVpo9x+IOLv4FT1XnXDcYvjmJmmehItgKeJaq8EuqjkA9BCvqLcLj+dWYAxUfNuYVc4bnFYRZiaYbI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzO/Ep3qSwZRBVI/hjyGLPsy9YkqnC2RpwEI4PrtQVx3nMrvdnc
-	QAPhi4Mr17HjUfWrMvG6QCq+lfmvktgPvGLMXACZpzO0+EIcWZ0/lqBrlnUi4OOfV7GkoKIijeh
-	EuWWXckKJYi/LyorlPhaXs2T8v5tkH7klUCSfi7Nh1A==
-X-Gm-Gg: ATEYQzz52wtJ4RFhy2fIHgrb63tR9ujw4eHB72RT48T42jmcQfsiCZzuEP3Ok+0AxNO
-	Chm4AZONJWvZGcxx7grSKR1g+EvDfx9zM8MXSfdCU/U9PdGU5vLvL5zgBP/KUqF4/I8pOxXj4b8
-	Vgb30ktRoxo1zX5w4u4d1rSpau0+Wn12Vs6mwqTCQA2oTqhWX66p/9Rn7hgpNAhcS4X0nBpq3qo
-	sMwVKSsVb7+6nFJjtEKAZH1aDhG1NA79H/9j/wqyW5vOz9NLzOW8FS/XeHYLqszxVzvylTMHORQ
-	9UbKwElg6EliOT4m2OwtYTLIeXOgm2oz/m7Q4Pk=
-X-Received: by 2002:a53:ab0a:0:b0:64c:c1b6:714c with SMTP id
- 956f58d0204a3-64cc2379297mr8671268d50.70.1772464069335; Mon, 02 Mar 2026
- 07:07:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772464300; x=1773069100;
+        h=mime-version:user-agent:content-transfer-encoding:autocrypt
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fR0fvLxS9OT19o4gHC8nFDyqzxeV7tuHCO9Mj5KxIFo=;
+        b=CTezfxsZWsRP2HG9c1BuAxuKXHfFnhBmtaoQbmYpwFIULfdSj+DLJRe0pmW1TeuQ9Z
+         m1jMXKjfs8y3PF4mAYYjSPmstWkX2uabPUDqBaK/JvrI4vznLnvl30kTr3mQG4pN6G6R
+         Jcc2EOJT3XX0S8jTS/JUZs84uXUhDVzin/c61AlFg9n/0m27bMT+GGoThjH7gTdDKCd4
+         LvhyrgUYMmp005mRw510vqHJ4inhbshzYDzIghRhEIWkASpmd8tDROwX0sBYxN3B3HbV
+         sokYy3uIFS5vIGQbgV0UUbT76It5M3qpr2jAQroK+iJLVK4B3zGjXLpSi4Q+XDqbu6Pi
+         dXpA==
+X-Forwarded-Encrypted: i=1; AJvYcCX60u3UJHtub3bkMZG3j23MYkU9/kzFgZEFtusP4TzwaPV2GBr4sf/bEm3SlMkCB2m42f/RFWaZt5s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0L17yacAwlMRlsvIL0Hh9CKbh2h3NdHIswFgdiXqC9EA59Zv8
+	LAEJ50fwWMPOcxZ3ldMXvsjV6Twkex9v924Ol+vo/p1VkyJyp55me2HoSvbkLTiUM72AbN/xl1k
+	+g36f+9JS2pCcdd/9q44yaXdB9wyERyv+df3PJkRkVlJ26koBl78qROfmWmDEIw==
+X-Gm-Gg: ATEYQzxdQPgMqsM1TOvnuD0rc9szrKRJq5LTHfDTVYtg6tD2jdMrr9wy9HNKrEGen7Y
+	lkaPb5rrkEKw7ZNp4Qysk/oInHGUle1D/hKeX9h5dltLeu1pCZeYdnKfFZNNYtYA58Eb1/sPzRD
+	aaScL9u4Y8pSyc/07vXglXp9c8TB+NjfDoN+xvtbemQdA4YVVrh590/RE/20JNtUPmid2pEAggt
+	rNx3QVndT0FGU9OcZdvhAujGTvLpBCGmm4RdeqlM1xywwkbPdFI10ulEnlI2RlWMTed+2lkviEb
+	9iwtdFDXMD+rwguaivWkmX7oTNPIZJmfWKRA7EL5d6+lCOPxxQ231/4rn+utWOdYue1loV1UwXL
+	CrI42a0iFBsp4OmLadqdfhjEK9s1lezGP/1D+M+sOqtvJ70t87cRGU0poJDAvi9ic760bsnTQSV
+	yYvK2nd7ykIhmzrRA=
+X-Received: by 2002:a05:600c:c059:20b0:483:709e:f239 with SMTP id 5b1f17b1804b1-483c9beacf1mr153607085e9.22.1772464299858;
+        Mon, 02 Mar 2026 07:11:39 -0800 (PST)
+X-Received: by 2002:a05:600c:c059:20b0:483:709e:f239 with SMTP id 5b1f17b1804b1-483c9beacf1mr153606585e9.22.1772464299371;
+        Mon, 02 Mar 2026 07:11:39 -0800 (PST)
+Received: from gmonaco-thinkpadt14gen3.rmtit.csb (212-8-243-115.hosted-by-worldstream.net. [212.8.243.115])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b770c2sm281641905e9.10.2026.03.02.07.11.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 07:11:38 -0800 (PST)
+Message-ID: <4369c322cd0626844ace0f42c55ec2cd9890cda0.camel@redhat.com>
+Subject: Re: [PATCH v6 15/16] rv: Add deadline monitors
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: Juri Lelli <juri.lelli@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, Nam
+ Cao	 <namcao@linutronix.de>, Juri Lelli <jlelli@redhat.com>, Jonathan
+ Corbet	 <corbet@lwn.net>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Peter
+ Zijlstra	 <peterz@infradead.org>, Tomas Glozar <tglozar@redhat.com>, Clark
+ Williams	 <williams@redhat.com>, John Kacur <jkacur@redhat.com>
+Date: Mon, 02 Mar 2026 16:11:36 +0100
+In-Reply-To: <aaWgvBXaNg48qYRl@jlelli-thinkpadt14gen4.remote.csb>
+References: <20260225095122.80683-1-gmonaco@redhat.com>
+	 <20260225095122.80683-16-gmonaco@redhat.com>
+	 <aaWgvBXaNg48qYRl@jlelli-thinkpadt14gen4.remote.csb>
+Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
+ keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
+ 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0BrZXJuZWwub3JnPoiZBBMWCgBBFiEEysoR+AuB3R
+ Zwp6j270psSVh4TfIFAmjKX2MCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
+ Q70psSVh4TfIQuAD+JulczTN6l7oJjyroySU55Fbjdvo52xiYYlMjPG7dCTsBAMFI7dSL5zg98I+8
+ cXY1J7kyNsY6/dcipqBM4RMaxXsOtCRHYWJyaWVsZSBNb25hY28gPGdtb25hY29AcmVkaGF0LmNvb
+ T6InAQTFgoARAIbAwUJBaOagAULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBMrKEfgLgd0WcK
+ eo9u9KbElYeE3yBQJoymCyAhkBAAoJEO9KbElYeE3yjX4BAJ/ETNnlHn8OjZPT77xGmal9kbT1bC1
+ 7DfrYVISWV2Y1AP9HdAMhWNAvtCtN2S1beYjNybuK6IzWYcFfeOV+OBWRDQ==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
- <20260227-color-format-v9-2-658c3b9db7ef@collabora.com> <y5ybjitphwydvtcjdtrmpcx7t7hwevjszpktcnmyvjqkgzinmu@hoitkl7lghxh>
- <5081457.31r3eYUQgx@workhorse>
-In-Reply-To: <5081457.31r3eYUQgx@workhorse>
-From: Andri Yngvason <andri@yngvason.is>
-Date: Mon, 2 Mar 2026 15:07:12 +0000
-X-Gm-Features: AaiRm531VbuvPlDMvL8ehAEpeh4QP_0yXJbIL2OEHZWnP0es8QNn2W0TYwz5fEU
-Message-ID: <CAFNQBQymuv0roy_xupcgU1bHygfBeE3S1FepQYxpobLq8O0yEA@mail.gmail.com>
-Subject: Re: [PATCH v9 02/19] drm: Add new general DRM property "color format"
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	Werner Sembach <wse@tuxedocomputers.com>, Marius Vlad <marius.vlad@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Nicolas,
+On Mon, 2026-03-02 at 15:37 +0100, Juri Lelli wrote:
+> > +	if (!pid)
+> > +		*p =3D current;
+> > +	else {
+> > +		/*
+> > +		 * Required for find_task_by_vpid, make sure the caller
+> > doesn't
+> > +		 * need to get_task_struct().
+> > +		 */
+> > +		guard(rcu)();
+> > +		*p =3D find_task_by_vpid(pid);
+> > +		if (unlikely(!*p))
+> > +			return -EINVAL;
+> > +	}
+>=20
+> Not sure I get this comment. RCU is released when the function returns,
+> but then the task pointer is dereferenced by callers?
 
-Thanks for carrying this forward.
+The idea was that the caller should ensure there's no need to do
+get_task_struct() (which is fine within the syscall, I'm assuming).
 
-m=C3=A1n., 2. mar. 2026 kl. 12:36 skrifa=C3=B0i Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com>:
->
-> On Sunday, 1 March 2026 17:47:48 Central European Standard Time Dmitry Ba=
-ryshkov wrote:
-> > On Fri, Feb 27, 2026 at 08:20:07PM +0100, Nicolas Frattaroli wrote:
-> > > From: Andri Yngvason <andri@yngvason.is>
+But looking at it again, that's not even necessary as long as the caller lo=
+cked
+RCU, which they should do instead of guarding here.
 
-N.b. this patch was originally from Werner Sembach, but it has grown
-considerably since either of us touched it, so I think that
-Co-developed-by tags would be more appropriate here.
+So yeah, the comment is misleading and I should just do:
 
-Best regards,
-Andri
+  guard(rcu)();
+  extract_params(...);
+
+Thanks for the observation,
+Gabriele
+
