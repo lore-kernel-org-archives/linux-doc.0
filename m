@@ -1,119 +1,267 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256E2426ED8;
-	Mon,  2 Mar 2026 16:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD8EA423148;
+	Mon,  2 Mar 2026 17:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772469672; cv=none; b=fjhIxCShxGSXYokAImQ0qPpZc8POrGpdaYhKicedafcZFQNbukFEHuwpzcU+4CbNJSPTrvUDjokfNC8+YysPpICSieyJUlGMoyqkSv6+zp6wo/7RQEBw+2nJA29djIlBVK6pt/D+TyddbQnngvkwJw1q3S5xE30c/Dc5D/8gfDY=
+	t=1772471474; cv=none; b=DMF1YV70t8NQ0xiYaOclu4u4eH+THmcfTGIZAHHSrAaCLqa/gEhfiBN7iy/V7P31sTcqrrbN9HcmmbBC2I0SI7VOq2e1edewBtkRUf1Y5oOw4FbG+YnBNGkbjVhPXt1O9XPA2jGkrSWP1D+2LtNdNM45wYC02eyEKf9WUxKG1ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772469672; c=relaxed/simple;
-	bh=5Li4bPNf54tBE9w7pNezt1RbIizsyzOaZvi5OGnyIRY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Fje1wRFS8bXx0wFl6CpV3S97ekHRMy9V1zqAx2KdpM+WAhTYvzRXwTV+I6Dw29qhU4/w73pRu6AzEPORDFc+71MmfgoyP+RJyUAU6pIjHJMxMd4TeLk9qIO9SojMeQk3Slpg0Y7+HE9U4taKGMldsu3XY3MlVMnO8k8KoUqMww4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kDoqCOPE; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kDoqCOPE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE60DC2BCAF;
-	Mon,  2 Mar 2026 16:41:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772469672;
-	bh=5Li4bPNf54tBE9w7pNezt1RbIizsyzOaZvi5OGnyIRY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kDoqCOPEBP9CVRmG+uWmRhE2CnUEUUJGrD1kT7q0eOiEmgqr+iU4mRjNLpSdloSgi
-	 xDxprJ7zyGmLTTzaNSj0Od9exHRwwScrDsfZA7wQbIGsIqSRNmqbbv4y4K4NJN/BG1
-	 R77pH90i7g0lYkO0jaFhEvG0hYXHZazIZn67f80o3vdYtLD8xNIAhtg2GO5Gl1idtY
-	 m/WYYMaEErOlfRIz8gnyAuEhKv6NEWXz/S2p7z9KAxiY6eMCKdGMmgYHbGU1yFJRse
-	 TgNZg2gDxV7r+FKONY+mhE5Ag8uqGyXzqkcIikuSBfztozpdRay3nk25fmICEtaEHV
-	 8m+bSDr4Qi1PQ==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vx6KT-000000003Fh-3EF9;
-	Mon, 02 Mar 2026 17:41:09 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 16/18] docs: kdoc_re: Change NestedMath args replacement to \0
-Date: Mon,  2 Mar 2026 17:40:59 +0100
-Message-ID: <46e383118be9d9e432e3814fe819ebb12261d7b4.1772469446.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1772469446.git.mchehab+huawei@kernel.org>
-References: <cover.1772469446.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1772471474; c=relaxed/simple;
+	bh=OysS6MYWEkNU8zxLdG2eyvnoKelJ2DPhBSdDdfl7k54=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hW88BDAzivqOwdUb31d151Lb+dqbeogTqJH6s3i0QZIqH+cG/pv1kuP5wzkH83BKSDQvwpdj3PG1LWbInhDHTla0MuA7Zil/6RX75KC9OtXDz/AepcvUfmLZ+n6RgOxyKcwWM7kjjLjtuihOq13rMoSP0IKFzyc7f/pz/1JuJfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AD58014BF;
+	Mon,  2 Mar 2026 09:11:04 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7859C3F73B;
+	Mon,  2 Mar 2026 09:11:06 -0800 (PST)
+Message-ID: <3e26371d-21b5-435e-9f31-7187466c57a2@arm.com>
+Date: Mon, 2 Mar 2026 17:11:05 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 38/41] arm_mpam: Add workaround for T241-MPAM-4
+To: Fenghua Yu <fenghuay@nvidia.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com,
+ kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ zengheng4@huawei.com, linux-doc@vger.kernel.org,
+ Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+References: <20260224175720.2663924-1-ben.horgan@arm.com>
+ <20260224175720.2663924-39-ben.horgan@arm.com>
+ <7e496cb6-ab31-4a89-9630-0fa2e6b3607b@nvidia.com>
+From: Ben Horgan <ben.horgan@arm.com>
+Content-Language: en-US
+In-Reply-To: <7e496cb6-ab31-4a89-9630-0fa2e6b3607b@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Future patches will allow parsing each argument instead of the
-hole set. Prepare for it by changing the replace all args from
-\1 to \0.
+Hi Fenghua,
 
-No functional changes.
+On 3/1/26 17:28, Fenghua Yu wrote:
+> Hi, Ben,
+> 
+> On 2/24/26 09:57, Ben Horgan wrote:
+>> From: Shanker Donthineni <sdonthineni@nvidia.com>
+>>
+>> In the T241 implementation of memory-bandwidth partitioning, in the
+>> absence
+>> of contention for bandwidth, the minimum bandwidth setting can affect the
+>> amount of achieved bandwidth. Specifically, the achieved bandwidth in the
+>> absence of contention can settle to any value between the values of
+>> MPAMCFG_MBW_MIN and MPAMCFG_MBW_MAX.  Also, if MPAMCFG_MBW_MIN is set
+>> zero (below 0.78125%), once a core enters a throttled state, it will
+>> never
+>> leave that state.
+>>
+>> The first issue is not a concern if the MPAM software allows to program
+>> MPAMCFG_MBW_MIN through the sysfs interface. This patch ensures program
+>> MBW_MIN=1 (0.78125%) whenever MPAMCFG_MBW_MIN=0 is programmed.
+>>
+>> In the scenario where the resctrl doesn't support the MBW_MIN
+>> interface via
+>> sysfs, to achieve bandwidth closer to MBW_MAX in the absence of
+>> contention,
+>> software should configure a relatively narrow gap between MBW_MIN and
+>> MBW_MAX. The recommendation is to use a 5% gap to mitigate the problem.
+>>
+>> Clear the feature MBW_MIN feature from the class to ensure we don't
+>> accidentally change behaviour when resctrl adds support for a MBW_MIN
+>> interface.
+>>
+>> Tested-by: Gavin Shan <gshan@redhat.com>
+>> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+>> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+>> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
+>> Signed-off-by: James Morse <james.morse@arm.com>
+>> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> 
+> Reviewed-by: Fenghua Yu <fenghuay@nvidia.com>
+> 
+> This patch itself is good.
+> 
+> Please check the following comments.
+> 
+>> ---
+>> [ morse: Added as second quirk, adapted to use the new intermediate
+>> values
+>> in mpam_extend_config() ]
+>>
+>> Changes since rfc:
+>> MPAM_IIDR_NVIDIA_T421 -> MPAM_IIDR_NVIDIA_T241
+>> Handling when reset_mbw_min is set
+>>
+>> Changes since v3:
+>> Move the 5% gap policy back here
+>> Clear mbw_min feature in class
+>> ---
+>>   Documentation/arch/arm64/silicon-errata.rst |  2 +
+>>   drivers/resctrl/mpam_devices.c              | 50 +++++++++++++++++++--
+>>   drivers/resctrl/mpam_internal.h             |  1 +
+>>   3 files changed, 50 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/
+>> Documentation/arch/arm64/silicon-errata.rst
+>> index a65620f98e3a..a4b246655e37 100644
+>> --- a/Documentation/arch/arm64/silicon-errata.rst
+>> +++ b/Documentation/arch/arm64/silicon-errata.rst
+>> @@ -249,6 +249,8 @@ stable kernels.
+>>   +----------------+-----------------+-----------------
+>> +-----------------------------+
+>>   | NVIDIA         | T241 MPAM       | T241-MPAM-1     | N/
+>> A                         |
+>>   +----------------+-----------------+-----------------
+>> +-----------------------------+
+>> +| NVIDIA         | T241 MPAM       | T241-MPAM-4     | N/
+>> A                         |
+>> ++----------------+-----------------+-----------------
+>> +-----------------------------+
+>>   +----------------+-----------------+-----------------
+>> +-----------------------------+
+>>   | Freescale/NXP  | LS2080A/LS1043A | A-008585        |
+>> FSL_ERRATUM_A008585         |
+>>   +----------------+-----------------+-----------------
+>> +-----------------------------+
+>> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/
+>> mpam_devices.c
+>> index 08cb080592d9..8f44e9dee207 100644
+>> --- a/drivers/resctrl/mpam_devices.c
+>> +++ b/drivers/resctrl/mpam_devices.c
+>> @@ -679,6 +679,12 @@ static const struct mpam_quirk mpam_quirks[] = {
+>>       .iidr_mask  = MPAM_IIDR_MATCH_ONE,
+>>       .workaround = T241_SCRUB_SHADOW_REGS,
+>>       },
+>> +    {
+>> +    /* NVIDIA t241 erratum T241-MPAM-4 */
+>> +    .iidr       = MPAM_IIDR_NVIDIA_T241,
+>> +    .iidr_mask  = MPAM_IIDR_MATCH_ONE,
+>> +    .workaround = T241_FORCE_MBW_MIN_TO_ONE,
+>> +    },
+>>       { NULL } /* Sentinel */
+>>   };
+>>   @@ -1464,6 +1470,31 @@ static void
+>> mpam_quirk_post_config_change(struct mpam_msc_ris *ris, u16 partid,
+>>           mpam_apply_t241_erratum(ris, partid);
+>>   }
+>>   +static u16 mpam_wa_t241_force_mbw_min_to_one(struct mpam_props *props)
+>> +{
+>> +    u16 max_hw_value, min_hw_granule, res0_bits;
+>> +
+>> +    res0_bits = 16 - props->bwa_wd;
+>> +    max_hw_value = ((1 << props->bwa_wd) - 1) << res0_bits;
+>> +    min_hw_granule = ~max_hw_value;
+>> +
+>> +    return min_hw_granule + 1;
+>> +}
+>> +
+>> +static u16 mpam_wa_t241_calc_min_from_max(struct mpam_config *cfg)
+>> +{
+>> +    u16 val = 0;
+>> +
+>> +    if (mpam_has_feature(mpam_feat_mbw_max, cfg)) {
+> 
+> But the problem is mpam_feat_mbw_max feature is NOT set in cfg.
+> 
+>> +        u16 delta = ((5 * MPAMCFG_MBW_MAX_MAX) / 100) - 1;
+>> +
+>> +        if (cfg->mbw_max > delta)
+>> +            val = cfg->mbw_max - delta;
+>> +    }
+>> +
+>> +    return val;
+> 
+> So 0 is always returned.
+> 
+> The workaround will set mbw_min as 1% which is too small and will cause
+> performance degradation, e.g. about 20% degradation on some benchmarks.
+> 
+> This patch itself doesn't have any issue.
+> 
+> The issue is the mbw_max feature bit in cfg is not set.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
----
- tools/lib/python/kdoc/kdoc_parser.py | 2 +-
- tools/lib/python/kdoc/kdoc_re.py     | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+This is intended behaviour as the reset is done independently
+from the value set in the config. The value is there so that 
+resctrl can display the expected values.
 
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index 503a18212747..0f90c16cb51a 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -85,7 +85,7 @@ struct_nested_prefixes = [
-     (re.compile(r"__cond_acquires_shared\s*\("), ""),
-     (re.compile(r"__acquires_shared\s*\("), ""),
-     (re.compile(r"__releases_shared\s*\("), ""),
--    (re.compile(r'\bSTRUCT_GROUP\('), r'\1'),
-+    (re.compile(r'\bSTRUCT_GROUP\('), r'\0'),
- ]
+> This is a legacy issue, not introduced by this patch set.
+> > Here is a fix patch for the issue:
+> https://lore.kernel.org/lkml/20260301171829.1357886-1-
+> fenghuay@nvidia.com/T/#u
+
+I've commented on that patch. I think it's best to fix it in the context
+of the erratum.
+
+Does the below solve your performance problems?
+
+diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+index 236f78ab9163..60d3d3e2193f 100644
+--- a/drivers/resctrl/mpam_devices.c
++++ b/drivers/resctrl/mpam_devices.c
+@@ -1515,16 +1515,20 @@ static u16 mpam_wa_t241_force_mbw_min_to_one(struct mpam_props *props)
+        return min_hw_granule + 1;
+ }
  
- #
-diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
-index 00afa5bccd6d..ea4f6f3d9e42 100644
---- a/tools/lib/python/kdoc/kdoc_re.py
-+++ b/tools/lib/python/kdoc/kdoc_re.py
-@@ -188,7 +188,7 @@ class NestedMatch:
-     # except that the content inside the match group is delimiter-aligned.
-     #
-     # The content inside parentheses is converted into a single replace
--    # group (e.g. r`\1').
-+    # group (e.g. r`\0').
-     #
-     # It would be nice to change such definition to support multiple
-     # match groups, allowing a regex equivalent to:
-@@ -291,7 +291,7 @@ class NestedMatch:
+-static u16 mpam_wa_t241_calc_min_from_max(struct mpam_config *cfg)
++static u16 mpam_wa_t241_calc_min_from_max(struct mpam_props *props,
++                                         struct mpam_config *cfg)
+ {
+        u16 val = 0;
++       u16 max;
++       u16 delta = ((5 * MPAMCFG_MBW_MAX_MAX) / 100) - 1;
  
-         if the sub argument contains::
+-       if (mpam_has_feature(mpam_feat_mbw_max, cfg)) {
+-               u16 delta = ((5 * MPAMCFG_MBW_MAX_MAX) / 100) - 1;
++       if (mpam_has_feature(mpam_feat_mbw_max, cfg))
++               max = cfg->mbw_max;
++       else
++               max = GENMASK(15, 16 - cprops->bwa_wd);
  
--            r'\1'
-+            r'\0'
+-               if (cfg->mbw_max > delta)
+-                       val = cfg->mbw_max - delta;
+-       }
++       if (max > delta)
++               val = max - delta;
  
-         it will work just like re: it places there the matched paired data
-         with the delimiter stripped.
-@@ -310,9 +310,9 @@ class NestedMatch:
-             # Value, ignoring start/end delimiters
-             value = line[end:pos - 1]
+        return val;
+ }
+@@ -1577,9 +1581,8 @@ static void mpam_reprogram_ris_partid(struct mpam_msc_ris *ris, u16 partid,
+                if (mpam_has_quirk(T241_FORCE_MBW_MIN_TO_ONE, msc)) {
+                        u16 min = mpam_wa_t241_force_mbw_min_to_one(rprops);
  
--            # replaces \1 at the sub string, if \1 is used there
-+            # replaces \0 at the sub string, if \0 is used there
-             new_sub = sub
--            new_sub = new_sub.replace(r'\1', value)
-+            new_sub = new_sub.replace(r'\0', value)
+-                       val = mpam_wa_t241_calc_min_from_max(cfg);
+-                       if (val < min)
+-                               val = min;
++                       val = mpam_wa_t241_calc_min_from_max(rprops, cfg);
++                       val = max(val, min);
+                }
  
-             out += new_sub
- 
--- 
-2.52.0
+                mpam_write_partsel_reg(msc, MBW_MIN, val);
+
+> 
+> If the fix patch is good, could you please add it into the next version
+> of this series?
+> 
+> Thanks.
+> 
+> -Fenghua
+
+Thanks,
+
+Ben
 
