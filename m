@@ -1,160 +1,673 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E9C376BF1;
-	Mon,  2 Mar 2026 18:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772477987; cv=pass; b=D9PVoXZromv5iPmLSqFOocjSEz/UAtAMfb5pQjLi0gvEUa1f82DFCuLA7A/C2nxS/OQ9fzBGtwMyCCKAP+2xyfjSK33mFW4T1m0bsNWv+Z213kzQdi1LlM7CNEG2f230jS9+1xt0Wq3T5/nW0hz4c3+Uf5QxP+4fN5Mjaz8v9f4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772477987; c=relaxed/simple;
-	bh=A5QVI4sc3toPzsBJ0eGEdjAvm937Zw+ZKOz9Z1bfWys=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=utS0wAkYvZo3n4/Yh37CORoZkybvEGi4GFapltAuX18Wmr2PaXAODdCD7An5bi5afhrww7ZNMkV9hIibO2hdJV3CV4fzLD3xwbEnMGOs/zV/F0btTQTHSjzHRlfV2SuVfbeFQg6+T/6eEZ4/xP7dNWXNpSewB2JeT71ievWCudg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=FFSLnSat; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87781383C64
+	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 20:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772481641; cv=none; b=jCY0HzJiC3qaNhtilebbyZthJYINey5UE9SGqmVUaTtf06rD20ABH98uZc/glR7S0S6tWHNxacYbB0TxWszXeDEykbZEQnjbsWf1gUop5RAMCPUFimQJoyoxmqBwb1pf8nRWdZDkMWnF68DmauzWuCDBP/AC0QDfCjPPEQNLAT8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772481641; c=relaxed/simple;
+	bh=DRYU/jEIZN1nRuZDfr0jFycQnGb1UlKl30D1rwR+UG4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i/Dlywr7adKkRxrISAxPzXAzZg9qMh+NsbLxNtgLFW71HIHrme26kGiM4ji6S5p01PZ2J8NbuZx0Qr7zq5AGVBDkvyZ/tQlmlMJnRu274slS3lzJoYu0zwbvcpN1aSsjIBjRlZBh9TqcbkDmxWcIUrC6mynRmYr1JLHakRjrruU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DxZ4VuT8; arc=none smtp.client-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="FFSLnSat"
-ARC-Seal: i=1; a=rsa-sha256; t=1772477973; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=eaiAJK7NBboKKuN0DtvG+kkCaWfGG7qD0q+SN42lX/MlM4uEbzWqjQy4V4p/A1P2M8ME+0ZTW8y9C1H21JyKPY/P0l8/tIyfOSni6mwAXPA8D2C/ew4lbKRUE4Vv1yTY7I1+tneNxh8orHPMKWRPwUKyytYDY9JMx1VnbdJCOoU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772477973; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/BvEQBitzjedx/UMLrqh7LvNZcltcVro9BjyKn24tic=; 
-	b=fmxJkiADteJ9o8fcYJ3/gxy32GUShA5QRC5vzRFbYOn5hnj3aze52rl1SqjNZexqIwICNSzvcWn/rBETyh2u3Fj7KtYCF9NboI6psY5uMDfnY80QJSx6Z1zrNceJWQOHkzlVE5KTeiX/Jk2hi+GB6bOJWxVQEEkT33He4h9r9t8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772477973;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=/BvEQBitzjedx/UMLrqh7LvNZcltcVro9BjyKn24tic=;
-	b=FFSLnSatLUDtf3zAdZ1oTXigGelOFhP09EVndbNIBBavC1XNrL0EeTDP62xZO9pw
-	+dwSP7imHZwOi1Yf9QP8w4i6Swj3vhATUwVup3W6XrSxWe8iAxJDm9I9tpcpLIqUSyQ
-	FhkKzgwwHY9r78gajCXFyGD/uHl+waZscJ+AL90VBC0rNz4SGXXMDkmlSVJEq/gWxpn
-	OC8UyA944a9cVELcE2LTH/JYXjHphxoVv0emqlucUhFr8O7iQV4iUHwMbuHoTW01CoP
-	2e3yntSX9F2ao40ASwA0MkiPcFiyo9haD5bPt72x7zfctQIBLCQ+Z9v+2UOQg9vtul+
-	jxjHNWzWbQ==
-Received: by mx.zohomail.com with SMTPS id 1772477972008652.7818658540505;
-	Mon, 2 Mar 2026 10:59:32 -0800 (PST)
-From: Rong Zhang <i@rong.moe>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Rong Zhang <i@rong.moe>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH v2 8/8] ALSA: usb-audio: Apply linear volume quirk on MV-SILICON devices
-Date: Tue,  3 Mar 2026 02:58:59 +0800
-Message-ID: <20260302185900.427415-9-i@rong.moe>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260302185900.427415-1-i@rong.moe>
-References: <20260302185900.427415-1-i@rong.moe>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DxZ4VuT8"
+Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-1271195d2a7so701848c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 12:00:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772481638; x=1773086438; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=oxAuMSjrSkVlrHzmV/zXr2kJSp6K3vzj9w3ts098SFc=;
+        b=DxZ4VuT8F2qT8jcRNpBcwujG/OS0QV6wvDg4IxEnzkjr4PH/rY44+ZDX4ew2LqiLi2
+         SQVJ/UjUv+poHR7NF2xVIMriRqT7/q6bHZKnx38yToawIuQoaqvOnd4kl6tnkykBfbaD
+         IVJ8O4EHbXm5eWMTuWjjxCLVjK7EFkFViaEDeK37HvzixHKxWEaM1jlOOe1UOYFtMLgN
+         mzkZVSy4sgFFsscD51bEi4Qs/+RcMAvFUQZR+2Y8HfU7UB3ivkd5kGIVYRV49Nb8GJv/
+         pCEsYK5e1MXr+OEpJiuECB3/qEQgd/M7JRCuf8EtQCnDkf+ZXGKuuMGbl2+gQ5mKGQ85
+         ASzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772481638; x=1773086438;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oxAuMSjrSkVlrHzmV/zXr2kJSp6K3vzj9w3ts098SFc=;
+        b=U+D2xcmwREB1jyegsSOvfC7gEaZ6FkBdhvsdUkfjpHNi7/lb3ISkOZNsuS/I1rrUNU
+         +24xFV5h41wb5ECyNgA1kbzhXHzHD36uWIwy+8RuIyzA3OTFrJmo1GMgTqaoo670/O/j
+         +Tt1BqkJCDsQrwX6ZuJcmg9/Bw5vwwTGuFUp89u6w/Ay70hgoAlhldT0/d6kGm+jsz59
+         9V/DbtAj2wqwUUKjG92l0aRSpZ67wnTaAk/Ruj77dUQCMruHwejqfs5eCKijzFFEiQ41
+         imvdcakkKYmSMRKGDig2d30RZYR3lYJmSvqMPAsJIqNsSXp+M3fdvFeLmA7nM9JC9O14
+         4DEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMAPuYbFLFIJMuOG60SWPR2fkYIl65i11uHAERXD8E46jeMmlnzuA4ux35qSiq6cA9hALvEtsvpCY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnahGGJVXh/+SouOuwKMPjB6l8AXIG2shZnU2FY6w0NqcLZgol
+	poNG9z1Q/vuyp675bLSOIXeTVyvEBBnd9lEoiTbt2tcvb9j2As53YWX3
+X-Gm-Gg: ATEYQzzn/NP7clsD9/2GJYEP20DQ1idOavtnXeEf+RbWg5HwIPIXJ1NZemKkxSHC7AB
+	NZwvh4qMAglNAoCjSsTgHuWtRflDKjikPcLB+bRMzTjmnLZ981NJcAgyAQd3O4uMuood7J/9jBo
+	pu+eniA1RBSuqwIupD3aS0qxJkixrXkCcvW8SWMMpwVdZi1cWnRuWel7TabAdv4RbQCd96odO7s
+	LVKXhHjnap0JHF5v8W28pwGhmnaglwa49eHItrH5VKQ991iDJQj0XIukb/8YhwMGfXXD3PDlEdB
+	HpS+rB1nZeiOTt5t6CFhrO+PugGhSiEQnihNwUAFv1NSdAcpKHKOet2mw5dziYgXvIvdrzHV9Hk
+	l6mgKfRcikWgJlGuz3mDXGlnQEQnoGZ6eQD1o1cVSj/eM2YR+4bGjZpod9POzy3onttk6Unk4qH
+	sHCWBTLMYaQu1Dd4i6LdHQOvFsjisWhqnos3RizkHSrwFikeA/mAbIDLJiWviUTDJ8z65IbAyz
+X-Received: by 2002:a05:7300:8cac:b0:2ba:956e:d26a with SMTP id 5a478bee46e88-2bde1d6e182mr5761978eec.36.1772481637215;
+        Mon, 02 Mar 2026 12:00:37 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bdfed770d4sm5873036eec.17.2026.03.02.12.00.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Mar 2026 12:00:36 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <ca8ac0bb-c21a-406a-a1fe-9f5aaa0d94ee@roeck-us.net>
+Date: Mon, 2 Mar 2026 12:00:35 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] hwmon: Add LattePanda Sigma EC driver
+To: Mariano Abad <weimaraner@gmail.com>, linux-hwmon@vger.kernel.org
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260301023707.1184592-1-weimaraner@gmail.com>
+ <20260302183514.3021503-1-weimaraner@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260302183514.3021503-1-weimaraner@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-MV-SILICON is a SoC manufacturer producing multifunctional audio SoCs.
-Many devices built on top of their SDK share a common quirk that the
-Playback and Capture mixers use linear volume with val = 0/4096/1.
+On 3/2/26 10:35, Mariano Abad wrote:
+> The LattePanda Sigma is an x86 single-board computer made by DFRobot,
+> featuring an Intel Core i5-1340P and an ITE IT8613E Embedded Controller
+> that manages fan speed and thermal monitoring.
+> 
+> The BIOS declares the ACPI Embedded Controller (PNP0C09) with _STA
+> returning 0 and provides only stub ECRD/ECWT methods. Since the kernel's
+> ACPI EC subsystem never initializes, ec_read() is not available and
+> direct port I/O to the standard ACPI EC ports (0x62/0x66) is used. As
+> ACPI never accesses the EC, no ACPI Global Lock or namespace mutex is
+> required.
+> 
+> The driver exposes:
+>    - CPU fan speed (RPM, read-only)
+>    - Board temperature (unsigned 8-bit, degrees Celsius)
+>    - CPU proximity temperature (unsigned 8-bit, degrees Celsius)
+> 
+> DMI matching restricts the driver to verified LattePanda Sigma hardware
+> with BIOS version 5.27. A 'force' module parameter allows loading on
+> untested BIOS versions while still requiring vendor/product match.
+> 
+> The EC register map was discovered through firmware reverse engineering
+> and confirmed by physical testing.
+> 
+This should not be part of the commit message.
 
-The SDK seems to always report "MV-SILICON" for manufacturer string.
-Hence, match it so that we don't need to define quirk table entries
-separately for each devices. The "val = 0/4096/1" pattern is also
-checked against before applying the quirk, in order that the quirk won't
-accidentally break unseen variants.
+Couple of additional comments below. Most importantly, there needs to
+be some i/o address protection to help ensure that no other driver
+accesses to IO port range. Presumably the ec driver should bail out
+and not reserve the addresses for itself.
 
-Quirky device samples:
+Thanks,
+Guenter
 
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: G1
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+> Signed-off-by: Mariano Abad <weimaraner@gmail.com>
+> ---
+> Changes in v2:
+>   - Add entry to Documentation/hwmon/index.rst
+>   - Move reverse engineering notes and ACPI explanation from .rst
+>     into driver source comments
+>   - Restrict DMI match to BIOS version 5.27; add 'force' module
+>     parameter for untested versions
+>   - Document why no ACPI lock is needed: DSDT analysis shows _STA
+>     returns 0 and ECRD/ECWT are stubs, so firmware never accesses
+>     the EC ports
+>   - Remove driver mutex: the hwmon with_info API already serializes
+>     all sysfs callbacks
+>   - Keep udelay() for EC polling: usleep_range() was tested but
+>     caused EC protocol failures; approach matches the kernel ACPI
+>     EC driver (drivers/acpi/ec.c)
+>   - Clarify temperature values are unsigned 8-bit
+>   - Register platform driver before platform device
+>   - Link to v1: https://lore.kernel.org/linux-hwmon/20260301023707.1184592-1-weimaraner@gmail.com/
+>   Documentation/hwmon/index.rst               |   1 +
+>   Documentation/hwmon/lattepanda-sigma-ec.rst |  61 ++++
+>   MAINTAINERS                                 |   7 +
+>   drivers/hwmon/Kconfig                       |  17 +
+>   drivers/hwmon/Makefile                      |   1 +
+>   drivers/hwmon/lattepanda-sigma-ec.c         | 329 ++++++++++++++++++++
+>   6 files changed, 416 insertions(+)
+>   create mode 100644 Documentation/hwmon/lattepanda-sigma-ec.rst
+>   create mode 100644 drivers/hwmon/lattepanda-sigma-ec.c
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index d91dbb20c..dff283064 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -111,6 +111,7 @@ Hardware Monitoring Kernel Drivers
+>      kbatt
+>      kfan
+>      lan966x
+> +   lattepanda-sigma-ec
+>      lineage-pem
+>      lm25066
+>      lm63
+> diff --git a/Documentation/hwmon/lattepanda-sigma-ec.rst b/Documentation/hwmon/lattepanda-sigma-ec.rst
+> new file mode 100644
+> index 000000000..8a521ee1f
+> --- /dev/null
+> +++ b/Documentation/hwmon/lattepanda-sigma-ec.rst
+> @@ -0,0 +1,61 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver lattepanda-sigma-ec
+> +=================================
+> +
+> +Supported systems:
+> +
+> +  * LattePanda Sigma (Intel 13th Gen i5-1340P)
+> +
+> +    DMI vendor: LattePanda
+> +
+> +    DMI product: LattePanda Sigma
+> +
+> +    BIOS version: 5.27 (verified)
+> +
+> +    Datasheet: Not available (EC registers discovered empirically)
+> +
+> +Author: Mariano Abad <weimaraner@gmail.com>
+> +
+> +Description
+> +-----------
+> +
+> +This driver provides hardware monitoring for the LattePanda Sigma
+> +single-board computer made by DFRobot. The board uses an ITE IT8613E
+> +Embedded Controller to manage a CPU cooling fan and thermal sensors.
+> +
+> +The BIOS declares the ACPI Embedded Controller (``PNP0C09``) with
+> +``_STA`` returning 0, preventing the kernel's ACPI EC subsystem from
+> +initializing. This driver reads the EC directly via the standard ACPI
+> +EC I/O ports (``0x62`` data, ``0x66`` command/status).
+> +
+> +Sysfs attributes
+> +----------------
+> +
+> +======================= ===============================================
+> +``fan1_input``          Fan speed in RPM (EC registers 0x2E:0x2F,
+> +                        16-bit big-endian)
+> +``fan1_label``          "CPU Fan"
+> +``temp1_input``         Board/ambient temperature in millidegrees
+> +                        Celsius (EC register 0x60, unsigned)
+> +``temp1_label``         "Board Temp"
+> +``temp2_input``         CPU proximity temperature in millidegrees
+> +                        Celsius (EC register 0x70, unsigned)
+> +``temp2_label``         "CPU Temp"
+> +======================= ===============================================
+> +
+> +Module parameters
+> +-----------------
+> +
+> +``force`` (bool, default false)
+> +    Force loading on BIOS versions other than 5.27. The driver still
+> +    requires DMI vendor and product name matching.
+> +
+> +Known limitations
+> +-----------------
+> +
+> +* Fan speed control is not supported. The fan is always under EC
+> +  automatic control.
+> +* The EC register map was verified only on BIOS version 5.27.
+> +  Other versions may use different register offsets; use the ``force``
+> +  parameter at your own risk.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96e97d25e..7b0c5bb5d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14414,6 +14414,13 @@ F:	drivers/net/wan/framer/
+>   F:	drivers/pinctrl/pinctrl-pef2256.c
+>   F:	include/linux/framer/
+>   
+> +LATTEPANDA SIGMA EC HARDWARE MONITOR DRIVER
+> +M:	Mariano Abad <weimaraner@gmail.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/lattepanda-sigma-ec.rst
+> +F:	drivers/hwmon/lattepanda-sigma-ec.c
+> +
+>   LASI 53c700 driver for PARISC
+>   M:	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+>   L:	linux-scsi@vger.kernel.org
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 41c381764..f2e2ee96f 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -990,6 +990,23 @@ config SENSORS_LAN966X
+>   	  This driver can also be built as a module. If so, the module
+>   	  will be called lan966x-hwmon.
+>   
+> +config SENSORS_LATTEPANDA_SIGMA_EC
+> +	tristate "LattePanda Sigma EC hardware monitoring"
+> +	depends on X86
+> +	depends on DMI
+> +	depends on HAS_IOPORT
+> +	help
+> +	  If you say yes here you get support for the hardware monitoring
+> +	  features of the Embedded Controller on LattePanda Sigma
+> +	  single-board computers, including CPU fan speed (RPM) and
+> +	  board and CPU temperatures.
+> +
+> +	  The driver reads the EC directly via ACPI EC I/O ports and
+> +	  uses DMI matching to ensure it only loads on supported hardware.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called lattepanda-sigma-ec.
+> +
+>   config SENSORS_LENOVO_EC
+>           tristate "Sensor reader for Lenovo ThinkStations"
+>           depends on X86
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index eade8e3b1..0372fedbb 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -114,6 +114,7 @@ obj-$(CONFIG_SENSORS_K10TEMP)	+= k10temp.o
+>   obj-$(CONFIG_SENSORS_KBATT)	+= kbatt.o
+>   obj-$(CONFIG_SENSORS_KFAN)	+= kfan.o
+>   obj-$(CONFIG_SENSORS_LAN966X)	+= lan966x-hwmon.o
+> +obj-$(CONFIG_SENSORS_LATTEPANDA_SIGMA_EC) += lattepanda-sigma-ec.o
+>   obj-$(CONFIG_SENSORS_LENOVO_EC)	+= lenovo-ec-sensors.o
+>   obj-$(CONFIG_SENSORS_LINEAGE)	+= lineage-pem.o
+>   obj-$(CONFIG_SENSORS_LOCHNAGAR)	+= lochnagar-hwmon.o
+> diff --git a/drivers/hwmon/lattepanda-sigma-ec.c b/drivers/hwmon/lattepanda-sigma-ec.c
+> new file mode 100644
+> index 000000000..2ba51a20d
+> --- /dev/null
+> +++ b/drivers/hwmon/lattepanda-sigma-ec.c
+> @@ -0,0 +1,329 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Hardware monitoring driver for LattePanda Sigma EC.
+> + *
+> + * The LattePanda Sigma is an x86 SBC made by DFRobot with an ITE IT8613E
+> + * Embedded Controller that manages a CPU fan and thermal sensors.
+> + *
+> + * The BIOS declares the ACPI Embedded Controller (PNP0C09) with _STA
+> + * returning 0 and provides only stub ECRD/ECWT methods that return Zero
+> + * for all registers. Since the kernel's ACPI EC subsystem never initializes,
+> + * ec_read() is not available and direct port I/O to the standard ACPI EC
+> + * ports (0x62/0x66) is used instead.
+> + *
+> + * Because ACPI never initializes the EC, there is no concurrent firmware
+> + * access to these ports, and no ACPI Global Lock or namespace mutex is
+> + * required. The hwmon with_info API serializes all sysfs callbacks,
+> + * so no additional driver-level locking is needed.
+> + *
 
-  usb 7-1: New USB device found, idVendor=1235, idProduct=0003, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: mvsilicon B1 usb audio
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+If the io space is only used by this driver, it should be reserved,
+either with request_muxed_region() while in use or permanently with
+request_region() for both the command and data port to ensure that it
+is used exclusively by this driver.
 
-  usb 5-1.4: New USB device found, idVendor=8888, idProduct=1719, bcdDevice= 1.00
-  usb 5-1.4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 5-1.4: Product: HF310 USB Audio
-  usb 5-1.4: Manufacturer: MV-SILICON
-  usb 5-1.4: SerialNumber: 20190808
+> + * The EC register map was discovered by dumping all 256 registers,
+> + * identifying those that change in real-time, and validating by physically
+> + * stopping the fan and observing the RPM register drop to zero. The map
+> + * has been verified on BIOS version 5.27; other versions may differ.
+> + *
+> + * Copyright (c) 2026 Mariano Abad <weimaraner@gmail.com>
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/dmi.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +
+> +#define DRIVER_NAME	"lattepanda_sigma_ec"
+> +
+> +/* EC I/O ports (standard ACPI EC interface) */
+> +#define EC_DATA_PORT	0x62
+> +#define EC_CMD_PORT	0x66	/* also status port */
+> +
+> +/* EC commands */
+> +#define EC_CMD_READ	0x80
+> +
+> +/* EC status register bits */
+> +#define EC_STATUS_OBF	0x01	/* Output Buffer Full */
+> +#define EC_STATUS_IBF	0x02	/* Input Buffer Full */
+> +
+> +/* EC register offsets for LattePanda Sigma (BIOS 5.27) */
+> +#define EC_REG_FAN_RPM_HI	0x2E
+> +#define EC_REG_FAN_RPM_LO	0x2F
+> +#define EC_REG_TEMP_BOARD	0x60
+> +#define EC_REG_TEMP_CPU		0x70
+> +#define EC_REG_FAN_DUTY		0x93
+> +
+> +/*
+> + * EC polling uses udelay() because the EC typically responds within a
+> + * few microseconds. The kernel's own ACPI EC driver (drivers/acpi/ec.c)
+> + * likewise uses udelay() for busy-polling with a per-poll delay of 550us.
+> + *
+> + * usleep_range() was tested but caused EC protocol failures: the EC
+> + * clears its status flags within microseconds, and sleeping for 50-100us
+> + * between polls allowed the flags to transition past the expected state.
+> + *
+> + * The worst-case total busy-wait of 25ms covers EC recovery after errors.
+> + * In practice the EC responds within 10us so the loop exits immediately.
+> + */
+> +#define EC_TIMEOUT_US		25000
+> +#define EC_POLL_US		1
+> +
+> +static bool force;
+> +module_param(force, bool, 0444);
+> +MODULE_PARM_DESC(force,
+> +		 "Force loading on untested BIOS versions (default: false)");
+> +
+> +static struct platform_device *lps_ec_pdev;
+> +
+> +static int ec_wait_ibf_clear(void)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < EC_TIMEOUT_US; i++) {
+> +		if (!(inb(EC_CMD_PORT) & EC_STATUS_IBF))
+> +			return 0;
+> +		udelay(EC_POLL_US);
+> +	}
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +static int ec_wait_obf_set(void)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < EC_TIMEOUT_US; i++) {
+> +		if (inb(EC_CMD_PORT) & EC_STATUS_OBF)
+> +			return 0;
+> +		udelay(EC_POLL_US);
+> +	}
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +static int ec_read_reg(u8 reg, u8 *val)
+> +{
+> +	int ret;
+> +
+> +	ret = ec_wait_ibf_clear();
+> +	if (ret)
+> +		return ret;
+> +
+> +	outb(EC_CMD_READ, EC_CMD_PORT);
+> +
+> +	ret = ec_wait_ibf_clear();
+> +	if (ret)
+> +		return ret;
+> +
+> +	outb(reg, EC_DATA_PORT);
+> +
+> +	ret = ec_wait_obf_set();
+> +	if (ret)
+> +		return ret;
+> +
+> +	*val = inb(EC_DATA_PORT);
+> +	return 0;
+> +}
+> +
+> +/* Read a 16-bit big-endian value from two consecutive EC registers. */
+> +static int ec_read_reg16(u8 reg_hi, u8 reg_lo, u16 *val)
+> +{
+> +	int ret;
+> +	u8 hi, lo;
+> +
+> +	ret = ec_read_reg(reg_hi, &hi);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ec_read_reg(reg_lo, &lo);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*val = ((u16)hi << 8) | lo;
+> +	return 0;
+> +}
+> +
+> +static int
+> +lps_ec_read_string(struct device *dev,
+> +		   enum hwmon_sensor_types type,
+> +		   u32 attr, int channel,
+> +		   const char **str)
+> +{
+> +	switch (type) {
+> +	case hwmon_fan:
+> +		*str = "CPU Fan";
+> +		return 0;
+> +	case hwmon_temp:
+> +		*str = channel == 0 ? "Board Temp" : "CPU Temp";
+> +		return 0;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static umode_t
+> +lps_ec_is_visible(const void *drvdata,
+> +		  enum hwmon_sensor_types type,
+> +		  u32 attr, int channel)
+> +{
+> +	switch (type) {
+> +	case hwmon_fan:
+> +		if (attr == hwmon_fan_input || attr == hwmon_fan_label)
+> +			return 0444;
+> +		break;
+> +	case hwmon_temp:
+> +		if (attr == hwmon_temp_input || attr == hwmon_temp_label)
+> +			return 0444;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int
+> +lps_ec_read(struct device *dev,
+> +	    enum hwmon_sensor_types type,
+> +	    u32 attr, int channel, long *val)
+> +{
+> +	u16 rpm;
+> +	u8 v;
+> +	int ret;
+> +
+> +	switch (type) {
+> +	case hwmon_fan:
+> +		if (attr != hwmon_fan_input)
+> +			return -EOPNOTSUPP;
+> +		ret = ec_read_reg16(EC_REG_FAN_RPM_HI,
+> +				    EC_REG_FAN_RPM_LO, &rpm);
+> +		if (ret)
+> +			return ret;
+> +		*val = rpm;
+> +		return 0;
+> +
+> +	case hwmon_temp:
+> +		if (attr != hwmon_temp_input)
+> +			return -EOPNOTSUPP;
+> +		ret = ec_read_reg(channel == 0 ? EC_REG_TEMP_BOARD
+> +					       : EC_REG_TEMP_CPU,
+> +				  &v);
+> +		if (ret)
+> +			return ret;
+> +		/* EC reports unsigned 8-bit temperature in degrees Celsius */
+> +		*val = (unsigned long)v * 1000;
+> +		return 0;
+> +
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static const struct hwmon_channel_info * const lps_ec_info[] = {
+> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_LABEL),
+> +	HWMON_CHANNEL_INFO(temp,
+> +			   HWMON_T_INPUT | HWMON_T_LABEL,
+> +			   HWMON_T_INPUT | HWMON_T_LABEL),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_ops lps_ec_ops = {
+> +	.is_visible = lps_ec_is_visible,
+> +	.read = lps_ec_read,
+> +	.read_string = lps_ec_read_string,
+> +};
+> +
+> +static const struct hwmon_chip_info lps_ec_chip_info = {
+> +	.ops = &lps_ec_ops,
+> +	.info = lps_ec_info,
+> +};
+> +
+> +static int lps_ec_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct device *hwmon;
+> +	u8 test;
+> +	int ret;
+> +
+> +	/* Sanity check: verify EC is responsive */
+> +	ret = ec_read_reg(EC_REG_FAN_DUTY, &test);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				     "EC not responding on ports 0x%x/0x%x\n",
+> +				     EC_DATA_PORT, EC_CMD_PORT);
+> +
+> +	hwmon = devm_hwmon_device_register_with_info(dev, DRIVER_NAME, NULL,
+> +						     &lps_ec_chip_info, NULL);
+> +	if (IS_ERR(hwmon))
+> +		return dev_err_probe(dev, PTR_ERR(hwmon),
+> +				     "Failed to register hwmon device\n");
+> +
+> +	dev_info(dev, "EC hwmon registered (fan duty: %u%%)\n", test);
+> +	return 0;
+> +}
+> +
+> +/* DMI table with strict BIOS version match (override with force=1) */
+> +static const struct dmi_system_id lps_ec_dmi_table[] = {
+> +	{
+> +		.ident = "LattePanda Sigma",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LattePanda"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "LattePanda Sigma"),
+> +			DMI_MATCH(DMI_BIOS_VERSION, "5.27"),
+> +		},
+> +	},
+> +	{ }	/* terminator */
+> +};
+> +MODULE_DEVICE_TABLE(dmi, lps_ec_dmi_table);
+> +
+> +/* Loose table (vendor + product only) for use with force=1 */
+> +static const struct dmi_system_id lps_ec_dmi_table_force[] = {
+> +	{
+> +		.ident = "LattePanda Sigma",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LattePanda"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "LattePanda Sigma"),
+> +		},
+> +	},
+> +	{ }	/* terminator */
+> +};
+> +
+> +static struct platform_driver lps_ec_driver = {
+> +	.probe	= lps_ec_probe,
+> +	.driver	= {
+> +		.name = DRIVER_NAME,
+> +	},
+> +};
+> +
+> +static int __init lps_ec_init(void)
+> +{
+> +	int ret;
+> +
+> +	if (!dmi_check_system(lps_ec_dmi_table)) {
+> +		if (!force || !dmi_check_system(lps_ec_dmi_table_force))
+> +			return -ENODEV;
+> +		pr_warn("%s: BIOS version not verified, loading due to force=1\n",
+> +			DRIVER_NAME);
+> +	}
+> +
+> +	ret = platform_driver_register(&lps_ec_driver);
+> +	if (ret)
+> +		return ret;
+> +
+> +	lps_ec_pdev = platform_device_register_simple(DRIVER_NAME, -1,
+> +						       NULL, 0);
 
-  usb 7-1: New USB device found, idVendor=2717, idProduct=5086, bcdDevice= 1.00
-  usb 7-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 7-1: Product: Redmi 电脑音箱
-  usb 7-1: Manufacturer: MV-SILICON
-  usb 7-1: SerialNumber: 20190808
+CHECK: Alignment should match open parenthesis
+#605: FILE: drivers/hwmon/lattepanda-sigma-ec.c:309:
++	lps_ec_pdev = platform_device_register_simple(DRIVER_NAME, -1,
++						       NULL, 0);
 
-  usb 2-1.2: New USB device found, idVendor=3142, idProduct=a601, bcdDevice= 1.00
-  usb 2-1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-  usb 2-1.2: Product: fifine Microphone
-  usb 2-1.2: Manufacturer: MV-SILICON
-  usb 2-1.2: SerialNumber: 20190808
-  * https://forum.ubuntu-it.org/viewtopic.php?t=659345
-
-Signed-off-by: Rong Zhang <i@rong.moe>
----
- sound/usb/mixer_quirks.c | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/sound/usb/mixer_quirks.c b/sound/usb/mixer_quirks.c
-index 539044c0c6440..e97814dc90259 100644
---- a/sound/usb/mixer_quirks.c
-+++ b/sound/usb/mixer_quirks.c
-@@ -4588,6 +4588,24 @@ static void snd_dragonfly_quirk_db_scale(struct usb_mixer_interface *mixer,
- 	}
- }
- 
-+static void snd_usb_mv_silicon_quirks(struct usb_mixer_interface *mixer,
-+				      struct usb_mixer_elem_info *cval,
-+				      struct snd_kcontrol *kctl)
-+{
-+	if (cval->min == 0 && cval->max == 4096 && cval->res == 1) {
-+		/* The final effects will be printed later. */
-+		usb_audio_info(mixer->chip, "applying MV-SILICON quirks (0/4096/1 variant)\n");
-+
-+		/* Respect MIN_MUTE set by module parameters. */
-+		if (!(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE))
-+			mixer->chip->quirk_flags |= QUIRK_FLAG_MIXER_PLAYBACK_LINEAR_VOL;
-+		if (!(mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_CAPTURE_MIN_MUTE))
-+			mixer->chip->quirk_flags |= QUIRK_FLAG_MIXER_CAPTURE_LINEAR_VOL;
-+	} else {
-+		usb_audio_dbg(mixer->chip, "not applying MV-SILICON quirks on unknown variant");
-+	}
-+}
-+
- /*
-  * Some Plantronics headsets have control names that don't meet ALSA naming
-  * standards. This function fixes nonstandard source names. By the time
-@@ -4664,6 +4682,10 @@ void snd_usb_mixer_fu_apply_quirk(struct usb_mixer_interface *mixer,
- 		break;
- 	}
- 
-+	if (cval->control == UAC_FU_VOLUME &&
-+	    !strncmp(mixer->chip->card->longname, "MV-SILICON", 10))
-+		snd_usb_mv_silicon_quirks(mixer, cval, kctl);
-+
- 	/* lowest playback value is muted on some devices */
- 	if (mixer->chip->quirk_flags & QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE)
- 		if (strstr(kctl->id.name, "Playback")) {
--- 
-2.51.0
+> +	if (IS_ERR(lps_ec_pdev)) {
+> +		platform_driver_unregister(&lps_ec_driver);
+> +		return PTR_ERR(lps_ec_pdev);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void __exit lps_ec_exit(void)
+> +{
+> +	platform_device_unregister(lps_ec_pdev);
+> +	platform_driver_unregister(&lps_ec_driver);
+> +}
+> +
+> +module_init(lps_ec_init);
+> +module_exit(lps_ec_exit);
+> +
+> +MODULE_AUTHOR("Mariano Abad <weimaraner@gmail.com>");
+> +MODULE_DESCRIPTION("Hardware monitoring driver for LattePanda Sigma EC");
+> +MODULE_LICENSE("GPL");
 
