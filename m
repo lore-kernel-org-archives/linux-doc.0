@@ -1,117 +1,245 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9800383C68
-	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 09:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED1538CFEB
+	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 09:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772444660; cv=none; b=pE7lOrSbh/5Ova7ciYZjFOdb/RCWak1uIbUb1PaZVFMMyELgQBRseq4q269X4Ad5yArV2gmjnpcUSsO0X9HSsfSzT6/m2Krf83G4LvanpwL8wE0RsXOUEjWZZiq4g/yAgYAQFDCknFlNV7hPk5FIUtH4gRJ/pRqnxzTkR8dzkTQ=
+	t=1772445301; cv=none; b=lQ85LaNdzELpmwQt3rVVMDnVki9fVCkJ8u95Zjj+ykC7yn3cZyskPIQ9DyvyTrh4jsiLSrQGmlsCf3DodXWR+x03tNqJtdD7R+gRPbBNw8DTnqKUpq9mpyqwu5EaezghPduhoJ+tdYgotHPWKwqsWH1ev7LbSDIAjyl/qRrDH+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772444660; c=relaxed/simple;
-	bh=EdtrS3uxbW5G3jVfOkaPkh4ppghbeIrW97LweZBsfrU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cZX0hOg0NrzfxrwH8JjFQw49B2YJ9PkCikHcp5uOecztYfG+ro1Et2H2l4tsm2U4dMot0CvTeG+vlvZ0S1jvSzOk/cxV3HDuMkpk1cNM+oJ6l/I368NWCPuwDuzHE8+iC7ydIzuqQ+2eseHUeNkgL5oolVnylPOqvSp1XL38SCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=g26/D8Jr; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1772445301; c=relaxed/simple;
+	bh=in+cVyH68+i8C5JXpgBAsgJeCwZSzeTcViJ/Gms9VsU=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UQBG2Px4xDWNBRubysKLufWJxRmRGX0VBy4ECAuM4OuADVQIEQlH2MCO+TvLvbl4izt1mMeHpkaqKX+CjmUNQ2vriF0YkPmf3bRv8yn2/TD3wU37WliOQ6u337vByaTL4Za+hoNsBencH8t3tNVugdwJYrS7BPU8pSwXQgAdv+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OTNn5IZz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=vfcvPxRH; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IkrOd6Xa; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EHo9G4KX; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="g26/D8Jr"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4833115090dso43073255e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 01:44:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772444657; x=1773049457; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tdsnQzzh+Lt1pkN+nCw9kSvCEoqVVH6yGcbrKgciEAs=;
-        b=g26/D8JrTLqBOq3QvS83H/OXOOvyQ0pD8LUrvootV47cg41Do/SzN3FliMG8nhE4xV
-         FlO+RaB/bE07zF9Q/idTt5hcuGHO6xUtiNiQ6mX1vYFKRUXvVLUPnh8BSBkVXVhCZeWY
-         I5xYJsTXr8nO62C/nXP6qcONQzThRAZi4+Dp9+8iWDdFEZUSBugdX41qKKqIGFRjEnRo
-         HQ3PZRrmtqZdr1x0zSeeQYF0V/stEwfSAv347dxuv8EklNJAB2XnnhtU0SxRMPxtzIpC
-         YQwl7nOFmFlAflxkFH97EcparEMqew3GnnN2MvFUKwu09rmZJ5GWCI8e1HtloyXa4Frh
-         oEBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772444657; x=1773049457;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tdsnQzzh+Lt1pkN+nCw9kSvCEoqVVH6yGcbrKgciEAs=;
-        b=n4CODgiSKTdr8eDm/vOM/MSHBuKi9cEb19efSV1ryZ+uGyqecbMF2ORxy85oARrWv2
-         B3G2MhvIagtbQfHzkWPDeB+kMV2P8Q4PeyEVGhXlpHFxR9AvX7NitZM+kjeM6biCwsH4
-         kFM/5Plc7v2Dli4v8hopUkjlIxGN5IbWeGIchXzRZliR/B4NlYhZD4/apOTL0zp8p5f5
-         7k7sHDcpPzHi/v/wZZEVJewrn/13qiOeMkK8+xiJ81Ulxwsi0SKRhsQ0zA1HmOz2UefK
-         W4ujG85caDUmA8hhAh9SwL6ZMdsUYWMZi9tDW2beE2/xDTpAN4H3ECnLaEI2OvR4Bmc7
-         V2kQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX3WiZj2W2Itep/xKALxGafvXCNURi2Zt+5lE26/nT9/U55pBJZc8eK/OnfxVMVUDwQaX0dG63dNGw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNO0WYndKYF7v6DpjEecVwG87MZifDsoBG3+EMVHbgJ6elxWxG
-	aCO8CjeTFjtZ9PUUMKfWt3gEsxI1DxT3f1qeNLU9Ah6iKA8OF81oUvbegS0sMi5smj4=
-X-Gm-Gg: ATEYQzy0KKpTEBr/mxloTe2vjeaB2B4oIU+XAyZb9IXdx00+rJ9g3lkHF7h61sVeGXK
-	QhueAxecnqeCco9+rUsPJIXUoK3n4oYj4ip0cSgxYX5ruNHopisOW0es05+LPz9UCQXVK/OikZJ
-	EFuvdncUywRY0JnrlepPYLNgLD/4uJ4COLx2XOCVehzALNIafjeL+mr1NPwsatn+hb1p+qs1Nm7
-	sXzI6+6qm807GhYuFwcJliMJ5H3xWg1Uy3kOjUyudjKqJayGIND/jFw/uothzjKEegLnWdETu++
-	Kwl+BzTBsxW4PmULPAi9sEcc6qshJdJhHULeuFJG5hKp1BLjJlT76xzsntvRfaAthOZrU1iFutC
-	lrGRM+nRAXnZuGNyj8U9UOsyoJDpOOwXzy7nWdRIeDMnw4+peh1HolypXZGJEMDtSAaE+Ryrv5F
-	tkxyeHb4DQ4z2mDR6hq/RHb/MrEsk/684=
-X-Received: by 2002:a05:600c:198a:b0:482:ef72:5781 with SMTP id 5b1f17b1804b1-483c9bfa529mr178963245e9.25.1772444657057;
-        Mon, 02 Mar 2026 01:44:17 -0800 (PST)
-Received: from FV6GYCPJ69 ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb85c58sm127994325e9.9.2026.03.02.01.44.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 01:44:16 -0800 (PST)
-Date: Mon, 2 Mar 2026 10:44:14 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
-	pabeni@redhat.com, horms@kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, 
-	mbloch@nvidia.com, przemyslaw.kitszel@intel.com, mschmidt@redhat.com, 
-	andrew+netdev@lunn.ch, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, chuck.lever@oracle.com, matttbe@kernel.org, cjubran@nvidia.com, 
-	daniel.zahka@gmail.com, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2 06/10] devlink: add devlink_dev_driver_name()
- helper and use it in trace events
-Message-ID: <u46fbskiokav5y3mgleamlqoohpiyygnhgjyhxyouctwkfp6ig@tn53kspbmgbz>
-References: <20260225133422.290965-1-jiri@resnulli.us>
- <20260225133422.290965-7-jiri@resnulli.us>
- <20260228145805.758ff8c0@kernel.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OTNn5IZz";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="vfcvPxRH";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IkrOd6Xa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EHo9G4KX"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id EA3483F722;
+	Mon,  2 Mar 2026 09:54:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772445298; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qjdftTPhczKxNRlTBCZWRyTeKQciJuyo83fZNyI67ns=;
+	b=OTNn5IZzWCxDs8/5TBLKFuouV/WgKCu4woIPhDNtsSxBCbm1aeo3P1sY3tsKPYmuJQRPZv
+	gt2sZzcHDCXxm/A34ktlmsmH0w6laj/2yWl4rooZDtbHpe0O/8sscNzKeq1a9JaY4KdOG3
+	cy7XInt9sa0xLni/VyMKyVyUxWIb/hI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772445298;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qjdftTPhczKxNRlTBCZWRyTeKQciJuyo83fZNyI67ns=;
+	b=vfcvPxRHaTAL9Y/Sm+MSW9G49U1AMhQrOpiOrLjAMIKuStWRxZF4qyRatBy0ECNwdrxyPW
+	q/wwJe/s4E3J9XAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=IkrOd6Xa;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=EHo9G4KX
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772445297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qjdftTPhczKxNRlTBCZWRyTeKQciJuyo83fZNyI67ns=;
+	b=IkrOd6Xa0h1aculHrzGeUO4GpO9bPBPjUSbNiEqj0nIZ53Q0LbifR+G/T2Jx7V2MsiE1wt
+	9tveqa1JJzVtSZos26GCHEz5x7slL2CsV0cMePaeegrh/y2dsBy+IqebEADw0z1/LoCjxR
+	s1ciKGm6ueGlClegB4R/ZK1d1Snfm10=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772445297;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qjdftTPhczKxNRlTBCZWRyTeKQciJuyo83fZNyI67ns=;
+	b=EHo9G4KXB0K5kFGuWxb0P9/7C9tohmPUBmPtEg+Cg9walOi9ETCgeCextAvMwOB6ShWSuE
+	OcuvWe7n+5DpxgBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9E3CB3EA69;
+	Mon,  2 Mar 2026 09:54:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id /4tzJXFepWk8DQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Mar 2026 09:54:57 +0000
+Date: Mon, 02 Mar 2026 10:54:57 +0100
+Message-ID: <87ms0qmu8e.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rong Zhang <i@rong.moe>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Arun Raghavan <arunr@valvesoftware.com>,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>
+Subject: Re: [PATCH 4/9] ALSA: usb-audio: Support string-descriptor-based quirk table entry
+In-Reply-To: <20260301213726.428505-5-i@rong.moe>
+References: <20260301213726.428505-1-i@rong.moe>
+	<20260301213726.428505-5-i@rong.moe>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260228145805.758ff8c0@kernel.org>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.995];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: EA3483F722
 
-Sat, Feb 28, 2026 at 11:58:05PM +0100, kuba@kernel.org wrote:
->On Wed, 25 Feb 2026 14:34:18 +0100 Jiri Pirko wrote:
->> +const char *devlink_dev_driver_name(const struct devlink *devlink)
->> +{
->> +	struct device *dev = devlink->dev;
->> +
->> +	return dev ? dev->driver->name : NULL;
->> +}
->> +EXPORT_SYMBOL_GPL(devlink_dev_driver_name);
->
->You say we need this in prep for shared instances, which is fair, but
->shared instances should presumably share across the same driver, most
->of the time? So perhaps we should do a similar thing here as you did to
->the bus/dev name? Maybe when shared instance is allocated:
->
->	devlink->driver_name = kasprintf("%s+", dev->driver);
->
->And then:
->
->+const char *devlink_dev_driver_name(const struct devlink *devlink)
->+{
->+	struct device *dev = devlink->dev;
->+
->+	return dev ? dev->driver->name : devlink->driver_name;
->+}
->+EXPORT_SYMBOL_GPL(devlink_dev_driver_name);
->
->?
->
+On Sun, 01 Mar 2026 22:37:20 +0100,
+Rong Zhang wrote:
+> @@ -2558,14 +2585,69 @@ void snd_usb_apply_flag_dbg(const char *reason,
+>  	}
+>  }
+>  
+> +#define USB_STRING_SIZE 128
+> +
+> +static inline int snd_usb_get_strings(struct snd_usb_audio *chip,
+> +				      char *manufacturer, char *product)
+> +{
+> +	int ret;
+> +
+> +	if (manufacturer) {
+> +		ret = usb_string(chip->dev, chip->dev->descriptor.iManufacturer,
+> +				 manufacturer, USB_STRING_SIZE);
+> +		if (ret < 0) {
+> +			usb_audio_warn(chip, "failed to get manufacturer string: %d\n", ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	if (product) {
+> +		ret = usb_string(chip->dev, chip->dev->descriptor.iProduct,
+> +				 product, USB_STRING_SIZE);
+> +		if (ret < 0) {
+> +			usb_audio_warn(chip, "failed to get product string: %d\n", ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 1; /* ok */
+> +}
+> +
+>  void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
+>  {
+>  	const struct usb_audio_quirk_flags_table *p;
+> +	char manufacturer[USB_STRING_SIZE];
+> +	char product[USB_STRING_SIZE];
 
-Good idea. Will add is in some form.
+Keeping those a bit largish strings on the stack doesn't look good.
+Maybe better to do kalloc with __free(kfree).
+
+> +	int got_usb_strings = 0; /* <0: error, 0: pending, >0: ok */
+
+I think this global flag could go wrong since...
+
+>  	for (p = quirk_flags_table; p->id; p++) {
+>  		if (chip->usb_id == p->id ||
+>  		    (!USB_ID_PRODUCT(p->id) &&
+>  		     USB_ID_VENDOR(chip->usb_id) == USB_ID_VENDOR(p->id))) {
+> +			if (!p->usb_string_match)
+> +				goto apply; /* DEVICE_FLG or VENDOR_FLG */
+> +
+> +			/* DEVICE_STRING_FLG or VENDOR_STRING_FLG */
+> +			if (!got_usb_strings) {
+> +				got_usb_strings = snd_usb_get_strings(chip,
+> +					p->usb_string_match->manufacturer ? manufacturer : NULL,
+> +					p->usb_string_match->product ? product : NULL);
+
+... here you try to extract strings only once, but this retrieval
+depends on the current entry.  If the current entry has only
+manufacturer and the next entry has only product, it won't work.
+
+IMO, a simpler way would be something like:
+
+#define USB_STRING_SIZE 128
+
+static char *snd_usb_get_string(struct snd_usb_audio *chip, int id)
+{
+	char *buf = kmalloc(USB_STRING_SIZE, GFP_KERNEL);
+	int ret;
+
+	if (!buf)
+		return ERR_PTR(-ENOMEM);
+	ret = usb_string(chip->dev, id, buf, USB_STRING_SIZE);
+	if (ret < 0) {
+		usb_audio_warn(chip, "failed to get string for id%d: %d\n", ret);
+		kfree(buf);
+		return ERR_PTR(ret);
+	}
+	return buf;
+}
+
+void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
+{
+	....
+	char *manufacturer __free(kfree) = NULL;
+	char *product __free(kfree) = NULL;
+
+  	for (p = quirk_flags_table; p->id; p++) {
+		....
+		if (p->usb_string_match->manufacturer) {
+			if (!manufacturer)
+				manufaturer =
+					snd_usb_get_string(chip,
+						chip->dev->descriptor.iManufacturer);
+			if (!IS_ERR_OR_NULL(manufacturer) &&
+			    strcmp(p->usb_string_match->manufacturer, manufacturer))
+				continue;			
+		}
+		if (p->usb_string_match->product) {
+			if (!product)
+				product =
+					snd_usb_get_string(chip,
+						chip->dev->descriptor.iProduct);
+			if (!IS_ERR_OR_NULL(product) &&
+			    strcmp(p->usb_string_match->product, product))
+				continue;			
+		}
+
+
+thanks,
+
+Takashi
