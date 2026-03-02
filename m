@@ -1,252 +1,295 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33F13ACA40;
-	Mon,  2 Mar 2026 12:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772455575; cv=pass; b=kQVnCPMTbA2auALVDHZwvScjGHzkBw1lBki5GmvGwjMJF8bp4XBkJljBrccjSvidg9jFTVOLsxdV1MViax0uHtNRWkbGidws0N6N/J4zla3TA0dLxYBqjnnLN2e4JaBf0mcLZVhfm+ds041GXZ9Z6+E2HE2eEHtnVXwko2dsmYY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772455575; c=relaxed/simple;
-	bh=ZE17ze/s/Yeld6muL83mCYKdKCSxUF6xciwLjDiE69k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pUIkl+G84cSfxpyRnrUTeC8edGFdn8FnmM68AbJsPUJLk3G0ic+KquDwqzoKM+GVaIkKLQY8zm+e77r3zhaW1dhZOftnzgxV+XvJ3o06AVAbyKDIp/WYKmnXXnM0t7e/IhMXWkJO5axMimEJxgTFc4YOmsZBu2liYj+oVQlXi7c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=NklJGRmL; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93443B3C1A
+	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 12:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772456011; cv=none; b=US7uijujs9n3s7QUReFKRhwg9KRbVWCZLGufJ4Aly+qrG/vRoqrMSdMq95kDfqt2zDmTC2xiRkZ/OjpJgL9FlZHdGc/UmZ3GSqWgNBIeuvzo8FpoQZheP3SaYFgIDYHGBuRuJCgdIZ09g2F+weSbSgshcibTq1jh/xYWy/CqyCk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772456011; c=relaxed/simple;
+	bh=ohdjKdnP8ZPXMj1YCkAVhnMHLe7CBhSYrH7faW7VhfU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KYgJAvKVfJZjwjUF9AzB2XdCc/s+J+drHGCw84imaJCHGR+kIspXrpleKagPSjL5KwQG2J57K+p0NTd908UmlFNVyT+7/MwhYuB8mLQNM9YGJt8FwhB2SeNSivaY0dg9geeUqLbRsTbG/XaJTtpH4UaU5aRVeeCEXrBw9i/NoPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZTNXiZvr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Uy7Z53B7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S/Eydo6r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w9/VP/hN; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="NklJGRmL"
-ARC-Seal: i=1; a=rsa-sha256; t=1772455528; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=gfFgLK0NcN+DF027ztokmuJzLGgp/Kn1kKJQXerb1I9GNL7TP2viyfn7ZsNRBylkQp9ZArN5yoUDZfVQOnHcS1VKyjbKIm7l2ZUlnIeeG1TJTgHXFS5fWyJyERvIGWVbAurIivEeblG+hhFtl+csYmU0AdSVhboLMsxNpoMEsyo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772455528; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=FI4iBPbexT5/+OX3ab+TBF6Dku2WJR7GpM9DDHrwsPk=; 
-	b=A9R2BAzoJPj4uCGn9AR23la5ihbXVAeayO35kYB7Lj+Cz3KNcjeDodl1UTwoDH+AW3GSjW1QkNS1C1m02AjDdU3RwgkT9kG0X8KMdsUfhaRBbxAbhLFJHbtSylmO9zO0uGCDSrtzs488v983GA/u911rzbevHSGHSLIOiGjj4IE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772455527;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=FI4iBPbexT5/+OX3ab+TBF6Dku2WJR7GpM9DDHrwsPk=;
-	b=NklJGRmL7Ht1vVNs25ImFGldSXVhHZfLcvTkHo1UkVwxo+YmvptU5KSwoBLaKwcI
-	8F/C/rYOF7LL5uRL3SWft23e8XNCzhZJlF4aT9q/cjC4NR+INLbrCfP48F4ndn/KZ+9
-	c0F3vSfOqOkMW+KNDdJL7PAjYQ4ep4meusaEj670=
-Received: by mx.zohomail.com with SMTPS id 177245552678992.73586677524838;
-	Mon, 2 Mar 2026 04:45:26 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 03/19] drm/bridge: Act on the DRM color format property
-Date: Mon, 02 Mar 2026 13:45:18 +0100
-Message-ID: <2254957.irdbgypaU6@workhorse>
-In-Reply-To: <unfsi4t4t4wl74zudkq3oeiryvm2xgyiplugcaxhyvjmtn7s2l@72xhl5vrtyt3>
-References:
- <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
- <20260227-color-format-v9-3-658c3b9db7ef@collabora.com>
- <unfsi4t4t4wl74zudkq3oeiryvm2xgyiplugcaxhyvjmtn7s2l@72xhl5vrtyt3>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZTNXiZvr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Uy7Z53B7";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S/Eydo6r";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w9/VP/hN"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E463D3E73E;
+	Mon,  2 Mar 2026 12:53:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772456008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=P8wHGO3yDRyEUo1v/L1ei4WWHMaS2fiKVZ2XR7Sghoo=;
+	b=ZTNXiZvrWJgtiHsRl4m24DCiz6GfFzacXytkpOUOOPtdqNcoMHDfg3SOfjKMCyt7Jlw0YT
+	JxUrI2dOvvWTIkNrzVNSa0HCaZNBwK9kytQJuuhEDJHQ3WAe7qIzbI71NZZHI4QtT/d042
+	C8VqpPiiDmNRJepVUQQ1vJJ0c6AMCGI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772456008;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=P8wHGO3yDRyEUo1v/L1ei4WWHMaS2fiKVZ2XR7Sghoo=;
+	b=Uy7Z53B7IWEbVQGfcYxj5I0y/igiP/8TsjIcz+cBPGasVJNf4Z0D38p/2zALJ0HJ6cn4oG
+	3eV5Z2FdNs36fRBQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="S/Eydo6r";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="w9/VP/hN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772456007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=P8wHGO3yDRyEUo1v/L1ei4WWHMaS2fiKVZ2XR7Sghoo=;
+	b=S/Eydo6rDdg5CPO0lejPV6QPoQwpoxk8HV/82ggSUfUImowmFa68vCaAkr5KtirH03/CcV
+	vYgu14s8Axir2sIS2kQfmXGxcI/At6Q1rJb+NrsExj7zbnqAQQv1rdElEGwmbP0mSvJd3K
+	uA/ywMGNARgimEid6x/E7LpC3BUlsUY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772456007;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=P8wHGO3yDRyEUo1v/L1ei4WWHMaS2fiKVZ2XR7Sghoo=;
+	b=w9/VP/hNWd9ocqfQ5geuT28oexUQb6WH7SPZ78Bsd/2aIo+ZBHaLKWfZYvGROWG/R+JJ6f
+	hpIrWMwK9iwo2uBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E63793EA69;
+	Mon,  2 Mar 2026 12:53:26 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 9JAkNUaIpWlFUgAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Mon, 02 Mar 2026 12:53:26 +0000
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+To: netdev@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chia-yu.chang@nokia-bell-labs.com,
+	idosch@nvidia.com,
+	willemb@google.com,
+	dsahern@kernel.org,
+	kuniyu@google.com,
+	ncardwell@google.com,
+	skhan@linuxfoundation.org,
+	corbet@lwn.net,
+	horms@kernel.org,
+	pabeni@redhat.com,
+	kuba@kernel.org,
+	edumazet@google.com,
+	davem@davemloft.net,
+	Fernando Fernandez Mancera <fmancera@suse.de>
+Subject: [PATCH net-next v2] inet: add ip_local_port_step_width sysctl to improve port usage distribution
+Date: Mon,  2 Mar 2026 13:53:03 +0100
+Message-ID: <20260302125303.4553-1-fmancera@suse.de>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -3.01
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E463D3E73E
 
-On Sunday, 1 March 2026 17:56:08 Central European Standard Time Dmitry Baryshkov wrote:
-> On Fri, Feb 27, 2026 at 08:20:08PM +0100, Nicolas Frattaroli wrote:
-> > The new DRM color format property allows userspace to request a specific
-> > color format on a connector. In turn, this fills the connector state's
-> > color_format member to switch color formats.
-> > 
-> > Make drm_bridges consider the color_format set in the connector state
-> > during the atomic bridge check. For bridges that represent HDMI bridges,
-> > rely on whatever format the HDMI logic set. Reject any output bus
-> > formats that do not correspond to the requested color format.
-> > 
-> > Non-HDMI last bridges with DRM_CONNECTOR_COLOR_FORMAT_AUTO set will end
-> > up choosing the first output format that functions to make a whole
-> > recursive bridge chain format selection succeed.
-> > 
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > ---
-> >  drivers/gpu/drm/drm_bridge.c | 89 +++++++++++++++++++++++++++++++++++++++++++-
-> >  1 file changed, 88 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > index 6d8947419940..5938fba0a983 100644
-> > --- a/drivers/gpu/drm/drm_bridge.c
-> > +++ b/drivers/gpu/drm/drm_bridge.c
-> > @@ -1117,6 +1117,47 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
-> >  	return ret;
-> >  }
-> >  
-> > +static bool __pure bus_format_is_color_fmt(u32 bus_fmt, enum drm_connector_color_format fmt)
-> > +{
-> > +	if (fmt == DRM_CONNECTOR_COLOR_FORMAT_AUTO)
-> > +		return true;
-> > +
-> > +	switch (bus_fmt) {
-> > +	case MEDIA_BUS_FMT_FIXED:
-> > +		return true;
-> > +	case MEDIA_BUS_FMT_RGB888_1X24:
-> > +	case MEDIA_BUS_FMT_RGB101010_1X30:
-> > +	case MEDIA_BUS_FMT_RGB121212_1X36:
-> > +	case MEDIA_BUS_FMT_RGB161616_1X48:
-> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_RGB444;
-> > +	case MEDIA_BUS_FMT_YUV8_1X24:
-> > +	case MEDIA_BUS_FMT_YUV10_1X30:
-> > +	case MEDIA_BUS_FMT_YUV12_1X36:
-> > +	case MEDIA_BUS_FMT_YUV16_1X48:
-> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_YCBCR444;
-> > +	case MEDIA_BUS_FMT_UYVY8_1X16:
-> > +	case MEDIA_BUS_FMT_VYUY8_1X16:
-> > +	case MEDIA_BUS_FMT_YUYV8_1X16:
-> > +	case MEDIA_BUS_FMT_YVYU8_1X16:
-> > +	case MEDIA_BUS_FMT_UYVY10_1X20:
-> > +	case MEDIA_BUS_FMT_YUYV10_1X20:
-> > +	case MEDIA_BUS_FMT_VYUY10_1X20:
-> > +	case MEDIA_BUS_FMT_YVYU10_1X20:
-> > +	case MEDIA_BUS_FMT_UYVY12_1X24:
-> > +	case MEDIA_BUS_FMT_VYUY12_1X24:
-> > +	case MEDIA_BUS_FMT_YUYV12_1X24:
-> > +	case MEDIA_BUS_FMT_YVYU12_1X24:
-> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_YCBCR422;
-> > +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-> > +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-> > +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
-> > +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
-> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_YCBCR420;
-> > +	default:
-> > +		return false;
-> > +	}
-> > +}
-> > +
-> >  /*
-> >   * This function is called by &drm_atomic_bridge_chain_check() just before
-> >   * calling &drm_bridge_funcs.atomic_check() on all elements of the chain.
-> > @@ -1160,6 +1201,7 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
-> >  	struct drm_encoder *encoder = bridge->encoder;
-> >  	struct drm_bridge_state *last_bridge_state;
-> >  	unsigned int i, num_out_bus_fmts = 0;
-> > +	enum drm_connector_color_format fmt;
-> >  	u32 *out_bus_fmts;
-> >  	int ret = 0;
-> >  
-> > @@ -1201,13 +1243,58 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
-> >  			out_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
-> >  	}
-> >  
-> > +	/*
-> > +	 * On HDMI connectors, use the output format chosen by whatever does the
-> > +	 * HDMI logic. For everyone else, just trust that the bridge out_bus_fmts
-> > +	 * are sorted by preference for %DRM_CONNECTOR_COLOR_FORMAT_AUTO, as
-> > +	 * bus_format_is_color_fmt() always returns true for AUTO.
-> > +	 */
-> > +	if (last_bridge->ops & DRM_BRIDGE_OP_HDMI) {
-> 
-> This will break the logic if there is anything after the HDMI bridge.
-> For example, if the board has hdmi-connector (yep, it's a bridge without
-> DRM_BRIDGE_OP_HDMI, because HDMI connectors don't implement any of the
-> HDMI functionality), then the function will go to the second clause.
-> 
-> This probably needs to be moved to drm_bridge_connector. There is is
-> natural to check for bridge_connector->bridge_hdmi.
+With the current port selection algorithm, ports after a reserved port
+range or long time used port are used more often than others [1]. This
+causes an uneven port usage distribution. This combines with cloud
+environments blocking connections between the application server and the
+database server if there was a previous connection with the same source
+port, leading to connectivity problems between applications on cloud
+environments.
 
-A few questions:
-1. are all HDMI connectors drm_bridge_connectors? Or does the code need
-   to handle two HDMI cases?
-2. If by "This probably needs to be moved to drm_bridge_connector", do
-   you mean the entire recursive bus format selection, or just a check
-   for whether it's an HDMI connector that sets some flag on the
-   drm_bridge?
-3. I don't see any KUnit tests for drm_bridge_connector. Is adding those
-   part of the requirements for getting this upstreamed?
+The real issue here is that these firewalls cannot cope with
+standards-compliant port reuse. This is a workaround for such situations
+and an improvement on the distribution of ports selected.
 
-Kind regards,
-Nicolas Frattaroli
+The proposed solution is to implement a variant of RFC 6056 Algorithm 5.
+The step size is selected randomly on every connect() call ensuring it
+is a coprime with respect to the size of the range of ports we want to
+scan. This way, we can ensure that all ports within the range are
+scanned before returning an error. To enable this algorithm, the user
+must configure the new sysctl option "net.ipv4.ip_local_port_step_width".
 
-> 
-> > +		drm_dbg_kms(last_bridge->dev,
-> > +			    "HDMI bridge requests format %s\n",
-> > +			    drm_hdmi_connector_get_output_format_name(
-> > +				    conn_state->hdmi.output_format));
-> > +		switch (conn_state->hdmi.output_format) {
-> > +		case DRM_OUTPUT_COLOR_FORMAT_RGB444:
-> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_RGB444;
-> > +			break;
-> > +		case DRM_OUTPUT_COLOR_FORMAT_YCBCR444:
-> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_YCBCR444;
-> > +			break;
-> > +		case DRM_OUTPUT_COLOR_FORMAT_YCBCR422:
-> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_YCBCR422;
-> > +			break;
-> > +		case DRM_OUTPUT_COLOR_FORMAT_YCBCR420:
-> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_YCBCR420;
-> > +			break;
-> > +		default:
-> > +			ret = -EINVAL;
-> > +			goto out_free_bus_fmts;
-> > +		}
-> > +	} else {
-> > +		fmt = conn_state->color_format;
-> > +		drm_dbg_kms(last_bridge->dev, "Non-HDMI bridge requests format %d\n", fmt);
-> > +	}
-> > +
-> >  	for (i = 0; i < num_out_bus_fmts; i++) {
-> > +		if (!bus_format_is_color_fmt(out_bus_fmts[i], fmt)) {
-> > +			drm_dbg_kms(last_bridge->dev,
-> > +				    "Skipping bus format 0x%04x as it doesn't match format %d\n",
-> > +				    out_bus_fmts[i], fmt);
-> > +			ret = -ENOTSUPP;
-> > +			continue;
-> > +		}
-> >  		ret = select_bus_fmt_recursive(bridge, last_bridge, crtc_state,
-> >  					       conn_state, out_bus_fmts[i]);
-> > -		if (ret != -ENOTSUPP)
-> > +		if (ret != -ENOTSUPP) {
-> > +			drm_dbg_kms(last_bridge->dev,
-> > +				    "Found bridge chain ending with bus format 0x%04x\n",
-> > +				    out_bus_fmts[i]);
-> >  			break;
-> > +		}
-> >  	}
-> >  
-> > +out_free_bus_fmts:
-> >  	kfree(out_bus_fmts);
-> >  
-> >  	return ret;
-> > 
-> 
-> 
+In addition, on graphs generated we can observe that the distribution of
+source ports is more even with the proposed approach. [2]
 
+[1] https://0xffsoftware.com/port_graph_current_alg.html
 
+[2] https://0xffsoftware.com/port_graph_random_step_alg.html
 
+Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
+---
+v2: used step to calculate remaining as (remaining / step) and avoid
+calculating gcd when scan_step and range are both even
+---
+ Documentation/networking/ip-sysctl.rst        |  9 +++++++
+ .../net_cachelines/netns_ipv4_sysctl.rst      |  1 +
+ include/net/netns/ipv4.h                      |  1 +
+ net/ipv4/inet_hashtables.c                    | 25 ++++++++++++++++---
+ net/ipv4/sysctl_net_ipv4.c                    |  7 ++++++
+ 5 files changed, 40 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index 265158534cda..da29806700e9 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1630,6 +1630,15 @@ ip_local_reserved_ports - list of comma separated ranges
+ 
+ 	Default: Empty
+ 
++ip_local_port_step_width - INTEGER
++        Defines the numerical maximum increment between successive port
++        allocations within the ephemeral port range when an unavailable port is
++        reached. This can be used to mitigate accumulated nodes in port
++        distribution when reserved ports have been configured. Please note that
++        port collisions may be more frequent in a system with a very high load.
++
++        Default: 0 (disabled)
++
+ ip_unprivileged_port_start - INTEGER
+ 	This is a per-namespace sysctl.  It defines the first
+ 	unprivileged port in the network namespace.  Privileged ports
+diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+index beaf1880a19b..c0e194a6e4ee 100644
+--- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
++++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+@@ -47,6 +47,7 @@ u8                              sysctl_tcp_ecn
+ u8                              sysctl_tcp_ecn_fallback
+ u8                              sysctl_ip_default_ttl                                                                ip4_dst_hoplimit/ip_select_ttl
+ u8                              sysctl_ip_no_pmtu_disc
++u32                             sysctl_ip_local_port_step_width
+ u8                              sysctl_ip_fwd_use_pmtu                       read_mostly                             ip_dst_mtu_maybe_forward/ip_skb_dst_mtu
+ u8                              sysctl_ip_fwd_update_priority                                                        ip_forward
+ u8                              sysctl_ip_nonlocal_bind
+diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
+index 8e971c7bf164..fb7c2235af21 100644
+--- a/include/net/netns/ipv4.h
++++ b/include/net/netns/ipv4.h
+@@ -166,6 +166,7 @@ struct netns_ipv4 {
+ 	u8 sysctl_ip_autobind_reuse;
+ 	/* Shall we try to damage output packets if routing dev changes? */
+ 	u8 sysctl_ip_dynaddr;
++	u32 sysctl_ip_local_port_step_width;
+ #ifdef CONFIG_NET_L3_MASTER_DEV
+ 	u8 sysctl_raw_l3mdev_accept;
+ #endif
+diff --git a/net/ipv4/inet_hashtables.c b/net/ipv4/inet_hashtables.c
+index fca980772c81..27f29a9376ad 100644
+--- a/net/ipv4/inet_hashtables.c
++++ b/net/ipv4/inet_hashtables.c
+@@ -16,6 +16,7 @@
+ #include <linux/wait.h>
+ #include <linux/vmalloc.h>
+ #include <linux/memblock.h>
++#include <linux/gcd.h>
+ 
+ #include <net/addrconf.h>
+ #include <net/inet_connection_sock.h>
+@@ -1046,12 +1047,12 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
+ 	struct net *net = sock_net(sk);
+ 	struct inet_bind2_bucket *tb2;
+ 	struct inet_bind_bucket *tb;
++	int step, scan_step, l3mdev;
++	u32 index, max_rand_step;
+ 	bool tb_created = false;
+ 	u32 remaining, offset;
+ 	int ret, i, low, high;
+ 	bool local_ports;
+-	int step, l3mdev;
+-	u32 index;
+ 
+ 	if (port) {
+ 		local_bh_disable();
+@@ -1065,6 +1066,8 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
+ 
+ 	local_ports = inet_sk_get_local_port_range(sk, &low, &high);
+ 	step = local_ports ? 1 : 2;
++	scan_step = step;
++	max_rand_step = READ_ONCE(net->ipv4.sysctl_ip_local_port_step_width);
+ 
+ 	high++; /* [32768, 60999] -> [32768, 61000[ */
+ 	remaining = high - low;
+@@ -1083,9 +1086,25 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
+ 	 */
+ 	if (!local_ports)
+ 		offset &= ~1U;
++
++	if (max_rand_step && remaining > 1) {
++		u32 range = remaining / step;
++		u32 upper_bound = min(range, max_rand_step);
++
++		scan_step = get_random_u32_inclusive(1, upper_bound);
++		while (gcd(scan_step, range) != 1) {
++			scan_step++;
++			/* if both scan_step and range are even gcd won't be 1 */
++			if (!(scan_step & 1) && !(range & 1))
++				scan_step++;
++			if (unlikely(scan_step > upper_bound))
++				scan_step = 1;
++		}
++		scan_step *= step;
++	}
+ other_parity_scan:
+ 	port = low + offset;
+-	for (i = 0; i < remaining; i += step, port += step) {
++	for (i = 0; i < remaining; i += step, port += scan_step) {
+ 		if (unlikely(port >= high))
+ 			port -= remaining;
+ 		if (inet_is_local_reserved_port(net, port))
+diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+index 643763bc2142..c533374f656c 100644
+--- a/net/ipv4/sysctl_net_ipv4.c
++++ b/net/ipv4/sysctl_net_ipv4.c
+@@ -822,6 +822,13 @@ static struct ctl_table ipv4_net_table[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= ipv4_local_port_range,
+ 	},
++	{
++		.procname	= "ip_local_port_step_width",
++		.maxlen		= sizeof(u32),
++		.data		= &init_net.ipv4.sysctl_ip_local_port_step_width,
++		.mode		= 0644,
++		.proc_handler	= proc_douintvec,
++	},
+ 	{
+ 		.procname	= "ip_local_reserved_ports",
+ 		.data		= &init_net.ipv4.sysctl_local_reserved_ports,
+-- 
+2.53.0
 
