@@ -1,160 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.cock.li (unknown [37.120.193.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7171FC0FC;
-	Mon,  2 Mar 2026 18:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C61B30499A;
+	Mon,  2 Mar 2026 18:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.120.193.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772475340; cv=none; b=mfHnZ+WL2rqs4sip32b+rF4gr942Nz1mJ3wI9X+IBVqGKoUaQA/fty8u1VDwjDuCnp8fsWyd/vybZQzM2zVnP9Hpl48MqqYuvahcI8OpN1XvFazWnk52HipwNgaRvIqotlAffniqm53Dl6yjJbA6YLx5+JCK/6AALd3+GYkBaoc=
+	t=1772476046; cv=none; b=MrLY7QebeL/XyXu2aBKLfZMdKqVGmzXTsVm3LwGAj482oUklQEqc3hBwM1XDCkygnHhhwCPQnakQlx1SRSBonBXAMNLPsn1L0fWwi33mgDpubT9aPuBQo+Ywm5Zgp/cNan9GrfvhB2tLenodv33CL8rd6pFYlrrUsbKRS1aGNDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772475340; c=relaxed/simple;
-	bh=n0j3s+Jv9EfYcZg7WCG66qjQA0IbWq3aYDUwX+zmmpY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mrTSeXW90PGEGjv12kjr/8jDZiojtMyrJTcc3ePsj69vMpZIet1+tRrJcvpHUZTgtewuwtxYSJP3ds9LZxcugxB+LF1BKG+pl9ZBTmyQAbn/6Es5hU7ywkKeLzku1yTLG1lNkt0zfHu4uHJ+LOSvnHdlSfuLNe+ZR/Zz3N6QMtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mfs6dP63; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772476046; c=relaxed/simple;
+	bh=IUrib7DNdywGKcEMO1D/SXe1yLasGi+DhvXteZsGrZ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=izRS4jS+gm6R/TntoC3v2tpIgx1ZEDXO59iOcXrOFgXUlG9yqDbbgpK7QweztFQEJLqmPKQb5qcSwTaNEvefuvPjla5pMkn7TmAH6rVVc1avlLWYoeImfGw6hAi+ip6XaDRX8QT1SycyFsPkE9K24o4xI1CVKRHUJNTXjzmeANk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc; spf=pass smtp.mailfrom=airmail.cc; dkim=pass (2048-bit key) header.d=airmail.cc header.i=@airmail.cc header.b=BrJ+jOFR; arc=none smtp.client-ip=37.120.193.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airmail.cc
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mfs6dP63"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8BDC19423;
-	Mon,  2 Mar 2026 18:15:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772475339;
-	bh=n0j3s+Jv9EfYcZg7WCG66qjQA0IbWq3aYDUwX+zmmpY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Mfs6dP63MQRqvFkP3VWM9bMGpb4DOCqjTpPenI6LAdbuNLXyunRWwgwj5wbvOR/FH
-	 ovy6+HXn2OLIIzdtg/qtNWlDBgguf9wveNIe3TtO2X7lQR8gOMeJ4NsH7fZBtqJyxx
-	 X8Q4z2sEt0gcEcNsSIO8prhFGAbnxmVyt+EJL9gRjlCrTPODa+YzT6AP1O8sf2dmyB
-	 WnUHc3d+4RDH+r6dTp17LHlRiaKQ9Moh8L/0SqZdat1T4YmNAa+B6sTYYQHRniEFxf
-	 Ks515h9ZCAxjHNLS90nUZ9eetOskJcrIu1Zjsk8Amd+WrhpAUrJCQWBfaxhYB/brbG
-	 YuR6o6KJQuAnA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1vx7ns-0000000FMBu-3kY4;
-	Mon, 02 Mar 2026 18:15:37 +0000
-Date: Mon, 02 Mar 2026 18:15:36 +0000
-Message-ID: <86jyvu85dj.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Ben Horgan <ben.horgan@arm.com>
-Cc: amitsinght@marvell.com,
-	baisheng.gao@unisoc.com,
-	baolin.wang@linux.alibaba.com,
-	carl@os.amperecomputing.com,
-	dave.martin@arm.com,
-	david@kernel.org,
-	dfustini@baylibre.com,
-	fenghuay@nvidia.com,
-	gshan@redhat.com,
-	james.morse@arm.com,
-	jonathan.cameron@huawei.com,
-	kobak@nvidia.com,
-	lcherian@marvell.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	peternewman@google.com,
-	punit.agrawal@oss.qualcomm.com,
-	quic_jiles@quicinc.com,
-	reinette.chatre@intel.com,
-	rohit.mathew@arm.com,
-	scott@os.amperecomputing.com,
-	sdonthineni@nvidia.com,
-	tan.shaopeng@fujitsu.com,
-	xhao@linux.alibaba.com,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	corbet@lwn.net,
-	oupton@kernel.org,
-	joey.gouly@arm.com,
-	suzuki.poulose@arm.com,
-	kvmarm@lists.linux.dev,
-	zengheng4@huawei.com,
+	dkim=pass (2048-bit key) header.d=airmail.cc header.i=@airmail.cc header.b="BrJ+jOFR"
+From: Manuel Ebner <manuelebner@airmail.cc>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=airmail.cc; s=mail;
+	t=1772476039; bh=IUrib7DNdywGKcEMO1D/SXe1yLasGi+DhvXteZsGrZ8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=BrJ+jOFRDJ7j7AJvqZEzd+amo0I3QCM5z0GdzVhNUGJpAE3UD4XxGZdLQD89VPq2t
+	 EolU0IVUVNUXxm3dIJvIXR8saHzgPhZZZc+QCZKIZ1zCKmCExxzgoFSWN32tiy0JFq
+	 HQoT6wL0N1H3qTK7BaxtVAkHrPr4bvK0Ht3b1FaiIWHa1rl6Ub8jtrmYpkWpGbWSS1
+	 iXT6Nt2M6sScB3domZUOKeQ/Zz/IjSfC1qWQIkIRR0iKW/b2SyiBY/AIdZ5/J5pJ+9
+	 m7VQUu2X2GrwKMlregcvHuDjwx5+qwg7CXAe+zmo93n0OQ2nvNIMqxqnvWz1BhwwbR
+	 jtjsuGo2imMoA==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Collin Funk <collin.funk1@gmail.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: workflows@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-Subject: Re: [PATCH v5 12/41] KVM: arm64: Use kernel-space partid configuration for hypercalls
-In-Reply-To: <20260224175720.2663924-13-ben.horgan@arm.com>
-References: <20260224175720.2663924-1-ben.horgan@arm.com>
-	<20260224175720.2663924-13-ben.horgan@arm.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	linux-kernel@vger.kernel.org,
+	Manuel Ebner <manuelebner@airmail.cc>
+Subject: [PATCH v3 1/2] workflow: process/changes.rst: sort and cleanup list
+Date: Mon,  2 Mar 2026 19:26:31 +0100
+Message-ID: <20260302182629.87194-3-manuelebner@airmail.cc>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260302182405.86829-2-manuelebner@airmail.cc>
+References: <20260302182405.86829-2-manuelebner@airmail.cc>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: ben.horgan@arm.com, amitsinght@marvell.com, baisheng.gao@unisoc.com, baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com, dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com, fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, peternewman@google.com, punit.agrawal@oss.qualcomm.com, quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com, scott@os.amperecomputing.com, sdonthineni@nvidia.com, tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev, zengheng4@huawei.com, linux-doc@vger.kernel.org, tan.shaopeng@jp.fujitsu.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 24 Feb 2026 17:56:51 +0000,
-Ben Horgan <ben.horgan@arm.com> wrote:
-> 
-> On nVHE systems whether or not MPAM is enabled, EL2 continues to use
-> partid-0 for hypercalls, even when the host may have configured its kernel
-> threads to use a different partid. 0 may have been assigned to another
-> task. Copy the EL1 MPAM register to EL2. This ensures hypercalls use the
-> same partid as the kernel thread does on the host.
-> 
-> Tested-by: Gavin Shan <gshan@redhat.com>
-> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-> Tested-by: Peter Newman <peternewman@google.com>
-> Tested-by: Zeng Heng <zengheng4@huawei.com>
-> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
-> ---
-> Changes since v2:
-> Use mask
-> Use read_sysreg_el1 to cope with hvhe
-> 
-> Changes since v3:
-> Set MPAM2_EL2.MPAMEN to 1 as we rely on that before and after
-> ---
->  arch/arm64/kvm/hyp/nvhe/hyp-main.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-> index e7790097db93..80e71eeddc03 100644
-> --- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-> +++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
-> @@ -638,6 +638,15 @@ static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
->  	unsigned long hcall_min = 0;
->  	hcall_t hfn;
->  
-> +	if (system_supports_mpam()) {
-> +		u64 mask = MPAM1_EL1_PARTID_D | MPAM1_EL1_PARTID_I |
-> +			MPAM1_EL1_PMG_D | MPAM1_EL1_PMG_I;
-> +		u64 val = MPAM2_EL2_MPAMEN | (read_sysreg_el1(SYS_MPAM1) & mask);
-> +
-> +		write_sysreg_s(val, SYS_MPAM2_EL2);
-> +		isb();
-> +	}
-> +
->  	/*
->  	 * If pKVM has been initialised then reject any calls to the
->  	 * early "privileged" hypercalls. Note that we cannot reject
+It is a pain in the ass to compare the software versions on the running
+system with the minimal required versions (process/changes.rst).
+Sorting both lists the same way makes side-by-side comparisons a simple task.
 
-It is extremely debatable whether this is desirable:
+add gdb version 7.2 as mentioned in:
+ Documentation/process/debugging/gdb-kernel-debugging.rst
+ scripts/gdb/vmlinux-gdb.py
 
-- pKVM really shouldn't be influenced by what the host does, which
-  means reserving PARTIDs and indirecting what the host sees. This can
-  be deferred until pKVM is actually useful upstream.
+sort table of required software versions alphabetically
+add reference to scripts/ver_linux
+needn't -> do not need to
 
-- repeatedly hammering that register plus an ISB on the hot path of a
-  hypercall is a sure way to make things worse than they should be,
-  and that should be fixed now.
+Signed-off-by: Manuel Ebner <manuelebner@airmail.cc>
+---
+ Documentation/process/changes.rst | 54 ++++++++++++++++---------------
+ 1 file changed, 28 insertions(+), 26 deletions(-)
 
-Do you really expect the EL1 settings to change on a regular basis? If
-so, I'd rather you use a specific host hypercall, or even a trap to
-propagate the EL1 configuration. If not, just set it as part of the
-KVM init and be done with it.
-
-Thanks,
-
-	M.
-
+diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
+index 6b373e193548..41c97163e67e 100644
+--- a/Documentation/process/changes.rst
++++ b/Documentation/process/changes.rst
+@@ -24,45 +24,47 @@ running, the suggested command should tell you.
+ Again, keep in mind that this list assumes you are already functionally
+ running a Linux kernel.  Also, not all tools are necessary on all
+ systems; obviously, if you don't have any PC Card hardware, for example,
+-you probably needn't concern yourself with pcmciautils.
++you probably do not need to concern yourself with pcmciautils. For a list of the
++programs on your system including their version execute ./scripts/ver_linux
+ 
+ ====================== ===============  ========================================
+         Program        Minimal version       Command to check the version
+ ====================== ===============  ========================================
+-GNU C                  8.1              gcc --version
+-Clang/LLVM (optional)  15.0.0           clang --version
+-Rust (optional)        1.78.0           rustc --version
+-bindgen (optional)     0.65.1           bindgen --version
+-GNU make               4.0              make --version
+ bash                   4.2              bash --version
++bc                     1.06.95          bc --version
++bindgen (optional)     0.65.1           bindgen --version
+ binutils               2.30             ld -v
+-flex                   2.5.35           flex --version
+ bison                  2.0              bison --version
+-pahole                 1.22             pahole --version
+-util-linux             2.10o            mount --version
+-kmod                   13               depmod -V
++btrfs-progs            0.18             btrfs --version
++Clang/LLVM (optional)  15.0.0           clang --version
+ e2fsprogs              1.41.4           e2fsck -V
++flex                   2.5.35           flex --version
++gdb                    7.2              gdb --version
++GNU AWK (optional)     5.1.0            gawk --version
++GNU C                  8.1              gcc --version
++GNU make               4.0              make --version
++GNU tar                1.28             tar --version
++grub                   0.93             grub --version || grub-install --version
++gtags (optional)       6.6.5            gtags --version
++iptables               1.4.2            iptables -V
+ jfsutils               1.1.3            fsck.jfs -V
+-xfsprogs               2.6.0            xfs_db -V
+-squashfs-tools         4.0              mksquashfs -version
+-btrfs-progs            0.18             btrfs --version
++kmod                   13               depmod -V
++mcelog                 0.6              mcelog --version
++mkimage (optional)     2017.01          mkimage --version
++nfs-utils              1.0.5            showmount --version
++openssl & libcrypto    1.0.0            openssl version
++pahole                 1.22             pahole --version
+ pcmciautils            004              pccardctl -V
+-quota-tools            3.09             quota -V
+ PPP                    2.4.0            pppd --version
+-nfs-utils              1.0.5            showmount --version
+ procps                 3.2.0            ps --version
+-udev                   081              udevd --version
+-grub                   0.93             grub --version || grub-install --version
+-mcelog                 0.6              mcelog --version
+-iptables               1.4.2            iptables -V
+-openssl & libcrypto    1.0.0            openssl version
+-bc                     1.06.95          bc --version
+-Sphinx\ [#f1]_         3.4.3            sphinx-build --version
+-GNU tar                1.28             tar --version
+-gtags (optional)       6.6.5            gtags --version
+-mkimage (optional)     2017.01          mkimage --version
+ Python                 3.9.x            python3 --version
+-GNU AWK (optional)     5.1.0            gawk --version
++quota-tools            3.09             quota -V
++Rust (optional)        1.78.0           rustc --version
++Sphinx\ [#f1]_         3.4.3            sphinx-build --version
++squashfs-tools         4.0              mksquashfs -version
++udev                   081              udevadm --version
++util-linux             2.10o            mount --version
++xfsprogs               2.6.0            xfs_db -V
+ ====================== ===============  ========================================
+ 
+ .. [#f1] Sphinx is needed only to build the Kernel documentation
 -- 
-Without deviation from the norm, progress is not possible.
+2.53.0
+
