@@ -1,295 +1,191 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93443B3C1A
-	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 12:53:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772456011; cv=none; b=US7uijujs9n3s7QUReFKRhwg9KRbVWCZLGufJ4Aly+qrG/vRoqrMSdMq95kDfqt2zDmTC2xiRkZ/OjpJgL9FlZHdGc/UmZ3GSqWgNBIeuvzo8FpoQZheP3SaYFgIDYHGBuRuJCgdIZ09g2F+weSbSgshcibTq1jh/xYWy/CqyCk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772456011; c=relaxed/simple;
-	bh=ohdjKdnP8ZPXMj1YCkAVhnMHLe7CBhSYrH7faW7VhfU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KYgJAvKVfJZjwjUF9AzB2XdCc/s+J+drHGCw84imaJCHGR+kIspXrpleKagPSjL5KwQG2J57K+p0NTd908UmlFNVyT+7/MwhYuB8mLQNM9YGJt8FwhB2SeNSivaY0dg9geeUqLbRsTbG/XaJTtpH4UaU5aRVeeCEXrBw9i/NoPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=ZTNXiZvr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Uy7Z53B7; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S/Eydo6r; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=w9/VP/hN; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F87B3B3C08;
+	Mon,  2 Mar 2026 12:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772456077; cv=pass; b=NJW0CD7HXA9r51AbKBJpLLns+5yELURFvkSQA84nnxyuSbOGuA7C0513J6Jmus2MnAc8MPXuBAOf/wASI6la8NA/KFnkDS+nLto1yn9rNqu+Cic5jSN7UXRZmmrj7qctjrTJJkJOKdjog1Y5kmul3t4nBRpgou6HaQpMaiWD3+Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772456077; c=relaxed/simple;
+	bh=g4AFlY96iT5YpD5k2j20smDNy4coPan7tsQ6Tmq5UK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CgWRAHSi5hC/Oak3ftbzXP7skzv+cMY/gm+AQmy5mkBXwiJvwU8OoAVMdlcQo5p2qdQGaUgNxu5sfX+e3ffWtBFpN+N0Qzk2uZLkt/TsMPG1njTfYsb/l5XoXVHavb39t82sLTkcqrV6TcQ2wEQUMHX74WwofUFWsH8y+j5xYx0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=czCH1Pwn; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ZTNXiZvr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Uy7Z53B7";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="S/Eydo6r";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="w9/VP/hN"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E463D3E73E;
-	Mon,  2 Mar 2026 12:53:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772456008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=P8wHGO3yDRyEUo1v/L1ei4WWHMaS2fiKVZ2XR7Sghoo=;
-	b=ZTNXiZvrWJgtiHsRl4m24DCiz6GfFzacXytkpOUOOPtdqNcoMHDfg3SOfjKMCyt7Jlw0YT
-	JxUrI2dOvvWTIkNrzVNSa0HCaZNBwK9kytQJuuhEDJHQ3WAe7qIzbI71NZZHI4QtT/d042
-	C8VqpPiiDmNRJepVUQQ1vJJ0c6AMCGI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772456008;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=P8wHGO3yDRyEUo1v/L1ei4WWHMaS2fiKVZ2XR7Sghoo=;
-	b=Uy7Z53B7IWEbVQGfcYxj5I0y/igiP/8TsjIcz+cBPGasVJNf4Z0D38p/2zALJ0HJ6cn4oG
-	3eV5Z2FdNs36fRBQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="S/Eydo6r";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="w9/VP/hN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772456007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=P8wHGO3yDRyEUo1v/L1ei4WWHMaS2fiKVZ2XR7Sghoo=;
-	b=S/Eydo6rDdg5CPO0lejPV6QPoQwpoxk8HV/82ggSUfUImowmFa68vCaAkr5KtirH03/CcV
-	vYgu14s8Axir2sIS2kQfmXGxcI/At6Q1rJb+NrsExj7zbnqAQQv1rdElEGwmbP0mSvJd3K
-	uA/ywMGNARgimEid6x/E7LpC3BUlsUY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772456007;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=P8wHGO3yDRyEUo1v/L1ei4WWHMaS2fiKVZ2XR7Sghoo=;
-	b=w9/VP/hNWd9ocqfQ5geuT28oexUQb6WH7SPZ78Bsd/2aIo+ZBHaLKWfZYvGROWG/R+JJ6f
-	hpIrWMwK9iwo2uBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E63793EA69;
-	Mon,  2 Mar 2026 12:53:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 9JAkNUaIpWlFUgAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Mon, 02 Mar 2026 12:53:26 +0000
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-To: netdev@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chia-yu.chang@nokia-bell-labs.com,
-	idosch@nvidia.com,
-	willemb@google.com,
-	dsahern@kernel.org,
-	kuniyu@google.com,
-	ncardwell@google.com,
-	skhan@linuxfoundation.org,
-	corbet@lwn.net,
-	horms@kernel.org,
-	pabeni@redhat.com,
-	kuba@kernel.org,
-	edumazet@google.com,
-	davem@davemloft.net,
-	Fernando Fernandez Mancera <fmancera@suse.de>
-Subject: [PATCH net-next v2] inet: add ip_local_port_step_width sysctl to improve port usage distribution
-Date: Mon,  2 Mar 2026 13:53:03 +0100
-Message-ID: <20260302125303.4553-1-fmancera@suse.de>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="czCH1Pwn"
+ARC-Seal: i=1; a=rsa-sha256; t=1772456025; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GMp6+xRMNwgsTM8iGKy0G8y6GkFeXPgakJzLr4g7v95spFf1QZd6gihYWQLeJL3rhTD72V5ksZSGquVESfiNqgKeGzY50/q6h8v1bi60drZGMwODJVl5oWq2gscFuxM8XEzd0q5iQhjpvN7xPzvuZds5ioTLzjp+OL7gf+moM5U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772456025; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=lPQKUxtVjexxEX4A7XuYCfJhBt0aFJEhGTj3wOuGAak=; 
+	b=A8n4m9TSHOWSTtoNn2W97tLnoFen+A2T+MHjlMc1Fy2Osrzwbvz5wXokklGhxewaXenze4bkNrKTYl8owJrBUJ5XF9C1NhbLaSeq6TvYARrjCjqRSAlPfwuHpfzYaBKPOAlJuENarffaJUdtReMw0Vc+oQzIvMJ9+Pn+0UGA/IA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772456025;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=lPQKUxtVjexxEX4A7XuYCfJhBt0aFJEhGTj3wOuGAak=;
+	b=czCH1PwnW/CNSDoAUO7w4zjpsIwnu75I4YmbkTsbzGgEvfX7ryNg9YU9rmvgEoUo
+	y3p5/qdnQXH9dJ1dsu7mEMvGlvt+UzU3mJRc0wVN7PDPDV0PuEoHXkeE5lIglxjq8Ht
+	E9oAQ8KmXt0DU/LN72eVoyq0jW1mxhcUOCti0jF4=
+Received: by mx.zohomail.com with SMTPS id 1772456023924351.0985024371805;
+	Mon, 2 Mar 2026 04:53:43 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Subject:
+ Re: [PATCH v9 04/19] drm/display: hdmi-state-helper: Act on color format DRM
+ property
+Date: Mon, 02 Mar 2026 13:53:34 +0100
+Message-ID: <8648916.T7Z3S40VBb@workhorse>
+In-Reply-To: <20260302-literate-shrew-of-health-ec19d2@houat>
+References:
+ <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
+ <20260227-color-format-v9-4-658c3b9db7ef@collabora.com>
+ <20260302-literate-shrew-of-health-ec19d2@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim,suse.de:email];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_TLS_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: E463D3E73E
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-With the current port selection algorithm, ports after a reserved port
-range or long time used port are used more often than others [1]. This
-causes an uneven port usage distribution. This combines with cloud
-environments blocking connections between the application server and the
-database server if there was a previous connection with the same source
-port, leading to connectivity problems between applications on cloud
-environments.
+On Monday, 2 March 2026 09:46:06 Central European Standard Time Maxime Ripard wrote:
+> Hi,
+> 
+> On Fri, Feb 27, 2026 at 08:20:09PM +0100, Nicolas Frattaroli wrote:
+> > With the introduction of the "color format" DRM property, which allows
+> > userspace to request a specific color format, the HDMI state helper
+> > should implement this.
+> > 
+> > Implement it by translating the requested drm_connector_color_format to
+> > a drm_output_color_format enum value as per the logic HDMI should use
+> > for this: Auto is translated to RGB, and a fallback to YUV420 is only
+> > performed if the original color format was auto.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 28 +++++++++++++++++++++++--
+> >  1 file changed, 26 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> > index 9f3b696aceeb..31c6d55fa995 100644
+> > --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+> > @@ -669,10 +669,34 @@ hdmi_compute_config(const struct drm_connector *connector,
+> >  	unsigned int max_bpc = clamp_t(unsigned int,
+> >  				       conn_state->max_bpc,
+> >  				       8, connector->max_bpc);
+> > +	enum drm_output_color_format fmt;
+> >  	int ret;
+> >  
+> > -	ret = hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
+> > -				      DRM_OUTPUT_COLOR_FORMAT_RGB444);
+> > +	switch (conn_state->color_format) {
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
+> > +		fmt = DRM_OUTPUT_COLOR_FORMAT_RGB444;
+> > +		break;
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
+> > +		fmt = DRM_OUTPUT_COLOR_FORMAT_YCBCR444;
+> > +		break;
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR422:
+> > +		fmt = DRM_OUTPUT_COLOR_FORMAT_YCBCR422;
+> > +		break;
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
+> > +		fmt = DRM_OUTPUT_COLOR_FORMAT_YCBCR420;
+> > +		break;
+> > +	default:
+> > +		drm_dbg_kms(connector->dev, "HDMI does not support color format '%d'.\n",
+> > +			    conn_state->color_format);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	ret = hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc, fmt);
+> > +
+> > +	if (conn_state->color_format != DRM_CONNECTOR_COLOR_FORMAT_AUTO)
+> > +		return ret;
+> > +
+> 
+> We discussed it before, and it wasn't as trivial as it should have been,
+> but now, I really feel something like the following would be simpler:
+> 
+> if (conn_state->color_format != DRM_CONNECTOR_COLOR_FORMAT_AUTO) {
+> 	enum drm_output_color_format fmt;
+> 
+> 	switch (conn_state->color_format) {
+> 	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
+> 	     drm_warn(connector->dev, "The format shouldn't be auto here"); // or any better message
+> 	     fallthrough;
 
-The real issue here is that these firewalls cannot cope with
-standards-compliant port reuse. This is a workaround for such situations
-and an improvement on the distribution of ports selected.
+Why shouldn't it be auto there? This is the function where the auto->rgb
+mapping is explicitly handled.
 
-The proposed solution is to implement a variant of RFC 6056 Algorithm 5.
-The step size is selected randomly on every connect() call ensuring it
-is a coprime with respect to the size of the range of ports we want to
-scan. This way, we can ensure that all ports within the range are
-scanned before returning an error. To enable this algorithm, the user
-must configure the new sysctl option "net.ipv4.ip_local_port_step_width".
+> 	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
+> 	     fmt = DRM_OUTPUT_COLOR_FORMAT_RGB444;
+> 	     break;
+> 	....
+> 	}
+> 
+> 	return hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc, fmt);
+> }
+> 
+> ret = hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
+> 			      DRM_OUTPUT_COLOR_FORMAT_RGB444);
+> 
+> It makes it much clearer what the two branches are, and we don't have to
+> test for auto multiple times.
 
-In addition, on graphs generated we can observe that the distribution of
-source ports is more even with the proposed approach. [2]
+Testing for auto multiple times is done for the "4:2:0 fallback on
+AUTO only" case. If you fall through from AUTO to RGB and then return
+the result of hdmi_compute_format_bpc on RGB, then you will not let
+AUTO fall back to 4:2:0. hdmi_compute_format_bpc only does a fallback
+for lower bit depths, not different color formats.
 
-[1] https://0xffsoftware.com/port_graph_current_alg.html
+As far as I can tell, you're requesting a change of behaviour here that
+would require me to adjust the behaviour of every single other HDMI
+implementation and modify all the tests that you already gave a reviewed-by,
+so I assume this wasn't the intent?
 
-[2] https://0xffsoftware.com/port_graph_random_step_alg.html
+Kind regards,
+Nicolas Frattaroli
 
-Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
----
-v2: used step to calculate remaining as (remaining / step) and avoid
-calculating gcd when scan_step and range are both even
----
- Documentation/networking/ip-sysctl.rst        |  9 +++++++
- .../net_cachelines/netns_ipv4_sysctl.rst      |  1 +
- include/net/netns/ipv4.h                      |  1 +
- net/ipv4/inet_hashtables.c                    | 25 ++++++++++++++++---
- net/ipv4/sysctl_net_ipv4.c                    |  7 ++++++
- 5 files changed, 40 insertions(+), 3 deletions(-)
+> 
+> Maxime
+> 
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 265158534cda..da29806700e9 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -1630,6 +1630,15 @@ ip_local_reserved_ports - list of comma separated ranges
- 
- 	Default: Empty
- 
-+ip_local_port_step_width - INTEGER
-+        Defines the numerical maximum increment between successive port
-+        allocations within the ephemeral port range when an unavailable port is
-+        reached. This can be used to mitigate accumulated nodes in port
-+        distribution when reserved ports have been configured. Please note that
-+        port collisions may be more frequent in a system with a very high load.
-+
-+        Default: 0 (disabled)
-+
- ip_unprivileged_port_start - INTEGER
- 	This is a per-namespace sysctl.  It defines the first
- 	unprivileged port in the network namespace.  Privileged ports
-diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-index beaf1880a19b..c0e194a6e4ee 100644
---- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-+++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-@@ -47,6 +47,7 @@ u8                              sysctl_tcp_ecn
- u8                              sysctl_tcp_ecn_fallback
- u8                              sysctl_ip_default_ttl                                                                ip4_dst_hoplimit/ip_select_ttl
- u8                              sysctl_ip_no_pmtu_disc
-+u32                             sysctl_ip_local_port_step_width
- u8                              sysctl_ip_fwd_use_pmtu                       read_mostly                             ip_dst_mtu_maybe_forward/ip_skb_dst_mtu
- u8                              sysctl_ip_fwd_update_priority                                                        ip_forward
- u8                              sysctl_ip_nonlocal_bind
-diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
-index 8e971c7bf164..fb7c2235af21 100644
---- a/include/net/netns/ipv4.h
-+++ b/include/net/netns/ipv4.h
-@@ -166,6 +166,7 @@ struct netns_ipv4 {
- 	u8 sysctl_ip_autobind_reuse;
- 	/* Shall we try to damage output packets if routing dev changes? */
- 	u8 sysctl_ip_dynaddr;
-+	u32 sysctl_ip_local_port_step_width;
- #ifdef CONFIG_NET_L3_MASTER_DEV
- 	u8 sysctl_raw_l3mdev_accept;
- #endif
-diff --git a/net/ipv4/inet_hashtables.c b/net/ipv4/inet_hashtables.c
-index fca980772c81..27f29a9376ad 100644
---- a/net/ipv4/inet_hashtables.c
-+++ b/net/ipv4/inet_hashtables.c
-@@ -16,6 +16,7 @@
- #include <linux/wait.h>
- #include <linux/vmalloc.h>
- #include <linux/memblock.h>
-+#include <linux/gcd.h>
- 
- #include <net/addrconf.h>
- #include <net/inet_connection_sock.h>
-@@ -1046,12 +1047,12 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
- 	struct net *net = sock_net(sk);
- 	struct inet_bind2_bucket *tb2;
- 	struct inet_bind_bucket *tb;
-+	int step, scan_step, l3mdev;
-+	u32 index, max_rand_step;
- 	bool tb_created = false;
- 	u32 remaining, offset;
- 	int ret, i, low, high;
- 	bool local_ports;
--	int step, l3mdev;
--	u32 index;
- 
- 	if (port) {
- 		local_bh_disable();
-@@ -1065,6 +1066,8 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
- 
- 	local_ports = inet_sk_get_local_port_range(sk, &low, &high);
- 	step = local_ports ? 1 : 2;
-+	scan_step = step;
-+	max_rand_step = READ_ONCE(net->ipv4.sysctl_ip_local_port_step_width);
- 
- 	high++; /* [32768, 60999] -> [32768, 61000[ */
- 	remaining = high - low;
-@@ -1083,9 +1086,25 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
- 	 */
- 	if (!local_ports)
- 		offset &= ~1U;
-+
-+	if (max_rand_step && remaining > 1) {
-+		u32 range = remaining / step;
-+		u32 upper_bound = min(range, max_rand_step);
-+
-+		scan_step = get_random_u32_inclusive(1, upper_bound);
-+		while (gcd(scan_step, range) != 1) {
-+			scan_step++;
-+			/* if both scan_step and range are even gcd won't be 1 */
-+			if (!(scan_step & 1) && !(range & 1))
-+				scan_step++;
-+			if (unlikely(scan_step > upper_bound))
-+				scan_step = 1;
-+		}
-+		scan_step *= step;
-+	}
- other_parity_scan:
- 	port = low + offset;
--	for (i = 0; i < remaining; i += step, port += step) {
-+	for (i = 0; i < remaining; i += step, port += scan_step) {
- 		if (unlikely(port >= high))
- 			port -= remaining;
- 		if (inet_is_local_reserved_port(net, port))
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index 643763bc2142..c533374f656c 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -822,6 +822,13 @@ static struct ctl_table ipv4_net_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= ipv4_local_port_range,
- 	},
-+	{
-+		.procname	= "ip_local_port_step_width",
-+		.maxlen		= sizeof(u32),
-+		.data		= &init_net.ipv4.sysctl_ip_local_port_step_width,
-+		.mode		= 0644,
-+		.proc_handler	= proc_douintvec,
-+	},
- 	{
- 		.procname	= "ip_local_reserved_ports",
- 		.data		= &init_net.ipv4.sysctl_local_reserved_ports,
--- 
-2.53.0
+
+
 
