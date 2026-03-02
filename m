@@ -1,141 +1,142 @@
-Received: from r-passerv.ralfj.de (r-passerv.ralfj.de [109.230.236.95])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC36C36C5AF;
-	Mon,  2 Mar 2026 12:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.230.236.95
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772454545; cv=none; b=MM5/XTLzZoy0EDYPUr4vIWFz2C5nghy2Q6ucAn+uOu+GwAqlRM1txuSm7JWabt5Lfaa1IBEzjFgnHI+WWO7DqjC+DEjhKzZ9yeaVInxLqflVNSDKS2f4PMefkIhd7dvzjTEHThiXPXSKwIqnf6deOnRS2/hxyn+f1ZL+Q0VyR48=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772454545; c=relaxed/simple;
-	bh=esTLKb+WUSLP+AsKnFLMgNAf+diFPkDDjV0Pd6WW1/0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ujkekJud9+Yjm8UPHZ/sMtmELOSWFjbiVcL2dar9MFEo8cYbZ3AkDDfQL4Ne0pIPspDEPAT+uixUw3y9ta0l63/3Cg2Op2L85yE3TeCOY+uuGm+eM4K2GPDQ0CCIaGsmJpa7B5uOSn+ExpTQhv5cmMc7pB6piVkBang5j23M1Cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ralfj.de; spf=pass smtp.mailfrom=ralfj.de; dkim=pass (1024-bit key) header.d=ralfj.de header.i=@ralfj.de header.b=BCOnjU22; arc=none smtp.client-ip=109.230.236.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ralfj.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ralfj.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA03536F41A;
+	Mon,  2 Mar 2026 12:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772454992; cv=pass; b=t46U8a+dHQwXrR8WKWTx6K6VQ2GaRG0DuCms/XkHZD0NU5PXNNCgO0QPrwn3aUt46kYfaqnIji5NJBqeNb4DrckVdUsF4YwTTSw/4c9swmT9+X+tJAjaRKCrYSb5V0RVdNTTHXJd9dCKIJaraerbM0fql3FMNOuG2x0C8VjE7os=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772454992; c=relaxed/simple;
+	bh=Nb0N2xb6ISesaRzRPry1Vsf4TBbNBm/ISxZYaLPdLuk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RI2GGIsZICZePy7uxf7DzajhLjVMpu0FQf4ccVLHbWIlFepV0NPNtMvyEifoIYliknR5Efv5arjiZc1qvG9MSAKVcGLb6/fp8v6M7yq8g+4jzt0/+EpnKSOKDhe2D4HXoaCTTxbymMS87GDU6mPt9v1SwIY63kH90oIagRsI32s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=B7iz3Bd6; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ralfj.de header.i=@ralfj.de header.b="BCOnjU22"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ralfj.de; s=mail;
-	t=1772454536; bh=esTLKb+WUSLP+AsKnFLMgNAf+diFPkDDjV0Pd6WW1/0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BCOnjU22b/jdLSEp9fI4ZXsYJIYsFRiLCHfZrQ7spHnfClt7sp1JELo970f4LgOol
-	 JnQ8VD6EkHCcT/ZDfQjEL+kWWTE8+JDW0z0DlBZeSA6YN15Jr7mj8S2uErEFix8yes
-	 juIvP/O56YjynhkqGGgznD9455bI65Gxauk+JHPQ=
-Received: from [IPV6:2001:67c:10ec:5784:8000::12e7] (2001-67c-10ec-5784-8000--12e7.net6.ethz.ch [IPv6:2001:67c:10ec:5784:8000::12e7])
-	by r-passerv.ralfj.de (Postfix) with ESMTPSA id 9A52A2053392;
-	Mon,  2 Mar 2026 13:28:55 +0100 (CET)
-Message-ID: <fa775d83-73ad-450d-a592-7a9d3a3e2271@ralfj.de>
-Date: Mon, 2 Mar 2026 13:28:50 +0100
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="B7iz3Bd6"
+ARC-Seal: i=1; a=rsa-sha256; t=1772454928; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=EdM6kuDOOrBMjnk82Ujo+bVjEAXNVDAZBqVU/C5AIUuCTCpiFxwCZcpe03EWauXknbjeD766XJC5tJXnzS73vS3HbLrIVgx4rI/i1umJU3RCWVf4cWtY31b9OEOnDlRP22zfC84VoMNE73XFwNmWC4jeftCBL06vVeerlFo1Mxg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772454928; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=3BG6NbMJZCakv4h2SAqH1WDhyhJOxLlkoG0+u/X9t+w=; 
+	b=TiGFuMZyrE5Ol/sLoQp+n0ByX0Xz2NUfj2Wbg/OGQXHHc+WHNgMxrth2sK/DXaQUgopkpXqtj73ZFd4FpvtZVvJsUOXn5b909FImg8PufyEmX3POJt6RtJLYu6HzjrzyRCD24SyHVJo7YW4IT+h4B294hCJ/oza3vNm3PR0QHA8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772454928;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=3BG6NbMJZCakv4h2SAqH1WDhyhJOxLlkoG0+u/X9t+w=;
+	b=B7iz3Bd6S3S9gUGiY3IxUc2MxIUugQu7iDZrJ/yyGxTlAtxwtsUGr5Xe5CLIXEGc
+	4z1rqx/G6PEKW5Q98G92SaBOZWk7fscOfqGNo1g8UGj3WiRlrlT4fxUNnQkh/ltgEPS
+	YLQ2mrmefuTXI3ooJRzKjrWdygiygyjjnqNTQ15g=
+Received: by mx.zohomail.com with SMTPS id 1772454925950111.09737166746925;
+	Mon, 2 Mar 2026 04:35:25 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Andri Yngvason <andri@yngvason.is>,
+ Werner Sembach <wse@tuxedocomputers.com>,
+ Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v9 02/19] drm: Add new general DRM property "color format"
+Date: Mon, 02 Mar 2026 13:35:16 +0100
+Message-ID: <5081457.31r3eYUQgx@workhorse>
+In-Reply-To: <y5ybjitphwydvtcjdtrmpcx7t7hwevjszpktcnmyvjqkgzinmu@hoitkl7lghxh>
+References:
+ <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
+ <20260227-color-format-v9-2-658c3b9db7ef@collabora.com>
+ <y5ybjitphwydvtcjdtrmpcx7t7hwevjszpktcnmyvjqkgzinmu@hoitkl7lghxh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V6 2/3] rust: Add PowerPC support
-To: Alice Ryhl <aliceryhl@google.com>,
- Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Link Mauve <linkmauve@linkmauve.fr>, ojeda@kernel.org, boqun.feng@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
- a.hindborg@kernel.org, tmgross@umich.edu, dakr@kernel.org, corbet@lwn.net,
- maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
- chleroy@kernel.org, peterz@infradead.org, jpoimboe@kernel.org,
- jbaron@akamai.com, rostedt@goodmis.org, ardb@kernel.org,
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- Jubilee Young <workingjubilee@gmail.com>, Matthew Maurer
- <mmaurer@google.com>, David Wood <david@davidtw.co>,
- Wesley Wiser <wwiser@gmail.com>
-References: <20260210090023.2587534-1-mkchauras@gmail.com>
- <20260210090023.2587534-3-mkchauras@gmail.com>
- <CAH5fLgi3Owm4=4g8wQ5Rnr7Y63XJ1D8apOdkewW6WpRfg6vV_w@mail.gmail.com>
- <aZtT4MH0Q8Ic9ZiM@luna>
- <CANiq72nEam8n_daX5LyYrpH=i71k+pb+HLn6EEPdJJc-Zi9Q3A@mail.gmail.com>
- <aZu6cSqnvO91w1m4@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
- <CANiq72mg+D4QZmBhrNj7dB+V3GHsQoZT2cSG1ffHYDYJWXyopQ@mail.gmail.com>
- <0a176f95-eeba-428e-b19b-b08503d9ca5d@ralfj.de>
- <aaUlwfP72ZpshLPL@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
- <aaU8VC-kLOKDyYDP@google.com>
-From: Ralf Jung <post@ralfj.de>
-Content-Language: en-US, de-DE
-In-Reply-To: <aaU8VC-kLOKDyYDP@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Hi all,
-
-On 02.03.26 08:29, Alice Ryhl wrote:
-> On Mon, Mar 02, 2026 at 11:25:54AM +0530, Mukesh Kumar Chaurasiya wrote:
->> On Tue, Feb 24, 2026 at 09:58:10AM +0100, Ralf Jung wrote:
->>> Hi all,
->>>
->>> On 23.02.26 16:31, Miguel Ojeda wrote:
->>>> On Mon, Feb 23, 2026 at 3:26 AM Mukesh Kumar Chaurasiya
->>>> <mkchauras@gmail.com> wrote:
->>>>>
->>>>> I think, disabling altivec, fpu and vsx with compiler flag will work.
->>>>>
->>>>> What are your opinion on this?
->>>>
->>>> It is really up to upstream Rust -- for us, i.e. the kernel, it
->>>> usually doesn't really matter much how things like that are
->>>> accomplished: whether via flags, a built-in target, a custom target,
->>>> etc. However, we need to know what the path to stability is.
->>>>
->>>> My understanding (but I may be wrong) is that upstream Rust prefer we
->>>> use built-in targets for softfloat instead of disabling via
->>>> `-Ctarget-feature` (and that the other options may go away soon and/or
->>>> will never be stable) -- at least for some cases. For instance, for
->>>> arm64, please this recent change kernel-side regarding `neon` as an
->>>> entry point:
->>>>
->>>>     446a8351f160 ("arm64: rust: clean Rust 1.85.0 warning using softfloat target")
->>>>
->>>> So please ask upstream Rust (probably in their Zulip, e.g. in
->>>> t-compiler or rust-for-linux channels) what you should do for powerpc.
->>>> They will likely be happy with a PR adding the target (or whatever
->>>> they decide) as Alice mentions. And until we reach that minimum
->>>> version (in a year or more), we can use something else meanwhile. But
->>>> at least we will have a way towards the end goal, if that makes sense.
->>>>
->>>> In case it helps, let me Cc Ralf, Jubilee and Matthew who were
->>>> involved in some of that discussion in the past, plus the compiler
->>>> leads.
->>>
->>> Upstream Rust dev here. Indeed we'd strongly prefer if this could use a
->>> built-in Rust target; we can work with you on adding a new target if that is
->>> needed.
->>> The kernel currently uses a custom JSON target on x86 and that's quite the
->>> headache for compiler development: JSON targets are highly unstable and
->>> directly expose low-level details of how the compiler internally represents
->>> targets. When we change that representation, we update all built-in targets,
->>> but of course we cannot update JSON targets. So whenever possible we'd like
->>> to move towards reducing the number of JSON targets used by the kernel, not
->>> increase it. :)
->>>
->>> Kind regards,
->>> Ralf
->>>
->> Hey,
->>
->> Sorry for delayed response. I was out of network zone.
->>
->> I am not sure about the process of how to get this in rust toolchain.
->> Should I raise an issue of github for this?
+On Sunday, 1 March 2026 17:47:48 Central European Standard Time Dmitry Baryshkov wrote:
+> On Fri, Feb 27, 2026 at 08:20:07PM +0100, Nicolas Frattaroli wrote:
+> > From: Andri Yngvason <andri@yngvason.is>
+> > 
+> > Add a new general DRM property named "color format" which can be used by
+> > userspace to request the display driver to output a particular color
+> > format.
+> > 
+> > Possible options are:
+> >     - auto (setup by default, driver internally picks the color format)
+> >     - rgb
+> >     - ycbcr444
+> >     - ycbcr422
+> >     - ycbcr420
+> > 
+> > Drivers should advertise from this list which formats they support.
+> > Together with this list and EDID data from the sink we should be able
+> > to relay a list of usable color formats to users to pick from.
+> > 
+> > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> > Signed-off-by: Andri Yngvason <andri@yngvason.is>
+> > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  drivers/gpu/drm/drm_atomic_helper.c |   5 ++
+> >  drivers/gpu/drm/drm_atomic_uapi.c   |  11 ++++
+> >  drivers/gpu/drm/drm_connector.c     | 124 ++++++++++++++++++++++++++++++++++++
+> >  include/drm/drm_connector.h         | 103 ++++++++++++++++++++++++++++++
+> >  4 files changed, 243 insertions(+)
 > 
-> You would need to add a new file to compiler/rustc_target/src/spec/targets
-> in the rustc repository.
+> It seems and feels that the common code to be used (almost?) everywhere
+> would be:
 > 
-> If you're not sure what to put there, I would suggest coming up with
-> something that looks plausible, and opening a PR with that. Then others
-> can help you with filling out the target correctly.
+> if (!drm_mode_create_color_format_property(connector, supported_formats))
+> 	drm_connector_attach_color_format_property(connector);
+> 
+> 
+> Please mention somewhere the reason to split that into two functions.
+> 
 
-Also see the documentation at 
-<https://doc.rust-lang.org/rustc/target-tier-policy.html#adding-a-new-target>.
+There isn't one I can think of, I kept it as-is since I inherited
+the code like this and figured this was the expected convention based
+on drm_mode_create_hdmi_colorspace_property ->
+drm_connector_attach_colorspace_property.
+
+Quite possibly, the idea is that callers can choose to probe whether
+a certain set of parameters would allow the property to be created
+without attaching it during said probing, but that's speculation on
+my part.
+
+Having it work like drm_connector_attach_max_bpc_property may make
+more sense here, and I'll refactor it to do this in the next revision
+unless anyone has any objections.
 
 Kind regards,
-Ralf
+Nicolas Frattaroli
+
 
