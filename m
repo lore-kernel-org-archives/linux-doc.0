@@ -1,208 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F165935A948
-	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 10:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D99433C197
+	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 11:29:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772448996; cv=none; b=FQ6Q4m1LTsU0fH2wa2btRh+ela0hq48+JBG4AbulMmi5elnfkpDdnbLSyyBxYZFqHb9gR1lhjzjfzg5OSe+tKmcCzUt2zMk2ZEzE7KCgFM54TOsPf70cTzlwDBntVsydz45kAYTowvJ9SvUDXrP5YqzVMVw2BUna9cT/nM1XWX0=
+	t=1772450942; cv=none; b=TaZhlZtnbzLzsXWNW6vVaVC7S6TXFBn+baSbhO0AwmV9SNU507LLRjzfL7grAWo6X8zWEq2THbjIa14VZh/jl4ht51xWUvO1ZGMYgTfV8VchnhYWi6DXC+YmuPqn4RJDsCaM9IVhhY1htJLn3WXbc3DjI3o6HwIRylj1gJvQIBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772448996; c=relaxed/simple;
-	bh=QIorwtQv/JYtsIRrCdeqpsv5dj2Fg5DePeC8vwGY8zk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uRV4mKTnwQBQZF1uXGWRnplBXBobbD3Gl4cSMeN67CcWNgUCEnHmBTLriX2Dm1gT2GL2BDM0p2ZchT7RhC4QdoA7w0++sGsVm14DzN2Vo1Vf9g7zXqOZR+WxclS7Q7VT29bqXoaeSxCpTJksnsowCTlOFWwDjUJLOfJw7kVStBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MceG+ZEc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772450942; c=relaxed/simple;
+	bh=K5ULHdjkJWFTrPH0dXx05JrTB8YMHL8lkvPnUG9C6K8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U9Y3R/Zt6FVCyItWB+kPyOl7J1gc3QvFOeB2JJH2+eJvsTvunsVRIAn+Nsm7idE7flgex1xiBHmFknHp7dpiS1suChjeenEq3ZSOZMyvtZcQhdoEhmAd0SYjGEzVZRlxjK2oeBESv68tDyQRf3F0YJYXSA+1w67BYfbk3ZnrX64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=fPu9ON0n; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MceG+ZEc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2511FC2BCB0;
-	Mon,  2 Mar 2026 10:56:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772448995;
-	bh=QIorwtQv/JYtsIRrCdeqpsv5dj2Fg5DePeC8vwGY8zk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MceG+ZEcp3/SuWG3t4ZJKUbTlcyKR9LQl0gmjP34KPmM1OPcpJ1jT8FA55hODX/4L
-	 AJaIDVM9ISd1REbQj31AJSXJ6mgqV7dO39fYKTD72i5OSI59HlX7/ws/s88h1Vs9hT
-	 fWIU+rQVC6tOrQ9fKp7AAVhOq/8Pe4N3GvBE7rbrZzLnzDK4efKsY3qsaFdk/B44i9
-	 TGfQMIWfs0PuBOIFl+qyLinNrr1bARru7CjCwNCMBx91f8qA7CboXDT9kyYjZNXXFb
-	 nKd/9BWu0Ydc2CnUDlNVSEaVw7rcPdfAcNh4kX0g9Bg0p52D9Pe6tsHrDrTwOlwO/q
-	 7XwQMPB8jcVng==
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 245B7F40068;
-	Mon,  2 Mar 2026 05:56:34 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Mon, 02 Mar 2026 05:56:34 -0500
-X-ME-Sender: <xms:4myladjV01iWsOUtjtzcj3vZupj1Y1XZ52NB9CTcS42N2KVYqebmBw>
-    <xme:4mylabMmI-f6TLtFwjswwP2yHngZCaAvMI2sOn5bsBZjXBTfu-1Owz5vCGlXXgrHJ
-    5XA2TBeo-AvKsI4gmrM5H1M3Hu7R75Og4XdJj_eyAdhgwPDGrdE78A>
-X-ME-Received: <xmr:4mylaXMtbuPsATgmuxJHjV89K0zt3CuvIB_boPi7x3NPTZBs0D_CosHxgsWlog>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvheejgeekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucgoteeftdduqddtudculdduhedmnecujfgurhephffvve
-    fufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpedfmfhirhihlhcuufhhuhht
-    shgvmhgruhculdfovghtrgdmfdcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrf
-    grthhtvghrnhephfdvfedvveejveehhffhvedufedujeefuddvkeehleduhfeihfehudej
-    ffffiefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epkhhirhhilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudei
-    vdeiheehqddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvg
-    hmohhvrdhnrghmvgdpnhgspghrtghpthhtohepvdekpdhmohguvgepshhmthhpohhuthdp
-    rhgtphhtthhopehkrghssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrkhhpmheslh
-    hinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheprghlvgigsehghhhi
-    thhirdhfrhdprhgtphhtthhopegrohhusegvvggtshdrsggvrhhkvghlvgihrdgvughupd
-    hrtghpthhtohepsghhvgesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghhvghnhhhu
-    rggtrghisehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsggvtheslhifnhdrnh
-    gvthdprhgtphhtthhopegurghvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehf
-    vhgulhesghhoohhglhgvrdgtohhm
-X-ME-Proxy: <xmx:4mylaTL_5a_Tm5FcC4DkzFyVnPOUD7NWAMruXiJ7cLUt4G70LqyDxg>
-    <xmx:4mylaWt-BwsGNwvyb1I9YB3jtaA0LQ2aYs58v6i_bSjprG2Qy9v14A>
-    <xmx:4mylaVF5tD6lw22TzAR11tltaMNEpftkfceacgzzxR6iJ7oYNXtewg>
-    <xmx:4mylaVPV5xjJwdJ_j2BWUtR4lUjIQ7DmcR0whs3UjzW6Fbzus43HZQ>
-    <xmx:4mylaYFG6vRkUEa9tC7J99RSubdP_bO__GGYLVU8KE4yvCzo4jTLrzXq>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 Mar 2026 05:56:33 -0500 (EST)
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: kas@kernel.org
-Cc: akpm@linux-foundation.org,
-	alex@ghiti.fr,
-	aou@eecs.berkeley.edu,
-	bhe@redhat.com,
-	chenhuacai@kernel.org,
-	corbet@lwn.net,
-	david@kernel.org,
-	fvdl@google.com,
-	hannes@cmpxchg.org,
-	kernel-team@meta.com,
-	kernel@xen0n.name,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-riscv@lists.infradead.org,
-	loongarch@lists.linux.dev,
-	lorenzo.stoakes@oracle.com,
-	mhocko@suse.com,
-	muchun.song@linux.dev,
-	osalvador@suse.de,
-	palmer@dabbelt.com,
-	paul.walmsley@sifive.com,
-	rppt@kernel.org,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	willy@infradead.org,
-	ziy@nvidia.com
-Subject: [PATCHv7.1 17/18] hugetlb: Update vmemmap_dedup.rst
-Date: Mon,  2 Mar 2026 10:56:28 +0000
-Message-ID: <20260302105630.303492-1-kas@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260227194302.274384-18-kas@kernel.org>
-References: <20260227194302.274384-18-kas@kernel.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="fPu9ON0n"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4836d541968so4116405e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 03:29:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1772450940; x=1773055740; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1aYNafgGLMp2zV21P8+oK10uFDyPLpaq2eVinuia9OY=;
+        b=fPu9ON0nUm5dN1h5k7pqfLgwgYSZo/2iLpTg/G2dDDoMSeOJZZjjsBeY4DTOJhin9J
+         8IlCkplAVuAph1jjwaSMB/W7XfdSm/oWwx4ciXjBBh5uuL0cARIjmCs+vCxlIB8EfCt5
+         s6wUZuTq6YpOHeYYoZfZ3tQ1R0fzUvMbmjt2PoQn8QhAYt+mBQA7U7pIFti8bWtBMcI+
+         ZJn+/Ode9Z4Q6+1TrUWWWSdJg1ZYjtkc4aqZSqrVOwUi2zr6B7p1XwXfFTrpxdyuQrKt
+         QHsoDBcoBP6RJ73zjsGuzf/j+A/TJmvZUWUAT/pAL7Bw3katC9+epBAlQllQYNCEOorz
+         1wqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772450940; x=1773055740;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1aYNafgGLMp2zV21P8+oK10uFDyPLpaq2eVinuia9OY=;
+        b=PYdRZ1BAery5nn96aA70Nk8BkvEM4XHuxR3IVBlRPd9kQvKk+Jc81vt0Whf+8Ohrtc
+         5ICADH5i6Bx9RGCFlBhQdarhcKHq4ZFbrirLIY2WJz5qf6pTIYrm+Qzt+5IcxffGR3eH
+         0x1da9oQ+aYc4ZyFaYB5P3pCVjC4KtwKw6fvAwFAyuS+C+Mb7zY2y/5rbcQU001zGDoL
+         XQ0RmPoQDe2caoY8WY5Iezuhm/7E3rNTLQIdIASZyzhRE4qo2ezWAaNGMXM6z9y3ShPt
+         kljw8bxgyD3w88skBDa3Vxi8/1x4eTrjewzfp68IcWigjPgJn7v1Ctp3o+F5j1W6+zZn
+         45VA==
+X-Forwarded-Encrypted: i=1; AJvYcCXK6t0RbxPtoXA6JWhZCdo6XE2rACtOiXT3rJEW+79y6cpyJYX9KTcxck8uqlZhjLINNr6AhigdSuc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyetlslWX4RKegbPdPPFngwJeW/7cDEb3yOBt9N3i3/kikB9Vx3
+	qTnPhEg3lPfuUJVSPVaM6kscFuZRVTx7nO2CHj4fDEbeDtINJFUpOeGGq1Bu/I58ADU=
+X-Gm-Gg: ATEYQzwrzXqRCHiyJ0w5kHfLghR9R6ymc+KXW7PQB7To1LE6VBQB/2wugbqdYND4qje
+	/zFqzBtw2mWh6PUhgGbmWj9fpuzGHkmqmTQwJ2EZfhCFb0k98rkpGD+dQz19dOC808ke5yJMTcE
+	skPuL5EuYbpJdYEDX6b5Qsgl024+bm8dw3jpUZ8hOGl/zjXE5nxtLiMpE/tqMWbUCM0jQ+xKw+F
+	SlcPzEMr2zoiUcubXDNSgwcd9UMTAru1I/E1MD2gQ/DXNm8jIle/VbVzEkbdkQDI+Ub0zRmXgbf
+	kvkOJGr2NFG26/jgwXQUrCF1ZuOPFd3SwalUaosut/uLESyRU1GIGnIZZJa83SQ0tPnTznUnOHG
+	U4+YhtehnPxP5hdladP6AlsuZMVjIR/R7Wxaja9EbAWU5uXv+oexr1RKZx4TJh7lz1zZZ3TW907
+	lYi/Ib3ixOEbcpokAEn37P8HZTFTLzq1r5ciqxHGi3po3JAR2Le1HKnl5n1A==
+X-Received: by 2002:a05:600c:1989:b0:46e:43f0:6181 with SMTP id 5b1f17b1804b1-483c9bfbdd5mr117360665e9.7.1772450939437;
+        Mon, 02 Mar 2026 03:28:59 -0800 (PST)
+Received: from ?IPV6:2001:1a48:8:903:1ed6:4f73:ce38:f9d4? ([2001:1a48:8:903:1ed6:4f73:ce38:f9d4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bfb789efsm210891065e9.2.2026.03.02.03.28.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Mar 2026 03:28:59 -0800 (PST)
+Message-ID: <5097ff66-b727-4eac-b845-3bd08d1a0ead@suse.com>
+Date: Mon, 2 Mar 2026 12:28:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC v2 2/6] KVM: guest_memfd: Directly allocate folios
+ with filemap_alloc_folio()
+Content-Language: en-US
+To: Ackerley Tng <ackerleytng@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ seanjc@google.com, rientjes@google.com, rick.p.edgecombe@intel.com,
+ yan.y.zhao@intel.com, fvdl@google.com, jthoughton@google.com,
+ vannapurve@google.com, shivankg@amd.com, michael.roth@amd.com,
+ pratyush@kernel.org, pasha.tatashin@soleen.com, kalyazin@amazon.com,
+ tabba@google.com
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260225-gmem-st-blocks-v2-0-87d7098119a9@google.com>
+ <20260225-gmem-st-blocks-v2-2-87d7098119a9@google.com>
+From: Vlastimil Babka <vbabka@suse.com>
+In-Reply-To: <20260225-gmem-st-blocks-v2-2-87d7098119a9@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-From: Kiryl Shutsemau <kas@kernel.org>
+On 2/25/26 08:20, Ackerley Tng wrote:
+> __filemap_get_folio_mpol() is parametrized by a bunch of GFP flags, which
 
-Update the documentation regarding vmemmap optimization for hugetlb to
-reflect the changes in how the kernel maps the tail pages.
+                                                           FGP?
 
-Fake heads no longer exist. Remove their description.
+> adds complexity for the reader. Since guest_memfd doesn't meaningfully use
+> any of the other FGP flags, undo that complexity by directly calling
+> filemap_alloc_folio().
+> 
+> Directly calling filemap_alloc_folio() also allows the order of 0 to be
+> explicitly specified, which is the only order guest_memfd supports. This is
+> easier to understand, and removes the chance of anything else being able to
+> unintentionally influence allocated folio size.
 
-Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-Reviewed-by: Muchun Song <muchun.song@linux.dev>
-Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
----
- Documentation/mm/vmemmap_dedup.rst | 60 +++++++++++++-----------------
- 1 file changed, 26 insertions(+), 34 deletions(-)
+Isn't it determined by FGF_GET_ORDER() so when you pass FGP_LOCK | FGP_CREAT
+and no order, it's straigtforward the order will be 0?
 
-v7.1:
-  - Add missing period (Randy);
-  - s/per-node/per-zone/ (Muchun);
+But if this helps with patch 4, ok.
 
-diff --git a/Documentation/mm/vmemmap_dedup.rst b/Documentation/mm/vmemmap_dedup.rst
-index 1863d88d2dcb..9fa8642ded48 100644
---- a/Documentation/mm/vmemmap_dedup.rst
-+++ b/Documentation/mm/vmemmap_dedup.rst
-@@ -124,33 +124,35 @@ Here is how things look before optimization::
-  |           |
-  +-----------+
- 
--The value of page->compound_info is the same for all tail pages. The first
--page of ``struct page`` (page 0) associated with the HugeTLB page contains the 4
--``struct page`` necessary to describe the HugeTLB. The only use of the remaining
--pages of ``struct page`` (page 1 to page 7) is to point to page->compound_info.
--Therefore, we can remap pages 1 to 7 to page 0. Only 1 page of ``struct page``
--will be used for each HugeTLB page. This will allow us to free the remaining
--7 pages to the buddy allocator.
-+The first page of ``struct page`` (page 0) associated with the HugeTLB page
-+contains the 4 ``struct page`` necessary to describe the HugeTLB. The remaining
-+pages of ``struct page`` (page 1 to page 7) are tail pages.
-+
-+The optimization is only applied when the size of the struct page is a power
-+of 2. In this case, all tail pages of the same order are identical. See
-+compound_head(). This allows us to remap the tail pages of the vmemmap to a
-+shared, read-only page. The head page is also remapped to a new page. This
-+allows the original vmemmap pages to be freed.
- 
- Here is how things look after remapping::
- 
--    HugeTLB                  struct pages(8 pages)         page frame(8 pages)
-- +-----------+ ---virt_to_page---> +-----------+   mapping to   +-----------+
-- |           |                     |     0     | -------------> |     0     |
-- |           |                     +-----------+                +-----------+
-- |           |                     |     1     | ---------------^ ^ ^ ^ ^ ^ ^
-- |           |                     +-----------+                  | | | | | |
-- |           |                     |     2     | -----------------+ | | | | |
-- |           |                     +-----------+                    | | | | |
-- |           |                     |     3     | -------------------+ | | | |
-- |           |                     +-----------+                      | | | |
-- |           |                     |     4     | ---------------------+ | | |
-- |    PMD    |                     +-----------+                        | | |
-- |   level   |                     |     5     | -----------------------+ | |
-- |  mapping  |                     +-----------+                          | |
-- |           |                     |     6     | -------------------------+ |
-- |           |                     +-----------+                            |
-- |           |                     |     7     | ---------------------------+
-+    HugeTLB                  struct pages(8 pages)                 page frame (new)
-+ +-----------+ ---virt_to_page---> +-----------+   mapping to   +----------------+
-+ |           |                     |     0     | -------------> |       0        |
-+ |           |                     +-----------+                +----------------+
-+ |           |                     |     1     | ------┐
-+ |           |                     +-----------+       |
-+ |           |                     |     2     | ------┼        +----------------------------+
-+ |           |                     +-----------+       |        | A single, per-zone page    |
-+ |           |                     |     3     | ------┼------> | frame shared among all     |
-+ |           |                     +-----------+       |        | hugepages of the same size |
-+ |           |                     |     4     | ------┼        +----------------------------+
-+ |           |                     +-----------+       |
-+ |           |                     |     5     | ------┼
-+ |    PMD    |                     +-----------+       |
-+ |   level   |                     |     6     | ------┼
-+ |  mapping  |                     +-----------+       |
-+ |           |                     |     7     | ------┘
-  |           |                     +-----------+
-  |           |
-  |           |
-@@ -172,16 +174,6 @@ The contiguous bit is used to increase the mapping size at the pmd and pte
- (last) level. So this type of HugeTLB page can be optimized only when its
- size of the ``struct page`` structs is greater than **1** page.
- 
--Notice: The head vmemmap page is not freed to the buddy allocator and all
--tail vmemmap pages are mapped to the head vmemmap page frame. So we can see
--more than one ``struct page`` struct with ``PG_head`` (e.g. 8 per 2 MB HugeTLB
--page) associated with each HugeTLB page. The ``compound_head()`` can handle
--this correctly. There is only **one** head ``struct page``, the tail
--``struct page`` with ``PG_head`` are fake head ``struct page``.  We need an
--approach to distinguish between those two different types of ``struct page`` so
--that ``compound_head()`` can return the real head ``struct page`` when the
--parameter is the tail ``struct page`` but with ``PG_head``.
--
- Device DAX
- ==========
- 
--- 
-2.51.2
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+
+> ---
+>  virt/kvm/guest_memfd.c | 51 +++++++++++++++++++++++++++++++++++---------------
+>  1 file changed, 36 insertions(+), 15 deletions(-)
+> 
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index 2df27b6443115..2488d7b8f2b0d 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -107,6 +107,39 @@ static int kvm_gmem_prepare_folio(struct kvm *kvm, struct kvm_memory_slot *slot,
+>  	return __kvm_gmem_prepare_folio(kvm, slot, index, folio);
+>  }
+>  
+> +static struct folio *__kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+> +{
+> +	/* TODO: Support huge pages. */
+> +	struct mempolicy *policy;
+> +	struct folio *folio;
+> +	gfp_t gfp;
+> +	int ret;
+> +
+> +	/*
+> +	 * Fast-path: See if folio is already present in mapping to avoid
+> +	 * policy_lookup.
+> +	 */
+> +	folio = filemap_lock_folio(inode->i_mapping, index);
+> +	if (!IS_ERR(folio))
+> +		return folio;
+> +
+> +	gfp = mapping_gfp_mask(inode->i_mapping);
+> +
+> +	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
+> +	folio = filemap_alloc_folio(gfp, 0, policy);
+> +	mpol_cond_put(policy);
+> +	if (!folio)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ret = filemap_add_folio(inode->i_mapping, folio, index, gfp);
+> +	if (ret) {
+> +		folio_put(folio);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	return folio;
+> +}
+> +
+>  /*
+>   * Returns a locked folio on success.  The caller is responsible for
+>   * setting the up-to-date flag before the memory is mapped into the guest.
+> @@ -118,23 +151,11 @@ static int kvm_gmem_prepare_folio(struct kvm *kvm, struct kvm_memory_slot *slot,
+>   */
+>  static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+>  {
+> -	/* TODO: Support huge pages. */
+> -	struct mempolicy *policy;
+>  	struct folio *folio;
+>  
+> -	/*
+> -	 * Fast-path: See if folio is already present in mapping to avoid
+> -	 * policy_lookup.
+> -	 */
+> -	folio = filemap_lock_folio(inode->i_mapping, index);
+> -	if (!IS_ERR(folio))
+> -		return folio;
+> -
+> -	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
+> -	folio = __filemap_get_folio_mpol(inode->i_mapping, index,
+> -					 FGP_LOCK | FGP_CREAT,
+> -					 mapping_gfp_mask(inode->i_mapping), policy);
+> -	mpol_cond_put(policy);
+> +	do {
+> +		folio = __kvm_gmem_get_folio(inode, index);
+> +	} while (PTR_ERR(folio) == -EEXIST);
+>  
+>  	/*
+>  	 * External interfaces like kvm_gmem_get_pfn() support dealing
+> 
 
