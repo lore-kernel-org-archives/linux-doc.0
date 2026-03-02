@@ -1,131 +1,252 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D8B3A1D10;
-	Mon,  2 Mar 2026 12:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B33F13ACA40;
+	Mon,  2 Mar 2026 12:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772455572; cv=pass; b=d3BbC0G8khj8+5nHnTs++YNo380/Lpa9fbl8C6FcvDsLrGkNyuhvJGI9GDthK1+Z+YYbFI9hTasIzovPM5kLm9kuxnRBOknykFiB+FSmuC5nyENYeGw3/J0J+hExfRbFieZNpf/j9lXHSCB/ewAyDw4giCSC4G3+V1Nli1srCFg=
+	t=1772455575; cv=pass; b=kQVnCPMTbA2auALVDHZwvScjGHzkBw1lBki5GmvGwjMJF8bp4XBkJljBrccjSvidg9jFTVOLsxdV1MViax0uHtNRWkbGidws0N6N/J4zla3TA0dLxYBqjnnLN2e4JaBf0mcLZVhfm+ds041GXZ9Z6+E2HE2eEHtnVXwko2dsmYY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772455572; c=relaxed/simple;
-	bh=YtiMFSMGOsM80kiq8sYVtpd9H+Zl4EMRcp4h96xpz+g=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=HhTGDiZj50ELDxbObczFB3PzRtxuv1810EHToQTQdN8hDno6w3A7Dr1ngV/7XRtX1uAfu741sdWY8fMoK583rkzgW5YR4Ae1qhbjyI3OU36/DISMauVWV9eKzbKi7m/fadgAIDfdvZ9whul78KgkOMfcpQrM9eCwdERp5H7OLbA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=pGYXhe8h; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	s=arc-20240116; t=1772455575; c=relaxed/simple;
+	bh=ZE17ze/s/Yeld6muL83mCYKdKCSxUF6xciwLjDiE69k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pUIkl+G84cSfxpyRnrUTeC8edGFdn8FnmM68AbJsPUJLk3G0ic+KquDwqzoKM+GVaIkKLQY8zm+e77r3zhaW1dhZOftnzgxV+XvJ3o06AVAbyKDIp/WYKmnXXnM0t7e/IhMXWkJO5axMimEJxgTFc4YOmsZBu2liYj+oVQlXi7c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=NklJGRmL; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="pGYXhe8h"
-ARC-Seal: i=1; a=rsa-sha256; t=1772455556; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="NklJGRmL"
+ARC-Seal: i=1; a=rsa-sha256; t=1772455528; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=dnpKMuFFysKv8G12/fMEig5ZxG1JlBjnVRTZSzIyxASBqFkwitHta10VPlb4QvOUhs4zGeXnlYg7ForMAxYIoFnrpNX5mg9YGx1ChQ+X6aEU3gBBVSsMZ8mdrFkQjho6wZKhQ3dR7n+beZ0r7Cdkxzwen/DKWieNpOYexJxZtPo=
+	b=gfFgLK0NcN+DF027ztokmuJzLGgp/Kn1kKJQXerb1I9GNL7TP2viyfn7ZsNRBylkQp9ZArN5yoUDZfVQOnHcS1VKyjbKIm7l2ZUlnIeeG1TJTgHXFS5fWyJyERvIGWVbAurIivEeblG+hhFtl+csYmU0AdSVhboLMsxNpoMEsyo=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772455556; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=gTFtmfQtXMDpg7iv9uZxCLl93ucQXvrHZZRpLTgfjCg=; 
-	b=gpi9ndaVADHaCm7YOverbUvi8DRAkDTfQIwPRuOr5BfFcsRVeSiDPLliBnPhbOlqd+zo++ISDKdqlgsLMpu1+yQPQ7xCwkgIyE9nK6dDb70eyewHqTKZBUvOj6ylsKO4cIV4kHp37RQY7incjEimKSO+nhr7dCKsJty1Jv1eM3M=
+	t=1772455528; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=FI4iBPbexT5/+OX3ab+TBF6Dku2WJR7GpM9DDHrwsPk=; 
+	b=A9R2BAzoJPj4uCGn9AR23la5ihbXVAeayO35kYB7Lj+Cz3KNcjeDodl1UTwoDH+AW3GSjW1QkNS1C1m02AjDdU3RwgkT9kG0X8KMdsUfhaRBbxAbhLFJHbtSylmO9zO0uGCDSrtzs488v983GA/u911rzbevHSGHSLIOiGjj4IE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772455556;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=gTFtmfQtXMDpg7iv9uZxCLl93ucQXvrHZZRpLTgfjCg=;
-	b=pGYXhe8hNnpac95UlrzoZPcsuCO0LVN5WOx+Rc5xmQkmYQJ0/k7wFdVb962VfaLe
-	ft+nqu4ljf8aDwVvVl03Zw36uMTM8XjecoXJOq7fd5KHD4sF3Tr3HsDwLrMxUnVtn6s
-	73JJOVMi9MPNeCvxNWpWk4jP/JjlWFm6cKP2+zs02jWrYAjt38YNJvUlRV8oUGbf/GJ
-	rC3WeIbOUHoVegxn41jLUOLc+nRzTSU7Bx8s0UeJZG0zJBEbf987fF3jBtjxBeahz/u
-	IxgeJuBjaE2PVuOz1ltyNYDlQBiluH8oKrykJmCMueKWAiXinCEEPa+3pJzUzTwApz5
-	d9DS++sqyQ==
-Received: by mx.zohomail.com with SMTPS id 1772455553971555.43443934584;
-	Mon, 2 Mar 2026 04:45:53 -0800 (PST)
-Message-ID: <3c5080557a03270e3be526b4b2fcd2ac3812d707.camel@rong.moe>
-Subject: Re: [PATCH 0/9] ALSA: usb-audio: Add quirks for linear volume
- devices and deconflict VID
-From: Rong Zhang <i@rong.moe>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Cryolitia PukNgae	 <cryolitia@uniontech.com>, Arun Raghavan
- <arunr@valvesoftware.com>, 	linux-sound@vger.kernel.org,
- linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org, Icenowy Zheng
- <uwu@icenowy.me>
-In-Reply-To: <87ldgamu0s.wl-tiwai@suse.de>
-References: <20260301213726.428505-1-i@rong.moe>
-	 <87ldgamu0s.wl-tiwai@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Mar 2026 20:40:46 +0800
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772455527;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=FI4iBPbexT5/+OX3ab+TBF6Dku2WJR7GpM9DDHrwsPk=;
+	b=NklJGRmL7Ht1vVNs25ImFGldSXVhHZfLcvTkHo1UkVwxo+YmvptU5KSwoBLaKwcI
+	8F/C/rYOF7LL5uRL3SWft23e8XNCzhZJlF4aT9q/cjC4NR+INLbrCfP48F4ndn/KZ+9
+	c0F3vSfOqOkMW+KNDdJL7PAjYQ4ep4meusaEj670=
+Received: by mx.zohomail.com with SMTPS id 177245552678992.73586677524838;
+	Mon, 2 Mar 2026 04:45:26 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 03/19] drm/bridge: Act on the DRM color format property
+Date: Mon, 02 Mar 2026 13:45:18 +0100
+Message-ID: <2254957.irdbgypaU6@workhorse>
+In-Reply-To: <unfsi4t4t4wl74zudkq3oeiryvm2xgyiplugcaxhyvjmtn7s2l@72xhl5vrtyt3>
+References:
+ <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
+ <20260227-color-format-v9-3-658c3b9db7ef@collabora.com>
+ <unfsi4t4t4wl74zudkq3oeiryvm2xgyiplugcaxhyvjmtn7s2l@72xhl5vrtyt3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-8 
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Hi Takashi,
+On Sunday, 1 March 2026 17:56:08 Central European Standard Time Dmitry Baryshkov wrote:
+> On Fri, Feb 27, 2026 at 08:20:08PM +0100, Nicolas Frattaroli wrote:
+> > The new DRM color format property allows userspace to request a specific
+> > color format on a connector. In turn, this fills the connector state's
+> > color_format member to switch color formats.
+> > 
+> > Make drm_bridges consider the color_format set in the connector state
+> > during the atomic bridge check. For bridges that represent HDMI bridges,
+> > rely on whatever format the HDMI logic set. Reject any output bus
+> > formats that do not correspond to the requested color format.
+> > 
+> > Non-HDMI last bridges with DRM_CONNECTOR_COLOR_FORMAT_AUTO set will end
+> > up choosing the first output format that functions to make a whole
+> > recursive bridge chain format selection succeed.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  drivers/gpu/drm/drm_bridge.c | 89 +++++++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 88 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > index 6d8947419940..5938fba0a983 100644
+> > --- a/drivers/gpu/drm/drm_bridge.c
+> > +++ b/drivers/gpu/drm/drm_bridge.c
+> > @@ -1117,6 +1117,47 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
+> >  	return ret;
+> >  }
+> >  
+> > +static bool __pure bus_format_is_color_fmt(u32 bus_fmt, enum drm_connector_color_format fmt)
+> > +{
+> > +	if (fmt == DRM_CONNECTOR_COLOR_FORMAT_AUTO)
+> > +		return true;
+> > +
+> > +	switch (bus_fmt) {
+> > +	case MEDIA_BUS_FMT_FIXED:
+> > +		return true;
+> > +	case MEDIA_BUS_FMT_RGB888_1X24:
+> > +	case MEDIA_BUS_FMT_RGB101010_1X30:
+> > +	case MEDIA_BUS_FMT_RGB121212_1X36:
+> > +	case MEDIA_BUS_FMT_RGB161616_1X48:
+> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_RGB444;
+> > +	case MEDIA_BUS_FMT_YUV8_1X24:
+> > +	case MEDIA_BUS_FMT_YUV10_1X30:
+> > +	case MEDIA_BUS_FMT_YUV12_1X36:
+> > +	case MEDIA_BUS_FMT_YUV16_1X48:
+> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_YCBCR444;
+> > +	case MEDIA_BUS_FMT_UYVY8_1X16:
+> > +	case MEDIA_BUS_FMT_VYUY8_1X16:
+> > +	case MEDIA_BUS_FMT_YUYV8_1X16:
+> > +	case MEDIA_BUS_FMT_YVYU8_1X16:
+> > +	case MEDIA_BUS_FMT_UYVY10_1X20:
+> > +	case MEDIA_BUS_FMT_YUYV10_1X20:
+> > +	case MEDIA_BUS_FMT_VYUY10_1X20:
+> > +	case MEDIA_BUS_FMT_YVYU10_1X20:
+> > +	case MEDIA_BUS_FMT_UYVY12_1X24:
+> > +	case MEDIA_BUS_FMT_VYUY12_1X24:
+> > +	case MEDIA_BUS_FMT_YUYV12_1X24:
+> > +	case MEDIA_BUS_FMT_YVYU12_1X24:
+> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_YCBCR422;
+> > +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+> > +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+> > +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
+> > +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
+> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_YCBCR420;
+> > +	default:
+> > +		return false;
+> > +	}
+> > +}
+> > +
+> >  /*
+> >   * This function is called by &drm_atomic_bridge_chain_check() just before
+> >   * calling &drm_bridge_funcs.atomic_check() on all elements of the chain.
+> > @@ -1160,6 +1201,7 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+> >  	struct drm_encoder *encoder = bridge->encoder;
+> >  	struct drm_bridge_state *last_bridge_state;
+> >  	unsigned int i, num_out_bus_fmts = 0;
+> > +	enum drm_connector_color_format fmt;
+> >  	u32 *out_bus_fmts;
+> >  	int ret = 0;
+> >  
+> > @@ -1201,13 +1243,58 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+> >  			out_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
+> >  	}
+> >  
+> > +	/*
+> > +	 * On HDMI connectors, use the output format chosen by whatever does the
+> > +	 * HDMI logic. For everyone else, just trust that the bridge out_bus_fmts
+> > +	 * are sorted by preference for %DRM_CONNECTOR_COLOR_FORMAT_AUTO, as
+> > +	 * bus_format_is_color_fmt() always returns true for AUTO.
+> > +	 */
+> > +	if (last_bridge->ops & DRM_BRIDGE_OP_HDMI) {
+> 
+> This will break the logic if there is anything after the HDMI bridge.
+> For example, if the board has hdmi-connector (yep, it's a bridge without
+> DRM_BRIDGE_OP_HDMI, because HDMI connectors don't implement any of the
+> HDMI functionality), then the function will go to the second clause.
+> 
+> This probably needs to be moved to drm_bridge_connector. There is is
+> natural to check for bridge_connector->bridge_hdmi.
 
-Thanks for your review.
+A few questions:
+1. are all HDMI connectors drm_bridge_connectors? Or does the code need
+   to handle two HDMI cases?
+2. If by "This probably needs to be moved to drm_bridge_connector", do
+   you mean the entire recursive bus format selection, or just a check
+   for whether it's an HDMI connector that sets some flag on the
+   drm_bridge?
+3. I don't see any KUnit tests for drm_bridge_connector. Is adding those
+   part of the requirements for getting this upstreamed?
 
-On Mon, 2026-03-02 at 10:59 +0100, Takashi Iwai wrote:
-> On Sun, 01 Mar 2026 22:37:16 +0100,
-> Rong Zhang wrote:
-> >=20
-> > Some quirky devices tune their volume by linearly tuning the voltage
-> > level (linear volume). In other words, such devices has a linear TLV
-> > mapping of DECLARE_TLV_DB_LINEAR(scale, TLV_DB_GAIN_MUTE, 0).
-> >=20
-> > The series mainly adds quirk flags MIXER_PLAYBACK_LINEAR_VOL and
-> > MIXER_CAPTURE_LINEAR_VOL to represent this case respectively for
-> > playback and capture mixers. Afterward, apply these quirk flags on them=
-.
-> >=20
-> > Some MV-SILICON devices with these quirks also have another quirk: VID
-> > conflicts with Focusrite Novation (0x1235). Hence, add support for
-> > string-descriptor-based quirk table entries and define an entry for MV-
-> > SILICON to deconflict them.
-> >=20
-> > Some improvements to the logic of volume range checks is also included
-> > in the series to help identify quirky devices with linear volume.
-> >=20
-> > Rong Zhang (9):
-> >   Revert "ALSA: usb: Increase volume range that triggers a warning"
-> >   ALSA: usb-audio: Add helper function for volume range checks
-> >   ALSA: usb-audio: Improve volume range checks
-> >   ALSA: usb-audio: Support string-descriptor-based quirk table entry
-> >   ALSA: usb-audio: Deconflict VID between Focusrite Novation &
-> >     MV-SILICON
-> >   ALSA: doc: Add doc for QUIRK_FLAG_SKIP_IFACE_SETUP of snd-usb-audio
-> >   ALSA: usb-audio: Add QUIRK_FLAG_MIXER_{PLAYBACK,CAPTURE}_LINEAR_VOL
-> >   ALSA: usb-audio: Add linear volume quirk for Hotone Audio Pulze Mini
-> >   ALSA: usb-audio: Apply linear volume quirk on MV-SILICON devices
->=20
-> Thanks for patches!  The logic looks good and the implementation
-> seems reasonable.  One slight concern was about the string matching
-> patch (I explained in another mail), but others look fine.
->=20
+Kind regards,
+Nicolas Frattaroli
 
-Thanks. I will send a v2 addressing that.
+> 
+> > +		drm_dbg_kms(last_bridge->dev,
+> > +			    "HDMI bridge requests format %s\n",
+> > +			    drm_hdmi_connector_get_output_format_name(
+> > +				    conn_state->hdmi.output_format));
+> > +		switch (conn_state->hdmi.output_format) {
+> > +		case DRM_OUTPUT_COLOR_FORMAT_RGB444:
+> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_RGB444;
+> > +			break;
+> > +		case DRM_OUTPUT_COLOR_FORMAT_YCBCR444:
+> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_YCBCR444;
+> > +			break;
+> > +		case DRM_OUTPUT_COLOR_FORMAT_YCBCR422:
+> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_YCBCR422;
+> > +			break;
+> > +		case DRM_OUTPUT_COLOR_FORMAT_YCBCR420:
+> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_YCBCR420;
+> > +			break;
+> > +		default:
+> > +			ret = -EINVAL;
+> > +			goto out_free_bus_fmts;
+> > +		}
+> > +	} else {
+> > +		fmt = conn_state->color_format;
+> > +		drm_dbg_kms(last_bridge->dev, "Non-HDMI bridge requests format %d\n", fmt);
+> > +	}
+> > +
+> >  	for (i = 0; i < num_out_bus_fmts; i++) {
+> > +		if (!bus_format_is_color_fmt(out_bus_fmts[i], fmt)) {
+> > +			drm_dbg_kms(last_bridge->dev,
+> > +				    "Skipping bus format 0x%04x as it doesn't match format %d\n",
+> > +				    out_bus_fmts[i], fmt);
+> > +			ret = -ENOTSUPP;
+> > +			continue;
+> > +		}
+> >  		ret = select_bus_fmt_recursive(bridge, last_bridge, crtc_state,
+> >  					       conn_state, out_bus_fmts[i]);
+> > -		if (ret != -ENOTSUPP)
+> > +		if (ret != -ENOTSUPP) {
+> > +			drm_dbg_kms(last_bridge->dev,
+> > +				    "Found bridge chain ending with bus format 0x%04x\n",
+> > +				    out_bus_fmts[i]);
+> >  			break;
+> > +		}
+> >  	}
+> >  
+> > +out_free_bus_fmts:
+> >  	kfree(out_bus_fmts);
+> >  
+> >  	return ret;
+> > 
+> 
+> 
 
-> Maybe the patch to add the missing documentation for
-> QUIRK_FLAG_SKIP_IFACE_SETUP should be applied individually beforehand.
-> Could you send it a fix for 7.0?
->=20
 
-Sure.
 
-> The revert of volume range check makes sense, but maybe that should be
-> combined with your rest changes.
->=20
 
-Yeah. Patch 1-3 as a whole targets 7.1, where patch 1 is also for
-backporting (so that potential insane volume ranges can still trigger a
-warning in LTS, which is better than nothing).
-
-Thanks,
-Rong
-
->=20
-> Takashi
