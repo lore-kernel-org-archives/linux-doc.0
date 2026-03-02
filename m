@@ -1,142 +1,203 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA03536F41A;
-	Mon,  2 Mar 2026 12:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D1836DA15;
+	Mon,  2 Mar 2026 12:36:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772454992; cv=pass; b=t46U8a+dHQwXrR8WKWTx6K6VQ2GaRG0DuCms/XkHZD0NU5PXNNCgO0QPrwn3aUt46kYfaqnIji5NJBqeNb4DrckVdUsF4YwTTSw/4c9swmT9+X+tJAjaRKCrYSb5V0RVdNTTHXJd9dCKIJaraerbM0fql3FMNOuG2x0C8VjE7os=
+	t=1772455016; cv=pass; b=amw9hkIMaaT8FI1WHawiEWc8T6h3sgQqnuawxsK1JH6CB9foCsJw/fXCDf6Mw1VFsVcAybncQbNsN6Kqji1yljANbmF9cuiNSEZunAOngpeuu/otRZj7ZpzbjOJlFtBsTjKoGJrnRnpg/vclNXs6takzDw8UCqz8mAGVLohBgT8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772454992; c=relaxed/simple;
-	bh=Nb0N2xb6ISesaRzRPry1Vsf4TBbNBm/ISxZYaLPdLuk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RI2GGIsZICZePy7uxf7DzajhLjVMpu0FQf4ccVLHbWIlFepV0NPNtMvyEifoIYliknR5Efv5arjiZc1qvG9MSAKVcGLb6/fp8v6M7yq8g+4jzt0/+EpnKSOKDhe2D4HXoaCTTxbymMS87GDU6mPt9v1SwIY63kH90oIagRsI32s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=B7iz3Bd6; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1772455016; c=relaxed/simple;
+	bh=i2PaH7mcmgnXSUUp+CWSP+o26LYx16eN4NbzWNUWqOw=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=XwqgnT1tEvYAlPzz+CDWqybOSfpHyYTsMY933VCjQL0zAG+nEkldV5G/cCcht9bPGVXPiW9X7ebl3x36LgaXH2QIlSJPJNa+Op0iDywACDk5GysSPOK/YdKJ1UYchMy6Xy23ydoyLw8+QtQaED1r4Yxf6xCM/THNOzHFVIYwEas=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=RoNcasnd; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="B7iz3Bd6"
-ARC-Seal: i=1; a=rsa-sha256; t=1772454928; cv=none; 
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="RoNcasnd"
+ARC-Seal: i=1; a=rsa-sha256; t=1772454994; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=EdM6kuDOOrBMjnk82Ujo+bVjEAXNVDAZBqVU/C5AIUuCTCpiFxwCZcpe03EWauXknbjeD766XJC5tJXnzS73vS3HbLrIVgx4rI/i1umJU3RCWVf4cWtY31b9OEOnDlRP22zfC84VoMNE73XFwNmWC4jeftCBL06vVeerlFo1Mxg=
+	b=Xz3gk0dsdCfqpF8Z/WT4RzR69rWGSqYBPXy4sv3rlsEj3ENMyOapfKLvSmlqb5DyR3j5vW+E/SMgfNBqDNcoFOrZ1GpgFxb5QXjb2xuF420ggw6C37QR9Wc/ixaYpXFdVEh2XZLDYlYQmMkyjqNdkORAqNr2RYriYWbHzsIqi4c=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772454928; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=3BG6NbMJZCakv4h2SAqH1WDhyhJOxLlkoG0+u/X9t+w=; 
-	b=TiGFuMZyrE5Ol/sLoQp+n0ByX0Xz2NUfj2Wbg/OGQXHHc+WHNgMxrth2sK/DXaQUgopkpXqtj73ZFd4FpvtZVvJsUOXn5b909FImg8PufyEmX3POJt6RtJLYu6HzjrzyRCD24SyHVJo7YW4IT+h4B294hCJ/oza3vNm3PR0QHA8=
+	t=1772454994; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=EsZpR6vMuAbfQSEH07cTsIQT6XkmB9hhhtN7g2YBkjE=; 
+	b=GYRhpCvtkqv1pge/qVcT0+OLJNQMmVBbnhqblt2qsew4wPAS9TTyaWgJjMcLxGWWCLeVeHGWDm4TlnUhWqZ7Z8BPuhaM+9QoPKS0n/DgFlCJwF2LixkH0aRoEQxAK1N2ptmYH7KPQDCBJsGjapL2d4zZMloxd8+3bTmRRD3IUtE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772454928;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=3BG6NbMJZCakv4h2SAqH1WDhyhJOxLlkoG0+u/X9t+w=;
-	b=B7iz3Bd6S3S9gUGiY3IxUc2MxIUugQu7iDZrJ/yyGxTlAtxwtsUGr5Xe5CLIXEGc
-	4z1rqx/G6PEKW5Q98G92SaBOZWk7fscOfqGNo1g8UGj3WiRlrlT4fxUNnQkh/ltgEPS
-	YLQ2mrmefuTXI3ooJRzKjrWdygiygyjjnqNTQ15g=
-Received: by mx.zohomail.com with SMTPS id 1772454925950111.09737166746925;
-	Mon, 2 Mar 2026 04:35:25 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Andri Yngvason <andri@yngvason.is>,
- Werner Sembach <wse@tuxedocomputers.com>,
- Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v9 02/19] drm: Add new general DRM property "color format"
-Date: Mon, 02 Mar 2026 13:35:16 +0100
-Message-ID: <5081457.31r3eYUQgx@workhorse>
-In-Reply-To: <y5ybjitphwydvtcjdtrmpcx7t7hwevjszpktcnmyvjqkgzinmu@hoitkl7lghxh>
-References:
- <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
- <20260227-color-format-v9-2-658c3b9db7ef@collabora.com>
- <y5ybjitphwydvtcjdtrmpcx7t7hwevjszpktcnmyvjqkgzinmu@hoitkl7lghxh>
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772454994;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
+	bh=EsZpR6vMuAbfQSEH07cTsIQT6XkmB9hhhtN7g2YBkjE=;
+	b=RoNcasndp7fp3Gtk/jHIvYo3/CP7yeKAObgWnwBIfAAsqq59EeqOSiJCWcBg3iiZ
+	8xBKvgZWPIJ6kd0QQwZeWONSFE3ZgeQCoOsdkftB5p0xoaFo9teJwEA35i3Xt7mHGKz
+	uZxa+gnSsqP9CNuydgWy1NKDTk72h+xlDbFfI85+JPmMLVSgUX6m1cO3byu+R16PCQt
+	ZYXNaQuLIMNPWxRD+RQodB8YE/woRDqT1Ctt8tbiNY+gj4qYq6V/BHolMcw2hM50s/L
+	JuaSpwFHpIcRFg6KwBVHwwLE2+xtiEddChqFe3aHXnnm1axnkuZzwYswpETxplMcayd
+	WhZeo3b2uQ==
+Received: by mx.zohomail.com with SMTPS id 1772454993200513.7002571997001;
+	Mon, 2 Mar 2026 04:36:33 -0800 (PST)
+Message-ID: <136445f6a9b01e423b6b380fb87bad059900f2b3.camel@rong.moe>
+Subject: Re: [PATCH 4/9] ALSA: usb-audio: Support string-descriptor-based
+ quirk table entry
+From: Rong Zhang <i@rong.moe>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Cryolitia PukNgae	 <cryolitia@uniontech.com>, Arun Raghavan
+ <arunr@valvesoftware.com>, 	linux-sound@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org, Icenowy Zheng
+ <uwu@icenowy.me>
+In-Reply-To: <87ms0qmu8e.wl-tiwai@suse.de>
+References: <20260301213726.428505-1-i@rong.moe>
+		<20260301213726.428505-5-i@rong.moe> <87ms0qmu8e.wl-tiwai@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 02 Mar 2026 20:31:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Evolution 3.56.2-8 
+X-ZohoMailClient: External
 
-On Sunday, 1 March 2026 17:47:48 Central European Standard Time Dmitry Baryshkov wrote:
-> On Fri, Feb 27, 2026 at 08:20:07PM +0100, Nicolas Frattaroli wrote:
-> > From: Andri Yngvason <andri@yngvason.is>
-> > 
-> > Add a new general DRM property named "color format" which can be used by
-> > userspace to request the display driver to output a particular color
-> > format.
-> > 
-> > Possible options are:
-> >     - auto (setup by default, driver internally picks the color format)
-> >     - rgb
-> >     - ycbcr444
-> >     - ycbcr422
-> >     - ycbcr420
-> > 
-> > Drivers should advertise from this list which formats they support.
-> > Together with this list and EDID data from the sink we should be able
-> > to relay a list of usable color formats to users to pick from.
-> > 
-> > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> > Signed-off-by: Andri Yngvason <andri@yngvason.is>
-> > Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
-> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > ---
-> >  drivers/gpu/drm/drm_atomic_helper.c |   5 ++
-> >  drivers/gpu/drm/drm_atomic_uapi.c   |  11 ++++
-> >  drivers/gpu/drm/drm_connector.c     | 124 ++++++++++++++++++++++++++++++++++++
-> >  include/drm/drm_connector.h         | 103 ++++++++++++++++++++++++++++++
-> >  4 files changed, 243 insertions(+)
-> 
-> It seems and feels that the common code to be used (almost?) everywhere
-> would be:
-> 
-> if (!drm_mode_create_color_format_property(connector, supported_formats))
-> 	drm_connector_attach_color_format_property(connector);
-> 
-> 
-> Please mention somewhere the reason to split that into two functions.
-> 
+Hi Takashi,
 
-There isn't one I can think of, I kept it as-is since I inherited
-the code like this and figured this was the expected convention based
-on drm_mode_create_hdmi_colorspace_property ->
-drm_connector_attach_colorspace_property.
+Thanks for your review.
 
-Quite possibly, the idea is that callers can choose to probe whether
-a certain set of parameters would allow the property to be created
-without attaching it during said probing, but that's speculation on
-my part.
+On Mon, 2026-03-02 at 10:54 +0100, Takashi Iwai wrote:
+> On Sun, 01 Mar 2026 22:37:20 +0100,
+> Rong Zhang wrote:
+> > @@ -2558,14 +2585,69 @@ void snd_usb_apply_flag_dbg(const char *reason,
+> >  	}
+> >  }
+> > =20
+> > +#define USB_STRING_SIZE 128
+> > +
+> > +static inline int snd_usb_get_strings(struct snd_usb_audio *chip,
+> > +				      char *manufacturer, char *product)
+> > +{
+> > +	int ret;
+> > +
+> > +	if (manufacturer) {
+> > +		ret =3D usb_string(chip->dev, chip->dev->descriptor.iManufacturer,
+> > +				 manufacturer, USB_STRING_SIZE);
+> > +		if (ret < 0) {
+> > +			usb_audio_warn(chip, "failed to get manufacturer string: %d\n", ret=
+);
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> > +	if (product) {
+> > +		ret =3D usb_string(chip->dev, chip->dev->descriptor.iProduct,
+> > +				 product, USB_STRING_SIZE);
+> > +		if (ret < 0) {
+> > +			usb_audio_warn(chip, "failed to get product string: %d\n", ret);
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> > +	return 1; /* ok */
+> > +}
+> > +
+> >  void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
+> >  {
+> >  	const struct usb_audio_quirk_flags_table *p;
+> > +	char manufacturer[USB_STRING_SIZE];
+> > +	char product[USB_STRING_SIZE];
+>=20
+> Keeping those a bit largish strings on the stack doesn't look good.
+> Maybe better to do kalloc with __free(kfree).
 
-Having it work like drm_connector_attach_max_bpc_property may make
-more sense here, and I'll refactor it to do this in the next revision
-unless anyone has any objections.
+Makes sense.
 
-Kind regards,
-Nicolas Frattaroli
+> > +	int got_usb_strings =3D 0; /* <0: error, 0: pending, >0: ok */
+>=20
+> I think this global flag could go wrong since...
+>=20
+> >  	for (p =3D quirk_flags_table; p->id; p++) {
+> >  		if (chip->usb_id =3D=3D p->id ||
+> >  		    (!USB_ID_PRODUCT(p->id) &&
+> >  		     USB_ID_VENDOR(chip->usb_id) =3D=3D USB_ID_VENDOR(p->id))) {
+> > +			if (!p->usb_string_match)
+> > +				goto apply; /* DEVICE_FLG or VENDOR_FLG */
+> > +
+> > +			/* DEVICE_STRING_FLG or VENDOR_STRING_FLG */
+> > +			if (!got_usb_strings) {
+> > +				got_usb_strings =3D snd_usb_get_strings(chip,
+> > +					p->usb_string_match->manufacturer ? manufacturer : NULL,
+> > +					p->usb_string_match->product ? product : NULL);
+>=20
+> ... here you try to extract strings only once, but this retrieval
+> depends on the current entry.  If the current entry has only
+> manufacturer and the next entry has only product, it won't work.
 
+Nice catch! Thanks. Will fix it in v2.
 
+> IMO, a simpler way would be something like:
+>=20
+> #define USB_STRING_SIZE 128
+>=20
+> static char *snd_usb_get_string(struct snd_usb_audio *chip, int id)
+> {
+> 	char *buf =3D kmalloc(USB_STRING_SIZE, GFP_KERNEL);
+> 	int ret;
+>=20
+> 	if (!buf)
+> 		return ERR_PTR(-ENOMEM);
+> 	ret =3D usb_string(chip->dev, id, buf, USB_STRING_SIZE);
+> 	if (ret < 0) {
+> 		usb_audio_warn(chip, "failed to get string for id%d: %d\n", ret);
+> 		kfree(buf);
+> 		return ERR_PTR(ret);
+> 	}
+> 	return buf;
+> }
+
+I guess we may use usb_cache_string() so that we don't need to
+kmalloc() the buffer ourselves and can get rid of USB_STRING_SIZE.
+
+> void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
+> {
+> 	....
+> 	char *manufacturer __free(kfree) =3D NULL;
+> 	char *product __free(kfree) =3D NULL;
+>=20
+>   	for (p =3D quirk_flags_table; p->id; p++) {
+> 		....
+> 		if (p->usb_string_match->manufacturer) {
+> 			if (!manufacturer)
+> 				manufaturer =3D
+> 					snd_usb_get_string(chip,
+> 						chip->dev->descriptor.iManufacturer);
+> 			if (!IS_ERR_OR_NULL(manufacturer) &&
+> 			    strcmp(p->usb_string_match->manufacturer, manufacturer))
+> 				continue;		=09
+> 		}
+> 		if (p->usb_string_match->product) {
+> 			if (!product)
+> 				product =3D
+> 					snd_usb_get_string(chip,
+> 						chip->dev->descriptor.iProduct);
+> 			if (!IS_ERR_OR_NULL(product) &&
+> 			    strcmp(p->usb_string_match->product, product))
+> 				continue;		=09
+> 		}
+>=20
+>=20
+
+Sounds neat. Will do in v2. I will also skip the warning if id =3D=3D 0
+since string-descriptor-based quirk table entries has nothing to do
+with devices without corresponding descriptors.
+
+Thanks,
+Rong
+
+> thanks,
+>=20
+> Takashi
