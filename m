@@ -1,194 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB1A396B85;
-	Mon,  2 Mar 2026 10:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 144ED39B95B
+	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 10:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772446844; cv=none; b=CI2PjwJjcX+1UH3M70hFAf7k/Go4QpjBldMsKwboXzEHvMbtYrk13aA2e94/S0Pm/ggCleEta2CQROk9lLd4vTKQUWYRkQjs8/etC0KepSKLrNvZj2YgW9mrwrDXOaq+DN1Z4Mjh1/8pdGVGfguB4RFhEVJjRCZFgRytdQsf1M8=
+	t=1772447004; cv=none; b=Fw4Kp4HgBDLViZd+DWMKkLR1IMSt6ammef/Lrp1OLuvKANAeUjPR5cfRRYiUOQ5KaBu3Jl/HwaQgNCHWRAUmGzlhPYQMLx1CIASoAQMcktVpL42xgYasAYwiCpBl5JssNTE/c/1QZFEytz+uo+pfJL6tTx1ZiV6PWGspGWyVThI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772446844; c=relaxed/simple;
-	bh=JD4YIPNcb+y88+5wOOif7V+1YNyKxExUlQlWm1SJGBs=;
+	s=arc-20240116; t=1772447004; c=relaxed/simple;
+	bh=DxIjiuRLSsy1tFjfqwnUtZGdPPrFPa2emHdfIPwLGaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qCpDR73V93HzWPMLRjNSltUrp240RgHCXvCrgmcq6j1kglwgNn9bRdnuVHf1NNcUj6DW/quBr9JdcmDmIE8gqEwUkDs1s+5KQXCiUUM0ECEKPTACd+ubRlZyeumVNiQyc1AYLq7Cors0C1nEfb3rayeXdS6UGngihYoJDgGv2Js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eQt4EnOt; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=CKUq//8CLnOJLqR58SJB46LfXBNAzq9if6Lw/Fe5Ne6wHqiIMfzvxCe7OfZy5VQNPcNePq5tKgbZdp6cRlRzUqtgOw/W2jkfs3biJSjhc/14s3tT5Un8XADf74lsbyjpGuARjNi7TTmAS/Llj2TmDbdpTl2UIOReAc6xS1BYauE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=qejSHz/m; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eQt4EnOt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772446843; x=1803982843;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=JD4YIPNcb+y88+5wOOif7V+1YNyKxExUlQlWm1SJGBs=;
-  b=eQt4EnOtpzi+25W42SljVewy8R+w1OgMAHlObAcSX+HVhJostpjVAkiJ
-   RBbYEDIGz9vlTG+Bs/ZkQpC0ZllGH6CoSnSxDFvKX/JSeh3n6AaKjsDny
-   ykQHVtx6FhBr49b5GxR1WTGPlCzksXcsAutPXEPilBt/LMgQbXwLQ7Btl
-   ZJCh12t1odxxAWB5vSPgjL9IbGtGYGkDxFpVNQrVD6AbU4KakjLvu4uTQ
-   J9N3wyn04oFmR9iiLP2NZyxIjn3AndMV3v9OxPgVChxwUsfgoGTFgFlfc
-   DTPX8/qXvjp67qqjNuR1uKBez2tWHeQj+mOXHpaZwFRcmRGAznkVh0rUS
-   Q==;
-X-CSE-ConnectionGUID: KZdEgPp8R7SXy0iwUvM+pg==
-X-CSE-MsgGUID: JqwsviTLRFyyVV5e0Edi/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11716"; a="61020262"
-X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="61020262"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 02:20:42 -0800
-X-CSE-ConnectionGUID: syDccVPRTzm0V3agw43T/Q==
-X-CSE-MsgGUID: XHLoCzA3Qie8dWjHLpFG0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,319,1763452800"; 
-   d="scan'208";a="221764078"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.52])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2026 02:20:38 -0800
-Date: Mon, 2 Mar 2026 12:20:35 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>,
-	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Antipov <dmantipov@yandex.ru>
-Subject: Re: [PATCH v7 2/8] iio: core: add fixed point parsing with 64-bit
- parts
-Message-ID: <aaVkcw0g79pnXU_z@ashevche-desk.local>
-References: <20260216-adf41513-iio-driver-v7-2-b0ed387ab559@analog.com>
- <20260222172912.60a103c0@jic23-huawei>
- <aZwYshRxNgSh3CWk@smile.fi.intel.com>
- <zb752y7tnjzsc35na572o4sip6efwv3i4lha4ls6fhdrr52h5v@bfgy65cmae4p>
- <CAHp75VdSV2QDMR0DueCuP=Ds-5A1NsNjqPWtmRbG4NvoJ=LjXQ@mail.gmail.com>
- <20260301122340.3fedf64e@jic23-huawei>
- <aaVKDbB_XIFmxCEM@ashevche-desk.local>
- <ct2r5wvvfowqcfe44fawbi4blkjpfle7etvaunwbsxevejsr2s@3g43wru5n6jh>
- <aaVZdgvZhaWDgU2X@ashevche-desk.local>
- <imtqtaakbz4c4pmlmb3gh2r5sjvso2fymdy4poyjvds2noqzdr@d4ia6rml6jzf>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="qejSHz/m"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439b8a3f2bcso457411f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 02:23:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772447000; x=1773051800; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xyf5aAwmciBE7QFfA+/PpQQaPUYccIgX3fQYsSxVl+U=;
+        b=qejSHz/mv7HaqVvybUq9mMdRh91/klcPbrp8m9TDyN6bXhHdCoYkRcI+r0+jbsLuON
+         7V780DKi5GhyAkBytjq2KpvODxTn0X03VlsAQQpYS6py12jJWPQrJU7/rm3LBHu7lD7i
+         UjCVZcSmmNp9mKBlkHOADSXgpl8s9AyI1yxAK1XFCzUbfbotkL1mOYOqvkD2AjRVQ+RF
+         53EouXoHMx31/vSAx9ke/y4E26GeiroFmRLRGzYCSy169dWOQmA9ViMFPosIwtLRY8kX
+         1mfWQ4UXY5lnssavO4yvfLH+vmR2Zt/3QzPiKwI8xtJiuEaxHRgMNv+JLyrRZdMDBTru
+         SN/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772447000; x=1773051800;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xyf5aAwmciBE7QFfA+/PpQQaPUYccIgX3fQYsSxVl+U=;
+        b=J5NGqkX2UICIWc+luYu9rwi4gUyVxtPKfBaOHTy5QfppBEMdzGD1+BI4Sqbor/SOgb
+         c6KDX5P7qKNZ3u4v1LfjQt48Zzsm+s5iK4P0L2W7t4/cvVFQ0A+65ukIuMCl1zK46pNL
+         yYEAGtqMxSMo1mIc/z/yuRN4ho7uc+uGWd3iVo7E88sK/RxYbsZmkLMt8aSWYMJjiDYb
+         jyex4RX7jpkt1EUCyrYMYLkqNJQnr+xwO0IGJ5Mid0ZibWPFPp/ESKhIE21deU6/1wLh
+         WIXNU/1Vdt2SmvHHYcPiJ6Uthg+jqpgkUcGwhNe2INlGlBqzc1JqVD4SM3rmA9oSiLYT
+         FooA==
+X-Forwarded-Encrypted: i=1; AJvYcCUOTOQl0jtRVDdSuISVjuuZyC5H6dkoXH6m/In3EYZg/FXcsNQw8V8noZdTWOOcYrDqNg/COLjVfgs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKY2vgaI1T1jtJSKQlX3eMOFOsm6v2MM2q/17PlGKEud6h9cAp
+	jPusjme7rLchmIGjopvb2HbYGKiD1qBhumUo2U9gcXSuuOmvr/Z10GKQyL1lPH5DUUc=
+X-Gm-Gg: ATEYQzxljdQ2TTyn66/BG/Xggc9gaWSNQHGQVsZNCHhrkH684JelKUwqq4lMNwT5uGm
+	hGzj6V+1GvTbEfDUcfv3ZUo7JzzhLhP0KYi/4eDQmLZPQnWE+5D0lWh89vw4mFC7N40Pent+g/f
+	vHefqH2BytsqLT2ndDzqABEtCIqJMW+FQNwqui7pOmD4TUWfI7kjVAoQ0cc4KKVmj7bY1CVFNYp
+	AjqzUB7erWb70sPZytwThMgPo9IZ4CVAgbRuj0nTG23do+IqL2DKB5I0P6kiRXC8+KntaB6Rb4W
+	KiOACKWNuURvHDhlkDIoFlhYaETr+0yi6TAitXAO1mo8HwT77i+KoYrZaqfVZjK/mtl0GbfSfVW
+	wZ6C0DNwWTAfYUojv4QYlx5qnk/ubhZlItJjXo1ogBDWQJDyhVyQs+8N5t2ziE3k8NbPrYS8KOh
+	bsZa/CtKTQtnLaQGQPqtMCckY6gUu+eb4=
+X-Received: by 2002:a05:6000:186e:b0:439:b374:c6d3 with SMTP id ffacd0b85a97d-439b374c7b0mr7633629f8f.32.1772447000348;
+        Mon, 02 Mar 2026 02:23:20 -0800 (PST)
+Received: from FV6GYCPJ69 ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b1116698sm12378754f8f.16.2026.03.02.02.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 02:23:19 -0800 (PST)
+Date: Mon, 2 Mar 2026 11:23:16 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
+	pabeni@redhat.com, horms@kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, 
+	mbloch@nvidia.com, przemyslaw.kitszel@intel.com, mschmidt@redhat.com, 
+	andrew+netdev@lunn.ch, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, chuck.lever@oracle.com, matttbe@kernel.org, cjubran@nvidia.com, 
+	daniel.zahka@gmail.com, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v2 04/10] devlink: allow to use devlink index as
+ a command handle
+Message-ID: <onwmw7ql5g2xqacrqnawcphdlzfu5v5ohgslsbvoeraszm7m4m@2ywv2ql37wu7>
+References: <20260225133422.290965-1-jiri@resnulli.us>
+ <20260225133422.290965-5-jiri@resnulli.us>
+ <20260228144846.40f5dfeb@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <imtqtaakbz4c4pmlmb3gh2r5sjvso2fymdy4poyjvds2noqzdr@d4ia6rml6jzf>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260228144846.40f5dfeb@kernel.org>
 
-On Mon, Mar 02, 2026 at 10:13:52AM +0000, Rodrigo Alencar wrote:
-> On 26/03/02 11:33AM, Andy Shevchenko wrote:
-> > On Mon, Mar 02, 2026 at 09:19:42AM +0000, Rodrigo Alencar wrote:
-> > > On 26/03/02 10:27AM, Andy Shevchenko wrote:
-> > > > On Sun, Mar 01, 2026 at 12:23:40PM +0000, Jonathan Cameron wrote:
-> > > > > On Mon, 23 Feb 2026 12:41:45 +0200
-> > > > > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> > > > > > On Mon, Feb 23, 2026 at 12:37 PM Rodrigo Alencar
-> > > > > > <455.rodrigo.alencar@gmail.com> wrote:
-> > > > > > > On 26/02/23 11:06AM, Andy Shevchenko wrote:  
-> > > > > > > > On Sun, Feb 22, 2026 at 05:29:12PM +0000, Jonathan Cameron wrote:  
+Sat, Feb 28, 2026 at 11:48:46PM +0100, kuba@kernel.org wrote:
+>On Wed, 25 Feb 2026 14:34:16 +0100 Jiri Pirko wrote:
+>> +	if (attrs[DEVLINK_ATTR_INDEX]) {
+>> +		index = nla_get_uint(attrs[DEVLINK_ATTR_INDEX]);
+>> +		devlink = devlinks_xa_lookup_get(net, index);
+>> +		if (!devlink)
+>> +			return ERR_PTR(-ENODEV);
+>> +		goto found;
+>> +	}
+>> +
+>>  	if (!attrs[DEVLINK_ATTR_BUS_NAME] || !attrs[DEVLINK_ATTR_DEV_NAME])
+>>  		return ERR_PTR(-EINVAL);
+>
+>If both INDEX and BUS_NAME + DEV_NAME are provided we should check
+>that they point to the same device? Or reject user space passing both?
 
-...
-
-> > > > > > > > It all depends on the series from Dmitry Antipov.
-> > > > > > > > Can somebody help reviewing the patch 1 there?
-> > > > > > > > https://lore.kernel.org/linux-hardening/20260212125628.739276-1-dmantipov@yandex.ru/  
-> > > > 
-> > > > FWIW, Andrew picked them up for Linux Next. Please, test!
-> > > 
-> > > The patch looks ok, but I am not seeing it solving my problem here.
-> > > Here is the v8:
-> > > https://lore.kernel.org/linux-hardening/aZXDSbyH8tWmTPPL@smile.fi.intel.com/T/#t
-> > > 
-> > > I would have to use simple_strtoull() and it would clamp the value at
-> > > ULLONG_MAX in case of overflow, but it would not say that an overflow
-> > > happened. Would that be fine? I understand that addressing the FIXME
-> > > in simple_strntoull() is not a subject of this patch.
-> > >  
-> > > > > > > can we push for the exposure of that function to kernel modules?
-> > > > > > > We have discussed that in v6, and I understand that:
-> > > > > > >
-> > > > > > > EXPORT_SYMBOL_FOR_MODULES(_parse_integer_limit, "industrialio");
-> > > > > > > in lib/kstrtox.c;
-> > > > > > >
-> > > > > > > #include "../../lib/kstrtox.h"
-> > > > > > > in drivers/iio/industrialio-core.c
-> > > > > > >
-> > > > > > > is not a good call...  
-> > > > > > 
-> > > > > > Yep, because it's a temporary band-aid. The proper solution is to have
-> > > > > > shared code provided by the lib/. So, the wrapper to parse 64-bit out
-> > > > > > from the constant string literal should be part of the lib/ in the
-> > > > > > result.
-> > > > > > 
-> > > > > > > > When it's in, we can continue on this one. TL;DR: for me this is on hold.
-> > > > > > > > But if you see the need to have the driver being in IIO, please add a big
-> > > > > > > > fat FIXME to make sure we will get this all being sorted out in the
-> > > > > > > > (nearest?) future.  
-> > > > > > >
-> > > > > > > I could add the FIXME into iio_safe_strntou64() doc header. It explains
-> > > > > > > the context:
-> > > > > > >  
-> > > > > > > > + * The implementation of this function is similar to _parse_integer_limit()
-> > > > > > > > + * available in lib/kstrtox.h, but that header/function is not available to be
-> > > > > > > > + * used in kernel modules. Hence, this implementation may need to change or
-> > > > > > > > + * removed to reuse a new suitable helper that is properly exposed.  
-> > > > > > 
-> > > > > > Up to Jonathan, I hope we can move the above mentioned series forward.
-> > > > > > Without that, as I pointed out, this one sounds to me suboptimal and
-> > > > > > unneeded double effort.
-> > > > > > 
-> > > > > I don't want to hold this series for another cycle, but we are still
-> > > > > fairly early in this one, so some focus on moving that forwards seems
-> > > > > sensible.  If we are running out of time, we can fallback to a loud
-> > > > > FIXME and a plan to move to the generic version in the library next cycle.
-> > > > > So let's set a rough deadline of rc5 and see how things are going then.
-> > > > 
-> > > > Taking into account the above, can we actually develop something
-> > > > based on that?  Or at least having a temporary solution for this
-> > > > cycle followed up by the better one for the next?
-> > > 
-> > > As mentioned above, I am not sure how consume what Andrew has over there.
-> > > It seems address lib/ internal stuff. The interfaces are still the same.
-> > 
-> > I think it will be third time I'm repeating that this needs a wrapper in the
-> > lib/. Just add the one (like with safe_strtoull() naming schema) with properly
-> > formed prototype that returns an error and the result in different variables
-> > 
-> > int safe_strtoull(..., *result)
-> > {
-> > 	...
-> > }
-> > EXPORT_SYMBOL_GPL(safe_strtoull);
-> > 
-> > (Also some test cases have to be added.)
-> 
-> I really understood that I would need to use Andrew's work as is, but
-> in fact, you encouraging me to add what we need on top of it.
-> 
-> Assuming that this would increase the scope of this patch series, I suppose
-> that would need to be included in a separate one.
-> can we just not export simple_strntoull() from lib/vsprintf.c? I mean,
-> addressing its FIXME and changing its prototype?
-
-I do not understand why we have to stick with the scope of IIO and make an
-unneeded churn and double effort. We have a code that you need. Yes, it
-requires an additional change that adds a glue (exported) function. How is it
-out of the scope? If we hurry up with that code to be added, it increases
-the chances to get the rest in sooner.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+I implemented reject. I don't see much of value of allowing both. The
+code that would do the checking is too much for this hypothetical case.
