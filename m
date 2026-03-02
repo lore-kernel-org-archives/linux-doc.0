@@ -1,144 +1,160 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC28E30CD9E
-	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 18:14:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772475300; cv=pass; b=Gch4OBZJh+WXX1BD+eOoV3quR3nDX7P7mz1LmyM1dsgebzyS1ThRqgpekixNXRgTXpJifuP1ByQ4o6GbNfj2EDv+XP4izyfW9kI1ByFga827Wes54AjTnjsQ4FagEYqj2xOjWp0ZNr2r5G1dXxlWJ6AaXdGvY1BW0rzb5jJ1JXo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772475300; c=relaxed/simple;
-	bh=BTi+4ARakd9uxctTdqjtJnxTFNq/yPeOIt/d2iLvfuA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XvP/apoN1a++RF2d5/lsKEnsek05CkvtkGjKDwkoqlvD3+6S1cpa24q35u6awVOscCg/JgovrVN65yF+ggfaP1w6F8JNBZDl1UUX3bQYzOxj480FQ8cr3TgnHi+d5v2xJvv7TCO0TTA0MVp5RygRa8diTBRR1i26+3pLyKc5h5Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bTMZwI8Z; arc=pass smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7171FC0FC;
+	Mon,  2 Mar 2026 18:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772475340; cv=none; b=mfHnZ+WL2rqs4sip32b+rF4gr942Nz1mJ3wI9X+IBVqGKoUaQA/fty8u1VDwjDuCnp8fsWyd/vybZQzM2zVnP9Hpl48MqqYuvahcI8OpN1XvFazWnk52HipwNgaRvIqotlAffniqm53Dl6yjJbA6YLx5+JCK/6AALd3+GYkBaoc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772475340; c=relaxed/simple;
+	bh=n0j3s+Jv9EfYcZg7WCG66qjQA0IbWq3aYDUwX+zmmpY=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mrTSeXW90PGEGjv12kjr/8jDZiojtMyrJTcc3ePsj69vMpZIet1+tRrJcvpHUZTgtewuwtxYSJP3ds9LZxcugxB+LF1BKG+pl9ZBTmyQAbn/6Es5hU7ywkKeLzku1yTLG1lNkt0zfHu4uHJ+LOSvnHdlSfuLNe+ZR/Zz3N6QMtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mfs6dP63; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bTMZwI8Z"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3870df2331aso12937151fa.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 10:14:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772475297; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UQsheAPIMSUSCS+NGh5K2GSmvHUZwamJhVyLcWZkHZE0gRgyZ/qS4ZNfWDqVuIW8KS
-         bfd53I0zgVQCJHnRrOkCQchosnUQQrC/UF/6EzZ+hEas+cFT2v703bsHRvQIpqH8rehS
-         wKcImW6jzURsq9Mgp6UQYMJQB9j8lw2uA/E0wGvoUkwJ9fUYKPOsiYmmCr/PtqQS1VI2
-         t4Lcm9QfBeJ2aFXD9aqlc3CMUgsCANIhRDetkcrhFISBMWGdWxZ6dwTMtGcyTpeG/QYK
-         UqFIfgD6ss216goW2tL0qLMW4jt/83sIYpQKdBADXhnqwXP0+ezga10pKQUlSPbkxkTk
-         pZPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rZw46QiejIxPJc1G5DNZGnj4KsLWM6jIVrYLGkqOkHQ=;
-        fh=MBvlH0bgONfj59/2MRpPCbs0BMBTvXQPsoiyLYr4A8I=;
-        b=OvvO2KfDVxPPJJ8FO5M7jbFqSGzRUu4DLfkDF5hg5rHbn/3QfwJGNn4eO8gHYcKQez
-         2HIUmvcN1KWDYN0b+NSdqAE+k0+/id8k6dMoeD5kKC83id+W1kFDNqCupNwq8Q6X39fX
-         Plx4h1kHbKE02ptTHpfaJan2p7AchojJl009lsa1zWAgtkjrICTCwLVZsYXIfB7Gex4I
-         psxu0QH6orJJ1eGo46Bo61dyOgOLwX80w6hF5bD0mjjwZHjGRzuvcKstN1s0og9gfWt4
-         TSn+g8i6z0g3sHRzKhPWmAx/4sv4bzkj9FNlZ/929xIvLrQTTpO+PnH9jrUXTmrjn6+0
-         VFXQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772475297; x=1773080097; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rZw46QiejIxPJc1G5DNZGnj4KsLWM6jIVrYLGkqOkHQ=;
-        b=bTMZwI8ZdQqnj4AgTxkJe6IjG1pfNONBuMwDLAvSla2GHqfEkX0h99WhB2RdJaxT+T
-         ujJn1WMtH6ol/zVwaursQALwAzikhqQRDXCXEVQw3oUlr3T6wYY/W1MLeTLqR1U0ivhK
-         o6px54O0EN+5JWoPVTj/QKoXmNd1VRfu++gSIhoN5AiBjhlmwEUJsUfn/rAaKxPB66UU
-         TgVupI8uG5Ma/tMs0zMwft7t0/FZmOkm4e6VdgXJ5uE9PhQ3K1eQqmyVK7Xy56dQ0n+C
-         EdIjgD9nrHWAmhLtECRerfHkXFdZoUUZGd/7Y3fpDuU4gxAd0M745lS0yWkTmNo9M+Rj
-         J7tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772475297; x=1773080097;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rZw46QiejIxPJc1G5DNZGnj4KsLWM6jIVrYLGkqOkHQ=;
-        b=UC2dWvt5Avb1kkaXpUq35PygBFZjIQqnxUI6lh0n3GbSNtus3S5LOyC6qhnwFx0X02
-         oOdfA2c+2Fe3pRvW7BKSDPFUBG/+72N1UCUO9FtPAKGqiEjai02spGonNj5sk4Tar9TZ
-         S/c5VkngNXfOE/1U9KLTI7MLgSWV03W9T90UEQa6K6katMTKDsHmyclxN7VKkKFNv+Xv
-         1qt8tjS4AaA5EAn0DyJR3Y6qzH3tvU6i2816GzfSYWtBDjXV7uybUMEL9kQ47lS6XBXT
-         U5pioj0AKZi2fDWUVQIRpbF0WB3W5WbWWxnA1qvzxs2Y/MHE2kI9y0gfyaJ8lckq26zB
-         w8gw==
-X-Forwarded-Encrypted: i=1; AJvYcCXZN/I9lvrpztHnpHHDL/I6Y8+U8L/cVL1Qtm1Ei/XWkeUDb/6gQYM0AUTtv+ElYN37zgZF/gzF8Zc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8eCt5XsWgDem+Yn2iLWNAfm+p4wRY2FUQjR1MaGpxxZv9nOme
-	5Era3N2SCrfltgMAct3njtnbgdEp15jamkil0qjiBYiNCB4fFNM9whn6OY5Upsynfh4zAVDB1B2
-	YcT4FFfgj8GcyGlcsqnRjA+rf0CbvuYSQAzUyEDTE
-X-Gm-Gg: ATEYQzwV9sdo/uh0b9zcdBuO+i9/C3gCWxs3qN4YCk4YCjhq2ifbfJyuQVkH9l3INi2
-	tWGeW1lk2nEAvE9teyfSZnKsSL1TSrweOe9oMgM9BqvA5GDBAvtgsEjunoAzJ08mqORt42VeJCW
-	77J1q09BBoNkGG9IgtItJNCOlnK0h61K16EEZRSVj+d8Stp/QIkqEUq8PntuEJK6Db72cl/UMzB
-	e819VtRI6n8MkjI1F2akXDDkMolg8LOL6PUU4gF9KWoHtVsxgW0SZARc7vmBflTzAtzVradXkZ8
-	0gMtgkw=
-X-Received: by 2002:a2e:8094:0:b0:389:ed12:9731 with SMTP id
- 38308e7fff4ca-389f1e29849mr81213251fa.16.1772475296490; Mon, 02 Mar 2026
- 10:14:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mfs6dP63"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8BDC19423;
+	Mon,  2 Mar 2026 18:15:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772475339;
+	bh=n0j3s+Jv9EfYcZg7WCG66qjQA0IbWq3aYDUwX+zmmpY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Mfs6dP63MQRqvFkP3VWM9bMGpb4DOCqjTpPenI6LAdbuNLXyunRWwgwj5wbvOR/FH
+	 ovy6+HXn2OLIIzdtg/qtNWlDBgguf9wveNIe3TtO2X7lQR8gOMeJ4NsH7fZBtqJyxx
+	 X8Q4z2sEt0gcEcNsSIO8prhFGAbnxmVyt+EJL9gRjlCrTPODa+YzT6AP1O8sf2dmyB
+	 WnUHc3d+4RDH+r6dTp17LHlRiaKQ9Moh8L/0SqZdat1T4YmNAa+B6sTYYQHRniEFxf
+	 Ks515h9ZCAxjHNLS90nUZ9eetOskJcrIu1Zjsk8Amd+WrhpAUrJCQWBfaxhYB/brbG
+	 YuR6o6KJQuAnA==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vx7ns-0000000FMBu-3kY4;
+	Mon, 02 Mar 2026 18:15:37 +0000
+Date: Mon, 02 Mar 2026 18:15:36 +0000
+Message-ID: <86jyvu85dj.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Ben Horgan <ben.horgan@arm.com>
+Cc: amitsinght@marvell.com,
+	baisheng.gao@unisoc.com,
+	baolin.wang@linux.alibaba.com,
+	carl@os.amperecomputing.com,
+	dave.martin@arm.com,
+	david@kernel.org,
+	dfustini@baylibre.com,
+	fenghuay@nvidia.com,
+	gshan@redhat.com,
+	james.morse@arm.com,
+	jonathan.cameron@huawei.com,
+	kobak@nvidia.com,
+	lcherian@marvell.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	peternewman@google.com,
+	punit.agrawal@oss.qualcomm.com,
+	quic_jiles@quicinc.com,
+	reinette.chatre@intel.com,
+	rohit.mathew@arm.com,
+	scott@os.amperecomputing.com,
+	sdonthineni@nvidia.com,
+	tan.shaopeng@fujitsu.com,
+	xhao@linux.alibaba.com,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	corbet@lwn.net,
+	oupton@kernel.org,
+	joey.gouly@arm.com,
+	suzuki.poulose@arm.com,
+	kvmarm@lists.linux.dev,
+	zengheng4@huawei.com,
+	linux-doc@vger.kernel.org,
+	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+Subject: Re: [PATCH v5 12/41] KVM: arm64: Use kernel-space partid configuration for hypercalls
+In-Reply-To: <20260224175720.2663924-13-ben.horgan@arm.com>
+References: <20260224175720.2663924-1-ben.horgan@arm.com>
+	<20260224175720.2663924-13-ben.horgan@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260129212510.967611-4-dmatlack@google.com> <20260225224746.GA3714478@bhelgaas>
- <aZ-Dqi782aafiE_-@google.com> <20260226144057.GA5933@nvidia.com>
- <20260227090449.2a23d06d@shazbot.org> <20260301192236.GQ5933@nvidia.com>
-In-Reply-To: <20260301192236.GQ5933@nvidia.com>
-From: David Matlack <dmatlack@google.com>
-Date: Mon, 2 Mar 2026 10:14:29 -0800
-X-Gm-Features: AaiRm53G4DyTBgh8HthgkNXd7A4lLjemXkfCrH3k_RfrPJCtk91UZa8WxDGHRMs
-Message-ID: <CALzav=eJ63gitLatAerrjEc+o3VXcRor3XwA7_o2PmKYnMwCuA@mail.gmail.com>
-Subject: Re: [PATCH v2 03/22] PCI: Inherit bus numbers from previous kernel
- during Live Update
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <helgaas@kernel.org>, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, 
-	Alistair Popple <apopple@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>, 
-	kexec@lists.infradead.org, kvm@vger.kernel.org, 
-	Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
-	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ben.horgan@arm.com, amitsinght@marvell.com, baisheng.gao@unisoc.com, baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com, dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com, fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, peternewman@google.com, punit.agrawal@oss.qualcomm.com, quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com, scott@os.amperecomputing.com, sdonthineni@nvidia.com, tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev, zengheng4@huawei.com, linux-doc@vger.kernel.org, tan.shaopeng@jp.fujitsu.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Sun, Mar 1, 2026 at 11:22=E2=80=AFAM Jason Gunthorpe <jgg@nvidia.com> wr=
-ote:
->
-> On Fri, Feb 27, 2026 at 09:04:49AM -0700, Alex Williamson wrote:
->
-> > Not only fabric topology, but also routing.
->
-> Yes
->
-> > ACS overrides on the
-> > command line would need to be enforced between the original and kexec
-> > kernel such that IOMMU groups are deterministic.  Thanks,
->
-> That's a good point, I think as a reasonable starting point we should
-> require live update preserved devices to have singleton iommu_groups
-> on both sides. That is easy to check and enforce, and it doesn't
-> matter how the administrator makes that happen.
+On Tue, 24 Feb 2026 17:56:51 +0000,
+Ben Horgan <ben.horgan@arm.com> wrote:
+> 
+> On nVHE systems whether or not MPAM is enabled, EL2 continues to use
+> partid-0 for hypercalls, even when the host may have configured its kernel
+> threads to use a different partid. 0 may have been assigned to another
+> task. Copy the EL1 MPAM register to EL2. This ensures hypercalls use the
+> same partid as the kernel thread does on the host.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Tested-by: Peter Newman <peternewman@google.com>
+> Tested-by: Zeng Heng <zengheng4@huawei.com>
+> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> ---
+> Changes since v2:
+> Use mask
+> Use read_sysreg_el1 to cope with hvhe
+> 
+> Changes since v3:
+> Set MPAM2_EL2.MPAMEN to 1 as we rely on that before and after
+> ---
+>  arch/arm64/kvm/hyp/nvhe/hyp-main.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+> index e7790097db93..80e71eeddc03 100644
+> --- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+> +++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+> @@ -638,6 +638,15 @@ static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
+>  	unsigned long hcall_min = 0;
+>  	hcall_t hfn;
+>  
+> +	if (system_supports_mpam()) {
+> +		u64 mask = MPAM1_EL1_PARTID_D | MPAM1_EL1_PARTID_I |
+> +			MPAM1_EL1_PMG_D | MPAM1_EL1_PMG_I;
+> +		u64 val = MPAM2_EL2_MPAMEN | (read_sysreg_el1(SYS_MPAM1) & mask);
+> +
+> +		write_sysreg_s(val, SYS_MPAM2_EL2);
+> +		isb();
+> +	}
+> +
+>  	/*
+>  	 * If pKVM has been initialised then reject any calls to the
+>  	 * early "privileged" hypercalls. Note that we cannot reject
 
-I can add that in the next version.
+It is extremely debatable whether this is desirable:
 
-> You also can't change the ACS flags while traffic is flowing because
-> that changes the fabric routing too. This should take care to enforce
-> that restriction as well.
+- pKVM really shouldn't be influenced by what the host does, which
+  means reserving PARTIDs and indirecting what the host sees. This can
+  be deferred until pKVM is actually useful upstream.
 
-I'll look into this but will probably defer it to a future series. We
-need several more pieces in place until we are ready to support
-traffic to/from preserved devices during the Live Update.
+- repeatedly hammering that register plus an ISB on the hot path of a
+  hypercall is a sure way to make things worse than they should be,
+  and that should be fixed now.
+
+Do you really expect the EL1 settings to change on a regular basis? If
+so, I'd rather you use a specific host hypercall, or even a trap to
+propagate the EL1 configuration. If not, just set it as part of the
+KVM init and be done with it.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
