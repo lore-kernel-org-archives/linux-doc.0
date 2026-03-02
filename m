@@ -1,99 +1,165 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BB8314D07;
-	Mon,  2 Mar 2026 17:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772472809; cv=pass; b=CNaMfHedjKw0WFzs9j+hH25iNef7X6gRvPg4+sGKPajAAaCEeXi7uCm/w2IdVOm3zLNWuYstV22NV6CItqExd8mtsRtLC9S2MLlZZ0jC+/RBzesX5oB4EfmQlmvIGUcHZWPUIF1A0CFjKWpsD93lBbE2u/6L7VVqx8rkurIXFYI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772472809; c=relaxed/simple;
-	bh=j79qPFKWwqwJ0znWaR7jdEQM5IVfUxAVTqaH6kwY++8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aTU1f9aCMR6SfuAIkrlWPfklfQVMA/FlBSSYzF0XEr0wf3ZRsNhmP2/ymOBnLmGJhUMxPQ7cc0OV6I1r4oJAZ4qp+PnYVQOtiP6bUQ1xxJYcPdn1wksxEB1xU0nQuTEMnNCaB16azKSUkpYszRHUcPGAIG+51tgIL4upsCRz8Is=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=lXy/W5cr; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E5B3FFAAD;
+	Mon,  2 Mar 2026 17:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772473934; cv=none; b=EOPRzZfaak6uqbsu5BgTDFTDpI6QJax37ktGWAmwACuaTLpUvF1EggThtSLMhWr3Y+Nh2vrCzaKbN7Y9boOUscX4lVIubn6zXwEboc9PI9t3R1A3LWHhG7KlSRLBubchu97GJkwHFCPkObsZmvEjCU3UtAXDQH00bqfl85guXow=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772473934; c=relaxed/simple;
+	bh=K8AbHsz72TSgP2bdOzk1adrzjtFHygOozSMVIl4YU5E=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VkQV630eNowbKeswbdCgj4QHFXecKLTlYylcqJUQshoOZzXIUzS4/4sTMv9phSiGArk6i2LbMHXOH2U6Go18iz7SqxgskTu9ncNMFWFIBEex6WjP8MmeZFkmvQEG5vwh3wXogMBBLzhqNlFPkWZYsFLNkPRrFbIw4YbS7wrqSpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Un2wc4Gc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="lXy/W5cr"
-ARC-Seal: i=1; a=rsa-sha256; t=1772472790; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=TjGhzM2q+NMha7IBR/oJbS9IEhVzAkDPrLc+XSCf4Dzdfrsc4392T+pYSKs8/ap0iCaC8CWYzSL9Anowz759QRwRp5Ytmzj4bFpYyHTTZfMqu6a/aq7VeFKw2+tSAd0NLu+d9IPhEJKrPKyVZSjDqvx/jE1H1pOK1D4S85wZ6co=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772472790; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/RhZ1MKZIfeNYwmeIDoI3c60SA/6GXTORzAyE/giRgg=; 
-	b=KV+qU50lvNJxYgfJva+kYzezGQ3H8GfQhrybjWmOrwbfgvMZPMFtoZSyxUVRAnqTnJyZXQcqDfeDpL6mQyDpDPBFKLFbp8KnXDfzi0n9VZZVdJEtRDUWMO/DTLv3B3atLWC5nnfA9u7FCmYAKZ1iuG4bAETrp8SdZgtDc9lXtvY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772472790;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=/RhZ1MKZIfeNYwmeIDoI3c60SA/6GXTORzAyE/giRgg=;
-	b=lXy/W5crwPXlHDn1JwRWKfCQnk8SDS/c3Sgs89dec/Sg7en6NySeY/x2Ly4mrnty
-	KPoKKCRc3WQISYp9isybjBG2gKlxMrP14oolauftvGPZSeOQRx6nNbW+u30nPJqtbSY
-	hdVXY8QAetA+0yDb6udn1Z0A1EexZj2lcv5M/sC3HFLCxXf37ydp9OWY2vlzx0PrXtH
-	OFxK1ewJE9gAbEnjZNKt6UnLSZWt00jhfXd7ag6sgYCS5bp25Dr6mwokbEpvJvydDWB
-	8tljX1sofQQ49t5npiq3DcsXU89goHeYfkETALVzmq/Cj+3MP6vZIKzUPSXDUt50gTz
-	pHPF1dlctA==
-Received: by mx.zohomail.com with SMTPS id 1772472789305724.3722919046961;
-	Mon, 2 Mar 2026 09:33:09 -0800 (PST)
-From: Rong Zhang <i@rong.moe>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Rong Zhang <i@rong.moe>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Un2wc4Gc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF105C2BC87;
+	Mon,  2 Mar 2026 17:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772473934;
+	bh=K8AbHsz72TSgP2bdOzk1adrzjtFHygOozSMVIl4YU5E=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Un2wc4GcAn+A+x3q/r96Cd4A2DUNx1rVQJVZ2ThgSQ4ele3Q9GCq9n2yPBQgMjdRs
+	 KNqvXv29i8kqjRUSapwR3pMNdMBMGqS9p7St3M0Xr8q2X4xfo47AbBbhtzvjg/sNrY
+	 9O+aRTGPuPasBqklO2yQhGZkyyYjeWNEsNPkv2tSIH2lJ5T91wlFFc/Uf4y2WXY4m7
+	 +Piw1dCw0Y7GeKY1Dsun4X3febHf6UndTUb8wOdxOmzXLQsOLqy3Rci6UmlYPSwgD+
+	 PUrPluICHRDEjcFM/eHAtK7+h0HgFKvvWgXerpuFQI9FnH56ZRdD8TWrU3BfIyYyEH
+	 slyajjKYbk0ig==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1vx7RD-0000000FLem-1iil;
+	Mon, 02 Mar 2026 17:52:11 +0000
+Date: Mon, 02 Mar 2026 17:52:10 +0000
+Message-ID: <86o6l686gl.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Ben Horgan <ben.horgan@arm.com>
+Cc: amitsinght@marvell.com,
+	baisheng.gao@unisoc.com,
+	baolin.wang@linux.alibaba.com,
+	carl@os.amperecomputing.com,
+	dave.martin@arm.com,
+	david@kernel.org,
+	dfustini@baylibre.com,
+	fenghuay@nvidia.com,
+	gshan@redhat.com,
+	james.morse@arm.com,
+	jonathan.cameron@huawei.com,
+	kobak@nvidia.com,
+	lcherian@marvell.com,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>,
-	stable@vger.kernel.org
-Subject: [PATCH] ALSA: doc: usb-audio: Add doc for QUIRK_FLAG_SKIP_IFACE_SETUP
-Date: Tue,  3 Mar 2026 01:32:59 +0800
-Message-ID: <20260302173300.322673-1-i@rong.moe>
-X-Mailer: git-send-email 2.51.0
+	peternewman@google.com,
+	punit.agrawal@oss.qualcomm.com,
+	quic_jiles@quicinc.com,
+	reinette.chatre@intel.com,
+	rohit.mathew@arm.com,
+	scott@os.amperecomputing.com,
+	sdonthineni@nvidia.com,
+	tan.shaopeng@fujitsu.com,
+	xhao@linux.alibaba.com,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	corbet@lwn.net,
+	oupton@kernel.org,
+	joey.gouly@arm.com,
+	suzuki.poulose@arm.com,
+	kvmarm@lists.linux.dev,
+	zengheng4@huawei.com,
+	linux-doc@vger.kernel.org,
+	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+Subject: Re: [PATCH v5 02/41] KVM: arm64: Preserve host MPAM configuration when changing traps
+In-Reply-To: <20260224175720.2663924-3-ben.horgan@arm.com>
+References: <20260224175720.2663924-1-ben.horgan@arm.com>
+	<20260224175720.2663924-3-ben.horgan@arm.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: ben.horgan@arm.com, amitsinght@marvell.com, baisheng.gao@unisoc.com, baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com, dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com, fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, peternewman@google.com, punit.agrawal@oss.qualcomm.com, quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com, scott@os.amperecomputing.com, sdonthineni@nvidia.com, tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com, will@kernel.org, corbet@lwn.net, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev, zengheng4@huawei.com, linux-doc@vger.kernel.org, tan.shaopeng@jp.fujitsu.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-QUIRK_FLAG_SKIP_IFACE_SETUP was introduced into usb-audio before without
-appropriate documentation, so add it.
+On Tue, 24 Feb 2026 17:56:41 +0000,
+Ben Horgan <ben.horgan@arm.com> wrote:
+> 
+> When kvm enables or disables MPAM traps to EL2 it clears all other bits in
 
-Fixes: 38c322068a26 ("ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP")
-Cc: stable@vger.kernel.org
-Signed-off-by: Rong Zhang <i@rong.moe>
----
-This is separated from https://lore.kernel.org/r/20260301213726.428505-7-i@rong.moe/
-(thanks Takashi Iwai)
----
- Documentation/sound/alsa-configuration.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+nit: s/kvm/KVM/g
 
-diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
-index 0a4eaa7d66ddd..55b845d382368 100644
---- a/Documentation/sound/alsa-configuration.rst
-+++ b/Documentation/sound/alsa-configuration.rst
-@@ -2372,6 +2372,10 @@ quirk_flags
-           audible volume
-         * bit 25: ``mixer_capture_min_mute``
-           Similar to bit 24 but for capture streams
-+        * bit 26: ``skip_iface_setup``
-+          Skip the probe-time interface setup (usb_set_interface,
-+          init_pitch, init_sample_rate); redundant with
-+          snd_usb_endpoint_prepare() at stream-open time
- 
- This module supports multiple devices, autoprobe and hotplugging.
- 
+> MPAM2_EL2.  Notably, it clears the partition ids (PARTIDs) and performance
+> monitoring groups (PMGs). Avoid changing these bits in anticipation of
+> adding support for MPAM in the kernel. Otherwise, on a VHE system with the
+> host running at EL2 where MPAM2_EL2 and MPAM1_EL1 access the same register,
+> any attempt to use MPAM to monitor or partition resources for kernel space
+> would be foiled by running a KVM guest. Additionally, MPAM2_EL2.EnMPAMSM is
+> always set to 0 which causes MPAMSM_EL1 to always trap. Keep EnMPAMSM set
+> to 1 when not in a guest so that the kernel can use MPAMSM_EL1.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Tested-by: Peter Newman <peternewman@google.com>
+> Tested-by: Zeng Heng <zengheng4@huawei.com>
+> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Reviewed-by: Gavin Shan <gshan@redhat.com>
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> ---
+>  arch/arm64/kvm/hyp/include/hyp/switch.h | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/arm64/kvm/hyp/include/hyp/switch.h b/arch/arm64/kvm/hyp/include/hyp/switch.h
+> index 2597e8bda867..0b50ddd530f3 100644
+> --- a/arch/arm64/kvm/hyp/include/hyp/switch.h
+> +++ b/arch/arm64/kvm/hyp/include/hyp/switch.h
+> @@ -267,7 +267,8 @@ static inline void __deactivate_traps_hfgxtr(struct kvm_vcpu *vcpu)
+>  
+>  static inline void  __activate_traps_mpam(struct kvm_vcpu *vcpu)
+>  {
+> -	u64 r = MPAM2_EL2_TRAPMPAM0EL1 | MPAM2_EL2_TRAPMPAM1EL1;
+> +	u64 clr = MPAM2_EL2_EnMPAMSM;
+> +	u64 set = MPAM2_EL2_TRAPMPAM0EL1 | MPAM2_EL2_TRAPMPAM1EL1;
+>  
+>  	if (!system_supports_mpam())
+>  		return;
+> @@ -277,18 +278,21 @@ static inline void  __activate_traps_mpam(struct kvm_vcpu *vcpu)
+>  		write_sysreg_s(MPAMHCR_EL2_TRAP_MPAMIDR_EL1, SYS_MPAMHCR_EL2);
+>  	} else {
+>  		/* From v1.1 TIDR can trap MPAMIDR, set it unconditionally */
+> -		r |= MPAM2_EL2_TIDR;
+> +		set |= MPAM2_EL2_TIDR;
+>  	}
+>  
+> -	write_sysreg_s(r, SYS_MPAM2_EL2);
+> +	sysreg_clear_set_s(SYS_MPAM2_EL2, clr, set);
+>  }
+>  
+>  static inline void __deactivate_traps_mpam(void)
+>  {
+> +	u64 clr = MPAM2_EL2_TRAPMPAM0EL1 | MPAM2_EL2_TRAPMPAM1EL1 | MPAM2_EL2_TIDR;
+> +	u64 set = MPAM2_EL2_EnMPAMSM;
+> +
+>  	if (!system_supports_mpam())
+>  		return;
+>  
+> -	write_sysreg_s(0, SYS_MPAM2_EL2);
+> +	sysreg_clear_set_s(SYS_MPAM2_EL2, clr, set);
+>  
+>  	if (system_supports_mpam_hcr())
+>  		write_sysreg_s(MPAMHCR_HOST_FLAGS, SYS_MPAMHCR_EL2);
 
-base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
+Acked-by: Marc Zyngier <maz@kernel.org>
+
+	M.
+
 -- 
-2.51.0
-
+Without deviation from the norm, progress is not possible.
