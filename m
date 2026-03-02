@@ -1,177 +1,656 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010060.outbound.protection.outlook.com [52.101.85.60])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB81D6FC3;
-	Mon,  2 Mar 2026 00:42:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772412123; cv=fail; b=uLbct+p4DrFFVdEbCq/H24NT29UxNQjvbI6XWIqBdrfKzOy44l9oXijpWQWtqnGx6LG2HC3F1j9LPMpS1e3MctNpcrjkh95/6xWUDYvBzaRSZcZ1/g8UGHRhOYUhHjkQY/7sU63qhgakWUKU614P//EW2jpWSWZwHBd9EfBsVTs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772412123; c=relaxed/simple;
-	bh=VGp24FSIn5jIw1COXU82mdzcg5vN3afk6DzbgJvB6Nc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=mMe3chRCer5RYFkE6S0Rc97N337LrZZwZndk6Pqv4EfthrkucG7Hvbk8+aM8OFevDUf5fZwEgdl5cXRoZcWTsd0yUftb0lKaxZElGZahWCY+9SDHhhcTYpYZNYvSx7zrWrCSDZb/S+g3+bFZ58T+NfxuXPclG3yxdzBX8WdXoVQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=tMCay8VY; arc=fail smtp.client-ip=52.101.85.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6621DD889
+	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 00:42:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772412134; cv=none; b=XewD/2WFJm8Ji+sfn6fPw6PJO6VPNVZq5u6R39wA7KcVHTErQ5iGDSdze0oCh6SRCWs8y+/1kzGqpZ2+k6iIbAfYFKlWX+B2C4a8tQS1OPMcHUqg2y6Ecl+YOCU3+LKHRK5drperlUX8Ezsc5V+wsmOrxY83x9sGFUmCT5TgFh8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772412134; c=relaxed/simple;
+	bh=yyExWpLuknM2uJ2nmerZDioezhloXts7rEobI5EUgE8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SRj1mDVJaNnqLIAterqaNlTsIiUVVbAjH6h2G6KZbtpVjyrn2NXasptgFVG3cz4ldVXKGIWN5xSBtSzIO4BzyqtSbxILx9c7H7laP0zDpJeXJL6r5nqsneOMUYgvfz50cGJyfnq68Xk+/4lnIYTon3wD//Tg8cDfdf+/g7P6xS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KjTQbg/I; arc=none smtp.client-ip=74.125.82.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="tMCay8VY"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UQnJDYfJq82l9DUNqU9lHfJZJT5ARsNsKWB+b5M0mz3QmFJOpL3Zqwhc0uBOZlqX+Ko2qnNtS/japZGNkqnmvDi08w70r4696XkHN1qLLmCnGWgsiE2TgMDP4++BQgFWHejuI8Tn7LTNGdF/NkGSRrMsaYSUdObKQY+vi2+L+5Onj1JzKNTse/AZXm76UbEYRX6KwbCLGKhlikGPTt4f9+ckN9HewoaGUcxPTxo6BkWqHjbQojiSnPkxKo/lm+MXQopg5vCJntr2mVUYaMOFybioKvjDRibBtxsU+SnJTiM/nZEDc1LqteM9s7YZuDtV7IrV4w12bevZtbZ71glNyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b8mr+G+zrI9LK4azegBuvD6dg/PQWijZf3oiLRyGuys=;
- b=yXsXRd6QFjDSZ8d5I2uRa02GDDFrKAyEz18C0MuuxcfUzhBEWTiFLFWM5ZgLF1fNwMdVMTzz6ZElGbzBVtk7PxfkSNWbsCV2iv8Wr50owDm4jJrpM6x5OXoTwoWeo/uGR3ICSyiVrDyRMQGuY8LpMCDiPhYg6/NduzQaXHuQjz1zpqVmqtXehvOe5EoxIdGPLqmmAMFalhl+/LsAPaekYK+tdntPxjdSAu6V0QNAfKLkgS9EVXQ/4YXLdUGsngicbfwPIelT9W+yuzgA0s7FqHDchBzWmzVQ0258r9zOTBNr8nMYLXwhflg7HDTsyISs7OYEFQhLE8TJSiI4f93WYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b8mr+G+zrI9LK4azegBuvD6dg/PQWijZf3oiLRyGuys=;
- b=tMCay8VYz8XkK5EWVFIyv9eZykIj2Jh6UT+FcpBAQdKDztlmxk/0/cv3bMr05SdrjMzdI9mWLazmBJHGu2kkhggYovKbxZpY7cNJy2CC+ERIh/u02lpwtAdpaeaBjcuuB2wptUnHMm62YfhlgrYn/trRoTd8nh52VdUr/LSzEhAI8kEENxEiYTFz6KPxZgqg++AYDkYwOa7rrgK7wpYpq+AeoBL2edVs5Hwnpsvn8gjjXE8PPkX+qAOM4K6i/+1ZoNBHB8KkNkbWbqZiVladtLs9aqrFb7cOWhclaoYEKeoKaf7vAG0PPCkqHnrovb+VmTBNGbuu7gb3NiHG1XADgA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
- by CH0PR12MB8488.namprd12.prod.outlook.com (2603:10b6:610:18d::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.20; Mon, 2 Mar
- 2026 00:41:54 +0000
-Received: from LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
- ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9654.014; Mon, 2 Mar 2026
- 00:41:54 +0000
-Date: Sun, 1 Mar 2026 20:41:53 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Alexey Kardashevskiy <aik@amd.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>, Anup Patel <anup@brainfault.org>,
-	Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
-	iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
-	Justin Stitt <justinstitt@google.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-riscv@lists.infradead.org,
-	llvm@lists.linux.dev, Bill Wendling <morbo@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Will Deacon <will@kernel.org>,
-	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
-	James Gowans <jgowans@amazon.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Vasant Hegde <vasant.hegde@amd.com>
-Subject: Re: [PATCH v8 07/15] iommupt: Add map_pages op
-Message-ID: <20260302004153.GT5933@nvidia.com>
-References: <7-v8-d50aeee4481d+55efb-iommu_pt_jgg@nvidia.com>
- <fc4f0354-4e6d-452d-abfb-fe24e53253a2@amd.com>
- <20260117154347.GF1134360@nvidia.com>
- <bc6817bd-4aa5-4033-b89d-88fef637de65@amd.com>
- <20260226150440.GB5933@nvidia.com>
- <c6ac32f2-2531-4bd0-abaf-ff76e9cc864e@amd.com>
- <20260227134805.GJ5933@nvidia.com>
- <8f734d5d-7d18-4b65-a058-32088353e13e@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8f734d5d-7d18-4b65-a058-32088353e13e@amd.com>
-X-ClientProxiedBy: MN2PR05CA0047.namprd05.prod.outlook.com
- (2603:10b6:208:236::16) To LV8PR12MB9620.namprd12.prod.outlook.com
- (2603:10b6:408:2a1::19)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KjTQbg/I"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2bdbe434b47so8560141eec.1
+        for <linux-doc@vger.kernel.org>; Sun, 01 Mar 2026 16:42:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772412132; x=1773016932; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z+H9l1cqEWf/M0lHlufrxTM81iwnXge2LCpe7LTr8HY=;
+        b=KjTQbg/I5UiXE1d5TROjPkd7YLZ3VZ/oSm/r6+SL8jW1n+G3j1UBADbWAsO4dWMFyt
+         8CTpZ2VAEAL7M/ZDDBSPAl0iaQnxMBxtJ36D8B8jviFzRCpHebwLx3pMwPdhgNii4biQ
+         +0spwwzLVRl9C/MQaJGa0XY3w9ZloMZHm/L8fMlw3Wo9+Xoz0N16jLVHjJveyA2te3vB
+         JjLVoDbGz/ZAUurUXPAhl4xhWtaAopxq1bNqwsyGf3RAG9F9E1mL7vs7PRP5n4XoN6ok
+         wLzHrMgUC/huNMrDO+Ti2WrDC2GrP1RHp2oW90W37B2pHn25kcwXSoav5lH3bDooFHDo
+         XXrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772412132; x=1773016932;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z+H9l1cqEWf/M0lHlufrxTM81iwnXge2LCpe7LTr8HY=;
+        b=YWesLwkqtCN6Tklh0V5iSdUq2AURUElSRah+5NCvDViDmw5/7M7nJxzf8FvYuXcdGx
+         31TZeORrIAzjSCmpABWkt/QXsPLG4UHQAv8Uxj1MU0CrKa0BaqJ8y2CTM8Yi2MPZzHlI
+         JawQ7IRGt6IBT8ejZVf3yKwFDN9lakOlfke648g0YtWPipNZPY/WZ6XeXZglFLp5eujE
+         fJgGb0H7fWHj/lYPExGHlX3KEDv3niMb2O/7cTQMFlr3kjbZIvHv7QV/6HHGQEUNOLSR
+         ly8AFOaOTY+gQDkw1UgX5RXegmqnnXwU+8lCsWbaezzktMd9/ThJJM1lY87UBqqeluwT
+         +WfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUVXqCfFyO1WVdfwH6kIvPCMM+sLCAnZlTgOqwOk42/+rAKqW2wC4VJlF1WMwNAODzGVQMTvJDcesg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrmxleByaNd56moe3ohgquYcoaGnsQqbE5h9sqZ9vEBsHq1Emv
+	amC25hCmmBZrYXkGPb92VwQqqGeCiIr4t6Y87dyE/azMy/yBDU9YNfEg
+X-Gm-Gg: ATEYQzwBZhscjYCp6B5JtfKqgfN9MTZNIvlnd2zH31OWGfsN8c9VfYzAS6pSN+o2v9u
+	GbTIYbgMJ2KOvJ3EbldeyTfykPEUFqprihU5ACsFqgmaO0zXJGNrf08JIgZU9KGRKzMFhrLmDoA
+	ot3DfjE7AoFOh7qO9bUi5VR6NOlE4AKdu8iNm/Ep41qZnVUgU2dWGX8PD04Cok6WCMB20vgCrFF
+	BZFLWUda4ci4NBN62XEKfRyBU50J+V6Xpx1cRWs+n3nspVaDbgbIYCLnT7uYRCjzZ+Izuwx76vN
+	1ZMxejeB9Db7rDU3ZgQTKZVNfeQ5ko231eynjKjoO77XNWAPFnL3S8qcHNPiQdS6Nmphe3kvOb9
+	Zb/ht2T8x419M9738ecxffyp0J9Qikcy0Q+M56vBKoHZer4Sf5Bzcg7svppnuTBOWWapZoOwZLR
+	csDqKN4f/3zPZLpOjT+mCW197TSi6ZtIe+SRDMJm+/eDJt4WcZiBZro1l0GB1vB02LbB92Y+Dz3
+	NnNlghpbPM=
+X-Received: by 2002:a05:693c:3109:b0:2be:9d3:c8c5 with SMTP id 5a478bee46e88-2be09d3cfa2mr1064863eec.34.1772412131689;
+        Sun, 01 Mar 2026 16:42:11 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be09bc9ec4sm2525668eec.24.2026.03.01.16.42.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 Mar 2026 16:42:10 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <b6f9268b-ca4d-4ca0-838c-f661323d1b54@roeck-us.net>
+Date: Sun, 1 Mar 2026 16:42:09 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|CH0PR12MB8488:EE_
-X-MS-Office365-Filtering-Correlation-Id: 445e8416-dd7f-40ef-a8d5-08de77f48063
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	NKeG9fK2lPb2S/D2XXgMCgb86cKzJ4FHagkpHyZplJRpCesU1ymd4BXPPgFpMsXTWp9wtIrPlOnDKHHHEHd0INAfGdJ+82IhKwPVIU/GQ+VHffMCAcBGHMEKXjqln4vuYADRFwbv+65smChf/4pKDp51q+qNXc0X+MSnlg86v+fm6zay4GYxjFdJcfPUW2kVLny9qNOgq1DdtUR8VulTLj/kYKKMdstGNPh148+0cVGD45Xhiginr84LzOxScXbE/pfltrbyYJeidM4lW35pduFU9W7B9gv8Qqpieo5CDvITo5brM5bGXE55bWnQXJK6xlkBd5e2q8GFS692CnvaK1mnJSSL97yLu+X+2pmejT85NBicEAL2wct6iOBerrSzjwkwTsOez7m8c1f9LqC6lXtxoq2+b4uQrx0P6spcfGHtIPz3+rzg5EoysIsac7PwzkIjWHtjbP0y+ZbAXixs2cH06rT3m8644tgoPn7NeuSkfwFNAtBg4W0ScfW9LyCR5OQJgbrkG2m8qnLy3agZPcnCiifUV5xD94ae70jNWM1m8aHGAOFAR6RLZJ0Sf23iZ+Cno/L3kAN2+6bfQDFl3zeiX9ODFGJvcA71DaZ+gGSiSXgYM5L/rdkTzObfu7d0e44H4XIb/QlAJjdwE/3Qlfs+RdQJTUpkfJg+80fL6t3fxgoFCZ/ItoBj0bmtq5PxQq9Vuty5eley/DINPqiSVAVmNv6bKffUT7jR5U0p24U=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gO+v1f2b3LCaxMZUdnxkn3R69/gj1aXIBdfi+MYYOo4D4L/BJeaudnrIkXgS?=
- =?us-ascii?Q?zgGRvbFCG7TZfphvcVX+roNoDDdUiomLpzNZao2dVQJrwEV3nnLbsiEUpd/I?=
- =?us-ascii?Q?7QLAXKGA4e0FTWlnwfZLmNNRnWfSBFfBqcLIvKy4V+oZy4R9lJamg/PRM23c?=
- =?us-ascii?Q?xsDAvf0I6zZreFMVhxH8Qto62DsB35WyWnvTbJ3+o74r6cyxazixFjWXS6l2?=
- =?us-ascii?Q?Fedvci53FpW+hkFZZnb4OpV97z7YLRjwj5vHtTkUVtQXl9ZA3AdKt5ZuVZIR?=
- =?us-ascii?Q?kOTsuWo5iZbu1R/AfgcJxiB7xnjqdTjhA9/cnfi4ipoTPlvVtmhsuQR+WaeJ?=
- =?us-ascii?Q?6LY15q2wE+EtKUPZW6T0orDjHXTwwL8hQfuC/nM4IMHuOYUU4f49fBF2FI2E?=
- =?us-ascii?Q?PrFXGyEnSj1RmLCcXbm6qfPI4YdsVf9Uu5F8w5NjiaFamg/QteSWH2cYjF6c?=
- =?us-ascii?Q?b5y0eB8NTfxObaeFd17eiDSU+VniBYtS/QqEAIHz2JwOsZBNryahEhD3lfYK?=
- =?us-ascii?Q?iefuctRdIvv/7R8aj2CziE3GpCz+MFxtDEW/6IBzFRzx3SfccgHY9q1sUqEu?=
- =?us-ascii?Q?NVWOQ+wA8pivkkH/YI21DR+Mwllyn28syVYPGwI3Hjir9RTQ5Pq4kba4oPTg?=
- =?us-ascii?Q?UdzyzQ9zfkU6LwoiTqGnQ9v2G+Wv6iKIryUJ0dPwvSkjmC3+iCWu3tQKehuK?=
- =?us-ascii?Q?XZbyQX1HDGRs8uejYWjZyMQk6noF8LvHwaUdT6xMpAZdkUZy5/Ybl+ug/iEh?=
- =?us-ascii?Q?DCmyn7mm6CR5juAovM21i0UTwEOMqXeIiuJmkSOrCeHKN2DHyLlD7aPCtIXM?=
- =?us-ascii?Q?8J1Pq7rDGRD7amO4xn/qLwHdrpQYMngKdlVq47B0hVGIKplQ2dXj2Kd9ZxsT?=
- =?us-ascii?Q?Slv1bPgzZFRpy/IMOLaanEEv/JOKeAHxS1+0m8WdvT0r4J/3Q6IhCcdcXjVM?=
- =?us-ascii?Q?rWU1llWxXHxk4PV4xm5kqz2/nYx6Vw7zYtOr/3Cpii3hSidXy8MLjRzRClLn?=
- =?us-ascii?Q?QishLrkmOkR3yMpFIWbis+yIzfdjIkf/H9IsAEcKw0QSK89S65yGVcY3Nbol?=
- =?us-ascii?Q?zbZas5XG9qe0we2NwMGODhsaOhu6DfKeNwHkmC+dYKi+O7GGXb4vJCaL6PaL?=
- =?us-ascii?Q?O50kgIcRH1NzDz9ev/S9K2H42/QGSdlCPjDseVF+YxSli2JIAtEDa7h5I60M?=
- =?us-ascii?Q?lmyl9W48muE8YOIdTg14lezNEnXVgpMK8YlfLpqKxBXGa05Osh9eTnAoRVr5?=
- =?us-ascii?Q?3cNYRXED+8CkFHU3Cir5KbAULsq/mEOczYnu5vuAIo3+PPnfD3TOFgw/Mkyj?=
- =?us-ascii?Q?IHykTyfx1Oe6q2KR0Qycqg42fh7dhoRYXDOyKht+fYZfT7U6uiC6ckAmEu8W?=
- =?us-ascii?Q?6yxD6p8MLLyJyBRUpBobnMJ9jfDvRBIGCCHnpVDZhqgdEx2HaiSJm5OKGnPU?=
- =?us-ascii?Q?+fdwo75A7TmQ8w1IO9CJ/wQ5ZtF6X1G2MVbX/7DPR5zklssV6AhJcQTWJXAA?=
- =?us-ascii?Q?Cewlrr5BbFXhiBHiJJhvJVfA4qHHSAPCcflJRtf7JpE/OH0cqG7NtLKCZHSy?=
- =?us-ascii?Q?NPnI/RFLiDR/kef3I4YBrenZ15TOGHy02mCMg0YYa4LTpSbmX0U2/3Z/ZIVI?=
- =?us-ascii?Q?mt8eQG6EpNHbvJL+Q6KtRD0VyZqRDEHF+wXUiq5M6m7I0l6kgsr2pE80vezg?=
- =?us-ascii?Q?80bV735DSdwBmJ0quhGv4BD6/kq/yyRPh+cJzhewmlF9JQdp3+NT0VUIZGCY?=
- =?us-ascii?Q?Nv88uE+jOw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 445e8416-dd7f-40ef-a8d5-08de77f48063
-X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Mar 2026 00:41:54.5413
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CN4V8YM+u8m3gWYJSd0Rzik5nvQtwtGQXnLrJL4BTnp47IQ7+jcNsTpk/uzctnL5
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR12MB8488
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hwmon: Add LattePanda Sigma EC driver
+To: Mariano Abad <weimaraner@gmail.com>, linux-hwmon@vger.kernel.org
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260301023707.1184592-1-weimaraner@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
+ oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
+ VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
+ 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
+ onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
+ DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
+ rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
+ WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
+ qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
+ 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
+ qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
+ H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
+ njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
+ dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
+ j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
+ scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
+ zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
+ RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
+ F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
+ FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260301023707.1184592-1-weimaraner@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 02, 2026 at 11:02:48AM +1100, Alexey Kardashevskiy wrote:
-> > Regardless, I think if you go this path you have to stick to 4k IOPTEs
-> > and avoid the HW engine. Maybe that is good enough to start.
+On 2/28/26 18:37, Mariano Abad wrote:
+> The LattePanda Sigma is an x86 single-board computer made by DFRobot,
+> featuring an Intel Core i5-1340P and an ITE IT8613E Embedded Controller
+> that manages fan speed and thermal monitoring.
 > 
-> This is the current plan.
+> The BIOS declares the ACPI Embedded Controller as disabled (_STA returns
+> 0), so standard Linux hwmon interfaces do not expose the EC sensors.
+> This driver reads the EC directly via the ACPI EC I/O ports (0x62/0x66)
+> to provide:
+>    - CPU fan speed (RPM)
+>    - Board temperature
+>    - CPU proximity temperature
+> 
+> The driver uses DMI matching and only loads on verified LattePanda Sigma
+> hardware. Fan speed is controlled autonomously by the EC firmware and is
+> read-only from the host.
+> 
+> The EC register map was discovered through firmware reverse engineering
+> and confirmed by physical testing (stopping the fan, observing RPM drop
+> to zero).
+> 
+> Signed-off-by: Mariano Abad <weimaraner@gmail.com>
+> ---
+>   Documentation/hwmon/lattepanda-sigma-ec.rst |  64 ++++
+>   MAINTAINERS                                 |   7 +
+>   drivers/hwmon/Kconfig                       |  17 +
+>   drivers/hwmon/Makefile                      |   1 +
+>   drivers/hwmon/lattepanda-sigma-ec.c         | 328 ++++++++++++++++++++
+>   5 files changed, 417 insertions(+)
+>   create mode 100644 Documentation/hwmon/lattepanda-sigma-ec.rst
 
-Okay..
+Needs to be added to Documentation/hwmon/index.rst.
 
-So taking the Intel and arm stuff into account I suggest what we need
-here is, in some broad strokes..
+>   create mode 100644 drivers/hwmon/lattepanda-sigma-ec.c
+> 
+> diff --git a/Documentation/hwmon/lattepanda-sigma-ec.rst b/Documentation/hwmon/lattepanda-sigma-ec.rst
+> new file mode 100644
+> index 000000000..e8bc9a71e
+> --- /dev/null
+> +++ b/Documentation/hwmon/lattepanda-sigma-ec.rst
+> @@ -0,0 +1,64 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver lattepanda-sigma-ec
+> +=================================
+> +
+> +Supported systems:
+> +
+> +  * LattePanda Sigma (Intel 13th Gen i5-1340P)
+> +
+> +    DMI vendor: LattePanda
+> +
+> +    DMI product: LattePanda Sigma
+> +
+> +    Datasheet: Not available (EC registers discovered empirically)
+> +
+> +Author: Mariano Abad <weimaraner@gmail.com>
+> +
+> +Description
+> +-----------
+> +
+> +This driver provides hardware monitoring for the LattePanda Sigma
+> +single-board computer. The board's Embedded Controller manages a CPU
+> +cooling fan but does not expose sensor data through standard ACPI
+> +interfaces.
+> +
+> +The BIOS declares the ACPI Embedded Controller (``PNP0C09``) with
+> +``_STA`` returning 0 (not present), preventing the kernel's ACPI EC
+> +subsystem from initializing. However, the EC hardware is fully
+> +functional on the standard ACPI EC I/O ports (``0x62`` data, ``0x66``
+> +command/status). This driver uses direct port I/O with EC read command
+> +``0x80`` to access sensor registers.
+> +
+> +The EC register map was discovered empirically by dumping all 256
+> +registers, identifying those that change in real-time, then validating
+> +by physically stopping the fan and observing the RPM drop to zero.
+> +
 
-1) Guest memfd gives some phys_addr_t list of its underlying physical
-2) It is marked up with shared/private splits in some way
-3) iommufd has a special area 'synchronized guestmemfd'
-4) When guestmemfd changes anything about its mapping it invokes an
-   synchronization callback that iommufd will register
-5) iommupt provides a new primitive: synchronize IOPTEs with
-   phys_addr_t list
-   It scans the current IOPTEs and adjusts them to match the
-   phys_addr_t list. Splitting,unsplitting,mapping and unmapping as
-   required.
-6) That primitive as some flag 'private is mapped' or 'private is
-   unmapped'
-7) iommufd invokes this primivate from the guestmemfd callback
+This should be a comment in the driver source code, not here,
+explaining why the ACPI API function (specifically ec_read()) is not
+used/usable.
 
-AMD sets the pgsize bitmap to 4k and 'private is mapped'
-ARM leaves pgsize bitmap alone and does 'private is mapped' (?)
-Intel leaves pgsize bitmap alone and does 'private is unmapped'
+> +The driver uses DMI matching and will only load on LattePanda Sigma
+> +hardware.
+> +
+> +Sysfs attributes
+> +----------------
+> +
+> +======================= ===============================================
+> +``fan1_input``          Fan speed in RPM (EC registers 0x2E:0x2F,
+> +                        16-bit big-endian)
+> +``fan1_label``          "CPU Fan"
+> +``temp1_input``         Board/ambient temperature in millidegrees
+> +                        Celsius (EC register 0x60)
+> +``temp1_label``         "Board Temp"
+> +``temp2_input``         CPU proximity temperature in millidegrees
+> +                        Celsius (EC register 0x70)
+> +``temp2_label``         "CPU Temp"
+> +======================= ===============================================
+> +
+> +Known limitations
+> +-----------------
+> +
+> +* The EC register map was reverse-engineered on a LattePanda Sigma with
+> +  BIOS version 5.27. Different BIOS versions may use different register
+> +  offsets.
 
-Does that work for everyone?
+That soulds kind of scary. It might be prudent to limit support to that
+BIOS version and provide a force module parameter to override it.
 
-#5 may be a bit tricky to implement, but doable.
+> +* Fan speed control is not supported. The fan is always under EC
+> +  automatic control.
+> +* The I/O ports ``0x62``/``0x66`` are shared with the ACPI EC subsystem
+> +  and are not exclusively reserved by this driver.
 
-Jason
+That pretty much directly contradicts the information above, which suggests
+that ACPI is not active. Please move that comment and this one into the
+driver because it is associated with the implementation.
+
+Either case, if ACPI _is_ active, this will likely cause conflicts with
+the ACPI code accessing the same registers. Worst case, this could result
+in crashes or even damaged hardware if writes into the EC interfer with
+operations setting the register address by this driver.
+
+Is there maybe some other ACPI ID (besides PNP0C09) that can be used
+(and maybe even is used to access/provide sensor data to Windows) ?
+
+It may also be necessary to find and use an ACPI mutex/lock to prevent
+parallel access from ACPI code. The asus-ec-sensors driver may provide
+some guidance on how to do that.
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96e97d25e..7b0c5bb5d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14414,6 +14414,13 @@ F:	drivers/net/wan/framer/
+>   F:	drivers/pinctrl/pinctrl-pef2256.c
+>   F:	include/linux/framer/
+>   
+> +LATTEPANDA SIGMA EC HARDWARE MONITOR DRIVER
+> +M:	Mariano Abad <weimaraner@gmail.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/lattepanda-sigma-ec.rst
+> +F:	drivers/hwmon/lattepanda-sigma-ec.c
+> +
+>   LASI 53c700 driver for PARISC
+>   M:	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+>   L:	linux-scsi@vger.kernel.org
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 41c381764..f2e2ee96f 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -990,6 +990,23 @@ config SENSORS_LAN966X
+>   	  This driver can also be built as a module. If so, the module
+>   	  will be called lan966x-hwmon.
+>   
+> +config SENSORS_LATTEPANDA_SIGMA_EC
+> +	tristate "LattePanda Sigma EC hardware monitoring"
+> +	depends on X86
+> +	depends on DMI
+> +	depends on HAS_IOPORT
+> +	help
+> +	  If you say yes here you get support for the hardware monitoring
+> +	  features of the Embedded Controller on LattePanda Sigma
+> +	  single-board computers, including CPU fan speed (RPM) and
+> +	  board and CPU temperatures.
+> +
+> +	  The driver reads the EC directly via ACPI EC I/O ports and
+> +	  uses DMI matching to ensure it only loads on supported hardware.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called lattepanda-sigma-ec.
+> +
+>   config SENSORS_LENOVO_EC
+>           tristate "Sensor reader for Lenovo ThinkStations"
+>           depends on X86
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index eade8e3b1..0372fedbb 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -114,6 +114,7 @@ obj-$(CONFIG_SENSORS_K10TEMP)	+= k10temp.o
+>   obj-$(CONFIG_SENSORS_KBATT)	+= kbatt.o
+>   obj-$(CONFIG_SENSORS_KFAN)	+= kfan.o
+>   obj-$(CONFIG_SENSORS_LAN966X)	+= lan966x-hwmon.o
+> +obj-$(CONFIG_SENSORS_LATTEPANDA_SIGMA_EC) += lattepanda-sigma-ec.o
+>   obj-$(CONFIG_SENSORS_LENOVO_EC)	+= lenovo-ec-sensors.o
+>   obj-$(CONFIG_SENSORS_LINEAGE)	+= lineage-pem.o
+>   obj-$(CONFIG_SENSORS_LOCHNAGAR)	+= lochnagar-hwmon.o
+> diff --git a/drivers/hwmon/lattepanda-sigma-ec.c b/drivers/hwmon/lattepanda-sigma-ec.c
+> new file mode 100644
+> index 000000000..60558e449
+> --- /dev/null
+> +++ b/drivers/hwmon/lattepanda-sigma-ec.c
+> @@ -0,0 +1,328 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Hardware monitoring driver for LattePanda Sigma EC.
+> + *
+> + * Reads fan RPM and temperatures from the Embedded Controller via
+> + * ACPI EC I/O ports (0x62 data, 0x66 cmd/status). The BIOS reports
+> + * the ACPI EC as disabled (_STA=0), so direct port I/O is used.
+> + *
+> + * Copyright (c) 2026 Mariano Abad <weimaraner@gmail.com>
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/dmi.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/platform_device.h>
+> +
+> +#define DRIVER_NAME	"lattepanda_sigma_ec"
+> +
+> +/* EC I/O ports (standard ACPI EC interface) */
+> +#define EC_DATA_PORT	0x62
+> +#define EC_CMD_PORT	0x66	/* also status port */
+> +
+> +/* EC commands */
+> +#define EC_CMD_READ	0x80
+> +
+> +/* EC status register bits */
+> +#define EC_STATUS_OBF	0x01	/* Output Buffer Full */
+> +#define EC_STATUS_IBF	0x02	/* Input Buffer Full */
+> +
+> +/* EC register offsets for LattePanda Sigma */
+> +#define EC_REG_FAN_RPM_HI	0x2E
+> +#define EC_REG_FAN_RPM_LO	0x2F
+> +#define EC_REG_TEMP1		0x60
+> +#define EC_REG_TEMP2		0x70
+> +#define EC_REG_FAN_DUTY		0x93
+> +
+> +/* Timeout for EC operations (in microseconds) */
+> +#define EC_TIMEOUT_US		25000
+> +#define EC_POLL_INTERVAL_US	5
+> +
+> +struct lattepanda_sigma_ec_data {
+> +	struct mutex lock;	/* serialize EC access */
+> +};
+
+The hardware monitoring subsystem provides locking for drivers using
+the with_info API. I do not immediately see why another level of
+locking would be needed for this driver.
+
+> +
+> +static struct platform_device *lps_ec_pdev;
+> +
+> +static int ec_wait_ibf_clear(void)
+> +{
+> +	int timeout = EC_TIMEOUT_US / EC_POLL_INTERVAL_US;
+> +
+> +	while (timeout--) {
+> +		if (!(inb(EC_CMD_PORT) & EC_STATUS_IBF))
+> +			return 0;
+> +		udelay(EC_POLL_INTERVAL_US);
+> +	}
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +static int ec_wait_obf_set(void)
+> +{
+> +	int timeout = EC_TIMEOUT_US / EC_POLL_INTERVAL_US;
+> +
+> +	while (timeout--) {
+> +		if (inb(EC_CMD_PORT) & EC_STATUS_OBF)
+> +			return 0;
+> +		udelay(EC_POLL_INTERVAL_US);
+> +	}
+
+This results in up to 25 ms "hot" loop, blocking a CPU core.
+If using ec_read() is not possible, you should consider using a longer
+per-loop timeout and use usleep_range() to avoid the hot loop.
+
+> +	return -ETIMEDOUT;
+> +}
+> +
+> +static int ec_read_reg(struct lattepanda_sigma_ec_data *data, u8 reg, u8 *val)
+> +{
+> +	int ret;
+> +
+> +	mutex_lock(&data->lock);
+> +
+> +	ret = ec_wait_ibf_clear();
+> +	if (ret)
+> +		goto out;
+> +
+> +	outb(EC_CMD_READ, EC_CMD_PORT);
+> +
+> +	ret = ec_wait_ibf_clear();
+> +	if (ret)
+> +		goto out;
+> +
+> +	outb(reg, EC_DATA_PORT);
+> +
+> +	ret = ec_wait_obf_set();
+> +	if (ret)
+> +		goto out;
+> +
+> +	*val = inb(EC_DATA_PORT);
+> +
+> +out:
+> +	mutex_unlock(&data->lock);
+> +	return ret;
+> +}
+> +
+> +/*
+> + * Read a 16-bit big-endian value from two consecutive EC registers.
+> + * Both bytes are read within a single mutex hold to prevent tearing.
+> + */
+> +static int ec_read_reg16(struct lattepanda_sigma_ec_data *data,
+> +			 u8 reg_hi, u8 reg_lo, u16 *val)
+> +{
+> +	int ret;
+> +	u8 hi, lo;
+> +
+> +	mutex_lock(&data->lock);
+> +
+> +	/* Read high byte */
+> +	ret = ec_wait_ibf_clear();
+> +	if (ret)
+> +		goto out;
+> +	outb(EC_CMD_READ, EC_CMD_PORT);
+> +	ret = ec_wait_ibf_clear();
+> +	if (ret)
+> +		goto out;
+> +	outb(reg_hi, EC_DATA_PORT);
+> +	ret = ec_wait_obf_set();
+> +	if (ret)
+> +		goto out;
+> +	hi = inb(EC_DATA_PORT);
+> +
+> +	/* Read low byte */
+> +	ret = ec_wait_ibf_clear();
+> +	if (ret)
+> +		goto out;
+> +	outb(EC_CMD_READ, EC_CMD_PORT);
+> +	ret = ec_wait_ibf_clear();
+> +	if (ret)
+> +		goto out;
+> +	outb(reg_lo, EC_DATA_PORT);
+> +	ret = ec_wait_obf_set();
+> +	if (ret)
+> +		goto out;
+> +	lo = inb(EC_DATA_PORT);
+> +
+> +	*val = ((u16)hi << 8) | lo;
+> +
+> +out:
+> +	mutex_unlock(&data->lock);
+> +	return ret;
+> +}
+> +
+> +static int
+> +lattepanda_sigma_ec_read_string(struct device *dev,
+> +				enum hwmon_sensor_types type,
+> +				u32 attr, int channel,
+> +				const char **str)
+> +{
+> +	switch (type) {
+> +	case hwmon_fan:
+> +		*str = "CPU Fan";
+> +		return 0;
+> +	case hwmon_temp:
+> +		*str = channel == 0 ? "Board Temp" : "CPU Temp";
+> +		return 0;
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static umode_t
+> +lattepanda_sigma_ec_is_visible(const void *drvdata,
+> +			       enum hwmon_sensor_types type,
+> +			       u32 attr, int channel)
+> +{
+> +	switch (type) {
+> +	case hwmon_fan:
+> +		if (attr == hwmon_fan_input || attr == hwmon_fan_label)
+> +			return 0444;
+> +		break;
+> +	case hwmon_temp:
+> +		if (attr == hwmon_temp_input || attr == hwmon_temp_label)
+> +			return 0444;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int
+> +lattepanda_sigma_ec_read(struct device *dev,
+> +			 enum hwmon_sensor_types type,
+> +			 u32 attr, int channel, long *val)
+> +{
+> +	struct lattepanda_sigma_ec_data *data = dev_get_drvdata(dev);
+> +	u16 rpm;
+> +	u8 v;
+> +	int ret;
+> +
+> +	switch (type) {
+> +	case hwmon_fan:
+> +		if (attr != hwmon_fan_input)
+> +			return -EOPNOTSUPP;
+> +		ret = ec_read_reg16(data, EC_REG_FAN_RPM_HI,
+> +				    EC_REG_FAN_RPM_LO, &rpm);
+> +		if (ret)
+> +			return ret;
+> +		*val = rpm;
+> +		return 0;
+> +
+> +	case hwmon_temp:
+> +		if (attr != hwmon_temp_input)
+> +			return -EOPNOTSUPP;
+> +		ret = ec_read_reg(data,
+> +				  channel == 0 ? EC_REG_TEMP1 : EC_REG_TEMP2,
+> +				  &v);
+> +		if (ret)
+> +			return ret;
+> +		/* hwmon temps are in millidegrees Celsius */
+> +		*val = (long)v * 1000;
+
+Is the temperature signed or unsigned ?
+
+> +		return 0;
+> +
+> +	default:
+> +		return -EOPNOTSUPP;
+> +	}
+> +}
+> +
+> +static const struct hwmon_channel_info * const lattepanda_sigma_ec_info[] = {
+> +	HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT | HWMON_F_LABEL),
+> +	HWMON_CHANNEL_INFO(temp,
+> +			   HWMON_T_INPUT | HWMON_T_LABEL,
+> +			   HWMON_T_INPUT | HWMON_T_LABEL),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_ops lattepanda_sigma_ec_ops = {
+> +	.is_visible = lattepanda_sigma_ec_is_visible,
+> +	.read = lattepanda_sigma_ec_read,
+> +	.read_string = lattepanda_sigma_ec_read_string,
+> +};
+> +
+> +static const struct hwmon_chip_info lattepanda_sigma_ec_chip_info = {
+> +	.ops = &lattepanda_sigma_ec_ops,
+> +	.info = lattepanda_sigma_ec_info,
+> +};
+> +
+> +static int lattepanda_sigma_ec_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct lattepanda_sigma_ec_data *data;
+> +	struct device *hwmon;
+> +	u8 test;
+> +	int ret;
+> +
+> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
+> +
+> +	mutex_init(&data->lock);
+> +	platform_set_drvdata(pdev, data);
+> +
+> +	/* Sanity check: verify EC is responsive */
+> +	ret = ec_read_reg(data, EC_REG_FAN_DUTY, &test);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				     "EC not responding on ports 0x%x/0x%x\n",
+> +				     EC_DATA_PORT, EC_CMD_PORT);
+> +
+> +	hwmon = devm_hwmon_device_register_with_info(dev, DRIVER_NAME, data,
+> +						     &lattepanda_sigma_ec_chip_info,
+> +						     NULL);
+> +	if (IS_ERR(hwmon))
+> +		return dev_err_probe(dev, PTR_ERR(hwmon),
+> +				     "Failed to register hwmon device\n");
+> +
+> +	dev_dbg(dev, "EC hwmon registered (fan duty: %u%%)\n", test);
+> +	return 0;
+> +}
+> +
+> +static const struct dmi_system_id lattepanda_sigma_ec_dmi_table[] = {
+> +	{
+> +		.ident = "LattePanda Sigma",
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LattePanda"),
+> +			DMI_MATCH(DMI_PRODUCT_NAME, "LattePanda Sigma"),
+> +		},
+> +	},
+> +	{ }	/* terminator */
+> +};
+> +MODULE_DEVICE_TABLE(dmi, lattepanda_sigma_ec_dmi_table);
+> +
+> +static struct platform_driver lattepanda_sigma_ec_driver = {
+> +	.probe	= lattepanda_sigma_ec_probe,
+> +	.driver	= {
+> +		.name = DRIVER_NAME,
+> +	},
+> +};
+> +
+> +static int __init lattepanda_sigma_ec_init(void)
+> +{
+> +	int ret;
+> +
+> +	if (!dmi_check_system(lattepanda_sigma_ec_dmi_table))
+> +		return -ENODEV;
+> +
+> +	lps_ec_pdev = platform_device_register_simple(DRIVER_NAME, -1, NULL, 0);
+> +	if (IS_ERR(lps_ec_pdev))
+> +		return PTR_ERR(lps_ec_pdev);
+> +
+> +	ret = platform_driver_register(&lattepanda_sigma_ec_driver);
+> +	if (ret) {
+> +		platform_device_unregister(lps_ec_pdev);
+> +		return ret;
+> +	}
+
+It is quite unusual to register the device first, followed by the driver.
+All other hardware monitoring drivers register the driver first, followed
+by the device, and that order makes much more sense to me.
+
+Is there a specific reason for reversing the order ? If so, please provide
+a detailed explanation as comment. Otherwise please register the driver first.
+
+Thanks,
+Guenter
+
