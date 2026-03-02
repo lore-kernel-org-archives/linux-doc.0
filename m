@@ -1,84 +1,52 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342373FFAD2
-	for <linux-doc@vger.kernel.org>; Mon,  2 Mar 2026 15:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96A84014B1;
+	Mon,  2 Mar 2026 15:06:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772463889; cv=none; b=C9VmCitxu0P0HWb7Pr3IUIEW94tyuAlrK9CuDwRChjHhmmlHfTMcp19b+3Q+PUBfGGp42g1k2/k4rfTDf1aiZKnhftVP8jhUx2ce6cU1XfVO/34sUX5P/JFfZNbJj7HAfzWmFM2oMxEuULo+X397suXX1oOqYuxszFqmwnUM2C8=
+	t=1772464001; cv=none; b=NC/kyiCMKR8VSzcMCZeK4rORZjr595WCHhQYofH7Gl/4uEpqUFXRI32becLJM87Z6dvceV2ywM6bzw5x5nqFHJtvrNndgJlnq4MWJIe+VOBCaotka/ufsW8JfR3PBAWf+pv6olsfVCaDebsLpOeKij226XGtH5GfxefodCkt9lU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772463889; c=relaxed/simple;
-	bh=Z3QuW44a1cqmJAISoawP8xM8uOw+Gue0DhunUahM9Dk=;
+	s=arc-20240116; t=1772464001; c=relaxed/simple;
+	bh=5744P+pGK+XyXUbnqiUcR4ppK8KbZz/PvWksth+Oz8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gKccWpKsvFpuFthJkZo05lckZWVIQ1dFIF597Gnmd9r+oRCRhgdLSizIEOJ+Z/8ZQa9hNyFp9QKBZwUAFKuoc23Os7+6ES5dr7X40LKa/n6A5jT7O2CULlH0B9Zglqu6LNeBOK/96csPjp/8e/mlGYBM8/Z8p0G6HS4CP0fsk4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WruRTr3d; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WruRTr3d"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2be06c02f66so2976477eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 07:04:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772463887; x=1773068687; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PJQJNNM+4DO9CQxRQrJTKsiJbgSUIZ685yVxcgsm7ic=;
-        b=WruRTr3d7U8Z2pIdAmkls+egdPYBPfFo5wW3NFFWeXLLB0Im7vVRDV2PrNuz/yhSDR
-         gKnnwBCz5L2+ssq4RtN7eGYiar4EGGRUt9E53m/NBS7Nlxfs6VI7Lh96+7vbTiEqoqJa
-         TVFQjVM+SQAvjg4Ch01zaCmsaYptDT+dwtberO2qqmx5tReiPHRSnRfBzfCMccQ0Jqix
-         +ofOK2wGc+yCydQycFKQUAK/xrxibd1Mp4ZA24mVUaV7+eUC6JgZzXOTJKLNCbClgK/W
-         vC7YJna+FfI39W3pq+j+wDP1REc9Dkuv970+3OTsu8zYjLYcmoYX1aFWQ/h4f2sqhvzI
-         939Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772463887; x=1773068687;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=PJQJNNM+4DO9CQxRQrJTKsiJbgSUIZ685yVxcgsm7ic=;
-        b=ENoHRfvERaOC07yq4K2pcC0QRKL4g36RMQLpXm/CMhqpm/cHp7qnNWYrIUEU9Cwb2u
-         wtM2lE5PEH7k8OOhQwtsvsAWJhqNeJ9Y8dHR/7Kp1FAtTZfq3grZq+M0VRJoyS9BaTN/
-         ATB4le5cQ8lO5kOHn9oF9qf1IdRbJQfrxoDkIwcZ7zkMfJWR0oTW5q1W+9PjPDO5d3w/
-         DvbU64nXTd8Z131eadIpc8SCvhCJgZ3PBVNaiObej872hVFT4KMicMpMWeWdkil2OSzN
-         yN/ar/2SexTAxthUyKmonxwzDFp532RR9oyRAsEr85gwlR/6ipEcHHodpQCJFNVvt5Xr
-         iERg==
-X-Forwarded-Encrypted: i=1; AJvYcCWYOnPECbf3FM5ETICSVwmGwwzfcEoT3TnDcK243Q/Mgm/JolJk8vHqv2XL4uzXG201f1I3KDEljKk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+4ywGVvGxTaGijjDtgu5xgdfQ/ruj/qCux6qmZ9snmje1MLFM
-	U+huTrWeKm7PDIoAK2u4UgO13i2LkU1fj0c86KvcTO9BRUGr6KWOAdHY
-X-Gm-Gg: ATEYQzzn4eCObt0dGPE/QcYSqvjkQOMSFW7EiRk3pI5CBZZw35fYotqQkRiXGeszK+7
-	Q+Hy60lwEfORHLtolD7k+Qz4fZVeb/ggXX+QZ+T7CCiqdB+77tNgZByXa0/zea64IUhpBFrbVcm
-	dqa6sqh+BlMpFF85bhd6m7PkK1FzQSHJ6lxSVmYE4A0rJt2MH11brZJjRMOe/Y9vwTr+/Mar0sK
-	JyzVOUXiS9sm2aZQYHct4KXipYNjIHFi7A8oMWPIlJ+Y6A4AKup1t7seuJ1eUl+/InM6Dw1Cb5d
-	ZornbzjTsVyX8NbbO6e78G7zT0Aqq8FzHQTkfdVy+7oQlEbVCb1NqUimmaLlckQbozvFSozVEB2
-	JwgQ5JNve7Gvrki1fMW9JBoVuzkcM1hpaVXyPEE0lojdgG4N9g7uTR4GL4xI85gkLabOiTvVdl0
-	ry8Jjuc7Lhl1lgoFpOGQ5yP2OCZ2RXAhwjfxus
-X-Received: by 2002:a05:7300:f194:b0:2be:142f:d48a with SMTP id 5a478bee46e88-2be142fd895mr1194048eec.27.1772463886899;
-        Mon, 02 Mar 2026 07:04:46 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bdd1f23c01sm10987949eec.16.2026.03.02.07.04.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 07:04:46 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 2 Mar 2026 07:04:45 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Michael Walle <mwalle@kernel.org>
-Cc: Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
-	Tero Kristo <kristo@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v2 7/7] dt-bindings: hwmon: sl28cpld: Drop sa67mcu
- compatible
-Message-ID: <917915df-3a4a-4cc0-b41f-106b5933db20@roeck-us.net>
-References: <20260302122540.1377444-1-mwalle@kernel.org>
- <20260302122540.1377444-8-mwalle@kernel.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iLrwPqpp39ky0LAkukojJS/E/jCcauI6r7IM25VW5y3eVNf9C8fx8AXbQOwR+FIqneHGutlIeKo+Ss+ZqluGcHAIAMUFw8v6AWIUuvNv9mWKR0tJZUoUMUjQs+E1412NH7AzIj9+JcIT8vnP3eN7L4GQngQLEIj2RwgC22DErp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 13A571A01BC;
+	Mon,  2 Mar 2026 15:06:35 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf05.hostedemail.com (Postfix) with ESMTPA id 2235B20010;
+	Mon,  2 Mar 2026 15:06:25 +0000 (UTC)
+Date: Mon, 2 Mar 2026 09:06:23 -0600
+From: John Groves <John@groves.net>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	John Groves <jgroves@fastmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V7 02/19] dax: Factor out dax_folio_reset_order() helper
+Message-ID: <aaWlxFh-bqUYXgUo@groves.net>
+References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
+ <20260118223110.92320-1-john@jagalactic.com>
+ <0100019bd33bf5cc-3ab17b9e-cd67-4f0b-885e-55658a1207f0-000000@email.amazonses.com>
+ <CAEvNRgHmfpx0BXPzt81DenKbyvQ1QwM5rZeJWMnKUO8fB8MeqA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,17 +55,154 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260302122540.1377444-8-mwalle@kernel.org>
+In-Reply-To: <CAEvNRgHmfpx0BXPzt81DenKbyvQ1QwM5rZeJWMnKUO8fB8MeqA@mail.gmail.com>
+X-Stat-Signature: cq87gmedzk7x7r9ny9iist1ng64zruqa
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 2235B20010
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX18sF70d1HqicCYqrH7vz+w2ws8l6S67ZfI=
+X-HE-Tag: 1772463985-663465
+X-HE-Meta: U2FsdGVkX19+wByPZPpcn3fFxdlS7efSS3Z9sfx2FbKmn+pO0ifUKq0ek7sbqcQSKckha/6QKB0dO38o4/5xEaBD+GsVsq7ETKFWcom7uRHSSn+RVp2j9JNOM/Vj30paav3NtmzU4PFup78HglM3hDeONluYWqykeNoY9+/HZXqJLcAm28+hN8/b030/2zXtfMMEyfxgHY/UmA3e1Sy8tR2hBLX7f4PnfVGd3ztqgPPlCvTkXDr77SPk3sW0FIEY7Sc7zV6DKmspXuu6y+44WrT7hu7h77kH7lp0l1mMiR4rrp96nReTeguCtrXqJdgiImk5Z17L0ZxaA7FMn3FzxVDz1xZoVZNrfTWMXAyyVaQRkd/slAXiwFd9Sk4SYq48vzEK1miTOhR/K8JA1pmO/lhXdIEt9BORVuZfc93ojrZt1rJbkmgV+Kgg5MKpQahN9r09EKJ14MBgVltwhztXEw==
 
-On Mon, Mar 02, 2026 at 01:24:52PM +0100, Michael Walle wrote:
-> I was just informed that this product is discontinued (without being
-> ever released to the market). Pull the plug and let's not waste any more
-> maintainers time and revert commit 0f6eae86e626 ("dt-bindings: hwmon:
-> sl28cpld: add sa67mcu compatible").
+On 26/02/23 07:00PM, Ackerley Tng wrote:
+> John Groves <john@jagalactic.com> writes:
 > 
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> > From: John Groves <John@Groves.net>
+> >
+> > Both fs/dax.c:dax_folio_put() and drivers/dax/fsdev.c:
+> > fsdev_clear_folio_state() (the latter coming in the next commit after this
+> > one) contain nearly identical code to reset a compound DAX folio back to
+> > order-0 pages. Factor this out into a shared helper function.
+> >
+> > The new dax_folio_reset_order() function:
+> > - Clears the folio's mapping and share count
+> > - Resets compound folio state via folio_reset_order()
+> > - Clears PageHead and compound_head for each sub-page
+> > - Restores the pgmap pointer for each resulting order-0 folio
+> > - Returns the original folio order (for callers that need to advance by
+> >   that many pages)
+> >
+> > This simplifies fsdev_clear_folio_state() from ~50 lines to ~15 lines while
+> > maintaining the same functionality in both call sites.
+> >
+> > Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  fs/dax.c | 60 +++++++++++++++++++++++++++++++++++++++-----------------
+> >  1 file changed, 42 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/fs/dax.c b/fs/dax.c
+> > index 289e6254aa30..7d7bbfb32c41 100644
+> > --- a/fs/dax.c
+> > +++ b/fs/dax.c
+> > @@ -378,6 +378,45 @@ static void dax_folio_make_shared(struct folio *folio)
+> >  	folio->share = 1;
+> >  }
+> >
+> > +/**
+> > + * dax_folio_reset_order - Reset a compound DAX folio to order-0 pages
+> > + * @folio: The folio to reset
+> > + *
+> > + * Splits a compound folio back into individual order-0 pages,
+> > + * clearing compound state and restoring pgmap pointers.
+> > + *
+> > + * Returns: the original folio order (0 if already order-0)
+> > + */
+> > +int dax_folio_reset_order(struct folio *folio)
+> > +{
+> > +	struct dev_pagemap *pgmap = page_pgmap(&folio->page);
+> > +	int order = folio_order(folio);
+> > +	int i;
+> > +
+> > +	folio->mapping = NULL;
+> > +	folio->share = 0;
+> > +
+> > +	if (!order) {
+> > +		folio->pgmap = pgmap;
+> > +		return 0;
+> > +	}
+> > +
+> > +	folio_reset_order(folio);
+> > +
+> > +	for (i = 0; i < (1UL << order); i++) {
+> > +		struct page *page = folio_page(folio, i);
+> > +		struct folio *f = (struct folio *)page;
+> > +
+> > +		ClearPageHead(page);
+> > +		clear_compound_head(page);
+> > +		f->mapping = NULL;
+> > +		f->share = 0;
+> > +		f->pgmap = pgmap;
+> > +	}
+> > +
+> > +	return order;
+> > +}
+> > +
+> 
+> I'm implementing something similar for guest_memfd and was going to
+> reuse __split_folio_to_order(). Would you consider using the
+> __split_folio_to_order() function?
+> 
+> I see that dax_folio_reset_order() needs to set f->share to 0 though,
+> which is a union with index, and __split_folio_to_order() sets non-0
+> indices.
+> 
+> Also, __split_folio_to_order() doesn't handle f->pgmap (or f->lru).
+> 
+> Could these two steps be added to a separate loop after
+> __split_folio_to_order()?
+> 
+> Does dax_folio_reset_order() need to handle any of the folio flags that
+> __split_folio_to_order() handles?
 
-Applied.
+Sorry to reply slowly; this took some thought.
 
-Guenter
+I'm nervous about sharing folio initialization code between the page cache
+and dax. Might this be something we could unify after the fact - if it
+passes muster? 
+
+Unifying paths like this could be regression-prone (page cache changes
+breaking dax or vice versa) unless it's really well conceived...
+
+> 
+> >  static inline unsigned long dax_folio_put(struct folio *folio)
+> >  {
+> >  	unsigned long ref;
+> > @@ -391,28 +430,13 @@ static inline unsigned long dax_folio_put(struct folio *folio)
+> >  	if (ref)
+> >  		return ref;
+> >
+> > -	folio->mapping = NULL;
+> > -	order = folio_order(folio);
+> > -	if (!order)
+> > -		return 0;
+> > -	folio_reset_order(folio);
+> > +	order = dax_folio_reset_order(folio);
+> >
+> > +	/* Debug check: verify refcounts are zero for all sub-folios */
+> >  	for (i = 0; i < (1UL << order); i++) {
+> > -		struct dev_pagemap *pgmap = page_pgmap(&folio->page);
+> >  		struct page *page = folio_page(folio, i);
+> > -		struct folio *new_folio = (struct folio *)page;
+> >
+> > -		ClearPageHead(page);
+> > -		clear_compound_head(page);
+> > -
+> > -		new_folio->mapping = NULL;
+> > -		/*
+> > -		 * Reset pgmap which was over-written by
+> > -		 * prep_compound_page().
+> > -		 */
+> 
+> Actually, where's the call to prep_compound_page()? Was that in
+> dax_folio_init()? Is this comment still valid and does pgmap have to be
+> reset?
+
+Yep, in dax_folio_init()...
+
+
+Thanks,
+John
+
+[snip]
+
