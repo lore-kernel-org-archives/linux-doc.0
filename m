@@ -1,50 +1,25 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB2F3CC9F4;
-	Tue,  3 Mar 2026 16:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEC0A4DC549;
+	Tue,  3 Mar 2026 16:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772555610; cv=none; b=f+IS/mI9XB+O1mzkFwMfoTCJxkrjDDiEhdAzUcULtlcRi+4/u6VftBRaPpZPmb07WZQutb2kk4pssBJVqrjkig+jnu7vP+S0Bsvd9UEZkb6WNI2ad3vlcZZmX1/a+ieccCA2aw41x7Ad5GJsbTFYImMAWObVS+RJHveSuN9L2yg=
+	t=1772555618; cv=none; b=froVQfCpzVdFHSVORRLAxc3m0JU4JraKtVVzS/ehfEH8gV10zyeihI5kL0Xsc/TF7kGnBll17Y5ZgWKIJ3nxQ65TJEn6+ueBZD+b171MikBGGj+/ggaS0nEtIsG5HT8eRvKmWX9AwDpUZttxvoig7a8YRcN9Lb/w5WcdD12hpyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772555610; c=relaxed/simple;
-	bh=PnaW7jNUJh72pG+7cpItmLsze0kI2N1FQNPYYPktStY=;
+	s=arc-20240116; t=1772555618; c=relaxed/simple;
+	bh=FdbJz+2GnMDWrCreI2X/cWqA3lnADEjuc8bvbU9/Iek=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ccn2fwtrF6R6gsz8tCFOBHyK3zcKqUWkgHIA4Peg0hFfNn3sZIhZgMng4SWtkIccO/YL6zBIyke5KWkp+dyK+FWc4xE8N/8CDkKkNWRitysQLQNJFCVEtPIESXIH5SM+YoDr3wjFZGJMmHPTmR1CiISLPGUrqOaHUhE766+bNHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HXSb78l1; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HXSb78l1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772555608; x=1804091608;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PnaW7jNUJh72pG+7cpItmLsze0kI2N1FQNPYYPktStY=;
-  b=HXSb78l10KDse+sBOUSGBj6KOQade1L69eKUzFU5Y9gyaGHGqSNnuD7j
-   tmQjLakCtQGdpg3k5S4zFbt+EPeh6WP56n1FRjc2w/Zr4nu56K6EiCH7U
-   Y5NeupgVVeUxlfpB7T9EKTsgurA38vCGUPj9ggLwgyxiu2JUGLVF53z/g
-   UrpCuHbqSuusYvuV+9x2pYjCtRuI43xQCx8EbjPyjKiC6Ej/Xc7kdLVkf
-   W8ItXTyFKC5AyoGfXmImZXgd0m4J1kbWMom4DyKvx4+vexBn0q6J6hOHQ
-   SNa2GJa4miBLCeZX5XcQ2c4bGOtELXXfOai34qJg4drTGsNiHuJ+nbMLm
-   g==;
-X-CSE-ConnectionGUID: +8UBJORgSfu8NjBcP4jjqg==
-X-CSE-MsgGUID: pncPlyvMTfC4ISUDD2qHXg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="72799694"
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="72799694"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 08:33:27 -0800
-X-CSE-ConnectionGUID: lbCUyvFGRL+y1QI0hW92jg==
-X-CSE-MsgGUID: k7YM1JDMR7qKmE+b0QeRwQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="217290947"
-Received: from rchatre-mobl4.amr.corp.intel.com (HELO [10.125.108.135]) ([10.125.108.135])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 08:33:27 -0800
-Message-ID: <c6385777-b99b-48ba-a2cf-888f58de6bb6@intel.com>
-Date: Tue, 3 Mar 2026 08:33:31 -0800
+	 In-Reply-To:Content-Type; b=rYZIG3RFWWe7gLtIW8Bu/V7fDF8fQWIMD2JMeEXLdO/WYkrlS79Efz7Y/QGtUCGIlLsADEu0p2GW3+UFanV7DdR6Rl6v3JfWkOi4OGdCFPEzkCHOgG5Y6rooio7WedY+Mbb6WuNgMK2lI5j2T3y0gFONgcHhklUjLFsWokz3BaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 91B8A339;
+	Tue,  3 Mar 2026 08:33:28 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5702B3F694;
+	Tue,  3 Mar 2026 08:33:30 -0800 (PST)
+Message-ID: <fd0cf579-77c4-4a76-bc8e-b19bb7988155@arm.com>
+Date: Tue, 3 Mar 2026 16:33:23 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,92 +27,127 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] x86/vsyscall: Disable LASS if vsyscall mode is set to
- EMULATE
-To: Sohil Mehta <sohil.mehta@intel.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- "H . Peter Anvin" <hpa@zytor.com>, Peter Zijlstra <peterz@infradead.org>,
- Kiryl Shutsemau <kas@kernel.org>, Brendan Jackman <jackmanb@google.com>,
- Sean Christopherson <seanjc@google.com>, Nam Cao <namcao@linutronix.de>,
- Cedric Xing <cedric.xing@intel.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>, Tony Luck <tony.luck@intel.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maciej Wieczor-Retman <m.wieczorretman@pm.me>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260219233600.154313-1-sohil.mehta@intel.com>
- <20260219233600.154313-5-sohil.mehta@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
+Subject: Re: [PATCH v5 12/41] KVM: arm64: Use kernel-space partid
+ configuration for hypercalls
+To: Marc Zyngier <maz@kernel.org>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
+ jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, oupton@kernel.org, joey.gouly@arm.com,
+ suzuki.poulose@arm.com, kvmarm@lists.linux.dev, zengheng4@huawei.com,
+ linux-doc@vger.kernel.org, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+References: <20260224175720.2663924-1-ben.horgan@arm.com>
+ <20260224175720.2663924-13-ben.horgan@arm.com> <86jyvu85dj.wl-maz@kernel.org>
+From: Ben Horgan <ben.horgan@arm.com>
 Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20260219233600.154313-5-sohil.mehta@intel.com>
+In-Reply-To: <86jyvu85dj.wl-maz@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 2/19/26 15:35, Sohil Mehta wrote:
-> The EMULATE mode of vsyscall maps the vsyscall page with a high kernel
-> address directly into user address space. Reading the vsyscall page in
-> EMULATE mode would cause LASS to trigger a #GP.
-> 
-> Fixing the LASS violation in EMULATE mode would require complex
-> instruction decoding because the resulting #GP does not include any
-> useful error information, and the vsyscall address is not readily
-> available in the RIP.
-> 
-> The EMULATE mode has been deprecated since 2022 and can only be enabled
-> using the command line parameter vsyscall=emulate. See commit
-> bf00745e7791 ("x86/vsyscall: Remove CONFIG_LEGACY_VSYSCALL_EMULATE") for
-> details. At this point, no one is expected to be using this insecure
-> mode. The rare usages that need it obviously do not care about security.
-> 
-> Disable LASS when EMULATE mode is requested to avoid breaking legacy
-> user software. Also, update the vsyscall documentation to reflect this.
-> LASS will only be supported if vsyscall mode is set to XONLY (default)
-> or NONE.
+Hi Marc,
 
-Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
+On 3/2/26 18:15, Marc Zyngier wrote:
+> On Tue, 24 Feb 2026 17:56:51 +0000,
+> Ben Horgan <ben.horgan@arm.com> wrote:
+>>
+>> On nVHE systems whether or not MPAM is enabled, EL2 continues to use
+>> partid-0 for hypercalls, even when the host may have configured its kernel
+>> threads to use a different partid. 0 may have been assigned to another
+>> task. Copy the EL1 MPAM register to EL2. This ensures hypercalls use the
+>> same partid as the kernel thread does on the host.
+>>
+>> Tested-by: Gavin Shan <gshan@redhat.com>
+>> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+>> Tested-by: Peter Newman <peternewman@google.com>
+>> Tested-by: Zeng Heng <zengheng4@huawei.com>
+>> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+>> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+>> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+>> ---
+>> Changes since v2:
+>> Use mask
+>> Use read_sysreg_el1 to cope with hvhe
+>>
+>> Changes since v3:
+>> Set MPAM2_EL2.MPAMEN to 1 as we rely on that before and after
+>> ---
+>>  arch/arm64/kvm/hyp/nvhe/hyp-main.c | 9 +++++++++
+>>  1 file changed, 9 insertions(+)
+>>
+>> diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+>> index e7790097db93..80e71eeddc03 100644
+>> --- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+>> +++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+>> @@ -638,6 +638,15 @@ static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
+>>  	unsigned long hcall_min = 0;
+>>  	hcall_t hfn;
+>>  
+>> +	if (system_supports_mpam()) {
+>> +		u64 mask = MPAM1_EL1_PARTID_D | MPAM1_EL1_PARTID_I |
+>> +			MPAM1_EL1_PMG_D | MPAM1_EL1_PMG_I;
+>> +		u64 val = MPAM2_EL2_MPAMEN | (read_sysreg_el1(SYS_MPAM1) & mask);
+>> +
+>> +		write_sysreg_s(val, SYS_MPAM2_EL2);
+>> +		isb();
+>> +	}
+>> +
+>>  	/*
+>>  	 * If pKVM has been initialised then reject any calls to the
+>>  	 * early "privileged" hypercalls. Note that we cannot reject
+> 
+> It is extremely debatable whether this is desirable:
+> 
+> - pKVM really shouldn't be influenced by what the host does, which
+>   means reserving PARTIDs and indirecting what the host sees. This can
+>   be deferred until pKVM is actually useful upstream.
+> 
+> - repeatedly hammering that register plus an ISB on the hot path of a
+>   hypercall is a sure way to make things worse than they should be,
+>   and that should be fixed now.
+
+Would a read modify write be preferable?
+
+> 
+> Do you really expect the EL1 settings to change on a regular basis? If
+
+The MPAM EL1 partid/pmg configuration is kept in sync with the MPAM EL0
+partid/pmg configuration (see mpam_thread_switch() in patch 4) which
+means that the EL1 configuration will change whenever the user changes
+the EL0 configuration.
+
+> so, I'd rather you use a specific host hypercall, or even a trap to
+> propagate the EL1 configuration. If not, just set it as part of the
+
+I think this ends up trapping context switch which doesn't seem any more
+desirable.
+
+> KVM init and be done with it.
+
+If we just forego this patch then the MPAM configuration for el2 as
+initially configured, partid=0, pmg=0 would be used. This is also the
+default for requestors that aren't MPAM aware or unconfigured, like
+trusted firmware, its, gpu. VHE mode (required from 8.1?) should be
+available in any platform that has MPAM (introduced in 8.4, back
+portable to 8.3) and so using nvhe with MPAM seems unlikely and the
+amount of data should be small enough. That leaves pKVM for which,
+perhaps, doing nothing is also the correct answer.
+
+What do you think? Drop, read modify write, or something else?
+
+> 
+> Thanks,
+> 
+> 	M.
+> 
+
+Thanks,
+
+Ben
+
