@@ -1,151 +1,296 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C39902FBDE0
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 06:37:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772519853; cv=none; b=UrrhGnYJJ8HLWT93+CXm0BC8Kpt2MfS/OsAwcedId5YOFhIdz//APpn9ticX+Xb00425Xl0NXwe2rVQDeuw6HSZO0EPkXsj1fsYzSrpDN5Im7JOwTyq27+DDlUt2z0J5dvT/Vi3gTrcGFlezcD+pU85gYdYzGbL7lmhHhFyuQxc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772519853; c=relaxed/simple;
-	bh=dmXSusKbWhhvHqikAM1aLVaMRkxr2+RJV2v5pdma0oY=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GRVvd4NQZlNIwdIpzSmMRLrX0mzNTIt/FGhz1gqtEuGQ5De+m5vxFCffn34f35IfhckcDDaVM58q7GhKalL6JjCcuJwEVu8xe1ThV4FcVvUXiC4v+QA2u3XMJU9vQSiLXMMcnbQqmgGVtXMV5G0nsroIWEd9ln7hWKQq1zHkOZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R9ldAOor; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jkl63XB8; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=R9ldAOor; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Jkl63XB8; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A5038552A
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 06:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772520354; cv=pass; b=VnOk7EFwaJ5PTIfaWQp6cMivatMAKdyR51DmyXBOKX+BYwthgcwObBgn3OhbVjvdQAJJ2xwfXTFWoetfMweZd8HHSnw2YEXe3stzMajJtmqplKWbysnUhnxjEUISeLLr1v+zBzqDBSz9+PYMmcy7QEAG4Ij/RTwfGN/84GPDABw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772520354; c=relaxed/simple;
+	bh=5lnQBvkFNhKhuISH+wQYNVN3JKSWEsxijzBAFbsBGFs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XoV37Ei7mtM/IIMN9MbQVTHcgdcVkcr8sW/Uic5eQRzi0jOOsXKEIcpNwhDBMfKqL6JPwbJxml118yvgleEQI71WhSbzCdc6cM7m1qby0zyDU/ST3kTnvNtWGHC3J8LlIEwmQN2F3tZAoASX3QS0SXNWmwoFe6ObXUlaOGVFFlM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wAyAPJuC; arc=pass smtp.client-ip=74.125.82.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R9ldAOor";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jkl63XB8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="R9ldAOor";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Jkl63XB8"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 121003F894;
-	Tue,  3 Mar 2026 06:37:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772519850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZHHYiRzT6lcWSpivE8j+UTKCBT7/LFeF5suAiuGzXSw=;
-	b=R9ldAOorW0pXrXnDGgTdbF/RVGLsblhOYLKPLc0L00/bDx37yuDzwzhyEQ/GjRarFIdGPP
-	3DOjfc45hUiwFu0dlbYujgHk6tZh7U0UZXWrGc41QKTp5yAQw6P2x/MIxsXtZJ/HCPNpVi
-	moYtSd2OUEN4DcQZeTrHJzZ/fF8Wq78=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772519850;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZHHYiRzT6lcWSpivE8j+UTKCBT7/LFeF5suAiuGzXSw=;
-	b=Jkl63XB8embwLLD69IHjioP5ovmWn0jDbRlEx888J2v6fIS7W6LeGDpPiodJCw9fxcY0sa
-	7SkCuFmJDAcN97Dw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772519850; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZHHYiRzT6lcWSpivE8j+UTKCBT7/LFeF5suAiuGzXSw=;
-	b=R9ldAOorW0pXrXnDGgTdbF/RVGLsblhOYLKPLc0L00/bDx37yuDzwzhyEQ/GjRarFIdGPP
-	3DOjfc45hUiwFu0dlbYujgHk6tZh7U0UZXWrGc41QKTp5yAQw6P2x/MIxsXtZJ/HCPNpVi
-	moYtSd2OUEN4DcQZeTrHJzZ/fF8Wq78=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772519850;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZHHYiRzT6lcWSpivE8j+UTKCBT7/LFeF5suAiuGzXSw=;
-	b=Jkl63XB8embwLLD69IHjioP5ovmWn0jDbRlEx888J2v6fIS7W6LeGDpPiodJCw9fxcY0sa
-	7SkCuFmJDAcN97Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9D3B33EA69;
-	Tue,  3 Mar 2026 06:37:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vQL7JKmBpml6EwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 03 Mar 2026 06:37:29 +0000
-Date: Tue, 03 Mar 2026 07:37:29 +0100
-Message-ID: <87ecm1l8pi.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Rong Zhang <i@rong.moe>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH v2 4/8] ALSA: usb-audio: Support string-descriptor-based quirk table entry
-In-Reply-To: <20260302185900.427415-5-i@rong.moe>
-References: <20260302185900.427415-1-i@rong.moe>
-	<20260302185900.427415-5-i@rong.moe>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wAyAPJuC"
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1270ac5d3efso5172398c88.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 22:45:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772520348; cv=none;
+        d=google.com; s=arc-20240605;
+        b=kHZroWzcnLHNYpiZy+5FJlYQDkQAm5MzESlom+xgJoBKIqrfJM9zsfCvv8MCOG5pgY
+         VMo0udCaNK+wQM/qoaL60g7i0Y4ae1iUnOxRoRPPftHCW52bvuQkaUUHK7N5f6EQG16P
+         7DrIXY7jL991pH9KyUqKgYaWXruwYhC12CWVgKeEGkYL21KjwdLRkVvt5ih8pjxumKhD
+         apLJau20OavqZWTXpzbqnl6sIAHnyOEqg9EiMig7vnHmrU6/1fH74tHHWQz5No8aNnjA
+         Y5uhYfOdtQZZ/+8hwIQLIEB4Cog7aphADREOrWO4JA02nuUTEIqkV6wgTI2FL6RIR3i3
+         N2tA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TsEBUX9jUmm+hvz6sARfdjFHB6GaCMqCxJFL6MbdNb8=;
+        fh=+gLiTEqAg1W6+plGOgTsm0Pxp5qeltdPBDxKw9eYfyY=;
+        b=ORkoLkktmbzdoso1YlQK2k1HCWYwvULawF04T1arjMC+w0tp9xd5/0uxFM6QIKfaGl
+         2Cx9UkINgmGDvDx9jDON191C7U0oIq6r/c10ySA+/cN+mKcZrqCr5rNHTWM0qYaP7ZkI
+         qX5o4N713xJhDeDyrcODODaGBLUbUJJNY9YaQSPZIvDcvNdJHomNQmTgxzplmBJejXka
+         6eFHtnER/tXZ4AwieF0s0rzIaV9ZwdGiICr29eaew6CUHwombWSgVwFtN733WO5YvC2r
+         kF6mLiOermj7A/l4C5wpfAqS5nlrhu5i5h3zpN72HAAjKOPyVya2wGJ+h4ESnRg+D/nN
+         fe1w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772520348; x=1773125148; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TsEBUX9jUmm+hvz6sARfdjFHB6GaCMqCxJFL6MbdNb8=;
+        b=wAyAPJuCFv+7FaD2LD3xH1RXdZx9/eT2/SpSh5s1QNr4ZNzEHnbMWOQeeLFTNnItoE
+         xywk/AXrIMHjJVYpvA1JFhLHeTpSqDJrVLngZ29l7hM+31O1E8kuwojc0WNladKToLWk
+         DB70KID8DIC2cdvVAStI0+gez4V6ZWDnA45K+MkC7QSnJ8oapthXoCeX1HX+GpZ1DdKt
+         sv8bmZHmopVqB9/Tu/eXhAj+c/J9lDhPuXWTyln3M1Evx6ZxFrKq7y9RPdPT4YAQ6m+H
+         mVzuMopcs95MQqHg9EsQ7VXH8XypTXeJ7MOXsH6gT4UCmoEFXGx+B7gqEUi1bRwocSq9
+         yD1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772520348; x=1773125148;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TsEBUX9jUmm+hvz6sARfdjFHB6GaCMqCxJFL6MbdNb8=;
+        b=r23hyeZTR1DaRSEqLpWQF3XZhb+5j5lBY2jqZAZgBq/rjl4HYYDxq/uZDyK1di1iw/
+         RM49gQbtD2XdfSaI3eEk9gxAvqJL4YctgveOWbBFg4sIVksNYOGFkfTWUf7EASSGZ881
+         tUknasWeUkO1iGo6aCCRKGi7GOJmOTQnayo38scdCFRCt8uuPSmqI8pYAD7r5lz3RsXv
+         j4gZxoMkAjt/6UO4g4xTb3OVCX78eODncKOPMS62yQMCHWtX4kCN02ZiinkVhbKN1MPV
+         fxuLW0jizIXrwdKprodLrcKetoz8jzYn1T1dsFiBc4+3V28RTH2gc3JG5t4x/85HnNfB
+         FQOw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmoR1XFLumuoQWuTruZReFwm5faPzYbqqeUFNM7p6GYVOmY89aRqiJjW9ab0LUYYoHBIkVVIXYfus=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxkD4ORZEgH0BYXmkHmhN1xynbsguzIKD4WWMUqsm/VIecRDXem
+	jgxj/Mte5MD39T9OKkNcyplY01St7vcd0IBEvCzLj0u6I3EI3SEHlV6ylgOGQVJWGveqN7F8VNf
+	w/Km5E4lK+Zk47K6ZnS8vy/7SjIzOpRjiZJJNw/gL
+X-Gm-Gg: ATEYQzyWPpQFyrSGi+PVITOxRY5LgVmlzEfb+ceqre8HylfQbjHIoV6Li+woIPYwscE
+	ZzIn+03gdL4VQ/sJER5j4+xqklAeECW4tZVvdcya4OQCFCDeYXd08/jyCC7/e7DTDMWdHhekSTR
+	gceRVEUlr4f6bx4nmRvUlWB/HesU8s/tLekddJZRaIdTK6ZUH8s1X87f2PYPFfROgb9GOKoT22J
+	LabDhXX4N8HdYYZUfWyfC8JwylyvzO+cFkvuMMPPQ76x0/1yTXqop17Fz4B8ILJgSW9ClvObnR0
+	JLbIS8iI0/r7syChHb7cn0blb5SrezcOmcezyaofPETZEGsdurt+5RCq2nrIbBGz5qi2BfA=
+X-Received: by 2002:a05:7022:51e:b0:127:5cda:aaf2 with SMTP id
+ a92af1059eb24-1278fb77ea5mr7086828c88.10.1772520347238; Mon, 02 Mar 2026
+ 22:45:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[rong.moe:email,imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+References: <20260302125303.4553-1-fmancera@suse.de>
+In-Reply-To: <20260302125303.4553-1-fmancera@suse.de>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Mon, 2 Mar 2026 22:45:35 -0800
+X-Gm-Features: AaiRm51nAuIEygVGylZzQ0WedDgL1vPIQRHPDN_kcGsZpN7XCkqegB5B76PvFnk
+Message-ID: <CAAVpQUDBvBqdFZq-0Z0n+PcwxG1jFbR-YO7zeTTBurGty+T1rA@mail.gmail.com>
+Subject: Re: [PATCH net-next v2] inet: add ip_local_port_step_width sysctl to
+ improve port usage distribution
+To: Fernando Fernandez Mancera <fmancera@suse.de>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chia-yu.chang@nokia-bell-labs.com, 
+	idosch@nvidia.com, willemb@google.com, dsahern@kernel.org, 
+	ncardwell@google.com, skhan@linuxfoundation.org, corbet@lwn.net, 
+	horms@kernel.org, pabeni@redhat.com, kuba@kernel.org, edumazet@google.com, 
+	davem@davemloft.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 02 Mar 2026 19:58:55 +0100,
-Rong Zhang wrote:
-> 
-> Some quirky devices do not have a unique VID/PID. Matching them using
-> DEVICE_FLG() or VENDOR_FLG() may result in conflicts.
-> 
-> Add two new macros DEVICE_STRING_FLG() and VENDOR_STRING_FLG() to match
-> USB string descriptors (manufacturer and/or product) in addition to VID
-> and/or PID, so that we can deconflict these devices safely.
-> 
-> No functional change intended.
-> 
-> Signed-off-by: Rong Zhang <i@rong.moe>
+On Mon, Mar 2, 2026 at 4:53=E2=80=AFAM Fernando Fernandez Mancera
+<fmancera@suse.de> wrote:
+>
+> With the current port selection algorithm, ports after a reserved port
+> range or long time used port are used more often than others [1]. This
+> causes an uneven port usage distribution. This combines with cloud
+> environments blocking connections between the application server and the
+> database server if there was a previous connection with the same source
+> port, leading to connectivity problems between applications on cloud
+> environments.
+>
+> The real issue here is that these firewalls cannot cope with
+> standards-compliant port reuse. This is a workaround for such situations
+> and an improvement on the distribution of ports selected.
+>
+> The proposed solution is to implement a variant of RFC 6056 Algorithm 5.
+> The step size is selected randomly on every connect() call ensuring it
+> is a coprime with respect to the size of the range of ports we want to
+> scan. This way, we can ensure that all ports within the range are
+> scanned before returning an error. To enable this algorithm, the user
+> must configure the new sysctl option "net.ipv4.ip_local_port_step_width".
+>
+> In addition, on graphs generated we can observe that the distribution of
+> source ports is more even with the proposed approach. [2]
+>
+> [1] https://0xffsoftware.com/port_graph_current_alg.html
+>
+> [2] https://0xffsoftware.com/port_graph_random_step_alg.html
+>
+> Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
 > ---
-> Changes in v2:
-> - Alloc string buffers with kmalloc() instead of on stack (thanks
->   Takashi Iwai)
-> - Get string descriptors in a neater way (ditto)
-> - Tiny differences compared to Takashi's sugeestion:
->   - Use `IS_ERR_OR_NULL() || strcmp()' instead of `!IS_ERR_OR_NULL() &&
->     strcmp()', so failure in getting the string descriptor won't
->     resulting in quirk flags being applied to irrelevant devices
->   - Use trivial goto cleanup patterns instead of `__free(kfree)' as the
->     latter can't handle ERR_PTR()
+> v2: used step to calculate remaining as (remaining / step) and avoid
+> calculating gcd when scan_step and range are both even
+> ---
+>  Documentation/networking/ip-sysctl.rst        |  9 +++++++
+>  .../net_cachelines/netns_ipv4_sysctl.rst      |  1 +
+>  include/net/netns/ipv4.h                      |  1 +
+>  net/ipv4/inet_hashtables.c                    | 25 ++++++++++++++++---
+>  net/ipv4/sysctl_net_ipv4.c                    |  7 ++++++
+>  5 files changed, 40 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/netwo=
+rking/ip-sysctl.rst
+> index 265158534cda..da29806700e9 100644
+> --- a/Documentation/networking/ip-sysctl.rst
+> +++ b/Documentation/networking/ip-sysctl.rst
+> @@ -1630,6 +1630,15 @@ ip_local_reserved_ports - list of comma separated =
+ranges
+>
+>         Default: Empty
+>
+> +ip_local_port_step_width - INTEGER
+> +        Defines the numerical maximum increment between successive port
+> +        allocations within the ephemeral port range when an unavailable =
+port is
+> +        reached. This can be used to mitigate accumulated nodes in port
+> +        distribution when reserved ports have been configured. Please no=
+te that
+> +        port collisions may be more frequent in a system with a very hig=
+h load.
+> +
+> +        Default: 0 (disabled)
+> +
+>  ip_unprivileged_port_start - INTEGER
+>         This is a per-namespace sysctl.  It defines the first
+>         unprivileged port in the network namespace.  Privileged ports
+> diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rs=
+t b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+> index beaf1880a19b..c0e194a6e4ee 100644
+> --- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+> +++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
+> @@ -47,6 +47,7 @@ u8                              sysctl_tcp_ecn
+>  u8                              sysctl_tcp_ecn_fallback
+>  u8                              sysctl_ip_default_ttl                   =
+                                             ip4_dst_hoplimit/ip_select_ttl
+>  u8                              sysctl_ip_no_pmtu_disc
+> +u32                             sysctl_ip_local_port_step_width
+>  u8                              sysctl_ip_fwd_use_pmtu                  =
+     read_mostly                             ip_dst_mtu_maybe_forward/ip_sk=
+b_dst_mtu
+>  u8                              sysctl_ip_fwd_update_priority           =
+                                             ip_forward
+>  u8                              sysctl_ip_nonlocal_bind
+> diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
+> index 8e971c7bf164..fb7c2235af21 100644
+> --- a/include/net/netns/ipv4.h
+> +++ b/include/net/netns/ipv4.h
+> @@ -166,6 +166,7 @@ struct netns_ipv4 {
+>         u8 sysctl_ip_autobind_reuse;
+>         /* Shall we try to damage output packets if routing dev changes? =
+*/
+>         u8 sysctl_ip_dynaddr;
+> +       u32 sysctl_ip_local_port_step_width;
+>  #ifdef CONFIG_NET_L3_MASTER_DEV
+>         u8 sysctl_raw_l3mdev_accept;
+>  #endif
+> diff --git a/net/ipv4/inet_hashtables.c b/net/ipv4/inet_hashtables.c
+> index fca980772c81..27f29a9376ad 100644
+> --- a/net/ipv4/inet_hashtables.c
+> +++ b/net/ipv4/inet_hashtables.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/wait.h>
+>  #include <linux/vmalloc.h>
+>  #include <linux/memblock.h>
+> +#include <linux/gcd.h>
+>
+>  #include <net/addrconf.h>
+>  #include <net/inet_connection_sock.h>
+> @@ -1046,12 +1047,12 @@ int __inet_hash_connect(struct inet_timewait_deat=
+h_row *death_row,
+>         struct net *net =3D sock_net(sk);
+>         struct inet_bind2_bucket *tb2;
+>         struct inet_bind_bucket *tb;
+> +       int step, scan_step, l3mdev;
+> +       u32 index, max_rand_step;
+>         bool tb_created =3D false;
+>         u32 remaining, offset;
+>         int ret, i, low, high;
+>         bool local_ports;
+> -       int step, l3mdev;
+> -       u32 index;
+>
+>         if (port) {
+>                 local_bh_disable();
+> @@ -1065,6 +1066,8 @@ int __inet_hash_connect(struct inet_timewait_death_=
+row *death_row,
+>
+>         local_ports =3D inet_sk_get_local_port_range(sk, &low, &high);
+>         step =3D local_ports ? 1 : 2;
+> +       scan_step =3D step;
+> +       max_rand_step =3D READ_ONCE(net->ipv4.sysctl_ip_local_port_step_w=
+idth);
+>
+>         high++; /* [32768, 60999] -> [32768, 61000[ */
+>         remaining =3D high - low;
+> @@ -1083,9 +1086,25 @@ int __inet_hash_connect(struct inet_timewait_death=
+_row *death_row,
+>          */
+>         if (!local_ports)
+>                 offset &=3D ~1U;
+> +
+> +       if (max_rand_step && remaining > 1) {
+> +               u32 range =3D remaining / step;
+> +               u32 upper_bound =3D min(range, max_rand_step);
 
-__free(kfree) can handle ERR_PTR() gracefully :)
-In linux/slab.h, it's defined as:
-  DEFINE_FREE(kfree, void *, if (!IS_ERR_OR_NULL(_T)) kfree(_T))
+nit: reverse xmas order
+
+> +
+> +               scan_step =3D get_random_u32_inclusive(1, upper_bound);
+> +               while (gcd(scan_step, range) !=3D 1) {
+> +                       scan_step++;
+> +                       /* if both scan_step and range are even gcd won't=
+ be 1 */
+> +                       if (!(scan_step & 1) && !(range & 1))
+> +                               scan_step++;
+> +                       if (unlikely(scan_step > upper_bound))
+> +                               scan_step =3D 1;
+
+gcd(1, r) is unnecessary, so we can just break here.
 
 
-Takashi
+
+> +               }
+> +               scan_step *=3D step;
+> +       }
+>  other_parity_scan:
+>         port =3D low + offset;
+> -       for (i =3D 0; i < remaining; i +=3D step, port +=3D step) {
+> +       for (i =3D 0; i < remaining; i +=3D step, port +=3D scan_step) {
+>                 if (unlikely(port >=3D high))
+>                         port -=3D remaining;
+>                 if (inet_is_local_reserved_port(net, port))
+> diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
+> index 643763bc2142..c533374f656c 100644
+> --- a/net/ipv4/sysctl_net_ipv4.c
+> +++ b/net/ipv4/sysctl_net_ipv4.c
+> @@ -822,6 +822,13 @@ static struct ctl_table ipv4_net_table[] =3D {
+>                 .mode           =3D 0644,
+>                 .proc_handler   =3D ipv4_local_port_range,
+>         },
+> +       {
+> +               .procname       =3D "ip_local_port_step_width",
+> +               .maxlen         =3D sizeof(u32),
+> +               .data           =3D &init_net.ipv4.sysctl_ip_local_port_s=
+tep_width,
+> +               .mode           =3D 0644,
+> +               .proc_handler   =3D proc_douintvec,
+> +       },
+>         {
+>                 .procname       =3D "ip_local_reserved_ports",
+>                 .data           =3D &init_net.ipv4.sysctl_local_reserved_=
+ports,
+> --
+> 2.53.0
+>
