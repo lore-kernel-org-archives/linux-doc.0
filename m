@@ -1,144 +1,145 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6466E45948
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 09:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD7738C407
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 09:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772528897; cv=none; b=uUbAxuZXhaW2FuWtUzhAcwNsGL1SQ7EGizn3cRVm9a092ApH3l2aa3HnasV/wyHeLgXgZIbgept91oYpKUidaxck40e14LFtlPAGGAx2D5AUI8N1wBlAuEcPl341uK75ucvQKdgVYgtwnxRlNLKZaYXE9WPQg2jSATvPCtsRqxk=
+	t=1772531006; cv=none; b=ebFZHAcMldYoIK3w8yD27e7REmy0etEVo4yIQMHGVuKiHb3GFmT3vW7Na8oIlTl1FN/Ei68pCIoX9XQztm7Zjtvtji3uUOKrx0Hrs5ksZUu3fKaNrDigEVVDi+JCxRTeuH+2UZTfhdRU8/E2sN5U/4di6I/t4MSPT3hNp+QLrcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772528897; c=relaxed/simple;
-	bh=jH3a5WvSl4hsNVqvGQHSPUcAxKpQELeoMlBc1iNZgoE=;
+	s=arc-20240116; t=1772531006; c=relaxed/simple;
+	bh=1Uy90Z68IBOD9G3SwFMH1MRhF90lWRNQ8AzSn74XNWs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QYbdNUF5lO3qhP2J9yRsFzV0LqcWqV20ilIPSY2+fDie3B53J+6E8kdaOy2BDie4qJSL3JHhE+qPnhU/rFpzkoFZM3KXvfPj/tgUYsGt/PgrnqKqZ6fTxZrZoMOKaG7VeddxF/TwNaWllOGJYYal79N29VFmBzW11O3dKf5/rS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWo9rSby; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=H9MfwpKSQpAE8JpYMEKAh4r8IoTgiCWBPsDTyG8/mXtSEuYAVc+WkGf2vY0JPVDZS0sgugjrA0/rADvFML+bZeyskWXlwIAimjEOqRzrscBFsfAJtJxKiSdYLmjknbB1z4HXNpF2HA94afI/jMm2nzDs1c6cpSn7MriqeBq1uf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=aB4jSHLF; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWo9rSby"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4837f27cf2dso48014485e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 01:08:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="aB4jSHLF"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4377174e1ebso4006448f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 01:43:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772528895; x=1773133695; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=phEiBdG5ZIERY6yJr+I2LBbcsXFa1y6p3ngiHNYKF5Q=;
-        b=IWo9rSbykMmGKJ5+zb+hpN+8JAYMBfFE3YDDSmCUlirTW7hr2dSl7Pk9LlOxwUEhxC
-         yBsGw0/9SAALxn5GDF82m3jEYThxPfRVoiNNeizRg489gWad8iJNwRAA7Vv0gFLQxcR1
-         ZsgQJj84VoDvSc9+BZwK7bCLC20xm7jzRGcrhu2UQho0VWEuEO5cjxNjIfAq/5m/BQDs
-         eW9m5ArivDapLdiLPPlHNSYkvjszlUv+IlfJMgJMKjFj09t6wgG5WhUHYQTqcSYnhqzl
-         Qk4Osx5+pDE/GZTadtQK6cJC6C3UiXnRlq1xijezURTZsuJlfijwp23biaNulCnyYOMx
-         DPJQ==
+        d=suse.com; s=google; t=1772531003; x=1773135803; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1OgDgZ0NCQI8yFPsJ1mKpI2h13qQh0QIfMa8oaHcgzg=;
+        b=aB4jSHLF9h7CA6tutm2EKnrQCnDbjN2vScOY5u1lYplfRm9ixk2GPqrCou7qV97YNf
+         4gaRUR81IB3mSJs3QdpmX+4uJji00fLfTJd0chkY8VmlD3WYai/hbIhyn17TnuqHAAq1
+         g8+AKxW/xa73UKKK+0GbYfTeP5G5Qgj3AFnkVvH4yOguNagG/xNWfYDHWVB6pQfD3PWR
+         YkV5ne4vcnc64o4Po5fISKwoaoR8XXR7J7PIwfICRz3edaxy5XSwFqAePAvIbmRooU29
+         8wUxC1YHCcVxFpHBS+iz8CjYqr5kkuw3DGnKTm+cf6YYbwvfxiMjCD7ksq1WIePwbz5f
+         uejw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772528895; x=1773133695;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=phEiBdG5ZIERY6yJr+I2LBbcsXFa1y6p3ngiHNYKF5Q=;
-        b=N8mdI8v2T+VFalp2ZNpkTtfYTuYvpIZCVYX+qh5o5rLHLJgQOW2cNkGA/fnVZSvtCR
-         1KTG0wlY2CRtrfzqOlFp8Hc4I/X7eJL01q77tZ0lGfiuMzAX+eYgHN8mI5owDwpMd+8i
-         S2SOfaXGc8ptgwr4hFBf2WU1N9x8HbiPvZOK5X0D/M7r9kqPuOUb3j17lI8q+xteW6pX
-         9NzzTsgsW05eRrGeGB5nXJ9Vh6QvAF3DxqXCytB2Wr59cdnE9EIJ4jwBJpf9ea4hB9LG
-         /LWCW8VNIjWZ80gYspGyZWikIpxAdttDv8k2JnNQUgSHrSiZMZMvAW3cG1svEi0nyYDR
-         GqRA==
-X-Forwarded-Encrypted: i=1; AJvYcCUbdoWFekiOv/I4mFf0gvMrzfOqEcWhAYSQpG/Z6JlMMZsxgBaS3ZLPXKd9sPpmkGbJDfHARZH5JCY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyh/EptXWEANhFWUSsZPYjDucXYoqnMRuGRjeMU3KU5RuWb57IO
-	EjCcHFuLxKih4s66wAfrkUxKtcpn70YYZkYQr2Xl+J2wjZXqqvCi9oum
-X-Gm-Gg: ATEYQzxPVTPokKnMAJHgxC0mg+2laDqLpOB7oy0d7GeYRVaKN/Z8RokqRQzrt4Wrq0J
-	fwPjZaIaGBEkVgipYmCGHZbRl6GB8AdvLgUSBTAeZ1hOzWD+bXJPwfIGOW8SmiGf7THyEgXPTn7
-	0K9u57ARuD4LKRkwbgQtbPBL0Dl1qWL1ClqdbmUIQ1F6qsrZ4f5/2G7xCCwOZBcxo0xc/Xgxvmp
-	lbvB1tWY+UqVj/a3bjVRJ09PTc5Rvs6xVkEiul4+zIbi75ss/S7NFYKlzje0ag6ui8mVipUC58L
-	uo1HUKShQGbEqjNlRuDQAbeATG7LUky6HdjjiqMTbzUo7xGtb/GQun5zCQCTkxj+GpMklIcTz37
-	+my3/MFYyK8fQGdlRU3YCrDBF3iLLHwZOZqwIymKnT67z6YqP9VdHIwnuUW7umYVssaVQNCnjux
-	kXsRUqHiwR1Tk55b7YNBft4XX4Z4kR7ePZEUdl/dj6sLgHT9mc
-X-Received: by 2002:a05:600d:13:b0:485:110f:5b7f with SMTP id 5b1f17b1804b1-485110f5be6mr54843725e9.19.1772528894586;
-        Tue, 03 Mar 2026 01:08:14 -0800 (PST)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483c3b841absm376589785e9.13.2026.03.03.01.08.13
+        d=1e100.net; s=20230601; t=1772531003; x=1773135803;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1OgDgZ0NCQI8yFPsJ1mKpI2h13qQh0QIfMa8oaHcgzg=;
+        b=qvEfEj+2ZLXjafjZ2Yc4ABp5CMmUiGFbGMlBwJT8IM4XnF5VxbfFM1/SMBNJn8Wcr9
+         7i3pn/iE6EnpHP5OpOFrRwFULV9n/NivRXi7LTkxVIKh4ZbjJg24OGah8hEi7BcQgAzh
+         wvbeaI4x1x6X6FWtRZIEjbnm5XmpuBOyLUnhdckDQ3JNkZz5TLgvOsuPEWOmooINIEK3
+         T7gr3//ug7BDkzhpDs6Lp1jbgVJZwb4547+Dht4a5YasAajiLIi27bATliECviJ5psk+
+         Jt+7KhX0xb5mzF++9xtW6j46LIGrANun+1+3yDKYmgJyl7RCLMp5JjFWJtfaKmrr05CZ
+         5C3w==
+X-Gm-Message-State: AOJu0YzH+tRvxXk7N3rTc3bUMp5tiMNUL5ZsZb/MTulJgfHG9YuA7p7M
+	nvex4ysmWtV08VX4mvoSkMVdZa5YpfM8Gt+4106hDS7qfyMtw3zEcGmvZqfknmQblY8=
+X-Gm-Gg: ATEYQzwrb7yfyzxO9JI1zMuou8uWatXPSp8dKCELPo/2j0tdEFcqblKtf/+NXd0yTvA
+	W59IYkWkedYTkmuFwUc/bJNKxv8az406IvGbs8bJ8z/mASqHsVpUCJTZDMzK+wL0aiX+U5DF39c
+	p13reDvZT2/hHDeHDPqrYnL8Q+mJZC8q0CfDLSFzOj86PG8Ry3Ka7KWcJ/BIHMlO5MkxtS42R5Z
+	NPPKgw8y4WcVdgdsVLTuyWsYpn6o9em25HNddHZzMZMdpDBVyEg5echvueorNigzhFXIKqCiYSf
+	Pkc/CMcLvqigsz/kcXJtr93q4HQgI5gwqkWa/pPwuZejfvoT1r9IpXQAApPbR9EPMMdwa84NyMm
+	oVC2ssjpXILjzr+RA4PuY0+jLF+Mz9So92NP4eylqlVg+KFaQwjtedt6lg5q7sjWzbQUHDd9QKm
+	/B2y48+Q+tDhp/6agRMFlbX0cHgA==
+X-Received: by 2002:a05:600c:3e16:b0:46e:32dd:1b1a with SMTP id 5b1f17b1804b1-483c9ba38damr289723825e9.7.1772531003257;
+        Tue, 03 Mar 2026 01:43:23 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-483bd75dfaasm419063765e9.12.2026.03.03.01.43.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 01:08:14 -0800 (PST)
-Date: Tue, 3 Mar 2026 10:08:07 +0100
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: "Panagiotis \"Ivory\" Vasilopoulos" <git@n0toose.net>
-Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Dan Cojocaru <dan@dcdev.ro>
-Subject: Re: [PATCH v3] landlock: Expand restrict flags example for ABI
- version 8
-Message-ID: <20260303.13455f40d0c5@gnoack.org>
-References: <20260228-landlock-docs-add-tsync-example-v3-1-140ab50f0524@n0toose.net>
+        Tue, 03 Mar 2026 01:43:22 -0800 (PST)
+Date: Tue, 3 Mar 2026 10:43:20 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: BACKPACK <3288824963@qq.com>
+Cc: linux-doc <linux-doc@vger.kernel.org>,
+	senozhatsky <senozhatsky@chromium.org>,
+	qujingling <qujingling@huawei.com>,
+	zhangjiaji1 <zhangjiaji1@huawei.com>,
+	xushuangxing <xushuangxing@huawei.com>,
+	rostedt <rostedt@goodmis.org>,
+	"john.ogness" <john.ogness@linutronix.de>
+Subject: Re: [Question] printk-basics.rst: propose adding warning about
+ high-frequency printk causing lockup on serial console
+Message-ID: <aaatOIcngZgv9_-T@pathway.suse.cz>
+References: <tencent_A94FB6382BF9A2F5117BB565262FBF41700A@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260228-landlock-docs-add-tsync-example-v3-1-140ab50f0524@n0toose.net>
+In-Reply-To: <tencent_A94FB6382BF9A2F5117BB565262FBF41700A@qq.com>
 
-On Sat, Feb 28, 2026 at 10:36:59PM +0100, Panagiotis "Ivory" Vasilopoulos wrote:
-> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-> index 13134bccdd39d78ddce3daf454f32dda162ce91b..b71ac7aa308260b8141e5d35248fb68cec6dcba9 100644
-> --- a/Documentation/userspace-api/landlock.rst
-> +++ b/Documentation/userspace-api/landlock.rst
-> @@ -196,13 +196,33 @@ similar backwards compatibility check is needed for the restrict flags
->  (see sys_landlock_restrict_self() documentation for available flags):
->  
->  .. code-block:: c
-> -
-> -    __u32 restrict_flags = LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
-> -    if (abi < 7) {
-> -        /* Clear logging flags unsupported before ABI 7. */
-> +    __u32 restrict_flags =
-> +        LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
-> +        LANDLOCK_RESTRICT_SELF_TSYNC;
-> +    switch (abi) {
-> +    case 1 ... 6:
-> +        /* Clear logging flags unsupported for ABI < 7 */
->          restrict_flags &= ~(LANDLOCK_RESTRICT_SELF_LOG_SAME_EXEC_OFF |
->                              LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
->                              LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF);
-> +        __attribute__((fallthrough));
-> +    case 7:
-> +        /* Removes multithreaded enforcement flag unsupported for ABI < 8 */
-> +        /*
-> +         * WARNING!
-> +         * Don't copy-paste this just yet! This example impacts enforcement
-> +         * and can potentially decrease protection if misused.
-> +         *
-> +         * Below ABI v8, a Landlock policy can only be enforced for the calling
-> +         * thread and its children. This behavior remains a default for ABI v8,
-> +         * but the flag ``LANDLOCK_RESTRICT_SELF_TSYNC`` can now be used to
-> +         * enforce policies across all threads of the calling process. If an
-> +         * application's Landlock integration was designed under the assumption
-> +         * that the flag is used (such as when children threads are responsible
-> +         * for enforcing and/or overriding policies of parents and siblings),
-> +         * removing said flag can decrease protection for older Linux versions.
-> +         */
-> +        restrict_flags &= ~LANDLOCK_RESTRICT_SELF_TSYNC;
->      }
+On Tue 2026-03-03 15:34:18, BACKPACK wrote:
+> Hi linux-doc maintainers,&nbsp;
+> 
+> 
+> I'm working on an embedded/arm64 system where high-frequency printk() calls (e.g., in network RX interrupt or timer handler) occasionally trigger "hard lockup" or "soft lockup" detector, especially when console=ttyS0 is used. The root cause is that printk() may acquire console_sem and flush logs to a slow serial device, blocking interrupts for too long.&nbsp;
+> &nbsp;
+> I'd like to propose adding a short note in Documentation/core-api/printk-basics.rst to warn developers about this pitfall and suggest alternatives like:
+> &nbsp;- Using tracepoints (ftrace)&nbsp;
 
-Hello!
+There is also trace_printk() which can be added in temporary
+debugging patches. Note that trace_printk() should not be
+added into the mainline code, see the section about trace_printk()
+in Documentation/trace/debugging.rst.
 
-Sorry for nit-picking even further here;
+> &nbsp;- Rate-limiting with pr_xxx_ratelimited()&nbsp;
+> &nbsp;- Avoiding printk in hot paths&nbsp;
 
-* You have two immediately adjacent comments here which should be
-  merged into one.
-* It is enough to use a more terse warning here;
-  would suggest something like:
+There is also pr_*_once(). It is a good alternative for hot paths
+especially when the reported event should never happen.
 
-/*
- * Removes multithreaded enforcement flag unsupported for ABI < 8.
- *
- * WARNING: Calling landlock_restrict_self(2) without this flag
- * is only equivalent if the calling process is single-threaded.
- */
+Another trick is using less important loglevel for less important
+messages and use console_loglevel to filter them on consoles.
+There is a patchset which would allow to define per-console loglevels,
+see the last version at
+https://lore.kernel.org/r/cover.1764272407.git.chris@chrisdown.name
 
-Thanks,
-–Günther
+Finally, the risk of printk-related lockups is lower when using a console
+driver converted to nbcon API, see CON_NBCON flag. They flush printk()
+messages flushed in a dedicated printk thread except for emergency
+and panic contexts. Unfortunately, most console drivers have not
+been converted yet.
+
+Note that the nbcon console drivers might have another problem.
+The asynchronous printing increases the risk that the messages
+might be lost before they are flushed. A bigger log buffer might
+help in this case.
+
+
+> Before preparing a formal patch, I'd like to ask:&nbsp;
+> 1. Is this the right place to document this?&nbsp;
+
+printk-basics.rst looks like a good place to me.
+
+> 2. Would the community find this guidance useful?
+
+Yes.
+
+> 3. Any suggestions on wording or examples?&nbsp;
+
+Please, write the documenation using an imperative mood. Especially
+avoid "you/we" ...
+
+Also note that the documentation is written in reStructuredText (.rst)
+format, see https://docutils.sourceforge.io/rst.html
+and https://docs.kernel.org/doc-guide/sphinx.html
+
+> &nbsp;This would be my first contribution to kernel documentation, so I appreciate your patience and guidance. Thanks,&nbsp;
+> hujinfei <3288824963@qq.com&gt;
+
+I am looking forward to see a patch.
+
+Best Regards,
+Petr
