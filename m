@@ -1,119 +1,317 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2A23D3D04
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 14:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B35247DD7C;
+	Tue,  3 Mar 2026 14:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772547390; cv=none; b=nlq7fHh1Kyw26lBLQEIimfDImZMq3j7U1K7AXpRNhwqNuNCJd3a7kUcWF1wKY8+fkcfeHAlmUQDSlZAgG8H6hUQ2Z/jcI2GOcLGQGLrfNEcxu8S3j+9hE+D26lIuNVh/RD9idsRNr5gmTNHm2Rwh+e9tohE7z53LC4asIweescw=
+	t=1772549594; cv=none; b=Wg7FYIxkiyGoB1tIXigReYOeNJeOxJuDr7Xe8E0u8ULrPfdqM+YmFkQvPwRrZC5XBD21eoGhObIgGyMvQtjf6iZdMgwZnKbO1Vx0yU+ALlrINJ3cnXgJFrTtPq0BL5+UkkMXr3xHkSFKP3mCByMYf4tPPFjV/W9Nt1iuE3dTuJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772547390; c=relaxed/simple;
-	bh=O3wxBlM5A9IROKIfrvTr5CqxizEqTm2V+XA0/tPb8jo=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iRG6Wbh0oJz1srPqvHXg6hUKhE/bxaOJv/pZYMTRY/6KSJ1krjsvKfRd6l9kR4N0ijOzDSOyyJMSuDScS2s35UHvmsJ/k5BncomDn3h/Y3KlpD4c/T3GNzp9u3lxqRKttyldcZVwJZWtR9WQ41wghLyP8F+O/5fOPmJcejfqOWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jruDCTK9; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772549594; c=relaxed/simple;
+	bh=mPB+8jSnehbEHKBNReaI36+tVxnO/gz5hMo6CDtR1vU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JY949EHxhGh5rrgkp7RhEVZwOMaPfDBjIlm2tx6a/sKzvySqvxSxobuLYRJZeAEear/Wn6EsHM/7SoR1zOCa/EY/iRQv2C9Ei0yomOlIDFYn66NIZ2+/yTphAfnDeVexSRmMb9jm9qf0j7UH+/sBYurAOkylpR5PRqL3qC7WEAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IWFnVb+S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jruDCTK9"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-507373bffd9so51077831cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 06:16:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772547388; x=1773152188; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SN5gEyJ3CvnwwkSktZKIQYQ3lN+9NI4Pr7f8HGw+b+o=;
-        b=jruDCTK9psKhqIPBaHVzjUYt817UWNLRW3uWnQBih5DaWHVTy/vkdmLZAavMLbCaZu
-         emPzWCT/BUQ9IczRzgDAo2nNwv/TGfm8BpYdnTEYpFOORESRqAED7PD39XvBv1G/1PMu
-         v6s3v/rJbicx0op9m+wQwPaByvo3azmW64RguH6McdKJx7KLUfu6efO+kbJvwUucKbZy
-         +2WRLbJpe9K9sbhKkFmgx0lpwx0ZlXqyo8Wk7ObsazhNh3IWTMigegIuJWf/u6VQGo2i
-         9W3nbYZfREQ/Gxr6Sf/jwIMWXrfX7uri3rXsVejjQ+56dHwJ1CTh2r98Q40YjeEdAJl8
-         MIpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772547388; x=1773152188;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SN5gEyJ3CvnwwkSktZKIQYQ3lN+9NI4Pr7f8HGw+b+o=;
-        b=n8ynH3MZT8PUPH6C8wzkNKdJMxgixNJvPn/690MKnohGgb4OsH6VNKpaPSfhPlRKrZ
-         of/jb2Bfv5ZeQa2UZfZRdersC8W6NuWM8GT1QiIXo5q878dLYvp7asPEDoMf/qKcR+68
-         RL41l6xUVU2jd9Ma332CyZcx4L7fNSBHFF8DPYjpijFuibRTGUEDjkmAevvKtLE9BlyC
-         b0fpcwlnZW8ephVSyhwohhZ1pWLQV+KDpJPWE5O8CJyEcOjyKLSMNASK1RbCEEwzvW/i
-         ITWdHvqq/9DnXje7wxW5nJK8Pm3JAX5TEvLCIxkdwfccQrubBQ+4ZnV1xk4a+QdXYSAd
-         jvVw==
-X-Forwarded-Encrypted: i=1; AJvYcCWT44LVnsUBNnqtp1xeV/Dl0T98LRzvU0HZjquf/ZkActPNUGWHXB420PUDFKhjFZm9pUGHDNbPJg8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV/zxvsQzxZZHY22e6T6UXUlpGtkxil7PA93xdiMeRT760/c1z
-	xCUtp/3kZmyzlsW5mYPW0HFNs/eKYQuqTLlx2DcIhOpcULbH23WlBvTt
-X-Gm-Gg: ATEYQzy2hLqexoV4e+7rJm5BZfNSUTtVjXpdEW2/pz+z1sGFz4NuHpzgHk7iHvdBzm2
-	x0EpAs2xS8fmizKy2PxsSe14x7jtxAzYJ0syB9TRMV7qqOlYb5yslo6IARdNilmb+Yw6fe5C3HO
-	HY4woTxDzfMsH/yu5hkY6v3QQQQ4FkaI5Y0rVvID/jtDq91zsbPPGC3dDFwPz1uSNOaYgwInTpA
-	1FwxH5UCYjNtsBPP5uxf0kfL+5NnVsH1BCp8BJ6+T0ESRR2z13RrEIa1gl0w09eb0nwlPxCnKHf
-	hpvlBTKnKxSt/7lk6KjLW05CoZ6c/uAFT9QCYDNfgvkU2kJ6VDGciO2/MnPW38E5Qsi+pT1bX2e
-	ESwbcmOX7Qj1ePTk7evgI7qJBNq0NsqtdC2EFj2yZuZS3Z+48nSDqrO2/pR7w6V97vmxwL6Ojk1
-	ZiokyUkWW/cbbT9rKsi7hWeaqvjE6pkGMCC+aaN7T7ooosR5gZR11gXOMfLbPyNFz2B8B4J9hfx
-	qBNsDLo7YMlbZcEpL858MYSsiuXoAkG85IX1b5EmePflzojrao=
-X-Received: by 2002:a05:622a:1445:b0:506:6ec8:835 with SMTP id d75a77b69052e-507529bb500mr199466901cf.54.1772547387868;
-        Tue, 03 Mar 2026 06:16:27 -0800 (PST)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50744ab3d7csm129120271cf.20.2026.03.03.06.16.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 06:16:26 -0800 (PST)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Tue, 3 Mar 2026 14:16:19 +0000
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
-Message-ID: <qcloiwjlbehs4yyuttvrt46monh7isef4d5nzuwlaby6uxfael@j3trvc5jwosy>
-References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
- <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
- <aabm23jCikXs1l6F@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IWFnVb+S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1D73C19422;
+	Tue,  3 Mar 2026 14:53:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772549594;
+	bh=mPB+8jSnehbEHKBNReaI36+tVxnO/gz5hMo6CDtR1vU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IWFnVb+SAOFAW6k2lmD7xM2MmjXDlaKtuLQfi1BOXrrQ730APm7WOFiF67wuUnc++
+	 EGSzMenoInTEUWIO7CSSf/bFBl4ZeUXZjL85avoqiMtQK/oSff46KbycV28M9WkDvY
+	 XUnahFU9ulGTN30W+mMw/EMqmtkIduKav8WJUB/2TDsOz+bW+urOzRV9Fi1DNqM4ee
+	 y8ZD8ab8w73Luic7Ff60S0bNdLT8kqI7mAwcYvulxf5n9Crzb9z2+s2S3vi5j4rpkZ
+	 kPzV3aBM8fN2nX5iOYorO3X9cnpTBIe8tlimk92fP+EUrdxUrMwniVlPpd88G7WOWL
+	 5SvNPVQd6C1oA==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1vxR7W-00000007JR5-48Lo;
+	Tue, 03 Mar 2026 15:53:11 +0100
+Date: Tue, 3 Mar 2026 15:53:10 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Alexander Lobakin <aleksander.lobakin@intel.com>, Jonathan Corbet
+ <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, intel-wired-lan@lists.osuosl.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 00/38] docs: several improvements to kernel-doc
+Message-ID: <20260303155310.5235b367@localhost>
+In-Reply-To: <33d214091909b9a060637f56f81fb8f525cf433b@intel.com>
+References: <cover.1771408406.git.mchehab+huawei@kernel.org>
+	<33d214091909b9a060637f56f81fb8f525cf433b@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aabm23jCikXs1l6F@ashevche-desk.local>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 26/03/03 03:49PM, Andy Shevchenko wrote:
-> On Tue, Mar 03, 2026 at 01:27:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
-> 
-> > Add kstrntoull() function, which converts a string to an ULL with a max
-> > character limit. The function is an alternative integer parsing function
-> > that does not require a null-terminated string. It becomes a better option
-> 
-> null -->  NUL
-> 
-> > over simple_strtoull() or kstrtoull() when parsing integers from a buffer
-> > with custom delimiters without having to create temporary copies.
-> > The function is consumed inside the implementation _kstrtoull(),
-> > promoting reuse.
-> 
-> But this will not properly convert 0000000000000000000000000000000000000000100,
-> for example, if the max_chars say set to 20.
+On Mon, 23 Feb 2026 15:47:00 +0200
+Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
-Why would I want that? truncation will happen in the case and the value will
-be zero. max_chars can be zet to INT_MAX/SIZE_MAX if you want to get 100.
+> On Wed, 18 Feb 2026, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > As anyone that worked before with kernel-doc are aware, using regex to
+> > handle C input is not great. Instead, we need something closer to how
+> > C statements and declarations are handled.
+> >
+> > Yet, to avoid breaking  docs, I avoided touching the regex-based algorithms
+> > inside it with one exception: struct_group logic was using very complex
+> > regexes that are incompatible with Python internal "re" module.
+> >
+> > So, I came up with a different approach: NestedMatch. The logic inside
+> > it is meant to properly handle brackets, square brackets and parenthesis,
+> > which is closer to what C lexical parser does. On that time, I added
+> > a TODO about the need to extend that.  
+> 
+> There's always the question, if you're putting a lot of effort into
+> making kernel-doc closer to an actual C parser, why not put all that
+> effort into using and adapting to, you know, an actual C parser?
 
-> Also kstrto*() have a common idea behind to consume the only \n and allowed
-> digits. This (naming) doesn't fit into the kstrto*() category.
+Playing with this idea, it is not that hard to write an actual C
+parser - or at least a tokenizer. There is already an example of it
+at:
 
-mmm ok, but include/linux/kstrtox.h is the right place for this? how about just
-strntoull()? I feel like a safe_ prefix does not make much sense if it is
-only to differentiate from simple_strto*(), which should have been safe at
-the first place.
+	https://docs.python.org/3/library/re.html
+
+I did a quick implementation, and it seems to be able to do its job:
+
+    $ ./tokenizer.py ./include/net/netlink.h
+      1:  0  COMMENT       '/* SPDX-License-Identifier: GPL-2.0 */'
+      2:  0  CPP           '#ifndef'
+      2:  8  ID            '__NET_NETLINK_H'
+      3:  0  CPP           '#define'
+      3:  8  ID            '__NET_NETLINK_H'
+      5:  0  CPP           '#include'
+      5:  9  OP            '<'
+      5: 10  ID            'linux'
+      5: 15  OP            '/'
+      5: 16  ID            'types'
+      5: 21  PUNC          '.'
+      5: 22  ID            'h'
+      5: 23  OP            '>'
+      6:  0  CPP           '#include'
+      6:  9  OP            '<'
+      6: 10  ID            'linux'
+      6: 15  OP            '/'
+      6: 16  ID            'netlink'
+      6: 23  PUNC          '.'
+      6: 24  ID            'h'
+      6: 25  OP            '>'
+      7:  0  CPP           '#include'
+      7:  9  OP            '<'
+      7: 10  ID            'linux'
+      7: 15  OP            '/'
+      7: 16  ID            'jiffies'
+      7: 23  PUNC          '.'
+      7: 24  ID            'h'
+      7: 25  OP            '>'
+      8:  0  CPP           '#include'
+      8:  9  OP            '<'
+      8: 10  ID            'linux'
+      8: 15  OP            '/'
+      8: 16  ID            'in6'
+...
+     12:  1  COMMENT       '/**\n  * Standard attribute types to specify validation policy\n  */'
+     13:  0  ENUM          'enum'
+     13:  5  PUNC          '{'
+     14:  1  ID            'NLA_UNSPEC'
+     14: 11  PUNC          ','
+     15:  1  ID            'NLA_U8'
+     15:  7  PUNC          ','
+     16:  1  ID            'NLA_U16'
+     16:  8  PUNC          ','
+     17:  1  ID            'NLA_U32'
+     17:  8  PUNC          ','
+     18:  1  ID            'NLA_U64'
+     18:  8  PUNC          ','
+     19:  1  ID            'NLA_STRING'
+     19: 11  PUNC          ','
+     20:  1  ID            'NLA_FLAG'
+...
+     41:  0  STRUCT        'struct'
+     41:  7  ID            'netlink_range_validation'
+     41: 32  PUNC          '{'
+     42:  1  ID            'u64'
+     42:  5  ID            'min'
+     42:  8  PUNC          ','
+     42: 10  ID            'max'
+     42: 13  PUNC          ';'
+     43:  0  PUNC          '}'
+     43:  1  PUNC          ';'
+     45:  0  STRUCT        'struct'
+     45:  7  ID            'netlink_range_validation_signed'
+     45: 39  PUNC          '{'
+     46:  1  ID            's64'
+     46:  5  ID            'min'
+     46:  8  PUNC          ','
+     46: 10  ID            'max'
+     46: 13  PUNC          ';'
+     47:  0  PUNC          '}'
+     47:  1  PUNC          ';'
+     49:  0  ENUM          'enum'
+     49:  5  ID            'nla_policy_validation'
+     49: 27  PUNC          '{'
+     50:  1  ID            'NLA_VALIDATE_NONE'
+     50: 18  PUNC          ','
+     51:  1  ID            'NLA_VALIDATE_RANGE'
+     51: 19  PUNC          ','
+     52:  1  ID            'NLA_VALIDATE_RANGE_WARN_TOO_LONG'
+     52: 33  PUNC          ','
+     53:  1  ID            'NLA_VALIDATE_MIN'
+     53: 17  PUNC          ','
+     54:  1  ID            'NLA_VALIDATE_MAX'
+     54: 17  PUNC          ','
+     55:  1  ID            'NLA_VALIDATE_MASK'
+     55: 18  PUNC          ','
+     56:  1  ID            'NLA_VALIDATE_RANGE_PTR'
+     56: 23  PUNC          ','
+     57:  1  ID            'NLA_VALIDATE_FUNCTION'
+     57: 22  PUNC          ','
+     58:  0  PUNC          '}'
+     58:  1  PUNC          ';'
+
+It sounds doable to use it, and, at least on this example, it
+properly picked the IDs.
+
+On the other hand, using it would require lots of changes at
+kernel-doc. So, I guess I'll add a tokenizer to kernel-doc, but
+we should likely start using it gradually.
+
+Maybe starting with NestedSearch and with public/private
+comment handling (which is currently half-broken).
+
+As a reference, the above was generated with the code below,
+which was based on the Python re documentation.
+
+Comments?
+
+---
+
+One side note: right now, we're not using typing at kernel-doc,
+nor really following a proper coding style.
+
+I wanted to use it during the conversion, and place consts in
+uppercase, as this is currently the best practices, but doing
+it while converting from Perl were very annoying. So, I opted
+to make things simpler. Now that we have it coded, perhaps it
+is time to define a coding style and apply it to kernel-doc.
 
 -- 
-Kind regards,
+Thanks,
+Mauro
 
-Rodrigo Alencar
+#!/usr/bin/env python3
+
+import sys
+import re
+
+class Token():
+    def __init__(self, type, value, line, column):
+        self.type = type
+        self.value = value
+        self.line = line
+        self.column = column
+
+class CTokenizer():
+    C_KEYWORDS = {
+        "struct", "union", "enum",
+    }
+
+    TOKEN_LIST = [
+        ("COMMENT", r"//[^\n]*|/\*[\s\S]*?\*/"),
+
+        ("STRING",  r'"(?:\\.|[^"\\])*"'),
+        ("CHAR",    r"'(?:\\.|[^'\\])'"),
+
+        ("NUMBER",  r"0[xX][0-9a-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"
+                    r"[0-9]+(\.[0-9]*)?([eE][+-]?[0-9]+)?[fFlL]*"),
+
+        ("ID",      r"[A-Za-z_][A-Za-z0-9_]*"),
+
+        ("OP",      r"\+\+|\-\-|\->|==|\!=|<=|>=|&&|\|\||<<|>>|\+=|\-=|\*=|/=|%="
+                    r"|&=|\|=|\^=|=|\+|\-|\*|/|%|<|>|&|\||\^|~|!|\?|\:"),
+
+        ("PUNC",    r"[;,\.\[\]\(\)\{\}]"),
+
+        ("CPP",     r"#\s*(define|include|ifdef|ifndef|if|else|elif|endif|undef|pragma)"),
+
+        ("HASH",    r"#"),
+
+        ("NEWLINE", r"\n"),
+
+        ("SKIP",    r"[\s]+"),
+
+        ("MISMATCH",r"."),
+    ]
+
+    def __init__(self):
+        re_tokens = []
+
+        for name, pattern in self.TOKEN_LIST:
+            re_tokens.append(f"(?P<{name}>{pattern})")
+
+        self.re_scanner = re.compile("|".join(re_tokens),
+                                     re.MULTILINE | re.DOTALL)
+
+    def tokenize(self, code):
+        # Handle continuation lines
+        code = re.sub(r"\\\n", "", code)
+
+        line_num = 1
+        line_start = 0
+
+        for match in self.re_scanner.finditer(code):
+            kind   = match.lastgroup
+            value  = match.group()
+            column = match.start() - line_start
+
+            if kind == "NEWLINE":
+                line_start = match.end()
+                line_num += 1
+                continue
+
+            if kind in {"SKIP"}:
+                continue
+
+            if kind == "MISMATCH":
+                raise RuntimeError(f"Unexpected character {value!r} on line {line_num}")
+
+            if kind == "ID" and value in self.C_KEYWORDS:
+                kind = value.upper()
+
+            # For all other tokens we keep the raw string value
+            yield Token(kind, value, line_num, column)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print(f"Usage: python {sys.argv[0]} <fname>")
+        sys.exit(1)
+
+    fname = sys.argv[1]
+
+    try:
+        with open(fname, 'r', encoding='utf-8') as file:
+            sample = file.read()
+    except FileNotFoundError:
+        print(f"Error: The file '{fname}' was not found.")
+        sys.exit(1)
+    except Exception as e:
+        print(f"An error occurred while reading the file: {str(e)}")
+        sys.exit(1)
+
+    print(f"Tokens from {fname}:")
+
+    for tok in CTokenizer().tokenize(sample):
+        print(f"{tok.line:3d}:{tok.column:3d}  {tok.type:12}  {tok.value!r}")
+
