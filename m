@@ -1,106 +1,154 @@
-Received: from mail-m32107.qiye.163.com (mail-m32107.qiye.163.com [220.197.32.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0FC2F851;
-	Tue,  3 Mar 2026 04:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA4A36D9FC
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 06:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772510445; cv=none; b=KrgSqtipTpGzjupqRMRaUxxdRymg9q54RTSn+kHO/yto3e78QjXLDW12QYTcKawZrqh/8Yo8H1/IOQcgwWwyPNvuBXjYL4986g0XIAZFb3CfIykekIRABAjdBt6kd1eXplxjkB+yjUhuJqNYielmIU+6C2d76DeIRLliooRH3Vs=
+	t=1772518427; cv=none; b=RfSVgtXDRhiaT5H+r4P4qWpJJY5ZsKYjjfDxybARjDhqIGei1FIO5/ChG1znlGtG+0P/kXtQdqVEc8PGfw5M3jVIK33m0jZ42ryh6cBmUgwZxovQgxYGuOwbLOm1Algfg6NTps9h1lcYyUtQ+Wg3WxJta+tl0QjYC3FkxX3Yavg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772510445; c=relaxed/simple;
-	bh=wc+eqZZVfxysn7nqDrFIPL65yksKv2aJmNV0TCBsyxw=;
-	h=Cc:Subject:To:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=UDAhtWF4F/hiJuHtuHoivNUuYbs/Yi1JvZPCmGrnx34D0w1doz/NQNPPVflWpYXGMhKuI9OI7mEBHamhdrbdzEnE/nABRiei3G7lb7BEWtFaeJahtAC89ycJhOM9v+sK76RQVnWht9VjYrbZ7zrC1IMXuVfiC5eFuxTF7uLnXsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=fcOCZunh; arc=none smtp.client-ip=220.197.32.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
+	s=arc-20240116; t=1772518427; c=relaxed/simple;
+	bh=wSdJCNEcRSpLA7NqxRp95eZD0EaV2U7w5ovgw1r/V+E=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MTm7pc6M62966gRRhq1t2h71WHiSIojMCHGMh10d+Z/6iM8x9e89h47+HipKZlJKSwR2dD6PaWw8XEW9h6gJAOVLAZD+lJ7ygmXDsDH/IeL2/JG5NJ/AH1mDVERLWYfpUHrN/dTvSmaEPRyR0CBqgthm6QWok0agHHecV4TZNJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dihq27W7; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="fcOCZunh"
-Received: from [172.16.12.14] (unknown [58.22.7.114])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 35873ab86;
-	Tue, 3 Mar 2026 11:25:04 +0800 (GMT+08:00)
-Cc: shawn.lin@rock-chips.com, Manivannan Sadhasivam <mani@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, linux-rockchip@lists.infradead.org,
- linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Masami Hiramatsu <mhiramat@kernel.org>
-Subject: Re: [PATCH v4 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition
- trace support
-To: Steven Rostedt <rostedt@goodmis.org>
-References: <1769047340-113287-1-git-send-email-shawn.lin@rock-chips.com>
- <1769047340-113287-4-git-send-email-shawn.lin@rock-chips.com>
- <20260224091115.6e32c38e@fedora> <20260224091601.48a7b3c0@fedora>
-From: Shawn Lin <shawn.lin@rock-chips.com>
-Message-ID: <9c58271e-394c-a49e-ab2f-797f31ac9a79@rock-chips.com>
-Date: Tue, 3 Mar 2026 11:25:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dihq27W7"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2aae4816912so35859795ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 22:13:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1772518425; x=1773123225; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VUnwHAHVUtkTlajQSql9yZcRD1MLD9k9rKTQHvdToZs=;
+        b=dihq27W7M+QYvEUMNaZAnfn8oi/CBE2ERA9Yg6VszunmTsEiG/h2f4tqLUOFANK/Wl
+         GVUlTR4wNwi3EBJx3Ixkv8Y2zyBuEvEBSOMDAKByWpvGAyXBVfoyNKWEyycOEgXDXQ5g
+         TKp+A8cDbyes9OZ0rrHrD6fwRuIk30oPQ8qCI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772518425; x=1773123225;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VUnwHAHVUtkTlajQSql9yZcRD1MLD9k9rKTQHvdToZs=;
+        b=fV679xggFTszuyUYLG7TDSzRuDUK8cQW7gQYgquEd1GeOvA+EK5dbjWgpizYvd9INa
+         sa3MMy8Ia6vl7IU9X3ABta5u3VEnR5GzmCKgEfedLb5Lq1uzOwgYjr1v3kgLF9CkPuxm
+         o8Mm5qGG/wkAec0zCg5qXZk3AnHEt1/yI+bYUlwFS9PQj1vEJZrk5tcatGRHSVSBUiBJ
+         6p+LIkv0KIWPVuVn+bmOkolzbYg099uzZRnKEclYV48GgR7CZXtAvFSj9V/ZknfKXhKZ
+         kVxINiY2X+FAHNTYxgblzWTiryUn6a7IVICW3/4WBRAWWn+dO2Xb331zSbDsxwKjcJOv
+         ElZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVFIKvlVVi4Ih4f6uf1QKS4pTrLHQpMpDom9oyqv8fD5YeYfpcoF1d8YFLdWRtapRY9/mwI0C9wEhc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/hmfwgG424ESmxwyKJ967amzcGszIwjDYYgoTjUsXGFnBezja
+	kJF1TLd3hbOH+zdrxS98mAWXL+szIB4IeYr39o55f9PUBauNb7BgX6+VXGKJeL4Wlg==
+X-Gm-Gg: ATEYQzxIsc0Djo2JIlnOT4z5/FBNfEadYw/Wi6CXs/JSV3N4bh82AVxSJu3O2bGgZPO
+	bQ4M6ogcM5ebtQkxvuGse5DE5V1W/Vp/RuS3IjkRI7ZJtAU+bimNRoDsVPE0SZgC5cQrU4in8sP
+	nLVJnxpaMRSsS5/weO2R1beob1VYyKNL7FVwYW1fP/w4GPHrJzdRHilj2Mq3XqtsH1EUuN0cINo
+	1a5Po3UVahi7Q7C2T/v6zHTZlbHFKQD8kIEqrhkF1Kv7cjjz35LRfichIXw5QlGaEyiIgQfC0OK
+	jSg6Lb6vIdxhKbm5mUxMXWWl0bAOpl1wleO0d9z+kX/pHo+yHmqRi4L26kNxmb2KvAqsJw5QJIt
+	8+kEaJ98RFqNuIGJeQ+DnoLpTSEnyR8Ijb8HwnzLvu9H3L/L+aoBnU6t5wjY+erxsLYyJTjzpTj
+	1QnUaIAqM410vjdQXb36MzzOEZ23EeZwOiW87ea+fCNb206EXv75od93c1CmVVDWwwsQYGDyu2K
+	si2VQ2dubMj6ba4yj30hjKf4wuVqYndHQ==
+X-Received: by 2002:a17:902:f70f:b0:2ae:5a21:f7ee with SMTP id d9443c01a7336-2ae5a21fa6fmr37483595ad.0.1772518425479;
+        Mon, 02 Mar 2026 22:13:45 -0800 (PST)
+Received: from jingyliang-input-linux.c.googlers.com (111.169.168.34.bc.googleusercontent.com. [34.168.169.111])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb6fe4f3sm152639735ad.91.2026.03.02.22.13.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2026 22:13:44 -0800 (PST)
+From: Jingyuan Liang <jingyliang@chromium.org>
+Subject: [PATCH 00/12] Add spi-hid transport driver
+Date: Tue, 03 Mar 2026 06:12:52 +0000
+Message-Id: <20260303-send-upstream-v1-0-1515ba218f3d@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260224091601.48a7b3c0@fedora>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9cb1ba533c09cckunm664397451064e69
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkNCHVYZQx1JSUkZQkNCHkhWFRQJFh
-	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
-	hVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=fcOCZunhr7Y/DHLUF7L3Wb8FLFNDfUkfU7AkKjjWaKuAbLrt3jIhPnhzA3AfgYiNDKuBBUgCaVP6YnlBWUypnln5kdTxA1wA8MCwJG7nI/KUvkm9UqLMCPMd3+zrOwRI+sCwIUCV6TH0CvJ8RlVDvwmPBaPnXAX33ISLhEt1JS8=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=o7qDpfAmCY+KKmwW4NiVQPzaWeAB3Pm4lOV/bydwgz8=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOR7pmkC/x3MQQ5AMBBG4avIrDWpSZC6iliI/mUWSjqIRNxdY
+ /kt3ntIkQRKXfFQwiUqW8yoyoKmZYwzjPhsYsuN5YqNInpz7nokjKtp69AE7+Adg3KzJwS5/18
+ /vO8H6J83h18AAAA=
+X-Change-ID: 20260212-send-upstream-75f6fd9ed92e
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ hbarnor@chromium.org, Jingyuan Liang <jingyliang@chromium.org>, 
+ Jarrett Schultz <jaschultz@microsoft.com>, 
+ Dmitry Antipov <dmanti@microsoft.com>, Angela Czubak <acz@semihalf.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772518424; l=2786;
+ i=jingyliang@chromium.org; s=20260213; h=from:subject:message-id;
+ bh=wSdJCNEcRSpLA7NqxRp95eZD0EaV2U7w5ovgw1r/V+E=;
+ b=ZiBezP9vXWQWUH4xJexyE2fSowbVOByYok8M/4ZB3IOWkh60Ktwg63v7/f43RkdINRwEM6e0Y
+ twvbFrczErzD1aGZ5lqUJLsWtx9uFpEEmLogAK8K6CvDRUR2TuWLffa
+X-Developer-Key: i=jingyliang@chromium.org; a=ed25519;
+ pk=VTYSdqslTtYOjWWoIGgYoWupGWqNSidrggReKMgfPo4=
 
-Hi Steven,
+This series picks up the spi-hid driver work originally started by
+Microsoft. The patch breakdown has been modified and the implementation has
+been refactored to address upstream feedback and testing issues. We are
+submitting this as a new series while keeping the original sign-off
+chain to reflect the history.
 
-在 2026/02/24 星期二 22:16, Steven Rostedt 写道:
-> On Tue, 24 Feb 2026 09:11:15 -0500
-> Steven Rostedt <rostedt@goodmis.org> wrote:
-> 
+Same as the original series, there is a change to HID documentation, some
+HID core changes to support a SPI device, the SPI HID transport driver,
+and HID over SPI Device Tree binding. We have added the HID over SPI ACPI
+support, power management, panel follower, and quirks for Ilitek touch
+controllers.
 
-...
+Original authors: Jarrett Schultz <jaschultz@microsoft.com>,
+		  Dmitry Antipov <dmanti@microsoft.com>
+Link: https://lore.kernel.org/r/86b63b7b-afda-d7f4-7bfa-175085d5a8ef@gmail.com
 
->>> +	}
->>> +
->>> +skip_trace:
->>> +	schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
->>> +}
->>> +
-> 
-> Hmm, so basically you only want to call the work when tracing is
-> enabled? That's what I was thinking should be enabled by the reg and
-> unreg functions. That is, the reg should enabled the delayed work, and
-> the unreg should disable it from being called.
-> 
-> This looks like it calls the work regardless of if tracing is enabled
-> or not. Why waste the cycles when tracing is disabled?
-> 
+Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
+---
+Angela Czubak (2):
+      HID: spi-hid: add transport driver skeleton for HID over SPI bus
+      HID: spi_hid: add ACPI support for SPI over HID
 
+Jarrett Schultz (3):
+      Documentation: Correction in HID output_report callback description.
+      HID: Add BUS_SPI support and define HID_SPI_DEVICE macro
+      HID: spi_hid: add device tree support for SPI over HID
 
-I looked into implementing reg and unreg callbacks to directly schedule
-and cancel the delayed work. The challenge is that this tracepoint
-belongs to the shared PCI subsystem trace hierarchy, while the polling
-work itself is per-controller. I haven't found a clean way to register
-per-driver callbacks in this common context.
+Jingyuan Liang (7):
+      HID: spi-hid: add spi-hid driver HID layer
+      HID: spi-hid: add HID SPI protocol implementation
+      HID: spi_hid: add spi_hid traces
+      dt-bindings: input: Document hid-over-spi DT schema
+      HID: spi-hid: add power management implementation
+      HID: spi-hid: add panel follower support
+      HID: spi-hid: add quirkis to support mode switch for Ilitek touch
 
-Creating a separate Rockchip-specific tracepoint via
-tracepoint_probe_register() would detach it from the standard PCIe trace
-event hierarchy, which seems undesirable.
+ .../devicetree/bindings/input/hid-over-spi.yaml    |  153 ++
+ Documentation/hid/hid-transport.rst                |    4 +-
+ drivers/hid/Kconfig                                |    2 +
+ drivers/hid/Makefile                               |    2 +
+ drivers/hid/hid-core.c                             |    3 +
+ drivers/hid/spi-hid/Kconfig                        |   45 +
+ drivers/hid/spi-hid/Makefile                       |   11 +
+ drivers/hid/spi-hid/spi-hid-acpi.c                 |  254 ++++
+ drivers/hid/spi-hid/spi-hid-core.c                 | 1493 ++++++++++++++++++++
+ drivers/hid/spi-hid/spi-hid-core.h                 |   94 ++
+ drivers/hid/spi-hid/spi-hid-of.c                   |  244 ++++
+ drivers/hid/spi-hid/spi-hid.h                      |   51 +
+ include/linux/hid.h                                |    2 +
+ include/trace/events/spi_hid.h                     |  156 ++
+ 14 files changed, 2512 insertions(+), 2 deletions(-)
+---
+base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+change-id: 20260212-send-upstream-75f6fd9ed92e
 
-As a practical middle ground, I implement reg and unreg to maintain a
-user count like this v4. All drivers using this tracepoint would then
-rely on the count to gate their work execution, making the delayed work
-essentially a no-op when tracing is disabled.
+Best regards,
+-- 
+Jingyuan Liang <jingyliang@chromium.org>
 
-Alternatively, we could simply revert to the V3 approach and rely
-entirely on the trace_pcie_ltssm_state_transition_enabled() static
-branch check, which would remove the need for reg and unreg altogether.
-
-If you have better suggestions or can point me to a preferred pattern 
-for this, I'd appreciate your advice.
-
-> -- Steve
-> 
