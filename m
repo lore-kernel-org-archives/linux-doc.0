@@ -1,302 +1,122 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF2133507E
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 06:22:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5592E8DEB;
+	Tue,  3 Mar 2026 06:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772518936; cv=none; b=BvaCuhUd96CBBDzEedqfRNHGUztV7jfkhAF3q68xWru8YlApyBqihDH9sJlK5Hf31F3yCAY2IKrlPSwuNy4epUxD8vugYt/gkuLkyf/wHLDyln6u7F3quZw3Armf40F2UbdqEQa7n3zUSF611+nY6GQ3QnZyMBRTAumEw3xtRFc=
+	t=1772519230; cv=none; b=VzoWSNMskuYqEAqpQ130VUtv2nrqNKGrBxJ/9llW+pN/NouPmPAc5np2Uf5vC9BDRH5P/7NhdP9MfteTKwsTjtWs++YmyZxRLi4QiDif/Z/93l/yiW7IHOPVYCJD5zFZ1VwOI61JRD5omszehEFQnZW6VrJFd9p7gDoqFX+rBHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772518936; c=relaxed/simple;
-	bh=hCH6OUGqlsWIY7zC0dS5OdMmmVu4dEA8EXsuCrydg2w=;
+	s=arc-20240116; t=1772519230; c=relaxed/simple;
+	bh=fxKizMzMIayJYvrsnvg5v7c9n+Cb/G9sDjZiXulqffo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lB5EMc8iQM6rJMtg0ODUFKPIWUjUNgVgbF7Yip1FVxXNo6jOcl8v3lCyPkBxwwwBPcJ82HvRpcrJTEQHxBMvoTscGKy4PyaMhoO6zctdQw23eLvWL+vSZnn7RaUFhlCwnWH5/DSh+bMSuEMTYU9QKUVQRpCwQkzxSD7z7LDtUjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hBFbBJNe; arc=none smtp.client-ip=91.218.175.188
+	 In-Reply-To:Content-Type; b=cjjrPWTTbzidlZNKtCN8vCWsROK+r3uejHiMnOor/yZohQcGh0lT2ZCwjgqYkqf/jO7aN9TOP0XED9gGaR0IPB0enCFnRbfdrE0ckl5fOrB+tgoycFDCopXYc9iHa06mHRzRmdDZLXXhRPpFsP5jfEEEXBfgzZ0/GpBqtQ7iFnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mlObZq1N; arc=none smtp.client-ip=91.218.175.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hBFbBJNe"
-Message-ID: <63622051-f128-4450-8579-97f25305beb5@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mlObZq1N"
+Message-ID: <d7f3dabd-e6da-496d-927e-590a41dee009@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772518931;
+	t=1772519226;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TXvC0W9BK/qCDM2luuVOjFiw+pG7WQpudbkrpHQ06Bk=;
-	b=hBFbBJNeRGCjHua0QjXLgz/eHaN8IFODEb3GXPUD8UbMcTeR5gfAlvWl0O3UihX48thOvt
-	iQ65ft3idSC9hFOIMyAXX0qKP2XgbVR99CJAnOOkPB00eEHxxmhlfz9pNXQ2DLDcq9edGY
-	7UJwXmxf3sVgeP7+cgWF1X5/kjOz/Tk=
-Date: Mon, 2 Mar 2026 22:21:55 -0800
+	bh=lwL4R6Tjrx15lo/+8rlSFcr3K3tEG+s7YuJdiIPQfcQ=;
+	b=mlObZq1NJMCT2YKc+UgG3MhwDSoJWI5YGFMX8WYVq9r9rX14M+5v3onDsRjK3DVNSOHLbh
+	aKAWgG+6xv7vvh5YkdO02SzyfhVQo2qx2MMYbM5sUrcDPHprQpYhGrhWVpOY4e/1WGa92u
+	fI8POhPiuEVxN4ygfBAegFI70AyW5LU=
+Date: Tue, 3 Mar 2026 14:26:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 04/22] vfio/pci: Register a file handler with Live
- Update Orchestrator
-To: David Matlack <dmatlack@google.com>, Alex Williamson <alex@shazbot.org>
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
- Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
- Alistair Popple <apopple@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal
- <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
- Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>,
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
- Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>,
- kexec@lists.infradead.org, kvm@vger.kernel.org,
- Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>,
- =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
- Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>,
- Pranjal Shrivastava <praan@google.com>, Pratyush Yadav
- <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Samiullah Khawaja <skhawaja@google.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>,
- Yi Liu <yi.l.liu@intel.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
- <20260129212510.967611-5-dmatlack@google.com>
+Subject: Re: [RFC PATCH net-next] tcp: Add net.ipv4.tcp_purge_receive_queue
+ sysctl
+Content-Language: en-US
+To: Eric Dumazet <edumazet@google.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Leon Hwang <leon.huangfu@shopee.com>,
+ netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>,
+ Kuniyuki Iwashima <kuniyu@google.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
+ <ij@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
+ kerneljasonxing@gmail.com, lance.yang@linux.dev, jiayuan.chen@linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260225074633.149590-1-leon.huangfu@shopee.com>
+ <20260225174354.5a698ddb@kernel.org>
+ <f611be70-8280-44c8-86af-5866c0b302be@linux.dev>
+ <20260302162251.733b520e@kernel.org>
+ <3a623176-fc5f-4dd4-bbfc-64d211f53645@linux.dev>
+ <CANn89iJ0=Tx0i+1UXEdcoFuk1F_MfP41-L-kgGDTN+RcLTRcFA@mail.gmail.com>
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Zhu Yanjun <yanjun.zhu@linux.dev>
-In-Reply-To: <20260129212510.967611-5-dmatlack@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Leon Hwang <leon.hwang@linux.dev>
+In-Reply-To: <CANn89iJ0=Tx0i+1UXEdcoFuk1F_MfP41-L-kgGDTN+RcLTRcFA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 
-在 2026/1/29 13:24, David Matlack 写道:
-> From: Vipin Sharma <vipinsh@google.com>
->
-> Register a live update file handler for vfio-pci device files. Add stub
-> implementations of all required callbacks so that registration does not
-> fail (i.e. to avoid breaking git-bisect).
->
-> This file handler will be extended in subsequent commits to enable a
-> device bound to vfio-pci to run without interruption while the host is
-> going through a kexec Live Update.
->
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> Co-developed-by: David Matlack <dmatlack@google.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> ---
->   MAINTAINERS                            |  1 +
->   drivers/vfio/pci/Makefile              |  1 +
->   drivers/vfio/pci/vfio_pci.c            |  9 +++-
->   drivers/vfio/pci/vfio_pci_liveupdate.c | 69 ++++++++++++++++++++++++++
->   drivers/vfio/pci/vfio_pci_priv.h       | 14 ++++++
->   include/linux/kho/abi/vfio_pci.h       | 28 +++++++++++
->   6 files changed, 121 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/vfio/pci/vfio_pci_liveupdate.c
->   create mode 100644 include/linux/kho/abi/vfio_pci.h
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index a671e3d4e8be..7d6cdecedb05 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -27520,6 +27520,7 @@ F:	Documentation/ABI/testing/debugfs-vfio
->   F:	Documentation/ABI/testing/sysfs-devices-vfio-dev
->   F:	Documentation/driver-api/vfio.rst
->   F:	drivers/vfio/
-> +F:	include/linux/kho/abi/vfio_pci.h
->   F:	include/linux/vfio.h
->   F:	include/linux/vfio_pci_core.h
->   F:	include/uapi/linux/vfio.h
-> diff --git a/drivers/vfio/pci/Makefile b/drivers/vfio/pci/Makefile
-> index e0a0757dd1d2..23305ebc418b 100644
-> --- a/drivers/vfio/pci/Makefile
-> +++ b/drivers/vfio/pci/Makefile
-> @@ -7,6 +7,7 @@ obj-$(CONFIG_VFIO_PCI_CORE) += vfio-pci-core.o
->   
->   vfio-pci-y := vfio_pci.o
->   vfio-pci-$(CONFIG_VFIO_PCI_IGD) += vfio_pci_igd.o
-> +vfio-pci-$(CONFIG_LIVEUPDATE) += vfio_pci_liveupdate.o
->   obj-$(CONFIG_VFIO_PCI) += vfio-pci.o
->   
->   obj-$(CONFIG_MLX5_VFIO_PCI)           += mlx5/
-> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-> index 0c771064c0b8..19e88322af2c 100644
-> --- a/drivers/vfio/pci/vfio_pci.c
-> +++ b/drivers/vfio/pci/vfio_pci.c
-> @@ -258,6 +258,10 @@ static int __init vfio_pci_init(void)
->   	int ret;
->   	bool is_disable_vga = true;
->   
-> +	ret = vfio_pci_liveupdate_init();
-> +	if (ret)
-> +		return ret;
-> +
->   #ifdef CONFIG_VFIO_PCI_VGA
->   	is_disable_vga = disable_vga;
->   #endif
-> @@ -266,8 +270,10 @@ static int __init vfio_pci_init(void)
->   
->   	/* Register and scan for devices */
->   	ret = pci_register_driver(&vfio_pci_driver);
-> -	if (ret)
-> +	if (ret) {
-> +		vfio_pci_liveupdate_cleanup();
->   		return ret;
-> +	}
->   
->   	vfio_pci_fill_ids();
->   
-> @@ -281,6 +287,7 @@ module_init(vfio_pci_init);
->   static void __exit vfio_pci_cleanup(void)
->   {
->   	pci_unregister_driver(&vfio_pci_driver);
-> +	vfio_pci_liveupdate_cleanup();
->   }
->   module_exit(vfio_pci_cleanup);
->   
-> diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> new file mode 100644
-> index 000000000000..b84e63c0357b
-> --- /dev/null
-> +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
-> @@ -0,0 +1,69 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
 
-The live update support for vfio-pci was initiated in 2025, but 
-developments are into 2026. Update the copyright to 2026 or 2025 - 2026.
+On 3/3/26 11:55, Eric Dumazet wrote:
+> On Tue, Mar 3, 2026 at 3:12 AM Leon Hwang <leon.hwang@linux.dev> wrote:
+>>
+>>
+>>
+>> On 3/3/26 08:22, Jakub Kicinski wrote:
+>>> On Mon, 2 Mar 2026 17:55:59 +0800 Leon Hwang wrote:
+>>>> On 26/2/26 09:43, Jakub Kicinski wrote:
+>>>>> On Wed, 25 Feb 2026 15:46:33 +0800 Leon Hwang wrote:
+>>>>>> Issue:
+>>>>>> When a TCP socket in the CLOSE_WAIT state receives a RST packet, the
+>>>>>> current implementation does not clear the socket's receive queue. This
+>>>>>> causes SKBs in the queue to remain allocated until the socket is
+>>>>>> explicitly closed by the application. As a consequence:
+>>>>>>
+>>>>>> 1. The page pool pages held by these SKBs are not released.
+>>>>>
+>>>>> On what kernel version and driver are you observing this?
+>>>>
+>>>> # uname -r
+>>>> 6.19.0-061900-generic
+>>>>
+>>>> # ethtool -i eth0
+>>>> driver: mlx5_core
+>>>> version: 6.19.0-061900-generic
+>>>> firmware-version: 26.43.2566 (MT_0000000531)
+>>>
+>>> Okay... this kernel + driver should just patiently wait for the page
+>>> pool to go away.
+>>>
+>>> What is the actual, end user problem that you're trying to solve?
+>>> A few kB of data waiting to be freed is not a huge problem..
+>>
+>> Yes, it is not a huge problem.
+>>
+>> The actual end-user issue was discussed in
+>> "page_pool: Add page_pool_release_stalled tracepoint" [1].
+>>
+>> I think it would be useful to provide a way for SREs to purge the
+>> receive queue when CLOSE_WAIT TCP sockets receive RST packets. If the
+>> NIC, e.g., Mellanox, flaps, the underlying page pool and pages can be
+>> released at the same time.
+>>
+>> Links:
+>> [1]
+>> https://lore.kernel.org/netdev/b676baa0-2044-4a74-900d-f471620f2896@linux.dev/
+> 
+> Perhaps SRE could use this in an emergency?
+> 
+> ss -t -a state close-wait -K
 
-Zhu Yanjun
+This ss command is acceptable in an emergency.
 
-> + * Vipin Sharma <vipinsh@google.com>
-> + * David Matlack <dmatlack@google.com>
-> + */
-> +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> +
-> +#include <linux/kho/abi/vfio_pci.h>
-> +#include <linux/liveupdate.h>
-> +#include <linux/errno.h>
-> +
-> +#include "vfio_pci_priv.h"
-> +
-> +static bool vfio_pci_liveupdate_can_preserve(struct liveupdate_file_handler *handler,
-> +					     struct file *file)
-> +{
-> +	return false;
-> +}
-> +
-> +static int vfio_pci_liveupdate_preserve(struct liveupdate_file_op_args *args)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static void vfio_pci_liveupdate_unpreserve(struct liveupdate_file_op_args *args)
-> +{
-> +}
-> +
-> +static int vfio_pci_liveupdate_retrieve(struct liveupdate_file_op_args *args)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +
-> +static void vfio_pci_liveupdate_finish(struct liveupdate_file_op_args *args)
-> +{
-> +}
-> +
-> +static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
-> +	.can_preserve = vfio_pci_liveupdate_can_preserve,
-> +	.preserve = vfio_pci_liveupdate_preserve,
-> +	.unpreserve = vfio_pci_liveupdate_unpreserve,
-> +	.retrieve = vfio_pci_liveupdate_retrieve,
-> +	.finish = vfio_pci_liveupdate_finish,
-> +	.owner = THIS_MODULE,
-> +};
-> +
-> +static struct liveupdate_file_handler vfio_pci_liveupdate_fh = {
-> +	.ops = &vfio_pci_liveupdate_file_ops,
-> +	.compatible = VFIO_PCI_LUO_FH_COMPATIBLE,
-> +};
-> +
-> +int __init vfio_pci_liveupdate_init(void)
-> +{
-> +	if (!liveupdate_enabled())
-> +		return 0;
-> +
-> +	return liveupdate_register_file_handler(&vfio_pci_liveupdate_fh);
-> +}
-> +
-> +void vfio_pci_liveupdate_cleanup(void)
-> +{
-> +	if (!liveupdate_enabled())
-> +		return;
-> +
-> +	liveupdate_unregister_file_handler(&vfio_pci_liveupdate_fh);
-> +}
-> diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
-> index 27ac280f00b9..68966ec64e51 100644
-> --- a/drivers/vfio/pci/vfio_pci_priv.h
-> +++ b/drivers/vfio/pci/vfio_pci_priv.h
-> @@ -133,4 +133,18 @@ static inline void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev,
->   }
->   #endif
->   
-> +#ifdef CONFIG_LIVEUPDATE
-> +int __init vfio_pci_liveupdate_init(void);
-> +void vfio_pci_liveupdate_cleanup(void);
-> +#else
-> +static inline int vfio_pci_liveupdate_init(void)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void vfio_pci_liveupdate_cleanup(void)
-> +{
-> +}
-> +#endif /* CONFIG_LIVEUPDATE */
-> +
->   #endif
-> diff --git a/include/linux/kho/abi/vfio_pci.h b/include/linux/kho/abi/vfio_pci.h
-> new file mode 100644
-> index 000000000000..37a845eed972
-> --- /dev/null
-> +++ b/include/linux/kho/abi/vfio_pci.h
-> @@ -0,0 +1,28 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +
-> +/*
-> + * Copyright (c) 2025, Google LLC.
-> + * Vipin Sharma <vipinsh@google.com>
-> + * David Matlack <dmatlack@google.com>
-> + */
-> +
-> +#ifndef _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H
-> +#define _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H
-> +
-> +/**
-> + * DOC: VFIO PCI Live Update ABI
-> + *
-> + * This header defines the ABI for preserving the state of a VFIO PCI device
-> + * files across a kexec reboot using LUO.
-> + *
-> + * Device metadata is serialized into memory which is then handed to the next
-> + * kernel via KHO.
-> + *
-> + * This interface is a contract. Any modification to any of the serialization
-> + * structs defined here constitutes a breaking change. Such changes require
-> + * incrementing the version number in the VFIO_PCI_LUO_FH_COMPATIBLE string.
-> + */
-> +
-> +#define VFIO_PCI_LUO_FH_COMPATIBLE "vfio-pci-v1"
-> +
-> +#endif /* _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H */
+A sysctl option would be better for persistent SRE operations.
 
--- 
-Best Regards,
-Yanjun.Zhu
+Thanks,
+Leon
 
