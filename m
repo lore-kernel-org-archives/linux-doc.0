@@ -1,289 +1,184 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012007.outbound.protection.outlook.com [40.107.209.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70F63D75B4
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 17:30:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772559020; cv=none; b=qf0lBBgFjwGaXNlo7PzEHnAdDmfPb0I9Bcu+DDYKp0hGI4YlKkpKlboPWWkg3pj12weExgQlZ+Hx+/D8xO3HCbcsyCeNubzYAKsO5+VyVI0rwPPA4gcu1XzadueTdjOvJa9k3aHLHJkqi/MaZNpj4xheOIho+3QBppA6PQyNGQ8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772559020; c=relaxed/simple;
-	bh=vcowiodaCksryTx7ffg2UYLFf4iwqM7eTdFIlNJe0t4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=deSOM1Ldac9UKDTbNxlrSh99wbU8qk0pEgkcTBG3zExWT1neKBICsmwFkO0GxDkilfnIxrcSBIs5QFvhs7LOJn/dc/523EXXmFeGqOVBHfF46VbqyAmSJr7tK+v6ofUOc03eN1chJyq69ZvczPxiUyKYYrgrOjTMjz9iL0bfVXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=mMqiFqbO; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=7AZbGquj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=T0z4ahWU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=24FGrHiP; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91CB3BED7D;
+	Tue,  3 Mar 2026 17:33:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772559185; cv=fail; b=kmFbyssyTRciJiDX27Pdv4IMBmxRdznkYTumkJ/ED0JW2XE5Fp83zU7w1bwB7cDio43LrJCEAZ39P6igcC/h8Qx66+nkwFs9cMDXa213dx40G3/OoP1afuoSbEYPCaNHl++2OvFontyKNUbAbgYyVzmOMhFp674PsP7RppRcDyc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772559185; c=relaxed/simple;
+	bh=e4sYtq0I+Hhu2C1K+SGw+TEPfN35XYUM6jK4Gq50Vp8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cpDLOkbnfAqhz54/vsEeJIN5daMMoZ5H72O2Llq0N5X7pIX6cMDEPALfkBhQRbcSwPU7lVpczTQjfvzeRkjFgvoUtu7GnCnkoXyS5E6/29t3+8ZBb5wz+tH1q+/zbUYeow+JMT9h/+L7BOTbAbMM+ZjBYf20OK06bOLp8vxVw9s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=m1H+/Wj7; arc=fail smtp.client-ip=40.107.209.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="mMqiFqbO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7AZbGquj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="T0z4ahWU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="24FGrHiP"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F07663F308;
-	Tue,  3 Mar 2026 17:30:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772559017; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=unZPDEvtFHRxhhWuD/uOyTVvTbYuoIbm8tCQtZ+ofvc=;
-	b=mMqiFqbOlNLavAiXe6j7Jo3EyY/lsA0JTsByUuPxIp7e+S+W8rRQnjhKMNppqeR0+MoKNI
-	p6NSxfmdowwoleEdLb8kP47LRz6xq2Zx3gqFpJ6hq5lB3hvae7ZdUc+XkkTLv1kxWlV3aW
-	7Sz41oYemc2JORTEZmiZZFdI0AhTOus=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772559017;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=unZPDEvtFHRxhhWuD/uOyTVvTbYuoIbm8tCQtZ+ofvc=;
-	b=7AZbGqujf3phxMlZAgzzH7wipmm9C607SP1Tdym+JGYY6abnZFwo6oR/pNPA1UYg6b0rDz
-	g2r/OeLtBIzsarBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772559016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=unZPDEvtFHRxhhWuD/uOyTVvTbYuoIbm8tCQtZ+ofvc=;
-	b=T0z4ahWUOsADO4qMs2mmTw9UPmLDwj6+in7ziHTgQ8j/YvqGTc0l0yaHPyCTSIgUaSWzCG
-	0P9GVb2rqlEEUY8Lc7A9AvtQ3ERITpeA0OiPrNO3xXw0SmG1uYKH76a1553xfrpzCkY+gt
-	TGa93x4/4PZrli0+IbqLQ8oVts+J2HU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772559016;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
-	bh=unZPDEvtFHRxhhWuD/uOyTVvTbYuoIbm8tCQtZ+ofvc=;
-	b=24FGrHiP06Magjf3I9lElE82spAFzxxGnFEugeq6GmNsvQ8bVRMPw1t1gWHISgG3dsscXt
-	VQ5EgJWw3QwKRfBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EE7B63EA69;
-	Tue,  3 Mar 2026 17:30:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id vFw3N6cap2k8UQAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Tue, 03 Mar 2026 17:30:15 +0000
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-To: netdev@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chia-yu.chang@nokia-bell-labs.com,
-	idosch@nvidia.com,
-	willemb@google.com,
-	dsahern@kernel.org,
-	kuniyu@google.com,
-	ncardwell@google.com,
-	skhan@linuxfoundation.org,
-	corbet@lwn.net,
-	horms@kernel.org,
-	pabeni@redhat.com,
-	kuba@kernel.org,
-	edumazet@google.com,
-	davem@davemloft.net,
-	Fernando Fernandez Mancera <fmancera@suse.de>
-Subject: [PATCH net-next v3] inet: add ip_local_port_step_width sysctl to improve port usage distribution
-Date: Tue,  3 Mar 2026 18:29:49 +0100
-Message-ID: <20260303172949.4741-1-fmancera@suse.de>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="m1H+/Wj7"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bl+R0xbf7clHyKAkKDLRCHxUl6CLFbA1X9HRK7AaEWJ/PsTT1qFnuHXIVm+XP+ykNw+dpHP9ZvoiG0m5OreCXZcreE479Lw/Z8xmmWQjg6TpyvrvIzJBzESj5GmFaGA3bWYUf6N2lEkpj3fIM3eIk9ugkswsO/Pqj7W9cTsk0ELDlNUw2IyMN/bJET+c+OlFCUdy5Lk2zTtFeYtvc9jRk0BYAZmd1+eXX+Rnee5UgDjfIcIsOqphQLuRe4gMXORSuJ98U6NNaXAgWtcVaSloZ8fyXa5UuUlTTqPc/7hIZAeEedqE6fPlVq3GCYTcL0o2gh1yYWZArTTDahFaV4qHog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GJScsBtqVNP7sJ+Pm7/oen+PiT0zJQLonM1mP7RzOI8=;
+ b=G3HjhjRWHGLbUGxLvMLArpQLZNFmn8bGxO8eZeRaL//1DKtgBlOx91YDGIgyXzlBwe38hxBI2aplUblEEdZd4MOlNkWZHUd/SDKlzStJA+b7i28kQ8BlPxSqSyLeeDL8odcU+2+dSfK0+lIwd3FD8Nw0g36IULTZICoqG15b18MB9WzTw+jOdw4m/O6WJb/jPaUS9PgjQDhOJRwPlCsuiCuZZHsjpN6X6c2k8eycvYIUx5zZTMc0kRf30C5dFhYL5Wae7VDag5NDy8yia+8MUaQTf9X1obGfXeHrY7fVBA3SeBb3l59H556oWsQQ8gVL5nijFlAI3DgvdouFYyxgqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GJScsBtqVNP7sJ+Pm7/oen+PiT0zJQLonM1mP7RzOI8=;
+ b=m1H+/Wj7JYTSazM3ULsujtrIy1x9FvG034n1rZtA5T15Pa1yCsOrwSaMVVBwU05I2asEh7RgYxgVatMMGDLx/aBmU+9byN4h/85Se05BSYAEj8OmGheCKkVTV3BEPnguAQsX2XJARpYGkPiKAJ4NdX6cnY1HB8gxW4/WgBBMVi2poOmdAwNE1qFyWryz6HdGtykfxw+79S4hwYn+TPDITt5CINxPDuv1XZ5LuULu8LIJSkQ7kwxBESmvYCyn/VOlOTHDWHmGA18Xot4JFYPjQ5TeVcMipRU9SB1mAUna8qy5UMP+bF/rEqvDYeal+dPY1aiMpUn271k0Woq2OdT0cg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
+ by PH7PR12MB7137.namprd12.prod.outlook.com (2603:10b6:510:1ed::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
+ 2026 17:32:43 +0000
+Received: from BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
+ ([fe80::cf08:f59b:d016:c95f%6]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
+ 17:32:43 +0000
+Message-ID: <48bdf87e-39f1-402f-a7dc-1a0e1e7a819d@nvidia.com>
+Date: Tue, 3 Mar 2026 23:02:30 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 0/7] Enhanced autonomous selection and improvements
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: viresh.kumar@linaro.org, pierre.gondois@arm.com, zhenglifeng1@huawei.com,
+ ionela.voinescu@arm.com, lenb@kernel.org, robert.moore@intel.com,
+ corbet@lwn.net, rdunlap@infradead.org, ray.huang@amd.com,
+ gautham.shenoy@amd.com, mario.limonciello@amd.com, perry.yuan@amd.com,
+ zhanjie9@hisilicon.com, yumpusamongus@gmail.com, dedekind1@gmail.com,
+ linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, acpica-devel@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
+ ksitaraman@nvidia.com, sanjayc@nvidia.com, nhartman@nvidia.com,
+ mochs@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
+References: <20260206142658.72583-1-sumitg@nvidia.com>
+ <48b52f98-119e-4693-806b-78d47f7a43bb@nvidia.com>
+ <CAJZ5v0iOsqoZx0EZ3AqEk_8mrGxSj6wj-m8phRJ0cT71NTuBWA@mail.gmail.com>
+Content-Language: en-US
+From: Sumit Gupta <sumitg@nvidia.com>
+In-Reply-To: <CAJZ5v0iOsqoZx0EZ3AqEk_8mrGxSj6wj-m8phRJ0cT71NTuBWA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA5P287CA0124.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:1d0::13) To BN9PR12MB5179.namprd12.prod.outlook.com
+ (2603:10b6:408:11c::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Score: -2.80
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-0.997];
-	MIME_GOOD(-0.10)[text/plain];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|PH7PR12MB7137:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7efd4d9-fe6b-4bd7-12c0-08de794ae04f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	JDHzVck9TUQu5dwNk21Nxqu2txLyvc3khKVt/q4MKcJTBDjfk1BjoaqFtWkbRUamQF/kkUY4mA5imAURTy2kOS4fU3/3vSyX1t9WviWWyU9kY2tKufH9xmO9EFKp3K3EPZO5apGjk1EsLl9uu9ocWUmlp/H4c091Pt0E8EdPq5YegO1e7g5POm6PQquBAwkAGBM+FkD8saKqq9tNxs5gOkssJv/1A+3/fYSdT7XuP8nDIGfWtTKlxnqXQQfxEVy7oNLP/xiguib0oWhq6uAT1lMwwo0Y40SkX25nqRpGMuqa1asvLsdTjyrVR5HE1mLWH8eiAAwGhLQKU1mm9AxtlCQ2c724aqO99s7I1Z1tjoxV8eaz7e4+AtDXD3lAHW8uhjOZkPKWJG++ohJVZxmgxNN1fixgiYgbjsH/bdZ4iUm3AHmiWP7+3RpEGxkMAA73pA1R7xIdfAynfWSweC21A1OCU+VavOqsJU+XYKgLuqSYpQ9GaLTnAhC9v4VEdP/OCqx/t69pNf3nOwyFXeTseyOXYjlrED9ISdRwXY4FtEFCtKNxeb6Zfzj9UOFaBDL2crSiA3zR4xASTCDrox2RCIz937BkJjHrZjZe01S68MjhDx8ugoCblwzSvauPm2Q0MJ/mNnl34FakQ3wD0+YZTTQ1zbuBQB5UGDC6D9Yr1nbp7Kp3r5D6kqXusaZ9lckz+qt4f3gLSxB1uRQKOAG2vnXqml31mYM9OykmKe+jYy8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T3lCRWtxTXlOYU5oRlBXS0ZNQ01jb2wyQzVORDlWZ1dMQkZ5UU5DRVNGbXNT?=
+ =?utf-8?B?RHdZZjNFS2RNdlNmUi9BMHlTUnV2WGIwZDVNMDhreEZyUFkydkJydjRrbjJM?=
+ =?utf-8?B?V2NVQjdWK0NOSHRndHozaWt2eFlpNE84WDFCUEJ2OG81TU1uR0czM0lsalgr?=
+ =?utf-8?B?L1FEek4rREVOaU52Q0Ztc0tYeUJreC9zSklkZXBONjROMWk2dDR3cXZxS0NS?=
+ =?utf-8?B?cUtXa1R0aUUyQUhnM2hRNFM3V2tOZUhQbU0zbWFKVEx2Mlg2em5NUTZnUTMy?=
+ =?utf-8?B?dFJzTS9HcGxaVldndmJJYVoxNjJSTnJoYitSUE1KYno1K0xMcFU3SUlwdXE4?=
+ =?utf-8?B?QjlBUnphQS8xMy9FeURzTktPZWFNdUVnK2lYbHViZlI1ZWdRY2dUcXFaTEt4?=
+ =?utf-8?B?UTVaaHBaQWRGd3RlVUNSUlZEdTlDdlpqYm5DK01BcXEydlpEbHF3K2FMK0Nh?=
+ =?utf-8?B?Q1RWVFhNaWNrd2ZBbzJBeU90bFkxQ0JkR2poUmZTSEdxYng4b24xdGJ2RlMw?=
+ =?utf-8?B?WjVha0NOQ1BRenQ4a1V5UzRwZ1Fpdk41Nmg4M3J3N1FjQklvc01IT1JOQWpO?=
+ =?utf-8?B?d3NrL2NyNzM3YkYzNjMrRy9lK1RBN3pyVzM2dEE2dzczcGlaaG56QTdXZXlL?=
+ =?utf-8?B?Uk0zbHJxYTFYM2VGdlBqOUpkV3VtbWpyUDhoNEg2NncrcTkvTlJMUTNUS3dx?=
+ =?utf-8?B?NGR6M1VBaDJVQjlWR0g1ZWNIcFFFYlRKR09QTWZOYThFdVFiVVlJY1pkOUVD?=
+ =?utf-8?B?SzBwTTJKQyt2T0t0UDRWb2pkWkNiTHFDVDk4NHU2UHNqMFAzVEFxNU4yQXhO?=
+ =?utf-8?B?bnlhRmkyc01jbDR1TVhxN2VoRTh6SnUwR3J0d0NjZ1pIS3BIbkgxMUJNZGJC?=
+ =?utf-8?B?K05vSDl0M0lJVDR6YUFlalhoRjhEQlhCM0w0T2MyOXBtblRCdkVXUVpCWkx2?=
+ =?utf-8?B?cEtKSVk0MGVrTk54RFhZU3FCdzBFeEFob3owUXdwVzgwYlVnKy9vNGdpRFFQ?=
+ =?utf-8?B?anlQeTB5R0pCc0NnVDF3NnQ2RzM3ZWYwS1MrSEpoTmdqdHBmSElYaTV3SFRP?=
+ =?utf-8?B?NGtMRXNHQ3Vld1ZjeHltZFBpcWNwU0toTU03YmNRanJ1MnlMZUFpaVJ4UEsw?=
+ =?utf-8?B?U2E4c05OdGJDRlB0YTYxeHRNblc3QnExWTVtbHZGVjU0TGhxR2w2ajQyUldl?=
+ =?utf-8?B?L1hJYWNKeHJGME9WVHZSQ2FkTGU3czB2cjFOZGhXMmpVOFFjaGpZZE9qRjQw?=
+ =?utf-8?B?Z0dNQlRudWJjYlRNN3pFMUNoQUxSWmExaXVxcUZsZjVyQU1RYzRvdmVNcnV5?=
+ =?utf-8?B?RngvcUhZS1ZUaG9rTG5OSEpJbG8rTzNsT0J5ZUtzNjRlT2tka0lIWHdkMDZY?=
+ =?utf-8?B?eERoVFZaTDNxMGVjZFZvNmhndWt5WTNXRmNmSVRwYU5YSmJqQmwvNVk4SFdl?=
+ =?utf-8?B?QW9uZXlYSXhjYnZXZXV5OWl1azg4Yy9XTVVyWktQUzZyRjZBMlFSU095eC92?=
+ =?utf-8?B?SFB0T0pNK2N5RHRDMUFrVGdJMTJPYW1tTURBa2xZeTk5Znp1Z3RWRTVZRFRE?=
+ =?utf-8?B?T3RHOTRaWUNQL01oc3htbGM4Q3g4N3FXRlNCajNyclYwZko3WXM3UkVzOGxj?=
+ =?utf-8?B?RkxJTEVJNEpBZU5MTWlNMzlOdmp5RGR0U2pWOENYc0U2L3htWmtzYmU3Um9I?=
+ =?utf-8?B?OGtlMW1CSW1BL2s0OXpLYVZXWmVHNHVVQndCZVV6Q0k4MjVZcHE2NnovMHBa?=
+ =?utf-8?B?dTVLSjdsYU91Ni94R2pPS0QwL1ZXbFlVTGNscFhmbG0xcVpiTWoybG91UlEx?=
+ =?utf-8?B?aXhjb25ybHdrcVJmNWtYamRKVnQ5U0cyWlpzcVN2N1lpVUJYeWM5WEFWeloz?=
+ =?utf-8?B?Q2o4WlArNkhNWElXQS80dUhrZmYwMjM0S0xRb0VnN211a0ZMMCtTNlViZllk?=
+ =?utf-8?B?bEdEMWtLYTY4a2JDMWNBRTdTRGYxS0VsUkcrWGh1TlVOL2sxdHNpZm9GMnYy?=
+ =?utf-8?B?SEpFR0JQTU1wZU1mOC81Mzl0QmV3VzI2L2VUandla0FWcHc3M1B6SmhMelk4?=
+ =?utf-8?B?S0QyWTdtcjNxTmwwNVNzLzRUUzJFbWJ4RVAvcnFFMng0THlOaU9nZGxSN3VS?=
+ =?utf-8?B?aFhhbFcxckJ3S1kyWHhRSndMNFlraFNuS1NxbVYyUnlFWXlQT2E5ZkkwUWdF?=
+ =?utf-8?B?dEsvOHd0Zy9xRnJMckNTRFBZdDJHeTZlbmdHb0J4V1paWVl3TmZqTFlENFRX?=
+ =?utf-8?B?dzA2c3hWclg0eDYzZndhSkF6NDJIejlIOXc5SHpBQmVqZjFsZTRzSUFvaGNx?=
+ =?utf-8?Q?R3VGcndE/kgp3iWl/r?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7efd4d9-fe6b-4bd7-12c0-08de794ae04f
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 17:32:43.5072
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fKspsO7exci1MEpFKBqdHOkGjE2dqQS+7/igbb205z2dTJW92tXHfTdvRZOJvycM6Nf6egSlbfe9+9PBsnuN2A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7137
 
-With the current port selection algorithm, ports after a reserved port
-range or long time used port are used more often than others [1]. This
-causes an uneven port usage distribution. This combines with cloud
-environments blocking connections between the application server and the
-database server if there was a previous connection with the same source
-port, leading to connectivity problems between applications on cloud
-environments.
 
-The real issue here is that these firewalls cannot cope with
-standards-compliant port reuse. This is a workaround for such situations
-and an improvement on the distribution of ports selected.
+On 28/02/26 02:06, Rafael J. Wysocki wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On Thu, Feb 26, 2026 at 2:59 PM Sumit Gupta <sumitg@nvidia.com> wrote:
+>>
+>>> This patch series improves the CPPC cpufreq driver with new ACPI APIs
+>>> and enhancements for Autonomous Selection (auto_select).
+>>>
+>>> CPPC auto_select enables hardware-driven CPU performance scaling using
+>>> Energy Performance Preference (EPP) hints. Currently, there's limited
+>>> runtime control and visibility into CPPC performance registers.
+>>>
+>>> The series adds cppc_get_perf() API to read performance controls, updates
+>>> MIN_PERF/MAX_PERF in target callbacks using existing scaling_min/max_freq
+>>> interface similar to intel_cpufreq HWP handling, and exposes perf_limited
+>>> register via sysfs to detect throttling events.
+>>>
+>>> The patches are grouped as below:
+>>> - Patch 1: Add cppc_get_perf() API (independent).
+>>> - Patch 2: Warn on missing mandatory DESIRED_PERF (independent).
+>>> - Patch 3: Extend cppc_set_epp_perf for FFH/SystemMemory (independent).
+>>> - Patch 4: Update cached perf_ctrls on sysfs write (independent).
+>>> - Patch 5: Update MIN_PERF/MAX_PERF in target callbacks (depends on 4).
+>>> - Patch 6-7: APIs, sysfs and doc for perf_limited (independent).
+>> Gentle ping.
+>>
+>> If there are no further comments, could this be considered for merging.
+> Applied as 7.1 material, thanks!
 
-The proposed solution is to implement a variant of RFC 6056 Algorithm 5.
-The step size is selected randomly on every connect() call ensuring it
-is a coprime with respect to the size of the range of ports we want to
-scan. This way, we can ensure that all ports within the range are
-scanned before returning an error. To enable this algorithm, the user
-must configure the new sysctl option "net.ipv4.ip_local_port_step_width".
+Thank you for applying the series.
 
-In addition, on graphs generated we can observe that the distribution of
-source ports is more even with the proposed approach. [2]
+>
+> That said, wouldn't it be prudent to check cpc_read() return values 
+> everywhere? They are handled quite inconsistently and this series 
+> doesn't improve that. 
 
-[1] https://0xffsoftware.com/port_graph_current_alg.html
+I will send a follow-up patch to address this.
 
-[2] https://0xffsoftware.com/port_graph_random_step_alg.html
+Thank you
+Sumit Gupta
 
-Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
----
-v2: used step to calculate remaining as (remaining / step) and avoid
-calculating gcd when scan_step and range are both even
-v3: xmas tree formatting and break the gdc() loop once scan_step is 1
----
- Documentation/networking/ip-sysctl.rst        |  9 ++++++
- .../net_cachelines/netns_ipv4_sysctl.rst      |  1 +
- include/net/netns/ipv4.h                      |  1 +
- net/ipv4/inet_hashtables.c                    | 28 +++++++++++++++++--
- net/ipv4/sysctl_net_ipv4.c                    |  7 +++++
- 5 files changed, 43 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 265158534cda..da29806700e9 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -1630,6 +1630,15 @@ ip_local_reserved_ports - list of comma separated ranges
- 
- 	Default: Empty
- 
-+ip_local_port_step_width - INTEGER
-+        Defines the numerical maximum increment between successive port
-+        allocations within the ephemeral port range when an unavailable port is
-+        reached. This can be used to mitigate accumulated nodes in port
-+        distribution when reserved ports have been configured. Please note that
-+        port collisions may be more frequent in a system with a very high load.
-+
-+        Default: 0 (disabled)
-+
- ip_unprivileged_port_start - INTEGER
- 	This is a per-namespace sysctl.  It defines the first
- 	unprivileged port in the network namespace.  Privileged ports
-diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-index beaf1880a19b..cf284263e69b 100644
---- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-+++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-@@ -52,6 +52,7 @@ u8                              sysctl_ip_fwd_update_priority
- u8                              sysctl_ip_nonlocal_bind
- u8                              sysctl_ip_autobind_reuse
- u8                              sysctl_ip_dynaddr
-+u32                             sysctl_ip_local_port_step_width
- u8                              sysctl_ip_early_demux                                            read_mostly         ip(6)_rcv_finish_core
- u8                              sysctl_raw_l3mdev_accept
- u8                              sysctl_tcp_early_demux                                           read_mostly         ip(6)_rcv_finish_core
-diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
-index 8e971c7bf164..fb7c2235af21 100644
---- a/include/net/netns/ipv4.h
-+++ b/include/net/netns/ipv4.h
-@@ -166,6 +166,7 @@ struct netns_ipv4 {
- 	u8 sysctl_ip_autobind_reuse;
- 	/* Shall we try to damage output packets if routing dev changes? */
- 	u8 sysctl_ip_dynaddr;
-+	u32 sysctl_ip_local_port_step_width;
- #ifdef CONFIG_NET_L3_MASTER_DEV
- 	u8 sysctl_raw_l3mdev_accept;
- #endif
-diff --git a/net/ipv4/inet_hashtables.c b/net/ipv4/inet_hashtables.c
-index fca980772c81..86b0c6d2c25d 100644
---- a/net/ipv4/inet_hashtables.c
-+++ b/net/ipv4/inet_hashtables.c
-@@ -16,6 +16,7 @@
- #include <linux/wait.h>
- #include <linux/vmalloc.h>
- #include <linux/memblock.h>
-+#include <linux/gcd.h>
- 
- #include <net/addrconf.h>
- #include <net/inet_connection_sock.h>
-@@ -1046,12 +1047,12 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
- 	struct net *net = sock_net(sk);
- 	struct inet_bind2_bucket *tb2;
- 	struct inet_bind_bucket *tb;
-+	int step, scan_step, l3mdev;
-+	u32 index, max_rand_step;
- 	bool tb_created = false;
- 	u32 remaining, offset;
- 	int ret, i, low, high;
- 	bool local_ports;
--	int step, l3mdev;
--	u32 index;
- 
- 	if (port) {
- 		local_bh_disable();
-@@ -1065,6 +1066,8 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
- 
- 	local_ports = inet_sk_get_local_port_range(sk, &low, &high);
- 	step = local_ports ? 1 : 2;
-+	scan_step = step;
-+	max_rand_step = READ_ONCE(net->ipv4.sysctl_ip_local_port_step_width);
- 
- 	high++; /* [32768, 60999] -> [32768, 61000[ */
- 	remaining = high - low;
-@@ -1083,9 +1086,28 @@ int __inet_hash_connect(struct inet_timewait_death_row *death_row,
- 	 */
- 	if (!local_ports)
- 		offset &= ~1U;
-+
-+	if (max_rand_step && remaining > 1) {
-+		u32 range = remaining / step;
-+		u32 upper_bound;
-+
-+		upper_bound = min(range, max_rand_step);
-+		scan_step = get_random_u32_inclusive(1, upper_bound);
-+		while (gcd(scan_step, range) != 1) {
-+			scan_step++;
-+			/* if both scan_step and range are even gcd won't be 1 */
-+			if (!(scan_step & 1) && !(range & 1))
-+				scan_step++;
-+			if (unlikely(scan_step > upper_bound)) {
-+				scan_step = 1;
-+				break;
-+			}
-+		}
-+		scan_step *= step;
-+	}
- other_parity_scan:
- 	port = low + offset;
--	for (i = 0; i < remaining; i += step, port += step) {
-+	for (i = 0; i < remaining; i += step, port += scan_step) {
- 		if (unlikely(port >= high))
- 			port -= remaining;
- 		if (inet_is_local_reserved_port(net, port))
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index 643763bc2142..c533374f656c 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -822,6 +822,13 @@ static struct ctl_table ipv4_net_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= ipv4_local_port_range,
- 	},
-+	{
-+		.procname	= "ip_local_port_step_width",
-+		.maxlen		= sizeof(u32),
-+		.data		= &init_net.ipv4.sysctl_ip_local_port_step_width,
-+		.mode		= 0644,
-+		.proc_handler	= proc_douintvec,
-+	},
- 	{
- 		.procname	= "ip_local_reserved_ports",
- 		.data		= &init_net.ipv4.sysctl_local_reserved_ports,
--- 
-2.53.0
 
