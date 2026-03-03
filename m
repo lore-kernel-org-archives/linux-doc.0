@@ -1,324 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FB64DBD9B
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 21:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772572560; cv=none; b=XAKuqkEOx+0k/ZX9Vx5hVPgrDpv1AvNq6YDpftS61ZVXTmyINV8ZT5+wpbU65IWeiORs+r0SgrVnvYr+EDQOGvx90RLA7DBEcaP2SJ1p+7xvrW5+qHoMfUcQ5aHnk3JX2Twn8HOK8hBU2Ps+kQIQkbfqWzADU5ViHwX85Tam3Yk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772572560; c=relaxed/simple;
-	bh=mDLVxGENeh4Md25iwZTF0VnSkZ32Tz3iO/wNjalXkm4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ipMmxKuz2ACiw2mxt39zFOPxF8VCvUc58UMF50X4UIZckGfyj3cIhmdge8ON7c8t+opWM3a6kL6I1/1LQVwvp1z58tkz6huJENnSZ8bp31f209y/HkvX9GXs5ATklnCF6RoVD+VtIzCx38hBwhKuTREqLS5XavUxK3WNNs7JiVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=g7FiJDyC; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=AwONCLrt; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DB031F9B8
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 21:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772572722; cv=pass; b=T7dycXTxIPwIeoJNy0jWXEYQ01LQ0tR81sldwOIDxmb8T9k4SL5fIOe77XeaW/s+SivFMN+lRlDHBdA6bqCsuesUSc6Lq6/GmXq3fIFsxJ3fP9SWqCj4VRQZYYRNFk4u4iCirMMrhm94KD9W51mzh96xAr5xWRoVkVb8xiwWBY0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772572722; c=relaxed/simple;
+	bh=kqBekaqTLUTuIqVLl/Xn32stOU/skKJREqaiqK/UiSk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sNkagcQWAImTvU3gaL1CWN5iUR/RJ+49N/CGY7xThvuqLgsogdpnrid5H8gWur3z7SmcZ3IrmRnUxGbdfF8D6z8pk8KXU3Mgs4zP7WHRDqZKMfKXkOJVH+VuXPdo+oHGAOcKP1Pcaz4GRahPoMhszRINSj1/TjB1axIHlp7fCQQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1I12xVRm; arc=pass smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="g7FiJDyC";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="AwONCLrt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772572555;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iFUtofMKhN11SJynmnwd1bk8v/kag6AshDn9xvNUK9Q=;
-	b=g7FiJDyCEV4nBjJ5GEeqwP4/sqGLNKQgLqzVff7r6/MxcGzpwHqT5edfIoHMEWSQ2QNWV9
-	1YGG3klrAzaE/EJCvswkul8USCrlzgc93chvli/KgvzqV0uNhHhjbck7585KyQYnP+gsnU
-	nUbvYREUuCzvGoNWIpr6Rv0kb+cLDnE=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-399-jcut8Vm6PQeCL3Q4zTbSXQ-1; Tue, 03 Mar 2026 16:15:54 -0500
-X-MC-Unique: jcut8Vm6PQeCL3Q4zTbSXQ-1
-X-Mimecast-MFC-AGG-ID: jcut8Vm6PQeCL3Q4zTbSXQ_1772572554
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-506a9bf9b3aso57694671cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 13:15:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1I12xVRm"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1277d379936so7371291c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 13:18:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772572720; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AF6rJXYI8AB0E8qOUKlPevkUaDHvP2azGE1dGgZkoI9V4eX0sD8B4N0K3RB4uLO4bp
+         Vim3hfsA+F5UWGOOpK10T2gfZlc9IsTBoJ8vWBgF8oNlv94Pscmrjs7j0klaHxad6nLd
+         4a9nPpTKQO0Lhy5HWAB4O0nsJy7WaF+7YPH77zjL6b0slhDKlKbSsWO+Ia8B8OidhUYw
+         NFxoPWp8yfwz7owzsSGF4hVHYTSYTy4AMQRFreoXMHB/vSpjHm1OZuF/2zzl2JDbGLnm
+         4hDeF/I8pK97/vcAciGJAsGrsehBr5g/S/HeT3BJEcp+WFEldc6qJ0cqmJeUyfUPauq3
+         2+vQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kqBekaqTLUTuIqVLl/Xn32stOU/skKJREqaiqK/UiSk=;
+        fh=0PuKDZqixqtlSLWU/np22csbv36LB4l3/0r/G9argy0=;
+        b=Ok7HqUD95tcnlWvpl14bsf6Nry5XrohPq+R+BOcmVmtigXy3Ligc3+mUZ/skfpp0ec
+         gvCBYK1NeIvBoUQpdzSoJ0UwrimOgNNyRH6P0Bl40Goxyqe/tPvT1QjGAvq+3JOv51ix
+         xH4UkcmE3bmkBvM1nvQOD6dP8X52Q1HZx6/HYdMXKUOGnVxHGIakhFh8o/sskvx07TTV
+         NBjnf3twAc+fnFInIibNDdsrPGKFmxTfJ+VhYOSboGF9Cz7WWWly6U8iLa9zpphqsXYm
+         u8O73tCjdfkxgfNBdhAtNUmRx8bcFc0VtOBuN9kLoZdRTJ/ZtO2vxpgzUTDOGlJLOPer
+         tvYw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1772572554; x=1773177354; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iFUtofMKhN11SJynmnwd1bk8v/kag6AshDn9xvNUK9Q=;
-        b=AwONCLrtJn0WkNwapgSQ4P5WATF0xLHEX8W4KQfOCO55RWdguOeFXqQ7RlLtbGafrX
-         gF2ILOTF5Bk0/+PxX2ZWp3LFpEev55kvxohKny3adLuF8x/0iqj0gySRg8h1PulOTkGr
-         D4DWt9046l1Xdl3TTLLULJhluzITv3d5myxWmlQLY2rE/8e9hy99dhtkVlqTjUWVJp3O
-         8WtVxScorLAUSLq1QZvgueNiP3rSp/AdHZLK2LuFhRv+tizuzltz7kZy690AuDKob0jK
-         HfxUGBrNoLmbifDysXgLzo+QXhWtROtF87yDt0Wfk0yaGfcfFF6HmUZfnb9OEdxWJNsK
-         QUtA==
+        d=google.com; s=20230601; t=1772572720; x=1773177520; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kqBekaqTLUTuIqVLl/Xn32stOU/skKJREqaiqK/UiSk=;
+        b=1I12xVRmn9uobgGaWVjr9pwNSbKzIKJdprYqNuuPOWwmJ0FRvmg9dxPWqjnl+rJaZu
+         Zq1trqIDdyLl1qt6N9zdQiBESsoBD5BhsMntKLIgt2G+LrmTehl2Opu1LoW/YeEMPtr/
+         szYM408h1lxFhK46Ydg75MmVd8DX6HugvDgt6M/eWlfMWAJ9C1bEnduKaoy99nXWJiVk
+         EHlNVduPZQAiHlsOUYL0fL1FYp0CumscV6f+Y6u9ATv13fWW9JqSdVMjLF/Ap+i8KfYC
+         4zaiD4j0WtDkVJpdZE8dAXoww6YhBiRMRQ/0YScHz09mK8SuUxobl67S95ZtmJUz+QxO
+         ++mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772572554; x=1773177354;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iFUtofMKhN11SJynmnwd1bk8v/kag6AshDn9xvNUK9Q=;
-        b=VE8nAwUCUrUZtk30HAi/BTl02Zh0IWPl9vDNKj6ZVBxXJn8v65TDEOw+P2JCkeuRhP
-         LLkC4ZQ2iNGzIjszAlwC06yOzWDCKiIYDsJDh27BhpU/WXufdnLSnZ4UzUerHuW2VyOT
-         HeB1X+/ZUPqeDPFB51HdeVJ7W5oTdtJbBtgoUaKlm63f6zP2ZKb3WyYCF+m4G2k1z1Sl
-         r8mhL4AWLBKYRcRYCb7DqjJHrUzyNhUciaJQIE4IIvNZl3XWduVkWvvmNvFJPGi0UjKZ
-         NFmMP/EJNguUXPmn+07XacOUtkGtN15Iu7a1aqMrxUbHZNzymv7pcx4MIIs/dHImQJTd
-         O3+w==
-X-Forwarded-Encrypted: i=1; AJvYcCWFFTmv1BQQzOR9Td2HIj3FfNe1orRnMwTumw+V+yTIhCYfVkaWKgDpmLllX24i6G4qa+ojnrZ/eiA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEMAlZTnOpcXQp3S/EXuARCfZjeAXCcPHm5+yR5C0pAWuFkpZN
-	bSWQLceGhaAA+8Drc8LvvmXNC3i/af/c7GwrDiwWj33O467IVtOEcLiNGdY/kx2KhCMmP2Grrr0
-	4YUx51P87zNAjibIZz/mVwPFBoJah4oQXZzrez9txhJcwwkAqV0pas9cfXHMoCA==
-X-Gm-Gg: ATEYQzwrzQU1AfilpJ8KvL6yaLVrlrohIfiBIdSC8wu5XaF/NBuU5enpt3CaOYOHQCm
-	aKFSkqUSaOFWPAEyhEDxeuFK4NPt6vz/xyPhYfGaxst955mH5R2LOUsm9+9q1zB7gcrX28X/mg3
-	CUl3/jZbSx2QRAYk00NsGBFVXlgmA2uLuEwRhik3GbGfRQ+CmyKtbmNqdN/0PuDlBcpFgOYnOrY
-	j4iwEo5XX11VvW5LaO/uytg019f/oKwEjmcgMOuCTtfX9LkQN5m26KH9JnUY+oq8IIim+sZrq2B
-	0OtNeuhRCuzuZlXtWhCQCvOc6Ej0QHFr/3Hmrejq24Oujr6IFCvKve8hqrKjEVI6Qi3NLkOmNUQ
-	n2rXD9wJeEblQTYIP4vgMlHgcZA==
-X-Received: by 2002:ac8:57d0:0:b0:4f1:ba0b:90 with SMTP id d75a77b69052e-50752840191mr212431761cf.8.1772572553680;
-        Tue, 03 Mar 2026 13:15:53 -0800 (PST)
-X-Received: by 2002:ac8:57d0:0:b0:4f1:ba0b:90 with SMTP id d75a77b69052e-50752840191mr212431321cf.8.1772572553025;
-        Tue, 03 Mar 2026 13:15:53 -0800 (PST)
-Received: from [172.16.1.8] ([2607:f2c0:b1e3:9a00:3c7:56c2:f819:96d2])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5074481c0e5sm156286991cf.0.2026.03.03.13.15.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 13:15:52 -0800 (PST)
-From: Peter Colberg <pcolberg@redhat.com>
-Date: Tue, 03 Mar 2026 16:15:30 -0500
-Subject: [PATCH v3 10/10] samples: rust: add SR-IOV driver sample
+        d=1e100.net; s=20230601; t=1772572720; x=1773177520;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kqBekaqTLUTuIqVLl/Xn32stOU/skKJREqaiqK/UiSk=;
+        b=qZh8QezRoxdPO1OA5fvQbFwvc0d8eqa6r1O0xcX5UT5WL7TBdE6S9hHtdEpw1awALU
+         LgSILwuFijeUeb4ksql+96tC0TouT1VWTUvkCcdPUk6Rk6bEkEOsBzWLPSDErfrdUzOG
+         9rY+a9oyTjcvu7kbQaAP+bC2Y/NvFxud1mlyEu8wglPfd174HmK+5vHhUSzQ+t3wT0Uh
+         oxNiLHB2QeoDqAR5u741blPO9HyjVn5rgyY69+k+QiwGH1MLO36uCIrxAFy44deBBThQ
+         L840qvCHKlXkXi54jUIMWXi5s7mKkQm1S39FaqZWoMoWlUV/Tau53W0xpo4dUdqioad3
+         jVLg==
+X-Forwarded-Encrypted: i=1; AJvYcCU40GyjmkbJ3n/mlSz3Y6RKIYJeLHw9VEd5jG5bDV640Cn2s8pNnd6VEDsACWyCyfKyOLKifovab0U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybNtLPETvpy5CqSWfsl6UOevoVcf8G0ynmBa1hhWPIFdqdjGXd
+	/NAnPvzLiKrAMsHIGSElv+tVLLIHVKV8gyESabDVChBRJxlplWdmNhAyejbLetE780vqEulLkVy
+	zUudYO6rlM9mkEaNf2gw1cHGvjehYJCn1KoXA8wCO
+X-Gm-Gg: ATEYQzxsl5lemUUQ4+ifvFyd6ADaroS+4CXWITq8B6B8RNy8Qlp5x0aBROOnMwalefq
+	CwbMj7zAKzmObwvA+w1/D+ofwuEBCnlDGMLRXyjWFlbSTp7Dgn0LxgKVHhCGbbdZwfmqHT41FXc
+	NDPLgZtaGFuw0GhSqU0KscXGShuMTXWwRluL95BmofQmeArDlmKDoFHlfjNsBan4AJEykXMTkVZ
+	EMMB+XtBHx021+0CqvPPPJGctsuAHuZCtUTWXrb34u4udObXD0UILKQiOGKYBtAjCtUwLWSGUhL
+	qTkHxZabxxOkRYcoSCgnu8GXX05XjEjJVnLgSlYCvMX8J+JHY7OLG2W5/B0l1ZNfmWLLOw==
+X-Received: by 2002:a05:7022:20e:b0:127:5c57:cffc with SMTP id
+ a92af1059eb24-1278fc1f980mr5546302c88.26.1772572719385; Tue, 03 Mar 2026
+ 13:18:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260303-rust-pci-sriov-v3-10-4443c35f0c88@redhat.com>
-References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
-In-Reply-To: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
-To: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>, 
- Robin Murphy <robin.murphy@arm.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>, 
- Moritz Fischer <mdf@kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Boqun Feng <boqun@kernel.org>
-Cc: linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>, 
- Alistair Popple <apopple@nvidia.com>, 
- Joel Fernandes <joelagnelf@nvidia.com>, John Hubbard <jhubbard@nvidia.com>, 
- Zhi Wang <zhiw@nvidia.com>, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-fpga@vger.kernel.org, driver-core@lists.linux.dev, 
- Peter Colberg <pcolberg@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
-X-Mailer: b4 0.14.2
+References: <20260303172949.4741-1-fmancera@suse.de>
+In-Reply-To: <20260303172949.4741-1-fmancera@suse.de>
+From: Kuniyuki Iwashima <kuniyu@google.com>
+Date: Tue, 3 Mar 2026 13:18:28 -0800
+X-Gm-Features: AaiRm50uYKOI7nxXxDuzBrnNN3EjwAriC15_wrOdsD4-O8mxMJY_UZ265TaI5So
+Message-ID: <CAAVpQUChu=Wr91kjQz9cWzFmJwrWXz-SsLoD75J3prEKswE43g@mail.gmail.com>
+Subject: Re: [PATCH net-next v3] inet: add ip_local_port_step_width sysctl to
+ improve port usage distribution
+To: Fernando Fernandez Mancera <fmancera@suse.de>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, chia-yu.chang@nokia-bell-labs.com, 
+	idosch@nvidia.com, willemb@google.com, dsahern@kernel.org, 
+	ncardwell@google.com, skhan@linuxfoundation.org, corbet@lwn.net, 
+	horms@kernel.org, pabeni@redhat.com, kuba@kernel.org, edumazet@google.com, 
+	davem@davemloft.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a new SR-IOV driver sample that demonstrates how to enable and
-disable the Single Root I/O Virtualization capability for a PCI device.
+On Tue, Mar 3, 2026 at 9:30=E2=80=AFAM Fernando Fernandez Mancera
+<fmancera@suse.de> wrote:
+>
+> With the current port selection algorithm, ports after a reserved port
+> range or long time used port are used more often than others [1]. This
+> causes an uneven port usage distribution. This combines with cloud
+> environments blocking connections between the application server and the
+> database server if there was a previous connection with the same source
+> port, leading to connectivity problems between applications on cloud
+> environments.
+>
+> The real issue here is that these firewalls cannot cope with
+> standards-compliant port reuse. This is a workaround for such situations
+> and an improvement on the distribution of ports selected.
+>
+> The proposed solution is to implement a variant of RFC 6056 Algorithm 5.
+> The step size is selected randomly on every connect() call ensuring it
+> is a coprime with respect to the size of the range of ports we want to
+> scan. This way, we can ensure that all ports within the range are
+> scanned before returning an error. To enable this algorithm, the user
+> must configure the new sysctl option "net.ipv4.ip_local_port_step_width".
+>
+> In addition, on graphs generated we can observe that the distribution of
+> source ports is more even with the proposed approach. [2]
+>
+> [1] https://0xffsoftware.com/port_graph_current_alg.html
+>
+> [2] https://0xffsoftware.com/port_graph_random_step_alg.html
+>
+> Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
 
-The sample may be exercised using QEMU's 82576 (igb) emulation.
-
-Link: https://www.qemu.org/docs/master/system/devices/igb.html
-Signed-off-by: Peter Colberg <pcolberg@redhat.com>
----
-Changes in v3:
-- Drop redundant `.as_ref()` for `dev_*` prints.
-
-Changes in v2:
-- Use "kernel vertical" style on imports.
-- Demonstrate how to reach driver data of PF device from VF device.
----
- MAINTAINERS                       |   1 +
- samples/rust/Kconfig              |  11 ++++
- samples/rust/Makefile             |   1 +
- samples/rust/rust_driver_sriov.rs | 127 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 140 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 61bf550fd37c274843e516e00068bb2ab1e152ac..8551a9474fc26309d0714aafa104a5e1ed29156b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20454,6 +20454,7 @@ F:	rust/helpers/pci.c
- F:	rust/kernel/pci.rs
- F:	rust/kernel/pci/
- F:	samples/rust/rust_driver_pci.rs
-+F:	samples/rust/rust_driver_sriov.rs
- 
- PCIE BANDWIDTH CONTROLLER
- M:	Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
-diff --git a/samples/rust/Kconfig b/samples/rust/Kconfig
-index c49ab910634596aea4a1a73dac87585e084f420a..f244df89c4fc9d741915f581de76107e8eb0121b 100644
---- a/samples/rust/Kconfig
-+++ b/samples/rust/Kconfig
-@@ -128,6 +128,17 @@ config SAMPLE_RUST_DRIVER_PLATFORM
- 
- 	  If unsure, say N.
- 
-+config SAMPLE_RUST_DRIVER_SRIOV
-+	tristate "SR-IOV Driver"
-+	depends on PCI_IOV
-+	help
-+	  This option builds the Rust SR-IOV driver sample.
-+
-+	  To compile this as a module, choose M here:
-+	  the module will be called rust_driver_sriov.
-+
-+	  If unsure, say N.
-+
- config SAMPLE_RUST_DRIVER_USB
- 	tristate "USB Driver"
- 	depends on USB = y
-diff --git a/samples/rust/Makefile b/samples/rust/Makefile
-index 6c0aaa58ccccfd12ef019f68ca784f6d977bc668..19d700f8210151e298cc049dacc249a121d0f2c4 100644
---- a/samples/rust/Makefile
-+++ b/samples/rust/Makefile
-@@ -11,6 +11,7 @@ obj-$(CONFIG_SAMPLE_RUST_DRIVER_I2C)		+= rust_driver_i2c.o
- obj-$(CONFIG_SAMPLE_RUST_I2C_CLIENT)		+= rust_i2c_client.o
- obj-$(CONFIG_SAMPLE_RUST_DRIVER_PCI)		+= rust_driver_pci.o
- obj-$(CONFIG_SAMPLE_RUST_DRIVER_PLATFORM)	+= rust_driver_platform.o
-+obj-$(CONFIG_SAMPLE_RUST_DRIVER_SRIOV)		+= rust_driver_sriov.o
- obj-$(CONFIG_SAMPLE_RUST_DRIVER_USB)		+= rust_driver_usb.o
- obj-$(CONFIG_SAMPLE_RUST_DRIVER_FAUX)		+= rust_driver_faux.o
- obj-$(CONFIG_SAMPLE_RUST_DRIVER_AUXILIARY)	+= rust_driver_auxiliary.o
-diff --git a/samples/rust/rust_driver_sriov.rs b/samples/rust/rust_driver_sriov.rs
-new file mode 100644
-index 0000000000000000000000000000000000000000..a4f7b99d9490f8fed2ab1fedb238c53304af89ee
---- /dev/null
-+++ b/samples/rust/rust_driver_sriov.rs
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! Rust SR-IOV driver sample based on QEMU's 82576 ([igb]) emulation.
-+//!
-+//! To make this driver probe, QEMU must be run with `-device igb`.
-+//!
-+//! Further, enable [vIOMMU] with interrupt remapping using, e.g.,
-+//!
-+//! `-M q35,accel=kvm,kernel-irqchip=split -device intel-iommu,intremap=on,caching-mode=on`
-+//!
-+//! and append `intel_iommu=on` to the guest kernel arguments.
-+//!
-+//! [igb]: https://www.qemu.org/docs/master/system/devices/igb.html
-+//! [vIOMMU]: https://wiki.qemu.org/Features/VT-d
-+
-+use kernel::{
-+    device::Core,
-+    pci,
-+    prelude::*,
-+    sync::aref::ARef, //
-+};
-+
-+use core::any::TypeId;
-+
-+#[pin_data(PinnedDrop)]
-+struct SampleDriver {
-+    pdev: ARef<pci::Device>,
-+    private: TypeId,
-+}
-+
-+kernel::pci_device_table!(
-+    PCI_TABLE,
-+    MODULE_PCI_TABLE,
-+    <SampleDriver as pci::Driver>::IdInfo,
-+    [
-+        // E1000_DEV_ID_82576
-+        (pci::DeviceId::from_id(pci::Vendor::INTEL, 0x10c9), ()),
-+        // E1000_DEV_ID_82576_VF
-+        (pci::DeviceId::from_id(pci::Vendor::INTEL, 0x10ca), ())
-+    ]
-+);
-+
-+#[vtable]
-+impl pci::Driver for SampleDriver {
-+    type IdInfo = ();
-+
-+    const ID_TABLE: pci::IdTable<Self::IdInfo> = &PCI_TABLE;
-+
-+    fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> impl PinInit<Self, Error> {
-+        pin_init::pin_init_scope(move || {
-+            dev_info!(
-+                pdev,
-+                "Probe Rust SR-IOV driver sample (PCI ID: {}, 0x{:x}).\n",
-+                pdev.vendor_id(),
-+                pdev.device_id()
-+            );
-+
-+            if pdev.is_virtfn() {
-+                let physfn = pdev.physfn()?;
-+                let drvdata = physfn.as_ref().drvdata::<Self>()?;
-+
-+                assert!(physfn.is_physfn());
-+
-+                dev_info!(
-+                    pdev,
-+                    "Parent device is PF (PCI ID: {}, 0x{:x}).\n",
-+                    physfn.vendor_id(),
-+                    physfn.device_id()
-+                );
-+
-+                dev_info!(
-+                    pdev,
-+                    "We have access to the private data of {:?}.\n",
-+                    drvdata.private
-+                );
-+            }
-+
-+            pdev.enable_device_mem()?;
-+            pdev.set_master();
-+
-+            Ok(try_pin_init!(Self {
-+                pdev: pdev.into(),
-+                private: TypeId::of::<Self>()
-+            }))
-+        })
-+    }
-+
-+    fn sriov_configure(pdev: &pci::Device<Core>, nr_virtfn: i32) -> Result<i32> {
-+        assert!(pdev.is_physfn());
-+
-+        if nr_virtfn == 0 {
-+            dev_info!(
-+                pdev,
-+                "Disable SR-IOV (PCI ID: {}, 0x{:x}).\n",
-+                pdev.vendor_id(),
-+                pdev.device_id()
-+            );
-+            pdev.disable_sriov();
-+        } else {
-+            dev_info!(
-+                pdev,
-+                "Enable SR-IOV (PCI ID: {}, 0x{:x}).\n",
-+                pdev.vendor_id(),
-+                pdev.device_id()
-+            );
-+            pdev.enable_sriov(nr_virtfn)?;
-+        }
-+
-+        assert_eq!(pdev.num_vf(), nr_virtfn);
-+        Ok(nr_virtfn)
-+    }
-+}
-+
-+#[pinned_drop]
-+impl PinnedDrop for SampleDriver {
-+    fn drop(self: Pin<&mut Self>) {
-+        dev_info!(self.pdev, "Remove Rust SR-IOV driver sample.\n");
-+    }
-+}
-+
-+kernel::module_pci_driver! {
-+    type: SampleDriver,
-+    name: "rust_driver_sriov",
-+    authors: ["Peter Colberg"],
-+    description: "Rust SR-IOV driver",
-+    license: "GPL v2",
-+}
-
--- 
-2.53.0
-
+Reviewed-by: Kuniyuki Iwashima <kuniyu@google.com>
