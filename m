@@ -1,100 +1,281 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D14F34FF62;
-	Tue,  3 Mar 2026 13:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB21A36309A
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 13:53:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772545766; cv=none; b=HTtQfsr6WPPZ1n1omJEXgiRrc0qnN2Yo0dkuPrHuybA73i1b+Ko45nZnw6yOuF0D9P27Nr0vw1bQLk98WgJpWGdHqCF5R/t+/HB1D+j2Z/GSOGkeXjt7wDvQEXZ2fEk4Z+YiILW3tmt8/84tcCwqfRoW1PXx2rezsR+6bmFvOrY=
+	t=1772546000; cv=none; b=bwsFJ4don0XrgFhp8kXRKs3R2hgTJXXzm0drvi7x0fG6tGJ5m2dhTRYDXEIv+msAmj1cGJjze2YQQ5xOGgvsA/FJXLC1VN8UnckreGHqjoaKqUyhlzqwnWmUzeEf71fSkGT9P3dS4fP24Vt6Zp8K6jkxzykR69MQu/HvVkq6h7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772545766; c=relaxed/simple;
-	bh=+AJ2/PIieuQuxzYACUS/CrkUU9oo9mrVsUn+s7f40FA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SpasXz0eV5uqb0SI4A5ou5La6w7fayLPy3kvuOn77HV2dG9gZ8r5cdmO/Pzb2/IqCooGehK6ubUTrGu55OqhVgcAgLPtmk0nzncOMSm0JRHvDpLtZyw+ugWqEVuKwLnEnmyhX4LCKSEAn56Wgl/zly0YbMdX91JwLya5x+edSEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgnqM2I+; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772546000; c=relaxed/simple;
+	bh=o1uQy6drhsv5pZD0LZDFkCYjjp8aERY7B+ED/OHab84=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kDFr6TfNH3qbnTxzzIdt6cPjkJtoMhjVC8WhsSf7DlJ79J59IBY4zmSbUOI3YNJcKHTiblmwU/MpW3NlFRvFbWaXfIfP1xr28p5gT0m+YixcOT/sSs3KnQzYJMmvIV7AHDdGF0YtE+Gs9EOxVum7YUEpfXP9aQG3E8LCCSBmKrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tVSG7/hi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgnqM2I+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772545762; x=1804081762;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+AJ2/PIieuQuxzYACUS/CrkUU9oo9mrVsUn+s7f40FA=;
-  b=YgnqM2I+Nrjs69Pmewj/v3xgzFyZd2mCb6jAWYsFiYJ8Rmqc4NIoLV4G
-   nJHobt9N8k0xSpC55Hoo4nPL4jYezrleuEctYlcD1uiND7iOv5O3+cvI6
-   Oxr9D9is1xRhTVngrxpnXlQ4AdynUpmtzwk2EL2JhSlf+wZ9arxE2pVTj
-   lNq8KnNIv7b4Gw6oWhZXkvObKLHF4gs//ohbINsfaRq+se5Z0i5cC7Wak
-   D1oxK5bM6xCMzgTLqgjtk7H6XObZR1yqxA8DgtesxHgPr5gMFIoshJ5Px
-   sG5X/kK/qwJASJS0FEzs6d7A+cjRTWIqS/4H69lAqFZv24QXisr8o7KmS
-   A==;
-X-CSE-ConnectionGUID: VFnTYrc3QjuxJpp0Udp3GQ==
-X-CSE-MsgGUID: W/SwgMlyQKmfSoQ+v1Hqkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="90978706"
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="90978706"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 05:49:22 -0800
-X-CSE-ConnectionGUID: jUnCN3x+QfeUHFCXAIVMeQ==
-X-CSE-MsgGUID: p5Bzx/P2RSSBlAoGOrN0Kg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
-   d="scan'208";a="248498513"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.32])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 05:49:18 -0800
-Date: Tue, 3 Mar 2026 15:49:15 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: rodrigo.alencar@analog.com
-Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
-Message-ID: <aabm23jCikXs1l6F@ashevche-desk.local>
-References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
- <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tVSG7/hi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9ACFC116C6
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 13:53:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772545999;
+	bh=o1uQy6drhsv5pZD0LZDFkCYjjp8aERY7B+ED/OHab84=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=tVSG7/himu8l0WKs/NscsAunT2cBtNo+ue5cn8Hebk8Kc7Ony1dygzRbQm+pvcaIN
+	 /4dU2dT7/EUS4Wl/+ONacHHoVnNlAWxTXRHv+hT6CSncMO+iT+d543VrHI24PrEaCv
+	 j8Osmz+6yfj2A76V3qLCvwnTVhHIwo40u36m0gMFQvCqT1VlSGzL9wx8kSa8seC2SK
+	 b4E6TSr+cEThKk/Rps0ni+rJ6QGMKKlQ63VEJgKnnoYhDj/4Crq/vGJqvkNcu+dKWj
+	 u6XkJqF4Vze7j6PlWX/pdjtgDw+w9CIxOSVPCWFVVWL5X2fPrbXiL4Qij215p2XMr0
+	 ATbJkBaYavmdg==
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-660a58841d4so814553a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 05:53:19 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW48oXBuwGhw8jFw6nK9jmw9oqD93cD7hQm17mRB/dNpvhhywTOKj7ljaW5b0Ur9zwPZVgtspGuB0o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5jyp62hjI/vHuUWCjOidMCB6vukefKVQJLQr8QWHihjzvv8yA
+	mzkLRS0btzqWgtKQw8rlt0rSvaufAGrvt2jzmmRd5c28v1Fk7NWMNuJbQ9LUTOz7MQBYN7TPho+
+	Lwm0lpUULj0X8DKS9llSxahEk0etOew==
+X-Received: by 2002:a05:6402:51d3:b0:660:b913:faa with SMTP id
+ 4fb4d7f45d1cf-660b91311ffmr782984a12.7.1772545998078; Tue, 03 Mar 2026
+ 05:53:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260303-send-upstream-v1-0-1515ba218f3d@chromium.org> <20260303-send-upstream-v1-9-1515ba218f3d@chromium.org>
+In-Reply-To: <20260303-send-upstream-v1-9-1515ba218f3d@chromium.org>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 3 Mar 2026 07:53:06 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqKN45FswZjo+27OzoHMeM7ec3hS7piF7SKNykmXNSmA0g@mail.gmail.com>
+X-Gm-Features: AaiRm53ac9QEFDq8SvGBhIqKLe9Px3qYmH3XP37nJ_98UhLN34dE0tk0zj5PhvU
+Message-ID: <CAL_JsqKN45FswZjo+27OzoHMeM7ec3hS7piF7SKNykmXNSmA0g@mail.gmail.com>
+Subject: Re: [PATCH 09/12] dt-bindings: input: Document hid-over-spi DT schema
+To: Jingyuan Liang <jingyliang@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, hbarnor@chromium.org, 
+	Dmitry Antipov <dmanti@microsoft.com>, Jarrett Schultz <jaschultz@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 03, 2026 at 01:27:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
+On Tue, Mar 3, 2026 at 12:14=E2=80=AFAM Jingyuan Liang <jingyliang@chromium=
+.org> wrote:
+>
+> Documentation describes the required and optional properties for
+> implementing Device Tree for a Microsoft G6 Touch Digitizer that
+> supports HID over SPI Protocol 1.0 specification.
+>
+> The properties are common to HID over SPI.
+>
+> Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+> Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
+> Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
+> ---
+>  .../devicetree/bindings/input/hid-over-spi.yaml    | 153 +++++++++++++++=
+++++++
+>  1 file changed, 153 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/input/hid-over-spi.yaml b/=
+Documentation/devicetree/bindings/input/hid-over-spi.yaml
+> new file mode 100644
+> index 000000000000..b623629ed9d3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+> @@ -0,0 +1,153 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/input/hid-over-spi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: HID over SPI Devices
+> +
+> +maintainers:
+> +  - Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> +  - Jiri Kosina <jkosina@suse.cz>
+> +
+> +description: |+
+> +  HID over SPI provides support for various Human Interface Devices over=
+ the
+> +  SPI bus. These devices can be for example touchpads, keyboards, touch =
+screens
+> +  or sensors.
+> +
+> +  The specification has been written by Microsoft and is currently avail=
+able here:
+> +  https://www.microsoft.com/en-us/download/details.aspx?id=3D103325
+> +
+> +  If this binding is used, the kernel module spi-hid will handle the com=
+munication
+> +  with the device and the generic hid core layer will handle the protoco=
+l.
+> +
+> +allOf:
+> +  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - microsoft,g6-touch-digitizer
+> +          - const: hid-over-spi
+> +      - description: Just "hid-over-spi" alone is allowed, but not recom=
+mended.
+> +        const: hid-over-spi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO specifier for the digitizer's reset pin (active low). The lin=
+e must
+> +      be flagged with GPIO_ACTIVE_LOW.
+> +
+> +  vdd-supply:
+> +    description:
+> +      Regulator for the VDD supply voltage.
 
-> Add kstrntoull() function, which converts a string to an ULL with a max
-> character limit. The function is an alternative integer parsing function
-> that does not require a null-terminated string. It becomes a better option
+Is this part of the spec? This won't scale for multiple devices with
+different power rails.
 
-null -->  NUL
+> +
+> +  input-report-header-address:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 0xffffff
+> +    description:
+> +      A value to be included in the Read Approval packet, listing an add=
+ress of
+> +      the input report header to be put on the SPI bus. This address has=
+ 24
+> +      bits.
+> +
+> +  input-report-body-address:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 0xffffff
+> +    description:
+> +     A value to be included in the Read Approval packet, listing an addr=
+ess of
+> +      the input report body to be put on the SPI bus. This address has 2=
+4 bits.
+> +
+> +  output-report-address:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 0xffffff
+> +    description:
+> +      A value to be included in the Output Report sent by the host, list=
+ing an
+> +      address where the output report on the SPI bus is to be written to=
+. This
+> +      address has 24 bits.
+> +
+> +  post-power-on-delay-ms:
+> +    description:
+> +      Optional time in ms required by the device after enabling its regu=
+lators
+> +      or powering it on, before it is ready for communication.
 
-> over simple_strtoull() or kstrtoull() when parsing integers from a buffer
-> with custom delimiters without having to create temporary copies.
-> The function is consumed inside the implementation _kstrtoull(),
-> promoting reuse.
+Drop. This should be implied by the compatible.
 
-But this will not properly convert 0000000000000000000000000000000000000000100,
-for example, if the max_chars say set to 20.
+> +
+> +  minimal-reset-delay-ms:
+> +    description:
+> +      Optional minimum amount of time in ms that device needs to be in r=
+eset
+> +      state for the reset to take effect.
 
-Also kstrto*() have a common idea behind to consume the only \n and allowed
-digits. This (naming) doesn't fit into the kstrto*() category.
+Drop. This should be implied by the compatible.
 
--- 
-With Best Regards,
-Andy Shevchenko
+> +
+> +  read-opcode:
+> +  $ref: /schemas/types.yaml#/definitions/uint8
+> +    description:
+> +      Value to be used in Read Approval packets. 1 byte.
+> +
+> +  write-opcode:
+> +  $ref: /schemas/types.yaml#/definitions/uint8
+> +    description:
+> +      Value to be used in Write Approval packets. 1 byte.
 
+Why are these and the address properties above not defined by the
+spec? Do they vary for a specific device? If not, then they should be
+implied by the compatible.
 
+> +
+> +  hid-over-spi-flags:
+> +  $ref: /schemas/types.yaml#/definitions/uint16
+> +    description:
+> +      16 bits.
+> +      Bits 0-12 - Reserved (must be 0)
+> +      Bit 13 - SPI Write Mode. Possible values -
+> +        * 0b0- Writes are carried out in Single-SPI mode
+> +        * 0b1- Writes are carried out in the Multi-SPI mode specified by=
+ bits
+> +               14-15
+> +      Bits 14-15 - Multi-SPI Mode. Possible values -
+> +        * 0b00- Single SPI
+> +        * 0b01- Dual SPI
+> +        * 0b10- Quad SPI
+
+We already have SPI properties to define the bus width for read and write.
+
+> +
+> +required:
+> +  - compatible
+> +  - interrupts
+> +  - reset-gpios
+> +  - vdd-supply
+> +  - input-report-header-address
+> +  - input-report-body-address
+> +  - output-report-address
+> +  - read-opcode
+> +  - write-opcode
+> +  - hid-over-spi-flags
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    spi {
+> +      #address-cells =3D <1>;
+> +      #size-cells =3D <0>;
+> +
+> +      hid@0 {
+> +        compatible =3D "hid-over-spi";
+> +        reg =3D <0x0>;
+> +        interrupts-extended =3D <&gpio 42 IRQ_TYPE_EDGE_FALLING>;
+> +        reset-gpios =3D <&gpio 27 GPIO_ACTIVE_LOW>;
+> +        vdd-supply =3D <&pm8350c_l3>;
+> +        pinctrl-names =3D "default";
+> +        pinctrl-0 =3D <&ts_d6_reset_assert &ts_d6_int_bias>;
+> +        input-report-header-address =3D <0x1000>;
+> +        input-report-body-address =3D <0x1004>;
+> +        output-report-address =3D <0x2000>;
+> +        read-opcode =3D <0x0b>;
+> +        write-opcode =3D <0x02>;
+> +        hid-over-spi-flags =3D <0x0000>;
+> +        post-power-on-delay-ms =3D <5>;
+> +        minimal-reset-delay-ms =3D <5>;
+> +      };
+> +    };
+> \ No newline at end of file
+
+Fix this.
+
+Rob
