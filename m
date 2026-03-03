@@ -1,137 +1,327 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84B934166B
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 12:57:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571431E230E;
+	Tue,  3 Mar 2026 13:27:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772542627; cv=none; b=FGoiHNjTyLpq9/bKpratDR3C5teZ76eT0PjKur0uqb571TxCfBKMsW57CSHdEbJmi3klQhwXsnCJWct995zS5ce9ZUiCP6OqKvOgv0i8WOpFGlN27iXrB6My0zQse4rY2rnKSq7NKyeGkumgoXCHmBmDRopqeEq/E29cSSr2YmE=
+	t=1772544445; cv=none; b=m2TSVnOuAVn55PPGCSU/7EsiJe/QqIA6jT/lXyT2fL1EOgg9s2mUNEPOX7d9oAeNFAqdxqwo3d8lT72c3iTl6EyE8E+/02dtCmcRWG4xBVlJfUK56UGJ1Vj+LtShrCTdo1cSfKkljaLA8JEcT7dWYj0lNxtqJO4TThl2wAhUXX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772542627; c=relaxed/simple;
-	bh=2y5Udud1w9el92nDGw3MAoHFspsRDspk+6XQIuYd3+8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nuvp/CTyGXTM2jTanAhLDQraPmzdARuooaB8C7aLOK1iptewlmcHR/IG/k49ddBr/bUvLG57WFLYCdmkqw6PeCq747uhd4Lk5/iL8cCYIx5kIv74wF1t15qrglO8SIri7oEYcKn7oEdmT4zPkZeHuvca9fuJS5ug52X8rAXHoLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rh/xtQ2P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772544445; c=relaxed/simple;
+	bh=taqMyQrzu3ECY/aOMZFTVunNUR+yiqX4OGw5hYUMhF4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=HXe7hPfyFFEFUJjEBz2l9Ku0YtpJeEt1Z0AKy8oyCfxVgxzHMXDakdzA6nDDwDwDPztFLa+icLuL5pEklYJBGfxDaurl931CSPXlvrNsMipyucwjwKpGJF1/zKp33FukwAmPutEKeII7GERVEIzbYiHnWBhebVu5lyIbVtoDuoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SOX/0mXz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rh/xtQ2P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8349AC2BCC4
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 12:57:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SOX/0mXz"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 11CADC19422;
+	Tue,  3 Mar 2026 13:27:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772542627;
-	bh=2y5Udud1w9el92nDGw3MAoHFspsRDspk+6XQIuYd3+8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=Rh/xtQ2PfEdy9h+mFHmJQtMu9in4NIZz77vdXqFOxi2qJBdz4H/HKFOKLN4w+Bv3X
-	 8mKx18Yob5aY1B3ewea3IYfRB+7cnC8rF99DsHn/8jkHZ9CUGY0in/KLfY79ubuMHZ
-	 u6VKtGeCOKdSaPv0+BciddobJ1+cRxIng4YPDr2lBP7DLTQGITYLh45qQx1926uUYx
-	 A4uCp/BQFfNepLtvcSv1TeIhfEG18Tqe3iV+z719ruEjW4ggTEkiiMG6txqxzAc4h4
-	 lQ4joinhMpnlbuYyrZVY1P5SVn/n3xSkqSRZGoLiIX/D1bgXHx65GuF3qQF/FrdnNS
-	 Uv68zIfofJ1BQ==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38a23dd61c1so3843451fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 04:57:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWB5n3utqZO0PcZVR2l6p+3xNFOxoRUpREECGGtTmVQgCA5rCtJGzF4wS4JaCIxfoeufccNncr5Stg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRmxw4+0VTvC1g5lzO8Uv513bNcPH3KSdBCPJdBkaC0UOCvMUX
-	59n5DzoKcy2b4QGM4wtihmuFOUQHQm3aYWHKe+INGpoDNh8JkYekzhaw6UJUG2n9N6ggqRmWOkd
-	Uoi9ISyPmha9zGN+/0WqH2mBdLzkzvX8cwgmdw51k9w==
-X-Received: by 2002:a2e:be9b:0:b0:389:fcc6:4923 with SMTP id
- 38308e7fff4ca-389ff36c676mr123347411fa.36.1772542625858; Tue, 03 Mar 2026
- 04:57:05 -0800 (PST)
+	s=k20201202; t=1772544445;
+	bh=taqMyQrzu3ECY/aOMZFTVunNUR+yiqX4OGw5hYUMhF4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=SOX/0mXzRUCA6ILNimp0KmM5eK01kDJ+AzF868t6OEayVjbr3fFx/INUvCNsB5RQ7
+	 GPdKrN57Ne5/L/UQNWTb1d1ubVRaMhYA0cmOnyw/XgVI2ogw6EobY/YTpoOouQDtJ5
+	 SUzPBn891N7YL5tucKZ7m91wL7yCZ3ZGSjEJk68s5LDGG4iwXO1pEwVXM5GHFk7eDZ
+	 qgjn36KJT8ZH2YLvsF0sSNdCvRMt3/rlrHaehkYl1Uid8f1BdBPiLHk5W7f/5XZgwt
+	 ww89++wE6PCFmTRlm5aSL8VJNWFxPrDCGk8GNzC9abBZlZJC9KhE5RrdrfxloX2My6
+	 3wI95V2K8Tudg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2253EC1438;
+	Tue,  3 Mar 2026 13:27:24 +0000 (UTC)
+From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Date: Tue, 03 Mar 2026 13:27:06 +0000
+Subject: [PATCH v8 01/10] dt-bindings: iio: frequency: add adf41513
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260302-qcom-qce-cmd-descr-v11-0-4bf1f5db4802@oss.qualcomm.com> <scr5qvxa7f7k22pms4c6k5gwiky7lhssrw6qryfngexlek44g2@rayinnnwqgbt>
-In-Reply-To: <scr5qvxa7f7k22pms4c6k5gwiky7lhssrw6qryfngexlek44g2@rayinnnwqgbt>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Tue, 3 Mar 2026 13:56:53 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McCXg+YjSL2_tBW2G-oBwQn3UyLGu1HxZtrognoag_CHQ@mail.gmail.com>
-X-Gm-Features: AaiRm52NOJdgTLTN2sMabKBu44N91ubF3l3v3ULSOW8VIGjX28hNaR8okhr4RNg
-Message-ID: <CAMRc=McCXg+YjSL2_tBW2G-oBwQn3UyLGu1HxZtrognoag_CHQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v11 00/12] crypto/dmaengine: qce: introduce BAM
- locking and use DMA for register I/O
-To: Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Bjorn Andersson <andersson@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260303-adf41513-iio-driver-v8-1-8dd2417cc465@analog.com>
+References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+In-Reply-To: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+ David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Rodrigo Alencar <rodrigo.alencar@analog.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772544443; l=9279;
+ i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
+ bh=rEirALo9csLZROaj+sBPvPeAe3rrOkDWGK2ha+EsbgU=;
+ b=WdULBmQ261wJehyLBmb+s8A24JLciG2+F/muJBUB4CsUJL1Hj3V2jJ3LaOC6xJZm6BjwK9yg7
+ Cb/Q/Rp3AO/AGLAgawY2nlm2ELpT2QnVw8QvrYv+1gKI8XfGW8g4Uo0
+X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
+ pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
+X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
+ with auth_id=561
+X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Reply-To: rodrigo.alencar@analog.com
 
-On Tue, Mar 3, 2026 at 1:44=E2=80=AFPM Manivannan Sadhasivam <mani@kernel.o=
-rg> wrote:
->
-> On Mon, Mar 02, 2026 at 04:57:13PM +0100, Bartosz Golaszewski wrote:
-> > NOTE: Please note that even though this is version 11, I changed the
-> > prefix to RFC as this is an entirely new approach resulting from
-> > discussions under v9. I AM AWARE of the existing memory leaks in the
-> > last patch of this series - I'm sending it because I want to first
-> > discuss the approach and get a green light from Vinod as well as Mani
-> > and Bjorn. Especially when it comes to communicating the address for th=
-e
-> > dummy rights from the client to the BAM driver.
-> > /NOTE
-> >
-> > Currently the QCE crypto driver accesses the crypto engine registers
-> > directly via CPU. Trust Zone may perform crypto operations simultaneous=
-ly
-> > resulting in a race condition. To remedy that, let's introduce support
-> > for BAM locking/unlocking to the driver. The BAM driver will now wrap
-> > any existing issued descriptor chains with additional descriptors
-> > performing the locking when the client starts the transaction
-> > (dmaengine_issue_pending()). The client wanting to profit from locking
-> > needs to switch to performing register I/O over DMA and communicate the
-> > address to which to perform the dummy writes via a call to
-> > dmaengine_slave_config().
-> >
->
-> Thanks for moving the LOCK/UNLOCK bits out of client to the BAM driver. I=
-t looks
-> neat now. I understand the limitation that for LOCK/UNLOCK, BAM needs to =
-perform
-> a dummy write to an address in the client register space. So in this case=
-, you
-> can also use the previous metadata approach to pass the scratchpad regist=
-er to
-> the BAM driver from clients. The BAM driver can use this register to perf=
-orm
-> LOCK/UNLOCK.
->
+From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-I thought about reusing descriptor metadata but this is attached to
-every descriptor created with dmaengine_prep_slave_sg() (as opposed to
-doing it once with dmaengine_slave_config()). We would also still need
-a custom struct in the existing BAM DMA header.
+DT-bindings for ADF41513, an ultralow noise PLL frequency synthesizer that
+can be used to implement local oscillators (LOs) as high as 26.5 GHz.
+Some properties are based upon an existing PLL device properties
+(e.g. ADF4350).
 
-I'm fine with that. Vinod: could you please say if that's sound for
-you and if so - I'll rework it and also fix the memory leaks by
-reworking the cleanup path.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+---
+ .../bindings/iio/frequency/adi,adf41513.yaml       | 215 +++++++++++++++++++++
+ MAINTAINERS                                        |   7 +
+ 2 files changed, 222 insertions(+)
 
-> It may sound like I'm suggesting a part of your previous design, but it f=
-its the
-> design more cleanly IMO. The BAM performs LOCK/UNLOCK on its own, but it =
-gets
-> the scratchpad register address from the clients through the metadata onc=
-e.
->
+diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
+new file mode 100644
+index 000000000000..59592fbcedde
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
+@@ -0,0 +1,215 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/frequency/adi,adf41513.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices ADF41513 PLL Frequency Synthesizer
++
++maintainers:
++  - Rodrigo Alencar <rodrigo.alencar@analog.com>
++
++description:
++  The ADF41513 is an ultralow noise frequency synthesizer that can be used to
++  implement local oscillators (LOs) as high as 26.5 GHz in the upconversion and
++  downconversion sections of wireless receivers and transmitters. The ADF41510
++  supports frequencies up to 10 GHz.
++
++  https://www.analog.com/en/products/adf41510.html
++  https://www.analog.com/en/products/adf41513.html
++
++$ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - adi,adf41510
++      - adi,adf41513
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 25000000
++
++  clocks:
++    maxItems: 1
++    description: Clock that provides the reference input frequency.
++
++  avdd1-supply:
++    description: PFD and Up and Down Digital Driver Power Supply (3.3 V)
++
++  avdd2-supply:
++    description: RF Buffer and Prescaler Power Supply (3.3 V)
++
++  avdd3-supply:
++    description: N Divider Power Supply (3.3 V)
++
++  avdd4-supply:
++    description: R Divider and Lock Detector Power Supply (3.3 V)
++
++  avdd5-supply:
++    description: Sigma-Delta Modulator and SPI Power Supply (3.3 V)
++
++  vp-supply:
++    description: Charge Pump Power Supply (3.3 V)
++
++  enable-gpios:
++    description:
++      GPIO that controls the chip enable pin. A logic low on this pin
++      powers down the device and puts the charge pump output into
++      three-state mode.
++    maxItems: 1
++
++  lock-detect-gpios:
++    description:
++      GPIO for lock detect functionality. When configured for digital lock
++      detect, this pin will output a logic high when the PLL is locked.
++    maxItems: 1
++
++  adi,power-up-frequency-mhz:
++    minimum: 1000
++    maximum: 26500
++    default: 10000
++    description:
++      The PLL tunes to this frequency during the initialization sequence.
++      This property should be set to a frequency supported by the loop filter
++      and VCO used in the design. Range is 1 GHz to 26.5 GHz for ADF41513,
++      and 1 GHz to 10 GHz for ADF41510.
++
++  adi,reference-div-factor:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 1
++    maximum: 32
++    default: 1
++    description:
++      Value for the reference division factor (R Counter). The driver will
++      increment R Counter as needed to achieve a PFD frequency within the
++      allowed range. High R counter values will reduce the PFD frequency, which
++      lowers the frequency resolution, and affects phase noise performance.
++      As it affects the PFD frequency, this value depends on the loop filter
++      design.
++
++  adi,reference-doubler-enable:
++    description:
++      Enables the reference doubler when deriving the PFD frequency.
++      The maximum reference frequency when the doubler is enabled is 225 MHz.
++      As it affects the PFD frequency, this value depends on the loop filter
++      design.
++    type: boolean
++
++  adi,reference-div2-enable:
++    description:
++      Enables the reference divide-by-2 function when deriving the PFD
++      frequency. As it affects the PFD frequency, this value depends on the
++      loop filter design.
++    type: boolean
++
++  adi,charge-pump-resistor-ohms:
++    minimum: 1800
++    maximum: 10000
++    default: 2700
++    description:
++      External charge pump resistor (R_SET) value in ohms. This sets the maximum
++      charge pump current along with the charge pump current setting.
++
++  adi,charge-pump-current-microamp:
++    description:
++      Charge pump current (I_CP) in microamps. The value will be rounded to the
++      nearest supported value. Range of acceptable values depends on the
++      charge pump resistor value, such that 810 mV <= I_CP * R_SET <= 12960 mV.
++      This value depends on the loop filter and the VCO design.
++
++  adi,logic-level-1v8-enable:
++    description:
++      Set MUXOUT and DLD logic levels to 1.8V. Default is 3.3V.
++    type: boolean
++
++  adi,phase-detector-polarity-positive-enable:
++    description:
++      Set phase detector polarity to positive. Default is negative.
++      Use positive polarity with non-inverting loop filter and VCO with
++      positive tuning slope, or with inverting loop filter and VCO with
++      negative tuning slope.
++    type: boolean
++
++  adi,lock-detector-count:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    default: 64
++    description:
++      Sets the value for Lock Detector count of the PLL, which determines the
++      number of consecutive phase detector cycles that must be within the lock
++      detector window before lock is declared. Lower values increase the lock
++      detection sensitivity, while higher values provides a more stable lock
++      detection. Applications that consume the lock detect signal may require
++      different settings based on system requirements.
++    enum: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
++
++  adi,phase-resync-period-ns:
++    default: 0
++    description:
++      When this value is non-zero, enable phase resync functionality, which
++      produces a consistent output phase offset with respect to the input
++      reference. The value specifies the resync period in nanoseconds, used
++      to configure clock dividers with respect to the PFD frequency. This value
++      should be set to a value that is at least as long as the worst case lock
++      time, i.e., it depends mostly on the loop filter design.
++
++  adi,le-sync-enable:
++    description:
++      Synchronizes Load Enable (LE) transitions with the reference signal to
++      avoid asynchronous glitches in the output. This is recommended when using
++      the PLL as a frequency synthesizer, where the reference signal will always
++      be present while the device is being configured. When using the PLL as a
++      frequency tracker, where the reference signal may be absent, LE sync
++      should be left disabled.
++    type: boolean
++
++dependencies:
++  adi,charge-pump-resistor-ohms: ["adi,charge-pump-current-microamp"]
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - avdd1-supply
++  - avdd2-supply
++  - avdd3-supply
++  - avdd4-supply
++  - avdd5-supply
++  - vp-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        pll@0 {
++            compatible = "adi,adf41513";
++            reg = <0>;
++            spi-max-frequency = <25000000>;
++            clocks = <&ref_clk>;
++            avdd1-supply = <&avdd1_3v3>;
++            avdd2-supply = <&avdd2_3v3>;
++            avdd3-supply = <&avdd3_3v3>;
++            avdd4-supply = <&avdd4_3v3>;
++            avdd5-supply = <&avdd5_3v3>;
++            vp-supply = <&vp_3v3>;
++            enable-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
++            lock-detect-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
++
++            adi,power-up-frequency-mhz = <15500>;
++            adi,charge-pump-current-microamp = <3600>;
++            adi,charge-pump-resistor-ohms = <2700>;
++            adi,reference-doubler-enable;
++            adi,lock-detector-count = <64>;
++            adi,phase-resync-period-ns = <0>;
++            adi,phase-detector-polarity-positive-enable;
++            adi,le-sync-enable;
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1251965d70bd..1bf39f6d964e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1634,6 +1634,13 @@ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/iio/adc/adi,ade9000.yaml
+ F:	drivers/iio/adc/ade9000.c
+ 
++ANALOG DEVICES INC ADF41513 DRIVER
++M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
++L:	linux-iio@vger.kernel.org
++S:	Supported
++W:	https://ez.analog.com/linux-software-drivers
++F:	Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
++
+ ANALOG DEVICES INC ADF4377 DRIVER
+ M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
+ L:	linux-iio@vger.kernel.org
 
-If that gets it upstream, then it's fine with me.
+-- 
+2.43.0
 
-> It is very unfortunate that the IP doesn't accept '0' address for LOCK/UN=
-LOCK or
-> some of them cannot append LOCK/UNLOCK to the actual CMD descriptors pass=
-ed from
-> the clients. These would've made the code/design even more cleaner.
->
 
-For sure but I double-checked this. :(
-
-Bart
