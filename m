@@ -1,103 +1,76 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B6B374E51
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 02:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8907E19ADB0;
+	Tue,  3 Mar 2026 03:14:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772506010; cv=none; b=mZiU5sCV/iFJlazoYdx1WP42dCjhbhcTbPOMWDZ0X5nDOBlf43nyYbqKvZh4aDY1DkIfUmkNuuBk9CTJIuV8MCaNSqPd9XEHl4bQt208F0TS8E8Cw+tLbo/qW9+5vLRZh0W34I9mhWK2VCyzcnY0Laf4Wzn/AxGkC34LdLj3iZw=
+	t=1772507690; cv=none; b=CvEEFXqQxKvskZrjAv9mLWE80LJmEPQIdGhPfSLBnt4BEr10yR23uvrvE4nvSOuGylRIbcNpcxXQEw5emspwk75bSS3gH4cjlG7mIBMBfBx9mgMGSDtiCMOgNvuRx+leJyxpP9xps9xV+iWkg4PHMLzIvDbvvlTphWihZEyYupo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772506010; c=relaxed/simple;
-	bh=sgBFv3FqJVUgQfwg5VJQL8K50hqxFiA1ETfdtKWQN68=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V6izqGGraZjlUq8hXvM+JfroLRBiwEbPIyGGs1hzfO2z/CsftZ1ziswnIslc0movLpymSG9DeZLzOxwLmlBjFmtlRRLyZMddeUoJ1etvxuP6in/vUW8/oa6zf90cqcRMqbe89LJNEhsn3FclTpAknTXLwUayFlGYN3n3S0nPI2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YLi3ldjN; arc=none smtp.client-ip=74.125.82.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772507690; c=relaxed/simple;
+	bh=fkufFEILEgr60R+q2FwGShsko0FhfpQaQOtbm/Dl9K4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=q8CuQjMveLmsawwaZOIGZj5jQ0XCxmPOjIXqCCw0mc2UEnLqnl4F9mXaiqWUEB78A2tos7dYZ/AUxUDfRCWSDC9bwVgDyWBsHSMgsBEvWLGS5KbmP1X9OE61zQjUpUUjtkQy6d/LX3CJ3jgXle66tg0zZhLL4WZkmavwcjVse7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LQWu+XoT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YLi3ldjN"
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12713e56abdso3135624c88.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 18:46:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772506008; x=1773110808; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PsDwpsSdUUc1aPnyYssN5xevD3sXbYTWbWRZnJRa7lc=;
-        b=YLi3ldjNd+buPMoPgeomgU8y12l3gsV0K3cljVsATOhYoIINwar6OTunLzzPEs2w+A
-         14qWEze2ufYNLrSRdVjyrddDbEAEMawSqbrGjWvR1pkG7QRX1PGAUM8eS93FxT9Rkdmx
-         /LQ51Fc1VJH5FuEY+lGH61ke4IZqTPr1+g+yQ8DhjgtVES000XLUBeZEEtODu96JIm03
-         XWhA2oXXW6xAf6G4KjV7om/5lnyEqaNfXjuMj814itovITxJrULj0FwvDGpBWir/l8jh
-         v5EQiu/Qsk6C6k0vG68E5KpV5b+onJQV1UtTtSPCwHzifsuxBR5SEAusVA5fneu2TuHz
-         pr7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772506008; x=1773110808;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PsDwpsSdUUc1aPnyYssN5xevD3sXbYTWbWRZnJRa7lc=;
-        b=oGSnJjWLDH6fUQadHKxW6L4sVWBXhWQ6+6Mt7bsQ63FIfGzhiXC94NsHKeg/aY8rVM
-         xrZgQhTxifY4Qgauw8jyFsyqutiUuJYINomnYc+PStnTHvjtYVdPo0/LyWs1Yy7nJPul
-         AA/Sqh41/yWoR5dQ+XpdCtSlTn9XWLoZldiOCq7Vj+sJzK7cicKwSSNwU965jnkIAO6u
-         37m73mRsxNlFxX9kI80er7l+2RiS7HIRw9cSaGIivyt7d3Q3ssrcDUK8vu3uoHg5CpGh
-         d0v7qpfGPLR7HesMa+Q+nLYHiIR3iuSCsOwRL7f06beJJ7dGx5PcpiE/DQ2g+LuN5hl/
-         bGww==
-X-Forwarded-Encrypted: i=1; AJvYcCXOV61RXtb4Wlv31xyB/fkozMDX9c+BadiMn6lZcEZub5yvERXrxKtADxT2d5iAZOwlpgvZOupHEQ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyR+HWVUf/WpFtRIdWcQLtZ1J8UDuCaj3vTEGf8G8aklOceltOx
-	SFmK8QqeYu2ZNdvQd7lDk3Td2WswRTm8UYLGuHQ1JmR4ztXAT1rZu9xe
-X-Gm-Gg: ATEYQzw1KM4UBJi80iDBL/YzYb1MZnor2hTIR+YnKYRTVyO2nK9w/g5iynRcGBRl+UI
-	aj1R9jnHHJcWpO7VRmvjnNYV5p1K34VqdkWja/HK/RanTSAkIeqDSueHI5RbTYFnxbY8aVfGfBl
-	16GlB3Xx9Pi/cGRVBNlI0QXCg30AGYx2WF/nso7+PLywqGddcjRUqIDkQKembqLuYQfHjI13bxo
-	eU9Bkw+U3KuhwjxJL5Dk2qXgaTLQlF1QwTQlxWjeYE47eBLXlgMcoa5IpsiV7IU0WYM9LkPYNm+
-	vZ7p+nZcMsj337p+N6tOdfBO6LG4SGLH+ChlGbs8tHxlkF/QvEQMofTY84nDogRj5RUnz6e9OrR
-	0LFi9zkEMqXXzu+fFwq/KrG+bsketTKfJf1DInE1CRZBWffHFJJzXGb/qkx3UQ/n/KUanA6O9pi
-	HbbLpi/WlgL9ZZQh0ax1XsqkJkN6mrTcd5wUJk
-X-Received: by 2002:a05:7022:e16:b0:11e:3e9:3e92 with SMTP id a92af1059eb24-128b0e2a400mr198972c88.23.1772506007993;
-        Mon, 02 Mar 2026 18:46:47 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2bdf662eb6dsm7616028eec.2.2026.03.02.18.46.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 18:46:47 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 2 Mar 2026 18:46:46 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Mariano Abad <weimaraner@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] hwmon: Add LattePanda Sigma EC driver
-Message-ID: <8dc48dd3-c9af-4cbf-bf83-8ace235e4619@roeck-us.net>
-References: <20260303004628.3406271-1-weimaraner@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LQWu+XoT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D74BC19423;
+	Tue,  3 Mar 2026 03:14:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772507690;
+	bh=fkufFEILEgr60R+q2FwGShsko0FhfpQaQOtbm/Dl9K4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=LQWu+XoTYOcyh6LMYgIvXa4ZEZxcfojfe2Q2usEm7VJYdH8P+ffjashH8Ygx8Ffae
+	 hL2gZcpVXUw9Dz5Wt/QGR6NCli7MmCl1DbCEkUxww/Kf+HY7ESarYtoW65iXumnhYM
+	 svKRVTBBGb03Huh87q+TbbsTTi75DZOK1l7ic+jg83K+SHRzSJ0bFvE0tMJH3d4CzG
+	 QMlh/9/VdVpIveRArncztY1q+VVvKugReQP+6t/a7LEsDrbdShUGHPbroKnyAU8+R4
+	 jF/xXs7MKNuzPiysgBSYvrjkXeFUrubm6YneeGizHm1VtobgW395tSZFXd7/fJ7T41
+	 m/fSJEjatpoqQ==
+Date: Mon, 2 Mar 2026 19:14:48 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko
+ <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, "Leon Romanovsky" <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>,
+ <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, Gal Pressman <gal@nvidia.com>, Dragos
+ Tatulea <dtatulea@nvidia.com>, Shay Drory <shayd@nvidia.com>, Jiri Pirko
+ <jiri@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>, Or Har-Toov
+ <ohartoov@nvidia.com>
+Subject: Re: [PATCH net-next V3 10/10] devlink: Document port-level
+ resources
+Message-ID: <20260302191448.4750a2b8@kernel.org>
+In-Reply-To: <20260226221916.1800227-11-tariqt@nvidia.com>
+References: <20260226221916.1800227-1-tariqt@nvidia.com>
+	<20260226221916.1800227-11-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260303004628.3406271-1-weimaraner@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 02, 2026 at 09:46:04PM -0300, Mariano Abad wrote:
-> Add hardware monitoring support for the LattePanda Sigma SBC
-> (DFRobot, ITE IT8613E EC). The driver reads fan speed and
-> temperatures via direct port I/O, as the BIOS disables the
-> ACPI EC interface.
-> 
-> Signed-off-by: Mariano Abad <weimaraner@gmail.com>
-> ---
-> Hi Guenter,
-> 
-> Thank you for taking the time to review this again and for the
-> detailed feedback — I really appreciate your patience. The
-> rollover catch was a great point, I hadn't considered that
-> scenario.
-> 
-My pleasure.
+On Fri, 27 Feb 2026 00:19:16 +0200 Tariq Toukan wrote:
+> +Currently, port-level resources only support the ``GET`` command for viewing
+> +resource information.
 
-Applied.
+In case there is v4, AI says:
 
-Thanks,
-Guenter
+> +Currently, port-level resources only support the ``GET`` command for viewing
+                                                         ^^^^^
+
+This isn't a bug, but the terminology here appears inconsistent with the
+rest of the documentation. The document uses user-facing command names
+elsewhere (like "devlink port resource show"), but this line uses "GET
+command" which seems to reference the internal DEVLINK_CMD_PORT_RESOURCE_GET
+netlink command.
+
+Should this be reworded to match the user-facing terminology used throughout
+the rest of the document, perhaps "only support the show command" or
+"only support viewing"?
