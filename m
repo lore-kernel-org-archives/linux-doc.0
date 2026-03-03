@@ -1,281 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB21A36309A
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 13:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2A23D3D04
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 14:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772546000; cv=none; b=bwsFJ4don0XrgFhp8kXRKs3R2hgTJXXzm0drvi7x0fG6tGJ5m2dhTRYDXEIv+msAmj1cGJjze2YQQ5xOGgvsA/FJXLC1VN8UnckreGHqjoaKqUyhlzqwnWmUzeEf71fSkGT9P3dS4fP24Vt6Zp8K6jkxzykR69MQu/HvVkq6h7M=
+	t=1772547390; cv=none; b=nlq7fHh1Kyw26lBLQEIimfDImZMq3j7U1K7AXpRNhwqNuNCJd3a7kUcWF1wKY8+fkcfeHAlmUQDSlZAgG8H6hUQ2Z/jcI2GOcLGQGLrfNEcxu8S3j+9hE+D26lIuNVh/RD9idsRNr5gmTNHm2Rwh+e9tohE7z53LC4asIweescw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772546000; c=relaxed/simple;
-	bh=o1uQy6drhsv5pZD0LZDFkCYjjp8aERY7B+ED/OHab84=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kDFr6TfNH3qbnTxzzIdt6cPjkJtoMhjVC8WhsSf7DlJ79J59IBY4zmSbUOI3YNJcKHTiblmwU/MpW3NlFRvFbWaXfIfP1xr28p5gT0m+YixcOT/sSs3KnQzYJMmvIV7AHDdGF0YtE+Gs9EOxVum7YUEpfXP9aQG3E8LCCSBmKrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tVSG7/hi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772547390; c=relaxed/simple;
+	bh=O3wxBlM5A9IROKIfrvTr5CqxizEqTm2V+XA0/tPb8jo=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iRG6Wbh0oJz1srPqvHXg6hUKhE/bxaOJv/pZYMTRY/6KSJ1krjsvKfRd6l9kR4N0ijOzDSOyyJMSuDScS2s35UHvmsJ/k5BncomDn3h/Y3KlpD4c/T3GNzp9u3lxqRKttyldcZVwJZWtR9WQ41wghLyP8F+O/5fOPmJcejfqOWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jruDCTK9; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tVSG7/hi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9ACFC116C6
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 13:53:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772545999;
-	bh=o1uQy6drhsv5pZD0LZDFkCYjjp8aERY7B+ED/OHab84=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tVSG7/himu8l0WKs/NscsAunT2cBtNo+ue5cn8Hebk8Kc7Ony1dygzRbQm+pvcaIN
-	 /4dU2dT7/EUS4Wl/+ONacHHoVnNlAWxTXRHv+hT6CSncMO+iT+d543VrHI24PrEaCv
-	 j8Osmz+6yfj2A76V3qLCvwnTVhHIwo40u36m0gMFQvCqT1VlSGzL9wx8kSa8seC2SK
-	 b4E6TSr+cEThKk/Rps0ni+rJ6QGMKKlQ63VEJgKnnoYhDj/4Crq/vGJqvkNcu+dKWj
-	 u6XkJqF4Vze7j6PlWX/pdjtgDw+w9CIxOSVPCWFVVWL5X2fPrbXiL4Qij215p2XMr0
-	 ATbJkBaYavmdg==
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-660a58841d4so814553a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 05:53:19 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW48oXBuwGhw8jFw6nK9jmw9oqD93cD7hQm17mRB/dNpvhhywTOKj7ljaW5b0Ur9zwPZVgtspGuB0o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5jyp62hjI/vHuUWCjOidMCB6vukefKVQJLQr8QWHihjzvv8yA
-	mzkLRS0btzqWgtKQw8rlt0rSvaufAGrvt2jzmmRd5c28v1Fk7NWMNuJbQ9LUTOz7MQBYN7TPho+
-	Lwm0lpUULj0X8DKS9llSxahEk0etOew==
-X-Received: by 2002:a05:6402:51d3:b0:660:b913:faa with SMTP id
- 4fb4d7f45d1cf-660b91311ffmr782984a12.7.1772545998078; Tue, 03 Mar 2026
- 05:53:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jruDCTK9"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-507373bffd9so51077831cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 06:16:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772547388; x=1773152188; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SN5gEyJ3CvnwwkSktZKIQYQ3lN+9NI4Pr7f8HGw+b+o=;
+        b=jruDCTK9psKhqIPBaHVzjUYt817UWNLRW3uWnQBih5DaWHVTy/vkdmLZAavMLbCaZu
+         emPzWCT/BUQ9IczRzgDAo2nNwv/TGfm8BpYdnTEYpFOORESRqAED7PD39XvBv1G/1PMu
+         v6s3v/rJbicx0op9m+wQwPaByvo3azmW64RguH6McdKJx7KLUfu6efO+kbJvwUucKbZy
+         +2WRLbJpe9K9sbhKkFmgx0lpwx0ZlXqyo8Wk7ObsazhNh3IWTMigegIuJWf/u6VQGo2i
+         9W3nbYZfREQ/Gxr6Sf/jwIMWXrfX7uri3rXsVejjQ+56dHwJ1CTh2r98Q40YjeEdAJl8
+         MIpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772547388; x=1773152188;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SN5gEyJ3CvnwwkSktZKIQYQ3lN+9NI4Pr7f8HGw+b+o=;
+        b=n8ynH3MZT8PUPH6C8wzkNKdJMxgixNJvPn/690MKnohGgb4OsH6VNKpaPSfhPlRKrZ
+         of/jb2Bfv5ZeQa2UZfZRdersC8W6NuWM8GT1QiIXo5q878dLYvp7asPEDoMf/qKcR+68
+         RL41l6xUVU2jd9Ma332CyZcx4L7fNSBHFF8DPYjpijFuibRTGUEDjkmAevvKtLE9BlyC
+         b0fpcwlnZW8ephVSyhwohhZ1pWLQV+KDpJPWE5O8CJyEcOjyKLSMNASK1RbCEEwzvW/i
+         ITWdHvqq/9DnXje7wxW5nJK8Pm3JAX5TEvLCIxkdwfccQrubBQ+4ZnV1xk4a+QdXYSAd
+         jvVw==
+X-Forwarded-Encrypted: i=1; AJvYcCWT44LVnsUBNnqtp1xeV/Dl0T98LRzvU0HZjquf/ZkActPNUGWHXB420PUDFKhjFZm9pUGHDNbPJg8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV/zxvsQzxZZHY22e6T6UXUlpGtkxil7PA93xdiMeRT760/c1z
+	xCUtp/3kZmyzlsW5mYPW0HFNs/eKYQuqTLlx2DcIhOpcULbH23WlBvTt
+X-Gm-Gg: ATEYQzy2hLqexoV4e+7rJm5BZfNSUTtVjXpdEW2/pz+z1sGFz4NuHpzgHk7iHvdBzm2
+	x0EpAs2xS8fmizKy2PxsSe14x7jtxAzYJ0syB9TRMV7qqOlYb5yslo6IARdNilmb+Yw6fe5C3HO
+	HY4woTxDzfMsH/yu5hkY6v3QQQQ4FkaI5Y0rVvID/jtDq91zsbPPGC3dDFwPz1uSNOaYgwInTpA
+	1FwxH5UCYjNtsBPP5uxf0kfL+5NnVsH1BCp8BJ6+T0ESRR2z13RrEIa1gl0w09eb0nwlPxCnKHf
+	hpvlBTKnKxSt/7lk6KjLW05CoZ6c/uAFT9QCYDNfgvkU2kJ6VDGciO2/MnPW38E5Qsi+pT1bX2e
+	ESwbcmOX7Qj1ePTk7evgI7qJBNq0NsqtdC2EFj2yZuZS3Z+48nSDqrO2/pR7w6V97vmxwL6Ojk1
+	ZiokyUkWW/cbbT9rKsi7hWeaqvjE6pkGMCC+aaN7T7ooosR5gZR11gXOMfLbPyNFz2B8B4J9hfx
+	qBNsDLo7YMlbZcEpL858MYSsiuXoAkG85IX1b5EmePflzojrao=
+X-Received: by 2002:a05:622a:1445:b0:506:6ec8:835 with SMTP id d75a77b69052e-507529bb500mr199466901cf.54.1772547387868;
+        Tue, 03 Mar 2026 06:16:27 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50744ab3d7csm129120271cf.20.2026.03.03.06.16.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2026 06:16:26 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 3 Mar 2026 14:16:19 +0000
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
+	rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
+Message-ID: <qcloiwjlbehs4yyuttvrt46monh7isef4d5nzuwlaby6uxfael@j3trvc5jwosy>
+References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+ <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+ <aabm23jCikXs1l6F@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260303-send-upstream-v1-0-1515ba218f3d@chromium.org> <20260303-send-upstream-v1-9-1515ba218f3d@chromium.org>
-In-Reply-To: <20260303-send-upstream-v1-9-1515ba218f3d@chromium.org>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 3 Mar 2026 07:53:06 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqKN45FswZjo+27OzoHMeM7ec3hS7piF7SKNykmXNSmA0g@mail.gmail.com>
-X-Gm-Features: AaiRm53ac9QEFDq8SvGBhIqKLe9Px3qYmH3XP37nJ_98UhLN34dE0tk0zj5PhvU
-Message-ID: <CAL_JsqKN45FswZjo+27OzoHMeM7ec3hS7piF7SKNykmXNSmA0g@mail.gmail.com>
-Subject: Re: [PATCH 09/12] dt-bindings: input: Document hid-over-spi DT schema
-To: Jingyuan Liang <jingyliang@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, hbarnor@chromium.org, 
-	Dmitry Antipov <dmanti@microsoft.com>, Jarrett Schultz <jaschultz@microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aabm23jCikXs1l6F@ashevche-desk.local>
 
-On Tue, Mar 3, 2026 at 12:14=E2=80=AFAM Jingyuan Liang <jingyliang@chromium=
-.org> wrote:
->
-> Documentation describes the required and optional properties for
-> implementing Device Tree for a Microsoft G6 Touch Digitizer that
-> supports HID over SPI Protocol 1.0 specification.
->
-> The properties are common to HID over SPI.
->
-> Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
-> Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
-> Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
-> ---
->  .../devicetree/bindings/input/hid-over-spi.yaml    | 153 +++++++++++++++=
-++++++
->  1 file changed, 153 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/input/hid-over-spi.yaml b/=
-Documentation/devicetree/bindings/input/hid-over-spi.yaml
-> new file mode 100644
-> index 000000000000..b623629ed9d3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
-> @@ -0,0 +1,153 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/input/hid-over-spi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: HID over SPI Devices
-> +
-> +maintainers:
-> +  - Benjamin Tissoires <benjamin.tissoires@redhat.com>
-> +  - Jiri Kosina <jkosina@suse.cz>
-> +
-> +description: |+
-> +  HID over SPI provides support for various Human Interface Devices over=
- the
-> +  SPI bus. These devices can be for example touchpads, keyboards, touch =
-screens
-> +  or sensors.
-> +
-> +  The specification has been written by Microsoft and is currently avail=
-able here:
-> +  https://www.microsoft.com/en-us/download/details.aspx?id=3D103325
-> +
-> +  If this binding is used, the kernel module spi-hid will handle the com=
-munication
-> +  with the device and the generic hid core layer will handle the protoco=
-l.
-> +
-> +allOf:
-> +  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - microsoft,g6-touch-digitizer
-> +          - const: hid-over-spi
-> +      - description: Just "hid-over-spi" alone is allowed, but not recom=
-mended.
-> +        const: hid-over-spi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO specifier for the digitizer's reset pin (active low). The lin=
-e must
-> +      be flagged with GPIO_ACTIVE_LOW.
-> +
-> +  vdd-supply:
-> +    description:
-> +      Regulator for the VDD supply voltage.
+On 26/03/03 03:49PM, Andy Shevchenko wrote:
+> On Tue, Mar 03, 2026 at 01:27:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
+> 
+> > Add kstrntoull() function, which converts a string to an ULL with a max
+> > character limit. The function is an alternative integer parsing function
+> > that does not require a null-terminated string. It becomes a better option
+> 
+> null -->  NUL
+> 
+> > over simple_strtoull() or kstrtoull() when parsing integers from a buffer
+> > with custom delimiters without having to create temporary copies.
+> > The function is consumed inside the implementation _kstrtoull(),
+> > promoting reuse.
+> 
+> But this will not properly convert 0000000000000000000000000000000000000000100,
+> for example, if the max_chars say set to 20.
 
-Is this part of the spec? This won't scale for multiple devices with
-different power rails.
+Why would I want that? truncation will happen in the case and the value will
+be zero. max_chars can be zet to INT_MAX/SIZE_MAX if you want to get 100.
 
-> +
-> +  input-report-header-address:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 0xffffff
-> +    description:
-> +      A value to be included in the Read Approval packet, listing an add=
-ress of
-> +      the input report header to be put on the SPI bus. This address has=
- 24
-> +      bits.
-> +
-> +  input-report-body-address:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 0xffffff
-> +    description:
-> +     A value to be included in the Read Approval packet, listing an addr=
-ess of
-> +      the input report body to be put on the SPI bus. This address has 2=
-4 bits.
-> +
-> +  output-report-address:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 0xffffff
-> +    description:
-> +      A value to be included in the Output Report sent by the host, list=
-ing an
-> +      address where the output report on the SPI bus is to be written to=
-. This
-> +      address has 24 bits.
-> +
-> +  post-power-on-delay-ms:
-> +    description:
-> +      Optional time in ms required by the device after enabling its regu=
-lators
-> +      or powering it on, before it is ready for communication.
+> Also kstrto*() have a common idea behind to consume the only \n and allowed
+> digits. This (naming) doesn't fit into the kstrto*() category.
 
-Drop. This should be implied by the compatible.
+mmm ok, but include/linux/kstrtox.h is the right place for this? how about just
+strntoull()? I feel like a safe_ prefix does not make much sense if it is
+only to differentiate from simple_strto*(), which should have been safe at
+the first place.
 
-> +
-> +  minimal-reset-delay-ms:
-> +    description:
-> +      Optional minimum amount of time in ms that device needs to be in r=
-eset
-> +      state for the reset to take effect.
+-- 
+Kind regards,
 
-Drop. This should be implied by the compatible.
-
-> +
-> +  read-opcode:
-> +  $ref: /schemas/types.yaml#/definitions/uint8
-> +    description:
-> +      Value to be used in Read Approval packets. 1 byte.
-> +
-> +  write-opcode:
-> +  $ref: /schemas/types.yaml#/definitions/uint8
-> +    description:
-> +      Value to be used in Write Approval packets. 1 byte.
-
-Why are these and the address properties above not defined by the
-spec? Do they vary for a specific device? If not, then they should be
-implied by the compatible.
-
-> +
-> +  hid-over-spi-flags:
-> +  $ref: /schemas/types.yaml#/definitions/uint16
-> +    description:
-> +      16 bits.
-> +      Bits 0-12 - Reserved (must be 0)
-> +      Bit 13 - SPI Write Mode. Possible values -
-> +        * 0b0- Writes are carried out in Single-SPI mode
-> +        * 0b1- Writes are carried out in the Multi-SPI mode specified by=
- bits
-> +               14-15
-> +      Bits 14-15 - Multi-SPI Mode. Possible values -
-> +        * 0b00- Single SPI
-> +        * 0b01- Dual SPI
-> +        * 0b10- Quad SPI
-
-We already have SPI properties to define the bus width for read and write.
-
-> +
-> +required:
-> +  - compatible
-> +  - interrupts
-> +  - reset-gpios
-> +  - vdd-supply
-> +  - input-report-header-address
-> +  - input-report-body-address
-> +  - output-report-address
-> +  - read-opcode
-> +  - write-opcode
-> +  - hid-over-spi-flags
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    spi {
-> +      #address-cells =3D <1>;
-> +      #size-cells =3D <0>;
-> +
-> +      hid@0 {
-> +        compatible =3D "hid-over-spi";
-> +        reg =3D <0x0>;
-> +        interrupts-extended =3D <&gpio 42 IRQ_TYPE_EDGE_FALLING>;
-> +        reset-gpios =3D <&gpio 27 GPIO_ACTIVE_LOW>;
-> +        vdd-supply =3D <&pm8350c_l3>;
-> +        pinctrl-names =3D "default";
-> +        pinctrl-0 =3D <&ts_d6_reset_assert &ts_d6_int_bias>;
-> +        input-report-header-address =3D <0x1000>;
-> +        input-report-body-address =3D <0x1004>;
-> +        output-report-address =3D <0x2000>;
-> +        read-opcode =3D <0x0b>;
-> +        write-opcode =3D <0x02>;
-> +        hid-over-spi-flags =3D <0x0000>;
-> +        post-power-on-delay-ms =3D <5>;
-> +        minimal-reset-delay-ms =3D <5>;
-> +      };
-> +    };
-> \ No newline at end of file
-
-Fix this.
-
-Rob
+Rodrigo Alencar
