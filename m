@@ -1,83 +1,197 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873AC315D51;
-	Tue,  3 Mar 2026 18:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F643D75BE;
+	Tue,  3 Mar 2026 18:22:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772561594; cv=none; b=u6mt3SZXQ28M1DpYq96I2VXY8Rx6eXJSwQ44tCIsIFs4kiUtU2Swmy2nrkq3sfTvwDFD0GPqNiCILUWEJY1HQW+7LbzNEpHZC4ruDE4BEtmTVs95i6O40dKR492DlRteAPdO1P9h0YwWrQcULBVYkce9uL7bwe44zo9nXNcfp60=
+	t=1772562123; cv=none; b=s9GzZpmzAAo7mW6x4tCgFyAahxNgTpMCZ7hKccrZgt4iUV1CGAs3rPe3BXpIkZeyXURR01ARvirWao9gGKIw9obYi15RlhEJ5lvEe2bnD8UA83zR/DGL9hpI20ftdKBc1OIOfPffi1KjW4G4IdSnhIJCtQ4b0o0Q74yHmM1HjEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772561594; c=relaxed/simple;
-	bh=uwGs40p6feBIPmxttrBlFcsUuz8AcouQMwkXE1EJb2g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UPHK/OtKqvam9L878YLC1hpu3XPPBS630xDz9+PSiVESBzqBfd+ckfYHEc1Zo4x+cftzAJHVQif+4u6g1W3YuXS3NjF8Q1AqnFfBKa9o1FV8szNct8/Uo7E06Xw+81y/Zl2BiZjujJ8RVFao218vw7oVHgh08pRDt2wqRHWPHyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=TXIknWRt; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1772562123; c=relaxed/simple;
+	bh=m2g1b7Kqu4qgBeIl+f/3P41HKyfuooaUlcGY0gUu5PU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hfe+sRcifw+D66+fvelBBOWnfVOtwLqAYIHAHbtNbrqrO8IVGboj6sZ5wWGFRYfUrCRYolXgxFJzUw7JVv3sdIDSuBpw3OL5c9sLR52KULoPLNPvPha49xejqVFbFZXHBC259jiggo9+DbYuIpBEsJgUuqdcksaHjvSTZTLjg8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fcaDwdiM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="TXIknWRt"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A414940429
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1772561591; bh=ead+Jt3hyOuA/EpgwUGvluHqgPzw4HZOyqlUlURdtUQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TXIknWRtFY9RUwFfzFovBV1ooGTwfgCtdFOCBeEQn0SlgFeR1Ps0gl3PFg3XeR9Ay
-	 VFfsfM0T8riQ6FqUfB7Yqr+2CiV1gKAIjnsrzqSwDQ01bpZVqPiHSror3dKVVIqL41
-	 +hdwIvmfV8iNNnbvp1NYTinSBgIs76ZEhFdobZL3isdZ8UQQH/Cpx8W+ms1Iylm35Y
-	 1qNa+FChAvWEK6VZXTIXj3AvaLjPMJMCQxNtav/337O+vVm20EgmnXA8sILr5EqJ/o
-	 79kvX5T6h0yNA5EYN/xC+RSpObOxOmsmXXM30IzJbza64HtaJJ7UZ215r1lhmpjgEO
-	 7yk99GjI8KSlg==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A414940429;
-	Tue,  3 Mar 2026 18:13:11 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: linux-doc@vger.kernel.org, regressions@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] docs: handling-regressions: add, trim, and sort
- quotes from Linus
-In-Reply-To: <c825d7981e1badb22d15f3f6fc9c95001a017f09.1771833924.git.linux@leemhuis.info>
-References: <c825d7981e1badb22d15f3f6fc9c95001a017f09.1771833924.git.linux@leemhuis.info>
-Date: Tue, 03 Mar 2026 11:13:10 -0700
-Message-ID: <87342gbx3d.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fcaDwdiM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A6CC19425;
+	Tue,  3 Mar 2026 18:22:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772562122;
+	bh=m2g1b7Kqu4qgBeIl+f/3P41HKyfuooaUlcGY0gUu5PU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fcaDwdiMilHf44gBfZU7XbyVjTGCKeGbPoWWwJ7aQrHzoKnt2/FUZJdoRRSM1kunJ
+	 lOiQVo1j+2d5fM42i9/QVbh1HkiXNLH1f9A12DxjSrWhKrKl2HtQ7vj+V1Z7RetN/+
+	 C1DtEhE9OzArsQe5K5uvOUVcVnd+whoPmjIBG0MKw/GfY5fv9vn0N9tDNmTXOxmoRJ
+	 t1muSL125rKQrNraK/QYZtqJMvx5UVaVrPiShm+QEPg1f093rnIFYDJchIRttdkILL
+	 y9d+JB4HDUePHJlO6JBx4JZcV1pc++sPFzoWg7etcYWgOPT+xHUvgD/SWpphlVMO9u
+	 F7DlgERb8StlA==
+From: Sasha Levin <sashal@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 0/3] kallsyms: embed source file:line info in kernel stack traces
+Date: Tue,  3 Mar 2026 13:21:00 -0500
+Message-ID: <20260303182103.3523438-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
+information directly in the kernel image so that stack traces annotate
+every frame with the originating source location - no external tools, no
+debug symbols at runtime, and safe to use in NMI/panic context.
 
-> Add additional quotes from Linus while trimming the existing ones and
-> sorting them all into categories. That makes it easier for new
-> developers and maintainers to look up how Linus expects certain
-> situations wrt regressions to be handled. The earlier sections in the
-> document already explain this, but those parts are often questioned --
-> or not considered authoritative at all and plainly ignored. Having it
-> straight from the horse's mouth helps get everyone on the same page,
-> even if that makes the document quite a bit longer (the raw line count
-> of this section doubles, but the number of characters increases by
-> nearly 50%). In return, this covers a lot more aspects and, due to the
-> sub-headings, is easier to navigate.
->
-> In contrast to the more neutral description in the early sections of the
-> document, this also provides a better insight into how serious Linus is
-> about the "no regressions" rule and how he wants it to be interpreted in
-> practice; this makes it easier for new developers and maintainers to
-> understand things and prevent run-ins with higher-level maintainers.
->
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> ---
->  .../process/handling-regressions.rst          | 695 ++++++++++++------
->  1 file changed, 463 insertions(+), 232 deletions(-)
+Motivation
+==========
 
-I really have to wonder just how many quotes from Linus are needed here;
-that's a lot to plow through.
+The recent "slowly decommission bugzilla?" thread [1] surfaced a recurring
+problem: when users encounter kernel crashes they see stack traces like
+`func+0x1ec/0x240` but have no way to identify which subsystem or
+maintainer to contact.  Richard Weinberger proposed building a database
+mapping symbols to source files using nm/DWARF.  Linus pointed to
+scripts/decode_stacktrace.sh as the existing solution.  But as the
+discussion progressed, it became clear that decode_stacktrace.sh has
+significant practical barriers that prevent it from being useful in the
+common case.
 
-Oh well, I've applied the patch, thanks.
+Problems with scripts/decode_stacktrace.sh
+==========================================
 
-jon
+- Requires debug symbols: the script needs vmlinux with DWARF debug info.
+  Many distros don't retain debug symbols for older or security kernels,
+  and even when available, asking users to obtain matching debuginfo
+  packages is a significant hurdle.
+
+- Requires toolchain: users need addr2line and nm installed.
+
+- Version-matching requirement: debug symbols must exactly match the
+  running kernel binary.
+
+What this series does
+=====================
+
+Patch 1: CONFIG_KALLSYMS_LINEINFO
+
+  At build time, a host tool (scripts/gen_lineinfo) reads DWARF
+  .debug_line from vmlinux, extracts address-to-file:line mappings,
+  and embeds them as sorted lookup tables in .rodata.  At runtime,
+  kallsyms_lookup_lineinfo() binary-searches the table and
+  __sprint_symbol() appends "(file:line)" to each stack frame.
+  NMI/panic-safe (no locks, no allocations), KASLR-compatible.
+
+Patch 2: CONFIG_KALLSYMS_LINEINFO_MODULES
+
+  Extends lineinfo to loadable modules.  Each .ko gets a .mod_lineinfo
+  section embedded at build time.  The module loader picks it up at load
+  time.  Same zero-allocation, NMI-safe lookup.
+
+Patch 3: delta compression
+
+  Block-indexed delta-encoding with ULEB128 varints, implementing
+  the approach suggested by Juergen Gross in the RFC review.  Reduces
+  overhead from ~44 MiB to ~11 MiB (~3.7 bytes/entry), addressing the
+  primary size concern from the RFC.
+
+Example output
+==============
+
+  [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+  [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+  [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+  [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
+  [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
+  [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
+  [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+  [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+  [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+  [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
+
+Size impact
+===========
+
+With delta compression, a defconfig+debug x86_64 build adds ~11 MiB
+to the kernel image (~3.7 bytes per DWARF line entry).  This is a
+fraction of the cost of shipping full DWARF debug info (hundreds of
+MiB), which distros must store and serve for every kernel version.
+
+For distros, maintaining debug symbol repositories is expensive:
+storage, mirrors, and CDN bandwidth for hundreds of MiB per kernel
+build add up quickly.  An ~11 MiB increase in the kernel image itself
+is a modest cost that eliminates the need for users to find, download,
+and version-match debuginfo packages just to make a crash report
+useful.
+
+For developers, the file:line annotations appear immediately in crash
+traces - no post-processing with decode_stacktrace.sh needed.
+
+Changes since RFC
+=================
+
+- Added module support (patch 2)
+- Added delta compression (patch 3), reducing size from ~44 MiB to
+  ~11 MiB, addressing the primary concern from RFC review
+- Added documentation (Documentation/admin-guide/kallsyms-lineinfo.rst)
+- Added MAINTAINERS entry
+
+Link: https://lore.kernel.org/all/1786920159.1633.1772291851870.JavaMail.zimbra@nod.at/ [1]
+
+Sasha Levin (3):
+  kallsyms: embed source file:line info in kernel stack traces
+  kallsyms: extend lineinfo to loadable modules
+  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+
+ Documentation/admin-guide/index.rst           |   1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |  97 +++
+ MAINTAINERS                                   |   8 +
+ include/linux/kallsyms.h                      |  32 +-
+ include/linux/mod_lineinfo.h                  | 137 ++++
+ include/linux/module.h                        |  19 +
+ init/Kconfig                                  |  35 +
+ kernel/kallsyms.c                             | 132 ++++
+ kernel/kallsyms_internal.h                    |  11 +
+ kernel/module/kallsyms.c                      | 156 ++++
+ kernel/module/main.c                          |   4 +
+ scripts/.gitignore                            |   1 +
+ scripts/Makefile                              |   4 +
+ scripts/Makefile.modfinal                     |   6 +
+ scripts/gen-mod-lineinfo.sh                   |  48 ++
+ scripts/gen_lineinfo.c                        | 702 ++++++++++++++++++
+ scripts/kallsyms.c                            |  17 +
+ scripts/link-vmlinux.sh                       |  70 +-
+ 18 files changed, 1476 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
+ create mode 100644 include/linux/mod_lineinfo.h
+ create mode 100755 scripts/gen-mod-lineinfo.sh
+ create mode 100644 scripts/gen_lineinfo.c
+
+-- 
+2.51.0
+
