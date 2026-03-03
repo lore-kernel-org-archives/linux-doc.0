@@ -1,73 +1,300 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319F2305057;
-	Tue,  3 Mar 2026 20:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F431370D66
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 20:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772569498; cv=none; b=W7QdEyIctHX8LiYtMGtg7BTxr2k/J7/Bie6LPsV1Wdalp92sQZumAeg64aY0fdhYri5afs+X5ESJGIsZ2Ujh07ZqRqTEPxzux2aPqkUyvCEzhpQ0TaHP0KJ14IFmA3J7Ql4hVjE/sozcTEEZEpuTdW0OrJs5KP3eS072INrKKZw=
+	t=1772570537; cv=none; b=JlCODI/2kWGCuALPb5qYSKyYVA8AIS59MMijps/2kE1Xj9UhXlVrNsXOAp4Gp13EwKRS2aC2pT4ERCQ67wfW/zGa/Ttu+NunaebGi/qK4efXxrQ0VmWlWvZFykq/XkvfCpD+BfRgzkOpL9yUDckykN2aIp3az8fTLpBkKf0u8Jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772569498; c=relaxed/simple;
-	bh=3aPi2l8EjR4JqJ95n72nhW6sv8OBSiH7eAYZ2vfcHR8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=R9RrX9P/efBwF09GjxK9UdLUOLzAEdc8BSAUJme30KinO8hB3wFDKyEwez/i92TuDdCkajeT2D9lP0nRfEd6ow+2pFSm9omp2pUIQ6MncqvhwuH54PJ8uUYPzSoTmi1HiLeJ5xc2V/tP865DdSnahkc01i/vr40x0dQVKAGYJ4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=GTQLoqw3; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1772570537; c=relaxed/simple;
+	bh=vzBFx4evnBTa7E2dlBm4ELnNDF6x5xalbTNnpdUEqoQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ObdCyxXwy+xvF8dTFoHwsglTlhAYoU2pyqdBE6GSSqM5UJajS1qXmboKKq+PldIl+RHNhuHmfHlOoATCAac+/QbCrhbOBxqcr1TfWOTAA+VV63Hb3POjUVD/u+PaBcE5sN0aW94M+4+SgUV4rZZ2UKaCOT4dy0AEFloGApHXmro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OzYSTOjB; arc=none smtp.client-ip=74.125.82.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="GTQLoqw3"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8281F411CF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1772569496; bh=rq6EYDAek4tcX/rjsPkWM3+2P2k+fk7lcFISXbLPL1w=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=GTQLoqw3IzPojAhYLlxiAtInPpE5LbxbgDj1v/Dz6yxJP4zz+WZ5+lXR5McqF/2kL
-	 su4ECrn26MnJOkOra3HmMrrHUUyHB10Rn3746oLX1PdPSXEkOIwYpsCZit27eg/F3Z
-	 I7yocmCYKbgRM3hQ8c3vmV8fEiONmtVS2ElOoVFIHFYOFEp/1HDfYp0ju8uZwy2a62
-	 su/UJmKIdqNw78fUhJ/gyr9gQgEDBAJpo196B67JEOfkWr2JKgge4db9esMyTEHMVv
-	 xeWOdxqlZtoCoLkzb/lkz3zIpx9tzAOY5b5X7htowpeMm1YR7KWe4GYJpf5IsC1Dn5
-	 Ui190+HL40nNA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 8281F411CF;
-	Tue,  3 Mar 2026 20:24:56 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, Aleksandr
- Loktionov <aleksandr.loktionov@intel.com>, Randy Dunlap
- <rdunlap@infradead.org>
-Subject: Re: [PATCH 08/18] docs: kdoc_parser: fix parser to support
- multi-word types
-In-Reply-To: <20260303211951.0e2b7faf@foz.lan>
-References: <cover.1772469446.git.mchehab+huawei@kernel.org>
- <544c73a9e670b6fef1828bf4f2ba0de7d29d8675.1772469446.git.mchehab+huawei@kernel.org>
- <87jyvsbyvb.fsf@trenco.lwn.net> <20260303211951.0e2b7faf@foz.lan>
-Date: Tue, 03 Mar 2026 13:24:55 -0700
-Message-ID: <87cy1kacfc.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OzYSTOjB"
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2be26842fd5so406004eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 12:42:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772570535; x=1773175335; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=t9gfebauMAuHMIdiLQhr6K7nq5Xi5Dh492EQEuK+SJc=;
+        b=OzYSTOjBHcUrgMa6X6+BFK0u3KweAZetow7/JMdQnb7geQF1/wcRO84X9Gvcn6MQyD
+         djRUPWRT2BmhhUqaSPt+Unlsicohw29WfQHggBhKf44FBoRUdG6qSnoHZw1Am9qsXWP6
+         z2sHLAhjD3hJsoarKfAxDGRON1/qaRpz+MHqmk120C1EXXvLOzBvN3z/uzoyHZN4R0zd
+         oES/6Tum5GgUE/idhL0xoeKLfPf5bFW5pQiYZPMKsWlIWt+fYA8DFBheJuuJW/Cl/W4m
+         lnDMtop20dFBcSRlYetrSEy3uo18nHdFqQoFIO4S0Mvm7ssXeOFC7T+tteHPGm9X6fMP
+         V1Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772570535; x=1773175335;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t9gfebauMAuHMIdiLQhr6K7nq5Xi5Dh492EQEuK+SJc=;
+        b=pLt5e5XMer51PjEcRHXOpIM1e5XzW+/rl7TliWScByS02k0j/50MoGU05C21ARLtpa
+         SZVpISWI5BZ93OHdjiIGiynYkSmKEImhWQzuQbXA8CqYHyZ6seRbsaxfNDUbBSubaAYd
+         UkHJIpOGnZ5uwoKT5ITXUfl/Qjjo9KfEf1adNy/uTZj+Ki9so/m81ChVle8rdyupPMKM
+         npiDTbs/Ju6Pd55eXWvU3BMhUECyRJ5r4JvXJ8OBE3YMQGBs2UcHpXiMMHkAmuLrGsTV
+         TMOd11vnEMvMfgmXT60o12TIw1DBSgInHSAd+oRLZFWjqcZsX54IZLTcYqerUnWkFqny
+         8Tqg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhg8TQsH5btTJYXMvsyCfcp9FQ/BOmowu2gESdu/ZxVawLlv+e4vKnxkXb2vU7iB7+EYUX3SrlaeQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1fIF/EdFSPZK6zIsq2LdhaeyqKLMiA/kEQUftD9KsDhXTRi0O
+	Ma+uSq1QSgeSqk2XSIduinQrXLSr00ByWNtctpf3xfxKoFKJ74mqu6OV
+X-Gm-Gg: ATEYQzzp0xl2ymaCXofo8Lekgb+/d3KGwVouvzv0NuaVTNBPtluyEmhR2Zd9WENGTDB
+	oQNDsqutLFZ0jNJ9hEyO5A01zzaZgZAQERxc+iQUlHZKV93grloFq7XRnC9VVg35EcUrBLyV0U+
+	ZhZ9OOdNrZgyybBjw+KSxNNbQq4ChSCbhx+/PqC2Y3afIo+0t5X0ejz1bELwb+NNRyqnmrO0SYI
+	xRt/6jjeOaGAYvt18mCDXoaFfhN1FVUY+oo/XKsCh3bCGWffSmoKZIQum5Cp0U3yaPHiBy3YAjz
+	PwNOdJyMjtQKWk9roc4XQJmX6JVLB/dYnDZwiQ9b3nirA4KHaJ6psIghvawjdPBiFdhP0zm3CMz
+	5/9qUqYSy0QV7yJTesUYYI/7A53JqkWGyGhVzljZtGQnuwyU5tjZpdUaMeI/9yQM5q8kr4CLBUu
+	d+ooAytsKAw4jOydrV8+vy4iX3Y0Amd3jFoIjuKV/r1jWWoR90d4ukMBw9AGMIpBwEVFfb0HnzN
+	cPNxWbQPxU=
+X-Received: by 2002:a05:7301:eab:b0:2bd:816b:734d with SMTP id 5a478bee46e88-2be23974110mr1130937eec.18.1772570535199;
+        Tue, 03 Mar 2026 12:42:15 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be1ce921dasm3329714eec.10.2026.03.03.12.42.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Mar 2026 12:42:14 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <72010133-5acc-43ac-8372-d0d830291ef0@roeck-us.net>
+Date: Tue, 3 Mar 2026 12:42:13 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hwmon: add driver for ARCTIC Fan Controller
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: Aureo Serrano <aureo.serrano@arctic.de>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <FR6P281MB590006F97DAC7A5C224D957BEF7FA@FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM>
+ <51d91216-8949-44a9-93d9-646d3f3563b1@t-8ch.de>
+ <8dd3367b-4a7c-414b-a4f4-41dc54578e2b@roeck-us.net>
+ <d1d27763-c49d-4d02-9157-ec798bd10604@t-8ch.de>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <d1d27763-c49d-4d02-9157-ec798bd10604@t-8ch.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On 3/3/26 11:30, Thomas Weißschuh wrote:
+> On 2026-03-03 11:00:25-0800, Guenter Roeck wrote:
+>> On 3/3/26 10:10, Thomas Weißschuh wrote:
+>>> Hi!
+>>>
+>>> On 2026-03-03 08:25:04+0000, Aureo Serrano wrote:
+>>>>   From 1cc962124ca4343e682219372b08dec5d611d1af Mon Sep 17 00:00:00 2001
+>>>> From: Aureo Serrano de Souza <aureo.serrano@arctic.de>
+>>>> Date: Tue, 3 Mar 2026 15:06:35 +0800
+>>>> Subject: [PATCH] hwmon: add driver for ARCTIC Fan Controller
+>>>>
+>>>> Add hwmon driver for the ARCTIC Fan Controller (USB HID VID 0x3904,
+>>>> PID 0xF001) with 10 fan channels. Exposes fan RPM and PWM via sysfs.
+>>>> Device pushes IN reports ~1 Hz; PWM set via OUT reports.
+>>>>
+>>>> Signed-off-by: Aureo Serrano de Souza <aureo.serrano@arctic.de>
+>>>> ---
+>>
+>> checkpatch reports:
+>>
+>> total: 11 errors, 53 warnings, 6 checks, 360 lines checked
+>>
+>> primarily because the patch uses spaces instead of tabs.
+> 
+> It looks like it was pushed through some Microsoft mail product with
+> copious amounts of force.
+> 
+> (...)
+> 
+>>>> +     }
+>>>> +     for (i = 0; i < ARCTIC_NUM_FANS; i++) {
+>>>> +           priv->fan_rpm[i] = (u32)(buf[rpm_off + i * 2] |
+>>>> +                             (buf[rpm_off + i * 2 + 1] << 8));
+>>>
+>>> get_unaligned_u32()
+>>>
+>>
+>> That doesn't seem to exist. get_unaligned_le16(), maybe, but the data
+>> is never unaligned. le16_to_cpup() might do.
+> 
+> Indeed, get_unaligned_le16() is the one.
+> Does the HID core guarantee that raw event buffers are always aligned
+> sufficiently to access them as *u32? Personally I don't know all the
+> alignment requirements of all the supported architectures.
+> get_unaligned_le16() will always do the right thing and avoids typecasts.
+> 
 
-> Heh, if we start using a code like the tokenizer I'm experimenting
-> here:
->
-> 	https://lore.kernel.org/linux-doc/20260303155310.5235b367@localhost/
->
-> we could probably get rid of regexes in the future, using instead
-> a loop that would be picking "ID" tokens, e.g. basically we would
-> have something similar to this completely untested code snippet:
+Good point.
 
-...which has some appeal, but I will confess to being leery of another
-massive kernel-doc thrash; it would be nice if things settled for a bit.
+> (...)
+> 
+>>>> +     } else {
+>>>> +           spin_unlock_irqrestore(&priv->lock, flags);
+>>>
+>>> You can use the new guard() syntax from cleanup.h to avoid manual
+>>> unlocks on error paths.
+>>>
+>>
+>> Why would this code need interrupt disabled spinlocks in the first place ?
+> 
+> I *suspect* that it tries to be compatible with some semaphores in the
+> HID core.
+> 
+>> It reads individual entries from priv, but even if those are updated
+>> in parallel I don't see why that would warrant disabling interrupts,
+>> both here and in arctic_fan_parse_report().
+>>
+>> The hwmon core already serializes read and write operations, so
+>> the locks (much less interrupt disabling spinlocks) are not needed
+>> for that either.
+> 
+> The HID callbacks can be fired at any time from the HID core,
+> concurrently to hwmon core logic. But I also dislike the spinlocks.
+> Maybe a mutex works, too?
+> 
 
-One can always dream :)
+Ah yes, I can see that arctic_fan_parse_report() reads all pwm values and
+arctic_fan_write() writes them to the controller. That does not explain
+why it would be necessary to disable interrupts, though, and even doing
+that is still not safe.
 
-jon
+Example: arctic_fan_write() updates the pwm value for channel 1,
+writes the new value into priv->pwm_duty[1], and creates an output
+buffer with pwm values for all channels. After preparing the message,
+it releases the spinlock. The raw event handler receives and handles
+updated pwm values which are completely different. Then the old,
+now obsolete, values are sent to the controller (and, worse, the
+new cached value in priv->pwm_duty[1] would no longer match the value
+that was just sent to the controller).
+
+That can never be made safe if the controller updates pwm values
+autonomously, no matter if spinlocks are involved or not. That would only
+work if fan control is manual, and in that case it would not be necessary
+to re-read pwm values from each raw event. The current code isn't safe
+even if fan control is manual, since reports from the controller will
+overwrite cached values and requests to change a value can overlap with
+reports returning the old value.
+
+In this context ...
+
+Other drivers also use complete() from raw events and wait_for_completion()
+variants after writing a command, so the code sequence in arctic_fan_send_report()
+will require closer scrutiny. It is not obvious to me why the loop and the
+msleep() calls would be needed for this driver but not for others.
+
+> (...)
+> 
+>>>> +static int arctic_fan_probe(struct hid_device *hdev,
+>>>> +                     const struct hid_device_id *id)
+>>>> +{
+>>>> +     struct arctic_fan_data *priv;
+>>>> +     struct device *hwmon_dev;
+>>>> +     int ret;
+>>>> +
+>>>> +     ret = hid_parse(hdev);
+>>>> +     if (ret)
+>>>> +           return ret;
+>>>> +
+>>>> +     priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
+>>>> +     if (!priv)
+>>>> +           return -ENOMEM;
+>>>> +
+>>>> +     priv->out_buf = devm_kmalloc(&hdev->dev, ARCTIC_REPORT_LEN, GFP_KERNEL);
+>>>> +     if (!priv->out_buf)
+>>>> +           return -ENOMEM;
+>>>
+>>> The 32 byte buffer could be on the stack, saving this allocation and
+>>> avoiding a shared resource.
+>>
+>> It might need to be cache aligned, but even then it could be part of
+>> struct arctic_fan_data.
+> 
+> What would be the advantage of that over an on-stack placement?
+> 
+
+Sorry, I should have said "cache line aligned", not just "cache aligned".
+Data on the stack won't be cache line aligned. I don't know if that is needed
+here, but some USB transactions require it (which is why USB drivers often
+allocate buffers separately).
+
+>>>> +
+>>>> +     priv->hdev = hdev;
+>>>> +     spin_lock_init(&priv->lock);
+>>>> +     hid_set_drvdata(hdev, priv);
+>>>> +
+>>>> +     ret = hid_hw_start(hdev, HID_CONNECT_DRIVER);
+>>>> +     if (ret)
+>>>> +           return ret;
+>>>> +
+>>>> +     ret = hid_hw_open(hdev);
+>>>> +     if (ret)
+>>>> +           goto out_stop;
+>>>> +
+>>>> +     hid_device_io_start(hdev);
+>>>> +
+>>>> +     hwmon_dev = devm_hwmon_device_register_with_info(&hdev->dev, "arctic_fan",
+>>>> +                                          priv, &arctic_fan_chip_info,
+>>>> +                                          NULL);
+>>>
+>>> You could assign directly to priv->hwmon_dev.
+>>
+>> I don't immediately see where priv->hwmon_dev is used in the first place.
+> 
+> Indeed.
+> 
+> 
+> Thomas
+
