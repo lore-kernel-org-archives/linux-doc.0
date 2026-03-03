@@ -1,300 +1,166 @@
-Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010030.outbound.protection.outlook.com [52.101.201.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F431370D66
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 20:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772570537; cv=none; b=JlCODI/2kWGCuALPb5qYSKyYVA8AIS59MMijps/2kE1Xj9UhXlVrNsXOAp4Gp13EwKRS2aC2pT4ERCQ67wfW/zGa/Ttu+NunaebGi/qK4efXxrQ0VmWlWvZFykq/XkvfCpD+BfRgzkOpL9yUDckykN2aIp3az8fTLpBkKf0u8Jg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772570537; c=relaxed/simple;
-	bh=vzBFx4evnBTa7E2dlBm4ELnNDF6x5xalbTNnpdUEqoQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ObdCyxXwy+xvF8dTFoHwsglTlhAYoU2pyqdBE6GSSqM5UJajS1qXmboKKq+PldIl+RHNhuHmfHlOoATCAac+/QbCrhbOBxqcr1TfWOTAA+VV63Hb3POjUVD/u+PaBcE5sN0aW94M+4+SgUV4rZZ2UKaCOT4dy0AEFloGApHXmro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OzYSTOjB; arc=none smtp.client-ip=74.125.82.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91D7F381B11;
+	Tue,  3 Mar 2026 21:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772572067; cv=fail; b=KM6sPpV3/wLLRW1sFyg/biDDbE9mqugiYyhwnGqED4Vl7LXck6myLHoucB09F5jBTKYQjueJaerDTou6dsoogAAHct9HSjkZ8sHw2yGXTs6BQlYw4HM3XKrpDgr0C+bZbkvy3E3OdsPZ3aclJflfz+rzGCUzryUUFKj2zhQguL8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772572067; c=relaxed/simple;
+	bh=YRyy1ie/F5bjSngml4vZfKUAoC45awNXrJ97LzfxJgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=FdnGQib+UhH2l7RPknLEaE6N9I/vqCCOnlJNxIKvC9csXeEJrTXyXS+d314esjlpTK009YtjTpOvyq8M2dWvM7Wk8Dyth2UQysB8URsxILsvPPMHOzbnMtP+EHCgf/5UM0nExU9Sbx3otwCOIQAkZTO3G77QwJz6z5gjJVxGP0M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WpfoZ99p; arc=fail smtp.client-ip=52.101.201.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OzYSTOjB"
-Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-2be26842fd5so406004eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 12:42:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772570535; x=1773175335; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=t9gfebauMAuHMIdiLQhr6K7nq5Xi5Dh492EQEuK+SJc=;
-        b=OzYSTOjBHcUrgMa6X6+BFK0u3KweAZetow7/JMdQnb7geQF1/wcRO84X9Gvcn6MQyD
-         djRUPWRT2BmhhUqaSPt+Unlsicohw29WfQHggBhKf44FBoRUdG6qSnoHZw1Am9qsXWP6
-         z2sHLAhjD3hJsoarKfAxDGRON1/qaRpz+MHqmk120C1EXXvLOzBvN3z/uzoyHZN4R0zd
-         oES/6Tum5GgUE/idhL0xoeKLfPf5bFW5pQiYZPMKsWlIWt+fYA8DFBheJuuJW/Cl/W4m
-         lnDMtop20dFBcSRlYetrSEy3uo18nHdFqQoFIO4S0Mvm7ssXeOFC7T+tteHPGm9X6fMP
-         V1Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772570535; x=1773175335;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t9gfebauMAuHMIdiLQhr6K7nq5Xi5Dh492EQEuK+SJc=;
-        b=pLt5e5XMer51PjEcRHXOpIM1e5XzW+/rl7TliWScByS02k0j/50MoGU05C21ARLtpa
-         SZVpISWI5BZ93OHdjiIGiynYkSmKEImhWQzuQbXA8CqYHyZ6seRbsaxfNDUbBSubaAYd
-         UkHJIpOGnZ5uwoKT5ITXUfl/Qjjo9KfEf1adNy/uTZj+Ki9so/m81ChVle8rdyupPMKM
-         npiDTbs/Ju6Pd55eXWvU3BMhUECyRJ5r4JvXJ8OBE3YMQGBs2UcHpXiMMHkAmuLrGsTV
-         TMOd11vnEMvMfgmXT60o12TIw1DBSgInHSAd+oRLZFWjqcZsX54IZLTcYqerUnWkFqny
-         8Tqg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhg8TQsH5btTJYXMvsyCfcp9FQ/BOmowu2gESdu/ZxVawLlv+e4vKnxkXb2vU7iB7+EYUX3SrlaeQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1fIF/EdFSPZK6zIsq2LdhaeyqKLMiA/kEQUftD9KsDhXTRi0O
-	Ma+uSq1QSgeSqk2XSIduinQrXLSr00ByWNtctpf3xfxKoFKJ74mqu6OV
-X-Gm-Gg: ATEYQzzp0xl2ymaCXofo8Lekgb+/d3KGwVouvzv0NuaVTNBPtluyEmhR2Zd9WENGTDB
-	oQNDsqutLFZ0jNJ9hEyO5A01zzaZgZAQERxc+iQUlHZKV93grloFq7XRnC9VVg35EcUrBLyV0U+
-	ZhZ9OOdNrZgyybBjw+KSxNNbQq4ChSCbhx+/PqC2Y3afIo+0t5X0ejz1bELwb+NNRyqnmrO0SYI
-	xRt/6jjeOaGAYvt18mCDXoaFfhN1FVUY+oo/XKsCh3bCGWffSmoKZIQum5Cp0U3yaPHiBy3YAjz
-	PwNOdJyMjtQKWk9roc4XQJmX6JVLB/dYnDZwiQ9b3nirA4KHaJ6psIghvawjdPBiFdhP0zm3CMz
-	5/9qUqYSy0QV7yJTesUYYI/7A53JqkWGyGhVzljZtGQnuwyU5tjZpdUaMeI/9yQM5q8kr4CLBUu
-	d+ooAytsKAw4jOydrV8+vy4iX3Y0Amd3jFoIjuKV/r1jWWoR90d4ukMBw9AGMIpBwEVFfb0HnzN
-	cPNxWbQPxU=
-X-Received: by 2002:a05:7301:eab:b0:2bd:816b:734d with SMTP id 5a478bee46e88-2be23974110mr1130937eec.18.1772570535199;
-        Tue, 03 Mar 2026 12:42:15 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be1ce921dasm3329714eec.10.2026.03.03.12.42.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Mar 2026 12:42:14 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <72010133-5acc-43ac-8372-d0d830291ef0@roeck-us.net>
-Date: Tue, 3 Mar 2026 12:42:13 -0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WpfoZ99p"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xp9xCQAKWMwB1OW3SPM9ecm08trc03TalRQ4OMTknF3DkVnqVDtEPGRoBdX6ytUgrfxxdyjN9EWeMsZGdXXhvb+e5laiHYplZTQe8omzFMyvQDNfmDuQJnu7daFlBXnAAovdk7UsiEE7JK7zFMSceS6csBUHIDEpGFcjgNcxEcS7b6/mFC99+TurRvFbRRKmdyEyNJz62p1SxW5fCuzKKY1EgBWnlRnVrKdeWeb0xFpNgNXQOkocel0YnzOMKeux+/n3y9b/f/OpWqB2yxkmOhhpEMCP9B4UkcdYoQqtRZf4ovlkJWyf4iN8qv8XyN0GQXMnrMm/tzCsxbDWLN1zDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1int46pg7/SmrP32nI37fl+pb2zItb6909bFbhtIHeg=;
+ b=sJbAL+zb9fs61T2vmPIxjioxDekv3M6V/80erfAzzFhU3V9R5VHXaWDieIuSgenIB0FBeqYXUBFRtsOgtZbivsCPjYEbzFdt05icptSD12UdLgtIfMQz5Rk9dJEaZil7NvM+s84OHalXaWNKDQR2WRSHmVrUXTTh0T9rKLJ36jW4T9Mwv1A2/kOhkgFECilyR+NYHxOY2R2uONPcJatkgbF9fhDjUaueuOM6eYu83EJLgsdOVdz5MOjO8v/Rgt0dWTnDrZgEewaEYzNeAscU+wnLHSgrJ30XF6kJzmA+RiqjsiTCBtkwcAdJ0sLmykw20lJIMjS2A+eIKyZpvEPtqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1int46pg7/SmrP32nI37fl+pb2zItb6909bFbhtIHeg=;
+ b=WpfoZ99p1s0bkiLsY6M1yO3HvE0pQwAIOe9aaE2BscMUDJP3FLv8nwp6bby61S7wATEcYFjRXwOr7hiXT+N11KhvwPW+4MnZwBHXOhAHPRRRdbHTm0QCakA554sKNRpUtYri5v4v3qxU7d2gi3haOE2VvyX0tlNYppxXVyoT+pumdCTVgJ/Q7tqdZLXwDdErKSutpZzNgU7683rVBP67a4C7tcCQq+ziEAvD71nS3i7a9wYWndIcwAoMmluTtwe2ICJ7LR+rBGk//O5HRlejiaZhR/SzTkCfcl4kfdydVZQ3VKuwdOM7/dru3Cl13jw3ycU3fux/oSZLXkR+yq8Zew==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com (2603:10b6:408:2a1::19)
+ by SN7PR12MB8004.namprd12.prod.outlook.com (2603:10b6:806:341::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Tue, 3 Mar
+ 2026 21:07:41 +0000
+Received: from LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528]) by LV8PR12MB9620.namprd12.prod.outlook.com
+ ([fe80::299d:f5e0:3550:1528%5]) with mapi id 15.20.9654.022; Tue, 3 Mar 2026
+ 21:07:34 +0000
+Date: Tue, 3 Mar 2026 17:07:33 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex@shazbot.org>
+Cc: David Matlack <dmatlack@google.com>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org,
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Lukas Wunner <lukas@wunner.de>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Tomita Moeko <tomitamoeko@gmail.com>,
+	Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 07/22] vfio/pci: Notify PCI subsystem about devices
+ preserved across Live Update
+Message-ID: <20260303210733.GG972761@nvidia.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+ <20260129212510.967611-8-dmatlack@google.com>
+ <20260226160353.6f3371bc@shazbot.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226160353.6f3371bc@shazbot.org>
+X-ClientProxiedBy: BLAPR05CA0014.namprd05.prod.outlook.com
+ (2603:10b6:208:36e::18) To LV8PR12MB9620.namprd12.prod.outlook.com
+ (2603:10b6:408:2a1::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: add driver for ARCTIC Fan Controller
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Aureo Serrano <aureo.serrano@arctic.de>,
- "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <FR6P281MB590006F97DAC7A5C224D957BEF7FA@FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM>
- <51d91216-8949-44a9-93d9-646d3f3563b1@t-8ch.de>
- <8dd3367b-4a7c-414b-a4f4-41dc54578e2b@roeck-us.net>
- <d1d27763-c49d-4d02-9157-ec798bd10604@t-8ch.de>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <d1d27763-c49d-4d02-9157-ec798bd10604@t-8ch.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR12MB9620:EE_|SN7PR12MB8004:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6505d70e-b3dc-46fa-77a9-08de7968e43e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	T+Yi6IRFoObxV2PZdxtZ78hhvw1zNtDlDimXpnZ/XwxSpbejvih259V1kponx1+88eIFh9rrL8NOTWw87pe2zdJBe8VzHR5POPN8srxyGdnn9CmU7arCqqbvsoksDHDuCN51MqHwISZ6pjhsCbzISeQOX2pR0GUC2Bw2OFhSsPUbpmIAG8h7j0+P+kINYEHDwDUFCov5Uwg6Fm2jw+n8foUs0Rl3rVDHfOc4SVVlT31bAv1lPBtv18hi3B6mbE8C1hxRzh0f2j2f36cUvHfq1qSgR/F84DD/daYj4iAR9vU0LhMiDp24rfHIYpkXUlgQQjDjNfX0/PBgI3IWTk98vx80xfzD7osDy6vUsMUUNCZUNODmwfT4BalljW9XAqW5NWYa2zI56cXHW+/xCuNCOmfmmDwomVs893Uy1L4rjJO+6qXDNxf4Up/ZIN0uFpf5RLm1xRRAT9f0Q0eUvYzv9UDFf+q3QSBaPRyssF1w4seH6xR/etAEVxeQv51yjHE8M1f58/CfWogEDTTzAuOuQe0fQvjbgp46XPe2m8p5ToBjnG2huw/BJkvBE0a7Ek4VZ+7tIKDDG+87fTcJg6G1QqXJfKuMsaTVrF3UDusXP0cRhNUc595zujSrHWXHAC5qmGZM8jS0qDWcHuf4EreVVKKYzMewOlKhLieUO6rND/KJ8lO3d28ZCt6y45k+N0FBLAKmzYlzY2p1aVeQGJY6NnSRzo3OWYnUtKwVNrfOzA8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR12MB9620.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?PoxwKr+e91LOj8cswy8rMU/mYejo4hXivNlX5nsIVgEu5ob6Gg2WaL+2dbAc?=
+ =?us-ascii?Q?OvYQFOfqaaRB+YsvBY8npZYKQX8wO0EU5QXSMz+TVFqnjWCjW4p3CNv/x9PE?=
+ =?us-ascii?Q?RZGe8PHJlWInXLbGqEkp6HAEfr3xMZX7ujv2urMThwtX6lX06OQDxq8qMV8a?=
+ =?us-ascii?Q?nL9utRL49cOVd+NRxFmbnFmuKxf5vz75oYCbfgTFJiwP0VyK4EjI2CfccsQ9?=
+ =?us-ascii?Q?fLmnwraAWWRX0jmF4l7YzxTRwq7Q1qveWMrdRfmYuaLnjl4xSKnY3fdzIm5I?=
+ =?us-ascii?Q?2ub3wIMpUB7fZ47Vs/sqc74txNM7qEJMQ0HNb/ArxKbhAQTksOoN98PQaLYX?=
+ =?us-ascii?Q?Wsc3th4R8i56Wb9JfqMeNn+UpAuCX/g+VhfrQMwkoEW3FJkyt1ywpngUgCUn?=
+ =?us-ascii?Q?0EEwz45m/i9tHs4y0jKsC1pc82CDv9w4WtnFSYvsYmqrA8PGFvjX1vyfulUv?=
+ =?us-ascii?Q?uAsljHRLiYRd8LVj2ykNYj0yPDOs5wQBSz2gq4qU0fBHPsVKBwVdWkCE82Ut?=
+ =?us-ascii?Q?yvTqpx93oaPaBiSc/lWH9QNu2m8PBUCmSEsfmuNzme9n7nWeafGGsk7boCcj?=
+ =?us-ascii?Q?NCqn4r/h0Ft8EbONzvU5/7mE29pce2JL9iDbfzWTuoUCQ0yTfqD02YS3ylxv?=
+ =?us-ascii?Q?KIhT3RWwrHwGh7j9+lTXBOTZEu05e0Q8pxspNtFimoT6pSKOBimkNRwZrgew?=
+ =?us-ascii?Q?chFwmoR0+nA7UkFrLEDt6P393CjG6cOxSwxrK3dFlCembduNIP5MwiRVdOWI?=
+ =?us-ascii?Q?6UHPsrSE59WuzW9jvAmIQegUjXR1X9t3mDPImBjM4b+mTvur7pVEcnlipzW3?=
+ =?us-ascii?Q?K1Sdpx9TOcbsdMuQn1HTXDlIC3q9jJj6y9iRcxI3DFBP505WLLXQvovMzFl7?=
+ =?us-ascii?Q?sdfdChufn2brzqzr5Y8b+Jc/XLJhptSlEDMZv1lcWjLb1AYWx3MkXYMDQwma?=
+ =?us-ascii?Q?K4KjNjoKmyPpkkh4MJfZ1tAayXRl9N1AD+3QPAR9sIuW4e6dfBwERqNMc0RQ?=
+ =?us-ascii?Q?KOSXsV4c/A3LJMfg7LBLQv8twXQmHrf/SzkjHv0ms3buS+Xs21+aJJ3NYUCd?=
+ =?us-ascii?Q?XYEyvnUsLPiZ4BMfJ+npJ8Qdk9RB3uqV6ZaHxJkC4MU+jm8hFbQLLfU5t2Pv?=
+ =?us-ascii?Q?Jgz9iDPZwG/EK2FvGFaI2BObexyW7awCZeCtjtt8vH38SPQJ+T25DAo2Mmtt?=
+ =?us-ascii?Q?Rm8d2z6HFwk6J9KXUrNArCSSc225Xn2QW0Ptq3tE7NjOUZmnccebmj6HO3TR?=
+ =?us-ascii?Q?nmwn5lmvWt8JY6+wFjytatcxFNKCGHhKhIqJyX5O9u/2nE9m17S8WFGBv3KD?=
+ =?us-ascii?Q?iSkVf/WaeAMgUHSoYCh90FWugY8ldRmPo3Oswpv1CjhMdCYHbAzTAWSn0Nuz?=
+ =?us-ascii?Q?e6E3U6jrGe+NCay7LIauzlcTjWN0XABnJ5LXXzb1dZeMmLTu1e+kZl//QY5L?=
+ =?us-ascii?Q?4B6WP2K8dYgF+qRPYoIq+tYKLc215Hcrj71qxLz3ROolTGM008r49IE6djJN?=
+ =?us-ascii?Q?+8E9ffpRDh1DVG3ICzAF8zhx/SJg/mt7lpNP/Dkdj2z3wNl3cKBfGF/Q1BN2?=
+ =?us-ascii?Q?c4t7h8t3qlN+nIMUp4P4PuEQsTAcPq3rqMs30/jK3cfcT9gRyxaN64Ccu56c?=
+ =?us-ascii?Q?HMpSPXUlevDAEZhUnbEzmiRjn4F0+zoJM0I+B9X0Nk7qKJkdjpkYmM0LnO2e?=
+ =?us-ascii?Q?Kqmo/lSUBECZcKHro0VjDU9zVsQFYzlAxGEajPVzqaPxu1D4M9U3pEawpgc2?=
+ =?us-ascii?Q?2SZ4j2Cf/Q=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6505d70e-b3dc-46fa-77a9-08de7968e43e
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR12MB9620.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2026 21:07:34.8502
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hVWbuxg4W6OOVBaBZvbZXMCfQdncLoVo5XFD4pfP3VVxBgypnJOa/N6LgLJ2zi85
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8004
 
-On 3/3/26 11:30, Thomas Weißschuh wrote:
-> On 2026-03-03 11:00:25-0800, Guenter Roeck wrote:
->> On 3/3/26 10:10, Thomas Weißschuh wrote:
->>> Hi!
->>>
->>> On 2026-03-03 08:25:04+0000, Aureo Serrano wrote:
->>>>   From 1cc962124ca4343e682219372b08dec5d611d1af Mon Sep 17 00:00:00 2001
->>>> From: Aureo Serrano de Souza <aureo.serrano@arctic.de>
->>>> Date: Tue, 3 Mar 2026 15:06:35 +0800
->>>> Subject: [PATCH] hwmon: add driver for ARCTIC Fan Controller
->>>>
->>>> Add hwmon driver for the ARCTIC Fan Controller (USB HID VID 0x3904,
->>>> PID 0xF001) with 10 fan channels. Exposes fan RPM and PWM via sysfs.
->>>> Device pushes IN reports ~1 Hz; PWM set via OUT reports.
->>>>
->>>> Signed-off-by: Aureo Serrano de Souza <aureo.serrano@arctic.de>
->>>> ---
->>
->> checkpatch reports:
->>
->> total: 11 errors, 53 warnings, 6 checks, 360 lines checked
->>
->> primarily because the patch uses spaces instead of tabs.
+On Thu, Feb 26, 2026 at 04:03:53PM -0700, Alex Williamson wrote:
+> > @@ -203,5 +225,6 @@ void vfio_pci_liveupdate_cleanup(void)
+> >  	if (!liveupdate_enabled())
+> >  		return;
+> >  
+> > +	WARN_ON_ONCE(pci_liveupdate_unregister_fh(&vfio_pci_liveupdate_fh));
 > 
-> It looks like it was pushed through some Microsoft mail product with
-> copious amounts of force.
-> 
-> (...)
-> 
->>>> +     }
->>>> +     for (i = 0; i < ARCTIC_NUM_FANS; i++) {
->>>> +           priv->fan_rpm[i] = (u32)(buf[rpm_off + i * 2] |
->>>> +                             (buf[rpm_off + i * 2 + 1] << 8));
->>>
->>> get_unaligned_u32()
->>>
->>
->> That doesn't seem to exist. get_unaligned_le16(), maybe, but the data
->> is never unaligned. le16_to_cpup() might do.
-> 
-> Indeed, get_unaligned_le16() is the one.
-> Does the HID core guarantee that raw event buffers are always aligned
-> sufficiently to access them as *u32? Personally I don't know all the
-> alignment requirements of all the supported architectures.
-> get_unaligned_le16() will always do the right thing and avoids typecasts.
-> 
+> This is propagation of a poor API choice in liveupdate, the unregister
+> should return void, it shouldn't be allowed to fail, IMO.  Thanks,
 
-Good point.
++1
 
-> (...)
-> 
->>>> +     } else {
->>>> +           spin_unlock_irqrestore(&priv->lock, flags);
->>>
->>> You can use the new guard() syntax from cleanup.h to avoid manual
->>> unlocks on error paths.
->>>
->>
->> Why would this code need interrupt disabled spinlocks in the first place ?
-> 
-> I *suspect* that it tries to be compatible with some semaphores in the
-> HID core.
-> 
->> It reads individual entries from priv, but even if those are updated
->> in parallel I don't see why that would warrant disabling interrupts,
->> both here and in arctic_fan_parse_report().
->>
->> The hwmon core already serializes read and write operations, so
->> the locks (much less interrupt disabling spinlocks) are not needed
->> for that either.
-> 
-> The HID callbacks can be fired at any time from the HID core,
-> concurrently to hwmon core logic. But I also dislike the spinlocks.
-> Maybe a mutex works, too?
-> 
+"destroy" functions that fail are evil. :)
 
-Ah yes, I can see that arctic_fan_parse_report() reads all pwm values and
-arctic_fan_write() writes them to the controller. That does not explain
-why it would be necessary to disable interrupts, though, and even doing
-that is still not safe.
-
-Example: arctic_fan_write() updates the pwm value for channel 1,
-writes the new value into priv->pwm_duty[1], and creates an output
-buffer with pwm values for all channels. After preparing the message,
-it releases the spinlock. The raw event handler receives and handles
-updated pwm values which are completely different. Then the old,
-now obsolete, values are sent to the controller (and, worse, the
-new cached value in priv->pwm_duty[1] would no longer match the value
-that was just sent to the controller).
-
-That can never be made safe if the controller updates pwm values
-autonomously, no matter if spinlocks are involved or not. That would only
-work if fan control is manual, and in that case it would not be necessary
-to re-read pwm values from each raw event. The current code isn't safe
-even if fan control is manual, since reports from the controller will
-overwrite cached values and requests to change a value can overlap with
-reports returning the old value.
-
-In this context ...
-
-Other drivers also use complete() from raw events and wait_for_completion()
-variants after writing a command, so the code sequence in arctic_fan_send_report()
-will require closer scrutiny. It is not obvious to me why the loop and the
-msleep() calls would be needed for this driver but not for others.
-
-> (...)
-> 
->>>> +static int arctic_fan_probe(struct hid_device *hdev,
->>>> +                     const struct hid_device_id *id)
->>>> +{
->>>> +     struct arctic_fan_data *priv;
->>>> +     struct device *hwmon_dev;
->>>> +     int ret;
->>>> +
->>>> +     ret = hid_parse(hdev);
->>>> +     if (ret)
->>>> +           return ret;
->>>> +
->>>> +     priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
->>>> +     if (!priv)
->>>> +           return -ENOMEM;
->>>> +
->>>> +     priv->out_buf = devm_kmalloc(&hdev->dev, ARCTIC_REPORT_LEN, GFP_KERNEL);
->>>> +     if (!priv->out_buf)
->>>> +           return -ENOMEM;
->>>
->>> The 32 byte buffer could be on the stack, saving this allocation and
->>> avoiding a shared resource.
->>
->> It might need to be cache aligned, but even then it could be part of
->> struct arctic_fan_data.
-> 
-> What would be the advantage of that over an on-stack placement?
-> 
-
-Sorry, I should have said "cache line aligned", not just "cache aligned".
-Data on the stack won't be cache line aligned. I don't know if that is needed
-here, but some USB transactions require it (which is why USB drivers often
-allocate buffers separately).
-
->>>> +
->>>> +     priv->hdev = hdev;
->>>> +     spin_lock_init(&priv->lock);
->>>> +     hid_set_drvdata(hdev, priv);
->>>> +
->>>> +     ret = hid_hw_start(hdev, HID_CONNECT_DRIVER);
->>>> +     if (ret)
->>>> +           return ret;
->>>> +
->>>> +     ret = hid_hw_open(hdev);
->>>> +     if (ret)
->>>> +           goto out_stop;
->>>> +
->>>> +     hid_device_io_start(hdev);
->>>> +
->>>> +     hwmon_dev = devm_hwmon_device_register_with_info(&hdev->dev, "arctic_fan",
->>>> +                                          priv, &arctic_fan_chip_info,
->>>> +                                          NULL);
->>>
->>> You could assign directly to priv->hwmon_dev.
->>
->> I don't immediately see where priv->hwmon_dev is used in the first place.
-> 
-> Indeed.
-> 
-> 
-> Thomas
-
+Jason
