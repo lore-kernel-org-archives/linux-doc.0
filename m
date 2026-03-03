@@ -1,89 +1,141 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp-42af.mail.infomaniak.ch (smtp-42af.mail.infomaniak.ch [84.16.66.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E2E23504B;
-	Tue,  3 Mar 2026 17:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20066381B10
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 18:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.16.66.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772560795; cv=none; b=DTHEaW+VjCYOK0+JEhddCM+dp8eMcSGd5PgHms+jgY8TVUdiSNX1xgLEtCld6ehYi6T86rd/Uj3ZnsZkQAz5Z5Y7P3+yntFRZql5DCJ5peP3MeT90xzm8DXdK1Q94Dp8OAzriApnqIGSH1eye1/xWFgNbGVqR+rQWEswQQORQqw=
+	t=1772561415; cv=none; b=HInaDPbH4fUNETDoIpRiKVQUzc78ESc1xdpCvF9mM61tIwjhx9SOyIn0NYQoEdSMKINP20R7z5hr7xmH8Jp86smxnEfrIo7gz9v/bBcVdCCi9VHJFCLPzbTwgDzy6HW8EV12TfrqmiGaSBR9NlfnxOvye3Yu/sXbBs+fDJ9J6WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772560795; c=relaxed/simple;
-	bh=ND3gldCRjWZIcza/nAkJbOWW+MGA7tpJFrnG91mVpSc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eS9pqa9JimiXtpIYkvpD/siYph5+nFvods9lbtQ2ppMXxMdUtNNe2mmiBP1Wx9VK9Ac+qgSOr7lVfIAV3QOcjVStFeDttGopHaNdQSfZzotVXtkC9r+TznJ6UwqtmhVwbJRkpSfvGbqIn7fY8xVBUa9KSvhq0U8dOLv0Hreb/D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=U223NuIU; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1772561415; c=relaxed/simple;
+	bh=TigRnNucP1JKqKFvRMBZ0GY+U+2g7xnwdmAkCAkMdiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TsmlbdOlUII3gH39plDZUJSxfbmgYOeyPPfWEHOo+jOi7jyI1G8QI8TYaq0b9v4T5AKFhuaScN+3/Yzqmvp8oQmKhsms97jJ8fV8lh9s5vuBPwrzGGMyxvuyqE8QXK/ila8OJmfOH1jTj/+O6wQ512QupOkbpgyK+wKQvamE3r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=jNjgqlir; arc=none smtp.client-ip=84.16.66.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="U223NuIU"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0BAAA40429
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1772560794; bh=rDBm5j8sC3GEDDtM8JDnIX4EAfJNZoCjCwK+g3cVkyo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=U223NuIUt1my0jwZuNY8/V+2c/SjeHCLGSMOHTxwTR9iu6Id/7AkQHnPznCotteaP
-	 3Pm+RCV+UJhlgUzzbmCSUdJ46wnhAextIX6NvQFcDx50ioCBu3v/aIJdmXN1jxTVxw
-	 5PFA2VQjOrg0oKvBUYHELIfh2luQb531rSgVCP/V07LLyh+gY6ksavX3JQE1B2pqrH
-	 djWTxDaSDMpQDahsqhCyNavYKZxPRLB6rsLVFAYvhEkKRHY1aDebTRHGlUggXDPSfk
-	 87bwM1jhqxMmZt+0eetc0uLuEsARG+REGrFkaWDQ4WqbkLlGWJINCEhEVH07ZUuivW
-	 v2h1g3dPDoJmA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0BAAA40429;
-	Tue,  3 Mar 2026 17:59:53 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Matteo Martelli <matteo.martelli@codethink.co.uk>, Shuah Khan
- <skhan@linuxfoundation.org>, Shashank Balaji
- <shashank.mahadasyam@sony.com>, Juri Lelli <juri.lelli@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Matteo Martelli
- <matteo.martelli@codethink.co.uk>
-Subject: Re: [PATCH] sched_deadline, docs: fix cpuset example for cgroupv2
-In-Reply-To: <20260223-docs-sched-deadline-fix-example-v1-1-8d0bedc2bc6f@codethink.co.uk>
-References: <20260223-docs-sched-deadline-fix-example-v1-1-8d0bedc2bc6f@codethink.co.uk>
-Date: Tue, 03 Mar 2026 10:59:53 -0700
-Message-ID: <87bjh4bxpi.fsf@trenco.lwn.net>
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="jNjgqlir"
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4fQNrw3NKLz1yy;
+	Tue,  3 Mar 2026 19:01:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1772560864;
+	bh=wJDqabafsMaqpu2AVqJ8pzPHaGqy+cEbE05PR3lKnyQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jNjgqlirGrFfb9odDN47hX3pD63z2G8adQ0UyStWa3nkyaU0Uf43Wm9k/tv78onHH
+	 oO7dPV6htnydaiobEM+ktkNnv1DUiIp7w/aNJKg4KG2TcGBxzbeDisVwV/R7MqgQPA
+	 gVbDjCq1R0BYS23bX8kwQZuC9yum1Hf4S6iz0eXk=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4fQNrv3jygz9ZQ;
+	Tue,  3 Mar 2026 19:01:03 +0100 (CET)
+Date: Tue, 3 Mar 2026 19:01:00 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: "Panagiotis \"Ivory\" Vasilopoulos" <git@n0toose.net>
+Cc: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Dan Cojocaru <dan@dcdev.ro>
+Subject: Re: [PATCH v3] landlock: Expand restrict flags example for ABI
+ version 8
+Message-ID: <20260303.Paechahp4eco@digikod.net>
+References: <20260228-landlock-docs-add-tsync-example-v3-1-140ab50f0524@n0toose.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260228-landlock-docs-add-tsync-example-v3-1-140ab50f0524@n0toose.net>
+X-Infomaniak-Routing: alpha
 
-Matteo Martelli <matteo.martelli@codethink.co.uk> writes:
-
-> Documenation/scheduler/sched-deadline.rst provides two examples for how
-> to setup cgroup and cpuset for deadline tasks: one for cgroup v1 and one
-> cgroup v2. The code block in the latter is not properly html rendered as
-> the :: marker is missing.
->
-> Add the :: marker before the code block for the cgroup v2 example to fix
-> html rendering.
->
-> Also make the example description more explicit for better clarity.
->
-> Fixes: 0116765035eb ("sched_deadline, docs: add affinity setting with cgroup2 cpuset controller")
-> Signed-off-by: Matteo Martelli <matteo.martelli@codethink.co.uk>
+On Sat, Feb 28, 2026 at 10:36:59PM +0100, Panagiotis "Ivory" Vasilopoulos wrote:
+> Add LANDLOCK_RESTRICT_SELF_TSYNC to the backwards compatibility example
+> for restrict flags. This introduces completeness, similar to that of
+> the ruleset attributes example. However, as the new example can impact
+> enforcement in certain cases, an appropriate warning is also included.
+> 
+> Additionally, I modified the two comments of the example to make them
+> more consistent with the ruleset attributes example's.
+> 
+> Signed-off-by: Panagiotis 'Ivory' Vasilopoulos <git@n0toose.net>
+> Co-developed-by: Dan Cojocaru <dan@dcdev.ro>
+> Signed-off-by: Dan Cojocaru <dan@dcdev.ro>
 > ---
->  Documentation/scheduler/sched-deadline.rst | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/scheduler/sched-deadline.rst b/Documentation/scheduler/sched-deadline.rst
-> index ec543a12f848..d23e4afe1a9a 100644
-> --- a/Documentation/scheduler/sched-deadline.rst
-> +++ b/Documentation/scheduler/sched-deadline.rst
-> @@ -700,7 +700,8 @@ Deadline Task Scheduling
->  5.2 Using cgroup v2 cpuset controller
->  -------------------------------------
+> Changes in v3:
+> - Add __attribute__((fallthrough)) like in earlier example.
+> - Improve comment for LANDLOCK_RESTRICT_SELF_TSYNC (ABI < 8) example.
+> - Add relevant warning for ABI < 8 example based on Günther's feedback.
+> - Link to v2: https://lore.kernel.org/r/20260221-landlock-docs-add-tsync-example-v2-1-60990986bba5@n0toose.net
+> 
+> Changes in v2:
+> - Fix formatting error.
+> - Link to v1: https://lore.kernel.org/r/20260221-landlock-docs-add-tsync-example-v1-1-f89383809eb4@n0toose.net
+> ---
+>  Documentation/userspace-api/landlock.rst | 28 ++++++++++++++++++++++++----
+>  1 file changed, 24 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+> index 13134bccdd39d78ddce3daf454f32dda162ce91b..b71ac7aa308260b8141e5d35248fb68cec6dcba9 100644
+> --- a/Documentation/userspace-api/landlock.rst
+> +++ b/Documentation/userspace-api/landlock.rst
+> @@ -196,13 +196,33 @@ similar backwards compatibility check is needed for the restrict flags
+>  (see sys_landlock_restrict_self() documentation for available flags):
 >  
-> - Assuming the cgroup v2 root is mounted at ``/sys/fs/cgroup``.
-> + Assuming the cgroup v2 root is mounted at ``/sys/fs/cgroup``, an example of a
-> + simple configuration (pin a -deadline task to CPU0) follows::
+>  .. code-block:: c
+> -
+> -    __u32 restrict_flags = LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
+> -    if (abi < 7) {
+> -        /* Clear logging flags unsupported before ABI 7. */
+> +    __u32 restrict_flags =
+> +        LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
+> +        LANDLOCK_RESTRICT_SELF_TSYNC;
+> +    switch (abi) {
+> +    case 1 ... 6:
+> +        /* Clear logging flags unsupported for ABI < 7 */
+>          restrict_flags &= ~(LANDLOCK_RESTRICT_SELF_LOG_SAME_EXEC_OFF |
+>                              LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
+>                              LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF);
+> +        __attribute__((fallthrough));
+> +    case 7:
+> +        /* Removes multithreaded enforcement flag unsupported for ABI < 8 */
+> +        /*
+> +         * WARNING!
+> +         * Don't copy-paste this just yet! This example impacts enforcement
+> +         * and can potentially decrease protection if misused.
+
+What could be the use case when that would be an issue? What would be
+the consequence wrt just tampering with a sibling thread?
+
+> +         *
+> +         * Below ABI v8, a Landlock policy can only be enforced for the calling
+> +         * thread and its children. This behavior remains a default for ABI v8,
+> +         * but the flag ``LANDLOCK_RESTRICT_SELF_TSYNC`` can now be used to
+> +         * enforce policies across all threads of the calling process. If an
+> +         * application's Landlock integration was designed under the assumption
+> +         * that the flag is used (such as when children threads are responsible
+> +         * for enforcing and/or overriding policies of parents and siblings),
+> +         * removing said flag can decrease protection for older Linux versions.
+
+In this case, the application *must* check the ABI version and exit with
+an error if it is not supported.  That's the same use case as programs
+wishing to sandbox themselves at least with a specific set of
+restrictions.
+
+> +         */
+> +        restrict_flags &= ~LANDLOCK_RESTRICT_SELF_TSYNC;
+>      }
 >  
->     cd /sys/fs/cgroup
->     echo '+cpuset' > cgroup.subtree_control
-
-Applied, thanks.
-
-jon
+>  The next step is to restrict the current thread from gaining more privileges
+> 
+> ---
+> base-commit: ceb977bfe9e8715e6cd3a4785c7aab8ea5cd2b77
+> change-id: 20260221-landlock-docs-add-tsync-example-e8fd5c64a366
+> 
+> Best regards,
+> -- 
+> Panagiotis "Ivory" Vasilopoulos <git@n0toose.net>
+> 
+> 
