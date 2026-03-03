@@ -1,48 +1,46 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4053264D7;
-	Tue,  3 Mar 2026 17:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1087C35F603
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 17:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772558621; cv=none; b=iTd8juCekoa1U4FOwIbcmFCChMmwpFjSHdIcbsmUkdFBGNzkgMPhHAWXmtu2QQuaMEh/uWIxUAYYzwBBH2fwcDZrApSHjdElNkDOq/05AlrQtY0N3aoy0ULLhQsGGkYRWIyWvEoHSDYITl9b1oAN2Vy5tGXA0XW3jw8DECYctJM=
+	t=1772558686; cv=none; b=K08ZaxLcNFbjN7oYBLXyf4MTVNMMRTro8UdKWX0qE/LMIbWKGlOx/KhGYuI6/Zw8yacv4lLbaxtVH1gRSGWMsjxMvTSRu9ow9MimbljVeGViX+x5o4I+K0f38qgYCXBd2GqtoY2hFXubXnjwbPaDpfNk1t9Z5RpU+dHCMlZdT0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772558621; c=relaxed/simple;
-	bh=S7S+L4dcn0iUO7ax1UZYqMfmLwgnvJFpyBZDbjJkqDQ=;
+	s=arc-20240116; t=1772558686; c=relaxed/simple;
+	bh=RsTrgQyFiH3tt5HYLreC1CrQr8QWgQdBAAIhGSYOWY4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Iqtc1fEe1LKc5KLkTYB/tN9+WsM0czfMSU0MzG0XbNAq8UMXRMQ0L1TQ5wffyEZSZTsF6nEFfGi64olGPyR3rK1PFVfGXnBFsJrycqdjUauuFw3xM8bw/YBDSxec1/NjHNIOHQTR1jl9lwP9xifp5DwjD2U9YX5N+0OJGWAMbuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Y044dR5Y; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=k1hroMgGm/7CWN3kSiWqF9HENQbTU3XShp75Ox+hG7jcnxEubz8sIUDn7JwE+Sg7Ppq3PR9ZydSE4UG0CRe06u9eR+JOw6okyQ2kYfwHbrKqQ4boQnGflkNahVIY2ta5GcqWn5zpemJQ5TOgcaX/qdKJhMOXL1fBlCp+ls37y4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=McCXGWUs; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Y044dR5Y"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ECAD540429
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="McCXGWUs"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5AE3840429
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1772558618; bh=YihbDh1STpNtSF3uB3GelT6vEz9oVx20NMbIbqP9x6U=;
+	t=1772558684; bh=y4QBrGk/np5sSYhZGUeMwuesE6tv3mdYPROINYMBgtE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Y044dR5YJjZpUXPTuxxlHJVkrBPQHjyn3ziNr3RM1R+lThQhYtNKQG/p1zaA+ZDD9
-	 uRVXjq0rlxz+hBm/Xr/z2QLJV8HmuTdzoSvslPHENNAlFOWXcTVmdXvx9Rydti9d0j
-	 t28kPljUB6kCavF1z90gi5kdbo0kQR33oEVHi/xhyOOseepHMmw/UyRQL1V0x4uEeV
-	 nKwOU7A3CpM4LWX+uXylaI4qjR9KjyT752m1+sDZ4YowwhG7j3TK3GXX5rGfic4MLw
-	 zDzk6TJPdi+0UpYqBGMBS8SaWv5bIbXumFX/IjSojgmvOv/eyiufPMHTaP36u6zZsa
-	 Xmw1AzBxnu2zg==
+	b=McCXGWUsDCriltJejQrD27oX+o4q20SajO/p7B8rA2L/JUROcM2+BZWE9hvlKI58g
+	 tzNTBXivbUd/BWzLW6VQoYQo8qHVQ/Zta4sU/qsd/IKngjBWEVKndj7sdIlyfOJoB5
+	 8iW1nGscRCori5N5BkJ6/naCDjty5102wUaHrzMK1vravGH/DT53u+tTL6j2tsjUDn
+	 KvJAOfWHTE4CrkrUTH0ABJsLOEItP9z7aKo0sSvu92kR42jNYaVTuRglbpHPQAy4X1
+	 SuDexxFVwulhRHOQsCJlFxaQUmMKWPf7m/h4D79pSskGNSOVCNV52cWJhcKxkozfOY
+	 CwfT5QlZj434g==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id ECAD540429;
-	Tue,  3 Mar 2026 17:23:37 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5AE3840429;
+	Tue,  3 Mar 2026 17:24:44 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org,
+To: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>,
  linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/5] docs: watchdog: general cleaning and corrections
-In-Reply-To: <20260228010402.2389343-1-rdunlap@infradead.org>
-References: <20260228010402.2389343-1-rdunlap@infradead.org>
-Date: Tue, 03 Mar 2026 10:23:37 -0700
-Message-ID: <875x7cddye.fsf@trenco.lwn.net>
+Cc: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+Subject: Re: [PATCH] Documentation: process: backporting: fix missing subject
+In-Reply-To: <20260226120129.18610-1-islamarifulshoikat@gmail.com>
+References: <20260226120129.18610-1-islamarifulshoikat@gmail.com>
+Date: Tue, 03 Mar 2026 10:24:43 -0700
+Message-ID: <871pi0ddwk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,27 +49,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Ariful Islam Shoikot <islamarifulshoikat@gmail.com> writes:
 
-> Fix some obvious issues in the watchdog documentation files.
-> I didn't try to fix every little niggling mistake.
+> Add the missing "it" in the sentence:
+> "even though it could have been changed by other patches."
 >
->  [PATCH 1/5] docs: watchdog: mlx-wdt: small fixes
->  [PATCH 2/5] docs: watchdog: pcwd: fix typo and driver info.
->  [PATCH 3/5] docs: watchdog-api: general cleaning
->  [PATCH 4/5] docs: watchdog-kernel-api: general cleanups
->  [PATCH 5/5] docs: watchdog-parameters: add missing watchdog_core parameters
+> This is a grammatical error in the Error handling section.
 >
->  Documentation/watchdog/mlx-wdt.rst             |    4 -
->  Documentation/watchdog/pcwd-watchdog.rst       |   19 +++++--
->  Documentation/watchdog/watchdog-api.rst        |   38 +++++++--------
->  Documentation/watchdog/watchdog-kernel-api.rst |   20 +++++--
->  Documentation/watchdog/watchdog-parameters.rst |   11 +++-
->  5 files changed, 58 insertions(+), 34 deletions(-)
+> Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+> ---
+>  Documentation/process/backporting.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/process/backporting.rst b/Documentation/process/backporting.rst
+> index c42779fbcd33..0de9eacd46a7 100644
+> --- a/Documentation/process/backporting.rst
+> +++ b/Documentation/process/backporting.rst
+> @@ -432,7 +432,7 @@ The same goes for added ``return``, ``break``, and ``continue``
+>  statements.
+>  
+>  Error handling is typically located at the bottom of the function, so it
+> -may not be part of the conflict even though could have been changed by
+> +may not be part of the conflict even though it could have been changed by
+>  other patches.
 
-Wim, do you want to pick these up, or should I take them through the
-docs tree?
-
-Thanks,
+Applied, thanks.
 
 jon
