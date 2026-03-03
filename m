@@ -1,135 +1,145 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m32124.qiye.163.com (mail-m32124.qiye.163.com [220.197.32.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5166D42E016
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 11:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772536831; cv=pass; b=SvmtsSPXJgkwJkF+RZ2MEdneutGbaCVoXWDy+Gyu0Whpn7MgEsoR6NrSQkXkuA6eL0HPnxTGSvBJv9fLzuU4Sd1vkmH1eSfH7lK0qNv/TNA0zpEc1NQzy7GQ6oo4VCOE01c/k17U3C4Xi9AWI2uynrUh6om4MeJYXM6CWfJmco0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772536831; c=relaxed/simple;
-	bh=wOdVetkLvbx0KrzuYwC1YhLWHB2QyWCjfnt49tnKb+A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dRP2iHujqRwl6+ItKR90dwK1p0FHLvhWFgHxwerqZCdmBIZqvsefowfpDN+h//Zvm02+idTxTBTafDtdBG8ipL4Gu+bIa8SuifhO6MgUKlhq/u7j2+VS8trJXZgm1oWLHxIT3J4NU3LCYY54NGtTImGqUzsUSHGYWHM5Hunz/EA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3EYRPWj2; arc=pass smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5D033C53A;
+	Tue,  3 Mar 2026 11:56:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772538999; cv=none; b=NUGxnEuobRdvMu9Aqslqr9h2+2WgfgS6QEA1G7Q6bT4qEu8oeIyjewJbaexf6phi5qH2UDMAoMO9feu7k1WHf8hgnQmvDnlLTDIBSj349Aw1cJE2GzZZFI1sdl8UmzA1amH2Ulmi6L1fStECj/KVG6s6emf34EvwW9CllmXbXXg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772538999; c=relaxed/simple;
+	bh=SyqIbHM8aYosfnevBVq5CkMExkOZcqZOdFPhjtX8BWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=lizwfcBQNs3gV19GJW0cr4UL0sO2c3jSeVaT/9omGliSD8wXiWA5Jm+B2lVH8xt+K9VgneSZYmxC0PHbyoTwHqB8adpCGKSv/pIG9BjcPDa7znYMCSCaz05KvIm74FoCoKGuv7M3jDcuHsG8jT+R49Qd+bLJIzB+jDdThq4otfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=ZT+Y1YEg; arc=none smtp.client-ip=220.197.32.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3EYRPWj2"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-899f5d337f7so23775546d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 03:20:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772536828; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lF7TpyLIyPi9TjIj4PK8LE+gnDpXRv229YPCHU6yFp8zEuabLFEhoWowcfalGWEWnr
-         o0WZInIM7jZvzMJbUQXZwNel57uE1/v1toXuCwq1GNMFf2Lsm3YRcG0XTyjsZrP4vqNd
-         IE99I4gTM8PoKDiw3E8k5ZdOg8zjFvrXmxt0GVjoQKxtDwto022vUxkLW4ZxIOb/rNja
-         +2VnmdhGbNZkr9vfLgu3PkQ/3oT+zdMWHwdvxvKK0tZzzzH1Yy9f4MVZ66S8vfOzQTcu
-         7jqgmBGwfYgYjcAtIhEG/IYBahBiXxPOrp9CrLrov5sOv9wpQiiUxFYZsMLlZHrCabzS
-         QCVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=fs5xy54dOwpapJM1ABjgdm4o/gqygsmCGVNWqgWoRQE=;
-        fh=JMM7Rzex/2Tk5E9sanypdQJqpjukNfvUSp5LkyTNVsI=;
-        b=PosvApI3871aK54c+4Hd1RKVfJ4XIH9UwwM+0T0WxBAag6pfhWwP33P16z6JLiqBd2
-         P70voMJPKMaADX39IXB5iFC2MTx/ZcEAkssz4MQEoIVlXlOi0q2msSl1LZGhX8lObMH1
-         YmERSgnNP7pDRpvBLhZHBEMSWBx/IxtDcKlD1gKyHA23QncYpu5yZPTZmCEwV7Pv7x5u
-         eHArWE/DTTsY0NEyz0l3bsGu5anFXTBAGHiZbIaOh/nD0FKYAnInlktepyej5KYafRBf
-         4Ny1BEpO1LLpN9aoGFLgU02/iX9WBpAmniHUjGZTmgVMm42zfPJcGrDDdtZGWPLLKGN3
-         RFDA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772536828; x=1773141628; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=fs5xy54dOwpapJM1ABjgdm4o/gqygsmCGVNWqgWoRQE=;
-        b=3EYRPWj2mG97ZpMbZBoro6rxMolw+XEZvArwlAAVyrvYK3zXCXMg2VEIQ/W5cKvFfK
-         UrW4WMGJTCFrVgaDAsBI7x4fQZIXdaQPGEzYDkhdrGEFq4ZJq0j42CnHNodCE3DZinmv
-         6MxOeOcmf78wistGqJNG0/wrf8FhmaRiY0tLGqHa4XhwIqW6HEgvuJz2/qK3FqK16W+B
-         Np4xnPHltVGIMkXhcyhXW6C4f5UL5cQDvIIpy+142BbB6pKAUwjc+VYvKcnQwqBW2fgT
-         1HQACkZliRJ4olmTdCTKDlLC46S9pwgjWBUIMnJ1BiccYWGvpNLr5z2CpymRvSWpKlQ7
-         EtFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772536828; x=1773141628;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fs5xy54dOwpapJM1ABjgdm4o/gqygsmCGVNWqgWoRQE=;
-        b=BxEXXUR2OS/Zy+w7fkd+AOYLunYVZ/CCM6hTW7Ow48hm/PJLoJX1vgQAZFafBf5Hm6
-         xZYOIj4hHo/6GGtFbA/kGN8cBeks4E8d9U/OT4VQPktfUhphKkrDQYb/zOdNFoHyh5s5
-         JLGBhyFsmICKE0u1h8LvWNW/MNSS8CNr3HUlsIQI3dFY3JBE8I/eVKHxkyHnssnQt5Wa
-         DO1nZ+bWC4RXXCzNux8rMKluYkLFAsAMyrrnyupj/LA9ePpgleLbJkOnjXX0reFe4sSk
-         SJcvMuB9eYiay510KOblaUw6GrB3zAGf5XAwhS79A5Rb6S9ErLev1jMHqYZZLNyNHvzr
-         lx6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWeyU88mJZvWmSkAyACeSo5E02Lagwv7oNN6fzYIDHkpqWSPaMlIyL3pYyqpnL7uz1B12ixe9M2lxY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyp09pPRZlX9Ymp854pO3TJ3AyAB11GePNKHEF165quf3EksZTB
-	FnRsqKajy8Q6G9WG+OlYpIqYrQNbtFQekMISNAPjH8SL0/kuNiDmlw0gJzGiI3c2VuhIhsLHi5L
-	oZM3BLwVlgEF0+KFNDMAaraVhx39BsPPz2NEovblG
-X-Gm-Gg: ATEYQzwRB2D3SX/8av5EIKvmH235qzVEAEuUl0abqmHPXT/L7dkOMdOH3p9iYe9WEac
-	8xxKwks9adVrfM0dj7Ae7BsHDred/ljDBPyeQPvlZIxqF6QrYlWL2gQqGVmigjuSnGggYoBsRIf
-	PDqB+m4ymx1aPbaXDTPaDdjwztaxHn4+BmMq+JITYGfpwElVw6nzEPfVit1ewX5qP3iO43CC2oX
-	aKL0NcfGSxMT4Bk/YodCBSR64wMqChE1JkIGFaE0xXkFcjEq0A4cS1+wYprfVUHqFAlrD3wT0GR
-	hlri5lJ02f7ik7YvK7+mcaINuVj18ZF+GF3e/N6GNnpOvdtA
-X-Received: by 2002:a05:6214:dac:b0:895:4d3f:b6c with SMTP id
- 6a1803df08f44-89a0a89d396mr19056596d6.17.1772536827672; Tue, 03 Mar 2026
- 03:20:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="ZT+Y1YEg"
+Received: from localhost (unknown [222.130.22.244])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 35979e383;
+	Tue, 3 Mar 2026 19:41:08 +0800 (GMT+08:00)
+Date: Tue, 3 Mar 2026 19:41:05 +0800
+From: BaiKefan <baikefan@leap-io-kernel.com>
+To: si.yanteng@linux.dev, seakeel@gmail.com
+Cc: linux-usb@vger.kernel.org, alexs@kernel.org, dzm91@hust.edu.cn,
+ corbet@lwn.net, linux-doc@vger.kernel.org, doubled@leap-io-kernel.com
+Subject: Re: [PATCH v5 0/8] Add Chinese translation for USB subsystem
+Message-ID: <20260303194105.00004696@leap-io-kernel.com>
+In-Reply-To: <cover.1765180570.git.baikefan@leap-io-kernel.com>
+References: <cover.1765180570.git.baikefan@leap-io-kernel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260225203639.3159463-1-elver@google.com>
-In-Reply-To: <20260225203639.3159463-1-elver@google.com>
-From: Alexander Potapenko <glider@google.com>
-Date: Tue, 3 Mar 2026 12:19:51 +0100
-X-Gm-Features: AaiRm51ecwm2GzpvBNPquu22Ta0sfwGcKpcC_V0mxDSrZBLMaa5eBCNTn_slx0E
-Message-ID: <CAG_fn=WAwHUpoay2kY6rkEZQGYxoDGVJYf5B59Y80ht7++Lmqw@mail.gmail.com>
-Subject: Re: [PATCH] kfence: add kfence.fault parameter
-To: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	workflows@vger.kernel.org, linux-mm@kvack.org, 
-	Ernesto Martinez Garcia <ernesto.martinezgarcia@tugraz.at>, Kees Cook <kees@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9cb3807f8509d5kunm56864188b56e57
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCTkIaVh8YSRlJGktJSR1CQ1YVFAkWGhdVEwETFh
+	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
+	tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=ZT+Y1YEgh8EsbngBkNJxjrEVYU/HzRnQpfDGIgkAeRwrtOIyleo7NDiuq3mpgI/DplWFhQBOzU2yIAYtsOR1aBrgxS2qwBmNa+3HjSkHwBAMqngeovUNs9bfdXLUT2UE3tiILQz8sMxppT7gt5Z01vgqx5qy/fbO20Fk/K40rK4KKooQLkoxA+O6JkCZekvFcKWf/AgnGo3uOp9RFk00XSblYg1nzZCxYXg32M1hFq6Q2QXWSdLqKfrS6G+Wikduhoa39+YrWgLvB5bp29JyIZB22Aq8ychcf01Am4xMzbl3/0psrKohO1dzaOMyX8TzDJsnKGRkEVvsdxQZc8JK1Q==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
+	bh=DqHwu/DaLy1ZvOsiGkbWdbgMUVttdNMR6+KD5aqpmrc=;
+	h=date:mime-version:subject:message-id:from;
 
-> @@ -830,7 +835,8 @@ static void kfence_check_all_canary(void)
->  static int kfence_check_canary_callback(struct notifier_block *nb,
->                                         unsigned long reason, void *arg)
->  {
-> -       kfence_check_all_canary();
-> +       if (READ_ONCE(kfence_enabled))
-> +               kfence_check_all_canary();
+Hi Yanteng and Alexs, 
 
-By the way, should we also check for kfence_enabled when reporting errors?
+A few months ago, I submitted a patch for the Chinese translation of
+the USB documentation. 
 
+Following your suggestion, I forwarded it to the USB subsystem
+maintainer for further review, but I haven’t received any response yet.
 
-> @@ -1307,12 +1314,14 @@ bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt_regs
->         if (to_report) {
->                 raw_spin_lock_irqsave(&to_report->lock, flags);
->                 to_report->unprotected_page = unprotected_page;
-> -               kfence_report_error(addr, is_write, regs, to_report, error_type);
-> +               fault = kfence_report_error(addr, is_write, regs, to_report, error_type);
->                 raw_spin_unlock_irqrestore(&to_report->lock, flags);
->         } else {
->                 /* This may be a UAF or OOB access, but we can't be sure. */
-> -               kfence_report_error(addr, is_write, regs, NULL, KFENCE_ERROR_INVALID);
-> +               fault = kfence_report_error(addr, is_write, regs, NULL, KFENCE_ERROR_INVALID);
->         }
->
-> +       kfence_handle_fault(fault);
-> +
->         return kfence_unprotect(addr); /* Unprotect and let access proceed. */
+Could you please advise on the next steps? Should I follow up with the
+maintainer, or is there another recommended approach to help move this
+patch forward? 
 
-If kfence_handle_fault() oopses, kfence_unprotect() will never be
-called, is that the desired behavior?
+Thank you for your assistance! 
+
+Best regards, 
+Kefan
 
 
->         /* Require non-NULL meta, except if KFENCE_ERROR_INVALID. */
->         if (WARN_ON(type != KFENCE_ERROR_INVALID && !meta))
-> -               return;
-> +               return KFENCE_FAULT_NONE;
 
-We explicitly don't panic here; guess it should be fine...
+On Mon,  8 Dec 2025 17:25:30 +0800
+Kefan Bai <baikefan@leap-io-kernel.com> wrote:
+
+> This patch set adds Chinese translations for the USB documentation.
+> 
+> Changes in v5:
+>  - Ensuring that the index.rst entries, including acm, authorization,
+>    chipidea, dwc3, ehci, and usbmon, are placed in the correct patches
+>    to prevent build errors when patches are applied individually.
+>  - Remove extra spaces in chipidea.rst.
+>  - Send these translation patches to linux-usb@vger.kernel.org for
+> review by Chinese-speaking developers, per Alex and Yanteng's
+> recommendation.
+> 
+> Changes in v4:
+>  - shorten those overlong title underline/overline symbols
+>  - Remove CREDITS section from index.rst
+>  - Link to v4:
+> https://lore.kernel.org/all/cover.1764674650.git.baikefan@leap-io-kernel.com/
+> 
+> Changes in v3:
+>  - Updated the signoff to my full legal name,
+>    as requested by Jonathan Corbet.
+>  - Reviewed and fixed the RST syntax to resolve the patch issues
+>    noted by Alex Shi.
+>  - Kept the number of translated files to eight
+>    to make submission and review smoother.
+>  - Link to v3:
+> https://lore.kernel.org/all/cover.1763984424.git.baikefan@leap-io-kernel.com/
+> 
+> Changes in v2:
+>  - Update [PATCH 01/25] docs/zh_CN: Add index.rst translation
+>    to include corresponding updates in
+>    Documentation/translations/zh_CN/subsystem-apis.rst.
+>  - Link to v2:
+> https://lore.kernel.org/all/cover.1763897036.git.baikefan@leap-io-kernel.com/
+> 
+> v1:
+>  - Link:
+> https://lore.kernel.org/all/20251123074540.34161-1-baikefan@leap-io-kernel.com/
+> 
+> Kefan Bai (8):
+>   docs/zh_CN: Add index.rst translation
+>   docs/zh_CN: Add acm.rst translation
+>   docs/zh_CN: Add authorization.rst translation
+>   docs/zh_CN: Add chipidea.rst translation
+>   docs/zh_CN: Add dwc3.rst translation
+>   docs/zh_CN: Add ehci.rst translation
+>   docs/zh_CN: Add usbmon.rst translation
+>   docs/zh_CN: Add CREDITS translation
+> 
+>  .../translations/zh_CN/subsystem-apis.rst     |   2 +-
+>  Documentation/translations/zh_CN/usb/CREDITS  | 153 +++++++
+>  Documentation/translations/zh_CN/usb/acm.rst  | 137 +++++++
+>  .../translations/zh_CN/usb/authorization.rst  | 125 ++++++
+>  .../translations/zh_CN/usb/chipidea.rst       | 142 +++++++
+>  Documentation/translations/zh_CN/usb/dwc3.rst |  60 +++
+>  Documentation/translations/zh_CN/usb/ehci.rst | 216 ++++++++++
+>  .../translations/zh_CN/usb/index.rst          |  54 +++
+>  .../translations/zh_CN/usb/usbmon.rst         | 380
+> ++++++++++++++++++ 9 files changed, 1268 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/usb/CREDITS
+>  create mode 100644 Documentation/translations/zh_CN/usb/acm.rst
+>  create mode 100644
+> Documentation/translations/zh_CN/usb/authorization.rst create mode
+> 100644 Documentation/translations/zh_CN/usb/chipidea.rst create mode
+> 100644 Documentation/translations/zh_CN/usb/dwc3.rst create mode
+> 100644 Documentation/translations/zh_CN/usb/ehci.rst create mode
+> 100644 Documentation/translations/zh_CN/usb/index.rst create mode
+> 100644 Documentation/translations/zh_CN/usb/usbmon.rst
+> 
+> --
+> 2.52.0
+> 
+> 
+> 
+
