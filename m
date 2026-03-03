@@ -1,122 +1,145 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC5592E8DEB;
-	Tue,  3 Mar 2026 06:27:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44CB2FBDE0
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 06:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772519230; cv=none; b=VzoWSNMskuYqEAqpQ130VUtv2nrqNKGrBxJ/9llW+pN/NouPmPAc5np2Uf5vC9BDRH5P/7NhdP9MfteTKwsTjtWs++YmyZxRLi4QiDif/Z/93l/yiW7IHOPVYCJD5zFZ1VwOI61JRD5omszehEFQnZW6VrJFd9p7gDoqFX+rBHc=
+	t=1772519745; cv=none; b=TZRXrtFMvi4ye5pf48tiTaN5aV0xDrrqhb1mh/aMDaMGJokbUmE07/nTd6kucNZmgmwv26sPBlMQpn01oH2jG2HA/77XnNz96QZHHkTd+/51k99sIWlSqcZFUpnnle7sl0BAmkejH++/MCtT3bEt8QpfXubbLppbJPyLPpV1JRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772519230; c=relaxed/simple;
-	bh=fxKizMzMIayJYvrsnvg5v7c9n+Cb/G9sDjZiXulqffo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cjjrPWTTbzidlZNKtCN8vCWsROK+r3uejHiMnOor/yZohQcGh0lT2ZCwjgqYkqf/jO7aN9TOP0XED9gGaR0IPB0enCFnRbfdrE0ckl5fOrB+tgoycFDCopXYc9iHa06mHRzRmdDZLXXhRPpFsP5jfEEEXBfgzZ0/GpBqtQ7iFnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mlObZq1N; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1772519745; c=relaxed/simple;
+	bh=bAz9pcyHQRBLCF+YmexQ7iExl3uChwqBNcU7naZ1yVs=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=b1d6MZapG83HuusiinyqkiUP8dyDoDs62wZlgzNd+kC7Pg9RaL0iB6mdmoIpshH/30vXZHPLgPeAxLSYrC2EF8SkNl+Tj3PjYJ2+yJeyjfrzCfk3gU2xvHCNvS+TeHR+jXmEj7LWWZKcuKgqP1DhFbHILtBfbXa8IjWL8mFKXHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Co6oGvTi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=OiIapXlc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=lxB1wLlj; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=YqUEABvJ; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mlObZq1N"
-Message-ID: <d7f3dabd-e6da-496d-927e-590a41dee009@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772519226;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Co6oGvTi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="OiIapXlc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lxB1wLlj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YqUEABvJ"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E9D5E3E802;
+	Tue,  3 Mar 2026 06:35:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772519742; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=lwL4R6Tjrx15lo/+8rlSFcr3K3tEG+s7YuJdiIPQfcQ=;
-	b=mlObZq1NJMCT2YKc+UgG3MhwDSoJWI5YGFMX8WYVq9r9rX14M+5v3onDsRjK3DVNSOHLbh
-	aKAWgG+6xv7vvh5YkdO02SzyfhVQo2qx2MMYbM5sUrcDPHprQpYhGrhWVpOY4e/1WGa92u
-	fI8POhPiuEVxN4ygfBAegFI70AyW5LU=
-Date: Tue, 3 Mar 2026 14:26:51 +0800
+	bh=S6OKrT+STPu41Pzgef9XUS7YWWO9D4G5H6sgRM2xRE4=;
+	b=Co6oGvTiFVmcvr/hiOAwSmpmlncR0cMK+7VpNyudVCIaKyWmj4hODAOEAMFNsvyoKi+1mM
+	Wtp3RJybrKUGwkittGVJAnM7069qqqyV2C1cWOmlI3KDh4XnUBLP2e+lOZ6PlWbWBapMy9
+	UxAhoHlb53IVt00k42ZBY5Xy8GakHpk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772519742;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S6OKrT+STPu41Pzgef9XUS7YWWO9D4G5H6sgRM2xRE4=;
+	b=OiIapXlc35PEDoq8ZKD1lBPiGLjSqPNMJBx2k1UDmA/0Zize8Pza5iKdW412RMzcZTs1sB
+	Axc9OEjiLvl4y+Aw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=lxB1wLlj;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=YqUEABvJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772519740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S6OKrT+STPu41Pzgef9XUS7YWWO9D4G5H6sgRM2xRE4=;
+	b=lxB1wLljnYrUJ8JVpxsjfwdQmgzZeByTLExkZl+IMtoCsMEea2Se3RcqTzO4I+EfWPwjfS
+	gxHyelR9DofCaBWkK8OnhsNsFl1EMtd+kudzszzNFyenLM1/stjGcr6nRFYnGKvGcdvp/1
+	Eu+Xr2DCiYuQ05wGtnDg7rTo2nS/t+A=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772519740;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S6OKrT+STPu41Pzgef9XUS7YWWO9D4G5H6sgRM2xRE4=;
+	b=YqUEABvJ75HDENPK6VUoPgLJi/uc/YoG1u9eT2kGHre/wyF2W+hd8K9FIYCI/K3nZrMpI4
+	AxRPIdq6MuKoWmCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8A7FC3EA69;
+	Tue,  3 Mar 2026 06:35:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id yzgEIDyBpmlrEQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Tue, 03 Mar 2026 06:35:40 +0000
+Date: Tue, 03 Mar 2026 07:35:40 +0100
+Message-ID: <87fr6hl8sj.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Rong Zhang <i@rong.moe>
+Cc: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Arun Raghavan <arunr@valvesoftware.com>,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ALSA: doc: usb-audio: Add doc for QUIRK_FLAG_SKIP_IFACE_SETUP
+In-Reply-To: <20260302173300.322673-1-i@rong.moe>
+References: <20260302173300.322673-1-i@rong.moe>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [RFC PATCH net-next] tcp: Add net.ipv4.tcp_purge_receive_queue
- sysctl
-Content-Language: en-US
-To: Eric Dumazet <edumazet@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Leon Hwang <leon.huangfu@shopee.com>,
- netdev@vger.kernel.org, "David S . Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>,
- Kuniyuki Iwashima <kuniyu@google.com>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?=
- <ij@kernel.org>, Ido Schimmel <idosch@nvidia.com>,
- kerneljasonxing@gmail.com, lance.yang@linux.dev, jiayuan.chen@linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260225074633.149590-1-leon.huangfu@shopee.com>
- <20260225174354.5a698ddb@kernel.org>
- <f611be70-8280-44c8-86af-5866c0b302be@linux.dev>
- <20260302162251.733b520e@kernel.org>
- <3a623176-fc5f-4dd4-bbfc-64d211f53645@linux.dev>
- <CANn89iJ0=Tx0i+1UXEdcoFuk1F_MfP41-L-kgGDTN+RcLTRcFA@mail.gmail.com>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Leon Hwang <leon.hwang@linux.dev>
-In-Reply-To: <CANn89iJ0=Tx0i+1UXEdcoFuk1F_MfP41-L-kgGDTN+RcLTRcFA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[rong.moe:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: E9D5E3E802
+X-Spam-Flag: NO
+X-Spam-Score: -3.51
+X-Spam-Level: 
 
-
-
-On 3/3/26 11:55, Eric Dumazet wrote:
-> On Tue, Mar 3, 2026 at 3:12 AM Leon Hwang <leon.hwang@linux.dev> wrote:
->>
->>
->>
->> On 3/3/26 08:22, Jakub Kicinski wrote:
->>> On Mon, 2 Mar 2026 17:55:59 +0800 Leon Hwang wrote:
->>>> On 26/2/26 09:43, Jakub Kicinski wrote:
->>>>> On Wed, 25 Feb 2026 15:46:33 +0800 Leon Hwang wrote:
->>>>>> Issue:
->>>>>> When a TCP socket in the CLOSE_WAIT state receives a RST packet, the
->>>>>> current implementation does not clear the socket's receive queue. This
->>>>>> causes SKBs in the queue to remain allocated until the socket is
->>>>>> explicitly closed by the application. As a consequence:
->>>>>>
->>>>>> 1. The page pool pages held by these SKBs are not released.
->>>>>
->>>>> On what kernel version and driver are you observing this?
->>>>
->>>> # uname -r
->>>> 6.19.0-061900-generic
->>>>
->>>> # ethtool -i eth0
->>>> driver: mlx5_core
->>>> version: 6.19.0-061900-generic
->>>> firmware-version: 26.43.2566 (MT_0000000531)
->>>
->>> Okay... this kernel + driver should just patiently wait for the page
->>> pool to go away.
->>>
->>> What is the actual, end user problem that you're trying to solve?
->>> A few kB of data waiting to be freed is not a huge problem..
->>
->> Yes, it is not a huge problem.
->>
->> The actual end-user issue was discussed in
->> "page_pool: Add page_pool_release_stalled tracepoint" [1].
->>
->> I think it would be useful to provide a way for SREs to purge the
->> receive queue when CLOSE_WAIT TCP sockets receive RST packets. If the
->> NIC, e.g., Mellanox, flaps, the underlying page pool and pages can be
->> released at the same time.
->>
->> Links:
->> [1]
->> https://lore.kernel.org/netdev/b676baa0-2044-4a74-900d-f471620f2896@linux.dev/
+On Mon, 02 Mar 2026 18:32:59 +0100,
+Rong Zhang wrote:
 > 
-> Perhaps SRE could use this in an emergency?
+> QUIRK_FLAG_SKIP_IFACE_SETUP was introduced into usb-audio before without
+> appropriate documentation, so add it.
 > 
-> ss -t -a state close-wait -K
+> Fixes: 38c322068a26 ("ALSA: usb-audio: Add QUIRK_FLAG_SKIP_IFACE_SETUP")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Rong Zhang <i@rong.moe>
+> ---
+> This is separated from https://lore.kernel.org/r/20260301213726.428505-7-i@rong.moe/
+> (thanks Takashi Iwai)
 
-This ss command is acceptable in an emergency.
+Applied now.  Thanks.
 
-A sysctl option would be better for persistent SRE operations.
 
-Thanks,
-Leon
-
+Takashi
