@@ -1,85 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786993CB2C3
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 21:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E70E430BAD
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 21:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772572549; cv=none; b=mYh8Wp8GTtMrw+OSBq4Q8yDXvNGgnDhTkupvqULZ5liyWtIL5DHAg1ZF13rQ2iEGZQL+s7vtUufM6UaDmUBWEKd94iFigVnacHReeUW5lKosQap50P2HAyyVKfbyGEz35/dK7OV5ExVXsF0494G3RFJQ2A0/F29YCQ+aVSVUeyY=
+	t=1772572551; cv=none; b=ZB0udENzXXiTL5LEvee/alfZ3vBeea75Cg3Mv8jFV0u8k5eqG1tZzrAr1W5BqYeg/v1+QjEDrlgoiZ7x/tOSf1eN5wEJ6PJ76YVXD4Rke/hD7SwUOn2W7UsYWosU5zfzwW6rJSDqlpVh85oVNWJQe+0r+bR2fMBPpgR9CiV9WVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772572549; c=relaxed/simple;
-	bh=lJwT02KVG7/pESXAOG8cyaW742ucvP9hALO2Uv3N7Ys=;
+	s=arc-20240116; t=1772572551; c=relaxed/simple;
+	bh=s6mYU8Hu6u0tbKnwvAlOQsSAlR2qHgbV7fvzmNOhT1I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mQ6UpKIYNUGGtz0DWsaur1PPaxwIyLMv+CPSZrnKZMCz5NpejKItPYoDl5UlV3l51AZvVJ7UYk9cF3yWhZGVRHyrFVLwxFX34ml+M+sg9n+sQHAEKo1oDSa1kfxC33snt/Pcf0HwyRo3EjQQENd4/b2ptgcsqbgjNa4fD1535zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d1agVTT1; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=M9pAa5ka; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:To:Cc; b=BPnqY7Mm1vexlPSNGY+Cf++ppgb8BcEt92XCytDHcfmgv+ewUIiX7KUoA5tK+Tz9sApaUrz7d+yAMRjA2FFQjRNITrtm/hC0Fmuvnzco0wZDqQO4MqUrzQ4ZBTTkiWyU/HRCcVM0TyOoxpgiThPrwNG+hk73tbPoSUDZjUNlC+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=BTkyQ1MI; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=kCAw1JBI; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d1agVTT1";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="M9pAa5ka"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="BTkyQ1MI";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="kCAw1JBI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1772572546;
+	s=mimecast20190719; t=1772572548;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ld6zN/9/7YmG/EDhmcZckbqpb8XwO0ah+2Ai3kR30j8=;
-	b=d1agVTT1mdHe2RTcnyqqu47Hr+4NPzeFPlaO7lQyK+XY4kfWdXgMB6RgxkSerwvoVXRE5B
-	bzQBh2MkjW8m/GDJNVnETrOz8RimqCb8sEYaJAY+ml/0X9z0zZhuljhtltUpDz67JKk+CP
-	zkn9swyNG/bYIi0VCEWI020vrHOh9JY=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=qLYDkNQ8A4x2T95jGRETa6NwStvleq7OKd2uXV0vocw=;
+	b=BTkyQ1MIwdUr4SBnXaUoXkx2/qFXyrU5CIbfGcjArGrolbt/qJhAi2ziLVJz6vGm6IY23v
+	UryGmw1nwaJVbxhzmYw/2pymwQ8XtHp17lugdIOZ9Q9g6Og820zug/p1Ip5J8SE0Mk91mb
+	7FMRsKvQOEObo489Ivyt+Wyxi/oCehw=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-147-khNshmmGOsKoCsbrnAyUag-1; Tue, 03 Mar 2026 16:15:45 -0500
-X-MC-Unique: khNshmmGOsKoCsbrnAyUag-1
-X-Mimecast-MFC-AGG-ID: khNshmmGOsKoCsbrnAyUag_1772572545
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-899f671c5c1so124340246d6.3
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 13:15:45 -0800 (PST)
+ us-mta-2-tyusOWrJMb6GaEV_nkixQw-1; Tue, 03 Mar 2026 16:15:47 -0500
+X-MC-Unique: tyusOWrJMb6GaEV_nkixQw-1
+X-Mimecast-MFC-AGG-ID: tyusOWrJMb6GaEV_nkixQw_1772572547
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5033c483b74so85776011cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 13:15:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1772572545; x=1773177345; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1772572547; x=1773177347; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ld6zN/9/7YmG/EDhmcZckbqpb8XwO0ah+2Ai3kR30j8=;
-        b=M9pAa5kamLG4d42fKOUrWooO7+revNokH+wbAuoUluLIDuYwpiIuNgFI5FJouogS1T
-         cPiv5ftgGB1gNgsSR+mQCQRqNq1eiTVP1LNpIoD4jxpabHcsU08junB0y8G+T/U4IOAZ
-         1HbakjfN/rD3BUDtGIGKQuu00lGe05CbSwslU1W9GDhG2Q/sJDLszCfHBUiYvuO4Wupw
-         +vSfZWjydEIKPzYWQQw1gzfOyhRVN6zXpdoZunfDvGz8qRqlf+Ea2gOtSPKjFpSCkLxY
-         UrcAwqruUX97dmn6ho9CC5kKtatKfY2ycEkgNgfISI6JDmJII5rWcoLdJUyPWjIGFfVu
-         Vk3A==
+        bh=qLYDkNQ8A4x2T95jGRETa6NwStvleq7OKd2uXV0vocw=;
+        b=kCAw1JBIAXWRPZw4JUJv49YAWrljxCYbXksrBYpDoKBqfunUfLS7XVJD34AMw7f9pe
+         lBP1ZOc6g2DZt9+ns25+uobgikZUqykOa6qiBIW+8Z6HDs3PQkeOn7oop4BuHgH2fU0+
+         tyR6uRyuj41vz0FroNhHCjkmE5cabgSEgLWg7iZKShrJDXnc8UMmwJjxTMgiI1P3tsSv
+         x2/6YqkSZgykeNdS9iOKTP25rRy32reg30RkLHB5d9B2be7QENmC9tAVVCikFcbaqii+
+         3ExfTwxriP55kHvkyPhwceUhX+3o4RHe6gIsk8tNooyfKnefiYQoBGa7nU78ddbgToCW
+         n2Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772572545; x=1773177345;
+        d=1e100.net; s=20230601; t=1772572547; x=1773177347;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Ld6zN/9/7YmG/EDhmcZckbqpb8XwO0ah+2Ai3kR30j8=;
-        b=bsXoKFdtBWNCj8Bz5vtlMy19L7X0lvjoTDg0Ml0cEA+MObjT7XSaZcThzVuwfyb0Q0
-         q1DzasozzocIB6gCRAbWDnWRmX+ePtKHaUeRdMBRL347pF0rw2aOklz4ag7YVeZjuSfM
-         wBAfdNmQVHb+zg4kDMkFtR2x9a3hoYSk0b8Z+vBlEE07KRrFAK8BPX9/4LKMtXAhj0Yr
-         DlkPY7S2T2KfCK7wl9OVx2TO4sGYMXLcNy3EbP9Xb8Fu1b9kHaaRfrDcQyPLz/6J1H/O
-         jQqSNn1RvpD0Y32Y0aIbZ1z7PGE2qFlSpHYKcVlanjAx/J3F19EVtU9GO3KyufXz8um9
-         flvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhTADKeUy9577FuFouP94i8FwTOmJmlzej2OUB+c6a18PSRJOa8qscMsi+I5bqOuE0EfwNB92Weks=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCJpI6vY3xzKIXCzyO3Zj1xhaQdtjbKCJG+rKMKikJfN6/1b0g
-	mxuuetSHlzfxfGxPEQYhO3aNpCpyNGWlxMQvheopuWZY1WEUGdyczWGCMvTBqtai22xbQ380Ef8
-	BTAq+zJqapc1CUMP60ywMqIgstDLgPqMBUstXonkukdkjFlsl/2DuRXEhQNn5iA==
-X-Gm-Gg: ATEYQzwj5W7IOXepwzY/rwy7JM09hT4aSUsmiBcXwLrAbqmdHzg2W1lM3iZKJvflJIG
-	O/ddUJDg1Brgc9DbSZBiXNHodUbZExSUTh6Yt/2ZE93LwBfz9v4c2iZ5lZdkjyqGl3617fFto0h
-	c296RbHyVb9W+lDiRWTfZ5OFLseiL4gYoyZOEd8w6U/eRydJPd6AQpVpu0UTzTRso25skM6r6N+
-	vad4Ckia0FQ8SzHHJfdGqJxQAXe1TPaYZ6O5NjfSGM7EfedFKmTryUmlWzOiDGjFbPHbVZEUesm
-	f1TfI43vqrCM90aV+EWHTHoQA+O/RqFKm041j1JRpNo4d3w70sxqGG2OD2hTGFVmrBhCr4HznGA
-	rTVGgPdcXdJ7kEDra6PqlCniYdw==
-X-Received: by 2002:a05:6214:509e:b0:899:fdd6:9ada with SMTP id 6a1803df08f44-899fdd6a682mr113463516d6.4.1772572544932;
-        Tue, 03 Mar 2026 13:15:44 -0800 (PST)
-X-Received: by 2002:a05:6214:509e:b0:899:fdd6:9ada with SMTP id 6a1803df08f44-899fdd6a682mr113462916d6.4.1772572544344;
-        Tue, 03 Mar 2026 13:15:44 -0800 (PST)
+        bh=qLYDkNQ8A4x2T95jGRETa6NwStvleq7OKd2uXV0vocw=;
+        b=sBII97SKbiWRqSLmypKuPY+TIFJDwi56tPEHIfvDax+4jRyMpFb1qMTZ5qxcDvLKQI
+         2h61pdVE+1cWMNMYLgPUeloG8U1CgZpKOfGMi3TqG74Ox7GILDKJ0PfNrAX9hVnVBzpa
+         UYW70FRo7qMPPVPyHyzkgIS9XVNAJArAIVqgEPRm0OGAO/7a4jDKOBj9hHIHxT2RqLP/
+         bMpMp7uX4h3keYzVl3lYkVANqZfvMSfrl4FtI7kkSo8e9vrhyRv5o70jjvxBk48SV8zb
+         H3QeFjpTjs6syCU4FlCiniaUD1oSXgtj03z4bT/JEpeDV+2of4XH+1h6+ChJnnw6yQHD
+         rH6g==
+X-Forwarded-Encrypted: i=1; AJvYcCUuVEDPP7ZdAattCsHhRdZmIqBEfaYkLUQX4k4fXSNqWN+iWXbUJkefgv2WzXemiQTlmKXOr1X+7kg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjzLqEJ88iYeS4Yize3VuYFldE9u7+n8plhK4AHNOKxxsOx8YG
+	vfOcvXgiwyhQCFAeNQ4yzX1uEi4Xan0xbEgXL+MvwFD5qo3xLiB8+15KkDUVRK8nPlFeAd5VqZc
+	W64RYhF6RYVZrPeiNXVrKip6Z5eiiUC3nD6BGDhhU+e5BwSi9V2CbxX/he8ImNA==
+X-Gm-Gg: ATEYQzwDklz6a6zOgKAP7xQjbeJw3vEvE7E20NNMrGejiHNfqFAEJ6OUFDWvakkKftK
+	xJiLi9dMXQaVbgC90arCN4P73XKcPS5OFWm8MAb7Xq/K7wOqrpZhUuPi1eCicYr1fBmdjYC1fQX
+	qyB53IB6jc+Kb3ARq2CAA4hrxt5wy/F6TtD94nxUth7aQu1Nqb9be17o/5clZiWi51IcihwR/5h
+	rUXHCo/g9Nr5jm+UdeGc/qHBt16+H+5jDnre8xWkYriUEwOxjEqbGW1aS5yDoJP8QhGlNTFfapj
+	OlYlBDJ9EESE/PaPFJS8T+0MqtwfrtBuvEFHt+NW0wWNDNoiqvaPtvvybtULmZukLYTNtgfcaZT
+	QrJc/A5pp5dP3DtqKfe0GPFOxEA==
+X-Received: by 2002:a05:622a:64c:b0:4f3:5652:6743 with SMTP id d75a77b69052e-507527cc1c1mr213308881cf.39.1772572546785;
+        Tue, 03 Mar 2026 13:15:46 -0800 (PST)
+X-Received: by 2002:a05:622a:64c:b0:4f3:5652:6743 with SMTP id d75a77b69052e-507527cc1c1mr213308331cf.39.1772572546254;
+        Tue, 03 Mar 2026 13:15:46 -0800 (PST)
 Received: from [172.16.1.8] ([2607:f2c0:b1e3:9a00:3c7:56c2:f819:96d2])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5074481c0e5sm156286991cf.0.2026.03.03.13.15.42
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5074481c0e5sm156286991cf.0.2026.03.03.13.15.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 13:15:44 -0800 (PST)
+        Tue, 03 Mar 2026 13:15:45 -0800 (PST)
 From: Peter Colberg <pcolberg@redhat.com>
-Date: Tue, 03 Mar 2026 16:15:26 -0500
-Subject: [PATCH v3 06/10] rust: pci: add is_virtfn(), to check for VFs
+Date: Tue, 03 Mar 2026 16:15:27 -0500
+Subject: [PATCH v3 07/10] rust: pci: add is_physfn(), to check for PFs
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,7 +88,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260303-rust-pci-sriov-v3-6-4443c35f0c88@redhat.com>
+Message-Id: <20260303-rust-pci-sriov-v3-7-4443c35f0c88@redhat.com>
 References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
 In-Reply-To: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
 To: Danilo Krummrich <dakr@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
@@ -118,47 +118,36 @@ Cc: linux-pci@vger.kernel.org, rust-for-linux@vger.kernel.org,
  Peter Colberg <pcolberg@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>
 X-Mailer: b4 0.14.2
 
-From: John Hubbard <jhubbard@nvidia.com>
+Add a method to check if a PCI device is a Physical Function (PF).
 
-Add a method to check if a PCI device is a Virtual Function (VF) created
-through Single Root I/O Virtualization (SR-IOV).
-
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-Reviewed-by: Alistair Popple <apopple@nvidia.com>
 Reviewed-by: Joel Fernandes <joelagnelf@nvidia.com>
 Signed-off-by: Peter Colberg <pcolberg@redhat.com>
 ---
 Changes in v2:
-- Add #[inline] to is_virtfn().
-
-This patch was originally part of the series "rust: pci: expose
-is_virtfn() and reject VFs in nova-core" and modified as follows:
-- Replace true -> `true` in doc comment.
-- Shorten description and omit justification specific to nova-core.
-
-Link: https://lore.kernel.org/rust-for-linux/20250930220759.288528-2-jhubbard@nvidia.com/
+- Replace VF -> PF in doc comment of is_physfn().
+- Add #[inline] to is_physfn().
 ---
  rust/kernel/pci.rs | 7 +++++++
  1 file changed, 7 insertions(+)
 
 diff --git a/rust/kernel/pci.rs b/rust/kernel/pci.rs
-index 88bd114970431bf8c3edef94c1d48567d895eaf6..db05641186c3a42922e2b6a463de9c1b099a4673 100644
+index db05641186c3a42922e2b6a463de9c1b099a4673..df39ad3f0d5fd898b034609efb03368f83c2a2e9 100644
 --- a/rust/kernel/pci.rs
 +++ b/rust/kernel/pci.rs
 @@ -484,6 +484,13 @@ pub fn resource_start(&self, bar: u32) -> Result<bindings::resource_size_t> {
          Ok(unsafe { bindings::pci_resource_start(self.as_raw(), bar.try_into()?) })
      }
  
-+    /// Returns `true` if this device is a Virtual Function (VF).
++    /// Returns `true` if this device is a Physical Function (PF).
 +    #[inline]
-+    pub fn is_virtfn(&self) -> bool {
++    pub fn is_physfn(&self) -> bool {
 +        // SAFETY: `self.as_raw` is a valid pointer to a `struct pci_dev`.
-+        unsafe { (*self.as_raw()).is_virtfn() != 0 }
++        unsafe { (*self.as_raw()).is_physfn() != 0 }
 +    }
 +
-     /// Returns the size of the given PCI BAR resource.
-     pub fn resource_len(&self, bar: u32) -> Result<bindings::resource_size_t> {
-         if !Bar::index_is_valid(bar) {
+     /// Returns `true` if this device is a Virtual Function (VF).
+     #[inline]
+     pub fn is_virtfn(&self) -> bool {
 
 -- 
 2.53.0
