@@ -1,157 +1,77 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371433537E3
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 17:22:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4053264D7;
+	Tue,  3 Mar 2026 17:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772558553; cv=none; b=IClBa0FKNLyHGH4LKlSfj70ZfjPKMGdF6ddLLeg/M9PO17tdjvuY1LGET1fi3KVZ4Uxd4tnU1NCUYVY9zBVlT2zkQEGfzXO0hAAPlXaAcPIP1exuppZIZWSTALQLuW4RtTOy3jPb9InTooAeYN2GYjv20hAZdU7xUTHb+KCXyp8=
+	t=1772558621; cv=none; b=iTd8juCekoa1U4FOwIbcmFCChMmwpFjSHdIcbsmUkdFBGNzkgMPhHAWXmtu2QQuaMEh/uWIxUAYYzwBBH2fwcDZrApSHjdElNkDOq/05AlrQtY0N3aoy0ULLhQsGGkYRWIyWvEoHSDYITl9b1oAN2Vy5tGXA0XW3jw8DECYctJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772558553; c=relaxed/simple;
-	bh=UXoGlPvqqQhWapLJaenBDd7jXix0YmytELgrhnnsdog=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TOfB4K3xN54QofzcFF92FCepaiCYm4J+d/goXOFDKMC37h4/5Cva7uDsQlyf9PoTwa7qyl6UcLUuzWSqwQcnkDvaeeNvBAYxfwGvw5MPDe5DMGnFezt3DwtzzFaHmxYfg70+Hr7duaHB66wQc2Ar5McU3njW+VF5ye2YXlFE5YM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WN158x0V; arc=none smtp.client-ip=45.79.88.28
+	s=arc-20240116; t=1772558621; c=relaxed/simple;
+	bh=S7S+L4dcn0iUO7ax1UZYqMfmLwgnvJFpyBZDbjJkqDQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Iqtc1fEe1LKc5KLkTYB/tN9+WsM0czfMSU0MzG0XbNAq8UMXRMQ0L1TQ5wffyEZSZTsF6nEFfGi64olGPyR3rK1PFVfGXnBFsJrycqdjUauuFw3xM8bw/YBDSxec1/NjHNIOHQTR1jl9lwP9xifp5DwjD2U9YX5N+0OJGWAMbuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Y044dR5Y; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WN158x0V"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6CE7A40429
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Y044dR5Y"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ECAD540429
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1772558550; bh=uRyW0yuRTkqeHs8H60Vxgek9Kw+5j47NoUAQa4DdJyw=;
-	h=From:To:Subject:Date:From;
-	b=WN158x0VxewawZN1iEmxD1RKYZkOFyXkIhke+cB32C1iQ58Bd2StlakjRb26d1cf5
-	 X/AZ6ogzIggcOpGSoGNvLd9eT/jNuI3bp2sXyUc9+5UwS/kW72zZeDK1swap6hRnrj
-	 hWrQJ9kbJWahHVfqsvD6wpYGqzyivrjX23Rna2HbMdjGy920x4wYf3F2iMJ5TdEODI
-	 JWzZyq7D9wLDNGbSFxRn/CqOMTc/lQ4A/80s00w6aJ4WdBp31GprEt4FJSfmMUcdNp
-	 uq9UiqtbhxoiG4ys7ftaEzAvDtinqkb9zTFEthciPB3DMS0xGf4oACgz6U73Lr/Mbn
-	 El0uKukgdhJCQ==
+	t=1772558618; bh=YihbDh1STpNtSF3uB3GelT6vEz9oVx20NMbIbqP9x6U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Y044dR5YJjZpUXPTuxxlHJVkrBPQHjyn3ziNr3RM1R+lThQhYtNKQG/p1zaA+ZDD9
+	 uRVXjq0rlxz+hBm/Xr/z2QLJV8HmuTdzoSvslPHENNAlFOWXcTVmdXvx9Rydti9d0j
+	 t28kPljUB6kCavF1z90gi5kdbo0kQR33oEVHi/xhyOOseepHMmw/UyRQL1V0x4uEeV
+	 nKwOU7A3CpM4LWX+uXylaI4qjR9KjyT752m1+sDZ4YowwhG7j3TK3GXX5rGfic4MLw
+	 zDzk6TJPdi+0UpYqBGMBS8SaWv5bIbXumFX/IjSojgmvOv/eyiufPMHTaP36u6zZsa
+	 Xmw1AzBxnu2zg==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6CE7A40429
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 17:22:30 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id ECAD540429;
+	Tue,  3 Mar 2026 17:23:37 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: linux-doc@vger.kernel.org
-Subject: [PATCH] docs: Remove a useless top-of-file label
-Date: Tue, 03 Mar 2026 10:22:29 -0700
-Message-ID: <87a4wode0a.fsf@trenco.lwn.net>
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/5] docs: watchdog: general cleaning and corrections
+In-Reply-To: <20260228010402.2389343-1-rdunlap@infradead.org>
+References: <20260228010402.2389343-1-rdunlap@infradead.org>
+Date: Tue, 03 Mar 2026 10:23:37 -0700
+Message-ID: <875x7cddye.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-I'm not sure how the practice of putting labels at the top of documentation
-files got started, but I would like to see it end.  Toward that goal:
-replace the development_process_main label in
-process/development-process.rst with an SPDX line and adjust the references
-to just give the file name.  The automarkup code will then create a link
-automatically in the rendered docs.
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-(I wrote the original document, so feel confident in applying the SPDX line
-to it).
+> Fix some obvious issues in the watchdog documentation files.
+> I didn't try to fix every little niggling mistake.
+>
+>  [PATCH 1/5] docs: watchdog: mlx-wdt: small fixes
+>  [PATCH 2/5] docs: watchdog: pcwd: fix typo and driver info.
+>  [PATCH 3/5] docs: watchdog-api: general cleaning
+>  [PATCH 4/5] docs: watchdog-kernel-api: general cleanups
+>  [PATCH 5/5] docs: watchdog-parameters: add missing watchdog_core parameters
+>
+>  Documentation/watchdog/mlx-wdt.rst             |    4 -
+>  Documentation/watchdog/pcwd-watchdog.rst       |   19 +++++--
+>  Documentation/watchdog/watchdog-api.rst        |   38 +++++++--------
+>  Documentation/watchdog/watchdog-kernel-api.rst |   20 +++++--
+>  Documentation/watchdog/watchdog-parameters.rst |   11 +++-
+>  5 files changed, 58 insertions(+), 34 deletions(-)
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
- Documentation/process/development-process.rst                 | 2 +-
- Documentation/process/maintainer-handbooks.rst                | 4 ++--
- .../translations/it_IT/process/development-process.rst        | 2 +-
- .../translations/pt_BR/process/maintainer-handbooks.rst       | 2 +-
- .../translations/zh_CN/process/development-process.rst        | 2 +-
- .../translations/zh_TW/process/development-process.rst        | 2 +-
- 6 files changed, 7 insertions(+), 7 deletions(-)
+Wim, do you want to pick these up, or should I take them through the
+docs tree?
 
-diff --git a/Documentation/process/development-process.rst b/Documentation/=
-process/development-process.rst
-index e34d7da58b7f..4d75567cf365 100644
---- a/Documentation/process/development-process.rst
-+++ b/Documentation/process/development-process.rst
-@@ -1,4 +1,4 @@
--.. _development_process_main:
-+.. SPDX-License-Identifier: GPL-2.0
-=20
- A guide to the Kernel Development Process
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-diff --git a/Documentation/process/maintainer-handbooks.rst b/Documentation=
-/process/maintainer-handbooks.rst
-index 3d72ad25fc6a..5a0e13aa88a3 100644
---- a/Documentation/process/maintainer-handbooks.rst
-+++ b/Documentation/process/maintainer-handbooks.rst
-@@ -4,8 +4,8 @@ Subsystem and maintainer tree specific development process =
-notes
- =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-=20
- The purpose of this document is to provide subsystem specific information
--which is supplementary to the general development process handbook
--:ref:`Documentation/process <development_process_main>`.
-+which is supplementary to the general development process handbook found in
-+Documentation/process/development-process.rst.
-=20
- Contents:
-=20
-diff --git a/Documentation/translations/it_IT/process/development-process.r=
-st b/Documentation/translations/it_IT/process/development-process.rst
-index 20e77c9816a1..29a52a8a4704 100644
---- a/Documentation/translations/it_IT/process/development-process.rst
-+++ b/Documentation/translations/it_IT/process/development-process.rst
-@@ -1,6 +1,6 @@
- .. include:: ../disclaimer-ita.rst
-=20
--:Original: :ref:`Documentation/process/development-process.rst <developmen=
-t_process_main>`
-+:Original: Documentation/process/development-process.rst
- :Translator: Alessia Mantegazza <amantegazza@vaga.pv.it>
-=20
- .. _it_development_process_main:
-diff --git a/Documentation/translations/pt_BR/process/maintainer-handbooks.=
-rst b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-index eb650bc6006c..9c0f2ef52cac 100644
---- a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-+++ b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-@@ -5,4 +5,4 @@ Notas sobre o processo de desenvolvimento de subsistemas e =
-mantenedores
-=20
- O prop=C3=B3sito deste documento =C3=A9 fornecer informa=C3=A7=C3=B5es esp=
-ec=C3=ADficas de
- subsistemas que s=C3=A3o suplementares ao manual geral do processo de
--desenvolvimento :ref:`Documentation/process <development_process_main>`.
-+desenvolvimento Documentation/process/development-process.rst
-diff --git a/Documentation/translations/zh_CN/process/development-process.r=
-st b/Documentation/translations/zh_CN/process/development-process.rst
-index c10d8e2e21eb..4b44370ce6e7 100644
---- a/Documentation/translations/zh_CN/process/development-process.rst
-+++ b/Documentation/translations/zh_CN/process/development-process.rst
-@@ -1,6 +1,6 @@
- .. include:: ../disclaimer-zh_CN.rst
-=20
--:Original: :ref:`Documentation/process/development-process.rst <developmen=
-t_process_main>`
-+:Original: Documentation/process/development-process.rst
- :Translator: Alex Shi <alex.shi@linux.alibaba.com>
-=20
- .. _cn_development_process_main:
-diff --git a/Documentation/translations/zh_TW/process/development-process.r=
-st b/Documentation/translations/zh_TW/process/development-process.rst
-index 305d9472b017..7c7954261d3c 100644
---- a/Documentation/translations/zh_TW/process/development-process.rst
-+++ b/Documentation/translations/zh_TW/process/development-process.rst
-@@ -2,7 +2,7 @@
-=20
- .. include:: ../disclaimer-zh_TW.rst
-=20
--:Original: :ref:`Documentation/process/development-process.rst <developmen=
-t_process_main>`
-+:Original: Documentation/process/development-process.rst
- :Translator: Alex Shi <alex.shi@linux.alibaba.com>
-              Hu Haowen <2023002089@link.tyut.edu.cn>
-=20
---=20
-2.53.0
+Thanks,
 
+jon
