@@ -1,95 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6552253FC;
-	Tue,  3 Mar 2026 13:33:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D14F34FF62;
+	Tue,  3 Mar 2026 13:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772544806; cv=none; b=SPx28FU8w81bkMD8RC0rvdNbUwtrAfFTUS2mi3W1kdF5HlSCW87hxAyiGWohRSfGCOz+uuWurjstrrxKF3bdu8XxiD8ezErmNMXr6ysI6AOEICWBYs0E051NS7ynZr8VOH6b2ZVCPlY0L/I3NhdtureizYw965FsvUu5qfpmuDY=
+	t=1772545766; cv=none; b=HTtQfsr6WPPZ1n1omJEXgiRrc0qnN2Yo0dkuPrHuybA73i1b+Ko45nZnw6yOuF0D9P27Nr0vw1bQLk98WgJpWGdHqCF5R/t+/HB1D+j2Z/GSOGkeXjt7wDvQEXZ2fEk4Z+YiILW3tmt8/84tcCwqfRoW1PXx2rezsR+6bmFvOrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772544806; c=relaxed/simple;
-	bh=XU1yAq8je+l65v1ey65oHCTpxi/VitYbxljWDsN9sqo=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=bo1Vc8jkwOkY6OnzUu0M9wfQkCpWJEclcLnU1Zq5IlZpcXhfNECi+1OOWb3DnHf2s2D0/O4lVOFpsGLv2EOqLoJB8FMWfrnHils5PNtTtmrmn4oPQyu1XM9pSZ/ucHfavmLB2LKL9BxRz9lTuwYler7h1LfNSUa+epaZWiYHcRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HAW/33zE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772545766; c=relaxed/simple;
+	bh=+AJ2/PIieuQuxzYACUS/CrkUU9oo9mrVsUn+s7f40FA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SpasXz0eV5uqb0SI4A5ou5La6w7fayLPy3kvuOn77HV2dG9gZ8r5cdmO/Pzb2/IqCooGehK6ubUTrGu55OqhVgcAgLPtmk0nzncOMSm0JRHvDpLtZyw+ugWqEVuKwLnEnmyhX4LCKSEAn56Wgl/zly0YbMdX91JwLya5x+edSEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgnqM2I+; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HAW/33zE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADADEC116C6;
-	Tue,  3 Mar 2026 13:33:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772544806;
-	bh=XU1yAq8je+l65v1ey65oHCTpxi/VitYbxljWDsN9sqo=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=HAW/33zEuPnwrxIOyVsAKcsMvRiSvW8izk4GgeTI/9w3XVYqEPccJoXFPBj9lkXG2
-	 e8zVJ4Nss03qRIVZ4zWyHJym+gK43tP8THmQd+Fj2o80J4aE7W4OP5625m5r1Y7HeE
-	 NNYPiXIgIhfNUPJFRbhGALRKQGGa6oY57zFqHUJ92pV7Pct9XRbCwj5jT5LmC/iGy3
-	 etFpZD+Jo7h8JLxsWQ2OBgYKIckADVz78A6eQEnBQv9t/MrOZXGtvuL/FsQZCjhfjz
-	 RsnmyKHJ73WwIwmKZLSaU0ciN2p1KMtXGHZjndHrpp30PdPd82mJ9t80aKcVNwpwjJ
-	 ZkcSb7ffq6yeg==
-Message-ID: <500ba707-53c9-4037-86e2-973c71ca3d41@kernel.org>
-Date: Tue, 3 Mar 2026 14:33:20 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgnqM2I+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772545762; x=1804081762;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+AJ2/PIieuQuxzYACUS/CrkUU9oo9mrVsUn+s7f40FA=;
+  b=YgnqM2I+Nrjs69Pmewj/v3xgzFyZd2mCb6jAWYsFiYJ8Rmqc4NIoLV4G
+   nJHobt9N8k0xSpC55Hoo4nPL4jYezrleuEctYlcD1uiND7iOv5O3+cvI6
+   Oxr9D9is1xRhTVngrxpnXlQ4AdynUpmtzwk2EL2JhSlf+wZ9arxE2pVTj
+   lNq8KnNIv7b4Gw6oWhZXkvObKLHF4gs//ohbINsfaRq+se5Z0i5cC7Wak
+   D1oxK5bM6xCMzgTLqgjtk7H6XObZR1yqxA8DgtesxHgPr5gMFIoshJ5Px
+   sG5X/kK/qwJASJS0FEzs6d7A+cjRTWIqS/4H69lAqFZv24QXisr8o7KmS
+   A==;
+X-CSE-ConnectionGUID: VFnTYrc3QjuxJpp0Udp3GQ==
+X-CSE-MsgGUID: W/SwgMlyQKmfSoQ+v1Hqkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="90978706"
+X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
+   d="scan'208";a="90978706"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 05:49:22 -0800
+X-CSE-ConnectionGUID: jUnCN3x+QfeUHFCXAIVMeQ==
+X-CSE-MsgGUID: p5Bzx/P2RSSBlAoGOrN0Kg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,322,1763452800"; 
+   d="scan'208";a="248498513"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.32])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2026 05:49:18 -0800
+Date: Tue, 3 Mar 2026 15:49:15 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
+Message-ID: <aabm23jCikXs1l6F@ashevche-desk.local>
+References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+ <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Subject: Re: [PATCH v1] kasan: docs: SLUB is the only remaining slab
- implementation
-Content-Language: en-US
-To: "David Hildenbrand (Arm)" <david@kernel.org>, linux-kernel@vger.kernel.org
-Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260303120416.62580-1-david@kernel.org>
-In-Reply-To: <20260303120416.62580-1-david@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 3/3/26 13:04, David Hildenbrand (Arm) wrote:
-> We have only the SLUB implementation left in the kernel (referred to
-> as "slab"). Therefore, there is nothing special regarding KASAN modes
-> when it comes to the slab allocator anymore.
+On Tue, Mar 03, 2026 at 01:27:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
 
-Right, thanks.
+> Add kstrntoull() function, which converts a string to an ULL with a max
+> character limit. The function is an alternative integer parsing function
+> that does not require a null-terminated string. It becomes a better option
 
-> Drop the stale comment regarding differing SLUB vs. SLAB support.
-> 
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Vlastimil Babka <vbabka@kernel.org>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+null -->  NUL
 
-Reviewed-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> over simple_strtoull() or kstrtoull() when parsing integers from a buffer
+> with custom delimiters without having to create temporary copies.
+> The function is consumed inside the implementation _kstrtoull(),
+> promoting reuse.
 
-> ---
->  Documentation/dev-tools/kasan.rst | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index a034700da7c4..4968b2aa60c8 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -75,9 +75,6 @@ Software Tag-Based KASAN supports slab, page_alloc, vmalloc, and stack memory.
->  Hardware Tag-Based KASAN supports slab, page_alloc, and non-executable vmalloc
->  memory.
->  
-> -For slab, both software KASAN modes support SLUB and SLAB allocators, while
-> -Hardware Tag-Based KASAN only supports SLUB.
-> -
->  Usage
->  -----
->  
+But this will not properly convert 0000000000000000000000000000000000000000100,
+for example, if the max_chars say set to 20.
+
+Also kstrto*() have a common idea behind to consume the only \n and allowed
+digits. This (naming) doesn't fit into the kstrto*() category.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
