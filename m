@@ -1,103 +1,126 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79DA1382388
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 22:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1FD370D52;
+	Tue,  3 Mar 2026 22:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772577908; cv=none; b=bjRM6+SswTnN+l5bbGj+I5ZbyIRKSijvoGa5KsF/DdMap61BPOJp9qdDq6ffpSzT1Ko4a6LlviDXahGoyWB8fzrhL+HlAW+b5Mj994Jcj1rBVGABDLtsT0uudhv0w1AzFAJ5GiLMzZOKtXhV8VgLLI3sDEO1GVCCmTbBeRujj5U=
+	t=1772578342; cv=none; b=akr9+JQOEA5ADFI32tLeLaAFiUPuCOUH4IKGyX+FjyFyv0sH3rXFOnT8djlaNJTwnEi+j8E4rLzZeJBtRiO8In6QquOEGPjgfZgtxKHPatpMm7Pa8r//xXK8sy4CJYM6UjFsLKXI3GTUFAAMCLwXnbDGj7O6wYbZgIy7ZeGEEPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772577908; c=relaxed/simple;
-	bh=gT+4UsZeu87kB1GcB9paauQ5Vo3N9fedCom4NsX5T7U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uloCOtJ/MMwOvQATxmfoI0MD9zOhJpG0dahRlVLlk+zy7t9WqOay3yeHbI2cX2n0tdw2BUAFWX/6oAIzQvGZbbh/u/Mg+JHh/b20TPAEvVyUNY+/ztTMPUyEnXlOgqgsd+Nq+TFhWi3QhFim8SEMMWs0m/a9FLoD98h2+NUyK4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4LTncgR; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772578342; c=relaxed/simple;
+	bh=KkKFMt+NKSjC/iuAWFOKDY+6iw+XZpHyZpJ2eGO+Vk8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VXb6YWu9AXCVslnrf2ViwVsZwShbFOwddo1jQZ0pLHIAHBY1x2sG99yfF2F1y5zpW4iGXK2sn+f4/Olu2vSjnV4EpKWPauQTF6nd5Kh1cdehYmr+jIHOWHJSOsdQ1U6ScN2Tk9QWXTJxeySTu2iYlT6G+3WDrAtY6ZsBhht2VEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=U8VFaajR; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4LTncgR"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-8cb40030be5so524463485a.3
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 14:45:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772577906; x=1773182706; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TGapXhFYPxeYZaB83ey3cJIs7U21VzM4YwAzM0NLpWY=;
-        b=Y4LTncgRHL3bgLamKpGiL3zGsQAO2EvB2I43rARmvpiJB2RTCP5jste+cwmzTZMkOm
-         /mMvzuqUkAx1jSSgq+0Am6STIJ5TUaXNOZoK3M27AiYjM4S4HSf8G5JHQHa1UwGLFN5u
-         yGDb9jcPe6/7+aiYPDQG2QROKPDyseB6OQK9JehDnGG80nt3NL7u8zyYYU8nkOhZkzfa
-         9f/Be3nl7ChC/eWKOm53Q2lh12Z5JAfpsoCGNwqypDYuDDZS7hXNtp6+aNxQLLz2nz6M
-         fa8drU/jL54BJ42HBzkvPtFoAfJxzfp6Neopvp6UJvOdS8ok0M05auRdw0N5fcECQ0Gl
-         oqdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772577906; x=1773182706;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TGapXhFYPxeYZaB83ey3cJIs7U21VzM4YwAzM0NLpWY=;
-        b=V6OnPnMonU8xekYWlAW15qttCIYGBoFTNxpd4Kluts7Ojp7mmRbPpKbWzmFyGpEfDR
-         +QMAQ5DSrsyTLEJcGs5itkQ5TPAapzM2D2gy2mgFhCkny5fKLO5t/U4aUiH6jV087eys
-         DeMQAnpclLQYVuzxyb84rt/aGLi1Kau+e4wiUO9YwlZe3Jgsd1PSSAGq9oV0ZduCA/8c
-         PaKJvzjREdffzws773b45s4m+owivThuax0U4dZHDLcIq6cGnGhd1yxKYlQSR4wD8QqK
-         jxuAcncH46II2dzBLbMlh6YqrFTrPaB1qA2JsMdqa40JqKH83zAB8E4VqbS5GrjFmhnk
-         DCow==
-X-Gm-Message-State: AOJu0YyvkCL6GErzuKofVKHMzFLzMVktrDRpM8bVaHJ0bBFIyEyQb42u
-	uUWGuqyaayfc/wHZFLcpXt9KSHzoLMPg2v/YttzLgfq/6EPHAU51UUPLFI353w==
-X-Gm-Gg: ATEYQzxFIITe1liB60o5zPsX8ngNd8YJ/YrgzjxbIA6vplVFUfRLLHcqPrTBFvoRDqB
-	e2B493xOj6OMwJXDOophL70Q8RdmKBXE/jovrBCCA89yKc+21bVjOOjJ0AOsJJ4Io9TPRrQiFfF
-	zjc76nPA0yve+hIXnZlcgTnnTL7wgDP38N6pM16t9GRzhNMRff1OGoLWEuZPxTQ4G1V+rxtu7eU
-	cfnA75WPJRY3g1S3U87m5dT3pzIZE1xmxIfwtJG4wq2U/ELAHtXUYqCEBFlqIT036emD5QVhT3X
-	RXcbFevfvC43UmchAkeD3cVgeQi7bVrcST5ZQGqgparQigyhevMjfVu5YoDv0bkxSrLtlKzsUAu
-	bFjpPn4rBBp8TSqA/+II2jO0mYv69iwdEWDi1Ge2xUCRWRhEPxlO4EhiPXwnHYVc2KfMdvy9num
-	53fA2WuGLX7efovKpUtl7P4Yep6/qwzH2Bna72srRVLcNA/WWGPNAr
-X-Received: by 2002:a05:620a:4686:b0:8c5:311a:2023 with SMTP id af79cd13be357-8cd5af10fc9mr7124885a.22.1772577905875;
-        Tue, 03 Mar 2026 14:45:05 -0800 (PST)
-Received: from daniel-desktop3.localnet ([204.48.79.88])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cbbf7319bdsm1510111385a.43.2026.03.03.14.45.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2026 14:45:05 -0800 (PST)
-From: Daniel Tang <danielzgtg.opensource@gmail.com>
-To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Fox Chen <foxhlchen@gmail.com>
-Cc: NeilBrown <neilb@suse.de>, Jonathan Corbet <corbet@lwn.net>,
- vegard.nossum@oracle.com, viro@zeniv.linux.org.uk, rdunlap@infradead.org,
- grandmaster@al2klimov.de
-Subject: [PATCH v2] docs: path-lookup: fix unrenamed WALK_GET
-Date: Tue, 03 Mar 2026 17:45:02 -0500
-Message-ID: <5332975.31r3eYUQgx@daniel-desktop3>
-In-Reply-To: <13098721.O9o76ZdvQC@daniel-desktop3>
-References: <13098721.O9o76ZdvQC@daniel-desktop3>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="U8VFaajR"
+Received: from [172.27.2.41] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 623MZNuw3553846
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 3 Mar 2026 14:35:24 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 623MZNuw3553846
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026022301; t=1772577327;
+	bh=PWkUhVKmvPcsYyQkSE4NsHuA0TlmqkuDcsXL0WFf/qo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=U8VFaajRyrd9D/ni57g7wy0FTw3hgzom41MFBWfMDP4bxMGgwlC/D5AkQ24CkrHM2
+	 UYM/pWGsL6ZTaEf6ruWZbE0rAiUfMo6gpX0XtTMZMQlb77hSWF+Z7uBDkdSyyUV+1V
+	 uHICECWKzLonM4GhPIwwUTOZhn/OLmV2wwRGDYEMpKOVZX71koUpomJhIRH+yeui1T
+	 NeU7bXoUjViZObR4nVN6+m1CVm4ammnIHtTIPtP7RijvcIKFdKmqSL2y55RswBprHX
+	 IcVSthQNF2rJsbc4WEgwpCW+pAQyD4KMHJEXOpcqdu3CAgG57FM6uWJuhK3dOiAIvL
+	 uh7IlOo0SLFaQ==
+Message-ID: <3212161f-64b2-4825-8bcc-c36201ab6589@zytor.com>
+Date: Tue, 3 Mar 2026 14:35:18 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] x86/vsyscall: Add vsyscall emulation for #GP
+To: Sohil Mehta <sohil.mehta@intel.com>, Dave Hansen <dave.hansen@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Kiryl Shutsemau <kas@kernel.org>,
+        Brendan Jackman <jackmanb@google.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Nam Cao <namcao@linutronix.de>, Cedric Xing <cedric.xing@intel.com>,
+        Rick Edgecombe <rick.p.edgecombe@intel.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260219233600.154313-1-sohil.mehta@intel.com>
+ <20260219233600.154313-4-sohil.mehta@intel.com>
+ <1383b357-2a10-4b36-afb9-42e2724faa31@intel.com>
+ <faf58379-36df-4535-8c17-bcfe838ae4c4@intel.com>
+Content-Language: en-US, sv-SE
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <faf58379-36df-4535-8c17-bcfe838ae4c4@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fixes: de9414adafe4 ("docs: path-lookup: update WALK_GET, WALK_PUT desc")
-Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
----
- Documentation/filesystems/path-lookup.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 2026-03-03 13:20, Sohil Mehta wrote:
+> 
+> Sure, combining things from the cover letter and what you suggested
+> here. How about?
+>
 
-diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
-index 9ced1135608e..6957c70f18db 100644
---- a/Documentation/filesystems/path-lookup.rst
-+++ b/Documentation/filesystems/path-lookup.rst
-@@ -1364,7 +1364,7 @@ it sets ``LOOKUP_AUTOMOUNT``, as does "``quotactl()``" and the handling of
- symlinks.  Some system calls set or clear it implicitly, while
- others have API flags such as ``AT_SYMLINK_FOLLOW`` and
- ``UMOUNT_NOFOLLOW`` to control it.  Its effect is similar to
--``WALK_GET`` that we already met, but it is used in a different way.
-+``WALK_TRAILING`` that we already met, but it is used in a different way.
- 
- ``LOOKUP_DIRECTORY`` insists that the final component is a directory.
- Various callers set this and it is also set when the final component
--- 
-2.51.0
+[...]
 
+> 
+> "The vsyscall page is located in the high/kernel part of the address
+> space. LASS prevents access to this page from userspace. The current
+> kernel only enables LASS when all vsyscall modes are disabled.
 
+Suggest making an introductory paragraph here with the background information,
+instead of mixing it into the rest of the text in a somewhat incoherent manner:
+
+"vsyscall emulation can be execute-only (XONLY) or read-execute (EMULATE),
+specified by the vsyscall= kernel command line option. XONLY mode is the
+default. The EMULATE mode has been deprecated since 2022 and is considered
+insecure.
+
+This patch adds support for LASS with XONLY vsyscall emulation.
+
+> With LASS, vsyscall page accesses trigger a #GP instead of a #PF. In
+> XONLY (execute-only) mode, directly reading the vsyscall page is
+> disallowed. So, the faulting RIP can be easily used to determine if the
+> #GP was triggered due to a vsyscall access.
+
+How about:
+
+"With LASS, vsyscall page accesses trigger a #GP instead of a #PF. For XONLY
+mode, all that is needed is the faulting RIP, which is trivially available
+regardless of the type of fault."
+
+> Reuse the #PF emulation code during a #GP and emulate the vsyscall
+> access in XONLY mode. As multiple fault handlers are now using the
+> emulation code, add a sanity check to ensure that the fault truly
+> happened in 64-bit user mode.
+> 
+> In contrast, when vsyscall=emulate (deprecated) is configured, it maps
+> the vsyscall page as readable. Supporting EMULATE mode with LASS is much
+> harder because the #GP doesn't provide enough error information (such as
+> PFEC and CR2 in case of #PF). So, complex instruction decoding would be
+> required in the #GP handler which isn't worth the effort.
+
+"... as remaining users of EMULATE mode can be reasonably assumed to be niche
+users, who are already trading off security for compatibility."
+
+Use "EMULATE mode" consistently here. Captializing it makes it clear that it
+is a term and not just a prose word.
+
+> LASS and
+> vsyscall=emulate will be kept mutually exclusive for simplicity."
+
+	-hpa
 
