@@ -1,152 +1,198 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A944337B032;
-	Tue,  3 Mar 2026 21:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D8037269F;
+	Tue,  3 Mar 2026 22:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772573648; cv=none; b=slWrKYQtbgQWXZbermj2fx1Hh2rHtmbbNS1mwBoaAVsao3oJvwxrPKPAdJ+noDfEtSLW5yeQX3Ts/Hpplzr68B3kt+CDWZwmdnqKhOt1krwBkQW4LElSz8mI1+zw1elJyVIQZ6PQtC4gQ84Gov7IEIG6mJe7DfWWn6e+whDlPmc=
+	t=1772576329; cv=none; b=iyp/V3dbf5U2jf3pn9h2KcfCBYs1aCtEaHjGGzhKdKxxYPTv3qsWps/sD5NBVryboQdTntIdPL1kBb02RH4DIxEQqI9vIl2ooqd2LpP19fYwLBUwwU8RQZ9RIvmvMXHjKNlCbgrLPQ+7Fd1kvhtZJLN1hxzKJLrTcpH8EQ/2jdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772573648; c=relaxed/simple;
-	bh=HryfKVuHPWoa4guH+MKhMhNp3D1+IxUCSWAwTG05YYA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oioO88O/fCvb2XJqL4+Brl1dtNjkEAfq9VPSYIZJqWbipMCqU7DdHMKw3kQP9GiRnRIb45DuAqaYkhSNJQXqNOi9Bg75vtBvDD48TU80Zcpk1iiQ3tAQElxfJj/GVL5Ap8ql+UCv12mVJBOVX7hxb7WBMgwQslH8GGBil919FZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=SRa5SRVd; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1772576329; c=relaxed/simple;
+	bh=t8ybpGAdNihDZQ9kZ3/Q1qm+ufzQOMPCxFRbUnfMLvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L/1W2IHzD4/1GmGQkobCS5hqT1KH+8TOhZQMnNr1oGEmMWChb15kRJEH793WYaXSCD0WfTT4ICy93BErGZi64WycQys0l/ypsIj7oD0QoKuTP71o5tfjVX2UzgN6MZ9qjM932akewYP7X0mHhYzXMnz8DeC39pjLn4rcXjYUGoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QIFyxr1H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="SRa5SRVd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1772573644;
-	bh=HryfKVuHPWoa4guH+MKhMhNp3D1+IxUCSWAwTG05YYA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SRa5SRVdkTgUo+VWP3wZvStSUdf23EjL6iTA+ULFxYhkjvFTTjum0h+Ywv+yvJ9tV
-	 77uDwPKxZ1Kur9z7X1t0kKLvF+7l/OUtlhorX7DdZLplP3ZyN9mlfIIuFIVY8/bm1R
-	 WrEiuj2gQ6u9hEQbke8HzDXNpyK4mE8B40KmIQIc=
-Date: Tue, 3 Mar 2026 22:34:04 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Aureo Serrano <aureo.serrano@arctic.de>, 
-	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] hwmon: add driver for ARCTIC Fan Controller
-Message-ID: <02626fba-6b7a-429d-9719-46862f175b4d@t-8ch.de>
-References: <FR6P281MB590006F97DAC7A5C224D957BEF7FA@FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM>
- <51d91216-8949-44a9-93d9-646d3f3563b1@t-8ch.de>
- <8dd3367b-4a7c-414b-a4f4-41dc54578e2b@roeck-us.net>
- <d1d27763-c49d-4d02-9157-ec798bd10604@t-8ch.de>
- <72010133-5acc-43ac-8372-d0d830291ef0@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QIFyxr1H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4439C116C6;
+	Tue,  3 Mar 2026 22:18:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772576329;
+	bh=t8ybpGAdNihDZQ9kZ3/Q1qm+ufzQOMPCxFRbUnfMLvE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=QIFyxr1HQSSPJhQ/1Vn1H1V0G1NerSvlK14HOUsE5AwW/CoUiOK8RAMdrG4nlYZEQ
+	 vC6WDgkAuVLZHiBI1b+Yw3ucxtNLYCwSb0LGFJjsrqKV+Kr/kjRofNMZvKhM5g5RQ1
+	 t7+boolw8gsRLzoKfLSlrKyIFM+sW56u1E3Gyq57IQh0TPhLkqE80UbCMa9uYdVl5r
+	 EUdR1DOBbQ+YHdOqaiWf57ROcDEdXXN3VZ7wvDyBg9Rl3bzCpPd4y15sbwxf/1ftaV
+	 OEsvf5CCcAERWWacUxH/n/67qYHYQVXcUbnD8bYaOeNNPNVUfDsjrNDj8LaDuIBZYH
+	 +36Y20lMmt46g==
+Date: Tue, 3 Mar 2026 23:18:43 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org, Aleksandr
+ Loktionov <aleksandr.loktionov@intel.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH 08/18] docs: kdoc_parser: fix parser to support
+ multi-word types
+Message-ID: <20260303231843.040f41d0@foz.lan>
+In-Reply-To: <87cy1kacfc.fsf@trenco.lwn.net>
+References: <cover.1772469446.git.mchehab+huawei@kernel.org>
+	<544c73a9e670b6fef1828bf4f2ba0de7d29d8675.1772469446.git.mchehab+huawei@kernel.org>
+	<87jyvsbyvb.fsf@trenco.lwn.net>
+	<20260303211951.0e2b7faf@foz.lan>
+	<87cy1kacfc.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <72010133-5acc-43ac-8372-d0d830291ef0@roeck-us.net>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 2026-03-03 12:42:13-0800, Guenter Roeck wrote:
-> On 3/3/26 11:30, Thomas Weißschuh wrote:
-> > On 2026-03-03 11:00:25-0800, Guenter Roeck wrote:
-(...)
+On Tue, 03 Mar 2026 13:24:55 -0700
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> > > > > +     } else {
-> > > > > +           spin_unlock_irqrestore(&priv->lock, flags);
-> > > > 
-> > > > You can use the new guard() syntax from cleanup.h to avoid manual
-> > > > unlocks on error paths.
-> > > > 
-> > > 
-> > > Why would this code need interrupt disabled spinlocks in the first place ?
-> > 
-> > I *suspect* that it tries to be compatible with some semaphores in the
-> > HID core.
-> > 
-> > > It reads individual entries from priv, but even if those are updated
-> > > in parallel I don't see why that would warrant disabling interrupts,
-> > > both here and in arctic_fan_parse_report().
-> > > 
-> > > The hwmon core already serializes read and write operations, so
-> > > the locks (much less interrupt disabling spinlocks) are not needed
-> > > for that either.
-> > 
-> > The HID callbacks can be fired at any time from the HID core,
-> > concurrently to hwmon core logic. But I also dislike the spinlocks.
-> > Maybe a mutex works, too?
-> > 
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> Ah yes, I can see that arctic_fan_parse_report() reads all pwm values and
-> arctic_fan_write() writes them to the controller. That does not explain
-> why it would be necessary to disable interrupts, though, and even doing
-> that is still not safe.
+> > Heh, if we start using a code like the tokenizer I'm experimenting
+> > here:
+> >
+> > 	https://lore.kernel.org/linux-doc/20260303155310.5235b367@localhost/
+> >
+> > we could probably get rid of regexes in the future, using instead
+> > a loop that would be picking "ID" tokens, e.g. basically we would
+> > have something similar to this completely untested code snippet:  
 > 
-> Example: arctic_fan_write() updates the pwm value for channel 1,
-> writes the new value into priv->pwm_duty[1], and creates an output
-> buffer with pwm values for all channels. After preparing the message,
-> it releases the spinlock. The raw event handler receives and handles
-> updated pwm values which are completely different. Then the old,
-> now obsolete, values are sent to the controller (and, worse, the
-> new cached value in priv->pwm_duty[1] would no longer match the value
-> that was just sent to the controller).
-> 
-> That can never be made safe if the controller updates pwm values
-> autonomously, no matter if spinlocks are involved or not. That would only
-> work if fan control is manual, and in that case it would not be necessary
-> to re-read pwm values from each raw event. The current code isn't safe
-> even if fan control is manual, since reports from the controller will
-> overwrite cached values and requests to change a value can overlap with
-> reports returning the old value.
-> 
-> In this context ...
-> 
-> Other drivers also use complete() from raw events and wait_for_completion()
-> variants after writing a command, so the code sequence in arctic_fan_send_report()
-> will require closer scrutiny. It is not obvious to me why the loop and the
-> msleep() calls would be needed for this driver but not for others.
+> ...which has some appeal, but I will confess to being leery of another
+> massive kernel-doc thrash; it would be nice if things settled for a bit.
 
-Ack.
+Yeah, I feel your pain. The idea is not to simply rewrite the entire
+kernel-doc. Just to use it at the places that have known hard to solve
+bugs.
 
-> > (...)
-> > 
-> > > > > +static int arctic_fan_probe(struct hid_device *hdev,
-> > > > > +                     const struct hid_device_id *id)
-> > > > > +{
-> > > > > +     struct arctic_fan_data *priv;
-> > > > > +     struct device *hwmon_dev;
-> > > > > +     int ret;
-> > > > > +
-> > > > > +     ret = hid_parse(hdev);
-> > > > > +     if (ret)
-> > > > > +           return ret;
-> > > > > +
-> > > > > +     priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
-> > > > > +     if (!priv)
-> > > > > +           return -ENOMEM;
-> > > > > +
-> > > > > +     priv->out_buf = devm_kmalloc(&hdev->dev, ARCTIC_REPORT_LEN, GFP_KERNEL);
-> > > > > +     if (!priv->out_buf)
-> > > > > +           return -ENOMEM;
-> > > > 
-> > > > The 32 byte buffer could be on the stack, saving this allocation and
-> > > > avoiding a shared resource.
-> > > 
-> > > It might need to be cache aligned, but even then it could be part of
-> > > struct arctic_fan_data.
-> > 
-> > What would be the advantage of that over an on-stack placement?
-> > 
-> 
-> Sorry, I should have said "cache line aligned", not just "cache aligned".
-> Data on the stack won't be cache line aligned. I don't know if that is needed
-> here, but some USB transactions require it (which is why USB drivers often
-> allocate buffers separately).
+> One can always dream :)
 
-We can use __aligned() for stack variables I think.
-But with a quick search I didn't find any alignment requirements from
-the HID subsystem. So IMO it shouldn't matter much for now.
+The thing is that there are some issues at kernel-doc that can only be
+solved with a better parser, and a plain regex logic won't fix, even
+with really complex expressions.
 
+I'm not talking about variable handling like on this specific patch.
+For it, the current pure regex approach works fine, at least for the 
+cases we already mapped.
 
-Thomas
+However, kernel-doc, even after this series, do a crap job on
+several places:
+
+1. Macros used to build structs and function prototypes.
+
+   During the conversion I wrote a half-baked NestedMatch class to be 
+   able of properly handling struct_group*(), which is the best
+   example of the involved complexity. It works, but it requires parsing
+   the code twice.
+
+   Also, It probably will fail with nested struct_group;
+
+2. Nested structs.
+
+   Current logic just transform them on an un-nested struct-like
+   pseudo-code to re-use the structs regex-based parser;
+
+3. Nested struct identifiers handling.
+
+   Spec says that if one has:
+
+	struct {
+		struct {
+			int foo;
+		} a;
+	} b;
+
+   kernel-doc should document "foo"  as "a.foo", but this is not
+   always the case, due to bugs at the parser. So, on some places,
+   you need to use "foo"; on others, "a.foo".
+
+4. Public/private handling.
+
+   Code almost works, but when it finds a unmatched private inside
+   a nested struct, it will can hide close brackets. This prevents
+   fixing (2).
+
+5. Comments strip.
+
+   Code kinda works if you don't touch it, but when trying to solve
+   the previous issues, I ended discovering some hidden problems
+   related to the way it does.
+
+   (That's basically when I ended opting to try a different approach:
+   too much changes to try to live with a plain regex approach,
+   plus all stuff needed for NestedMatch to do a better job)
+
+6. Proper whitespace and alignment at the output.
+
+   The current way we parse things mean that little changes end
+   mangling with whitespaces, line breaks and/or indentation.
+
+   Perhaps we could use some token-based formatter for man pages
+   to properly handle open/close brackets.
+
+   For rst output, we're relying at the C domain to handle it for
+   us. Still, perhaps a tokenizer-based approach can just add a
+   single whitespace everywhere, which would help us to check
+   before/after differences on kernel-doc changes.
+
+I attempted fixing this at the /38 patch series and afterwards
+(good news that that we have 18 less patches after you merged
+this one), but my current pending patch pile has stlll +40 patches
+to address issues and add unit tests.
+
+Among them, I have changes:
+
+- adding support for "\1", "\2", "\3"... group matches at
+  NestedMatch sub. It works. The code itself is small, but
+  very complex;
+
+- writing a different logic to address comment stripping;
+
+- write a logic to pick struct IDs on nested cases that will
+  be using an approach similar to NestedMatch.
+
+- some of those new logic are recursive, which makes them 
+  more complex to be understood and tested.
+
+Such approach works, but, as Jani pointed, this ends adding lots
+of complexity, and the main reason is that we're acquainted to
+use regexes - or perhaps too afraid to handle it on a different
+way. Also, they ended introducing extra bugs.
+
+I had to confess that I also a little reticent on trying to use
+a tokenizer, as I was afraid that this would require extra libraries 
+to have something similar to what flex/bison would be doing. Then,
+I realized that perhaps the already internal libraries might just
+have what we needed. So, after some research, looking at:
+
+	https://docs.python.org/3/library/re.html#writing-a-tokenizer
+
+and doing some (so far simple) tests, I'm starting to think about
+modifying my pending patches to use a code similar to it.
+
+Note that, at this point, I didn't try yet to use the tokenizer,
+so for now this is still mostly a brainstorm.
+
+I intend to try to use the tokenizer to handle comments e.g. touching 
+the logic at trim_private_members() and see how it behaves. This is
+self-contained, checking the results would likely be easy, and I don't
+expect big surprises.
+
+Depending on such tests, I may try to modify NestedMatch and my patches
+using it to use the same approach.
+
+So, if all ends well, the changes will so far be confined to the code
+used by dump_struct().
+
+Let's see.
+
+Thanks,
+Mauro
