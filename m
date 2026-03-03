@@ -1,314 +1,302 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9AE382F3A
-	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 06:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF2133507E
+	for <linux-doc@vger.kernel.org>; Tue,  3 Mar 2026 06:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772518442; cv=none; b=cp8uvBzi/KRqW1Z3S0uEqNHg/BZ4r49mhz1A11pUFb1ejEWDTaYPYa6v6WwPk8vDuMx6F1zGVQBOVQS+Xa8K5DWy+QlHfoJ3htYdn1w/YHMSJh1B0NNMgf9iNXzE3InUE7G3fyZEjuRKG5tdy0BGk2qawpQuo5oHnz7AFu8SjnI=
+	t=1772518936; cv=none; b=BvaCuhUd96CBBDzEedqfRNHGUztV7jfkhAF3q68xWru8YlApyBqihDH9sJlK5Hf31F3yCAY2IKrlPSwuNy4epUxD8vugYt/gkuLkyf/wHLDyln6u7F3quZw3Armf40F2UbdqEQa7n3zUSF611+nY6GQ3QnZyMBRTAumEw3xtRFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772518442; c=relaxed/simple;
-	bh=RuF4EBelwWjX4MVB7wRAKwjHLIyH356VR5EZd3QmjHw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rzksU2QKoun1dIYuC51hALaoae66cdUZTtzd17Amg2axXVMr1PX8SBOmzisB/OAMrzN84kkiGl8uz8gXGY/AOo1hyOOn+TLFaIeCuVYVqO4DA6FY5N5bvmabglFWIzBfgl64VADbNu0CH7bVURozwGrz/k3RdDh+Scv3BPF1SeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=e+9q8H9Z; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1772518936; c=relaxed/simple;
+	bh=hCH6OUGqlsWIY7zC0dS5OdMmmVu4dEA8EXsuCrydg2w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lB5EMc8iQM6rJMtg0ODUFKPIWUjUNgVgbF7Yip1FVxXNo6jOcl8v3lCyPkBxwwwBPcJ82HvRpcrJTEQHxBMvoTscGKy4PyaMhoO6zctdQw23eLvWL+vSZnn7RaUFhlCwnWH5/DSh+bMSuEMTYU9QKUVQRpCwQkzxSD7z7LDtUjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hBFbBJNe; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="e+9q8H9Z"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c06cb8004e8so2051873a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Mar 2026 22:13:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1772518437; x=1773123237; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iTYYpNGe7aJcDLJJdiqjkV8VqGfZqV4Qv94rVv/ZSwU=;
-        b=e+9q8H9Z2qaUbup2uhMXSUAKhFg4kP8EaZTJCDbEtlMY+sjG2idWUzGG1GalnklDbq
-         raUw8Zf/h+acrwI14KJAwQvza07p9H78YbNaSXlXXCEIVKfAC/pgoJmTo9aVbwrhqhh7
-         3BFB1AizMh3VTRYKE5TM+u5QAbuW000RDS1hM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772518437; x=1773123237;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=iTYYpNGe7aJcDLJJdiqjkV8VqGfZqV4Qv94rVv/ZSwU=;
-        b=SDVa0VibsxAp5ekrTsVZemwEIkBci2uM6fdIVXGwoEUx720+cY4CSy7fOJ7ZTkATjY
-         hip6rZrzxBKuK1TAksdnUkujVkGe72sxUUmQbJQz88fq8sC5VGJCxTZtcxpBhIZPskqL
-         b8ZX/fc7CnZyb8lZN0DeElecaK+vvmHhFfdx779w+wHLsi7igYSq00CIeIGMM/oKlc2u
-         4yHj8sRPb0EUlBXTXbQ5pAeaeS6A0+0I1kR6oJZtKyP1N2SOAMhYBhM+lbQPvs+1KRMx
-         4ZrLF/0nzExcqvQIjng8d+3A66DDfk8IBiZjTIAMUdxAqzc1TWkJFvDiYIu2kdsa8K6K
-         ptVg==
-X-Forwarded-Encrypted: i=1; AJvYcCVHB7kN0XZNQJ97asEBo7NDaqRsG9oYuOVZ0Srs8P0Vsv6rp09dbF9ndWMOoPhEdRecApHDzQG3+7w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzsRj2wJQGodKjepO+6MKiMrnjLwimYUJxpTBviIybnXjlTakai
-	65t1zdwgYvEQno7sNEP/kcPs+AQCozRNY73+lwDkZ9xQdXbEd2iDXfGoTxq6MOr5UQ==
-X-Gm-Gg: ATEYQzyCBJuN4BLyY/XcjvJ4YLiACofrazmJ4gaxlWXjMno6BUXGq5w2UYMVF2qG2FU
-	9wNtpzRskusH4KfYziC8U3TWDrnREBSvjyjo27x9/TtehiFd7R6ulMKKb44qiivSkj+tV7ceN2a
-	h8yYLvDhfWuY+CCZxTri5U6opbGHVUje+hooeXWfYA+B76kr1k+1JSaULBmdJtteOTOuF4Z8uxe
-	M5RlSp4iHY9Q3+KwEjyHBP/JrNU/4IaXskt4SkO64GFAYwFzEVTgPxxNz5fzE8XOK7Gd9VCoUX4
-	iQmLBUuNQRmq8A0RfjKl24mJzry/tyrjwoWA68CzgNJncr0P6m0PCOeRNm4DvoHOpShcMjn43/r
-	UJikWPE4ggxaoTDwyOAOEJMhR9In6n8RPKG3nkDwi2zgRRyPAuYdh9J13m6tIjiXdjTT4+unPQ/
-	NkRPNbpc+5EGekK6qErOU353msMD40ClGV9ev+Pd5Y8pqCI5XBWFDg395/hFOeZ1BBo4VQP8Bom
-	MPGyONjhvrTABPCrRATEOHIhCUxYWcMdw==
-X-Received: by 2002:a17:903:b0d:b0:2ae:5598:1db3 with SMTP id d9443c01a7336-2ae55982a32mr46227035ad.53.1772518437154;
-        Mon, 02 Mar 2026 22:13:57 -0800 (PST)
-Received: from jingyliang-input-linux.c.googlers.com (111.169.168.34.bc.googleusercontent.com. [34.168.169.111])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2adfb6fe4f3sm152639735ad.91.2026.03.02.22.13.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2026 22:13:56 -0800 (PST)
-From: Jingyuan Liang <jingyliang@chromium.org>
-Date: Tue, 03 Mar 2026 06:13:04 +0000
-Subject: [PATCH 12/12] HID: spi-hid: add quirkis to support mode switch for
- Ilitek touch
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hBFbBJNe"
+Message-ID: <63622051-f128-4450-8579-97f25305beb5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1772518931;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TXvC0W9BK/qCDM2luuVOjFiw+pG7WQpudbkrpHQ06Bk=;
+	b=hBFbBJNeRGCjHua0QjXLgz/eHaN8IFODEb3GXPUD8UbMcTeR5gfAlvWl0O3UihX48thOvt
+	iQ65ft3idSC9hFOIMyAXX0qKP2XgbVR99CJAnOOkPB00eEHxxmhlfz9pNXQ2DLDcq9edGY
+	7UJwXmxf3sVgeP7+cgWF1X5/kjOz/Tk=
+Date: Mon, 2 Mar 2026 22:21:55 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260303-send-upstream-v1-12-1515ba218f3d@chromium.org>
-References: <20260303-send-upstream-v1-0-1515ba218f3d@chromium.org>
-In-Reply-To: <20260303-send-upstream-v1-0-1515ba218f3d@chromium.org>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- hbarnor@chromium.org, Jingyuan Liang <jingyliang@chromium.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772518424; l=7060;
- i=jingyliang@chromium.org; s=20260213; h=from:subject:message-id;
- bh=RuF4EBelwWjX4MVB7wRAKwjHLIyH356VR5EZd3QmjHw=;
- b=yqf3lINoDU5izp7XLxBncUEfy96hR5Uvs/pFDvxmmcHDmeFoqVujMRkAE6X/GypO/8SUjW/3o
- lT326CxlFyPDmz4HEgVb+PXKKZ5GIdZgPXaG1pCF1ZDP2sH2scC1goy
-X-Developer-Key: i=jingyliang@chromium.org; a=ed25519;
- pk=VTYSdqslTtYOjWWoIGgYoWupGWqNSidrggReKMgfPo4=
+Subject: Re: [PATCH v2 04/22] vfio/pci: Register a file handler with Live
+ Update Orchestrator
+To: David Matlack <dmatlack@google.com>, Alex Williamson <alex@shazbot.org>
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
+ Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+ Alistair Popple <apopple@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal
+ <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>,
+ Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>,
+ Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>,
+ kexec@lists.infradead.org, kvm@vger.kernel.org,
+ Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>,
+ =?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>,
+ Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Pranjal Shrivastava <praan@google.com>, Pratyush Yadav
+ <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Samiullah Khawaja <skhawaja@google.com>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>,
+ Yi Liu <yi.l.liu@intel.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+ <20260129212510.967611-5-dmatlack@google.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Zhu Yanjun <yanjun.zhu@linux.dev>
+In-Reply-To: <20260129212510.967611-5-dmatlack@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Add quirks to support mode switch among Ilitek normal, debug and test mode
-and allow delay before send output reports.
-Add a shared variable to configure response timeout value for Ilitek
-touch controllers.
 
-Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
----
- drivers/hid/spi-hid/spi-hid-core.c | 84 +++++++++++++++++++++++++++++++++++++-
- drivers/hid/spi-hid/spi-hid-core.h |  4 ++
- drivers/hid/spi-hid/spi-hid.h      |  6 +++
- 3 files changed, 93 insertions(+), 1 deletion(-)
+在 2026/1/29 13:24, David Matlack 写道:
+> From: Vipin Sharma <vipinsh@google.com>
+>
+> Register a live update file handler for vfio-pci device files. Add stub
+> implementations of all required callbacks so that registration does not
+> fail (i.e. to avoid breaking git-bisect).
+>
+> This file handler will be extended in subsequent commits to enable a
+> device bound to vfio-pci to run without interruption while the host is
+> going through a kexec Live Update.
+>
+> Signed-off-by: Vipin Sharma <vipinsh@google.com>
+> Co-developed-by: David Matlack <dmatlack@google.com>
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>   MAINTAINERS                            |  1 +
+>   drivers/vfio/pci/Makefile              |  1 +
+>   drivers/vfio/pci/vfio_pci.c            |  9 +++-
+>   drivers/vfio/pci/vfio_pci_liveupdate.c | 69 ++++++++++++++++++++++++++
+>   drivers/vfio/pci/vfio_pci_priv.h       | 14 ++++++
+>   include/linux/kho/abi/vfio_pci.h       | 28 +++++++++++
+>   6 files changed, 121 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/vfio/pci/vfio_pci_liveupdate.c
+>   create mode 100644 include/linux/kho/abi/vfio_pci.h
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a671e3d4e8be..7d6cdecedb05 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -27520,6 +27520,7 @@ F:	Documentation/ABI/testing/debugfs-vfio
+>   F:	Documentation/ABI/testing/sysfs-devices-vfio-dev
+>   F:	Documentation/driver-api/vfio.rst
+>   F:	drivers/vfio/
+> +F:	include/linux/kho/abi/vfio_pci.h
+>   F:	include/linux/vfio.h
+>   F:	include/linux/vfio_pci_core.h
+>   F:	include/uapi/linux/vfio.h
+> diff --git a/drivers/vfio/pci/Makefile b/drivers/vfio/pci/Makefile
+> index e0a0757dd1d2..23305ebc418b 100644
+> --- a/drivers/vfio/pci/Makefile
+> +++ b/drivers/vfio/pci/Makefile
+> @@ -7,6 +7,7 @@ obj-$(CONFIG_VFIO_PCI_CORE) += vfio-pci-core.o
+>   
+>   vfio-pci-y := vfio_pci.o
+>   vfio-pci-$(CONFIG_VFIO_PCI_IGD) += vfio_pci_igd.o
+> +vfio-pci-$(CONFIG_LIVEUPDATE) += vfio_pci_liveupdate.o
+>   obj-$(CONFIG_VFIO_PCI) += vfio-pci.o
+>   
+>   obj-$(CONFIG_MLX5_VFIO_PCI)           += mlx5/
+> diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
+> index 0c771064c0b8..19e88322af2c 100644
+> --- a/drivers/vfio/pci/vfio_pci.c
+> +++ b/drivers/vfio/pci/vfio_pci.c
+> @@ -258,6 +258,10 @@ static int __init vfio_pci_init(void)
+>   	int ret;
+>   	bool is_disable_vga = true;
+>   
+> +	ret = vfio_pci_liveupdate_init();
+> +	if (ret)
+> +		return ret;
+> +
+>   #ifdef CONFIG_VFIO_PCI_VGA
+>   	is_disable_vga = disable_vga;
+>   #endif
+> @@ -266,8 +270,10 @@ static int __init vfio_pci_init(void)
+>   
+>   	/* Register and scan for devices */
+>   	ret = pci_register_driver(&vfio_pci_driver);
+> -	if (ret)
+> +	if (ret) {
+> +		vfio_pci_liveupdate_cleanup();
+>   		return ret;
+> +	}
+>   
+>   	vfio_pci_fill_ids();
+>   
+> @@ -281,6 +287,7 @@ module_init(vfio_pci_init);
+>   static void __exit vfio_pci_cleanup(void)
+>   {
+>   	pci_unregister_driver(&vfio_pci_driver);
+> +	vfio_pci_liveupdate_cleanup();
+>   }
+>   module_exit(vfio_pci_cleanup);
+>   
+> diff --git a/drivers/vfio/pci/vfio_pci_liveupdate.c b/drivers/vfio/pci/vfio_pci_liveupdate.c
+> new file mode 100644
+> index 000000000000..b84e63c0357b
+> --- /dev/null
+> +++ b/drivers/vfio/pci/vfio_pci_liveupdate.c
+> @@ -0,0 +1,69 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +/*
+> + * Copyright (c) 2025, Google LLC.
 
-diff --git a/drivers/hid/spi-hid/spi-hid-core.c b/drivers/hid/spi-hid/spi-hid-core.c
-index 893a0d4642d2..736e51f10cfc 100644
---- a/drivers/hid/spi-hid/spi-hid-core.c
-+++ b/drivers/hid/spi-hid/spi-hid-core.c
-@@ -22,6 +22,7 @@
- 
- #include <linux/completion.h>
- #include <linux/crc32.h>
-+#include <linux/delay.h>
- #include <linux/device.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
-@@ -45,9 +46,14 @@
- #include <linux/wait.h>
- #include <linux/workqueue.h>
- 
-+#include "../hid-ids.h"
- #include "spi-hid.h"
- #include "spi-hid-core.h"
- 
-+/* quirks to control the device */
-+#define SPI_HID_QUIRK_MODE_SWITCH	BIT(0)
-+#define SPI_HID_QUIRK_READ_DELAY	BIT(1)
-+
- /* Protocol constants */
- #define SPI_HID_READ_APPROVAL_CONSTANT		0xff
- #define SPI_HID_INPUT_HEADER_SYNC_BYTE		0x5a
-@@ -86,6 +92,16 @@
- #define SPI_HID_CREATE_DEVICE	4
- #define SPI_HID_ERROR	5
- 
-+static const struct spi_hid_quirks {
-+	__u16 idVendor;
-+	__u16 idProduct;
-+	__u32 quirks;
-+} spi_hid_quirks[] = {
-+	{ USB_VENDOR_ID_ILITEK, HID_ANY_ID,
-+		SPI_HID_QUIRK_MODE_SWITCH | SPI_HID_QUIRK_READ_DELAY },
-+	{ 0, 0 }
-+};
-+
- /* Processed data from input report header */
- struct spi_hid_input_header {
- 	u8 version;
-@@ -112,6 +128,27 @@ struct spi_hid_output_report {
- 
- static struct hid_ll_driver spi_hid_ll_driver;
- 
-+/**
-+ * spi_hid_lookup_quirk: return any quirks associated with a SPI HID device
-+ * @idVendor: the 16-bit vendor ID
-+ * @idProduct: the 16-bit product ID
-+ *
-+ * Returns: a u32 quirks value.
-+ */
-+static u32 spi_hid_lookup_quirk(const u16 idVendor, const u16 idProduct)
-+{
-+	u32 quirks = 0;
-+	int n;
-+
-+	for (n = 0; spi_hid_quirks[n].idVendor; n++)
-+		if (spi_hid_quirks[n].idVendor == idVendor &&
-+		    (spi_hid_quirks[n].idProduct == (__u16)HID_ANY_ID ||
-+		     spi_hid_quirks[n].idProduct == idProduct))
-+			quirks = spi_hid_quirks[n].quirks;
-+
-+	return quirks;
-+}
-+
- static void spi_hid_populate_read_approvals(const struct spi_hid_conf *conf,
- 					    u8 *header_buf, u8 *body_buf)
- {
-@@ -382,6 +419,9 @@ static int spi_hid_send_output_report(struct spi_hid *shid,
- 	u8 padding;
- 	int error;
- 
-+	if (shid->quirks & SPI_HID_QUIRK_READ_DELAY)
-+		usleep_range(2000, 2100);
-+
- 	guard(mutex)(&shid->output_lock);
- 	if (report->content_length > shid->desc.max_output_length) {
- 		dev_err(dev, "Output report too big, content_length 0x%x.",
-@@ -406,18 +446,38 @@ static int spi_hid_send_output_report(struct spi_hid *shid,
- 	return error;
- }
- 
-+static const u32 spi_hid_get_timeout(struct spi_hid *shid)
-+{
-+	struct device *dev = &shid->spi->dev;
-+	u32 timeout;
-+
-+	timeout = READ_ONCE(shid->ops->response_timeout_ms);
-+
-+	if (timeout < SPI_HID_RESP_TIMEOUT || timeout > 10000) {
-+		dev_dbg(dev, "Response timeout is out of range, using default %d",
-+			SPI_HID_RESP_TIMEOUT);
-+		timeout = SPI_HID_RESP_TIMEOUT;
-+	}
-+
-+	return timeout;
-+}
-+
- static int spi_hid_sync_request(struct spi_hid *shid,
- 				struct spi_hid_output_report *report)
- {
- 	struct device *dev = &shid->spi->dev;
-+	u32 timeout = SPI_HID_RESP_TIMEOUT;
- 	int error;
- 
- 	error = spi_hid_send_output_report(shid, report);
- 	if (error)
- 		return error;
- 
-+	if (shid->quirks & SPI_HID_QUIRK_MODE_SWITCH)
-+		timeout = spi_hid_get_timeout(shid);
-+
- 	error = wait_for_completion_interruptible_timeout(&shid->output_done,
--							  msecs_to_jiffies(SPI_HID_RESP_TIMEOUT));
-+							  msecs_to_jiffies(timeout));
- 	if (error == 0) {
- 		dev_err(dev, "Response timed out.");
- 		return -ETIMEDOUT;
-@@ -561,6 +621,8 @@ static int spi_hid_create_device(struct spi_hid *shid)
- 	hid->vendor = shid->desc.vendor_id;
- 	hid->product = shid->desc.product_id;
- 
-+	shid->quirks = spi_hid_lookup_quirk(hid->vendor, hid->product);
-+
- 	snprintf(hid->name, sizeof(hid->name), "spi %04X:%04X",
- 		 hid->vendor, hid->product);
- 	strscpy(hid->phys, dev_name(&shid->spi->dev), sizeof(hid->phys));
-@@ -836,6 +898,24 @@ static irqreturn_t spi_hid_dev_irq(int irq, void *_shid)
- 		goto out;
- 	}
- 
-+	if (shid->quirks & SPI_HID_QUIRK_MODE_SWITCH) {
-+		/*
-+		 * Update reset_pending on mode transitions inferred from
-+		 * response timeout (entering/exiting a mode).
-+		 */
-+		u32 timeout = spi_hid_get_timeout(shid);
-+		bool mode_enabled = timeout > SPI_HID_RESP_TIMEOUT;
-+
-+		if (mode_enabled != shid->prev_mode_enabled) {
-+			if (mode_enabled)
-+				set_bit(SPI_HID_RESET_PENDING, &shid->flags);
-+			else
-+				clear_bit(SPI_HID_RESET_PENDING, &shid->flags);
-+		}
-+
-+		shid->prev_mode_enabled = mode_enabled;
-+	}
-+
- 	if (shid->input_message.status < 0) {
- 		dev_warn(dev, "Error reading header: %d.",
- 			 shid->input_message.status);
-@@ -1190,6 +1270,8 @@ static int spi_hid_dev_init(struct spi_hid *shid)
- 	struct device *dev = &spi->dev;
- 	int error;
- 
-+	shid->ops->custom_init(shid->ops);
-+
- 	shid->ops->assert_reset(shid->ops);
- 
- 	shid->ops->sleep_minimal_reset_delay(shid->ops);
-diff --git a/drivers/hid/spi-hid/spi-hid-core.h b/drivers/hid/spi-hid/spi-hid-core.h
-index 88e9020d37aa..8441dbad95d4 100644
---- a/drivers/hid/spi-hid/spi-hid-core.h
-+++ b/drivers/hid/spi-hid/spi-hid-core.h
-@@ -62,6 +62,10 @@ struct spi_hid {
- 	u16 response_length;
- 	u16 bufsize;
- 
-+	bool prev_mode_enabled;	/* Previous device mode tracked for SPI_HID_QUIRK_MODE_SWITCH. */
-+
-+	unsigned long quirks;	/* Various quirks. */
-+
- 	enum hidspi_power_state power_state;
- 
- 	u8 reset_attempts;	/* The number of reset attempts. */
-diff --git a/drivers/hid/spi-hid/spi-hid.h b/drivers/hid/spi-hid/spi-hid.h
-index 5651c7fb706a..3c0369bdb4ab 100644
---- a/drivers/hid/spi-hid/spi-hid.h
-+++ b/drivers/hid/spi-hid/spi-hid.h
-@@ -25,6 +25,9 @@ struct spi_hid_conf {
-  * @power_down: do sequencing to power down the device
-  * @assert_reset: do sequencing to assert the reset line
-  * @deassert_reset: do sequencing to deassert the reset line
-+ * @sleep_minimal_reset_delay: minimal sleep delay during reset
-+ * @custom_init: customized device init
-+ * @response_timeout_ms: output report response timeout in ms
-  */
- struct spihid_ops {
- 	int (*power_up)(struct spihid_ops *ops);
-@@ -32,6 +35,9 @@ struct spihid_ops {
- 	int (*assert_reset)(struct spihid_ops *ops);
- 	int (*deassert_reset)(struct spihid_ops *ops);
- 	void (*sleep_minimal_reset_delay)(struct spihid_ops *ops);
-+	int (*custom_init)(struct spihid_ops *ops);
-+
-+	u32 response_timeout_ms;
- };
- 
- int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
+The live update support for vfio-pci was initiated in 2025, but 
+developments are into 2026. Update the copyright to 2026 or 2025 - 2026.
+
+Zhu Yanjun
+
+> + * Vipin Sharma <vipinsh@google.com>
+> + * David Matlack <dmatlack@google.com>
+> + */
+> +
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+> +#include <linux/kho/abi/vfio_pci.h>
+> +#include <linux/liveupdate.h>
+> +#include <linux/errno.h>
+> +
+> +#include "vfio_pci_priv.h"
+> +
+> +static bool vfio_pci_liveupdate_can_preserve(struct liveupdate_file_handler *handler,
+> +					     struct file *file)
+> +{
+> +	return false;
+> +}
+> +
+> +static int vfio_pci_liveupdate_preserve(struct liveupdate_file_op_args *args)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static void vfio_pci_liveupdate_unpreserve(struct liveupdate_file_op_args *args)
+> +{
+> +}
+> +
+> +static int vfio_pci_liveupdate_retrieve(struct liveupdate_file_op_args *args)
+> +{
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static void vfio_pci_liveupdate_finish(struct liveupdate_file_op_args *args)
+> +{
+> +}
+> +
+> +static const struct liveupdate_file_ops vfio_pci_liveupdate_file_ops = {
+> +	.can_preserve = vfio_pci_liveupdate_can_preserve,
+> +	.preserve = vfio_pci_liveupdate_preserve,
+> +	.unpreserve = vfio_pci_liveupdate_unpreserve,
+> +	.retrieve = vfio_pci_liveupdate_retrieve,
+> +	.finish = vfio_pci_liveupdate_finish,
+> +	.owner = THIS_MODULE,
+> +};
+> +
+> +static struct liveupdate_file_handler vfio_pci_liveupdate_fh = {
+> +	.ops = &vfio_pci_liveupdate_file_ops,
+> +	.compatible = VFIO_PCI_LUO_FH_COMPATIBLE,
+> +};
+> +
+> +int __init vfio_pci_liveupdate_init(void)
+> +{
+> +	if (!liveupdate_enabled())
+> +		return 0;
+> +
+> +	return liveupdate_register_file_handler(&vfio_pci_liveupdate_fh);
+> +}
+> +
+> +void vfio_pci_liveupdate_cleanup(void)
+> +{
+> +	if (!liveupdate_enabled())
+> +		return;
+> +
+> +	liveupdate_unregister_file_handler(&vfio_pci_liveupdate_fh);
+> +}
+> diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
+> index 27ac280f00b9..68966ec64e51 100644
+> --- a/drivers/vfio/pci/vfio_pci_priv.h
+> +++ b/drivers/vfio/pci/vfio_pci_priv.h
+> @@ -133,4 +133,18 @@ static inline void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev,
+>   }
+>   #endif
+>   
+> +#ifdef CONFIG_LIVEUPDATE
+> +int __init vfio_pci_liveupdate_init(void);
+> +void vfio_pci_liveupdate_cleanup(void);
+> +#else
+> +static inline int vfio_pci_liveupdate_init(void)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void vfio_pci_liveupdate_cleanup(void)
+> +{
+> +}
+> +#endif /* CONFIG_LIVEUPDATE */
+> +
+>   #endif
+> diff --git a/include/linux/kho/abi/vfio_pci.h b/include/linux/kho/abi/vfio_pci.h
+> new file mode 100644
+> index 000000000000..37a845eed972
+> --- /dev/null
+> +++ b/include/linux/kho/abi/vfio_pci.h
+> @@ -0,0 +1,28 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +
+> +/*
+> + * Copyright (c) 2025, Google LLC.
+> + * Vipin Sharma <vipinsh@google.com>
+> + * David Matlack <dmatlack@google.com>
+> + */
+> +
+> +#ifndef _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H
+> +#define _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H
+> +
+> +/**
+> + * DOC: VFIO PCI Live Update ABI
+> + *
+> + * This header defines the ABI for preserving the state of a VFIO PCI device
+> + * files across a kexec reboot using LUO.
+> + *
+> + * Device metadata is serialized into memory which is then handed to the next
+> + * kernel via KHO.
+> + *
+> + * This interface is a contract. Any modification to any of the serialization
+> + * structs defined here constitutes a breaking change. Such changes require
+> + * incrementing the version number in the VFIO_PCI_LUO_FH_COMPATIBLE string.
+> + */
+> +
+> +#define VFIO_PCI_LUO_FH_COMPATIBLE "vfio-pci-v1"
+> +
+> +#endif /* _LINUX_LIVEUPDATE_ABI_VFIO_PCI_H */
 
 -- 
-2.53.0.473.g4a7958ca14-goog
+Best Regards,
+Yanjun.Zhu
 
