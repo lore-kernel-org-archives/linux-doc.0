@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571DF320A00;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57269335543;
 	Tue,  3 Mar 2026 13:27:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772544445; cv=none; b=bPCJbLL/ZRdtiSmRXBuCFb0V9crXuwWr1RKV5B41/2uyHQ3FCVD+PaLV9D6bm1jWFiZILvvrwOwdYgNazQQAZVM2Fqu/BiREA97KOUMUJWQywUj+Od+iZWGUhtA1PZlKEshpMsb/br/mI+D+PF9EdNHNtsm/9y6pH5BI4WawDjY=
+	t=1772544445; cv=none; b=hNEEv2oZPt8H4zonKoMfQQnFjw4cuHKTrxCFnSdigoDwxnuZxsEVT3q/47PfL9ODmy7+n0yn8QI2mntLbFXuoHFqoVtY/Oz8Ljkw8yfpMLc31wEw1DQ03Duy9IiSIzNiwVZjZRIu65lD+YXgbMhJ//xVktj1U2PAYE/eQPX3EVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772544445; c=relaxed/simple;
-	bh=N1VfDg8H/7194eoYlOpUeo1wfbx91H88u4KEWIcBo/I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=T9gy9cPYDTd7MOMZJeTgKZU42gI9KQEsZDx7pRDerW7oU4YGkTY2nhGzcHPi35MgyBSbq+7VcRRDJ1cpRRo2p+w18+SBgQ+bREuN0yYpBDT1CH7Q8jhfs+XQRXDeNAP6s/QytElGRcYDixM3sJeHsc/jFtLITDTNZYsliOQiHmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q7C8x/Po; arc=none smtp.client-ip=10.30.226.201
+	bh=oQ18lU+cSsDbl0sd4Y3oXZBV21JoGiUMKeTFizDUe2g=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HxziD/iEmbnOAr/ADuxec1KrJMsaiOqVuHd/9urQocbiOVWacCJaUB3r4b7cjhuOAnR4ju7zTzc1c8CtVXqOu4CR+mb49k2BEIbUh0atl48ossTUpYc12vvk8iqdEud+oMraHADNjPVt6MWvhmbRVCyLBDqj5kwGvKlzNhoS4xo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TgQ592a7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q7C8x/Po"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 22224C2BCB1;
-	Tue,  3 Mar 2026 13:27:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TgQ592a7"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id ED4C9C116C6;
+	Tue,  3 Mar 2026 13:27:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1772544445;
-	bh=N1VfDg8H/7194eoYlOpUeo1wfbx91H88u4KEWIcBo/I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=Q7C8x/PoLrq5kh/pCh3/2IA8YgA9Syu7k3EUuzGmSexJOvIIpu2i2rBE3SPKWe6R7
-	 gIsFYMgE9FC/X2Fy/+AL8IlAZxEW0tycqgh6Eg0j4oOY7HRdwIGuwEp/09qWeDQU8a
-	 cWZtgH+Pxa2BncxZqpuNka2q775m+T9SuuU2ZctMvi6uuZrz4USrfRW+iP4BRW93Q5
-	 d8o9V4fJcOhWymqoHBE4GlFcd+4Gi8fGug58zUlQSU4eitGQmMjOSjrEB5fIqe/q9V
-	 sxkwwzolq95I+8IDtzGKjZno0se8VHZl8lb9EKv0QkT97hRAuwBL6399VFSbAvYrIv
-	 WapCsG0PbFuqQ==
+	bh=oQ18lU+cSsDbl0sd4Y3oXZBV21JoGiUMKeTFizDUe2g=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=TgQ592a7uqv9pP0Sj8erTpQHPIK0y7RL8DOZIvZvRAK4Eav+j7YOdwpIvpRK0lX5Z
+	 1+0j2sCSzTFFGSL9zK8mOh/TkeTOHDdjwb9DAgGgN8aGo6QlXdGgnsG19WKZcbNV36
+	 41IR70KBslfdg4tRPDfEqCc5ipvq9YZUk+bBaGs+SUTlHO6zwnDoM0AgHvaoG2/p5f
+	 eS1v3N1/7Qk97XqQ/dAz7/hYQ5K05tL27nJ2nDwehgm6uiUVzqIuTMmKRW/uyVnq0c
+	 jJRAG5m8szZ9+WfSH4Jw4Z3Q4YYLDOidYI2EzkLqYnNAllJCsWux+6Obz7b7FuEzo8
+	 wG3yk5FZeE6qg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11FFBEC1441;
-	Tue,  3 Mar 2026 13:27:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5536EC143E;
+	Tue,  3 Mar 2026 13:27:24 +0000 (UTC)
 From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Tue, 03 Mar 2026 13:27:07 +0000
-Subject: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
+Subject: [PATCH v8 00/10] ADF41513/ADF41510 PLL frequency synthesizers
+Date: Tue, 03 Mar 2026 13:27:05 +0000
+Message-Id: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,9 +40,13 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
-References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
-In-Reply-To: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+X-B4-Tracking: v=1; b=H4sIAKrhpmkC/33Q3U7EIBAF4FfZcC2GGcpPvfI9jBdTGHZJtDXUN
+ JpN313axGxNu14eAt8w5ypGLplH8XS6isJTHvPQ1+AfTiJcqD+zzLFmgQoNAChJMTVgQMucBxl
+ LnrhIokCeXPLKs6gvPwqn/LWqL681X/L4OZTvdcgEy+n/3gRSSYzJd6xSDJafqae34fwYhnexg
+ BPeEIT2GMGKdIwteR2Na/UO0b+IVaD8MaKXn+gI2gFxavwOaTYI2GOkqUjsOhet84jgdojZIKi
+ PEbN2EtgDEsZIO8RuEH2nWFuRkBqLuq33urBD3A3Be+u4pVjFUXtHnTHtH2Se5x+YJMCsVQIAA
+ A==
+X-Change-ID: 20251110-adf41513-iio-driver-aaca8a7f808e
 To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-doc@vger.kernel.org
 Cc: Jonathan Cameron <jic23@kernel.org>, 
@@ -52,13 +56,15 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
  Andrew Morton <akpm@linux-foundation.org>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>
+ Rodrigo Alencar <rodrigo.alencar@analog.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Andy Shevchenko <andriy.shevchenko@intel.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772544443; l=3621;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772544443; l=5006;
  i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=QOA2ebXlCGOu4rEF7LtCPczO4bNdBpAyoo2OhH/870A=;
- b=wV3bcB78rfX1cS1C53uRVYeEZWLj9IlYYYqbKdCGwFXsZ9gp+BQgGEIz+SeKEFkki+7v3FBtC
- yQX8C5gQY2JD/Sxq364rygWsMEnB7CNS5Gh/P9MyRdSWPl4nE2Gmg3A
+ bh=oQ18lU+cSsDbl0sd4Y3oXZBV21JoGiUMKeTFizDUe2g=;
+ b=Nu0gUpvI9dy6EOiGvFx5y6+ECQ0ztHV/IMxMPiTW85CcXwxZKJXxRrmTZDYa0aoOs2UL/He5e
+ R+2JF9CyWjnDRUArPWPx2L10dQEcZmHNgRHGVMi5WABh4MlcKOxlpeJ
 X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
  pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
 X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
@@ -66,103 +72,111 @@ X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
 X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 Reply-To: rodrigo.alencar@analog.com
 
-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+This patch series adds support for the Analog Devices ADF41513 and ADF41510
+ultralow noise PLL frequency synthesizers. These devices are designed for
+implementing local oscillators (LOs) in high-frequency applications.
+The ADF41513 covers frequencies from 1 GHz to 26.5 GHz, while the ADF41510
+operates from 1 GHz to 10 GHz.
 
-Add kstrntoull() function, which converts a string to an ULL with a max
-character limit. The function is an alternative integer parsing function
-that does not require a null-terminated string. It becomes a better option
-over simple_strtoull() or kstrtoull() when parsing integers from a buffer
-with custom delimiters without having to create temporary copies.
-The function is consumed inside the implementation _kstrtoull(),
-promoting reuse.
+Key features supported by this driver:
+- Integer-N and fractional-N operation modes
+- High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
+- 25-bit fixed modulus or 49-bit variable modulus fractional modes
+- Digital lock detect functionality
+- Phase resync capability for consistent output phase
+- Load Enable vs Reference signal syncronization
+
+The series includes:
+1. PLL driver implementation
+2. Device tree bindings documentation
+3. IIO ABI documentation
 
 Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
- include/linux/kstrtox.h |  3 +++
- lib/kstrtox.c           | 47 +++++++++++++++++++++++++++++++++++++++++++----
- 2 files changed, 46 insertions(+), 4 deletions(-)
+Changes in v8:
+- Add new function kstrntoull() to lib/kstrtox.c and tests to lib/test-kstrtox.c.
+- Drop custom iio u64 parser, replacing it for kstrntoull().
+- Dedicated MAINTAINERS entry for drivers/iio/test/iio-test-fixpoint-parse.c.
+- Link to v7: https://lore.kernel.org/r/20260216-adf41513-iio-driver-v7-0-b0ed387ab559@analog.com
 
-diff --git a/include/linux/kstrtox.h b/include/linux/kstrtox.h
-index 6ea897222af1..49a6102b8e15 100644
---- a/include/linux/kstrtox.h
-+++ b/include/linux/kstrtox.h
-@@ -9,6 +9,9 @@
- int __must_check _kstrtoul(const char *s, unsigned int base, unsigned long *res);
- int __must_check _kstrtol(const char *s, unsigned int base, long *res);
- 
-+ssize_t __must_check kstrntoull(const char *s, unsigned int base,
-+				unsigned long long *res, size_t max_chars);
-+
- int __must_check kstrtoull(const char *s, unsigned int base, unsigned long long *res);
- int __must_check kstrtoll(const char *s, unsigned int base, long long *res);
- 
-diff --git a/lib/kstrtox.c b/lib/kstrtox.c
-index bdde40cd69d7..202ecc058284 100644
---- a/lib/kstrtox.c
-+++ b/lib/kstrtox.c
-@@ -93,17 +93,56 @@ unsigned int _parse_integer(const char *s, unsigned int base, unsigned long long
- 	return _parse_integer_limit(s, base, p, INT_MAX);
- }
- 
--static int _kstrtoull(const char *s, unsigned int base, unsigned long long *res)
-+/**
-+ * kstrntoull - convert a string to an unsigned long long with a maximum
-+ * character limit
-+ * @s: The start of the string. The string does not need to be null-terminated.
-+ * The first character cannot be a sign.
-+ * @base: The number base to use. The maximum supported base is 16. If base is
-+ *  given as 0, then the base of the string is automatically detected with the
-+ *  conventional semantics - If it begins with 0x the number will be parsed as a
-+ *  hexadecimal (case insensitive), if it otherwise begins with 0, it will be
-+ *  parsed as an octal number. Otherwise it will be parsed as a decimal.
-+ * @res: Where to write the result of the conversion.
-+ * @max_chars: The maximum number of characters to convert.
-+ *
-+ * Conversion stops when the maximum number of characters is reached or a
-+ * non-digit character is encountered.
-+ *
-+ * Returns the number of characters consumed on success, -ERANGE on overflow and
-+ * -EINVAL on invalid input. Return code must be checked.
-+ */
-+noinline
-+ssize_t kstrntoull(const char *s, unsigned int base, unsigned long long *res,
-+		   size_t max_chars)
- {
--	unsigned long long _res;
-+	const char *cp;
-+	size_t prefix_cnt;
- 	unsigned int rv;
- 
--	s = _parse_integer_fixup_radix(s, &base);
--	rv = _parse_integer(s, base, &_res);
-+	cp = _parse_integer_fixup_radix(s, &base);
-+	prefix_cnt = cp - s;
-+	if (prefix_cnt >= max_chars)
-+		return -EINVAL;
-+
-+	rv = _parse_integer_limit(cp, base, res, max_chars - prefix_cnt);
- 	if (rv & KSTRTOX_OVERFLOW)
- 		return -ERANGE;
- 	if (rv == 0)
- 		return -EINVAL;
-+
-+	return prefix_cnt + rv;
-+}
-+EXPORT_SYMBOL(kstrntoull);
-+
-+static int _kstrtoull(const char *s, unsigned int base, unsigned long long *res)
-+{
-+	unsigned long long _res;
-+	ssize_t rv;
-+
-+	rv = kstrntoull(s, base, &_res, INT_MAX);
-+	if (rv < 0)
-+		return rv;
- 	s += rv;
- 	if (*s == '\n')
- 		s++;
+Changes in v7:
+- Addressed minor suggestions.
+- frequency_resolution ABI for AD4350 removed in favor of generic one.
+- Link to v6: https://lore.kernel.org/r/20260130-adf41513-iio-driver-v6-0-cf46239026bc@analog.com
 
+Changes in v6:
+- Drop usage of simple_strtoull().
+- Implement better overflow checks with iio_safe_strntou64().
+- Link to v5: https://lore.kernel.org/r/20260123-adf41513-iio-driver-v5-0-2dce812a2dda@analog.com
+
+Changes in v5:
+- Drop local parsing of 64-bit plus fractional parts
+- Add iio_str_to_fixpoint64() to iio core with parsing tests
+- Add DT property dependency for adi,charge-pump-resistor-ohms
+- Add local definition for ADF41513_HZ_PER_GHZ and drop units.h patch
+- Link to v4: https://lore.kernel.org/r/20260116-adf41513-iio-driver-v4-0-dbb7d6782217@analog.com
+
+Changes in v4:
+- Proper usage of units.h macros
+- Simplifications to DT property parsing
+- Adjustments to return value handling
+- Drop of simple DT property node example
+- Link to v3: https://lore.kernel.org/r/20260108-adf41513-iio-driver-v3-0-23d1371aef48@analog.com
+
+Changes in v3:
+- Use FIELD_MODIFY macro in driver implementation
+- Drop refin_frequency iio attribute
+- Drop muxout-select property from dt-bindings (and rename logic-level property)
+- Use -mhz suffix in power-up frequency property
+- Address documentation issues
+- Link to v2: https://lore.kernel.org/r/20251219-adf41513-iio-driver-v2-0-be29a83d5793@analog.com
+
+Changes in v2:
+- separate driver implementation from extra features and improve commit messages
+- use macros from units.h
+- explanation of custom parse function: adf41513_parse_uhz
+- reorganize driver data structures
+- drop clock framework support for now
+- reorganize documentation
+- Link to v1: https://lore.kernel.org/r/20251110-adf41513-iio-driver-v1-0-2df8be0fdc6e@analog.com
+
+---
+Rodrigo Alencar (10):
+      dt-bindings: iio: frequency: add adf41513
+      lib: kstrtox: add kstrntoull() helper
+      lib: test-kstrtox: add tests for kstrntoull()
+      iio: core: add fixed point parsing with 64-bit parts
+      iio: test: add kunit test for fixed-point parsing
+      iio: frequency: adf41513: driver implementation
+      iio: frequency: adf41513: handle LE synchronization feature
+      iio: frequency: adf41513: features on frequency change
+      docs: iio: add documentation for adf41513 driver
+      Documentation: ABI: testing: add common ABI file for iio/frequency
+
+ Documentation/ABI/testing/sysfs-bus-iio-frequency  |   11 +
+ .../ABI/testing/sysfs-bus-iio-frequency-adf4350    |   10 -
+ .../bindings/iio/frequency/adi,adf41513.yaml       |  215 ++++
+ Documentation/iio/adf41513.rst                     |  199 ++++
+ Documentation/iio/index.rst                        |    1 +
+ MAINTAINERS                                        |   15 +
+ drivers/iio/frequency/Kconfig                      |   10 +
+ drivers/iio/frequency/Makefile                     |    1 +
+ drivers/iio/frequency/adf41513.c                   | 1240 ++++++++++++++++++++
+ drivers/iio/industrialio-core.c                    |  167 ++-
+ drivers/iio/test/Kconfig                           |   12 +
+ drivers/iio/test/Makefile                          |    1 +
+ drivers/iio/test/iio-test-fixpoint-parse.c         |  470 ++++++++
+ include/linux/iio/iio.h                            |    2 +
+ include/linux/kstrtox.h                            |    3 +
+ lib/kstrtox.c                                      |   47 +-
+ lib/test-kstrtox.c                                 |  121 ++
+ 17 files changed, 2461 insertions(+), 64 deletions(-)
+---
+base-commit: cce8de7f9744a210a4441ca8a667a9950515eea7
+change-id: 20251110-adf41513-iio-driver-aaca8a7f808e
+
+Best regards,
 -- 
-2.43.0
+Rodrigo Alencar <rodrigo.alencar@analog.com>
 
 
