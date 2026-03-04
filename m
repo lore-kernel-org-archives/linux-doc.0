@@ -1,134 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC768351C1F;
-	Wed,  4 Mar 2026 18:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1486033C52F
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 20:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772649031; cv=none; b=Y/UWwo1BNLEqWiicU2sg6RvDEv9uTnvqlj9Uie8QYs0Oy4mKP++hm6UOUgfhrscdJy4Y49iRGpACNHf2AONBigUOubkNCDY6FVuI/hwPr26DTyn4hEkTQDPS2xpc36C0ldVhmcWTKRcJE7v6HgSfYC7OsF38X63sYYnHL8mGGt8=
+	t=1772654845; cv=none; b=Kv2gDRhMwOhlJ6MVjJpmmD3aNZ1VX8nZRNtgghPi5XSjsHl7CvZE86TsG01bB+Wv/2ko1a7mXheixvpZ+XvtmJbx/XDons05KmsXr6gMmNaeGw8ZNfygh7nUIYu1e2aAzeiuY5xG2TA7DMgm89NQFJSMPM0+bv8UokirS+djZV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772649031; c=relaxed/simple;
-	bh=3A4++snizBAapyNv68E4VeyeJMe0EyUIxq7+6aoLznk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LXRk/VdMZBzOC3D0aoM9OR+eucAZStdiIHNVxy+nHPu8R07lnV4S6A+5Xz9/wGqNZaRc5Nnbct10AibUQmmTvEC/db9pr2on8+2wllNt5Lzf9nyECbYTN3wDKWLrCZbOQPddxxBaKqEeCPUZbA9r7mvzgn4B+0vWbC3dSG4eMoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fMsxj+87; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772654845; c=relaxed/simple;
+	bh=EoYle/6JOsVNqnXQzbomRgDTXDfhqKNgorkD6gNFOcA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KX57Vu52R0icQtQ+SVsDGGmKxdsO6xvrJZIJEIgMcjRS1iV8rpxFDnk0RzRsGZVY0Ct/VJPg1zo/Alkmzf/ZvaA8R2z7aGfKQgaghJTsntX402onRmkjk7swpbe4NbRMBOlh0F4HsAODJcpIhtf5UG1tF3hgvs6vMxYzwqDFq9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UAANFyTl; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fMsxj+87"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAFFC4CEF7;
-	Wed,  4 Mar 2026 18:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772649031;
-	bh=3A4++snizBAapyNv68E4VeyeJMe0EyUIxq7+6aoLznk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fMsxj+87FNW8R3BcSUdbOojVubkEI7VXqH9UxVPAUOcHueIEQb1GIz8KKHKTqAqVI
-	 ZDRh6/Vy76t5TbW5ooVwhfM0Z1eW1sFBb4/qX60gdJcTJqEeOzxmT+Q5rZF2AOCy8G
-	 SFhg73lSDr9D807CtE3lcQWrkydaLeVwlwOM7w2II9Caujs0XZ48t60V1T5Lqtx7I6
-	 JB7gaZJmOIGcqdGDqBw7Hh5T6/RknLhXcAs+TTtXbXnqK4xKDfYm2dZFlVDn3jdGaf
-	 VT13DGOk6qaZibn5zURj9ob4JTHGwSpmaCf6WHh8IG1eub1Y1luUumT3GWiFSaZcLq
-	 ACufVT2HiwNJw==
-Date: Wed, 4 Mar 2026 20:30:26 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>, Peter Colberg <pcolberg@redhat.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
-	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
-	Moritz Fischer <mdf@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, linux-pci@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
-	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
-	driver-core@lists.linux.dev
-Subject: Re: [PATCH v3 00/10] rust: pci: add abstractions for SR-IOV
- capability
-Message-ID: <20260304183026.GK12611@unreal>
-References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
- <20260304084750.GW12611@unreal>
- <20260304141852.GF964116@ziepe.ca>
- <20260304142600.GB12611@unreal>
- <DGU347RJX5BV.1CZYELSZ9GS9D@kernel.org>
- <20260304162711.GI12611@unreal>
- <20260304164551.GG964116@ziepe.ca>
- <20260304170249.GJ12611@unreal>
- <DGU6RZ7MWNAV.21PQC3NNK05D6@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UAANFyTl"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4837907f535so65360805e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 12:07:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772654842; x=1773259642; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZiNPyYsvz+QyWtSc/HtTaNZa5g2oofeCtGK50tm8P1E=;
+        b=UAANFyTlM6t14vrvIP709sxq71AF1N3tPyKlaj/UQQM/HCE2+zA2N+Gixc96yN1wa2
+         16o3oDXFn0YYgp3LN+hFyvqjkL9oTbq9kOnX8r/CobD7M9PLAVmAz6PdrcgZ3fqvEeWA
+         AGiNd5oc5EY2wNaNB6WdQkj4KIKtBc8bvS4Kdy8ER8/rciQ0Dhpmr0xmZ6HP+Xo9t2jK
+         nBgNb1tvw8R5EGPC0LIZmNy5Mts+zizrTlAWqzwIGNxrAchaTVMmang9dWfx8YBHdnDC
+         +dvwYjoQSuqWXg1vJoEMC3KNwBITsztxgXFAZOQSKhK0DpNSEjFyqojY5qZO7/9OafkK
+         nFoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772654842; x=1773259642;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZiNPyYsvz+QyWtSc/HtTaNZa5g2oofeCtGK50tm8P1E=;
+        b=F5XfbQGpRIVTe6kuplvL4yOewr7rwfvZF8wxTZy7Zpl6whyGbO81j1X58DAnZ/jd2H
+         PD3tAIGdWoawAT7ZCxDTqe5VTw/RqoyYr3V3npDau2srcwlvMkk+mUmbOCZk0/3n99mY
+         K9qKnFzbIKqHZhpaTWeTcN8JD5H5NYNTiKRr/v7f5RC/1VNoF3LwHyoCeSWX5LYiKEBr
+         lm8JnUEfII5jranCy9IvJU/vUq+Yu18y8lY+CEnAWpPY97wC0mKYyLRICg9Buwr/vFLv
+         oZNHxDDEPlHnuHSpMet6ZauMU8cmvo/arROrLY4RVM6dEJdI1/DQGJSn2/WV5/rkZHoH
+         WLEw==
+X-Forwarded-Encrypted: i=1; AJvYcCW6LJLzZG7dt6cGZrIWnr6vP2IdwctqN6Ts1o+4YKRwTLcCIBfkNDcMqw6Lri/JunvdVS3ayStoP2k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpVeJHDGSTXpYUTcEDipQoggT7MfpCcsvy8zheOQ9WOhU9qc9i
+	PDQrNaT20SOk9krXIgkQh/dcfKlh3tP26FF7A6x7ebyvW+nMAaENQK3T
+X-Gm-Gg: ATEYQzxNJGHKIg17sloYMTE8JYGbFHq9GVJ7UwoltE2JQ92qKRW+gn3gPUkm9Og5e0h
+	7X6XnjMbD4puJcerEzDL8iywbB97qV+eBWllGIDTsacqzPHF1y38Bt8BcMrQIy/Y2mWYSn7mfJk
+	oB+atZidWK8NU5B8XAdb/+t1rL7CvlaFIe/vrpjqZLokC9Z5H6O4uiVAyGckzeTryxs6wqEr1t5
+	dGhZsoTnTkB7lBvLGvdSNlPTZEFsQT0Vb6XdcxNdQ6SJ5Fs8Ygh6t9G3e3psTS6B1K5CFTqTmul
+	cxheCXWeXEkyomzG1I05TkP8UOM7YXSdYMce52xZTRx8HthhXWqP5YCmWOXdkqhq+V+NdeaiuUx
+	g1FRGKUTc+j8poRsyOV6xSdsbNSQdZRq5+mHhRi+hkYjAALrnosZDxFN6Q7FjOfQ/VGhd1UPAZe
+	WY0Qs85OxbeXfKNIgRScsoHpUjTgpLLV1FgOgWi43wEBOt7p8o76vwboLX5KsbYcNhwC+IHj3E+
+	H84cUb+KoFjXrkOEF8RzLD6rnEOJluE5ReJAMifgYz9bEA=
+X-Received: by 2002:a05:600c:1c26:b0:483:71f7:2796 with SMTP id 5b1f17b1804b1-4851982e8bcmr55862335e9.10.1772654842178;
+        Wed, 04 Mar 2026 12:07:22 -0800 (PST)
+Received: from localhost.localdomain ([80.233.57.185])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851881224csm68872885e9.13.2026.03.04.12.07.21
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 04 Mar 2026 12:07:21 -0800 (PST)
+From: Edwin Toribio <edwin.toribio.j@gmail.com>
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: carlos.bilbao@kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	Edwin Toribio <edwin.toribio.j@gmail.com>
+Subject: [PATCH v2 0/3] docs: sp_SP: Add Rust documentation section
+Date: Wed,  4 Mar 2026 20:07:10 +0000
+Message-ID: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <DGU6RZ7MWNAV.21PQC3NNK05D6@kernel.org>
 
-On Wed, Mar 04, 2026 at 06:50:02PM +0100, Danilo Krummrich wrote:
-> On Wed Mar 4, 2026 at 6:02 PM CET, Leon Romanovsky wrote:
-> > On Wed, Mar 04, 2026 at 12:45:51PM -0400, Jason Gunthorpe wrote:
-> >> On Wed, Mar 04, 2026 at 06:27:11PM +0200, Leon Romanovsky wrote:
-> >> > On Wed, Mar 04, 2026 at 03:57:57PM +0100, Danilo Krummrich wrote:
-> >> > > On Wed Mar 4, 2026 at 3:26 PM CET, Leon Romanovsky wrote:
-> >> > > > On Wed, Mar 04, 2026 at 10:18:52AM -0400, Jason Gunthorpe wrote:
-> >> > > >> On Wed, Mar 04, 2026 at 10:47:50AM +0200, Leon Romanovsky wrote:
-> >> > > >> > On Tue, Mar 03, 2026 at 04:15:20PM -0500, Peter Colberg wrote:
-> >> > > >> > > Add Rust abstractions for the Single Root I/O Virtualization (SR-IOV)
-> >> > > >> > > capability of a PCI device. Provide a minimal set of wrappers for the
-> >> > > >> > > SR-IOV C API to enable and disable SR-IOV for a device, and query if
-> >> > > >> > > a PCI device is a Physical Function (PF) or Virtual Function (VF).
-> >> > > >> > 
-> >> > > >> > <...>
-> >> > > >> > 
-> >> > > >> > > For PF drivers written in C, disabling SR-IOV on remove() may be opted
-> >> > > >> > > into by setting the flag managed_sriov in the pci_driver structure. For
-> >> > > >> > > PF drivers written in Rust, disabling SR-IOV on unbind() is mandatory.
-> >> > > >> > 
-> >> > > >> > Why? Could you explain the rationale behind this difference between C and
-> >> > > >> > Rust? Let me remind you that SR‑IOV devices which do not disable VFs do so
-> >> > > >> > for a practical and well‑established reason: maximizing hardware
-> >> > > >> > utilization.
-> >> > > >> 
-> >> > > >> Personally I think drivers doing this are wrong. That such a driver
-> >> > > >> bug was allowed to become UAPI is pretty bad. The rust approach is
-> >> > > >> better.
-> >> > > >
-> >> > > > We already had this discussion. I see this as a perfectly valid
-> >> > > > use-case.
-> >> > > 
-> >> > > Can you remind about a specific use-case for this please? (Ideally, one that
-> >> > > can't be solved otherwise.)
-> >> > 
-> >> > You create X VFs through sriov_configure, unbind PF, bind it to vfio
-> >> > instead and forward (X + 1) functions to different VMs.
-> >> 
-> >> No, illegal, and it doesn't even work right. When VFIO FLRs the PF it
-> >> will blow up the half baked SRIOV and break everything.
-> >
-> > The FLR can be disabled. For example, PCI_DEV_FLAGS_NO_FLR_RESET flag
-> > will do it.
-> 
-> But this is a quirk and not a feature, no? So, we shouldn't use it as a baseline
-> for actual features.
+This series provides the Spanish translation for the Rust documentation
+section in the Linux kernel, including the quick-start guide, general 
+information, and coding guidelines.
 
-My point is slightly different. I was trying to explain the rationale for
-preserving VFs after the PF is unbound, a design choice that predates the
-introduction of the VFIO .srio_configure callback.
+In this second version, all documents have been unified and updated to
+comply with the feedback provided regarding style and technical accuracy.
 
-Thanks
+Changes in v2:
+- Added new translations: coding-guidelines.rst and index.rst.
+- Standardized the use of "p. ej." abbreviation throughout all files.
+- Fixed the Hacking section truncation in quick-start.rst.
+
+Edwin Toribio (3):
+  docs: sp_SP: Add Spanish translation for Rust quick-start
+  docs: sp_SP: Add Spanish translation for Rust general information
+  docs: sp_SP: Add Spanish translation for Rust coding guidelines
+
+ .../sp_SP/rust/coding-guidelines.rst          | 543 ++++++++++++++++++
+ .../sp_SP/rust/general-information.rst        | 178 ++++++
+ .../translations/sp_SP/rust/index.rst         |  45 ++
+ .../translations/sp_SP/rust/quick-start.rst   | 384 +++++++++++++
+ 4 files changed, 1150 insertions(+)
+ create mode 100644 Documentation/translations/sp_SP/rust/coding-guidelines.rst
+ create mode 100644 Documentation/translations/sp_SP/rust/general-information.rst
+ create mode 100644 Documentation/translations/sp_SP/rust/index.rst
+ create mode 100644 Documentation/translations/sp_SP/rust/quick-start.rst
+
+-- 
+2.53.0
+
