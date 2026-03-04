@@ -1,106 +1,85 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D166E36A029
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 10:16:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0A4534D907;
+	Wed,  4 Mar 2026 10:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772619421; cv=none; b=fXgFrRWqqrEDixiDcnnixNnxekcy0qqDNQ6RDTLw0AMJHHXX7YX6/0HI1C8QfHRS/6EQhXtiizbf/P4feeX6BxCQD8cLWKc6t5rHVyoGC6e0HUJwQaB/ZDXbBR53UR06FpRipAuRXiPSwv8+rNAQv+isMTkTUKiX0BWZ2nAxEqs=
+	t=1772619430; cv=none; b=fXltELnHrq6HgQx6FDH1afI71bS/gLc/o+cMJZ4kt3RHx+JuSP3z/WnMIDeazinfV6k+q7UnfzMxTijDQRNzPdxJ1s3fx4cklmFcAMu6KC3tB5T0Xz+rKoyyyfj+8ucAbWBaBiIrUteCOH4a/Ov0z14cXFCkO5MvMIai6hltR2k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772619421; c=relaxed/simple;
-	bh=e78qIDzHbDTqXVogJF+UVOVMy75B++Q+8NZ/1KY9TUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jPvUXH6n8RjLGd0MSiiyQIcDObenIjFG1PLEZGo6FqRd9jD38rkGP56l3yUihvBnWNvqzLJ5rfpAujJ2Ip0AJF0TyT+Pdf3xQccChTJkkExINIf0mxm8+dLPCX8DU6+0buRrf6fp+A0eUvWSAvSh5ThzV69mS/Jhv6o87s9qTcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+FSwpMX; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772619430; c=relaxed/simple;
+	bh=GyiIZCoxRRp/uGhPOPVKST1Kfcf+hq2zesY60smmkkE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IEGdKbIRQxAP5hyaNbCp/zE2P/x6WBr1ZhvHX0dUb3xFyGSPeCJO3niquXQVbCtedY6jGhxXZughRU1INKML2N1PrfZV7NRs6BsqQsB3brVdO6amyoPpl6V3azIfCT8bVX0jv+GerV4OI4KK2RYIfhrdY6xigziWOml5+Xl4Kck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bU401EyL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+FSwpMX"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-483bd7354efso89379635e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 02:16:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772619418; x=1773224218; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hYB3YNu9CO7wLt2ZT8Xt9m7azMQTOfSk/ijLWaYuruI=;
-        b=F+FSwpMXpboj5Xote2ENRoHs8jokK6NZkRGnHXH4Qy3cV3lBdhiex5fHH9wNHAjdhK
-         yqGvfBGwjpHrGAR+l6wgHNZa77l96PQY1fJWo2xhuCVwQp6WrSo/kVUGJtLRM+lpwMlz
-         tP+31aj1JPS+X4nRNiTwhltna0Em727kkN2S2Iw7DmoBsbn1CDPDOHgMd18NfKRPRqk8
-         0TvYXo1BoWGnRr73ONsX444mo+GUDtdoixmN6R+5aBXYazoDMqyRZ9QHPbl3AT1nnCk1
-         +/K1DTBEv0BP29zEOeRkYIjutxE2ZIuX7lhUCht8CRZhQInAqHabKMqS5C73FREKZnDG
-         otzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772619418; x=1773224218;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hYB3YNu9CO7wLt2ZT8Xt9m7azMQTOfSk/ijLWaYuruI=;
-        b=OmqGyNtlJBfH5g4EuAA+/wHC00anasVa3zZMwbhGSfKyFlXTu+qb0UP32NZSVVjxhj
-         6nCX55DmiqPF9GZR4XO75TGqXl+jTUdFpLIYhjsjyvQhsJJ2IGHSiJO+cP1YAi8iaLDe
-         Qjyvf4y6r3jZ9ASBNrpnT+xWv1rSzuNPfhZq5KRMaaMzsZK5V6us07kfFTm9TBoedNQO
-         saQ0Uzz7KM29ibkvzXYa9crSgri1akaAnFKMxX9iQaJIgb9xsk6TUAcGJwICyrgsfaJG
-         Ce8V+pXi35/OaCSbxAh046UpOMvda8LfC7nvRr8/bg+24oA5SaMXUtJ/YojUVwk7AAHu
-         Ebwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVF54cCsKfhLQnfm9yOtkHJ2HwHdlQkHsP+u2xb1LlEBoGsp5BFgdzKTDH4gXR9o853BNDuNGVYQZc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7x8JQAm+sQMZOKw19NUcYTh96Zx67G5bvG4vhNkOv0eJ0YrbE
-	rmpett3vvV9fd/60DTpKQMCQQQybmZM+FakmAGYwnxX8kP0H5TfwC7dx
-X-Gm-Gg: ATEYQzz87kp74fBfPnvTZHulkknq+RY54jsFAYJzk2Fomok8M57VdYiaXVwcbFxBIcD
-	wf1HZ1N+cq0vYDTaGh0Q43a/EzCzrDf4gG1bkOhHdip2f22fsVlgMxxrUrc7jlfn+R9XRIQKyYw
-	UaASWqzaPfMs4pBhIgfU4l5CzC8Pc1C4q+q95g8mhLn0qbTv5WWdjJwhOetFZGp1z6f7sTkRGOM
-	oKcgLVXrJYXT3ngcA49MitiTQJN9VFghdJ+L/iRMTL4OfQEAf3OggaG1DO1Stmp3Z+QAaKTSttt
-	dvH0TL8nm1l/ZlYPbAGTG5u8ARyjqvqud+tWRFe97T+HysOtpneLSFAayOzZZ9oopadSHiGY2MB
-	4E3G9Er7ivwR7ZSW0DdMo3Okq3p/pwkLvWMXKHPWBDGm8ele+CXdY/ngJ1wQFivmRqS046TFkew
-	ZgunLRmBPCguI4wuuNFlJdj4EtxexH2eQXBfoOShswBdVKFdItQSsJzwxAuRZ0FPx5
-X-Received: by 2002:a05:600c:a51:b0:47d:3ffa:5f03 with SMTP id 5b1f17b1804b1-48519886ca3mr23059915e9.21.1772619417522;
-        Wed, 04 Mar 2026 02:16:57 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48518839ae7sm36391845e9.1.2026.03.04.02.16.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 02:16:57 -0800 (PST)
-Date: Wed, 4 Mar 2026 10:16:55 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, David
- Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
-Message-ID: <20260304101655.620df7ee@pumpkin>
-In-Reply-To: <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
-References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
-	<20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bU401EyL"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 77936C19423;
+	Wed,  4 Mar 2026 10:17:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772619430;
+	bh=GyiIZCoxRRp/uGhPOPVKST1Kfcf+hq2zesY60smmkkE=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=bU401EyLje/arwIEiMLSFWX9MoRriiISbsNzlKvPq2KQr/bFwnr9s9EM7SATulLcC
+	 pLIw58u1lID4qwOk3RY9J8hC/jYcV95+6SLrIWBK8wLw9VqxwO1eV0+54pHrZKWDKB
+	 pSxwIIXZtQLm1gpUsZaEZBmXFjkvEemANZ2O+Z1w7w6LSFo3iqP+4YZ+LE8r8QSy3x
+	 Gl+kCIHJoXizcLVvJwJMVaLv+93NZu55+gojmxLlby6Ntt2fmYkqPgdrerYxJi1hB5
+	 YLepXbtoFCY2FgVSZVuIcY2+AdfuZdWUtVW2N3au0dG+4CcEKKqq1t9lWBtByrIq0H
+	 XTTRa+vk772fQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 631FFEB7EA5;
+	Wed,  4 Mar 2026 10:17:10 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Subject: [PATCH 0/2] hwmon: ltc4282: Small fixes and improvements
+Date: Wed, 04 Mar 2026 10:17:46 +0000
+Message-Id: <20260304-hwmon-ltc4282-minor-improvs-v1-0-344622924d3a@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MQQqEMAwAwK9IzgZqrFX8iuxB3KgB20oqriD+3
+ bLHucwNiVU4QV/coHxKkhgyqrKAaR3DwijfbCBDztTG4vrzMeB2TJY6Qi8hKorfNZ4JG0dV2zh
+ n7NxCHnblWa7/Pnye5wWZ1jCbbQAAAA==
+X-Change-ID: 20260304-hwmon-ltc4282-minor-improvs-5621756604f7
+To: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772619475; l=750;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=GyiIZCoxRRp/uGhPOPVKST1Kfcf+hq2zesY60smmkkE=;
+ b=+gwvYRVWbzYZsGFPtiJeT8liks7cQyjV4IyJpGBSofuwrko+cn3BtLL1KaIb1sRyLzpwYqIuH
+ Y0DFpr9g2kACzmlbZZJhGSSjErsnsEx469802Ffa8aDKYe3g6X06ara
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-On Tue, 03 Mar 2026 13:27:07 +0000
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+Small series to remove scanned addresses in the docs (given there's no
+detection being done in the driver). Also, in hwmon, we do want to be
+able to probe devices even if there's no firmware properties
+(description) available. Hence, make sure we do not fail if there's no
+rsense property and define a sane enough default.
 
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> Add kstrntoull() function, which converts a string to an ULL with a max
-> character limit. The function is an alternative integer parsing function
-> that does not require a null-terminated string. It becomes a better option
-> over simple_strtoull() or kstrtoull() when parsing integers from a buffer
-> with custom delimiters without having to create temporary copies.
-> The function is consumed inside the implementation _kstrtoull(),
-> promoting reuse.
+---
+Nuno Sá (2):
+      docs: hwmon: ltc4282: Fix scanned addresses
+      hwmon: (ltc4282) Add default rsense value
 
-If you've got custom delimiters use a function that returns a pointer
-to the character that terminated the conversion.
-They save you having to find the delimiter as well as taking a copy.
+ Documentation/hwmon/ltc4282.rst |  3 +--
+ drivers/hwmon/ltc4282.c         | 15 ++++++++-------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+---
+base-commit: 78558965440b27814592ec82d8f3668395953b1b
+change-id: 20260304-hwmon-ltc4282-minor-improvs-5621756604f7
+--
 
-	David
+Thanks!
+- Nuno Sá
+
 
