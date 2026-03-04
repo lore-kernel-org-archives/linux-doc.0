@@ -1,155 +1,101 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BC134B682
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:05:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAAB334681
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772636705; cv=none; b=o9m71IaHbER5YGpN1uN/8zFxEQoD23JPu2IlFuthsy7VzTAxSSmtUY61HIMmgwFrZbWT4VP9v/FTBYl7rKLmxQm11sWn54NtQASi/QIUvmNzmHJ4ydUgN9rhPkx2PoAZ68JclA8qcJkyBArh6g9LvjJ6peaevNJe84Po8FLiQQQ=
+	t=1772636766; cv=none; b=do8rFxZk2r/BykvEjxMnz0bn5bm6d2x12CCV3s3mNQ7m6EFWyjMZY2TIKhKVjrq9+uzBS6kX3hJElxWJVDArMLXX7Zit39MujWsVMe2xoXfQ3fxbFzG/PPtMTeKOnF779qk9PM+dAOmciqwFWNkFp7gebws4fs50CyxI8x0+HRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772636705; c=relaxed/simple;
-	bh=jHAcgKXcKNebtrlpWLGfC+a4usAjvIac1SzYg4lDCRw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XRyI5DwQ2I0Vz/wwPo2Yns/ii+t8QRc1PFQkB/RS+nwzWBsnyuF4SYSYDLsae0I3E7MmHgSmnkqEh3H8z1v+AmCXsQ5ewmYb7J5sOEcMDSAzej3fjstOPg8j5JTu4n8XaCpnTyOTLfcaRGasqMzG1uD0BxF2rw1k8Uhmby9zs1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQTw27Ii; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772636766; c=relaxed/simple;
+	bh=gxAcEfjco4wGcd5mrryQitiaU7LNC8vhE9G14RTHDDo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BYl8Q8B8M7gH40WYNc+ooDNgRV8uL90zaXywjhsf9LkNqcPk/BDxgpqrRukG7Q5cYlXU4SkptDZ7LsfF0TqtKtdTXCruiSJQ1qde7VDndvgFbCrf6ZSX9NeEujB621HXLkqRpdTYdZ6WTwZI1K8EbVzi2XGLGbF1RCvxWMloYaQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GXd9GKw6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQTw27Ii"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-35994d84c6dso1266586a91.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 07:05:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772636701; x=1773241501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fqTYOMIsNClRzqswixiS8WEm00nS5ICygdS6xEi4uwI=;
-        b=kQTw27IiEZ4ibhEU5iS8az0NOijK4o9pwKVvcNC+g7wmpWsb/QBjXjyhkyiOf8qC4G
-         Qt4CW7yUDVAxiKVemZpR5POxtbHpU6enzu69gRBrf1fN0965ZGdjSAjzYNHyGU9Vv9CQ
-         zu5r9eks7mSikUoFWdmRGvqPlKSNzVX/EP4ldpMbvQibN37UESLfgExF1+gU5Dn9OFr6
-         Sl0O7n7lXj52jCpGbTwg2PcVkpwl6mYyGwBOlhoIgG75cKXHkRWQmW1R8h4VXHNALbvt
-         93zXMkyGwGS1Z7nga21z8uK/gVGtmkhBoZEFj9n3UFb8Q76ZkLVdaujwAJboJK/IOkQ4
-         OV1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772636701; x=1773241501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fqTYOMIsNClRzqswixiS8WEm00nS5ICygdS6xEi4uwI=;
-        b=OeOhUKkXFcXNo2D9ZSq1BgZZ73ku++zc4a2Q5so4bILPFuIFkfoO8U5e+wvSq7335k
-         fq/E2PKEVa59Kb+D/Xd29RKL/hbzRNcGH1Q3UuSdQD2Av26Ijf2ItZbiYE8FT5J/RElX
-         EbT9b1tDflApLg64HjuCmf0lel9Madu278xgJaTlYESAf9aChRsC/qov2+rH188jyD27
-         GAFliJWID7gzSGd0Iac0TLSZfbGz0gFT3kCDT6ry/PxSvkAaXJqMf5IMjAWOr6/icdqB
-         9mutEimrbSbbe657wisTss3cphs+EDwlNxWZRNUHWwTgaLgmRumjHd9GLuru10vCKHUf
-         252g==
-X-Forwarded-Encrypted: i=1; AJvYcCUS/I/SSmGr7On33u+WW+4Vnrrw/caYYxbHODeQnoIKeah4wwe5uB07aSckXk2/7vtNFdLGTTYjVzE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMFB8SIt2FM/11Ug5NJY2mhjUnNASLWpyvwyGJioMCIZv+Peiz
-	dlHhaDC2L6kIZG9+F5c7t0tN/OrU4eA1+4757hwME5Fa8/E1bwi3e48S
-X-Gm-Gg: ATEYQzzbhXkZVbHkptXIW9XgIyX76yzsPkKQpvQYWqxwLV5sK4SN1LFbKa38sSzLFqw
-	jVJ0b2eXSvPB2Oxour+X3WaUfEIIGEoXnnaZfYcPM4LjzrT0H64jHr26FM++3pQ7BcsseBrQoPG
-	fZMZ2nWXBkAypB1HQG0GEbsXLpuzXlone+7+y0h1Ez2ytFr3cdtBqJfk89njClv7h/ieudxh4z2
-	uETF+m/tKvtltT+aPyC48PldpPLMX1qnMqSgZEOP+wdl/17DA7nhjJ7eE1BpdW5S/YP3EY8zc78
-	O0dnqyim/+d1KSavCbq2UVKWuBLU7omnmEIUo97F2Nbm1EGO3jh0eGWdsZao/h59zEl6aanGDku
-	ssgYbRdvV6LjfM8eNGJQDjYY3ujzWPtsllHE9aDegx00v2SQJZQ0uP35bGPg46Xl7DJHSnkb5Wf
-	3Sxn/lJbe+1C8ZoUVI0xJbyC820nVsAJ2zkLir7rr35Qsjxfg0dZzpa333YrJGUQ==
-X-Received: by 2002:a17:90b:48cd:b0:34a:8c77:d37b with SMTP id 98e67ed59e1d1-359a6a21536mr2121281a91.16.1772636701366;
-        Wed, 04 Mar 2026 07:05:01 -0800 (PST)
-Received: from localhost.localdomain ([47.30.254.178])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359aa3eb916sm516439a91.11.2026.03.04.07.04.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 07:05:00 -0800 (PST)
-From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-To: corbet@lwn.net,
-	jgross@suse.com
-Cc: sstabellini@kernel.org,
-	boris.ostrovsky@oracle.com,
-	linux-doc@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-kernel@vger.kernel.org,
-	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Subject: [PATCH v2] docs: sysctl: Add documentation for /proc/sys/xen/
-Date: Wed,  4 Mar 2026 20:34:19 +0530
-Message-Id: <20260304150419.16738-1-chakrabortyshubham66@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GXd9GKw6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32EA3C4AF0B
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:06:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772636766;
+	bh=gxAcEfjco4wGcd5mrryQitiaU7LNC8vhE9G14RTHDDo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GXd9GKw66/RCES5/LDmh94gtKijy68iTiVF7ojlM67lcaT22ypzTDzXcxsFJblQ6l
+	 W6ejBD0MtWbJIHL5/oXbb7GeyJdKsNkyOPuHJwq2LJWBUs9Z+ZZgAxTMGZXyWG/y41
+	 nmPiyrTkAoeQqffmxjP9IU0KCXecY75c2KMtDeZa5F/iGV1/irZ6HW6hSq8TcPwNfu
+	 onqJ7QVaCLjNZsk8hiP4+IP/yJjKDCos9GqzS1n6rIz9/zcxFW1aYFm+ZLJ4za9yVE
+	 cl17M7asN0sOHqdfifMeQ+Ym00xoTvAUxYPaWQmwQcDru+jF34WmDDtgbZskwy1WZV
+	 FdgyxnC6U9+9Q==
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38700168abaso51703761fa.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 07:06:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVVWQ2M+vuP6KuKAqHDnO0yIYmTWHnlYs2JFyadEJjro5w9kDRYVkbYYenvgxfByIDnBo5oj1etbjM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKwXbaaxkTZ0rGmnAxZ58/ZE+4gl0bKcq0QYUdoXSBA8+LV5Ro
+	0ZgeOMAkkgl99+cde5a4QQmvClATEBI/p3nGmvlIRkuN+NiuNU+sOX9a/dJQnMawYs4aqKcNMtb
+	WYvwBHCZ1JU2DEEDCn3uJtLGYFu/Y5maav52IXSSocg==
+X-Received: by 2002:a2e:8245:0:b0:386:1e28:4d72 with SMTP id
+ 38308e7fff4ca-38a2c7cf3f0mr16410411fa.30.1772636764859; Wed, 04 Mar 2026
+ 07:06:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260302-qcom-qce-cmd-descr-v11-0-4bf1f5db4802@oss.qualcomm.com>
+ <20260302-qcom-qce-cmd-descr-v11-7-4bf1f5db4802@oss.qualcomm.com> <aahEMjjBRINXL5zC@vaman>
+In-Reply-To: <aahEMjjBRINXL5zC@vaman>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Wed, 4 Mar 2026 16:05:51 +0100
+X-Gmail-Original-Message-ID: <CAMRc=Md2G7k7DGMZv2Du75ososQtsAutw2WwwAQ3WL8pC_-LmQ@mail.gmail.com>
+X-Gm-Features: AaiRm53H7_XeJS7KZNaUgV2GDd2SiLuqpmAUu8ZTp5xsf7mIRHhbSIEFXAiwXiE
+Message-ID: <CAMRc=Md2G7k7DGMZv2Du75ososQtsAutw2WwwAQ3WL8pC_-LmQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v11 07/12] crypto: qce - Communicate the base physical
+ address to the dmaengine
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add documentation for the Xen hypervisor sysctl controls in
-/proc/sys/xen/balloon/.
+On Wed, Mar 4, 2026 at 3:39=E2=80=AFPM Vinod Koul <vkoul@kernel.org> wrote:
+>
+> On 02-03-26, 16:57, Bartosz Golaszewski wrote:
+> > In order to let the BAM DMA engine know which address is used for
+> > register I/O, call dmaengine_slave_config() after requesting the RX
+> > channel and use the config structure to pass that information to the
+> > dmaengine core. This is done ahead of extending the BAM driver with
+> > support for pipe locking, which requires performing dummy writes when
+> > passing the lock/unlock flags alongside the command descriptors.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
+m>
+> > ---
+> >
+> >       dma->txchan =3D devm_dma_request_chan(dev, "tx");
+> >       if (IS_ERR(dma->txchan))
+> > @@ -121,6 +123,12 @@ int devm_qce_dma_request(struct qce_device *qce)
+> >               return dev_err_probe(dev, PTR_ERR(dma->rxchan),
+> >                                    "Failed to get RX DMA channel\n");
+> >
+> > +     cfg.dst_addr =3D qce->base_phys;
+> > +     cfg.direction =3D DMA_MEM_TO_DEV;
+>
+> So is this the address of crypto engine address where dma data is
+> supposed to be pushed to..?
+>
 
-Documents the hotplug_unpopulated tunable (available when
-CONFIG_XEN_BALLOON_MEMORY_HOTPLUG is enabled) which controls
-whether unpopulated memory regions are automatically hotplugged
-when the Xen balloon driver needs to reclaim memory.
+No. In case I wasn't clear enough in the cover letter: this is the
+address of the *crypto engine* register which we use as a scratchpad
+for the dummy write when issuing the lock/unlock command. Mani
+suggested under the cover letter to use the descriptor metadata for
+that.
 
-The documentation is based on source code analysis of
-drivers/xen/balloon.c.
-
-Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
----
- Documentation/admin-guide/sysctl/index.rst |  3 ++-
- Documentation/admin-guide/sysctl/xen.rst   | 31 ++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/admin-guide/sysctl/xen.rst
-
-diff --git a/Documentation/admin-guide/sysctl/index.rst b/Documentation/admin-guide/sysctl/index.rst
-index 4dd2c9b5d752..aae68373902f 100644
---- a/Documentation/admin-guide/sysctl/index.rst
-+++ b/Documentation/admin-guide/sysctl/index.rst
-@@ -84,7 +84,7 @@ sunrpc/		SUN Remote Procedure Call (NFS)
- user/		Per user namespace limits
- vm/		memory management tuning
- 		buffer and cache management
--xen/		<undocumented>
-+xen/		Xen hypervisor controls
- =============== ===============================================================
- 
- These are the subdirs I have on my system or have been discovered by
-@@ -102,3 +102,4 @@ it :-)
-    sunrpc
-    user
-    vm
-+   xen
-diff --git a/Documentation/admin-guide/sysctl/xen.rst b/Documentation/admin-guide/sysctl/xen.rst
-new file mode 100644
-index 000000000000..6c5edc3e5e4c
---- /dev/null
-+++ b/Documentation/admin-guide/sysctl/xen.rst
-@@ -0,0 +1,31 @@
-+===============
-+/proc/sys/xen/
-+===============
-+
-+Copyright (c) 2026, Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-+
-+For general info and legal blurb, please look in
-+Documentation/admin-guide/sysctl/index.rst.
-+
-+------------------------------------------------------------------------------
-+
-+These files show up in ``/proc/sys/xen/``, depending on the
-+kernel configuration:
-+
-+.. contents:: :local:
-+
-+balloon/hotplug_unpopulated
-+===========================
-+
-+This flag controls whether unpopulated memory ranges are automatically
-+hotplugged as system RAM.
-+
-+- ``0``: Unpopulated ranges are not hotplugged (default).
-+- ``1``: Unpopulated ranges are automatically hotplugged.
-+
-+When enabled, the Xen balloon driver will add memory regions that are
-+marked as unpopulated in the Xen memory map to the system as usable RAM.
-+This allows for dynamic memory expansion in Xen guest domains.
-+
-+This option is only available when the kernel is built with
-+``CONFIG_XEN_BALLOON_MEMORY_HOTPLUG`` enabled.
--- 
-2.39.5
-
+Bart
