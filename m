@@ -1,156 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.162])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D831A33F8D6
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD14534846D;
+	Wed,  4 Mar 2026 15:31:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.162
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772638084; cv=none; b=KVA+bJPpXCtYWzh1SQqThofi0qJ9wuRK897+4mLel/dm1ar8dGuYdopgVZf0hvbMEUexUOMqJfvhmLK7upaBimmm4Hn8j8Fz4vIokveswt2+ZhZHQDp/iPhYweTG+18EsAsmoL6sg0ybvpDKJFWtTHLVALxRSeTMzUcOxhocBI4=
+	t=1772638311; cv=none; b=UrpUw/hvk5oQr57VC3KqgbkxV9QpsR+DU8AB4cpS6Gs51kQJwZl89BPE10nk0gH3wZ1V+8ZJ1nz9d5DPddRo5t3WrZOkISVULAlwZP0GFWp/5kBvonXMd/Ca1v+p1YD++olyaS6DYhl72JuIy6F/FxLtodItJi+QBnvgHqQdo84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772638084; c=relaxed/simple;
-	bh=4Uhi0QlTwzgQc5rwFHf8CwgRiHlRT+OzQOSYUnatPQ8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hHZeKLwee8ZuR+R72BujBuS8tJw+LQa2BG5vsW4j+XdjekRlsyOmqGsHZWJWyoMvwKM5HLV4rO8X4IiXRhE+ZYJT4h2oe04g5awg0erzXaTrETPC5KcQK3Zsh4C4Khf5bTUEnxIYQqOSeW+iAKvrrWOOz0QW+plEEG7+09bg4tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YLh3PbYg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772638311; c=relaxed/simple;
+	bh=OGSMo+NquOAsUe1dVTaQz5uTuv7KI8qRBbpyfw9azD4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rbxvTybNhxLStnnPexAYSSPpCTOCUaHFYUpbGHtmQ5EYyVfZPCX+FmWlPIu8J7d/Dewjk3pKmKFIVcHae4mbI4QCHshSYU2QVUMmC8YciqoyPJQGLPdsvRltDXWaCTxYH+D6lLBjrGaEpgtA6OpHvDQ21N31ooI7fBznRmC6EnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=XyHDtfNa; arc=none smtp.client-ip=188.68.63.162
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YLh3PbYg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95282C2BCB4
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:28:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772638084;
-	bh=4Uhi0QlTwzgQc5rwFHf8CwgRiHlRT+OzQOSYUnatPQ8=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YLh3PbYgXGp2v3C6KnPZu44bNeXrA+51KuQHTzYyw27y6BqAZ0LJyuMZgR/nRtBT7
-	 Y4D+tHIysm63trLL2LxN2D8GYwx1NiAhpsRoz+gI0a7Ely3TJReyJxJVrCgxUtIKg+
-	 avgF2+mbM2lcegc8OIj1cIQVKArFB0cF7ba5n6wMnPFc8PFVrR3xkzPaN6zrMZ3s4P
-	 ZsHxBOBni1s84woCGzvDqENShD61CQci6rWXSpjk2BhlxvkE+4R0up21FWZeUs5Ivp
-	 f6WkWpxC33pZjxBDoHYhxTcDHo+Ir+YZvqF3QNOVCw9rB3HJRvr6ZU02UWVK1GF1xN
-	 Aj15557fVZdtA==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38a33070b32so1874711fa.0
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 07:28:04 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUP31TIBOWcKaHudubYotnyk6gl+Eto8TfYphkCjkTewgxggI1IR90xMYqmt2n1PtBC9xUSjW5gLfQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPMSTTdZhbHNHJAOmvnD8EhSI40Id+6/DJ7b1lxIjpEfOUcc1v
-	xJCwnTlxIg3DHaRFwI6yM9U8rHvrBauukKFA1ZiJBTyfHoItodKnuqStjzT40vJXZAO+je8ST9M
-	ArfbSbC/KCPsmsHRxKlcMdTmR/cBaXOZQwREJJB7mKA==
-X-Received: by 2002:a2e:be8b:0:b0:38a:314f:b80e with SMTP id
- 38308e7fff4ca-38a314fb8e2mr8868381fa.37.1772638083128; Wed, 04 Mar 2026
- 07:28:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="XyHDtfNa"
+Received: from mors-relay-8201.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4fQxV51nbPz4180;
+	Wed,  4 Mar 2026 16:31:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1772638301;
+	bh=OGSMo+NquOAsUe1dVTaQz5uTuv7KI8qRBbpyfw9azD4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XyHDtfNaySHVbEWPAmVe/fuBBFPtvPoW62amykXnsIbSkjtyCcmqGFjN2WFcawJd2
+	 HU0e9Q0IAffbBvCBA+ZYukcB2tBSqr1FwfQwqoJP9xs8Q00OeNA5DSNXKBN0XDcNQf
+	 WRpmchNj9L4fvOUlt9mFPitkkkO/GbT+Xo7vScaegcIpT8sa1gszqO68ZCUiD491SS
+	 uQjs8NiyPLjiokKSOhb1FS+yIoacK1VMc16lWfoJB/sSp1dXR4jNvJ0KDJyaEC5ZA8
+	 /S/6Y0dpE+9lMYSS/06e468EYHDQvdQYXS28tMzD60LNZ9qWpK12ba+Fx4zlXCLg+y
+	 ZI50fu8tLausw==
+Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4fQxV513KQz3wD6;
+	Wed,  4 Mar 2026 16:31:41 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
+X-Spam-Flag: NO
+X-Spam-Score: -2.899
+X-Spam-Level: 
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4fQxV075dLz8tYG;
+	Wed,  4 Mar 2026 16:31:36 +0100 (CET)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 4483F6173C;
+	Wed,  4 Mar 2026 16:31:36 +0100 (CET)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <3e1d90fc-b35f-4785-8263-fd7427c4455a@leemhuis.info>
+Date: Wed, 4 Mar 2026 16:31:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260302-qcom-qce-cmd-descr-v11-0-4bf1f5db4802@oss.qualcomm.com>
- <20260302-qcom-qce-cmd-descr-v11-12-4bf1f5db4802@oss.qualcomm.com> <aahHeR9j7q4_ynYK@vaman>
-In-Reply-To: <aahHeR9j7q4_ynYK@vaman>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Wed, 4 Mar 2026 16:27:50 +0100
-X-Gmail-Original-Message-ID: <CAMRc=Mc48+NyMPkFRa8GPv-odCe=r9WXJWUZYkTsaY53Ev_stQ@mail.gmail.com>
-X-Gm-Features: AaiRm53PjeLrZbaX46W-h8Hoc8doSIzcwlm0W7I8e3WNmtZGuh6x2grvktVUNBA
-Message-ID: <CAMRc=Mc48+NyMPkFRa8GPv-odCe=r9WXJWUZYkTsaY53Ev_stQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v11 12/12] dmaengine: qcom: bam_dma: add support for
- BAM locking
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION BISECTED] Unexpected section title false positive
+ warnings on DOC: directive
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Regressions <regressions@lists.linux.dev>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>
+References: <aZu9muHK02vPPl8E@archie.me>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: <aZu9muHK02vPPl8E@archie.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: <177263829659.1718426.8734949187560132349@mxe9fb.netcup.net>
+X-Rspamd-Server: rspamd-worker-8404
+X-Rspamd-Queue-Id: 4483F6173C
+X-NC-CID: aiTWVA2+ZzZsHFqiTuajvao5b5i4fQUhwQeKFF96/ZhCzoTIecE=
 
-On Wed, Mar 4, 2026 at 3:53=E2=80=AFPM Vinod Koul <vkoul@kernel.org> wrote:
->
-> On 02-03-26, 16:57, Bartosz Golaszewski wrote:
-> > Add support for BAM pipe locking. To that end: when starting the DMA on
-> > an RX channel - wrap the already issued descriptors with additional
-> > command descriptors performing dummy writes to the base register
-> > supplied by the client via dmaengine_slave_config() (if any) alongside
-> > the lock/unlock HW flags.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
+On 2/23/26 03:38, Bagas Sanjaya wrote:
+> [this is actually a repost of [1] since that thread didn't get any attention
+> from the regressor.]
 
-[snip]
+"Regressor" feels like a odd word choice here (one that according to
+lore nobody has used before). Makes way more sense (and at least to me
+feels more polite) to say something like "the culprit's author (Mauro)"
+– especially as the person might have forgotten already that they
+authored the change in questions.
 
-> > +static struct bam_async_desc *
-> > +bam_make_lock_desc(struct bam_chan *bchan, struct scatterlist *sg,
-> > +                struct bam_cmd_element *ce, unsigned int flag)
-> > +{
-> > +     struct dma_chan *chan =3D &bchan->vc.chan;
-> > +     struct bam_async_desc *async_desc;
-> > +     struct bam_desc_hw *desc;
-> > +     struct virt_dma_desc *vd;
-> > +     struct virt_dma_chan *vc;
-> > +     unsigned int mapped;
-> > +     dma_cookie_t cookie;
-> > +     int ret;
-> > +
-> > +     async_desc =3D kzalloc_flex(*async_desc, desc, 1, GFP_NOWAIT);
-> > +     if (!async_desc) {
-> > +             dev_err(bchan->bdev->dev, "failed to allocate the BAM loc=
-k descriptor\n");
-> > +             return NULL;
-> > +     }
-> > +
-> > +     async_desc->num_desc =3D 1;
-> > +     async_desc->curr_desc =3D async_desc->desc;
-> > +     async_desc->dir =3D DMA_MEM_TO_DEV;
-> > +
-> > +     desc =3D async_desc->desc;
-> > +
-> > +     bam_prep_ce_le32(ce, bchan->slave.dst_addr, BAM_WRITE_COMMAND, 0)=
-;
-> > +     sg_set_buf(sg, ce, sizeof(*ce));
-> > +
-> > +     mapped =3D dma_map_sg_attrs(chan->slave, sg, 1, DMA_TO_DEVICE, DM=
-A_PREP_CMD);
-> > +     if (!mapped) {
-> > +             kfree(async_desc);
-> > +             return NULL;
-> > +     }
-> > +
-> > +     desc->flags |=3D cpu_to_le16(DESC_FLAG_CMD | flag);
-> > +     desc->addr =3D sg_dma_address(sg);
-> > +     desc->size =3D sizeof(struct bam_cmd_element);
-> > +
-> > +     vc =3D &bchan->vc;
-> > +     vd =3D &async_desc->vd;
-> > +
-> > +     dma_async_tx_descriptor_init(&vd->tx, &vc->chan);
-> > +     vd->tx.flags =3D DMA_PREP_CMD;
-> > +     vd->tx.desc_free =3D vchan_tx_desc_free;
-> > +     vd->tx_result.result =3D DMA_TRANS_NOERROR;
-> > +     vd->tx_result.residue =3D 0;
-> > +
-> > +     cookie =3D dma_cookie_assign(&vd->tx);
-> > +     ret =3D dma_submit_error(cookie);
->
-> I am not sure I understand this.
->
-> At start you add a descriptor in the queue, ideally which should be
-> queued after the existing descriptors are completed!
->
-> Also I thought you want to append Pipe cmd to descriptors, why not do
-> this while preparing the descriptors and add the pipe cmd and start and
-> end of the sequence when you prepare... This was you dont need to create
-> a cookie like this
->
+> Building htmldocs on docs-next currenly produces about 80 new warnings; which
+> all of them are unexpected section title on DOC: kernel-doc directive, like:
 
-Client (in this case - crypto engine) can call
-dmaengine_prep_slave_sg() multiple times adding several logical
-descriptors which themselves can have several hardware descriptors. We
-want to lock the channel before issuing the first queued descriptor
-(for crypto: typically data descriptor) and unlock it once the final
-descriptor is processed (typically command descriptor). To that end:
-we insert the dummy command descriptor with the lock flag at the head
-of the queue and the one with the unlock flag at the tail - "wrapping"
-the existing queue with lock/unlock operations.
+For now it looks like your the only one to see that problem, so maybe
+it's something that is odd on your systems; and given that these are
+warnings I'm included to stop tracking this as a regression.
 
-Bart
+Ciao, Thorsten
+
+> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: CRITICAL: Unexpected section title.
+> 
+> Userspace I/O
+> ------------- [docutils]
+> WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -function 'Userspace I/O' ./drivers/target/target_core_user.c' processing failed with: SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: (SEVERE/4) Unexpected section title.\n\nUserspace I/O\n-------------')
+> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:28: ./include/uapi/linux/target_core_user.h:14: CRITICAL: Unexpected section title.
+> 
+> Ring Design
+> ----------- [docutils]
+> WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -function 'Ring Design' ./include/uapi/linux/target_core_user.h' processing failed with: SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api/target:28: ./include/uapi/linux/target_core_user.h:14: (SEVERE/4) Unexpected section title.\n\nRing Design\n-----------')
+> 
+> These turns out to be false-positive as touching the source file in question
+> (e.g. drivers/target/target_core_user.c) and making htmldocs again makes the
+> regression go away for the corresponding docs.
+> 
+> Bisection (with git-bisect(1)) points to bea467aa5da1f5 ("docs: media:
+> v4l2-ioctl.h: document two global variables") as the first bad commit, even
+> though that I suspect that bdd1cf87847ff6 ("kernel-doc: add support to handle
+> DEFINE_ variables") may be the actual culprit (regressor).
+> 
+> The full bisection log:
+> 
+> git bisect start
+> # status: waiting for both good and bad commits
+> # bad: [7f3c3a0a9103dc92c823f27db3284ac2914e7558] MAINTAINERS: Add doc files on real-time support to Real-time Linux
+> git bisect bad 7f3c3a0a9103dc92c823f27db3284ac2914e7558
+> # status: waiting for good commit(s), bad commit known
+> # good: [9448598b22c50c8a5bb77a9103e2d49f134c9578] Linux 6.19-rc2
+> git bisect good 9448598b22c50c8a5bb77a9103e2d49f134c9578
+> # bad: [5188f6bd408f937d81c0c37eb59ddc1035cd912c] docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
+> git bisect bad 5188f6bd408f937d81c0c37eb59ddc1035cd912c
+> # bad: [bea467aa5da1f51834501da3ac3c40204027a221] docs: media: v4l2-ioctl.h: document two global variables
+> git bisect bad bea467aa5da1f51834501da3ac3c40204027a221
+> # good: [82e87387f6e2af9f69a7528733e953fd22e815aa] Documentation: kernel-hacking: Remove comma
+> git bisect good 82e87387f6e2af9f69a7528733e953fd22e815aa
+> # good: [bdd1cf87847ff6aaadd53a185209d2bb2db72165] kernel-doc: add support to handle DEFINE_ variables
+> git bisect good bdd1cf87847ff6aaadd53a185209d2bb2db72165
+> # first bad commit: [bea467aa5da1f51834501da3ac3c40204027a221] docs: media: v4l2-ioctl.h: document two global variables
+> 
+> Mauro: Since you're the author of regressor, can you please take a look on it?
+> 
+> Thanks.
+> 
+> #regzbot introduced: bea467aa5da1f5
+> 
+> [1]: https://lore.kernel.org/regressions/aUuLHzk5jdyBAxD7@archie.me/
+> 
+
