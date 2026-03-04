@@ -1,177 +1,158 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782E536B069
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 16:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABA1372671
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 16:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772642561; cv=none; b=jQtGkOG4JsQbagIsMt/c79jPUbyEnmdIwCZ4KrqRx0lwNxqwYN5xKC7/xkHZ1VkajpHfo6UWXoIRfcIkvzD+0tIL+BBXd4xex2TfVEV8qJCRO5V4t4mHLd2haRTwZ9HqGMEGBHbDUP9wHPcvfb25QcpgYk5/gPF1yQj8I1NyeIQ=
+	t=1772642757; cv=none; b=ZSDoJU6Iqy5oMKYW+ArU5gPOmYy8HWpwfIkvA/wLje0QMOviG9EBO5Mih4w3MZB+cLhyUUCO3llOxDoEASEfT+zxeaABEjFYtCqU8QGRwwJmwvXeMEupzTGzd9BgIh8ohpqsBLiR+haQYQUgk2KKveAvjP11d8hEbucmUoHZKo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772642561; c=relaxed/simple;
-	bh=EXdvy/X2qckXmE4Fn4pxUupwjsevzcJ8qc5ZO33j78o=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=VrPDE+TrAK4xgace3pU7k9P6Cw3G/0DA3EEg5txMvyRl1h5kuPG9MBqD0xTs/eM96iqT5nphPihuZmEQTRHpJR6WqW42WUc0qWZugBFcYAXuZj5CKYSzxWw31EBT+YXyhR/egyKvVTZmDWVCuYb6iSM4Mkxs0MdTzzuCyZA6lj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ewe1IPmo; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1772642757; c=relaxed/simple;
+	bh=6pAgg7PwRmYTS9sfT7RMwokWO0KOx6td5LNtCpZdbfA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=skiAfq+EsDZbuqKBcJ2eh7p9lXHUnrdWht2eolqxoXCy0w2q/476Ssy83Mc8OYlLuX9fDgN95m6SF5nuejw4rUwrUX1PRwzXvyM5pzo0kPt6IE1dF4f45i28tlo2QX8mG9oY6pzfkOuGCsGfNMlZ1oqAO2QoR95cgvQLPbwh8D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=Ud6A6r1+; arc=none smtp.client-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ewe1IPmo"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c70dd30025fso27378079a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 08:42:38 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="Ud6A6r1+"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-899fbf92bdbso49291316d6.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 08:45:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772642558; x=1773247358; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LKOTPS+x5qyyOBePt2E7Wo7x4Cp+H26djNH9mCsw8A8=;
-        b=ewe1IPmo8NfNn85vq3td323umUZgOzwxSyXxc4Q/SQhssL2JZLmy5JjnRDW1pkTZwM
-         nAX6uUGqkLDaqUt/M2mwLu8wN7ueKRZUHvI8cKe4Zr4tUWK3bu330U7x0S3dgGC9wsIE
-         E0CVNo5NZzeUXVmw6q8guWpM/2iicWNs8uwGHy2BvT5AHAaaoc+krL9wWwf2oJI2uGB4
-         xcUsCSJp+F1J1cynoBnGpwAyu7NogIYf/Ak2vutV0KFpR2RnRikKcFzzS3Ft0LM+EmHu
-         lcSgM1Fv8+aMOullztu8yVWrhn+4TWG+/AtcuBnevaQ8RieiQ9/dTz+JTNwXen4HJ+Bg
-         EIAA==
+        d=ziepe.ca; s=google; t=1772642753; x=1773247553; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Q6mBd5S5w+Qyk+kaNVLUq/NDaIG3PNFY6vyWjAmF/Cg=;
+        b=Ud6A6r1+bHRxJNYf8G8kHphVUeyCOg+pUAFdANqR7rzdB4IgFobMnWmmC8/dkSlwZk
+         W5pmK93pu85/JbL9itjDQyiMSCmefo26iYavmvrVgZs/ZuUb0mHputv1yvFDQ8qsi0Sl
+         0kUTIMWBJ54P6wXjN6uhDE1xCj97YotZ7vpEonxJLN07kJIPGvgujQKJLb+Ce1iCydWW
+         dc6zpiuTYh+K4HOa0NzUv+DYQDR+lGKq4TvxV/WW839TW7EgJz9GErqcrNw3T92Zb9G0
+         wclkmpl6xlFd96apLB45jMxM6j38XlyOg3DAjTLV0ktP2fK+9pjYbQTdylIxNx8m8dzk
+         1gjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772642558; x=1773247358;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=LKOTPS+x5qyyOBePt2E7Wo7x4Cp+H26djNH9mCsw8A8=;
-        b=eYmtb7+qSk9EPVvkJzvgKBFVzz+RlPxIHNTfxwm1mxfx2SXmCbSnpIsEpKIDFcIKjd
-         BQivLxA/7tcfdN5voJnFhNJH6E3jwinoitxgPmRC9a4r+6gIVBLm+08JsZcF8IiKETXh
-         krFZFJPWX5LIotkuz+sqkbQmcbbYpwDaxf3uKBRGukPEvIiekem02A32lRlryBj8mhuP
-         gHutmPUjiuXtbfpZkFwSuHvyiza/vTLmonI84dpQCdwLEiVqpKlFf49vF82rgsWc2zy9
-         1NMfanhWF5jW68QYjQ6QkP3vPjFuFhdMXRg0jYAdJe1V5L1p1Mh2OonfnHtb0bENro/o
-         X9qA==
-X-Forwarded-Encrypted: i=1; AJvYcCXLIZvXfJdKsaGAiZlI4qadVYtJUWCONRyJkVdYdqv80E1WJVUcNBs2ViVIbVq7NzeoVVx+BAGv5+4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLjGObBKwv7suBGompoKiestUCADaKdklcch8I7sKLjhlhLB4x
-	bM/+AsZrqF+0cJa4OnyUYvnrsTz0XUJXIBUYBz+ZZiOyN5xVLH4EBJWEMVvRbvH3pkJy7bcCjR2
-	kuWTQUg==
-X-Received: from pggq20.prod.google.com ([2002:a63:d614:0:b0:c73:8741:7555])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:d703:b0:38e:90ca:5a2b
- with SMTP id adf61e73a8af0-3982deb4e22mr2628840637.17.1772642557478; Wed, 04
- Mar 2026 08:42:37 -0800 (PST)
-Date: Wed, 4 Mar 2026 08:42:36 -0800
-In-Reply-To: <A7B34157-A5CA-430C-A459-E8E142951ECB@zytor.com>
+        d=1e100.net; s=20230601; t=1772642753; x=1773247553;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q6mBd5S5w+Qyk+kaNVLUq/NDaIG3PNFY6vyWjAmF/Cg=;
+        b=XAs4qk/POaqNZr5wLZ2deFUZXq9HX53aXGtGuzcIp/tI8q9VUQm2+dWmdHIy2Ram1Y
+         qzzaVKRDzSEEM3fBnZunpjcKLCEbCDWoZdfF2aJDkCGm5rjryzCtbyUIzO7KR7FzPW6b
+         rAoCiSyLm+5qIWi/NlXR0DI3IxOZ28RpXC3dHQTtIUGmvwsWzY5aNP7yiPGpXd2GgvT0
+         0QP0kYohYokaF8KD8vx2ZC3vtch9zRV0dGox48UUAJh1SsMormez+YjPjMe+4msYzkpC
+         qyhvJyV6n8MoqlpxkxN5lHPzWSislBd0oprFzdugDjAOM50dBvcUXSWqYjkG7B5cdevz
+         ljNg==
+X-Forwarded-Encrypted: i=1; AJvYcCXui2gZ9IaB+uBeN9nRYpQA6USMADFxqJanS2suP/XmwS2uvxGWo96FYkTkA6VviuAzALME85axZcU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxurkgPPi2diJrJwnw/CnPgwrGMbD2xblsOKAMPeyxzXjXpUnlF
+	D79F06a7dCMPbxM9oy3v8nkRMkUH5VjaNGFXr8/EmIVxZ5z6Cc9Zae+Bc79pRuz7tSo=
+X-Gm-Gg: ATEYQzz9yCqFBIxvGPPFw8MnxPrDuWDYGq01yzzgRCRLKa+jI8XiQeJlLtoq7vYmH4A
+	eVi3+falfHxk24ZZuardDpVPu+6HzIL02ZPMUtHfsKjOkq4xFzBVxxmrt0mtusPIvHAlf6VsAFI
+	YLkFUDsOqGdj/avhBNlPlI7WO0xYY6O4B5/Wzdd0gRLX5UxmW9txFnK0Wp3ku97hDEhhAXkS/LT
+	/cuwAhdfZ1Ois7co/YSgbUOCPWR6TnDwNFGB8tXPrmzKna84dOHM+ObzBHxOyC+x3OFmCKHRdJS
+	Ty4gbaBv9IMUjPWIY1+oAmX/NQs2awNtlua5/17HKcs3BLLxOM/vImyyN0h4fMH/+VDGTStTfX9
+	16MdoVUiO0KLbAFNXylc76DJ6A5L7hA4ZQjYNJxI2A5G125SbaRiLSZ2g4obwt18JJop2F5Bub0
+	n+bjUs3sXI45NOMfmmdmWtvghedJNrAmCAYL54QbUOAHPtF4ClsnpFvNcc5+7f8qAaPhKpG6Axo
+	hYg1f72i6/aZpBMG78=
+X-Received: by 2002:a05:6214:cc6:b0:899:f2af:bd85 with SMTP id 6a1803df08f44-89a19ce9729mr37872326d6.45.1772642752542;
+        Wed, 04 Mar 2026 08:45:52 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-899fdf30e99sm69421516d6.3.2026.03.04.08.45.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 08:45:52 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vxpM7-00000005CBf-1l90;
+	Wed, 04 Mar 2026 12:45:51 -0400
+Date: Wed, 4 Mar 2026 12:45:51 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Danilo Krummrich <dakr@kernel.org>, Peter Colberg <pcolberg@redhat.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Moritz Fischer <mdf@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, linux-pci@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v3 00/10] rust: pci: add abstractions for SR-IOV
+ capability
+Message-ID: <20260304164551.GG964116@ziepe.ca>
+References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
+ <20260304084750.GW12611@unreal>
+ <20260304141852.GF964116@ziepe.ca>
+ <20260304142600.GB12611@unreal>
+ <DGU347RJX5BV.1CZYELSZ9GS9D@kernel.org>
+ <20260304162711.GI12611@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-13-xin@zytor.com>
- <aR04V4VVg+p4RsdT@intel.com> <60C180BF-AD13-48EF-9BA8-CEACF57965EF@zytor.com>
- <1EA97017-82D2-4C43-B617-D39C68D7BC6F@zytor.com> <A7B34157-A5CA-430C-A459-E8E142951ECB@zytor.com>
-Message-ID: <aahg_PgO5mwjArZ6@google.com>
-Subject: Re: [PATCH v9 12/22] KVM: VMX: Virtualize FRED event_data
-From: Sean Christopherson <seanjc@google.com>
-To: Xin Li <xin@zytor.com>
-Cc: "H. Peter Anvin" <hpa@zytor.com>, Chao Gao <chao.gao@intel.com>, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com, 
-	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, luto@kernel.org, 
-	peterz@infradead.org, andrew.cooper3@citrix.com, hch@infradead.org, 
-	sohil.mehta@intel.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260304162711.GI12611@unreal>
 
-On Thu, Jan 29, 2026, Xin Li wrote:
-> > On Jan 29, 2026, at 9:21=E2=80=AFAM, H. Peter Anvin <hpa@zytor.com> wro=
-te:
-> >=20
-> >> Just to confirm, you are referring to requeueing an original event
-> >> via vmx_complete_interrupts(), right?
-> >>=20
-> >> Regardless of whether FRED or IDT is in use, the event payload is deli=
-vered
-> >> into the appropriate guest state and then invalidated in
-> >> kvm_deliver_exception_payload():
-> >>=20
-> >>       1) CR2 for #PF
-> >>=20
-> >>       2) DR6 for #DB
-> >>=20
-> >>       3) guest_fpu.xfd_err for #NM (in handle_nm_fault_irqoff())
-> >>=20
-> >> We should be able to recover the FRED event data from there.
-> >>=20
-> >> Alternatively, we could drop the original event and allow the hardware=
- to
-> >> regenerate it upon resuming the guest.  However, this breaks #DB deliv=
-ery,
-> >> as debug exceptions sometimes are triggered post-instruction.
-> >>=20
-> >> Sean, does it make sense to recover the FRED event data from guest CPU=
- state?
+On Wed, Mar 04, 2026 at 06:27:11PM +0200, Leon Romanovsky wrote:
+> On Wed, Mar 04, 2026 at 03:57:57PM +0100, Danilo Krummrich wrote:
+> > On Wed Mar 4, 2026 at 3:26 PM CET, Leon Romanovsky wrote:
+> > > On Wed, Mar 04, 2026 at 10:18:52AM -0400, Jason Gunthorpe wrote:
+> > >> On Wed, Mar 04, 2026 at 10:47:50AM +0200, Leon Romanovsky wrote:
+> > >> > On Tue, Mar 03, 2026 at 04:15:20PM -0500, Peter Colberg wrote:
+> > >> > > Add Rust abstractions for the Single Root I/O Virtualization (SR-IOV)
+> > >> > > capability of a PCI device. Provide a minimal set of wrappers for the
+> > >> > > SR-IOV C API to enable and disable SR-IOV for a device, and query if
+> > >> > > a PCI device is a Physical Function (PF) or Virtual Function (VF).
+> > >> > 
+> > >> > <...>
+> > >> > 
+> > >> > > For PF drivers written in C, disabling SR-IOV on remove() may be opted
+> > >> > > into by setting the flag managed_sriov in the pci_driver structure. For
+> > >> > > PF drivers written in Rust, disabling SR-IOV on unbind() is mandatory.
+> > >> > 
+> > >> > Why? Could you explain the rationale behind this difference between C and
+> > >> > Rust? Let me remind you that SR‑IOV devices which do not disable VFs do so
+> > >> > for a practical and well‑established reason: maximizing hardware
+> > >> > utilization.
+> > >> 
+> > >> Personally I think drivers doing this are wrong. That such a driver
+> > >> bug was allowed to become UAPI is pretty bad. The rust approach is
+> > >> better.
+> > >
+> > > We already had this discussion. I see this as a perfectly valid
+> > > use-case.
+> > 
+> > Can you remind about a specific use-case for this please? (Ideally, one that
+> > can't be solved otherwise.)
+> 
+> You create X VFs through sriov_configure, unbind PF, bind it to vfio
+> instead and forward (X + 1) functions to different VMs.
 
-No?  As Peter points out, the payload is tied to the exception and shouldn'=
-t
-change.
+No, illegal, and it doesn't even work right. When VFIO FLRs the PF it
+will blow up the half baked SRIOV and break everything.
 
-> > I think some bits in DR6 are "sticky", and so unless the guest has
-> > explicitly cleared DR6 the event data isn't necessarily derivable from =
-DR6.
-> > However, the FRED event data for #DB is directly based on the data alre=
-ady
-> > reported by VTx (for exactly the same reason =E2=80=93 knowing what the=
- *currently
-> > taken* trap represents.)
->=20
-> Yeah, it's important to keep in mind that DR6 bits are 'sticky'.
->=20
-> Regarding vmx_complete_interrupts(), when a VM migration occurs immediate=
-ly
-> following a VM exit with a valid original event saved in the VMCS, we can
-> safely assume the guest DR6 state remains consistent with the original ev=
-ent
-> data because there is no chance for guest OS to modify DR6.
+VFIO already has its own sriov_config support, the right flow is to
+bind the PF to VFIO and then enable sriov and do your assignments.
 
-There's a different problem though.  If there's a re-injected exception at =
-the
-time of save/restore, the destination vCPU won't see a valid payload and th=
-us
-won't set the appropriate FRED VMCS fields.
-
-We _could_ extend KVM's uAPI to save/restore event_data, but ugh.  Rather t=
-han
-add event_data, what if we reuse payload, and then simply skip updating reg=
-ister
-state on re-injection?  E.g.
-
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 967b58a8ab9d..b79d545d69c7 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -1941,6 +1941,9 @@ void vmx_inject_exception(struct kvm_vcpu *vcpu)
-        u32 intr_info =3D ex->vector | INTR_INFO_VALID_MASK;
-        struct vcpu_vmx *vmx =3D to_vmx(vcpu);
-=20
-+       if (ex->has_payload)
-+               <do fred>;
-+
-        kvm_deliver_exception_payload(vcpu, ex);
-=20
-        if (ex->has_error_code) {
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index db3f393192d9..485eec337203 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -773,6 +773,9 @@ void kvm_deliver_exception_payload(struct kvm_vcpu *vcp=
-u,
-        if (!ex->has_payload)
-                return;
-=20
-+       if (ex->injected)
-+               goto clear_payload;
-+
-        switch (ex->vector) {
-        case DB_VECTOR:
-                /*
-@@ -814,6 +817,7 @@ void kvm_deliver_exception_payload(struct kvm_vcpu *vcp=
-u,
-                break;
-        }
-=20
-+clear_payload:
-        ex->has_payload =3D false;
-        ex->payload =3D 0;
- }
+Jason
