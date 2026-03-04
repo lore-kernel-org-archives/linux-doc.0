@@ -1,177 +1,281 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DBA33D4E2
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 11:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772622556; cv=none; b=l7DVKMTRQbA6CgPHRt0oSbcCj/+5bTCznPc0CQ+LPhj5S0u+Xc/H9q5zpFMjp92oOUx/RpRH6grWLUpidBCN5/eEcxtkVSVziOrbuGjt6xbsi62Nl+xr77JYdTJ7tRSJCRzX4pONEfxfapKuN7V94Oq6cq1/pn8bLkiJFoZP0Aw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772622556; c=relaxed/simple;
-	bh=7MkQaw8+6WErb6OQVO9IawLRGgmva++XkydmKdEEsPk=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IomBVBlT0oW9sSZ19tZav4ws5nfHEWmPpVMuwNLX7pRTqASbTSGjCvP83Hz53bWImbgyHHFwOr9QqELAQW2KrYrUm7PmkqHHOlmfLb+/zAbHIhoiFOMWWLpb5971gr69bcOhlS9nymm0fGZtriQz5UvahOGkYdmsz9UW1uyzOck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QV5+l6SC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iZozPZIj; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QV5+l6SC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=iZozPZIj; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1126F35AC28
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 11:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772624272; cv=pass; b=lN1mxSS84Nrug9+2hLDiTT4CfQyF2Ue6OZR7IdWvijyYtbNuuNyKI0VRlY+yTTi1P/F8wWsD8GhU+2SrZ0eK9hem50GbPdnHBoPAZnTwgo4ifQi7HLOz20ntdpLZkViwbAgK1P8PnqanP8XR3yNHlv1DOu5KTBKSwGurjmtJgoE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772624272; c=relaxed/simple;
+	bh=ZaTX/5xZCLp8jX/BNqqW109CaVTKhBe9/NvQKJFvKx0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=V2IvrLA5k4ejQbGeGpwROd71pgibCUcVQ7iTid+XVtqab+Q1iDBl52CjLy5z7TFctBm5VFRUCHWJ8MFnWUcCyJfaVAW+ud2QaWNULXwbBIpmQAnLWOaCKDzQxQ5F0LG0ZWUhiC3HMSb9ZLr8bBVxVNl8of8VQrBXBV8pJl19fpQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OVGaupro; arc=pass smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QV5+l6SC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iZozPZIj";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QV5+l6SC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="iZozPZIj"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 2A12E3E7E6;
-	Wed,  4 Mar 2026 11:09:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772622553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLMNWFvD/36OGceuPTklWyoC8wBxYYe0Ho5waeOHLME=;
-	b=QV5+l6SCiCOo+ZwscrD0mzKN9Z7HhscP5RnqO6cd/wpf6YUOJTUsoh7u39pZ7OGM5Udw1m
-	vpioGCYF9GU4O8QDZuat1CiJLVcireqcD7D7f3beDHKzLqW+wSSGL6ljugphWJbltV/YFx
-	2ZhzxeuuhsISzRMD7xfwo9IeVgk7ztk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772622553;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLMNWFvD/36OGceuPTklWyoC8wBxYYe0Ho5waeOHLME=;
-	b=iZozPZIjUSij1MdND5fpJHOkN3UFtOOIet7LPG08SAl47jEg1J8Cbd5tU7iVh6Q3018DDf
-	HBrBLSgkCd02qdCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772622553; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLMNWFvD/36OGceuPTklWyoC8wBxYYe0Ho5waeOHLME=;
-	b=QV5+l6SCiCOo+ZwscrD0mzKN9Z7HhscP5RnqO6cd/wpf6YUOJTUsoh7u39pZ7OGM5Udw1m
-	vpioGCYF9GU4O8QDZuat1CiJLVcireqcD7D7f3beDHKzLqW+wSSGL6ljugphWJbltV/YFx
-	2ZhzxeuuhsISzRMD7xfwo9IeVgk7ztk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772622553;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZLMNWFvD/36OGceuPTklWyoC8wBxYYe0Ho5waeOHLME=;
-	b=iZozPZIjUSij1MdND5fpJHOkN3UFtOOIet7LPG08SAl47jEg1J8Cbd5tU7iVh6Q3018DDf
-	HBrBLSgkCd02qdCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D1BD43EA69;
-	Wed,  4 Mar 2026 11:09:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5zHcMdgSqGmuNwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Mar 2026 11:09:12 +0000
-Date: Wed, 04 Mar 2026 12:09:12 +0100
-Message-ID: <87342fx353.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Rong Zhang <i@rong.moe>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH v3 0/8] ALSA: usb-audio: Add quirks for linear volume devices and deconflict VID
-In-Reply-To: <20260303194805.266158-1-i@rong.moe>
-References: <20260303194805.266158-1-i@rong.moe>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OVGaupro"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-660b497adaaso2266977a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 03:37:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772624269; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Xu2x7+zaJdtz244HaYI44D842OmHiEvoUvzH3A8ZTPYOD+3gqFd43eM7PdaePJ7+UQ
+         AOH7VukhFomibhoDS1nSS6+kCk61/KpKluR25jXEzgQlflx2FXnQcNlxocttRYymxYxG
+         Lv/c3z78EM0tnTYLX2F94pIHeAuH9g5jKUX+ZQ+rP4WyGFxye+E9PRLuIP4ENbOIj477
+         L6sQH9B05JAb7IIhHEOq7WdYf2kGP2X0qEazgokiv3Pi7mFziXUtA+BchpmE0/PrI7wD
+         z7kdpD2zg0ySoDQ4fZLlMU/6gEKoIlVh9QUETsILVVYBW3+//6G41gQyozdv8FNswwCY
+         CGSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
+        fh=FcMl/vrGaZvoLp+DM7Lccr1mGmtlVZkeTCoMcUinPvw=;
+        b=ExhzZI6eUWXHMQiyb8D3Sx1nkPBTU9TShYw5rUFjKMQXFfRXp/Vptq2Hy3x29vw/or
+         v8hCUhbLoOo7uqtrNBJWh7FerdwrLzFn+RsP6vqzCSk7Osf91a+1YpIpqLxg05a9Il4x
+         7bntIjU1CGd77N8Zookd3NYY9bh7zeH+oIYOo06fR/m9WbZOhIxSFARwV1R0Zj0bJ7e7
+         xEbpiNLwgFnXtktal9EHgD75xGHKHmIJm0eIjiNqMtFjaaVisjCviZTxu4cM9kiRR1uM
+         QJbNfLRWkmZeG7TszAJA+shUFN3DGdyMC9o5zPULiBauAOdP1ZjX0cWI8A/g0qTIJStW
+         gZFg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772624269; x=1773229069; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
+        b=OVGauproHypGOuNaPR4sbb7gMQz4b1SFekKespaRJM3CRKzZ5wDpjl9VcSmTNijB17
+         HYzRwCwrxM02w6PpJY0avjq9T5RUK/SaITtesRZ/OXsXSWefzqGpKn5/rTOL/mNJtGtK
+         w1rOaUqpTSF87SBq/f4VoI5dMBgulFqI/wOs8YIffJke3fXGHpJsA8vgidX02iEPVSfZ
+         qSG6vuwGt7kkvEAD9cuEUUrakiyhqUC+hOj8cNCQ+OkcoxnlaSD/9Pzzv5P57v37I4P3
+         mJ+56HSwbL0ECPFYU5L5uTZh7XogrIZZSRxziYmKAbC1IQsMkT5ZI2TMytFNiGavcNUo
+         Cv0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772624269; x=1773229069;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
+        b=jOzT/lwYqAIv3fYxzavn4tlhjIS+z1lOE3pIvyVDZX7AqBD0+Fon2/nso0eNnJYAJ0
+         akCPHfeSdeviXUKHh8CerEsh2ocNv/ZJRpkRwF+RfdpMFLl2qd9o+NlSdvsKoZb31udV
+         a440+5Jkak/nKACcioC3rxj+kP+DgsKEUAtNx9kT+9qBSqQgfFiIreNld7W98nlCuuI5
+         u3NXP5q32eLFT2imQJHrCYbU8PW3Fe2TXyNC8R/0nnYYu4viRSypYgFL3KN03eSdEsTS
+         uOoYWUc/vribxGVMKyNcdf/SFsR18KD0d45mfVo5Cg3XgMrD44r09WOzHxG27WxVgX/c
+         xxjw==
+X-Forwarded-Encrypted: i=1; AJvYcCVEcVnK9ubTAs7J3CrW5wlPnSJTVraA/UZol4Vd2vR2Jcp+og0KySxrqA9H5SrOwjKWKeRxLbvvXqw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxwo82bzqh04dhRLoYORyPmEI+hCO+AQKMvzFhfRG0m3FMFU9q3
+	qdDQUtVvRSznAj/3ShaSzDe32SIw2+AZ5MQqStK9q+iW1/wOCciZHmDM0n1ZjvHz/tOsH1t/w0Q
+	s7vsoH26/hJUhvl5mp2+WWpoGFVpqF3E=
+X-Gm-Gg: ATEYQzxxdNxkleMMX20rtpMCp8QEYMiYVCvkd0wNCplQFwQUgOofEN6jt3UH3KG83AF
+	78ZuhM3aDSYuA8tzkm2m7fX7ZEen6qYEGRL9/umrmJhxyfBZLy/J9pJoM2mM8h1p6xEIuQMxVUb
+	6EdrZoq1t/0buzWZO3GQOpn7+4enOqba666IJ/AlcTFj+4qPWDiV+dDdtb8avmHs0In/Gaw9sBo
+	T7RQhRZV9LkCcmpOcM+7zWYjlB0txatB02U27dY0iBHh49cklwU5T/2++W1X53r8doqPzxUZutT
+	gW3E8ezp/zVAlWfRwHD7LTInm5DCS42N2K4ysQ==
+X-Received: by 2002:a05:6402:34c9:b0:65f:80cc:a47a with SMTP id
+ 4fb4d7f45d1cf-660ef7797f6mr858539a12.1.1772624269071; Wed, 04 Mar 2026
+ 03:37:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
+MIME-Version: 1.0
+References: <20260304053500.590630-1-alistair.francis@wdc.com>
+ <20260304053500.590630-5-alistair.francis@wdc.com> <103c958f-d5f9-47d3-9be8-dd7225368fd5@suse.de>
+In-Reply-To: <103c958f-d5f9-47d3-9be8-dd7225368fd5@suse.de>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 4 Mar 2026 21:37:22 +1000
+X-Gm-Features: AaiRm53Rc8hKqaLsyJSSxrm4evktnm3D1AOZXCuqV_7q51qatQHTgMljJH9bALQ
+Message-ID: <CAKmqyKPdJ2bgT2JaXi_38obyFTjRQ_rR5EdGmP81so8MEJNRVw@mail.gmail.com>
+Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+To: Hannes Reinecke <hare@suse.de>
+Cc: chuck.lever@oracle.com, hare@kernel.org, 
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
+	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
+	Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 03 Mar 2026 20:47:55 +0100,
-Rong Zhang wrote:
-> 
-> Some quirky devices tune their volume by linearly tuning the voltage
-> level (linear volume). In other words, such devices has a linear TLV
-> mapping of DECLARE_TLV_DB_LINEAR(scale, TLV_DB_GAIN_MUTE, 0).
-> 
-> The series mainly adds quirk flags MIXER_PLAYBACK_LINEAR_VOL and
-> MIXER_CAPTURE_LINEAR_VOL to represent this case respectively for
-> playback and capture mixers. Afterward, apply these quirk flags on them.
-> 
-> Some MV-SILICON devices with these quirks also have another quirk: VID
-> conflicts with Focusrite Novation (0x1235). Hence, add support for
-> string-descriptor-based quirk table entries and define an entry for MV-
-> SILICON to deconflict them.
-> 
-> Some improvements to the logic of volume range checks is also included
-> in the series to help identify quirky devices with linear volume.
-> 
-> Changes in v3:
-> - Adopt __free(kfree) on string buffers as it turns out to be able to
->   handle ERR_PTR() gracefully (thanks Takashi Iwai)
-> - Improve readability by replacing the goto pattern with
->   `p->usb_string_match && p->usb_string_match->*'. The compiler should
->   generate equivalent control paths thanks to the optimizer
-> - Link to v2: https://lore.kernel.org/r/20260302185900.427415-1-i@rong.moe/
-> 
-> Changes in v2:
-> - Separate [PATCH v1 6/9] into https://lore.kernel.org/r/20260302173300.322673-1-i@rong.moe/
-> - Alloc string buffers with kmalloc() instead of on stack (thanks
->   Takashi Iwai)
-> - Get string descriptors in a neater way (ditto)
-> - Tiny differences compared to Takashi's sugeestion:
->   - Use `IS_ERR_OR_NULL() || strcmp()' instead of `!IS_ERR_OR_NULL() &&
->     strcmp()', so failure in getting the string descriptor won't
->     resulting in quirk flags being applied to irrelevant devices
->   - Use trivial goto cleanup patterns instead of `__free(kfree)' as the
->     latter can't handle ERR_PTR()
-> - Tiny differences compared to my previous reply:
->   - Use usb_string() as Takashi suggested instead of usb_cache_string(),
->     so that we can retrieve the errno and print it out on failure
-> - Link to v1: https://lore.kernel.org/r/20260301213726.428505-1-i@rong.moe/
-> 
-> Rong Zhang (8):
->   Revert "ALSA: usb: Increase volume range that triggers a warning"
->   ALSA: usb-audio: Add helper function for volume range checks
->   ALSA: usb-audio: Improve volume range checks
->   ALSA: usb-audio: Support string-descriptor-based quirk table entry
->   ALSA: usb-audio: Deconflict VID between Focusrite Novation &
->     MV-SILICON
->   ALSA: usb-audio: Add QUIRK_FLAG_MIXER_{PLAYBACK,CAPTURE}_LINEAR_VOL
->   ALSA: usb-audio: Add linear volume quirk for Hotone Audio Pulze Mini
->   ALSA: usb-audio: Apply linear volume quirk on MV-SILICON devices
+On Wed, Mar 4, 2026 at 5:40=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrote=
+:
+>
+> On 3/4/26 06:34, alistair23@gmail.com wrote:
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
+s
+> > on an KeyUpdate event as described in RFC8446
+> > https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
+> >
+> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> > allow the NVMe layer to process the KeyUpdate request and forward the
+> > request to userspace. Userspace must then update the key to keep the
+> > connection alive.
+> >
+> > This patch allows us to handle the NVMe target sending a KeyUpdate
+> > request without aborting the connection. At this time we don't support
+> > initiating a KeyUpdate.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> > v7:
+> >   - Use read_sock_cmsg instead of recvmsg() to handle KeyUpdate
+> > v6:
+> >   - Don't use `struct nvme_tcp_hdr` to determine TLS_HANDSHAKE_KEYUPDAT=
+E,
+> >     instead look at the cmsg fields.
+> >   - Don't flush async_event_work
+> > v5:
+> >   - Cleanup code flow
+> >   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
+> >     and use that to determine if it's a control message
+> > v4:
+> >   - Remove all support for initiating KeyUpdate
+> >   - Don't call cancel_work() when updating keys
+> > v3:
+> >   - Don't cancel existing handshake requests
+> > v2:
+> >   - Don't change the state
+> >   - Use a helper function for KeyUpdates
+> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
+> >   - Remove command message using recvmsg
+> >
+> >   drivers/nvme/host/tcp.c | 59 ++++++++++++++++++++++++++++++++++++++++=
+-
+> >   1 file changed, 58 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> > index 8b6172dd1c0f..ade11d2ac9ef 100644
+> > --- a/drivers/nvme/host/tcp.c
+> > +++ b/drivers/nvme/host/tcp.c
+> > @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
+> >       bool                    tls_enabled;
+> >       u32                     rcv_crc;
+> >       u32                     snd_crc;
+> > +     key_serial_t            handshake_session_id;
+> >       __le32                  exp_ddgst;
+> >       __le32                  recv_ddgst;
+> >       struct completion       tls_complete;
+> > @@ -1361,6 +1362,59 @@ static int nvme_tcp_try_send(struct nvme_tcp_que=
+ue *queue)
+> >       return ret;
+> >   }
+> >
+> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
+> > +{
+> > +     int qid =3D nvme_tcp_queue_id(queue);
+> > +     int ret;
+> > +
+> > +     dev_dbg(queue->ctrl->ctrl.device,
+> > +             "updating key for queue %d\n", qid);
+> > +
+> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
+> > +                              queue, queue->ctrl->ctrl.tls_pskid,
+> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
+> > +
+> > +     if (ret < 0) {
+> > +             dev_err(queue->ctrl->ctrl.device,
+> > +                     "failed to update the keys %d\n", ret);
+> > +             nvme_tcp_fail_request(queue->request);
+> > +     }
+> > +}
+> > +
+> > +static int nvme_tcp_recv_cmsg(read_descriptor_t *desc,
+> > +                           struct sk_buff *skb,
+> > +                           unsigned int offset, size_t len,
+> > +                           u8 content_type)
+> > +{
+> > +     struct nvme_tcp_queue *queue =3D desc->arg.data;
+> > +     struct socket *sock =3D queue->sock;
+> > +     struct sock *sk =3D sock->sk;
+> > +
+> > +     switch (content_type) {
+> > +     case TLS_RECORD_TYPE_HANDSHAKE:
+> > +             if (len =3D=3D 5) {
+> > +                     u8 header[5];
+> > +
+> > +                     if (!skb_copy_bits(skb, offset, header,
+> > +                                        sizeof(header))) {
+> > +                             if (header[0] =3D=3D TLS_HANDSHAKE_KEYUPD=
+ATE) {
+> > +                                     dev_err(queue->ctrl->ctrl.device,=
+ "KeyUpdate message\n");
+> > +                                     release_sock(sk);
+> > +                                     update_tls_keys(queue);
+> > +                                     lock_sock(sk);
+> > +                                     return 0;
+> > +                             }
+> > +                     }
+> > +             }
+> > +
+> > +             break;
+> > +     default:
+> > +             break;
+> > +     }
+>
+> I think a simple 'if' condition would be sufficient here, or do you have
+> handling of other TLS record types queued somewhere?
+> And we should log unhandled TLS records.
 
-Applied all patches now to for-next branch.  Thanks.
+I like this approach as it makes it really easy to handle more types
+in the future. I don't have any more record types queued anywhere so I
+can change it to an if statement.
 
+Good point about logging unhandled records
 
-Takashi
+Alistair
+
+>
+> > +
+> > +     return -EAGAIN;
+> > +}
+> > +
+> >   static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+> >   {
+> >       struct socket *sock =3D queue->sock;
+> > @@ -1372,7 +1426,8 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queu=
+e *queue)
+> >       rd_desc.count =3D 1;
+> >       lock_sock(sk);
+> >       queue->nr_cqe =3D 0;
+> > -     consumed =3D sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb=
+);
+> > +     consumed =3D sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_rec=
+v_skb,
+> > +                                          nvme_tcp_recv_cmsg);
+> >       release_sock(sk);
+> >       return consumed =3D=3D -EAGAIN ? 0 : consumed;
+> >   }
+> > @@ -1708,6 +1763,7 @@ static void nvme_tcp_tls_done(void *data, int sta=
+tus, key_serial_t pskid,
+> >                       ctrl->ctrl.tls_pskid =3D key_serial(tls_key);
+> >               key_put(tls_key);
+> >               queue->tls_err =3D 0;
+> > +             queue->handshake_session_id =3D handshake_session_id;
+> >       }
+> >
+> >   out_complete:
+> > @@ -1737,6 +1793,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *n=
+ctrl,
+> >               keyring =3D key_serial(nctrl->opts->keyring);
+> >       args.ta_keyring =3D keyring;
+> >       args.ta_timeout_ms =3D tls_handshake_timeout * 1000;
+> > +     args.ta_handshake_session_id =3D queue->handshake_session_id;
+> >       queue->tls_err =3D -EOPNOTSUPP;
+> >       init_completion(&queue->tls_complete);
+> >       if (keyupdate =3D=3D HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
+>
+> Otherwise looks good.
+>
+> Cheers,
+>
+> Hannes
+> --
+> Dr. Hannes Reinecke                  Kernel Storage Architect
+> hare@suse.de                                +49 911 74053 688
+> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
+> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
