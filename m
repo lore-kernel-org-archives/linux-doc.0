@@ -1,281 +1,124 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1126F35AC28
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 11:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772624272; cv=pass; b=lN1mxSS84Nrug9+2hLDiTT4CfQyF2Ue6OZR7IdWvijyYtbNuuNyKI0VRlY+yTTi1P/F8wWsD8GhU+2SrZ0eK9hem50GbPdnHBoPAZnTwgo4ifQi7HLOz20ntdpLZkViwbAgK1P8PnqanP8XR3yNHlv1DOu5KTBKSwGurjmtJgoE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772624272; c=relaxed/simple;
-	bh=ZaTX/5xZCLp8jX/BNqqW109CaVTKhBe9/NvQKJFvKx0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=V2IvrLA5k4ejQbGeGpwROd71pgibCUcVQ7iTid+XVtqab+Q1iDBl52CjLy5z7TFctBm5VFRUCHWJ8MFnWUcCyJfaVAW+ud2QaWNULXwbBIpmQAnLWOaCKDzQxQ5F0LG0ZWUhiC3HMSb9ZLr8bBVxVNl8of8VQrBXBV8pJl19fpQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OVGaupro; arc=pass smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C46394781
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 11:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772624509; cv=none; b=O2Dxsd0oamOArB1nQRtE24K0TzOGMvBKtZQm8XNHzLl1Hw4lm61EpJZMOvWxZEFrKJwO0p/NTEmwemIDXyQ69Oua08Co82zEXsReV92iMQqgGpm0nF3do6PFdiDBMJ1TjudkIM+MCCvgkopCAHrxkpaJxFknb0nOodZNKQryA74=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772624509; c=relaxed/simple;
+	bh=4H52RiUgfh21ZFPsHyoianCiAR34V0Nkw/EF+33bfDc=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MVygBwDlQZHEB3M8dSWrdpL1oO2DpgCnPjZ4XqVYfMmrSLWnCs+nWaLjtKUbTwmNsiwPhoEvhy2njPOzPq9koE+j+jSoqy0vfWYbGILceVFwKM8AUqYwwa7cuC6rIqkmna8VMvYRN5+ZD22OdDR7kfDl3C7eMedpm5VTvpXwSts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqi5hMbx; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OVGaupro"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-660b497adaaso2266977a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 03:37:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772624269; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Xu2x7+zaJdtz244HaYI44D842OmHiEvoUvzH3A8ZTPYOD+3gqFd43eM7PdaePJ7+UQ
-         AOH7VukhFomibhoDS1nSS6+kCk61/KpKluR25jXEzgQlflx2FXnQcNlxocttRYymxYxG
-         Lv/c3z78EM0tnTYLX2F94pIHeAuH9g5jKUX+ZQ+rP4WyGFxye+E9PRLuIP4ENbOIj477
-         L6sQH9B05JAb7IIhHEOq7WdYf2kGP2X0qEazgokiv3Pi7mFziXUtA+BchpmE0/PrI7wD
-         z7kdpD2zg0ySoDQ4fZLlMU/6gEKoIlVh9QUETsILVVYBW3+//6G41gQyozdv8FNswwCY
-         CGSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
-        fh=FcMl/vrGaZvoLp+DM7Lccr1mGmtlVZkeTCoMcUinPvw=;
-        b=ExhzZI6eUWXHMQiyb8D3Sx1nkPBTU9TShYw5rUFjKMQXFfRXp/Vptq2Hy3x29vw/or
-         v8hCUhbLoOo7uqtrNBJWh7FerdwrLzFn+RsP6vqzCSk7Osf91a+1YpIpqLxg05a9Il4x
-         7bntIjU1CGd77N8Zookd3NYY9bh7zeH+oIYOo06fR/m9WbZOhIxSFARwV1R0Zj0bJ7e7
-         xEbpiNLwgFnXtktal9EHgD75xGHKHmIJm0eIjiNqMtFjaaVisjCviZTxu4cM9kiRR1uM
-         QJbNfLRWkmZeG7TszAJA+shUFN3DGdyMC9o5zPULiBauAOdP1ZjX0cWI8A/g0qTIJStW
-         gZFg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqi5hMbx"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-827307b12dfso3598445b3a.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 03:41:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772624269; x=1773229069; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
-        b=OVGauproHypGOuNaPR4sbb7gMQz4b1SFekKespaRJM3CRKzZ5wDpjl9VcSmTNijB17
-         HYzRwCwrxM02w6PpJY0avjq9T5RUK/SaITtesRZ/OXsXSWefzqGpKn5/rTOL/mNJtGtK
-         w1rOaUqpTSF87SBq/f4VoI5dMBgulFqI/wOs8YIffJke3fXGHpJsA8vgidX02iEPVSfZ
-         qSG6vuwGt7kkvEAD9cuEUUrakiyhqUC+hOj8cNCQ+OkcoxnlaSD/9Pzzv5P57v37I4P3
-         mJ+56HSwbL0ECPFYU5L5uTZh7XogrIZZSRxziYmKAbC1IQsMkT5ZI2TMytFNiGavcNUo
-         Cv0g==
+        d=gmail.com; s=20230601; t=1772624507; x=1773229307; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fcdRETdlDQ9rJqwe5hebX3Cr0LcEt1jHyO8LM3OIebI=;
+        b=jqi5hMbxNpHad1IIlLjUddUd3GhGB3jpQhsx+itjLrz05ii4OEvXaL63ROZemRhEZc
+         DVsTK2M17aRy0srwahqnkX078oYykq3hHdo8DgSWXsRInt63UK0E9d+pWp4fQAX3iAzW
+         T+QMlh1x8uJVPS1Zd2JxUf1fgAoeq6d603Xtq6GnSvJ7YhUAPITAE6xgHcOtB3YLkahl
+         oHGxfalRcdh17h4JVni/dUAJmEbuFxnhjKRthjd4cugNNdFfB51e3w8c49vn6UBumneR
+         v9Q07ZDOzBQJznY4mrpq9C5p3mMBPfl99axSzXAmACWZDuQfRX3uQaJ/PAgiwh6nYlXX
+         7Oyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772624269; x=1773229069;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lDZKotLArOoGPbmGkSbdB3knGUn3d/x5zVLs33GH6ak=;
-        b=jOzT/lwYqAIv3fYxzavn4tlhjIS+z1lOE3pIvyVDZX7AqBD0+Fon2/nso0eNnJYAJ0
-         akCPHfeSdeviXUKHh8CerEsh2ocNv/ZJRpkRwF+RfdpMFLl2qd9o+NlSdvsKoZb31udV
-         a440+5Jkak/nKACcioC3rxj+kP+DgsKEUAtNx9kT+9qBSqQgfFiIreNld7W98nlCuuI5
-         u3NXP5q32eLFT2imQJHrCYbU8PW3Fe2TXyNC8R/0nnYYu4viRSypYgFL3KN03eSdEsTS
-         uOoYWUc/vribxGVMKyNcdf/SFsR18KD0d45mfVo5Cg3XgMrD44r09WOzHxG27WxVgX/c
-         xxjw==
-X-Forwarded-Encrypted: i=1; AJvYcCVEcVnK9ubTAs7J3CrW5wlPnSJTVraA/UZol4Vd2vR2Jcp+og0KySxrqA9H5SrOwjKWKeRxLbvvXqw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxwo82bzqh04dhRLoYORyPmEI+hCO+AQKMvzFhfRG0m3FMFU9q3
-	qdDQUtVvRSznAj/3ShaSzDe32SIw2+AZ5MQqStK9q+iW1/wOCciZHmDM0n1ZjvHz/tOsH1t/w0Q
-	s7vsoH26/hJUhvl5mp2+WWpoGFVpqF3E=
-X-Gm-Gg: ATEYQzxxdNxkleMMX20rtpMCp8QEYMiYVCvkd0wNCplQFwQUgOofEN6jt3UH3KG83AF
-	78ZuhM3aDSYuA8tzkm2m7fX7ZEen6qYEGRL9/umrmJhxyfBZLy/J9pJoM2mM8h1p6xEIuQMxVUb
-	6EdrZoq1t/0buzWZO3GQOpn7+4enOqba666IJ/AlcTFj+4qPWDiV+dDdtb8avmHs0In/Gaw9sBo
-	T7RQhRZV9LkCcmpOcM+7zWYjlB0txatB02U27dY0iBHh49cklwU5T/2++W1X53r8doqPzxUZutT
-	gW3E8ezp/zVAlWfRwHD7LTInm5DCS42N2K4ysQ==
-X-Received: by 2002:a05:6402:34c9:b0:65f:80cc:a47a with SMTP id
- 4fb4d7f45d1cf-660ef7797f6mr858539a12.1.1772624269071; Wed, 04 Mar 2026
- 03:37:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772624507; x=1773229307;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fcdRETdlDQ9rJqwe5hebX3Cr0LcEt1jHyO8LM3OIebI=;
+        b=cYCec4PIv30xoHOWSVcfAa4UJSlxZnYWSsbbD8jArVxkQTgkcU31TbjNrTa1o4B08h
+         x0i+EPxJSqRPaU4iP2YkFf9nWdONiLujXbyfSZxRSIez17oCCB56FoigP8Id7b/ZW+c3
+         3Bzf1nJyeUfrWxfZJZUv8WlbBo9mu3qr+ysxBASBDIPXd+N+z4B62Oz6RPCCxfkDO+6Y
+         iCEaSUDgtVx6wrsktvv/ys16W6TlGtKBQobEisk3UO6jbtITUscrrUfOM4mgG7hVtjy/
+         tZFE74TA0+vkm4WGB0R/v5PPANshF2hXwPOro0jTYoQbihXU3Hj3sf0sAIefydMqIOT+
+         I/CQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCZ4P4Ew2DUkn3hgmgYijBnz2aAmEnoD1+DJEsb1KhwjiRe/ud2qFbXeMXsnD6Oq9Kgj4LqDLKLRM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCaZtUiDLvIuQxBo+pYcdflkaqibNBXcFU2sHrSUwJqEexkOl4
+	vZVOJK6kiJbH7vCkcLmez5/qTJwx4dfXI31MsHjukjAfTSH/8MfBQajE
+X-Gm-Gg: ATEYQzxG+nArO3sp+vzmobFzMNY/OrBA1yaGPM1FPHoyULhcTssOedA7icN9GOmcwZ/
+	Nq/dLRqp8haZaDvqyTXX1cXJRTIH7jQwRA2asRF7xaHgfrxDx4eppxWIbiwARlT+yVa6vY39KbM
+	fKLXhUFArn8zsVe3OZ24sXKJLXwWlTXbqrd7c83fXdsg9qy5uJXnLIlyVQp8RJOltrFYk5aK/0J
+	I4JZHMGWCOCS1MZYs3M+yWzrYNtKjQINIqpCpSkue4KfO/Q0lIhyehfJ32Be88Uvd2piILJOQek
+	pShXotySzJBuaUueLbSiBILjkgf+WZ1EAB5X3d3U61ATpTo7QAy0NAdVRkOP97S4TP38IlqOZ+y
+	QyQseiFpuGxUUwXOCsoH9dflywNy8IXAxV/pSn462j2Gse8BIkZ7Ghy43kW3NJK6Svs82KmYyB6
+	kEbBM284prcIEy4PKqu6VN1WZ4QIXN2vgq+MdEhmu6nL1pieZ2aGHbfjOYnWIsO7R2v6aHlr6N8
+	E7ppgFyinDQCPYrcgjEVK2mfTPD3Ji9/FHC5mUTv2zqPTykAydDQiF6j/osDw==
+X-Received: by 2002:a05:6a20:549c:b0:394:62e0:1b98 with SMTP id adf61e73a8af0-3982d2821b8mr1657671637.9.1772624507474;
+        Wed, 04 Mar 2026 03:41:47 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c73790f881esm1449862a12.10.2026.03.04.03.41.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 03:41:46 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Wed, 4 Mar 2026 11:41:29 +0000
+To: David Laight <david.laight.linux@gmail.com>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
+Message-ID: <6et7t3o6fjiinpkvpsmoxjhp6edn23dgclbulaxg5paccdotgp@amtf33da5dhf>
+References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+ <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+ <20260304101655.620df7ee@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260304053500.590630-1-alistair.francis@wdc.com>
- <20260304053500.590630-5-alistair.francis@wdc.com> <103c958f-d5f9-47d3-9be8-dd7225368fd5@suse.de>
-In-Reply-To: <103c958f-d5f9-47d3-9be8-dd7225368fd5@suse.de>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 4 Mar 2026 21:37:22 +1000
-X-Gm-Features: AaiRm53Rc8hKqaLsyJSSxrm4evktnm3D1AOZXCuqV_7q51qatQHTgMljJH9bALQ
-Message-ID: <CAKmqyKPdJ2bgT2JaXi_38obyFTjRQ_rR5EdGmP81so8MEJNRVw@mail.gmail.com>
-Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
-To: Hannes Reinecke <hare@suse.de>
-Cc: chuck.lever@oracle.com, hare@kernel.org, 
-	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org, kbusch@kernel.org, 
-	axboe@kernel.dk, hch@lst.de, sagi@grimberg.me, kch@nvidia.com, 
-	Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260304101655.620df7ee@pumpkin>
 
-On Wed, Mar 4, 2026 at 5:40=E2=80=AFPM Hannes Reinecke <hare@suse.de> wrote=
-:
->
-> On 3/4/26 06:34, alistair23@gmail.com wrote:
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
-> > EKEYEXPIRED then the underlying TLS keys need to be updated. This occur=
-s
-> > on an KeyUpdate event as described in RFC8446
-> > https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
-> >
-> > If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
-> > allow the NVMe layer to process the KeyUpdate request and forward the
-> > request to userspace. Userspace must then update the key to keep the
-> > connection alive.
-> >
-> > This patch allows us to handle the NVMe target sending a KeyUpdate
-> > request without aborting the connection. At this time we don't support
-> > initiating a KeyUpdate.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> > v7:
-> >   - Use read_sock_cmsg instead of recvmsg() to handle KeyUpdate
-> > v6:
-> >   - Don't use `struct nvme_tcp_hdr` to determine TLS_HANDSHAKE_KEYUPDAT=
-E,
-> >     instead look at the cmsg fields.
-> >   - Don't flush async_event_work
-> > v5:
-> >   - Cleanup code flow
-> >   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
-> >     and use that to determine if it's a control message
-> > v4:
-> >   - Remove all support for initiating KeyUpdate
-> >   - Don't call cancel_work() when updating keys
-> > v3:
-> >   - Don't cancel existing handshake requests
-> > v2:
-> >   - Don't change the state
-> >   - Use a helper function for KeyUpdates
-> >   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
-> >   - Remove command message using recvmsg
-> >
-> >   drivers/nvme/host/tcp.c | 59 ++++++++++++++++++++++++++++++++++++++++=
--
-> >   1 file changed, 58 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
-> > index 8b6172dd1c0f..ade11d2ac9ef 100644
-> > --- a/drivers/nvme/host/tcp.c
-> > +++ b/drivers/nvme/host/tcp.c
-> > @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
-> >       bool                    tls_enabled;
-> >       u32                     rcv_crc;
-> >       u32                     snd_crc;
-> > +     key_serial_t            handshake_session_id;
-> >       __le32                  exp_ddgst;
-> >       __le32                  recv_ddgst;
-> >       struct completion       tls_complete;
-> > @@ -1361,6 +1362,59 @@ static int nvme_tcp_try_send(struct nvme_tcp_que=
-ue *queue)
-> >       return ret;
-> >   }
-> >
-> > +static void update_tls_keys(struct nvme_tcp_queue *queue)
-> > +{
-> > +     int qid =3D nvme_tcp_queue_id(queue);
-> > +     int ret;
-> > +
-> > +     dev_dbg(queue->ctrl->ctrl.device,
-> > +             "updating key for queue %d\n", qid);
-> > +
-> > +     ret =3D nvme_tcp_start_tls(&(queue->ctrl->ctrl),
-> > +                              queue, queue->ctrl->ctrl.tls_pskid,
-> > +                              HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
-> > +
-> > +     if (ret < 0) {
-> > +             dev_err(queue->ctrl->ctrl.device,
-> > +                     "failed to update the keys %d\n", ret);
-> > +             nvme_tcp_fail_request(queue->request);
-> > +     }
-> > +}
-> > +
-> > +static int nvme_tcp_recv_cmsg(read_descriptor_t *desc,
-> > +                           struct sk_buff *skb,
-> > +                           unsigned int offset, size_t len,
-> > +                           u8 content_type)
-> > +{
-> > +     struct nvme_tcp_queue *queue =3D desc->arg.data;
-> > +     struct socket *sock =3D queue->sock;
-> > +     struct sock *sk =3D sock->sk;
-> > +
-> > +     switch (content_type) {
-> > +     case TLS_RECORD_TYPE_HANDSHAKE:
-> > +             if (len =3D=3D 5) {
-> > +                     u8 header[5];
-> > +
-> > +                     if (!skb_copy_bits(skb, offset, header,
-> > +                                        sizeof(header))) {
-> > +                             if (header[0] =3D=3D TLS_HANDSHAKE_KEYUPD=
-ATE) {
-> > +                                     dev_err(queue->ctrl->ctrl.device,=
- "KeyUpdate message\n");
-> > +                                     release_sock(sk);
-> > +                                     update_tls_keys(queue);
-> > +                                     lock_sock(sk);
-> > +                                     return 0;
-> > +                             }
-> > +                     }
-> > +             }
-> > +
-> > +             break;
-> > +     default:
-> > +             break;
-> > +     }
->
-> I think a simple 'if' condition would be sufficient here, or do you have
-> handling of other TLS record types queued somewhere?
-> And we should log unhandled TLS records.
+On 26/03/04 10:16AM, David Laight wrote:
+> On Tue, 03 Mar 2026 13:27:07 +0000
+> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> 
+> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > 
+> > Add kstrntoull() function, which converts a string to an ULL with a max
+> > character limit. The function is an alternative integer parsing function
+> > that does not require a null-terminated string. It becomes a better option
+> > over simple_strtoull() or kstrtoull() when parsing integers from a buffer
+> > with custom delimiters without having to create temporary copies.
+> > The function is consumed inside the implementation _kstrtoull(),
+> > promoting reuse.
+> 
+> If you've got custom delimiters use a function that returns a pointer
+> to the character that terminated the conversion.
+> They save you having to find the delimiter as well as taking a copy.
 
-I like this approach as it makes it really easy to handle more types
-in the future. I don't have any more record types queued anywhere so I
-can change it to an if statement.
+understood, how about this prototype then:
 
-Good point about logging unhandled records
+const char __must_check *kstrntoull(const char *s, unsigned int base,
+				    unsigned long long *res, size_t max_chars); 
 
-Alistair
+to be used like:
 
->
-> > +
-> > +     return -EAGAIN;
-> > +}
-> > +
-> >   static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
-> >   {
-> >       struct socket *sock =3D queue->sock;
-> > @@ -1372,7 +1426,8 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queu=
-e *queue)
-> >       rd_desc.count =3D 1;
-> >       lock_sock(sk);
-> >       queue->nr_cqe =3D 0;
-> > -     consumed =3D sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb=
-);
-> > +     consumed =3D sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_rec=
-v_skb,
-> > +                                          nvme_tcp_recv_cmsg);
-> >       release_sock(sk);
-> >       return consumed =3D=3D -EAGAIN ? 0 : consumed;
-> >   }
-> > @@ -1708,6 +1763,7 @@ static void nvme_tcp_tls_done(void *data, int sta=
-tus, key_serial_t pskid,
-> >                       ctrl->ctrl.tls_pskid =3D key_serial(tls_key);
-> >               key_put(tls_key);
-> >               queue->tls_err =3D 0;
-> > +             queue->handshake_session_id =3D handshake_session_id;
-> >       }
-> >
-> >   out_complete:
-> > @@ -1737,6 +1793,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *n=
-ctrl,
-> >               keyring =3D key_serial(nctrl->opts->keyring);
-> >       args.ta_keyring =3D keyring;
-> >       args.ta_timeout_ms =3D tls_handshake_timeout * 1000;
-> > +     args.ta_handshake_session_id =3D queue->handshake_session_id;
-> >       queue->tls_err =3D -EOPNOTSUPP;
-> >       init_completion(&queue->tls_complete);
-> >       if (keyupdate =3D=3D HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
->
-> Otherwise looks good.
->
-> Cheers,
->
-> Hannes
-> --
-> Dr. Hannes Reinecke                  Kernel Storage Architect
-> hare@suse.de                                +49 911 74053 688
-> SUSE Software Solutions GmbH, Frankenstr. 146, 90461 N=C3=BCrnberg
-> HRB 36809 (AG N=C3=BCrnberg), GF: I. Totev, A. McDonald, W. Knoblich
+	end = kstrntoull(s, base, &res, INT_MAX);
+	if (IS_ERR(end)) {
+		/* return or handle error */
+		return PTR_ERR(end);
+	}
+
+the name itself is still under discussion.
+
+-- 
+Kind regards,
+
+Rodrigo Alencar
