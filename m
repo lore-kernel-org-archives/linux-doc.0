@@ -1,175 +1,106 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8751D39EF12;
-	Wed,  4 Mar 2026 10:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D166E36A029
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 10:16:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772619337; cv=none; b=AgYF9aZ3hyhkb1QRepJqWeWvFjCAlfX/V7dI9lczJ+VN4mVxmVYdt/Ca8mbTERJRxQrjBZoHLxwRanABObIUTReT2/vt46akQ0SPC/BaoGGtYHNac1GEZxFhBKmJu79g7oYPfLJpD1lSozqiY/HtmqKNeJusSxrKrweWrNz1+rc=
+	t=1772619421; cv=none; b=fXgFrRWqqrEDixiDcnnixNnxekcy0qqDNQ6RDTLw0AMJHHXX7YX6/0HI1C8QfHRS/6EQhXtiizbf/P4feeX6BxCQD8cLWKc6t5rHVyoGC6e0HUJwQaB/ZDXbBR53UR06FpRipAuRXiPSwv8+rNAQv+isMTkTUKiX0BWZ2nAxEqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772619337; c=relaxed/simple;
-	bh=8fEK2GtJ++wMBBCQzSp1x8vrg7ZnwZSQnicWPRc9wbo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=AmLPP9PPIoct6LQZSt6N/s+kX0eP+Fd6loIxfPGkaWhOEPQmg3MBmahDfG+5pufNWJxxkV7qFhlQWoiACDCj7uqqNl5r1T1J9Fw2yQ+TkLlKFA/ZZejcz/Wv2IiXsspu6oZacWFC8UTMSNSs8v/4i2mlRs3DYX1LhXEUymKhcf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com; spf=pass smtp.mailfrom=huawei-partners.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei-partners.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fQpSC1NygzHnHK7;
-	Wed,  4 Mar 2026 18:14:35 +0800 (CST)
-Received: from mscpeml500003.china.huawei.com (unknown [7.188.49.51])
-	by mail.maildlp.com (Postfix) with ESMTPS id B08B640086;
-	Wed,  4 Mar 2026 18:15:30 +0800 (CST)
-Received: from [10.123.123.154] (10.123.123.154) by
- mscpeml500003.china.huawei.com (7.188.49.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 4 Mar 2026 13:15:30 +0300
-Message-ID: <3c9449c1-95c7-4770-8e06-1ee50e263db8@huawei-partners.com>
-Date: Wed, 4 Mar 2026 13:15:29 +0300
+	s=arc-20240116; t=1772619421; c=relaxed/simple;
+	bh=e78qIDzHbDTqXVogJF+UVOVMy75B++Q+8NZ/1KY9TUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jPvUXH6n8RjLGd0MSiiyQIcDObenIjFG1PLEZGo6FqRd9jD38rkGP56l3yUihvBnWNvqzLJ5rfpAujJ2Ip0AJF0TyT+Pdf3xQccChTJkkExINIf0mxm8+dLPCX8DU6+0buRrf6fp+A0eUvWSAvSh5ThzV69mS/Jhv6o87s9qTcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+FSwpMX; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+FSwpMX"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-483bd7354efso89379635e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 02:16:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772619418; x=1773224218; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hYB3YNu9CO7wLt2ZT8Xt9m7azMQTOfSk/ijLWaYuruI=;
+        b=F+FSwpMXpboj5Xote2ENRoHs8jokK6NZkRGnHXH4Qy3cV3lBdhiex5fHH9wNHAjdhK
+         yqGvfBGwjpHrGAR+l6wgHNZa77l96PQY1fJWo2xhuCVwQp6WrSo/kVUGJtLRM+lpwMlz
+         tP+31aj1JPS+X4nRNiTwhltna0Em727kkN2S2Iw7DmoBsbn1CDPDOHgMd18NfKRPRqk8
+         0TvYXo1BoWGnRr73ONsX444mo+GUDtdoixmN6R+5aBXYazoDMqyRZ9QHPbl3AT1nnCk1
+         +/K1DTBEv0BP29zEOeRkYIjutxE2ZIuX7lhUCht8CRZhQInAqHabKMqS5C73FREKZnDG
+         otzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772619418; x=1773224218;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hYB3YNu9CO7wLt2ZT8Xt9m7azMQTOfSk/ijLWaYuruI=;
+        b=OmqGyNtlJBfH5g4EuAA+/wHC00anasVa3zZMwbhGSfKyFlXTu+qb0UP32NZSVVjxhj
+         6nCX55DmiqPF9GZR4XO75TGqXl+jTUdFpLIYhjsjyvQhsJJ2IGHSiJO+cP1YAi8iaLDe
+         Qjyvf4y6r3jZ9ASBNrpnT+xWv1rSzuNPfhZq5KRMaaMzsZK5V6us07kfFTm9TBoedNQO
+         saQ0Uzz7KM29ibkvzXYa9crSgri1akaAnFKMxX9iQaJIgb9xsk6TUAcGJwICyrgsfaJG
+         Ce8V+pXi35/OaCSbxAh046UpOMvda8LfC7nvRr8/bg+24oA5SaMXUtJ/YojUVwk7AAHu
+         Ebwg==
+X-Forwarded-Encrypted: i=1; AJvYcCVF54cCsKfhLQnfm9yOtkHJ2HwHdlQkHsP+u2xb1LlEBoGsp5BFgdzKTDH4gXR9o853BNDuNGVYQZc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7x8JQAm+sQMZOKw19NUcYTh96Zx67G5bvG4vhNkOv0eJ0YrbE
+	rmpett3vvV9fd/60DTpKQMCQQQybmZM+FakmAGYwnxX8kP0H5TfwC7dx
+X-Gm-Gg: ATEYQzz87kp74fBfPnvTZHulkknq+RY54jsFAYJzk2Fomok8M57VdYiaXVwcbFxBIcD
+	wf1HZ1N+cq0vYDTaGh0Q43a/EzCzrDf4gG1bkOhHdip2f22fsVlgMxxrUrc7jlfn+R9XRIQKyYw
+	UaASWqzaPfMs4pBhIgfU4l5CzC8Pc1C4q+q95g8mhLn0qbTv5WWdjJwhOetFZGp1z6f7sTkRGOM
+	oKcgLVXrJYXT3ngcA49MitiTQJN9VFghdJ+L/iRMTL4OfQEAf3OggaG1DO1Stmp3Z+QAaKTSttt
+	dvH0TL8nm1l/ZlYPbAGTG5u8ARyjqvqud+tWRFe97T+HysOtpneLSFAayOzZZ9oopadSHiGY2MB
+	4E3G9Er7ivwR7ZSW0DdMo3Okq3p/pwkLvWMXKHPWBDGm8ele+CXdY/ngJ1wQFivmRqS046TFkew
+	ZgunLRmBPCguI4wuuNFlJdj4EtxexH2eQXBfoOShswBdVKFdItQSsJzwxAuRZ0FPx5
+X-Received: by 2002:a05:600c:a51:b0:47d:3ffa:5f03 with SMTP id 5b1f17b1804b1-48519886ca3mr23059915e9.21.1772619417522;
+        Wed, 04 Mar 2026 02:16:57 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48518839ae7sm36391845e9.1.2026.03.04.02.16.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 02:16:57 -0800 (PST)
+Date: Wed, 4 Mar 2026 10:16:55 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, David
+ Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
+Message-ID: <20260304101655.620df7ee@pumpkin>
+In-Reply-To: <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+	<20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 00/10] mm/damon: support multiple goal-based quota
- tuning algorithms
-To: SeongJae Park <sj@kernel.org>
-CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Andrew Morton
-	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, Jonathan
- Corbet <corbet@lwn.net>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko
-	<mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Shuah Khan
-	<shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Suren
- Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
-	<damon@lists.linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-mm@kvack.org>
-References: <20260304044122.79394-1-sj@kernel.org>
-Content-Language: en-US
-From: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
-In-Reply-To: <20260304044122.79394-1-sj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: mscpeml500003.china.huawei.com (7.188.49.51) To
- mscpeml500003.china.huawei.com (7.188.49.51)
 
-Hi SeongJae!
+On Tue, 03 Mar 2026 13:27:07 +0000
+Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
 
-Nice idea for dynamic environments.
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> Add kstrntoull() function, which converts a string to an ULL with a max
+> character limit. The function is an alternative integer parsing function
+> that does not require a null-terminated string. It becomes a better option
+> over simple_strtoull() or kstrtoull() when parsing integers from a buffer
+> with custom delimiters without having to create temporary copies.
+> The function is consumed inside the implementation _kstrtoull(),
+> promoting reuse.
 
-On 3/4/2026 7:41 AM, SeongJae Park wrote:
-> Aim-oriented DAMOS quota auto-tuning uses a single tuning algorithm.
-> The algorithm is designed to find a quota value that should be
-> consistently kept for achieving the aimed goal for long term.  It is
-> useful and reliable at automatically operating systems that have dynamic
-> environments in the long term.
-> 
-> As always, however, no single algorithm fits all.  When the environment
-> has static characteristics or there are control towers in not only the
-> kernel space but also the user space, the algorithm shows some
-> limitations.  In such environments, users want kernel work in a more
-> short term deterministic way.  Actually there were at least two reports
-> [1,2] of such cases.
-> 
-> Extend DAMOS quotas goal to support multiple quota tuning algorithms
-> that users can select.  Keep the current algorithm as the default one,
-> to not break the old users.  Also give it a name, "consist", as it is
-> designed to "consistently" apply the DAMOS action.  And introduce a new
-> tuning algorithm, namely "temporal".  It is designed to apply the DAMOS
-> action only temporally, in a deterministic way.  In more detail, as long
-> as the goal is under-achieved, it uses the maximum quota available.
-> Once the goal is over-achieved, it sets the quota zero.
+If you've got custom delimiters use a function that returns a pointer
+to the character that terminated the conversion.
+They save you having to find the delimiter as well as taking a copy.
 
-I'm not sure "temporal" is the best name for this type of behaviour.
-
-How about "by_score?". For example, "damos_goal_tune_esz_bp_by_score" and
-DAMOS_QUOTA_GOAL_TUNER_BY_SCORE.
-
-> Tests
-> =====
-> 
-> I confirmed the feature is working as expected using the latest version
-> of DAMON user-space tool, like below.
-> 
->     $ # start DAMOS for reclaiming memory aiming 30% free memory
->     $ sudo ./damo/damo start --damos_action pageout \
->             --damos_quota_goal_tuner temporal \
->             --damos_quota_goal node_mem_free_bp 30% 0 \
->             --damos_quota_interval 1s \
->             --damos_quota_space 100M
-> 
-> Note that >=3.1.8 version of DAMON user-space tool supports this feature
-> (--damos_quota_goal_tuner).  As expected, DAMOS stops reclaiming memory
-> as soon as the goal amount of free memory is made.  When 'consist' tuner
-> is used, the reclamation was continued even after the goal amount of
-> free memory is made, resulting in more than goal amount of free memory,
-> as expected.
-> 
-> Patch Sequence
-> ==============
-> 
-> First four patches implement the features.  Patch 1 extends core API to
-> allow multiple tuners and make the current tuner as the default and only
-> available tuner, namely 'consist'.  Patch 2 allows future tuners setting
-> zero effective quota.  Patch 3 introduces the second tuner, namely
-> 'temporal'.  Patch 4 further extends DAMON sysfs API to let users use
-> that.
-> 
-> Three following patches (patches 5-7) update design, usage, and ABI
-> documents, respectively.
-> 
-> Final three patches (patches 8-10) are for adding selftests.  The eighth
-> and the ninth patches extend the testing-purpose DAMON sysfs control
-> helper and DAMON status dumping tool to support the newly added feature.
-> The tenth patch extends the existing online commit test to cover the new
-> feature.
-> 
-> References
-> ==========
-> 
-> [1] https://lore.kernel.org/CALa+Y17__d=ZsM1yX+MXx0ozVdsXnFqF4p0g+kATEitrWyZFfg@mail.gmail.com
-> [2] https://lore.kernel.org/20260204022537.814-1-yunjeong.mun@sk.com
-> 
-> Changelog
-> =========
-> 
-> Changes from RFC v1
-> (https://lore.kernel.org/20260212062314.69961-1-sj@kernel.org)
-> - Add selftest for goal_tuner commitment.
-> - Set goal tuner inside damon_new_scheme().
-> - Allow zero size effective size quota.
-> - Update the ABI document.
-> - Wordsmith change descriptions.
-> 
-> SeongJae Park (10):
->   mm/damon/core: introduce damos_quota_goal_tuner
->   mm/damon/core: allow quota goals set zero effective size quota
->   mm/damon/core: introduce DAMOS_QUOTA_GOAL_TUNER_TEMPORAL
->   mm/damon/sysfs-schemes: implement quotas->goal_tuner file
->   Docs/mm/damon/design: document the goal-based quota tuner selections
->   Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file
->   Docs/ABI/damon: update for goal_tuner
->   selftests/damon/_damon_sysfs: support goal_tuner setup
->   selftests/damon/drgn_dump_damon_status: support quota goal_tuner
->     dumping
->   selftests/damon/sysfs.py: test goal_tuner commit
-> 
->  .../ABI/testing/sysfs-kernel-mm-damon         |  6 ++
->  Documentation/admin-guide/mm/damon/usage.rst  | 16 +++--
->  Documentation/mm/damon/design.rst             | 12 ++++
->  include/linux/damon.h                         | 11 ++++
->  mm/damon/core.c                               | 60 +++++++++++++++----
->  mm/damon/sysfs-schemes.c                      | 58 ++++++++++++++++++
->  tools/testing/selftests/damon/_damon_sysfs.py | 12 +++-
->  .../selftests/damon/drgn_dump_damon_status.py |  1 +
->  tools/testing/selftests/damon/sysfs.py        |  7 +++
->  9 files changed, 166 insertions(+), 17 deletions(-)
-> 
-> 
-> base-commit: bbba4ca6322dd5c4f66fe31b1b374f77a8d2b2e5
-
--- 
-Asier Gutierrez
-Huawei
+	David
 
