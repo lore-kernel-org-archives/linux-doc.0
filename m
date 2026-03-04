@@ -1,95 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA109361DA7
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 09:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0000B394788;
+	Wed,  4 Mar 2026 09:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772616850; cv=none; b=UCrRXEI/ZP+LvFCHNbb8qTWaopKbGog1JfujZ4QSqOd35FbvQJb591LbcoxS9/K/CYc74FFhMh52Rt5LHZFVtk0StnmxdFNeFiFwsGjo2moGbeejfZAqBy58gjeG3l2MwZve8TdnpjL/V/HUtT0qItZAEr+oN0fSN/WqUydJ/S0=
+	t=1772617353; cv=none; b=YBEYuCTFXr82lh8WmAthu3AcqB7Ccd0ddd96fsNfl/+9+2HRyiNbHHwJNO42tLSzyTipXBiFu/B90FcXE4WW6VfXmFfRkZCsC1ewCrxFmJ3j2WIPzR4QzO70D4lNAbQzmthH7KQnJMlym33yi0cETjHZnHObRK87s1POxi8zwBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772616850; c=relaxed/simple;
-	bh=rVMSRZSBr2RGjah6QOgVXQGRMyVl5PilfMGyFJFslXw=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=eZ/VHrdj1KH8jBlb5Ob4/NStuGYcyTr6Ql5wVzQjW9tiIxwdVGQR1NRbla94UhL2XkghKVj/vKW5eHxI2E6g3X1YytObYozv0JFt4pltKHo49e0Mb8b9K5pjNmIYvzoLsKREGBIhUYyzAYYnMraMoU2kiiOAy+oyB1Ne04bxHJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZyuWb6H8; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZyuWb6H8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772616849; x=1804152849;
-  h=date:from:to:cc:subject:message-id;
-  bh=rVMSRZSBr2RGjah6QOgVXQGRMyVl5PilfMGyFJFslXw=;
-  b=ZyuWb6H8HE5dnIvQoZrdUAyIyH8J7TtCprJqyf6HvcN+979F9S6pf55i
-   xcQbh3sTWp77cbgtEWD0ji6u0YsExrj3vRUsHS5API0OKZh8PlGaluUiJ
-   BhiGz4fQLT+zK9HgsMpdb2QM0cPZbuj/AfP5w8p4+bJ4DtHvB85x76kIr
-   QgbmVRKwFbybtMH9Hhq1Ti0h9UnS3UQKD+L+y7nw/FQmTe+vydaLp7Scx
-   IJuXg6N5c6l36J9wIWPTOd0XZhm+PoEUCCK9btl13aM1Nl5467XqnYW3T
-   5PSzI0Y51oSAsZUsph1v7cQl2XdnP4ClmnkEVQe5trJKsi+vYB5GLg0jZ
-   Q==;
-X-CSE-ConnectionGUID: uD7TubulTOiLdR04IH7aww==
-X-CSE-MsgGUID: Yv7g2XOSROylvpPdgDv/lQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="73581160"
-X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
-   d="scan'208";a="73581160"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 01:33:29 -0800
-X-CSE-ConnectionGUID: 52pyKQL2RLaXE9ZEHc+GJQ==
-X-CSE-MsgGUID: yK1wucErStqNpcJEhuDZ/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
-   d="scan'208";a="218239882"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 04 Mar 2026 01:33:27 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vxibd-000000001f3-0iKg;
-	Wed, 04 Mar 2026 09:33:25 +0000
-Date: Wed, 04 Mar 2026 10:33:11 +0100
-From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sashal:dedup-lsb128 1/11] htmldocs:
- Documentation/admin-guide/kallsyms-lineinfo.rst:3: WARNING: Title overline
- too short.
-Message-ID: <202603041049.T1HfVEbS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1772617353; c=relaxed/simple;
+	bh=9mhfdJo0bDUC45KIo47E4QnPpQe8tEohErhoklbBl8Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RpkMs5ASxjBTJJEjqWPXsyBxZLGY8Gkk62kmiv166k02kSAAFIHLAgfz8aRuVUvJS9R6MeN/fMx2MWojKN6mCh7kcX8IkO/JN+/tyEOmSYjZM9B3Svnhjz1hIM81WuDio6qy5Ehw8hF0O76E6nLRUlbO+pw27ADuGfbUudnIvCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05F4A339;
+	Wed,  4 Mar 2026 01:42:25 -0800 (PST)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9E153F694;
+	Wed,  4 Mar 2026 01:42:26 -0800 (PST)
+Message-ID: <6259fddb-62f3-4874-8188-6ca82e3586a8@arm.com>
+Date: Wed, 4 Mar 2026 09:42:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 00/41] arm_mpam: Add KVM/arm64 and resctrl glue code
+To: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
+ jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, quic_jiles@quicinc.com, reinette.chatre@intel.com,
+ rohit.mathew@arm.com, scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ zengheng4@huawei.com, linux-doc@vger.kernel.org
+References: <20260224175720.2663924-1-ben.horgan@arm.com>
+ <87y0k8r7j1.fsf@stealth>
+From: Ben Horgan <ben.horgan@arm.com>
+Content-Language: en-US
+In-Reply-To: <87y0k8r7j1.fsf@stealth>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux.git dedup-lsb128
-head:   925cdd8d45fb4adec025cfe8e42abfa0dafa9a46
-commit: 340fcb4bf8938a649242cde84aa7bafe17dd5325 [1/11] kallsyms: embed source file:line info in kernel stack traces
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260304/202603041049.T1HfVEbS-lkp@intel.com/reproduce)
+Hi Punit,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603041049.T1HfVEbS-lkp@intel.com/
+On 3/3/26 20:18, Punit Agrawal wrote:
+> Hi Ben,
+> 
+> Ben Horgan <ben.horgan@arm.com> writes:
+> 
+>> The main change in this version of the mpam missing pieces series is to
+>> update the cdp emulation to match the resctrl interface. L2 and L3
+>> resources can now enable cdp separately. Cdp can't be hidden correctly for
+>> memory bandwidth allocation, as max per partid can't be emulated with more
+>> partids, and so we hide this completely when cdp is enabled. There is a little
+>> restructuring and a few smaller changes.
+>>
+>> Changelogs in patches
+>>
+>> It would be great to get this series merged this cycle. For that we'll need
+>> more testing and reviewing. Thanks!
+>>
+>> From James' cover letter:
+>>
+>> This is the missing piece to make MPAM usable resctrl in user-space. This has
+>> shed its debugfs code and the read/write 'event configuration' for the monitors
+>> to make the series smaller.
+>>
+>> This adds the arch code and KVM support first. I anticipate the whole thing
+>> going via arm64, but if goes via tip instead, the an immutable branch with those
+>> patches should be easy to do.
+>>
+>> Generally the resctrl glue code works by picking what MPAM features it can expose
+>> from the MPAM drive, then configuring the structs that back the resctrl helpers.
+>> If your platform is sufficiently Xeon shaped, you should be able to get L2/L3 CPOR
+>> bitmaps exposed via resctrl. CSU counters work if they are on/after the L3. MBWU
+>> counters are considerably more hairy, and depend on hueristics around the topology,
+>> and a bunch of stuff trying to emulate ABMC.
+>> If it didn't pick what you wanted it to, please share the debug messages produced
+>> when enabling dynamic debug and booting with:
+>> | dyndbg="file mpam_resctrl.c +pl"
+>>
+>> I've not found a platform that can test all the behaviours around the monitors,
+>> so this is where I'd expect the most bugs.
+>>
+>> The MPAM spec that describes all the system and MMIO registers can be found here:
+>> https://developer.arm.com/documentation/ddi0598/db/?lang=en
+>> (Ignored the 'RETIRED' warning - that is just arm moving the documentation around.
+>>  This document has the best overview)
+>>
+>>
+>> Based on v7.0-rc1
+>>
+>> The series can be retrieved from:
+>> https://gitlab.arm.com/linux-arm/linux-bh.git mpam_resctrl_glue_v5
+> 
+> I booted with the series applied on an MPAM capable platform. The driver
+> is able to probe the L2 attached MSCs.
+> 
+> In terms of features, bit-mapped based cache portion partitioning works
+> as expected. The platform also supports additional controls (cache
+> capacity and priority partitioning) and monitors (memory bandwidth and
+> cache storage). The ones supported in MPAM driver probe OK but don't
+> seem to be exposed. E.g.,
+> 
+>     mpam:mpam_resctrl_pick_counters: class 2 is a cache but not the L3
+>     
+> 
+> It looks like some of it is due to an impedance mismatch with resctrl
 
-All warnings (new ones prefixed by >>):
+Yes, what you describe is expected behaviour. There is no support yet
+for cache capacity (CMAX) or bandwidth priority partitioning and
+monitors are only exposed on the L3.
 
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
-   Using alabaster theme
->> Documentation/admin-guide/kallsyms-lineinfo.rst:3: WARNING: Title overline too short.
+> expectations but hopefully we can get to it with the basics in-place.
 
+I hope so. The CMAX and the bandwidth priority partitioning should be
+easy to add once there is a generic way of adding new schema. There is a
+plan/discussion here [1] and I don't expect adding monitoring on L2 to
+be hard.
 
-vim +3 Documentation/admin-guide/kallsyms-lineinfo.rst
+[1] https://lore.kernel.org/lkml/aPtfMFfLV1l%2FRB0L@e133380.arm.com/
 
-     2	
-   > 3	==================================
-     4	Kallsyms Source Line Info (LINEINFO)
-     5	==================================
-     6	
+> 
+> Feel free to add
+> 
+> Tested-by: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks for testing!
+
+> 
+> Thanks,
+> Punit
+> 
+
+Thanks,
+
+Ben
+
