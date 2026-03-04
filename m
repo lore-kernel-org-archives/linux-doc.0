@@ -1,63 +1,63 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F41E235DA4B
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 16:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5F434DB7C
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 16:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772640049; cv=none; b=PflQiOFM5sQApgmrWnS50mDFn8jTL6/ExFRgzBknhePRs2UMVT8govbmzG2/4RabdNp8JYC5p4NDaxllvBm2xYCUCQ+5RSwrwIuWFF5ATtcwxui9ZlMepx55xP929VkRa0fjzTrwINZ8FcdR8c0wpjrIlZx4Aj1lF+YbOzE6WlY=
+	t=1772640052; cv=none; b=FuJbUKy3EChXiHiqSRemFfTml+qZ78rrxDP+hlbmQrfH0SLl72gPMS9lmA1AVHFhuUk1VB3Vw2qMD4KgcWY3PwKm8Ty7N5SIW3IsK6x6+4aphD8LIrP42LhDDCHxzQ9bQnw2o1xFQVXHnoch/fadYpQP4+Nh3W/D0ru75grP7I0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772640049; c=relaxed/simple;
-	bh=sBqoFY/Rv5DTMYj++KN0Sw7vm98e4uLLhQx69umkhKc=;
+	s=arc-20240116; t=1772640052; c=relaxed/simple;
+	bh=iIEcsOfgyoQwnVxTEoJrOmuXhZRHf4VmCFe2BWfUG0I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tgv2qQfyZEyYUvUKogHO90Da3tUIIKJ0ko5/t4VS6wj+pL8p9CAX773wNHQKwDIrSO8WdzShH7mE87GRJ3Bo7RReghLjRh+K5jmdisr12OUTgEeKM0R02l85RF9KnUpvUIeMzYDi2OO7ExDQSfM5SRljtPULQ9WMil80aH2J3ZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=B9G5BxKQ; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=SRxBmuNyb9JVOD3cVTFJ2EtvvorYTu1uTkjoBs2g9bUUVbnAy3+RXfbsm0dljZdyyanPfhRKjndN0aoqyzYhhjSX57YdezUe3P5v3CxTXyjto6EYhLbJYjaoJ5KzpHcN5iOS0oTXOJvV2E8LKqgaujh6tBPwtAA/kfx1Uy6/WMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=ftkhT3Oe; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="B9G5BxKQ"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-483487335c2so58221635e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 08:00:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="ftkhT3Oe"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4836f363d0dso62212665e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 08:00:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772640046; x=1773244846; darn=vger.kernel.org;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772640048; x=1773244848; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=thO3CTOoToOBK7xy8RWX7tgy+PjuAbGp4xc08ttDkvM=;
-        b=B9G5BxKQ+ybP1h85XM63PYj5dG38GuNXoFB5jXOjTd/IqP7YF0mj4PLK8KGOe7c0zW
-         BBNQaOo9662BHLcqysCzsSb/E51avZPf6mRqTTMb44yN1Bv6WT0NVrxeK/tu/tZ5D2UZ
-         hEZ0jQyLdHWM5NiLHv40ldybcr628gAlbOUk9gEzcBjwZQSbLXeMSrEwr94i/ii+aoyA
-         aLm8PowMre5aNxzGjuWnDkizezayoSTkDNeP/d4LrXBqKG1HmW++7jRQv7t9eP65+7et
-         E+6G21ZZgvFh/pvAIc/E3HYGSnoJUkBTD+Tb9jp5CSdia1PDs11QQ2AbVq0eOxYX9Ilb
-         LPMw==
+        bh=TNmgU9ASHSR7+2H948CyENoisRrq7nchFqcl7cGshyU=;
+        b=ftkhT3OeFhHAf33owxf/YhwRgMLICzVeqazvpP0QrPLaQ3gtmOhem7gNfNfgDo0H56
+         19VKp4IAF6XLvhNEmudreQw790iu2yWFhko3uc6sUicgjhxLcxKNC3RLyK4+X2ymlof/
+         +vm4OdFV6KHo3lCUvMgu/DoqT3DfV4+FBIhcKdMYVVap/zy4/zdUtKMJWVJiBqQXyqdz
+         CuvriifmyubbbbRbqih895MJZiHYoN6EmSWAnEk379SFYq6/tTaUmxrgmwlsWvR3jUnl
+         34dDqWa48zo+qJq0Yw1I5QyXOOqPiAubD+9GVLpfJlixGpAmhptUvre3yXa09tgwZqf6
+         /oPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772640046; x=1773244846;
+        d=1e100.net; s=20230601; t=1772640048; x=1773244848;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=thO3CTOoToOBK7xy8RWX7tgy+PjuAbGp4xc08ttDkvM=;
-        b=LkqRQc/lQgm3Oxj2zSk8ExR0aqEur9zQVqn+Jm0MDiRH/L7lu/9J/0ytcfk9nkrJQS
-         OLzUZOmhdzctQ0MFjFlWNsSCt5k5Rh3aLFaMxJBRNGt69JoTbK4GEWqelnpYGGX+4g3u
-         l67M3suURp6HmNcwEKDnNmeMXM4f3466iiCZdFd7dVmNL+lvAte80ZxgodTIeuy8EQnz
-         RLmCPFrswqXa772nz9Bvb6Lfs2z5gaNP8EiXh0TUKNG47u+7fiuUaob3SnIHayyxj3vf
-         gHblbvItBuAfrAWJKeN9hjlISqGfTphpjAm63CVmosunxFs7gIkiA35jEeCSRyZ/Rd67
-         tAZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWW7nDnFL4F7M1/VnVb0FxdClLt84u2MbdkxhMYz4lHmqwihoY05+IOIUmPfjftunUngA6h8nomB1M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMKWd6HKgHFy1n9PUZmRtcIf5DgOXlVD4EG1Ls8Tpgy4LjIJ2H
-	A138KnkHXUoyWYTOfv+m57C6UFMS9PKRU08ycMHyx8WHdr2SQ2PQEE23tpiHVIDky38=
-X-Gm-Gg: ATEYQzxZTIWaZlyHxPcEB/eqyXSGxZa6ykRknfThwRzD3AsrWO9wzqPKLfmyMy5CIKE
-	cnP9zYIlQpu8qAzZIpa58disTfdmozOI9z8xHAmIWPsGB84LjaNOXI5S14fbUVciT9EBreHc+vf
-	vclnHZWYOHUhK10lvpBCRyCe03uODdlFudmeMQMJZgf/eCJ4Hy8DRi6Z0WNPV1jUGik/udrWhkB
-	uPzUtcRD5Qn8xYiB9HdnzTAAO2RgZKtIhAsZD6DyEdw4XGUAMSMpsrqutFRO+g3IfwfSD0HAaTK
-	rYkIdf6S6nzxt9czSBfgA3o8WkG7Q40w6KzrMCCKSDIUX4/bOeVw844DIZNh55njrtfW8FxqjLV
-	ys+6do06Idk2HkHHJ7zb3GSY9COEm3mXLLm+w8pxQpsDtQytWXxLAamaBju/kIVJQ6qyJE8oPS1
-	mvvNdYF4i3BskMbITNQD+y6pf6CZ7WreJjxCGqFItp/tr09A==
-X-Received: by 2002:a05:600c:19c6:b0:480:5951:fc1e with SMTP id 5b1f17b1804b1-48519839402mr46151445e9.11.1772640046104;
-        Wed, 04 Mar 2026 08:00:46 -0800 (PST)
+        bh=TNmgU9ASHSR7+2H948CyENoisRrq7nchFqcl7cGshyU=;
+        b=IdFkMjnN4bkESrm6C768C8LeEmk2Bc5hZlXqSs+nwDMQ7We4kG4fAI9Aimk0XLEbQd
+         oOsFZpuBZQTJfAP0qnO67Gk6SKlAFQThVDslXStGAcRdGqVT/r5N38YXX/kx5sq0biKM
+         ipblhjzCxd2EmSp/sLQvPMXhve63FaEs4h/JZG+5EcU0PLSaDqwrK2ZcIRXWI+KTfySd
+         X41hRY6ueOMZNsC5/eGVfXtdXkTH4C2bz6qJMsDJjFNH03Qua0Cn8gICDxlc99MtYchP
+         avTBUSfr7ZjB7sF9+fv2Z4VwSzk9M8oV+2v8zMMBtlWR3KwhffesYt3DTaZ+N5u6xCPw
+         fcqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXu6gUmDbxZ/tUPdnvveQYQ7r1EBeIW5zAFw2M4FqNt5RJCAPqU8WRYkywSg52KPNHvpbIo4gIlxyk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNJsVeHyL6K9tUwq4mLY67imQiZvg46Kxt41qrmqCgfSAyKaVZ
+	9+LG010LRZyoEHmdsXdV+CoRP0b3wxoiK5Dj8kFUi3WvrgzGp81rKlPhAAqpUMtJGQA=
+X-Gm-Gg: ATEYQzyTRggj7tEJiTiwCbr3T+4zWrU+IkGUhVkd4HL7gV4kBWMdz6MJHQ0cKRJS4J+
+	jDFOhb1Cf6azHHLWAHrG8BdXoqAMZpkbDlEMz74Jh08t6ki5OJqDDRsGP8AkZacaCWy8iCz93hy
+	BljzJm1Xa32344Wd6Rrkc7XpxafEosSAWcdHbnZkjU5tGAr8Wui8pdoAuWXU0m5Znx2fYlOuSzz
+	2fk2WCCZ8FXkcdAvMNTC1Kq6C6sLNRvbxI8krC2ey92SfaSDlNcATvyhdWf75JqSsx3vFhvK79X
+	auHgt44ypT9FZT9+gDZ6Gbh6PaLDek5YLqzuM4GZM8ZcFKAqkhTO1/3awyg3f7QSNnPVsMOuCDG
+	1HFoJ6mwO0pSiEmw5ntTdTc6Vj6BZp7sZXwsYlFNCDtNWe6LeEbQFwigEU9oh3I9mph2mC7/nBP
+	OZVSg6mfnGhzqe7kIbAINn0mR60tahVHBmnrL6CgfCRoZwcg==
+X-Received: by 2002:a05:600c:620f:b0:47d:885d:d2ff with SMTP id 5b1f17b1804b1-4851989f6bemr42106725e9.29.1772640047786;
+        Wed, 04 Mar 2026 08:00:47 -0800 (PST)
 Received: from localhost (46-13-72-179.customers.tmcz.cz. [46.13.72.179])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851a895553sm42331885e9.1.2026.03.04.08.00.45
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485187b7851sm104855645e9.3.2026.03.04.08.00.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 08:00:45 -0800 (PST)
+        Wed, 04 Mar 2026 08:00:47 -0800 (PST)
 From: Jiri Pirko <jiri@resnulli.us>
 To: netdev@vger.kernel.org
 Cc: davem@davemloft.net,
@@ -85,9 +85,9 @@ Cc: davem@davemloft.net,
 	linux-doc@vger.kernel.org,
 	linux-rdma@vger.kernel.org,
 	linux-trace-kernel@vger.kernel.org
-Subject: [PATCH net-next v3 10/13] devlink: allow devlink instance allocation without a backing device
-Date: Wed,  4 Mar 2026 17:00:19 +0100
-Message-ID: <20260304160022.6114-11-jiri@resnulli.us>
+Subject: [PATCH net-next v3 11/13] devlink: introduce shared devlink instance for PFs on same chip
+Date: Wed,  4 Mar 2026 17:00:20 +0100
+Message-ID: <20260304160022.6114-12-jiri@resnulli.us>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20260304160022.6114-1-jiri@resnulli.us>
 References: <20260304160022.6114-1-jiri@resnulli.us>
@@ -101,172 +101,248 @@ Content-Transfer-Encoding: 8bit
 
 From: Jiri Pirko <jiri@nvidia.com>
 
-Allow devlink_alloc_ns() to be called with dev=NULL to support
-device-less devlink instances. When dev is NULL, the instance is
-identified over netlink using "devlink_index" as bus_name and
-the decimal index value as dev_name.
+Multiple PFs may reside on the same physical chip, running a single
+firmware. Some of the resources and configurations may be shared among
+these PFs. Currently, there is no good object to pin the configuration
+knobs on.
+
+Introduce a shared devlink instance, instantiated upon probe of
+the first PF and removed during remove of the last PF. The shared
+devlink instance is not backed by any device device, as there is
+no PCI device related to it.
+
+The implementation uses reference counting to manage the lifecycle:
+each PF that probes calls devlink_shd_get() to get or create
+the shared instance, and calls devlink_shd_put() when it removes.
+The shared instance is automatically destroyed when the last PF removes.
+
+Example:
+
+pci/0000:08:00.0: index 0
+  nested_devlink:
+    auxiliary/mlx5_core.eth.0
+devlink_index/1: index 1
+  nested_devlink:
+    pci/0000:08:00.0
+    pci/0000:08:00.1
+auxiliary/mlx5_core.eth.0: index 2
+pci/0000:08:00.1: index 3
+  nested_devlink:
+    auxiliary/mlx5_core.eth.1
+auxiliary/mlx5_core.eth.1: index 4
 
 Signed-off-by: Jiri Pirko <jiri@nvidia.com>
 ---
 v2->v3:
-- rebased on top of __devlink_alloc() introduction
-- removed dev check before dev_warn (devl_warn is used now)
-- rebased on top of devlink->bus_name and devlink->dev_name removal
-- rebased on top of devlink->dev_driver addition
+- added __counter_by() for priv
+- added *driver arg to devlink_shd_get()
+- added ops, priv_size and driver pointer consistency check
 v1->v2:
-- moved DEVLINK_INDEX_BUS_NAME definition to patch #5
-- added comment to dev arg that it can be NULL
-- fixed the index sprintf for dev-less
+- s/err_kstrdup_id/err_devlink_free/
+- fixed kernel-doc comment of devlink_shd_get()
+- removed NULL arg check in devlink_shd_get/put()
 ---
- net/devlink/core.c          | 23 ++++++++++++++++++-----
- net/devlink/dev.c           |  8 ++++----
- net/devlink/devl_internal.h |  5 +++--
- 3 files changed, 25 insertions(+), 11 deletions(-)
+ include/net/devlink.h |   7 ++
+ net/devlink/Makefile  |   2 +-
+ net/devlink/sh_dev.c  | 161 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 169 insertions(+), 1 deletion(-)
+ create mode 100644 net/devlink/sh_dev.c
 
-diff --git a/net/devlink/core.c b/net/devlink/core.c
-index 34eb06d88544..eeb6a71f5f56 100644
---- a/net/devlink/core.c
-+++ b/net/devlink/core.c
-@@ -250,13 +250,13 @@ EXPORT_SYMBOL_GPL(devlink_to_dev);
+diff --git a/include/net/devlink.h b/include/net/devlink.h
+index 45dec7067a8e..3038af6ec017 100644
+--- a/include/net/devlink.h
++++ b/include/net/devlink.h
+@@ -1647,6 +1647,13 @@ void devlink_register(struct devlink *devlink);
+ void devlink_unregister(struct devlink *devlink);
+ void devlink_free(struct devlink *devlink);
  
- const char *devlink_bus_name(const struct devlink *devlink)
- {
--	return devlink->dev->bus->name;
-+	return devlink->dev ? devlink->dev->bus->name : DEVLINK_INDEX_BUS_NAME;
- }
- EXPORT_SYMBOL_GPL(devlink_bus_name);
++struct devlink *devlink_shd_get(const char *id,
++				const struct devlink_ops *ops,
++				size_t priv_size,
++				const struct device_driver *driver);
++void devlink_shd_put(struct devlink *devlink);
++void *devlink_shd_get_priv(struct devlink *devlink);
++
+ /**
+  * struct devlink_port_ops - Port operations
+  * @port_split: Callback used to split the port into multiple ones.
+diff --git a/net/devlink/Makefile b/net/devlink/Makefile
+index 000da622116a..8f2adb5e5836 100644
+--- a/net/devlink/Makefile
++++ b/net/devlink/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
  
- const char *devlink_dev_name(const struct devlink *devlink)
- {
--	return dev_name(devlink->dev);
-+	return devlink->dev ? dev_name(devlink->dev) : devlink->dev_name_index;
- }
- EXPORT_SYMBOL_GPL(devlink_dev_name);
- 
-@@ -329,7 +329,10 @@ static void devlink_release(struct work_struct *work)
- 
- 	mutex_destroy(&devlink->lock);
- 	lockdep_unregister_key(&devlink->lock_key);
--	put_device(devlink->dev);
-+	if (devlink->dev)
-+		put_device(devlink->dev);
-+	else
-+		kfree(devlink->dev_name_index);
- 	kvfree(devlink);
- }
- 
-@@ -432,7 +435,7 @@ struct devlink *__devlink_alloc(const struct devlink_ops *ops, size_t priv_size,
- 	static u32 last_id;
- 	int ret;
- 
--	WARN_ON(!ops || !dev || !dev_driver);
-+	WARN_ON(!ops || !dev_driver);
- 	if (!devlink_reload_actions_valid(ops))
- 		return NULL;
- 
-@@ -445,7 +448,14 @@ struct devlink *__devlink_alloc(const struct devlink_ops *ops, size_t priv_size,
- 	if (ret < 0)
- 		goto err_xa_alloc;
- 
--	devlink->dev = get_device(dev);
-+	if (dev) {
-+		devlink->dev = get_device(dev);
-+	} else {
-+		devlink->dev_name_index = kasprintf(GFP_KERNEL, "%u", devlink->index);
-+		if (!devlink->dev_name_index)
-+			goto err_kasprintf;
+ obj-y := core.o netlink.o netlink_gen.o dev.o port.o sb.o dpipe.o \
+-	 resource.o param.o region.o health.o trap.o rate.o linecard.o
++	 resource.o param.o region.o health.o trap.o rate.o linecard.o sh_dev.o
+diff --git a/net/devlink/sh_dev.c b/net/devlink/sh_dev.c
+new file mode 100644
+index 000000000000..85acce97e788
+--- /dev/null
++++ b/net/devlink/sh_dev.c
+@@ -0,0 +1,161 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/* Copyright (c) 2026, NVIDIA CORPORATION & AFFILIATES. All rights reserved. */
++
++#include <net/devlink.h>
++
++#include "devl_internal.h"
++
++static LIST_HEAD(shd_list);
++static DEFINE_MUTEX(shd_mutex); /* Protects shd_list and shd->list */
++
++/* This structure represents a shared devlink instance,
++ * there is one created per identifier (e.g., serial number).
++ */
++struct devlink_shd {
++	struct list_head list; /* Node in shd list */
++	const char *id; /* Identifier string (e.g., serial number) */
++	refcount_t refcount; /* Reference count */
++	size_t priv_size; /* Size of driver private data */
++	char priv[] __aligned(NETDEV_ALIGN) __counted_by(priv_size);
++};
++
++static struct devlink_shd *devlink_shd_lookup(const char *id)
++{
++	struct devlink_shd *shd;
++
++	list_for_each_entry(shd, &shd_list, list) {
++		if (!strcmp(shd->id, id))
++			return shd;
 +	}
 +
- 	devlink->ops = ops;
- 	devlink->dev_driver = dev_driver;
- 	xa_init_flags(&devlink->ports, XA_FLAGS_ALLOC);
-@@ -471,6 +481,8 @@ struct devlink *__devlink_alloc(const struct devlink_ops *ops, size_t priv_size,
- 
- 	return devlink;
- 
-+err_kasprintf:
-+	xa_erase(&devlinks, devlink->index);
- err_xa_alloc:
- 	kvfree(devlink);
- 	return NULL;
-@@ -492,6 +504,7 @@ struct devlink *devlink_alloc_ns(const struct devlink_ops *ops,
- 				 size_t priv_size, struct net *net,
- 				 struct device *dev)
- {
-+	WARN_ON(!dev);
- 	return __devlink_alloc(ops, priv_size, net, dev, dev->driver);
- }
- EXPORT_SYMBOL_GPL(devlink_alloc_ns);
-diff --git a/net/devlink/dev.c b/net/devlink/dev.c
-index e3a36de4f4ae..57b2b8f03543 100644
---- a/net/devlink/dev.c
-+++ b/net/devlink/dev.c
-@@ -453,7 +453,8 @@ int devlink_reload(struct devlink *devlink, struct net *dest_net,
- 	 * (e.g., PCI reset) and to close possible races between these
- 	 * operations and probe/remove.
- 	 */
--	device_lock_assert(devlink->dev);
-+	if (devlink->dev)
-+		device_lock_assert(devlink->dev);
- 
- 	memcpy(remote_reload_stats, devlink->stats.remote_reload_stats,
- 	       sizeof(remote_reload_stats));
-@@ -854,7 +855,7 @@ int devlink_info_version_running_put_ext(struct devlink_info_req *req,
- }
- EXPORT_SYMBOL_GPL(devlink_info_version_running_put_ext);
- 
--static int devlink_nl_driver_info_get(struct device_driver *drv,
-+static int devlink_nl_driver_info_get(const struct device_driver *drv,
- 				      struct devlink_info_req *req)
- {
- 	if (!drv)
-@@ -872,7 +873,6 @@ devlink_nl_info_fill(struct sk_buff *msg, struct devlink *devlink,
- 		     enum devlink_command cmd, u32 portid,
- 		     u32 seq, int flags, struct netlink_ext_ack *extack)
- {
--	struct device *dev = devlink_to_dev(devlink);
- 	struct devlink_info_req req = {};
- 	void *hdr;
- 	int err;
-@@ -892,7 +892,7 @@ devlink_nl_info_fill(struct sk_buff *msg, struct devlink *devlink,
- 			goto err_cancel_msg;
- 	}
- 
--	err = devlink_nl_driver_info_get(dev->driver, &req);
-+	err = devlink_nl_driver_info_get(devlink->dev_driver, &req);
- 	if (err)
- 		goto err_cancel_msg;
- 
-diff --git a/net/devlink/devl_internal.h b/net/devlink/devl_internal.h
-index cb2ffef1ac2d..7dfb7cdd2d23 100644
---- a/net/devlink/devl_internal.h
-+++ b/net/devlink/devl_internal.h
-@@ -49,6 +49,7 @@ struct devlink {
- 	struct xarray snapshot_ids;
- 	struct devlink_dev_stats stats;
- 	struct device *dev;
-+	const char *dev_name_index;
- 	const struct device_driver *dev_driver;
- 	possible_net_t _net;
- 	/* Serializes access to devlink instance specific objects such as
-@@ -119,7 +120,7 @@ static inline bool devl_is_registered(struct devlink *devlink)
- 
- static inline void devl_dev_lock(struct devlink *devlink, bool dev_lock)
- {
--	if (dev_lock)
-+	if (dev_lock && devlink->dev)
- 		device_lock(devlink->dev);
- 	devl_lock(devlink);
- }
-@@ -127,7 +128,7 @@ static inline void devl_dev_lock(struct devlink *devlink, bool dev_lock)
- static inline void devl_dev_unlock(struct devlink *devlink, bool dev_lock)
- {
- 	devl_unlock(devlink);
--	if (dev_lock)
-+	if (dev_lock && devlink->dev)
- 		device_unlock(devlink->dev);
- }
- 
++	return NULL;
++}
++
++static struct devlink_shd *devlink_shd_create(const char *id,
++					      const struct devlink_ops *ops,
++					      size_t priv_size,
++					      const struct device_driver *driver)
++{
++	struct devlink_shd *shd;
++	struct devlink *devlink;
++
++	devlink = __devlink_alloc(ops, sizeof(struct devlink_shd) + priv_size,
++				  &init_net, NULL, driver);
++	if (!devlink)
++		return NULL;
++	shd = devlink_priv(devlink);
++
++	shd->id = kstrdup(id, GFP_KERNEL);
++	if (!shd->id)
++		goto err_devlink_free;
++	shd->priv_size = priv_size;
++	refcount_set(&shd->refcount, 1);
++
++	devl_lock(devlink);
++	devl_register(devlink);
++	devl_unlock(devlink);
++
++	list_add_tail(&shd->list, &shd_list);
++
++	return shd;
++
++err_devlink_free:
++	devlink_free(devlink);
++	return NULL;
++}
++
++static void devlink_shd_destroy(struct devlink_shd *shd)
++{
++	struct devlink *devlink = priv_to_devlink(shd);
++
++	list_del(&shd->list);
++	devl_lock(devlink);
++	devl_unregister(devlink);
++	devl_unlock(devlink);
++	kfree(shd->id);
++	devlink_free(devlink);
++}
++
++/**
++ * devlink_shd_get - Get or create a shared devlink instance
++ * @id: Identifier string (e.g., serial number) for the shared instance
++ * @ops: Devlink operations structure
++ * @priv_size: Size of private data structure
++ * @driver: Driver associated with the shared devlink instance
++ *
++ * Get an existing shared devlink instance identified by @id, or create
++ * a new one if it doesn't exist. Return the devlink instance with a
++ * reference held. The caller must call devlink_shd_put() when done.
++ *
++ * All callers sharing the same @id must pass identical @ops, @priv_size
++ * and @driver. A mismatch triggers a warning and returns NULL.
++ *
++ * Return: Pointer to the shared devlink instance on success,
++ *         NULL on failure
++ */
++struct devlink *devlink_shd_get(const char *id,
++				const struct devlink_ops *ops,
++				size_t priv_size,
++				const struct device_driver *driver)
++{
++	struct devlink *devlink;
++	struct devlink_shd *shd;
++
++	mutex_lock(&shd_mutex);
++
++	shd = devlink_shd_lookup(id);
++	if (!shd) {
++		shd = devlink_shd_create(id, ops, priv_size, driver);
++		goto unlock;
++	}
++
++	devlink = priv_to_devlink(shd);
++	if (WARN_ON_ONCE(devlink->ops != ops ||
++			 shd->priv_size != priv_size ||
++			 devlink->dev_driver != driver)) {
++		shd = NULL;
++		goto unlock;
++	}
++	refcount_inc(&shd->refcount);
++
++unlock:
++	mutex_unlock(&shd_mutex);
++	return shd ? priv_to_devlink(shd) : NULL;
++}
++EXPORT_SYMBOL_GPL(devlink_shd_get);
++
++/**
++ * devlink_shd_put - Release a reference on a shared devlink instance
++ * @devlink: Shared devlink instance
++ *
++ * Release a reference on a shared devlink instance obtained via
++ * devlink_shd_get().
++ */
++void devlink_shd_put(struct devlink *devlink)
++{
++	struct devlink_shd *shd;
++
++	mutex_lock(&shd_mutex);
++	shd = devlink_priv(devlink);
++	if (refcount_dec_and_test(&shd->refcount))
++		devlink_shd_destroy(shd);
++	mutex_unlock(&shd_mutex);
++}
++EXPORT_SYMBOL_GPL(devlink_shd_put);
++
++/**
++ * devlink_shd_get_priv - Get private data from shared devlink instance
++ * @devlink: Devlink instance
++ *
++ * Returns a pointer to the driver's private data structure within
++ * the shared devlink instance.
++ *
++ * Return: Pointer to private data
++ */
++void *devlink_shd_get_priv(struct devlink *devlink)
++{
++	struct devlink_shd *shd = devlink_priv(devlink);
++
++	return shd->priv;
++}
++EXPORT_SYMBOL_GPL(devlink_shd_get_priv);
 -- 
 2.51.1
 
