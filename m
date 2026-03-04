@@ -1,105 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC91261B6D;
-	Wed,  4 Mar 2026 10:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8751D39EF12;
+	Wed,  4 Mar 2026 10:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772618876; cv=none; b=bOnYz64IBku3WTPwJGwVuatxo5R01tgmcNnpwCpICqfhQ2QQAInPCYOLmGONvJTwNGEovdzqkc1XTiOcss3h1duVJ7P8Bei6+sZxOZvNfrrriX+G+NlKXMuTPSF3lDR0L5qR50lveltpBQwZLlsiW2WjBZ3t3GySKRkRgqU4u3M=
+	t=1772619337; cv=none; b=AgYF9aZ3hyhkb1QRepJqWeWvFjCAlfX/V7dI9lczJ+VN4mVxmVYdt/Ca8mbTERJRxQrjBZoHLxwRanABObIUTReT2/vt46akQ0SPC/BaoGGtYHNac1GEZxFhBKmJu79g7oYPfLJpD1lSozqiY/HtmqKNeJusSxrKrweWrNz1+rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772618876; c=relaxed/simple;
-	bh=4nLniX2BsUbSbyK0ug4iVQYKHRMIZaO2R8VMdLqlTaY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=a9RtP8KUwpnWvEY3i/LT6UGqVxpHyoPMzrrfewdtZPc+STgZY6NR8LO6FpD+8ReC0A191Ssy9QWw2hrHIU0W9GqYOM50ANo8AtqIaPrkBc+7/Kvef6AlrP25Bl2ZORqn6I/CyPgtp6Y11CwH8+R9FAns1B3JPK+s+tv3YHAI8aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OsStdSp0; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OsStdSp0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772618874; x=1804154874;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=4nLniX2BsUbSbyK0ug4iVQYKHRMIZaO2R8VMdLqlTaY=;
-  b=OsStdSp0jLKnF7uc7hBVoXufYFgzzw0ytDeRQFvLhcDqNN6Cadi9acbH
-   DY9x8Wmi+Q0cG5G5xSiEUVuB2q0TJcE2oG/H1RbsxNzkgJeuv3OTBicMi
-   t68G1+/tHTbI+1IrNC41tqm89SnWf/0+S5Dtp5CV7oV4Q1/95UExPGP00
-   vkoK8q5GKr/PX036dbAskhD1vi1Icef0X8KqhYZVR++mK1wXdRwIHmPGz
-   /E0Gr5H9HrJFx4gYnAzTUdHobVauXtPTDHTOQFimqwCW/v4y5Vca60cia
-   B7BOa0iBkHVBh8ilyy5CfgFh3t9ymkOVDcjpHFT5oKuyNi4Az6NCqE3lV
-   w==;
-X-CSE-ConnectionGUID: jhCCd+1aTVSN7CYYz6dEFQ==
-X-CSE-MsgGUID: ch/Sq4PEQfW8AGkcge17zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="73802856"
-X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
-   d="scan'208";a="73802856"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 02:07:53 -0800
-X-CSE-ConnectionGUID: bz9U9LFUSsSRQ/6Br6NcBA==
-X-CSE-MsgGUID: u08Ynn+0S6q5PdDfdJkP/A==
-X-ExtLoop1: 1
-Received: from krybak-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.84])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 02:07:48 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Jonathan Corbet <corbet@lwn.net>, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Alexander Lobakin
- <aleksander.lobakin@intel.com>, Kees
- Cook <kees@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- intel-wired-lan@lists.osuosl.org, linux-doc@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Randy Dunlap
- <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 00/38] docs: several improvements to kernel-doc
-In-Reply-To: <878qcj8pvw.fsf@trenco.lwn.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <cover.1771408406.git.mchehab+huawei@kernel.org>
- <33d214091909b9a060637f56f81fb8f525cf433b@intel.com>
- <878qcj8pvw.fsf@trenco.lwn.net>
-Date: Wed, 04 Mar 2026 12:07:45 +0200
-Message-ID: <352c3f9f8ffd2d031c86a476e532a8ea6ffcf1ed@intel.com>
+	s=arc-20240116; t=1772619337; c=relaxed/simple;
+	bh=8fEK2GtJ++wMBBCQzSp1x8vrg7ZnwZSQnicWPRc9wbo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=AmLPP9PPIoct6LQZSt6N/s+kX0eP+Fd6loIxfPGkaWhOEPQmg3MBmahDfG+5pufNWJxxkV7qFhlQWoiACDCj7uqqNl5r1T1J9Fw2yQ+TkLlKFA/ZZejcz/Wv2IiXsspu6oZacWFC8UTMSNSs8v/4i2mlRs3DYX1LhXEUymKhcf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com; spf=pass smtp.mailfrom=huawei-partners.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei-partners.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fQpSC1NygzHnHK7;
+	Wed,  4 Mar 2026 18:14:35 +0800 (CST)
+Received: from mscpeml500003.china.huawei.com (unknown [7.188.49.51])
+	by mail.maildlp.com (Postfix) with ESMTPS id B08B640086;
+	Wed,  4 Mar 2026 18:15:30 +0800 (CST)
+Received: from [10.123.123.154] (10.123.123.154) by
+ mscpeml500003.china.huawei.com (7.188.49.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 4 Mar 2026 13:15:30 +0300
+Message-ID: <3c9449c1-95c7-4770-8e06-1ee50e263db8@huawei-partners.com>
+Date: Wed, 4 Mar 2026 13:15:29 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 00/10] mm/damon: support multiple goal-based quota
+ tuning algorithms
+To: SeongJae Park <sj@kernel.org>
+CC: "Liam R. Howlett" <Liam.Howlett@oracle.com>, Andrew Morton
+	<akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko
+	<mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, Shuah Khan
+	<shuah@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Suren
+ Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+	<damon@lists.linux.dev>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<linux-mm@kvack.org>
+References: <20260304044122.79394-1-sj@kernel.org>
+Content-Language: en-US
+From: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
+In-Reply-To: <20260304044122.79394-1-sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: mscpeml500003.china.huawei.com (7.188.49.51) To
+ mscpeml500003.china.huawei.com (7.188.49.51)
 
-On Mon, 23 Feb 2026, Jonathan Corbet <corbet@lwn.net> wrote:
-> Jani Nikula <jani.nikula@linux.intel.com> writes:
->
->> There's always the question, if you're putting a lot of effort into
->> making kernel-doc closer to an actual C parser, why not put all that
->> effort into using and adapting to, you know, an actual C parser?
->
-> Not speaking to the current effort but ... in the past, when I have
-> contemplated this (using, say, tree-sitter), the real problem is that
-> those parsers simply strip out the comments.  Kerneldoc without comments
-> ... doesn't work very well.  If there were a parser without those
-> problems, and which could be made to do the right thing with all of our
-> weird macro usage, it would certainly be worth considering.
+Hi SeongJae!
 
-I think e.g. libclang and its Python bindings can be made to work. The
-main problems with that are passing proper compiler options (because
-it'll need to include stuff to know about types etc. because it is a
-proper parser), preprocessing everything is going to take time, you need
-to invest a bunch into it to know how slow exactly compared to the
-current thing and whether it's prohitive, and it introduces an extra
-dependency.
+Nice idea for dynamic environments.
 
-So yeah, there are definitely tradeoffs there. But it's not like this
-constant patching of kernel-doc is exactly burden free either. I don't
-know, is it just me, but I'd like to think as a profession we'd be past
-writing ad hoc C parsers by now.
+On 3/4/2026 7:41 AM, SeongJae Park wrote:
+> Aim-oriented DAMOS quota auto-tuning uses a single tuning algorithm.
+> The algorithm is designed to find a quota value that should be
+> consistently kept for achieving the aimed goal for long term.  It is
+> useful and reliable at automatically operating systems that have dynamic
+> environments in the long term.
+> 
+> As always, however, no single algorithm fits all.  When the environment
+> has static characteristics or there are control towers in not only the
+> kernel space but also the user space, the algorithm shows some
+> limitations.  In such environments, users want kernel work in a more
+> short term deterministic way.  Actually there were at least two reports
+> [1,2] of such cases.
+> 
+> Extend DAMOS quotas goal to support multiple quota tuning algorithms
+> that users can select.  Keep the current algorithm as the default one,
+> to not break the old users.  Also give it a name, "consist", as it is
+> designed to "consistently" apply the DAMOS action.  And introduce a new
+> tuning algorithm, namely "temporal".  It is designed to apply the DAMOS
+> action only temporally, in a deterministic way.  In more detail, as long
+> as the goal is under-achieved, it uses the maximum quota available.
+> Once the goal is over-achieved, it sets the quota zero.
 
+I'm not sure "temporal" is the best name for this type of behaviour.
 
-BR,
-Jani.
+How about "by_score?". For example, "damos_goal_tune_esz_bp_by_score" and
+DAMOS_QUOTA_GOAL_TUNER_BY_SCORE.
 
+> Tests
+> =====
+> 
+> I confirmed the feature is working as expected using the latest version
+> of DAMON user-space tool, like below.
+> 
+>     $ # start DAMOS for reclaiming memory aiming 30% free memory
+>     $ sudo ./damo/damo start --damos_action pageout \
+>             --damos_quota_goal_tuner temporal \
+>             --damos_quota_goal node_mem_free_bp 30% 0 \
+>             --damos_quota_interval 1s \
+>             --damos_quota_space 100M
+> 
+> Note that >=3.1.8 version of DAMON user-space tool supports this feature
+> (--damos_quota_goal_tuner).  As expected, DAMOS stops reclaiming memory
+> as soon as the goal amount of free memory is made.  When 'consist' tuner
+> is used, the reclamation was continued even after the goal amount of
+> free memory is made, resulting in more than goal amount of free memory,
+> as expected.
+> 
+> Patch Sequence
+> ==============
+> 
+> First four patches implement the features.  Patch 1 extends core API to
+> allow multiple tuners and make the current tuner as the default and only
+> available tuner, namely 'consist'.  Patch 2 allows future tuners setting
+> zero effective quota.  Patch 3 introduces the second tuner, namely
+> 'temporal'.  Patch 4 further extends DAMON sysfs API to let users use
+> that.
+> 
+> Three following patches (patches 5-7) update design, usage, and ABI
+> documents, respectively.
+> 
+> Final three patches (patches 8-10) are for adding selftests.  The eighth
+> and the ninth patches extend the testing-purpose DAMON sysfs control
+> helper and DAMON status dumping tool to support the newly added feature.
+> The tenth patch extends the existing online commit test to cover the new
+> feature.
+> 
+> References
+> ==========
+> 
+> [1] https://lore.kernel.org/CALa+Y17__d=ZsM1yX+MXx0ozVdsXnFqF4p0g+kATEitrWyZFfg@mail.gmail.com
+> [2] https://lore.kernel.org/20260204022537.814-1-yunjeong.mun@sk.com
+> 
+> Changelog
+> =========
+> 
+> Changes from RFC v1
+> (https://lore.kernel.org/20260212062314.69961-1-sj@kernel.org)
+> - Add selftest for goal_tuner commitment.
+> - Set goal tuner inside damon_new_scheme().
+> - Allow zero size effective size quota.
+> - Update the ABI document.
+> - Wordsmith change descriptions.
+> 
+> SeongJae Park (10):
+>   mm/damon/core: introduce damos_quota_goal_tuner
+>   mm/damon/core: allow quota goals set zero effective size quota
+>   mm/damon/core: introduce DAMOS_QUOTA_GOAL_TUNER_TEMPORAL
+>   mm/damon/sysfs-schemes: implement quotas->goal_tuner file
+>   Docs/mm/damon/design: document the goal-based quota tuner selections
+>   Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file
+>   Docs/ABI/damon: update for goal_tuner
+>   selftests/damon/_damon_sysfs: support goal_tuner setup
+>   selftests/damon/drgn_dump_damon_status: support quota goal_tuner
+>     dumping
+>   selftests/damon/sysfs.py: test goal_tuner commit
+> 
+>  .../ABI/testing/sysfs-kernel-mm-damon         |  6 ++
+>  Documentation/admin-guide/mm/damon/usage.rst  | 16 +++--
+>  Documentation/mm/damon/design.rst             | 12 ++++
+>  include/linux/damon.h                         | 11 ++++
+>  mm/damon/core.c                               | 60 +++++++++++++++----
+>  mm/damon/sysfs-schemes.c                      | 58 ++++++++++++++++++
+>  tools/testing/selftests/damon/_damon_sysfs.py | 12 +++-
+>  .../selftests/damon/drgn_dump_damon_status.py |  1 +
+>  tools/testing/selftests/damon/sysfs.py        |  7 +++
+>  9 files changed, 166 insertions(+), 17 deletions(-)
+> 
+> 
+> base-commit: bbba4ca6322dd5c4f66fe31b1b374f77a8d2b2e5
 
 -- 
-Jani Nikula, Intel
+Asier Gutierrez
+Huawei
+
