@@ -1,212 +1,141 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920BA39EF03
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 09:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF6B39FCA2
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 10:02:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772618072; cv=none; b=ErBSpiEjJ4IlBM+9ESWgXFj9FfXyORexUh84BXrutvu1f9EbDSQQryYScWK1ss+UfIaXKZ9w7S/tuQGO8D8Oz5Qx+oZ5ovQ+f1ZUxTIdW+6Ipikl1eiFDStwAkBQ+oOQavw4/z4DW7LrpVcNv2z5Ud4xfemm4s5hh7qP50+oYxg=
+	t=1772618556; cv=none; b=l4qSbVFdb+Z3CiTTNn+H8u8x58GmqbJ0LIDHMn3xeItaSdO1eQDekfKxFi3+Fp4T5498VHqmicvKXakDgrWgy0CoRrp+vhbRorEUillWEe69Svkx1jwlCet8969oNfqEa8OodbodZa2uqnBzTl9Y4EIgkh5eewbrLymGIBEV10M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772618072; c=relaxed/simple;
-	bh=S728nk8EoQpjrgV3+URW9SI+FEJ0ST1wDQyMuDgLiJY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GQqv4Uq4Sj5HEueRmrLg4S2DdFNXIKmchfWM9UFwDrtxQH8EhhbXYqXBFq1QJNI/mAXmnLyV3LQd2l22s3Vmj98JO2CweKrrVyxnJDh+Oe6yrKj1oVfeeFYCxX3yj03G49qR7Qcz9cZlo+TvR019OAXbExLJ8qR3MXhOCB3V7uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SUl099d2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RbhjeCEB; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SUl099d2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=RbhjeCEB; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1772618556; c=relaxed/simple;
+	bh=qhAVk9CexrUYHYaDVmDxrpyIR12B9xt6IA/j3lGJkZ0=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cY9BqtevzuUavixETK7dQhKIwzwbGb/22R9F9KN49jIFqYMIXkGJqG8FctiAh738lVYLpDRiGl25GD8f/zVPDnjuZBnN31LiFS/GstSEUxoyI+g0Wt/8/BW0HiIMV8to6IQRfbflc9pPU1tMKueTpaldIRGrdH5NRZLiycXpqE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IWL0FiaJ; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SUl099d2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RbhjeCEB";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SUl099d2";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RbhjeCEB"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 9A2653F6E5;
-	Wed,  4 Mar 2026 09:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772618068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EmYsk7hbwyI2Xvo8xd+DQ0fufVinD5TP56A7Ol+PJzE=;
-	b=SUl099d2NWRIyGaVMbe+kBt5kDJFK4wiXPEYHoD1q02SvcJAJNQsTRuiVA7BqTJOv5P4Ys
-	8BoaLS+N2lBAjKsUfXn17JUjmg7FpX1cxiwMEz0lICMh0zqIR2t0mBcIioYBMw3ePagwrX
-	olQ9aoI7I2vs0Fo3nZsy392kBalaiLs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772618068;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EmYsk7hbwyI2Xvo8xd+DQ0fufVinD5TP56A7Ol+PJzE=;
-	b=RbhjeCEB5FeNihbNkwlKBQLc/gm6h4E7vZgilhoI8e+ZvyiTvXeGPf2MK/itK/XBhvKpc8
-	ZHjey5kIZ8RKIIDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=SUl099d2;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RbhjeCEB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772618068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EmYsk7hbwyI2Xvo8xd+DQ0fufVinD5TP56A7Ol+PJzE=;
-	b=SUl099d2NWRIyGaVMbe+kBt5kDJFK4wiXPEYHoD1q02SvcJAJNQsTRuiVA7BqTJOv5P4Ys
-	8BoaLS+N2lBAjKsUfXn17JUjmg7FpX1cxiwMEz0lICMh0zqIR2t0mBcIioYBMw3ePagwrX
-	olQ9aoI7I2vs0Fo3nZsy392kBalaiLs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772618068;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EmYsk7hbwyI2Xvo8xd+DQ0fufVinD5TP56A7Ol+PJzE=;
-	b=RbhjeCEB5FeNihbNkwlKBQLc/gm6h4E7vZgilhoI8e+ZvyiTvXeGPf2MK/itK/XBhvKpc8
-	ZHjey5kIZ8RKIIDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B19CD3EA69;
-	Wed,  4 Mar 2026 09:54:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id X21zKFMBqGkbZwAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Wed, 04 Mar 2026 09:54:27 +0000
-Message-ID: <aa36b48c-6184-46f3-bf6e-4750c2266f35@suse.de>
-Date: Wed, 4 Mar 2026 10:54:16 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IWL0FiaJ"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3598e60a735so1431845a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 02:02:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772618555; x=1773223355; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dvlbpdH9GKnriElYMJPIHm8iAfnXNmYF7p+RxMZw/3I=;
+        b=IWL0FiaJIRdzAycFBnwCwwWOC5Dp9YEbqLq7QI0C2+doWzSu+SdFnr+f8KlTM47vfY
+         PuvFlsGxYO6OkGxCHSVhXC7nO2uRQp3GJ65HC/DCcqAvDKZeFxIxBK2FrLCkiBTnbk6s
+         DlUNd7RPddfkC0tBWF6d+0L0Krbw6Qg/XGnOMB+YmhI+aVaVexv0Y/HAsO4HkzKQJ+vf
+         63L0Xfpfr5FvJt131MoC28yEs+9LYuo+MxZDHd/qLjtCnK3EZZ9pKjeNVQZ0S6Pj+cDW
+         9Su8KPDS2VwmpS35fSEq2myoi6CXbOJvoeUlUKk+KI8dpWVPZx6jcrNCxXMZ9BK+pozK
+         J/yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772618555; x=1773223355;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dvlbpdH9GKnriElYMJPIHm8iAfnXNmYF7p+RxMZw/3I=;
+        b=FqoxriTvY8cFMKJW6OPA65+5Qm2kdRsSsA41evnmArDNhGF8wvrOmZLOf30zbzNZZQ
+         bU/JrTxQXXJdEddwCSWukcZA+dqXngVuYjc/rLvxmjwVr+1ZYP6m2yhLfhUaUg1+Pqoq
+         Eiv55N2GMqi2gfMlMxUXRfRATBN0vKsfXf2y+9obO5q2PfWYQpmCiXgxdNyRBtgDlZvU
+         NDkkAWelRQKb34rX8iOAS5PfQ/0cw8EWIXx7lYOYmUaLSTivAYKCpkCUApoMWvJTq7MN
+         NCbp01QreOYiRttAa9rqZ/MEIQ4ZcdYWfa3GnBEEsYBlNo9/A+gx6SZdaW1m6lNW01of
+         72RA==
+X-Forwarded-Encrypted: i=1; AJvYcCWDDL7euQhQFb8XTYCM6mR9BH54Li2ECBvVcL3Ts1D/z0rzF+K5cMmCS72scS/vPLALRhI6wG7hhcA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy3z6StREQmnbh0eA4yfzl3Y0+LMWHvC3+eSJhiQowfF7RJEF/o
+	RA06a6VHtg/v+FCsxg1h6fXY379PED1xa/vcpRSk5UvSON/+HGmBO8NV
+X-Gm-Gg: ATEYQzycAWO2UZbmVs2onbl7x89A0MhK/UCplkoLUOg81inVZhgQqwhf9pEELY/jrIV
+	T/AuY+H6iCe6QN0NtQ2166IndUyNuIo9l7WbBHX99m6NVtmLABY3d+4Ylt6qbZczuzJTuGOvmba
+	b0DlsX/ruVSYD8dOJVOTEnhlLnE7E+EluJOtPRIPCxO8YVM/reDgioZloIPVu6ODxY/X7yb9FxI
+	YG6CWMxap6n0v0u141NErJMWemL0p55cZFNwdUQdjHz17JJgxqw+k8r2aZJKcVqsGm2YLhT0eun
+	Xh5myQADQQQlLUa/KMiYvSRbvseeWy+6SIVn/mbjvbUdKhd/7JgSM4FAa07WbX7E8Vh8oo1KSS6
+	H2jo/NDmX290XBE1JGbMD/DKiBg8bSq4f67yZW/rdwQ+WxoyHvz9CrFYcofD+c51Dxv+wqw5Mcx
+	2ESUQNHLN2gFNuaFWixXHdNmC5TN96331fkyMcxFEyIRgRqjCWdYF8ddznzYX4TeuXwkxaSLIES
+	Aeuk+Tn3NDV1w3mMY6oufKxZAssp/BWOUjuDb0cEtw/Qai0msI=
+X-Received: by 2002:a17:90b:3f86:b0:356:2fc5:30d9 with SMTP id 98e67ed59e1d1-359a69ca6aemr1551111a91.10.1772618554674;
+        Wed, 04 Mar 2026 02:02:34 -0800 (PST)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3599c39d530sm4611978a91.10.2026.03.04.02.02.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 02:02:34 -0800 (PST)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Wed, 4 Mar 2026 10:02:16 +0000
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@intel.com>, rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
+Message-ID: <4mtdzxfj656sjr66npabfvrr7yd7q26l2unhsihjtniz4ossfj@g3qnzonoary6>
+References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+ <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+ <aabm23jCikXs1l6F@ashevche-desk.local>
+ <qcloiwjlbehs4yyuttvrt46monh7isef4d5nzuwlaby6uxfael@j3trvc5jwosy>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3] inet: add ip_local_port_step_width sysctl to
- improve port usage distribution
-To: Eric Dumazet <edumazet@google.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, chia-yu.chang@nokia-bell-labs.com,
- idosch@nvidia.com, willemb@google.com, dsahern@kernel.org,
- kuniyu@google.com, ncardwell@google.com, skhan@linuxfoundation.org,
- corbet@lwn.net, horms@kernel.org, pabeni@redhat.com, kuba@kernel.org,
- davem@davemloft.net
-References: <20260303172949.4741-1-fmancera@suse.de>
- <CANn89i+ntGv0gGYvRq8yziGTE01ozBJ_Mn_RDPXLgs+yU5whrg@mail.gmail.com>
-Content-Language: en-US
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-In-Reply-To: <CANn89i+ntGv0gGYvRq8yziGTE01ozBJ_Mn_RDPXLgs+yU5whrg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MIME_TRACE(0.00)[0:+];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,0xffsoftware.com:url];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 9A2653F6E5
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <qcloiwjlbehs4yyuttvrt46monh7isef4d5nzuwlaby6uxfael@j3trvc5jwosy>
 
-On 3/4/26 8:05 AM, Eric Dumazet wrote:
-> On Tue, Mar 3, 2026 at 6:30 PM Fernando Fernandez Mancera
-> <fmancera@suse.de> wrote:
->>
->> With the current port selection algorithm, ports after a reserved port
->> range or long time used port are used more often than others [1]. This
->> causes an uneven port usage distribution. This combines with cloud
->> environments blocking connections between the application server and the
->> database server if there was a previous connection with the same source
->> port, leading to connectivity problems between applications on cloud
->> environments.
->>
->> The real issue here is that these firewalls cannot cope with
->> standards-compliant port reuse. This is a workaround for such situations
->> and an improvement on the distribution of ports selected.
->>
->> The proposed solution is to implement a variant of RFC 6056 Algorithm 5.
->> The step size is selected randomly on every connect() call ensuring it
->> is a coprime with respect to the size of the range of ports we want to
->> scan. This way, we can ensure that all ports within the range are
->> scanned before returning an error. To enable this algorithm, the user
->> must configure the new sysctl option "net.ipv4.ip_local_port_step_width".
->>
->> In addition, on graphs generated we can observe that the distribution of
->> source ports is more even with the proposed approach. [2]
->>
->> [1] https://0xffsoftware.com/port_graph_current_alg.html
->>
->> [2] https://0xffsoftware.com/port_graph_random_step_alg.html
->>
->> Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
->> ---
->> v2: used step to calculate remaining as (remaining / step) and avoid
->> calculating gcd when scan_step and range are both even
->> v3: xmas tree formatting and break the gdc() loop once scan_step is 1
->> ---
->>   Documentation/networking/ip-sysctl.rst        |  9 ++++++
->>   .../net_cachelines/netns_ipv4_sysctl.rst      |  1 +
->>   include/net/netns/ipv4.h                      |  1 +
->>   net/ipv4/inet_hashtables.c                    | 28 +++++++++++++++++--
->>   net/ipv4/sysctl_net_ipv4.c                    |  7 +++++
->>   5 files changed, 43 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
->> index 265158534cda..da29806700e9 100644
->> --- a/Documentation/networking/ip-sysctl.rst
->> +++ b/Documentation/networking/ip-sysctl.rst
->> @@ -1630,6 +1630,15 @@ ip_local_reserved_ports - list of comma separated ranges
->>
->>          Default: Empty
->>
->> +ip_local_port_step_width - INTEGER
->> +        Defines the numerical maximum increment between successive port
->> +        allocations within the ephemeral port range when an unavailable port is
->> +        reached. This can be used to mitigate accumulated nodes in port
->> +        distribution when reserved ports have been configured. Please note that
->> +        port collisions may be more frequent in a system with a very high load.
->> +
+On 26/03/03 02:16PM, Rodrigo Alencar wrote:
+> On 26/03/03 03:49PM, Andy Shevchenko wrote:
+> > On Tue, Mar 03, 2026 at 01:27:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
+> > 
+> > > Add kstrntoull() function, which converts a string to an ULL with a max
+> > > character limit. The function is an alternative integer parsing function
+> > > that does not require a null-terminated string. It becomes a better option
+> > 
+> > null -->  NUL
+> > 
+> > > over simple_strtoull() or kstrtoull() when parsing integers from a buffer
+> > > with custom delimiters without having to create temporary copies.
+> > > The function is consumed inside the implementation _kstrtoull(),
+> > > promoting reuse.
+> > 
+> > But this will not properly convert 0000000000000000000000000000000000000000100,
+> > for example, if the max_chars say set to 20.
 > 
-> Patch SGTM, but I find this documentation obscure.
+> Why would I want that? truncation will happen in the case and the value will
+> be zero. max_chars can be zet to INT_MAX/SIZE_MAX if you want to get 100.
 > 
-> Some guidance would be nice. What values have you tested/tried ?
+> > Also kstrto*() have a common idea behind to consume the only \n and allowed
+> > digits. This (naming) doesn't fit into the kstrto*() category.
 > 
+> mmm ok, but include/linux/kstrtox.h is the right place for this? how about just
+> strntoull()? I feel like a safe_ prefix does not make much sense if it is
+> only to differentiate from simple_strto*(), which should have been safe at
+> the first place.
 
-As I am working on a patch series with improvements to ip-sysctl.rst 
-documentation I will handle that there.
+Also kstrntoull() does not really match kstrto*(), as the 'n' is often used
+to indicate a stop condition on amount of characters, which would not need
+to require any termination character at all.
+The 'k' prefix was add to 'strntoull', mostly because the function is being
+added to the include/linux/kstrtox.h file. Other names I could think off:
+- bounded_strtoull()
+- bstrtoull() - 'b' for bounded
+- bstrntoull()
+- strtoull_bounded()
+- strtoull_limit()
+- safe_strntoull() - emphasizes overflow safety over simple_strtoull()
 
-FTR; I tested multiple scenarios and numbers. If the value is >= the 
-whole range, the issue is always mitigated but of course this will have 
-a hit on performance under port exhaustion situation. The value that 
-works better in my experience is 2x 3x or even 4x the size of the 
-largest reserved block. If only a couple of ports are marked as 
-reserved, 128 is usually enough to avoid clustering..
+Extras considerations:
+- Single-letter prefixes (bstrntoull, lstrntoull, etc.) are too cryptic
+for a public API
+- safe_ prefix is subjective and doesn't describe the actual behavior
 
-Thank you all for the reviews!
+kstrntoull() is still my first candidate, other than that it would be
+bounded_strtoull().
 
-> Reviewed-by: Eric Dumazet <edumazet@google.com>
+-- 
+Kind regards,
 
+Rodrigo Alencar
